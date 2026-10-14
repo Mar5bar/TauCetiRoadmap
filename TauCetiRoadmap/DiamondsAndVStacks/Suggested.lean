@@ -70,6 +70,10 @@ example : IsLocallySpectralMap (id : PUnit → PUnit) := sorry
 -- Negative Check `definition_IsLocallySpectralMap_3`: the true fibre {0} is not open in ℝ.
 example : ¬ IsLocallySpectralMap (fun x : ℝ ↦ x = 0) := sorry
 
+-- Check `s0_1_locally_spectral_empty_map`: empty inverse images are compact open.
+example (Y : Type) [TopologicalSpace Y] (f : Empty → Y) :
+    IsLocallySpectralMap f ∧ IsSpectralMap f := sorry
+
 /-- Between spectral spaces the local condition is Mathlib's global `IsSpectralMap` (ECD
 Definition 2.1, p. 10). -/
 theorem isLocallySpectralMap_iff_isSpectralMap {X Y : Type u} [TopologicalSpace X]
@@ -105,6 +109,16 @@ theorem WithConstructibleTopology.t2Space_totallyDisconnectedSpace (X : Type u)
 -- Check: on the Sierpiński space `Prop` (open point `True`) the constructible topology is
 -- discrete.
 example : constructibleTopology Prop = ⊥ := sorry
+
+-- Check `s0_2_empty_and_point`: the constructible topologies are discrete in both cases.
+example : constructibleTopology Empty = ⊥ ∧ constructibleTopology PUnit = ⊥ ∧
+    CompactSpace (WithConstructibleTopology PUnit) := sorry
+
+/-- Spectral maps of spectral spaces preserve pro-constructible subsets (ECD Lemma 2.3,
+p. 10), by continuity for the compact Hausdorff constructible topologies. -/
+theorem isProConstructible_image {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y]
+    [SpectralSpace X] [SpectralSpace Y] {f : X → Y} (hf : IsSpectralMap f)
+    {S : Set X} (hS : IsProConstructible S) : IsProConstructible (f '' S) := sorry
 
 /-- The closure of a pro-constructible subset of a spectral space is its set of specializations
 (ECD Lemma 2.4, pp. 10–11). -/
@@ -185,6 +199,10 @@ example : inverseTopology Bool = (inferInstance : TopologicalSpace Bool) ∧
 -- Check `definition_inverseTopology_3`: the dual two-point chain is not its discrete patch.
 example : inverseTopology Prop ≠ constructibleTopology Prop := sorry
 
+-- Check `s0_5_inverse_point_and_empty`: the inverse topology reverses singleton closures.
+example : closure[inverseTopology Prop] ({False} : Set Prop) = Set.univ ∧
+    closure[inverseTopology Prop] ({True} : Set Prop) = {True} := sorry
+
 /-- The space of connected components of a spectral space is Hausdorff, hence profinite with
 Mathlib's `Quotient.compactSpace` and `ConnectedComponents.totallyDisconnectedSpace` (ECD proof of
 Lemma 7.3(i), p. 31). -/
@@ -200,6 +218,10 @@ theorem t2Space_quotient_of_isClosed {S : Type u} [TopologicalSpace S] [CompactS
 -- Negative control: the relation `x - y ∈ ℤ` on `ℤ_p` is not closed and the quotient is not
 -- Hausdorff.
 example (p : ℕ) [Fact p.Prime] : ¬ T2Space (ℤ_[p] ⧸ (Int.castAddHom ℤ_[p]).range) := sorry
+
+-- Check `residueSystem_prime_three`: the precision-two carrier and reduction depend on the prime.
+example : Nat.card (ZMod 9) = 9 ∧
+    ZMod.castHom (show 3 ∣ 9 by decide) (ZMod 3) (3 : ZMod 9) = 0 := sorry
 
 /-- On an irreducible space the constant sheaf is flasque (proof of Stacks Tag 02UW); its
 positive-degree cohomology then vanishes by Tau Ceti's
@@ -293,6 +315,14 @@ theorem IsWLocalSpace.isHomeomorph_connectedComponentsMk {X : Type u} [Topologic
 -- Check: the Sierpiński space is w-local; discrete `ℕ` is not (it is not spectral).
 example : IsWLocalSpace Prop ∧ ¬ IsWLocalSpace ℕ := sorry
 
+-- Check `closed_point_not_generalizing_topology`: the generic point generalizes the closed point.
+example : IsProConstructible ({False} : Set Prop) ∧
+    ¬ StableUnderGeneralization ({False} : Set Prop) := sorry
+
+-- Check `generic_point_generalizing_topology`: the open singleton is stable under generalization.
+example : IsOpen ({True} : Set Prop) ∧ IsProConstructible ({True} : Set Prop) ∧
+    StableUnderGeneralization ({True} : Set Prop) := sorry
+
 variable (p : ℕ) [Fact p.Prime]
 
 /-- **Totally disconnected perfectoid spaces are affinoid** (ECD Lemma 7.5, p. 31). -/
@@ -379,6 +409,10 @@ def vTopology : GrothendieckTopology (Perfd.{u} p) :=
 -- no finite subfamily covers by images of quasicompact opens.
 example (T : Type) [TopologicalSpace T] [CompactSpace T] [T2Space T] [TotallyDisconnectedSpace T]
     [Infinite T] : ¬ IsCompactOpenCovered (fun (t : T) (_ : PUnit.{1}) ↦ t) Set.univ := sorry
+
+-- Check `s2_1_finite_profinite_point_family`: finitely many singleton images cover, also for Empty.
+example (T : Type) [TopologicalSpace T] [CompactSpace T] [T2Space T] [TotallyDisconnectedSpace T]
+    [Finite T] : IsCompactOpenCovered (fun (t : T) (_ : PUnit.{1}) ↦ t) Set.univ := sorry
 
 -- Check: the empty presieve covers a perfectoid space exactly when the space is empty.
 example (X : Perfd.{u} p) :
@@ -497,6 +531,9 @@ example (p : ℕ) [Fact p.Prime] :
 
 -- Negative Check `definition_BerkovichSpectrum_3`: every multiplicative seminorm sends 1 to 1.
 example (R : Type u) [CommRing R] [TopologicalSpace R] : IsEmpty (BerkovichSpectrum R 1) := sorry
+
+-- Negative Check `archimedean_empty`: continuity at zero contradicts the strong triangle inequality.
+example (ϖ : ℝ) : IsEmpty (BerkovichSpectrum ℝ ϖ) := sorry
 
 -- Check `s5_13_product_fields`: the two seminorms are distinguished by the complementary idempotents.
 example (p : ℕ) [Fact p.Prime] :

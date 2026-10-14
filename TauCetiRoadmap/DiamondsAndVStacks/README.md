@@ -1044,8 +1044,9 @@ and `isLocallySpectralMap_iff_isSpectralMap`, with the Checks `definition_IsLoca
 `definition_IsLocallySpectralSpace_2`, `definition_IsLocallySpectralSpace_3`,
 `definition_IsLocallySpectralMap_1`, `definition_IsLocallySpectralMap_2`,
 `definition_IsLocallySpectralMap_3`, `s0_1_locally_spectral_noncompact_projection`,
-`s0_1_one_point_compactification_inclusion` and `s0_1_composite_needs_locally_spectral_middle` as
-examples. The rest of this subsection is specified in the README only (no Lean declaration).
+`s0_1_one_point_compactification_inclusion`, `s0_1_composite_needs_locally_spectral_middle` and
+`s0_1_locally_spectral_empty_map` as examples. The rest of this subsection is specified in the
+README only (no Lean declaration).
 
 ### D0.2 The constructible topology is profinite
 
@@ -1100,8 +1101,8 @@ conversely, so the compactness argument does not depend on that equivalence. *Ne
 - `constructibleTopologyProfinite_point` — The constructible topology on a one-point space is compact, Hausdorff and totally disconnected.
 
 Lean: `WithConstructibleTopology.t2Space_totallyDisconnectedSpace`, with the Check `s0_2_spec_dvr`
-as an example on the Sierpiński space `Prop`. The rest of this subsection is specified in the README
-only (no Lean declaration).
+as an example on the Sierpiński space `Prop` and `s0_2_empty_and_point` as an example on `Empty` and
+`PUnit`. The rest of this subsection is specified in the README only (no Lean declaration).
 
 ### D0.3 Pro-constructible subsets
 
@@ -1114,10 +1115,12 @@ subsets is read off from Mathlib's `constructibleTopology_eq_generateFrom_isCons
 closedness criterion `isClosed_iff` for `WithConstructibleTopology`, constructible subsets being
 closed under complement and finite unions and intersections; the imported clauses are
 `TauCeti.IsProConstructible.preimage`, `.isCompact`, `.spectralSpace` and
-`.isSpectralMap_subtypeVal`. Import the image theorem of AdicSpacesPartII R0.18,
-*spectral-map-image-proconstructible*, specialized to spectral spaces: the image under `f` of a
+`.isSpectralMap_subtypeVal`. Prove `isProConstructible_image`: the image under `f` of a
 pro-constructible subset of `X` is pro-constructible in `Y` ([ECD] §2, Lem. 2.3 with proof, p. 10).
-Its compactness argument uses the profiniteness of the constructible topology from D0.2. On a
+Tau Ceti's `IsSpectralMap.continuous_constructibleTopology` makes `f` continuous for the
+constructible topologies, which are compact Hausdorff by D0.2; the image of the closed subset is
+compact and therefore closed in the target constructible topology. This spectral-space theorem
+supplies AdicSpacesPartII R0.18's extension to quasi-compact locally spectral maps. On a
 locally spectral space the predicate is checked on spectral opens. The image of `Spa(K, O_K)` in `Spa(K, K⁺)`, for `K` a
 nonarchimedean field and `K⁺ ⊆ O_K` an open bounded valuation subring, is the rank-one point; it is
 pro-constructible and generalizing, and when `K⁺ ≠ O_K` it is not closed. When `K⁺ = O_K` it is the
@@ -1126,8 +1129,7 @@ the residue field of `O_K` has a height-one prime: `Spa(K, K⁺)` is homeomorphi
 with the rank-one point as generic point, so for `K⁺` of rank two it is the Sierpiński space with
 the rank-one point open, and the rank-one point fails to be open only for `K⁺` of infinite rank with
 no height-one prime over `√(ϖK⁺)`. The set of rank-one points of a spectral space need not be
-pro-constructible, which is why ECD never asserts it. *Needs:* D0.2; AdicSpacesPartII R0.18
-(*spectral-map-image-proconstructible*); Mathlib
+pro-constructible, which is why ECD never asserts it. *Needs:* D0.2; Mathlib
 `Topology.IsConstructible`, `Topology.IsLocallyConstructible`, `IsRetrocompact`,
 `WithConstructibleTopology`, `constructibleTopology_eq_generateFrom_isConstructible`, and its
 `isClosed_iff`; Tau Ceti `TauCeti.IsProConstructible` with `.preimage`, `.isCompact`,
@@ -1154,8 +1156,8 @@ pro-constructible, which is why ECD never asserts it. *Needs:* D0.2; AdicSpacesP
 
 - `generalizing_subset_of_a_chain` — In the Sierpiński space, the open singleton is pro-constructible and generalizing; the closed singleton is pro-constructible but not generalizing.
 
-Lean: none; this subsection uses AdicSpacesPartII R0.18's image theorem and is specified in the
-README only (no Lean declaration).
+Lean: `isProConstructible_image`. The rest of this subsection is specified in the README only
+(no Lean declaration).
 
 ### D0.4 Closure of a pro-constructible subset
 
@@ -1246,8 +1248,9 @@ topology). The named comparisons are `Spectral.inverseTopology_constructible` an
 
 Lean: `inverseTopology` and `spectralSpace_inverseTopology`, with the Checks
 `s0_5_inverse_sierpinski_closed_point`, `s0_5_inverse_not_spectral_without_compactness`,
-`s0_5_inverse_discrete_finite`, `definition_inverseTopology_2` and `definition_inverseTopology_3`
-as examples. The rest of this subsection is specified in the README only (no Lean declaration).
+`s0_5_inverse_discrete_finite`, `definition_inverseTopology_2`, `definition_inverseTopology_3`
+and `s0_5_inverse_point_and_empty` as examples. The rest of this subsection is specified in the
+README only (no Lean declaration).
 
 ### D0.6 The profinite space of connected components
 
@@ -1589,7 +1592,7 @@ Mathlib `CategoryTheory.Ind`, `CategoryTheory.IsCofiltered`, `CategoryTheory.Lim
 - `s0_13_pro_flatten_constant` — The limit of the constant Boolean pro-object tower has exactly four maps to the constant Boolean pro-object.
 - `s0_13_pro_flatten_unique` — There are two distinct maps from the constant Boolean pro-object into its constant tower limit, and the stage-zero projection distinguishes them.
 - `s0_13_pro_homStage_precomposition` — Precomposing the identity of `ℤ/2ℤ` with reduction from `ℤ/4ℤ` sends `2` to `0`.
-- `s0_13_pro_homDiagram_postcomposition` — For a constant one-point source, the target transition from precision two to one sends the class of `3` to a class different from that of `0`.
+- `s0_13_pro_homDiagram_postcomposition` — For `p = 2` and a constant one-point source, the target transition from precision two to one sends the class of `3` to a class different from that of `0`.
 
 - `s0_13_profinite_case` — `Pro(finite sets)` is equivalent to the category of profinite sets, compatibly
   with Mathlib's `Profinite.asLimit`; the equivalence restricts to the standard one.
@@ -1682,8 +1685,12 @@ function between equally sized carriers.
 **Checks.**
 
 - `residueSystem_reduction` — Reduction from `ℤ/4ℤ` to `ℤ/2ℤ` sends `3` to `1`.
-- `residueSystem_zero_precision` — Precision zero has one element and precision two has four.
+- `residueSystem_zero_precision` — For `p = 2`, precision zero has one element and precision two has four.
 - `residueSystem_collision` — Reduction sends the nonzero element `2` modulo `4` to `0` modulo `2`.
+- `residueSystem_prime_three` — For `p = 3`, precision two has nine elements and reduction from
+  `ℤ/9ℤ` to `ℤ/3ℤ` sends `3` to `0`; both computations differ from the `p = 2` Checks.
+
+The Check `residueSystem_prime_three` is an anonymous Lean example using `ZMod.castHom`.
 
 **`Pro.homStage`.** The source variable is contravariant; its transition acts by precomposition.
 
@@ -2189,22 +2196,35 @@ topology; they are used here on the sites of D2 — the big pro-étale and v-sit
 small pro-étale site of a perfectoid space — with the hypotheses of [ECD] §8: a cover of an object
 and an abelian sheaf for the Čech sequence; a morphism of topoi, whose exact inverse image makes the
 direct image preserve injectives (a continuous site functor alone is insufficient), for Leray; and
-for the acyclic-basis comparison a basis `B` on which `F` is acyclic, by whose objects the covers of
-the site can be refined, and which is stable under the fibre products of the Čech nerve — exactly
-the generating subcategory of an algebraic topos ([ECD] §8, Prop. 8.5(iii) and its proof, pp. 41–42,
-and proof of Prop. 8.8, p. 43). Comparison: the maps used in D2 (`ν : X_proét → X_ét`, the passage
+for the acyclic-basis comparison a basis `B` on which `F` is acyclic, with cofinal covering
+refinements whose finite Čech fibre products lie in `B`. Closure under fibre products of diagrams
+within a generating subcategory does not ensure this condition over an arbitrary target ([ECD]
+§8, Prop. 8.3, p. 41, Prop. 8.5(iii) and its proof, pp. 41–42, and proof of Prop. 8.8, p. 43).
+Comparison: the maps used in D2 (`ν : X_proét → X_ét`, the passage
 from the v-site to the pro-étale site, change of cutoff) are morphisms of sites with exact inverse
 image, so §2.1's higher direct images and §2.2's spectral sequences apply to them without change.
-Owned here is only the verification of the basis hypotheses on the algebraic topoi of D2.4: affinoid
-perfectoid spaces form a fibre-product-stable basis that refines every cover, acyclic for `O` and
-almost acyclic for `O⁺` by D2.5 and D2.8 ([Stacks Leray] Tags 03AV, 0732, 0734). Nothing else is
+Owned here is the basis verification on the D2 sites sliced over an affinoid perfectoid `X₀`:
+covers of affinoid objects admit affinoid refinements, and finite fibre products of these affinoids
+over their affinoid target remain affinoid. The supplied acyclic-basis comparison applies on these
+slices once D2.5 and D2.8 give acyclicity for `O` and almost acyclicity for `O⁺`, the latter in the
+almost category for a pseudouniformizer on `X₀`. For an arbitrary perfectoid target, use the general
+Čech-to-derived spectral sequence with all its intersection terms; those terms can be nonaffinoid,
+so their higher cohomology cannot be discarded merely because the covering charts are affinoid
+([Stacks Leray] Tags 03AV, 0732, 0734). Nothing else is
 restated here; D0.18, D0.21, D2.3, D2.5, D2.8 and D5.15 cite those supplier targets of
 SchemeAndStackFoundations §§2.1–2.2 through this subsection.
 
 **Checks.**
 
-- `s0_19_affinoid_basis` — on an algebraic topos of D2.4 the affinoid perfectoid basis satisfies the
-  refinement and fibre-product hypotheses of the acyclic-basis comparison.
+- `s0_19_affinoid_basis` — over an affinoid perfectoid `X₀`, an affinoid covering refinement has
+  affinoid finite Čech terms, satisfying the geometric hypotheses of the acyclic-basis comparison.
+- `s0_19_affinoid_acyclic_terms` — for an affinoid cover of an affinoid target, D2.5 and D2.8 make the
+  positive-degree cohomology of every Čech term vanish for `O` and almost vanish for `O⁺`; the
+  comparison computes target cohomology in the respective coefficient categories.
+- `s0_19_nonaffinoid_overlap` — glue two perfectoid closed discs along their open unit disc
+  `W = {|T| < 1}`. The two affinoid charts cover the resulting perfectoid space, but their
+  intersection is the non-quasicompact `W` of D2.4, hence is not affinoid. The general spectral
+  sequence includes `H^q(W, F)`; affinoid acyclicity alone does not eliminate these terms.
 
 Lean: none; this subsection is specified in the README only (no Lean declaration).
 
@@ -2217,7 +2237,7 @@ surjective, so `A_X` is flasque in the sense of Mathlib's `TopCat.Presheaf.IsFla
 constant sheaves] proof of Lem. 20.20.2, Tag 02UW); the vanishing `Hⁱ(X, A_X) = 0` for `i > 0`
 then follows from Tau Ceti's `TauCeti.Topology.subsingleton_H_succ_of_isFlasque`, the acyclicity of
 every flasque sheaf of abelian groups on a space, and Čech vanishing for flasque sheaves is the
-not-yet-typed supplier target in SchemeAndStackFoundations §2.5 (`flasque_cech_vanishing`); neither
+supplier target in SchemeAndStackFoundations §2.5 (`flasque_cech_vanishing`); neither
 is restated: the Lean statement `isFlasque_constantSheaf` carries the flasqueness clause, and the
 vanishing clause is only its composite with that Tau Ceti lemma. A spectral space with a generic
 point is such an `X`, which is how the fibres with a generic point in [ECD] 13.13 are handled.
@@ -3086,8 +3106,9 @@ Ceti, `TauCeti.ValuationSpectrum.spectralSpace_spa_of_pairOfDefinition`,
 `TauCeti.IsSpectralMap.continuous_constructibleTopology` and
 `TauCeti.Topology.subsingleton_H_succ_of_isFlasque`. Within the layer, D0.2 feeds D0.3, D0.4, D0.5,
 D0.6, D0.9, D0.10, D0.11 and D0.13; D0.3 and D0.7 feed D0.10; D0.7 feeds D0.8;
-D0.10 feeds D0.13; D0.13 feeds D0.5, D0.6 and D0.15. AdicSpacesPartII R0.18 supplies the
-image theorem used in D0.3; PerfectoidSpaces P5.4 supplies spectrality and the projections in D0.10;
+D0.10 feeds D0.13; D0.13 feeds D0.5, D0.6 and D0.15. D0.3 supplies `isProConstructible_image`
+to AdicSpacesPartII R0.18's locally spectral extension; PerfectoidSpaces P5.4 supplies spectrality
+and the projections in D0.10;
 D0.17 feeds D0.18 and D0.21; D0.16 feeds D0.22; D0.23 feeds D0.24 and the bounded variant of D0.13;
 D0.25 feeds D0.26. SchemeAndStackFoundations supplies the generic site constructions and cohomology
 contracts of which D0.18–D0.21 and D0.25–D0.26 use the v-site forms: §§1.18 and 1.21 (D0.25–D0.26),
@@ -3437,7 +3458,9 @@ intersection description on the actual valuation spectrum of `R`.
 `Perfectoid.quasicompactOpen_isAffinoid` states the open-subspace consequence, assuming a
 geometric open immersion and a quasicompact source ([ECD] Lemma 7.6 and Remark 7.7, pp. 31–32).
 
-Lean: none; this subsection is specified in the README only (no Lean declaration).
+Lean: the Checks `closed_point_not_generalizing_topology` and `generic_point_generalizing_topology`
+are examples on `Prop`. The geometric targets are specified in the README only (no Lean
+declaration).
 
 ### D1.6 Automatic flatness
 
@@ -4618,9 +4641,9 @@ pp. 39–40). These statements use `Geometry.Spaces p c`.
 - `Perfdκ_empty` — An empty space belongs whenever `1 < κ`.
 - `Perfdκ_large_affine` — An affinoid whose ring has cardinality at least the cutoff is excluded.
 
-Lean: none for the pro-étale site; the Check `s2_1_infinite_profinite_point_family` is an example
-stated with Mathlib's `IsCompactOpenCovered`. The rest of this subsection is specified in the README
-only (no Lean declaration).
+Lean: none for the pro-étale site; the Checks `s2_1_infinite_profinite_point_family` and
+`s2_1_finite_profinite_point_family` are examples stated with Mathlib's `IsCompactOpenCovered`.
+The rest of this subsection is specified in the README only (no Lean declaration).
 
 ### D2.2 The small pro-étale site and the v-site
 
@@ -5684,8 +5707,12 @@ proved in D3.5 directly and does not assume the general canonical compactificati
   target is for descent data not of this form, whose descended space is again of the form `S'̲ × X`
   since `X` is strictly totally disconnected and D1.11 applies to it.
 - `s3_4_separatedness_is_used` (scope) — a pro-étale `Ỹ → Y` that is not separated (for instance the disc
-  with a doubled rational subset, `Y ⊔_U Y → Y` for `U ⊂ Y` rational, which is étale and surjective
-  but has non-closed diagonal) is outside the statement; nothing is claimed about it.
+  `Y ⊔_U Y → Y` glued along a nonclosed rational open `U ⊊ Y`, such as
+  `U = {|T| ≤ |ϖ|}` in the perfectoid closed disc, which is étale and surjective but has non-closed
+  diagonal) is outside the statement; nothing is claimed about it.
+- `s3_4_empty_gluing_open` (control) — for `U = ∅` and nonempty affinoid `Y`, the fold
+  `Y ⊔ Y → Y` is finite étale with open-and-closed diagonal, hence separated. Rationality of the
+  gluing open alone does not give a nonseparated example.
 
 The Checks of D3.4 require separated pro-étale objects in the actual perfectoid slice and its
 descent comparison, including the profinite product with a geometric point. An arbitrary category
@@ -8915,8 +8942,8 @@ Tate Huber pair and pseudouniformizer, and impose no continuity on `toSpa` ([ECD
 
 Lean: `BerkovichSpectrum` with its topology instance, and `nonempty_t2Quotient_spa_homeomorph`, with
 the Checks `definition_BerkovichSpectrum_2` (the normaliser `ϖ = 0`),
-`definition_BerkovichSpectrum_3` (the normaliser `ϖ = 1`), `s5_13_product_fields` and `padic_field`
-as examples.
+`definition_BerkovichSpectrum_3` (the normaliser `ϖ = 1`), `s5_13_product_fields`, `padic_field`
+and `archimedean_empty` as examples.
 The rest of this subsection is specified in the README only (no Lean declaration).
 
 ### D5.14 The Berkovich space of a small v-sheaf
