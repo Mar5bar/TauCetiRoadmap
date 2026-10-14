@@ -282,8 +282,10 @@ resolution, preservation of the resolved locus and SNC compactification with its
 followed by algebraic vanishing and numerical boundedness. Checks are listed under each definition.
 
 Where the section order differs from the order of construction, the target-level order is the
-following. In Layer 2, `automorphismGroupScheme` uses only the Isom scheme of §2.1 with its
-composition and inverse; the polarized Isom of §7.6.3 builds on it, not the reverse. In Layer 4, the
+following. In Layer 1, construct `coherentGrassmannian` before `rankOneGrassmannComparison`.
+In Layer 3, build the overlap, coalgebra and chosen-pullback comparisons of §§3.2–3.3 before
+§3.1’s `moduleDescentCoaction` and `affineModuleDescentEquivalence`. In Layer 2,
+`automorphismGroupScheme` uses only the Isom scheme of §2.1 with its composition and inverse; the polarized Isom of §7.6.3 builds on it, not the reverse. In Layer 4, the
 auxiliary carriers of §§4.9–4.21 (Isom torsors, banded transformations, pullback and Hom sheaves,
 object descent, fibre Hom sheaves and their transport, `CoherentInverse`) are built before the
 theorems of §§4.2–4.3 that cite them. In Layer 7, §7.7 (ringed small étale sites,
@@ -951,7 +953,7 @@ For the proof, describe τ on the finite monomial basis by u^j↦u^(pj); its mat
 **Checks.**
 
 - `CoefficientFrobeniusTests.zero`: the zero vector maps to zero.
-- `CoefficientFrobeniusTests.monomial`: a coefficient t at j moves to pj and remains t; p>0 keeps distinct source exponents distinct.
+- `CoefficientFrobeniusTests.monomial`: for p=3, N=3, j=2 and coefficient 5 over ℤ, the image is supported exactly at exponent 6 with coefficient 5. In general p>0 keeps distinct source exponents distinct.
 - `CoefficientFrobeniusTests.nonFixedCoefficient`: when t^p differs from t, the constant coefficient is t, so this map differs from absolute Frobenius.
 
 ### Examples
@@ -983,7 +985,7 @@ Prove `hilbertDegreeOneAndNonFlatBase`. For f : X → S separated of finite pres
 *Needs:* §2.1.
 
 Prove `homAndIsomSchemes`. Let S be locally Noetherian, X → S projective flat and Y → S quasi-projective. (i) T ↦ Hom_T(X_T,Y_T) is represented by an open subscheme Hom_S(X,Y) ⊂ Hilb_{X×_SY/S}, the locus of Z ⊂ X_T ×_T Y_T with pr_1 : Z → X_T an isomorphism; it is a disjoint union over Hilbert polynomials of quasi-projective S-schemes, commutes with base change, and carries identity, composition and evaluation X ×_S Hom_S(X,Y) → Y. (ii) If also Y → S is projective flat, the isomorphisms form an open subscheme Isom_S(X,Y) ⊂ Hom_S(X,Y), with inverse Isom_S(X,Y) ≅ Isom_S(Y,X), composition and base change. When Y → S is projective flat, (i) and (ii) are the Hom and Isom schemes of SchemeAndStackFoundations §4.14's `hilbert_quot_schemes`, which are imported with their universal families and base change and are not rebuilt; the extension proved here is (i) for a quasi-projective target. For an open immersion Y ⊂ Ȳ into a projective flat S-scheme, Hom_S(X,Y) is the open subscheme of the §4.14 scheme Hom_S(X,Ȳ) where the universal morphism avoids Ȳ\Y: remove the proper image of the inverse image of that closed complement in X×_S Hom_S(X,Ȳ). For a locally closed immersion, first impose the closed factorization condition through the scheme-theoretic closure of Y, then the open avoidance condition inside that closure. This gives a locally closed Hom subscheme, compatibly with evaluation, composition and base change; a closed target gives a closed Hom subscheme. The cited openness argument applies to the projective projection from the universal graph between proper flat families. A general proper morphism is not covered by that projectivity-based source argument. Checks: Hom_S(S,Y) = Y, Hom_S(X,S) = S; Hom_k(Spec k[ε],Y) is the tangent scheme Spec Sym Ω_{Y/k} for Y smooth; for Y = A¹_k ⊂ P¹_k and X = P¹_k, Hom_k(X,Y) is the open locus of constant maps to A¹ in Hom_k(P¹,P¹), a copy of A¹_k. `HomTargetChecks.closedPoint`: for X=Spec k and Y={0}⊂P¹_k, the Hom locus is the closed point {0}, which is not open. `HomTargetChecks.openLine`: for X=Spec k and Y=A¹_k⊂P¹_k it is the open A¹_k. `HomTargetChecks.locallyClosed`: for X=Spec k and Y=A¹_k×{0}⊂P¹_k×P¹_k it is open in the closed fibre P¹_k×{0} and is not open in the ambient product.
-(Nitsure, Lemma 6.5 and Theorem 6.6, pp. 30–31, with the evaluation, inverse and composition maps supplied by the graph functor.)
+(Nitsure, Theorems 6.5–6.6, pp. 30–31, with the evaluation, inverse and composition maps supplied by the graph functor.)
 *Needs:* §2.1, SchemeAndStackFoundations §4.14 (`hilbert_quot_schemes`), SchemeAndStackFoundations §0.8.
 
 ### 2.1a Nonflat test points
@@ -999,7 +1001,7 @@ Prove `homAndIsomSchemes`. Let S be locally Noetherian, X → S projective flat 
 ### 2.2 Automorphisms and bounded quotients
 
 Prove `automorphismGroupScheme`. For S locally Noetherian and X → S projective flat, Aut_S(X) := Isom_S(X,X) is a group scheme over S, locally of finite type (a disjoint union of quasi-projective S-schemes), acting on Hom_S(X,Y) and Hom_S(Y,X); Aut_S(P^n_S) = PGL_{n+1,S}; Aut_k(E) for an elliptic curve contains E acting by translation and is not finite; finiteness and unramifiedness are asserted only for stable curves, by SchemeAndStackFoundations §4.15.
-(Nitsure, Lemmas 6.5–6.6, pp. 30–31, together with the group operations on Isom and SchemeAndStackFoundations §4.15's `isom_stable_curves`.)
+(Nitsure, Theorems 6.5–6.6, pp. 30–31, together with the group operations on Isom and SchemeAndStackFoundations §4.15's `isom_stable_curves`.)
 *Needs:* §2.1 (`homAndIsomSchemes`, with its composition and inverse maps), SchemeAndStackFoundations §1.13.
 
 Prove `quotIntoGrassmannian`. Let S be Noetherian, X = P^n_S, E = O_X(−a)^{⊕p}, P a polynomial and m_0 = m_0(n,p,P,a) from §1.5. Increase m_0 to at least a. For m ≥ m_0 every T-point of Quot^P_{E/X/S} (T-flat quotient E_T ↠ Q with fibrewise Hilbert polynomial P) satisfies R^iπ_{T*}Q(m) = 0 (i ≥ 1), π_{T*}Q(m) locally free of rank P(m), π_{T*}E_T(m) ↠ π_{T*}Q(m), and Q is recovered from the subsheaf of E_T(m) generated by π_{T*}K(m). Hence Q ↦ (π_{T*}E_T(m) ↠ π_{T*}Q(m)) is a monomorphism of functors Quot^P_{E/X/S} → Gr(P(m), π_*E(m)) with π_*E(m) = Sym^{m−a}(O^{n+1})^{⊕p} locally free. SchemeAndStackFoundations §4.14 owns the representability of Quot, including its own regularity bound and Grassmannian embedding, and imports nothing from this roadmap; this theorem is the explicit form of that embedding for the bound m_0 of `uniformQuotientRegularity`, and identifies the representing scheme of §4.14 with a closed subscheme of this Grassmannian. It is not an input to §4.14.
@@ -3190,10 +3192,11 @@ The API gives `GerbeAutTransport.conjugateCoverHom_apply`: Its value at a is the
 
 **Checks.**
 
-- `GerbeConjugateHomTests.identity`: The homomorphism sends the identity automorphism to the identity.
-- `GerbeConjugateHomTests.product`: For arbitrary a,b its value at a*b equals its value at a times its value at b.
-- `GerbeConjugateHomTests.inverse`: Its value at a⁻¹ is the actual inverse of its value at a.
-- `GerbeConjugateHomTests.equalObject`: For y=x, every family of local x-to-x isomorphisms gives the identity map on Aut(x).
+- `GerbeConjugateHomTests.generator`: In the connected two-object fixture of §4.8, take distinct x,y with C₃ automorphisms and the point-site cover. The generator 1 at x transports to coefficient 1 at y.
+- `GerbeConjugateHomTests.doubleGenerator`: In the same fixture, coefficient 2 transports to coefficient 2, rather than its inverse 1.
+- `GerbeConjugateHomTests.changedArrow`: Changing the chosen local x-to-y arrow by generator 1 leaves the transported coefficients 1 and 2 unchanged.
+
+The identity, multiplication and inverse formulas are the API laws above; for y=x, every local x-to-x isomorphism family gives the identity map on Aut(x), by `GerbeAutTransport.conjugateCoverAut_of_iso`.
 
 Prove `GerbeAutTransport.conjugateCoverAut_of_iso`. If d:x≅y is a global isomorphism, the lifted automorphism from any local isomorphism family e_i on R equals the Mathlib conjugation through d. Source: Stacks, Lemma 8.11.8, choice independence and local isomorphism gluing.
 
@@ -3994,9 +3997,11 @@ The API gives `RestrictionBandFixtures.groupSectionsEquiv_symm_apply`: The inver
 
 **Checks.**
 
-- `RestrictionBandTests.equivalenceLeftRoundTrip`: Inverse after forward recovers every coefficient in an arbitrary varying group presheaf.
-- `RestrictionBandTests.equivalenceRightRoundTrip`: Forward after inverse recovers every compatible section on every slice arrow.
-- `RestrictionBandTests.equivalenceDifferentCardinalities`: The actual source and target compatible-section types have four and two elements respectively.
+- `RestrictionBandTests.equivalenceGenerator`: In the C₄→C₂→C₂ fixture, the forward image of source generator 1 evaluates at the identity slice arrow as coefficient 1.
+- `RestrictionBandTests.equivalenceInverseGenerator`: The inverse sends the section with identity-arrow coefficient 1 to source coefficient 1.
+- `RestrictionBandTests.equivalenceDoubleProfile`: The forward image of source coefficient 2 has restriction profile (2,0,0) along the three chain objects.
+
+Both round-trip identities are API laws of the multiplicative equivalence. The compatible-section types at the first and second chain objects have four and two elements respectively.
 
 Prove `RestrictionBandFixtures.groupSectionsEquiv_restrict`. Restriction along f:V to U sends the compatible section of g to the compatible section of P(f.op)(g).
 
@@ -4337,10 +4342,11 @@ The API gives `BandedIsom.principalEquiv_apply`: principalEquiv sends (p,a) exac
 
 **Checks.**
 
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.principalLeft`: The principal comparison followed by its inverse fixes every isomorphism-coefficient pair.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.principalRight`: The inverse followed by the principal comparison fixes every pair of isomorphisms.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.principalWithoutAnchor`: The principal equivalence exists without a Nonempty hypothesis on the global isomorphism type.
-- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.uniqueCoefficient`: For actual p and q there is exactly one coefficient sending p to q.
+- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.principalGenerator`: On B(C₃) with its canonical band, the forward map sends (p,a)=(0,1) to (0,1).
+- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.principalSum`: In the same fixture, it sends (p,a)=(1,2) to (1,0).
+- `TauCeti.AlgebraicGeometry.BandedIsom.Tests.principalInverse`: Its inverse sends (p,q)=(1,0) to (1,2).
+
+The two round-trip identities and existence without an anchor are API laws of this equivalence. For every actual p,q, `BandedIsom.difference` gives the unique coefficient sending p to q.
 
 Define `BandedIsom.isomTorsor`. Under the explicit hypothesis Nonempty(Isom(x,y)), the actual isomorphism type carries Mathlib Torsor for A(U), with a acting by act(p,a) and p divided by q equal to difference(q,p). Local nonemptiness alone is not used as global nonemptiness.
 
@@ -5057,7 +5063,7 @@ Here C is an arbitrary category and F,G are Cat-valued pseudofunctors on Locally
 
 ([Martin Olsson (lectures), course-note contributors](https://stacky.net/files/written/Stacks/Stacks.pdf), Olsson §31, Lemma 31.3 full-faithfulness paragraph, PDF122–123; authored homPresheafMap_imageSieve deduction).
 
-For the proof, apply IsGerbe.locallyIsomorphic on T.left to the actual objects F(T.hom)x and F(T.hom)y. It supplies a J-covering sieve R with local source anchors; no global anchor is chosen; then transport a local anchor along the two F.mapComp′ comparisons to an isomorphism F(S.hom)x≅F(S.hom)y for each slice arrow a:S→T above R. The slice identity a.left∘T.hom=S.hom supplies the equality witness; then restrict s by the actual target presheaf map along a. The existing anchored homMap surjectivity at S.hom produces a preimage of this particular restricted section; then thus (Sieve.overEquiv T).symm R is contained in the imageSieve. The overEquiv_symm_mem_over puts that sieve in J.over U; upward closure proves the image sieve covering. No pullback objects or terminal object in C are needed.
+For the proof, apply IsGerbe.locallyIsomorphic on T.left to the actual objects F(T.hom)x and F(T.hom)y. It supplies a J-covering sieve R with local source anchors; no global anchor is chosen; then transport a local anchor along the two F.mapComp′ comparisons to an isomorphism F(S.hom)x≅F(S.hom)y for each slice arrow a:S→T above R. The slice identity T.hom∘a.left=S.hom (Lean: `a.left ≫ T.hom = S.hom`) supplies the equality witness; then restrict s by the actual target presheaf map along a. The existing anchored homMap surjectivity at S.hom produces a preimage of this particular restricted section; then thus (Sieve.overEquiv T).symm R is contained in the imageSieve. The overEquiv_symm_mem_over puts that sieve in J.over U; upward closure proves the image sieve covering. No pullback objects or terminal object in C are needed.
 
 *Needs:* `GerbeMorphismPullback.homPresheafMap`, `GerbeMorphismPullback.homMap_surjective_of_anchor`, `IsGerbe`, Mathlib `CategoryTheory.Presheaf.imageSieve`, Mathlib `CategoryTheory.Sieve.overEquiv`, Mathlib `CategoryTheory.Sieve.overEquiv_symm_iff`, Mathlib `CategoryTheory.GrothendieckTopology.overEquiv_symm_mem_over`.
 
@@ -7205,7 +7211,7 @@ For a gerbe F with abelian automorphism sheaves define `intrinsicBand(U)` as the
 - `IntrinsicBandChecks.restrictionChain`: on U←V←W take coefficient groups ℤ, ℤ and ℤ with restrictions ×2 and ×3; a coefficient 1 restricts to 6 on W through either path. A constant diagram returns 1 and fails.
 - `IntrinsicBandChecks.nonconstantSlice`: for the coefficient sheaf μ₃ on the étale site of ℝ, its ℝ-sections have one element and its ℂ-sections have three. Evaluation recovers these respective automorphism groups of the corresponding neutral torsor objects.
 - `IntrinsicBandChecks.nonneutral`: the μ₂-root gerbe of O(1) on P¹ in characteristic ≠2 has no global object but its intrinsic band is μ₂, by evaluation after local trivialization. An intrinsic band construction requiring a global x fails.
-- `IntrinsicBandChecks.disconnectedFailure`: a discrete groupoid with two objects has two independent central coefficients; evaluation at one object loses the other. It is not a gerbe on the point site, so the gerbe hypothesis cannot be omitted.
+- `IntrinsicBandChecks.disconnectedFailure`: on the point site, B(C₃)⊔B(C₃) has central-section group C₃×C₃. Evaluation at the first object is projection and kills the nonzero profile (0,1). This groupoid is not a gerbe.
 
 Define `CoherentInverse.inverse` on a strong transformation η:F→G whose every component is an equivalence. Its component β_U is the chosen inverse of η_U. For a base arrow f:V→U, write functor composites in categorical order, first the left factor and then the right. Its naturality is the mate
 `G(f) β_V → β_U η_U G(f) β_V → β_U F(f) η_V β_V → β_U F(f)`:
@@ -7227,9 +7233,9 @@ Define `universeNormalizedGerbe` for independently specified coefficient and fib
 
 ### 4.22 Arbitrary affine kernels and gerbe images
 
-Prove `hopfInclusion_faithfullyFlat`: for a field k and an injective morphism A→B of **commutative** Hopf k-algebras, B is faithfully flat as an A-module, without finite-type, reducedness, perfection or characteristic-zero assumptions. This target and `affineNormalQuotient` below are owned by this roadmap: no group-scheme roadmap states them for affine groups that are not of finite type, and the pinned Tau Ceti has the finite-type, reduced, algebraically closed case `TauCeti.CommHopfAlgCat.faithfullyFlat_of_dominant`, which is consumed where it applies. A finite set of elements of a commutative Hopf algebra is contained in a finite-type Hopf subalgebra: take a finite-dimensional subcomodule containing the elements and its coefficient coalgebra, then generate by its coefficients and their antipodes (the antipode squares to the identity in this commutative setting). Choose paired finite-type Hopf subalgebras Aᵢ⊂Bᵢ containing each finite set of the map's data. Finite-type faithful flatness gives flatness of the filtered union. If a proper ideal of A generated 1 in B, this finite equation would occur at one Aᵢ⊂Bᵢ and contradict its faithful flatness. This is Milne, Algebraic Groups, Lie Groups, and their Arithmetic Subgroups, version 3.00 (2011), Theorem 6.43, pp. 69–72, and Proposition 8.25, pp. 104–105. The commutative condition matters; no assertion is made for arbitrary noncommutative Hopf subalgebras.
+Prove `hopfInclusion_faithfullyFlat`: for a field k and an injective morphism A→B of **commutative** Hopf k-algebras, B is faithfully flat as an A-module, without finite-type, reducedness, perfection or characteristic-zero assumptions. This target and `affineNormalQuotient` below are owned by this roadmap: no group-scheme roadmap states them for affine groups that are not of finite type, and the pinned Tau Ceti has the finite-type, reduced, algebraically closed case `TauCeti.CommHopfAlgCat.faithfullyFlat_of_dominant`, which is consumed where it applies. A finite set of elements of a commutative Hopf algebra is contained in a finite-type Hopf subalgebra: take a finite-dimensional subcomodule containing the elements and its coefficient coalgebra, then generate by its coefficients and their antipodes (the antipode squares to the identity in this commutative setting). Choose paired finite-type Hopf subalgebras Aᵢ⊂Bᵢ containing each finite set of the map's data. Finite-type faithful flatness gives flatness of the filtered union. If a proper ideal of A generated 1 in B, this finite equation would occur at one Aᵢ⊂Bᵢ and contradict its faithful flatness. This is Milne, Algebraic Groups, Lie Groups, and their Arithmetic Subgroups, version 3.00 (2011), Theorem 6.43, pp. 69–72, and Corollary 8.25, pp. 104–105. The commutative condition matters; no assertion is made for arbitrary noncommutative Hopf subalgebras.
 
-For a closed normal subgroup N of an arbitrary affine k-group G, the fpqc sheaf quotient G/N is an affine group and G→G/N is faithfully flat with kernel N. Define `affineNormalQuotient` together with its quotient map and universal property for homomorphisms killing N; its API is `affineNormalQuotient.kernel`, `affineNormalQuotient.faithfullyFlat`, `affineNormalQuotient.fpqcSheaf`, `affineNormalQuotient.baseChange`, `affineNormalQuotient.homEquiv`, `affineNormalQuotient.doubleQuotient`. On Hopf coordinates write O(G) as the union of finite-type Hopf subalgebras Aᵢ, and let Nᵢ be the scheme-theoretic image of N in Gᵢ=Spec Aᵢ. It is normal: lift group elements fpqc locally along G→Gᵢ and descend conjugation stability. Its ideal is Aᵢ∩I(N). Finite-type normal quotients Qᵢ=Gᵢ/Nᵢ form an inverse system. The union of their coordinate Hopf subalgebras defines Q; arbitrary-affine faithful flatness applies to O(Q)↪O(G). The kernel ideal is the union of the extended ideals Aᵢ∩I(N), hence equals I(N), so the kernel is exactly N. The kernel-pair comparison G×N≅G×QG identifies Q with the fpqc quotient. This construction does not require an infinite affine group to admit one faithful finite-dimensional representation. Faithfully flat descent identifies its kernel and sheaf universal property. Source: Milne version 3.00, Theorems 8.70, 8.75 and 8.77, pp. 119–121, with §7k, Corollary 7.73, p. 92. Both theorems are exported from here to any later group-scheme consumer; `affineNormalQuotient` is distinct from an unsupported assertion that every nonnormal homogeneous quotient is affine.
+For a closed normal subgroup N of an arbitrary affine k-group G, the fpqc sheaf quotient G/N is an affine group and G→G/N is faithfully flat with kernel N. Define `affineNormalQuotient` together with its quotient map and universal property for homomorphisms killing N; its API is `affineNormalQuotient.kernel`, `affineNormalQuotient.faithfullyFlat`, `affineNormalQuotient.fpqcSheaf`, `affineNormalQuotient.baseChange`, `affineNormalQuotient.homEquiv`, `affineNormalQuotient.doubleQuotient`. On Hopf coordinates write O(G) as the union of finite-type Hopf subalgebras Aᵢ, and let Nᵢ be the scheme-theoretic image of N in Gᵢ=Spec Aᵢ. It is normal: lift group elements fpqc locally along G→Gᵢ and descend conjugation stability. Its ideal is Aᵢ∩I(N). Finite-type normal quotients Qᵢ=Gᵢ/Nᵢ form an inverse system. The union of their coordinate Hopf subalgebras defines Q; arbitrary-affine faithful flatness applies to O(Q)↪O(G). The kernel ideal is the union of the extended ideals Aᵢ∩I(N), hence equals I(N), so the kernel is exactly N. The kernel-pair comparison G×N≅G×QG identifies Q with the fpqc quotient. This construction does not require an infinite affine group to admit one faithful finite-dimensional representation. Faithfully flat descent identifies its kernel and sheaf universal property. Source: Milne version 3.00, Theorems 8.70, 8.75 and 8.77, pp. 119–121, with §7k, Proposition 7.73, p. 92. Both theorems are exported from here to any later group-scheme consumer; `affineNormalQuotient` is distinct from an unsupported assertion that every nonnormal homogeneous quotient is affine.
 
 Now `affineGerbeImage` has a geometric proof. For f:Γ→Δ over k choose an affine fpqc presentation U→Γ and set R=U×ΓU. For ξ,η over U×U, divide their affine Isom torsor by the normal kernel Kξ of Aut(ξ)→Aut(fξ). After a faithfully flat extension containing a field object ζ of Γ and isomorphisms of ξ,η with ζ, this quotient is the base change of Aut(ζ)/Kζ. The exact arbitrary-affine normal quotient theorem makes it affine; effective affine descent makes R/K affine over U×U. Normality identifies the kernels by conjugation and lets identities, inverse and composition descend to R/K⇒U. Its fpqc groupoid quotient E is an affine gerbe, Γ→E is locally full, and E→Δ is faithful. The quotient Isom sheaf determines E and yields uniqueness with its triangle modification. Source: Borne–Vistoli 2019, Proposition 3.9 and proof, pp. 8–9. Faithfulness alone is equated with geometric representability only in the finite-type case; an arbitrary affine gerbe is not declared algebraic.
 
@@ -7944,14 +7950,22 @@ namespace BandedMorphism
 
 open scoped Pseudofunctor.StrongTrans
 
-variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+variable {C : Type u} [Category.{v} C]
+
+variable {F G : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}}
+
+variable {J : GrothendieckTopology C} {A : Sheaf J AddCommGrpCat.{v'}}
+
+variable [IsGerbe F J] [IsGerbe G J]
+
+variable (bF : AbelianBanding F J A) (bG : AbelianBanding G J A)
+
+variable {U V W T S : C}
 
 noncomputable def modificationIso [IsGerbe G J]
     {η θ : Pseudofunctor.StrongTrans F G} (m : η ⟶ θ) : η ≅ θ
 
-variable {A : Sheaf J AddCommGrpCat.{w}} [IsGerbe F J] [IsGerbe G J]
-
-abbrev HomCategory :=
+abbrev HomCategory (bF : AbelianBanding F J A) (bG : AbelianBanding G J A) :=
   (show ObjectProperty (Pseudofunctor.StrongTrans F G) from
     fun η => BandPreserving bF bG η).FullSubcategory
 
@@ -7978,7 +7992,19 @@ open scoped Pseudofunctor.StrongTrans
 
 variable {C : Type u} [Category.{v} C]
 
-def fibreAction (x y : F.obj (.mk (op U))) :
+variable {F G : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}}
+
+variable {J : GrothendieckTopology C} {A : Sheaf J AddCommGrpCat.{v'}}
+
+variable [IsGerbe F J] [IsGerbe G J]
+
+variable (b : AbelianBanding F J A)
+
+variable {U V W T S : C}
+
+variable {x x' y z : F.obj (.mk (op U))}
+
+def fibreAction (b : AbelianBanding F J A) (x y : F.obj (.mk (op U))) :
     Action (Type v') (Multiplicative (A.obj.obj (op U)))
 
 def postcomposeActionIso (q : y ≅ z) : fibreAction b x y ≅ fibreAction b x z
@@ -7991,7 +8017,17 @@ open CategoryTheory Opposite Bicategory
 
 open scoped Pseudofunctor.StrongTrans
 
-variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+variable {C : Type u} [Category.{v} C]
+
+variable {F G : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}}
+
+variable {J : GrothendieckTopology C} {A : Sheaf J AddCommGrpCat.{v'}}
+
+variable [IsGerbe F J] [IsGerbe G J]
+
+variable (bF : AbelianBanding F J A) (bG : AbelianBanding G J A)
+
+variable {U V W T S : C}
 
 noncomputable def componentIso {X Y : HomCategory bF bG} (m : X ⟶ Y)
     (U : C) (x : F.obj (.mk (op U))) :
@@ -8010,7 +8046,19 @@ open CategoryTheory Opposite Bicategory
 
 open scoped Pseudofunctor.StrongTrans
 
-variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+variable {C : Type u} [Category.{v} C]
+
+variable {F G : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}}
+
+variable {J : GrothendieckTopology C} {A : Sheaf J AddCommGrpCat.{v'}}
+
+variable [IsGerbe F J] [IsGerbe G J]
+
+variable (b : AbelianBanding F J A)
+
+variable {U V W T S : C}
+
+variable {x x' y z : F.obj (.mk (op U))}
 
 def selfTransportActionIso (X : HomCategory b b) (e : x ≅ x') :
     (fibreIsomActionFunctor b b U x x).obj X ≅
@@ -8029,6 +8077,18 @@ open scoped Pseudofunctor.StrongTrans
 
 variable {C : Type u} [Category.{v} C]
 
+variable {F G : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}}
+
+variable {J : GrothendieckTopology C} {A : Sheaf J AddCommGrpCat.{v'}}
+
+variable [IsGerbe F J] [IsGerbe G J]
+
+variable (b : AbelianBanding F J A)
+
+variable {U V W T S : C}
+
+variable {x x' y z : F.obj (.mk (op U))}
+
 def restrictActionHom (f : V ⟶ U) (x y : F.obj (.mk (op U))) :
     fibreAction b x y ⟶
       (Action.res (Type v') (A.obj.map f.op).hom.toMultiplicative).obj
@@ -8043,9 +8103,17 @@ open CategoryTheory Opposite Bicategory
 
 open scoped Pseudofunctor.StrongTrans
 
-variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+variable {C : Type u} [Category.{v} C]
 
-variable {U V W : C}
+variable {F G : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}}
+
+variable {J : GrothendieckTopology C} {A : Sheaf J AddCommGrpCat.{v'}}
+
+variable [IsGerbe F J] [IsGerbe G J]
+
+variable (bF : AbelianBanding F J A) (bG : AbelianBanding G J A)
+
+variable {U V W T S : C}
 
 def restrictionIso (X : HomCategory bF bG) (f : V ⟶ U) (x : F.obj (.mk (op U))) :
     (G.map f.op.toLoc).toFunctor.obj ((X.obj.app (.mk (op U))).toFunctor.obj x) ≅
@@ -8075,7 +8143,17 @@ open scoped Pseudofunctor.StrongTrans
 
 open Pseudofunctor.LocallyDiscreteOpToCat
 
-variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+variable {C : Type u} [Category.{v} C]
+
+variable {F G : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}}
+
+variable {J : GrothendieckTopology C} {A : Sheaf J AddCommGrpCat.{v'}}
+
+variable [IsGerbe F J] [IsGerbe G J]
+
+variable (bF : AbelianBanding F J A) (bG : AbelianBanding G J A)
+
+variable {U V W T S : C}
 
 variable (U : C) (x : F.obj (.mk (op U))) (y : G.obj (.mk (op U)))
 
@@ -8114,7 +8192,19 @@ open scoped Pseudofunctor.StrongTrans
 
 open Pseudofunctor.LocallyDiscreteOpToCat
 
-variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+variable {C : Type u} [Category.{v} C]
+
+variable {F G : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}}
+
+variable {J : GrothendieckTopology C} {A : Sheaf J AddCommGrpCat.{v'}}
+
+variable [IsGerbe F J] [IsGerbe G J]
+
+variable (b : AbelianBanding F J A)
+
+variable {U V W T S : C}
+
+variable {x x' y z : F.obj (.mk (op U))}
 
 def selfHomSheafTransport (X : HomCategory b b) (e : x ≅ x') :
     fibreHomSheaf b b U x x X ⟶ fibreHomSheaf b b U x' x' X
@@ -8138,9 +8228,17 @@ open scoped Pseudofunctor.StrongTrans
 
 open Pseudofunctor.LocallyDiscreteOpToCat
 
-variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+variable {C : Type u} [Category.{v} C]
 
-variable {U V : C}
+variable {F G : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}}
+
+variable {J : GrothendieckTopology C} {A : Sheaf J AddCommGrpCat.{v'}}
+
+variable [IsGerbe F J] [IsGerbe G J]
+
+variable (bF : AbelianBanding F J A) (bG : AbelianBanding G J A)
+
+variable {U V W T S : C}
 
 noncomputable def fibreHomBaseChangeIso (X : HomCategory bF bG) (f : V ⟶ U)
     (x : F.obj (.mk (op U))) (y : G.obj (.mk (op U))) :
@@ -8164,9 +8262,19 @@ open scoped Pseudofunctor.StrongTrans
 
 open Pseudofunctor.LocallyDiscreteOpToCat
 
-variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+variable {C : Type u} [Category.{v} C]
 
-variable {U V : C} {x x' x'' : F.obj (.mk (op U))}
+variable {F G : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}}
+
+variable {J : GrothendieckTopology C} {A : Sheaf J AddCommGrpCat.{v'}}
+
+variable [IsGerbe F J] [IsGerbe G J]
+
+variable (bF : AbelianBanding F J A) (bG : AbelianBanding G J A)
+
+variable {U V W T S : C}
+
+variable {x x' x'' : F.obj (.mk (op U))} {y y' : G.obj (.mk (op U))}
 
 def fibreHomEndpointTransport (X : HomCategory bF bG) (e : x ≅ x') (d : y ≅ y') :
     fibreHomSheaf bF bG U x y X ⟶ fibreHomSheaf bF bG U x' y' X
@@ -8206,7 +8314,17 @@ open CategoryTheory Opposite Bicategory
 
 open scoped Pseudofunctor.StrongTrans
 
-variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+variable {C : Type u} [Category.{v} C]
+
+variable {F G : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}}
+
+variable {J : GrothendieckTopology C} {A : Sheaf J AddCommGrpCat.{v'}}
+
+variable [IsGerbe F J] [IsGerbe G J]
+
+variable (b : AbelianBanding F J A)
+
+variable {U V W T S : C}
 
 noncomputable def selfHomChartTransition (i : T ⟶ U) (j : T ⟶ V)
     (x : F.obj (.mk (op U))) (y : F.obj (.mk (op V)))
@@ -8228,7 +8346,17 @@ open CategoryTheory Opposite Bicategory
 
 open scoped Pseudofunctor.StrongTrans
 
-variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+variable {C : Type u} [Category.{v} C]
+
+variable {F G : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}}
+
+variable {J : GrothendieckTopology C} {A : Sheaf J AddCommGrpCat.{v'}}
+
+variable [IsGerbe F J] [IsGerbe G J]
+
+variable (b : AbelianBanding F J A)
+
+variable {U V W T S : C}
 
 noncomputable def selfHomChartRefinement (i : T ⟶ U) (q : S ⟶ T)
     (x : F.obj (.mk (op U))) :
@@ -8244,7 +8372,17 @@ open CategoryTheory Opposite Bicategory
 
 open scoped Pseudofunctor.StrongTrans
 
-variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+variable {C : Type u} [Category.{v} C]
+
+variable {F G : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}}
+
+variable {J : GrothendieckTopology C} {A : Sheaf J AddCommGrpCat.{v'}}
+
+variable [IsGerbe F J] [IsGerbe G J]
+
+variable (b : AbelianBanding F J A)
+
+variable {U V W T S : C}
 
 def selfHomOrbitSetoid (U : C) (X : HomCategory b b) :
     Setoid (Σ x : F.obj (.mk (op U)), x ≅ (X.obj.app (.mk (op U))).toFunctor.obj x)
@@ -8273,7 +8411,17 @@ open scoped Pseudofunctor.StrongTrans
 
 open Pseudofunctor.LocallyDiscreteOpToCat
 
-variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+variable {C : Type u} [Category.{v} C]
+
+variable {F G : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat.{v', u'}}
+
+variable {J : GrothendieckTopology C} {A : Sheaf J AddCommGrpCat.{v'}}
+
+variable [IsGerbe F J] [IsGerbe G J]
+
+variable (b : AbelianBanding F J A)
+
+variable {U V W T S : C}
 
 noncomputable def selfHomChartToOrbit (X : HomCategory b b) (U : C)
     (x : F.obj (.mk (op U))) :
@@ -9084,11 +9232,11 @@ Prove `finite_picard_cartier_torsors`. Let f:X→B be proper flat finitely prese
 
 Here Finite locally free includes flatness and finite presentation; the statement includes non-étale group schemes. Sheafification of torsors and global torsors are distinguished.
 
-([Michel Raynaud](https://www.numdam.org/article/PMIHES_1970__38__27_0.pdf), Proposition 6.2.1, pp. 50–51, and Corollary 6.2.2; [Stefan Schröer](https://arxiv.org/pdf/2004.07025), Section 5, pp. 14–15).
+([Michel Raynaud](https://www.numdam.org/article/PMIHES_1970__38__27_0.pdf), Proposition 6.2.1, pp. 50–51, and Lemma 6.2.2 (fppf-local splitting of extensions of M by Gₘ), p. 51; [Stefan Schröer](https://arxiv.org/pdf/2004.07025), Section 5, pp. 14–15).
 
-For the proof, import Cartier duality on affine bases from the library and request its group-scheme descent, rather than reconstruct it; then push out a D(M)-torsor by each character to obtain the corresponding Picard homomorphism; then use fppf-local splitting of extensions of M by G_m to reverse this construction as in Raynaud 6.2.1; then apply Leray for D(M) to distinguish sheaf points, globally realized torsors and pointed rigidifications.
+For the proof, use ModularCurves §0B’s `FiniteFlatCommGroupScheme.cartierDual` and `cartierDualBaseChangeIso` for scheme-base Cartier duality and its arbitrary-base-change comparison; on affine bases compare with the pinned Hopf-algebra duality. For an algebraic-space base B, apply this supplier on affine étale charts and glue by its base-change comparison and Layer 3 descent; this chart-gluing bridge is part of the present target; then push out a D(M)-torsor by each character to obtain the corresponding Picard homomorphism; then use fppf-local splitting of extensions of M by G_m to reverse this construction as in Raynaud 6.2.1; then apply Leray for D(M) to distinguish sheaf points, globally realized torsors and pointed rigidifications.
 
-*Needs:* Tau Ceti `TauCeti.FiniteLocallyFreeBicommutativeHopfAlgCat.cartierDuality`, SchemeAndStackFoundations §§2.3–2.4, `picard_brauer_obstruction`, `relative_picard_algebraicSpace`, SchemeAndStackFoundations Layer 1.
+*Needs:* ModularCurves §0B (`FiniteFlatCommGroupScheme.cartierDual`, `cartierDualBaseChangeIso`), Layer 3 descent, Tau Ceti `TauCeti.FiniteLocallyFreeBicommutativeHopfAlgCat.cartierDuality`, SchemeAndStackFoundations §§2.3–2.4, `picard_brauer_obstruction`, `relative_picard_algebraicSpace`, SchemeAndStackFoundations Layer 1.
 
 Define `RaynaudNStar`. For a proper flat finitely presented scheme X over a discrete valuation trait S, condition N means the special fibre has no embedded associated points and X is normal at the generic points of that fibre. Condition N* adds f_*O_X=O_S. The last equality is over S itself; universal cohomological flatness is a conclusion of the degree-one criterion, not part of the definition.
 
@@ -9245,7 +9393,7 @@ Prove `fundamental_class_boundary`. Let f:X→Y be an embeddable morphism betwee
 
 Here A determinant fundamental class over a nonflat general morphism is not declared compatible with arbitrary base change. The two construction hypotheses are kept separate; After arbitrary finite-flat base change the retained Cartier divisors can be nonreduced. Compatibility compares the base-changed boundary morphism, without reasserting the reduced-divisor construction hypotheses on the new base.
 
-([Vincent Pilloni](https://www.imo.universite-paris-saclay.fr/~pilloni/complexhidatheorygsp4.pdf), Lemmas 4.2.3.1–4.2.4.1 and Proposition 4.2.5.1, pp. 17–19; Fakhruddin–Pilloni 2.6–2.7, pp. 8–9).
+([Vincent Pilloni](https://www.imo.universite-paris-saclay.fr/~pilloni/complexhidatheorygsp4.pdf), Lemmas 4.2.3.1–4.2.4.1 and Proposition 4.2.5.1, pp. 17–19; Fakhruddin–Pilloni, *Hecke operators and the coherent cohomology of Shimura varieties*, Propositions 2.6–2.7, pp. 8–9).
 
 For the proof, construct the two fundamental classes and prove that they agree on their common domain, using the upper-shriek functor and traces of SchemeAndStackFoundations §§2.19–2.21; then on the smooth boundary chart take the determinant of the logarithmic differential; its twist maps the source boundary ideal into the target twisted dualizing module; then in the finite-flat case use the trace and boundary quotient calculation; compare the two constructions only under their common hypotheses; then for an open base change use restriction; for finite-flat base change use finite-projective Hom base change.
 
@@ -9632,7 +9780,7 @@ Define `nonarchEtaleQuotient R U` for an étale equivalence relation in this ana
 
 Use the category and scheme analytification built in §7.10.1, including singularities, nilpotents and possibly non-Hausdorff underlying spaces. Its open-immersion, fibre-product and étale-local-isomorphism comparisons are prerequisites of this quotient. The new definition `complexSpaceAnalytification X` applies to a locally separated algebraic space of finite type over C. Choose an étale atlas U→X that is a finite disjoint union of affine schemes, and its scheme equivalence relation R=U×_X U. The affine choice makes the individual scheme analytic charts Hausdorff; it does not force the quotient to be Hausdorff. Analytify both schemes using the scheme functor and take the quotient of U^an by R^an. The quotient's ring sheaf is the sheaf obtained by gluing O_(U^an) along the local biholomorphisms of this relation. It retains the nilpotent ideals, rather than attaching the reduced function sheaf to the point quotient. The API `complexSpaceAnalytification.chart`, `complexSpaceAnalytification.atlasIndependence`, `complexSpaceAnalytification.map`, `complexSpaceAnalytification.mapId`, `complexSpaceAnalytification.mapComp`, `complexSpaceAnalytification.fibreProduct`, `complexSpaceAnalytification.etaleLocalIso`, `complexSpaceAnalytification.separatedHausdorff` consists of the chart maps, comparison isomorphisms and functoriality and base-change equations. The final Hausdorff assertion requires separated X.
 
-Prove `analyticRelationLocalChart`, the point at which local separatedness is used. For u∈U(C), the diagonal U→R is an open immersion because U→X is étale. The relation R→U×U is an immersion because X is locally separated. Near (u,u), the diagonal open in R is therefore the intersection of R with an ambient open neighbourhood of (u,u). Choose a sufficiently small product neighbourhood V×V inside it. Only identity arrows of R then have both endpoints in V. The quotient map restricted to V is injective. The saturation of every open of V is open, since the source and target maps of R^an are local biholomorphisms; the restricted quotient is thus a homeomorphism onto an open in the quotient. On two such chart images, the unique relation arrow gives the local biholomorphism identifying the analytic sheaves, with the triple equation supplied by composition in R. Gluing the local analytic subspace models gives the analytic space. A common refinement U×_X U′ proves independence of the atlas. The same construction on common refinements defines maps and verifies their identity, composition and fibre-product comparisons. This is an explicit quotient proof, not an invocation of an unread book result. For separated X, the relation is closed in the Hausdorff scheme chart products; its open quotient is Hausdorff. (Conrad–Temkin, §1.1, p. 1, identifies the complex local-separatedness boundary; the local relation argument here proves the stated extension from the scheme analytification construction.)
+Prove `analyticRelationLocalChart`, the point at which local separatedness is used. For u∈U(C), the diagonal U→R is an open immersion because U→X is étale. The relation R→U×U is an immersion because X is locally separated. Near (u,u), the diagonal open in R is therefore the intersection of R with an ambient open neighbourhood of (u,u). Choose a sufficiently small product neighbourhood V×V inside it. Only identity arrows of R then have both endpoints in V. The quotient map restricted to V is injective. The saturation of every open of V is open, since the source and target maps of R^an are local biholomorphisms; the restricted quotient is thus a homeomorphism onto an open in the quotient. On two such chart images, the unique relation arrow gives the local biholomorphism identifying the analytic sheaves, with the triple equation supplied by composition in R. Gluing the local analytic subspace models gives the analytic space. A common refinement U×_X U′ proves independence of the atlas. The same construction on common refinements defines maps and verifies their identity, composition and fibre-product comparisons.  For separated X, the relation is closed in the Hausdorff scheme chart products; its open quotient is Hausdorff. (Conrad–Temkin, §1.1, p. 1, identifies the complex local-separatedness boundary; the local relation argument here proves the stated extension from the scheme analytification construction.)
 
 **Checks.**
 
@@ -10080,7 +10228,7 @@ The API gives the cosupport of a marked ideal (`Resolution.MarkedIdeal.cosupport
 - `marked_zero_and_unit`: The zero ideal has full cosupport and the unit ideal has empty cosupport for d>0.
 - `weighted_common_mark`: Pairs (x²,2),(y³,3) become ((x⁶,y⁶),6), not ((x²,y³),6).
 
-Define `permissibleCentre`. A permissible centre for (N,J,d,E) is a closed smooth C⊆N contained in its cosupport, with C and E simultaneously coordinate subspaces/hyperplanes in smooth local coordinates. For controlled-transform divisibility require J⊆I_Cᵈ, which is equivalent to the cosupport condition along the smooth centre in this setting. A centre may be contained in a boundary component; simultaneous SNC is the convention, not disjointness. A resolution centre must also lie in the current invariant stratum selected by the algorithm.
+Define `permissibleCentre`. A permissible centre for (N,J,d,E) is a closed smooth C⊆N contained in its cosupport, with C and E simultaneously coordinate subspaces/hyperplanes in smooth local coordinates. For controlled-transform divisibility require J⊆I_Cᵈ, which is equivalent to the cosupport condition along the smooth centre in this setting. A centre may be contained in a boundary component; simultaneous SNC is the convention, not disjointness. An invariant-admissible resolution centre must also lie in a stratum of the current invariant.
 
 ([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), 4.3(i), p. 242; 4.15, p. 245; 6.7, pp. 255–256).
 
@@ -10227,9 +10375,9 @@ For the proof, recursively cancel the least remaining exponent in graded-lex ord
 
 *Needs:* `initialDiagram`, Mathlib `MvPowerSeries.coeff`.
 
-Define `hilbertSamuel`. For a Noetherian local ring (A,m), H_A(ℓ)=length_A(A/m^(ℓ+1)), a finite natural number. For I⊆K[[X]], write H_I for H_{K[[X]]/I}; comparisons are pointwise in every ℓ. In a finite-type smooth ambient chart use the residue field κ(a), not ground-field dimension. Invariant words compare this first entry by the pointwise partial order, then subsequent entries lexicographically, so incomparable Hilbert–Samuel functions need not have a single greatest value. In the geometric algorithm a point means a closed point, as fixed on BM1997 p. 213; the unnormalized intrinsic local function at arbitrary scheme points is not being asserted upper semicontinuous.
+Define `hilbertSamuel`. For a Noetherian local ring (A,m), H_A(ℓ)=length_A(A/m^(ℓ+1)), a finite natural number. For I⊆K[[X]], write H_I for H_{K[[X]]/I}; comparisons are pointwise in every ℓ. In a finite-type smooth ambient chart use the residue field κ(a), not ground-field dimension. Invariant words compare this first entry by the pointwise partial order, then subsequent entries lexicographically, so incomparable Hilbert–Samuel functions need not have a single greatest value. In the geometric invariant a point means a closed point, as fixed on BM1997 p. 213; the unnormalized intrinsic local function at arbitrary scheme points is not being asserted upper semicontinuous.
 
-([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Closed-point convention and Remarks 1.3, pp. 213–214; Corollary 3.20, p. 239; Theorem 9.2 and Remarks 9.3, p. 276).
+([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Closed-point convention and Remarks 1.3, pp. 213–214; Corollary 3.20, p. 239; Theorem 9.2 and Lemma 9.3, p. 276).
 
 The API gives `hilbertSamuel_completion`: Completion preserves every valueH_A(ℓ); `hilbertSamuel_diagram`: H_I(ℓ) counts α∉D(I) with |α|≤ℓ; `hilbertSamuel_order`: H≤H′ means∀ℓ,H(ℓ)≤H′(ℓ), and equality means equality of all values.
 
@@ -10249,28 +10397,19 @@ For the proof, replace each ideal by its finite-vertex initial diagram. In a str
 
 *Needs:* `hilbertSamuel`, `initialDiagram`, Mathlib `Pi.wellQuasiOrderedLE`.
 
-Define `standardCertificate`. A Samuel certificate is the data (7.2): f_i∈I indexed by the vertices α_i of a chosen abstract division diagram with orders d_i=|α_i|, their ordered degree blocks and nested essential-variable blocks Z^ℓ; disjoint division regions Δ_i=α_i+□_i; homogeneous supported division by initial forms in each degree block; supported formal division of every element of I by the f_i; derivative functions g_j=D^β_jf_{i(j)} with β_j=α_{i(j)}−e_j and invertible block Jacobian in the essential variables; and the derivative-vanishing conditions D_Z^βf_i∈(Z^ℓ) for subsequent blocks and β∈D_ℓ with |β|≤K, K≥max_i d_i−1. The support conditions in (2) and (3) are part of the data, not a mere claim that f_i generate I. Conditions (1)–(3) determine the Hilbert–Samuel function from this division diagram; they do not require that diagram to be the actual graded-lex initial diagram of I.
-
-([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), (7.1)–(7.2), pp. 261–262; Lemmas 7.3, 7.5 and 7.7, pp. 263–264).
-
-The API gives `samuelCertificate_generates`: The supported-division condition implies the f_i generate I; `samuelCertificate_hilbert`: Conditions (1)–(3) identify H_I with the complement-count function of the certificate’s division diagram, without identifying that diagram with the actual graded-lex initial diagram D(I); `samuelCertificate_finiteCheck`: The homogeneous support constraints reduce to bounded-degree matrix tests after the finite-degree theorem.
-
-*Needs:* `formalDivision`, `regularCoordinates`, `hilbertSamuel`.
-
-**Checks.**
-
-- `certificate_coordinate_ideal`: ForI=(x,y) the two coordinate generators have order 1 and identity derivative Jacobian.
-- `certificate_pure_power`: ForI=(z²), f=z² hasd=2; the essential derivative2z has invertible z-Jacobian in characteristic zero.
-- `certificate_wrong_order`: ForI=(x²), assigning the vertex(1) or order 1 to generatorx² violates condition(1).
-- `certificate_division_not_initialDiagram`: For I=(x+y) in Q[[x,y]], use the abstract diagram generated by (1,0). The generator x+y satisfies conditions (1)–(3): homogeneous division has remainder in Q[[y]], and all ideal elements have supported quotients. The actual graded-lex initial diagram is generated by (0,1), so the diagrams differ although their Hilbert–Samuel functions agree. This test concerns conditions (1)–(3), not the full five-condition certificate.
-
-Prove `finiteDegree`. Let D⊆Nⁿ be upward closed and monotone: moving an entire exponent from coordinate i to a subsequent coordinate j keeps it in D. Its vertices α_i and disjoint division regions Δ_i=α_i+□_i determine, for any commutative ring A and homogeneous H_i of degree |α_i|, the degree-ℓ family P(ℓ)={Y^βH_i:β∈□_i,|β|=ℓ−|α_i|}∪{Y^γ:γ∉D,|γ|=ℓ}. There is a finite bound k(D) such that if P(k) spans the degree-k homogeneous module for some k≥k(D), then P(ℓ) spans it for every ℓ≥k. The bound depends on the finite diagram cells; it is not just max|α_i|. Apply this criterion to each degree-block diagram in a Samuel certificate.
+Prove `finiteDegree`. Let D⊆Nⁿ be upward closed and monotone: moving an entire exponent from coordinate i to a subsequent coordinate j keeps it in D. Its vertices α_i and disjoint division regions Δ_i=α_i+□_i determine, for any commutative ring A and homogeneous H_i of degree |α_i|, the degree-ℓ family P(ℓ)={Y^βH_i:β∈□_i,|β|=ℓ−|α_i|}∪{Y^γ:γ∉D,|γ|=ℓ}. There is a finite bound k(D) such that if P(k) spans the degree-k homogeneous module for some k≥k(D), then P(ℓ) spans it for every ℓ≥k. The bound depends on the finite diagram cells; it is not just max|α_i|. Apply this criterion to the homogeneous supported-division blocks used in the proof of `hsSemicoherence`.
 
 ([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Theorem 8.1 and Definition 8.3, p. 274; proof, pp. 274–275; application, p. 282).
 
-For the proof, partition the complement ofD into finitely many coordinate cells and define the recursive threshold from their cutoffs; then induct on the number of coordinates, splitting multiplication byY₁ from the coordinate-zero quotient; then use monotonicity to propagate supported spans above the threshold.
+For the proof, partition the complement of D into finitely many coordinate cells and prove existence of a threshold from their cutoffs; then induct on the number of coordinates, splitting multiplication byY₁ from the coordinate-zero quotient; then use monotonicity to propagate supported spans above the threshold.
 
-*Needs:* `initialDiagram`, `standardCertificate`.
+*Needs:* `initialDiagram`, `formalDivision`.
+
+**Checks.**
+
+- `FiniteDegreeChecks.emptyDiagram`: For D=∅, the complementary monomials span every homogeneous degree, independently of the H_i.
+- `FiniteDegreeChecks.unitDiagram`: For D=Nⁿ with its single vertex 0, the family is all monomial multiples of the constant H₁; spanning in degree zero is equivalent to H₁ being a unit of A.
+- `FiniteDegreeChecks.oneVariable`: For D=a+N in one variable and H₁=cYᵃ, in each degree ℓ≥a the family consists of cY^ℓ, which spans exactly when c is a unit.
 
 Define `samuelJetIdeal`. Given generators f_i in regular coordinates and a jet degree k, form B_k with rows α of|α|≤k and columns(i,β) of|β|≤k; its(α,(i,β)) entry isD^(α−β)f_i/(α−β)! when β≤α, otherwise 0. Let r_k be its rank at the distinguished point. I°_S,k is generated by all(r_k+1)-minors of B_k; I_S,k=Σ_{j≤k}I°_S,j. Its zero locus is the simultaneous lower-rank jet condition determining H_x(j)≥H_a(j) for j≤k. Changes of ideal generators preserve the resulting ideal, by coefficient-matrix factorization and Cauchy–Binet.
 
@@ -10286,27 +10425,34 @@ The API gives `samuelJetIdeal_vanishing`: At a point its vanishing is equivalent
 - `jet_unit_ideal`: For the unit ideal the quotient jet dimension is 0 at every point; the rank bound adds no false singular stratum.
 - `jet_double_origin`: For f=x² at 0 in A¹, k=1 gives Samuel ideal (x) in characteristic zero; a 0-jet-only test would miss the order 2 condition.
 
-Prove `samuelPresentationIdentity`. Under a Samuel certificate, write f_i=Σ_γc_iγ(W)Z^γ in the essential variables. For k≥max d_i−1, the ideal generated by the equations of N and D_W^βc_iγ with |γ|<d_i and|β|<d_i−|γ| equals I_S,k from the jet matrices, locally at the distinguished point. Consequently the simultaneous coefficient order inequalities cut out the Hilbert–Samuel equality stratum near a. The derivative inequality is strict; derivatives at the mark are not vanishing equations.
+Prove `samuelPresentationIdentity`. Let I⊆K[[W,Z]] with K a characteristic-zero field and f_i∈I. Assume all five generator and coordinate conditions of Bierstone–Milman (7.2), with the diagram and degree blocks of (7.1): orders d_i=|α_i| at the vertices of an abstract division diagram; supported homogeneous division for every degree block and supported formal division for I; nested essential-variable blocks Z^ℓ; the designated derivatives g_j=D^(α_{i(j)}−e_j)f_{i(j)} in the corresponding (Z^ℓ), with invertible block Jacobians; and the subsequent-block derivative-vanishing conditions through degree K≥max_i d_i−1. These are hypotheses on the generators and coordinates. Write f_i=Σ_γc_iγ(W)Z^γ in the essential variables. For k≥max d_i−1, the ideal generated by the equations of N and D_W^βc_iγ with |γ|<d_i and|β|<d_i−|γ| equals I_S,k from the jet matrices, locally at the distinguished point. Consequently the simultaneous coefficient order inequalities cut out the Hilbert–Samuel equality stratum near a. The derivative inequality is strict; derivatives at the mark are not vanishing equations.
 
-([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Definition 7.9, p. 265; Theorem 7.14 and proof, pp. 266–268; coefficient application in the proof of 9.6, p. 282).
+([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), (7.1)–(7.2), pp. 261–262; Definition 7.9, p. 265; Theorem 7.14 and proof, pp. 266–268; coefficient application in the proof of 9.6, p. 282).
 
 For the proof, use the unit derivative Jacobian block to eliminate essential-variable columns; then apply the homogeneous supported division and blockwise determinantal identities to identify the ideals; then the lower derivatives exactly express order≥d_i−|γ|; retain the strict derivative bound.
 
-*Needs:* `samuelJetIdeal`, `standardCertificate`, `coefficientPresentation`, Mathlib `MvPowerSeries.pderiv`.
+*Needs:* `samuelJetIdeal`, `formalDivision`, `coefficientPresentation`, Mathlib `MvPowerSeries.pderiv`.
 
-Prove `samuelTransform`. For a Samuel certificate and a smooth coordinate centre C contained in its Samuel stratum, equivalently with centre ideal I_C containing the Samuel stratum ideal, Hilbert–Samuel functions of the strict transforms do not increase. Equality at a point upstairs holds exactly when each controlled generator f_i′ has its original order d_i; on that equality locus the transformed generators retain the certificate and generate the strict-transform ideal. Coefficients obeyc_iγ′=e^(−(d_i−|γ|))π*c_iγ. The permitted exceptional tests preserve the presented Hilbert–Samuel stratum by pure pullback.
+**Checks.**
+
+- `SamuelHypothesesChecks.coordinates`: For I=(x,y), the coordinate generators have order one, supported division and identity derivative Jacobian.
+- `SamuelHypothesesChecks.purePower`: For I=(z²), the generator has order two and the essential derivative 2z has invertible z-Jacobian in characteristic zero.
+- `SamuelHypothesesChecks.wrongOrder`: The generator x² of I=(x²) cannot be assigned vertex (1) or order one.
+- `SamuelHypothesesChecks.abstractDiagram`: For I=(x+y) in Q[[x,y]], the abstract diagram generated by (1,0) admits homogeneous and formal supported division with remainder in Q[[y]]. The actual graded-lex initial diagram has vertex (0,1), although the complement counts agree. This tests the division hypotheses, rather than all the derivative conditions.
+
+Prove `samuelTransform`. For generators and coordinates satisfying the hypotheses of `samuelPresentationIdentity` and a smooth coordinate centre C contained in its Samuel stratum, equivalently with centre ideal I_C containing the Samuel stratum ideal, Hilbert–Samuel functions of the strict transforms do not increase. Equality at a point upstairs holds exactly when each controlled generator f_i′ has its original order d_i; on that equality locus the transformed generators satisfy the same supported-division and derivative conditions and generate the strict-transform ideal. Coefficients obeyc_iγ′=e^(−(d_i−|γ|))π*c_iγ. The permitted exceptional tests preserve the presented Hilbert–Samuel stratum by pure pullback.
 
 ([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Theorems 7.20–7.21, pp. 268–269; Corollary 7.24 and proof, pp. 270–271).
 
-For the proof, use supported division to prove that division by the individual generator orders generates the strict transform; then compare the translated homogeneous ideal and the actual chart ideal using finite-jet matrix ranks; specialization cannot lower quotient dimension; then split charts according to the essential and nonessential centre variables. Preserve the certificate exactly in the equality case.
+For the proof, use supported division to prove that division by the individual generator orders generates the strict transform; then compare the translated homogeneous ideal and the actual chart ideal using finite-jet matrix ranks; specialization cannot lower quotient dimension; then split charts according to the essential and nonessential centre variables. Preserve those generator and coordinate hypotheses in the equality case.
 
-*Needs:* `standardCertificate`, `samuelPresentationIdentity`, `controlledTransform`, `samuelJetIdeal`.
+*Needs:* `formalDivision`, `samuelPresentationIdentity`, `controlledTransform`, `samuelJetIdeal`.
 
 Define `semicoherentPresentation`. A semicoherent presentation of an invariant value λ near a consists of one Zariski neighbourhood V, a smooth submanifold N⊆V and finitely many regular weighted coefficient functions with labelled remaining boundary, giving at every point of the λ-stratum the same infinitesimal presentation and compatible admissible transforms. Data must be regular on this common V; a separate formal power-series presentation at each point does not meet the condition.
 
 ([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Definition and remarks 6.4, p. 254; Proposition 6.5, p. 255; 4.14, 4.20 and 4.25, pp. 244,246,248; Theorem 9.6, pp. 278–282).
 
-The API gives `semicoherentPresentation_restrict`: Shrinking the common neighbourhood preserves its data and certificate; `semicoherentPresentation_stratum`: Its cosupport agrees with the λ-stratum on the chosen neighbourhood; `semicoherentPresentation_transform`: Permissible transformations produce compatible regular presentations on their chart cover.
+The API gives `semicoherentPresentation_restrict`: Shrinking the common neighbourhood preserves its regular presentation data; `semicoherentPresentation_stratum`: Its cosupport agrees with the λ-stratum on the chosen neighbourhood; `semicoherentPresentation_transform`: Permissible transformations produce compatible regular presentations on their chart cover.
 
 *Needs:* `markedIdeal`, `testEquivalence`, `regularCoordinates`.
 
@@ -10316,7 +10462,7 @@ The API gives `semicoherentPresentation_restrict`: Shrinking the common neighbou
 - `semicoherent_common_open`: For regular rational-function coefficients, the intersection of finitely many denominator-unit opens is one valid neighbourhood.
 - `formal_only_is_insufficient`: An unrelated formal series at each point, with no common regular coefficient functions, is not a semicoherent presentation.
 
-Prove `hsSemicoherence`. For a coherent closed subscheme X⊆M in the finite-type characteristic-zero setting, the function a↦H_X,a on the closed-point space is Zariski upper semicontinuous and locally takes finitely many values. Every closed a has a semicoherent presentation of its Hilbert–Samuel equality stratum by coefficient pairs(c_iγ,d_i−|γ|), with a Samuel certificate, and those presentations have the source’s admissible-transform properties. Generic coordinate changes, coefficient restrictions and supported division are used; formal generators are not assumed to be global regular functions.
+Prove `hsSemicoherence`. For a coherent closed subscheme X⊆M in the finite-type characteristic-zero setting, the function a↦H_X,a on the closed-point space is Zariski upper semicontinuous and locally takes finitely many values. Every closed a has a semicoherent presentation of its Hilbert–Samuel equality stratum by coefficient pairs(c_iγ,d_i−|γ|), satisfying the generator and coordinate hypotheses of `samuelPresentationIdentity`, and those presentations have the source’s admissible-transform properties. Generic coordinate changes, coefficient restrictions and supported division are used; formal generators are not assumed to be global regular functions.
 
 ([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Theorem 9.2, p. 276; Theorem 9.6 and proof, pp. 278–282; Remarks 9.15, pp. 282–283; closed-point convention, p. 213).
 
@@ -10352,7 +10498,7 @@ The API gives `exceptionalHistory_disjoint`: The old blocks Eʳ are pairwise dis
 - `history_new_exceptional`: When the first invariant entry remains unchanged after the first blowup, the newly born exceptional is not inE¹.
 - `history_changes_centre`: The equationv₃²−v₁v₂² obtained in year4 ofExample 2.1 has invariant(2,0;0), while the same equation started in year 0 has(2,0;3/2,0;1,0;∞); their selected centres differ.
 
-Define `invariantWord`. An invariant word has first entry H, a realized Hilbert–Samuel function, followed by s₁ and finitely many positive rational residual entries ν_r with integer counters s_r, and terminalν_{t+1}∈{0,∞}. Compare words lexicographically using pointwise partial comparison of H, ordinary counter/rational comparison, and ∞ as the largest terminal residual value. In fixed ambient dimension n, depth t≤n. Attach a denominator certificate to the chosen semicoherent marked presentation: after clearing rational weights, choose e₁≥1 bounding its positive integer weights. At each positive finite residual entry require e_(r−1)!ν_r∈N and set e_r=max{e_(r−1)!,e_(r−1)!ν_r}. The recursive coefficient construction proves that integrality condition and bounds the next presentation weights by e_r. The polynomial-start index of H is not used as a denominator bound; the cusp H(ℓ)=2ℓ+1 has that index zero but ν₂=3/2, cleared by the order-presentation bound e₁=2. For hypersurfaces the first entry may be computed as ordinary order through the explicit hypersurface Hilbert–Samuel formula. A scalar multiplicity alone is not the complete invariant.
+Define `invariantWord`. An invariant word has first entry H, a realized Hilbert–Samuel function, followed by s₁ and finitely many positive rational residual entries ν_r with integer counters s_r, and terminalν_{t+1}∈{0,∞}. Compare words lexicographically using pointwise partial comparison of H, ordinary counter/rational comparison, and ∞ as the largest terminal residual value. In fixed ambient dimension n, depth t≤n. For a realized word, the residual entries have bounded denominators on each fixed prefix stratum, as in `invariantProperties`. The bounds arise from the positive marks of a semicoherent presentation, rather than the polynomial-start index of H. For the cusp H(ℓ)=2ℓ+1 that index is zero, while ν₂=3/2 has denominator cleared by the order mark two. For hypersurfaces the first entry may be computed as ordinary order through the explicit hypersurface Hilbert–Samuel formula. A scalar multiplicity alone is not the complete invariant.
 
 ([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Remarks 1.3, pp. 213–214; Theorem 1.14, p. 220; 6.15–6.16, pp. 259–260; Remarks 9.15, pp. 282–283).
 
@@ -10366,17 +10512,17 @@ The API gives `invariantWord_prefix`: Truncation preserves the exact sequence of
 - `word_history_tie`: With the same first and residual entries, the first differing s_r changes the order.
 - `word_terminal_zero_infinity`: A word ending 0 differs from the identical prefix ending ∞; neither may be represented by an arbitrary finite rational.
 
-Define `recursiveInvariant`. Starting with a semicoherent Hilbert–Samuel presentation, adjoin old-boundary equations with mark 1, take a maximal-contact coefficient presentation, remove its common remaining-boundary monomial, and read the next residualν. If ν is 0 or∞ stop. Otherwise normalize the residual presentation, select the next old block at the birth of its prefix, adjoin that block’s mark 1 equations and repeat in lower dimension. In arbitrary codimension, if a first presentation has codimension r, ambient dimension n and embedding dimension e=H(1)−1, insert (1,0) exactly e−(n−r)−1 times when n−r<e, then reindex as Remark 9.15 prescribes; for n−r=e retain the first prefix. This normalization makes the output independent of the initial presentation codimension and ambient enlargement.
+Define `recursiveInvariant` as the unique normalized invariant word of a semicoherent Hilbert–Samuel presentation and its labelled exceptional history. Successive entries are the normalized orders of maximal-contact coefficient presentations after removal of the remaining-boundary monomial and adjoining the old-boundary equations with mark one; terminal values distinguish a monomial residual presentation (0) from a zero coefficient presentation (∞). For a first presentation of codimension r in ambient dimension n and embedding dimension e=H(1)−1, the normalization inserts (1,0) exactly e−(n−r)−1 times when n−r<e, then reindexes as in Remark 9.15; for n−r=e it retains the first prefix. Existence and uniqueness follow by induction on dimension from coefficient test equivalence and residual normalization. This definition supplies the intrinsic word and its comparison theorems.
 
 ([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Definitions 6.12–6.15, pp. 258–259; Remark 9.15, pp. 282–283).
 
-The API gives `resolutionInvariant_first`: Its first entry is precisely the local Hilbert–Samuel function; `resolutionInvariant_equivalent`: Equivalent initial presentations with the same history produce the same normalized word; `resolutionInvariant_hypersurface`: For hypersurfaces it agrees with the source’s order-first algorithm after the hypersurface Hilbert–Samuel identification.
+The API gives `resolutionInvariant_first`: Its first entry is precisely the local Hilbert–Samuel function; `resolutionInvariant_equivalent`: Equivalent initial presentations with the same history produce the same normalized word; `resolutionInvariant_hypersurface`: For hypersurfaces it agrees with the source’s order-first invariant after the hypersurface Hilbert–Samuel identification.
 
 *Needs:* `hsSemicoherence`, `exceptionalHistory`, `invariantWord`, `residualPresentation`.
 
 **Checks.**
 
-- `invariant_smooth_empty_boundary`: For a smooth closed subvariety with empty boundary the algorithm reaches its smooth Hilbert–Samuel entry with s₁=0 and terminal ∞.
+- `invariant_smooth_empty_boundary`: For a smooth closed subvariety with empty boundary the word has its smooth Hilbert–Samuel entry with s₁=0 and terminal ∞.
 - `invariant_cusp`: For z²+x³ at 0 with empty boundary the hypersurface word is(2,0;3/2,0;∞).
 - `invariant_bm_example`: For x₃²−x₁²x₂³ at 0 in year 0, the hypersurface word is(2,0;5/2,0;1,0;∞).
 
@@ -10410,27 +10556,19 @@ For the proof, write the coordinate chart transform of the common boundary monom
 
 *Needs:* `monomialData`, `invariantProperties`, `controlledTransform`.
 
-Define `globalCentres`. At each year order all boundary subsets lexicographically by their birth-index bit sequences. For a point choose J(a), the greatest subset labelling an irreducible component of its invariant equality stratum, and extend the invariant byJ. On a quasi-compact closed unresolved locus S, take the union of the loci of all maximal values of the extended invariant, allowing finitely many incomparable Hilbert–Samuel first entries. This union is a closed smooth permissible centre; local component descriptions agree on overlaps and the union is disjoint between distinct maximal values. Retain the unresolved locus used by the selected variant, rather than blowing up smooth points everywhere. Numerical maxima are computed on closed points. Their common regular stratum equations define the centre schemes; take the corresponding closed subschemes, not the bare set of closed points. Finite-type schemes over a field are Jacobson, so closed-point checks of these closed bad loci determine the full scheme assertions.
+Prove `finitePermissibleResolutionExists`. Let k have characteristic zero and M be a smooth finite-type k-scheme, with empty initial boundary. For a coherent ideal J generically nonzero on every component, there exists a finite tower of blowups with smooth SNC-permissible centres over V(J), whose total transform is invertible with monomial exceptional support and whose weak transform is the unit ideal. For a reduced closed subscheme X⊆M, there exists such a finite tower with centres over Sing(X), whose strict transform is smooth and simultaneous-SNC with the exceptional boundary. These towers are isomorphisms over M∖V(J) and Reg(X), respectively. For a reduced finite-type k-scheme without a chosen embedding, the embedded towers glue to a proper resolution preserving its entire smooth locus.
 
-([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Remarks 1.15–1.16, pp. 220–221; 10.3 and algorithm, pp. 284–285; Theorem 11.14, pp. 290–291; closed-point convention, p. 213).
+([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Theorem 1.10, pp. 216–217; Theorem 11.14, pp. 290–291; Theorem 13.2, pp. 297–298).
 
-The API gives `maximumCentre_local`: On an invariant-bounded neighbourhood it is the selected smooth coordinate-stratum component; `maximumCentre_closed`: The finite union of maximal extended strata in the closed unresolved locus is closed and permissible; `maximumCentre_localIso`: A local isomorphism preserving the history identifies the centre ideals.
+For the proof, use the invariant strata and their local-isomorphism comparison to establish the source’s finite-tower existence statements. Track total, weak and strict transforms separately; local embedded towers agree on overlaps by the intrinsic invariant comparison, so they glue in the abstract case.
 
-*Needs:* `invariantProperties`, `monomialData`, `permissibleCentre`, SchemeAndStackFoundations §§0.8, 0.28, Mathlib `isJacobsonRing_of_finiteType`.
+*Needs:* `permissibleCentre`, `controlledTransform`, `invariantProperties`, `monomialDecrease`, `hsSemicoherence`, StableReduction Layer 4, SchemeAndStackFoundations §§0.8, 0.28.
 
 **Checks.**
 
-- `maximum_is_not_multiplicity`: For x₃²−x₁²x₂³ at 0 in year 0, the full maximum centre is the origin, although the multiplicity2 locus contains axes.
-- `maximum_incomparable_union`: On a disjoint union with two incomparable realized first functions, both maximal extended loci are used; choosing one greatest value is invalid.
-- `maximum_empty_unresolved`: An empty unresolved locus gives no further blowup, rather than a spurious centre.
-
-Prove `termination`. On a quasi-compact finite-type characteristic-zero input, the selected maximum-centre algorithm terminates in finitely many blowups: over each selected centre the augmented invariant decreases; realized words satisfy stabilization and the equal-word monomial mass has fixed-denominator descent. Local finite-value semicontinuity and quasi-compactness turn these drops into termination of the finite global maximum-stratum procedure. The selected variant’s unresolved closed locus is empty at the end.
-
-([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Theorem 1.14(2),(4), p. 220; algorithm§10, pp. 284–285; 11.14, p. 291).
-
-For the proof, combine the centre construction with the terminal descent theorem; then a hypothetical infinite sequence of maximal values admits a nonincreasing chain; after word stabilization only fixed-denominator monomial descent remains, a contradiction; then use quasi-compact finite coverings of the maximum loci to pass from local decreases to a drop of the global maximum set.
-
-*Needs:* `globalCentres`, `monomialDecrease`, `hsStabilization`.
+- `FiniteResolutionChecks.emptyTower`: The unit ideal and a smooth embedded X with empty boundary admit the empty tower.
+- `FiniteResolutionChecks.cusp`: The cusp y²=x³ admits a finite permissible tower with smooth strict transform and SNC exceptional boundary, preserving every point of its smooth locus.
+- `FiniteResolutionChecks.zeroComponent`: On A¹⊔A¹, an ideal zero on one component and unit on the other stays zero on the first component under every such tower and cannot have invertible total transform there; it is excluded by the generic-nonzero hypothesis.
 
 ### 9.4 Principalization and preservation of the resolved locus
 
@@ -10438,17 +10576,17 @@ Prove `principalization`. For a nonzero coherent ideal J on a smooth finite-type
 
 ([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Theorem 1.10, pp. 216–217; Remark 1.18, p. 225; §6, pp. 254–260).
 
-For the proof, run the ideal/hypersurface presentation algorithm on the marked order loci, with centres over V(J); then track the total ideal as the accumulated exceptional factor times the weak transform; then terminate when the weak transform is a unit; the coordinate boundary then gives invertibility and SNC support.
+For the proof, apply the ideal case of `finitePermissibleResolutionExists`, with centres over V(J); track the total ideal as the accumulated exceptional factor times the weak transform; the final weak transform is a unit; the coordinate boundary then gives invertibility and SNC support.
 
-*Needs:* `termination`, `controlledTransform`, `recursiveInvariant`, StableReduction Layer 4.
+*Needs:* `finitePermissibleResolutionExists`, `controlledTransform`, `recursiveInvariant`, StableReduction Layer 4.
 
 Prove `embeddedResolution`. Let X be a reduced finite-type k-scheme, char(k)=0, embedded as a closed subscheme of a smooth M, with empty initial boundary. There is a finite inv_X-admissible sequence of smooth permissible blowups such that the final strict transform X′ is smooth and X′ together with the accumulated exceptional boundaryE′ has simultaneous SNC. The composite is an isomorphism over Reg(X), and all centres lie over the original singular locus. For the source’s nonreduced extension, the exact conclusion is smooth (X′_red), local constancy ofH_{X′,·}, and simultaneous SNC with E′; it does not assert that a nonreduced X′ is smooth or remains nonempty.
 
-([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Proposition 11.4, p. 288; Propositions 11.9 and 11.11, p. 289; Proposition 11.13, p. 290; Theorem 11.14, pp. 290–291).
+([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Theorem 11.4, p. 288; Corollary 11.9 and Lemma 11.11, p. 289; Proposition 11.13, p. 290; Theorem 11.14, pp. 290–291).
 
-For the proof, use the source’s closed bad locusΣ_X=Sing(H_X)∪Sing(X_red), which is a union of invariant strata; then choose maximum centres there untilΣ disappears; then clean old boundary blocks on the smooth reduction as prescribed in11.14; then the source’s strict-transform and regular-locus lemmas show all chosen centres lie over Sing(X), hence preserveReg(X).
+For the proof, apply the embedded case of `finitePermissibleResolutionExists` to the source’s closed bad locus Σ_X=Sing(H_X)∪Sing(X_red), a union of invariant strata; then clean old boundary blocks on the smooth reduction as prescribed in11.14; then the source’s strict-transform and regular-locus lemmas show all chosen centres lie over Sing(X), hence preserveReg(X).
 
-*Needs:* `termination`, `hsSemicoherence`, `globalCentres`, `controlledTransform`, SchemeAndStackFoundations §§0.8, 0.28.
+*Needs:* `finitePermissibleResolutionExists`, `hsSemicoherence`, `controlledTransform`, SchemeAndStackFoundations §§0.8, 0.28.
 
 Define `resolvedLocus`. For a smooth strict transform X⊆M with an ambient SNC family E whose components do not contain X locally, a point a∈X is resolved when X and E admit simultaneous coordinate-subspace/hyperplane equations at a, with distinct incident component germs. For every subset Λ of incident boundary labels, the intersectionX_Λ=X∩⋂_{H∈Λ}H must be empty locally or smooth of the expected codimension |Λ| in X. The unresolved set Σ* is the union of the rank-defect loci where embedding dimension(X_Λ,a)>dim(X,a)−|Λ|, including improper/coincident restricted components. It is closed and is exactly the complement of the resolved locus.
 
@@ -10470,7 +10608,7 @@ Prove `preserveResolvedPoints`. For smooth X⊆M and a labelled ambient SNC boun
 
 For the proof, on smooth X factor each restricted boundary ideal I_i as its exceptional monomialD_i times its proper residual ideal J_i. Resolve their product until nonunitJ_i have order 1 and are distinct; then induct on dimension to resolve each resulting smooth divisor against the others; Lemma 12.7 transfers transversality from the hypersurface subproblem; then apply the strong monomial procedure12.8, with centres among new exceptional intersections, to eliminate common exceptional factors while remaining insideΣ*; then apply this smooth-pair cleanup to the intermediate space in12.1; its centres avoid resolved points of that intermediate pair. The first phase of empty-boundary embedded resolution separately preserves the original regular locus.
 
-*Needs:* `embeddedResolution`, `resolvedLocus`, `principalization`, `monomialDecrease`, `globalCentres`.
+*Needs:* `embeddedResolution`, `resolvedLocus`, `principalization`, `monomialDecrease`, `finitePermissibleResolutionExists`.
 
 Prove `localIsomorphismResolution`. Every reduced finite-type characteristic-zero k-scheme X has a finite resolution morphism X′→X, an isomorphism over Reg(X), obtained from its locally embedded smooth-ambient towers. Any isomorphism X|U≃Y|V of open subschemes lifts uniquely to an isomorphism between the restricted resolution spaces; the compatible centres and blowups agree throughout the towers after restricting and omitting empty blowup steps. Embedded pair cleanup may be incorporated. Compatibility with arbitrary smooth morphisms is not part of this assertion. The Lean file states the integral, separated case without functoriality as `Resolution.exists_resolution`: a proper surjective morphism from a smooth scheme that is an isomorphism over a dense open.
 
@@ -10478,11 +10616,11 @@ Prove `localIsomorphismResolution`. Every reduced finite-type characteristic-zer
 
 For the proof, use local smooth embeddings of affine finite-type charts; then the codimension-normalized invariant, history and birth-order labels agree after ambient isomorphisms and closed smooth ambient enlargements; then glue the locally selected centre ideals and their blowups using the ordinary blowup universal property and scheme open gluing; then isomorphisms identify the centre ideals inductively; the blowup lift is unique, so all overlaps satisfy the cocycle.
 
-*Needs:* `recursiveInvariant`, `invariantProperties`, `globalCentres`, `preserveResolvedPoints`, StableReduction Layer 4, SchemeAndStackFoundations §§0.8, 0.28.
+*Needs:* `recursiveInvariant`, `invariantProperties`, `finitePermissibleResolutionExists`, `preserveResolvedPoints`, StableReduction Layer 4, SchemeAndStackFoundations §§0.8, 0.28.
 
 ### 9.5 Compactification and analytic charts
 
-Define `sncCompactification`. For a smooth quasi-projective finite-type variety U over a characteristic-zero field k, choose its reduced projective closure Y using Layer 1. Resolve Y by the local-isomorphism-compatible algorithm, preserving U⊆Reg(Y). On the smooth projective result Y₁, principalize the coherent ideal of the reduced complement Y₁∖U, whose support misses U and contains all exceptional divisors of Y₁→Y. The final smooth projective variety Ū contains the same U as a dense open, and its complement is a reduced strict-SNC divisor with globally smooth labelled components. The compactification depends on the chosen closure; no universal or canonical choice of closure is asserted.
+Define `sncCompactification`. For a smooth quasi-projective finite-type variety U over a characteristic-zero field k, choose its reduced projective closure Y using Layer 1. Choose the local-isomorphism-compatible finite resolution of Y, preserving U⊆Reg(Y). On the smooth projective result Y₁, principalize the coherent ideal of the reduced complement Y₁∖U, whose support misses U and contains all exceptional divisors of Y₁→Y. The final smooth projective variety Ū contains the same U as a dense open, and its complement is a reduced strict-SNC divisor with globally smooth labelled components. The compactification depends on the chosen closure; no universal or canonical choice of closure is asserted.
 
 ([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), Theorem 1.10, pp. 216–217; Theorem 11.14, pp. 290–291; Theorem 12.2, p. 292; Theorem 13.2, pp. 297–298; and the deduction of the compactification statement).
 
@@ -10520,9 +10658,9 @@ The API gives `cartierSeparation_residual`: p*D_i=F+D′_i for i=1,2; `cartierSe
 
 ### 9.6 Residual normalization, companions and history
 
-The recursive construction uses presentations, not a bare tuple of multiplicities. For a coefficient presentation with a common positive integer mark d, write its functions as h=Dᵈg_h. Here D=∏ₕx_H^{μ_H} has rational exponents, dμ_H is integral, and Dᵈ is the greatest common factor supported on the **remaining** labelled boundary. Define `residualPresentation` by ν=min_h ord(g_h)/d. When ν>0 its pairs are (g_h,dν), together with (Dᵈ,d(1−ν)) **only when ν<1**. Choose a common mark clearing every denominator before using these pairs. The added monomial pair preserves the original cosupport; omitting it when 0<ν<1 changes the permissible centres. When ν=0 retain (Dᵈ,d) and terminate the dimension recursion. When every coefficient is zero set ν=∞ and terminate, without taking an order of an empty set of nonzero coefficients. Prove `residualPresentation.normalizedOrder`, `residualPresentation.testComparison`, `residualPresentation.transforms`, `residualPresentation.independent`, `residualPresentation.zeroTerminal` and `residualPresentation.infiniteTerminal`. The comparisons preserve the permitted blowup, product and labelled-exceptional tests, and are asserted at the fixed presentation codimension. (Bierstone–Milman 1997, Construction 4.23 and Proposition 4.24, pp. 247–248; Definitions 6.12–6.15, pp. 258–259.)
+The intrinsic invariant is determined by marked presentations and their exceptional history. For a coefficient presentation with a common positive integer mark d, write its functions as h=Dᵈg_h. Here D=∏ₕx_H^{μ_H} has rational exponents, dμ_H is integral, and Dᵈ is the greatest common factor supported on the **remaining** labelled boundary. Define `residualPresentation` by ν=min_h ord(g_h)/d. When ν>0 its pairs are (g_h,dν), together with (Dᵈ,d(1−ν)) **only when ν<1**. Choose a common mark clearing every denominator before using these pairs. The added monomial pair preserves the original cosupport; omitting it when 0<ν<1 changes the permissible centres. When ν=0 the residual presentation is (Dᵈ,d), with terminal value zero. When every coefficient is zero the terminal value is ∞, without taking an order of an empty set of nonzero coefficients. Prove `residualPresentation.normalizedOrder`, `residualPresentation.testComparison`, `residualPresentation.transforms`, `residualPresentation.independent`, `residualPresentation.zeroTerminal` and `residualPresentation.infiniteTerminal`. The comparisons preserve the permitted blowup, product and labelled-exceptional tests, and are asserted at the fixed presentation codimension. (Bierstone–Milman 1997, Construction 4.23 and Proposition 4.24, pp. 247–248; Definitions 6.12–6.15, pp. 258–259.)
 
-For the marked-ideal route, define `boundaryMonomialPart` as the largest divisor factor supported on the ordered SNC boundary, and `nonmonomialPart` by I=M(I)N(I). This factorization is on the smooth ambient variety, for a coherent ideal generically nonzero on every component; it does not use a gcd in an arbitrary ring. Let c be the largest order of N(I) on the cosupport of (I,b). If the cosupport is empty there is nothing to resolve. If c=0 use the monomial algorithm. Otherwise define `companionIdeal` as the marked sum (N(I),c)+(M(I),b−c) when c<b, and as (N(I),c) when c≥b. A marked sum (J,a)+(K,e), for positive a,e, has common mark ae and ideal Jᵉ+Kᵃ; its cosupport is the intersection of the two cosupports on a smooth ambient variety. Thus no zero or negative mark is introduced. Prove `companionIdeal.maximalOrder`, `companionIdeal.cosupport`, `companionIdeal.permissible`, `companionIdeal.transformComparison` and `companionIdeal.orderDropsAfterResolution`. Resolving the companion removes the maximum c-stratum from the original cosupport; recompute the boundary factor of the controlled transform, then repeat. The strictly decreasing nonnegative integers c reduce the problem to the monomial case. This route is kept distinct from the Hilbert–Samuel normalization above. (Włodarczyk, *Simple Hironaka resolution in characteristic zero*, author version dated 27 January 2010, Definition 3.0.10 and Step 2a, p. 19; Step 2b, pp. 19–20; summary §3.1, pp. 20–21.)
+For the marked-ideal route, define `boundaryMonomialPart` as the largest divisor factor supported on the ordered SNC boundary, and `nonmonomialPart` by I=M(I)N(I). This factorization is on the smooth ambient variety, for a coherent ideal generically nonzero on every component; it does not use a gcd in an arbitrary ring. Let c be the largest order of N(I) on the cosupport of (I,b). If the cosupport is empty there is nothing to resolve. If c=0 the ideal is a boundary monomial. For c>0 define `companionIdeal` as the marked sum (N(I),c)+(M(I),b−c) when c<b, and as (N(I),c) when c≥b. A marked sum (J,a)+(K,e), for positive a,e, has common mark ae and ideal Jᵉ+Kᵃ; its cosupport is the intersection of the two cosupports on a smooth ambient variety. Thus no zero or negative mark is introduced. Prove `companionIdeal.maximalOrder`, `companionIdeal.cosupport`, `companionIdeal.permissible`, `companionIdeal.transformComparison` and `companionIdeal.orderDropsAfterResolution`. A finite permissible resolution of the companion removes the maximum c-stratum from the original cosupport. The order-drop theorem compares the new nonmonomial factor with the original maximum c; it applies to any tower satisfying the companion-resolution conclusion. This route is kept distinct from the Hilbert–Samuel normalization above. (Włodarczyk, *Simple Hironaka resolution in characteristic zero*, author version dated 27 January 2010, Definition 3.0.10 and Step 2a, p. 19; Step 2b, pp. 19–20; summary §3.1, pp. 20–21.)
 
 Define `MarkedIdeal.homogenize` on the same marked-ideal route. Let (I,μ) be a marked ideal on a smooth M over a characteristic-zero field, with ordered SNC boundary E, of maximal order: ord_a(I)≤μ at every point a, equivalently Dᵘ(I)=O_M for the iterated derivative ideals of §9.2a glued as in §9.2. Its tangent ideal is T(I)=D^(μ−1)(I), and its homogenization is H(I,μ)=(I+D(I)·T(I)+D²(I)·T(I)²+⋯+D^(μ−1)(I)·T(I)^(μ−1), μ), with the same mark and the same labelled boundary; for μ=1 it is (I,1). Prove `homogenize_equiv`: (I,μ) and H(I,μ) have the same cosupport and the same permissible test sequences of types (i) and (ii) of `testEquivalence`, with equal transformed cosupports along them, and the controlled transform of H(I,μ) along such a sequence is, with mark μ, the ideal sum over 0≤i<μ of the products of the controlled transform of (Dⁱ(I),μ−i) with the i-th power of the controlled transform of (T(I),1). Type (iii) tests are not asserted. Prove `homogenize_tangentTransport`: if u,v∈T(I) at a cosupport point a each have order exactly one, and each together with the equations of all incident components of E extends to a regular parameter system, there is an automorphism of the completed local ring of M at a that sends u to v, maps every component of E to itself, preserves the completion of H(I) and fixes the cosupport pointwise. Prove `homogenize_etaleGluing`: under the same hypotheses there are étale neighbourhoods φ_u,φ_v of a with φ_u^*H(I,μ)=φ_v^*H(I,μ), φ_u^*(u)=φ_v^*(v), φ_u^*E=φ_v^*E and φ_u=φ_v on the cosupport; these identities persist along every test sequence of H(I,μ), and the strict transforms of the maximal-contact hypersurfaces V(u) and V(v) correspond. Smooth pullback commutes with homogenization. Consequently, on this route, the coefficient ideal of H(I,μ) on a maximal-contact hypersurface is independent of that hypersurface up to these étale identifications. This is Włodarczyk's mechanism. On the Bierstone–Milman presentation route of §§9.1–9.2 that independence comes instead from `coefficientEquivalence` and the invariants, and homogenization is not used there; the two routes share only the marked-ideal carrier, the transforms and the test sequences of §9.1. (Włodarczyk, *Simple Hironaka resolution in characteristic zero*, arXiv math/0401401v1, §2.9, the definition and Lemmas 2.9.1–2.9.5, pp. 9–12; Definitions 2.5.1, 2.7.1 and 2.7.5, pp. 6–7.)
 
@@ -10539,13 +10677,9 @@ For the proof, in order: (1) H(I)⊇I, so test sequences of H(I,μ) are test seq
 
 Define `exceptionalBirthBlocks` from the actual tower and the ancestors a_i of a point a. The first old block consists of the surviving components present at the earliest year when the current Hilbert–Samuel entry was attained. For the next block use the earliest year when the prefix **including the new residual ν_r** was attained, and take components of the remaining boundary at that year. Remove all earlier blocks before this selection. Adjoin each old block's equations with mark one; they enforce its incidence conditions in the next coefficient presentation. The API gives `exceptionalBirthBlocks.firstBlock`, `exceptionalBirthBlocks.nextBlock`, `exceptionalBirthBlocks.disjoint`, `exceptionalBirthBlocks.survivingTransform`, `exceptionalBirthBlocks.samePrefixLocality` and `exceptionalBirthBlocks.resetAtDrop`. The locality theorem follows by induction on the tower, splitting the cases of unchanged prefix, a new drop at the current year, and a prefix drop earlier at a neighbouring point. It is the ingredient that makes the counters s_r upper semicontinuous. (Bierstone–Milman, Proposition 6.6 and Definitions 6.8, pp. 255–256; Definition 6.15, p. 259.)
 
-The named `recursiveResolutionInvariant` starts from the semicoherent Samuel presentation, adjoins the first old block, takes contact and coefficients, performs the guarded residual normalization, selects the next birth block and repeats in lower dimension. It retains the Samuel function, all counters and the terminal value 0 or ∞. For a presentation of codimension r in dimension n, with embedding dimension e=H(1)−1, insert (1,0) exactly e−(n−r)−1 times when n−r<e, and reindex as in Remark 9.15. This is essential for comparing different smooth embeddings. It is not replaced by the assertion that arbitrary rational tuples are well founded.
+The intrinsic `recursiveInvariant` of §9.3 retains the Hilbert–Samuel function, all old-boundary counters and terminal value 0 or ∞. Its normalized word is independent of the chosen smooth embedding. In `invariantProperties`, fixed-prefix denominator bounds come from the presentation marks: if e₁ bounds the initial positive integer weights, each finite residual value satisfies e_{r−1}!ν_r∈N, with e_r=max{e_{r−1}!,e_{r−1}!ν_r}. These inequalities supply discreteness for the intrinsic stabilization theorem. (Bierstone–Milman, Remarks 1.3, pp. 213–214; Theorem 1.14(2), p. 220; proof, pp. 259–260; Remark 9.15, pp. 282–283.)
 
-Define `resolutionDenominatorCertificate` on a chosen semicoherent presentation and its admissible transforms. Clear its rational weights initially, and let e₁≥1 bound all resulting positive integer weights; for a hypersurface order presentation take e₁=ν₁. The common coefficient mark e₁! is divisible by each of these weights. At each finite positive residual entry define e_r=max{e_{r−1}!,e_{r−1}!ν_r}. Prove inductively that e_{r−1}!ν_r is integral: coefficient differentiation uses integer orders with common mark e_{r−1}!, subtraction of boundary valuations has that same denominator, and adjoining old-boundary equations adds only mark one. The next presentation has weights bounded by e_r, including the companion weight e_{r−1}!(1−ν_r) when 0<ν_r<1, so its coefficient mark divides e_r!. The certificate is attached to the presentation, not to the eventual-polynomial starting index of H. For the cusp H(ℓ)=2ℓ+1 already for ℓ≥0, that index is zero, whereas the order presentation has weight two and ν₂=3/2. On a fixed Samuel stratum, carry the finite marked presentation and its weights through the admissible transformations; its test equivalence and semicoherence supply a fixed initial bound. No numerical bound depending on the polynomial-start index is asserted. Once a prefix is fixed these certificates give a fixed discrete set for its next entry. Samuel stabilization in fixed embedding dimension, then induction through the finitely many counters and residual entries, proves `realizedInvariant_stabilizes`. The finite dimension bounds the recursion depth. The Samuel input is the stabilization theorem for functions of actual formal ideals. Present each by its diagram of initial exponents in ℕⁿ, ordered by degree and lexicographic tie breaking. A descending sequence bounds the degree of the first vertex; after fixing the first r vertices on an infinite subsequence, its next new vertex is again degree-bounded by comparison at the first degree where that diagram differs. Extract a diagonal subsequence with every vertex fixed. Dickson finiteness makes the limiting upward-closed diagram have finitely many vertices, so the diagrams and Samuel functions on this subsequence are eventually identical, contradicting strict descent. This supplies the stabilization input; arbitrary functions ℕ→ℕ do not have that property. (Bierstone–Milman, Remarks 1.3, pp. 213–214, Theorem 1.14(2), p. 220, proof pp. 259–260, and Remark 9.15, pp. 282–283; *Uniformization of analytic spaces*, Theorem 5.2.1, pp. 820–821.)
-
-At terminal zero put Ω_H=μ_H and define `monomialComponents` to be the **minimal** boundary subsets I with Σ_{H∈I}Ω_H≥1. Equivalently, 0≤Σ_{H∈I}Ω_H−1<Ω_H for every H∈I. Their coordinate intersections are precisely the irreducible stratum components. Define `componentSelector` by the largest such component label in the lexicographic order of the boundary's birth-index bit strings. Include the old blocks in the full label. Define `monomialMultiplicity` as the sum of the incident Ω_H, with denominator bounded by the terminal common mark. On a chart pivoting at H∈I, the new pivot exponent is Σ_{K∈I}Ω_K−1<Ω_H; every other exponent is unchanged. If the recursive invariant stays fixed, this strictly lowers the auxiliary multiplicity. At terminal infinity blow up the whole smooth equality stratum; its strict transform is empty, so the recursive invariant itself drops. These are `zeroTerminal_decrease` and `infiniteTerminal_decrease`. A claim that the recursive invariant drops after every monomial blowup would be false. (Bierstone–Milman, Theorem 1.14(3)–(4), p. 220, Remarks 1.15–1.16, pp. 220–221, and proof and Remark 6.17, pp. 260–261.)
-
-The global centre is the union of the loci of maximal extended values on the closed unresolved locus. Keep the partial comparison of Samuel functions: several incomparable maximal values can occur. Semicoherent equations and the selector identify a closed smooth centre with SNC boundary; distinct selected maximal components are disjoint. Quasi-compactness makes the collection of values finite at each stage. Prefix stabilization together with the auxiliary fixed-denominator decrease forces termination. For noncompact analytic spaces the result is locally finite over relatively compact opens, not one finite global tower. (Bierstone–Milman, Remarks 1.16 and 10.3, pp. 221 and 284–285; Theorems 13.2–13.3, pp. 297–298.)
+At terminal zero put Ω_H=μ_H and define `monomialComponents` to be the **minimal** boundary subsets I with Σ_{H∈I}Ω_H≥1. Equivalently, 0≤Σ_{H∈I}Ω_H−1<Ω_H for every H∈I. Their coordinate intersections are precisely the irreducible stratum components. Define `monomialMultiplicity` as the sum of the incident Ω_H, with denominator bounded by the terminal common mark. On a chart pivoting at H∈I, the new pivot exponent is Σ_{K∈I}Ω_K−1<Ω_H; every other exponent is unchanged. If the recursive invariant stays fixed, this strictly lowers the auxiliary multiplicity. At terminal infinity blow up the whole smooth equality stratum; its strict transform is empty, so the recursive invariant itself drops. These are `zeroTerminal_decrease` and `infiniteTerminal_decrease`. A claim that the recursive invariant drops after every monomial blowup would be false. (Bierstone–Milman, Theorem 1.14(3)–(4), p. 220, Remarks 1.15–1.16, pp. 220–221, and proof and Remark 6.17, pp. 260–261.)
 
 **Checks.**
 
@@ -10555,18 +10689,18 @@ The global centre is the union of the loci of maximal extended values on the clo
 - `HistoryChecks.empty`: an empty tower with empty boundary has all old blocks empty and all counters zero. Initial boundary components are present in year zero; they enter the first old block, rather than the residual boundary.
 - `HistoryChecks.reset`: when a prefix first drops in year two, its new birth block includes the surviving divisors present in that year; a divisor created later is residual. Removing earlier blocks prevents one divisor from contributing to two counters.
 - `HistoryChecks.birth`: with two divisors born in years one and two, a first prefix born in year one has old block {H₁}, count one; the same current pair of divisors with the prefix first born in year two has old block {H₁,H₂}, count two. Counting only the current boundary fails this check.
-- `DenominatorChecks.unitMark`: a normalized order-one presentation has initial bound one; its next finite residual values are integers. A residual value one half violates that certificate.
+- `DenominatorChecks.unitMark`: a normalized order-one presentation has initial bound one; its next finite residual values are integers. A residual value one half violates the mark-one integrality bound.
 - `DenominatorChecks.cusp`: H(ℓ)=2ℓ+1 has polynomial-start index zero, but the cusp order presentation has initial weight two and residual value three halves; the presentation factorial clears its denominator.
-- `DenominatorChecks.fixedPrefix`: e₁=2 and ν₂=3/2 give e₂=3. A further entry ν₃=5/6 has e₂!ν₃=5 and e₃=6. An entry 1/3 immediately after e₁=2 fails the integrality certificate. The sequence 1,1/2,1/3,… cannot be used as a descending chain with that fixed first certificate. For the cusp take the presentation bound two even though its Samuel polynomial starts at zero.
-- `SelectorChecks.singleton`: for one incident component of weight one, the only minimal subset is that component and the pivot exponent becomes zero.
-- `SelectorChecks.empty`: no incident boundary gives no subset of sum at least one and empty terminal-zero cosupport. A selector returning a nonempty centre fails.
-- `SelectorChecks.minimal`: with Ω=(3/4,3/4), the only minimal subset is the pair. Its pivot exponent becomes 1/2, below 3/4; the total changes from 3/2 to 5/4. With Ω=(1,1/4), the singleton containing the first divisor is selected, and the pair is excluded by minimality. With no incident boundary the terminal-zero cosupport is empty.
+- `DenominatorChecks.fixedPrefix`: e₁=2 and ν₂=3/2 give e₂=3. A further entry ν₃=5/6 has e₂!ν₃=5 and e₃=6. An entry 1/3 immediately after e₁=2 fails the integrality bound. The sequence 1,1/2,1/3,… cannot be used as a descending chain with that fixed initial mark bound. For the cusp take the presentation bound two even though its Samuel polynomial starts at zero.
+- `MonomialComponentChecks.singleton`: for one incident component of weight one, the only minimal subset is that component and the pivot exponent becomes zero.
+- `MonomialComponentChecks.empty`: no incident boundary gives no subset of sum at least one and empty terminal-zero cosupport.
+- `MonomialComponentChecks.minimal`: with Ω=(3/4,3/4), the only minimal subset is the pair. Its pivot exponent becomes 1/2, below 3/4; the total changes from 3/2 to 5/4. With Ω=(1,1/4), the singleton containing the first divisor is minimal, and the pair is excluded by minimality. With no incident boundary the terminal-zero cosupport is empty.
 
 ### 9.7 Relative embedded resolution with an initial boundary
 
 State `relativeEmbeddedResolution` for a reduced closed finite-type characteristic-zero subscheme X of a smooth separated ambient scheme M, and a finite ordered SNC divisor E, with no component of E containing a component of X. The output is a finite tower of blowups with smooth centres permissible for the transforms of E; the strict transform X′ is smooth and simultaneous-SNC with the transformed initial boundary and the accumulated exceptional divisor. The map is an isomorphism on the open locus where X was already smooth and simultaneous-SNC with E. This differs from the boundary-free theorem, whose isomorphism locus is all Reg(X).
 
-Use the preceding recursion with E as the initial old block and empty initial **remaining** boundary. The contact-existence argument is applied to the normalized presentations produced by this recursion, never to an arbitrary marked ideal transverse to an arbitrary boundary. First choose centres only on Sing(X_j). The Samuel entry forces the equality stratum through a singular point to remain singular, so the global centre lies there. Termination makes X smooth. Now apply `smoothPairCleanup`: on smooth X, write the restrictions of the original boundary equations as I_i=D_iJ_i with D_i supported on new exceptionals. Resolve the product of the J_i until its proper factors are distinct of order one, then use induction on dim X to arrange their simultaneous transversality. The lifting lemma for W⊂X⊂M transports transversality from these smooth hypersurfaces to X. Finally remove the remaining D_i factors by the strengthened monomial algorithm, whose centres are intersections of new exceptional components. Every cleanup centre lies in the closed locus where the pair is unresolved. Thus both phases avoid every originally resolved point. (Bierstone–Milman, initial-boundary tower (6.7), p. 256; Remarks 10.3 and singularity-removal proof, pp. 284–285; Theorems 12.2 and 12.4, pp. 292–293, Lemmas 12.5, 12.7–12.8 and proof, pp. 293–295.)
+Use the embedded finite-tower existence theorem with E as the initial old block and empty initial **remaining** boundary. Contact is applied to normalized invariant presentations, with its transverse-parameter hypotheses. The singularity-removal tower has centres in Sing(X_j), by the Hilbert–Samuel stratum comparison. On the resulting smooth X, apply `smoothPairCleanup`: on smooth X, write the restrictions of the original boundary equations as I_i=D_iJ_i with D_i supported on new exceptionals. Resolve the product of the J_i until its proper factors are distinct of order one, then use induction on dim X to arrange their simultaneous transversality. The lifting lemma for W⊂X⊂M transports transversality from these smooth hypersurfaces to X. Finally remove the remaining D_i factors by the monomial permissible blowup towers, whose centres are intersections of new exceptional components. Every cleanup centre lies in the closed locus where the pair is unresolved. Thus both phases avoid every originally resolved point. (Bierstone–Milman, initial-boundary tower (6.7), p. 256; Remarks 10.3 and singularity-removal proof, pp. 284–285; Theorems 12.2 and 12.4, pp. 292–293, Lemmas 12.5, 12.7–12.8 and proof, pp. 293–295.)
 
 The no-contained-component condition ensures that every restricted original boundary equation is generically nonzero on smooth X; it is needed by the cleanup factorization. In dimension zero this condition means the boundary misses X, and the empty tower suffices. The abstract resolution of a reduced separated finite-type scheme is glued from boundary-free local embeddings using the normalized invariant and local-isomorphism comparison; its output is proper and is an isomorphism on the **entire** smooth locus. No functoriality for arbitrary smooth pullbacks is inferred from the local-isomorphism theorem. Preservation of singular SNC varieties is a different result, with component-preserving functoriality; it is not confused with making X′ smooth. (Bierstone–Milman 1997, Remarks 13.1 and Theorem 13.2, pp. 296–298; Bierstone–Milman 2011, Definitions 3.3 and Theorem 3.4, pp. 16–17.)
 
@@ -10576,9 +10710,9 @@ The no-contained-component condition ensures that every restricted original boun
 - `RelativeResolutionChecks.tangent`: X:y=x² with E:y=0 is tangent at the origin; the restricted boundary ideal gives k[x]/(x²), a double point. X is smooth but the pair is not simultaneously SNC there, so the cleanup may modify the origin. X:x=y² with E:x=0 is the same configuration with the roles of the coordinates exchanged.
 - `RelativeResolutionChecks.contained`: X:x=0 and E:x=0 have an identically zero restricted boundary equation; this lies outside the stated theorem. For a point outside E the zero-dimensional theorem returns the identity.
 - `RelativeResolutionChecks.reduced`: a cusp is singular and is modified, while a disjoint smooth component is retained. The double line y²=0 is not reduced, and cannot have a smooth strict transform isomorphic on a dense open of that nonreduced scheme.
-- `RelativeResolutionChecks.sncVsSmooth`: xy=0 is an SNC divisor but a singular scheme. An algorithm preserving its SNC locus returns it unchanged; the smooth-resolution theorem must separate its branches. These are distinct targets.
+- `RelativeResolutionChecks.sncVsSmooth`: xy=0 is an SNC divisor but a singular scheme. A resolution preserving its SNC locus leaves it unchanged; the smooth-resolution theorem must separate its branches. These are distinct targets.
 
-### 9.8 Computed controls for the local algorithm
+### 9.8 Local order and transform examples
 
 `OrderTests.zeroIdeal` has order ∞ at every point. `OrderTests.dualNumbers` on R = k[ε]/(ε²), m = (ε), computes ord(m) = 1 but ord(m²) = ∞. Thus the power identity requires regular local stalks, as in `MarkedIdeal.cosupport_pow`; order ∞ implies stalk zero only under the Noetherian Krull-intersection hypothesis.
 
@@ -10770,6 +10904,7 @@ none of the others is an input.
 - Laura DeMarco, Niki Myrto Mavraki, Hexi Ye; [Bounded geometry for PCF-special subvarieties](https://arxiv.org/pdf/2405.17343v3); arXiv:2405.17343v3, 10 January 2026.
 - Alexander Grothendieck and Jean Dieudonné; [Éléments de géométrie algébrique IV, troisième partie](https://www.numdam.org/item/PMIHES_1966__28__5_0/).
 - Esnault–Viehweg; [Lectures on Vanishing Theorems](https://page.mi.fu-berlin.de/esnault/books/esvibuch.pdf).
+- Najmuddin Fakhruddin and Vincent Pilloni; [Hecke operators and the coherent cohomology of Shimura varieties](https://arxiv.org/abs/1910.03790v1); arXiv:1910.03790v1, 9 October 2019.
 - James Freitag, Wei Li, Thomas Scanlon; [Differential Chow varieties exist](https://math.berkeley.edu/~scanlon/papers/differential-chow-varieties-22apr15.pdf); Author copy, 22 April 2015.
 - Eberhard Freitag; [Complex Spaces (lecture notes, 2017)](https://www.mathi.uni-heidelberg.de/~freitag/skripten/complexspaces.pdf).
 - Ziyang Gao, Tangli Ge, Lars Kühne; [The Uniform Mordell–Lang Conjecture](https://pmihes.centre-mersenne.org/item/10.5802/pmihes.26.pdf); Publications Mathématiques de l’IHÉS 143 (2026), 189–235.

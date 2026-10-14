@@ -203,6 +203,16 @@ theorem coefficientFrobeniusLattice (R : Type u) [CommRing R] (p N : ℕ)
     coefficientFrobeniusCutoff R p N (Pi.single j t) =
       fun i => if i.val = p * j.val then t else 0 := sorry
 
+/-- `CoefficientFrobeniusTests.zero`: the coefficient-linear cutoff sends the zero vector to zero. -/
+example (R : Type u) [CommRing R] (p N : ℕ) :
+    coefficientFrobeniusCutoff R p N 0 = 0 := by simp
+
+/-- `CoefficientFrobeniusTests.monomial`: for `p = N = 3`, coefficient `5` in degree `2` over
+`ℤ` maps to coefficient `5` in degree `6`, with exactly that nonzero support. -/
+example :
+    let v := coefficientFrobeniusCutoff ℤ 3 3 (Pi.single (2 : Fin 3) (5 : ℤ))
+    v = Pi.single (6 : Fin 10) (5 : ℤ) ∧ ∀ i : Fin 10, v i ≠ 0 ↔ i.val = 6 := sorry
+
 /-- `CoefficientFrobeniusTests.nonFixedCoefficient`: in characteristic `p` with `t^p ≠ t`, the
 constant coefficient of the cutoff image is `t`, not `t^p`. -/
 example (p : ℕ) (hp : p.Prime) (k : Type u) [Field k] [CharP k p]
@@ -1008,6 +1018,22 @@ theorem MarkedIdeal.markedSum_cosupport
     (hreg : ∀ p : PrimeSpectrum R,
       IsRegularLocalRing (Localization.AtPrime p.asIdeal)) (J K : MarkedIdeal R) :
     (J.markedSum K).cosupport = J.cosupport ∩ K.cosupport := sorry
+
+/-- `CompanionChecks.unit`: with positive marks on regular localizations, a unit summand gives
+the unit ideal and empty cosupport. -/
+example (J : MarkedIdeal R) (d : ℕ) (hd : 0 < d)
+    (hreg : ∀ p : PrimeSpectrum R, IsRegularLocalRing (Localization.AtPrime p.asIdeal)) :
+    let K := MarkedIdeal.mk (⊤ : Ideal R) d hd
+    (K.markedSum J).ideal = ⊤ ∧ (K.markedSum J).cosupport = ∅ := sorry
+
+/-- `CompanionChecks.zero`: with positive marks on regular localizations, two zero ideals give
+the zero ideal and full cosupport with their positive product mark. -/
+example (a b : ℕ) (ha : 0 < a) (hb : 0 < b)
+    (hreg : ∀ p : PrimeSpectrum R, IsRegularLocalRing (Localization.AtPrime p.asIdeal)) :
+    let J := MarkedIdeal.mk (⊥ : Ideal R) a ha
+    let K := MarkedIdeal.mk (⊥ : Ideal R) b hb
+    (J.markedSum K).ideal = ⊥ ∧ (J.markedSum K).cosupport = Set.univ ∧
+      (J.markedSum K).mark = a * b := sorry
 
 /-- `CompanionChecks.marks`: the marked sum of `(y², 2)` and `(x³, 2)` is `((y⁴, x⁶), 4)`, not the
 unpowered sum. -/
