@@ -12,7 +12,8 @@ import TauCetiRoadmap.PerfectoidSpaces.Suggested
 
 The README is the definitive specification. These are suggested forms for the targets that can be
 stated against Mathlib, Tau Ceti and the PerfectoidSpaces roadmap as they stand: the spectral
-topology of D0, the topological part of the disconnected perfectoid spaces of D1, the v-topology
+quotients, inverse topology and size foundations of D0, the topological part of the disconnected
+perfectoid spaces of D1, the v-topology
 on Tau Ceti's perfectoid spaces with its descent theorems (D2–D3), the size obstructions for
 torsors and compact Hausdorff realization (D3–D4), and the Berkovich spectrum and the component
 formula of D5. Constructions that are themselves formalisation targets (pro-étale
@@ -30,114 +31,6 @@ open TauCetiRoadmap.PerfectoidSpaces.Perfectoid TauCetiRoadmap.PerfectoidSpaces.
 universe u
 
 /-! ## Layer D0: spectral, categorical and size foundations -/
-
-/-- A topological space is *locally spectral* if it has an open cover by spectral subspaces
-(ECD Definition 2.1, p. 10). -/
-def IsLocallySpectralSpace (X : Type u) [TopologicalSpace X] : Prop :=
-  ∀ x : X, ∃ U : Set X, IsOpen U ∧ x ∈ U ∧ SpectralSpace U
-
--- Check: discrete `ℕ` is locally spectral and not quasicompact, so not spectral.
-example : IsLocallySpectralSpace ℕ ∧ ¬ CompactSpace ℕ := sorry
-
--- Negative control: `ℝ` is not locally spectral (no nonempty open is quasicompact).
-example : ¬ IsLocallySpectralSpace ℝ := sorry
-
--- Check `definition_IsLocallySpectralSpace_2`: the empty cover witnesses local spectrality.
-example : IsLocallySpectralSpace Empty := sorry
-
-/-- A space is spectral iff it is locally spectral, quasicompact and quasiseparated (KL15
-§8.1, text after Definition 8.1.1, p. 157). -/
-theorem spectralSpace_iff_isLocallySpectralSpace (X : Type u) [TopologicalSpace X] :
-    SpectralSpace X ↔ IsLocallySpectralSpace X ∧ CompactSpace X ∧ QuasiSeparatedSpace X := sorry
-
-/-- A map is *locally spectral* if it is continuous and, whenever open subspaces `U ⊆ X` and
-`V ⊆ Y` are spectral and `f(U) ⊆ V`, the restriction `U → V` is a spectral map (ECD Definition 2.1,
-p. 10, where this is the notion of a spectral map of locally spectral spaces). Unlike Mathlib's
-global `IsSpectralMap`, it does not ask that preimages of quasicompact opens of `Y` be
-quasicompact. -/
-def IsLocallySpectralMap {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y] (f : X → Y) :
-    Prop :=
-  Continuous f ∧ ∀ (U : Set X) (V : Set Y) (hUV : Set.MapsTo f U V), IsOpen U → IsOpen V →
-    SpectralSpace U → SpectralSpace V → IsSpectralMap (Set.MapsTo.restrict f U V hUV)
-
--- Check `definition_IsLocallySpectralMap_1`: finite spectral opens of discrete ℕ map spectrally.
-example : IsLocallySpectralMap (fun _ : ℕ ↦ (PUnit.unit : PUnit)) ∧
-    ¬ IsSpectralMap (fun _ : ℕ ↦ (PUnit.unit : PUnit)) := sorry
-
--- Check `definition_IsLocallySpectralMap_2`: the point identity is locally spectral.
-example : IsLocallySpectralMap (id : PUnit → PUnit) := sorry
-
--- Negative Check `definition_IsLocallySpectralMap_3`: the true fibre {0} is not open in ℝ.
-example : ¬ IsLocallySpectralMap (fun x : ℝ ↦ x = 0) := sorry
-
--- Check `s0_1_locally_spectral_empty_map`: empty inverse images are compact open.
-example (Y : Type) [TopologicalSpace Y] (f : Empty → Y) :
-    IsLocallySpectralMap f ∧ IsSpectralMap f := sorry
-
-/-- Between spectral spaces the local condition is Mathlib's global `IsSpectralMap` (ECD
-Definition 2.1, p. 10). -/
-theorem isLocallySpectralMap_iff_isSpectralMap {X Y : Type u} [TopologicalSpace X]
-    [TopologicalSpace Y] [SpectralSpace X] [SpectralSpace Y] {f : X → Y} :
-    IsLocallySpectralMap f ↔ IsSpectralMap f := sorry
-
--- Negative control: the agreement needs a spectral source. The inclusion of discrete `ℕ` into its
--- one-point compactification is locally spectral (the spectral opens of `ℕ` are finite) but not
--- `IsSpectralMap`, since the preimage of the whole space is `ℕ`.
-example : IsLocallySpectralMap ((↑) : ℕ → OnePoint ℕ) ∧ ¬ IsSpectralMap ((↑) : ℕ → OnePoint ℕ) :=
-  sorry
-
--- Check: the projection `ℕ × ℕ → ℕ` of discrete spaces is locally spectral and not
--- `IsSpectralMap`, since the preimage of `{0}` is infinite.
-example : IsLocallySpectralMap (Prod.fst : ℕ × ℕ → ℕ) ∧ ¬ IsSpectralMap (Prod.fst : ℕ × ℕ → ℕ) :=
-  sorry
-
--- Negative control: `x ↦ (x ≠ ∞)` from the one-point compactification of `ℕ` to the Sierpiński
--- space is continuous between spectral spaces but not locally spectral, as the preimage of the
--- quasicompact open `{True}` is `ℕ`. It is the composite of `n ↦ 1/(n+1)`, `∞ ↦ 0` with positivity
--- `ℝ → Prop`, both locally spectral because `ℝ` has no nonempty spectral open.
-example : Continuous (fun x : OnePoint ℕ ↦ x ≠ OnePoint.infty) ∧
-    ¬ IsLocallySpectralMap (fun x : OnePoint ℕ ↦ x ≠ OnePoint.infty) := sorry
-
-/-- The constructible topology of a spectral space is Hausdorff and totally disconnected (ECD §2,
-paragraph after Theorem 2.2, p. 10); with Mathlib's `compactSpace_withConstructibleTopology` it is
-profinite. -/
-theorem WithConstructibleTopology.t2Space_totallyDisconnectedSpace (X : Type u)
-    [TopologicalSpace X] [SpectralSpace X] :
-    T2Space (WithConstructibleTopology X) ∧
-      TotallyDisconnectedSpace (WithConstructibleTopology X) := sorry
-
--- Check: on the Sierpiński space `Prop` (open point `True`) the constructible topology is
--- discrete.
-example : constructibleTopology Prop = ⊥ := sorry
-
--- Check `s0_2_empty_and_point`: the constructible topologies are discrete in both cases.
-example : constructibleTopology Empty = ⊥ ∧ constructibleTopology PUnit = ⊥ ∧
-    CompactSpace (WithConstructibleTopology PUnit) := sorry
-
-/-- The closure of a pro-constructible subset of a spectral space is its set of specializations
-(ECD Lemma 2.4, pp. 10–11). -/
-theorem closure_eq_setOf_specializes_of_isProConstructible {X : Type u} [TopologicalSpace X]
-    [SpectralSpace X] {S : Set X} (hS : IsProConstructible S) :
-    closure S = {y | ∃ x ∈ S, x ⤳ y} := sorry
-
--- Check: in the Sierpiński space `True` specializes to `False` and not conversely.
-example : (True ⤳ False) ∧ ¬ (False ⤳ True) := sorry
-
-/-- Dually, a pro-constructible subset of a spectral space that is stable under generalization is
-the intersection of the quasicompact opens containing it (ECD proof of Lemma 2.7, p. 12). -/
-theorem eq_sInter_of_isProConstructible_of_stableUnderGeneralization {X : Type u}
-    [TopologicalSpace X] [SpectralSpace X] {S : Set X} (hS : IsProConstructible S)
-    (hg : StableUnderGeneralization S) : S = ⋂₀ {U | IsOpen U ∧ IsCompact U ∧ S ⊆ U} := sorry
-
-/-- A surjective generalizing spectral map of spectral spaces is a quotient map (ECD Lemma 2.5,
-p. 11). -/
-theorem isQuotientMap_of_generalizingMap {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y]
-    [SpectralSpace X] [SpectralSpace Y] {f : X → Y} (hf : IsSpectralMap f)
-    (hg : GeneralizingMap f) (hs : Function.Surjective f) : IsQuotientMap f := sorry
-
--- Negative control: the identity from the constructible topology of the Sierpiński space is a
--- continuous bijection that is not a quotient map; it is not generalizing.
-example : ¬ IsQuotientMap (WithTopology.equiv Prop (constructibleTopology Prop)) := sorry
 
 /-- **The spectral quotient criterion** (ECD Lemma 2.9, pp. 12–13). For a spectral space `X` and an
 equivalence relation whose graph is pro-constructible in `X × X` and whose two projections are
@@ -308,14 +201,6 @@ theorem IsWLocalSpace.isHomeomorph_connectedComponentsMk {X : Type u} [Topologic
 
 -- Check: the Sierpiński space is w-local; discrete `ℕ` is not (it is not spectral).
 example : IsWLocalSpace Prop ∧ ¬ IsWLocalSpace ℕ := sorry
-
--- Check `closed_point_not_generalizing_topology`: the generic point generalizes the closed point.
-example : IsProConstructible ({False} : Set Prop) ∧
-    ¬ StableUnderGeneralization ({False} : Set Prop) := sorry
-
--- Check `generic_point_generalizing_topology`: the open singleton is stable under generalization.
-example : IsOpen ({True} : Set Prop) ∧ IsProConstructible ({True} : Set Prop) ∧
-    StableUnderGeneralization ({True} : Set Prop) := sorry
 
 variable (p : ℕ) [Fact p.Prime]
 
