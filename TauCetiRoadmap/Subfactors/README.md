@@ -206,6 +206,8 @@ argument to prove finite-depth extremality.
 
 For every finite-index inclusion construct the compatible unital algebra
 maps `TL_n(ℂ,δ)→M_(n−1)` by `U_i↦δe_i`, i=1,…,n−1.
+Here U_i is Tau Ceti's native TL generator `e δ i`; the e_i on
+the right is the Jones projection in the basic-construction tower.
 Check the native universal property's relations and conjugate adjoint.
 Prove the diagram closure trace pulls back from the normalized tower
 trace as `τ∘ρ_n=δ⁻ⁿT_n`, using its value on1, strand inclusions,
@@ -435,14 +437,47 @@ Its zero-box spaces consist of functions on vertices of each parity and
 are generally larger than ℂ. A connected planar subalgebra need not be
 the full graph planar algebra.
 
+Define the shaded right planar-module operad: replace the output disk's
+marked interval by a left wall with unshaded adjacent region; full-disk
+inputs carry P boxes and wall-attached semidisk inputs carry module boxes.
+Its action is multilinear
+`(⊗ᵢ M_(kᵢ))⊗(⊗ⱼ P_(ℓⱼ,±ⱼ))→M_(k₀)` in the prescribed input order.
+Specify typed plugging, identities, reflection and input permutations.
+A right planar module has finite-dimensional spaces Mₖ, conjugate-linear
+dagger and this operad action extending P's action. Multiplication tangles
+make Mₖ finite-dimensional C*-algebras; closure maps
+`Trₖ:Mₖ→M₀` are positive, faithful and tracial.
+Connectedness means `dim M₀=1`; identify M₀ with ℂ and normalize
+`trₖ=δ⁻ᵏTrₖ` as faithful tracial states. Define morphisms by linear
+dagger-preserving box maps intertwining every module tangle, and prove
+identity, composition and isomorphism transport. The level-zero identity
+is the simple basepoint in the category of projections.
+
+Construct its Markov tower `M₀⊂M₁⊂⋯` using strand addition, with
+compatible tracial states and projections `eₙ∈M_(n+1)` for n≥1.
+Prove the normalized TL relations, `eₙxeₙ=Eₙ(x)eₙ` for x∈Mₙ,
+`E_(n+1)(eₙ)=δ⁻²`, and pull-down `M_(n+1)eₙ=Mₙeₙ`, where
+`Eₙ:Mₙ→M_(n−1)` is the trace-preserving expectation.
+Prove `tr_(n+1)(xeₙ)=δ⁻²trₙ(x)` and the matrix-block decomposition
+into the old ideal MₙeₙMₙ and its new simple summands. Define the
+pointed principal graph from those new summands and their Bratteli
+edges, and vertex dimensions `μ(v)=δᵏtrₖ(p)` for a minimal projection
+p representing v first at level k. Prove `δμ(v)=Σ_(w∼v)μ(w)`.
+Define the planar module's fusion graph as this tower graph and compare
+it with the strand action on its rectangular-box projection category.
+For finite-depth P prove the module tower has finite depth, bounded by
+the depth of P (Coles–Huston–Penneys–Srinivas Lemma3.12).
+
 Prove every finite-depth subfactor planar algebra embeds as a planar
 *-subalgebra in the graph planar algebra of its principal graph. Build
 the sufficiently shifted standard finite-dimensional inclusion, the
 canonical relative-commutant planar algebra, its graph-loop identification
 and the string-adding embedding; prove injectivity and all operation
-comparisons. Generalize to the fusion graph of a connected right planar
-module via finite-dimensional Markov towers: construct the module box
-operations, positive dimension function and embedding. Abstract pivotal
+comparisons. For a finite-depth subfactor planar algebra P and a connected
+right planar P-module, construct the embedding into the graph planar
+algebra of its finite fusion graph via the Markov tower just built.
+Prove the shifted inclusion, relative-commutant and tangle comparisons.
+Abstract pivotal
 module C*-categories and their equivalence with these modules belong to
 CategoricalOperatorAlgebras; the tower/planar-module construction here
 has no dependence on that later equivalence.
