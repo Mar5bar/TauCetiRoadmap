@@ -16,20 +16,15 @@ of Huber pairs, formal specialization, valuation nearby cycles, proper supports,
 and the cohomology of radial regions have no carriers at the pins: they are README targets with
 their intended signatures, listed by layer at the end of this file.
 
-The generic enhanced module functors, coefficient-forgetting comparisons, abelian and derived
-extension by zero, localization and D+ torsion proper supports are shared scheme interfaces
-owned here. SchemeAndStackFoundations supplies the underlying abelian D+ functors;
-ComplexComparisonPartII supplies scheme compactification geometry; LefschetzPencilsAndVanishingCycles
-supplies geometric exchange theorems and finite-coefficient ULA. Application roadmaps import these
-interfaces on their stated domains. README §5.6 extends the supplied ULA notion with agreement
-on the common finite-coefficient domain.
-
-ArithmeticGaloisDuality R02.1.1 supplies the ordinary tower/shift, ML and Milnor theory;
-DerivedDeRhamCohomology §§1.1–1.5 supplies the module derived limit, completeness predicate,
-completion reflector and unit. README §0.3 supplies enhanced comparisons preserving these units
-and maps. EnhancedDerivedSheaves E0.3–E0.4, E0.6 and E0.8 supplies generic localization, stability,
-dg-nerve and presentability foundations before the ringed-site construction here; E1 compares it
-afterwards. E4 supplies the replete ringed-topos completion refinements on their stated domains.
+EnhancedDerivedSheaves §§0.1–0.4 supplies the ringed-site enhancements, tensor–Hom,
+coherent derived limits, completion comparisons and functor calculus, with E0–E1 supplying
+its foundations and comparisons and E4 its replete-topos completion refinements.
+EtaleCohomologyFoundations §§0.5–0.11 supplies finite-presentation coefficient descent,
+algebraic extension by zero, localization, D+ torsion proper supports, traces and cycle classes;
+its G.1–G.3 supplies scheme compactification geometry, and F.2 supplies geometric exchange
+and finite-coefficient ULA. SchemeAndStackFoundations §§2.1–2.2 supplies the underlying
+abelian D+ functors. README §5.6 extends the supplied ULA notion with agreement on the
+common finite-coefficient domain. Analytic applications carry their geometric hypotheses.
 
 Design choices made explicit here:
 
@@ -476,39 +471,6 @@ end Radial
 
 /-
 Further definitions specified in README.md, by layer, with no carriers at the pins:
-Layer 0: ClassicalDerived.enhancedCategory, ClassicalDerived.replacements,
-ClassicalDerived.tensorHom, ClassicalDerived.inverseLimits, ClassicalDerived.functorCoherence,
-ClassicalDerived.inverseLimits.moduleComparison (strict module-complex towers over a commutative
-ring A, naturally in their derived category, compared with DerivedDeRham.derivedLimit from DerivedDeRhamCohomology §1.1
-using ArithmeticGaloisDuality R02.1.1's CompactCoefficients.Tower shift/lim/limOne and Mathlib's
-CategoryTheory.Functor.IsMittagLeffler; identifies projections, transitions, fibre triangles and
-A-linear Milnor maps, finite products and compatible group actions),
-ClassicalDerived.derivedCompletion (the prime-ell specialization of
-DerivedDeRham.derivedCompletion at (ell) in Z, with DerivedDeRham.derivedCompleteness and
-DerivedDeRham.completionUnit from §§1.2–1.5; enhanced lift, reduction recovery and conservativity;
-perfect tensor interchange and completed tensor for general complete Z-complexes),
-ClassicalDerived.derivedCompletion.moduleComparison (with q the homotopy-category equivalence,
-a natural alpha_K : q(C_hat K) ≅ Lambda_(ell)(q K) identifying completeness predicates and satisfying
-alpha_K composed with q(eta_K) = DerivedDeRham.completionUnit at q K; respects quotient-tower
-reductions and transitions, projections, Milnor maps, compatible group actions, finite products
-and completed tensor with its unit-induced map; EnhancedDerivedSheaves E4 supplies the replete
-ringed-topos extension, slice restrictions and point-topos comparison),
-ClassicalDerived.functorCoherence.coefficientComparison (underlying abelian D+ comparison and
-coherent coefficient/exchange transformations, with equivalences only under proved hypotheses),
-ClassicalCoefficients.finitePresentationDescent, ClassicalCoefficients.constructibleDerivedDescent,
-ClassicalCoefficients.constructibleHomContinuity, ClassicalAlgebraic.supportLocalization
-(abelian exact extension by zero for open immersions of arbitrary schemes and any coefficient
-ring, its underlying-abelian comparison, and its enhanced termwise derived action with
-H^i(j_! K) = j_! H^i(K)),
-ClassicalAlgebraic.supportLocalization.mayerVietoris (finite-open localization and coherent
-group, coefficient and tensor transformations on scheme etale module complexes),
-ClassicalAlgebraic.properSupports, ClassicalAlgebraic.finiteTrace, ClassicalAlgebraic.cycleClasses,
-ClassicalAlgebraic.properSupports.derivedComparison (R(f!) -> Rp_*j_! on D+ torsion complexes;
-the comparison is generally noninvertible, with proper/open identity specializations),
-ClassicalAlgebraic.lciCycleClass (regular closed immersions of locally noetherian schemes,
-positive invertible torsion order, without a purity assertion),
-ClassicalAlgebraic.smoothBoundaryPurity, ClassicalAlgebraic.smoothTrace,
-ClassicalAlgebraic.curveDuality.
 Layer 1: AdicSpace.EtaleSheaf, AdicSpace.ProEtaleSheaf, AdicSpace.EtaleDPlus,
 AdicSpace.RGamma, AdicSpace.Rpushforward, AdicSpace.PseudoAdic, AdicSpace.PseudoAdicSite,
 AdicSpace.EtaleSheaf.extendByZero, locallyClosedExtensionByZero, Support,
@@ -519,7 +481,7 @@ Layer 2: Huber.IsHenselian, Huber.Henselization, Huber.Pair.rationalHenselizatio
 Huber.specialSubset, Huber.IsSpecialSubset, Huber.IsProSpecialSubset, Huber.Triple,
 Huber.Pair.proSpecialHenselization, AdicSpace.PseudoAdic.schemeFibreProduct,
 AdicSpace.henselianComparison, PerfectoidHuberApproximation.
-Layer 3: AdicSpace.IsTaut, AdicSpace.IsTautMap (on D0.1 locally spectral maps), StrictAnalyticSpace, StrictAnalyticEtaleSite,
+Layer 3: AdicSpace.IsTaut, AdicSpace.IsTautMap (on AdicSpacesPartII R0.0 locally spectral maps), StrictAnalyticSpace, StrictAnalyticEtaleSite,
 AdicBerkovichToposMorphism, OverconvergentEtaleSheaf, PreadicSpace.ZpLocalSystem,
 PreadicSpace.IsogenyZpLocalSystem, PreadicSpace.QpLocalSystem, PreadicSpace.BoundedLattice,
 AdicSpace.AnalyticEtaleCover, AdicSpace.AnalyticCoverFiber,
