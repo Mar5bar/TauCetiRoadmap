@@ -7,8 +7,10 @@ manifolds, and the operator theory of `p`-adic families, as the common input of 
 locally analytic functions its compact-type topology and the dual `D` of distributions its
 projective-limit topology over the Banach stages `LA_h` of PadicFunctionalAnalysis, with the
 nonarchimedean locally convex calculus (strict sequences, left hearts, completed tensors,
-compact-type duality) that passing between them needs. Layer 1 builds the full operator
-dictionary and the non-splitting of differentiation on the unbounded Amice theorem
+compact-type duality) that passing between them needs. It also constructs the Hyodo–Kato cohomology
+of semistable Stein curves and curve towers, with their completed de Rham comparisons, from the
+log rigid complexes of CrystallineCohomology and the dagger spaces of AdicSpacesPartIV (§0.CR.6.6).
+Layer 1 builds the full operator dictionary and the non-splitting of differentiation on the unbounded Amice theorem
 `D(ℤ_p, L) ≅ R⁺` (Colmez Theorem II.2.2) of PadicFunctionalAnalysis.
 Layer 2 develops functions of class `C^r` and distributions of order `r`, proves the
 Amice–Vélu–Vishik extension and uniqueness theorem with its sharp degree bound, and its vector-order
@@ -35,6 +37,7 @@ The targets below are specifications for formalisation. Every definition comes w
 This roadmap owns the following material.
 
 - Pointwise realization of native restricted series on translated closed discs and finite polydisc charts, with the maximum-principle comparison, the compact-type topology of locally analytic functions and the topology of their dual of distributions, in one variable, on finite products of local integer rings (distinguishing ℚ_p-analytic from F-analytic functions) and on compact p-adic analytic manifolds through charts.
+- The Hyodo–Kato cohomology of semistable Stein curves as Fréchet projective limits, the completed Hyodo–Kato comparison, and semistable curve towers as ind-Fréchet spaces, with continuous Frobenius, monodromy and group actions (§0.CR.6.6).
 - The strict-sequence and three-space results for nonarchimedean Banach, Fréchet and compact-type spaces that are used to pass between stages, limits and duals, including the nonarchimedean Hahn–Banach theorem over a spherically complete field, which is stated here as a target rather than taken from another roadmap.
 - The Fréchet topology of the unbounded Amice transform (distributions ↔ power series convergent on the open disc), and the operator dictionary: point masses, convolution, multiplication by the coordinate, character twists, clopen restriction, the transpose derivative and the logarithm, dilation, φ and ψ, division by the coordinate on the units, local primitives, and the non-splitting of differentiation and of the logarithm sequence.
 - Functions of class C^r, distributions of order r, the identification of order zero with bounded measures, the Amice–Vélu–Vishik theorem with the strict degree bound, vector order on ℤ_p^g through completed tensors of one-variable spaces, rectangular growth bounds, the critical counterexample, the small-order isotropic function spaces and equal-radius extension theorem, and the ray-class growth adapters.
@@ -95,6 +98,18 @@ Layer 0: bounded measures D(X, L) = C⁰(X, L)′ on ℤ_p and ℤ_pˣ with thei
 ### From TauCetiRoadmap.AdicSpacesPartII
 
 §R1.1, target *rigid-analytic-space*, supplies rigid spaces, admissible opens, affinoid charts and their structure sheaves and section algebras. §R1.7, targets *rigid-adic-comparison-functor* and *rigid-adic-quasi-separated-equivalence*, supplies the comparison for quasi-separated rigid spaces and its identification of affinoid sections. §3.3 constructs character spaces on these carriers; §3.4 transports their Mellin sections.
+
+### From TauCetiRoadmap.AdicSpacesPartIV and TauCetiRoadmap.CrystallineCohomology
+
+| Target here | Supplied by | Named supplier targets |
+|---|---|---|
+| §0.CR.6.6 Hyodo–Kato cohomology of Stein curves | AdicSpacesPartIV F1.5, F1.7 and F1.11 | The Monsky–Washnitzer weak completion; Dagger spaces; Finiteness of de Rham cohomology of tubes in a quasi-compact strictly semistable formal scheme |
+| §0.CR.6.6 Hyodo–Kato cohomology of Stein curves | CrystallineCohomology §CR.6.5 | Log rigid Hyodo–Kato cohomology; Proper log rigid and crystalline Hyodo–Kato cohomology |
+| §0.CR.6.6 Completed Hyodo–Kato comparison for Stein curves | CrystallineCohomology §CR.6.2 | Uniformizer-dependent Hyodo–Kato maps |
+
+CrystallineCohomology §§CR.6.1–CR.6.5 own the log crystalline and log rigid Hyodo–Kato complexes,
+Frobenius, monodromy and uniformizer-dependent maps. The Stein limits, their completed comparison
+and the ind-Fréchet curve towers belong to §0.CR.6.6 here.
 
 ### From TauCetiRoadmap.AdicSpaces and TauCetiRoadmap.ReductiveGroups
 
@@ -196,7 +211,7 @@ RestrictedPowerSeries §§1.1, 2.1, 2.3 and 7.2 own generic Gauss completeness, 
 | §4.15 Complete continuity from analytic contraction | CompactOperators §0.3, with the row-decay criteria of its §0.2 | — |
 | §4.16 Numerical h-slope decomposition and projection | RigidAnalyticGeometry §7.2, with the local fibre and normalization comparisons | `IsSlopeLE`, `IsSlopeDecomposition`, `IsSlopeDecomposition.exists_projection` |
 
-The Layer 0 interface supplied to CrystallineCohomology is `naProjectiveLimit_cohomology_finiteDimensionalML` (§0.2). Its Stein exhaustion consumer must supply the common finite degree window, closed differential images, degreewise strict Roos surjectivity and finite-dimensional Mittag–Leffler cohomology; limit carriers and three-space results alone do not imply this comparison.
+The Stein exhaustion targets of §0.CR.6.6 apply `naProjectiveLimit_cohomology_finiteDimensionalML` (§0.2). They require a common finite degree window, closed differential images, degreewise strict Roos surjectivity and finite-dimensional Mittag–Leffler cohomology; limit carriers and three-space results alone do not imply this comparison.
 
 ### Canonical supplier interfaces
 
@@ -221,7 +236,7 @@ The following definitions in [Suggested.lean](Suggested.lean) are signature stan
 
 ## How to read the build
 
-Layer 0 builds the function spaces and the functional-analytic tools; Layer 1 the Amice transform and the operator toolbox on ℤ_p; Layer 2 admissibility and uniqueness in one and several variables; Layer 3 the Mellin transform and character spaces; Layer 4 the operator theory of families and the finite-slope complexes. Each layer is divided into numbered subsections; a subsection opens with the hypotheses that all its targets share, then states its targets in dependency order as bold-titled paragraphs. A paragraph gives the statement, any further hypotheses, the API of a definition or construction as a list of named lemmas, the source with its locator, and *Needs*, the earlier targets (by subsection number and title, or by the name of a declaration stated in [Suggested.lean](Suggested.lean) or introduced in an API list of this document), library declarations and supplier targets it rests on. The checks of a definition or construction are the `**Checks.**` bullets under it, one per unit test; the checks of the definitions kept in [Suggested.lean](Suggested.lean) and the negative controls whose carriers are at the pins are `example`s there. Each layer ends with worked examples and its dependencies. Nothing is optional.
+Layer 0 builds the function spaces and the functional-analytic tools, with their Hyodo–Kato applications to Stein curves and towers in §0.CR.6.6; Layer 1 the Amice transform and the operator toolbox on ℤ_p; Layer 2 admissibility and uniqueness in one and several variables; Layer 3 the Mellin transform and character spaces; Layer 4 the operator theory of families and the finite-slope complexes. Each layer is divided into numbered subsections; a subsection opens with the hypotheses that all its targets share, then states its targets in dependency order as bold-titled paragraphs. A paragraph gives the statement, any further hypotheses, the API of a definition or construction as a list of named lemmas, the source with its locator, and *Needs*, the earlier targets (by subsection number and title, or by the name of a declaration stated in [Suggested.lean](Suggested.lean) or introduced in an API list of this document), library declarations and supplier targets it rests on. The checks of a definition or construction are the `**Checks.**` bullets under it, one per unit test; the checks of the definitions kept in [Suggested.lean](Suggested.lean) and the negative controls whose carriers are at the pins are `example`s there. Each layer ends with worked examples and its dependencies. Nothing is optional.
 
 ## Layer 0: analytic Banach stages, locally analytic functions and their strong duals
 
@@ -405,6 +420,148 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 
 *Needs:* §0.2 (Strict sequences and left-heart extensions); §0.2 (Extensions of Fréchet spaces); §0.2 (Splitting under spherical completeness or separability).
 
+### 0.CR.6.6 Stein curves and curve towers
+
+Here O_K is a complete discrete valuation ring of mixed characteristic (0,p) with perfect residue
+field k, K is its fraction field, K₀=W(k)[1/p], and C the completion of an algebraic closure K̄.
+The log rigid Hyodo–Kato complexes, Frobenius and monodromy are those of CrystallineCohomology
+§§CR.6.1–CR.6.5, with σ the Witt Frobenius. The completed geometric coefficient field K̆₀ is
+specified in the completed comparison below.
+
+**Hyodo–Kato cohomology of Stein curves.** For a smooth Stein curve over K with a semistable weak
+formal model and a Stein exhaustion by relatively compact semistable dagger pieces U_i
+(AdicSpacesPartIV Layer F1), define its overconvergent Hyodo–Kato cohomology as the projective limit
+of the log rigid Hyodo–Kato cohomology H¹_HK(U_i) of CrystallineCohomology §CR.6.5
+(*Log rigid Hyodo–Kato cohomology*). H¹_HK is a projective limit of finite-dimensional K₀-spaces, with the projective-limit (Fréchet) topology and
+continuous φ, N. This is not ordinary nonproper crystalline cohomology.
+
+*Hypotheses.* Choose compatible Fréchet cochain models C_i for the exhaustion HK complexes in
+one common finite degree window. Require continuous differentials with closed images, strict
+surjectivity of every degreewise Roos map 1−shift:∏_i C_i^q→∏_i C_i^q, and finite-dimensional
+Hausdorff Mittag–Leffler cohomology systems in every degree. The comparison of cohomology with
+that of the inverse-limit complex and independence between exhaustions are asserted for models
+and common cofinal refinements satisfying these hypotheses.
+
+The API:
+
+- `LogCrystalline.steinHK.limit`: The topology is the projective-limit topology on the
+  finite-dimensional exhaustion groups.
+- `LogCrystalline.steinHK.operators`: φ and N act continuously and satisfy Nφ=pφN.
+- `LogCrystalline.steinHK.exhaustion_independence`: Cofinal admissible Stein exhaustions whose
+  models and common refinements satisfy the stated strict-limit hypotheses give canonically
+  isomorphic spaces.
+
+*Proof sketch.* Take the semistable weak formal model and its dagger exhaustion (AdicSpacesPartIV
+Layer F1) with the restriction maps between the pieces. Take log rigid cohomology of each piece; the
+transition maps on cohomology are continuous maps of finite-dimensional spaces. Apply
+§0.2 `naProjectiveLimit_cohomology_finiteDimensionalML` to the
+chosen models with the stated window, closed images, strict Roos surjectivity and cohomological
+Mittag–Leffler hypotheses. It identifies cohomology of the limit complex with the limit of the
+groups, including their topologies. Colmez–Dospinescu–Nizioł Lemma 3.4 gives closed images for
+smooth Stein and affinoid dagger de Rham models; it does not by itself supply all the hypotheses
+on HK models. Use common admissible refinements to compare exhaustions and retain the limit
+topology and continuous operators. ([Colmez–Dospinescu–Nizioł,
+*Cohomology of p-adic Stein spaces*](https://arxiv.org/abs/1801.06686v2), §3.1.1–3.1.3,
+Proposition 3.2 and Lemma 3.4, pp.13–18; [Colmez–Dospinescu–Nizioł, *Cohomologie p-adique de la
+tour de Drinfeld: le cas de la dimension 1*](https://webusers.imj-prg.fr/~wieslawa.niziol/GPW5.pdf), §0.6, nonproper
+curve Hyodo–Kato cohomology, pp.10–12.)
+
+*Needs:* CrystallineCohomology §CR.6.5 (*Proper log rigid and crystalline Hyodo–Kato cohomology* and
+*Log rigid Hyodo–Kato cohomology*); AdicSpacesPartIV F1.5 (*The Monsky–Washnitzer weak completion*),
+F1.7 (*Dagger spaces*) and F1.11 (*Finiteness of de Rham cohomology of tubes in a quasi-compact
+strictly semistable formal scheme*); §0.0 (*Locally convex limits* and *Projective tensor and
+separated completion*); §0.2 (`naProjectiveLimit_cohomology_finiteDimensionalML` and
+*Strict sequences and three-space properties*); Mathlib `ModuleCat`.
+
+**Checks.**
+
+- `open_disc`: The open unit disc has H¹_HK=0, computed through good-reduction dagger discs.
+- `open_annulus`: An open annulus has H¹_HK=K₀·dlog t, φ=pσ and N=0.
+- `countable_lines`: A countable disjoint union of analytic multiplicative lines has
+  H¹_HK=∏_ℕK₀ with the product Fréchet topology, using finite unions and annular exhaustions.
+
+**Completed Hyodo–Kato comparison for Stein curves.** For the smooth semistable Stein curve and
+strict-limit hypotheses above, the uniformizer-dependent HK map extends to a topological isomorphism
+C⊗̂_{K̆₀}H¹_HK(X_C)≅H¹_dR(X_C). Over K before geometric descent use K⊗_{K₀}H¹_HK(X_k). The geometric
+C-map uses completed tensor products, continuous projective limits and the source Gal(K̄/K) action;
+it is not obtained from the proper theorem by dropping properness. Here K̆₀ = W(k̄)[1/p] for an
+algebraic closure k̄ of k, the completion of the maximal unramified extension of K₀ (Q̆_p in
+Colmez–Dospinescu–Nizioł), with Gal(K̄/K) acting through Gal(k̄/k) on Witt coordinates (Mathlib
+`WittVector.map`), and C is the completion of K̄.
+
+*Hypotheses.* The HK, de Rham and scalar-extended exhaustion models satisfy the common finite
+window, closed differential images, degreewise strict Roos surjectivity and finite-dimensional
+Hausdorff Mittag–Leffler hypotheses of the preceding target.
+
+*Proof sketch.* Use Grosse-Klönne’s log boundary embedding zigzag on each semistable dagger piece
+(CrystallineCohomology §CR.6.5, *Log rigid Hyodo–Kato cohomology*). Apply
+§0.2 `naProjectiveLimit_cohomology_finiteDimensionalML` to these
+models and the completed projective tensor comparison of §0.0. Compare with the classical formal
+Hyodo–Kato map by the compatible p^N-inverse and section construction of Colmez–Dospinescu–Nizioł,
+Appendix A, then pass to C and geometric descent. ([Colmez–Dospinescu–Nizioł, *Cohomology of p-adic
+Stein spaces*](https://arxiv.org/abs/1801.06686v2), §3.1.3 and Proposition 3.12, pp.16–18; Appendix
+A.1–A.5, pp.60–61; [Colmez–Dospinescu–Nizioł, *Cohomologie p-adique de la tour de Drinfeld: le cas
+de la dimension 1*](https://webusers.imj-prg.fr/~wieslawa.niziol/GPW5.pdf), §0.3, pp.6–7; §0.6,
+pp.10–12, geometric completed comparison.)
+
+*Needs:* §0.CR.6.6 (*Hyodo–Kato cohomology of Stein curves*);
+CrystallineCohomology §CR.6.2 (*Uniformizer-dependent Hyodo–Kato maps*); §0.0 (*Locally convex limits*
+and *Projective tensor and separated completion*); §0.2
+(`naProjectiveLimit_cohomology_finiteDimensionalML` and *Strict sequences and three-space
+properties*); Mathlib `WittVector.map`.
+
+**Checks.**
+
+- For the open unit disc both degree-one spaces vanish.
+- On an open annulus the comparison sends the HK generator dlog t to the de Rham generator
+  dlog t; both sides after extension to C are C·dlog t.
+- For the countable disjoint union of analytic multiplicative lines the comparison identifies
+  C⊗̂_{K̆₀}(∏_ℕK̆₀) with ∏_ℕC, carrying the product topology and each coordinate dlog t.
+
+**Hyodo–Kato cohomology of semistable curve towers.** For a Drinfeld-type tower of finite-level
+semistable curves, with the hypotheses of Colmez–Dospinescu–Nizioł, (M_n), define H¹_HK(M_∞)=colim_n
+H¹_HK(M_n) in the category of ind-Fréchet K̆₀-spaces with continuous commuting tower/group and Gal_F
+actions and (φ,N). Levelwise HK-to-de Rham maps induce C⊗̂H¹_HK(M_∞)≅H¹_dR(M_∞) in that category
+under the analytic continuity hypotheses. Here K̆₀ is the field of §0.CR.6.6 (*Completed Hyodo–Kato
+comparison for Stein curves*), and Gal_F is the absolute Galois group of the local base field F
+of the tower.
+
+*Hypotheses.* Each finite level and its scalar-extended exhaustion models satisfy the strict-limit
+hypotheses of §0.CR.6.6 (*Hyodo–Kato cohomology of Stein curves* and *Completed Hyodo–Kato comparison
+for Stein curves*); the geometric transitions and level comparisons are continuous and compatible.
+
+The API:
+
+- `LogCrystalline.towerHK.level_maps`: Every level maps continuously into the ind-object with the
+  given transitions; a discontinuous linear map is not a morphism.
+- `LogCrystalline.towerHK.cofinal`: Restriction to a cofinal subsequence gives the same ind-object.
+- `LogCrystalline.towerHK.actions`: Geometric tower symmetries act by continuous linear maps; the
+  separate Gal_F action is semilinear for its action on K̆₀. Both commute with the continuous φ,N
+  and respect transitions before forming the ind-object.
+- `LogCrystalline.towerHK.comparison`: The level comparisons induce the completed C⊗̂ comparison in
+  ind-Fréchet spaces.
+
+*Proof sketch.* Apply the nonproper curve Hyodo–Kato construction at each finite level with the
+semistable models of the source. Use the transition maps and form the ind-Fréchet colimit retaining
+its actions. Pass the completed tensor comparison through the ind-category using the continuity
+results of §§0.0 and 0.2. ([Colmez–Dospinescu–Nizioł, *Cohomologie p-adique
+de la tour de Drinfeld: le cas de la dimension
+1*](https://webusers.imj-prg.fr/~wieslawa.niziol/GPW5.pdf), §0.3, pp.6–7; §0.6, pp.10–12.)
+
+*Needs:* §0.CR.6.6 (*Hyodo–Kato cohomology of Stein curves* and
+*Completed Hyodo–Kato comparison for Stein curves*);
+§0.0 (*Locally convex limits* and *Projective tensor and
+separated completion*); §0.2 (*Strict sequences and three-space properties*); Mathlib
+`CategoryTheory.Ind`; Mathlib `CategoryTheory.Ind.lim`.
+
+**Checks.**
+
+- `constant_tower`: A constant tower gives the original Fréchet HK space.
+- `growing_coordinates`: In the underlying ind-Fréchet adapter, K̆₀^n→K̆₀^(n+1) by appending
+  zero gives ⊕_ℕK̆₀; each element has finite support and new coordinates appear at later stages.
+- `zero_transitions`: The same adapter sends the tower K̆₀→K̆₀ with every transition zero to
+  the zero ind-object, although every level is nonzero.
+
 ### 0.3 Polydiscs, charts and compact manifolds
 
 Hypotheses shared by several targets of this subsection, cited by letter below: (a) Unless the statement explicitly gives broader field hypotheses, K is a finite extension of Q_p with v_p(p)=1, X is a compact finite-dimensional Q_p-analytic manifold, and an affinoid coefficient A has a chosen complete submultiplicative ultrametric Banach norm satisfying ‖1_A‖=1. Numerical slopes are tested on geometric rank-one fibres.
@@ -506,7 +663,7 @@ The function x on the closed unit disc has Gauss valuation 0; Σ xᵏ converges 
 
 ### Dependencies
 
-Mathlib (`PadicInt.mahlerEquiv`, `ZeroAtInftyContinuousMap`, `ContinuousLinearMap`, `LocallyConstant`, nonarchimedean infinite sums); PadicMeasuresIwasawaAlgebras Layer 0 (bounded measures and their topologies) and Layer 2 (the bounded Amice transform); PadicFunctionalAnalysis §4.3–§4.4 and §4.7 (the stages LA_h, Amice's theorem and the distributions). No earlier layer.
+Mathlib (`PadicInt.mahlerEquiv`, `ZeroAtInftyContinuousMap`, `ContinuousLinearMap`, `LocallyConstant`, nonarchimedean infinite sums); PadicMeasuresIwasawaAlgebras Layer 0 (bounded measures and their topologies) and Layer 2 (the bounded Amice transform); PadicFunctionalAnalysis §4.3–§4.4 and §4.7 (the stages LA_h, Amice's theorem and the distributions); AdicSpacesPartIV F1.5, F1.7 and F1.11 (weak completions, dagger spaces and tube finiteness); CrystallineCohomology §CR.6.2 (uniformizer-dependent maps) and §CR.6.5 (log rigid Hyodo–Kato cohomology and its proper crystalline comparison); Mathlib `WittVector.map`, `CategoryTheory.Ind` and `CategoryTheory.Ind.lim`. No earlier layer.
 
 ## Layer 1: the unbounded Amice transform and operations on distributions
 
@@ -2643,7 +2800,8 @@ The following readings differ from the printed sources and are used in the state
 
 ## References
 
-- Colmez–Dospinescu–Nizioł, *Cohomology of p-adic Stein spaces*, [arXiv:1801.06686v2](https://arxiv.org/abs/1801.06686v2), §2.1.1–§2.1.3, pp. 7–10: locally convex categories, strictness, left hearts and tensor comparisons.
+- Colmez–Dospinescu–Nizioł, *Cohomology of p-adic Stein spaces*, [arXiv:1801.06686v2](https://arxiv.org/abs/1801.06686v2), §2.1.1–§2.1.3, pp. 7–10: locally convex categories, strictness, left hearts and tensor comparisons; §3.1.1–§3.1.3, Proposition 3.2, Lemma 3.4 and Proposition 3.12, pp. 13–18, and Appendix A.1–A.5, pp. 60–61: Stein cohomology and completed comparison.
+- Colmez–Dospinescu–Nizioł, *Cohomologie p-adique de la tour de Drinfeld: le cas de la dimension 1*, [author text](https://webusers.imj-prg.fr/~wieslawa.niziol/GPW5.pdf), §0.3, pp. 6–7, and §0.6, pp. 10–12: nonproper curve Hyodo–Kato cohomology, completed geometric comparison and curve towers.
 - J.-P. Schneiders, *Quasi-abelian categories and sheaves*, Mém. Soc. Math. France 76 (1999), §1.2, especially Proposition 1.2.27, Corollary 1.2.28 and Proposition 1.2.29, pp. 26–29: categorical heart and strict-exact embedding. [Public text](https://www.numdam.org/item/10.24033/msmf.389.pdf).
 - Buzzard: K. Buzzard, *Eigenvarieties*, author manuscript (2006), §2, Propositions and Lemmas 2.1–2.13, pp. 6–21. (https://www.ma.imperial.ac.uk/~buzzard/maths/research/papers/eigenvarieties.pdf)
 - Serre: J.-P. Serre, *Endomorphismes complètement continus des espaces de Banach p-adiques*, Publ. Math. IHÉS 12 (1962), 69–85. (https://www.numdam.org/item/PMIHES_1962__12__69_0.pdf)

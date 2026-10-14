@@ -21,7 +21,8 @@ is Mathlib's bounded `Polynomial.resultant` of the reflected characteristic poly
 
 The README states, and this file omits because their carriers are not at the pins: the
 nonarchimedean locally convex categories, their left hearts and completed tensor products; the
-topologies of `LA` and `D` with their pullbacks, pushforwards, products and convolution; `C^r`,
+Stein and tower Hyodo–Kato spaces and completed comparisons of §0.CR.6.6, including
+`LogCrystalline.towerHK.cofinal`; the topologies of `LA` and `D` with their pullbacks, pushforwards, products and convolution; `C^r`,
 order-`r` distributions, vector order and small-order isotropic spaces; the Mellin equivalences
 and the geometric character spaces; analytic reduction modulo a monic polynomial; the resolvent
 and Riesz-projector lemmas on `(Pr)` modules; global specialization of distribution families and the
