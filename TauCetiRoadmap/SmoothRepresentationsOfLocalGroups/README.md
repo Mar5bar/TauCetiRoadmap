@@ -1273,8 +1273,11 @@ The equivalence is between the smooth category itself and NondegMod H(G, A), and
 statement specifies the integrated action f·v.
 
 Checks for the bimodule endomorphisms of H that compute the centre: central coefficient scalars
-are admitted; an endomorphism is determined by its central value at one; multiplication by a
-noncentral element is excluded.
+are admitted; for unital H an endomorphism is determined by its central value at 1;
+multiplication by a noncentral element is excluded. For general idempotented H, determine the
+endomorphism on every principal object He. For H = ⊕_{n ∈ ℕ} ℚ with coordinatewise product,
+the centre is ∏_{n ∈ ℕ} ℚ acting by coordinate multipliers, including the all-one multiplier;
+H itself has no identity element.
 
 **Hecke corners and irreducible representations** (*corner-irreducibles*). Let G be locally
 profinite and U a compact open subgroup with μ(U) ∈ Aˣ; A is a field for the irreducibility
@@ -1508,7 +1511,17 @@ Over a nonarchimedean local field F, the basis T_w uses the Iwahori–Bruhat ind
 
 Checks: T₁ = 1; Tₛ² = (q − 1)Tₛ + q; at q = 1 each basis vector is identified with its group-algebra basis vector.
 
-The compact-open index formula is stated separately, and coefficient extension is specified on every basis vector.
+The ordinary Iwahori index statement is `HeckeAlgebraLevel.iwahoriBasis_index`: for split G,
+the supplied Iwahori–Bruhat basis satisfies deg(T_w) = q^{ℓ(w)}, independently of A.
+Construct the residue-field parametrization I/(I ∩ wIw⁻¹) ≃ 𝓀[F]^{ℓ(w)} from the
+root-cell products of ReductiveGroupsPartII RG2.4, and take cardinalities. This requires no
+positive-depth-intersection-presentation hypothesis. The Lean signature records the cardinal
+computation from this parametrization on the pinned double-coset carrier.
+Coefficient extension is specified on every basis vector.
+
+Checks for the index clause: the identity has degree 1, a simple affine reflection has degree q,
+and a translation λ(ϖ) has degree q^{Σ_{α>0}|⟨α,λ⟩|}. These use the ordinary Iwahori,
+including when q is zero or a nonunit in A.
 
 **The Bernstein presentation** (*bernstein-presentation*). In the setting of *iwahori-matsumoto*
 (G split connected reductive) let A be a ring containing an inverse square root q^{−1/2} of q
@@ -1613,17 +1626,18 @@ the degree-zero embedding induces a bijection on Hom, Hom from a degree-zero obj
 a negative shift of another is zero, and a zero smooth object maps to a zero derived object.
 All three are tests, stated with an explicit `HasDerivedCategory` universe instance.
 
-**K-injective resolutions in Grothendieck categories** (*k-injective-resolutions*). Let 𝒜 be a
-Grothendieck abelian category (Mathlib's IsGrothendieckAbelian). Prove that every (unbounded)
-cochain complex X admits a quasi-isomorphism X → I to a K-injective complex I (Mathlib's
-CochainComplex.IsKInjective). Consequently every additive functor F : 𝒜 → ℬ has a total right
-derived functor RF : D(𝒜) → D(ℬ) computed by K-injective resolutions, and
-RHom(X, Y) := HomComplex(X, I_Y) computes Hom_{D(𝒜)}(X, Y[n]) in degree n. Applied to
-𝒜 = SmoothRep A G this gives unbounded derived invariants RΓ(U, −) : D(G, A) → D(A) and derived
-Hom complexes ([Stacks] Tag 079P). *Needs:* the library vocabulary of this layer.
-
-
-The existence statement applies the library resolution theorem to this category; the unbounded invariant functor is computed on objects by K-injective resolutions and is identified, as a functor, with Mathlib's right derived functor of invariants on bounded-below objects.
+**K-injective resolutions in the smooth category** (*k-injective-resolutions*). Let G be
+locally profinite, A a commutative ring and U a compact open subgroup of G. Apply the functorial K-injective replacement of
+EnhancedDerivedSheaves E1.2 / *replacementDGComparison* to the Grothendieck abelian category
+SmoothRep A G: every unbounded smooth cochain complex X has a quasi-isomorphism X → I with I
+K-injective. Construct unbounded derived invariants RΓ(U, −) : D(G, A) → D(A) from these
+resolutions and derived Hom complexes from HomComplex(X, I_Y), whose degree-n cohomology is
+Hom_{D(G,A)}(X, Y[n]). Identify the restriction to bounded-below objects with Mathlib's right
+derived functor of invariants. The generic replacement theorem belongs to the supplier
+([Stacks] Tag 079P); this target supplies its smooth-category application and invariant-functor
+comparison. *Needs:* *grothendieck-abelian*, *derived-smooth-category*;
+[EnhancedDerivedSheaves](../EnhancedDerivedSheaves/README.md#e12-supplied-replacements-and-their-dg-comparison)
+E1.2 / *replacementDGComparison*.
 
 **Checks.** The existence statement is specialized to smooth
 complexes. The zero complex is K-injective; the identity on a K-injective complex is a
@@ -3400,8 +3414,9 @@ hyperspecial double coset. Prove
 q^{δ(N−δ)} · tr(ρ_{N,δ}) = Σ_{i=0}^{δ} [N − 2i choose δ − i]_{−q} · S(T_i),
 ```
 
-with Gaussian binomial coefficients at −q. The matrix is unitriangular and gives an integral
-algorithm for all spherical calculations in Appendix B ([LTXZZ] Lemma B.2.6, p. 337).
+with Gaussian binomial coefficients at −q. Prove that this unitriangular matrix has inverse
+with entries in ℤ[q], and use the inverse identities in the spherical formulas below
+([LTXZZ] Lemma B.2.6, p. 337).
 *Needs:* *unitary-weyl-traces*, *satake-transform*; ReductiveGroupsPartII RG2.4.
 
 The identity is stated over any commutative coefficient ring in which q is a unit. Its inputs identify the group by its Hermitian matrix equation, the diagonal Levi, upper radical, integral compact subgroup, valuation lattice, and characteristic double-coset functions. The normalization uses the same Satake data and transform as the general theory. The Gaussian binomials use the integral Pascal recurrence, and the trace polynomial is the displayed subset sum.
@@ -3422,6 +3437,28 @@ Checks: the form is computed on a hyperbolic pair, gives norm one on the middle 
 
 The mixed-level product is stated on the actual permutation representations of the two lattice stabilizers. The neighboring stabilizer is specified by preserving the lattice with its first ⌊N/2⌋ basis vectors scaled by ϖ⁻¹. Both incidence maps are pinned on every coset basis vector; their composite has the stated isotropic-count coefficients ([LTXZZ], Definition B.2.3 and Lemma B.2.4, pp. 335–337).
 
+**Universal unitary spherical coefficients** (*unitary-spherical-coefficients*). Define
+polynomials d_k(Q) and d•_k(Q) over ℤ by
+
+```text
+d_k(Q) = Σ_{j=0}^{k} (−1)^j (2j+1) Q^{j(j+1)} [2k+1 choose k−j]_{−Q},
+(Q+1)d•_k(Q) = d_k(Q) + ((−Q)^{k+1}−1)/(Q+1) ∏_{i=1}^{k}(Q^{2i−1}+1).
+```
+
+Prove both divisions by Q+1 exact in ℤ[Q], including the one in the second numerator;
+thus evaluation d_{k,q} and d•_{k,q} makes sense in every coefficient ring without assuming
+q+1 invertible. For N = 2r define T = Σ_{δ=0}^{r−1} d•_{r−δ,q} T_δ; for N = 2r+1 define
+T = Σ_{δ=0}^{r} d_{r−δ,q} T_δ. These are parity-specific spherical combinations
+([LTXZZ] Notation 1.3.1, pp. 119–120; Proposition B.3.5(3), p. 343;
+Lemma B.4.2 and Proposition B.4.3, pp. 345–346). *Needs:*
+*unitary-triangular-transform*, *unitary-isotropic-counts*.
+
+**Checks.**
+
+- d_{0,q} = 1 and d•_{0,q} = 0; hence the even T has zero T_r coefficient.
+- d_{1,q} = 1 − q − 2q² and d•_{1,q} = −q.
+- At q = −1, d_{1,−1} = 0 and d•_{1,−1} = 1; the coefficients remain defined when q+1 = 0.
+
 **Even-rank unitary spherical identities** (*unitary-even-formulas*). For N = 2r with r ≥ 1 prove
 
 ```text
@@ -3433,7 +3470,7 @@ S(R + (q+1)T)   = −(q^{r²+1} − q^{r²−1}) Σ_j ∏_{i≠j} (μ_i − q �
 where R is the linear combination of the T_δ with coefficient
 ((1 − (−q)^{r−δ})/(q+1)) ∏_{i=1}^{r−δ} (q^{2i−1} + 1); all apparent quotients are universal
 polynomials ([LTXZZ] Lemmas B.3.1–B.3.4 and Proposition B.3.5, pp. 339–343). *Needs:*
-*unitary-isotropic-counts*, *unitary-triangular-transform*.
+*unitary-isotropic-counts*, *unitary-triangular-transform*, *unitary-spherical-coefficients*.
 
 All three identities are stated on the actual spherical functions, with the displayed coefficients of I, R and T. The coefficient of R is computed by monic polynomial division over ℤ, with zero remainder, and μ_i is the sum of the two opposite lattice monomials.
 
@@ -3441,16 +3478,9 @@ Checks: even rank removes the top term; the first nonzero even coefficient is -q
 
 **Odd-rank unitary spherical identities** (*unitary-odd-formulas*). For N = 2r + 1 prove
 S(I) = q^{r²+r} ∏_i (μ_i + q + q⁻¹) and S(T) = q^{r²+r} ∏_i (μ_i − 2). Here
-T = Σ_δ d_{r−δ,q} T_δ and
-
-```text
-d_{k,q} = Σ_{j=0}^{k} (−1)^j (2j+1) q^{j(j+1)} [2k+1 choose k−j]_{−q}.
-```
-
-The even-rank T uses
-d•_{k,q} = (d_{k,q} + (((−q)^{k+1} − 1)/(q+1)) ∏_{i=1}^{k} (q^{2i−1} + 1))/(q+1), again evaluated
-as a polynomial ([LTXZZ] Notation 1.3.1, pp. 119–120; Lemmas B.4.1–B.4.2 and Proposition B.4.3,
-pp. 344–346). *Needs:* *unitary-isotropic-counts*, *unitary-triangular-transform*.
+T is the odd combination of *unitary-spherical-coefficients*
+([LTXZZ] Lemmas B.4.1–B.4.2 and Proposition B.4.3, pp. 344–346). *Needs:*
+*unitary-isotropic-counts*, *unitary-triangular-transform*, *unitary-spherical-coefficients*.
 
 Both identities are stated with the universal polynomial d_{k,q}. The coefficient ring is arbitrary with q invertible.
 
@@ -3612,8 +3642,9 @@ hypotheses. *Needs:* layer SR.0.
 - The action entering the supplier is ψ(u)⁻¹ρ(u).
 - At ψ=1 the quotient map specializes to the ordinary quotient map of Mathlib's coinvariants.
 - The ψ-character line has quotient A, with mk(a) sent to a.
-- For C₂=(ℤ/6)ˣ, the trivial line and the sign character
-  give A/(2); mk(1) is nonzero. A nontrivial character alone does not force vanishing.
+- For C₂ = (ℤ/6)ˣ, the trivial ℤ-line and the sign character give ℤ/2, with mk(1) nonzero.
+  Over general A the quotient is A/(2), and mk(1) is nonzero exactly when 2 is not a unit.
+  In particular over ℚ this quotient is zero. A nontrivial character alone does not force vanishing.
 - At ψ(2)=2 over ℚ, the inverse twist acts on 1 by 1/2.
 
 **Mirabolic functors and derivatives** (*mirabolic-derivatives*). For this target and the next
@@ -4023,10 +4054,14 @@ following four steps.
    p. 58; Lemmas 11.10–11.13 and Corollary 11.14, pp. 59–60; [DHKM1] the common-constant
    product and kernel statements following Corollary 4.6, and Lemma 4.8, p. 14).
 3. *Jacquet duality.* For every smooth Π, R_P(Π^∨) ≅ (R_{P̄}Π)^∨ and R_{P̄}(Π^∨) ≅ (R_PΠ)^∨,
-   naturally in Π. The first comes from the perfect pairings between the T_{λ⁻¹}-invertible part
-   of Π^K and the T_λ-invertible part of (Π^∨)^K, over a cofinal family of K, and the second is the
-   same with P and P̄ exchanged ([Hel16] Proposition 11.16, pp. 60–61, whose twists by square roots
-   of δ_P and δ_{P̄} = δ_P⁻¹ cancel; [DHKM1] Lemma 4.10, p. 15).
+   naturally in Π. Write 𝒦 = Frac W(k) and D = 𝒦/W(k). For compact open K of invertible
+   pro-order, averaging identifies (Π^∨)^K with Hom_{W(k)}(Π^K, D). The nondegenerate evaluation
+   pairing makes T_λ on the dual adjoint to T_{λ⁻¹} on Π^K. Restrict to their invertible
+   summands to identify the dual summand with Hom_{W(k)}((Π^K)_*, D). Over a cofinal family of
+   decomposed K these identifications give the first smooth-dual isomorphism; exchange P and P̄
+   for the second. Arbitrary Π need not identify with its bidual, so this construction asserts
+   only the one-sided dual identification ([Hel16] Proposition 11.16, pp. 60–61, for that
+   identification, with the inverse modulus-half twists cancelling; [DHKM1] Lemma 4.10, p. 15).
 4. *Adjunction.* For Π = Π′^∨ the isomorphism is the composite of step 3, the exchange
    Hom(X, Y^∨) ≅ Hom(Y, X^∨) and the duality (I_P σ)^∨ ≅ I_P(δ_P ⊗ σ^∨) of
    *type-projective-construction*, and *first-adjointness*. Put
@@ -4079,6 +4114,11 @@ following four steps.
   in I, embeds the trivial A-line in ∏_{n≥1}^sm I. Every tuple is G-fixed, and injectivity
   follows from ⋂_{n≥1} 3^n A = 0. The image of 1 has infinitely many nonzero coordinates and
   does not lie in the direct sum.
+- For GL₁(ℚ₂), ℓ = 3 and k = F̄₃, take Π = ⊕_{n ∈ ℕ} k with trivial action. Both contracting
+  operators are identity. Its dual is ∏_n k and evaluation is nondegenerate, but Π → Π^{∨∨}
+  is not surjective: a k-linear functional on ∏_n k that vanishes on all finitely supported
+  tuples and takes the all-one tuple to 1 cannot be evaluation at a finitely supported vector.
+  Thus the one-sided identification does not imply two-sided perfectness.
 - A singleton smooth product is its factor, a product of zero objects is zero, and every tuple
   in a product of trivial actions is smooth and fixed (Lean examples).
 - A common exponent is necessary: for A ≠ 0 and M_j = A[t]/(t^j), j ≥ 1, multiplication by t is nilpotent
@@ -4491,7 +4531,7 @@ Lemma 2.9 and its proof, p. 14, specify endpoint shortening after the Zelevinsky
 
 Segments, multisegments and their subrepresentation-convention representations Z(Δ) and Z(m) are those of *segment-representations*. The normalized and parabolic products and the norm character specify the inductions and determinant powers. The normalized derivative uses the existing mirabolic quotient and its determinant normalization. The highest nonzero derivative is identified with the endpoint shortening, and in the iterated form the highest order is recomputed after each shortening.
 
-Checks: exponent zero gives the trivial twist; real exponents add under twisting; the norm at a uniformizer is q inverse; a zero inducing factor kills the normalized product; the rank-zero trivial line is a unit for it; the two determinant half powers have opposite signs; the empty parabolic product has rank zero and dimension one; one factor retains its group action; any zero factor makes the ordered product zero; the cuspidal block of a segment cannot have rank zero; a zero representation cannot label a segment; nonunitary powers are recorded in the endpoint, not hidden in the cuspidal label; a one-term segment is its cuspidal twist; ascending [a,a+1] gives the determinant character, distinguishing it from Steinberg; a segment with more than one term has zero top derivative; the empty multisegment is the rank-zero line; one segment recovers the segment representation; the multisegment is unordered, although its defining induction is ordered; shortening keeps the empty multisegment empty; all one-term segments disappear; the lower endpoint stays fixed and the upper endpoint decreases; the normalized derivative of order zero preserves the original action; the full derivative of a character is the rank-zero line; the top derivative of a higher-rank trivial representation vanishes.
+Checks: exponent zero gives the trivial twist; real exponents add under twisting; the norm at a uniformizer is q inverse; a zero inducing factor kills the normalized product; the rank-zero trivial line is a unit for it; the two determinant half powers have opposite signs; the empty parabolic product has rank zero and dimension one; one factor retains its group action; any zero factor makes the ordered product zero; the cuspidal block of a segment cannot have rank zero; a zero representation cannot label a segment; nonunitary powers are recorded in the endpoint, not hidden in the cuspidal label; a one-term segment is its cuspidal twist; for the GL₁ label ρ = 1, Z([a,a+1]_1) = |det|^{a+1/2} on GL₂ whereas L([a,a+1]_1) = |det|^{a+1/2}St; for a GL₂-supercuspidal label the two-term segment is on GL₄ and Z is not a determinant character; a segment with more than one term has zero top derivative; the empty multisegment is the rank-zero line; one segment recovers the segment representation; the multisegment is unordered, although its defining induction is ordered; shortening keeps the empty multisegment empty; all one-term segments disappear; the lower endpoint stays fixed and the upper endpoint decreases; the normalized derivative of order zero preserves the original action; the full derivative of a GL₁ character is the rank-zero line; the full derivative of every character of GL_n for n ≥ 2 is zero.
 
 The Langlands representations L(Δ) and L(m) are the quotient-convention representations of *segment-representations*. The Zelevinsky involution sends Z(m) to L(m), and the classification pins this on all irreducibles. The shortening formula is also given after converting a Langlands label to the Z convention.
 
@@ -4550,9 +4590,10 @@ laws: gauge by 1, successive gauges, the identity coefficient map, composition o
 and equivariance of coefficient maps under gauge. The matching tests check gauge by 1, successive
 gauges h and k giving the single gauge hk, the identity coefficient map, the trivial coefficient
 homomorphism giving the identity cocycle, and equivariance of a coefficient map under gauge.
-Gauging successively by h⁻¹ and h returns the identity cocycle; a cocycle with trivial target is
-the identity. Together with the inversion action giving 4 from the gauge element 2, these
-distinguish the action convention from its inverse.
+Gauging successively by h⁻¹ and h returns the original cocycle, hence returns the identity
+cocycle when that was the input. For Γ = ℤ with trivial action on ℚˣ, c(n) = 2^n and h = 1,
+the recovered generator value is 2, not 1. A cocycle with trivial target is the identity.
+Together with the inversion action giving 4 from the gauge element 2, these distinguish the action convention from its inverse.
 
 **Checks (parameter section and inversion).** The section is the homomorphism
 γ ↦ (c(γ),γ) into Mathlib's `SemidirectProduct`. Its projection is γ, the identity cocycle
