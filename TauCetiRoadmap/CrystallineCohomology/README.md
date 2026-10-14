@@ -24,8 +24,10 @@ theorem and the change of uniformizer, convergent complexes on tubes, log rigid 
 cohomology and its Stein-curve and curve-tower versions; and finally crystalline coefficients
 with Frobenius, filtration and monodromy, the crystalline Dieudonné crystal of a Barsotti–Tate
 group with Grothendieck–Messing deformation theory, relative crystalline cohomology and the
-Gauss–Manin connection. The end theorems are the crystalline–de Rham comparison through the PD
-Poincaré lemma, the crystalline de Rham–Witt comparison, crystalline Poincaré duality, the
+Gauss–Manin connection. The CR.DDR sections construct the derived de Rham–crystalline comparisons,
+quasiregular crystalline calculations and derived logarithmic algebra. The end theorems are the
+crystalline–de Rham comparison through the PD Poincaré lemma, the crystalline de Rham–Witt
+comparison, crystalline Poincaré duality, the
 Hyodo–Kato comparison theorem and Grothendieck–Messing deformation theory.
 
 The layers are:
@@ -35,12 +37,15 @@ The layers are:
 | CR.0 | Divided powers and universal thickenings | divided powers from generators, gluing on sums, flat extension, the divided power filtration, `PDEnvelope`, envelopes of regular immersions, completed envelopes, `A_cris` |
 | CR.1 | Crystalline sites, structure sheaves and crystals | `PDScheme`, the crystalline sites, crystals, F-crystals and isocrystals, PD differentials, quasi-nilpotent connections, crystals ≃ connections |
 | CR.2 | The PD Poincaré lemma and de Rham computations | `Ru_{X/S,*}`, linearization, the PD Poincaré lemma, crystalline cohomology from an embedding, independence of the embedding, the étale crystalline site |
+| CR.DDR.4.1, CR.DDR.4.3–4.4, CR.DDR.5.8–5.10 | Derived de Rham and crystalline cohomology | comparison map, base-linear realization, lci comparison, p-adic comparison |
 | CR.3 | Descent, finiteness, base change and Frobenius | Čech and hypercover descent, derived base change, perfectness, cup products, Künneth, `c₁`, Frobenius, weak Lefschetz, curves and elliptic curves |
 | CR.3:Frobenius-isogeny | The Frobenius isogeny | p-power control of inseparable pullback, the rational Frobenius isogeny |
 | CR.4 | Ordinary and relative de Rham–Witt complexes | Dieudonné complexes, saturation, `W_r(M)`, strict completion, the saturated and classical de Rham–Witt complexes, the relative complex, the crystalline comparison, slopes, Nygaard |
+| CR.DDR.4.5, CR.DDR.5.18, CR.DDR.5.20–5.22 | Derived Witt and quasiregular crystalline theory | derived Nygaard filtration, QRSP envelopes, `A_crys`, crystalline Čech complex |
 | CR.3:duality | Trace and Poincaré duality | the crystalline trace, Poincaré duality, Gysin maps, the diagonal class |
 | CR.5:log-algebra | Logarithmic structures | integral, fine and saturated monoids, prelog rings, log structures, charts, strict/exact/integral/Kummer morphisms, log smoothness, Kato's chart criterion, log regularity, Abhyankar |
 | CR.5 | Logarithmic differentials and log crystalline cohomology | log differentials, the log Cartier isomorphism, log PD envelopes, the log crystalline site, log crystals and connections, the log Poincaré lemma, the log structure on `A_cris` |
+| CR.DDR.6 | Derived logarithmic algebra and crystalline comparison | free prelog resolutions, Gabber cotangent complex, log derived de Rham, Cartier, corrected lci comparison, log quasisyntomic descent |
 | CR.6 | Hyodo–Kato complexes and semistable structure | Hyodo–Kato complexes, `Nφ = pφN`, the Hyodo–Kato comparison theorem, change of uniformizer, convergent complexes, log rigid Hyodo–Kato cohomology, Stein curves |
 | CR.7 | Coefficients, Dieudonné crystals and relative cohomology | crystalline coefficients with Frobenius, filtration and monodromy, the Dieudonné crystal, Grothendieck–Messing, relative direct images, Gauss–Manin |
 
@@ -95,28 +100,31 @@ log rigid Hyodo–Kato cohomology after Grosse-Klönne, and the Stein-curve and
 curve-tower versions after Colmez–Dospinescu–Nizioł. Crystalline coefficients with Frobenius,
 filtration and monodromy on semistable models, the crystalline Dieudonné crystal of a
 Barsotti–Tate group, Grothendieck–Messing deformation theory, relative crystalline direct images,
-proper smooth base change and the Gauss–Manin connection.
+proper smooth base change and the Gauss–Manin connection. Derived de Rham–crystalline comparisons,
+derived de Rham–Witt and quasiregular crystalline calculations, Gabber log cotangent complexes,
+log derived de Rham, corrected log lci crystalline comparisons and log quasisyntomic descent
+are owned by the CR.DDR sections.
 
 **Prerequisites and boundaries.** A statement belongs here if it is about divided powers and
 their envelopes, crystalline or log crystalline sites and their crystals, the cohomology of
 those sites and its de Rham, de Rham–Witt and Hyodo–Kato models, log structures as such, or
 crystalline Dieudonné theory; period rings beyond `A_cris`, prisms, `A_inf`-cohomology, Galois
 representations and general rigid cohomology are used here only where a target says so, and are
-otherwise outside it. A theorem comparing crystalline cohomology with another cohomology theory
-(étale, prismatic, `A_inf`, derived de Rham beyond the comparisons cited below) belongs to the
-roadmap of that comparison, which builds on this one.
+otherwise outside it. Comparisons with étale, prismatic and `A_inf`-cohomology belong to the
+roadmaps of those comparisons, which build on this one.
 
-- **DerivedDeRhamCohomology** owns the cotangent complex, derived
-  completion and derived completeness (its Layer 1), the ordinary algebraic de Rham complex with
-  its universal property and its formal version (Layer 2), the Cartier isomorphism for smooth
-  algebras (Layer 3), and the comparison of derived de Rham and crystalline cohomology for lci
-  maps. The supplier contract is at section level: its
-  Layers 0–3 use from here only §CR.0.3 (in its §0.16), which uses nothing from it; this roadmap
-  uses its Layers 1–3, from §CR.0.6 on; its Layers 4–6 use §§CR.0–CR.2, §§CR.4.6–CR.4.7, Layer
-  CR.5:log-algebra and Layer CR.5, and nothing here uses its Layers 4–6. EnhancedDerivedSheaves
-  Layer E4 also states derived completeness and completion for sheaves; this roadmap uses the
-  DerivedDeRhamCohomology statements. The implementation order is CR.0.1–CR.0.5, then
-  DerivedDeRhamCohomology Layers 0–3, then CR.0.6–CR.5, then its Layers 4–6 and CR.6–CR.7.
+- **DerivedModuleAlgebra** owns module derived tensor, cotangent complexes, integral derived
+  powers, module derived limits and completion (§§0.1–0.17, 1.1–1.9), and the double-complex
+  spectral sequence (§S.1). **DerivedDeRhamCohomology** owns the remaining completion and
+  filtered-module interfaces (Layer 1), ordinary and derived de Rham complexes (Layer 2),
+  ordinary derived Cartier theory (Layer 3), quasisyntomic descent (Layer 5), the PD conjugate
+  filtration (§4.2), and the period applications (§§5.11–5.15, 6.21). This roadmap owns the
+  derived de Rham–crystalline map and lci comparisons (§§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4,
+  CR.DDR.5.8–CR.DDR.5.10), derived de Rham–Witt and quasiregular crystalline calculations
+  (§§CR.DDR.4.5, CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22), and derived logarithmic theory
+  (§§CR.DDR.6.1–CR.DDR.6.20). EnhancedDerivedSheaves supplies the ringed-site enhancement;
+  module completion uses DerivedModuleAlgebra and the filtered interfaces use
+  DerivedDeRhamCohomology.
 - **CommRingFactorizationSystems** supplies the abstract seminormal reflection for CR.4.6
   (§F1, §F4 and §F6). Its generic prerequisite is **OrthogonalFactorization**, which
   supplies unique lifting, generated orthogonal factorization systems and their reflections.
@@ -135,18 +143,18 @@ roadmap of that comparison, which builds on this one.
   (Layer R2) and coherent sheaves (Layer R3). **AdicSpacesPartIV** owns the analytic site
   comparisons (Layer R4), dagger spaces and weak completions (Layer F1);
   **AdicEtaleGeometry** §A1.6 supplies the analytic étale site used in these comparisons.
-- **AlgebraicModuliForArithmeticGeometry** Layer 7 (§7.2) owns perfectness and arbitrary base
+- **EnhancedDerivedSheaves** §E1.9 owns perfectness and arbitrary base
   change of proper flat pushforward. **PerfectoidSpaces** Layer P1 owns perfectoid rings, tilts,
   the sharp map and Fontaine's `θ` with its principal kernel. **AbelianSchemesAndArithmeticModuli**
   Layer A4 owns Barsotti–Tate groups, the degree-one divided-power realization of an abelian
-  scheme and Grothendieck–Messing for abelian schemes. **ArithmeticGaloisDuality** Layer R02.2
+  scheme and Grothendieck–Messing for abelian schemes. **DerivedModuleAlgebra** §S.1
   owns the spectral sequence of a first-quadrant double complex. **SchemeAndStackFoundations** §§2.1–2.2
   owns `cech_to_cohomology` and `leray_spectral_sequence` for general sites. **LocallyAnalyticDistributions**
   Layer 0 owns locally convex limits, completed projective tensor products and strict sequences
   of Fréchet spaces.
-- **TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants** owns the grading `Γ_A(M) = ⊕ Γ^d_A(M)`, the
-  arbitrary base change of `Γ^d` and `Γ^d ≅ TSym^d` for free modules (Layer 0, §0.4), and the Koszul
-  complex with its regular-sequence resolution (§6.4). **TauCetiRoadmap.JacobianChallenge**
+- **DerivedModuleAlgebra** owns the grading `Γ_A(M) = ⊕ Γ^d_A(M)`, the
+  arbitrary base change of `Γ^d` and `Γ^d ≅ TSym^d` for free modules (§0.DP.2), and the Koszul
+  complex with its regular-sequence resolution (§0.K.1). **TauCetiRoadmap.JacobianChallenge**
   owns coherent cohomology of curves, Riemann–Roch and Serre duality (Layer B) and relative
   coherent cohomology with base change (Layer C). **TauCetiRoadmap.EllipticCurves** owns the
   Frobenius endomorphism of an elliptic curve over a finite field and its trace (Layers 1 and 3).
@@ -177,6 +185,17 @@ roadmap of that comparison, which builds on this one.
   CrystallineCohomologyPartII, which starts where this roadmap stops.
 
 ## Conventions
+
+**Derived comparisons.** `D(A)` is the derived category of `A`-modules and
+`DF(A)` is the derived category of `ℤᵒᵖ`-indexed diagrams of `A`-module complexes.
+Complexes use cohomological degrees: a module `M[1]` lies in degree `−1`.
+`dR` is the direct-sum realization of de Rham complexes of a polynomial resolution;
+its Hodge completion is the derived limit of finite Hodge quotients. The derived
+p-completion `Λ_p` is a separate reflection. The conjugate filtration is increasing
+with `Fil_−1 = 0`; both Hodge and conjugate graded pieces carry the shift `[−i]`.
+Affine products use shuffle multiplication and global products use the ringed-site
+cup product in `D(A)`. Completed tensor products mean completion of derived tensor;
+no exchange with a limit is used without its stated boundedness hypotheses.
 
 **Divided powers.** A PD ring is a triple `(A, I, γ)`: a commutative ring `A`, an ideal `I` and
 Mathlib's `DividedPowers I`. The operations `γ_n` are total functions `A → A` that vanish outside
@@ -370,9 +389,11 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
 
 ### From TauCetiRoadmap roadmaps
 
-- **IntegralHeckeAndGaloisDeterminants**, Layer 0, §0.4: `Γ_A(M) = ⊕_d Γ^d_A(M)` as an `A`-linear
+- **DGAInfinity**, Layer 1: strict differential graded models and their morphisms for the
+  polynomial and free prelog realizations.
+- **DerivedModuleAlgebra**, §0.DP.2: `Γ_A(M) = ⊕_d Γ^d_A(M)` as an `A`-linear
   equivalence, the base change `B ⊗_A Γ^d_A(M) ≅ Γ^d_B(B ⊗_A M)` for every `A`-algebra `B`, and
-  `Γ^d_A(M) ≅ TSym^d_A(M)` for free `M`. §6.4: the Koszul complex of a sequence, exact in
+  `Γ^d_A(M) ≅ TSym^d_A(M)` for free `M`. §0.K.1: the Koszul complex of a sequence, exact in
   positive degrees with `H₀ = R/(f₁, …, f_r)` when the sequence is weakly regular.
 - **JacobianChallenge**, Layer B: for a geometrically connected smooth proper curve `C/k` of genus
   `g`, `dim H⁰(O) = 1`, `dim H⁰(Ω¹) = g`, `dim H¹(Ω¹) = 1` (Serre duality with `ω = Ω¹`) and
@@ -384,15 +405,30 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
 
 ### From other roadmaps
 
-- **DerivedDeRhamCohomology**: Layer 1, §§1.2, 1.3, 1.5 and 1.22
-  (derived completeness, the derived completion reflector, when quotient towers compute it, valid
+- **DerivedModuleAlgebra**: §§1.2, 1.3 and 1.5 (derived completeness, the completion
+  reflector and ordinary quotient towers); **DerivedDeRhamCohomology** §1.22 (valid
   exchanges of completion with derived operations), perfectness modulo a nilpotent ideal and of
   compatible perfect towers; Layer 2, §§2.12, 2.21 and 2.27 (the ordinary de Rham complex
   `Ω^•_{B/A}` as an `A`-complex with `A`-linear differential, its universal property among
   commutative differential graded algebras, and its version for completely smooth formal algebras);
   Layer 3, §§3.4 and 3.6 (the polynomial Cartier map and the Cartier isomorphism for smooth
   `𝔽_p`-algebras).
-- **EnhancedDerivedSheaves**: Layer E0 (the Dold–Kan mapping-space comparison and quasicategories);
+- **DerivedModuleAlgebra**: §§0.1–0.2 (polynomial resolutions and module derived tensor),
+  §§0.4–0.6, 0.8, 0.10–0.17 (cotangent complexes, square-zero extensions, transitivity,
+  localization, regular quotients and integral derived powers); §§1.1–1.7 (module towers,
+  completeness, completion and complete flatness), §1.T.1 (Milnor sequences), §S.1
+  (the first-quadrant double-complex spectral sequence).
+- **DerivedDeRhamCohomology**: §§PD.5–PD.7 (base-compatible divided powers, PD envelopes
+  and `A_cris`); §§1.13–1.17, 1.22–1.23 (perfect systems, filtered modules,
+  completion exchanges and quasisyntomic cotangent amplitude); §§2.22–2.26, 2.28 (derived
+  de Rham, base change, Hodge pieces, completions and transitivity); §§3.2–3.3, 3.5–3.6.1,
+  3.8, 3.11, 3.13 (conjugate filtration, derived twists, Cartier and quotient calculations);
+  §4.2 (PD conjugate filtration); §§5.1–5.8, 5.17, 5.19 (quasisyntomic and QRSP descent,
+  base-linear schemes and formal schemes, Teichmüller-quotient torsion-freeness).
+- **EnhancedDerivedSheaves**: §§0.1–0.4 (ringed-site enhancement, replacements, tensor–Hom,
+  towers and coherent functors), §E1.4 (enhanced inverse/direct image), §E1.6 (Kunz
+  flatness and its converse), §E1.9 (perfect proper pushforward); Layer E0 (the Dold–Kan
+  mapping-space comparison and quasicategories);
   Layer E1 (the enhanced derived category of a ringed site, derived tensor and internal Hom,
   derived pullback and pushforward, complexes of module sheaves and coherent composition
   comparisons); Layer E2:towers.1 (`derivedTowerLimit`, coherent derived limits on arbitrary
@@ -400,13 +436,15 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
   finite cover); §E2.2 (`IsReplete.derived_limits` and `IsReplete.milnor`, only on replete topoi,
   including the point topos for module towers); Layer E3
   (Beck–Chevalley comparisons).
-- **SchemeAndStackFoundations**: §§2.1–2.2 (`cech_to_cohomology` and `leray_spectral_sequence`
+- **SchemeAndStackFoundations**: §0.15 (Néron–Popescu desingularization);
+  §§2.1–2.2 (`cech_to_cohomology` and `leray_spectral_sequence`
   for general sites); Layer 2 (coherent cohomology, Tor-independent base change,
   perfect complexes and their biduality, a single perfect generator of `D_QCoh`, coherent
   Grothendieck duality with `(g∘f)^! ≅ f^!g^!`, the finite and smooth formulas, the proper trace
   and Serre duality, the pro-étale site and `ν`, extension by zero `F_!`, étale lifting across
   nilpotent thickenings and faithfully flat descent of quasi-coherent modules); Layer 4
-  (§4.6, deformations of smooth schemes and line bundles).
+  (§4.6, deformations of smooth schemes and line bundles; §4.7, formal spectra and adic
+  thickening systems).
 - **AdicSpacesPartIII**: §F0.3 (formal schemes and their adic systems), §F0.6
   (*coherent-as-inverse-system*, *theorem-on-formal-functions*, *cohomology-of-mittag-leffler-limit*,
   and the good-filtration and uniform Serre-vanishing targets), §F0.7 (`grothendieck-existence`)
@@ -418,7 +456,7 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
   functoriality and slices; §F1.5, weak completions; §F1.7 (`dagger-space`), dagger spaces;
   §F1.11, finiteness of de Rham cohomology of semistable tubes under its stated finiteness
   inputs.
-- **AlgebraicModuliForArithmeticGeometry**, Layer 7, §7.2: for `f : X → Spec R` proper, flat and
+- **EnhancedDerivedSheaves**, §E1.9: for `f : X → Spec R` proper, flat and
   of finite presentation and `F` finite locally free,
   `RΓ(X, F)` is perfect and commutes with every base change.
 - **PerfectoidSpaces**, Layer P1: §P1.24, integral perfectoid rings `IsIntegralPerfectoid`
@@ -428,14 +466,14 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
   kernel generated by a primitive non-zero-divisor for a perfectoid Tate pair `(S, S⁺)`
   (§§P1.17–P1.18). This roadmap uses `IsIntegralPerfectoid` and has no integral perfectoid
   predicate of its own.
-- **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §R07.1.0: `absoluteFrobenius`,
+- **SchemeAndStackFoundations**, §0.29: `absoluteFrobenius`,
   `schemeFrobeniusTwist`, `relativeFrobenius`, their factorization, naturality and arbitrary relative
   base change, independently of the Dieudonné-theory layers. Log Frobenius uses these underlying
   scheme maps and the p-power map on the log monoids.
 - **AbelianSchemesAndArithmeticModuli**, Layer A4: §A4.5 Barsotti–Tate groups `BarsottiTate S p h`
   with truncations, Cartier duals and base change; §A4.6 the degree-one divided-power realization
   `AbelianPD` of an abelian scheme; §A4.7 Grothendieck–Messing for abelian schemes.
-- **ArithmeticGaloisDuality**, Layer R02.2: the spectral sequence of a first-quadrant double
+- **DerivedModuleAlgebra**, §S.1: the spectral sequence of a first-quadrant double
   complex. **SchemeAndStackFoundations**, §§2.1–2.2: `cech_to_cohomology` and
   `leray_spectral_sequence`, for general sites. **LocallyAnalyticDistributions**, Layer 0, §§0.0 and 0.2: locally convex inductive and
   projective limits, completed projective tensor products, strict sequences and extensions of
@@ -457,12 +495,17 @@ divided powers, and ends with the universal envelope and `A_cris`. Layer CR.1 gl
 schemes and the crystalline sites and identifies crystals with modules with quasi-nilpotent
 connection; Layer CR.2 proves the PD Poincaré lemma and computes crystalline cohomology by de Rham
 complexes; Layer CR.3 develops the formal properties of crystalline cohomology of proper smooth
-schemes, with CR.3:Frobenius-isogeny on top of it. Layer CR.4 is the de Rham–Witt theory: it begins
+schemes, with CR.3:Frobenius-isogeny on top of it. After CR.2.2, CR.DDR.4.1, CR.DDR.4.3,
+CR.DDR.4.4 and CR.DDR.5.8–CR.DDR.5.10 compare derived de Rham with crystalline models.
+Layer CR.4 is the de Rham–Witt theory: it begins
 with pure homological algebra (Dieudonné complexes), passes through Witt-vector inputs and the
 three de Rham–Witt complexes, and ends with the crystalline comparison, slopes and the Nygaard
-filtration; CR.3:duality uses its top-degree sheaf to build the trace. Layer CR.5:log-algebra is
+filtration. CR.DDR.4.5 and CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 then build derived Witt
+and quasiregular crystalline theory; CR.3:duality uses its top-degree sheaf to build the trace.
+Layer CR.5:log-algebra is
 independent of all crystalline layers and can be built in parallel with CR.0–CR.4; Layer CR.5
-combines it with Layers CR.0 and CR.1 to build log crystalline cohomology, Layer CR.6 builds
+combines it with Layers CR.0 and CR.1 to build log crystalline cohomology. CR.DDR.6 develops
+derived logarithmic algebra and its crystalline comparison after CR.5.5. Layer CR.6 builds
 Hyodo–Kato theory on CR.4 and CR.5, and Layer CR.7 collects coefficients and relative cohomology for
 the roadmaps that consume this one. Within each layer the targets are in dependency order.
 
@@ -2593,7 +2636,7 @@ Mathlib `WittVector.map`; Mathlib `WittVector.eq_of_apply_teichmuller_eq`.
 
 ### Dependencies
 
-TauCetiRoadmap IntegralHeckeAndGaloisDeterminants (Layer 0, §6.4); DerivedDeRhamCohomology
+TauCetiRoadmap DerivedModuleAlgebra (§§0.DP.2, 0.K.1); DerivedDeRhamCohomology
 (Layer 1); EnhancedDerivedSheaves (Layer E2); Mathlib and Tau Ceti.
 
 ## Layer CR.1: Crystalline sites, structure sheaves and crystals
@@ -3088,7 +3131,7 @@ F-isocrystals*](https://page.mi.fu-berlin.de/esnault/preprints/helene/126_esn_gr
 14–15 of the author-hosted manuscript (Crys(Z/W_n), Crys(Z/W), Isoc(Z/W)); Introduction, p. 3
 (Frobenius structure) and Remark 1.7; [Stacks Project](https://stacks.math.columbia.edu),
 Crystalline Cohomology, §60.26 (tag 07N0), Situation 60.26.1, Definition 60.26.2 and Remark
-60.26.3.) *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0
+60.26.3.) *Needs:* SchemeAndStackFoundations §0.29
 (`absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`); *Quasi-coherent and finite
 locally free crystals*; *Morphisms and comparisons of crystalline sites*; *Canonical divided powers on the ideal generated by p* (Layer CR.0); Mathlib
 `WittVector.frobenius`; Mathlib `WittVector.truncate`; Mathlib `TruncatedWittVector`; Mathlib
@@ -3758,8 +3801,7 @@ Poincaré lemma*; *Differentials of a smooth envelope* (Layer CR.1); *Universal 
 the PD de Rham complex* (Layer CR.1); *Crystals, stratifications and quasi-nilpotent connections*
 (Layer CR.1); *PD stratifications on a smooth lift* (Layer CR.1); *Modules with integrable
 connection and their de Rham complexes* (Layer CR.1); *Morphisms and comparisons of crystalline
-sites* (Layer CR.1); *Structure, quotient and PD-ideal sheaves* (Layer CR.1); EnhancedDerivedSheaves Layer E2 (*Hypercover in a topos*); EnhancedDerivedSheaves Layer E2 (*Bounded-below hypercover descent*); ArithmeticGaloisDuality Layer
-R02.2 (*The spectral sequence of a first-quadrant double complex*).
+sites* (Layer CR.1); *Structure, quotient and PD-ideal sheaves* (Layer CR.1); EnhancedDerivedSheaves Layer E2 (*Hypercover in a topos*); EnhancedDerivedSheaves Layer E2 (*Bounded-below hypercover descent*); DerivedModuleAlgebra §S.1 (*The spectral sequence of a first-quadrant double complex*).
 
 **Checks.**
 
@@ -4044,7 +4086,7 @@ cohomology and de Rham cohomology*](https://arxiv.org/abs/1110.5001v1), §2, Lem
 Example 2.16, pp.5–6; §3, Theorem 3.2, p.7.) *Needs:* *Universal PD differentials and the PD de Rham
 complex* (Layer CR.1); *Crystalline cohomology from an embedding*; *Čech–Alexander totalization and
 refinements*; *Quasi-coherent and finite locally free crystals* (Layer CR.1);
-ArithmeticGaloisDuality Layer R02.2 (*The spectral sequence of a first-quadrant double complex*).
+DerivedModuleAlgebra §S.1 (*The spectral sequence of a first-quadrant double complex*).
 
 **Checks.**
 
@@ -4087,6 +4129,212 @@ SchemeAndStackFoundations Layer 2.
   cover and invariants F_p.
 - The comparison of the unit crystal on affine space uses the PD de Rham complex; it does not imply
   vanishing of crystalline cohomology of affine space.
+
+### CR.DDR.4.1 The derived de Rham to crystalline map
+
+For a ring map `A → B` of `ℤ/p^n`-algebras, `n ≥ 1`, construct `Comp_(B/A) : dR_(B/A) →
+RΓ_crys((B/A)_crys, O_crys)`, `DerivedDeRham.crystallineComparisonMap`, as a natural map in `DF(A)`,
+where the target is §CR.2.1's crystalline cohomology for the canonical divided powers on `p` with
+its PD filtration, using `Crystalline.CrisCompatibleSite` of §CR.1.1. On a polynomial resolution `P•
+→ B`, the map `Ω•_(P•/A) → Ω•_(P•/A) ⊗_(P•) D_(P•)(ker(P• → B))` is a map of strict Hodge-filtered
+dg algebras into the envelope model. The PD Poincaré lemma (§CR.2.2) identifies the realization of
+that model with the target in `DF(A)`. The target is classical crystalline cohomology of `B`, whose
+products are the ringed-site cup products specified in *Crystalline cup products*. `Comp` is
+multiplicative in the sense of the Conventions: it intertwines the shuffle product of
+DerivedDeRhamCohomology §2.22 with these cup products in `D(A)` (`crystallineComparisonCup`). It is
+not asserted to be a map of strict dg algebras into a strict model of the global target.
+
+[Bhatt12], Proposition 3.25 and Remark 3.26, p.12.
+
+*Needs:* DerivedDeRhamCohomology §2.22 (*De Rham cohomology from polynomial resolutions*);
+DerivedModuleAlgebra §0.1 (*Simplicial polynomial resolutions*); DerivedDeRhamCohomology §§PD.5–PD.6, §CR.1.1,
+§CR.2.1–§CR.2.2.
+
+Prove the following named laws.
+
+- `crystallineComparisonNatural`: a base-compatible square induces a commuting square of comparison
+  maps.
+- `crystallineComparisonHodge`: the map carries the Hodge filtration to the crystalline PD
+  filtration.
+- `crystallineComparisonSmooth`: for a smooth map of flat `ℤ/p^n`-algebras this is the PD Poincaré
+  equivalence.
+- `crystallineComparisonCup`: `Comp ∘ ∪_dR = ∪_crys ∘ (Comp ⊗^L Comp)` in `D(A)`, with `∪_crys` the
+  cup ringed-site product specified in *Crystalline cup products*. Proof route: on the envelope
+  model the map is a map of strict dg algebras. In each simplicial degree the identification of the
+  envelope de Rham complex with crystalline cohomology (*Crystalline cohomology from an embedding*)
+  carries its wedge product to the cup product, as in the proof of *Crystalline cup products* and in
+  `Crystalline.crysCup_deRham` for smooth lifts. The shuffle product on the realization is then
+  compared with the cup product degreewise.
+
+**Checks.**
+
+- `test_crys_map_base`: for `A → A` over `ℤ/p^n`, `Comp` is the identity on `A`.
+- `test_crys_map_polynomial`: for `F_p → F_p[t]`, `Comp` identifies the ordinary complex with the
+  crystalline PD de Rham model.
+- `test_crys_map_nonlci`: for `F_p → F_p[x,y]/(x,y)²`, the map exists but cannot be an equivalence:
+  `H^−1` of the source is nonzero (DerivedDeRhamCohomology §3.11) and the classical target is
+  coconnective.
+
+### CR.DDR.4.3 Regular quotients and classical PD envelopes
+
+For `A → B = A/I` with `A` and `B` flat over `ℤ/p^n`, `n ≥ 1`, and `I` locally generated by a finite
+regular sequence, prove that `Comp` identifies `dR_(B/A)` with the PD envelope `D_A(I)` compatible
+with the divided powers on `p`. Its Hodge filtration is the PD filtration. Modulo `p` its conjugate
+filtration is the PD conjugate filtration of DerivedDeRhamCohomology §4.2. The proof uses the
+envelope, flatness, tensor-discreteness and reduction facts of DerivedDeRhamCohomology §PD.6.
+
+[Bhatt12], Lemma 3.29, Claim 3.30, Lemmas 3.37–3.38, Corollary 3.40, pp.13–17.
+
+*Needs:* §CR.DDR.4.1 (*The derived de Rham to crystalline map*); DerivedDeRhamCohomology §3.8
+(*Regular quotient divided-power calculations*); DerivedDeRhamCohomology §2.23 (*Derived base change
+and Künneth*); DerivedDeRhamCohomology §PD.6, §CR.2.1–§CR.2.2.
+
+Lean: `DerivedDeRham.regularPdComparison`.
+
+**Checks.**
+
+- `test_regular_pd_zero`: for `I = 0`, `dR_(A/A) = A = D_A(0)`.
+- `test_regular_pd_line`: for `A = F_p[t]`, `B = F_p` (`n = 1`), `dR_(B/A) ≃ D_A((t)) = F_p⟨t⟩`, the
+  divided power polynomial algebra, in which `γ_p(t) ≠ 0` although `t^p = 0`; it is not the quotient
+  ring `F_p`.
+- `test_regular_pd_hodge`: in the same example the Hodge filtration is the PD filtration: `γ_n(t) ∈
+  Fil_H^n` and `γ_n(t) ∉ Fil_H^(n+1)`.
+
+### CR.DDR.4.4 Frobenius on nilpotent-p derived de Rham
+
+For a `ℤ/p^n`-algebra `B`, polynomial crystalline Frobenius gives a natural endomorphism `φ` of
+`dR_(B/(ℤ/p^n))`, commuting with the crystalline comparison map. For p-completed algebras use the
+compatible finite reductions. On characteristic-p Cartier graded pieces record the Frobenius twist.
+This construction does not identify the Hodge filtration with the conjugate or Nygaard filtration.
+
+[Bhatt12], Proposition 3.47 and proof, p.19; Remark 9.8.
+
+*Needs:* §CR.DDR.4.1 (*The derived de Rham to crystalline map*); DerivedDeRhamCohomology §2.22 (*De
+Rham cohomology from polynomial resolutions*); DerivedDeRhamCohomology §2.26 (*p-completed derived
+de Rham*); DerivedDeRhamCohomology §3.3 (*The derived Frobenius twist*); §CR.2.1.
+
+Lean: `DerivedDeRham.deRhamFrobenius`.
+
+Prove the following named laws.
+
+- `deRhamFrobeniusNatural`: algebra maps over `ℤ/p^n` commute with `φ`.
+- `deRhamFrobeniusCrystalline`: `Comp` intertwines `φ` and crystalline Frobenius.
+- `deRhamFrobeniusLimit`: the finite `φ` maps induce the endomorphism of `Λ_p dR`.
+- `deRhamFrobeniusDegreeZero`: modulo `p`, degree-zero polynomial functions map by `b ↦ b^p`.
+
+**Checks.**
+
+- `test_derham_frob_base`: on the base `ℤ/p^n`, the canonical Frobenius is the identity.
+- `test_derham_frob_coordinate`: modulo `p` on `F_p[t]`, `t` maps to `t^p` and the differential of
+  `t^p` is zero.
+- `test_derham_frob_filtration_boundary`: for `F_p[t]/F_p`, polynomial Frobenius has `φ(t) = t^p`
+  and `φ(dt) = 0`, while inverse Cartier sends `dt^(1)` to the nonzero class `[t^(p−1) dt]`, also at
+  `p = 2` where it is `[t dt]`. A Frobenius endomorphism therefore cannot substitute for inverse
+  Cartier or identify the two filtrations ([Bhatt12], Theorem 3.2, p.7).
+
+### CR.DDR.5.8 Base-linear realization of crystalline direct image
+
+For a morphism `f : X → S` of schemes with the PD base and crystalline site of §CR.2.1, construct
+`DerivedDeRham.baseLinearSheafDerived.crystallineComparison`, identifying the strict base-linear
+realization of DerivedDeRhamCohomology §5.8 with the enhanced crystalline direct image and global
+sections. The coefficient sheaf is `f⁻¹O_S`: `Ru_{X/S,*}` lies in `D(X_Zar, f⁻¹O_S)` and `RΓ` lies
+in `D(Γ(S,O_S))`. Compare strict models and the ringed-site enhancement in these categories. The
+filtered comparison preserves levelwise quasi-isomorphisms, cofibres and products and commutes with
+restriction and derived inverse limits, including finite reductions and their compatible p-adic
+towers. Cotangent powers have their quasi-coherent `O_X`-module structures before restriction of
+scalars; the full de Rham differential is base-linear.
+
+[BL22], Appendix B, Construction B.7 and Remark B.8; Appendix E, Proposition E.16, pp.226, 235–236;
+[StacksSites] §§21.17–21.19, Tags 06YS, 06YY, 07A5, 07A6, 0B6C, and §21.33, Lemmas 21.33.1–21.33.3,
+Tags 0FPK, 0FPL, 0FPM; [StacksCoh] §20.25, Tag 01FP.
+
+*Needs:* §CR.2.1 (*Enhanced crystalline direct image and global sections*); DerivedDeRhamCohomology
+§5.8 (*Base-linear ringed-site realization*), §§1.14–1.15; DerivedModuleAlgebra §§0.2, 1.1, 1.T.1;
+EnhancedDerivedSheaves §§0.1–0.3, E1.4 (`ClassicalDerived.enhancedCategory`,
+`ClassicalDerived.replacements`, `ClassicalDerived.tensorHom`, `ClassicalDerived.inverseLimits`,
+`enhancedPullback`, `enhancedPushforward`); SchemeAndStackFoundations §2.18.
+
+**Checks.**
+
+- `test_crystalline_realization_base`: on `X = S = Spec A`, the identity PD thickening realizes to
+  `A` in degree zero, with its base-linear structure.
+- `test_crystalline_realization_base_linear`: for a nonzero `A` and `B = A[t]`, the strict de Rham
+  model has `d(t·1) = dt ≠ 0 = t·d(1)`, including on `D(t)`. Restriction and the crystalline
+  realization therefore use `f⁻¹O_S`-linear maps.
+- `test_crystalline_realization_tower`: a compatible tower of finite reductions has the same
+  realized derived limit on both sides; its Milnor `lim¹` contribution is retained unless the
+  cohomology tower is Mittag–Leffler.
+
+### CR.DDR.5.9 The lci crystalline comparison theorem
+
+For `n ≥ 1` and an lci morphism `f : X → S` of flat `ℤ/p^n`-schemes (finite presentation and local
+regular immersion convention), the natural `Comp_f` is an isomorphism of Hodge-filtered objects of
+the filtered derived category (in `DF(A)` when `S = Spec A`). It is compatible with the cup products
+of DerivedDeRhamCohomology §5.8 and *Crystalline cup products* (`crystallineComparisonCup`), with
+base change in its Tor-independent crystalline range, and with Frobenius. The crystalline target
+uses `Crystalline.CrisCompatibleSite` of §CR.1.1 (compatible PD thickenings over the canonical PD
+base). This is [Bhatt12] Theorem 3.27: the exclusions are failure of the relative lci condition or
+of flatness of either coefficient scheme over `ℤ/p^n`. The relative map need not be flat and its
+target may be singular.
+
+[Bhatt12], Theorem 3.27, Lemmas 3.39 and 3.44–3.45, proof pp.18–19.
+
+*Needs:* §CR.DDR.4.1 (*The derived de Rham to crystalline map*); §CR.DDR.4.3 (*Regular quotients and
+classical PD envelopes*); DerivedDeRhamCohomology §3.13 (*Smooth ordinary and completed de Rham
+comparisons*); DerivedDeRhamCohomology §2.28 (*Derived de Rham transitivity filtrations*);
+DerivedDeRhamCohomology §5.8 (*Derived de Rham on schemes and formal schemes*);
+DerivedDeRhamCohomology §3.5 (*Derived Cartier graded pieces*); DerivedDeRhamCohomology §3.6.1
+(*Relative conjugate transitivity*); §CR.2.1–§CR.2.2; §CR.DDR.5.8 (*Base-linear realization of
+crystalline direct image*).
+
+Construct the sheaf comparison after the base-linear realization of §CR.DDR.5.8 and
+DerivedDeRhamCohomology §5.8.
+
+- `crystallineComparisonSheaf`: affine comparison maps glue in `D(X_Zar, f⁻¹O_S)` over the common
+  scheme site, with crystalline direct image from `CrisCompatibleSite`. The filtered realization of
+  DerivedDeRhamCohomology §5.8 and derived global sections carry this map to `DF(A)` when `S = Spec
+  A`, preserving the cup products of DerivedDeRhamCohomology §5.8 and the crystalline cup products
+  in `D(A)`.
+
+Lean: `DerivedDeRham.lciCrystallineComparison`.
+
+**Checks.**
+
+- `test_lci_crys_polynomial`: a smooth polynomial algebra satisfies the hypothesis and the
+  comparison is the PD Poincaré equivalence.
+- `test_lci_crys_regular_quotient`: a regular quotient of flat `ℤ/p^n`-algebras is lci and recovers
+  §CR.DDR.4.3. In particular `F_p[t] → F_p[t]/(t²)` lies in the theorem's scope: both coefficient
+  algebras are flat over `F_p`, and `(t²)` is a regular immersion, although the relative map is
+  nonflat and the target is singular.
+- `test_lci_crys_square_zero`: `F_p[x,y]/(x,y)²` is not lci and the comparison fails (§CR.DDR.4.1),
+  including `p = 2`.
+
+### CR.DDR.5.10 p-adic crystalline comparison by derived limits
+
+Let `A → B` be a map of p-complete bounded-torsion rings whose derived reductions are ordinary flat
+`ℤ/p^n`-algebras and lci for every `n`, compatibly. Then `Λ_p dR_(B/A) ≃ Rlim_n
+RΓ_crys((B/p^n)/(A/p^n))`. The same assertion applies to compatible p-adic formal schemes with the
+analogous finite-level hypotheses. The filtration is the derived limit of the Hodge/PD filtration.
+Each limit and base-change map is derived; reduction of arbitrary rings to `π₀` is not allowed.
+
+[Bhatt12], Definition 8.1, Lemma 8.3, Theorem 8.4, pp.31–32.
+
+*Needs:* DerivedModuleAlgebra §1.3 (*The derived completion reflector*); DerivedModuleAlgebra §1.5
+(*When ordinary quotient towers compute completion*); DerivedDeRhamCohomology §1.22 (*Valid
+exchanges of completion and derived operations*); DerivedDeRhamCohomology §2.26 (*p-completed
+derived de Rham*); DerivedDeRhamCohomology §2.23 (*Derived base change and Künneth*); §CR.DDR.5.9
+(*The lci crystalline comparison theorem*); DerivedModuleAlgebra §1.1 (*Derived limits of towers*);
+DerivedModuleAlgebra §1.T.1 / *The Milnor sequence for towers of complexes*.
+
+Lean: `DerivedDeRham.pAdicCrystallineComparison`.
+
+**Checks.**
+
+- `test_padic_crys_identity`: for the identity of a p-complete algebra both sides are its
+  p-completion.
+- `test_padic_crys_smooth`: for `ℤ_p → ℤ_p⟨t⟩` the finite reductions compare levelwise.
+- `test_padic_crys_lim_one`: the inverse limit is derived; a `lim¹` term of the levelwise cohomology
+  is retained (as in `test_rlim_lim_one`).
 
 ### CR.2.3 Smooth lifts and the formal comparison
 
@@ -4231,7 +4479,7 @@ crystalline direct image and global sections*; *Quasi-coherent and finite locall
 (Layer CR.1); *Modules with integrable connection and their de Rham complexes* (Layer CR.1);
 AdicSpacesPartIII F0.6 (*The theorem on formal functions*); AdicSpacesPartIII F0.6 (*Coherent modules
 on a locally noetherian formal scheme as compatible systems*); AdicSpacesPartIII F0.7
-(*Grothendieck’s existence theorem*); DerivedDeRhamCohomology Layer 1 (§1.22 *Valid exchanges of
+(*Grothendieck’s existence theorem*); DerivedModuleAlgebra (§1.22 *Valid exchanges of
 completion and derived operations*); AdicSpacesPartIII F0.6 (*Good filtrations and the
 Mittag-Leffler property*); SchemeAndStackFoundations Layer 2 (*Tor-independent base change for
 quasi-coherent complexes*).
@@ -4252,8 +4500,7 @@ quasi-coherent complexes*).
 
 ### Dependencies
 
-Layers CR.0, CR.1; EnhancedDerivedSheaves (Layer E1, Layer E2); ArithmeticGaloisDuality (Layer
-R02.2); SchemeAndStackFoundations (Layer 2); AdicSpacesPartIII (F0.6, F0.6, F0.6, F0.7);
+Layers CR.0, CR.1; EnhancedDerivedSheaves (Layer E1, Layer E2); DerivedModuleAlgebra (§S.1); SchemeAndStackFoundations (Layer 2); AdicSpacesPartIII (F0.6, F0.6, F0.6, F0.7);
 DerivedDeRhamCohomology (Layer 1); Mathlib.
 
 ## Layer CR.3: Descent, finiteness, base change and Frobenius
@@ -4479,7 +4726,7 @@ k≅RΓ(X,E_X⊗Ω^•_(X/k)) lies in degrees [0,2d], since Ω^q=0 for q>d and c
 above degree d; a perfect complex over the local ring W whose reduction to the residue field lies in
 [0,2d] has Tor-amplitude in [0,2d]. (4): apply *Derived crystalline base change* (3); its two
 assumptions are (2). The reduction to coherent cohomology uses proper flat perfectness and base
-change (AlgebraicModuliForArithmeticGeometry Layer 7, §7.2); the amplitude bound comes from
+change (EnhancedDerivedSheaves §E1.9); the amplitude bound comes from
 the preceding coherent-fibre calculation. The other inputs are perfectness modulo a nilpotent ideal
 and compatible perfect towers (DerivedDeRhamCohomology Layer 1); the non-noetherian extension of
 Stacks Remark 60.24.12 is not asserted. ([Stacks Project](https://stacks.math.columbia.edu),
@@ -4489,7 +4736,7 @@ corrigendum to Appendix B of *Notes on crystalline
 cohomology*](https://math.berkeley.edu/~ogus/preprints/BO_B2_Erratumre.pdf), p. 1: the opening
 paragraph and the replacement text for (B2.1); pp. 1–2: (B2.1a) and its proof.) *Needs:* *Derived
 crystalline base change*; *Smooth-lift comparison and PD filtration* (Layer CR.2);
-DerivedDeRhamCohomology Layer 1; AlgebraicModuliForArithmeticGeometry Layer 7 (§7.2 *Derived
+DerivedDeRhamCohomology Layer 1; EnhancedDerivedSheaves (§E1.9 *Derived
 pushforward and rank loci*, `perfect_proper_pushforward`); SchemeAndStackFoundations Layer 2
 (*D_QCoh of a qcqs scheme is generated by one perfect complex*).
 
@@ -4761,7 +5008,7 @@ Y⊗_A A/p, functoriality of the comparison of *Smooth-lift comparison and PD fi
 identifies F with the map induced by φ̃^* on Ω^•_(Y/A); φ̃^*(dy)=d(y^p+p·z)∈p·Ω¹_(Y/A), so
 φ̃^*(Ω^q_(Y/A))⊂p^q·Ω^q_(Y/A). ([Stacks Project](https://stacks.math.columbia.edu), Crystalline
 Cohomology, §60.26, Situation 60.26.1 (tag 07N2), Definition 60.26.2 (tag 07N3), and the first
-paragraph of the proof of Theorem 60.26.4 (tag 07N5).) *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0
+paragraph of the proof of Theorem 60.26.4 (tag 07N5).) *Needs:* SchemeAndStackFoundations §0.29
 (`absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`); *Morphisms and comparisons of
 crystalline sites* (Layer CR.1); *Rational crystals and nondegenerate F-crystals* (Layer CR.1);
 *Derived crystalline base change*; *Enhanced crystalline direct image and global sections* (Layer
@@ -4817,7 +5064,7 @@ formula" (tag 0FM9), Lemma 0FMB.) *Needs:* *Crystalline cup products*; *Proper s
 perfectness and reductions*; *Derived crystalline base change*; *Semilinear crystalline Frobenius
 and linearization*; *Smooth-lift comparison and PD filtration* (Layer CR.2);
 SchemeAndStackFoundations Layer 2 (*Tor-independent base change for quasi-coherent complexes*);
-DerivedDeRhamCohomology Layer 1 (§1.3 *The derived completion reflector*); DerivedDeRhamCohomology
+DerivedModuleAlgebra (§1.3 *The derived completion reflector*); DerivedDeRhamCohomology
 Layer 1 (§1.22 *Valid exchanges of completion and derived operations*); *Crystalline cohomology from
 a finite affine cover: the alternating Čech complex*.
 
@@ -4863,7 +5110,7 @@ proof, pp. 17–18.) *Needs:* *Proper smooth crystalline perfectness and reducti
 crystalline base change*; *Smooth-lift comparison and PD filtration* (Layer CR.2);
 SchemeAndStackFoundations Layer 2 (*Proper coherent Serre duality*); SchemeAndStackFoundations
 Layer 2 (*Coherent Grothendieck duality*: f^! ≅ f^*(−) ⊗ Ω^d[d] for smooth f);
-DerivedDeRhamCohomology Layer 1 (§1.2 *Derived ideal completeness*); DerivedDeRhamCohomology Layer 1
+DerivedModuleAlgebra (§1.2 *Derived ideal completeness*); DerivedDeRhamCohomology Layer 1
 (§1.3 *The derived completion reflector*); AdicSpacesPartIII F0.6 (*Finiteness and uniform Serre
 vanishing for graded coherent modules over a proper scheme*).
 
@@ -4968,7 +5215,7 @@ The relative proper smooth base change on all PD thickenings for the elliptic to
 identifying R¹ with the constant crystal, is part of this target. ([Bhatt–Morrow–Scholze, *Integral
 p-adic Hodge theory*](https://people.mpim-bonn.mpg.de/scholze/integralpadicHodge.pdf), §2.2, proof
 of Theorem 2.10, pp.17–19.) *Needs:* *Morphisms and comparisons of crystalline sites* (Layer CR.1);
-*Change of topology for quasi-coherent crystals* (Layer CR.2); ArithmeticGaloisDuality Layer R02.2
+*Change of topology for quasi-coherent crystals* (Layer CR.2); DerivedModuleAlgebra §S.1
 (*The spectral sequence of a first-quadrant double complex*); SchemeAndStackFoundations §2.2
 (`leray_spectral_sequence`); EnhancedDerivedSheaves Layer E1 (coherent composition);
 *Smooth proper lifts of curves over Witt vectors*.
@@ -5044,7 +5291,7 @@ crystalline Frobenius and linearization*; *Crystalline cup products*; *The cryst
 class and the hyperplane class*; *Derived crystalline base change*; *Smooth-lift comparison and PD
 filtration* (Layer CR.2);
 TauCetiRoadmap/JacobianChallenge#layer-b-coherent-cohomology-over-k-genus-riemannroch-serre-duality;
-ArithmeticGaloisDuality Layer R02.2 (*The spectral sequence of a first-quadrant double complex*);
+DerivedModuleAlgebra §S.1 (*The spectral sequence of a first-quadrant double complex*);
 SchemeAndStackFoundations §§2.1–2.2 (`cech_to_cohomology`, `leray_spectral_sequence`); *Smooth proper lifts of curves over Witt vectors*; *Crystalline
 Leray spectral sequence*; *Vanishing of the top coherent de Rham differential*.
 
@@ -5104,9 +5351,9 @@ SchemeAndStackFoundations Layer 2 (*Proper coherent Serre duality*).
 ### Dependencies
 
 Layers CR.0, CR.1, CR.2; EnhancedDerivedSheaves (Layer E1, Layer E2, Layer E3);
-DerivedDeRhamCohomology (Layer 1, Layer 3); AlgebraicModuliForArithmeticGeometry (Layer 7);
+DerivedDeRhamCohomology (Layer 1, Layer 3); EnhancedDerivedSheaves (§E1.9);
 SchemeAndStackFoundations (Layer 2, Layer 4); AdicSpacesPartIII (F0.6); TauCetiRoadmap
-JacobianChallenge (Layer B, Layer C); ArithmeticGaloisDuality (Layer R02.2);
+JacobianChallenge (Layer B, Layer C); DerivedModuleAlgebra (§S.1);
 SchemeAndStackFoundations (§§2.1–2.2, `cech_to_cohomology`, `leray_spectral_sequence`); TauCetiRoadmap EllipticCurves (Layer 3); Mathlib.
 
 ## Layer CR.3:Frobenius-isogeny: The Frobenius isogeny
@@ -6677,8 +6924,8 @@ Definition 2.4.1 and §2.8 Corollary 2.8.5, pp.16–17 and 27.) *Needs:* *Comple
 Dieudonné complex*; *Restriction kernel and p-torsion*; *Finite Frobenius lifting*; *Cartier
 criterion for saturation*; *Finite Verschiebung after Frobenius*; *Annihilation at finite level*;
 *Finite Frobenius after Verschiebung*; *Strict Dieudonné complexes*; *The finite quotients compute
-cohomology modulo p^r*; DerivedDeRhamCohomology Layer 1 (§1.2 *Derived ideal completeness*);
-DerivedDeRhamCohomology Layer 1 (§1.3 *The derived completion reflector*); DerivedDeRhamCohomology
+cohomology modulo p^r*; DerivedModuleAlgebra (§1.2 *Derived ideal completeness*);
+DerivedModuleAlgebra (§1.3 *The derived completion reflector*); DerivedDeRhamCohomology
 Layer 1 (§1.5 *When ordinary quotient towers compute completion*); *Strict Dieudonné towers*.
 
 **Checks.**
@@ -6734,8 +6981,8 @@ Proposition 7.1.16; §7.2 Corollary 7.2.2, Proposition 7.2.4; §7.3 Definition 7
 with proof, Proposition 7.3.6; §7.4 Definition 7.4.3, Theorem 7.4.7, Corollary 7.4.8; §7.5
 Proposition 7.5.3, Corollary 7.5.4, Lemma 7.5.6 and the proof of Theorem 7.4.7, pp.85–94.) *Needs:*
 *Dieudonné complexes*; *Saturated Frobenius*; *Saturation by iterated décalage*; *Strict completion
-and its adjunction*; *Derived p-décalage and completion*; DerivedDeRhamCohomology Layer 1 (§1.2
-*Derived ideal completeness*); DerivedDeRhamCohomology Layer 1 (§1.3 *The derived completion
+and its adjunction*; *Derived p-décalage and completion*; DerivedModuleAlgebra (§1.2
+*Derived ideal completeness*); DerivedModuleAlgebra (§1.3 *The derived completion
 reflector*); EnhancedDerivedSheaves Layer E1 (*The enhanced derived
 category*); EnhancedDerivedSheaves Layer E0 (*Dold–Kan mapping-space comparison*); *The finite
 quotients compute cohomology modulo p^r*.
@@ -6926,7 +7173,7 @@ Lemma 3.10(i), Remark 3.11, Lemmas 3.12–3.13 and proofs, pp.22–24; Remark 3.
 *Needs:* PerfectoidSpaces §P1.24 (*Integral perfectoid rings*); PerfectoidSpaces §P1.25 (*R
 perfectoid Tate ⇔ R⁺ integral perfectoid and bounded*); Mathlib `WittVector.frobenius`, `WittVector.verschiebung`,
 `WittVector.frobenius_verschiebung` and `WittVector.verschiebung_mul_frobenius`, as listed in
-*Exact supplier contracts*; *Finite-length Witt operators and their identities*; TauCetiRoadmap IntegralHeckeAndGaloisDeterminants §6.4 (*Koszul
+*Exact supplier contracts*; *Finite-length Witt operators and their identities*; TauCetiRoadmap DerivedModuleAlgebra §0.K.1 (*Koszul
 complexes*).
 
 **Checks.**
@@ -8233,7 +8480,7 @@ hypotheses and Proposition 2.1 (p. 607), Corollaire 2.5 (p. 609), Théorème 2.7
 de Rham–Witt comparison*; *Graded and crystalline Frobenius conventions*; *Proper smooth crystalline
 perfectness and reductions* (Layer CR.3); *Integral cohomological control*;
 *Slope decomposition on the existing isocrystal carrier*;
-ArithmeticGaloisDuality Layer R02.2 (*The spectral sequence of a first-quadrant double complex*).
+DerivedModuleAlgebra §S.1 (*The spectral sequence of a first-quadrant double complex*).
 
 **Checks.**
 
@@ -8362,6 +8609,182 @@ Mathlib `HomologicalComplex.stupidTrunc`.
 - For R=k[t] and i=0: gr⁰_N WΩ=W(R)/V W(R)=k[t] in degree 0, and φ_0 induces x↦x^p, an isomorphism
   onto τ^(≤0)Ω^*_(R/k)=k[t^p]; in (2), WΩ/N^(≥0)=0 and the cofibre is WΩ/N^(≥1)=k[t]=Ω^(≤0)_(R/k).
   The two truncations differ: k[t^p]⊂k[t] is a proper inclusion.
+
+### CR.DDR.4.5 Derived de Rham–Witt with Nygaard filtration
+
+From the classical de Rham–Witt complex `WΩ•_P` of a polynomial `F_p`-algebra and its Nygaard
+filtration (§CR.4.6–§CR.4.7), construct `LWΩ_S`, `DerivedDeRham.derivedDeRhamWitt`, for an
+`F_p`-algebra `S` as the derived p-completion of the realization `|WΩ•_(P•)|` over a polynomial
+resolution `P• → S`, with Nygaard filtration `N^(≥i)` realized levelwise; independence of the
+resolution is DerivedModuleAlgebra §0.1 applied to the functors `P ↦ WΩ•_P / N^(≥i)` and `P ↦
+W_rΩ•_P`. Extend divided Frobenius and prove the fibre sequences `N^(≥i+1)LWΩ → N^(≥i)LWΩ --φ_i mod
+p→ Fil_i^conj dR` and `LWΩ/N^(≥i) --p→ LWΩ/N^(≥i+1) → dR/Fil_H^(i+1)`. The resulting functor
+restricts to the classical smooth object.
+
+[BMS19], §8.2 opening, p.270, equations (4)–(5); Lemmas 8.2–8.3, pp.266–267.
+
+*Needs:* §CR.4.6–§CR.4.7; DerivedDeRhamCohomology §1.14 (*Filtered derived categories*);
+DerivedDeRhamCohomology §1.17 (*Completed filtered tensor products*); DerivedModuleAlgebra §1.3
+(*The derived completion reflector*); DerivedDeRhamCohomology §2.22 (*De Rham cohomology from
+polynomial resolutions*); DerivedDeRhamCohomology §3.2 (*The conjugate filtration*);
+DerivedModuleAlgebra §0.1 (*Simplicial polynomial resolutions*)
+
+Prove the following named laws.
+
+- `derivedWittSmooth`: on a smooth `F_p`-algebra, `LWΩ` is the classical `WΩ` with its Nygaard
+  filtration.
+- `derivedWittModP`: `LWΩ_S ⊗^L_(ℤ_p) F_p ≃ dR_(S/F_p)`.
+- `derivedWittDividedFrobenius`: `φ_i : N^(≥i)LWΩ → LWΩ` has the displayed modulo-p fibre sequence.
+- `derivedWittHodgeQuotient`: multiplication by `p` on Nygaard quotients has cofibre
+  `dR/Fil_H^(i+1)`.
+
+**Checks.**
+
+- `test_derived_witt_perfect`: for perfect `S`, `LWΩ_S = W(S)`, with Nygaard filtration `p^i W(S)`.
+- `test_derived_witt_fp`: for `S = F_p`, `LWΩ = ℤ_p` and its reduction is `F_p`.
+- `test_derived_witt_singular_boundary`: for `S = F_p[x,y]/(x,y)²`, `LWΩ_S ⊗^L_(ℤ_p) F_p ≃
+  dR_(S/F_p)` has `H^−1 ⊇ H^−2(L_(S/F_p)) ≅ F_p` (DerivedDeRhamCohomology §3.11), including `p = 2`,
+  whereas for smooth `S` the reduction is the de Rham complex in degrees `[0, dim S]`; the derived
+  object of a singular algebra is not the classical de Rham–Witt complex ([Bhatt12], Example 3.21,
+  p.11; [BMS19], §8.2, p.270).
+
+### CR.DDR.5.18 Quasiregular semiperfect derived Witt control
+
+For quasiregular semiperfect `S` over `F_p`, `LWΩ_S` is in degree zero and p-torsion-free,
+`N^(≥i)LWΩ_S` is a degree-zero submodule, `φ_i mod p` on `gr_N^i LWΩ_S` injects into `dR_(S/F_p)`
+with image `Fil_i^conj`, and `LWΩ_S → S` is a PD thickening. The injectivity is on the Nygaard
+graded term; it is not an injectivity claim for `φ_i mod p` on the whole level `N^(≥i)`.
+
+[BMS19], Proposition 8.13 and the end of the proof of Proposition 8.12, pp.273–274.
+
+*Needs:* §CR.DDR.4.5 (*Derived de Rham–Witt with Nygaard filtration*); DerivedDeRhamCohomology §5.2
+(*Quasiregular semiperfectoid rings*); DerivedDeRhamCohomology §3.5 (*Derived Cartier graded
+pieces*); DerivedModuleAlgebra §1.7 (*Complete flatness and complete faithful flatness*); DerivedDeRhamCohomology §PD.6.
+
+Lean: `DerivedDeRham.qrspWittControl`.
+
+**Checks.**
+
+- `test_qrsp_witt_perfect`: for perfect `S`, `LWΩ_S = W(S)` with Nygaard levels `p^i W(S)`.
+- `test_qrsp_witt_degree_zero`: for `S = F_p[t^(1/p^∞)]/(t)`, `LWΩ_S` is a p-torsion-free module in
+  degree zero.
+- `test_qrsp_witt_singular_boundary`: for the non-semiperfect `F_p[x,y]/(x,y)²`, `LWΩ` is not in
+  degree zero (§CR.DDR.4.5); the left Kan extension does not make an arbitrary singular `S`
+  discrete.
+
+### CR.DDR.5.20 Quasiregular semiperfect derived de Rham and PD envelopes
+
+For every quasiregular semiperfect `F_p`-algebra `S`, put `S^♭ = lim_φ S` and `I = ker(S^♭ → S)`.
+Then `dR_(S/F_p) ≃ dR_(S/S^♭)` is discrete and naturally identifies with `D_(S^♭)(I) = A_crys(S)/p`.
+The Hodge filtration is the PD filtration and the increasing conjugate filtration agrees with the PD
+conjugate filtration (DerivedDeRhamCohomology §4.2), with `gr_* ≃ Γ^*_S(I/I²)`. No finite-generation
+or regular-sequence hypothesis on `I` is imposed. The proof reduces to `S̃ = S♭[X_i^(1/p^∞), i ∈
+I]/(X_i)` as in [BMS19] and uses DerivedDeRhamCohomology §5.19 for the torsion-freeness of
+`A_crys(S̃)`.
+
+[BMS19], Proposition 8.12 and proof, pp.272–273.
+
+*Needs:* DerivedDeRhamCohomology §5.2 (*Quasiregular semiperfectoid rings*); DerivedModuleAlgebra
+§0.8 (*The cotangent transitivity triangle*); DerivedModuleAlgebra §0.16 (*Derived divided powers*);
+DerivedDeRhamCohomology §3.5 (*Derived Cartier graded pieces*); DerivedDeRhamCohomology §3.2 (*The
+conjugate filtration*); §CR.DDR.4.3 (*Regular quotients and classical PD envelopes*);
+DerivedDeRhamCohomology §4.2 (*The conjugate filtration of a PD envelope*); §CR.DDR.4.5 (*Derived de
+Rham–Witt with Nygaard filtration*); DerivedDeRhamCohomology §5.19 (*A_crys of perfect-ring
+quotients by Teichmüller regular sequences*); DerivedDeRhamCohomology §PD.6.
+
+Lean: `DerivedDeRham.qrspPdDerham`.
+
+**Checks.**
+
+- `test_qrsp_pd_perfect`: perfect `S = F_p` has `I = 0` and `dR = F_p`.
+- `test_qrsp_pd_root_quotient`: put `P = F_p[t^(1/p^∞)]` and `S = P/(t)`. Inverse Frobenius on `P`
+  identifies `S^♭` with `lim_n P/(t^(p^n))`, the t-adic completion of `P`. Division by the
+  nonzerodivisor `t` in this completion gives `I = (t)` and `I/I² ≃ S`. Then `dR_(S/F_p)` is the
+  degree-zero PD envelope of this principal ideal, with divided powers of `t`.
+- `test_qrsp_pd_infinite_kernel`: put `P∞ = F_p[x_i^(1/p^∞) : i ∈ ℕ]` and `S∞ = P∞/(x_i : i ∈ ℕ)`.
+  Frobenius is surjective on `S∞`. Every finite subset of the ordinary generators `x_i` is a regular
+  sequence in the perfect ring `P∞`, as seen on the monomial basis modulo the preceding ordinary
+  generators. Applying DerivedModuleAlgebra §0.13 to these finite quotients and DerivedModuleAlgebra
+  §0.11 to their filtered colimit gives `L_(S∞/F_p) ≃ (⊕_i S∞)[1]`. Here `L_(P∞/F_p) = 0`: Frobenius
+  induces both an equivalence and the zero map on it, using the polynomial model of
+  DerivedModuleAlgebra §0.4. Thus `S∞` is quasiregular semiperfect. For `I∞ = ker((S∞)^♭ → S∞)`,
+  perfection and transitivity give `L_(S∞/(S∞)^♭) ≃ (⊕_i S∞)[1]` and `I∞/I∞² ≃ ⊕_i S∞`. This
+  conormal module is not finitely generated (reduction along the augmentation to `F_p` has infinite
+  dimension), so `I∞` is not finitely generated. The theorem identifies `dR` with the discrete PD
+  envelope and its conjugate graded pieces with `Γ^*_(S∞)(⊕_i S∞)`, exercising its
+  no-finite-generation generality ([BMS19], Definition 8.8 and the filtered-colimit argument in
+  Proposition 8.12).
+- `test_qrsp_pd_not_semiperfect`: `F_p[t]` is not semiperfect and `dR_(F_p[t]/F_p)` has `H¹ ≠ 0`.
+
+### CR.DDR.5.21 The structure theorem for A_crys(S)
+
+For every quasiregular semiperfect `F_p`-algebra `S`, `A_crys(S)` is p-torsion-free and has a
+natural `φ`-equivariant identification `A_crys(S) ≃ LWΩ_S` matching Nygaard filtrations. Its
+`N^(≥i)` is `{x : φ(x) ∈ p^i A_crys}`; the divided Frobenius `gr_N^i → A_crys/p` injects with
+conjugate image `Fil_i^conj`. The image of `N^(≥i)` modulo `p` is `Fil_H^i dR`. Nygaard completion
+modulo `p` is Hodge-completed `dR`, and `φ mod p` is `x ↦ x^p`. Nygaard completion and completion at
+the PD ideal are not identified; at `p = 2` the latter can collapse `ℤ₂` to `F₂`.
+
+[BMS19], Theorem 8.14 and proof, pp.274–275.
+
+*Needs:* §CR.DDR.5.20 (*Quasiregular semiperfect derived de Rham and PD envelopes*); §CR.DDR.5.18
+(*Quasiregular semiperfect derived Witt control*); §CR.DDR.4.5 (*Derived de Rham–Witt with Nygaard
+filtration*); DerivedDeRhamCohomology §4.2 (*The conjugate filtration of a PD envelope*);
+DerivedDeRhamCohomology §5.19 (*A_crys of perfect-ring quotients by Teichmüller regular sequences*);
+DerivedDeRhamCohomology §PD.7.
+
+Lean: `DerivedDeRham.acrysStructure`.
+
+**Checks.**
+
+- `test_acrys_structure_fp`: for `S = F_p`, `A_crys = ℤ_p`, `φ = id` and `N^(≥i) = p^i ℤ_p`.
+- `test_acrys_structure_divided_frobenius`: on `N^(≥i+1)` one has `φ_i = p φ_(i+1)`, so `φ_i mod p`
+  on `N^(≥i)` factors through `gr_N^i`. Its image, on the level `N^(≥i)` as on `gr_N^i`, is exactly
+  `Fil_i^conj(A_crys/p)`; surjectivity holds onto this image only.
+- `test_acrys_structure_not_surjective`: for the nonperfect `S = F_p[t^(1/p^∞)]/(t)`, `I/I²` is free
+  of rank one over `S`, so `gr_(i+1)^conj(A_crys/p) ≅ Γ^(i+1)_S(I/I²) ≠ 0` (§CR.DDR.5.20). Hence
+  `Fil_i^conj` is a proper submodule of `A_crys/p` and `φ_i mod p` is not surjective onto
+  `A_crys/p`.
+- `test_acrys_structure_p_two`: at `p = 2`, completion at the PD ideal `(2)` of `ℤ₂` with its
+  divided powers is not the Nygaard completion; `γ_(2^a)(2)` has valuation 1 for all `a`.
+
+### CR.DDR.5.22 The canonical crystalline Čech complex
+
+For a Noetherian regular `F_p`-algebra `A`, let `S = A_perf` be its direct-limit perfection.
+Frobenius of `A` is flat by EnhancedDerivedSheaves §E1.6 `frobenius_flat_of_isRegular` (Kunz's
+theorem, [StacksLC] Lemma 51.17.6, Tag 0EC0), and induces the identity on spectra, so `A → S` is
+faithfully flat; `F_p → A` is a regular map, so `A` is a filtered colimit of smooth `F_p`-algebras
+(SchemeAndStackFoundations §DerivedModuleAlgebra §0.15; [StacksSmoothing] Tag 07GB) and `L_(A/F_p) ≃
+Ω¹_(A/F_p)[0]` is flat by DerivedModuleAlgebra §0.11–DerivedModuleAlgebra §0.12; hence `L_(S/A) ≃
+L_(A/F_p) ⊗ S[1]` has Tor amplitude in degree `−1`, and `A → S` is a quasisyntomic cover whose
+completed Čech terms are quasiregular semiperfect. The canonical cochain complex `A_crys(S) →
+A_crys(S ⊗_A S) → …` computes `RΓ_crys(A/ℤ_p)`, through the unfolding of `LWΩ` on `QSyn_(F_p)` and
+the identification `LWΩ_B ≃ WΩ•_B ≃ RΓ_crys(B/ℤ_p)` for smooth `B` (§CR.4.7). Regularity is
+essential for faithful flatness of perfection; this formula is not asserted for arbitrary singular
+`A`.
+
+[BMS19], Remark 8.15, pp.275–276.
+
+*Needs:* §CR.DDR.5.21 (*The structure theorem for A_crys(S)*); §CR.DDR.4.5 (*Derived de Rham–Witt
+with Nygaard filtration*); DerivedDeRhamCohomology §5.3 (*Compatible-root quasisyntomic covers*);
+DerivedDeRhamCohomology §5.4 (*Refinement and Čech stability of QRSP covers*);
+DerivedDeRhamCohomology §5.5 (*Sheaves and unfolding from the QRSP basis*); DerivedDeRhamCohomology
+§5.17 (*Descent of p-completed uncompleted de Rham*); DerivedModuleAlgebra §0.11 (*Localization and
+filtered colimits of cotangent complexes*); §CR.2.1, §CR.4.6–§CR.4.7; SchemeAndStackFoundations
+§0.15; EnhancedDerivedSheaves §E1.6 `frobenius_flat_of_isRegular` for the perfection cover and
+`isRegular_of_frobenius_flat` for its singular negative Check.
+
+Lean: `DerivedDeRham.regularFpCrystallineCech`.
+
+**Checks.**
+
+- `test_crys_cech_perfect`: for a perfect `A`, `S = A` and the complex is `W(A)` in degree zero.
+- `test_crys_cech_line`: for `A = F_p[t]`, perfection is flat and its Čech terms are semiperfect;
+  the complex computes `H⁰ = ℤ_p` and the crystalline `H¹` of the affine line.
+- `test_crys_cech_singular`: for `A = F_p[x,y]/(x,y)²`, the converse of Kunz's theorem
+  (`isRegular_of_frobenius_flat`) shows Frobenius is not flat. Its perfection is `F_p`, which is not
+  flat over `A`: for `m = (x,y)`, the nonzero module `m ⊗_A F_p ≅ m` maps to zero in `F_p`. Thus the
+  perfection map is not a cover and the formula is not asserted.
 
 ### CR.4.8 Logarithmic Hodge–Witt sheaves
 
@@ -8505,8 +8928,8 @@ Proposition 3.28 and Corollaire 3.29 (p. 582).) *Needs:* *Logarithmic Hodge–Wi
 
 Layers CR.0, CR.1, CR.2, CR.3; EnhancedDerivedSheaves (Layer E0, Layer E1, Layer E2);
 DerivedDeRhamCohomology (Layer 1, Layer 2, Layer 3); PerfectoidSpaces (Layer P1); TauCetiRoadmap
-IntegralHeckeAndGaloisDeterminants (§6.4); AdicSpacesPartIII (F0.6); ArithmeticGaloisDuality
-(Layer R02.2); SchemeAndStackFoundations (Layer 2); Mathlib.
+DerivedModuleAlgebra (§0.K.1); AdicSpacesPartIII (F0.6); DerivedModuleAlgebra
+(§S.1); SchemeAndStackFoundations (Layer 2); Mathlib.
 
 ## Layer CR.3:duality: Trace and Poincaré duality
 
@@ -8667,7 +9090,7 @@ de Rham Cohomology, Proposition 0FW7 (Poincaré duality), with Lemmas 0FW5 and 0
 *Proper smooth crystalline trace*; *Quasi-coherent and finite locally free crystals* (Layer CR.1);
 *Proper smooth crystalline perfectness and reductions* (Layer CR.3); *Crystalline cup products*
 (Layer CR.3); *Smooth-lift comparison and PD filtration* (Layer CR.2); DerivedDeRhamCohomology Layer
-1 (§1.3 *The derived completion reflector*); DerivedDeRhamCohomology Layer 1 (§1.22 *Valid exchanges
+1 (§1.3 *The derived completion reflector*); DerivedModuleAlgebra (§1.22 *Valid exchanges
 of completion and derived operations*); SchemeAndStackFoundations Layer 2 (*Proper coherent Serre
 duality*); SchemeAndStackFoundations Layer 2 (*Coherent Grothendieck duality*: f^! ≅ f^*(−) ⊗
 Ω^d[d] for smooth f); SchemeAndStackFoundations Layer 2 (*Proper coherent trace*);
@@ -9789,7 +10212,7 @@ semistable case*](https://arxiv.org/abs/1710.06145v3), §5.9–5.13, pp.36–38;
 prismatic cohomology I*](https://arxiv.org/abs/2007.14037v3), Appendix A, §A.1 Examples (1)–(2) and
 base-change convention, p.50.) *Needs:* *Inverse image log structures* (Layer CR.5:log-algebra);
 *Log structures on semistable formal charts* (Layer CR.5:log-algebra); *Semistable chart
-differential formula*; DerivedDeRhamCohomology Layer 1 (§1.3 *The derived completion reflector*).
+differential formula*; DerivedModuleAlgebra (§1.3 *The derived completion reflector*).
 
 **Checks.**
 
@@ -9814,7 +10237,7 @@ Impose the two stated properties and verify them for the semistable diagonal cha
 Fontaine–Illusie*](https://math.uchicago.edu/~drinfeld/p-adic_periods/Kato_log-structures.pdf),
 §4.7–4.8, pp.209–210; [Hyodo–Kato, *Semi-stable reduction and crystalline cohomology with
 logarithmic poles*](https://www.numdam.org/item/AST_1994__223__221_0.pdf), §2.12, Cartier type,
-pp.231–232.) *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0
+pp.231–232.) *Needs:* SchemeAndStackFoundations §0.29
 (`absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`); *Integral morphisms* (Layer
 CR.5:log-algebra); *Exact morphisms* (Layer CR.5:log-algebra); *Log fiber products* (Layer CR.5:log-algebra).
 
@@ -10351,7 +10774,7 @@ A_inf-cohomology in the semistable case*](https://arxiv.org/abs/1710.06145v3), �
 inverse-limit comparison, pp.37–38.) *Needs:* *Logarithmic embedding-system descent*; *Log
 structures under reduction and completion*; EnhancedDerivedSheaves E2:towers.1
 (`derivedTowerLimit`) and §E2.2 (`IsReplete.derived_limits`, `IsReplete.milnor`, point topos);
-EnhancedDerivedSheaves Layer E1 (*The enhanced derived category*); DerivedDeRhamCohomology Layer 1 (§1.3 *The derived
+EnhancedDerivedSheaves Layer E1 (*The enhanced derived category*); DerivedModuleAlgebra (§1.3 *The derived
 completion reflector*); DerivedDeRhamCohomology Layer 1; Mathlib `DerivedCategory`.
 
 **Checks.**
@@ -10431,6 +10854,737 @@ generated by a primitive nonzerodivisor*, §1.18); Layer CR.0; Mathlib `WittVect
 - `not_fine`: The valuation characteristic ℚ≥0 cannot be replaced by a finite ℕ chart in the
   canonical A_cris log base.
 - The log structure is integral quasi-coherent, generally non-fine.
+
+### CR.DDR.6.1 Free prelog resolutions
+
+For a prelog ring `(A, M)` (a ring `A`, a commutative monoid `M` and a monoid map `α : M → (A, ·)`),
+the free prelog `(A, M)`-algebra on sets `T₀, T₁` is `(A[T₀, ℕ^(T₁)], M ⊕ ℕ^(T₁))`, with the monoid
+generators sent to the corresponding monomials. The free/forgetful comonad on the underlying
+generator sets gives the standard simplicial resolution `P• → (B, N)` of a prelog `(A, M)`-algebra
+by termwise free prelog algebras, `DerivedDeRham.freePrelogResolutions`, surjective on rings and on
+monoids in every simplicial degree; any two such resolutions are homotopy equivalent and every
+functor of free prelog algebras takes them to quasi-isomorphic complexes after realization, as in
+DerivedModuleAlgebra §0.1. Finitely generated free objects are the compact generators; a functor of
+prelog algebras that commutes with filtered colimits and reflexive coequalizers is determined by its
+values on them.
+
+[Bhatt12], §§4–5, Propositions 5.3–5.5; Remark 6.10, pp.19–24, 26; [KY], §2.1, Notation 2.4 and
+Remark 2.8, pp.12–14.
+
+*Needs:* §CR.5:log-algebra.1; DerivedModuleAlgebra §0.1 (*Simplicial polynomial resolutions*);
+Mathlib `SimplicialObject`.
+
+Prove the following named laws.
+
+- `freePrelogUniversal`: a base prelog map from the free object is uniquely determined by its
+  ordinary ring generators and compatible monoid generators.
+- `prelogResolutionAugmentation`: the standard resolution has a surjective augmentation on ring and
+  monoid in every simplicial degree.
+- `prelogResolutionComparison`: two resolutions compare by a homotopy equivalence, unique up to
+  homotopy.
+- `prelogAnimationExtend`: a functor of free prelog algebras with values in complexes extends to all
+  prelog algebras by evaluation on resolutions.
+
+**Checks.**
+
+- `test_prelog_free_empty`: with both generator sets empty the free object is `(A, M)`.
+- `test_prelog_free_two_generators`: one ordinary `t` and one monoid `x` give `(A[t, x], M ⊕ ℕ)`,
+  with `x` the image of the monoid generator.
+- `test_prelog_free_no_identification`: the monoid generator `x` is not freely mapped independently
+  of its ring image; forgetting this compatibility gives the wrong adjunction.
+
+### CR.DDR.6.2 Homotopy pushouts of prelog rings
+
+The homotopy pushout of prelog rings `S₁ ⊔^L_R S₂` is computed by a free prelog resolution of `S₁`
+over `R` tensored with `S₂`: its underlying simplicial ring is the derived tensor product of rings
+and its underlying simplicial monoid is the homotopy pushout of commutative monoids, because the
+forgetful functor to pairs (simplicial monoid, simplicial ring) commutes with homotopy colimits. The
+p-completed homotopy pushout completes the ring component only; for p-complete prelog rings with
+bounded p-torsion, reduction modulo `p` is `S ⊗^L_ℤ F_p` on the ring component with the monoid
+unchanged. `DerivedDeRham.prelogHomotopyPushout`.
+
+[KY], Remark 2.8, Definition 2.44 and Remark 2.45, pp.13–14, 23–24; [Bhatt12], Definition 4.8 and
+Proposition 4.9, pp.20–21; [KY], Lemma 3.6(2) with proof, p.28.
+
+*Needs:* §CR.DDR.6.1 (*Free prelog resolutions*); DerivedModuleAlgebra §0.2 (*Derived tensor
+products on module derived categories*); DerivedModuleAlgebra §1.6 (*Completion of simplicial
+commutative algebras*)
+
+**Checks.**
+
+- `test_prelog_pushout_trivial_monoids`: for trivial monoids it is the derived tensor product of
+  rings.
+- `test_prelog_pushout_monoid`: for `ℕ ← ℕ → ℕ` with both maps multiplication by 2 (`x ↦ x²` on
+  monoid algebras), the homotopy pushout of monoids has `π₀ = ⟨a, b | 2a = 2b⟩`. It is integral: `na
+  + mb ↦ (n + m, m mod 2)` embeds it into `ℤ ⊕ ℤ/2`. Its group completion has the 2-torsion element
+  `a − b`, which does not lie in `π₀` although `2(a − b) = 0` does, so `π₀` is neither saturated nor
+  has torsion-free group completion.
+- `test_prelog_pushout_nonintegral`: for `ℕ ← ℕ² → ℕ` with maps `(i, j) ↦ i + j` and `(i, j) ↦ i +
+  2j`, `π₀ = ⟨a, b | a = b, a = 2b⟩ = {0, e}` with `e = 2e ≠ 0`. It is not integral, since `e + e =
+  e + 0` while `e ≠ 0`. The homotopy pushout of integral monoids need not be integral.
+- `test_prelog_pushout_completion`: p-completing `(ℤ[ℕ], ℕ)` gives `(ℤ_p⟨x⟩, ℕ)`; the monoid is not
+  completed.
+
+### CR.DDR.6.3 Derived logarithmic derivations
+
+For a map `(A, M) → (B, N)` and a `B`-module `P`, define log derivations as base-compatible sections
+of `(B ⊕ P, N ⊕ P) → (B, N)`. The ring is the split square-zero extension, the monoid operation is
+`(n, u)(n′, u′) = (nn′, u + u′)`, and its structure sends `(n, u)` to `(α(n), α(n)u)`. Sections are
+a ring derivation `D : B → P` and an additive log derivative `δ : N → P` with `D(α(n)) = α(n)δ(n)`,
+both zero on the base, `DerivedDeRham.logDerivedDerivations`. The higher structure is recorded by
+`Ext` groups against the log cotangent complex, as in DerivedModuleAlgebra §0.6.
+
+[Bhatt12], Remark 6.6 and displayed equivalence (6), pp.25–26.
+
+*Needs:* §CR.DDR.6.1 (*Free prelog resolutions*); DerivedModuleAlgebra §0.5 (*Square-zero extensions
+and their classes*); §CR.5:log-algebra.1.
+
+Prove the following named laws.
+
+- `logDerivationsDiscrete`: log derivations into a module are the compatible pairs `(D, δ)` with `Dα
+  = αδ`.
+- `logDerivationsModuleMap`: a `B`-linear `P → P′` induces the map of log derivations.
+- `logDerivationsFree`: for finite free prelog generators the derivations are freely specified by
+  ordinary `D(t)` and logarithmic `δ(x)`.
+
+**Checks.**
+
+- `test_log_derivations_identity`: for the identity prelog map there are no nonzero log derivations.
+- `test_log_derivations_coordinate`: for `(A, 0) → (A[x], ℕ)`, a log derivation has `D(x) = x δ(1)`.
+- `test_log_derivations_log_point`: for `(k, 0) → (k, ℕ → 0)`, log derivations have `D = 0` and
+  arbitrary `δ(1) ∈ P`; the representing object still has an additional negative cotangent term.
+
+### CR.DDR.6.3.1 Log square-zero extension classes
+
+For `(A, M) → (B, N)` and a `B`-module `P`, construct `DerivedDeRham.LogSquareZeroExtension`: a
+prelog `(A, M)`-algebra `(B′, N′)` with surjective projection to `(B, N)` and an identified
+square-zero ring kernel `i : P → B′` with its given `B`-action. Require a compatible additive action
+of `P` on `N′`, written `n′ · u`, with every fibre of `N′ → N` a nonempty free transitive `P`-set,
+`(n′ · u)(m′ · v) = (n′m′) · (u+v)`, and `α′(n′ · u) = α′(n′)(1+i(u))`. The fibre over the monoid
+unit is identified with `P` by `u ↦ 1 · u`; its elements are units and their ring images are
+`1+i(u)`. The base prelog map and both projections are retained. This is the torsor extension for
+the split module object `(B ⊕ P, N ⊕ P)` of §CR.DDR.6.3, rather than an arbitrary monoid surjection.
+
+Morphisms fix the base, projections, ring-kernel identification and the `P`-action. Define their
+isomorphism relation and `DerivedDeRham.LogExal` as the quotient. Construct its abelian group law by
+taking the fibre product over `(B,N)` and pushing its kernel `P ⊕ P` out by addition: on rings
+quotient by the antidiagonal, and on monoids quotient by the antidiagonal `P`-action. The split
+extension is zero; kernel negation gives the inverse. Prove well-definedness, the group laws,
+coefficient pushout and pullback in the target prelog algebra. The resolution cocycle records both
+the ring and monoid lift differences with the order `d₀ − d₁`.
+
+[Bhatt12], Remark 6.6 and equivalence (6), pp.25–26, for the split module object and its
+derivation-space classifier; its degree-one torsors are constructed by applying the free prelog
+resolution of §§5–6. [GR], §§2.5.4–2.5.7, p.30, supplies the ordinary ring specialization of this
+torsor and Baer-sum construction.
+
+*Needs:* §CR.DDR.6.1 (*Free prelog resolutions*); §CR.DDR.6.3 (*Derived logarithmic derivations*);
+DerivedModuleAlgebra §0.5 (*Square-zero extensions and their classes*); §CR.5:log-algebra.1 (prelog
+maps and units).
+
+**Checks.**
+
+- `test_log_extension_zero_kernel`: for `P = 0`, both projections are isomorphisms and `LogExal` is
+  zero.
+- `test_log_extension_log_point`: over `(ℚ,0)`, extend `(ℚ,ℕ → 0)` by `P = ℚ` with `B′ = ℚ[ε]/ε²`,
+  `N′ = ℕ × ℚ` and `α′(n,u) = ε^n(1+uε)`. This has no prelog section: every lift of the monoid
+  generator has ring image `ε`, whereas a section of the ring sends its zero image to zero. Its
+  class is nonzero.
+- `test_log_extension_baer_sign`: for the same log point, replace `ε^n` by `(cε)^n`. Classes add by
+  `c+d`, the split class has `c=0`, and `c=1` and `c=−1` are distinct inverse classes. This
+  distinguishes addition from the zero or sign-reversed operation.
+
+### CR.DDR.6.4 The Gabber logarithmic cotangent complex
+
+For a prelog map `(A, M) → (B, N)`, define `L_log = L_((B,N)/(A,M))`,
+`DerivedDeRham.gabberLogCotangent`, by realizing `Ω¹_log` of the free prelog resolution and
+extending its coefficients to `B`. It represents log derivations, is natural and
+resolution-independent, and has the universal ring derivation `d` and monoid map `d log`. For
+ordinary prelog rings `H⁰` is the ordinary logarithmic differential module, with `dα(n) = α(n) d log
+n`. This is Gabber's complex; Olsson's complex is identified with it only for integral morphisms of
+integral prelog rings, not for all log smooth maps.
+
+[Bhatt12], Definition 6.3, Remark 6.4, Proposition 6.5 and Remark 6.6, pp.24–26; [KY], Definition
+2.5, Lemmas 2.9–2.10, Remark 2.13, pp.13–15; [Ols05], §8 (Gabber's construction), Lemma 8.22 and
+Theorem 8.32.
+
+*Needs:* §CR.DDR.6.1 (*Free prelog resolutions*); §CR.DDR.6.3 (*Derived logarithmic derivations*);
+DerivedModuleAlgebra §0.4 (*The full cotangent complex*); §CR.DDR.6.3.1 (*Log square-zero extension
+classes*); §CR.5.1 (log differentials); Mathlib `DerivedCategory`.
+
+Prove the following named laws.
+
+- `logCotangentUniversal`: for a discrete `B`-module `P`, `Hom_(D(B))(L_log, P) ≃` the log
+  derivations of §CR.DDR.6.3, and `Hom_(D(B))(L_log, P[1]) ≃ LogExal_(A,M)((B,N), P)` additively,
+  with the class of each extension given by its ring-and-monoid resolution cocycle. The split
+  extension maps to zero and the log-point class of §CR.DDR.6.3.1 maps to its nonzero conormal
+  coefficient.
+- `logDerivationsRepresented`: the Gabber cotangent complex represents the log derivations of
+  §CR.DDR.6.3 by `Hom_(D(B))(L_log, P)`.
+- `logCotangentH0`: for ordinary inputs `H⁰ L_log ≃ Ω¹_log` with the displayed `d`/`d log` relation.
+- `logCotangentOrdinaryMap`: there is a natural map `L_(B/A) → L_log`, an equivalence when the
+  monoid map is an isomorphism ([KY] Lemma 2.9; [Ols05] Lemma 8.22).
+- `logCotangentNaturality`: base-compatible prelog squares give maps of the complexes and of the
+  universal `d`, `d log`.
+
+**Checks.**
+
+- `test_log_cotangent_identity`: an identity prelog map has zero cotangent complex.
+- `test_log_cotangent_free`: for `(A, 0) → (A[t, x], ℕ)`, `L_log` is free in degree zero on `dt` and
+  `d log x`, with `dx = x d log x`.
+- `test_log_cotangent_nonintegral`: [KY] Remark 2.13, with `P` generated by `(2,0), (0,2), (1,1)`
+  inside `ℕ²` and `char(k) ≠ 2`, is log étale but has nonzero Gabber cotangent complex (unbounded on
+  the left, [Ols05] 7.3).
+
+### CR.DDR.6.5 Log cotangent transitivity, base change and invariance
+
+For composable prelog maps `R → S → T`, `L_log(S/R) ⊗^L_S T → L_log(T/R) → L_log(T/S)` is a
+distinguished triangle ([Ols05] Theorem 8.18). A homotopy pushout of prelog rings (§CR.DDR.6.2)
+gives the corresponding derived cotangent base-change equivalence, and filtered colimits commute
+with `L_log`. A prelog map inducing an isomorphism of associated log rings has relative cotangent
+zero, so passage to the associated log structure preserves `L_log` ([Ols05] Theorem 8.20). For an
+integral morphism of integral prelog rings that is log smooth after logification, `L_log ≃ Ω¹_log`
+in degree zero ([KY] Lemma 2.14 and its proof, using [Ols05] Theorems 8.32 and 1.1(iii)). The
+derived pushout is replaced by the ordinary one only under homological log flatness.
+
+[KY], Lemmas 2.10, 2.14, Theorem 2.11 and Remark 2.12, pp.14–16; [Ols05], Theorems 8.18, 8.20, 8.32
+and 1.1(iii).
+
+*Needs:* §CR.DDR.6.4 (*The Gabber logarithmic cotangent complex*); §CR.DDR.6.1 (*Free prelog
+resolutions*); §CR.DDR.6.2 (*Homotopy pushouts of prelog rings*); DerivedModuleAlgebra §0.8 (*The
+cotangent transitivity triangle*); §CR.5:log-algebra.3 (log smoothness), §CR.5:log-algebra.5
+(integral log structures).
+
+Lean: `DerivedDeRham.logCotangentFunctoriality`.
+
+**Checks.**
+
+- `test_log_transitivity_identity`: identity maps have zero relative `L_log`.
+- `test_log_transitivity_strict`: for identical monoids the triangle is the ordinary transitivity
+  triangle.
+- `test_log_base_change_pushout`: the homotopy prelog pushout includes ring and monoid terms; for
+  trivial monoids it is DerivedModuleAlgebra §0.10.
+
+### CR.DDR.6.6 Homological logarithmic flatness
+
+A prelog map `R → S` is homologically log flat (hlf) if for every prelog map `R → S′` the homotopy
+pushout `S′ ⊔^L_R S` (§CR.DDR.6.2) is equivalent to the ordinary pushout. It is hlf faithfully flat
+if moreover the underlying ring map is faithfully flat. Equivalently, the ring map is flat and the
+monoid map is flat in the homotopy-pushout sense of [Bhatt12] Definition 4.8. This differs from Kato
+log flatness in both directions. Covers define the hlf topology on prelog algebras,
+`DerivedDeRham.homologicalLogFlatness`.
+
+[KY], Definition 2.44 and Remarks 2.45–2.46, pp.23–24; [Bhatt12], Definition 4.8 and Proposition
+4.9, pp.20–21.
+
+*Needs:* §CR.DDR.6.1 (*Free prelog resolutions*); §CR.DDR.6.2 (*Homotopy pushouts of prelog rings*);
+§CR.DDR.6.5 (*Log cotangent transitivity, base change and invariance*); §CR.5:log-algebra.1.
+
+Prove the following named laws.
+
+- `hlfUnderlyingCriteria`: hlf iff ring-flat and monoid homotopy-pushout-flat.
+- `hlfPushoutOrdinary`: every base change has the displayed derived-to-ordinary pushout equivalence.
+- `hlfCompositionBaseChange`: hlf and hlf faithfully flat maps are stable under composition and base
+  change.
+- `hlfIntegralSufficient`: an underlying flat ring map with injective integral map of integral
+  monoids is hlf ([KY] Remark 2.45).
+
+**Checks.**
+
+- `test_hlf_identical_monoids`: a prelog map with isomorphic chart monoids and flat underlying ring
+  is hlf.
+- `test_hlf_strict_logification`: `(F₂, C₂ → 1) → (F₂, 0)` has flat underlying ring and both
+  logifications are trivial, so the associated log map is strict. Its chart-monoid pushout along `C₂
+  → 0` is nondiscrete: the corresponding monoid-algebra derived tensor has `Tor₁^{ℤ[C₂]}(ℤ, ℤ) =
+  ℤ/2` ([Bhatt12] Propositions 4.4, 4.7–4.9). Log strictness (§CR.5:log-algebra.2) does not identify
+  the chart monoids.
+- `test_hlf_diagonal`: the diagonal `(k, ℕ → 0) → (k, ℕ² → 0)` is hlf but not Kato log flat.
+- `test_hlf_nonintegral_kato`: for `P` generated by `(2,0), (0,2), (1,1)` in `Q = ℕ²`, `(k[P], P) →
+  (k[Q], Q)` is Kato log flat but not hlf.
+
+### CR.DDR.6.7 Logarithmic derived de Rham
+
+For a prelog map `(A, M) → (B, N)`, realize the ordinary log de Rham dg algebra of the free prelog
+resolution with direct sums along antidiagonals, `DerivedDeRham.logDerivedDeRham`. This gives a
+graded-commutative dg `A`-algebra `dR_log` with universal ordinary `d` and closed `d log : N →
+dR_log[1]`. It has a decreasing multiplicative Hodge filtration with `gr_H^i ≃ L∧^i_B L_log[−i]`, an
+increasing exhaustive conjugate filtration, a separate Hodge completion and the p-completion of
+DerivedModuleAlgebra §1.3. Strict maps with identical monoids recover ordinary derived de Rham. The
+derived algebra is `A`-linear; its full differential is generally not `B`-linear.
+
+[Bhatt12], Definition 6.8, Proposition 6.9, Remarks 6.10–6.11, pp.25–26; [KY], Construction 2.6,
+p.13.
+
+*Needs:* §CR.DDR.6.1 (*Free prelog resolutions*); §CR.DDR.6.4 (*The Gabber logarithmic cotangent
+complex*); DerivedDeRhamCohomology §2.22 (*De Rham cohomology from polynomial resolutions*);
+DerivedDeRhamCohomology §2.21 (*The universal differential graded algebra*); DerivedDeRhamCohomology
+§2.25 (*Hodge-completed derived de Rham*); DerivedDeRhamCohomology §2.26 (*p-completed derived de
+Rham*); DerivedModuleAlgebra §0.14 (*Derived exterior powers*); §CR.5.1; DGAInfinity Layer 1 (strict
+DG models and morphisms).
+
+Prove the following named laws.
+
+- `logDeRhamHodgeGraded`: `gr_H^i dR_log ≃ L∧^i L_log[−i]`.
+- `logDeRhamDLog`: the additive monoid map `d log` is closed and lands in `dR_log[1]`.
+- `logDeRhamStrict`: for identical base and target monoids, `dR_log` is ordinary derived de Rham.
+- `logDeRhamCompletions`: Hodge and p-completion are separate functors with their universal maps and
+  quotient towers.
+
+**Checks.**
+
+- `test_log_derham_identity`: an identity prelog map gives the base ring with no positive Hodge
+  pieces.
+- `test_log_derham_free_coordinate`: for `(F_p, 0) → (F_p[x], ℕ)`, `d(x) = x d log x` and `d(d log
+  x) = 0`.
+- `test_log_derham_rational_logification`: [Bhatt12] Example 6.15: strict `ℚ → ℚ[x, x⁻¹]` gives
+  uncompleted `dR = ℚ`, while logifying the units adds a degree-one conjugate class.
+
+### CR.DDR.6.8 Log de Rham base change and Künneth
+
+For a homotopy pushout `S` of prelog `A`-algebras `S₁, S₂`, `dR_log(S₁/A) ⊗^L_A S₂ ≃ dR_log(S/S₂)`
+and `dR_log(S₁/A) ⊗^L_A dR_log(S₂/A) ≃ dR_log(S/A)`, compatibly with Hodge filtrations and
+multiplication. The p-completed versions use completed derived tensor. The first tensor is over the
+base ring `A`; `dR_log(S₁/A)` is not generally an `S₁`-module, so the additional `S₁`-relative
+tensor printed in [KY] Theorem 2.11 is not used.
+
+[Bhatt12], Proposition 6.12 and proof, p.26; [KY], Theorem 2.11, second displayed formula, p.15.
+
+*Needs:* §CR.DDR.6.7 (*Logarithmic derived de Rham*); §CR.DDR.6.2 (*Homotopy pushouts of prelog
+rings*); §CR.DDR.6.6 (*Homological logarithmic flatness*); DerivedDeRhamCohomology §2.23 (*Derived
+base change and Künneth*); DerivedDeRhamCohomology §1.17 (*Completed filtered tensor products*)
+
+Lean: `DerivedDeRham.logDeRhamBaseChange`.
+
+**Checks.**
+
+- `test_log_kunneth_identity`: base change along the identity preserves the value.
+- `test_log_kunneth_free`: free ring and log variables tensor with the signed differential.
+- `test_log_kunneth_non_hlf`: for a non-hlf map the ordinary pushout does not compute the homotopy
+  prelog pushout (§CR.DDR.6.6).
+
+### CR.DDR.6.9 Derived logarithmic Cartier theory
+
+For a map `(A, M) → (B, N)` of prelog `F_p`-algebras, define the Frobenius of the base by `p` on `M`
+and Frobenius on `A` and form the homotopy prelog pushout `(B, N)^(1)`. The relative Frobenius maps
+it to `(B, N)`. The increasing conjugate filtration of `dR_log` is levelwise linear over the twisted
+free prelog resolution, and `gr_i^conj ≃ L∧^i L_log((B, N)^(1)/(A, M))[−i]` in `D(A)`, with the
+conventions of DerivedDeRhamCohomology §3.3 and 3.5. On free ordinary coordinates `y`, inverse
+Cartier sends `dy` to `[y^(p−1) dy]`; on free log coordinates `x` it sends `d log x` to `[d log x]`.
+All twists are derived unless the ring and monoid flatness criteria are proved.
+
+[Bhatt12], Notation 7.1, Lemma 7.2, Theorem 7.3 and Proposition 7.4, pp.27–28; [KY], Notation 2.15
+and Construction 2.6, pp.13, 16.
+
+*Needs:* §CR.DDR.6.7 (*Logarithmic derived de Rham*); §CR.DDR.6.1 (*Free prelog resolutions*);
+§CR.DDR.6.5 (*Log cotangent transitivity, base change and invariance*); DerivedDeRhamCohomology §3.3
+(*The derived Frobenius twist*); DerivedDeRhamCohomology §3.5 (*Derived Cartier graded pieces*);
+DerivedModuleAlgebra §0.14 (*Derived exterior powers*); §CR.5.1 (log Cartier isomorphism).
+
+Lean: `DerivedDeRham.logCartier`.
+
+**Checks.**
+
+- `test_log_cartier_ordinary`: `C⁻¹(dy^(1)) = [y^(p−1) dy]`.
+- `test_log_cartier_log`: `C⁻¹(d log x^(1)) = [d log x]`, including `p = 2`.
+- `test_log_cartier_twist_monoid`: the twisted monoid map is multiplication by `p`.
+
+### CR.DDR.6.9.1 Log relative conjugate transitivity
+
+For composable characteristic-p prelog maps `R = (A,M) → S = (B,N) → T = (C,P)`, construct
+`DerivedDeRham.logRelativeConjugateTransitivity`, an increasing relative conjugate filtration on
+`dR_log(T/R)`, with `Fil_−1 = 0`, natural transitions, exhaustiveness and multiplication `Fil_i
+⊗^L_A Fil_j → Fil_(i+j)`. Choose compatible free prelog resolutions `S_k = (B_k,N_k)` over `R` and
+`T_k = (C_k,P_k)` over `S_k`. Write `S_k^(1) = S_k ⊔^L_(R,Frob_R) R`, whose ring is `B_k^(1)`. Its
+weight-`n` graded piece in `D(A)` is the realization of `Ω•_log(S_k/R) ⊗_(B_k^(1))
+Frob_R^*(∧^n_(C_k) Ω¹_log(T_k/S_k)[−n])`, where the relative exterior power is first formed over
+`C_k`, then restricted to `B_k` and extended along `B_k → B_k^(1)`, `b ↦ b ⊗ 1`. The connection is
+the Frobenius-descent connection. If the ring of `S^(1)` is discrete, the same formula is
+`dR_log(S/R) ⊗^L_(B^(1)) Frob_R^*(Res^C_B L∧^n_C L_log(T/S)[−n])`. For a nondiscrete twist retain
+the levelwise models and their `A`-linear realization; taking `π₀` is not a substitute. The shifts,
+scalars and filtered-limit restrictions are those of DerivedDeRhamCohomology §§3.3, 3.5 and 3.6.1.
+
+[Bhatt12], Proposition 7.8 and its proof, p.29, using Proposition 7.4 and the ordinary relative
+construction of Proposition 3.22, pp.11–12.
+
+*Needs:* §CR.DDR.6.9 (*Derived logarithmic Cartier theory*); §CR.DDR.6.7 (*Logarithmic derived de
+Rham*); §CR.DDR.6.8 (*Log de Rham base change and Künneth*); §CR.DDR.6.1 (*Free prelog
+resolutions*); DerivedDeRhamCohomology §3.6.1 (*Relative conjugate transitivity*);
+DerivedModuleAlgebra §0.14 (*Derived exterior powers*); DerivedDeRhamCohomology §1.14 (*Filtered
+derived categories*); DerivedDeRhamCohomology §1.22 (*Valid exchanges of completion and derived
+operations*)
+
+**Checks.**
+
+- `test_log_relative_identity_top`: for `S = T`, only weight zero remains, `dR_log(S/R)`.
+- `test_log_relative_identity_base`: for `R = S`, this is the absolute log conjugate filtration with
+  graded pieces `L∧^n L_log(T^(1)/R)[−n]` from §CR.DDR.6.9.
+- `test_log_relative_coordinate`: for `(F_p,0) → (F_p[t],0) → (F_p[t,x],ℕ → x)`, the relative
+  weight-one class is `d log x`, including `p=2`, and `dx = x d log x`. With trivial target monoid
+  the relative class instead is `x^(p−1) dx` as in DerivedDeRhamCohomology §3.6.1.
+
+### CR.DDR.6.10 The boundary of logification invariance
+
+For maps of integral prelog `ℤ/p^n`-algebras, `n ≥ 1`, passage to associated log structures
+preserves uncompleted log derived de Rham with its Hodge and conjugate filtrations. The proof uses
+the derived logarithmic Cartier pieces modulo `p`, logification invariance of `L_log` (§CR.DDR.6.5)
+and finite p-dévissage. The p-completed statement follows under the corresponding integral and
+compatible derived-reduction hypotheses. No characteristic-zero uncompleted invariance is asserted:
+[Bhatt12] Example 6.15 is a counterexample. Cotangent logification invariance and this de Rham
+assertion have different ranges.
+
+[Bhatt12], Corollary 7.5 and proof, pp.28–29; Example 6.15, p.27.
+
+*Needs:* §CR.DDR.6.5 (*Log cotangent transitivity, base change and invariance*); §CR.DDR.6.9
+(*Derived logarithmic Cartier theory*); §CR.DDR.6.7 (*Logarithmic derived de Rham*);
+DerivedModuleAlgebra §1.3 (*The derived completion reflector*); §CR.5:log-algebra.5.
+
+Lean: `DerivedDeRham.logificationBoundaries`.
+
+**Checks.**
+
+- `test_logification_char_p`: over `F_p`, the prelog chart `ℕ → F_p[x]` and its logification give
+  the same log derived de Rham complex.
+- `test_logification_rational_counterexample`: over `ℚ`, [Bhatt12] Example 6.15 shows the
+  uncompleted invariance fails.
+- `test_logification_cotangent_range`: the cotangent complex is logification-invariant also over
+  `ℚ`, while the de Rham statement is not.
+
+### CR.DDR.6.11 Integral log smooth Cartier-type comparison
+
+For a map of integral prelog `F_p`-algebras that is integral and log smooth of Cartier type after
+logification, Gabber `L_log` is the ordinary log differential module (§CR.DDR.6.5) and derived log
+de Rham agrees with the ordinary log complex. Nilpotent-p extensions retain flatness and finite
+dévissage hypotheses. Cartier type is the condition of §CR.5.1 on the relative Frobenius; it is not
+inferred from fs log smoothness alone.
+
+[Bhatt12], Corollary 7.6 and its proof, pp.28–29; [KY], Lemma 2.14, pp.15–16.
+
+*Needs:* §CR.DDR.6.5 (*Log cotangent transitivity, base change and invariance*); §CR.DDR.6.9
+(*Derived logarithmic Cartier theory*); §CR.DDR.6.10 (*The boundary of logification invariance*);
+§CR.5.1, §CR.5:log-algebra.3.
+
+Lean: `DerivedDeRham.logSmoothCartierComparison`.
+
+**Checks.**
+
+- `test_log_smooth_identity`: the identity chart gives the base.
+- `test_log_smooth_free_coordinate`: a free log coordinate satisfies the integral Cartier-type
+  criterion.
+- `test_log_smooth_nonintegral`: a log-étale nonintegral monoid map (§CR.DDR.6.4) has nonzero Gabber
+  cotangent complex; integrality cannot be dropped.
+
+### CR.DDR.6.12 The log crystalline comparison map
+
+For a prelog `ℤ/p^n`-map `f : (A, M) → (B, N)`, use the standard free prelog resolution `P• → (B,
+N)`. For every surjection `P_i → (B, N)`, first exactify it, then form the strict PD envelope
+compatible with `p` (§CR.5.2). The natural map `Ω•_log(P•/(A, M)) → Ω•_log(P•/(A, M)) ⊗ D_log(P• →
+(B, N))` yields `Comp_log : dR_log(f) → RΓ(f_log-crys, O_crys)`,
+`DerivedDeRham.logCrystallineComparisonMap`, via the log PD Poincaré lemma (§CR.5.4). It is a
+natural map in `DF(A)`, respects Hodge/PD filtrations, and is multiplicative in the sense of
+§CR.DDR.4.1: a map of strict dg algebras into the envelope model, compatible with cup products in
+`D(A)`. Exactification is performed before the PD envelope.
+
+[Bhatt12], Proposition 7.18 and proof, p.30.
+
+*Needs:* §CR.DDR.6.1 (*Free prelog resolutions*); §CR.DDR.6.7 (*Logarithmic derived de Rham*);
+§CR.DDR.4.1 (*The derived de Rham to crystalline map*); §CR.5.2–§CR.5.4, DerivedDeRhamCohomology §PD.6.
+
+Prove the following named laws.
+
+- `logCrystallineComparisonNatural`: prelog base squares induce commuting comparison-map squares.
+- `logCrystallineComparisonFiltered`: Hodge terms map to the log crystalline PD filtration.
+- `logCrystallineComparisonStrict`: for strict maps with fixed log structure the map is the ordinary
+  `Comp`.
+- `logCrystallineComparisonExactification`: the target model uses the exactification followed by the
+  strict PD envelope, functorially.
+
+**Checks.**
+
+- `test_log_crys_identity`: for an identity log map, `Comp` is the base identity.
+- `test_log_crys_strict_regular`: a strict regular quotient in the nilpotent-p flat range agrees
+  with the PD comparison of §CR.DDR.4.3.
+- `test_log_crys_noncartier`: [Bhatt12] Example 7.23 has a comparison map, but its relative
+  Frobenius-twisted source and ordinary crystalline target differ.
+
+### CR.DDR.6.13 The corrected logarithmic lci condition
+
+For `n ≥ 1`, a prelog `ℤ/p^n`-map `(A, M) → (B, N)` with `A` and `B` flat over `ℤ/p^n` is *corrected
+G-lci*, `DerivedDeRham.correctedLogLciCondition`, if it factors as `(A, M) → (P, Q) → (B, N)` with
+the first map integral and log smooth of Cartier type modulo `p` and the second a strict surjection
+whose kernel is generated by a finite regular sequence. It is *ind-corrected G-lci* if it is a
+filtered colimit of corrected G-lci maps with compatible factorizations (maps of factorizations
+commuting with the structure maps). A strict effective epimorphism without the regular-sequence
+condition does not suffice: [Bhatt12] Definition 7.20 is corrected by adding it.
+
+[Bhatt12], Definition 7.20, Example 7.21 and Theorem 7.22 proof sketch, p.31.
+
+*Needs:* §CR.DDR.6.11 (*Integral log smooth Cartier-type comparison*); §CR.DDR.6.12 (*The log
+crystalline comparison map*); DerivedModuleAlgebra §0.13 (*Regular quotients and two-term models*);
+§CR.5.1, §CR.5:log-algebra.3; Mathlib `RingTheory.Sequence.IsWeaklyRegular`,
+`RingTheory.Sequence.IsRegular`.
+
+Prove the following named laws.
+
+- `correctedGLciFactorization`: the condition returns the chosen factorization with its regular
+  quotient and modulo-p Cartier witnesses.
+- `correctedGLciStrictRegular`: a strict regular quotient of flat `ℤ/p^n`-algebras is in the
+  condition, with identity first factor.
+- `correctedGLciLocalFiltered`: the ind-corrected condition is stable under filtered colimits of
+  compatible factorizations.
+- `correctedGLciExample721`: for every `n ≥ 1`, the reductions modulo `p^n` of source examples (i)
+  and (iii) are corrected G-lci with the following factorizations reduced modulo `p^n`: (i) for `O_K
+  = W[t]/(E(t))` with Eisenstein `E` and uniformizer `π`, the factorization `(0 → W) → (ℕ → W[t], 1
+  ↦ t) → (ℕ → O_K, 1 ↦ π)` has a log smooth Cartier-type first map and kernel `(E(t))`, and
+  logification (§CR.DDR.6.10) passes to `(O_K ∖ {0} → O_K)`; (iii) the semistable chart `ℕ^r →
+  O_K[x₁, …, x_d]/(x₁ ⋯ x_r − π)` over `(ℕ → O_K, 1 ↦ π)`, `1 ↦ e₁ + … + e_r`, is log smooth of
+  Cartier type with identity second map. Example (ii), `O_K̄`, is not obtained from this condition;
+  the period computation uses the log–ordinary comparison of [Bhatt12] Proposition 9.11 instead. The
+  p-adic comparisons of (i) and (iii) use their compatible finite-level factorizations
+  (§CR.DDR.6.14); `W = ℤ_p` itself is not a `ℤ/p^n`-algebra, since `p^n ≠ 0` in `ℤ_p`.
+
+**Checks.**
+
+- `test_corrected_glci_identity`: the identity map has empty regular sequence and Cartier-type first
+  factor.
+- `test_corrected_glci_characteristic_zero`: for `k = F_p`, `W = ℤ_p` has no unital `ℤ/p^n`-algebra
+  structure for `n ≥ 1`, whereas its finite reductions admit the Eisenstein factorization above.
+- `test_corrected_glci_hypersurface`: the strict quotient `F_p[t] → F_p` by the regular element `t`
+  qualifies.
+- `test_corrected_glci_square_zero`: `F_p → F_p[x,y] → F_p[x,y]/(x,y)²` with trivial logs satisfies
+  the printed condition of [Bhatt12] Definition 7.20 but fails the corrected regular quotient
+  condition.
+
+### CR.DDR.6.14 The corrected log crystalline comparison theorem
+
+For a corrected G-lci prelog `ℤ/p^n`-map, `Comp_log` is an isomorphism in `DF(A)` compatible with
+cup products (§CR.DDR.6.12). For an ind-corrected G-lci map the same holds, because `dR_log`
+commutes with filtered colimits (§CR.DDR.6.1) and so does the target model of §CR.DDR.6.12
+(exactification, strict PD envelopes and log differentials are left adjoints or are computed
+termwise on the free resolution). The compatible p-adic version uses derived limits of flat finite
+reductions with the same factorizations. The proof combines the integral Cartier-type log smooth
+comparison (§CR.DDR.6.11) for the first factor with the regular quotient comparison of §CR.DDR.4.3
+for the second and the logarithmic relative conjugate filtration ([Bhatt12] Proposition 7.8). This
+is the valid scope of [Bhatt12] Theorem 7.22 with the corrected condition; neither arbitrary strict
+surjections nor every fs log smooth map are included.
+
+[Bhatt12], Theorem 7.22 proof sketch and Proposition 7.8, pp.29, 31.
+
+*Needs:* §CR.DDR.6.13 (*The corrected logarithmic lci condition*); §CR.DDR.6.12 (*The log
+crystalline comparison map*); §CR.DDR.6.11 (*Integral log smooth Cartier-type comparison*);
+§CR.DDR.6.9 (*Derived logarithmic Cartier theory*); §CR.DDR.6.9.1 (*Log relative conjugate
+transitivity*); §CR.DDR.6.8 (*Log de Rham base change and Künneth*); §CR.DDR.4.3 (*Regular quotients
+and classical PD envelopes*); §CR.DDR.5.9 (*The lci crystalline comparison theorem*); §CR.DDR.5.10
+(*p-adic crystalline comparison by derived limits*); §CR.5.2–§CR.5.4; DerivedModuleAlgebra §1.1
+(*Derived limits of towers*); DerivedModuleAlgebra §1.T.1 / *The Milnor sequence for towers of
+complexes*.
+
+Lean: `DerivedDeRham.logLciCrystallineComparison`.
+
+**Checks.**
+
+- `test_log_crys_thm_regular`: a finite strict regular quotient gives the corrected positive case,
+  including `p = 2`.
+- `test_log_crys_thm_square_zero`: the nonregular square-zero quotient is a negative case even with
+  trivial monoids (§CR.DDR.4.1).
+- `test_log_crys_thm_eisenstein`: example (i) of §CR.DDR.6.13 over `ℤ/p^n` gives an equivalence.
+
+### CR.DDR.6.15 Log quasisyntomic sites and QRSP bases
+
+A log-quasisyntomic prelog ring `(R, P)` has `R` p-complete with bounded p-torsion and Gabber
+`L_log((R, P)/ℤ_p)` of p-complete Tor amplitude `[−1, 0]`; `P` need not be integral ([KY] Definition
+3.2). A map `A → B` of bounded-torsion p-complete prelog rings is p-completely homologically log
+flat when `B ⊗^L_A A/p ≃ B/p` is discrete and `A/p → B/p` is hlf. It is log-quasisyntomic when
+moreover `L_log(B/A) ⊗^L_B B/p` has Tor amplitude `[−1, 0]`, and a cover when the mod-p map is hlf
+faithfully flat. These covers define `QSyn_prelog` and the relative `qSyn_(R,P)`,
+`DerivedDeRham.logQuasisyntomicSites`. Integral monoids are an additional restriction of the
+log-smooth and prismatic applications, not part of the general site definition.
+
+[KY], Definitions 3.1–3.3, Lemmas 3.5–3.6, Corollary 3.7 and Remarks 3.8–3.9, pp.27–28.
+
+*Needs:* §CR.DDR.6.6 (*Homological logarithmic flatness*); §CR.DDR.6.4 (*The Gabber logarithmic
+cotangent complex*); §CR.DDR.6.5 (*Log cotangent transitivity, base change and invariance*);
+§CR.DDR.6.2 (*Homotopy pushouts of prelog rings*); DerivedDeRhamCohomology §5.1 (*The quasisyntomic
+sites*); DerivedModuleAlgebra §1.7 (*Complete flatness and complete faithful flatness*)
+
+Prove the following named laws.
+
+- `logQSynCover`: a cover retains complete faithful flatness, completed hlf and relative log
+  cotangent amplitude `[−1, 0]`.
+- `logQSynBaseChange`: the completed homotopy prelog base change preserves covers ([KY] Lemma 3.6).
+
+**Checks.**
+
+- `test_log_qsyn_strict`: with identical monoids and the strict conventions, the ordinary `QSyn`
+  condition is recovered.
+- `test_log_qsyn_semistable`: the p-complete integral semistable chart is log quasisyntomic over its
+  logarithmic `O_K` base.
+- `test_log_qsyn_hlf_boundary`: a Kato log-flat map that is not hlf fails the log `QSyn` cover
+  condition, even if its ring reduction is flat.
+
+### CR.DDR.6.16 Log quasiregular semiperfectoid objects
+
+For a p-complete prelog ring `(S, P)`, let `P^♭ = lim_(×p) P` and `P^×` its units. It is log
+semiperfectoid ([KY] Definition 3.11) if (1) `S` admits a map from an integral perfectoid ring
+(PerfectoidSpaces §P1.24), (2) Frobenius on `S/p` is surjective, and (3) `P^♭ → P/P^×` is
+surjective. It is log quasiregular semiperfectoid if also `(S, P)` is log quasisyntomic,
+`DerivedDeRham.logQuasiregularSemiperfectoid`. Integrality of `P` is a separate hypothesis. The
+tilt-surjectivity clause is stronger than p-divisibility of `P/P^×` and weaker than p-divisibility
+of `P`. Such objects have `Λ_p L_log((S, P)/ℤ_p)[−1]` complete-flat; equivalently, under the log
+semiperfect assumptions, the shifted relative cotangent of `(S, P)` over a perfectoid ring with
+trivial prelog structure is complete-flat ([KY] Lemma 3.16).
+
+[KY], Definition 3.11, Remarks 3.12–3.15 and Lemma 3.16, pp.29–31.
+
+*Needs:* §CR.DDR.6.15 (*Log quasisyntomic sites and QRSP bases*); §CR.DDR.6.4 (*The Gabber
+logarithmic cotangent complex*); §CR.DDR.6.5 (*Log cotangent transitivity, base change and
+invariance*); PerfectoidSpaces §P1.24.
+
+Prove the following named laws.
+
+- `logQrspTiltCondition`: `P^♭ → P/P^×` is surjective, with the ring perfectoid-source and
+  semiperfectness conditions.
+- `logQrspCotangent`: under log semiperfectness, the shifted relative log cotangent is complete-flat
+  exactly in the log QRSP range.
+- `logQrspPerfectoidSource`: the completed source prelog ring surjects on rings and modulo monoid
+  units.
+- `logQrspDivisibilityRelations`: `P` p-divisible implies tilt-surjectivity, which implies `P/P^×`
+  p-divisible; for sharp monoids the three conditions agree.
+
+**Checks.**
+
+- `test_log_qrsp_trivial`: for trivial monoids the condition reduces to the ordinary QRSP ring
+  condition.
+- `test_log_qrsp_divisible`: if `S` is ordinary QRSP and `P` is uniquely p-divisible, then `(S, P)`
+  is log QRSP ([KY] Example 3.15(1)).
+- `test_log_qrsp_missing_ring_source`: `(ℤ_p, 0)` has semiperfect reduction and the tilt condition,
+  but lacks a perfectoid ring map (DerivedDeRhamCohomology §5.2) and is excluded.
+
+### CR.DDR.6.17 Compatible-root covers of prelog rings
+
+For `(R, P) ∈ QSyn_prelog`, choose ring generators `ℤ_p[X_i] → R` and monoid generators `ℕ^(J) → P`.
+Use the free p-complete prelog source `(ℤ_p⟨X_i, Y_j⟩, ℕ^(J))`, with `e_j ↦ Y_j`, and its
+compatible-root cover `(O⟨X_i^(1/p^∞), Y_j^(1/p^∞)⟩, ℕ[1/p]^(J))` over an integral perfectoid `O`
+(for example `ℤ_p[p^(1/p^∞)]^∧`, integral perfectoid by PerfectoidSpaces §P1.24–§P1.25). The
+p-completed homotopy prelog base change (§CR.DDR.6.2) to `(R, P)` gives a log `QSyn` cover by log
+QRSP objects, and its target monoid is p-divisible. The target need not be integral. All completed
+Čech terms are log QRSP; restriction to this basis and Čech totalization are inverse descent
+constructions, `DerivedDeRham.logCompatibleRootCovers`.
+
+[KY], Lemmas 3.17–3.19 and Corollary 3.20 with proof, pp.31–32.
+
+*Needs:* §CR.DDR.6.15 (*Log quasisyntomic sites and QRSP bases*); §CR.DDR.6.16 (*Log quasiregular
+semiperfectoid objects*); §CR.DDR.6.1 (*Free prelog resolutions*); §CR.DDR.6.6 (*Homological
+logarithmic flatness*); §CR.DDR.6.2 (*Homotopy pushouts of prelog rings*); DerivedDeRhamCohomology
+§5.3 (*Compatible-root quasisyntomic covers*); DerivedDeRhamCohomology §5.5 (*Sheaves and unfolding
+from the QRSP basis*); PerfectoidSpaces §P1.24–§P1.25.
+
+Prove the following named laws.
+
+- `logRootCover`: the displayed completed two-sort pushout gives a log `QSyn` cover with log QRSP
+  target.
+- `logRootCoverMonoid`: the target monoid is p-divisible and satisfies the tilt-surjectivity
+  condition.
+- `logRootCoverCech`: every completed Čech term is log QRSP ([KY] Lemma 3.19).
+- `logRootCoverUnfolding`: general prelog log QRSP basis functors unfold by the corresponding Čech
+  totalization, independently of the cover.
+- `logQSynQrspBasis`: log QRSP objects form a basis of `QSyn_prelog`; integrality of an output is
+  checked separately when an application needs it.
+- `logQSynUnfolding`: restriction to the general prelog QRSP basis and Čech totalization are inverse
+  descent constructions.
+
+**Checks.**
+
+- `test_log_root_cover_trivial`: with no monoid generators, the construction specializes to the
+  ordinary ring compatible-root cover of DerivedDeRhamCohomology §5.3.
+- `test_log_root_cover_coordinate`: a free monoid coordinate `x` acquires compatible monoid roots
+  and matching ring roots `x^(1/p^n)`.
+- `test_log_root_cover_finite`: one finite root stage does not make the monoid p-divisible or the
+  ring reduction semiperfect.
+
+### CR.DDR.6.18 Log cotangent powers and completed de Rham descent
+
+For a fixed prelog base, derived exterior powers of the Gabber log cotangent complex satisfy hlf
+faithfully flat Čech descent. Finite Hodge quotients of log derived de Rham inherit descent; the
+Hodge-completed object descends by its quotient limit. In the log-quasisyntomic range, p-completed
+uncompleted log de Rham descends using the uniformly bounded-below conjugate filtration. The
+completion and totalization exchanges retain their boundedness hypotheses and the prelog homotopy
+Čech nerve.
+
+[KY], Proposition 2.47, Remark 2.48 and Corollary 2.49, pp.24–26; Corollary 3.10, p.29.
+
+*Needs:* §CR.DDR.6.6 (*Homological logarithmic flatness*); §CR.DDR.6.15 (*Log quasisyntomic sites
+and QRSP bases*); §CR.DDR.6.17 (*Compatible-root covers of prelog rings*); §CR.DDR.6.9 (*Derived
+logarithmic Cartier theory*); §CR.DDR.6.7 (*Logarithmic derived de Rham*); §CR.DDR.6.2 (*Homotopy
+pushouts of prelog rings*); DerivedModuleAlgebra §0.17 (*Exterior powers of a triangle and
+décalage*); DerivedDeRhamCohomology §5.6 (*Descent of raw and completed cotangent powers*);
+DerivedDeRhamCohomology §5.7 (*Descent of Hodge quotients and completion*); DerivedDeRhamCohomology
+§5.17 (*Descent of p-completed uncompleted de Rham*); DerivedDeRhamCohomology §1.22 (*Valid
+exchanges of completion and derived operations*); DerivedModuleAlgebra §1.1 (*Derived limits of
+towers*); DerivedModuleAlgebra §1.T.1 / *The Milnor sequence for towers of complexes*.
+
+Lean: `DerivedDeRham.logPowerDeRhamDescent`.
+
+**Checks.**
+
+- `test_log_descent_trivial_monoids`: trivial monoids give the ordinary descent of
+  DerivedDeRhamCohomology §5.6–5.7.
+- `test_log_descent_identity`: the identity cover is constant.
+- `test_log_descent_root_cover`: a root cover uses both monoid and ring coordinates in its Čech
+  nerve.
+
+### CR.DDR.6.19 The log point and its full cotangent complex
+
+For a field `k`, the standard log point is `(k, ℕ)` with every positive monoid element sent to `0`.
+Over the trivial prelog base `(k, 0)`, its Gabber complex is `[k --0→ k]` in cohomological degrees
+`−1, 0`: factor through the free log line `(k[t], ℕ)`, then the strict regular quotient `t = 0`,
+whose conormal maps to `t d log t = 0`. `H⁰` is `k·d log 1` and `H^−1` is `k`; the log point over
+this trivial base is not assigned the integral log-smooth degree-zero theorem. Over itself the
+relative complex is zero and derived de Rham is `k`. Over `F_p` its Hodge and conjugate powers
+retain both cotangent degrees and the derived twist.
+
+[Bhatt12], Example 6.2, Proposition 6.5 and the strict regular quotient calculation of §§3.3, 6,
+pp.16–18, 24–25.
+
+*Needs:* §CR.DDR.6.4 (*The Gabber logarithmic cotangent complex*); §CR.DDR.6.5 (*Log cotangent
+transitivity, base change and invariance*); §CR.DDR.6.7 (*Logarithmic derived de Rham*); §CR.DDR.6.9
+(*Derived logarithmic Cartier theory*); DerivedModuleAlgebra §0.13 (*Regular quotients and two-term
+models*)
+
+Lean: `DerivedDeRham.logPointExample`.
+
+**Checks.**
+
+- `test_log_point_trivial_base`: over `(k, 0)` the complex is `[k → k]` with zero map.
+- `test_log_point_identity`: over itself the relative complex is zero.
+- `test_log_point_char_two`: at `p = 2` there is no hidden invertibility-of-2 hypothesis; both
+  degrees survive.
+
+### CR.DDR.6.20 The semistable chart with its monoid map
+
+Let `O_K` be a complete mixed-characteristic discrete valuation ring with uniformizer `π` and
+perfect residue field. For `1 ≤ r ≤ d`, `B = O_K[x₁, …, x_d]/(x₁ ⋯ x_r − π)`, or its p-adic
+completion, carries the chart `ℕ^r → B`, `e_i ↦ x_i`. The base chart is `ℕ → O_K`, `1 ↦ π`, and the
+monoid map sends `1 ↦ e₁ + … + e_r`. This is an integral log smooth Cartier-type chart; its relative
+Gabber cotangent is the finite free module on `d log x₁, …, d log x_r, dx_(r+1), …, dx_d` modulo `Σ
+d log x_i = 0`, in degree zero and rank `d − 1`. For the completed chart use continuous completed
+differentials. The log de Rham Hodge and conjugate pieces, finite reductions and crystalline
+comparison retain this base chart; the trivial log base has a different cotangent complex.
+
+[Bhatt12], Example 7.21, third example, p.31; §CR.5:log-algebra.6 (semistable formal charts).
+
+*Needs:* §CR.DDR.6.11 (*Integral log smooth Cartier-type comparison*); §CR.DDR.6.14 (*The corrected
+log crystalline comparison theorem*); §CR.DDR.6.7 (*Logarithmic derived de Rham*); §CR.DDR.6.9
+(*Derived logarithmic Cartier theory*); DerivedDeRhamCohomology §2.27 (*The de Rham algebra of a
+completely smooth formal algebra*); §CR.5:log-algebra.6.
+
+Lean: `DerivedDeRham.semistableChartExample`.
+
+**Checks.**
+
+- `test_semistable_rank_one`: `r = d = 1` gives rank `0`.
+- `test_semistable_rank_two`: `r = d = 2` gives the relation `d log x₁ + d log x₂ = 0` and rank `1`.
+- `test_semistable_ramified`: for a ramified `O_K` use `π`, not `p`, with base `1 ↦ π`; `r = 0` is
+  excluded.
 
 ### Examples
 
@@ -10557,7 +11711,7 @@ The API:
 ([Hyodo–Kato, *Semi-stable reduction and crystalline cohomology with logarithmic
 poles*](https://www.numdam.org/item/AST_1994__223__221_0.pdf), §3.2–3.4, pp.243–245;
 [Česnavičius–Koshikawa, *The A_inf-cohomology in the semistable
-case*](https://arxiv.org/abs/1710.06145v3), §5.11, log Frobenius lift, pp.37–38.) *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.0
+case*](https://arxiv.org/abs/1710.06145v3), §5.11, log Frobenius lift, pp.37–38.) *Needs:* SchemeAndStackFoundations §0.29
 (`absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`); *Integral
 Hyodo–Kato complexes*; *Rational Hyodo–Kato complexes*; *Logarithmic embedding-system descent*
 (Layer CR.5); *Morphisms of Cartier type* (Layer CR.5); Mathlib `WittVector.frobenius`; Mathlib
@@ -11974,7 +13128,7 @@ cohomology*](https://math.berkeley.edu/~ogus/preprints/BO_B2_Erratumre.pdf), pp.
 21 August 2013. *Needs:* Layer CR.1; *Derived crystalline base change* (Layer CR.3);
 *Log PD Poincaré lemma* (Layer CR.5), with trivial log structures and compatible base powers;
 EnhancedDerivedSheaves Layer E2 (*Bounded-below hypercover descent*);
-DerivedDeRhamCohomology Layer 1 (§1.3 *The derived completion reflector*).
+DerivedModuleAlgebra (§1.3 *The derived completion reflector*).
 
 **Checks.**
 
@@ -12122,10 +13276,9 @@ AbelianSchemesAndArithmeticModuli (Layer A4); DerivedDeRhamCohomology (Layer 1);
 
 ## Downstream consumers
 
-- **DerivedDeRhamCohomology** imports divided power envelopes and
-  `A_cris` (Layer CR.0), crystalline cohomology from an embedding (Layer CR.2), the classical de
-  Rham–Witt complex, Nygaard filtration and crystalline comparison (Layer CR.4) and log algebra
-  (Layer CR.5:log-algebra).
+- **DerivedDeRhamCohomology** uses the crystalline and logarithmic comparisons
+  (§§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4, CR.DDR.5.9–CR.DDR.5.10,
+  CR.DDR.6.7, CR.DDR.6.9–CR.DDR.6.10) and §CR.5.5 for its period applications.
 - **PrismaticCohomology** imports PD envelopes, the divided power filtration, crystalline sites and
   the Poincaré lemma (Layers CR.0–CR.3), Dieudonné complexes and the de Rham–Witt comparisons (Layer
   CR.4), and the log layers CR.5:log-algebra, CR.5 and CR.6 for its log variant.
@@ -12244,3 +13397,46 @@ and printed page (or PDF page where stated).
 - [Berthelot] P. Berthelot, *Cohomologie cristalline des schémas de caractéristique p > 0*, Lecture
   Notes in Math. 407, Springer 1974.
 - [Swan] R. G. Swan, *On seminormality*, J. Algebra 67 (1980), 210–229.
+
+
+- **BL22**: Bhargav Bhatt and Jacob Lurie, *Absolute prismatic cohomology*. arXiv:2201.06120v1.
+
+[BL22]: https://arxiv.org/pdf/2201.06120v1
+
+- **BMS19**: Bhargav Bhatt, Matthew Morrow and Peter Scholze, *Topological Hochschild homology and
+  integral p-adic Hodge theory*. Publ. Math. IHÉS 129 (2019), 199–310.
+
+[BMS19]: https://www.numdam.org/item/10.1007/s10240-019-00106-9.pdf
+
+- **Bhatt12**: Bhargav Bhatt, *p-adic derived de Rham cohomology*. arXiv:1204.6560v1, 30 April 2012.
+
+[Bhatt12]: https://arxiv.org/pdf/1204.6560v1
+
+- **GR**: Ofer Gabber and Lorenzo Ramero, *Almost ring theory*. LNM 1800 (2003); arXiv:math/0201175v3.
+
+[GR]: https://arxiv.org/abs/math/0201175
+
+- **KY**: Teruhisa Koshikawa and Zijian Yao, *Logarithmic prismatic cohomology II*. arXiv:2306.00364v1.
+
+[KY]: https://arxiv.org/pdf/2306.00364v1
+
+- **Ols05**: Martin C. Olsson, *The logarithmic cotangent complex*. Math. Ann. 333 (2005), 859–931.
+
+[Ols05]: https://doi.org/10.1007/s00208-005-0707-6
+
+- **StacksCoh**: The Stacks Project Authors, *Cohomology of Sheaves* (Chapter 20), §20.25 *Čech
+  cohomology of complexes*.
+
+[StacksCoh]: https://stacks.math.columbia.edu/tag/01FP
+
+- **StacksLC**: The Stacks Project Authors, *Local Cohomology* (Chapter 51), Lemma 51.17.6 (Kunz).
+
+[StacksLC]: https://stacks.math.columbia.edu/tag/0EC0
+
+- **StacksSites**: The Stacks Project Authors, *Cohomology on Sites* (Chapter 21), §21.33 *Cup product*.
+
+[StacksSites]: https://stacks.math.columbia.edu/tag/0FPJ
+
+- **StacksSmoothing**: The Stacks Project Authors, *Smoothing Ring Maps* (Chapter 16).
+
+[StacksSmoothing]: https://stacks.math.columbia.edu/tag/07GB
