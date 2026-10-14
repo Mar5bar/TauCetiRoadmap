@@ -66,7 +66,6 @@ end Algebraic
 section Hilbert
 variable {A : Type u} [Ring A] [Algebra ℂ A] [StarRing A]
 variable {H : Type v} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
-  [TopologicalSpace.SeparableSpace H]
 variable [SecondCountableTopology H]
 
 /-- A unital normalized subcase of N3's bounded cycles; the README also treats

@@ -123,7 +123,7 @@ Prove b²=0 and preservation of the cyclic subcomplex. Construct cochain
 pullbacks, addition, scalar multiplication, kernels, boundaries and cyclic
 cohomology. Prove the Hochschild comparison with coefficients in the
 algebraic dual. In the Banach/bounded specialization consume
-BanachAlgebras A6's Hochschild differential and resolution API; this
+BanachAlgebras A6's Hochschild differential and cochain API; this
 roadmap supplies the cyclic and Fréchet extensions and their comparison.
 Currying the first argument identifies the scalar (n+1)-cochains
 with n-cochains valued in A*, using `(aφb)(x)=φ(bxa)`; prove
