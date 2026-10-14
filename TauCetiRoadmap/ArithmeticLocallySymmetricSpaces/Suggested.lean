@@ -666,17 +666,23 @@ commits; they are stated in `README.md` with their exact hypotheses and are not 
 here.
 
 * Foundations (Layer ALS.F): `realPoints_lieGroup` (real points of algebraic groups as Lie groups),
-  `PerfectComplex.IsPerfect` uses the single generic carrier supplied by
-  LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`,
-  `PerfectComplex.filteredTraceAdditivity` on its commutative domain. ALS.F.2 extends that
-  interface to left modules over arbitrary unital rings, retaining shift/triangle/summand,
+  ALS.F.2 specifies `PerfectComplex.IsPerfect` on Mathlib's `DerivedCategory (ModuleCat A)`
+  for left modules over every unital ring. Its definition, shift invariance,
+  `PerfectComplex.IsPerfect.of_triangle`, `PerfectComplex.IsPerfect.of_summand`,
   `PerfectComplex.IsPerfect.baseChange` as `B ⊗^L_A K`,
-  `PerfectComplex.IsPerfect.restrictScalars` when `B` is perfect as a left `A`-module, and
-  `PerfectComplex.IsPerfect.iff_pseudoCoherent_finiteTorDimension` with right-module Tor tests.
-  `PerfectComplex.IsPerfect.dual` takes values in right modules over a noncommutative ring;
-  tensor/dualizable identities for two left complexes require commutativity. Arithmetic duality
-  uses `RHom_R(−,R)` with the contragredient finite-group action. There is no separate
-  arithmetic perfectness predicate. Bounded constructible/ctf categories on the étale domain
+  `PerfectComplex.IsPerfect.restrictScalars` when `B` is perfect as a left `A`-module,
+  `PerfectComplex.IsPerfect.iff_pseudoCoherent_finiteTorDimension` with right-module Tor tests,
+  and `PerfectComplex.IsPerfect.dual` are targets here; the dual takes values in right modules
+  over a noncommutative ring. Generic commutative perfect objects, their characterization and
+  traces are supplied by LefschetzPencilsAndVanishingCycles §F.10 /
+  `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity`.
+  Transport of that supplied realization, its shift/scalar/tensor/dual functors and its
+  compact/dualizable characterization carries `PerfectComplexInput(A)` for commutative `A`.
+  This explicit realization input supplies no general-ring closure theorem and is not needed
+  by the arithmetic finite-cell arguments. There is no additional arithmetic carrier or predicate.
+  Tensor/dualizable identities for two left complexes require commutativity. Arithmetic duality
+  uses `RHom_R(−,R)` with the contragredient finite-group action.
+  Bounded constructible/ctf categories on the étale domain
   are supplied by LefschetzPencilsAndVanishingCycles §F.1 /
   `VanishingCycles.constructibleDerivedCategory`.
   `SheafDerived.pushforward` and its API are arithmetic adapters to the topological functors

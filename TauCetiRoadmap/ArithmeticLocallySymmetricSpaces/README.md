@@ -114,9 +114,9 @@ twisted and relative singular chains (Stage 2, item 6), cellular chains of CW pa
 products, finite covers and transfer, including the permutation local system of a nonregular cover
 (Stage 5, item 3), and twisted singular cochains, cup and cap products, the orientation local system
 and Poincaré–Lefschetz duality for compact manifolds with boundary (Stage 6, items 1–4).
-LefschetzPencilsAndVanishingCycles §F.10 supplies the generic perfect-complex carrier and
-perfect-complex traces and filtered trace additivity; §F.1 supplies bounded constructible/ctf
-categories on its étale domain. ComplexComparisonPartII §C6.1 supplies the topological
+LefschetzPencilsAndVanishingCycles §F.10 supplies generic commutative perfect derived objects,
+their compact/dualizable characterization, traces and filtered trace additivity; §F.1 supplies
+bounded constructible/ctf categories on its étale domain. ComplexComparisonPartII §C6.1 supplies the topological
 local-coefficient comparison, extension by zero and compact supports for finite commutative
 coefficients; §C6.4 supplies compact-support Artin comparison on separated finite-type complex
 schemes. The wider topological coefficient range used here is the explicit
@@ -443,19 +443,35 @@ apply on each transported open boundary stratum, with its own dimension and orie
   `H^n(X, F)^Γ`), `coinducedSections_acyclic` (`Γ(X,−)^Γ = Γ(Γ,−) ∘ Γ(X,−)` on injectives), and
   `equivariantCohomologyWithSupport` for a closed `Γ`-stable subset with its localisation sequence.
 
-### From other open roadmap pull requests
+### Shared suppliers
+
+Direct hard suppliers for the shared foundations and arithmetic interfaces include
+AdelicAlgebraicGroups, SmoothRepresentationsOfLocalGroups,
+ReductiveGroupsPartII, SchemeAndStackFoundations and IntegralHeckeAndGaloisDeterminants at the
+sections listed above, and LefschetzPencilsAndVanishingCycles, ComplexComparisonPartII and
+ClassifyingSpaces at the sections below. These contracts are dependencies of the mathematical
+specification; `Suggested.lean` imports only the pinned Mathlib and Tau Ceti modules.
+The inputs in the following subsection are hypotheses of the targets that use them, rather than
+existence theorems assigned to a supplier. KleinianGroups is an outbound scope boundary: its
+hyperbolic-space specialization does not supply a prerequisite here.
 
 | Contract | Supplier and exact section / label | Convention or hypothesis gap and arithmetic consumer |
 | --- | --- | --- |
-| Generic perfect complexes and traces | Supplied by LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity` | Use one bounded-finite-projective predicate `PerfectComplex.IsPerfect` in the generic module/category-theory home. The supplier states the derived-object characterization over commutative rings; ALS.F.2 extends that same interface to arbitrary rings for left group-ring modules and owns pseudo-coherence, finite Tor dimension and restriction of scalars. No second arithmetic predicate is introduced. |
+| Generic perfect complexes and traces | Supplied by LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity` | The supplied commutative objects are characterized by bounded finite-projective representatives, compactness and dualizability. ALS.F.2 owns the named general-ring interface `PerfectComplex.IsPerfect` and its closure, scalar and opposite-ring dual API on `DerivedCategory (ModuleCat A)`, including their commutative specializations. Identification with the supplier's realization carries `PerfectComplexInput(A)`; no named closure declaration is assumed to be supplied by §F.10. |
 | Bounded constructible/ctf categories | Supplied by LefschetzPencilsAndVanishingCycles §F.1 / `VanishingCycles.constructibleDerivedCategory` | These are étale module-sheaf categories with explicit global cohomological and Tor bounds, not a boundedness assertion for non-neat arithmetic groupoid cohomology. |
 | Topological local-coefficient comparison and supports | Supplied by ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`; §C6.4 / `artinComparisonCompactSupport` | §C6.1 supplies finite commutative coefficients on locally contractible paracompact spaces, with its finite-triangulation compact-support clause. §C6.4 is the separated finite-type complex-scheme Artin comparison, not a comparison for arbitrary Borel–Serre spaces. ALS.F.3 assumes `TopologicalCoefficientInput` for uses outside these domains; ALS.1.4 retains slice/deck conventions, relative Borel–Serre models and level/Hecke naturality. |
-| [Cellular freeness](#cellular-freeness) | ClassifyingSpaces §Stage 3, item 13 / **CW structures and coverings**, free cellular chain and quotient-cell basis clause (an open TauCetiRoadmap pull request by kim-em) | ALS.1.6 discharges the Hausdorff CW and quotient-cover hypotheses for the discrete full group G(F) × K, transports chosen cell lifts to left group-ring modules, and proves finite orbit counts, boundedness, the relative/coefficient model and perfectness. |
-| [Neat-component group cohomology](#neat-component-group-cohomology) | ClassifyingSpaces §Stage 4, items 16–18 / item 17 **Homology**, local-coefficient cohomology clause (an open TauCetiRoadmap pull request by kim-em) | The contract requires cohomology with arbitrary R[Γ]-modules over every commutative R and a chain-level comparison natural in groups and coefficients; ALS.1.5 supplies the arithmetic slice action, deck/opposite identification, CW-model transport, sheaf/derived adapter, component assembly and non-neat descent. |
+| [Cellular freeness](#cellular-freeness) | Supplied by ClassifyingSpaces §Stage 3, item 13 / **CW structures and coverings**, free cellular chain and quotient-cell basis clause (kim-em) | ALS.1.6 discharges the Hausdorff CW and quotient-cover hypotheses for the discrete full group G(F) × K, transports chosen cell lifts to left group-ring modules, and proves finite orbit counts, boundedness, the relative/coefficient model and perfectness. |
+| [Neat-component group cohomology](#neat-component-group-cohomology) | Supplied by ClassifyingSpaces §Stage 4, items 16–18 / item 17 **Homology**, local-coefficient cohomology clause (kim-em) | The contract requires cohomology with arbitrary R[Γ]-modules over every commutative R and a chain-level comparison natural in groups and coefficients; ALS.1.5 supplies the arithmetic slice action, deck/opposite identification, CW-model transport, sheaf/derived adapter, component assembly and non-neat descent. |
 | Proper action (outbound) | This roadmap [ALS.0.5](#symmetric-space-contractible) / proper-action and discrete-image/finite-kernel clause of `LocallySymmetric.symmetricSpace.contractible` | KleinianGroups §Layer 1 / **What to build / Deliverables**, `properlyDiscontinuousSMul_of_discrete` (an open TauCetiRoadmap pull request by t4v1), is the PSL₂(ℂ) special case after an equivariant identification of its H³ model with PSL₂(ℂ)/PSU(2) and verification of the trivial split centre; its model identification and Kleinian applications remain there. |
 
 ### Inputs taken as hypotheses
 
+- `PerfectComplexInput(A)` (ALS.F.2, commutative `A`): identification of the supplier's perfect
+  derived objects with the bounded-finite-projective objects of `DerivedCategory (ModuleCat A)`,
+  commuting with shift, scalar extension, tensor and dual, so that its traces and compact/dualizable
+  characterization transport to this carrier. The input fixes the realization and functor
+  identifications, which §F.10 does not name. It does not assume the general-ring closure API;
+  that API is proved in ALS.F.2 and the arithmetic finite-cell arguments do not require this input.
 - `TopologicalCoefficientInput(R)` (ALS.F.3): the supplied topological derived functors and
   ordinary local-system comparison extended to the commutative ring `R` and the coefficient
   modules used here, with compact-support comparison on the finite relative CW models used in
@@ -566,14 +582,20 @@ AdelicAlgebraicGroups §1.4 (restriction of scalars); Mathlib `Matrix.GeneralLin
 
 ### ALS.F.2 General-ring perfectness and restriction of scalars
 
-Use the single generic perfectness carrier, with suggested predicate name
-`PerfectComplex.IsPerfect` on Mathlib's `DerivedCategory (ModuleCat A)`: an object is isomorphic
-to the image of a bounded complex of finitely generated projective left `A`-modules. Supplied by LefschetzPencilsAndVanishingCycles
-§F.10 / `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity`, including
-its bounded-finite-projective, compact and dualizable characterization over commutative rings.
-The generic predicate lives in the module/category-theory home. This target extends that same
-predicate and its shift, triangle and summand API to every unital ring `A`, including the
-noncommutative rings `R[Q]` for arbitrary finite groups `Q`; no abelian hypothesis on `Q` is used.
+Specify the general-ring interface `PerfectComplex.IsPerfect` on Mathlib's existing
+`DerivedCategory (ModuleCat A)`, for every unital ring `A`: an object is isomorphic to the image
+of a bounded complex of finitely generated projective left `A`-modules. Its definition and the
+named closure API below are targets here in the generic module/category-theory home, with no
+additional arithmetic carrier. Prove shift invariance, two-out-of-three for distinguished
+triangles, and closure under direct summands. This includes noncommutative `R[Q]` for arbitrary
+finite groups `Q`; no abelian hypothesis on `Q` is used.
+
+Generic commutative perfect objects, their bounded-finite-projective/compact/dualizable
+characterization and traces are supplied by LefschetzPencilsAndVanishingCycles §F.10 /
+`PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity`. Whenever that supplied
+realization or its tensor/dual functors are used on this carrier, assume `PerfectComplexInput(A)`
+for commutative `A`, as specified above. This is a realization contract, not a source for the
+named general-ring closure API. The latter is proved here from finite-projective representatives.
 
 Prove the additional interface used by the arithmetic finite-cell and coefficient arguments:
 perfectness is equivalent to pseudo-coherence and finite Tor dimension, where pseudo-coherence
@@ -585,14 +607,14 @@ perfect `B`-complex to a perfect `A`-complex if `B`, as a left `A`-module, is pe
 `R[Q]` is finite free over `R` for finite `Q`, so restriction preserves perfectness. Underlying
 `R`-perfectness alone gives no converse; ALS.1.6 supplies group-ring perfectness from the free
 full-level model. These extensions are owned here and implemented on
-the shared predicate. They follow from finite-projective representatives, their finite-free
+the same predicate. They follow from finite-projective representatives, their finite-free
 retracts, and truncation of a pseudo-coherent resolution at its Tor bound. Restriction is exact
 and takes the thick subcategory generated by `B` into that generated by `A`.
 
 For noncommutative `A` and perfect `K`, `RHom_A(K,A)` is a perfect right-module complex,
 represented as a left `Aᵐᵒᵖ`-module complex; biduality uses the opposite ring on the second dual. Tensor products of two
 left `A`-complexes and the symmetric-monoidal dualizable characterization are used only when `A`
-is commutative. In that case the supplied duality gives
+is commutative. In that case the supplied duality, transported using `PerfectComplexInput(A)`, gives
 `RHom_A(K,L) ≅ L ⊗^L_A RHom_A(K,A)`. Arithmetic duality for an `R[Q]`-complex instead uses
 `RHom_R(K,R)` over the commutative coefficient ring, with contragredient action
 `(q·f)(v) = f(q⁻¹·v)`; it is not the group-ring dual `RHom_{R[Q]}(K,R[Q])`.
@@ -601,20 +623,25 @@ is commutative. In that case the supplied duality gives
 [ACC+23, §2.1.2, Lemma 2.1.7 and its finite group-ring model, p. 912], for the arithmetic use;
 the left/right general-ring extension is the finite-projective argument specified above.)
 
-The shared API consumed here: `PerfectComplex.IsPerfect`, `PerfectComplex.IsPerfect.of_triangle`,
+The general-ring API owned here: `PerfectComplex.IsPerfect`, `PerfectComplex.IsPerfect.of_triangle`,
 `PerfectComplex.IsPerfect.of_summand`, `PerfectComplex.IsPerfect.baseChange` and
-`PerfectComplex.IsPerfect.dual`, with the ring and handedness conventions above. The additional
-API owned here: `PerfectComplex.IsPerfect.restrictScalars` under the perfectness hypothesis on `B`,
+`PerfectComplex.IsPerfect.dual`, with the ring and handedness conventions above, together with
+`PerfectComplex.IsPerfect.restrictScalars` under the perfectness hypothesis on `B`,
 and `PerfectComplex.IsPerfect.iff_pseudoCoherent_finiteTorDimension` with right-module Tor tests.
 `Suggested.lean` states `groupRing_S3_noncomm` as the noncommutative coefficient-ring check.
 
-*Needs:* LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`,
-`PerfectComplex.filteredTraceAdditivity`; Mathlib `DerivedCategory`, `ModuleCat`,
+*Needs:* Mathlib `DerivedCategory`, `ModuleCat`,
 `Module.Projective`, `Module.Flat`, `CategoryTheory.IsIdempotentComplete`.
+For the commutative compact/dualizable characterization and trace transport only:
+LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`,
+`PerfectComplex.filteredTraceAdditivity`, and `PerfectComplexInput(A)`.
 
 **Checks.**
 
 - `A^n[k]` is perfect for every unital ring `A`, every `n` and `k`, and so is the zero object.
+- For a field `A`, `A[0]` has the same bounded-projective realization on both sides of
+  `PerfectComplexInput(A)`; the supplied identity trace is `1`. Triangle and summand closure
+  are still the general-ring theorems of this target, independent of that realization input.
 - Over a discrete valuation ring `O` with uniformizer `ϖ`, `(O/ϖ)[0]` is perfect through the
   resolution `O →ϖ O`, hence so are `(O/ϖ ⊕ O)[0]` and every perfect complex of `O/ϖ`-modules viewed
   over `O`.
