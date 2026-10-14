@@ -1,6 +1,5 @@
 import Mathlib
 import TauCeti.Algebra.Lie.GeneralLinear.Basic
-import TauCeti.RingTheory.DedekindDomain.SInteger.Unit
 import TauCeti.Geometry.Hodge.Dimension
 import TauCeti.Geometry.Hodge.Dual
 import TauCeti.Geometry.Hodge.Prod
@@ -20,17 +19,8 @@ complete a layer.
 
 Design choices made explicit here:
 
-* p-adic completion of an abelian group is Mathlib's `AdicCompletion` at the ideal `(p) ⊆ ℤ`
-  (`pCompletion`); no second completion is defined.
-* This roadmap owns S-unit rank and fundamental systems against Mathlib's `Set.unit` carrier,
-  with `Nat.card S` and index type `Fin (NumberField.Units.rank K + Nat.card S)`.
-  Finite generation is supplied by Tau Ceti's `Set.unit_fg` and `Set.unit_fg_of_units`;
-  its multiplicative `Set.unitValuation`, `Set.unitValuation_ker` and `Set.unitEmptyEquivUnits`
-  supply the valuation map and kernel. Coordinatewise `Multiplicative.toAdd` gives negative
-  orders. Cardinality conversion and finite-type reindexing are adapters; completion and
-  Kummer applications are the adapters of README §§0.3 and 0.9.
-* Perfect pairings are Mathlib's `LinearMap.IsPerfPair`; annihilators are Mathlib's
-  `Submodule.orthogonalBilin`. Double annihilators are stated for finite `ZMod n`-modules.
+* ArithmeticGaloisDuality §§R02.3.0a–R02.3.0c supply multiplicative completion and S-units;
+  §§D7.7.1–D7.7.6 supply pairings, annihilators and mapping-fibre duality.
 * The algebraic Selmer diagram `SelmerData` takes actual global and local modules and maps; its
   identification with continuous Galois cohomology is a README target.
 * The Selmer-complex carrier takes an explicitly supplied local diagram. Its ordinary instance
@@ -41,15 +31,15 @@ Design choices made explicit here:
   retains the difference between the two fibres even at odd p.
 * ℤ_p-corank is computed on a compact dual (`corankFromDual`); Iwasawa corank is computed on
   each finite compact component dual (`iwasawaCorankFromComponentDual`).
-* ℂ_p is Mathlib's `PadicComplex`; the Galois action is the continuous extension of the action on
-  `PadicAlgCl` (`padicComplexGaloisAction`).
-* Fontaine–Laffaille data are stated over a general ring with an automorphism; archimedean
-  realizations extend Tau Ceti's opposed Hodge filtrations by a complex-linear Betti involution,
-  and the L-function Tate line has Tau Ceti Hodge–Tate index `-n` and Gamma factor `Γℝ(s - n)`.
+* PadicPeriodRings §§1.1–1.5, 2, 4.1 supply the period carriers. FiniteFlatGroupsAndIntegralPadicHodgeTheory
+  §§R07.P2–R07.P5a and R07.3.3a supply finite-K period structures, crystalline predicates and
+  filtered Frobenius modules for the arithmetic targets.
+* Archimedean realizations extend Tau Ceti's opposed Hodge filtrations by a complex-linear
+  Betti involution; the L-function Tate line has Hodge–Tate index `-n` and Gamma factor `Γℝ(s - n)`.
 
 Selmer complexes, Iwasawa cohomology, determinant lines, étale cohomology of `Spec 𝒪_{F,S}`,
-period rings beyond Mathlib's `BDeRham`, Selmer groups of elliptic curves and Hida families are
-not available at the pins; their targets are stated in the README only (closing comment).
+Selmer groups of elliptic curves and Hida families are not available at the pins; their targets
+are stated in the README only (closing comment).
 -/
 
 noncomputable section
@@ -59,92 +49,6 @@ open scoped TensorProduct NumberField
 namespace TauCetiRoadmap.SelmerIwasawaCohomology
 
 /-! ## Layer 0: Completions and coefficient limits -/
-
-section Completion
-
-variable (p : ℕ) [Fact p.Prime]
-
-/-- §0.1: the `p`-adic completion `Â = lim_m A/p^m A` of an abelian group (written additively), as
-Mathlib's `AdicCompletion` for the ideal `(p) ⊆ ℤ`. For `A = Fˣ` (through `Additive`) this is
-`lim_m Fˣ/(Fˣ)^{p^m}`. -/
-abbrev pCompletion (A : Type*) [AddCommGroup A] : Type _ :=
-  AdicCompletion (Ideal.span {(p : ℤ)}) A
-
-/-- §0.1: the kernel of `A → Â` is `⋂_m p^m A`. -/
-theorem ker_adicCompletion_of_span (A : Type*) [AddCommGroup A] :
-    LinearMap.ker (AdicCompletion.of (Ideal.span {(p : ℤ)}) A) =
-      ⨅ m : ℕ, (Ideal.span {(p : ℤ)} ^ m) • (⊤ : Submodule ℤ A) := sorry
-
-/-- §0.1: `AdicCompletion (p) ℤ ≅ ℤ_p`, so that `Â` is a `ℤ_p`-module. -/
-theorem adicCompletion_int_equiv_padicInt :
-    Nonempty (AdicCompletion (Ideal.span {(p : ℤ)}) ℤ ≃+* ℤ_[p]) := sorry
-
-/-- §0.2: for a number field `F`, `Ê_F → F̂ˣ` is injective, because a unit that is a `p^m`-th power
-in `F` is the `p^m`-th power of a unit. -/
-theorem units_pCompletion_injective (F : Type*) [Field F] [NumberField F] :
-    Function.Injective (AdicCompletion.map (Ideal.span {(p : ℤ)})
-      (MonoidHom.toAdditive (Units.map (algebraMap (𝓞 F) F).toMonoidHom) :
-        Additive (𝓞 F)ˣ →+ Additive Fˣ).toIntLinearMap) :=
-  sorry
-
-/-- §0.2: a `p^m`-th root in the field of an integral unit is an integral unit. -/
-theorem units_pow_of_pow_eq (F : Type*) [Field F] [NumberField F] (m : ℕ)
-    (u : (𝓞 F)ˣ) (x : Fˣ)
-    (hx : x ^ p ^ m = Units.map (algebraMap (𝓞 F) F).toMonoidHom u) :
-    ∃ v : (𝓞 F)ˣ, Units.map (algebraMap (𝓞 F) F).toMonoidHom v = x := sorry
-
-end Completion
-
-section SUnits
-
-variable {K : Type*} [Field K] [NumberField K]
-    (S : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 K)))
-
-/-- §0.3: the module form of the pinned finite-generation theorem for `S.unit K`,
-for a finite set `S` of finite places of a number field `K`. -/
-theorem Set.unit_moduleFinite (hS : S.Finite) :
-    Module.Finite ℤ (Additive (S.unit K)) := by
-  have : Finite S := hS.to_subtype
-  exact Module.Finite.iff_addGroup_fg.mpr
-    (GroupFG.iff_add_fg.mp (_root_.Set.unit_fg_of_units S K))
-
-/-- §0.3: for finite `S`, the free rank of Mathlib's `S.unit K` is the global unit rank plus
-`Nat.card S`. The rank argument uses the additive transport of the pinned multiplicative
-`Set.unitValuation` and its kernel, the global units. -/
-theorem Set.unit_finrank_numberField (hS : S.Finite) :
-    Module.finrank ℤ (Additive (S.unit K)) = NumberField.Units.rank K + Nat.card S := sorry
-
-/-- §0.3: for finite `S`, a fundamental system of Mathlib's `S.unit K` indexed by
-`Fin (NumberField.Units.rank K + Nat.card S)` gives unique integer exponents and a torsion factor
-for every S-unit. -/
-theorem Set.exists_unit_fundSystem (hS : S.Finite) :
-    ∃ ε : Fin (NumberField.Units.rank K + Nat.card S) → S.unit K,
-      ∀ x : S.unit K, ∃! e : Fin (NumberField.Units.rank K + Nat.card S) → ℤ,
-        ∃ ζ ∈ CommGroup.torsion (S.unit K), x = ζ * ∏ i, ε i ^ e i := sorry
-
-/-- §0.3: for finite `S`, a fundamental system gives each element of Mathlib's `S.unit K` a
-unique pair of torsion factor and integer exponent vector on
-`Fin (NumberField.Units.rank K + Nat.card S)`. -/
-theorem Set.exists_unit_fundSystem' (hS : S.Finite) :
-    ∃ ε : Fin (NumberField.Units.rank K + Nat.card S) → S.unit K,
-      ∀ x : S.unit K, ∃! ζe : CommGroup.torsion (S.unit K) ×
-          (Fin (NumberField.Units.rank K + Nat.card S) → ℤ),
-        x = (ζe.1 : S.unit K) * ∏ i, ε i ^ ζe.2 i := sorry
-
-/-- §0.3: the cardinality adapter expresses the canonical S-unit rank using `Set.ncard`. -/
-theorem sUnits_finrank_ncard (hS : S.Finite) :
-    Module.finrank ℤ (Additive (S.unit K)) = NumberField.Units.rank K + S.ncard := by
-  simpa only [Nat.card_coe_set_eq] using Set.unit_finrank_numberField S hS
-
-/-- §0.3: the reindexing adapter gives unique torsion factors and integer exponent vectors
-on any finite type of the required cardinality. -/
-theorem sUnits_fundSystem_reindex (hS : S.Finite) (I : Type*) [Fintype I]
-    (hI : Fintype.card I = NumberField.Units.rank K + Nat.card S) :
-    ∃ ε : I → S.unit K,
-      ∀ x : S.unit K, ∃! ζe : CommGroup.torsion (S.unit K) × (I → ℤ),
-        x = (ζe.1 : S.unit K) * ∏ i, ε i ^ ζe.2 i := sorry
-
-end SUnits
 
 section WeakSemisimplicity
 
@@ -196,91 +100,12 @@ example : ¬ IsWeaklySemisimple (jordan 1) := sorry
 /-- A Jordan block away from eigenvalue one is weakly semisimple, though not semisimple. -/
 example : IsWeaklySemisimple (jordan 2) := sorry
 
-end Tests
-
-namespace CompletionChecks
-
-variable (p : ℕ) [Fact p.Prime]
-
-/-- Completion kills a `p`-divisible group. -/
-example : Subsingleton (pCompletion p ℚ) := sorry
-
-/-- Prime-to-three finite torsion disappears in the quotient-tower completion. -/
-example : Subsingleton (pCompletion 3 (ZMod 2)) := sorry
-
-/-- An infinite free lattice has completed elements with infinite support. -/
-example : ¬ Function.Surjective
-    (AdicCompletion.ofTensorProduct (Ideal.span {(p : ℤ)}) (ℕ →₀ ℤ)) := sorry
-
-/-- The integer completion map is injective, while every rational maps to zero. -/
-example : Function.Injective (AdicCompletion.of (Ideal.span {(p : ℤ)}) ℤ) ∧
-    ∀ x : ℚ, AdicCompletion.of (Ideal.span {(p : ℤ)}) ℚ x = 0 := sorry
-
 /-- The identity operator sends each invariant to its unchanged quotient class. -/
 example (x : LinearMap.ker ((LinearMap.id : ℚ →ₗ[ℚ] ℚ) - LinearMap.id)) :
     invariantCoinvariantMap (LinearMap.id : ℚ →ₗ[ℚ] ℚ) x =
       (LinearMap.range ((LinearMap.id : ℚ →ₗ[ℚ] ℚ) - LinearMap.id)).mkQ (x : ℚ) := rfl
 
-/-- `ℚ` with no finite place in `S_f` has S-unit rank zero. -/
-example : Module.finrank ℤ (Additive ((∅ : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ))).unit ℚ))
-    = 0 := sorry
-
-end CompletionChecks
-
-/-! ## Layer 1: Orthogonal conditions and duality -/
-
-section Orthogonal
-
-variable {R : Type*} [CommRing R] {X X' Y : Type*} [AddCommGroup X] [Module R X]
-  [AddCommGroup X'] [Module R X'] [AddCommGroup Y] [Module R Y]
-
-/-- §1.1: the image rule for adjoint maps, `(π F)^⊥ = ι^{-1}(F^⊥)`. -/
-theorem orthogonal_map_eq_comap {Z Z' : Type*} [AddCommGroup Z] [Module R Z] [AddCommGroup Z']
-    [Module R Z'] (b : X →ₗ[R] X' →ₗ[R] Y) (bZ : Z →ₗ[R] Z' →ₗ[R] Y) (π : X →ₗ[R] Z)
-    (ι : Z' →ₗ[R] X') (hadj : ∀ x z', bZ (π x) z' = b x (ι z')) (F : Submodule R X) :
-    Submodule.orthogonalBilin bZ (F.map π) = (Submodule.orthogonalBilin b F).comap ι := by
-  ext z'
-  simp [Submodule.mem_orthogonalBilin, hadj]
-
-end Orthogonal
-
-section FiniteDuality
-
-variable {n : ℕ} [NeZero n] {A B : Type*} [AddCommGroup A] [Module (ZMod n) A]
-  [AddCommGroup B] [Module (ZMod n) B] [Finite A] [Finite B]
-
-/-- §1.1: double annihilators recover a submodule for a perfect pairing of finite modules. -/
-theorem orthogonal_orthogonal (b : A →ₗ[ZMod n] B →ₗ[ZMod n] ZMod n) (hb : b.IsPerfPair)
-    (F : Submodule (ZMod n) A) :
-    Submodule.orthogonalBilin b.flip (Submodule.orthogonalBilin b F) = F := sorry
-
-/-- §1.1: the character-dual quotient pairing `(A/F) × F^⊥ → ℤ/n` is perfect. -/
-theorem quotientPairing_perfect (b : A →ₗ[ZMod n] B →ₗ[ZMod n] ZMod n) (hb : b.IsPerfPair)
-    (F : Submodule (ZMod n) A) :
-    ∃ c : (A ⧸ F) →ₗ[ZMod n] (Submodule.orthogonalBilin b F) →ₗ[ZMod n] ZMod n,
-      c.IsPerfPair ∧ ∀ x (y : Submodule.orthogonalBilin b F), c (F.mkQ x) y = b x y := sorry
-
-/-- §1.1: for a perfect pairing of finite `ℤ/n`-modules, `#F · #F^⊥ = #A`. -/
-theorem card_mul_card_orthogonal (b : A →ₗ[ZMod n] B →ₗ[ZMod n] ZMod n) (hb : b.IsPerfPair)
-    (F : Submodule (ZMod n) A) :
-    Nat.card F * Nat.card (Submodule.orthogonalBilin b F) = Nat.card A := sorry
-
-end FiniteDuality
-
-namespace PairingChecks
-
-/-- A zero pairing on a nonzero space fails perfectness. -/
-example : ¬ (0 : ℚ →ₗ[ℚ] ℚ →ₗ[ℚ] ℚ).IsPerfPair := sorry
-
-/-- Nondegeneracy without surjectivity: `3xy` on `ℤ` is not perfect. -/
-example : ¬ ((3 : ℤ) • LinearMap.mul ℤ ℤ).IsPerfPair := sorry
-
-/-- A zero pairing has full annihilator for every condition. -/
-example {R X X' Y : Type*} [CommRing R] [AddCommGroup X] [Module R X]
-    [AddCommGroup X'] [Module R X'] [AddCommGroup Y] [Module R Y]
-    (F : Submodule R X) : Submodule.orthogonalBilin (0 : X →ₗ[R] X' →ₗ[R] Y) F = ⊤ := sorry
-
-end PairingChecks
+end Tests
 
 /-! ## Layer 2: Selmer structures and complexes -/
 
@@ -664,135 +489,6 @@ example (length : ℤ) : (-1 : ℤ) ^ 2 * length = length ∧ (-1 : ℤ) ^ 1 * l
   constructor <;> ring
 
 /-! ## Layer 4: Finite conditions and arithmetic applications -/
-
-section PadicComplex
-
-variable (p : ℕ) [Fact p.Prime]
-
-/-- §4.1: every `ℚ_p`-automorphism of `PadicAlgCl p` is an isometry for the spectral norm. -/
-theorem PadicAlgCl.norm_algEquiv_apply (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p)
-    (x : PadicAlgCl p) : ‖σ x‖ = ‖x‖ := sorry
-
-/-- §4.1: the action of a Galois automorphism on `ℂ_p`, by continuous extension from
-`PadicAlgCl p`. -/
-def padicComplexGaloisAction (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) : ℂ_[p] → ℂ_[p] :=
-  UniformSpace.Completion.map σ
-
-/-- §4.1: the extension is an isometric `ℚ_p`-algebra automorphism of `ℂ_p` extending `σ`. -/
-theorem padicComplexGaloisAction_spec (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) :
-    ∃ τ : ℂ_[p] ≃ₐ[ℚ_[p]] ℂ_[p], ⇑τ = padicComplexGaloisAction p σ ∧ Isometry τ ∧
-      ∀ x : PadicAlgCl p, τ x = σ x := sorry
-
-/-- The identity Galois automorphism extends to the identity of the completed carrier. -/
-example (x : ℂ_[p]) :
-    padicComplexGaloisAction p (AlgEquiv.refl : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) x = x := sorry
-
-/-- Every extended Galois action fixes the base field. -/
-example (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) (x : ℚ_[p]) :
-    padicComplexGaloisAction p σ (algebraMap ℚ_[p] ℂ_[p] x) =
-      algebraMap ℚ_[p] ℂ_[p] x := sorry
-
-/-- An automorphism changing a square root of `p` has a nonidentity completed action. -/
-example (hp : p ≠ 2) (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) (x : PadicAlgCl p)
-    (hx : x ^ 2 = (p : PadicAlgCl p)) (hσ : σ x = -x) :
-    padicComplexGaloisAction p σ (x : ℂ_[p]) = (-x : PadicAlgCl p) ∧
-      padicComplexGaloisAction p σ (x : ℂ_[p]) ≠ (x : ℂ_[p]) := sorry
-
-/-- §4.1, Ax–Sen–Tate: for `K/ℚ_p` finite inside `PadicAlgCl p`, the `G_K`-invariants of `ℂ_p`
-are `K`. -/
-theorem padicComplex_fixed_eq (K : IntermediateField ℚ_[p] (PadicAlgCl p))
-    [FiniteDimensional ℚ_[p] K] (x : ℂ_[p]) :
-    (∀ σ : PadicAlgCl p ≃ₐ[K] PadicAlgCl p,
-        padicComplexGaloisAction p (σ.restrictScalars ℚ_[p]) x = x) ↔
-      ∃ k : K, x = ((k : PadicAlgCl p) : ℂ_[p]) := sorry
-
-/-- §4.1, Tate: `H⁰(G_K, ℂ_p(i)) = 0` for `i ≠ 0`: no nonzero `x` satisfies
-`σ(x) = χ(σ)^{-i} x` for every `σ ∈ G_K`. -/
-theorem tate_H0_padicComplex_twist (K : IntermediateField ℚ_[p] (PadicAlgCl p))
-    [FiniteDimensional ℚ_[p] K] (i : ℤ) (hi : i ≠ 0) (x : ℂ_[p])
-    (hx : ∀ σ : PadicAlgCl p ≃ₐ[K] PadicAlgCl p,
-      padicComplexGaloisAction p (σ.restrictScalars ℚ_[p]) x =
-        (((cyclotomicCharacter (PadicAlgCl p) p σ.toRingEquiv ^ (-i) : ℤ_[p]ˣ) : ℤ_[p]) :
-          ℚ_[p]) • x) :
-    x = 0 := sorry
-
-end PadicComplex
-
-section FontaineLaffaille
-
-/-- §4.6: filtered Frobenius data with semilinear divided maps and generation. The arithmetic
-statements take `W = W(k)` with `σ` the Witt Frobenius, `p > 2` and small weights. -/
-structure FontaineLaffailleModule (W : Type*) [CommRing W] (p : ℕ) (σ : W ≃+* W)
-    (M : Type*) [AddCommGroup M] [Module W M] [Module.Finite W M] where
-  /-- The decreasing filtration `Fil^i M`. -/
-  F : ℤ → Submodule W M
-  antitone : Antitone F
-  exhaustive : ∃ a, F a = ⊤
-  separated : ∃ b, F b = ⊥
-  /-- The divided Frobenius maps `φ_i : Fil^i M → M`. -/
-  φ : ∀ i, F i →ₛₗ[σ.toRingHom] M
-  divided : ∀ (i : ℤ) (x : F (i + 1)),
-    φ i ⟨x, antitone (by omega) x.property⟩ = p • φ (i + 1) x
-  generation : Submodule.span W (⋃ i, Set.range (φ i)) = ⊤
-
-/-- §4.6: free objects have split filtration steps. -/
-def IsFreeFontaineLaffaille {W M : Type*} [CommRing W] [AddCommGroup M] [Module W M]
-    [Module.Finite W M] {p : ℕ} {σ : W ≃+* W} (D : FontaineLaffailleModule W p σ M) : Prop :=
-  Module.Free W M ∧ ∀ i : ℤ, ∃ N : Submodule W M, IsCompl (D.F i) N
-
-/-- §4.6: support in the closed filtration interval `[a, b]`. -/
-def fontaineLaffaille_interval {W M : Type*} [CommRing W] [AddCommGroup M] [Module W M]
-    [Module.Finite W M] {p : ℕ} {σ : W ≃+* W} (D : FontaineLaffailleModule W p σ M) (a b : ℤ) :
-    Prop :=
-  D.F a = ⊤ ∧ D.F (b + 1) = ⊥
-
-/-- §4.6: a linear map preserving the filtration and the divided semilinear Frobenius maps. -/
-structure FontaineLaffailleHom {W M N : Type*} [CommRing W]
-    [AddCommGroup M] [Module W M] [AddCommGroup N] [Module W N]
-    [Module.Finite W M] [Module.Finite W N] {p : ℕ} {σ : W ≃+* W}
-    (D : FontaineLaffailleModule W p σ M) (D' : FontaineLaffailleModule W p σ N) where
-  /-- The underlying linear map. -/
-  map : M →ₗ[W] N
-  filtration : ∀ i, (D.F i).map map ≤ D'.F i
-  frobenius : ∀ i (x : D.F i),
-    map (D.φ i x) = D'.φ i ⟨map x, filtration i (Submodule.mem_map_of_mem x.property)⟩
-
-end FontaineLaffaille
-
-namespace Tests
-
-/-- The zero module admits the zero filtration in every interval. -/
-example (a b : ℤ) : ∃ D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) (Fin 0 → ℤ),
-    fontaineLaffaille_interval D a b := sorry
-
-/-- The proper step `3ℤ` cannot occur in a free split-filtration object. -/
-example (D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ)
-    (hD : IsFreeFontaineLaffaille D) : D.F 1 ≠ Ideal.span {(3 : ℤ)} := sorry
-
-/-- The unit weight-zero object; generation excludes `φ₀ = 0` on a nonzero module. -/
-example : (∃ D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ,
-    fontaineLaffaille_interval D 0 0 ∧ ∀ x : D.F 0, D.φ 0 x = x) ∧
-    ∀ D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ, ¬ (∀ i (x : D.F i), D.φ i x = 0) :=
-  sorry
-
-/-- A nonzero object has no support in a reversed interval. -/
-example (D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ) :
-    ¬ fontaineLaffaille_interval D 1 0 := sorry
-
-/-- The same filtration with Frobenius `1` and `2` over `ℤ₃`: the underlying identity is not a
-morphism. -/
-example : ∃ D D' : FontaineLaffailleModule ℤ_[3] 3 (RingEquiv.refl ℤ_[3]) ℤ_[3],
-    fontaineLaffaille_interval D 0 0 ∧ fontaineLaffaille_interval D' 0 0 ∧
-    (∀ x : D.F 0, D.φ 0 x = x) ∧ (∀ x : D'.F 0, D'.φ 0 x = 2 * (x : ℤ_[3])) ∧
-    ¬ (∃ f : FontaineLaffailleHom D D', f.map = LinearMap.id) := sorry
-
-/-- Identity and zero maps are morphisms on every object. -/
-example {W M : Type*} [CommRing W] [AddCommGroup M] [Module W M]
-    [Module.Finite W M] {p : ℕ} {σ : W ≃+* W} (D : FontaineLaffailleModule W p σ M) :
-    (∃ f : FontaineLaffailleHom D D, f.map = LinearMap.id) ∧
-      ∃ f : FontaineLaffailleHom D D, f.map = 0 := sorry
-
-end Tests
 
 section Archimedean
 
@@ -1248,9 +944,8 @@ end TauCetiRoadmap.SelmerIwasawaCohomology
 /-
 Targets stated in `README.md` only, because their carriers are not at the pins: the limit Kummer
 map `kummerLimit` and its API (§0.6); Galois Selmer groups on continuous cochains, `corank` on a
-discrete p-primary module, `SelmerStructure` and its dual (§§2.9–2.13); `procyclic_H1_equiv_coinvariants`
-(§2.7); `LocalConditionMorphism`, `localMinus`, `localDualError` (§1.3, with arithmetic local
-duality on the modified diagram); `selmerComplex` (parametric in the supplied local complexes),
+discrete p-primary module, `SelmerStructure` and its dual (§§2.9–2.13);
+`selmerComplex` (parametric in the supplied local complexes),
 `selmerComplexOrd`, `selmerComplexMod`, `selmerComplex_globalTriangle`,
 `selmerComplex_compactTriangle` (the strict fibre for the same diagram, arithmetic compact
 support for the modified instance), `selmerComplex_map`, `selmerComplex_quasiIso`,
@@ -1275,12 +970,9 @@ duality on the modified instance); the étale comparison `restrictedRamification
 `etaleGalois_comparison_lattice` (including the finite-S ordinary-limit simplification),
 `etale_jStar_stalk`, `etale_jStar_degreeOne` (injection with image unramified at every removed
 place), `etale_jStar_iwasawa` (infinite decomposition groups at every removed place, §3.15);
-`semilocalCoind_restriction` (§3.6); `GreenbergStructureHypotheses` (§3.18); Tate's normalized traces,
-`tate_almostEtale`, `tate_cyclotomicBanachH1` and `tate_H1_padicComplex_twist`, the canonical
-CR.0.7 specialization `aCris`, its explicit comparison `aCris_model_equiv`, and `bCris`, `dCris`,
-`dDeRham`, `IsCrystalline`, `IsDeRham` (§§4.1–4.5); `fontaineLaffaille_sum`,
-`fontaineLaffaille_dual` (§§4.6–4.7), `IsTorsionCrystalline`, `IsIntegralCrystalline`
-(§4.5a), `crystallineNonsingular` (§4.8); `blochKatoCondition`, `blochKatoCondition_T`,
+`semilocalCoind_restriction` (§3.6); `GreenbergStructureHypotheses` (§3.18);
+the small-weight crystalline realization and extension exactness (§4.7);
+`crystallineNonsingular` (§4.8); `blochKatoCondition`, `blochKatoCondition_T`,
 `blochKatoStructure` (§4.9); `pRamifiedModule`, `unramifiedModule`, `closedGlobalUnitTower`,
 `arithmeticPlusMinus` (§4.16); `PadicLFunctionDatum` and the main-conjecture propositions
 (§§4.21–4.23), with `iwasawaCorank` the tuple of the component coranks above;
