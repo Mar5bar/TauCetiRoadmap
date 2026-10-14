@@ -864,7 +864,8 @@ wedge, orientations and Riemannian metrics, Layers 0–2 and 12).
 
 **Checks.**
 
-- `HodgeStar.dimensionZero`: on an oriented point (`m = 0`), `*` is the identity of `Λ⁰`.
+- `HodgeStar.dimensionZero`: on the positively oriented point (`m = 0`), `*` is the identity of
+  `Λ⁰`; on the negatively oriented point, `* = −id`.
 - `HodgeStar.euclideanPlane`: on `ℝ²` with `dx ∧ dy` positive, `*dx = dy`, `*dy = −dx`, `*1 = dx ∧ dy`;
   the opposite orientation flips all three signs.
 - `HodgeStar.complexLinearity`: `*(iα) = i(*α)`; putting the conjugation into `*` instead of into the
@@ -2207,6 +2208,21 @@ isomorphism) (Demailly, VI.2.4, pp. 289–290; VI.3.15–3.17, pp. 294–295). *
 - `HarmonicGreen.projectiveLine`: on `P¹` with the Fubini–Study metric, harmonic `1`-forms vanish while
   harmonic `0`- and `2`-forms are one-dimensional (constants and multiples of the volume form).
 
+Prove `ddbarLemma`: on a compact Kähler manifold without boundary, a smooth complex form `α`
+of pure type `(p,q)` with `dα = 0` is d-exact if and only if `α = ∂∂̄β` for a smooth form `β`
+of type `(p−1,q−1)`. Spaces of forms with a negative bidegree are zero. Derive the equivalence
+from the harmonic/Green decomposition and the Kähler identities: exactness makes the harmonic
+projection vanish, and the identities eliminate the coexact component in the successive
+`∂̄` and `∂` decompositions. This also identifies exactness with orthogonality to harmonic
+`(p,q)`-forms (Demailly, VI.8.6 and proof, p. 311). *Needs:* `HarmonicGreen`; `kaehlerIdentities`.
+
+**Checks.**
+
+- For a smooth function `f`, `∂∂̄f = d(∂̄f)` is a d-closed d-exact `(1,1)`-form.
+- When `p = 0` or `q = 0`, a d-closed d-exact `(p,q)`-form is zero; in particular on a point
+  a degree-zero form is exact only when it vanishes.
+- On `P¹` the Fubini–Study form has positive integral, so it is neither d-exact nor `∂∂̄`-exact.
+
 Prove `kaehlerHodgeDecomposition`: for a compact Kähler manifold `T` and each `n`,
 `H^n_dR(T, ℂ) = ⊕_{p+q=n} ℋ^{p,q}`, the harmonic forms of type `(p,q)`, and `ℋ^{p,q} ≅ H^q(T, Ω^p_T)`
 canonically; complex conjugation exchanges `ℋ^{p,q}` and `ℋ^{q,p}`. The Hodge filtration
@@ -2215,11 +2231,12 @@ structure of weight `n` in the sense of `TauCeti.Hodge.HodgeStructureOn` (with t
 `TauCeti.Hodge.Conjugation` induced by the real structure), and the Hodge-to-de Rham spectral sequence
 degenerates at `E₁`. Because `Δ_d = 2Δ_∂̄` preserves bidegree (`kaehlerIdentities`), the harmonic
 representative splits by type; Dolbeault's resolution (`localDolbeault`) identifies the pieces with
-coherent cohomology; the `∂∂̄`-lemma gives filtration compatibility (Demailly, VI.8.1–8.6,
+coherent cohomology; `ddbarLemma` gives filtration compatibility (Demailly, VI.8.1–8.6,
 pp. 310–311). On a general compact complex manifold, `E₁`-degeneration of the Hodge-to-de Rham
 spectral sequence (Demailly, VI.11.3, pp. 322–323) does not by itself give Hodge symmetry or a
 splitting by harmonic forms; Demailly's strong Hodge decomposition (VI.12.5, p. 326) is the notion
-that does, and compact Kähler manifolds have it. *Needs:* `HarmonicGreen`; `kaehlerIdentities`; `localDolbeault`; Tau Ceti
+that does, and compact Kähler manifolds have it. *Needs:* `HarmonicGreen`; `kaehlerIdentities`;
+`ddbarLemma`; `localDolbeault`; Tau Ceti
 `TauCeti.Hodge.HodgeStructureOn`, `TauCeti.Hodge.Conjugation`.
 
 Prove `properPureHodge`: for a smooth proper scheme `X` over `ℂ`, projective or not, `H^n_sing(X^an, ℚ)`
@@ -2793,16 +2810,13 @@ Propositions 3.10 and 3.12, printed pp. 203–204). *Needs:* `LogCrystalline.log
 Define `RegularSingular`: an integrable algebraic connection `(E, ∇)` (finite locally free `E`) on a
 smooth variety `U` of finite type over `ℂ` is regular singular if for every smooth curve `C` with a map
 `C → U`, the pulled-back connection has, at each point at infinity of the smooth completion of `C`, a
-lattice on which it has at most a logarithmic pole. On a smooth proper compactification `X ⊇ U` with
-SNC boundary `D`, this is equivalent to the existence of a finite locally free extension of `E` to `X`
-on which `∇` has logarithmic poles (a connection `E → Ω¹_X(log D) ⊗ E`), and the notion does not depend
-on the compactification. The equivalence uses Deligne's corrected proof of II.4.1 (boundary resolution,
-a uniform pole bound by a Baire argument, extension across codimension two), not the withdrawn
-II.1.23–1.24. The API is `RegularSingular.restrict` (restriction to an open), `RegularSingular.pullback`
-(pullback along morphisms of smooth varieties) and `RegularSingular.tensor` (tensor products and duals)
-(Deligne 1970, II.4.1–4.6, printed pp. 85–91, and II.5.1–5.9, pp. 91–98, with the replacement proof of
-II.4.1 in the author's 1971 erratum, pp. 1–3). *Needs:* `Crystalline.Connection`; `DivisorialLog`; `LogCrystalline.logDifferentials`;
-AlgebraicModuliForArithmeticGeometry Layer 9 (`sncCompactification`).
+lattice on which it has at most a logarithmic pole (Deligne 1970, II.4.1–4.6, printed pp. 85–91).
+*Needs:* `Crystalline.Connection`; `DivisorialLog`; `LogCrystalline.logDifferentials`;
+C4.5 `affineCurveCompletionInterface` on affine curve charts.
+
+The internal order is the curve-condition definition, the analytic `CanonicalLogExtension`, then
+the curve/logarithmic-lattice equivalence and compactification independence. The analytic extension
+is constructed for every finite-rank complex local system, independently of algebraic regularity.
 
 **Checks.**
 
@@ -2830,7 +2844,7 @@ rank-one scalar `localMonodromy`; strip representatives `residueStripRep`) and
 `CanonicalLogExtension.uniqueness` (uniqueness of an extension with the
 strip condition) (Deligne 1970, II.5.1–5.6, printed pp. 91–96: the choice of `τ` in II.5.3, misnumbered
 4.3 in print, and Proposition 5.4, p. 94; the monodromy in Corollary 5.6, p. 96).
-*Needs:* `RegularSingular`; `analyticFlatConnectionLocalSystem`; `LogCrystalline.logDifferentials`;
+*Needs:* `analyticFlatConnectionLocalSystem`; `DivisorialLog`; `LogCrystalline.logDifferentials`;
 `logAnalytification`;
 AlgebraicModuliForArithmeticGeometry Layer 9 (`analyticPolydisc`).
 
@@ -2842,6 +2856,21 @@ AlgebraicModuliForArithmeticGeometry Layer 9 (`analyticPolydisc`).
   need not be equal; their conjugacy class is unchanged.
 - `CanonicalLogExtension.tensorCarry`: residues `3/4` and `3/4` add to `3/2`, whose strip representative
   is `1/2`; so the canonical extension with the strip `[0,1)` is not an unadjusted tensor functor.
+
+Prove the logarithmic-lattice criterion for `RegularSingular`: on a smooth proper compactification
+`X ⊇ U` with SNC boundary `D`, the curve condition is equivalent to the existence of a finite locally
+free extension of `E` to `X` with logarithmic connection `Ē → Ω¹_X(log D) ⊗ Ē`, and it is independent
+of the compactification. Use the analytic `CanonicalLogExtension` of the horizontal local system:
+the curve condition makes its identification with `E^an` meromorphic along the boundary, by a
+uniform pole bound from Baire category and extension across codimension two; proper GAGA then
+algebraizes the lattice and connection. The API is `RegularSingular.restrict` (restriction to an
+open), `RegularSingular.pullback` (pullback along morphisms of smooth varieties) and
+`RegularSingular.tensor` (tensor products and duals) (Deligne 1970, II.4.1–4.6, printed pp. 85–91,
+and II.5.1–5.9, pp. 91–98, with the replacement proof of II.4.1 in the author's 1971 erratum,
+pp. 1–3). *Needs:* the curve-condition `RegularSingular` definition; `CanonicalLogExtension`;
+`analyticFlatConnectionLocalSystem`; `DifferentialOperatorAnalytification`;
+AlgebraicModuliForArithmeticGeometry Layer 9 (`sncCompactification`) and
+§7.10.3 (`properSchemeGagaEquivalence`).
 
 The residue-strip functions also have an elementary API. For `a ∈ ℂ`,
 `residueStripRep a = a − floor(Re a)`; `residueStripRep_mem` proves membership in the half-open
@@ -2894,6 +2923,17 @@ the inverses of `k + Res` (available because no residue eigenvalue is a positive
 p. 98, and II.6.7–6.10 and proof, pp. 101–105, with II.3.13–3.15, pp. 80–85, for the passage from
 logarithmic to meromorphic forms). *Needs:* `deligneRiemannHilbert`; `boundedOperatorHyperGaga`; `LogDeRham`;
 `sheafSingularComparison`; `analyticFlatConnectionLocalSystem`; `relativePoincare`.
+
+**Checks for `regularSingularDeRhamComparison`.**
+
+- For the trivial connection on `G_m = P¹ ∖ {0, ∞}`, choose `z⁻¹ℂ{z}` at `0` and the
+  unshifted lattice `ℂ{w}`, `w = 1/z`, at `∞`. The residues `(−1,0)` meet the comparison
+  condition; the logarithmic complex computes `H⁰ = H¹ = ℂ`.
+- Replacing only the first lattice by `zℂ{z}` gives residues `(1,0)`. Both terms of the
+  logarithmic complex are `O_{P¹}(−1)` and have zero cohomology, so its hypercohomology is zero.
+- Using `e′ = z⁻¹` as a global frame instead gives residues `(−1,+1)`. Both terms are
+  `O_{P¹}` and their global differential is multiplication by `−1` in the basis `dz/z`;
+  this logarithmic complex is acyclic despite trivial monodromy at both boundaries.
 
 ### C5.7 Curves and the proper logarithmic comparison
 
@@ -2976,8 +3016,6 @@ claimed (Qian, arXiv:2103.00106, Theorem 1.8, pp. 3–4, and Proposition 3.6 and
 - On `P¹`, `dz/z` has residues `1` at `0` and `−1` at `∞`; on `G_m` the ordinary `H¹` is `ℂ`, its
   parabolic part is `0`, and the Betti residue of `comp[dz/z]` at `0` is `2πi` times its de Rham
   residue.
-- For the trivial connection on `G_m` the lattice generated by `z⁻¹` has residue `−1` and computes the
-  same cohomology; the lattice generated by `z` has residue `1`, a positive integer, and can change it.
 - For the identity of the standard log point the relative complex is `ℂ` in degree `0` and `N = 0`;
   over the standard log point the first map of the transitivity sequence is multiplication by `dlog t`.
 - The semistable chart `xy = t` is log smooth with a singular central fibre, and the chart
