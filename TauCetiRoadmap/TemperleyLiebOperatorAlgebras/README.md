@@ -375,7 +375,11 @@ End algebra and restrict its left-regular norm to each corner.
 Prove independence of the envelope realization and agreement of
 End(n) with Q_n.
 
-This is a concrete normed dagger category: prove its C*-category
+Instantiate the native dagger and C*-category interfaces of
+[CategoricalOperatorAlgebras CA1a](../CategoricalOperatorAlgebras/README.md),
+using only its finite linking/Hom axioms, independent of its bimodule
+and realization milestones. This is a concrete normed dagger category:
+prove its C*-category
 axioms explicitly, including bounded composition,
 `‖f†f‖=‖f‖²`, positivity in each endomorphism algebra and completeness
 of every finite-dimensional Hom space. Show tensor product respects
