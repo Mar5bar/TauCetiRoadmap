@@ -950,11 +950,13 @@ theorem relativeHurewicz_isIso (n : ℕ) (hn : 2 ≤ n) (X : BasedTopPair.{u})
 
 /-! ## Finite CW Euler characteristic -/
 
-/-- A concrete finite CW model for a space. The topology and CW witnesses belong to the model
-carrier, and the original space is connected to it by an actual homotopy equivalence. -/
+/-- A concrete finite CW model for a space. Its topology, Hausdorff and CW witnesses belong
+to the model carrier; the original space is connected by an actual homotopy equivalence.
+Hausdorffness is a model witness, not a consequence of that equivalence. -/
 structure FiniteCWTypeModel (M : Type u) [TopologicalSpace M] where
   X : Type u
   topology : TopologicalSpace X
+  hausdorff : letI := topology; T2Space X
   cw : letI := topology; CWComplex (Set.univ : Set X)
   finite : letI := topology; letI := cw; CWComplex.Finite (Set.univ : Set X)
   homotopyEquiv : letI := topology; M ≃ₕ X
@@ -968,10 +970,36 @@ noncomputable def compactManifoldFiniteCWType (n : ℕ)
   sorry
 
 /-- Euler characteristic of a chosen finite CW structure. The roadmap proves that this agrees
-with alternating homology rank and is invariant under homotopy equivalence. -/
+with alternating homology rank and is invariant under homotopy equivalence
+for Hausdorff CW carriers. The numerical definition itself remains more general. -/
 noncomputable def finiteCWEulerCharacteristic (X : Type*) [TopologicalSpace X]
     [CWComplex (Set.univ : Set X)] [CWComplex.Finite (Set.univ : Set X)] : ℤ :=
   ∑ᶠ i : ℕ, (-1 : ℤ) ^ i * Nat.card (Topology.RelCWComplex.cell (Set.univ : Set X) i)
+
+/-- Install the chosen model's actual Hausdorff and CW witnesses before taking its count. -/
+noncomputable def FiniteCWTypeModel.eulerCharacteristic
+    {M : Type u} [TopologicalSpace M] (m : FiniteCWTypeModel M) : ℤ := by
+  letI := m.topology
+  letI := m.hausdorff
+  letI := m.cw
+  letI := m.finite
+  exact finiteCWEulerCharacteristic m.X
+
+/-- The same installed model witnesses satisfy the native cellular Euler comparison. -/
+example (k : Type u) [Field k] {M : Type u} [TopologicalSpace M]
+    (m : FiniteCWTypeModel M) :
+    letI := m.topology
+    letI := m.hausdorff
+    letI := m.cw
+    letI := m.finite
+    (cellularChainComplex k m.X).eulerChar = m.eulerCharacteristic := by
+  let := m.topology
+  let := m.hausdorff
+  let := m.cw
+  let := m.finite
+  simpa [FiniteCWTypeModel.eulerCharacteristic, cellularChainComplex,
+    finiteCWEulerCharacteristic] using
+    (TauCeti.eulerChar_cellularChainComplex (Set.univ : Set m.X) (ModuleCat.of k k))
 
 /-- The space-level cell count is the native cellular-complex Euler characteristic. -/
 example (k : Type u) [Field k] (X : Type u) [TopologicalSpace X] [T2Space X]
@@ -982,6 +1010,7 @@ example (k : Type u) [Field k] (X : Type u) [TopologicalSpace X] [T2Space X]
 
 theorem finiteCWEulerCharacteristic_eq_of_homotopyEquiv
     {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
+    [T2Space X] [T2Space Y]
     [CWComplex (Set.univ : Set X)] [CWComplex.Finite (Set.univ : Set X)]
     [CWComplex (Set.univ : Set Y)] [CWComplex.Finite (Set.univ : Set Y)]
     (_e : X ≃ₕ Y) :
@@ -994,6 +1023,7 @@ theorem finiteCWEulerCharacteristic_eq_of_homotopyEquiv
 homology is itself the forward map of a homotopy equivalence. -/
 theorem homologicalWhitehead
     {X Y : Type} [TopologicalSpace X] [TopologicalSpace Y]
+    [T2Space X] [T2Space Y]
     [SimplyConnectedSpace X] [SimplyConnectedSpace Y]
     [CWComplex (Set.univ : Set X)] [CWComplex (Set.univ : Set Y)]
     (f : C(X, Y))
@@ -2144,7 +2174,7 @@ theorem cwReducedSuspensionKelleyComparison_counit
       (cwReducedSuspensionKelleyComparison k hk X x z) = z := by
   sorry
 
-/-! ### Stage 8.11: the two-step cone quotient uses the same interval-last suspension carrier -/
+/-! ### Stage 8.11b: the two-step cone quotient uses the same interval-last suspension carrier -/
 
 def ordinaryConeCarrier (X : TopCat.{u}) : TopCat.{u} :=
   ordinaryPairQuotient (X × unitInterval) {p | p.2 = 0}
@@ -2448,5 +2478,68 @@ theorem homotopyInversePairExtension_left
   sorry
 
 end RelativeCWPushouts
+
+/-! ## Proper homotopy comparison -/
+
+/-- A proper inverse includes joint proper homotopies on `I × X` and `I × Y`.
+The ordinary homotopy-equivalence carrier is native; no second homotopy type is defined. -/
+def HasProperHomotopyInverse {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
+    (f : C(X, Y)) : Prop :=
+  IsProperMap f ∧ ∃ g : C(Y, X), IsProperMap g ∧
+    ∃ H : ContinuousMap.Homotopy (g.comp f) (ContinuousMap.id X),
+    ∃ K : ContinuousMap.Homotopy (f.comp g) (ContinuousMap.id Y),
+      IsProperMap H ∧ IsProperMap K
+
+/-- Forgetting the proper controls gives exactly Mathlib's ordinary equivalence. -/
+theorem HasProperHomotopyInverse.exists_homotopyEquiv
+    {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
+    {f : C(X, Y)} (h : HasProperHomotopyInverse f) :
+    ∃ e : ContinuousMap.HomotopyEquiv X Y, e.toFun = f := by
+  rcases h with ⟨_, g, _, H, K, _, _⟩
+  exact ⟨{ toFun := f, invFun := g, left_inv := ⟨H⟩, right_inv := ⟨K⟩ }, rfl⟩
+
+/-- Proper extension retains a jointly proper map on the entire cylinder.
+Stage 8.5 proves this for strongly locally finite CW pairs and their product pairs. -/
+def HasProperHomotopyExtensionProperty {X : Type u} [TopologicalSpace X]
+    (A : Set X) : Prop :=
+  ∀ (Y : Type u) [TopologicalSpace Y],
+    ∀ (f : C(X, Y)), IsProperMap f →
+    ∀ (H : C(unitInterval × A, Y)), IsProperMap H →
+      (∀ a : A, H (0, a) = f (a : X)) →
+      ∃ K : C(unitInterval × X, Y), IsProperMap K ∧
+        (∀ x : X, K (0, x) = f x) ∧
+        (∀ (t : unitInterval) (a : A), K (t, (a : X)) = H (t, a))
+
+/-- The compact-exhaustion loop condition is shared by AT, GT and Four.
+The circle is Mathlib's actual additive circle with period one. -/
+def SimplyConnectedAtInfinity (X : Type u) [TopologicalSpace X] : Prop :=
+  ∀ K : Set X, IsCompact K → ∃ L : Set X, IsCompact L ∧ K ⊆ L ∧
+    ∀ f : C(AddCircle (1 : ℝ), X), (∀ z, f z ∉ L) →
+      ∃ p : X, p ∉ K ∧
+        ∃ H : ContinuousMap.Homotopy f (ContinuousMap.const (AddCircle (1 : ℝ)) p),
+          ∀ z : unitInterval × AddCircle (1 : ℝ), H z ∉ K
+
+/-- Proper extension for a closed pair also supplies the full cylinder-boundary
+pair. The spelling agrees with the ordinary native HEP companion. -/
+theorem HasProperHomotopyExtensionProperty.cylinderBoundary
+    {X : Type u} [TopologicalSpace X] [T2Space X] [LocallyCompactSpace X]
+    {A : Set X} (hA : HasProperHomotopyExtensionProperty A) (hAc : IsClosed A) :
+    HasProperHomotopyExtensionProperty
+      ((({0, 1} : Set unitInterval).prod (Set.univ : Set X)) ∪
+        (Set.univ : Set unitInterval).prod A) := by
+  sorry
+
+/-- The proper inverse is rectified using proper extension and its cylinder
+corollary. Closedness follows from properness of the inclusion. -/
+theorem properStrongDeformationRetract_of_inverse
+    {X : Type u} [TopologicalSpace X] [T2Space X] [LocallyCompactSpace X]
+    (A : Set X) (hA : HasProperHomotopyExtensionProperty A)
+    (hInverse : HasProperHomotopyInverse
+      (⟨Subtype.val, continuous_subtype_val⟩ : C(A, X))) :
+    ∃ r : C(X, A), IsProperMap r ∧ (∀ a : A, r (a : X) = a) ∧
+      ∃ H : (ContinuousMap.id X).HomotopyRel
+        ((⟨Subtype.val, continuous_subtype_val⟩ : C(A, X)).comp r) A,
+        IsProperMap H := by
+  sorry
 
 end TauCetiRoadmap.AlgebraicTopology
