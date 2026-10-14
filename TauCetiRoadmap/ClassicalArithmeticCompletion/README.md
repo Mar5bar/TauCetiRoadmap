@@ -14,7 +14,9 @@ ClassFieldTheory owns cohomological local symbols, local and global Artin maps, 
 
 The current Tau Ceti library supplies `Matrix.exists_smith_normal_form_of_det_ne_zero` and `Matrix.smith_normal_form_unique` in `TauCeti.LinearAlgebra.Matrix.SmithNormalForm`; their square-matrix statements are inputs. It also supplies the primitive-generator discriminant/index identity, local reciprocity and Kummer cup-product machinery, integral semilocal comparisons, and both the split and exact Grothendieck groups of finite projectives. Their exact restrictions matter: ordinary character induction does not supply field-of-definition induction, and a cohomological symbol needs an invariant-normalised coordinate before its sign can be compared with an Artin definition. The current library also has the primitive character of a fundamental discriminant (TauCeti.Multiquadratic.fundamentalDiscriminantChar, with its quadraticity, its value at −1, its values at odd primes and isPrimitive_fundamentalDiscriminantChar), so these are not targets here; Layer 1 adds the rest of its value table. For a quadratic presentation θ² = d it has the direction from a solution of the negative Pell equation to a unit of norm −1 (NumberField.exists_norm_eq_neg_one_of_sq_sub_mul_sq_eq_neg_one), the narrow class of an element of negative norm (NumberField.mkPrincipal_eq_mkPrincipal_gen_of_norm_neg) and the injectivity criterion NarrowClassGroup.toClassGroup_injective_iff_exists_norm_eq_neg_one; Layer 5 adds the converse direction through cubing, the triviality criterion for the narrow class of θ and the two-primary form of the comparison. Its tameness predicate TauCeti.IsTamelyRamified is for extensions of nonarchimedean local fields; Layer 7 uses the predicate for extensions of Dedekind domains at every prime, which includes residue separability.
 
-Four lower-tier roadmaps supply inputs. TauCetiRoadmap.AdelicAlgebraicGroups supplies the group SL₁(D) (§3.4) and strong approximation (§4.2); TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants supplies the Azumaya reduced-norm determinant and its characteristic polynomial (§§0.5–0.6); TauCetiRoadmap.DiophantineApproximationAndTranscendence supplies primitive minimal polynomials, heights, the house and Mahler measure of an algebraic number and bounded-house finiteness (§§0.1–0.3), the existence of recurrence closed forms (§2.4) and the relative Siegel lemma (§2.8); and GeometryOfNumbersAndQuadraticArithmetic supplies the analytic Jacobi triple product (§4.3). Minkowski's convex body theorem is Mathlib's. The recurrence target here adds uniqueness to the closed-form existence statement. Pseudobases and Steinitz classes of lattices over a Dedekind domain are targets here ([Pseudobases and Steinitz classes of lattices over a Dedekind domain](#layer-7-topic-0)). IntegralLattices B4 supplies the proper-automorphism/norm-one-unit equivalence; [Proper automorphs of indefinite binary forms and the Pell equation](#layer-4-topic-0) supplies its Pell-coordinate comparison.
+HeightsAndUnits §1.3 owns scalar Kronecker and the absolute scalar power laws on the DiophantineApproximationAndTranscendence height foundation; §§6.15–6.16 consume these results. ArithmeticGaloisRepresentations §2.7 owns Deligne–Langlands local constants and completed finite-image Artin equations, using AdelicAlgebraicGroups AA.2.4 for the arithmetic-Frobenius Artin function. AutomorphicLFunctionsAndLocalFactors AL.0–AL.1 supplies the standard trace characters, self-dual measures and rank-one Tate factors. §§7.13 and 7.30 here own their Fröhlich–Taylor normalization adapters, determinant comparisons and tame symplectic signs.
+
+Four further lower-tier roadmaps supply inputs. TauCetiRoadmap.AdelicAlgebraicGroups supplies the group SL₁(D) (§3.4) and strong approximation (§4.2); TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants supplies the Azumaya reduced-norm determinant and its characteristic polynomial (§§0.5–0.6); TauCetiRoadmap.DiophantineApproximationAndTranscendence supplies primitive minimal polynomials, heights, the house and Mahler measure of an algebraic number and bounded-house finiteness (§§0.1–0.3), the existence of recurrence closed forms (§2.4) and the relative Siegel lemma (§2.8); and GeometryOfNumbersAndQuadraticArithmetic supplies the analytic Jacobi triple product (§4.3). Minkowski's convex body theorem is Mathlib's. The recurrence target here adds uniqueness to the closed-form existence statement. Pseudobases and Steinitz classes of lattices over a Dedekind domain are targets here ([Pseudobases and Steinitz classes of lattices over a Dedekind domain](#layer-7-topic-0)). IntegralLattices B4 supplies the proper-automorphism/norm-one-unit equivalence; [Proper automorphs of indefinite binary forms and the Pell equation](#layer-4-topic-0) supplies its Pell-coordinate comparison.
 
 General Catalan–Mihăilescu is outside the elementary exponential-equation scope: the cyclotomic-unit, Stickelberger-ideal and Thaine arguments need a cyclotomic arithmetic development. The powers-of-two/three result here is an elementary special case. Markoff orbit growth and strong-approximation theorems belong to ArithmeticDynamics; this roadmap supplies their carriers, moves, reductions and the surjectivity predicate. ArithmeticStatistics consumes the negative-Pell families; ComputationalNumberTheory consumes the intrinsic arithmetic comparisons; K2SymbolsBrauer and HigherLocalFields consume the degree-n norm-residue symbol; QSeriesPartitionsAndMockModularForms consumes the formal triple product; KTheoryLowDegrees consumes stable equality and scalar-change comparisons; LogarithmicPotentialTheoryAndAlgebraicIntegers consumes the capacity and rationality interfaces. None of these consumers supplies a prerequisite back to this roadmap.
 
@@ -113,6 +115,10 @@ closedFormRecurrence, as TauCetiRoadmap.DiophantineApproximationAndTranscendence
 ### From [TauCetiRoadmap.DiophantineApproximationAndTranscendence, §§0.1–0.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/DiophantineApproximationAndTranscendence/README.md#01-primitive-polynomials-and-coefficient-height)
 
 For an algebraic number x of degree d: the primitive integer minimal polynomial F_x with positive leading coefficient (§0.1); the Mahler measure M(x) of F_x, the field-independent house ⌈x⌉ with ⌈x⌉ = NumberField.house x on a number field, `absMulHeight₁_eq_rpow`, `absMulHeight₁_eq_of_minpoly_eq` and the comparison M(x) = Habs(x)^d (§0.2); bounded-degree Northcott finiteness and the finiteness of the algebraic integers of bounded degree and house (§0.3). The house-form integer Siegel estimate of §0.3 is not used.
+
+### From [TauCetiRoadmap.HeightsAndUnits, §1.3 scalar heights](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/HeightsAndUnits/README.md#layer-1-northcott-kronecker-and-the-height-gap)
+
+For a characteristic-zero field F and x algebraic over Q, the supplier's `absMulHeight₁_eq_one_iff` gives Habs(x)=1 iff x=0 or x has positive finite multiplicative order; its logarithmic form gives h(x)=0 under the same algebraicity hypothesis. Consume the supplier's scalar law Habs(xⁿ)=Habs(x)ⁿ and its logarithmic corollary h(xⁿ)=n h(x), for n∈N, using exactly Mathlib's `NumberField.absMulHeight₁` and `NumberField.absLogHeight₁`. Their transcendental values are 1 and 0. The field comparisons and Mahler-measure bridge belong to DiophantineApproximationAndTranscendence §0.2. §§6.15–6.16 introduce no second scalar-height declarations; all height-based uses of Kronecker and homogeneity in Layer 6 use this supplier.
 
 ### From [TauCetiRoadmap.DiophantineApproximationAndTranscendence, §2.8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/DiophantineApproximationAndTranscendence/README.md#28-auxiliary-polynomials-and-quantitative-subspaces)
 
@@ -250,7 +256,7 @@ For a nondegenerate binary lattice of nonsquare discriminant, B4 supplies SO(L) 
 
 ### From [TauCetiRoadmap.ArithmeticGaloisRepresentations, §2.7 local constants](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticGaloisRepresentations/README.md#27-local-constants)
 
-The analytic carriers `tateLocalConstant` and `epsilonWeil`, their Deligne–Langlands existence and uniqueness, exact-sequence multiplicativity, degree-zero induction and additive-character/measure normalization, and §2.7's Global inputs: the completed functional equation for finite-image complex representations, proved by Brauer induction and Tate's equation. The primary locators are Deligne (1973), §3.12(A)–(D), pp.533–534, and Theorem4.1, p.535. §7.30 consumes these results, transporting geometric Frobenius to its arithmetic Artin character by dualizing as specified in the supplier.
+The analytic carriers `tateLocalConstant` and `epsilonWeil`, their Deligne–Langlands existence and uniqueness, exact-sequence multiplicativity, degree-zero induction, measure scaling and additive-character laws, and §2.7's completed finite-image functional equation. Its rank-one constants are identified with AL.1's Tate factors under the same character and measure. §3.3 supplies the conductor dependence of epsilon factors; §3.5 supplies a_F(Ind_E/F θ)=f(E/F)a_E(θ)+v_F(discriminant(E/F))deg θ. The primary locators are Deligne (1973), §3.12(A)–(D), pp.533–534, Theorem4.1, p.535, and §8.12, p.572; the conductor induction formula is Serre (1961), n°3.7, (31), p.138, as cited by §3.5. §§7.13 and 7.30 consume this one local-constant theory and equation. For our arithmetic character χ use the supplier on χ∨: its rank-one character through geometric reciprocity is χ∘artinMap, and its geometric-Frobenius Euler polynomial is AA.2.4's arithmetic-Frobenius polynomial for χ. The exact additive-character, different, induction and global completion conversions are stated in those adapters.
 
 ### From [TauCetiRoadmap.AdelicAlgebraicGroups, AA.2.4 finite-image Artin functions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#24-gauge-forms-and-tamagawa-normalization)
 
@@ -259,6 +265,19 @@ The convergence-factors target supplies arithmetic-Frobenius local determinants 
 ### From [TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.0–AL.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicLFunctionsAndLocalFactors/README.md#standard-additive-character)
 
 `AL0.StandardAdditiveCharacter.conductor`, `.diagonal` and `.nontrivial` fix the trace character with positive infinity component and negative finite component. `TateZeta.epsilonFactor`, `TateZeta.epsilonFactor_smul_char`, `TateZeta.epsilonFactor_mul_inv`, `TateZeta.epsilonFactor_unramified_zero` and `TateZeta.epsilonFactor_real_sign` supply the analytic one-dimensional factors and their character-change laws. AL.0 supplies self-dual Haar measure. Kudla (2004), §3, Propositions3.5–3.8, pp.120–124, and §4, pp.127–129, fixes these normalizations; §7.30 transports them to the finite additive character of §7.13 and the infinite factor of Fröhlich (1976), (2.3), p.390.
+
+### Layers 6–7 ownership index
+
+| Role | Owner and interface | Use here |
+| --- | --- | --- |
+| Imported height foundation | DiophantineApproximationAndTranscendence §§0.1–0.3, §2.8; HeightsAndUnits §1.3 | Minimal polynomials, Mahler measure, field-independent height, relative Siegel bounds, scalar homogeneity and Kronecker (§§6.12, 6.15–6.16) |
+| Imported arithmetic and representation theory | NumberFieldArithmetic, LocalFieldsRamification, ClassFieldTheory; CharacterTheory, InductionRestriction, SemisimpleAlgebras | Field and conductor carriers, arithmetic Artin maps, virtual characters and ordinary Brauer induction |
+| Imported analytic foundations | AL.0–AL.1; ArithmeticGaloisRepresentations §§2.7, 3.3, 3.5; AA.2.4 | Trace characters, self-dual measures, Tate and Deligne–Langlands constants, conductor induction and completed Artin equations |
+| Imported order inputs | IntegralHeckeAndGaloisDeterminants §§0.5–0.6; AdelicAlgebraicGroups §§3.4, 4.2 | Reduced norms, norm-one algebraic groups and strong approximation |
+| New general foundations here | §§6.17–6.21, 6.40–6.44; §§7.0–7.11, 7.23–7.28, 7.54, 7.72, 7.77–7.79 | Schur series, diameter/capacity and Hankel comparisons; lattices, orders, stable classes, ideles and character determinants |
+| Normalization adapters here | §§7.13, 7.30, 7.44, 7.47, 7.100 | Fröhlich–Taylor Gauss/root factors, coefficient Frobenius, common-base lattice twists and norm resolvents |
+| Specialized proof inputs here | §§6.12–6.14, 6.31–6.39, 6.50–6.57, 6.61–6.69; §§7.62–7.63, 7.80, 7.86, 7.93, 7.107–7.119 | Auxiliary polynomial and capacity estimates; field-of-definition induction, determinant descent and Taylor's local identities |
+| Endpoint applications here | §§6.60, 6.70–6.75; §§7.88–7.89, 7.102–7.104, 7.120–7.123 | Small-height bounds and rationality, Noether/Hilbert–Speiser, and the Fröhlich–Taylor obstruction and its consequences |
 
 ## How to read the build
 
@@ -12335,46 +12354,41 @@ T = 1 − 2x c(x) at x = −Y; T² = 1 − 4x c + 4x²c² = 1 − 4x(c − x c²
 
 ### 6.15 h(αⁿ) = n·h(α) for the absolute Weil height
 
-For every element α of a field of characteristic 0 and n ∈ ℕ, absLogHeight₁(αⁿ) = n·absLogHeight₁(α) (Mathlib's absolute logarithmic Weil height, junk value 0 at transcendental α).
+Consume HeightsAndUnits §1.3's scalar power law, with DiophantineApproximationAndTranscendence §0.2's field comparison: for every α in a characteristic-zero field and n∈N, Habs(αⁿ)=Habs(α)ⁿ and h(αⁿ)=n h(α). Both laws use Mathlib's absolute scalar heights; this section has no separate homogeneity declaration.
 
-No algebraicity hypothesis: for transcendental α and n ≥ 1, αⁿ is transcendental and both sides are 0; for n = 0 both sides are 0.
+No algebraicity hypothesis is needed for these laws. For transcendental α and n≥1, αⁿ is transcendental, so the multiplicative values are 1 and the logarithmic values are 0. At n=0 the identities include α=0 and 0⁰=1. The algebraic case is the supplier's field-independent transport of `Height.mulHeight₁_pow`, followed by logarithms.
 
-(Chris Smyth, [The Mahler measure of algebraic numbers: a survey](#reference-smyth-mahler-survey-2008), Section 12, printed pp. 338-339.) The homogeneity h(α^d) = d h(α) is what makes the canonical height of the power map equal to h.
-
-(Vesselin Dimitrov, [A proof of the Schinzel-Zassenhaus conjecture on polynomials](#reference-dimitrov-2019), Proof of Lemma 2.3, p. 5 (arXiv v1).) The identity h(αⁿ) = n h(α) as used.
-
-To prove this, for algebraic α let K = ℚ(α) (a number field containing αⁿ). By `absMulHeight₁_eq_rpow` and `absMulHeight₁_eq_of_minpoly_eq` of TauCetiRoadmap.DiophantineApproximationAndTranscendence §0.2, absMulHeight₁ x = (mulHeight₁ x computed in K)^{1/[K:ℚ]} for x ∈ K, independently of the subfield ℚ(x) Mathlib uses.
-
-In K, mulHeight₁(αⁿ) = mulHeight₁(α)ⁿ (Height.mulHeight₁_pow); take logarithms.
+(Chris Smyth, [The Mahler measure of algebraic numbers: a survey](#reference-smyth-mahler-survey-2008), Section 12, printed pp.338–339; Vesselin Dimitrov, [A proof of the Schinzel-Zassenhaus conjecture on polynomials](#reference-dimitrov-2019), proof of Lemma2.3, p.5, arXiv v1.) The scalar law supplies the canonical-height comparison for the power map.
 
 **Checks.**
 
-- h(2ⁿ) = n log 2 (Mathlib's Rat.logHeight₁_natCast).
-- h(φ⁵) = 5 h(φ) = (5/2) log φ.
+- h(2ⁿ)=n log 2.
+- h(φ⁵)=5 h(φ)=(5/2)log φ.
+- n=0, including α=0: Habs(α⁰)=1 and h(α⁰)=0.
+- A transcendental α and positive n have h(αⁿ)=h(α)=0.
 
-*Needs:* [TauCetiRoadmap.DiophantineApproximationAndTranscendence, §0.2 Mahler measure, house and absolute height](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/DiophantineApproximationAndTranscendence/README.md#02-mahler-measure-house-and-absolute-height); Mathlib `Height.mulHeight₁_pow`; Mathlib `NumberField.absMulHeight₁`; Mathlib `NumberField.absLogHeight₁`.
+*Needs:* [TauCetiRoadmap.HeightsAndUnits, §1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/HeightsAndUnits/README.md#layer-1-northcott-kronecker-and-the-height-gap); [TauCetiRoadmap.DiophantineApproximationAndTranscendence, §0.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/DiophantineApproximationAndTranscendence/README.md#02-mahler-measure-house-and-absolute-height); Mathlib `Height.mulHeight₁_pow`; Mathlib `NumberField.absMulHeight₁`; Mathlib `NumberField.absLogHeight₁`.
 
 <a id="layer-6-topic-16"></a>
 
 ### 6.16 Kronecker's theorem for the Weil height
 
-An algebraic number α (in a field of characteristic 0) has h(α) = 0 iff α = 0 or α is a root of unity.
+Consume HeightsAndUnits §1.3's `absMulHeight₁_eq_one_iff` and its logarithmic corollary: for α algebraic over Q in a characteristic-zero field, h(α)=0 iff α=0 or α is a root of unity. Height-based Kronecker arguments throughout Layer 6 use this canonical scalar result; this section introduces no duplicate theorem.
 
-α algebraic over ℚ.
+The algebraicity hypothesis applies to the equivalence. Mathlib gives transcendental elements logarithmic height zero, although they are neither zero nor roots of unity. The supplier derives the algebraic classification from DiophantineApproximationAndTranscendence §0.2's Mahler-measure bridge and `mahlerMeasure_eq_one_iff`.
 
-(Chris Smyth, [The Mahler measure of algebraic numbers: a survey](#reference-smyth-mahler-survey-2008), Section 1, printed p. 322.) Kronecker's theorem, transported to h by (5).
+(Chris Smyth, [The Mahler measure of algebraic numbers: a survey](#reference-smyth-mahler-survey-2008), Section 1, printed pp.322–323, (5).) Kronecker's Mahler-measure classification gives the absolute-height criterion.
 
-(O. B. Berrevoets, [On Lehmer's problem (bachelor thesis, supervisor J.-H. Evertse)](#reference-berrevoets-lehmer-2016), Remark 2.14, printed p. 7.) The example distinguishing algebraic numbers from algebraic integers, used in the Checks.
-
-To prove this, h(α) = log M(α)/deg α (TauCetiRoadmap.DiophantineApproximationAndTranscendence §0.2), so h(α) = 0 ⟺ M(α) = 1.
-
-M(α) = 1 ⟺ α = 0 or a root of unity (`mahlerMeasure_eq_one_iff` of TauCetiRoadmap.DiophantineApproximationAndTranscendence §0.2, resting on Mathlib's Polynomial.pow_eq_one_of_mahlerMeasure_eq_one and Polynomial.cyclotomic_mahlerMeasure_eq_one).
+(O. B. Berrevoets, [On Lehmer's problem](#reference-berrevoets-lehmer-2016), Remark2.14, printed p.7.) Unit-circle conjugates alone do not imply algebraic integrality.
 
 **Checks.**
 
-- h(i) = 0; h(2) = log 2 > 0; h((3 + 4i)/5) = log 5/2 > 0 although |(3 + 4i)/5| = 1 and both conjugates lie on the circle (not an algebraic integer).
+- h(i)=0 and i⁴=1.
+- h(2)=log 2>0.
+- α=(3+4i)/5 has both conjugates on the unit circle but h(α)=(log 5)/2>0: its primitive minimal polynomial is 5X²−6X+5.
+- A transcendental real α has h(α)=0 and is neither zero nor a root of unity, so the algebraicity hypothesis cannot be removed.
 
-*Needs:* [TauCetiRoadmap.DiophantineApproximationAndTranscendence, §0.2 Mahler measure, house and absolute height](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/DiophantineApproximationAndTranscendence/README.md#02-mahler-measure-house-and-absolute-height); Mathlib `Polynomial.pow_eq_one_of_mahlerMeasure_eq_one`; Mathlib `Polynomial.cyclotomic_mahlerMeasure_eq_one`; Mathlib `NumberField.Embeddings.pow_eq_one_of_norm_le_one`; Mathlib `NumberField.absLogHeight₁`.
+*Needs:* [TauCetiRoadmap.HeightsAndUnits, §1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/HeightsAndUnits/README.md#layer-1-northcott-kronecker-and-the-height-gap); Mathlib `NumberField.absLogHeight₁`.
 
 <a id="layer-6-topic-17"></a>
 
@@ -14576,20 +14590,36 @@ To prove this, expand normalized Jacobi sums modulo P using finite-field power s
 
 ### 7.13 Tame local Galois Gauss sums
 
-Fix a finite extension F/Q_p, ψ_F=exp(2πi·Tr_F/Q_p(−)) with the usual rational p-adic additive character, and the local Artin convention of ClassFieldTheory. For a ramified one-dimensional finite-order character χ of conductor ideal fχ choose c generating D_F/Q_p·fχ and set τ_F(χ)=Σ_(u∈(O_F/fχ)×) χ(Art_F(u/c))ψ_F(u/c). For unramified χ set τ_F(χ)=χ(D_F/Q_p)⁻¹. Extend multiplicatively to virtual characters using the local-constant induction rule with its degree correction, and form the global finite product τ(χ). Independence and existence of this extension require the virtual-character local-constant laws below.
+Fix a finite extension F/Q_p, with residue cardinality q and different D_F/Q_p=P^d. Let frac_p:Q_p/Z_p→Q/Z be the canonical inclusion and set ψ_F⁺(x)=exp(2πi frac_p(Tr_F/Q_p x)), ψ_F⁻(x)=ψ_F⁺(−x). Both have conductor D_F/Q_p⁻¹ and self-dual additive measure giving O_F volume q^(−d/2). The minus character is AL.0's finite component. Use ClassFieldTheory's arithmetic Artin map art_F, sending uniformisers to arithmetic Frobenius. For a ramified one-dimensional finite-order χ of conductor fχ=P^a, choose c generating D_F/Q_p·fχ and set τ_F(χ)=Σ_(u∈(O_F/fχ)×) χ(art_F(u/c))ψ_F⁺(u/c). For unramified χ set τ_F(χ)=χ(D_F/Q_p)⁻¹. Extend to virtual finite-image characters through the supplied Deligne–Langlands constants and the normalization adapter below, then form τ(χ)=∏_(v finite)τ_Fv(χ_v). The general local constants and their relation independence belong to ArithmeticGaloisRepresentations §2.7.
 
 The supporting API comprises:
 
 - `TameLocalGaussSum.virtual`: τ(χ+θ)=τ(χ)τ(θ), and τ(−χ)=τ(χ)⁻¹.
 - `TameLocalGaussSum.unramified`: For an unramified one-dimensional character τ_F(χ)=χ(D_F/Q_p)⁻¹.
-- `TameLocalGaussSum.induction_zero`: τ_F(Ind_E/F θ)=τ_E(θ) for virtual θ of degree zero; arbitrary degree has the local-constant correction.
+- `TameLocalGaussSum.induction_zero`: For K/F finite separable and virtual θ of degree zero, τ_F(Ind_K/F θ)=τ_K(θ); for arbitrary degree use the explicit discriminant and lambda correction below.
 - `TameLocalGaussSum.finite_field`: A tame ramified degree-one sum is a finite-field Gauss sum multiplied by the stated χ(c⁻¹) factor.
 
 (Albrecht Fröhlich, [Arithmetic and Galois module structure for tame extensions](#reference-f76), §2, (2.11)–(2.19), pp.392–393; Theorem 3, p.392.) The local Gauss sum is defined from the local root number, with additivity (2.13), degree-zero induction (2.14), the abelian formula (2.15), the unramified value (2.16) and the global product (2.19); Theorem 3 is the global Galois covariance.
 
 (Martin J. Taylor, [On Fröhlich’s conjecture for rings of integers of tame extensions](#reference-taylor-froehlich-conjecture-1981), §3 (3.4), p.46.) Taylor fixes the canonical additive character as the composite of the trace to ℚ_p, ℚ_p/ℤ_p⊂ℚ/ℤ and x↦exp(2πix), and gives the same unramified and genuinely ramified degree-one formulas.
 
-To prove this, for degree one the conductor determines a finite sum independent of lifts; a change of generator is cancelled by character and additive-character reindexing. Import local Artin and conductor carriers. To extend beyond degree one use Brauer induction and the local-constant induction factor, checking all relations rather than choosing a Brauer expression arbitrarily. The relation and induction formulas are the proof obligation stated below.
+The normalization adapter uses E_F^±(s,χ), the supplier's `epsilonWeil` on χ∨ with its unramified |·|^s twist, additive character ψ_F^± and self-dual measure. This dual converts the supplier's geometric reciprocity Art_F(x)=art_F(x)⁻¹ to the arithmetic rank-one character ω=χ∘art_F. At s=1/2 prove
+
+E_F⁺(1/2,χ)=τ_F(χ̄)/(N_F fχ)^(1/2),
+
+E_F⁻(1/2,χ)=detχ(art_F(−1)) E_F⁺(1/2,χ)=(N_F fχ)^(1/2)/τ_F(χ).
+
+The square roots are positive. For rank one, with a≥1, the first equality is the Tate finite-sum formula ω(c)(q^a)^(−1/2)Σ_u ω(u)⁻¹ψ_F⁺(u/c); the self-dual measure q^(−d/2) cancels the different in the finite-sum normalization. For a=0 both E-values are ω(D_F/Q_p), giving exactly τ_F(χ)=ω(D_F/Q_p)⁻¹. For all virtual χ, the first equality and the additive-character change follow from the supplied duality and multiplicativity; they imply τ_F(χ)τ_F(χ̄)=detχ(art_F(−1)) N_F fχ. Relation independence is inherited from the supplied local constants.
+
+For K/F finite separable put λ_K/F⁻=E_F⁻(1/2,Ind_K/F 1)/E_K⁻(1/2,1), with the trace character and self-dual measure on K. The supplier's degree-zero induction gives E_F⁻(1/2,Ind θ)=(λ_K/F⁻)^(deg θ) E_K⁻(1/2,θ). Its §3.5 conductor induction gives N_F f_(Ind θ)=(N_F discriminant(K/F))^(deg θ) N_K fθ. Consequently
+
+τ_F(Ind_K/F θ)=((N_F discriminant(K/F))^(1/2)/λ_K/F⁻)^(deg θ) τ_K(θ).
+
+The formula applies to virtual θ, with integer powers and multiplicative conductor norms. In degree zero the correction is one; in positive or negative degree the displayed factor remains part of induction.
+
+(Deligne, [Les constantes des équations fonctionnelles des fonctions L](#reference-deligne-local-constants-1973), Theorem4.1, p.535, and §8.12, p.572; Kudla, [Tate's Thesis](#reference-kudla-tate-2004), §3, (3.29) and Proposition3.8, pp.123–125; Fröhlich (1976), (2.11)–(2.16), pp.392–393.) These fix the dual, measure, sign and induction conversions.
+
+To prove the adapter, reindex the degree-one conductor sum to compare it with the supplied Tate formula. Use Deligne–Langlands uniqueness to transport the rank-one comparison to virtual characters; relation independence, duality and degree-zero induction are supplier theorems. The conductor induction formula supplies the remaining degree correction. Galois covariance of the resulting algebraic sums is the Fröhlich comparison target of §7.107.
 
 **Checks.**
 
@@ -14597,10 +14627,10 @@ To prove this, for degree one the conductor determines a finite sum independent 
 - For F=Q_p and trivial χ, the different is the unit ideal and τ=1.
 - For a tame nontrivial residue character the valuation agrees with [Stickelberger’s finite Gauss-sum valuation](#layer-7-topic-12), with the local normalization converted explicitly.
 - A ramified Gauss sum need not be a p-adic unit; a trivial local Artin character does not have τ=−1.
+- Over Q₇ take the cubic residue character ω with ω(3)=ζ₃ and ω(7)=1. Put ζ₇=exp(2πi/7). Then τ(χ)=(ζ₇+ζ₇⁶)+ζ₃(ζ₇³+ζ₇⁴)+ζ₃²(ζ₇²+ζ₇⁵), which differs from τ(χ̄) since cos(6π/7)≠cos(4π/7). Here detχ(−1)=1 and τ(χ)τ(χ̄)=7, so E⁻(1/2,χ)=τ(χ̄)/√7=√7/τ(χ), not τ(χ)/√7.
+- For K/F and θ=1, τ_F(Ind 1)/τ_K(1)=(N_F discriminant(K/F))^(1/2)/λ_K/F⁻. Degree-zero induction cannot omit this factor for a character of positive degree.
 
-The one-dimensional conductor sum must extend to a relation-independent local constant on the virtual-character lattice. Required laws are multiplicativity in virtual sums, induction with its degree correction, duality, change of additive character and Galois covariance. **Auxiliary proof target:** Fröhlich (1976), §2, (2.11)–(2.16), pp. 392–393, records local-constant formulas and induction laws; Theorem 3, p. 392, states the resulting global Galois covariance. The relation independence imported from the local-constant formalism remains a proof obligation: the one-dimensional formula alone does not prove that different Brauer decompositions agree.
-
-*Needs:* [TauCetiRoadmap.ClassFieldTheory, layer 7 the absolute local artin map its normalizations and conductors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-7-the-absolute-local-artin-map-its-normalizations-and-conductors); [TauCetiRoadmap.RepresentationTheory/InductionRestriction, layer 6 the virtual character ring artin and brauer induction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/InductionRestriction/README.md#layer-6-the-virtual-character-ring-artin-and-brauer-induction); Mathlib `gaussSum`.
+*Needs:* [TauCetiRoadmap.ArithmeticGaloisRepresentations, §§2.7, 3.3, 3.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticGaloisRepresentations/README.md#27-local-constants); [TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.0–AL.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicLFunctionsAndLocalFactors/README.md#local-epsilon-gamma-factors); [TauCetiRoadmap.ClassFieldTheory, layer 7 the absolute local artin map its normalizations and conductors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-7-the-absolute-local-artin-map-its-normalizations-and-conductors); [TauCetiRoadmap.RepresentationTheory/InductionRestriction, layer 6 the virtual character ring artin and brauer induction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/InductionRestriction/README.md#layer-6-the-virtual-character-ring-artin-and-brauer-induction); Mathlib `gaussSum`.
 
 <a id="layer-7-topic-14"></a>
 
@@ -15028,7 +15058,7 @@ The supporting API comprises:
 
 (Albrecht Fröhlich, [Arithmetic and Galois module structure for tame extensions](#reference-f76), §2 (2.2)–(2.5), p.390; §8 Theorem9, p.410; §9 (9.1), p.412.) The root factor uses the inverse Gauss sum and inverse infinite factor; tame symplectic root numbers are rational signs.
 
-To prove this, import the Frobenius–Schur classification, local conductors and conjugation eigenspaces. The inverse Gauss formula fixes the convention without a complex-conjugation guess. The local/global symplectic duality identities give signs and tame Galois invariance via [Tame symplectic root factors are equivariant signs](#layer-7-topic-111). Construct the analytic root carrier and its normalization adapters below before comparing it with this algebraic definition. The algebraic representative is defined by the Gauss formula independently of the analytic construction.
+To prove this, import the Frobenius–Schur classification, local conductors and conjugation eigenspaces. The inverse Gauss formula fixes the convention without a complex-conjugation guess. The local/global symplectic duality identities give signs and tame Galois invariance via [Tame symplectic root factors are equivariant signs](#layer-7-topic-111). Transport the supplied analytic root carrier by the normalization adapters below before comparing it with this algebraic definition. The algebraic representative is defined by the Gauss formula independently of that comparison.
 
 **Checks.**
 
@@ -15037,9 +15067,9 @@ To prove this, import the Frobenius–Schur classification, local conductors and
 - For symplectic χ the formula W(χ)τ(χ)=(Nfχ)¹ᐟ²W∞(χ)⁻¹ fixes the sign convention.
 - For an odd-order group every irreducible is non-symplectic, so W_G is one.
 
-**Analytic Artin root numbers.** For a finite Galois extension L/F of number fields and an actual complex character χ of its Galois group, construct `completedArtinLFunction` as the meromorphic completion of AA.2.4's arithmetic-Frobenius Artin function. Use Cχ = |disc F|^χ(1) Nfχ and the factor Cχ^(s/2). At each real place use Γ_R(s)^n₊ Γ_R(s+1)^n₋, with n₊ and n₋ the conjugation multiplicities, and at each complex place use Γ_C(s)^χ(1). Extend multiplicatively to virtual characters as meromorphic germs, retaining poles and zeros. Consume ArithmeticGaloisRepresentations §2.7's completed finite-image equation and analytic local constants, including `epsilonWeil`, and AL.0–AL.1's standard trace characters and self-dual measures.
+**Analytic Artin root numbers.** For a finite Galois extension L/F of number fields and an actual complex character χ of its Galois group, `completedArtinLFunction` is the supplier's completed finite-image function evaluated on χ∨, identified with the meromorphic completion of AA.2.4's arithmetic-Frobenius function for χ. Use Cχ = |disc F|^χ(1) Nfχ and the factor Cχ^(s/2). At each real place use Γ_R(s)^n₊ Γ_R(s+1)^n₋, with n₊ and n₋ the conjugation multiplicities, and at each complex place use Γ_C(s)^χ(1). Extend multiplicatively to virtual characters as meromorphic germs, retaining poles and zeros. Consume ArithmeticGaloisRepresentations §2.7's completed finite-image equation and analytic local constants, including `epsilonWeil`, and AL.0–AL.1's standard trace characters and self-dual measures.
 
-Define `analyticArtinRootNumber χ` by the product of normalized analytic local epsilon factors at s=1/2, after the supplier's dual-character conversion from geometric to arithmetic Frobenius. Require `analyticArtinRootNumber_functionalEquation`: Λ(s,χ)=analyticArtinRootNumber(χ) Λ(1−s,χ̄), with the conductor-balanced completion above. Require `analyticArtinRootNumber_unique`: this scalar is determined by that equation, since the Artin function is a nonzero meromorphic germ (its Euler product is nonzero on Re s>1). The carrier and both assertions precede the algebraic comparison. Their analytic inputs are precisely ArithmeticGaloisRepresentations §2.7 (Tate's constants, Deligne–Langlands existence/uniqueness and Global inputs), AA.2.4 (finite-image meromorphic assembly), and AL.0–AL.1 (trace characters, self-dual measures and archimedean Tate factors).
+Define `analyticArtinRootNumber χ` as ∏_(v finite)E_Fv⁻(1/2,χ_v) · ∏_(v real)i^(n₋(χ,v)); the complex-place factor is 1 for finite-image characters. The finite factors use AL.0's negative trace character, while infinity uses its positive trace character and self-dual measures dx on R and 2 dx dy on C. Each E uses the supplier on χ∨ with the |·|^(1/2) twist, as in §7.13. Thus the product is precisely the normalized global epsilon factor for the arithmetic Artin function. Require `analyticArtinRootNumber_functionalEquation`: Λ(s,χ)=analyticArtinRootNumber(χ) Λ(1−s,χ̄), with the conductor-balanced completion above. Require `analyticArtinRootNumber_unique`: this scalar is determined by that equation, since the Artin function is a nonzero meromorphic germ (its Euler product is nonzero on Re s>1). The equation is transported from the supplier; uniqueness follows from that equation and nonvanishing, and both assertions precede the algebraic comparison. Their analytic inputs are precisely ArithmeticGaloisRepresentations §2.7 (Tate's constants, Deligne–Langlands existence/uniqueness and Global inputs), AA.2.4 (finite-image meromorphic assembly), and AL.0–AL.1 (trace characters, self-dual measures and archimedean Tate factors).
 
 (Deligne, [Les constantes des équations fonctionnelles des fonctions L](#reference-deligne-local-constants-1973), §3.12(A)–(D), pp.533–534, Theorem4.1, p.535, and §8.12, p.572; Kudla, [Tate's Thesis](#reference-kudla-tate-2004), §3, Propositions3.5–3.8, pp.120–124, and §4, Corollary4.4, p.129.) These supply the finite-image functional equation, local-constant uniqueness and the rank-one archimedean normalization. Transport the additive character by its explicit scaling law, the self-dual measure by the corresponding modulus, and the conductor exponent including the different; no equality of differently normalized epsilon factors is presumed.
 
@@ -15049,7 +15079,9 @@ Define `analyticArtinRootNumber χ` by the product of normalized analytic local 
 - An unramified rank-one local character with conductor-zero additive character and volume(O_F)=1 has epsilon 1. At a real place the sign character has analytic epsilon i for the positive trace character, while the algebraic W∞-factor is i^(−1); the adapter retains this distinction.
 - Replacing ψ_v(x) by ψ_v(b_v x) changes the normalized local factor by the determinant character at b_v (with the matching reciprocity conversion). For b in F× the all-place product is unchanged by global reciprocity. The local factor alone need not be unchanged.
 
-**Auxiliary proof target.** Require `algebraicRootSign_eq_analyticRootNumber` for symplectic virtual characters of Gal(L/F), with τ from §7.13, the conductor Cχ above and W∞ from (2.3). Prove the rank-one comparison from the analytic Gauss formula with the explicit character, different and reciprocity conversions, then use the supplied local-constant uniqueness and Brauer induction to prove relation independence and the global comparison. Fröhlich (1976), (2.4)–(2.5), p.390, gives its normalization. The analytic carrier and functional equation are supplied by the preceding construction, while the algebraic sign definition uses its own Gauss formula.
+**Auxiliary proof target.** Require `algebraicRootSign_eq_analyticRootNumber` for symplectic virtual characters of Gal(L/F). The adapter of §7.13 gives the product of the finite E⁻-values as (Nfχ)^(1/2)/τ(χ), and the positive archimedean epsilon product is W∞(χ)⁻¹. Hence the normalized analytic factor is exactly (Nfχ)^(1/2)/(τ(χ)W∞(χ)), with positive square root, as in Fröhlich (1976), (2.4)–(2.5), p.390.
+
+The full conductor in the equation is Cχ=|disc F|^(deg χ)Nfχ. At a finite v, the supplier's §3.3 twist law gives E_Fv⁻(s,χ_v)=E_Fv⁻(1/2,χ_v) q_v^((1/2−s)(a_v(χ)+d_v deg χ)). Since ∏q_v^d_v=|disc F|, the global epsilon factor for the completion with gamma factors and without the conductor power is analyticArtinRootNumber(χ) Cχ^(1/2−s). Multiplication by Cχ^(s/2) gives the displayed balanced equation. The discriminant therefore enters through the different and conductor dependence; it is not an extra square root in the Fröhlich root sign. Use the supplied equation, uniqueness and induction to transport these formulas to virtual characters. General local-constant existence and completed Artin equations remain supplier results.
 
 **Checks.**
 
@@ -15456,18 +15488,20 @@ To prove this, augmentation nilpotence modulo p gives I^N⊆pR[G], hence logarit
 
 ### 7.47 Integral-character twisting of determinant homomorphisms
 
-For an integral characteristic-zero character θ of a finite free G-stable Z_p-lattice, define (θ⋆f)(χ)=f(θχ). For every commutative Z_p-algebra R with its specified scalar map, twisting with the dual lattice extended along Z_p → R preserves the matrix determinant subgroup Det(GL(R[G])); when R[G] is semilocal it preserves Det(R[G]×) by semilocal elimination. Chinburg–Pappas–Taylor uses the conjugate of the lattice character, so the dual is required for this convention. The proposed coefficient interface carries `[Algebra (PadicInt p) R]`; when using the character-valued determinant carrier, retain §7.28's characteristic-zero and splitting-field hypotheses, with a compatible map from R into the splitting field. Restriction and induction satisfy the projection formula.
+Fix a commutative coefficient base B, a finite free B-lattice L with G-action, and a commutative B-algebra R. For the character-valued determinant, require R to have characteristic zero and a compatible map R→E into a characteristic-zero splitting field of G; θ is the character of E⊗_B L along B→R→E. Define (θ⋆f)(χ)=f(θχ). Tensoring with the dual lattice extended along B→R preserves Det(GL(R[G])); when R[G] is semilocal this also preserves Det(R[G]×). Chinburg–Pappas–Taylor's lattice action uses the contragredient character, hence the dual for the stated convention. For prime p, the p-adic instance uses B=Z_p and `[Algebra (PadicInt p) R]`. The B=Z instance starts with a finite free Z[G]-lattice and applies over any compatible characteristic-zero coefficient algebra. No character from an unrelated coefficient base is used.
+
+For H≤G, all lattices and scalar changes use the same B→R→E. The projection formula is (Ind_H^G θ)⋆f=Ind_H^G(θ⋆Res_H^G f) on matrix determinant images, with determinant induction defined by character restriction. It passes to unit images under the semilocal hypothesis.
 
 The supporting API comprises:
 
 - `IntegralCharacterAction.identity`: The trivial lattice character acts as identity.
 - `IntegralCharacterAction.sum`: (θ+η)⋆f=(θ⋆f)(η⋆f).
 - `IntegralCharacterAction.product`: θ⋆(η⋆f)=(θη)⋆f.
-- `IntegralCharacterAction.projection`: Induction and restriction satisfy the projection formula on determinant images.
+- `IntegralCharacterAction.projection`: For H≤G and a finite free B[H]-lattice, induction and restriction satisfy the displayed formula over the common maps B→R→E.
 
 (Ted Chinburg, Georgios Pappas and Martin J. Taylor, [K₁ of a p-adic group ring I. The determinantal image](#reference-cpt), §5a, Proposition5.2 and Ullom’s formula(5.1), p.27; Taylor (1981), §1, p.44, and §5, pp.52–53.) Integral lattice characters act on determinant images, with an explicit conjugate-character convention.
 
-To prove this, extend the integral dual lattice to R using the specified Z_p-algebra map, then tensor to obtain a representation into finite matrices over R[G]. Taking character determinants proves preservation of the matrix determinant image. Only in the semilocal case apply [Semilocal elimination preserves the determinant image](#layer-7-topic-27) to replace this by a unit determinant. Mackey and Frobenius reciprocity give the projection formula.
+To prove this, extend the integral dual B-lattice to R using the specified B-algebra map, then tensor to obtain a representation into finite matrices over R[G]. Taking character determinants proves preservation of the matrix determinant image. Only in the semilocal case apply [Semilocal elimination preserves the determinant image](#layer-7-topic-27) to replace this by a unit determinant. Mackey and Frobenius reciprocity give the projection formula.
 
 **Checks.**
 
@@ -15475,7 +15509,7 @@ To prove this, extend the integral dual lattice to R using the specified Z_p-alg
 - For a rank-m trivial lattice, θ⋆f=fᵐ.
 - An arbitrary rational virtual character without an integral lattice realization cannot be used as an integral-unit twisting construction.
 - A non-real one-dimensional lattice requires the dual lattice when translating Chinburg–Pappas–Taylor’s conjugate-character action to the stated formula.
-- p = 7, G = C₃ and θ(g) = ζ₃ ∈ Z₇: at the trivial character θ⋆Det(g) has value ζ₃. Determinants over Q[G] have rational trivial-character values, so no twisting-preservation assertion applies over Q without a scalar map for this lattice.
+- p=7, G=C₃ and θ(g)=ζ₃∈Z₇: X²+X+1 has a simple root 2 modulo 7, which lifts to ζ₃. At the trivial character θ⋆Det(g) has value ζ₃. For R=Z, augmentation of every U∈GL_m(Z[G]) lies in GL_m(Z), so Det(U)(1_G)=±1; ζ₃ and ζ₃⁻¹ are excluded. There is no compatible Z₇→Z scalar map. The same example excludes Q, whose trivial-character determinant values are rational.
 
 *Needs:* [TauCetiRoadmap.RepresentationTheory/InductionRestriction, layer 6 the virtual character ring artin and brauer induction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/InductionRestriction/README.md#layer-6-the-virtual-character-ring-artin-and-brauer-induction); [Determinants indexed by virtual characters](#layer-7-topic-28); [Semilocal elimination preserves the determinant image](#layer-7-topic-27).
 
@@ -15848,7 +15882,7 @@ Let R be a normal noetherian characteristic-zero integral domain, p-torsion-free
 
 (Ted Chinburg, Georgios Pappas and Martin J. Taylor, [K₁ of a p-adic group ring I. The determinantal image](#reference-cpt), §5b, Theorem 5.4, p.28; proof of Theorem 1.2(b), pp.35–36; Taylor (1981), §5, pp.52–53.) Theorem 5.4 is the representation-ring statement: some integer prime to p times G₀(ℚ_p[G]) is a sum of inductions from ℚ_p-p-elementary subgroups. The proof of Theorem 1.2(b) applies it to determinant images.
 
-To prove this, use the Q_ℓ-rational integral character identity with prime-to-ℓ multiplier. Apply [Integral-character twisting of determinant homomorphisms](#layer-7-topic-47) and the projection formula to lift its induced terms. A quotient detected modulo the radical is pro-ℓ, hence multiplication by the prime-to-ℓ integer is invertible. For Taylor’s off-diagonal proof, the Q-elementary reduction and twists are applied before the same ℓ-adic quotient argument.
+To prove this, use the Q_p-rational character identity with prime-to-p multiplier. Realize its characters by finite free Z_p-lattices and extend along the canonical Z_p→R map supplied by p-adic completeness. Apply [Integral-character twisting of determinant homomorphisms](#layer-7-topic-47) and its projection formula over this common base and a compatible splitting field. The radical quotient is pro-p, so multiplication by the prime-to-p integer is invertible. In the full integral Q_p-ℓ-elementary identity, varying ℓ does not change the coefficient field Q_p or lattice base Z_p. Taylor’s Q-rational version uses finite free Z-lattices extended to his ℓ-adic coefficient ring before its pro-ℓ quotient argument.
 
 **Checks.**
 
@@ -16747,12 +16781,13 @@ For a normal noetherian characteristic-zero integral domain R, p-torsion-free an
 
 (Ted Chinburg, Georgios Pappas and Martin J. Taylor, [K₁ of a p-adic group ring I. The determinantal image](#reference-cpt), Theorem1.2, p.3; Theorems6.4 and6.6 and the proof of Theorem1.2(b), pp.33–36.) Finite matrix determinants are represented by single group-ring units under the full coefficient-domain hypotheses.
 
-To prove this, write the trivial character as an integral combination of characters induced from Q_p-ℓ-elementary subgroups, for the various primes ℓ, with Q_p-rational virtual characters (the integral Witt–Berman identity, the field-of-definition induction theorem below). By the character action and its projection formula, Det(r) for r∈GL(R[G]) is the product of the inductions of the twisted restrictions. For a Q_p-p-elementary subgroup apply [Crossed-product descent on elementary subgroups](#layer-7-topic-86) (Chinburg–Pappas–Taylor, Theorem6.4); for a Q_p-ℓ-elementary subgroup with ℓ≠p apply [Determinant descent for Q_p-ℓ-elementary groups](#layer-7-topic-93) (Chinburg–Pappas–Taylor, Theorem6.6). Induction maps unit determinants to unit determinants.
+To prove this, write the trivial character as an integral combination of characters induced from Q_p-ℓ-elementary subgroups, for the various primes ℓ, with Q_p-rational virtual characters (the integral Witt–Berman identity, the field-of-definition induction theorem below). Realize these Q_p-rational virtual characters as differences of finite free Z_p-lattices and extend along the canonical Z_p→R map, retaining a compatible characteristic-zero splitting field. By the character action and its projection formula over that same base, Det(r) for r∈GL(R[G]) is the product of the inductions of the twisted restrictions. For a Q_p-p-elementary subgroup apply [Crossed-product descent on elementary subgroups](#layer-7-topic-86) (Chinburg–Pappas–Taylor, Theorem6.4); for a Q_p-ℓ-elementary subgroup with ℓ≠p apply [Determinant descent for Q_p-ℓ-elementary groups](#layer-7-topic-93) (Chinburg–Pappas–Taylor, Theorem6.6). Induction maps unit determinants to unit determinants.
 
 **Checks.**
 
 - G = {1}: det GL_n(R) = R^×, the image of diag(u, 1, …, 1).
 - G abelian: R[G] is commutative, and both images are its unit group.
+- R=Z₇, G=C₃ and θ(g)=ζ₃: the rank-one lattice twist is the algebra automorphism g↦ζ₃g, which preserves units and gives trivial-character value ζ₃; the coefficient compatibility makes this value integral.
 
 *Needs:* [Local rational Brauer reduction for determinant quotients](#layer-7-topic-63); [Crossed-product descent on elementary subgroups](#layer-7-topic-86); [Fixed-point descent for p-group determinants](#layer-7-topic-80); [Integral-character twisting of determinant homomorphisms](#layer-7-topic-47); [Determinant descent for Q_p-ℓ-elementary groups](#layer-7-topic-93).
 
@@ -17123,7 +17158,7 @@ For a tame local G-Galois extension at a rational prime p and ℓ≠p, put K=Q(�
 
 (Martin J. Taylor, [On Fröhlich’s conjecture for rings of integers of tame extensions](#reference-taylor-froehlich-conjecture-1981), Theorem2(b), p.45; Theorem3, p.49, proved in §§5–10, pp.52–75.) Away from the ramified prime, the Gauss homomorphism modulo its root-of-unity correction is a determinant unit.
 
-To prove this, reduce by integral-character twisting and ℚ-elementary induction (Taylor (1981), §5: an integral identity over ℚ-elementary subgroups, and for ℚ-ℓ-elementary subgroups a multiplier prime to ℓ). For a ℚ-q-elementary subgroup with q≠ℓ the quotient by its q-part has order prime to ℓ, so its group ring is a maximal order, and Taylor’s congruence Proposition3.10(v), resting on his Propositions3.7–3.8, shows that an ℓ-power of the adjusted Gauss factor is a unit determinant (Taylor (1981), §6, Propositions5.3 and6.1). On the ℚ-ℓ-elementary pieces use [The Gauss logarithm lifts through the commutator ideal](#layer-7-topic-115) and [Taylor’s congruences detect the residual determinant torsion](#layer-7-topic-118), then reassemble the cyclic crossed-product pieces (Taylor (1981), §§7–10). Det(c_p) is already an integral unit determinant and can be removed. Descent of invariant determinants uses [Fixed-point descent for integral determinant units](#layer-7-topic-109).
+To prove this, reduce by integral-character twisting and ℚ-elementary induction (Taylor (1981), §5: an integral identity over ℚ-elementary subgroups, and for ℚ-ℓ-elementary subgroups a multiplier prime to ℓ). Realize each ℚ-rational virtual character by finite free Z-lattices and extend along Z→O_(K,ℓ), with the compatible local splitting fields; §7.47 applies with B=Z, independently of the ramification prime p. For a ℚ-q-elementary subgroup with q≠ℓ the quotient by its q-part has order prime to ℓ, so its group ring is a maximal order, and Taylor’s congruence Proposition3.10(v), resting on his Propositions3.7–3.8, shows that an ℓ-power of the adjusted Gauss factor is a unit determinant (Taylor (1981), §6, Propositions5.3 and6.1). On the ℚ-ℓ-elementary pieces use [The Gauss logarithm lifts through the commutator ideal](#layer-7-topic-115) and [Taylor’s congruences detect the residual determinant torsion](#layer-7-topic-118), then reassemble the cyclic crossed-product pieces (Taylor (1981), §§7–10). Det(c_p) is already an integral unit determinant and can be removed. Descent of invariant determinants uses [Fixed-point descent for integral determinant units](#layer-7-topic-109).
 
 **Checks.**
 

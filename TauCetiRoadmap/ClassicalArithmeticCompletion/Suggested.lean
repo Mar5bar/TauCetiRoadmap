@@ -544,6 +544,28 @@ end NumberFieldCertificates
 
 namespace SmallHeight
 
+/-!
+The scalar power laws and Kronecker criterion of README §§6.15–6.16 are supplied by
+HeightsAndUnits §1.3 on Mathlib's absolute-height carriers. These examples fix their
+normalization and algebraicity boundary without introducing duplicate scalar theorems.
+-/
+
+/-- A fourth root of unity has absolute logarithmic height zero. -/
+example : NumberField.absLogHeight₁ Complex.I = 0 := by
+  sorry
+
+/-- Unit-circle conjugates of a nonintegral algebraic number can have positive height. -/
+example :
+    ‖((3 + 4 * Complex.I) / 5 : ℂ)‖ = 1 ∧
+    NumberField.absLogHeight₁ ((3 + 4 * Complex.I) / 5 : ℂ) = Real.log 5 / 2 := by
+  sorry
+
+/-- Transcendental height zero witnesses the algebraicity boundary of Kronecker's criterion. -/
+example (x : ℝ) (hx : ¬ IsAlgebraic ℚ x) :
+    NumberField.absLogHeight₁ x = 0 ∧ x ≠ 0 ∧
+      ¬ ∃ n : ℕ, 0 < n ∧ x ^ n = 1 := by
+  sorry
+
 /-- Pisot numbers include degree-one integers at least two, and exclude nonintegral rationals.
 
 The full README API includes `IsPisot.eq_of_one_le_norm`, `IsPisot.norm_lt_one`, `IsPisot.one_lt`,
@@ -1004,7 +1026,11 @@ matrix normal forms, integer-valued polynomial ideals, numerical semigroups,
 number-field presentations, capacity and conformal radius, and integral Galois modules.
 Their constructions require carriers or comparison theory beyond the light definitions
 in this file. In particular, balanced scalar change, the character-idele quotient,
-root-number classes and the integral group logarithm remain README targets, as does
+root-number classes and the integral group logarithm remain README targets. The Gauss/root
+interfaces of §§7.13 and 7.30 transport ArithmeticGaloisRepresentations' local constants
+and completed Artin equation with the stated dual, trace character and self-dual measure;
+§7.47 carries the common coefficient-base map through its lattice twist and projection
+formula. The README also specifies
 the projective height comparison with its actual point at infinity.
 -/
 
