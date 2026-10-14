@@ -349,6 +349,13 @@ maximal connected normal smooth unipotent subgroup of an affine finite-type grou
 on a Hopf ideal. Section 2.3 applies these inside its affine subgroup after the
 Chevalley construction, with the stated perfect-field hypothesis.
 
+`Representation.exists_ne_zero_apply_eq_self_of_forall_pow_eq_one` in
+`TauCeti/RepresentationTheory/PGroupInvariants.lean` supplies the nonzero invariant vector
+for a finite group representation over a commutative ring of characteristic `p`, when every
+image element has `p`-power order. Section 6.13 uses `p = 2`, `k = ZMod 2`; no finite-generation
+hypothesis is needed. Mathlib's `IsPGroup.exists_pow_pow_eq_one` and `IsPGroup.of_card`
+supply the power identities from the `2`-group hypothesis.
+
 ### From `TauCetiRoadmap.EllipticCurves`
 
 Layer 1: the invariant differential `dx/(2y + a₁x + a₃)` in the function field. Layer 2: torsion, Tate modules, the Galois action and the Weil pairing. Layer 3: the
@@ -542,7 +549,8 @@ with the suppliers are work in §4.2.
 
 ## How to read the build
 
-The layers are in build order. Layer 1 defines the Néron mapping property and marked models,
+The layers are in build order with the definition and Raynaud exceptions specified below.
+Layer 1 defines the Néron mapping property and marked models,
 proves uniqueness, extension and the group law, constructs models locally and globally, and
 extracts the differential lattice. Layer 2 builds the identity component, the component group,
 the Chevalley decomposition and the toric character lattice, and compares the elliptic
@@ -556,7 +564,8 @@ intersection-matrix description, and the one-node hyperelliptic curves. Layer 5 
 Néron–Ogg–Shafarevich, isogeny invariance of good reduction, the `p`-adic comparison, the
 semistable conductor formula and the local Euler polynomial at bad places. Layer 6 packages the
 interfaces for the consumers. Downstream roadmaps refer to the six layers as R11.1–R11.6. Within a
-layer, subsections are in dependency order with one exception in Layer 3: the Raynaud
+layer, build the definition of `SemistableReduction` in 3.1 immediately after 2.4,
+then 2.5, and then the remaining API of 3.1 and 3.2. In Layer 3, the Raynaud
 subsections 3.13–3.14 need only 2.4 and 3.1, and they are built after 3.5 and before 3.6,
 whose finite flat orthogonality uses the dual Raynaud extensions; the `completion` comparison
 of 3.5 is likewise proved after 3.14. The build order of Layer 3 is therefore 3.1–3.5,
@@ -813,9 +822,11 @@ of integers and the rings of `S`-integers of a number field. *Needs:* 1.4, 1.7, 
 - The localisation of the glued model at a closed point `s ∉ U` is the prescribed local model at
   `s`, and at `s ∈ U` it is the abelian scheme.
 - Gluing over an infinite open cover does not itself refute finite type: quasi-compactness
-  must be proved. In contrast, infinitely many disjoint nonempty special-fibre components
-  refute quasi-compactness, and checking only the generic fibre does not establish the mapping
-  property.
+  must be proved. Infinitely many connected components in a single locally finite-type
+  special fibre refute quasi-compactness of that fibre, hence finite type of the model over
+  the Noetherian base. Components over infinitely many different closed points give no such
+  obstruction: the zero abelian variety over `ℚ` has Néron model `Spec ℤ`, which is
+  quasi-compact. Checking only the generic fibre does not establish the mapping property.
 
 ### 1.10 Étale and unramified base change
 
@@ -1004,7 +1015,7 @@ semi-abelian identity fibre, and the Chevalley decomposition is applied only aft
 `k̄`. The extended map of models is not asserted to be finite flat, and taking Néron models does
 not preserve exact sequences: Yuan–Zhang's erratum withdraws exactly that step
 (Yuan–Zhang, Erratum, introduction, p. 1, citing Bosch–Lütkebohmert–Raynaud, p. 190, Example 8).
-*Needs:* 1.5, 2.2, 2.3.
+*Needs:* 1.5, 2.2, 2.3; the definition of `SemistableReduction` in 3.1.
 
 **Checks.**
 
@@ -1130,7 +1141,8 @@ the tame valuation rows, supply the wild discriminant exponents.
 
 ### Dependencies
 
-Layer 1; ReductiveGroups Layers 4 and 7 and ReductiveGroupsPartII RG2.3.1 and RG2.3.7; EllipticCurves
+Layer 1; the definition of `SemistableReduction` in 3.1 for 2.5;
+ReductiveGroups Layers 4 and 7 and ReductiveGroupsPartII RG2.3.1 and RG2.3.7; EllipticCurves
 Layers 1 and 4; ComplexComparisonPartII §§C4.3a–C4.3c, `Compactification`,
 `nagataCompactification`, `compactificationCommonRefinement`; StableReduction Layers 4–6,
 with Layer 4 supplying resolution of normal proper curve models preserving the regular open
@@ -1261,18 +1273,29 @@ main theorem; SchemeAndStackFoundations §0.14 for smooth and étale lifting.
 Prove `RamifiedTateCounterexample`: for a split Tate curve `E_q` over a complete discrete
 valuation ring with `ord(q) = n > 0`, the geometric component group is `ℤ/n`; after a base change
 of ramification index `e` it is `ℤ/en`, and the canonical component map `ℤ/n → ℤ/en` sends `r`
-to `er` (Conrad, Example 4.6, pp. 11–12). The computation uses the point uniformisation
-`E_q(K) = K^×/q^ℤ` of EllipticCurves Layer 4 and reads the component of a point off the valuation
-of a representative modulo `ord(q)`, through 2.6. In particular the full Néron model does not
+to `er` (Conrad, Example 4.6, pp. 11–12). Prove the split valuation-to-component
+comparison here over arbitrary residue fields: the identity-model sections correspond to
+classes of units in `E_q(K) = K^×/q^ℤ`, and `Φ_E` is the constant group `ℤ/n`.
+Use EllipticCurves Layer 4's point uniformisation and 2.7's smooth-locus model of the split
+polygon from StableReduction Layer 5 (Conrad, Example 4.6). Smooth lifting over the henselian
+ring and `H¹(k,𝔾_m) = 0` give the section comparison; the latter is the triviality of line
+bundles over a field. The component of `[z]` is `ord(z) mod n`, with `[π]` fixing the
+positive generator. This split comparison applies without the perfect-residue-field
+hypothesis of `EllipticFiltration` in 2.6. In particular the full Néron model does not
 commute with ramified base change. In Lean the map is `RamifiedTate.componentMap n e`, with
-`componentMap_apply` and `componentMap_injective` for `e > 0`. *Needs:* 2.2, 2.6, 3.3;
-EllipticCurves Layer 4 (the Tate curve and its point uniformisation).
+`componentMap_apply` and `componentMap_injective` for `e > 0`. *Needs:* 2.2, 2.7, 3.3;
+EllipticCurves Layer 4 (the Tate curve and its point uniformisation);
+StableReduction Layer 5 (the split multiplicative minimal regular model).
 
 **Checks.**
 
 - For `n = 1`, `e = 2` the old component group is trivial and the new one is `ℤ/2`, with the
   identity torus unchanged.
 - For `e = 1` the component map is the identity.
+- Over `R = 𝔽_p(s)[[t]]` with `q = t²`, the component group is constant `ℤ/2`;
+  adjoining a root of the separable Eisenstein polynomial `X² − tX − t` gives
+  ramification index `2` and component map `ℤ/2 → ℤ/4`, `r ↦ 2r`, including at
+  `p = 2`. The imperfect residue field requires no use of 2.6.
 - The component map is injective for `e > 0` and, for `e > 1` and `n > 0`, not surjective;
   for `e = 0` it is the zero map `ℤ/2 → ℤ`, not injective (negative control for `0 < e`).
 
@@ -2084,10 +2107,10 @@ The sign is fixed by Werner’s comparison, not by Theorem 11.5 alone. In Werner
 notation, the positive valuation form gives a Yoneda class map `σ`, and the connecting
 map `τ` from `0 → ℤ → ℚ → ℚ/ℤ → 0` turns `σ` into the positive inverse pairing
 (§4, p. 212). Passing from Yoneda extensions to the injective-resolution convention
-for the obstruction introduces `−τ` (§§2, 4, pp. 207, 212); the Poincaré linearisation
+for the obstruction introduces `−τ` (Werner §4, pp. 212–213); the Poincaré linearisation
 contributes the inverse torus character and hence `−σ` (Proposition 5.1, pp. 213–214).
 Thus the obstruction is `(−τ)(−σ) = τσ`. Completion and strict henselisation preserve
-the comparison (§2, p. 207); equivariance descends it to the residue field.
+the comparison (§2, pp. 207–209); equivariance descends it to the residue field.
 
 **Checks.**
 
@@ -2968,7 +2991,17 @@ Saito's base-change argument are built below. *Needs:* 3.10, 3.14, 5.3, 5.6;
 `AbelianSchemesAndArithmeticModuli:A4.4` (`exteriorCohomology`);
 `ArithmeticGaloisRepresentations:R01.1` (character comparison), `R01.2`.
 
-Build `semistable_trace_comparison` first. Let `K/ℚ_p` be finite with residue field
+Prove `good_abelian_frobenius_polynomial` here for the
+good abelian quotient over the valuation ring of finite `K/ℚ_p`: consume its supplied
+crystalline realization and Frobenius through the ramified crystalline/de Rham and period
+bridges of 5.3, retaining their `K₀`-structures and the comparison after extension to `K`.
+The characteristic polynomial of `φ^f`, where `q = p^f`, equals its prime-to-`p`
+cohomological Frobenius polynomial by Katz–Messing Theorem 1, pp. 74–75; Coleman–Iovita
+§2(ii), pp. 11–12, supplies the good-reduction Frobenius realization. This is the degree-one
+abelian comparison.
+
+Then prove `semistable_trace_comparison`, consuming `good_abelian_frobenius_polynomial`.
+Let `K/ℚ_p` be finite with residue field
 `k = 𝔽_q`, let `A/K` be semistable, and let `g ∈ W_K` have geometric Frobenius degree
 `d > 0`. For every coefficient prime, including `p`, the cohomological Weil–Deligne
 realisation has an equivariant filtration whose graded pieces are
@@ -3046,14 +3079,7 @@ is not asserted to determine monodromy. Exterior powers give weight `i`, and A4.
 CrystallineCohomology CR.2.1 (crystalline cohomology), CR.2.3 (proper smooth formal
 comparison over a PD base), CR.3.4 (semilinear Frobenius and its linearization), applied to
 `B_k/W(k)`, including `p = 2`; SmoothRepresentationsOfLocalGroups SR.5.2,
-`classical-llc-normalization`. Prove `good_abelian_frobenius_polynomial` here for the
-good abelian quotient over the valuation ring of finite `K/ℚ_p`: consume its supplied
-crystalline realization and Frobenius through the ramified crystalline/de Rham and period
-bridges of 5.3, retaining their `K₀`-structures and the comparison after extension to `K`.
-The characteristic polynomial of `φ^f`, where `q = p^f`, equals its prime-to-`p`
-cohomological Frobenius polynomial by Katz–Messing Theorem 1, pp. 74–75; Coleman–Iovita
-§2(ii), pp. 11–12, supplies the good-reduction Frobenius realization. This is the degree-one
-abelian comparison.
+`classical-llc-normalization`.
 Mathlib `Matrix.trace`, `Matrix.det_fin_two`, exterior powers and characteristic polynomials
 supply the linear algebra.
 
@@ -3140,14 +3166,15 @@ of `(12)(34)(56)`. Here `S₅(b)` is the standard point stabiliser. Its intersec
 that centraliser has order `8`: fixing one point forces its partner to be fixed, leaving
 two pairs with independent swaps and a permutation of those pairs. In particular it is a
 `2`-group; a `2`-group acting on a nonzero `𝔽₂`-vector space fixes a nonzero vector
-(`Interfaces.exists_ne_zero_fixed_of_two_group`). That adapter is the linear specialisation of
-Mathlib's `IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point` at `p = 2`: let `G` act
-on `M` through `ρ`, take the known fixed point `0`, use `Nat.card M = 2^d` with `d > 0`, and
-obtain `IsPGroup 2 G` from the cardinality hypothesis by `IsPGroup.of_card`. No second
-orbit-counting theory is built here. The choice of `S₅(b)` and the order of the
-intersection are finite-group inputs supplied with the statement. *Needs:* 6.12; Mathlib
-`IsPGroup.of_card`, `IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point` and finite
-group theory.
+by the pinned `Representation.exists_ne_zero_apply_eq_self_of_forall_pow_eq_one` from
+`TauCeti.RepresentationTheory.PGroupInvariants`, at `p = 2` and `k = ZMod 2`.
+The `2`-group hypothesis gives `2`-power orders of all elements, and applying the
+representation preserves these power identities. The supplied theorem requires neither
+finite generation nor finite dimension of the nonzero module. The choice of `S₅(b)` and
+the order of the
+intersection are finite-group inputs supplied with the statement. *Needs:* 6.12;
+Tau Ceti `Representation.exists_ne_zero_apply_eq_self_of_forall_pow_eq_one`; Mathlib
+`IsPGroup.of_card`, `IsPGroup.exists_pow_pow_eq_one` and finite group theory.
 
 **Checks.**
 
@@ -3274,9 +3301,9 @@ Mathlib's Weierstrass reduction predicates and `IsPGroup` fixed-point theorems.
 - X. Yuan and S.-W. Zhang, *On the averaged Colmez conjecture*, Annals of Mathematics 187
   (2018), 533–638: §1.1 (p. 534), §2.3 (pp. 549–550); and their Erratum, Annals of Mathematics
   198 (2023), 867–878 (author version of 18 December 2022, pp. 1–2).
-- X. Yuan, *Bigness of the tautological line bundle and the uniform Bogomolov conjecture*,
-  arXiv:2108.05625v4 (2024): §3.1.3 and Lemma 3.4 (pp. 43–44), Lemma 4.9 (p. 75, where the
-  Jacobian `J` is that of `C`).
+- X. Yuan, *Arithmetic bigness and a uniform Bogomolov-type result*,
+  arXiv:2108.05625v4 (2024): §3.1.3 and Lemma 3.4 (pp. 43–44), Lemma 4.9 and the full-level
+  paragraph (p. 75, where the Jacobian `J` is that of `C`).
 - F. Calegari and D. Geraghty, *Minimal modularity lifting for nonregular symplectic
   representations*, Duke Math. J. 169 (2020), 801–896; Appendix, *Bloch–Kato conjectures
   for automorphic motives*, by F. Calegari, D. Geraghty and M. Harris, Lemma A.7 and proof,

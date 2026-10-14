@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.AlgebraicGeometry.Curves.StableReduction.Picard.Basic
+import TauCeti.RepresentationTheory.PGroupInvariants
 
 /-!
 # Néron models and semistable abelian varieties: representative target signatures
@@ -193,6 +194,9 @@ would give `2` since `0` is even. -/
 example : Nat.card {x : ZMod 0 // -x = x} = 1 ∧
     Nat.card {x : ZMod 0 // -x = x} ≠ if Even 0 then 2 else 1 := by sorry
 
+/-- At modulus one the negation-fixed component group is trivial. -/
+example : Nat.card {x : ZMod 1 // -x = x} = 1 := by sorry
+
 end ComponentGroup
 
 /-! ## Layer 3: semistable reduction and uniformisation -/
@@ -224,7 +228,18 @@ example (n e : ℕ) (hn : 0 < n) (he : 1 < e) : ¬ Function.Surjective (componen
 /-- Negative control for `0 < e`: for `e = 0` the map `ℤ/2 → ℤ/0 = ℤ` is zero, not injective. -/
 example : ¬ Function.Injective (componentMap 2 0) := by sorry
 
+/-- Ramification index one preserves every component representative. -/
+example (n : ℕ) (r : ℤ) :
+    componentMap n 1 (r : ZMod n) = (r : ZMod (1 * n)) := by
+  simpa using componentMap_apply n 1 r
+
 end RamifiedTate
+
+/-! `RamifiedTateCounterexample` in README 3.4 supplies the split valuation-to-component
+comparison over any complete DVR, using 2.7 and StableReduction Layer 5's smooth-locus
+model. Identity sections are unit classes and the constant component group is `ℤ/ord(q)`;
+this comparison carries no perfect-residue-field hypothesis. The geometric case
+`R = 𝔽_p(s)[[t]]`, `q = t²`, `e = 2` uses the component map above. -/
 
 namespace TateMonodromy
 
@@ -295,6 +310,16 @@ example : (5 : ZMod 4) = 1 ∧ (-5 : ZMod 4) = 3 ∧
 
 /-- Level one has no obstruction class. -/
 example : (5 : ZMod 1) = 0 ∧ (-5 : ZMod 1) = 0 := by decide
+
+/-- Valuation zero gives the zero arithmetic operator. -/
+example : operator 0 = 0 := by
+  apply LinearMap.ext
+  intro v
+  simp [operator]
+
+/-- The alternating Weil form vanishes on equal vectors and on either zero input. -/
+example (v : ℤ × ℤ) : weilForm v v = 0 ∧ weilForm 0 v = 0 ∧ weilForm v 0 = 0 := by
+  simp [weilForm, mul_comm]
 
 end TateMonodromy
 
@@ -411,6 +436,11 @@ example : Module.finrank ℤ (cycleLattice (fun _ : Fin 0 => (0 : Fin 2)) (fun _
     Fintype.card (Fin 2) ≠ Fintype.card (Fin 0) + 1 := by
   rw [cycleLattice_rank_eq_cycleSpace_finrank]
   sorry
+
+/-- The two parallel edges form a binary cycle: both endpoints occur twice. -/
+example :
+    (Finsupp.single (0 : Fin 2) 1 + Finsupp.single 1 1) ∈
+      modTwoCycleSpace (fun _ : Fin 2 => (0 : Fin 2)) (fun _ => 1) := by sorry
 
 end DualGraph
 
@@ -572,20 +602,31 @@ example : Matrix.trace (toricFrobenius 2 (-1) 1) = -3 ∧
 /-- A degree-two geometric Frobenius has trivial nonsplit lattice sign and full trace five. -/
 example : Matrix.trace (toricFrobenius 2 1 2) = 5 := by sorry
 
+/-- At degree zero the arithmetic Frobenius matrix is scalar. -/
+example (q delta : ℚ) : toricFrobenius q delta 0 = delta • (1 : Matrix (Fin 2) (Fin 2) ℚ) := by
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [toricFrobenius]
+
+/-- Zero lattice action gives the zero matrix at every arithmetic degree. -/
+example (q : ℚ) (d : ℕ) : toricFrobenius q 0 d = 0 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [toricFrobenius]
+
 end SemistableTrace
 
 namespace Interfaces
 
-/-- A `2`-group acting linearly on a nonzero `𝔽₂`-vector space fixes a nonzero vector: the
-group-theoretic step of the residual-point export (Boxer–Calegari–Gee–Pilloni 2025, Lemma 9.1.8).
-It is the linear specialisation of Mathlib's
-`IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point` at `p = 2`, for the action of `G`
-on `M` through `ρ`, the fixed point `0` and `Nat.card M = 2 ^ d` with `d > 0`; `IsPGroup.of_card`
-turns the cardinality hypothesis into `IsPGroup 2 G`. -/
-theorem exists_ne_zero_fixed_of_two_group {G : Type*} [Group G] [Finite G]
+/-- The pinned invariant-vector theorem gives the residual-point group-theoretic step
+at characteristic two, using the power identities of the finite `2`-group. -/
+example {G : Type*} [Group G] [Finite G]
     (hG : ∃ k : ℕ, Nat.card G = 2 ^ k) {M : Type*} [AddCommGroup M] [Module (ZMod 2) M]
-    [Module.Finite (ZMod 2) M] [Nontrivial M] (ρ : G →* (M →ₗ[ZMod 2] M)) :
-    ∃ v : M, v ≠ 0 ∧ ∀ g, ρ g v = v := by sorry
+    [Nontrivial M] (ρ : Representation (ZMod 2) G M) :
+    ∃ v : M, v ≠ 0 ∧ ∀ g, ρ g v = v := by
+  obtain ⟨k, hk⟩ := hG
+  apply Representation.exists_ne_zero_apply_eq_self_of_forall_pow_eq_one 2 ρ
+  intro g
+  obtain ⟨n, hn⟩ := (IsPGroup.of_card hk).exists_pow_pow_eq_one g
+  exact ⟨n, by rw [← map_pow, hn, map_one]⟩
 
 /-- Negative control for the `2`-group hypothesis: a group of order `3` can permute the three
 nonzero vectors of `𝔽₂²` cyclically and fix none of them. -/
@@ -740,7 +781,7 @@ The corresponding untyped theorems include `GroupLaw`, `Smoothening`, `LocalExis
 comparison, Néron–Ogg–Shafarevich, `PadicComparison`, conductor and local-factor comparisons,
 and the geometric exports of Layer 6. The signed `prime_adic`, `prime_adic_finite_flat`,
 `prime_adic_transition` and `henselian_valuation_descent` comparisons, together with
-`good_abelian_frobenius_polynomial`, `semistable_trace_comparison`,
+`good_abelian_frobenius_polynomial` (before `semistable_trace_comparison`),
 `semistable_trace_descent` and `pure_WD_export`, are stated
 in README 4.3, 5.3 and 6.10. Their coordinate witnesses above do not construct the geometric
 or cohomological carriers.
