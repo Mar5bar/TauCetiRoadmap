@@ -394,6 +394,25 @@ theorem exists_dehnTwist_hnn {G : Type*} [Group G] (A B : Subgroup G) (φ : A �
         τ HNNExtension.t = HNNExtension.t * HNNExtension.of z := by
   sorry
 
+/-- An HNN twist with the prescribed base and stable-letter values is the identity exactly
+when its parameter is the identity (§4.13). -/
+theorem dehnTwistHNN_eq_refl_iff {G : Type*} [Group G] (A B : Subgroup G) (φ : A ≃* B)
+    (z : G) (τ : HNNExtension G A B φ ≃* HNNExtension G A B φ)
+    (hbase : ∀ g : G, τ (HNNExtension.of g) = HNNExtension.of g)
+    (ht : τ HNNExtension.t = HNNExtension.t * HNNExtension.of z) :
+    τ = MulEquiv.refl _ ↔ z = 1 := by
+  sorry
+
+/-- The identity HNN extension of `ℤ` has a nonidentity twist with a central parameter. -/
+example :
+    let A : Subgroup (Multiplicative ℤ) := ⊤
+    let K := HNNExtension (Multiplicative ℤ) A A (MulEquiv.refl A)
+    ∃ τ : K ≃* K,
+      (∀ g : Multiplicative ℤ, τ (HNNExtension.of g) = HNNExtension.of g) ∧
+      τ HNNExtension.t = HNNExtension.t * HNNExtension.of (Multiplicative.ofAdd 1) ∧
+      τ ≠ MulEquiv.refl K := by
+  sorry
+
 /-- Grushko–Neumann theorem (§4.11). -/
 theorem rank_coprod {G H : Type*} [Group G] [Group H] [Group.FG G] [Group.FG H]
     [Group.FG (Monoid.Coprod G H)] [Nontrivial G] [Nontrivial H] :
@@ -595,6 +614,15 @@ example : Nat.card (NonorientableSurfaceGroup 1 0) = 2 := by
 example : orientableEulerChar 2 0 = -2 := by
   sorry
 
+/-- A conjugate of a nonidentity coefficient has no solutions (§6.5, the README's
+`GroupAlgGeom.Quadratic.strict_conjugate_inconsistent`); its quadratic normalization is the
+coefficient-only branch of `GroupAlgGeom.Quadratic.exists_standardForm`. -/
+theorem conjugate_coeff_algSet_eq_empty {G : Type*} [Group G] (c : G) (hc : c ≠ 1) :
+    algSet (MonoidHom.id G)
+      {(Monoid.Coprod.inr (FreeGroup.of ()) : GX G Unit)⁻¹ * Monoid.Coprod.inl c *
+        Monoid.Coprod.inr (FreeGroup.of ())} = ∅ := by
+  sorry
+
 example :
     radical (MonoidHom.id (FreeGroup (Fin 2)))
       {Monoid.Coprod.inr (FreeGroup.of false ^ 2 * FreeGroup.of true ^ 2)} =
@@ -702,16 +730,62 @@ theorem IsFullyResiduallyFree.commute_trans {G : Type u} [Group G] (hG : IsFully
 abbrev CentralizerExt (G : Type*) [Group G] (u : G) : Type _ :=
   HNNExtension G (Subgroup.centralizer {u}) (Subgroup.centralizer {u}) (MulEquiv.refl _)
 
+/-- Admissible ICE steps use a nonidentity non-proper-power and positive added rank (§8.5;
+the README's `LimitGroup.IsAdmissibleCentralizerStep`). The extension uses the full centralizer. -/
+def IsAdmissibleCentralizerStep {G : Type*} [Group G] (u : G) (n : ℕ) : Prop :=
+  u ≠ 1 ∧ ¬ IsProperPower u ∧ 0 < n
+
+/-- An admissible NTQ centralizer level has a finite generating set of the full abelian
+centralizer and positive added rank (§8.8; `LimitGroup.NTQ.IsAdmissibleCentralizerLevel`). -/
+def IsAdmissibleCentralizerLevel {G : Type*} [Group G] (u : G) (U : Finset G) (n : ℕ) : Prop :=
+  IsAdmissibleCentralizerStep u n ∧
+    Subgroup.closure (U : Set G) = Subgroup.centralizer {u} ∧
+    IsMulCommutative (Subgroup.centralizer {u})
+
 example : Nonempty
     (CentralizerExt (Multiplicative ℤ) (Multiplicative.ofAdd 1) ≃*
       Multiplicative (Fin 2 → ℤ)) := by
   sorry
 
-/-- Extensions of centralizers of non-proper-powers in fully residually free groups are fully
-residually free (§8.6). -/
+/-- An admissible rank-one centralizer extension of a nonabelian fully residually free group
+is fully residually free (§8.6). -/
 theorem isFullyResiduallyFree_centralizerExt {G : Type} [Group G] (hG : IsFullyResiduallyFree G)
-    (u : G) (hu : u ≠ 1) (hu' : ¬ IsProperPower u) :
+    (hnonabelian : ∃ a b : G, ¬ Commute a b) (u : G)
+    (hadmissible : IsAdmissibleCentralizerStep u 1) :
     IsFullyResiduallyFree (CentralizerExt G u) := by
+  sorry
+
+example {G : Type*} [Group G] (n : ℕ) : ¬ IsAdmissibleCentralizerStep (1 : G) n := by
+  sorry
+
+example {G : Type*} [Group G] (u : G) : ¬ IsAdmissibleCentralizerStep u 0 := by
+  sorry
+
+example (a : Fin 2) : IsAdmissibleCentralizerStep (FreeGroup.of a) 1 := by
+  sorry
+
+/-- The unrestricted identity-centralizer extension is the direct product rejected by ICE. -/
+example : Nonempty
+    (CentralizerExt (FreeGroup (Fin 2)) 1 ≃* (FreeGroup (Fin 2) × Multiplicative ℤ)) := by
+  sorry
+
+example : ¬ IsFullyResiduallyFree (CentralizerExt (FreeGroup (Fin 2)) 1) := by
+  sorry
+
+/-- The consistent equations centralizing both basis letters fail NTQ admissibility. -/
+example :
+    ¬ IsAdmissibleCentralizerLevel (1 : FreeGroup (Fin 2))
+      {FreeGroup.of 0, FreeGroup.of 1} 1 := by
+  sorry
+
+/-- For the inadmissible level, the variable belongs to the radical but not the relator
+normal closure (§8.8). -/
+example :
+    let x : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inr (FreeGroup.of ())
+    let a : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inl (FreeGroup.of 0)
+    let b : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inl (FreeGroup.of 1)
+    let S : Set (GX (FreeGroup (Fin 2)) Unit) := {comm x a, comm x b}
+    x ∈ radical (MonoidHom.id (FreeGroup (Fin 2))) S ∧ x ∉ Subgroup.normalClosure S := by
   sorry
 
 /-- Finitely generated fully residually free groups are finitely presented (§8.7). -/
@@ -850,17 +924,25 @@ Further README targets: `GGroup` and `GHom` with injective coefficient embedding
 Stallings folds, cores, `basisWords` and the Stallings
 correspondence; `Term.ofWord`; `GraphOfGroups`, its paths,
 fundamental groups, Bass–Serre trees, `GTree`, the structure theorem,
-induced splittings, Kurosh's theorem and Dehn twists of amalgams; QH vertices; generalised
+induced splittings, Kurosh's theorem and Dehn twists of amalgams; surface QH vertices with
+trivial fiber; `SurfaceGroup.modelEquiv` with peripheral comparison; generalised
 equations, finite cancellation families, elementary transformation relations and Makanin's
 finiteness theorem; recursive truth sets for the existential, universal and positive fragments; quadratic and strictly quadratic words, standard quadratic forms, atoms, degeneracy,
 general position, `kappa` and quadratic regularity. In particular the README's
 `GroupAlgGeom.Quadratic.IsRegular.of_genus` concerns consistent orientable equations of
 positive genus other than [x,y]=1; `MarkedGroup` and its compactness;
-`NTQ.System`, its level groups, nondegeneracy and regularity; infinite words, `F^{ℤ[t]}` and
+`NTQ.System`, its level groups, nondegeneracy and regularity;
+`LimitGroup.centralizerExt_root_reduction`; infinite words, `F^{ℤ[t]}` as
+`LimitGroup.lyndonCompletion` with its ICE comparison, and
 graphs labelled by infinite words; Λ-metric spaces, Λ-trees and free actions on them; JSJ trees and their existence, finite marked Grushko and JSJ graphs, Makanin–Razborov
 factorization diagrams and finite component systems, equations over limit groups; `HasCompleteLift`,
 `IsGenericFamily`, `basicSeq` and its powers; the implicit function theorem for regular NTQ
 systems.
+
+The Serre/underlying-graph comparison includes `SerreGraph.toGraph`, `SerreGraph.ofGraph`
+and `SerreGraph.reachable_toGraph`; the Bass–Serre quotient is the base component.
+`GraphOfGroups.dehnTwistAmalgam_eq_refl_iff` is the central-in-the-right-factor identity
+criterion, alongside the HNN criterion above.
 -/
 
 end TauCetiRoadmap.FreeGroupsAndLimitGroups
