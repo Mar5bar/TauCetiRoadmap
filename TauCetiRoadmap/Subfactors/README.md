@@ -206,8 +206,8 @@ argument to prove finite-depth extremality.
 
 For every finite-index inclusion construct the compatible unital algebra
 maps `TL_n(ℂ,δ)→M_(n−1)` by `U_i↦δe_i`, i=1,…,n−1.
-Here U_i is Tau Ceti's native TL generator `e δ i`; the e_i on
-the right is the Jones projection in the basic-construction tower.
+Here the native `TauCeti.TemperleyLieb.e δ i`, with zero-based i,
+is U_(i+1); its image is δ times the Jones projection e_(i+1).
 Check the native universal property's relations and conjugate adjoint.
 Prove the diagram closure trace pulls back from the normalized tower
 trace as `τ∘ρ_n=δ⁻ⁿT_n`, using its value on1, strand inclusions,
