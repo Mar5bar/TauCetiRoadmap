@@ -1,0 +1,480 @@
+import Mathlib
+import TauCeti.Topology.Algebra.Group.Profinite.ProP.Basic
+import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Basic
+
+/-!
+# DiamondEtaleCohomology: representative target signatures
+
+**This file is not the roadmap and is not exhaustive.** The definitive specification is
+`README.md`. These suggested forms record light definitions and milestone theorem signatures
+statable against the pinned Mathlib and Tau Ceti APIs. Discharging them finishes neither a
+layer nor the roadmap.
+
+The statements use spectral spaces, module sheaves and complete nonarchimedean fields on the
+library's carriers. The coefficient sites, enhanced étale categories, geometric operations,
+compactifications and diamond dimension bounds are specified in the README. Field embeddings
+are explicitly isometric; generating, independent and modified degrees remain distinct.
+-/
+
+noncomputable section
+
+open CategoryTheory Limits Topology TopologicalSpace
+
+universe u v w
+
+namespace TauCeti.DiamondEtale
+
+/-! ## Layer C5: relative valuation-space acyclicity -/
+
+section ValuationCohomology
+attribute [local instance] HasExt.standard
+
+/-- The supplied spectrum of a discrete field with full plus ring is one point (C5.7). -/
+example (K : Type u) [Field K] [TopologicalSpace K] [DiscreteTopology K] :
+    Nonempty (TauCeti.ValuationSpectrum.spa (⊤ : Subring K)) ∧
+      Subsingleton (TauCeti.ValuationSpectrum.spa (⊤ : Subring K)) := by sorry
+
+/-- A proper valuation subring and the whole field give distinct points (C5.7). -/
+example (K : Type u) [Field K] [TopologicalSpace K] [DiscreteTopology K]
+    (V : ValuationSubring K) (hV : V ≠ ⊤) :
+    ∃ x y : TauCeti.ValuationSpectrum.spa V.toSubring, x ≠ y := by sorry
+
+/-- Relative Zariski–Riemann acyclicity on the supplied spectrum (C5.7, ECD Lemma 19.4).
+The special fibre consists of valuations whose valuation ring restricts to V. -/
+theorem zariskiRiemannAcyclicity {K K' : Type u} [Field K] [Field K']
+    [IsAlgClosed K] [IsAlgClosed K'] [Algebra K K']
+    [TopologicalSpace K'] [DiscreteTopology K'] (V : ValuationSubring K)
+    (F : TopCat.Sheaf AddCommGrpCat.{u}
+      (TopCat.of (TauCeti.ValuationSpectrum.spa (V.toSubring.map (algebraMap K K')))))
+    (htors : ∀ (x : TauCeti.ValuationSpectrum.spa (V.toSubring.map (algebraMap K K')))
+      (s : F.presheaf.stalk x), IsOfFinAddOrder s)
+    (hF : ∀ x : TauCeti.ValuationSpectrum.spa (V.toSubring.map (algebraMap K K')),
+      x.val.valuation.valuationSubring.comap (algebraMap K K') = V →
+        IsZero (F.presheaf.stalk x)) :
+    ∀ n : ℕ, Subsingleton (Sheaf.H.{u+1} F n) := by sorry
+
+end ValuationCohomology
+
+/-! ## Layer C7: constructible sheaves on spectral spaces -/
+
+section ConstructibleSheaves
+variable (Λ : Type u) [Ring Λ]
+
+/-- Restriction to Z is constant with a finitely generated module as value (C7.1). -/
+def IsConstFGOn {X : TopCat.{u}} (F : TopCat.Sheaf (ModuleCat.{u} Λ) X) (Z : Set X) : Prop :=
+  ∃ M : ModuleCat.{u} Λ, Module.Finite Λ M ∧
+    Nonempty ((TopCat.Sheaf.pullback (ModuleCat.{u} Λ)
+      (TopCat.ofHom ⟨Subtype.val, continuous_subtype_val⟩ : TopCat.of Z ⟶ X)).obj F ≅
+      (constantSheaf (Opens.grothendieckTopology Z) (ModuleCat.{u} Λ)).obj M)
+
+/-- A zero sheaf has zero finitely generated value on every subspace (C7.1). -/
+example {X : TopCat.{u}} (F : TopCat.Sheaf (ModuleCat.{u} Λ) X) (hF : IsZero F)
+    (Z : Set X) : IsConstFGOn Λ F Z := by sorry
+
+/-- Infinite-rank free constant values fail finite generation on a nonempty space (C7.1). -/
+example [Nontrivial Λ] (X : TopCat.{u}) [Nonempty X] :
+    ¬ IsConstFGOn Λ ((constantSheaf (Opens.grothendieckTopology X)
+      (ModuleCat.{u} Λ)).obj (ModuleCat.of Λ (ℕ →₀ Λ))) Set.univ := by sorry
+
+/-- DiamondEtaleCohomology:C7/constructible-sheaf-spectral (ECD Definition 20.1(i), Lemma 20.4):
+a sheaf of Λ-modules on a spectral space is constructible if there is a finite stratification
+`X = ⊔ Sᵢ` into constructible locally closed subsets such that each `F|_{Sᵢ}` (Mathlib pullback
+along the subspace inclusion) is the constant sheaf of a finitely generated Λ-module. -/
+def IsConstructibleSheaf [IsNoetherianRing Λ] {X : TopCat.{u}} [SpectralSpace X]
+    (F : TopCat.Sheaf (ModuleCat.{u} Λ) X) : Prop :=
+  ∃ (n : ℕ) (Z : Fin n → Set X),
+    (∀ i, Topology.IsConstructible (Z i) ∧ IsLocallyClosed (Z i)) ∧
+    Pairwise (fun i j => Disjoint (Z i) (Z j)) ∧ (⋃ i, Z i) = Set.univ ∧
+    ∀ i, ∃ M : ModuleCat.{u} Λ, Module.Finite Λ M ∧
+      Nonempty ((TopCat.Sheaf.pullback (ModuleCat.{u} Λ) (TopCat.ofHom ⟨Subtype.val, continuous_subtype_val⟩)).obj F ≅
+        (constantSheaf (Opens.grothendieckTopology (Z i)) (ModuleCat.{u} Λ)).obj M)
+
+/-- C7/constructible-sheaf-spectral API: the constant sheaf of a finitely generated module is
+constructible. -/
+theorem IsConstructibleSheaf.constant [IsNoetherianRing Λ] (X : TopCat.{u}) [SpectralSpace X]
+    (M : ModuleCat.{u} Λ) [Module.Finite Λ M] : IsConstructibleSheaf Λ ((constantSheaf (Opens.grothendieckTopology X) (ModuleCat.{u} Λ)).obj M) := by
+  sorry
+
+/-- C7/constructible-sheaf-spectral API: pullback along a spectral map preserves
+constructibility. -/
+theorem IsConstructibleSheaf.pullback [IsNoetherianRing Λ] {X Y : TopCat.{u}} [SpectralSpace X]
+    [SpectralSpace Y] (f : X ⟶ Y) (hf : IsSpectralMap f) (F : TopCat.Sheaf (ModuleCat.{u} Λ) Y)
+    (hF : IsConstructibleSheaf Λ F) :
+    IsConstructibleSheaf Λ ((TopCat.Sheaf.pullback (ModuleCat.{u} Λ) f).obj F) := by
+  sorry
+
+/-- C7/constructible-sheaf-spectral API: constructible sheaves are closed under kernels,
+cokernels and extensions (hence images, as kernels of cokernel maps). -/
+theorem IsConstructibleSheaf.kernel_cokernel_extension [IsNoetherianRing Λ] (X : TopCat.{u})
+    [SpectralSpace X] :
+    let P : ObjectProperty (TopCat.Sheaf (ModuleCat.{u} Λ) X) := fun F => IsConstructibleSheaf Λ F
+    P.IsClosedUnderKernels ∧ P.IsClosedUnderCokernels ∧ P.IsClosedUnderExtensions := by
+  sorry
+
+/-- DiamondEtaleCohomology:C7/constructible-compact-spectral (ECD Lemma 20.4): constructible
+⇔ compact (`IsFinitelyPresentable`), and every sheaf is a filtered colimit of constructible
+sheaves. -/
+theorem constructibleCompactSpectral [IsNoetherianRing Λ] (X : TopCat.{u}) [SpectralSpace X] :
+    (∀ F : TopCat.Sheaf (ModuleCat.{u} Λ) X, IsConstructibleSheaf Λ F ↔ IsFinitelyPresentable.{u} F) ∧
+    ∀ F : TopCat.Sheaf (ModuleCat.{u} Λ) X,
+      ∃ (J : Type u) (_ : SmallCategory J) (_ : IsFiltered J) (D : J ⥤ TopCat.Sheaf (ModuleCat.{u} Λ) X)
+        (c : Cocone D) (_ : IsColimit c), Nonempty (c.pt ≅ F) ∧ ∀ j, IsConstructibleSheaf Λ (D.obj j) := by
+  sorry
+
+/-- test isConstructibleSheaf_zero (degenerate): the zero sheaf is constructible. -/
+example [IsNoetherianRing Λ] {X : TopCat.{u}} [SpectralSpace X]
+    (F : TopCat.Sheaf (ModuleCat.{u} Λ) X) (hF : IsZero F) : IsConstructibleSheaf Λ F := by
+  sorry
+
+/-- test isConstructibleSheaf_constant (computation): the constant sheaf `Λⁿ` is constructible. -/
+example [IsNoetherianRing Λ] {X : TopCat.{u}} [SpectralSpace X] (n : ℕ) :
+    IsConstructibleSheaf Λ ((constantSheaf (Opens.grothendieckTopology X) (ModuleCat.{u} Λ)).obj (ModuleCat.of Λ (Fin n → Λ))) := by
+  sorry
+
+/-- test isConstructibleSheaf_not_fg (non-example): for `Λ ≠ 0` and `X ≠ ∅`, the constant sheaf
+with value `⊕_{n∈ℕ} Λ` is not constructible. -/
+example [IsNoetherianRing Λ] [Nontrivial Λ] {X : TopCat.{u}} [SpectralSpace X] [Nonempty X] :
+    ¬ IsConstructibleSheaf Λ ((constantSheaf (Opens.grothendieckTopology X) (ModuleCat.{u} Λ)).obj (ModuleCat.of Λ (ℕ →₀ Λ))) := by
+  sorry
+
+end ConstructibleSheaves
+
+/-- `F` has a finite filtration `0 = F₀ ⊂ F₁ ⊂ ⋯ ⊂ Fₙ ≅ F` whose graded pieces satisfy `P`. -/
+def HasFiltrationBy {C : Type*} [Category* C] [Abelian C] (P : C → Prop) (F : C) : Prop :=
+  ∃ (n : ℕ) (G : Fin (n + 1) → C) (m : ∀ i : Fin n, G i.castSucc ⟶ G i.succ),
+    (∀ i, Mono (m i)) ∧ IsZero (G 0) ∧ Nonempty (G (Fin.last n) ≅ F) ∧ ∀ i, P (cokernel (m i))
+
+/-- A zero object has the length-zero filtration (ECD Proposition 20.8). -/
+example {C : Type u} [Category C] [Abelian C] (P : C → Prop) (F : C)
+    (hF : IsZero F) : HasFiltrationBy P F := by sorry
+
+/-- The length-one filtration has its single graded piece isomorphic to F (ECD Proposition 20.8). -/
+example {C : Type u} [Category C] [Abelian C] (P : C → Prop) (F : C)
+    (hF : P F) (hP : ObjectProperty.IsClosedUnderIsomorphisms (C := C) P) :
+    HasFiltrationBy P F := by sorry
+
+/-! ## Layer C8: field degrees and cohomological bounds -/
+
+section FibreDimension
+variable {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y]
+
+/-- The supremum of topological Krull dimensions of the actual fibre subspaces. -/
+def fibreDimension {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y]
+    (f : X → Y) : WithBot ℕ∞ :=
+  ⨆ y : Y, topologicalKrullDim {x : X // f x = y}
+
+theorem fibreDimension_homeomorph
+    {X' : Type w} {Y' : Type w} [TopologicalSpace X'] [TopologicalSpace Y']
+    (eX : X ≃ₜ X') (eY : Y ≃ₜ Y') (f : X → Y) (g : X' → Y')
+    (h : ∀ x, g (eX x) = eY (f x)) : fibreDimension f = fibreDimension g := by sorry
+
+theorem fibreDimension_id [Nonempty X] : fibreDimension (id : X → X) = 0 := by sorry
+
+-- fibreDimension_empty
+example [IsEmpty X] (f : X → Y) : fibreDimension f = ⊥ := by sorry
+
+-- fibreDimension_toPoint
+example : fibreDimension (fun _ : X => (PUnit.unit : PUnit)) = topologicalKrullDim X := by sorry
+
+-- fibreDimension_emptyTarget
+example [IsEmpty X] : fibreDimension (id : X → X) = ⊥ := by sorry
+end FibreDimension
+
+section DenseIntermediateFields
+variable (K : Type u) (L : Type u) [Field K] [Field L] [Algebra K L]
+variable [TopologicalSpace L]
+
+/-- Infimum of finite algebraic transcendence bounds witnessed by a dense intermediate field. -/
+def topologicalTrdeg (K L : Type u) [Field K] [Field L] [Algebra K L]
+    [TopologicalSpace L] : ℕ∞ :=
+  ⨅ (n : ℕ) (_ : ∃ A : IntermediateField K L,
+      Dense (A : Set L) ∧ Algebra.trdeg K A ≤ (n : Cardinal)), (n : ℕ∞)
+
+-- topologicalTrdeg_dense_algebraic
+example (A : IntermediateField K L) [Algebra.IsAlgebraic K A]
+    (hd : Dense (A : Set L)) : topologicalTrdeg K L = 0 := by sorry
+
+-- topologicalTrdeg_discrete_infinite
+example [DiscreteTopology L] (h : Cardinal.aleph0 ≤ Algebra.trdeg K L) :
+    topologicalTrdeg K L = ⊤ := by sorry
+
+variable {L} in
+/-- `DiamondEtaleCohomology:C8/topological-independence-degree`, Temkin §2.1.6.
+No element of `s` lies in the closure of the elements algebraic over the intermediate field
+generated by the other elements. In a complete algebraically closed `L` that closure is the
+completed algebraic closure, so this is Temkin's topgebraic independence. -/
+def IsTopAlgIndependent (s : Set L) : Prop :=
+  ∀ x ∈ s, x ∉ closure {y : L | IsAlgebraic (IntermediateField.adjoin K (s \ {x})) y}
+
+/-- Temkin's independent degree `top.tr.deg`, through finite independent sets. -/
+def topologicalIndependenceDegree : ℕ∞ :=
+  ⨆ (s : Finset L) (_ : IsTopAlgIndependent K (s : Set L)), (s.card : ℕ∞)
+
+-- isTopAlgIndependent_discrete
+example [DiscreteTopology L] (s : Set L) :
+    IsTopAlgIndependent K s ↔ AlgebraicIndependent K ((↑) : s → L) := by sorry
+
+-- isTopAlgIndependent_singleton
+example (x : L) :
+    IsTopAlgIndependent K ({x} : Set L) ↔ x ∉ closure {y : L | IsAlgebraic K y} := by sorry
+
+end DenseIntermediateFields
+
+section PadicComplex
+variable (p : ℕ) [Fact p.Prime]
+
+-- topologicalTrdeg_padicComplex: the algebraic closure of `ℚ_[p]` is dense in `ℂ_[p]`,
+-- although `Algebra.trdeg ℚ_[p] ℂ_[p]` is infinite.
+example : topologicalTrdeg ℚ_[p] ℂ_[p] = 0 := by sorry
+
+-- topologicalIndependenceDegree_padicComplex
+example : topologicalIndependenceDegree ℚ_[p] ℂ_[p] = 0 := by sorry
+end PadicComplex
+
+section CompleteFields
+variable (K L M : Type u)
+variable [NontriviallyNormedField K] [NontriviallyNormedField L]
+variable [NontriviallyNormedField M]
+variable [CompleteSpace K] [CompleteSpace L] [CompleteSpace M]
+variable [IsUltrametricDist K] [IsUltrametricDist L] [IsUltrametricDist M]
+variable [IsAlgClosed K] [IsAlgClosed L] [IsAlgClosed M]
+
+/-- `DiamondEtaleCohomology:C8/finite-topological-generators`.
+The tuple may contain repetitions, permitting padding from fewer than n generators. -/
+theorem finite_topological_generators [Algebra K L]
+    (hKL : Isometry (algebraMap K L)) (n : ℕ) :
+    topologicalTrdeg K L ≤ n ↔
+      ∃ t : Fin n → L, ∀ A : IntermediateField K L,
+        IsClosed (A : Set L) → IsAlgClosed A →
+        (∀ i, t i ∈ A) → A = ⊤ := by sorry
+
+/-- `DiamondEtaleCohomology:C8/topological-trdeg-tower`. -/
+theorem topological_trdeg_tower [Algebra K L] [Algebra L M] [Algebra K M]
+    [IsScalarTower K L M]
+    (hKL : Isometry (algebraMap K L)) (hLM : Isometry (algebraMap L M)) :
+    topologicalTrdeg K M ≤ topologicalTrdeg L M + topologicalTrdeg K L := by sorry
+
+/-- `DiamondEtaleCohomology:C8/independent-le-generating-degree` (a), Temkin 3.2.1. -/
+theorem topologicalIndependenceDegree_le_topologicalTrdeg [Algebra K M]
+    (hKM : Isometry (algebraMap K M)) :
+    topologicalIndependenceDegree K M ≤ topologicalTrdeg K M := by sorry
+
+/-- `DiamondEtaleCohomology:C8/independent-le-generating-degree` (b), Temkin 3.2.3 and
+Remark 2.1.10(i): equality when the generating degree is finite. -/
+theorem topologicalIndependenceDegree_eq_of_lt_top [Algebra K M]
+    (hKM : Isometry (algebraMap K M)) (hfin : topologicalTrdeg K M < ⊤) :
+    topologicalIndependenceDegree K M = topologicalTrdeg K M := by sorry
+
+/-- `DiamondEtaleCohomology:C8/independent-le-generating-degree` (c), Temkin Lemma 2.2.2. -/
+theorem topologicalIndependenceDegree_mono [Algebra K L] [Algebra L M] [Algebra K M]
+    [IsScalarTower K L M]
+    (hKL : Isometry (algebraMap K L)) (hLM : Isometry (algebraMap L M)) :
+    topologicalIndependenceDegree K L ≤ topologicalIndependenceDegree K M := by sorry
+
+-- topologicalTrdeg_eq_zero_iff_surjective
+example [Algebra K L] (hKL : Isometry (algebraMap K L)) :
+    topologicalTrdeg K L = 0 ↔ Function.Surjective (algebraMap K L) := by sorry
+
+/-- `DiamondEtaleCohomology:C8/topological-trdeg-finite-monotonicity`.
+ECD's paragraph after Question 21.4, using Temkin 3.2.3 and 2.2.2.
+The finiteness assumption is on the intermediate extension, not only the ambient one. -/
+theorem topologicalTrdeg_mono_of_lt_top [Algebra K L] [Algebra L M] [Algebra K M]
+    [IsScalarTower K L M]
+    (hKL : Isometry (algebraMap K L)) (hLM : Isometry (algebraMap L M))
+    (hfinite : topologicalTrdeg K L < ⊤) :
+    topologicalTrdeg K L ≤ topologicalTrdeg K M := by sorry
+
+/-- `DiamondEtaleCohomology:C8/topological-trdeg-base-change`.
+The density hypothesis concerns the relative algebraic closure of the compositum in L'.
+It is neither an arbitrary square nor a requirement that the bare compositum be dense. -/
+theorem topological_trdeg_base_change
+    (K' L' : Type u) [NontriviallyNormedField K'] [NontriviallyNormedField L']
+    [CompleteSpace K'] [CompleteSpace L'] [IsUltrametricDist K'] [IsUltrametricDist L']
+    [IsAlgClosed K'] [IsAlgClosed L']
+    [Algebra K K'] [Algebra K L] [Algebra K L'] [Algebra K' L'] [Algebra L L']
+    [IsScalarTower K K' L'] [IsScalarTower K L L']
+    (hKK' : Isometry (algebraMap K K')) (hKL : Isometry (algebraMap K L))
+    (hK'L' : Isometry (algebraMap K' L')) (hLL' : Isometry (algebraMap L L'))
+    (hd : Dense {x : L' |
+      IsAlgebraic (IntermediateField.adjoin L (Set.range (algebraMap K' L'))) x}) :
+    topologicalTrdeg L L' ≤ topologicalTrdeg K K' := by sorry
+end CompleteFields
+
+/-- Isometric complete algebraically closed extension data at a fixed universe (C8.10). -/
+structure CompleteACExtension (K L : Type u)
+    [NontriviallyNormedField K] [NontriviallyNormedField L] [Algebra K L] where
+  Field : Type u
+  normedField : NontriviallyNormedField Field
+  complete : @CompleteSpace Field normedField.toUniformSpace
+  ultrametric : @IsUltrametricDist Field normedField.toDist
+  algebraicallyClosed : @IsAlgClosed Field normedField.toField
+  algebraK : Algebra K Field
+  algebraL : Algebra L Field
+  tower : @IsScalarTower K L Field _ _ algebraK.toSMul
+  isometry : Isometry (@algebraMap L Field _ _ algebraL)
+
+attribute [instance] CompleteACExtension.normedField CompleteACExtension.complete
+  CompleteACExtension.ultrametric CompleteACExtension.algebraicallyClosed
+  CompleteACExtension.algebraK CompleteACExtension.algebraL CompleteACExtension.tower
+
+section ModifiedFields
+variable (K L : Type u) [NontriviallyNormedField K] [NontriviallyNormedField L]
+variable [CompleteSpace K] [CompleteSpace L] [IsUltrametricDist K] [IsUltrametricDist L]
+variable [IsAlgClosed K] [IsAlgClosed L] [Algebra K L]
+
+/-- `DiamondEtaleCohomology:C8/modified-topological-trdeg`. -/
+def modifiedTopologicalTrdeg (K L : Type u)
+    [NontriviallyNormedField K] [NontriviallyNormedField L] [Algebra K L] : ℕ∞ :=
+  ⨅ (n : ℕ) (_ : ∃ E : CompleteACExtension K L, topologicalTrdeg K E.Field ≤ n), (n : ℕ∞)
+
+/-- The identity further extension is an actual witness (C8.10). -/
+example (hKL : Isometry (algebraMap K L)) :
+    ∃ E : CompleteACExtension K L, Nonempty (E.Field ≃ₐ[L] L) := by sorry
+
+/-- `DiamondEtaleCohomology:C8/modified-trdeg-finite-equality`.
+The finite-degree case does not assert an answer to Question 21.4. -/
+theorem modifiedTopologicalTrdeg_eq_of_lt_top (hKL : Isometry (algebraMap K L))
+    (hfinite : topologicalTrdeg K L < ⊤) :
+    modifiedTopologicalTrdeg K L = topologicalTrdeg K L := by sorry
+
+/-- `DiamondEtaleCohomology:C8/modified-trdeg-tower`. -/
+theorem modified_topological_trdeg_tower
+    (M : Type u) [NontriviallyNormedField M] [CompleteSpace M]
+    [IsUltrametricDist M] [IsAlgClosed M] [Algebra L M] [Algebra K M]
+    [IsScalarTower K L M]
+    (hKL : Isometry (algebraMap K L)) (hLM : Isometry (algebraMap L M)) :
+    modifiedTopologicalTrdeg K M ≤
+      modifiedTopologicalTrdeg L M + modifiedTopologicalTrdeg K L := by sorry
+
+/-- `DiamondEtaleCohomology:C8/modified-trdeg-base-change`. -/
+theorem modified_topological_trdeg_base_change
+    (K' L' : Type u) [NontriviallyNormedField K'] [NontriviallyNormedField L']
+    [CompleteSpace K'] [CompleteSpace L'] [IsUltrametricDist K'] [IsUltrametricDist L']
+    [IsAlgClosed K'] [IsAlgClosed L']
+    [Algebra K K'] [Algebra K L'] [Algebra K' L'] [Algebra L L']
+    [IsScalarTower K K' L'] [IsScalarTower K L L']
+    (hKK' : Isometry (algebraMap K K')) (hKL : Isometry (algebraMap K L))
+    (hK'L' : Isometry (algebraMap K' L')) (hLL' : Isometry (algebraMap L L'))
+    (hd : Dense {x : L' |
+      IsAlgebraic (IntermediateField.adjoin L (Set.range (algebraMap K' L'))) x}) :
+    modifiedTopologicalTrdeg L L' ≤ modifiedTopologicalTrdeg K K' := by sorry
+
+-- modifiedTopologicalTrdeg_identity
+example : modifiedTopologicalTrdeg K K = 0 := by sorry
+
+-- modifiedTopologicalTrdeg_zeroWitness
+example (E : CompleteACExtension K L) (hE : topologicalTrdeg K E.Field = 0) :
+    modifiedTopologicalTrdeg K L = 0 := by sorry
+
+-- modifiedTopologicalTrdeg_eq_one
+example (hKL : Isometry (algebraMap K L)) (h : topologicalTrdeg K L = 1) :
+    modifiedTopologicalTrdeg K L = 1 := by sorry
+
+end ModifiedFields
+
+section WildAutomorphisms
+open Filter
+open scoped Topology
+variable {p : ℕ} {C : Type u}
+variable [NontriviallyNormedField C] [CompleteSpace C]
+variable [IsUltrametricDist C] [IsAlgClosed C] [CharP C p]
+
+/-- `DiamondEtaleCohomology:C8/wild-automorphism`, ECD Lemma 21.17.
+The inequality is the literal trivial-action condition on leading multiplicative terms.
+Factorial-power convergence is an assumption, not inferred merely from continuity. -/
+theorem wild_automorphism (hp : p.Prime) (γ : C ≃+* C) (hγ : Continuous γ)
+    (hfactorial : ∀ x : C,
+      Tendsto (fun n : ℕ => (γ ^ Nat.factorial n) x) atTop (𝓝 x))
+    (hleading : ∀ x : C, x ≠ 0 → ‖γ x / x - 1‖ < 1) :
+    ∀ x : C, Tendsto (fun n : ℕ => (γ ^ (p ^ n)) x) atTop (𝓝 x) := by sorry
+
+/-- `DiamondEtaleCohomology:C8/wild-kernel-pro-p`, the first step of ECD 21.16.
+P is identified by its actual membership condition, not an opaque wildness proposition.
+Faithfulness excludes an invisible non-pro-p kernel in the action. -/
+theorem wild_kernel_pro_p (hp : p.Prime)
+    {G : Type v} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    [CompactSpace G] [T2Space G] [TotallyDisconnectedSpace G]
+    (ρ : G →* (C ≃+* C)) (hfaithful : Function.Injective ρ)
+    (hact : Continuous (fun gx : G × C => ρ gx.1 gx.2))
+    (P : Subgroup G) (hclosed : IsClosed (P : Set G))
+    (hP : ∀ g : G, g ∈ P ↔ ∀ x : C, x ≠ 0 → ‖ρ g x / x - 1‖ < 1) :
+    TauCeti.IsProP p P := by sorry
+
+-- Negative control: identity automorphism satisfies both convergence conclusions.
+example (x : C) :
+    Tendsto (fun n : ℕ => ((RingEquiv.refl C) ^ Nat.factorial n) x) atTop (𝓝 x) ∧
+      Tendsto (fun n : ℕ => ((RingEquiv.refl C) ^ (p ^ n)) x) atTop (𝓝 x) := by sorry
+
+-- Negative control: the leading-term condition omits zero, where division is totalized.
+example : ¬ ‖(RingEquiv.refl C) 0 / (0 : C) - 1‖ < 1 := by sorry
+end WildAutomorphisms
+
+section SpecializationChains
+open CategoryTheory
+open scoped Simplicial
+variable (X : Type u) [TopologicalSpace X]
+
+/-- The degree-n tuples satisfying specialization in the original topology (C8.42). -/
+abbrev SpecializationChain (X : Type u) [TopologicalSpace X] (n : ℕ) : Type u :=
+  {c : Fin (n + 1) → WithConstructibleTopology X //
+    ∀ i j, i ≤ j →
+      Specializes (WithTopology.ofTopology (c i) : X) (WithTopology.ofTopology (c j) : X)}
+
+-- specializationChainSpace_empty
+example [IsEmpty X] (n : ℕ) : IsEmpty (SpecializationChain X n) := by sorry
+
+-- On a discrete space every specialization chain is constant.
+example [DiscreteTopology X] (n : ℕ) (c : SpecializationChain X n)
+    (i j : Fin (n + 1)) : c.val i = c.val j := by sorry
+
+-- specializationChainSpace_twoPointChain: Prop with Mathlib's Sierpinski topology.
+example :
+    (∃! c : SpecializationChain Prop 1, Function.Injective c.val) ∧
+      ¬ ∃ c : SpecializationChain Prop 2, Function.Injective c.val := by sorry
+
+/-- The first vertex changes when face zero deletes it (C8.42). -/
+example : ∃ c : SpecializationChain Prop 1, c.val 0 ≠ c.val 1 := by sorry
+
+end SpecializationChains
+
+section Specialization
+attribute [local instance] specializationOrder
+
+-- DiamondEtaleCohomology:C8/specialization-dimension
+theorem specialization_dimension (X : Type u) [TopologicalSpace X]
+    [QuasiSober X] [T0Space X] :
+    topologicalKrullDim X = Order.krullDim X := by sorry
+end Specialization
+
+section SpectralCohomology
+attribute [local instance] HasExt.standard
+
+/-- DiamondEtaleCohomology:C8/spectral-cohomological-bound (Scheiderer's bound).
+The quasi-augmented comparison and normalized-support result of C8.43 give this bound.
+`Sheaf.H` is the pinned cohomology API. -/
+theorem spectralCohomologicalBound (X : TopCat.{u}) [SpectralSpace X] (d : ℕ)
+    (hd : topologicalKrullDim X ≤ (d : WithBot ℕ∞))
+    (F : TopCat.Sheaf AddCommGrpCat.{u} X) (i : ℕ) (hi : d < i) :
+    Subsingleton (Sheaf.H.{u+1} F i) := by sorry
+
+end SpectralCohomology
+
+/-
+The README also specifies the valuation-ring comparison in C5.7 and
+IsConstFGOn.iff_exists in C7.1.
+The README specifies additional APIs: C7.11 includes HasFiltrationBy.of_mem; C7.1 includes
+IsConstructibleSheaf.extendByZero_open, IsConstructibleSheaf.iff_compact,
+IsConstructibleSheaf.stalk_fg and the checks isConstructibleSheaf_finite_T0 and
+isConstructibleSheaf_not_qc_open. C8.2 includes fibreDimension_eq_iSup,
+fibreDimension_le_iff and fibreDimension_identity. C8.3 includes topologicalTrdeg_le_iff,
+topologicalTrdeg_le_of_dense, topologicalTrdeg_eq_top_iff, topologicalTrdeg_self,
+topologicalTrdeg_equiv, topologicalTrdeg_self_test and topologicalTrdeg_discrete_one.
+C8.4 includes topologicalIndependenceDegree_le_iff and topologicalIndependenceDegree_self.
+C8.10 includes modifiedTopologicalTrdeg_le_iff, modifiedTopologicalTrdeg_le,
+modifiedTopologicalTrdeg_mono, modifiedTopologicalTrdeg_equiv and the checks
+modifiedTopologicalTrdeg_noFiniteWitness, modifiedTopologicalTrdeg_vsOriginal and
+modifiedTopologicalTrdeg_eq_zero_iff_surjective. Their mathematical contracts and the
+chain-space construction, quasi-augmentation and nondegeneracy theorem are in those sections.
+-/
+
+end TauCeti.DiamondEtale
