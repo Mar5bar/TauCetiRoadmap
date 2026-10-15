@@ -319,4 +319,77 @@ theorem veronese_fibers (x y : EuclideanSpace ℝ (Fin 3))
 
 end Veronese
 
+section FiniteBrokenGeodesics
+
+variable {M : Type*} [PseudoMetricSpace M] {n : ℕ}
+
+/-- Insert the two fixed endpoints into a finite tuple of interior vertices. -/
+def brokenNode (p q : M) (v : Fin n → M) (i : Fin (n + 2)) : M :=
+  if h₀ : i.val = 0 then p
+  else if h₁ : i.val = n + 1 then q
+  else v ⟨i.val - 1, by omega⟩
+
+omit [PseudoMetricSpace M] in
+@[simp] theorem brokenNode_first (p q : M) (v : Fin n → M) :
+    brokenNode p q v 0 = p := by simp [brokenNode]
+
+omit [PseudoMetricSpace M] in
+@[simp] theorem brokenNode_last (p q : M) (v : Fin n → M) :
+    brokenNode p q v (Fin.last (n + 1)) = q := by simp [brokenNode]
+
+@[fun_prop] theorem continuous_brokenNode (p q : M) (i : Fin (n + 2)) :
+    Continuous (fun v : Fin n → M => brokenNode p q v i) := by
+  unfold brokenNode
+  split_ifs <;> fun_prop
+
+/-- R3's distance energy is defined before geodesic interpolation or smoothness. -/
+def brokenDiscreteEnergy (p q : M) (t : Fin (n + 2) → ℝ) (v : Fin n → M) : ℝ :=
+  (1 / 2 : ℝ) * ∑ j : Fin (n + 1),
+    dist (brokenNode p q v j.castSucc) (brokenNode p q v j.succ) ^ 2 /
+      (t j.succ - t j.castSucc)
+
+@[fun_prop] theorem continuous_brokenDiscreteEnergy (p q : M)
+    (t : Fin (n + 2) → ℝ) : Continuous (brokenDiscreteEnergy p q t) := by
+  unfold brokenDiscreteEnergy
+  fun_prop
+
+/-- The actual open finite-vertex domain has a strict energy cutoff. -/
+def brokenEnergyDomain (p q : M) (t : Fin (n + 2) → ℝ) (c : ℝ) : Set (Fin n → M) :=
+  {v | brokenDiscreteEnergy p q t v < c}
+
+theorem isOpen_brokenEnergyDomain (p q : M) (t : Fin (n + 2) → ℝ) (c : ℝ) :
+    IsOpen (brokenEnergyDomain p q t c) :=
+  isOpen_lt (continuous_brokenDiscreteEnergy p q t) continuous_const
+
+theorem brokenDiscreteEnergy_edge_bound (p q : M) (t : Fin (n + 2) → ℝ)
+    (hΔ : ∀ j : Fin (n + 1), 0 < t j.succ - t j.castSucc)
+    (v : Fin n → M) (j : Fin (n + 1)) :
+    dist (brokenNode p q v j.castSucc) (brokenNode p q v j.succ) ^ 2 ≤
+      2 * brokenDiscreteEnergy p q t v * (t j.succ - t j.castSucc) := by
+  have hs := Finset.single_le_sum (s := Finset.univ)
+    (f := fun k : Fin (n + 1) =>
+      dist (brokenNode p q v k.castSucc) (brokenNode p q v k.succ) ^ 2 /
+        (t k.succ - t k.castSucc))
+    (fun k _ => div_nonneg (sq_nonneg _) (hΔ k).le) (Finset.mem_univ j)
+  have he : dist (brokenNode p q v j.castSucc) (brokenNode p q v j.succ) ^ 2 /
+      (t j.succ - t j.castSucc) ≤ 2 * brokenDiscreteEnergy p q t v := by
+    unfold brokenDiscreteEnergy
+    linarith
+  exact (div_le_iff₀ (hΔ j)).mp he
+
+theorem brokenEnergyDomain_edge_lt (p q : M) (t : Fin (n + 2) → ℝ)
+    (hΔ : ∀ j : Fin (n + 1), 0 < t j.succ - t j.castSucc)
+    {c ρ : ℝ} (hρ : 0 < ρ)
+    (hmesh : ∀ j : Fin (n + 1), 2 * c * (t j.succ - t j.castSucc) < ρ ^ 2)
+    {v : Fin n → M} (hv : v ∈ brokenEnergyDomain p q t c) (j : Fin (n + 1)) :
+    dist (brokenNode p q v j.castSucc) (brokenNode p q v j.succ) < ρ := by
+  have he := brokenDiscreteEnergy_edge_bound p q t hΔ v j
+  have hc := mul_lt_mul_of_pos_right
+    (mul_lt_mul_of_pos_left hv (by norm_num : (0 : ℝ) < 2)) (hΔ j)
+  have hb := lt_of_le_of_lt he (lt_trans hc (hmesh j))
+  nlinarith [dist_nonneg (x := brokenNode p q v j.castSucc)
+    (y := brokenNode p q v j.succ)]
+
+end FiniteBrokenGeodesics
+
 end TauCetiRoadmap.RiemannianGeometry

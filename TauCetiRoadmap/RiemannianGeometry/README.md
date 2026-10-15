@@ -90,6 +90,12 @@ Consume these exact suppliers:
   interval weak-derivative/absolutely-continuous comparison needed for paths. K7.1 supplies
   the smooth complex projective carrier used by R1; K7.2 supplies its normalized
   Fubini–Study form. PDO P1.0 supplies formal differential adjoints.
+- [PDE A.1–6/D16–19/E20–22](../PDE/README.md) and
+  [VariationalMethods V2.4/V3–V5.2](../VariationalMethods/README.md): Sobolev,
+  trace, energy/interior estimates and abstract closed-form/represented-operator
+  theory for R5b's normal-Jacobi Dirichlet specialization. R5b constructs its
+  boundary H² estimate and exact operator domain; these are not supplied by
+  closed-manifold PDO/K5a or PDE E's interior regularity theorem.
 - [GeneralizedCohomology G4.0b](../GeneralizedCohomology/README.md#g4-generalized-lerayhirsch-thom-and-euler-theory):
   smooth quaternionic projective and Stiefel carriers, the smooth Hopf
   quotient submersion and its classical homogeneous-space diffeomorphism.
@@ -145,13 +151,13 @@ MorseTheory M2 owns ordinary attachments and M5 owns the abstract
 finite-dimensional Morse–Bott theorem.
 [DGFloer](../DGFloer/README.md) consumes R2–R3 for generic Jacobi/index/path
 geometry and owns free-loop extensions and CP/HP applications on the same
-admissible-radius finite-vertex carrier. R3 owns the round-sphere antipodal
+finite-vertex carriers and short-segment interpolation. R3 owns the round-sphere antipodal
 Morse–Bott calculation below.
 
 [RicciFlow](../RicciFlow/README.md) owns the differentiable sphere theorem and
 Hamilton's three-dimensional positive-Ricci theorem. [AffineMorseLefschetz](../AffineMorseLefschetz/README.md)
 owns the complex shape-operator and affine Lefschetz applications; it consumes
-R5–R6's real immersion/focal APIs. R3 owns the Morse proof and normalized
+R5a/R6's real immersion/focal APIs. R3 owns the Morse proof and normalized
 suspension-map comparison for sphere Freudenthal connectivity.
 
 ## R1. Intrinsic curvature calculus and normal-coordinate jets
@@ -383,20 +389,44 @@ curve on [a,b], prove Cauchy–Schwarz
 For b>a prove equality exactly when the speed is constant almost everywhere,
 including the zero-speed case.
 
-For a complete manifold with its given smooth Riemannian metric, fixed endpoints
-and energy bound c, construct the open finite vertex manifold of broken geodesics.
-Write the carrier as the open set of tuples (x₁,…,x_(r−1)) in M^(r−1),
-with x₀=p, x_r=q and dist(x_(j−1),x_j)<ρ for each j.
-Parametrize the single carrier by a positive admissible radius on the compact
-endpoint-centered ball: choose it below the given metric's uniform normal and
-strong-convexity radius bounds from SBC B6.0. On compact M also construct
-a single global admissible radius over all of M, used by the closed-loop
-consumer. These bounds precede R4's injectivity-radius function. Consecutive vertices satisfy the resulting
-short-distance condition, with smooth dependence of the segment on both endpoints
-from SBC B6.0.
-Prove restriction/refinement for smaller admissible radii; DGFloer's closed-loop
-consumer uses this same parameterized carrier. Choose a subdivision using the energy
-bound and compact endpoint-centered distance ball; prove the energy-cutoff path
+For a connected complete manifold with its given smooth Riemannian metric, fixed endpoints
+p,q, a positive energy bound c and subdivision t₀<⋯<t_r, put T=t_r−t₀>0.
+Define the continuous discrete energy on all finite tuples first:
+`E_Δ(x₁,…,x_(r−1))=½Σ_(j=1)^r dist(x_(j−1),x_j)²/(t_j−t_(j−1))`,
+with x₀=p and x_r=q. The finite vertex manifold is the open subset
+`E_Δ<c` of M^(r−1). Prove openness from continuity of distance before
+constructing any short-geodesic interpolation.
+
+Prove discrete Cauchy–Schwarz and the triangle estimate
+`dist(p,x_j)≤Σ_(i=1)^j dist(x_(i−1),x_i)≤√(2T E_Δ)<√(2Tc)`.
+Define admissibility `Adm(c,t)` to mean: c>0, t is strictly increasing
+with these endpoints, and there exist ρ>0 and a compact closed ball
+centered at p with radius greater than `√(2Tc)+ρ`, on which ρ is below
+SBC B6.0's uniform normal/strong-convexity bounds, with
+`max_j(t_j−t_(j−1))<ρ²/(2c)`. Hopf–Rinow properness and B6.0
+supply such bounds; sufficiently fine subdivisions are admissible. Prove
+admissibility is preserved under decreasing the positive cutoff and
+under subdivision refinement with the same time endpoints. Each
+nonnegative energy summand then
+gives `dist(x_(j−1),x_j)²≤2E_Δ(t_j−t_(j−1))<ρ²`.
+Specify the open pair-normal domain
+`{(x,y):x∈B(p,√(2Tc)), dist(x,y)<ρ}`, including its diagonal.
+B6.0 supplies smooth logarithms/segments there using the larger compact
+ball and its margin. Thus each edge in the energy carrier belongs to
+this domain. Only then construct the unique short minimizing
+segments and prove smooth dependence on both endpoints using SBC B6.0.
+For compact M also construct one global radius supplying smooth short
+segments for every pair at distance<ρ. DGFloer owns its closed-loop
+energy-cut and distance-cut carriers using that interpolation. These
+compact-set radius bounds precede R4's injectivity-radius function.
+
+For two admissible subdivisions with one refining the other, construct
+the geodesic-insertion map from coarse to fine and vertex-forgetting map
+from fine to coarse. Prove insertion preserves discrete energy exactly
+and forgetting does not increase it. Compare cutoffs by inclusion, and
+prove these maps and their homotopies commute with further refinement;
+different finite products are related by maps, not identified as subsets.
+Prove the energy-cutoff path
 sublevel deformation retracts to the corresponding broken-geodesic sublevel by
 straightening each segment, with continuity and nonincreasing energy. Prove every
 compact family in the piecewise C¹/H¹ path topology is captured by some
@@ -407,8 +437,11 @@ Construct CP^d/HP^d examples using R1's normalized Hopf-submersion metrics.
 The general finite-vertex construction takes any complete smooth metric as
 input, including R1's complete invariant metrics.
 Prove that critical points of the energy on the finite vertex manifold are
-exactly the unbroken geodesics and that its Hessian is R3's node-value index
-matrix (Milnor 16.2–16.3). The general Jacobi/index APIs are supplied here.
+in bijection with geodesics p→q on [t₀,t_r] of energy<c, in both
+directions, and that the Hessian is R3's node-value index matrix (Milnor
+16.2–16.3). Prove every admissible subdivision satisfies the strongly
+convex subdivision hypothesis of that reduction at every such geodesic.
+The general Jacobi/index APIs are supplied here.
 Consume MorseTheory M1–M2's native critical-point/index/chart comparisons,
 compact-band deformation and simultaneous finite critical-level cell attachments
 (Milnor Theorems 3.1–3.5 and Remark 3.4). Verify their compact-band hypotheses
@@ -417,7 +450,7 @@ homotopies commute with the path-space and subdivision comparisons. R4 consumes
 the same supplier for its no-critical-value/minimax step.
 
 For every strict energy cutoff a<c prove compactness of its sublevel inside
-the c-admissible carrier. For nonconjugate endpoints derive that critical
+the open carrier E_Δ<c of an Adm(c,t) subdivision. For nonconjugate endpoints derive that critical
 points are nondegenerate and isolated, and that there are finitely many in
 each compact band and countably many overall. Prove Milnor Theorem 17.3: a CW
 model with one λ-cell per geodesic of index λ. Consume MorseTheory M2's
@@ -662,6 +695,8 @@ its canonical volume or three-dimensional geometric-structure objects.
 
 ## R5. Isometric immersions and minimal geometry
 
+### R5a. Immersion geometry and first variation
+
 For a smooth isometric immersion f:M→N, construct the tangent/normal orthogonal
 splitting of f*TN and the pullback ambient connection. For embeddings compare the
 orthogonal-complement normal bundle, topology and smooth structure literally with
@@ -682,6 +717,44 @@ For tangent X,Y,Z,W and normal η,ξ pin
 `(R^N(X,Y)Z)^⊥=(∇^⊥_X B)(Y,Z)−(∇^⊥_Y B)(X,Z)`, and
 `⟨R^⊥(X,Y)η,ξ⟩=⟨R^N(X,Y)η,ξ⟩+⟨[S_η,S_ξ]X,Y⟩`,
 with the normal covariant derivative of B also differentiating its tangent slots.
+
+#### R5a.1. Orientation-free C² relative volume
+
+Own `volumeVariation_isContDiff` on these same immersion carriers,
+without requiring orientability of the source P. Take a jointly smooth
+family of immersions F_t:P→N, F_0=f, for t in an open interval about 0.
+For compact P, including smooth boundary or corners, impose no support restriction
+on the family for this C² regularity theorem. For noncompact P require F_t=f
+outside one fixed compact subset of the interior, uniformly in that interval. Use the native
+orientation-free measure `TauCeti.riemannianVolume` for g_0=f*g_N.
+Define the positive relative density J_t by the square root of the
+Gram determinant of g_t=F_t*g_N relative to g_0, and prove
+`dvol_(g_t)=J_t dvol_(g_0)`. Prove chart/basis independence, compatibility
+with DG12's volume densities and with the positive oriented volume form
+when an orientation is chosen. This is a density comparison on the same
+metric, not a second Riemannian measure.
+
+On each compact parameter subinterval, use compactness of P (in the compact
+case), or of the fixed variation support (in the noncompact case), and positivity
+for uniform lower Gram and parameter-derivative bounds. Prove the relative-volume functional
+`V(t)=∫_P(J_t−1) dvol_(g_0)` is C² and compute its first two derivatives
+by differentiation under the integral. On a compact source compare it to
+`Vol(F_t)−Vol(F_0)`. On a noncompact source J_t−1 and its relevant derivatives
+have the fixed compact support, so V is finite without finite total volume.
+The compact case includes pointwise fixed-boundary families F_t|∂P=f|∂P
+without requiring them to be fixed on a collar; the C² regularity assertion also
+allows moving boundary values and asserts no boundary-variation formula.
+Compact interior support on noncompact sources and its smooth-domain restrictions
+retain the support-away-from-boundary hypothesis. State explicit mixed parameter/
+spatial regularity hypotheses for any finite-regularity extension; joint
+smoothness supplies all required derivatives here.
+
+This construction uses only native metric/volume calculus, DG12 and the
+earlier immersion carriers. R5a.2's first variation and R5b's Hessian use this
+same relative-volume functional. CalibratedGeometry C3 consumes its C²
+dependence and supplies the comparison with C2's oriented chain integration.
+
+#### R5a.2. First variation and immersion examples
 
 Build the principal-curvature and averaged-H APIs; prove total geodesicity iff
 B=0 and hence minimality. For compact boundaryless immersions, and for
@@ -723,6 +796,81 @@ needed ODE limit estimates rather than inferring derivative limits from
 bounded monotonicity. Prove its vertex has no conjugate points by explicit
 radial/rotational exponential variations despite positive K.
 
+### R5b. General normal second variation and hypersurface stability
+
+This item consumes R5a's immersion geometry, R5a.1's orientation-free
+C² relative-volume lemma and R5a.2's first variation. CalibratedGeometry C3
+also consumes R5a.1; R5b has no CalibratedGeometry input. No current,
+minimizing-regularity or positive-mass theorem is an input here.
+
+For a smooth minimal isometric immersion f:P^m→N and smooth compactly
+supported normal fields V,W, construct their smooth normal variations
+using the pullback normal bundle and the ambient exponential on its
+actual local domain. The sources may be nonorientable. On noncompact P,
+vary only a compact region containing the variation support and use R5a.1's
+relative-volume functional rather than a possibly infinite total volume.
+For sources with boundary use variations fixed on a neighborhood of that
+boundary. Prove acceleration independence at minimality and the polarized
+second-volume-variation formula `minimalNormalSecondVariation`:
+
+`Q(V,W)=∫[⟨∇⊥V,∇⊥W⟩−Σ_i⟨R^N(V,e_i)e_i,W⟩`
+`−Σ_ij⟨B(e_i,e_j),V⟩⟨B(e_i,e_j),W⟩] dvol_P`.
+
+Prove frame independence, symmetry, compact-support locality, smooth
+isometry transport and the actual normal Jacobi differential operator,
+its ellipticity, principal symbol and formal self-adjointness. Stability
+means Q(V,V)≥0 for every such normal section. Do not identify normal
+sections with scalar functions unless a global unit normal is supplied.
+
+For a two-sided hypersurface choose a smooth unit normal ν, set
+`A(X,Y)=⟨B(X,Y),ν⟩`, and construct `hypersurfaceJacobiOperator`
+`L=Δ⁺−(|A|²+Ric_N(ν,ν))`. Prove
+`Q(φν,ψν)=∫[⟨∇φ,∇ψ⟩−(|A|²+Ric_N(ν,ν))φψ]=∫φ Lψ`.
+With R5a's B convention, the derivative of trace scalar mean curvature
+at a minimal hypersurface is `−Lφ`; that of the averaged scalar mean
+curvature is `−Lφ/m`, m>0. Prove these actual linearizations, normal-reversal
+and orientation independence. On a one-sided hypersurface give the normal
+line-bundle form and its double-cover scalar description with deck-odd
+sections, not the scalar inequality for every function on the cover.
+
+Prove the W¹,²_0 quadratic-form extension on relatively compact smooth
+domains and its agreement with the smooth form. Consume PDE A.1–6/D16–19/
+E20–22's Sobolev, trace and bounded-domain elliptic/Dirichlet estimates, and
+VariationalMethods V2.4/V3–V5.2's abstract closed semibounded form and represented-
+operator theory. Own their finite-chart Riemannian normal-bundle specialization:
+actual metric/connection weights, trace-compatible transitions, bounded curvature
+potential, coercive shift, form closure and compact embedding. Construct the
+Dirichlet self-adjoint realization, domain/regularity comparison, compact resolvent
+and variational eigenvalue/index statements on those compact domains. This is not
+another generic form/spectral theory; CKG K5a retains compact-boundaryless bundle
+Laplace theory and PDO P5/P6 does not supply a Dirichlet boundary theorem.
+Own `normalJacobi_boundaryH2Estimate` on a relatively compact smooth domain D
+with smooth boundary and the actual smooth normal bundle/connection. For its
+normal Jacobi operator L, a weak u∈W¹,²₀ with Lu=f∈L² satisfies
+`‖u‖_(W²,²)≤C(‖f‖_(L²)+‖u‖_(L²))`. Construct the finite-chart bundle W²,²
+carrier and equivalent transition/trace norms. Prove the boundary estimate by
+smooth boundary flattening, localized tangential difference quotients and the
+first-order energy estimate; control connection/metric commutators and recover
+the second normal derivative from the uniformly elliptic normal coefficient.
+The principal symbol is the scalar metric symbol times the identity. This
+boundary H² theorem is a target here, not an assumed PDE E theorem.
+Own `normalJacobi_dirichletDomain_eq_sobolevTwo_inter_zeroTrace`: the represented
+Dirichlet operator has domain exactly W²,²(D;ν)∩W¹,²₀(D;ν), with graph norm
+equivalent to W²,². Compare it with the smooth differential operator and give
+interior/up-to-boundary higher regularity for smooth data by the same chart
+argument. No global Fredholm claim on arbitrary noncompact P is inferred.
+
+Own `minimalHypersurface_scalarGauss` with full scalar curvature:
+`Scal_P=Scal_N−2Ric_N(ν,ν)+(tr A)²−|A|²`, and
+`minimalHypersurface_stability_fullScalar`: at minimality stability is
+`∫(2|∇φ|²+Scal_P φ²)≥∫(Scal_N+|A|²)φ²`.
+In dimension 2, `Scal_P=2K`, so the ambient full scalar appears with
+coefficient 1/2 in the equivalent surface inequality. Boundary/free-boundary
+formulas require their own stated variation class and outward/normal
+second-fundamental-form signs; the compactly supported interior formula
+does not silently include them. CalibratedGeometry C6 retains its special
+Lagrangian/Hodge Hessian identity on its existing carrier.
+
 ## R6. Focal geometry and squared-distance Morse functions
 
 Use the actual normal exponential on its open natural domain
@@ -731,7 +879,7 @@ normal-exponential definition and local tube.
 Consume GT’s natural-domain openness and smoothness, proved using the shared
 expDomain and tangent-bundle exponential lemmas. For complete ambient N the
 domain is all of νM. R6 owns focal critical-point and index/Hessian geometry.
-For general immersions use R5’s pullback normal bundle and the same ambient
+For general immersions use R5a’s pullback normal bundle and the same ambient
 exponential formula, comparing the embedding specialization to GT literally.
 Define a focal point as a critical domain point, with multiplicity the kernel
 dimension there; the focal set in N is the image of those points. Distinct
@@ -772,7 +920,7 @@ an arbitrary nonclosed embedding does not give a proper exhaustion.
 Consume GeometricTopology Layer 1's direct C² chart lemmas
 `euclideanChartSquaredDistanceHessian` and
 `euclideanChartNormalDerivativePairing`. Compare their chart second derivatives
-with R5's intrinsic B/S and normal connection, proving the Euclidean Hessian
+with R5a's intrinsic B/S and normal connection, proving the Euclidean Hessian
 and normal-exponential derivative-block formulas on that shared normal bundle.
 GT owns the scaled-positive-Hessian argument and inversion for every ε>0
 injective normal tube of a closed-image Euclidean embedding, with C¹ inverse
@@ -937,12 +1085,14 @@ formulas; R3's projective examples consume those metrics and R2. SBC B6.0
 precedes R3's finite-vertex choice and R4.6's injectivity-radius consequence.
 R4's comparison theorems use R1–R3; construct R4.6's cut-locus/nullity part before R4.1's
 polar integration, and supply OT Layer 7's geometric injectivity/cut-locus objects; geodesic multiplicity uses R3’s finite approximation and the
-R3/AT8.11a ordinary path carrier and DGFloer's standing Moore comparison. R5 uses the shared
-bundle/normal interfaces and R1; R6's Euclidean comparison follows R5 and
+R3/AT8.11a ordinary path carrier and DGFloer's standing Moore comparison. R5a uses the shared
+bundle/normal interfaces and R1; R5a.1's density lemma precedes R5a.2 and R5b.
+R5b additionally uses PDE and VariationalMethods, with no CalibratedGeometry
+input. R6's Euclidean comparison follows R5a and
 consumes GT Layer 1's chart Hessian/normal-derivative pairing. GT's nearest-point
 theorem has no R6 input. General
-R6 focal/Jacobi/index theory then uses R2–R3/R5 and R4.2’s moving-endpoint comparison. R7 uses R1, DG/SBC, PDO P1 and K5a;
-R8 uses R5/R7, R4.7’s RP² quotient, and K5a/classical groups.
+R6 focal/Jacobi/index theory then uses R2–R3/R5a and R4.2’s moving-endpoint comparison. R7 uses R1, DG/SBC, PDO P1 and K5a;
+R8 uses R5a/R7, R4.7’s RP² quotient, and K5a/classical groups.
 TopK T6.6 precedes R1's projective comparison; CC C2.0, GT's marked
 triangulation and AT's early §3A.1 mapping-CW targets precede R3. Spin
 G1.2/G2.2/G3.4 precede R7's Clifford/de Rham calculations, while the later
@@ -950,6 +1100,10 @@ Spin Dirac/index consumers follow R7.8.
 Give every object identity/linearity/regularity/naturality and local-to-global
   comparison lemmas before its headline theorem. Compile prototypes against the
 real Tau Ceti imports; remove supplier mirrors when the actual API is available.
+
+The smooth normal-variation order is immersion geometry → R5a.1 density calculus
+→ R5a.2/R5b. CalibratedGeometry C3 consumes R5a.1; neither its calibrated
+minimization nor GeometricCurrents regularity enters R5b.
 
 ## References and source provenance
 
@@ -964,8 +1118,8 @@ real Tau Ceti imports; remove supplier mirrors when the actual API is available.
 - Z. Wang, [Riemannian geometry notes](https://xumin.net/c/files/riemannian_geometry.pdf),
   as recorded by X. Liang, Chapters 5–6, provides an accessible finite
   piecewise-Jacobi index reduction and comparison reference.
-- U. Semmelmann and G. Weingart,
-  [Bochner–Weitzenböck formulas and curvature actions](https://arxiv.org/abs/math/0307022),
+- Y. Homma,
+  [Bochner–Weitzenböck formulas and curvature actions on Riemannian manifolds](https://arxiv.org/abs/math/0307022),
   for the curvature-action/spectral form of the Weitzenböck potential.
 - D. Azagra, J. Ferrera, F. López-Mesas and Y. Rangel,
   [*Smooth approximation of Lipschitz functions on Riemannian manifolds*](https://arxiv.org/abs/math/0602051),
