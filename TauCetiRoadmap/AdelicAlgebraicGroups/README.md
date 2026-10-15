@@ -3310,8 +3310,8 @@ cannot replace the reduced norm in the defining equation.
 ### 3.7 Subgroup containment and orbit maps
 
 All groups in this subsection are connected reductive algebraic groups over `ℚ`;
-real points may be disconnected. The objects below are specified in the README only
-(no Lean declaration).
+real points may be disconnected. The general objects below are specified in the README only;
+`Suggested.lean` includes matrix examples for the compact norm-one torus.
 
 An algebraic Cartan datum on a group with coordinate algebra `B` specifies a faithful rational
 matrix representation `ρ`, a positive
@@ -3370,12 +3370,14 @@ An empty window gives an empty domain; the domain contains `1` when `1∈Ω` and
 `t≤1`; it is `AK` when roots are absent and `Ω={1}`.
 
 An embedding of groups with coordinate algebras `B` and `H` is a surjective coordinate bialgebra
-map `B→H`, with its point maps. Compatibility of triples `T_H`, `T_G` along it requires compact and
-torus inclusion, `S_G∩H=S_H`, `N_H⊆N_G`, and a homomorphism
+map `B→H`, with its point maps. Compatibility of triples `T_H`, `T_G` along it requires compact
+inclusion `K_H⊆K_G`, torus inclusion `S_H⊆S_G`, `N_H⊆N_G`, and a homomorphism
 `res:X*(S_G)→X*(S_H)`. Its character equation is
 `χ_G(u_G⁻¹e(u_H s u_H⁻¹)u_G)=res(χ_G)(s)` for every real split-torus point.
 Thus restriction and the dual real-character-space map are fixed by the
-algebraic embedding; they are not independent maps of abstract root systems.
+algebraic embedding; they are not independent maps of abstract root systems. The ambient
+Cartan involution stabilises `S_H`. Full-torus intersections can have finite components
+outside `S_H`; character restriction uses the inclusion alone.
 [Orr], §§4.B–4.C, pp. 17–22; [Orr–Schnell], §§A,E.
 
 **Checks.** The identity embedding is the identity on every coefficient algebra; a
@@ -3383,6 +3385,23 @@ closed embedding is injective on points; the identity group has trivial image.
 For `H=G` the character restriction is the identity;
 a vanishing restriction evaluates to `1`;
 for `H=G_m` the root system is empty.
+
+**Checks for the compact norm-one torus.** Take `G=SL₂/ℚ` and
+`H=ker(N_{ℚ(i)/ℚ}:Res_{ℚ(i)/ℚ}G_m→G_m)`, embedded as
+`[[a,−b],[b,a]]` with `a²+b²=1`. Then `H(ℝ)=SO₂(ℝ)` is compact, `H` is
+`ℚ`-anisotropic, and its triple has `P_H=H`, `S_H=N_H=1`, `K_H=H(ℝ)`.
+The standard ambient Cartan involution fixes `H` pointwise. Direct matrix calculation
+in the standard `SL₂` triple gives:
+
+- `diag(t,t⁻¹)` belongs to `H(ℝ)` exactly when `t=±1`, so the full algebraic
+  intersection is `μ₂` while `S_H=1`.
+- `−I` belongs to `H` and to every full ambient maximal split torus: these tori
+  are real conjugates of the diagonal torus and `−I` is central. It is distinct from `I`.
+- With `Ω_H=H(ℝ)`, the subgroup domain is `SO₂(ℝ)` and lies in the standard ambient
+  domain with `Ω_G={1}` and threshold `1`; the positive ambient torus meets `H(ℝ)` in `{I}`.
+
+The matrix examples in `Suggested.lean` state the diagonal membership criterion, the
+nontrivial element `−I` in `SO₂(ℝ)`, and its invariance under conjugation.
 
 For the rational-split intermediate statements below, the hypothesis `u=1` on the subgroup
 triple chooses the
@@ -3454,10 +3473,13 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   (the general case reduces to this by conjugating with an element of `R_u(P_H)(ℝ)`, [Orr], §4.A,
   p. 16), and `K_G ⊂ G(ℝ)` maximal compact with `K_H ⊂ K_G` whose Cartan involution stabilises
   `S_H`, choose a parabolic `ℚ`-subgroup `Q ⊂ G` with Levi `Z_G(S_H)` and `N_H ⊂ R_u(Q)`, then a
-  minimal `P_G ⊂ Q`. Prove that its Cartan-stable Siegel torus `S_G` contains `S_H`, satisfies
-  `S_G ∩ H = S_H`, and `N_H ⊂ N_G` ([Orr], §4.B, Lemmas 4.2–4.6, pp. 17–19; [Orr–Schnell], §§A,E,
+  minimal `P_G ⊂ Q`. Prove that its Cartan-stable Siegel torus `S_G` contains `S_H` and
+  `N_H ⊂ N_G` ([Orr], §4.B, Lemmas 4.2–4.5, pp. 17–19; [Orr–Schnell], §§A,E,
   pp. 1232, 1236). *Needs:* AA.3.1; AA.3.2; ReductiveGroups, layer 7.
   *Lean:* none; specified in the README only.
+  **Checks.** For `H=G`, choose the original triple and `Q=P_H`; for the trivial subgroup,
+  take `Q=G` and any ambient minimal parabolic; for the compact norm-one torus above,
+  `Q=G`, `S_H=N_H=1`, and `S_G∩H=μ₂`.
 - **Finite root-cone comparison.** (*containment-finite-root-cones*) In the notation and under
   the hypotheses of *containment-parabolic-torus* (`S_H` `ℚ`-split, `K_H ⊂ K_G`, Cartan
   involution of `K_G` stabilising `S_H`), with `Z = Z_G(S_H)`, `N_Z = R_u(P_G ∩ Z)` and `t > 0`,
@@ -3467,6 +3489,9 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   §4.C, Proposition 4.7 and Lemmas 4.8–4.9, pp. 19–22; [Orr–Schnell], §§A,E, pp. 1232, 1236).
   *Needs:* AA.3.7; ReductiveGroups, layer 7.
   *Lean:* none; specified in the README only.
+  **Checks.** For `H=G`, the identity Weyl element works with `t′=min(t,1)`;
+  for the trivial subgroup, `a=1` lies in every ambient cone with `t′≤1`;
+  for the compact norm-one torus, all ambient roots restrict trivially and take value `1` on `A_H={1}`.
 - **Rational and compact Weyl representatives.** (*containment-weyl-representatives*) In the
   notation and under the hypotheses of *containment-finite-root-cones*, with `w` ranging over
   the finite set of Weyl elements of `S_G` with `N_H, N_Z ⊂ w N_G w⁻¹`, `u ∈ N_Z(ℝ)` with
@@ -3477,6 +3502,10 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   of `Z_G(S_G)(ℝ)` ([Orr], §4.D, Lemmas 4.10–4.11, pp. 22–23; [Orr–Schnell], §§A,E, pp. 1232,
   1236). *Needs:* AA.3.7; ReductiveGroups, layer 7; RepresentationTheory/LieGroups, layer 9.
   *Lean:* none; specified in the README only.
+  **Checks.** The identity Weyl element has `w′_Q=w_Q=w_K=1`;
+  in standard `SL₂`, the nonidentity Weyl element has rational compact representative
+  `[[0,−1],[1,0]]` when `H` is the diagonal split torus; for the compact norm-one torus, `N_Z=N_G`
+  leaves only the identity Weyl element admissible and the connected-centralizer quotient is `1`.
 - **Uniform compact factors for subgroup Siegel sets.** In the notation and under the
   hypotheses of *containment-weyl-representatives*, with `Ω_H ⊂ N_H(ℝ) M_H(ℝ)^+` compact and
   `K_Z = K_G ∩ Z_G(S_H)(ℝ)` (maximal compact in `Z_G(S_H)(ℝ)` by the Cartan hypothesis), prove
@@ -3485,14 +3514,21 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   finite Weyl set ([Orr], §4.E, Lemmas 4.12–4.13, pp. 23–24; [Orr–Schnell], §§A,E, pp. 1232,
   1236). *Needs:* AA.3.7; AA.3.2.
   *Lean:* none; specified in the README only.
+  **Checks.** For trivial groups take every compact factor to be `{1}`;
+  for `H=G` and the identity representative take `Ω_G=Ω_H`, `B_w={1}`;
+  for the compact norm-one torus take `Ω_G=B_w={1}` and `K_Z=SO₂(ℝ)` for its full compact window.
 - **Containment of subgroup Siegel sets.** (*orr-schnell-containment*) Let `𝐇 ⊂ 𝐆` be
   reductive `ℚ`-groups, `(𝐏_H, 𝐒_H, K_H)` a Siegel triple for `𝐇` and `𝔖_H = Ω A_t K_H` a Siegel
   set. Let `K_G ⊂ 𝐆(ℝ)` be maximal compact with `K_H ⊂ K_G` and whose Cartan involution
   `θ_{K_G}` stabilises `𝐒_H`. Prove that there are a Siegel triple `(𝐏_G, 𝐒_G, K_G)`, a Siegel
   set `𝔖_G` for it and a finite `C ⊂ 𝐆(ℚ)` with `𝔖_H ⊂ C·𝔖_G`; moreover `R_u(𝐏_H) ⊂ R_u(𝐏_G)` and
-  `𝐒_H = 𝐒_G ∩ 𝐇` ([Orr–Schnell], Theorem 1, pp. 1231–1232; §§A,E; [Orr], §4.F, Proposition 4.14,
+  `𝐒_H ⊆ 𝐒_G` ([Orr–Schnell], Theorem 1, pp. 1231–1232; §§A,E; [Orr], §4.F, Proposition 4.14,
   p. 24; [Orr], §4, Theorem 4.1, p. 15). *Needs:* AA.3.7; AA.3.6.
   *Lean:* none; specified in the README only.
+  **Checks.** For `H=G`, take the original domain and `C={1}`; for the trivial
+  subgroup its nonempty domain is `{1}`, contained in an ambient domain with threshold `1`;
+  for the compact norm-one torus the domain `SO₂(ℝ)` is contained with `C={1}`
+  although the full-torus intersection is `μ₂`.
 - **Stability of the subgroup under the Cartan involution suffices.** In the setting of
   *orr-schnell-containment* with `K_H ⊂ K_G`, prove that if the Cartan involution `Θ` of `𝐆` for
   `K_G` stabilises `𝐇`, then `Θ|_𝐇` is the Cartan involution of `𝐇` for `K_H` and `Θ` stabilises

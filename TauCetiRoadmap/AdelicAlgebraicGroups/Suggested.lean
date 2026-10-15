@@ -689,6 +689,21 @@ theorem exists_reduced_GLZ : ∃ C : ℝ, 0 < C ∧ ∀ b : Matrix (Fin n) (Fin 
         ((γ.map (Int.castRingHom ℝ) : GL (Fin n) ℝ) : Matrix (Fin n) (Fin n) ℝ)) := by
   sorry
 
+-- In AA.3.7 the full diagonal torus meets the compact norm-one torus in `μ₂`.
+example (t : ℝˣ) :
+    Matrix.diagonal ![(t : ℝ), ((t⁻¹ : ℝˣ) : ℝ)] ∈
+      Matrix.specialOrthogonalGroup (Fin 2) ℝ ↔ t = 1 ∨ t = -1 := by
+  sorry
+
+-- The element `−I` belongs to `SO₂(ℝ)` and lies outside the trivial subgroup torus.
+example : (-1 : Matrix (Fin 2) (Fin 2) ℝ) ∈ Matrix.specialOrthogonalGroup (Fin 2) ℝ ∧
+    (-1 : Matrix (Fin 2) (Fin 2) ℝ) ≠ 1 := by
+  sorry
+
+-- Centrality keeps `−I` in every conjugate of the full diagonal torus.
+example (g : GL (Fin 2) ℝ) : g * (-1 : GL (Fin 2) ℝ) * g⁻¹ = -1 := by
+  sorry
+
 end RealSiegel
 
 namespace Reduction
