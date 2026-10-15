@@ -752,7 +752,7 @@ here.
 * Foundations (Layer ALS.F): `realPoints_lieGroup` (real points of algebraic groups as Lie groups).
   Generic commutative perfect objects, their bounded-finite-projective/compact/dualizable
   characterization, traces and filtered trace additivity are supplied by
-  LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`,
+  EtaleCohomologyFoundations §F.10.3 / `PerfectComplex.lefschetzNumber`,
   `PerfectComplex.filteredTraceAdditivity`. ALS.F.2 owns the extension of that theory to
   general rings; CohomologicalPointCounting/TraceFormula Layers 1–3 consume the same
   commutative core and retain the geometric trace applications. All consumers use the same
@@ -779,7 +779,7 @@ here.
   Tensor/dualizable identities for two left complexes require commutativity. Arithmetic duality
   uses `RHom_R(−,R)` with the contragredient finite-group action.
   Bounded constructible/ctf categories on the étale domain
-  are supplied by LefschetzPencilsAndVanishingCycles §F.1 /
+  are supplied by EtaleCohomologyFoundations §F.1 /
   `VanishingCycles.constructibleDerivedCategory`.
   `SheafDerived.pushforward` and its API are only arithmetic adapters to the generic topological
   `j_!`, `Rf_!`, `RΓ_c` and comparison functors supplied by ComplexComparisonPartII §C6.1 /

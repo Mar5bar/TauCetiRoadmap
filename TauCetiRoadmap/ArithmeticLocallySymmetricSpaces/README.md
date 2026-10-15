@@ -9,7 +9,7 @@ first builds real points of linear algebraic groups as Lie groups, equivariant s
 forms and cusp forms, and cohomological representations at infinity, together with the general-ring
 extension of supplied perfect-object theory and arithmetic adapters for supplied sheaf functors
 (Layer ALS.F). Generic perfect complexes and traces are supplied by
-LefschetzPencilsAndVanishingCycles; the topological
+EtaleCohomologyFoundations; the topological
 coefficient comparisons are supplied by ComplexComparisonPartII on its stated coefficient domain.
 It then constructs in turn: the symmetric space with its
 split-centre correction and the finite
@@ -116,9 +116,9 @@ products, finite covers and transfer, including the permutation local system of 
 (Stage 5, item 3), and twisted singular cochains, cup and cap products, the orientation local system
 and Poincaré–Lefschetz duality for compact manifolds with boundary (Stage 6, items 1–4).
 Generic commutative perfect derived objects, their compact/dualizable characterization, traces
-and filtered trace additivity are supplied by LefschetzPencilsAndVanishingCycles §F.10 /
+and filtered trace additivity are supplied by EtaleCohomologyFoundations §F.10.3 /
 `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity`; bounded
-constructible/ctf categories are supplied by its §F.1 /
+constructible/ctf categories are supplied by EtaleCohomologyFoundations §F.1 /
 `VanishingCycles.constructibleDerivedCategory` on the étale domain. The topological
 local-coefficient comparison, extension by zero, supported pushforward and compact supports for
 finite commutative coefficients are supplied by ComplexComparisonPartII §C6.1 /
@@ -448,7 +448,7 @@ apply on each transported open boundary stratum, with its own dimension and orie
 Direct hard suppliers for the shared foundations and arithmetic interfaces include
 AdelicAlgebraicGroups, SmoothRepresentationsOfLocalGroups,
 ReductiveGroupsPartII and IntegralHeckeAndGaloisDeterminants at the
-sections listed above, and LefschetzPencilsAndVanishingCycles, ComplexComparisonPartII and
+sections listed above, and EtaleCohomologyFoundations, ComplexComparisonPartII and
 ClassifyingSpaces at the sections below. These contracts are dependencies of the mathematical
 specification; `Suggested.lean` imports only the pinned Mathlib and Tau Ceti modules.
 The inputs in the following subsection are hypotheses of the targets that use them, rather than
@@ -457,12 +457,17 @@ hyperbolic-space specialization does not supply a prerequisite here.
 
 | Contract | Supplier and exact section / label | Convention or hypothesis gap and arithmetic consumer |
 | --- | --- | --- |
-| Generic perfect complexes and traces | Supplied by LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity` | The common commutative core has this owner. The supplier contract for CohomologicalPointCounting/TraceFormula Layers 1–3 and ALS.F.2 is to consume the perfect full subcategory of `DerivedCategory (ModuleCat A)`, with the realization, tensor/dual and trace identifications in `PerfectComplexInput(A)`. ALS.F.2 retains the general-ring extension, opposite-ring duals, restriction of scalars and right-module Tor tests; the point-counting consumer retains its geometric trace applications. Consumers import this core without assigning a second commutative carrier or generic trace API. |
-| Bounded constructible/ctf categories | Supplied by LefschetzPencilsAndVanishingCycles §F.1 / `VanishingCycles.constructibleDerivedCategory` | These are étale module-sheaf categories with explicit global cohomological and Tor bounds, not a boundedness assertion for non-neat arithmetic groupoid cohomology. |
+| Generic perfect complexes and traces | Supplied by EtaleCohomologyFoundations §F.10.3 / `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity` | The common commutative core has this owner. The supplier contract for CohomologicalPointCounting/TraceFormula Layers 1–3 and ALS.F.2 is to consume the perfect full subcategory of `DerivedCategory (ModuleCat A)`, with the realization, tensor/dual and trace identifications in `PerfectComplexInput(A)`. ALS.F.2 retains the general-ring extension, opposite-ring duals, restriction of scalars and right-module Tor tests; the point-counting consumer retains its geometric trace applications. Consumers import this core without assigning a second commutative carrier or generic trace API. |
+| Bounded constructible/ctf categories | Supplied by EtaleCohomologyFoundations §F.1 / `VanishingCycles.constructibleDerivedCategory` | These are étale module-sheaf categories with explicit global cohomological and Tor bounds, not a boundedness assertion for non-neat arithmetic groupoid cohomology. |
 | Topological local-coefficient comparison and supports | Supplied by ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`; §C6.4 / `artinComparisonCompactSupport` | The common finite-coefficient topological core has this owner. The supplier contract for CohomologicalPointCounting/ComplexComparison Layers 5–7 and ALS.F.3 is to consume its native local-system carrier, stalk/transport-preserving comparison and the same `j_!`, `Rf_!`, `RΓ_c`. Ordinary comparison uses locally contractible paracompact spaces; supports use locally compact Hausdorff spaces in that class and compact-support cochain comparison uses finite compatible triangulations. §C6.4 is the separated finite-type complex-scheme Artin comparison. ALS assumes `TopologicalCoefficientInput` outside these domains and retains arithmetic slices, whole-inverse monodromy, level/translation and Hecke naturality, and relative Borel–Serre models. |
 | [Cellular freeness](#cellular-freeness) | Supplied by ClassifyingSpaces §Stage 3, item 13 / **CW structures and coverings**, free cellular chain and quotient-cell basis clause | ALS.1.6 discharges the Hausdorff CW and quotient-cover hypotheses for the discrete full group G(F) × K, transports chosen cell lifts to left group-ring modules, and proves finite orbit counts, boundedness, the relative/coefficient model and perfectness. |
 | [Neat-component group cohomology](#neat-component-group-cohomology) | Supplied by ClassifyingSpaces §Stage 4, items 16–18 / item 17 **Homology**, local-coefficient cohomology clause | The contract requires cohomology with arbitrary R[Γ]-modules over every commutative R and a chain-level comparison natural in groups and coefficients; ALS.1.5 supplies the arithmetic slice action, deck/opposite identification, CW-model transport, sheaf/derived adapter, component assembly and non-neat descent. |
 | Proper action (outbound) | This roadmap [ALS.0.5](#symmetric-space-contractible) / proper-action and discrete-image/finite-kernel clause of `LocallySymmetric.symmetricSpace.contractible` | KleinianGroups §Layer 1 / **What to build / Deliverables**, `properlyDiscontinuousSMul_of_discrete` is the PSL₂(ℂ) special case after an equivariant identification of its H³ model with PSL₂(ℂ)/PSU(2) and verification of the trivial split centre; its model identification and Kleinian applications remain there. |
+
+The generic perfect core used by
+[CohomologicalPointCounting/TraceFormula, Layers 1–3](https://github.com/bwangpj/TauCetiRoadmap/blob/4bd72379658126cbe9be935656396f0c9dac4de0/TauCetiRoadmap/CohomologicalPointCounting/TraceFormula/README.md)
+and ALS.F.2 is supplied by EtaleCohomologyFoundations §F.10.3, including its
+coherent filtered trace maps on the shared derived-module carrier.
 
 The finite-coefficient topological core of
 [CohomologicalPointCounting/ComplexComparison, Layers 5–7](https://github.com/bwangpj/TauCetiRoadmap/blob/4bd72379658126cbe9be935656396f0c9dac4de0/TauCetiRoadmap/CohomologicalPointCounting/ComplexComparison/README.md)
@@ -477,11 +482,11 @@ arithmetic consumers use these same maps through ALS.F.3 and ALS.1.4.
   commuting with shift, scalar extension, tensor and dual, so that its traces and compact/dualizable
   characterization transport to this carrier. The input identifies the commutative restriction of
   `PerfectComplex.IsPerfect` with the supplier's objects and fixes the functor identifications,
-  which §F.10 does not name. Its realization is an equivalence onto this full subcategory;
+  which §F.10.3 does not name. Its realization is an equivalence onto this full subcategory;
   its unit, counit and functor comparisons are natural in module morphisms and coefficient maps.
   A finite-projective representative maps to its usual derived object, and the supplied trace
   maps to its alternating termwise trace. Finite filtered objects and their endomorphisms use
-  §F.10's coherent filtered enhancement and the same realization, including the graded-piece
+  §F.10.3's coherent filtered enhancement and the same realization, including the graded-piece
   comparisons. This is also the imported contract for the generic core of
   [CohomologicalPointCounting/TraceFormula, Layers 1–3](https://github.com/bwangpj/TauCetiRoadmap/blob/4bd72379658126cbe9be935656396f0c9dac4de0/TauCetiRoadmap/CohomologicalPointCounting/TraceFormula/README.md).
   The general-ring extension API is proved in ALS.F.2 from
@@ -603,11 +608,11 @@ AdelicAlgebraicGroups §1.4 (restriction of scalars); Mathlib `Matrix.GeneralLin
 
 Generic commutative perfect objects, their bounded-finite-projective/compact/dualizable
 characterization, traces and filtered trace additivity are supplied by
-LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`,
+EtaleCohomologyFoundations §F.10.3 / `PerfectComplex.lefschetzNumber`,
 `PerfectComplex.filteredTraceAdditivity`. The commutative perfect-object theory used here
 is owned by this supplier. Consume its objects, symmetric tensor/dual functors and traces through
 `PerfectComplexInput(A)` for commutative `A`, as specified above. The input identifies the
-supplier's realization with this interface; §F.10 does not specify the named predicate or
+supplier's realization with this interface; §F.10.3 does not specify the named predicate or
 closure declarations. CohomologicalPointCounting/TraceFormula Layers 1–3 consume this same
 commutative core on the same derived-module carrier, including its coherent filtered trace
 maps; the geometric Frobenius and point-counting applications belong to that consumer.
@@ -659,7 +664,7 @@ and `PerfectComplex.IsPerfect.iff_pseudoCoherent_finiteTorDimension` with right-
 `CategoryTheory.IsIdempotentComplete`; Mathlib `Module.Flat` for the commutative specialization.
 The general-ring Tor tests use right modules as specified in this target.
 For the commutative compact/dualizable characterization and trace transport only:
-LefschetzPencilsAndVanishingCycles §F.10 / `PerfectComplex.lefschetzNumber`,
+EtaleCohomologyFoundations §F.10.3 / `PerfectComplex.lefschetzNumber`,
 `PerfectComplex.filteredTraceAdditivity`, and `PerfectComplexInput(A)`.
 
 **Checks.**
@@ -707,7 +712,7 @@ independence of algebraic compactification are supplied by §C6.4 /
 `artinComparisonCompactSupport` on separated finite-type complex schemes. The relative
 Borel–Serre comparison uses §C6.1 and the arithmetic pair model, not the complex-scheme
 comparison. Bounded constructible/ctf coefficient
-categories on the étale side are supplied by LefschetzPencilsAndVanishingCycles §F.1 /
+categories on the étale side are supplied by EtaleCohomologyFoundations §F.1 /
 `VanishingCycles.constructibleDerivedCategory`.
 
 For a commutative ring `R`, assume `TopologicalCoefficientInput(R)` for all uses outside the
@@ -738,7 +743,8 @@ generic sheaf category, singular resolution or compact-support functor is constr
 [Stacks, Section 20.3 (0716), Section 20.21 (0A39)];
 [ACC+23, §2.1.2, pp. 911–912], for the arithmetic equivariant application.)
 
-*Needs:* ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`, §C6.4 /
+*Needs:* EtaleCohomologyFoundations §F.1 / `VanishingCycles.constructibleDerivedCategory`
+on the étale domain; ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`, §C6.4 /
 `artinComparisonCompactSupport`; `TopologicalCoefficientInput(R)` on the wider domain;
 Mathlib `DerivedCategory`, `CategoryTheory.Sheaf.H`, `TopCat.Sheaf`, `ModuleCat`.
 
