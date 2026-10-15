@@ -55,7 +55,8 @@ structure StarOrder where
   /-- The order spans `B` over `ℚ`. -/
   span_eq_top : Submodule.span ℚ (toSubring : Set B) = ⊤
 
-/-- The integer order contains `2` and excludes `1/2`; spanning over `ℚ` is not equality with `ℚ`. -/
+/-- The integer order contains `2` and excludes `1/2`; spanning over `ℚ` is not equality with `ℚ`
+(Check `starOrder_integer`). -/
 example : ∃ O : StarOrder ℚ, (2 : ℚ) ∈ O.toSubring ∧ (1 / 2 : ℚ) ∉ O.toSubring := by
   sorry
 
@@ -71,7 +72,8 @@ example (n : ℕ) : IsPositiveInvolution (Matrix (Fin n) (Fin n) ℚ) := by
   sorry
 
 /-- The adjugate involution of `M_2(ℚ)` is not positive (Check `not_positiveInvolution_adjugate`):
-`x · adj x = det x`, whose trace is `−2` at `x = diag(1, −1)`. -/
+`x · adj x = det x`, whose reduced trace is `−2` at `x = diag(1, −1)`;
+the unreduced trace on the matrix algebra is `−4`. -/
 example : (Matrix.diagonal ![(1 : ℚ), -1]) * (Matrix.diagonal ![(1 : ℚ), -1]).adjugate =
     (-1 : ℚ) • (1 : Matrix (Fin 2) (Fin 2) ℚ) := by
   sorry
@@ -234,9 +236,10 @@ theorem detPoly_eval (φ : O →ₗ[R] Module.End R M) (b : Module.Basis ι R O)
     MvPolynomial.eval (b.repr x) (detPoly φ b) = LinearMap.det (φ x) := by
   sorry
 
-/-- **Determinant condition** (M0.18), in its polynomial form: two linear families have the same
-determinant polynomial. Over a nonreduced base or in positive characteristic this is strictly stronger
-than equality of traces. -/
+/-- **Determinant condition** (M0.18): equality of the determinant polynomials of arbitrary
+linear families, including nonfaithful actions and zero modules. For families induced by unital
+algebra actions this implies equality of characteristic polynomials and traces, by specializing the
+generic element to `T·1 − x`; the converse fails in positive characteristic. -/
 def SatisfiesDetCondition {M' : Type*} [AddCommGroup M'] [Module R M'] [Module.Free R M']
     [Module.Finite R M'] (φ : O →ₗ[R] Module.End R M) (ψ : O →ₗ[R] Module.End R M')
     (b : Module.Basis ι R O) : Prop :=
@@ -398,6 +401,137 @@ example (δ : K) (hδ : NumberField.IsCMField.complexConj K δ = -δ) (x : K) :
 
 end Unitary
 
+/-! ## Linear Checks -/
+
+/-- The nonmaximal order `ℤ[2i]` is a star-order in `ℚ(i)` and excludes `i`
+(Check `starOrder_nonmaximal`); the coordinates describe its underlying subring. -/
+example : ∃ O : StarOrder (QuadraticAlgebra ℚ (-1) 0),
+    (∀ x, x ∈ O.toSubring ↔ ∃ a b : ℤ,
+      x = (⟨(a : ℚ), 2 * (b : ℚ)⟩ : QuadraticAlgebra ℚ (-1) 0)) ∧
+    (⟨0, 1⟩ : QuadraticAlgebra ℚ (-1) 0) ∉ O.toSubring := by
+  sorry
+
+/-- The entire rational field is not an integral star-order (Check `starOrder_not_field`). -/
+example : ¬ ∃ O : StarOrder ℚ, O.toSubring = ⊤ := by
+  sorry
+
+/-- The identity on `ℚ(i)` violates the positive-trace inequality at `i`
+(Check `not_positiveInvolution_id_imaginary`). -/
+example : Algebra.trace ℚ (QuadraticAlgebra ℚ (-1) 0)
+    ((⟨0, 1⟩ : QuadraticAlgebra ℚ (-1) 0) * ⟨0, 1⟩) = -2 := by
+  sorry
+
+/-- Conjugation satisfies the positive-trace inequality on the same quadratic algebra. -/
+example : IsPositiveInvolution (QuadraticAlgebra ℚ (-1) 0) := by
+  sorry
+
+/-- Left multiplication on the four-dimensional matrix algebra has unreduced trace `−4`
+at the adjugate witness (Check `not_positiveInvolution_adjugate`); its reduced trace is `−2`. -/
+example : LinearMap.trace ℚ (Matrix (Fin 2) (Fin 2) ℚ)
+    (LinearMap.mulLeft ℚ
+      ((Matrix.diagonal ![(1 : ℚ), -1]) *
+        (Matrix.diagonal ![(1 : ℚ), -1]).adjugate)) = -4 := by
+  sorry
+
+/-- The standard integral alternating plane is self-dual and has index one
+(Check `SymplecticOLattice.dual_standard`). -/
+example : (∃ S : SymplecticOLattice ℤ (Fin 2 → ℤ),
+    S.form = Matrix.toBilin' !![0, 1; -1, 0] ∧ S.dualIndex = 1) ∧
+    (Matrix.toBilin' !![(0 : ℚ), 1; -1, 0]).dualSubmodule
+      (Submodule.span ℤ (Set.range (Pi.basisFun ℚ (Fin 2)))) =
+      Submodule.span ℤ (Set.range (Pi.basisFun ℚ (Fin 2))) := by
+  sorry
+
+/-- Weights `1,d` give dual index `d²`, with `d ≠ 0` ensuring nondegeneracy
+(Check `SymplecticOLattice.index_type`). -/
+example (d : ℤ) (hd : d ≠ 0) : ∃ S : SymplecticOLattice ℤ (Fin 2 ⊕ Fin 2 → ℤ),
+    S.form = Matrix.toBilin' (siegelGram ![1, d]) ∧
+    S.dualIndex = d.natAbs ^ 2 := by
+  sorry
+
+/-- The symmetric product form on `ℤ` fails alternation
+(Check `SymplecticOLattice.not_symmetric`). -/
+example : ¬ (LinearMap.mul ℤ ℤ).IsAlt := by
+  sorry
+
+/-- The principal plane retains its pairing and its order action under real extension (M0.5). -/
+example (S : SymplecticOLattice ℤ (Fin 2 → ℤ))
+    (hS : S.form = Matrix.toBilin' !![0, 1; -1, 0]) :
+    let e : ℝ ⊗[ℤ] (Fin 2 → ℤ) := 1 ⊗ₜ[ℤ] ![1, 0]
+    let f : ℝ ⊗[ℤ] (Fin 2 → ℤ) := 1 ⊗ₜ[ℤ] ![0, 1]
+    S.realForm e f = 1 ∧ S.realForm (2 • e) f = 2 ∧
+    S.realForm f (2 • e) = -2 ∧
+    realAction ℤ (Fin 2 → ℤ) 2 e = 2 • e ∧
+    realAction ℤ (Fin 2 → ℤ) 2 (realAction ℤ (Fin 2 → ℤ) 3 e) = 6 • e := by
+  sorry
+
+/-- On the zero lattice every extended form and order action is zero (M0.5). -/
+example (S : SymplecticOLattice ℤ (Fin 0 → ℤ)) (b : ℤ) :
+    S.realForm = 0 ∧ realAction ℤ (Fin 0 → ℤ) b = 0 := by
+  sorry
+
+/-- At level `3`, the only bad prime of a principal Siegel datum is `3`
+(Check `goodPrime_siegel`). -/
+example (p : ℕ) : IsGoodPrime 3 1 1 1 p ↔ Nat.Prime p ∧ p ≠ 3 := by
+  sorry
+
+/-- The determinant of scalar multiplication on a rank-`r` integer module is `X^r`
+(Check `detPoly_int`). -/
+example (r : ℕ) :
+    detPoly (Algebra.lsmul ℤ ℤ (Fin r → ℤ)).toLinearMap (Module.Basis.singleton Unit ℤ) =
+      MvPolynomial.X () ^ r := by
+  sorry
+
+/-- In Gaussian coordinates `(1,i)`, the two rank-one actions have determinant
+`X₁ ± i X₂` (Check `detPoly_gaussian`). -/
+example (u : ℂ) (hu : u = Complex.I ∨ u = -Complex.I) :
+    detPoly ((Algebra.lsmul ℂ ℂ ℂ).toLinearMap.comp
+      (LinearMap.proj (0 : Fin 2) + u • LinearMap.proj (1 : Fin 2)))
+      (Pi.basisFun ℂ (Fin 2)) = MvPolynomial.X 0 + MvPolynomial.C u * MvPolynomial.X 1 := by
+  sorry
+
+/-- Negative evaluation gives the characteristic polynomial's constant term, without an
+extra sign (Check `detPoly_eval_charpoly`). -/
+example {R : Type*} [CommRing R] {O : Type*} [AddCommGroup O] [Module R O]
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    {M : Type*} [AddCommGroup M] [Module R M] [Module.Free R M] [Module.Finite R M]
+    (φ : O →ₗ[R] Module.End R M) (b : Module.Basis ι R O) (x : O) :
+    MvPolynomial.eval (b.repr (-x)) (detPoly φ b) = (LinearMap.charpoly (φ x)).eval 0 := by
+  sorry
+
+/-- In rank one negative evaluation at `1` is `−1` (Check `detPoly_eval_charpoly`). -/
+example : MvPolynomial.eval (fun _ : Unit => (-1 : ℤ))
+    (detPoly (Algebra.lsmul ℤ ℤ ℤ).toLinearMap (Module.Basis.singleton Unit ℤ)) = -1 := by
+  sorry
+
+/-- Two arbitrary linear families can have zero determinant polynomials and unequal traces (M0.18). -/
+example (k : Type*) [Field k] [CharP k 3] (b : Module.Basis Unit k k) :
+    let φ : k →ₗ[k] Module.End k (Fin 2 → k) :=
+      (LinearMap.id : k →ₗ[k] k).smulRight (Matrix.toLin' !![1, 0; 0, 0])
+    SatisfiesDetCondition (R := k) (O := k) φ
+      (0 : k →ₗ[k] Module.End k (Fin 2 → k)) b ∧
+      LinearMap.trace k (Fin 2 → k) (φ 1) ≠ 0 := by
+  sorry
+
+/-- Selecting both members of a conjugate pair violates rank-one CM type (M0.25). -/
+example (K : Type*) [Field K] [NumberField K] [NumberField.IsCMField K] (τ : K →+* ℂ) :
+    ¬ IsCMType K (Finsupp.single τ 1 +
+      Finsupp.single (NumberField.ComplexEmbedding.conjugate τ) 1) := by
+  sorry
+
+/-- Reversing the Hilbert basis pair gives `−1`, fixing the argument order (M5.4). -/
+example : hilbertPairing ℚ (0, 1) (1, 0) = -1 := by
+  sorry
+
+/-- In the imaginary quadratic case, `δ = i` gives a positive value at `(1,i)` and
+`δ = −i` gives the negative value (Check `unitary_sign_witness`). -/
+example (K : Type*) [Field K] [NumberField K] [NumberField.IsCMField K]
+    (i : K) (hi : i ^ 2 = -1) (hc : NumberField.IsCMField.complexConj K i = -i)
+    (hdeg : Module.finrank ℚ K = 2) :
+    unitaryTraceForm K (fun x y => x * NumberField.IsCMField.complexConj K y) i 1 i = 2 ∧
+    unitaryTraceForm K (fun x y => x * NumberField.IsCMField.complexConj K y) (-i) 1 i = -2 := by
+  sorry
+
 /-!
 ## Targets stated in the README only
 
@@ -411,7 +545,9 @@ the full `PositiveInvolution`, `IntegralPELDatum`, `RationalPELDatum`, and `PInt
 `RationalPELDatum.coordinate`, `RationalPELDatum.coordinatePoints`;
 `SymplecticOLattice.dual`, `IsSelfDualAt`, `multiRank`, `polarizationType`, `baseChange`;
 `Order.inverseDifferent`; `PELDatum.IsGoodSet`, `goodBase`, `principalCongruence`;
-`RationalPELDatum.domain`, `signature`, `reflexField`; `GeneralizedCMType` and its
+`RationalPELDatum.domain`, `signature`, `reflexField`;
+`IntegralPELDatum.hodgeStructure`, `IntegralPELDatum.signature`,
+`IntegralPELDatum.reflexField`, `IntegralPELDatum.detPoly_integral`; `GeneralizedCMType` and its
 `reflexField`, `positiveImaginaryCone`; `HermitianSpace`, `HermitianSpace.unitaryGroup`,
 `HermitianSpace.sharp`, `HermitianSpace.toSkewHermitian`; `SkewHermitianSpace`, `Similitude`, `Similar`, `GU`, `HasCMType`;
 `tauField`, `diamondField`, `psiField`, `tauPart`, `tauSubmodule`, `frobeniusOnEmbeddings`;
@@ -443,15 +579,13 @@ the residual gerbe `𝒢_x`, `descentObstruction`, `boundedFieldOfDefinition`, `
 `finiteFieldFiniteness`, `nonemptyExamples`.
 
 The following APIs and discriminating Checks are also specified in the README:
-* M0.1: `starOrder_integer`, `starOrder_nonmaximal`, `starOrder_not_field`.
-* M0.4: `SymplecticOLattice.le_dual`, `SymplecticOLattice.dual_standard`,
-  `SymplecticOLattice.index_type`, `SymplecticOLattice.not_symmetric`.
-  Double duality uses the Tau Ceti supplier recorded in the README.
+* M0.4: `SymplecticOLattice.le_dual` and double duality using the Tau Ceti supplier
+  recorded in the README.
 * M0.10: `PELDatum.IsGoodPrime.not_dvd_dualIndex`,
   `PELDatum.IsGoodPrime.not_two_of_typeD`.
 * M0.14: `detPoly_sheaf`, `detPoly_sheaf_restrict`, `detPoly_basis_indep`,
   `detPoly_baseChange`, `detPoly_exact`, `detPoly_homogeneous`,
-  `detPoly_eq_polyCharpoly`, `detPoly_int`, `detPoly_gaussian`.
+  `detPoly_eq_polyCharpoly`.
 * M0.15: `detPoly_classifies_charP`, `detPoly_classifies_charZero`.
 * M0.18: `SatisfiesDetCondition.iff_eval`.
 * M5.4: `hilbertRationalDatum`, `hilbertTraceEmbedding`,
