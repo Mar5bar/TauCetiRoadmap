@@ -31,6 +31,8 @@ The design choices made explicit here:
   `M(ℚ_p/ℤ_p) = (W(k), F = σ)`, `M(μ_{p^∞}) = (W(k), F = pσ)`.
 * Filtered `(φ, N)`-modules live over `K₀ = Frac W(k)` with the filtration on `K ⊗_{K₀} D`, and
   Fontaine–Laffaille modules are filtered `W(k)`-modules with divided Frobenii `φ^i`.
+  Representation intervals use `HT(χ_p) = +1`. Filtration support `[a,b]` corresponds to
+  Hodge–Tate interval `[-b,-a]` for the covariant realization and `[a,b]` for contravariant `U_S`.
 * Breuil–Kisin modules live over `𝔖 = W(k)⟦u⟧` with `φ` the Witt vector Frobenius on coefficients
   and `u ↦ u^p`, and an Eisenstein polynomial `E(u)` of positive degree.
 * Peu ramifiée Kummer classes over `ℚ_p` are those of `p`-adic valuation divisible by `p`.
@@ -639,7 +641,9 @@ end Filtered
 section FontaineLaffaille
 
 /-- §R07.3.3a: filtered Frobenius data with semilinear divided maps and generation. The arithmetic
-statements take `W = W(k)` with `σ` the Witt Frobenius, `p > 2` and small weights. -/
+statements take `W = W(k)` with `σ` the Witt Frobenius, `p > 2` and a filtration interval of width
+at most `p - 2`. The covariant realization reverses and negates this interval to obtain the
+Hodge–Tate interval, with `HT(χ_p) = +1`; contravariant `U_S` preserves the interval. -/
 structure FontaineLaffailleModule (W : Type*) [CommRing W] (p : ℕ) (σ : W ≃+* W)
     (M : Type*) [AddCommGroup M] [Module W M] [Module.Finite W M] where
   /-- The decreasing filtration `Fil^i M`. -/
@@ -658,7 +662,9 @@ def IsFreeFontaineLaffaille {W M : Type*} [CommRing W] [AddCommGroup M] [Module 
     [Module.Finite W M] {p : ℕ} {σ : W ≃+* W} (D : FontaineLaffailleModule W p σ M) : Prop :=
   Module.Free W M ∧ ∀ i : ℤ, ∃ N : Submodule W M, IsCompl (D.F i) N
 
-/-- §R07.3.3a: support in the closed filtration interval `[a, b]`. -/
+/-- §R07.3.3a: support in the closed filtration interval `[a, b]`. In the arithmetic small-width
+range this gives Hodge–Tate interval `[-b,-a]` for the covariant realization and `[a,b]` for `U_S`.
+These indices are filtration jumps, so the covariant crystalline Tate line has support `[-1,-1]`. -/
 def fontaineLaffaille_interval {W M : Type*} [CommRing W] [AddCommGroup M] [Module W M]
     [Module.Finite W M] {p : ℕ} {σ : W ≃+* W} (D : FontaineLaffailleModule W p σ M) (a b : ℤ) :
     Prop :=
@@ -696,6 +702,18 @@ example : (∃ D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ,
 /-- A nonzero object has no support in a reversed interval. -/
 example (D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ) :
     ¬ fontaineLaffaille_interval D 1 0 := sorry
+
+/-- The jump-minus-one line has covariant Hodge–Tate weight `+1`; its filtration support
+distinguishes it from the jump-plus-one line. -/
+example : ∃ D : FontaineLaffailleModule ℤ_[3] 3 (RingEquiv.refl ℤ_[3]) ℤ_[3],
+    fontaineLaffaille_interval D (-1) (-1) ∧ ¬ fontaineLaffaille_interval D 1 1 ∧
+      ∀ x : D.F (-1), D.φ (-1) x = x := sorry
+
+/-- The jump-plus-one line has covariant Hodge–Tate weight `-1` and contravariant `U_S`
+Hodge–Tate weight `+1`, with divided Frobenius the identity over `ℤ₃`. -/
+example : ∃ D : FontaineLaffailleModule ℤ_[3] 3 (RingEquiv.refl ℤ_[3]) ℤ_[3],
+    fontaineLaffaille_interval D 1 1 ∧ ¬ fontaineLaffaille_interval D (-1) (-1) ∧
+      ∀ x : D.F 1, D.φ 1 x = x := sorry
 
 /-- The same filtration with Frobenius `1` and `2` over `ℤ₃`: the underlying identity is not a
 morphism. -/
@@ -742,7 +760,9 @@ def FLModule.IsTorsion (M : FLModule p k) : Prop :=
   Module.length (WittVector p k) M.M < ⊤ ∧
     (⨆ i, AddMonoidHom.range (M.phi i).toAddMonoidHom) = (⊤ : AddSubgroup M.M)
 
-/-- `M ∈ MF_tor^{[a,b]}`: moreover `Fil^a = M` and `Fil^{b+1} = 0`. -/
+/-- `M ∈ MF_tor^{[a,b]}`: finite-length generating objects with filtration support `[a,b]`,
+so `Fil^a = M` and `Fil^{b+1} = 0`. In the small-width comparison the `U_S` Hodge–Tate interval is
+`[a,b]`, and the covariant realization uses `[-b,-a]`, with `HT(χ_p) = +1`. -/
 def FLModule.IsTorsionIn (M : FLModule p k) (a b : ℤ) : Prop :=
   M.IsTorsion ∧ M.fil a = ⊤ ∧ M.fil (b + 1) = ⊥
 
@@ -1018,8 +1038,13 @@ identification. `bCris`, `bCris_toBDR`, `bCris_frobenius` and
 §§4.2–4.3 functors and rational predicates, with the tensor flip for `(V ⊗ B)`.
 The underlying fundamental exact sequence, fixed fields and regularity are supplied by §4.3.
 Downstream targets are the additional continuous period sequences, sections and boundary maps;
-`crystalline_isDeRham`; `IsTorsionCrystalline`, `IsIntegralCrystalline`;
-`fontaineLaffaille_sum`, `fontaineLaffaille_dual`. -/
+`crystalline_isDeRham`; `IsTorsionCrystalline`, `IsIntegralCrystalline`, whose public intervals
+are Hodge–Tate intervals with `HT(χ_p) = +1`. The lattice witnesses for twists `1` and `-1`,
+and all their finite reductions, use intervals `[1,1]` and `[-1,-1]` respectively; their
+covariant crystalline filtration jumps are `-1` and `+1`.
+`fontaineLaffaille_sum` preserves filtration support, and `fontaineLaffaille_dual` negates
+and reverses free dual support. A filtered jump shift by `j` twists the covariant realization
+by `-j` and `U_S` by `j`; torsion realization duality uses `Hom(−, ℚ_p/ℤ_p)`. -/
 
 /-! The period target of §R07.P7.1 uses §R07.P5's `dDeRham` and `IsDeRham`
 on the scalar restriction of a finite-dimensional continuous `E`-representation of `G_K`, for
@@ -1079,10 +1104,24 @@ further instances of the statements above.
   `ellipticDieudonne`; `dieudonneManinClassification` (integral slope consequences and endomorphism algebras); `standardDieudonne`,
   `slopeSequence`, `aNumber`; `isogenyClassification`; `covariantModule` with `covariantModule_lie` (the ordinary
   k-linear Hodge quotient and the semilinear comparison prototyped by `lieScalarComparison`);
+  `covariantCrystalEvaluation`: over a semiperfect F_p-algebra, the covariant crystal is
+  D_contra(G^D), with its Cartier pairing into the line of Frobenius pσ and integral finite
+  projective A_cris evaluation M_A with F:σ* M_A→M_A and V:M_A→σ* M_A, FV=VF=p.
+  Its perfect-field restriction is `covariantModule`. Only on M_A[1/p] use φ_G=p⁻¹F;
+  the resulting rational module is the untwisted dual of D_contra(G)[1/p], and φ_G need
+  not preserve M_A (for μ_{p^∞} over F_p it is p⁻¹ on the lattice ℤ_p).
   `hasseWitt`,
   `hasseInvariant`, `farguesLF`; `bt1HasseWittDuality`; `btStackSmooth`; `farguesLF_quasiPolarisation`;
   `henselianLiftingPDivisible`; `BarsottiTate.tateSheaf`, `BarsottiTate.universalCover`;
-  `universalCoverRigidity`; `deJongDieudonneEquivalence`; `swDieudonneSemiperfect`;
+  `universalCoverRigidity`; `deJongDieudonneEquivalence`;
+  `swDieudonneSemiperfect`: over f-semiperfect R, Hom_R(G,H)⊗ℚ_p is the F,V-compatible
+  B_cris^+(R)-linear Hom of M_A(G)[1/p] and M_A(H)[1/p];
+  `swDieudonneIntegral`: for R=S/J with S perfect and J generated by a finite regular sequence,
+  Hom_R(G,H) is the F,V-compatible A_cris(R)-linear Hom of the integral evaluations.
+  Its rational maps preserve the distinguished A_cris lattices. Over F_p the constant group
+  has endomorphisms ℤ_p integrally and ℚ_p rationally; p⁻¹id is only rational. The universal
+  cover uses normalized φ_G=p⁻¹F: its F_p-points are ℚ_p for the constant group and zero
+  for μ_{p^∞};
   `wittCovectors`; `BerthelotConstantLength` (finite generation, p-power torsion and
   constant finite Witt-fibre length); `berthelotPerfectValuationRings`.
 * Layer R07.3: `finiteKPeriodComparison` (arithmetic realization comparisons on the

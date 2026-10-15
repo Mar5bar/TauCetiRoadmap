@@ -226,7 +226,10 @@ the Colmez–Fontaine theorem from here.
   §R07.2.20 gives its scalar map and the ordinary k-linear covariant quotient.
 - **Hodge–Tate weights.** The cyclotomic character has Hodge–Tate weight `+1`, so `V_p(μ_{p^∞}) =
   ℚ_p(1)` has weight `1` and the Tate module of a `p`-divisible group has weights in `{0, 1}`, with
-  weight `1` of multiplicity `dim G`.
+  weight `1` of multiplicity `dim G`. Representation intervals, including
+  `IsTorsionCrystalline` and `IsIntegralCrystalline`, use these Hodge–Tate weights. For
+  crystalline V, `HT(V) ⊆ [a,b]` iff the filtration jumps of covariant `D_cris(V)` lie in `[-b,-a]`;
+  the jumps of contravariant `D*_cris(V) = D_cris(V^∨)` lie in `[a,b]`.
 - **Filtered `(φ, N)`-modules** are over `K₀ = W(k)[1/p]` with the filtration on `K ⊗_{K₀} D`; the
   Tate twist `D⟨r⟩` multiplies `φ` by `p^{−r}` and sets `Fil^i(D⟨r⟩) = Fil^{i+r}(D)`. With
   `D*_cris(V) = Hom_{G_K}(V, B_cris)`, `D*_cris(ℚ_p(1)) = K₀` with `φ = pσ` and its filtration jump
@@ -1338,12 +1341,21 @@ The consumer names denote supplied functors, predicates and identities:
 
 **Integral crystalline coefficient predicates.** For unramified K/ℚ_p, define `IsTorsionCrystalline` for a finite ℤ_p-Galois module R in [a,b] by existence of stable lattices R′⊆R″ in a crystalline rational representation of weights [a,b] and a Galois-equivariant isomorphism R≅R″/R′. Define `IsIntegralCrystalline` for a finite-type integral module by this predicate on every R/p^mR, m≥1. For O-coefficients first restrict scalars to ℤ_p. These definitions use §R07.P5's rational crystalline predicate and no small-weight realization. Prove invariance under equivariant isomorphisms, scalar restriction, and closure under finite products and subquotients with the same interval; a stable lattice in a crystalline rational representation has crystalline finite reductions.
 
-(Liu–Tian–Xiao–Zhang–Zhu, Definition 2.2.4, pp. 124–125.)
+Here [a,b] is always a Hodge–Tate interval with HT(χ_p)=+1: the witnessing rational
+representation has covariant crystalline filtration jumps in [−b,−a]. Torsion modules carry
+this existence predicate, not a weight multiset determined by their rationalization. The
+source's Hodge–Tate interval [c,d], with HT(χ_p)=−1, becomes [−d,−c] here.
+(Liu–Tian–Xiao–Zhang–Zhu, Definition 2.2.4 and footnote 4, pp. 124–125.)
 
 **Checks.**
 
 - The zero module satisfies both predicates in every interval.
-- ℤ/p^m(1) is a quotient of the lattices p^mℤ_p(1)⊆ℤ_p(1) and is crystalline in an interval containing −1.
+- ℤ_p(1) is integral crystalline in [1,1], and ℤ/p^m(1) is torsion crystalline in [1,1]
+  via p^mℤ_p(1)⊆ℤ_p(1); the rational witness has covariant filtration jump −1.
+- ℤ_p(−1) is integral crystalline in [−1,−1], and ℤ/p^m(−1) is torsion crystalline
+  in [−1,−1]; the rational witness has covariant filtration jump +1. No uniqueness of a
+  torsion module's witnessing interval is asserted: modulo p the twists 1 and −1 agree
+  when p=3.
 - The trivial ℤ/p module in [0,0] is nonzero and crystalline, although its tensor over ℤ_p with B_cris is zero; rational period tensors cannot define the torsion predicate.
 - For K=ℚ₃, μ₃ is not torsion crystalline in [0,0]: weight-zero crystalline lattice quotients are unramified by the weight-zero realization of §R07.3.7 (with duality and the interval shift), whereas inertia acts nontrivially on μ₃. Indeed, Φ₃(1+X)=X²+3X+3 is Eisenstein, so ℚ₃(μ₃)/ℚ₃ is ramified. Thus ℤ₃(1) is not integral crystalline in [0,0], already by its mod-3 reduction. Both μ₃ and every finite reduction of ℤ₃(1) rationalize to zero, so a rational-period-only predicate incorrectly accepts them.
 
@@ -1373,7 +1385,10 @@ injection `gr D_dR(V) → D_HT(V)` and its being an isomorphism for de Rham `V`,
 implies Hodge–Tate. Split `K ⊗ E = ∏_{τ:K→E} E` to define the labelled weight multisets: a jump
 at filtration index `i` has weight `−i` with multiplicity `dim_E gr^i(e_τ D_dR(V))` in the de Rham
 case, so `HT_τ(χ_p) = +1`. The adapter preserves the filtration and assigns weight +1 to the cyclotomic character
-at this labelled-weight step. For `ℚ̄_p`-coefficients, first
+at this labelled-weight step. For crystalline `V`, prove the interval identity
+`HT_τ(V) ⊆ [a,b] ↔ ∀ i ∉ [-b,-a], gr^i(e_τ D_cris(V)_K) = 0`;
+replacing `V` by `V^∨` gives the contravariant filtration interval `[a,b]`.
+For `ℚ̄_p`-coefficients, first
 descend by ArithmeticGaloisRepresentations §1.5, enlarge `E` to contain the embeddings, and prove that extension of `E` preserves
 these properties and weight multisets, independently of the model
 (Patrikis 2019, §§2.2.1–2.2.2, pp. 21–23; Brinon–Conrad, §6.1 and §6.3, Proposition 6.3.2, pp. 73–76).
@@ -1385,6 +1400,9 @@ these properties and weight multisets, independently of the model
   `χ_p` has weight `+1`. The trivial `E`-character gives a free rank-one `K ⊗ E` module,
   filtration jump `0` and weight `0` under both tensor orderings.
 - The dual of a Hodge–Tate representation negates every labelled weight.
+- The lines `E(1)` and `E(−1)` have Hodge–Tate intervals `[1,1]` and `[−1,−1]`,
+  respectively, and covariant filtration jumps `−1` and `+1`; the contravariant jumps
+  are `+1` and `−1`.
 - If `K ≠ ℚ_p`, a labelled Lubin–Tate character has weight `1` at one embedding and `0` at the
   others; the filtration need not have constant rank over `K ⊗ E` in each degree.
 - For `V = 0`, both sides of `GaloisRep.deRhamSupplierEquiv` and their filtrations are zero,
@@ -3128,6 +3146,54 @@ AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Cartier pairing and Hodge exact s
 - `covariantModule_supersingular`: for E supersingular over F̄_p, M_cov(E[p^∞]) ≅ M(E[p^∞]) (E[p^∞]
   is self-dual), with dim M_cov/VM_cov = 1 = dim Lie E.
 
+**Covariant crystalline evaluation over semiperfect bases.** Construct
+`covariantCrystalEvaluation`. Let R be a semiperfect F_p-algebra and G a p-divisible group
+over R. Put D_cov(G) := D_contra(G^D), using the contravariant crystal of
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2. A map G→H gives D_cov(G)→D_cov(H),
+compatibly with composition, base change and evaluation on PD thickenings. Form A=A_cris(R)
+as the p-adically completed, base-compatible PD envelope of W(lim_Φ R)→R, and B=A[1/p].
+Construct σ_A by extending Witt Frobenius through the envelope and its completion.
+Define the integral evaluation M_A(G)=lim_n D_cov(G)_{A/p^n}; prove that it is finite
+projective of rank height G, with linearized maps F:σ_A^*M_A→M_A and
+V:M_A→σ_A^*M_A satisfying FV=p and VF=p on their respective domains. These statements
+use Frobenius pullback and do not assume that σ_A is an automorphism.
+
+Cartier duality gives a perfect pairing D_contra(G)⊗D_cov(G)→𝟙(−1), where the
+rank-one target has F=pσ and V=σ⁻¹ over a perfect field. Specify its compatibility
+with F and V: the linearization of F on the target carries the pulled-back pairing
+to the pairing of the two F-images, and F and V are interchanged by duality.
+Thus D_cov(G)≅D_contra(G)^∨(−1). On M_B(G)=M_A(G)[1/p] define the normalized
+semilinear Frobenius φ_G by the linearization p⁻¹F. After this normalization the
+rational Cartier pairing is the untwisted dual pairing with D_contra(G)[1/p].
+The integral evaluation retains its original F and V; φ_G is rational and is not
+required to preserve M_A(G). Prove that evaluation at W(k) for a perfect field k
+is `covariantModule`, including its F, V, Cartier pairing and φ_G=p⁻¹F.
+
+*Construction and source:* compose Cartier duality with the supplied crystal and its
+evaluation/base-change maps, pass through the finite PD thickenings and use the completed
+coefficient evaluation of CrystallineCohomology §CR.7.1. Use the universal PD envelope
+of DerivedDeRhamCohomology §§PD.6–PD.7 for A. Scholze–Weinstein 2013,
+Introduction, Remark 1.0.1, p. 3, §4.1, Proposition 4.1.3 and the following evaluation
+formulas, pp. 29–30 (arXiv v2), give the integral evaluation; Caraiani–Scholze 2017,
+§4.1, after Proposition 4.1.2, footnote 18 and Example 4.1.3, p. 691,
+give the rational normalization.
+*Needs:* §R07.1.7 (Cartier duality); §R07.2.10;
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (contravariant crystal and Cartier pairing);
+CrystallineCohomology §CR.7.1 (completed finite projective coefficient evaluation);
+DerivedDeRhamCohomology §§PD.6–PD.7 (universal and completed PD envelopes).
+
+**Checks.**
+
+- Over F_p, G=ℚ_p/ℤ_p has M_A=ℤ_p, F=p and V=1; on M_B=ℚ_p the normalized
+  φ_G=1 has fixed line ℚ_p, equal to G̃(F_p).
+- Over F_p, G=μ_{p^∞} has M_A=ℤ_p, F=1 and V=p; φ_G=p⁻¹ has no nonzero
+  fixed vector in ℚ_p, equal to G̃(F_p)=0. Here φ_G does not preserve M_A.
+- The Cartier pairing between these two integral evaluations takes values in the
+  line with F=p, not the unit F=1 line; after rational normalization it identifies
+  M_B(G) with the ordinary dual of D_contra(G)[1/p].
+- Over every perfect k, A_cris(k)=W(k) and evaluation recovers `covariantModule`
+  with its naturality and perfect-field base-change maps.
+
 ### R07.2.21 The Hasse invariant of a BT₁ and the Hasse–Witt map
 
 Define `hasseInvariant` and the Hasse–Witt map `hasseWitt`. Let S be an F_p-scheme and G a BT₁ over
@@ -3445,40 +3511,61 @@ AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Grothendieck–Messing deformatio
 
 ### R07.2.28 Scholze–Weinstein: Dieudonné theory over f-semiperfect rings
 
-Prove `swDieudonneSemiperfect`. Let R be an f-semiperfect ring (a semiperfect ring of characteristic
-p such that lim_Φ R has a finitely generated ideal of definition, e.g. a quotient of a perfect ring
-by a finitely generated ideal, such as O_C/p). With A_cris(R) the universal p-adically complete PD
-thickening of R and B⁺_cris(R) = A_cris(R)[1/p], the functor G ↦ M(G) = D(G)(A_cris(R) → R) from
-p-divisible groups over R up to isogeny to finite projective B⁺_cris(R)-modules with F and V is
-fully faithful; if R = S/J with S perfect and J generated by a regular sequence, it is fully
-faithful on p-divisible groups. Consequently, for G, G′ over a perfect field k and an f-semiperfect
-k-algebra R, Hom_R(G, G′)[1/p] = (Hom(D(G)[1/p], D(G′)[1/p]) ⊗ B⁺_cris(R))^{φ=1}, and H̃(R) = (D(H)
-⊗ B⁺_cris(R))^{φ=1} for every p-divisible group H over k (covariant D, as in Caraiani–Scholze).
+Let R be an f-semiperfect ring (a semiperfect ring of characteristic p such that lim_Φ R
+has a finitely generated ideal of definition, e.g. a quotient of a perfect ring by a
+finitely generated ideal, such as O_C/p). Use the two evaluations of
+§R07.2.20's `covariantCrystalEvaluation`, with A=A_cris(R), B=B⁺_cris(R)=A[1/p].
+Prove the following distinct Hom comparisons, natural in G and H:
 
-Here `D` is the Dieudonné crystal of AbelianSchemesAndArithmeticModuli §A4.CR.7.2, in the covariant normalisation
-of Scholze–Weinstein (§R07.2.20), evaluated on `A_cris(R)`.
+- `swDieudonneSemiperfect`: the rational functor G↦M_B(G) from p-divisible groups
+  up to isogeny to finite projective B-modules with linearized F and V is fully faithful:
+  Hom_R(G,H)⊗_{ℤ_p}ℚ_p ≅ Hom_{B,F,V}(M_B(G),M_B(H)).
+- `swDieudonneIntegral`: if R=S/J with S perfect and J generated by a finite regular
+  sequence, the integral functor G↦M_A(G) is fully faithful:
+  Hom_R(G,H) ≅ Hom_{A,F,V}(M_A(G),M_A(H)). Here A is p-torsion-free, so M_A(G)
+  embeds as a distinguished A-lattice in M_B(G); equivalently the right side consists
+  of rational F,V-morphisms carrying M_A(G) into M_A(H).
+
+For G,G′ over a perfect field k and an f-semiperfect k-algebra R, put
+K₀=W(k)[1/p] and D_G=M_{W(k)}(G)[1/p]. Base change gives
+Hom_R(G_R,G′_R)[1/p] ≅ (Hom_{K₀}(D_G,D_{G′})⊗_{K₀}B⁺_cris(R))^{φ=1},
+and H̃(R) ≅ (D_H⊗_{K₀}B⁺_cris(R))^{φ_H=1} for every p-divisible group H over k.
+Here φ_G=p⁻¹F on the rational covariant module, extended with the ring Frobenius;
+the internal Hom has φ(f)=φ_{G′}∘f∘φ_G⁻¹ before scalar extension. The integral
+Hom comparison retains M_A and its F,V, rather than only this normalized rational module.
 
 *Proof sketch.* Reduce to R = S/J with S perfect, by invariance under isogenies of semiperfect rings
 (Scholze–Weinstein, Proposition 4.1.5). Compare homomorphisms with their Dieudonné modules on the
-universal cover: G̃(R) = Hom(ℚ_p/ℤ_p, G)[1/p] (§R07.2.25) is identified with the φ = 1 part of the
-rational Dieudonné module (Scholze–Weinstein §§4.2–4.4). The consequence for G, G′ over k uses base change
+universal cover: G̃(R) = Hom(ℚ_p/ℤ_p, G)[1/p] (§R07.2.25) is identified with the F = p part,
+equivalently the normalized φ = 1 part, of the rational covariant module
+(Scholze–Weinstein §§4.2–4.4). For the integral comparison, Proposition 4.1.11 gives
+p-torsion-freeness and Corollary 4.1.12 proves that divisibility of a crystalline
+homomorphism by p implies divisibility of the group homomorphism by p.
+The consequence for G, G′ over k uses base change
 of the crystalline modules and full faithfulness: take the φ-fixed part of the linear
 Hom module Hom(D(G)[1/p], D(G′)[1/p]) ⊗ B⁺_cris(R). The universal-cover formula is
 applied only to actual p-divisible groups H (Caraiani–Scholze, proof of Lemma 4.1.8).
 (Scholze–Weinstein 2013, Introduction, Theorem A, p. 3; §4.1, Definition/Proposition 4.1.2,
 Proposition 4.1.3 and Theorem 4.1.4, pp. 29–30 (arXiv v2): f-semiperfect rings and A_cris(R)
 (Definition/Proposition 4.1.2, Proposition 4.1.3); full faithfulness up to isogeny (Theorem 4.1.4)
-and integrally for quotients of perfect rings by regular ideals (Theorem A); Caraiani–Scholze 2017,
+and integrally for quotients of perfect rings by regular ideals (Theorem A;
+§4.1, Proposition 4.1.11 and Corollary 4.1.12, pp. 33–34); Caraiani–Scholze 2017,
 §4.1, proof of Lemma 4.1.8, p. 695: the formulas for Hom_R(G, G′)[1/p] and H̃(R) in terms of
 B⁺_cris(R).)
 
-*Needs:* §R07.2.25; §R07.2.10; §R07.2.20; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (the crystalline Dieudonné
-crystal); DerivedDeRhamCohomology §§PD.1–PD.7 (divided powers and universal thickenings).
+*Needs:* §R07.2.25; §R07.2.10; §R07.2.20 (`covariantCrystalEvaluation`, including
+the integral A_cris evaluation, Cartier pairing and normalized rational Frobenius).
 
 **Checks.**
 
 - `swDieudonne_perfect`: R = k perfect: A_cris(k) = W(k) and the theorem is the classical full
-  faithfulness (§R07.2.10).
+  faithfulness into W(k)-modules integrally and W(k)[1/p]-modules up to isogeny (§R07.2.10).
+- Over R=F_p, G=ℚ_p/ℤ_p has End_R(G)=ℤ_p=End_{A,F,V}(M_A(G)), whereas
+  End_{B,F,V}(M_B(G))=ℚ_p. The endomorphism p⁻¹id exists only rationally and
+  does not preserve M_A(G)=ℤ_p.
+- Over R=F_p, H=μ_{p^∞} has φ_H=p⁻¹, so M_B(H)^{φ_H=1}=0=H̃(F_p);
+  for H=ℚ_p/ℤ_p, φ_H=1 and the fixed space is ℚ_p. Using bare F=1 for
+  μ_{p^∞} would incorrectly give a nonzero fixed space.
 - `swDieudonne_mu`: for H = μ_{p^∞} and R = O_C/p: the covariant D(μ_{p^∞}) = L with φ = p^{−1}σ
   gives H̃(R) = B⁺_cris(R)^{φ = p}, the period module of the cyclotomic character.
 - For G = G′ = μ_{p^∞} over a perfect field, Hom(G,G′) = ℤ_p and its rational
@@ -3831,9 +3918,15 @@ PadicPeriodRings §§4.1–4.3 (`B_st`, `D_st`,
 
 ### R07.3.3a Small-weight filtered Frobenius modules
 
-For a commutative ring W, an automorphism σ and a natural number p, define the generating filtered Frobenius carrier on a finite W-module M, with an exhaustive separated decreasing filtration Fil^i M and σ-semilinear maps φ_i:Fil^i M→M satisfying φ_i|Fil^(i+1)=p φ_(i+1), with Σ_i im φ_i=M. For arithmetic applications take p>2, K₀/ℚ_p finite unramified, W=O_K₀ and σ the Witt Frobenius. In the free case each filtration step is a direct summand. Restrict to a weight interval [a,b] of width ≤p−2, and form morphisms preserving the filtration and all φ_i. The covariant realization uses Nizioł §2; translating Fontaine–Laffaille’s contravariant Hom realization requires a dual. For torsion exactness use the abelian enlarged category with separate filtration modules and their inclusion maps, not an assertion that the entire category of all filtered modules is abelian.
+For a commutative ring W, an automorphism σ and a natural number p, define the generating filtered Frobenius carrier on a finite W-module M, with an exhaustive separated decreasing filtration Fil^i M and σ-semilinear maps φ_i:Fil^i M→M satisfying φ_i|Fil^(i+1)=p φ_(i+1), with Σ_i im φ_i=M. For arithmetic applications take p>2, K₀/ℚ_p finite unramified, W=O_K₀ and σ the Witt Frobenius. In the free case each filtration step is a direct summand. Restrict to a filtration-jump interval [a,b] of width ≤p−2, and form morphisms preserving the filtration and all φ_i. The covariant realization uses Nizioł §2; translating Fontaine–Laffaille’s contravariant Hom realization requires a dual. For torsion exactness use the abelian enlarged category with separate filtration modules and their inclusion maps, not an assertion that the entire category of all filtered modules is abelian.
 
-K₀ unramified; small weights; integral and torsion coefficient variants distinguished. The Tate representation ℤ_p(1) has weight −1.
+For the covariant realization T_cov, filtration support [a,b] corresponds to the
+Hodge–Tate interval [−b,−a] in §R07.P5a. In particular ℤ_p(1) has Hodge–Tate
+weight +1 and its covariant crystalline filtration jump is −1. For the contravariant
+U_S of §§R07.3.7–R07.3.17, the same filtration support [a,b] corresponds to
+Hodge–Tate interval [a,b]; T_cov is the integral or torsion linear dual of U_S,
+without a Tate twist. Retain these interval conversions under rationalization and
+every finite reduction.
 
 The construction proceeds as follows. Define the finite module, filtration, divided Frobenius maps and morphisms on native module carriers. Embed in the category of diagrams with separate filtration modules as Fontaine–Laffaille §1.11; establish exactness on strongly divisible torsion objects. Give induced direct sums, interval restriction, allowed tensor/dual operations and the scalar-forgetting convention.
 
@@ -3844,8 +3937,13 @@ The named operations and identities are:
 - `FontaineLaffailleModule` — Finite filtered W-module with compatible generating divided Frobenius maps.
 - `FontaineLaffailleHom` — Filtration- and Frobenius-preserving linear maps.
 - `fontaineLaffaille_sum` — Direct sums and their divided Frobenius maps.
-- `fontaineLaffaille_interval` — The explicit interval support predicate.
-- `fontaineLaffaille_dual` — Dual/twist shifts the interval according to the weight convention.
+- `fontaineLaffaille_interval` — Filtration support [a,b], meaning Fil^a=M and Fil^{b+1}=0;
+  its covariant Hodge–Tate interval is [−b,−a], and its U_S interval is [a,b].
+- `fontaineLaffaille_dual` — On free objects, dual filtration support is [−b,−a].
+  Tensoring with the rank-one filtered object of jump j shifts support to [a+j,b+j];
+  T_cov is twisted by −j, and U_S by +j. For torsion objects use the exact dual
+  Hom_{ℤ_p}(−,ℚ_p/ℤ_p) on the representation side. Impose the small-width bound
+  whenever the realization comparison is used.
 - `IsFreeFontaineLaffaille` — The module is free and every filtration step has a W-submodule complement. `FontaineLaffailleModule` is stated for a general ring W with an automorphism σ; the arithmetic statements take W = W(k) = 𝒪_{K₀} with σ the Witt Frobenius.
 
 **Checks.**
@@ -3853,6 +3951,10 @@ The named operations and identities are:
 - The zero module with zero filtration is an object in every allowed interval.
 - The rank-one weight-zero object has Fil⁰=M, Fil¹=0 and unit Frobenius; omitting generation would admit φ₀=0.
 - For interval support, a weight-zero line lies in [0,0] and [−1,1], but not [1,2]. A nonzero object cannot lie in a reversed interval a>b; the zero object can.
+- The free rank-one filtered object with jump −1 and φ_{−1}=σ has T_cov=ℤ_p(1)
+  and U_S=ℤ_p(−1); the object with jump +1 and φ_1=σ has T_cov=ℤ_p(−1)
+  and U_S=ℤ_p(1). Their reductions modulo p^m have the same realization formulas.
+  Their filtration intervals are [−1,−1] and [1,1], respectively.
 - The identity and zero maps are Fontaine–Laffaille morphisms. Between weight-zero rank-one objects over ℤ₃ with φ₀ multiplication by 1 and by 2, the underlying identity preserves the filtration but does not commute with Frobenius, so it is not a morphism.
 - A tensor product with combined width >p−2 is not covered by the small-weight comparison theorem.
 - In the free rank-one W-module, the proper filtration step pW (p nonunit) is not a direct summand. A free filtered object admitting that step fails IsFreeFontaineLaffaille, even if its underlying module is free.
@@ -3889,7 +3991,8 @@ The API:
 - `FLModule.Hom`: W(k)-linear maps preserving the filtrations and commuting with every φ^i.
 - `FLModule.IsTorsion`: Finite length and Σ φ^i(Fil^i M) = M; equivalent to bijectivity of φ_M : M̃
   → M (FL 1.6).
-- `FLModule.weights`: The interval [a, b] with Fil^a = M and Fil^{b+1} = 0.
+- `FLModule.weights`: The filtration-jump interval [a, b] with Fil^a = M and Fil^{b+1} = 0,
+  giving U_S Hodge–Tate interval [a,b] and covariant realization interval [−b,−a].
 - `FLModule.twist`: The shift M(j): Fil^i M(j) = Fil^{i−j} M, φ^i_{M(j)} = φ^{i−j}_M.
 
 *Needs:* Mathlib `WittVector`; Mathlib `WittVector.frobeniusEquiv`; Mathlib `Module.length`;
@@ -4307,7 +4410,8 @@ the theorem; Fontaine–Laffaille 1982, §7.17, Proposition 7.17, p. 594: dimens
 
 - `flAdmissibility_cyclotomic`: D = K₀ with Φ = pσ, Fil^1 = D, Fil^2 = 0 (weight 1) is admissible
   and U_{S_K}(D) = ℚ_p(1): in the convention HT(χ_cyc) = +1, a filtration jump at 1 is Hodge–Tate
-  weight 1.
+  weight 1 for this contravariant realization. The covariant realization of the same D
+  is ℚ_p(−1), with Hodge–Tate weight −1; covariant D_cris(ℚ_p(1)) instead has jump −1.
 - `flAdmissibility_length`: a weakly admissible D with weights {0, p} (length p + 1 > p) is outside
   the theorem; such weights need Breuil–Kisin (R07.4).
 - `flAdmissibility_negative_twist`: D = unit⟨1⟩ has jump −1 and Φ = p^{−1}σ.
