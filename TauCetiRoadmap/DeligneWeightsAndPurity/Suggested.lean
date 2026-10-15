@@ -67,10 +67,25 @@ section WeilNumber
 
 variable {K : Type*} [Field K] [Algebra ℚ K]
 
-/-- `IsWeilNumber q n α`: `α` is algebraic over `ℚ` and every complex root of its minimal polynomial has absolute value
-`q ^ (n / 2)` (Weil II (1.2.1)). Algebraicity is a clause: the minimal polynomial of a transcendental element is `0`. -/
+/-- The real-base adapter of ArithmeticGaloisRepresentations §2.6's canonical scalar
+`WeilDeligneRep.IsWeilNumber`: it requires `q > 1`, algebraicity over `ℚ`, and modulus
+`q ^ (n / 2)` at every complex conjugate (Weil II (1.2.1)). The algebraicity clause
+excludes the zero minimal polynomial of a transcendental element. -/
 def IsWeilNumber (q : ℝ) (n : ℤ) (α : K) : Prop :=
   1 < q ∧ IsAlgebraic ℚ α ∧ ∀ z ∈ (minpoly ℚ α).aroots ℂ, ‖z‖ = q ^ ((n : ℝ) / 2)
+
+/-- At natural `q ≥ 2`, the real-base adapter agrees with the expanded canonical
+scalar predicate of ArithmeticGaloisRepresentations §2.6 (README 0.19). -/
+theorem isWeilNumber_natCast_iff (q : ℕ) (hq : 2 ≤ q) (n : ℤ) (α : K) :
+    IsWeilNumber (q : ℝ) n α ↔
+      IsAlgebraic ℚ α ∧
+        ∀ z ∈ (minpoly ℚ α).aroots ℂ, ‖z‖ = (q : ℝ) ^ ((n : ℝ) / 2) := by sorry
+
+/-- At `q = 1`, the canonical scalar condition holds for `1` at every weight,
+while the real-base adapter rejects it (README 0.19). -/
+example (n : ℤ) : ¬ IsWeilNumber 1 n (1 : ℚ) ∧
+    (IsAlgebraic ℚ (1 : ℚ) ∧
+      ∀ z ∈ (minpoly ℚ (1 : ℚ)).aroots ℂ, ‖z‖ = (1 : ℝ) ^ ((n : ℝ) / 2)) := by sorry
 
 theorem IsWeilNumber.isAlgebraic {q : ℝ} {n : ℤ} {α : K} (h : IsWeilNumber q n α) : IsAlgebraic ℚ α := by sorry
 
@@ -212,6 +227,57 @@ example : (∀ n : ℤ, ¬ IsPure (E := ℚ) 2 n (Matrix.toLin' !![(1 : ℚ), 0;
       iotaWeights ι 2 (Matrix.toLin' !![(1 : ℚ), 0; 0, 2]) = {0, 2} := by sorry
 
 end Endomorphism
+
+/-! ## Eigenvector and subquotient comparisons for arithmetic purity (README 0.19) -/
+
+section ArithmeticPurityComparison
+
+variable {E V : Type*} [Field E] [CharZero E] [Algebra ℚ E]
+  [AddCommGroup V] [Module E V] [FiniteDimensional E V]
+
+/-- Ordinary purity is the scalar condition on all eigenvectors after algebraic
+closure. This is the linear-algebra core of the comparison with `N = 0`. -/
+theorem isPure_iff_forall_eigenvector (q : ℝ) (n : ℤ) (F : V →ₗ[E] V) :
+    IsPure q n F ↔ ∀ (α : AlgebraicClosure E) (v : AlgebraicClosure E ⊗[E] V),
+      v ≠ 0 → F.baseChange (AlgebraicClosure E) v = α • v → IsWeilNumber q n α := by sorry
+
+/-- Purity of the induced operator on `W/U` is detected by nonzero eigenvector
+classes after scalar extension. Taking the supplied monodromy steps for `U`
+and `W` gives the graded-piece comparison of README 0.19. -/
+theorem isPure_subquotient_iff (q : ℝ) (n : ℤ) (F : V →ₗ[E] V)
+    (U W : Submodule E V) (hUW : U ≤ W)
+    (hU : ∀ x ∈ U, F x ∈ U) (hW : ∀ x ∈ W, F x ∈ W) :
+    let U' := U.comap W.subtype
+    let F' : W →ₗ[E] W := F.restrict hW
+    IsPure q n (U'.mapQ U' F' (fun x hx => hU x hx)) ↔
+      ∀ (α : AlgebraicClosure E) (v : AlgebraicClosure E ⊗[E] V),
+        v ∈ W.baseChange (AlgebraicClosure E) →
+        v ∉ U.baseChange (AlgebraicClosure E) →
+        F.baseChange (AlgebraicClosure E) v - α • v ∈ U.baseChange (AlgebraicClosure E) →
+        IsWeilNumber q n α := by sorry
+
+/-- For the pure Jordan block with `N = 0`, the sole monodromy grade has weight
+`2`, without semisimplicity (README 0.19). -/
+example : IsPure 2 2 (Matrix.toLin' !![(2 : ℚ), 1; 0, 2]) ∧
+    ¬ Module.End.IsSemisimple (Matrix.toLin' !![(2 : ℚ), 1; 0, 2]) := by sorry
+
+/-- On the Tate line with `N = 0`, the sole monodromy grade has weight `−2`
+for geometric Frobenius (README 0.19). -/
+example : IsPure 2 (-2) ((2⁻¹ : ℚ) • LinearMap.id : ℚ →ₗ[ℚ] ℚ) := by sorry
+
+/-- For `Sp(2)`, the grades `−1` and `1` have weights `−2` and `0`, giving
+pair weight `−1`; the underlying Frobenius module is pure of no weight (README 0.19). -/
+example :
+    let F := Matrix.toLin' !![(1 : ℚ), 0; 0, 2⁻¹]
+    let N := Matrix.toLin' !![(0 : ℚ), 0; 1, 0]
+    ∃ hU : ∀ x ∈ LinearMap.ker N, F x ∈ LinearMap.ker N,
+      N ^ 2 = 0 ∧ N ∘ₗ F = (2 : ℚ) • (F ∘ₗ N) ∧
+      IsPure 2 (-2) (F.restrict hU) ∧
+      IsPure 2 0 ((LinearMap.ker N).mapQ (LinearMap.ker N) F hU) ∧
+      (∀ w : ℤ, ¬ IsPure 2 w F) ∧
+      ∀ ι : AlgebraicClosure ℚ →+* ℂ, iotaWeights ι 2 F = {0, -2} := by sorry
+
+end ArithmeticPurityComparison
 
 /-! ## Stability and separation (`…/purity-under-subquotients-and-extensions`, `…/spectra-of-tensor-products-and-duals`,
 `…/finite-field-base-extension-of-weights`, `…/disjoint-spectra-no-intertwiner`) -/

@@ -19,7 +19,8 @@ forms; the mathematics in this README is definitive.
 
 ## Scope and ownership
 
-This roadmap owns numerical, punctual and determinantal weights, local bounds,
+This roadmap owns the real-base scalar adapter, ordinary Frobenius and
+fixed-ι weights, punctual and determinantal weights, local bounds,
 weight–monodromy on finite-field curves, the purity theorems, mixed-complex
 estimates, weight filtrations, geometric semisimplicity, absolute Lefschetz and
 the weight-facing arithmetic and distribution exports of DWP.10.
@@ -41,7 +42,12 @@ H¹/Tate comparison from AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCoho
 This roadmap constructs rational finite-field zeta functions (§1.10), extraction
 of integral degree factors and their independence of ℓ (§4.4), component-aware
 point-count bounds (§10.2), and smooth proper Deligne–Mumford-stack purity (§8.24).
-The numerical predicates are shared export interfaces. Rigid coefficient
+ArithmeticGaloisRepresentations §2.6 owns the canonical natural-base scalar
+predicate `WeilDeligneRep.IsWeilNumber`, the monodromy filtration and
+Weil–Deligne purity. Here `IsWeilNumber` is its real-base adapter with the
+additional condition q>1. Section 0.19 owns their comparison for natural q≥2
+and the comparison of ordinary Frobenius purity with monodromy-graded purity;
+ordinary purity agrees with Weil–Deligne purity when N=0. Rigid coefficient
 categories, relative hard Lefschetz and decomposition are outside this roadmap;
 perverse carriers used here are supplied by EtaleCohomologyFoundations §F.8.
 
@@ -309,6 +315,20 @@ Noetherian approximation of finite-presentation geometry and finite coefficient 
 #### ArithmeticGaloisRepresentations §§1.1–1.6, 6.1–6.2 (finite coefficient models, lattices and Tate realizations)
 
 ArithmeticGaloisRepresentations §§6.1–6.2 supplies the continuous Tate realization and its action, including arithmetic Frobenius π_A. Section 1.5 supplies descent to finite coefficient fields; §1.6 / exists_stable_lattice_iff and GaloisLattice.IntegralModel.nonempty supplies stable lattices for compact groups. For Weil systems compactness is imposed on the geometric image. AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCohomology supplies H¹_et(A,ℤ_ℓ)≅Hom(T_ℓA,ℤ_ℓ), compatibly with pullback, scalar extension and coefficient reduction. Scheme/descent Frobenius is compared through EtaleCohomologyFoundations §§F.10.2–F.10.2b. Uses: [1.4](#target-1-4), [1.7](#target-1-7), [5.2](#target-5-2), [5.7](#target-5-7), [5.15](#target-5-15).
+
+<a id="input-agr-purity"></a>
+
+#### ArithmeticGaloisRepresentations §2.6 (scalar Weil numbers and monodromy-graded purity)
+
+Use the canonical natural-base `WeilDeligneRep.IsWeilNumber`, its predicates
+`WeilDeligneRep.IsPureEnd` and `WeilDeligneRep.IsPure`, and its centered
+`WeilDeligneRep.monodromyFiltration`. The supplier owns the filtration's
+kernel/image formula, conjugation and nonzero-scaling invariance. On a
+finite-dimensional characteristic-zero
+space, nilpotent N and invertible F satisfying NF=qFN give F-stable filtration
+steps. Section 0.19 here owns the scalar and graded-piece comparisons with DWP
+purity for natural q≥2, including the scalar-extension identifications of the
+graded quotients. Uses: [0.19](#target-0-19), [10.1](#target-10-1).
 
 <a id="input-e12"></a>
 
@@ -687,6 +707,10 @@ Fix a real number q > 1 and n ∈ ℤ. An element α of a field K of characteris
 
 Use q>1 and integer weights. The comparison with all maps K→ℂ assumes K algebraic over ℚ; for ℚ̄_ℓ use 0.6. Algebraicity prevents the zero minimal polynomial of a transcendental element from making the root condition vacuous.
 
+`IsWeilNumber` is the real-base adapter of ArithmeticGaloisRepresentations
+§2.6's canonical scalar predicate. Its q>1 clause is part of the predicate;
+[0.19](#target-0-19) identifies the two predicates at natural q≥2.
+
 Its API includes:
 - `IsWeilNumber`: Algebraicity over ℚ and modulus q^(n/2) at every complex root of the minimal polynomial.
 
@@ -996,13 +1020,69 @@ Integer-weight factors descend to the perfect coefficient field E. Fixed-ι real
 
 (Sources: [WI](#ref-wi), §1, preuve de (1.7) ⇒ (1.6), p. 277.)
 
+<a id="target-0-19"></a>
+
+### 0.19. Scalar and Weil–Deligne purity comparisons
+
+Let E be a characteristic-zero field, V a finite-dimensional E-space,
+q : ℕ with 2≤q, and w : ℤ. The scalar comparison is
+`IsWeilNumber (q : ℝ) w α ↔ WeilDeligneRep.IsWeilNumber q w α`
+for α in any characteristic-zero coefficient field, including an algebraic
+closure of E. The right side has no q>1 clause; the hypothesis 2≤q supplies
+that clause on the left. The expanded scalar comparison is
+`isWeilNumber_natCast_iff`.
+
+For an invertible F on V, prove
+`WeilDeligneRep.IsPureEnd q w F 0 ↔ IsPure (q : ℝ) w F`.
+For nilpotent N with NF=qFN, use the supplier's filtration M centered at zero
+and its F-stability. Write F_a for
+the endomorphism induced by F on grᴹ_a=M_a/M_(a−1). Prove
+`WeilDeligneRep.IsPureEnd q w F N ↔ ∀ a : ℤ, IsPure (q : ℝ) (w+a) F_a`.
+For `WeilDeligneRep.IsPure r N q w F`, apply this comparison to r(F) at a
+geometric lift with the same nilpotence and commutation hypotheses. The case
+N=0 uses M_(−1)=0 and M_0=V; the other graded pieces vanish. No
+semisimplicity hypothesis is needed in either comparison.
+
+The linear-algebra API provides `isPure_iff_forall_eigenvector`, expressing
+ordinary purity by every nonzero eigenvector over the algebraic closure, and
+`isPure_subquotient_iff`, expressing purity on W/U for F-stable U⊆W by
+representatives v∈W_Ē with v∉U_Ē and (F−α)v∈U_Ē. Apply the latter with
+W=M_a and U=M_(a−1). As part of this comparison, identify
+Ē⊗_E(W/U) with W_Ē/U_Ē, compatibly with the induced F action; field
+extension is flat. These are the steps of the supplied monodromy filtration.
+Ordinary purity and monodromy-graded purity remain
+different predicates for general N.
+
+#### Checks
+
+- For q=2, F=[[2,1],[0,2]] and N=0, both purity predicates hold at weight 2,
+  although F is not semisimple. The only monodromy grade is zero.
+- On the Tate line F=q⁻¹, N=0, both predicates have weight −2. In particular,
+  geometric Frobenius gives the negative Tate shift.
+- For Sp(2), take F=diag(1,q⁻¹), Ne₀=e₁ and Ne₁=0. Then NF=qFN,
+  M_(−2)=0, M_(−1)=M_0=Ee₁ and M_1=V. The grades −1 and 1 have ordinary
+  weights −2 and 0, respectively, so the pair is Weil–Deligne-pure of weight
+  −1. Its underlying Frobenius module has weights {0,−2} and is pure of no
+  weight. Suggested.lean gives the two induced operators at q=2.
+- At q=1, α=1 satisfies the supplier's scalar predicate at every integer
+  weight, while `IsWeilNumber 1 w (1 : ℚ)` is false. Thus the scalar
+  comparison requires its base-size hypothesis.
+
+*Needs:* [0.1](#target-0-1), [0.7](#target-0-7), [0.8](#target-0-8),
+[ArithmeticGaloisRepresentations §2.6](#input-agr-purity), Mathlib submodule
+restriction, quotient maps and flat field extension.
+
+(Sources: [WII](#ref-wii), §1.2, (1.2.1), (1.2.3)–(1.2.4), pp. 153–154;
+§1.6, Proposition (1.6.1), p. 165; ArithmeticGaloisRepresentations §2.6,
+the monodromy filtration and weights-and-purity definitions.)
+
 ### Examples
 
 For F=diag(1,2) over ℚ and q=2 the weights are {0,2}; the tensor square has weights {0,2,2,4}, and ∧²F has its single weight 2. Squaring both F and q leaves the original weights {0,2}. On [[2,1],[0,2]] the two roots both have weight 2 although the operator is not semisimple (§§0.7, 0.12–0.14).
 
 ### Dependencies
 
-Mathlib fields, minimal polynomials, algebraic closures, characteristic polynomials, generalized eigenspaces, tensor and exterior powers, valuations and direct sums, as named in the supplier contracts.
+Mathlib fields, minimal polynomials, algebraic closures, characteristic polynomials, generalized eigenspaces, tensor and exterior powers, valuations and direct sums, as named in the supplier contracts; ArithmeticGaloisRepresentations §2.6 for §0.19's numerical comparison.
 
 ## Layer DWP.1: The initial Weil estimate through Rosati positivity
 
@@ -3283,7 +3363,13 @@ Expose the weight theory in the forms consumed by arithmetic realizations and di
 
 Let (V,F) be a finite-dimensional invertible Frobenius module and let a commuting algebra of correspondences act on V. Every Frobenius-stable correspondence-stable subquotient of a pure weight-w module is pure of weight w; for a mixed module its actual weights are a subset of those of V. Scalar extension preserves and reflects purity, tensor products add pure weights, duals negate them and an integer Tate twist subtracts 2r. A Hecke eigenspace inherits the conclusion only when it is actually Frobenius-stable. This statement does not imply ℓ-independence of a chosen eigenspace.
 
-*Needs:* [0.9](#target-0-9), [0.13](#target-0-13), [0.15](#target-0-15), [0.18](#target-0-18).
+For natural q≥2 over a characteristic-zero field, §0.19 transports this ordinary purity to the supplied
+Weil–Deligne purity of (F,0). For nilpotent N with NF=qFN, transport the
+weights on each supplied grᴹ_a to pair purity of weight w precisely when
+every grade has ordinary weight w+a. Purity of the full Frobenius module
+alone is not this graded condition.
+
+*Needs:* [0.9](#target-0-9), [0.13](#target-0-13), [0.15](#target-0-15), [0.18](#target-0-18), [0.19](#target-0-19).
 
 (Sources: [WII](#ref-wii), Weil II §1.2 (1.2.2), (1.2.3), (1.2.6)–(1.2.8), pp. 153–155.)
 
@@ -3341,9 +3427,9 @@ component and branch permutations. Its graded pieces H¹(Γ), ⊕H¹(Ỹ_v), H�
 
 ### 10.4. Mixed nearby cycles and Newton restrictions
 
-The arithmetic consumers use DWP.8's mixedness theorem for nearby-cycle cohomology sheaves and its proper direct-image purity over ℤ[1/ℓ]. For an integral weight-w eigenvalue, DWP.7’s Newton couple (r,s) satisfies r+s=w and r,s≥0; its cohomological valuation triangles retain the separate compact-support/proper and smooth ordinary hypotheses. DWP.0 supplies shared numerical Weil/ι-weight export interfaces; rigid coefficient categories and their fibres are outside this roadmap.
+The arithmetic consumers use DWP.8's mixedness theorem for nearby-cycle cohomology sheaves and its proper direct-image purity over ℤ[1/ℓ]. For an integral weight-w eigenvalue, DWP.7’s Newton couple (r,s) satisfies r+s=w and r,s≥0; its cohomological valuation triangles retain the separate compact-support/proper and smooth ordinary hypotheses. DWP.0 supplies the real-base scalar adapter and ι-weight interfaces; §0.19 compares natural q≥2 with the canonical arithmetic scalar predicate and monodromy-graded purity. Rigid coefficient categories and their fibres are outside this roadmap.
 
-*Needs:* [8.7](#target-8-7), [8.13](#target-8-13), [7.13](#target-7-13), [7.14](#target-7-14), [0.1](#target-0-1), [0.4](#target-0-4).
+*Needs:* [8.7](#target-8-7), [8.13](#target-8-13), [7.13](#target-7-13), [7.14](#target-7-14), [0.1](#target-0-1), [0.4](#target-0-4), [0.19](#target-0-19).
 
 (Sources: [WII](#ref-wii), Weil II §3.3 (3.3.7)–(3.3.8), pp. 206–207; [WII](#ref-wii), Théorème (6.1.13), p. 246; [WII](#ref-wii), Variante (6.2.7), p. 248.)
 
@@ -3396,14 +3482,17 @@ For a full-SL₂ elliptic family, normalized trace is 2cos θ. Haar on SU(2) pus
 
 ### Dependencies
 
-DWP.0–DWP.9, including §§1.10, 4.4, 8.24; EtaleCohomologyFoundations §§F.10.1–F.10.5; LefschetzPencilsAndVanishingCycles §§7a.1–7a.3, 7a.5; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T3–IG.0.T4 (rational constructible trace and constant-sheaf point count for every finite extension); ModularCurves §5B; ModularCurvesPartII §§3.1–3.2, 4.11–4.12; EtaleCohomologyFoundations §F.0.A2; ArithmeticGaloisRepresentations §6.1; RepresentationTheory/CompactGroups Layers 0, 6–7.
+DWP.0–DWP.9, including §§1.10, 4.4, 8.24; EtaleCohomologyFoundations §§F.10.1–F.10.5; LefschetzPencilsAndVanishingCycles §§7a.1–7a.3, 7a.5; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T3–IG.0.T4 (rational constructible trace and constant-sheaf point count for every finite extension); ModularCurves §5B; ModularCurvesPartII §§3.1–3.2, 4.11–4.12; EtaleCohomologyFoundations §F.0.A2; ArithmeticGaloisRepresentations §§2.6, 6.1; RepresentationTheory/CompactGroups Layers 0, 6–7.
 
 ## Downstream consumers
 
 ArithmeticGaloisRepresentations §§6.1–6.2 supplies Tate realizations for §10.1's
-weight transport. AutomorphicLFunctionsAndLocalFactors §AL.3 uses DWP.7 for its
-unramified pure realizations and tensor cohomological determinants. The numerical
-predicates and compact-support bounds are shared export interfaces. Rigid
+weight transport and §2.6 supplies the canonical scalar and Weil–Deligne purity
+interfaces. Section 0.19 here supplies their downstream comparison with the
+real-base scalar adapter and ordinary Frobenius purity.
+AutomorphicLFunctionsAndLocalFactors §AL.3 uses DWP.7 for its
+unramified pure realizations and tensor cohomological determinants. The ι-weight
+predicates and compact-support bounds are export interfaces. Rigid
 coefficient categories, relative hard Lefschetz and decomposition are outside
 this roadmap.
 
