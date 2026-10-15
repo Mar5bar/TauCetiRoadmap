@@ -35,7 +35,7 @@ reduction of the norm argument. All six layers are work in this scope.
 | Analytic adic-space diamond functor, Spd and étale-site comparison | DiamondsAndVStacks, **D6** |
 | Integral perfectoid recognition before inversion | PerfectoidSpaces, **P1.24**; primitive untilting and inversion in **P1.20–P1.21** |
 | Completed tensor products, split base change and closed subspaces | [AdicSpacesPartII][adic-part-ii], **R0.3, R0.5, R0.8**; the analytic Cartier criterion is F4 below |
-| Enhanced étale categories, t-structures and left completion | [DiamondEtaleCohomology][cohomology], **C2** |
+| Enhanced étale categories, t-structures and left completion; sections, tensor and coefficient change | [DiamondEtaleCohomology][cohomology], **C2; C3.2, C3.8, C3.11** |
 | Ringed-site enhancements, Postnikov and derived completion | EnhancedDerivedSheaves, **§§0.1–0.4, E2.3, E3.4, E4** |
 | Derived-complete adic coefficient systems and finite-level limits | [AdicCoefficientsAndComparisons][coefficients], **L0** |
 
@@ -46,10 +46,7 @@ data. F4 uses the primitive-kernel classification, establishes the analytic clos
 Cartier criterion, and proves its applicability to these period annuli. F3 establishes effective descent for the étale-sheaf pseudofunctor along q
 and identifies its data with the cyclic relation.
 
-[RelativeFarguesFontaine][relative] consumes the fixed-field product seed in
-RF0, target annuli, the quotient and site comparisons in RF1, and the analytic
-divisor seed in RF3. No relative construction is a prerequisite here. Curves
-for general coefficient fields, arbitrary perfectoid bases, ramified Witt
+Curves for general coefficient fields, arbitrary perfectoid bases, ramified Witt
 coefficients, vector-bundle classification, Bun_G and the general divisor moduli
 problem belong to their own roadmaps. The fixed curve diamond is distinct from
 the moduli quotient Div¹ = Spd(Q_p)/phi^Z. The coefficient and six-operation
@@ -228,8 +225,10 @@ prerequisites:
 5. **DiamondEtaleCohomology, §§C2.2–C2.5, C2.9–C2.12 and Layer C3.** Enhanced exact module-topos derived categories,
    t-structures, coherent truncations and pullbacks, the left-completion
    comparison for locally spatial diamonds, bounded-below agreement, the
-   completed monoidal structure and the global-sections right adjoint preserving
-   Postnikov limits. Apply these contracts separately to each primary factor of a ring killed
+   discrete tensor `etTensor` of §C3.8, and the global-sections and limit
+   contracts `push_globalSections` and `push_limits` of §C3.2. Use §C3.11
+   for derived coefficient reduction. Transport `etTensor` to the left-completed
+   adic-site category; the global-sections right adjoint preserves Postnikov limits. Apply these contracts separately to each primary factor of a ring killed
    by an integer prime to p; the finite product decomposition transports the
    sheaf categories and their enhanced operations to the L0 finite levels.
 6. **AdicCoefficientsAndComparisons, Layer L0**, targets
@@ -261,7 +260,7 @@ layer, with all the conventions above.
 | [F2](#layer-f2-frobenius-and-the-effective-quotient) | Chosen-generator equivariance and X^diamond ≅ (S × Spd(Q_p))/(phi_S^Z × id) | F0/F1; AdicEtaleGeometry A1; DiamondsAndVStacks D0/D4/D6 |
 | [F3](#layer-f3-étale-sites-and-frobenius-descent) | Étale and finite étale equivalences, compatible sheaf descent | F2; DiamondsAndVStacks D0/D3/D6 |
 | [F4](#layer-f4-marked-untilts-as-analytic-cartier-divisors) | Closed Cartier untilt immersions on Y and X | F0/F1/F2; PerfectoidSpaces P1/P2; PerfectoidSpaces P1.24; AdicSpacesPartII R0.3/R0.5/R0.8 |
-| [F5](#layer-f5-enhanced-derived-and-adic-coefficients) | Left-completed and derived-complete coefficient comparisons | F3; DiamondEtaleCohomology C2; AdicCoefficientsAndComparisons L0 |
+| [F5](#layer-f5-enhanced-derived-and-adic-coefficients) | Left-completed and derived-complete coefficient comparisons | F3; DiamondEtaleCohomology C2/C3; AdicCoefficientsAndComparisons L0 |
 
 F3 is the first geometric endpoint: the existing curve is a specified locally
 spatial diamond with the same étale and finite étale sites. F4 adds the analytic
@@ -369,7 +368,10 @@ The API is used by FS II.1.2 and II.1.17 to build the fixed-field product formul
 - `affinoid_product_base` (computation): For T=S and any marked Q_p-untilt u of S, the theta-defined i_u maps to (id_S,u).
 - `affinoid_product_excludes_char_p` (non-example): An untilt with p=0 does not occur in either side with Spd Q_p; its map factors only into the integral analytic locus.
 - `affinoid_product_teichmuller` (computation): For the inverse of (f,u), [varpi] maps to f(varpi)^sharp, a unit in the untilt Tate ring; its plus-ring membership does not assert that it is a plus-ring unit.
-- `affinoid_product_compatible_roots` (computation): For F=completion(F_p((t^{1/p^infty}))), choose the Q_p(p^{1/p^infty})-completion untilt with t^sharp=p and compatible roots. The inverse of (id_S,u) sends every [t^{1/p^m}] to p^{1/p^m}, with the p-power relations retained and both p and [t] invertible in the untilt Tate field. No algebraic-closedness assumption is used.
+- `affinoid_product_compatible_roots` (computation): For F=completion(F_p((t^{1/p^infty}))), choose the Q_p(p^{1/p^infty})-completion untilt with t^sharp=p and compatible roots. The inverse of (id_S,u) sends every [t^{1/p^m}] to p^{1/p^m}, with the p-power relations retained and both p and [t] invertible in the untilt Tate field. No algebraic-closedness assumption is used. In the algebraic signature,
+  tRoots(m+1)^p=tRoots(m) is a hypothesis on the source family;
+  multiplicativity of f and sharp, together with the marked values, gives
+  pRoots(m+1)^p=pRoots(m) in the target.
 
 ### Restriction and naturality of the point bijections
 
@@ -395,7 +397,7 @@ Checks: This is an isomorphism of sheaves, including all perfectoid tests.
 
 (FS II.1.2, p.49; II.1.17, p.55.)
 
-The API is used by FS II.1.17 to identify the generic period domain as the product; F2 quotient to conjugate Witt Frobenius to Frobenius on S; RelativeFarguesFontaine RF0:annuli to supply only the fixed-field product seed, without importing the relative construction backwards.
+The API is used by FS II.1.17 to identify the generic period domain as the product; F2 quotient to conjugate Witt Frobenius to Frobenius on S.
 
 **API.**
 
@@ -514,7 +516,7 @@ Checks: The defining commuting square determines beta_F uniquely.
 
 (FS II.1.16–17, pp.54–55.)
 
-The API is used by FS II.1.17 to describe the diamond of the existing curve; F3 chart comparison to give the quotient’s descent presentation; RelativeFarguesFontaine RF1 to supply the fixed-field quotient specialization.
+The API is used by FS II.1.17 to describe the diamond of the existing curve; F3 chart comparison to give the quotient’s descent presentation.
 
 **API.**
 
@@ -701,7 +703,7 @@ The API is used by FS II.1.18 to provide the map of the untilt into the generic 
 **Checks.**
 
 - `section_untilt_equiv_identity` (computation): For S=Spa(C^flat,O_Cflat) and u=Spa(C,O_C), C a complete algebraically closed extension of Q_p, the section is the theta_C graph with identity marking.
-- `section_untilt_equiv_marking` (characterisation): Replacing the marking by precomposition with phi_S changes the first-factor graph before quotienting; the section bijection distinguishes the two marked data.
+- `section_untilt_equiv_marking` (characterisation): Replacing u by u∘phi_S replaces the second coordinate of the section by u∘phi_S; both first projections remain id_S. The section bijection retains this marking data before quotienting.
 - `section_untilt_equiv_char_p` (non-example): The characteristic-p untilt S with p=0 gives no element of Spd Q_p and hence no section in this bijection.
 
 ### The primitive equation on the imported domain
@@ -730,13 +732,13 @@ Checks: The retraction sends 1 to 1 and commutes with multiplication by xi. Clos
 
 ### Perfectoid root annuli and their tilt coordinates
 
-Prove `root_annulus_tilt`: On the n=1 integral chart of the auxiliary analytic domain D([varpi]), take compatible v_m=[varpi^{1/p^m}], s_m=p_m/v_m in the localized root extension, so s_m^p=s_{m−1}. Let A_0^+ be the [varpi]-adic completion of (W(O_F) completed-tensor_{Z_p}O_Kinfty)[s_m:m≥0], and A=A_0^+[1/[varpi]]. Establish [varpi]-torsion freeness and the integral perfectoid criterion, then A is perfectoid. Its tilt is the chart F⟨t_1^{1/p^infty}⟩ with t_1^sharp=p/[varpi]; the coordinate in the perfect open disc is t=varpi·t_1, so the chart is |t|≤|varpi|≠0. Rational subannuli covering Y inherit this perfectoid frame. The roots are quotients of compatible roots, not arbitrarily chosen roots with missing relations.
+Prove `root_annulus_tilt`: On the n=1 integral chart of the auxiliary analytic domain D([varpi]), put C=W(O_F)⊗_{Z_p}O_Kinfty using the algebraic tensor product. Take compatible v_m=[varpi^{1/p^m}], and form the subring C[s_m:m≥0] of C[1/[varpi]], where s_m=p_m/v_m, so s_{m+1}^p=s_m. Let A_0^+ be its [varpi]-adic completion and A=A_0^+[1/[varpi]]. Identify A, with its integral-closure plus ring, with the completed scalar extension of the actual n=1 auxiliary chart, using the ring-of-definition topology. Establish [varpi]-torsion freeness and the integral perfectoid criterion, then A is perfectoid. Its tilt is the chart F⟨t_1^{1/p^infty}⟩ with t_1^sharp=p/[varpi]; the coordinate in the perfect open disc is t=varpi·t_1, so the chart is |t|≤|varpi|≠0. Rational subannuli covering Y inherit this perfectoid frame. The roots are quotients of compatible roots, not arbitrarily chosen roots with missing relations.
 
 *Needs:* F4, `root_extension_frame`; PerfectoidSpaces, Layer P1 (perfectoid tate ring from integral perfectoid); PerfectoidSpaces, Layer P2 (rational localization of perfectoid affinoids); PerfectoidSpaces, Layer P2 (tilting homeomorphism and rational subsets); PerfectoidSpaces §P1.24 (integral Frobenius criterion).
 
-Compute the quotients A_0^+/(pi) and A_0^+/(pi^p), with pi=v_1, using compatible relations p_m=v_m s_m as in FS II.1.1. Verify the nonzerodivisor and Frobenius quotient criterion using PerfectoidSpaces §P1.24 with pi=v_1 and its integral/Tate dictionary. Use the root pi=v_1 as pseudouniformizer: pi^p=[varpi] divides p by the s_0 relation; do not require [varpi]^p to divide p. Identify the tilt coordinate and its sharp image, then rationally localize to the generic annuli. Use only the auxiliary frame, not a reconstruction of the AdicSpaces construction’s sheafiness or the general relative curve.
+Use the algebraic tensor and the explicit [varpi]-adic ring of definition to construct the auxiliary scalar extension and its comparison with the actual chart; the integral map Z_p→W(O_F) is not an adic scalar map for R0.3. The separate generic Q_p base extension remains that of `root_extension_frame`. Compute the quotients A_0^+/(pi) and A_0^+/(pi^p), with pi=v_1, using compatible relations p_m=v_m s_m as in FS II.1.1. Verify the nonzerodivisor and Frobenius quotient criterion using PerfectoidSpaces §P1.24 with pi=v_1 and its integral/Tate dictionary. Use the root pi=v_1 as pseudouniformizer: pi^p=[varpi] divides p by the s_0 relation; do not require [varpi]^p to divide p. Identify the tilt coordinate and its sharp image, then rationally localize to the generic annuli. Use only the auxiliary frame, not a reconstruction of the AdicSpaces construction’s sheafiness or the general relative curve.
 
-Checks: On the relevant boundary |s_m|=1, while s_m^p=s_{m−1}. The reciprocal coordinate [varpi]/p is not t_1.
+Checks: On the relevant boundary |s_m|=1, while s_{m+1}^p=s_m. The reciprocal coordinate [varpi]/p is not t_1. Modulo p, varpi^N≠0 for every N, so no power of (p,[varpi]) is contained in (p); this integral scalar map cannot use R0.3's adic tensor.
 
 (FS Proof of II.1.1, p.48.)
 
@@ -748,7 +750,9 @@ satisfying the p-power transition equations, and each varpiRoot(m) a unit.
 Then ratioRoot(m+1)^p=ratioRoot(m). This is the signature in Suggested.lean;
 it does not identify an arbitrary ring with a perfectoid annulus.
 For p=2 in Q, numerator roots constantly 1 and denominator roots constantly 1
-give ratio roots constantly 1. Dropping denominator regularity fails: in
+give ratio roots constantly 1. A nonconstant real instance has p=2, numerator
+4^(1/2^m), denominator 2^(1/2^m), and ratio 2^(1/2^m); the ratio transition
+follows from `root_annulus_tilt`. Dropping denominator regularity fails: in
 Z/4, take the numerator and denominator sequences constantly 0 and ratio roots
 constantly 2; the displayed product and power equations for numerator and
 denominator hold, but 2^2 ≠ 2. The actual period chart inverts its denominator.
@@ -787,6 +791,8 @@ The normed-ring signature `rational_strict_exactness` assumes a complete
 normed commutative ring B, xi∈B, a real c>0, and c·‖b‖≤‖xi b‖ for every b.
 It concludes injectivity of multiplication by xi and closedness of its range.
 The geometric quotient identification is the additional target above.
+The unit-ideal quotient B/(1) is a subsingleton ring. On B=ℝ, xi=0 and c=0
+satisfy the weak bound but multiplication is not injective.
 The lower bound implies injectivity and makes the preimages of a Cauchy sequence in xi B Cauchy. Completeness proves closed image. The theta presentation identifies the untilt algebra with the separated completion of the quotient; closedness removes further completion. Use the affinoid quotient-pair plus convention and rational universal properties; an empty intersection forces the completed quotient to vanish.
 
 Checks: For xi=1 and c=1 in any complete normed commutative ring, the range is the whole ring. For xi=0 in a nonzero normed field, no c>0 satisfies the bound; c=0 would admit zero multiplication and cannot imply injectivity. The proof checks rational subsets as well as the original period annulus. The quotient topology, plus ring and restriction maps are all retained.
@@ -799,13 +805,13 @@ Construct `untilt_closed_divisor`. Construct the actual closed immersion i_u:S^s
 
 *Needs:* F4, `rational_strict_exactness`; AdicSpacesPartII §R0.8 (closed adic subspaces and embeddings); F4, `analytic_cartier_closed_iff`.
 
-Apply the R0 general Cartier/closed-image criterion to the rational injectivity and closedness theorem. Glue the quotient pairs and identify their morphisms with the original theta map. Unit multiples give the same ideal sheaf, and F0 transports choices.
+Apply F4's `analytic_cartier_closed_iff` to the rational injectivity and closedness theorem, and use AdicSpacesPartII §R0.8 to construct the closed quotient subspace. Glue the quotient pairs and identify their morphisms with the original theta map. Unit multiples give the same ideal sheaf, and F0 transports choices.
 
 Checks: Both the closed immersion and its ideal sheaf are provided.
 
 (SW Lecture 5, Definitions 5.3.2, 5.3.7; Proposition 5.3.8; Remark 5.3.9, pp.38–40.)
 
-The API is used by FS II.1.4/II.1.18 to upgrade an untilt section to an actual analytic closed Cartier divisor; RelativeFarguesFontaine RF3 to supply this fixed-field analytic estimate as the seed for the relative owner.
+The API is used by FS II.1.4/II.1.18 to upgrade an untilt section to an actual analytic closed Cartier divisor; F4 curve divisors to descend the closed immersion.
 
 **API.**
 
@@ -843,7 +849,7 @@ Checks: The divisor on X retains the untilt residue field.
 
 (FS II.1.4, pp.49–50; II.1.18, p.55.)
 
-The API is used by FS II.1.18 to descend the analytic untilt divisor to the existing fixed curve; RelativeFarguesFontaine RF3 to provide the fixed-field orbit-invariant divisor map; arbitrary base extension belongs there.
+The API is used by FS II.1.18 to descend the analytic untilt divisor to the existing fixed curve; F4 orbit invariance to identify the divisors of Frobenius-shifted markings.
 
 **API.**
 
@@ -859,7 +865,7 @@ The API is used by FS II.1.18 to descend the analytic untilt divisor to the exis
 
 ### Frobenius-orbit invariance of the marked-untilt divisor
 
-Prove `untilt_orbit_invariance`: The assignment u↦D_u is invariant under integer Frobenius shifts of the marking, with canonical isomorphism of closed immersions over X. On the Y lift, the section (id,u∘phi_S) is related to (id,u) by reparametrization of S and the positive phi_Y action: (phi_S×id)∘(id,u)∘phi_S^−1=(id,u∘phi_S^−1). Thus positive phi_Y corresponds to inverse precomposition of the marking when one resets the first coordinate to id. Prove this convention explicitly. The resulting fixed-field map factors through maps S→Spd Q_p/phi^Z in the stated FS sense; this moduli quotient is distinct from X^diamond.
+Prove `untilt_orbit_invariance`: The assignment u↦D_u is invariant under integer Frobenius shifts of the marking, with canonical isomorphism of closed immersions over X. On the Y lift, the section (id,u∘phi_S^−1) is obtained from (id,u) by positive phi_Y followed by reparametrization by phi_S^−1: (phi_S×id)∘(id,u)∘phi_S^−1=(id,u∘phi_S^−1). Thus positive phi_Y corresponds to inverse precomposition of the marking when one resets the first coordinate to id. Prove this convention explicitly. The resulting fixed-field map factors through maps S→Spd Q_p/phi^Z in the stated FS sense; this moduli quotient is distinct from X^diamond.
 
 *Needs:* F4, `curve_untilt_divisor`; F4, `section_untilt_equiv`; F2, `frobenius_equivariance`; DiamondsAndVStacks, Layer D0 (groupoid quotients and two fibre products).
 
@@ -895,7 +901,8 @@ inverse-limit equivalence for Lambda/I^n. Since these finite levels are killed
 by a power of a prime-to-p integer, their finitely many primary pieces reduce to
 the displayed torsion range by the finite product decomposition of the coefficient ring.
 Transition natural transformations must be checked before taking the enhanced
-limit. Tensor means completed tensor where L0 requires it. The constant Z_ell
+limit. Discrete tensor is C3.8's `etTensor`, transported to the left-completed
+adic-site category; adic tensor is derived I-completed tensor from L0. The constant Z_ell
 system, I=(ell), ell≠p, is the principal test. This route supplies neither a
 Z_p comparison nor a rational ell-adic theory without a separately specified
 localization.
@@ -942,25 +949,25 @@ Checks: A degree-zero module and any shift agree with the ordinary construction.
 
 Prove `completed_global_sections`: Let eta^* be the exact module-sheaf equivalence. For bounded-below A the natural map RΓ(X_et,A)→RΓ(X^diamond_et,eta^*A) induced by the site functor is an equivalence. For a left-completed object represented by the compatible tower A_n=tau_{≥−n}A, the corresponding completed global sections are lim_n RΓ(X_et,A_n); compare them to RΓ_et(X^diamond,E_Lambda A) by the compatible actual finite-truncation comparison maps. The diamond right adjoint preserves this limit. Do not replace this map by a noncanonical equivalence of abstract cohomology groups.
 
-*Needs:* F5, `ordinary_bounded_below`; F5, `completed_derived_equiv`; DiamondEtaleCohomology, Layer C2 (enhanced left completion and coherent operations).
+*Needs:* F5, `ordinary_bounded_below`; F5, `completed_derived_equiv`; DiamondEtaleCohomology §C3.2 (`push_globalSections`, `push_limits`); EnhancedDerivedSheaves §E3.4 (enhanced mates and ringed-site operations).
 
-Identify the underived section maps by the terminal object under the site equivalence. Derive via the supplied enhancements; use the exact inverse equivalence for bounded-below objects. For the tower, use right-adjoint preservation of limits and C2’s global-sections/truncation compatibility; take the coherent limit of the maps.
+Identify the underived section maps by the terminal object under the site equivalence. Derive via the supplied enhancements; use the exact inverse equivalence for bounded-below objects. For the tower, use §C3.2's `push_globalSections` and `push_limits`, together with C2's truncation comparison; take the coherent limit of the maps.
 
-Checks: On constant Lambda in degree zero the degree-zero comparison sends a section to itself through eta. No invariant-sections formula omits derived Frobenius descent.
+Checks: On constant Lambda in degree zero the degree-zero comparison sends a section to itself through eta. For a shifted bounded-below complex it is the shifted ordinary site map. On an unbounded Postnikov tower it is the coherent limit of the truncation maps. No invariant-sections formula omits derived Frobenius descent.
 
-(ECD Definition 14.13; Remark 14.14; Proposition 14.15, p.88.)
+(ECD Definition 14.13; Remark 14.14; Proposition 14.15, p.88; Lemma 17.5, p.98.)
 
 ### Pullback and tensor compatibility of the derived comparison
 
-Prove `derived_pullback_tensor`: For inclusions of imported rational and wandering charts, the completed derived comparison commutes with pullback via the coherent square of F3. It is compatible with the enhanced derived tensor product of Lambda-modules in the chosen C2 category (using its completion if that monoidal convention requires it), and with the unit Lambda. These natural isomorphisms agree on nested restrictions, associativity and units; tensor compatibility does not assert that a general inverse limit commutes with ordinary tensor.
+Prove `derived_pullback_tensor`: For inclusions of imported rational and wandering charts, the completed derived comparison commutes with pullback via the coherent square of F3. For discrete coefficients use §C3.8's `etTensor` on the diamond side and its transport along E_Lambda on the left-completed adic-site side, with unit Lambda; prove that E_Lambda is symmetric monoidal. For ordinary site complexes A and B, left completion of their ordinary derived tensor identifies with the transported tensor of their left completions. Adic coefficients use the derived I-completed tensor of L0. These natural isomorphisms agree on nested restrictions, associativity and units; tensor compatibility does not assert that a general inverse limit commutes with ordinary tensor.
 
-*Needs:* F5, `completed_derived_equiv`; F3, `chart_site_compatibility`; DiamondEtaleCohomology, Layer C2 (enhanced left completion and coherent operations).
+*Needs:* F5, `completed_derived_equiv`; F3, `chart_site_compatibility`; DiamondEtaleCohomology §C3.8 (`etTensor`), §C3.11 (coefficient reduction); EnhancedDerivedSheaves §E3.4 (ringed-site coherence).
 
-Enhance the sheaf-level chart square and its associators. Use the exact monoidal site equivalence and the supplied completed monoidal structure, then compare truncation towers in that structure.
+Enhance the sheaf-level chart square and its associators. Use the exact monoidal site equivalence and §C3.8's restriction of ordinary v-derived tensor. Relate the ordinary site-derived tensor to this structure by the completion comparison of ECD Proposition 14.15 and Lemma 17.7; retain the associativity, symmetry and unit maps. Use §C3.11 for coefficient-reduction transformations.
 
-Checks: The tensor unit maps to Lambda and restriction of its unit isomorphism is the local unit isomorphism.
+Checks: The tensor unit maps to Lambda and restriction of its unit isomorphism is the local unit isomorphism. On two bounded-below complexes the comparison is completion of the ordinary site-derived tensor comparison. Two successive chart restrictions preserve the same associativity and symmetry maps.
 
-(ECD Definition 14.13; Remark 14.14; Proposition 14.15, p.88.)
+(ECD Definition 14.13; Remark 14.14; Proposition 14.15, p.88; Lemma 17.7, p.100.)
 
 ### The derived-complete adic coefficient comparison
 
@@ -990,14 +997,14 @@ The API is used by ECD Proposition 26.2 to use the enhanced inverse-limit descri
 - `AdicEtaleCurve.coefficient_limit`: identify the category with its defining
   enhanced inverse limit, compatibly with transitions and the completed unit.
 - `adic_derived_equiv_reduce` (compatibility): Derived reduction of E_{Lambda,I}(A) modulo I^n equals E_{Lambda/I^n}(A tensor_Lambda^L Lambda/I^n), coherently in n.
-- `adic_derived_equiv_complete_tensor` (structure): The comparison preserves the completed tensor product Lhat_{I}(A tensor_Lambda^L B), with its unit.
+- `adic_derived_equiv_complete_tensor` (structure): The comparison preserves the completed tensor product Lhat_{I}(A tensor_Lambda^L B), with unit the completed constant coefficient object Rlim_n Lambda/I^n.
 - `adic_derived_equiv_inverse_limit` (characterisation): The comparison is the L0 inverse limit of its finite-level comparisons, including transition equivalences.
 
 **Checks.**
 
 - `adic_derived_equiv_zell` (computation): For Lambda=Z_ell, I=(ell), ell≠p, the constant derived-complete Z_ell sheaf reduces to the constant Z/ell^n comparison at every n.
 - `adic_derived_equiv_reduction` (compatibility): For I=(ell), the square for Z/ell^(n+1)→Z/ell^n commutes with derived coefficient reduction.
-- `adic_derived_equiv_completed_unit` (characterisation): The tensor unit is the derived-complete Lambda object, and the tensor comparison is completed tensor; no ordinary tensor is declared complete by definition.
+- `adic_derived_equiv_nonnoetherian` (computation): For ell≠p, Lambda=(∏_{m≥0}F_ell)[[t]] and I=(t), the comparison applies although Lambda is non-Noetherian. Its reductions are the comparisons for (∏F_ell)[t]/(t^n), coherently in n. Here t is a nonzerodivisor, the ring is t-adically complete and ell=0 lies in I. EnhancedDerivedSheaves §E4.5 (`coefficientSystemReconstruction`), restricted to étale objects by L0, supplies this case.
 
 ### Finite-level and global-sections compatibility for adic coefficients
 
@@ -1034,8 +1041,7 @@ not just existence of unstructured bijections. Keep both coordinates in the
 product extensionality lemmas, the actual site functor in the site equivalence,
 pullback associators in descent, the quotient topology and integral subring
 in Cartier constructions, and the natural comparison map in global sections.
-These are the interfaces used by the following layers and by the relative
-curve roadmap.
+These are the interfaces used by the following layers.
 
 ## References
 
@@ -1060,6 +1066,7 @@ adic-site convention.
   arXiv:1709.07343v4, April 2026. Definition 15.5 and Lemma 15.6, pp.91–92;
   Proposition 10.11(iii), pp.52–53, using Proposition 9.7, pp.47–48;
   Definition 14.13, Remark 14.14 and Proposition 14.15, p.88;
+  Lemma 17.5, p.98, and Lemma 17.7, p.100;
   Definition 26.1, Proposition 26.2 and Remark 26.3, pp.161–162.
 - **KL:** Kiran S. Kedlaya and Ruochuan Liu,
   [*Relative p-adic Hodge theory: Foundations*][kl], arXiv:1301.0792v5,
@@ -1080,7 +1087,6 @@ Fargues–Fontaine global-sections formulas.
 [adic-part-ii]: ../AdicSpacesPartII/README.md
 [cohomology]: ../DiamondEtaleCohomology/README.md
 [coefficients]: ../AdicCoefficientsAndComparisons/README.md
-[relative]: ../RelativeFarguesFontaine/README.md
 [fs]: https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf
 [sw]: https://people.mpim-bonn.mpg.de/scholze/Berkeley.pdf
 [ecd]: https://arxiv.org/pdf/1709.07343v4

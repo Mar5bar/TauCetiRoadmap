@@ -62,6 +62,19 @@ theorem rational_strict_exactness {B : Type u} [NormedCommRing B] [CompleteSpace
 example : ∀ m : ℕ, (1 : ℚ) ^ (2 : ℕ) = 1 := by
   sorry
 
+-- Nonconstant positive real root families test the ratio direction and square transition.
+example : ∀ m : ℕ,
+    ((2 : ℝ) ^ ((1 : ℝ) / (2 : ℝ) ^ (m + 1))) ^ (2 : ℕ) =
+      (2 : ℝ) ^ ((1 : ℝ) / (2 : ℝ) ^ m) := by
+  apply root_annulus_tilt
+    (fun m => (4 : ℝ) ^ ((1 : ℝ) / (2 : ℝ) ^ m))
+    (fun m => (2 : ℝ) ^ ((1 : ℝ) / (2 : ℝ) ^ m))
+    (fun m => (2 : ℝ) ^ ((1 : ℝ) / (2 : ℝ) ^ m)) 2
+  · sorry
+  · sorry
+  · sorry
+  · sorry
+
 -- Without regular denominators, the ratio equations do not determine compatible roots.
 example : (∀ m : ℕ, (2 : ZMod 4) * 0 = 0) ∧
     (∀ m : ℕ, (0 : ZMod 4) ^ (2 : ℕ) = 0) ∧
@@ -74,6 +87,16 @@ example {B : Type u} [NormedCommRing B] [CompleteSpace B] :
       IsClosed (Set.range (fun b : B => (1 : B) * b)) := by
   sorry
 
+-- A unit Cartier equation has zero quotient.
+example {B : Type u} [CommRing B] :
+    Subsingleton (B ⧸ Ideal.span ({(1 : B)} : Set B)) := by
+  sorry
+
+-- A zero lower-bound constant admits zero multiplication on a nonzero complete field.
+example : (∀ b : ℝ, (0 : ℝ) * ‖b‖ ≤ ‖(0 : ℝ) * b‖) ∧
+    ¬ Function.Injective (fun b : ℝ => (0 : ℝ) * b) := by
+  sorry
+
 -- A positive lower bound excludes the zero generator in a nontrivial normed ring.
 example {B : Type u} [NormedCommRing B] [Nontrivial B]
     (c : ℝ) (hc : 0 < c) : ¬ (∀ b : B, c * ‖b‖ ≤ ‖(0 : B) * b‖) := by
@@ -84,16 +107,24 @@ example (A : Type u) [CommRing A] [Nontrivial A] (p : ℕ) [CharP A p] :
     ¬ IsUnit (p : A) := by
   sorry
 
--- Theta preserves the marked compatible-root values in F1's Kummer-field Check.
+-- Theta evaluates the marked roots, and multiplicative sharp transports source transitions.
 example {R A : Type u} [CommRing R] [CommRing A] (p : ℕ) [Fact p.Prime]
     [Fact (¬ IsUnit (p : A))] [IsAdicComplete (Ideal.span {(p : A)}) A]
     (f : R →+* PreTilt A p) (tRoots : ℕ → R) (pRoots : ℕ → A)
     (hmark : ∀ m, (f (tRoots m)).untilt = pRoots m)
-    (hroots : ∀ m, pRoots (m + 1) ^ p = pRoots m) :
+    (hroots : ∀ m, tRoots (m + 1) ^ p = tRoots m) :
     (∀ m, (WittVector.fontaineTheta A p).comp (WittVector.map f)
       (WittVector.teichmuller p (tRoots m)) = pRoots m) ∧
     (∀ m, pRoots (m + 1) ^ p = pRoots m) := by
-  sorry
+  constructor
+  · intro m
+    simp only [RingHom.comp_apply, WittVector.map_teichmuller,
+      WittVector.fontaineTheta_teichmuller, hmark]
+  · intro m
+    calc
+      pRoots (m + 1) ^ p = (f (tRoots (m + 1))).untilt ^ p := by rw [hmark]
+      _ = (f (tRoots (m + 1) ^ p)).untilt := by rw [map_pow, map_pow]
+      _ = pRoots m := by rw [hroots, hmark]
 
 /-
 The README specifies the remaining geometric interfaces in their own layers:
