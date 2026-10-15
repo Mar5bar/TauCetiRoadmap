@@ -117,6 +117,24 @@ Prove compatibility with tangent-vector evaluation, restriction to open sets,
 pullback differentials and the coordinate-differential bases. Construct the
 complex-valued version using the scalar-function algebra described below.
 
+#### Smooth section modules
+
+For every smooth finite-rank real vector bundle, construct the `C∞(M,ℝ)`-module
+on the existing `ContMDiffSection` carrier. Use `ContMDiff.smul_section` for
+closure, prove the module laws pointwise, and supply the evaluation formula
+`(f • s)(x)=f(x) • s(x)`, restriction to open sets and constant-function
+comparisons with the native real scalar action. Export `IsScalarTower ℝ
+C∞(M,ℝ) Γ∞(V)` and `SMulCommClass ℝ C∞(M,ℝ) Γ∞(V)` from this comparison.
+[SmoothBundlesConnections B2](../SmoothBundlesConnections/README.md) supplies
+the bundles and their associated-section dictionary. This module construction
+uses only those bundle/section foundations and smooth scalar multiplication;
+it precedes the rest of P1.0 independently of ideal quotients, derivation
+correspondences, jets, densities, connections and analytic Sobolev theory.
+LieGroupoidsPoisson G1.1 consumes these module and scalar-compatibility
+instances and owns the additional algebroid-specific Lie structures.
+
+#### Global derivations and jets
+
 Use Mathlib's `Derivation` and `PointDerivation`, with the latter's scalar
 action given by evaluation at x. Consume Tau Ceti's
 `Geometry/Manifold/DerivationBundle` and its
@@ -126,12 +144,8 @@ Hausdorff and interior-point hypotheses hold here. Its
 `Analysis/Calculus/Hadamard` supplies smooth Hadamard factors. Construct the
 `C∞(M,ℝ)`-linear equivalence between algebraic derivations A→A and smooth
 sections of the actual tangent bundle, using Mathlib's `ContMDiffSection`,
-without assuming a derivation is continuous. P1.0 owns the scalar-function
-module structure on these existing smooth-section carriers for every smooth
-real bundle: use `ContMDiff.smul_section` for closure, prove the module laws
-pointwise, and compare restriction and the underlying real scalar action.
-SmoothBundlesConnections B2 supplies bundles and their associated-section
-dictionary. Evaluate the derivation at each point and use the native point
+without assuming a derivation is continuous, using the preceding section module.
+Evaluate the derivation at each point and use the native point
 equivalence; prove smoothness from its values on bump-localized coordinate
 functions. Prove inverse evaluation `δ(f)(x)=df_x(X_x)`, locality and
 restriction to open sets. Prove `field(fδ)=f·field(δ)` pointwise before
@@ -173,8 +187,8 @@ in the complex case. Real-linear operators on complex-valued functions are
 operators on the real rank-two trivial bundle, with matrix-valued order-zero
 parts; the complex scalar splitting requires complex linearity.
 
-Construct smooth section modules on open sets, restriction and multiplication,
-and linear differential operators between bundles with an order filtration,
+Using the preceding smooth section modules, restrictions and multiplication,
+construct linear differential operators between bundles with an order filtration,
 defined by local finite-coordinate derivative expressions of bounded order.
 Prove the equivalent factorization
 through the order-m jet bundle, and vanishing of m+1 iterated commutators with
