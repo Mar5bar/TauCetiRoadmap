@@ -491,9 +491,23 @@ The README also specifies API beyond the representative statements above:
   unit, extension-class and nonperfect-localization computations.
 * E1.8.DMA.1: `derivedTensor_affine`, in namespace `DerivedDeRham`, compares the module
   tensor of DerivedModuleAlgebra §0.2 with SchemeAndStackFoundations §2.18 on `Spec R`.
-* E1.9: `perfect_proper_pushforward` states perfectness and arbitrary derived base change
+* E1.9: `perfect_proper_pushforward` states perfectness and arbitrary base change
   for `Rf_*(E ⊗ᴸ G•)` on algebraic spaces, with `E` perfect and `G•` bounded, finitely
-  presented, termwise target-flat and with proper support. These carriers are README targets.
+  presented, termwise target-flat and with proper support. Its base-change formula is
+  `Lg* Rf_*(E ⊗ᴸ G•) ≃ Rf'_*(Lg'^*E ⊗ᴸ g'^*G•)`, with the second factor pulled
+  back termwise ordinarily, as in Stacks 0A1K/0A1P. The finite affine example
+  `A = k[t]`, `B = A[ε]/(tε, ε²)`, `C = B/tB`, `G = B/(ε)` has
+  `Tor₂^B(A,C) = k`, distinguishing ordinary from derived pullback of `G`.
+  These carriers are README targets.
+* E5:spectra-comparison: `eilenbergMacLane` and `moduleSpectra_equiv_derived` are
+  abstract exports. GeneralizedCohomology owns the outbound symmetric monoidal
+  comparison `DK(SpΣ, W_st) ≃ Sp`, preserving the sphere, suspension-spectrum
+  adjunction, integer shifts and mapping spectra. It identifies concrete `HR` with
+  `eilenbergMacLane R` in `CAlg(Sp)` for commutative `R`, routes concrete modules
+  through `moduleSpectra_equiv_derived`, and compares coherent localization and
+  completion towers with their units and transition maps. For `HR`-modules the
+  `p`-power cofibre tower corresponds to E4.2's Koszul tower; ordinary quotients
+  require the hypotheses of `regularIdeal_quotients`.
 * E1.6: `frobeniusRootIdeal_radical` and `frobeniusRootIdeal_colimit` identify the root ideal
   with the radical and its sequential colimit presentation.
 * E2.1–E2.3: `IsReplete.of_over_epi`, `IsReplete.lim_map_epi`, `IsReplete.rlim_amplitude`,

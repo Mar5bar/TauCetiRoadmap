@@ -29,7 +29,7 @@ The boundaries are as follows.
 - `DerivedModuleAlgebra` §0.I.1 supplies module K-injective replacements; §§0.2, 0.4 supplies module K-flat models, `DerivedDeRham.derivedTensor` and `Algebra.CotangentComplex`; §§0.5–0.13 supplies its ordinary deformation and functorial properties; §§0.14–0.17 supplies `DerivedDeRham.derivedExteriorPower` and integral décalage; §1.T.1 and §§1.1–1.1.1 supply elementary tower algebra, module derived limits and `DerivedDeRham.moduleDerivedHom`; §§1.2–1.5 supplies module completeness, `DerivedDeRham.derivedCompletion`, `DerivedDeRham.koszulCompletionTower` and regular-quotient completion. E1.F3.H1 identifies the module derived Hom with point-site internal Hom, and E1.8.DMA.1 identifies module derived tensor with affine derived sheaf tensor. E4 extends module completion to ringed topoi; E5:cotangent-export gives the coherent animated cotangent and power refinements and compares their homotopy-category shadows with these suppliers.
 - Sections 0.1–0.4 supply `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom`, `ClassicalDerived.inverseLimits` and `ClassicalDerived.functorCoherence` on essentially small ringed sites. Additive enhancement and K-injectives allow noncommutative rings; tensor products require commutativity. E1 gives explicit quasicategorical and dg-nerve comparison adapters for these objects. Section 0.3 `ClassicalDerived.derivedCompletion` is the ℓ-adic module specialization over ℤ of DerivedModuleAlgebra §§1.2–1.5; E4 compares both with the sheaf extension.
 - `DerivedModuleAlgebra` §0.K.1 supplies the linear-functional `koszulComplex φ`, its maps, tensor formula, multiplication null-homotopies and finite weakly regular resolutions. E1.5 owns only cochain reindexing and realization in the enhancement.
-- Concrete point-set models of spectra (symmetric spectra and their stable model structures) and their comparison with the ∞-category Sp of Layer E5:presentability belong to `StableHomotopyKTheory`, which applies `monoidalModelLocalization` of Layer E5:abstract; this roadmap uses only Sp.
+- `GeneralizedCohomology` G2 owns concrete symmetric spectra and their stable model structures. Its outbound comparison with this roadmap's abstract Sp, Eilenberg–Mac Lane rings and derived modules, including the localization and completion towers of its G3.8–G3.9, is specified in E5:spectra-comparison below. That comparison consumes this roadmap's exports; no concrete spectral model is an input here.
 - `SchemeKTheoryOperations` and `DeformationAndDerivedPatchingAlgebra` use the enhancement of Layer E1 and the completion of Layer E4 rather than building their own.
 
 ## Conventions
@@ -1099,22 +1099,28 @@ each with support proper over Y. Then Rf_∗(E ⊗ᴸ_(O_X) G•) is perfect on 
 For every base change g : Y′ → Y, with X′ = X ×_Y Y′ and induced maps f′ and g′,
 the derived base-change comparison
 
-Lg^∗ Rf_∗(E ⊗ᴸ G•) → Rf′_∗(Lg′^∗E ⊗ᴸ Lg′^∗G•)
+Lg^∗ Rf_∗(E ⊗ᴸ G•) → Rf′_∗(Lg′^∗E ⊗ᴸ g′^∗G•)
 
-is an isomorphism. In particular Rf_∗E is perfect and commutes with arbitrary
+is an isomorphism, where g′^∗G• is the termwise ordinary pullback of the given
+complex. Flatness over Y supplies this base-change formula without requiring
+the terms of G• to be flat over X. In particular Rf_∗E is perfect and commutes with arbitrary
 base change when f is proper, flat and finitely presented. There is no Noetherian
 hypothesis on Y; boundedness, finite presentation, target-flatness and proper support
 of G• are retained.
-(Stacks, Derived Categories of Spaces, Lemma 75.25.1, tag [0A1P](https://stacks.math.columbia.edu/tag/0A1P),
+(Stacks, Derived Categories of Spaces, Lemma 75.21.4 and its proof, tag [0A1K](https://stacks.math.columbia.edu/tag/0A1K);
+Lemma 75.25.1, tag [0A1P](https://stacks.math.columbia.edu/tag/0A1P),
 pp. 60–61; Lemma 75.25.4, tag [0CTM](https://stacks.math.columbia.edu/tag/0CTM), pp. 61–62.)
 
-For the proof, work étale locally on Y and descend the finite-presentation data to a
-Noetherian affine model. Prove cohomology and base change on that algebraic-space
-model by étale descent from the scheme cohomology theorems of StableReduction Layer 2
-and JacobianChallenge Layer C, using the derived pullback and pushforward of
-SchemeAndStackFoundations §2.18 on the charts. Finite locally free complex models,
-target-flatness and derived pullback give the comparison for every base change;
-perfectness descends on Y.
+For base change, use the stalkwise target-flat calculation of Stacks 0A1K:
+ordinary scalar extension of the bounded complex G• over the target computes
+its derived scalar extension over that target. Together with the derived pullback
+of E this gives the displayed comparison with termwise g′^∗G•. For perfectness,
+follow Stacks 0A1P: work étale locally on Y and descend E and G•, including
+target-flatness and proper support, to a Noetherian affine model. Prove perfectness
+on that algebraic-space model by étale descent from the scheme cohomology theorems
+of StableReduction Layer 2 and JacobianChallenge Layer C, using
+SchemeAndStackFoundations §2.18 on the charts. Apply 0A1K to pull this perfect
+pushforward back to Y; perfectness descends on Y.
 
 **Checks.**
 
@@ -1125,6 +1131,12 @@ perfectness descends on Y.
 - For f = id_(Spec ℤ), E = (ℤ/p)[0] and G• = O[0], p prime, base change to
   Spec 𝔽_p gives cohomology 𝔽_p in degrees −1 and 0. Derived pullback of the
   perfect first argument is essential even though G• is target-flat.
+- Let k be a field, A = k[t], B = A[ε]/(tε, ε²), C = B/tB, and
+  f : Spec B → Spec A. Take E = B[0] and G• = (B/(ε))[0] = A[0].
+  The map f is finite, and G• is finitely presented over B, free over A and
+  has proper support. After A → k, both sides of the stated formula are k[0].
+  Replacing g′^∗G• by Lg′^∗G• gives A ⊗ᴸ_B C, whose H^{−2} is
+  Tor₂^B(A, C) = k. Thus target-flatness does not permit that replacement.
 
 *Needs:* SchemeAndStackFoundations §0.9, Layers 1–2 and §2.18; JacobianChallenge Layer C;
 StableReduction Layer 2.
@@ -1906,7 +1918,7 @@ Layers E0, E2:towers, E5:abstract and E5:presentability. Mathlib (injective dime
 
 This layer compares the derived categories of Layer E1 with modules over ring spectra in the abstract stable ∞-category Sp of Layer E5:presentability. It uses Layers E1, E5:abstract and E5:presentability.
 
-**Eilenberg–Mac Lane rings and the module comparison** (`eilenbergMacLane`, `moduleSpectra_equiv_derived`). Since D(R) = D∞(R) is a commutative algebra in presentable stable ∞-categories, the unique colimit-preserving symmetric monoidal functor Sp → D(R) has a lax symmetric monoidal right adjoint; it sends the unit R[0] to a commutative algebra HR ∈ CAlg(Sp), the Eilenberg–Mac Lane ring of R. For every commutative ring R there is a symmetric monoidal equivalence Mod_{HR}(Sp) ≃ D(R) carrying HR to R[0] and the relative tensor product over HR to the derived tensor product over R; on homotopy categories it recovers Mathlib's `DerivedCategory (ModuleCat R)` with its shift and distinguished triangles, and mapping spectra correspond to derived Hom complexes. Comparing a concrete point-set model of spectra (symmetric spectra and their model structures) with Sp is the work of the roadmap that builds that model, which applies `monoidalModelLocalization`. (HA Theorem 7.1.2.13, p. 1212; Theorem 7.1.2.1, p. 1206; Proposition 4.8.2.18, p. 722.)
+**Eilenberg–Mac Lane rings and the module comparison** (`eilenbergMacLane`, `moduleSpectra_equiv_derived`). Since D(R) = D∞(R) is a commutative algebra in presentable stable ∞-categories, the unique colimit-preserving symmetric monoidal functor Sp → D(R) has a lax symmetric monoidal right adjoint; it sends the unit R[0] to a commutative algebra HR ∈ CAlg(Sp), the Eilenberg–Mac Lane ring of R. For every commutative ring R there is a symmetric monoidal equivalence Mod_{HR}(Sp) ≃ D(R) carrying HR to R[0] and the relative tensor product over HR to the derived tensor product over R; on homotopy categories it recovers Mathlib's `DerivedCategory (ModuleCat R)` with its shift and distinguished triangles, and mapping spectra correspond to derived Hom complexes. (HA Theorem 7.1.2.13, p. 1212; Theorem 7.1.2.1, p. 1206; Proposition 4.8.2.18, p. 722.)
 
 Provide `eilenbergMacLane`, `eilenbergMacLane_homotopy` (π_n HR is R for n = 0 and zero otherwise), `moduleSpectra_equiv_derived` and `moduleSpectra_equiv_derived_unit`.
 
@@ -1919,6 +1931,60 @@ Provide `eilenbergMacLane`, `eilenbergMacLane_homotopy` (π_n HR is R for n = 0 
 *Proof route.* R[0] is a compact generator of D(R) with End(R[0]) = HR concentrated in degree zero, so the Schwede–Shipley theorem (HA 7.1.2.1) gives D(R) ≃ Mod_{HR}(Sp); the symmetric monoidal refinement follows from the uniqueness of colimit-preserving symmetric monoidal structures extending the one on the generator (HA 7.1.2.13). Compare shifts and triangles through `stableMonoidal_homotopyCategory`.
 
 *Needs:* `spectra`; `presentableTensor`; `leftModuleObjects`; `derivedTensor_symmetricMonoidal`; `stableMonoidal_homotopyCategory`; `enhancedDerived`; `IsCompactlyGenerated`.
+
+### Outbound comparison with concrete spectra
+
+`GeneralizedCohomology` owns the comparison of its G2.3–G2.7 concrete models
+with these abstract exports. For its category SpΣ of symmetric spectra of pointed
+simplicial sets and its stable equivalences W_st, the contract is a symmetric
+monoidal equivalence
+
+```text
+DK(SpΣ, W_st) ≃ Sp.
+```
+
+It identifies the derived sphere unit, the adjunction Σ^∞ ⊣ Ω^∞ with its unit
+and counit, every integer shift, and mapping spectra naturally in both variables.
+Apply `monoidalModelLocalization` on cofibrant objects, using the derived unit
+also for positive-flat models, and identify the localized category with the
+stabilization of pointed spaces. (Nikolaus–Scholze Theorem A.7, pp. 130–131;
+HA Proposition 1.4.2.24, p. 147, and Proposition 4.8.2.18, p. 722.)
+
+For each commutative ring R, this equivalence carries the concrete HR of
+GeneralizedCohomology G2.7 to `eilenbergMacLane R` in CAlg(Sp), naturally in R
+and compatibly with the ring unit and multiplication. The concrete HR-module
+localization then maps to D∞(R) through `moduleSpectra_equiv_derived`, preserving
+relative tensor products and internal Hom. The CAlg identification uses the
+degree-zero ring identification and discreteness of HR; the module comparison
+uses HA Theorem 7.1.2.13, p. 1212.
+
+GeneralizedCohomology G3.8–G3.9 also owns the comparison of its coherent tower
+limits and integer localizations with `derivedTowerLimit` and the localizations
+of E3, retaining limit projections and localization units. For a prime p, compare
+its derived multiplication-cofibre tower E/p^r, r ≥ 1, with transitions induced
+by (p, id), including the maps from E and the completion unit. On HR-modules
+the module equivalence identifies this tower with the one-generator Koszul tower
+of E4.2 and its limit with `completeSheaf` on the point topos for I = (p).
+Replacing Koszul terms by ordinary R/p^r requires the regular-sequence hypothesis
+of `regularIdeal_quotients`. These comparisons are equivalences of coherent
+diagrams with their maps, rather than only identifications of homotopy groups.
+Their source is the fibre-of-(1 − shift) construction in E2:towers and the
+Koszul completion comparison of E4.2 (Stacks tags 091Y, 091Z and 0920).
+This is an outbound ownership boundary: this roadmap constructs its abstract
+exports independently of the concrete models and their comparisons.
+
+**Checks.**
+
+- The concrete sphere goes to S = Σ^∞S⁰; its suspension-spectrum adjunction
+  unit and counit agree, and Σ^nS corresponds for every integer n, including n = −1.
+- For R = ℤ, the concrete H(ℤ/p), as an Hℤ-module, has relative tensor square with
+  π₀ = π₁ = ℤ/p and no other homotopy; the module comparison gives
+  (ℤ/p) ⊗ᴸ_ℤ (ℤ/p), including its maps and cochain shift convention.
+- On Hℤ, the p-power cofibre tower corresponds to (ℤ/p^r)_r with quotient
+  transitions, and the completion unit corresponds to ℤ → ℤ_p. On H𝔽_p,
+  the same tower corresponds to 𝔽_p ⊕ 𝔽_p[1] with identity transitions
+  on the first summand and zero on the second; its limit and completion unit
+  are 𝔽_p and its identity. Ordinary 𝔽_p/(p^r) omits the second summand.
 
 ### Examples
 
