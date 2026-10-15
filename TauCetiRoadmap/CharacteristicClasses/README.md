@@ -53,9 +53,24 @@ Mathlib manifolds; the de Rham comparison uses its precise σ-compact hypotheses
   classification in C1.6 consumes AT8.10 and AT8.12 after C1.5's independent
   carrier/cellular calculations. C1.5's comparison portion and C2 consume
   no AT8.12; the later C1.6 classification has no arrow back to AT8.12.
-- [DGFloer Layer1 item2](../DGFloer/README.md) owns the Serre-fibration
-  carrier, bundle-to-Serre comparison, actual homotopy exact sequence and
-  arbitrary-space connected-map/local-coefficient homology comparisons.
+  For the support lane, C1.2a consumes ordinary AT2–4 and ordinary6.1–6.2
+  only. The separate AT supported-cellular supplement consumes C1.2a S0–S4;
+  its pair LES has a separate compatibility check against S5, while proper AT8.5
+  consumes the needed support interfaces. This is not a whole-Stage6 dependency
+  or a feedback edge into C1.2a.
+- [DGFloer Layer1 item2](../DGFloer/README.md) consumes native
+  `TauCeti.TopCat.serreFibrations`,
+  `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` for locally
+  trivial TopCat morphisms, and `TauCeti.TopCat.mem_serreFibrations_proj`
+  for native `FiberBundle` projections. Consume these native declarations from
+  [Tau Ceti's Serre-fibration API](https://github.com/TauCetiProject/TauCeti/blob/720bf8c135bd2c354a15d55a73f2fc2c3d7aa358/TauCeti/Topology/Homotopy/SerreFibration/FiberBundle.lean).
+  These are source interfaces at720bf8c, absent from this repository's a91
+  pin; their generic LES and spectral-sequence developments remain targets.
+  The local-trivialization theorem uses one
+  common typical fibre F for every chart of that morphism; variable-rank
+  bundles are treated on their rank strata. DGFloer
+  owns the actual homotopy exact sequence, ordinary Serre spectral
+  sequences and arbitrary-space connected-map/local-coefficient homology comparisons.
   C1.1 specializes the sequence to its numerable bundles; C1.2 consumes
   its coefficient-chain/Hom comparison. The actual Milnor counit theorem
   remains C1.2, distinct from the abstract CW-approximation existence theorem.
@@ -67,10 +82,15 @@ Mathlib manifolds; the de Rham comparison uses its precise σ-compact hypotheses
 - [SmoothBundlesConnections B1–B4,B6](../SmoothBundlesConnections/README.md)
   owns principal/associated smooth bundles, connections, curvature, Bianchi,
   local transition conventions and the normalized integral circle class.
-  [ComplexKahlerGeometry K4,K7](../ComplexKahlerGeometry/README.md) owns Hermitian
-  holomorphic bundles, Chern connections and projective charts, O(−1)/O(1),
-  Fubini–Study and finite projective cohomology examples. Those projective
-  constructions precede this roadmap's universal class comparisons.
+  [ComplexKahlerGeometry K4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md#k4-holomorphic-and-hermitian-bundles)
+  supplies Hermitian holomorphic bundles and Chern connections;
+  [K7.1/K7.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples)
+  supplies the single projective carrier/atlas, tautological and dual lines,
+  normalized Fubini–Study form and O(1) curvature −2πiω_FS. C1.5 consumes
+  K7.1 and only K7.2's CW/cellular/cup subitems, with positive hyperplane
+  generator and inclusion compatibility, before the universal-class
+  comparison. The line-curvature/smooth comparison uses K4 and K7.2's
+  independent form and SBC B6 circle-class comparisons.
 - [GeometricTopology Layers1,3,10](../GeometricTopology/README.md) owns
   embeddings/tubular maps, the smooth mapping topology and the oriented-plane
   Euler interface.
@@ -81,9 +101,9 @@ Mathlib manifolds; the de Rham comparison uses its precise σ-compact hypotheses
   [CompactGroups](../RepresentationTheory/CompactGroups/README.md) owns Haar
   averaging and Peter–Weyl. C1 builds finite faithful representations as the
   universal-approximation connector. C5 builds invariant-polynomial restriction;
-  it uses [LieHighestWeight L1,L3,L7](../RepresentationTheory/LieHighestWeight/README.md)
-  for Cartan/root decomposition, PBW and Harish–Chandra, and its L9 reductive decomposition, with the
-  filtered comparison stated explicitly.
+  it uses [LieHighestWeight L1,L7 and L9](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e2bb7060603f59e7b353b224589766a18e9e396e/TauCetiRoadmap/RepresentationTheory/LieHighestWeight/README.md#layer-7-the-center-of-ul-harish-chandra-freudenthal-and-serres-relations)
+  for Cartan/root decomposition, generic Lie-algebra Chevalley restriction
+  with its homogeneous compatibility, and the reductive decomposition.
 - [TopologicalKTheory T2–T5](../TopologicalKTheory/README.md) owns actual SplitK0
   K-rings, relative triples/complexes, compact supports, λ-operations, Bott and
   the dual-Koszul Thom class. C6 constructs ch on these functors and its Thom
@@ -219,25 +239,89 @@ curvature is −2πiω_FS, so the Chern form is +ω_FS.
    prove that continuous singular simplices, chains and cochains are unchanged
    by k-ification because every standard simplex is compact Hausdorff. Export
    the resulting natural cohomology comparison for the stable carriers.
-   Consume DGFloer 1.2's bundle-to-Serre bridge and homotopy exact sequence,
+   Consume native `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`
+   from that API, with one common typical fibre F
+   for all charts of each join, quotient or pullback TopCat morphism, and
+   `TauCeti.TopCat.mem_serreFibrations_proj` for native `FiberBundle` carriers,
+   together with DGFloer 1.2's homotopy exact sequence,
    specializing the actual boundary π_n(B)→π_(n−1)(F) to these numerable
    bundles, with basepoints, basepoint change, group laws and pointed-set
    exactness at π1/π0. Do not identify the fibre inclusion with an NDR pair. Prove
    Dold's theorem that a numerable bundle with contractible fibre is a homotopy
    equivalence, including the local contraction/partition construction.
-2. Consume AlgebraicTopology Stage6.1's coefficient long exact sequence and
+2. **Bockstein input.** Consume AlgebraicTopology Stage6.1's coefficient long exact sequence and
    Bockstein construction on the existing singular/relative cochain complexes,
    including 0→Z→[×2]Z→F2→0. Build its coefficient-change compatibility with
-   the graded and supported interfaces here; do not define a second Bockstein. Build
-   compact-support cohomology from relative compact-pair colimits, with proper
-   pullback, invariant open extension and mixed support products. Consume AlgebraicTopology Stage6's relative cup/module maps against the
+   the graded and supported interfaces here; do not define a second Bockstein.
+
+   **C1.2a. Compact-relative support foundations.** These constructions precede bundle classification, Thom theory and manifold duality.
+
+   **S0 (diagram and colimit).** For locally compact Hausdorff X, closed A⊂X and commutative R, construct K↦C_sing^*(X,A∪(X\K);R) on actual compact subsets ordered by inclusion. Define its degreewise filtered colimit and prove H^n of that complex is colim_K H^n(X,A∪(X\K);R), using exact filtered ModuleCat colimits.
+
+   **S1 (enlargement).** For K⊆L, support enlargement C_K→C_L is the contravariant identity pair map. Export the structure maps and their identity/composition laws.
+
+   **S2 (cofinality).** Prove cofinal-family comparison and common-refinement independence; use a countable exhaustion only with proved cofinality.
+
+   **S3 (proper pullback and open extension).** For a proper map of closed pairs, pull target compact K to f⁻¹K and construct proper pullback, functoriality and coefficient compatibility. Construct open extension by inverse relative excision, retaining mixed-support product hypotheses from AT6.2.
+
+   **S4 (jointly proper homotopy invariance).** For H:I×X→Y between closed pairs (X,A),(Y,B), require H(I×A)⊆B and joint properness. Use the single compact projection of H⁻¹K to obtain the relative cochain homotopy after support enlargement. Properness of separate slices alone is insufficient.
+
+   **S5 (support excision and the pair triangle).** For closed pairs define the filtered union-relative to sum-subcomplex-relative
+   comparison
+   colim_K C^*(X,A∪(X\K);R) → colim_K C^*(X,A+(X\K);R),
+   induced contravariantly by C_*(A)+C_*(X\K)→C_*(A∪(X\K)). Here `+` is
+   the sum of singular subcomplexes. Define a pair as support-excisive when
+   this filtered comparison is a quasi-isomorphism. Prove that every closed
+   pair with the following controlled collar data is support-excisive.
+   The collar c:A×[0,1)→X is an open embedding with c(a,0)=a. Specify
+   0<r0<r1<1 with c(A×[0,r1])
+   closed, and a homotopy h_t:X→X with h_0=id_X, fixed on A and outside
+   c(A×[0,r1]),
+   preserving this closed strip, moving only its collar coordinate, and sending
+   c(A×[0,r0]) into A at t=1. Prove joint properness from this strip control:
+   for compact K, project c⁻¹(K∩c(A×[0,r1])) to compact A_K⊂A; then the
+   inverse image of K is closed in I×(K∪c(A_K×[0,r1])), hence compact.
+   Prove support excision by compact buffers and small chains. Given K, choose
+   compact L containing K and the projection of h⁻¹(K), so h_t(X\L)⊆X\K.
+   For Q_K=C_*(A∪(X\K))/(C_*(A)+C_*(X\K)), use the open cover
+   {c(A×[0,r0))∩(A∪(X\L)), X\L} to obtain the small-chain comparison.
+   The prism homotopy identifies Q_L→Q_K with h_1 on these small chains;
+   h_1 sends their collar part into A and kills the quotient. Thus Q_L→Q_K
+   is null-homotopic. Dualize these free quotient complexes and take exact
+   filtered colimits to prove the displayed support comparison is a
+   quasi-isomorphism. This generic theorem does not depend on AT8.5.
+   For proper f:X→Y between locally compact Hausdorff spaces, construct the
+   AT4.5 mapping cylinder M_f as locally compact Hausdorff, with bottom
+   collar c(x,u)=[x,u] an open embedding and the indicated closed strip.
+   Construct its collar pusher separately from the full slide:
+   in a bottom collar coordinate u∈[0,r1], choose continuous
+   χ:[0,r1]→[0,1] with χ=1 on [0,r0] and χ=0 near r1, and set G_t(x,u)=(x,(1−tχ(u))u), extending by the
+   identity outside the strip. This fixes the bottom and sends the r0-strip into
+   it. The projection p:M_f→Y is proper for proper f and is unchanged by G.
+   For compact K⊂M_f, G⁻¹(K) is closed in I×p⁻¹(p(K)); the latter is compact,
+   so G is jointly proper. The full cylinder slide used for the proper
+   homotopy is a different map and is not being used as the collar pusher.
+   Use (C_*(A)+C_*(X\K))/C_*(X\K)≅C_*(A)/C_*(A\K) for the
+   degreewise-split sum-model sequence. Compact K∩A are cofinal among compact
+   supports in A. After exact filtered colimits and support excision, obtain
+   the supported relative cochain triangle with Cone(restriction)[−1], its
+   natural pair exact sequence and connecting signs. An arbitrary closed pair is not declared excisive merely
+   by being closed. AT's supported cellular comparison specializes this support
+   object to locally finite CW pairs; it is not an input to this generic
+   definition or collared-pair proof. These foundations consume AT2–4 and
+   ordinary AT6.1–6.2 only, independently of AT8.5 and all CC classifiers/Thom
+   developments.
+
+   **C1.2a mixed-support cup/module products.** Consume AlgebraicTopology Stage6's
+   relative cup/module maps against the
    actual TopPair carrier and construct their support-colimit packaging.
    Absolute-relative module maps and the cup product on one fixed pair exist
    for every pair. Cup/cross products into a union of relative subsets use
    excisive couples: NDR/cofibration triads, finite CW triads or open complements
    of compact supports. Construct the small-chain comparison from C(A)+C(B)
    to C(A∪B) under that hypothesis; do not assert it for arbitrary closed couples.
-   For arbitrary paracompact bases, prove the bundle-specific Leray–Hirsch and
+   **C1.2b. Bundle/coefficient comparisons.** For arbitrary paracompact bases,
+   prove the bundle-specific Leray–Hirsch and
    Thom comparisons through the singular CW-resolution pullback: construct
    the evaluation |Sing X|→X as the counit of Mathlib's `sSetTopAdj : SSet.toTop ⊣ TopCat.toSSet`,
    consume AT4's generic `simplicialRealizationCW` and paracompactness
@@ -753,14 +837,23 @@ AT8.1's relative-cell connectivity and transport theorem.
    retaining its action on t* and the central summand. Prove that its root
    pairing agrees with LieHighestWeight's `rootSystem H` for
    `H=t_C∩[g_C,g_C]`; this comparison of the two root data is owned here. For surjectivity
-   consume LieHighestWeight L3's PBW and L7's Harish–Chandra theorem and construct
-   the filtered comparison: equivariant symmetrization identifies gr Z(Ug_C) with
-   invariant Sym(g_C); gr of Harish–Chandra is ordinary Cartan restriction,
-   since the ρ-translation lowers degree. Prove the inverse is filtered using
-   injectivity of that leading-term restriction. Prove gr of dot invariants
-   equals linear Weyl invariants by finite-group averaging. Handle the centre
-   of a reductive algebra, then descend the finite-degree real form. These
-   are additional comparison targets, not consequences of an unfiltered name.
+   consume LieHighestWeight L7's generic Lie-algebra Chevalley supplier.
+   Its `lieInvariantSymmetricAlgebra`, `lieCartanRestriction`,
+   `lieChevalleyRestrictionIso` and `lieChevalleyRestrictionIso_coe`
+   give the actual restriction isomorphism for the semisimple complex
+   summand. Consume `lieChevalleyRestrictionIso_mem_homogeneous_iff`
+   for its degreewise compatibility; transport that supplied restricted
+   map through the invariant-form and geometric/root-data identifications
+   above. Consume `killingSymmetricEquiv_cartan_restriction` to pass from
+   L7's Sym(g) model to invariant polynomial functions Sym(g*), consuming
+   `killingSymmetricEquiv_lie` for the corresponding infinitesimal invariants. Compare the
+   Haar-invariant positive form with the semisimple Killing identification
+   by the actual equivariant scalar on each simple factor, retaining that
+   commuting Cartan-restriction square; treat the reductive central tensor
+   factor separately. L7 constructs these generic Lie-algebra targets independently
+   of C5. This item owns the compact-group versus infinitesimal invariants
+   comparison, geometric Cartan/root-data transport, tensor factor for
+   the reductive centre, and finite-degree real descent.
 2. Prove the torus Chern–Weil map is an isomorphism with H*(BT;R), with each
    integral character giving its normalized degree2 class. For connected G,
    on finite approximations use `E_m/T→E_m/G`, its oriented fibre G/T, and
@@ -907,8 +1000,11 @@ AT8.1's relative-cell connectivity and transport theorem.
    has weight −Σx_j/2, its even-minus-odd character is (-1)^r times that
    product. Prove the actual weight-basis identification before transporting
    the formula to a spin bundle; the sign cannot be absorbed silently. Prove the signature half-argument coth expression has the same
-   degree4k component as L for a rank4k oriented bundle; it is not an equality
-   of full series. Real Clifford/chirality and spin-lift constructions retain
+   degree4k component as L for a rank4k oriented bundle: for its 2k
+   oriented-plane roots x_j∈H², [∏x_j coth(x_j/2)]_(4k)=[∏x_j/tanh(x_j)]_(4k),
+   where (4k) means cohomological degree4k, or homogeneous degree2k in the x_j.
+   Prove this degree-4k comparison by x_j↦x_j/2 and homogeneous scaling.
+   For k>0 the constant terms differ; no general full-series equality is asserted. Real Clifford/chirality and spin-lift constructions retain
    their own geometric owners.
 3. Acceptance: construct the projective Euler sequence from the tautological
    line and tangent chart derivatives, proving its bundle exactness; thus CP^n
