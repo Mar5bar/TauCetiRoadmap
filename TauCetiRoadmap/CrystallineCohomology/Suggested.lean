@@ -191,7 +191,9 @@ example : IsFineMonoid (Submonoid.closure
   sorry
 
 /-- The nonnegative rationals form a saturated integral monoid that is not fine
-  (rational_not_fine and rational, Layer CR.5:log-algebra.1). -/
+(rational_not_fine and rational, Layer CR.5:log-algebra.1). This is the valuation characteristic
+in CR.5.5 for the completed algebraic closure of a complete discretely valued
+mixed-characteristic field with perfect residue field. -/
 example : IsSaturatedMonoid (Multiplicative ℚ≥0) ∧ ¬ IsFineMonoid (Multiplicative ℚ≥0) := by
   sorry
 
@@ -444,6 +446,9 @@ Crystalline.classicalDRW_map; Crystalline.classicalDRW_toRelative;
 Crystalline.classicalDRW_lift_degreeZero; Crystalline.continuousWitt_eval;
 Crystalline.continuousWitt_map; Crystalline.continuousWitt_operators;
 Crystalline.continuousWitt_fromRelative.
+The regular Noetherian F_p comparison proves regularity of F_p → R and consumes
+SchemeAndStackFoundations §0.15 popescu_desingularization for a filtered presentation by
+smooth algebras.
 
 CR.4.7 Integral cohomological control:
 Crystalline.wittCohomology_bounded_torsion; Crystalline.wittCohomology_free_quotient;
@@ -476,6 +481,25 @@ LogCrystalline.IsKummerEtale.logEtale; LogCrystalline.IsKummerEtale.root_chart.
 SchemeAndStackFoundations §0.29 supplies absoluteFrobenius, schemeFrobeniusTwist and
 relativeFrobenius. EnhancedDerivedSheaves §E2:towers.1 supplies derivedTowerLimit;
 §E2.2 supplies IsReplete.derived_limits and IsReplete.milnor.
+
+CR.DDR.5.8–5.9 base-linear realization and lci comparison:
+For n ≥ 1 and lci maps of flat Z/p^n-schemes, the source of
+DerivedDeRham.lciCrystallineComparison and crystallineComparisonSheaf is
+DerivedDeRhamCohomology §5.8.1's rawLciDeRhamSheaves, with rawLciDeRhamAffine,
+rawLciDeRhamLocalization, rawLciDeRhamRealization and rawLciDeRhamCup. The common
+baseLinearSheafDerived.crystallineComparison adapter transports these raw objects and the
+separate completed objects of §5.8. For F_p[t] → F_p the raw source is the direct sum of
+PD degrees; its Hodge completion is the product. CR.DDR.5.10 takes the p-adic derived limit
+of these raw finite-level comparisons.
+
+CR.5.5 The induced log structure on A_cris:
+For K complete discretely valued of characteristic zero with perfect residue field of
+characteristic p, let C=C_K be PadicPeriodRings §2's completed algebraic closure.
+LogCrystalline.aCrisLog.finite_lift, LogCrystalline.aCrisLog.frobenius and
+LogCrystalline.aCrisLog.fine_chart_comparison use the completed periodPDEnvelope of
+PadicPeriodRings §3, its θ_cris and §4.1 Frobenius, identified with the general envelope by
+DerivedDeRhamCohomology §PD.7 Crystalline.fontaineEnvelope_periodPDEnvelope. The characteristic
+is Q≥0 with v(p)=1; the chart comparison uses semistable models over finite extensions of K.
 
 CR.6.1 Logarithmic de Rham–Witt complexes and their crystalline model:
 LogCrystalline.logDeRhamWitt.restriction; LogCrystalline.logWittQuotient;

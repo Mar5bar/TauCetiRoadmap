@@ -107,6 +107,12 @@ target says so, and are otherwise outside it. Comparisons with étale, prismatic
   CR.DDR.5.20–CR.DDR.5.22), and derived logarithmic theory (§§CR.DDR.6.1–CR.DDR.6.20).
   EnhancedDerivedSheaves supplies the ringed-site enhancement; module completion uses
   DerivedModuleAlgebra and the filtered interfaces use DerivedDeRhamCohomology.
+- **PadicPeriodRings** supplies the completed algebraic closure `C_K` (§2), the ordinary
+  principal Fontaine envelope and its p-adic completion `A_cris(O_C)` (§3), and their period
+  structures (§4.1). It owns the topological period carriers, invariant functors and fixed-field
+  identities (§§4.1–4.3). The supplier order is PadicPeriodRings, DerivedDeRhamCohomology, then
+  CrystallineCohomology. DerivedDeRhamCohomology §PD.7 identifies its general envelope at `O_C`
+  with the supplied principal envelope; CR.5.5 places the log structure on that shared carrier.
 - **CommRingFactorizationSystems** supplies the abstract seminormal reflection for CR.4.6 (§F1, §F4
   and §F6). Its generic prerequisite is **OrthogonalFactorization**, which supplies unique lifting,
   generated orthogonal factorization systems and their reflections. The implementation order is
@@ -402,8 +408,14 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
   completion exchanges and quasisyntomic cotangent amplitude); §§2.22–2.26, 2.28 (derived
   de Rham, base change, Hodge pieces, completions and transitivity); §§3.2–3.3, 3.5–3.6.1,
   3.8, 3.11, 3.13 (conjugate filtration, derived twists, Cartier and quotient calculations);
-  §4.2 (PD conjugate filtration); §§5.1–5.8, 5.17, 5.19 (quasisyntomic and QRSP descent,
-  base-linear schemes and formal schemes, Teichmüller-quotient torsion-freeness).
+  §4.2 (PD conjugate filtration); §§5.1–5.8.1, 5.17, 5.19 (quasisyntomic and QRSP descent,
+  base-linear schemes and formal schemes, raw lci sheaves with affine recovery and realization,
+  Teichmüller-quotient torsion-freeness).
+- **PadicPeriodRings**: §2 (`PadicFieldCompletion`, the completed algebraic closure of a complete
+  discretely valued mixed-characteristic field with perfect residue field); §3
+  (`periodPDEnvelope`, its ordinary p-adic completion, `θ_cris`, logarithm and functorial maps);
+  §4.1 (Frobenius and the compatible period structures). CR.5.5 uses this `A_cris(O_C)` carrier,
+  identified with the general construction by DerivedDeRhamCohomology §PD.7.
 - **EnhancedDerivedSheaves**: §§0.1–0.4 (ringed-site enhancement, replacements, tensor–Hom,
   towers and coherent functors), §E1.4 (enhanced inverse/direct image), §E1.6 (Kunz
   flatness and its converse), §E1.9 (perfect proper pushforward); Layer E0 (the Dold–Kan
@@ -2079,9 +2091,13 @@ Prove the following named laws.
 ### CR.DDR.5.8 Base-linear realization of crystalline direct image
 
 For a morphism `f : X → S` of schemes with the PD base and crystalline site of §CR.2.1, construct
-`DerivedDeRham.baseLinearSheafDerived.crystallineComparison`, identifying the strict base-linear
-realization of DerivedDeRhamCohomology §5.8 with the enhanced crystalline direct image and global
-sections. The coefficient sheaf is `f⁻¹O_S`: `Ru_{X/S,*}` lies in `D(X_Zar, f⁻¹O_S)` and `RΓ` lies
+`DerivedDeRham.baseLinearSheafDerived.crystallineComparison`, comparing strict base-linear models
+of crystalline direct image and global sections with their enhanced models. Use the common
+coefficient categories and strict-model realization of DerivedDeRhamCohomology §5.8. For lci maps
+of flat `ℤ/p^n`-schemes, `n ≥ 1`, this adapter transports the raw sheaves, Hodge stages, finite
+quotients and products of §5.8.1 via `rawLciDeRhamRealization`; the source remains raw. It also
+transports the separate Hodge-completed objects of §5.8 and their maps from the raw objects.
+The coefficient sheaf is `f⁻¹O_S`: `Ru_{X/S,*}` lies in `D(X_Zar, f⁻¹O_S)` and `RΓ` lies
 in `D(Γ(S,O_S))`. Compare strict models and the ringed-site enhancement in these categories. The
 filtered comparison preserves levelwise quasi-isomorphisms, cofibres and products and commutes with
 restriction and derived inverse limits, including finite reductions and their compatible p-adic
@@ -2093,7 +2109,8 @@ scalars; the full de Rham differential is base-linear.
 Tags 0FPK, 0FPL, 0FPM; [StacksCoh] §20.25, Tag 01FP.
 
 *Needs:* §CR.2.1 (*Enhanced crystalline direct image and global sections*); DerivedDeRhamCohomology
-§5.8 (*Base-linear ringed-site realization*), §§1.14–1.15; DerivedModuleAlgebra §§0.2, 1.1, 1.T.1;
+§5.8 (*Base-linear ringed-site realization*), §5.8.1 (*Raw lci sheaves and realization*),
+§§1.14–1.15; DerivedModuleAlgebra §§0.2, 1.1, 1.T.1;
 EnhancedDerivedSheaves §§0.1–0.3, E1.4 (`ClassicalDerived.enhancedCategory`,
 `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom`, `ClassicalDerived.inverseLimits`,
 `enhancedPullback`, `enhancedPushforward`); SchemeAndStackFoundations §2.18.
@@ -2112,9 +2129,11 @@ EnhancedDerivedSheaves §§0.1–0.3, E1.4 (`ClassicalDerived.enhancedCategory`,
 ### CR.DDR.5.9 The lci crystalline comparison theorem
 
 For `n ≥ 1` and an lci morphism `f : X → S` of flat `ℤ/p^n`-schemes (finite presentation and local
-regular immersion convention), the natural `Comp_f` is an isomorphism of Hodge-filtered objects of
-the filtered derived category (in `DF(A)` when `S = Spec A`). It is compatible with the cup products
-of DerivedDeRhamCohomology §5.8 and *Crystalline cup products* (`crystallineComparisonCup`), with
+regular immersion convention), the natural `Comp_f` from
+`DerivedDeRham.rawLciDeRhamSheaves` of DerivedDeRhamCohomology §5.8.1 to crystalline direct image
+is an isomorphism of Hodge-filtered objects of the base-linear filtered derived category (in
+`DF(A)` after global sections when `S = Spec A`). It is compatible with `rawLciDeRhamCup` of
+DerivedDeRhamCohomology §5.8.1 and *Crystalline cup products* (`crystallineComparisonCup`), with
 base change in its Tor-independent crystalline range, and with Frobenius. The crystalline target
 uses `Crystalline.CrisCompatibleSite` of §CR.1.1 (compatible PD thickenings over the canonical PD
 base). This is [Bhatt12] Theorem 3.27: the exclusions are failure of the relative lci condition or
@@ -2126,19 +2145,22 @@ target may be singular.
 *Needs:* §CR.DDR.4.1 (*The derived de Rham to crystalline map*); §CR.DDR.4.3 (*Regular quotients and
 classical PD envelopes*); DerivedDeRhamCohomology §3.13 (*Smooth ordinary and completed de Rham
 comparisons*); DerivedDeRhamCohomology §2.28 (*Derived de Rham transitivity filtrations*);
-DerivedDeRhamCohomology §5.8 (*Derived de Rham on schemes and formal schemes*);
+DerivedDeRhamCohomology §5.8.1 (*Raw lci sheaves and realization*: `rawLciDeRhamSheaves`,
+`rawLciDeRhamAffine`, `rawLciDeRhamLocalization`, `rawLciDeRhamRealization`, `rawLciDeRhamCup`);
 DerivedDeRhamCohomology §3.5 (*Derived Cartier graded pieces*); DerivedDeRhamCohomology §3.6.1
 (*Relative conjugate transitivity*); §CR.2.1–§CR.2.2; §CR.DDR.5.8 (*Base-linear realization of
 crystalline direct image*).
 
-Construct the sheaf comparison after the base-linear realization of §CR.DDR.5.8 and
-DerivedDeRhamCohomology §5.8.
+Construct the sheaf comparison using §CR.DDR.5.8 and the raw realization of
+DerivedDeRhamCohomology §5.8.1.
 
-- `crystallineComparisonSheaf`: affine comparison maps glue in `D(X_Zar, f⁻¹O_S)` over the common
-  scheme site, with crystalline direct image from `CrisCompatibleSite`. The filtered realization of
-  DerivedDeRhamCohomology §5.8 and derived global sections carry this map to `DF(A)` when `S = Spec
-  A`, preserving the cup products of DerivedDeRhamCohomology §5.8 and the crystalline cup products
-  in `D(A)`.
+- `crystallineComparisonSheaf`: the affine maps from raw `dR_(B/A)`, recovered by
+  `rawLciDeRhamAffine`, glue from `rawLciDeRhamSheaves` in `D(X_Zar, f⁻¹O_S)` to crystalline
+  direct image from `CrisCompatibleSite`. The localization and descent laws of
+  `rawLciDeRhamLocalization` and the refinement-independent `rawLciDeRhamRealization` give this
+  filtered map and its derived global sections in `DF(A)` when `S = Spec A`, preserving
+  `rawLciDeRhamCup` and the crystalline cup products in `D(A)`.
+  The separate map to DerivedDeRhamCohomology §5.8 is Hodge completion on affine charts.
 
 Lean: `DerivedDeRham.lciCrystallineComparison`.
 
@@ -2150,6 +2172,11 @@ Lean: `DerivedDeRham.lciCrystallineComparison`.
   §CR.DDR.4.3. In particular `F_p[t] → F_p[t]/(t²)` lies in the theorem's scope: both coefficient
   algebras are flat over `F_p`, and `(t²)` is a regular immersion, although the relative map is
   nonflat and the target is singular.
+- `test_lci_crys_raw_source`: for `F_p[t] → F_p`, `t ↦ 0`, the comparison source and crystalline
+  target are the raw PD algebra `⊕_(j≥0) F_p·γ_j(t)`. The map to DerivedDeRhamCohomology §5.8
+  instead has target `∏_(j≥0) F_p·γ_j(t)`; the sequence with all coefficients 1 is outside its
+  image. Hodge completion therefore changes the source of the comparison ([Bhatt12], Lemma 3.29
+  and Remark 3.33).
 - `test_lci_crys_square_zero`: `F_p[x,y]/(x,y)²` is not lci and the comparison fails (§CR.DDR.4.1),
   including `p = 2`.
 
@@ -2159,7 +2186,9 @@ Let `A → B` be a map of p-complete bounded-torsion rings whose derived reducti
 `ℤ/p^n`-algebras and lci for every `n`, compatibly. Then `Λ_p dR_(B/A) ≃ Rlim_n
 RΓ_crys((B/p^n)/(A/p^n))`. The same assertion applies to compatible p-adic formal schemes with the
 analogous finite-level hypotheses. The filtration is the derived limit of the Hodge/PD filtration.
-Each limit and base-change map is derived; reduction of arbitrary rings to `π₀` is not allowed.
+The finite-level sources are the raw objects of DerivedDeRhamCohomology §5.8.1, identified by
+§CR.DDR.5.9 before taking the p-adic derived limit. Each limit and base-change map is derived;
+reduction of arbitrary rings to `π₀` is not allowed.
 
 [Bhatt12], Definition 8.1, Lemma 8.3, Theorem 8.4, pp.31–32.
 
@@ -5965,14 +5994,14 @@ W_1(M)≅H^*(M/pM) induced by F for saturated M, ν is an isomorphism (BLM Propo
 colimits: strict Dieudonné algebras have filtered colimits, computed as the completion of the
 colimit of saturated ones, and W_r commutes with them; so R↦W_r(WsatΩ_R) commutes with filtered
 colimits (BLM Proposition 4.3.3, Corollary 4.3.5). A regular Noetherian F_p-algebra is a filtered
-colimit of smooth F_p-algebras (Popescu), so step 3 gives that ν is an isomorphism for regular
-Noetherian R (BLM Theorem 4.3.1). (1), the map: for a strict Dieudonné algebra A with a ring map
+colimit of smooth F_p-algebras by SchemeAndStackFoundations §0.15, so step 3 gives that ν is an
+isomorphism for regular Noetherian R (BLM Theorem 4.3.1). (1), the map: for a strict Dieudonné algebra A with a ring map
 R→A⁰/VA⁰, the tower {W_r(A)}_r with V and the lift β:W(R)→A⁰ is an R-framed V-pro-complex; axioms
 (c)–(e) are checked after applying the injective map F, for example
 F((Vx)·dβ[λ])=x·dβ([λ]^p)=F(V(x·β[λ]^(p−1)·dβ[λ])). Initiality of the classical complex gives γ (BLM
 Proposition 4.4.10, Corollary 4.4.11). (1), isomorphism: R↦W_rΩ^*_R (Illusie I.1.10) and
-R↦W_r(WsatΩ_R) commute with filtered colimits, so by Popescu assume R smooth over F_p. By *Classical
-de Rham–Witt complex as the initial V-pro-complex* the classical complex is Illusie's pro-complex,
+R↦W_r(WsatΩ_R) commute with filtered colimits, so the supplied Popescu presentation reduces to
+R smooth over F_p. By *Classical de Rham–Witt complex as the initial V-pro-complex* the classical complex is Illusie's pro-complex,
 and Illusie's results on the sheaves WΩ^i_X, X=Spec R, give the following for R on global sections,
 because H^j(X,WΩ^i_X)=0 for j>0 and p, F, V are injective on WΩ^i_X. (i) WΩ^*_R=lim_r W_rΩ^*_R
 carries an endomorphism F of graded rings with FV=VF=p, dF=pFd and F(x)≡x^p mod p on W(R) (Illusie
@@ -5992,10 +6021,13 @@ there are maps W_rΩ^*_(R/F_p)→W_r(WsatΩ_R). Their composite with the surject
 W_rΩ^*_R→W_rΩ^*_(R/F_p) of *Classical de Rham–Witt complex as the initial V-pro-complex* is a
 morphism of R-framed V-pro-complexes, hence equals γ_r; as γ_r is injective, the surjection is an
 isomorphism. The smooth classical-complex identities are proved in *Structural properties
-of the classical complex on smooth F_p-algebras*. Prove Popescu’s theorem in the needed form:
-a regular noetherian 𝔽_p-algebra is a filtered colimit of smooth 𝔽_p-algebras ([Stacks Project](https://stacks.math.columbia.edu), Smoothing Ring Maps,
-§16.12, tag 07GB); stating Popescu’s theorem in the form needed is part of this target. The passage
-to the p-adic completion B̂ of a p-torsion-free B (B̂ p-torsion-free, B̂/pⁿ ≅ B/pⁿ, extension of a
+of the classical complex on smooth F_p-algebras*. For regular Noetherian R, prove locally that
+F_p→R is a regular map: R is flat over F_p, and perfectness of F_p makes its regular fibre
+geometrically regular, since finite field extensions are separable and preserve regularity by
+étale base change. Apply `popescu_desingularization` from SchemeAndStackFoundations §0.15 to
+obtain the filtered presentation by smooth algebras ([Stacks, Theorem 16.12.1 (07GC)](https://stacks.math.columbia.edu/tag/07GC)).
+The local work is this specialization and filtered-colimit compatibility of the Witt and
+crystalline comparisons. The passage to the p-adic completion B̂ of a p-torsion-free B (B̂ p-torsion-free, B̂/pⁿ ≅ B/pⁿ, extension of a
 Frobenius lift, comparison of degreewise p-completed de Rham complexes) is part of this target.
 ([Bhatt–Lurie–Mathew, *Revisiting the de Rham–Witt complex*](https://arxiv.org/abs/1805.05501v3),
 arXiv v3, §3.3 (Remark 3.3.3, Proposition 3.3.4, Example 3.3.5, Theorem 3.3.6, Corollary 3.3.8),
@@ -6022,10 +6054,13 @@ completion and its adjunction*; *Cartier criterion for saturation*; DerivedDeRha
 polynomial Cartier map*); DerivedDeRhamCohomology Layer 2 (§2.12 *The ordinary algebraic de Rham
 complex*); DerivedDeRhamCohomology Layer 2 (§2.27 *The de Rham algebra of a completely smooth formal
 algebra*); *The finite quotients compute cohomology modulo p^r*; *Dieudonné algebras and
-multiplicative quotients*.
+multiplicative quotients*; SchemeAndStackFoundations §0.15 (`popescu_desingularization`) and
+§0.21 (regular maps and geometrically regular fibres).
 
 **Checks.**
 
+- For R=F_p[[t]], the map F_p→R is regular and the supplied filtered presentation by smooth algebras gives
+  the same finite-length Witt comparison, although R is not of finite type over F_p.
 - For a perfect field k: W_rΩ^*_k=W_r(k)=W_r(WsatΩ_k), concentrated in degree 0, and γ_r is the
   identity.
 - For R=F_p[t] (smooth over F_p): W_1(WsatΩ_R)=Ω^*_R, so d[t] has nonzero image dt, and
@@ -6600,7 +6635,7 @@ For a Noetherian regular `F_p`-algebra `A`, let `S = A_perf` be its direct-limit
 Frobenius of `A` is flat by EnhancedDerivedSheaves §E1.6 `frobenius_flat_of_isRegular` (Kunz's
 theorem, [StacksLC] Lemma 51.17.6, Tag 0EC0), and induces the identity on spectra, so `A → S` is
 faithfully flat; `F_p → A` is a regular map, so `A` is a filtered colimit of smooth `F_p`-algebras
-(SchemeAndStackFoundations §DerivedModuleAlgebra §0.15; [StacksSmoothing] Tag 07GB) and `L_(A/F_p) ≃
+(SchemeAndStackFoundations §0.15; [StacksSmoothing] Theorem 16.12.1, Tag 07GC) and `L_(A/F_p) ≃
 Ω¹_(A/F_p)[0]` is flat by DerivedModuleAlgebra §0.11–DerivedModuleAlgebra §0.12; hence `L_(S/A) ≃
 L_(A/F_p) ⊗ S[1]` has Tor amplitude in degree `−1`, and `A → S` is a quasisyntomic cover whose
 completed Čech terms are quasiregular semiperfect. The canonical cochain complex `A_crys(S) →
@@ -6736,7 +6771,7 @@ from proof obligations here: establish the finite multiplication-p kernel formul
 Illusie I.3.4, étale-local R−F surjectivity of I.3.26 (I.3.28 for q=0), and the
 logarithmic kernel criterion (I.5.7.4) by the smooth Cartier and symbol calculation of
 I.5.7.2–I.5.7.3. These are formal theorems of this target. The reduction from regular to
-smooth schemes uses Popescu’s theorem as stated in *Classical and
+smooth schemes uses SchemeAndStackFoundations §0.15, specialized in *Classical and
 saturated de Rham–Witt comparison*. ([Shiho, *On logarithmic Hodge–Witt cohomology of regular
 schemes*](https://www.ms.u-tokyo.ac.jp/journal/pdf/jms140404.pdf), §2, Proposition 2.3, Lemma 2.7,
 Proposition 2.8, Corollary 2.9, Proposition 2.12 and Corollary 2.13, pp.573–577;
@@ -8660,42 +8695,60 @@ CR.5:log-algebra); *Characteristic monoids* (Layer CR.5:log-algebra); *Exact log
 - For a zero PD ideal the lift is the original log structure; replacing the uniquely
   p-divisible characteristic by ℕ loses the unique root needed for exactness.
 
-**The induced log structure on A_cris.** Let C be a complete algebraically closed nonarchimedean
-extension of ℚ_p. Take A_cris = A_cris(O_C) with its finite PD quotients A_cris/pⁿ from *The
-crystalline period ring A_cris of a p-adically complete ring* (DerivedDeRhamCohomology §PD.7), built
-from the tilt O_{C♭} of PerfectoidSpaces Layer P1 and Mathlib’s `WittVector.fontaineTheta`. On each
-A_cris/pⁿ use the log structure induced by O_{C♭} ∖ {0} through the Teichmüller chart x ↦ [x], with
-its compatible PD completion. It is the unique exact lift of the valuation log structure on O_C/p,
-whose sharp monoid is ℚ≥0. The compatible finite-level lifts define the p-adic log base, with
-Frobenius acting by p on the characteristic.
+**The induced log structure on A_cris.** Let K be a complete discretely valued field of
+characteristic zero with perfect residue field of characteristic p, and let C=C_K be the
+completed algebraic closure supplied by PadicPeriodRings §2. Normalize v(p)=1. Then v(C×)=ℚ:
+the algebraic closure has the divisible hull of the discrete value group, and completion of a
+rank-one valued field preserves the values of nonzero elements. Take A_cris=A_cris(O_C) to be the
+p-adic completion of `periodPDEnvelope` from PadicPeriodRings §3, with its finite PD quotients
+A_cris/pⁿ and the θ_cris and Frobenius of §§3, 4.1. DerivedDeRhamCohomology §PD.7 identifies its
+general A_cris(O_C) construction with this carrier by
+`Crystalline.fontaineEnvelope_periodPDEnvelope`, preserving the structure map, divided powers,
+completion, θ_cris and functorial maps. This target constructs the log structure on that carrier.
+
+On each A_cris/pⁿ use the log structure induced by O_{C♭} ∖ {0} through the Teichmüller chart
+x ↦ [x]. It is the unique exact lift of the valuation log structure on O_C/p, whose sharp monoid
+is ℚ≥0 under the normalized valuation. The compatible finite-level lifts define the p-adic log
+base, with Frobenius acting by p on the characteristic.
 
 The API:
 
-- `LogCrystalline.aCrisLog.finite_lift`: The reduction to O_C/p is the valuation log structure and
-  the immersion is exact.
-- `LogCrystalline.aCrisLog.frobenius`: Frobenius on the characteristic is multiplication by p.
-- `LogCrystalline.aCrisLog.fine_chart_comparison`: A chosen finite semistable base chart maps to
-  this non-fine base by integral log base change.
+- `LogCrystalline.aCrisLog.finite_lift`: For C=C_K as above, the reduction to O_C/p is the valuation
+  log structure and the immersion is exact.
+- `LogCrystalline.aCrisLog.frobenius`: For the same C, Frobenius on the characteristic is
+  multiplication by p.
+- `LogCrystalline.aCrisLog.fine_chart_comparison`: For a semistable chart descended from O_{K′},
+  K′/K finite, the log crystalline computation over A_cris/pⁿ agrees with the computation from
+  a fine chart model after integral log base change.
 
-*Proof sketch.* Take A_cris(O_C) and its PD quotients from DerivedDeRhamCohomology §PD.7, and the
-tilt and Teichmüller map from PerfectoidSpaces Layer P1 and Mathlib. Use the sharp uniquely
+*Proof sketch.* Use PadicPeriodRings §§2–3 for C_K and the completed principal envelope, §4.1 for
+Frobenius, and DerivedDeRhamCohomology §PD.7 for the general-envelope identification. The tilt
+and Teichmüller map are supplied by PerfectoidSpaces Layer P1 and Mathlib. Use the sharp uniquely
 p-divisible valuation characteristic for canonical lifts at every finite p-level. Compare with the
 Teichmüller chart and prove transition and Frobenius compatibility; define the complete base by the
 compatible system. Česnavičius–Koshikawa identify the formal boundary over O_C under finite-model
 hypotheses; the extension from noetherian fine log regularity to this non-fine base is proved here
-by approximating O_C by its finite-level semistable charts, and the target asserts nothing about
-arbitrary non-fine log regularity. ([Česnavičius–Koshikawa, *The A_inf-cohomology in the semistable
-case*](https://arxiv.org/abs/1710.06145v3), §5.2, p.32; §§5.9–5.13, pp.36–38; [Beilinson, *On the
-crystalline period map*](https://arxiv.org/abs/1111.3316v4), §1.17, unique log lifting lemma and
-absolute crystalline cohomology, pp.25–26.) *Needs:* *Unique lifting of p-divisible log structures*;
-*Valuation log structures and tilt charts* (Layer CR.5:log-algebra); *Derived p-adic log crystalline
-cohomology*; PerfectoidSpaces Layer P1 (*Fontaine's θ: W(S♭+) → S+ is surjective with kernel
-generated by a primitive nonzerodivisor*, §1.18); DerivedDeRhamCohomology §PD.7; Mathlib
+for the semistable charts over finite extensions K′/K, by integral log base change, as in
+*Log structures on semistable formal charts*. ([Česnavičius–Koshikawa, *The A_inf-cohomology in the
+semistable case*](https://arxiv.org/abs/1710.06145v3), §5.2, p.32; §§5.9–5.13, pp.36–38;
+[Beilinson, *On the crystalline period map*](https://arxiv.org/abs/1111.3316v4), §1.17, unique log
+lifting lemma and absolute crystalline cohomology, pp.25–26.) *Needs:* *Unique lifting of
+p-divisible log structures*; *Valuation log structures and tilt charts* (Layer CR.5:log-algebra);
+*Log structures on semistable formal charts* (Layer CR.5:log-algebra); *Derived p-adic log
+crystalline cohomology*; PadicPeriodRings §2 (`PadicFieldCompletion`), §3 (`periodPDEnvelope`,
+completion and θ_cris), §4.1 (Frobenius); PerfectoidSpaces §§P1.17–P1.18 (tilt and Fontaine's θ);
+DerivedDeRhamCohomology §PD.7 (`Crystalline.fontaineEnvelope_periodPDEnvelope`); Mathlib
 `WittVector.teichmuller`.
 
 **Checks.**
 
-- `rational_characteristic`: The sharp monoid remains ℚ≥0 at every A_cris/p^n level.
+- `rational_characteristic`: For C=C_K with K as above, the sharp monoid remains ℚ≥0 at every
+  A_cris/p^n level, with v(p)=1.
+- `irrational_value_group`: On ℚ_p(T), the valuation with v(p)=1 and v(T)=α for a positive
+  irrational α extends to an algebraic closure and its completion. Its value group contains
+  ℚ+ℚα and its valuation characteristic is therefore not ℚ≥0. This field lies outside the
+  C=C_K specialization; the uniquely p-divisible lifting theorem still applies to its actual
+  valuation characteristic.
 - `trivial_units`: Units give the trivial characteristic part of the chart.
 - `not_fine`: The valuation characteristic ℚ≥0 cannot be replaced by a finite ℕ chart in the
   canonical A_cris log base.
@@ -11030,6 +11083,7 @@ and printed page (or PDF page where stated).
 
 [StacksSites]: https://stacks.math.columbia.edu/tag/0FPJ
 
-- **StacksSmoothing**: The Stacks Project Authors, *Smoothing Ring Maps* (Chapter 16).
+- **StacksSmoothing**: The Stacks Project Authors, *Smoothing Ring Maps* (Chapter 16),
+  Theorem 16.12.1 (Popescu), Tag 07GC.
 
-[StacksSmoothing]: https://stacks.math.columbia.edu/tag/07GB
+[StacksSmoothing]: https://stacks.math.columbia.edu/tag/07GC
