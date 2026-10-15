@@ -33,9 +33,12 @@ or singular-homology carrier.
 
 [DifferentialGeometry DG12.1/12.4](../DifferentialGeometry/README.md) supplies
 pullback metrics for immersions and their positive Riemannian volume forms.
-[RiemannianGeometry R1/R5](../RiemannianGeometry/README.md) supplies
+[AlgebraicTopology Stages2/3.1](../AlgebraicTopology/README.md) supplies the
+integral singular chain carrier, face maps, subdivision/prism homotopies and
+relative chain API used by C2's integer comparison. Use these same native carriers.
+[RiemannianGeometry R1/R5a](../RiemannianGeometry/README.md) supplies
 Levi-Civita connections, normal bundles and first volume variation.
-C3 owns C² dependence of volume and stability by the volume-minimizing comparison;
+C3 consumes R5a.1's C² dependence and owns stability by the volume-minimizing comparison;
 no general second-volume-variation formula is consumed.
 [GeometricTopology Layer1](../GeometricTopology/README.md) supplies tubular
 neighbourhoods and their normal exponential descriptions. Its smoothing-and-
@@ -98,7 +101,9 @@ normed-space structure through this equality; do not install a competing norm.
 Keep this operator/comass norm distinct from the coefficient Hilbert norm on
 the native exterior power, and prove their finite-dimensional comparison.
 
-Prove invariance under linear isometries and the operator bound under a general
+Prove pullback equality under `LinearIsometryEquiv` (surjective linear
+isometries), the comass inequality under arbitrary linear isometric embeddings,
+and the operator bound under a general
 linear pullback. For `L:ℝᵏ→E` prove
 
 `|φ(L e₁,…,L eₖ)| ≤ comass(φ)·LinearMap.normDet L`,
@@ -179,7 +184,20 @@ For smooth finite chains construct the integral complex on DG8.3's same
 the alternating face boundary and its square-zero identity. Construct
 the coefficient-change map to DG8.3's real complex, integral smooth-to-
 AT-singular comparison, subdivision and pushforward naturality; prove
-integration agrees after coefficient change. Do not create another
+integration agrees after coefficient change. Prove the integral smooth-to-singular
+comparison is a quasi-isomorphism. Construct ℤ-module chain maps and chain
+homotopies on these finitely supported integer generators using DG8.3's
+simplex-level `exists_smoothSimplex_homotopicRel` data. Use a single shared
+face-compatible choice function and the same subdivision/prism triangulations
+as DG8.3 before extending coefficients, so the selected operators' coefficient-
+change squares commute literally. Prove both chain-homotopy identities over ℤ,
+relative/subdivision/naturality laws, and specified chain homotopies comparing
+different choices. Inclusions and induced smooth-chain maps are strictly natural;
+smoothing inverses and the choice comparisons have explicit naturality chain
+homotopies, not an assumed strictly functorial Whitney approximation. For DG operators built with different choices, use that
+specified comparison homotopy rather than claiming literal equality. Those existing
+operators are real-only; do not call them ℤ-linear or infer the integer
+isomorphism by tensoring a real comparison backwards. Do not create another
 smooth simplex carrier. The mass of a parametrized simplex is its integral of the native
 norm determinant. Prove subdivision, smooth reparametrization and orientation
 compatibility, and the calibration bound by the sum of the absolute-coefficient
@@ -197,25 +215,33 @@ coefficient corollaries.
 
 ## C3. Volume minimization and stability
 
+Consume RiemannianGeometry R5a.1's `volumeVariation_isContDiff` on native
+orientation-free densities, including its fixed-compact-support relative-volume
+functional for noncompact sources. C3 owns its comparison with C2's oriented
+integration and the calibration-minimization stability consequence below; it does
+not reconstruct the generic density calculus or supply an input to R5b.
+
 For compact calibrated oriented N and compact oriented N′ with the same
 boundary, require an explicit smooth chain B with
 `c_N−c_(N′)=∂B` in the integral smooth-chain carrier, including
 the parametrizations and multiplicities. Stokes gives
 equal calibration integrals and hence `Vol(N)≤Vol(N′)`. Give the homology-class
 version on closed sources through the existing smooth/singular homology
-comparison. For competitors agreeing outside a compact region, construct the
-relative chain comparison there; an arbitrary noncompact homology statement is
+comparison. For competitors agreeing outside a compact region, additionally
+require their compact difference to bound a finite integral smooth chain B
+there, or a compactly supported homotopy supplying B, and construct that
+relative chain comparison. Agreement outside a compact region alone does
+not imply the bounding-chain hypothesis. An arbitrary noncompact homology statement is
 not a finite-integral hypothesis. Prove equality precisely when the competitor
 is calibrated with the specified orientation, by a nonnegative continuous
 defect and its zero-integral criterion.
 
 For a compactly supported variation with fixed boundary, use DG5.4's
 homotopy operator, its pullback naturality and Stokes to prove the calibration integral is
-constant. Own C² dependence of the integral defining Vol(f_t), using compact
-support, the actual induced Gram determinant and differentiation under the
-integral with uniform derivative bounds. Define stability by the second
+constant. Consume R5a.1's C² dependence for Vol(f_t), and here compare its
+relative-density functional and derivatives with C2's oriented integration. Define stability by the second
 derivative at zero being nonnegative; the volume minimum proves it by
-elementary calculus. Use R5’s first variation for compactly supported
+elementary calculus. Use R5a’s first variation for compactly supported
 interior variations to obtain H=0, and adapt the integral divergence term
 through DG12.5's boundary divergence theorem for fixed-boundary variations, whose variation field is
 zero on the boundary. State the fixed-boundary/compact-support
@@ -305,10 +331,10 @@ and prove its real de Rham image is [dθ/(2π)]. The classical unoriented
 Maslov class uses det² on U(n)/O(n); on this oriented carrier it is
 twice the phase class. Prove the cocycle and singular/de Rham comparisons. Prove the
 mean-curvature/phase identity for C² oriented Lagrangian immersions:
-construct B and H in local coordinates, compare with R5 on smooth
+construct B and H in local coordinates, compare with R5a on smooth
 immersions, and with `ω(X,Y)=g(JX,Y)` and
 `H_tr=trace B`, prove `H_tr=J grad θ` and `ι_(H_tr)ω=−dθ`. Compare
-`H_avg=H_tr/n` with RiemannianGeometry R5’s averaged mean curvature, and
+`H_avg=H_tr/n` with RiemannianGeometry R5a’s averaged mean curvature, and
 derive that a connected oriented Lagrangian has H=0 iff its phase is
 constant, hence it is special Lagrangian for that phase. Compute flat planes, affine translations, diagonal unitary
 images and flat tori, including their phase and orientation.
@@ -523,6 +549,9 @@ estimates. Its weak C¹ graph estimates and C² mean-curvature equation
 precede its smoothness conclusion; parametric higher regularity precedes
 the C∞ chart and topology comparison. No K6.1 pointwise export or
 general minimal-submanifold second-variation formula is assumed.
+
+The smooth variation order is RiemannianGeometry R5a.1 → R5a.2/R5b.
+C3 consumes C2 and R5a.1/R5a.2 and does not supply R5b.
 
 ## References
 
