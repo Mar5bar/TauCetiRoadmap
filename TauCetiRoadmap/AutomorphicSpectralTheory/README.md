@@ -18,6 +18,8 @@ Hilbert spaces are complete and complex, with the first inner-product slot conju
 
 Use normalized induction with δ_P^(1/2)=a^ρ_P, where δ_P is the full positive modulus character. Fix compatible Haar and quotient measures, with vol K=vol(N_P(F)\N_P(𝔸))=1 when the statement says so. The norm-one quotient and the quotient by A_G(ℝ)⁰ are identified through the supplier's measure comparison; full-height Fourier transforms do not automatically descend through the split centre. Weyl denominators, coroot covolumes and stabilizer orders remain in every formula. The convention (A−zI)⁻¹ is the negative of the library's (zI−A)⁻¹. Stone's group is U(t)=exp(itA), with generator iA. For A=0 and z=i, (A−zI)⁻¹=iI has positive imaginary scalar pairing; reversing this sign would invalidate the Herglotz convention.
 
+Additive (G,M)-families use the coroot denominators of §6.7. In rank one, fix reference P, its simple root α, z=Λ(α∨) and coroot-lattice covolume v. Then θ_P(z)=z/v and θ_P̄(z)=−z/v. For R=R_(P̄|P):I_P→I_P̄, the family uses R(λ)⁻¹R(λ+Λ); a prime differentiates in λ(α∨), with the central parameter fixed. Its regularized value is −vR(λ)⁻¹R′(λ). The scalar normalizing-factor families and global intertwiner families in the fine spectral expansion use this same orientation.
+
 The modular branch uses Γ=PSL₂(ℤ), Δ=−y²(∂ₓ²+∂ᵧ²), dμ=dxdy/y² and e(x)=exp(2πix). Gross–Zagier's convention is Δ_GZ=−Δ. Thus Δy²=−2y² whereas Δ_GZ y²=2y². Positive real bases use real logarithms in complex powers. For F=y^(k/2)f, the classical and unitary weight conventions obey Δ_classical f=y^(−k/2)(Δ_unitary F+(k²/4−k/2)F); at k=1/2 the shift is −3/16. Green sums count Γ₀(N)/{±I} once, whereas Eisenstein sums range over Γ_∞\Γ. The primitive-pair expression has a factor 1/2 for ±(c,d). Every Fourier and residue formula retains its frequency, parameter, off-orbit and endpoint restrictions.
 
 The function-field branch, denoted convention Y below, uses F=𝔽_q(X) for X smooth, projective and geometrically connected, and n>0. Except for compact-torus assertions it concerns everywhere-unramified GLₙ. Haar on every compact character group has total mass one, including all components: each of r components has mass 1/r. Fix determinant degree and the half-modulus normalization, and impose gcd(e,n)=1 exactly in the vanishing statements that need it. Convention D below means the positive modular Laplacian above; convention G means Δ_GZ. J_ν and I_ν use principal powers and regularized hypergeometric functions; K_ν uses its positive-argument Mellin integral. The completed scalar zeta is `completedRiemannZeta`, with Λ(1−s)=Λ(s).
@@ -3002,7 +3004,7 @@ Prove the following API statements.
 
 ### 6.11 Normalized weighted characters
 
-Define `weighted_character` as follows. Fix π unitary on M(F_S), P∈P(M) and normalized local intertwiners R. The family ℛ_Q(Λ,π_λ)=R_(Q|P)(π_λ)⁻¹R_(Q|P)(π_(λ+Λ)) has wall compatibility. Its regularized zero value ℛ_M gives J_M(π_λ,f)=tr(ℛ_M(π_λ,P)I_P(π_λ,f)). Fourier integration over ia_M,S*/ia_G,S* defines J_M(π,X,f), where Z=H_G(X) and f is restricted to height Z. The definition for nonunitary data uses the specified finite contour combination; no pole-free unitary formula is asserted there.
+Define `weighted_character` as follows. Fix π unitary on M(F_S), reference P∈P(M) and normalized local intertwiners R_(Q|P):I_P→I_Q, with R_(P|P)=1. The family ℛ_Q(Λ,π_λ)=R_(Q|P)(π_λ)⁻¹R_(Q|P)(π_(λ+Λ)) has wall compatibility. Its regularized zero value ℛ_M uses §6.7's coroot denominators and gives J_M(π_λ,f)=tr(ℛ_M(π_λ,P)I_P(π_λ,f)). Fourier integration over ia_M,S*/ia_G,S* defines J_M(π,X,f), where Z=H_G(X) and f is restricted to height Z. The definition for nonunitary data uses the specified finite contour combination; no pole-free unitary formula is asserted there.
 
 *Standing hypotheses:* S has Arthur’s closure property; fixed finite K-types of f; analytic unitary-axis normalized intertwiners; quotient Haar/Fourier dual measures.
 
@@ -3010,11 +3012,12 @@ Prove the following API statements.
 - `trace`: J_M(π_λ,f)=tr(ℛ_M(π_λ,P)I_P(π_λ,f)).
 - `full_levi`: For M=G, ℛ_G=1 and J_G is the ordinary character.
 - `parabolic_independence`: Conjugating by normalized R identifies the definitions for different P, so their traces agree.
+- `weighted_character_rank_one_scalar`: For scalar R differentiable at λ with R(λ)≠0 and scalar test operator a, lim_(z→0)[1/z+R(λ)⁻¹R(λ+z)/(−z)]a=−R(λ)⁻¹R′(λ)a, with the punctured limit in the unit-covolume coroot coordinate.
 
 **Checks.**
 - M=G recovers tr π(f).
-- In rank one, on a finite-dimensional space on which R(λ) is invertible, the weighted character is tr(R(λ)⁻¹R′(λ)I_P(π_λ,f)): the logarithmic derivative of the normalized intertwiner composed with the induced operator.
-- The scalar families exp(z)Id and Id have weighted traces one and zero at z=0: imaginary-axis unitarity does not fix the logarithmic-derivative weight.
+- In rank one, fix reference P, its simple root α, z=Λ(α∨) and coroot-lattice covolume one, so θ_P(z)=z and θ_P̄(z)=−z. On a finite-dimensional compact-picture space take differentiable, invertible R(λ)=R_(P̄|P)(π_λ):I_P→I_P̄, with R′ differentiating in λ(α∨) at fixed central parameter. Then ℛ_P(z)=1 and ℛ_P̄(z)=R(λ)⁻¹R(λ+z), so J_M(π_λ,f)=−tr(R(λ)⁻¹R′(λ)I_P(π_λ,f)).
+- With this reference P and coordinate, on a one-dimensional space with I_P(π_λ,f)=1, R(λ)=exp(λ) gives ℛ_P(z)=1 and ℛ_P̄(z)=exp(z), whose regularized weighted trace is −1 at λ=0. Taking R≡1 gives zero. Both intertwiners are unitary on the imaginary axis.
 
 ([Art05], §21, (21.11)–(21.16), pp.135–137; §23, (23.1)–(23.2), pp.146–148.)
 

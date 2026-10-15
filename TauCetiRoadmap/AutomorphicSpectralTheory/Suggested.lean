@@ -402,6 +402,20 @@ end Modular
 
 /-! ## Layer 6: Paley–Wiener theory and trace distributions -/
 
+/-- The scalar rank-one weighted character is the negative logarithmic derivative
+times the scalar test operator. The reference chamber is P, R maps I_P to I_P̄,
+and the coroot coordinate z gives denominators z and −z with covolume one. -/
+theorem weighted_character_rank_one_scalar (R : ℂ → ℂ) (lam R' a : ℂ)
+    (hR : HasDerivAt R R' lam) (hne : R lam ≠ 0) :
+    Tendsto (fun z : ℂ => (1 / z + (R lam)⁻¹ * R (lam + z) / (-z)) * a)
+      (𝓝[≠] 0) (𝓝 (-(R lam)⁻¹ * R' * a)) := by sorry
+
+-- Reference P has member 1; the opposite chamber has member exp z or 1.
+example : Tendsto (fun z : ℂ => 1 / z + Complex.exp z / (-z))
+    (𝓝[≠] 0) (𝓝 (-1)) := by sorry
+example : Tendsto (fun z : ℂ => 1 / z + 1 / (-z))
+    (𝓝[≠] 0) (𝓝 0) := by sorry
+
 /-
 README constructions needing the adelic, representation-theoretic, direct-integral or
 locally convex carriers:
