@@ -264,7 +264,7 @@ proposed for Mathlib; follow its mathematical shape and adopt its API if Mathlib
 | [EnhancedDerivedSheaves](../EnhancedDerivedSheaves/README.md) §E1.4 | `enhancedPullback` and `enhancedPushforward` supply ringed inverse/direct image, adjunction and composition. Section 5.8 transports these to the base coefficient sheaf and its filtered diagrams. |
 | [PadicPeriodRings](../PadicPeriodRings/README.md) §§1.1–1.5 | For finite `K/ℚ_p`, `padicComplexGaloisAction`, `padicComplex_fixed_eq`, `tate_H0_padicComplex_twist` and *The de Rham period rings*: the continuous Galois action, fixed field and nonzero-twist invariants, and the `BDeRhamPlus`/`BDeRham` DVR, residue and graded-twist structure. Sections 5.11, 5.14 and 5.15 use these on their finite-local-field domain and compare their structures with the derived/PD-filtered `A_cris` description of §§5.12–5.13. |
 | [PadicPeriodRings](../PadicPeriodRings/README.md) §2, §4.1 | `PadicFieldCompletion` and `tateSen_H0` supply the completion of the algebraic closure, its continuous action and Tate-twist invariants for complete discretely valued characteristic-zero fields with arbitrary perfect residue field. `generalBasePeriodRings` supplies the period structures and their agreement with its specializations to finite extensions `K/ℚ_p`. Sections 5.11 and 5.14 identify these with Mathlib's period carriers; §5.15 derives the `Fil² A_cris` vanishing from these inputs and §§5.12–5.14. |
-| [PadicPeriodRings](../PadicPeriodRings/README.md) §3 | `periodPDEnvelope`: the ordinary principal envelope on `O_C`, its completed carrier, initial property, `θ_cris`, logarithm and functorial maps. Section PD.7 identifies its general envelope specialization with this carrier; §5.13 identifies the derived period map with the supplied §4.1 map. |
+| [PadicPeriodRings](../PadicPeriodRings/README.md) §3 | `periodPDEnvelope`: the ordinary principal envelope on `O_C`, its presentation in `A_inf[1/p]`, p-adic completion, initial properties, `θ_cris`, logarithm and functorial maps. Section PD.7 identifies its general envelope specialization with these supplied objects and maps; §5.13 identifies the derived period map with the supplied §4.1 map. |
 | [DGAInfinity](../DGAInfinity/README.md) Layer 1 | Unital cochain DG algebras, DG morphisms, tensor products, units and Koszul signs. Section 2.21 defines strict graded commutativity and odd-square-zero conditions on this carrier; §§2.22 and 2.27 use its strict affine models. |
 | [PerfectoidSpaces](../PerfectoidSpaces/README.md) §P4.15.1 | `semiperfectoidFiniteIdealDescent` supplies derived module models over simplicial commutative bases, their derived tensors, mapping complexes and compatible Koszul systems. Section 1.11.1 uses this adapter for connective square-zero kernels. Its module inputs are DerivedModuleAlgebra §§0.1–0.4, 0.14 and 1.1–1.9. |
 | [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §1.E.1 | `perfectInverseSystemEffectivity`: compatible perfect complexes over a surjective ring tower with locally nilpotent kernels have a perfect derived limit with the specified derived reductions (Stacks Tag 0CQG). Section 1.13 derives finite-stage perfectness from `K₁` by nilpotent lifting and adds derived completeness and pseudo-coherence. |
@@ -272,7 +272,7 @@ proposed for Mathlib; follow its mathematical shape and adopt its API if Mathlib
 | [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §0.DP.3 | The divided power algebra `Γ_A(M)`, its augmentation, its augmentation ideal and its intersection with a base ideal. |
 | DerivedDeRhamCohomology §§PD.1–PD.2, PD.4–PD.5 | Divided powers from identities on generators, gluing and extension, the divided power filtration, canonical powers on `(p)` including `p = 2`, and relative PD polynomial algebras. |
 | DerivedDeRhamCohomology §PD.6 | Divided power envelopes relative to a PD base with their filtered universal maps, envelopes of regular immersions, flat base change, and completed envelopes; in particular the explicit regular envelopes, tensor discreteness, flatness and reduction of [Bhatt12], Lemmas 3.37–3.38, pp.16–17. |
-| DerivedDeRhamCohomology §PD.7 | `A_cris(R)` for a p-adically complete ring `R` in which `p` is not a unit, with `θ_cris` and `Crystalline.fontaineEnvelope_initial`, `Crystalline.fontaineEnvelope_theta`, `Crystalline.fontaineEnvelope_identify`, `Crystalline.fontaineEnvelope_map`. |
+| DerivedDeRhamCohomology §PD.7; [PadicPeriodRings](../PadicPeriodRings/README.md) §3 | The `A_cris(R)` envelope for general rings and `θ_cris`, with `Crystalline.fontaineEnvelope_initial`, `Crystalline.fontaineEnvelope_theta`, `Crystalline.fontaineEnvelope_identify`, `Crystalline.fontaineEnvelope_map`. On `O_C`, `Crystalline.fontaineEnvelope_periodPDEnvelope` identifies them with PadicPeriodRings §3's principal envelope, presentation, p-adic completion and `θ_cris` by their initial properties. |
 | [PerfectoidSpaces](../PerfectoidSpaces/README.md) §P1.10–§P1.11 | Perfectoid fields; a complete algebraically closed nonarchimedean field of residue characteristic `p` is one. |
 | PerfectoidSpaces §P1.17–§P1.18 | Fontaine's `θ : W(S♭⁺) → S⁺` for a perfectoid Tate pair, its surjectivity, and its kernel generated by a primitive nonzerodivisor `ξ`; for `ℂ_p`, `ker θ = (p − [p♭])`. |
 | PerfectoidSpaces §P1.24–§P1.25 | `IsIntegralPerfectoid` (BMS Definition 3.5) with the Frobenius criterion of [BMS] Lemma 3.10 and the examples `ℤ_p^cycl`, `𝒪_{ℂ_p}` and the p-adic completion of `ℤ_p^cycl[T^{1/p^∞}]`. |
@@ -2781,7 +2781,9 @@ ker θ over the trivial divided power base is an isomorphism of A-algebras; unde
 where J̄₀ is the divided power ideal of D_(A,0)(ker θ). (c) Principal case. Assume ker θ is
 generated by an element ξ whose image in A/p=R♭ is a non-zero-divisor (so that (p,ξ) is a regular
 sequence in A). Then D(R)=A⟨x⟩/(x−ξ) is p-torsion-free and equals the subring A[ξⁿ/n!:n≥0] of A[1/p]
-(x^[n]↦ξⁿ/n!); A_cris(R) is its p-adic completion and is p-torsion-free. (d) Maps. θ extends
+(x^[n]↦ξⁿ/n!); A_cris(R) is its p-adic completion and is p-torsion-free. For R=O_C, this is the
+presentation and completion supplied by PadicPeriodRings §3, under the specialization below.
+(d) Maps. θ extends
 uniquely to a divided power morphism θ_cris:(A_cris(R),J̄^)→(R,pR,γ); it kills γ_n(x) for x∈ker θ
 and n≥1, and if θ is surjective and R is p-torsion-free it is surjective with kernel the closure of
 J̄₀. For a perfect ring k of characteristic p and a ring map π:R→k, the map A→𝕎(k) induced on Witt
@@ -2797,15 +2799,17 @@ The API:
 
 - `Crystalline.fontaineEnvelope_initial`: Let (C,K,ε) be a divided power ring with C p-adically
   complete and separated, p∈K and ε_n(p)=pⁿ/n! for all n. Every ring map f:𝕎(R♭)→C with f(ker θ)⊆K
-  extends uniquely to a divided power morphism (A_cris(R),J̄^)→(C,K,ε).
+  extends uniquely to a divided power morphism (A_cris(R),J̄^)→(C,K,ε). On O_C this agrees with
+  PadicPeriodRings §3's completed initial property under `Crystalline.fontaineEnvelope_periodPDEnvelope`.
 - `Crystalline.fontaineEnvelope_theta`: θ_cris:(A_cris(R),J̄^)→(R,pR,γ) is the unique divided power
   morphism restricting to θ on 𝕎(R♭); θ_cris(γ_n(x))=0 for x∈ker θ and n≥1. If θ is surjective and R
   is p-torsion-free, θ_cris is surjective and its kernel is the closure of the sub-PD ideal
-  generated by ker θ.
+  generated by ker θ. On O_C it is PadicPeriodRings §3's θ_cris under the same identification.
 - `Crystalline.fontaineEnvelope_identify`: In the principal case (c), the p-adic completion of the
   subring 𝕎(R♭)[ξⁿ/n!:n≥0] of 𝕎(R♭)[1/p] is isomorphic to A_cris(R) as a 𝕎(R♭)-algebra, by the
   completion of the isomorphism 𝕎(R♭)⟨x⟩/(x−ξ)→𝕎(R♭)[ξⁿ/n!], x^[n]↦ξⁿ/n!; both rings are
-  p-torsion-free.
+  p-torsion-free. On O_C use PadicPeriodRings §3's presentation, embedding and completion,
+  transported by `Crystalline.fontaineEnvelope_periodPDEnvelope`.
 - `Crystalline.fontaineEnvelope_eq_trivialBase`: If 𝕎(R♭)/ker θ is p-torsion-free, the canonical map
   D_(𝕎(R♭),0)(ker θ)→D(R) is an isomorphism of 𝕎(R♭)-algebras, and the divided power ideal of D(R)
   is J̄₀+pD(R).
@@ -2875,7 +2879,9 @@ Mathlib `WittVector.map`; Mathlib `WittVector.eq_of_apply_teichmuller_eq`.
 **Specialization to the ordinary period envelope.** Let `C` be a complete algebraically closed
 nonarchimedean field of characteristic zero and residue characteristic `p`, and let `O_C` be its
 valuation ring. Use PerfectoidSpaces §§P1.17–P1.18 to identify `A_inf` and `θ` with the data of
-PadicPeriodRings §3 `periodPDEnvelope`. Construct
+PadicPeriodRings §3 `periodPDEnvelope`. Its principal envelope, presentation
+`A_inf⟨x⟩/(x−ξ) ≃ A_inf[ξⁿ/n!:n≥0]`, p-torsion-freeness, separated p-adic completion and
+`θ_cris` are supplied by that section. Construct
 `Crystalline.fontaineEnvelope_periodPDEnvelope`: the unique `A_inf`-algebra isomorphism from
 `D(O_C)` to that ordinary principal envelope, and its extension between their separated p-adic
 completions. Construct the maps in both directions by their base-compatible PD universal
@@ -2883,6 +2889,8 @@ properties; uniqueness makes their composites identities. The isomorphisms prese
 PD ideal `J = J₀ + pD`, its powers, and separately the small ideal `J₀` generated by `ker θ`
 and its PD filtration, including their closures after completion. Thus they preserve the Hodge
 filtration coming from `J₀`; its first quotient is `O_C`, whereas the quotient by `J` is `O_C/p`.
+The presentation comparison sends `x^[n]` to the supplied `ξⁿ/n!`; its completion identifies
+`Crystalline.fontaineEnvelope_identify` on `O_C` with PadicPeriodRings §3's completed presentation.
 
 Prove compatibility with the `A_inf` structure map, `θ_cris`, every divided power, the
 ordinary completion maps, and functorial maps of Fontaine data. The completed isomorphism carries
@@ -4531,13 +4539,14 @@ automorphisms. Put `A_inf = 𝕎(O_C♭)` with `O_C♭ = PreTilt O_C p` and `θ 
 (Mathlib); `θ` is surjective (`surjective_fontaineTheta`) and `ker θ` is generated by a primitive
 nonzerodivisor `ξ` (PerfectoidSpaces §P1.18). Use §PD.7
 `Crystalline.fontaineEnvelope_periodPDEnvelope` to identify the general `A_cris(O_C)` with
-PadicPeriodRings §3's ordinary completed carrier, with the same `θ_cris`.
+PadicPeriodRings §3's principal envelope, presentation and p-adic completion, with the same `θ_cris`.
 Put `B_dR⁺ = BDeRhamPlus O_C p`, `B_dR = BDeRham O_C p` (Mathlib). Define
 `Z_p(1) = {ε ∈ O_C♭ : ε^♯ = 1}`, `DerivedDeRham.compatibleRootsOfUnity`, the kernel of the untilt
 `PreTilt.untilt : O_C♭ →* O_C`, written additively; it is the group of compatible systems `(ε_n)` of
 `p^n`-th roots of unity in `O_C`, a free `ℤ_p`-module of rank one on which `G_K` acts through the
 cyclotomic character. For `ε ∈ Z_p(1)`, `θ([ε]) = ε^♯ = 1` (`WittVector.fontaineTheta_teichmuller`), so
-`[ε] − 1 ∈ ker θ` and `log([ε]) = Σ_(n≥1) (−1)^(n−1)(n−1)! γ_n([ε] − 1)` converges in `A_cris`.
+`[ε] − 1 ∈ ker θ`. Use PadicPeriodRings §3's convergent logarithm
+`log([ε]) = Σ_(n≥1) (−1)^(n−1)(n−1)! γ_n([ε] − 1)` in this shared `A_cris` carrier.
 
 For finite `K/ℚ_p`, use PadicPeriodRings §1.1 `padicComplexGaloisAction` and
 PadicPeriodRings §1.5 *The de Rham period rings* contract. For arbitrary perfect `k`, use the same interfaces in the
@@ -4552,7 +4561,8 @@ Mathlib's via functorial tilting, Witt vectors and the completion universal prop
 `WittVector.fontaineTheta_teichmuller`, `surjective_fontaineTheta`, `BDeRhamPlus`, `BDeRham`,
 `Field.absoluteGaloisGroup`; PerfectoidSpaces §P1.10–§P1.11, §P1.18; §PD.7 here;
 PadicPeriodRings §1.1 `padicComplexGaloisAction` and §1.5 *The de Rham period rings*;
-PadicPeriodRings §2 `PadicFieldCompletion`, §4.1
+PadicPeriodRings §2 `PadicFieldCompletion`, §3 `periodPDEnvelope` (presentation, completion,
+`θ_cris` and logarithm), §4.1
 `generalBasePeriodRings`.
 
 **Checks.**
@@ -4571,7 +4581,8 @@ equivalence preserves Frobenius and the `G_K` action. Construct the restricted p
 `DerivedDeRham.periodRegularEnvelopeComparison` for the principal nonzerodivisor `ξ`:
 `Λ_p dR_(O_C/A_inf) ≃ D̂_(A_inf)((ξ))`, filtered by completed divided powers, compatible with
 Frobenius, the structure map and the `G_K` action. The PD envelope and its completion are those
-of §PD.6 over the trivial PD ideal, identified with the base-compatible envelope by §PD.7(b).
+of §PD.6 over the trivial PD ideal, identified by §PD.7(b) and
+`Crystalline.fontaineEnvelope_periodPDEnvelope` with PadicPeriodRings §3's envelope and completion.
 For this principal period theorem, reduce modulo `p^n`; both `A_inf/p^n` and `O_C/p^n` are flat
 over `ℤ/p^n`, and `ξ` remains regular. Base change the one-variable polynomial-resolution
 calculation of [Bhatt12] Lemma 3.29 and Corollary 3.40 to obtain the regular-envelope map and
@@ -4585,8 +4596,9 @@ in CrystallineCohomology.
 
 Prove `L̂_(A_inf/W) = 0` by the relatively perfect mod-p calculation ([Bhatt12] Proposition
 9.3(2)); transitivity and §2.28 identify `Λ_p dR_(O_C/W)` with `Λ_p dR_(O_C/A_inf)`.
-The period regular-envelope equivalence then identifies this with `A_cris(O_C)` by
-§PD.7 `Crystalline.fontaineEnvelope_identify` and `Crystalline.fontaineEnvelope_periodPDEnvelope`.
+The period regular-envelope equivalence then identifies this with PadicPeriodRings §3's
+`A_cris(O_C)` and its supplied presentation and `θ_cris` through
+§PD.7 `Crystalline.fontaineEnvelope_periodPDEnvelope`.
 The integral perfectoid generalization retains
 p-torsion-freeness, relative perfectness mod p and the same filtered regular-envelope hypothesis
 ([Bhatt12] Remarks 9.6 and 9.10 take p-adically complete flat `O_C`-algebras).
@@ -4601,7 +4613,8 @@ Lemma 3.29 and Corollary 3.40, pp.13–17; Lemma 8.3 and Corollary 8.6, pp.31–
 *Needs:* Layer 5: The period setup; Layer 4: The torsion boundary for F_p over Z_p;
 DerivedModuleAlgebra §§0.13, 0.8, 1.1–1.5; Layer 2: p-completed derived de Rham; Layer 2: Derived de
 Rham transitivity filtrations; §§PD.6–PD.7 here. The principal period regular-envelope
-equivalence is constructed here; its generalization retains the stated regular-envelope hypothesis.
+equivalence uses PadicPeriodRings §3's ordinary envelope, presentation, completion and `θ_cris`,
+and §4.1's Frobenius and actions; its generalization retains the stated regular-envelope hypothesis.
 
 Lean: `DerivedDeRham.acrisDerivedDescription`.
 
@@ -4620,7 +4633,8 @@ Lean: `DerivedDeRham.acrisDerivedDescription`.
 In the period setup, the rational Hodge completion of the p-completed derived de Rham period object,
 `Rlim_i(((Λ_p dR_(O_K̄/W))/Fil_H^i)[1/p])`, identifies with `B_dR⁺ = BDeRhamPlus O_C p`, the
 `ker(θ)[1/p]`-adic completion of `A_inf[1/p]`. Inversion of `p` is taken inside each Hodge quotient; it is
-not identified with inversion outside the limit. The composite `A_cris → B_dR⁺` of 5.12 with this
+not identified with inversion outside the limit. Here `A_cris` and `θ_cris` are PadicPeriodRings
+§3's completed envelope and map, identified by §PD.7. The composite `A_cris → B_dR⁺` of 5.12 with this
 identification is the natural map; it preserves the filtrations and the `G_K` action, and `B_dR` is
 `BDeRham O_C p`.
 
@@ -4672,12 +4686,12 @@ PadicPeriodRings §1.5 *The de Rham period rings* for its DVR, residue, Galois a
 graded-twist structure. For arbitrary perfect `k`, use PadicPeriodRings
 §4.1 `generalBasePeriodRings`. Here `bdrPlusStructure` identifies these supplied structures with
 the Mathlib carriers in §5.11 and proves the filtered embedding from the derived/PD comparison
-of §§5.12–5.13.
+of §§5.12–5.13, identifying it with PadicPeriodRings §4.1's map from §3's completed envelope.
 
 [Bhatt12], Remark 9.17, p.38, recalling [Fon94]; Mathlib `Mathlib/RingTheory/Perfectoid/BDeRham.lean`.
 
 *Needs:* Layer 5: The period setup; Layer 5: Hodge completion and B_dR⁺; PerfectoidSpaces §P1.18;
-§PD.7 here; PadicPeriodRings §1.5 *The de Rham period rings*;
+§PD.7 here; PadicPeriodRings §3 (completed envelope and `θ_cris`), §1.5 *The de Rham period rings*;
 PadicPeriodRings §4.1 `generalBasePeriodRings`.
 
 Lean: `DerivedDeRham.bdrPlusStructure`.
@@ -4700,7 +4714,8 @@ For finite `K/ℚ_p`, use PadicPeriodRings §§1.2, 1.4 `padicComplex_fixed_eq` 
 `tate_H0_padicComplex_twist`; for the arbitrary perfect residue field of §5.11, use
 PadicPeriodRings §2 `tateSen_H0`. Here `tateTwistInvariants`
 identifies the supplied invariant calculation on the period carriers of §5.11 and deduces the
-positive-filtration and `Fil² A_cris` vanishings through the derived/PD-filtered comparison.
+positive-filtration and `Fil² A_cris` vanishings through the derived/PD-filtered comparison with
+PadicPeriodRings §3's completed envelope and §4.1's equivariant period map.
 
 [Tat67], §3.3, Theorems 1–2, p.176, with Theorem 2 applied to nonzero integral powers of the
 cyclotomic character; [Bhatt12], Remark 9.17, p.38, for the consequence on `B_dR`.
@@ -4957,8 +4972,9 @@ compatible system of roots of unity, `[1] − 1 = 0` and its logarithm vanishes.
 DerivedModuleAlgebra §§0.4–0.17, 1.1–1.9 supplies cotangent powers, completion and complete
 flatness. Layers 0–4 here supply local criteria, de Rham, Cartier theory and PD filtrations.
 PerfectoidSpaces supplies integral perfectoid rings, perfectoid fields and the principal `θ`-kernel;
-Layer PD supplies PD envelopes and `A_cris`; PadicPeriodRings §§1.1–1.5, 2, 4.1 supplies period
-structures and Tate invariants; SchemeAndStackFoundations supplies formal spectra, quasi-coherent
+Layer PD supplies PD envelopes and `A_cris(R)` for general rings; PadicPeriodRings §§1.1–1.5, 2, 3,
+4.1 supplies the `O_C` envelope, period structures and Tate invariants;
+SchemeAndStackFoundations supplies formal spectra, quasi-coherent
 derived categories and Néron–Popescu desingularization; EnhancedDerivedSheaves §E1.9 supplies
 perfectness and arbitrary base change of proper pushforward; Mathlib supplies `WittVector`,
 `PreTilt`, `WittVector.fontaineTheta`, `BDeRhamPlus`, `BDeRham` and étale sites.

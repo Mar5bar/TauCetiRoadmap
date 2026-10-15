@@ -539,8 +539,12 @@ PD.7 The crystalline period ring:
 Crystalline.fontaineEnvelope_initial; Crystalline.fontaineEnvelope_theta;
 Crystalline.fontaineEnvelope_identify; Crystalline.fontaineEnvelope_eq_trivialBase;
 Crystalline.fontaineEnvelope_wittResidue; Crystalline.fontaineEnvelope_map.
+These are targets for general rings. Their O_C initial property, presentation, embedding,
+p-adic completion and θ_cris use PadicPeriodRings §3's supplied objects and laws through
+Crystalline.fontaineEnvelope_periodPDEnvelope.
 Crystalline.fontaineEnvelope_periodPDEnvelope identifies the generic envelope on O_C and its
-p-adic completion with PadicPeriodRings §3's periodPDEnvelope, preserving A_inf, θ_cris, the full
+p-adic completion with PadicPeriodRings §3's periodPDEnvelope and completed carrier. Its
+presentation sends x^[n] to the supplied ξⁿ/n! in A_inf[1/p], preserving A_inf, θ_cris, the full
 base-compatible PD ideal and the separate small Hodge ideal, powers, completion, functorial maps
 and logarithms. In the period setup it also intertwines Witt Frobenius and Galois actions.
 
@@ -1033,8 +1037,10 @@ with Zariski restriction and refinement, base-linear realization, products, Hodg
 the map to completion; `schemeDeRhamAffine` of README 5.8 recovers Hodge completion.
 CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.5, CR.DDR.5.8–CR.DDR.5.10,
 CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 and CR.DDR.6.1–CR.DDR.6.20 owns crystalline comparisons,
-derived de Rham–Witt and general logarithmic theory. README 5.12 constructs the principal period
-`periodRegularEnvelopeComparison` and `acrisDerivedDescription`; its integral perfectoid
+derived de Rham–Witt and general logarithmic theory. README 5.12 constructs the principal derived period
+`periodRegularEnvelopeComparison` and `acrisDerivedDescription` using PadicPeriodRings §3's
+ordinary O_C envelope, presentation, p-adic completion and θ_cris under
+`Crystalline.fontaineEnvelope_periodPDEnvelope`; its integral perfectoid
 generalization retains the regular-envelope hypothesis. README 6.20 constructs the restricted
 `periodLogComparisonData`, `periodLogCotangentComparison`, `periodLogDeRhamComparison` and
 `periodLogDLogFirstGraded`, including the canonical transitivity boundary and its nonzero Tate class.
@@ -1050,7 +1056,8 @@ The period interfaces `bdrPlusStructure` and `tateTwistInvariants` compare Padic
 §§1.1–1.5's `padicComplexGaloisAction`, `padicComplex_fixed_eq`, `tate_H0_padicComplex_twist`
 and period structures for finite local fields, and §§2, 4.1's `PadicFieldCompletion`, `tateSen_H0`
 and `generalBasePeriodRings` for arbitrary perfect residue fields. The derived/PD-filtered
-`A_cris` description and its `Fil²` vanishing consequence are in README 5.12–5.15.
+`A_cris` description and its `Fil²` vanishing consequence are in README 5.12–5.15, on the same
+PadicPeriodRings §3 completed envelope and using its §4.1 equivariant period map.
 -/
 
 end
