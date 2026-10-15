@@ -31,9 +31,10 @@ Design choices made explicit here:
   retains the difference between the two fibres even at odd p.
 * ℤ_p-corank is computed on a compact dual (`corankFromDual`); Iwasawa corank is computed on
   each finite compact component dual (`iwasawaCorankFromComponentDual`).
-* PadicPeriodRings §§1.1–1.5, 2, 4.1 supply the period carriers. FiniteFlatGroupsAndIntegralPadicHodgeTheory
-  §§R07.P2–R07.P5a and R07.3.3a supply finite-K period structures, crystalline predicates and
-  filtered Frobenius modules for the arithmetic targets.
+* PadicPeriodRings §§1.1–1.5, 2–3, 4.1–4.3 supply the period carriers, functors and fixed fields.
+  FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a supply finite-K comparisons,
+  additional sequences, continuous sections, boundary maps and integral crystalline predicates;
+  §R07.3.3a supplies filtered Frobenius modules for the arithmetic targets.
 * Archimedean realizations extend Tau Ceti's opposed Hodge filtrations by a complex-linear
   Betti involution; the L-function Tate line has Hodge–Tate index `-n` and Gamma factor `Γℝ(s - n)`.
 
