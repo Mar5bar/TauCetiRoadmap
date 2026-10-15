@@ -59,6 +59,19 @@ completed-cover assertions above. Follow the actual hypotheses and build these
 adapters here. No Floer complex, spectral sequence, nonabelian torsion, analytic
 Ray–Singer torsion or gauge invariant is an input to this development.
 
+Existing work includes [Dongryul Kim's Novikov-series development](https://github.com/dongryul-kim/lean4-novikov),
+with its [coefficient/support carrier](https://github.com/dongryul-kim/lean4-novikov/blob/d5e705bd46bca9cb1622a260425388500d7697c2/Novikov/Series/Basic.lean).
+It treats real additive-submonoid exponents and, in several variables,
+finiteness for every positive weight vector. N1 instead permits an arbitrary
+abelian exponent group with a specified, possibly noninjective period map.
+For injective N, construct the coefficient-preserving comparison with the
+one-variable carrier on the image of N, including convolution and the period
+topology. For noninjective N, retain the finite ties in each period fiber and
+compare through the supplied kernel splitting below. This general construction
+and its comparison are independent of the descent theorem in that project.
+Coordinate with its authors before code integration and follow the repository's
+licensing and reuse requirements for any copying or adaptation.
+
 ## N1. Period-controlled completed group rings and modules
 
 For an abelian group H and homomorphism N:H→ℝ, define Nov(R,H,N) by coefficient
@@ -88,9 +101,11 @@ also construct restriction φ^* by coefficient precomposition and prove its
 support bound. Export the inclusion/restriction cases used in finite cyclic
 covers. Do not claim an unrestricted series pushforward for arbitrary φ.
 
-Construct geometric series for an element supported on N>0, prove both inverse
-identities for 1−a, and build exp/log on the positive ideal over a ℚ-algebra, with
-convergence and formal identities in the period topology. Prove filtered infinite
+Construct the nonnegative-period subring of series supported on N≥0 and its
+strictly positive ideal of series supported on N>0. Construct geometric series
+for such a, prove both inverse identities for 1−a, and build exp/log between
+this ideal and units of the form 1+a over a ℚ-algebra, with convergence and
+formal identities in the period topology. Prove filtered infinite
 products converge for families whose nonconstant supports escape every cutoff.
 Include monomial `(1−e^h)^−1=Σ(k≥0)e^(kh)` when N(h)>0.
 
@@ -199,12 +214,19 @@ from degree 1 to degree 0 has torsion a⁻¹. For acyclic complexes obtain a non
 scalar from the chosen ordered chain bases; for nonacyclic complexes define the
 scalar to be 0 while retaining the more informative homology-basis determinant
 line. Prove independence of boundary bases/lifts, permutation/sign rules, graded
-basis-change formula, scalar extension, direct sums and short-exact-sequence
-multiplicativity with explicit Koszul sign. Prove contraction and subdivision
-identities used below. Do not assert torsion is invariant under every chain homotopy
+basis-change formula, scalar extension and direct sums. For a degreewise based
+short exact sequence of acyclic complexes, prove scalar-torsion multiplicativity
+with compatible chain bases and the explicit Koszul sign. For general complexes,
+prove determinant-line multiplicativity through the long exact homology sequence,
+including its torsion correction with chosen homology bases. Regard that sequence
+as an acyclic homological complex with H_i(A), H_i(B), H_i(D) in degrees
+3i+2,3i+1,3i respectively, using the same alternating determinant order and
+subspace-first lifts. Derive the scalar formula from this comparison; the
+zero-extended scalar torsions do not replace the determinant-line formula.
+Prove contraction and subdivision identities used below. Do not assert torsion is invariant under every chain homotopy
 equivalence: prove its transformation by the based mapping-cone torsion.
 
-Give the square-minor formula by choosing coordinate subspaces D_i,E_i and using
+For acyclic complexes give the square-minor formula by choosing coordinate subspaces D_i,E_i and using
 the **projection** `p_(E_(i−1))∘d|_(D_i)`; these projected maps are isomorphisms.
 The differential need not map D_i into E_(i−1) itself. Compute the alternating
 product of these minor determinants and reconcile it with the determinant-line
@@ -461,13 +483,15 @@ corresponding monomial unit factor. CN acyclic, τNov=(1−t)⁻¹ and ζ=1. The
   `ChainComplex (ModuleCat R) ℕ` free on the q-simplices, with basis orientations
   fixed by a vertex order and orientation reversal acting by −1, with the
   alternating face differential, basis equations, scalar extension and its
-  extension by zero to `ChainComplex (ModuleCat R) ℤ`. Give |K| its simplex-cell CW structure and
-  use AT4.2's attaching-map degrees to identify that cellular differential
-  with the same signed face formula. Compose with AT4.3's cellular/singular
+  extension by zero to `ChainComplex (ModuleCat R) ℤ`. Consume GT11's chosen
+  simplex-cell CW structure on |K|, ordered characteristic maps and signed
+  simplicial/cellular boundary identification. Prove this native chain adapter
+  agrees with that structure and AT4.2's cellular complex and chain maps. Compose with AT4.3's cellular/singular
   comparison to obtain the homology isomorphism. Prove independence of vertex
   ordering via the orientation-change chain isomorphism, and functoriality
-  for simplicial maps f. Prove |f| is cellular for these simplex-cell structures:
-  AT4.2's cellular chain map is f_#, with degree zero on degenerate images and
+  for simplicial maps f. Consume GT11's cellularity of |f| for these same
+  simplex-cell structures, and identify AT4.2's cellular chain map with f_#,
+  with degree zero on degenerate images and
   the orientation sign otherwise. AT4.3's naturality on homology then identifies
   f_# with |f|_*, without claiming a strict cellular-to-singular chain map.
   Construct the canonical affine homeomorphism `b_r:|sd^r K|≃ₜ|K|`, mapping
