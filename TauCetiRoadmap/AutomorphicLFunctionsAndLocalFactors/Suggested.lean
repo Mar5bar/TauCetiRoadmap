@@ -37,8 +37,9 @@ against the pinned Mathlib and Tau Ceti APIs; proving every declaration does not
 
 The formulas fix the positive Tate Fourier kernel, the unitary centre, canonical real and complex
 gamma factors, geometric-Frobenius determinant conventions and continuation before evaluation.
-Representation spaces, global Schwartz completions, shtukas and rational period comparisons are
-specified by their mathematical targets in the README.
+The common adelic Schwartz/Fourier/Poisson space and scalar Tate continuation are consumed from
+ArithmeticGaloisRepresentations §2.7 Global inputs. The README specifies their vector-space and
+distribution refinements, representation spaces, shtukas and rational period comparisons.
 -/
 
 noncomputable section
@@ -362,7 +363,8 @@ theorem SelfDualHaar.dual_volume (q : ℝ) (hq : 0 < q) (m d : ℤ) :
     q^(-(m : ℝ)-(d : ℝ)/2)*q^((m : ℝ)+(d : ℝ)-(d : ℝ)/2) = 1 := by sorry
 
 /-- Gaussian periodisation converges uniformly on each compact set of real translations.
-This is the real slice of the compact-uniform adelic Tate contract. -/
+This estimate supplies the real slice of the vector-space Poisson comparison;
+the scalar adelic Poisson identity is consumed from ArithmeticGaloisRepresentations §2.7. -/
 theorem gaussian_periodization_compact (K : Set ℝ) (hK : IsCompact K) :
     TendstoUniformlyOn
       (fun E : Finset ℤ => fun x : ℝ =>
@@ -425,13 +427,15 @@ example (s : ℂ) (hs : ∀ n : ℕ, s ≠ -(2 * n + 1)) :
     Gammaℝ s / Gammaℝ (1 - s) = Gammaℂ s * cos (π * s / 2) :=
   Gammaℝ_div_Gammaℝ_one_sub hs
 
-/-- `AL.0/adelic-poisson-summation` for `k = ℚ`, `f = 1_Ẑ ⊗ e^{-πx²}`: Jacobi's theta relation. -/
+/-- Jacobi’s theta relation checks the scalar Poisson identity consumed from
+ArithmeticGaloisRepresentations §2.7 at `k = ℚ`, `f = 1_Ẑ ⊗ e^{-πx²}`. -/
 example (a : ℝ) (ha : 0 < a) :
     ∑' n : ℤ, Real.exp (-Real.pi * a * (n : ℝ) ^ 2) =
       1 / a ^ (1 / 2 : ℝ) * ∑' n : ℤ, Real.exp (-Real.pi / a * (n : ℝ) ^ 2) :=
   Real.tsum_exp_neg_mul_int_sq ha
 
-/-- `AL.1/tate-global-functional-equation` for `k = ℚ`, `κ = 1`, `f(0) = f̂(0) = 1`: the bracket
+/-- The scalar Tate equation consumed from ArithmeticGaloisRepresentations §2.7,
+for `k = ℚ`, `κ = 1`, `f(0) = f̂(0) = 1`, provides the bracket
 `κ f̂(0)/(s - 1) - κ f(0)/s` and the functional equation `ζ(f, c) = ζ(f̂, ĉ)`. -/
 example (s : ℂ) :
     completedRiemannZeta s = completedRiemannZeta₀ s - 1 / s - 1 / (1 - s) ∧
@@ -510,9 +514,9 @@ example : localGaussSum Measure.count ({1} : Set (ZMod 2)) 2 0 1
     (1 : (ZMod 2)ˣ) (fun _ => 1) (ZMod.toCircle (N := 2)) =
     -(Real.sqrt 2 : ℂ) := by sorry
 
-/-- Unbalanced all-place product on its absolute-convergence half-plane.
-On algebraic norm twists its continuation is the conductor/variable adapter to
-LFunctions layers 0, 5–6 via ArithmeticGaloisRepresentations §2.7. -/
+/-- Product notation for the supplied unbalanced all-place factors on their convergence domain.
+ArithmeticGaloisRepresentations §2.7 supplies scalar continuation for general quasi-characters;
+the algebraic norm-twist normalization is compared with LFunctions layers 0, 5–6. -/
 def completedHeckeL {ι : Type*} (L : ι → ℂ → ℂ) (s : ℂ) : ℂ := ∏' v, L v s
 
 /-- The product after removing the specified places, on its convergence domain. -/
@@ -551,9 +555,9 @@ example : realStandardEpsilon 0 = 1 ∧ realStandardEpsilon 1 = Complex.I := by 
 /-- The reducible real Weil constituent I₀ has the product epsilon of 1 and sgn. -/
 example : realStandardEpsilon 0 * realStandardEpsilon 1 = Complex.I := by sorry
 
-/-- The finite epsilon product over all exceptional places. On algebraic norm twists,
-ArithmeticGaloisRepresentations §2.7 identifies it with the supplied LFunctions root number
-times the primitive conductor power, using the canonical rank-one comparison. -/
+/-- Finite-product notation for the scalar epsilon factors supplied by
+ArithmeticGaloisRepresentations §2.7 for general quasi-characters. On algebraic norm twists
+the canonical rank-one comparison identifies the root number and primitive conductor power. -/
 def globalEpsilon {ι : Type*} (S : Finset ι) (ε : ι → ℂ → ℂ) (s : ℂ) : ℂ :=
   ∏ v ∈ S, ε v s
 

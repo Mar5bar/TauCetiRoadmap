@@ -1,6 +1,6 @@
 # Roadmap: automorphic L-functions and local factors
 
-**Summary.** This roadmap constructs the analytic L-functions of characters and automorphic representations of GLₙ, together with the normalization maps needed to compare their values, poles and local factors. It starts with Fourier analysis over local fields and adeles, develops Tate's zeta distributions, then the Godement–Jacquet and Rankin–Selberg integrals. Its final interfaces compare Satake and Weil–Deligne determinants, rational period structures and finite Euler corrections. The function-field part also proves the polynomial and reciprocal-factor statements used to normalize intertwining scalars, and checks the weight conventions on projective spaces, the multiplicative group, curves, semistable filtrations and unramified cuspidal tensor factors.
+**Summary.** This roadmap develops distribution and normalization interfaces for character L-functions and constructs the analytic factors of automorphic representations of GLₙ. It consumes scalar adelic Fourier and Tate theory, proves its vector-space and distribution refinements, then develops the Godement–Jacquet and Rankin–Selberg integrals. Its final interfaces compare Satake and Weil–Deligne determinants, rational period structures and finite Euler corrections. The function-field part also proves the polynomial and reciprocal-factor statements used to normalize intertwining scalars, and checks the weight conventions on projective spaces, the multiplicative group, curves, semistable filtrations and unramified cuspidal tensor factors.
 
 The library must expose the spaces, measures, distributions and comparison maps that make those theorems usable. An integral formula is accompanied by its convergence domain and continuation theorem. A local denominator is characterized by the ideal of test integrals, rather than by a choice of one test vector. A period is a class modulo the units of its rationality field, rather than a canonically chosen complex number.
 
@@ -8,9 +8,9 @@ The library must expose the spaces, measures, distributions and comparison maps 
 
 The finite-place representation categories, normalized parabolic induction, genericity and Satake isomorphisms come from **SmoothRepresentationsOfLocalGroups**, layers SR.1–SR.5. **ArithmeticLocallySymmetricSpaces**, ALS.F.6–F.7, supplies number-field automorphic forms, cusp forms, rapid decay, cuspidal discreteness and cohomological carriers; ALS.5b supplies their geometric rational cohomology realizations. The representation prerequisites below construct the GLₙ normalized archimedean induction and globalization, Whittaker and Weil-parameter comparisons, restricted tensor realizations, function-field cuspidal carriers, number-field isobaric sums and finite-part rational structures. Generic finite-place newforms use ClassFieldTheory layer 7 for rank one and [GL₂ newvectors](#gl2-newvectors) for rank two; the compatible higher-rank construction and Maass realization are targets here. The Whittaker integrals, their analytic continuation and the scalar period comparison are built here. Ordinary multiplicity one is proved from cusp-form Fourier reconstruction and local Whittaker uniqueness; it does not require the general automorphic trace formula.
 
-**AdelicAlgebraicGroups**, layers AA.0–AA.2, owns adelic group topology, restricted Haar products and quotient measures. This roadmap uses those measures to construct Schwartz spaces, Poisson summation and zeta integrals. **ReductiveGroupsPartII**, RG2.5, and **IntegralHeckeAndGaloisDeterminants**, §3a.1, supply the L-group, its Frobenius coset and the normalized GLₙ Satake coefficients. **ArithmeticGaloisRepresentations**, §§2.4–2.7, supplies Weil–Deligne representations and their geometric-Frobenius Euler and epsilon factors. Ramified analytic/parameter factor equalities are supplied inputs to normalization transport; the existence of a general finite-place local Langlands correspondence is a separate theorem.
+**AdelicAlgebraicGroups**, layers AA.0–AA.2, owns adelic group topology, restricted Haar products and quotient measures. ArithmeticGaloisRepresentations §2.7, **Global inputs**, owns the common number-field adelic Schwartz–Bruhat space, restricted/completed tensor API, self-dual Fourier transform, Poisson summation, scalar Tate integral, meromorphic continuation and scalar functional equation for every continuous idele-class quasi-character. This roadmap consumes that prefix and uses those measures for its local-vector-space, distribution and GLₙ extensions. **ReductiveGroupsPartII**, RG2.5, and **IntegralHeckeAndGaloisDeterminants**, §3a.1, supply the L-group, its Frobenius coset and the normalized GLₙ Satake coefficients. **ArithmeticGaloisRepresentations**, §§2.4–2.7, supplies Weil–Deligne representations and their geometric-Frobenius Euler and epsilon factors. Ramified analytic/parameter factor equalities are supplied inputs to normalization transport; the existence of a general finite-place local Langlands correspondence is a separate theorem.
 
-**[LFunctions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/README.md)**, layers 0, 5–6, owns the primitive finite-order and algebraic Hecke functions, conductor-balanced completions, continuation and inverse-character functional equations. **ArithmeticGaloisRepresentations**, §2.7, supplies their comparison with scalar adelic Tate integrals, complex norm twists and local epsilon products. AL.0 supplies the Schwartz/Fourier interfaces used in higher rank; AL.1 supplies the distribution-valued refinement and general continuous-character theory. On the common algebraic/norm-twist domain its scalar functions are normalization adapters to those suppliers, with the exact comparison in [Canonical rank-one comparison](#canonical-rank-one-comparison). AL.4 consumes the earlier arithmetic Weil–Deligne theory; no arithmetic local-constant construction depends on AL.4.
+**[LFunctions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/README.md)**, layers 0, 5–6, owns the primitive finite-order and algebraic Hecke functions, conductor-balanced completions, continuation and inverse-character functional equations. **ArithmeticGaloisRepresentations**, §2.7, supplies their comparison with scalar adelic Tate integrals, complex norm twists and local epsilon products. AL.0 consumes that supplier's Schwartz/Fourier/Poisson prefix and proves its finite-dimensional vector-space and partial-transform extensions and compact-uniform estimates; AL.1 proves the distribution-valued refinement. General continuous-character scalar theory is consumed from the same supplier. On the common algebraic/norm-twist domain its scalar functions are normalization adapters to those suppliers, with the exact comparison in [Canonical rank-one comparison](#canonical-rank-one-comparison). AL.4 consumes the earlier arithmetic Weil–Deligne theory; no arithmetic local-constant construction depends on AL.4.
 
 The downstream applications in AutomorphicSpectralTheory §§2.3a, 3.6a–3.6d, 4.14a, 4.15a–4.15e and 7.1–7.2 use the scalar factors here for normalized-intertwiner bounds, growth and superpositivity, residual factors and transfer applications.
 
@@ -46,8 +46,8 @@ The following constructions are reused. The work below proves the additional loc
 | Parametric integrals | Mathlib `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `mellin`, `mellin_differentiableAt_of_isBigO_rpow` and `mellinInv_mellin_eq`. Local integrability, strict endpoint exponent margins, continuity at the inversion point and integrability on the Mellin line remain hypotheses. |
 | Adeles and Euler products | Tau Ceti's **GlobalNumberFields**, layers 0, 5, 6, 9 and 10, and **LocalFieldsRamification**, layer 3. The completed **RestrictedProducts** roadmap, layers 0–3 on the reference topology, functorial maps, finite-factor decompositions and diagonal subgroups, and the `TauCeti.RestrictedProductGroup` and `TauCeti.rationalDiagonal` APIs are reused. **ArithmeticDirichletSeries**, layers 3 and 8, supplies analytic Euler products and Landau positivity. |
 | Conductors | The main **ClassFieldTheory** roadmap, layer 7, supplies `characterConductorExp` and `unitFiltration_characterConductorExp_le_ker`. The normalized local analytic statements use that attained integer directly, together with the local Artin normalization. |
-| Rank-one checks | Mathlib's primitive Dirichlet completed functional equation, Gaussian Fourier transform, theta identity, finite Gauss sums, completed Riemann zeta functional equation and residue, and number-field class number/regulator/discriminant definitions and real one-sided Dedekind residue limit. The real residue limit alone does not assert complex continuation. Tau Ceti `TauCeti.exists_differentiableOn_eq_dedekindZeta_sub` and `TauCeti.ne_zero_of_eqOn_dedekindZeta` already give the Dedekind specialization near Re(s)=1; use them in that scope. General continuous-character theory and the distribution/measure interfaces are AL.1 targets; on algebraic norm twists use LFunctions layers 0, 5–6 and ArithmeticGaloisRepresentations §2.7 with the canonical comparison below. |
-| Primitive rank-one functions | **LFunctions**, layers 0, 5–6: primitive finite-order/algebraic Hecke functions, conductor-balanced completions and inverse-character equations. **ArithmeticGaloisRepresentations**, §2.7: scalar Tate-integral and local-epsilon-product comparison, including complex norm twists. AL.1 identifies its unbalanced local-factor product with these functions after the explicit conductor and variable transport below. |
+| Rank-one checks | Mathlib's primitive Dirichlet completed functional equation, Gaussian Fourier transform, theta identity, finite Gauss sums, completed Riemann zeta functional equation and residue, and number-field class number/regulator/discriminant definitions and real one-sided Dedekind residue limit. The real residue limit alone does not assert complex continuation. Tau Ceti `TauCeti.exists_differentiableOn_eq_dedekindZeta_sub` and `TauCeti.ne_zero_of_eqOn_dedekindZeta` already give the Dedekind specialization near Re(s)=1; use them in that scope. General continuous-character scalar theory is consumed from ArithmeticGaloisRepresentations §2.7, **Global inputs**; the distribution/measure interfaces are AL.1 targets; on algebraic norm twists use LFunctions layers 0, 5–6 and ArithmeticGaloisRepresentations §2.7 with the canonical comparison below. |
+| Primitive rank-one functions | **LFunctions**, layers 0, 5–6: primitive finite-order/algebraic Hecke functions, conductor-balanced completions and inverse-character equations. **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**: the adelic Schwartz–Bruhat space, restricted/completed tensor API, self-dual Fourier transform, Poisson summation, scalar Tate integral, continuation and scalar functional equation for general continuous quasi-characters, including its local-epsilon-product comparison and complex norm twists. AL.1 identifies its unbalanced local-factor product with these functions after the explicit conductor and variable transport below. |
 | Entire growth and factorization | **[ZerosOfLFunctions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/cce2e04188a559be9a16037d0d65e00a815fcecc/TauCetiRoadmap/ZerosOfLFunctions/README.md)**, layer 0 `OrderLE` and layer 5.1–5.6: multiplicity-counted zero bounds, genus-one canonical products and Hadamard factorization for general entire functions of order at most one, nonzero at the origin. AL.2 supplies the centered-growth adapter, removal of the central zero and paired-zero/parity/positivity specialization. |
 | Holomorphic modular L-functions | Tau Ceti `CuspForm.abscissaOfAbsConv_qExpansion_coeff_le`, `CuspForm.LSeries_qExpansion_coeff_eq` and `CuspForm.hasEntireExtension_qExpansion_coeff`. In the coefficient normalization the recorded absolute-convergence bound is Re(s)>k/2+1 and the comparison includes width⁻ˢ. Tau Ceti `HeckeRing.GL2.Newform.LSeries_eulerProduct_hasProd` and its value forms already give analytic Euler products with the bad-prime factors included. These are used for the modular specialization. |
 | Weight-facing acceptance | **DeligneWeightsAndPurity**, §§0.17, 1.7, 1.10, 6.4, 7.15 and 10.1–10.3, supplies weight predicates, purity and arithmetic transports; **EtaleCohomologyFoundations**, §§F.5–F.7, supplies duality, cycle classes and projective-space cohomology. AL.3 owns the [acceptance suite](#weight-facing-acceptance-suite) and its comparison with the unramified pure realization. |
@@ -85,8 +85,8 @@ Tau Ceti `TauCeti.exists_differentiableOn_eq_dedekindZeta_sub` and
 (`TauCeti/NumberTheory/NumberField/DedekindZeta.lean`) give continuation to
 Re(s)>1−1/[K:ℚ] after subtraction of the simple pole at 1, and nonvanishing on
 Re(s)=1 away from 1 for a compatible holomorphic representative. These statements
-are consumed for that Dedekind specialization; the general continuous-character extension and
-the Schwartz-distribution measure comparison are AL.1 targets. On algebraic norm twists
+are consumed for that Dedekind specialization; general continuous-character scalar continuation is consumed from ArithmeticGaloisRepresentations
+§2.7 **Global inputs**, and the Schwartz-distribution measure comparison is an AL.1 target. On algebraic norm twists
 the scalar continuation and integral comparison are supplied by LFunctions layers 0, 5–6
 and ArithmeticGaloisRepresentations §2.7.
 
@@ -95,7 +95,9 @@ and ArithmeticGaloisRepresentations §2.7.
 - **AdelicAlgebraicGroups**, §§0.1–0.4 supplies locally normalized Haar measures,
   the restricted Haar product and its finite-factor Fubini comparison. Sections 2.2–2.3
   supply invariant quotient measures and rational quotients with Weil integration.
-  The additive self-duality and Schwartz/Poisson theorems are proved here with those measures.
+  AL.0 proves the local-vector-space and distribution extensions with those measures; the common
+  adelic Schwartz/Fourier/Poisson prefix is consumed from ArithmeticGaloisRepresentations §2.7
+  **Global inputs**.
 - The main **ClassFieldTheory** roadmap, layer 7, supplies
   `TauCetiRoadmap.ClassFieldTheory.characterConductorExp` and
   `TauCetiRoadmap.ClassFieldTheory.unitFiltration_characterConductorExp_le_ker`.
@@ -104,7 +106,8 @@ and ArithmeticGaloisRepresentations §2.7.
   this integer and proves norm-twist invariance and analytic epsilon comparisons.
 - **LFunctions**, layers 0, 5–6 supplies primitive Hecke functions and their balanced
   completions, conductors, root numbers and functional equations; **ArithmeticGaloisRepresentations**,
-  §2.7 supplies the scalar Tate-integral and epsilon-product comparison on algebraic norm twists.
+  §2.7 **Global inputs** supplies the common adelic Schwartz/Fourier/Poisson and scalar Tate
+  theory for general continuous quasi-characters, and the epsilon-product comparison on algebraic norm twists.
   AL.1 consumes these comparisons through [Canonical rank-one comparison](#canonical-rank-one-comparison).
 - **ZerosOfLFunctions**, layer 0 and layer 5.1–5.6 supplies the general order predicate,
   zero-divisor bounds, canonical products and Hadamard theorem. AL.2 uses them for its
@@ -586,11 +589,11 @@ Work under the following hypotheses. Use native SchwartzMap on finite-dimensiona
 
 <a id="adelic-schwartz-bruhat-space"></a>
 
-**The adelic Schwartz–Bruhat space S(𝔸) and its standard functions.** S(𝔸_K) is the locally convex inductive limit over finite-place compact-open support/period levels of SchwartzMap(K_∞,ℂ) tensor the corresponding finite-dimensional spaces of finite-adelic functions. Equivalently the archimedean tensor product is completed; finite linear combinations of products of one-place functions are dense. They need not exhaust S(𝔸_K) when several archimedean places occur. Distinguished finite-place tensors are 1_{O_v} almost everywhere. Fourier transform and tensor distributions extend continuously from these dense products. The compact-uniform Tate class 𝔷 specified below consists of analytic properties to prove for this space, not its definition.
+*Consumed contract: the adelic Schwartz–Bruhat space S(𝔸) and its standard functions.* Consume **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, for this carrier, its restricted/completed tensor API and its self-dual Fourier transform. The following notation refers to those supplied objects. S(𝔸_K) is the locally convex inductive limit over finite-place compact-open support/period levels of SchwartzMap(K_∞,ℂ) tensor the corresponding finite-dimensional spaces of finite-adelic functions. Equivalently the archimedean tensor product is completed; finite linear combinations of products of one-place functions are dense. They need not exhaust S(𝔸_K) when several archimedean places occur. Distinguished finite-place tensors are 1_{O_v} almost everywhere. The supplied Fourier transform is continuous on this space. AL.1 extends tensor distributions continuously from these dense products. The compact-uniform Tate class 𝔷 below records the additional estimates used by the distribution and vector-space extensions.
 
 Work under the following hypotheses. k a number field; 𝔸 its adele ring with the restricted-product topology; ψ = ∏_v ψ_v a nontrivial character of 𝔸 trivial on k.
 
-Require the following API.
+Consume the carrier and tensor/Fourier API with the following interface notation; the `tateClass` estimate is proved in the vector-space comparison below.
 
 - `SchwartzBruhat.AdelicSpace`: S(𝔸) is the locally convex inductive limit of finite-place support/period levels tensored with SchwartzMap(K∞,ℂ); the archimedean tensor factors are completed.
 - `SchwartzBruhat.AdelicSpace.pure`: The factorizable function ⊗_v f_v, given f_v ∈ S(k_v) with f_v = f_v^o outside a finite set.
@@ -608,12 +611,14 @@ Require the following API.
 
 (Source: [Kudla](#ref-kudla2004), §4, printed p. 125 (physical p. 17); [Tate](#ref-tate1950), §4.4, physical p. 49, conditions 𝔷1–𝔷3; §4.5, physical pp. 56 and 58.)
 
-*Needs:* [The local Schwartz–Bruhat space S(F), its F^×-action and tempered distributions](#local-schwartz-bruhat-space); [Local Fourier transform, self-dual measure and inversion on S(F)](#local-fourier-inversion); **AdelicAlgebraicGroups**, AA.0; Mathlib `SchwartzMap`; Tau Ceti **GlobalNumberFields**, layer 5 full adeles and the additive quotient; **AdelicAlgebraicGroups**, §0.2, *restricted-haar-product*; **AdelicAlgebraicGroups**, §0.3, Fubini for restricted product measures.
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**; [The local Schwartz–Bruhat space S(F), its F^×-action and tempered distributions](#local-schwartz-bruhat-space); [Local Fourier transform, self-dual measure and inversion on S(F)](#local-fourier-inversion); **AdelicAlgebraicGroups**, AA.0; Mathlib `SchwartzMap`; Tau Ceti **GlobalNumberFields**, layer 5 full adeles and the additive quotient; **AdelicAlgebraicGroups**, §0.2, *restricted-haar-product*; **AdelicAlgebraicGroups**, §0.3, Fubini for restricted product measures.
 
 
 <a id="adelic-poisson-summation"></a>
 
-**Adelic Poisson summation and Tate's Riemann–Roch theorem.** Let k be a number field and ψ a nontrivial character of 𝔸/k with the self-dual measure on 𝔸. (i) The annihilator of k in 𝔸 under (x, y) ↦ ψ(xy) is k (Tate Theorem 4.1.4), and 𝔸/k has volume 1 (Tate p. 43). (ii) Poisson: if f is continuous and integrable, the net Σ_{ξ∈E}|f(x + ξ)| over finite E⊂k converges uniformly on every compact subset of 𝔸, and Σ_{ξ∈k}|f̂(ξ)|<∞, then Σ_{ξ∈k} f̂(ξ) = Σ_{ξ∈k} f(ξ). The periodisation is continuous and k-periodic, hence descends to 𝔸/k; integrate over a relatively compact fundamental domain using the same compact-uniform convergence. (iii) Riemann–Roch: if f belongs to the compact-uniform Tate class 𝔷 (in particular f ∈ S(𝔸)), then for every idele 𝔞, (1/|𝔞|) Σ_{ξ∈k} f̂(ξ/𝔞) = Σ_{ξ∈k} f(𝔞ξ) (Theorem 4.2.1).
+**Vector-space Poisson comparison and compact-uniform estimates.** Consume **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, for scalar adelic self-duality, covolume one, Poisson summation and Tate's Riemann–Roch identity. Their scalar formulas are recalled here to fix the normalization. Let k be a number field and ψ a nontrivial character of 𝔸/k with the self-dual measure on 𝔸. (i) The annihilator of k in 𝔸 under (x, y) ↦ ψ(xy) is k (Tate Theorem 4.1.4), and 𝔸/k has volume 1 (Tate p. 43). (ii) Poisson: if f is continuous and integrable, the net Σ_{ξ∈E}|f(x + ξ)| over finite E⊂k converges uniformly on every compact subset of 𝔸, and Σ_{ξ∈k}|f̂(ξ)|<∞, then Σ_{ξ∈k} f̂(ξ) = Σ_{ξ∈k} f(ξ). The periodisation is continuous and k-periodic, hence descends to 𝔸/k; integrate over a relatively compact fundamental domain using the same compact-uniform convergence. (iii) Riemann–Roch: if f belongs to the compact-uniform Tate class 𝔷 (in particular f ∈ S(𝔸)), then for every idele 𝔞, (1/|𝔞|) Σ_{ξ∈k} f̂(ξ/𝔞) = Σ_{ξ∈k} f(𝔞ξ) (Theorem 4.2.1).
+
+For each n≥1, use the supplied scalar space to form S(𝔸^n), with completed archimedean tensor factors, the coordinate pairing Σ_i x_i y_i and product self-dual measure. Prove the coordinatewise Fourier and Poisson identities, reflection under the double transform and covolume one for k^n. The n=1 identity is the supplied scalar theorem. Prove continuity, integrability and joint compact-uniform absolute periodisation for f and f̂ on S(𝔸^n), extending from finite-place levels and archimedean Schwartz seminorms: the sum is over k^n, translations lie in compact C⊂𝔸^n and coordinatewise idele dilations lie in compact B⊂𝔸×. The dilated Poisson identity has Jacobian |a|^(−n), so Σ_ξ f(aξ)=|a|^(−n)Σ_ξ f̂(ξ/a). For n=1 also prove the weighted scalar idele bound 𝔷3 below; higher-rank Mellin bounds retain the exponent ns and the nonzero-vector hypotheses of the mirabolic target.
 
 Work under the following hypotheses. The compact-uniform Tate class 𝔷 requires:
 (𝔷1) f and f̂ are continuous and integrable on 𝔸;
@@ -623,13 +628,15 @@ Thus the absolute dual sum in Poisson is finite, also after every idele dilation
 
 **Checks.**
 
+- For n=2 and a product of two scalar standard functions, the coordinate transform and Poisson sum are the products of the supplied scalar identities. A completed Schwartz function need not be a single pure tensor.
+- For n=1 the comparison is exactly the supplied scalar transform and Poisson theorem, including its measure and positive-kernel convention.
 - `AL0.gaussian_periodization_compact`: For k=ℚ and f=1_Ẑ⊗e^(−πx∞²), periodisation converges absolutely and uniformly on each compact set; on the real slice with finite component zero it is Σ_{n∈ℤ}e^(−π(x+n)²), uniformly for x in any compact interval.
 - `AL0.gaussian_periodization_not_uniform`: The same fixed-subset net fails to converge uniformly on all 𝔸. For any finite E⊂ℚ, take an integer n∉E and x=−n diagonally; the omitted ξ=n term is f(0)=1. Already the real slice and finite E⊂ℤ have this obstruction.
 - `AL0.gaussian_periodization_compact_scaled`: On that real slice, the sums Σ_{n∈ℤ}e^(−πa²(x+n)²) converge absolutely and uniformly for a∈[r,R], 0<r≤R, and x in a compact set. Their value at x=0 gives the theta Riemann–Roch identity under a↦a⁻¹; allowing a→0 would destroy this uniform bound.
 
 (Source: [Tate](#ref-tate1950), §4.1 Theorem4.1.4, physical p.40; §4.2, proof of Lemma 4.2.3 on the fundamental domain, Lemma 4.2.4 and Theorem 4.2.1, physical pp.41–43; §4.4, conditions 𝔷1–𝔷3 and Lemma A, physical pp.49–51; [Kudla](#ref-kudla2004), §4, printed p.128 (physical p.20).)
 
-*Needs:* [The adelic Schwartz–Bruhat space S(𝔸) and its standard functions](#adelic-schwartz-bruhat-space); [Local Fourier transform, self-dual measure and inversion on S(F)](#local-fourier-inversion); **AdelicAlgebraicGroups**, AA.0; Mathlib `Real.tsum_exp_neg_mul_int_sq`; Tau Ceti **GlobalNumberFields**, layer 5 full adeles and the additive quotient; Tau Ceti **RepresentationTheory/CompactGroups**, layer 6 characters of compact groups; [Self-duality of a local additive group](#local-additive-self-duality); **AdelicAlgebraicGroups**, §0.2, *restricted-haar-product*.
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**; [The adelic Schwartz–Bruhat space S(𝔸) and its standard functions](#adelic-schwartz-bruhat-space); [Local Fourier transform, self-dual measure and inversion on S(F)](#local-fourier-inversion); **AdelicAlgebraicGroups**, AA.0; Mathlib `Real.tsum_exp_neg_mul_int_sq`; Tau Ceti **GlobalNumberFields**, layer 5 full adeles and the additive quotient; Tau Ceti **RepresentationTheory/CompactGroups**, layer 6 characters of compact groups; [Self-duality of a local additive group](#local-additive-self-duality); **AdelicAlgebraicGroups**, §0.2, *restricted-haar-product*.
 
 
 <a id="partial-fourier-transform"></a>
@@ -1090,11 +1097,11 @@ Work under the following hypotheses. k a number field, 𝔸 = 𝔸_k, 𝔸^× th
 
 <a id="global-zeta-integral"></a>
 
-**The global Tate zeta integral z(s, ω; f).** For a character ω of 𝔸^×/k^× and f ∈ S(𝔸), z(s, ω; f) = ∫_{𝔸^×} f(x)ωω_s(x)d^×x (4.1) converges absolutely for Re s > 1; for factorizable f it is ∏_v z(s, ω_v; f_v) (4.2), and as distributions z(s, ω) = Λ(s, ω)z₀(s, ω) (4.3) there. In Tate's form (Definition 4.4.1), ζ(f, c) = ∫ f(𝔞)c(𝔞)d^×𝔞 for quasi-characters c trivial on k^× of exponent > 1, with Tate's measure d^×𝔞 = ∏_v d^×𝔞_v.
+**The distribution-valued global Tate integral.** Consume **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, for the scalar integral, its absolute convergence, factorizable evaluation and continuation for general continuous quasi-characters. Prove that these scalar evaluations define the continuous distribution z(s,ω), with the restricted-tensor identity and scaling action below, using the local normalized eigenlines and compact-uniform estimates. For a character ω of 𝔸^×/k^× and f ∈ S(𝔸), z(s, ω; f) = ∫_{𝔸^×} f(x)ωω_s(x)d^×x (4.1) converges absolutely for Re s > 1; for factorizable f it is ∏_v z(s, ω_v; f_v) (4.2), and as distributions z(s, ω) = Λ(s, ω)z₀(s, ω) (4.3) there. In Tate's form (Definition 4.4.1), ζ(f, c) = ∫ f(𝔞)c(𝔞)d^×𝔞 for quasi-characters c trivial on k^× of exponent > 1, with Tate's measure d^×𝔞 = ∏_v d^×𝔞_v.
 
 Work under the following hypotheses. k a number field, 𝔸 = 𝔸_k, 𝔸^× the ideles with |x| = ∏|x_v|_v, J = {|x| = 1}; ω = ⊗ω_v a character of 𝔸^×/k^× (a Hecke character in the sense of GlobalNumberFields Layer 9); ω_s(x) = |x|^s. d^×x = ∏_v d^×x_v with vol(O_v^×) = 1 at almost all v (Kudla) or N𝔡_v^{−1/2} (Tate). Every local factor z₀ in (4.3) uses the same chosen multiplicative measure as z. Standard f_v^o has z₀-value1 with Kudla’s unit-volume convention; under Tate’s finite-place measure rescale f_v^o by N𝔡_v^(1/2).
 
-Require the following API.
+Use the supplied scalar integral for the first three interfaces; prove its distribution comparison and action in the last two.
 
 - `TateZeta.globalZetaIntegral`: z(s, ω; f) = ∫_{𝔸^×} f(x)ω(x)|x|^s d^×x.
 - `TateZeta.globalZetaIntegral_integrable`: Absolute convergence for Re s > 1.
@@ -1111,18 +1118,18 @@ Require the following API.
 
 (Source: [Kudla](#ref-kudla2004), §4, (4.1)–(4.5), printed pp. 126–127 (physical pp. 18–19); [Tate](#ref-tate1950), §4.4, Definition 4.4.1, physical p. 49.)
 
-*Needs:* [The adelic Schwartz–Bruhat space S(𝔸) and its standard functions](#adelic-schwartz-bruhat-space); [The local Tate zeta integral z(s, ω; f)](#local-zeta-integral); [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [Factorizable distributions and global uniqueness (Lemma 4.1, Theorem 4.2)](#global-eigendistributions); **AdelicAlgebraicGroups**, AA.0; [Domination for Schwartz parameter integrals](#schwartz-parameter-domination); Tau Ceti **GlobalNumberFields**, layer 9 hecke and ray class characters; Tau Ceti **ArithmeticDirichletSeries**, layer 3 local factors and euler products; **AdelicAlgebraicGroups**, §0.3, Fubini for restricted product measures.
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**; [The adelic Schwartz–Bruhat space S(𝔸) and its standard functions](#adelic-schwartz-bruhat-space); [The local Tate zeta integral z(s, ω; f)](#local-zeta-integral); [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [Factorizable distributions and global uniqueness (Lemma 4.1, Theorem 4.2)](#global-eigendistributions); **AdelicAlgebraicGroups**, AA.0; [Domination for Schwartz parameter integrals](#schwartz-parameter-domination); Tau Ceti **GlobalNumberFields**, layer 9 hecke and ray class characters; Tau Ceti **ArithmeticDirichletSeries**, layer 3 local factors and euler products; **AdelicAlgebraicGroups**, §0.3, Fubini for restricted product measures.
 
 
 <a id="completed-hecke-l-function"></a>
 
-**The completed Hecke L-function Λ(s, ω).** This is the unbalanced local-factor product; its conductor-balanced form on algebraic norm twists is identified with the supplied LFunctions completion below. For a character ω of 𝔸^×/k^×, Λ(s, ω) = ∏_v L_v(s, ω_v) (4.4) over all places, with the unramified, ramified (L = 1) and archimedean factors; L^S(s, ω) = ∏_{v∉S}L_v(s, ω_v) for a finite set S containing the archimedean and ramified places. Both converge absolutely for Re s > 1. For S ⊇ S_∞ ∪ {ramified v}, L^S(s, ω) = Σ_{𝔞 prime to S} χ(𝔞)N𝔞^{−s}, where χ(𝔭_v) = ω_v(ϖ_v) is the associated ideal character (Kudla §5; Tate §4.5).
+**Normalization of the supplied completed Hecke function.** Consume **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, for the scalar Euler product and its continued germ for every continuous quasi-character. The interfaces below express that supplied function in the unbalanced local-factor normalization and compare it with the normalized distribution; its conductor-balanced form on algebraic norm twists is identified with the supplied LFunctions completion below. For a character ω of 𝔸^×/k^×, Λ(s, ω) = ∏_v L_v(s, ω_v) (4.4) over all places, with the unramified, ramified (L = 1) and archimedean factors; L^S(s, ω) = ∏_{v∉S}L_v(s, ω_v) for a finite set S containing the archimedean and ramified places. Both converge absolutely for Re s > 1. For S ⊇ S_∞ ∪ {ramified v}, L^S(s, ω) = Σ_{𝔞 prime to S} χ(𝔞)N𝔞^{−s}, where χ(𝔭_v) = ω_v(ϖ_v) is the associated ideal character (Kudla §5; Tate §4.5).
 
 Work under the following hypotheses. k a number field, 𝔸 = 𝔸_k, 𝔸^× the ideles with |x| = ∏|x_v|_v, J = {|x| = 1}; ω = ⊗ω_v a character of 𝔸^×/k^× (a Hecke character in the sense of GlobalNumberFields Layer 9); ω_s(x) = |x|^s.
 
-Require the following API.
+Use the supplied function through the following product notation and normalization comparisons.
 
-- `TateZeta.completedHeckeL`: The unbalanced product Λ(s, ω) = ∏_v L_v(s, ω_v) for Re s > 1, with its continued germ. On algebraic norm twists this germ is the conductor/variable adapter to the supplied completion, not a second analytic card.
+- `TateZeta.completedHeckeL`: The unbalanced product Λ(s, ω) = ∏_v L_v(s, ω_v) for Re s > 1, with its continued germ. On algebraic norm twists this germ is the conductor/variable adapter to the supplied completion, with continuation consumed from ArithmeticGaloisRepresentations §2.7 **Global inputs**.
 - `TateZeta.partialHeckeL`: L^S(s, ω) = ∏_{v∉S} L_v(s, ω_v).
 - `TateZeta.partialHeckeL_eq_LSeries`: L^S(s, ω) = Σ_{(𝔞, S) = 1} χ(𝔞)N𝔞^{−s} for Re s > 1.
 - `TateZeta.completedHeckeL_eq_mul`: Λ(s, ω) = ∏_{v∈S}L_v(s, ω_v)·L^S(s, ω).
@@ -1150,7 +1157,7 @@ absolute-convergence half-plane and continuation hypotheses.
 
 (Source: [Kudla](#ref-kudla2004), §4, (4.4), printed p. 127 (physical p. 19); [Kudla](#ref-kudla2004), §5, printed p. 129 (physical p. 21).)
 
-*Needs:* [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [Ramified local theory: z(s, ω) is entire and L(s, ω) = 1](#ramified-local-theory); [Archimedean local theory: Γ-factors and the standard functions (Proposition 3.5)](#archimedean-local-theory); [The global Tate zeta integral z(s, ω; f)](#global-zeta-integral); Tau Ceti **ArithmeticDirichletSeries**, layer 3 local factors and euler products.
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**; [Unramified local theory: z(s, ω) = L(s, ω)z₀(s, ω)](#unramified-local-theory); [Ramified local theory: z(s, ω) is entire and L(s, ω) = 1](#ramified-local-theory); [Archimedean local theory: Γ-factors and the standard functions (Proposition 3.5)](#archimedean-local-theory); [The distribution-valued global Tate integral](#global-zeta-integral); Tau Ceti **ArithmeticDirichletSeries**, layer 3 local factors and euler products.
 
 
 <a id="canonical-rank-one-comparison"></a>
@@ -1176,32 +1183,35 @@ Thus conductor balancing changes the reflected equation to the supplied constant
 
 (Source: [Kudla](#ref-kudla2004), §4 (4.3)–(4.9), pp.127–128; [Tate](#ref-tate1950), §4.4 Main Theorem 4.4.1 and §4.5, physical pp.50–59; LFunctions layers 0, 5–6, completion, primitive reduction and norm-shift conventions; ArithmeticGaloisRepresentations §2.7, scalar Tate-integral comparison.)
 
-*Needs:* **LFunctions**, layers 0, 5–6; **ArithmeticGaloisRepresentations**, §2.7; **GlobalNumberFields**, layer 9, the prime-idele/ideal-character dictionary; [The completed Hecke L-function Λ(s, ω)](#completed-hecke-l-function); [The local ε- and γ-factors ε(s, ω, ψ) and γ(s, ω, ψ)](#local-epsilon-gamma-factors). The scalar comparison consumes the suppliers directly; the distribution refinement uses AL.1's local normalized distributions and their restricted tensor product.
+*Needs:* **LFunctions**, layers 0, 5–6; **ArithmeticGaloisRepresentations**, §2.7; **GlobalNumberFields**, layer 9, the prime-idele/ideal-character dictionary; [Normalization of the supplied completed Hecke function](#completed-hecke-l-function); [The local ε- and γ-factors ε(s, ω, ψ) and γ(s, ω, ψ)](#local-epsilon-gamma-factors). The scalar comparison consumes the suppliers directly; the distribution refinement uses AL.1's local normalized distributions and their restricted tensor product.
 
 
 <a id="idele-class-volume"></a>
 
-**The volume κ of the norm-one idele class group (Tate Lemma 4.3.1, Theorem 4.3.2).** With Tate's measures (d^×α = (N𝔭/(N𝔭 − 1))|α|^{−1}dα at finite v, so vol(O_v^×) = N𝔡_v^{−1/2}; dα/|α| at real v; 2r dr dθ/r² at complex v), the product decomposition 𝔸^× = T × J (T ≅ ℝ_{>0} at a chosen archimedean place, dt/t) and d^×𝔞 = (dt/t)·d^×𝔟, the fundamental domain E for J/k^× built from the units and h ideal-class representatives satisfies (1) J = ⊔_{α∈k^×}αE and (2) vol(E) = κ = 2^{r₁}(2π)^{r₂}hR/(w√|d|), where R is the regulator, h the class number, w the number of roots of unity and d the discriminant. κ agrees with the arithmetic expression defining native NumberField.dedekindZeta_residue K; Mathlib already proves its real one-sided residue identification via NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT. The extra analytic task is its comparison with this adelic measure and the full complex Tate continuation. Discreteness and compactness are imported from GlobalNumberFields, not reproved here. A change to finite multiplicative unit-volume1 rescales κ by sqrt(|d|).
+**The volume κ of the norm-one idele class group (Tate Lemma 4.3.1, Theorem 4.3.2).** With Tate's measures (d^×α = (N𝔭/(N𝔭 − 1))|α|^{−1}dα at finite v, so vol(O_v^×) = N𝔡_v^{−1/2}; dα/|α| at real v; 2r dr dθ/r² at complex v), the product decomposition 𝔸^× = T × J (T ≅ ℝ_{>0} at a chosen archimedean place, dt/t) and d^×𝔞 = (dt/t)·d^×𝔟, the fundamental domain E for J/k^× built from the units and h ideal-class representatives satisfies (1) J = ⊔_{α∈k^×}αE and (2) vol(E) = κ = 2^{r₁}(2π)^{r₂}hR/(w√|d|), where R is the regulator, h the class number, w the number of roots of unity and d the discriminant. κ agrees with the arithmetic expression defining native NumberField.dedekindZeta_residue K; Mathlib already proves its real one-sided residue identification via NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT. The additional comparison identifies this adelic measure constant with the residues of the scalar continuation supplied by ArithmeticGaloisRepresentations §2.7 **Global inputs**. Discreteness and compactness are imported from GlobalNumberFields, not reproved here. A change to finite multiplicative unit-volume1 rescales κ by sqrt(|d|).
 
 Work under the following hypotheses. k a number field, 𝔸 = 𝔸_k, 𝔸^× the ideles with |x| = ∏|x_v|_v, J = {|x| = 1}; ω = ⊗ω_v a character of 𝔸^×/k^× (a Hecke character in the sense of GlobalNumberFields Layer 9); ω_s(x) = |x|^s. Tate's measures, not Kudla's: the value of κ depends on vol(O_v^×) = N𝔡_v^{−1/2}.
 
+**Checks.** For ℚ, r₁=1, r₂=0, h=R=1, w=2 and d=1 give κ=1. For ℚ(i), h=1, w=4 and |d|=4 give κ=π/4 with Tate’s measures. Changing its finite multiplicative measures to unit-volume one multiplies κ by 2, giving π/2.
+
 (Source: [Tate](#ref-tate1950), §4.3, Lemma 4.3.1, Definition 4.3.2, Theorem 4.3.2 and Corollary 4.3.1, physical pp. 44–48; [Tate](#ref-tate1950), §4.4, Main Theorem 4.4.1, physical p. 50.)
 
-*Needs:* Mathlib `NumberField.dedekindZeta_residue`; Mathlib `NumberField.Units.regulator`; Mathlib `NumberField.classNumber`; Mathlib `NumberField.Units.torsionOrder`; Mathlib `NumberField.discr`; **AdelicAlgebraicGroups**, AA.0; Mathlib `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`; Tau Ceti **GlobalNumberFields**, layer 0 places completions and the product formula; Tau Ceti **GlobalNumberFields**, layer 6 additive strong approximation and ideles.
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**; Mathlib `NumberField.dedekindZeta_residue`; Mathlib `NumberField.Units.regulator`; Mathlib `NumberField.classNumber`; Mathlib `NumberField.Units.torsionOrder`; Mathlib `NumberField.discr`; **AdelicAlgebraicGroups**, AA.0; Mathlib `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`; Tau Ceti **GlobalNumberFields**, layer 0 places completions and the product formula; Tau Ceti **GlobalNumberFields**, layer 6 additive strong approximation and ideles.
 
 
 ### Poisson continuation and the global functional equation
 
-For algebraic norm twists the scalar Tate integral, continuation and epsilon comparison
-are supplied by ArithmeticGaloisRepresentations §2.7 and LFunctions layers 0, 5–6.
-The following targets provide the Schwartz-distribution form and its extension to arbitrary
-continuous idele-class characters. On the common domain use the canonical rank-one comparison,
-so the scalar continuation, conductor and root number remain the supplied ones.
+Consume ArithmeticGaloisRepresentations §2.7 **Global inputs** for the scalar Tate integral,
+continuation, functional equation and product of local equations for every continuous idele-class
+quasi-character. LFunctions layers 0, 5–6 supplies the primitive algebraic completions.
+The scalar Lemmas A and B below are consumed identities in that Tate construction.
+AL.1 proves the continuous-dual refinement using its compact-uniform bounds and local eigenlines;
+the canonical rank-one comparison transports the supplied conductor and root-number conventions.
 
 
 <a id="tate-lemma-a"></a>
 
-**Tate's Lemma A: the functional equation of ζ_t.** For f in the compact-uniform Tate class 𝔷 of AL.0 (in particular f ∈ S(𝔸)), a quasi-character c of 𝔸^×/k^× and t > 0, put ζ_t(f, c) = ∫_J f(t𝔟)c(t𝔟)d^×𝔟. Then ζ_t(f, c) + f(0)∫_E c(t𝔟)d^×𝔟 = ζ_{1/t}(f̂, ĉ) + f̂(0)∫_E ĉ(𝔟/t)d^×𝔟, with ĉ = |·|c^{−1}.
+*Consumed scalar identity: Tate's Lemma A, the functional equation of ζ_t.* For f in the compact-uniform Tate class 𝔷 of AL.0 (in particular f ∈ S(𝔸)), a quasi-character c of 𝔸^×/k^× and t > 0, put ζ_t(f, c) = ∫_J f(t𝔟)c(t𝔟)d^×𝔟. Then ζ_t(f, c) + f(0)∫_E c(t𝔟)d^×𝔟 = ζ_{1/t}(f̂, ĉ) + f̂(0)∫_E ĉ(𝔟/t)d^×𝔟, with ĉ = |·|c^{−1}.
 
 Work under the following hypotheses. k a number field, 𝔸 = 𝔸_k, 𝔸^× the ideles with |x| = ∏|x_v|_v, J = {|x| = 1}; ω = ⊗ω_v a character of 𝔸^×/k^× (a Hecke character in the sense of GlobalNumberFields Layer 9); ω_s(x) = |x|^s. Tate's measures; E the relatively compact fundamental domain of idele-class-volume. The joint compact-uniform absolute sums of AL.0 apply on compact t-intervals and the closure of E; 𝔷3 controls the noncompact Mellin integrals.
 
@@ -1209,23 +1219,23 @@ Work under the following hypotheses. k a number field, 𝔸 = 𝔸_k, 𝔸^× th
 
 (Source: [Tate](#ref-tate1950), §4.4, Lemma A, physical pp. 50–51.)
 
-*Needs:* [Adelic Poisson summation and Tate's Riemann–Roch theorem](#adelic-poisson-summation); [The volume κ of the norm-one idele class group (Tate Lemma 4.3.1, Theorem 4.3.2)](#idele-class-volume); [The adelic Schwartz–Bruhat space S(𝔸) and its standard functions](#adelic-schwartz-bruhat-space).
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**; [Vector-space Poisson comparison and compact-uniform estimates](#adelic-poisson-summation); [The volume κ of the norm-one idele class group (Tate Lemma 4.3.1, Theorem 4.3.2)](#idele-class-volume); [The adelic Schwartz–Bruhat space S(𝔸) and its standard functions](#adelic-schwartz-bruhat-space).
 
 
 <a id="tate-lemma-b"></a>
 
-**Tate's Lemma B: ∫_E c(t𝔟)d^×𝔟.** For a quasi-character c of 𝔸^×/k^× and t > 0: ∫_E c(t𝔟)d^×𝔟 = κt^s if c = |·|^s on 𝔸^× (c trivial on J), and 0 if c is nontrivial on J.
+*Consumed scalar identity: Tate's Lemma B, ∫_E c(t𝔟)d^×𝔟.* For a quasi-character c of 𝔸^×/k^× and t > 0: ∫_E c(t𝔟)d^×𝔟 = κt^s if c = |·|^s on 𝔸^× (c trivial on J), and 0 if c is nontrivial on J.
 
 Work under the following hypotheses. k a number field, 𝔸 = 𝔸_k, 𝔸^× the ideles with |x| = ∏|x_v|_v, J = {|x| = 1}; ω = ⊗ω_v a character of 𝔸^×/k^× (a Hecke character in the sense of GlobalNumberFields Layer 9); ω_s(x) = |x|^s. Tate's measures.
 
 (Source: [Tate](#ref-tate1950), §4.4, Lemma B, physical p. 51.)
 
-*Needs:* [The volume κ of the norm-one idele class group (Tate Lemma 4.3.1, Theorem 4.3.2)](#idele-class-volume).
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**; [The volume κ of the norm-one idele class group (Tate Lemma 4.3.1, Theorem 4.3.2)](#idele-class-volume).
 
 
 <a id="tate-global-functional-equation"></a>
 
-**Tate's global functional equation (Main Theorem 4.4.1; Kudla Theorem 4.3).** For f in the compact-uniform Tate class 𝔷 of AL.0 (in particular f ∈ S(𝔸)), ζ(f, c) continues from exponent > 1 to a meromorphic, single-valued function on every class {c₀|·|^s} of quasi-characters of 𝔸^×/k^×. It is holomorphic except, when c₀ is trivial on J (c = |·|^s), for simple poles at s = 0 and s = 1 with residues −κf(0) and κf̂(0). It satisfies ζ(f, c) = ζ(f̂, ĉ), ĉ = |·|c^{−1}; explicitly ζ(f, c) = ∫_1^∞ζ_t(f, c)dt/t + ∫_1^∞ζ_t(f̂, ĉ)dt/t + [κf̂(0)/(s − 1) − κf(0)/s], the bracket present only when c = |·|^s. In distributions (Kudla Theorem 4.3): z(s, ω) continues meromorphically and ẑ(1 − s, ω^{−1}) = z(s, ω).
+**Distribution-valued Tate continuation and functional equation.** Consume **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, for the scalar meromorphic continuation and reflected equation. Prove that its evaluations on S(𝔸) assemble into a meromorphic family of continuous distributions: locally subtract the residue functionals and prove holomorphy of every evaluation, with locally uniform bounds on the corresponding Schwartz seminorms. The same bounds extend the equation to the compact-uniform Tate class. For f in the compact-uniform Tate class 𝔷 of AL.0 (in particular f ∈ S(𝔸)), ζ(f, c) continues from exponent > 1 to a meromorphic, single-valued function on every class {c₀|·|^s} of quasi-characters of 𝔸^×/k^×. It is holomorphic except, when c₀ is trivial on J (c = |·|^s), for simple poles at s = 0 and s = 1 with residues −κf(0) and κf̂(0). It satisfies ζ(f, c) = ζ(f̂, ĉ), ĉ = |·|c^{−1}; explicitly ζ(f, c) = ∫_1^∞ζ_t(f, c)dt/t + ∫_1^∞ζ_t(f̂, ĉ)dt/t + [κf̂(0)/(s − 1) − κf(0)/s], the bracket present only when c = |·|^s. In distributions (Kudla Theorem 4.3): z(s, ω) continues meromorphically and ẑ(1 − s, ω^{−1}) = z(s, ω).
 
 Work under the following hypotheses. k a number field, 𝔸 = 𝔸_k, 𝔸^× the ideles with |x| = ∏|x_v|_v, J = {|x| = 1}; ω = ⊗ω_v a character of 𝔸^×/k^× (a Hecke character in the sense of GlobalNumberFields Layer 9); ω_s(x) = |x|^s. Tate's measures in the residue formula; κ from idele-class-volume.
 
@@ -1233,16 +1243,16 @@ Work under the following hypotheses. k a number field, 𝔸 = 𝔸_k, 𝔸^× th
 
 (Source: [Tate](#ref-tate1950), §4.4, Main Theorem 4.4.1 and its proof, physical pp. 50–52; [Kudla](#ref-kudla2004), §4, Theorem 4.3, printed p. 128 (physical p. 20).)
 
-*Needs:* [The global Tate zeta integral z(s, ω; f)](#global-zeta-integral); [Tate's Lemma A: the functional equation of ζ_t](#tate-lemma-a); [Tate's Lemma B: ∫_E c(t𝔟)d^×𝔟](#tate-lemma-b); [The volume κ of the norm-one idele class group (Tate Lemma 4.3.1, Theorem 4.3.2)](#idele-class-volume); [Adelic Poisson summation and Tate's Riemann–Roch theorem](#adelic-poisson-summation); [The adelic Schwartz–Bruhat space S(𝔸) and its standard functions](#adelic-schwartz-bruhat-space); Mathlib `completedRiemannZeta_eq`; Mathlib `completedRiemannZeta_residue_one`.
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**; [The distribution-valued global Tate integral](#global-zeta-integral); [Tate's Lemma A: the functional equation of ζ_t](#tate-lemma-a); [Tate's Lemma B: ∫_E c(t𝔟)d^×𝔟](#tate-lemma-b); [The volume κ of the norm-one idele class group (Tate Lemma 4.3.1, Theorem 4.3.2)](#idele-class-volume); [Vector-space Poisson comparison and compact-uniform estimates](#adelic-poisson-summation); [The adelic Schwartz–Bruhat space S(𝔸) and its standard functions](#adelic-schwartz-bruhat-space); Mathlib `completedRiemannZeta_eq`; Mathlib `completedRiemannZeta_residue_one`.
 
 
 <a id="global-epsilon-factor"></a>
 
-**The global ε-factor ε(s, ω).** On algebraic norm twists this is ArithmeticGaloisRepresentations §2.7's supplied product, identified with the LFunctions root number by the canonical rank-one comparison. For a character ω of 𝔸^×/k^× and a nontrivial ψ = ∏ψ_v of 𝔸/k, ε(s, ω) = ∏_v ε_v(s, ω_v, ψ_v) (4.6), a finite product since ε_v = 1 when v is finite, ω_v is unramified and ν(ψ_v) = 0. It does not depend on ψ, and ẑ₀(1 − s, ω^{−1}) = ε(s, ω)z₀(s, ω) (4.7). By Proposition 3.8, ε(s, ω) = ε(1/2, ω)·(|d_k|N𝔣(ω))^{1/2−s} for the standard ψ, with 𝔣(ω) = ∏𝔭_v^{c(ω_v)} and |ε(1/2, ω)| = 1.
+**The normalized-distribution epsilon comparison.** Consume the scalar product of local epsilon factors and its character independence from **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, for every continuous quasi-character. Prove its action on the normalized global distribution, ẑ₀(1−s,ω⁻¹)=ε(s,ω)z₀(s,ω). On algebraic norm twists the canonical rank-one comparison identifies the supplied product with the LFunctions root number and conductor power. For a character ω of 𝔸^×/k^× and a nontrivial ψ = ∏ψ_v of 𝔸/k, ε(s, ω) = ∏_v ε_v(s, ω_v, ψ_v) (4.6), a finite product since ε_v = 1 when v is finite, ω_v is unramified and ν(ψ_v) = 0. It does not depend on ψ, and ẑ₀(1 − s, ω^{−1}) = ε(s, ω)z₀(s, ω) (4.7). By Proposition 3.8, ε(s, ω) = ε(1/2, ω)·(|d_k|N𝔣(ω))^{1/2−s} for the standard ψ, with 𝔣(ω) = ∏𝔭_v^{c(ω_v)} and |ε(1/2, ω)| = 1.
 
 Work under the following hypotheses. k a number field, 𝔸 = 𝔸_k, 𝔸^× the ideles with |x| = ∏|x_v|_v, J = {|x| = 1}; ω = ⊗ω_v a character of 𝔸^×/k^× (a Hecke character in the sense of GlobalNumberFields Layer 9); ω_s(x) = |x|^s.
 
-Require the following API.
+Use the supplied scalar product, character independence and conductor formula in the first four interfaces; the last is the distribution refinement proved here.
 
 - `TateZeta.globalEpsilon`: ε(s, ω) = ∏_v ε_v(s, ω_v, ψ_v).
 - `TateZeta.globalEpsilon_indep`: ε(s, ω) is the same for every nontrivial ψ trivial on k.
@@ -1264,18 +1274,18 @@ pin the product convention independently of the arithmetic conductor calculation
 
 (Source: [Kudla](#ref-kudla2004), §4, (4.6)–(4.7), printed p. 128 (physical p. 20); [Kudla](#ref-kudla2004), §4, printed p. 128 (physical p. 20).)
 
-*Needs:* [The local ε- and γ-factors ε(s, ω, ψ) and γ(s, ω, ψ)](#local-epsilon-gamma-factors); [Explicit local ε-factors (Proposition 3.8)](#explicit-epsilon-factors); [Factorizable distributions and global uniqueness (Lemma 4.1, Theorem 4.2)](#global-eigendistributions); [Adelic Poisson summation and Tate's Riemann–Roch theorem](#adelic-poisson-summation).
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**; [The local ε- and γ-factors ε(s, ω, ψ) and γ(s, ω, ψ)](#local-epsilon-gamma-factors); [Explicit local ε-factors (Proposition 3.8)](#explicit-epsilon-factors); [Factorizable distributions and global uniqueness (Lemma 4.1, Theorem 4.2)](#global-eigendistributions); [Vector-space Poisson comparison and compact-uniform estimates](#adelic-poisson-summation).
 
 
 <a id="hecke-l-functional-equation"></a>
 
-**Continuation and functional equation of Hecke L-functions (Kudla Corollary 4.4).** For a character ω of 𝔸^×/k^×, Λ(s, ω) continues to a meromorphic function on ℂ with Λ(s, ω) = ε(s, ω)Λ(1 − s, ω^{−1}). Λ(s, ω) is entire unless ω = |·|^{iu} for some real u, in which case its only poles are simple, at s = −iu and s = 1 − iu. Equivalently (Tate §4.5) Hecke's ζ(s, χ) = Σ_{(𝔞,S)=1}χ(𝔞)N𝔞^{−s} continues and satisfies ζ(1 − s, χ^{−1}) = ∏_{v∈S}ρ_v(c̃_v|·|^{s+it_v})·∏_{v∉S}χ(𝔡_v)N𝔡_v^{s−1/2}·ζ(s, χ).
+*Consumed scalar contract: continuation and functional equation of Hecke L-functions (Kudla Corollary 4.4).* Consume **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**, for general continuous quasi-characters; on algebraic norm twists use the LFunctions comparison above. For a character ω of 𝔸^×/k^×, Λ(s, ω) continues to a meromorphic function on ℂ with Λ(s, ω) = ε(s, ω)Λ(1 − s, ω^{−1}). Λ(s, ω) is entire unless ω = |·|^{iu} for some real u, in which case its only poles are simple, at s = −iu and s = 1 − iu. Equivalently (Tate §4.5) Hecke's ζ(s, χ) = Σ_{(𝔞,S)=1}χ(𝔞)N𝔞^{−s} continues and satisfies ζ(1 − s, χ^{−1}) = ∏_{v∈S}ρ_v(c̃_v|·|^{s+it_v})·∏_{v∉S}χ(𝔡_v)N𝔡_v^{s−1/2}·ζ(s, χ).
 
 Work under the following hypotheses. k a number field, 𝔸 = 𝔸_k, 𝔸^× the ideles with |x| = ∏|x_v|_v, J = {|x| = 1}; ω = ⊗ω_v a character of 𝔸^×/k^× (a Hecke character in the sense of GlobalNumberFields Layer 9); ω_s(x) = |x|^s.
 
 (Source: [Kudla](#ref-kudla2004), §4, Corollary 4.4 and (4.8)–(4.9), printed p. 128 (physical p. 20); [Tate](#ref-tate1950), §4.5, physical pp. 53–59.)
 
-*Needs:* [Tate's global functional equation (Main Theorem 4.4.1; Kudla Theorem 4.3)](#tate-global-functional-equation); [The global ε-factor ε(s, ω)](#global-epsilon-factor); [The completed Hecke L-function Λ(s, ω)](#completed-hecke-l-function); [The global Tate zeta integral z(s, ω; f)](#global-zeta-integral); [Factorizable distributions and global uniqueness (Lemma 4.1, Theorem 4.2)](#global-eigendistributions); [Tate's local functional equation (Corollary 3.7)](#local-functional-equation); Mathlib `completedRiemannZeta_one_sub`; Mathlib `DirichletCharacter.IsPrimitive.completedLFunction_one_sub`.
+*Needs:* **ArithmeticGaloisRepresentations**, §2.7 **Global inputs**; [Distribution-valued Tate continuation and functional equation](#tate-global-functional-equation); [The normalized-distribution epsilon comparison](#global-epsilon-factor); [Normalization of the supplied completed Hecke function](#completed-hecke-l-function); [The distribution-valued global Tate integral](#global-zeta-integral); [Factorizable distributions and global uniqueness (Lemma 4.1, Theorem 4.2)](#global-eigendistributions); [Tate's local functional equation (Corollary 3.7)](#local-functional-equation); Mathlib `completedRiemannZeta_one_sub`; Mathlib `DirichletCharacter.IsPrimitive.completedLFunction_one_sub`.
 
 
 ### CM quadratic completion and orbital comparisons
@@ -1313,7 +1323,7 @@ Work under the following hypotheses. Use Zhang’s stated local measures and L-f
 
 (Source: [Zhang](#ref-zhang2021), §12.5 pp.946–947 (12.15)–(12.19).)
 
-*Needs:* [The global Tate zeta integral z(s, ω; f)](#global-zeta-integral); [The completed Hecke L-function Λ(s, ω)](#completed-hecke-l-function); [Local uniqueness: dim S′(ω) = 1 (Theorem 3.4)](#local-uniqueness-theorem).
+*Needs:* [The distribution-valued global Tate integral](#global-zeta-integral); [Normalization of the supplied completed Hecke function](#completed-hecke-l-function); [Local uniqueness: dim S′(ω) = 1 (Theorem 3.4)](#local-uniqueness-theorem).
 
 
 ### Examples
@@ -1322,7 +1332,7 @@ For ℚ, the standard finite indicators and real Gaussian give completedRiemannZ
 
 ### Dependencies
 
-AL.0; GlobalNumberFields layers 9–10; ClassFieldTheory layers 7 and 13 (conductor–discriminant and Hecke conductor dictionary); AdelicAlgebraicGroups §§0.1–0.4 and 2.2–2.3; the archimedean representation/parameter and restricted tensor prerequisites here.
+AL.0; ArithmeticGaloisRepresentations §2.7 **Global inputs**; LFunctions layers 0, 5–6; GlobalNumberFields layers 9–10; ClassFieldTheory layers 7 and 13 (conductor–discriminant and Hecke conductor dictionary); AdelicAlgebraicGroups §§0.1–0.4 and 2.2–2.3; the archimedean representation/parameter and restricted tensor prerequisites here.
 
 
 ## Layer AL.2: Godement–Jacquet standard functions
@@ -1548,7 +1558,7 @@ Work under the following hypotheses. K is a number field; π is unitary cuspidal
 
 (Source: [Borel](#ref-borel1979), §14, pp.52–53, standard representation case.)
 
-*Needs:* [The Godement–Jacquet functional equation](#godement-jacquet-functional-equation); [Adelic Poisson summation and Tate's Riemann–Roch theorem](#adelic-poisson-summation); **ArithmeticLocallySymmetricSpaces**, ALS.F.6, *automorphic-forms* (unitary central character and rapid decay); **AdelicAlgebraicGroups**, §2.3, Rational quotients; [Tate's global functional equation (Main Theorem 4.4.1; Kudla Theorem 4.3)](#tate-global-functional-equation); [Continuation and the Rankin–Selberg pole criterion](#rs-global-poles); [The Jacquet–Shalika Satake bound](#jacquet-shalika-satake-bound); Tau Ceti **ArithmeticDirichletSeries**, layer 8 landau type positivity; Tau Ceti **ArithmeticDirichletSeries**, layer 3 local factors and euler products.
+*Needs:* [The Godement–Jacquet functional equation](#godement-jacquet-functional-equation); [Vector-space Poisson comparison and compact-uniform estimates](#adelic-poisson-summation); **ArithmeticLocallySymmetricSpaces**, ALS.F.6, *automorphic-forms* (unitary central character and rapid decay); **AdelicAlgebraicGroups**, §2.3, Rational quotients; [Distribution-valued Tate continuation and functional equation](#tate-global-functional-equation); [Continuation and the Rankin–Selberg pole criterion](#rs-global-poles); [The Jacquet–Shalika Satake bound](#jacquet-shalika-satake-bound); Tau Ceti **ArithmeticDirichletSeries**, layer 8 landau type positivity; Tau Ceti **ArithmeticDirichletSeries**, layer 3 local factors and euler products.
 
 
 ### Centered entire functions and paired products
@@ -1840,7 +1850,7 @@ Require the following API.
 
 (Source: [Cogdell, Fields lectures](#ref-cogdellfields), Lecture 4 §1–§2, printed pp.29–31 (PDF pp.33–35); [Yu](#ref-yu2023), §5.3.1, Lemma 5.3.3 proof, p.36.)
 
-*Needs:* [Adelic Poisson summation and Tate's Riemann–Roch theorem](#adelic-poisson-summation); **ArithmeticLocallySymmetricSpaces**, ALS.F.6, *automorphic-forms*; **ArithmeticLocallySymmetricSpaces**, ALS.F.6, *automorphic-forms* (unitary central character and rapid decay); [Restricted tensor realizations](#restricted-tensor-realizations), compact rational unipotent quotients; **AdelicAlgebraicGroups**, §2.2, *quotient-measure*.
+*Needs:* [Vector-space Poisson comparison and compact-uniform estimates](#adelic-poisson-summation); **ArithmeticLocallySymmetricSpaces**, ALS.F.6, *automorphic-forms*; **ArithmeticLocallySymmetricSpaces**, ALS.F.6, *automorphic-forms* (unitary central character and rapid decay); [Restricted tensor realizations](#restricted-tensor-realizations), compact rational unipotent quotients; **AdelicAlgebraicGroups**, §2.2, *quotient-measure*.
 
 
 <a id="global-whittaker-factorization"></a>
@@ -1909,7 +1919,7 @@ obtained by omitting n from the norm exponent.
 
 (Source: [Cogdell, Columbia lectures](#ref-cogdellintegrals), §1.1.3, pp.4–5.)
 
-*Needs:* [The adelic Schwartz–Bruhat space S(𝔸) and its standard functions](#adelic-schwartz-bruhat-space); [The global Tate zeta integral z(s, ω; f)](#global-zeta-integral); **AdelicAlgebraicGroups**, §2.2, *quotient-measure*.
+*Needs:* [The adelic Schwartz–Bruhat space S(𝔸) and its standard functions](#adelic-schwartz-bruhat-space); [The distribution-valued global Tate integral](#global-zeta-integral); **AdelicAlgebraicGroups**, §2.2, *quotient-measure*.
 
 
 <a id="mirabolic-eisenstein-functional-equation"></a>
@@ -1922,7 +1932,7 @@ Work under the following hypotheses. Positive Fourier kernel, additive self-dual
 
 (Source: [Cogdell, Columbia lectures](#ref-cogdellintegrals), §1.1.3, pp.4–5, Poisson summation and functional equation.)
 
-*Needs:* [The mirabolic Eisenstein series](#mirabolic-eisenstein-series); [Adelic Poisson summation and Tate's Riemann–Roch theorem](#adelic-poisson-summation); [The volume κ of the norm-one idele class group (Tate Lemma 4.3.1, Theorem 4.3.2)](#idele-class-volume).
+*Needs:* [The mirabolic Eisenstein series](#mirabolic-eisenstein-series); [Vector-space Poisson comparison and compact-uniform estimates](#adelic-poisson-summation); [The volume κ of the norm-one idele class group (Tate Lemma 4.3.1, Theorem 4.3.2)](#idele-class-volume).
 
 
 <a id="global-rs-unfolding"></a>
