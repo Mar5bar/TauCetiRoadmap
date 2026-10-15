@@ -44,23 +44,34 @@ no general second-volume-variation formula is consumed.
 neighbourhoods and their normal exponential descriptions. Its smoothing-and-
 triangulation item1 supplies the relative smooth triangulation used in C2. This roadmap proves the
 specific normal-section parametrization of nearby embeddings and its regularity.
-[ComplexKahlerGeometry K1/K2/K4/K5a/K6.1](../ComplexKahlerGeometry/README.md)
+[ComplexKahlerGeometry K1/K2/K4/K5a/K6.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md)
 supplies complex tangent/type calculus, Kähler forms, formal adjoints, compact Hodge
 theory and canonical-bundle carriers. K5b.0 supplies the Hermitian volume
 identity on complex planes; C4 owns the inequality and converse classification;
 K6.1's integrated analytic-cycle equality is compared with these pointwise
 normalizations. Its singular-set
-integration theorem has a single owner there. [PseudodifferentialOperators P5/P6](../PseudodifferentialOperators/README.md) supplies bundle Hölder norms, elliptic
+integration theorem has a single owner there. [PseudodifferentialOperators P5/P6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/526c10edca87fdb08907b1ad2a044fea1e7829f7/TauCetiRoadmap/PseudodifferentialOperators/README.md) supplies bundle Hölder norms, elliptic
 Schauder estimates, Sobolev Fredholm realizations and regularity. Instantiate
 P5’s Hölder carriers; C6 owns the Hölder Green-operator and Hodge-projection
-bounds. [PDE Lane E.22](../PDE/README.md) supplies scalar variable-coefficient
+bounds.
+
+The analytic order is K5a's Gram form metric, real star and density line,
+PDO P1.0's differential operators and formal adjoints, K5a's real/complex
+distributional Sobolev scale and compact H² Hodge realization, then PDO
+P5/P6's bundle Hölder carriers and elliptic estimates. K5a's real de Rham
+Hodge theorem applies on the source N in every real dimension, independently
+of a complex structure on N. Its geometric L² pairing, harmonic projection
+and Green inverse are the objects used in C6; C6 proves their d/δ
+compatibilities and Hölder inverse bounds on these same carriers.
+
+[PDE Lane E.22](../PDE/README.md) supplies scalar variable-coefficient
 Schauder estimates used componentwise on C6’s diagonal-principal minimal-graph
 system. PDE A.1/A.2/A.5 supplies the complete weak-derivative spaces,
 W¹,²_0 and Poincaré used with native Lax–Milgram in C6; use their
 componentwise ℝⁿ-valued Hilbert-space versions. PDE A.4 supplies the
 cutoff Sobolev embeddings and A.7 the local Euclidean Hölder carriers. C6 owns
 the vector-system decay, Campanato characterization and iteration
-lemmas below. [SmoothBundlesConnections B1.4/B2/B5](../SmoothBundlesConnections/README.md)
+lemmas below. [SmoothBundlesConnections B1.4/B2/B5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/791dd408dc48930060b28043245bbb1a8d82b5de/TauCetiRoadmap/SmoothBundlesConnections/README.md)
 supplies smooth G/H, structure-group reductions and holonomy, with
 [LieGroups Layer2](../RepresentationTheory/LieGroups/README.md)’s closed-subgroup
 Lie structures. DG5.1–5.4/8.3–8.4/9.3 supplies outward-first integration,
