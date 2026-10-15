@@ -153,12 +153,10 @@ algebra. These targets use no cohomological trace formula. The abelian cohomolog
   maps (`ModuliDescent.weilRestriction`, `ModuliDescent.weilRestriction_baseChange`, `ModuliDescent.weilRestriction_algebraicity`,
   `ModuliDescent.relativeHom_algebraicity`).
   Layer 5, §5.2: level functors and their rigidity (`rigidLevelStructure`). Layer 7: the relative
-  Picard sheaf (`relativePicardSheaf`), section rigidification (`sectionRigidifiedPicard`,
-  `sectionPicardSplit`), universal functions (`universal_functions`), algebraicity of the Picard sheaf
-  (`relative_picard_algebraicSpace`), the identity component (`picardZeroSheaf`,
-  `picardZeroCriterion`), proper-space formal existence (`properSpaceCompletionEquivalence`),
-  complex analytification and proper coherent GAGA (`complexSchemeAnalytification`,
-  `properSchemeGagaPushforward`, `properSchemeGagaEquivalence`).
+  fppf Picard sheaf and section rigidification (§7.6.1, `relativePicardSheaf`,
+  `sectionRigidifiedPicard`), its section splitting (§7.6.1a, `sectionPicardSplit`),
+  universal functions (§7.2, `universal_functions`) and proper-space formal existence
+  (§7.8, `properSpaceCompletionEquivalence`).
 - *SchemeAndStackFoundations.* Layer 1: descent of modules (§1.1), algebraic spaces
   (§§1.3–1.4), quotient sheaves (§§1.5–1.6), fibre products (§1.8,
   `isAlgebraicSpace_pullback`), torsors (§1.15) and Artin's bootstrap (§1.17,
@@ -180,7 +178,17 @@ algebra. These targets use no cohomological trace formula. The abelian cohomolog
   are A4.CR.7.2 here.
 - *EnhancedDerivedSheaves.* E1.9 supplies perfect proper pushforward and base change
   (`perfect_proper_pushforward`) for the relative coherent-cohomology arguments.
-- *ComplexComparisonPartII.* C3.3 derived GAGA for proper algebraic spaces
+- *ComplexComparisonPartII.* C−1.1 the category `ComplexAnalyticSpace` and
+  `complexSchemeAnalytification` for locally finite-type complex schemes, retaining nilpotents
+  and arbitrary open gluing; C−1.2–C−1.3 `complexSpaceAnalytification`,
+  `completedAnalyticStalkComparison` and `analyticRelationLocalChart` for locally separated
+  spaces, with étale relation charts and Hausdorffness when separated;
+  C1.9 proper coherent GAGA (`properSchemeGagaPushforward`, `properSchemeGagaEquivalence`);
+  C3.2d.2 algebraicity of the relative fppf Picard sheaf (`relative_picard_algebraicSpace`)
+  for proper flat finitely presented families with universal functions;
+  C3.2f.1–C3.2f.2 the full identity component, including nilpotents (`picardZeroSheaf`),
+  and its representability criterion (`picardZeroCriterion`), with the hypotheses below;
+  C3.3 derived GAGA for proper algebraic spaces
   (`derivedGagaProperSpace`); C4.2 Chow's theorem with nilpotents (`projectiveChowNonreduced`);
   C4.4 algebraicity of holomorphic maps from proper schemes (`properSourceMorphismAlgebraicity`)
   and the family and abelian-variety morphism interface (`familyMorphismInterface`); C5.1 the
@@ -446,12 +454,19 @@ The exterior structure and freeness of abelian cohomology are A4.4 here.
 ### From AlgebraicModuliForArithmeticGeometry, SchemeAndStackFoundations and ComplexComparisonPartII
 
 Each statement listed above is consumed with its own hypotheses. In particular:
-`relative_picard_algebraicSpace` needs a proper flat finitely presented morphism with universal
-functions, which `universal_functions` supplies for proper flat finitely presented morphisms with
-geometrically reduced and geometrically connected fibres; `picardZeroCriterion` needs a locally
+ComplexComparisonPartII C3.2d.2 `relative_picard_algebraicSpace` represents the relative fppf
+Picard sheaf of AlgebraicModuli §7.6.1 and needs a proper flat finitely presented morphism with
+universal functions, which AlgebraicModuli §7.2 `universal_functions` supplies for proper flat
+finitely presented morphisms with geometrically reduced and geometrically connected fibres.
+ComplexComparisonPartII C3.2f.1 `picardZeroSheaf` retains the full geometric identity components,
+including nilpotents. Its C3.2f.2 `picardZeroCriterion` needs a locally
 Noetherian base and identity components of the geometric fibres that are smooth of locally constant
 dimension (for an algebraic-space Picard sheaf through the neutral-component construction
-`spaceSectionComponentCriterion` of AlgebraicModuli §7.9), and over a nonreduced base formal smoothness along the neutral component;
+`spaceSectionComponentCriterion` of AlgebraicModuli §7.9), and over a nonreduced base formal smoothness along the neutral component.
+Its properness conclusion additionally requires separatedness of the Picard space and proper
+geometric identity components. The relative Picard sheaf remains an fppf sheafification;
+AlgebraicModuli §7.6.1a `sectionPicardSplit` supplies rigidified representatives when a section
+and universal functions are given.
 `grothendieck_existence` supplies coherent sheaves on a given proper scheme, and
 `algebraize_hom` supplies compatible morphisms between given schemes, rather than existence
 of the polarized scheme itself; A4.8 constructs that scheme with its compatible ample system;
@@ -477,10 +492,15 @@ identifies this quotient with ModularCurves 0C's quotient on its affine or
 invariant-affine-cover domain; that comparison is not a construction of the general
 non-affine quotient.
 
-For the complex comparisons, `complexSchemeAnalytification` applies to schemes locally
-of finite type over `ℂ`; `properSchemeGagaEquivalence` applies to proper finite-type
-complex schemes and coherent sheaves, and `properSchemeGagaPushforward` to proper
-morphisms of finite-type complex schemes and coherent sheaves. ComplexComparisonPartII
+For the complex comparisons, ComplexComparisonPartII C−1.1 supplies `ComplexAnalyticSpace` and
+`complexSchemeAnalytification` for schemes locally of finite type over `ℂ`, retaining nilpotents
+and arbitrary open gluing. Its C−1.2–C−1.3 supplies `complexSpaceAnalytification`,
+`completedAnalyticStalkComparison` and `analyticRelationLocalChart` for locally separated
+complex algebraic spaces, with the locally finite-type extension in C−1.3; the relation charts
+are étale and Hausdorffness additionally requires separatedness. Its C1.9
+`properSchemeGagaEquivalence` applies to proper finite-type complex schemes and coherent sheaves,
+and `properSchemeGagaPushforward` to proper morphisms of finite-type complex schemes and coherent
+sheaves; the base need not be proper. ComplexComparisonPartII
 C3.3 `derivedGagaProperSpace` applies to proper finite-type complex algebraic spaces
 and bounded coherent complexes. Its C4.2 `projectiveChowNonreduced` algebraizes closed
 analytic subspaces of projective space defined by coherent ideals. Its C4.4
@@ -538,8 +558,9 @@ characteristic polynomial, which comes before positivity.
 
 This layer fixes the relative carrier and connects it with the two carriers that already exist:
 abelian varieties over a field in Tau Ceti, and elliptic curves over a base in ModularCurves. It
-also records how the algebraic-space Picard theory of AlgebraicModuli Layer 7 applies to an
-abelian scheme, so that later layers use one Picard object with known hypotheses.
+also records how the Picard sheaves of AlgebraicModuli Layer 7 and their algebraicity and component
+theorems in ComplexComparisonPartII C3.2d.2, C3.2f.1–C3.2f.2 apply to an abelian scheme,
+so that later layers use one Picard object with known hypotheses.
 
 ### A0.1 Abelian schemes
 
@@ -607,14 +628,17 @@ in A2.2, and the Cartier–Nishi and Weil pairings in A3.5–A3.7. *Needs:* A0.1
 
 Prove `abelianPicardInputs`. Let `π : A → S` be an abelian scheme. (1) `π` is proper, flat and
 finitely presented with geometrically reduced and geometrically connected fibres, so
-`O_T → (π_T)_*O_{A_T}` is an isomorphism for every `T → S` (AlgebraicModuli `universal_functions`).
-(2) Consequently the relative Picard sheaf `Pic_{A/S}` (AlgebraicModuli `relativePicardSheaf`) is
+`O_T → (π_T)_*O_{A_T}` is an isomorphism for every `T → S` (AlgebraicModuli §7.2 `universal_functions`).
+(2) Consequently the relative Picard sheaf `Pic_{A/S}` (AlgebraicModuli §7.6.1 `relativePicardSheaf`) is
 an algebraic space, quasi-separated and locally of finite presentation over `S`
-(`relative_picard_algebraicSpace`), and the zero section identifies it with the sheaf of line
+(ComplexComparisonPartII C3.2d.2 `relative_picard_algebraicSpace`), and the zero section identifies
+it with the sheaf of line
 bundles rigidified along `e`: `Pic_{A/S}(T) ≅ ker(e_T^* : Pic(A_T) → Pic(T))` naturally in `T`
-(`sectionPicardSplit`). In particular every point of `Pic_{A/S}` over `T` is represented by a line
-bundle on `A_T`, unique up to unique rigidified isomorphism. (3) The identity-component subsheaf
-`Pic⁰_{A/S}` of AlgebraicModuli `picardZeroSheaf` is defined, and `picardZeroCriterion` applies
+(AlgebraicModuli §7.6.1a `sectionPicardSplit`). In particular every point of `Pic_{A/S}` over `T`
+is represented by a line bundle on `A_T`, unique up to unique rigidified isomorphism.
+(3) The identity-component subsheaf
+`Pic⁰_{A/S}` of ComplexComparisonPartII C3.2f.1 `picardZeroSheaf`, including its nilpotents,
+is defined, and C3.2f.2 `picardZeroCriterion` applies
 over a locally Noetherian base once its fibrewise hypotheses are checked (A2.1 checks them). (4) For
 abelian schemes `A, B` over a locally Noetherian `S` with `A` projective and `B` quasi-projective
 over `S`, the Hom functor of
@@ -623,7 +647,8 @@ over `S`, the Hom functor of
 Each conclusion is used only under the hypotheses of the supplier that proves it; a Picard sheaf is
 never replaced by the unsheafified quotient of line-bundle groups, and no algebraic space is
 asserted to be a scheme before A2.1 (Faltings–Chai I.1.5–1.9, pp. 3–7; Stacks, §99.11, Lemmas
-99.11.3–99.11.5, tag 0D24). *Needs:* A0.1; AlgebraicModuli Layer 2 §2.1, Layer 7 §§7.2, 7.3, 7.6.
+99.11.3–99.11.5, tag 0D24). *Needs:* A0.1; AlgebraicModuli §§2.1, 7.2, 7.6.1–7.6.1a;
+ComplexComparisonPartII C3.2d.2, C3.2f.1–C3.2f.2.
 
 ### Examples
 
@@ -636,7 +661,8 @@ points are not visible on the reduced fibre (see A1.4).
 ### Dependencies
 
 Mathlib; Tau Ceti `AbelianVariety`; JacobianChallenge Layer E; ModularCurves 0B, 1D, 2D;
-AlgebraicModuliForArithmeticGeometry Layers 2 and 7.
+AlgebraicModuliForArithmeticGeometry §§2.1, 7.2, 7.6.1–7.6.1a;
+ComplexComparisonPartII C3.2d.2, C3.2f.1–C3.2f.2.
 
 <a id="a1"></a>
 
@@ -840,12 +866,13 @@ Raynaud's reduction to finite-type bases: a polarization on a normal base generi
 the normalization, and gluing along the conductor; scheme representability and the affine
 neighbourhood property descend. The normal-base projectivity used here is only an intermediate step
 (Faltings–Chai, Theorem I.1.9 and its proof, pp. 5–7). Faltings–Chai state (2) over an arbitrary
-base and give the reduction; checking the identity-component hypotheses of `picardZeroCriterion`
+base and give the reduction; checking the identity-component hypotheses of
+ComplexComparisonPartII C3.2f.2 `picardZeroCriterion`
 over a non-Noetherian base through noetherian approximation is part of this target. A nonreduced
 affine base and a disconnected base are both covered; nothing here says that an abelian scheme over
 an arbitrary base is projective. *Needs:* A0.3, A1.1; SchemeAndStackFoundations Layer 1
-§1.17 (`artinBootstrap`), §1.8 (`isAlgebraicSpace_pullback`); AlgebraicModuli Layer 7 (`relativePicardSheaf`,
-`picardZeroCriterion`).
+§1.17 (`artinBootstrap`), §1.8 (`isAlgebraicSpace_pullback`); AlgebraicModuli §7.6.1 (`relativePicardSheaf`);
+ComplexComparisonPartII C3.2f.2 (`picardZeroCriterion`).
 
 **Checks.**
 
@@ -1112,7 +1139,7 @@ principal. For a type-`(1, 2)` polarization of an abelian surface, `deg λ = 4` 
 ### Dependencies
 
 A0, A1; JacobianChallenge Layer E; ModularCurves 2D; AlgebraicModuli Layers 1 and 7;
-SchemeAndStackFoundations Layer 1, Layer 5.
+SchemeAndStackFoundations Layer 1, Layer 5; ComplexComparisonPartII C3.2f.2.
 
 <a id="a3"></a>
 
@@ -2114,8 +2141,9 @@ before the Siegel family is introduced.
 
 Define `AbelianLattice A` for an abelian variety `A` over `ℂ`: the tangent space `V = T₀(A^an)` at zero,
 the lattice `Λ = ker(exp : V → A^an)` of rank `2g`, and the analytic isomorphism `V/Λ ≅ A^an`, where
-`A^an` is the analytification of AlgebraicModuli `complexSchemeAnalytification` and `V/Λ` is the
-compact complex Lie group on `AddAction.orbitRel.Quotient Λ V` supplied by ComplexTori Milestone 1.
+`A^an` is the analytification of ComplexComparisonPartII C−1.1 `complexSchemeAnalytification`
+and `V/Λ` is the compact complex Lie group on `AddAction.orbitRel.Quotient Λ V` supplied by
+ComplexTori Milestone 1.
 Here `Λ` has its subtype topology, `DiscreteTopology Λ` and `IsZLattice ℝ Λ`. `Λ` is identified
 naturally with `H₁(A^an, ℤ)`, and `T_ℓ A` (A4.1) with `Λ ⊗ ℤ_ℓ`. A holomorphic
 homomorphism `A^an → B^an` is exactly a complex-linear map `V → W` carrying `Λ` into the lattice of `B`,
@@ -2141,8 +2169,8 @@ then passes to the inverse limit to identify `T_ℓ A` with `Λ ⊗ ℤ_ℓ`.
 The API is `AbelianLattice.ofAbelian`, `AbelianLattice.homology`,
 `AbelianLattice.map` (differentiate a homomorphism; functorial) and `AbelianLattice.tate`. *Needs:*
 A4.1; ComplexTori Milestone 1 and Milestone 4's trivial-action lattice-torsion formula;
-Mathlib `IsZLattice`; Tau Ceti `lieExp`, `isLocalDiffeomorphAt_lieExp_zero`; AlgebraicModuli
-§7.10.1; ComplexComparisonPartII C4.4.
+Mathlib `IsZLattice`; Tau Ceti `lieExp`, `isLocalDiffeomorphAt_lieExp_zero`;
+ComplexComparisonPartII C−1.1, C4.4.
 
 **Checks.**
 
@@ -2307,8 +2335,8 @@ exponential and lattice descent, and the horizontal relative Betti–de Rham com
 these sources and is part of this target. An analytic variation is not automatically an algebraic
 abelian scheme over an algebraic base; the differential and the evaluation pairing are preserved, not
 only ranks. *Needs:* A4.3, A5.5; ComplexTori Milestones 2–3 on the manifold-base domain;
-AlgebraicModuli §7.10.3 (`properSchemeGagaPushforward`);
-ComplexComparisonPartII C3.3, C5.1 (`properDeRhamBetti`), C5.2 (`relativeBettiLocalSystem`, `GaussManin`,
+ComplexComparisonPartII C−1.1–C−1.3, C1.9 (`properSchemeGagaPushforward`),
+C3.3, C5.1 (`properDeRhamBetti`), C5.2 (`relativeBettiLocalSystem`, `GaussManin`,
 `relativeDeRhamBetti`).
 
 **Checks.**
@@ -2396,7 +2424,7 @@ corresponding elliptic curve has `j = 1728`. For `g = 2` and `Ω = diag(τ₁, �
 
 A2–A4; Mathlib `IsZLattice`, `Matrix.symplecticGroup`; Tau Ceti Hodge library, `AlmostComplexStructure`,
 `IsRiemannForm` and `latticeHodgeStructure`, `lieExp`; ComplexTori Milestones 1–3 and Milestone 4's
-trivial-action lattice-torsion formula; AlgebraicModuli §§7.10.1, 7.10.3; ComplexComparisonPartII C3.3, C4.2, C4.4, C5.1, C5.2, C5.4.
+trivial-action lattice-torsion formula; ComplexComparisonPartII C−1.1–C−1.3, C1.9, C3.3, C4.2, C4.4, C5.1, C5.2, C5.4.
 
 <a id="a6"></a>
 

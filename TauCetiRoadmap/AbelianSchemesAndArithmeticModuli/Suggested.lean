@@ -825,7 +825,10 @@ commutator `ũṽũ⁻¹ṽ⁻¹`. Evaluation at zero identifies the torsor with
 `polarizedWeilPairing.stronglyAlternating` using the restricted theta extension after a local
 choice of representative, with restriction and arbitrary-base-change compatibility.
 
-* **Relative Picard objects** (AlgebraicModuli Layer 7 carriers): `abelianPicardInputs`,
+* **Relative Picard objects** (AlgebraicModuliForArithmeticGeometry §§7.6.1–7.6.1a supplies
+  the fppf sheaf and section rigidification; ComplexComparisonPartII C3.2d.2 and C3.2f.1–C3.2f.2
+  supply algebraicity and full identity components, including nilpotents, with the hypotheses
+  of README A0.3 and the supplier contracts): `abelianPicardInputs`,
   `relativeSeesaw`, `relativeCube`, `torsionRestriction`, `raynaudRepresentability`,
   `AbelianScheme.dual`, `normalizedPoincare`, `mumfordMap`, `Polarization`,
   `polarizationRepresentatives`, `Polarization.graphBundle` (with `graphBundle_spec`),
@@ -871,7 +874,12 @@ choice of representative, with restriction and arbitrary-base-change compatibili
 * **Riemann forms** (Tau Ceti's `IsRiemannForm`, current library): `RiemannForm.hermitian`,
   `RiemannForm.im_hermitian`, `RiemannForm.hermitian_self_pos`,
   `RiemannForm.scale`, `RiemannForm.pullback`, `RiemannForm.homological`, `RiemannForm.hodgeDual`.
-* **Complex analytic carriers** (ComplexTori Milestone 1 supplies the complex Lie-group
+* **Complex analytic carriers** (ComplexComparisonPartII C−1.1–C−1.3 supplies analytic spaces
+  and analytification, retaining nilpotents and arbitrary open gluing, with locally separated
+  algebraic-space inputs and étale relation charts; Hausdorffness requires separatedness.
+  C1.9 supplies coherent GAGA for proper finite-type complex schemes and coherent pushforward
+  along proper finite-type morphisms, without requiring a proper base.
+  ComplexTori Milestone 1 supplies the complex Lie-group
   quotient `AddAction.orbitRel.Quotient Λ V`, descended lattice-preserving maps and natural
   covering/homology identifications; Milestone 4, Integral connecting class, step 6 supplies
   `Λ/nΛ` torsion for `n > 0` and the trivial action. A5.1 proves the exponential lattice
