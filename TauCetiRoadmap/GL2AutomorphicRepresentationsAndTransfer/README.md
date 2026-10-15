@@ -173,8 +173,12 @@ AutomorphicLFunctionsAndLocalFactors, AL.0 `local-schwartz-bruhat-space` and
 and `canonical-archimedean-factor`, AL.2 standard factors and `archimedean-standard-epsilon`,
 and AL.4 `local-parameter-comparison` fix local and global factor conventions.
 AL.2 [GL₂ newvectors](../AutomorphicLFunctionsAndLocalFactors/README.md#gl2-newvectors)
-supplies the least last-row level, minimal fixed lines, Whittaker normalization and essential
-spherical-twist tests used in R16.2–R16.6.
+supplies the local K₀/K₁ subgroups, their integral embeddings, compact/open and
+lower-right quotient properties, the integral-scalar fixed-space comparison, the least
+last-row level, minimal fixed lines, Whittaker normalization and essential spherical-twist
+tests used in R16.1–R16.6. Its targets “Existence of a nonzero newvector level”, “The
+newvector conductor exponent”, “Casselman’s newvector theorem” and “The normalized
+Whittaker newvector” use these same groups.
 AL.3 `gln-fourier-expansion`, `global-whittaker-factorization`, `global-multiplicity-one`,
 `strong-multiplicity-one`, `isobaric-strong-multiplicity-one`, `rs-global-poles`,
 `rs-boundary-nonvanishing`, `rs-global-functional-equation`,
@@ -297,65 +301,44 @@ and §50.3, pp.312–313; [henniart83], Theorem 2.10, pp.20–21, Proposition 3.
 
 ## Layer R16.1: Local and adelic groups
 
-<a id="r16-1-k0"></a>
-
-### R16.1.1 The lower-left congruence subgroup
-
-Define `k0 (I : Ideal R) : Subgroup (GL₂(R))` for a commutative ring R. For a commutative valuation ring O, maximal ideal p and n≥0, K₀(pⁿ) is the subgroup of the existing GL₂(O) consisting of matrices g with g₂₁∈pⁿ. For a general commutative ring R and ideal I the same formula defines K₀(I). Its image in GL₂(F) uses the existing coefficient map. At n=0 this is all GL₂(O).
-
-Prove the following API.
-- `k0_mem`: g∈K₀(I) iff g₂₁∈I.
-- `k0_mono`: I⊆J implies K₀(I)⊆K₀(J).
-- `k0_top`: K₀(R)=GL₂(R), expressed as the top subgroup.
-- `k0_scalar`: Every scalar unit matrix belongs to K₀(I).
-
-**Checks.**
-- The identity matrix is in K₀(I).
-- K₀(p⁰) is the full group, including the Weyl matrix.
-- Over ℤ/5ℤ and I=0, (1 1;0 1) belongs, whereas (1 0;1 1) does not.
-- Over ℤ/5ℤ, diag(1,2) and scalar 2I belong to K₀(0).
-- Over ℤ/25ℤ, (1 0;5 1) belongs to K₀((5)) but not K₀(0), distinguishing nested ideals.
-
-*Needs:* Mathlib `Matrix.GeneralLinearGroup`; Mathlib `Matrix.GeneralLinearGroup.map`.
-
-*Source:* [casselman73], p. 301, §1 definition of Γ₀(b).
-
-<a id="r16-1-k1"></a>
-
-### R16.1.2 The last-row congruence subgroup
-
-K₁(pⁿ)={g∈GL₂(O): g₂₁∈pⁿ and g₂₂−1∈pⁿ}; over R write K₁(I). It is the inverse image of the stabilizer of row (0,1) under reduction modulo I, not the full principal congruence subgroup. K₁(p⁰)=GL₂(O).
-
-Prove the following API.
-- `k1_mem`: g∈K₁(I) iff g₂₁∈I and g₂₂−1∈I.
-- `k1_le_k0`: K₁(I)⊆K₀(I).
-- `k1_mono`: I⊆J implies K₁(I)⊆K₁(J); in particular K₁(pⁿ⁺¹)⊆K₁(pⁿ).
-- `k1_top`: K₁(R) is the full matrix unit group.
-- `k1_scalar`: Scalar u belongs to K₁(I) iff u−1∈I.
-
-**Checks.**
-- The identity belongs to K₁(I).
-- K₁(p⁰)=GL₂(O).
-- Over ℤ/5ℤ, (2 0;0 1) lies in K₁(0), although it is not the identity modulo 5.
-- Over ℤ/5ℤ, the upper unipotent (1 1;0 1) belongs and the lower one (1 0;1 1) does not;
-  diag(1,2) and scalar 2I do not belong, whereas diag(2,1) does.
-- Over ℤ/25ℤ, (1 0;5 1) belongs to K₁((5)) but not K₁(0), distinguishing nested ideals.
-
-*Needs:* R16.1/k0; Mathlib `Matrix.GeneralLinearGroup`.
-
-*Source:* [aky22], §1.2, pp. 3–4, K(n,λ) and generic λπ.
-
-Embed these groups in GL₂(F) as localK0(n), localK1(n). Their API gives compactness, openness, antitonicity, level-zero equality GL₂(O) and localK1(n)⊆localK0(n). At level one the upper unipotent with entry 1 belongs to both, the lower one to neither, and diag(u,1) belongs to localK1. The Weyl element belongs at level zero only. If u−1∉p, scalar u belongs to localK0(1), not localK1(1); this test requires such a residue unit, absent over F₂. The diagonal test distinguishes principal congruence.
+AutomorphicLFunctionsAndLocalFactors AL.2 [GL₂ newvectors](../AutomorphicLFunctionsAndLocalFactors/README.md#gl2-newvectors)
+owns the lower-left and last-row congruence subgroups, their coefficient embeddings in
+GL₂(Fᵥ), compactness, openness, level-zero identities and subgroup relations. Use its
+K₀(pⁿ)={g∈GL₂(O):g₂₁∈pⁿ} and
+K₁(pⁿ)={g∈GL₂(O):g₂₁∈pⁿ, g₂₂−1∈pⁿ} directly in every local and adelic comparison below.
+The lower-right quotient and integral-scalar decomposition are supplied by that same section.
 
 <a id="r16-1-local-adelic-compact-comparison"></a>
 
 ### R16.1.3 GL₂ local and adelic compact subgroups
 
-For any number field F, identify the generic reductive group GL₂(Fv) with existing matrix units. At finite v the standard maximal compact is GL₂(Ov); at real v it is O(2); at complex v it is U(2). The adelic compact is their product, and its finite part is compact open in the restricted product with respect to GL₂(Ov). K₀(pvⁿ), K₁(pvⁿ) and finite products of these are compact open at finite places. All topology and restricted-product identifications are those of AdelicAlgebraicGroups AA.1.
+For a number field F, identify the supplied reductive-group points GL₂(Fᵥ) with
+matrix units, taking GL₂(Oᵥ), O(2) and U(2) as the standard compact subgroups at finite,
+real and complex places. Under AdelicAlgebraicGroups AA.1's restricted-product
+identification, compare the following finite-level subgroup with its matrix description:
+for a finite set S of finite places, depths nᵥ≥0 and a choice of the supplied K₀ or K₁ at
+each v∈S, take that subgroup at v and GL₂(Oᵥ) outside S. It consists exactly of matrices whose components lie in GL₂(Oᵥ) at every finite place
+and satisfy the chosen local entry conditions at S. Its compactness
+and openness follow from the supplied local properties and AA.1.5. Compare extension by
+identity at a single place and inclusion under increasing depths with the corresponding
+restricted-product maps. The product with O(2) and U(2) at infinity is the full adelic
+compact subgroup for this level.
 
-*Needs:* R16.1/k0; R16.1/k1; Mathlib `Matrix.GeneralLinearGroup`; AdelicAlgebraicGroups §§1.1–1.2; AdelicAlgebraicGroups §§1.2 and 1.5; ReductiveGroupsPartII RG2.0; AutomorphicSpectralTheory §§0.48–0.49.
+**Checks.**
+- With S empty, or every nᵥ=0, the finite subgroup is ∏ᵥ GL₂(Oᵥ).
+- At a single place of depth one, extending the upper unipotent (1 1;0 1) by identity
+  gives a member for either choice; extending the lower unipotent (1 0;1 1) does not.
+- The upper-unipotent member at a K₁ place is not the identity modulo pᵥ, distinguishing
+  this level from principal congruence; diag(u,1) also belongs for every integral unit u.
+  If u−1∉pᵥ, scalar u belongs at a K₀ place but not at a K₁ place; this scalar distinction
+  has no witness in residue field F₂, where K₀(pᵥ)=K₁(pᵥ).
 
-*Source:* [jl70], §2 p. 12, compact-subgroup and Haar convention.
+*Needs:* AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors (the local K₀/K₁ subgroup
+package); Mathlib `Matrix.GeneralLinearGroup`; AdelicAlgebraicGroups §§1.1–1.2 and §1.5;
+ReductiveGroupsPartII RG2.0; AutomorphicSpectralTheory §§0.48–0.49.
+
+*Source:* [jl70], §2 p. 12, compact-subgroup convention; AdelicAlgebraicGroups AA.1.5
+for the restricted-product topology, specialized to these supplied local levels.
 
 <a id="r16-1-iwasawa-cartan"></a>
 
@@ -466,11 +449,14 @@ For one local quasi-character α, its restriction to compact units has finite im
 
 ### Examples
 
-Over ZMod 5 the upper unipotent (1,1;0,1) lies in K₀(0) and K₁(0), while (1,0;1,1) lies in neither. The diagonal (2,1) is in K₁(0) and is not the identity: last-row level is not principal level. For the full ideal both subgroups are the full matrix unit group.
+Over ℚ, take level supported at 5 and depth one. The upper unipotent (1,1;0,1),
+extended by identity at the other finite places, belongs to either supplied level; the
+lower unipotent (1,0;1,1) does not. The diagonal (2,1) at 5 belongs to the last-row
+level and is not the identity modulo 5. At depth zero both local factors are GL₂(ℤ₅).
 
 ### Dependencies
 
-ReductiveGroupsPartII RG2.0/RG2.4; AdelicAlgebraicGroups AA.0–AA.3; ArithmeticLocallySymmetricSpaces ALS.F.6; AutomorphicSpectralTheory §§0.48–0.50; GlobalNumberFields Layers 2 and 7–10; Chebotarev Layer 10.
+AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; ReductiveGroupsPartII RG2.0/RG2.4; AdelicAlgebraicGroups AA.0–AA.3; ArithmeticLocallySymmetricSpaces ALS.F.6; AutomorphicSpectralTheory §§0.48–0.50; GlobalNumberFields Layers 2 and 7–10; Chebotarev Layer 10.
 
 ## Layer R16.2: Local representations and newvectors
 
@@ -505,8 +491,8 @@ quotient model, followed by the stated least level; a zero model fails the exist
 AutomorphicLFunctionsAndLocalFactors AL.2 [GL₂ newvectors](../AutomorphicLFunctionsAndLocalFactors/README.md#gl2-newvectors)
 supplies existence of a nonzero last-row fixed level, its least conductor exponent,
 Casselman’s dimension formula and minimal K₀-character line, value-one Whittaker normalization,
-and the essential-vector restriction and GL₂×GL₁ spherical-twist test. Use its K₀ and K₁
-conventions through the subgroup comparisons of R16.1.
+and the essential-vector restriction and GL₂×GL₁ spherical-twist test. Use those supplied
+subgroups directly; R16.1/local-adelic-compact-comparison identifies their finite-adelic products.
 
 <a id="r16-2-spherical-whittaker-values"></a>
 
@@ -535,9 +521,9 @@ Prove the following API.
 
 Let π be complex, irreducible, smooth, admissible, infinite-dimensional and spherical over a characteristic-zero nonarchimedean local field F. Write K=GL₂(O), I=K₀(p). Then dim πᴷ=1 and dim πᴵ=2. With vol(I)=1, U=[I diag(ϖ,1) I] and spherical eigenvalue λ=√q(α+β), every nonzero spherical v is cyclic for U on πᴵ. Its polynomial is X²−λX+qαβ, including α=β.
 
-**Fixed-space comparison.** The compact-open signatures supply the admissibility inputs. `localK0_invariants_eq_localK1` identifies the fixed submodules at every level when integral scalar units act trivially. The API decomposes every K₀ element as an integral scalar times a K₁ element, using the lower-right unit at positive level and scalar 1 at zero. In an irreducible spherical representation, these scalars fix a nonzero spherical vector and hence its GL₂(F)-span. If an integral scalar acts by a≠1 and K₁ has a nonzero fixed vector, K₀ has none; this tests the scalar-action hypothesis.
+**Fixed-space comparison.** AL.2/GL₂ newvectors supplies compactness and openness for the admissibility inputs and identifies the K₀ and K₁ fixed submodules at every level when integral scalar units act trivially. Its scalar decomposition uses the lower-right unit at positive level and scalar 1 at zero. In an irreducible spherical representation, these scalars fix a nonzero spherical vector and hence its GL₂(F)-span. If an integral scalar acts by a≠1 and K₁ has a nonzero fixed vector, K₀ has none; this tests the scalar-action hypothesis.
 
-Choose residue representatives A⊂O; set gₐ=(ϖ a;0 1). Then U=∑ₐπ(gₐ), with |A|=q. Set s=diag(1,ϖ), c=ω(ϖ)=αβ. On πᴷ, the spherical double coset acts as T=U+π(s). From Tv=λv and π(ϖI₂)=c, the basis (v,π(s)v) gives Uv=λv−π(s)v and Uπ(s)v=qc v. Thus πᴵ=span(v,Uv), Uv is not proportional to v, and U²−λU+qc=0 on πᴵ. `iwahoriOldforms` uses these matrices and Mathlib invariant submodules.
+Choose residue representatives A⊂O; set gₐ=(ϖ a;0 1). Then U=∑ₐπ(gₐ), with |A|=q. Set s=diag(1,ϖ), c=ω(ϖ)=αβ. On πᴷ, the spherical double coset acts as T=U+π(s). From Tv=λv and π(ϖI₂)=c, the basis (v,π(s)v) gives Uv=λv−π(s)v and Uπ(s)v=qc v. Thus πᴵ=span(v,Uv), Uv is not proportional to v, and U²−λU+qc=0 on πᴵ. `iwahoriOldforms` uses these matrices and Mathlib invariant submodules. In the suggested signatures, K and I are supplied subgroups with explicit membership equalities to the images of GL₂(O) and the lower-left level-one subgroup; the concrete-model conductor Checks likewise take the supplied last-row family with its membership equality.
 
 **Checks.** For (2 1;−1 0), U−1 is nonzero and square-zero, testing repeated roots. The matrix (5 6;−1 0) satisfies X²−5X+6, and fails X²−5X+3. For unramified χdet on ℂ both invariant spaces are the whole line, of dimension one, even when χ≠1 (`iwahoriDeterminantCharacter`). Thus “not trivial” cannot replace infinite dimensionality.
 
@@ -617,7 +603,7 @@ For the upper Iwahori I and a characteristic-zero coefficient ring in which q an
 
 q is a unit; eK requires the I-index q+1 to be a unit; U₁ has its usual invertibility in the affine Hecke algebra.
 
-*Needs:* R16.1/k0; SmoothRepresentationsOfLocalGroups SR.1; SmoothRepresentationsOfLocalGroups SR.4.
+*Needs:* AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; SmoothRepresentationsOfLocalGroups SR.1; SmoothRepresentationsOfLocalGroups SR.4.
 
 *Source:* [bcgp21], Lemma 2.4.15, pp. 178–179; HKP §4.6 (4.6.1); [hkp10], §2.3 Lemma 2.3.1; §4.6 equation (4.6.1).
 
@@ -1145,7 +1131,7 @@ Prove the following API.
 - At g outside H∪ZK, ζχ(g)=0.
 - A determinant-character twist multiplies both local idempotents by the same inverse character.
 
-*Needs:* R16.1/k0; R16.2/iwahori-center; R17.1/norm-character-steinberg; R16.1/haar-quotient-comparison; SmoothRepresentationsOfLocalGroups SR.1; AdelicAlgebraicGroups AA.2.
+*Needs:* AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; R16.2/iwahori-center; R17.1/norm-character-steinberg; R16.1/haar-quotient-comparison; SmoothRepresentationsOfLocalGroups SR.1; AdelicAlgebraicGroups AA.2.
 
 *Source:* [jl70], §16 pp. 268–269, properties (i)–(iv) and ζ″−ζ′.
 

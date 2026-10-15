@@ -13,7 +13,9 @@ The mathematical roadmap is `README.md`. This file records light definitions and
 end theorems and milestones statable against the pinned Mathlib and Tau Ceti APIs.
 These are suggested forms, not an exhaustive checklist of the roadmap's targets.
 
-The congruence subgroups use the lower-left entry and last row. Local smoothness
+AutomorphicLFunctionsAndLocalFactors AL.2, GL₂ newvectors, supplies the lower-left
+and last-row subgroups. The comparisons take supplied subgroups with explicit
+membership equalities on the existing matrix groups. Local smoothness
 and admissibility are hypotheses on Mathlib representations; no local or global
 representation carrier is replaced. Frobenius is geometric in the automorphic
 normalization, monodromy is retained, and coefficient twists use the existing
@@ -22,98 +24,6 @@ Whittaker models and their transfer maps have their full specification in README
 -/
 
 noncomputable section
-
-namespace TauCeti.GL2Blueprint
-open _root_.Matrix
-
-/-! ## Layer R16.1: Local and adelic groups — congruence subgroups -/
-
-section Congruence
-variable {R : Type*} [CommRing R]
-
-/-- The lower-left ideal congruence subgroup of GL₂(R). Submonoid.units includes the inverse condition; for a 2×2 unit it is equivalent to the single entry condition in README R16.1. -/
-def k0 (I : Ideal R) : Subgroup (GeneralLinearGroup (Fin 2) R) :=
-  ({ carrier := {M : Matrix (Fin 2) (Fin 2) R | M 1 0 ∈ I}
-     one_mem' := by simp
-     mul_mem' := by
-       intro M N hM hN
-       change (M * N) 1 0 ∈ I
-       simpa [Matrix.mul_apply, Fin.sum_univ_two] using
-         I.add_mem (I.mul_mem_right (N 0 0) hM) (I.mul_mem_left (M 1 1) hN)
-   } : Submonoid (Matrix (Fin 2) (Fin 2) R)).units
-
-example (I : Ideal R) : (1 : GeneralLinearGroup (Fin 2) R) ∈ k0 I := by sorry
-
-example : k0 (⊤ : Ideal R) = ⊤ := by sorry
-
-example (u l : GeneralLinearGroup (Fin 2) (ZMod 5))
-    (hu : u.val = !![1, 1; 0, 1]) (hl : l.val = !![1, 0; 1, 1]) :
-    u ∈ k0 (⊥ : Ideal (ZMod 5)) ∧ l ∉ k0 (⊥ : Ideal (ZMod 5)) := by sorry
-
-example :
-    let d : GeneralLinearGroup (Fin 2) (ZMod 5) :=
-      ⟨!![1, 0; 0, 2], !![1, 0; 0, 3], by sorry, by sorry⟩
-    let u : (ZMod 5)ˣ := ⟨2, 3, by decide, by decide⟩
-    d ∈ k0 (⊥ : Ideal (ZMod 5)) ∧
-      GeneralLinearGroup.scalar (Fin 2) u ∈ k0 (⊥ : Ideal (ZMod 5)) := by sorry
-
-example :
-    let l : GeneralLinearGroup (Fin 2) (ZMod 25) :=
-      ⟨!![1, 0; 5, 1], !![1, 0; -5, 1], by sorry, by sorry⟩
-    l ∈ k0 (Ideal.span ({5} : Set (ZMod 25))) ∧
-      l ∉ k0 (⊥ : Ideal (ZMod 25)) := by sorry
-
-/-- The last-row ideal congruence subgroup of GL₂(R): lower-left entry in I and lower-right entry congruent to one. Inversion is included by Submonoid.units. -/
-def k1 (I : Ideal R) : Subgroup (GeneralLinearGroup (Fin 2) R) :=
-  ({ carrier := {M : Matrix (Fin 2) (Fin 2) R | M 1 0 ∈ I ∧ M 1 1 - 1 ∈ I}
-     one_mem' := by simp
-     mul_mem' := by
-       intro M N hM hN
-       constructor
-       · change (M * N) 1 0 ∈ I
-         simpa [Matrix.mul_apply, Fin.sum_univ_two] using
-           I.add_mem (I.mul_mem_right (N 0 0) hM.1) (I.mul_mem_left (M 1 1) hN.1)
-       · change (M * N) 1 1 - 1 ∈ I
-         convert I.add_mem
-           (I.add_mem (I.mul_mem_right (N 0 1) hM.1)
-             (I.mul_mem_left (M 1 1) hN.2)) hM.2 using 1
-         simp [Matrix.mul_apply, Fin.sum_univ_two]
-         ring
-   } : Submonoid (Matrix (Fin 2) (Fin 2) R)).units
-
-example (I : Ideal R) : (1 : GeneralLinearGroup (Fin 2) R) ∈ k1 I := by sorry
-
-example : k1 (⊤ : Ideal R) = ⊤ := by sorry
-
-example (g : GeneralLinearGroup (Fin 2) (ZMod 5)) (hg : g.val = !![2, 0; 0, 1]) :
-    g ∈ k1 (⊥ : Ideal (ZMod 5)) ∧ g.val ≠ !![1, 0; 0, 1] := by sorry
-
-example :
-    let u : GeneralLinearGroup (Fin 2) (ZMod 5) :=
-      ⟨!![1, 1; 0, 1], !![1, -1; 0, 1], by sorry, by sorry⟩
-    let l : GeneralLinearGroup (Fin 2) (ZMod 5) :=
-      ⟨!![1, 0; 1, 1], !![1, 0; -1, 1], by sorry, by sorry⟩
-    u ∈ k1 (⊥ : Ideal (ZMod 5)) ∧ l ∉ k1 (⊥ : Ideal (ZMod 5)) := by sorry
-
-example :
-    let d₁ : GeneralLinearGroup (Fin 2) (ZMod 5) :=
-      ⟨!![1, 0; 0, 2], !![1, 0; 0, 3], by sorry, by sorry⟩
-    let d₂ : GeneralLinearGroup (Fin 2) (ZMod 5) :=
-      ⟨!![2, 0; 0, 1], !![3, 0; 0, 1], by sorry, by sorry⟩
-    let u : (ZMod 5)ˣ := ⟨2, 3, by decide, by decide⟩
-    d₁ ∉ k1 (⊥ : Ideal (ZMod 5)) ∧
-      GeneralLinearGroup.scalar (Fin 2) u ∉ k1 (⊥ : Ideal (ZMod 5)) ∧
-      d₂ ∈ k1 (⊥ : Ideal (ZMod 5)) := by sorry
-
-example :
-    let l : GeneralLinearGroup (Fin 2) (ZMod 25) :=
-      ⟨!![1, 0; 5, 1], !![1, 0; -5, 1], by sorry, by sorry⟩
-    l ∈ k1 (Ideal.span ({5} : Set (ZMod 25))) ∧
-      l ∉ k1 (⊥ : Ideal (ZMod 25)) := by sorry
-
-end Congruence
-
-end TauCeti.GL2Blueprint
 
 namespace TauCeti.GL2Transfer
 
@@ -197,113 +107,24 @@ open _root_.Matrix
 
 /-! ## Layer R16.2: Local representations and level comparisons -/
 
-section LocalNewvectors
-open scoped ValuativeRel
-variable {F : Type*} [Field F] [CharZero F] [ValuativeRel F]
-    [TopologicalSpace F] [IsNonarchimedeanLocalField F]
-variable {V : Type*} [AddCommGroup V] [Module ℂ V]
-
-/-- The last-row k1 subgroup over the valuation ring, embedded in GL₂(F).
-This abbreviation introduces neither a local-field carrier nor a second
-congruence subgroup. Level zero is the integral maximal compact subgroup. -/
-abbrev localK1 (F : Type*) [Field F] [ValuativeRel F]
-    [TopologicalSpace F] [IsNonarchimedeanLocalField F] (n : ℕ) :
-    Subgroup (GeneralLinearGroup (Fin 2) F) :=
-  (k1 (𝓂[F] ^ n)).map
-    (GeneralLinearGroup.map (algebraMap 𝒪[F] F))
-
-/-- The image of the lower-left subgroup; this is a specialization
-of k0, rather than another Iwahori or local-field carrier. -/
-abbrev localK0 (F : Type*) [Field F] [ValuativeRel F]
-    [TopologicalSpace F] [IsNonarchimedeanLocalField F] (n : ℕ) :
-    Subgroup (GeneralLinearGroup (Fin 2) F) :=
-  (k0 (𝓂[F] ^ n)).map
-    (GeneralLinearGroup.map (algebraMap 𝒪[F] F))
-
-example (g : GeneralLinearGroup (Fin 2) 𝒪[F])
-    (hg : g.val = !![1, 1; 0, 1]) :
-    GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ∈ localK0 F 1 := by sorry
-
-example (g : GeneralLinearGroup (Fin 2) 𝒪[F])
-    (hg : g.val = !![1, 0; 1, 1]) :
-    GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ∉ localK0 F 1 := by sorry
-
-example (u : 𝒪[F]ˣ) :
-    GeneralLinearGroup.map (algebraMap 𝒪[F] F)
-      (GeneralLinearGroup.scalar (Fin 2) u) ∈ localK0 F 1 := by sorry
-
-example (g : GeneralLinearGroup (Fin 2) 𝒪[F])
-    (hg : g.val = !![1, 1; 0, 1]) :
-    GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ∈ localK1 F 1 := by sorry
-
-example (g : GeneralLinearGroup (Fin 2) 𝒪[F])
-    (hg : g.val = !![1, 0; 1, 1]) :
-    GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ∉ localK1 F 1 := by sorry
-
-example (u : 𝒪[F]ˣ) (hu : (u : 𝒪[F]) - 1 ∉ 𝓂[F])
-    (g : GeneralLinearGroup (Fin 2) 𝒪[F])
-    (hg : g.val = !![(u : 𝒪[F]), 0; 0, 1]) :
-    GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ∈ localK1 F 1 ∧
-      GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ≠ 1 := by sorry
-
-/-- The embedded congruence subgroup is compact. -/
-theorem localK0_isCompact (n : ℕ) :
-    IsCompact (localK0 F n : Set (GeneralLinearGroup (Fin 2) F)) := by sorry
-
-/-- The embedded congruence subgroup is open. -/
-theorem localK0_isOpen (n : ℕ) :
-    IsOpen (localK0 F n : Set (GeneralLinearGroup (Fin 2) F)) := by sorry
-
-/-- The embedded congruence subgroup is compact. -/
-theorem localK1_isCompact (n : ℕ) :
-    IsCompact (localK1 F n : Set (GeneralLinearGroup (Fin 2) F)) := by sorry
-
-/-- The embedded congruence subgroup is open. -/
-theorem localK1_isOpen (n : ℕ) :
-    IsOpen (localK1 F n : Set (GeneralLinearGroup (Fin 2) F)) := by sorry
-
-/-- Trivial action of integral scalar units identifies K₀ and K₁ fixed spaces at every level. -/
-theorem localK0_invariants_eq_localK1
-    (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
-    (hcent : ∀ (u : 𝒪[F]ˣ) (v : V),
-      π (GeneralLinearGroup.map (algebraMap 𝒪[F] F)
-        (GeneralLinearGroup.scalar (Fin 2) u)) v = v) (n : ℕ) :
-    Representation.invariants (π.comp (localK0 F n).subtype) =
-      Representation.invariants (π.comp (localK1 F n).subtype) := by sorry
-
-example (g : GeneralLinearGroup (Fin 2) 𝒪[F])
-    (hg : g.val = !![0, 1; -1, 0]) :
-    GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ∈ localK0 F 0 ∧
-      GeneralLinearGroup.map (algebraMap 𝒪[F] F) g ∉ localK0 F 1 := by sorry
-
-example (u : 𝒪[F]ˣ) (hu : (u : 𝒪[F]) - 1 ∉ 𝓂[F]) :
-    GeneralLinearGroup.map (algebraMap 𝒪[F] F)
-      (GeneralLinearGroup.scalar (Fin 2) u) ∈ localK0 F 1 ∧
-    GeneralLinearGroup.map (algebraMap 𝒪[F] F)
-      (GeneralLinearGroup.scalar (Fin 2) u) ∉ localK1 F 1 := by sorry
-
-example (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
-    (u : 𝒪[F]ˣ) (a : ℂ) (ha : a ≠ 1)
-    (hscalar : ∀ v : V,
-      π (GeneralLinearGroup.map (algebraMap 𝒪[F] F)
-        (GeneralLinearGroup.scalar (Fin 2) u)) v = a • v)
-    (n : ℕ)
-    (hfixed : ∃ v ∈ Representation.invariants (π.comp (localK1 F n).subtype), v ≠ 0) :
-    Representation.invariants (π.comp (localK0 F n).subtype) = ⊥ ∧
-      Representation.invariants (π.comp (localK0 F n).subtype) ≠
-        Representation.invariants (π.comp (localK1 F n).subtype) := by sorry
-
-end LocalNewvectors
-
 section IwahoriOldforms
 open scoped ValuativeRel
 variable {F : Type*} [Field F] [CharZero F] [ValuativeRel F]
     [TopologicalSpace F] [IsNonarchimedeanLocalField F]
 variable {V : Type*} [AddCommGroup V] [Module ℂ V]
 
-/-- Casselman, Corollary to the Proof, p. 306; Calegari–Geraghty,
-§1.3, printed pp. 805–806, with infinite dimensionality as in the README.
-A nonzero spherical vector is the unramified hypothesis. -/
+-- K and I are the AL.2 integral maximal compact and lower-left level-one subgroup.
+variable (K I : Subgroup (GeneralLinearGroup (Fin 2) F))
+    (hK : ∀ g, g ∈ K ↔ ∃ k : GeneralLinearGroup (Fin 2) 𝒪[F],
+      GeneralLinearGroup.map (algebraMap 𝒪[F] F) k = g)
+    (hI : ∀ g, g ∈ I ↔ ∃ k : GeneralLinearGroup (Fin 2) 𝒪[F],
+      GeneralLinearGroup.map (algebraMap 𝒪[F] F) k = g ∧ k.val 1 0 ∈ 𝓂[F])
+include hK hI
+
+/-- The supplied maximal compact has a one-dimensional fixed space and its
+level-one Iwahori has a two-dimensional fixed space for an irreducible
+infinite-dimensional spherical representation. Sources: Casselman, Corollary
+to the Proof, p. 306; Calegari–Geraghty, §1.3, pp. 805–806. -/
 theorem iwahoriOldforms_dimensions
     (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
     [Representation.IsIrreducible π]
@@ -313,12 +134,12 @@ theorem iwahoriOldforms_dimensions
       IsOpen (K : Set (GeneralLinearGroup (Fin 2) F)) →
       FiniteDimensional ℂ (Representation.invariants (π.comp K.subtype)))
     (hinf : ¬ FiniteDimensional ℂ V)
-    (hsph : ∃ v ∈ Representation.invariants (π.comp (localK1 F 0).subtype), v ≠ 0) :
-    Module.finrank ℂ (Representation.invariants (π.comp (localK1 F 0).subtype)) = 1 ∧
-      Module.finrank ℂ (Representation.invariants (π.comp (localK0 F 1).subtype)) = 2 := by sorry
+    (hsph : ∃ v ∈ Representation.invariants (π.comp K.subtype), v ≠ 0) :
+    Module.finrank ℂ (Representation.invariants (π.comp K.subtype)) = 1 ∧
+      Module.finrank ℂ (Representation.invariants (π.comp I.subtype)) = 2 := by sorry
 
-/-- The actual oldform operator, expressed as a finite sum of the concrete
-right-coset representatives of I diag(ϖ,1) I, with vol(I)=1. A is a full set
+/-- For the supplied maximal compact K and Iwahori I, the oldform operator
+is the finite sum of the concrete right-coset representatives of I diag(ϖ,1) I, with vol(I)=1. A is a full set
 of residue representatives, so its cardinality is q. The sum acts by π;
 there is no independent operator or replacement Hecke algebra in the input.
 The spherical double coset adds s=diag(1,ϖ). Its eigenvalue λ is
@@ -343,41 +164,44 @@ theorem iwahoriOldforms
     (g : A → GeneralLinearGroup (Fin 2) F)
     (hg : ∀ a, (g a).val = !![(ϖ : F), (a.val : F); 0, 1])
     (s : GeneralLinearGroup (Fin 2) F) (hs : s.val = !![1, 0; 0, (ϖ : F)])
-    (v : V) (hv : v ∈ Representation.invariants (π.comp (localK1 F 0).subtype))
+    (v : V) (hv : v ∈ Representation.invariants (π.comp K.subtype))
     (hv0 : v ≠ 0) (lam c : ℂ)
     (hcent : ∀ w, π (GeneralLinearGroup.scalar (Fin 2) ϖF) w = c • w)
     (heigen : ((∑ a : A, π (g a)) + π s) v = lam • v) :
     let U : Module.End ℂ V := ∑ a : A, π (g a)
-    Module.finrank ℂ (Representation.invariants (π.comp (localK1 F 0).subtype)) = 1 ∧
-      Module.finrank ℂ (Representation.invariants (π.comp (localK0 F 1).subtype)) = 2 ∧
-      Representation.invariants (π.comp (localK0 F 1).subtype) =
+    Module.finrank ℂ (Representation.invariants (π.comp K.subtype)) = 1 ∧
+      Module.finrank ℂ (Representation.invariants (π.comp I.subtype)) = 2 ∧
+      Representation.invariants (π.comp I.subtype) =
         Submodule.span ℂ ({v, U v} : Set V) ∧
       (∀ a : ℂ, U v ≠ a • v) ∧
-      (∀ w ∈ Representation.invariants (π.comp (localK0 F 1).subtype),
-        U w ∈ Representation.invariants (π.comp (localK0 F 1).subtype) ∧
+      (∀ w ∈ Representation.invariants (π.comp I.subtype),
+        U w ∈ Representation.invariants (π.comp I.subtype) ∧
           U (U w) - lam • U w + ((A.card : ℂ) * c) • w = 0) := by sorry
 
+omit hK hI in
 example : (!![(2 : ℂ), 1; -1, 0] - 1) ^ 2 = 0 ∧
     !![(2 : ℂ), 1; -1, 0] - 1 ≠ 0 := by sorry
 
+omit hK hI in
 example : !![(5 : ℂ), 6; -1, 0] ^ 2 -
     5 • !![(5 : ℂ), 6; -1, 0] + 6 • (1 : Matrix (Fin 2) (Fin 2) ℂ) = 0 := by sorry
 
+omit hK hI in
 example : !![(5 : ℂ), 6; -1, 0] ^ 2 -
     5 • !![(5 : ℂ), 6; -1, 0] + 3 • (1 : Matrix (Fin 2) (Fin 2) ℂ) ≠ 0 := by sorry
 
-/-- The excluded determinant characters: unramified χ is trivial on O×,
-so both the spherical and Iwahori invariant spaces are the whole ℂ line.
+/-- For the supplied integral and Iwahori subgroups, an unramified determinant
+character has both invariant spaces equal to the whole ℂ line.
 This calculation also applies to nontrivial χ. No genericity is assumed. -/
 theorem iwahoriDeterminantCharacter
     (χ : Fˣ →* ℂˣ)
     (hχ : ∀ u : 𝒪[F]ˣ, χ (Units.map (algebraMap 𝒪[F] F).toMonoidHom u) = 1)
     (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) ℂ)
     (hπ : ∀ g z, π g z = (χ (GeneralLinearGroup.det g) : ℂ) * z) :
-    Representation.invariants (π.comp (localK1 F 0).subtype) = ⊤ ∧
-      Representation.invariants (π.comp (localK0 F 1).subtype) = ⊤ ∧
-      Module.finrank ℂ (Representation.invariants (π.comp (localK1 F 0).subtype)) = 1 ∧
-      Module.finrank ℂ (Representation.invariants (π.comp (localK0 F 1).subtype)) = 1 := by sorry
+    Representation.invariants (π.comp K.subtype) = ⊤ ∧
+      Representation.invariants (π.comp I.subtype) = ⊤ ∧
+      Module.finrank ℂ (Representation.invariants (π.comp K.subtype)) = 1 ∧
+      Module.finrank ℂ (Representation.invariants (π.comp I.subtype)) = 1 := by sorry
 
 example (χ : Fˣ →* ℂˣ)
     (hχ : ∀ u : 𝒪[F]ˣ, χ (Units.map (algebraMap 𝒪[F] F).toMonoidHom u) = 1)
@@ -385,7 +209,7 @@ example (χ : Fˣ →* ℂˣ)
     (hπ : ∀ g z, π g z = (χ (GeneralLinearGroup.det g) : ℂ) * z)
     (g : GeneralLinearGroup (Fin 2) F) (hg : χ (GeneralLinearGroup.det g) ≠ 1) :
     π g (1 : ℂ) ≠ 1 ∧
-      Module.finrank ℂ (Representation.invariants (π.comp (localK0 F 1).subtype)) ≠ 2 := by sorry
+      Module.finrank ℂ (Representation.invariants (π.comp I.subtype)) ≠ 2 := by sorry
 
 end IwahoriOldforms
 
@@ -410,11 +234,11 @@ def localPrincipalSeriesSpace (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ) :
   carrier := {f | (∃ K : Subgroup (GeneralLinearGroup (Fin 2) ℚ_[p]),
       IsOpen (K : Set (GeneralLinearGroup (Fin 2) ℚ_[p])) ∧
       ∀ g k, k ∈ K → f (g * k) = f g) ∧
-    ∀ (b : k0 (⊥ : Ideal ℚ_[p])) g,
-      f ((b : GeneralLinearGroup (Fin 2) ℚ_[p]) * g) =
-        (Real.sqrt (‖b.val.val 0 0‖ / ‖b.val.val 1 1‖) : ℂ) *
-          (χ₁ (Units.mk0 (b.val.val 0 0) (by sorry)) : ℂ) *
-          (χ₂ (Units.mk0 (b.val.val 1 1) (by sorry)) : ℂ) * f g}
+    ∀ (b : GeneralLinearGroup (Fin 2) ℚ_[p]), b.val 1 0 = 0 → ∀ g,
+      f (b * g) =
+        (Real.sqrt (‖b.val 0 0‖ / ‖b.val 1 1‖) : ℂ) *
+          (χ₁ (Units.mk0 (b.val 0 0) (by sorry)) : ℂ) *
+          (χ₂ (Units.mk0 (b.val 1 1) (by sorry)) : ℂ) * f g}
   zero_mem' := by sorry
   add_mem' := by sorry
   smul_mem' := by sorry
@@ -452,6 +276,13 @@ theorem localSteinbergTwist_quotient (χ : ℚ_[p]ˣ →* ℂˣ)
         (localPrincipalSeriesRep (localNormCharacter p (-(1/2)))
           (localNormCharacter p (1/2)) g f) := by sorry
 
+-- The AL.2 last-row family, characterized on the integral matrix image.
+variable (K₁ : ℕ → Subgroup (GeneralLinearGroup (Fin 2) ℚ_[p]))
+    (hK₁ : ∀ n g, g ∈ K₁ n ↔ ∃ k : GeneralLinearGroup (Fin 2) 𝒪[ℚ_[p]],
+      GeneralLinearGroup.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]) k = g ∧
+        k.val 1 0 ∈ 𝓂[ℚ_[p]] ^ n ∧ k.val 1 1 - 1 ∈ 𝓂[ℚ_[p]] ^ n)
+include hK₁
+
 example (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ)
     (hunit : ∀ u : 𝒪[ℚ_[p]]ˣ,
       χ₁ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1 ∧
@@ -459,14 +290,14 @@ example (χ₁ χ₂ : ℚ_[p]ˣ →* ℂˣ)
     (hgen : χ₁ * χ₂⁻¹ ≠ localNormCharacter p 1 ∧
       χ₁ * χ₂⁻¹ ≠ localNormCharacter p (-1)) :
     ∃ hex : (∃ n, ∃ v ∈ Representation.invariants
-      ((localPrincipalSeriesRep χ₁ χ₂).comp (localK1 ℚ_[p] n).subtype), v ≠ 0),
+      ((localPrincipalSeriesRep χ₁ χ₂).comp (K₁ n).subtype), v ≠ 0),
       @Nat.find _ (Classical.decPred _) hex = 0 := by sorry
 
 example (χ : ℚ_[p]ˣ →* ℂˣ)
     (hunit : ∀ u : 𝒪[ℚ_[p]]ˣ,
       χ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) = 1) :
     ∃ hex : (∃ n, ∃ v ∈ Representation.invariants
-      ((localSteinbergTwist χ).comp (localK1 ℚ_[p] n).subtype), v ≠ 0),
+      ((localSteinbergTwist χ).comp (K₁ n).subtype), v ≠ 0),
       @Nat.find _ (Classical.decPred _) hex = 1 := by sorry
 
 example (χ : ℚ_[p]ˣ →* ℂˣ) (a : ℕ) (ha : 2 ≤ a)
@@ -475,7 +306,7 @@ example (χ : ℚ_[p]ˣ →* ℂˣ) (a : ℕ) (ha : 2 ≤ a)
     (hminimal : ∃ u : 𝒪[ℚ_[p]]ˣ, (u : 𝒪[ℚ_[p]]) - 1 ∈ 𝓂[ℚ_[p]] ^ (a - 1) ∧
       χ (Units.map (algebraMap 𝒪[ℚ_[p]] ℚ_[p]).toMonoidHom u) ≠ 1) :
     ∃ hex : (∃ n, ∃ v ∈ Representation.invariants
-      ((localSteinbergTwist χ).comp (localK1 ℚ_[p] n).subtype), v ≠ 0),
+      ((localSteinbergTwist χ).comp (K₁ n).subtype), v ≠ 0),
       @Nat.find _ (Classical.decPred _) hex = 2 * a := by sorry
 
 end LocalModelFixtures
@@ -1256,11 +1087,7 @@ CentralCharacterL2 and its inner product, completeness, translation and measure 
 brauerCharacter, brauerCharacter_conjugate, brauerCharacter_one, brauerCharacter_spectrum.
 cdtVexingType, cdtVexingType_lattice, cdtVexingType_restrict, cdtVexingType_unramified.
 cyclicMatching_central.
-involution_det_eq_neg_one_of_reduction, involution_det_eq_neg_one_of_residual_conjugacy, involution_odd_of_reduction, k0_mem.
-k0_mono, k0_scalar, k0_top, k1_le_k0.
-k1_mem, k1_mono, k1_scalar, k1_top.
-localK0_antitone, localK0_scalar_mul_localK1, localK0_zero, localK1_antitone.
-localK1_le_integral, localK1_le_localK0, localK1_zero, nonCM_iff.
+involution_det_eq_neg_one_of_reduction, involution_det_eq_neg_one_of_residual_conjugacy, involution_odd_of_reduction, nonCM_iff.
 quadraticDirichletFive_ne_one, quadraticDirichletFive_two.
 sphericalValues_swap, sphericalValues_zero, steinbergProjectorDifference.
 steinbergProjectorDifference_central, steinbergProjectorDifference_eval, steinbergProjectorDifference_twist, tamelyDihedral.
