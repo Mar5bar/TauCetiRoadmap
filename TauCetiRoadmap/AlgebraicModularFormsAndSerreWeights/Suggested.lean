@@ -158,11 +158,41 @@ theorem seriesTheta_hecke (p l : ℕ) [Fact p.Prime] [CharP A p]
     TauCeti.KatzModularForms.seriesHecke l ((l : A)^2*c) d (seriesTheta f) =
       (l : A) • seriesTheta (TauCeti.KatzModularForms.seriesHecke l c d f) := by sorry
 
+/-- Coefficient-linear expansion scales q d/dq by the expansion index. -/
+theorem seriesTheta_expand (p : ℕ) (hp : 0 < p) (f : PowerSeries A) :
+    seriesTheta (PowerSeries.expand p (Nat.ne_of_gt hp) f) =
+      (p : A) • PowerSeries.expand p (Nat.ne_of_gt hp) (seriesTheta f) := by sorry
+
+/-- Theta vanishes on coefficient-linear V in characteristic p. -/
+theorem seriesTheta_expand_charP (p : ℕ) (hp : 0 < p) [CharP A p]
+    (f : PowerSeries A) :
+    seriesTheta (PowerSeries.expand p (Nat.ne_of_gt hp) f) = 0 := by sorry
+
+/-- The expansion identity retains a nonzero scalar over mixed-characteristic torsion. -/
+example :
+    seriesTheta (PowerSeries.expand 3 (by decide) (PowerSeries.X : PowerSeries (ZMod 9))) =
+      (3 : ZMod 9) • (PowerSeries.X ^ 3 : PowerSeries (ZMod 9)) ∧
+    seriesTheta (PowerSeries.expand 3 (by decide) (PowerSeries.X : PowerSeries (ZMod 9))) ≠
+      0 := by sorry
+
+/-- The same V contribution has zero theta after passing to characteristic three. -/
+example :
+    seriesTheta (PowerSeries.expand 3 (by decide) (PowerSeries.X : PowerSeries (ZMod 3))) =
+      0 := by sorry
+
 /-- Weight one retains the V term in its formal Hecke formula. -/
 theorem seriesHecke_weightOne (p : ℕ) (hp : 0 < p) (d : A) (f : PowerSeries A) :
     TauCeti.KatzModularForms.seriesHecke p 1 d f =
       qU p f + d • PowerSeries.expand p (Nat.ne_of_gt hp) f := by sorry
 end Series
+
+/-- Injectivity on uniformizer torsion detects injectivity on a power-torsion source. -/
+theorem injective_of_injective_on_uniformizer_torsion
+    {O M P : Type*} [CommRing O] [AddCommGroup M] [AddCommGroup P]
+    [Module O M] [Module O P] (varpi : O) (F : M →ₗ[O] P)
+    (htors : Module.IsTorsion' M (Submonoid.powers varpi))
+    (hsoc : ∀ x : M, varpi • x = 0 → F x = 0 → x = 0) :
+    Function.Injective F := by sorry
 
 /-- Change of dual basis in a Frobenius-semilinear rank-one module. -/
 theorem hasseScalar_weight {A : Type*} [CommRing A] (p : ℕ)

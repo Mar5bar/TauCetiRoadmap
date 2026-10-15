@@ -67,7 +67,7 @@ The targets below have concrete mathematical prerequisites. A complete implement
 | ModularCurvesPartII §§9.1–9.3, 9.9–9.11 | Compactified degeneracy and Hecke correspondences, quotient level structures, universal isogeny Hodge maps, U_y and the root-dependent curve map. The auxiliary w_x and its square are constructed here. |
 | AbelianSchemesAndArithmeticModuli §A4.3; ModularCurvesPartII §§7.1–7.1a; ComplexComparisonPartII C5.6 | Open elliptic de Rham bundle and Hodge line; characteristic-zero normalized KS and canonical logarithmic extension. R15.1 constructs the integral logarithmic de Rham bundle, filtration, connection and cup-product extension, with coefficient base change and Tate formulas, before integral KS. |
 | ComplexComparisonPartII §§C−1.2, C1.9, C0.4, C1.7–C1.8, C2.1–C2.2 | Proper coherent GAGA and its projective analytic inputs, for integer Hodge powers and cusp twists, compatible with the finite action and descent. Used by analytic comparison. |
-| SchemeAndStackFoundations §§2.19–2.21, 3.3 | Proper adjunction, trace, relative dualising complexes and coherent Serre duality. R15.3 builds the K/O specialization and finite-flat correspondence comparison under its finite-free/base-change hypotheses. |
+| SchemeAndStackFoundations §§2.19–2.21, 3.3 | Proper adjunction, trace, relative dualising complexes and coherent Serre duality. R15.2 builds the all-prime field correspondence/trace comparison; R15.3 builds its Fricke-twisted field comparison and the separate odd-p K/O specialization under finite-free/base-change hypotheses. |
 | FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1, R07.2 | Raynaud uniqueness, its boundary case and tame inertia; the general BT₁ determinant(V*) and dual-Frobenius compatibility. Used by the local criterion and elliptic Hasse specialization. |
 | FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.3, R07.5 | Contravariant residual Fontaine–Laffaille functor and positive-weight inertia dictionary; rank-two extension classification, ordered wild line and scalar Kummer peu/très calculation. This roadmap supplies the coefficient-action/descent bridge and dyadic tame descent used by R15.4. |
 | ArithmeticGaloisRepresentations Layers 1–5 | Fundamental tame characters and Frobenius action; genuine prime-to-p Artin conductor; S-type induced-dihedral image identification; finite-field semisimplification, coefficient descent, lattice independence and recognition by characteristic polynomials. Used by R15.4 and R15.6 and boundary localization. |
@@ -83,7 +83,7 @@ Several proof obligations need more than the named geometric carrier. Q-expansio
 
 Integral cusp comparison needs the exact H¹-torsion and integral character-projector criterion. Its Hasse shift must land in that specific image, with character and level retained. The all-prime denominator target builds the integral form lattice at primes dividing the level and its geometric model comparison. Eisenstein congruences and Deligne–Serre shifts need the Bernoulli valuation and coefficient-integrality input, including the even shifts at p=2,3. None of these follows from holomorphic fine-level base change alone.
 
-Weight-one T_p over O/ϖ^m uses ModularCurvesPartII §9.11 coherentHecke and coherentHecke_baseChange on the actual section space; R15.3 compares its normalization with Gross's operator and constructs the high-weight shift and doubling maps. Theta cycles need their filtration drop and cycle proof input, and the exceptional level-one p=2,3 reduction needs Serre's Astérisque theorem. Supersingular weight reduction needs simple Hasse zeros and support preservation under field duality over the finite operator-image algebra. The local comparisons need the extension-sensitive Fontaine–Laffaille classification, dyadic tame descent and the induced-dihedral image input cited to Ribet. These obligations retain the precise supplier boundaries of their targets.
+Weight-one T_p over O/ϖ^m uses ModularCurvesPartII §9.11 coherentHecke and coherentHecke_baseChange on the actual section space; R15.3 compares its normalization with Gross's operator and constructs the high-weight shift, socle identification and injective doubling map. Theta cycles need their filtration drop and cycle proof input, and the exceptional level-one p=2,3 reduction needs Serre's Astérisque theorem. Supersingular weight reduction needs simple Hasse zeros and support preservation under field duality over the finite operator-image algebra. The local comparisons need the extension-sensitive Fontaine–Laffaille classification, dyadic tame descent and the induced-dihedral image input cited to Ribet. These obligations retain the precise supplier boundaries of their targets.
 
 ### Local finite-flat and coefficient-descent contracts
 
@@ -501,6 +501,27 @@ The interface consists of:
 
 ([Calegari–Geraghty 2018](https://www.math.uchicago.edu/~fcale/papers/CG.pdf), 3.2.3, printed pp.313–316.)
 
+<a id="target-field-coherent-hecke-action"></a>
+
+#### All-prime field coherent Hecke and trace duality
+
+Let p be any prime, N≥5 with p∤N, κ a field of characteristic p, and X=X₁(N)_κ the smooth proper fine curve with full cusp divisor C. For every integer n, L=ω^n or ω^n(−C), and i=0,1, construct the good-prime operators on H^i(X,L⊗_κ A), for every κ-vector space A. For a prime ℓ∤pN, the compactified finite-flat correspondence and its invertible Hodge isogeny map ξ give
+
+ℓT_ℓ^*=tr(π₁)∘ξ^n∘π₂*.
+
+Negative powers use the inverse of ξ. Fix Edixhoven's normalization and compare its section action with the quotient-level geometric operator, retaining the transported diamonds. Prove commutation with diamonds, coefficients and field extension, and equivariance of cusp inclusion, restriction and connecting maps. Restrict the same correspondences to the Hasse zero divisor and prove equivariance of the Hasse sequence, including its H¹ term. The trace and pullback are adjoint under coherent Serre duality, with the coefficient transport transposed and the two legs reversed. Combining this comparison with Ω¹_X≃ω²(−C) supplies the untwisted duality input; the root-dependent Fricke transport and its scalar are specified in [Twisted duality and the supersingular boundary](#target-twisted-serre-duality-hecke). For finite-dimensional A use its κ-linear dual in the perfect pairing. Finite coefficient fields and their extensions are included; no oddness assumption or division by p occurs.
+
+**Checks.**
+
+- At p=2,N=5,ℓ=3, the operator acts on H⁰ and H¹ of every integer Hodge power; restriction to the supersingular divisor and the Hasse connecting map commute with it.
+- On H¹(X,ω^(−1)), duality pairs with H⁰(X,ω³(−C)); the adjoint reverses the correspondence legs even in characteristic two.
+- For a finite field extension κ′/κ, the operator and connecting map after extension agree with scalar extension of the κ-maps; the zero coefficient space has zero operators.
+- At N=5, ℓ=5 is excluded from T_ℓ^*: its level correspondence has a different degree. No bad-level U identity is inferred from this good-prime formula.
+
+*Needs:* [Diamonds on coherent cohomology](#target-diamond-cohomology-action); [Logarithmic Kodaira–Spencer](#target-logarithmic-kodaira-spencer); [Integral geometric Hecke operators](#target-integral-hecke-operators-from-q-expansions); [The elliptic Hasse invariant](#target-hasse-invariant-as-a-form-of-weight-p-minus-one); ModularCurvesPartII §§9.1–9.2; SchemeAndStackFoundations §§2.19–2.21, 3.3.
+
+([Edixhoven](https://websites.math.leidenuniv.nl/edixhoven/public_html_rennes/publications/weight.dvi), §7.1 and (7.1.1), author DVI p.23, and proof of Proposition7.3 and Lemma7.4, pp.24–25.)
+
 <a id="target-torsion-cohomology-hecke-action"></a>
 
 #### Hecke on torsion coherent cohomology
@@ -509,7 +530,7 @@ Work in the Calegari–Geraghty fine-curve setting: p is odd, N≥5, p∤N, Q is
 
 xT_x=tr(π₁)∘(φ*)^⊗n∘π₂*.
 
-The inverse Hodge isogeny map supplies negative powers, since x is a unit. For y∣Q use the analogous U_y correspondence with the forbidden subgroup omitted. The compactified projections, isogeny maps and trace belong to ModularCurvesPartII. The operators recover section and analytic Hecke at i=0, commute with coefficient maps, diamonds and one another, and yield the corresponding O[group]-polynomial algebra action. Torsion coefficients remain legitimate; no assertion that the operator image is torsion-free is used.
+The inverse Hodge isogeny map supplies negative powers, since x is a unit. For y∣Q use the analogous U_y correspondence with the forbidden subgroup omitted. The compactified projections, isogeny maps and trace belong to ModularCurvesPartII. The operators recover section and analytic Hecke at i=0, commute with coefficient maps, diamonds and one another, and yield the corresponding O[group]-polynomial algebra action. Torsion coefficients remain legitimate; no assertion that the operator image is torsion-free is used. This odd-p integral package is distinct from the all-prime field package above.
 
 The interface consists of:
 
@@ -587,7 +608,7 @@ The interface consists of:
 
 - `TauCeti.GeometricHecke.fricke_not_involution` (non-example): At weight 2, x>1 and trivial diamond character, on a nonzero characteristic-zero cohomology module W_x²=x² id≠id. On the zero module the two endomorphisms coincide; for example the genus-zero X₁(5;2) has zero weight-two cusp H⁰.
 
-*Needs:* [Hecke on torsion coherent cohomology](#target-torsion-cohomology-hecke-action); [The auxiliary curve Fricke map](#target-curve-fricke-map).
+*Needs:* [Diamonds on coherent cohomology](#target-diamond-cohomology-action); [The auxiliary curve Fricke map](#target-curve-fricke-map).
 
 ([Calegari–Geraghty 2018](https://www.math.uchicago.edu/~fcale/papers/CG.pdf), 3.2.3, printed pp.313–316.)
 
@@ -719,6 +740,8 @@ The interface consists of:
 
 On expansions use the coefficient-linear V of the exact Mathlib supplier contract, and define formal U by U(Σa_mq^m)=Σa_(pm)q^m. Its intended signature is `qU (p : ℕ) : PowerSeries A →ₗ[A] PowerSeries A` for every commutative ring A; its coefficient API is `qU_coefficient`. Then UV=1 for p>0. The formal weight-one identity `seriesHecke_weightOne` is seriesHecke(p,1,d,f)=U(f)+dV(f). Absolute Frobenius instead sends f to f^p, with coefficients a_m^p. These maps coincide only under the appropriate coefficient restriction; the field F₂(t) distinguishes them immediately. The geometric meaning of the form operations uses relative Frobenius and Verschiebung of elliptic curves and the actual modular correspondence.
 
+The theorem `seriesTheta_expand` gives Θ(V(f))=p V(Θ(f)) over every commutative coefficient ring for p>0, where Θ is `seriesTheta`. Its characteristic-p specialization `seriesTheta_expand_charP` gives Θ(V(f))=0. The scalar p cannot be dropped for torsion coefficients.
+
 The Hecke formula is T_p=U+p^(k−1)⟨p⟩V. In characteristic p it reduces to U for k≥2, while in weight one it remains U+⟨p⟩V. Defining U on arbitrary series is not a proof that it preserves a specified geometric form space; that assertion uses its correspondence or the weight-one construction.
 
 The interface consists of:
@@ -732,6 +755,10 @@ The interface consists of:
 - `TauCeti.ModPModularForms.qV_X` (computation): V(q)=q^p and U(q^p)=q.
 
 - `TauCeti.ModPModularForms.qV_linear_not_power` (non-example): Over F₂(t), V(tq)=tq² while (tq)²=t²q².
+
+- Over ℤ/9 with p=3, Θ(V(q))=3q³≠0, whereas over F₃ it is zero.
+
+- Over ℤ, V(q²)=q^(2p) and Θ(V(q²))=2p q^(2p)=p V(Θ(q²)); the identity holds for arbitrary series coefficient by coefficient.
 
 - `TauCeti.ModPModularForms.qU_constant` (degenerate): U fixes constants; V also fixes constants. For p≥2, U(q)=0 although q≠0 over a nonzero ring, so U is not injective.
 
@@ -775,15 +802,44 @@ If two weights give congruent expansions and at least one coefficient is nonzero
 
 ([Katz 1973](https://web.math.princeton.edu/~nmk/old/padicpropMFMS.pdf), 4.4.1–4.4.2, printed pp.151–152 (Katz running mark Ka-83/84).)
 
+<a id="target-torsion-section-socles"></a>
+
+#### Socles of torsion section modules
+
+The theorem `injective_of_injective_on_uniformizer_torsion` states: for a commutative ring O, an element ϖ, an O-module M with `Module.IsTorsion' M (Submonoid.powers ϖ)`, and an O-linear map F:M→P, injectivity on M[ϖ] implies injectivity on M. No torsion assumption on P is needed. Indeed, a nonzero kernel element killed by a least power ϖ^r yields a nonzero kernel element ϖ^(r−1)x killed by ϖ.
+
+For a DVR O with residue field κ, a flat fine modular curve X/O, an invertible sheaf L=ω^n or ω^n(−C), and m≥1, identify
+
+H⁰(X,L⊗O/ϖ^m)[ϖ] ≃ H⁰(X_κ,L_κ).
+
+The coefficient injection κ→O/ϖ^m is multiplication by ϖ^(m−1). Flatness of L over O identifies the sheaf kernel of multiplication by ϖ with L_κ through this injection; left exactness of H⁰ gives the section-space identification. This is not reduction of integral sections and does not require H¹(L)[ϖ]=0 or weight-one liftability. It commutes with coefficient-linear integral Hecke maps and diamonds, and with direct sums used in doubling.
+
+**Checks.**
+
+- For m=1 the identification is the identity on special-fibre sections.
+- For O=ℤ₃,m=2,L=O_X, the coefficient socle is 3ℤ/9≃F₃ through a↦3a; reduction modulo 3 of that socle is zero.
+- A special-fibre weight-one section need not lift integrally, but still gives a socle section by this injection.
+- Without power torsion the criterion fails: the zero map K→0 has zero source socle and is not injective, where K is the fraction field of a DVR.
+
+*Needs:* [Geometric modular forms](#target-hodge-bundle-with-tate-curve-normalization); [Functorial coefficient maps](#target-coefficient-maps); [Hecke on torsion coherent cohomology](#target-torsion-cohomology-hecke-action).
+
+([Calegari–Geraghty 2018](https://www.math.uchicago.edu/~fcale/papers/CG.pdf), proof of Theorem3.11, printed pp.327–328, socle reduction; the coefficient-kernel and least-power arguments above.)
+
 <a id="target-weight-one-tp-with-torsion-coefficients"></a>
 
 #### Weight-one T_p with torsion coefficients
 
-Take p≥3, N≥5 with p∤N, and coefficients O/ϖ^m. Import ModularCurvesPartII §9.11 coherentHecke and coherentHecke_baseChange for the weight-one T_p on the actual Γ₁(N) section space, including these torsion coefficients, and compare its normalization with Gross's operator: its expansion is U+⟨p⟩V. Choose an integral Hasse power A_m congruent to 1 modulo ϖ^m and high enough to reach weight k′ for which p^(k′−1) and the required cyclotomic-power differences vanish modulo ϖ^m. Multiplication gives φ into that one high-weight space. The two doubling maps are φ and φT_p−U_highφ; the second has expansion ⟨p⟩Vf, and both maps have the same target Hodge weight.
+Take p≥3, N≥5 with p∤N, a DVR O of residue characteristic p, and coefficients O/ϖ^m with m≥1. Import ModularCurvesPartII §9.11 coherentHecke and coherentHecke_baseChange for the weight-one T_p on the actual Γ₁(N) section space, including these torsion coefficients, and compare its normalization with Gross's operator: its expansion is U+⟨p⟩V. Choose an integral Hasse power A_m congruent to 1 modulo ϖ^m and high enough to reach weight k′ for which p^(k′−1) and the required cyclotomic-power differences vanish modulo ϖ^m. Multiplication gives φ into that one high-weight space. The two doubling maps are φ and φT_p−U_highφ; the second has expansion ⟨p⟩Vf, and both maps have the same target Hodge weight.
 
-Theta kills the V contribution, and theta is injective in weights 1 through p−2 in the stated geometric setting. Section preservation, level and coefficient compatibility come from that integral coherent Hecke supplier; this target constructs the high-weight shift and the two doubling maps. The GL₂ weight-one argument here is distinct from the higher-dimensional symplectic result.
+Prove that ψ(f,g)=φf+(φT_p−U_highφ)g is injective by restricting its kernel to the source ϖ-torsion and using [Socles of torsion section modules](#target-torsion-section-socles). Identify that socle with two copies of the characteristic-p weight-one section space. On their expansions φ is the identity, so a kernel relation becomes f+⟨p⟩Vg=0. Only here does theta kill the V term. Katz theta is injective in weights 1 through p−2, hence f=0; coefficient selection UV=1 and the invertible diamond give g=0. The torsion-module criterion then proves injectivity over O/ϖ^m. This uses neither a geometric theta operator on O/ϖ^m nor vanishing of the formal theta of V there. Section preservation, level and coefficient compatibility come from the integral coherent Hecke supplier.
 
-*Needs:* ModularCurvesPartII §9.11; [Coefficient-linear U and V](#target-frobenius-verschiebung-on-expansions); [Theta and filtration](#target-theta-operator-filtration-and-hecke-commutation); [Deligne congruence and small-prime lifts](#target-deligne-congruence-and-the-explicit-p-equals-2-3-liftings); [Hecke on torsion coherent cohomology](#target-torsion-cohomology-hecke-action).
+**Checks.**
+
+- At p=3 the socle argument uses the injective weight-one theta map, since 1=p−2.
+- At m=1 the entire doubling source is the characteristic-p section space, and theta kills its V contribution directly.
+- At O=ℤ₃,m=2, formal theta sends V(q) to 3q³≠0; injectivity is instead tested on the socle and then extended to the whole source.
+
+*Needs:* [Socles of torsion section modules](#target-torsion-section-socles); ModularCurvesPartII §9.11; [Coefficient-linear U and V](#target-frobenius-verschiebung-on-expansions); [Theta and filtration](#target-theta-operator-filtration-and-hecke-commutation); [Deligne congruence and small-prime lifts](#target-deligne-congruence-and-the-explicit-p-equals-2-3-liftings); [Hecke on torsion coherent cohomology](#target-torsion-cohomology-hecke-action).
 
 ([Calegari–Geraghty 2018](https://www.math.uchicago.edu/~fcale/papers/CG.pdf), Proof of Theorem3.11, printed pp.327–328; [Calegari–Geraghty 2020](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), Proof of Lemma 8.14, local p.66; [Katz 1977](https://web.math.princeton.edu/~nmk/old/modformcharp.pdf), II, Theorem and Corollaries, printed pp.55–56.)
 
@@ -797,7 +853,7 @@ Let p∤N, N≥5, and work over F̄_p. The elliptic Hasse zero locus Z⊂X₁(N)
 
 SS_k=H⁰(Z,ω^k|_Z)≃⊕_(z∈Z)ω_z^k.
 
-Evaluation at each point gives extensionality. Restriction of global forms and the fibrewise tensor-product identifications define the restriction and multiplication maps. The Hecke action is induced from the restricted prime-to-p correspondences. The exact sheaf sequence is 0→ω^(k−p+1)→ω^k→ω^k|_Z→0, with the first map multiplication by A. The full supersingular locus here is nonempty. For a general empty finite locus the section space is zero; on this supersingular locus negative-weight fibres still have sections, and weight-zero sections are arbitrary functions on Z rather than only constants. Prove the simple-zero assertion for the elliptic Hasse section using the supplied local Igusa geometry and its deformation parameters; a direct-sum description alone does not prove it.
+Evaluation at each point gives extensionality. Restriction of global forms and the fibrewise tensor-product identifications define the restriction and multiplication maps. For primes ℓ∤pN, the T_ℓ^* action is induced from the restricted good-prime correspondences. The exact sheaf sequence is 0→ω^(k−p+1)→ω^k→ω^k|_Z→0, with the first map multiplication by A. The full supersingular locus here is nonempty. For a general empty finite locus the section space is zero; on this supersingular locus negative-weight fibres still have sections, and weight-zero sections are arbitrary functions on Z rather than only constants. Prove the simple-zero assertion for the elliptic Hasse section using the supplied local Igusa geometry and its deformation parameters; a direct-sum description alone does not prove it.
 
 The interface consists of:
 
@@ -819,7 +875,7 @@ The interface consists of:
 
 - `TauCeti.ModPModularForms.supersingularForms_negative` (non-example): On a nonempty finite supersingular locus every Hodge power, including negative weights, has a nonzero section after fibre trivializations; this contrasts with global negative-weight forms.
 
-*Needs:* [Geometric modular forms](#target-hodge-bundle-with-tate-curve-normalization); [The elliptic Hasse invariant](#target-hasse-invariant-as-a-form-of-weight-p-minus-one); [Hecke on torsion coherent cohomology](#target-torsion-cohomology-hecke-action); ModularCurvesPartII §11.1.
+*Needs:* [Geometric modular forms](#target-hodge-bundle-with-tate-curve-normalization); [The elliptic Hasse invariant](#target-hasse-invariant-as-a-form-of-weight-p-minus-one); [All-prime field coherent Hecke and trace duality](#target-field-coherent-hecke-action); ModularCurvesPartII §11.1.
 
 ([Edixhoven](https://websites.math.leidenuniv.nl/edixhoven/public_html_rennes/publications/weight.dvi), 7.1, equation7.1.1, author DVI p.23.)
 
@@ -829,11 +885,17 @@ The interface consists of:
 
 Differentiate the Hasse section to first order at its simple zero divisor and use Kodaira–Spencer to obtain a nowhere-zero B∈SS_(p+1). Multiplication by B identifies SS_k with SS_(k+p+1) for every integer k, and satisfies
 
-T_ℓ(Bf)=ℓ B T_ℓ(f),  ℓ≠p.
+T_ℓ^*(Bf)=ℓ B T_ℓ^*(f),  ℓ prime and ℓ∤pN.
 
-Hence multiplication by B^(p−1) gives a Hecke-equivariant period p²−1. The weight-(p+1) comparison has a Hecke twist, and B is a section only on the supersingular points; no global form with constant expansion 1 is asserted. The construction uses the simple Hasse divisor, its restricted line and the isogeny compatibility of KS.
+Hence multiplication by B^(p−1) gives a good-prime Hecke-equivariant period p²−1. The weight-(p+1) comparison has a Hecke twist, and B is a section only on the supersingular points; no global form with constant expansion 1 is asserted. The construction uses the simple Hasse divisor, its restricted line and the isogeny compatibility of KS. This target is on X₁(N), with no auxiliary Q or U operators.
 
-*Needs:* [Supersingular section spaces](#target-supersingular-section-space); [Logarithmic Kodaira–Spencer](#target-logarithmic-kodaira-spencer); [The elliptic Hasse invariant](#target-hasse-invariant-as-a-form-of-weight-p-minus-one); [Hecke on torsion coherent cohomology](#target-torsion-cohomology-hecke-action).
+**Checks.**
+
+- At p=2,N=5,ℓ=3, B has weight3 and T₃^*(Bf)=B T₃^*(f), since 3=1 in characteristic two.
+- At p=5 four multiplications give weight period24 and remove the twist because ℓ⁴=1 in characteristic five for every good prime ℓ.
+- At N=5 the displayed T_ℓ^* identity excludes ℓ=5; it makes no assertion about the bad-level U₅ correspondence.
+
+*Needs:* [Supersingular section spaces](#target-supersingular-section-space); [Logarithmic Kodaira–Spencer](#target-logarithmic-kodaira-spencer); [The elliptic Hasse invariant](#target-hasse-invariant-as-a-form-of-weight-p-minus-one); [All-prime field coherent Hecke and trace duality](#target-field-coherent-hecke-action).
 
 ([Edixhoven](https://websites.math.leidenuniv.nl/edixhoven/public_html_rennes/publications/weight.dvi), Proposition7.2 and its second proof, author DVI pp.23–24.)
 
@@ -841,7 +903,7 @@ Hence multiplication by B^(p−1) gives a Hecke-equivariant period p²−1. The 
 
 #### The root-dependent Hodge Fricke operator
 
-After extending O to contain ζ_(NQ), use the supplied root-dependent curve map w_ζ and its universal NQ-isogeny. Combine curve pullback with the isogeny differential on integer Hodge powers to define W_ζ on the actual cohomology modules, respecting the Δ quotient. It is natural in all coefficient modules, including O/ϖ^m and K/O, and has a dual action by precomposition λ↦λ∘W_ζ. At weight zero the Hodge factor is the identity and the operation is curve pullback. Its dual evaluation identity fixes the convention needed by the twisted duality below. Replacing ζ by ζ⁻¹ negates the dual-kernel generator; the resulting −1 isomorphism acts by −1 on ω, so W_(ζ⁻¹)=(−1)^n W_ζ in weight n even though the coarse curve maps coincide. The curve construction is imported; this target supplies the Hodge and coefficient-module action.
+Over a field of any characteristic prime to NQ containing ζ_(NQ), or after extending O to contain ζ_(NQ) with NQ a unit in O, use the supplied root-dependent curve map w_ζ and its universal NQ-isogeny. Combine curve pullback with the isogeny differential on integer Hodge powers to define W_ζ on the actual cohomology modules, respecting the Δ quotient. It is natural in all coefficient modules, including O/ϖ^m and K/O, and has a dual action by precomposition λ↦λ∘W_ζ. At weight zero the Hodge factor is the identity and the operation is curve pullback. Its dual evaluation identity fixes the convention needed by the twisted duality below. Replacing ζ by ζ⁻¹ negates the dual-kernel generator; the resulting −1 isomorphism acts by −1 on ω, so W_(ζ⁻¹)=(−1)^n W_ζ in weight n even though the coarse curve maps coincide. The curve construction is imported; this target supplies the Hodge and coefficient-module action.
 
 The interface consists of:
 
@@ -869,15 +931,28 @@ The interface consists of:
 
 #### Twisted duality and the supersingular boundary
 
-In the fine X_Δ(Q) setting, enlarge O to contain ζ_(NQ). Under the relative coherent Serre-duality and finite-free/base-change hypotheses, combine duality with KS and the dual Hodge action W_ζ to obtain
+For the odd-p torsion package on the fine X_Δ(Q), enlarge O to contain ζ_(NQ). Under the relative coherent Serre-duality and finite-free/base-change hypotheses, combine duality with KS and the dual Hodge action W_ζ to obtain
 
 Φ:H¹(X,ω^(2−n)(−C)⊗K/O) ≃ Hom_O(H⁰(X,ω^n),K/O).
 
-Its twisted Hecke identity is ΦT_x=x^(1−n)T_x∨Φ, with the same identity for the allowed U_x, and Φ⟨a⟩=⟨a⟩∨Φ in this convention. The scalar is 1 when n=1. Bare Serre duality does not supply these identities. SchemeAndStackFoundations §§2.19–2.21 supply proper adjunction, trace and relative duality. This target also builds their K/O-coefficient specialization and finite-flat correspondence comparison under the stated finite-free and base-change hypotheses; field-only duality is insufficient.
+For good primes x∤pNQ its twisted Hecke identity is ΦT_x=x^(1−n)T_x∨Φ. Separately, for the selected auxiliary primes y∣Q it satisfies ΦU_y=y^(1−n)U_y∨Φ, and Φ⟨a⟩=⟨a⟩∨Φ in this convention. The scalar is 1 when n=1. Bare Serre duality does not supply these identities. SchemeAndStackFoundations §§2.19–2.21 supply proper adjunction, trace and relative duality. This target also builds their K/O-coefficient specialization and finite-flat correspondence comparison under the stated finite-free and base-change hypotheses; field-only duality is insufficient.
 
-For the Hasse sequence over F̄_p, the connecting map and the twisted comparison give Φ:SS_k→S_(p+1−k)∨ and an exact sequence M_k→SS_k→S_(p+1−k)∨. Here the cusp twist belongs on the dual target, and Φ need not be an isomorphism. The relation is ΦT_ℓ=ℓ^(k−1)T_ℓ∨Φ. This is the supersingular boundary input to weight reduction.
+Separately, let p be any prime, N≥5 with p∤N, and X=X₁(N) over F̄_p, with a chosen primitive Nth root ζ. For every n∈ℤ, field Serre duality, KS and the dual root-Fricke action give
 
-*Needs:* [Logarithmic Kodaira–Spencer](#target-logarithmic-kodaira-spencer); [Hecke on torsion coherent cohomology](#target-torsion-cohomology-hecke-action); [The root-dependent Hodge Fricke operator](#target-edixhoven-root-fricke-operator); SchemeAndStackFoundations §2.19; SchemeAndStackFoundations §§2.19–2.21; SchemeAndStackFoundations §§2.20–2.21, 3.3; [Supersingular section spaces](#target-supersingular-section-space); [Cusp forms and the cusp ideal](#target-cusp-ideal-section-forms); SchemeAndStackFoundations §2.20.
+Φ_n:H¹(X,ω^(2−n)(−C))≃Hom_F̄_p(M_n,F̄_p),
+
+with Φ_n T_ℓ^*=ℓ^(1−n)(T_ℓ^*)∨Φ_n for primes ℓ∤pN and the transported diamond identity. Prove this using the field correspondence/trace adjunction above and the Hodge isogeny scaling; it requires no integral K/O comparison. The same construction with the cusp twist exchanged gives H¹(X,ω^(2−n))≃S_n∨ and the same Hecke scalar. Both comparisons commute with field extension.
+
+For the Hasse sequence, take n=p+1−k. Its connecting map followed by the second comparison gives Φ:SS_k→S_(p+1−k)∨ and an exact sequence M_k→SS_k→S_(p+1−k)∨. Here the cusp twist belongs on the dual target, and Φ need not be an isomorphism. For primes ℓ∤pN the relation is ΦT_ℓ^*=ℓ^(k−1)(T_ℓ^*)∨Φ, since ℓ^(−p)=ℓ^(−1) in characteristic p. This all-prime field sequence is the supersingular boundary input to weight reduction.
+
+**Checks.**
+
+- At p=2,N=5,ℓ=3, supersingular restriction, the Hasse connecting map and Φ are defined; ΦT₃^*=(T₃^*)∨Φ because every integer power of 3 is 1 in F̄₂.
+- For n=1 the duality scalar is 1, both in the field comparison and in the odd-p K/O comparison.
+- If k>p+1, the dual cusp space has negative weight and vanishes, so the exact sequence makes M_k→SS_k surjective; it does not make Φ an isomorphism.
+- At an auxiliary prime y∣Q only the separately constructed U_y identity in the odd-p integral package applies; the field X₁(N) statement uses good primes only.
+
+*Needs:* [Hecke on torsion coherent cohomology](#target-torsion-cohomology-hecke-action) for the odd-p K/O assertion; [Logarithmic Kodaira–Spencer](#target-logarithmic-kodaira-spencer); [All-prime field coherent Hecke and trace duality](#target-field-coherent-hecke-action); [The root-dependent Hodge Fricke operator](#target-edixhoven-root-fricke-operator); SchemeAndStackFoundations §2.19; SchemeAndStackFoundations §§2.19–2.21; SchemeAndStackFoundations §§2.20–2.21, 3.3; [Supersingular section spaces](#target-supersingular-section-space); [Cusp forms and the cusp ideal](#target-cusp-ideal-section-forms); SchemeAndStackFoundations §2.20.
 
 ([Calegari–Geraghty 2018](https://www.math.uchicago.edu/~fcale/papers/CG.pdf), 3.2.5, after Lemma3.7, printed pp.322–323; [Edixhoven](https://websites.math.leidenuniv.nl/edixhoven/public_html_rennes/publications/weight.dvi), Proposition7.3 and Lemma7.4, author DVI pp.24–25.)
 
@@ -941,9 +1016,15 @@ The proof interface includes the general theta-cycle argument cited to Jochnowit
 
 #### Weight reduction to at most p+1
 
-For an eigenform f of type (N,k,ε), with p∤N, find an eigenform g of type (N,k′,ε) and an integer 0≤i≤p−1 such that k′≤p+1 and f and θ^ig have the same T_ℓ^* eigenvalues away from p. The claim controls that good-prime eigensystem, not its T_p eigenvalue.
+For an eigenform f of type (N,k,ε), with p∤N, find an eigenform g of type (N,k′,ε) and an integer 0≤i≤p−1 such that k′≤p+1 and f and θ^ig have the same T_ℓ^* eigenvalues for primes ℓ∤pN. The claim controls that good-prime eigensystem, not its T_p eigenvalue.
 
 At N≥5 the proof uses the Hasse cohomology sequence, the weight-(p+1) supersingular periodicity with its Hecke twist and the boundary comparison SS_k→S_(p+1−k)∨. To extract eigenvectors, use support over the finite-dimensional commutative image algebra and its preservation by field duality; a semisimple Hecke action is unnecessary. Smaller levels are obtained through rigidifying covers and G-invariants only when p∤#G. The exceptional N=1,p=2,3 cases require Serre's theorem in Astérisque 24–25, Theorem 3, as an additional source input. These form-theoretic operations do not themselves prove universal residual modularity or optimize the classical target.
+
+**Checks.**
+
+- At p=2,N=5 the field sequence and twisted duality use T₃^*, and the reduced weight bound is k′≤3; no odd-p torsion package is required.
+- A nonsemisimple finite Hecke image, such as κ[t]/(t²) acting on itself, has the same support as its field dual. The extraction step therefore retains its eigencharacter without assuming diagonalizability.
+- At N=5 the conclusion controls T_ℓ^* for ℓ∤5p and imposes no U₅ eigenvalue or T_p eigenvalue.
 
 *Needs:* [Theta cycles](#target-theta-cycles-and-the-small-characteristic-tables); [Theta and filtration](#target-theta-operator-filtration-and-hecke-commutation); [Integral geometric Hecke operators](#target-integral-hecke-operators-from-q-expansions); [Supersingular section spaces](#target-supersingular-section-space); [Twisted supersingular periodicity](#target-supersingular-hecke-twisted-periodicity); [Twisted duality and the supersingular boundary](#target-twisted-serre-duality-hecke); [The elliptic Hasse invariant](#target-hasse-invariant-as-a-form-of-weight-p-minus-one).
 
@@ -951,7 +1032,7 @@ At N≥5 the proof uses the Hasse cohomology sequence, the weight-(p+1) supersin
 
 ### Examples
 
-Over F₂(t), V(tq)=tq² and (tq)²=t²q² differ. The supersingular weight-(p+1) multiplier changes T_ℓ eigenvalues by ℓ; at p=5, four applications have weight period 24 and remove that twist because ℓ⁴=1. In the torsion weight-one formula the V term survives and theta kills it.
+Over F₂(t), V(tq)=tq² and (tq)²=t²q² differ. The supersingular weight-(p+1) multiplier changes good-prime T_ℓ^* eigenvalues by ℓ; at p=5, four applications have weight period 24 and remove that twist because ℓ⁴=1. In the torsion weight-one formula the V term survives; theta kills it on the characteristic-p socle.
 
 ### Dependencies
 
