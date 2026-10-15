@@ -1591,12 +1591,13 @@ theorem coeff_formalCharacter_eq_freudenthalRHS_div
 
 /-- **A Chevalley system.** Before the presentation theorem one must fix, for each simple root `αᵢ`,
 normalized generators `eᵢ ∈ Lα`, `fᵢ ∈ L_{-α}`, `hᵢ = αᵢ^∨` with `⁅eᵢ, fᵢ⁆ = hᵢ` and the correct
-`⁅hᵢ, eᵢ⁆ = ⟨αᵢ, αⱼ^∨⟩ eⱼ` scalings: the root spaces are only lines, so the `eᵢ`, `fᵢ` require an
+`⁅hᵢ, eⱼ⁆ = ⟨αⱼ, αᵢ^∨⟩ eⱼ` scalings: the root spaces are only lines, so the `eᵢ`, `fᵢ` require an
 explicit normalization (and sign choice) for the Cartan-matrix and higher Serre relations to hold with
 Mathlib's `CartanMatrix.Relations` conventions. The data is bundled — root-space membership for
 `eᵢ`/`fᵢ`, `hᵢ` the coroot vector, `⁅eᵢ, fᵢ⁆ = hᵢ`, and the `h`-eigenvalue relations — because a
 bare "nonzero functions exist" conclusion would be unrelated to the Serre presentation this
-milestone feeds; the higher Serre relations (`ad(eᵢ)^{1-aᵢⱼ} eⱼ = 0`) are consumed by
+milestone feeds; writing `A = base.cartanMatrix`, the higher Serre relations for distinct simple
+roots (`ad(eᵢ)^{1-A j i} eⱼ = 0`, and likewise for `f`) are consumed by
 `serre_presentation_equiv` below. -/
 theorem exists_chevalleySystem (base : (LieAlgebra.IsKilling.rootSystem H).Base) :
     ∃ e f : H.root → L,
@@ -1610,7 +1611,7 @@ theorem exists_chevalleySystem (base : (LieAlgebra.IsKilling.rootSystem H).Base)
 /-- **The Serre presentation** of a **simple** `L`. Mathlib builds `Matrix.ToLieAlgebra K CM`, the
 quotient of the free Lie algebra by the Serre relations of a Cartan matrix `CM`
 (`Mathlib/Algebra/Lie/SerreConstruction.lean`). For simple `L`, the Chevalley system of
-`exists_chevalleySystem` satisfies exactly the Serre relations of `base.cartanMatrix` and the induced
+`exists_chevalleySystem` satisfies exactly the Serre relations of `base.cartanMatrix.transpose` and the induced
 map is a Lie-algebra isomorphism. **Orientation pin:** Mathlib's
 `base.cartanMatrix i j` is `αᵢ(hⱼ)` while `Matrix.ToLieAlgebra CM` imposes `⁅Hᵢ, Eⱼ⁆ = CM i j • Eⱼ`
 `= αⱼ(hᵢ) • Eⱼ`, so the Serre matrix is the **transpose** `base.cartanMatrixᵀ` — invisible in
@@ -1969,11 +1970,17 @@ theorem gl_dual_standard_pieri [IsAlgClosed K] {n : ℕ} (mu : Fin n → K)
 /-- **The single-weight isotypic criterion for `gl_n`** (what a Fock-space-style decomposition
 consumes; the Layer 6 semisimple-level criterion does not apply to `gl_n` directly, so the
 statement is pinned here at the `gl` level too): if every highest weight vector of a nontrivial
-finite-dimensional `M` has weight `μ`, then `M` is a direct sum of copies of one irreducible with
-a highest weight vector of weight `μ`. -/
+finite-dimensional `M` has weight `μ`, and `n > 0` with the identity matrix acting semisimply,
+then `M` is a direct sum of copies of one irreducible with a highest weight vector of weight `μ`.
+The identity spans the centre, so `reductive_complete_reducibility` applies; each simple summand
+has a highest weight vector and is the unique irreducible of weight `μ`. The nonzero nilpotent
+Jordan action of `gl₁` shows why the central hypothesis cannot be omitted. -/
 theorem gl_isotypic_of_forall_isGlHighestWeightVector [IsAlgClosed K] {n : ℕ} {M : Type u}
     [AddCommGroup M] [Module K M] [LieRingModule (Matrix (Fin n) (Fin n) K) M]
     [LieModule K (Matrix (Fin n) (Fin n) K) M] [FiniteDimensional K M] [Nontrivial M]
+    (hn : 0 < n)
+    (hc : (toEnd K (Matrix (Fin n) (Fin n) K) M
+      (1 : Matrix (Fin n) (Fin n) K)).IsSemisimple)
     (mu : Fin n → K)
     (h : ∀ (nu : Fin n → K) (v : M), IsGlHighestWeightVector nu v → nu = mu) :
     ∃ (S : LieSubmodule K (Matrix (Fin n) (Fin n) K) M) (m : ℕ),
