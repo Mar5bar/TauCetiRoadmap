@@ -24,7 +24,7 @@ The layers are:
 | Layer | Title | Headline targets |
 | --- | --- | --- |
 | R02.1 | Compact coefficients, limits and continuous extensions | Tower supplier contract, Tate's inverse-limit theorem, rationalisation, `HomPt`, the splitting torsor, continuous factor-set extensions, unbalanced cochain products |
-| R02.2 | The Hochschild–Serre spectral sequence, transgression and residue maps | `HochschildSerre.spectralSequence`, transgression as a cup product, descent along open subgroups, Laurent residue sequences, procyclic H¹ |
+| R02.2 | The Hochschild–Serre spectral sequence, transgression and residue maps | `HochschildSerre.spectralSequence`, transgression as a cup product, descent along open subgroups, Laurent residue sequences, supplied procyclic H¹ |
 | R02.3 | Restricted ramification and the `S`-idele class formation | Multiplicative completion, S-unit rank and fundamental systems, finite Galois localization, `maxUnramifiedOutside`, `galoisGroupS`, finiteness of `H¹(G_S, M)`, localisation maps, `S`-idele classes, `PClassFormation`, function-field class-field inputs, `Шⁱ`, exponent-two fields |
 | R02.4 | Arithmetic duality and local–global obstruction groups | Tate's duality for class formations, Poitou–Tate duality, `cd_p G_S ≤ 2`, global Euler characteristic, function-field Poitou–Tate, finite compact support, all-place `Ш` duality, Grunwald–Wang, character roots, torus duality |
 | D7 | Derived continuous cohomology and compact arithmetic duality | derived tensor and limit comparisons, Grothendieck local duality, admissible coefficients, `RΓ_cont`, compact Hochschild–Serre, derived local duality, compact support, derived Poitou–Tate duality, lattice Poitou–Tate, abelian-variety local duality, dual local conditions and mapping-fibre duality |
@@ -112,6 +112,9 @@ and Khare–Wintenberger numerics of Layer R02.6.
 
 **Further roadmaps this roadmap builds on.**
 
+- *PadicPeriodRings* §0.1 supplies `procyclic_H1_equiv_coinvariants`, natural in the
+  coefficient module, for discrete torsion, finitely generated `ℤ_p` and finite-dimensional
+  `ℚ_p` coefficients with the stated continuous actions, together with its Checks.
 - *PerfectoidTowers* §P9.0 supplies lifting continuous cochains along surjections of discrete
 spaces,
   continuous cochains into inverse limits, and the comparison with Mathlib's homogeneous cochains
@@ -383,6 +386,10 @@ as inputs; and Galois representations attached to automorphic forms.
   ownership*.
 
 ### From further roadmaps
+
+| Supplier | Exact interface consumed |
+| --- | --- |
+| PadicPeriodRings | §0.1: `procyclic_H1_equiv_coinvariants` for discrete torsion, finitely generated `ℤ_p` and finite-dimensional `ℚ_p` coefficients, with its continuity hypotheses, naturality and Checks. |
 
 - `EllipticCurves` Layer 7 *Selmer structures, the Selmer group, and Sha*:
   local conditions and the Selmer kernel for a general discrete Galois module.
@@ -1344,37 +1351,14 @@ inverse-limit theorem* (Layer R02.1); *Rationalisation of lattice cohomology* (L
 - Part (1) needs no finiteness: it holds for every profinite `G` and `T = ℤ_p`, where it says that
   `Hom_cts(G/H, ℤ_p) → Hom_cts(G, ℤ_p) → Hom_cts(H, ℤ_p)` is exact on the left and in the middle.
 
-### R02.2.3a H¹ of a procyclic group
+### R02.2.3a Supplied H¹ of a procyclic group
 
-**H¹ of a procyclic group.** Let Γ ≅ Ẑ with topological generator σ (for example Gal(k^s/k) for a
-finite field k, with σ the arithmetic Frobenius), and C a discrete torsion Γ-module, a finitely
-generated ℤ_p-module with continuous action, or a finite-dimensional ℚ_p-space with continuous
-action. Prove `procyclic_H1_equiv_coinvariants`: evaluation of continuous 1-cocycles at σ induces an
-isomorphism H¹(Γ, C) ≅ C/(σ − 1)C, natural in C. Prove this as follows. A continuous cocycle is
-determined by its value at σ, because the cocycle identity determines it on the dense subgroup σ^ℤ;
-conversely every c ∈ C defines a cocycle on σ^ℤ which extends continuously to Γ: for discrete
-torsion C the stabiliser of c is open and the partial sums 1 + σ + … + σ^{n−1} applied to c are
-periodic, and for compact or rational coefficients pass to the finite quotients C/p^mC (or a
-lattice) and to the limit (PerfectoidTowers §P9.0, *Continuous cochains into an inverse limit*).
-Coboundaries
-evaluate to (σ − 1)C. (Rubin (1999 draft), Appendix B, Lemma 2.8 and its proof, printed p. 153 (PDF
-p. 163), which reduces to finite C by limits and cites Serre, *Local Fields*, §XIII.1, for that
-case.)
+Import `procyclic_H1_equiv_coinvariants` from PadicPeriodRings §0.1, with its coefficient
+hypotheses, naturality and Checks. For a procyclic residue Galois group Γ ≅ Ẑ with arithmetic
+Frobenius σ, use the supplied identification H¹(Γ, C) ≅ C/(σ − 1)C in the unramified local
+calculations of Layers R02.3 and R02.6. Use the supplied declaration directly.
 
-**Checks** (procyclic H¹).
-
-- Γ = Ẑ, C = ℤ/p trivial: H¹ = Hom(Ẑ, ℤ/p) = ℤ/p = C/(σ − 1)C.
-- Γ = Ẑ acting on C = ℤ_p with σ acting by 1 + p (through the ℤ_p-factor of Ẑ): (σ − 1)C = pℤ_p, so
-  H¹ = ℤ/p, finite although C is torsion free.
-- p odd, Γ = Ẑ, C = ℚ_p with σ acting by 2 ∈ ℤ_p^×: σ − 1 is invertible, so H¹ = 0, while for the
-  trivial action H¹ = Hom_cont(Ẑ, ℚ_p) ≅ ℚ_p, through the ℤ_p-factor of Ẑ. In the previous check the
-  invariants vanish while H¹ = ℤ/p, so H¹ is the coinvariants and not the invariants. For p = 2 no
-  continuous action of Ẑ on ℚ₂ has σ acting by 2: the image of the compact group Ẑ in ℚ₂^× is
-  compact, hence lies in ℤ₂^×, which does not contain 2.
-
-*Needs:* PerfectoidTowers §P9.0 (*Continuous cochains into an inverse limit*); §R02.2.2 (*The
-five-term sequence
-and the transgression*); TauCetiRoadmap.ProfiniteCohomology Layer 5.
+*Needs:* PadicPeriodRings §0.1 (*H¹ of a procyclic group*).
 
 ### R02.2.4 Residue sequences of Laurent-series fields
 
@@ -1439,6 +1423,7 @@ residue field; the Witt sequence for an arbitrary perfect residue field is prove
 ### Dependencies
 
 - Earlier layers of this roadmap: R02.1.
+- PadicPeriodRings: §0.1 (procyclic H¹).
 - DerivedModuleAlgebra: §S.1 (the first-quadrant double-complex spectral sequence); §1.T.1
   (Mittag–Leffler towers and Milnor).
 - TauCetiRoadmap ProfiniteCohomology: Layers 3, 4, 5, 6, 7, 9, 10, 11, 12.
@@ -6141,13 +6126,14 @@ is not part of this target.
 *Proof sketch.* Over `k̄`, `Frob_q` acts semisimply on `ad⁰ρ̄ ⊗_k k̄` with eigenvalues `x, 1, x^{−1}`,
 where `x ≠ 1` is the ratio of the eigenvalues of `ρ̄(Frob_q)`; since `q ≡ 1 (mod ℓ)`, the twist `(1)`
 does not change them. For the procyclic group `Gal(ℚ_q^ur/ℚ_q)`, `H⁰` and `H¹` of a finite module
-`N` are the kernel and cokernel of `Frob − 1` on `N` (§R02.2.3a *H¹ of a procyclic group*). Their `k`-dimensions are unchanged by extending scalars to `k̄`, so both are
+`N` are the kernel and cokernel of `Frob − 1` on `N` (PadicPeriodRings §0.1, *H¹ of a procyclic
+group*). Their `k`-dimensions are unchanged by extending scalars to `k̄`, so both are
 one-dimensional. Over `k` itself, `H⁰(F_q, ad⁰ρ̄)` is the trace-zero part of the centraliser
 `k[ρ̄(Frob_q)]`, a two-dimensional algebra (`k × k` or a quadratic field) on which the trace is onto
 because `tr(1) = 2 ≠ 0`. ([Darmon–Diamond–Taylor, *Fermat's Last
 Theorem*](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §2.8, Lemma
 2.46 and its proof, with `x ∈ k̄`, p. 81 (author PDF, revised 9 September 2007).) *Needs:*
-§R02.2.3a *H¹ of a procyclic group*.
+PadicPeriodRings §0.1 (*H¹ of a procyclic group*).
 
 **Checks.**
 
@@ -6323,7 +6309,7 @@ modularity conjecture (II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pd
 Lemma 5.2(1) and its proof, which runs DDT's argument over `F`, Lemmas 5.3–5.4 and Proposition 5.5,
 pp. 47–48.) *Needs:* *The five-term sequence and the transgression* (Layer R02.2); *Changing one
 local condition* (Layer R02.5); ArithmeticGaloisRepresentations Layer 4, §4.4 and Layer 7, §7.7;
-§R02.2.3a *H¹ of a procyclic group*; EllipticCurves Layer 7
+PadicPeriodRings §0.1 (*H¹ of a procyclic group*); EllipticCurves Layer 7
 *Selmer structures, the Selmer group, and Sha*; §§D7.7.1–D7.7.2; *Khare–Wintenberger tangent and relation
 bounds*; Chebotarev Layer 10; ClassFieldTheory Layer 5.
 
@@ -6430,8 +6416,9 @@ Brauer obstructions* (Layer R02.4); ClassFieldTheory Layers 7 and 12; Chebotarev
 ### Dependencies
 
 - Earlier layers of this roadmap: R02.2, R02.3, R02.4, R02.5, D8.
-- Earlier targets: §R02.2.3a *H¹ of a procyclic group*, §R02.4.2 unramified annihilators
+- Earlier targets: §R02.4.2 unramified annihilators
   and §§D7.7.1–D7.7.2 dual local conditions.
+- PadicPeriodRings: §0.1 (procyclic H¹).
 - EllipticCurves: Layer 7 *Selmer structures, the Selmer group, and Sha*.
 - ArithmeticGaloisRepresentations: Layer 4, §4.4 (`GL2Subgroup.dickson_projectiveImage`) and §4.7 (`GL2Subgroup.sl2_submodules_charTwo`); Layer 7, §7.7
   (`ResidualImage.h1_SL2_adZero_eq_zero`).
@@ -6461,7 +6448,7 @@ Brauer obstructions* (Layer R02.4); ClassFieldTheory Layers 7 and 12; Chebotarev
 
 ## Downstream consumers
 
-- **SelmerIwasawaCohomology**: multiplicative completion and S-unit rank, procyclic H¹,
+- **SelmerIwasawaCohomology**: multiplicative completion and S-unit rank,
   dual local conditions, the long exact sequences and rationalisation of Layer R02.1;
   the carrier comparison supplied by PerfectoidTowers §P9.0; `G_{K,S}` and the localisation maps of
   Layer R02.3; Poitou–Tate

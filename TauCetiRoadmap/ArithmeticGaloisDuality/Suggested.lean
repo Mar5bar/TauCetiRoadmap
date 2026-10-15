@@ -25,6 +25,9 @@ Design choices made explicit here:
   PerfectoidTowers §P9.0 supplies continuous cochain lifting, inverse-limit cochain comparisons
   and the all-degree homogeneous comparison for jointly continuous actions. Topological cohomology
   carries the quotient topology; comparisons in derived categories use the underlying modules.
+* PadicPeriodRings §0.1 supplies `procyclic_H1_equiv_coinvariants` for discrete torsion,
+  finitely generated `ℤ_p` and finite-dimensional `ℚ_p` coefficients, with its continuity
+  hypotheses, naturality and Checks. Arithmetic residue-group calculations use that declaration.
 * In DerivedModuleAlgebra §1.T.1, `lim` and `lim¹` of an `ℕ`-indexed tower are the kernel
   and cokernel of the shift map
   `(a_n) ↦ (a_n - φ_n(a_{n+1}))`; the Mittag-Leffler condition is Mathlib's
@@ -877,7 +880,7 @@ duality, compactly supported cup products and Euler characteristics, the lattice
 Poitou–Tate sequences, `Ext` of abelian varieties by `G_m` on the big étale site of a field,
 abelian-variety local duality and the isogeny sequence; compatibility of local coefficient
 pairings, derived local complements, parametric mapping-fibre duality, ordinary-condition
-annihilators and nonsingular torsion classes; procyclic H¹; finite Galois localization and Sha
+annihilators and nonsingular torsion classes; finite Galois localization and Sha
 kernels, absolute finite Poitou–Tate consequences and the exceptional order-two class;
 the Greenberg–Wiles formula and the full real Tate trace sequence; and the Taylor–Wiles local count, dual-Selmer killing, the `Σ`-criterion, the
 Khare–Wintenberger relation bounds, odd and dyadic Taylor–Wiles primes and finite-order determinant
@@ -899,7 +902,6 @@ declared here.
 
 * Dual local conditions: `orthogonal_comap_eq_map`, `LocalConditionMorphism`, `localMinus`,
   `localDualError`, `derivedComplement_iff`, `localDualError_congr`.
-* Procyclic cohomology: `procyclic_H1_equiv_coinvariants`.
 * `FiniteGaloisLocalization`: `sha`, `shaS`, `dual`, `naturality`.
 * `CompactCoefficients`: `moduleDerivedLimit_compare`, `homPt_equiv_internalHom`,
   `sections_nonempty_iff`, `splittingClass`,
