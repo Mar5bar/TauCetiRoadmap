@@ -16,7 +16,7 @@ Geometry is supplied by the perfectoid and diamond roadmaps. General enhanced sh
 | `PerfectoidSpaces`, Layers P0–P6, `DiamondsAndVStacks`, Layers D0–D6 | Perfectoid spaces, diamonds and small v-stacks; étale and quasi-pro-étale morphisms; underlying spaces, geometric points, presentations and cutoffs. C0 defines the three coefficient sites using these objects. C4 owns properness and canonical compactification of v-stacks. |
 | `EnhancedDerivedSheaves`, Layers E1–E3 | Unbounded dg/enhanced derived categories of sheaves of modules, K-injective and K-flat models, derived tensor and Hom, replete-topos convergence, Postnikov completion, coherent diagrams, hyperdescent and adjoints. C2–C3 specialize them to étale coefficients on v-stacks. |
 | `ClassicalAdicEtaleCohomology`, §§2.1–2.5, 3.1, 6.1–6.3, 7.1–7.3, 10.1–10.4 and 11.2 | Henselian and Zariski–Riemann inputs, classical algebraically closed field invariance, tautness, and annulus/open-ball cohomology. C1 uses classical field invariance; C6 proves v-stack field invariance from that input and C5, avoiding a reverse dependency through C1. C8.37 specializes §11.2, `field_cohomological_dimension_transcendence`. |
-| `SchemeAndStackFoundations`, §2.15; `LefschetzPencilsAndVanishingCycles`, §F.2 | Torsion proper base change for schemes and continuity of étale topoi under qcqs limits with affine transitions. C5 uses these in its valuation-space argument. |
+| `SchemeAndStackFoundations`, §2.15; `EtaleCohomologyFoundations`, §F.2.1 | Torsion proper base change for schemes and continuity of étale topoi under qcqs limits with affine transitions. C5 uses these in its valuation-space argument. |
 | Tau Ceti `ProfiniteCohomology`, Layers 0, 10 and 11 | Discrete continuous modules, their dictionary with `TopRep`, all-degree continuous cohomology, filtered-colimit compatibility and cohomological dimension. C8 proves the geometric point/sheaf/cohomology comparison; it does not introduce another cohomology carrier. |
 | Tau Ceti `ProfiniteProPGroups`, Layers 2, 3 and 6 | Profinite Sylow theory, pro-p groups and Sylow cohomological-dimension equality. C8 adds the wild kernel attached to an action on an algebraically closed valued field. |
 | `ArithmeticGaloisDuality`, Layer R02.1–R02.2 | Continuous Hochschild–Serre for closed normal subgroups, with all-degree convergence and edge maps. C8 applies it to discrete ℓ-primary torsion coefficients. |
@@ -127,8 +127,8 @@ adic-space foundations on which the geometric suppliers build.
 `SchemeAndStackFoundations`, §2.15 (`gabber_affine_proper_base_change`,
 `etale_cohomology_limits`), supplies henselian-pair torsion invariance and continuity of
 étale cohomology of qcqs schemes under cofiltered limits with affine transitions.
-Scheme torsion proper base change is supplied by `LefschetzPencilsAndVanishingCycles`,
-§F.2 (`VanishingCycles.properBaseChange`), for a proper morphism and a bounded-below torsion
+Scheme torsion proper base change is supplied by `EtaleCohomologyFoundations`,
+§F.2.1 (`VanishingCycles.properBaseChange`), for a proper morphism and a bounded-below torsion
 complex, with arbitrary base change. C5.7 uses these contracts for the relative
 Zariski–Riemann argument; no invertibility restriction on scheme torsion is added.
 
@@ -1514,7 +1514,7 @@ composite restriction).
 - For V=K, every valuation in the relative space restricts to K on the base, so the restriction map is constant.
 - If V⊊K, the valuation ring V belongs to the identity-extension space and differs from its generic point K; a one-point definition fails.
 
-*Needs:* `ClassicalAdicEtaleCohomology`, §§2.1–2.5; `ClassicalAdicEtaleCohomology`, §§6.1–6.3; `DiamondsAndVStacks`, Layer D0; `SchemeAndStackFoundations`, §2.15; `LefschetzPencilsAndVanishingCycles`, §F.2.
+*Needs:* `ClassicalAdicEtaleCohomology`, §§2.1–2.5; `ClassicalAdicEtaleCohomology`, §§6.1–6.3; `DiamondsAndVStacks`, Layer D0; `SchemeAndStackFoundations`, §2.15; `EtaleCohomologyFoundations`, §F.2.1.
 
 (ECD Lemma 19.4, p. 110; ECD proof of Lemma 19.4, p. 110.)
 
@@ -1542,7 +1542,7 @@ In a rank-two field pair with j:Spa(C,O_C)→Spa(C,C⁺), j!Λ has closed stalk 
 
 ### Dependencies
 
-Layers C0–C4; EnhancedDerivedSheaves, Layers E2–E3; ClassicalAdicEtaleCohomology, §§2.1–2.5 and 6.1–6.3; SchemeAndStackFoundations, §2.15; LefschetzPencilsAndVanishingCycles, §F.2.
+Layers C0–C4; EnhancedDerivedSheaves, Layers E2–E3; ClassicalAdicEtaleCohomology, §§2.1–2.5 and 6.1–6.3; SchemeAndStackFoundations, §2.15; EtaleCohomologyFoundations, §F.2.1.
 
 <a id="c6"></a>
 
