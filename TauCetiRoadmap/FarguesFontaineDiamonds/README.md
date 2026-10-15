@@ -238,7 +238,11 @@ prerequisites:
    coherent reduction and completed tensors. F5 transports this description
    to the left-completed adic étale-site system via the finite-level
    comparisons; no reconstruction theorem for the uncompleted adic étale
-   topos is assumed. Include Z_ell, I=(ell), ell≠p with its transitions.
+   topos is assumed. The coefficient dependency order is EnhancedDerivedSheaves
+   E4 and DiamondEtaleCohomology C2/C3, then AdicCoefficientsAndComparisons L0,
+   then F5. L0 owns the generic derived-complete category, reconstruction and
+   completed operations; F5 owns their transport through the fixed-curve site
+   comparison. Include Z_ell, I=(ell), ell≠p with its transitions.
 7. **EnhancedDerivedSheaves, §§0.1–0.4, E2.3, E3.4 and Layer E4.** Use
    coherent ringed-site module enhancements, Postnikov completion, coefficient
    towers and mates, derived-complete sheaves and coefficient-system
@@ -1086,7 +1090,7 @@ Fargues–Fontaine global-sections formulas.
 [diamonds]: ../DiamondsAndVStacks/README.md
 [adic-part-ii]: ../AdicSpacesPartII/README.md
 [cohomology]: ../DiamondEtaleCohomology/README.md
-[coefficients]: ../AdicCoefficientsAndComparisons/README.md
+[coefficients]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/1ec0bfd20c02efd3db6194d823ae41d1f08e8e37/TauCetiRoadmap/AdicCoefficientsAndComparisons/README.md#layer-l0-adic-coefficients
 [fs]: https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf
 [sw]: https://people.mpim-bonn.mpg.de/scholze/Berkeley.pdf
 [ecd]: https://arxiv.org/pdf/1709.07343v4
