@@ -27,10 +27,9 @@ section ScalarDifferentialCore
 open scoped Manifold Derivation
 
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [FiniteDimensional ℝ E] {H : Type*} [TopologicalSpace H]
+  {H : Type*} [TopologicalSpace H]
   {I : ModelWithCorners ℝ E H} {M : Type*} [TopologicalSpace M]
-  [ChartedSpace H M] [IsManifold I ∞ M] [T2Space M]
-  [SecondCountableTopology M] [BoundarylessManifold I M]
+  [ChartedSpace H M] [SecondCountableTopology M]
 
 /-- The ordinary global vanishing ideal, using the existing smooth-function algebra. -/
 def smoothVanishingIdeal (x : M) : Ideal C^∞⟮I, M; ℝ⟯ :=
@@ -38,12 +37,12 @@ def smoothVanishingIdeal (x : M) : Ideal C^∞⟮I, M; ℝ⟯ :=
 
 /-- The square is an algebraic ideal product, so membership uses finite sums. -/
 theorem mem_smoothVanishingIdeal_sq_iff
+    [FiniteDimensional ℝ E] [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M]
     (x : M) (f : C^∞⟮I, M; ℝ⟯) :
     f ∈ smoothVanishingIdeal x ^ 2 ↔
       f x = 0 ∧ mfderiv I 𝓘(ℝ, ℝ) f x = 0 := by
   sorry
 
-omit [FiniteDimensional ℝ E] [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M] in
 /-- The native ideal cotangent, rather than a quotient of the whole function ring. -/
 def smoothCotangentEquiv
     [FiniteDimensional ℝ E] [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M]
@@ -51,6 +50,10 @@ def smoothCotangentEquiv
     (smoothVanishingIdeal (I := I) x).Cotangent ≃ₗ[ℝ]
       (TangentSpace I x →L[ℝ] ℝ) := by
   sorry
+
+section RealVectorFields
+
+variable [FiniteDimensional ℝ E] [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M]
 
 theorem smoothCotangentEquiv_toCotangent (x : M) (f : smoothVanishingIdeal (I := I) x) :
     smoothCotangentEquiv x ((smoothVanishingIdeal (I := I) x).toCotangent f) =
@@ -91,13 +94,18 @@ theorem contMDiff_derivationVectorField
       (fun x ↦ (⟨x, derivationVectorField D x⟩ : TangentBundle I M)) := by
   sorry
 
-omit [FiniteDimensional ℝ E] [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M] in
+end RealVectorFields
+
 /-- The global scalar dictionary, with no assumed continuity of the derivation. -/
 def derivationEquivSmoothVectorField
     [FiniteDimensional ℝ E] [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M] :
     Derivation ℝ C^∞⟮I, M; ℝ⟯ C^∞⟮I, M; ℝ⟯ ≃ₗ[ℝ]
       ContMDiffSection I E ∞ (fun x : M ↦ TangentSpace I x) := by
   sorry
+
+section RealDictionary
+
+variable [FiniteDimensional ℝ E] [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M]
 
 theorem derivationEquivSmoothVectorField_apply
     (D : Derivation ℝ C^∞⟮I, M; ℝ⟯ C^∞⟮I, M; ℝ⟯) (x : M) :
@@ -109,6 +117,8 @@ theorem derivationEquivSmoothVectorField_smul (f : C^∞⟮I, M; ℝ⟯)
     derivationEquivSmoothVectorField (f • D) x =
       f x • derivationEquivSmoothVectorField D x := by
   simp only [derivationEquivSmoothVectorField_apply, derivationVectorField_smul]
+
+end RealDictionary
 
 /-- Complex-valued smooth functions on the real manifold, with the real target model. -/
 abbrev ComplexSmoothFunctions := C^∞⟮I, M; 𝓘(ℝ, ℂ), ℂ⟯
@@ -137,7 +147,6 @@ instance complexSmoothFunctionsAlgebra :
     Algebra ℂ (ComplexSmoothFunctions (I := I) (M := M)) :=
   (complexSmoothConstants (I := I) (M := M)).toAlgebra
 
-omit [FiniteDimensional ℝ E] [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M] in
 /-- Complexification is the actual scalar tensor of the native real section carrier. -/
 def complexDerivationEquivComplexifiedVectorField
     [FiniteDimensional ℝ E] [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M] :
