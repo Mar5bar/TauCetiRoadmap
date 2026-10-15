@@ -142,10 +142,12 @@ It leaves to other roadmaps, and consumes from them:
   abelian-scheme thickenings), A6.5 (`poincareReducibility`), A6.10–A6.12
   (endomorphism polynomials), A6.14–A6.15 (Rosati positivity and its real operator adapter),
   and A1.8 (Weil extension for abelian schemes).
-- **SmoothRepresentationsOfLocalGroups**, SR.5.2, `classical-llc-normalization`: the canonical
-  Weil–Deligne parameter fields, coefficient descent and extension.
+- **SmoothRepresentationsOfLocalGroups**, SR.5.2, `classical-llc-normalization`,
+  `wd-parameter-operations` and `wd-frobenius-semisimplification`: the canonical
+  Weil–Deligne parameter fields, coefficient descent and extension, parameter operations
+  and Frobenius semisimplification.
 - **ArithmeticGaloisRepresentations**, §§2.1–2.1a (local-field inertia and its trait comparison),
-  §§2.3–2.5 (tame characters, quasi-unipotence, Weil–Deligne operations and local factors),
+  §§2.3–2.5 (tame characters, arithmetic Weil–Deligne adapters and local factors),
   §§3.1–3.7 (Artin, Swan, global and residual conductor theory), §§6.1–6.2 (continuous
   Tate-module representations, elliptic comparison, isogeny maps and Weil pairing),
   §6.3 **The Tate curve** and **Local Euler factors** (uniformisation representation and
@@ -496,10 +498,11 @@ line bundle after a finite faithfully flat extension when needed; morphisms alge
 uniquely. Section 3.13 constructs the formal abelian quotient and its compatible
 polarisation so this supplier applies.
 SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization`, supplies the canonical
-parameter fields and coefficient descent/extension. ArithmeticGaloisRepresentations R01.2
-§2.4, `wd-parameter-operations`, operates on those fields and supplies the rescaling
-isomorphism for nonzero scalars, `q ≥ 2` and finite inertia image. R01.2 also supplies local-field inertia,
-local-field quasi-unipotence, the prime-to-residue construction and local Euler factors;
+parameter fields and coefficient descent/extension. Its `wd-parameter-operations` supplies the
+rescaling isomorphism for nonzero scalars, `q ≥ 2` and finite inertia image, and
+`wd-frobenius-semisimplification` supplies Frobenius semisimplification.
+ArithmeticGaloisRepresentations R01.2 supplies local-field inertia, the arithmetic
+quasi-unipotence and prime-to-residue Weil–Deligne adapters, and local Euler factors;
 ArithmeticGaloisRepresentations §§3.1–3.7 supplies Artin, Swan, global and residual
 conductor theory; §§6.1–6.2 supplies the Tate representation and pairing adapters, and
 §6.3 **Local Euler factors** supplies the generic factor on the cohomological dual with
@@ -2595,9 +2598,9 @@ FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.4.27 (Savitt 2005, §2.2, Defini
 p. 6); its use on actual period modules here covers finite `K/ℚ_p` and all primes.
 *Needs:* PadicPeriodRings §§4.1–4.3;
 FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a, R07.3.0 and R07.4.27;
-ArithmeticGaloisRepresentations §§2.4–2.5, `wd-parameter-operations` and
-`wd-frobenius-semisimplification`; SmoothRepresentationsOfLocalGroups SR.5.2,
-`classical-llc-normalization`.
+ArithmeticGaloisRepresentations §§2.4–2.5 (arithmetic adapters and local factors);
+SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization`,
+`wd-parameter-operations` and `wd-frobenius-semisimplification`.
 
 **Checks.**
 
@@ -2784,15 +2787,16 @@ FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a and R07.3.0;
 `PadicWeilDeligneRealization` (admissible period-module comparisons and descent);
 AbelianSchemesAndArithmeticModuli A4.2–A4.3;
 CrystallineCohomology CR.2.1, CR.2.3, CR.3.4;
-SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization`, and
-ArithmeticGaloisRepresentations R01.2 §2.4, `wd-parameter-operations`.
+SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization` and
+`wd-parameter-operations`; ArithmeticGaloisRepresentations R01.2 §2.4
+(arithmetic Weil–Deligne adapter).
 
 Apply `PadicWeilDeligneRealization` of this section to these potentially semistable Tate
 representations, through the supplied `FilteredPhiNModuleDD.weilDeligne`. Keep its
 semilinear descent action, geometric Frobenius convention,
 `N = e N_p` and the specified rescaling under ramified restriction. Compare parameters
 over the common characteristic-zero field supplied by SmoothRepresentationsOfLocalGroups
-SR.5.2 and ArithmeticGaloisRepresentations §2.4. Thus changing from `N_p` to `e N_p`
+SR.5.2. Thus changing from `N_p` to `e N_p`
 preserves the rational Weil–Deligne isomorphism class without discarding 4.3's integral
 normalisation.
 

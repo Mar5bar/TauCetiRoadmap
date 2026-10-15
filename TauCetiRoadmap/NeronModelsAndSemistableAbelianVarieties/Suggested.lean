@@ -776,9 +776,9 @@ and shared period realizations; their ramified crystalline/de Rham bridge belong
 `RaynaudFilteredRealization` and their period comparison to `RaynaudPeriodComparison`.
 `PadicComparison` and `good_abelian_frobenius_polynomial` consume these bridges. The canonical Weil–Deligne
 parameter fields come from SmoothRepresentationsOfLocalGroups SR.5.2,
-`classical-llc-normalization`; ArithmeticGaloisRepresentations R01.2 §2.4,
-`wd-parameter-operations`, supplies restriction and rescaling by nonzero scalars for `q ≥ 2`
-and finite inertia image.
+`classical-llc-normalization`; its `wd-parameter-operations` supplies restriction and
+rescaling by nonzero scalars for `q ≥ 2` and finite inertia image.
+ArithmeticGaloisRepresentations R01.2 §2.4 supplies the arithmetic Weil–Deligne adapter.
 
 The construction `NeronModel.extend` and its API (`extend_restrict`, `extend_unique`,
 `extend_map`, `extend_identity`, `extend_precomp`, `extend_proof_irrel`, `extend_to_model`,
