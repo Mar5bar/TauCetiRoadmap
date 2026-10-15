@@ -6,6 +6,8 @@ universality, p-typical coordinates, Brown–Peterson and Johnson–Wilson theor
 their cooperations and spectral sequences, and Landweber exactness. A chosen
 complex orientation is data; its formal group does not by itself prove a
 coefficient-ring universality theorem or supply an E∞ orientation.
+Include torus Euler cancellation on finite MU pieces and its module-extension
+nullhomotopy application in F6.6–F6.7.
 
 ## Carriers, conventions and owners
 
@@ -1244,6 +1246,22 @@ classification. The Thom spectra X(r) above and these telescopes have
 separate definitions and notation.
 
 ### F6.4. Johnson–Wilson classes, smashing and fracture
+
+For each prime p construct `muPtypicalPolynomialCoefficientIso`, using F3's
+single Cartier-idempotent splitting and F6.3's `muPtypicalRingComparison`
+i:BP→MU_(p). It is the graded BP_*-algebra isomorphism
+
+`BP_*[z_n : n≥1, n≠p^j−1 for every j≥1] ≃ MU_(p)*`,
+
+whose BP_* structure is i_* and whose z_n are the chosen MU polynomial
+generators in the omitted degrees. Use F2/F3's polynomial coefficient
+presentations and p_*i_*=id: on indecomposables of degree 2(p^j−1),
+the inclusion/projection scalars a_j,b_j satisfy a_j b_j=1. Thus
+`i_*(v_j)=a_j x_(p^j−1)+f_j(x_1,…,x_(p^j−2))` with a_j a unit.
+Construct the inverse by the degreewise triangular recursion, including
+its grading, coefficient embedding and finite-support monomial basis.
+This generic coefficient construction precedes the localization applications
+below; those applications and F6.6 use this same i_* and basis.
 
 Use F6.3's already constructed Johnson–Wilson and P(n)/B(n)
 class comparisons, followed by its actual cofinal MU/BP Moore systems
@@ -2547,7 +2565,190 @@ Morava E∞ realizations, completed stabilizer cooperations and θ-algebra
 obstruction theory are Elliptic E2 targets; this layer supplies their
 local categories and fracture functors.
 
+### F6.6. Torus Euler cancellation on finite MU pieces
+
+Use G's single MU spectrum and complex orientation, F1–F3's formal group and
+p-typicalization, F5's finitely presented comodule filtration, and G5.7's
+continuous-torus action, coherent Thom family and mapping-tower comparisons.
+For T=(S¹)^ℓ let C,D be compact closed stably-complex T-fixed manifolds with
+their specified finite CW and compact-oriented duality models, with D
+equidimensional of real dimension d_D. Treat different-dimensional connected
+components of D by the finite-sum comparison, with their individual shifts.
+Obtain the smooth finite CW models from GeometricTopology's
+**The smoothing-and-triangulation comparison**, item1 **Smooth implies PL**,
+using the locally finite smooth triangulation and compactness, followed by
+AlgebraicTopology's manifold-to-abstract-CW comparison. Transport the bundle,
+Euler and duality diagrams along the actual comparison homotopy equivalences.
+Write
+P_C=MU∧Σ∞C₊ and P_D=MU∧Σ∞D₊, as constant objects of
+A_MU(BT)=Fun(Sing BT,Mod_MU). Treat specified finite-free presentations
+P_C≃⊕_jΣ^{d_j}MU and P_D≃⊕_kΣ^{e_k}MU, as well as the general
+finite-cell P_C,P_D without such presentations. Compactness supplies neither
+a chosen finite CW model nor a finite-free MU basis; construct the former
+through the cited manifold/CW comparison and carry the latter as actual data
+when using the finite-free interface.
+
+For a T-equivariant complex rank-r bundle ν→C with no zero character weights,
+consume G5.7's actual Thom-cocone Euler map eν:P_C→Σ^{2r}P_C. Construct
+`torusFiniteCellMappingEulerComparison`: compact MU-oriented duality on D
+and the constant-family mapping comparison identify
+
+`π_t Map_BT(Σ^{a+2r}P_C,Σ^bP_D)`
+`  ≃ MU^{d_D+b−a−2r−t}(BT×C×D)`
+
+for every a,b,t∈Z. Prove the underlying equivalence of mapping spectra,
+composition, restrictions and finite-model comparisons. Precomposition with
+Σ^a eν corresponds to multiplication by the Euler class pulled back from
+BT×C, with degree +2r. Prove `momentNormalMU_eulerPrecomposition_injective`
+on these groups in every degree. Construct the finite-sum variants and the
+actual finite-duality transpose: for M=Σ^(−b)D_MU(P_D), identify the above
+precomposition map with postcomposition
+
+`Map_BT(M,Σ^(−a−2r)D_MU(P_C)) → Map_BT(M,Σ^(−a)D_MU(P_C))`
+
+by D_MU(Σ^a eν). Construct its identification with Σ^(−a)D_MU(eν)
+through evaluation/coevaluation and the ordered suspension-sphere interchange;
+include the Koszul interchange factor (−1)^(2r k)=1 for an integer shift k.
+This transposed assertion has the stated geometric M, not an arbitrary module.
+For G5.7's specified finite-free
+postcomposition interface identify its entries by the same oriented-duality
+calculation and prove injectivity. Include the empty sums and r=0 unit branch.
+
+For any finite CW X, build the actual finite projective-bundle comparisons
+MU^k(X×(CP^n)^ℓ)=⊕_{0≤α_i≤n}MU^{k−2|α|}(X)x^α, their multiplicative
+restriction maps and their surjectivity in every degree. Use G3's Milnor
+sequence to obtain zero lim¹ and the completed graded ring
+MU^k(X×BT)=∏_{α∈N^ℓ}MU^{k−2|α|}(X)x^α. Construct the same comparisons
+for BP and MU_(p). Use x_i=e(λ_i) for CC/G5.7's standard character line
+λ_i=O(−1); its ordinary coefficient image is −h_i. Relate this coordinate
+to G4's dual-line projective-bundle coordinate by the actual formal inverse.
+Prove tower and multiplication compatibility, and identify this instance's
+mapping-spectrum Milnor sequence. Finite truncations have their own kernels;
+prove cancellation on the full completed groups.
+
+Consume RepresentationTheory/CompactGroups Layers1–2, **unitarizability**
+and **complete reducibility**, and its **circle S¹ and Fourier series** engine
+for integer characters of AddCircle 1. Construct `finiteProductCircleCharacters`:
+continuous characters of T=(Fin ℓ→Circle) are uniquely
+χ_m(z)=∏_i z_i^(m_i), m∈Z^ℓ, by coordinate restriction and finite-product
+multiplication. Use Mathlib's AddCircle.homeomorphCircle and toCircle_addChar
+at period1; toCircle_zsmul identifies the circle engine with z↦z^n.
+For a finite-dimensional continuous T-representation, apply the compact-group
+decomposition and abelian Schur lemma to obtain its finite character list.
+Construct only the pointwise fibre/Euler adapter: at one vertex of each
+connected C component decompose ν_v, and use G4's Thom multiplicativity to
+identify its Borel Euler class. Prove that path-related vertex restrictions
+agree by homotopy naturality. With χ_j≠0 these fibre characters, set
+Π(x)=∏_j[χ_j]_F(x), using the formal inverse for negative weights. In the
+C-skeletal multiplicative filtration, prove n=Π−eν has filtration ≥1 and
+n^q=0 for a uniform q=1+dim CW C, at every torus stage and after completion.
+Use relative cup products and cellular diagonals to prove the filtration
+product law. In the actual cup ring MU^*(BT×C), Euler classes have even
+degree, so construct the homogeneous ring identity
+
+`eν · Σ_{i=1}^q Π^{q−i}n^{i−1} = Π^q`.
+
+Apply this identity through the cup-action comparison of
+`torusFiniteCellMappingEulerComparison`, with pullback to BT×C×D. Construct
+that comparison as an action on the direct sum over all integer mapping
+degrees: the scalars shift degrees, rather than acting within one degree.
+This reduces cancellation to scalar Π regularity while retaining all
+nilpotent constant terms of eν. The skeletal ideal need not be a subcomodule.
+
+For finite X=C×D identify BP^k(X) with BP_{−k}(DΣ∞X₊), including the actual
+coaction. Apply F5's finite filtration by shifts of BP_*/I_h, h finite and
+including h=0. Prove scalar-character regularity on every completed factor:
+write χ=dχ₀ with primitive χ₀, implement a GL_ℓ(Z) torus-coordinate change,
+and use the nonzero linear coefficient d for h=0. For h≥1 write d=p^a d'
+with p∤d'; prove the first surviving p^a-series coefficient is a nonzero
+power of v_h up to a unit, using F5's quotient presentations and primality
+for the domain BP_*/I_h. Prove the graded
+power-series coefficient substitution is invertible for the chosen torus
+coordinate change. Complete the finite module filtration coefficientwise,
+prove exactness degree by degree, and induct to obtain Π and Π^q regularity.
+
+Consume F6.3's `muPtypicalRingComparison` i:BP→MU_(p), including its
+unit/product homotopies and homotopy BP-action. Consume F6.4's generic
+`muPtypicalPolynomialCoefficientIso` and monomial basis for that same
+coefficient embedding i_*, using F3's single fixed splitting
+MU_(p) --p--> BP --i--> MU_(p). This generic coefficient foundation
+precedes its localization application and depends only on the earlier
+coefficient/idempotent constructions.
+
+Construct `muPtypicalFiniteCohomologyComparison`: deduce flatness of the
+polynomial BP_*→MU_(p)* embedding and the domain presentations modulo each
+finite I_h, including I_0. Define the natural finite-CW-pair map
+
+`MU_(p)^* ⊗_(BP^*) BP^*(X) → MU_(p)^*(X),  r⊗a ↦ r·i_*(a)`
+
+and prove it an isomorphism by flatness, coefficient comparison and finite
+cofiber/retract induction. Keep its naturality, products, suspensions and
+relative boundary maps. Regrade coefficient degree j as cohomological
+degree −j. Set x_BP:=p_*(x_MU). Construct the strict Cartier coordinate
+comparison `i_*(x_BP)=c_F(x_MU)`, its inverse substitution and its scalar
+character-series regularity transport. This scalar-coordinate comparison,
+together with the finite-X coefficient comparison, supplies the injectivity
+proof. Construct also the normalized Thom/Euler unit
+`i_*(e_BP(ν))=u(ν)e_MU(ν)`, with `u(L)=c_F(x_MU(L))/x_MU(L)`
+on lines, multiplicativity and the splitting-injection comparison on bundles.
+Prove the unit and inverse are compatible on the finite Borel/flag models
+and their completed tower, including rank0/unit1. Transfer the finite
+Landweber filtration and Euler calculation through these finite-X and
+scalar-coordinate comparisons. The full-bundle Thom unit is a separate
+compatible orientation API. Consume the map, polynomial basis and p-typical
+wedge comparison from their F6.3/F6.4 owners.
+
+Recover integral injectivity by the finite-X localization comparison and
+coefficientwise injection M→∏_p M_(p). Construct the coefficient maps on
+power series; keep localization outside the infinite series product.
+
+Apply G5.5/G5.7's full-base MU→HZ coefficient square, finite CP restrictions
+and maps of mapping towers/Milnor sequences to these objects. Prove their
+compatibility with `torusFiniteCellMappingEulerComparison`, its cup action
+and the finite-X/completed comparisons. This gives the corresponding
+coefficient maps on Euler and extension classes.
+
+### F6.7. Euler cancellation and module-extension nullhomotopies
+
+In G5.7's module-family category take an actual cofiber triangle
+A→B→Q→δΣA, a specified finite sum A≃⊕_DΣ^{b_D}P_D, a finite family of
+fixed components C and nonzero-weight complex bundles ν_C of ranks r_C,
+and specified data
+Q≃⊕_CΣ^{2r_C}P_C, j:⊕_C P_C→B, qj~⊕_C eν_C.
+The ranks may vary. Construct `momentStratumExtension_nullhomotopy`: compose
+the given diagonal homotopy with the actual cofiber nullhomotopy δq~0,
+apply F6.6 to each finite mapping entry to prove [δ]=0 in the global
+π₀ Map_BT(Q,ΣA), and construct a choice of path δ→0. Apply G5.7's
+extension classification to give A⊕Q≃B under A and over Q. Include the
+rank-zero, empty-family and empty-A branches. Prove replacement, restriction
+and coefficient compatibility for diagrams carrying the chosen δ-nullpaths,
+and describe the splitting-choice space by G5.7's mapping-space fibre.
+Restrict a chosen global path to the finite Borel towers. For a finite
+filtered diagram of such triangles with supplied compatible δ-nullpaths,
+construct the compatible splittings by G5.7's filtered extension-classification
+form. The finite Borel restriction diagram is obtained from the one global
+path and its functorial restriction maps.
+
+The geometric application supplies its actual stable-stratum/support cofiber,
+j, diagonal Thom/Euler homotopy and prior finite-piece decomposition of A
+from SymplecticGeometry/ConvexityToric T2, **Morse–Bott and moment-map
+topology**, through its stable-stratum/open-filtration and diagonal Euler
+data. These inputs instantiate the abstract lemma. The same supplied
+path can then be sent through G5.5's fixed MU→HZ scalar extension.
+
 ## Order and references
+
+F6.6 consumes the earlier F1–F3/F5 coefficient/comodule constructions,
+F6.3's generic p-typical ring map/action and F6.4's generic coefficient
+polynomial/monomial foundation, together with G's finite-duality and G5.7
+module-family/Thom adapters. Its coefficient proof does not consume the
+chromatic localization, strong-smashing or Tate applications. The generic
+F6.5 enhancement precedes G5.7 and has no F6.6 or geometric input.
+F6.7 consumes F6.6 plus G5.7's extension classification.
+SymplecticGeometry/ConvexityToric T2, **Morse–Bott and moment-map topology**,
+supplies the geometric cofiber/diagonal data and applies F6.7 to its finite
+moment filtration. The Euler proof uses the generic coefficient constructions
+and the stated module-family/duality inputs.
 
 F1 precedes F2. F2 consumes TB B4's mod-p Adams/coefficient tools plus
 G's MU model and supplies F3's spectra/cooperations. F4's initial AHSS

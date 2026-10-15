@@ -1,4 +1,7 @@
 import Mathlib.RingTheory.FormalGroup.Basic
+import Mathlib.Algebra.Ring.GeomSum
+import Mathlib.Algebra.Regular.SMul
+import Mathlib.Algebra.Module.Basic
 
 /-!
 These are suggested forms, not an exhaustive checklist. README.md is definitive.
@@ -59,5 +62,21 @@ theorem exists_unique_normalized_exponentTwo_logarithm
   sorry
 
 end ExponentTwo
+
+section EulerNilpotentRegularity
+
+open Finset
+variable {S N : Type*} [Ring S] [AddCommGroup N] [Module S N]
+
+/-- F6.6: a commuting nilpotent perturbation preserves regular scalar action. -/
+theorem isSMulRegular_sub_of_pow_eq_zero {a b : S}
+    (hab : Commute a b) (ha : IsSMulRegular N a)
+    (q : ℕ) (hb : b ^ q = 0) : IsSMulRegular N (a - b) := by
+  apply IsSMulRegular.of_mul
+    (a := ∑ i ∈ range q, a ^ i * b ^ (q - 1 - i))
+  rw [hab.geom_sum₂_mul q, hb, sub_zero]
+  exact IsSMulRegular.pow q ha
+
+end EulerNilpotentRegularity
 
 end TauCetiRoadmap.BordismFormalGroups
