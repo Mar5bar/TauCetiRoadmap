@@ -43,6 +43,7 @@ is imposed on generalized theories.
 | [GeometricTopology](../GeometricTopology/README.md), smooth embeddings and tubular neighbourhoods | actual finite-dimensional normal bundles, tubes and collapse comparison | G5 constructs finite-spectrum duality; structured PT and geometric bordism remain TangentialBordism |
 | DGFloer Layer1 item2 | ordinary Serre homology/cohomology spectral sequences, arbitrary-CW/base comparisons and multiplicative convergence | G5 uses these for rational EM/sphere calculations; no returned dependency on generalized spectra |
 | [HilbertModules H2, H4–H6](https://github.com/TauCetiProject/TauCetiRoadmap/pull/861), [CStarAlgebras C5](https://github.com/TauCetiProject/TauCetiRoadmap/pull/860), [OperatorKTheory K5](https://github.com/TauCetiProject/TauCetiRoadmap/pull/866) | complex Hilbert compact operators/spatial tensors, strong-topology unitary contractibility, regular functional calculus and graded Clifford APIs | G5 adds the real/Clifford specializations, equivariant spectral construction and graded family-index/classification comparisons; complex generic operator foundations keep these owners |
+| [BordismFormalGroups F6.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d52555458ff6c92e777455b7c6e615849ae89f4e/TauCetiRoadmap/BordismFormalGroups/README.md#f65-local-group-actions-and-completion-comparisons) | generic categorical model, enriched diagrams, coherent model diagrams/stability, Kan extensions and marked straightening (including the coCartesian instance), LM module-fibre rectification, and operator-category unit-adjoined monoidal localization/relative adjunctions | G5.7 verifies these hypotheses on its specified G2 models and constructs the continuous-torus, Borel, Thom/support and tower instances; chromatic and Tate applications remain with their owner |
 | G5's compatible bundle-diagram interface | actual bundles, stabilization isomorphisms, coherent block-sum/permutation maps and their universal classifier adapters | TangentialBordism consumes this interface for ξ-normal structures; geometric cycles over X, structured Pontryagin–Thom, coefficient/characteristic-number calculations and rational bordism generators stay there |
 
 The cited supplier targets are contracts to build, with no claim that their
@@ -2160,6 +2161,306 @@ axiomatic theories independently of their G2 spectral representation.
    rational Hurewicz is an isomorphism for 2≤i≤2k−2 and a surjection
    at i=2k−1, with the stabilization/Hurewicz diagram.
 
+7. **Coherent module families, Borel cochains and oriented supports.**
+   Start from G2's specified commutative ring-spectrum and module models for
+   R=MU,Hℤ. Check their actual unit and pushout-product hypotheses, then apply
+   BordismFormalGroups F6.5's unit-adjoined monoidal-localization and
+   relative-adjoint constructions to build the symmetric monoidal stable
+   enhancement `Mod_R∞` and its derived relative tensor `⊗_R`. Localize G2.4's
+   derived function modules through F6.5's DK-localization and
+   representable-pairing adjunctions to construct the internal module function
+   spectrum `F_R` and prove the tensor/internal-Hom adjunction. Construct its
+   unit and counit (evaluation), triangle identities, and mapping spectra,
+   with associativity, unit and symmetry coherences. Dual-pair coevaluation
+   is required only for the specified dualizable objects.
+   Extend these constructions pointwise to
+   `A_R(B)=Fun(Sing B,Mod_R∞)` for each CW-type B. The mapping object is
+   `Map_{A_R(B)}(P,Q):=Γ_B F_R(P,Q)`; prove it represents module maps and
+   is compatible with restriction and sections. Construct the corresponding
+   relative-tensor and unit comparisons. Apply the fixed G5.5 MU→Hℤ
+   representative and its ring/module comparison zigzags to obtain the
+   strong-monoidal derived functor `Φ_B:A_MU(B)→A_HZ(B)`, including its
+   tensor, unit, restriction and colimit maps. Verify each model hypothesis
+   used by these constructions rather than treating LM fibres alone as
+   symmetric monoidal.
+
+   **Continuous action adapter.** Put T=(Circle)^ℓ, including ℓ=0.
+   Use native `ContAction TopCat T` for continuous unbased T-spaces and
+   equivariant maps, with CW-type convenient models for geometric comparisons
+   and specified equivariant NDR/cylinder pair replacements. Within this
+   adapter, define the named, instance-reducible identity witness
+   `topCatIdentityForget` once in a single module:
+   `HasForget₂ TopCat TopCat` with `forget₂ := 𝟭 TopCat` and
+   `forget_comp := rfl`; consuming files enable its local instance attribute.
+   Then obtain
+   `HasForget₂ (ContAction TopCat T) TopCat` by the native `ContAction` and
+   `Action` transitive forgetful instances; do not assume the identity
+   instance is synthesized globally. Construct pointed-convenient and singular
+   adapters, retaining product, unit and action equations. Put
+   `G=Sing(T)` on native [`TopCat.toSSet`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/AlgebraicTopology/SingularSet.lean), with its pointwise simplicial group structure; verify the
+   face, degeneracy, multiplication, inverse and unit equations. Use AT's
+   [`simplicialGroupKan`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a02281f3e7b8eff55495b3458fe266e43818f4d8/TauCetiRoadmap/AlgebraicTopology/README.md#stage-8-relative-homotopy-hurewicz-whitehead-and-ordinary-representability)
+   and G2.1's Kan–Quillen geometric/singular comparison. Let `C_G` be the
+   one-object simplicial category with endomorphism group G. Take
+   `S=N_hc(C_G)`, on native
+   [`SimplicialNerve` and its coherent simplex carriers](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/AlgebraicTopology/SimplicialNerve.lean).
+   First derive the DK counit `ε:𝔠[S]→C_G` from F6.5's Bergner
+   fibrancy of locally Kan C_G and its rigidification/nerve Quillen
+   equivalence; all simplicial sets are Joyal-cofibrant. Its DK mapping
+   comparison and F6.5's coherent mapping-space theorem give
+   `hS≃π₀C_G`. Thus every edge of S is invertible, and the inner- and
+   equivalence-edge outer-horn theorems prove S Kan. This does not assume
+   S Kan to obtain the counit. Apply ε in F6.5's HTT4.2.4.4 diagram
+   comparison, natural on index maps, transformations and higher simplices.
+
+   **Principal and associated total-space comparison.** For a numerable
+   locally trivial right principal T-bundle `P→B`, put `X=Sing(P)` with left
+   action `g·x=x·g⁻¹`. Construct the singular Kan-fibration adapter using
+   AT5.5's native locally-trivial Serre bridge and relative finite-CW
+   horn lifting, and apply it to `Sing(P)→Sing(B)`. Pull back P over each
+   singular simplex of B, choose a section of that
+   trivial principal bundle, and use its continuous principal division map.
+   This proves the actual degreewise quotient isomorphism `X/G≅Sing(B)`.
+   Prove projective cofibrancy of X by filtering over the nondegenerate
+   simplices of Sing(B): the chosen lifts attach free cells
+   `G×∂Δ[n]→G×Δ[n]` with the boundary maps determined by division.
+   This explicit free-cell filtration proves cofibrancy. The ordinary orbit
+   functor
+   is left Quillen for the projective G-simplicial-set model, since its
+   right adjoint gives trivial action and preserves underlying Kan
+   fibrations and trivial fibrations. Thus its derived value yields
+   `hocolim_C_G X≃X/G≅Sing(B)`.
+
+   Rectify X along ε to `F_X:S→Spaces`. View Kan complexes as the
+   full space-valued subcategory of Cat∞ and use F6.5's marked
+   coCartesian straightening over S, with projective marked diagrams on
+   𝔠[S], directly. Construct its restriction to Kan-valued diagrams:
+   every total edge factors as a coCartesian lift followed by an
+   invertible vertical edge in a Kan fibre, so every edge is coCartesian
+   and the fibration is a left fibration with those same fibres. Use the
+   marked tensor strength and enriched Quillen-equivalence criterion for
+   the derived mapping-space comparison. Identify the unstraightening of
+   constant Z naturally with `S×Z` by base change along S→* and the
+   unit/counit at the point. For Kan S and Kan-valued F, the total E_F is
+   Kan. The graph and marked-straightening equivalences give
+   `Map(E_F,Z)≃Map_/S(E_F,S×Z)≃Nat(F,const Z)`.
+   Export the cocone as the image of id_(E_F); this constructs the natural
+   equivalence `E_F≃colim_S F`, including higher parameters and actual
+   fibrant/cofibrant replacements. To transport the orbit cocone, take
+   projective cofibrant replacements of its entire arrow diagram,
+   including its target, the trivial-action Sing(B). F6.5's naturality
+   along C_G→* identifies its target rectification with constant Sing(B).
+   HTT4.2.4.1 then gives the actual global comparison
+   `E_X≃hocolim_C_G X→Sing(B)` from that cocone.
+   For the universal bundle `ET→BT`, X is Kan and contractible; hence
+   `F_X→*` is an equivalence. Apply the marked fibrewise-equivalence
+   criterion to `E_X→id_S` to prove `E_X→S` is an equivalence. Export the
+   actual span
+   `S←E_X→Sing(BT)` of equivalences with cocones and all higher naturality,
+   including its contractible space of inverse choices. For a general P
+   or a finite classifier stage, retain `E_X→S` as its classifying map;
+   no contractibility of X or equivalence of B with S is assumed.
+
+   For a left T-space F put `Y=X×Sing(F)` with diagonal left action
+   `g·(x,f)=(xg⁻¹,gf)`. Construct its projective free-cell filtration over
+   the singular simplices of `P×_T F`: simplex lifts in P and principal
+   division identify each pullback with `G×Δ[n]`. Prove the actual quotient
+   `Y/G≅Sing(P×_T F)`. Under rectification and total-space comparison the
+   projection Y→X gives a global map E_Y→E_X and a commutative comparison
+   square with `Sing(P×_T F)→Sing(B)`, including the cocone homotopies and
+   higher parameters. Under left straightening this is the associated
+   action bundle pulled back along E_X→S, not just an identification of
+   its separate fibres. Retain naturality in F, bundle maps and torus
+   homomorphisms. Include based/sectioned objects, zero sections, relative
+   cofibers and the actual Thom-line bundle maps in this same square.
+
+   For each numerable locally trivial bundle `p:E→B`, construct the actual
+   Kan fibration Sing(p), its straightening, and the global comparison
+   with its unstraightening, natural in bundle maps and their higher
+   parameters. Identify it with the C_G-action construction when p is the
+   specified T-associated bundle. For arbitrary bundles use their own
+   straightening over Sing(B). Compare the enriched module diagrams with
+   `A_R(BT)` along the universal span and export
+   `continuousTorusAction_coherentMUComparison`,
+   `continuousTorusAction_coherentHZComparison` and
+   `continuousTorusAction_coherentRComparison` for the specified models.
+   Consume CC C1.5's fixed finite principal bundles
+   `E_n=(S^(2n+1))^ℓ→B_n=(CP^n)^ℓ`, their inclusions and colimit universal
+   comparison. Apply the nonuniversal total-space square at each n and
+   compare it with the universal square along inclusions, retaining the
+   entire coherent tower. The right action on each sphere factor is
+   `(z_i)·(t_i)=z_i t_i`; the associated quotient for a left T-space is
+   `(e·t,y)~(e,t·y)`. The diagonal left action uses the inverse as above.
+   Construct `torusAction_freeMU_moduleBundle`, and its R-module version,
+   sending Y to `P_R(Y)=R∧ᴸΣ∞Y₊` with that coherent action. Retain
+   equivariant NDR-pair and mapping-cylinder cofibers, products, sums,
+   model invariance and the actual fibre/associated-bundle comparisons.
+
+   **Borel cochains and finite-base coefficient change.** For an equivariant
+   pair (Y,A) use the cofiber of Σ∞A₊→Σ∞Y₊, comparing with Y/A under
+   the stated NDR hypotheses. Define `D_R(Y,A)=F_R(P_R(Y,A),R)`, with
+   contragredient transport. Construct `fibrewiseHZ_functionSpectrum_borelComparison`
+   and `fibrewiseR_functionSpectrum_borelComparison` from the actual bar/Borel maps:
+   `Γ_BT D_R(Y,A)≃F(Σ∞(ET×_T Y,ET×_T A),R)`. For compact supports, `Γ_BT C_c,R(U)` denotes fibrewise-supported Borel cochains from the supported finite-stage models; it is not compact-support cohomology of the total Borel space `ET×_T U`.
+   Prove the corresponding finite B_n formulas, integer shifts, relative
+   boundaries and cup/module action of R-cochains on the base. For Hℤ
+   compare with G2.7/AT's single ordinary Borel cochain theory. Separately
+   export `fibrewiseMU_to_HZ_homologyComparison`, identifying the coefficient
+   change of P_MU(Y,A) with P_HZ(Y,A) and ordinary homology by G5.5;
+   P and D are different objects.
+   Prove `finiteBaseSectionsScalarComparison` over any specified finite CW
+   base, for the actual Φ and coherent module families, by finite-cell
+   section pullbacks and exactness of Φ. Construct the canonical function
+   module comparison `Φ F_MU(P,Q)→F_HZ(ΦP,ΦQ)` and prove it an equivalence
+   when P has a specified dual pair, including finite-cell/retract modules.
+   Combine these for finite B_n mapping spectra; retain naturality on
+   cofiber triangles and actual maps, not just homotopy groups.
+
+   **Coherent Thom and Euler family.** For R=MU,Hℤ and a locally trivial
+   complex vector bundle ν→C of rank m, specify a continuous T-action by
+   complex-linear bundle maps covering the action on C. Form its Borel bundle
+   `ET×_T ν→ET×_T C` and retain the induced maps. Construct its sphere-module
+   line functor over `C_hT:=ET×_T C` and its
+   actual Thom-colimit comparison. The universal normalized Thom cocone
+   of G4.3–5/G5.4–5 induces an equivalence of that module-line diagram
+   with constant Σ^(2m)R. Prove that the colimit adjunction sends the pointwise tensor of Thom classes to the Thom-diagonal/external product. Construct the natural transformation on the full Borel groupoid by its mapping-space adjunction; fibre class equality alone is not the construction. Push forward along C_hT→BT
+   to export `fibrewiseThomOrientationComparison` and the actual natural
+   zero-section map
+   `e_ν:P_R(C)→Σ^(2m)P_R(C)` in A_R(BT).
+   When C is T-fixed its underlying P_R(C) family is constant; e_ν still
+   retains its BT-coherent information. Restrict to every B_n and retain
+   ν_n over C×B_n in that case. Construct the Φ comparison on these full
+   diagrams from the fixed G5.5 orientation map. Identify the Hℤ image
+   with the canonical ordinary family by the full-base Thom mapping
+   comparison on ν_T and its actual homotopy, then restrict the same
+   homotopy to the finite tower. The standard coordinate character uses
+   CC's tautological O(−1) convention, with Hℤ Euler class −h_i.
+   Include m=0, empty C, pullback, products and relative maps.
+
+   **Compact support objects and excision.** Consume CC C1.2's ordinary
+   compact-support pair package and identify the Hℤ refinement with
+   that same ordinary theory. For locally compact paracompact T-spaces
+   define C_c,R(U) by the homotopy colimit, over invariant compact K⊂U,
+   of the R-module cochains of the actual relative cofiber (U,U\K).
+   Prove invariant supports cofinal by compact T-saturation.
+   For a smooth T-manifold U use specified smooth T-action data, and nested
+   compact T-invariant collared domains L_j with interiors covering U and
+   finite CW boundary-pair models obtained from GeometricTopology's
+   **The smoothing-and-triangulation comparison**, item1 **Smooth implies PL**,
+   including the relative collar extension for these compact pieces. Use [SBC B1.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/791dd408dc48930060b28043245bbb1a8d82b5de/TauCetiRoadmap/SmoothBundlesConnections/README.md#b1-principal-bundles-and-descent)
+   for proper free-action smooth quotients and submersion comparisons, and
+   G4.0b/[CKG K7.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples)
+   for the actual smooth projective-space stage charts; these are inputs,
+   not duplicated geometric owners. Prove the coherent comparison
+   `C_c,R(U)≃hocolim_j F_R(R∧Σ∞(L_j/∂L_j),R)`.
+   Construct the transition maps by actual support collapse/excision and
+   prove cofinal-exhaustion independence. Construct the mixed support product
+   `D_R(U)⊗_R C_c,R(U)→C_c,R(U)` from the relative diagonal, including
+   its finite Borel base-cochain action and Hℤ/CC comparison.
+   Use native `OnePoint` models for the specified tame U⁺ cases. Use AT6.4's compact-domain pair
+   zigzag and GT's exterior collars to compare with relative support
+   cofibers. For a vector bundle over compact C with a specified invariant
+   metric, prove the radius-exhaustion identification with its Thom
+   compactification; for U=int W with W compact equivariantly collared
+   prove the W/∂W identification. For an open j:U→V
+   construct `j_!:C_c,R(U)→C_c,R(V)` by excision on supports; for a proper
+   map f construct the opposite-direction proper pullback, with its
+   actual compact-preimage maps. Build the localization triangle for
+   specified compactifications V=K\A, Z=L\(A∩L), U=K\(A∪L), where
+   A,L⊂K form a T-invariant common CW/NDR excisive triad, by the quotient cofiber
+   `L/(A∩L)→K/A→K/(A∪L)`; use `K₊` and `L₊` for empty collapsed
+   subspaces, and extend through compatible compact exhaustions.
+   Include corners/rounded compact-pair models, connecting maps and their
+   suspension signs. The geometry supplying such presentations is data.
+
+   **Vertical support duality.** Specify an equivariant complex bundle V of
+   complex rank `(d+a)/2` over U and an equivariant real bundle isomorphism
+   `TU⊕ε^a_ℝ≃V_ℝ`, with trivial T-action on the ordered trivial summand.
+   Include the induced Borel construction and maps as part of the bundle data.
+   Given a stable choice of N with N+a even and compatible vertical
+   identifications `ν_v⊕T_v≃ε^N` and `ν_v⊕V_ℝ≃ε^(N+a)`, orient the normal
+   Thom line by `L(ν_v)≃L(V)^(−1)⊗L(ε^(N+a))` using this specified
+   isomorphism and G5.5's interleaved convention. Record the block-order
+   conversion between `ν_v⊕T_v` and `T_v⊕ν_v`, with sign
+   `(−1)^((N−d)d)`, and include the isomorphism, inverse and complement
+   choices in the coherence data. Construct the oriented equivalence
+   `compactSupportModuleDuality:C_c,R(U)≃Σ^(−d)P_R(U)`, d=dim U,
+   for R=MU and its ordinary coefficient change. Extend G5.2's geometric
+   adapter to compact collared boundary pairs by smooth doubling, relative
+   normal collapse and the specified Thom orientation on the original pair.
+   Obtain the finite CW models of these compact doubled families from the
+   same GT smooth-triangulation item1 and relative collar extension. For each
+   finite-stage proper smooth submersion with compact fibres, consume
+   CC C2.5's graph embedding and fibrewise tube. Own only the stabilized relative extension over the tower and compact
+   parameter simplices, and its spectral collapse comparison. Construct the
+   parametric comparison
+   over B_n from fibre-preserving embeddings into B_n×ℝ^N, vertical normal
+   bundles with `ν_v⊕T_v≃ε^N`, and vertical tubes; prove the stable relative
+   embedding/tube and collapse homotopies. The shift is vertical dimension d.
+   Extend coordinate maps near the prescribed neighbourhood by the chosen
+   retractions and charts; make the cutoff depend only on base and parameter
+   points. Stabilization increases the real rank by an even number, appending
+   the ordered complex block in the last ambient coordinates.
+   For an open inclusion `j:U→V`, construct `j_!` by support excision
+   independently of stable-complex compatibility. Identify it under vertical
+   duality with the R-homology inclusion only when specified stable-complex
+   data on V restricts under `TV|_U≃TU⊕ν` to the data on U and ν, with its
+   Thom-line orientation coherence. For proper T-equivariant smooth embeddings of finite-dimensional Hausdorff
+   second-countable manifolds with a specified coherent
+   R-Thom orientation of the normal bundle, construct `equivariantNormalTube`:
+   choose a smooth positive-definite ambient metric from DG12.1, average its pullbacks
+   with RepresentationTheory/CompactGroups Layer0's normalized Haar measure,
+   and prove smoothness and positive definiteness in bundle charts. Apply
+   GT's metric-dependent normal-exponential tube and diffeomorphism
+   naturality with the transported metric. Construct the compatible extended
+   distance by native `EMetricSpace.ofRiemannianMetric` for this same
+   averaged metric; use GT's T3 argument from the manifold hypotheses.
+   Prove the normal complement and
+   exponential map T-equivariant and choose a T-invariant positive radius
+   by choosing a positive smooth minorant of the orbitwise minimum radius
+   and averaging that minorant; retain shrinking on invariant compact supports. With that tube construct the
+   compact-support Gysin map and its PT/cap comparison, with codimension shift. Compare its Hℤ map with CC C2.4 and AT cap/Poincaré–Lefschetz maps.
+   Identify the Gysin map under duality with the covariant R-homology map only
+   when the ambient stable-complex data restricts to the source data plus the
+   normal Thom data with the stated orientation coherence. Prove Φ compatibility on finite boundary-pair objects using duality, then
+   on their support colimit. For finite B_n identify sections with supported
+   cochains of E_n×_T U using compactness and the cofinal domain exhaustion,
+   and prove the filtered-colimit comparison.
+
+   **Tower and mapping interfaces.** Construct the actual restriction
+   towers of sections and mapping spectra over B_n, and prove their
+   homotopy limits compute those over BT by the classifier colimit and
+   coherent-diagram comparison. For supported objects retain the order
+   `holim_n hocolim_j Γ_Bn D_R(L_j/∂L_j)`.
+   Apply G3.8's Milnor exact sequence in every integer degree t, with kernel
+   `lim¹_n π_(t+1)` and quotient `lim_n π_t`, to these section and
+   mapping-spectrum towers. Construct the comparison identifying the limit
+   in `Mod_R∞` with the required homotopy limit, including cofinal shifts and
+   boundary diagrams; use G3.6 for the mapping-tower phantom kernel rather
+   than duplicating either generic result.
+   State Mittag–Leffler vanishing only with its actual degreewise hypotheses.
+   Export the coefficient maps of these towers and their mapping limits.
+   At BT export the canonical Φ/limit comparison map; its finite-base
+   equivalences do not assert that Φ commutes with the infinite limit.
+   For constant finite-free P and T-fixed C, put Q=P_R(C) and retain a
+   specified finite-free presentation of Q as additional data. Construct
+   `torusFiniteFreeMappingEulerInterface`: the mapping spectrum
+   in A_R(BT), its restriction tower, the map induced by postcomposition
+   with the coherent e_ν, and the finite-stage coefficient squares.
+   Retain specified presentations as data rather than infer freeness
+   from compactness of C.
+
+   **Extensions with specified nullhomotopies.** For an actual cofiber
+   triangle A→B→C→ΣA in A_R(BT), or over a finite B_n, construct
+   `fibrewiseModuleExtension_classification`. Identify the space of sections
+   of B→C over id_C with the path space from its connecting map δ to zero
+   in the derived mapping space Map(C,ΣA). A specified path constructs
+   `[i,s]:A⊕C≃B` under A and over C. Prove the mapping-space equivalence,
+   dependence on the path, pullback/coefficient compatibility and its
+   finite filtered-diagram form with compatible paths and finite direct sums
+   formed within one common filtration level. These maps and paths use the full coherent mapping space.
+
+
 ## Dependency order and acceptance
 
 G3.8's structured zeroth Postnikov construction uses G2.4's spectral SM7,
@@ -2169,6 +2470,32 @@ G5.5 constructs that MU's TopK-compatible unit-cell comparison, then uses
 it and G3.8's P0 for the fixed complex ordinary augmentation. Its normalized
 Thom comparison uses G4.3–5, and its free-module scalar change uses G2's
 module models.
+
+G5.7 applies G2's models/classifiers, G4's Thom core, G5.1–2's finite/geometric
+duality and G5.4–5's fixed MU/ordinary augmentation. Its coherent model and
+module-family comparisons consume only BordismFormalGroups F6.5's named
+generic model, enriched-diagram, coherent-stability, Kan-extension,
+arbitrary-base marked-straightening with the direct coCartesian
+space-valued restriction, LM module-fibre, and operator-category
+unit-adjoined monoidal-localization/relative-adjunction sublanes. G5.7 owns
+the `Sing(T)` action and `S=N_hc(C_G)` classifier adapter, using the
+fibrant rigidification counit. It owns the projective free-cell proofs,
+principal/associated quotient maps, total-space/colimit comparison and
+universal span to `Sing(BT)`; finite and nonuniversal bundles retain their
+own classifying maps into S. These are not supplied by generic F6.5. CC C1.2
+supplies ordinary compact supports, C1.5 the finite torus classifier, C2.4
+the ordinary embedding Gysin map and C2.5 the fibrewise graph embedding and
+tubular comparison. AT supplies relative/CW/tower maps; GT supplies normal
+bundle/collar geometry and smoothing-and-triangulation item1 with relative
+collar extension for compact pieces and doubled families. SBC B1.4 supplies
+smooth free quotients, and G4.0b/CKG K7.1 the projective stage charts.
+CompactGroups Layer0 supplies normalized Haar averaging for the equivariant
+normal-tube adapter. G5.7 owns the stabilized relative parameter/tower
+extension and spectral collapse, consuming the finite-stage CC C2.5 inputs.
+G5.7 applies G3.8's tower limit and Milnor sequence and G3.6's phantom
+analysis, proving only the module-enhancement/section-tower identifications.
+G5.7 owns the relative/vertical-duality and action/tower adapters on these
+inputs before any mapping/Euler or extension application.
 
 G3.8 first constructs derived tower limits and generic spectral covers;
 G3.9 then constructs localizations/completions. G3.10's unstable mapping
