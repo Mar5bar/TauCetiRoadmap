@@ -252,7 +252,9 @@ and tateSen_H1_trivial_ne_zero, with the general-base forms of tate_algebraicTra
 tate_finiteCochainControl and tate_cocycleLimit on infinitely ramified splitting towers;
 §3 periodPDEnvelope, its completed envelope, initial property and generator independence;
 §§4.1–4.3 generalBasePeriodRings, their structure maps, invariant functors, predicates,
-fixed fields, regularity and fundamental exact sequence.
+the fixed fields (B_dR^+)^{G_K}=B_dR^{G_K}=K and B_cris^{G_K}=B_st^{G_K}=K₀,
+the compatible G_K-fixed embedding K→B_dR^+ with θ restricting to K→C_K,
+regularity for B_cris, B_st and B_dR, and the fundamental exact sequence.
 Their complete arithmetic/topological signatures need the prerequisite interfaces specified
 in the README. The pinned libraries do not supply the Banach cyclotomic tower API,
 canonical topological period structures, crystalline/semistable rings or their functors.
