@@ -1010,11 +1010,16 @@ theorem finrank_sym (p : ℕ) [Fact p.Prime] (r : ℕ) :
 
 end SerreWeights
 
-/-! Finite-K targets stated in the README: `aCris`, `aCris_model_equiv`, `bCris`,
-`bCris_toBDR`, `bCris_frobenius`, `bCris_generatorIndependent`; the continuous fundamental
-period sequences; `dCris`, `dDeRham`, `IsCrystalline`, `IsDeRham`, `crystalline_iff_dim`,
+/-! Finite-K interfaces stated in the README, not typed here: `aCris` and
+`aCris_model_equiv` name PadicPeriodRings §3's supplied principal O_C envelope and model
+identification. `bCris`, `bCris_toBDR`, `bCris_frobenius` and
+`bCris_generatorIndependent` name its §4.1 carriers and structure identities.
+`dCris`, `dDeRham`, `IsCrystalline`, `IsDeRham` and `crystalline_iff_dim` use its
+§§4.2–4.3 functors and rational predicates, with the tensor flip for `(V ⊗ B)`.
+The underlying fundamental exact sequence, fixed fields and regularity are supplied by §4.3.
+Downstream targets are the additional continuous period sequences, sections and boundary maps;
 `crystalline_isDeRham`; `IsTorsionCrystalline`, `IsIntegralCrystalline`;
-`fontaineLaffaille_sum`, `fontaineLaffaille_dual`. These period constructions are not typed here. -/
+`fontaineLaffaille_sum`, `fontaineLaffaille_dual`. -/
 
 /-! The period target of §R07.P7.1 uses §R07.P5's `dDeRham` and `IsDeRham`
 on the scalar restriction of a finite-dimensional continuous `E`-representation of `G_K`, for
@@ -1080,7 +1085,9 @@ further instances of the statements above.
   `universalCoverRigidity`; `deJongDieudonneEquivalence`; `swDieudonneSemiperfect`;
   `wittCovectors`; `BerthelotConstantLength` (finite generation, p-power torsion and
   constant finite Witt-fibre length); `berthelotPerfectValuationRings`.
-* Layer R07.3: `finiteKPeriodComparison`; `FilteredPhiNModule.unit`, `FilteredPhiNModule.twist`,
+* Layer R07.3: `finiteKPeriodComparison` (arithmetic realization comparisons on the
+  supplied PadicPeriodRings §§3–4 carriers, functors and rational predicates, including
+  tensor order, continuous-sequence and integral-predicate compatibility); `FilteredPhiNModule.unit`, `FilteredPhiNModule.twist`,
   with the checks `FilteredPhiNModule.unit_twist`, `FilteredPhiNModule.not_abelian` and
   `FilteredPhiNModule.N_nonzero`; `FilteredPhiNModule.tN`, `IsWeaklyAdmissible`;
   `dSt_isWeaklyAdmissible`, `dSt_fullyFaithful`, `IsAdmissible`; `FLModule.isTorsion_iff`
