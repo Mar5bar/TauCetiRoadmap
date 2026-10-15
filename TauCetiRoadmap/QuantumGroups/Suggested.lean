@@ -11,6 +11,12 @@ import Mathlib.Analysis.Complex.Order
 import Mathlib.LinearAlgebra.Matrix.PosDef
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import TauCeti.Algebra.Coalgebra.Comodule.LinearlyReductive
+import Mathlib.Algebra.FreeAlgebra
+import Mathlib.Algebra.RingQuot
+import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
+import Mathlib.Algebra.Category.FGModuleCat.Basic
+import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
+import Mathlib.RepresentationTheory.Rep.Iso
 
 /-!
 **This file is not the roadmap and is not exhaustive.**
@@ -21,10 +27,46 @@ they are not replaced here by empty proposition fields.
 -/
 
 open scoped TensorProduct ComplexOrder
-open Module
+open Module CategoryTheory
 namespace QuantumGroups
 
 universe u v w
+
+/-- Q8.5: finite dimension is over the base field, not over the Hopf algebra.
+The synonym separates tensor-over-k from ModuleCat H's possible tensor-over-H. -/
+def FiniteHopfModuleCat (k : Type u) (H : Type v)
+    [Field k] [Ring H] [Algebra k H] :=
+  CategoryTheory.ObjectProperty.FullSubcategory (fun V : ModuleCat.{u} H =>
+    FiniteDimensional k ((ModuleCat.restrictScalars (algebraMap k H)).obj V))
+
+section Carrier
+variable (k : Type u) (H : Type v) [Field k] [Ring H] [Algebra k H]
+
+def finiteProperty : CategoryTheory.ObjectProperty (ModuleCat.{u} H) :=
+  fun V => FiniteDimensional k ((ModuleCat.restrictScalars (algebraMap k H)).obj V)
+
+instance : CategoryTheory.Category (FiniteHopfModuleCat k H) :=
+  inferInstanceAs (CategoryTheory.Category ((finiteProperty k H).FullSubcategory))
+
+noncomputable def toBaseModules : FiniteHopfModuleCat k H ⥤ ModuleCat.{u} k :=
+  (finiteProperty k H).ι ⋙ ModuleCat.restrictScalars (algebraMap k H)
+
+noncomputable def toFiniteBaseModules : FiniteHopfModuleCat k H ⥤ FGModuleCat.{u} k :=
+  (ModuleCat.isFG k).lift (toBaseModules k H) (fun V => V.property)
+
+instance toBaseModulesFaithful : (toBaseModules k H).Faithful where
+  map_injective {X Y} {f g} h := by
+    apply CategoryTheory.ObjectProperty.hom_ext
+    apply ModuleCat.hom_ext
+    ext x
+    exact congrArg (fun t => t.hom x) h
+
+instance toFiniteBaseModulesFaithful : (toFiniteBaseModules k H).Faithful where
+  map_injective {X Y} {f g} h := by
+    apply (toBaseModules k H).map_injective
+    exact congrArg (fun t => t.hom) h
+end Carrier
+
 section HopfCore
 
 variable {A : Type u} [Ring A] [HopfAlgebra ℂ A] [StarRing A] [StarModule ℂ A]
@@ -154,5 +196,91 @@ theorem suqMatrix_unitary_iff (q : ℝ) (a c : A) :
   sorry
 
 end StarPresentations
+
+noncomputable section GenericRankOne
+
+inductive SL2Generator
+  | E | F | K | Kinv
+  deriving DecidableEq
+
+/-- Q8: actual equations in the free complex algebra. -/
+inductive QuantumSL2Relation (q : ℂ) :
+    FreeAlgebra ℂ SL2Generator → FreeAlgebra ℂ SL2Generator → Prop
+  | kkInv : QuantumSL2Relation q
+      (FreeAlgebra.ι ℂ .K * FreeAlgebra.ι ℂ .Kinv) 1
+  | kInvK : QuantumSL2Relation q
+      (FreeAlgebra.ι ℂ .Kinv * FreeAlgebra.ι ℂ .K) 1
+  | ke : QuantumSL2Relation q
+      (FreeAlgebra.ι ℂ .K * FreeAlgebra.ι ℂ .E)
+      (q ^ 2 • (FreeAlgebra.ι ℂ .E * FreeAlgebra.ι ℂ .K))
+  | kf : QuantumSL2Relation q
+      (FreeAlgebra.ι ℂ .K * FreeAlgebra.ι ℂ .F)
+      ((q⁻¹) ^ 2 • (FreeAlgebra.ι ℂ .F * FreeAlgebra.ι ℂ .K))
+  | ef : QuantumSL2Relation q
+      (FreeAlgebra.ι ℂ .E * FreeAlgebra.ι ℂ .F)
+      (FreeAlgebra.ι ℂ .F * FreeAlgebra.ι ℂ .E +
+        (q - q⁻¹)⁻¹ • (FreeAlgebra.ι ℂ .K - FreeAlgebra.ι ℂ .Kinv))
+
+/-- The quotient is defined for all q. At zero the E,F generators vanish;
+at q=±1 the totalized inverse yields a commutative quotient. The generic
+PBW/Hopf/representation targets in the README state their parameter hypotheses. -/
+abbrev QuantumSL2 (q : ℂ) := RingQuot (QuantumSL2Relation q)
+
+def quantumSL2Generator (q : ℂ) (g : SL2Generator) : QuantumSL2 q :=
+  RingQuot.mkAlgHom ℂ (QuantumSL2Relation q) (FreeAlgebra.ι ℂ g)
+
+/-- The Laurent generator is an actual unit of the quotient. -/
+def quantumSL2KUnit (q : ℂ) : (QuantumSL2 q)ˣ where
+  val := quantumSL2Generator q .K
+  inv := quantumSL2Generator q .Kinv
+  val_inv := by
+    simpa [quantumSL2Generator] using
+      (RingQuot.mkAlgHom_rel ℂ (QuantumSL2Relation.kkInv (q := q)))
+  inv_val := by
+    simpa [quantumSL2Generator] using
+      (RingQuot.mkAlgHom_rel ℂ (QuantumSL2Relation.kInvK (q := q)))
+
+def quantumSL2Casimir (q : ℂ) : QuantumSL2 q :=
+  quantumSL2Generator q .F * quantumSL2Generator q .E +
+    ((q - q⁻¹) ^ 2)⁻¹ •
+      (q • quantumSL2Generator q .K + q⁻¹ • quantumSL2Generator q .Kinv)
+
+/-- Q8.1: the coproduct on the actual quotient, with complex scalars central. -/
+def quantumSL2Comul (q : ℂ) [Fact (q ≠ 0)] :
+    QuantumSL2 q →ₐ[ℂ] (QuantumSL2 q) ⊗[ℂ] QuantumSL2 q := by
+  sorry
+
+/-- The three generator equations pin the Hopf convention of Q8. -/
+theorem quantumSL2Comul_generators (q : ℂ) [Fact (q ≠ 0)] :
+    quantumSL2Comul q (quantumSL2Generator q .K) =
+      quantumSL2Generator q .K ⊗ₜ[ℂ] quantumSL2Generator q .K ∧
+    quantumSL2Comul q (quantumSL2Generator q .E) =
+      quantumSL2Generator q .E ⊗ₜ[ℂ] 1 +
+        quantumSL2Generator q .K ⊗ₜ[ℂ] quantumSL2Generator q .E ∧
+    quantumSL2Comul q (quantumSL2Generator q .F) =
+      quantumSL2Generator q .F ⊗ₜ[ℂ] quantumSL2Generator q .Kinv +
+        1 ⊗ₜ[ℂ] quantumSL2Generator q .F := by
+  sorry
+
+/-- Q8.1 PBW basis on the presentation, not a privately assumed algebra. -/
+def quantumSL2PBWBasis (q : ℂ) (hq : q ≠ 0)
+    (hgeneric : ∀ r : ℕ, 0 < r → q ^ r ≠ 1) :
+    Module.Basis (ℕ × ℤ × ℕ) ℂ (QuantumSL2 q) := by
+  sorry
+
+theorem quantumSL2PBWBasis_apply (q : ℂ) (hq : q ≠ 0)
+    (hgeneric : ∀ r : ℕ, 0 < r → q ^ r ≠ 1) (a : ℕ) (b : ℤ) (c : ℕ) :
+    quantumSL2PBWBasis q hq hgeneric (a, b, c) =
+      quantumSL2Generator q .F ^ a *
+        ((quantumSL2KUnit q) ^ b : (QuantumSL2 q)ˣ) *
+        quantumSL2Generator q .E ^ c := by
+  sorry
+
+theorem quantumSL2Casimir_commute (q : ℂ) (hq : q ≠ 0)
+    (hgeneric : ∀ r : ℕ, 0 < r → q ^ r ≠ 1) (x : QuantumSL2 q) :
+    Commute (quantumSL2Casimir q) x := by
+  sorry
+
+end GenericRankOne
 
 end QuantumGroups

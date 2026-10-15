@@ -1,4 +1,4 @@
-# Compact quantum groups and Tannaka–Krein reconstruction
+# Quantum groups: compact reconstruction and generic rank-one representations
 
 Build compact quantum groups from their C*-algebras and from their unitary
 representation categories. Develop Haar integration, arbitrary-Hilbert-space
@@ -6,6 +6,9 @@ corepresentations, the dense Hopf *-algebra, weighted Peter–Weyl theory and
 universal/reduced completions before reconstruction. Work out the deformation
 SUq(2) and free orthogonal quantum groups, including their tensor categories,
 dimensions, Haar laws and the full/reduced distinction.
+Develop the generic quantized enveloping algebra U_q(sl₂), its signed
+simple modules, complete reducibility, locally finite and type-1 module
+categories, and their precise comparison with the compact SUq(2) example.
 
 ## Scope, conventions and suppliers
 
@@ -33,22 +36,29 @@ the underlying vector space. These can differ.
 
 | Supplier | Interface consumed here |
 | --- | --- |
-| [CStarAlgebras C1–C5](../CStarAlgebras/README.md) | Positive functionals/GNS through V0, matrix norms, minimal tensors, star-map extension, slice maps and CP positivity. Q5 owns the bounded universal presentations used here. |
-| [VonNeumannAlgebras V0–V4](../VonNeumannAlgebras/README.md) | State-space weak-* compactness, Hilbert GNS representations, operator closures and preduals; V10–V11 for the Haar modular comparison. |
+| [CStarAlgebras C1–C5,C8](../CStarAlgebras/README.md) | C2 state extension, matrix norms, minimal tensors, nondegenerate multiplier-map extension, slice maps and CP positivity; C8's Toeplitz extension for Q7. Q5 owns the bounded universal presentations used here. |
+| [VonNeumannAlgebras V0–V4](../VonNeumannAlgebras/README.md) | State-space weak-* compactness, Hilbert GNS representations, V1 finite bicommutants, operator closures and preduals; V10–V11 full left Hilbert algebra/Tomita comparison for the Haar modular group. |
 | [HilbertModules H1–H3](../HilbertModules/README.md) | Free modules H⊗A, adjointable/compact operators, multiplier realization and interior tensor identifications. |
-| [CategoricalOperatorAlgebras CA1a,CA2a](../CategoricalOperatorAlgebras/README.md) | Finite Hilbert dagger category, unitary rigid tensor categories, chosen conjugates, standard solutions and intrinsic dimension. Reconstruction here supplies the quantum-group realization. |
-| [TemperleyLiebOperatorAlgebras A2–A4](../TemperleyLiebOperatorAlgebras/README.md) | Hermitian TL forms and positive C*-quotients, native diagram trace comparison. TemperleyLieb Layers 0–7 ([PR #58](https://github.com/TauCetiProject/TauCetiRoadmap/pull/58)) supplies the algebraic diagram/Jones–Wenzl targets for Q7. |
+| [CategoricalOperatorAlgebras CA1a,CA2a](../CategoricalOperatorAlgebras/README.md) | Finite Hilbert dagger category, unitary rigid tensor categories, chosen conjugates, signed self-duality, standard solutions and intrinsic dimension. Reconstruction here supplies the quantum-group realization. |
+| [TemperleyLiebOperatorAlgebras A1–A6](../TemperleyLiebOperatorAlgebras/README.md) | Hermitian TL forms, positive C*-quotients, finite C*-norms and the unitary TL category, native diagram trace comparison. TemperleyLieb Layers 0–7 ([PR #58](https://github.com/TauCetiProject/TauCetiRoadmap/pull/58)) supplies the algebraic diagram/Jones–Wenzl targets for Q7. |
 | [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) | Classical Peter–Weyl, compact Haar integration and the SU(2) representation calculation used for comparisons. |
+| [RepresentationTheory/LieHighestWeight, sl₂ worked example](../RepresentationTheory/LieHighestWeight/README.md) | The classical highest-weight m module and native `sl (Fin 2) ℂ`/`IsSl2Triple` action conventions for Q8.7's matrix specialization. |
 | [OperatorAlgebraDynamics D1–D2](../OperatorAlgebraDynamics/README.md) | Full/reduced discrete-group C*-algebras, canonical quotient/expectation and the invariant-mean/Reiter P₁/P₂ comparison. |
 | [FreeProbability F1,F3,F6](../FreeProbability/README.md) | Scalar moments, the free-group adjacency norm/full–reduced counterexample and the standard semicircular law; Q7 supplies the quantum-group character realization. |
-| [AmenableGroups, Layers 1,7 (PR #821)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/821) | Invariant means, Følner criteria and group amenability; Q4 constructs the reduced-counit comparison using D2's Reiter bridge. Adopt its interfaces and build missing prerequisites without waiting for a merge. |
+| [AmenableGroups, Layers 1,7 (PR #821)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/821) | Invariant means, Følner criteria and group amenability; Q4 constructs the reduced-counit comparison using D2's Reiter comparison. Adopt its interfaces and build missing prerequisites without waiting for a merge. |
+| [PivotalSpherical Layers 0–2 and 7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c84f711be9c5c10b3b88104b000519df920f6acf/TauCetiRoadmap/PivotalSpherical/README.md) | Algebraic double-right-dual, pivotal, trace and spherical conventions consumed by Q3 and Q8.5, compared with CA2a’s unitary duality. Layer7’s FDRep is the group-algebra comparison target for Q8.5. |
 
 Use native `Coalgebra`, `Bialgebra`, `HopfAlgebra`, `Coalgebra.counit` and
 `HopfAlgebra.antipode`. Tau Ceti's `Algebra.Coalgebra.Comodule` already provides
 comodules, comodule homomorphisms, categories, corestriction, duals and finite
 matrix coefficients. Consume its `Subcomodule`, `IsCompletelyReducible`,
-`fixedSubcomodule`, `Finite/Monoidal`, `Finite/Rigid` and
+`fixedSubcomodule`, `Finite/Monoidal`, `Finite/RightRigid` and
 `Comodule.convolutionAction` interfaces for subobjects, duality and convolution.
+`Finite/RightRigid` supplies antipode-twisted right duals for arbitrary
+Hopf algebras. `Finite/Rigid` uses commutativity and supplies both duals
+for the classical function-algebra case. For noncommutative Pol(G),
+construct left duals using its bijective antipode and S⁻¹, and compare
+them with CA2a's chosen conjugates and pivotal structure.
 Use Mathlib `WithConv` for convolution notation.
 In particular consume `coefficientMatrix`, its counit,
 comultiplication and inverse-antipode equations, and `matrixComodule` with its
@@ -57,7 +67,9 @@ do not replace the algebraic coaction with a private matrix-corepresentation
 carrier. The analytic free-module coaction is compared with that algebraic API
 on the coefficient core.
 
-This roadmap concerns compact symmetry. General locally compact quantum
+Q1–Q7 concern compact symmetry. Q8 is the algebraic generic-rank-one lane,
+with no C*-completion or Hilbert-space assumption in its classification.
+General locally compact quantum
 groups, unbounded Haar weights on those groups and general multiplicative-unitary
 reconstruction are outside its scope. Q4 constructs the particular regular
 multiplicative unitary needed for compact reduced completion. Quantum-group
@@ -95,7 +107,11 @@ Call h the Haar state. Construct its GNS Hilbert space, representation,
 coefficient maps and null ideal. A compact quantum group is reduced when its
 Haar state is faithful. Prove the tensor-product Haar formula and the
 isomorphism transport law; do not assert Haar pullback along every morphism.
-For C(G) recover ordinary compact-group Haar integration. For a discrete
+For C(G) recover ordinary compact-group Haar integration. Pin the
+coefficient crosswalk to CompactGroups: its π_ij(g)=⟪π(g)e_j,e_i⟫
+is conjugate to u_ij(g)=⟪e_i,π(g)e_j⟫ in this roadmap.
+Transport coproduct, star and the defining SU(2) representation with
+this conjugation explicitly. For a discrete
 group Γ construct `Δ(u_g)=u_g⊗u_g` on its full group C*-algebra by
 the universal unitary-representation property. On the reduced algebra
 construct the Fell-absorption unitary
@@ -193,8 +209,56 @@ Complete the weighted coefficient spaces in L²(h), with norm squared
 `Σ_(α,i,j,k) conjugate(c_ij^α)(F̃_α⁻¹)_ik c_kj^α/Tr(F̃_α⁻¹)`
 for a coefficient sum Σ c_ij^α u_ij^α. Identify the regular
 representation multiplicities and this Plancherel formula.
+Build algebraic convolution with functionals, pinning
+`φ*a=(id⊗φ)Δ(a)` and `a*φ=(φ⊗id)Δ(a)`, and construct Woronowicz
+characters `f_z(u_ij)=(F^z)_ij`, with complex powers of the positive F.
+First prove these are well-defined linear functionals, basis independent,
+with `f_0=ε`, `f_z*f_w=f_(z+w)`, `f_z∘S=f_(-z)` and
+`f_z(a*)=conjugate(f_(-conjugate z)(a))`, without assuming
+multiplicativity. From the preceding coefficient orthogonality derive
+`h(ab)=h(bθ(a))` for θ(a)=f_1*a*f_1; on a coefficient matrix
+θ(u)=FuF. Derive the identity on a in the irreducible coefficient
+basis and b in the starred-coefficient basis, then extend bilinearly.
+Use the identity three times to prove
+`h(cθ(ab))=h(cθ(a)θ(b))` for every c, and use Plancherel
+faithfulness to deduce θ(ab)=θ(a)θ(b), with θ(1)=1.
+Then ε∘θ=f_2 is a character. Convolution and antipode give
+multiplicativity of f_(2m) for all integral m. Own the finite
+Vandermonde step: for fixed a,b, the defect
+f_z(ab)−f_z(a)f_z(b) is a finite sum Σ_j c_j λ_j^z
+with distinct positive λ_j. Its values at z=2m, m≥0, vanish;
+the first finitely many equations have invertible Vandermonde matrix
+on the distinct λ_j², so every c_j=0. Thus all f_z are
+multiplicative before they are used in a pivotal monoidality argument.
+For every finite unitary corepresentation w, define F_w by
+`(F_w)_ij=f_1(w_ij)`. Prove it is positive invertible, agrees with the
+normalized F on irreducibles, and is block diagonal on direct sums. This
+defines F on reducible objects independently of the trace normalization.
+Derive F_(u⊠v)=F_u⊗F_v from the character law.
+
 Construct duals and fusion multiplicities with their finite decomposition
-and Frobenius reciprocity laws. Prove the intrinsic dimension
+and Frobenius reciprocity laws. On the native finite-comodule monoidal
+category construct left duals via the inverse of the explicitly supplied
+`Function.Bijective (HopfAlgebra.antipode)` and their evaluation/coevaluation
+triangle identities. Package the resulting `RigidCategory` as a named
+definition, installed locally in every statement using its left duals,
+pivot, pivotal traces or dimensions. In the commutative case consume native
+`TauCeti.HopfAlgebra.antipode_antipode` and `antipodeAlgEquiv`
+for S⁻¹=S, identify the pairings with native Finite/Rigid’s existing
+global instance, and use that native instance in the classical cases. For Pol(G), pin the pivotal comodule map
+`j_V(v)=can_V((id⊗f_1)δ(v))` into V**, where can_V is the ordinary
+double-dual identification. Its matrix is F; prove colinearity using
+S²u=FuF⁻¹ and monoidal naturality using the character law for f_1.
+Identify the right and left pivotal traces with tr(Ff) and tr(F⁻¹f),
+respectively. Use CA2a’s balanced unitary dual functor with the stated
+algebraic evaluation/coevaluation. Compare its dagger-dual equations
+with these evaluations/coevaluations; their squared norms are both
+Tr F=Tr F⁻¹. Transport its Hilbert metrics and prove j is unitary,
+`j†j=id` and `jj†=id`; evaluations and coevaluations are not
+asserted unitary maps. In orthonormal coefficient bases the metric is
+F̃ on the native right dual, F̃⁻¹ on the S⁻¹ left dual and F⁻²
+on the double dual. Compare this pivotal structure with CA2a's balanced
+conjugates and standard solutions. Prove the intrinsic dimension
 `d(u)=Tr F=Tr F⁻¹`, its additivity/multiplicativity, `d(u)≥dim_H(u)`
 and equality precisely when the normalized F is the identity. Prove the
 corresponding Kac equivalences: Haar traciality, S²=id on Pol(G), and
@@ -203,14 +267,9 @@ dimension-normalized orthogonality and an involutive antipode on
 the Hopf core. Q4 constructs its bounded extensions to A_u
 and A_r.
 
-Build algebraic convolution with functionals, pinning
-`φ*a=(id⊗φ)Δ(a)` and `a*φ=(φ⊗id)Δ(a)`, and construct Woronowicz
-characters `f_z(u_ij)=(F^z)_ij`, with complex powers of the positive F.
-Prove basis independence, multiplicativity, `f_0=ε`,
-`f_z*f_w=f_(z+w)`, `f_z∘S=f_(-z)` and
-`f_z(a*)=conjugate(f_(-conjugate z)(a))`.
 Derive `S²(a)=f_(-1)*a*f_1` and
-`h(ab)=h(b(f_1*a*f_1))`, with convolution actions explicitly defined.
+compare the already proved modular identity with this S² formula,
+using the same explicitly defined convolution actions.
 Construct `σ_t(a)=f_(it)*a*f_(it)` and
 `τ_t(a)=f_(-it)*a*f_(it)`, their group laws and norm-continuous
 actions on the core. Prove `S²=τ_(-i)` and the KMS crosswalk
@@ -218,7 +277,16 @@ actions on the core. Prove `S²=τ_(-i)` and the KMS crosswalk
 Prove the core is a dense Tomita algebra in Haar GNS, construct its
 commuting right action, and prove the GNS vector separating for the
 left von Neumann closure. Thus the vector Haar state is faithful normal
-there. Extend its modular group using V10–V11; derive its action from the KMS boundary equation rather
+there. Identify the full closure of this concrete Tomita algebra with
+V11's full left Hilbert algebra, including its left representation,
+closable involution and polar operators. Consume V11's Tomita theorem
+and canonical-weight comparison, and prove its recovered weight is this
+Haar vector state. First implement σ_t by the Haar-preserving unitaries
+U_tΛ(a)=Λ(σ_t(a)) and obtain normal automorphisms of the von Neumann
+closure. Prove the KMS identity on the analytic core, extend it by
+density, and use V10/V11's KMS uniqueness to identify this group with
+Δ_h^(it)(·)Δ_h^(−it).
+Derive its action from the KMS boundary equation rather
 than treating all f_z as bounded states on a completion.
 
 ## Q4. Algebraic compact type and the two completions
@@ -302,8 +370,8 @@ nonamenable free-group counterexample. Identify `A_u(ℂΓ)=C*(Γ)` and
 quotient. Consume F3's Cayley-tree norm
 calculation `‖λ(s)+λ(s)⁻¹+λ(t)+λ(t)⁻¹‖=2sqrt(3)<4`. The full counit
 takes this sum to four, so it cannot extend to the reduced algebra.
-Deduce nonamenability, noninjectivity of the full-to-reduced quotient
-and the nonfaithful full Haar state. Build the reduced-counit/amenability
+Consume F3's noninjectivity theorem under those identifications and
+deduce nonamenability and the nonfaithful full Haar state. Build the reduced-counit/amenability
 comparison via positive regular coefficients, almost invariant ℓ²
 vectors, D2's Reiter P₂ equivalence and the invariant-mean/Følner
 interfaces of AmenableGroups. Do not confuse this compact-side
@@ -349,7 +417,14 @@ presentation comparisons under nonzero scalar rescaling of F and unitary
 basis changes, with the induced transformation of the fundamental matrix.
 Construct the cup `E(1)=Σ_ij F_ji e_i⊗e_j` and verify
 `(E*⊗1)(1⊗E)=cI`. Retain the sign of c. Normalize the two conjugate
-solutions and derive `d(u)≤‖E(1)‖²/|c|`, with
+solutions and identify their self-duality map r with CA2a's signed
+variant: the normalized cup E/√|c| has zigzag sign ε=sign(c),
+corresponding to r̄r=εφ and to J²=ε in the finite-Hilbert realization.
+Here `J(v)=F conjugate(v)/sqrt(|c|)` is an antilinear map. Prove it
+is antiunitary precisely when F is proportional to a unitary; compare
+the general map through Rep(O_F^+)'s chosen unitary dual functor and its
+fibre Hilbert metrics.
+Derive `d(u)≤‖E(1)‖²/|c|`, with
 `‖E(1)‖²/|c|≥n` by AM–GM. Prove equality in this latter inequality
 iff F is proportional to a unitary. Q7 proves irreducibility and then
 standardness of this solution and the intrinsic-dimension equality.
@@ -428,9 +503,9 @@ and inverse without assuming boundedness of the core ε and S.
 Prove the resulting counit/inversion agree with the core maps, and
 that the representation equivalence recovers its original fiber data.
 Ordinary compact-group Haar has full support, so every commutative
-compact quantum group has faithful Haar. The universal completion of
-Pol(G) for a classical compact group is commutative; apply this theorem
-to identify its universal and reduced completions with C(G).
+compact quantum group has faithful Haar. Compare this reconstruction
+with Q4's single classical-group completion theorem A_u=A_r=C(G),
+including its counit, inversion and original fibre functor.
 
 ## Q7. SUq(2), free orthogonal fusion and Haar calculations
 
@@ -442,7 +517,15 @@ For `0<|q|<1`, compute the Haar functional on the ordered monomial basis
 and prove its functional-calculus consequence
 `h(f(c*c))=(1−q²)Σ_(j≥0)q^(2j) f(q^(2j))` for continuous f.
 Derive the normalized F matrices, quantum dimensions, modular character
-values and modular group on generators. Treat q=1 by classical Haar integration. For q=−1 construct the
+values and modular group on generators. At q=1 identify r_1 with the
+defining matrix action on ℂ², and hence with CompactGroups' su2Irrep 1
+by an actual unitary intertwiner. Derive Haar integration of all ordered
+monomials from the SU(2) unit-sphere coordinates
+a=√(1−t)z, c=√t w, 0≤t≤1 and z,w∈𝕋: prove normalized invariant
+measure has pushforward dt dz dw, using the sphere-volume Jacobian
+and invariance. Phase integration gives the monomial values and
+`h(f(c*c))=∫_0^1 f(t)dt`, including non-class functions.
+For q=−1 construct the
 reduced matrix-function model `a=sqrt(1−t) z σ₃`,
 `c=sqrt(t) w σ₁`, (t,z,w)∈[0,1]×𝕋², and prove the Haar
 state is the integral of the normalized 2×2 trace with dt and Haar
@@ -450,9 +533,14 @@ dz,dw. Prove the core representation faithful and the invariant
 monomial identities; in particular `h(f(c*c))=∫_0^1 f(t)dt`.
 Neither endpoint is obtained by substituting into a divergent series.
 Prove SUq(2) coamenable throughout `0<|q|≤1`. In the interior
-use the weighted shift model on ℓ²(ℕ×ℤ), identify its kernel with
-the Haar null ideal, and construct a state taking a to one through
-the unilateral shift's Calkin spectrum and Q4's character criterion.
+use the weighted shift model on ℓ²(ℕ×ℤ) and identify its kernel with
+the Haar null ideal. Write a=a₀⊗1 with a₀=S*D on ℓ²(ℕ), where
+D−1 is compact. Thus a₀ belongs to C8's Toeplitz algebra and its
+symbol is the symbol of S*. Compose that symbol map with evaluation
+at z=1 to obtain a character χ with χ(a₀)=1. Transport χ along
+the concrete isomorphism 𝒯≃𝒯⊗1⊆B(ℓ²(ℕ×ℤ)), extend this state
+by C2, and restrict it to the reduced image. Apply Q4's character
+criterion. Compactness of D−1 is used on ℓ²(ℕ).
 Use C4's multiplicative-domain theorem and the generator relations to
 prove this state is a character: its value a=1 forces both a-defects
 and c*c=cc* to have value zero, so a,c lie in its multiplicative domain.
@@ -471,6 +559,12 @@ from Q5 is standard and `d(u)=‖E(1)‖²/|c|`. For cup-cap projections on adja
 retaining the signed conjugate structure. Construct the Catalan dimension
 upper bound. Choose real q with `0<|q|≤1` by `|q|+|q|⁻¹=d(u)` and
 `sign(q)=−sign(c)`, and use the SUq(2) signed cup, Haar moment
+crosswalk. The signed algebraic loop is δ=−(q+q⁻¹)=sign(c)d(u),
+whereas A1–A6's positive-loop parameter is d(u). Identify normalized
+projections p_i in both presentations; the signed generator is δ p_i
+and the positive generator is d(u)p_i. Prove the generator rescaling,
+normalized Markov trace and quotient comparison, keeping the signed
+cup/duality data separate from that algebra isomorphism. Use the Haar moment
 calculation and faithful TL trace form to transfer the matching lower
 bound. Prove the positive quotient comparison and the intertwiner
 dimension equality, then build
@@ -495,6 +589,229 @@ reduce every admissible F to `[[0,1],[−q⁻¹,0]]` for a real
 isomorphism `O_F^+≃SUq(2)`. At n=1 prove instead
 `A_o(F)=C*(ℤ/2)`, with two irreducibles and two-point character law;
 the infinite fusion and semicircular assertions do not hold there.
+
+## Q8. Generic U_q(sl₂), signed modules and integrability
+
+Work over ℂ with q≠0 and q^r≠1 for every positive integer r. In particular
+q≠±1. Modules in this lane are algebraic modules, with no topology or
+finite-dimensional assumption unless stated. Pin
+[r]_q=(q^r−q^(−r))/(q−q⁻¹) for r∈ℤ; prove its Laurent-polynomial
+formula, recurrence, sign law and nonvanishing for r≠0.
+
+1. **Presentation, PBW and Hopf API.** Construct U_q as the native
+   `RingQuot` of `FreeAlgebra ℂ` on E,F,K,K⁻¹, with
+   KK⁻¹=K⁻¹K=1, KE=q²EK, KF=q⁻²FK and
+   EF−FE=(K−K⁻¹)/(q−q⁻¹). Prove the universal property for actual
+   generator tuples in an arbitrary complex algebra, extensionality on
+   generators and the inverse-K commutation formulas. Construct the basis
+   F^a K^b E^c, (a,b,c)∈ℕ×ℤ×ℕ, including unique coefficient expansion,
+   subalgebra inclusions, triangular decomposition and the domain theorem.
+   Own a reusable σ-derivation Ore extension over a k-algebra R on finitely supported
+   nonnegative coefficient sequences: T r=σ(r)T+δ(r),
+   with an explicit k-algebra endomorphism σ and k-linear δ satisfying
+   δ(rs)=σ(r)δ(s)+δ(r)s. Require σ injective for leading-term/domain
+   results. The left-coefficient monomial basis holds for every σ;
+   require σ bijective for the right-coefficient monomial basis.
+   Prove associative multiplication, coefficient
+   recursion, leading term, the monomial basis and its universal property;
+   identify δ=0 with Mathlib's `SkewPolynomial` and its
+   `MulSemiringAction (Multiplicative ℕ)` convention under a local instance
+   induced by the explicit σ parameter; use no global q-dependent instance.
+   For PBW start with ℂ[K,K⁻¹], adjoin F with σ_F(K)=q²K, then E
+   with σ_E(K)=q⁻²K, σ_E(F)=F, δ_E(K)=0 and
+   δ_E(F)=(K−K⁻¹)/(q−q⁻¹). Prove these maps respect the first
+   extension's relations and extend them by the Ore universal property:
+   the triangular-matrix algebra map r↦[[σ_E(r),δ_E(r)],[0,r]]
+   supplies the σ_E-derivation extension. Identify the tower presentation
+   with the quotient. Its left-coefficient basis K^b F^a E^c equals
+   q^(−2ab) F^a K^b E^c, hence yields the specified PBW basis.
+   Under `[Fact (q≠0)]`, construct the native `HopfAlgebra` instance
+   on this quotient; all coproduct/counit/antipode definitions and instance
+   synthesis use that same hypothesis. Its formulas are
+   ΔK=K⊗K, ΔE=E⊗1+K⊗E, ΔF=F⊗K⁻¹+1⊗F,
+   εK=1, εE=εF=0, S(K)=K⁻¹, S(E)=−K⁻¹E and S(F)=−FK.
+   Verify relations and all Hopf identities through the universal property.
+   Give the antipode inverse and its square, automorphisms E↦tE,F↦t⁻¹F
+   for t≠0, and the algebra isomorphism from the q⁻¹ presentation
+   sending K to K⁻¹ and E,F to E,F. This map is not a Hopf isomorphism
+   for the pinned coproduct; state and prove its transported coproduct.
+
+2. **Modules, weights and highest-weight construction.** Use actual native
+   complex modules and U_q actions, equivalently complex algebra maps to
+   `Module.End ℂ V`; construct intertwiners, kernels, quotients, sums,
+   arbitrary algebraic direct sums. Tensor and dual actions consume item 5’s
+   single generic Hopf-module construction after item 1’s Hopf structure;
+   this item’s weight and highest-weight arguments require no tensor/dual input.
+   Develop K eigenspaces and finite-dimensional generalized eigenspaces,
+   with E and F shifting λ to q²λ and q⁻²λ. Define locally nilpotent
+   E and F by eventual annihilation of each vector, and local finiteness
+   by finite dimension of each cyclic U_q submodule.
+   Construct the Verma module for every λ≠0 as the quotient by the left
+   ideal UE+U(K−λ), with basis F^jv, j≥0; give its action, singular
+   vectors, submodules and simple quotient. For m≥0 and ε∈{1,−1}
+   construct L_m^ε with basis v₀,…,v_m and
+   K v_j=εq^(m−2j)v_j, F v_j=[j+1]_q v_(j+1),
+   E v_j=ε[m−j+1]_q v_(j−1), with out-of-range vectors zero.
+   Prove the relations, simplicity, pairwise nonisomorphism and Schur
+   endomorphism algebra ℂ. Classify every finite-dimensional simple as
+   exactly one L_m^ε, deriving existence of a highest vector from the
+   finite K spectrum without assuming K is diagonalizable beforehand.
+
+3. **Casimir and finite-dimensional complete reducibility.** Construct
+   Ω=FE+(qK+q⁻¹K⁻¹)/(q−q⁻¹)², prove centrality and prove the whole
+   center is ℂ[Ω] by PBW/leading-coefficient reduction. Its scalar on
+   L_m^ε is ε(q^(m+1)+q^(−m−1))/(q−q⁻¹)². Prove these scalars
+   distinct for all (m,ε) under the stated generic hypothesis.
+   Prove every finite-dimensional U_q module is semisimple, including
+   ones initially given with generalized K weights. Split into Casimir
+   primary blocks; in a block with composition factors L_m^ε, the top
+   generalized K-weight space W has dimension equal to their multiplicity
+   by a composition series and exactness of generalized eigenspaces.
+   Prove E W=0 and F^m injective on W. For the latter use
+   W_r=ker(F^r)∩W: the commutator sends X_r W_r into W_(r−1),
+   where X_r=(q^(1−r)K−q^(r−1)K⁻¹)/(q−q⁻¹) is invertible on
+   W for 1≤r≤m. Induction gives W_r=0. Prove the commutator formula
+   E F^r=F^r E+[r]_q F^(r−1)
+   (q^(1−r)K−q^(r−1)K⁻¹)/(q−q⁻¹).
+   Apply it at r=m+1 and F^(m+1)W=0 to force K²=q^(2m) on W.
+   The two roots are distinct and the block has chosen sign ε, so
+   K=εq^m on W. The strings F^jW then give the actual direct sum
+   of L_m^ε. Derive diagonalizability of K, splitting of short exact
+   sequences, uniqueness of multiplicities and Hom/endomorphism formulas.
+
+4. **Arbitrary local finiteness and the type-1 distinction.** Prove an
+   arbitrary locally finite module is an algebraic direct sum of the signed
+   finite simples. In the Zorn argument a finite cyclic submodule intersects
+   the maximal semisimple sum in a finite submodule, splits by item 3, and
+   supplies a new simple complement if the sum is not all V. Prove the
+   converse and the evaluation isomorphism
+   ⊕_(m,ε) (L_m^ε⊗Hom_U(L_m^ε,V))≃V, with actual commuting actions.
+   Define type 1 by K diagonalizable with eigenvalues in {q^k:k∈ℤ},
+   using an algebraic eigenspace direct sum even for infinite V. Prove:
+   type 1 plus locally nilpotent E,F is equivalent to a direct sum of
+   L_m^+ and to local finiteness plus type 1. For the forward implication
+   PBW bounds the E powers on each vector, the F powers on each resulting
+   E^cv, and the K powers on their finite weight spans. Separately prove
+   the signed-weight version, with eigenvalues in {±q^k}, characterizes
+   unrestricted local finiteness when combined with E,F local nilpotence.
+   Exhibit the one-dimensional L_0^- (K=−1,E=F=0): it is locally finite
+   and locally nilpotent but not type 1. Thus the unsigned integral-weight
+   condition is not equivalent to unrestricted local finiteness.
+
+5. **Tensor, dual and explicit Clebsch–Gordan theory.** For any Hopf algebra
+   H over a field k, define `FiniteHopfModuleCat k H` on a type synonym
+   of native `CategoryTheory.ObjectProperty.FullSubcategory` on
+   `ModuleCat.{u} H` for k:Type u and H:Type v, whose restriction
+   along `algebraMap k H` is finite-dimensional over k. The carrier
+   universe is u, so the unit k, k-duals and tensor-over-k stay in the
+   category and match native FDRep. Construct the finite-basis shrink
+   equivalence from higher-universe finite modules to these small models,
+   with linear comparison maps and transported H-actions, following native
+   `FDRep.ofShrink` and `FDRep.ofShrinkEquiv`. Prove compatibility with
+   the tensor, dual and forgetful structures constructed here. Use native
+   `ModuleCat.restrictScalars` and its morphisms; the forgetful functor
+   lands in native `FGModuleCat.{u} k`. Supply the explicit category
+   instance on the synonym, the faithful forgetful functors to
+   `ModuleCat.{u} k` and `FGModuleCat.{u} k`, and their compatibility.
+   Construct its
+   `MonoidalCategory` structure with tensor over k through the coproduct,
+   and the counit unit action; do not inherit tensor over H from a
+   commutative-H ModuleCat instance. Build tensor intertwiners,
+   associator/unitors and the monoidal forgetful comparison. For H=k[G],
+   restrict native `Rep.equivalenceModuleMonoidAlgebra` to finite objects
+   and identify this monoidal category, duals and trivial-pivot structure
+   with PivotalSpherical Layer7’s `FDRep k G`. Consume Layer7’s
+   `RigidCategory (FDRep k G)`, constructed from its canonical
+   `LeftRigidCategory (FGModuleCat k)` and native `Action` rigid instances,
+   together with Mathlib’s existing right duals. For H=k[G], prove the
+   generic S⁻¹ left dual and its evaluation/coevaluation agree with these
+   canonical duals, using S⁻¹=S. Prove the monoidal
+   equivalence comparison rather than treating the native unbundled
+   categorical equivalence as already monoidal. Construct
+   right duals via S with native `ExactPairing` triangle identities.
+   Given `Function.Bijective (HopfAlgebra.antipode)`, construct its
+   inverse left dual and named `RigidCategory` data, installed locally
+   in every statement using its left duals, pivot, pivotal traces,
+   dimensions or dual-compatible Clebsch–Gordan and 6j maps. For g:H with native
+   [`IsGroupLikeElem k g`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Coalgebra/GroupLike.lean)
+   and S²=Ad(g), consume
+   `GroupLike.toUnits k ⟨g,hg⟩` and native antipode/inverse laws.
+   Prove Ad(g) bijective and deduce S bijective from bijectivity of S∘S.
+   Supply that proof to the named rigid data, then construct `PivotalCategory` by
+   j_V(v)(φ)=φ(gv), proving H-linearity and monoidal naturality.
+   Instantiate this generic category at U_q and g=K⁻¹.
+   Construct normalized
+   highest vectors and the actual intertwiners giving
+   L_m^ε⊗L_n^δ≃⊕_(j=0)^min(m,n) L_(m+n−2j)^(εδ).
+   Pin the highest vector as Σ_(i=0)^j α_i v_i⊗v_(j−i), with
+   α₀=1 and α_(i+1)=−δ q^(m−2i)
+   [n−j+i+1]_q/[m−i]_q α_i for 0≤i<j. Prove this recurrence
+   directly from the specified ΔE and ladder actions; denominators
+   are nonzero in this range. Extend its highest-vector map along the
+   normalized F ladder to each summand.
+   For r≥0 pin the symmetric quantum binomial formulas
+   Δ(E^r)=Σ_(s=0)^r q^(s(r−s)) [r choose s]_q
+   E^s K^(r−s)⊗E^(r−s) and
+   Δ(F^r)=Σ_(s=0)^r q^(s(r−s)) [r choose s]_q
+   F^(r−s)⊗F^s K^(−(r−s)), deriving them from q²-commutation.
+   Prove inverse Clebsch–Gordan maps, naturality and the 6j
+   change-of-decomposition matrices on triple products in the α₀=1
+   and normalized F-ladder bases. Prove their Biedenharn–Elliott
+   pentagon identity on L_a^ε⊗L_b^δ⊗L_c^ζ⊗L_d^θ under the actual associator,
+   and compatibility with dual evaluation and coevaluation.
+   Compare both tensor orders of the sign representation,
+   retaining their basis rescalings. Prove finite duals are the corresponding
+   signed simples by explicit antipode intertwiners, comparing the
+   U_q right/left duals and pivot with the generic construction above. Identify PivotalSpherical's rightTrace(f)=tr_V(gf) and
+   leftTrace(f)=tr_V(g⁻¹f), with its right-dual convention.
+   Prove they coincide for all module endomorphisms by the finite
+   semisimple decomposition, giving the spherical structure. Give
+   ordinary weight characters and the representation ring.
+   The common pivotal dimension is ε[m+1]_q on L_m^ε;
+   it is [m+1]_q on the positive family. These statements
+   use algebraic tensors and the constructed Hopf module actions, independent
+   of Q1–Q7's C*-tensor-category construction.
+
+6. **Compact real form and the SUq(2) comparison.** For real 0<q<1
+   construct K*=K, E*=KF, F*=EK⁻¹ and prove Hopf/star compatibility.
+   On each L_m^+ construct the positive invariant inner product with
+   h₀=1 and h_j/h_(j−1)=[m−j+1]_q/([j]_q q^(m−2j)). Prove its
+   star relations and K positivity. Build the coefficient Hopf pairing
+   and monoidal equivalence between finite positive-K modules
+   (finite direct sums of the L_m^+) and
+   Q5/Q7's SUq(2) finite unitary corepresentations, comparing the actual
+   fundamental matrix [[a,−q c*],[c,a*]], cup, antipode and conjugate
+   conventions in the orthonormal basis v_j/√h_j. The matching cup,
+   written in the original ladder basis, is proportional to
+   v₀⊗v₁−q v₁⊗v₀. Compare the pivotal and positive intrinsic dimensions.
+   On the orthonormal fundamental basis pin the pairing by
+   (⟨K,u_ij⟩)=diag(q,q⁻¹),
+   (⟨E,u_ij⟩)=[[0,q^(−1/2)],[0,0]], and
+   (⟨F,u_ij⟩)=[[0,0],[q^(1/2),0]]. These fix its values on
+   a,c,a*,c* through the stated fundamental matrix. Prove both Hopf
+   pairing equations and the star/antipode comparison from these values,
+   then extend to all finite coefficients and intertwiners.
+   Negative-K signed modules remain in the algebraic classification; they
+   are not identified with this positive-K compact representation category.
+
+7. **Classical finite-module comparison.** For the positive family write
+   its matrices over native ℤ[v,v⁻¹], with the Laurent-polynomial quantum
+   integers. Evaluate v=1 on E,F and the diagonal operator with entries
+   [m−2j]_v. Prove these become the classical sl₂ highest-weight m module
+   and construct the matrices-to-`LieModule` adapter on native
+   `sl (Fin 2) ℂ`, pinning E,F,H through `IsSl2Triple`. Give an actual
+   module isomorphism to RepresentationTheory/LieHighestWeight's
+   highest-weight m action, retaining the basis normalization rather
+   than identifying two separately chosen ladder or symmetric-power bases.
+   This is an explicit representation-family specialization; substitution
+   into U_q's denominator presentation does not define U(sl₂).
+
+The order within Q8 is presentation/PBW/Hopf → weights/Verma/simple modules
+→ Casimir/finite splitting → local finiteness and tensor theory → the
+compact/classical comparisons. Item 6 additionally consumes Q5/Q7's compact
+coefficient core; Q1–Q7 have no dependency on Q8. Generic higher-rank and
+root-of-unity quantized enveloping algebras are separate from the rank-one
+classification specified here.
 
 ## Sources and API evidence
 
@@ -526,13 +843,33 @@ the infinite fusion and semicircular assertions do not hold there.
   Proposition 2 and Theorem 1, pp.1–4. The valid infinite-fusion range
   is n≥2, as in its abstract; the one-dimensional presentation gives
   the separate ℤ/2 boundary case.
-- The explicit q=−1 matrix-function model and its monomial integration
-  in Q7 are a direct derivation specified here. Verify its defining
-  relations, linear independence and Haar invariance; the endpoint
-  formula is not quoted from Timmermann's interior series.
 - Mathlib `RingTheory/HopfAlgebra`, `RingTheory/Bialgebra`,
   `Algebra/Star/Unitary` and matrix star/tensor APIs fix the algebraic
   vocabulary. Tau Ceti's `Comodule/MatrixCoefficient/{Matrix,FromMatrix}`
   fixes the matrix orientation and inverse-antipode identities.
   Use these existing algebraic interfaces and CA1's analytic dagger
   structure for all required additions.
+- Virelizier, [*Quantum groups*](https://www.math.virelizier.com/sources/cours/QuantumGroupM2.pdf),
+  §§2.3–4.1, for the fixed rank-one Hopf convention, type-1 finite modules
+  and fusion. The Verma/center, signed generalized-weight splitting,
+  locally finite/Zorn theorem, explicit Clebsch–Gordan maps, compact
+  pairing and classical specialization in Q8 are direct mathematical
+  developments specified here, not claims that those source sections
+  prove every extension. The reusable σ-derivation construction is also
+  specified intrinsically.
+- Etingof–Gelaki–Nikshych–Ostrik,
+  [*Tensor Categories*](https://math.mit.edu/~etingof/egnobookfinal.pdf),
+  as a supplementary reading pointer. Q8 specifies its own module
+  classification, quantum function-algebra comparison and conventions.
+- Mathlib `Algebra/SkewPolynomial/Basic.lean` constructs the zero-derivation
+  skew extension on `SkewMonoidAlgebra`. Q8's σ-derivation construction
+  uses its finitely supported coefficient design with an explicit σ and
+  proves the comparison for δ=0 under the induced local action instance.
+- [AlgebraicAnalysis's derivation-Ore construction](https://github.com/itpplasma/algebraic-analysis/blob/fbb7bb423146c1300807ec971e8a9eb5ac86303b/AlgebraicAnalysis/Ore/Associativity.lean)
+  proves faithful normal forms, associativity and the universal property
+  for σ=id over a noncommutative coefficient ring. Its LeftPBW and
+  IteratedTower files give the coefficient-field basis and commuting-
+  derivation tower comparisons. Q8 requires general σ-derivations; it
+  extends this mathematical scope and compares the σ=id specialization.
+  Integration of that external code requires author coordination; the
+  definitions and theorem specifications here do not assume such integration.
