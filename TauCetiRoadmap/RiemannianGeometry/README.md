@@ -63,7 +63,7 @@ Consume these exact suppliers:
   ordinary forms and exterior calculus, orientation, smooth flows, manifold Sard (Layer 10),
   integration/Stokes, de Rham/singular comparison, metrics, gradient/Hessian,
   divergence and the canonical density/measure bridge.
-- [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4–B1.5/B2–B5/B6.0:
+- [SmoothBundlesConnections](https://github.com/TauCetiProject/TauCetiRoadmap/blob/791dd408dc48930060b28043245bbb1a8d82b5de/TauCetiRoadmap/SmoothBundlesConnections/README.md), B1.4–B1.5/B2–B5/B6.0:
   actual smooth pullback/tensor/dual/End bundles, metric connections and their
   induced derivatives, curvature, parallel transport/holonomy, and real/complex
   bundle L². Transport reconstruction consumes B5's smooth path-family and
@@ -80,7 +80,7 @@ Consume these exact suppliers:
   constant-curvature models with their native `ModelGeometry.Space` instances.
   Its smoothing-and-triangulation item 1 supplies the marked CW-pair and
   finite-point refinements consumed by R3.
-- [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K5a: real/complex
+- [ComplexKahlerGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md), K5a: real/complex
   bundle Sobolev/Rellich, distributional regularity and global estimates for
   smooth Laplace-type systems, the formal-adjoint L² comparison, compact resolvent, Green operator,
   real de Rham Hodge theorem and harmonic representatives. This roadmap owns
@@ -133,12 +133,20 @@ Consume these exact suppliers:
   representation and identifies its complexification with the specific
   highest-weight module; it does not assume a supplied harmonic-tensor carrier.
 
-- [PseudodifferentialOperators](../PseudodifferentialOperators/README.md), P1:
+- [PseudodifferentialOperators](https://github.com/TauCetiProject/TauCetiRoadmap/blob/526c10edca87fdb08907b1ad2a044fea1e7829f7/TauCetiRoadmap/PseudodifferentialOperators/README.md), P1:
   generic differential operators, jets, commutator order, geometric/Fourier symbol
   comparison, Dirac polarization and canonical Bochner connection. R7 consumes its rough/de Rham construction and symbol examples, and supplies
   the real geometric curvature/Weitzenböck identities. P5 extends K5a’s p=2
   scale to bundle p≠2/all-order/Hölder theory; P6 supplies arbitrary elliptic
   regularity. PDE retains scalar boundary and Calderón–Zygmund estimates.
+
+The shared analytic order is K5a's pointwise Gram form metric, real star and
+density line, then PDO P1.0's differential operators, symbols and density
+formal adjoints, then K5a's real/complex distributional Sobolev scales, weak
+H² realization, compact resolvent and real de Rham Hodge theory. PDO P1.1
+and P2–P6 follow that analytic scale; R7 consumes these objects for its
+geometric curvature identities. K5a applies to arbitrary real base dimension
+and identifies real bundles with conjugation-fixed complexifications.
 
 [MorseTheory M1–M6](../MorseTheory/README.md) owns ordinary Morse functions,
 normal forms, compact-band deformation, cell attachments and abstract Morse–Bott
@@ -259,7 +267,7 @@ carrier or normal-coordinate jet theorem.
 construction and the indicated smooth-carrier suppliers. Its curvature and
 geodesic calculations also consume R4.7's independently constructed round
 model, which uses R1's connection formulas and no R3 theorem.
-On [ComplexKahlerGeometry K7.1](../ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples)'s
+On [ComplexKahlerGeometry K7.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples)'s
 smooth CP^d carrier and [GeneralizedCohomology G4.0b](../GeneralizedCohomology/README.md#g4-generalized-lerayhirsch-thom-and-euler-theory)'s
 smooth HP^d carrier, construct metrics as the quotients of the round unit
 spheres S^(2d+1) and S^(4d+3) by the circle and unit-quaternion Hopf actions.
