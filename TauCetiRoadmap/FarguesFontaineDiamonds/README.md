@@ -1090,7 +1090,7 @@ Fargues–Fontaine global-sections formulas.
 [diamonds]: ../DiamondsAndVStacks/README.md
 [adic-part-ii]: ../AdicSpacesPartII/README.md
 [cohomology]: ../DiamondEtaleCohomology/README.md
-[coefficients]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/1ec0bfd20c02efd3db6194d823ae41d1f08e8e37/TauCetiRoadmap/AdicCoefficientsAndComparisons/README.md#layer-l0-adic-coefficients
+[coefficients]: ../AdicCoefficientsAndComparisons/README.md
 [fs]: https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf
 [sw]: https://people.mpim-bonn.mpg.de/scholze/Berkeley.pdf
 [ecd]: https://arxiv.org/pdf/1709.07343v4
