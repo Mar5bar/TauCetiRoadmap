@@ -266,18 +266,32 @@ but its constant unit normal variation has second volume variation
 `−m·Vol(Sᵐ)<0` by differentiating `cos(t)^m Vol(Sᵐ)`, so it cannot
 be calibrated by a closed ambient form.
 
-## C4. Kähler calibrations
+## C4. Hermitian linear algebra and Kähler calibrations
 
-For every Kähler manifold of complex dimension n and 0≤r≤n, prove the smooth
-pointwise Wirtinger inequality for `ωʳ/r!`, its comass one and its equality
-classification by complex r-planes with the complex orientation. Consume
-CKG K5b.0 for equality on a complex r-plane with its induced Hermitian
-metric. Own the inequality and the converse that equality forces a
-complex plane. Derive these by
-the singular values of the restricted skew-adjoint complex structure and its
-Pfaffian/volume comparison. Consume native finite-dimensional adjoints, spectral
-and determinant APIs and CKG's complex tangent metric; own the real
-skew-normal-form and Pfaffian comparisons as unconditional targets. Closedness follows from dω=0 and
+First export the pointwise Hermitian vector-space theorem for every complex
+dimension n and 0≤r≤n: the associated real form `ωʳ/r!` has comass1,
+with equality precisely on complex r-planes with their complex orientation.
+Use the associated real metric g and orthogonal complex structure J,
+`ω(v,w)=g(Jv,w)`, and prove naturality under Hermitian isometries.
+At r=1 this is `ω(v,w)≤sqrt(g(v,v)g(w,w)−g(v,w)²)`; for independent
+v,w equality is equivalent to their positively oriented plane being
+J-invariant. Prove this linear theorem without a complex atlas, an
+integrability assumption or closedness. Derive its smooth bundlewise form
+for a symplectic form ω and an ω-compatible J, with the associated
+metric `g(v,w)=ω(v,Jw)`. Expose this linear core on C1's comass
+carriers. For the linear proof, use Cauchy–Schwarz
+at r=1 and the singular values of the restricted skew-adjoint complex
+structure and their Pfaffian/volume comparison in every r. Consume native
+finite-dimensional adjoint, spectral and determinant APIs; construct the
+real skew-normal-form and Pfaffian comparisons here. A unitary basis
+proves the complex-plane normalization independently of complex charts.
+
+For every Kähler manifold instantiate that theorem with its complex
+tangent metric and fundamental form. Prove the smooth inequality, comass
+and equality classification on the same carriers. Consume
+CKG K5b.0 to compare the induced Hermitian metric/volume normalization on
+a complex r-plane with the linear theorem. The inequality and its equality
+classification come from the preceding linear core. Closedness follows from dω=0 and
 the wedge-derivative rule.
 
 Prove a smooth real 2r-submanifold is calibrated exactly when its tangent spaces
@@ -549,9 +563,10 @@ arbitrary minimal submanifolds.
 ## Dependency order
 
 C1's finite-dimensional theory precedes every geometric application.
-C4's inequality and converse use C1 and early CKG K1/K2; its equality
-direction consumes K5b.0, independently of
-K6.1's analytic-set integration and C3's variation theorem. C2's chain/
+C4's Hermitian linear inequality and equality classification use C1 and
+finite-dimensional Hermitian linear algebra. Its Kähler bundle application
+uses early CKG K1/K2 and compares its equality normalization with K5b.0,
+independently of K6.1's analytic-set integration and C3's variation theorem. C2's chain/
 integration theory precedes C3. C5's plane and coordinate-phase theory
 uses C1 and the early Kähler/parallel-volume data, and its smooth
 minimization conclusions consume C2/C3. C6 uses C5, K5a's compact Hodge
