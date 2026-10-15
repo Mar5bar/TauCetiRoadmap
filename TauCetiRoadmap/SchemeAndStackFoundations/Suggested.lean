@@ -357,6 +357,12 @@ example : IsExcellentRing ℤ := by sorry
 example (R : Type u) [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
     [IsAdicComplete (IsLocalRing.maximalIdeal R) R] : IsExcellentRing R := by sorry
 
+-- Countably many polynomial variables violate the Noetherian clause of all four predicates.
+example (k : Type u) [Field k] : ¬ IsGRing (MvPolynomial ℕ k) := by sorry
+example (k : Type u) [Field k] : ¬ IsJ2 (MvPolynomial ℕ k) := by sorry
+example (k : Type u) [Field k] : ¬ IsQuasiExcellentRing (MvPolynomial ℕ k) := by sorry
+example (k : Type u) [Field k] : ¬ IsExcellentRing (MvPolynomial ℕ k) := by sorry
+
 end Excellence
 
 /-! ### §0.23a Étale topological invariance -/
@@ -370,11 +376,17 @@ def smallEtaleBaseChange {X Y : Scheme.{u}} (f : X ⟶ Y) : Y.Etale ⥤ X.Etale 
     ⟨fun h hp => MorphismProperty.IsStableUnderBaseChange.of_isPullback h hp⟩
   exact MorphismProperty.Over.pullback @Etale ⊤ f
 
-/-- A universal homeomorphism induces an equivalence of small étale sites.
+/-- Base change along a universal homeomorphism is fully faithful and essentially surjective.
 Stacks, Theorem 59.45.2 (04DZ). -/
+theorem smallEtaleBaseChange_isEquivalence {X Y : Scheme.{u}} (f : X ⟶ Y)
+    (hf : (topologically IsHomeomorph).universally f) :
+    (smallEtaleBaseChange f).IsEquivalence := by sorry
+
+/-- A universal homeomorphism induces an equivalence with scheme base change as forward functor. -/
 def universalHomeomorphismEtaleEquivalence {X Y : Scheme.{u}} (f : X ⟶ Y)
     (hf : (topologically IsHomeomorph).universally f) : Y.Etale ≌ X.Etale := by
-  sorry
+  letI := smallEtaleBaseChange_isEquivalence f hf
+  exact (smallEtaleBaseChange f).asEquivalence
 
 /-- The forward functor of topological invariance is scheme base change. -/
 theorem universalHomeomorphismEtaleEquivalence_functor {X Y : Scheme.{u}} (f : X ⟶ Y)
@@ -392,32 +404,82 @@ theorem universalHomeomorphismEtaleEquivalence_coverPreserving {X Y : Scheme.{u}
   sorry
 
 /-- Identity compatibility uses the canonical pullback comparison. -/
-def universalHomeomorphismEtaleEquivalence_id (X : Scheme.{u})
+theorem universalHomeomorphismEtaleEquivalence_id (X : Scheme.{u})
     (hX : (topologically IsHomeomorph).universally (𝟙 X)) :
-    (universalHomeomorphismEtaleEquivalence (𝟙 X) hX).functor ≅ 𝟭 X.Etale := by
-  sorry
+    ∃ e : (universalHomeomorphismEtaleEquivalence (𝟙 X) hX).functor ≅ 𝟭 X.Etale,
+      ∀ V : X.Etale, (e.hom.app V).left = pullback.fst V.hom (𝟙 X) := by sorry
 
 /-- Composition compatibility is the associativity comparison for scheme pullbacks. -/
-def universalHomeomorphismEtaleEquivalence_comp {X Y Z : Scheme.{u}}
+theorem universalHomeomorphismEtaleEquivalence_comp {X Y Z : Scheme.{u}}
     (f : X ⟶ Y) (g : Y ⟶ Z)
     (hf : (topologically IsHomeomorph).universally f)
     (hg : (topologically IsHomeomorph).universally g)
     (hfg : (topologically IsHomeomorph).universally (f ≫ g)) :
-    (universalHomeomorphismEtaleEquivalence (f ≫ g) hfg).functor ≅
-      (universalHomeomorphismEtaleEquivalence g hg).functor ⋙
-        (universalHomeomorphismEtaleEquivalence f hf).functor := by
-  sorry
+    ∃ e : (universalHomeomorphismEtaleEquivalence (f ≫ g) hfg).functor ≅
+        (universalHomeomorphismEtaleEquivalence g hg).functor ⋙
+          (universalHomeomorphismEtaleEquivalence f hf).functor,
+      ∀ V : Z.Etale,
+        (e.hom.app V).left ≫ pullback.fst (pullback.snd V.hom g) f ≫
+            pullback.fst V.hom g = pullback.fst V.hom (f ≫ g) ∧
+        (e.hom.app V).left ≫ pullback.snd (pullback.snd V.hom g) f =
+          pullback.snd V.hom (f ≫ g) := by sorry
 
 /-- In a cartesian square the equivalence commutes with arbitrary base change. -/
-def universalHomeomorphismEtaleEquivalence_baseChange {X Y Y' : Scheme.{u}}
+theorem universalHomeomorphismEtaleEquivalence_baseChange {X Y Y' : Scheme.{u}}
     (f : X ⟶ Y) (g : Y' ⟶ Y)
     (hf : (topologically IsHomeomorph).universally f)
     (hf' : (topologically IsHomeomorph).universally (pullback.snd f g)) :
-    (universalHomeomorphismEtaleEquivalence f hf).functor ⋙
-        smallEtaleBaseChange (pullback.fst f g) ≅
-      smallEtaleBaseChange g ⋙
-        (universalHomeomorphismEtaleEquivalence (pullback.snd f g) hf').functor := by
-  sorry
+    ∃ e : (universalHomeomorphismEtaleEquivalence f hf).functor ⋙
+          smallEtaleBaseChange (pullback.fst f g) ≅
+        smallEtaleBaseChange g ⋙
+          (universalHomeomorphismEtaleEquivalence (pullback.snd f g) hf').functor,
+      ∀ V : Y.Etale,
+        (e.hom.app V).left ≫ pullback.fst (pullback.snd V.hom g) (pullback.snd f g) ≫
+            pullback.fst V.hom g =
+          pullback.fst (pullback.snd V.hom f) (pullback.fst f g) ≫ pullback.fst V.hom f ∧
+        (e.hom.app V).left ≫ pullback.snd (pullback.snd V.hom g) (pullback.snd f g) =
+          pullback.snd (pullback.snd V.hom f) (pullback.fst f g) := by sorry
+
+-- Elementwise nil kernels, without a common nilpotence exponent, preserve étale covers.
+example (A : Type u) [CommRing A] (I : Ideal A) (hI : ∀ a ∈ I, IsNilpotent a) :
+    let f := Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))
+    (smallEtaleBaseChange f).IsEquivalence ∧
+      CoverPreserving (Scheme.smallEtaleTopology (Spec (.of A)))
+        (Scheme.smallEtaleTopology (Spec (.of (A ⧸ I)))) (smallEtaleBaseChange f) := by sorry
+
+-- The cusp normalization gives an equivalence although it is not an isomorphism.
+example (k : Type u) [Field k] :
+    let A := Algebra.adjoin k ({Polynomial.X ^ 2, Polynomial.X ^ 3} : Set (Polynomial k))
+    let f := Spec.map (CommRingCat.ofHom A.val.toRingHom)
+    ¬ IsIso f ∧ (smallEtaleBaseChange f).IsEquivalence ∧
+      CoverPreserving (Scheme.smallEtaleTopology (Spec (.of A)))
+        (Scheme.smallEtaleTopology (Spec (.of (Polynomial k)))) (smallEtaleBaseChange f) := by sorry
+
+-- The node has two points above its singularity, in contrast to the cusp.
+example (k : Type u) [Field k] (h2 : (2 : k) ≠ 0) :
+    let A := Algebra.adjoin k
+      ({Polynomial.X ^ 2 - 1, Polynomial.X ^ 3 - Polynomial.X} : Set (Polynomial k))
+    let f := Spec.map (CommRingCat.ofHom A.val.toRingHom)
+    ¬ (topologically IsHomeomorph).universally f ∧
+      ¬ (smallEtaleBaseChange f).IsEquivalence := by sorry
+
+-- A separable quadratic field extension is only an ordinary homeomorphism.
+example (p : ℕ) [Fact p.Prime] :
+    let f := Spec.map (CommRingCat.ofHom (algebraMap (ZMod p) (GaloisField p 2)))
+    IsHomeomorph f.base ∧ ¬ (smallEtaleBaseChange f).IsEquivalence := by sorry
+
+-- Two successive base changes of a nil thickening preserve the site and its covers.
+example (A : Type u) [CommRing A] (I : Ideal A) (hI : ∀ a ∈ I, IsNilpotent a)
+    (Y Z : Scheme.{u}) (g : Y ⟶ Spec (.of A)) (h : Z ⟶ Y) :
+    let f := Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))
+    let f' := pullback.snd f g
+    let f'' := pullback.snd f' h
+    (smallEtaleBaseChange f').IsEquivalence ∧ (smallEtaleBaseChange f'').IsEquivalence ∧
+      Nonempty (smallEtaleBaseChange f ⋙ smallEtaleBaseChange (pullback.fst f g) ⋙
+          smallEtaleBaseChange (pullback.fst f' h) ≅
+        smallEtaleBaseChange g ⋙ smallEtaleBaseChange h ⋙ smallEtaleBaseChange f'') ∧
+      CoverPreserving (Scheme.smallEtaleTopology Z)
+        (Scheme.smallEtaleTopology (pullback f' h)) (smallEtaleBaseChange f'') := by sorry
 
 /-! ### §0.27 Flat base change of annihilators -/
 
@@ -429,6 +491,19 @@ theorem annihilator_flat_baseChange {R S M : Type u} [CommRing R] [CommRing S] [
     (Module.annihilator R M).map (algebraMap R S) =
       Module.annihilator S (S ⊗[R] M) := by
   sorry
+
+/-- Flat base change preserves the annihilator of the unit pure tensor, for any module. -/
+theorem element_annihilator_flat_baseChange {R S M : Type u}
+    [CommRing R] [CommRing S] [Algebra R S] [AddCommGroup M] [Module R M]
+    [Module.Flat R S] (m : M) :
+    (Submodule.span R {m}).annihilator.map (algebraMap R S) =
+      (Submodule.span S {(1 : S) ⊗ₜ[R] m}).annihilator := by sorry
+
+-- Arbitrary coefficients in the pure tensor have additional annihilators even for identity base change.
+example : (Submodule.span ℤ {(0 : ℤ) ⊗ₜ[ℤ] (1 : ℤ)}).annihilator = ⊤ ∧
+    (Submodule.span ℤ {(1 : ℤ)}).annihilator = ⊥ := by sorry
+example : (Submodule.span (ZMod 4) {(2 : ZMod 4) ⊗ₜ[ZMod 4] (1 : ZMod 4)}).annihilator =
+    Ideal.span {(2 : ZMod 4)} ∧ (Submodule.span (ZMod 4) {(1 : ZMod 4)}).annihilator = ⊥ := by sorry
 
 section Nonflat
 local instance : Algebra (ZMod 4) (ZMod 2) :=
@@ -471,7 +546,18 @@ theorem schemeCharP_of_hom {X S : Scheme.{u}} (f : X ⟶ S) (hS : SchemeCharP S 
   sorry
 
 /-- Absolute Frobenius fixes the space and raises structure-sheaf sections to `p`th powers. -/
-def absoluteFrobenius (X : Scheme.{u}) (hX : SchemeCharP X p) : X ⟶ X := sorry
+def absoluteFrobenius (X : Scheme.{u}) (hX : SchemeCharP X p) : X ⟶ X :=
+  Scheme.Hom.mk
+    { base := 𝟙 X.toTopCat
+      c :=
+        { app := fun U => CommRingCat.ofHom
+            { toFun := fun a => a ^ p
+              map_one' := one_pow p
+              map_mul' := fun a b => mul_pow a b p
+              map_zero' := by sorry
+              map_add' := by sorry }
+          naturality := by sorry }
+      prop := by sorry }
 
 /-- Absolute Frobenius on an affine scheme is induced by ring Frobenius. -/
 theorem absoluteFrobenius_spec (A : Type u) [CommRing A] [CharP A p]
@@ -509,7 +595,9 @@ def schemeFrobeniusTwist {X S : Scheme.{u}} (f : X ⟶ S) (hS : SchemeCharP S p)
 /-- Relative Frobenius has projections equal to absolute Frobenius and the structure map. -/
 def relativeFrobenius {X S : Scheme.{u}} (f : X ⟶ S)
     (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
-    X ⟶ schemeFrobeniusTwist p f hS := sorry
+    X ⟶ schemeFrobeniusTwist p f hS :=
+  pullback.lift (absoluteFrobenius p X hX) f
+    (absoluteFrobenius_naturality p hX hS f)
 
 /-- The first projection factors absolute Frobenius through relative Frobenius. -/
 theorem relativeFrobenius_fst {X S : Scheme.{u}} (f : X ⟶ S)
@@ -565,7 +653,21 @@ def schemeFrobeniusTwistBaseChangeIso {X S S' : Scheme.{u}} (f : X ⟶ S) (g : S
     (hS : SchemeCharP S p) (hS' : SchemeCharP S' p) :
     schemeFrobeniusTwist p (pullback.snd f g) hS' ≅
       pullback (pullback.snd f (absoluteFrobenius p S hS)) g := by
-  sorry
+  let FS := absoluteFrobenius p S hS
+  let FS' := absoluteFrobenius p S' hS'
+  let π := pullback.snd f g
+  let πF := pullback.snd f FS
+  exact
+    { hom := pullback.lift
+        (pullback.lift (pullback.fst π FS' ≫ pullback.fst f g)
+          (pullback.snd π FS' ≫ g) (by sorry))
+        (pullback.snd π FS') (by sorry)
+      inv := pullback.lift
+        (pullback.lift (pullback.fst πF g ≫ pullback.fst f FS)
+          (pullback.snd πF g ≫ FS') (by sorry))
+        (pullback.snd πF g) (by sorry)
+      hom_inv_id := by sorry
+      inv_hom_id := by sorry }
 
 /-- The base-change comparison transports relative Frobenius, with both projections. -/
 theorem relativeFrobenius_baseChange {X S S' : Scheme.{u}} (f : X ⟶ S) (g : S' ⟶ S)
@@ -580,8 +682,9 @@ theorem relativeFrobenius_baseChange {X S S' : Scheme.{u}} (f : X ⟶ S) (g : S'
   sorry
 
 /-- The `r`-fold absolute scheme Frobenius raises sections to `p^r` powers. -/
-def iteratedSchemeFrobenius (X : Scheme.{u}) (hX : SchemeCharP X p) (r : ℕ) : X ⟶ X :=
-  sorry
+def iteratedSchemeFrobenius (X : Scheme.{u}) (hX : SchemeCharP X p) : ℕ → (X ⟶ X)
+  | 0 => 𝟙 X
+  | r + 1 => iteratedSchemeFrobenius X hX r ≫ absoluteFrobenius p X hX
 
 /-- The zeroth absolute iterate is identity. -/
 theorem iteratedSchemeFrobenius_zero (X : Scheme.{u}) (hX : SchemeCharP X p) :
@@ -605,7 +708,8 @@ def iteratedSchemeFrobeniusTwist {X S : Scheme.{u}} (f : X ⟶ S)
 /-- Iterated relative Frobenius factors the absolute iterate as a map over the base. -/
 def iteratedRelativeFrobenius {X S : Scheme.{u}} (f : X ⟶ S)
     (hX : SchemeCharP X p) (hS : SchemeCharP S p) (r : ℕ) :
-    X ⟶ iteratedSchemeFrobeniusTwist p f hS r := sorry
+    X ⟶ iteratedSchemeFrobeniusTwist p f hS r :=
+  pullback.lift (iteratedSchemeFrobenius p X hX r) f (by sorry)
 
 /-- The first projection of iterated relative Frobenius is the absolute iterate. -/
 theorem iteratedRelativeFrobenius_fst {X S : Scheme.{u}} (f : X ⟶ S)
@@ -622,8 +726,11 @@ theorem iteratedRelativeFrobenius_snd {X S : Scheme.{u}} (f : X ⟶ S)
 
 /-- The zeroth twist is canonically the original scheme. -/
 def iteratedSchemeFrobeniusTwistZeroIso {X S : Scheme.{u}} (f : X ⟶ S)
-    (hS : SchemeCharP S p) : iteratedSchemeFrobeniusTwist p f hS 0 ≅ X := by
-  sorry
+    (hS : SchemeCharP S p) : iteratedSchemeFrobeniusTwist p f hS 0 ≅ X where
+  hom := pullback.fst f (iteratedSchemeFrobenius p S hS 0)
+  inv := pullback.lift (𝟙 X) f (by simp [iteratedSchemeFrobenius])
+  hom_inv_id := by sorry
+  inv_hom_id := by sorry
 
 /-- Zeroth relative Frobenius becomes identity under the canonical comparison. -/
 theorem iteratedRelativeFrobenius_zero {X S : Scheme.{u}} (f : X ⟶ S)
@@ -638,7 +745,18 @@ def iteratedSchemeFrobeniusTwistAddIso {X S : Scheme.{u}} (f : X ⟶ S)
     iteratedSchemeFrobeniusTwist p
         (pullback.snd f (iteratedSchemeFrobenius p S hS r)) hS s ≅
       iteratedSchemeFrobeniusTwist p f hS (r + s) := by
-  sorry
+  let Fr := iteratedSchemeFrobenius p S hS r
+  let Fs := iteratedSchemeFrobenius p S hS s
+  let Frs := iteratedSchemeFrobenius p S hS (r + s)
+  let πr := pullback.snd f Fr
+  exact
+    { hom := pullback.lift (pullback.fst πr Fs ≫ pullback.fst f Fr)
+        (pullback.snd πr Fs) (by sorry)
+      inv := pullback.lift
+        (pullback.lift (pullback.fst f Frs) (pullback.snd f Frs ≫ Fs) (by sorry))
+        (pullback.snd f Frs) (by sorry)
+      hom_inv_id := by sorry
+      inv_hom_id := by sorry }
 
 /-- Both projections characterize the addition comparison and enforce its coherence. -/
 theorem iteratedSchemeFrobeniusTwistAddIso_projections {X S : Scheme.{u}} (f : X ⟶ S)
@@ -664,8 +782,9 @@ theorem iteratedRelativeFrobenius_add {X S : Scheme.{u}} (f : X ⟶ S)
 
 /-- For a finite field of order `p^a`, the `q`-power scheme map is the `a`-fold absolute map. -/
 def qPowerFrobenius (k : Type u) [Field k] [Finite k] [CharP k p]
-    {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of k)) (hX : SchemeCharP X p)
-    (a : ℕ) (ha : Nat.card k = p ^ a) : X ⟶ X := sorry
+    {X : Scheme.{u}} (_f : X ⟶ Spec (CommRingCat.of k)) (hX : SchemeCharP X p)
+    (a : ℕ) (_ha : Nat.card k = p ^ a) : X ⟶ X :=
+  iteratedSchemeFrobenius p X hX a
 
 /-- The finite-field scheme map agrees with the specified absolute iterate. -/
 theorem qPowerFrobenius_eq_iterated (k : Type u) [Field k] [Finite k] [CharP k p]
@@ -678,6 +797,128 @@ theorem qPowerFrobenius_over (k : Type u) [Field k] [Finite k] [CharP k p]
     {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of k)) (hX : SchemeCharP X p)
     (a : ℕ) (ha : Nat.card k = p ^ a) :
     qPowerFrobenius p k f hX a ha ≫ f = f := sorry
+
+-- Affine Frobenius includes nilpotents and commutes with localization.
+example (A : Type u) [CommRing A] [CharP A p] (a : A)
+    (hA : SchemeCharP (Spec (.of A)) p)
+    (hL : SchemeCharP (Spec (.of (Localization.Away a))) p) :
+    absoluteFrobenius p _ hA = Spec.map (CommRingCat.ofHom (frobenius A p)) ∧
+      absoluteFrobenius p _ hL ≫ Spec.map (CommRingCat.ofHom (algebraMap A (Localization.Away a))) =
+        Spec.map (CommRingCat.ofHom (algebraMap A (Localization.Away a))) ≫
+          absoluteFrobenius p _ hA := by sorry
+
+-- The dual-number nilpotent is killed; this Frobenius is not an isomorphism.
+example :
+    let I : Ideal (Polynomial (ZMod p)) := Ideal.span {Polynomial.X ^ 2}
+    let A := Polynomial (ZMod p) ⧸ I
+    letI : CharP A p := by sorry
+    let ε : A := Ideal.Quotient.mk I Polynomial.X
+    let X := Spec (.of A)
+    ∃ hX : SchemeCharP X p,
+      absoluteFrobenius p X hX = Spec.map (CommRingCat.ofHom (frobenius A p)) ∧
+      ε ≠ 0 ∧ frobenius A p ε = 0 ∧ ¬ IsIso (absoluteFrobenius p X hX) := by sorry
+
+-- The empty scheme has intrinsic characteristic p and identity Frobenius.
+example : ∃ hX : SchemeCharP (∅ : Scheme.{u}) p,
+    absoluteFrobenius p ∅ hX = 𝟙 _ := by sorry
+
+-- A one-point space can have nonidentity Frobenius, and the first iterate need not be linear.
+example :
+    let k := GaloisField p 2
+    let X := Spec (.of k)
+    ∃ hX : SchemeCharP X p,
+      (absoluteFrobenius p X hX).base = (𝟙 X : X ⟶ X).base ∧
+      absoluteFrobenius p X hX ≠ 𝟙 X ∧
+      absoluteFrobenius p X hX ≫ (𝟙 X) ≠ 𝟙 X ∧
+      iteratedSchemeFrobenius p X hX 2 = 𝟙 X := by sorry
+
+-- The affine-line relative algebra has the p monomials as a basis, rather than rank one.
+example (k : Type u) [Field k] [CharP k p] :
+    let X := Spec (.of (Polynomial k))
+    let S := Spec (.of k)
+    let f := Spec.map (CommRingCat.ofHom (algebraMap k (Polynomial k)))
+    ∃ (hX : SchemeCharP X p) (hS : SchemeCharP S p),
+      let T := schemeFrobeniusTwist p f hS
+      let F := relativeFrobenius p f hX hS
+      letI : Algebra Γ(T, ⊤) Γ(X, ⊤) := F.appTop.hom.toAlgebra
+      IsFinite F ∧ Flat F ∧ LocallyOfFinitePresentation F ∧
+        Nonempty (Γ(X, ⊤) ≃ₗ[Γ(T, ⊤)] (Fin p → Γ(T, ⊤))) ∧
+        ¬ Nonempty (Γ(X, ⊤) ≃ₗ[Γ(T, ⊤)] Γ(T, ⊤)) := by sorry
+
+-- The coordinate map on the relative affine line is t ↦ t^p, with the specified monomial basis.
+example (k : Type u) [Field k] [CharP k p] :
+    let X := Spec (.of (Polynomial k))
+    let S := Spec (.of k)
+    let f := Spec.map (CommRingCat.ofHom (algebraMap k (Polynomial k)))
+    ∃ (hX : SchemeCharP X p) (hS : SchemeCharP S p),
+      (∃ e : schemeFrobeniusTwist p f hS ≅ X,
+        relativeFrobenius p f hX hS ≫ e.hom =
+          Spec.map (CommRingCat.ofHom (Polynomial.expand k p).toRingHom)) ∧
+      (letI : Algebra (Polynomial k) (Polynomial k) := (Polynomial.expand k p).toRingHom.toAlgebra
+       letI : Module (Polynomial k) (Polynomial k) := Algebra.toModule
+       ∃ b : Module.Basis (Fin p) (Polynomial k) (Polynomial k),
+         ∀ i, b i = Polynomial.X ^ i.val) := by sorry
+
+-- Smooth pure relative dimension d gives rank p^d on every point of the twist.
+example {X S : Scheme.{u}} (f : X ⟶ S) (d : ℕ) [SmoothOfRelativeDimension d f]
+    (hX : SchemeCharP X p) (hS : SchemeCharP S p) :
+    let F := relativeFrobenius p f hX hS
+    IsFinite F ∧ Flat F ∧ LocallyOfFinitePresentation F ∧ ∀ y, F.finrank y = p ^ d := by sorry
+
+-- The affine-plane component has rank p²; a disjoint union need not have constant rank.
+example (k : Type u) [Field k] [CharP k p] :
+    let X := Spec (.of (MvPolynomial (Fin 2) k))
+    let S := Spec (.of k)
+    let f := Spec.map (CommRingCat.ofHom (algebraMap k (MvPolynomial (Fin 2) k)))
+    ∃ (hX : SchemeCharP X p) (hS : SchemeCharP S p),
+      let T := schemeFrobeniusTwist p f hS
+      let F := relativeFrobenius p f hX hS
+      letI : Algebra Γ(T, ⊤) Γ(X, ⊤) := F.appTop.hom.toAlgebra
+      Nonempty (Γ(X, ⊤) ≃ₗ[Γ(T, ⊤)] (Fin (p ^ 2) → Γ(T, ⊤))) ∧ p ≠ p ^ 2 := by sorry
+
+-- The two components have different ranks under the same relative Frobenius.
+example (k : Type u) [Field k] [CharP k p] :
+    let S := Spec (.of k)
+    let A := Spec (.of (Polynomial k))
+    let B := Spec (.of (MvPolynomial (Fin 2) k))
+    let X := A ⨿ B
+    let f := coprod.desc
+      (Spec.map (CommRingCat.ofHom (algebraMap k (Polynomial k))))
+      (Spec.map (CommRingCat.ofHom (algebraMap k (MvPolynomial (Fin 2) k))))
+    ∃ (hX : SchemeCharP X p) (hS : SchemeCharP S p),
+      let F := relativeFrobenius p f hX hS
+      IsFinite F ∧ Flat F ∧
+        (∀ x : A, F.finrank (F ((coprod.inl : A ⟶ X) x)) = p) ∧
+        (∀ x : B, F.finrank (F ((coprod.inr : B ⟶ X) x)) = p ^ 2) ∧
+        ¬ ∃ n, ∀ y, F.finrank y = n := by sorry
+
+-- Étale relative Frobenius is invertible even over a nonperfect base.
+example :
+    let A := Polynomial (ZMod p)
+    let X := Spec (.of A)
+    ∃ hX : SchemeCharP X p, ¬ IsIso (absoluteFrobenius p X hX) ∧
+      IsIso (relativeFrobenius p (𝟙 X) hX hX) := by sorry
+
+-- Both zeroth maps are identity after the canonical zeroth-twist comparison.
+example (X : Scheme.{u}) (hX : SchemeCharP X p) :
+    iteratedSchemeFrobenius p X hX 0 = 𝟙 X ∧
+      iteratedRelativeFrobenius p (𝟙 X) hX hX 0 ≫
+        (iteratedSchemeFrobeniusTwistZeroIso p (𝟙 X) hX).hom = 𝟙 X := by sorry
+
+-- Scalar extension of the F_q identity fixes F_{q²}; absolute q-Frobenius does not.
+example (k L : Type u) [Field k] [Finite k] [Field L] [Finite L]
+    [Algebra k L] [CharP k p] [CharP L p] (a : ℕ)
+    (ha : Nat.card k = p ^ a) (hL : Nat.card L = (Nat.card k) ^ 2) :
+    let S := Spec (.of k)
+    let T := Spec (.of L)
+    let g := Spec.map (CommRingCat.ofHom (algebraMap k L))
+    ∃ (hS : SchemeCharP S p) (hT : SchemeCharP T p),
+      let F := qPowerFrobenius p k (𝟙 S) hS a ha
+      F = 𝟙 S ∧
+        ∃ b : pullback (𝟙 S) g ⟶ pullback (𝟙 S) g,
+          b = 𝟙 _ ∧ b ≫ pullback.snd (𝟙 S) g = pullback.snd (𝟙 S) g ∧
+          b ≫ pullback.fst (𝟙 S) g = pullback.fst (𝟙 S) g ≫ F ∧
+          iteratedSchemeFrobenius p T hT a ≠ 𝟙 T := by sorry
 
 end SchemeFrobenius
 
@@ -1331,8 +1572,12 @@ example (k : Type u) [Field k] :
     letI : X.Over (Spec (.of k)) :=
       ⟨Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (algebraMap k (𝒜 0)))⟩
     let K := ((DerivedCategory.singleFunctor X.Modules 0).obj (X.relativeDifferentials k))⟦(1 : ℤ)⟧
+    let R := Localization.Away (Polynomial.X : Polynomial k)
+    let x : R := algebraMap (Polynomial k) R Polynomial.X
+    let y : R := IsLocalization.Away.invSelf (Polynomial.X : Polynomial k)
     let B : Set X.Opens := {U | IsAffineOpen U}
-    (∀ (U : B) (i : ℤ), i < 0 →
+    KaehlerDifferential.D k R y = -(y ^ 2) • KaehlerDifferential.D k R x ∧
+      (∀ (U : B) (i : ℤ), i < 0 →
       Subsingleton ((derivedRestrict U.val.ι).obj K ⟶
         ((derivedRestrict U.val.ι).obj K)⟦i⟧)) ∧
       Nonempty (DerivedGluingSolution (restrictedGluingData X B K)) ∧
@@ -1349,8 +1594,12 @@ example (k : Type u) [Field k] :
     letI : X.Over (Spec (.of k)) := ⟨Sigma.desc (fun _ =>
       Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (algebraMap k (𝒜 0))))⟩
     let K := ((DerivedCategory.singleFunctor X.Modules 0).obj (X.relativeDifferentials k))⟦(1 : ℤ)⟧
+    let R := Localization.Away (Polynomial.X : Polynomial k)
+    let x : R := algebraMap (Polynomial k) R Polynomial.X
+    let y : R := IsLocalization.Away.invSelf (Polynomial.X : Polynomial k)
     let B : Set X.Opens := {U | IsAffineOpen U ∧ ∃ n, (U : Set X) ⊆ Set.range (Sigma.ι Xs n)}
-    ¬ CompactSpace X ∧
+    KaehlerDifferential.D k R y = -(y ^ 2) • KaehlerDifferential.D k R x ∧
+      ¬ CompactSpace X ∧
       (∀ (U : B) (i : ℤ), i < 0 →
         Subsingleton ((derivedRestrict U.val.ι).obj K ⟶
           ((derivedRestrict U.val.ι).obj K)⟦i⟧)) ∧
@@ -1494,6 +1743,30 @@ theorem vectorBundleDegree_add_of_shortExact (X : Scheme.{u}) [X.Over (Spec (.of
     vectorBundleDegree k X S.X₂ (r₁ + r₃) =
       vectorBundleDegree k X S.X₁ r₁ + vectorBundleDegree k X S.X₃ r₃ := by
   sorry
+
+/-- Pullback multiplies degree by the function-field degree for nonconstant maps of
+proper integral curves. Stacks, Lemma 33.44.11 (0AYZ). -/
+theorem vectorBundleDegree_pullback (X Y : Scheme.{u})
+    [X.Over (Spec (.of k))] [Y.Over (Spec (.of k))] [IsIntegral X] [IsIntegral Y]
+    [IsProper (X ↘ Spec (.of k))] [IsProper (Y ↘ Spec (.of k))]
+    (hX : topologicalKrullDim X = 1) (hY : topologicalKrullDim Y = 1)
+    (f : X ⟶ Y) [IsDominant f] (hf : f ≫ (Y ↘ Spec (.of k)) = (X ↘ Spec (.of k)))
+    (E : Y.Modules) (r : ℕ) (hE : isFiniteLocallyFreeOfRank E r) :
+    let φ := Y.presheaf.stalkSpecializes
+      (show f (genericPoint X) ⤳ genericPoint Y by sorry) ≫ f.stalkMap (genericPoint X)
+    letI := φ.hom.toAlgebra
+    vectorBundleDegree k X ((Scheme.Modules.pullback f).obj E) r =
+      Module.finrank Y.functionField X.functionField * vectorBundleDegree k Y E r := by sorry
+
+-- The reduced line in a double line violates a fibre-length-one extension of the formula.
+example : ∃ (X Y : Scheme.{u}) (_ : X.Over (Spec (.of k))) (_ : Y.Over (Spec (.of k)))
+    (f : X ⟶ Y) (E : Y.Modules),
+    IsProper (X ↘ Spec (.of k)) ∧ IsProper (Y ↘ Spec (.of k)) ∧
+    topologicalKrullDim X = 1 ∧ topologicalKrullDim Y = 1 ∧
+    IsReduced X ∧ ¬ IsReduced Y ∧ IsClosedImmersion f ∧ IsHomeomorph f.base ∧
+    f ≫ (Y ↘ Spec (.of k)) = (X ↘ Spec (.of k)) ∧
+    isFiniteLocallyFreeOfRank E 1 ∧ vectorBundleDegree k Y E 1 = 2 ∧
+    vectorBundleDegree k X ((Scheme.Modules.pullback f).obj E) 1 = 1 := by sorry
 
 /-- A proper geometrically integral scheme over `k` has `H⁰(X, O_X) = k`.
 Stacks, Lemma 33.9.3 (0BUG), part (7). -/
