@@ -58,6 +58,14 @@ class IsCompleteDVRBase (p : ℕ) (O : Type u) [CommRing O] [IsDomain O]
 example (p ℓ : ℕ) [Fact p.Prime] [Fact ℓ.Prime] (hℓ : ℓ ≠ p) :
     IsAdicCoefficientPair p (Ideal.span {(ℓ : ℤ_[ℓ])}) := sorry
 
+/-- The empty regular sequence gives the zero-ideal pair for prime-to-p finite coefficients. -/
+example (p ℓ : ℕ) [Fact p.Prime] [Fact ℓ.Prime] (hℓ : ℓ ≠ p) :
+    IsAdicCoefficientPair p (⊥ : Ideal (ZMod ℓ)) := sorry
+
+/-- The unit ideal is excluded, including over the zero ring, by regular-sequence generation. -/
+example (p : ℕ) (Λ : Type u) [CommRing Λ] :
+    ¬ IsAdicCoefficientPair p (⊤ : Ideal Λ) := sorry
+
 /-- The ideal (p) of ℤ_p is excluded by the prime-to-p condition. -/
 example (p : ℕ) [Fact p.Prime] :
     ¬ IsAdicCoefficientPair p (Ideal.span {(p : ℤ_[p])}) := sorry
@@ -66,12 +74,25 @@ example (p : ℕ) [Fact p.Prime] :
 example (p ℓ : ℕ) [Fact p.Prime] [Fact ℓ.Prime] (hℓ : ℓ ≠ p) :
     IsPrimeToPTorsion p (ZMod ℓ) := sorry
 
+/-- p-torsion fails the prime-to-p annihilator condition. -/
+example (p : ℕ) [Fact p.Prime] : ¬ IsPrimeToPTorsion p (ZMod p) := sorry
+
+/-- The zero ring has prime-to-p annihilator one. -/
+example (p : ℕ) (Λ : Type u) [CommRing Λ] [Subsingleton Λ] :
+    IsPrimeToPTorsion p Λ := sorry
+
 /-- Characteristic-zero ℤ_ℓ is not a discrete prime-to-p torsion ring. -/
 example (p ℓ : ℕ) [Fact p.Prime] [Fact ℓ.Prime] :
     ¬ IsPrimeToPTorsion p ℤ_[ℓ] := sorry
 
 /-- The complete DVR base includes ℤ_p with its p-adic topology. -/
 example (p : ℕ) [Fact p.Prime] : IsCompleteDVRBase p ℤ_[p] := sorry
+
+open scoped PowerSeries.WithPiTopology
+
+/-- Power series over a discrete perfect characteristic-p field give an equal-characteristic base. -/
+example (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p] [PerfectField k]
+    [TopologicalSpace k] [DiscreteTopology k] : IsCompleteDVRBase p (PowerSeries k) := sorry
 
 /-- Discrete topology on a nonfield DVR is excluded from the base convention. -/
 example (p : ℕ) (O : Type u) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
@@ -125,6 +146,11 @@ example :
     ∃ e : (Q.obj A ⟶ Q.obj A) ≃ ℚ_[ℓ],
       e (𝟙 _) = 1 ∧ ∀ f g, e (f ≫ g) = e f * e g := sorry
 
+open scoped ZeroObject
+
+/-- Scalar localization preserves the zero object of a linear category. -/
+example [HasZeroObject C] : IsZero ((localise C ℓ).obj (0 : C)) := sorry
+
 /-- An ℓ-power-torsion object becomes zero; the zero case includes exponent zero. -/
 example (A : C) (k : ℕ) (hA : ((ℓ : ℤ_[ℓ]) ^ k) • 𝟙 A = 0) :
     IsZero ((localise C ℓ).obj A) := sorry
@@ -151,6 +177,9 @@ abbrev LFTScheme (O : Type u) [CommRing O] : Type (u + 1) := (IsLFTOver O).FullS
 /-- The characteristic-p carrier contains Spec of ZMod p. -/
 example (p : ℕ) : IsCharPScheme p (Spec (CommRingCat.of (ZMod p))) := sorry
 
+/-- The empty scheme has characteristic p because its section ring is the zero ring. -/
+example (p : ℕ) : IsCharPScheme p (Scheme.empty : Scheme.{u}) := sorry
+
 /-- Spec ℤ does not lie in the characteristic-p carrier for a prime p. -/
 example (p : ℕ) [Fact p.Prime] : ¬ IsCharPScheme p (Spec (CommRingCat.of ℤ)) := sorry
 
@@ -162,6 +191,11 @@ example (O : Type u) [CommRing O] :
 example (O : Type u) [CommRing O] :
     IsLFTOver O (Over.mk (Spec.map (CommRingCat.ofHom (Polynomial.C : O →+* Polynomial O)))) :=
   sorry
+
+/-- Affine space in countably infinitely many variables is not locally of finite type. -/
+example (k : Type u) [Field k] :
+    ¬ IsLFTOver k (Over.mk (Spec.map
+      (CommRingCat.ofHom (MvPolynomial.C : k →+* MvPolynomial ℕ k)))) := sorry
 
 /-- Algebraic fields over the prime field have full plus ring. -/
 theorem charPPlus_eq_top (p : ℕ) [Fact p.Prime] (k : Type u) [Field k]
@@ -193,6 +227,31 @@ example (Z : Scheme.{u}) : IsEffectiveCartierIdeal (⊤ : Z.IdealSheafData) := s
 /-- On a nonempty scheme the zero ideal is not an effective Cartier ideal. -/
 example (Z : Scheme.{u}) [Nonempty Z] : ¬ IsEffectiveCartierIdeal (⊥ : Z.IdealSheafData) := sorry
 
+/-- The coordinate ideal of the affine line is Cartier, but its pullback to the origin is not. -/
+example (k : Type u) [Field k] :
+    let S := Spec (CommRingCat.of (Polynomial k))
+    let t := (Scheme.ΓSpecIso (CommRingCat.of (Polynomial k))).inv (Polynomial.X : Polynomial k)
+    let I : S.IdealSheafData := Scheme.IdealSheafData.ofIdealTop (Ideal.span {t})
+    let origin := Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : k)))
+    IsEffectiveCartierIdeal I ∧ ¬ IsEffectiveCartierIdeal (I.comap origin) := sorry
+
+/-- The square-zero coordinate ideal of the dual numbers fails the Cartier condition. -/
+example (k : Type u) [Field k] :
+    let J : Ideal (Polynomial k) := Ideal.span {(Polynomial.X : Polynomial k) ^ 2}
+    let A := Polynomial k ⧸ J
+    let ε := Ideal.Quotient.mk J (Polynomial.X : Polynomial k)
+    let e := (Scheme.ΓSpecIso (CommRingCat.of A)).inv ε
+    ¬ IsEffectiveCartierIdeal
+      (Scheme.IdealSheafData.ofIdealTop (Ideal.span {e})) := sorry
+
+/-- No base admits a positive integer annihilating characteristic-zero ℤ_ℓ. -/
+example (X : Scheme.{u}) (ℓ : ℕ) [Fact ℓ.Prime] :
+    ¬ IsInvertibleTorsionOn X (ULift.{u} ℤ_[ℓ]) := sorry
+
+/-- On an empty scheme every positive finite-characteristic coefficient ring qualifies. -/
+example (X : Scheme.{u}) [IsEmpty X] (Λ : Type u) [CommRing Λ]
+    (n : ℕ) (hn : 0 < n) (hΛ : (n : Λ) = 0) : IsInvertibleTorsionOn X Λ := sorry
+
 /-- Prime-to-p finite coefficients are invertible torsion on Spec of a characteristic-p field. -/
 example (p ℓ : ℕ) [Fact p.Prime] [Fact ℓ.Prime] (hℓ : ℓ ≠ p)
     (k : Type u) [Field k] [CharP k p] :
@@ -203,8 +262,6 @@ example (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p] :
     ¬ IsInvertibleTorsionOn (Spec (CommRingCat.of k)) (ULift.{u} (ZMod p)) := sorry
 
 /-! ## Layer L4: the valuation locus of the analytic DVR test space -/
-
-open scoped PowerSeries.WithPiTopology
 
 section TestSpace
 
@@ -217,27 +274,32 @@ def DVRTestSpace.pointSet : Set (TauCeti.ValuationSpectrum (PowerSeries O)) :=
   TauCeti.ValuationSpectrum.spa (⊤ : Subring (PowerSeries O)) ∩
     {v | ¬ v.toValuativeRel.vle PowerSeries.X 0}
 
-/-- Every test-locus point is analytic and lies in a rational chart with denominator x
-(ECD proof of Proposition 27.5, p. 166). -/
+include p
+
+/-- Over a complete adic DVR base every test-locus point is analytic and lies in a rational
+chart with denominator x (ECD proof of Proposition 27.5, p. 166). -/
 theorem DVRTestSpace.analytic (π : O) (hπ : Irreducible π) :
     ∀ v ∈ DVRTestSpace.pointSet O, ¬ IsOpen (v.supp : Set (PowerSeries O)) ∧
       ∃ n : ℕ, v ∈ TauCeti.ValuationSpectrum.basicOpen (PowerSeries.C π ^ n) PowerSeries.X :=
   sorry
 
 
-/-- The test locus meets the special fibre with nonzero topologically nilpotent x. -/
+/-- Over a complete adic DVR base the test locus meets the special fibre with nonzero
+topologically nilpotent x. -/
 example (π : O) (hπ : Irreducible π) :
     ∃ v ∈ DVRTestSpace.pointSet O, PowerSeries.C π ∈ v.supp ∧
       v.toValuativeRel.vlt PowerSeries.X 1 := sorry
 
 
-/-- The test locus meets the generic fibre with π and x topologically nilpotent. -/
+/-- Over a complete adic DVR base the test locus meets the generic fibre with π and x
+topologically nilpotent. -/
 example (π : O) (hπ : Irreducible π) :
     ∃ v ∈ DVRTestSpace.pointSet O, PowerSeries.C π ∉ v.supp ∧
       v.toValuativeRel.vlt (PowerSeries.C π) 1 ∧ v.toValuativeRel.vlt PowerSeries.X 1 := sorry
 
 
-/-- Points with x in their support are excluded, and such ambient points exist. -/
+/-- Over a complete adic DVR base points with x in their support are excluded, and such
+ambient points exist. -/
 example : (∃ v ∈ TauCeti.ValuationSpectrum.spa (⊤ : Subring (PowerSeries O)),
       (PowerSeries.X : PowerSeries O) ∈ v.supp) ∧
     ∀ v : TauCeti.ValuationSpectrum (PowerSeries O),

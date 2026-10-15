@@ -51,7 +51,8 @@ schematic refinements over qcqs bases (L2):
   shared limits, descent and compactifications (§3)
   -> strict maps and Comp_fp -> limit descent and strict refinements
   -> Cartier and vector-bundle refinements -> asymmetric Hom continuity
-  -> finite-type, unbounded and regular-adic proper support
+  -> finite-type and left-completed unbounded discrete proper support
+  -> regular-adic proper support, using the scheme adic category of L1
 
 comparison theorems:
   L3  characteristic p: tensor and pullback, full faithfulness, internal Hom, direct images,
@@ -83,9 +84,9 @@ whose carriers require the cited geometric and enhanced-category foundations.
   reconstruction from the finite levels, the completed tensor product and completed colimits,
   the reduction principle, the six operations on adic coefficients and the adic forms of ECD
   Theorems 1.8–1.10 and 1.13 (L0).
-- Rational coefficients defined as the scalar localisation of integral constructible lattices,
-  with its comparison to Bhatt–Scholze's constructible `ℚ_ℓ`-category on topologically noetherian
-  schemes (L0).
+- Scalar localisation of a supplied linear category, applied to integral constructible lattices;
+  extension to topologically noetherian schemes of the Noetherian scheme rational comparison
+  supplied by EtaleCohomologyFoundations §F.4.5 (L0).
 - The functor `X ↦ X◇` from schemes of characteristic `p` to small v-sheaves, and from schemes
   locally of finite type over a complete discrete valuation ring `O` to small v-sheaves over
   `Spd O`; the adic étale category of a scheme on its pro-étale site; the comparison functor `c_X*`
@@ -107,7 +108,8 @@ whose carriers require the cited geometric and enhanced-category foundations.
 The exact contracts in §3 fix the shared carriers. SchemeAndStackFoundations supplies limits,
 approximation, geometric descent, étale continuity, pro-étale repleteness and alterations.
 EtaleCohomologyFoundations supplies compactifications, Nagata, coherent refinements, bounded
-constructible descent, classical D⁺ torsion proper supports and smooth-boundary purity.
+constructible descent, classical D⁺ torsion proper supports, smooth-boundary purity, and the
+Noetherian scheme rational category with its integral-lattice comparison (§F.4.5).
 EnhancedDerivedSheaves supplies completion and reconstruction, and the diamond and analytic
 roadmaps supply their geometric sites, categories and operations. L2 adds strictness and finite
 presentation refinements to the same compactification category; it introduces no second carrier.
@@ -120,7 +122,8 @@ presentation refinements to the same compactification category; it introduces no
   `FarguesFontaineDiamonds` import the adic coefficient categories and operations (L0), and
   geometric Satake also the characteristic-`p` comparison (L1, L3) and rational lattices.
 - The refinements of L2 apply to analytic comparison, weights, differential equations and
-  K-theory. L2 depends on no other layer of this roadmap. The alteration-descent arguments of
+  K-theory. L2's schematic geometry and discrete proper supports are independent of L0–L1;
+  its regular-adic proper supports use `L1/scheme-adic-category`. The alteration-descent arguments of
   L5 also apply to Igusa varieties, differential equations and derived patching.
 - The generic theory of derived completion belongs to `EnhancedDerivedSheaves`; this roadmap adds
   only the étale condition and the operations. The discrete theory on diamonds belongs to
@@ -402,11 +405,13 @@ diamond and the scheme avatars are targets of other roadmaps and of L1.
 | --- | --- |
 | SchemeAndStackFoundations §0.9 | `affine_transition_limits`, `finite_presentation_limits`, `noetherian_approximation`: affine-transition cofiltered limits of schemes, fp objects and maps with eventual equality, descent of open immersions and proper maps, and qcqs approximation by finite-presentation ℤ-schemes. |
 | SchemeAndStackFoundations §§0.4/0.23–0.23a/2.15/2.17 | `coherent_extension`, `locallyFree_coherent_extension`; topological invariance of the étale site; `etale_cohomology_limits` for compatible abelian sheaves on qcqs affine-transition limits in every degree; pro-étale repleteness and left completeness. |
+| SchemeAndStackFoundations §2.16 | `proper_hypercover_descent`: scheme-side proper cohomological descent for abelian étale sheaves. L5 extends it to uniformly bounded-below finite-coefficient complexes and enhanced Cartesian descent using proper base change and EnhancedDerivedSheaves §§E1.3–E1.4/E3.4. |
 | SchemeAndStackFoundations §§4.16–4.20 | de Jong alterations of pairs over fields, including a finite extension of an imperfect ground field, strict normal crossings, and semistable alterations over a trait after a finite extension. |
 | EtaleCohomologyFoundations §§G.1–G.3 | `Compactification`, `Compactification.Hom` (constructor, ambient-map projection and extensionality), `DenseCompactification`, `Compactification.baseChange`, `Compactification.denseReplacement`, `Compactification.denseReplacementMap`, `nagataCompactification`, `compactificationCommonRefinement`, `denseCompactification_cofiltered` and `denseCompactification_hom_unique`. These give the common category, existence for separated finite-type maps over qcqs bases, schematic closure, all base changes and coherent finite-diagram refinement; dense replacement commutes with flat base change. |
 | EtaleCohomologyFoundations §§0.5–0.6 | `ClassicalCoefficients.finitePresentationDescent`, `ClassicalCoefficients.constructibleDerivedDescent`, `ClassicalCoefficients.constructibleHomContinuity`: finite diagrams of fp schemes and fp coefficient modules, bounded constructible complexes over a fixed noetherian coefficient ring, their maps, shifts and eventual equalities descend through qcqs affine-transition limits. L2's Hom theorem instead permits a bounded-above constructible source and a bounded-below nonconstructible target. |
 | EtaleCohomologyFoundations §§F.0.1/0.7–0.8/F.2.1/F.3 | Constructible sheaves, `ClassicalAlgebraic.supportLocalization`, `ClassicalAlgebraic.properSupports`, `VanishingCycles.properBaseChange`, finiteness and the relative cohomological bounds on their stated geometric domains. The supplied support functor acts on D⁺ torsion complexes for separated **finitely presented** maps of qcqs schemes, with arbitrary torsion, and includes noetherian finite-type maps. L2 extends that same functor to finite-type maps, left-completed unbounded complexes under proved amplitude bounds, and regular adic coefficients. |
 | EtaleCohomologyFoundations §§0.9–0.10/F.6 | `ClassicalAlgebraic.cycleClasses`, `ClassicalAlgebraic.smoothBoundaryPurity`, `VanishingCycles.smoothPairGysin`: Kummer Chern classes, smooth-pair purity, cycle classes and Gysin localization with the stated degree-one normalization; these supply L5's algebraic normal-crossing calculation. |
+| EtaleCohomologyFoundations §F.4.5 | `VanishingCycles.rationalAdicRealization`: on Noetherian schemes with invertible ℓ, the constructible rational category and its equivalence with integral constructible models up to isogeny. L0 extends this supplied comparison to topologically noetherian schemes in the setting of [BS] §6.8 and proves agreement on the common domain. |
 | AlgebraicVectorBundles Layer L0B | `isFiniteLocallyFree`, `FiniteLocallyFreeSheaf` on Mathlib's `Scheme.Modules`; the predicate is local freeness together with finite presentation. Local freeness plus finite type is equivalent here. Ranks are locally constant and may vary between components. |
 | StableReduction Layer 4 | Blow-ups along coherent ideals on noetherian schemes, their properness, strict transforms and the isomorphism off the center. |
 | EnhancedDerivedSheaves §§E1.3–E1.4/E3.2/E3.4 | `enhancedDerived`, derived tensor–Hom, presentability, adjoints, coherent ringed diagrams and mates; these are stable enhancements before passage to homotopy categories. |
@@ -414,6 +419,7 @@ diamond and the scheme avatars are targets of other roadmaps and of L1.
 | EnhancedDerivedSheaves §§E4.1–E4.5 | `DerivedCompleteSheaves`, `completeSheaf`, `derivedComplete_colimit`, `regularIdeal_quotients`, `completedSheafTensor`, `derivedComplete_internalHom`, `completedTensor_hom_adjunction`, `CompatibleCoefficientSystems`, `completedCoefficientRing`, `coefficientSystemReconstruction`, `perfectCoefficientChange`, `isIso_of_isIso_mod`. Reconstruction and quotient perfection apply to finite regular sequences without a noetherian assumption; the limit is in stable ∞-categories. |
 | DiamondsAndVStacks D2/D4/D6 | v-descent of functions; small v-sheaves and v-stacks; marked-untilt descent; diamondification and gluing; `etale-site-comparison` (ECD Lemma 15.6), for analytic adic spaces. L1 constructs scheme avatars, including the integral base Spd O. |
 | PerfectoidSpaces P1 | `characteristic-p-perfectoid-iff-perfect` and `marked-untilt`, with the untilt marking and base map retained. |
+| PerfectoidSpaces P3.17a.2–P3.17a.4 / P3.17b | `sousperfectoid-rings`, `sousperfectoid-sheafy`, `sousperfectoid-adic-space`: Tate algebras over arbitrary affinoid perfectoid untilts give sheafy relative balls; gluing gives relative affine space. `perfectoid-times-polydisc` identifies these products when a perfectoid base field is supplied. Sousperfectoidness is used for the ambient balls. |
 | DiamondEtaleCohomology C0/C2/C3/C6 | Repleteness of the v-topos, the discrete enhanced étale category, pullback and its right adjoint, ECD Proposition 17.6, and algebraically closed field-change invariance (ECD Theorem 19.5), with their coefficient and geometric hypotheses. |
 | DiamondSixOperations S0/S2/S3/S4/S5 | Compactifiable maps representable in locally spatial diamonds of locally finite dim.trg; ECD Proposition 22.3; lower and upper shriek, exchange and projection; cohomological smoothness, its target v-descent and universally conservative surjective pullback; ECD Proposition 24.4 for smooth analytic maps. |
 | AdicSpacesPartII R1, `analytification-universal-property` / `scheme-fibre-product-analytification` | Analytification over complete nonarchimedean fields and relative scheme/adic fibre products on that supplier's stated domain. L1's relative avatar over an arbitrary perfectoid untilt is constructed by its own sheafy relative-affine charts; no noetherian fibre-product hypothesis is suppressed. |
@@ -442,25 +448,28 @@ Mathlib's `CategoryTheory.MorphismProperty.Localization`, `MorphismProperty.Q` a
 the categorical localization and localization functor used in L0. The factorization and
 uniqueness API is `CategoryTheory.Localization.Construction.lift`, `.fac` and `.uniq`;
 no second localization construction is required. The coefficient-specific Hom formula and the
-comparison to constructible rational coefficients are the targets of L0.
+extension of the supplied scheme rational comparison are the targets of L0.
 
 ## 4. How to read the build
 
 The layers use the exact contracts in §3. L0 restricts completion and reconstruction to
 étale objects using DiamondEtaleCohomology and DiamondSixOperations. L1 constructs the scheme
 avatars from DiamondsAndVStacks and PerfectoidSpaces, with scheme sites and enhancements.
-L2 uses only the shared schematic geometry, classical support functor and enhanced completion.
+L2 builds schematic geometry and discrete proper supports from the shared contracts; its
+regular-adic extension also uses the scheme adic category of L1.
 L3 combines L0–L2 with ClassicalAdicEtaleCohomology §§8.2/11.1–11.2 and field-change invariance.
 L4 uses the formal chart of AdicSpacesPartIII R2, relative analytification of AdicSpacesPartII R1,
 and DiamondSixOperations S4–S5. L5 combines L4 with alterations, proper descent and
 EtaleCohomologyFoundations §§0.9–0.10/F.6. L6 uses L4–L5 with the trait stalk and completion
 contracts of ClassicalAdicEtaleCohomology §§1.3/4.3–4.4.
 
-L2 uses no other layer of this roadmap, and its approximation, compactification and continuity
-targets use only schematic inputs. They can be built first and in parallel with L0–L1, and they
-are what the roadmaps listed in §1 import from it. Inside L2 strict morphisms and finite presentation precede refinements,
-then asymmetric Hom continuity and proper-support extensions. L3 and L4 can proceed in parallel once L0–L2 are in place; L5
-needs the proper-support comparison of L4, and L6 needs L4 and L5.
+L2's approximation, compactification, continuity and discrete proper-support targets use no
+other layer of this roadmap and can be built in parallel with L0–L1. These schematic targets
+are what the roadmaps listed in §1 import. Inside L2 strict morphisms and finite presentation
+precede refinements, then asymmetric Hom continuity and discrete proper-support extensions.
+Build `SchemeSupport.extendAdic`, `SchemeSupport.upperShriekAdic` and
+`SchemeSupport.extendAdicAdj` after `L1/scheme-adic-category`. L3 and L4 can proceed in parallel
+once L0–L2 are in place; L5 needs the proper-support comparison of L4, and L6 needs L4 and L5.
 
 ## 5. Layers
 
@@ -687,10 +696,12 @@ and the discrete theorems apply. For 1.10, `Rf^!Λ̂ = Rlimₙ Rf^!(Λ/Iⁿ)` is
 For a prime `ℓ ≠ p` and a site on which an integral bounded constructible `ℓ`-adic category
 `D_cons(X, ℤ_ℓ)` is available, define the rational lattice category `D_cons(X, ℤ_ℓ)[1/ℓ]` as its
 scalar localisation: it has the same objects, morphisms `Hom(A, B) ⊗_{ℤ_ℓ} ℚ_ℓ`, and the
-composition induced coherently from the enhancement. For a topologically noetherian scheme in
-the setting of Bhatt–Scholze §6.8 this category is equivalent to the constructible
-`ℚ_ℓ`-category there, and the functor from integral lattices realises the comparison. No
-equivalence with a category of all rational sheaves on a general small v-stack is asserted: the
+composition induced coherently from the enhancement. EtaleCohomologyFoundations §F.4.5
+(`VanishingCycles.rationalAdicRealization`) supplies the Noetherian scheme rational category
+and its comparison with integral constructible models up to isogeny, for invertible ℓ. Extend
+that comparison to topologically noetherian schemes in the setting of Bhatt–Scholze §6.8,
+compatibly with the supplied functor on its domain. No equivalence with a category of all
+rational sheaves on a general small v-stack is asserted: the
 completed `ℓ`-telescope is zero (`L0/completed-tensor-and-colimits`), so rational coefficients
 cannot be obtained by inverting `ℓ` with completed colimits, and an identification on general
 v-stacks needs a separate lattice and constructibility theorem that this roadmap does not
@@ -710,7 +721,7 @@ light specializations as well as to their enhanced geometric instances.
 - `RationalLattice.hom` (characterisation): `Hom(A, B) = Hom_int(A, B) ⊗_{ℤ_ℓ} ℚ_ℓ`, with the induced composition.
 - `RationalLattice.invert` (simp): multiplication by `ℓ` on every object is invertible.
 - The universal factorization is Mathlib's localization contract in §3; its enhancement and coherent linearity are supplied by EnhancedDerivedSheaves §E3.2.
-- `RationalLattice.schemeComparison` (equivalence): for a topologically noetherian scheme in the setting of Bhatt–Scholze §6.8, the category is equivalent to their constructible `ℚ_ℓ`-category, compatibly with the functor from integral lattices.
+- `RationalLattice.schemeComparison` (extension and compatibility): for a topologically noetherian scheme in the setting of Bhatt–Scholze §6.8, extend the supplied equivalence to its constructible `ℚ_ℓ`-category, compatibly with integral rationalization; on Noetherian schemes with invertible ℓ this is `VanishingCycles.rationalAdicRealization` under the same scalar localization.
 
 **Checks.**
 
@@ -718,10 +729,11 @@ light specializations as well as to their enhanced geometric instances.
 - `RationalLattice.torsion` (characterisation): an integral constructible complex killed by a power of `ℓ` becomes zero.
 - `RationalLattice.zero` (degenerate): the zero complex stays zero.
 - `RationalLattice.isogeny` (characterisation): multiplication by `ℓ` on the rank-one lattice becomes an isomorphism.
+- On a Noetherian scheme with invertible ℓ, the extension sends every supplied constructible integral model to its supplied rational realization, including models with ℓ-power torsion.
 
 *Source:* [BS] Proposition 6.8.14(2), §6.8, pp. 61–62 of the arXiv PDF, for `X` topologically noetherian.
 
-*Needs:* `L0/derived-I-complete-etale-category`; EnhancedDerivedSheaves §E1.3; EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3; SchemeAndStackFoundations §2.17.
+*Needs:* `L0/derived-I-complete-etale-category`; EnhancedDerivedSheaves §§E1.3/E3.2; EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3/F.4.5 (`VanishingCycles.rationalAdicRealization`); SchemeAndStackFoundations §2.17.
 
 *Target names:* `RationalLattice`, `RationalLattice.localise`, `RationalLattice.invert`, `RationalLattice.hom`, `RationalLattice.schemeComparison`.
 
@@ -820,6 +832,9 @@ complexes); take the full subcategory.
 - `SchemeAdic.boundedBelow` (compatibility): on bounded-below complexes, the pullback from `X_ét` to `X_proét` is fully faithful and agrees with the left-completed embedding (Bhatt–Scholze Proposition 5.2.6, p. 37).
 - `SchemeAdic.leftComplete` (equivalence): if `D(X_ét, Λ/I)` is left complete, the condition may be stated with ordinary étale complexes.
 - `SchemeAdic.ext` (extensionality): morphisms are equal if and only if their images in `D(X_proét, Λ)` are.
+- `schemeAdicSymmetric` and `schemeAdicMonoidalClosed` (structure): for every scheme X and coefficient pair of §2.1, construct the symmetric closed monoidal structure on `SchemeAdic(X, Λ)`. Tensor and small colimits are the ambient pro-étale operations followed by derived I-completion; the unit is the completed constant object, and internal Hom is right adjoint to completed tensor. Prove that these constructions retain classical étale reductions and satisfy the tensor–Hom adjunction.
+- `SchemeAdic.pullback` (functoriality): for every scheme map `f : Y → X` and the same coefficient pair, `f* : SchemeAdic(X, Λ) → SchemeAdic(Y, Λ)` is completed pro-étale pullback, preserving small completed colimits.
+- `SchemeAdic.pushforward` and `SchemeAdic.pullbackAdj` (adjunction): construct `Rf_* : SchemeAdic(Y, Λ) → SchemeAdic(X, Λ)` as the right adjoint of this pullback, with its unit, counit and coherent composition. Presentability and the colimit assertion give the adjunction without properness or finite-type hypotheses on f.
 
 **Checks.**
 
@@ -827,10 +842,12 @@ complexes); take the full subcategory.
 - `SchemeAdic.zeroIdeal` (compatibility): for `I = 0` and `Λ` killed by an integer prime to `p`, the category is the essential image of `D̂(X_ét, Λ)`, not all of `D(X_proét, Λ)`.
 - `SchemeAdic.reject_inverted` (non-example): for `Λ = ℤ_ℓ`, `I = (ℓ)`, the nonzero constant `ℚ_ℓ` is not in the category.
 - `SchemeAdic.empty` (degenerate): over the empty scheme every object is zero.
+- For the identity of X the pullback–pushforward adjunction is the identity adjunction.
+- On a geometric point, completed tensor with the unit fixes every object, while the completed multiplication-by-ℓ telescope of the ℤ_ℓ unit is zero.
 
 *Source:* [ECD] §27, the paragraph on the pro-étale site, p. 163.
 
-*Needs:* Mathlib `CategoryTheory.ObjectProperty.FullSubcategory`; EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3; SchemeAndStackFoundations §2.17; EnhancedDerivedSheaves §E4.1; EnhancedDerivedSheaves §E2.3.
+*Needs:* Mathlib `CategoryTheory.ObjectProperty.FullSubcategory`; EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3; SchemeAndStackFoundations §2.17; EnhancedDerivedSheaves §§E1.4/E2.3/E3.2/E4.1–E4.5 (derived operations, presentability, completion and tensor–Hom).
 
 *Target names:* `schemeAdicProperty`, `SchemeAdic`, `SchemeAdic.ofComplete`, `SchemeAdic.forget`, `SchemeAdic.reduce`, `SchemeAdic.boundedBelow`, `SchemeAdic.leftComplete`, `SchemeAdic.ext`, `schemeAdicSymmetric`, `schemeAdicMonoidalClosed`, `SchemeAdic.pullback`, `SchemeAdic.pushforward`, `SchemeAdic.pullbackAdj`.
 
@@ -849,9 +866,14 @@ differs from the characteristic-`p` avatar `Spd(k, k⁺)` as soon as `k⁺ ≠ k
 
 *Proof route.* Marked untilts over the pair `(O, O)` satisfy v-descent; for affine `X = Spec A` the second
 datum is an `O`-algebra map `A → 𝒪(S♯)`, a v-sheaf condition. For representability, embed `X`
-locally as a closed subscheme of affine space over `O`: maps from `T♯` to `X` over `S♯` are the
-points of a closed analytic subspace of the relative affine space over `S♯` (an increasing union
-of relative balls, which is sousperfectoid and hence sheafy), and its diamond is locally spatial.
+locally as a closed subscheme of affine space over `O`. For an affinoid perfectoid untilt
+`S♯ = Spa(R, R⁺)`, the relative balls have Tate-algebra charts over R, supplied by
+PerfectoidSpaces P3.17a.2–P3.17a.4 (`sousperfectoid-rings`, `sousperfectoid-sheafy`,
+`sousperfectoid-adic-space`); gluing balls of increasing radii constructs relative affine
+space. P3.17b (`perfectoid-times-polydisc`) gives the product description when S♯ is over
+a perfectoid field. The equations of X cut out a Zariski closed sub-v-sheaf of the ambient
+locally spatial diamond, hence a locally spatial diamond. Sousperfectoidness applies to the
+ambient relative balls, and is not required of their closed subspaces.
 Huber's fibre product is not used here, since `S♯` need not satisfy its noetherian hypothesis.
 
 *API.*
@@ -868,13 +890,15 @@ Huber's fibre product is not used here, since `S♯` need not satisfy its noethe
 
 - `SchemeDiamond.residue` (computation): `Spec k` gives `Spd(k, k)`, with `k` itself as plus ring.
 - `SchemeDiamond.base` (degenerate): `Spec O` gives `Spd(O, O)` with the identity as structure map.
+- After an affinoid perfectoid untilt `Spa(R, R⁺)`, the affine line is covered by the sheafy relative balls with ring `R⟨T⟩` after rescaling T; no perfectoid base field is required for their sheafiness.
+- The closed locus `T² = 0` has the same maps from perfectoid tests as `T = 0`; its diamond is defined by these equations, without asserting that the nonreduced quotient `R⟨T⟩/(T²)` is sousperfectoid.
 - `SchemeDiamond.emptyDVR` (degenerate): the empty `O`-scheme gives the empty v-sheaf.
 - `SchemeDiamond.nonagreement` (non-example): for a perfect field `k` with an element transcendental over `𝔽_p`, `k⁺ ≠ k`, so the two residue avatars may not be identified.
 - `SchemeDiamond.notDiamond` (non-example): for `O = ℤ_p`, `(Spec O)◇ = Spd ℤ_p` is not a diamond: it contains the sub-v-sheaf `Spd(𝔽_p, 𝔽_p) = *` where `p = 0`, sub-v-sheaves of diamonds are diamonds (ECD Proposition 11.10), and `*` is not a diamond. A definition with values in diamonds would exclude `Spec O`.
 
 *Source:* [ECD] §27, the mixed-characteristic paragraph, pp. 165–166 (read in the relative form, §7).
 
-*Needs:* `PerfectoidSpaces:P1/marked-untilt`; `DiamondsAndVStacks:D6/untilt-descent-along-v-covers`; `DiamondsAndVStacks:D2/v-descent-of-functions`; `DiamondsAndVStacks:D6/gluing-and-the-diamond-functor`; Tau Ceti `TauCeti.ValuationSpectrum.spa`; `DiamondsAndVStacks:D6/etale-site-comparison`.
+*Needs:* `PerfectoidSpaces:P1/marked-untilt`; PerfectoidSpaces P3.17a.2–P3.17a.4 (`sousperfectoid-rings`, `sousperfectoid-sheafy`, `sousperfectoid-adic-space`) and P3.17b (`perfectoid-times-polydisc`); `DiamondsAndVStacks:D4` (Zariski closed subdiamonds); `DiamondsAndVStacks:D6/untilt-descent-along-v-covers`; `DiamondsAndVStacks:D2/v-descent-of-functions`; `DiamondsAndVStacks:D6/gluing-and-the-diamond-functor`; Tau Ceti `TauCeti.ValuationSpectrum.spa`; `DiamondsAndVStacks:D6/etale-site-comparison`.
 
 *Target names:* `SchemeDiamond.overDVR`, `SchemeDiamond.overDVR_points`, `SchemeDiamond.overDVR_functor`, `SchemeDiamond.overDVR_closedFibre`, `SchemeDiamond.overDVR_generic`, `SchemeDiamond.overDVR_empty`, `SchemeDiamond.overDVR_representable`.
 
@@ -908,6 +932,7 @@ convention for the residue field.
 - `SchemeComparison.stalk` (characterisation): at a geometric point `Spd C → X◇`, the stalk of `c_X* A` is the geometric stalk of `A` at the induced point `Spec C → X`.
 - `SchemeComparison.unit` (simp): `c_X*` sends the unit to the unit.
 - `SchemeComparison.colimit` (functoriality): `c_X*` preserves completed colimits, and so has the right adjoint `Rc_X*`.
+- `SchemeComparison.pushforwardAdicDVR` and `SchemeComparison.adjAdicDVR` (adjunction): for every X locally of finite type over the complete adic DVR O of §2.4 and coefficient pair of §2.1, construct `Rc_X* : AdicEtale(X◇, Λ) → SchemeAdic(X, Λ)` as the right adjoint to the completed comparison pullback, with unit, counit and triangle identities. This is an adjunction on the full unbounded presentable adic categories, supplied by the colimit preservation above and EnhancedDerivedSheaves §§E1.4/E3.2.
 
 **Checks.**
 
@@ -918,7 +943,7 @@ convention for the residue field.
 
 *Source:* [ECD] §27, p. 163, and the mixed-characteristic paragraph, pp. 165–166.
 
-*Needs:* `L1/char-p-scheme-diamond-and-comparison-functor`; `L1/scheme-adic-category`; `L0/derived-I-complete-etale-category`; Mathlib `AlgebraicGeometry.Scheme.smallEtaleTopology`; EnhancedDerivedSheaves §§E1.3–E1.4; EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3; SchemeAndStackFoundations §2.17.
+*Needs:* `L1/char-p-scheme-diamond-and-comparison-functor`; `L1/scheme-adic-category`; `L0/derived-I-complete-etale-category`; Mathlib `AlgebraicGeometry.Scheme.smallEtaleTopology`; EnhancedDerivedSheaves §§E1.3–E1.4/E3.2; EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3; SchemeAndStackFoundations §2.17.
 
 *Target names:* `SchemeComparison.pullback`, `SchemeComparison.reduce`, `SchemeComparison.stalk`, `SchemeComparison.unit`, `SchemeComparison.colimit`, `SchemeComparison.pushforwardAdicDVR`, `SchemeComparison.adjAdicDVR`.
 
@@ -944,7 +969,7 @@ The two avatars of Spec k are Spd(k,k⁺) and Spd(k,k). They agree for algebraic
 
 #### Dependencies
 
-L0; DiamondsAndVStacks D2/D4/D6; PerfectoidSpaces P1; AdicSpacesPartII R1; SchemeAndStackFoundations §2.17; EnhancedDerivedSheaves §§E1.3–E1.4/E2.3/E4.1.
+L0; DiamondsAndVStacks D2/D4/D6; PerfectoidSpaces P1/P3.17a.2–P3.17a.4/P3.17b; AdicSpacesPartII R1; SchemeAndStackFoundations §2.17; EnhancedDerivedSheaves §§E1.3–E1.4/E2.3/E3.2/E4.1–E4.5.
 
 ### Layer L2: Schematic geometry over quasi-compact quasi-separated bases
 
@@ -954,7 +979,8 @@ ECD 27.4 is stated for arbitrary quasi-compact quasi-separated schemes of charac
 and its proof needs the direct image with proper support, compactifications and continuity
 arguments in that generality. This layer uses the shared scheme contracts of §3 and builds the stated refinements. It is purely
 schematic up to its last two targets, which extend the classical direct image with proper
-support; it uses no other layer of this roadmap. Finite type and finite presentation are kept
+support. Its schematic geometry and discrete proper-support targets are independent of L0–L1;
+the regular-adic extension uses `L1/scheme-adic-category`. Finite type and finite presentation are kept
 apart throughout, compactifications are not assumed dense, and cofilteredness includes the
 equalisation of parallel maps.
 
@@ -1176,8 +1202,9 @@ schemes, the result is independent of the compactification up to coherent isomor
 satisfies `R(g ∘ f)_! ≅ Rg_! Rf_!` with identity and associativity coherence, base change along
 any cartesian square, and the projection formula `Rf_!(A ⊗ f*B) ≅ Rf_!A ⊗ B`; it agrees with
 extension by zero for open immersions and with `Rf_*` for proper maps, and with the classical
-construction over noetherian bases. For regular adic coefficients it is defined through the
-limit over `Λ/Iⁿ` and commutes with reduction. For the perfection of such a map in
+construction over noetherian bases. Its regular-adic extension is constructed in
+`L2/coefficient-and-unbounded-extension` after `L1/scheme-adic-category`, through the limit
+over `Λ/Iⁿ`, and commutes with reduction. For the perfection of such a map in
 characteristic `p` it is transported through perfection, which does not change the étale site.
 No second direct image with proper support is introduced alongside the classical one.
 
@@ -1210,7 +1237,7 @@ change. Coherence is enhanced descent over the category of compactifications.
 
 *Needs:* EtaleCohomologyFoundations §G.2 (`nagataCompactification`); EtaleCohomologyFoundations §G.3 (coherent refinements); `L2/fp-strict-cofiltered`; EnhancedDerivedSheaves §E4.5 (`coefficientSystemReconstruction`); EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3; SchemeAndStackFoundations §2.17; EnhancedDerivedSheaves §§E1.3–E1.4; SchemeAndStackFoundations §2.15 (`etale_cohomology_limits`); EtaleCohomologyFoundations §0.6 (`ClassicalCoefficients.constructibleDerivedDescent`); SchemeAndStackFoundations §§0.4/0.23–0.23a.
 
-*Target names:* `SchemeSupport.extend`, `SchemeSupport.compactification`, `SchemeSupport.«open»`, `SchemeSupport.compose`, `SchemeSupport.baseChange`, `SchemeSupport.projection`, `SchemeSupport.adic`, `SchemeSupport.proper`, `SchemeSupport.upperShriek`, `SchemeSupport.extendAdj`.
+*Target names:* `SchemeSupport.extend`, `SchemeSupport.compactification`, `SchemeSupport.«open»`, `SchemeSupport.compose`, `SchemeSupport.baseChange`, `SchemeSupport.projection`, `SchemeSupport.adic`, `SchemeSupport.proper`.
 
 #### Larger coefficients and unbounded complexes for the qcqs support (`L2/coefficient-and-unbounded-extension`)
 
@@ -1225,15 +1252,38 @@ coefficient ring is finite.
 *Proof route.* Pass from finite coefficients to arbitrary ones by filtered colimits of modules and perfect
 change of scalars, keeping the exchange transformations; build the left-completed unbounded
 operation from Postnikov truncations using the relative bounds; obtain the adic operation from
-the reconstruction theorem for coefficient systems on the replete pro-étale topos (the general
-theorem of `EnhancedDerivedSheaves`, not Layer L0, which this layer does not use); transport
-through perfections by the topological invariance of the étale site.
+the reconstruction theorem for coefficient systems on the replete pro-étale topos. Use
+`schemeEtaleToProEt` from `L1/scheme-adic-category` to identify the limit of the left-completed
+étale coefficient categories with `SchemeAdic`, retaining its classical étale reduction
+condition. Transport through perfections by the topological invariance of the étale site.
+
+*API.* For `f : Y → X` separated of finite type between qcqs schemes, and a commutative
+ring Λ killed by a positive integer invertible on X, construct
+`coefficientExtension` on `D̂(Y_ét, Λ) → D̂(X_ét, Λ)` after proving a locally uniform finite
+relative cohomological bound for the proper models. Prove that this extension of
+`SchemeSupport.extend` preserves small colimits on these presentable left-completed categories.
+Define `SchemeSupport.upperShriek : D̂(X_ét, Λ) → D̂(Y_ét, Λ)` as its right adjoint and
+`SchemeSupport.extendAdj` as their adjunction. For `(Λ, I)` as in §2.1, with the finite-level
+annihilators invertible on X and the same relative bounds, construct
+`SchemeSupport.extendAdic : SchemeAdic(Y, Λ) → SchemeAdic(X, Λ)` by reconstruction and prove
+it preserves small completed colimits. Define `SchemeSupport.upperShriekAdic` in the reverse
+direction as its right adjoint and `SchemeSupport.extendAdicAdj` as the adjunction. Include
+units, counits, triangle identities and compatibility with the discrete support functor under
+reduction. These adjunctions act on the full unbounded categories; restrictions to bounded
+subcategories carry the corresponding amplitude bounds. EnhancedDerivedSheaves
+§§E1.4/E3.2/E4 provide the derived operations, adjoint theorem and completion constructions.
+
+**Checks.**
+
+- For an identity map both discrete and adic support adjunctions are the identity adjunction.
+- For the empty source all four support and upper-shriek functors are zero.
+- For the fold of two geometric points to one, support is direct sum, its right adjoint is the diagonal functor, and reduction gives the same adjunction at every coefficient level.
 
 *Source:* [ECD] proof of Proposition 27.4, p. 165 (the reductions to bounded-below and constructible complexes), and the reductions modulo `I` in §§26–27.
 
-*Needs:* `L2/scheme-support-extension`; EnhancedDerivedSheaves §§E1.3–E1.4; EnhancedDerivedSheaves §E2.3; EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3; SchemeAndStackFoundations §2.17; EnhancedDerivedSheaves §E4.5 (`coefficientSystemReconstruction`); EnhancedDerivedSheaves §§E4.2/E4.5 (`regularIdeal_quotients`, `perfectCoefficientChange`); SchemeAndStackFoundations §§0.4/0.23–0.23a.
+*Needs:* `L2/scheme-support-extension`; `L1/scheme-adic-category`; EnhancedDerivedSheaves §§E1.3–E1.4/E3.2; EnhancedDerivedSheaves §E2.3; EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3; SchemeAndStackFoundations §2.17; EnhancedDerivedSheaves §E4.5 (`coefficientSystemReconstruction`); EnhancedDerivedSheaves §§E4.2/E4.5 (`regularIdeal_quotients`, `perfectCoefficientChange`); SchemeAndStackFoundations §§0.4/0.23–0.23a.
 
-*Target names:* `SchemeSupport.extendAdic`, `coefficientExtension`, `SchemeSupport.upperShriekAdic`, `SchemeSupport.extendAdicAdj`.
+*Target names:* `SchemeSupport.extendAdic`, `coefficientExtension`, `SchemeSupport.upperShriek`, `SchemeSupport.extendAdj`, `SchemeSupport.upperShriekAdic`, `SchemeSupport.extendAdicAdj`.
 
 #### Examples
 
@@ -1241,7 +1291,7 @@ The fold Y ⊔ Y → Y is a nonstrict compactification morphism for a nonempty p
 
 #### Dependencies
 
-The scheme, compactification, finite-diagram and cohomology contracts in §3; AlgebraicVectorBundles L0B; StableReduction Layer 4; AdicSpacesPartIII R2; EnhancedDerivedSheaves §§E1.3–E1.4/E2.3/E4.5. No other layer of this roadmap is used.
+The scheme, compactification, finite-diagram and cohomology contracts in §3; AlgebraicVectorBundles L0B; StableReduction Layer 4; AdicSpacesPartIII R2; EnhancedDerivedSheaves §§E1.3–E1.4/E2.3/E3.2/E4.5. The regular-adic support extension also uses `L1/scheme-adic-category`; the schematic and discrete targets use no other layer.
 
 ### Layer L3: The comparison in characteristic `p`
 
@@ -1448,6 +1498,8 @@ construction of its adic structure.
 - `DVRTestSpace.special` (computation): over a perfectoid field of characteristic `p` above the special fibre, a nonzero topologically nilpotent value of `x` gives a point of `T◇`.
 - `DVRTestSpace.generic` (computation): over a perfectoid field above the generic fibre, values of `π` and `x` that are topologically nilpotent with `x ≠ 0` give a point of `T◇`.
 - `DVRTestSpace.zeroExcluded` (non-example): the point with `x = 0` of `Spa(O[[x]], O[[x]])` is not in `T`.
+- With ℤ_q given the discrete topology, the x-adic valuation on ℤ_q[[x]] has `|qⁿ| = 1 > |x|` for every n, so it lies in no claimed rational chart. This topology fails `IsCompleteDVRBase`.
+- With the indiscrete coefficient topology the ambient continuous valuation spectrum is empty, since 1 lies in the closure of zero; the existence Checks require the adic base topology.
 
 *Source:* [ECD] proof of Proposition 27.5, p. 166, with the base change to perfectoid test objects explained in §7.
 
@@ -1504,9 +1556,10 @@ images along a normal-crossing boundary. The alteration theorems themselves are 
 
 Let `Λ` be a finite ring killed by an integer prime to `p`. For a scheme of finite type over a
 field or over `O`, with the open subscheme whose direct image is being compared, build a proper
-hypercover by applying the alteration theorems of de Jong recursively to the matching objects. Pullback of étale complexes along it is an equivalence onto cartesian
-complexes on the hypercover (cohomological descent, at the enhanced level), on the scheme side
-and on the v-sheaf side, and the descent is compatible with `c*`: the comparison map is an
+hypercover by applying the alteration theorems of de Jong recursively to the matching objects.
+For uniformly bounded-below complexes of Λ-modules, pullback is an equivalence onto Cartesian
+complexes with the same uniform lower bound on the hypercover (cohomological descent, at the
+enhanced level), on both the scheme and v-sheaf sides. The descent is compatible with `c*`: the comparison map is an
 equivalence on the base as soon as it is one on every term of the hypercover. The alterations
 may have degree divisible by `ℓ`: nothing is divided by the degree and no trace splitting is
 used. A proper surjection is not a covering of the étale site; the descent used is proper
@@ -1514,16 +1567,26 @@ cohomological descent. Example: the degree-`ℓ` map `ℙ¹ → ℙ¹`, `z ↦ z
 characteristic `≠ ℓ`, as the first stage of a proper hypercover, gives descent with `Λ = ℤ/ℓ` although
 its trace splitting is unavailable.
 
-*Proof route.* Take the alterations in each degree (over a field, and over a complete trait after a finite
-extension). On the scheme side use cohomological descent along proper hypercovers for torsion
-coefficients prime to the characteristics involved, on the coherent diagram of étale topoi of the
-simplicial scheme. On the v-sheaf side a proper surjection is a v-cover, so the hypercover is a
-v-hypercover of a replete topos and hyperdescent applies. `L4/proper-support-comparison-27-5`
+*Proof route.* Work on affine opens of the base. In each matching object pass to its reduction
+and integral components; vertical components use field alterations, and components dominating
+the trait use the semistable alteration theorem after a finite extension. These reductions
+meet the separated/integral hypotheses of SchemeAndStackFoundations §§4.19–4.20. On the scheme
+side use §2.16 (`proper_hypercover_descent`), extending its sheaf-level comparison to uniformly
+bounded-below finite-coefficient complexes by truncation and proper base change, and to
+enhanced Cartesian descent using EnhancedDerivedSheaves §§E1.3–E1.4/E3.4. On the v-sheaf side
+a proper surjection is a v-cover, so EnhancedDerivedSheaves §E2.6 applies directly to this
+v-hypercover. `L4/proper-support-comparison-27-5`
 identifies the two augmentations, so the comparison is detected on the hypercover.
 
-*Source:* [ECD] proof of Proposition 27.6, p. 166 (the reduction by alterations, whose descent step is not written there; §7).
+**Checks.**
 
-*Needs:* SchemeAndStackFoundations §§4.16–4.20; EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3; SchemeAndStackFoundations §2.17; `L4/proper-support-comparison-27-5`; EnhancedDerivedSheaves §E2.6; EnhancedDerivedSheaves §E2.6; EnhancedDerivedSheaves §E3.4.
+- The identity proper hypercover induces the identity comparison on bounded-below complexes.
+- The degree-ℓ map of ℙ¹ gives descent with ℤ/ℓ coefficients even though its trace cannot split the unit.
+- Reducing a nonreduced matching object and taking the disjoint union of its integral components gives a proper surjection; no smoothness or integrality of the original object is assumed.
+
+*Source:* [ECD] proof of Proposition 27.6, p. 166 (the reduction by alterations, whose descent step is not written there; §7); Stacks Tags 0DHM/0DHP.
+
+*Needs:* SchemeAndStackFoundations §2.16 (`proper_hypercover_descent`) and §§4.16–4.20; EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3 (proper base change); SchemeAndStackFoundations §2.17; `L4/proper-support-comparison-27-5`; EnhancedDerivedSheaves §§E1.3–E1.4/E2.6/E3.4.
 
 *Target names:* `alterationHypercoverDescent`, `alterationHypercover_detectsUnit`.
 
@@ -1533,15 +1596,17 @@ Let `F` be a finite extension of the residue field `k` of `O` or of its fraction
 be smooth over `F`, `D ⊂ X` a strict normal-crossing divisor with smooth strata, and
 `j : X ∖ D → X`. For `Λ` finite and killed by an integer prime to `p`, the canonical comparison map
 for `Rj_*Λ` becomes an equivalence after pullback to the analytic test space of
-`L4/analytic-test-space`. Locally, in a strictly henselian chart with `r` boundary equations,
+`L4/analytic-test-space`. For q ≥ 0, at a geometric point x̄ where exactly r branches of D meet,
 
 ```text
-Rᵠ j_* Λ  ≅  ⋀ᵠ (Λ(−1)^r)
+(Rᵠ j_* Λ)ₓ̄  ≅  ⋀ᵠ (Λ(−1)^r),
 ```
 
-on both sides, generated by the Kummer classes of the `r` boundary components, and the comparison
-matches these generators, their cup products and the residue maps, not only the ranks. In equal
-characteristic `K = k((t))` is imperfect: de Jong's alteration over `K` is smooth only over a finite
+and the corresponding geometric stalk on the analytic side has the same description. The
+Kummer classes of the r branches generate these stalks; their identifications respect
+generization, cup products and residues, and the comparison carries each generator to its
+analytic counterpart. The number of branches is measured at x̄, so the formula varies across
+the strictly henselian chart. In equal characteristic `K = k((t))` is imperfect: de Jong's alteration over `K` is smooth only over a finite
 extension `K₁` of `K` (de Jong, Remark 4.2), and purely inseparable extensions change neither the
 étale sites nor the diamonds. Example: for one boundary component the degree-one generator and
 its Tate twist match; for two components the cup-product generator and both residue maps match.
@@ -1553,6 +1618,12 @@ cohomology of the punctured disc. Then check that `c*` sends each algebraic Kumm
 analytic one, compatibly with cup products and residues, and conclude along the strata
 filtration. Reduction of general constructible coefficients to constant ones uses finite covers
 and `L5/alteration-hypercover-descent`.
+
+**Checks.**
+
+- On the strict henselization of 𝔸¹ at 0 with D={0} and Λ=𝔽_ℓ, the closed stalk of `R¹j_*Λ` is Λ(−1), while its restriction to the generic open is zero.
+- At an intersection of two branches, their Kummer classes generate degree one and their exterior product generates degree two; the two residue maps have the exterior-algebra signs.
+- Away from D there are zero branches: the degree-zero stalk is Λ and every positive-degree stalk vanishes, compatibly with generization from a boundary point.
 
 *Source:* [ECD] proof of Proposition 27.6, pp. 166–167 (the local calculation is asserted there without detail; §7).
 
@@ -1566,7 +1637,7 @@ The degree-ℓ map of ℙ¹ supplies descent with ℤ/ℓ coefficients without d
 
 #### Dependencies
 
-L4; SchemeAndStackFoundations §§4.16–4.20; EnhancedDerivedSheaves §§E2.6/E3.4; EtaleCohomologyFoundations §§0.9–0.10/F.6; ClassicalAdicEtaleCohomology §§10.4/11.1.
+L4; SchemeAndStackFoundations §§2.16/4.16–4.20; EnhancedDerivedSheaves §§E1.3–E1.4/E2.6/E3.4; EtaleCohomologyFoundations §§0.9–0.10/F.6; ClassicalAdicEtaleCohomology §§10.4/11.1.
 
 ### Layer L6: Constructible complexes over a complete discrete valuation ring
 
