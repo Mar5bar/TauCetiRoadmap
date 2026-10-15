@@ -532,6 +532,68 @@ example (K : Type*) [Field K] [NumberField K] [NumberField.IsCMField K]
     unitaryTraceForm K (fun x y => x * NumberField.IsCMField.complexConj K y) (-i) 1 i = -2 := by
   sorry
 
+/-- The Gaussian integral trace Gram matrix has determinant `−4`
+(Check `Order.disc_numberField_quadratic`). -/
+example : Matrix.det !![(2 : ℤ), 0; 0, -2] = -4 := by
+  norm_num [Matrix.det_fin_two]
+
+/-- The order with basis `(1,2i)` has trace Gram determinant `−16`
+(Check `Order.disc_nonmaximal`). -/
+example : Matrix.det !![(2 : ℤ), 0; 0, -8] = -16 := by
+  norm_num [Matrix.det_fin_two]
+
+/-- The selected one-dimensional block evaluates to `1` at `x = 1`
+(Check `bpsSignatureConstancy`). -/
+example : Matrix.det
+    (Matrix.diagonal (fun _ : Fin 1 => (1 : ℤ) - 1) + 1) = 1 := by
+  simp
+
+/-- The two integral Hecke matrices detect the order of right translation
+(Check `hecke_matrices_noncommute`). -/
+example : (!![(1 : ℤ), 1; 0, 1] * !![1, 0; 1, 1]) ≠
+    (!![(1 : ℤ), 0; 1, 1] * !![1, 1; 0, 1]) := by
+  sorry
+
+/-- Scalar actions in characteristic `p` have equal zero traces on ranks `p` and zero,
+but determinant polynomials `X^p` and `1` (Check `detPoly_classifies_charP`). -/
+example (k : Type*) [Field k] (p : ℕ) [Fact p.Prime] [CharP k p] :
+    let φ := (Algebra.lsmul k k (Fin p → k)).toLinearMap
+    let ψ := (Algebra.lsmul k k (Fin 0 → k)).toLinearMap
+    let b := Module.Basis.singleton Unit k
+    (∀ a : k, LinearMap.trace k (Fin p → k) (φ a) =
+      LinearMap.trace k (Fin 0 → k) (ψ a)) ∧
+    detPoly (R := k) (O := k) φ b = MvPolynomial.X () ^ p ∧ detPoly (R := k) (O := k) ψ b = 1 ∧
+    detPoly (R := k) (O := k) φ b ≠ detPoly (R := k) (O := k) ψ b := by
+  sorry
+
+/-- At elliptic level `3` all invertible matrices are similitudes, giving `48` bases;
+a fixed multiplier has `24` bases (M1.4–M1.5). -/
+example : Nat.card (GL (Fin 2) (ZMod 3)) = 48 ∧
+    Nat.card (Matrix.SpecialLinearGroup (Fin 2) (ZMod 3)) = 24 := by
+  sorry
+
+/-- The type-`(3)` pairing vanishes modulo `3`, so its finite scaling equation
+cannot distinguish multipliers `1` and `2` (M1.4–M1.5). -/
+example : (!![(0 : ZMod 3), 3; -3, 0] : Matrix (Fin 2) (Fin 2) (ZMod 3)) = 0 ∧
+    (2 : ZMod 3) • (!![0, 3; -3, 0] : Matrix (Fin 2) (Fin 2) (ZMod 3)) = 0 := by
+  sorry
+
+/-- A completed change of basis reducing to the identity has determinant `1 mod 3`,
+excluding the alternative multiplier `2` for the type-`(3)` lift (M1.4–M1.5). -/
+example (A : Matrix (Fin 2) (Fin 2) ℤ)
+    (hA : A.map (Int.cast : ℤ → ZMod 3) = 1) :
+    (A.map (Int.cast : ℤ → ZMod 3)).det = 1 ∧
+    (A.map (Int.cast : ℤ → ZMod 3)).det ≠ 2 := by
+  sorry
+
+/-- The principal plane and twice its form have determinant `1` and `4`, respectively;
+the latter determinant is not a unit modulo `2`, obstructing a completed lift even at
+level `1` (M1.4–M1.5). -/
+example : Matrix.det !![(0 : ℤ), 1; -1, 0] = 1 ∧
+    Matrix.det !![(0 : ℤ), 2; -2, 0] = 4 ∧
+    ¬ IsUnit ((4 : ℤ) : ZMod 2) := by
+  sorry
+
 /-!
 ## Targets stated in the README only
 
@@ -543,7 +605,7 @@ the full `PositiveInvolution`, `IntegralPELDatum`, `RationalPELDatum`, and `PInt
 `IntegralPELDatum.isometryCoordinate`, `IntegralPELDatum.similitudePoints`;
 `PELDatum.multiplier`, `PELDatum.isometryGroup`, `PELDatum.similitudeGroup`;
 `RationalPELDatum.coordinate`, `RationalPELDatum.coordinatePoints`;
-`SymplecticOLattice.dual`, `IsSelfDualAt`, `multiRank`, `polarizationType`, `baseChange`;
+`RelativeLocalizedHom`, `SymplecticOLattice.dual`, `IsSelfDualAt`, `multiRank`, `polarizationType`, `baseChange`;
 `Order.inverseDifferent`; `PELDatum.IsGoodSet`, `goodBase`, `principalCongruence`;
 `RationalPELDatum.domain`, `signature`, `reflexField`;
 `IntegralPELDatum.hodgeStructure`, `IntegralPELDatum.signature`,
@@ -555,7 +617,7 @@ the Albert classification `albertTypes`; `Order.disc` and its maximality theorem
 scheme and its structure `similitudeGroupStructure`; Galois cohomology `galoisH1`, `ker1` and their
 finiteness and Hasse statements; `hodgeStructureOfDatum`; the Shimura datum `toShimuraDatum`;
 signatures; `detPoly_classifies`; the reflex field and `reflexField_eq_shimura`;
-`detCondition_splitting`; `selfDualLattice_unique`; `bpsSignatureConstancy`; hermitian and
+`detCondition_splitting`; `selfDualLattice_unique`; `cmTorus_integralH1_trivial`; `bpsSignatureConstancy`; hermitian and
 skew-hermitian spaces, `cmTorus`, `rankOneSkewHermitian_classification`; `CMField.reflexiveClosure`;
 `τ`-parts. Layer M1: `HasSignatureType`, `PELDatum.Hom`, `PELModuli.forgetLevel`,
 `heckeCorrespondence`, `mapOfDatumFunctor`, `toSiegelFunctor`; `QuasiIsogeny`, `BoxPolarization`, `PELTriple`, unitary `O_F`-abelian schemes,
@@ -564,7 +626,8 @@ skew-hermitian spaces, `cmTorus`, `rankOneSkewHermitian_classification`; `CMFiel
 `effectiveDescent`, `heckeTranslate`, `toSiegel_finite`. Layer M2: `rigidity`, `IsPinkNeatElement`, `IsNeat`,
 `noAutomorphisms_of_neat`, `isomScheme_finite`, `deformation_prorepresentable`, `formalSmoothness`,
 `effectivity`, `representability`, `universal`, `kodairaSpencer`, `properOfDivision`,
-`unitaryDeformation`, `isogenyDieudonne_coker_length`, `isogenyKernelRanks`, `Display`, `Display.deformationEndomorphism`, `polarizedDisplay_lifting`, `wedhornOrdinary`.
+`unitaryDeformation`, `isogenyDieudonne_coker_length`, `isogenyKernelRanks`, `Display`, `Display.deformationEndomorphism`, `polarizedDisplay_lifting`, `pelNewtonPoint`, `averagedHodgeCocharacter`, `IsMuOrdinary`,
+`muOrdinaryLocus`, `wedhornOrdinary`.
 Layer M3: `PELModuli.analyticFamily`, `ker1Classification`, `hasseCases`, `arithmeticQuotient_structure`, `complexPoints`,
 `uniformization`, `algebraization`, `typeDComparison`, `hermitianHomOfAbelianSchemes`,
 `siegelFineUniformization`. Layer M4: `cmReciprocity`, `twist`, `adelicTwist`, `canonicalModel`,
@@ -580,13 +643,14 @@ the residual gerbe `𝒢_x`, `descentObstruction`, `boundedFieldOfDefinition`, `
 
 The following APIs and discriminating Checks are also specified in the README:
 * M0.4: `SymplecticOLattice.le_dual` and double duality using the Tau Ceti supplier
-  recorded in the README.
+  recorded in the README; `polarizationType` exposes A5.4(1)
+  `alternating_elementaryDivisors` on the underlying integral lattice.
 * M0.10: `PELDatum.IsGoodPrime.not_dvd_dualIndex`,
   `PELDatum.IsGoodPrime.not_two_of_typeD`.
 * M0.14: `detPoly_sheaf`, `detPoly_sheaf_restrict`, `detPoly_basis_indep`,
   `detPoly_baseChange`, `detPoly_exact`, `detPoly_homogeneous`,
   `detPoly_eq_polyCharpoly`.
-* M0.15: `detPoly_classifies_charP`, `detPoly_classifies_charZero`.
+* M0.15: `detPoly_classifies_charZero`.
 * M0.18: `SatisfiesDetCondition.iff_eval`.
 * M5.4: `hilbertRationalDatum`, `hilbertTraceEmbedding`,
   `hilbertTraceEmbedding_injective`, `hilbertTraceEmbedding_multiplier`,
