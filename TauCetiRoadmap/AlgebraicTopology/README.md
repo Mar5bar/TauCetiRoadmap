@@ -82,6 +82,15 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
 - The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
   cohomology of profinite groups.  The singular cohomology here is cohomology of topological
   spaces; neither development introduces a second version of the other's objects.
+- [ClassifyingSpaces](../ClassifyingSpaces/README.md) owns Milnor and
+  presentation models, their pointed CW-type uniqueness and the cellular/bar
+  projective-resolution comparisons. Stage8.8 keeps its own native nerve model
+  and compares it with those models with identity-on-π₁ normalization. Its
+  normalized model comparison consumes only the ClassifyingSpaces Stage3/4
+  model, uniqueness and resolution interfaces. Stage8.8a owns the raw nerve/bar
+  construction; Stage8.8b owns only its normalized comparison with those
+  ClassifyingSpaces models. The raw bar also supplies the abelian input used by
+  DGFloer Layer1 item4.
 - [DGFloer](../DGFloer/README.md) Layer 1 item 4 owns the single functorial
   abelian K(A,n) family: its degree-one model aliases Stage 8.8's generic bar
   construction, and n≥2 uses the fixed Dold–Kan Γ(A[n]) realization. It owns
@@ -89,7 +98,7 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   of Γ(A[1]) with the abelian nerve. Stage 8.8 owns the generic discrete-group
   bar/CW/cover proof and consumes no DGFloer EM constructor. Stage 8.10
   consumes that abelian family and DGFloer Layer 1 item 1's degree-one Hurewicz.
-  DGFloer's constructor uses only AT8.1–8.8, preceding representability and
+  DGFloer's constructor uses only AT8.1–8.7 and8.8a, preceding representability and
   obstruction theory; its Layer 1 item 2 consumes native
   `TauCeti.TopCat.serreFibrations` and owns the fibration homotopy LES and
   ordinary Serre spectral sequences consumed in 5.5; its CW approximation
@@ -819,16 +828,43 @@ sequence and theorems of item 1, and items 2--7, consume all of Stages 2--4.
    flatness or projectivity hypotheses.
 2. Derive the Wang long exact sequence for a mapping torus from a mapping-cone model.  Identify
    its endomorphism as `id - f_*`, and prove naturality under commuting squares of monodromies.
-3. For a finite covering with connected base and constant fibre cardinality `d`, construct transfer
-   on chains by summing lifts and prove `p_* transfer = d * id`.  For a regular cover with finite
-   deck group `G`, also prove `transfer p_* = sum_(g in G) g_*` and identify the quotient chain
-   complex `C_*(E;R)_G` naturally with `C_*(B;R)`.  Construct the Cartan--Leray spectral sequence
-   `E^2_(p,q) = H_p(G;H_q(E;R))` converging to `H_(p+q)(B;R)`.  Only when `|G|` is invertible in
-   `R`, or under a separately stated exactness hypothesis, derive the coinvariant isomorphism and
-   the transfer identification with invariants.  For a nonregular finite cover, encode the sheets
-   by the permutation local system and prove transfer and composition through that system.  For a
-   disconnected base, state every formula componentwise using the locally constant fibre
-   cardinality instead of a single global degree.
+3. For a finite covering with connected base and constant fibre cardinality `d`,
+   construct transfer on chains by summing lifts and prove `p_* transfer = d * id`.
+   Use native `IsCoveringMap`; general finite covers include zero-sheet covers.
+   For the regular-cover quotient-chain and Cartan--Leray package additionally
+   give an actual surjectivity proof for p:E→B and a left deck G-action simply
+   transitive on every fibre. Compare this datum with native
+   `IsQuotientCoveringMap p G` via
+   `isQuotientCoveringMap_iff_isCoveringMap_and`, retaining its continuity,
+   orbit and free-action witnesses. This surjectivity condition includes the
+   empty-base case; do not replace it by an unnecessary nonempty-base hypothesis.
+   For finite G prove `transfer p_* = sum_(g in G) g_*` and identify the
+   quotient chain complex `C_*(E;M)_G` naturally with `C_*(B;M)` for constant
+   R-module coefficients M. Build the deck chain complex in native `Rep R G`,
+   its forgetful comparison and native coinvariants-functor quotient map. If
+   q_E:C_*(E;M)→C_*(E;M)_G is the canonical coinvariant projection and
+   φ:C_*(E;M)_G→C_*(B;M) is the comparison, require the square equation
+   `q_E ≫ φ = p_*` after the stated forgetful identification. Thus φ is induced
+   by p_*, not an unspecified natural isomorphism.
+   The coefficient representation on H_q(E;M) is the direct left action
+   ρ(g)=(deck g)_*. Construct the Cartan--Leray spectral sequence with
+   `E^2_(p,q) = groupHomology (coverHomologyRep R M P G D q) p`
+   converging to `H_(p+q)(B;M)`, including its filtration/edge naturality.
+   Compute it using native `groupHomology.inhomogeneousChains`; its first
+   boundary term is ρ(g₀⁻¹), so do not invert the deck representation again.
+   For cohomological deck comparisons the induced left action is
+   `(g⋅φ)=(deck g⁻¹)^*φ`; compare its bar differential with native
+   `groupCohomology.inhomogeneousCochains` and the fixed local-system transport.
+   Only when `|G|` is invertible in R, or under a separately stated exactness
+   hypothesis, derive the homology coinvariant isomorphism and the normalized
+   transfer identification with invariants. For a nonsurjective cover quotient
+   chains compute the covered open-and-closed image of p, not all of B; apply
+   the surjective package after restricting the base to that image. For a
+   nonregular finite cover encode the sheets by the permutation local system
+   and prove transfer and composition through that system. For a disconnected
+   base state the general transfer formulas componentwise with their locally
+   constant fibre cardinalities. On a nonempty base a finite regular datum has
+   degree |G|; no such numerical equality is required when B is empty.
 4. Calculate homology of finite products of circles as exterior powers, naturally under integer
    matrices acting on the first homology.  This is a theorem about the product and Kunneth maps,
    not a separately declared answer for a torus.
@@ -1001,6 +1037,107 @@ homology with one copy of the coefficient ring also assumes connectedness.
    Include its graded/local-coefficient signs and compatibility with the
    absolute, pair and coefficient connecting maps. Arbitrary closed-subset
    unions do not receive an unqualified singular relative product.
+
+   #### Categorical covers and Lusternik–Schnirelmann bounds
+
+   After the foundational products of6.2, construct `LSCategoricalCover X A n` from n
+   actual bundled opens in X covering A⊆X and native
+   `ContinuousMap.Nullhomotopic` witnesses for their inclusions into X. A
+   categorical open need only contract in X; do not require that open itself to
+   be contractible. Use `TopologicalSpace.Opens`, the induced subtype topology
+   and native continuous homotopies. Own restriction of covers, finite
+   concatenation, pullback along continuous maps with the specified ambient
+   homotopies, and the empty-index case.
+
+   Define `lsCategoryCount X A : ℕ∞` as the infimum of those finite cover
+   sizes, with infimum of the empty set equal to∞. Prove that a finite value n
+   is attained by an n-element cover; prove monotonicity in A, finite-union
+   subadditivity, and the ambient deformation inequality: if g:X→X is
+   homotopic to the identity and g(A)⊆B, then
+   `lsCategoryCount X A≤lsCategoryCount X B`. Prove whole-space homotopy
+   invariance and homeomorphism transport, empty-set value0, positivity for
+   nonempty A, and the point/discrete-space calculations. For a finite
+   coproduct prove that the whole-space unnormalized count is the sum of the
+   counts of its components, including empty components and∞ cases.
+
+   On a nonempty space define `normalizedLSCategory X=lsCategoryCount X X−1`
+   and prove `lsCategoryCount X X=normalizedLSCategory X+1`. In the connected
+   case this is the convention cat(point)=0. Empty spaces use the unnormalized
+   count0; do not give an empty space a chosen point or apply the +1 formula
+   there. Disconnected manifold theorems use the unnormalized sum, rather than
+   assuming one categorical open can meet different clopen components.
+
+   Consume Mathlib's `LocallyContractibleSpace` in its actual sense: each
+   neighborhood contains a smaller neighborhood whose inclusion is
+   nullhomotopic. Restrict that nullhomotopy to the interior of the smaller
+   neighborhood and compose into X. Compactness then gives a finite open
+   categorical cover, so `lsCategoryCount X X<∞`. Do not infer an open
+   intrinsically contractible neighborhood basis from this weaker predicate.
+
+   For a commutative coefficient ring R, use 6.2's existing singular cup
+   product to define `lsCupLength X R : ℕ∞` as the supremum of lengths of
+   nonzero finite products of positive-degree classes, with supremum of the
+   empty collection0. Export a finite-product witness API, restriction,
+   coefficient/product naturality with the stated nonvanishing hypotheses,
+   and the lower bound: on nonempty X,
+   `lsCupLength X R+1≤lsCategoryCount X X`, equivalently
+   `lsCupLength X R≤normalizedLSCategory X`. For a cover by r categorical
+   opens, use native singular homotopy invariance and the positive-degree
+   cohomology of a point to prove that classes restrict to zero on their
+   designated opens. For **every commutative R**, construct the native point
+   singular-chain augmentation and the section represented by its unique
+   vertex. Identify its alternating-constant chain complex with R in degree0
+   by the native extra-degeneracy contraction, and export
+   `pointSingularChainHomotopyEquiv`. Apply the contravariant Hom/linear-Yoneda
+   cochain construction to the chain maps and homotopies, obtaining the
+   cochain-homotopy equivalence with R in degree0 and
+   `isZero_singularCohomology_point` in every positive degree. Prove the
+   degree0 augmentation/unit normalization and coefficient naturality. This
+   direct calculation uses neither a hereditary-ring UCT nor an Ext collapse
+   for general R. Lift classes to relative cohomology and use the **open excisive**
+   multiple-relative product and small-chain comparison already owned by6.2;
+   the product lands in H*(X,X;R)=0. Give the cochain/support proof and the
+   finite-product induction, not an unqualified product for arbitrary closed
+   subsets. Coefficients and cohomology are the existing singular ones; there
+   is no second cohomology ring.
+
+   Basic checks: empty and point conventions; finite discrete coproducts;
+   the two-open categorical cover and nonzero top class of Sⁿ with R=ℤ
+   (or any nontrivial R), n≥1, giving
+   normalized category1; and the cup-product lower bounds on finite products
+   of positive-dimensional spheres using Stage5 item1 and6.2. No product
+   upper-bound theorem or general Bott/closed-geodesic multiplicity theorem
+   is inferred from these checks.
+
+   This supplement uses native homotopy/open-set/extended-cardinality
+   foundations, Stages2–3, Stage5 item1 and ordinary6.1–6.2, plus the direct
+   point-chain contraction. It is independent of the manifold duality/linking
+   consequences in6.3–6.5 and is consumed by MorseTheory M4's arbitrary-function
+   critical bound. Morse theory and geodesic minimax are not prerequisites.
+
+   #### Supported cellular comparison
+
+   This is a separate supported-cellular supplement after ordinary6.2. First
+   prove countability of cells for the connected locally finite finite-dimensional
+   CW carriers used below; Stage8.5 consumes that countability result as a
+   prerequisite, not as a second construction. On a finite-dimensional locally
+   finite Hausdorff CW pair (X,A), construct finite cell-carriers and their local
+   finiteness. Use the filtered refinement category of triples (K,B,L), where
+   K,L are compact, B is a cofinite CW subcomplex and K⊆X\B⊆L. Prove its
+   compact/cofinite-subcomplex projections final and its actual relative cochain
+   maps C_K(X,A)→C^*(X,A∪B)→C_L(X,A); their composite is support enlargement.
+   No functorial choice B(K) is assumed. This supplement consumes ordinary
+   Stage4 cellular data, ordinary6.1–6.2, and CC C1.2a's S0–S4 interfaces;
+   it returns a supported-cellular comparison used by the properStage8.5
+   route. Check compatibility with CC-S5 in a separate target; the primary
+   supported pair LES does not depend on S5. Ordinary6.3–6.5, Stage7 and
+   ordinaryStage8 remain independent of this supplement. It is not an input to
+   CC's support definition or generic collared-pair proof.
+
+   Construct C_c^{cell,n}(X,A;ℤ) as the direct sum on the actual relative n-cells' orientation-dual modules. The ordinary cochain group is a product. Prove the incidence transpose preserves finite support by local finiteness of coface carriers. Relative ordinary cellular/singular cohomology for (X,A∪B), finite excluded cells and filtered exactness give the natural all-degree comparison H^n(C_c^cell(X,A))≅H_c^n(X,A). Every finite cell support occurs after a finite coface-star refinement. Include the differential, restriction, connecting and coefficient comparisons.
+
+   For proper cellular maps prove row-finiteness of the ordinary chain matrix and the resulting finite-support pullback. Given a target cofinite B, choose compact L containing its complement and a source cofinite refinement avoiding f⁻¹L, so it maps into B; do not assume f⁻¹B is a subcomplex. Prove comparison naturality through common refinements. Degreewise extension by zero gives the supported CW-pair short exact cochain sequence and exact triangle. This primary cellular specialization consumes ordinary6.1–6.2 and CC C1.2a S0–S4, without classifier, duality or AT8.5 input. In a separate compatibility target, for CW pairs supplied with CC's S5 controlled collar data, including (M_f,X), compare this triangle with the S5 supported collared-pair triangle; that comparison is not an input to the primary pair LES.
+
 3. On a boundaryless m-manifold U define the integral orientation local
    system by `or_U(x)=H_m(U,U\{x};ℤ)`, with the excision transport below.
    Own the boundaryless interior carrier of each smooth
@@ -1165,7 +1302,7 @@ This stage consumes every one of Stages 2--6.  Stage 1 is not a prerequisite.
 
 This stage consumes Stages 2--4, the universal-covers roadmap's induced-map and basepoint API,
 and geometric topology's smooth-triangulation result for the manifold corollaries.
-Items 8–12 additionally consume Stage 6 cohomology and the item-level suppliers above;
+Items 8–12 additionally consume ordinary Stage 6 cohomology and the item-level suppliers above;
 items 1–7 are independent of those later constructions.
 
 1. Define `BasedTopPair` from a `TopPair` and an actual point of its subspace, together with
@@ -1301,10 +1438,14 @@ items 1–7 are independent of those later constructions.
    degree. Use native `IsProperMap`; on these locally compact Hausdorff spaces
    it is equivalent to compact-preimage properness. A proper homotopy means
    the map I×X→Y is proper, not merely that each time slice is proper.
-   Consume only CharacteristicClasses C1.0's foundational compact-relative
-   support colimit, independent of its bundle/classifier developments, and
-   Stage6's ordinary cochains and C1.0's finite-support cellular/singular
-   comparison on these locally finite CWs. Own the proper cellular approximation
+   Consume CC C1.2a's generic compact-relative support diagram,
+   S0–S3 enlargement/cofinality comparisons and proper pullback, and S4
+   jointly proper homotopy invariance. The primary
+   two-acyclicity proof uses the AT supported cellular pair LES and the absolute
+   comparisons; keep CC's supported collared-pair triangle as an independent
+   compatibility target, not a prerequisite of the proper Whitehead theorem.
+   These inputs are independent of CC's bundle/classifier developments and
+   manifold duality. Own the proper cellular approximation
    and proper homotopy-extension theorem on strongly locally finite CW pairs,
    including the product pair (I×X, (∂I×X)∪(I×A)) and its relative
    cylinder comparisons. Export `properStrongDeformationRetract_of_inverse`:
@@ -1321,12 +1462,34 @@ items 1–7 are independent of those later constructions.
    properness of the inclusion supplies closedness of A. This is the proper
    analogue of the native
    ordinary strong-deformation-retraction theorem, not an implication from
-   ordinary homotopy equivalence. Then own the proper Hurewicz/Whitehead
-   construction: the mapping-cone chain
-   complex and its finite-support dual being acyclic give a locally finite
-   contraction, and simple connectivity at infinity permits its geometric
-   realization outside prescribed compact sets. Construct actual inverse maps
-   and homotopies, with exhaustion/cofinal and restriction comparisons.
+   ordinary homotopy equivalence.
+   After proper cellular approximation, construct the actual locally finite finite-dimensional mapping cylinder M_f and its closed collared bottom X. Prove its projection to Y and slide homotopy proper on the whole cylinder. Ordinary homology isomorphisms give H_*(M_f,X;ℤ)=0; compact-support pullback isomorphisms give H_c^*(M_f,X;ℤ)=0 through the supported pair sequence. Identify relative cellular chains with the algebraic cone, with d(y,x)=(d_Yy+f_*x,−d_Xx), and its finite-support dual with the corresponding shifted cochain cone; retain the relative comparison and all signs. Do not collapse the noncompact X to a topological cone point and assume that quotient locally compact.
+
+   Apply the previously owned countability result and prove, over ℤ, FTW
+   Theorem4.2's locally finite contraction for the ordinary direct-sum based
+   cellular chain complex C and its finite-support dual C∨, both acyclic. These
+   are neither Borel–Moore chains nor the full product dual. For the algebraic
+   lemma, first use finite dimension and exactness to split the bounded acyclic
+   free complexes C and C∨. A contraction t on C∨ induces a continuous
+   contraction on its full dual completion Ĉ=(C∨)*, the product on the original
+   basis. Given a coordinate-tail neighborhood U at infinity in C_(n+1), use
+   continuity of t* to choose a tail V in C_n. For a cycle x∈V, z=t*(x) is a
+   completed filling in U. Ordinary acyclicity gives a finite filling y′ of x;
+   completed-dual acyclicity fills z−y′ by w in Ĉ. Since the differential on C
+   is row-finite, truncate w to a finite-support w1 so d(w−w1) lies in U, and
+   set y=y′+d(w1). Then dy=x and y=z−d(w−w1) lies in U. This is the controlled
+   filling Lemma4.3. Inductively set r_n(e)=e−s_(n−1)d(e); the previous
+   contraction identity makes it a cycle. Row finiteness of d and s_(n−1)
+   sends basis elements outside a sufficiently large finite set into any
+   prescribed cycle tail. Choose controlled finite fillings along a cofinal
+   exhaustion of the countable basis, so each output coordinate occurs in
+   only finitely many fillings. Their linear extension gives row- and
+   column-finite s_n with ds_n+s_(n−1)d=id. This is AT8.5 work, not
+   an imported lemma. Then separately own the geometric proper
+   Hurewicz/Whitehead realization at infinity yielding Corollary4.9's
+   actual proper inverse and two jointly proper homotopies under the stated
+   simply-connected/SC-at-infinity hypotheses. No finite-domination-to-finite-CW
+   or one-end assumption is added.
    Follow Farrell–Taylor–Wagoner, *The Whitehead theorem in the proper
    category*, Compositio27 (1973), §§1–4, especially Theorem4.2 and
    Corollary4.9 ([primary paper](https://www.numdam.org/item/CM_1973__27_1_1_0.pdf)).
@@ -1362,6 +1525,25 @@ items 1–7 are independent of those later constructions.
    Mathlib's `SingleObj` composition and `FundamentalGroup.mul_def` conventions: both
    compose the later traversal on the left. Prove the oriented-edge identification
    is compatible with the native group operation.
+   Compare this bar model pointedly with ClassifyingSpaces' Milnor and
+   presentation models, using its Stage 3 items11–15 and Stage 4 items16–18.
+   Separate the raw bar construction (8.8a), which feeds DGFloer's abelian
+   K(A,1) specialization, from the normalized ClassifyingSpaces model comparison
+   (8.8b). The latter uses only the actual CS Stage3/4 model, uniqueness and
+   resolution interfaces.
+   Construct the maps and inverse homotopies normalized by
+   κ_bar ∘ π₁(c_G)=κ_model, so the induced group map is the identity on G.
+   State the conversion between the left deck action and the native
+   Deck≃π₁ᵐᵒᵖ convention explicitly, including the inversion isomorphism
+   G→Gᵐᵒᵖ where used. Prove group-homomorphism naturality up to pointed
+   homotopy and the induced naturality on cohomology. For each A:Rep R G,
+   prove that pullback along c_G and the coefficient-normalized comparison
+   identify both local-system cohomology maps with the identity on native
+   groupCohomology; compare the augmentation-preserving resolution maps
+   up to chain homotopy. Keep the existing bar-label inversion below.
+   The raw bar supplies the object used by DGFloer Layer1 item4's abelian
+   specialization. The normalized comparison uses the ClassifyingSpaces Stage3/4
+   interfaces named above.
    DGFloer Layer 1 item 4 aliases the abelian specialization as K(A,1);
    the generic CW/cover proof is supplied only here. For each connected
    pointed CW complex X prove `[X,Bπ]_*≃Hom(π₁X,π)` and that forgetting basepoints
@@ -1601,6 +1783,10 @@ trivial monodromy.
 
 ## Dependency order
 
+In the table below, bare references to Stage6 mean the ordinary 6.0–6.5
+cohomology/duality lane. They do not include the separate supported-cellular
+supplement or the categorical LS supplement unless named explicitly.
+
 | Stage | Depends on | Can proceed alongside |
 | --- | --- | --- |
 | 1 van Kampen | current Mathlib and #41603's shape | 2--8 |
@@ -1611,15 +1797,18 @@ trivial monodromy.
 | 5 bundles/covers/finite covers | 2--4; native Serre carrier/bundle API; DGFloer 1.2 homotopy LES/homology SS from 1–4 and DG1.3, cohomology SS additionally from independent 6.0–6.2 | 1 |
 | 6.0 tower algebra | native module/category/complex algebra | 1--8 |
 | 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Stage 5 item 1 product maps, external orientation/collars; Stage 4 for cellular comparisons/RP² | 1 |
-| 6.5 linking/degree consequences | 2--4 and 6.1--6.4 | 1 |
+| categorical-cover/cup-length supplement after6.2 | native opens/homotopies/ENat; 2–3, 5.1 and ordinary6.1–6.2, plus the direct point-chain contraction; no manifold duality or Morse input | 6.3–6.5 |
+| supported-cellular comparison after ordinary6.2 | ordinary4 cellular data, ordinary6.1–6.2, CC C1.2a S0–S4; proves countability and finite-support cellular/singular comparison. CC-S5 compatibility is a separate check | ordinary6.3–6.5, Stage7 and ordinary8 proceed independently; proper8.5 uses the needed support interfaces |
+| 6.5 linking/degree consequences | 2--4 and ordinary6.1--6.4 | 1 |
 | 7 Euler characteristic | 2--6 and ComplexKahlerGeometry K7 for CPⁿ | 1 |
-| 8.1–8.7 Hurewicz/Whitehead | 2--4 and the cited external roadmaps; proper8.5 additionally6 cochains and independent CC C1.0 compact-support colimits | 1, 5; ordinary Hurewicz/Whitehead also alongside6–7 |
-| 8.8 generic classifying spaces | 4, 6, native nerve/realization and universal-cover APIs; no DGFloer EM input | 8.9 |
-| 8.9 primary relative obstructions | 4, DGFloer 1.2 fibre transport, 6 cellular cochains, 8.1–8.7 | 8.8 |
-| 8.10 ordinary representability | 4, 6, 8.3/8.6, 8.9, DGFloer Layer 1 items 1 and 4, GeneralizedCohomology G2.1 foundational product comparison and HomotopySpheres §3A.1 kification | 7 |
+| 8.1–8.7 Hurewicz/Whitehead | 2--4 and the cited external roadmaps; proper8.5 additionally CC C1.2a S0–S3 support colimits/proper pullback and S4 jointly proper homotopy invariance and the supported-cellular comparison/countability supplement; CC-S5 is a compatibility target only | 1, 5; ordinary Hurewicz/Whitehead also alongside ordinary6–7 |
+| 8.8a raw bar/abelian input | 4, ordinary6, native nerve/realization and universal-cover APIs | DGFloer Layer1 item4 abelian K(A,1) specialization |
+| 8.8b normalized model comparison | AT8.8a bar model; CS Stage3 items11–15 and Stage4 items16–18 | 8.9 |
+| 8.9 primary relative obstructions | 4, DGFloer 1.2 fibre transport, ordinary6 cellular cochains, 8.1–8.7 | 8.8b |
+| 8.10 ordinary representability | 4, ordinary6, 8.3/8.6, 8.9, DGFloer Layer 1 items 1 and 4, GeneralizedCohomology G2.1 foundational product comparison and HomotopySpheres §3A.1 kification | 7 |
 | 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and HomotopySpheres §3A.1 compact-generation/product API only; no 8.10 or §3A.2 input | 7 |
 | 8.11b ordinary EM loops | 8.5, 8.10, 8.11a, DGFloer Layer 1 item 2 and standing/Layer 2 item 3 loop comparison, HomotopySpheres §3A.1 compact-generation/product API and §3A.2 adjunction, G2.1 foundation-only realization-product comparison | 7 |
-| 8.12 classical EM comparisons | 8.8, 8.10, TopologicalKTheory T1.6 carrier construction and DGFloer 1.2 Serre LES via CharacteristicClasses C1.1 bundle adapter/C1.5 finite comparisons and universal sphere-bundle portion | 7 |
+| 8.12 classical EM comparisons | 8.8b, 8.10, TopologicalKTheory T1.6 carrier construction and DGFloer 1.2 Serre LES via CharacteristicClasses C1.1 bundle adapter/C1.5 finite comparisons and universal sphere-bundle portion | 7 |
 
 In particular, Stage 1 is independent; the chain `2 -> 3 -> 4` is strict; Stages 2--4 all feed
 Stage 5, except that Stage 2 alone feeds the product maps of Stage 5 item 1; and every stage from
@@ -1641,7 +1830,8 @@ downstream comparison theorem as input.
 - The field, PID or hereditary-ring, and general-ring Kunneth and universal-coefficient theorems
   have distinct statements; neither short exact sequence is advertised over an arbitrary ring.
 - Transfer for a constant-degree-`d` finite cover satisfies `p_* transfer = d * id` on chains and
-  on homology, including the induced map on `H_0`.  A regular cover also satisfies the deck-sum
+  on homology, including the induced map on `H_0`, even for zero sheets. A surjective regular
+  cover also satisfies the deck-sum
   formula and has the stated Cartan--Leray spectral sequence; the torus calculation is natural
   under integer matrices.
 - The Serre spectral sequence starts from an explicit Serre fibration, exposes the monodromy local

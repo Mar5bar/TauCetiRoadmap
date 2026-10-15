@@ -189,50 +189,119 @@ theorem finiteCover_transfer_push (R : Type u) [CommRing R]
         D.degree • 𝟙 _ := by
   sorry
 
-/-- A regular deck action; simple transitivity is stated on each fibre. -/
-structure RegularDeckAction {E B : TopCat.{u}} (D : FiniteCover E B)
+/-- A surjective regular cover datum. Simple transitivity alone does not imply surjectivity. -/
+structure RegularDeckAction {E B : TopCat.{u}} (P : FiniteCover E B)
     (G : Type u) [Group G] where
+  pSurjective : Function.Surjective P.p
   deck : G →* Homeomorph E E
-  commutes : ∀ g x, D.p (deck g x) = D.p x
-  simplyTransitive : ∀ {x y : E}, D.p x = D.p y → ∃! g, deck g x = y
+  commutes : ∀ g x, P.p (deck g x) = P.p x
+  simplyTransitive : ∀ {x y : E}, P.p x = P.p y → ∃! g, deck g x = y
+
+/-- Use the native action induced by the homeomorphism-valued homomorphism. -/
+abbrev RegularDeckAction.mulAction {E B : TopCat.{u}} {P : FiniteCover E B}
+    {G : Type u} [Group G] (D : RegularDeckAction P G) : MulAction G E :=
+  MulAction.compHom E D.deck
+
+/-- The native quotient-cover vocabulary includes the actual surjectivity proof. -/
+theorem RegularDeckAction.isQuotientCoveringMap {E B : TopCat.{u}}
+    {P : FiniteCover E B} {G : Type u} [Group G] (D : RegularDeckAction P G) :
+    letI := D.mulAction
+    IsQuotientCoveringMap P.p G := by
+  sorry
 
 theorem finiteCover_push_transfer_regular (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (D : FiniteCover E B)
-    (G : Type u) [Group G] [Fintype G] (A : RegularDeckAction D G) :
-    ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map D.p ≫
-      finiteCoverTransfer R M D =
+    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
+    (G : Type u) [Group G] [Fintype G] (D : RegularDeckAction P G) :
+    ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map P.p ≫
+      finiteCoverTransfer R M P =
         ∑ g : G,
             ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map
-            (TopCat.ofHom ⟨A.deck g, (A.deck g).continuous_toFun⟩) := by
+            (TopCat.ofHom ⟨D.deck g, (D.deck g).continuous_toFun⟩) := by
   sorry
 
-/-- An `R[G]`-module expressed without introducing a second module category. -/
-structure GroupModule (R : Type u) [CommRing R] (G : Type u) [Group G] where
-  M : ModuleCat.{u} R
-  action : Representation R G M
+/-- The left deck action on the actual constant-coefficient singular complex. -/
+noncomputable abbrev regularDeckChainMap (R : Type u) [CommRing R]
+    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
+    (G : Type u) [Group G] (D : RegularDeckAction P G) (g : G) :=
+  ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map
+    (TopCat.ofHom ⟨D.deck g, (D.deck g).continuous_toFun⟩)
 
-/-- Group homology, implemented from the bar resolution. -/
-noncomputable def groupHomology (R : Type u) [CommRing R] (G : Type u) [Group G]
-    (M : GroupModule R G) (n : ℕ) : ModuleCat.{u} R := by
+/-- Bundle that deck action in the native representation category degree by degree. -/
+noncomputable def regularDeckSingularComplex (R : Type u) [CommRing R]
+    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
+    (G : Type u) [Group G] (D : RegularDeckAction P G) :
+    ChainComplex (Rep.{u} R G) ℕ := by
   sorry
 
-noncomputable def coverHomologyGroupModule (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (D : FiniteCover E B)
-    (G : Type u) [Group G] (A : RegularDeckAction D G) (q : ℕ) : GroupModule R G := by
+noncomputable def regularDeckSingularComplexForgetIso (R : Type u) [CommRing R]
+    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
+    (G : Type u) [Group G] (D : RegularDeckAction P G) :
+    ((forget₂ (Rep.{u} R G) (ModuleCat.{u} R)).mapHomologicalComplex
+      (ComplexShape.down ℕ)).obj (regularDeckSingularComplex R M P G D) ≅
+      SingularChains R M E := by
   sorry
+
+/-- The forgetful comparison identifies the coefficient action with deck pushforward. -/
+theorem regularDeckSingularComplex_action (R : Type u) [CommRing R]
+    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
+    (G : Type u) [Group G] (D : RegularDeckAction P G) (q : ℕ) (g : G) :
+    ModuleCat.ofHom (((regularDeckSingularComplex R M P G D).X q).ρ g) ≫
+      (regularDeckSingularComplexForgetIso R M P G D).hom.f q =
+        (regularDeckSingularComplexForgetIso R M P G D).hom.f q ≫
+          (regularDeckChainMap R M P G D g).f q := by
+  sorry
+
+/-- Quotient chains compute B because D.pSurjective is part of the input. -/
+noncomputable def regularCoverCoinvariantsChainsIso (R : Type u) [CommRing R]
+    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
+    (G : Type u) [Group G] (D : RegularDeckAction P G) :
+    ((Rep.coinvariantsFunctor R G).mapHomologicalComplex (ComplexShape.down ℕ)).obj
+      (regularDeckSingularComplex R M P G D) ≅ SingularChains R M B := by
+  sorry
+
+/-- The coefficient action is g ↦ (D.deck g)_*, with no extra inversion. -/
+noncomputable def coverHomologyAction (R : Type u) [CommRing R]
+    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
+    (G : Type u) [Group G] (D : RegularDeckAction P G) (q : ℕ) :
+    Representation R G ((SingularChains R M E).homology q) where
+  toFun g := ((HomologicalComplex.homologyFunctor (ModuleCat.{u} R)
+    (ComplexShape.down ℕ) q).map (regularDeckChainMap R M P G D g)).hom
+  map_one' := by
+    have hdeck : (TopCat.ofHom ⟨D.deck (1 : G), (D.deck (1 : G)).continuous_toFun⟩ :
+        E ⟶ E) = 𝟙 E := by
+      ext x
+      simp
+    simp only [regularDeckChainMap, hdeck, CategoryTheory.Functor.map_id,
+      ModuleCat.hom_id]
+    rfl
+  map_mul' g h := by
+    have hdeck : (TopCat.ofHom ⟨D.deck (g * h), (D.deck (g * h)).continuous_toFun⟩ :
+        E ⟶ E) =
+        TopCat.ofHom ⟨D.deck h, (D.deck h).continuous_toFun⟩ ≫
+          TopCat.ofHom ⟨D.deck g, (D.deck g).continuous_toFun⟩ := by
+      ext x
+      simp
+    simp only [regularDeckChainMap, hdeck, CategoryTheory.Functor.map_comp, ModuleCat.hom_comp]
+    rfl
+
+/-- A transparent native Rep, replacing the former private GroupModule wrapper. -/
+noncomputable abbrev coverHomologyRep (R : Type u) [CommRing R]
+    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
+    (G : Type u) [Group G] (D : RegularDeckAction P G) (q : ℕ) : Rep.{u} R G :=
+  Rep.of (coverHomologyAction R M P G D q)
 
 noncomputable def cartanLeraySpectralSequence (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (D : FiniteCover E B)
-    (G : Type u) [Group G] [Fintype G] (A : RegularDeckAction D G) :
+    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
+    (G : Type u) [Group G] [Fintype G] (D : RegularDeckAction P G) :
     SpectralSequence (ModuleCat.{u} R)
       (fun r ↦ ComplexShape.spectralSequenceNat ⟨-r, r - 1⟩) 2 := by
   sorry
 
 noncomputable def cartanLerayE2Iso (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (D : FiniteCover E B)
-    (G : Type u) [Group G] [Fintype G] (A : RegularDeckAction D G) (p q : ℕ) :
-    ((cartanLeraySpectralSequence R M D G A).page 2).X ⟨p, q⟩ ≅
-      groupHomology R G (coverHomologyGroupModule R M D G A q) p := by
+    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
+    (G : Type u) [Group G] [Fintype G] (D : RegularDeckAction P G) (p q : ℕ) :
+    ((cartanLeraySpectralSequence R M P G D).page 2).X ⟨p, q⟩ ≅
+      _root_.groupHomology (coverHomologyRep R M P G D q) p := by
   sorry
 
 /-- The native Alexander–Whitney/shuffle equivalence supplies the constant-coefficient
@@ -2540,6 +2609,154 @@ theorem properStrongDeformationRetract_of_inverse
       ∃ H : (ContinuousMap.id X).HomotopyRel
         ((⟨Subtype.val, continuous_subtype_val⟩ : C(A, X)).comp r) A,
         IsProperMap H := by
+  sorry
+
+end TauCetiRoadmap.AlgebraicTopology
+
+namespace TauCetiRoadmap.AlgebraicTopology
+
+open CategoryTheory ContinuousMap Topology
+open CategoryTheory.Limits
+universe u
+
+/-! Suggested categorical covers and counting invariants for the foundational
+Lusternik–Schnirelmann category and cup-length theory. -/
+
+/-- Actual open categorical cover of A in X; the contractions are native. -/
+structure LSCategoricalCover (X : Type u) [TopologicalSpace X]
+    (A : Set X) (n : ℕ) where
+  opens : Fin n → TopologicalSpace.Opens X
+  categorical : ∀ i,
+    (⟨Subtype.val, continuous_subtype_val⟩ : C({x : X // x ∈ opens i}, X)).Nullhomotopic
+  covers : ∀ x ∈ A, ∃ i, x ∈ opens i
+
+/-- Unnormalized ambient category; no finite witness gives infinity. -/
+noncomputable def lsCategoryCount (X : Type u) [TopologicalSpace X]
+    (A : Set X) : ℕ∞ :=
+  sInf {m : ℕ∞ | ∃ n : ℕ, m = (n : ℕ∞) ∧ Nonempty (LSCategoricalCover X A n)}
+
+/-- The literal zero-index categorical cover of an empty subset; X may be empty. -/
+def lsCategoricalCoverEmpty (X : Type u) [TopologicalSpace X] :
+    LSCategoricalCover X ∅ 0 where
+  opens := Fin.elim0
+  categorical := by
+    intro i
+    exact Fin.elim0 i
+  covers := by
+    intro x hx
+    exact (Set.notMem_empty x hx).elim
+
+/-- The empty-set count follows directly from the ENat infimum, without an LS admission. -/
+theorem lsCategoryCount_empty (X : Type u) [TopologicalSpace X] :
+    lsCategoryCount X ∅ = 0 := by
+  apply le_antisymm
+  · exact sInf_le ⟨0, rfl, ⟨lsCategoricalCoverEmpty X⟩⟩
+  · exact bot_le
+
+/-- Normalized convention is only used when a point exists. -/
+noncomputable def normalizedLSCategory (X : Type u) [TopologicalSpace X]
+    [Nonempty X] : ℕ∞ := lsCategoryCount X Set.univ - 1
+
+theorem lsCategoryCount_le_iff {X : Type u} [TopologicalSpace X]
+    (A : Set X) (n : ℕ) :
+    lsCategoryCount X A ≤ (n : ℕ∞) ↔
+      ∃ m : ℕ, m ≤ n ∧ Nonempty (LSCategoricalCover X A m) := by
+  sorry
+
+theorem lsCategoryCount_eq_zero_iff {X : Type u} [TopologicalSpace X]
+    (A : Set X) : lsCategoryCount X A = 0 ↔ A = ∅ := by
+  sorry
+
+theorem lsCategoryCount_mono {X : Type u} [TopologicalSpace X]
+    {A B : Set X} (h : A ⊆ B) : lsCategoryCount X A ≤ lsCategoryCount X B := by
+  sorry
+
+theorem lsCategoryCount_union_le {X : Type u} [TopologicalSpace X]
+    (A B : Set X) :
+    lsCategoryCount X (A ∪ B) ≤ lsCategoryCount X A + lsCategoryCount X B := by
+  sorry
+
+theorem lsCategoryCount_le_of_homotopic_id {X : Type u} [TopologicalSpace X]
+    (g : C(X, X)) (hg : g.Homotopic (ContinuousMap.id X))
+    (A B : Set X) (hAB : Set.MapsTo g A B) :
+    lsCategoryCount X A ≤ lsCategoryCount X B := by
+  sorry
+
+theorem lsCategoryCount_homotopyEquiv {X Y : Type u}
+    [TopologicalSpace X] [TopologicalSpace Y] (e : ContinuousMap.HomotopyEquiv X Y) :
+    lsCategoryCount X Set.univ = lsCategoryCount Y Set.univ := by
+  sorry
+
+theorem lsCategoryCount_discrete {X : Type u} [TopologicalSpace X]
+    [DiscreteTopology X] (A : Set X) : lsCategoryCount X A = A.encard := by
+  sorry
+
+theorem lsCategoryCount_contractible {X : Type u} [TopologicalSpace X]
+    [Nonempty X] [ContractibleSpace X] : lsCategoryCount X Set.univ = 1 := by
+  sorry
+
+theorem lsCategoryCount_lt_top_of_compact {X : Type u} [TopologicalSpace X]
+    [CompactSpace X] (hLC : LocallyContractibleSpace X) :
+    lsCategoryCount X Set.univ < ⊤ := by
+  sorry
+
+theorem lsCategoryCount_eq_normalized_add_one {X : Type u}
+    [TopologicalSpace X] [Nonempty X] :
+    lsCategoryCount X Set.univ = normalizedLSCategory X + 1 := by
+  sorry
+
+theorem lsCategoryCount_sigma {J : Type u} [Fintype J]
+    (X : J → Type u) [∀ j, TopologicalSpace (X j)] :
+    lsCategoryCount (Σ j, X j) Set.univ = ∑ j, lsCategoryCount (X j) Set.univ := by
+  sorry
+
+/-- Direct native chain contraction of a point, with arbitrary commutative coefficients. -/
+noncomputable def pointSingularChainHomotopyEquiv (R : Type u) [CommRing R] :
+    HomotopyEquiv
+      (((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj
+        (ModuleCat.of R R)).obj (TopCat.of PUnit.{u + 1}))
+      ((ChainComplex.single₀ (ModuleCat.{u} R)).obj (ModuleCat.of R R)) :=
+  (HomotopyEquiv.ofIso
+    (AlgebraicTopology.singularChainComplexFunctorIsoOfTotallyDisconnectedSpace
+      (ModuleCat.{u} R) (ModuleCat.of R R) (TopCat.of PUnit.{u + 1}))).trans
+    ((ChainComplex.alternatingConstHomotopyEquiv _).trans
+      (HomotopyEquiv.ofIso ((ChainComplex.single₀ (ModuleCat.{u} R)).mapIso
+        (coproductUniqueIso (fun _ : PUnit.{u + 1} => ModuleCat.of R R)))))
+
+/-- Hom/linear-Yoneda dualization of the explicit point contraction; no UCT hypothesis. -/
+theorem isZero_singularCohomology_point (R : Type u) [CommRing R]
+    (d : ℕ) (hd : 0 < d) :
+    IsZero (singularCohomology R (TopCat.of PUnit.{u + 1}) d) := by
+  sorry
+
+/-- Restriction kills positive-degree classes on an ambient categorical open. -/
+theorem lsCohomology_restrict_eq_zero (X : TopCat.{u}) (R : Type u) [CommRing R]
+    (U : TopologicalSpace.Opens X)
+    (hU : (⟨Subtype.val, continuous_subtype_val⟩ :
+      C({x : X // x ∈ U}, X)).Nullhomotopic)
+    (d : ℕ) (hd : 0 < d) (a : singularCohomology R X d) :
+    TopCat.singularCohomologyMap
+      (TopCat.ofHom (⟨Subtype.val, continuous_subtype_val⟩ :
+        C({x : X // x ∈ U}, X))) d a = 0 := by
+  sorry
+
+/-- A finite positive-degree cup product, using that actual native operation. -/
+inductive LSPositiveCupProduct (X : TopCat.{u}) (R : Type u) [CommRing R] :
+    ℕ → (Σ d : ℕ, singularCohomology R X d) → Prop where
+  | single (d : ℕ) (hd : 0 < d) (a : singularCohomology R X d) :
+      LSPositiveCupProduct X R 1 ⟨d, a⟩
+  | mul {r p q : ℕ} (a : singularCohomology R X p) (b : singularCohomology R X q)
+      (ha : LSPositiveCupProduct X R r ⟨p, a⟩) (hq : 0 < q) :
+      LSPositiveCupProduct X R (r + 1) ⟨p + q, cupProduct R X p q a b⟩
+
+noncomputable def lsCupLength (X : TopCat.{u}) (R : Type u) [CommRing R] : ℕ∞ :=
+  sSup {m : ℕ∞ | ∃ r : ℕ, m = (r : ℕ∞) ∧
+    ∃ d : ℕ, ∃ a : singularCohomology R X d,
+      a ≠ 0 ∧ LSPositiveCupProduct X R r ⟨d, a⟩}
+
+theorem lsCupLength_add_one_le_categoryCount (X : TopCat.{u}) [Nonempty X]
+    (R : Type u) [CommRing R] :
+    lsCupLength X R + 1 ≤ lsCategoryCount X Set.univ := by
   sorry
 
 end TauCetiRoadmap.AlgebraicTopology
