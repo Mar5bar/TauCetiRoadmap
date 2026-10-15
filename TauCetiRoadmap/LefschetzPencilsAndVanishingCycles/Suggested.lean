@@ -32,6 +32,10 @@ Design choices made explicit here:
   of README 2.1, equivalently a perfect polar pairing in positive even rank;
 * local monodromy operators are Mathlib's `LinearMap.transvection` of the functional `c • B.flip δ`,
   covering transvections and reflections at once;
+* the elementwise variation of README 0.4 is a morphism after geometric restriction, with
+  conjugation covariance of the family. Its representation specialization is a `LinearMap`;
+  `Representation.IntertwiningMap` requires commutation with every group element. README 1.7
+  constructs the normalized twisted equivariant map using the tame-character conjugation law;
 * the normalization differential lives on the oriented dual graph
   `TauCetiRoadmap.StableReduction.DualGraph`, the tail of an edge `e` being `endpoint e 0` and its
   head `endpoint e 1`;
@@ -45,6 +49,29 @@ writes them relative to the suggested home `TauCeti.AlgebraicGeometry`.
 namespace TauCetiRoadmap.LefschetzPencilsAndVanishingCycles
 
 universe u
+
+/-! ## Layer LPV.0: Underlying variation and Galois conjugation -/
+
+namespace VanishingCycles
+
+/-- The finite permutation example has a variation `T - 1` that fails to commute with
+Frobenius, so it is only an underlying linear map. README 0.4. -/
+theorem variation_finite_not_equivariant :
+    let T : Matrix (Fin 3) (Fin 3) (ZMod 5) := !![0, 0, 1; 1, 0, 0; 0, 1, 0]
+    let F : Matrix (Fin 3) (Fin 3) (ZMod 5) := !![1, 0, 0; 0, 0, 1; 0, 1, 0]
+    F * (T - 1) ≠ (T - 1) * F := by
+  decide
+
+/-- The inertia and Frobenius matrices satisfy the tame relation, and their variation
+family transforms by conjugation. README 0.4. -/
+theorem variation_finite_conjugation :
+    let T : Matrix (Fin 3) (Fin 3) (ZMod 5) := !![0, 0, 1; 1, 0, 0; 0, 1, 0]
+    let F : Matrix (Fin 3) (Fin 3) (ZMod 5) := !![1, 0, 0; 0, 0, 1; 0, 1, 0]
+    T ^ 3 = 1 ∧ F ^ 2 = 1 ∧ F * T * F = T ^ 2 ∧
+      F * (T - 1) * F = T ^ 2 - 1 := by
+  decide
+
+end VanishingCycles
 
 /-! ## Layer LPV.1: Inertia, variation and the monodromy operator -/
 
@@ -675,7 +702,8 @@ end InvariantCycles
 
 The remaining targets of the README have no carriers in the pinned Mathlib and Tau Ceti and are
 stated there only, with their intended signatures: absolute purity (0.10); the topos `X_s ×_s S`,
-`Ψ`, `RΨ`, `RΦ`, variation and their
+the exact `OrientedFibreTopos.geometricGenericRestriction` functor `U`, `Ψ`, `RΨ`, `RΦ`, the
+underlying variation and its naturality and Galois conjugation covariance, and their
 functoriality (0.2–0.8), and the nearby–Betti adapter (0.8a); Grothendieck's monodromy theorems, the twisted
 operator `N`, the monodromy filtration in an abelian category and its primitive decomposition, the
 relative filtration, `can` and `var`, the filtered derived category and the two-component
@@ -725,7 +753,8 @@ The README names of the local targets' API and checks, by namespace:
   `twoComponent_N_square`, `twoComponent_disjoint`, `twoComponent_node`,
   `twoComponent_not_sheaf_split`, `variation_left`, `variation_mul`, `variation_ne_sub_one`,
   `variation_of_phi_zero`, `variation_one`, `variation_picardLefschetz`, `variation_right`,
-  `variation_unique`, `variation_wellDefined`, `localVariation_coefficientReduction`.
+  `variation_unique`, `variation_wellDefined`, `variation_natural`, `variation_conjugation`,
+  `localVariation_coefficientReduction`.
 * `Quadric`: `canonical_iso`, `center_even_char_two`, `center_even_discriminant`,
   `center_even_hyperbolic`, `cusp_not_ordinary`, `doublePoint_char_two`, `isNondegenerate_iff`,
   `isOrdinaryQuadraticPoint_baseChange`, `isOrdinary_iff_nondegenerate_test`,

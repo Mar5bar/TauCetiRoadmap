@@ -101,8 +101,10 @@ It leaves to other roadmaps:
   Frobenius is geometric: it acts on `ℚ_ℓ(1)` by `q⁻¹`, so on `ℚ_ℓ(−1)` by `q`. The monodromy operator is
   `N : V → V(−1)`, characterized by `ρ(σ) = exp(t_ℓ(σ) N)` on an open subgroup of inertia, and satisfies `NF = qFN`.
 - **Triangles and directions.** The specialization triangle is `sp^* i^* K → RΨ_η(K_η) → RΦ(K) →` with no shift on `RΦ`;
-  specialization goes from the special to the generic fibre. The variation `Var(σ) : RΦ → RΨ` satisfies
-  `Var(σ) ∘ can = σ − 1` and `can ∘ Var(σ) = σ − 1`, where `can` is the map `RΨ → RΦ` of the triangle.
+  specialization goes from the special to the generic fibre. This triangle retains Galois descent.
+  For `σ ∈ I`, variation is `Var(σ) : U(RΦ) → U(RΨ_η)`, where `U` is the geometric restriction
+  of 0.2. It satisfies `Var(σ) ∘ U(can) = σ − 1` and `U(can) ∘ Var(σ) = σ − 1` in the
+  underlying derived category; the family satisfies Galois conjugation covariance (0.4).
 - **Picard–Lefschetz.** `(x, δ) = Tr(x ∪ δ)`, with `δ ∈ H^n(X_η̄)(m)` for `n = 2m` or `2m + 1`; the formula is
   `σx = x + (−1)^{m+1} t_ℓ(σ)(x, δ)δ` for `n` odd, and the reflection `x ↦ x + (−1)^{m+1}(x, δ)δ` with `(δ, δ) = (−1)^m · 2` for `n` even
   when `ε(σ) = −1`. For `n ≡ 0, 1, 2, 3 mod 4` the sign is `−, −, +, +` and `(δ, δ) = 2, 0, −2, 0`, as in the complex case.
@@ -347,14 +349,23 @@ Define `VanishingCycles.OrientedFibreTopos` as the category of triples, with:
 
 - `VanishingCycles.OrientedFibreTopos`: For Y over s, the category of triples (F_s, F_η, φ): F_s a sheaf on Y (a Gal(s̄/s)-sheaf on Ȳ), F_η a continuous Gal(η̄/η)-sheaf on Ȳ, φ : F_s → F_η equivariant (XIII 1.2.4).
 - `VanishingCycles.OrientedFibreTopos.sp_pullback`: sp^* : sheaves on Y → sheaves on Y ×_s S, F ↦ (F, F, id).
-- `VanishingCycles.OrientedFibreTopos.etaPart`: The restriction to Y ×_s η, (F_s, F_η, φ) ↦ F_η.
+- `VanishingCycles.OrientedFibreTopos.etaPart`: The restriction to Y ×_s η, (F_s, F_η, φ) ↦ F_η, retaining its continuous Galois descent.
+- `VanishingCycles.OrientedFibreTopos.geometricGenericRestriction`: The exact restriction from sheaves on `Y_et ×_{s_et} η_et` to sheaves on `Ȳ_et`. For a ring sheaf `A` on `Y`, it induces `U : D⁺(Y_et ×_{s_et} η_et, A) → D⁺(Ȳ_et, A_Ȳ)`, where `A_Ȳ` is the pullback of `A`; on triples this forgets the descent of the generic part.
 - `VanishingCycles.OrientedFibreTopos.equivSheavesOnTrait`: For Y = s, sheaves on S ≌ triples (F_s̄, F_η̄, φ : F_s̄ → F_η̄^I) (XIII 1.2.2).
+
+Write `G = Gal(η̄/η)`. For a generic-part object `M`, write
+`c_M(g) : g^*U(M) ≅ U(M)` for its descent isomorphism, with the usual cocycle compatibility;
+`g^*` denotes pullback along the inverse of the residue action of `g` on `Ȳ`. When `Y = s`,
+this is the representation action `ρ_M(g)`. Inertia acts trivially on `Ȳ`, so each `σ ∈ I`
+gives an endomorphism of `U(M)`, whereas general `g` requires the pullback `g^*`.
 
 *Proof sketch.* The henselian equivalence of finite étale covers of `S` and `s` gives specialization
 and its Galois quotient. Open–closed recollement on the trait shows the closed sheaf maps into
 inertia invariants, and base change along `Y_et → s_et` gives the general gluing. Changes of
 separable closure are handled by conjugate Galois descent. (SGA 7 II, Exposé XIII, Construction
-1.2.4, p. 10, and 1.2.2(b), p. 9.) *Needs:* EtaleCohomologyFoundations §F.3a; EtaleCohomologyFoundations §F.0.
+1.2.4, p. 10, and 1.2.2(b), p. 9; Illusie 1994, §4.1, pp. 44–45.) The geometric restriction
+is an exact inverse image of topoi; it preserves cohomology, shifts and distinguished triangles.
+*Needs:* EtaleCohomologyFoundations §F.3a; EtaleCohomologyFoundations §F.0.
 
 **Checks.**
 
@@ -364,6 +375,9 @@ separable closure are handled by conjugate Galois descent. (SGA 7 II, Exposé XI
 - `VanishingCycles.not_triple_of_noninvariant`: For Y = s, take F_s̄=ℚ_ℓ with trivial inertia, F_η̄=ℚ_ℓ with a nontrivial quadratic inertia character, and φ(1)=1. This map is not equivariant and cannot be a specialization map of a sheaf on S.
 - A sheaf on Y ×_s S restricted to the closed Y is F_s and to the open Y ×_s η is F_η; sp^*(F_s) = (F_s, F_s, id).
 - Points (x, s̄) and (x, η̄) form conservative families (1.2.5).
+- For `Y = s`, `U` sends a continuous Galois `A`-module to its underlying `A`-module; an equivariant morphism becomes an `A`-linear map.
+- Applying `U` to a short exact sequence gives an exact sequence of sheaves on `Ȳ`; its derived functor sends the associated triangle to the underlying triangle.
+- For the constant generic sheaf `A`, `U(A)` is `A_Ȳ`, with descent recovered by the maps `c_A(g)`.
 
 **The oriented product.** The oriented product `X_s ←×_S η` has as points triples of a geometric
 point `x` of `X_s`, a geometric generic point and a specialization path; its derived nearby stalk at
@@ -419,44 +433,68 @@ EtaleCohomologyFoundations §§F.2–F.3.
 
 ### 0.4 Vanishing cycles of a triple and the variation
 
-Let `K` be a complex of `A`-modules in the gluing topos `Y_et ×_{s_et} S_et`, with closed part `K_s`,
-generic part `K_η` and specialization `φ : K_s → K_η`. Replace `K` by a homotopy-equivalent
+Let `K` be a bounded-below complex of `A`-modules in the gluing topos `Y_et ×_{s_et} S_et`, with closed part `K_s`,
+generic part `K_η` and specialization `φ : K_s → K_η`, where `A` is a ring or a sheaf of rings on `Y`.
+Replace `K` by a homotopy-equivalent
 representative whose specialization `φ'` is injective and split in each degree (a mapping-cylinder
 replacement), and define `Φ(K)` as its cokernel. This gives the distinguished triangle
-`sp^*K_s → K_η → Φ(K) →`, independent of the representative, and its cohomology sequence. Inertia acts
-trivially on the image of the closed part, so for `σ ∈ I` the map `σ − 1` on `K'_η` factors through the
-quotient `q : K'_η → Φ(K)`. The resulting **variation** `VanishingCycles.variation σ : Φ(K) → K_η`
-satisfies
+`sp^*K_s → K_η → Φ(K) →` in the Galois-equivariant generic-part derived category, independent of
+the representative, and its cohomology sequence. Inertia acts trivially on the image of the closed
+part, so for `σ ∈ I` the map `σ − 1` on `U(K'_η)` factors through the underlying quotient
+`U(q) : U(K'_η) → U(Φ(K))`. The resulting **variation**
+`VanishingCycles.variation σ : U(Φ(K)) → U(K_η)` satisfies, in `D⁺(Ȳ_et, A_Ȳ)`,
 
 ```text
-Var(σ) ∘ q = σ − 1  on K_η,      q ∘ Var(σ) = σ − 1  on Φ(K),
-Var(στ) = Var(σ) ∘ q ∘ Var(τ) + Var(σ) + Var(τ).
+Var(σ) ∘ U(q) = σ − 1  on U(K_η),      U(q) ∘ Var(σ) = σ − 1  on U(Φ(K)),
+Var(στ) = Var(σ) ∘ U(q) ∘ Var(τ) + Var(σ) + Var(τ).
 ```
 
-The variation is a morphism of the derived category, independent of the chosen representative; the
-uniqueness of a degree-zero factor of `σ − 1` through the cokernel is a separate, weaker statement. `A`
-is a ring or a sheaf of rings on `Y`.
+The underlying derived morphism is independent of the representative and natural in `K`. Its
+family has conjugation covariance: with the descent notation of 0.2, for every `g ∈ G`,
 
-- `VanishingCycles.variation`: Var(σ) : Φ(K)_η → K_η for σ ∈ I and K a complex on Y ×_s S, defined on a representative with φ' injective (XIII 1.4.3).
-- `VanishingCycles.variation_left`: σ = 1 + Var(σ) ∘ q on K_η.
-- `VanishingCycles.variation_right`: σ = 1 + q ∘ Var(σ) on Φ(K)_η.
-- `VanishingCycles.variation_mul`: Var(στ) = Var(σ) q Var(τ) + Var(σ) + Var(τ).
-- `VanishingCycles.variation_wellDefined`: Var(σ) depends only on K in the derived category, not on the representative K'.
-- `VanishingCycles.variation_unique`: The degree-zero cokernel factor of σ − 1 is uniquely characterized by its composite with the quotient map; independence of the derived representative is `variation_wellDefined`.
+```text
+c_{K_η}(g) ∘ g^*Var_K(σ) ∘ c_{Φ(K)}(g)⁻¹ = Var_K(gσg⁻¹).
+```
+
+For `Y = s` this reads `ρ_K(g) Var_K(σ) ρ_Φ(g)⁻¹ = Var_K(gσg⁻¹)`. A fixed member need not be a
+Galois-equivariant morphism. In the representation case it is a `LinearMap`; a
+`Representation.IntertwiningMap` additionally requires commutation with every group element.
+The uniqueness of a degree-zero factor through the underlying cokernel is separate from
+independence of the derived representative.
+
+- `VanishingCycles.variation`: Var_K(σ) : U(Φ(K)) → U(K_η) for σ ∈ I and K a bounded-below complex on Y ×_s S, in the underlying geometric derived category (XIII 1.4.3).
+- `VanishingCycles.variation_left`: σ = 1 + Var(σ) ∘ U(q) on U(K_η).
+- `VanishingCycles.variation_right`: σ = 1 + U(q) ∘ Var(σ) on U(Φ(K)).
+- `VanishingCycles.variation_mul`: Var(στ) = Var(σ) U(q) Var(τ) + Var(σ) + Var(τ), in the underlying derived category.
+- `VanishingCycles.variation_natural`: For a morphism f : K → L of gluing complexes, U(f_η) ∘ Var_K(σ) = Var_L(σ) ∘ U(Φ(f)).
+- `VanishingCycles.variation_conjugation`: The family satisfies the descent/pullback conjugation formula above for every g ∈ G and σ ∈ I.
+- `VanishingCycles.variation_wellDefined`: The underlying derived morphism Var_K(σ) depends only on K, not on the representative K'.
+- `VanishingCycles.variation_unique`: The degree-zero underlying cokernel factor of σ − 1 is uniquely characterized by its composite with U(q); independence of the derived representative is `variation_wellDefined`.
 
 *Proof sketch.* The cone replacement gives an injective, degreewise split specialization whose
 quotient realizes the cone. Trivial inertia on the closed image makes `σ − 1` vanish there; factor it
-and compute the two composites and the product rule directly. Homotopy-compatible replacements and
-localization give independence of the representative. (SGA 7 II, Exposé XIII, 1.4.3 and formulas
+and compute the two composites and the product rule after geometric restriction. Equivariant
+maps of triples give naturality; transporting the cokernel factor by `c(g)` gives the factor for
+`gσg⁻¹`, proving covariance before passage to the derived category. Homotopy-compatible
+replacements and localization give independence of the representative. (SGA 7 II, Exposé XIII, 1.4.3 and formulas
 (1.4.3.2)–(1.4.3.4), p. 17.) *Needs:* EtaleCohomologyFoundations §F.3a, 0.2; EtaleCohomologyFoundations §F.1 (homotopy-coherent
 cones).
 
 **Checks.**
 
 - `VanishingCycles.variation_one`: Var(1) = 0.
-- `VanishingCycles.variation_of_phi_zero`: If Φ(K) = 0 then Var(σ) = 0 and I acts trivially on K_η, by σ = 1 + Var(σ) q.
+- `VanishingCycles.variation_of_phi_zero`: If Φ(K) = 0 then Var(σ) = 0 and I acts trivially on U(K_η), by σ = 1 + Var(σ) U(q).
 - `VanishingCycles.variation_picardLefschetz`: At an ordinary quadratic point in odd relative dimension n = 2m + 1, Var(σ)(a) = (−1)^{m+1} t_ℓ(σ)(a, δ)δ, which over rational coefficients is nonzero when t_ℓ(σ) ≠ 0, (a, δ) ≠ 0 and δ ≠ 0 (XV 3.3).
-- `VanishingCycles.variation_ne_sub_one`: Var(σ) is not σ − 1: it goes from Φ(K)_η to K_η, and σ − 1 on K_η is Var(σ) ∘ q, which vanishes on the image of K_s.
+- `VanishingCycles.variation_ne_sub_one`: Var(σ) has source U(Φ(K)) and target U(K_η); σ − 1 on U(K_η) is its composite with U(q), which vanishes on the closed image. For K_s = 0, q is the identity and Var(σ) does equal σ − 1.
+- `VanishingCycles.variation_finite_not_equivariant`: Let `S = Spec 𝔽₂[[t]]`, `Y = s`, `A = 𝔽₅`.
+  The splitting field `𝔽₄((u))`, `u³ = t`, has group `C₃ ⋊ C₂ ≅ S₃`. On the permutation module
+  `V = 𝔽₅³`, take inertia `T = [[0,0,1],[1,0,0],[0,1,0]]` and Frobenius
+  `F = [[1,0,0],[0,0,1],[0,1,0]]`. For `K = (0,V,0)`, `q = id` and `Var(σ) = T − 1`, but
+  `F(T − 1)e₁ = e₃ − e₁ ≠ e₂ − e₁ = (T − 1)Fe₁`. Thus this underlying variation does not lift
+  to an intertwining map.
+- `VanishingCycles.variation_finite_conjugation`: In the same example, `T³ = F² = 1`,
+  `FTF⁻¹ = T²`, and `F Var(σ) F⁻¹ = T² − 1 = Var(σ²)`. The family satisfies covariance even
+  though its fixed member is not equivariant.
 - The variation determines the inertia action on K_η through 1.4.3.2; the cocycle rule 1.4.3.4 is the algebraic analogue of the classical variation.
 
 ### 0.5 `RΨ`, `RΦ`, the vanishing triangle and Milnor fibres
@@ -471,7 +509,9 @@ residue characteristic (or a sheaf of such rings). Derive `Ψ` and `Ψ_η` on bo
 sp^* i^* K  →  RΨ_η(K_η)  →  RΦ(K)  →
 ```
 
-with no shift on `RΦ`, and the variation of 0.4 maps `RΦ` back to nearby cycles. At a geometric point
+in the Galois-equivariant generic-part category, with no shift on `RΦ`. Its map `can` is equivariant;
+the elementwise variation of 0.4 is `Var(σ) : U(RΦ(K)) → U(RΨ_η(K_η))`, satisfying its two
+composition identities with `U(can)` and its conjugation covariance. At a geometric point
 `x̄` of `X_s` the stalk of `R^iΨ(K)` is `H^i(X_(x̄) ×_{S^nr} η̄, K)`, the cohomology of the geometric
 Milnor fibre, with `X_(x̄)` and `S^nr` the strict henselizations. `(X, K)` is locally acyclic over `S`
 exactly when `RΦ(K) = 0`; in particular `RΦ` vanishes on a smooth locus where the cohomology sheaves of
@@ -1132,24 +1172,46 @@ dimensions. (Qian 2023, published Definition 3.6, PDF p. 21.) *Needs:* Tau Ceti
 ### 1.7 Canonical and variation maps
 
 For the geometric triangle of 0.5, write `can : RΨK → RΦK` for the second map of the specialization
-triangle (the quotient `q` of 0.4) and `Var(σ) : RΦK → RΨK` for the variation. Then
-`Var(σ) ∘ can = σ − 1` on `RΨK` and `can ∘ Var(σ) = σ − 1` on `RΦK`. With rational ℓ-adic coefficients
-on the unipotent part, choose `σ` in the unipotent open subgroup with `t_ℓ(σ) ≠ 0` and define the normalized variation `var : RΦK → RΨK(−1)` as
-`Var(σ)` multiplied by the finite polynomial `log(T)/(T − 1)` in `T = σ` (constant coefficient one) and
-divided by `t_ℓ(σ)`; then `var ∘ can = N` and `can(−1) ∘ var = N_Φ`, and `var` is independent of every such `σ` and of
-a generator of `ℤ_ℓ(1)`. The finite logarithm is taken only after unipotence is proved (1.1).
+triangle (the quotient `q` of 0.4); here `RΨK` abbreviates its generic part `RΨ_η(K_η)`.
+The map `can` retains Galois descent. For `σ ∈ I`, the elementwise variation is
+`Var(σ) : U(RΦK) → U(RΨK)`, with
+`Var(σ) ∘ U(can) = σ − 1` and `U(can) ∘ Var(σ) = σ − 1` in the underlying derived category.
+With rational ℓ-adic coefficients on the unipotent part, choose `σ` in a common unipotent open
+subgroup with `t_ℓ(σ) ≠ 0`. Choose a basis of `ℚ_ℓ(1)` and write `t_ℓ(σ) = a_σ` in that basis.
+Set `T_Φ = σ` on `U(RΦK)` and `P(T_Φ) = log(T_Φ)/(T_Φ − 1)`, the finite polynomial in
+`T_Φ − 1` with constant coefficient one. The normalized underlying map is
 
-*Proof sketch.* Use the two composition identities of 0.4; on a unipotent action multiply by the
-polynomial `log(T)/(T − 1)`; undo the trivialization of `ℤ_ℓ(1)`. (SGA 7 II, Exposé XIII, (1.4.3.2)–(1.4.3.4),
-p. 17; Illusie 1994, 1.5, pp. 12–13.) *Needs:* 0.4, 0.8, 1.2.
+```text
+v = a_σ⁻¹ Var(σ) ∘ P(T_Φ) : U(RΦK) → U(RΨK).
+```
+
+It is independent of every such `σ`. Its conjugation law is
+`c_{RΨK}(g) ∘ g^*v ∘ c_{RΦK}(g)⁻¹ = χ_ℓ(g) v` for all `g ∈ G`. Restoring the twist gives
+`var : RΦK → RΨK(−1)` in the Galois-equivariant generic-part derived category:
+`c_{RΨK(−1)}(g) ∘ g^*U(var) ∘ c_{RΦK}(g)⁻¹ = U(var)`.
+This twisted map is independent of the chosen basis, natural in `K`, and satisfies
+`var ∘ can = N` and `can(−1) ∘ var = N_Φ` in that category, with the twisted Galois-equivariant
+monodromy operators on the nearby and vanishing objects. The finite logarithm is taken only after
+unipotence is proved (1.1).
+
+*Proof sketch.* Apply the polynomial to the underlying composition identities of 0.4. The
+variation multiplication rule on the unipotent part makes `Var(σ) P(T_Φ)` additive in the tame
+parameter, yielding independence of `σ` after division. Transport this construction using the
+family covariance of 0.4 and `t_ℓ(gσg⁻¹) = χ_ℓ(g)t_ℓ(σ)`; the resulting factor `χ_ℓ(g)` is canceled
+by the action on the target twist. Carrying this descent through the construction gives the
+equivariant maps and their composition identities, as for `N` in 1.2. (SGA 7 II, Exposé XIII,
+(1.4.3.2)–(1.4.3.4), p. 17; Illusie 1994, 1.5, pp. 12–13.)
+*Needs:* 0.2, 0.4, 0.8, 1.2; EtaleCohomologyFoundations §F.3a (`tameCharacter_conj`).
 
 **Checks.**
 
-- When `can ∘ Var(σ) = 0` (as at an ordinary quadratic point in odd relative dimension, where the forget-supports
-  map vanishes, 2.3), `T` acts trivially on `RΦK`, the polynomial factor is one, and `var` is `Var(σ)` divided by `t_ℓ(σ)`.
+- When `U(can) ∘ Var(σ) = 0` (as at an ordinary quadratic point in odd relative dimension, where the forget-supports
+  map vanishes, 2.3), `T_Φ = 1`, the polynomial factor is one, and the underlying normalized map is
+  `v = a_σ⁻¹ Var(σ)`.
 - In that situation, with local equation `Q = b` for a uniformizer `b`, `Var(σ) = (−1)^{m+1} t_ℓ(σ)(·, δ)δ` (2.7), so `var = (−1)^{m+1}(·, δ)δ` for every `σ` with
   `t_ℓ(σ) ≠ 0`; omitting the division by `t_ℓ(σ)` would make `var` depend on `σ`.
 - For a nonseparating node `N≠0` but `Var(1)=0` and `t_ℓ(1)=0`; the identity element cannot define normalized variation.
+- Over `𝔽_q`, conjugating by geometric Frobenius multiplies the untwisted normalized map `v` by `q⁻¹`; the target twist multiplies by `q`, so `var` is equivariant and its nearby-cycle composite satisfies `NF = qFN` as in 1.2.
 
 ### 1.8 Tame restriction along a normal crossings divisor
 
