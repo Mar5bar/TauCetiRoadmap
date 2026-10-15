@@ -358,10 +358,13 @@ Construct a generic fixed-cohomology one-parameter family with prescribed
 admissible endpoints, at every period cutoff: transverse critical-point slides,
 ordinary trajectory tangency/cancellation, isolated critical birth/death and
 closed-orbit degenerations, with the semi-isolation and good-parameter conditions
-of Hutchings rt3 §2. Prove the birth/death fold normal form and its parameter
-transversality by local jet perturbations, keeping the closed-form condition.
-Choose the metric Euclidean in the Cerf chart for the birth/death model and
-pin the potential and positive metric dual explicitly:
+of Hutchings rt3 §2. Consume [HeegaardFloer M.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7d7fa6e83b9975bca12a0a620f4e3fab7db029be/TauCetiRoadmap/HeegaardFloer/README.md)'s ordinary local A₂
+fold, relative partial-jet transversality and signed elementary chain change.
+Construct the closed-one-form specialization using local exact potentials
+and exact cutoff perturbations, retaining the global cohomology class,
+period cutoffs and cover/lift comparisons. Choose the metric Euclidean in
+the resulting Cerf chart and pin the potential and positive metric dual
+with precisely that local normalization:
 `α_t=d(x₁³/3 ± (t−t₀)x₁ − Σ_(j=2)^i x_j²/2 + Σ_(j>i)x_j²/2)` and
 `V_t=(x₁² ± (t−t₀),−x₂,…,−x_i,x_(i+1),…,x_n)`.
 The two critical points have indices i and i−1; trajectories use −V_t.
