@@ -22,7 +22,8 @@ stated here are their algebraic, topological and formal inputs, with the convent
 * invertibility, in an `ℓ`-power-torsion ring, of the orders of the finite quotients of a
   profinite group of pro-order prime to `ℓ`;
 * detection of vanishing at closed points on a Jacobson space, and the closed points of
-  Zariski–Riemann spaces over an algebraically closed field.
+  Zariski–Riemann spaces over an algebraically closed field, applied in S6.3 to the compactified
+  affinoid perfectoid space with its compactified plus rings.
 -/
 
 namespace TauCetiRoadmap.DiamondSixOperations
@@ -451,6 +452,14 @@ open `{|a| ≤ 1}` for `a ∈ O_C ∖ C⁺` at arbitrary valuation rank; the nor
 fixture only when it is open. Conditional conservativity retains the hypothesis that linear
 duality detects every object of `D(Λ)`: the Hahn valuation ring of characteristic `ℓ ≠ p` is an
 admissible coefficient ring failing that hypothesis.
+The S6 target `closedPoints_detect_zero` applies after relative compactification over
+`S = Spa(C, O_C)`: an affinoid `Spa(R, R⁺)` becomes `Spa(R, R⁺_S)`, with the same ring and
+compactified plus ring. For an affinoid strictly totally disconnected `T → X` and compactifiable
+`X → S`, the intermediate space `X₀ = T̄^{/X}` is open in `W = T̄^{/S}`. The components of `W`
+are `Spa(C_t, O_C + C_t°°)`, with underlying Zariski–Riemann spaces, so `W` satisfies the helper's
+hypotheses. The proof of `verdierDual_conservative` applies detection to `j_! A₀` on `W` and
+then restricts to `X₀`. The nonproper rational-open example in S6.3 has a nonvaluation plus ring;
+its compactification includes the valuations at infinity.
 Invertibility in S4 is defined for any small v-stack, by étale-local shifts of the unit, and
 descends from v-covers by locally spatial diamonds. The S5 relative-ball approximation constructs
 an inverse system for each affinoid perfectoid morphism in characteristic `p`; the dimensions of
