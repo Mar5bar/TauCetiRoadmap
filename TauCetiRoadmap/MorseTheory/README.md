@@ -15,8 +15,9 @@ a particular level band are separate hypotheses. A Morse function means smooth
 with nondegenerate critical points; do not incorporate properness or
 Palais–Smale into that predicate. Cobordisms here are the compact bands
 f⁻¹([a,b]) inside a boundaryless manifold, with regular boundary levels;
-they use DifferentialGeometry 5.1's boundary model and GeometricTopology
-Layer 1's collars. The general
+they use native Tau Ceti `Geometry/Manifold/Boundary/{Model,Charts}` for
+the boundary manifold, DifferentialGeometry 5.1 for its orientation
+interface, and GeometricTopology Layer 1 for collars. The general
 boundary-critical-point and infinite-dimensional theories are separate from
 these regular-level cobordisms.
 
@@ -30,20 +31,41 @@ perturbation theorem. Consume `MDifferentiableAt.mvfderiv_eq_fderiv_comp_extChar
 `manifoldMorseIndex_comp_fst_add_comp_snd`, and `Morse/Sphere/{Basic,Prod}`.
 Consume the manifold `TauCeti.MorseChart` and
 `IsManifoldNondegenerateCriticalPoint.nonempty_morseChart` from
-`Geometry/Manifold/Morse/Lemma`; its quadratic equation carries a factor 1/2
+[Geometry/Manifold/Morse/Lemma](https://github.com/TauCetiProject/TauCeti/blob/e8375e4fdc90df4033f28291a72d5f64234a301a/TauCeti/Geometry/Manifold/Morse/Lemma.lean);
+its quadratic equation carries a factor 1/2
 and an unordered list of ±1 weights. M1 supplies arbitrary-model transport,
-ordering/scaling and intrinsic-Hessian comparisons.
-Own recharting a boundaryless I-manifold as an `𝓘(ℝ,E)`-manifold through the
-model's open-range identification, with `mfderiv`, `ContMDiff`, critical/index
-and `IsAdaptedPseudoGradient` comparisons. All arbitrary-model consumers use
-this same transport. Use Mathlib `PartialDiffeomorph`, `IsProperMap`, `CWComplex`, `RelCWComplex`,
+ordering/scaling and intrinsic-Hessian comparisons. The linked upstream
+manifold-chart and compact-finiteness APIs supply those construction targets;
+Suggested.lean uses the pinned Morse Basic/Index and vector-space NormalForm
+interfaces for its signatures.
+Own the single boundaryless-model transport on a named `def` type synonym
+M′ carrying M's topology, with an explicitly supplied E-charted structure
+and a constructed `IsManifold 𝓘(ℝ,E) ∞ M′` instance; do not install a second
+global atlas on M. Mathlib's `[I.Boundaryless]`
+gives `range I=univ` and `I.toHomeomorph:H≃ₜE`. For an H-valued chart c use
+`c′=c.trans I.toHomeomorph.toOpenPartialHomeomorph`; its extended coordinates
+are exactly I∘c. Construct the identity `Diffeomorph I 𝓘(ℝ,E) M M′ ∞`,
+the preferred-chart/extend/source/target and maximal-atlas correspondences,
+and source- and target-side `ContMDiff`/`mfderiv` comparisons. If φ is an
+E-valued maximal chart on M′, its corresponding H-valued chart on M is
+`φ.trans I.toHomeomorph.symm.toOpenPartialHomeomorph`, with the same extended
+chart and target. Transfer `IsImmersionOfComplement` across this model
+change by equality of these normal-form charts, with the same complement
+and linear normal-form map. Also construct the charted-source transport
+along the scalar zero-subtype/level homeomorphism used in M2. These are
+narrow chart-form comparisons, with no general immersion-composition theorem
+as an input. Include critical/index and `IsAdaptedPseudoGradient` comparisons.
+All arbitrary-model consumers use this transport. Use Mathlib `PartialDiffeomorph`, `IsProperMap`, `CWComplex`, `RelCWComplex`,
 `ContinuousMap.HomotopyEquiv` and native singular (co)homology.
 
-[DG Layers 3,5,10,12](../DifferentialGeometry/README.md) supply flows, boundaries,
+[DG Layers 3,5,10,12](../DifferentialGeometry/README.md) supply flows, boundary-orientation interfaces,
 partitions of unity, sharp finite-dimensional Sard, metrics and Hessians.
 [AlgebraicTopology Stages 2–8](../AlgebraicTopology/README.md) supply relative
 chains, cofibrations, cellular/singular comparison, products, integral duality
-and relative homotopy. [GT Layer 1](../GeometricTopology/README.md) supplies
+and relative homotopy. M4’s arbitrary-function LS bound consumes the
+categorical-cover/cup-length supplement after AT6.2; that supplement uses
+only foundational products and native homotopies, not Morse theory or
+manifold duality. [GT Layer 1](../GeometricTopology/README.md) supplies
 normal/tubular geometry, collars, handle gluing and disc bundles; [CharacteristicClasses C2](../CharacteristicClasses/README.md)
 supplies ordinary Thom classes and their local orientation coefficients.
 
@@ -86,8 +108,11 @@ normalized sum-of-squares equation on the whole source. Derive isolation,
 strict local minima/maxima, the two-dimensional saddle model and finite critical
 sets on compact subsets for a global Morse function. Consume native
 `IsMorse.finite_setOf_mfderiv_eq_zero` and `MorseChart.mfderiv_eq_zero_iff`
-for compact standard-model manifolds, extending them to compact subsets and
-the shared arbitrary-model transport. Define chartwise C^k
+from [PseudoGradient/Existence](https://github.com/TauCetiProject/TauCeti/blob/e8375e4fdc90df4033f28291a72d5f64234a301a/TauCeti/Geometry/Manifold/Morse/PseudoGradient/Existence.lean).
+The compact finiteness theorem uses the standard model `𝓘(ℝ,E)`; consume
+it directly. Extend the local chart argument to compact subsets and apply
+the shared arbitrary-model transport, retaining the native `mfderiv` zero
+locus and its comparison with the critical set’s vector-valued `mvfderiv`. Define chartwise C^k
 seminorm neighborhoods on fixed compact coordinate sets before using them.
 Prove persistence of
 nondegenerate critical points under small C² perturbations on fixed compact
@@ -98,29 +123,146 @@ proof, avoiding junk values on infinite critical sets.
 
 ## M2. Compact-band deformation, handles and cells
 
-If a<b are regular values, f⁻¹([a,b]) is compact and has no critical points,
-consume [LieGroupoidsPoisson G0.1](../LieGroupoidsPoisson/README.md)'s regular-
-level manifold and tangent-kernel construction. Build regular sublevels and
-bands as actual manifolds with boundary by the submersion coordinate normal
-form. For dimension m>0 choose the same continuous linear equivalence
-E≃ℝ^m throughout the model comparison and put the inward half-space coordinate
-in Mathlib's coordinate 0; the model is `𝓡∂ m` with `NeZero m`.
-For M_a={f≤a} that coordinate is a−f; for the band use f−a at its lower
-boundary and b−f at its upper boundary. Prove the
-boundary is the corresponding regular level, its induced smooth structure
-agrees with G0.1, and pin the band boundary co-orientations by −grad f
-at the lower level and +grad f at the upper level. When M is oriented,
-identify the induced `boundaryOrientation`; do not assume orientability
-(Lee, Smooth Manifolds, Proposition 5.47).
-In dimension 0 regular level fibers and critical-free bands are empty; their
-sublevels are clopen boundaryless 0-manifolds, without a half-space model.
-Construct the normalized-gradient deformation retract M_b→M_a. The field
+Construct the regular levels of real-valued functions on the actual subtype
+`Level(f,c):={x:M // f x=c}` with its subspace topology. The scope here is
+scalar levels and their sublevel/band faces; regular fibers of maps into
+other manifolds and fiber products are separate constructions.
+Consume the following declarations in namespace `TauCeti` from
+[Section/Chart and Manifold](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Geometry/Manifold/VectorBundle/Section/Manifold.lean)
+and [SmoothZero/Linearization](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Geometry/Manifold/VectorBundle/Section/SmoothZero.lean):
+`sectionZeroChartedSpace`, `isManifold_sectionZero`,
+`hasMFDerivAt_coe_sectionZero`, `isImmersionOfComplement_coe_sectionZero`,
+`sectionZeroChartedSpace_chartAt`, `sectionZeroChartedSpace_atlas`,
+`sectionZeroChartAt_apply`, `sectionZeroChartAt_source`,
+`mem_sectionZeroChartAt_target_iff`, `coe_sectionZeroChartAt_symm_apply`
+and `sectionLinearization_trivial`.
+
+Use M1's self-modelled synonym M′ with preferred E-chart c′_z, the base
+B:=ℝ, constant b:=0 and the trivial line bundle `Bundle.Trivial ℝ ℝ`.
+For f′ on M′ and s:=f′−c choose
+`e_z=trivializationAt ℝ (Bundle.Trivial ℝ ℝ) (b z)` and set
+`g_z(y)=f′((c′_z).symm y)−c`, `D_z=fderiv ℝ g_z (c′_z z)`.
+Derive every input of `sectionZeroChartedSpace`: the strict derivative `hf`
+of g_z from smoothness and nonzero order; `hFred` from
+`TauCeti.isFredholm_of_finiteDimensional`; `hsurj` from regularity using the
+preferred-source derivative comparison; and `hindex` from
+`ContinuousLinearMap.index_eq_of_finiteDimensional`, with natural index
+n=dim(E)−1. Surjectivity at a zero gives dim(E)≥1, so the integer and natural
+index expressions agree there. Supply `hb` by continuity of the constant
+base, `he` by `mem_baseSet_trivializationAt`, and the two-zero-point smoothness
+input `hs` by smooth preferred source expressions on their implicit-chart
+domains, following SmoothZero's construction. The trivialization coordinate
+is literally s. Directly identify D_z with the preferred-source derivative
+of f by constant subtraction, `range I=univ` and M1's `mfderiv` comparison;
+this supplies `hsurj`. `sectionLinearization_trivial` is a cross-check of
+that identification, not an input to the explicit constructor. Construct the actual zero-subtype/level
+homeomorphism induced by s(x)=0 iff f(x)=c and transfer these specific charts
+along it as `scalarRegularLevelChartedSpace`. The existential
+`exists_isManifold_sectionZero_of_contMDiff` is a cross-check of the result.
+
+Export the chartAt/atlas, source/target, extend and inverse formulas for this
+named structure. In particular use the SAME native projection
+`π_z=Classical.choose (hFred z).closedComplemented_ker` and kernel equivalence
+K_z supplied by `D_z.kerModelEquiv`: the preferred level chart is
+`w ↦ K_z(π_z(c′_z w−c′_z z))` on the native section-zero chart source.
+Consume `sectionZeroChartAt_apply` for this equation and transfer its
+actual source and target through the subtype homeomorphism. Prove changed
+complements/charts give the identity diffeomorphism between the named atlases,
+including their derivative comparison laws.
+Use the native inclusion derivative and M1's target-model chart comparison
+to construct the native `Manifold.IsSmoothEmbedding` of Level(f,c) into M,
+with tangent range `ker (mfderiv I 𝓘(ℝ) f x)`. Its topological embedding is
+`Topology.IsEmbedding.subtypeVal`; transport the immersion by its actual normal-form
+chart equation, preserving the complement ℝ, and not by a model-changing
+use of `IsImmersionOfComplement.comp_diffeomorph`.
+
+For the scalar normal form at x use the SAME `π_x` and
+`hker=(hFred x).closedComplemented_ker`. Let `hD:D_x.range=⊤` be the actual
+surjectivity proof above and fix
+`L:=D_x.implicitCoordEquiv hD hker : E≃L[ℝ](ℝ×ker D_x)` from
+[TauCeti Analysis/Calculus/ImplicitFunctionTheorem](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Analysis/Calculus/ImplicitFunctionTheorem.lean).
+Its public `coe_implicitCoordEquiv` law gives `L(v)=(D_x v,π_x v)`, hence
+`L.symm(0,k)=k` for k in the kernel. Construct
+`Φ(y)=(g_x(y),π_x(y−c′_x x))` using the public
+`HasStrictFDerivAt.implicitToOpenPartialHomeomorphOfComplemented`. Restrict
+its source to the intersection of its own source, the preferred chart target
+and the native `hf.implicitCoordSource hD hker`; use the public openness,
+base-point membership and inverse-smoothness laws there. This is an actual
+open neighborhood with the prescribed smooth inverse, not an unrestricted
+implicit-coordinate formula. The H-valued domain chart for
+`Manifold.IsSubmersionAtOfComplement.mk_of_charts` is c′ composed with this
+restricted Φ, L.symm and I.toHomeomorph.symm. Its target chart is t↦t−c,
+so the extended map is exactly `Prod.fst ∘ L`. Construct
+`Manifold.IsSubmersionAtOfComplement (ker D_x) I 𝓘(ℝ) ∞ f x` and prove the
+zero-slice agrees with the SAME `π_x`, `K_x` and scalar-level chart above.
+
+For every regular endpoint a construct the sublevel M_a={f≤a} as a manifold
+with boundary, and for regular a<b construct the band f⁻¹([a,b]); these atlas
+constructions require neither compactness nor absence of interior critical
+points. State the positive-dimensional construction with explicit `n:ℕ` and
+`hn:Module.finrank ℝ E=n+1`, using model `𝓡∂ (n+1)` and its `NeZero (n+1)`
+instance. Derive `hdim:Module.finrank ℝ E−1=n`. Reindex the existing scalar
+atlas by the continuous linear equivalence ρ_hdim whose value on v at i:Fin n
+is `v (Fin.cast hdim.symm i)`, and use the resulting named local/type-synonym
+`Fin n→ℝ` atlas on the level; this is model transport of the one level
+carrier. Set `K_x^n=ρ_hdim ∘ K_x` and `χ_x^n=ρ_hdim ∘ χ_x`.
+Use inward coordinate a−f for the sublevel, f−a at the lower band face and
+b−f at the upper face, with these SAME tangential coordinates in slots
+1,…,n and scalar coordinate in slot0. The native comparison is
+`β_n:=EuclideanSpace.equiv (Fin n) ℝ`, from
+`EuclideanSpace ℝ (Fin n)` to `Fin n→ℝ`; the ambient face chart's tail is
+`β_n.symm (χ_x^n)`. A fixed E≃L[ℝ]EuclideanSpace ℝ(Fin(n+1)) is used only
+for interior charts. First apply that equivalence and recenter, then take
+a Euclidean ball of radius r in the transformed strict interior chart target
+and translate coordinate0 by b>r. Its whole image has coordinate0>0,
+also at interior critical points, with no df≠0 assumption there.
+
+Consume the actual `TauCeti.boundaryChartedSpace` and
+`TauCeti.isManifold_boundary` from
+[native Boundary/Model and Charts](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Geometry/Manifold/Boundary/Charts.lean),
+supplying the nonzero differentiability order ∞. Use its public
+`boundaryChartedSpace_atlas`, `boundaryChartedSpace_chartAt_source`,
+`boundaryChartedSpace_chartAt_target`, `boundaryChartedSpace_chartAt_apply`
+and `boundaryChartedSpace_chartAt_symm_apply` laws. The preferred face chart
+has coordinate0=0 exactly on the level; interior preferred charts have it
+positive. Construct the boundary/level homeomorphism h and prove on the
+actual common chart source
+`β_n (chartAt (EuclideanSpace ℝ (Fin n)) p q)=χ_(h p)^n(h q)`.
+This equality is AFTER β_n and the explicit Fin.cast reindexing, not an
+identification of differently typed atlases. Equip the level with that
+reindexed named atlas and promote h to the typed
+`Diffeomorph 𝓘(ℝ,EuclideanSpace ℝ (Fin n)) 𝓘(ℝ,Fin n→ℝ)
+  ↥((𝓡∂ (n+1)).boundary M_a) Level(f,a) ∞`.
+For a band, give the corresponding typed diffeomorphism to the disjoint
+union of its reindexed lower/upper levels. Prove both smooth directions
+from these public source/target/apply/inverse laws; no private chartAt
+lemma or equality of differently typed `IsManifold` statements is an input.
+
+Consume [DifferentialGeometry 5.1's orientation interface](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6e6a8ebc5fccd49a207365df0f9e74923f6bcae2/TauCetiRoadmap/DifferentialGeometry/README.md#layer-5-integration-and-stokes-theorem)
+for `boundaryOrientation_spec`, on this native boundary manifold. Pin the
+metric-free outward co-orientation: df(v)>0 on ∂M_a and the upper band face,
+df(v)<0 on the lower band face. Mathlib's inward slot0 has outward vector
+−∂₀; compute the outward-first orientation using that sign, when M is
+oriented. Gradients ±grad f represent the co-orientations after choosing a
+metric; no orientation is needed for the carriers or atlas construction.
+The scalar-level model remains uniformly `Fin (dim(E)−1)→ℝ` before the
+explicit reindexing, also for empty levels. Dimension0 regular levels are
+empty and sublevels clopen boundaryless0-manifolds, with no half-space model;
+dimension1 levels use Fin0. Dimension0 regular-endpoint bands are clopen;
+a critical-free such band is empty.
+
+For a<b with compact f⁻¹([a,b]) and no critical points on that band,
+construct the normalized-gradient deformation retract M_b→M_a directly in
+the boundaryless ambient manifold using M1 and DG's flow/metric suppliers.
+This homotopy theorem does not require the scalar-level or boundary atlases,
+SectionZero or DG5.1. The field
 is −grad f/|grad f|² on that band; build a smooth cutoff extension, prove flow
 existence up to the prescribed hitting time and continuity at the fixed
-sublevel. Construct the regular-band product homeomorphism
-`f⁻¹[a,b]≃f⁻¹(a)×[a,b]`, preserving the value coordinate, with a smooth
-interior diffeomorphism and smooth maps between the corresponding boundary
-pieces. Use their own product/interior models; do not identify the cornered
+sublevel. Separately, consume that compact-flow construction, the scalar
+level atlas and the boundary-atlas comparison to construct the regular-band
+product homeomorphism `f⁻¹[a,b]≃f⁻¹(a)×[a,b]`, preserving the value coordinate,
+with a smooth interior diffeomorphism and smooth maps between the
+corresponding boundary pieces. Use their own product/interior models; do not identify the cornered
 product model with the half-space model. Construct a
 homeomorphism of M_b with M_a carrying f⁻¹(b) onto f⁻¹(a). Identify a sufficiently
 small local minimum sublevel component inside its Morse neighborhood with a
@@ -336,6 +478,103 @@ cohomology above d vanishes by AT Stage 6.1's integral UCT. Do not infer that de
 cohomology is torsion-free. Apply the proper-index≤d version of M2 to obtain
 those conclusions for noncompact M.
 
+**Arbitrary-function Lusternik–Schnirelmann inequality.** Consume
+AlgebraicTopology's categorical-cover supplement after Stage 6.2, with its
+same `LSCategoricalCover`, `lsCategoryCount`, `normalizedLSCategory` and
+`lsCupLength` carriers. Here construct `lsCriticalPointBound` for **every
+smooth real-valued f on a compact boundaryless finite-dimensional smooth
+Hausdorff second-countable manifold M**, allowing arbitrary critical
+point degeneracy. Use the native manifold derivative zero locus; compare
+`mfderiv I 𝓘(ℝ) f` with the vector-valued `mvfderiv I f` used by
+`criticalPoints`. Both give the same critical set for these smooth data.
+Set `totalCriticalCount f=(criticalPoints f).encard : ℕ∞`. Prove
+
+`lsCategoryCount M M≤totalCriticalCount f`.
+
+For nonempty connected M this gives
+`#Crit(f)≥cat(M)+1≥cupLength(M;R)+1`, with cat(point)=0 and R any
+commutative coefficient ring. Counts are distinct points, not critical
+values. Infinite critical sets have count ∞ and satisfy every finite lower
+bound; do not use `Nat.card`, whose infinite-set value is 0. Empty M has
+both unnormalized counts 0. Prove the main inequality directly on M,
+connected or disconnected, by the critical-level induction below.
+
+As a **separate corollary and consistency check**, prove the component
+sum formula. For an arbitrary boundaryless model, first transport its
+local open comparison with the finite-dimensional vector space to prove
+`LocallyConnectedSpace H`; then apply native
+`ChartedSpace.locallyConnectedSpace` and compact locally connected
+`ConnectedComponents` finiteness. Its components are clopen and carry the
+restricted smooth structures. Prove the restriction/derivative comparison
+and actual finite-component Sigma homeomorphism, then use AT's
+finite-coproduct formula and the disjoint critical-set count. This
+corollary is not a prerequisite for the main inequality. Dimension 0 is a
+finite discrete calculation.
+
+For the main bound, transport the native normed-space Fermat theorem through
+boundaryless charts to `mfderiv=0` and combine it with the compact extreme-value
+theorem. This proves the critical locus nonempty when M is nonempty and does
+not assume a nondegenerate Hessian.
+
+The finite-critical-set proof owns a **degenerate critical-level
+neighborhood deformation**, independently of the nondegenerate Morse
+normal form. Given one critical value c isolated from the other critical
+values and an open neighborhood U of its finitely many critical points,
+construct ε>0 and an ambient continuous deformation from the identity,
+nonincreasing f, sending {f≤c+ε} into {f<c−ε}∪U. Choose nested categorical
+coordinate balls around those points. On their compact transition annuli
+and on the compact band outside the inner balls, bound |grad f| away from 0
+for any chosen smooth auxiliary metric. Prove the positive f-drop required
+to cross each annulus using `−df/ds=|grad f|` in arclength along the negative
+gradient. Obtain a positive crossing-length bound from the coordinate
+radius gap and uniform equivalence of metric/coordinate norms on the compact
+chart core; no geodesic-distance or Hopf–Rinow theorem is needed. Choose the band width below that cost; once an orbit enters an
+inner ball it cannot escape its outer ball while staying in the band.
+The uniform gradient bound outside the inner balls gives a common finite
+flow time. Construct the cutoff field/global compact-manifold flow and
+its actual homotopy, and pull categorical covers back along its endpoint.
+For Φ:C(unitInterval×M,M), explicitly bundle g(x)=Φ(1,x) and the native
+`ContinuousMap.Homotopy (ContinuousMap.id M) g` using Φ(0,x)=x; reverse
+that homotopy where the categorical endpoint-pullback API expects g≃id.
+The target uses open lower sublevels and open neighborhoods, so the pullback
+sets are open. Do not assume individual hitting-time choices are continuous.
+
+Order the finitely many critical values. Construct the ambient-cutoff,
+open-sublevel version of M2's compact critical-free-band deformation used
+by the categorical-cover pullback: use regular value buffers and a common
+finite flow time so the endpoint is in a strict lower sublevel. M2's
+homotopy on a closed sublevel alone is not an ambient self-map. Apply these
+bridges between the critical levels and prove category grows by
+at most the number of critical **points** at each level. Start below the
+minimum and end above the maximum. Obtain an explicit categorical cover
+with exactly the finite critical count (pad a smaller cover only after
+handling empty/nonempty cases), and derive the extended-count inequality.
+Neither Morse–Smale genericity nor a Morse approximation of f is needed.
+
+Construct `nonempty_morseFiniteWitness` on every compact second-countable
+manifold here: apply M3's Morse approximation to the smooth zero function
+and M1's finite-chart theorem to the resulting Morse function. This also
+handles empty M. Native `IsMorse.contMDiff` supplies smoothness. Only after
+obtaining an actual function with its Morse property and finite critical
+set define the finite minimum `c(M)`.
+Minimize over counts of **all smooth finite-critical functions**, not only
+Morse functions; prove nonemptiness, attainment, independence of the supplied
+witness and the universal lower bounds. The resulting natural minimum is
+also the extended-cardinal minimum over **all** smooth functions: infinite
+critical sets contribute∞ and cannot lower an existing finite minimum.
+This is the source's c(M), not a new restriction to Morse functions. Without
+the witness retain the extended counting statement, with no default finite
+minimum. This bound is not an Arnold fixed-point theorem.
+
+Checks include the empty/finite 0-dimensional cases, an infinite critical
+set (a constant function on a nonempty positive-dimensional compact manifold),
+several critical points at the same value, and degenerate isolated extrema
+in the neighborhood-deformation theorem. A height function supplies a
+finite witness on a sphere; the lower bound applies also to arbitrary
+smooth degenerate functions there. Manifolds with boundary are excluded:
+f(t)=t on [0,1] has no ordinary interior critical points. Relative/boundary
+Morse conditions require their own hypotheses and are not added here.
+
 Acceptance: standard height on S^m; cosine functions on T^m with binomial
 critical counts; the two-dimensional torus's minimum/saddles/maximum; explicit
 integer counts satisfying weak inequalities/Euler but violating a strong
@@ -343,8 +582,22 @@ inequality; and closed connected positive-dimensional M with exactly two
 critical points is homeomorphic to a sphere. The last conclusion follows from
 two disc handles and the topological radial extension of the boundary gluing;
 no diffeomorphism-to-standard-sphere assertion is made. Complex projective
-moment functions use CKG K7's actual projective carrier and yield one critical
-point in each even index 0,…,2n, compared with CKG K7's cellular calculation.
+moment functions use [ComplexKahlerGeometry K7.1 and K7.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples):
+K7.1 supplies the actual `Projectivization ℂ (Fin (n+1)→ℂ)` carrier and,
+through K1/#279's real restriction of the complex affine charts, the concrete
+real self-model `Ireal_n:=𝓘(ℝ,Fin n→ℂ)`, its `Ireal_n.Boundaryless` and
+`IsManifold Ireal_n ∞` structures, and complex orientation. Use the actual
+root theorem `finrank_real_of_complex` and `Module.finrank_pi` to identify
+`Module.finrank ℝ (Fin n→ℂ)=2*n`. Use only K7.2's CW-structure and cellular/cup
+subitems, constructed from K7.1 and AT4/AT6 independently of M4. On nonzero
+homogeneous z pin the function
+`f([z])=(Σ_(j:Fin(n+1)) (j.val:ℝ)·|z_j|²)/(Σ_j |z_j|²)`.
+Prove representative independence, smoothness, critical points [e_j] and
+Morse index 2j using M1's model/Hessian/index comparisons. Consume the
+M2 handle/cell construction and M4's application of AT6's cellular/singular
+comparison to that CW chain model, to compare with those supplied cellular
+calculations; the earlier CKG CW and
+cup constructions do not depend on this Morse application.
 Also prove critical-count parity equals Euler-characteristic parity, sphere
 critical counts are even, and closed odd-dimensional manifolds have Euler
 characteristic 0 by comparing f and −f. The equality is
