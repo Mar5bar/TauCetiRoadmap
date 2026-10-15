@@ -259,14 +259,13 @@ Four of these touch other roadmaps and are coordination points:
   It is normalized so that for a `C²`-small autonomous Morse Hamiltonian on a closed `2n`-manifold,
   `FH_*(H) ≅ H_{*+n}(X)`. The grading needs, besides the area condition, a Chern condition and
   chosen trivializations, as in the source's §3.2:
-  - **First Chern number of a surface map.** For a closed oriented surface `Σ` (here `S²` or `T²`)
-    and a smooth `f : Σ → X`, the number `c₁(f^*TX)[Σ] ∈ ℤ` is the Maslov index of a clutching
-    loop in `Sp(2n)` for trivializations of the pullback symplectic bundle `f^*TX` over a disc and
-    over its complement. The ingredients are Mathlib's pullback of vector bundles, the triviality
-    of symplectic vector bundles over a disc and over a surface minus a disc (proved here, from the
-    connectedness of `Sp(2n)`), and the loop Maslov index of Layer 7 item 1. The number is
-    independent of the trivializations and invariant under smooth homotopy of `f`, and it is
-    normalized by `c₁(TS²)[S²] = 2`. No topological Chern-class theory is consumed.
+  - **First Chern number of a surface map.** For a closed oriented surface Σ
+    and smooth f:Σ→X, consume [HeegaardFloer F1.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7d7fa6e83b9975bca12a0a620f4e3fab7db029be/TauCetiRoadmap/HeegaardFloer/README.md)'s independently constructed
+    clutching number `wind(det g)` and its equality with
+    CharacteristicClasses C3.2's `c₁(f*TX)[Σ]`. Its graph-loop Maslov
+    number is twice this winding, and `c₁(TS²)[S²]=2`. F1.5 owns the
+    disc/complement trivializations, choice/homotopy independence and
+    topological comparison; this convention does not supply an input back to it.
   - **Symplectically aspherical** means `∫ f^*ω = 0` and `c₁(f^*TX)[S²] = 0` for every smooth
     `f : S² → X`. **Symplectically atoroidal** means the same for every smooth `f : T² → X`. (The
     source writes `f^*[ω] = f^*(2c₁) = 0` for continuous `f`. Since `H²(S²; ℤ)` and `H²(T²; ℤ)`
@@ -321,6 +320,13 @@ Four of these touch other roadmaps and are coordination points:
   choices is a theorem about specified chain homotopies, never a quotient taken silently.
 
 ## Inventory
+
+The Serre-fibration and filtered-cochain APIs linked in Layer 1 are present at
+Tau Ceti snapshot `720bf8c135bd2c354a15d55a73f2fc2c3d7aa358`.
+They are absent from this repository's pinned Tau Ceti snapshot
+`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. Reuse those native interfaces
+when incorporating them; the LES, local-coefficient, arbitrary-base, product
+and convergence constructions specified below remain targets.
 
 Mathlib provides:
 - singular homology and its homotopy invariance;
@@ -1038,12 +1044,13 @@ This layer consumes Lanes F0--F2 of the Heegaard Floer roadmap. Floer cylinders 
 `ℝ × S¹` and no boundary. Half-cylinders with boundary on the zero section use Lane F1's totally
 real boundary conditions.
 
-1. Floer cylinders, the energy identity, and the Conley--Zehnder index through the Robbin--Salamon
-   index, in the trivializations fixed by the standing conventions. The Maslov index of symplectic
-   paths and loops is derived from Lane F1.3's Maslov index of Lagrangian paths through graphs
+1. Floer cylinders, the energy identity, and [F1.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7d7fa6e83b9975bca12a0a620f4e3fab7db029be/TauCetiRoadmap/HeegaardFloer/README.md)'s Conley--Zehnder index
+   `CZ=−μ_RS`, in the trivializations fixed by the standing conventions. The Maslov index of symplectic
+   paths and loops is derived from Lane F1.4's Maslov index of Lagrangian paths through graphs
    (`Ψ ↦ graph Ψ ⊂ (ℝ²ⁿ × ℝ²ⁿ, −ω ⊕ ω)`, relative to the diagonal, after Robbin--Salamon); it is
-   not a second construction. The loop version also defines the first Chern numbers of surface maps
-   in the standing conventions.
+   not a second construction. Consume F1.5's identification of the clutching-loop
+   first Chern number with CharacteristicClasses' topological c₁, with the same
+   trivializations and factor2 convention.
    Asphericity rules out sphere bubbling in `𝓛₀X`, and atoroidality does the same in all of
    `𝓛X`.
 2. Compactness, transversality for generic `J`, and gluing for the spaces of Floer cylinders, with
