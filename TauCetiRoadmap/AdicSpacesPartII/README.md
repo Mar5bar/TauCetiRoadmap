@@ -326,9 +326,10 @@ Layer 2B supplies quotients of elliptic curves by finite subgroup schemes, used 
 
 ### From the analytic suppliers
 
-[RigidAnalyticGeometry](../RigidAnalyticGeometry/README.md),
-[PadicFunctionalAnalysis](../PadicFunctionalAnalysis/README.md) and
-[RestrictedPowerSeries](../RestrictedPowerSeries/README.md) supply the contracts below.
+[RigidAnalyticGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/88df2d0b5104d7c8a159cf0def4677a8c97c8a70/TauCetiRoadmap/RigidAnalyticGeometry/README.md),
+[PadicFunctionalAnalysis](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f255de3d9ad6c27bc603f65e604108ee024c4400/TauCetiRoadmap/PadicFunctionalAnalysis/README.md) and
+[RestrictedPowerSeries](https://github.com/TauCetiProject/TauCetiRoadmap/blob/fae4b92f3233ec656fb01ae590c2bac0abd5eb42/TauCetiRoadmap/RestrictedPowerSeries/README.md)
+are external supplier specifications for the section-level contracts below.
 RigidAnalyticGeometry Convention 3 uses the proposition `IsAffinoidAlgebra K A` on a bare
 `K`-algebra; §1.1 constructs its presentation-independent topology. R0.9 transports this
 interface to the complete topological algebras used here. The table cites README contracts;
