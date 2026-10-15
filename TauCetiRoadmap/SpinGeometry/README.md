@@ -58,10 +58,19 @@ For the remaining suppliers:
   vector-bundle K-ring and products for G5's virtual spinor formula. Its
   T6.4 owns the continuous numerable principal/associated-bundle category;
   CharacteristicClasses C1 owns its continuous orthonormal/oriented frames.
-  [PseudodifferentialOperators P1,P5–P6](../PseudodifferentialOperators/README.md)
-  owns generic operator/symbol calculus and elliptic estimates. G6 constructs
-  geometric Dirac operators on the shared carriers and compares with these
-  suppliers. Numerical topological index formulas, the Hirzebruch signature theorem and
+  [PseudodifferentialOperators P1.0/P4–P6](../PseudodifferentialOperators/README.md)
+  owns the differential-operator/formal-adjoint core, differential-operator/ΨDO
+  identification, Sobolev mapping and elliptic estimates; K5a extends the
+  fixed operators to bundle distributions.
+  The cited contracts are [PDO P1.0 differential-operator core](https://github.com/TauCetiProject/TauCetiRoadmap/blob/738d3be34c5e917b932c2339e118e97a5ed5c558/TauCetiRoadmap/PseudodifferentialOperators/README.md#p10-differential-operator-core),
+  [P4 differential-operator/ΨDO identification](https://github.com/TauCetiProject/TauCetiRoadmap/blob/738d3be34c5e917b932c2339e118e97a5ed5c558/TauCetiRoadmap/PseudodifferentialOperators/README.md#p4-composition-adjoints-and-global-bundles),
+  [P5 Sobolev mapping](https://github.com/TauCetiProject/TauCetiRoadmap/blob/738d3be34c5e917b932c2339e118e97a5ed5c558/TauCetiRoadmap/PseudodifferentialOperators/README.md#p5-sobolev-lp-and-hölder-mapping-estimates),
+  and [P6 ellipticity and parametrices](https://github.com/TauCetiProject/TauCetiRoadmap/blob/738d3be34c5e917b932c2339e118e97a5ed5c558/TauCetiRoadmap/PseudodifferentialOperators/README.md#p6-ellipticity-parametrices-and-fredholm-theory),
+  together with [ComplexKahlerGeometry K5a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md#k5-compact-hermitian-elliptic-theory-and-serre-duality)
+  for general finite-rank Hermitian-bundle Sobolev/H¹/L² carriers, compactness,
+  distributional pairings, Riesz transport and bundle-system regularity. G6 must prove
+  the Dirac-specific domain/adjoint bridge stated below from these contracts.
+  Numerical topological index formulas, the Hirzebruch signature theorem and
   the Â-genus formula are outside this roadmap.
 
 Finite-dimensional Euclidean spaces and finite-rank real/complex bundles are
@@ -73,12 +82,34 @@ connected component. Include ranks zero and one explicitly.
 
 Use `Q(v)=−g(v,v)` for geometric Clifford multiplication, hence
 `c(v)c(w)+c(w)c(v)=−2g(v,w)Id`. Mathlib's Clifford generators square to Q.
-Complexification is `Cl_ℝ(V,−g)⊗_ℝℂ ≃ Cl_ℂ(V⊗_ℝℂ,−g_ℂ)`;
-g_ℂ is complex bilinear. The positive Hermitian form h on V⊗ℂ is the
-conjugate-linear/linear form induced by g, and is not g_ℂ. Hermitian products
-follow Mathlib's convention of conjugate linearity in the first argument.
-The Clifford adjoint conjugates scalars, reverses products and sends each real
-vector to its negative; c(v) is skew-Hermitian.
+Use Mathlib's base-change tensor order for complexification:
+`ℂ⊗_ℝCl_ℝ(V,−g) ≃ Cl_ℂ(ℂ⊗_ℝV,−g_ℂ)`, by
+`(CliffordAlgebra.equivBaseChange ℂ Q).symm`; the geometric `V⊗_ℝℂ` model is
+identified using the canonical tensor commutor. Give `V⊗_ℝℂ` the right-factor complex scalar action
+`z • (v⊗ₜw)=v⊗ₜ(z • w)`. For this action, the commutor to `ℂ⊗_ℝV` is
+ℂ-linear; it transports the complex structure rather than silently using the
+native left-factor scalar action. Realize the right-factor action on a type
+synonym, or by a local instance transported along `TensorProduct.comm`; install
+no global `Module ℂ (V ⊗[ℝ] ℂ)` instance. The bilinear form `g_ℂ` is the complex-bilinear scalar extension of g;
+for `Q(v)=−g(v,v)`, its base change satisfies
+`(Q.baseChange ℂ)(w)=−g_ℂ(w,w)`. The positive Hermitian form on the
+complexified vector space is induced by g and is a separate form. Hermitian
+products follow Mathlib's convention of conjugate linearity in the first
+argument. On `CliffordAlgebra (Q.baseChange ℂ)`, Mathlib's native
+`CliffordAlgebra.star` is the complex-linear map `reverse ∘ involute`: it fixes
+coefficient scalars and sends each real generator to its negative (`star_ι`).
+G1.3 names scalar conjugation on this carrier `κ_base`; the conjugate-linear
+negative-metric Clifford involution is `*Cl_base = κ_base ∘ CliffordAlgebra.star`.
+On the tensor carrier `ℂ⊗_ℝCl_ℝ(V,−g)`, construct a local
+`StarModule ℝ (CliffordAlgebra Q)` proof instance from
+`CliffordAlgebra.star_smul` and the trivial real star; do not add a global
+`Star` instance. Then the existing `TensorProduct` `Star` satisfies
+`star (z⊗ₜa)=star z⊗ₜ reverse (involute a)` by
+`TensorProduct.star_tmul` and `CliffordAlgebra.star_def`. Thus its action on
+this carrier is `*Cl_tens = κ_tens ∘ (id⊗star_ℝ)`.
+A *-representation satisfies `ρ(a^{*Cl_base})=ρ(a)†`, so `c(v)` is
+skew-Hermitian. The complex-linear extension of the real
+Hodge star on forms is separate from both.
 
 For an oriented real 2ℓ-space and positively oriented orthonormal basis,
 `Γ=i^ℓ c(e₁)…c(e_(2ℓ))`, S⁺ is its +1 eigenspace and S⁻ its −1 eigenspace.
@@ -92,8 +123,9 @@ Use `R(X,Y)=[∇_X,∇_Y]−∇_[X,Y]`, positive round-sphere curvature,
 `D=Σ c(e_j)∇_(e_j)` and nonnegative rough Laplacian ∇*∇. The geometric
 principal symbol has `σ_geom(D)(ξ)=c(ξ♯)`; the Fourier symbol of
 `−i∂_j` is ξ_j and `σ_F(D)=i c(ξ♯)`. Thus the Fourier symbol of D² is
-|ξ|²Id. The Hodge star on complexified real forms here is complex linear;
-conjugate-linear Hermitian/Dolbeault stars have separate names.
+|ξ|²Id. The complex-linear Hodge star on complexified real forms is distinct
+from the native complex-linear Clifford `star` and the conjugate-linear
+`*Cl_base` and `*Cl_tens` defined above. Conjugate-linear Hermitian/Dolbeault stars have separate names.
 
 ## G1. Negative-metric Clifford modules and their positive metrics
 
@@ -131,8 +163,9 @@ conjugate-linear Hermitian/Dolbeault stars have separate names.
    Gram metric and the increasing orthonormal wedge basis.
 3. Construct the conjugate-linear Clifford star intrinsically and identify it
    with grade-involution followed by reversal and scalar conjugation.
-   Given an algebra isomorphism `Cl_ℂ(V,−g)≃End_ℂ(S)` in even dimension,
-   construct a positive Hermitian metric with ρ(a*)=ρ(a)†, unique up to a
+   Given an algebra isomorphism
+   `Cl_ℂ(ℂ⊗_ℝV,−g_ℂ)≃End_ℂ(S)` in even dimension,
+   construct a positive Hermitian metric with ρ(a^{*Cl_base})=ρ(a)†, unique up to a
    **positive** scalar. Prove existence using the native Fock metric transported
    along the representation intertwiner, and uniqueness via Schur. For an
    arbitrary finite-dimensional module E, construct
@@ -143,6 +176,74 @@ conjugate-linear Hermitian/Dolbeault stars have separate names.
    `(a·φ)(s)=φ(ρ(reverse(a))s)`, with the transported positive dual metric;
    distinguish it from conjugate-linear Hermitian adjunction. Treat zero
    modules and dimension-zero V.
+   Own the finite Clifford scalar-part trace. For a finite-dimensional
+   real V and any native Q : QuadraticForm ℝ V, use `CliffordAlgebra Q`.
+   Set b=Q.associated, so Q(v)=b(v,v). Choose ℂ⊗ℝCliffordAlgebra Q
+   as the complexification. Consume `(CliffordAlgebra.equivBaseChange ℂ Q).symm`
+   for its equivalence with the scalar-extended Clifford algebra and the
+   native generator, involute and reversal laws, stated for `toBaseChange`.
+   Derive their inverse-map forms. On `CliffordAlgebra (Q.baseChange ℂ)`, prove
+   both directions of the ℤ/2 eigenspace characterization: Mathlib supplies
+   that even elements are fixed by involute and odd elements are negated; prove
+   the converses using the ordered basis and invertibility of 2, then transport
+   the grading through `equivBaseChange.symm`. Define `κ_tens=conj⊗Id` on the
+   tensor complexification, distinct from real Clifford conjugation
+   `involute∘reverse`. On `CliffordAlgebra (Q.baseChange ℂ)`, construct
+   `κ_base` as the unique ℂ-antilinear ring automorphism fixing every
+   `ι(1⊗ₜv)` for real v. Existence comes from transporting `κ_tens` under
+   `equivBaseChange.symm`; prove the generator characterization and
+   uniqueness by generation, together with involutivity. Using the native
+   base-change intertwining laws, prove that κ_base commutes with involute and
+   reverse; the transported negative-metric
+   adjoint is `κ_base∘CliffordAlgebra.star` on the base-changed Clifford algebra,
+   corresponding to `κ_tens∘(id⊗star_ℝ)` on the tensor carrier. Its
+   intertwining law is this characterized automorphism, with explicit
+   scalar, sum, product and real-generator evaluation laws. Prove explicitly
+   that the negative-metric adjoints are involutive and anti-multiplicative,
+   `(ab)^{*Cl_base}=b^{*Cl_base}a^{*Cl_base}` and
+   `(ab)^{*Cl_tens}=b^{*Cl_tens}a^{*Cl_tens}`; derive the tensor-carrier
+   formula on pure tensors and extend it, then transport it through
+   `equivBaseChange`. The TensorProduct `Star` instance supplies the
+   pure-tensor/additive/involutive action, not the anti-multiplicative law.
+   Define `cliffordScalarTrace`, written τ, by the degree-zero
+   projection under the native Clifford/exterior module equivalence,
+   and prove it equals `2^(−dim V) trace(L_a)` on the regular module.
+   Prove basis independence, τ(1)=1, linearity, τ(ab)=τ(ba),
+   invariance under involute and under reverse separately. Define τ_ℂ as its ℂ-linear extension on
+   ℂ⊗ℝCliffordAlgebra Q; prove τ_ℂ(a)=2^(−dim V)trace_ℂ(L_a),
+   unit/linearity/cyclicity and `τ_ℂ(κ_tens a)=conj(τ_ℂ(a))`. Use
+   this τ_ℂ in the complex-coefficient positivity statements below.
+   For any orthogonal basis (e_i) and any Q,
+   construct the ordered-product basis e_I, with increasing indices;
+   prove its equality with the native Clifford basis transported from
+   the increasing wedge basis by `equivExterior`. Export its spanning,
+   independence, scalar coefficients and the pairing
+   `τ(reverse(e_I)e_J)=δ_(I,J)Π_(i∈I)b(e_i,e_i)`, including
+   degenerate Q. On the tensor complexification, for nonnegative b define
+   `a^*=(κ_tens∘(id⊗reverse_ℝ))(a)` and prove, in an orthogonal basis,
+   `τ_ℂ(a^*a)=Σ_I|a_I|²Π_(i∈I)b(e_i,e_i)≥0`. It is faithful when b
+   is positive definite; for semidefinite b its null set is exactly the
+   two-sided ideal generated by the radical of b, so faithfulness is equivalent
+   to positive definiteness.
+   For the negative-metric convention used here, the tensor-carrier adjoint is
+   explicitly `κ_tens∘(id⊗(reverse_ℝ∘involute_ℝ))`; after base
+   change this is `κ_base∘CliffordAlgebra.star` on the Clifford carrier.
+   Replace b by g in the same positive coefficient formula, using τ_ℂ for
+   complex coefficients. In particular, the positive-form scalar-trace adjoint
+   is `κ_tens∘(id⊗reverse_ℝ)`; the negative-metric adjoint adds involute.
+   Keep these named operations local;
+   do not install a competing global star instance. For every ℝ-algebra
+   equivalence φ between finite-dimensional real Clifford carriers, prove
+   `τ_Q′ ∘ φ = τ_Q`. Derive the equality of regular-trace normalizations
+   from the equal Clifford dimensions under φ. Prove the analogous
+   ℂ-algebra-equivalence identity for τ_ℂ, and the scalar-extension equation
+   `τ_ℂ(1⊗a)=τ(a)`. Define the transported trace
+   `τ_base=τ_ℂ ∘ CliffordAlgebra.equivBaseChange ℂ Q`, with its
+   `2^(−dim V)trace_ℂ(L_a)` formula. Export these equations for finite
+   Clifford model consumers; this uses no later real
+   C*-model, Hilbert-module or Dirac-index construction. Positive generators
+   are not identified with the native negative-generator star without
+   an explicit transport map.
 4. In oriented dimension n=2ℓ+1 consume the existing Nonempty two-matrix-
    factor classification, then construct labeled factors using
    ω_ℂ=i^(ℓ+1)e₁⋯e_n, prove it central with square 1, and use the explicit
@@ -175,7 +276,9 @@ Weitzenböck/star specialization on the same carrier.
 
 1. Define the normalized complex volume from the native orthogonal product.
    Prove independence under **orientation-preserving** orthonormal changes,
-   sign reversal under orientation reversal, Γ²=1 and Γ*=Γ. Prove
+   sign reversal under orientation reversal, Γ²=1 and `Γ^{*Cl_base}=Γ`
+   (equivalently ρ(Γ)†=ρ(Γ)). Compare with the native complex-linear
+   `star Γ=(−1)^ℓ Γ`. Prove
    Γa=(−1)^deg(a)aΓ for homogeneous a and the two eigenspace/direct-sum
    decomposition of every finite module. Give canonical projections
    (Id±Γ)/2, and through G1.3's evaluation identify the eigenspaces of E
@@ -224,7 +327,8 @@ Weitzenböck/star specialization on the same carrier.
 
 1. Construct the algebra bundle Cl(V,−g) and its complexification from the
    orthonormal frame principal bundle by the supplier's isometry action.
-   Build smooth fiberwise unit/product, generator inclusion, grading, star,
+   Build smooth fiberwise unit/product, generator inclusion, grading, the
+   bundle extension of `*Cl_base`,
    norm and local multiplication formulas. Use the exterior Gram norm
    transported through the Chevalley map, and prove its basis-independence
    and multiplication bounds rather than leaving the norm unspecified. Prove gluing, extensionality,
@@ -374,8 +478,10 @@ Weitzenböck/star specialization on the same carrier.
 
 ## G5. Spinor bundles, chiral products and rank-two roots
 
-1. Associate the irreducible complex spin representation to a chosen lift;
-   build S(V), its positive metric, Clifford action and, in even dimension,
+1. Associate the irreducible complex Clifford module S to a chosen lift;
+   its Spin action is obtained by restriction along G1.1’s positive-to-negative
+   even-algebra comparison. Build S(V), its positive metric,
+   Clifford action and, in even dimension,
    the G2 half-spin subbundles. Give local transition/rank formulas,
    functoriality under spin isometries, pullback, orientation reversal and
    change of spin structure by a flat central line. In odd dimension retain
@@ -407,26 +513,59 @@ Weitzenböck/star specialization on the same carrier.
 
 ## G6. Dirac operators and curvature formulas
 
-1. On a Riemannian manifold with a Clifford module for TM and a compatible
-   connection define D=Σc(e_j)∇_(e_j) on smooth sections. Prove frame
-   independence, first-order locality, Leibniz rule D(fs)=c((df)♯)s+fDs,
-   smoothness, the pinned symbols and ellipticity. On compactly supported
-   sections prove the formal adjoint integration identity; on a closed base
-   give the shared H¹→L² realization and its self-adjoint closed extension.
-   Use K5/PDO estimates and density to prove compact resolvent and smooth
-   finite-dimensional kernel, with Sobolev-order comparison. The full
-   self-adjoint Dirac index is zero; chiral D⁺ may have nonzero index. For
-   even-dimensional graded spin modules,
-   prove DΓ=−ΓD and D=(0 D⁻;D⁺ 0), using Γ parallel and vector
-   anticommutation. Prove the formal L² adjoint of D⁺ is D⁻; on a closed
-   base prove their closed unbounded L² realizations are adjoints with H¹
-   domains. Keep this distinct from the bounded Hilbert adjoint of H¹→L².
-   Here columns and rows are ordered (S⁺,S⁻), D⁺ maps S⁺→S⁻ and D⁻
-   maps S⁻→S⁺. Matrix displays using the opposite off-diagonal labels are
-   translated through these domain/codomain conventions. In particular
-   In the ordered splitting S=S⁺⊕S⁻, D has blocks (0 D⁺;D⁻ 0); its symbol triple
-   [S⁺,S⁻,c] fixes D⁺:S⁺→S⁻, so the ordered block here corrects that
-   source-level label/order mismatch.
+1. On a Riemannian manifold with a Hermitian Clifford module E for TM, assume
+   the chosen connection ∇^E is Hermitian and satisfies the Levi–Civita
+   compatibility identity: for vector fields X,v and sections s,
+   `∇^E_X(c(v)s)=c(∇^LC_X v)s+c(v)∇^E_Xs`. This is a hypothesis on the
+   selected connection; an arbitrary Hermitian connection on E need not satisfy
+   this identity for the specified ∇^LC. Define D=Σc(e_j)∇^E_(e_j) on smooth
+   sections. Prove frame independence, first-order locality, Leibniz rule
+   D(fs)=c((df)♯)s+fDs, smoothness, pinned symbols and ellipticity. Prove formal
+   symmetry by integration by parts on compactly supported sections. On a closed
+   base, use P1.0 to view D as a differential operator, P6's local
+   distributional elliptic regularity and compact-base estimates, and K5a's
+   H¹(E)→L²(E) carriers to prove that the maximal domain
+   `{u∈L² : Du∈L² distributionally}` is H¹. The graph estimate and smooth
+   H¹-density show the minimal closure also has domain H¹. P1.0 supplies the
+   bilinear density transpose and formal adjoint; K5a extends D to bundle
+   distributions, and P4 identifies that action with the classical ΨDO action
+   used by P6's parametrix. Use K5a's density pairing, conjugate-linear
+   Riesz transport and formal-adjoint/L² comparison to identify it with the
+   sesquilinear Hilbert adjoint. Formal
+   symmetry then gives the unbounded self-adjoint closed realization. For every
+   real s, prove the elliptic regularity and Sobolev-order comparison
+   `Du∈H^s and u∈H^r ⇒ u∈H^(s+1)` for any r<s+1, and the corresponding
+   bounded map H^(s+1)→H^s using P5's mapping estimates. Rellich compactness
+   gives compact resolvent; elliptic regularity gives a smooth finite-dimensional
+   kernel, independent of the Sobolev order used. The full self-adjoint Dirac
+   index is zero.
+
+   On an oriented, even-dimensional Riemannian manifold, the Levi–Civita-compatible
+   identity implies compatibility with Clifford products. Prove the oriented
+   Clifford volume element is parallel; hence induced chirality Γ is parallel on
+   every Hermitian Clifford module. In any dimension, for any parallel
+   self-adjoint involution γ with `γc(v)=−c(v)γ`, prove Dγ=−γD and the chiral
+   block/domain theorem below. Let E⁺ and E⁻ be its +1 and −1 eigensubbundles.
+   Apply this to Clifford chirality where defined and to exterior-form parity.
+   For a twist, use the product grading `γ_E⊗γ_A`, where γ_E is a parallel
+   self-adjoint involution anticommuting with Clifford multiplication and γ_A
+   is a parallel self-adjoint involution (an orthogonal grading) on the twisting
+   bundle. With rows and columns ordered
+   (E⁺,E⁻), and D⁺:E⁺→E⁻, D⁻:E⁻→E⁺, use the single block convention
+   `D=[[0,D⁻],[D⁺,0]]`. Prove the formal L² adjoint identity between D⁺ and D⁻;
+   on a closed base, the same H¹-domain argument gives their unbounded L² realizations as adjoints
+   with H¹ domains. Distinguish these unbounded adjoints from the bounded Hilbert
+   adjoint of H¹→L². For D⁺, define the geometric principal-symbol triple over
+   `T^*M` with projection π_{T^*M}:
+   `[π_{T^*M}^*E⁺,π_{T^*M}^*E⁻, ξ↦σ_geom(D⁺)(ξ)=c(ξ♯)|_{E⁺}]`.
+   This bundle map is homogeneous of degree 1 and invertible for ξ≠0. On a
+   closed base its exact-off-zero class lies in `K_c(T*M)`. For E=S with γ=Γ,
+   or E=S⊗W with γ=Γ⊗Id, on a closed even-dimensional spin manifold,
+   it corresponds under ♯ to G6.6's respective untwisted or twisted class
+   in `K_c(TM)`. For every (E,γ), the phase homotopy
+   `e^(iπt/2)c(ξ♯)` joins the geometric symbol to the Fourier symbol
+   `i c(ξ♯)`. On a closed base, prove the chiral Fredholm index of
+   H^(s+1)(E⁺)→H^s(E⁻) is independent of s.
 2. Prove D²=∇*∇+Σ_(i<j)c(e_i)c(e_j)R^E(e_i,e_j), including the curvature
    contraction and normal-frame calculation. This is the connection-induced
    Dirac operator; an arbitrary first-order Dirac-type operator may carry an
@@ -506,4 +645,3 @@ cases, not only the headline theorem.
   [#44146](https://github.com/leanprover-community/mathlib4/pull/44146)'s basis
   construction if adopted by Mathlib; build required interfaces in Tau Ceti
   now and replace equivalent declarations when supplied.
-
