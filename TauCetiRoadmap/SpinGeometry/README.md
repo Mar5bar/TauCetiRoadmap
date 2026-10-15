@@ -58,7 +58,13 @@ For the remaining suppliers:
   vector-bundle K-ring and products for G5's virtual spinor formula. Its
   T6.4 owns the continuous numerable principal/associated-bundle category;
   CharacteristicClasses C1 owns its continuous orthonormal/oriented frames.
-  [PseudodifferentialOperators P1.0/P4–P6](../PseudodifferentialOperators/README.md)
+- [GeneralizedCohomology G5.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2740177225db5ff92b5eff47d370fcd9b9695c8e/TauCetiRoadmap/GeneralizedCohomology/README.md#g5-finite-duality-thom-spectra-and-rational-hurewicz)
+  specifies the real Hilbert and finite-Clifford functional-calculus,
+  regularity, stabilization and negative-Clifford family-index suppliers
+  consumed by G5.0/G6.0. [TopologicalKTheory T7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e4f3ef52818e10887ed4b9c7fa143e31fa18bfe2/TauCetiRoadmap/TopologicalKTheory/README.md#t7-real-k-theory-and-concrete-acceptance-calculations)
+  specifies the real KO coefficients, graded Clifford-module quotient and
+  ABS calibration used by G6.0. These constructions precede their Spin consumers.
+- [PseudodifferentialOperators P1.0/P4–P6](../PseudodifferentialOperators/README.md)
   owns the differential-operator/formal-adjoint core, differential-operator/ΨDO
   identification, Sobolev mapping and elliptic estimates; K5a extends the
   fixed operators to bundle distributions.
@@ -478,6 +484,36 @@ Weitzenböck/star specialization on the same carrier.
 
 ## G5. Spinor bundles, chiral products and rank-two roots
 
+0. **Real regular Clifford spinors.** Construct `realCliffordSpinorBundle`
+   for an oriented rank-n metric Spin bundle P as
+   P×_Spin(n)Cl(0,n), with Spin acting by left multiplication through
+   G1.1/G4's specified negative even-unitary comparison. Give its smooth
+   quotient/local-transition, vector-bundle, pullback, Spin-isometry,
+   metric-change and change-of-lift APIs. The ordered Clifford monomials
+   are an orthonormal real basis; prove the Spin action preserves this
+   positive metric and parity ε. In rank zero use the geometric μ₂ branch
+   with its scalar ±1 action and the separate rank-zero orientation sign σ.
+   Set ε_σ=σ Id on Cl(0,0)=ℝ: the positive point's real line is even
+   and the negative point's line is odd. Retain this signed grading in
+   pullback, stabilization and the Morita comparisons. Tangent Clifford multiplication c₋(v) is
+   left multiplication, odd and skew-adjoint. Identify this action through G3.1's
+   algebra-bundle comparison `P×_{Spin,Ad}Cl(0,n) ≃ Fr_SO×_{SO}Cl(0,n)`,
+   using G1.1's pinned vector-conjugation action.
+   Construct `realCliffordSpinorPositiveRightAction` of the fixed external
+   native Cl(n,0): on the model C₊(w)s=ε(s)·ι₋(w), multiplication
+   on the right by the negative Clifford vector after parity. This is
+   distinct from the tangent action c₋(v)s=ι₋(v)·s on the left.
+   Prove its positive Clifford relation, oddness,
+   self-adjointness, Spin-equivariance and anticommutation with the left
+   negative tangent action. It descends as an action of this fixed algebra
+   on every fibre and is parallel for the associated connection induced by any
+   supplied principal Spin connection. In particular, it is parallel for the
+   Levi-Civita lift constructed in G5.1.
+   Compare the external positive Clifford representation and its
+   parity-twisted right negative Clifford action with GeneralizedCohomology
+   G5.5's mixed-signature operator conventions. Positive and negative
+   odd generators are not identified by an algebra isomorphism.
+
 1. Associate the irreducible complex Clifford module S to a chosen lift;
    its Spin action is obtained by restriction along G1.1’s positive-to-negative
    even-algebra comparison. Build S(V), its positive metric,
@@ -512,6 +548,136 @@ Weitzenböck/star specialization on the same carrier.
    unqualified S⁺²=E must be translated to this convention.
 
 ## G6. Dirac operators and curvature formulas
+
+0. **Real Clifford-linear analytic index.** On any boundaryless oriented
+   Riemannian Spin manifold M, use G5.1's Levi-Civita Spin connection on
+   G5.0's real regular Clifford bundle and define
+   realSpinDiracOperator=Σ c₋(e_j)∇_(e_j). Prove frame independence,
+   real locality/Leibniz/symbol/ellipticity and formal-adjoint integration,
+   ε-oddness and D C₊(w)=−C₊(w) D on the stated domains. For every
+   boundaryless M, export the real geometric principal symbol
+   `σ_geom(D)(ξ)=c₋(ξ♯)` and real `H^s_loc` elliptic regularity for every
+   real s, with the local symbol and complexification/restriction maps. Derive
+   this by complexifying the real regular bundle, applying G6.1 and
+   PDO P1.0/P4–P6 with K5a's complexified bundle-distribution/Sobolev
+   theory, and descending to its real fixed part. This is a local elliptic
+   statement for the first-order symbol and does not assert self-adjointness
+   or a global Fredholm index on noncompact M. This local branch does not
+   require compactness. On a closed base, identify the actual real H¹/L² carriers and construct
+   `realSpinDiracClosedRealization` by G6.1's closed-base H¹-domain and
+   adjoint theorem on the full complexification. Descend through K5a's
+   real bundle-Sobolev fixed-space comparison and G5.5's identity
+   `(D_C)†=(D†)_C` with equal domains. Prove self-adjointness, compact
+   resolvent and a finite-dimensional smooth kernel.
+   Consume G5.5's `realHilbertClosedFunctionalCalculus` on the scalar
+   real L² space first, before the finite-Clifford regular-module
+   comparison, and identify its resolvents and bounded transform.
+   Construct its actual right Hilbert Cl(0,n)-module completion using
+   `⟨s,t⟩_A=∫_M s(x)^{*_{Cl(0,n)}}t(x) dvol_g`, where the negative
+   Clifford adjoint is the real p=0 native Clifford star
+   `reverse∘involute` and is identified with G5.5's C*-adjoint through
+   `realMixedCliffordCStarModelEquiv`; every norm of a native Clifford
+   element here means the norm of its image in that designated C*-model.
+   The product is independent of Spin
+   frames since their left action is Clifford-unitary. Prove positivity and
+   the right-module laws `⟨sa,tb⟩_A=a*⟨s,t⟩_A b`,
+   `⟨s,t⟩_A*=⟨t,s⟩_A`. Define the module norm separately by
+   `‖s‖_A²=‖⟨s,s⟩_A‖`; prove completeness and countable generation. The
+   normalized scalar-coefficient trace gives the scalar real L² inner product,
+   and the resulting module norm is equivalent to (not asserted equal to) the
+   scalar L² norm. Prove compatibility with the connection and D's
+   domains/adjoint; D is right A-linear for this affiliated right
+   `A=Cl(0,n)` action, distinct from G5.0's parity-twisted external
+   positive `Cl(n,0)` action. Consume G5.5's
+   `realFiniteCliffordAdjointableComparison`,
+   `realFiniteCliffordCompactComparison` and
+   `realFiniteCliffordRegularOperatorComparison` to identify bounded
+   A-linear operators and their real adjoints with module-adjointable
+   operators, real-compact A-linear operators with K_A, and the closed
+   self-adjoint A-linear Dirac realization with a regular module operator.
+   Verify its A-invariant domain and transport its real-compact
+   resolvent to K_A before applying module functional calculus.
+   Use G5.5's real finite-Clifford module interface here;
+   Mathlib's complex CStarModule is not instantiated with A=Cl(0,n).
+   Consume `realFiniteCliffordContinuousFunctionalCalculus` for bounded
+   real self-adjoint operators and `realFiniteCliffordClosedFunctionalCalculus`
+   after the regular-operator comparison for D, with its equality of module
+   and real Hilbert functional calculi and matching bounded transforms.
+   Consume GeneralizedCohomology G5.5's
+   `realFiniteCliffordHilbertModuleStabilization`: write A=Cl(0,n),
+   Std_A=U_(0,n) graded-⊗ A and use its even A-unitary
+   L²(realCliffordSpinorBundle)⊕Std_A≃Std_A. U_(0,n) is the scalar
+   graded real Hilbert universe,
+   whereas Std_A is the right A-module. Transport compact operators
+   through K_A(Std_A)≃A graded-⊗K(U_(0,n)), retaining parity and the
+   specified essential-support/Fredholm functional-calculus comparison.
+   Prove independence of stabilization and finite-support choices.
+   Export `realSpinDiracKernelModule` with the external positive Clifford
+   action and parity.
+   Prove `realSpinLichnerowiczFormula`, D²=∇*∇+Scal/4, on the real
+   regular module. G6.2 states the connection-induced square formula for
+   Hermitian complex Clifford modules. Complexify the full real regular bundle
+   and its connection, apply that formula there, and descend the equality
+   through the injective real-to-complexification map. A single chosen
+   odd-dimensional irreducible factor cannot replace the full regular module. Use G5.1/SBC's associated-bundle curvature
+   for the real regular representation and the negative Clifford relations to
+   contract it to Scal/4. This works in every rank, including odd rank. A uniform positive scalar gap
+   on a closed base gives zero kernel and invertibility; the nonnegative
+   case gives parallel kernel. Prove Spin-isometry equivariance. For metric
+   families, use the canonical Levi-Civita connection and fixed bundle
+   identifications; prove a common H¹ domain and operator-norm continuity
+   H¹→L² before point-norm continuity of the bounded transform/classifier.
+   Do not assert choice-independence for arbitrary, unrelated Spin connections.
+   Construct F=D(1+D²)^(-1/2) as an odd self-adjoint real positive-Cl_n
+   Fredholm operator, with F²−1 compact and the specified Clifford
+   anticommutation. Its negative right-Cl(0,n)-linear realization is
+   affiliated to Cl(0,n) graded-⊗ K; through GeneralizedCohomology G5.5's
+   `realNegativeCliffordFamilyIndex n` and
+   `realMixedCliffordIndexClassification` in degree −n define `realSpinDiracIndexClass` in KO^(−n)=KO_n.
+   Use `realMixedCliffordBottTransport` and its Morita comparisons,
+   including n=0; the positive Cl(n,0) operator space in degree +n
+   does not classify this analytic class. Identify it with the finite
+   kernel-module quotient of TopologicalKTheory T7: paired nonzero
+   eigenspaces extend their action by D/|D| to Cl(n+1,0), through
+   G5.5's `realNegativeCliffordFamilyIndex` finite-kernel quotient and its
+   TopK-ABS identification, hence contribute zero. Prove metric and
+   auxiliary-choice independence for the canonical Levi-Civita operators,
+   graded external products and orientation reversal through these concrete
+   operators and paths. Pin `class(M̄)=−class(M)` and
+   `class(M×N)=class(M)·class(N)` using the ordered graded isomorphism
+   `Cl(0,m) graded-⊗ Cl(0,n) ≃ Cl(0,m+n)`. Calibrate the finite kernel
+   quotient explicitly. In degree zero the signed point kernel is the even real
+   line for ε_σ=+1 and the odd real line for ε_σ=−1, giving +1 and −1 in
+   KO⁰. A graded rank-one regular Cl(0,1) module gives η, and its graded
+   square gives η². In Cl(0,4), the graded regular module is one irreducible
+   of each volume sign; the irreducible whose raw negative volume acts by −1
+   on its even part is T7's a, and the other contributes −a, so the regular-
+   module sum is zero. In Cl(0,8), it is eight irreducibles of each volume
+   sign; the irreducible whose raw negative volume acts by +1 on its even
+   part is T7's b, and the other contributes −b, so the regular-module sum
+   is zero. Pin these raw volume actions and the graded quotient comparison
+   against T7 and SpinRepresentations before identifying these quotient
+   classes. Never use the ungraded regular-module multiplicity itself as an
+   index. For even n=2ℓ, prove the complexification formula
+   `c(realSpinDiracIndexClass)=ind_ℂ(D⁺_S)·u^ℓ` in `KU^(−n)`, where
+   `u∈KU^(−2)` is TopologicalKTheory T4's generator as pinned in T7.
+   Under complexification, identify
+   the regular bundle with `S(TM)⊗triv(S_model*)`: the Spin transition acts
+   by the left spin representation on `S(TM)` and trivially on the fixed
+   model-dual factor, which is not the geometric dual spinor bundle. Identify
+   the grading as `Γ_S⊗Γ_(S_model)^transpose`, using G2.2's induced
+   dual parity. The reverse-dual chirality is instead
+   `(−1)^ℓ Γ_(S_model)^transpose`. Retain the signed rank-zero convention.
+   Identify the operator as `D_S⊗Id` before
+   the Morita comparison. Remove the fixed multiplicity by the actual
+   even-dimensional Clifford Morita comparison, not by an ungraded kernel
+   count. For n≡2 mod 4 both the complexified KO class and
+   the chiral complex index vanish. Check signs and coefficients against
+   `c(a)=2u²` and `c(b)=u⁴`. Circle/tori acceptance cases include their real
+   η/mod-2 classes: the periodic circle is η, the antiperiodic circle is 0,
+   the Lie-framed T² is η², and a torus with an antiperiodic factor is 0.
+   TangentialBordism B3.0 owns the equality of this analytic class with
+   the geometric ABS/PT genus and its complexification/Â formula.
 
 1. On a Riemannian manifold with a Hermitian Clifford module E for TM, assume
    the chosen connection ∇^E is Hermitian and satisfies the Levi–Civita
@@ -612,6 +778,52 @@ Weitzenböck/star specialization on the same carrier.
    spin isometries and twisted-bundle comparisons. Numerical analytic versus
    topological index equality is outside this roadmap.
 
+7. On a closed oriented Riemannian spin four-manifold, construct the
+   **untwisted** half-spin quaternionic symmetries `untwistedSpinFourJPlus`
+   and `untwistedSpinFourJMinus` on G5's actual S⁺/S⁻ bundles. Use the
+   real Clifford classification of SpinRepresentations Layer7 and the
+   native `Representation.IsQuaternionicStructure` from
+   `TauCeti/RepresentationTheory/QuaternionicStructure.lean`: J is complex
+   conjugate-linear, J²=−1 and intertwines the Spin action. Prove antiunitarity,
+   preservation of Γ's eigenspaces and Clifford compatibility
+   `J⁻ c(v)=c(v) J⁺`, with the reverse-chirality equation as well.
+   Their Spin-equivariance makes them parallel for the untwisted spin
+   connection. Use the chosen real Clifford model to construct J⁺/J⁻.
+   Prove the complex/quaternionic dimensions of ker D⁺ and ker D⁻,
+   the quaternionic index and KO class are invariant under replacing
+   `(J⁺,J⁻)` by `(zJ⁺,zJ⁻)` for a common constant z∈ℂ with |z|=1,
+   using actual quaternionic-module comparison isomorphisms. Construct the
+   conjugate-linear matrix-multiplier adapter extending them to K5a's H¹ and
+   L² section carriers, preserving the operator domains and satisfying
+   `J⁻ D⁺=D⁺ J⁺` and `J⁺ D⁻=D⁻ J⁻`. Prove the actual kernel and adjoint-cokernel
+   restrictions are quaternionic, using elliptic regularity to compare smooth
+   and Sobolev kernels. Equip each finite-dimensional kernel/cokernel with the
+   trivial Spin representation; verify the quaternionic structure for this
+   representation and apply the G6.7-owned
+   `even_finrank_of_quaternionicStructure` to obtain even complex dimension. Do not claim these kernels carry a
+   nontrivial natural Spin representation. Give their right-Hamilton-module convention explicitly
+   and compare complex restriction through Quaternion.ofComplex; complex
+   dimension is twice quaternionic dimension.
+   Export `untwistedSpinFourComplexIndex_eq_two_mul_quaternionicIndex`:
+   the chiral complex index equals 2α, where
+   α=dim_ℍ ker D⁺−dim_ℍ ker D⁻. Include finite-dimensional evenness for a
+   complex space carrying the native quaternionic structure, kernel
+   restriction, direct sums, change of Spin frames and spin-isometry pullback.
+   Prove `realSpinDiracIndexClass = α·a` in KO₄. Pin the raw negative
+   Cl(0,4) volume ω₋, with ω₋²=1, and prove on the regular module
+   ε=L_(ω₋)R_(ω₋) and C₊(e₁)C₊(e₂)C₊(e₃)C₊(e₄)=R_(ω₋).
+   On its ε-even sector the external positive Cl(4,0) volume is
+   R_(ω₋)=L_(ω₋)=−Γ, since Γ=i²ω₋=−ω₋. Thus Γ=+1
+   corresponds to external volume−1 and to TopK's raw negative
+   volume−1 even factor a. Construct the actual factor intertwiners.
+   G6.0's general real operator construction precedes this
+   dimension-four quaternionic normalization.
+   This symmetry is asserted for the untwisted spin operator. A general
+   Hermitian twist W has no asserted quaternionic kernel or even complex index;
+   a compatible quaternionic symmetry for a twist requires its own intertwining
+   data. IndexTheory I7.5 consumes the numerical Â/signature comparison; it
+   is not an input to this construction.
+
 ## Dependency order and references
 
 G1–G2 use the algebraic suppliers and pointwise exterior metrics, before
@@ -625,6 +837,8 @@ that obstruction equality. G5 follows G1–G4. G6 follows G3/G5 and uses
 K5/PDO analysis; the exterior instance only needs G2/G3. Numerical topological index theorems are separate consumers of this development. For each object supply constructors/characterization,
 extensionality, regularity, naturality, local-frame/gluing comparison and edge
 cases, not only the headline theorem.
+
+For the real KO lane, GeneralizedCohomology G5.5 and TopologicalKTheory T7 supply the functional-calculus, Clifford and KO interfaces consumed by SpinGeometry G5.0/G6.0. The algebraic real regular bundle/action SpinGeometry G5.0 consumes G1.1/G1.3/G3/G4 and any supplied principal Spin connection. G5.1 separately supplies the Levi-Civita principal Spin connection and associated connection, which specialize this general G5.0 construction for TM. G6.1–G6.3 are prerequisites and do not consume G6.0. Spin G6.0 consumes G5.0, the G5.1 Levi-Civita specialization and G6.1–G6.3; its arbitrary-boundaryless local operator/elliptic branch precedes the closed-manifold functional-calculus and index branch. Spin G6.7 consumes G5.1, G6.0 and G6.1's domain/chiral-adjoint results. GeneralizedCohomology G5.5 consumes Spin G1.3's trace but is independent of Spin G6.0. TangentialBordism B3.0 is downstream: it consumes the KO-valued analytic class and owns its comparison with the geometric ABS/PT genus. IndexTheory I7.5 is another downstream consumer, not an input. This names SpinGeometry G5.0 explicitly to distinguish it from GeneralizedCohomology G5.0.
 
 - H. B. Lawson and M.-L. Michelsohn, *Spin Geometry* (1989), Chapters I–II:
   algebraic module suppliers, spin structures, spinor bundles and Dirac

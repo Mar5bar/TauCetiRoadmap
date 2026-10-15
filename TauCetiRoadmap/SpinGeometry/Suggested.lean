@@ -1,4 +1,5 @@
 import TauCeti.RepresentationTheory.Spin.Structure
+import TauCeti.RepresentationTheory.QuaternionicStructure
 import TauCeti.RepresentationTheory.Spin.OddStructure
 import TauCeti.RepresentationTheory.Spin.HalfSpin.Basic
 import TauCeti.LinearAlgebra.CliffordAlgebra.VolumeElement
@@ -7,6 +8,11 @@ import Mathlib.Analysis.InnerProductSpace.LinearMap
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.Geometry.Manifold.VectorBundle.CovariantDerivative.Basic
 import TauCeti.Geometry.Manifold.Riemannian.Basic
+import Mathlib.LinearAlgebra.CliffordAlgebra.Conjugation
+import Mathlib.Tactic.Linarith
+import Mathlib.LinearAlgebra.FiniteDimensional.Basic
+import Mathlib.LinearAlgebra.Matrix.ToLin
+import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 
 /-!
 **This file is not the roadmap and is not exhaustive.**
@@ -22,6 +28,37 @@ noncomputable section
 namespace TauCetiRoadmap.SpinGeometry
 
 open scoped Manifold ContDiff TensorProduct
+
+section RealRegularClifford
+
+variable {V : Type*} [AddCommGroup V] [Module ℝ V]
+    (Q : QuadraticForm ℝ V)
+
+/-- G5.0: right negative multiplication after parity acts with opposite square. -/
+def realCliffordPositiveRightVector (w : V) :
+    Module.End ℝ (CliffordAlgebra Q) where
+  toFun s := CliffordAlgebra.involute s * CliffordAlgebra.ι Q w
+  map_add' s t := by simp [add_mul]
+  map_smul' r s := by simp
+
+/-- For Q=-g this is the positive external Clifford square. -/
+theorem realCliffordPositiveRightVector_square (w : V) (s : CliffordAlgebra Q) :
+    realCliffordPositiveRightVector Q w (realCliffordPositiveRightVector Q w s) =
+      (-Q w) • s := by
+  simp [realCliffordPositiveRightVector, map_mul, CliffordAlgebra.involute_ι,
+    CliffordAlgebra.involute_involute, mul_assoc,
+    CliffordAlgebra.ι_sq_scalar]
+  rw [← Algebra.commutes (Q w) s, ← Algebra.smul_def]
+
+/-- The fixed external action is graded-linear with the tangent action. -/
+theorem realCliffordPositiveRightVector_anticommute (v w : V)
+    (s : CliffordAlgebra Q) :
+    realCliffordPositiveRightVector Q w (CliffordAlgebra.ι Q v * s) =
+      -(CliffordAlgebra.ι Q v * realCliffordPositiveRightVector Q w s) := by
+  simp [realCliffordPositiveRightVector, map_mul, CliffordAlgebra.involute_ι,
+    mul_assoc]
+
+end RealRegularClifford
 
 section MetricAction
 
@@ -141,5 +178,59 @@ theorem diracInFrame_eq {n : ℕ}
   sorry
 
 end ConnectionContraction
+
+section QuaternionicKernelParity
+
+variable {G V : Type*} [Monoid G] [AddCommGroup V] [Module ℂ V]
+  [FiniteDimensional ℂ V]
+
+/-- Finite-dimensional conjugate-linear square law forces even complex dimension.
+This algebraic lemma does not require a group action. -/
+theorem even_finrank_of_conjLinear_square_neg
+    (J : V →ₛₗ[starRingEnd ℂ] V) (hsq : ∀ v, J (J v) = -v) :
+    Even (Module.finrank ℂ V) := by
+  classical
+  let b := Module.finBasis ℂ V
+  let A : Matrix (Fin (Module.finrank ℂ V)) (Fin (Module.finrank ℂ V)) ℂ :=
+    fun i j => b.repr (J (b j)) i
+  have hmatrix : A * A.map (starRingEnd ℂ) = -1 := by
+    ext i j
+    have h := congrArg (fun v => b.repr v i) (hsq (b j))
+    have hsum : J (J (b j)) = ∑ k, star (b.repr (J (b j)) k) • J (b k) := by
+      calc
+        J (J (b j)) = J (∑ k, b.repr (J (b j)) k • b k) :=
+          congrArg J (b.sum_repr (J (b j))).symm
+        _ = _ := by simp only [map_sum, map_smulₛₗ, starRingEnd_apply]
+    rw [hsum] at h
+    change (∑ k, A i k * (starRingEnd ℂ) (A k j)) =
+      -(1 : Matrix _ _ ℂ) i j
+    simpa [A, map_sum, mul_comm, Matrix.one_apply,
+      Finsupp.single_apply, eq_comm] using h
+  have hd := congrArg Matrix.det hmatrix
+  have heq : A.det * star A.det = (-1 : ℂ) ^ Module.finrank ℂ V := by
+    have hmap : (A.map (starRingEnd ℂ)).det = star A.det := by
+      simpa only [RingHom.mapMatrix_apply, starRingEnd_apply] using
+        ((starRingEnd ℂ).map_det A).symm
+    rw [Matrix.det_mul, hmap, Matrix.det_neg,
+      Matrix.det_one, mul_one] at hd
+    simpa only [Fintype.card_fin, starRingEnd_apply] using hd
+  by_contra hnot
+  have hodd : Odd (Module.finrank ℂ V) := Nat.not_even_iff_odd.mp hnot
+  rw [hodd.neg_one_pow] at heq
+  have hr := congrArg Complex.re heq
+  simp only [Complex.star_def, Complex.mul_conj, Complex.ofReal_re,
+    Complex.neg_re, Complex.one_re] at hr
+  have hp := Complex.normSq_nonneg A.det
+  linarith
+
+/-- Native quaternionic equivariance supplies the square law; equivariance is
+not otherwise needed for finite-dimensional parity. -/
+theorem even_finrank_of_quaternionicStructure
+    (ρ : Representation ℂ G V) (J : V →ₛₗ[starRingEnd ℂ] V)
+    (hJ : Representation.IsQuaternionicStructure ρ J) :
+    Even (Module.finrank ℂ V) :=
+  even_finrank_of_conjLinear_square_neg J hJ.sq_eq_neg
+
+end QuaternionicKernelParity
 
 end TauCetiRoadmap.SpinGeometry
