@@ -434,23 +434,141 @@ example (m : ℕ) {H M : Type} [TopologicalSpace H] [TopologicalSpace M]
     [ChartedSpace H M] [IsManifold I ∞ M] : IsOpen (I.interior M) :=
   I.isOpen_interior (M := M) (n := ∞) (by simp)
 
-/-- Rechart the native interior subtype in the boundaryless model using interior chart targets. -/
-@[instance_reducible]
-noncomputable def boundarylessInteriorAtlas (m : ℕ) {H M : Type*}
+/-! ### Fresh-copy Euclidean rechart of an arbitrary model interior
+
+The interior is carried by a fresh type indexed by the linear reparameterization `e`.
+Its preferred charts are `e ∘ I ∘ chartAt`; the original manifold retains its charted-space
+instance.
+-/
+
+namespace FreshInteriorRechart
+
+abbrev EuclideanModel (m : ℕ) := modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))
+
+structure Carrier {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [TopologicalSpace H] [TopologicalSpace M]
-    (I : ModelWithCorners ℝ (EuclideanSpace ℝ (Fin m)) H)
-    [ChartedSpace H M] [IsManifold I ∞ M] :
-    ChartedSpace (EuclideanSpace ℝ (Fin m)) (I.interior M) := by
+    (I : ModelWithCorners ℝ E H) [ChartedSpace H M] (m : ℕ)
+    (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m)) where
+  point : I.interior M
+
+variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+variable [FiniteDimensional ℝ E] [TopologicalSpace H] [TopologicalSpace M]
+variable (I : ModelWithCorners ℝ E H) [ChartedSpace H M] [IsManifold I ∞ M]
+variable (m : ℕ) (e : E ≃L[ℝ] EuclideanSpace ℝ (Fin m))
+
+local notation "C" => Carrier (E := E) (H := H) (M := M) I m e
+
+instance carrierTopologicalSpace : TopologicalSpace C :=
+  TopologicalSpace.induced (fun x => x.point) inferInstance
+
+noncomputable def carrierEquivInterior : C ≃ I.interior M :=
+  Equiv.mk (fun x => x.point) (fun x => ⟨x⟩)
+    (by intro x; cases x; rfl) (by intro x; rfl)
+
+/-- The carrier is homeomorphic to the actual interior subtype, without a boundaryless
+hypothesis. -/
+noncomputable def carrierHomeomorphInterior : C ≃ₜ I.interior M where
+  toEquiv := carrierEquivInterior I m e
+  continuous_toFun := continuous_induced_dom
+  continuous_invFun := continuous_induced_rng.mpr continuous_id
+
+instance carrierT2Space [T2Space M] : T2Space C := by
+  letI : T2Space (I.interior M) := inferInstance
+  exact (carrierHomeomorphInterior I m e).symm.t2Space
+
+instance carrierSecondCountable [SecondCountableTopology M] : SecondCountableTopology C := by
+  letI : SecondCountableTopology (I.interior M) := inferInstance
+  exact (carrierHomeomorphInterior I m e).secondCountableTopology
+
+/-- Preferred charts on the fresh carrier. The exact coordinate formula is recorded in
+`chartAt_apply`; the geometric construction is the restriction of the original extended chart to
+the open interior, followed by the linear homeomorphism `e`. -/
+noncomputable def chartAt [IsManifold I ∞ M] (x : C) :
+    OpenPartialHomeomorph C (EuclideanSpace ℝ (Fin m)) := by
   sorry
 
-/-- The interior inherits the smoothness of the original atlas. -/
-theorem boundarylessInterior_isManifold (m : ℕ) {H M : Type*}
-    [TopologicalSpace H] [TopologicalSpace M]
-    (I : ModelWithCorners ℝ (EuclideanSpace ℝ (Fin m)) H)
-    [ChartedSpace H M] [IsManifold I ∞ M] :
-    letI := boundarylessInteriorAtlas m (M := M) I
-    IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ (I.interior M) := by
+theorem chartAt_mem_source [IsManifold I ∞ M] (x : C) :
+    x ∈ (chartAt I m e x).source := by
   sorry
+
+/-- Exact arbitrary-point chart formula, including the chosen reparameterization `e`. -/
+theorem chartAt_apply [IsManifold I ∞ M] (x y : C)
+    (hy : y ∈ (chartAt I m e x).source) :
+    chartAt I m e x y = e (I ((_root_.chartAt H (x.point : M)) (y.point : M))) := by
+  sorry
+
+noncomputable def chartedSpace :
+    ChartedSpace (EuclideanSpace ℝ (Fin m)) C where
+  atlas := Set.range (chartAt I m e)
+  chartAt := chartAt I m e
+  mem_chart_source := chartAt_mem_source I m e
+  chart_mem_atlas := fun _ => Set.mem_range_self _
+
+theorem isManifold :
+    letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C :=
+      chartedSpace I m e
+    IsManifold (EuclideanModel m) ∞ C := by
+  sorry
+
+/-- The inclusion of the recharted interior carrier into the original manifold is smooth for
+every model with corners, including manifolds with boundary. -/
+theorem valContMDiff :
+    letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C := chartedSpace I m e
+    letI : IsManifold (EuclideanModel m) ∞ C := isManifold I m e
+    ContMDiff (EuclideanModel m) I ∞ (fun x : C => (x.point : M)) := by
+  sorry
+
+/-- At each point of the interior carrier, inclusion into the original manifold is a local
+diffeomorphism. The source is boundaryless Euclidean space; the target point is interior even
+when the ambient manifold itself has boundary. The coordinate derivative is `e.symm`, since the
+carrier chart is `e ∘ I ∘ chartAt`. -/
+theorem isLocalDiffeomorph_val (x : C) :
+    letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C := chartedSpace I m e
+    letI : IsManifold (EuclideanModel m) ∞ C := isManifold I m e
+    IsLocalDiffeomorphAt (EuclideanModel m) I ∞ (fun y : C => (y.point : M)) x := by
+  sorry
+
+/-- The derivative of the carrier inclusion, expressed in the tangent models, is the inverse
+linear reparameterization. This is the precise chart formula used by the inverse-function
+theorem above. -/
+theorem mfderiv_val (x : C) :
+    letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C := chartedSpace I m e
+    letI : IsManifold (EuclideanModel m) ∞ C := isManifold I m e
+    mfderiv (EuclideanModel m) I (fun y : C => (y.point : M)) x =
+      (e.symm : EuclideanSpace ℝ (Fin m) →L[ℝ] E) := by
+  sorry
+
+/-- Since the target Euclidean model is `modelWithCornersSelf`, boundarylessness follows from
+Mathlib's native `ModelWithCorners.Boundaryless` instance, independently of whether `M` has
+boundary. -/
+theorem boundaryless :
+    letI : ChartedSpace (EuclideanSpace ℝ (Fin m)) C :=
+      chartedSpace I m e
+    BoundarylessManifold (EuclideanModel m) C := by
+  dsimp [EuclideanModel]
+  infer_instance
+
+noncomputable def carrierHomeomorphOriginal [BoundarylessManifold I M] :
+    C ≃ₜ M := by
+  sorry
+
+theorem carrierHomeomorphOriginal_apply [BoundarylessManifold I M] (x : C) :
+    carrierHomeomorphOriginal I m e x = (x.point : M) := by
+  sorry
+
+noncomputable instance carrierSigmaCompact [SigmaCompactSpace M] : SigmaCompactSpace C := by
+  haveI : SecondCountableTopology H := I.secondCountableTopology
+  haveI : SecondCountableTopology M := ChartedSpace.secondCountable_of_sigmaCompact H M
+  haveI : LocallyCompactSpace E := inferInstance
+  haveI : LocallyCompactSpace H := I.locallyCompactSpace
+  haveI : LocallyCompactSpace M := ChartedSpace.locallyCompactSpace H M
+  haveI : LocallyCompactSpace (I.interior M) :=
+    (I.isOpen_interior (M := M) (n := ∞) (by simp)).locallyCompactSpace
+  haveI : LocallyCompactSpace C :=
+    (carrierHomeomorphInterior I m e).locallyCompactSpace_iff.mpr inferInstance
+  infer_instance
+
+end FreshInteriorRechart
 
 /-- Boundaryless orientation system; the README additionally specifies the collar extension
 for half-space models and comparison with the smooth tangent orientation. -/

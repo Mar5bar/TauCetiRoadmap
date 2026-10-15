@@ -71,14 +71,18 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   and the outward-normal-first boundary orientation of Layer 5.1, which the
   [Heegaard Floer roadmap](../HeegaardFloer/README.md) also consumes.  This roadmap consumes it to
   compare smooth orientations with sections of the homological orientation
-  system, construct twisted relative fundamental classes and their oriented
-  integral specializations, and own the chain-level proof and consequences of
-  manifold duality.
+  system using DG2 and DG5.1, construct twisted relative fundamental classes and
+  their oriented integral specializations, and own the chain-level proof and
+  consequences of manifold duality. Stage 6.3 builds its local-homology determinant-sign
+  calculation from relative chains and excision.
 - The differential-geometry roadmap consumes this roadmap's singular chains and cochains, relative
   cohomology, subdivision and small chains (Stages 2, 3 and 6), and needs Stage 6's universal
-  coefficients, cup product and cochain Mayer--Vietoris sequence for the de Rham theorem.  It owns
-  smooth singular chains, integration over them, and the de Rham comparison, and constructs no
-  second singular theory.
+  coefficients, cup product and cochain Mayer–Vietoris sequence for the de Rham theorem. It owns
+  smooth singular chains, integration over them and the de Rham comparison. AT6.3 consumes
+  DG2's tangent-orientation API and DG5.1's outward-first boundary orientation; DG9.3 consumes
+  AT6.3's homological orientation system, chart-normalized point generators, chosen local
+  section, `RelativeTwistedClassDatum` and compact-support class factory. DG9.3 owns the
+  smooth/constant-system/real-coefficient conversions and the integration comparison.
 - The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
   cohomology of profinite groups.  The singular cohomology here is cohomology of topological
   spaces; neither development introduces a second version of the other's objects.
@@ -960,8 +964,9 @@ Items 1–4 consume Stages 2–3 and the product maps of Stage 5 item 1; the cel
 comparisons and RP² checks also consume Stage 4; item 1 uses item 0 for its
 infinite-dimensional skeletal-limit passage. Item 5 consumes Stage 4 and
 items 1–4. Their manifold statements also
-consume the orientation-and-degree API owned by differential geometry and the boundary/collar
-conventions owned by geometric topology.
+consume DG2's tangent-orientation API, DG5.1's outward-first boundary orientation,
+and geometric topology's boundary/collar conventions. Item 3 constructs its local
+homological determinant-sign comparison before DG10's smooth mapping-degree theory.
 
 Every manifold theorem in this stage uses a finite-dimensional Mathlib manifold carrier with
 Hausdorffness, second countability or the resulting paracompactness, and the chosen boundary model
@@ -991,9 +996,8 @@ homology with one copy of the coefficient ring also assumes connectedness.
    arbitrary coefficient fibres is assumed. For finite free integral fibres
    prove that the Stage 4 chain-homotopy comparison dualizes, identifying
    L*-cochains with Hom of L-chains; use fibrewise reflexivity only to recover
-   L. On RP²'s sign system compute δ⁰=±2 and δ¹=0, so independently of
-   duality H⁰(RP²;or)=0, H¹(RP²;or)=ℤ/2 and H²(RP²;or)=ℤ after the
-   Stage 6.3 identification of the sign system with or.
+   L. On RP²'s Stage 4.6 sign system ε compute δ⁰=±2 and δ¹=0, so independently
+   of duality `H⁰(RP²;ε)=0`, `H¹(RP²;ε)=ℤ/2` and `H²(RP²;ε)=ℤ`.
    Prove functoriality,
    the long exact sequence, homotopy invariance, additivity, the Mayer--Vietoris sequence of a
    binary open cover (dual to Stage 3's), and constant-system comparison.  For
@@ -1140,34 +1144,40 @@ homology with one copy of the coefficient ring also assumes connectedness.
 
 3. On a boundaryless m-manifold U define the integral orientation local
    system by `or_U(x)=H_m(U,U\{x};ℤ)`, with the excision transport below.
-   Own the boundaryless interior carrier of each smooth
-   manifold with boundary: use Mathlib's `I.interior M` and
-   `ModelWithCorners.isOpen_interior`, and construct on its subtype the
-   boundaryless atlas with model `𝓘(ℝ, EuclideanSpace ℝ (Fin m))` from interior
-   half-space charts, inheriting M's smoothness class. Prove inclusion smooth.
-   On a manifold with boundary extend the interior orientation system through
-   collar charts; prove independence using the fundamental-groupoid equivalence
-   induced by int M→M. Ordinary local top homology at a boundary point is not
-   its orientation fibre. Compare this homological system with DG Layer 2's
-   tangent orientation via chart local generators and Jacobian signs. In ℝ^m
-   pin the standard local generator to the affine simplex with ordered vertices
-   `v₀=−∑_i e_i`, `v_i=e_i` for 1≤i≤m, containing 0 in its interior.
-   Its ordered edge determinant is positive; use its relative class modulo
-   ℝ^m\{0}, including the positive point class for m=0. Transport this
-   normalization through charts in every dimension before the boundary comparison.
-   Prove naturality of the homological orientation system and its tangent
-   comparison under smooth open embeddings and local diffeomorphisms,
-   using excision and the derivative orientation map. In particular this
-   supplies the pullback comparison along S²→RP². Prove that the canonical
-   outward-first sphere and coordinate-ball fundamental classes equal Stage
-   2.5's earlier positive local/coordinate-chain reference classes, and compare
-   with the native sphere/disk generator while recording its sign. Prove canonical
-   identifications `or_U|_V≃or_V` for opens
-   V and `or_U|_K≃or_K` for codimension-0 compact submanifolds K with boundary.
-   Construct the natural pairing `or_M⊗or_M≃ℤ`, normalized by o⊗o↦1 for
-   each local generator o; simultaneous sign changes preserve it. In RP²
-   compare the chart-local generators with Stage 4.6's sign system using
-   that stage's outward-first S² orientation computation.
+   Own the boundaryless interior construction for every finite-dimensional real model
+   with corners I on E, with `finrank ℝ E=m`. Use Mathlib's `I.interior M` and
+   `ModelWithCorners.isOpen_interior`. Choose a continuous linear equivalence
+   `E ≃L[ℝ] EuclideanSpace ℝ (Fin m)`, reparameterize I, and construct the Euclidean
+   boundaryless atlas on a fresh copy of the interior subtype, inheriting M's smoothness.
+   Keep M's original charted-space instance. Prove the inclusion into M smooth and its
+   underlying homeomorphism onto the interior. Prove the explicit local-diffeomorphism
+   target FreshInteriorRechart.isLocalDiffeomorph_val for every boundary model.
+   In the original I-chart at x and the carrier chart reparameterized by
+   e:E≃L[ℝ]EuclideanSpace ℝ (Fin m), identify its manifold derivative with e.symm.
+   Prove the chartwise inverse is smooth and use this to pull back tangent orientations.
+   For boundaryless M construct carrierValDiffeomorph onto all of M, including its
+   smooth inverse; this is the map used for ordinary class transport.
+   Own the induced maps on local homology, orientation systems, sections and compact
+   classes, with the canonical coefficient pullback isomorphisms explicit. Transport
+   back to the original topological carrier M before exposing the boundaryless class API.
+   Prove independence of the linear equivalence, recharted copy, charts and orientation
+   lift as equality of the transported integral classes, using their normalized local
+   images and compact-support uniqueness. Perform each uniqueness argument on a
+   fresh Euclidean carrier and transport the resulting equality through its pair
+   isomorphism; do not install that Euclidean atlas or apply the factory directly
+   on the original general-model carrier. Include m=0, when the Euclidean model space
+   is a singleton and its basis index `Fin 0` is empty. These are AT constructions;
+   DG9.3 consumes their classes and proves integration compatibility.
+   For positive-dimensional smooth manifolds with boundary over the standard
+   half-space model `𝓡∂ (n+1)`, define the ambient orientation system by the
+   fundamental-groupoid transport of the interior system specified below as
+   BoundaryCarrierOrientation.halfSpaceOrientationLocalSystem. Use its single
+   interior-inclusion equivalence, constructed by finite local inward pushes
+   relative to compact interior data, for all restrictions and comparisons.
+   This construction needs neither compactness of M nor a global collar.
+   Ordinary local top homology at a boundary point is not
+   its orientation fibre. Construct the natural pairing `or_M⊗or_M≃ℤ`, normalized
+   by o⊗o↦1 for each local generator o; simultaneous sign changes preserve it.
    For every boundaryless m-manifold U and R-module system L construct the
    local top-homology functor `T_L:FundamentalGroupoid U→ModuleCat R`, with
    fibre `H_m(U,U\{x};L)` and transport defined by excision on coordinate
@@ -1201,18 +1211,267 @@ homology with one copy of the coefficient ring also assumes connectedness.
    local system L, `H_i(U,U\K;L)=0` for i>m, and the degree-m group injects
    into its local images at points of K. Prove existence as well: every
    section satisfying this ball-local condition over a neighborhood of K
-   comes from exactly one relative class with those local images at K.
+   comes from exactly one relative class with those local images at K. Prove this
+   compact-support lemma by trivialization on coordinate balls, Stage3's twisted
+   excision/Mayer–Vietoris and compact finite-cover induction, as in Hatcher Lemma3.27.
+   Compare this homological system with DG Layer 2's
+   tangent orientation via chart local generators and Jacobian signs. Prove the
+   converse as an equivalence: smooth orientations correspond bijectively to
+   transport-compatible sections of or_U whose value in each fibre is an integral
+   generator. Express such sections as natural transformations from the constant
+   rank-one integer module functor, with this generator condition. Construct the
+   inverse from the local signs in coordinate charts, prove its local constancy
+   and compatibility on overlaps, and prove the two inverse identities. Include
+   restriction, smooth open-embedding pullback and orientation-negation compatibility;
+   in particular smooth orientability agrees with triviality of this integral system. In ℝ^m
+   pin the standard local generator to the affine simplex with ordered vertices
+   `v₀=−∑_i e_i`, `v_i=e_i` for 1≤i≤m, containing 0 in its interior.
+   Its ordered edge determinant is positive; use its relative class modulo
+   ℝ^m\{0}, including the positive point class for m=0. Transport this
+   normalization through charts in every dimension before the boundary comparison.
+   First build `linearLocalGenerator_signDet`: an invertible real linear map on ℝ^m
+   acts on the normalized local generator by the sign of its determinant. For m>0,
+   prove `orderedSimplex_vertexSwap_neg` in relative homology. The affine symmetry
+   swapping two vertices fixes the barycenter 0 and therefore gives a linear
+   reflection with determinant −1 and local-generator action −1.
+   Prove `pathToIdentity_of_det_pos`, a path through invertible linear maps from
+   every positive-determinant equivalence to the identity; composing with that fixed
+   reflection gives the negative-determinant component. The paths give homotopies
+   of punctured pairs and identify every linear action.
+   Then build `localLinearization_puncturedHomotopy` and deduce
+   `localDiffeomorphism_localGenerator_signDet` for a C¹ map on an open neighborhood
+   of x with invertible derivative at x. Use the native inverse-function theorem to
+   choose a ball inside an injectivity neighborhood. On that ball use
+   `H_s(y)=f(x)+(f(x+s(y−x))−f(x))/s` for s>0 and
+   `H_0(y)=f(x)+Df(x)(y−x)`. Prove joint continuity at s=0 from the Fréchet estimate
+   and avoidance of f(x) off x for all s∈[0,1], then pass to local homology by
+   excision. In m=0 prove the positive point formula directly; the empty determinant
+   is +1. These lemmas supply chart overlap signs.
+   Own the comparison with `Manifold.Orientation` (DG Layer 2): select the local point generator
+   as the signed image of the actual ordered-simplex identity class under the chart pair map.
+   Define modelOrientationSign as the unit ±1 comparing the chosen Euclidean model
+   orientation with the standard ordered-coordinate orientation, including m=0.
+   The sign is the product of this model-orientation sign and the lift's chart sign
+   `l.sign x ⟨x, mem_chart_source⟩` at the base point x; transition-Jacobian signs enter
+   when comparing two charts.
+   Prove the unsigned chart-overlap determinant law at one fixed local-homology
+   fibre on every manifold, including nonorientable ones; derive its oriented signed
+   version from the orientation cocycle. Prove quotient-lift
+   independence, and transport between different fibres only by the orientation local-system map.
+   Prove invariance of the raw signed coefficient under simultaneous model-orientation and
+   chart-sign reversal before quotient descent. Prove chart-simplex witness independence,
+   then derive the arbitrary-lift chart formula from those two facts and the chosen raw
+   representative; equality of already-descended generators is a consequence of this route.
+   Build `rawChartCoefficient_at l a y hy` for any chart anchor a and y in its source,
+   using the model-orientation sign times `l.sign a ⟨y,hy⟩`. Prove its constancy on
+   connected neighborhoods inside that source from continuity of the discrete sign.
+   Own `chartSimplexSupportClass_local_image` for every y in the simplex interior, using the
+   unique simplex preimage of y, and the recentering/excision comparison between
+   anchors at the same local fibre. First localize the unsigned pair-map image of the
+   ordered identity class: its image is the unsigned ordered chart class at y.
+   Multiply the support class by the raw coefficient at the original center and use
+   coefficient constancy to identify its local image with the coefficient at y times
+   the recentered ordered chart class. These imply the signed local image throughout
+   each compact partition support; a formula only at the chart anchor is insufficient.
+   Prove the chart-simplex interior image open and derive
+   `pointGenerator_eq_rawChartCoefficient_at` for every anchor a, every lift representing
+   o and every y in that chart source, then
+   `chartSimplexSupportClass_signed_local_image_pointGenerator` on the whole interior.
+   Use these results in the locally represented section and DG's comparison.
+   Use DG's `Orientation.map`/`orientationAt` for arbitrary-chart changes, and first reparameterize
+   a general finite-dimensional real model to the Euclidean basis model before using the
+   Euclidean interior-atlas constructor. This AT-owned comparison also defines the oriented local
+   section and feeds `RelativeTwistedClassDatum` and compact-support uniqueness
+   factory; it does not introduce a second local-system or class carrier. DG9.3 consumes this
+   exact chosen datum and owns only its smooth-to-AT carrier conversion and integration formulas;
+   it must not construct a competing tangent-orientation system, point generator, or compact class.
+   The chart-generator normalization, transition determinant, quotient-lift independence, section
+   local representation, and zero-dimensional signed point normalization are mathematical targets
+   of this AT milestone, not facts supplied merely by naming the structures. Prove naturality of the
+   homological orientation system and its tangent comparison under smooth open embeddings and
+   local diffeomorphisms, using excision and the derivative orientation map. In particular this
+   supplies the pullback comparison along S²→RP². Own the pure class laws:
+   sign reversal, naturality under these oriented open embeddings, support enlargement
+   `(U,U∖K′)→(U,U∖K)` for K⊆K′, and finite disjoint compact-support additivity.
+   Prove the latter by choosing disjoint open neighborhoods of the disjoint compact
+   supports in the T2 manifold, applying Stage3.3 excision, and applying Stage2.4–2.5
+   additivity for the resulting disjoint union of pairs. In every degree identify
+   this composite isomorphism with disjointSupportComponentMap, using the explicit
+   two restriction pair maps, then apply the local-image characterization. Include
+   the finite-family induction and the empty family. Use one coefficient-correct pair map with the canonical
+   `pullbackConstantIso` in these laws. DG owns only the smooth and real-coefficient
+   conversions and integration identities. Own the shared dimension-zero unit orientationSignAt o x:ℤˣ:
+   for every finite-dimensional model I on E with finrank ℝ E=0, compare
+   DG's orientationAt o x with the orientation of the unique empty ordered
+   tangent basis of E. Prove independence of the identification with Euclidean
+   0-space. Define positivePointClass x=[x]₊ as the relative homology class of
+   the constant singular 0-simplex at x with coefficient 1. Prove chart/lift
+   independence and orderedChartImageAt 0 M a x hx w=positivePointClass x
+   for every chart anchor and simplex witness. Identify the general-model sign with
+   its Euclidean presentation through the fresh carrier. In that presentation,
+   for any lift l representing o, prove rawChartCoefficient_at 0 l a x equals
+   the integer value of orientationSignAt o x.
+   State the signed specialization pointGenerator_zero_orientationAt as
+   pointGenerator o x=orientationSignAt o x • positivePointClass x; keep the
+   raw-anchor identity pointGenerator_zero as its separate chart-formula lemma.
+   DG9.3 consumes this single sign definition for its signed point integrals.
+   Prove canonical
+   identifications `or_U|_V≃or_V` for opens
+   V and `or_U|_K≃or_K` for codimension-0 compact submanifolds K with boundary.
+   In RP² compare these local generators with Stage 4.6's sign system, using
+   DG2.4's outward-first S² orientation. Transport Stage 6.1's independent sign-system
+   cohomology calculation across this identification to obtain
+   `H⁰(RP²;or)=0`, `H¹(RP²;or)=ℤ/2` and `H²(RP²;or)=ℤ`.
+   For the following smooth-boundary classes take the standard half-space model
+   `𝓡∂ m` with m>0, with Hausdorff and second-countable M; a general
+   corner boundary is not a manifold. Use the native smooth local product
+   charts from TauCeti's Boundary/Collar/Local and their diffeomorphisms in
+   Boundary/Collar/Diffeomorph. For compact M its boundary is compact by
+   ModelWithCorners.isClosed_boundary. Verify that these product charts give
+   TauCeti.IsLocallyCollared for the injective boundary inclusion; their
+   collars meet the boundary exactly at parameter zero. Apply the existing
+   compact-domain Brown theorem TauCeti.IsLocallyCollared.isCollared to get
+   a topological IsCollar c for the whole boundary. Its open embedding
+   c:∂M×[0,1)→M has c(x,0)=x and open image U. Use its inverse coordinates,
+   smaller-width restrictions and deformation retraction of U onto ∂M.
+   These class comparisons use a topological global collar and smooth local
+   charts; GT Layer1 owns the stronger global smooth collar and gluing API.
+   On the half-space ambient carrier, define `or_M` exactly once as
+   BoundaryCarrierOrientation.halfSpaceOrientationLocalSystem, by groupoid transport
+   from the fresh Euclidean interior. All boundary restrictions and coefficient
+   comparisons are restrictions or pullbacks of this same system. First prove that
+   the actual interior inclusion induces an equivalence of fundamental groupoids. Each boundary
+   point has a path into the interior in a local product chart. For fullness and
+   faithfulness, push compact images of paths and path homotopies into the interior
+   by a finite composition of boundary-chart pushes with nonnegative inward depth.
+   Prove each push preserves the interior, is homotopic to the identity, and can be
+   chosen fixed near prescribed compact data lying in the interior, including
+   endpoints and the boundary values of a path homotopy. Use these relative
+   homotopies to prove the endpoint-fixed path-class statements. This argument
+   applies without compactness of M and uses only finite local chart pushes.
+   Pin the restriction
+   comparison val*or_M≃or_C and its tangent-generator normalization; do not
+   install a second Euclidean ChartedSpace on M to define or_M. For a compact
+   K⊂C, construct the native twisted support-pair
+   map (C,C∖K;or_C)→(M,M∖val(K);or_M): first change coefficients by this
+   inverse of κ:val*or_M≃or_C, then apply TopPair.twistedHomologyMap to the open
+   embedding pair map. Prove the induced homology map an isomorphism by
+   excision, identify its pointwise local maps and transported section, and
+   prove independence of the recharting equivalence. For a compact subset of
+   int M use K_C=val⁻¹(K) and identify val(K_C)=K. Do not use the
+   boundaryless-target naturality theorem on the boundary ambient M.
    Derive the twisted compact-boundary fundamental class
    `[M,∂M]∈H_m(M,∂M;or_M)` by applying this to the canonical section on
    the interior with K the complement of an open boundary collar, then using
    the collar comparison. Characterize it uniquely by canonical interior
-   local images. With the outward-normal-first boundary identification prove
-   `∂_*[M,∂M]=[∂M]` for m>0; the dimension-0 boundary is empty. A chosen
-   orientation gives the integral relative class; empty boundary gives the
-   absolute class.
-   Use trivialization on coordinate
-   balls, Stage 3's twisted excision/Mayer--Vietoris and compact finite-cover
-   induction, as in Hatcher Lemma 3.27. Deduce `H_i(U;L)=0` for i>m by
+   local images. Construct the identity-ambient pair map
+   (M,∂M)→(M,U), with its boundary map given by collar parameter zero, and
+   prove that its induced homology map is an isomorphism from the collar
+   deformation retraction of U onto ∂M and the pair exact sequences. This is
+   a relative-homology comparison, not a homeomorphism of pairs. Construct
+   the codimension-one local-system isomorphism
+   (or_M)|_(∂M)≃or_(∂M) on halfSpaceOrientationLocalSystem, including
+   nonorientable M. Its inverse is the local product-chart cross product
+   `[−∂r]×o_∂`, with the outward-oriented normal interval first. Native local
+   product charts use boundary × inward-normal order, whose r-increasing
+   interval class is `[r↑]`. Thus this inverse is
+   `(-1)^m (o_∂×[r↑])` in native factor order. In each smooth local
+   product chart, compute the class by relative excision and compare the two orders:
+   swapping the inward normal past the m−1 boundary directions contributes
+   `(-1)^(m-1)`, and reversing it from inward to outward contributes `-1`.
+   Thus the total conversion from boundary × inward-normal to outward-normal ×
+   boundary is `(-1)^m`. Its inward coordinate r≥0 gives outward vector −∂r;
+   prove that the inverse chart derivative sends this to DG5.1's
+   IsOutwardPointing normal. Use the doubled normal interval only as an ambient
+   local-excision model across r=0; it is not a subset of M. Do not use ordinary
+   local top homology of M at a boundary point for this class. Check the sign on
+   D¹, where `∂[D¹]=[+1]−[−1]`, and on D², where the outward-first boundary is
+   the counterclockwise class `∂_*[D²,S¹]=[S¹]`.
+   Use the Brown topological collar only for the global pair comparison
+   (M,∂M)→(M,U); its parameter-zero identity does not determine the smooth
+   normal sign. Prove independence of local chart and chart-box height `ε`, and
+   naturality,
+   and pin its oriented specialization: restricted interior point generators map
+   to DG5.1 boundaryOrientation point generators. With exactly this identification
+   prove `∂_*[M,∂M]=[∂M]` for m>0. A chosen orientation gives the
+   integral relative class through the orientation-induced trivialization `or_M≃ℤ`.
+   Pin every interior local image by the following actual map. For a linear
+   equivalence e:E≃L[ℝ]EuclideanSpace ℝ (Fin m), let C be
+   FreshInteriorRechart.Carrier I m e and val:C→M its smooth open embedding.
+   Pull o back to C by DG2.2 using isLocalDiffeomorph_val; take C's Euclidean
+   pointGenerator and push it to H_m(M,M∖{x};ℤ) with embeddingIntegralLocalMap val
+   at the unique carrier point over x. Prove this open-excision map an
+   isomorphism, and prove the resulting interior local class independent of e.
+   For compact K⊂C, likewise use supportOpenEmbeddingHomologyMap val on
+   (C,C∖K)→(M,M∖val(K)); prove it an isomorphism by excision and pin its
+   local images and support-enlargement compatibility. These maps apply even
+   when M has boundary: they use the inclusion onto the open interior, not
+   carrierValDiffeomorph onto M. Prove that they agree with the boundaryless
+   transport when that hypothesis holds, and use these maps for every
+   interior compact-support comparison below. Empty boundary gives the absolute class.
+   After constructing these AT6.3 classes and the boundary map, compare the
+   outward-first sphere and coordinate-ball classes with the normalized classes
+   supplied by Stage 2, item 5. Consume the native
+   `reducedSingularHomologySphereIso` and
+   `reducedSingularHomologyTopCatSphereIso` from
+   `TauCeti.AlgebraicTopology.Singular.Sphere`, and the native
+   `singularHomologyDiskBoundaryPairIso` and its connecting-map normalization
+   from `TauCeti.AlgebraicTopology.Singular.DiskSphere`. Stage 2, item 5 owns
+   `coordinateDiskNativeComparisonCoefficient`; Stage 4.4 owns the unit `εₙ`
+   and the radial/native-sphere bridge. Prove the induced maps on the AT6.3
+   classes, recording each relative sign. This is a compatibility calculation for
+   the orientation classes constructed here; Stage 6.3 does not choose or replace
+   the native sphere/disk generators or restate Stage 2, item 5. Include
+   S⁰ by verifying both local images of the AT6.3 class, and consume the
+   provider's S⁰ normalization. Verify ∂[D¹]=[+1]−[−1] for the positively
+   oriented interval. For the positively oriented plane disk also verify
+   ∂_*[D²,S¹]=[S¹], with S¹ counterclockwise by the outward-first convention.
+
+   For the downstream comparison with Stage 2 item 5, write q=e₀ for the
+   positive-chart comparison pole and p=eₙ for the fixed last-coordinate
+   comparison pole in the standard oriented coordinates (e₀,…,eₙ). The
+   current native generator is defined by its actual recursive choices; it
+   does not choose p. The cyclic coordinate permutation ρₙ(e₀)=eₙ,
+   ρₙ(eᵢ)=eᵢ₋₁ (1≤i≤n) sends q to p and has determinant (-1)ⁿ. At q
+   the outward-first local frame is (e₁,…,eₙ); at p the ordered last-pole
+   chart frame is (e₀,…,eₙ₋₁), so its local generator cᵖₙ is (-1)ⁿ times
+   the outward-first generator λᵖₙ. The coordinate map sends the q-frame to
+   the ordered p-frame, while sₙ has coefficient +1 in λᵖₙ and therefore
+   (-1)ⁿ in cᵖₙ. Let aₙ∈ℤˣ be the coefficient of the current native
+   sphere generator ιₙ(g̃ₙ) in cᵖₙ, computed using its actual recursive
+   choices and comparison with the fixed p-chart. Write σₙ for the Stage 6
+   comparison unit, to distinguish it from Stage 4.4's εₙ. The target is
+   sₙ=σₙιₙ(g̃ₙ), with σₙ=(-1)ⁿaₙ; prove `σₙ=εₙ` for n≥1, with εₙ
+   the unit from Stage 4.4's radial/native-sphere bridge.
+
+   At n=0, q=p, but the native generator's selected pole need not be q. Let
+   p₀ be the point of TopCat.sphere 0 obtained by applying the inverse of
+   diskBoundaryHomeomorph 1 to the Classical.arbitrary point used by
+   reducedSingularHomologySphereIso_zero on the unit sphere of
+   EuclideanSpace ℝ (ULift (Fin 1)); this is the actual choice in the current
+   definition of reducedSingularHomologyTopCatSphereIso 0. Compare p₀ directly
+   with `q=ULift.up (homotopySpherePole 0)` on this same sphere carrier, without
+   a second coordinate transport. Prove the exhaustive dichotomy p₀=q or p₀=−q
+   from the one-dimensional unit-vector coordinates, then compute the coefficient
+   in each case. The native
+   zero-sphere law gives
+   ι₀(g̃₀)=[−p₀]−[p₀], with augmentation zero and local
+   images +1 at −p₀ and −1 at p₀. Since H₀(S⁰;ℤ)=ℤ², one positive-chart
+   local image alone does not determine an ordinary absolute class.
+   Stage 6.3 does not use Stage 2, item 5's ordinary H₀ uniqueness statement
+   at n=0. For this downstream equality,
+   verify both local images and augmentation in ordinary H₀(S⁰;ℤ), rather than
+   inferring it from one chart. The outward-first class is s₀=[q]−[−q]. Thus
+   s₀=σ₀ι₀(g̃₀), where σ₀=−1 if p₀=q and σ₀=+1 if p₀=−q; equivalently
+   σ₀=−ε₀, with ε₀ the Stage 4.4 unit determined by the same actual pole.
+   This comparison consumes the present native arbitrary-pole generator and
+   laws; it does not replace that API by a new pole-parameterized generator.
+   At n=1, ρ₁ is a reflection and cᵖ₁ is clockwise, opposite the
+   counterclockwise outward-first circle generator. Thus the D² boundary has
+   coefficient +1 in λᵖ₁ and −1 in cᵖ₁, and σ₁=−a₁. The value a₁ is
+   computed from the actual provider generator, not from a provider-selected p.
+
+   Deduce `H_i(U;L)=0` for i>m by
    compact support of singular cycles and the pair/triple sequence (the route
    of Proposition 3.29), and prove `H_i(M,∂M;L)=0` for i>m and injectivity
    into interior local images for compact boundary manifolds using collars.
@@ -1796,7 +2055,7 @@ supplement or the categorical LS supplement unless named explicitly.
 | 5 product maps (item 1) | 2 | 1, 3, 4 |
 | 5 bundles/covers/finite covers | 2--4; native Serre carrier/bundle API; DGFloer 1.2 homotopy LES/homology SS from 1–4 and DG1.3, cohomology SS additionally from independent 6.0–6.2 | 1 |
 | 6.0 tower algebra | native module/category/complex algebra | 1--8 |
-| 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Stage 5 item 1 product maps, external orientation/collars; Stage 4 for cellular comparisons/RP² | 1 |
+| 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Stage 5 item 1 product maps, DG2 tangent orientations, DG2.4 sphere and DG5.1 outward-first boundary conventions, native smooth local boundary charts plus the compact-domain Brown topological collar, and Stage 4.4's εₙ/radial native-sphere bridge used by 6.3; Stage 4 for cellular comparisons/RP² | 1 |
 | categorical-cover/cup-length supplement after6.2 | native opens/homotopies/ENat; 2–3, 5.1 and ordinary6.1–6.2, plus the direct point-chain contraction; no manifold duality or Morse input | 6.3–6.5 |
 | supported-cellular comparison after ordinary6.2 | ordinary4 cellular data, ordinary6.1–6.2, CC C1.2a S0–S4; proves countability and finite-support cellular/singular comparison. CC-S5 compatibility is a separate check | ordinary6.3–6.5, Stage7 and ordinary8 proceed independently; proper8.5 uses the needed support interfaces |
 | 6.5 linking/degree consequences | 2--4 and ordinary6.1--6.4 | 1 |
