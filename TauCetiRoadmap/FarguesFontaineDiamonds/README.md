@@ -34,7 +34,8 @@ reduction of the norm argument. All six layers are work in this scope.
 | Effective quotients and descent, v-local finite étale criterion, diamond atlases | [DiamondsAndVStacks][diamonds], **D0, D3, D4** |
 | Analytic adic-space diamond functor, Spd and étale-site comparison | DiamondsAndVStacks, **D6** |
 | Integral perfectoid recognition before inversion | PerfectoidSpaces, **P1.24**; primitive untilting and inversion in **P1.20–P1.21** |
-| Completed tensor products, split base change and closed subspaces | [AdicSpacesPartII][adic-part-ii], **R0.3, R0.5, R0.8**; the analytic Cartier criterion is F4 below |
+| Completed tensor products, Banach-module tensors and closed subspaces | [AdicSpacesPartII][adic-part-ii], **R0.3, R0.5, R0.8**; the analytic Cartier criterion is F4 below |
+| Topologically split completed base change | [AdicSpacesPartIII][adic-part-iii], **R3.5**, `split-injection-completed-base-change` |
 | Enhanced étale categories, t-structures and left completion; sections, tensor and coefficient change | [DiamondEtaleCohomology][cohomology], **C2; C3.2, C3.8, C3.11** |
 | Ringed-site enhancements, Postnikov and derived completion | EnhancedDerivedSheaves, **§§0.1–0.4, E2.3, E3.4, E4** |
 | Derived-complete adic coefficient systems and finite-level limits | [AdicCoefficientsAndComparisons][coefficients], **L0** |
@@ -211,8 +212,11 @@ prerequisites:
    tensor product for adic scalar maps, the Banach-module completed tensor
    functor with its `BanachModule.CompletedTensor.exact_of_split` contract,
    and closed adic subspaces for admissible ideal sheaves. A continuous
-   coefficient retraction produces the split annulus base change by §R0.5.
-   The quotient plus ring in §R0.8 is the integral closure of the image.
+   coefficient retraction gives the split annulus base change through
+   AdicSpacesPartIII §R3.5 (`split-injection-completed-base-change`), whose
+   module-level input is §R0.5. F4 supplies the continuous coefficient
+   projection and its rational-restriction compatibility; §R3.5 supplies the
+   completed retraction and closed embedding. The quotient plus ring in §R0.8 is the integral closure of the image.
    F4 proves the additional all-affinoids Cartier criterion of SW Proposition
    5.3.8; closed-subspace vocabulary alone does not assert it.
 4. **DiamondsAndVStacks, §§D0.25–D0.26, D3, D4 and D6.5.** Use its
@@ -263,7 +267,7 @@ layer, with all the conventions above.
 | [F1](#layer-f1-the-untilt-product-formula) | Y^diamond ≅ S × Spd(Q_p), with formulas and naturality | F0; PerfectoidSpaces P1/P2; DiamondsAndVStacks D6 |
 | [F2](#layer-f2-frobenius-and-the-effective-quotient) | Chosen-generator equivariance and X^diamond ≅ (S × Spd(Q_p))/(phi_S^Z × id) | F0/F1; AdicEtaleGeometry A1; DiamondsAndVStacks D0/D4/D6 |
 | [F3](#layer-f3-étale-sites-and-frobenius-descent) | Étale and finite étale equivalences, compatible sheaf descent | F2; DiamondsAndVStacks D0/D3/D6 |
-| [F4](#layer-f4-marked-untilts-as-analytic-cartier-divisors) | Closed Cartier untilt immersions on Y and X | F0/F1/F2; PerfectoidSpaces P1/P2; PerfectoidSpaces P1.24; AdicSpacesPartII R0.3/R0.5/R0.8 |
+| [F4](#layer-f4-marked-untilts-as-analytic-cartier-divisors) | Closed Cartier untilt immersions on Y and X | F0/F1/F2; PerfectoidSpaces P1/P2; PerfectoidSpaces P1.24; AdicSpacesPartII R0.3/R0.5/R0.8; AdicSpacesPartIII R3.5 |
 | [F5](#layer-f5-enhanced-derived-and-adic-coefficients) | Left-completed and derived-complete coefficient comparisons | F3; DiamondEtaleCohomology C2/C3; AdicCoefficientsAndComparisons L0 |
 
 F3 is the first geometric endpoint: the existing curve is a specified locally
@@ -354,8 +358,6 @@ Construct `affinoid_product`. For every affinoid characteristic-p perfectoid T, 
 
 Construct the two functions from the preceding theorem; retain the untilt marking throughout. Use equality of bounded ring maps and the supplier’s morphism/affinoid dictionary to verify both composites.
 
-Checks: The product keeps both factors, including the untilt’s Q_p structure.
-
 (FS II.1.2, p.49; II.1.17, p.55.)
 
 The API is used by FS II.1.2 and II.1.17 to build the fixed-field product formula; F4 sections to recover a divisor map from the identity base map and a marked untilt.
@@ -396,8 +398,6 @@ Construct `product_iso`. Glue the alpha_T into a natural isomorphism of v-sheave
 *Needs:* F1, `point_naturality`; DiamondsAndVStacks, Layer D6 (etale site comparison); DiamondsAndVStacks, Layer D6 (spd is a spatial diamond).
 
 Natural inverse point bijections give a natural isomorphism on an affinoid basis. Use the supplied v-sheaf property on both sides to extend the isomorphism; apply Yoneda, then retain the supplied local spatiality.
-
-Checks: This is an isomorphism of sheaves, including all perfectoid tests.
 
 (FS II.1.2, p.49; II.1.17, p.55.)
 
@@ -466,9 +466,9 @@ Prove `adic_graph_relation`: The map coprod_{n∈Z}Y → Y×_X Y, on the n-th co
 
 *Needs:* F0, `chart_category_interface`; AdicSpaces, Layer 6; AdicEtaleGeometry, Layer A1 (yoneda adic fibre products).
 
-For U_n and V_n use the AdicSpaces construction’s disjoint translates and actual isomorphism onto q(U_n),q(V_n). Identify each pullback chart with the unique translate meeting it; on overlaps the integer labels coincide by freeness. Glue these identifications.
+For wandering charts W,W′, use the actual chart isomorphisms to decompose W×_X W′ as coprod_{k∈Z}(W∩phi_Y^(−k)(W′)), mapping y to (y,phi_Y^k(y)) on the k-th component. Freeness makes the integer label unique on each component; the entire pullback can have several components. Glue the componentwise graph isomorphisms along chart restrictions.
 
-Checks: The n=0 summand is the diagonal. Composing the n and m graphs gives the n+m graph.
+Checks: The n=0 summand is the diagonal. Composing the n and m graphs gives the n+m graph. For p=2 and c=3/2, U_0×_X V_0 has two components: k=0 at kappa=3/2 and k=1 at kappa=1. Both are retained in the coproduct.
 
 (FS II.1.16–17, pp.54–55; SW Lecture 13, Definition 13.5.1, p.112.)
 
@@ -492,7 +492,7 @@ Prove `diamond_quotient_cover`: q^diamond:Y^diamond→X^diamond is a surjective 
 
 Use the two wandering-window families and the local chart isomorphisms. Their images cover the adic X; D6 identifies the underlying spaces and open subdiamonds, and transports the covering family.
 
-Checks: The cover proof does not require q to be quasicompact.
+Checks: Over a geometric untilt point the fibre of q^diamond is the discrete infinite orbit indexed by Z, so q^diamond is not quasicompact. On each wandering chart its fibre over a point of the chart image is a singleton. The orbit with a lift at kappa=1 meets both U_0 (at 1) and V_0 (at p), so the two chart images overlap there.
 
 (FS II.1.16–17, pp.54–55.)
 
@@ -515,8 +515,6 @@ Construct `quotient_iso`. Construct beta_F:X^diamond ≅ (S×Spd(Q_p))/(phi_S^Z�
 *Needs:* F2, `frobenius_equivariance`; F2, `effective_quotient`; DiamondsAndVStacks, Layer D0 (groupoid quotients and two fibre products).
 
 Use equivariance to descend pi∘alpha_F; descend alpha_F inverse in the reverse direction. Check both composites after the respective covers and use uniqueness of effective descent.
-
-Checks: The defining commuting square determines beta_F uniquely.
 
 (FS II.1.16–17, pp.54–55.)
 
@@ -542,7 +540,7 @@ Prove `quotient_spatiality_choices`: X^diamond and Q_F are locally spatial and q
 
 Use D6 for local spatiality and the topology comparison. For any two bounded-radius windows only finitely many phi-translates can meet; overlaps are finite unions of rational interval intersections and hence quasi-compact. Transfer the two-chart qcqs proof. Compare two beta maps after q, where the bounded point formula is choice independent, and use uniqueness.
 
-Checks: No properness or smoothness of X^diamond→Spd Q_p is deduced.
+Checks: For p=2 and c=3/2, q(U_0)∩q(V_0) has two disjoint quasicompact rational annulus pieces, represented in U_0 at kappa=1 and kappa=3/2. Distinct translates of U_0 have empty intersection. For windows with radius intervals [a,b] and [d,e], where 0<a≤b and 0<d≤e, an overlap with the k-th graph requires d/b≤p^k≤e/a, leaving only finitely many integers k.
 
 (FS II.1.16–17, pp.54–55.)
 
@@ -583,8 +581,6 @@ Construct `sheaf_descent`. For any coefficient category for which étale sheaf d
 *Needs:* F2, `diamond_graph_relation`; F2, `diamond_quotient_cover`; F3, `chart_site_compatibility`; DiamondsAndVStacks, Layer D0 (groupoid quotients and two fibre products); Mathlib `CategoryTheory.Equivalence`.
 
 Establish étale sheaf descent along the surjective étale map q^diamond. Identify the Cech relation by its integer-indexed graphs, with composition n+m. Recover all c_n from the generator and inverse. Transport to the product description through alpha_F, where pullback is on the S factor.
-
-Checks: Cocycle composition includes the pullback of the first isomorphism.
 
 (ECD Definition 15.5; Lemma 15.6 and proof, pp.91–92.)
 
@@ -692,8 +688,6 @@ Construct `section_untilt_equiv`. Construct the natural bijection between sectio
 
 Use the product isomorphism and the ordinary graph/section universal property. Use the imported definition and classification of marked untilts to identify the second set. Do not re-prove the primitive-kernel classification here.
 
-Checks: The marking is not forgotten before constructing the section.
-
 (FS II.1.4, pp.49–50; II.1.18, p.55.)
 
 The API is used by FS II.1.18 to provide the map of the untilt into the generic domain; F4 curve divisors to track exactly the marking on which Frobenius acts.
@@ -718,7 +712,7 @@ Prove `primitive_equation_interface`: For a marked Q_p-untilt of S, import the s
 
 Use the imported primitive-kernel theorem and theta surjectivity to choose a; verify the prescribed primitive generator and equality of its ideal with ker theta. Apply the actual open-locus factorization. Transport to any original varpi by AdicSpaces §6.4 choice transport.
 
-Checks: The kernel ideal is independent of unit rescaling of xi. Principality in W(O_F) alone is not the analytic closedness proof.
+Checks: For any commutative ring B and unit u∈B, (u xi)=(xi) as embedded principal ideals, so unit rescaling leaves ker(theta) unchanged. Principality in W(O_F) alone is not the analytic closedness proof.
 
 (FS II.1.4, pp.49–50; II.1.18, p.55.)
 
@@ -726,11 +720,11 @@ Checks: The kernel ideal is independent of unit rescaling of xi. Principality in
 
 Prove `root_extension_frame`: Let K_infty be the completion of Q_p(p^{1/p^infty}) with compatible roots p_m^p=p_{m−1}. For each imported rational period annulus B^I, form Btilde^I=B^I completed-tensor_{Q_p} K_infty with the R0.3 completed tensor topology and the integral closure of the base-changed plus ring. The inclusion B^I→Btilde^I has a continuous B^I-linear retraction induced by the coefficient retraction of K_infty onto Q_p. It is a closed topological embedding, compatible with rational restrictions. This is ordinary completed base extension; no uniform completion is inserted.
 
-*Needs:* F0, `chart_category_interface`; AdicSpacesPartII §R0.3 (completed tensor product); AdicSpacesPartII §R0.5 (split injection completed base change).
+*Needs:* F0, `chart_category_interface`; AdicSpacesPartII §R0.3 (completed tensor product); AdicSpacesPartIII §R3.5 (`split-injection-completed-base-change`).
 
-Check first that both Q_p scalar maps are adic; bounded generic annuli have a cofinal p-power ring-of-definition topology. Choose the compatible root-basis coefficient projection; at each finite level it projects the coefficient of 1 and extends continuously to the completion. Apply the supplier’s split completed-base-change theorem, and rational-localization compatibility.
+Check first that both Q_p scalar maps are adic; bounded generic annuli have a cofinal p-power ring-of-definition topology. Construct the compatible root-basis coefficient projection K_infty→Q_p: at each finite level it projects the coefficient of 1, with a uniform bound, and hence extends continuously to the completion. Apply AdicSpacesPartIII §R3.5 with R=Q_p, Rtilde=K_infty and S=B^I for the completed retraction and closed embedding. F4 proves compatibility with rational restrictions by the pure-tensor formula and density. R0.3 supplies the tensor construction, and R0.5 supplies R3.5's Banach-module input.
 
-Checks: The retraction sends 1 to 1 and commutes with multiplication by xi. Closedness downstairs can be checked using this closed summand.
+Checks: The retraction sends 1 to 1. On a pure tensor b⊗x it is b·sigma(x), so the retraction of xi·(b⊗x) is xi b·sigma(x). For a rational restriction r:B^I→B^J, both restriction composites send b⊗x to r(b)·sigma(x).
 
 (FS Proof of II.1.1, p.48.)
 
@@ -811,8 +805,6 @@ Construct `untilt_closed_divisor`. Construct the actual closed immersion i_u:S^s
 
 Apply F4's `analytic_cartier_closed_iff` to the rational injectivity and closedness theorem, and use AdicSpacesPartII §R0.8 to construct the closed quotient subspace. Glue the quotient pairs and identify their morphisms with the original theta map. Unit multiples give the same ideal sheaf, and F0 transports choices.
 
-Checks: Both the closed immersion and its ideal sheaf are provided.
-
 (SW Lecture 5, Definitions 5.3.2, 5.3.7; Proposition 5.3.8; Remark 5.3.9, pp.38–40.)
 
 The API is used by FS II.1.4/II.1.18 to upgrade an untilt section to an actual analytic closed Cartier divisor; F4 curve divisors to descend the closed immersion.
@@ -837,7 +829,7 @@ Prove `untilt_sheaf_exactness`: The canonical sequence 0→O_Y --xi→ O_Y → i
 
 Check exactness on a rational basis via the topological quotient identifications. Sheafify/glue these maps; use the actual kernel ideal and retain the unit-change identification.
 
-Checks: The sheaf quotient is i_*O_{S^sharp}, not merely a sheaf supported on the same point.
+Checks: On a rational chart disjoint from the untilt locus the sequence is 0→B --xi→ B→0→0, and multiplication by xi has inverse multiplication by xi^−1. For a unit u, replacing xi by u xi identifies the sequences by multiplication by u^−1 on the first term and identity on the middle term. For a complete algebraically closed extension C of Q_p, F=C^flat and the marked untilt C, a chart containing the divisor has quotient C under the actual theta map.
 
 (FS II.1.4, pp.49–50; II.1.18, p.55.)
 
@@ -848,8 +840,6 @@ Construct `curve_untilt_divisor`. The composite j_u=q∘i_u:S^sharp→X is a clo
 *Needs:* F4, `untilt_closed_divisor`; F4, `untilt_sheaf_exactness`; F2, `adic_graph_relation`; F2, `quotient_spatiality_choices`; F4, `analytic_cartier_closed_iff`.
 
 For a fixed-field untilt the zero locus lies at its rank-one radius, so distinct phi-translates are disjoint. On any bounded-radius chart only finitely many translates occur. Use the actual quotient-chart isomorphisms to transport the local closed Cartier ideals, and compare them on overlap graphs. Apply ideal-sheaf and closed-immersion gluing; identify the descended space with S^sharp and its map with q∘i_u.
-
-Checks: The divisor on X retains the untilt residue field.
 
 (FS II.1.4, pp.49–50; II.1.18, p.55.)
 
@@ -885,7 +875,7 @@ For F=C^flat and the marked untilt C, theta gives the quotient O_C before invers
 
 ### Dependencies
 
-F0–F2; PerfectoidSpaces §§P1.16–P1.24 and Layer P2; AdicSpacesPartII §§R0.3, R0.5 and R0.8; DiamondsAndVStacks Layer D0.
+F0–F2; PerfectoidSpaces §§P1.16–P1.24 and Layer P2; AdicSpacesPartII §§R0.3, R0.5 and R0.8; AdicSpacesPartIII §R3.5; DiamondsAndVStacks Layer D0.
 
 ## Layer F5: Enhanced derived and adic coefficients
 
@@ -918,8 +908,6 @@ Construct `completed_derived_equiv`. For the stated discrete Lambda, enhance the
 *Needs:* DiamondsAndVStacks §D6.5 (the étale-site comparison); DiamondEtaleCohomology, Layer C2 (enhanced left completion and coherent operations); Mathlib `CategoryTheory.Equivalence`.
 
 Use the exact inverse equivalences of sheaves of Lambda-modules; they induce compatible functors on the supplied enhanced derived categories and truncation towers. Take the inverse limit of the truncation comparisons, and apply C2’s left-completion theorem for locally spatial diamonds.
-
-Checks: No ordinary unbounded complex is silently identified with its left completion.
 
 (ECD Definition 14.13; Remark 14.14; Proposition 14.15, p.88.)
 
@@ -987,8 +975,6 @@ uncompleted ordinary adic étale topos. The diamond side is L0’s derived I-com
 
 Construct each finite-level functor, for the torsion coefficients allowed by C2 and the prime-to-p integer hypothesis; extend from the displayed ell-primary specialization by the finite product decomposition of the coefficient ring. Verify coefficient-reduction natural transformations before taking the enhanced inverse limit. Apply L0’s reconstruction on the diamond side and the defining enhanced limit on the adic side; retain the inverse, unit and counit.
 
-Checks: The construction uses derived completion and compatible reduction data.
-
 (ECD Definition 26.1; Proposition 26.2 and proof; Remark 26.3, pp.161–162.)
 
 The API is used by ECD Proposition 26.2 to use the enhanced inverse-limit description; F5 adic global sections to take the limit of actual finite-level section maps.
@@ -1018,7 +1004,7 @@ Prove `adic_global_sections`: The adic comparison commutes with chart pullbacks,
 
 Use L0’s finite-level detection and completed tensor compatibility. The global-sections right adjoints commute with the enhanced limit; transport the actual compatible maps rather than only their values.
 
-Checks: The Z_ell test is a coherent tower, not an isolated finite-level calculation.
+Checks: For the completed constant Z_ell object, reduction of the global-sections comparison modulo ell^n is the actual constant-Z/ell^n comparison, commuting with the transition from n+1 to n. For its shift by one the reduced map is the shifted finite-level comparison. The zero coefficient object gives the zero global-sections complex at every level and in the limit.
 
 (ECD Definition 26.1; Proposition 26.2 and proof; Remark 26.3, pp.161–162.)
 
@@ -1089,6 +1075,7 @@ Fargues–Fontaine global-sections formulas.
 [perfectoid]: ../PerfectoidSpaces/README.md
 [diamonds]: ../DiamondsAndVStacks/README.md
 [adic-part-ii]: ../AdicSpacesPartII/README.md
+[adic-part-iii]: ../AdicSpacesPartIII/README.md
 [cohomology]: ../DiamondEtaleCohomology/README.md
 [coefficients]: ../AdicCoefficientsAndComparisons/README.md
 [fs]: https://people.mpim-bonn.mpg.de/scholze/Geometrization.pdf

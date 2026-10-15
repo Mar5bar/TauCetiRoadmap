@@ -87,6 +87,11 @@ example {B : Type u} [NormedCommRing B] [CompleteSpace B] :
       IsClosed (Set.range (fun b : B => (1 : B) * b)) := by
   sorry
 
+-- Unit rescaling preserves the embedded principal Cartier ideal.
+example {B : Type u} [CommRing B] (xi : B) (u : Bˣ) :
+    Ideal.span ({(u : B) * xi} : Set B) = Ideal.span ({xi} : Set B) := by
+  exact Ideal.span_singleton_mul_left_unit u.isUnit xi
+
 -- A unit Cartier equation has zero quotient.
 example {B : Type u} [CommRing B] :
     Subsingleton (B ⧸ Ideal.span ({(1 : B)} : Set B)) := by
