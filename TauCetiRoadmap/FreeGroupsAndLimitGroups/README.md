@@ -9,11 +9,11 @@ The headline targets are: the recursive decidability of satisfiability of system
 This roadmap owns:
 
 - conjugacy, maximal roots and centralizers in free groups, primitive elements, CSA groups and commutative transitivity, with malnormality supplied by Tau Ceti (Layer 1);
-- multigraph walks, connectivity and components, Serre graphs with edge reversal, Stallings graphs and graph criteria for finitely generated subgroups of free groups, with the exact Schreier formula (Layer 2);
+- Serre graphs with edge reversal and adapters to the shared multigraph walk and component API, Stallings graphs and graph criteria for finitely generated subgroups of free groups, with the exact Schreier formula (Layer 2);
 - the language of groups with basis constants, the term–word correspondence and the reduction of quantifier-free formulas and of existential and universal sentences to systems of equations and inequations (Layer 3);
 - graphs of groups, their fundamental groups and Bass–Serre trees, the structure theorem, induced splittings, the Kurosh and Grushko theorems, domination, collapses and Dehn twists (Layer 4);
 - algebraic geometry over groups: G[X], algebraic sets, radicals, coordinate groups, separation and discrimination, domains, the Zariski topology, equational Noetherianity and irreducible components (Layer 5);
-- compact combinatorial surface models, polygonal moves, face presentations, curves and cutting, surface groups with boundary and quadratic equations, regularity, radicals, and quadratically hanging vertices (Layer 6);
+- adapters from shared finite surface maps, polygonal normal forms and face presentations to peripheral groups, curves and cutting, surface groups with boundary and quadratic equations, regularity, radicals, and quadratically hanging vertices (Layer 6);
 - generalised equations, Makanin's finiteness and minimal-solution bounds, recursive truth sets for the existential, universal and positive fragments, and Merzljakov's theorem (Layer 7);
 - fully residually free groups, limit groups, extensions of centralizers, the embedding theorems, finite presentability, and NTQ systems (Layer 8);
 - Lyndon length functions, Λ-trees and free actions on them, infinite words, F^{ℤ[t]} and graphs labelled by infinite words (Layer 9);
@@ -25,14 +25,16 @@ What it builds on, and does not plan again:
 - **Mathlib** (at the Tau Ceti pin) already has the free group with reduced words and cyclic reduction (`FreeGroup.reduce`, `FreeGroup.toWord`, `FreeGroup.IsCyclicallyReduced`, `FreeGroup.reduceCyclically`), torsion-freeness and uniqueness of roots for a fixed exponent (the `IsMulTorsionFree` instance on `FreeGroup α`), free bases (`FreeGroupBasis`, `IsFreeGroup`), the non-constructive Nielsen–Schreier theorem (`subgroupIsFreeOfIsFree`), the Schreier inequality `Subgroup.rank_le_index_mul_rank`, amalgamated products and HNN extensions with their normal forms (`Monoid.PushoutI.NormalWord`, `HNNExtension.NormalWord`, hence Britton's lemma), free products and the ping-pong lemma (`Monoid.CoprodI`, `Monoid.CoprodI.lift_injective_of_ping_pong`, and the free-group form `FreeGroup.injective_lift_of_ping_pong`), presented and finitely presented groups, first-order syntax and semantics with prenex normal form (`FirstOrder.Language.BoundedFormula.toPrenex`), list encodings of terms and formulas, and the computability framework. These are cited, never re-planned. Reduced-word equality and the trivial-word criterion are consumed directly, and syntax encoding and prenex transformations have no second implementation here.
 - **Tau Ceti at the pin** already has malnormal subgroups, as trivial-intersection subgroups: `TauCeti.IsTISubgroup` (TauCeti/GroupTheory/TrivialIntersection.lean), with its lattice form `TauCeti.isTISubgroup_iff_inf_conj_smul_eq_bot`. The CSA condition of Layer 1 is stated with it, and malnormality is not defined again here; RepresentationTheory/CharacterTheory, Layer 8 “Frobenius groups and Frobenius’s theorem,” uses the same notion for finite groups.
 - **Tau Ceti at the pin** supplies free-group residual finiteness, residual p and the sharper Schreier inequality through the exact contracts below. The equality for finite-index free subgroups is Layer 2.
-- **Tau Ceti roadmaps.** Underlying incidence uses pinned Mathlib `Graph`; §§2.1–2.1a own its walks and connectivity comparison. §§6.0a–6.0d own the compact combinatorial surface inputs to §6.1a. AlgebraicTopology, Stages 1 “van Kampen through the fundamental groupoid” and 7 “Euler characteristic and finite decompositions,” and FuchsianOrbifolds, Layer 2 “hyperbolic polygons and cofinite groups,” treat surfaces topologically and geometrically; those layers are not prerequisites here. QH vertices here have hyperbolic surface groups and trivial fiber (§6.10). GeometricTopology, Layer 8 “Thurston geometries and the JSJ / geometric decomposition,” is a different notion from the group-theoretic JSJ decompositions of Layer 10. ProfiniteProPGroups, Layer 4 “free pro-`p` and pro-`C` groups on finite sets,” and PeripheralActions, Layers 0–2 on peripheral systems and the peripheral-power theorem, concern free pro-p groups. ClassifyingSpaces, Stage 2 “the cellular model,” builds presentation complexes and the wedge of circles as a K(F, 1) topologically; the combinatorial fundamental group of §2.2 does not use it.
+- **Tau Ceti roadmaps.** [GraphConnectivityAndFlows, Target 1.1](../GraphConnectivityAndFlows/README.md#11-undirected-walks-isomorphisms-and-representation-bridges) supplies native multigraph walks, connectivity and components; §§2.1–2.1a own the Serre-dart adapter. [SurfaceTopology, Layers 1–2 and 6–7](../SurfaceTopology/README.md) supplies finite surface maps, polygonal normal forms and finite graph/surface edge-path presentations. §§2.2 and 6.0a–6.1a supply the comparisons with Serre paths and marked boundary groups; §6.0d owns their cutting-to-splitting interface. These are item-level inputs, without flow, Menger or mapping-class-group prerequisites. AlgebraicTopology's surface topology and FuchsianOrbifolds' analytic surfaces have different applications. QH vertices here have hyperbolic surface groups and trivial fiber (§6.10); GeometricTopology's geometric JSJ is distinct from Layer 10's group-theoretic JSJ. ProfiniteProPGroups and PeripheralActions concern pro-p groups. [ClassifyingSpaces, Stage 2 item 7](../ClassifyingSpaces/README.md#stage-2-the-cellular-model) supplies presentation complexes and their fundamental-group comparison to §10.1a, hence §10.2 and downstream JSJ consumers; §2.2 is combinatorial and independent of that input. These roadmap contracts are specifications, distinct from the declarations implemented at the library pin.
 
 | Shared mathematics | Owner and supplier contract | Dependency direction |
 | --- | --- | --- |
-| Underlying multigraph incidence | Mathlib `Graph` | §2.1a builds walks, connectivity and components; §2.1 supplies the Serre-dart adapter and component comparison. |
-| Graph edge-path groups, spanning-tree bases and rank | This roadmap, §§2.1–2.2 | §2.2 supplies the one-skeleton groups used by §6.0c. |
-| Compact surface models, vertex links, boundary traversals, polygonal moves and essential two-sided curves | This roadmap, §§6.0a–6.0d | These inputs supply §§6.1a, 6.3, 6.4 and 6.10; the graph theory is independent of them. |
-| Surface-model comparison with presented groups and peripheral subgroups | This roadmap, §6.1a | §§6.0b–6.0c supply the normal forms and face presentations; §6.1a supplies §§6.3–6.4 and §6.10. Quadratic normalization in §6.6 is independent of surface realization. |
+| Underlying multigraph incidence | Mathlib `Graph` | §2.1 supplies the Serre-dart adapter. |
+| Native multigraph walks, connectivity and components | GraphConnectivityAndFlows Target 1.1 | §2.1a consumes this API and proves the Serre comparison; no flow or Menger target is needed. |
+| Finite graph edge-path groups, spanning-tree bases and rank | SurfaceTopology Layer 7, `Graph.edgePathGroup_free` and its spanning-tree presentation | §2.2 compares Serre reduced paths with the shared finite group and extends the theory to arbitrary graphs. |
+| Finite surface maps, boundary maps, polygonal moves and normal forms | SurfaceTopology Layers 1–2 and 6 | §§6.0a–6.0b expose these data for the group applications; §6.0d owns the combinatorial cutting-to-splitting interface. |
+| Surface face presentations and subdivision comparisons | SurfaceTopology Layer 7, `GMap2.edgePathGroup`, `GMap2.edgePathGroup_presentation` | §6.0c compares the shared presentation with Serre paths; §6.1a identifies all marked boundary conjugacy classes in S±(g,m). Quadratic normalization in §6.6 is independent of surface realization. |
+| Presentation complexes and their fundamental groups | ClassifyingSpaces Stage 2.7 (on main), using AlgebraicTopology Stage 1 van Kampen and Stage 4 CW inputs | Stage 2.7 → §10.1a → §10.2 and downstream JSJ consumers; the relative finite-cell construction and track resolution are owned in §10.1a. |
 
 Out of scope (non-goals): the full first-order decision procedure for free groups and everything specific to it — effective reduction of arbitrary formulas to Boolean combinations of two-block formulas, the existential–universal decision trees, MAX-equivalence and the associated algebraic-solution bounds, complete reducing systems of that procedure, induced-NTQ enlargement algorithms, tight envelopes, projective-image and configuration machinery, and termination of the outer quantifier-elimination procedure; also the parametrisation theorem for arbitrary NTQ systems with correcting embeddings, lifts of ∀∃ formulas over arbitrary systems, implicit function theorems for non-regular NTQ systems, and the classification of groups up to elementary equivalence. A separate first-order decidability development may import this library; none of its specialised constructions are hidden prerequisites here.
 
@@ -351,21 +353,23 @@ This interface is used by Layer 2 labelled graphs and Stallings foldings: the un
 
 Use [TREES] Chapter I, §2.1, Definition 1 (graphs with edge reversal), §2.2 (trees): Serre's graphs: vertices, edges, origin and terminus, and a fixed-point-free involution on edges; trees are connected nonempty graphs without circuits.; [FOLD] §2, Convention 2.1, p. 5: The graph underlying a graph of groups: vertices, edges with a fixed-point-free involution e ↦ e⁻¹ and origin and terminus maps with o(e) = t(e⁻¹), loops and multiple edges allowed.; [KM02] §2, Definition 2.1 and Convention 2.2, p. 2: X-digraphs with the formal inverse edges added give the same combinatorics of paths and reduced paths.
 
-*Needs:* Mathlib `Quiver`; Mathlib `SimpleGraph`; Mathlib `SimpleGraph.Dart`; Mathlib `Graph` (Mathlib/Combinatorics/Graph/Basic.lean); §2.1a (multigraph walks and components), for the underlying-graph comparison.
+*Needs:* Mathlib `Quiver`; Mathlib `SimpleGraph`; Mathlib `SimpleGraph.Dart`; Mathlib `Graph` (Mathlib/Combinatorics/Graph/Basic.lean); §2.1a (shared multigraph connectivity and Serre comparison), for the underlying-graph comparison.
 
-### 2.1a Multigraph walks, connectivity and components
+### 2.1a Shared multigraph connectivity and the Serre adapter
 
-For `K : Graph V E`, define `Graph.Walk` from u to w, where u,w belong to K.vertexSet, as a finite alternating vertex–edge sequence starting at u and ending at w, with K.IsLink e v v′ at each step. The empty walk at a vertex is allowed; loops and parallel edge identities are retained. Define `Graph.Reachable` by existence of a walk, `Graph.Connected` by nonempty vertex set and reachability of every pair, and `Graph.component` as the quotient of the actual vertex subtype by reachability. Prove the append and reversal operations, the equivalence-relation laws for reachability, and the component membership criterion. Construct the walk maps for §2.1's adapters and prove `SerreGraph.reachable_toGraph`, including the bijection on components and equivalence of connectedness. A walk lifts after choosing a dart direction at each step; a loop has two choices.
+Consume GraphConnectivityAndFlows Target 1.1's `Graph.Walk`, native reachability, `Graph.Connected` and component subgraphs `Graph.IsConnectedComponentOf`. Its walks are indexed by ambient vertices and allow an empty walk even outside the vertex set; reachability requires actual endpoints. Components are the minimal nonempty closed subgraphs, identified there with `toSimpleGraph.ConnectedComponent`. No new walk, connectivity or component definition is introduced here.
+
+Prove `SerreGraph.reachable_toGraph` and its connectedness and component equivalences on the actual vertex subtypes. The path map retains the sequence of edge identities but forgets the direction of a loop. It is surjective on walks with actual endpoints: choose a dart above each traversal. It is not asserted to be injective or to induce an edge-path-group map by identifying the two loop directions. Group comparisons in §2.2 retain signed oriented edges.
 
 **Checks.**
 
-- In the one-loop bouquet the empty walk and the one-edge walk have the same ends; its vertex is reachable from itself, the graph is connected and has one component. The one-edge walk has two Serre lifts.
-- In the segment the single-edge walk joins its distinct vertices; they lie in one component and the graph is connected. Two parallel edges give distinct walks with those same ends.
-- For two isolated vertices only empty walks exist; the distinct vertices are not reachable, the graph is disconnected and has two components. With no vertices there are no walks or components and connectedness is false.
+- In the one-loop bouquet the graph is connected with one component; its one-edge native walk has two Serre lifts. The loops [e] and [rev e] give opposite, distinct generators of the infinite cyclic reduced path group.
+- The two-vertex graph with two parallel edges is connected with one component in both representations; its two length-one walks remain distinct, and [e,rev f] gives a nontrivial reduced loop.
+- Two isolated actual vertices give two components; the empty graph has none and is not connected. An empty walk at an ambient point outside the vertex set supplies no reachability witness.
 
-Sources: [LEAN] Mathlib/Combinatorics/Graph/Basic.lean (`Graph`, `Graph.IsLink`, vertex and edge sets); [TREES] Chapter I, §§2.1–2.2 (paths and connectivity); [FOLD] §2, Convention 2.1, p. 5 (loops and edge reversal). This roadmap owns the walk and component API on the pinned incidence carrier.
+Sources: GraphConnectivityAndFlows Target 1.1 (native walks, reachability and component comparisons); [LEAN] Mathlib/Combinatorics/Graph/Basic.lean (incidence); [TREES] Chapter I, §§2.1–2.2; [FOLD] §2, Convention 2.1, p. 5.
 
-*Needs:* Mathlib `Graph`; §2.1 (Serre graphs and adapters).
+*Needs:* GraphConnectivityAndFlows Target 1.1 (walks, native connectivity and components only); §2.1 (Serre graphs and incidence adapters).
 
 ### 2.2 Maximal trees exist and the fundamental group of a graph is free
 
@@ -377,11 +381,17 @@ Throughout this subsection assume: Γ connected (for (2), (3)); for (3), Γ fini
 (2) Every reduced closed path factors uniquely as a reduced product of the T-loops of the edges it crosses outside T.
 (3) A finite tree has #E⁺ = #V − 1 (KM02 Lemma 8.2 counts #E⁺(Γ − T)).
 
-For the rose with n petals, T is the vertex and π₁ is free of rank n. For the theta graph (two vertices, three edges) the rank is 3 − 2 + 1 = 2.
+For finite Γ, construct `SerreGraph.edgePathGroup_toGraph`, an isomorphism to SurfaceTopology Layer 7's `Graph.edgePathGroup` on Γ.toGraph, with a chosen orientation of each underlying edge. A Serre dart maps to that oriented edge generator or its inverse, including for a loop. Prove compatibility with concatenation, reversal, spanning-tree generators and inclusions of finite connected based subgraphs. Consume the shared finite freeness/rank and spanning-tree presentation rather than proving a second finite graph theorem. Extend this comparison to arbitrary Γ: every finite path lies in a finite connected based subgraph, and compatible comparisons identify the union of these path groups with the arbitrary Serre path group. Finite connected subgraphs containing all T-paths from the basepoint to their vertices have the restricted T-basis; every finite path is contained in such a finite subgraph.
+
+**Checks.**
+
+- The one-loop rose compares with ℤ, with [e] and [rev e] mapping to +1 and −1; identifying their forgotten native walks cannot define this group comparison.
+- For two vertices joined by two parallel edges the non-tree edge gives one generator; the theta graph gives rank 2 in both models.
+- The segment gives the trivial group in both models; inclusions into an infinite rose preserve every finite set of petal generators.
 
 Use [TREES] Chapter I, §2.3, Proposition 11, and §3.1 (graphs with free fundamental group): Connected graphs contain maximal trees containing all vertices; a group acting freely on a tree is free with basis given by the edges outside a maximal tree of the quotient.; [KM02] §6, Lemma 6.1, p. 12, and §8, Lemma 8.2, p. 20: A spanning tree of a folded core graph gives a free basis of its subgroup, and #E⁺(Γ − T) = #E⁺Γ − #VΓ + 1.
 
-*Needs:* §2.1 (Serre graphs: graphs with edge reversal, loops and multiple edges); Mathlib `FreeGroup`.
+*Needs:* §2.1 (Serre graphs); §2.1a (shared connectivity comparison); SurfaceTopology Layer 7 (finite graph edge-path group and spanning-tree basis/rank); Mathlib `FreeGroup`.
 
 ### 2.3 α-labelled graphs (X-digraphs) and the subgroup they accept
 
@@ -582,7 +592,7 @@ Fold the based bouquet for ⟨a²,b⟩ ≤ F(a,b). The result has two vertices, 
 
 ### Dependencies
 
-This layer consumes Layer 1 and pinned Mathlib incidence. §§2.1–2.1a own the representation comparison; §6.0c consumes §2.2's graph free-basis theorem.
+This layer consumes Layer 1, pinned Mathlib incidence, GraphConnectivityAndFlows Target 1.1 and SurfaceTopology Layer 7's finite graph presentations. §§2.1–2.2 own the Serre comparison and arbitrary-graph extension; §6.0c consumes that comparison.
 
 ## Layer 3: First-order group syntax and solution statements
 
@@ -792,7 +802,7 @@ Prove the following statement. Let 𝔸 be a graph of groups. (1) A nontrivial e
 Construct an action of π₁(𝔸, v₀) on the set of reduced normal-form words relative to transversals of the edge-group images, as Mathlib does for PushoutI and HNNExtension, and check the relations (FOLD Proposition 2.4, Serre I §5.2 Theorem 11).
 (1) and (2) follow because the action sends the empty word to the normal form of the path.
 
-In ⟨a, t | t a² t⁻¹ = a⟩ the path t a t⁻¹ is reduced because a ∉ ω(ℤ) = ⟨a²⟩, so t a t⁻¹ ∉ ⟨a⟩; the path t a² t⁻¹ is not reduced and equals a. For the segment with C → A, C → B the identity maps of a common group, π₁ = A and a reduced path of positive length does not exist.
+In ⟨a, t | t a² t⁻¹ = a⟩ the path t a t⁻¹ is reduced because a ∉ ω(ℤ) = ⟨a²⟩, so t a t⁻¹ ∉ ⟨a⟩; the path t a² t⁻¹ is not reduced and equals a. For the segment with C → A, C → B the identity maps of a common group, π₁ = A and a reduced closed path of positive length does not exist. Crossing the edge once is a reduced path of length one between distinct vertices.
 
 Use [FOLD] §2, Proposition 2.4 (Normal Form Theorem), p. 6: Nontrivial vertex-group elements are nontrivial in π₁; reduced 𝔸-paths of positive length are not equivalent to shorter paths, and equivalent reduced paths share the edge path.; [TREES] Chapter I, §5.2, Theorem 11 and its corollaries: Reduced words in the fundamental group of a graph of groups are nontrivial; vertex groups embed.; [LEAN] Mathlib/GroupTheory/PushoutI.lean (NormalWord, of_injective) and Mathlib/GroupTheory/HNNExtension.lean (NormalWord, of_injective): The one-edge cases are in Mathlib.
 
@@ -1033,7 +1043,7 @@ For the HNN extension ⟨a,b,t | t⁻¹at=a⟩, the associated subgroup is ⟨a�
 
 ### Dependencies
 
-This layer consumes Layer 1, Layer 2. Library suppliers are the declarations specified above; no other roadmap is required.
+This layer consumes Layers 1–2, including the shared graph inputs to Layer 2. Its direct external suppliers are the pinned declarations specified above.
 
 ## Layer 5: Equations, radicals, and algebraic geometry over groups
 
@@ -1330,47 +1340,48 @@ This layer consumes Layer 1, Layer 3. Library suppliers are the declarations spe
 
 Surface groups are given by presentations with their peripheral elements and connected to graphs of groups; quadratic equations, their standard forms, regularity and radicals follow Kharlampovich–Myasnikov, with the low-genus exceptions kept. Quadratically hanging vertices are defined here; rigidity is relative to a splitting family and belongs to Layer 10.
 
-### 6.0a Compact combinatorial surface models
+### 6.0a Shared compact surface models and Serre incidence
 
-Define `SurfaceModel` by a finite Serre one-skeleton and a finite nonempty family of polygonal faces, each with a nonempty cyclic edge traversal. Each unoriented edge occurs in one face side (boundary) or two face sides (interior), counting occurrences. At every vertex form `SurfaceModel.vertexLink` from the incident dart germs and face corners: each corner joins the reverse of its incoming side dart to its outgoing side dart. A circle link is a connected finite graph of degree two, and an interval link is a finite path with distinct endpoints. Require this link to be one circle at an interior vertex or one interval at a boundary vertex, and require the one-skeleton to be nonempty and connected. Repeated vertices and sides in a face are allowed when these link conditions hold. Define `SurfaceModel.boundary` as the boundary-edge subgraph, with its components and cyclic traversals; prove that each component is a circle and that every boundary vertex belongs to exactly one component. Define orientability by a choice of face orientations opposite on each paired interior side, and χ as #V−#E⁺+#faces. These finite models, including their links and boundary traversals, are the compact surface carriers used here.
-
-**Checks.**
-
-- A triangulated disc has interval links on its boundary, circle links at any interior vertices, one boundary traversal, an orientation and χ=1.
-- The torus polygon has a circle link, no boundary components, a coherent orientation and χ=0. The projective-plane polygon has a circle link, no boundary and χ=1, but no coherent orientation.
-- A pair of pants has three distinct boundary cycles with interval links and χ=−1. Identifying vertices from two boundary components produces a disconnected vertex link and fails the surface-model condition.
-
-Sources: [SURFACES] Gallier–Xu, Chapter 6, Definitions 6.1–6.2, pp. 80–83 (face data, vertices and contours); [HATCHER] §2.1 (polygonal and triangulated surface cell structures). The link condition specifies the local surface requirement explicitly.
-
-*Needs:* §§2.1–2.1a (finite incidence, paths and components).
-
-### 6.0b Surface-preserving moves and polygonal normal forms
-
-Define `SurfaceModel.Move` by edge subdivision, face subdivision along a new diagonal, their inverses when both endpoints are surface models, and incidence-preserving relabellings. Require the explicit maps on side occurrences, vertex links and boundary traversals. Prove that each move preserves orientability, χ and a bijection of boundary components. Prove that every connected model has a polygonal normal form: an orientable handle word or a nonorientable square word, followed by c_j p_j c_j⁻¹ for its distinct boundary circles; the sphere uses the polygon e e⁻¹ with its two distinct end vertices. Thus the normal form determines g,m and the orientability type with χ=2−2g−m or χ=2−g−m. Construct the finite move chain and transport of the boundary traversals. Collapsing a spanning tree for a group presentation does not assert that the collapsed complex is a surface model.
+Use `SurfaceModel` as notation for a bundled finite nonempty connected `GMap2` satisfying `IsSurfaceGMap`, supplied by SurfaceTopology Layers 1–2. Use its cell orbits, `GMap2.boundary`, orientability and Euler characteristic; these have one owner. Extract the finite Serre one-skeleton by choosing an orientation of each edge cell and retaining both darts of a loop. `SurfaceModel.boundary` denotes the shared boundary 1-map, with traversals read as Serre paths. Expose `SurfaceModel.vertexLink` as the flag-incidence view of each vertex orbit and prove it is a circle or interval, matching the shared boundary condition. This is an incidence adapter for group applications, not a second surface carrier or classification theorem. Repeated side/vertex occurrences are retained.
 
 **Checks.**
 
-- Subdividing a torus side adds one vertex and one edge pair, preserves circle links, χ=0 and its empty boundary tuple.
-- Splitting a disc face along a diagonal adds one face and one interior edge pair, preserves interval links at its endpoints and its single boundary circle.
-- A pair-of-pants normal form retains three distinct boundary circles joined by connecting arcs; forgetting those arcs in its group presentation leaves three peripheral words, not one boundary component.
+- A triangulated disc has interval links at boundary vertices, circle links at interior vertices, one boundary traversal and χ=1 in the shared and Serre descriptions.
+- The torus and projective-plane polygons retain their circle links; the torus is orientable with χ=0, the projective plane nonorientable with χ=1.
+- The pair of pants retains three boundary components and χ=−1; identifying two boundary vertices without the corresponding flag data cannot produce the same valid model.
 
-Sources: [SURFACES] Gallier–Xu, Chapter 6, Definition 6.3, pp. 84–85; Definition 6.5, pp. 88–89; Lemma 6.1 and Theorem 6.1, §§6.2–6.3, pp. 89–95 (elementary subdivisions, canonical words and classification).
+Sources: SurfaceTopology Layers 1–2 (`GMap2`, `IsSurfaceGMap`, boundary and schema adapters); [SURFACES] Chapter 6, Definitions 6.1–6.2, pp. 80–83; [HATCHER] §2.1.
 
-*Needs:* §6.0a (surface models, links and boundary data).
+*Needs:* SurfaceTopology Layers 1–2 (finite surface maps and polygonal presentations); §§2.1–2.1a (Serre incidence and shared connectivity).
 
-### 6.0c Face presentations and move invariance
+### 6.0b Shared polygonal moves and boundary transport
 
-Define `SurfaceModel.faceGroup` at a base vertex as §2.2's edge-path group of the one-skeleton modulo the normal closure of the face traversals, based by connecting paths. For a spanning tree, prove its presentation by the positive non-tree edges and the based face words. Prove independence of the connecting paths and tree through explicit isomorphisms, and prove that each move of §6.0b induces a group isomorphism carrying the based boundary words to conjugates of the corresponding boundary words or their inverses. Edge subdivision replaces a generator by a product; face subdivision introduces a diagonal generator and one defining relation, so the presentation comparisons are Tietze transformations. This supplies §6.1a without a topological fundamental-group carrier.
+Use SurfaceTopology Layer 6's `SchemaMove` and polygonal normal-form theorem through its Layer 2 schema/map comparison. `SurfaceModel.Move` denotes this shared move relation on schema presentations. The normal forms have orientable handle or nonorientable square words and one hole block for each boundary component, including the sphere's two-sided polygon. The shared theory owns the normal-form existence and preservation of orientability, χ and boundary count. Here track the induced bijections of boundary components and their Serre traversals through subdivisions, inverses and relabellings, for the marked peripheral comparison in §6.1a. A tree collapsed for a group presentation need not remain a surface map.
 
 **Checks.**
 
-- For a disc the face word kills the boundary loop, so the face group and its peripheral subgroup are trivial.
-- For the torus polygon the face group has presentation ⟨a,b | [a,b]=1⟩; a subdivided polygon gives the same group through the product substitution for the subdivided edge.
-- For a pair of pants the group is free on p₁,p₂, with p₃=(p₁p₂)⁻¹ after compatible choices of paths and orientations; the three boundary conjugacy classes remain distinct.
+- Torus-side subdivision replaces the corresponding oriented edge by a product, preserves χ=0 and has no boundary classes to transport.
+- Disc-face subdivision retains its single boundary traversal, including its direction up to the chosen orientation.
+- Pair-of-pants normalization retains three separate boundary traversals and their connecting paths, rather than identifying the three hole classes.
 
-Sources: [HATCHER] §1.2, Proposition 1.26 and the cellular-presentation discussion, pp. 50–52; [SURFACES] Gallier–Xu, Chapter 6, Definition 6.3 and §6.2 (subdivisions and boundary words).
+Sources: SurfaceTopology Layers 2 and 6 (schema comparison and moves); [SURFACES] Chapter 6, Definitions 6.3 and 6.5, Lemma 6.1 and Theorem 6.1, pp. 84–95.
 
-*Needs:* §2.2 (edge-path groups and spanning-tree bases); §§6.0a–6.0b; Mathlib `PresentedGroup` and `Subgroup.normalClosure`.
+*Needs:* §6.0a; SurfaceTopology Layers 2 and 6 (schema moves and normal forms).
+
+### 6.0c Shared face presentations and Serre comparison
+
+`SurfaceModel.faceGroup` denotes SurfaceTopology Layer 7's `GMap2.edgePathGroup`. Consume `GMap2.edgePathGroup_presentation` and its subdivision comparisons. Using §2.2's finite graph comparison, identify this shared group with the Serre one-skeleton path group modulo the normal closure of the based face traversals. Track each boundary traversal through this isomorphism. Choices of connecting paths change a marked boundary element by conjugation, and reversing its orientation inverts it. These comparisons and §6.0b's boundary transport supply §6.1a; the generic finite face-presentation theorem remains owned by SurfaceTopology.
+
+**Checks.**
+
+- For a disc the shared face relation kills the boundary loop in the Serre quotient, giving the trivial group and trivial peripheral subgroup.
+- For a torus the two descriptions give ⟨a,b | [a,b]=1⟩, with the same substitution on subdividing a side.
+- For a pair of pants both descriptions give F(p₁,p₂) with p₃=(p₁p₂)⁻¹; all three marked boundary conjugacy classes are retained.
+- For the projective plane both descriptions give ⟨c | c²=1⟩, rather than the torus group.
+
+Sources: SurfaceTopology Layer 7 (`GMap2.edgePathGroup_presentation` and subdivision comparison); [HATCHER] §1.2, Proposition 1.26, pp. 50–52; [SURFACES] Chapter 6, §§6.2 and 6.6 (subdivisions and edge-path presentations).
+
+*Needs:* SurfaceTopology Layer 7 (face presentations); §2.2 (finite Serre/shared graph comparison); §§6.0a–6.0b; Mathlib `PresentedGroup` and `Subgroup.normalClosure`.
 
 ### 6.0d Essential curves, proper arcs and cutting
 
@@ -1422,7 +1433,7 @@ Use [IFT] §2.7, Definition 3, p. 8: Standard quadratic words of types (1)–(4)
 
 ### 6.1a Surface models, presentations and peripheral comparison
 
-For a finite connected nonempty compact surface model with possibly empty boundary (§6.0a), construct `SurfaceGroup.modelEquiv`: its combinatorial edge-path group modulo face words is isomorphic to S±(g,m), where g, m and the orientability type come from its polygonal normal form. Use a spanning tree in the one-skeleton and §6.0c's face presentation, then §6.0b's surface-preserving moves. Transport each boundary traversal, based by a connecting path, to a conjugate of p_j or p_j⁻¹, bijectively on boundary components. Prove invariance of this peripheral comparison under those moves and subdivisions. A model with several boundaries retains distinct boundary vertices and their links before collapsing the connecting tree; the resulting one-vertex presentation is not itself required to be a surface map.
+For a finite connected nonempty shared surface model with possibly empty boundary (§6.0a), construct `SurfaceGroup.modelEquiv`: its shared `GMap2.edgePathGroup`, identified with the Serre quotient by §6.0c, is isomorphic to S±(g,m), where g, m and the orientability type come from its polygonal normal form. Use a spanning tree in the one-skeleton and §6.0c's face presentation, then §6.0b's surface-preserving moves. Transport each boundary traversal, based by a connecting path, to a conjugate of p_j or p_j⁻¹, bijectively on boundary components. Prove invariance of this peripheral comparison under those moves and subdivisions. A model with several boundaries retains distinct boundary vertices and their links before collapsing the connecting tree; the resulting one-vertex presentation is not itself required to be a surface map.
 
 This group and peripheral comparison uses the surface carrier, vertex links, moves and essential two-sided curves of §§6.0a–6.0d. Cutting along such a curve or proper arc gives the peripheral group identifications used in §6.3. In §6.4, finite coset lifts of the model must preserve the vertex-link condition; their boundary traversals correspond to H-conjugacy classes H∩x⟨p_j⟩x⁻¹, indexed by double cosets. No comparison with a topological fundamental-group carrier is required.
 
@@ -1430,6 +1441,7 @@ This group and peripheral comparison uses the surface carrier, vertex links, mov
 
 - A pair-of-pants model gives F(p₁,p₂), with p₃=(p₁p₂)⁻¹ and three distinct peripheral conjugacy classes; collapsing connecting arcs does not identify its boundary components.
 - The torus polygon gives ⟨a,b | [a,b]=1⟩, and subdividing a side preserves the presented group and χ=0.
+- The projective-plane model compares with S⁻(1,0)=⟨c | c²=1⟩ in both presentations; its nonorientability is retained.
 - A disc model gives the trivial group and trivial boundary subgroup; its boundary map from ℤ is not injective, so it cannot supply a monomorphic cyclic edge in §6.3.
 - A one-vertex relator diagram for a pair of pants cannot replace the surface model in a cover argument unless its actual vertex links and boundary components satisfy the surface-map conditions.
 
@@ -1632,7 +1644,7 @@ For S=[x,y][a,b]⁻¹=1 over F(a,b), x=a,y=b is a solution. The equation is regu
 
 ### Dependencies
 
-This layer consumes Layer 1, Layer 2, Layer 4 and Layer 5; §§6.0a–6.0d own the combinatorial inputs to §6.1a. Its algebraic quadratic normalization does not depend on surface realization.
+This layer consumes Layers 1, 2, 4 and 5 and SurfaceTopology Layers 1–2 and 6–7 through §§6.0a–6.0c. The shared theory supplies the finite surfaces, normal forms and presentations; §§6.0a–6.1a own their Serre and peripheral comparisons and cutting-to-splitting applications. Its algebraic quadratic normalization does not depend on surface realization.
 
 ## Layer 7: Generalised equations, equation solving, and positive formal solutions
 
@@ -2270,7 +2282,7 @@ Embed ⟨a,b,t | [a,t]=1⟩ in F(a,b)^{ℤ[t]} by sending the stable letter to t
 
 ### Dependencies
 
-This layer consumes Layer 2, Layer 4, Layer 8. Library suppliers are the declarations specified above; no other roadmap is required.
+This layer consumes Layers 2, 4 and 8, including their shared graph and surface inputs. Its direct external suppliers are the pinned declarations specified above.
 
 ## Layer 10: JSJ structure and finite solution diagrams
 
@@ -2320,7 +2332,7 @@ For finitely generated torsion-free CSA G and a minimal tree with nontrivial abe
 
 Sources: [GL-JSJ] §2, Proposition 2.17 and Remark 2.18, pp. 26–27, Proposition 2.24 and its proof, pp. 28–30; §7, Proposition 7.12, p. 78; §§8.1.1–8.2, pp. 81–90 (accessibility and Theorem 8.7); §9, Theorem 9.5, p. 91; Appendix A.1–A.3, pp. 109–115 (length functions and real-tree convergence).
 
-*Needs:* §§4.6–4.8 (tree actions and their quotient graphs of groups); §4.12 (refinements and domination); §6.10 (surface QH); §9.2–§9.3 for real trees and length functions; ClassifyingSpaces Stage 2 for presentation complexes, with the relative finite-cell construction and track resolution owned by this target.
+*Needs:* §§4.6–4.8 (tree actions and their quotient graphs of groups); §4.12 (refinements and domination); §6.10 (surface QH); §9.2–§9.3 for real trees and length functions; ClassifyingSpaces Stage 2 item 7 for presentation complexes and their fundamental-group comparison, with the relative finite-cell construction and track resolution owned by this target.
 
 ### 10.2 Existence of abelian and cyclic JSJ decompositions of limit groups
 
@@ -2388,18 +2400,20 @@ The public interface should expose the following named results:
 - `LimitGroup.MRDiagram.IsComplete`: Every homomorphism G → F is a branch composite.
 - `LimitGroup.MRDiagram.IsSound`: Every branch composite is a homomorphism G → F (automatic for homomorphisms) and, for G = F_{R(S)}, a solution of S.
 - `LimitGroup.MRDiagram.modular`: Generators of the modular group of each vertex.
+- `LimitGroup.MRDiagram.IsComponentNormalized`: In the coefficient version for a finite system, the closures of the solution images through individual root children are irreducible and are exactly the distinct irreducible components, with no repeated component. This is additional data, not a consequence of `IsComplete`. The existence theorem of §10.7 requires completeness only; component data are supplied separately by §10.8.
 
 **Checks.**
 
 - `LimitGroup.MRDiagram.inconsistent`: For x²=a over F(a,b), the solution diagram is empty: there are no branches and no solutions, and no F-embedding of its trivial radical quotient.
 - `LimitGroup.MRDiagram.free_root`: For G free, the one-edge diagram G → G (leaf G free) is complete.
+- For the empty one-variable system over nonabelian F, the two root edges F∗⟨x⟩→F∗⟨x⟩ (identity) and F∗⟨x⟩→F (x↦1) form a sound complete diagram. Their images are F and {1}; it fails `IsComponentNormalized`, and maximal-closure extraction returns only F.
 - `LimitGroup.MRDiagram.centralizer`: For S = [x, a] = 1 over F(a,b), the diagram root ⟨F, t | [a, t]⟩ → (identity) the same group with modular generator t ↦ t a → (t ↦ 1) leaf F is F-complete; its composites are exactly x ↦ a^k.
 - `LimitGroup.MRDiagram.need_modular`: For S = [x₁,y₁][x₂,y₂] = 1 over F, the leaf maps without the modular group of the QH vertex S⁺(2, 0) miss solutions: completeness requires precomposing with Mod(G_v).
 - `LimitGroup.MRDiagram.proper_quotients`: Edges below the root are proper epimorphisms; a diagram with an isomorphism edge has a redundant vertex, so the canonical diagrams exclude it.
 
 For the empty system over F (G = F[X]), the one-edge diagram with leaf F[X] and the identity is F-complete: every solution is a specialisation of the leaf. For S = [x, a] = 1 over F(a,b): the root is G = F_{R(S)} = ⟨F, t | [a, t]⟩ (x = t), with one edge (the identity) to a vertex labelled G itself whose modular group is generated by the twist t ↦ t a, and one proper epimorphism t ↦ 1 from it to the leaf F; the composites are t ↦ a^k, exactly the solutions.
 
-This interface is used by Layer 10 finite factorization theorem; Layer 10 irreducible components: the vertices adjacent to the root give the components; Layer 11 parametrisation: fundamental sequences are branches.
+This interface is used by Layer 10 finite factorization theorem; Layer 10 irreducible components: §10.8 extracts maximal irreducible image closures separately from the full cover; Layer 11 parametrisation: fundamental sequences are branches.
 
 Use [JSJ] §11, Theorems 11.1–11.3, pp. 191–194 (stated in the introduction, pp. 93–94): Complete canonical Hom(G, F)- and Hom_F(G, F)-diagrams, for finitely presented G; for a finite system S, the solutions of S in F are exactly the F-homomorphisms of the diagram.; [SELA-I] §5, Definition 5.2, p. 62, Proposition 5.6, p. 67, and Theorem 5.7, p. 68: Modular groups of limit groups (Definition 5.2); every homomorphism to a free group factors, after a modular automorphism, through a maximal shortening quotient (Proposition 5.6); the canonical Makanin–Razborov diagram encodes all homomorphisms to a free group as compositions of modular automorphisms, quotient maps and homomorphisms of free groups (Theorem 5.7).; [IFT] §5.6, Theorems 5–7, pp. 59–61: The solution tree T_sol(Ω, Λ), fundamental sequences, the finite family of NTQ systems covering V(S), and the finite rooted tree describing Hom(G, F).
 
@@ -2419,7 +2433,16 @@ Sources: [JSJ] §11, Theorem 11.3, p. 94 (proved in §11); [IFT] §5.6, Theorem 
 
 ### 10.8 Finite irreducible systems, radicals and NTQ covers
 
-For a finite system S over F, require finite systems S₁,…,S_m representing its unique irredundant irreducible-component decomposition, with finite presentations of F_{R(S_i)}. For irreducible S require finitely many normal generators of R(S). Require also finitely many nondegenerate triangular quasi-quadratic systems U_i and word maps p_i:V(U_i)→V(S) whose images cover V(S) and whose closures are the components. These are finite existence and factorization statements.
+For a finite system S over a nonabelian finite-rank free group F, require finite systems S₁,…,S_m representing its unique irredundant irreducible-component decomposition, with finite presentations of F_{R(S_i)}. For irreducible S require finitely many normal generators of R(S). Require also a finite family of nondegenerate triangular quasi-quadratic systems U_i and word maps p_i:V(U_i)→V(S) with nonempty irreducible images covering V(S). Put C_i=closure(p_i(V(U_i))). The components are exactly the distinct inclusion-maximal C_i; every component is some C_i, while other C_i may be proper subsets of components. Keep the full pointwise cover and the maximal-closure component indices as separate data: closure containment alone does not permit discarding branch images. For V(S)=∅ use empty families.
+
+The finite-cover principle `component_iff_maximal_cover` states: if finitely many nonempty irreducible closed sets C_i cover a closed set Y, its maximal irreducible closed subsets are precisely the inclusion-maximal C_i. A closed irreducible subset of a finite closed cover lies in one member, which proves the extraction statement independently of diagram normalization.
+
+**Checks.**
+
+- For the empty one-variable system, add the constant map x↦1 to the identity cover of F. Both images are irreducible, the cover is complete, and only F is an inclusion-maximal closure.
+- A duplicated identity word map gives two indices with the same closure; the component data contain that component once.
+- For V(S)=∅ there are no NTQ cover members or components; no nonempty irreducible image is introduced.
+- For ⟨a⟩∪⟨b⟩ the two maximal closures are the two cyclic sets; adding their common point {1} changes neither the cover nor the components.
 
 For a finite subsystem of the equations [[x,a],g[x,b]g⁻¹]=1 defining ⟨a⟩∪⟨b⟩ over F(a,b), the two component systems are [x,a]=1 and [x,b]=1. Such a finite subsystem exists by equational Noetherianity.
 
@@ -2445,7 +2468,7 @@ For [x,a]=1 over F(a,b), use a root vertex H=⟨F,t | [a,t]=1⟩, an identity ro
 
 ### Dependencies
 
-This layer consumes Layer 2, Layer 4, Layer 5, Layer 6, Layer 7, Layer 8, Layer 9. Library suppliers are the declarations specified above; no other roadmap is required.
+This layer consumes Layers 2, 4–9 and ClassifyingSpaces Stage 2 item 7 through §10.1a → §10.2 and downstream JSJ consumers. Presentation complexes are specified on main; the relative finite-cell and track-resolution work is owned here. Graph and surface inputs enter through Layers 2 and 6; the remaining external suppliers are pinned declarations.
 
 ## Layer 11: Regular implicit-function theorems over free groups
 
@@ -2601,7 +2624,15 @@ Prove the following statement. Let U(X, A) = 1 be a regular NTQ system over a no
 
 Throughout this subsection assume: U regular NTQ; V compatible with U.
 
-Induction on the number of levels (IFT proof of Theorem 11): build the solution tree of V ∧ U with parameters X = X₁ ∪ ⋯ ∪ X_n; on the top level use §11.5 (Implicit function theorem for regular quadratic equations); lift level by level through the coordinate groups of §8.9.
+Induct on the number of levels using the following tower-family/residual-system contract. Write G_i=F_{R(U_i,…,U_n)} and G_{n+1}=F. At a regular quadratic top level over G₂, compose the solutions supplied by §11.4's basic automorphisms and a G₂-valued solution with generic F-valued specializations of the lower tower. Prove that suitable cofinal subfamilies retain the nontrivial coefficient/atom values, big-power separation and cancellation bounds required by §§11.4a–11.4b. For the closed genus-two exception use §11.4's coefficient enlargement and return to F-valued specializations. The single-level free-base case uses §11.5; discrimination over G₂ alone is not an implicit function theorem over G₂.
+
+Apply the finite cut-equation covering to these composed F-valued families. Obtain a surviving branch, reconstruction expressions for Y in top-level words and residual variables, and a finite residual system Δ over F with lower parameters X₂,…,X_n. Prove compatibility of Δ with the entire lower NTQ system, including lower solutions outside the generic subfamily. Induction supplies residual values in G₂ and reconstruction gives Y in G₁. For a compatible inequation W≠1, choose and retain a subfamily and branch on which W survives; carry the resulting residual nonvanishing condition through the induction and prove W≠1 after reconstruction in G₁. This is the complete-lift assertion; a family that only solves the equations is insufficient. At an empty top level use Merzljakov words with the same residual compatibility and inequation contract.
+
+**Checks.**
+
+- For an entirely empty tower and V: [y,x₁]=1, W:y≠1, compatibility holds even at x₁=1 by choosing a nonidentity y. A formal value y=x₁ is nontrivial in F[X], even though the specialization x₁=1 kills it.
+- For two disjoint genus-two levels and V:[y,x₁]=1, W:y≠1, compatibility holds also when x₁=1. Composed F-valued families preserve x₁≠1 and reconstruct y=x₁ in G₁. The lower coordinate group contains a closed genus-two surface subgroup, so the free-base theorem cannot be applied to it as if it were free.
+- With an empty lower level in z and top equation [x₁,y₁][x₂,y₂]=z, no G₂-valued top solution exists by abelianization; this violates NTQ nondegeneracy before any tower-family argument.
 
 For two disjoint genus-two levels, [x₁,y₁][x₂,y₂]=1 and [u₁,v₁][u₂,v₂]=1, each level has a trivial solution and is regular over its nonabelian lower group, so the theorem applies. By contrast, an empty lower level in z with top equation [x₁,y₁][x₂,y₂]=z is degenerate: z has nonzero abelianization in the lower free product and is not a product of commutators there.
 
@@ -2627,7 +2658,7 @@ For the regular genus-two equation [x₁,y₁][x₂,y₂]=1, z=x₁y₁ solves t
 
 ### Dependencies
 
-This layer consumes Layer 5, Layer 6, Layer 7, Layer 8, Layer 9, Layer 10. Library suppliers are the declarations specified above; no other roadmap is required.
+This layer consumes Layers 5–10, including Layer 10's ClassifyingSpaces Stage 2.7 input and the shared graph/surface contracts of Layers 2 and 6. Its remaining external suppliers are the pinned declarations specified above.
 
 ## Downstream consumers
 

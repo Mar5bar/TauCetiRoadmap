@@ -959,8 +959,21 @@ end layer9
 
 /-! ## Layer 10: JSJ structure and finite solution diagrams
 
-The JSJ and finite-diagram carriers are specified in README.md.
+The JSJ and finite-diagram carriers are specified in README.md. Completeness retains all
+solution branches; `LimitGroup.MRDiagram.IsComponentNormalized` additionally requires the
+distinct component closures at the root. The identity-plus-constant branch cover is complete
+and fails that additional predicate (§10.6).
 -/
+
+/-- A finite closed irreducible cover determines components by inclusion-maximal members
+(§10.8), independently of redundant branches in the full pointwise solution cover. -/
+theorem component_iff_maximal_cover {Z : Type*} [TopologicalSpace Z]
+    {ι : Type*} [Finite ι] (C : ι → Set Z) (Y : Set Z)
+    (hclosed : ∀ i, IsClosed (C i)) (hirr : ∀ i, IsIrreducible (C i))
+    (hcover : Y = ⋃ i, C i) (D : Set Z) :
+    Maximal (fun E : Set Z => IsClosed E ∧ IsIrreducible E ∧ E ⊆ Y) D ↔
+      ∃ i, D = C i ∧ ∀ j, C i ⊆ C j → C j ⊆ C i := by
+  sorry
 
 /-! ## Layer 11: regular implicit-function theorems over free groups -/
 
@@ -1415,8 +1428,11 @@ Stallings folds, cores, `basisWords` and the Stallings
 correspondence; `Term.ofWord`; `GraphOfGroups`, its paths,
 fundamental groups, Bass–Serre trees, `GTree`, the structure theorem,
 induced splittings, Kurosh's theorem and Dehn twists of amalgams; surface QH vertices with
-trivial fiber; `SurfaceModel`, `vertexLink`, `boundary`, `Move`, `faceGroup`,
-`EssentialCurve` and `ProperArc`, with the combinatorial contracts of §§6.0a–6.0d; `SurfaceGroup.modelEquiv` with peripheral comparison; generalised
+trivial fiber; `SurfaceModel` as the bundled shared `GMap2` surface carrier;
+`SurfaceModel.vertexLink` as its flag-incidence view, `SurfaceModel.boundary` as the shared
+boundary map, `SurfaceModel.Move` as the shared schema move relation, and
+`SurfaceModel.faceGroup` as `GMap2.edgePathGroup`; `SurfaceModel.EssentialCurve` and
+`SurfaceModel.ProperArc`, with the cutting-to-splitting contracts of §§6.0a–6.0d; `SurfaceGroup.modelEquiv` with peripheral comparison; generalised
 equations, finite cancellation families, elementary transformation relations with separate
 presentation-group kernel reconstruction and full radical transport, parameter solution trees, cut equations and Makanin's
 finiteness theorem; recursive truth sets for the existential, universal and positive fragments; quadratic and strictly quadratic words, standard quadratic forms, atoms, degeneracy,
@@ -1429,11 +1445,15 @@ positive genus other than [x,y]=1; `MarkedGroup` and its compactness;
 graphs labelled by infinite words; Λ-metric spaces, Λ-trees and free actions on them; JSJ trees and their existence, finite marked Grushko and JSJ graphs, Makanin–Razborov
 factorization diagrams and finite component systems, equations over limit groups; `HasCompleteLift`,
 `IsGenericFamily`, `basicSeq` and its powers; the implicit function theorem for regular NTQ
-systems.
+systems, using §11.6's composed F-valued tower families and compatible residual systems,
+with nonvanishing retained for complete lifts rather than an implicit function theorem over
+arbitrary lower coordinate groups.
 
 The Serre/underlying-graph comparison includes `SerreGraph.toGraph`, `SerreGraph.ofGraph`
-and `SerreGraph.reachable_toGraph`, using §2.1a's `Graph.Walk`, `Graph.Reachable`,
-`Graph.Connected` and `Graph.component`; the Bass–Serre quotient is the base component.
+and `SerreGraph.reachable_toGraph`, using GraphConnectivityAndFlows Target 1.1's `Graph.Walk`, native reachability,
+`Graph.Connected` and `Graph.IsConnectedComponentOf`; `SerreGraph.edgePathGroup_toGraph`
+compares finite signed Serre path groups with SurfaceTopology Layer 7's shared finite graph
+group, retaining opposite loop generators and compatibility with finite subgraph inclusions; the Bass–Serre quotient is the base component.
 `GraphOfGroups.dehnTwistAmalgam_eq_refl_iff` is the central-in-the-right-factor identity
 criterion, alongside the HNN criterion above.
 -/
