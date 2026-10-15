@@ -59,7 +59,10 @@ The roadmap owns:
   to SmoothRepresentationsOfLocalGroups' Frobenius-semisimplified Weil–Deligne parameter,
   the shared linear substrate, monodromy theorem and full construction of §2.4, local Euler factors,
   their finite-image comparison with the adelic convergence factors in §2.5a,
-  the monodromy filtration and purity, and Deligne–Langlands local constants (Layer 2);
+  the monodromy filtration and pair purity, with `WeilDeligneRep.IsWeilNumber` as the canonical
+  shared natural-base scalar predicate, and Deligne–Langlands local constants (Layer 2).
+  The downstream client DeligneWeightsAndPurity §0.19 owns the real-base adapter comparison
+  and the ordinary/graded-purity comparison;
 - the absolute upper-numbering filtration of `G_K`, breaks, Swan and Artin conductors with
   integrality, induction and twist formulas, the conductor of a Weil–Deligne representation,
   global conductors and the prime-to-`p` conductor `N(ρ̄)`, and the behaviour of conductors under
@@ -1697,7 +1700,8 @@ of submodules; the Jordan strings and tensor monodromy target above. *Lean:* `We
 - On `Sp(2)`, `M_{−2} = 0` and `M_{−1} = M_0 = ker N`: the filtration is centred, not the kernel
   filtration indexed from `0`. *Lean:* the first `example`.
 
-**Weights and purity.** Define `WeilDeligneRep.IsWeilNumber q m α` (`α` algebraic over `ℚ` with every
+**Weights and purity.** Define `WeilDeligneRep.IsWeilNumber q m α` as the canonical shared
+natural-base scalar predicate (`α` algebraic over `ℚ` with every
 complex conjugate of absolute value `q^{m/2}`; `q ≥ 2` for the weight to be determined),
 `WeilDeligneRep.IsPureEnd q w φ N` (the eigenvalues of `φ` on `gr^M_a` are `q`-Weil numbers of weight
 `w + a`), `WeilDeligneRep.IsPure r N q w F` on the supplied fields at a geometric lift,
@@ -1706,6 +1710,9 @@ mixed representations (a filtration by sub-objects with pure graded pieces), and
 invariance under Frobenius semisimplification, weights `w + w'` for tensor products, `−w` for duals,
 `w − 2` for the twist by `ω`, and restriction (FSY, §5.3.2, p. 57). *Lean:*
 `WeilDeligneRep.IsWeilNumber`, `WeilDeligneRep.IsPureEnd`, `WeilDeligneRep.IsPure`.
+The local monodromy filtration and pair-purity theory are owned here. The downstream client
+DeligneWeightsAndPurity §0.19 owns the real-base adapter comparison and the
+ordinary/graded-purity comparison.
 
 **Checks.**
 - `Sp(2)` is pure of weight `−1`; `ω` has weight `−2`; the trivial character weight `0`. *Lean:* the

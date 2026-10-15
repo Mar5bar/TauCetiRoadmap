@@ -1423,9 +1423,10 @@ theorem exists_unique_factor_inertiaPadicTameCharacter (K : Type*) [Field K] [Va
 /-! Section 2.3 owns `fundamentalCharacter`, `fundamentalCharacter_pow_p` and
 `cyclotomic_restrict_tameInertia`, including the norm API for local fields with finite residue
 field, together with the rank-two tame
-classification over `ℚ_p`. FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26 supplies the
-extension to arbitrary perfect residue fields and its agreement with this finite-residue API;
-R07.1.27–R07.1.32 supply Raynaud exponent bounds and finite-flat applications. -/
+classification over `ℚ_p`. The downstream FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.26
+consumes this API and owns its extension to arbitrary perfect residue fields and the agreement
+with the finite-residue API; R07.1.27–R07.1.32 own Raynaud exponent bounds and finite-flat
+applications. -/
 
 /-- Over a nonarchimedean local field with finite residue field of characteristic `p`, a semisimple
 continuous residual representation is tamely ramified and inertia acts through a cyclic group
