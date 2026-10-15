@@ -188,14 +188,18 @@ compact graph pieces on the vector field in the C¹ topology; for smoother
 parameter families record the smooth finite-dimensional parameter theorem when the field and
 parameter family are smooth. At the C¹ metric threshold, F0.4 consumes
 only the stated C¹-continuity of compact graph pieces, not differentiability
-of a Banach-C¹ graph assignment. Apply this to −g⁻¹df for C^k metrics and smooth f, and to
+of a Banach-C¹ graph assignment. Apply this to −g⁻¹df for C^k metrics and fixed C^(k+1) f
+with nondegenerate critical Hessian (F0.4), without presupposing smooth
+Morse-coordinate metric germs, and to
 smooth metrics. Prove
 their injectively immersed open-ball parametrizations, tangent eigenspaces,
 flow invariance and local embedded charts; establish the global embedding
 properties used for a Morse gradient, rather than inferring them from a
 local graph. Prove the λ-lemma and the transverse intersection theorem.
-**M.0b Standard metrics.** Consume F0.4 for existence of Morse–Smale
-metrics fixing Euclidean models in chosen disjoint Morse neighborhoods.
+**M.0b Standard metrics.** Consume F0.4's separate C∞ relative theorem
+`smoothRelative_morseSmale_residual`, for fixed smooth f, for existence
+of Morse–Smale metrics equal to the Euclidean models on fixed closed Morse
+balls contained in chart neighborhoods with pairwise disjoint closures.
 All-corner smooth gluing/evaluation below is first constructed for those
 standard-near-critical models. M.5 owns continuation/metric comparison to
 arbitrary smooth Morse–Smale metrics. Do not silently assume a smooth
@@ -274,9 +278,27 @@ chains to Morse chains and D in the reverse direction. Prove
 `overline𝓜(p,r)×overlineD(r)`, the dimension-drop evaluation terms,
 the two chain-map identities and AD=id from the positive constant
 intersection. Construct the compactified forward-orbit homotopy F and
-prove `dF+Fd=DA−id`. Include the quartic-cube truncations, octagon faces
-and relative cobordism chains used to verify these identities. Deduce the
+prove `dF+Fd=DA−id`. The quartic-cube truncations and octagon faces
+test these identities; they are not prerequisites of the generic comparison.
+Deduce the
 integral Morse/singular comparison by these actual maps, with naturality.
+
+For the Euclidean quartic `f=Σ(x_i²−1)²/4` on ℝⁿ, work on the invariant
+cube [−1,1]ⁿ with face-transverse chains supported there. Its captured
+trajectories and all forward-flow spaces stay in that cube; no completeness
+of the flow outside the cube is used. Construct the all-broken
+compactification and its actual evaluation charts using
+`x'=x(1−x²)` and
+`x(t)=sgn(x₀)/sqrt(1+(x₀⁻²−1)e^(−2t))` for nonzero x₀ in (−1,1).
+The rates are1 at0 and2 at±1; these are not M.0b's all-rate2 germs.
+Use `u=log|x|−(1/2)log(1−x²)`, with u'=1, and gluing parameter e^(−T),
+checking integer-power smoothness at both ends. Identify the compactified
+2-cell with the vertex-truncated square (octagon). In dimension3 truncate
+vertices then edges at separated scales, proving the flag-labelled face
+maps: six octagons, twelve quadrilaterals, eight hexagons, 48 vertices and
+72 edges. Prove every face inclusion and its outward-first M.3 sign,
+including iterated flags, and compare them with the A,D,F identities;
+the f-vector alone is not the compactification theorem.
 
 **M.5 Continuation and ordinary Cerf families.** Construct endpoint-fixed function/metric paths and
 admissible parameter vector fields with positive parameter component.
@@ -307,6 +329,78 @@ and the Euclidean metric/flow is transported with them. Prove the local trajecto
 changes at each event. This exact-function theorem uses M.0a/F0 and M.2,
 not MorseNovikov N6. Also construct comparison from standard metrics to
 arbitrary smooth Morse–Smale metrics through these continuation maps.
+
+Construct `largeConstantProductContinuation` as a second realization for
+endpoint-germ-constant paths f_t,g_t on compact X. Extend them constantly
+to an open interval across t=0,1. Put h(t)=(t²−1)²/4,
+F(x,t)=C h(t)+f_t(x), G=dt²+g_t. On a closed inner interval choose C
+larger than sup|∂_t f_t|/min t(1−t²); in the endpoint germs ∂_t f_t=0.
+Thus the negative time component C t(1−t²)−∂_t f_t is positive for
+0<t<1. Prove the endpoint critical/Hessian statements in the open ambient
+product: the time eigenvalue is −C at0 and2C at1, giving index shifts +1
+and0. Prove invariance of the compact slab X×[0,1] and completeness of
+the counted trajectories there, without asserting global completeness
+outside it. Take Morse–Smale endpoint pairs and apply F0.4's
+`smoothSlabPotential_relativeTransversality`: retain the product metric G,
+vary full potentials f_t in the inner slab with fixed whole endpoint germs,
+and preserve the strict scalar inequality by C¹-smallness. This theorem
+includes parameter families and compatible prescribed regular face data;
+slice-wise Morse–Smale is not its conclusion.
+
+For the positive-field comparison, rescale the product field by
+`λ(x,t)=C t(1−t²)/(C t(1−t²)−∂_t f_t(x))`. It is positive, equals1
+in the endpoint germs and has a smooth extension there. The rescaled field
+projects to `a(t)=C t(1−t²)` and has the same oriented unparameterized
+trajectories. Prove the identification of moduli, normal germs and endpoint
+maps. Construct the interval base a and the ordered-triangle base
+`0≤v≤u≤1`, with field `(a(u),a(v))`. Prove face invariance, hyperbolic
+vertex indices2,1,0, and the compact interval of source-to-sink base orbits:
+`U(u)−U(v)∈[0,∞]`, where `U(t)=log t−(1/2)log(1−t²)` and Udot=C.
+Its finite endpoint0 is the direct diagonal edge; infinity is the broken
+pair of the other edges. Construct the actual base charts and regularity.
+This explicit two-dimensional parameter model is constructed here.
+
+Verify regularity of the actual scalar base operators: on a0→1 orbit,
+∂_s−a′(q) has index1, kernel span(qdot) and zero adjoint kernel;
+on a constant coordinate it is ∂_s−C or ∂_s+2C, hence invertible.
+The ordered-triangle base is their direct sum; verify every face tangent
+operator and the positive diagonal normal kernel ray. Construct compatible
+regular edge/face data and their whole regular closed collars, including
+off-face base orbits lying entirely in those collars. Near the diagonal
+use compact openness over all broken face configurations. Near the broken
+two-edge face use M.0a's uniform λ-lemma and M.2's fixed-normal gluing,
+right inverses, Newton correction and uniqueness/onto neighborhoods.
+Use the conditional fixed-normal gradient-like gluing precursor for these
+already-regular face configurations, not the later generic triangle
+comparison. Make all estimates uniform over relevant critical pairs,
+compact broken face strata and auxiliary faces; choose the closed collar
+thicknesses only after these uniform thresholds. Regularity of the base
+normal operator alone does not prove off-face collar regularity.
+Construct nonempty fixed-base lift spaces by spatial patching of the
+given smooth open references. All lift and comparison fields are W_Y=(Y,b)
+for this same b; vary only Y, with the
+specified vertex/face germs fixed. Apply F0.4's separate
+`fixedRegularBaseLift_relativeTransversality`, including its auxiliary
+parameter families. Do not restrict ambient residuality to this closed
+lift space without that theorem's block-triangular proof.
+
+Own `fixedBaseLift_compactifiedComparison`: construct an actual strict
+Lyapunov function Mℓ−f_ext, ℓ=t or u+v. Choose f_ext=f_i on whole
+vertex germs where Y=−grad_(g_i) f_i is independent of q. Bound
+|df_ext(W_Y)| on the compact complement, where ℓdot has a uniform
+positive minimum, and choose M sufficiently large. Prove confinement,
+hyperbolic limits, all broken spaces and the fixed-normal-model
+gradient-like gluing adapter.
+The base orbit interval alone does not prove spatial compactification.
+For the first smooth all-corner construction use M.0b's unhalved models
+and a sufficiently large positive even integer C; retain the separate
+comparison to arbitrary smooth Morse–Smale end metrics. Compare the
+rescaled product and the reference edge by varying spatial components
+with b fixed. Construct the digon/triangle spaces and endpoint maps:
+edge dimensions μ(p)−μ(q), triangle dimensions μ(p)−μ(q)+1. Prove the
+direct, broken-two-edge and ordinary-breaking faces, giving
+∂H+H∂=F_12 F_01−F_02 with the same M.3 outward-first signs. No field
+in these applications silently changes its base projection.
 
 **M.6 Bott trajectories and orientation coefficients.** For a compact
 Morse–Bott function consume MorseTheory M5's normal form and negative bundle ν⁻_C
@@ -400,9 +494,67 @@ Check symmetric and nonsymmetric torus differentials and the
 endpoint-map chain homotopy;
 the reflection mapping-torus/Klein-bottle example with its nontrivial
 negative orientation line and integral homology; and the surgery-sphere
-component differential. Hamiltonian-circle perfection consumes
-ConvexityToric's attachment/equivariant theorem with its actual coefficient
-and invariant-metric hypotheses; prove the compatibility with this complex.
+component differential.
+
+**Invariant regular-current specialization.** For a closed smooth symplectic
+manifold (M,ω), a smooth circle action preserving ω, its fundamental field X
+for the parameter t∈ℝ/(2πℤ), and a smooth real f with df=ι_Xω, assume f is
+Morse–Bott with critical components equal to the fixed components. Supply
+each negative Hessian bundle with any specified complex vector-bundle
+structure on that underlying real bundle. Its complex orientation fixes the
+trivialization of the negative orientation line below, and λ_C is even.
+Suppose an actual invariant
+smooth standard-normal Bott metric has componentwise transverse stable/unstable
+manifolds and all iterated endpoint fiber products transverse. Take the fixed
+transverse geometric/current presentation of M.4/M.7, with moving chains
+transverse to those fixed endpoint maps and all boundary strata, actual
+integral pushforward relations and its ordinary integral homology comparison.
+Do not infer this invariant regular metric from arbitrary metric genericity.
+For a d-dimensional input chain on C, the correspondence to D has dimension
+r=d+λ_C−λ_D−1. Prove the nonzero circle fundamental vector survives the
+translation quotient (df(X)=0 whereas df(−grad f)<0 on each regular level),
+lifts to the source fiber product with the input fixed, and is killed by
+the target derivative since D is fixed. For r=0 this forces the domain empty;
+for r<0 use transversality emptiness; for r>0 tangential rank is <r. Apply
+[GeometricCurrents G2–G3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4ac80e0d32949bb9714b499d7f81622fa86e6919/TauCetiRoadmap/GeometricCurrents/README.md)
+integral rank-drop and twisted-homology theorems, including the compactified
+boundary strata, to prove every nonconstant correspondence pushforward zero.
+This is equality in the specified current presentation, not equality of
+arbitrary raw parametrized chains. Trivialize the negative orientation
+lines by the supplied complex orientations;
+even negative ranks make the internal shift (−1)^λ∂ equal ∂. Export
+`invariantRegularMoment_currentDifferential_eq_boundary` and its integral
+homology consequence, retaining torsion, under precisely these hypotheses.
+
+Construct the obstruction to removing those hypotheses as an explicit compact
+projective surface. Consume [ComplexKahlerGeometry K7.1–K7.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md)'s
+projective affine atlases and normalized Fubini–Study forms, with
+∫_(CP¹)ω_FS=1. In CP²×CP¹ construct the incidence surface
+`B={([z₀:z₁:z₂],[a:b]) | z₀b=z₂a}` and its projection to CP².
+Prove it compact and smooth using the two blowup charts over z₁≠0:
+`z₀=u,z₂=uv,[a:b]=[1:v]` and
+`z₀=sw,z₂=w,[a:b]=[s:1]`; outside [0:1:0] the projection is an
+isomorphism. Identify its exceptional sphere E with CP¹ and prove that the
+restriction of `Ω=2π(π₁*ω_FS,2+ε π₂*ω_FS,1)`, 0<ε<1, is a
+Kähler form, by positivity of the product form on this complex submanifold.
+The circle action is
+`([z₀:z₁:z₂],[a:b])↦([e^(it)z₀:z₁:e^(−it)z₂],[e^(it)a:e^(−it)b])`.
+Prove it preserves B and Ω and verify, with df=ι_XΩ, the actual moment map
+`f=−(|z₀|²−|z₂|²)/(Σ_j|z_j|²)−ε(|a|²−|b|²)/(|a|²+|b|²)`.
+The factors2π and the chosen circle parameter are part of this normalization.
+At E's lower pole `([0:1:0],[1:0])` (u=v=0) and upper pole
+`([0:1:0],[0:1])` (s=w=0), f=−ε,+ε and the (normal,tangent) weights
+are (+1,−2) and (−1,+2); prove both ambient Morse indices are2 from the
+actual Hessian. The other two fixed points have values −1−ε,+1+ε and
+indices0,4. Identify E as a component of the ℤ/2-fixed set. Every invariant
+Riemannian metric makes grad f tangent to E; on E the nonconstant negative
+trajectories connect its upper pole to its lower pole. Thus W^u∩W^s
+contains a real surface although transverse equal-index intersections
+would be zero-dimensional and flow-invariant and hence empty. No invariant
+Morse–Smale metric exists. Point critical components leave no endpoint-moving
+repair. Its integral homology is nevertheless perfect by the even-index
+ordinary Morse attachments. This explicit projective example does not
+construct a generic symplectic-blowup or Hamiltonian-perfection API.
 
 **M.8 Filtrations and bundle comparison.** Consume DGFloer1.3's independent
 filtered-complex algebra. Construct the critical-value filtration and its
@@ -484,6 +636,29 @@ from Mathlib.
    its full vertical/universal linearization and differentiability class.
    Prove the Fredholm/splitting estimates from F1 before applying the
    section IFT; an annihilator-zero calculation alone gives only dense range.
+   For fixed C^(k+1) f and C^k g, k≥1, separately construct the W¹,²→L²
+   trajectory section using a fixed smooth auxiliary metric and connection,
+   independent of g, for its path charts and ∇_t. Choose C⁰-small chart
+   neighborhoods whose ranges stay in specified compact coordinate subsets
+   along the reference path, with uniform asymptotic chart controls. Prove
+   C^k regularity by W¹,²→C⁰ and uniform continuity of derivatives of
+   V=−g⁻¹df through order k on those sets. Its linearization is
+   ∇_t−∇^aux V, with connection/trivialization terms explicit; do not use
+   the exponential chart or Christoffel regularity of a merely C¹ g.
+   Prove exponential asymptotics and the continuous-coefficient
+   asymptotically hyperbolic Fredholm/splitting theorem, including weighted
+   choices below the endpoint spectral gaps. At k=1 these are C¹ path
+   charts/sections, not a license for a high-index Sard–Smale projection.
+   The finite-window proof of item4 owns metric genericity at this endpoint.
+   Construct the reusable finite-dimensional version for bounded continuous
+   matrix coefficients A(s) with hyperbolic limits: ∂_s−A:W¹,²→L² is
+   Fredholm, with closed/split range, adjoint-ODE identification and index
+   dim E^u(A_−)−dim E^u(A_+). Use half-line Green operators for the step
+   limits, finite-dimensional trace matching and compact coefficient
+   perturbations; construct the local compact-inclusion estimate. Include
+   weights below the limiting spectral gaps. This target does not impose
+   self-adjointness or a derivative of A, and does not redefine F1's
+   self-adjoint spectral-flow or CZ conventions.
 3. Construct universal zero sets and the regular-parameter projection,
    prove closed/split range and the kernel/cokernel/index comparison with
    the native `parameterProj` linear model. Prove surjectivity by localized
@@ -497,15 +672,158 @@ from Mathlib.
    functions, choose ℓ≥k+r+1, and prove C^k universal-section/projection
    regularity with this derivative budget before applying Sard–Smale.
    The low C¹ metric theorem in item4 uses finite-window arguments instead.
-4. For fixed smooth Morse f prove Morse–Smale metrics residual in C^k
-   positive metrics for every integer k≥1. Supply smooth approximation,
-   finite-window transversality openness in C¹ and the countable Baire
-   argument needed to reach this threshold; do not apply a high-index
-   Sard–Smale theorem directly at k=1. Prove the relative fixed-normal-model
-   version consumed by M.0b. For M.5's endpoint-parameter theorem vary
-   the full function/metric path or a horizontal lift with fixed endpoint
-   germs; metric variation along an arbitrary fixed function path alone
-   is not assigned this genericity conclusion.
+4. **Fixed finite-regularity Morse function.** Let X be a compact smooth
+   Hausdorff second-countable boundaryless manifold, k≥1 an integer, and f
+   a fixed C^(k+1) function whose critical points have nondegenerate Hessian.
+   Use native finite-order `ContMDiffRiemannianMetric` for C^k metrics; the
+   hypotheses on f are stated separately, since native `IsMorse` includes
+   smoothness. Prove `fixedFiniteRegularity_morseSmale_residual`: the metrics
+   making all stable/unstable intersections transverse contain a countable
+   intersection of C¹-open dense sets in the C^k metric Banach cone.
+   Consume item1's finite-atlas C^k tensor Banach space, norm equivalence
+   and completeness. Prove its separability and second countability and
+   the C¹-continuity of compact stable-graph pieces and finite-time
+   level-hitting maps used by this proof.
+   No prescribed smooth Morse-coordinate metric germs are part of this
+   finite-regularity theorem: finite-order Morse coordinates can lose a
+   derivative. All-corner compactification remains in M.0b's smooth branch.
+   Compare this direct proof with item3's alternative universal-section
+   route where its Sard–Smale budget holds. The proof here does not consume
+   that route; item3 also supplies the surface and Bott genericity inputs.
+
+   Construct density by regular-level flow slabs. Put α=−df and, off the
+   critical set, a=α(V)>0 for V=−grad_g f. In C^(k+1) f-adapted coordinates
+   τ=f(x₀)−f, normalize Y=V/a=(1,B). Approximate only the transverse C^k
+   coefficient B by a smooth one in a smaller slab, with cutoffs retaining
+   τ-velocity1. Its inner smooth Euclidean flowbox, transported back through
+   the C^(k+1) coordinate map, has C^k differential. For an endpoint C^k
+   diffeomorphism h close to id use the explicit displacement isotopy
+   h_τ(z)=z+ρ(τ)(h(z)−z). Prove its inverse is C^k and its generator
+   Z_τ=ρ'(τ)(h−id)∘h_τ⁻¹ is C^k, with support and all C^k estimates.
+   Construct h by straightening the C^k target level trace, smoothing only
+   the source parametrization, applying smooth finite-dimensional Sard to
+   translations against a linear plane, and pulling back the endpoint map.
+   In graph coordinates use the compactly supported cutoff map
+   `h(x,y)=(x,y+χ(x,y)(b′(x)−b(x)))` to extend the core displacement.
+   Its C¹-smallness gives an ambient C^k diffeomorphism. Do not extend by
+   a normal/tubular projection of a C^k trace. Treat finitely many graph
+   charts inductively, preserving earlier compact cores by C¹-openness.
+   This proves local trace transversality at k=1 without applying high-order
+   Sard–Smale to the unchanged low-C^k function.
+
+   Transport the resulting Y' with α(Y')=1 and put V'=aY'. Realize it by
+   the actual C^k metric
+   `P'w=w−α(w)V'/α(V')`,
+   `g'(w,z)=g(P'w,P'z)+α(w)α(z)/α(V')`.
+   Prove symmetry, positivity, g'(V',w)=α(w), recovery g'=g where V'=V,
+   C^k dependence and compact support in the regular slab. Positivity of
+   α(V') and the finite-order coordinate differential are explicit premises.
+   Control incoming/outgoing compact traces causally, not entire noncompact
+   stable manifolds. Enumerate stable-graph compact cores, bounded hitting
+   windows and regularity margins using countably many metric neighborhoods
+   and rational data. Prove their transversality sets C¹-open and dense.
+   Choose graph-valid parameter neighborhoods C¹-open and take countably
+   many closed C¹-metric subballs inside them, intersected with the C^k
+   cone, whose interiors cover those neighborhoods. Globalize with their
+   complements and the local good sets. The resulting sets are C¹-open
+   and C^k-dense; apply Baire in the C^k metric cone.
+
+   Construct compact-source C∞ function and symmetric-tensor section
+   spaces, on X and compact W with boundary, as the projective limits of
+   item1's finite C^j Banach jet norms. Prove compatibility with native
+   smoothness (within charts at a boundary), completeness, metrizability
+   and separability. At boundary charts prove finite-order jet closure
+   by passing segment FTOC identities to uniform jet limits on convex
+   closed half-boxes and convex corner (orthant) boxes, recovering their
+   within-set derivatives. Use
+   native `contMDiff_infty` (∞ is all finite orders) to identify the
+   projective-limit smooth carrier. Open-domain derivative-limit lemmas
+   do not prove this boundary step; no common smooth extension or Seeley
+   theorem is a premise. Prove positivity open already in C⁰. Fix a smooth
+   global background metric realizing the prescribed models; construct
+   one by positive local patching for the chosen disjoint model sets.
+   Constraints of equality on specified closed Morse balls and closed
+   collar subregions are closed affine subspaces. Prove their positive
+   cones Baire as open subsets of these complete Fréchet spaces.
+
+   Separately prove `smoothRelative_morseSmale_residual` there, with
+   approximation in every prescribed finite list of seminorms, for fixed
+   smooth f. Fix Euclidean metrics on closed Morse-coordinate balls
+   contained in chart neighborhoods with pairwise disjoint closures.
+   Steering occurs outside those fixed balls. This is the
+   relative smooth theorem used by M.0b and M.5; it is not
+   obtained by intersecting a finite-C^k residual set with the smooth subspace.
+   Include compact smooth cobordisms ∂W=W₀⊔W₁ with a smooth Morse
+   function f:W→[0,1], W₀=f⁻¹(0), W₁=f⁻¹(1), no boundary critical
+   points, and fix the background metric on specified closed boundary
+   subcollars and on the closed critical balls above. Their chart
+   neighborhoods have disjoint closures and lie away from those subcollars.
+   Perturb only in interior regular-level slabs disjoint
+   from those fixed loci. Construct the closed affine Fréchet space of such
+   fixed-collar tensors and its open positive cone; prove the same
+   compact-trace dependence, interior density and countable Baire theorem
+   there. Use partial flows on the boundaryless interior for the local
+   steering; no complete boundaryless cylindrical extension is assumed
+   in this genericity theorem.
+
+   Own `smoothSlabPotential_relativeTransversality` separately. For compact
+   parameter P of dimension d≤2 (point, interval, square or triangle),
+   take smooth families f_(p,t),g_(p,t) on a neighborhood of P×[0,1], with
+   Morse–Smale endpoint pairs and compatible already-regular parameterized
+   face families. On static auxiliary-face collars require data constant
+   in the face-normal parameter coordinates, or ambient parameterized
+   regularity throughout the whole closed collar. Fixed germs mean
+   equality on specified closed time/face
+   subcollars inside given open smooth reference neighborhoods, not an
+   unspecified shrinking neighborhood.
+   Construct the fixed-germ C∞ family spaces as closed affine subspaces
+   of compact-source Fréchet spaces; given open-neighborhood reference
+   data and perturbations supported away from all fixed collars provide
+   their ambient extension model. For one uniform C keep G_p=dt²+g_(p,t)
+   product and F_p=C h+f_(p,t), h(t)=(t²−1)²/4, requiring
+   C t(1−t²)−∂_t f_(p,t)>0 for 0<t<1.
+   Allow full potential variations δf_(p,t)(x) in the inner free slab,
+   small enough to preserve that inequality; spatial metric variations
+   alone along an arbitrary fixed function path are not the argument.
+   Prove universal split surjectivity using perturbations zero on an
+   injective trajectory arc with arbitrary normal gradient, and the
+   adjoint identity d_s⟨w,γdot⟩=0, whose endpoint value is0. Consume the
+   closed-range/Fredholm theorem before the universal section IFT. For
+   each window of fiber index≤N choose k≥N+d+1 and ℓ≥k+r+1 at Sobolev
+   order r, prove actual regularity and apply high-budget Sard–Smale.
+   Prove smooth density in every prescribed finite list of seminorms by
+   smooth finite-dimensional perturbations, compact-trace openness and
+   a direct countable C∞ Baire argument. Export residual parameterized
+   transversality, relative to all prescribed faces, for d=0,1,2. Do not
+   infer C∞ residuality by intersecting a residual finite-C^ℓ subset.
+
+   Own `fixedRegularBaseLift_relativeTransversality` separately, with
+   an actual finite-dimensional compact invariant base (Q,b) whose
+   hyperbolic vertices, directed Lyapunov function, connecting-trajectory
+   operators and face normal collars are supplied and regular. Consider
+   only W_Y=(Y,b): all variations are spatial/horizontal. Fix specified
+   closed whole vertex/face subcollars inside given smooth open reference
+   data, with Morse–Smale vertex fields. These collars cover all base
+   and auxiliary parameter faces. Require every trajectory lying
+   wholly in the fixed closed vertex/face/auxiliary collars, including
+   off-face base orbits, to be already regular as an ambient parameterized
+   solution. Static auxiliary-face data must be normal-constant extensions
+   of regular face data, or already regular on the whole closed collar.
+   Construct the nonempty fixed-germ Fréchet lift spaces. Every remaining
+   trajectory meets the open free region along a once-visited base arc,
+   by the fixed-region cover and the directed base Lyapunov function.
+   Its derivative is block
+   triangular with blocks L_X,B;0,L_b. Horizontal variations kill the
+   spatial adjoint component; adjoint-ODE uniqueness makes it zero
+   globally, and actual surjectivity of L_b kills the base component.
+   Consume item2's full finite-dimensional closed/split-range theorem
+   before IFT. Prove residual parameterized transversality inside this
+   fixed-base space for auxiliary parameter dimensions0,1,2, relative
+   to the prescribed regular whole auxiliary collars, with the same high finite
+   derivative budgets and direct smooth compact-window Baire proof.
+   This theorem assumes the stated regular base and face data; M.5
+   verifies the scalar base and constructs its applications afterward.
+
 5. Build the regularity-loss comparisons for the surface/strip universal
    Cauchy–Riemann section and finite C^ℓ almost-complex families, including
    compact supports and relative parameter restrictions. Prove the Banach
@@ -513,13 +831,30 @@ from Mathlib.
    are independent of Sobolev completion. Carry the explicit N,r,k,ℓ
    inequalities into each genericity theorem.
 6. Prove the C^k closed-return genericity theorem for general vector
-   fields on a compact manifold: residual nondegeneracy of periodic
+   fields on a compact smooth boundaryless manifold, for each integer k≥1:
+   residual nondegeneracy of periodic
    orbits and their iterates in each bounded-period window, with the
    equilibrium/short-period exclusion, flow-box parameter variations,
    countable intersection and continuation of isolated returns. State
    k and regularity loss explicitly. Compare its fixed-point signs with
    MorseNovikov N5's specialized closed-one-form theorem; the latter does
    not itself give genericity for arbitrary vector fields.
+
+   Independently of item6's return theorem, for noncompact Morse
+   applications require the actual hypotheses of
+   MorseTheory M2's compact bands and of the chosen chain-support model.
+   Properness and a lower bound are distinct: f=x on ℝ is proper but not
+   bounded below and has no critical points, while H₀(ℝ;ℤ)=ℤ;
+   f=arctan(x)+π/2 is bounded below but nonproper and also has no critical
+   points. Its sublevels are empty for a≤0 and noncompact for every a>0
+   (the whole line when a≥π). Even proper,
+   bounded-below f=x²+x⁴ with the complete Euclidean metric has negative
+   gradient trajectories escaping in finite backward time. Prove the
+   required compact-band finite-time confinement or rescale to an actually
+   complete pseudo-gradient, and specify direct-limit/locally-finite support
+   and relative comparisons before any global homology assertion. Local
+   Morse attachments assert none
+   of these extra global hypotheses.
 
 7. For fixed smooth Morse–Bott f on a closed manifold, construct the
    C^ℓ metric Banach space with fixed standard normal models near the
@@ -885,13 +1220,17 @@ with boundary versions from Oh and Floer–Hofer–Salamon:
       normal form, root-of-unity exclusion or simple-branch isolation.
    Deduce the somewhere-injectivity results through F2.6b's factorization.
    Construct Oh's boundary-injectivity for totally real boundary separately.
-3. **Compactness** (MS Chapter 4): first prove the mean-value inequalities,
-   monotonicity and finite-Dirichlet-energy puncture-removal theorem under
-   compact-image/uniform-geometry hypotheses, including smooth extension
-   and its elliptic regularity. Then construct **Gromov compactness for strips/disks with totally real
-   boundary under energy bounds**, bubbling into trees of disks and spheres. ⚠ No
-   Deligne–Mumford, no varying-domain stable maps: fixed genus-zero domains only;
-   resist the general theory.
+3. **Compactness** (MS Chapter4, including Theorem4.1.2, Lemmas4.3.1/4.3.4/4.5.1 and Exercises4.5.2/4.5.5). Construct interior and boundary mean-value/ε-regularity estimates, monotonicity, and finite-Dirichlet-energy puncture removal on almost complex manifolds of real dimension2n, under compact-image and uniform geometry hypotheses. Supply a smooth symplectic form ω taming J on a neighborhood of the fixed compact target-image set K. At boundary punctures use a native `SmoothEmbedding` i:L→M with closed image, and the native `TauCeti.IsMaximalTotallyReal` condition pointwise on `i.tangentRange`. Compare it with dim_ℝL=n and TL⊕JTL=TM|L through the native complement/finrank API. Require all boundary images in a specified compact K_L⊂L, with uniform smooth geometry on fixed neighborhoods; compact L is the case K_L=L. Include Lagrangian boundary as a specialization; the maximal totally real branch does not require ω|TL=0.
+
+   Construct a smooth auxiliary J-Hermitian metric making JTL orthogonal to TL and with vanishing Levi-Civita second fundamental form near K_L. Consume [HopfRinow Layer1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6e6a8ebc5fccd49a207365df0f9e74923f6bcae2/TauCetiRoadmap/HopfRinow/README.md#layer-1-the-geodesic-equation-the-flow-and-the-exponential-map)'s Levi-Civita regularity and pullback/along-curve differentiation, and [RiemannianGeometry R1/R5a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a510f3b35e793d6656bbe22c6a986e7e183f1174/TauCetiRoadmap/RiemannianGeometry/README.md#r5a-immersion-geometry-and-first-variation)'s curvature and second fundamental form, with DG's metric/partition calculus. Own the two-parameter pullback-connection adapter, torsion-free identity ∇_t u_s=∇_s u_t, and chart energy/curvature calculation here. Use adapted submanifold coordinates and local metric jets, patched by cutoffs whose derivatives in JTL vanish along L. Prove Δw≥−c w² and zero normal derivative of w=|u_s|²=|du|²/2. Reflect the scalar density evenly and prove the boundary mean-value estimate.
+
+   Construct the tube adapter from GT Layer1's general-ambient orthogonal tube for an initial smooth metric g₀ with TL⊥JTL. Prove `(tangentRange)ᗮ=J(tangentRange)` by orthogonality and maximal dimension. Retain GT's zero-section derivative, smooth inverse and positive radius function; restrict to a uniform compact core over K_L. Use its native `RiemannianBundle`/`IsContMDiffRiemannianBundle` and compatible `IsRiemannianManifold` length/edist comparison. On this J-normal tube put β_(y,ν)(ζ)=−g_L(J⁻¹ν,dπ ζ), ν∈JT_yL. Prove β vanishes on the zero section, dβ tames J after shrinking the core, and |β|≤C dist(·,L). Consume the native linear Liouville pairing/sign; this analytic primitive is constructed on the supplied normal tube.
+
+   For a finite-energy punctured half-disc, boundary mean-value makes all small semicircle arc lengths tend to0 and places the tail in the tube core, since its arc endpoints lie in K_L. Stokes on punctured half-annuli, with β|TL=0 and vanishing inner-arc action, gives E(u;B_r∩H)≤c length(u(r e^(iθ)))²≤c′rE′(r). Construct the integration adapter from DG5.6's Green identity on inset regions and C¹ limits at each nonpunctured boundary arc. Derive power decay E≤Cr^(2μ) and |du|≤Cr^(μ−1), for some μ>0, hence du∈L^p for some p>2. Radial lengths and angular diameters give a continuous limit, with boundary value in closed L. In one target chart the bounded map and L^p derivatives give W^(1,p) on the open half-disc, distributional CR equation there, and the Sobolev trace agrees with its continuous L-valued values on the straight edge. Construct the trace/chart comparison with F1.2's weak boundary-bootstrap formulation and obtain smooth extension and the extended CR equation.
+
+   Include finite-regularity versions with explicit derivative budgets: for each integer m≥3, smoothness through C^(m+2) of J and the auxiliary metric and C^(m+3) of the embedded boundary data suffices for a C^m extension, under the same energy/compact-image conditions and C³ regularity of the original solution up to the nonpunctured edge. In the scalar reflection step retain at least C³ for u and C² for J/metric. The smooth-data case gives a smooth extension. Construct the interior removal branch using the supplied taming form and uniform compact-image localization of its short-loop action/monotonicity estimates. Prove the plane/sphere and half-plane/disc end identifications on the same fixed-domain carriers.
+
+   Then construct Gromov compactness for strips/discs with maximally totally real boundary under energy bounds and these compact-image/uniform-geometry hypotheses, bubbling into trees of discs and spheres. Prove the rescaling, boundary charts and named estimate/removal comparisons before using the bubble conclusion. The domain scope is fixed genus-zero surfaces.
 4. **Transversality** (MS Chapter 3; Floer–Hofer–Salamon for strips): universal
    moduli spaces over Banach spaces of `J`'s, Sard–Smale via somewhere-injectivity.
 5. **Gluing** (Schwarz's model, then MS Chapter 10): pregluing, uniformly bounded
@@ -1399,6 +1738,52 @@ Only then identify G₀ with the identity component. For the full group,
 compute the intersection/area-preserving integral H₂ actions as identity
 and swap, realize swap by factor exchange and prove the split homotopy
 comparison with `(SO(3)×SO(3))⋊ℤ/2`.
+
+#### F2.7 Compact Lagrangians and forced holomorphic discs
+
+For n≥1 and a nonempty compact smooth embedded boundaryless Lagrangian L in standard ℂⁿ, construct a nonconstant standard-holomorphic disc u:(D,∂D)→(ℂⁿ,L), smooth up to its boundary. Prove existence with boundary in each nonempty connected component of L. The domain is the fixed parametrized closed unit disc; no automorphism quotient is taken.
+
+Use native `SmoothEmbedding`, with the dimension-n real manifold model for L and pointwise isotropy expressed by `mfderiv`, transported by `NormedSpace.fromTangentSpace ℝ`. Prove this agrees with isotropy of the native `tangentRange`. Transport that
+range into the doubled-real model and prove equivalence with native
+`stdSymplecticForm.IsLagrangian` using the dimension-n hypothesis and
+`SymplecticForm.IsIsotropic.isLagrangian_of_finrank`; include the range
+finrank and orthogonal-complement comparisons. Under the real-linear identification (x,y)↦x+iy, prove `stdSymplecticForm(v,w)=Im⟨v,w⟩_ℂ=ω₀(v,w)`, where ω₀=Σdx_j∧dy_j, J₀=i and the real Euclidean inner product is Re⟨·,·⟩_ℂ. Include the differential of this identification. Orient D by ds∧dt and its boundary counterclockwise; set |du|²=|u_s|²+|u_t|². The operator below is 2∂bar in F1.2's convention. Put α=(1/2)Σ(x_jdy_j−y_jdx_j); construct dα=ω₀ and d(i*α)=0 from the standard linear differential-form and native Liouville comparison before the energy calculation.
+
+1. **Boundary mapping spaces and index.** Consume [GeometricTopology Layer1's smooth Euclidean tubular diffeomorphism](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c0916c297392b21d768393a41296bfe37bd633ac/TauCetiRoadmap/GeometricTopology/README.md), including its smooth inverse, projection to L, and positive uniform radius for compact L. Composing the inverse tube with its base projection gives a smooth retraction near i(L), with r_L∘i=id; its restriction supplies smooth lifts of boundary maps to L. Do not identify the native quotient normal-space construction with this tube theorem.
+
+   Construct the boundary-adapted local-addition adapter and W^(1,p) mapping-space charts, p>2, in the component of constant maps. Use the smooth tube retraction r_L and smooth orthogonal projections P_T(y),P_N(y). For q=i(y)+ν in a small tube put y′=r_L(i(y)+P_T(y)v) and
+   `B(q,v)=i(y′)+P_N(y′)(ν+P_N(y)v)`.
+   Prove B(q,0)=q, and J_q=D_v B(q,0) is Id for q∈i(L), hence invertible on a smaller tube. Normalize to B(q,J_q⁻¹v), whose v-derivative at0 is Id throughout that tube. Blend with q+v by a smooth base cutoff equal to1 near i(L); prove the resulting addition has an open zero-section domain and that (q,v)↦(q,A(q,v)) is a diffeomorphism onto a neighborhood of the diagonal. Prove, for q∈i(L) and small v, A(q,v)∈i(L) iff v∈T_q i(L), by invertibility of the nearby normal projection restricted to N_yL. Expose trace compatibility, chart inverses and transitions, and smooth evaluation at a fixed boundary mark. Consume F1.1's Sobolev trace/Nemytskii estimates and F0's Banach-manifold floor. For each component of L use the open-and-closed mapping-space part whose boundary lies there, rather than construct a new component embedding. Inherit second countability of L from its embedding into ℂⁿ before applying the tube supplier.
+
+   For a real-valued H(λ,z,w) define the section `S(H,λ,u)=u_s+i u_t−∇_w H(λ,z,u)`. Derive all map/Hamiltonian/parameter derivatives and the totally-real boundary linearization. Consume F1.4's single Maslov construction and homotopy invariance to give the constant relative class A₀ index μ(A₀)=0, and F1.5's bordered Riemann–Roch to give fixed-λ Fredholm index n and parameterized index n+1. For integers r≥2, k≥n+2 and ℓ≥k+r+2, prove the section W^(r,p)→W^(r−1,p) is jointly C^k, including boundary charts and the target-gradient derivative. Compare W^(1,p) solutions and these completions by F1.2's linear and nonlinear boundary regularity before invoking Sard–Smale.
+
+2. **Forcing and image bounds.** Put R=max_(x∈L)|i(x)| and C=2R; prove R>0 from the positive-dimensional embedding and nonemptiness. Fix |a|>C. Begin with H_base(λ,z,w)=λ Re⟨a,w⟩_ℂ, so ∇_w Re⟨a,w⟩_ℂ=a. Keep H(0,z,w)=0, H(1,z,w)=Re⟨a,w⟩_ℂ and H(λ,z,w)=λ Re⟨a,w⟩_ℂ for |w|≥C, with smooth extensions across the parameter endpoints.
+
+   Consume [DG5.6.3's oriented circle Green identity](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7cbc544831e6063849b44772fb2912d1779634af/TauCetiRoadmap/DifferentialGeometry/README.md#layer-56-greens-theorem-for-planar-regions-and-curves). Apply it componentwise on discs D_r with r<1, where u is smooth on a neighborhood, and pass to r→1 using C¹ continuity up to the boundary. F1.1's W^(r,p) embedding for r≥2,p>2 and F1.2's bootstrap supply that regularity. This radial-limit adapter uses the open discs and the stated boundary continuity. If u_s+i u_t=a with u(∂D)⊂i(L), the identity on D_r is `πr²a=r∫₀^(2π)e^(iθ)u(re^(iθ))dθ`; hence `πa=∫₀^(2π)e^(iθ)u(e^(iθ))dθ` and |a|≤2R. Thus the λ=1 solution space is empty. Where |u|>C the forcing is constant, so u is harmonic and |u|² is subharmonic. The boundary has |u|≤R<C; use [PDE Lane C.13's weak maximum principle](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6e6a8ebc5fccd49a207365df0f9e74923f6bcae2/TauCetiRoadmap/PDE/README.md#lane-c-maximum-principles-and-potential-theory) on each positive superlevel component to prove |u|≤C everywhere. The exclusion estimate uses radius R, while the image estimate uses radius C.
+
+3. **Energy and fixed-disc compactness.** Consume native `SymplecticForm.stdComplexLineEnergyDensity_sub_two_mul_symplecticForm` and the `stdComplexLineEnergy` integral carrier. Instantiate the density identity with the real differential and the forcing equation, and prove the finite-integrability comparison with its real integral; retain signed symplectic area rather than the native integral of its positive part for arbitrary differentials. Derive the square-completion identity `(1/2)∫_D|du|²=∫_D u*ω₀+(1/2)∫_D|∇_w H(λ,z,u)|²`. The same DG5.6.3 radial-limit adapter gives ∫_D u*ω₀=∮_(∂D)u*α. The boundary loop is null-homotopic in L in the constant relative class. Apply DG8.4’s factorization of closed-form periods through singular H₁ to i*α to obtain area0; no smooth extension of a mapping-space homotopy is presumed. The image bound and bounded forcing therefore give uniform energy. Extend F2.3's fixed-domain rescaling construction to these inhomogeneous sections: the bounded forcing tends to zero after interior or boundary rescaling. A derivative blowup produces a nonconstant standard-holomorphic plane or half-plane, with the compact-image and uniform totally-real geometry hypotheses retained. Use F2.3's interior and boundary puncture-removal theorem to obtain a sphere or disc bubble. Spheres in ℂⁿ are constant by exactness/Stokes and the holomorphic energy identity; also give the coordinate maximum-principle proof.
+
+   Under the contradiction assumption that no nonconstant disc with boundary in the chosen component exists, prove compactness without bubbling in the original parametrized solution space. For a fixed smooth H obtain smooth convergence up to the boundary. For H varying in nearby bounded C^ℓ families, prove the finite-order W^(r,p) compactness and continuous operator dependence needed for openness of transversality. No varying-domain compactification is used.
+
+   At λ=0 area0 and the holomorphic energy identity imply all solutions are constant. Prove their real-boundary ∂bar linearization is onto with kernel T_xL and boundary-mark evaluation the identity on that kernel. Thus the combined derivative (section,evaluation) in the map variable is an isomorphism. This endpoint calculation precedes the family construction below.
+
+4. **Perturbations, duality and smooth regular families.** Under that contradiction assumption, first apply compactness and item3's endpoint linearization to the base family. Choose 0<δ<1/4 so the endpoint collars are already regular near0 and have no solutions near1, uniformly for sufficiently small perturbations. Fix C′=3R/2 and the compact convex product `K=[δ,1−δ]×Metric.closedBall (0:ℂ) 2×Metric.closedBall (0:EuclideanSpace ℂ (Fin n)) C′`.
+
+   Regard E=ℝ×ℂ×EuclideanSpace ℂ (Fin n) as a finite-dimensional real normed space, with the target factor's Euclidean norm retained under scalar restriction. Package K as a native compact set. Use the existing `ContDiffMapSupportedIn E ℝ ℓ K` carrier and its native derivative sup seminorms. Construct a designated Banach norm synonym whose norm is the maximum of those seminorms for0≤j≤ℓ, with the identity linear homeomorphism to the native topology; do not introduce a competing function carrier or global topology. Prove completeness by uniform convergence of all derivatives and closedness of support in K, and separability by the derivative embedding into a finite product of C(K,V_j). Construct the fixed-support finite-C^ℓ smooth-density adapter here, using native ContDiffBump and convolution ingredients: contract support toward an interior point of the convex K, then mollify inside the resulting margin and prove convergence of derivatives through ℓ. The native smooth compact-open approximation theorem alone is not this finite-C^ℓ result. All functions are global, so this construction assumes no extension theorem on a domain with corners. Add these perturbations to H_base in a small norm ball; the endpoint and exterior data remain fixed. Choose the endpoint collars overlapping the support boundary so that all remaining nonregular parameters lie in (δ,1−δ).
+
+   Run the annihilator argument first at W^(1,p)→L^p, with dual exponent q. A boundary value has |u|≤R<C′; continuity gives an open interior collar with |u|<C′. At an interior point of this collar arbitrary domain-dependent Hamiltonian gradients, supported near (λ,z,u(z)) inside K, span the target. Use F1.2's adjoint identification and interior unique continuation to annihilate the cokernel on the whole connected disc. The independent z variable allows this for multiply-covered maps. Instantiate F0.3's generic closed/split-range lemma for a Fredholm map-linearization plus the bounded Hamiltonian-variation operator: the quotient by the closed map range is finite-dimensional, and the preceding annihilator computation gives surjectivity onto it. F0.3 supplies the bounded finite-complement lifting/right inverse and split universal kernel. This application owns the Hamiltonian computation and the transfer to W^(r,p) by boundary regularity, not another generic splitting lemma.
+
+   Apply F0's Sard–Smale theorem with the preceding C^k budget to the projection from the universal solution manifold to this separable Hamiltonian space. Use uniform no-bubbling compactness to prove regularity is open in a sufficiently strong finite-C^ℓ norm. Smooth density within that open regular set gives a smooth regular family. Do not infer smooth genericity by intersecting a finite-C^ℓ residual set with C∞.
+
+5. **Evaluation and the endpoint contradiction.** Use item3's endpoint computation. Construct the smooth (n+1)-dimensional solution manifold for 0<λ<1 by the Banach implicit-function theorem. For a regular value x₀ of its boundary-mark evaluation into the chosen component of L, construct its one-dimensional constrained manifold using native `levelSetChartedSpace`/`isManifold_levelSet` for the combined (S,ev) map in each Banach chart, with the section bundle trivialized and evaluation in a chart of L. Own the local-to-global input adapter: use the total native chart maps and bundle trivializations to write a total ambient formula agreeing with (S,ev) on its open chart domain, then extend that formula by a constant different from the specified level value outside that domain, and retain all level-set germs and pointwise smooth/strict-derivative hypotheses. The native theorems require those hypotheses only on their level set. This adapter introduces no extra level points. Finite-dimensional Sard applies with the stated k budget.
+
+   Build the boundary chart at (0,constant x₀) directly: the combined derivative of section and evaluation in the map variable is an isomorphism. The parameterized implicit-function theorem over an open λ interval gives a unique curve u=U(λ); restricting it to λ≥0 supplies a half-interval chart. There is no λ=1 endpoint. Assemble the interior charts and this endpoint chart into `ChartedSpace (EuclideanHalfSpace 1) Z` and `IsManifold (𝓡∂ 1) ∞ Z`: transport interior one-dimensional vector charts into the open half-space and prove all interior–interior transitions and their smooth transitions with the IFT chart, where λ is a coordinate with derivative1. Give Z its solution-subspace topology, inherit Hausdorffness and metrizability, and derive second countability from compact metrizability. Use compactness and the unique λ=0 point to confine all λ-small constrained solutions to the IFT neighborhood. Identify the intrinsic boundary with {(0,constant x₀)} and give its collar by λ. This constructs the actual compact boundary-manifold carrier needed below, without assuming a general boundary regular-value theorem.
+
+   Consume [AT Stage6.3's canonical twisted relative fundamental class and outward-first boundary formula](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a02281f3e7b8eff55495b3458fe266e43818f4d8/TauCetiRoadmap/AlgebraicTopology/README.md), together with Stage2.3/2.6's pair exact sequence and coefficient-system naturality, and Stage6.1/6.3's coefficient-change comparison. In this application reduce the integral orientation local system to constant ℤ/2 by sending either local orientation generator to1; prove compatibility with transport and the boundary identification. This sends [Z,∂Z] to its mod2 relative class, whose connecting image is the sum of boundary point generators. Pair exactness gives i_*∂[Z,∂Z]=0 in H₀(Z;ℤ/2), whereas the single point maps to1 under total-coefficient augmentation. Derive the contradiction. This application constructs that coefficient reduction and count, consuming the existing fundamental class; it does not introduce a second generic degree or one-manifold classification theory.
+
+6. **Periods and exact Lagrangians.** For α=(1/2)Σ(x_jdy_j−y_jdx_j), prove dα=ω₀ and d(i*α)=0. The DG5.6.3 radial-limit Stokes identity of items2–3 and positive holomorphic area give `∫_(∂D)u*α=∫_D u*ω₀>0`. Lift the smooth boundary loop to L using the smooth tube retraction of item1. Consume [DG8.4's integration map on singular homology and DG8.5's normalized de Rham comparison](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7cbc544831e6063849b44772fb2912d1779634af/TauCetiRoadmap/DifferentialGeometry/README.md#layer-8-the-de-rham-theorem), on AT's existing singular carriers. The nonzero period proves both that this loop has nonzero real H₁ class and that [i*α]≠0 in de Rham H¹. Export nonzero real H₁ for each component.
+
+   Define exactness by i*α=dF for a smooth real F on L and deduce that no nonempty compact embedded exact Lagrangian exists in ℂⁿ. DG6.2's star-convex Poincaré lemma (using DG5.4's homotopy operator) on ℂⁿ proves this condition is independent of the primitive of ω₀. Identify `StrongDual ℝ (EuclideanSpace ℝ (Fin n))` with its Euclidean vector space by `InnerProductSpace.toDual`. With native cotangent coordinates (q,p)=(x,y), λ_can=Σy_jdx_j and ω_can=−dλ_can, prove α=−λ_can+(1/2)dΣx_jy_j and ω₀=ω_can. Thus (q,p)↦q+ip is symplectic for the native cotangent sign convention. The course primitive Σx_jdy_j differs from α by (1/2)dΣx_jy_j and has the same periods.
 
 ### Lane F3: Lagrangian Floer homology, exact case
 

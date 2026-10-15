@@ -7,6 +7,7 @@ import TauCeti.Geometry.Manifold.Morse.Basic
 import TauCeti.Geometry.Manifold.Morse.Index
 import TauCeti.Topology.Compactification.OnePoint.ProjectiveLine
 import TauCeti.Topology.Algebra.Matrix.ProjectiveSpecialLinearGroup
+import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
 
 /-!
 # Heegaard Floer homology, analytically: target signatures
@@ -30,6 +31,16 @@ and Floer constructions are specified in the README; their missing types
 and connecting APIs are themselves roadmap targets.
 The scalar spectral-flow sign checks below are actual differential identities;
 they do not supply the L² domain, Fredholm theorem or cokernel classification.
+
+The ordinary Lane M/F0 construction targets include
+`fixedFiniteRegularity_morseSmale_residual`, `smoothRelative_morseSmale_residual`,
+`largeConstantProductContinuation` and
+`invariantRegularMoment_currentDifferential_eq_boundary`, together with the
+explicit quartic face maps and compact-projective invariant-metric obstruction.
+The declarations below do not assert these global theorems. The finite-Ck theorem
+has arbitrary Ck metrics; fixed smooth normal models belong to the separate C∞
+relative theorem. Its product-slab and fixed-base-lift family extensions
+are also README construction targets, with fixed face data and explicit genericity.
 -/
 
 namespace TauCetiRoadmap.HeegaardFloer
@@ -295,5 +306,77 @@ theorem sphereAut_existsUnique_map_triple (x y z : OnePoint ℂ)
   sorry
 
 end ClosedSphereAutomorphisms
+
+section ForcedLagrangianDisc
+
+open scoped InnerProductSpace
+
+/-- Compact embedded Lagrangian disc theorem in standard complex Euclidean space.
+The model dimension and pointwise isotropy encode the half-dimensional Lagrangian condition.
+The smooth embedding is the native carrier, with no private embedding predicate. -/
+theorem exists_nonconstant_holomorphic_disc_in_component
+    {n : ℕ} (hn : 1 ≤ n)
+    {L : Type*} [TopologicalSpace L]
+    [ChartedSpace (EuclideanSpace ℝ (Fin n)) L]
+    [IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) ∞ L]
+    [T2Space L] [CompactSpace L]
+    (x₀ : L)
+    (i : TauCeti.SmoothEmbedding
+      𝓘(ℝ, EuclideanSpace ℝ (Fin n))
+      𝓘(ℝ, EuclideanSpace ℂ (Fin n)) ∞ L (EuclideanSpace ℂ (Fin n)))
+    (hisotropic : ∀ (x : L)
+      (v w : TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x),
+      (inner ℂ
+        ((NormedSpace.fromTangentSpace (𝕜 := ℝ) (i x))
+          (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n))
+            𝓘(ℝ, EuclideanSpace ℂ (Fin n)) i x v))
+        ((NormedSpace.fromTangentSpace (𝕜 := ℝ) (i x))
+          (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n))
+            𝓘(ℝ, EuclideanSpace ℂ (Fin n)) i x w))).im = 0) :
+    ∃ u : ℂ → EuclideanSpace ℂ (Fin n),
+      ContDiffOn ℝ ∞ u (Metric.closedBall 0 1) ∧
+      DifferentiableOn ℂ u (Metric.ball 0 1) ∧
+      (∀ z ∈ Metric.sphere (0 : ℂ) 1,
+        u z ∈ i '' connectedComponent x₀) ∧
+      ∃ z ∈ Metric.ball (0 : ℂ) 1, ∃ w ∈ Metric.ball (0 : ℂ) 1, u z ≠ u w := by
+  sorry
+
+
+/-- Compact embedded Lagrangian disc theorem in standard complex Euclidean space.
+The model dimension and pointwise isotropy encode the half-dimensional Lagrangian condition.
+The smooth embedding is the native carrier, with no private embedding predicate. -/
+theorem exists_nonconstant_holomorphic_disc
+    {n : ℕ} (hn : 1 ≤ n)
+    {L : Type*} [TopologicalSpace L]
+    [ChartedSpace (EuclideanSpace ℝ (Fin n)) L]
+    [IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) ∞ L]
+    [T2Space L] [CompactSpace L] [Nonempty L]
+    (i : TauCeti.SmoothEmbedding
+      𝓘(ℝ, EuclideanSpace ℝ (Fin n))
+      𝓘(ℝ, EuclideanSpace ℂ (Fin n)) ∞ L (EuclideanSpace ℂ (Fin n)))
+    (hisotropic : ∀ (x : L)
+      (v w : TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x),
+      (inner ℂ
+        ((NormedSpace.fromTangentSpace (𝕜 := ℝ) (i x))
+          (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n))
+            𝓘(ℝ, EuclideanSpace ℂ (Fin n)) i x v))
+        ((NormedSpace.fromTangentSpace (𝕜 := ℝ) (i x))
+          (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n))
+            𝓘(ℝ, EuclideanSpace ℂ (Fin n)) i x w))).im = 0) :
+    ∃ u : ℂ → EuclideanSpace ℂ (Fin n),
+      ContDiffOn ℝ ∞ u (Metric.closedBall 0 1) ∧
+      DifferentiableOn ℂ u (Metric.ball 0 1) ∧
+      (∀ z ∈ Metric.sphere (0 : ℂ) 1, u z ∈ Set.range i) ∧
+      ∃ z ∈ Metric.ball (0 : ℂ) 1, ∃ w ∈ Metric.ball (0 : ℂ) 1, u z ≠ u w := by
+  classical
+  let x₀ : L := Classical.choice ‹Nonempty L›
+  obtain ⟨u, huC, huD, huB, huN⟩ :=
+    exists_nonconstant_holomorphic_disc_in_component hn x₀ i hisotropic
+  refine ⟨u, huC, huD, ?_, huN⟩
+  intro z hz
+  rcases huB z hz with ⟨x, hx, hix⟩
+  exact ⟨x, hix⟩
+
+end ForcedLagrangianDisc
 
 end TauCetiRoadmap.HeegaardFloer
