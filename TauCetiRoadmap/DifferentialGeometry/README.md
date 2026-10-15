@@ -74,8 +74,11 @@ instead of inheriting the book's:
   `Within`, `extDerivWithin_pullback` applies on `range I` for every model, and chart signs are
   precisely what makes orientation work with boundary or corners (`Set.Icc x y` is orientable; a
   positive-Jacobian atlas for it does not exist).
-- **Layers 3–4 (flows, Frobenius) are for boundaryless `M`** (`[BoundarylessManifold I M]`);
-  Mathlib's local integral-curve statements are used at interior points as stated.
+- **Two-sided flows (3.1–3.5) and Frobenius (4) are for boundaryless `M`**
+  (`[BoundarylessManifold I M]`); native local flow statements are used at
+  interior points as stated. Layer3.6 separately constructs strict inward
+  fields and forward semiflows on every finite-dimensional real model with
+  corners; 8.3 consumes them for smoothing.
 - **Layer 5 is stated for the half-space model.** Its boundary is a manifold (Tau Ceti's
   `isManifold_boundary`), and Stokes reads `∫_M dω = ∫_{∂M} ι^*ω`. ⚠ For a genuine model with
   corners the boundary is *not* a manifold: the boundary of `[0, ∞)²` admits no smooth structure
@@ -87,7 +90,7 @@ instead of inheriting the book's:
   `integralTopForm` itself (5.2) is defined over any model, since the boundary is null; only Stokes
   needs the face structure. Boundary-orientation signs are recomputed for Mathlib's half-space,
   never transcribed from [Lee].
-- **Where corners would otherwise appear, they are avoided.** Homotopy invariance (6.3) uses a
+- **Homotopy and simplex integration do not need corner Stokes.** Homotopy invariance (6.3) uses a
   directly proved cochain-homotopy identity on `M × [0, 1]` — a manifold with corners when `M` has
   boundary — instead of Stokes on it, and the de Rham theorem (8.4) uses a self-contained Stokes
   formula for the standard simplex. Nothing in layers 6–12 depends on 5.5.
@@ -397,7 +400,80 @@ Geometric Topology.
   flows and the canonical form for commuting fields [Lee, Thm. 9.44, 9.46], and Lie derivatives of
   forms via flows [Lee, Thm. 12.37]. *Acceptance:* constant fields flow by translation, the rotation
   field of `ℝ²` by rotation.
-- **3.5 Time-dependent flows** (`exists_timeDependentFlow`) [Lee, Thm. 9.48].
+- **3.5 Time-dependent flows** [Lee, Thm. 9.48]. For an open time slab
+  `J : TopologicalSpace.Opens ℝ` and a smooth time-dependent field on `↥J × M`,
+  build the maximal two-time flow by suspending to the autonomous field `(1,X)`.
+  Use the open-submanifold and product atlases of `↥J × M`. First build the
+  finite-dimensional specialization directly from the native autonomous maximal
+  flow on this suspension: `isOpen_timeDependentFlowDomain_of_finiteDimensional`
+  and `contMDiffOn_timeDependentFlow_of_finiteDimensional`. Its flow-law,
+  inverse and extension adapters likewise consume the native finite-dimensional
+  laws, independently of 3.1's Banach ODE theorem. The general Banach specialization uses the
+  3.1–3.2 Banach smooth-dependence/open-domain extension. Prove open maximal
+  domain, joint smoothness in initial point and both times, identity,
+  two-time composition, inverse partial diffeomorphisms, restriction/naturality,
+  and the compact-time escape criterion. On finite-dimensional Hausdorff
+  boundaryless manifolds, a trajectory remaining in a compact subset through
+  a compact time interval inside J extends through that interval; compact M
+  gives global flow on every such interval. The two-time domain is the open
+  subset of `J × J × M`, in the order `(t,s,x)`, where the suspended solution through `(s,x)` exists
+  at elapsed time `t−s`; its M component is the requested flow. Keep the existing
+  `exists_timeDependentFlow` as the independent C¹ Banach local target on
+  ℝ×M, proved via 3.1; it is not asserted to follow from the C∞ slab theorem.
+  For a disconnected open J, the maximal domain stays within the connected
+  time component of its initial time, as the suspension domain requires.
+  HeegaardFloer F2.1 uses the full finite-dimensional specialization,
+  including its compact-time extension, smooth dependence on both time
+  variables and initial point, and restriction/naturality. SBC B5 consumes
+  this same finite-dimensional specialization.
+
+- **3.6 Inward fields and forward semiflows.** For every finite-dimensional
+  Hausdorff σ-compact real smooth manifold with corners, construct a smooth
+  strictly inward field and its forward semiflow. Consume native
+  `I.convex_range`, `I.nonempty_interior` and `I.isClosed_range` and write
+  C=range I. The strict inward cone at x∈C consists of v with some ε,δ>0
+  such that `ball(x+tv,εt)⊆C` for 0<t<δ. An interior anchor q supplies
+  q−x by `(1−t)x+t ball(q,ε)⊆C`. Prove convexity, positive rescaling,
+  and openness over C with uniform ε,δ for initial points in a relative
+  neighborhood. Prove transport under C¹ chart changes using invertible
+  within-derivatives, the chain rule and quantitative inverse estimates on
+  the shrinking interior balls, with a retained radius margin. No finite
+  face decomposition or ambient extension is assumed.
+
+  Glue local anchor fields by native
+  `exists_contMDiffSection_forall_mem_convex_of_local`, taking each
+  convex fiber subset to be the strict inward cone. Prove the within-C¹
+  local semiflow theorem for a field on C∩U, U open: choose a ball
+  B(x₀,ρ)⊂U, initial points in C∩B(x₀,ρ/2), and a common time so all
+  path balls stay in the convex C∩B(x₀,ρ). Use the closed path space
+  `γ(t)∈closedBall(x+tX(x),εt/2)` on a common short interval, Picard
+  invariance/contraction, bounded within-derivatives and convex-domain
+  mean-value/Gronwall estimates. Uniqueness gives chart compatibility.
+  Obtain higher joint within-smoothness inductively from the variational
+  system `(x,A)↦(X(x),DX(x)A)` on `C × L(E,E)`, whose strict inward
+  cone is `cone_C(x) × L(E,E)`; include higher multilinear derivatives and
+  uniform compact-parameter estimates. Prove positive-time interior entry
+  and its persistence by the quantitative strict-inward/first-exit argument.
+
+  Construct maximal forward times and the forward escape lemma: a
+  trajectory remaining in a compact set up to finite maximal time extends
+  past it. Build a smooth proper nonnegative exhaustion f using native bump
+  coverings/partitions, and rescale by `1/(1+(Xf)²)` so `|Xf|≤1/2`.
+  Compact sublevels and the escape lemma give global forward existence.
+  Native `ModelWithCorners.isInteriorPoint_iff_of_mem_atlas`,
+  `isOpen_interior` and `isInteriorPoint_iff_isInteriorPoint_val` give the
+  intrinsic open interior N=`I.interior M` with its inherited model I and
+  boundaryless atlas. Obtain second countability from σ-compactness and
+  chart countability, then σ-compactness of N from local compactness.
+
+  With j:N→M and r(x)=Φ(1,x), define `H(t,x)=Φ((1−t)²,x)` on ℝ×M.
+  Joint within-smoothness and the nonnegative time substitution prove
+  smoothness on this all-real domain. Thus H0=jr and H1=id; it preserves
+  N at every t and restricts to rj~id_N. Construct this actual
+  `InwardDomination` data. This layer owns the inward cone, field and
+  semiflow; GeometricTopology retains collar product neighborhoods,
+  collar embeddings and their uniqueness. A semiflow alone is not a
+  collar for a general convex model. Layer8.3 consumes the domination.
 
 ### Layer 4: distributions, Frobenius and leaves
 
@@ -835,13 +911,70 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   Nothing is built here.
 - **8.3 Smooth chains.** `SmoothSimplex` via `SmoothOnSubset` (⚠ local extendability is the
   definition), `smoothBoundary`, `smoothSingularChainComplex`, and the inclusion `smoothToSingular`
-  into Tau Ceti's real singular chains are defined on a charted space. The smoothing theorem
-  [Lee, Thm. 18.7] requires `[IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
-  [FiniteDimensional ℝ E]`: relative Whitney approximation gives
-  `exists_smoothSimplex_homotopicRel`, then `smoothing` and both chain homotopies under the same
-  hypotheses. Smooth simplices are closed under the simplicial operators, so the smooth chains
-  may be implemented as the chains of a sub-simplicial set of `TopCat.toSSet.obj M`, as Tau Ceti's
-  small chains are.
+  into Tau Ceti's real singular chains are defined on a charted space. Construct:
+  - **Boundaryless smoothing.** For a finite-dimensional T2 σ-compact smooth
+    target with `BoundarylessManifold I M`, construct compatible local smooth
+    extensions of face data in boundaryless charts by inclusion–exclusion
+    over vertex-adapted coordinate projections, which map the simplex to
+    its faces. Prove agreement on intersections and extend in target chart
+    coordinates; this step need not stay in a boundary target. Relative Whitney
+    approximation gives `exists_smoothSimplex_homotopicRel`, then the face
+    induction constructs `smoothing` and its two chain homotopies. The strict
+    face-fixing statement has this boundaryless hypothesis; separate face
+    smoothness does not give that statement for targets with boundary.
+  - **Smooth prisms and transfer.** Construct chain homotopies for jointly
+    smooth homotopies H:ℝ×M→M; composing with a smooth simplex extension
+    gives each prism its local extension. For smooth maps j:N→M and
+    r:M→N, where N has the boundaryless smoothing comparison, and a specified
+    jointly smooth homotopy jr~id_M, put
+    `s_M = r_singular ≫ s_N ≫ j_smooth`. Prove both chain-homotopy inverse
+    identities using pushforward naturality and the specified smooth prism
+    on smooth chains. On continuous chains consume native
+    `TopCat.Homotopy.singularChainComplexFunctorObjMap`, given by
+    `H.toSSet.chainComplexMap (ModuleCat.of ℝ ℝ)`, after restricting the
+    continuous homotopy to the unit interval.
+    Construct the actual inverse and homotopies, including the inclusion's
+    generator equation. An additional rj homotopy is not needed for this
+    domination-transfer statement.
+  - **Inward domination.** Consume3.6's actual open intrinsic interior,
+    its boundaryless/Hausdorff/σ-compact instances, smooth r and j, and
+    all-real homotopy H from jr to id. Apply the boundaryless transfer.
+    The generic `smoothing` and both inverse homotopies are defined from
+    this transfer, retaining every finite-dimensional real model with corners.
+  - **Scope and naturality.** State the direct strict face-fixing lemma only
+    for boundaryless targets. Construct the final chain equivalence for
+    every T2 σ-compact finite-dimensional real smooth manifold over
+    any real model with corners by the inward route, as well as transfer
+    for any explicit boundaryless smooth domination data. Keep the generic
+    chain and integration carriers unchanged. Apply the general uniqueness
+    up to chain homotopy of an inverse to compare inward choices and deduce
+    naturality on homology/cohomology from the natural inclusion: if s,t
+    are inverses to i, whisker and compose the inverse homotopies to obtain
+    `s~s≫i≫t~t`. Construct this general chain-homotopy lemma. Construct
+    `smoothRelativeChains(M,U)` as the quotient by the smooth chains of
+    the open U, with its exact sequence and boundary formula. For open pairs,
+    apply the absolute construction on M and U and use these exact pair-quotient
+    sequences. Dualize the smooth relative quotient and compare it to
+    Tau Ceti's actual `TopPair.singularCochainComplex` via
+    `TopPair.singularCochainComplexShortComplex`; use the dual inclusion
+    and the five lemma for this relative cochain quasi-isomorphism. Over ℝ
+    construct the relative chain comparison and its homotopy inverse by
+    degreewise cycle/boundary splittings, compatibly with the dual map. An inward deformation need not preserve every open at once.
+  Smooth simplices form a sub-simplicial set of `TopCat.toSSet.obj M`; use
+  its native chain construction and retain the alternating face signs.
+  On the half-line `𝓡∂ 1`, the quadrant `modelWithCornersEuclideanQuadrant 2`
+  and the closed square `Icc(0,1)×Icc(0,1)` with model
+  `(𝓡∂ 1).prod(𝓡∂ 1)`, construct the comparison and identify H₀ with ℝ
+  by total coefficient; every point cycle maps to1. In degree0 verify that
+  `deRhamEquiv` sends the class of constant1 to the singular class evaluating
+  to1 on every point cycle.
+
+  As a negative example without the boundaryless hypothesis, on Δ³ put
+  `s=x+y+z`, `q=x²+y²+z²−(3/2)(xy+yz+zx)` and
+  `σ=χ(s) max(q,0)` into the half-line, where χ is a nonnegative smooth
+  cutoff equal to1 near0 and0 for s≥1/2. Prove each face locally extends
+  smoothly into the half-line but no smooth simplex has these exact faces:
+  the forced2-jet gives `τ(r,r,r)=−(3/2)r²+o(r²)<0`.
   Construct pushforward `SmoothSimplex.map` and `smoothChainMap` under smooth
   maps by pointwise composition, with identity/composition, face/boundary and
   generator formulas. The inclusion sends `single σ a` to coefficient a on
@@ -870,14 +1003,20 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   its bottom edge dualizes `smoothChainMap` by the native `linearYonedaFunctor`.
   Prove identity/composition, component equations and agreement of
   `H(deRhamComplexMap)` with the existing `deRhamCohomology.map`.
-- **8.5 The de Rham theorem.** `deRhamEquiv` for T2 σ-compact finite-dimensional `M`
-  [Lee, Thm. 18.14], by the reusable **Mayer–Vietoris induction principle**
+- **8.5 The de Rham theorem.** `deRhamEquiv` for T2 σ-compact finite-dimensional M
+  with every real model with corners as in8.3 [Lee, Thm. 18.14]. Prove the boundaryless
+  theorem by the reusable **Mayer–Vietoris induction principle**
   `mayerVietoris_induction` — ⚠ whose hypotheses include countable disjoint unions, because
   cohomology does not commute with increasing unions — run over convex opens of `ℝⁿ` and then over
   charts, never through geodesic convexity; it consumes layer 7 and 8.1's cochain Mayer–Vietoris
   sequence. Multiplicativity, that `deRhamHom` carries the wedge to the cup product, is this
   roadmap's theorem, stated against Stage 6's cup product once that is in the dependency; no cup
-  product is defined here. *Acceptance:* `circleLoop` is a smooth cycle with `∫ dθ = 2π` over it
+  product is defined here. Transfer the comparison to the stated real corner
+  models using 8.3's inward maps, smooth homotopy invariance from 6.3
+  (adapt H:ℝ×M by `(x,t)↦H((t:ℝ),x)` on M×Icc0,1, with the native
+  smooth swap and interval inclusion), and the
+  normalized integration/restriction square of 8.4. Prove agreement and
+  naturality with that same normalized map. *Acceptance:* `circleLoop` is a smooth cycle with `∫ dθ = 2π` over it
   (`circleLoop_integral_circleAngularForm`), and `deRhamHom [dθ] ≠ 0`.
 
 ### Layer 9: Poincaré duality
@@ -904,6 +1043,24 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   place); `IsRegularPoint`, `IsRegularValue`.
 - **10.2 Sard.** `IsNullSet` through charts, `isNullSet_image_criticalPoints` and
   `dense_isRegularValue` from Tau Ceti's flat theorem [Lee, Thm. 6.10-style].
+  Own its sharp finite C^k refinement for boundaryless sources, first on
+  Euclidean spaces and then through open charts: for positive target dimension, k>max(dim source−dim target,0).
+  Follow Hirsch,
+  *Differential Topology*, Chapter3, Theorem1.3 (or Federer3.4.3), proving
+  the critical-stratum induction at that bound rather than using the existing
+  quadratic regularity threshold. An accessible detailed Euclidean proof is
+  Azagra–Ferrera–Gómez-Gil, [The Morse–Sard theorem revisited](https://arxiv.org/abs/1511.05822),
+  Theorem1.1 and Sections2–4, for positive target dimension and source
+  dimension at least target dimension. Prove the lower-source-dimension and
+  zero-source-dimension cases by the elementary local dimension/measure
+  argument and countability. If the target has dimension zero, every derivative
+  is surjective and there are no critical points; retain any differentiability
+  hypotheses of the regular-value interface, without imposing the displayed
+  positive-target Sard bound. For chart globalization, prove the flat `ContDiffOn`
+  theorem on open sets (or its bump-function localization) before passing to
+  countable manifold charts. HeegaardFloer F0 consumes this single
+  finite-dimensional theorem; HeegaardFloer F0 owns the sharp Fredholm
+  Sard–Smale extension.
 - **10.3–10.4** Finite fibres over regular values, the real definition `degreeAtRegularValue` at a
   specified regular value, and [Lee, Thm. 17.35]: `∫_M f^*ω = deg · ∫_N ω`
   (`integralTopForm_mpullback_eq_degreeAtRegularValue_mul`), via Stokes and 3.3's homogeneity; hence
@@ -1042,7 +1199,9 @@ One owner per shared construction, stated identically on both sides.
 
 - **Universal covers** owns π₁, deck groups, the classification and πₙ; 2.4, 6.3 and 10.5 consume
   them.
-- **Geometric topology** consumes the orientation interface (2), the canonical
+- **Geometric topology** consumes3.6's inward fields and forward semiflows
+  in the half-space specialization for its collar theorem, the orientation
+  interface (2), the canonical
   Tau Ceti distribution and foliation APIs and their integral-manifold/leaf
   extensions (4), densities and form integration (5.5, 12.4), and the abstract
   boundary of manifolds with corners (5.5). The half-space boundary manifold
@@ -1080,7 +1239,8 @@ needs 3 and 1.4; 12.4–12.5 need 0, 2 and 5. The manifold integration track is
 5.1–5.5 → {6, 7} → 8 → 9; 5.6 runs in parallel from Mathlib's flat calculus and integration
 and compares with 5.2–5.5. Layers 6 and
 most of 7 are available once 0–1 land (6.3 needs only 5.4's homotopy identity); 10 needs 2, 5, 7 and
-9.2; 11 needs 10. Start 3.1 and 8.3 early. Claim single numbered items or smaller; the headline
+9.2; 11 needs 10. Start 3.1 and the direct boundaryless lane of8.3 early;
+8.3's generic corner smoothing requires3.6. Claim single numbered items or smaller; the headline
 theorems (5.3, 8.5, 9.3, 10.4, 11.1) are staged claims whose intermediate lemmas land as reusable
 pull requests.
 

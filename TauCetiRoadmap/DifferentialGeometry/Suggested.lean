@@ -1469,6 +1469,57 @@ theorem exists_timeDependentFlow [IsManifold I 1 M] {v : ℝ → (x : M) → Tan
 
 end Flows
 
+/-! ## Layer 3.6: inward fields and domination through the intrinsic interior -/
+
+section InwardGeometry
+
+variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [TopologicalSpace H] (I : ModelWithCorners ℝ E H)
+  (M : Type*) [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+
+/-- Layer3.6 uses the native intrinsic interior with its open-submanifold atlas. -/
+def smoothInteriorOpen : TopologicalSpace.Opens M :=
+  ⟨I.interior M, I.isOpen_interior (n := ∞) (by simp)⟩
+
+/-- **Layer3.6.** The intrinsic interior inherits a boundaryless atlas. -/
+instance smoothInterior_boundaryless : BoundarylessManifold I (smoothInteriorOpen I M) :=
+  ⟨fun x => I.isInteriorPoint_iff_isInteriorPoint_val.mpr (show I.IsInteriorPoint (x : M) from x.property)⟩
+
+/-- **Layer3.6.** Every open submanifold is sigma-compact under the charted
+local compactness/countability hypotheses. The model carrier H is explicit. -/
+theorem sigmaCompactSpace_open_of_charted (H : Type*) [TopologicalSpace H]
+    [SecondCountableTopology H] [LocallyCompactSpace H]
+    {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [SigmaCompactSpace M]
+    (U : TopologicalSpace.Opens M) : SigmaCompactSpace U := by
+  let : SecondCountableTopology M := ChartedSpace.secondCountable_of_sigmaCompact H M
+  let : LocallyCompactSpace M := ChartedSpace.locallyCompactSpace H M
+  let : LocallyCompactSpace U := U.isOpen.locallyCompactSpace
+  infer_instance
+
+/-- **Layer3.6.** The interior instance needs no Hausdorff hypothesis. -/
+instance smoothInterior_sigmaCompact [SigmaCompactSpace M] [FiniteDimensional ℝ E] :
+    SigmaCompactSpace (smoothInteriorOpen I M) := by
+  let : SecondCountableTopology H := I.secondCountableTopology
+  let : LocallyCompactSpace H := I.locallyCompactSpace
+  exact sigmaCompactSpace_open_of_charted H (smoothInteriorOpen I M)
+
+/-- **Layer3.6.** Actual smooth maps and homotopy equations for inward domination. -/
+structure InwardDomination where
+  retract : M → smoothInteriorOpen I M
+  homotopy : ℝ × M → M
+  smooth_retract : ContMDiff I I ∞ retract
+  smooth_homotopy : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I ∞ homotopy
+  at_zero : ∀ x, homotopy (0,x) = (retract x : M)
+  at_one : ∀ x, homotopy (1,x) = x
+  preserves_interior : ∀ t x, I.IsInteriorPoint x → I.IsInteriorPoint (homotopy (t,x))
+
+/-- **Layer3.6.** Construct the inward field, complete semiflow and its domination data. -/
+noncomputable def inwardDomination [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] : InwardDomination I M := by
+  sorry
+
+end InwardGeometry
+
 /-! ## Layer 4: the Frobenius theorem -/
 
 section Frobenius
@@ -2637,37 +2688,113 @@ theorem deRhamComplexMap_f_apply [IsManifold I ∞ M] [IsManifold I' ∞ M']
 
 end SmoothChainMaps
 
-variable (I M) in
-/-- **Layer 8.3, the smoothing theorem as data** [Lee, Thm. 18.7]. Relative Whitney approximation
-on a Hausdorff, σ-compact, finite-dimensional smooth manifold gives a chain map back, built by
-induction over faces. Smooth chart compatibility is essential: a merely charted space can have
-only constant smooth paths while its underlying topological space is path connected. -/
-noncomputable def smoothing [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
-    [FiniteDimensional ℝ E] :
-    realSingularChains (TopCat.of M) ⟶ smoothSingularChainComplex I M :=
-  sorry
-
-variable (I M) in
-noncomputable def homotopySmoothingComp [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
-    [FiniteDimensional ℝ E] :
-    Homotopy (smoothing I M ≫ smoothToSingular I M) (𝟙 (realSingularChains (TopCat.of M))) :=
-  sorry
-
-variable (I M) in
-noncomputable def homotopyCompSmoothing [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
-    [FiniteDimensional ℝ E] :
-    Homotopy (smoothToSingular I M ≫ smoothing I M) (𝟙 (smoothSingularChainComplex I M)) :=
-  sorry
-
 /-- **Layer 8.3, the relative smoothing theorem**, the actual input to the chain-level statement: a
 continuous simplex whose faces are already smooth is homotopic, relative to its boundary, to a
-smooth simplex with those faces. Needs Whitney approximation into a manifold in relative form. -/
-theorem exists_smoothSimplex_homotopicRel [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+smooth simplex with those faces. This direct face-induction target requires a boundaryless target;
+boundary/corner chain equivalence instead uses the inward domination construction. -/
+theorem exists_smoothSimplex_homotopicRel [BoundarylessManifold I M] [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
     [FiniteDimensional ℝ E] (σ : C(fullSimplex (p + 1), M))
     (hfaces : ∀ i, SmoothOnSubset I (σ ∘ simplexFace p i)) :
     ∃ τ : SmoothSimplex I M (p + 1), (∀ i, (τ.face i).1 = σ ∘ simplexFace p i) ∧
       Nonempty (σ.HomotopyRel τ.toContinuousMap (⋃ i, range (simplexFace p i))) :=
   sorry
+
+/-- The independent direct smoothing construction on boundaryless targets. -/
+noncomputable def boundarylessSmoothing [BoundarylessManifold I M]
+    [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] :
+    realSingularChains (TopCat.of M) ⟶ smoothSingularChainComplex I M := by
+  sorry
+
+noncomputable def boundaryless_homotopySmoothingComp [BoundarylessManifold I M]
+    [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] :
+    Homotopy (boundarylessSmoothing (I := I) (M := M) ≫ smoothToSingular I M)
+      (𝟙 (realSingularChains (TopCat.of M))) := by
+  sorry
+
+noncomputable def boundaryless_homotopyCompSmoothing [BoundarylessManifold I M]
+    [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] :
+    Homotopy (smoothToSingular I M ≫ boundarylessSmoothing (I := I) (M := M))
+      (𝟙 (smoothSingularChainComplex I M)) := by
+  sorry
+
+section SmoothingViaBoundarylessModel
+
+variable {E' H' : Type} [NormedAddCommGroup E'] [NormedSpace ℝ E']
+  [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'}
+  {N : Type} [TopologicalSpace N] [ChartedSpace H' N]
+  [IsManifold I' ∞ N] [BoundarylessManifold I' N]
+  [T2Space N] [SigmaCompactSpace N] [FiniteDimensional ℝ E']
+  {j : N → M} {r : M → N}
+
+/-- The actual transfer chain map; its inverse laws use a smooth homotopy j ∘ r ~ id. -/
+noncomputable def smoothingViaBoundarylessModel
+    (hj : ContMDiff I' I ∞ j) (hr : ContMDiff I I' ∞ r) :
+    realSingularChains (TopCat.of M) ⟶ smoothSingularChainComplex I M :=
+  SSet.chainComplexMap (TopCat.toSSet.map (TopCat.ofHom ⟨r, hr.continuous⟩))
+    (ModuleCat.of ℝ ℝ) ≫ boundarylessSmoothing (I := I') (M := N) ≫ smoothChainMap hj
+
+/-- Smooth domination, rather than strict face smoothing into a boundary target,
+transfers the normalized chain equivalence. The homotopy is actual smooth map data. -/
+noncomputable def smoothToSingularHomotopyEquivViaModel [IsManifold I ∞ M]
+    (hj : ContMDiff I' I ∞ j) (hr : ContMDiff I I' ∞ r)
+    (Hjr : ℝ × M → M)
+    (hHjr : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I ∞ Hjr)
+    (h0 : ∀ x, Hjr (0, x) = j (r x)) (h1 : ∀ x, Hjr (1, x) = x) :
+    HomotopyEquiv (smoothSingularChainComplex I M)
+      (realSingularChains (TopCat.of M)) where
+  hom := smoothToSingular I M
+  inv := smoothingViaBoundarylessModel hj hr
+  homotopyHomInvId := by sorry
+  homotopyInvHomId := by sorry
+
+@[simp] theorem smoothToSingularHomotopyEquivViaModel_hom [IsManifold I ∞ M]
+    (hj : ContMDiff I' I ∞ j) (hr : ContMDiff I I' ∞ r)
+    (Hjr : ℝ × M → M) (hHjr : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I ∞ Hjr)
+    (h0 : ∀ x, Hjr (0, x) = j (r x)) (h1 : ∀ x, Hjr (1, x) = x) :
+    (smoothToSingularHomotopyEquivViaModel hj hr Hjr hHjr h0 h1).hom =
+      smoothToSingular I M := rfl
+
+@[simp] theorem smoothToSingularHomotopyEquivViaModel_inv [IsManifold I ∞ M]
+    (hj : ContMDiff I' I ∞ j) (hr : ContMDiff I I' ∞ r)
+    (Hjr : ℝ × M → M) (hHjr : ContMDiff ((𝓘(ℝ, ℝ)).prod I) I ∞ Hjr)
+    (h0 : ∀ x, Hjr (0, x) = j (r x)) (h1 : ∀ x, Hjr (1, x) = x) :
+    (smoothToSingularHomotopyEquivViaModel hj hr Hjr hHjr h0 h1).inv =
+      smoothingViaBoundarylessModel hj hr := rfl
+
+end SmoothingViaBoundarylessModel
+
+/-- The two construction lanes joined on the actual intrinsic interior. -/
+noncomputable def smoothToSingularHomotopyEquiv [IsManifold I ∞ M] [T2Space M]
+    [SigmaCompactSpace M] [FiniteDimensional ℝ E] :
+    HomotopyEquiv (smoothSingularChainComplex I M)
+      (realSingularChains (TopCat.of M)) :=
+  let d := inwardDomination I M
+  smoothToSingularHomotopyEquivViaModel contMDiff_subtype_val d.smooth_retract
+    d.homotopy d.smooth_homotopy d.at_zero d.at_one
+
+variable (I M) in
+/-- Layer8.3: the inverse produced by Layer3.6 inward domination and boundaryless smoothing.
+The strict face-fixing theorem is used only on the boundaryless intrinsic interior. -/
+noncomputable def smoothing [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] :
+    realSingularChains (TopCat.of M) ⟶ smoothSingularChainComplex I M :=
+  (smoothToSingularHomotopyEquiv (I := I) (M := M)).inv
+
+variable (I M) in
+noncomputable def homotopySmoothingComp [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] :
+    Homotopy (smoothing I M ≫ smoothToSingular I M) (𝟙 (realSingularChains (TopCat.of M))) :=
+  (smoothToSingularHomotopyEquiv (I := I) (M := M)).homotopyInvHomId
+
+variable (I M) in
+noncomputable def homotopyCompSmoothing [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] :
+    Homotopy (smoothToSingular I M ≫ smoothing I M) (𝟙 (smoothSingularChainComplex I M)) :=
+  (smoothToSingularHomotopyEquiv (I := I) (M := M)).homotopyHomInvId
+
 
 /-- **Layer 8.4.** The integral of a `p`-form over a smooth `p`-simplex: the pullback integral
 over `Δᵖ`, pinned by `SmoothSimplex.integral_eq` for any smooth extension. Vector-valued forms
@@ -2778,7 +2905,8 @@ theorem deRhamHom_naturality [T2Space M] [SigmaCompactSpace M] [FiniteDimensiona
 
 variable (I M) in
 /-- **Layer 8.5, the de Rham theorem** [Lee, Thm. 18.14]: `deRhamHom` is an isomorphism for every
-T2 σ-compact finite-dimensional smooth manifold. -/
+T2 σ-compact finite-dimensional real smooth manifold over every real model with corners.
+The README constructs the boundary/corner case through inward domination. -/
 noncomputable def deRhamEquiv [T2Space M] [SigmaCompactSpace M] [FiniteDimensional ℝ E] (k : ℕ) :
     deRhamCohomology I M k ≃ₗ[ℝ] realSingularCohomology (TopCat.of M) k :=
   sorry
