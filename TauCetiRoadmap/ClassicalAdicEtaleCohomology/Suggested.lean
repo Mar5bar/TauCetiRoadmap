@@ -43,7 +43,11 @@ Design choices made explicit here:
   `e = v_K(p)` and the new uniformizer; primality of `p` and positivity of `e` enter only its
   cohomological application.
 * The variation of a left monodromy action is `u - 1` in Mathlib's `Module.End`, and the product
-  term of its cocycle formula is composed in the order of the action.
+  term of its cocycle formula is composed in the order of the action. The imported fixed-element
+  variation in README §§4.5a and 5.5 is a morphism after exact geometric restriction U, with
+  composition identities using U(q) and pullback/descent conjugation covariance of the family.
+  Normalized var and N retain their Tate twists and equivariance on the unipotent rational
+  realization; `Trait.variation` remains an underlying module endomorphism.
 * A surjective map of valuation spectra is a ring homomorphism whose `PrimeSpectrum.comap` is
   surjective. No topology is involved; for valuation domains it is equivalent to injectivity with
   locality and to Mathlib's `RingHom.FaithfullyFlat`.
