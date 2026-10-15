@@ -35,10 +35,11 @@ Design choices made explicit here.
   Ceti's `TauCeti.inertiaSubgroup`, `TauCeti.wildInertiaSubgroup`; the `ℓ`-adic cyclotomic character
   is Tau Ceti's `TauCeti.continuousLocalCyclotomicCharacter`, and the `ℓ`-adic tame character is
   `TauCeti.inertiaPadicTameCharacter`.
-* SmoothRepresentationsOfLocalGroups SR.5.2 `classical-llc-normalization` supplies the
-  Frobenius-semisimplified Weil–Deligne parameter and functor. Section 2.4 `wd-linear-substrate`
-  provides the full construction, monodromy and operations on the canonical fields `r`, `N`;
-  §2.5 `wd-frobenius-semisimplification` provides the separate operation and supplier comparison.
+* SmoothRepresentationsOfLocalGroups SR.5.2 supplies `wd-linear-substrate`, `nilpotent-exp-log`,
+  `grothendieck-monodromy`, `wd-parameter-operations`, `full-wd-construction`,
+  `wd-frobenius-semisimplification` and `classical-llc-normalization`. Section 2.4 specializes
+  monodromy to `ContinuousRep` and packages its underlying action through the supplied full
+  construction; §2.5 owns the agreement theorem and local factors.
   An arithmetic lift has degree `1` and relation `r(w) ∘ N = q^{deg w} • (N ∘ r(w))`;
   dual monodromy is `−Nᵗ`. The consumers below take these fields and their relation directly.
   Local factors use geometric Frobenius. The full functor and its inverse precede
@@ -1447,18 +1448,18 @@ end GaloisRep
 
 /-! ### Arithmetic monodromy and the shared Weil–Deligne interface
 
-Section 2.4 `wd-linear-substrate` provides the nilpotent exponential/unipotent logarithm
-calculus, Grothendieck's monodromy theorem, parameter operations and `full-wd-construction`,
-with its inverse for Frobenius eigenvalues of ℓ-adic absolute value one. Its shared linear targets
-use Mathlib actions and endomorphisms independently of `ContinuousRep` and determinant
-reconstruction. The arithmetic adapter supplies the `ContinuousRep` interface.
-Section 2.5 `wd-frobenius-semisimplification` gives the separate operation and identifies its
-output with SmoothRepresentationsOfLocalGroups SR.5.2 `classical-llc-normalization`.
-Both use the same parameter fields; the signatures below introduce no bundled carrier. -/
+SmoothRepresentationsOfLocalGroups SR.5.2 owns `wd-linear-substrate`, `nilpotent-exp-log`,
+`grothendieck-monodromy`, `wd-parameter-operations`, `full-wd-construction` and
+`wd-frobenius-semisimplification`, including the finite-coefficient inverse for Frobenius
+eigenvalues of ℓ-adic absolute value one. The exp/log signatures below represent that supplier's
+mathematics. Section 2.4 supplies the `ContinuousRep` monodromy specialization and arithmetic
+adapter; §2.5 identifies its semisimplified output with the supplier's
+`classical-llc-normalization` and defines local factors on the same parameter fields. -/
 
 namespace LinearMap.GeneralLinearGroup.IsUnipotent
 
-/-- The finite unipotent logarithm of §2.4; the nilpotency class supplies a truncation bound. -/
+/-- Representative of SmoothRepresentationsOfLocalGroups SR.5.2 `nilpotent-exp-log`:
+the finite unipotent logarithm, with a truncation bound given by the nilpotency class. -/
 def log {R V : Type*} [CommRing R] [Algebra ℚ R] [AddCommGroup V]
     [Module R V] [Module ℚ V] [IsScalarTower ℚ R V]
     (u : _root_.LinearMap.GeneralLinearGroup R V)
@@ -1466,7 +1467,8 @@ def log {R V : Type*} [CommRing R] [Algebra ℚ R] [AddCommGroup V]
   ∑ i ∈ Finset.range (_root_.nilpotencyClass ((u : Module.End R V) - 1)),
     (((-1 : ℚ) ^ (i + 1)) / (i : ℚ)) • ((u : Module.End R V) - 1) ^ i
 
-/-- The finite nilpotent exponential and unipotent logarithm are inverse (§2.4). -/
+/-- Representative of SmoothRepresentationsOfLocalGroups SR.5.2 `nilpotent-exp-log`:
+the finite nilpotent exponential and unipotent logarithm are inverse. -/
 theorem log_exp_and_exp_log {R V : Type*} [CommRing R] [Algebra ℚ R]
     [AddCommGroup V] [Module R V] [Module ℚ V] [IsScalarTower ℚ R V]
     (N : Module.End R V) (hN : IsNilpotent N)
@@ -1547,7 +1549,8 @@ end LinearMap.GeneralLinearGroup.IsUnipotent
 
 namespace GaloisRep
 
-/-- Grothendieck's monodromy theorem on `ContinuousRep` (Deligne 1973, Thm 8.2): for `ℓ ≠ p`
+/-- `ContinuousRep` specialization of SmoothRepresentationsOfLocalGroups SR.5.2
+`grothendieck-monodromy` (Deligne 1973, Thm 8.2): for `ℓ ≠ p`
 and a continuous representation of `G_K` on a finite-dimensional space over a finite extension `E` of `ℚ_ℓ`, there are
 a unique nilpotent `N` and an open subgroup `J` of `I_K` with `ρ(σ) = exp(t(σ) N)` on `J`, where
 `t = T ∘ t_ℓ` for a trivialisation `T` of `ℤ_ℓ(1)`, and `ρ(w) N = χ_ℓ(w) N ρ(w)`. -/
