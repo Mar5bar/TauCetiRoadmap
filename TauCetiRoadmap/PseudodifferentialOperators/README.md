@@ -27,9 +27,10 @@ supplies bundle sections, metrics, connections, L² and tensor/dual/Hom operatio
 [ComplexKahlerGeometry K5a](../ComplexKahlerGeometry/README.md) supplies bundle
 distributions, the shared compact-bundle H^s Hilbert scale for every real s,
 localization/duality/interpolation and Laplace-type Hodge theory. Consume that
-scale and compare the constructions from P1.1 onward with it. K5a's initial density-bundle
-construction precedes P1.0's differential-operator, jet, symbol and formal-adjoint
-core. K5a's distributional action and Laplace analysis consume that core;
+scale and compare the constructions from P1.1 onward with it. P1.0's early smooth-section
+module and first-jet constructions use only SBC B2's bundle floor. K5a's initial
+density bundle precedes the density-valued transpose/formal-adjoint part of P1.0.
+K5a's distributional action and Laplace analysis consume the differential-operator core;
 P1.1 and P2–P7 consume K5a's analytic scale.
 
 Mathlib's `Analysis/FunctionalSpaces/BesselPotentialSpace` already bundles
@@ -133,7 +134,25 @@ correspondences, jets, densities, connections and analytic Sobolev theory.
 LieGroupoidsPoisson G1.1 consumes these module and scalar-compatibility
 instances and owns the additional algebroid-specific Lie structures.
 
-#### Global derivations and jets
+#### First jets of a vector bundle
+
+For every smooth finite-rank real vector bundle V, construct its first-jet bundle
+`J¹V` from the value and first derivative of local sections, with transition
+maps given by the first-order chain/product rules. Prove smooth gluing,
+projection to V, open restriction, pullback by base diffeomorphisms and
+naturality under bundle isomorphisms. Construct the exact sequence
+`0 → T*M ⊗ V → J¹V → V → 0`, and the jet extension of a smooth section,
+with its value and derivative equations. This connection-free first-jet
+construction uses the preceding section module and SBC B2's dual/tensor bundle
+operations, independently of densities, connections, formal adjoints and analytic
+scales. After SBC B3 supplies a bundle connection, prove its splitting of this
+sequence and the difference-of-connections change-of-splitting formula.
+ContactGeometry CG5 consumes its real-line-bundle specialization; it owns the
+contact distribution and neighborhood theorem on that carrier. The all-order
+jets and differential-operator factorization below extend this same first-jet
+construction and agree with it at order1.
+
+#### Global derivations and higher jets
 
 Use Mathlib's `Derivation` and `PointDerivation`, with the latter's scalar
 action given by evaluation at x. Consume Tau Ceti's
@@ -195,11 +214,12 @@ through the order-m jet bundle, and vanishing of m+1 iterated commutators with
 scalar multiplication. Build the jet bundle from finite Taylor coefficients,
 coordinate-chain-rule transition maps and truncation exact sequences; prove
 those equivalences by a local Hadamard lemma and induction on order. Do not
-assume a bare locality condition implies a uniform order bound. P1.0 owns these linear vector-bundle jets. This core
-uses smooth sections, metrics and densities from DifferentialGeometry
-and SmoothBundlesConnections and the initial density bundle from K5a,
-independently of K5a's distribution or Sobolev
-topologies. Construct the bilinear density transpose and the metric/density
+assume a bare locality condition implies a uniform order bound. P1.0 owns these linear vector-bundle jets, extending its first-jet subtarget.
+The differential-operator and jet construction uses smooth sections and bundle
+operations. The following adjoint part additionally uses metrics and densities
+from DifferentialGeometry/SmoothBundlesConnections and K5a's initial density
+bundle, independently of K5a's distribution or Sobolev topologies.
+Construct the bilinear density transpose and the metric/density
 formal adjoint by their local derivative formulas, prove integration by parts
 on compact supports, and prove both operations commute with restriction to
 open sets. K5a extends these fixed operators to its distributions and L² domains.
