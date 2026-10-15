@@ -238,8 +238,8 @@ and [graph-coordinate Frobenius](https://github.com/TauCetiProject/TauCeti/blob/
 
 Everything the layers specify beyond the inventory above. The layer order is the order of
 dependence, and the two hardest items — Banach smooth dependence (3.1) and the smoothing theorem
-for chains (8.3) — gate what follows them. Every layer has a compiled interface in `Suggested.lean`:
-a real definition wherever the pin allows one (`mpullback`, `flowDomain`/`flowOf`,
+for chains (8.3) — gate what follows them. `Suggested.lean` and its companion files provide
+nonexhaustive interface prototypes: a real definition wherever the pin allows one (`mpullback`, `flowDomain`/`flowOf`,
 `degreeAtRegularValue`, `mgradient`, `laplaceBeltrami`, …), otherwise a provisional definition whose
 type pins the data (a `sorry` body, never a `Prop`-typed placeholder) with theorems pinning its
 characteristic equations. An implementation must provide that data and those laws, not those
@@ -369,7 +369,14 @@ Geometric Topology.
   when `π₁` has no index-2 subgroup [Lee, Thm. 15.41–15.43]. The **descent API** —
   `invariantPart`/`antiInvariantPart` for an involution, and `exists_mpullback_proj_eq_iff` — is
   what 9.2 runs on. *Acceptance:* `Set.Icc x y` and spheres are orientable; the open Möbius band is
-  not.
+  not. Construct `sphereOutwardOrientation n` on Mathlib's native smooth unit sphere
+  `S^n ⊂ ℝ^(n+1)`: a tangent basis `(b₁,…,bₙ)` is positive exactly when the ambient
+  ordered basis `(x,dιₓ b₁,…,dιₓ bₙ)` has positive determinant in the standard coordinates.
+  Consume `contMDiff_coe_sphere`, `range_mvfderiv_subtypeVal` and
+  `injective_mvfderiv_subtypeVal_sphere` to construct this orientation and prove the criterion.
+  Include n=0, with positive point +1 and negative point −1. Prove the antipodal map has
+  orientation sign `(-1)^(n+1)`, hence reverses this orientation exactly for even n.
+  These tangent-orientation constructions precede AT6.3's homological comparison.
 
 ### Layer 3: flows
 
@@ -584,6 +591,14 @@ stronger quantifier order.
   `boundaryRestriction`, `IsOutwardPointing` with a smooth outward field [Lee, Prop. 15.33], the
   outward-first `boundaryOrientation` (`boundaryOrientation_spec`) [Lee, Prop. 15.24], the
   half-space sign for Mathlib's model, and `isNullSet_boundary`.
+  For the unit closed ball in `ℝ^(n+1)`, consume Tau Ceti's
+  `instChartedSpaceClosedBall`, `instIsManifoldClosedBall`,
+  `contMDiff_subtypeVal_closedBall` and `boundary_closedBall`. Construct the smooth
+  diffeomorphism from this manifold boundary to Mathlib's native `S^n`, with underlying
+  map the identity on ambient points, and prove `boundaryOrientation` agrees with
+  2.4's `sphereOutwardOrientation n`. Orient the ball by its ambient inclusion and
+  prove the derivative criterion and the outward radial-field law. Include n=0, the
+  interval: its right endpoint is positive and its left endpoint negative.
 - **5.2 Integration of top forms.** `integralTopForm o ω`, total, pinned by
   `integralTopForm_of_tsupport_subset_chart`: chart integrals of the coefficient in a positively
   oriented basis against its `addHaar`, weighted by the chart signs, glued by a partition of unity.
@@ -1003,6 +1018,50 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   its bottom edge dualizes `smoothChainMap` by the native `linearYonedaFunctor`.
   Prove identity/composition, component equations and agreement of
   `H(deRhamComplexMap)` with the existing `deRhamCohomology.map`.
+  For a finite-dimensional T2 σ-compact smooth manifold X and an open
+  submanifold W satisfying the same smoothing hypotheses, build relative de Rham
+  theory using native
+  `CochainComplex.mappingCone` for restriction, shifted by −1 after extending
+  the nonnegative de Rham complexes by zero to ℤ. Export the sign-coordinate
+  isomorphism in which degree q is
+  `Ω^q(X) ⊕ Ω^(q−1)(W)`, with differential
+  `(α,β)↦(dα,α|_W−dβ)`. The coordinate map to the native shifted cone is
+  `(α,β)↦(α,−β)`: its shifted differential in coordinates `(α,g)` is
+  `(dα,−α|_W−dg)`. Prove this is an isomorphism of complexes.
+  The prototype `relativeDeRhamComplex` uses the native `mappingCocone` of
+  this extended restriction, which is exactly that minus-one shifted cone.
+  `relativeDeRhamCoordinates`, `relativeDeRhamCoordinatesZero` and
+  `relativeDeRhamCoordinates_d` pin the exported degree spaces and signs.
+  Define the connecting map in these exported cone coordinates by
+  `δ[b]=−[(0,b)]`. When the cocycle b on W has an extension b̃, prove
+  this is `[(d b̃,0)]`; arbitrary forms on W need not extend to X.
+  Compare the long exact sequence, including this sign, with the native
+  sequence of `TopPair.singularCochainComplexShortComplex` consumed in 8.1.
+  Build here the algebraic comparison from the shifted cone of a degreewise
+  surjective cochain restriction to its kernel, with the explicit chain map,
+  quasi-isomorphism and connecting-map sign. Apply it to smooth and continuous
+  singular cochains. This uses no closed-pair, NDR or topological cofiber
+  hypothesis. Prove the square-zero law and smooth-pair naturality. Restriction
+  of arbitrary forms to W need not be surjective; do not identify the form cone
+  with the kernel of restriction.
+  Construct relative `smoothIntegration` as the induced cochain-cone map.
+  The smooth and continuous cochain restrictions are degreewise surjective
+  by extending simplex coefficients by zero, so their shifted cones compare
+  quasi-isomorphically with cochains dual to the relative chain quotients.
+  Use 8.3's relative smoothing comparison and the absolute de Rham theorem
+  8.5 on X and W to prove `relativeDeRhamEquiv` for this cone, compatibly
+  with the two long exact sequences. Before that isomorphism, construct
+  `relativeDeRhamHom`, its evaluation formula and the explicit naturality
+  square for every smooth map of open pairs: pullback of cone classes
+  followed by `relativeDeRhamHom` equals singular-cohomology pullback
+  after `relativeDeRhamHom`. Prove identity and composition for these maps.
+  A closed α vanishing on W
+  gives the relative cocycle `(α,0)`, mapped to the cochain evaluating α on
+  relative smooth chains; its absolute image is `deRhamHom[α]`. Prove this
+  formula, `chainIntegral_map` for smooth pairs, and compatibility with
+  enlargement of W and compact-support relative classes. Layer 9.3 and
+  ComplexKahlerGeometry K6 consume these maps and evaluation identities.
+
 - **8.5 The de Rham theorem.** `deRhamEquiv` for T2 σ-compact finite-dimensional M
   with every real model with corners as in8.3 [Lee, Thm. 18.14]. Prove the boundaryless
   theorem by the reusable **Mayer–Vietoris induction principle**
@@ -1033,6 +1092,126 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   compactness, by the induction principle from the base cases 6.2 and 6.4; corollaries
   `finiteDimensional_deRhamCohomology` for compact `M` and `poincarePairing_nondegenerate`. Not
   through Hodge theory. *Acceptance:* `|⟨[dθ], [1]⟩| = 2π` on `S¹`.
+
+  Own the fundamental-class integration comparison in every dimension on
+  finite-dimensional T2 σ-compact smooth boundaryless manifolds N satisfying 8.3's smoothing
+  hypotheses, over every finite-dimensional real model with corners I. For compact oriented N and every smooth top form η,
+  `∫_N η = ⟨deRhamHom[η],[N]_ℝ⟩`, with `[N]_ℝ` the real image of
+  AlgebraicTopology 6.3's integral class and its local tangent-orientation
+  generators. Also build the relative version for compactly supported top
+  forms on noncompact N, evaluated on AT6.3's compact-set fundamental classes
+  in `H_dim(N)(N,N∖K;ℤ)` for compact supports K. Use AT6.3's
+  `RelativeTwistedClassDatum` and `compactSupportTopClass_existsUnique` as the class carrier
+  and factory, fed by the tangent-orientation local section. The real class is the coefficient
+  image of that integral class; prove the coefficient and local-map comparison squares. DG adds
+  no second relative-homology class carrier and owns the smooth-chart/integration comparison.
+  Consume 8.4's relative
+  `smoothIntegration`, `relativeDeRhamHom`, evaluation identities and
+  enlargement compatibility, and 8.3's smooth/continuous relative-chain
+  comparison for the open complement of a compact partition piece S lying strictly inside
+  a chart-simplex interior.
+  Ownership is explicit: AT6.3 owns the integral homological orientation system, its
+  ordered-simplex point generators, chart/lift/Jacobian comparison, chosen-orientation locally
+  represented section, and compact-support class factory. DG9.3 owns the thin
+  smooth-to-AT constant-system and real-coefficient comparison maps together with the smooth
+  relative/absolute integration comparison and its de Rham-evaluation compatibility. These maps
+  convert between existing carriers; DG introduces no second homology carrier, orientation local
+  system, or compact-support factory. The local-class normalization and chart
+  overlap laws are AT6.3 proof targets, including the signed zero-dimensional point case and the
+  full finite-dimensional real model-with-corners scope.
+  Coefficient images stored as ℤ-modules must pass through the restricted-scalar image of the
+  constant-system isomorphism: the ℝ-linear isomorphism cannot be applied directly to that
+  restricted object. `restrictedConstantHomologyIso` is the typed adapter; its local naturality,
+  the integer-to-real local-map square, and smooth-relative-to-AT naturality are separate proof
+  obligations. Derive the local route and smooth-representative formulas from those squares
+  and the geometric local-simplex comparison.
+  For each compact partition piece S, place S strictly inside an injective chart-simplex interior
+  and keep the simplex boundary disjoint from S. At each y∈S use its unique preimage t=σ⁻¹(y)
+  when evaluating the derivative. The chart pair class has the signed local image at every y;
+  AT6.3 uniqueness identifies it with the support class. Then derive the local formula from the
+  relative de Rham evaluation at β=0 and the one-chart integral identity, and assemble by finite
+  additivity. At that β=0 step use SmoothSimplex.integral_zero for the zero form,
+  deriving chainIntegral 0 c=0 for every smooth chain c from the finite sum. The support-enlargement map for S⊆K is `(M,M\K)→(M,M\S)`, carrying the global
+  K-supported class to its local S-supported class; this is P3. Pin P5 as Kronecker
+  pushforward/pullback naturality along `(M,W)→(M,M∖S)`, P6 as linearity in the form α,
+  and P7 as finite additivity of `integralTopForm` for the partition identity. Derive P7
+  directly from Layer 5.2's form-additivity theorem by finite induction. State these as
+  lemmas of the construction.
+  In dimension zero, identify the chosen class for compact support K with
+  `Σ_(x∈K) ε_o(x)[x]`, where ε_o(x) is AT6.3's orientationSignAt o x,
+  viewed as the integer ±1; compact K is finite because a zero-dimensional
+  manifold is discrete. Consume AT's positivePointClass and the shared
+  general-model orientationSignAt, including its identification with the
+  Euclidean-zero-dimensional prototype through the fresh carrier.
+  Prove that volume on EuclideanSpace ℝ (Fin 0) and Basis.addHaar of the
+  empty basis are both the unit Dirac point mass. Positive point orientations
+  use the one-chart formula. For negative point orientations apply the
+  orientation-negation law on the singleton open chart and then add the
+  finitely many contributions; no negatively oriented empty basis is assumed. For a smooth compactly supported zero-form α prove
+  `integralTopForm o α=Σ_(x∈α.tsupport) ε_o(x)α(x)` (evaluate the zero-form on
+  the unique empty tuple), including empty support. Prove the corresponding
+  signed zero-chain evaluation and identify it with AT's chosen integral class.
+  Own the named zero-simplex evaluation lemma: for every smooth 0-simplex σ and
+  0-form α, SmoothSimplex.integral α σ is α evaluated at the simplex's unique
+  point and the unique empty tuple. Derive it from integral_eq and the
+  dimension-zero unit point-mass normalization. For smooth maps use the actual relative
+  Kronecker pushforward/pullback naturality with explicit pair/support hypotheses (for example,
+  K contains f⁻¹(L)); do not claim integral invariance for arbitrary smooth maps. Prove integral
+  invariance for orientation-preserving diffeomorphisms. For smooth open embeddings
+  `f:N→M` that are local diffeomorphisms between arbitrary finite-dimensional real models
+  of the same dimension, prove `∫_N f*ω=∫_M ω` when f preserves the chosen orientations
+  and ω has compact topological support contained in range f. Require the Hausdorff and
+  σ-compact hypotheses used by the integration construction on both manifolds. In particular,
+  use the fresh Euclidean interior carrier C and val:C→M, with orientation pulled back from M,
+  to prove this formula for every compactly supported top form on M whose support lies in
+  int M, even when M has boundary. Combine it with AT6.3's open-embedding support-class map
+  and its local-image comparison to obtain the interior compact-support class formula on M.
+  Any proper-map degree formula requires a connected target or componentwise degree and
+  belongs to Layer 10, not this integration milestone. SmoothBundlesConnections B6.2 consumes its ℂP¹ instance;
+  ComplexKahlerGeometry K6 consumes both the compact and relative formulas.
+
+  Also own the smooth-boundary compatibility target for compact oriented m-manifolds
+  over the standard half-space model `𝓡∂ m`, m>0. Let U be the image of a whole-boundary
+  topological collar `∂M×[0,1)→M` equal to the inclusion at parameter0.
+  For Hausdorff second-countable M use AT6.3's compact-domain Brown collar
+  construction from the native smooth local boundary product charts, and
+  its twisted boundary-system and class comparisons. Let α be a smooth top
+  form on M and β a smooth (m−1)-form on U, with `α|_U=dβ`.
+  Use AT6.3's oriented relative class and its homology isomorphism induced by
+  the identity-ambient pair map `(M,∂M)→(M,U)`, and 8.4's relative de Rham
+  class `[α,β]`. Prove
+  `⟨relativeDeRhamHom[α,β],[M,U]_ℝ⟩ = ∫_M α − ∫_{∂M} β|_{∂M}`,
+  with the outward-first boundary orientation. Here β is defined on U; its boundary
+  form is the pullback along the smooth map `j:∂M→U`, with j(x)=x and
+  membership in U proved from the collar's parameter-zero identity c(x,0)=x.
+  Prove j smooth by factoring the native smooth boundary inclusion through
+  U's induced open-submanifold structure; no derivative of the topological
+  collar is used. Thus `j*β` is the
+  displayed boundary integrand. Pin the integer class by AT6.3's interior
+  embeddingIntegralLocalMap applied to the fresh carrier pointGenerator with
+  DG2.2's pulled-back orientation. Use the compact-support open-excision
+  comparison, not the boundaryless-only original-carrier homeomorphism.
+  To derive the formula, choose a closed neighborhood A of ∂M with A⊂U
+  and ∂M⊂int A. Apply native exists_contMDiffMap_one_nhds_of_subset_interior
+  from Mathlib's Manifold/PartitionOfUnity to obtain a smooth ρ equal to 1
+  near ∂M and vanishing outside A. Compact Hausdorff M supplies its normality
+  and sigma-compactness hypotheses. Since A is closed, tsupport ρ⊂A⊂U.
+  Use compactness of ∂M to shrink the collar uniformly to U′ within the
+  neighborhood where ρ=1. Extend ρβ by zero to a smooth
+  (m−1)-form γ on M. Subtract the cone coboundary d(γ,0):
+  `[α,β]=[α−dγ,β−γ|_U]`. After restriction to (M,U′) the second coordinate
+  vanishes and α−dγ is supported in the interior, since α=dβ there.
+  Apply the interior compact-support formula to α−dγ and Stokes to γ;
+  j*γ=j*β supplies the boundary integral. Prove independence of cutoff
+  and collar shrinkage through the relative-class and restriction comparisons. For α supported
+  away from ∂M take β=0 on a smaller collar and prove agreement with the interior
+  compact-support class factory. Pin the interval test on D¹, the native closed
+  unit ball with model 𝓡∂ 1 and standard orientation: α=0 and β locally
+  constant on its two collar ends, with values c₊ at +1 and c₋ at −1.
+  The relative pairing is −(c₊−c₋), since ∂[D¹]=[+1]−[−1]. Dimension zero is
+  covered by the signed point formula above; no corner-stratum comparison is assumed
+  by this smooth-boundary target.
+
 
 ### Layer 10: the Brouwer mapping degree
 
@@ -1213,9 +1392,12 @@ One owner per shared construction, stated identically on both sides.
   existing APIs, not a replacement distribution or foliation carrier.
 - **Algebraic topology** owns singular chains and cochains, relative theory, subdivision, small
   chains, excision and Mayer–Vietoris (its Stages 2–3), and universal coefficients, cup and cap
-  products and singular Poincaré duality (Stage 6); layer 8 consumes them and builds only smooth
-  chains, integration over them and the de Rham comparison. It consumes this roadmap's orientation
-  and degree API (layers 2 and 10).
+  products and singular Poincaré duality (Stage 6). Layer 8 consumes them and builds smooth
+  chains, integration over them and the de Rham comparison. AT6.3 consumes DG2's
+  tangent-orientation API and DG5.1's outward-first boundary orientation; DG9.3 consumes
+  AT6.3's homological orientation system, chart-normalized point generators, chosen local
+  section, `RelativeTwistedClassDatum` and compact-support class factory. DG9.3 owns the
+  smooth/constant-system/real-coefficient conversions and the integration comparison.
 - **Hopf–Rinow** owns the Levi-Civita connection, covariant differentiation along curves, geodesics
   and their flow, the exponential map, Hopf–Rinow, and the manifold inverse function theorem;
   layer 12 builds on the connection, 10.1 consumes the inverse function theorem, and 3.2 consumes

@@ -1,3 +1,5 @@
+import Mathlib.Algebra.Homology.Embedding.CochainComplex
+import Mathlib.Algebra.Homology.HomotopyCategory.MappingCocone
 import Mathlib.Algebra.Homology.Homotopy
 import Mathlib.Algebra.Homology.HomologicalComplexBiprod
 import Mathlib.Algebra.Homology.QuasiIso
@@ -1873,6 +1875,23 @@ theorem integralTopForm_mpullback_of_preserving [IsManifold I ∞ M] [IsManifold
     integralTopForm o (mpullback I I' f φ) = integralTopForm o' φ :=
   sorry
 
+/-- **Layers 5.2 and 9.3.** Change of variables for a smooth open embedding between
+arbitrary real manifold models of equal finite dimension. Compact support inside the image
+replaces surjectivity; the target may have boundary. The pulled-back form has compact support
+because the embedding identifies its source with the open image. -/
+theorem integralTopForm_mpullback_of_openEmbedding [IsManifold I ∞ M]
+    [IsManifold I' ∞ M'] [T2Space M] [T2Space M']
+    [SigmaCompactSpace M] [SigmaCompactSpace M']
+    (hm : Module.finrank ℝ E = m) (hm' : Module.finrank ℝ E' = m)
+    (o : Manifold.Orientation I M (Fin m)) (o' : Manifold.Orientation I' M' (Fin m))
+    (f : M → M') (hf : Topology.IsOpenEmbedding f)
+    (hfd : IsLocalDiffeomorph I I' ∞ f)
+    (ho : ∀ x, IsOrientationPreservingAt o o' f x)
+    (φ : RoughForm I' M' ℝ m) (hφ : IsSmoothForm I' ∞ φ)
+    (hc : IsCompact φ.tsupport) (hs : φ.tsupport ⊆ Set.range f) :
+    integralTopForm o (mpullback I I' f φ) = integralTopForm o' φ :=
+  sorry
+
 theorem integralTopForm_mpullback_of_reversing [IsManifold I ∞ M] [IsManifold I' ∞ M']
     (o : Manifold.Orientation I M (Fin m)) (o' : Manifold.Orientation I' M' (Fin m))
     (f : M ≃ₘ⟮I, I'⟯ M') (hf : ∀ x, IsOrientationReversingAt o o' f x)
@@ -2812,6 +2831,31 @@ theorem SmoothSimplex.integral_eq [CompleteSpace F] (σ : SmoothSimplex I M p)
       mpullback 𝓘(ℝ, EuclideanSpace ℝ (Fin p)) I g φ x (fun i ↦ EuclideanSpace.single i 1) :=
   sorry
 
+/-- **Layer 8.4, zero-simplex evaluation.** In dimension zero the standard simplex is a single
+point and its Lebesgue measure is the unit point mass. Thus, for any smooth extension used by
+`integral_eq`, the simplex integral is evaluation of its pulled-back 0-form at that point. This is
+the point-evaluation law needed for 0-chains; it is distinct from `integral_zero`, which concerns
+the zero form in every degree. -/
+theorem SmoothSimplex.integral_zeroSimplex_eval [CompleteSpace F]
+    (σ : SmoothSimplex I M 0) (φ : RoughForm I M F 0)
+    {U : Set (EuclideanSpace ℝ (Fin 0))} (hU : IsOpen U)
+    (hsU : fullSimplex 0 ⊆ U)
+    {g : EuclideanSpace ℝ (Fin 0) → M}
+    (hg : ContMDiffOn 𝓘(ℝ, EuclideanSpace ℝ (Fin 0)) I ∞ g U)
+    (hgσ : ∀ x : fullSimplex 0, g x = σ.1 x)
+    (x₀ : fullSimplex 0) :
+    σ.integral φ = mpullback 𝓘(ℝ, EuclideanSpace ℝ (Fin 0)) I g φ x₀
+      (fun i ↦ EuclideanSpace.single i 1) := by
+  have h := σ.integral_eq φ hU hsU hg hgσ
+  -- `fullSimplex 0` is the singleton Euclidean 0-space and its volume is the unit point mass.
+  sorry
+
+/-- The integral of the zero form over each simplex vanishes. This is a separate
+flat integral target; chain additivity cannot establish it for an opaque simplex integral. -/
+@[simp] theorem SmoothSimplex.integral_zero [CompleteSpace F] (σ : SmoothSimplex I M p) :
+    σ.integral (0 : RoughForm I M F p) = 0 := by
+  sorry
+
 /-- **Layer 8.4, Stokes for the simplex** — its own flat target, an iterated-integral/FTC
 computation that neither uses nor waits for the corners Stokes of 5.5. -/
 theorem SmoothSimplex.integral_mextDeriv [IsManifold I 1 M] [CompleteSpace F]
@@ -2824,6 +2868,12 @@ theorem SmoothSimplex.integral_mextDeriv [IsManifold I 1 M] [CompleteSpace F]
 noncomputable def chainIntegral [CompleteSpace F] (c : SmoothSimplex I M p →₀ ℝ)
     (φ : RoughForm I M F p) : F :=
   c.sum fun σ a ↦ a • σ.integral φ
+
+/-- Zero-form evaluation follows from the simplex zero-form theorem and finite summation. -/
+@[simp] theorem chainIntegral_zero [CompleteSpace F] (c : SmoothSimplex I M p →₀ ℝ) :
+    chainIntegral c (0 : RoughForm I M F p) = 0 := by
+  classical
+  simp [chainIntegral]
 
 theorem chainIntegral_smoothBoundary [IsManifold I 1 M] [CompleteSpace F]
     (c : SmoothSimplex I M (p + 1) →₀ ℝ)
@@ -2916,6 +2966,167 @@ theorem deRhamEquiv_apply [T2Space M] [SigmaCompactSpace M] [FiniteDimensional �
   sorry
 
 end SmoothChains
+
+section RelativeDeRham
+
+open CategoryTheory
+
+variable {E H : Type} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I 1 M] [IsManifold I ∞ M]
+variable (I M) in
+/-- Extension by zero uses the actual native nonnegative-to-integer embedding. -/
+noncomputable abbrev deRhamComplexZ :=
+  (deRhamComplex I M).extend ComplexShape.embeddingUpNat
+variable (I) in
+/-- Restriction of the actual integer-extended de Rham complexes. -/
+noncomputable def relativeDeRhamRestrictionZ (W : TopologicalSpace.Opens M) :
+    deRhamComplexZ I M ⟶ deRhamComplexZ I W :=
+  HomologicalComplex.extendMap
+    (deRhamComplexMap (I := I) (I' := I) (M := W) (M' := M)
+      (f := fun x : W => (x : M)) contMDiff_subtype_val)
+    ComplexShape.embeddingUpNat
+variable (I) in
+/-- The relative complex is the native restriction cone shifted by minus one. -/
+noncomputable def relativeDeRhamComplex (W : TopologicalSpace.Opens M) :
+    CochainComplex (ModuleCat ℝ) ℤ :=
+  CochainComplex.mappingCocone (relativeDeRhamRestrictionZ I W)
+/-- The actual topological pair, with its native relative cochains and LES. -/
+abbrev openManifoldPair (W : TopologicalSpace.Opens M) : TopPair :=
+  TopPair.ofSubset (X := TopCat.of M) (W : Set M)
+variable (I) in
+/-- Exported cone coordinates: the native second coordinate is the negative of beta. -/
+noncomputable def relativeDeRhamCoordinates (W : TopologicalSpace.Opens M) (k : ℕ) :
+    (relativeDeRhamComplex I W).X ((k : ℤ) + 1) ≃ₗ[ℝ]
+      (SmoothForm I M ℝ (k + 1) × SmoothForm I W ℝ k) := by
+  sorry
+variable (I) in
+noncomputable def relativeDeRhamCoordinatesZero (W : TopologicalSpace.Opens M) :
+    (relativeDeRhamComplex I W).X 0 ≃ₗ[ℝ] SmoothForm I M ℝ 0 := by
+  sorry
+variable (I) in
+/-- The coordinate differential is d(alpha,beta)=(d alpha,restriction alpha-d beta). -/
+theorem relativeDeRhamCoordinates_d (W : TopologicalSpace.Opens M) (k : ℕ)
+    (z : (relativeDeRhamComplex I W).X ((k : ℤ) + 1)) :
+    relativeDeRhamCoordinates I W (k + 1)
+      ((relativeDeRhamComplex I W).d ((k : ℤ) + 1) ((k : ℤ) + 2) z) =
+      (mextDerivₗ I M (k + 1) (relativeDeRhamCoordinates I W k z).1,
+       mpullbackₗ (I := I) (I' := I)
+         (f := fun x : W => (x : M)) contMDiff_subtype_val (k + 1)
+         (relativeDeRhamCoordinates I W k z).1 -
+       mextDerivₗ I W k (relativeDeRhamCoordinates I W k z).2) := by
+  sorry
+variable (I) in
+/-- First coordinates use the native cocone projection, rather than an
+unconstrained choice of linear equivalence. -/
+theorem relativeDeRhamCoordinates_fst (W : TopologicalSpace.Opens M) (k : ℕ)
+    (z : (relativeDeRhamComplex I W).X ((k : ℤ) + 1)) :
+    (relativeDeRhamCoordinates I W k z).1 =
+      ((deRhamComplex I M).extendXIso ComplexShape.embeddingUpNat
+        (i := k + 1) (by simp)).hom
+        ((CochainComplex.mappingCocone.fst (relativeDeRhamRestrictionZ I W)).f
+          ((k : ℤ) + 1) z) := by
+  sorry
+variable (I) in
+/-- Beta is the negative of the native degree-minus-one projection. -/
+theorem relativeDeRhamCoordinates_snd (W : TopologicalSpace.Opens M) (k : ℕ)
+    (z : (relativeDeRhamComplex I W).X ((k : ℤ) + 1)) :
+    (relativeDeRhamCoordinates I W k z).2 =
+      -((deRhamComplex I W).extendXIso ComplexShape.embeddingUpNat
+        (i := k) rfl).hom
+        ((CochainComplex.mappingCocone.snd (relativeDeRhamRestrictionZ I W)).v
+          ((k : ℤ) + 1) (k : ℤ) (by omega) z) := by
+  sorry
+variable (I) in
+theorem relativeDeRhamCoordinatesZero_fst (W : TopologicalSpace.Opens M)
+    (z : (relativeDeRhamComplex I W).X 0) :
+    relativeDeRhamCoordinatesZero I W z =
+      ((deRhamComplex I M).extendXIso ComplexShape.embeddingUpNat
+        (i := 0) rfl).hom
+        ((CochainComplex.mappingCocone.fst (relativeDeRhamRestrictionZ I W)).f 0 z) := by
+  sorry
+variable (I) in
+/-- The degree-zero differential is (d alpha, restriction alpha). -/
+theorem relativeDeRhamCoordinatesZero_d (W : TopologicalSpace.Opens M)
+    (z : (relativeDeRhamComplex I W).X 0) :
+    relativeDeRhamCoordinates I W 0 ((relativeDeRhamComplex I W).d 0 1 z) =
+      (mextDerivₗ I M 0 (relativeDeRhamCoordinatesZero I W z),
+       mpullbackₗ (I := I) (I' := I) (f := fun x : W => (x : M))
+         contMDiff_subtype_val 0 (relativeDeRhamCoordinatesZero I W z)) := by
+  sorry
+
+variable (I) in
+/-- A closed form vanishing on W represents (alpha,0), in every degree
+including zero. The cochain is constructed from the fixed coordinates. -/
+noncomputable def relativeDeRhamVanishingCochain (W : TopologicalSpace.Opens M)
+    (q : ℕ) (α : SmoothForm I M ℝ q) : (relativeDeRhamComplex I W).X (q : ℤ) := by
+  cases q with
+  | zero => exact (relativeDeRhamCoordinatesZero I W).symm α
+  | succ k =>
+    exact (relativeDeRhamCoordinates I W k).symm (α, 0)
+
+variable (I) in
+theorem relativeDeRhamVanishingCochain_d (W : TopologicalSpace.Opens M)
+    (q : ℕ) (α : SmoothForm I M ℝ q) (hclosed : α ∈ closedForms I M q)
+    (hvanish : mpullbackₗ (I := I) (I' := I) (f := fun x : W => (x : M))
+      contMDiff_subtype_val q α = 0) :
+    (relativeDeRhamComplex I W).d (q : ℤ) ((q : ℤ) + 1)
+      (relativeDeRhamVanishingCochain I W q α) = 0 := by
+  sorry
+
+variable (I) in
+noncomputable def relativeDeRhamVanishingCycle (W : TopologicalSpace.Opens M)
+    (q : ℕ) (α : SmoothForm I M ℝ q) (hclosed : α ∈ closedForms I M q)
+    (hvanish : mpullbackₗ (I := I) (I' := I) (f := fun x : W => (x : M))
+      contMDiff_subtype_val q α = 0) : (relativeDeRhamComplex I W).cycles (q : ℤ) :=
+  (relativeDeRhamComplex I W).moduleCatCyclesMk
+    (relativeDeRhamVanishingCochain I W q α) ((q : ℤ) + 1)
+    (by apply (ComplexShape.up ℤ).next_eq'; rfl)
+    (relativeDeRhamVanishingCochain_d I W q α hclosed hvanish)
+
+variable (I) in
+noncomputable def relativeDeRhamClassOfVanishing (W : TopologicalSpace.Opens M)
+    (q : ℕ) (α : SmoothForm I M ℝ q) (hclosed : α ∈ closedForms I M q)
+    (hvanish : mpullbackₗ (I := I) (I' := I) (f := fun x : W => (x : M))
+      contMDiff_subtype_val q α = 0) : (relativeDeRhamComplex I W).homology (q : ℤ) :=
+  (relativeDeRhamComplex I W).homologyπ (q : ℤ)
+    (relativeDeRhamVanishingCycle I W q α hclosed hvanish)
+
+include I in
+variable (I) in
+/-- Open finite-dimensional sigma-compact manifolds are sigma-compact; callers
+of the relative comparison need not supply a redundant instance for W. -/
+theorem sigmaCompactSpace_openManifold [FiniteDimensional ℝ E]
+    [SigmaCompactSpace M] (W : TopologicalSpace.Opens M) : SigmaCompactSpace W := by
+  haveI : SecondCountableTopology H := I.secondCountableTopology
+  haveI : LocallyCompactSpace H := I.locallyCompactSpace
+  haveI : SecondCountableTopology M := ChartedSpace.secondCountable_of_sigmaCompact H M
+  haveI : LocallyCompactSpace M := ChartedSpace.locallyCompactSpace H M
+  haveI : LocallyCompactSpace W := W.isOpen.locallyCompactSpace
+  infer_instance
+
+variable (I) in
+/-- The comparison carries the full smoothing hypotheses on both open-pair members. -/
+noncomputable def relativeDeRhamHom [FiniteDimensional ℝ E] [T2Space M]
+    [SigmaCompactSpace M] (W : TopologicalSpace.Opens M) (k : ℕ) :
+    (relativeDeRhamComplex I W).homology (k : ℤ) →ₗ[ℝ]
+      (openManifoldPair W).singularCohomology
+        (ModuleCat.of ℝ ℝ) ℝ (ModuleCat.of ℝ ℝ) k := by
+  sorry
+variable (I) in
+noncomputable def relativeDeRhamEquiv [FiniteDimensional ℝ E] [T2Space M]
+    [SigmaCompactSpace M] (W : TopologicalSpace.Opens M) (k : ℕ) :
+    (relativeDeRhamComplex I W).homology (k : ℤ) ≃ₗ[ℝ]
+      (openManifoldPair W).singularCohomology
+        (ModuleCat.of ℝ ℝ) ℝ (ModuleCat.of ℝ ℝ) k := by
+  sorry
+variable (I) in
+theorem relativeDeRhamEquiv_toLinearMap [FiniteDimensional ℝ E] [T2Space M]
+    [SigmaCompactSpace M] (W : TopologicalSpace.Opens M) (k : ℕ) :
+    (relativeDeRhamEquiv I W k).toLinearMap = relativeDeRhamHom I W k := by
+  sorry
+
+end RelativeDeRham
 
 section MayerVietorisPrinciple
 
