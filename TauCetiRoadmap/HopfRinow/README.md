@@ -21,8 +21,10 @@ roadmap](../GeometricTopology/README.md) consumes the connection to build curvat
 the [differential-geometry roadmap](../DifferentialGeometry/README.md) consumes it to build
 gradient, divergence, Hessian and the Laplace–Beltrami operator; the
 [Optimal Transport roadmap](../OptimalTransport/README.md) consumes the exponential, logarithm,
-completeness, and minimizing-geodesic APIs and owns the subsequent cut-locus and
-transport-specific theory.
+completeness, and minimizing-geodesic APIs.
+[RiemannianGeometry R4.6](../RiemannianGeometry/README.md#r4-comparison-complete-manifolds-and-space-forms)
+owns the cut locus, injectivity radius and volume-nullity theorem;
+OptimalTransport consumes those objects for its transport-specific theory.
 
 The target is do Carmo, *Riemannian Geometry*, Chapter 7 §2, Theorem 2.8 with Corollary 2.9,
 stated under that chapter's standing assumption that `M` is **connected** (do Carmo carries this
