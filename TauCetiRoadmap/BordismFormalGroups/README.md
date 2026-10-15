@@ -325,21 +325,95 @@ identify left-multiplication maps with π_*R and state
 `a·π_(|b|+|c|+1)R+π_(|a|+|b|+1)R·c`, retaining the chosen
 graded suspension/composition convention. The sphere case R=S gives
 ordinary stable brackets.
-For a multiplicative filtered spectral tower, prove the Moss comparison:
-under the specified survival and compatible nullhomotopy/no-crossing-
-differential hypotheses, a defined E_r Massey product detects the
-corresponding homotopy Toda bracket, with its filtration and actual
-indeterminacy. Give the hypotheses as conditions on the three chosen
-cycles and their nullhomotopy representatives in the tower; track the
-possible later differentials and extension ambiguity. Prove the
-Adams–Novikov detection comparison with cobar Massey products under the
-explicit survival and nullhomotopy hypotheses, including the filtration
-and differential relations and extension indeterminacy used in ELL's
-coefficient calculations. These comparisons use the actual bracket sets.
+
+Construct higher Toda operations for every finite arity r≥3 in these
+same enriched stable spectral and right-module models, and in supplied
+stable symmetric monoidal models with the corresponding derived mapping
+spaces. Construct the operations before passage to the triangulated
+homotopy category. For X_r→⋯→X_0 use coherent
+iterated-cofiber defining systems with value in [Σ^(r−2)X_r,X_0],
+comparing with Carrick–Davies–van Nigtevecht Definitions3.3/3.7 on Picard
+objects. Extend their Picard-object construction to the general objects
+specified here and determine the suspension signs from the chosen model;
+the reference leaves these only up to units. Compare the r=3 normalization
+with the convention above. The displayed ring
+entries a₁,…,a_r run from the final map to the first map, matching
+left-to-right multiplication. Construct the cubical comparison and
+specify all maps, adjacent
+nullhomotopies and their higher compatibility homotopies on proper
+subintervals, with the final obstruction map as the value. Define the
+bracket as the set of values of such systems; adjacent products vanishing
+alone is not a defining system. Construct restriction, extension and
+change-of-system maps, their obstruction criteria, equivalence invariance
+and comparison of the cofiber and cubical definitions. For homogeneous
+ring classes pin the value degree Σ_i|a_i|+r−2, and recover exactly the
+preceding triple convention at r=3. Describe the full change-of-system
+indeterminacy; higher brackets need not be cosets of the triple's two
+composition subgroups. Prove suspension, naturality under derived exact
+functors and extension of scalars, and the composition/shuffling inclusions
+with their compatible defining-system hypotheses. On dualizable objects
+construct reversal through duality and its suspension/sign comparisons;
+specialize to Picard-graded E₂-ring classes. Construct nested-system
+substitution and the resulting bracket-of-brackets juggling inclusions,
+tracking the inner choices, proper-subinterval vanishing hypotheses and
+full outer indeterminacy. Include the forms in Bauer Lemma8.6 and
+Corollary8.7 as applications in EllipticCohomology, not additional generic
+definitions. A ring map carries a
+chosen system and its value to the image system and value; lifting a
+bracket requires lifting its coherent system, not just its entries.
+
+Consume DGAInfinity Layer8’s matric/higher Massey defining systems over
+the coefficient rings in use. Its field-dependent transferred-operation
+comparison is not used for integral or p-local MU/BP cobars. Own the
+specialization of its Massey definitions to the normalized
+multiplicative MU/BP cobar complexes, with the cohomological/internal-degree
+and Koszul-sign dictionary and full variation under changes of
+representatives. This is the cobar/filtration comparison, with a single
+generic Massey-product owner. Construct the following distinct comparisons.
+
+1. For every arity, start with a chosen coherent defining system in the
+   filtered model: the actual lifts of its entries, a filtered form of
+   C(a₂,…,a_(r−1)), and the extension and coextension maps. Exact realization
+   carries its total value into the corresponding classical Toda bracket.
+   For a central τ with E₂ quotient maps, reduction to R/τ^k carries this
+   same system to its reduced Toda system. Construct the normalized-cobar
+   associated-graded comparison on the proper faces and total obstruction;
+   when these faces define a Massey system on a specified spectral-sequence
+   page, its value is the image of this chosen system. Prove filtration,
+   sign, indeterminacy and tower-map naturality. This assertion begins with
+   a filtered defining system; it does not reconstruct one from arbitrary
+   higher Massey membership.
+2. Prove the threefold synthetic Moss theorem with explicit hypotheses:
+   R is an E₂-ring, a₁,a₂,a₃ are actual bigraded classes, and r≥s≥0 are
+   minimal with τ^r a₁a₂=τ^s a₂a₃=0. For r,s>0 construct H₀,H₁ with
+   total differentials d_(r+1)H₀=a₁a₂ and d_(s+1)H₁=a₂a₃, and a value
+   of ⟨a₁,τ^r a₂,a₃⟩ lifting τ^(r−s)a₁H₁±H₀a₃ modulo τ^s. For
+   r>0=s construct H₀ modulo τ^r and a bracket value lifting H₀a₃.
+   Pin the sign by the preceding cone convention and compare reduction
+   modulo τ with the corresponding threefold page-Massey product.
+   Include r=s=0 as the ordinary defined triple case. For classes initially
+   given only after τ-inversion, obtaining lifts with these annihilation
+   identities is an additional construction, not a consequence of page
+   membership. Compare this theorem with the Adams–Novikov tower through
+   its actual filtered realization.
+3. EllipticCohomology E4/E5 constructs the proper faces, extension maps and
+   total obstruction cell by cell for each of its higher applications,
+   and computes the corresponding detection and full indeterminacy.
+[Carrick–Davies–van Nigtevecht §3](https://arxiv.org/abs/2412.01640v2)
+supplies the chosen higher-cone/naturality/shuffling convention; its
+displayed Moss theorem3.16 is threefold. Lemma3.9 and Propositions3.14–15
+give the forward exact-functor and truncation comparisons; they do not
+assert a Massey-to-Toda converse for arbitrary arity.
 
 Develop graded comodules over the flat MU and BP Hopf algebroids, cofree
 comodules, the normalized cobar complex, Ext, change of rings and base
-change. Construct the actual MU/BP resolution of a spectrum by iterated
+change. Construct their graded tensor category and internal Hom, and prove
+that dualizable comodules are exactly those with finitely generated
+projective underlying graded module. Build their evaluation/coevaluation,
+dual coaction and tensor-Hom comparisons. Prove the Adams generation
+hypotheses used in ELL's separately constructed Hovey stable model; this
+comodule API does not itself identify that model with an ordinary derived
+category. Construct the actual MU/BP resolution of a spectrum by iterated
 unit/cofiber maps, its exact couple and Adams–Novikov spectral sequence.
 For the BP version, prove E₂^(s,t)=Ext_(BP_*BP)^(s,t)(BP_*,BP_*X)
 using BP_*BP's proved flatness and the comodule cobar comparison,
