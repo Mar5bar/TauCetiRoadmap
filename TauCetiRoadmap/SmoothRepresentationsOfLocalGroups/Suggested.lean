@@ -33,9 +33,10 @@ Design choices.
 * The modulus `δ_P` is Mathlib's modular character of `P`; for the upper Borel subgroup of
   `GL₂(ℚ_p)` it sends `diag(a, d)` to `|a/d|_p`.
 * SR.5.2 `wd-raw-parameters` exposes the common raw Weil–Deligne fields below LLC and the
-  arithmetic adapter. ArithmeticGaloisRepresentations §2.4 `wd-linear-substrate` supplies the
-  linear construction; `wd-complete-coefficients` extends its coefficient range, and §2.5
-  `wd-frobenius-semisimplification` supplies the operation in `WD = F-ss ∘ WD_full`.
+  arithmetic adapter. SR.5.2 owns `wd-linear-substrate`: `nilpotent-exp-log`,
+  `wd-parameter-operations`, `grothendieck-monodromy` / `wd-complete-coefficients`,
+  `full-wd-construction` and `wd-frobenius-semisimplification`.
+  They supply `WD = F-ss ∘ WD_full` independently of LLC and the arithmetic adapter.
 -/
 
 namespace TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
@@ -903,6 +904,12 @@ end Spin
 
 section WeilDeligne
 
+/-- Every unipotent element of a rational algebra has a unique nilpotent logarithm,
+inverse to the finite exponential (Deligne 1973, §8.4). -/
+theorem nilpotent_log_exists_unique {A : Type*} [Ring A] [Algebra ℚ A]
+    (u : A) (hu : IsNilpotent (u - 1)) :
+    ∃! N : A, IsNilpotent N ∧ IsNilpotent.exp N = u := by sorry
+
 variable {E W V V' : Type*} [Field E] [CharZero E] [Group W] [TopologicalSpace W]
   [AddCommGroup V] [Module E V] [FiniteDimensional E V]
   [AddCommGroup V'] [Module E V'] [FiniteDimensional E V']
@@ -999,7 +1006,7 @@ theorem grothendieck_quasiUnipotent_complete
   sorry
 
 /-! `wd-complete-coefficients` applies the shared `wd-linear-substrate` full formula to this
-monodromy operator. `classical-llc-normalization` is its composite with the supplier's
+monodromy operator. `classical-llc-normalization` is its composite with SR.5.2's
 `wd-frobenius-semisimplification`. The full unramified Jordan block and the nonzero monodromy
 of `Sp(2)` remain distinct through these two operations; the Gauss-norm rank-one example in the
 README supplies the complete-coefficient boundary without finite coefficient descent. -/
