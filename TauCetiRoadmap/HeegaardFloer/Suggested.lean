@@ -5,6 +5,8 @@ import TauCeti.Geometry.Symplectic.SymplecticTransport
 import TauCetiRoadmap.DifferentialGeometry.Suggested
 import TauCeti.Geometry.Manifold.Morse.Basic
 import TauCeti.Geometry.Manifold.Morse.Index
+import TauCeti.Topology.Compactification.OnePoint.ProjectiveLine
+import TauCeti.Topology.Algebra.Matrix.ProjectiveSpecialLinearGroup
 
 /-!
 # Heegaard Floer homology, analytically: target signatures
@@ -268,5 +270,30 @@ theorem scalarCrossingFormalAdjoint_sech (s : ℝ) :
   ring
 
 end ScalarSpectralFlowSign
+
+section ClosedSphereAutomorphisms
+
+open scoped MatrixGroups
+
+/-- The finite native center gives the complex PSL quotient a Hausdorff topology. -/
+instance pslComplex_t2 : T2Space PSL(2, ℂ) := by
+  let _ : Finite (Subgroup.center SL(2, ℂ)) :=
+    Matrix.SpecialLinearGroup.finite_center (R := ℂ)
+  let _ : IsClosed ((Subgroup.center SL(2, ℂ) : Subgroup SL(2, ℂ)) : Set SL(2, ℂ)) :=
+    Set.toFinite _ |>.isClosed
+  infer_instance
+
+variable [dec : DecidableEq ℂ]
+
+/-- F2.6a uses the native PSL action and fixed ordered triple (0,1,infinity). -/
+theorem sphereAut_existsUnique_map_triple (x y z : OnePoint ℂ)
+    (hxy : x ≠ y) (hxz : x ≠ z) (hyz : y ≠ z) :
+    ∃! g : PSL(2, ℂ),
+      g • ((0 : ℂ) : OnePoint ℂ) = x ∧
+      g • ((1 : ℂ) : OnePoint ℂ) = y ∧
+      g • (OnePoint.infty : OnePoint ℂ) = z := by
+  sorry
+
+end ClosedSphereAutomorphisms
 
 end TauCetiRoadmap.HeegaardFloer
