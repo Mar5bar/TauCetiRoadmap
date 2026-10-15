@@ -271,6 +271,30 @@ example : IsSimpleGroupScheme (TauCeti.ConstantGroup.finiteLocallyFreeGroupSchem
 example : order (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
     (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2)))) = 2 := sorry
 
+/-- The identity group has rank one, and the constant Klein four group has rank four. -/
+example : order (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
+    (Multiplicative (ZMod 1))) = 1 ∧
+    order (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
+      (Multiplicative (ZMod 2) × Multiplicative (ZMod 2))) = 4 := sorry
+
+/-- The constant Klein four group has a proper nontrivial closed flat subgroup. -/
+example : ¬ IsSimpleGroupScheme (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
+    (Multiplicative (ZMod 2) × Multiplicative (ZMod 2))) := sorry
+
+/-- Multiplication by two kills both integral order-two models. -/
+example : IsKilledBy (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
+    (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2)))) 2 ∧
+    IsKilledBy (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
+      (Multiplicative (ZMod 2))) 2 := sorry
+
+/-- Multiplication by zero kills every finite flat commutative group scheme. -/
+example (G : FFGroupSchemeOver R) : IsKilledBy G 0 := by
+  simp [IsKilledBy]
+
+/-- The identity group is killed by every natural number. -/
+example (n : ℕ) : IsKilledBy (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
+    (Multiplicative (ZMod 1))) n := sorry
+
 /-- Prime-square constant torsion is killed by the square, but not by the prime. -/
 example : IsKilledBy (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
     (Multiplicative (ZMod 4))) 4 ∧
@@ -288,6 +312,27 @@ example : IsDiagonalizableGroupScheme (TauCeti.DiagonalizableGroup.finiteLocally
     (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2)))) ∧
     ¬ IsDiagonalizableGroupScheme (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
       (Multiplicative (ZMod 2))) := sorry
+
+/-- The identity group is diagonalizable with trivial character group. -/
+example : IsDiagonalizableGroupScheme (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
+    (Multiplicative (ZMod 1))) := sorry
+
+/-- Inverting two makes the multiplicative order-two model constant. -/
+example : IsConstantGroupScheme (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme
+    (Localization.Away (2 : ℤ)) (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2)))) := sorry
+
+/-- An extension with either endpoint the identity group splits. -/
+example (G : FFGroupSchemeOver R) :
+    Ext1Vanishes (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme R
+      (Multiplicative (ZMod 1))) G ∧
+    Ext1Vanishes G (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme R
+      (Multiplicative (ZMod 1))) := sorry
+
+/-- Over characteristic zero, μ₂ has two geometric points and the identity group has one. -/
+example : Nat.card (points (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
+    (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2))))) = 2 ∧
+    Nat.card (points (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
+      (Multiplicative (ZMod 1)))) = 1 := sorry
 
 /-- Constant geometric points retain their cardinality and have trivial Galois action. -/
 example (σ : Field.absoluteGaloisGroup ℚ) :
@@ -334,6 +379,31 @@ abbrev IsIrreducibleSubgroup {K : Type*} [Field K] (G : Subgroup (GL (Fin 2) K))
 def cyclotomicSubfield (n : ℕ) : IntermediateField ℚ (AlgebraicClosure ℚ) :=
   IntermediateField.adjoin ℚ {x | x ^ n = 1}
 
+/-- Adjoining all roots of a positive power equation in `ℚ̄` gives a number field. -/
+theorem numberField_adjoin_roots {n : ℕ} (hn : 0 < n) (a : AlgebraicClosure ℚ) :
+    NumberField (IntermediateField.adjoin ℚ {x : AlgebraicClosure ℚ | x ^ n = a}) := by
+  have hs : Set.Finite {x : AlgebraicClosure ℚ | x ^ n = a} := by
+    simpa only [Polynomial.IsRoot, eval_sub, eval_pow, eval_X, eval_C, sub_eq_zero] using
+      (Polynomial.finite_setOfPred_isRoot (Polynomial.X_pow_sub_C_ne_zero hn a))
+  let := hs.fintype
+  let := IntermediateField.finiteDimensional_adjoin
+    (K := ℚ) (S := {x : AlgebraicClosure ℚ | x ^ n = a})
+    (fun x _ => Algebra.IsIntegral.isIntegral x)
+  exact NumberField.of_module_finite ℚ _
+
+/-- A positive-index cyclotomic subfield is a number field. -/
+instance numberField_cyclotomicSubfield (n : ℕ) [NeZero n] :
+    NumberField (cyclotomicSubfield n) :=
+  numberField_adjoin_roots (Nat.pos_of_ne_zero (NeZero.ne n)) 1
+
+/-- The third and fourth roots generate their respective cyclotomic torsion fields. -/
+example : torsionField (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
+    (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 3)))) = cyclotomicSubfield 3 ∧
+    torsionField (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
+      (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 4)))) = cyclotomicSubfield 4 ∧
+    torsionField (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
+      (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2)))) = ⊥ := sorry
+
 /-- the union of the inertia groups of the primes of `ℚ̄` above `ℓ`; `σ` is in
 the inertia group of `P` when `σ x − x ∈ P` for every algebraic integer `x`. -/
 def inertiaAbove (ℓ : ℕ) : Set (Field.absoluteGaloisGroup ℚ) :=
@@ -370,6 +440,10 @@ instance module_X0ElevenTwoTorsion : Module (ZMod 2) X0ElevenTwoTorsion :=
 theorem x0ElevenTwoTorsion_basis_exists :
     Nonempty (Basis (Fin 2) (ZMod 2) X0ElevenTwoTorsion) := sorry
 
+/-- The coordinate Galois action on the geometric two-torsion, in the chosen basis. -/
+def x0ElevenTwoTorsionRep (b : Basis (Fin 2) (ZMod 2) X0ElevenTwoTorsion) :
+    ResidualRep (ZMod 2) := sorry
+
 /-- Two-torsion has four geometric points, and multiplication by two annihilates it. -/
 example : Nat.card X0ElevenTwoTorsion = 4 ∧
     ∀ P : X0ElevenTwoTorsion, (2 : ℕ) • P = 0 := sorry
@@ -381,6 +455,23 @@ example : cyclotomicSubfield 1 = ⊥ ∧ cyclotomicSubfield 2 = ⊥ ∧
 /-- The real ninth cyclotomic field has degree three, not six. -/
 example : finrank ℚ (realCyclotomicSubfield 9) = 3 ∧
     finrank ℚ (cyclotomicSubfield 9) = 6 := sorry
+
+/-- The fourth cyclotomic field is generated by square roots of −1; the twelfth has degree four. -/
+example : cyclotomicSubfield 4 =
+    IntermediateField.adjoin ℚ {x : AlgebraicClosure ℚ | x ^ 2 = -1} ∧
+    finrank ℚ (cyclotomicSubfield 4) = 2 ∧
+    finrank ℚ (cyclotomicSubfield 12) = 4 ∧ discr (cyclotomicSubfield 12) = 144 := sorry
+
+/-- The first four real cyclotomic subfields are rational, and the fifth is quadratic. -/
+example : realCyclotomicSubfield 1 = ⊥ ∧ realCyclotomicSubfield 2 = ⊥ ∧
+    realCyclotomicSubfield 3 = ⊥ ∧ realCyclotomicSubfield 4 = ⊥ ∧
+    realCyclotomicSubfield 5 =
+      IntermediateField.adjoin ℚ {x : AlgebraicClosure ℚ | x ^ 2 = 5} ∧
+    finrank ℚ (realCyclotomicSubfield 5) = 2 := sorry
+
+/-- The displayed coefficients determine `b₂` and the cubic two-torsion polynomial. -/
+example : x0Eleven.b₂ = -4 ∧
+    x0Eleven.twoTorsionPolynomial.toPoly = 4 * X ^ 3 - 4 * X ^ 2 - 40 * X - 79 := sorry
 
 /-- The displayed conductor-eleven equation has the signed discriminant `-11^5`. -/
 example : x0Eleven.Δ = -(11 : ℚ) ^ 5 := sorry
@@ -468,12 +559,20 @@ theorem IsLevelOneResidual.conj {p : ℕ} {ρ ρ' : ResidualRep F} (g : GL (Fin 
     (hconj : ∀ σ, ρ' σ = g * ρ σ * g⁻¹) (hρ : IsLevelOneResidual p ρ) :
     IsLevelOneResidual p ρ' := sorry
 
-/-- Extending `𝔽₂` to `𝔽₄` preserves level one without selecting a constructed representation. -/
+/-- The `𝔽₂` to `𝔽₄` specialization of the coefficient-invariance API for level one. -/
 example {F' : Type*} [Field F'] [Fintype F'] [TopologicalSpace F'] [DiscreteTopology F']
     (_hF : Fintype.card F = 2) (_hF' : Fintype.card F' = 4) (f : F →+* F')
     (ρ : ResidualRep F) (ρ' : ResidualRep F')
     (hmap : ∀ σ, ρ' σ = Matrix.GeneralLinearGroup.map f (ρ σ)) :
     IsLevelOneResidual 2 ρ' ↔ IsLevelOneResidual 2 ρ := sorry
+
+/-- The conductor-eleven S₃ action stays absolutely irreducible over `𝔽₄` and keeps its field. -/
+example (b : Basis (Fin 2) (ZMod 2) X0ElevenTwoTorsion)
+    {F' : Type*} [Field F'] [Fintype F'] [TopologicalSpace F'] [DiscreteTopology F']
+    (_hF' : Fintype.card F' = 4) (f : ZMod 2 →+* F') (ρ' : ResidualRep F')
+    (hmap : ∀ σ, ρ' σ = Matrix.GeneralLinearGroup.map f (x0ElevenTwoTorsionRep b σ)) :
+    IsAbsolutelyIrreducible (x0ElevenTwoTorsionRep b) ∧ IsAbsolutelyIrreducible ρ' ∧
+      kernelField ρ' = kernelField (x0ElevenTwoTorsionRep b) := sorry
 
 /-- The determinant oddness condition is automatic in characteristic two. -/
 theorem isOdd_of_ringChar_two (h : ringChar F = 2) (ρ : ResidualRep F) : IsOdd ρ := sorry
@@ -756,6 +855,26 @@ def schoofFieldThreeTwo : IntermediateField ℚ (AlgebraicClosure ℚ) := cyclot
 def schoofFieldFiveTwo : IntermediateField ℚ (AlgebraicClosure ℚ) :=
   cyclotomicSubfield 4 ⊔ IntermediateField.adjoin ℚ {x | x ^ 2 = (5 : AlgebraicClosure ℚ)}
 
+/-- The radical-cyclotomic compositum is finite over `ℚ`. -/
+instance numberField_schoofFieldTwoThree : NumberField schoofFieldTwoThree := by
+  let := numberField_adjoin_roots (by decide : 0 < 3) (2 : AlgebraicClosure ℚ)
+  change NumberField ((cyclotomicSubfield 3 ⊔
+    IntermediateField.adjoin ℚ {x | x ^ 3 = (2 : AlgebraicClosure ℚ)}) :
+      IntermediateField ℚ (AlgebraicClosure ℚ))
+  exact NumberField.of_module_finite ℚ _
+
+/-- The twelfth cyclotomic auxiliary field is finite over `ℚ`. -/
+instance numberField_schoofFieldThreeTwo : NumberField schoofFieldThreeTwo :=
+  inferInstanceAs (NumberField (cyclotomicSubfield 12))
+
+/-- The biquadratic auxiliary field is finite over `ℚ`. -/
+instance numberField_schoofFieldFiveTwo : NumberField schoofFieldFiveTwo := by
+  let := numberField_adjoin_roots (by decide : 0 < 2) (5 : AlgebraicClosure ℚ)
+  change NumberField ((cyclotomicSubfield 4 ⊔
+    IntermediateField.adjoin ℚ {x | x ^ 2 = (5 : AlgebraicClosure ℚ)}) :
+      IntermediateField ℚ (AlgebraicClosure ℚ))
+  exact NumberField.of_module_finite ℚ _
+
 /-- `(l, p) = (2, 3)`: the criterion; its stronger field conclusion follows below. -/
 theorem fieldCriterion_two_three : FieldCriterion 2 3 := sorry
 
@@ -813,6 +932,28 @@ example : finrank ℚ schoofFieldThreeTwo = 4 ∧ cyclotomicSubfield 4 ≤ schoo
 /-- The fifth-prime auxiliary field has degree four and contains the fourth roots. -/
 example : finrank ℚ schoofFieldFiveTwo = 4 ∧ cyclotomicSubfield 4 ≤ schoofFieldFiveTwo := sorry
 
+/-- The three auxiliary discriminants are absolute field discriminants. -/
+example : discr schoofFieldTwoThree = -(2 : ℤ) ^ 4 * 3 ^ 7 ∧
+    discr schoofFieldThreeTwo = 144 ∧ discr schoofFieldFiveTwo = 400 := sorry
+
+/-- The radical-cyclotomic field contains all cubic roots and has residue field `𝔽₃` at three. -/
+example (P : Ideal (𝓞 schoofFieldTwoThree)) [P.IsMaximal]
+    (hP : (3 : 𝓞 schoofFieldTwoThree) ∈ P) :
+    (∀ x : AlgebraicClosure ℚ, x ^ 3 = 2 → x ∈ schoofFieldTwoThree) ∧
+    Nat.card (𝓞 schoofFieldTwoThree ⧸ P) = 3 := sorry
+
+/-- The twelfth cyclotomic field has ramification index two at three. -/
+example (P : Ideal (𝓞 schoofFieldThreeTwo)) [P.IsMaximal]
+    (hP : (3 : 𝓞 schoofFieldThreeTwo) ∈ P) : P.ramificationIdx ℤ = 2 := sorry
+
+/-- At two the biquadratic field has four residue elements, and its golden-ratio unit has order three. -/
+example (P : Ideal (𝓞 schoofFieldFiveTwo)) [P.IsMaximal]
+    (hP : (2 : 𝓞 schoofFieldFiveTwo) ∈ P) :
+    Nat.card (𝓞 schoofFieldFiveTwo ⧸ P) = 4 ∧
+    ∃ u : 𝓞 schoofFieldFiveTwo, u ^ 2 = u + 1 ∧
+      orderOf (Ideal.Quotient.mk P u) = 3 ∧
+      (Ideal.Quotient.mk P u) ^ 2 = Ideal.Quotient.mk P u + 1 := sorry
+
 /-! ## Layer 5: GL₂-type abelian varieties and the terminal weights -/
 
 section Terminal
@@ -864,6 +1005,9 @@ variable {F : Type*} [Field F] [Fintype F] [TopologicalSpace F] [DiscreteTopolog
 def SatisfiesA1Residual (p : ℕ) (ρ : ResidualRep F) : Prop :=
   IsIrreducibleSubgroup (imageOver ρ (cyclotomicSubfield p).fixingSubgroup)
 
+/-- A trivial rank-two representation fails (A1) at every cyclotomic index. -/
+example (p : ℕ) : ¬ SatisfiesA1Residual (F := ZMod 2) p (1 : ResidualRep (ZMod 2)) := sorry
+
 /-- Restriction to the second cyclotomic field imposes no new condition. -/
 example (ρ : ResidualRep F) : SatisfiesA1Residual 2 ρ ↔ IsAbsolutelyIrreducible ρ := sorry
 
@@ -892,19 +1036,34 @@ Additional mathematical targets specified in the README:
 * §1.10: order_congr, order_constant, order_mu, order_exact; isKilledBy_iff_mul_zero,
   isKilledBy_mul; ext1Vanishes_iff_all_split and the functoriality of the finite-flat predicates.
 * §§2.0–2.1: the continuous cyclotomic characters, oneAddCyclotomic, realCubicModTwo,
-  its coordinate action and matrix representation, and coefficient/twist
-  specializations of ArithmeticGaloisRepresentations. The coefficient-extension Check is
-  isLevelOneResidual_map; the cubic and conductor-eleven negative controls are
+  its coordinate action and the coordinate identification for x0ElevenTwoTorsionRep,
+  and coefficient/twist specializations of ArithmeticGaloisRepresentations. The coefficient-invariance
+  API specialization is isLevelOneResidual_map; its positive control is the conductor-eleven
+  S₃ action after extension to 𝔽₄. The cubic and conductor-eleven negative controls are
   not_isAbsolutelyIrreducible_cyclic_cubic_mod_two and
   not_isLevelOneResidual_X0_eleven_two_torsion.
 * §§4.1–4.2: torsion_mem_semistableCategory, the marked quadratic-twist and J₀(11)[2] controls,
   IsIteratedExtensionOf, isConstant_baseChange_cyclotomic, isDiagonalizable_baseChange_cyclotomic,
   no_semistable_of_simple_and_ext and no_semistable_abelianVariety_one_prime.
 * §§5.0–5.4: minimal lifts and compatible families, potential modularity, the geometric Hecke
-  eigensummand and Weil-restriction endomorphism comparison; IsGL2Type.lambdaAdicRep,
-  IsGL2Type.finrank_lambdaAdicRep, IsGL2Type.free_tateModule, ComesFromGL2Type,
+  eigensummand, shimuraCurve_picard_correspondences (unpointed Pic⁰ descent and
+  push–pull after smooth proper compactification, using the curve–Jacobian Tate comparison
+  of InverseGaloisAndArithmeticFundamentalGroups IG.0.T1) and Weil-restriction endomorphism comparison;
+  IsGL2Type.lambdaAdicRep and IsGL2Type.finrank_lambdaAdicRep specialize
+  ArithmeticGaloisRepresentations §6.4 / TateModule.lambdaTateModule; IsGL2Type.free_tateModule
+  specializes AbelianSchemesAndArithmeticModuli A6.12 / traceDegreeSubfield. The realization interfaces are
+  ComesFromGL2Type and gl2Type_equivariant_weilDeligne, retaining the marked K-action and
+  comparing inertia triviality and monodromy ranks in every conjugate factor, also at the
+  residue characteristic;
   comesFromGL2Type_of_restrict, comesFromGL2Type_of_weightTwo and reduction_of_comesFromGL2Type.
 * §§5.6–5.12: levelOne_dihedral_classification, no_levelOne_crystalline_of_reducible_terminal,
   not_levelOne_weight_two, not_levelOne_weight_succ_of_schoofPrime, weight_fourteen_eleven_twist,
-  not_levelOne_small_weight and paso_six; §6: the mathematical conjunction baseCases_holds.
+  not_levelOne_small_weight; modularity_transfer_at_five for an odd continuous finitely
+  ramified 5-adic representation, de Rham of weights {0,k−1}, k≥2, with a stable lattice,
+  modular reduction and absolute irreducibility on G_{ℚ(ζ₅)}. The target paso_six carries
+  those hypotheses for the original 5-adic member, obtains residual modularity from the
+  new minimal lift's family, applies modularity_transfer_at_five, and only then propagates
+  within the original family by common Frobenius polynomials. The local specialization
+  ordinary_terminal_local applies LocalGaloisDeformationRings §0.3 / RankTwoOrdinaryEndpoints
+  and §§5.4–5.5 at the five stated pairs. §6: the mathematical conjunction baseCases_holds.
 -/
