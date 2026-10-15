@@ -361,6 +361,35 @@ theorem BesselLaplaceMellin (m t : ℝ) (s : ℂ) (hm : 0 < m) (ht : 0 < t)
 theorem SelfDualHaar.dual_volume (q : ℝ) (hq : 0 < q) (m d : ℤ) :
     q^(-(m : ℝ)-(d : ℝ)/2)*q^((m : ℝ)+(d : ℝ)-(d : ℝ)/2) = 1 := by sorry
 
+/-- Gaussian periodisation converges uniformly on each compact set of real translations.
+This is the real slice of the compact-uniform adelic Tate contract. -/
+theorem gaussian_periodization_compact (K : Set ℝ) (hK : IsCompact K) :
+    TendstoUniformlyOn
+      (fun E : Finset ℤ => fun x : ℝ =>
+        ∑ n ∈ E, Real.exp (-Real.pi * (x + (n : ℝ)) ^ 2))
+      (fun x : ℝ => ∑' n : ℤ, Real.exp (-Real.pi * (x + (n : ℝ)) ^ 2))
+      Filter.atTop K := by sorry
+
+/-- An omitted integer contributes one at its negative translate, preventing uniform
+convergence of the fixed-subset Gaussian sums on all real translations. -/
+theorem gaussian_periodization_not_uniform :
+    ¬ TendstoUniformly
+      (fun E : Finset ℤ => fun x : ℝ =>
+        ∑ n ∈ E, Real.exp (-Real.pi * (x + (n : ℝ)) ^ 2))
+      (fun x : ℝ => ∑' n : ℤ, Real.exp (-Real.pi * (x + (n : ℝ)) ^ 2))
+      Filter.atTop := by sorry
+
+/-- Gaussian periodisation is jointly uniform on compact translations and positive
+scales bounded away from zero. -/
+theorem gaussian_periodization_compact_scaled (K : Set ℝ) (hK : IsCompact K)
+    (r R : ℝ) (hr : 0 < r) (hrR : r ≤ R) :
+    TendstoUniformlyOn
+      (fun E : Finset ℤ => fun p : ℝ × ℝ =>
+        ∑ n ∈ E, Real.exp (-Real.pi * (p.1 * (p.2 + (n : ℝ))) ^ 2))
+      (fun p : ℝ × ℝ =>
+        ∑' n : ℤ, Real.exp (-Real.pi * (p.1 * (p.2 + (n : ℝ))) ^ 2))
+      Filter.atTop (Set.Icc r R ×ˢ K) := by sorry
+
 end TauCeti.AutomorphicLFunctions.AL0
 
 /-! ## Layer AL.1: Tate distributions and archimedean factors -/
@@ -481,13 +510,38 @@ example : localGaussSum Measure.count ({1} : Set (ZMod 2)) 2 0 1
     (1 : (ZMod 2)ˣ) (fun _ => 1) (ZMod.toCircle (N := 2)) =
     -(Real.sqrt 2 : ℂ) := by sorry
 
-/-- Product identity on the absolute-convergence half-plane only. Its continued
-    function requires the AA.0/AA.2 and global Tate supplier types. -/
+/-- Unbalanced all-place product on its absolute-convergence half-plane.
+On algebraic norm twists its continuation is the conductor/variable adapter to
+LFunctions layers 0, 5–6 via ArithmeticGaloisRepresentations §2.7. -/
 def completedHeckeL {ι : Type*} (L : ι → ℂ → ℂ) (s : ℂ) : ℂ := ∏' v, L v s
 
 /-- The product after removing the specified places, on its convergence domain. -/
 def partialHeckeL {ι : Type*} (S : Set ι) (L : ι → ℂ → ℂ) (s : ℂ) : ℂ :=
   ∏' v : {v // v ∉ S}, L v.1 s
+
+/-- Conductor balancing identifies the unbalanced local-factor product with the
+supplied primitive LFunctions completion; the conductor A is positive in applications. -/
+def balancedHeckeL (A : ℝ) (L : ℂ → ℂ) (s : ℂ) : ℂ :=
+  (A : ℂ) ^ (s / 2) * L s
+
+/-- Balancing transports the conductor-power epsilon equation to its constant-root-number
+form at a point where the unbalanced equation holds. -/
+theorem balancedHeckeL_functionalEquation (A : ℝ) (hA : 0 < A)
+    (L Ldual : ℂ → ℂ) (W s : ℂ)
+    (h : L s = W * (A : ℂ) ^ (1/2 - s) * Ldual (1 - s)) :
+    balancedHeckeL A L s = W * balancedHeckeL A Ldual (1 - s) := by sorry
+
+/-- Conductor one introduces no balancing factor. -/
+example (L : ℂ → ℂ) (s : ℂ) : balancedHeckeL 1 L s = L s := by sorry
+
+/-- The odd conductor-four completion includes 4^(s/2) in balanced normalization. -/
+example (L : ℂ → ℂ) (s : ℂ) :
+    balancedHeckeL 4 (fun u => Complex.Gammaℝ (u + 1) * L u) s =
+      (4 : ℂ) ^ (s/2) * Complex.Gammaℝ (s + 1) * L s := by sorry
+
+/-- A norm twist translates both the conductor exponent and the unbalanced function. -/
+example (A : ℝ) (L : ℂ → ℂ) (s t : ℂ) :
+    balancedHeckeL A L (s + t) = (A : ℂ) ^ ((s+t)/2) * L (s+t) := by sorry
 
 /-- Epsilon of the real character sgn^a times a norm twist, for the positive Tate character. -/
 def realStandardEpsilon (a : Fin 2) : ℂ := Complex.I^a.val
@@ -497,8 +551,9 @@ example : realStandardEpsilon 0 = 1 ∧ realStandardEpsilon 1 = Complex.I := by 
 /-- The reducible real Weil constituent I₀ has the product epsilon of 1 and sgn. -/
 example : realStandardEpsilon 0 * realStandardEpsilon 1 = Complex.I := by sorry
 
-/-- The global epsilon product over the supplied places containing infinity and all finite
-    representation or additive-character ramification. -/
+/-- The finite epsilon product over all exceptional places. On algebraic norm twists,
+ArithmeticGaloisRepresentations §2.7 identifies it with the supplied LFunctions root number
+times the primitive conductor power, using the canonical rank-one comparison. -/
 def globalEpsilon {ι : Type*} (S : Finset ι) (ε : ι → ℂ → ℂ) (s : ℂ) : ℂ :=
   ∏ v ∈ S, ε v s
 
@@ -723,10 +778,18 @@ example (α : ℂ) (hα : α ≠ 0) (q : ℝ) (s : ℂ) :
         ((1-Polynomial.X) * (1-Polynomial.C (α^2)*Polynomial.X) *
           (1-Polynomial.C (α⁻¹^2)*Polynomial.X)) q s := by sorry
 
-/-- Entire order at most one, with the epsilon margin needed for Hadamard factorization. -/
+/-- Entire centered growth in the equivalent epsilon-bound form of the OrderLE predicate
+supplied by ZerosOfLFunctions layer 0. -/
 def IsCenteredOrderOne (f : ℂ → ℂ) : Prop :=
   Differentiable ℂ f ∧ ∀ ε : ℝ, 0 < ε → ∃ C : ℝ, 0 < C ∧
     ∀ z : ℂ, ‖f z‖ ≤ Real.exp (C * (1 + ‖z‖ ^ (1 + ε)))
+
+/-- The centered bound agrees with entirety and the asymptotic OrderLE condition of
+ZerosOfLFunctions layer 0; its generic Hadamard theorem uses precisely this condition. -/
+theorem IsCenteredOrderOne_iff_orderLE (f : ℂ → ℂ) :
+    IsCenteredOrderOne f ↔ Differentiable ℂ f ∧
+      ∀ A' : ℝ, 1 < A' → Asymptotics.IsBigO (Bornology.cobounded ℂ)
+        f (fun z : ℂ => Real.exp (‖z‖ ^ A')) := by sorry
 
 -- Tests distinguish order one from mere entire analyticity.
 example : IsCenteredOrderOne (fun _ : ℂ => (1 : ℂ)) := by sorry
@@ -734,7 +797,9 @@ example : IsCenteredOrderOne (fun z : ℂ => 1 + z ^ 2) := by sorry
 example : IsCenteredOrderOne Complex.exp ∧
     ¬ IsCenteredOrderOne (fun z : ℂ => Complex.exp (z ^ 2)) := by sorry
 
-/-- Zero entries in gamma encode unused indices when the zero multiset is finite. -/
+/-- Paired-zero specialization of ZerosOfLFunctions layer 5.6 after removing the central
+zero. Parity removes the linear exponential and eventual positivity fixes the constant.
+Zero entries in gamma encode unused indices when the zero multiset is finite. -/
 theorem PairedHadamardFactorization (f : ℂ → ℂ) (δ : ℂ)
     (hf : IsCenteredOrderOne f) (hδ : δ = 1 ∨ δ = -1)
     (hparity : ∀ z, f (-z) = δ * f z)
@@ -752,6 +817,7 @@ theorem PairedHadamardFactorization (f : ℂ → ℂ) (δ : ℂ)
           ∏ n ∈ s, if γ n = 0 then (1 : ℂ) else 1 + z ^ 2 / (γ n : ℂ) ^ 2)
         f Filter.atTop K) := by sorry
 
+/-- The paired product gives real nonnegative derivatives on the nonnegative real axis. -/
 theorem PairedHadamard_derivatives_nonnegative (f : ℂ → ℂ) (δ : ℂ)
     (hf : IsCenteredOrderOne f) (hδ : δ = 1 ∨ δ = -1)
     (hparity : ∀ z, f (-z) = δ * f z)
@@ -760,6 +826,7 @@ theorem PairedHadamard_derivatives_nonnegative (f : ℂ → ℂ) (δ : ℂ)
     (k : ℕ) (x : ℝ) (hx : 0 ≤ x) :
     (iteratedDeriv k f (x : ℂ)).im = 0 ∧ 0 ≤ (iteratedDeriv k f (x : ℂ)).re := by sorry
 
+/-- A nonpolynomial paired product gives strictly positive derivatives at positive real points. -/
 theorem PairedHadamard_derivatives_positive (f : ℂ → ℂ) (δ : ℂ)
     (hf : IsCenteredOrderOne f) (hδ : δ = 1 ∨ δ = -1)
     (hparity : ∀ z, f (-z) = δ * f z)
