@@ -36,10 +36,10 @@ is imposed on generalized theories.
 | DGFloer Layer 1 item 4 | Serre classes, including torsion, and simply connected Hurewicz modulo a class | G5 supplies the rational-sphere/stabilization argument, not a second general Serre-class owner |
 | [HomotopySpheres Stage 3A](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284) | the native `CompactlyGenerated` inclusion and compact-generation right adjoint; pointed convenient mapping spaces, suspension/loop, smash, mapping cone/Puppe, stable sphere stems and Freudenthal | G2 builds pointed simplicial and spectral constructions and the adapters; it does not create a second topological smash or stable-stem owner |
 | [TopologicalKTheory](../TopologicalKTheory/README.md), T1, T5–T7; [CharacteristicClasses](../CharacteristicClasses/README.md), C1–C3 | actual numerable bundles/classifiers, CC C2.1 disc/sphere quotient and ordinary Thom classes, bundle-level real/complex Bott isomorphisms and chosen ordinary class conventions | G4–G5 supply the spectral and generalized adapters. G4.0 supplies the quaternionic bundle/HP adapter; G5 compares KSp with quaternionic bundle groups |
-| [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K1/K7.1; [ComplexManifolds PR279](https://github.com/TauCetiProject/TauCetiRoadmap/pull/279), Milestones1–2 | #279's real scalar restriction and complex orientation as consumed by K1, and K7.1's native CP complex and real atlases | G4.0b consumes these atlases and owns only the fixed interleaved real Euclidean model change and rank-one Grassmannian diffeomorphism |
+| [ComplexKahlerGeometry K1/K7.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md); [ComplexManifolds PR279](https://github.com/TauCetiProject/TauCetiRoadmap/pull/279), Milestones1–2 | #279's real scalar restriction and complex orientation as consumed by K1, and K7.1's native CP complex and real atlases | G4.0b consumes these atlases and owns only the fixed interleaved real Euclidean model change and rank-one Grassmannian diffeomorphism |
 | [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4 | proper free-action smooth quotient and principal-bundle/submersion comparisons | G4.0b supplies the Sp/Stiefel/Grass/HP carriers before Riemannian metric consumers |
 | [SpinRepresentations](../SpinRepresentations/README.md), L7; [SpinGeometry](../SpinGeometry/README.md), G4.1 | native Spin(3) topology/action and Spin-cover frame/form adapters | G4.0a supplies the calibrated Spin(4) and quaternionic forgetting maps |
-| [SpinGeometry](../SpinGeometry/README.md), G1.3 | `cliffordScalarTrace` and its ℂ-linear extension τ_ℂ, their normalized regular-module trace formulas and algebra-isomorphism transport, independent of later C*-models | G5.5 proves positivity/faithfulness for its mixed Cartan adjoint and the Hilbert-module/completion norm comparisons |
+| [SpinGeometry G1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/41b8e2757fda1d8b7502af380e44b011b83bd7ff/TauCetiRoadmap/SpinGeometry/README.md#g1-negative-metric-clifford-modules-and-their-positive-metrics) | `cliffordScalarTrace` and its ℂ-linear extension τ_ℂ, their normalized regular-module trace formulas and algebra-isomorphism transport, independent of later C*-models | G5.5 proves positivity/faithfulness for its mixed Cartan adjoint and the Hilbert-module/completion norm comparisons |
 | [GeometricTopology](../GeometricTopology/README.md), smooth embeddings and tubular neighbourhoods | actual finite-dimensional normal bundles, tubes and collapse comparison | G5 constructs finite-spectrum duality; structured PT and geometric bordism remain TangentialBordism |
 | DGFloer Layer1 item2 | ordinary Serre homology/cohomology spectral sequences, arbitrary-CW/base comparisons and multiplicative convergence | G5 uses these for rational EM/sphere calculations; no returned dependency on generalized spectra |
 | [HilbertModules H2, H4–H6](https://github.com/TauCetiProject/TauCetiRoadmap/pull/861), [CStarAlgebras C5](https://github.com/TauCetiProject/TauCetiRoadmap/pull/860), [OperatorKTheory K5](https://github.com/TauCetiProject/TauCetiRoadmap/pull/866) | complex Hilbert compact operators/spatial tensors, strong-topology unitary contractibility, regular functional calculus and graded Clifford APIs | G5 adds the real/Clifford specializations, equivariant spectral construction and graded family-index/classification comparisons; complex generic operator foundations keep these owners |
@@ -1548,7 +1548,8 @@ axiomatic theories independently of their G2 spectral representation.
    | KU | complex, hence quaternionic bundles |
    | KO and its shifted module KSp | spin, hence quaternionic bundles via G4.0a's direct standard-orientation lift, using the KO spin Thom orientation target below |
 
-   Construct the KO Thom orientation for a real spin bundle by the actual
+   **G5.5-ABS: bundle ABS orientation.** Construct the KO Thom orientation
+   for a real spin bundle by the actual
    real graded Clifford-module/Koszul family, with local Spin equivariance,
    stabilization, product and the Bott unit. Consume TopK T7's algebraic ABS
    coefficient comparison and supply this missing bundle/spectrum refinement
@@ -1603,7 +1604,8 @@ axiomatic theories independently of their G2 spectral representation.
    APIs consume CStarAlgebras C5, HilbertModules H2/H4–H6 and OperatorKTheory K5;
    build the real and finite-Clifford extensions here. Retain K5's swapped
    two-odd-factor parity reduction and its explicit sign adapter to the
-   ordered geometric Clifford coordinates/Bott class. Define
+   ordered geometric Clifford coordinates/Bott class.
+   **G5.5-Classifiers: operator classifying spaces.** Define
    K_op,n=Hom_gr,𝕜,*(C₀(ℝ;𝕜),Cl_𝕜(n,0) graded-⊗_𝕜 K(H_n)),
    with point-norm topology and zero homomorphism as basepoint. For ℂ
    prove Cl_ℝ(n,0) graded-⊗̂_ℝ K(H_n)≅Cl_ℂ(n,0) graded-⊗̂_ℂ K(H_n),
@@ -1671,7 +1673,8 @@ axiomatic theories independently of their G2 spectral representation.
    coordinate shuffle once, without an extra scalar in the index product.
    Test Cl(1,1) graded-⊗Cl(1,1): the volume shuffle has determinant −1,
    while the exterior vacuum tensor map still has sign +1.
-   Construct the real finite-Clifford Hilbert-module interface on native
+   **G5.5-Transfer: finite-Clifford modules.** Construct the real finite-Clifford
+   Hilbert-module interface on native
    complete normed real vector spaces, with right A-action expressed through
    opposite scalars, an A-valued real-sesquilinear pairing with
    ⟨xa,yb⟩=a*⟨x,y⟩b, positivity, norm
@@ -1717,7 +1720,8 @@ axiomatic theories independently of their G2 spectral representation.
    and nonunital interfaces on the designated real models, extending the
    preceding spectral order to their compact/multiplier/adjointable models
    and proving norm, positivity, composition and tensor/compact compatibility.
-   For a complete real inner-product space H construct
+   **G5.5-RealHilbert: scalar Hilbert foundations.** For a complete real
+   inner-product space H construct
    `RealHilbertComplexification H` as a separate synonym of
    native `TauCeti.Complexification H`, retaining its complex linear
    structure but installing the Hilbert inner product
@@ -1774,7 +1778,8 @@ axiomatic theories independently of their G2 spectral representation.
    rank; in the converse average real finite-rank approximants over the
    finite signed Clifford-monomial unitary group and use finite A-module
    Parseval frames to express the averages as sums of θ_(x,y).
-   Define the real A-module adjoint of a densely defined A-linear D on
+   **G5.5-Regularity: real/complex regular operators.** Define the real
+   A-module adjoint of a densely defined A-linear D on
    its actual A-invariant domain: y lies in dom(D*) exactly when there is
    z with ⟨Dx,y⟩_A=⟨x,z⟩_A for every x in dom(D), and set D*y=z.
    Prove uniqueness by density and the pairing's nondegeneracy. Define
