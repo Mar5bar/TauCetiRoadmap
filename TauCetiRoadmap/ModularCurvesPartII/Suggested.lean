@@ -400,9 +400,36 @@ example : degeneracyH1 (LinearMap.id : ℤ →ₗ[ℤ] ℤ) 0 (3, 5) = 3 := by s
 /-- Equal legs have the anti-diagonal kernel; injectivity is a geometric theorem. -/
 example : degeneracyH1 (LinearMap.id : ℤ →ₗ[ℤ] ℤ) LinearMap.id (1, -1) = 0 := by sorry
 
-/-- The determinant used for selected-root control has this sign. -/
-theorem degeneracyNormMatrix_det (a b : ℚ) :
-    Matrix.det !![a, b; b, a] = a ^ 2 - b ^ 2 := by sorry
+/-- The general-character degeneracy norm determinant retains the inverse diamond unit.
+README §15.8 uses its symmetric specialization only under actual trivial integral action. -/
+theorem degeneracyNormMatrix_det {R : Type*} [CommRing R] (a b : R) (d : Rˣ) :
+    Matrix.det !![a, b; (↑(d⁻¹) : R) * b, a] = a ^ 2 - (↑(d⁻¹) : R) * b ^ 2 := by
+  rw [Matrix.det_fin_two_of]
+  ring
+
+/-- The trivial diamond gives the symmetric norm matrix over any commutative ring. -/
+example {R : Type*} [CommRing R] (a b : R) :
+    Matrix.det !![a, b; b, a] = a ^ 2 - b ^ 2 := by
+  rw [Matrix.det_fin_two_of]
+  ring
+
+/-- An order-seven diamond in ℤ/49 reduces to one but is not the identity integrally. -/
+example : (8 : ZMod 49) ^ 7 = 1 ∧ (8 : ZMod 49) ≠ 1 ∧
+    (8 : ZMod 49) * 43 = 1 ∧ (8 : ZMod 7) = 1 := by
+  decide
+
+/-- The general adjoint matrix and its symmetric specialization have different determinants. -/
+example : Matrix.det !![(30 : ZMod 49), 6; 43 * 6, 30] = 38 ∧
+    Matrix.det !![(30 : ZMod 49), 6; 6, 30] = 31 ∧ (38 : ZMod 49) ≠ 31 := by
+  rw [Matrix.det_fin_two_of, Matrix.det_fin_two_of]
+  decide
+
+/-- Reduction of the general matrix has unit determinant and distinct reciprocal old roots. -/
+example : Matrix.det !![(30 : ZMod 7), 6; 43 * 6, 30] = 3 ∧
+    IsUnit (3 : ZMod 7) ∧ (2 : ZMod 7) * 4 = 1 ∧
+    (2 : ZMod 7) + 4 = 6 ∧ (2 : ZMod 7) ≠ 4 := by
+  rw [Matrix.det_fin_two_of]
+  decide
 
 /-- Principal-level ordinary characters that vanish at a deeper principal level. -/
 def IsCongruenceCharacter (N q : ℕ)

@@ -24,13 +24,15 @@ The shared arithmetic-cohomology interfaces have the following ownership. Each c
 
 | Interface | Supplier | Modular specialization and retained work |
 | --- | --- | --- |
-| Betti coefficients and supported complexes | [ArithmeticLocallySymmetricSpaces](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces) ALS.1.1–ALS.1.8 | §§14.1–14.4 compare the chosen GL₂/ℚ component with Γ\ℍ. Use the dual of the fibre homology representation for R¹f_* and Sym^r thereof. Match the row-frame convention with ALS.1.1’s whole-inverse endpoint transport; the elliptic-family construction and finite étale comparison stay here. |
+| Betti coefficients and supported complexes | [ArithmeticLocallySymmetricSpaces](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces) ALS.1.1–ALS.1.8 | §§14.1–14.4 compare the chosen GL₂/ℚ component with Γ\ℍ. Use the dual of the fibre homology representation for R¹f_* and Sym^r thereof. Match the row-frame convention with ALS.1.1’s whole-inverse endpoint transport. §14.4a supplies the boundary-compatible finite CW pair and uses ALS.F.3/ALS.1.4 only with finite coefficients; O-adic complexes are derived limits of those finite complexes, and K-complexes are their scalar extensions. The elliptic-family construction and finite étale comparison stay here. |
 | Hecke and boundary/support maps | ALS.3.5–ALS.3.9 and ALS.4.1 | §§14.3–14.4 and 14.8 identify pullback/trace with the actual modular isogeny correspondence and the support map. In weight two this is unnormalized curve trace; higher weights retain §14.8’s coefficient transport. Cusp inertia and the weight-two Eisenstein calculation of §14.9 stay here. |
-| Coefficient duality and adjoint ideals | ALS.5a.3–ALS.5a.5 | §14.11 identifies evaluation/trace with the elliptic coefficient cup pairing, including twists; inverse double cosets become reversed modular legs and transposed coefficient maps. The duality projector is at m†, with inverse diamonds at r=0. The Fricke pairing of §14.7 is a separate transport. |
+| Coefficient duality and adjoint ideals | ALS.5a.3–ALS.5a.5 | §14.11 uses §14.4a’s finite-pair and derived-limit construction to identify evaluation/trace with the elliptic coefficient cup pairing, including twists; inverse double cosets become reversed modular legs and transposed coefficient maps. The duality projector is at m†, with inverse diamonds at r=0. The Fricke pairing of §14.7 is a separate transport. |
 | Finite-cover descent | ALS.6.1–ALS.6.3, using AlgebraicTopology Stage 5 | §§17.8–17.10 identify descent and augmentation for the actual Δ_Q-cover. The principal-level Ihara argument, conjugation minus complex, retained auxiliary level and selected-root Taylor–Wiles geometry stay here. |
 | Finite Hecke images, local factors and operator summands | [IntegralHeckeAndGaloisDeterminants](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/IntegralHeckeAndGaloisDeterminants) §§2.1–2.3 | §§14.10–14.11 and 17.8–17.10 apply the supplied finite-image and idempotent constructions over the complete DVR O. Commuting selected-root and minus projectors restrict these summands; no second general localization theory is specified here. |
 
 These supplier layers use general arithmetic quotients, local coefficients and Hecke algebra; the specialization comparisons here use the modular family and cusp charts. They require none of this roadmap’s Ihara or Taylor–Wiles conclusions, and none of ALS.4.12–ALS.5b’s Galois existence hypotheses.
+
+The outbound interface to AlgebraicModularFormsAndSerreWeights R15.5A.1 is §§14.1–14.4a: the geometric Sym^r R¹f_* system, the support map and its parabolic image, finite/adic comparison, characteristic-zero scalar extension, and level/isogeny/Hecke transport. §14.11 supplies its pairing on the stated coefficient domain. That downstream roadmap owns the higher-weight logarithmic de Rham comparison, Hodge/Eichler–Shimura decomposition, primitive newspace projector, rank-two multiplicity and Galois attachment. These are not consequences of the weight-two Shimura theorem here. With r=k−2, V≃V^∨(−r) and the curve trace give M_m × M_(m†)→K(−r−1), hence M_m^∨≃M_(m†)(r+1), with transported Hecke action. The Galois attachment uses the dual of its primitive cohomological multiplicity; replacing that dual by an adjoint block requires this twist. At k=2 it agrees with the Jacobian dual realization of §14.13. No integral self-duality outside §14.11’s factorial and vanishing hypotheses is exported.
 
 ## Conventions
 
@@ -1476,7 +1478,7 @@ The public interface should expose:
 
 ### 4.4 Boundary carriers and Hodge evaluation
 
-On each stated integral stack chart the boundary is an effective relative Cartier divisor cut out by its smoothing parameter, and ω=e*Ω¹ of the smooth locus agrees with the pushforward of the relative dualizing line. It is trivialized on Tate charts by du/u, invariant under contraction. A weight-k section evaluates as a formal series times (du/u)^k, equivariantly for chart stabilizers; restriction of global sections is injective whenever the chosen union of formal boundary charts meets every irreducible component and the sheaf has the required torsion-free/density property. This is the formal comparison supporting the q-expansion principle; one-cusp integral descent is supplied separately by IntegralAndPadicModularForms. Distinguish the Cartier boundary, its reduced boundary locus and the finite-flat scheme j⁻¹(∞), whose ramification multiplicities are cusp widths. For general Γ₀ integral coarse spaces use the Cartier and regular-cusp theorem below; finite flatness of a reduced coarse cusp locus over ℤ is not inferred.
+On each stated integral stack chart the boundary is an effective relative Cartier divisor cut out by its smoothing parameter, and ω=e*Ω¹ of the smooth locus agrees with the pushforward of the relative dualizing line. It is trivialized on Tate charts by du/u, invariant under contraction. A weight-k section evaluates as a formal series times (du/u)^k, equivariantly for chart stabilizers; restriction of global sections is injective whenever the chosen union of formal boundary charts meets every irreducible component and the sheaf has the required torsion-free/density property. This is the formal comparison supporting the q-expansion principle; the downstream AlgebraicModularFormsAndSerreWeights R15.2 target [“The q-expansion principle”](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicModularFormsAndSerreWeights#target-q-expansion-principle-and-its-vanishing-theorem) owns integral coefficient descent from one cusp on each geometric connected component, with its full-level and small-level hypotheses. This is an outbound scope boundary; the characteristic-zero and all-component arguments here use no input from that integral programme. Distinguish the Cartier boundary, its reduced boundary locus and the finite-flat scheme j⁻¹(∞), whose ramification multiplicities are cusp widths. For general Γ₀ integral coarse spaces use the Cartier and regular-cusp theorem below; finite flatness of a reduced coarse cusp locus over ℤ is not inferred.
 
 Establish this as follows. Compare the generalized curve’s dualizing line to invariant differentials on its smooth locus and use contraction invariance. Evaluate on the formal charts and retain the stabilizer linearization. For injectivity: a section of a torsion-free coherent sheaf that vanishes in the formal completion along the boundary vanishes near every component meeting the boundary, by Krull’s intersection theorem in the Noetherian local rings, hence on a schematically dense open, hence everywhere. Read cusp fibre multiplicities from valuations of j⁻¹, keeping reduction and Cartier constructions separate.
 
@@ -3358,7 +3360,7 @@ The public interface should expose:
 
 For a proper regular semistable model C/R specified above, apply R11.4 to its nodal special fibre Y. The identity fibre of the Néron model of Jac(C_K) has torus T with character lattice H₁(Γ,ℤ), and abelian quotient ∏_v Jac(Ỹ_v). The monodromy pairing is the thickness-weighted edge pairing on the cycle lattice. Reorienting an edge changes its coordinate sign, not the intrinsic lattice or pairing. For the fine two-component one-factor model, H₁ is the degree-zero subgroup of the free lattice on its s supersingular marked points. The coarse Γ₀ model requires the resolved thicknesses/automorphism weights; it is not obtained by ignoring the stabilizers.
 
-Establish this as follows. Use the imported normalized Picard/Néron comparison for the exact semistable model. Identify the cycle lattice with the kernel of its signed incidence map, and apply the imported weighted edge pairing. In the two-vertex graph the incidence map is the degree sum on supersingular edges, giving the augmentation kernel.
+Establish this as follows. Use the imported normalized Picard/Néron comparison for the exact semistable model. Identify the cycle lattice with the kernel of its signed incidence map, and apply the imported weighted edge pairing. In the two-vertex graph the incidence map is the degree sum on supersingular edges, giving the augmentation kernel. The common modular character/monodromy API is this specialization of R11.4; §17.4 uses it for its marked two-component fibre and adds only the supersingular coordinates and operator dictionary.
 
 **Checks.**
 
@@ -3684,9 +3686,9 @@ Establish this as follows. Apply the localization triangle for j_! and Rj_*; com
 
 For the supplied smooth finite-type modular curves over Q̄, a chosen embedding Q̄↪C, and finite locally constant ℤ/ℓⁿ coefficients from the universal family, Artin comparison gives H^i_et(Y,L_{r,ℓ,n})≅H^i_B(Y_an,L_{r,B}/ℓⁿ), with compact-support analogues and their support maps. These identify finite parabolic images. After proving the required inverse-limit exactness and finite generation, they give the adic comparison; for r=0 this also identifies the actual compact-curve lattice with Mathlib’s pro-étale EllAdicCohomology in degree one. Pullback, trace, cup product and level maps commute with comparison.
 
-On a neat fine GL₂/ℚ level, also identify these Betti complexes with the corresponding connected component of ArithmeticLocallySymmetricSpaces ALS.1. Compare the R¹f_* fibre with the dual of the elliptic homology lattice, carrying its row-frame action; match parallel transport with ALS.1.1’s action by the inverse of the lifted loop endpoint. The comparison identifies the support/boundary triangle, Hecke pullback and unnormalized trace, and finite-cover descent with ALS.3.5–ALS.3.9, ALS.4.1 and ALS.6.1–ALS.6.3. Descend to other torsion-free fine levels only through the proved cover comparison. The elliptic isogeny coefficient maps and modular cusp-inertia computation are those of §§14.1 and 14.3. Adjoint-ideal transport under this comparison is §14.11. The shared interface uses no higher-rank Eisenstein theorem or conditional Galois input.
+Through the finite-pair adapter of [§14.4a](#s14-4a), on a neat fine GL₂/ℚ level also identify these Betti complexes with the corresponding connected component of ArithmeticLocallySymmetricSpaces ALS.1. Compare the R¹f_* fibre with the dual of the elliptic homology lattice, carrying its row-frame action; match parallel transport with ALS.1.1’s action by the inverse of the lifted loop endpoint. The comparison identifies the support/boundary triangle, Hecke pullback and unnormalized trace, and finite-cover descent with ALS.3.5–ALS.3.9, ALS.4.1 and ALS.6.1–ALS.6.3. Descend to other torsion-free fine levels only through the proved cover comparison. The elliptic isogeny coefficient maps and modular cusp-inertia computation are those of §§14.1 and 14.3. Adjoint-ideal transport under this comparison is §14.11. The shared interface uses no higher-rank Eisenstein theorem or conditional Galois input.
 
-Derived-limit obstructions must be eliminated by finite coefficient Mittag–Leffler systems; reduction modulo π commutes only under the torsion hypotheses of [§14.10](#s14-10).
+Here the arithmetic O-adic support/ordinary/boundary triangle means Rlim_n of the finite O/πⁿ triangles, and its K-realization means tensoring that O-complex with K. It is compared with finite cellular O-cochains by §14.4a, without invoking an ALS complex formed directly from an arbitrary O-valued sheaf. Finite cohomology systems are Mittag–Leffler; reduction modulo π commutes in degree one only under the torsion hypotheses of [§14.10](#s14-10).
 
 Establish this as follows. Import Artin’s comparison with locally constant and compactly supported coefficients from ComplexComparisonPartII §§C6.3–C6.6. Use naturality with j_!→Rj_* and finite correspondences; apply the coefficient comparison from [§14.1](#s14-1). Apply finite generation (LefschetzPencilsAndVanishingCycles §F.3) and Mittag–Leffler exactness to the finite systems, and prove here the comparison of the degree-one limit with Mathlib’s pro-étale carrier.
 
@@ -3698,9 +3700,36 @@ Establish this as follows. Import Artin’s comparison with locally constant and
 - At r=0 the boundary triangle gives §14.3’s residue-sum sequence, with the same support map in the arithmetic Betti complex.
 - For a finite Δ-cover the trace of pullback is |Δ|; integral descent keeps derived invariants when |Δ| is not a unit.
 
-*Needs:* ArithmeticLocallySymmetricSpaces §§ALS.1.1–ALS.1.8, ALS.3.5–ALS.3.9, ALS.4.1 and ALS.6.1–ALS.6.3 (the shared Betti/support and cover interfaces); [§14.1](#s14-1); [§14.2](#s14-2); ComplexComparisonPartII §§C6.3–C6.6 and LefschetzPencilsAndVanishingCycles §§F.1–F.4; `LefschetzPencilsAndVanishingCycles §§F.1–F.4`; [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `AlgebraicGeometry.Scheme.ellAdicSheaf`.
+*Needs:* [§14.4a](#s14-4a); ArithmeticLocallySymmetricSpaces §§ALS.1.1–ALS.1.8, ALS.3.5–ALS.3.9, ALS.4.1 and ALS.6.1–ALS.6.3 (the shared Betti/support and cover interfaces); [§14.1](#s14-1); [§14.2](#s14-2); ComplexComparisonPartII §§C6.3–C6.6 and LefschetzPencilsAndVanishingCycles §§F.1–F.4; `LefschetzPencilsAndVanishingCycles §§F.1–F.4`; [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `AlgebraicGeometry.Scheme.ellAdicSheaf`.
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), Definition 3.9 and discussion of W_ℓ, pp. 154–156; corollary following Theorem 4.1, printed as Corollaire 3.2, p. 161.)
+
+<a id="s14-4a"></a>
+
+### 14.4a The modular Borel–Serre pair and adic adapter
+
+**Modular Borel–Serre comparison — `modularBorelSerreComparison`.** For a torsion-free congruence group Γ and a chosen neat fine GL₂/ℚ component Y_an≃Γ\ℍ, construct a compact oriented surface B with interior Y_an and one boundary circle at each cusp, and a finite triangulation of (B,∂B). Identify this pair with the corresponding Borel–Serre component, preserving cusp stabilizers and orientation. Finite level covers extend to covers of pairs; finite families of level and Hecke maps admit compatible cellular representatives after subdivision. This supplies the boundary-compatible triangulability input of ALS.2.4 on these components.
+
+For a finite free O-local system L from §14.1, put A_n=O/πⁿ and L_n=L/πⁿ. Identify the finite-coefficient ALS ordinary/support/boundary triangle with
+
+C^•(B,∂B;L_n) → C^•(B;L_n) → C^•(∂B;L_n) → C^•(B,∂B;L_n)[1].
+
+The local system extends to B with its cusp-loop monodromy; it is not extended over collapsed cusp discs. The finite sheaf/cochain comparisons of ComplexComparisonPartII C6.1 and ALS.F.3/ALS.1.4 give a commuting comparison of this triangle with RΓ_c(Y_an,L_n)→RΓ(Y_an,L_n)→RΓ(∂B,L_n). Compare its first two terms with the finite étale support map by Artin comparison. All squares preserve coefficient transitions, finite-cover pullback/trace, cup/evaluation, and the oriented trace. Thus they identify parabolic images at each n.
+
+Define the arithmetic O-adic complexes as Rlim_n of these finite complexes. On the finite CW pair, cellular terms are finite sums of stalks, and their reductions have surjective transitions. Completeness gives Rlim_n C^•(B,∂B;L_n)≃C^•(B,∂B;L), with the analogous ordinary and boundary identifications. Rlim preserves the triangle and all the comparison squares. Finite coefficient cohomology is Mittag–Leffler, so the Milnor sequence identifies its cohomology with the ordinary inverse limit; applying exactness to the finite support images identifies the parabolic limit. K-complexes are scalar extensions of these finite free O-models. Evaluation/trace duality is transported at finite coefficients and on the finite O-models, retaining §14.11’s dual lattice and Tate twist; no interchange of a dual with an arbitrary inverse limit is presumed. This supplies the ordinary/support triangle and duality used in §§14.4 and 14.11 without `TopologicalCoefficientInput(O)` or `TopologicalCoefficientInput(K)`.
+
+Establish this as follows. Truncate the disjoint cusp horodiscs of FuchsianOrbifolds Layer 3 in a finite fundamental polygon from Layer 2. Triangulate the finitely many truncated polygons with matching side subdivisions; cusp edges form the boundary subcomplex. The cusp coordinates identify a collar with the Borel–Serre horocycle end. Lift cells to finite covers and compare common subdivisions for correspondences. Use the finite-system sheaf/cochain dictionary with its actual stalk transport, then apply the supplied module derived-limit and finite cellular duality APIs.
+
+**Checks.**
+
+- For every n, the square with top row RΓ_et,c(Y,L_n)→RΓ_et(Y,L_n) and bottom row C^•(B,∂B;L_n)→C^•(B;L_n) commutes. Applying Rlim_n gives the same square for the O-adic complexes and their support map.
+- A genus-g curve with s>0 cusps gives a surface with s boundary circles, Euler characteristic 2−2g−s, and its relative orientation class gives the curve trace.
+- Take a fine modular cover with deck group C_ℓ, for example a congruence cover inside Γ(5) obtained by a unipotent C_ℓ subgroup modulo an odd ℓ≠5. Its lifted cells are free C_ℓ-orbits. For constant A_1 coefficients, trace after pullback is ℓ=0. At a cusp with degree-ℓ circle cover, pullback on H¹ is zero although upstairs H¹ has invariant module A_1. Thus descent must compare RΓ(C_ℓ,C^•), not ordinary invariants of cohomology. The same equivariant diagram survives Rlim_n.
+- Collapsing a boundary circle with nontrivial cusp monodromy would lose the boundary complex and fails the support comparison.
+
+*Needs:* FuchsianOrbifolds Layers 2–4; ArithmeticLocallySymmetricSpaces §§ALS.F.3, ALS.1.4, ALS.2.1–ALS.2.4 and ALS.5a.3–ALS.5a.5, restricted to finite coefficient systems; ComplexComparisonPartII §§C6.1, C6.3–C6.6; DerivedModuleAlgebra §§1.T.1 and 1.1; AlgebraicTopology Stages 2, 5 and 6; [§14.1](#s14-1).
+
+*Source:* [Borel–Serre, Corners and arithmetic groups](https://www.e-periodica.ch/iiif/com-001:1973:48::32/manifest), §7.3, p.464, §9.3, pp.475–476 (the rank-one boundary), and §11.1, p.481; [Hatcher](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), §2.2 (relative cellular chains) and §3.H (local coefficients); [Stacks, tag 07KW](https://stacks.math.columbia.edu/tag/07KW) (derived limits and Mittag–Leffler exactness).
 
 <a id="s14-5"></a>
 
@@ -3854,7 +3883,7 @@ M_O,m × M_O,m† → O(−r−1)
 
 is perfect, and its reduction is the perfect pairing M_(O/πⁿ),m × M_(O/πⁿ),m† → (O/πⁿ)(−r−1). The second factor uses the displayed coefficient-dual identification and its transported Hecke action. A pairing of a summand with itself is asserted only when m=m†. This natural pairing is separate from the Fricke-transported pairing of §14.7.
 
-Establish this as follows. Symmetrize products of the rank-two elliptic pairing, with r! inverted for integral coefficients. Apply the supplied Betti Poincaré–Lefschetz and finite étale curve dualities, and compare their traces. Duality on the paired complexes identifies the kernels of the correspondence actions under leg reversal, so † descends to their common image and is involutive by biduality. It identifies the support triangle with its dual triangle, including the connecting signs. Apply the finite-local-factor/idempotent interface of IntegralHeckeAndGaloisDeterminants §2.2: B(e_m x,y)=B(x,e_(m†)y), so distinct unpaired summands are orthogonal. Under the two sets of vanishing hypotheses, derived duality restricts to a duality of free degree-one modules. Prove that the projectors, support maps, coefficient reductions and the comparisons of §14.4 commute with this duality; retain the Tate twist in étale realization. The cup sign is (−1)^(r+1). At ℓ≤r, no integral perfection follows from the rational theorem without a separately compared divided-power lattice.
+Establish this as follows. Symmetrize products of the rank-two elliptic pairing, with r! inverted for integral coefficients. Apply Betti Poincaré–Lefschetz duality on §14.4a’s finite pair and finite étale curve duality, and compare their traces. The O-adic pairing is the finite-model pairing transported through §14.4a’s derived-limit comparison; the K-pairing is its scalar extension. Duality on the paired complexes identifies the kernels of the correspondence actions under leg reversal, so † descends to their common image and is involutive by biduality. It identifies the support triangle with its dual triangle, including the connecting signs. Apply the finite-local-factor/idempotent interface of IntegralHeckeAndGaloisDeterminants §2.2: B(e_m x,y)=B(x,e_(m†)y), so distinct unpaired summands are orthogonal. Under the two sets of vanishing hypotheses, derived duality restricts to a duality of free degree-one modules. Prove that the projectors, support maps, coefficient reductions and the comparisons of §14.4 commute with this duality; retain the Tate twist in étale realization. The cup sign is (−1)^(r+1). At ℓ≤r, no integral perfection follows from the rational theorem without a separately compared divided-power lattice.
 
 **Checks.**
 
@@ -3899,7 +3928,7 @@ For J=Pic⁰(X₁(N)/Q), the canonical comparison identifies T_ℓJ with H¹_et(
 
 This comparison precedes rank-two freeness. The initial Tate carrier and functoriality from Layer 13 must not depend on [§14.14](#s14-14).
 
-Establish this as follows. Apply the Kummer sequence for the Jacobian/Picard functor to identify ℓⁿ torsion with finite curve H¹(1). Pass to limits using the supplied Tate module construction; compare cup and Weil pairings. Use polarization to relate Picard pullback to Albanese norm; apply the integral comparison on the Betti side.
+Establish this as follows. Specialize the common Kummer/trace API `jacobianTateModule_kummer` and `jacobianTateModule_trace` of §13.5 to X₁(N), including its comparison of cup and Weil pairings. Use polarization to relate Picard pullback to Albanese norm; apply the integral comparison on the Betti side.
 
 **Checks.**
 
@@ -3923,7 +3952,8 @@ Establish this as follows. Use the twisted perfect pairing to identify rational 
 
 **Checks.**
 
-- Integral freeness after localising at a non-Eisenstein maximal ideal is the separately stated localized lattice theorem of §14.10.
+- Integral freeness after localising at a non-Eisenstein maximal ideal in §14.10 is freeness over O. It asserts no integral rank-two freeness over T.
+- For X₁(11), the rational Hecke algebra has dimension one and H¹ has dimension two over ℚ.
 - This is rational rank-two freeness for the full Hecke algebra of Conrad §5.1, including old blocks; it asserts neither integral Gorensteinness nor integral rank-two freeness at every maximal ideal.
 
 *Needs:* [§14.5](#s14-5); [§14.7](#s14-7); [§14.13](#s14-13); [ModularForms Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-4-eigenforms-newforms-primitive-forms-the-conductor); [ModularForms Layer 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-5-strong-multiplicity-one-and-the-eigenform-characterization); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields).
@@ -4141,20 +4171,23 @@ Establish this as follows. Ribet’s compact homology proof quotients ordinary a
 
 ### 15.8 Taylor–Wiles degeneracy control
 
-For constant coefficients O/πⁿ, odd residue characteristic ℓ, torsion-free modular level Γ with p∤Nℓ, and a localized cyclotomic-determinant residual eigensystem at which p≡1 mod ℓ and T_p has residual roots α,β with αβ=1 and α≠β, the two degeneracy images identify H^i(Y,O/πⁿ)_m² with the sum of the two selected old-root factors in H^i(Y₀(p),O/πⁿ). Localization additionally at U_p−α identifies its factor with one copy of H^i(Y,O/πⁿ)_m. The operator normalization is the one in CG Lemma 9.6; in the general character setting the off-diagonal diamonds must be restored and checked, not suppressed.
+For constant coefficients O/πⁿ, odd residue characteristic ℓ, torsion-free modular level Γ with p∤Nℓ, assume that the localized base-level and Γ₀(p)-level coefficient complexes have actual trivial central/diamond action over O/πⁿ (in particular D_p=1). Let the residual eigensystem have cyclotomic determinant, with p≡1 mod ℓ and residual old roots α,β satisfying αβ=1 and α≠β. Then the two degeneracy images identify H^i(Y,O/πⁿ)_m² with the sum of the two selected old-root factors in H^i(Y₀(p),O/πⁿ). Localization additionally at U_p−α identifies its factor with one copy of H^i(Y,O/πⁿ)_m. This is the trivial-integral-character restriction of CG Lemma 9.6, with unmodified trace. Residual cyclotomic determinant alone does not supply the integral-character hypothesis.
 
 α,β∉{1,−1} follows from odd ℓ and αβ=1, α≠β.
 
 The full anemic localized target is not asserted to have no additional U_p=±1 factors; those are killed in the selected U_p²−1 localization.
 
-Establish this as follows. Compute trace∘pullback matrix [[p+1,T_p],[T_p,p+1]] and its determinant (p+1)²−T_p² (`degeneracyNormMatrix_det`); it is a unit at the selected residual roots. Use the correctly graded Lyndon sequence: the normalized double-coset operator for diag(p,p⁻¹) acts as identity on the amalgam terms. Localize at U_p²−1 to remove both adjacent amalgam terms and identify the two-copy old factors. Apply the idempotent for the distinct roots and descend across any elementary two-group component quotient, whose order is invertible.
+Establish this as follows. With the upper-right entry T_p, the general trace∘pullback matrix is [[p+1,T_p],[D_p⁻¹T_p,p+1]], by §14.11. Its determinant is (p+1)²−D_p⁻¹T_p² (`degeneracyNormMatrix_det`); the old-root polynomial is X²−T_pX+pD_p. Under the actual trivial-action hypothesis these specialize to the symmetric matrix and X²−T_pX+p. The residual determinant is 4−(α+β)²=−(α−β)²≠0, so the norm matrix is invertible over the localized finite coefficient algebra. Use the correctly graded Lyndon sequence: the normalized double-coset operator for diag(p,p⁻¹) acts as identity on the amalgam terms. Localize at U_p²−1 to remove both adjacent amalgam terms and identify the two-copy old factors. Apply the idempotent for the distinct roots and descend across any elementary two-group component quotient, whose order is invertible.
 
 **Checks.**
 
 - The repeated-root case α=β is excluded.
+- Let O=ℤ₇[ζ₇], π=ζ₇−1 and n≥2, with D_p acting by ζ₇, p=29 and T_p=6. The general norm matrix has lower-left entry 6ζ₇⁻¹≠6 in O/πⁿ, and determinant 900−36ζ₇⁻¹, rather than 864. Modulo π the roots are 2,4 and the determinant is 3∈𝔽₇, a unit. This block satisfies the residual conditions but is excluded by the actual trivial-action hypothesis.
+- In the finite ring ℤ/49, d=8 has order 7, inverse 43 and residue 1 in 𝔽₇. The general matrix [[30,6],[43·6,30]] has determinant 38, while the symmetric matrix has determinant 31; both reduce to 3. This tests the general matrix before reduction independently of the restricted geometric theorem.
+- At D_p=1 the general determinant recovers the symmetric determinant, and the old polynomial specializes to X²−T_pX+p.
 - The proof cannot use exact invariants for a quotient whose order is divisible by ℓ.
 
-*Needs:* [§14.10](#s14-10); [§15.1](#s15-1); [§15.4](#s15-4).
+*Needs:* [§14.10](#s14-10); [§14.11](#s14-11); [§15.1](#s15-1); [§15.4](#s15-4).
 
 ([Calegari–Geraghty](https://arxiv.org/pdf/1207.4224), Lemma 9.6 and Remarks 9.7–9.8, pp. 88–90.)
 
@@ -4482,7 +4515,7 @@ The two-component description is a supplied theorem for the mixed Γ₀(p) model
 
 If a regular model introduces subdivisions, compare graph homology by contraction; the stable thickness data must be preserved.
 
-Establish this as follows. Import the actual fibre normalization, nodes and their correspondences from Layer 11. Its dual graph has two vertices and edges S; the boundary of each edge is v₂−v₁, so the cycle lattice is ker Σ. Import R11.4’s X*(torus)=H₁(dual graph,Z), and transport the actual operators through the incidence-chain description.
+Establish this as follows. Import the actual fibre normalization, nodes and their correspondences from Layer 11. Its dual graph has two vertices and edges S; the boundary of each edge is v₂−v₁, so the cycle lattice is ker Σ. Specialize §12.2’s common character/monodromy API to this two-component graph, and transport the actual operators through the incidence-chain description.
 
 The public interface should expose:
 
@@ -4631,11 +4664,11 @@ Establish this as follows. Apply Shapiro: H¹(Γ_Q,O)=H¹(Γ̄_Q,O[Δ_Q]). By `m
 
 ### 17.10 Augmentation and selected-root specialization
 
-Let I_Q be the augmentation ideal of O[Δ_Q]. For the minus modules of the actual covers, M_Q^-/I_QM_Q^- identifies with H¹(Ȳ_Q,O)^−, via Shapiro’s induced-coefficient complex and its augmentation. At the cyclotomic-determinant Taylor–Wiles roots of [§15.8](#s15-8), successive root selection at q∈Q identifies the localized base-side module with the fixed-level localized module. All maps commute with anemic Hecke operators and reduction modulo πⁿ. A finite free O[Δ_Q] module M satisfies rank_O(M/I_QM)=rank_{O[Δ_Q]}M; this numerical fact is used only after the actual geometric specialization map has been proved.
+Let I_Q be the augmentation ideal of O[Δ_Q]. For the minus modules of the actual covers, M_Q^-/I_QM_Q^- identifies with H¹(Ȳ_Q,O)^−, via Shapiro’s induced-coefficient complex and its augmentation. Assume at each step the actual trivial integral central/diamond action and the cyclotomic-determinant Taylor–Wiles root hypotheses of [§15.8](#s15-8). Successive root selection at q∈Q then identifies the localized base-side module with the fixed-level localized module. All maps commute with anemic Hecke operators and reduction modulo πⁿ. A finite free O[Δ_Q] module M satisfies rank_O(M/I_QM)=rank_{O[Δ_Q]}M; this numerical fact is used only after the actual geometric specialization map has been proved.
 
 The same auxiliary R-level is retained at both ends. Removing R requires a separate checked level-control argument and its source hypotheses.
 
-Distinct residual roots, q∤Nℓ and odd ℓ; no repeated-root specialization.
+Distinct residual roots, q∤Nℓ and odd ℓ; the integral central/diamond hypothesis of §15.8 is required at every finite coefficient level. It concerns the base-side action and does not trivialize the auxiliary deck action of Δ_Q. No repeated-root specialization.
 
 Establish this as follows. On the Shapiro free-group complex, augmentation is coefficient change O[Δ_Q]→O. The degree-zero coboundaries are plus, so minus projection and its H¹ commute with this change. Use finite group-ring freeness and the exact minus complex to prove augmentation and coefficient compatibility. Apply the finite-level degeneracy root-control theorem successively; retain the actual root idempotents. Export the geometric module and specialization data to generic patching owners, which own inverse systems and the ring theorem.
 
