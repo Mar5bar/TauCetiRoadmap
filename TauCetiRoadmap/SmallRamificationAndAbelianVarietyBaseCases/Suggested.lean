@@ -92,6 +92,24 @@ theorem isPositiveDefiniteSub_cosh_div_cosh {a : ℝ} (ha : |a| ≤ 1 / 2) :
     TauCeti.IsPositiveDefiniteSub fun x : ℝ =>
       ((Real.cosh (a * x) / Real.cosh (x / 2) : ℝ) : ℂ) := sorry
 
+/-- The Fourier-normalized exponential density has total mass one. -/
+example {c : ℝ} (hc : 0 < c) :
+    (∫ t : ℝ, π * c * Real.exp (-(2 * π * c * |t|))) = 1 := sorry
+
+/-- Its Fourier integral at zero is one. -/
+example {c : ℝ} (hc : 0 < c) :
+    (∫ t : ℝ, Complex.exp (-2 * (π : ℂ) * Complex.I * t * 0) *
+      ((π * c * Real.exp (-(2 * π * c * |t|)) : ℝ) : ℂ)) = 1 := sorry
+
+/-- At frequency `c` the normalized Fourier integral is one half. -/
+example {c : ℝ} (hc : 0 < c) :
+    (∫ t : ℝ, Complex.exp (-2 * (π : ℂ) * Complex.I * t * c) *
+      ((π * c * Real.exp (-(2 * π * c * |t|)) : ℝ) : ℂ)) = 1 / 2 := sorry
+
+/-- Both endpoint cosh quotients are the constant one. -/
+example (x : ℝ) : Real.cosh ((1 / 2) * x) / Real.cosh (x / 2) = 1 ∧
+    Real.cosh ((-(1 / 2)) * x) / Real.cosh (x / 2) = 1 := sorry
+
 /-- Positivity of `F = f/cosh(x/2)` on the critical strip. -/
 theorem re_poitouTransform_nonneg (f : ℝ → ℝ) (hf_even : ∀ x, f (-x) = f x)
     (hf_cont : Continuous f) (hf_supp : HasCompactSupport f) (hf_nonneg : ∀ x, 0 ≤ f x)
@@ -342,6 +360,20 @@ example (σ : Field.absoluteGaloisGroup ℚ) :
       (Multiplicative (ZMod 3))),
       galoisAct _ σ x = x := sorry
 
+/-- Complex conjugation inverts μ₃ and exchanges its two nonidentity geometric points. -/
+example (j : AlgebraicClosure ℚ →+* ℂ) (c : Field.absoluteGaloisGroup ℚ)
+    (hc : ∀ z, j (galAut c z) = starRingEnd ℂ (j z))
+    (x : points (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
+      (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 3))))) :
+    galoisAct _ c x = x⁻¹ ∧ (x ≠ 1 → galoisAct _ c x ≠ x) := sorry
+
+/-- Complex conjugation fixes every geometric point of μ₂. -/
+example (j : AlgebraicClosure ℚ →+* ℂ) (c : Field.absoluteGaloisGroup ℚ)
+    (hc : ∀ z, j (galAut c z) = starRingEnd ℂ (j z))
+    (x : points (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
+      (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2))))) :
+    galoisAct _ c x = x := sorry
+
 /-- The constant order-three model has rational torsion field. -/
 example : torsionField (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ
     (Multiplicative (ZMod 3))) = ⊥ := sorry
@@ -442,7 +474,29 @@ theorem x0ElevenTwoTorsion_basis_exists :
 
 /-- The coordinate Galois action on the geometric two-torsion, in the chosen basis. -/
 def x0ElevenTwoTorsionRep (b : Basis (Fin 2) (ZMod 2) X0ElevenTwoTorsion) :
-    ResidualRep (ZMod 2) := sorry
+    ResidualRep (ZMod 2) where
+  toFun σ := (Matrix.GeneralLinearGroup.toLin' b).symm
+    (LinearMap.GeneralLinearGroup.ofLinearEquiv
+      { toFun := fun P =>
+          ⟨WeierstrassCurve.Affine.Point.map (W' := x0Eleven.toAffine)
+            (galAut σ).toAlgHom P.val, by sorry⟩
+        invFun := fun P =>
+          ⟨WeierstrassCurve.Affine.Point.map (W' := x0Eleven.toAffine)
+            (galAut σ⁻¹).toAlgHom P.val, by sorry⟩
+        left_inv := by sorry
+        right_inv := by sorry
+        map_add' := by sorry
+        map_smul' := by sorry })
+  map_one' := by sorry
+  map_mul' := by sorry
+  continuous_toFun := by sorry
+
+/-- The matrix action in the chosen basis agrees with the included coordinate Galois action. -/
+theorem x0ElevenTwoTorsionRep_equivariant
+    (b : Basis (Fin 2) (ZMod 2) X0ElevenTwoTorsion)
+    (σ : Field.absoluteGaloisGroup ℚ) (P : X0ElevenTwoTorsion) :
+    (((Matrix.GeneralLinearGroup.toLin' b) (x0ElevenTwoTorsionRep b σ)).toLinearEquiv P).val =
+      WeierstrassCurve.Affine.Point.map (W' := x0Eleven.toAffine) (galAut σ).toAlgHom P.val := sorry
 
 /-- Two-torsion has four geometric points, and multiplication by two annihilates it. -/
 example : Nat.card X0ElevenTwoTorsion = 4 ∧
@@ -719,6 +773,13 @@ theorem card_points_eq_of_isogeny {k : Type} [Field k] [Fintype k] {A B : Abelia
 
 /-- The dimension-zero variety has a trivial smooth proper integral model. -/
 example (A : AbelianVariety ℚ) (hA : A.dim = 0) : HasGoodReductionEverywhere A := sorry
+
+/-- The two geometrically isomorphic curves over 𝔽₅ have different rational point counts. -/
+example :
+    Nat.card (WeierstrassCurve.toAffine
+      (⟨0, 0, 0, -1, 0⟩ : WeierstrassCurve (ZMod 5))).Point = 8 ∧
+    Nat.card (WeierstrassCurve.toAffine
+      (⟨0, 0, 0, 1, 0⟩ : WeierstrassCurve (ZMod 5))).Point = 4 := sorry
 
 /-- Fontaine's theorem. -/
 theorem dim_eq_zero_of_goodReduction_everywhere (A : AbelianVariety ℚ)
@@ -1011,6 +1072,13 @@ example (p : ℕ) : ¬ SatisfiesA1Residual (F := ZMod 2) p (1 : ResidualRep (ZMo
 /-- Restriction to the second cyclotomic field imposes no new condition. -/
 example (ρ : ResidualRep F) : SatisfiesA1Residual 2 ρ ↔ IsAbsolutelyIrreducible ρ := sorry
 
+/-- The natural SL₂(𝔽₃) image remains irreducible over the algebraic closure. -/
+example : IsIrreducibleSubgroup
+    (((Matrix.SpecialLinearGroup.toGL : Matrix.SpecialLinearGroup (Fin 2) (ZMod 3) →*
+      GL (Fin 2) (ZMod 3)).range).map
+        (Matrix.GeneralLinearGroup.map (algebraMap (ZMod 3) (AlgebraicClosure (ZMod 3))))) :=
+  sorry
+
 open scoped MatrixGroups in
 /-- Check: the terminal weights `2, 4, 6, 8` carry no level-one cusp forms (Mathlib). -/
 example (k : ℤ) (hk : k < 12) : Module.rank ℂ (CuspForm 𝒮ℒ k) = 0 :=
@@ -1026,7 +1094,9 @@ end TauCetiRoadmap.SmallRamificationAndAbelianVarietyBaseCases
 
 /-
 Additional mathematical targets specified in the README:
-* §1.0: Dedekind-zeta analytic extension, functional equation and the explicit formula.
+* §1.0: dedekindZeta_explicitFormula, including zero location and grouped convergence for
+  the trivial-character Dedekind-zeta function supplied by ArithmeticGaloisRepresentations §2.7;
+  identify its Euler product with the ArithmeticDirichletSeries presentation.
 * §§1.1–1.3: localRootDiscrExp and its normalized different API, local-to-global root
   discriminants, wild Borel normal form and the two sharp small-characteristic bounds.
 * §§1.5–1.7: the analytic API odlyzkoKernel_eq_two_mul_convolution, odlyzkoKernel_nonneg,
@@ -1036,7 +1106,7 @@ Additional mathematical targets specified in the README:
 * §1.10: order_congr, order_constant, order_mu, order_exact; isKilledBy_iff_mul_zero,
   isKilledBy_mul; ext1Vanishes_iff_all_split and the functoriality of the finite-flat predicates.
 * §§2.0–2.1: the continuous cyclotomic characters, oneAddCyclotomic, realCubicModTwo,
-  its coordinate action and the coordinate identification for x0ElevenTwoTorsionRep,
+  its coordinate action,
   and coefficient/twist specializations of ArithmeticGaloisRepresentations. The coefficient-invariance
   API specialization is isLevelOneResidual_map; its positive control is the conductor-eleven
   S₃ action after extension to 𝔽₄. The cubic and conductor-eleven negative controls are
@@ -1045,7 +1115,14 @@ Additional mathematical targets specified in the README:
 * §§4.1–4.2: torsion_mem_semistableCategory, the marked quadratic-twist and J₀(11)[2] controls,
   IsIteratedExtensionOf, isConstant_baseChange_cyclotomic, isDiagonalizable_baseChange_cyclotomic,
   no_semistable_of_simple_and_ext and no_semistable_abelianVariety_one_prime.
-* §§5.0–5.4: minimal lifts and compatible families, potential modularity, the geometric Hecke
+* §§5.0–5.4: minimal lifts and compatible families, potential modularity;
+  weightTwo_solvable_descent for solvable Galois E/F of totally real number fields and a
+  continuous rank-two p-adic representation with absolutely irreducible restriction matched
+  by a cuspidal parallel weight-two Hilbert eigenform. Construct the intermediate weight-two
+  Hilbert Galois attachments, coefficient descent, good-prime polynomials and restriction
+  compatibility, and choose the finite quotient character matching the given representation
+  at each step. The conditional family descent of R17.6.18–R17.6.19 additionally requires
+  its compatible families and common twist index. The geometric Hecke
   eigensummand, shimuraCurve_picard_correspondences (unpointed Pic⁰ descent and
   push–pull after smooth proper compactification, using the curve–Jacobian Tate comparison
   of InverseGaloisAndArithmeticFundamentalGroups IG.0.T1) and Weil-restriction endomorphism comparison;

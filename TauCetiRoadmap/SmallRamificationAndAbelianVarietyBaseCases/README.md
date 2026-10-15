@@ -113,6 +113,7 @@ owner of the general result and the part used here.
 | Owner | Required interface and use |
 | --- | --- |
 | `ArithmeticGaloisRepresentations Layer 1` | Finite coefficient descent and absolute irreducibility under scalar extension; used in Layer 2 |
+| `ArithmeticGaloisRepresentations`, §2.7, Global inputs | Trivial-character Tate meromorphic extension, completed functional equation and poles of Dedekind zeta; §1.0 identifies the Euler product and proves the explicit formula |
 | `ArithmeticGaloisRepresentations Layer 2` | Decomposition groups, inertia, kernel fields and their ramification; used to connect representations to completions |
 | `ArithmeticGaloisRepresentations Layer 4` | Dickson classification, normal p-subgroup fixed vectors, and the cyclotomic restriction criterion; used in Layer 1, Layer 2 and Layer 5 |
 | `ArithmeticGaloisRepresentations`, §§6.1, 6.4 / `TateModule.lambdaTateModule` | Rational Tate modules and λ-factors with continuous Galois action, coefficient extension and dimension; specialized in §5.1 |
@@ -136,7 +137,7 @@ owner of the general result and the part used here.
 | `TauCetiRoadmap.ProfiniteCohomology`, Layer 9 / `kummerIso`, `kummerIso_res` | Field Kummer cohomology and localization compatibility; the S-unit restriction and local Ext calculations for p=2,3 are auxiliary targets of §§3.3 and 4.3 here, using the stated PID calculations |
 | `FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.39` / `mayerVietoris_exact` | The exact finite-flat Hom and Ext gluing sequence used in §§3.3 and 4.3 |
 | `GL2AutomorphicRepresentationsAndTransfer R17.3.1 and R17.3.10` | Jacquet–Langlands transfer to a quaternion algebra split at one real place over an odd-degree totally real field |
-| `GL2AutomorphicRepresentationsAndTransfer R17.4.10 and R17.6.18–R17.6.19` | Solvable base-change descent of the modular representation |
+| `GL2AutomorphicRepresentationsAndTransfer R17.4.10 and R17.6.18–R17.6.19` | Conditional solvable descent with supplied compatible families, intermediate Galois attachments and common twist index; §5.0b here constructs the single-representation weight-two descent and its Hilbert attachments |
 | `ShimuraVarieties`, §§8.1–8.5, 8.18–8.19 | Canonical open tower, proper normal minimal compactification and extended Hecke legs; §5.0c specializes to smooth proper curves at neat level |
 | `JacobianChallenge`, Layers D–F | Layer D supplies unpointed Picard representability and Layers E–F the pointed Jacobian theory; §5.0c here supplies unpointed abelian descent and correspondence actions |
 | `InverseGaloisAndArithmeticFundamentalGroups IG.0.T1` / `VanishingCycles.curveEndomorphismTrace` | Finite-level and rational curve–Jacobian H¹ comparisons with pullback/pushforward orientation, used for the Tate realization of §5.0c |
@@ -215,17 +216,19 @@ larger auxiliary fields in Schoof's argument.
 
 ### 1.0 The Dedekind-zeta explicit formula
 
-The analytic input is the following target, `dedekindZeta_explicitFormula`. For every number field K
-of degree n and signature (r₁,r₂), construct its Dedekind zeta function with Euler product `∏𝔭 (1 −
-N𝔭⁻ˢ)⁻¹` on `Re(s)>1`, meromorphic extension with a simple pole at one, and the completed functional
-equation for
+For every number field K of degree n and signature (r₁,r₂), use
+ArithmeticGaloisRepresentations §2.7, Global inputs, specialized to the trivial idele-class character,
+for Dedekind-zeta meromorphic extension, its completed functional equation and poles. Identify its Euler
+product `∏𝔭 (1 − N𝔭⁻ˢ)⁻¹` on `Re(s)>1` with the ArithmeticDirichletSeries presentation.
+Use the completion
 
 ```text
 Λ_K(s) = |d_K|^(s/2) (π^(-s/2) Γ(s/2))^r₁ ((2π)^(-s) Γ(s))^r₂ ζ_K(s).
 Λ_K(s) = Λ_K(1-s).
 ```
 
-Multiplication of Λ by the constant `2^r₂` gives the same convention. Prove that its nontrivial
+Multiplication of Λ by the constant `2^r₂` gives the same convention. The target
+`dedekindZeta_explicitFormula` proves that its nontrivial
 zeros lie in the closed strip, counted with analytic multiplicity. For real even, compactly
 supported `C¹` F, piecewise `C²` on a finite partition with integrable second derivative, with
 `F(0)=1` and `F(x)=1+O(x²)` at zero, put `Φ(s)=∫ℝ F(x) exp((s−1/2)x) dx`. The explicit formula is
@@ -241,13 +244,14 @@ log |d_K| = r₁π/2 + n(γ + log(8π))
 
 The zero sum is the symmetric limit by imaginary height, with conjugate terms grouped; prove
 convergence for the displayed test functions and the equality in this convention. The compact
-support makes the prime sum finite. The analytic API includes the Euler-product identity, functional
-equation, pole and trivial-zero descriptions, conjugation of zeros, the grouped zero-sum
-convergence, and this explicit formula. In particular, the pole term has the negative sign shown.
+support makes the prime sum finite. The analytic API proves zero location, trivial-zero
+descriptions, conjugation of zeros, the grouped zero-sum convergence and this explicit formula
+for the supplied function. In particular, the pole term has the negative sign shown.
 This is a target here; it uses Mathlib's gamma functions, integrals and number-field invariants, and
 ArithmeticDirichletSeries (completed), Layers 1–3, for Dirichlet-series convergence and
-Euler-product operations. Source: Odlyzko's survey, §2, (2.1)–(2.3), pp. 121–122; the analytic
-extension and functional equation of Dedekind zeta are included in the target.
+Euler-product operations. Source: Odlyzko's survey, §2, (2.1)–(2.3), pp. 121–122;
+meromorphic extension, the completed equation and poles are supplied by the trivial-character specialization
+of ArithmeticGaloisRepresentations §2.7.
 
 **Checks.**
 
@@ -983,7 +987,9 @@ tested to equal $\mathbb Q(\zeta_9)^+$ and to have degree three. For the conduct
 `x0Eleven` is the displayed Weierstrass equation, `X0ElevenTwoTorsion` is its actual geometric
 two-torsion point group, and `x0ElevenTwoTorsionRep` writes the coordinate Galois action in a chosen
 $\mathbb F_2$-basis. A basis-existence theorem accompanies the construction, and the test holds for
-every such basis. Mathlib's `WeierstrassCurve.Affine.Point.map`, `AddSubgroup.torsionBy` and
+every such basis. `x0ElevenTwoTorsionRep_equivariant` identifies the transported matrix action
+with coordinate postcomposition on the included geometric points. Mathlib's
+`WeierstrassCurve.Affine.Point.map`, `AddSubgroup.torsionBy` and
 `Matrix.GeneralLinearGroup.toLin'` provide these underlying constructions. The generic-fibre point
 representation does not supply an integral group scheme over $\mathbb Z[1/11]$.
 
@@ -1756,8 +1762,41 @@ weight-two Hilbert eigenform f over F″ whose p-adic representation is the rest
 disjointness must be asserted for the compositum of the prescribed finite fields. The p=5 condition
 (A2) holds over ℚ because its fifth cyclotomic extension has degree four. Source: Snowden, Theorem
 5.1.2, §5.1, p. 15, and Proposition 9.4.1, pp. 29–30. *Needs:* the representation, lattice, local
-Hodge and abelian-moduli suppliers above; GL2AutomorphicRepresentationsAndTransfer R17.6.19 for the
-solvable descent interface.
+Hodge and abelian-moduli suppliers above. The solvable descent used in §5.3 is the following
+weight-two target.
+
+`weightTwo_solvable_descent` provides the following single-representation descent. Let E/F be
+finite solvable Galois between totally real number fields, p a rational prime, and ρ a continuous
+rank-two representation of G_F over ℚ̄p, defined over a finite extension of ℚp. Assume ρ|G_E is
+absolutely irreducible and a cuspidal parallel weight-two Hilbert eigenform over E has p-adic
+representation isomorphic to ρ|G_E. Produce a cuspidal parallel weight-two Hilbert eigenform over
+F whose p-adic representation is ρ.
+
+As part of this target, construct the weight-two Hilbert Galois attachments of the intermediate
+cuspidal descents in a prime-cyclic tower: finite coefficient descent, continuity, good-prime
+characteristic polynomials, and compatibility of restriction with cyclic base change. Retain the
+arithmetic-dual convention of GL2AutomorphicRepresentationsAndTransfer. Its R17.4.10 supplies the
+tower descent and character-fibre interfaces. At each prime-cyclic step, matching good-prime
+polynomials and the supplier's strong multiplicity one prove invariance of the upper form, giving
+a cuspidal descent. Absolute irreducibility and Schur's lemma
+compare an attached descent with ρ by a finite quotient character; class field theory identifies
+the automorphic twist giving the required match. This proves the character choice at the fixed
+p-adic embedding, without assuming an entire compatible family for ρ. R17.6.18–R17.6.19 apply
+only when their compatible families and common-index hypotheses are also supplied; they do not
+supply these Hilbert attachments. Source: Snowden, proof of Proposition 9.4.1, p. 30, the solvable
+descent step. *Needs:* ArithmeticGaloisRepresentations Layers 1–2 for coefficient and restriction
+API, ClassFieldTheory Layer 11 for finite characters, and GL2AutomorphicRepresentationsAndTransfer
+R17.4.10 for automorphic solvable descent; the stated weight-two Hilbert attachments belong here.
+
+**Checks.**
+
+- E=F returns the supplied form and the same p-adic attachment.
+- At a prime-cyclic step of degree ℓ, the ℓ descent twists are compared with ρ; matching the
+  restriction alone does not select the untwisted descent. The quotient character selects the match.
+- The natural GL₂(𝔽₃) representation restricted to SL₂(𝔽₃) remains absolutely irreducible,
+  whereas a representation with reducible restriction does not satisfy the descent hypothesis.
+- A single p-adic match asserts no common twist index at other coefficient places; use of
+  R17.6.18 requires its compatible-family hypotheses in addition.
 
 #### 5.0c The weight-two geometric eigensummand
 
@@ -2008,8 +2047,9 @@ because $[\mathbb Q(\zeta_5):\mathbb Q]=4$. The theorem is not stated for p=2.
 
 Potential modularity (§5.0b) gives a totally real Galois extension F″ disjoint from the compositum
 of the residual field and ℚ(ζp), over which ρ is modular. Choose a Sylow-2 subgroup of its Galois group. Its fixed field F′ has
-odd degree over ℚ, and F″/F′ is solvable. GL2AutomorphicRepresentationsAndTransfer R17.4.10 and
-R17.6.18–R17.6.19 descends the Hilbert modular form to F′. In odd degree,
+odd degree over ℚ, and F″/F′ is solvable. The target `weightTwo_solvable_descent` of §5.0b,
+including its intermediate Hilbert attachments and matching character choices, descends the form
+to F′. In odd degree,
 GL2AutomorphicRepresentationsAndTransfer R17.3.1 and R17.3.10 transfers the parallel weight-two form
 to the quaternion algebra split at exactly one real place. §5.0c realises it in the Tate module of a
 Shimura-curve Jacobian, producing a GL₂-type realisation over F′. Disjointness retains
