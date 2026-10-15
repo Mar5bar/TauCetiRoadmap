@@ -98,6 +98,11 @@ example (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p] [PerfectFiel
 example (p : ℕ) (O : Type u) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     [TopologicalSpace O] [DiscreteTopology O] : ¬ IsCompleteDVRBase p O := sorry
 
+/-- Indiscrete topology on ℤ_p fails the maximal-ideal-adic base condition. -/
+example (p : ℕ) [Fact p.Prime] :
+    letI : TopologicalSpace ℤ_[p] := ⊤
+    ¬ IsCompleteDVRBase p ℤ_[p] := sorry
+
 /-! ## Layer L0: scalar localization of integral lattice categories -/
 
 namespace RationalLattice
@@ -306,6 +311,17 @@ example : (∃ v ∈ TauCeti.ValuationSpectrum.spa (⊤ : Subring (PowerSeries O
       (PowerSeries.X : PowerSeries O) ∈ v.supp → v ∉ DVRTestSpace.pointSet O := sorry
 
 end TestSpace
+
+/-- With discrete coefficients the x-adic valuation misses every proposed DVR rational chart. -/
+example (q : ℕ) [Fact q.Prime] :
+    letI : TopologicalSpace ℤ_[q] := ⊥
+    ∃ v ∈ DVRTestSpace.pointSet ℤ_[q], ∀ n : ℕ,
+      v ∉ TauCeti.ValuationSpectrum.basicOpen
+        (PowerSeries.C (q : ℤ_[q]) ^ n) PowerSeries.X := sorry
+
+/-- Indiscrete coefficients give an empty continuous valuation spectrum of power series. -/
+example (O : Type u) [CommRing O] [TopologicalSpace O] [IndiscreteTopology O] :
+    TauCeti.ValuationSpectrum.spa (⊤ : Subring (PowerSeries O)) = ∅ := sorry
 
 /-
 README-only constructions: L0 AdicEtale, AdicSix and coefficient-system reconstruction;

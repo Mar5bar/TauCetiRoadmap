@@ -176,9 +176,11 @@ an equivalence; it is not classical `I`-adic completeness of the complex or of i
 sheaves (although `A` is derived complete exactly when each cohomology sheaf is). The tensor unit of
 the adic categories is the completed constant object `Λ̂ = Comp_I Λ = Rlimₙ Λ/Iⁿ`; identifying it
 with a discrete constant sheaf `Λ` would need an argument and is not used. Tensor products and
-colimits of adic objects are completed after they are formed. The completed `ℓ`-telescope
-`ℤ_ℓ → ℤ_ℓ → ⋯` (multiplication by `ℓ`) is zero, so rational coefficients are not obtained by
-completed colimits but by the scalar localisation of `L0/rational-constructible-coefficients`.
+colimits of adic objects are completed after they are formed. For `Λ = ℤ_ℓ`, `I = (ℓ)`, the
+telescope `Λ̂ →ℓ Λ̂ →ℓ ⋯` has ambient colimit `Λ̂[1/ℓ]`, the continuous coefficient sheaf;
+its `I`-completion is zero. This continuous sheaf need not equal the discrete constant `ℚ_ℓ`.
+Rational coefficients are obtained by the scalar localisation of
+`L0/rational-constructible-coefficients`.
 
 ### 2.3 Enhancements
 
@@ -273,7 +275,8 @@ not an adic completeness condition. Source: [ECD] §14, Definition 14.13, and §
 maximal-ideal completeness, residue characteristic p and a perfect residue field. Its
 projections are `isAdic`, `complete`, `charP_residue` and `perfect_residue`; prove compatibility
 with a choice of uniformizer, uniqueness of the adic topology, and transport under a
-continuous ring isomorphism. The predicates used for the ring, topology and residue field
+topological ring isomorphism, with both the ring isomorphism and its inverse continuous.
+The predicates used for the ring, topology and residue field
 remain Mathlib's. Source: [ECD] §27, pp. 165–166.
 
 **Checks.**
@@ -283,6 +286,9 @@ remain Mathlib's. Source: [ECD] §27, pp. 165–166.
   equal characteristic; no characteristic-zero hypothesis is built into the base.
 - A discrete topology on a nonfield DVR fails the topology condition: its zero ideal is
   open but contains no positive power of the nonzero maximal ideal.
+- The identity from adically topologized ℤ_p to indiscretely topologized ℤ_p is a continuous
+  ring isomorphism, but the target topology is not maximal-ideal-adic. Continuity of the
+  forward map alone does not transport the base condition.
 
 `charPPlus p R` is `(integralClosure (ZMod p) R).toSubring` for a ZMod p-algebra R.
 The API consists of the native integral-closure membership criterion, functoriality under
@@ -342,7 +348,8 @@ The pinned libraries are Mathlib `6b7abb3` and Tau Ceti `a91d3aa`. The roadmap u
 declarations as they are.
 
 **Limits of schemes** (`Mathlib/AlgebraicGeometry/AffineTransitionLimit.lean`). For a *given* limit
-cone of a cofiltered diagram with affine transition maps: the projections are affine
+cone of a cofiltered diagram of quasi-compact quasi-separated schemes with affine transition
+maps: the projections are affine
 (`AlgebraicGeometry.isAffineHom_π_app`), the limit commutes with restriction to an open of a stage
 (`AlgebraicGeometry.isLimitOpensCone`), quasi-compactness passes to the limit
 (`AlgebraicGeometry.Scheme.compactSpace_of_isLimit`), equal quasi-compact opens at the limit are
@@ -419,10 +426,10 @@ diamond and the scheme avatars are targets of other roadmaps and of L1.
 | EnhancedDerivedSheaves §§E4.1–E4.5 | `DerivedCompleteSheaves`, `completeSheaf`, `derivedComplete_colimit`, `regularIdeal_quotients`, `completedSheafTensor`, `derivedComplete_internalHom`, `completedTensor_hom_adjunction`, `CompatibleCoefficientSystems`, `completedCoefficientRing`, `coefficientSystemReconstruction`, `perfectCoefficientChange`, `isIso_of_isIso_mod`. Reconstruction and quotient perfection apply to finite regular sequences without a noetherian assumption; the limit is in stable ∞-categories. |
 | DiamondsAndVStacks D2/D4/D6 | v-descent of functions; small v-sheaves and v-stacks; marked-untilt descent; diamondification and gluing; `etale-site-comparison` (ECD Lemma 15.6), for analytic adic spaces. L1 constructs scheme avatars, including the integral base Spd O. |
 | PerfectoidSpaces P1 | `characteristic-p-perfectoid-iff-perfect` and `marked-untilt`, with the untilt marking and base map retained. |
-| PerfectoidSpaces P3.17a.2–P3.17a.4 / P3.17b | `sousperfectoid-rings`, `sousperfectoid-sheafy`, `sousperfectoid-adic-space`: Tate algebras over arbitrary affinoid perfectoid untilts give sheafy relative balls; gluing gives relative affine space. `perfectoid-times-polydisc` identifies these products when a perfectoid base field is supplied. Sousperfectoidness is used for the ambient balls. |
+| PerfectoidSpaces P3.17a.2–P3.17a.4 | `sousperfectoid-rings`, `sousperfectoid-sheafy`, `sousperfectoid-adic-space`: complete stably sheafy charts over arbitrary affinoid perfectoid untilts, including their relative balls, supply the chart hypothesis for AdicSpacesPartII R1.2. |
 | DiamondEtaleCohomology C0/C2/C3/C6 | Repleteness of the v-topos, the discrete enhanced étale category, pullback and its right adjoint, ECD Proposition 17.6, and algebraically closed field-change invariance (ECD Theorem 19.5), with their coefficient and geometric hypotheses. |
 | DiamondSixOperations S0/S2/S3/S4/S5 | Compactifiable maps representable in locally spatial diamonds of locally finite dim.trg; ECD Proposition 22.3; lower and upper shriek, exchange and projection; cohomological smoothness, its target v-descent and universally conservative surjective pullback; ECD Proposition 24.4 for smooth analytic maps. |
-| AdicSpacesPartII R1, `analytification-universal-property` / `scheme-fibre-product-analytification` | Analytification over complete nonarchimedean fields and relative scheme/adic fibre products on that supplier's stated domain. L1's relative avatar over an arbitrary perfectoid untilt is constructed by its own sheafy relative-affine charts; no noetherian fibre-product hypothesis is suppressed. |
+| AdicSpacesPartII R1.1–R1.2, `analytification-universal-property` / `scheme-fibre-product-analytification` | Analytification over complete nonarchimedean fields; relative products of locally finite-type schemes with adic spaces having complete stably sheafy charts, with their universal property and stably sheafy output charts. This supplies L1's relative avatar after every perfectoid untilt. |
 | AdicSpacesPartIII R2, `noetherian-formal-scheme-as-adic-space` / `fitting-ideal-invertible-locally-free` | The adic space of a noetherian formal chart and the Fitting criterion, applied to constant-rank pieces with schematic density. |
 | ClassicalAdicEtaleCohomology §§1.3/4.3–4.4/8.2/10.4/11.1–11.2 | Continuous cohomology of profinite G-sets; nearby-cycle stalk and completion comparisons (Huber 3.5.10/3.5.13); proper algebraic comparison (3.7.2); punctured-disc Kummer cohomology; nonproper finite-type algebraic comparison (3.8.1); stabilized radius restrictions and derived inverse-limit affine-space exhaustion for constructible coefficients descended from 𝔽_p. |
 
@@ -512,7 +519,7 @@ the same inclusion.
 
 - `AdicEtale.point` (computation): at a geometric point `Y = Spd C`, with `Λ = ℤ_ℓ` and `I = (ℓ)`, the completed unit `Λ̂ = Rlimₙ ℤ/ℓⁿ` lies in the category and its reduction modulo `ℓⁿ` is the constant sheaf `ℤ/ℓⁿ`.
 - `AdicEtale.torsion` (characterisation): the constant complex `ℤ/ℓ` lies in the category: derived `ℓ`-completeness does not mean torsion-freeness.
-- `AdicEtale.reject_inverted` (non-example): the constant `ℚ_ℓ`, a nonzero object of `D(Y_v, ℤ_ℓ)`, is not derived `ℓ`-complete; its completion is zero.
+- `AdicEtale.reject_inverted` (non-example): at a geometric point, the discrete constant `ℚ_ℓ`, a nonzero object of `D(Y_v, ℤ_ℓ)`, is not derived `ℓ`-complete; its completion is zero.
 - `AdicEtale.empty` (degenerate): for `Y` empty every object of the category is zero.
 
 *Source:* [ECD] Definition 26.1, pp. 161–162, with the standing hypotheses at the start of §26.
@@ -583,9 +590,10 @@ restriction.
 **Checks.**
 
 - `AdicEtale.tensor_point` (computation): for `Λ = ℤ_ℓ` at a point, `ℤ/ℓ ⊗ᴸ_{ℤ_ℓ} ℤ/ℓ` has nonzero cohomology in degree `−1`, so the operation is not the underived tensor product.
-- `AdicEtale.telescope` (non-example): the completed colimit of `ℤ_ℓ →ℓ ℤ_ℓ →ℓ ⋯` is zero, while the colimit in `D(Y_v, ℤ_ℓ)` is `ℚ_ℓ`.
+- `AdicEtale.telescope` (non-example): for `Λ = ℤ_ℓ`, `I = (ℓ)`, the telescope `Λ̂ →ℓ Λ̂ →ℓ ⋯` has ambient colimit `Λ̂[1/ℓ]`, the continuous coefficient sheaf, and `I`-completion zero.
+- For `Y = Spd C`, sections of `Λ̂[1/ℓ]` over `ℤ_ℓ̲ × Y` are continuous maps `ℤ_ℓ → ℚ_ℓ`; the discrete constant `ℚ_ℓ` has only locally constant maps. The identity map belongs only to the continuous sheaf.
 - `AdicEtale.empty_colimit` (degenerate): the completed colimit of the empty diagram is zero.
-- `AdicEtale.unit` (computation): `ℤ_ℓ ⊗̂ ℤ_ℓ ≅ ℤ_ℓ` at a point.
+- `AdicEtale.unit` (computation): `Λ̂ ⊗̂ Λ̂ ≅ Λ̂` at a point.
 
 *Source:* [ECD] §26, the paragraph after Proposition 26.2, p. 162.
 
@@ -739,7 +747,10 @@ light specializations as well as to their enhanced geometric instances.
 
 #### Examples
 
-At a geometric point with Λ = ℤ_ℓ, the integral unit reduces to ℤ/ℓⁿ, while the completed multiplication-by-ℓ telescope is zero. After scalar localization, the rank-one lattice has endomorphisms ℚ_ℓ; torsion lattices vanish.
+At a geometric point with Λ = ℤ_ℓ and I = (ℓ), the completed unit Λ̂ reduces to ℤ/ℓⁿ.
+The telescope Λ̂ →ℓ Λ̂ →ℓ ⋯ has ambient colimit Λ̂[1/ℓ], the continuous coefficient sheaf,
+and I-completion zero. After scalar localization, the rank-one lattice has endomorphisms ℚ_ℓ;
+torsion lattices vanish.
 
 #### Dependencies
 
@@ -840,10 +851,10 @@ complexes); take the full subcategory.
 
 - `SchemeAdic.geometricPoint` (computation): for `X` the spectrum of an algebraically closed field and `Λ = ℤ_ℓ`, `ℓ ≠ p`, the completed constant lattice lies in the category and its reductions are the étale constants `ℤ/ℓⁿ`.
 - `SchemeAdic.zeroIdeal` (compatibility): for `I = 0` and `Λ` killed by an integer prime to `p`, the category is the essential image of `D̂(X_ét, Λ)`, not all of `D(X_proét, Λ)`.
-- `SchemeAdic.reject_inverted` (non-example): for `Λ = ℤ_ℓ`, `I = (ℓ)`, the nonzero constant `ℚ_ℓ` is not in the category.
+- `SchemeAdic.reject_inverted` (non-example): for `Λ = ℤ_ℓ`, `I = (ℓ)`, on a nonempty scheme the nonzero discrete constant `ℚ_ℓ` is not in the category.
 - `SchemeAdic.empty` (degenerate): over the empty scheme every object is zero.
 - For the identity of X the pullback–pushforward adjunction is the identity adjunction.
-- On a geometric point, completed tensor with the unit fixes every object, while the completed multiplication-by-ℓ telescope of the ℤ_ℓ unit is zero.
+- On a geometric point with `Λ = ℤ_ℓ`, `I = (ℓ)`, completed tensor with `Λ̂` fixes every object. The telescope `Λ̂ →ℓ Λ̂ →ℓ ⋯` has ambient colimit `Λ̂[1/ℓ]` and `I`-completion zero.
 
 *Source:* [ECD] §27, the paragraph on the pro-étale site, p. 163.
 
@@ -865,16 +876,13 @@ sub-v-sheaves of diamonds are diamonds. For `Spec k` the construction gives `Spd
 differs from the characteristic-`p` avatar `Spd(k, k⁺)` as soon as `k⁺ ≠ k`.
 
 *Proof route.* Marked untilts over the pair `(O, O)` satisfy v-descent; for affine `X = Spec A` the second
-datum is an `O`-algebra map `A → 𝒪(S♯)`, a v-sheaf condition. For representability, embed `X`
-locally as a closed subscheme of affine space over `O`. For an affinoid perfectoid untilt
-`S♯ = Spa(R, R⁺)`, the relative balls have Tate-algebra charts over R, supplied by
-PerfectoidSpaces P3.17a.2–P3.17a.4 (`sousperfectoid-rings`, `sousperfectoid-sheafy`,
-`sousperfectoid-adic-space`); gluing balls of increasing radii constructs relative affine
-space. P3.17b (`perfectoid-times-polydisc`) gives the product description when S♯ is over
-a perfectoid field. The equations of X cut out a Zariski closed sub-v-sheaf of the ambient
-locally spatial diamond, hence a locally spatial diamond. Sousperfectoidness applies to the
-ambient relative balls, and is not required of their closed subspaces.
-Huber's fibre product is not used here, since `S♯` need not satisfy its noetherian hypothesis.
+datum is an `O`-algebra map `A → 𝒪(S♯)`, a v-sheaf condition. For an affinoid perfectoid
+untilt `S♯`, PerfectoidSpaces P3.17a.2–P3.17a.4 supply complete stably sheafy charts.
+AdicSpacesPartII R1.2 (`scheme-fibre-product-analytification`) then gives
+`X ×_{Spec O} S♯`, its universal property and stably sheafy charts. Applying
+DiamondsAndVStacks D6 (`gluing-and-the-diamond-functor`, `etale-site-comparison`) identifies
+its locally spatial diamond with `X◇ ×_{Spd O} S`. These identifications prove the relative
+representability assertion.
 
 *API.*
 
@@ -898,7 +906,7 @@ Huber's fibre product is not used here, since `S♯` need not satisfy its noethe
 
 *Source:* [ECD] §27, the mixed-characteristic paragraph, pp. 165–166 (read in the relative form, §7).
 
-*Needs:* `PerfectoidSpaces:P1/marked-untilt`; PerfectoidSpaces P3.17a.2–P3.17a.4 (`sousperfectoid-rings`, `sousperfectoid-sheafy`, `sousperfectoid-adic-space`) and P3.17b (`perfectoid-times-polydisc`); `DiamondsAndVStacks:D4` (Zariski closed subdiamonds); `DiamondsAndVStacks:D6/untilt-descent-along-v-covers`; `DiamondsAndVStacks:D2/v-descent-of-functions`; `DiamondsAndVStacks:D6/gluing-and-the-diamond-functor`; Tau Ceti `TauCeti.ValuationSpectrum.spa`; `DiamondsAndVStacks:D6/etale-site-comparison`.
+*Needs:* `PerfectoidSpaces:P1/marked-untilt`; PerfectoidSpaces P3.17a.2–P3.17a.4 (`sousperfectoid-rings`, `sousperfectoid-sheafy`, `sousperfectoid-adic-space`); `AdicSpacesPartII:R1/scheme-fibre-product-analytification` (R1.2, complete stably sheafy charts); `DiamondsAndVStacks:D6/untilt-descent-along-v-covers`; `DiamondsAndVStacks:D2/v-descent-of-functions`; `DiamondsAndVStacks:D6/gluing-and-the-diamond-functor`; Tau Ceti `TauCeti.ValuationSpectrum.spa`; `DiamondsAndVStacks:D6/etale-site-comparison`.
 
 *Target names:* `SchemeDiamond.overDVR`, `SchemeDiamond.overDVR_points`, `SchemeDiamond.overDVR_functor`, `SchemeDiamond.overDVR_closedFibre`, `SchemeDiamond.overDVR_generic`, `SchemeDiamond.overDVR_empty`, `SchemeDiamond.overDVR_representable`.
 
@@ -969,7 +977,7 @@ The two avatars of Spec k are Spd(k,k⁺) and Spd(k,k). They agree for algebraic
 
 #### Dependencies
 
-L0; DiamondsAndVStacks D2/D4/D6; PerfectoidSpaces P1/P3.17a.2–P3.17a.4/P3.17b; AdicSpacesPartII R1; SchemeAndStackFoundations §2.17; EnhancedDerivedSheaves §§E1.3–E1.4/E2.3/E3.2/E4.1–E4.5.
+L0; DiamondsAndVStacks D2/D4/D6; PerfectoidSpaces P1/P3.17a.2–P3.17a.4; AdicSpacesPartII R1; SchemeAndStackFoundations §2.17; EnhancedDerivedSheaves §§E1.3–E1.4/E2.3/E3.2/E4.1–E4.5.
 
 ### Layer L2: Schematic geometry over quasi-compact quasi-separated bases
 
@@ -1756,10 +1764,11 @@ from plausible wrong ones, and every implementation should check them.
 
 - **Coefficients at a geometric point** (`Λ = ℤ_ℓ`, `I = (ℓ)`, `ℓ ≠ p`). The completed unit
   `Λ̂` lies in the adic category and reduces to `ℤ/ℓⁿ` (`AdicEtale.point`); the constant `ℤ/ℓ` lies
-  in it, so completeness is not torsion-freeness (`AdicEtale.torsion`); the constant `ℚ_ℓ` does not,
+  in it, so completeness is not torsion-freeness (`AdicEtale.torsion`); the discrete constant `ℚ_ℓ` does not,
   and its completion is zero (`AdicEtale.reject_inverted`, `SchemeAdic.reject_inverted`);
-  `ℤ/ℓ ⊗ᴸ ℤ/ℓ` has cohomology in degree `−1` (`AdicEtale.tensor_point`); the completed telescope
-  of multiplication by `ℓ` is zero although the ambient colimit is `ℚ_ℓ` (`AdicEtale.telescope`);
+  `ℤ/ℓ ⊗ᴸ ℤ/ℓ` has cohomology in degree `−1` (`AdicEtale.tensor_point`); the telescope
+  `Λ̂ →ℓ Λ̂ →ℓ ⋯` has ambient colimit `Λ̂[1/ℓ]`, the continuous coefficient sheaf,
+  and `I`-completion zero (`AdicEtale.telescope`);
   for two geometric points over one, `Rf_!Λ̂ = Rf_*Λ̂ = Λ̂ ⊕ Λ̂` (`AdicSix.proper`). The reconstruction
   uses derived limits: the `H⁻¹`-tower of `(⊕ₖ ℤ/ℓᵏ) ⊗ᴸ ℤ/ℓⁿ` has a nonzero `lim¹` (`L0/adic-coefficient-limit`).
 - **Rational lattices.** The rank-one lattice has endomorphism ring `ℚ_ℓ`, `ℓ`-power torsion
@@ -1782,7 +1791,10 @@ from plausible wrong ones, and every implementation should check them.
 - **Limits and continuity.** Continuity of étale cohomology applies to `𝔾_m` in degree `2`, where the
   sheaf colimit is `𝔾_m` but the individual inverse images need not be
   (SchemeAndStackFoundations §2.15 (`etale_cohomology_limits`)); a bundle of rank one on one component and rank two on another
-  extends after refinement (`L2/vector-bundle-extension-cofinal`).
+  extends after refinement (`L2/vector-bundle-extension-cofinal`). Quasi-compactness is essential
+  for finite-stage Hom equality: over a field k the schemes `X_n = ⊔_{m≥n} Spec k` have affine
+  tail inclusions and empty limit, so their constant maps 0 and 1 to `𝔸¹_k` agree at the limit
+  but at no stage (the limit contract in §3).
 - **Proper support over qcqs bases.** For the open immersion `𝔾_m ⊂ 𝔸¹` extension by zero has zero
   stalk at the origin (`SchemeSupport.openBoundary`); strict refinements give the same `Rp_* j_!` by
   the canonical map (`SchemeSupport.refinement`).
