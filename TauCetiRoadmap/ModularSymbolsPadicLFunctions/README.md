@@ -77,8 +77,8 @@ This roadmap owns:
 - the single-form critical-slope theory: the non-θ-critical L-function, its interpolation, the
   failure of uniqueness, the θ-critical comparison, the family comparison principle and the
   critical-slope examples of Pollack–Stevens;
-- tame twists, the two Euler factors at p, both refinements at a supersingular prime and their
-  zeros, Pollack's half-logarithms, the ± decomposition at a_p = 0, coefficient embeddings,
+- tame twists, the identification of the supplied two Euler factors at p, both refinements at a
+  supersingular prime and their zeros, Pollack's half-logarithms, the ± decomposition at a_p = 0, coefficient embeddings,
   Euler depletion, the exclusion of a zero U_p-eigenvalue, and the level-11 examples.
 
 It leaves to other roadmaps, and cites:
@@ -139,7 +139,8 @@ It leaves to other roadmaps, and cites:
   unramified and de Rham local kernels.
 
 AutomorphicLFunctionsAndLocalFactors AL.5 supplies the complex stabilisation coefficients,
-their U_p recurrence and L-series identity. ArithmeticLocallySymmetricSpaces §ALS.3.1 supplies
+their U_p recurrence and L-series identity, and the refined GL₂ interpolation factor and its
+ramified and unramified specialisations. ArithmeticLocallySymmetricSpaces §ALS.3.1 supplies
 the derived Hecke action used by the cohomological adapter of §0.4.
 
 Global ordinary and Coleman–Mazur families belong to PadicFamilies. The local
@@ -1439,6 +1440,7 @@ character modulo N), and the slope is k/2 (ModularForms Layer 4, bad-prime eigen
 - v_p(α) + v_p(β) = k + 1 for p ∤ N; for the newform of level 11 at p = 3 the slopes are 0 and 1.
 - At p | N with a_p = 0 (for example p² | N with ε of conductor prime to p) there is no refinement; a
   definition that took a root of the good-prime polynomial would wrongly produce one.
+- For the bad-prime scalar helper over ℚ, a_p = 7 admits α = 7 and rejects α = 1.
 
 - For the field-valued helper over 𝔽₂, p = 2, k = 0, a_p = 0 and εp = 1,
   α = 0 satisfies the good-root equation. Nonvanishing of a root also needs
@@ -1652,7 +1654,19 @@ As printed, [PS] §6.2, (1), p. 27, has τ(χ⁻¹) in the denominator and the f
 and omits the factor e at n = 0; the statement here is the one (2) implies. *Needs:* §2.5 (The p-adic
 L-function of a small-slope refinement); §1.2 (The twisted Mellin formula); §1.3 (The interpolation
 dictionary; L-functions of p-stabilised forms); LocallyAnalyticDistributions Layer 2 (Amice–Vélu–Višik);
-Mathlib `PadicInt.toZModPow`. *Lean:* `eulerFactorAtP`.
+Mathlib `PadicInt.toZModPow`; AutomorphicLFunctionsAndLocalFactors AL.5 (Refined GL₂ Euler factors
+and conductor tests, `AL5.OrdinaryGl2EulerFactor`, `.ramified`, `.unramified`). The product of the
+distribution factor and the stabilised L-value factor is that supplied expression, with the
+same coefficient-field transport as for stabilisation in §1.3.
+
+**Checks.**
+
+- At n = 0 and j = 0 the distribution contributes 1 − 1/α; for a good-prime
+  weight-two form with ε = 1 the primitive formula has (1 − 1/α)².
+- At n ≥ 1 the character vanishes at p and both primitive good-prime factors are 1;
+  the conductor prefactor α^{−n} remains.
+- At h = k + 1, adding a nonzero distribution with Mellin transform log^{[k]}
+  preserves the interpolation values. The strict bound h < k + 1 is essential.
 
 **Ordinary p-adic L-functions as integral measures** (theorem). Let (f, α) have slope 0, 𝒪 the integers of a
 finite extension K of ℚ_p containing K_f(α), and φ^± generators of the saturated lattices
@@ -1685,8 +1699,9 @@ integral measures; ModularForms Layer 4; Mathlib `PadicInt`, `PadicInt.toZModPow
 
 ## Layer 3: critical slope
 
-This layer treats refinements (f, α) of slope exactly h = k + 1, at a prime p ∤ N with distinct Hecke roots,
-for a cuspidal newform of tame level N. Section 3.0 builds the critical-eigensymbol input and its local analytic families;
+This layer assumes p is odd, p ∤ N and the Hecke roots are distinct, as in [Bellaïche] §1.2, p. 3.
+It treats refinements (f, α) of slope exactly h = k + 1 for a cuspidal newform of tame level N.
+Section 3.0 builds the critical-eigensymbol input and its local analytic families;
 §§3.1–3.4 fix the single-form normalisation by eigenlifts and its secondary-function comparison. Bellaïche's involution
 is diag(1, −1) and Pollack–Stevens' sign label is the ι-sign times (−1)^k: a Bellaïche or Pollack–Stevens
 sign s corresponds to the sign (−1)^ks here, and this dictionary is applied before identifying signed
@@ -2050,17 +2065,18 @@ Theorem 3, p. 10). *Needs:* §3.0 (Local analytic Hecke charts; Secondary and fa
 
 ### 3.4 The critical-slope examples of Pollack–Stevens
 
-**Critical-slope examples** (application). For X₀(11) (k = 0) at p = 3 and p = 5, prove the assertions of Pollack–Stevens'
-Examples 8.6–8.7: the three classical slope-one dimensions (two cuspidal signs and an Eisenstein
-symbol), their full Hecke eigenlifts, and at p = 3 the three-dimensional kernel eigenpacket; at p = 5 also the positive ordinary μ-invariant reported
-there in the stated period normalisation ([PS] §8.4, Examples 8.6–8.7, pp. 35–36). Prove the classical slope-one dimensions and existence and uniqueness of each full
-overconvergent eigenlift, including non-θ-criticality; the kernel statement is an equality of
-mathematical eigenspaces: construct the minus Eisenstein kernel eigenvector and the
-other two finite-slope eigenvectors exactly, and prove an upper-dimension bound of three
-for the specified kernel packet by a certified slope computation and the theta comparison.
-Finite-precision eigenvectors alone do not prove this dimension equality. Variation of
+**Critical-slope examples** (application). For X₀(11) (k = 0) at p = 3 and p = 5, prove that the classical
+slope-one space Symb_{Γ₀(11p)}(ℚ_p)^{(=1)} is three-dimensional, with one dimension for each cuspidal sign and one plus
+Eisenstein dimension. Prove non-θ-criticality of the cuspidal refinements and existence and uniqueness
+of the full Hecke eigenlift of each fixed signed cuspidal symbol. Construct a plus Hecke eigenlift
+of the plus Eisenstein symbol; the Eisenstein refinement is θ-critical ([Bellaïche] Proposition 2.12(v), p. 18).
+At Γ₀(33), p = 3 and k = 0, construct a ℚ₃-valued distribution symbol
+e ∈ Symb_{Γ₀(33)}(D₀(ℤ₃))⁻ with e ≠ 0, ρ₀*(e) = 0, T_ℓe = (ℓ + 1)e for ℓ ∤ 33,
+U₁₁e = e and U₃e = 3e. At p = 5 also prove the positive ordinary μ-invariant in the stated
+period normalisation ([PS] §8.4, Examples 8.6–8.7, pp. 35–36). Variation of
 splitting fields of finite-weight fibres gives no non-freeness conclusion for a Hida algebra;
-the inference in [PS] p. 36, footnote 7, is not used. For the CM form of X₀(32) at the split prime p = 5, decency and
+the monic-quadratic example below supplies a free algebra with different splitting fields.
+For the CM form of X₀(32) at the split prime p = 5, decency and
 θ-criticality do prove that the primary signed eigenline is one-dimensional and specialises to zero, so
 a nonzero classical eigenvector has no eigenlift ([PS] Example 8.8, p. 36; [Bellaïche] §1.4.1, Remark 1,
 p. 6, and Proposition 2.15(iv), p. 20). *Needs:* §3.1 (The critical-slope p-adic L-function); §3.2 (θ-critical
@@ -2071,9 +2087,11 @@ single forms); §3.0 (Critical eigensymbol multiplicity; CM adjoint-Selmer vanis
 - The algebra ℤ₃⟦T⟧[x]/(x² − T − 9) is free with basis 1,x. Its rational fibre
   at T = 0 splits and the fibre at T = 3 is ℚ₃(√3). Different splitting fields
   do not imply non-freeness.
-- At p = 3 the exact kernel packet must include its minus Eisenstein vector
-  and the two theta-derived vectors; an upper bound of three is required
-  along with their independence.
+- At p = 3, if Φ⁺_eis is the plus lift and c ∈ ℚ₃, then Φ⁺_eis + ce
+  has the same full Hecke eigenvalues and classical specialisation. Distinct c
+  give distinct lifts; for c ≠ 0 the lift is not plus.
+- The vector e is minus, has zero total-mass specialisation and has nonzero
+  U₃-eigenvalue 3 of slope one; it is not the zero vector or a classical lift.
 - For X₀(32) at p = 5 the primary signed line is nonzero with zero classical
   specialisation. It cannot serve as an eigenlift of a nonzero classical basis.
 
@@ -2099,18 +2117,35 @@ translated to weight k + 2 (his product over 0 ≤ j ≤ k − 2 becomes 0 ≤ j
 polynomial. In this layer K is the completion of K_f at the chosen p-adic place and
 K_ψ = K(ψ); individual refined symbols are defined over K_ψ(α). The root α is not assumed to lie
 in K_ψ. Both roots use bases transported from the same period-normalised symbols of f.
+For branchwise interpolation and its uses in §4.2, ψ has primitive conductor exactly M on
+(ℤ/M)×. A character with smaller tame conductor is treated on the group with that minimal conductor.
 Proposed home: `TauCeti/NumberTheory/ModularForms/ModularSymbols/{Supersingular,Comparison,Examples}`.
 
 ### 4.1 Euler factors and tame twists
 
-**The two Euler factors at p** (theorem). For a refinement (f, α) with p ∤ N and a character ϕ of conductor
-prime to p (n = 0), the interpolation factor is e_p(α, ϕt^j) = (1 − ϕ(p)p^j/α)(1 − ϕ̄(p)ε(p)p^{k−j}/α): the first
+**The two Euler factors at p** (theorem). AutomorphicLFunctionsAndLocalFactors AL.5, Refined GL₂ Euler
+factors and conductor tests (`AL5.OrdinaryGl2EulerFactor`, `.ramified`, `.unramified`), supplies the
+factor polynomial and its specialisations. Identify its two factors with the distribution relation
+of §2.5 and the stabilised complex L-function of §1.3, with those sections' conventions. Evaluate the
+supplied complex expression through an embedding of the algebraic coefficient and character field,
+then transport its algebraic value to the chosen p-adic completion, as in §1.3. For a refinement (f, α)
+with p ∤ N and a character ϕ of conductor prime to p (n = 0), the interpolation factor is
+e_p(α, ϕt^j) = (1 − ϕ(p)p^j/α)(1 − ϕ̄(p)ε(p)p^{k−j}/α): the first
 factor comes from the distribution (§2.5) and the second from L(f_α, s) = (1 − βp^{−s})L(f, s) (§1.3) with
 αβ = ε(p)p^{k+1}. For conductor p^ν with ν ≥ 1 both factors are 1 and the prefactor is α^{−ν}. In [Bellaïche] §1.4.3,
 (5), p. 8, the factors of the refinement f_β are printed with α in the denominators; with β, its own
 U_p-eigenvalue, they read β^{−ν}(1 − ϕ̄(p)ε(p)p^{k−j}/β)(1 − ϕ(p)p^j/β). For X₀(11) at p = 3 and j = 0,
 e_p = (1 − 1/α)² with α the unit root of X² + X + 3. *Needs:* §2.5 (Interpolation and uniqueness); §1.3
-(L-functions of p-stabilised forms). *Lean:* `eulerFactorAtP`.
+(L-functions of p-stabilised forms); AutomorphicLFunctionsAndLocalFactors AL.5 (Refined GL₂ Euler
+factors and conductor tests).
+
+**Checks.**
+
+- At k = j = 0 and ϕ = ε = 1, each source contributes 1 − 1/α, giving (1 − 1/α)².
+- For ν ≥ 1 the zero-extended values ϕ(p) and ϕ⁻¹(p) vanish; both factors are 1,
+  while the conductor prefactor remains α^{−ν}.
+- At α = 1 and j = 0 the distribution factor vanishes; it cannot be cancelled
+  when comparing the stabilised and primitive formulas.
 
 **p-adic L-functions with a tame twist** (theorem). Let p ∤ N and (f, α) a refinement of slope h < k + 1. For
 n ≥ 1 and (a, Mp) = 1 the formula
@@ -2118,9 +2153,11 @@ n ≥ 1 and (a, Mp) = 1 the formula
 symbols of f divided by periods Ω^±_f and P runs over integral polynomials of degree ≤ k, defines an
 h-admissible distribution on ℤ_{p,M}^× (the values for n = 0 follow by finite additivity from n = 1); it is a
 bounded measure only when h = 0. Additivity is the T_p-eigenform relation and the growth is Višik's
-([Pollack SS] §2.2, the measures and Proposition 2.8, p. 530). For a tame character ψ, the power series
+([Pollack SS] §2.2, the measures and Proposition 2.8, p. 530). For a tame character ψ whose (ℤ/M)×
+component has primitive conductor exactly M, the power series
 L_p(f, α, ψ, T) = ∫ψχ_u dμ^{sgn ψ}_{f,α} (u = 1 + T, χ_u the wild character with γ ↦ u) lies in K(α, ψ)⟦T⟧ and is
-O(log_p(1 + T)^h). For χ = x_p^jϕ with 0 ≤ j ≤ k and ϕ of finite order and conductor m = p^νM,
+O(log_p(1 + T)^h). For χ = x_p^jϕ in this ψ-branch with 0 ≤ j ≤ k and ϕ of finite order,
+the conductor of ϕ is m = p^νM, and
 L_p(f, α, χ) = e_p(α, χ)·m^{j+1}/(−2πi)^j·j!/τ(ϕ⁻¹)·L(fϕ⁻¹, j + 1)/Ω^±_f with
 e_p(α, χ) = α^{−ν}(1 − ϕ⁻¹(p)ε(p)p^{k−j}/α)(1 − ϕ(p)p^j/α), and it is the unique O(log_p(1 + T)^h) function with these
 values ([Pollack SS] §2.3, Proposition 2.11, p. 531): a difference vanishes at all γ^jζ − 1, 0 ≤ j ≤ k, and is
@@ -2132,17 +2169,34 @@ normalisation of periods, and it agrees with the two Euler factors above. The to
 §1.2 (The twisted Mellin formula); PadicMeasuresIwasawaAlgebras (measures on ℤ_{p,M}^× and the branch
 decomposition).
 
+**Checks.**
+
+- At p = 3 and M = 2 the trivial character has tame conductor 1. There are no
+  characters of conductor 2·3^ν; both constant series 0 and 1 satisfy that empty
+  interpolation test and an order-zero bound. Use M = 1 for this branch.
+- At p = 3 and M = 4 the nontrivial character modulo 4 is primitive. Multiplying it
+  by a primitive wild character of conductor 3^ν gives conductor 4·3^ν.
+- For M = 1 and ψ = 1 the branch is the one in §2.5; the trivial character has
+  ν = 0 and retains both good-prime Euler factors.
+
 **A zero U_p-eigenvalue is outside finite-slope interpolation** (theorem). If p | N and a_p(f) = 0, no
 refinement of f at p exists, so the constructions involving α^{−n} produce no p-adic L-function by this
 roadmap's method; p² | N does not justify choosing a root of the good-prime Hecke polynomial. If a_p ≠ 0
 the unique bad-prime refinement has α = a_p and uses the bad-prime interpolation normalisation (no second
 Euler factor). Proof: unfold the definition of a refinement at p | N with the actual bad-prime
 U_p-eigenform relation ([PS] §6, opening, pp. 26–27). *Needs:* §2.1 (Refinements); §2.5 (The p-adic
-L-function). *Lean:* `IsBadRefinement` (with the `example` that a_p = 0 admits none).
+L-function). *Lean:* `IsBadRefinement`.
+
+**Checks.**
+
+- a_p = 0 admits no nonzero bad-prime refinement.
+- For a_p = 7 the bad-prime scalar helper accepts α = 7.
+- For a_p = 7 the same helper rejects α = 1, despite its nonvanishing.
 
 ### 4.2 Supersingular primes
 
-**Both refinements at a good supersingular prime, and their zeros** (theorem). Let p ∤ NM with v_p(a_p) > 0.
+**Both refinements at a good supersingular prime, and their zeros** (theorem). Let p ∤ NM with v_p(a_p) > 0
+and fix ψ with primitive M-component as in §4.1.
 Both roots α₁, α₂ of X² − a_pX + ε(p)p^{k+1} have slope in (0, k + 1), since h₁ + h₂ = k + 1, so both refinements
 are small slope and both L_p(f, α_i, ψ, T) exist. A nonzero power series convergent on the open unit disc
 has finitely many zeros exactly when its coefficients are bounded (Lazard; [Pollack SS] Lemma 3.2,
@@ -2212,8 +2266,8 @@ LocallyAnalyticDistributions Layer 1 (series on the open disc). The cyclotomic f
   factor p²T); invariance under inversion would force these nonzero coefficients to vanish.
 - log^±_p has infinitely many zeros, so it is not a bounded power series, that is, not in ℤ_p⟦T⟧ ⊗ ℚ_p.
 
-**Pollack's ± decomposition of the supersingular p-adic L-function** (theorem). Let p ∤ NM with a_p = 0 and α a
-root of X² + ε(p)p^{k+1}. If p is odd, L_p(f, α, ψ, T) = L⁺_p(f, ψ, T)·log⁺_p(T) + L⁻_p(f, ψ, T)·log⁻_p(T)·α with
+**Pollack's ± decomposition of the supersingular p-adic L-function** (theorem). Let p ∤ NM with a_p = 0, α a
+root of X² + ε(p)p^{k+1} and ψ with primitive M-component as in §4.1. If p is odd, L_p(f, α, ψ, T) = L⁺_p(f, ψ, T)·log⁺_p(T) + L⁻_p(f, ψ, T)·log⁻_p(T)·α with
 L^±_p(f, ψ, T) ∈ Λ_ψ ⊗ K_ψ, Λ_ψ = 𝒪_ψ⟦T⟧; they have bounded coefficients, and each nonzero one has finitely many
 zeros (a zero component is allowed and has no finite-zero conclusion). If p = 2,
 L₂(f, α, ψ, T) = L⁺₂·log⁻₂ + L⁻₂·log⁺₂·α with L^±₂ ∈ Λ_ψ ⊗ K_ψ ([Pollack SS] §5.1, Theorem 5.1, p. 540). For an
@@ -2231,6 +2285,15 @@ in the denominators ([Pollack SS] Lemma 5.9). Supersingular p with a_p ≠ 0 (p 
 L-functions with a tame twist); PadicMeasuresIwasawaAlgebras (Iwasawa functions and their μ- and
 λ-invariants).
 
+**Checks.**
+
+- For k = 0, M = 1 and odd p, half the sum and half the difference of the two refined functions
+  divide by log⁺_p and α·log⁻_p, respectively, to give the bounded signed components.
+- At p = 2 the decomposition pairs L⁺₂ with log⁻₂ and L⁻₂ with α·log⁺₂;
+  with elliptic-curve integral normalisation the latter factor is (α/2)·log⁺₂.
+- A zero signed component remains zero and has infinitely many zeros; the finite-zero
+  conclusion applies only to a nonzero bounded component.
+
 ### 4.3 Coefficient embeddings and Euler depletion
 
 **Coefficient embeddings and conjugate period coordinates** (theorem). For a normalised newform f of weight
@@ -2244,7 +2307,8 @@ roots of unity. For p-adic constructions choose compatible extensions on the cha
 the refinement and those roots of unity, and transported p-adic places: an isometric extension σ_p
 carries a refinement α to σ_p(α), preserves its slope, and transports its normalised eigenlift and its
 p-adic L-function coefficientwise. For small slope the equality follows from the control theorem or
-interpolation uniqueness; for critical slope from the chosen eigenlift or the family comparison of §3.3,
+interpolation uniqueness; for critical slope, assuming odd p ∤ N and distinct Hecke roots as in Layer 3,
+from the chosen eigenlift or the family comparison of §3.3,
 not from interpolation alone. No transport of transcendental complex periods is asserted: unrelated
 choices of complex periods change the result by a nonzero coefficient-field scalar σ(b), and conjugating to
 a different p-adic place can change ordinarity ([BMS] §2.1, Theorem 2.2(iii) and the discussion of the period ambiguity,
@@ -2263,6 +2327,9 @@ through families); ModularForms Layer 8G.
   the identity embedding fixes it.
 - Composing two compatible extensions transports the algebraic coordinates by
   their composite; transporting a Gauss sum separately also tracks ζ_m.
+- At p = 2 for the level-11 form, the roots −1 ± i have slope 1/2 < 1, so their
+  coefficient transport uses small-slope control. The critical-slope family comparison
+  requires odd p.
 
 **Euler depletion and primitive/imprimitive comparison** (construction). Let f be a normalised newform of
 weight k + 2 and level N with a nonzero refinement at p, ℓ ≠ p a prime and V_ℓf(z) = f(ℓz). If ℓ ∤ N put
@@ -2274,8 +2341,9 @@ deletion operator E_ℓμ = μ − (a_ℓ/ℓ)[ℓ⁻¹]μ + ε(ℓ)ℓ^{k−1}[
 (respectively 1 − a_ℓχ(ℓ)⁻¹ℓ^{−j−1}), exactly the ℓ-Euler factor of L(fχ⁻¹, s) at s = j + 1. For slope < k + 1 and
 compatible signed symbol bases, L_p(f^[ℓ], α) = E_ℓL_p(f, α): U_p commutes with V_ℓ, the normalised values
 match, and small-slope uniqueness concludes. The depleted form is an eigenform for U_p and the primes
-away from Npℓ but need not be a newform; its period coordinate is transported from f. At critical slope the
-equality needs compatible eigenlifts or the family comparison. Depletion at several primes is the
+away from Npℓ but need not be a newform; its period coordinate is transported from f. At critical slope,
+assume odd p ∤ N and distinct Hecke roots as in Layer 3; the equality needs compatible eigenlifts or
+the family comparison. Depletion at several primes is the
 product of the commuting E_ℓ ([PS] §6.2–6.3, formula (2) and Proposition 6.3, pp. 27–29; the depletion
 identity is derived here from the q-expansion recurrences). API: `eulerDepletion` (the depleted cusp
 form, at its raised level), `eulerDepletion_coeff` (coefficient n is a_n if ℓ ∤ n and 0 otherwise),
@@ -2291,6 +2359,9 @@ criteria for Hecke eigenvalues; ModularForms Layer 4. *Lean:* `depletedCoeff`, `
 
 - k = 0, χ = 1, ℓ ∤ N: E_ℓ evaluates as 1 − a_ℓ/ℓ + ε(ℓ)/ℓ.
 - k = 0, ℓ | N: the factor is 1 − a_ℓ/ℓ, with no quadratic term.
+- For the scalar helper with a_ℓ = 3, χℓ = 2 and ℓ = k = 2, εℓ = 1 and j = 1
+  give 3/4, while j = 2 gives 27/32; εℓ = 0 and j = 0 give 1/4.
+  These values distinguish inverse twisting, the critical exponent and the bad-prime omission.
 - The coefficients of f^[ℓ] at ℓ and at ℓ² are 0, while the coefficient at 1 is still 1.
 - The scaling [u] requires u ∈ ℤ_p^×, so ℓ = p is excluded: [p⁻¹] is not defined on distributions on ℤ_p^×.
 

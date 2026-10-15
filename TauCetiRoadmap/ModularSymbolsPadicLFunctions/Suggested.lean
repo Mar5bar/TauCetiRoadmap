@@ -449,6 +449,25 @@ example :
     norm_num [T, bezoutProjector, Matrix.mulVec, dotProduct, Fin.sum_univ_two, Matrix.vecHead,
       Matrix.vecTail]
 
+/-- The rational projector fixes the parabolic generator, kills the image of `T`, is idempotent
+and commutes with `T`. -/
+example :
+    let T : Module.End ℚ (Fin 2 → ℚ) := Matrix.toLin' !![0, 1; 0, 2]
+    let e := bezoutProjector T (Polynomial.C (-(1 / 2 : ℚ))) (Polynomial.X - Polynomial.C 2)
+    e ![1, 0] = ![1, 0] ∧ e * T = 0 ∧ e * e = e ∧ e * T = T * e := sorry
+
+/-- Projection onto the first coordinate fails the required commutation relation. -/
+example :
+    let T : Module.End ℚ (Fin 2 → ℚ) := Matrix.toLin' !![0, 1; 0, 2]
+    let π : Module.End ℚ (Fin 2 → ℚ) := Matrix.toLin' !![1, 0; 0, 0]
+    ¬ Commute π T := sorry
+
+/-- The same integral matrix admits no retraction fixing the first generator and killing its
+image: the second generator would give `1 + 2 * s(0, 1) = 0` in `ℤ`. -/
+example :
+    let T : Module.End ℤ (Fin 2 → ℤ) := Matrix.toLin' !![0, 1; 0, 2]
+    ¬ ∃ s : (Fin 2 → ℤ) →ₗ[ℤ] ℤ, s ![1, 0] = 1 ∧ ∀ v, s (T v) = 0 := sorry
+
 end DrinfeldManin
 
 /-! ## Layer 1: periods, critical values and p-stabilisation -/
@@ -511,6 +530,12 @@ theorem goodRoot_mul {ap εp α : K} {p k : ℕ} (hα : IsGoodRefinementRoot ap 
 def IsBadRefinement (ap α : K) : Prop := α = ap ∧ α ≠ 0
 
 example (α : K) : ¬ IsBadRefinement 0 α := fun h ↦ h.2 h.1
+
+/-- A nonzero bad-prime coefficient is its refinement eigenvalue. -/
+example : IsBadRefinement (7 : ℚ) 7 := by norm_num [IsBadRefinement]
+
+/-- A different nonzero scalar is not a refinement of the given bad-prime coefficient. -/
+example : ¬ IsBadRefinement (7 : ℚ) 1 := by norm_num [IsBadRefinement]
 
 /-- The polynomial `X² - 3X + 2` has roots `1` and `2`, and does not have root `0`. -/
 example : IsGoodRefinementRoot (3 : ℚ) 1 2 0 1 ∧
@@ -631,25 +656,10 @@ example (p : ℕ) [Fact p.Prime] :
 
 end Specialisation
 
-section EulerFactors
-
-variable {K : Type*} [Field K]
-
-/-- The interpolation factor at `p` for trivial conductor:
-`(1 - p^j/α)(1 - ε(p) p^{k-j}/α)`, the first factor from the distribution, the second from the
-p-stabilisation. Belongs to Layer 2, §2.5, and Layer 4, §4.1. -/
-def eulerFactorAtP (α εp : K) (p k j : ℕ) : K :=
-  (1 - (p : K) ^ j / α) * (1 - εp * (p : K) ^ (k - j) / α)
-
-/-- Weight two, `j = 0`, trivial character: `(1 - 1/α)²`, the Mazur–Tate–Teitelbaum factor. -/
-example (α : K) (p : ℕ) : eulerFactorAtP α 1 p 0 0 = (1 - 1 / α) ^ 2 := by
-  simp [eulerFactorAtP, sq]
-
-end EulerFactors
-
 /-! ## Layer 3: critical slope
 
-The critical eigensymbols and local analytic families of README §3.0 are specified there. -/
+The critical eigensymbols and local analytic families of README §3.0 assume an odd prime not dividing
+the tame level and distinct Hecke roots. -/
 
 /-! ## Layer 4: tame twists, supersingular primes, comparisons and examples -/
 
@@ -689,8 +699,24 @@ example (aℓ εℓ : K) (ℓ : ℕ) :
     eulerDeletionFactor aℓ εℓ 1 ℓ 0 0 = 1 - aℓ / ℓ + εℓ / ℓ := by
   simp [eulerDeletionFactor, div_eq_mul_inv]
 
+/-- Nontrivial inverse twisting and an interior critical exponent give `3/4`. -/
+example : eulerDeletionFactor (3 : ℚ) 1 2 2 2 1 = 3 / 4 := by
+  norm_num [eulerDeletionFactor]
+
+/-- Omitting the quadratic term gives the bad-prime scalar factor. -/
+example : eulerDeletionFactor (3 : ℚ) 0 2 2 2 0 = 1 / 4 := by
+  norm_num [eulerDeletionFactor]
+
+/-- The upper critical exponent changes both powers of the prime. -/
+example : eulerDeletionFactor (3 : ℚ) 1 2 2 2 2 = 27 / 32 := by
+  norm_num [eulerDeletionFactor]
+
 /-- Depletion kills coefficients at multiples of the prime and keeps the others. -/
 example (a : ℕ → K) : depletedCoeff a 2 2 = 0 ∧ depletedCoeff a 2 3 = a 3 := by
+  norm_num [depletedCoeff]
+
+/-- Depletion keeps the first coefficient and kills the coefficient at the square of the prime. -/
+example (a : ℕ → ℚ) : depletedCoeff a 2 1 = a 1 ∧ depletedCoeff a 2 4 = 0 := by
   norm_num [depletedCoeff]
 
 end Depletion
