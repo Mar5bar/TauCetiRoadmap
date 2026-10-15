@@ -56,4 +56,33 @@ theorem universal_c_relation :
       universalWeierstrass.c₄ ^ 3 - universalWeierstrass.c₆ ^ 2 :=
   universalWeierstrass.c_relation
 
+/-- E6's coordinate equation; the level structure and elliptic open are
+constructed separately from this native Weierstrass carrier. -/
+def gammaOneThreeCurve {R : Type*} [CommRing R] (a₁ a₃ : R) :
+    WeierstrassCurve R := ⟨a₁, 0, a₃, 0, 0⟩
+
+/-- Integral c₄ normalization before reduction mod 2. -/
+theorem gammaOneThreeCurve_c₄ {R : Type*} [CommRing R] (a₁ a₃ : R) :
+    (gammaOneThreeCurve a₁ a₃).c₄ = a₁ ^ 4 - 24 * a₁ * a₃ := by
+  simp only [WeierstrassCurve.c₄, WeierstrassCurve.b₂,
+    WeierstrassCurve.b₄, gammaOneThreeCurve]
+  ring
+
+/-- Native c₆ uses the sign fixed in E1. -/
+theorem gammaOneThreeCurve_c₆ {R : Type*} [CommRing R] (a₁ a₃ : R) :
+    (gammaOneThreeCurve a₁ a₃).c₆ =
+      -a₁ ^ 6 + 36 * a₁ ^ 3 * a₃ - 216 * a₃ ^ 2 := by
+  simp only [WeierstrassCurve.c₆, WeierstrassCurve.b₂,
+    WeierstrassCurve.b₄, WeierstrassCurve.b₆, gammaOneThreeCurve]
+  ring
+
+/-- This discriminant is an integral polynomial, with no fourth-power
+coordinate claim. -/
+theorem gammaOneThreeCurve_discriminant {R : Type*} [CommRing R] (a₁ a₃ : R) :
+    (gammaOneThreeCurve a₁ a₃).Δ = a₁ ^ 3 * a₃ ^ 3 - 27 * a₃ ^ 4 := by
+  simp only [WeierstrassCurve.Δ, WeierstrassCurve.b₂,
+    WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈,
+    gammaOneThreeCurve]
+  ring
+
 end TauCetiRoadmap.EllipticCohomology
