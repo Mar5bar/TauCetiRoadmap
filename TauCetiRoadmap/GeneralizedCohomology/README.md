@@ -290,6 +290,14 @@ axiomatic theories independently of their G2 spectral representation.
    transfer and comparisons. State which monoidal/cofibrancy hypotheses each
    comparison uses; this does not rectify an arbitrary homotopy ring. Homotopy ring objects and strict
    associative models are distinguished in the APIs.
+   Construct the simplicial tensors, cotensors and mapping spaces for the
+   stable projective and positive-flat stable models. Prove SM7, including
+   pushout-products of positive-flat cofibrations with simplicial
+   monomorphisms and the trivial-cofibration conclusions when either input
+   is trivial, including spectral stable-trivial cofibrations. Construct the
+   level/latching and stable-localization comparisons used in that proof.
+   Use Mathlib `CommMon` over this constructed closed symmetric monoidal
+   spectral carrier for commutative spectral rings.
 5. **Sphere/space comparisons.** Construct `Σ∞` and derived `Ω∞`, prove their
    adjunction and compare derived maps from suspension spectra with maps into
    Ω-spectrum levels, with enough level shifts to accommodate negative degrees.
@@ -386,7 +394,9 @@ axiomatic theories independently of their G2 spectral representation.
    negative degrees. No new private stable-stem type is retained.
 6. **True versus naïve homotopy.** Define spectral π_n by stable sphere maps.
    For a fibrant Ω-spectrum, prove the eventual level-group computation with
-   the correct shift and abelian-group range. Define semistability, prove when
+   the correct shift and abelian-group range. Include positive Ω-fibrant
+   spectra, computing in sufficiently large positive levels with the same
+   shift and abelian-group bounds. Define semistability, prove when
    the sequential colimit `colim_k π_(n+k)(E_k)` computes true π_n and require
    a nonsemistable counterexample F₁S¹. Ordinary sequential spectra
    have their own proved stable-colimit comparison; do not transfer that
@@ -439,6 +449,13 @@ axiomatic theories independently of their G2 spectral representation.
    using G2's pushout-product/monoid/cofibrancy hypotheses. Compare/rectify it to a commutative symmetric ring using the positive
    model hypotheses. Supply strictification/rectification constructions
    and comparisons; no multiplicative coherence is inferred from group laws.
+   Construct the natural comparison of the derived free commutative algebra
+   on a positive-flat cofibrant spectrum V with the wedge of extended powers
+   `(V∧ᴸ⋯∧ᴸV)_(hΣ_m)`, including m=0, unit, operadic multiplication and
+   replacement maps. Construct relative free-cell pushout filtrations over
+   flat commutative bases and their underlying derived-colimit comparisons,
+   including transfinite compositions. Compare the operadic and positive
+   commutative free cells under this same construction.
    Construct commutative spectral localization at a homogeneous even-degree
    class, its unit and universal property among rings in which that class
    is invertible, in the homotopy category of commutative spectral rings.
@@ -717,6 +734,62 @@ axiomatic theories independently of their G2 spectral representation.
    R-module structure on τ_(≥k)E by connectivity/coreflection, and prove
    the cover map R-linear. Rectify through G2's module model and verify
    all action coherences; for k>0 this is not a unital ring structure.
+   For connective commutative spectral rings construct the structured zeroth
+   Postnikov refinement on Mathlib `CommMon` over G2.4's constructed
+   symmetric monoidal spectral carrier.
+   Use its positive-flat commutative-ring model and the same HA of G2.7
+   for a native commutative coefficient ring A. Consume G2.5's identification
+   of sphere homotopy with the supplier's stabilized stems; identify π₀S
+   with ℤ using AT's positive sphere-degree class, compatibly with product
+   and unit. Construct the commutative model's simplicial enrichment,
+   tensors/cotensors and functorial replacements. Transfer G2.4's spectral
+   SM7 through the forgetful cotensor and fibration/trivial-fibration
+   comparisons to prove the commutative corner-map property.
+   First prove `connectiveSpectrumMapsToHA`: for connective V the actual
+   simplicial map, defined by π₀, from the derived `Map_Sp(V,HA)` to
+   the constant simplicial set `Hom_AddCommGrp(π₀V,A)` is a weak equivalence.
+   Use this section's additive mapping-space truncation and G2.7's HA,
+   with cofibrant source and fibrant target replacements; prove coefficient
+   naturality and the replacement comparisons.
+   Reuse G2.8's single free/operadic and relative free-cell comparisons.
+   Prove an m-fold homotopy symmetric power of a k-connective spectrum
+   is mk-connective for k≥0. Using G2.8's comparison, prove homotopy
+   orbits and filtered homotopy colimits preserve k-connectivity.
+   Construct connective commutative-cell presentations and their weak
+   equivalences to connective rings. Degree-zero generators use a specified
+   positive-flat cofibrant K₀≃S: the derived free algebra has polynomial
+   π₀ and its maps to HA are the discrete choices in A. Degree-one relation
+   cells impose the specified π₀ relations; higher free generators and
+   degree-d attaching cells for d≥2 have contractible HA mapping fillers.
+   Prove these claims on the actual mapping pushouts/pullbacks using SM7,
+   then pass through transfinite composites by Kan mapping towers and
+   sphere compactness. Construct by π₀ the actual natural simplicial map
+   from the derived `Map_CAlg(R,HA)`, using a cofibrant source and fibrant
+   HA target, to `Hom_CommRing(π₀R,A)` and prove it a weak equivalence,
+   with the right side a discrete Kan space. Retain its bifunctor
+   naturality, composition and replacement comparisons.
+   On specified connective positive-flat cofibrant commutative models
+   construct `connectiveCommRingPostnikovZero R=P0R` and a strictly
+   natural commutative-ring map `R→P0R`. Use functorial small-object
+   factorization with the commutative model's generating trivial
+   cofibrations and free commutative cells on
+   `F_m(∂Δ[k]₊)→F_m(Δ[k]₊)`, m≥1 and k−m≥2, where F_m is G2's
+   spectral free/evaluation adjoint. Prove smallness, positive-flat
+   cofibrancy, the stable sphere comparison and the relative free-cell
+   connectivity bounds. The high cells preserve connectivity and π₀;
+   the lifting properties give positive Ω-fibrancy and, by G2.6's
+   positive-level group formula, kill every positive stable homotopy group.
+   Prove P0 preserves weak equivalences between these models. For a raw
+   connective R use the earlier functorial
+   cofibrant replacement cR→R and export the natural span
+   `R←cR→P0(cR)`. Identify the underlying spectrum of P0(cR), under cR, with
+   `spectrumPostnikovTruncation R 1=τ_(≤0)R` by the additive universal
+   property and its homotopy-group comparison. Construct a commutative
+   equivalence `P0(cR)≃H(π₀R)` between specified replacements, natural
+   in Ho(CAlg), with the identity on π₀. The preceding actual mapping-space
+   comparison supplies its derived uniqueness. Strict functoriality is
+   asserted for P0 on the specified models; the HA comparison is
+   Ho-natural, without an asserted strictly natural point-set map R→HA.
    Prove `spectrumPostnikovConvergence`: E→holim_(k→∞)τ_(<k)E
    is an equivalence by eventual π-stability and the above Milnor sequence.
    Likewise hocolim_(k→∞)τ_(≥−k)E→E is an equivalence. Neither statement
@@ -1548,6 +1621,69 @@ axiomatic theories independently of their G2 spectral representation.
    | KU | complex, hence quaternionic bundles |
    | KO and its shifted module KSp | spin, hence quaternionic bundles via G4.0a's direct standard-orientation lift, using the KO spin Thom orientation target below |
 
+   **Structured ordinary complex augmentation and scalar change.** Use the
+   single commutative Thom model MU of item4, TopK T1.5's finite complex
+   Grassmannians and T1.6a's fixed-rank Gr_r∞ carriers, with their Schubert
+   characteristic maps and pinned ambient/rank inclusions. Build the Thom
+   CW structure by bundle trivializations over the characteristic discs;
+   a base cell of real dimension d gives a Thom cell of dimension d+2r.
+   Construct levelwise and cofinal comparisons with item4's ℂ^∞⊗ℝⁿ
+   ambient and actual bundle/Thom structure maps, with strict compatibility
+   at the bottom sphere-unit cell. Retain the stabilization, permutation,
+   product and positive-flat commutative-model comparisons of these maps.
+   For zero-based pivots τ₀<⋯<τ_(r−1), prove the complex Schubert-cell
+   dimension is Σ_(i<r)(τ_i−i). After rank-r Thom desuspension the degree
+   is 2Σ_(i<r)(τ_i−i): the bottom τ_i=i gives degree 0 and every other
+   cell has degree≥2. Deduce MU connective and its unit cofiber 2-connective.
+   Deduce `muCoefficientZeroIso:π₀MU≃ℤ` from this unit and G3.8's positive
+   sphere-degree normalization.
+   Normalize the MU Thom class in G2.5's interleaved complex coordinates
+   `(e₀,ie₀,…,e_(r−1),ie_(r−1))`, matching CharacteristicClasses' canonical
+   complex real orientation and G4.5's rank-one normalization.
+   Prove its actual G2.5 comparison from grouped real/imaginary coordinates,
+   whose permutation sign is ε_r=(−1)^(r(r−1)/2). Retain the mixed block
+   shuffle in Whitney products, with
+   `ε_(r+s)=ε_r ε_s (−1)^(rs)`, and the unit/stabilization diagrams.
+   The chosen normalized class restricts to +Σ^(2r)1 on each ordered fibre.
+   Apply G3.8's P0 to the specified connective cofibrant model cMU.
+   Choose once a commutative comparison `P0(cMU)→Hℤ` between the specified
+   replacements inducing `muCoefficientZeroIso`, and compose it with
+   `cMU→P0(cMU)` to construct `complexThomOrientation_to_HZ`.
+   Give its actual commutative-ring representative, the comparison zigzags
+   to the designated MU and Hℤ, and its contractible full derived
+   mapping-space uniqueness. Prove it carries the normalized MU Thom
+   class to this item's ordinary Thom class over the full base, using
+   the ordinary Thom isomorphism and fibre unit+1 on each component.
+   Prove pullback, stabilization, external/Whitney product, zero-section
+   and relative-boundary diagrams with these same coordinate comparisons.
+   In particular, `x_MU=e_MU(γ*)` maps to
+   `e_HZ(γ*)=−e_HZ(γ)=−c₁^CC(γ)=h_AT` under G4.5's convention.
+
+   Construct restriction and derived extension of module scalars along
+   this fixed structured map on G2's actual module categories. Prove the
+   free/forgetful Quillen and coefficient-model invariance comparisons
+   with compatible cofibrant/flat replacements. For a cofibrant spectrum
+   E the free cMU-module cMU∧E is cofibrant; construct its balanced-tensor
+   cancellation and derived-associativity comparison. Transport this to
+   `freeMU_HZ_baseChange` for every spectrum E:
+   `Hℤ⊗_MU^L(MU∧^LE)≃Hℤ∧^LE`.
+   Prove its unit, naturality, integer shifts, cofibers and external products.
+   For E=Σ∞Y₊ and actual CW-pair quotients identify its homotopy groups
+   and connecting maps with G2.7's single ordinary integral homology theory.
+   Scalar change of an arbitrary MU-module is not identified with ordinary
+   homology of its underlying spectrum.
+   Export `muHZThomEulerBaseChange`: for a numerable complex rank-r bundle
+   ν over a CW-type base, scalar change carries its chosen MU Thom-module
+   isomorphism and actual zero-section map to the normalized Hℤ Thom-module
+   isomorphism and cap action of `c_r^CC(ν)=e_HZ(ν)`, consuming
+   CharacteristicClasses C3.2's top-Chern/Euler comparison in its canonical
+   complex real orientation. State the two
+   homological suspensions as `MU∧B₊→Σ^(2r)(MU∧B₊)` and
+   `Hℤ∧B₊→Σ^(2r)(Hℤ∧B₊)`; retain the bundle Thom object and actual
+   coefficient-model maps in the derived comparison square. The target
+   suspension lowers homology degree by 2r. Include r=0/Euler1, empty
+   bases, all components, naturality and relative cofibers.
+
    **G5.5-ABS: bundle ABS orientation.** Construct the KO Thom orientation
    for a real spin bundle by the actual
    real graded Clifford-module/Koszul family, with local Spin equivariance,
@@ -1979,7 +2115,11 @@ axiomatic theories independently of their G2 spectral representation.
    when converting these conventions. A bundle class that is already spin
    may use the spin Thom
    isomorphism even when the theory has no orientation for all complex bundles.
-   Construct Thom orientation ring maps to HA and the actual unital
+   Construct Thom orientation ring maps to HA. Their complex/MU instance
+   for A=ℤ is the same `complexThomOrientation_to_HZ` constructed above;
+   for a commutative coefficient ring A compose with G2.7's coefficient
+   change Hℤ→HA through the specified comparison zigzags and fibrant
+   coefficient-model maps. Construct the actual unital
    multiplicative ABS map MSpin→KO, with the KO bundle Thom family and
    coefficient ABS comparisons. For supplied coherent multiplicative
    orientation data construct the generic unital spectral ring map; distinguish
@@ -2021,6 +2161,14 @@ axiomatic theories independently of their G2 spectral representation.
    at i=2k−1, with the stabilization/Hurewicz diagram.
 
 ## Dependency order and acceptance
+
+G3.8's structured zeroth Postnikov construction uses G2.4's spectral SM7,
+the positive-flat commutative/free-operadic models and G2.7's HA. Independently,
+G5.4 constructs the single coherent MU from G2's models and its structured-bundle inputs.
+G5.5 constructs that MU's TopK-compatible unit-cell comparison, then uses
+it and G3.8's P0 for the fixed complex ordinary augmentation. Its normalized
+Thom comparison uses G4.3–5, and its free-module scalar change uses G2's
+module models.
 
 G3.8 first constructs derived tower limits and generic spectral covers;
 G3.9 then constructs localizations/completions. G3.10's unstable mapping
