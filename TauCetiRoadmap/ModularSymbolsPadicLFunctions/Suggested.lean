@@ -57,6 +57,14 @@ example : (divisor ((0 : ℚ) : OnePoint ℚ) ∞ : MonoidAlgebra ℤ (OnePoint 
       ((0 : ℚ) : OnePoint ℚ) = -1 ∧
     (divisor ((0 : ℚ) : OnePoint ℚ) ∞ : MonoidAlgebra ℤ (OnePoint ℚ)).coeff ∞ = 1 := sorry
 
+/-- A constant path is zero. -/
+example (a : OnePoint ℚ) : divisor a a = 0 := by
+  ext; simp [divisor]
+
+/-- The intermediate cusp cancels when paths are concatenated. -/
+example : divisor ((0 : ℚ) : OnePoint ℚ) ((1 : ℚ) : OnePoint ℚ) +
+    divisor ((1 : ℚ) : OnePoint ℚ) ∞ = divisor ((0 : ℚ) : OnePoint ℚ) ∞ := sorry
+
 end Divisors
 
 section Symbols
@@ -124,6 +132,14 @@ theorem slashPoly_mem_Vk {k : ℕ} (γ : Matrix (Fin 2) (Fin 2) ℤ) {P : MvPoly
 theorem slashPoly_scalar {k : ℕ} (c : ℤ) {P : MvPolynomial (Fin 2) R} (hP : P ∈ MvPolynomial.homogeneousSubmodule (Fin 2) R k) :
     slashPoly R (c • (1 : Matrix (Fin 2) (Fin 2) ℤ)) P = (c : R) ^ k • P := sorry
 
+/-- Degree-zero coefficients are fixed by every matrix substitution. -/
+example (γ : Matrix (Fin 2) (Fin 2) ℤ) : slashPoly R γ (1 : MvPolynomial (Fin 2) R) = 1 :=
+  map_one _
+
+/-- A nonunit scalar acts by its degree power, rather than an inverse power. -/
+example : slashPoly ℤ (2 • (1 : Matrix (Fin 2) (Fin 2) ℤ)) (X 0 ^ 2) =
+    4 * X 0 ^ 2 := sorry
+
 /-- Convention witness: `T = !![1, 1; 0, 1]` fixes `X` and sends `Y` to `Y - X`. The unadjugated
 substitution `P ↦ P((X, Y) T)` would send `Y` to `X + Y`, and the substitution
 `P ↦ P(aX + bY, cX + dY)` of `binaryFormRep` would send `X` to `X + Y`. -/
@@ -165,12 +181,27 @@ example : ¬ (!![2, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℤ) ∈ Sigma0 4 := by
   simp at h
   norm_num at h
 
+/-- The same diagonal matrix is admitted at level three. -/
+example : (!![2, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℤ) ∈ Sigma0 3 := sorry
+
+/-- Lower-left divisibility and nonsingularity are independent requirements. -/
+example (N : ℕ) :
+    (!![1, 0; 1, 1] : Matrix (Fin 2) (Fin 2) ℤ) ∉ Sigma0 2 ∧
+    (!![1, 0; 0, 0] : Matrix (Fin 2) (Fin 2) ℤ) ∉ Sigma0 N := sorry
+
 /-- An integral matrix of nonzero determinant as an element of `GL₂(ℚ)` (the identity otherwise). -/
 def intMatrixToGL (δ : Matrix (Fin 2) (Fin 2) ℤ) : GL (Fin 2) ℚ :=
   if h : δ.det ≠ 0 then
     Matrix.GeneralLinearGroup.mkOfDetNeZero ((Int.castRingHom ℚ).mapMatrix δ)
       (by rw [← RingHom.map_det]; simpa using h)
   else 1
+
+/-- The rational inclusion preserves the identity. -/
+example : intMatrixToGL 1 = 1 := sorry
+
+/-- On nonsingular matrices the rational inclusion preserves multiplication. -/
+example (γ δ : Matrix (Fin 2) (Fin 2) ℤ) (hγ : γ.det ≠ 0) (hδ : δ.det ≠ 0) :
+    intMatrixToGL (γ * δ) = intMatrixToGL γ * intMatrixToGL δ := sorry
 
 variable {R V : Type*} [CommRing R] [AddCommGroup V] [Module R V]
 
@@ -257,6 +288,12 @@ theorem iotaMatrix_mul_self : iotaMatrix * iotaMatrix = 1 := by
 theorem det_iotaMatrix : iotaMatrix.det = -1 := by
   simp [iotaMatrix, Matrix.det_fin_two]
 
+/-- The cusp action fixes zero and infinity and negates the finite coordinate. -/
+example : intMatrixToGL iotaMatrix • (((0 : ℚ) : OnePoint ℚ)) = ((0 : ℚ) : OnePoint ℚ) ∧
+    intMatrixToGL iotaMatrix • (∞ : OnePoint ℚ) = ∞ ∧
+    intMatrixToGL iotaMatrix • (((1 / 2 : ℚ) : OnePoint ℚ)) =
+      OnePoint.some (-(1 / 2 : ℚ)) := sorry
+
 /-- On `V_k` the involution acts by `P(X, Y) ↦ P(X, -Y)`. -/
 example : slashPoly ℤ iotaMatrix (X 0) = X 0 ∧ slashPoly ℤ iotaMatrix (X 1) = -X 1 := by
   simp [slashPoly, iotaMatrix]
@@ -317,7 +354,8 @@ def IsCoboundaryOn (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V) (H : 
     (c : Γ → V) : Prop :=
   ∃ v : V, ∀ h ∈ H, c h = ρ h v - v
 
-/-- **Parabolic cocycles**: coboundaries on every cusp stabiliser (Wiese, Definition 6.12). -/
+/-- The restriction class vanishes at every cusp: each restricted function is a coboundary
+(Wiese, Proposition 4.14). The cocycle identity is a separate hypothesis. -/
 def IsParabolic (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V) (c : Γ → V) : Prop :=
   ∀ r : OnePoint ℚ, IsCoboundaryOn Γ ρ (cuspStabilizer Γ r) c
 
@@ -452,33 +490,6 @@ theorem mellin_period_eq_L {Γ : Subgroup (GL (Fin 2) ℝ)} [Γ.IsArithmetic] {k
 
 end Mellin
 
-section Stabilisation
-
-variable {K : Type*} [Field K]
-
-/-- The coefficients `a_n - β a_{n/p}` of the p-stabilisation `f° - β f°(pz)` (zero term when
-`p ∤ n`). Belongs to Layer 1, §1.3. -/
-def stabilisedCoeff (a : ℕ → K) (p : ℕ) (β : K) (n : ℕ) : K :=
-  a n - β * if p ∣ n then a (n / p) else 0
-
-/-- Prime-to-`p` coefficients are unchanged. -/
-theorem stabilisedCoeff_coprime (a : ℕ → K) {p n : ℕ} (β : K) (h : ¬ p ∣ n) :
-    stabilisedCoeff a p β n = a n := by
-  simp [stabilisedCoeff, h]
-
-/-- **`U_p f_α = α f_α`** at the level of coefficients: from the good-prime recurrence
-`a_{pm} = a_p a_m - e a_{m/p}` with `e = ε(p) p^{k+1}`, `α + β = a_p` and `α β = e`. -/
-theorem stabilisedCoeff_eigen (a : ℕ → K) {p : ℕ} (hp : p.Prime) (e α β : K)
-    (hrec : ∀ m, a (p * m) = a p * a m - e * if p ∣ m then a (m / p) else 0)
-    (hsum : α + β = a p) (hprod : α * β = e) (m : ℕ) :
-    stabilisedCoeff a p β (p * m) = α * stabilisedCoeff a p β m := sorry
-
-/-- Stabilisation changes the coefficient at `p` and preserves prime-to-`p` coefficients. -/
-example : stabilisedCoeff (fun n ↦ (n : ℚ)) 2 3 2 = -1 ∧
-    stabilisedCoeff (fun n ↦ (n : ℚ)) 2 3 3 = 3 := by norm_num [stabilisedCoeff]
-
-end Stabilisation
-
 /-! ## Layer 2: refinements, overconvergent symbols and small-slope p-adic L-functions -/
 
 section Refinements
@@ -489,7 +500,8 @@ variable {K : Type*} [Field K]
 def IsGoodRefinementRoot (ap εp : K) (p k : ℕ) (α : K) : Prop :=
   α ^ 2 - ap * α + εp * (p : K) ^ (k + 1) = 0
 
-/-- The two roots multiply to `ε(p) p^{k+1}`; in particular a root is nonzero when `ε(p) ≠ 0`. -/
+/-- The two roots multiply to `ε(p) p^{k+1}`; a root is nonzero when both `εp ≠ 0`
+and `(p : K) ≠ 0`. -/
 theorem goodRoot_mul {ap εp α : K} {p k : ℕ} (hα : IsGoodRefinementRoot ap εp p k α) :
     α * (ap - α) = εp * (p : K) ^ (k + 1) := by
   unfold IsGoodRefinementRoot at hα
@@ -504,6 +516,11 @@ example (α : K) : ¬ IsBadRefinement 0 α := fun h ↦ h.2 h.1
 example : IsGoodRefinementRoot (3 : ℚ) 1 2 0 1 ∧
     IsGoodRefinementRoot (3 : ℚ) 1 2 0 2 ∧
     ¬ IsGoodRefinementRoot (3 : ℚ) 1 2 0 0 := by norm_num [IsGoodRefinementRoot]
+
+/-- In residue characteristic `p`, nonzero nebentypus alone does not exclude the zero root. -/
+example : IsGoodRefinementRoot (K := ZMod 2) 0 1 2 0 0 := by
+  norm_num [IsGoodRefinementRoot]
+  decide
 
 end Refinements
 
@@ -534,6 +551,14 @@ theorem mem_daggerMoments_of_isBounded_range (c : ℕ → K)
   intro r hr
   refine ⟨C, fun j ↦ (h j).trans ?_⟩
   exact le_mul_of_one_le_right ((norm_nonneg _).trans (h 0)) (one_le_pow₀ hr.le)
+
+/-- Dirac moments at zero are bounded and satisfy every dagger growth bound. -/
+example : Bornology.IsBounded (Set.range (Pi.single 0 (1 : K) : ℕ → K)) ∧
+    (Pi.single 0 (1 : K) : ℕ → K) ∈ daggerMoments K := sorry
+
+/-- Exponential p-adic growth fails the subexponential moment condition. -/
+example (p : ℕ) [Fact p.Prime] :
+    (fun j : ℕ ↦ ((p : ℚ_[p]) ^ j)⁻¹) ∉ daggerMoments ℚ_[p] := sorry
 
 /-- `1/(j+1)` is a dagger moment sequence that is not bounded in `ℚ_p`. -/
 example (p : ℕ) [Fact p.Prime] :
@@ -576,6 +601,10 @@ def specialiseMoments (k : ℕ) (c : ℕ → K) : MvPolynomial (Fin 2) K :=
 theorem specialiseMoments_coeff_Yk (k : ℕ) (c : ℕ → K) :
     (specialiseMoments k c).coeff (Finsupp.single 1 k) = c 0 := sorry
 
+/-- At degree zero specialisation is the constant polynomial of total mass. -/
+example (c : ℕ → K) : specialiseMoments 0 c = C (c 0) := by
+  simp [specialiseMoments]
+
 /-- The Dirac distribution `δ₀` (moments `1, 0, 0, …`) specialises to `Y^k`. -/
 example (k : ℕ) : specialiseMoments k (Pi.single 0 (1 : K)) = X 1 ^ k := by
   rw [specialiseMoments, Finset.sum_eq_single 0]
@@ -594,6 +623,11 @@ example (k : ℕ) : specialiseMoments k (Pi.single (k + 1) (1 : K)) = 0 := by
 example (p : ℕ) [Fact p.Prime] :
     (!![1, 0; 0, (p : ℤ_[p])] : Matrix (Fin 2) (Fin 2) ℤ_[p]) ∈ Sigma0p p ∧
     (!![(p : ℤ_[p]), 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℤ_[p]) ∉ Sigma0p p := sorry
+
+/-- A unit lower-left entry and a zero determinant each exclude a matrix. -/
+example (p : ℕ) [Fact p.Prime] :
+    (!![1, 0; 1, 1] : Matrix (Fin 2) (Fin 2) ℤ_[p]) ∉ Sigma0p p ∧
+    (!![1, 0; 0, 0] : Matrix (Fin 2) (Fin 2) ℤ_[p]) ∉ Sigma0p p := sorry
 
 end Specialisation
 

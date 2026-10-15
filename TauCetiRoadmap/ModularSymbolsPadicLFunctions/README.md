@@ -42,10 +42,9 @@ The mathematical assertions below are targets for formalisation; the existing li
 named in the `*Needs:*` annotations. Each definition and construction states its API and its Checks.
 The companion [Suggested.lean](Suggested.lean), in the namespace
 `TauCetiRoadmap.ModularSymbolsPadicLFunctions`, prototypes the light definitions whose carriers exist
-at the pinned libraries and the milestone theorems that can be stated against them, with some of the
-Checks as `example`s. A target that ends with a `*Lean:*` line is carried by the declarations listed
-there. Every other target is specified in this README only, and so is every Check that is not one of
-those `example`s.
+at the pinned libraries and the milestone theorems that can be stated against them, with Checks as `example`s. A target that ends with a `*Lean:*` line is carried by the declarations
+listed there. Every Check expressible against the supplied carriers has a Lean example; Checks
+requiring new carriers are specified with their target.
 
 ## Scope and ownership
 
@@ -67,7 +66,7 @@ This roadmap owns:
 - the rational spectral separation of parabolic and boundary Hecke supports at full level Γ(N) and
   the rational Drinfeld–Manin retraction H¹(Γ(N), V_k(ℚ)) → H¹_par(Γ(N), V_k(ℚ));
 - signed period lines, saturated integral period lattices, the twisted Mellin formula, algebraicity
-  of critical values, the L-function of a p-stabilised form and the dictionary between the
+  of critical values, the p-stabilised L-function comparison and the dictionary between the
   interpolation normalisations in the literature;
 - p-stabilisations, refinements and refined eigenlines; the radius-indexed spaces of analytic
   functions and distributions on ℤ_p in Pollack–Stevens' normalisation with the weight-k action of
@@ -138,6 +137,10 @@ It leaves to other roadmaps, and cites:
   representation; **SelmerIwasawaCohomology**, §§2.1–2.2 (Selmer data and kernel), and
   **PadicPeriodRings**, §1.5 (The topological de Rham period rings), for that condition's
   unramified and de Rham local kernels.
+
+AutomorphicLFunctionsAndLocalFactors AL.5 supplies the complex stabilisation coefficients,
+their U_p recurrence and L-series identity. ArithmeticLocallySymmetricSpaces §ALS.3.1 supplies
+the derived Hecke action used by the cohomological adapter of §0.4.
 
 Global ordinary and Coleman–Mazur families belong to PadicFamilies. The local
 finite-slope eigensymbol charts needed for critical specialisation are §3.0 here.
@@ -286,8 +289,8 @@ existing transfer; it does not construct another transfer.
 
 §0.1 (Discs, locally analytic functions and their distributions): `discAnalytic` (analytic functions on a closed disc B(a, r) with Gauss norm and the maximum
 principle on ℂ_p-points), LA_h and LA(ℤ_p, L) = lim→ LA_h, the distributions D(ℤ_p, L) with their
-Fréchet structure, `naInductiveLimit` and `naProjectiveLimit`, and complete continuity of restriction
-to a smaller radius; the locally convex limits `naInductiveLimit` and `naProjectiveLimit` are
+Fréchet structure; §0.3 (Compact restriction to a smaller radius) supplies the finite-chart
+restriction comparison using CompactOperators §0.3. The locally convex limits `naInductiveLimit` and `naProjectiveLimit` are
 §0.0 (Nonarchimedean topology, exact categories and completed tensors). §2.1 (Functions of class C^r and distributions of order r): `DistOrder` (D_r(ℤ_p, L), with `mem_distOrder_iff_growth`, which is
 Pollack–Stevens' h-admissibility), order zero equals bounded measures, and §2.3 (Uniqueness, the critical case and ray-class adapters), the Amice–Vélu–Višik
 theorem: two distributions of order r agreeing on locally polynomial functions of degree ≤ N coincide
@@ -328,7 +331,8 @@ supply a global Selmer kernel for specified local subspaces of continuous H¹.
 PadicPeriodRings §1.5 supplies B_dR with its continuous local Galois action.
 Section 3.0 specifies the unramified local conditions away from p and the de Rham kernel
 at p and applies that Selmer kernel to ad ρ_f. It does not reconstruct a modular Galois
-representation, adjoint or period ring.
+representation, adjoint or period ring. The good-p crystalline comparison, Artinian-family
+period theorem and CM adjoint-Selmer vanishing needed in §3.0 are targets there.
 
 ## How to read the build
 
@@ -422,6 +426,9 @@ This is the ambient form of the inclusion in the preceding target ([PS] §2.1, p
 - On the identity matrix the rational image is 1, and products of two Σ₀(N) matrices
   have the product of their rational images.
 
+- (1 0; 1 1) ∉ Σ₀(2), detecting the lower-left divisibility condition.
+- (1 0; 0 0) ∉ Σ₀(N) for every N, detecting nonsingularity.
+
 ### 0.2 Modular symbols and their presentations
 
 **Manin's presentation of Δ₀** (theorem). Let G = PSL₂(ℤ), σ = (0 −1; 1 0) and τ = (0 −1; 1 −1). The
@@ -486,10 +493,20 @@ x(g) := v_{j(g)}|γ_g⁻¹: x(g_j) + x(g_jσ) = 0, x(g_j) + x(g_jτ) + x(g_jτ²
 σ = (0 −1; 1 0) and τ = (0 −1; 1 −1). Proof: by Manin's presentation Symb_Γ(V) = Hom_{ℤ[Γ]}(ℤ[SL₂(ℤ)]/I, V)
 for the left ideal I generated by 1 + σ, 1 + τ + τ² and 1 − (−1); a ℤ[Γ]-linear map out of ℤ[SL₂(ℤ)]
 is its values on the coset basis; it kills I iff the three relations hold at every g, and by
-equivariance it suffices to take g = g_j. Changing representatives changes the isomorphism by
-γ-twists and not its image ([PS] §2.2, p. 8; the homological counterpart is [Wiese] Definition 5.6 and
+equivariance it suffices to take g = g_j. If g′_j = η_jg_j with η_j ∈ Γ, the coordinate
+change v′_j = ρ(η_j)v_j identifies the two relation submodules. These can be different submodules of
+the fixed product ∏_j V ([PS] §2.2, p. 8; the homological counterpart is [Wiese] Definition 5.6 and
 Theorem 5.7, p. 56). *Needs:* §0.1 (Free group algebras over a finite-index subgroup); §0.2
 (Manin's presentation of Δ₀; Modular symbols); Mathlib `Matrix.SpecialLinearGroup`, `MonoidAlgebra`.
+
+**Checks.**
+
+- For Γ = SL₂(ℤ), V = V₂(ℚ), the boundary function F(a/c) = (aX + cY)² gives
+  P = Y² − X² at representative 1 and P′ = Y² + 2XY at T. The latter fails the
+  former S-relation: P′ + ρ(S)P′ = X² + Y² ≠ 0. The coordinate images differ.
+- If every η_j = 1, the coordinate change is the identity.
+- Successive changes g′_j = η_jg_j and g″_j = θ_jg′_j act by ρ(θ_jη_j);
+  reversing the order of these coefficient twists gives the wrong equivariance.
 
 **A modular symbol is determined by its values on the fundamental-domain generators** (theorem).
 Let Γ ⊊ PSL₂(ℤ) have finite index and contain T = (1 1; 0 1), and let D₁, …, D_t, D_∞, D′₁, …, D′_s,
@@ -501,7 +518,9 @@ For a right Γ-module V and elements v_i, v_∞, v′_i, v″_i ∈ V with
 v_∞|Δ = Σ_i v_i|(1 − γ_i) − Σ_i v′_i − Σ_i v″_i (Δ := T − 1), v′_i|(1 + γ′_i) = 0 and
 v″_i|(1 + γ″_i + γ″_i²) = 0, there is a unique φ ∈ Symb_Γ(V) with φ(D_i) = v_i, φ(D_∞) = v_∞,
 φ(D′_i) = v′_i and φ(D″_i) = v″_i, and every symbol arises so. For Γ ≤ SL₂(ℤ), apply this to the image Γ̄
-and to the invariants of −1 ∈ Γ in V, since −1 acts trivially on Δ₀. The presentation is derived from
+on V^Z for Z = Γ ∩ {±1}, with its descended Γ̄-action, since Z acts trivially on Δ₀.
+If −1 ∉ Γ then Z = 1 and V^Z = V, with Γ ≃ Γ̄; if −1 ∈ Γ then V^Z is the −1-invariant
+submodule. The hypotheses Γ̄ ⊊ PSL₂(ℤ) and T ∈ Γ̄ are retained. The presentation is derived from
 Manin's: a Farey fundamental domain F = α₁R ∪ … ∪ α_nR (with one-third triangles β_iT when Γ has
 three-torsion) exists ([PS] Theorems 2.3 and 2.8, pp. 9 and 13); the oriented unimodular paths through the
 interior of F together with its clockwise boundary edges form a ℤ[Γ]-basis of the unimodular chains (Lemma
@@ -516,6 +535,17 @@ in Corollary 2.10 the three-torsion condition is v″_i|(1 + γ″_i + γ″_i²
 one-element-orbit edge is (γ′_i + 1)e′_i ∈ J ([PS] §2.4, p. 11). *Needs:* §0.2 (Modular symbols; Modular
 symbols as functions on cosets; Manin's presentation of Δ₀); Mathlib `Matrix.SpecialLinearGroup`,
 `CongruenceSubgroup.Gamma0`.
+
+**Checks.**
+
+- For Γ₁(5), −1 ∉ Γ and V₁(ℚ)^Z = V₁(ℚ). Its four regular cusps give four
+  independent boundary symbols, since V₁(ℚ)^Γ = 0. Taking −1-invariants would
+  wrongly annihilate them.
+- For Γ₀(N), −1 ∈ Γ; over ℚ and odd k its invariants in V_k are zero, as are
+  the symbols. Here the central-invariants step is essential.
+- At Γ₀(2) the relation is D′₁ = (1 − T⁻¹)D_∞, with D′₁ = {0} − {−1};
+  the opposite translation sign fails in Δ₀. The full projective group is excluded
+  by the properness hypothesis.
 
 ### 0.3 Hecke operators, the involution at infinity and signs
 
@@ -580,9 +610,20 @@ Mathlib `Matrix.GeneralLinearGroup`, `CongruenceSubgroup.Gamma0`; ModularForms L
 **The plus/minus decomposition** (lemma). If ι normalises Γ and 2 acts invertibly on V, then
 Symb_Γ(V) = Symb_Γ(V)⁺ ⊕ Symb_Γ(V)⁻, the ±1-eigenspaces of ι, through φ = (φ + φ|ι)/2 + (φ − φ|ι)/2; the
 Hecke operators T_ℓ and U_q commute with ι (ι normalises their double cosets), so the decomposition is
-Hecke-stable ([PS] §2.1, p. 7). Over ℤ the sum of the two eigenspaces has index a power of 2 and is in
-general proper. *Needs:* §0.3 (The involution at infinity; Hecke operators on modular symbols);
+Hecke-stable under a compatible coefficient action ([PS] §2.1, p. 7). Over ℤ the quotient by
+the sum of the eigenspaces is killed by 2 and can be nonzero. If the symbol module is finitely
+generated over ℤ, this sum has finite index a power of 2. *Needs:* §0.3 (The involution at infinity; Hecke operators on modular symbols);
 §0.2 (Modular symbols).
+
+**Checks.**
+
+- On ℤ² with the swapping involution the two eigenspaces span the pairs with
+  coordinates of equal parity, an index-two submodule.
+- For Γ₀(11) and trivial Γ-action on V = ⊕_ℕ ℤ², let ι swap each pair. Boundary
+  symbols give an equivariant surjection Symb_Γ(V) → V by evaluation at 0→∞.
+  The sign quotient surjects onto ⊕_ℕ 𝔽₂, so its index is infinite.
+- After inverting 2, (1 + ι)/2 and (1 − ι)/2 are complementary projectors;
+  over 𝔽₂ the swapping example has coincident plus and minus eigenspaces.
 
 ### 0.4 Boundary symbols, group cohomology and parabolic cohomology
 
@@ -596,7 +637,9 @@ V^{Γ_c} the invariants of the right action: ℤ[P¹(ℚ)] is the direct sum of 
 1.5(b)–(e), pp. 7–8; the orbit description is [Wiese] Lemma 4.13, p. 49). API: `boundarySymbols`,
 `restrictBoundary` (restriction, landing in `symbols`), `boundarySymbolsEquivCusps` (BSymb_Γ(V) ≃ ⊕_{c ∈ Γ\P¹(ℚ)} V^{Γ_c} after
 choosing representatives), `eisSymbols` (Eis_Γ(V) = range res), `eisSymbols_hecke` (Eis_Γ(V) is
-stable under T_ℓ, U_q, ⟨d⟩ and ι). *Needs:* §0.2 (Modular symbols); Mathlib
+stable under the Γ₀(N) operators T_ℓ, U_q and ι under the compatible coefficient actions of
+§0.3). The Γ₁(N) and diamond versions are constructed in §0.5 after their operators.
+*Needs:* §0.2 (Modular symbols); §0.3 (Hecke operators; The involution at infinity); Mathlib
 `Representation.ofMulAction`, `Rep.ofMulAction`, `OnePoint`; ModularForms Layer 8 (the sequence
 0 → Δ₀ → ℤ[P¹(ℚ)] → ℤ → 0). *Lean:* `boundarySymbols`, `restrictBoundary`, `eisSymbols`,
 `restrictBoundary_mem_symbols`.
@@ -606,7 +649,36 @@ stable under T_ℓ, U_q, ⟨d⟩ and ι). *Needs:* §0.2 (Modular symbols); Math
 - For Γ = SL₂(ℤ) and V = ℤ there is one cusp with stabiliser ⟨±T⟩, so BSymb ≅ ℤ consists of the constant
   functions and res = 0; in particular Eis_{SL₂(ℤ)}(ℤ) = 0.
 - For p prime, Γ₀(p) has the two cusps ∞ and 0, and BSymb_{Γ₀(p)}(ℤ) ≅ ℤ².
-- res is not injective: the constant function c ↦ v with v ∈ V^Γ restricts to 0 on Δ₀.
+- ker res = V^Γ via invariant constant functions. If V^Γ ≠ 0, for example for
+  Γ = SL₂(ℤ), V = ℤ trivial, a nonzero such function witnesses failure of injectivity.
+- For V = 0 restriction is injective; it is also injective for Γ = SL₂(ℤ), V = V₂(ℚ),
+  whose global invariant submodule is zero.
+
+**Cohomological Hecke adapter** (construction). Let Γ ≤ SL₂(ℤ) have finite index,
+let Σ be a monoid in GL₂(ℚ) containing Γ with (Σ,Γ) a Hecke pair, and let V have
+a compatible right Σ-action. Take H¹ of the derived-invariants action supplied by
+ArithmeticLocallySymmetricSpaces §ALS.3.1, `LocallySymmetric.Hecke.derivedInvariants`.
+Use the opposite monoid for the right coefficient action: Γ → Σᵒᵖ sends γ to op(γ⁻¹), and
+op(δ) acts on V as v ↦ v|δ. Thus the operator indexed here by ΓδΓ is the supplier's left
+operator indexed by the corresponding opposite double coset. Prove that it is restriction
+to H′ = Γ ∩ δΓδ⁻¹, coefficient conjugation
+c(h) ↦ c(δhδ⁻¹)|δ from H′ to H = Γ ∩ δ⁻¹Γδ, then corestriction from H, and that its explicit
+cocycle sum agrees with [Wiese] Definition 7.21 and Proposition 7.22, pp. 75–76,
+under the coefficient dictionary δ^ι·v = v|δ for his adjugate δ^ι. This fixes the convention before proving
+`toH1_hecke`. Its API includes independence of representatives, compatibility with level
+restriction and the cocycle formula. The same adapter applies to normalisers such as ι.
+
+**Checks.**
+
+- The identity double coset acts as the identity on H¹.
+- For a normaliser δ the operator is just coefficient conjugation and pullback on
+  cocycles; for δ in Γ it induces the identity on cohomology.
+- For trivial coefficients in degree zero the double coset acts by its number of right
+  cosets: T_ℓ by ℓ + 1 and U_q by q, detecting the direction of the trace.
+
+*Needs:* §0.1 (The Hecke monoid); §0.3 (Hecke operators on modular symbols);
+ArithmeticLocallySymmetricSpaces §ALS.3.1 (`LocallySymmetric.Hecke.derivedInvariants`);
+Tau Ceti `TauCeti.groupCohomology.corestriction`; Mathlib `groupCohomology`.
 
 **The map from modular symbols to group cohomology** (construction). For φ ∈ Symb_Γ(V) and a base
 cusp x ∈ P¹(ℚ), c_φ(γ) = φ({γx} − {x}) is a 1-cocycle of Γ with values in (V, ρ):
@@ -619,7 +691,8 @@ p. 63, for the base-point cocycle; Lemma 5.2, p. 55, for the sequence). For V = 
 φ = ψ_f of a weight-two cusp form (§0.7), δ(φ) is γ ↦ 2πi∫_x^{γx} f(z)dz. API: `toH1`
 (δ : Symb_Γ(V) → H¹(Γ, V)), `toH1_cocycle` (δ(φ) is represented by γ ↦ φ({γx} − {x}) for every base
 cusp x), `toH1_eis` (δ ∘ res = 0), `toH1_hecke` (δ(φ|T) = δ(φ)|T for the double-coset Hecke operators
-on H¹, [Wiese] Definition 7.21). *Needs:* §0.2 (Modular symbols); Mathlib `groupCohomology`,
+on H¹, with the preceding adapter's convention). *Needs:* §0.4 (Cohomological Hecke adapter);
+§0.2 (Modular symbols); Mathlib `groupCohomology`,
 `groupCohomology.H1`. *Lean:* `symbolCocycle`, `symbolCocycle_mul`.
 
 **Checks.**
@@ -641,20 +714,34 @@ shows the restriction of δ(φ) to Γ_r vanishes; conversely, for a cocycle c wh
 F(gr) = c(g) − ρ(g)v_r, which is well defined and satisfies F(gx) = ρ(g)F(x) + c(g), so φ({b} − {a}) =
 F(b) − F(a) is a symbol with δ(φ) = [c] ([Wiese] Proposition 4.14, p. 50, for the cusp terms; the
 topological comparison of [PS] §2.1, p. 7, is ModularCurvesPartII §§14.1–14.4a, 14.8 and 14.11–14.12). The cusp stabilisers are
-the conjugates of Γ ∩ ⟨±T⟩. *Needs:* §0.4 (Boundary symbols; The map from modular symbols to group
+Γ_r = Γ ∩ g⟨±T⟩g⁻¹ for r = g∞ with g ∈ SL₂(ℤ). *Needs:* §0.4 (Boundary symbols; The map from modular symbols to group
 cohomology); Mathlib `groupCohomology.resNatTrans`; ModularForms Layer 8. *Lean:*
 `symbolCocycle_isCoboundary_iff`, `symbolCocycle_isParabolic`, `exists_symbol_of_isParabolic`
 (stated with explicit cocycles and coboundaries).
 
+**Checks.**
+
+- For Γ₁(4), the infinity stabiliser is ⟨T⟩, whose elements have trace 2; the
+  stabiliser at 1/2 contains (1 −1; 4 −3), of trace −2. It is the intersection
+  with the conjugated ambient stabiliser, not a conjugate of Γ_∞.
+- For Γ = SL₂(ℤ), V = ℤ trivial, the first map identifies V^Γ with all boundary
+  symbols, and res = 0.
+- For Γ = SL₂(ℤ), V = V₂(ℚ), V^Γ = 0 and res is injective. Exactness does
+  not assert a nonzero restriction kernel for every coefficient module.
+
 **Parabolic cohomology** (definition). H¹_par(Γ, V) is the kernel of H¹(Γ, V) → ⊕_{c ∈ Γ\P¹(ℚ)} H¹(Γ_c, V),
 the classes whose restriction to every cusp stabiliser vanishes; in the PSL₂(ℤ) formulation the
 index set is Γ\PSL₂(ℤ)/⟨T⟩ with groups Γ ∩ ⟨gTg⁻¹⟩. It does not depend on the representatives, since
-restriction to Γ_{γc} = γΓ_cγ⁻¹ is restriction to Γ_c followed by conjugation ([Wiese] Definition 6.12,
-p. 66, for cocycles; Proposition 4.14 for the cohomological kernel). API: `H1par` (a submodule of
+restriction to Γ_{γc} = γΓ_cγ⁻¹ is restriction to Γ_c followed by conjugation
+([Wiese] Proposition 4.14, p. 50). On cocycles the condition is that each restriction is a
+coboundary. Definition 6.12, p. 66, instead requires zero restrictions as cocycles; these
+predicates are different. API: `H1par` (a submodule of
 H¹(Γ, V)), `mem_H1par_iff` (c ∈ H¹_par iff its restriction to Γ_{c₀} vanishes for every cusp c₀),
-`H1par_hecke` (stable under T_n and ⟨d⟩, [Wiese] Proposition 7.22), `H1par_baseChange` (for a
+`H1par_hecke` (stable under the Γ₀(N) Hecke operators and ι with compatible coefficient
+actions, [Wiese] Proposition 7.22; the Γ₁(N) and diamond versions are §0.5), `H1par_baseChange` (for a
 finitely presented coefficient module and a flat R → S, S ⊗_R H¹_par(Γ, V) ≅ H¹_par(Γ, S ⊗_R V); the
-finite presentation of Γ and of its cusp stabilisers is part of the proof). *Needs:* Mathlib
+finite presentation of Γ and of its cusp stabilisers is part of the proof). *Needs:* §0.4
+(Cohomological Hecke adapter); Mathlib
 `groupCohomology`, `groupCohomology.resNatTrans`, `CongruenceSubgroup.Gamma0`. *Lean:*
 `cuspStabilizer`, `IsCoboundaryOn`, `IsParabolic` (the cocycle-level condition).
 
@@ -672,7 +759,8 @@ on every cusp stabiliser. These predicates test a supplied function c; the cocyc
 identity is a separate hypothesis in the cohomological theorems. API: subgroup
 restriction for coboundaries, conjugation of cusp stabilisers, base-cusp independence
 of the associated class and invariance after adding a global coboundary. Source:
-[Wiese] Definition 6.12 and Proposition 6.7(a).
+[Wiese] Proposition 4.14, p. 50, for the restriction class, and Proposition 6.7(a) for the
+base-cusp cocycle. Definition 6.12 uses zero-restriction representatives instead.
 
 **Checks.**
 
@@ -682,12 +770,24 @@ of the associated class and invariance after adding a global coboundary. Source:
 - For the coefficient-at-0 functional φ and base cusp ∞, `symbolCocycle` evaluated
   at S is +1, since its divisor is {0} − {∞}; reversing that divisor gives −1.
 
+- For V₁(ℚ), choose v = X and c(γ) = ρ(γ)v − v. This is a global coboundary,
+  hence parabolic here, but c(S T S⁻¹) ≠ 0 at the stabiliser of the cusp 0. A nonzero
+  coboundary restriction need not be the zero cocycle.
+
 **Modular symbols modulo Eisenstein symbols are parabolic cohomology** (theorem). For Γ of finite
-index and every V, δ induces Symb_Γ(V)/Eis_Γ(V) ≅ H¹_par(Γ, V), compatibly with the Hecke operators, the
-diamond operators and ι, with no invertibility hypothesis. This is the exact sequence above together
+index and every V, δ induces Symb_Γ(V)/Eis_Γ(V) ≅ H¹_par(Γ, V), with no invertibility
+hypothesis. At Γ₀(N) it respects T_ℓ, U_q and ι under the compatible coefficient actions; the
+Γ₁(N) and diamond equivariance is established in §0.5. This is the exact sequence above together
 with the Hecke stability of Eis_Γ(V) and the equivariance of δ (the homological counterpart is
 [Wiese] Theorem 5.9, p. 57). When 2 is invertible it induces Symb^±/Eis^± ≅ H¹_par^±. *Needs:* §0.4
-(The boundary exact sequence; Parabolic cohomology; Boundary symbols).
+(The boundary exact sequence; Parabolic cohomology; Boundary symbols; Cohomological Hecke adapter).
+
+**Checks.**
+
+- For Γ₀(11), V = ℚ trivial, the quotient has dimension 3 − 1 = 2.
+- For Γ = SL₂(ℤ), V = ℚ trivial, both sides are zero.
+- Over ℤ the quotient comparison needs no division by 2; passing to the separate
+  signed quotient is asserted after 2 is invertible.
 
 **Descent of modular symbols from a normal subgroup** (lemma). Let Γ′ ⊴ Γ be finite-index subgroups of
 SL₂(ℤ) and V a right ℤ[Γ]-module. Then Γ/Γ′ acts on Symb_{Γ′}(V) by φ ↦ φ|γ, and
@@ -700,10 +800,21 @@ res ∘ cor = Σ_{Γ/Γ′} conjugation on H¹ with the same transfer. Mathlib's
 terms. For the parabolic statement, restrict the transfer to each cusp through the double-coset
 decomposition, and use that Γ′ ∩ Γ_c has index dividing [Γ : Γ′] in Γ_c. In the applications
 Γ′ = Γ ∩ Γ(M) with M ≥ 5, which is normal, torsion-free and has only regular cusps; Γ ∩ Γ₁(M) is in
-general not normal in Γ ([Wiese] Proposition 6.8, p. 64, and Proposition 4.16, p. 51). *Needs:* §0.2
+general not normal in Γ ([Wiese] Proposition 3.26 and Theorem 3.27, p. 41, for finite-group
+vanishing and inflation–restriction; parabolic compatibility uses the cusp-transfer argument
+above). Proposition 6.8, p. 64, is the central-quotient example. *Needs:* §0.2
 (Modular symbols); §0.4 (Parabolic cohomology); Mathlib `groupCohomology.H1InfRes_exact`,
 `groupCohomology.resNatTrans`, `CongruenceSubgroup.Gamma1`, `CongruenceSubgroup.Gamma`;
 Tau Ceti `TauCeti.groupCohomology.corestriction`, `map_subtype_id_comp_corestriction`.
+
+**Checks.**
+
+- For Γ′ = Γ(4) normal in SL₂(ℤ), symbol descent is integral and needs no
+  averaging denominator.
+- With trivial 𝔽₂ coefficients, the nonzero class from SL₂(ℤ)^{ab} → 𝔽₂
+  restricts to zero on its index-two kernel. Cohomological descent fails without
+  the index-invertibility hypothesis.
+- If Γ′ = Γ, restriction and transfer are identities and the averaging projector is 1.
 
 ### 0.5 Level Γ₁(N): diamond operators, Hecke operators and characters
 
@@ -719,7 +830,12 @@ Definition 7.23, p. 76, on cohomology). Under the period map of §0.7, ⟨d⟩ψ
 `diamondOp`. API: `diamond`, `diamondHom` ((ℤ/N)^× →* the endomorphisms of Symb_{Γ₁(N)}(V)),
 `diamond_eq_of_Gamma0Map_eq` (⟨d⟩ depends only on the lower-right entry mod N), `diamond_comm_hecke`
 (⟨d⟩T_ℓ = T_ℓ⟨d⟩, ⟨d⟩U_q = U_q⟨d⟩, ⟨d⟩ι = ι⟨d⟩, under the compatible coefficient actions),
-`fixed_diamond_eq` (the ⟨·⟩-fixed symbols are the Γ₀(N)-symbols). *Needs:* §0.2 (Modular symbols);
+`fixed_diamond_eq` (the ⟨·⟩-fixed symbols are the Γ₀(N)-symbols). At Γ₁(N) construct the
+same normaliser action on boundary symbols and H¹ through the §0.4 adapter. Prove diamond
+stability of Eis, diamond stability of H¹_par, and diamond equivariance of
+Symb/Eis ≃ H¹_par, retaining the coefficient-action hypotheses. *Needs:* §0.4 (Boundary
+symbols; The boundary exact sequence; Parabolic cohomology; Cohomological Hecke adapter);
+§0.2 (Modular symbols);
 §0.3 (Hecke operators on modular symbols; The involution at infinity); Mathlib
 `CongruenceSubgroup.Gamma1`, `CongruenceSubgroup.Gamma0Map`; Tau Ceti `HeckeRing.GL2.diamondCosetGamma1`,
 `diamondOp`.
@@ -744,8 +860,11 @@ the good-prime representatives need not contain them. On the ε-eigenspace,
 φ|T_ℓ = Σ_a φ|(1 a; 0 ℓ) + ε(ℓ)φ|(ℓ 0; 0 1), and under the period map ψ_{T_ℓf} = ψ_f|T_ℓ. API: `heckeTGamma1`,
 `heckeUGamma1`, `heckeTGamma1_comm` (good-prime operators commute on equivariant symbols),
 `heckeTGamma1_restrict` (on Symb_{Γ₀(N)}(V) they are the operators of §0.3), `heckeTGamma1_formula`
-(the upper triangular sum plus σ_ℓ·diag(ℓ, 1)). *Needs:* §0.3 (Hecke operators on modular symbols);
-§0.5 (Diamond operators); §0.1 (The Hecke monoid); Mathlib `CongruenceSubgroup.Gamma1`; Tau Ceti
+(the upper triangular sum plus σ_ℓ·diag(ℓ, 1)). Prove also the Γ₁(N) Hecke versions of `eisSymbols_hecke`, `toH1_hecke` and
+`H1par_hecke`, and Hecke equivariance of Symb/Eis ≃ H¹_par, by applying the boundary
+sequence and the cohomological adapter to these actual double cosets. *Needs:* §0.3 (Hecke operators on modular symbols);
+§0.5 (Diamond operators); §0.1 (The Hecke monoid); §0.4 (The boundary exact sequence;
+Cohomological Hecke adapter); Mathlib `CongruenceSubgroup.Gamma1`; Tau Ceti
 `HeckeRing.GL2.diamondCosetGamma1`.
 
 **Checks.**
@@ -793,13 +912,23 @@ R[Γ]-module V and a flat R-algebra S, the natural map Symb_Γ(V) ⊗_R S → Sy
 compatible with the Hecke, diamond and ι actions. By the coset description of §0.2, Symb_Γ(V) is the
 kernel of finitely many linear equations V^a → V^b (this uses that Δ₀ is finitely presented over
 ℤ[Γ], for every finite-index Γ, including those not containing T), and kernels commute with flat base
-change; no finiteness hypothesis on V is needed ([Wiese] Proposition 1.8, p. 10, homologically). In
+change; no finiteness hypothesis on V is needed ([Wiese] Exercise 1.30(a)–(b), p. 17, for
+homological base change; the Hom-side result follows from this finite-presentation kernel argument). In
 particular Symb_Γ(V_k(K)) ⊗_K ℂ = Symb_Γ(V_k(ℂ)) for a number field K ⊆ ℂ. Flatness is needed: for
 p-torsion-free V, Symb_Γ(V) ⊗ 𝔽_p → Symb_Γ(V/p) is injective with cokernel the p-torsion of
 Ext¹_{ℤ[Γ]}(Δ₀, V), which need not vanish. *Needs:* §0.2 (Modular symbols as functions on cosets; A
 modular symbol is determined by its values on the fundamental-domain generators); §0.1 (Free group
 algebras over a finite-index subgroup); Mathlib `Module.Free`, `Module.Flat`,
 `Module.FinitePresentation`; §0.2 (Manin's presentation of Δ₀).
+
+**Checks.**
+
+- For V = V_k(K) and K ↪ ℂ, scalar extension gives the complex symbol module.
+- For V = 0 the comparison identifies the two zero modules.
+- For Γ = SL₂(ℤ) and V = V₁(ℤ), the central element −1 forces all symbols
+  to vanish. Modulo 2 the coefficient module is the standard 𝔽₂²; the value
+  X + Y satisfies the S-, τ- and central Manin relations and gives a nonzero
+  symbol. Reduction is not a flat base change.
 
 ### 0.6 Duality with the homological symbols
 
@@ -826,13 +955,26 @@ Symb_Γ(Hom_ℤ(W, M)) ≅ Hom_ℤ((Δ₀ ⊗ W)_Γ, M), natural in W and M: ten
 left adjoint to the trivial-module functor. If W is a module over a monoid Σ ⊇ Γ, the Hecke operator
 Σ_iφ|δ_i corresponds to precomposition with [D ⊗ w] ↦ Σ_i[δ_iD ⊗ δ_iw], and likewise for ⟨d⟩ and ι; the
 transpose reverses composition, which is harmless because the Hecke algebra is commutative. With
-W = Sym^k(ℤ²) this identifies Symb_Γ(Hom(Sym^k ℤ², M)) with Hom_ℤ(𝕄, M) for ModularForms Layer 8's module 𝕄
-(pinned Tau Ceti `TauCeti.ModularSymbols Γ k` over ℤ), transposing its Hecke operators `heckeSymbol`
-and `heckeTSymbol` ([Wiese] Definition 1.5(a), p. 7; [Pollack AWS] §2.9, p. 10). Torsion of 𝕄 is invisible
+W = W_k(ℤ) of the preceding target, first rotate by JQ(X,Y) = Q(−Y,X). For every
+integral γ, including nonunit determinants,
+J(γ·Q) = `binaryFormAdjugateRep`(γ)(JQ). Thus the comparison with ModularForms Layer 8's
+module 𝕄 (pinned Tau Ceti `TauCeti.ModularSymbols` over ℤ) sends the pinned class [D ⊗ Q] to
+φ(D)(J⁻¹Q). Prove this identity before transposing `heckeSymbol` and `heckeTSymbol`: the pinned
+`symbolIntRep_tmul` uses γD ⊗ `binaryFormAdjugateRep`(γ)Q ([Wiese] Definition 1.5(a), p. 7; [Pollack AWS] §2.9, p. 10). Torsion of 𝕄 is invisible
 for M = ℤ and visible for M = ℚ/ℤ. *Needs:* §0.2 (Modular symbols); §0.3 (Hecke operators on modular
 symbols); §0.5 (Hecke operators on Γ₁(N)-symbols); Mathlib `Rep.coinvariantsTensor`,
 `Rep.coinvariantsAdjunction`, `Representation.linHom`, `Representation.Coinvariants`; ModularForms
-Layer 8 (pinned Tau Ceti `TauCeti.ModularSymbols`, `heckeSymbol`, `heckeTSymbol`).
+Layer 8 (pinned Tau Ceti `TauCeti.ModularSymbols`, `heckeSymbol`, `heckeTSymbol`,
+`symbolIntRep_tmul`, `binaryFormAdjugateRep`).
+
+**Checks.**
+
+- At k = 1 and γ = T, the W_k action fixes X, whereas the pinned adjugate
+  action sends X to X − Y. With JX = −Y both sides of J(T·X) = T·JX are −Y.
+- For γ = diag(2,1) and Q = X, J(γ·Q) = −2Y, equal to the adjugate action
+  on JQ. The identity holds at this nonunit determinant as well as on SL₂.
+- At k = 0, J = 1 and the comparison is ordinary tensor–Hom evaluation.
+  Torsion classes are invisible to Hom(−,ℤ) but detectable in Hom(−,ℚ/ℤ).
 
 **Hom-side symbols and geometric cohomology** (comparison). Let Γ ≤ SL₂(ℤ) have finite
 index and V be an R-module with a Γ-action. Suppose the orders of the torsion
@@ -942,10 +1084,18 @@ Hecke compatibility is [Wiese] Proposition 7.24, and the signed statements follo
 [Wiese] Corollary 7.33, pp. 79–80; general Γ descends from the normal torsion-free Γ ∩ Γ(M), M ≥ 5, by §0.4
 ([Wiese] Theorem 6.15, p. 70, for Γ₁(N), N ≥ 4, whose odd-weight N = 4 case needs the cusp count c_k).
 *Needs:* §0.7 (The period symbol; Dimension of parabolic cohomology; Petersson detection of period
-cocycles); §0.4 (The map from modular symbols to group cohomology; Parabolic cohomology; Modular symbols
+cocycles); §0.4 (Cohomological Hecke adapter; The map from modular symbols to group cohomology; Parabolic cohomology; Modular symbols
 modulo Eisenstein symbols; Descent from a normal subgroup); §0.6 (The invariant pairing); §0.5 (Hecke
 operators on Γ₁(N)-symbols); §0.3 (The plus/minus decomposition); Mathlib `CuspForm`; Tau Ceti
 `CuspForm.peterssonInnerCosets_definite`; ModularForms Layers 8 and 10C.
+
+**Checks.**
+
+- At Γ₀(11), k = 0, the two-dimensional parabolic cohomology has one line of each sign.
+- At Γ₁(4), k = 1, both cusp forms and parabolic cohomology vanish; counting its
+  irregular cusp as regular would give the wrong dimension.
+- At SL₂(ℤ), k = 10, each signed parabolic space is the line of Δ; the two
+  complex summands together have dimension two.
 
 **Cuspidal and Eisenstein eigensystems are distinct** (theorem). Let f be a normalised newform of
 weight k + 2, level N and character ε, let M be a multiple of N, and let Γ be a group with
@@ -1178,13 +1328,19 @@ on the span iff α ≠ β. Proof: f°(pz) = V_pf° has coefficients a_{n/p} (Tau
 the U_p-eigenvalue follows from the coefficient criterion at level Np and the good-prime recurrence
 a_{pm} = a_pa_m − ε(p)p^{k+1}a_{m/p} with α + β = a_p, αβ = ε(p)p^{k+1}; T_ℓ commutes with V_p for ℓ ∤ Np. At p | N
 there is no stabilisation: the refinement of §2.1 uses the U_p-eigenvalue a_p of the newform itself
-([PS] §8, the example of X₀(11) at p = 3, p. 35). API: `pStabilisation` (f_α = f° − β·V_pf° in
+([PS] §8, the example of X₀(11) at p = 3, p. 35). The coefficient formula, recurrence
+and complex L-series reindexing are supplied by AutomorphicLFunctionsAndLocalFactors AL.5,
+Complex period and stabilization dictionary (`AL5.pStabilizedCoeff`,
+`AL5.pStabilizedCoeff.up_eigen`, `AL5.pStabilizedCoeff.LSeries`). Use its complex API after
+embedding K_f(α) in ℂ; descend the form's coefficient coordinates to K_f(α) by injectivity
+of that embedding and the displayed formula. This construction owns the stabilised cusp
+form and its Hom-side period symbol, not a second coefficient-sequence API. API: `pStabilisation` (f_α = f° − β·V_pf° in
 S_{k+2}(Γ₁(Np))), `pStabilisation_coeff` (a_n(f_α) = a_n − βa_{n/p}), `pStabilisation_Up` (U_pf_α = αf_α),
 `pStabilisation_heckeT` (T_ℓf_α = a_ℓf_α for ℓ ∤ Np). *Needs:* §0.5 (Hecke operators on Γ₁(N)-symbols); Tau
 Ceti `TauCeti.CuspForm.levelRaise`, `TauCeti.CuspForm.qExpansion_levelRaise`,
 `HeckeRing.GL2.heckeUCuspNat_eq_smul_iff_forall_qExpansion_coeff_prime_mul`,
-`HeckeRing.GL2.heckeTCuspNat_eq_smul_iff_forall_qExpansion_coeff_prime_mul`. *Lean:* `stabilisedCoeff`,
-`stabilisedCoeff_coprime`, `stabilisedCoeff_eigen`.
+`HeckeRing.GL2.heckeTCuspNat_eq_smul_iff_forall_qExpansion_coeff_prime_mul`;
+AutomorphicLFunctionsAndLocalFactors AL.5 (Complex period and stabilization dictionary).
 
 **Checks.**
 
@@ -1196,13 +1352,25 @@ Ceti `TauCeti.CuspForm.levelRaise`, `TauCeti.CuspForm.qExpansion_levelRaise`,
 - For the newform of level 11 at p = 3, a₃ = −1 and X² + X + 3 has roots of 3-adic valuations 0 and 1;
   f_α and f_β have level 33 with U₃-eigenvalues α and β.
 
-**L-functions of p-stabilised forms** (lemma). With f° and α, β as above, L(f_α, s) = (1 − βp^{−s})L(f°, s), and
+**L-functions of p-stabilised forms** (comparison). With f° and α, β as above, L(f_α, s) = (1 − βp^{−s})L(f°, s), and
 L(f_α, χ, s) = L(f°, χ, s) for every χ of conductor p^n with n ≥ 1; at s = j + 1, βp^{−j−1} = ε(p)p^{k−j}/α.
-Proof: a_n(f_α) = a_n − βa_{n/p}; χ(n) = 0 when p | n; αβ = ε(p)p^{k+1}. Stabilising at β exchanges the roles:
+Apply AutomorphicLFunctionsAndLocalFactors AL.5's `AL5.pStabilizedCoeff.LSeries` to
+`pStabilisation_coeff`, then extend the identity of entire cusp-form L-functions from the
+absolute-convergence half-plane; χ(n) = 0 when p | n. This target identifies that supplied
+identity with the periods and refined Hom-side line used here. Stabilising at β exchanges the roles:
 L(f_β, s) = (1 − αp^{−s})L(f°, s). This separates the L-function of a p-stabilised form (the form of level
 divisible by p that RJW's statement uses) from that of the newform of level prime to p
 ([RJW] Appendix B.2, p. 79). For k = 0, trivial character and j = 0 the factor is 1 − 1/α. *Needs:* §1.3
-(p-stabilisations of a newform); §1.2 (The twisted Mellin formula).
+(p-stabilisations of a newform); §1.2 (The twisted Mellin formula);
+AutomorphicLFunctionsAndLocalFactors AL.5 (Complex period and stabilization dictionary).
+
+**Checks.**
+
+- For k = j = 0 and trivial character the second Euler factor is 1 − 1/α.
+- A character of conductor p^n, n ≥ 1, kills every coefficient contributed by
+  βf(pz), so the twisted L-functions are unchanged.
+- Interchanging α and β interchanges 1 − βp^(−s) with 1 − αp^(−s);
+  the L-function comparison remembers the chosen refinement.
 
 **The interpolation dictionary** (theorem). RJW's interpolation statement reads, for f of weight k + 2 and
 level Γ₀(N) with p | N, U_p-eigenvalue α_p with v_p(α_p) < k + 1, χ of conductor p^n and 0 ≤ j ≤ k:
@@ -1272,6 +1440,10 @@ character modulo N), and the slope is k/2 (ModularForms Layer 4, bad-prime eigen
 - At p | N with a_p = 0 (for example p² | N with ε of conductor prime to p) there is no refinement; a
   definition that took a root of the good-prime polynomial would wrongly produce one.
 
+- For the field-valued helper over 𝔽₂, p = 2, k = 0, a_p = 0 and εp = 1,
+  α = 0 satisfies the good-root equation. Nonvanishing of a root also needs
+  (p : K) ≠ 0, which holds for the characteristic-zero fields of this layer.
+
 **The refined eigenline** (lemma). Let (f, α) be a refinement, K ⊇ K_f(α) a field and λ the system of
 eigenvalues a_ℓ (ℓ ∤ Np) and α (for U_p). For each sign, L_{f,α}^± = Symb_{Γ₀}(V_k(K))^±[ε][λ] is one-dimensional
 over K, and after ⊗ℂ it is spanned by (1 ± ι)ψ_{f_α} (f_α = f when p | N). For p ∤ N it lies in the
@@ -1310,9 +1482,11 @@ completely continuous with dense image (LocallyAnalyticDistributions Layer 0, co
 smaller radius). API: `distWeight` (D_k(ℤ_p), D_k and D†_k with the right weight-k action of Σ₀(p)),
 `distMoments` (D ≃ bounded sequences, isometrically), `daggerMoments` (D† ≃ sequences O(r^j) for every
 r > 1), `distWeight_norm_le` (the contraction above). *Needs:* LocallyAnalyticDistributions Layer 0
-(`discAnalytic`, LA_h, locally analytic distributions, `naInductiveLimit`, `naProjectiveLimit`, compact
-restriction); §0.1 (The Hecke monoid Σ₀(N)). *Lean:* `daggerMoments`,
-`mem_daggerMoments_of_isBounded_range`, `Sigma0p`.
+§§0.0–0.1 (`discAnalytic`, LA_h, locally analytic distributions, `naInductiveLimit`,
+`naProjectiveLimit`) and §0.3 (Compact restriction to a smaller radius); §0.1 (The Hecke monoid Σ₀(N)). *Lean:* `daggerMoments`,
+`mem_daggerMoments_of_isBounded_range`, `Sigma0p`. The monoid `Sigma0p` uses the actual
+p-adic unit, lower-left divisibility and nonzero-determinant conditions. Its API includes the
+entrywise integral inclusion Σ₀(p) → `Sigma0p p` and compatibility of the coefficient actions.
 
 **Checks.**
 
@@ -1321,6 +1495,11 @@ restriction); §0.1 (The Hecke monoid Σ₀(N)). *Lean:* `daggerMoments`,
 - c_j = 1/(j + 1) is O(r^j) for every r > 1 but unbounded (|1/p^m|_p = p^m), so it defines an element of D† not
   in D; such denominators are why the difference equation of §2.3 needs D† ([PS] Remark 4.6).
 - c_j = p^{−j} is not O(r^j) for 1 < r < p, so it is the moment sequence of no element of D†.
+
+- diag(1,p) belongs to `Sigma0p p`, while diag(p,1) does not: the upper-left
+  entry must be a p-adic unit.
+- (1 0; 1 1) does not belong to `Sigma0p p`, because its lower-left entry is a unit.
+- (1 0; 0 0) does not belong to `Sigma0p p`, because its determinant is zero.
 
 ### 2.3 Specialisation and overconvergent lifts
 
@@ -1391,8 +1570,8 @@ projective slope summands, uniqueness of h-slope decompositions); §2.2 (Distrib
 **Stevens' control theorem in small slope** (theorem). Specialisation induces isomorphisms
 Symb_{Γ₀}(D_k(ℤ_p))^{(<k+1)} ≅ Symb_{Γ₀}(D_k)^{(<k+1)} ≅ Symb_{Γ₀}(V_k)^{(<k+1)} of the subspaces on which U_p acts with
 slope < k + 1, compatible with the Hecke operators and ι. In particular, for a refinement (f, α) of slope
-h < k + 1 and each basis φ^± of the refined eigenline L_{f,α}^±, there is a unique Φ^± ∈ Symb_{Γ₀}(D_k(ℤ_p))^±
-with ρ*_k(Φ^±) = φ^±, and Φ^± is a Hecke eigensymbol with the eigenvalues of f_α. Proof: injectivity on slope
+h < k + 1 and each basis φ^± of the refined eigenline L_{f,α}^±, there is a unique
+Φ^± ∈ Symb_{Γ₀}(D_k(ℤ_p))^{±,(<k+1)} with ρ*_k(Φ^±) = φ^±, and Φ^± is a Hecke eigensymbol with the eigenvalues of f_α. Proof: injectivity on slope
 < k + 1 holds because on ker ρ*_k the terms with j ≤ k of (Φ|U_p)(D)(z^r) = Σ_aΣ_jC(r, j)a^{r−j}p^jΦ(D_a)(z^j) vanish,
 so U_p is divisible by p^{k+1} there; surjectivity: ρ*_k maps X_ϕ^{(=h)} onto K·ϕ and kills X_ϕ^{(>h)}, and for
 h < k + 1 it is injective on X_ϕ^{(=h)}, so the resulting eigensymbol lifts a nonzero multiple of ϕ
@@ -1407,6 +1586,17 @@ strict: at h = k + 1 specialisation can fail to be an isomorphism on the f-part,
 image of θ_k ([PS] Theorem 5.14, p. 26), which includes the critical-slope stabilisation of a p-ordinary CM form
 ([PS] Remark 5.15, p. 26); that is Layer 3. *Needs:* §2.3 (Lifting classical symbols); §2.4 (Slope decomposition
 of the fibre); §2.2 (Distribution modules); §2.1 (Refinements; The refined eigenline).
+
+**Checks.**
+
+- At p = 3, k = 0 and Γ₀(33), assign the derivative functional g ↦ g′(0)
+  to the cusp orbit of 0, equivariantly, and zero to the other cusp orbits. Its
+  nonzero boundary restriction is a minus symbol in ker ρ₀: unrestricted lifts
+  are not unique, even with a sign fixed.
+- For a small-slope refined basis, the unique lift in slope < k + 1 is a
+  simultaneous eigensymbol; adding the preceding kernel symbol loses that condition.
+- At h = k + 1 a CM critical eigenline can specialise to zero, so the strict
+  inequality cannot be weakened to ≤.
 
 ### 2.5 The p-adic L-function of a small-slope refinement
 
@@ -1504,12 +1694,46 @@ eigenlines. Proposed home: `TauCeti/NumberTheory/ModularForms/ModularSymbols/Cri
 
 ### 3.0 Critical eigensymbols and local analytic families
 
+**Projective Banach model for signed symbols** (construction). For a small weight affinoid
+W = Sp(A), use the universal character κ on analytic stages where κ(a + cz) converges.
+Construct a bounded complex C_A^± of Banach A-modules computing the signed distribution
+symbols as H⁰, from the finite Manin presentation and its relations. Choose coefficient
+stages by completed scalar extension from a field-valued distribution model, and prove
+(Pr) for every term by an explicit continuous retract from c_A(I); the map to the full
+A-valued continuous dual is a comparison map, not an assumed isomorphism. Prove continuous
+differentials, a chain representative of U_p that is degreewise completely continuous,
+and coefficient-specialisation quasi-isomorphisms with the fixed-weight model. Include
+level and Hecke maps and compatible homotopies. Apply LocallyAnalyticDistributions §4.16
+to this complex. On an adapted factor Q its finite-slope complex is finite perfect.
+For a cuspidal refined point, localise away from boundary Hecke support and prove that
+the complex and all its geometric fibres have cohomology concentrated in degree zero;
+shrink W so this holds on the chosen local chart (Tor-amplitude zero). Then
+H⁰(C_{A,Q}^±) = M_Q^± is finite projective and commutes with coefficient specialisation. Elsewhere retain the complex and its cohomology rather than asserting
+projectivity of a kernel of Manin equations. API: the model, its (Pr) retracts, compact
+chain map, specialisation comparison and cuspidal concentration theorem. Sources:
+[Bellaïche] §§3.1–3.2, Proposition 3.3 for the desired family interface;
+LocallyAnalyticDistributions §4.16 for the complex construction and its cohomology hypotheses.
+
+**Checks.**
+
+- At weight k, H⁰ specialises to the signed module of §2.2 with its U_p action.
+- The complex A —t→ A over A = K⟨t⟩ has H⁰ = 0 but its fibre at t = 0 has H⁰ = K;
+  finite projective terms alone do not give base change for H⁰. The concentration
+  hypothesis excludes this jump before M_Q is asserted finite projective.
+- Compactness of U_p on a closed kernel does not exhibit a (Pr) retract. The model
+  supplies actual degreewise retracts and commutation dU_p = U_pd.
+
+*Needs:* Layers 0–2; LocallyAnalyticDistributions §§4.15–4.16 (affinoid coefficient
+stages, degreewise (Pr), compact representatives and finite-slope perfect complexes).
+
 **Local analytic Hecke charts** (construction). Fix p ∤ N, Γ₀ = Γ₁(N) ∩ Γ₀(p), a finite
 extension K/ℚ_p and a sufficiently small affinoid W in the character space of ℤ_p^×, with
 coordinate algebra A and universal character κ. Use the weight-κ distribution action
 (γ·_κg)(z) = κ(a + cz)g((b + dz)/(a + cz)) on analytic stages where κ(a + cz) is analytic.
-Construct the corresponding symbol modules with their sign action and compact U_p. For an
-adapted Fredholm factor Q over W, take the finite-slope symbol summand M_Q^± and its finite
+Use the preceding projective Banach model, its compact chain representative and its
+coefficient-specialisation comparison. Near a cuspidal refined point impose its proved
+cohomological concentration hypotheses. For an adapted Fredholm factor Q over W, take
+M_Q^± = H⁰(C_{A,Q}^±), a finite projective symbol module there, and its finite
 A-algebra T_Q^± generated by the Hecke action, retaining the actual module and its base-change
 maps. Define the local Hecke space X_Q^± = Sp(T_Q^±), its weight map and coherent eigensymbol
 module. Prove agreement on overlapping adapted factors, the integral-weight specialisation
@@ -1530,7 +1754,8 @@ and §4.2 (the local module at a decent point).
 - A fibre with local algebra K[t]/(t²) retains length two and its nilpotent action;
   its single geometric point cannot replace that algebra or the generalised eigenspace.
 
-*Needs:* Layers 0–2; LocallyAnalyticDistributions §3.3 (The Mellin transform of distributions)
+*Needs:* Layers 0–2; §3.0 (Projective Banach model for signed symbols);
+LocallyAnalyticDistributions §3.3 (The Mellin transform of distributions)
 for analytic character spaces, §4.15 (Affinoid families, coefficient actions and compactness)
 and §4.16 (Banach complexes and finite-slope decompositions).
 
@@ -1563,13 +1788,93 @@ D†; the moment description and radius comparison are [PS] Proposition 3.1 and
 *Needs:* §2.2 (Distribution modules); §2.3 (Specialisation);
 LocallyAnalyticDistributions §1.4 (The Amice dictionary for the standard operators).
 
+**Galois and crystalline-period adapter for the local chart** (construction and theorem).
+On the reduced cuspidal charts, interpolate the traces and determinants of the classical
+attachments to a continuous two-dimensional Galois pseudocharacter, unramified outside Np.
+At a classical cuspidal point x with absolutely irreducible attachment, lift it to a
+representation over the completed local Hecke algebra B, uniquely up to conjugacy.
+Match every classical specialisation with AlgebraicModularFormsAndSerreWeights R15.5A.2.
+Supply the good-p crystalline comparison as part of this adapter: if ρ_ar denotes that
+supplier's arithmetic-Frobenius representation, use ρ = ρ_ar^∨ in the usual covariant
+D_cris convention, so φ has characteristic polynomial X² − a_pX + ε(p)p^{k+1}, and the
+Hodge–Tate weights are 0 and k + 1 when χ_cyc has weight −1. At arithmetic Frobenius ℓ,
+tr ρ(Frob_ℓ) = a_ℓ/(ε(ℓ)ℓ^{k+1}); this specifies the dualisation. Its adjoint is canonically
+identified with that of ρ_ar by the transpose-dual map.
+
+For distinct roots and the chosen refinement α, prove the finite-slope crystalline-period
+theorem: for every ideal I of finite colength in B, zero is a constant Sen weight of ρ_B/I
+and D_cris((ρ_B/I)|_{G_ℚ_p})^{φ=α̃} is free of rank one over B/I, where α̃ is the image
+of U_p. Construct the refined deformation functor with these conditions, unramified
+outside Np, its representing complete local ring and its surjection onto B. Identify its
+tangent space inside H¹(ℚ,ad ρ), with the local maps needed for the dimension-one
+smoothness argument under adjoint Selmer vanishing. The finite-slope period theorem,
+including Artinian quotients, is a target here. Sources: [Bellaïche] §2.3, Theorem 2.16
+and proof, pp. 20–21; its [K1], Kisin, *Overconvergent modular forms and the
+Fontaine–Mazur conjecture*, for the period theorem and Proposition 8.7 for the refined
+local deformation problem. The good-p comparison is [Bellaïche] Lemma 2.11(ii).
+
+**Checks.**
+
+- For I the maximal ideal, the period line is the α-eigenline of classical D_cris;
+  for α ≠ β the two lines are different.
+- For a quotient B/I = K[η]/(η²), freeness means length two over K. A crystalline
+  period only in the residue fibre is insufficient for this assertion.
+- For weight two and trivial ε, the dual of the supplier's determinant χ_cyc has
+  determinant χ_cyc⁻¹ and crystalline determinant p; using ρ_ar without dualisation
+  gives crystalline determinant p⁻¹ in these conventions.
+
+*Needs:* §3.0 (Local analytic Hecke charts); §0.6 (Hom-side symbols and geometric cohomology);
+AlgebraicModularFormsAndSerreWeights R15.5A.2;
+IntegralHeckeAndGaloisDeterminants §§0.5, 1.3 and 1.5 (pseudocharacters, henselian
+irreducible reconstruction and coefficient descent); ArithmeticGaloisRepresentations §7.2 (Adjoint);
+LocalGaloisDeformationRings §§F.1.1–F.1.10 and 1.15 (deformations and characteristic-zero
+Artinian coefficient categories);
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5 (period structures and
+finite-extension-field realization comparisons) and §§R07.P7.1–R07.P7.5 (labelled Sen theory);
+PadicPeriodRings §§1.5, 3–4; SelmerIwasawaCohomology §§2.1–2.2;
+ArithmeticGaloisDuality (local Tate duality and the local Euler characteristic).
+
+**CM adjoint-Selmer vanishing** (theorem). Let f be a cuspidal CM newform of weight k + 2 ≥ 2
+and level N, p ∤ N, and F its imaginary quadratic CM field. After a finite coefficient
+extension write ρ_f|_{G_F} = χ ⊕ χᶜ. Prove H¹_g(ℚ,ad ρ_f) = 0 for the unramified
+conditions away from p and the de Rham condition at p. This includes the infinite-image
+Hecke-character vanishing H¹_f(F,χ/χᶜ) = H¹_f(F,χᶜ/χ) = 0: these characters are the
+p-adic realisations of the quotients of the algebraic CM character of infinity type
+(k + 1,0) and its conjugate, of types (k + 1,−k−1) and (−k−1,k + 1). Establish this
+specific elliptic-unit/main-conjecture argument here, including its specialisation and
+local-condition comparisons, rather than applying a finite-image adjoint theorem.
+For each place above p the local finite condition is the kernel after tensoring with
+B_cris; globally use the unramified conditions away from p. The two scalar factors
+H¹_f(F,K) vanish by class field theory. Restriction and
+inflation–restriction over the quadratic extension give the global vanishing.
+Prove H¹_f = H¹_g for these adjoint coefficients at every place above p using the
+crystalline comparison and the absence of φ = 1 in D_cris((ad ρ_f)^∨(1)); include
+split and inert p. This transports the finite Selmer vanishing to the stated de Rham
+kernel. Source: [Bellaïche] Proposition 2.15(iv) and its proof, p. 20, whose hypotheses
+are exactly cuspidal CM, weight at least two and p ∤ N, and whose conclusion is the
+finite adjoint Selmer vanishing; its infinite-image step uses Rubin's imaginary-quadratic
+main-conjecture argument. The specific CM-character vanishing and its proof are owned
+here; the general imaginary-quadratic main conjecture is not an input from the Selmer supplier.
+
+**Checks.**
+
+- For X₀(32) at p = 5, F = ℚ(i) and p splits; the adjoint de Rham Selmer kernel
+  vanishes, supplying decency of the critical-slope refinement.
+- Over F the adjoint has two scalar summands and both quotient characters; using
+  only the trace-zero adjoint would omit one scalar summand.
+- The quotient characters have nonzero opposite labelled Hodge–Tate weights;
+  they have infinite image and are not covered by finite-image Selmer finiteness.
+
+*Needs:* §3.0 (Galois and crystalline-period adapter for the local chart);
+ArithmeticGaloisRepresentations §7.2; SelmerIwasawaCohomology §§2.1–2.2;
+ArithmeticGaloisDuality §R02.2 (inflation–restriction); SelmerIwasawaCohomology §4.9
+(Bloch–Kato local finite conditions); FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P3
+(fundamental period sequences);
+ClassFieldTheory (global class field theory).
+
 **Criticality and decency** (definitions and classification). For a cuspidal newform f and a
-refinement with distinct roots, let E^± be the finite-dimensional generalised eigenspace of
-its full Hecke system in Symb_{Γ₀}(D_k)^±. Call the refinement symbol-critical when
-E^± is larger than the corresponding eigenline, and symbol-theta-critical when that eigenline
-is in the image of the symbol map induced by Θ_k. Prove the agreement with the usual
-critical and θ-critical refinement conditions: the former is ramification of the local
-weight map, and the latter is membership of the refined overconvergent form in the image of
+refinement with distinct roots, define criticality by ramification of the local weight map,
+and theta-criticality by membership of the refined overconvergent form in the image of
 (q d/dq)^(k+1) from weight −k. This includes construction of that overconvergent form module
 and the Hecke-compatible comparison of its local Hecke space with the symbol charts above,
 using the ordinary-locus modular-curve neighbourhoods and their isogeny correspondences.
@@ -1578,9 +1883,9 @@ A cuspidal refinement is decent if it is noncritical or
 H¹_g(ℚ, ad ρ_f) = 0, where ρ_f is its attached representation and ad is the full
 endomorphism representation. Here H¹_g is the global Selmer kernel with unramified conditions
 away from p and the kernel of H¹(ℚ_p,ad ρ_f) → H¹(ℚ_p,B_dR ⊗ ad ρ_f) at p.
-In particular noncritical refinements and CM newforms are decent. API:
-`IsSymbolCritical`, `IsSymbolThetaCritical`, `IsDecentRefinement`, their invariance under
-coefficient extension, and the equivalences with ramification and theta image just stated.
+In particular noncritical refinements and, by CM adjoint-Selmer vanishing, CM newforms
+are decent. API: criticality and theta-criticality of forms, `IsDecentRefinement`, and
+invariance under coefficient extension. No symbol eigenline is used in these definitions.
 Sources: [Bellaïche] §§2.1–2.2, Proposition 2.12, Definition 1 and Proposition 2.15(iv).
 
 **Checks.**
@@ -1591,7 +1896,8 @@ Sources: [Bellaïche] §§2.1–2.2, Proposition 2.12, Definition 1 and Proposit
 - A local weight map t ↦ t has ramification index one, while t ↦ t² at zero has index two;
   their identical residue field does not identify their criticality.
 
-*Needs:* §3.0 (Local analytic Hecke charts; The theta exact sequence);
+*Needs:* §3.0 (Local analytic Hecke charts; The theta exact sequence;
+Galois and crystalline-period adapter for the local chart; CM adjoint-Selmer vanishing);
 ModularCurvesPartII §§7.1, 9.1–9.3 and 11.1 (ordinary modular geometry and isogeny correspondences),
 and §§14.1–14.4a and 14.8 (coefficient systems and modular isogeny transport);
 AlgebraicModularFormsAndSerreWeights R15.5A.2 (the classical higher-weight attachment);
@@ -1600,13 +1906,28 @@ SelmerIwasawaCohomology §§2.1–2.2 (Selmer data and kernel);
 PadicPeriodRings §1.5 (The topological de Rham period rings).
 
 **Critical eigensymbol multiplicity** (theorem). For a decent cuspidal refinement as above,
-each full signed eigenspace has dimension one. The dimensions of E⁺ and E⁻ are the same
+each full signed eigenspace has dimension one. Let E^± be the corresponding generalised
+signed eigenspaces. The dimensions of E⁺ and E⁻ are the same
 integer e, equal to the ramification index of the local weight map; the local Hecke curve
 is smooth at this point and its eigensymbol module is free of rank one over its local
 Hecke algebra. The refinement is critical iff e > 1 iff specialisation kills the signed
 eigenline. At e = 1 specialisation is an isomorphism of the overconvergent and classical
-signed eigenlines. Source: [Bellaïche] Theorem 1, §4.2, Theorem 4.7 and Corollary 4.8.
-*Needs:* §3.0 (Local analytic Hecke charts; Criticality and decency); §2.1 (The refined eigenline).
+signed eigenlines. For these decent cuspidal refinements define `IsSymbolCritical`
+by dim E^± > 1 and `IsSymbolThetaCritical` by membership of the signed eigenline in the
+image of Θ_k on symbols. Prove that these agree with the form-theoretic criticality
+and theta-criticality above, with decency retained in both equivalences.
+Source: [Bellaïche] Theorem 1, §4.2, Theorem 4.7 and Corollary 4.8.
+*Needs:* §3.0 (Local analytic Hecke charts; Criticality and decency; The theta exact sequence;
+Galois and crystalline-period adapter for the local chart); §2.1 (The refined eigenline).
+
+**Checks.**
+
+- At e = 1 the signed eigenline specialises isomorphically to its classical line.
+- At e = 2 the local generalised space has dimension two but its full eigenspace
+  has dimension one; the eigenline specialises to zero.
+- For X₀(32) at the split prime 5, CM adjoint-Selmer vanishing supplies decency
+  and the critical signed eigenline lies in the theta image. No equivalence
+  involving a unique symbol eigenline is asserted without decency.
 
 **Secondary and family L-functions** (construction). On the signed generalised eigenspace
 of a decent critical cuspidal point of length e, use the powers of the maximal ideal of
@@ -1707,27 +2028,54 @@ are not a uniqueness theorem here, since they vanish for the primary L-function.
 
 **Comparing critical and arithmetic L-functions through families** (theorem). Let V be a reduced affinoid
 neighbourhood of a decent critical-slope point x of the eigencurve, with the two-variable L^±(y, σ) of §3.0 and
-a chosen trivialization of its period line. If an identity between L^±(y, ·) and an arithmetic construction (for example
-Kato's) holds, up to the normalising function of y (nonvanishing on V), at a Zariski-dense set of
-non-critical classical points y ∈ V, then it holds at x. Two analytic functions on the reduced curve V that
+a chosen trivialization of its period line. Let A^±(y,σ) be an arithmetic construction supplied
+as a jointly rigid analytic function on V × 𝒲, where 𝒲 is the character space in the
+Mellin variable, and let u ∈ 𝒪(V)^× be one fixed analytic unit. If
+A^±(y,σ) = u(y)L^±(y,σ) for every σ and a Zariski-dense set of noncritical classical
+y ∈ V, then this identity holds on V × 𝒲, in particular at x. Two analytic functions on the reduced curve V that
 agree on a Zariski-dense set agree, and non-critical classical points accumulate at x (classical
 weights k′ ≫ 0 near k have v_p(β′) = v_p(β) < k′ + 1 on V). On a non-reduced V, agreement at points sees only
 the reduction. Comparisons at x by interpolation values alone are not valid ([Bellaïche] §1.4.4,
 Theorem 3, p. 10). *Needs:* §3.0 (Local analytic Hecke charts; Secondary and family L-functions); §3.2 (Interpolation does not determine critical-slope L-functions).
 
+**Checks.**
+
+- On a reduced V with more than one point, setting A(y,σ) = L(y,σ) for y ≠ x
+  and A(x,σ) = L(x,σ) + 1 is analytic in σ on each fibre and agrees densely,
+  but fails the conclusion. Joint analyticity is essential.
+- Choosing unrelated scalar multiples at each classical y supplies no single
+  u ∈ 𝒪(V)^×. The hypothesis requires that analytic unit as part of the data.
+- On K[η]/(η²), the section η vanishes at every geometric point and is nonzero;
+  pointwise density cannot replace the reduced hypothesis.
+
 ### 3.4 The critical-slope examples of Pollack–Stevens
 
 **Critical-slope examples** (application). For X₀(11) (k = 0) at p = 3 and p = 5, prove the assertions of Pollack–Stevens'
 Examples 8.6–8.7: the three classical slope-one dimensions (two cuspidal signs and an Eisenstein
-symbol), their full Hecke eigenlifts, and at p = 3 the three-dimensional kernel eigenpacket, with the
-non-freeness of the Hida algebra it implies; at p = 5 also the positive ordinary μ-invariant reported
+symbol), their full Hecke eigenlifts, and at p = 3 the three-dimensional kernel eigenpacket; at p = 5 also the positive ordinary μ-invariant reported
 there in the stated period normalisation ([PS] §8.4, Examples 8.6–8.7, pp. 35–36). Prove the classical slope-one dimensions and existence and uniqueness of each full
 overconvergent eigenlift, including non-θ-criticality; the kernel statement is an equality of
-mathematical eigenspaces. For the CM form of X₀(32) at the split prime p = 5, decency and
+mathematical eigenspaces: construct the minus Eisenstein kernel eigenvector and the
+other two finite-slope eigenvectors exactly, and prove an upper-dimension bound of three
+for the specified kernel packet by a certified slope computation and the theta comparison.
+Finite-precision eigenvectors alone do not prove this dimension equality. Variation of
+splitting fields of finite-weight fibres gives no non-freeness conclusion for a Hida algebra;
+the inference in [PS] p. 36, footnote 7, is not used. For the CM form of X₀(32) at the split prime p = 5, decency and
 θ-criticality do prove that the primary signed eigenline is one-dimensional and specialises to zero, so
 a nonzero classical eigenvector has no eigenlift ([PS] Example 8.8, p. 36; [Bellaïche] §1.4.1, Remark 1,
 p. 6, and Proposition 2.15(iv), p. 20). *Needs:* §3.1 (The critical-slope p-adic L-function); §3.2 (θ-critical
-single forms); §3.0 (Critical eigensymbol multiplicity).
+single forms); §3.0 (Critical eigensymbol multiplicity; CM adjoint-Selmer vanishing).
+
+**Checks.**
+
+- The algebra ℤ₃⟦T⟧[x]/(x² − T − 9) is free with basis 1,x. Its rational fibre
+  at T = 0 splits and the fibre at T = 3 is ℚ₃(√3). Different splitting fields
+  do not imply non-freeness.
+- At p = 3 the exact kernel packet must include its minus Eisenstein vector
+  and the two theta-derived vectors; an upper bound of three is required
+  along with their independence.
+- For X₀(32) at p = 5 the primary signed line is nonzero with zero classical
+  specialisation. It cannot serve as an eigenlift of a nonzero classical basis.
 
 ### Examples
 
@@ -1748,7 +2096,10 @@ Throughout, f is a newform of weight k + 2, level N and character ε, p a prime 
 p; ℤ_{p,M}^× = lim_n (ℤ/p^nM)^×. Pollack's supersingular paper writes k for the weight; its statements are
 translated to weight k + 2 (his product over 0 ≤ j ≤ k − 2 becomes 0 ≤ j ≤ k here). γ is a topological generator of
 1 + qℤ_p with q = p for odd p and q = 4 for p = 2, and Φ_n(T) = Σ_{t=0}^{p−1}T^{p^{n−1}t} is the p^n-th cyclotomic
-polynomial. Proposed home: `TauCeti/NumberTheory/ModularForms/ModularSymbols/{Supersingular,Comparison,Examples}`.
+polynomial. In this layer K is the completion of K_f at the chosen p-adic place and
+K_ψ = K(ψ); individual refined symbols are defined over K_ψ(α). The root α is not assumed to lie
+in K_ψ. Both roots use bases transported from the same period-normalised symbols of f.
+Proposed home: `TauCeti/NumberTheory/ModularForms/ModularSymbols/{Supersingular,Comparison,Examples}`.
 
 ### 4.1 Euler factors and tame twists
 
@@ -1799,7 +2150,11 @@ p. 533), and
 L_p(f, α_i, ψ, ζ_{p^n} − 1) = c_n/α_i^{n+1} with c_n independent of α_i (exponent n + 2 for p = 2; Remark 2.12). Hence:
 if h₁ ≠ h₂, at least one of the two has infinitely many zeros, comparing valuations of
 α₁^{n+1}L(α₁) = α₂^{n+1}L(α₂) as n → ∞ ([Pollack SS] §3, Theorem 3.3, p. 533, Mazur's argument). If a_p = 0, then
-h₁ = h₂ = (k + 1)/2 and α₂ = −α₁; writing L_p(f, α₁, ψ, T) = G⁺_ψ(T) + G⁻_ψ(T)·α₁ with G^± ∈ K(ψ)⟦T⟧, for odd p
+h₁ = h₂ = (k + 1)/2 and α₂ = −α₁. With the common period bases, coefficient
+automorphisms fixing K_ψ carry L_p(f, α₁, ψ, T) to L_p(f, α₂, ψ, T) when they exchange the roots:
+this follows from the unique small-slope eigenlifts. Hence
+G⁺_ψ = (L_p(α₁) + L_p(α₂))/2 and G⁻_ψ = (L_p(α₁) − L_p(α₂))/(2α₁) descend to K_ψ⟦T⟧
+(the assertion is immediate if the roots already lie in K_ψ). Write L_p(α₁) = G⁺_ψ + α₁G⁻_ψ. For odd p
 G⁺_ψ vanishes at ζ_{p^{2n}} − 1 and G⁻_ψ at ζ_{p^{2n−1}} − 1 (n ≥ 1), the parities being reversed for p = 2; bounded
 G^± cannot have infinitely many zeros, so one L-function is unbounded and has infinitely many zeros, and
 both do if α₁ ∉ K(ψ) ([Pollack SS] Theorem 3.5, p. 534, Perrin-Riou's argument). For an elliptic curve E/ℚ
@@ -1808,6 +2163,15 @@ p | a_p and a_p² < 4p; for p = 2 or 3 with a_p ≠ 0, α₁/α₂ is a primitiv
 still forces infinitely many zeros ([Pollack SS] Corollary 3.6 and its proof, p. 535). Ordinary p is
 excluded: only one root has slope < k + 1. *Needs:* §4.1 (p-adic L-functions with a tame twist); §2.1
 (Refinements).
+
+**Checks.**
+
+- For the level-11 newform at p = 19 and ψ = 1, K_ψ = ℚ₁₉ and
+  α = √−19 ∉ K_ψ; both refined functions have infinitely many zeros.
+- Enlarging the coefficient field to contain α makes the non-rationality test
+  inapplicable, although the functions and their zeros are unchanged.
+- At an ordinary good prime the other slope is k + 1, so the pair of small-slope
+  L-functions required by this target is unavailable.
 
 **Pollack's half-logarithms** (construction). For an integer j put
 log⁺_{p,j}(T) = (1/p)·∏_{n≥1}Φ_{2n}(γ^{−j}(1 + T))/p and log⁻_{p,j}(T) = (1/p)·∏_{n≥1}Φ_{2n−1}(γ^{−j}(1 + T))/p, and
@@ -1872,9 +2236,12 @@ L-functions with a tame twist); PadicMeasuresIwasawaAlgebras (Iwasawa functions 
 **Coefficient embeddings and conjugate period coordinates** (theorem). For a normalised newform f of weight
 k + 2, let E contain its coefficients and character values and σ : E → E′ a field embedding. The
 coefficient transport on polynomial-valued symbols carries each signed f-eigenline to the signed
-f^σ-eigenline (f^σ from ModularForms Layer 8G). With the transported basis φ^σ, period-normalised critical
-values transport by σ, including Gauss sums and the inverse twisting character. For p-adic
-constructions choose a p-adic place of E and the transported place of E′: an isometric extension σ_p of σ
+f^σ-eigenline (f^σ from ModularForms Layer 8G). For each primitive χ choose an
+extension σ̃ : E(χ) → E′(χ^σ), where χ^σ(a) = σ̃(χ(a)). For the transported basis φ^σ,
+σ̃(½T_{j,χ}(φ)) = ½T_{j,χ^σ}(φ^σ). These are the algebraic normalised critical coordinates of §1.2.
+Transporting a Gauss sum as a separate factor also requires an extension on the conductor
+roots of unity. For p-adic constructions choose compatible extensions on the character values,
+the refinement and those roots of unity, and transported p-adic places: an isometric extension σ_p
 carries a refinement α to σ_p(α), preserves its slope, and transports its normalised eigenlift and its
 p-adic L-function coefficientwise. For small slope the equality follows from the control theorem or
 interpolation uniqueness; for critical slope from the chosen eigenlift or the family comparison of §3.3,
@@ -1886,6 +2253,16 @@ Proposition 6.3, pp. 28–29). The identity isomorphism acts trivially on each s
 *Needs:* §0.5 (Modular symbols commute with flat base change); §1.1 (Period lines); §1.2 (Algebraicity of
 critical values); §2.4 (Stevens' control theorem); §3.3 (Comparing critical and arithmetic L-functions
 through families); ModularForms Layer 8G.
+
+**Checks.**
+
+- For the level-11 form E = ℚ, σ = id and a cubic character modulo 7,
+  E(χ) = ℚ(ζ₃) has two extensions of σ; one fixes χ and the other exchanges
+  χ with χ⁻¹. The coefficient embedding alone does not choose the twist.
+- For χ = 1 the algebraic coordinate needs no character-field extension, and
+  the identity embedding fixes it.
+- Composing two compatible extensions transports the algebraic coordinates by
+  their composite; transporting a Gauss sum separately also tracks ζ_m.
 
 **Euler depletion and primitive/imprimitive comparison** (construction). Let f be a normalised newform of
 weight k + 2 and level N with a nonzero refinement at p, ℓ ≠ p a prime and V_ℓf(z) = f(ℓz). If ℓ ∤ N put
@@ -1922,12 +2299,25 @@ criteria for Hecke eigenvalues; ModularForms Layer 4. *Lean:* `depletedCoeff`, `
 **Weight-two examples at level 11** (application). With Pollack's level-11 generators and period
 normalisation, verify the modular-symbol values (1/5, −3/2, 1/2) of the newform and the Eisenstein values
 (1, 0, 0). At p = 11 the cuspidal U₁₁-eigenvalue is a₁₁ = 1 (split multiplicative reduction), so the n = 0
-interpolation factor 1 − 1/α vanishes and L₁₁(f, 0) = 0, the trivial zero. In the stated period normalisation, prove that the integral power series has constant
-coefficient 0 and a unit linear coefficient, hence μ = 0 and λ = 1. Verify
+interpolation factor 1 − 1/α vanishes and L₁₁(f, 0) = 0, the trivial zero. Select the
+trivial torsion-character branch ψ = 1, choose γ = 12 and put T = κ(12) − 1. In the stated
+period normalisation its integral power series has constant coefficient zero and a unit
+linear coefficient, hence μ = 0 and λ = 1. Other branches have their own invariants. Verify
 separately the Dirac value at 0 of the Eisenstein lift and its consequent zero restriction to ℤ₁₁^×. The ordinary eigensymbol is the unique U₁₁-fixed lift with the stated
 classical specialisation ([Pollack AWS] §6, pp. 27–28). *Needs:* §2.5 (The p-adic L-function; Interpolation and uniqueness; Ordinary p-adic
 L-functions as integral measures); §0.2 (A modular symbol is determined by its values on the
 fundamental-domain generators).
+
+**Checks.**
+
+- On ψ = 1, γ = 12, the constant is exactly zero and the linear coefficient
+  is a unit. Pollack's opposite-divisor series has linear coefficient
+  1490719231 ≡ 1 mod 11; Convention 12 negates it. Both give μ = 0 and λ = 1.
+- In the same normalisation the residue masses modulo 11 are
+  (0,10,4,5,1,1,7,6,10,0). The ω²-branch constant is
+  Σ_{a=1}^{10} a²μ(a + 11ℤ₁₁) = 5 mod 11, so its λ is zero.
+- The Eisenstein lift is supported at 0 and restricts to zero on ℤ₁₁^×;
+  it does not supply the nonzero cuspidal branch.
 
 **Supersingular examples at level 11** (application). Let f be the newform of X₀(11), q∏_{n≥1}(1 − q^n)²(1 − q^{11n})²
 (k = 0). (i) At p = 2, a₂ = −2, so 2 is supersingular; the roots −1 ± i of X² + 2X + 2 have 2-adic valuation
@@ -1935,10 +2325,19 @@ fundamental-domain generators).
 of L₂(f, α_i, T) has infinitely many zeros, while the ± decomposition does not apply since a₂ ≠ 0.
 (ii) At p = 19 and p = 29, a₁₉ = a₂₉ = 0; the roots ±√−19 of X² + 19 have slope 1/2 and do not lie in ℚ₁₉
 (v₁₉(−19) = 1 is odd), so both L₁₉(f, α_i, T) have infinitely many zeros, and
-L₁₉(E, α, T) = L⁺₁₉·log⁺₁₉ + L⁻₁₉·log⁻₁₉·α with L^±₁₉ ∈ ℤ₁₉⟦T⟧, with the distribution relation of §2.5 fixing its values on residue classes. (iii) Pollack's Table 1 lists λ^± and μ^± for quadratic twists of the curve 32A at p = 3, where
-a₃ = 0 ([Pollack SS] §7, Table 1, pp. 555–556; for (i) and (ii), §3, Corollary 3.6, p. 535, and §5.2.1,
+L₁₉(E, α, T) = L⁺₁₉·log⁺₁₉ + L⁻₁₉·log⁻₁₉·α with L^±₁₉ ∈ ℤ₁₉⟦T⟧, with the distribution relation of §2.5 fixing its values on residue classes. (iii) For quadratic twists of 32A at p = 3, where a₃ = 0, Pollack's Table 1 records
+λ_Ш^±, λ_MW^± and the indicated roots. Compare the total analytic invariant
+λ^± = λ_Ш^± + λ_MW^± with the corresponding signed series; the table has no μ column ([Pollack SS] §7, Table 1, pp. 555–556; for (i) and (ii), §3, Corollary 3.6, p. 535, and §5.2.1,
 Remark 5.4, p. 542). The coefficients a₂ = −2, a₁₉ = a₂₉ = 0 are read off the product formula. A sharp/flat decomposition at a_p ≠ 0 is not part of this
 roadmap. *Needs:* §4.2 (all three targets); §4.4 (Weight-two examples at level 11).
+
+**Checks.**
+
+- At p = 2, a₂ = −2, so the a_p = 0 signed decomposition does not apply.
+- At p = 19, √−19 is not in the base field ℚ₁₉ and the two-root
+  non-rationality criterion applies before adjoining the roots.
+- For D = 13 in Table 1 at p = 3, the plus entries give total λ⁺ = 2 + 1 = 3
+  and the minus entries total λ⁻ = 0 + 1 = 1. No μ-value is a table entry.
 
 ### Examples
 
@@ -1959,7 +2358,7 @@ rank 3 and T₂, T₃ have characteristic polynomials (x − 3)(x + 2)² and (x 
 sequence for V = ℚ is 0 → ℚ → ℚ² → ℚ³ → ℚ³ → ℚ² (§0.4); ψ_f({0} − {∞}) = L(f, 1) = 0.25384… = Ω_E^+/5 (§0.7, §1.2); at
 p = 3 its two refinements have slopes 0 and 1 (§2.1), the ordinary one gives an integral measure in
 ℤ₃⟦ℤ₃^×⟧ with L_p(1) = (1 − 1/α)²L(f, 1)/Ω⁺ (§2.5), and the critical one is non-θ-critical
-(§3.4); at p = 11 the trivial zero appears (§4.4); at p = 2, 19 and 29 it is supersingular (§4.4). The CM form
+(§3.4); at p = 11 the trivial branch ψ = 1, γ = 12 has the trivial zero and μ = 0, λ = 1 (§4.4); at p = 2, 19 and 29 it is supersingular (§4.4). The CM form
 of level 32 at p = 5 is the θ-critical example (§3.2, §3.4).
 
 ## Source corrections
@@ -1990,8 +2389,7 @@ The formulas use the following sign, radius and cusp-count conventions at the in
 
 PadicFamilies (signed period lines in families, the weight-k distribution modules and the specialisations
 of two-variable L-functions; its critical-slope layer uses §2.5 and §§3.0–3.1), KatoEulerSystems (the
-critical-slope L-functions, through the family comparison of §3.3), AutomorphicLFunctionsAndLocalFactors
-(the critical-value period interface of §1.2 and the p-stabilised Euler factor of §1.3), RankZeroOneBSD,
+critical-slope L-functions, through the family comparison of §3.3), RankZeroOneBSD,
 GrossZagierAndArithmeticHeights, EllipticRegulators, EllipticModularityEffectiveComparisons and
 AutomorphicCongruences (period-normalised special values and p-adic L-functions of modular forms), and
 the Drinfeld–Manin projector of §0.8 for the parabolic zeta morphisms of Nakamura's rank-two universal
