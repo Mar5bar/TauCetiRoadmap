@@ -228,10 +228,23 @@ normality and `frobeniusKernel_isComplement'`, and `GL2Borel`, `GL2PrincipalSeri
   that roadmap supplies to this one is the machine-checked block ⇆ simple-module dictionary
   (`blocks_equiv_simpleModules` there), which the Layer 2.5 indexing may consume instead of
   reproving.
-- **Layer 2.5: irreducible-indexing infrastructure.** A type `Irreps k G` of isomorphism classes of
-  simple `k[G]`-modules with `character : Irreps k G → ClassFunction k G`, `degree : Irreps k G → ℕ`,
-  and the equivalence with the Wedderburn block index; `char_orthonormal` imported through it. Everything
-  downstream indexes by `Irreps k G`, so this equivalence is explicit API.
+- **Layer 2.5: canonical irreducible indexing and finite models.** Keep a single type `Irreps k G`
+  for the isomorphism classes of simple `k[G]`-modules; give it `character`, `degree`, and the
+  equivalence with the Wedderburn block index. For each `i : Irreps k G`, choose a representative
+  `Zᵢ : Representation k G (Fin (degree i) → k)` whose associated `k[G]`-module is simple. Thus the
+  representative carrier lies in the coefficient field's universe, so it can be used as an object of
+  `FDRep k G`. Build the representative by transporting a basis of a finite-dimensional simple module
+  to this finite model.
+
+  Layer 2.5 owns the class lookup from a simple `k[G]`-module `S` in any universe to its unique
+  `i : Irreps k G`. Under the semisimple group-algebra hypotheses, native
+  `IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule` identifies `S` with a simple left
+  ideal of `k[G]`; the regular-module/isotypic class bijection assigns that ideal its class. Since
+  `k[G]` is finite-dimensional over `k`, a finite basis then transports the class representative to
+  `Zᵢ`. State and prove uniqueness as `Nonempty (S ≃ₗ[k[G]] Zᵢ.asModule)` for exactly one `i`. This
+  universe-independent class lookup lets the finite simple-submodule decomposition be regrouped
+  without placing its submodules in `FDRep`. `char_orthonormal` is consumed on the finite models via
+  `FDRep.of Zᵢ`; it does not define the class lookup.
 - **The center splits.** `Z(k[G]) ≃ₐ[k] (Irreps k G → k)`, evaluation by central characters (the center
   of `∏ Matₙᵢ(k)` is `∏ k`). This is the sharp form Layer 5 needs: central characters **separate points**
   of the center.
@@ -240,9 +253,84 @@ normality and `frobeniusKernel_isComplement'`, and `GL2Borel`, `GL2PrincipalSeri
 
 ### Layer 3: the character table, idempotents, completeness, second orthogonality
 
+The character additivity, multiplicity, decomposition and recognition targets below concern
+finite-dimensional representations, at arbitrary carrier universes.
+
 - **Completeness.** The irreducible characters `{χᵢ}` **span** `ClassFunction k G`; with
   `char_orthonormal` and the count, they are an orthonormal (for `characterPairing`) **basis**
   `Basis (Irreps k G) k (ClassFunction k G)`.
+- **Finite direct-sum additivity of characters.** Prove that `Representation.prod` has character
+  equal to the sum of the two characters, and that `Representation.directSum` over a finite index has
+  character equal to the finite sum. Prove the corresponding finite-biproduct identity in `FDRep`.
+  These are trace-additivity statements for block-diagonal actions; use `char_iso` to transport them
+  across equivalent presentations. They are prerequisites for the semisimple character expansion.
+- **The pairing-to-Hom identity.** For finite-dimensional representations `ρ : Representation k G V`
+  and `σ : Representation k G W`, state the identity already proved by Mathlib
+  `Representation.card_inv_mul_sum_char_mul_char_eq_finrank`:
+  `characterPairing σ.character ρ.character = (finrank k (Representation.IntertwiningMap ρ σ) : k)`.
+  This has only the finite-group and invertible-order hypotheses; it does not require algebraic
+  closure. In `FDRep`, consume `FDRep.scalar_product_char_eq_finrank_equivariant` for the matching
+  categorical identity. For `V : FDRep k G`, also own the comparison
+  `finrank k (FDRep.of Zᵢ ⟶ V) = finrank k (Representation.IntertwiningMap Zᵢ V.ρ)`, using
+  `invariantsEquivFDRepHom` and `invariantsEquivIntertwiningMap`. Do not reprove either native
+  pairing-to-Hom theorem.
+- **Intrinsic multiplicities and character coefficients.** Under finite `G`, algebraically closed `k`,
+  and invertible `Nat.card G`, for each `i : Irreps k G` define
+  `m_ρ(i) := finrank k (Representation.IntertwiningMap Zᵢ ρ)` for
+  finite-dimensional `ρ : Representation k G V`. The index and finite representative are those fixed by Layer 2.5;
+  this Hom-rank is the intrinsic multiplicity. The general pairing identity above gives
+  `characterPairing ρ.character Zᵢ.character = (m_ρ(i) : k)`.
+- **Cross-universe Schur and regrouping.** For finite-dimensional `ρ`, Maschke gives semisimplicity of `k[G]` because invertible
+  order supplies the nonzero-order hypothesis; finite-dimensionality of `V` gives finite generation
+  of `ρ.asModule`. Apply `IsSemisimpleModule.exists_linearEquiv_fin_dfinsupp` to decompose it into
+  finitely many simple submodules `Sⱼ`, which may live in a universe different from `k`. Assign each
+  `Sⱼ` its unique class using Layer 2.5's arbitrary-universe class lookup. To count its maps from
+  `Zᵢ`, use `IntertwiningMap.equivLinearMapAsModule` to identify intertwiners with `k[G]`-linear
+  maps. `LinearMap.bijective_or_eq_zero` makes this Hom space zero when the classes differ: any
+  nonzero map between simple modules is bijective and hence would identify their classes. When the
+  classes agree, a chosen module equivalence identifies the Hom space with
+  `Module.End k[G] Zᵢ.asModule`. This endomorphism ring is a finite-dimensional division
+  `k`-algebra. Consume [SemisimpleAlgebras Layer 1](../SemisimpleAlgebras/README.md#layer-1-simple-modules-schur-and-isotypic-components)
+  for the Schur collapse `D ≃ₐ[k] k`, with `D := Module.End k[G] Zᵢ.asModule`, and hence
+  `finrank k D = 1`. Build the CharacterTheory adapter that packages these two cases as the
+  cross-universe Hom-dimension formula.
+
+  The regrouping target `regroup_finite_simple_summands_by_Irreps` identifies the number of summands
+  in class `i` with `m_ρ(i)`, by additivity of equivariant Hom over the finite sum and the preceding
+  Schur formula. It yields the primary decomposition of `ρ.asModule` as a finite direct sum with
+  exactly `m_ρ(i)` copies of `Zᵢ.asModule` for each `i`.
+- **Module-to-representation adapters for the primary spine.** Build these conversions:
+
+  1. A `k[G]`-linear equivalence `ρ.asModule ≃ₗ[k[G]] σ.asModule` induces
+     `Representation.Equiv ρ σ`, using `Representation.asModuleEquiv` and
+     `IntertwiningMap.equivLinearMapAsModule`.
+  2. A `k[G]`-linear equivalence identifies
+     `(Representation.directSum Z).asModule` with the finite `Π₀ i, Zᵢ.asModule` sum used by
+     `exists_linearEquiv_fin_dfinsupp`.
+  3. A simple submodule of `ρ.asModule` is turned into a representation on that carrier using
+     `Subrepresentation.subrepresentationSubmoduleOrderIso`.
+
+  These adapters transport the primary module decomposition into a statement about
+  `Representation.Equiv` at arbitrary native universes. Use `Rep.equivalenceModuleMonoidAlgebra`
+  for the categorical mirror. To lift the finite decomposition to `FDRep`, first put its
+  finite-dimensional summands into `FDRep`; then use the native `Full`/`Faithful` forgetful functor
+  and derive its additivity from `PreservesFiniteColimits` before lifting the finite-sum isomorphism.
+- **Multiplicity API and character expansion.** The intrinsic multiplicities obey
+  `m_{ρ.prod σ}(i) = m_ρ(i) + m_σ(i)`, `m_{Zⱼ}(i) = 1` when `i = j` and `0` otherwise, and
+  `finrank k V = ∑ᵢ m_ρ(i) * degree(i)`. Finite character additivity and the regrouped decomposition
+  give `ρ.character = ∑ᵢ (m_ρ(i) : k) • χᵢ`. For `[CharP k p]` with `0 < p`, `p ∤ |G|`, and
+  algebraically closed `k`, the character basis gives the sharp criterion
+  `ρ.character = σ.character ↔ ∀ i, Nat.ModEq p (m_ρ(i)) (m_σ(i))`. Thus ordinary characters need
+  not recover natural multiplicities: for the trivial group, one trivial copy and `p + 1` trivial
+  copies have the same `k`-valued character and different dimensions.
+- **Characteristic-zero character recognition.** If `k` is algebraically closed of characteristic
+  zero, then `Nat.card G` is invertible in `k` and casts of natural multiplicities are injective. The
+  multiplicity formula therefore gives
+  `Nonempty (Representation.Equiv ρ σ) ↔ ρ.character = σ.character` for finite-dimensional
+  representations at arbitrary carrier universes. For `V W : FDRep k G`, obtain the categorical
+  recognition statement from the representation result by constructing the action isomorphism with
+  `Action.mkIso`. The
+  class-function basis and irreducible/class count above require algebraically closed, nonmodular `k`.
 - **Primitive central idempotents.** `primitiveCentralIdempotent χ = (χ(1)/|G|) • ∑_g χ(g⁻¹) • g ∈ Z(k[G])`,
   their class-sum expansion, orthogonality `eᵢ eⱼ = δᵢⱼ eᵢ`, `∑ᵢ eᵢ = 1`, and that `eχ` is the
   Wedderburn projector onto the `χ`-block. These are the clean connective tissue between Wedderburn,
