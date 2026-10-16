@@ -47,17 +47,27 @@ EtaleCohomologyFoundations F.4's étale normalized systems and
 EnhancedDerivedSheaves’ generic derived limits/completion. F.0–F.4 supply C6;
 LefschetzPencilsAndVanishingCycles §0.8a's nearby-cycle and inertia comparison consumes C6.
 
+C5.2's `holomorphicConnectionDictionary` identifies the finite locally free analytic
+sheafification of CR.1 with K4's holomorphic bundle connections on C0.3's rank strata,
+including operators, curvature, tensor/dual/Hom, pullback and horizontal sheaves.
 C5.2 owns `analyticFlatConnectionLocalSystem`: local horizontal frames with holomorphic
 parameters identify a finite locally free module with integrable relative connection with
 the structure sheaf tensored with its horizontal sheaf. The unit and canonical evaluation
 counit give the analytic equivalence, used by the coefficient `relativePoincare` contraction
-and regular-singular comparison. C5.2 also owns `artinDeRhamBetti`: for a finite-dimensional
+and regular-singular comparison. Over a point base its core agrees with K4's absolute unit,
+evaluation, stalk and source-to-target monodromy maps through tensor symmetry; the target here
+includes all horizontal morphisms and holomorphic parameters. In `relativeDeRhamBetti` the
+target order is `L ⊗ O`, so the connection is `1 ⊗ d` followed by forms-first tensor symmetry.
+C5.2 also owns `artinDeRhamBetti`: for a finite-dimensional
 local complex algebra with residue field `ℂ` and a smooth proper scheme over it, the nilpotent-retaining relative analytic de Rham
 complex resolves the constant algebra sheaf. Operator-complex GAGA and constant-coefficient
 sheaf–singular comparison identify its cohomology with special-fibre Betti cohomology tensored
 with the algebra. This supplies the total length input to `relativeHodgeBundles`, including
 nonreduced bases, before freeness of the Hodge pieces is proved. C5.4 owns `CurrentCalculus`,
-the test-form dual and its chartwise comparison with Mathlib distributions, differential signs,
+the complementary-form specialization of K5a's `BundleTest` and `BundleDistribution` through
+the complex orientation and bilinear wedge/density pairing. Its test and compact-convergence
+dual equivalences intertwine restriction, gluing and real/complex comparisons; K5a's
+distributional operator action gives the current differential signs. It adds
 smooth wedge, positivity, mass and local regularization used by `closedCurrentExtension` and
 the cycle and Chern targets. Its `integralLineBundleChernClass` forgets to the native smooth
 complex line, uses SmoothBundlesConnections B6's integral class of the right unit-frame bundle
@@ -77,6 +87,8 @@ RealAnalyticGeometry R3.1–R3.2 consumes its manifold specializations. The loca
 ComplexKahlerGeometry K5a's bundle regularity, K5b.0's adjoint/symbol and K6.0's Bochner
 identity, before compact Hodge theory. C5.3 uses K5's supplied harmonic/Green machinery and
 K6.1's Kähler decomposition through its geometric comparison maps.
+The reciprocal coherent and weighted handoffs specify an acyclic order of stages;
+they do not impose a strict merge order on whole roadmap specifications.
 C0.7 constructs `analyticEtaleDescent` and `SpaceCoherentAnalytification`, with canonical
 cohomology/exchange comparisons, before C1.9's `properSpaceComplexGaga`.
 C5.1's nesting-small resolution extends and compares with CharacteristicClasses C1.2's
@@ -403,8 +415,9 @@ end DifferentialOperators
 
 /-! ### C5.2 Horizontal frames and Artin coefficients -/
 
-/-- The connection `d + dz` has a nowhere vanishing horizontal frame `exp(−z)`, as used
-by `analyticFlatConnectionLocalSystem` to transport the coefficient Poincaré contraction. -/
+/-- The connection `d + dz` has the same horizontal frame `exp(−z)` on the K4 and
+sheafified CR.1 carriers under `holomorphicConnectionDictionary`; the frame transports
+the coefficient Poincaré contraction in `analyticFlatConnectionLocalSystem`. -/
 example (z : ℂ) :
     deriv (fun w : ℂ => Complex.exp (-w)) z + Complex.exp (-z) = 0 ∧
       Complex.exp (-z) ≠ 0 := sorry
@@ -416,6 +429,15 @@ example (t z : ℂ) :
         t * Complex.exp (-(t * z)) = 0 ∧
       Complex.exp (-(t * z)) ≠ 0 ∧ Complex.exp (-(t * 0)) = 1 := sorry
 
+/-- In `relativeDeRhamBetti` the connection on `L ⊗ O` differentiates the second factor.
+For the identity family on `A¹` in degree zero, `1 ⊗ t` gives `1 ⊗ 1` as the coefficient
+of `dt`, which tensor symmetry places in `dt ⊗ (1 ⊗ 1)`. -/
+example :
+    TensorProduct.map (LinearMap.id : ℂ →ₗ[ℂ] ℂ) (Polynomial.derivative (R := ℂ))
+      ((1 : ℂ) ⊗ₜ[ℂ] (Polynomial.X : Polynomial ℂ)) =
+        (1 : ℂ) ⊗ₜ[ℂ] (1 : Polynomial ℂ) := by
+  simp
+
 /-- The coefficient algebra for the `artinDeRhamBetti` check on `P¹` has length two;
 its degree-zero and degree-two cohomology modules each identify with this algebra. -/
 example : Module.length (DualNumber ℂ) (DualNumber ℂ) = 2 := sorry
@@ -424,7 +446,8 @@ example : Module.length (DualNumber ℂ) (DualNumber ℂ) = 2 := sorry
 
 section CurrentCoefficients
 
-/-- `CurrentCalculus` uses Mathlib's negative-transpose derivative on each chart coefficient. -/
+/-- The K5a distributional operator action in `CurrentCalculus` uses Mathlib's
+negative-transpose derivative on each chart coefficient, paired with real-valued tests. -/
 example (Ω : TopologicalSpace.Opens ℂ) (T : Distribution Ω ℂ ⊤) (v : ℂ)
     (φ : TestFunction Ω ℝ ⊤) :
     Distribution.lineDerivCLM v T φ = -T (TestFunction.lineDerivCLM ℝ v φ) :=
@@ -629,20 +652,33 @@ the supporting presentation and curvature comparisons are also specified there.
   and K6.0 supplies the Kähler/Bochner identities. C1.4's `weightedDolbeaultEstimate`
   and C1.5's `cartanTheoremA`/`cartanTheoremB` export the manifold specializations to
   RealAnalyticGeometry R3.1–R3.2;
-  `HolomorphicDeRham`, `holomorphicPoincare`, `analyticFlatConnectionLocalSystem`
+  `HolomorphicDeRham`, `holomorphicPoincare`, `holomorphicConnectionDictionary`
+  (finite locally free analytic sheafification of CR.1 identified with K4's holomorphic
+  bundle connections on clopen rank strata, using the same local matrices and gauge law;
+  compatibility with tensor symmetry, curvature, pullback, tensor/dual/Hom and horizontal sheaves),
+  `analyticFlatConnectionLocalSystem`
   (finite locally free holomorphic coefficients on a holomorphic submersion of complex manifolds,
   local horizontal frames with holomorphic parameters; horizontal sheaf locally pulled back from
   a finite locally free base module of the same rank; the unit and connection-compatible evaluation
   `O_T ⊗_(f⁻¹O_S) ker ∇ → E`; naturality for horizontal morphisms, pullback with base scalar
-  extension, tensors and duals; over a point the finite-dimensional complex local-system equivalence),
+  extension, tensors and duals; over a point the all-morphism finite-dimensional complex
+  local-system equivalence whose core agrees with K4's unit, evaluation, stalk and
+  source-to-target monodromy maps via tensor symmetry),
+  `relativeDeRhamBetti` (target `L ⊗ O`, connection `1 ⊗ d` followed by symmetry to
+  `Ω¹ ⊗ (L ⊗ O)`, sending `v ⊗ a` to `da ⊗ (v ⊗ 1)`),
   `relativePoincare` (the scalar radial contraction in fibre coordinates, transported to an
   integrable finite locally free coefficient connection through that evaluation isomorphism),
   `compactEllipticHodge`
   (operator-dependent shifted coercivity, graph-norm regularity and the original operator's kernel),
   ComplexKahlerGeometry K5a–K5b.1's harmonic/Green maps and K6.1's `∂∂̄` lemma feed
   `kaehlerHodgeDecomposition`, the compatibility with coherent cohomology and integration.
-  `CurrentCalculus` (compactly supported test forms
-  with their inductive-limit topology; degree `k` acts on degree `2n − k`, bidegree `(a,b)`
+  `CurrentCalculus` (on finite-dimensional Hausdorff second-countable complex manifolds,
+  specialize K5a's `BundleTest` and `BundleDistribution` to the complexified real exterior
+  bundle `E_k`; the complex orientation and bilinear wedge pairing identify complementary
+  test forms with `E_k* ⊗ DensityBundle M`, including their support, inductive-limit
+  topology and real/complex coefficient comparison. The induced compact-convergence dual
+  equivalence intertwines restriction, gluing and distributional operator action;
+  degree `k` acts on degree `2n − k`, bidegree `(a,b)`
   on type `(n−a,n−b)`, differential sign `(−1)^{k+1}`; positivity dual to strongly positive forms,
   trace mass `T ∧ ω^p/p!` for `ω = (i/2)Σ h_jk dz_j ∧ dz̄_k`, finite-mass extension by zero and
   local convolution convergence), `closedCurrentExtension`,

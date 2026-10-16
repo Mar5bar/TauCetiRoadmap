@@ -77,9 +77,13 @@ lemmas, the analytic equivalence between flat connections and local systems with
 parameters, the nilpotent-retaining Artin-base de Rham–Betti comparison, analytification of differential
 operators and proper hypercohomology comparison for operator complexes, small singular cochains and the sheaf–singular comparison for arbitrary abelian
 coefficients, the proper de Rham–Betti comparison with its multiplicative and integral structure,
-the underlying-smooth analytification adapter for Ehresmann fibrations and Betti local systems, the Gauss–Manin connection and the relative
+the identification of finite locally free holomorphic connections with ComplexKahlerGeometry
+K4's carrier and absolute correspondence, the underlying-smooth analytification adapter for
+Ehresmann fibrations and Betti local systems, the Gauss–Manin connection and the relative
 comparison, the compatibility of supplied compact elliptic/Hodge theory with geometric
-comparison maps, pure Hodge structures on proper smooth schemes, Deligne's relative Hodge theorem, the test-form topology and current calculus with positivity, mass and local regularization, integration over analytic
+comparison maps, pure Hodge structures on proper smooth schemes, Deligne's relative Hodge theorem,
+the complementary-form specialization of ComplexKahlerGeometry K5a's bundle tests and distributions
+and its current calculus with positivity, mass and local regularization, integration over analytic
 cycles, positivity of (1,1)-forms, the integral first Chern class of a holomorphic line bundle
 and its integral identification with the shared smooth first Chern class, and the Chern normalisation, sheafification and analytification of
 shared ordinary connections,
@@ -120,25 +124,31 @@ in LefschetzPencilsAndVanishingCycles §0.8a. C6 does not use that application t
 
 The analytic ownership and stage order are:
 
-| Interface | Owner and supplied stage | Use here or exported consumer |
+| Interface | Owner and supplied stage | Reciprocal handoff and retained scope |
 | --- | --- | --- |
 | Scalar compact-support Cauchy–Green and finite-rank Runge | GlobalHolomorphicFunctions GH0.3 (GH0 preparatory calculus and finite-rank Runge paragraphs) | ComplexKahlerGeometry K2 supplies the parameter-dependent extension to C1.1 |
 | Native holomorphic sheaf, convergent local algebra and primitive Oka relations | ComplexKahlerGeometry K2–K4 | C−1 adds analytic quotients, nilpotents and gluing; C0 translates primitive relations into coherent native modules |
-| Fixed-rank bundle–sheaf equivalence and Chern connection | ComplexKahlerGeometry K4 on native Mathlib bundles and `SheafOfModules` | C0.3 identifies that equivalence with C0.1 and assembles clopen rank strata; C1.3 fixes curvature conventions |
-| Local bundle elliptic regularity, adjoints and symbols | ComplexKahlerGeometry K5a local estimates and K5b.0; K6.0 supplies local Kähler/Bochner identities | Inputs to C1.4 before compact Hodge theory; no dependency on C5.3 |
+| Fixed-rank bundle–sheaf equivalence, holomorphic connections and absolute flat correspondence | ComplexKahlerGeometry K4 on native Mathlib bundles and `SheafOfModules` | C0.3 assembles clopen rank strata; C1.3 fixes Chern curvature conventions; C5.2's `holomorphicConnectionDictionary` identifies the analytic connection carriers and absolute unit, evaluation and monodromy maps, and adds all horizontal morphisms and holomorphic parameters |
+| Bundle test sections and distributions | ComplexKahlerGeometry K5a's `BundleTest` and `BundleDistribution` | C5.4 transports these through the complex orientation and exterior wedge pairing; its bidegrees, positive cones, mass and complex-current extension theory use that same substrate |
+| Local bundle elliptic regularity, adjoints and symbols | ComplexKahlerGeometry K5a local estimates and K5b.0; K6.0 supplies local Kähler/Bochner identities | Their complete-metric existence consumer is C1.4, which exports the weighted theorem to RealAnalyticGeometry R3.1; the local inputs precede compact Hodge theory and use no C5.3 result |
 | Compact bundle Sobolev, harmonic and Green theory | ComplexKahlerGeometry K5a–K5b.1; K6.1 supplies compact Kähler decomposition | C5.3 identifies the supplied maps with coherent and de Rham–Betti comparisons |
-| General coherent analytic module interface, open restriction, section/stalk and germ comparisons | ComplexComparisonPartII C0.1–C0.3 | RealAnalyticGeometry R3.2 consumes the manifold specialization over ComplexKahlerGeometry K4's ring sheaf |
-| Complete-metric weighted theorem and coherent analytic-space Cartan A/B | ComplexComparisonPartII C1.4–C1.5 | RealAnalyticGeometry R3.1–R3.2 consumes the positive-definite `(n,k)` estimate, Stein criterion and manifold Cartan specializations; its complexification, p-functions and neighborhood/approximation applications remain there |
+| General coherent analytic module interface, open restriction, section/stalk and germ comparisons | ComplexComparisonPartII C0.1–C0.3 | ComplexKahlerGeometry K3's primitive Oka relations and ideal generators are translated to the native predicate here; K4's coherent-module consumer is C0.1. RealAnalyticGeometry R3.2 uses this same category over K4's ring sheaf, with its finite-type/kernel condition identified by `CoherentAnalyticModule.presentation_iff`, including open/over-site, section, stalk and germ transport |
+| Complete-metric weighted theorem, graph-domain density, weighted regularity and coherent analytic-space Cartan A/B | ComplexComparisonPartII C1.4–C1.5 | RealAnalyticGeometry R3.1 consumes the positive-definite `(n,k)` theorem with its maximal domain, adjoint, minimal solution and inverse-energy bound, and the exhaustion/Stein and interpolation/approximation specializations. R3.2 consumes Cartan A/B and their evaluation, relation-kernel lifting and exact section maps on the C0.1 carrier. Real-analytic complexification, p-functions, neighborhood constructions and their approximation applications remain in R3–R5 |
 | Coherent analytification on algebraic spaces | ComplexComparisonPartII C0.7 | C1.9 uses its exact functor, coherent operations and canonical cohomology/exchange maps; C3 gives the derived upgrade |
 
 Thus GH0.3 → K2/K3/K4 → C−1/C0 → C1.4–C1.5 → real-analytic applications.
 K5a's local regularity, K5b.0 and K6.0 enter C1.4 independently of K5's compact global
 Hodge stages. These are dependencies on the named stages. RealAnalyticGeometry supplies no
 prerequisite to C0 or C1; its alternative finite-type/relation description of coherence is
-identified with C0.1's native finite-presentation predicate.
+identified with C0.1's native finite-presentation predicate by
+`CoherentAnalyticModule.presentation_iff`, rather than defining a second public coherent category.
+The ring-sheaf, primitive relation and local Bochner suppliers above use neither the coherent
+Cartan package nor its real-analytic applications.
 The compact Kähler input follows the separate path C1.4–C1.5 →
 RealAnalyticGeometry R3–R5 → ComplexKahlerGeometry K6.1 → C5.3. Neither C0 nor C1
 uses K6.1 or its triangulation inputs.
+This is an acyclic order of stages within and between roadmaps. It does not impose a strict
+merge order on whole roadmap specifications: the reciprocal contracts span those specifications.
 
 **Built in other roadmaps and cited.**
 
@@ -204,7 +214,11 @@ uses K6.1 or its triangulation inputs.
 - *ComplexKahlerGeometry, K2–K5 and K6.0–K6.1.* K2 supplies the parameter Dolbeault
   resolution and native sheaf-cohomology comparison, K3 the convergent local algebra and
   primitive Oka relations, K4 the native holomorphic sheaf, bundle–sheaf equivalence and
-  Chern connection. K5a local estimates and K5b.0's adjoint/symbol layer precede C1.4;
+  Chern connection, holomorphic connection carrier and absolute flat-connection/local-system
+  groupoid equivalence. C5.2 identifies the analytic connection and comparison maps and supplies
+  all horizontal morphisms and relative holomorphic parameters. K5a supplies `BundleTest`,
+  `BundleDistribution`, their topologies, coefficient comparisons and operator action for
+  C5.4's complementary-form specialization. K5a local estimates and K5b.0's adjoint/symbol layer precede C1.4;
   K6.0 supplies its local Kähler/Bochner identity. K5's compact harmonic/Green theory and
   K6.1's compact Kähler decomposition feed C5.3.
 - *ComplexManifolds, Milestones 1 and 7.1–7.3.* Functorial realification and native
@@ -2470,9 +2484,11 @@ vanishes, equivalently when `(Ω^• ⊗ E, ∇)` is a complex — the de Rham c
 `Crystalline.Connection.leibniz` (the displayed rule), `Crystalline.Connection.tensor` (`∇_E ⊗ 1 + 1 ⊗ ∇_F`
 on `E ⊗ F`, and the dual connection when `E` is finite locally free) and `Crystalline.Connection.curvature` (zero curvature
 iff the extended `∇` squares to zero; the trivial connection is `(A, d)`) (Deligne 1970, I.2.3–2.15, printed pp. 6–11, for holomorphic bundles, and I.2.20.3–2.21, pp. 13–14,
-for smooth schemes). The same
-definitions on complex manifolds give holomorphic connections, and analytification carries one to the
-other. For a holomorphic submersion `f : T → S`, use the same sheafified carrier with
+for smooth schemes). On complex manifolds use its analytic sheafification on coherent
+holomorphic modules; analytification transports algebraic connections to this carrier.
+Its finite locally free specialization is identified with K4's holomorphic bundle connections
+by `holomorphicConnectionDictionary` below. For a holomorphic submersion `f : T → S`, use
+the same sheafified carrier with
 relative holomorphic forms `Ω¹_{T/S}`, the relative exterior derivative and
 `f⁻¹O_S`-linearity. On an affine `Spec A`, use the supplier's ordinary `Ω¹_{A/k}` case and
 its tensor order `E ⊗ Ω¹`; tensor symmetry identifies this with `Ω¹ ⊗ E` in the
@@ -2494,6 +2510,34 @@ Mathlib `Derivation`, `KaehlerDifferential`.
   `a ∈ ℂ`, its horizontal sections on `ℂ*` are the branches of `z^{−a}`, and its monodromy along the
   positive loop is `exp(−2πia)`.
 
+**Holomorphic connection carrier comparison — `holomorphicConnectionDictionary`.** On a
+finite-dimensional complex manifold `M`, identify the analytic sheafification of CR.1's
+ordinary connection carrier on finite locally free `O_M`-modules with ComplexKahlerGeometry
+K4's holomorphic bundle-connection carrier. Apply `holomorphicBundleDictionary` on each
+clopen rank stratum and their common refinements for source and target. In a holomorphic
+frame both operators are `s ↦ ds + A s`; the CR.1 coefficient-first output is moved to
+`Ω¹ ⊗ E` by tensor symmetry. Equality on frames and the gauge law
+`A′ = g⁻¹Ag + g⁻¹dg` identify the operators, not just their underlying bundles.
+Prove compatibility with curvature, pullback, tensor symmetry, tensor, dual and Hom
+connections, and identify the kernels of the connection maps and their inclusions as the
+same horizontal sheaves. The morphisms are all horizontal `O_M`-linear maps, including
+noninvertible maps between different ranks. The connection comparison also applies to
+nonflat connections; flatness is preserved and reflected. The coherent-module extension,
+algebraic analytification and relative connection construction remain the sheafifications
+above (Deligne 1970, I.2.3–2.15, printed pp. 6–11, and I.2.17–2.19, pp. 12–13).
+*Needs:* `holomorphicBundleDictionary`; CrystallineCohomology CR.1's ordinary connection
+operations; ComplexKahlerGeometry K4's holomorphic connections, gauge formulas and absolute
+flat correspondence.
+
+**Checks.**
+
+- The trivial bundle with `d` gives the same operator and horizontal sheaf under both
+  carriers; this includes rank zero and ranks one and two on `ℂ ⊔ ℂ`.
+- On the trivial line over `ℂ²`, `d + z dw` has curvature `dz ∧ dw` on both carriers;
+  the carrier comparison does not assume integrability.
+- Changing a line frame by a nowhere zero holomorphic `g` changes `A` to
+  `A + g⁻¹dg` in both carriers, and takes the same horizontal sections to their new coordinates.
+
 Prove `analyticFlatConnectionLocalSystem`: let `f : T → S` be a holomorphic submersion of
 complex manifolds and `(E, ∇)` a finite locally free holomorphic module with integrable relative
 connection on the shared carrier above. Its horizontal sheaf `V = ker ∇` is an `f⁻¹O_S`-module
@@ -2505,8 +2549,16 @@ the unit `V → (O_T ⊗_{f⁻¹O_S} V)^{d_{T/S}⊗1}` is an isomorphism. These 
 quasi-inverse functors between such relative local systems and finite locally free holomorphic
 modules with integrable relative connection; prove naturality for horizontal morphisms,
 compatibility with tensor products and duals, and pullback along diagrams of holomorphic
-submersions with extension of base scalars. For `S` a point this is the equivalence with
-finite-dimensional complex local systems, preserving the locally constant rank function of C0.3.
+submersions with extension of base scalars. For `S` a point this is the equivalence of
+categories with finite-dimensional complex local systems, preserving the locally constant
+rank function of C0.3. Under `holomorphicConnectionDictionary`, its core is K4's absolute
+groupoid equivalence: tensor symmetry identifies `O_M ⊗_ℂ V` with K4's `V ⊗_ℂ O_M`,
+`d ⊗ 1` with `1 ⊗ d` followed by the forms-first symmetry, the unit `v ↦ 1 ⊗ v`
+with `v ↦ v ⊗ 1`, and evaluation with K4's `v ⊗ a ↦ av`. The stalk comparison sends
+a horizontal germ to its value, and horizontal transport is K4's source-to-target transport
+`T_γ`; in a frame `e` its monodromy is `e⁻¹T_γe`. Prove these map identities and extend
+the absolute correspondence to all horizontal morphisms; the relative construction retains
+holomorphic parameters and uses that same specialization.
 
 Construct the local horizontal frames with holomorphic parameters: for a holomorphic matrix
 `A(z,t)` and holomorphic initial matrix `G₀(t)`, solve `∂G/∂z = −A(z,t)G`,
@@ -2517,7 +2569,8 @@ step. Integrability and uniqueness make each extension horizontal in the precedi
 multiplication in a free module; horizontal morphisms have coefficients pulled back from the base,
 which proves the functorial assertions (Deligne 1970, I.2.22–2.23(iii) and proof, printed
 pp. 14–19, especially the Cauchy problem with parameters and induction on pp. 17–18).
-*Needs:* `holomorphicBundleDictionary`; `HolomorphicDeRham`; CrystallineCohomology CR.1's
+*Needs:* `holomorphicConnectionDictionary`; `HolomorphicDeRham`; ComplexKahlerGeometry K4's
+absolute flat correspondence and sheaf/stalk/monodromy comparison; CrystallineCohomology CR.1's
 shared connection operations and their holomorphic/relative sheafification above.
 
 **Checks.**
@@ -2531,7 +2584,10 @@ shared connection operations and their holomorphic/relative sheafification above
 - For `T = D_z × D_t → D_t`, `d_z + t dz` has frame `exp(−tz)`, holomorphic in both variables,
   normalized to one at `z = 0`; its horizontal sheaf is the inverse image of `O_{D_t}`.
 - Gluing local frames `z^{−a}` for `d + a dz/z` on `ℂ*` gives monodromy
-  `exp(−2πia) = localMonodromy a` along the positive loop, matching C5.6.
+  `exp(−2πia) = localMonodromy a` along the positive loop, matching K4's transport and C5.6.
+- Over a point base, the horizontal projection `(O_M²,d) → (O_M,d)`, `(s₁,s₂) ↦ s₁`,
+  induces the constant local-system projection `ℂ² → ℂ`. Evaluation and the units commute
+  with this noninvertible morphism under the K4 carrier comparison.
 
 Prove `relativePoincare`: for a holomorphic submersion `f : T → S` of complex manifolds, the relative
 holomorphic de Rham complex `Ω^•_{T/S}` (with `f⁻¹O_S`-linear differential) is a resolution of
@@ -2649,7 +2705,9 @@ filtration construction and integrability; Deligne 1970, II.7.7, printed p. 117,
 
 Prove `relativeDeRhamBetti`: for a smooth proper morphism `f : X → S` of smooth schemes over `ℂ`, the
 canonical map `(R^q f_*Ω^•_{X/S})^an → R^q f^an_* ℂ ⊗_ℂ O_{S^an}` is an isomorphism of locally free
-holomorphic modules carrying `∇^an` to the connection `d ⊗ 1` whose horizontal sections are
+holomorphic modules carrying `∇^an` to the connection `1 ⊗ d`, followed by tensor symmetry
+into `Ω¹_{S^an} ⊗ (R^q f^an_* ℂ ⊗_ℂ O_{S^an})`: on a locally constant section `v`,
+`v ⊗ a ↦ da ⊗ (v ⊗ 1)`. Its horizontal sections are
 `R^q f^an_* ℂ`, compatible with base change and with the fibrewise `properDeRhamBetti`. No projectivity
 is assumed. Compare the relative operator complexes by `boundedOperatorHyperGaga` over each
 quasi-compact open `V ⊆ S`, over which `Ω^•_{X/S}` is bounded (`f` is quasi-compact and `Ω¹_{X/S}` is
@@ -2661,6 +2719,15 @@ Lefschetz et critères de dégénérescence de suites spectrales*, Publ. Math. I
 printed pp. 123–125, for local freeness). *Needs:* `GaussManin`;
 `relativePoincare`; `analyticFlatConnectionLocalSystem`; `relativeBettiLocalSystem`;
 `boundedOperatorHyperGaga`.
+
+**Checks for `relativeDeRhamBetti`.**
+
+- For the identity family on `A¹_ℂ` in degree zero, the section `1 ⊗ t` has derivative
+  `dt ⊗ (1 ⊗ 1)`, with the derivative acting on the holomorphic-function factor.
+- For `F × S → S`, a locally constant Betti class `v` gives the horizontal section
+  `v ⊗ 1`; the connection sends `v ⊗ a` to `da ⊗ (v ⊗ 1)`.
+- On a point base the connection is zero and the comparison is `properDeRhamBetti`;
+  tensor symmetry identifies its unit and evaluation with K4's absolute correspondence.
 
 **Artin-base relative comparison — `artinDeRhamBetti`.** Let `A` be a finite-dimensional
 commutative local `ℂ`-algebra with maximal ideal `m` and specified residue identification `A/m ≅ ℂ`,
@@ -2842,19 +2909,33 @@ Mathlib
 ### C5.4 Integration over analytic cycles and the Chern normalisation
 
 **Test forms and current calculus — `CurrentCalculus`.** On the same smooth complex manifolds
-`M` as the forms API, of complex dimension `n`, construct compactly supported smooth complex
-test forms with the locally convex inductive-limit topology over compact supports: on a fixed
-compact support, the seminorms bound every derivative of every coefficient in finitely many charts.
-A current of degree `k` is a continuous `ℂ`-linear functional on test forms of degree `2n − k`,
-with the compact-convergence dual topology; weak convergence means convergence on each test form.
-In a real chart identify it with a finite family of Mathlib `Distribution Ω ℂ ⊤` coefficients,
-complexifying the real-valued `TestFunction Ω ℝ ⊤` arguments. Prove independence of coordinates,
-restriction, extension by zero of test forms on opens, and gluing of compatible local currents
-using partitions of unity. These constructions use DifferentialGeometry's form bundles.
+`M` as the forms API, finite-dimensional Hausdorff and second countable, of complex dimension
+`n`, use ComplexKahlerGeometry K5a's `BundleTest` and `BundleDistribution` on the complexified
+real exterior bundle `E_k = (Λ^k T* M) ⊗_ℝ ℂ`, for `0 ≤ k ≤ 2n`. Scalar-extend K5a's
+real density line to `ℂ`. The complex orientation identifies complex top forms with complex
+densities, and the bilinear wedge pairing gives the smooth bundle isomorphism
+`Λ^{2n−k} T* M ⊗_ℝ ℂ ≅ E_k* ⊗ DensityBundle M`, sending `η` to
+`(α ↦ density(α ∧ η))`. No conjugation or Hermitian metric enters this pairing.
+Prove it induces a continuous `ℂ`-linear equivalence between complementary-degree compactly
+supported test forms and K5a's `BundleTest(E_k* ⊗ DensityBundle M)`, preserving support and
+the fixed-compact derivative seminorm topologies. Transport K5a's inductive-limit topology
+through this equivalence. A degree-`k` current is the continuous `ℂ`-linear dual of these
+test forms, with compact-convergence topology; the induced dual equivalence identifies it
+with `BundleDistribution(E_k)`. Weak convergence means convergence on each test form.
+
+Use K5a's chart, restriction, test extension by zero and partition-of-unity gluing maps;
+prove the two equivalences intertwine them. Use its real/complex scalar comparison on
+exterior bundles: in real charts the current coefficients are Mathlib
+`Distribution Ω ℂ ⊤`, acting on real-valued `TestFunction Ω ℝ ⊤`. The inverse comparison
+extends a coefficient functional `U` by `U_ℂ(φ + iψ) = U(φ) + iU(ψ)` for real tests
+`φ, ψ`. Identify this comparison with the one induced by the wedge pairing, as a
+continuous linear equivalence, not a definitional equality of the test carriers.
 
 Pin degree `k` versus dimension `2n − k`, and bidegree `(a,b)` versus bidimension `(n−a,n−b)`;
-a current of bidegree `(a,b)` acts on test forms of type `(n−a,n−b)`. Define
-`(dT)(η) = (−1)^{k+1} T(dη)`, and the same duality sign for `∂T` and `∂̄T`, the type components
+a current of bidegree `(a,b)` acts on test forms of type `(n−a,n−b)`. Transport K5a's
+distributional differential-operator action on `E_k` through the wedge/density equivalence
+and prove that the exterior derivative has the current sign
+`(dT)(η) = (−1)^{k+1} T(dη)`, with the same duality sign for `∂T` and `∂̄T`, the type components
 of `dT`. Prove `d² = ∂² = ∂̄² = 0` and `∂∂̄ + ∂̄∂ = 0`, continuity and compatibility with
 restriction and weak limits. Embed locally integrable forms by `T_α(η) = ∫_M α ∧ η`, injectively
 up to almost-everywhere equality; for smooth forms `dT_α = T_{dα}`, also for `∂` and `∂̄`.
@@ -2889,7 +2970,9 @@ Use the same convolution to regularize locally integrable plurisubharmonic funct
 complex coordinate opens, retaining plurisubharmonicity and their distributional derivatives
 (Demailly, I §2.A–B, pp. 13–16, I §2.D.3, p. 19, I (3.20), p. 25; III (1.1)–(1.14),
 pp. 129–133, (1.21)–(1.22), pp. 135–136; III (2.2)–(2.3) and proof, pp. 138–140).
-*Needs:* DifferentialGeometry Layers 0–2 and 5 (forms, orientation, partitions of unity,
+*Needs:* ComplexKahlerGeometry K5a's `BundleTest`, `BundleDistribution`, density bundle,
+real/complex and chart comparisons, restriction/gluing and distributional operator action;
+DifferentialGeometry Layers 0–2 and 5 (forms, orientation, partitions of unity,
 integration and Stokes); Mathlib `TestFunction`, `Distribution`, `Distribution.lineDerivCLM`,
 `Distribution.ofFun`, `Distribution.delta`, convolution and Radon measures.
 
@@ -2897,7 +2980,11 @@ integration and Stokes); Mathlib `TestFunction`, `Distribution`, `Distribution.l
 
 - For a smooth `k`-form `α`, `(dT_α)(η) = (−1)^{k+1}∫ α ∧ dη = ∫ dα ∧ η`.
   In a chart a scalar coefficient derivative is Mathlib's negative transpose
-  `Distribution.lineDerivCLM`, with no second distribution carrier.
+  `Distribution.lineDerivCLM`, transported from K5a's operator action.
+- On `ℂ` with orientation `dx ∧ dy`, `α = a dx + b dy` and
+  `η = φ dx + ψ dy` give `α ∧ η = (aψ − bφ) dx ∧ dy`. Thus the test identification
+  sends `η` to the dual-density coefficients `(ψ,−φ)`; for scalar chart tests,
+  `U_ℂ(iφ) = iU(φ)`, with no conjugation in either comparison.
 - The point current `[a]`, of bidimension `(0,0)` and bidegree `(n,n)`, is `f ↦ f(a)`;
   its chart coefficient is `Distribution.delta a`, it is positive and has trace mass one.
 - For the closed coordinate submanifold `Z = ℂ^p × {0} ⊂ ℂ^n`, `[Z](η)` is the
