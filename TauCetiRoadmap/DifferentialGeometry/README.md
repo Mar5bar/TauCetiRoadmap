@@ -305,6 +305,34 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   real-bilinear pairing `μ_L a b = L (μ a b)` and prove
   `RoughForm.mapCoeff L (RoughForm.wedgeWith μ φ η) = RoughForm.wedgeWith μ_L φ η`.
   `C^(n+1)` maps pull `C^n` forms back to `C^n` forms.
+  **Open-subtype flat adapter.** For an open `U⊆E` in a real normed model `E`, give the
+  open subtype its canonical manifold structure induced by inclusion, with model `𝓘(ℝ,E)`. Use `ContinuousAlternatingMap.ofSubsingletonLIE` at
+  `Fin 1` to identify flat degree-one alternating covectors with `E→L[ℝ]F`. Define
+  `flatRoughOneFormEquiv`, the pointwise adapter from `RoughForm (𝓘(ℝ,E)) U F 1` to fields `U → (E→L[ℝ]F)`. A rough
+  form is only pointwise data, so this adapter does not assert continuity. For a smooth form,
+  prove that its resulting field is continuous and identify it with the restriction of an ambient
+  representative which is `ContDiffOn ℝ ∞` on `U`; values outside `U`
+  are immaterial and no globally smooth extension is required. State the inverse adapter and
+  prove both pointwise evaluation laws. For a curve in `U`, the ambient representative is
+  consumed only along `γ.map (ContinuousMap.subtypeVal (U : Set E)).continuous`; prove that
+  changing the representative without changing its values on the path trace leaves the curve
+  integral unchanged. Layer 1.1 owns the degree-zero derivative comparison and the degree-one
+  comparison between `mextDeriv ω=0` and the flat `extDeriv`/curl equation.
+  For every degree `k` and regularity `n`, identify the flat field of a rough form on this
+  canonical open subtype with `U → (E [⋀^Fin k]→L[ℝ] F)`. Prove that
+  `IsSmoothForm (𝓘(ℝ,E)) n ω` is equivalent to `ContDiffOn ℝ n ω₀ U` for an ambient
+  representative `ω₀` agreeing with that field on `U`. Prove this in both directions and
+  independence of the representative outside `U`. The degree-zero specialization uses
+  `ContinuousAlternatingMap.constOfIsEmpty`; degree one uses the adapter above. This supplies
+  coefficient evaluation for degree two and the construction of smooth forms from coordinate
+  formulas, including smooth functions as zero-forms.
+  For canonical open subtypes `U⊆E` and `V⊆E'`, prove the corresponding map comparison:
+  `ContMDiff (𝓘(ℝ,E)) (𝓘(ℝ,E')) n f` iff `ContDiffOn ℝ n f₀ U`, where `f₀:E→E'`
+  agrees on `U` with the inclusion of `f:U→V`. At differentiable points, identify `mfderiv f`
+  with `fderiv ℝ f₀` under the flat tangent identifications. Prove the open-subtype version
+  of `mpullback_eq_flat`, with its pointwise evaluation law. These comparisons include
+  different real normed models, such as `ℝ×ℝ` and `ℂ`.
+  Layer 1.5 gives the coordinate and path calculations using these adapters.
 - **0.4 Bundled forms.** `SmoothBundleForm` is the submodule of `C^∞` bundle-valued rough forms;
   `SmoothForm I M F k` is its trivial-bundle specialization, closed under the paired wedge for
   every fixed continuous bilinear pairing. General fibrewise products use a smooth bundle pairing.
@@ -337,6 +365,16 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   `(extChartAt I x).symm ⁻¹' s ∩ range I`, chart independence being `extDerivWithin_pullback`; then
   `mextDeriv`, locality, linearity, `mextDeriv_eq_extDeriv` over the model and
   `mextDeriv_ofFunction`.
+  On an open subtype `U⊆E`, prove `flat_mextDeriv_zeroForm`: after the degree-zero
+  function identification and `flatRoughOneFormEquiv`, the exterior derivative of an ambient
+  function `g:E→F` with `ContDiffOn ℝ 1 g U` is the restricted field
+  `z↦fderiv ℝ g z`. Consume native
+  `extDeriv_constOfIsEmpty` and prove the open-subtype chart comparison. Prove
+  `flat_mextDeriv_oneForm`, for an ambient covector field that is `ContDiffOn ℝ 1` on `U`,
+  identifying its derivative with native
+  `extDeriv` after the arity-one identification. On the real plane, for
+  `ω=P dx+Q dy`, this gives `dω=(∂ₓQ−∂ᵧP) dx∧dy`; in particular closedness is exactly
+  the zero-curl equation, with the same real or complex coefficient space.
 - **1.2 Naturality.** `mpullback_mextDeriv`: `f^*(dω) = d(f^*ω)` for a `C²` map and a `C¹` form,
   `At`, `On` and globally. The primary fixed-coefficient theorem is on the rough fixed-coefficient
   carriers of Layers 0.3 and 1.1: for every continuous real-linear `L : F →L[ℝ] G` and every rough
@@ -367,6 +405,44 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   through `mlieBracket` [Lee, Prop. 14.29, 14.32], the Lie derivative of forms by the bracket
   formula (`mlieDerivForm`) [Lee, Cor. 12.33], and Cartan's magic formula [Lee, Thm. 14.35].
   *Acceptance:* on `ℝ²`, `d(x dy) = dx ∧ dy` and `d(dx) = 0`.
+- **1.5 Flat coordinate and curve calculus.** Use the open-subtype flat adapter in 0.3 and
+  the derivative comparisons in 1.1. On the real plane `ℂ`, with target coordinates `(u,v)`,
+  let `φ(x,y)=(xy,1)`. Verify pointwise `φ*du=d(xy)=y dx+x dy`, `φ*dv=d(1)=0`, and
+  `φ*(v du)=(v∘φ)φ*du=y dx+x dy`; obtain the last identity from pullback of a 0-form times
+  a 1-form, not from fixed coefficient postcomposition. For the polar map
+  `Φ:(0,∞)×ℝ→ℂ\{0}`, `Φ(r,θ)=(r cos θ,r sin θ)`, define
+  `α=(-y dx+x dy)/(x²+y²)` and `β=(x dx+y dy)/(x²+y²)` on the punctured plane. Verify
+  `Φ*α=dθ` and `Φ*β=dr/r`, and on `θ∈(0,2π)` verify the branch diffeomorphism onto
+  `V=ℂ\{z : Im z=0, Re z≥0}` with inverse `r=|z|`,
+  `θ=Im(log(−z))+π`. Consume `Complex.contDiffAt_log` at smooth order `∞` on its slit domain
+  and transfer this complex `ContDiff` regularity to real `ContDiff` by restriction of scalars for the
+  real smooth-form carrier. The angle is defined on this slit branch, and the primitive of
+  `α+β` there is `θ+log r`.
+
+  Also prove the flat pullback/change-of-path identity for open plane domains `U,V`, a source
+  `γ : Path a b` whose ambient extension is `ContDiffOn ℝ 1` on `Set.Icc 0 1`, and an ambient
+  map `φ₀:ℂ→ℂ` that is C¹ on an open neighborhood `N` of the path trace, with `N⊆U` and
+  `φ₀(N)⊆V`, and a continuous real-linear 1-form field `ω` on `V`. Regard the source path as
+  a path in the open subdomain `U₀=U∩N`.
+  The pullback field is `z↦ω(φ₀ z)∘L fderiv ℝ φ₀ z`. Restrict `φ₀` to the relevant open
+  subtype to form the continuous mapped path. For a native normalized `Path a b` in the open
+  subtype, package `φ₀|U₀` as a continuous map `ψ:U₀→V` and use `γ.map ψ.continuous`
+  with the interval `[0,1]`; the integral of
+  the pullback along the source path equals the integral of `ω` along the mapped path. For the
+  raw-curve version, take `γ:ℝ→ℂ` with `ContDiffOn ℝ 1 γ (Icc s₀ s₁)`, `s₀<s₁`, and
+  trace in `U₀`; retain the C¹ hypothesis on `φ₀` near the trace. Include affine reparameterization for a
+  different interval. For `TauCeti.Contour.IsPiecewiseC1On γ s₀ s₁`, use its actual continuity and
+  finite-breakpoint witness, prove the identity on each closed piece, and sum adjacent
+  interval integrals using the native adjacent-interval summation law; do not replace the
+  raw-curve predicate by a `Path.trans` decomposition.
+  Use complete normed real coefficient spaces. For native paths, derive `CurveIntegrable`
+  from continuity of the field on the open domain and the C¹ path hypothesis via
+  `ContinuousOn.curveIntegrable_of_contDiffOn`; expose this input when stating native
+  concatenation laws. The raw contour integrand is `ω(γ(t))(deriv γ t)`; compare with native
+  `derivWithin` away from the finitely many breakpoints and interval endpoints. Use
+  `curveIntegral_eq_intervalIntegral_deriv` for that comparison and
+  `intervalIntegral.sum_integral_adjacent_intervals` for raw pieces. Native `Path`
+  concatenation separately uses `curveIntegral_trans`.
 
 The general bundle carrier does not supply a canonical exterior derivative. A connection supplies
 `d_∇`, whose square is curvature acting by wedge, `(d_∇)²ω = R_∇ ∧ ω`, rather than zero in general.
@@ -660,6 +736,22 @@ stronger quantifier order.
   `homotopyOperator (H^*(A dx∧dy)) = η` with this slot order and sign, and prove `η` is
   `C¹`, vanishes at `a`, and satisfies `∂ₓ(uI)−∂ᵧ(−vI)=A`. For smooth `A`, prove the
   output is smooth. This pins the coordinate formula to the existing operator.
+  For the separate vertical-disk formula, let `D={x+iy: |x+iy-a|<r}`, `r>0`,
+  `a=a₁+ia₂`, and let `ω` be a smooth `F`-valued 2-form on `D`, for any complete normed real
+  space `F`. Define its scalar-coordinate coefficient by `f(z)=−ω_z(1,i)`, since
+  `(dy∧dx)(1,i)=−1`; thus `ω=f dy∧dx`. For `z=x+iy∈D`, first show its horizontal
+  projection `x+i a₂` also lies in `D` (it is no farther from the center `a` than `z`); the
+  disk's convexity then keeps the vertical segment from `x+i a₂` to `z` in `D`. Use the
+  fixed-interval formula
+  `p(x+iy)=(y−a₂)∫₀¹ f(x+i(a₂+s(y−a₂))) ds`.
+  Supply the local parameter-integral lemma: a jointly `C^n` function on an open neighborhood
+  of `{z₀}×[0,1]`, with complete coefficient space, has a `C^n` parameter integral near
+  `z₀`, including `n=∞`. Compactness of `[0,1]` gives a common parameter neighborhood;
+  prove the differentiation formulas there without requiring a globally smooth extension.
+  Apply it to prove smoothness of `p`. Separately use affine substitution to identify
+  `p(x+iy)=∫_{a₂}^{y} f(x+it)dt`, and apply FTC to obtain `p_y=f`.
+  Then `d(p dx)=p_y dy∧dx=ω`. Keep this coordinate primitive distinct from the
+  radial homotopy formula above.
   For a jointly smooth family on `N×U`, take U to
   be the star-shaped form domain with a fixed smooth contraction to x₀; N is
   an arbitrary smooth parameter manifold. Apply the homotopy in U with N fixed
@@ -955,10 +1047,39 @@ specifies the full layer.
   boundary-chart images are not ambient-open), at every regularity `n ≥ 1`; and its manifold
   corollary `exists_mextDeriv_eq_nhds` [Lee, Thm. 17.14]. Both for a complete coefficient space: ⚠
   a smooth `c₀₀`-valued `1`-form on `ℝ` has no local primitive.
-- **6.3 Homotopy invariance.** `deRhamCohomology.map_eq_of_homotopy` from 5.4, with no boundaryless
-  restriction; `H^{k+1}(E) = 0` for a normed space; `pathIntegral` and the exactness criterion
-  `isExactForm_of_forall_pathIntegral_eq_zero` [Lee, Thm. 17.17], hence `H¹_dR = 0` for simply
-  connected `M`.
+- **6.3 Homotopy invariance and path integration.** `deRhamCohomology.map_eq_of_homotopy`
+  from 5.4, with no boundaryless restriction; `H^{k+1}(E) = 0` for a normed space. Provide
+  `pathIntegral` and `isExactForm_of_forall_pathIntegral_eq_zero` for smooth forms and smooth
+  paths [Lee, Thm. 17.17], hence `H¹_dR = 0` for simply connected `M`. On an open `Ω⊆ℂ`,
+  let `F` be a complete normed real vector space
+  (including complex normed spaces by restriction of scalars). Represent a continuous 1-form by
+  its continuous real-linear covector field `ω : C(Ω, ℂ →L[ℝ] F)`. Identify this
+  field with the degree-one fixed-coefficient flat model from 0.3 and with the continuous-linear-map
+  field consumed by Mathlib's `curveIntegral`; do not add a form carrier. Specify local exactness
+  by the actual quantified property: for every `z∈Ω`, there are `r>0`, an inclusion
+  `hD : ball(z,r)⊆Ω`, and an ambient function `g:ℂ→F` that is `ContDiffOn ℝ 1` on
+  `ball(z,r)` and satisfies `HasFDerivAt g (ω⟨w,hD hw⟩) w` for every `w∈ball(z,r)` (with
+  `hw` witnessing membership).
+  A closed `C¹` form has this property by the disk Poincaré lemma. The path API accepts any
+  continuous field with these local potentials. For `a b : Ω` and a native continuous
+  `γ : Path a b` in this open subtype, choose a finite subdivision whose subpaths lie in such disks
+  and define `continuousPathIntegral ω γ` as the sum of local-potential endpoint differences.
+  Prove independence of disks, primitives and subdivision. Establish additivity under
+  concatenation, sign reversal under path reversal, and invariance under continuous homotopy
+  rel endpoints by subdividing the homotopy square into cells each lying in one potential disk;
+  cancel the cell-edge increments, without differentiating the path or applying Stokes to the
+  continuous homotopy. For C¹ paths, prove agreement with the existing interval/`curveIntegral`
+  formula by the fundamental theorem of calculus. For C¹ maps between open plane domains,
+  prove naturality for the pointwise pullback: compose each local potential with the map, which
+  remains `C¹` and differentiates to the pulled-back field; shrink to a source disk inside
+  the preimage of a target potential disk. On a path-connected `Ω`, prove the exactness criterion
+  for this continuous-path API: if every continuous loop has zero integral, define `G(z)` by
+  integrating from a fixed base point to `z`; prove path independence and that `G` is a global
+  `C¹` potential, locally differing from each disk potential by a constant. Conversely, a global
+  potential makes every loop integral zero. If `Ω` is simply connected, derive the zero-loop
+  premise from homotopy invariance and `SimplyConnectedSpace.paths_homotopic`. The normalized
+  punctured-plane computation is owned by ComplexKahlerGeometry K5a. Apply the exactness criterion componentwise
+  on an arbitrary open `Ω`; on the empty domain take the zero potential.
 - **6.4 Compact supports.** `compactlySupportedDeRhamComplex` and `H^•_c`, with the two
   functorialities of opposite variance `extensionByZero` (⚠ on Hausdorff `M`: on the line with two
   origins a bump near one origin extends discontinuously) and `properPullback` — ⚠ nothing for a
