@@ -158,7 +158,9 @@ normalized bounded spectrum for a Tate norm of radius `1/2`, then adds the quoti
 with its identification as the maximal Hausdorff quotient, and the extension from affinoids to small
 v-sheaves. The flat-cover refinement over a strictly henselian local ring used in the perfectoid
 ball argument is a lemma stated inside D3.2; D6.9 constructs the seminormalisation functor of rigid
-spaces with its universal property and proves the seminormal structure-sheaf comparison.
+spaces with its universal property and proves the seminormal structure-sheaf comparison. Its
+local affine inputs are the square–cube criterion, normal-domain and product comparisons, and the
+seminormalization of rings with its subintegral unit and restriction compatibility.
 
 General canonical compactification (Scholze's §18) belongs to the étale cohomology of diamonds that
 imports this roadmap; D3 proves only the elementary special construction needed for its descent
@@ -421,16 +423,18 @@ The generic Check aliases below use the supplier's namespace and section.
 | `qc_empty` | AdicSpacesPartII R0.19.10 | `definition_IsQuasicompact_2` |
 | `qs_identity` | AdicSpacesPartII R0.19.10 | `Topos_Hom_IsQuasiseparated_identity` |
 
-### From CommRingFactorizationSystems
+### Local affine inputs
 
-These are supplier targets under their proposed names, rather than declarations at the pins.
+D6.9 owns the ring theory used by its rigid constructions. The names below are in
+`TauCetiRoadmap.DiamondsAndVStacks.Affine` and have signatures in `Suggested.lean`.
 
-| Contract | Supplier and exact label | Retained gap / consumer |
+| Contract | Local target | Use |
 | --- | --- | --- |
-| seminormal-ring | CommRingFactorizationSystems §F1 / Seminormal and absolutely weakly normal rings: `IsSeminormalRing`, `IsSeminormalRing.existsUnique_of_cube_eq_sq` ([CommRingFactorizationSystems §F1](../CommRingFactorizationSystems/README.md#f1--seminormal-and-absolutely-weakly-normal-rings)) | Reducedness with existence versus unique square–cube lifting; all-affine-open testing and rigid gluing for D6.9 `Rigid.IsSeminormal`. |
-| normal-ring-check — Check input | CommRingFactorizationSystems §F1 / `IsSeminormalRing.of_isIntegrallyClosed` ([CommRingFactorizationSystems §F1](../CommRingFactorizationSystems/README.md#f1--seminormal-and-absolutely-weakly-normal-rings)) | Requires `[IsDomain R] [IsIntegrallyClosed R]` on normal domain charts for `rigid_seminormal_normal`; for normal affinoids with several components, decompose into a finite product of normal domains and assemble the supplied lifts componentwise before testing all affine opens. No new unrestricted normal-ring theorem. |
-| seminormalization-ring — affine construction input | CommRingFactorizationSystems §F4 / `snRing`, `snMap`, `sn_lift`, and the README target `isIso_snMap_of_seminormal` ([CommRingFactorizationSystems §F4](../CommRingFactorizationSystems/README.md#f4--the-generated-systems-and-the-reflections)) | Reverse the direction of `Spec` for the ring unit `A → snRing A`; establish finite affinoid realization, restriction compatibility and rigid gluing for D6.9 `Rigid.seminormalization` and `Rigid.seminormalization_id`. The fixed-ring theorem is not in the supplier's Lean prototype. |
-| w-local-comparison — outbound comparison | DiamondsAndVStacks §D1.7 / `IsWLocalSpace`, `IsWLocalSpace.isHomeomorph_connectedComponentsMk`; CommRingFactorizationSystems §C5 / `IsWLocalRing`, `PrimeSpectrum.closedPoints` ([CommRingFactorizationSystems §C5](../CommRingFactorizationSystems/README.md#c5--the-zariski-factor-of-the-absolutely-flat-reflection-and-w-local-rings)) | D1.1 `openCoversSplit_iff` compares split covers with a unique closed point per component on spectral spaces; specialize to `PrimeSpectrum A` and identify the closed-point loci. C5 can cite this comparison for its ring-facing class; the predicates are not assumed definitionally equal. |
+| seminormal-ring | `Affine.IsSeminormalRing`, `Affine.IsSeminormalRing.iff_unique` | Reducedness and square–cube lifting on every affine open in `Rigid.IsSeminormal`. |
+| normal-ring-check | `Affine.IsSeminormalRing.of_isIntegrallyClosed`, `Affine.IsSeminormalRing.prod_iff`, `Affine.normal_finiteProduct` | Normal domain charts and their finite products in `rigid_seminormal_normal`. |
+| seminormalization-ring | `Affine.snRing`, `Affine.snMap`, `Affine.snRing_isSeminormal`, `Affine.sn_lift` | The affine reflection used to construct `Rigid.seminormalization`. |
+| subintegral-unit | `Affine.snMap_isIntegral`, `Affine.snMap_fieldPoints` | Integrality, the universal homeomorphism and residue-field isomorphisms of the affine unit. |
+| fixed-rings-and-restriction | `Affine.snMap_bijective`, `Affine.snRing_localization` | Fixed seminormal rings and compatibility with principal affine restriction; rigid rational restriction is the analytic statement of D6.9. |
 
 ### From Mathlib
 
@@ -906,8 +910,8 @@ The rational-space Checks in D2.1 use `Rat.interior_compact_eq_empty`
 PerfectoidSpaces as they stand: the spectral topology of D0 with the cutoff cardinals and the
 flasque constant sheaf, the topological part of the disconnected perfectoid spaces of D1 with
 automatic flatness, the v-topology on PerfectoidSpaces' `Perfd p` with the v-descent of `O` and of
-continuous maps (D2–D3), and the Berkovich spectrum and the component formula of D5. Each subsection
-ends with a `Lean:` line that names the declarations carrying it, or states that the subsection is
+continuous maps (D2–D3), the Berkovich spectrum and the component formula of D5, and the affine
+seminormality and seminormalization inputs of D6.9. Each subsection ends with a `Lean:` line that names the declarations carrying it, or states that the subsection is
 specified in the README only (no Lean declaration). Every other declaration name of this roadmap in
 the text — the suggested definitions and lemmas, and the carriers `Geometry.*`, `Perf.*`, `Perfd.*`,
 `PreAdic.*`, `Rigid.*`, `Stack.*`, `Topos.*`, `Pro.*`, `Cofiltered.*`, `ClopenSheaves.*`,
@@ -2899,12 +2903,6 @@ closed points is closed and its restriction of `ConnectedComponents.mk` is a hom
 `IsWStrictlyLocalPerfectoid.isStrictlyTotallyDisconnected` (a w-strictly local space is strictly
 totally disconnected). *Needs:* D1.1; D1.4; PerfectoidSpaces layer P2 (completed residue fields);
 Mathlib `SpectralSpace`, `IsClosed`.
-
-CommRingFactorizationSystems §C5 / `IsWLocalRing`, `PrimeSpectrum.closedPoints`
-([CommRingFactorizationSystems §C5](../CommRingFactorizationSystems/README.md#c5--the-zariski-factor-of-the-absolutely-flat-reflection-and-w-local-rings))
-states the prime-spectrum special case, so reconcile
-the formulations using D1.1 `openCoversSplit_iff` on spectral spaces and then specializing to
-`PrimeSpectrum A`, as in contract w-local-comparison.
 
 **Checks.**
 
@@ -9694,7 +9692,7 @@ PerfectoidTowers P9.12 (function descent `O_Y = (h_* O_{X_∞})^G` over a semino
 of a ring and of a rigid space, and the seminormalisation as a universal homeomorphism terminal
 among seminormal spaces over `X`, are those of [KL16] Definition 1.4.1, p. 19, and Remark 3.7.3, p.
 80. *Needs:* D6.4; D6.5; AdicEtaleGeometry A1.12; PerfectoidSpaces P7.16;
-CommRingFactorizationSystems §F1 (seminormal-ring), through the geometric affine predicate below.
+the local affine seminormality predicate and geometric comparison below (seminormal-ring).
 
 **Checks.**
 
@@ -9727,9 +9725,9 @@ layer R0, and which is not the perfectoid-affinoid Rem. 3.7.7; [HK] §2.2, rigid
 conventions and seminormal full faithfulness, p. 15). *Needs:* D6.4; D6.5; D2.9; the seminormal
 structure-sheaf comparison above (AdicEtaleGeometry A1.12; PerfectoidSpaces P7.16, the affinoid
 perfectoid basis); AdicSpacesPartII layer R0 (affinoid algebras and étale morphisms of Huber pairs);
-the seminormalisation construction below ([KL16] Remark 3.7.3), with the affine inputs of
-CommRingFactorizationSystems §F1 and §F4 (contracts seminormal-ring, normal-ring-check and
-seminormalization-ring).
+the seminormalisation construction below ([KL16] Remark 3.7.3), with D6.9's local affine targets
+(seminormal-ring, normal-ring-check, seminormalization-ring, subintegral-unit and
+fixed-rings-and-restriction).
 
 `Rigid.Base p` is a complete Tate field with a continuous embedding of `ℚ_p` and maximal
 plus ring. `Rigid.Space p K` is the full subcategory of Yoneda-adic spaces over this base
@@ -9739,18 +9737,112 @@ This is the adic realization of the fixed-field `TauCetiRoadmap.AdicSpacesPartII
 carrier in AdicSpacesPartII §R1.1; §R1.7 specifies the rigid–adic comparison.
 `Rigid.IsReducedSpace` tests reducedness on affine opens.
 
-**Affine seminormality predicate.** Provides the seminormal ring predicate tested on the function
-ring of every rigid affine open. Supplied by CommRingFactorizationSystems §F1 / Seminormal and
-absolutely weakly normal rings (`IsSeminormalRing`)
-([CommRingFactorizationSystems §F1](../CommRingFactorizationSystems/README.md#f1--seminormal-and-absolutely-weakly-normal-rings)).
-F1 uses unique square–cube lifting on arbitrary rings, whereas the reduced affine
-formulation uses existence; the retained affine adapter establishes that these formulations agree
-on reduced affine function rings (seminormal-ring).
+**Affine seminormality predicate.** For any commutative ring `A`, define
+`Affine.IsSeminormalRing A` by reducedness and the following existence condition: whenever
+`x³ = y²`, there is `a` with `a² = x` and `a³ = y`. Prove
+`Affine.IsSeminormalRing.iff_unique`: this is equivalent, on arbitrary commutative rings, to
+unique square–cube lifting without a separate reducedness hypothesis. Indeed, equal squares and
+cubes give a nilpotent difference, while uniqueness over `(0, 0)` excludes nonzero square-zero
+elements ([KL16] Definition 1.4.1, p. 19; [Stacks seminormalization] Tags 0EUL and 0EUQ).
+This is the affine predicate used on every rigid affine open (seminormal-ring).
 
-**`Rigid.IsSeminormal`.** Every affine function ring satisfies the supplied
-`IsSeminormalRing` of CommRingFactorizationSystems §F1. The geometric adapter compares this
-all-affine-opens condition with reducedness and existence of square–cube lifts, and establishes
-restriction compatibility and rigid gluing; reducedness makes such a lift unique.
+**Checks.**
+
+- `affine_seminormal_field` — `ℚ` satisfies the criterion: if `x ≠ 0`, its lift is `y/x`;
+  if `x = 0`, reducedness forces `y = 0`.
+- `affine_seminormal_nilpotent` — `ℤ/4` fails reducedness; the distinct elements `0` and `2`
+  have the same square and cube.
+- `affine_seminormal_cusp` — `ℚ[t²,t³]` is reduced but not seminormal: `t²` and `t³` have no
+  common square–cube root in this subring of `ℚ[t]`.
+
+**Normal domains and products.** For a commutative domain `A` integrally closed in its fraction
+field, prove `Affine.IsSeminormalRing.of_isIntegrallyClosed`. For `x ≠ 0` the candidate `y/x`
+is integral, being a root of `T² − x`, and hence lies in `A`; treat `x = 0` separately.
+Prove `Affine.IsSeminormalRing.prod_iff` for two arbitrary commutative rings; iteration gives
+finite products, including the zero ring as the empty product ([KL16] Remark 1.4.2, p. 20;
+Definition 1.4.1 applied componentwise). These results and the finite decomposition below supply
+normal-ring-check on every normal affinoid open.
+
+**Checks.**
+
+- `affine_normal_integers` — `ℤ` is admitted by integral closedness; no field hypothesis is needed.
+- `affine_normal_product` — `ℚ × ℚ` is seminormal although it is not a domain; each component
+  supplies its own lift.
+- `affine_product_bad_factor` — `ℚ × ℤ/4` fails the criterion, witnessed in its second factor.
+
+**Finite decomposition for normal noetherian rings.** Prove `Affine.normal_finiteProduct`:
+if a commutative noetherian ring `A` has normal-domain localizations at every prime, then
+`A ≅ ∏ᵢ Bᵢ` for finitely many integrally closed domains `Bᵢ`. Allow no factors for the zero ring.
+Apply this to normal affinoid function rings before using the domain and product results above
+([Stacks normal rings] Tag 030C; noetherianity gives finitely many minimal primes, and
+normality gives reducedness).
+
+**Checks.**
+
+- `affine_normal_decomposition_empty` — the zero ring has no primes and the empty decomposition.
+- `affine_normal_decomposition_domain` — `ℤ` has the single normal-domain factor `ℤ`.
+- `affine_normal_decomposition_disconnected` — `ℚ × ℚ` has two factors; a single domain cannot
+  supply its nontrivial idempotent.
+
+**Affine seminormalization and its universal property.** For every commutative ring `A`, construct
+`Affine.snRing A`, its ring structure `Affine.snRing.commRing`, and the unit
+`Affine.snMap A : A →+* Affine.snRing A`. Prove `Affine.snRing_isSeminormal` and
+`Affine.sn_lift`: for every seminormal commutative ring `B` and homomorphism `f : A →+* B`,
+there is a unique `g : Affine.snRing A →+* B` with `g ∘ Affine.snMap A = f`.
+This gives the ring reflection, its functoriality and the unique maps needed for gluing,
+with identity and composition laws obtained from uniqueness ([KL16] Definition 1.4.1, p. 19,
+affine form of its adjunction; [Stacks seminormalization] Tag 0EUR(3)–(4)).
+This supplies seminormalization-ring.
+
+**Checks.**
+
+- `affine_sn_nilpotents` — the seminormalization of `ℤ/4` is `𝔽₂`; every map from `ℤ/4` into a
+  seminormal ring kills `2` and factors uniquely through this quotient.
+- `affine_sn_cusp` — the seminormalization of `ℚ[t²,t³]` is `ℚ[t]`; a map into a seminormal
+  ring extends uniquely by sending `t` to the common square–cube root.
+- `affine_sn_target_hypothesis` — for the cusp ring `A`, the identity `A → A` has no extension
+  `ℚ[t] → A`. The target seminormality hypothesis on `Affine.sn_lift` is essential.
+
+**Subintegral affine unit.** For every commutative ring `A`, prove `Affine.snMap_isIntegral` and
+`Affine.snMap_fieldPoints`: precomposition with the unit is a bijection
+`Hom(Affine.snRing A, K) → Hom(A, K)` for every field `K`, including imperfect fields.
+Together these say that the spectrum of the unit is a universal homeomorphism and induces
+isomorphisms on residue fields. To recover the latter assertion, test a point in its own residue
+field; integrality and uniqueness of field-valued lifts identify its sole preimage and residue
+field ([KL16] Lemma 1.4.5, p. 20; [Stacks seminormalization] Tag 0EUR(3)).
+This supplies subintegral-unit, without a general factorization-system construction.
+
+**Checks.**
+
+- `affine_sn_empty_points` — the zero ring and its seminormalization have no field-valued points.
+- `affine_sn_cusp_residue` — the cusp unit has a single point above the origin and the residue
+  field remains `ℚ`; its effect is on functions, not on the residue field.
+- `affine_sn_inseparable_boundary` — for `k = 𝔽_p(s)`, adjoining `s^(1/p)` gives an integral
+  universal homeomorphism on spectra but fails the `k`-valued lifting test. Universal
+  homeomorphism alone does not give the residue-field clause of this target.
+
+**Fixed rings and principal restriction.** Prove `Affine.snMap_bijective` for every seminormal
+commutative ring `A`. Prove `Affine.snRing_localization`: for any `f ∈ A`, the canonical
+comparison `(A_f)^sn ≅ (A^sn)_{η(f)}` is a ring isomorphism intertwining the two units from `A`,
+where `η = Affine.snMap A`. These results give idempotence and the algebraic restriction
+comparisons; compatibility with rational affinoid restriction is the separate analytic assertion
+below ([Stacks seminormalization] Tags 0EUR(4), 0EUM and 0EUS, restricted to principal opens;
+[KL16] Definition 1.4.1, p. 19). This supplies fixed-rings-and-restriction.
+
+**Checks.**
+
+- `affine_sn_fixed` — a field and a finite product of fields are fixed, as is the zero ring.
+- `affine_sn_idempotent` — the unit on `Affine.snRing A` is bijective for every `A`, even if
+  `A` has nilpotents.
+- `affine_sn_principal_cusp` — for `A = ℚ[t²,t³]` and `f = t²`, both sides are
+  `ℚ[t,t⁻¹]`: after inversion, `t = t³/t²` already belongs to `A_f`. At `f = 0`, both sides
+  are the zero ring, the ring of the empty affine open.
+
+**`Rigid.IsSeminormal`.** Every affine function ring satisfies the local
+`Affine.IsSeminormalRing`. The geometric comparison identifies this all-affine-opens condition
+with reducedness and existence of square–cube lifts, and establishes rational restriction
+compatibility and rigid gluing; reducedness makes such a lift unique ([KL16] Definition 1.4.1,
+p. 19, Proposition 3.7.2 and Remark 3.7.3, p. 80).
 
 `Rigid.reduction` and `Rigid.reduction_toBase` satisfy `Rigid.reduction_universal`:
 composition gives unique lifts from reduced rigid spaces. `Rigid.IsFinite` uses finite
@@ -9771,14 +9863,15 @@ the finite universal homeomorphism `X^sn → X`; prove `Rigid.seminormalization_
 seminormal rigid `T`, composition with this map is a bijection `Hom_K(T,X^sn) ≃ Hom_K(T,X)`. Thus it
 is terminal among seminormal rigid spaces over `X`. Prove `Rigid.seminormalization_id` for
 seminormal `X` and compatibility with restriction to affinoid opens. Theorem 3.7.4 of [KL16] proves
-seminormality of perfectoid rings; it is not the adjunction statement. The affine algebra input is
-CommRingFactorizationSystems §F4 / `snRing`, `snMap`, `sn_lift`, and the README target
-`isIso_snMap_of_seminormal`
-([CommRingFactorizationSystems §F4](../CommRingFactorizationSystems/README.md#f4--the-generated-systems-and-the-reflections)),
-under seminormalization-ring:
-the ring unit `A → snRing A` reverses direction under `Spec`, and this roadmap establishes the
-finite affinoid realization, compatibility with affine restriction and rigid gluing before
-deducing `Rigid.seminormalization_id`.
+seminormality of perfectoid rings; it is not the adjunction statement. The affine algebra inputs
+are the local targets `Affine.snRing`, `Affine.snMap`, `Affine.sn_lift`,
+`Affine.snMap_isIntegral`, `Affine.snMap_fieldPoints` and `Affine.snMap_bijective` above.
+The ring unit reverses direction under `Spec`. For a reduced affinoid algebra its
+seminormalization is a finite subalgebra of its finite normalization (affinoid algebras are
+excellent); equip it with its finite-module topology. Establish the finite affinoid realization,
+compatibility with rational affinoid restriction ([KL16] Proposition 3.7.2 and Remark 3.7.3),
+and rigid gluing before deducing `Rigid.seminormalization_id`. Algebraic principal localization
+alone does not assert this analytic restriction theorem.
 
 **Checks.**
 
@@ -9965,7 +10058,13 @@ the discrete quotient's diamondification ([Berkeley] §18.1 and Prop. 18.2.2).
 - `rigid_diamond_reduction` — Reduction induces an isomorphism over Spd of the base field.
 - `rigid_diamond_nonseminormal_not_full` — For a reduced nonseminormal rigid space the inverse diamond of its seminormalization map has no rigid lift.
 
-Lean: none; this subsection is specified in the README only (no Lean declaration).
+Lean: the local ring-theoretic declarations `Affine.IsSeminormalRing`,
+`Affine.IsSeminormalRing.iff_unique`, `Affine.IsSeminormalRing.of_isIntegrallyClosed`,
+`Affine.IsSeminormalRing.prod_iff`, `Affine.normal_finiteProduct`, `Affine.snRing`,
+`Affine.snRing.commRing`, `Affine.snMap`, `Affine.snRing_isSeminormal`, `Affine.sn_lift`,
+`Affine.snMap_isIntegral`, `Affine.snMap_fieldPoints`, `Affine.snMap_bijective` and
+`Affine.snRing_localization`, with ring Checks. The rigid geometric targets are specified in the
+README only.
 
 ### Examples
 
@@ -10078,6 +10177,12 @@ instead of pages.
 - [SGA 4 VI] Alexander Grothendieck and Jean-Louis Verdier, Théorie des topos et cohomologie étale
   des schémas, Tome 2, Exposé VI. https://pi.math.cornell.edu/~dkmiller/bin/sga4-2.pdf. freely
   hosted French transcription; Exposé VI numbering.
+- [Stacks normal rings] The Stacks Project Authors, Stacks Project: normal rings.
+  https://stacks.math.columbia.edu/tag/030C. Finite decomposition, with its reducedness and
+  finite-minimal-prime hypotheses.
+- [Stacks seminormalization] The Stacks Project Authors, Stacks Project: absolute weak
+  normalization and seminormalization. https://stacks.math.columbia.edu/tag/0EUK.
+  Tags 0EUL, 0EUQ, 0EUR, 0EUM and 0EUS; only the seminormalization statements are used here.
 - [Stacks quotient spaces] The Stacks Project Authors, Stacks Project: quotient spaces.
   https://stacks.math.columbia.edu/tag/0APA. Stable section and tag numbering.
 - [Stacks constant sheaves] The Stacks Project Authors, Stacks Project: cohomology of sheaves.

@@ -16,7 +16,8 @@ quotients, inverse topology and size foundations of D0, the topological part of 
 perfectoid spaces of D1, the v-topology
 on Tau Ceti's perfectoid spaces with its descent theorems (D2–D3), the size obstructions for
 torsors and compact Hausdorff realization (D3–D4), and the Berkovich spectrum and the component
-formula of D5. Constructions that are themselves formalisation targets (pro-étale
+formula of D5, and the affine seminormality and seminormalization inputs of D6.9.
+Constructions that are themselves formalisation targets (pro-étale
 morphisms and sites, stackification, diamonds, their underlying spaces, spatial diamonds, marked
 untilts and `Spd`) are specified in the README only.
 -/
@@ -178,11 +179,7 @@ example : OpenCoversSplit ℕ ∧ ¬ CompactSpace ℕ := sorry
 example (X : PreAdicSpace.{u}) [IsEmpty X] : isTotallyDisconnected X := sorry
 
 /-- A *w-local* space (BS15 Definition 2.1.1, p. 6; ECD Definition 7.4, p. 31): a spectral space
-all of whose open covers split and whose closed points form a closed subset.
-[CommRingFactorizationSystems §C5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/CommRingFactorizationSystems/README.md#c5--the-zariski-factor-of-the-absolutely-flat-reflection-and-w-local-rings)
-supplies `IsWLocalRing`, the prime-spectrum special case; `openCoversSplit_iff` supplies the
-comparison with unique closed points per component before specialization to `PrimeSpectrum A`
-(README contract w-local-comparison). -/
+all of whose open covers split and whose closed points form a closed subset. -/
 def IsWLocalSpace (X : Type u) [TopologicalSpace X] : Prop :=
   SpectralSpace X ∧ OpenCoversSplit X ∧ IsClosed {x : X | IsClosed ({x} : Set X)}
 
@@ -460,5 +457,109 @@ theorem connectedComponents_mk_quotient_eq_iff {G X : Type u} [Group G] [Topolog
 example (p : ℕ) [Fact p.Prime] :
     TotallyDisconnectedSpace ℤ_[p] ∧ PreconnectedSpace (ℤ_[p] ⧸ (Int.castAddHom ℤ_[p]).range) :=
   sorry
+
+/-! ## Layer D6: affine inputs for seminormal rigid geometry -/
+
+namespace Affine
+
+/-- Seminormality is reducedness together with existence of square–cube roots
+(KL16 Definition 1.4.1, p. 19; Stacks 0EUL, 0EUQ). -/
+def IsSeminormalRing (A : Type u) [CommRing A] : Prop :=
+  IsReduced A ∧ ∀ x y : A, x ^ 3 = y ^ 2 → ∃ a : A, a ^ 2 = x ∧ a ^ 3 = y
+
+/-- On arbitrary commutative rings, seminormality is equivalent to unique square–cube lifting
+(KL16 Definition 1.4.1, p. 19). -/
+theorem IsSeminormalRing.iff_unique (A : Type u) [CommRing A] :
+    IsSeminormalRing A ↔
+      ∀ x y : A, x ^ 3 = y ^ 2 → ∃! a : A, a ^ 2 = x ∧ a ^ 3 = y := sorry
+
+-- Checks: a field is seminormal, nilpotents obstruct it, and reducedness alone is insufficient.
+example : IsSeminormalRing ℚ := sorry
+example : ¬ IsSeminormalRing (ZMod 4) := sorry
+example : ¬ IsSeminormalRing
+    (Algebra.adjoin ℚ ({Polynomial.X ^ 2, Polynomial.X ^ 3} : Set (Polynomial ℚ))) := sorry
+
+/-- Integrally closed domains have the square–cube lifting property
+(KL16 Remark 1.4.2, p. 20). -/
+theorem IsSeminormalRing.of_isIntegrallyClosed (A : Type u) [CommRing A]
+    [IsDomain A] [IsIntegrallyClosed A] : IsSeminormalRing A := sorry
+
+/-- Seminormality of a product is equivalent to seminormality of both factors
+(KL16 Definition 1.4.1, componentwise). -/
+theorem IsSeminormalRing.prod_iff (A B : Type u) [CommRing A] [CommRing B] :
+    IsSeminormalRing (A × B) ↔ IsSeminormalRing A ∧ IsSeminormalRing B := sorry
+
+-- Checks: normal domains and disconnected normal rings satisfy the same criterion.
+example : IsSeminormalRing ℤ := sorry
+example : IsSeminormalRing (ℚ × ℚ) := sorry
+example : ¬ IsSeminormalRing (ℚ × ZMod 4) := sorry
+
+/-- A noetherian ring whose prime localizations are normal domains is a finite product of
+integrally closed domains, allowing the empty product (Stacks 030C). -/
+theorem normal_finiteProduct (A : Type u) [CommRing A] [IsNoetherianRing A]
+    (hA : ∀ q : PrimeSpectrum A,
+      IsDomain (Localization.AtPrime q.asIdeal) ∧
+        IsIntegrallyClosed (Localization.AtPrime q.asIdeal)) :
+    ∃ (n : ℕ) (B : Fin n → CommRingCat.{u}),
+      (∀ i, IsDomain (B i) ∧ IsIntegrallyClosed (B i)) ∧
+        Nonempty (A ≃+* ∀ i, B i) := sorry
+
+/-- The seminormalization of a commutative ring (KL16 Definition 1.4.1, p. 19;
+Stacks 0EUR(3)–(4)). -/
+def snRing (A : Type u) [CommRing A] : Type u := sorry
+
+/-- The commutative ring structure on the seminormalization. -/
+instance snRing.commRing (A : Type u) [CommRing A] : CommRing (snRing A) := sorry
+
+/-- The unit from a ring to its seminormalization (Stacks 0EUR(3)). -/
+def snMap (A : Type u) [CommRing A] : A →+* snRing A := sorry
+
+/-- The seminormalization satisfies the square–cube criterion (Stacks 0EUR(4)). -/
+theorem snRing_isSeminormal (A : Type u) [CommRing A] : IsSeminormalRing (snRing A) := sorry
+
+/-- Every map to a seminormal ring extends uniquely across the unit
+(KL16 Definition 1.4.1, p. 19, affine form of the adjunction). -/
+theorem sn_lift {A B : Type u} [CommRing A] [CommRing B]
+    (hB : IsSeminormalRing B) (f : A →+* B) :
+    ∃! g : snRing A →+* B, g.comp (snMap A) = f := sorry
+
+-- Checks: nilpotents disappear; already seminormal rings and a disconnected ring are fixed.
+example : Nonempty (snRing (ZMod 4) ≃+* ZMod 2) := sorry
+example : Nonempty (snRing ℚ ≃+* ℚ) := sorry
+example : Nonempty (snRing (ℚ × ℚ) ≃+* (ℚ × ℚ)) := sorry
+
+/-- The seminormalization unit is integral (Stacks 0EUR(3); KL16 Lemma 1.4.5, p. 20). -/
+theorem snMap_isIntegral (A : Type u) [CommRing A] : (snMap A).IsIntegral := sorry
+
+/-- The unit preserves points valued in every field, including imperfect fields; together with
+integrality this expresses subintegrality (KL16 Lemma 1.4.5, p. 20; Stacks 0EUR(3)). -/
+theorem snMap_fieldPoints (A K : Type u) [CommRing A] [Field K] :
+    Function.Bijective (fun g : snRing A →+* K ↦ g.comp (snMap A)) := sorry
+
+-- Checks: a zero ring remains empty on field-valued points, and the nilpotent thickening has
+-- exactly the same field-valued points as its reduction, in both characteristics.
+example (K : Type u) [Field K] : IsEmpty (snRing PUnit →+* K) := sorry
+example : Function.Bijective
+    (fun g : snRing (ZMod 4) →+* ZMod 2 ↦ g.comp (snMap (ZMod 4))) := sorry
+example : IsEmpty (snRing (ZMod 4) →+* ℚ) := sorry
+
+/-- The unit is an isomorphism on seminormal rings (Stacks 0EUR(4)). -/
+theorem snMap_bijective (A : Type u) [CommRing A] (hA : IsSeminormalRing A) :
+    Function.Bijective (snMap A) := sorry
+
+/-- Seminormalization commutes with principal localization, compatibly with its unit
+(Stacks 0EUM, 0EUS, restricted to principal affine opens). -/
+theorem snRing_localization (A : Type u) [CommRing A] (f : A) :
+    ∃ e : snRing (Localization.Away f) ≃+* Localization.Away (snMap A f),
+      ∀ a : A, e (snMap (Localization.Away f) (algebraMap A (Localization.Away f) a)) =
+        algebraMap (snRing A) (Localization.Away (snMap A f)) (snMap A a) := sorry
+
+-- Checks: the zero ring is fixed, seminormalization is idempotent, and localization at zero
+-- agrees with the empty affine open.
+example : Function.Bijective (snMap PUnit) := sorry
+example (A : Type u) [CommRing A] : Function.Bijective (snMap (snRing A)) := sorry
+example (A : Type u) [CommRing A] : Subsingleton (snRing (Localization.Away (0 : A))) := sorry
+
+end Affine
 
 end TauCetiRoadmap.DiamondsAndVStacks
