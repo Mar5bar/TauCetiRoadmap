@@ -44,7 +44,7 @@ Completion: `AdicCompletion`, `AdicCompletion.of`, `AdicCompletion.map` (with `m
 
 ### From Tau Ceti
 
-S-unit finite generation and valuation maps use `TauCeti.RingTheory.DedekindDomain.SInteger.Unit`. ArithmeticGaloisDuality §R02.3.0c supplies the rank, fundamental systems, cardinality and reindexing adapters and the completion comparison used in §0.9.
+S-unit finite generation and valuation maps use `TauCeti.RingTheory.DedekindDomain.SInteger.Unit`. HeightsAndUnits §4.2 supplies the rank and fundamental systems; ArithmeticGaloisDuality §R02.3.0c supplies the finite-generation module, cardinality and reindexing adapters and the completion comparison used in §0.9.
 
 At the pinned commit: the Kummer theory of `TauCeti.FieldTheory.GaloisCohomology.Kummer` (`TauCeti.kummerClassMap`, `TauCeti.kummerClassMap_injective`, `TauCeti.kummerMap_surjective`, `TauCeti.kummerIso`, `TauCeti.kummerIso_res`, `TauCeti.kummerIso_norm`, `TauCeti.kummerCoeffPow`, `explicitCoeff1_kummerCoeffPow_kummerMap`, `explicitCoeff1_kummerCoeffPow_surjective`) and `TauCeti.powerClassQuotient`; `TauCeti.finiteIndex_range_powMonoidHom` (finite index of n-th powers in a local field, `n ≠ 0` in `K`); the Shapiro maps `TauCeti.ContinuousCohomology.shapiroMap`, `shapiroIso` and `shapiroIsoTopRep`; `TauCeti.completedGroupAlgebra` with `lift`, `map`, `domCongr`, the product decomposition and `powerSeriesCoordinate`; the local cyclotomic character `TauCeti.localCyclotomicCharacter`; the Hodge carriers `TauCeti.Hodge.Conjugation`, `TauCeti.Hodge.HodgeStructureOn` (`piece`, `hodgeNumber`, `finite_setOf_hodgeNumber_ne_zero`, `dual`, `finrank_dual_piece`, `tateTwist`, `prod`, `prod_piece`), `TauCeti.Hodge.latticeConjugation`, `TauCeti.Hodge.isBaseChange_tateLatticeMap`, `TauCeti.Hodge.tate` and `TauCeti.Hodge.tate_hodgeNumber`.
 
@@ -228,7 +228,7 @@ Prove this as follows. The Kummer sequence for `G_{F,S}: 0 → 𝓞_{F,S}^×/p^m
 
 The tower limit is §§3.1 and 4.19; Burungale–Tian §2.2.3 is a downstream Iwasawa étale-cohomology application (§3.15).
 
-*Needs:* §0.7 (The system `μ_{p^m}(K)` is Mittag-Leffler); ArithmeticGaloisDuality §R02.3.0c (The S-unit theorem, `Set.unit_moduleFinite`, and Completion of S-units); DerivedModuleAlgebra §1.T.1 (*The Milnor sequence for towers of complexes*); ArithmeticGaloisDuality §R02.3.3 (*The Kummer sequence for S-units*).
+*Needs:* §0.7 (The system `μ_{p^m}(K)` is Mittag-Leffler); HeightsAndUnits §4.2 (S-unit rank); ArithmeticGaloisDuality §R02.3.0c (S-unit rank and cardinality adapter, `Set.unit_moduleFinite`, and Completion of S-units); DerivedModuleAlgebra §1.T.1 (*The Milnor sequence for towers of complexes*); ArithmeticGaloisDuality §R02.3.3 (*The Kummer sequence for S-units*).
 
 ### 0.10 Which inverse-limit hypotheses hold
 
