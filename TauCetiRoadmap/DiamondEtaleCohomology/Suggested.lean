@@ -19,6 +19,10 @@ and extension embeddings are explicitly isometric for compatible norms; point-pr
 topology and valuation rings independently of normalization. Generating, independent and
 modified degrees remain distinct.
 
+Properness of v-stacks and its basic API are supplied by DiamondsAndVStacks §D4.11
+and re-exported in C4.1. C4 supplies partial properness, valuative refinements and
+canonical compactification using that imported predicate.
+
 The analytic-to-diamond partial-properness comparison in C8.48a assumes taut preimages
 of affinoid target opens. Its unrestricted field-pair predicate also applies without
 that hypothesis to the analytic dimension formulas. Generic ringed-site replacements

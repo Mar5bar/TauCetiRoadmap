@@ -2,7 +2,7 @@
 
 **Summary.** This roadmap builds the coefficient categories and functors used to do étale cohomology on diamonds and small v-stacks. The central category is the presentable stable category `𝒟_ét(Y, Λ)`, with triangulated homotopy category D_ét(Y, Λ). Its four operations are pullback, direct image, derived tensor product and internal Hom. Their construction must carry adjunctions, composition laws, base-change transformations and coefficient changes, so that applications can use a coherent calculus rather than isolated cohomology groups.
 
-The geometric part supplies proper and partially proper morphisms, canonical compactifications and étale extension by zero. The finiteness part supplies constructible sheaves, perfect-constructible complexes, geometric transcendence dimension and cohomological bounds. These culminate in compact generation and the identification of compact objects with perfect-constructible complexes under one uniform cohomological bound. This is the input to exceptional operations, duality and diamond-valued arithmetic geometry.
+The geometric part extends the properness theory of `DiamondsAndVStacks` §D4.11 with partially proper morphisms, canonical compactifications and étale extension by zero. The finiteness part supplies constructible sheaves, perfect-constructible complexes, geometric transcendence dimension and cohomological bounds. These culminate in compact generation and the identification of compact objects with perfect-constructible complexes under one uniform cohomological bound. This is the input to exceptional operations, duality and diamond-valued arithmetic geometry.
 
 The main source is Scholze's *Étale cohomology of diamonds*, abbreviated ECD below. The layers organize reusable mathematical interfaces; the source locators identify statements and proof ingredients, not a prescribed order of formalization. [Suggested.lean](Suggested.lean) suggests names and signatures. This README specifies the mathematics, including the enhanced statements and hypotheses that a homotopy-category signature alone cannot express.
 
@@ -13,7 +13,7 @@ Geometry is supplied by the perfectoid and diamond roadmaps. General enhanced sh
 | Supplier or consumer | Boundary |
 | --- | --- |
 | `AdicSpacesPartII`, §R0.19.10 | Quasicompact and quasiseparated objects and morphisms of a topos; algebraic/coherent topoi. |
-| `PerfectoidSpaces`, Layers P0–P6, `DiamondsAndVStacks`, Layers D0–D6 | Perfectoid spaces, diamonds and small v-stacks; étale and quasi-pro-étale morphisms; underlying spaces, geometric points, presentations and cutoffs. C0 defines the three coefficient sites using these objects. C4 owns properness and canonical compactification of v-stacks. |
+| `PerfectoidSpaces`, Layers P0–P6, `DiamondsAndVStacks`, Layers D0–D6 | Perfectoid spaces, diamonds and small v-stacks; étale and quasi-pro-étale morphisms; underlying spaces, geometric points, presentations and cutoffs. `DiamondsAndVStacks` §D4.11 is the sole owner of the properness predicate for v-stacks and its basic API, re-exported by C4.1. C0 defines the three coefficient sites. C4 owns partial properness, valuative refinements and canonical compactification. |
 | `EnhancedDerivedSheaves`, §§0.1–0.4 and Layers E1–E3 | Unbounded dg/enhanced derived categories of sheaves of modules, K-injective and K-flat models, derived tensor and Hom, coherent limits and exact-functor coherence, replete-topos convergence, Postnikov completion, coherent diagrams, hyperdescent and adjoints. C2–C3 specialize them to étale coefficients on v-stacks. |
 | `ClassicalAdicEtaleCohomology`, §§2.1–2.5, 3.1, 6.1–6.3, 7.1–7.3, 10.1–10.4 and 11.2 | Henselian and Zariski–Riemann inputs, classical algebraically closed field invariance, tautness, and annulus/open-ball cohomology. C1 uses classical field invariance; C6 proves v-stack field invariance from that input and C5, avoiding a reverse dependency through C1. C8.37 specializes §11.2, `field_cohomological_dimension_transcendence`. |
 | `SchemeAndStackFoundations`, §2.15; `EtaleCohomologyFoundations`, §F.2.1 | Torsion proper base change for schemes and continuity of étale topoi under qcqs limits with affine transitions. C5 uses these in its valuation-space argument. |
@@ -185,8 +185,10 @@ disconnected tests (D1), the v-topology and pro-étale geometry (D2–D3), small
 diamonds (D4), their spaces and field-point presentations (D5), and analytic diamondification
 and the étale-site comparison (D6). The field-point contracts retain arbitrary-rank open
 bounded valuation subrings, localization at a point, valuative separatedness, and the
-locally compact Hausdorff v-sheaves used in C4.3. C0 owns coefficient sites over these objects,
-and C4 owns properness and compactification of v-stacks.
+locally compact Hausdorff v-sheaves used in C4.3. D4.11 supplies the properness predicate for
+v-stacks, closed immersions being proper, composition, base change and the field-valuative
+criterion. C4.1 re-exports that predicate and basic API; C4 extends it with partial properness,
+valuative refinements and canonical compactification. C0 owns coefficient sites over these objects.
 
 `AdicEtaleGeometry`, A2.6, supplies `AdicSpace.relDim`, the supremum of the
 topological Krull dimensions of subspace fibres, for arbitrary topological sources
@@ -238,7 +240,7 @@ and of a quotient by a pro-p kernel.
 | C1 | Pushforward comparisons and base change, with the separate coefficient and geometric cases |
 | C2 | v-local étaleness, D_ét, its stable enhancement, hyperdescent and étale coreflection |
 | C3 | Pullback, direct image, tensor, internal Hom and coefficient change |
-| C4 | Properness, partial properness and canonical compactification |
+| C4 | Re-exported properness API, partial properness and canonical compactification |
 | C5 | Étale extension by zero and proper base change |
 | C6 | Algebraically closed base-field invariance |
 | C7 | Constructible sheaves, perfect local systems and perfect-constructible complexes |
@@ -1159,48 +1161,51 @@ Layers C0–C2; EnhancedDerivedSheaves, Layers E1–E3. The tensor and symmetric
 
 ## Layer C4: Proper maps and canonical compactification
 
-Prove the valuative criteria and construct the partially proper envelope. Distinguish a space being quasicompact from its structure map to the terminal v-stack being quasicompact, and distinguish the envelope being a diamond from it being spatial.
+Use the properness predicate and basic API of `DiamondsAndVStacks` §D4.11, prove the valuative refinements and construct the partially proper envelope. Distinguish a space being quasicompact from its structure map to the terminal v-stack being quasicompact, and distinguish the envelope being a diamond from it being spatial.
 
 ### Properness and partial properness
 
 #### C4.1 Proper maps of v-stacks
 
-A map f : Y′ → Y of v-stacks is proper if it is quasicompact, separated and universally closed: for every small v-sheaf X with a map X → Y, the map |Y′ ×_Y X| → |X| is closed. Since f is quasicompact, Y′ ×_Y X is a small v-sheaf for small X, and it suffices to test universal closedness on perfectoid X, or even on strictly totally disconnected perfectoid X.
+Import and re-export the properness predicate and basic API from `DiamondsAndVStacks` §D4.11. For a map f : Y′ → Y of v-stacks, this predicate means quasicompact, separated and universally closed: for every small v-sheaf X with a map X → Y, the map |Y′ ×_Y X| → |X| is closed. Since f is quasicompact, Y′ ×_Y X is a small v-sheaf for small X, and it suffices to test universal closedness on perfectoid X, or even on strictly totally disconnected perfectoid X. Every properness conclusion in C4 uses this imported predicate.
 
-Require the following API.
+Expose the supplied predicate and basic API under the following names.
 
-- `IsProper`: The predicate on maps of v-stacks: quasicompact ∧ separated ∧ universally closed.
+- `IsProper`: The properness predicate of `DiamondsAndVStacks` §D4.11.
 - `IsProper.iff_std`: f is proper iff it is quasicompact and separated and |Y′ ×_Y X| → |X| is closed for every strictly totally disconnected perfectoid X → Y.
 - `IsProper.comp`: Composites of proper maps are proper.
 - `IsProper.baseChange`: Proper maps are stable under arbitrary base change of v-stacks.
-- `IsProper.of_comp`: If g ∘ f is proper and g is separated, then f is proper.
-- `IsProper.iff_valuative`: f is proper iff 0-truncated, qcqs and the (K, K⁺) valuative criterion holds (target C4.4).
-- `IsProper.partiallyProper`: Proper maps are partially proper (target C4.4).
+- `IsProper.iff_valuative`: D4.11's criterion: f is proper iff 0-truncated, qcqs and the (K, K⁺) valuative criterion holds (re-exported in C4.4).
 - `IsProper.isClosedMap`: For proper f between small v-sheaves, |f| : |Y′| → |Y| is closed.
-- `IsUniversallyClosed`: f : Y′ → Y is universally closed if for every small v-sheaf X → Y, |Y′ ×_Y X| → |X| is closed; it suffices to test strictly totally disconnected X.
+- `IsUniversallyClosed`: The universal-closedness condition in D4.11: for every small v-sheaf X → Y, |Y′ ×_Y X| → |X| is closed; it suffices to test strictly totally disconnected X.
 - `IsProper.iff`: IsProper f ↔ f quasicompact ∧ separated ∧ IsUniversallyClosed f.
 - `IsUniversallyClosed.comp`: Composites of universally closed maps are universally closed.
 - `IsUniversallyClosed.baseChange`: Universally closed maps are stable under base change.
 - `IsProper.surjective_of_surjective_points`: A proper (indeed quasicompact) map f of small v-stacks with |f| surjective is a surjection of v-stacks (ECD Lemma 12.11, D4); a map Spa(C, C⁺) → Y lifts after replacing C by an extension, not necessarily over the same C.
+
+The additional C4 consequences use that same predicate.
+
+- `IsProper.of_comp`: If g ∘ f is proper and g is separated, then f is proper (target C4.7).
+- `IsProper.partiallyProper`: Proper maps are partially proper (targets C4.4–C4.5).
 
 **Checks.**
 
 - `isProper_id`: The identity of a v-stack is proper.
 - `isProper_closedImmersion`: A closed immersion of v-sheaves is proper (target C4.2).
 - `isProper_topological`: For a map of locally compact Hausdorff spaces T′ → T, the induced map of v-sheaves is proper iff T′ → T is a proper map (Mathlib IsProperMap), target C4.3.
-- `isProper_open_not`: For C⁺ ⊊ O_C, the quasicompact injection Spa(C, O_C) → Spa(C, C⁺) (an open immersion when C⁺ has rank 2) is quasicompact and separated but not proper: its image is not closed.
+- `isProper_open_not`: For a rank-two C⁺ ⊊ O_C, the open immersion Spa(C, O_C) → Spa(C, C⁺) is quasicompact and separated but not proper in D4.11's sense: its image is the nonclosed open point. The square with top arrow id of Spa(C, O_C) and bottom arrow id of Spa(C, C⁺) has no diagonal lift.
 - `isProper_openDisc_not`: The perfectoid open unit disc over Spa(C, O_C) is partially proper over Spa(C, O_C) but not quasicompact, hence not proper.
 - `isUniversallyClosed_not_separated`: For a finite group G ≠ 1 acting trivially on X = Spa(C, O_C), [X/G] → X is quasicompact and universally closed (|[X/G] ×_X T| = |T|) but not 0-truncated, hence not separated and not proper; its valuative lifts exist but form the groupoid BG.
 
-*Needs:* `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D4; `DiamondsAndVStacks`, Layer D1; `IsClosedMap`; `DiamondsAndVStacks`, Layer D0.
+*Needs:* `DiamondsAndVStacks`, §D4.11; `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D4; `DiamondsAndVStacks`, Layer D1; `IsClosedMap`; `DiamondsAndVStacks`, Layer D0.
 
 (ECD Definition 18.1, p. 101; ECD after Definition 18.1, p. 101.)
 
 #### C4.2 Closed immersions are proper
 
-Every closed immersion of v-sheaves is proper.
+Re-export D4.11's theorem that every closed immersion of v-sheaves is proper.
 
-*Needs:* `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D4; `C4.1`.
+*Needs:* `DiamondsAndVStacks`, §D4.11; `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D4; `C4.1`.
 
 (ECD Remark 18.2, p. 101.)
 
@@ -1214,7 +1219,7 @@ Let T′ → T be a continuous map of locally compact Hausdorff spaces and T̲�
 
 #### C4.4 Valuative criterion of properness
 
-Characterize a proper map f : Y′ → Y of v-stacks by 0-truncatedness, quasicompactness, quasiseparatedness and the following unique-extension condition. For every perfectoid field K and open bounded valuation subring K⁺, a square with top arrow Spa(K, O_K) → Y′ and bottom arrow Spa(K, K⁺) → Y has a unique diagonal lift to Y′. Prove also the stronger consequence for a proper f: the same uniqueness and existence hold with Spa(R, R°) ⊂ Spa(R, R⁺), for perfectoid Tate R and open integrally closed R⁺ ⊂ R°.
+Re-export D4.11's characterization of a proper map f : Y′ → Y of v-stacks by 0-truncatedness, quasicompactness, quasiseparatedness and the following unique-extension condition. For every perfectoid field K and open bounded valuation subring K⁺, a square with top arrow Spa(K, O_K) → Y′ and bottom arrow Spa(K, K⁺) → Y has a unique diagonal lift to Y′. Prove also the stronger consequence for a proper f: the same uniqueness and existence hold with Spa(R, R°) ⊂ Spa(R, R⁺), for perfectoid Tate R and open integrally closed R⁺ ⊂ R°.
 
 *Needs:* `C4.1`; `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D4; `DiamondsAndVStacks`, Layer D0; `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D5.
 
@@ -1256,7 +1261,7 @@ A map f : Y′ → Y of v-stacks is proper if and only if it is partially proper
 
 #### C4.7 Stability of proper and partially proper maps
 
-Proper maps, and partially proper maps, of v-stacks are stable under composition and arbitrary base change; if g ∘ f is proper (resp. partially proper) and g is separated, then f is proper (resp. partially proper). In particular a fibre product of two proper maps to X is proper over X.
+Re-export D4.11's stability of proper maps under composition and arbitrary base change, and prove the corresponding statements for partially proper maps. If g ∘ f is proper (resp. partially proper) and g is separated, then f is proper (resp. partially proper). In particular a fibre product of two proper maps to X is proper over X.
 
 *Needs:* `C4.1`; `C4.5`; `C4.2`; `DiamondsAndVStacks`, Layer D3.
 
