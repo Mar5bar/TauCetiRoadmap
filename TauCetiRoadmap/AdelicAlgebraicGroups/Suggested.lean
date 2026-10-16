@@ -1363,7 +1363,7 @@ def levelSetoid (U : Subgroup (GL (Fin 2) Af)) : Setoid (ℍ × GL (Fin 2) Af) w
   r x y := ∃ q ∈ GLPos (Fin 2) ℚ, ∃ u ∈ U, y.1 = toReal q • x.1 ∧ y.2 = diag q * x.2 * u
   iseqv := by sorry
 
-/-- The level space `GL₂(ℚ)^+\(ℍ × GL₂(𝔸_f)/U)`, the model of `GL₂(ℚ)\GL₂(𝔸)/ℝ^×SO(2)U`. -/
+/-- The level space `GL₂(ℚ)^+ \ (ℍ × GL₂(𝔸_f)/U)`, the model of `GL₂(ℚ)\GL₂(𝔸)/ℝ^×SO(2)U`. -/
 abbrev LevelSpace (U : Subgroup (GL (Fin 2) Af)) := Quotient (levelSetoid U)
 
 /-- The upper half-plane decomposition: for representatives `rep c` of the components,

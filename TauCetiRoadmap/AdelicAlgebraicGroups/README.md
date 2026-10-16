@@ -3089,11 +3089,11 @@ in the standard integral level.
   *Lean:* none; specified in the README only.
 - **Arithmetic quotients have finite volume.** (*arithmetic-quotient-finite-volume*) For
   connected reductive `G` over `F` and `Γ = G(F) ∩ U` with `U ⊂ G(𝔸_{F,f})` compact open, prove
-  that `Γ\(G(F_∞)/A_G(ℝ)^0)` has finite invariant volume ([Borel], Theorem 5.6, p. 21). *Needs:*
+  that `Γ \ (G(F_∞)/A_G(ℝ)^0)` has finite invariant volume ([Borel], Theorem 5.6, p. 21). *Needs:*
   AA.3.4; AA.2.1.
   *Lean:* none; specified in the README only.
 - **Arithmetic quotients of anisotropic groups are compact.** For `G` connected reductive, in
-  the setting of *arithmetic-quotient-finite-volume*, prove that `Γ\(G(F_∞)/A_G(ℝ)^0)` is compact
+  the setting of *arithmetic-quotient-finite-volume*, prove that `Γ \ (G(F_∞)/A_G(ℝ)^0)` is compact
   iff `G^der` is `F`-anisotropic; for `H = SL_1(D)` with `D` a central division algebra of degree
   `≥ 2` over `F`, `H(F)\H(𝔸_F)` and `Γ\H(F_∞)` are compact ([Borel], Theorem 5.6(ii), p. 21).
   The general division-algebra statement assumes connected
@@ -3871,8 +3871,8 @@ quaternion norms and compact abelian Fourier limits.
   *Lean:* none; specified in the README only.
 - **Finite covolume of a projection closure.** (*projection-finite-covolume*) Let `A` and `B`
   be second countable locally compact Hausdorff groups, `Γ ⊂ A × B` a lattice (a discrete
-  subgroup with a nonzero finite `(A × B)`-invariant Radon measure on `Γ\(A × B)`), and `Δ` the
-  closure of its `B`-projection; `B` acts on `Γ\(A × B)` and on `Δ\B` by right translation in the
+  subgroup with a nonzero finite `(A × B)`-invariant Radon measure on `Γ \ (A × B)`), and `Δ` the
+  closure of its `B`-projection; `B` acts on `Γ \ (A × B)` and on `Δ\B` by right translation in the
   second factor. Prove that `Δ\B` carries a nonzero finite `B`-invariant Radon measure
   (push forward the finite quotient measure; [Platonov–Rapinchuk–Rapinchuk],
   Lemma 3.66, pp. 191–192, uses this construction with extra assumptions
@@ -4726,7 +4726,7 @@ preceding layers; each item is a target with its own locator.
   Möbius transformations; for `det U = ℤ̂^×` there is a single component ([Milne], Lemma 5.13,
   p. 57; Lemma 5.11, p. 56, supplies the rational orientation reduction from `ℍ±` to `ℍ`).
   The Lean statement (`AdelicExamples.GL2.exists_componentHomeomorph`) works in the model
-  `GL_2(ℚ)^+\(ℍ × GL_2(𝔸_f)/U)` (`AdelicExamples.GL2.LevelSpace`) over `FiniteAdeleRing ℤ ℚ`; its identification with
+  `GL_2(ℚ)^+ \ (ℍ × GL_2(𝔸_f)/U)` (`AdelicExamples.GL2.LevelSpace`) over `FiniteAdeleRing ℤ ℚ`; its identification with
   `LevelMaps.LevelQuotient` for `GL_2` (finite adeles over `𝓞_ℚ`, `K∞ = ℝ^×SO(2)`), sending
   `[(g_∞, g_f)]` with `det g_∞ > 0` to `[(g_∞ · i, g_f)]`, is part of this target and is
   specified in the README only. *Needs:* AA.3.4; AA.4.5; AA.4.2; Tau Ceti
@@ -4786,7 +4786,7 @@ preceding layers; each item is a target with its own locator.
   finiteness modulo the intersection with diagonal `F^×`, and whole-stabilizer finiteness
   over `F = ℚ`. These supplier theorems use the canonical finite-adele module topology
   and native units topology.
-  Deduce compactness of `D^×\(D ⊗_F 𝔸_{F,f})^×`: for a compact open level, finitely many
+  Deduce compactness of `D^× \ (D ⊗_F 𝔸_{F,f})^×`: for a compact open level, finitely many
   double-coset representatives give a finite union of images of translates of that compact
   level in the rational quotient (Fujisaki's lemma, as used in QuaternionicModularForms
   §0.3). Conjugate `U ∩ x⁻¹ D^× x` to `D^× ∩ xUx⁻¹` for the stabilizers in the volume
@@ -4803,7 +4803,7 @@ preceding layers; each item is a target with its own locator.
     group. Its stabilizer modulo central scalars is finite, although its whole stabilizer is not.
 - **Volume comparison under level change for a definite quaternion algebra.** For `D` definite
   over `ℚ` and compact open `U′ ⊂ U ⊂ (D ⊗ 𝔸_f)^×`, with `Γ_x = (D^× ∩ xUx⁻¹)/(ℚ^× ∩ U)` the
-  finite stabilizers and `Cl(U) = D^×\(D ⊗ 𝔸_f)^×/U`, prove
+  finite stabilizers and `Cl(U) = D^× \ (D ⊗ 𝔸_f)^×/U`, prove
 
   ```text
   ∑_{x ∈ Cl(U′)} 1/|Γ′_x| = ([U : U′] / [ℚ^× ∩ U : ℚ^× ∩ U′]) · ∑_{x ∈ Cl(U)} 1/|Γ_x|
