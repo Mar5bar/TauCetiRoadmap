@@ -783,6 +783,22 @@ example [IsHeckeTriple (⊤ : Submonoid G) U U] (χ : G →* Rˣ) (hχ : ∀ u �
 
 end Hecke
 
+/-- **ALS.3.9, order-three character.** On functions on `C₃` over `𝔽₇`, translation has
+`c = (1,2,4)` as a `χ(g) = 2` eigenvector, fixed after twisting by `χ⁻¹`. Pointwise cup
+product then intertwines translation with `f_χ([g]) = 4[g]`. The vector `d = (1,4,2)`,
+fixed after twisting by `χ`, fails the same cup identity. -/
+example :
+    let T : (Fin 3 → ZMod 7) → (Fin 3 → ZMod 7) := fun f a => f (a + 1)
+    let c : Fin 3 → ZMod 7 := ![1, 2, 4]
+    let d : Fin 3 → ZMod 7 := ![1, 4, 2]
+    let x : Fin 3 → ZMod 7 := fun _ => 1
+    T c = (2 : ZMod 7) • c ∧
+      (4 : ZMod 7) • T c = c ∧
+      c * T x = (4 : ZMod 7) • T (c * x) ∧
+      (2 : ZMod 7) • T d = d ∧
+      d * T x ≠ (4 : ZMod 7) • T (d * x) := by
+  sorry
+
 /-!
 ## Statements not typed at the pins
 
@@ -911,12 +927,15 @@ here.
   `c_g : p₂^*V → p₁^*V`, whose stalk map commutes with the rational action and satisfies
   `A_g ρ(g⁻¹kg) = ρ(k) A_g` on the intersection level; an isomorphism requires invertibility),
   `RΓ.trace`, `RΓ.mackey`, `heckeAction_mul`,
-  `heckeAction_compatible`, `heckeAction_discrete_eq_topological` (smooth discrete coefficients),
+  `heckeAction_compatible` (the cup class is fixed in the inverse-character twist, with the
+  character trivial on the level),
+  `heckeAction_discrete_eq_topological` (smooth discrete coefficients),
   `heckeAction_integralLimit` (at fixed good level, finite free lattices with smooth reductions,
   complete DVR coefficients and compatible bounded finite models, with the strict Hecke action),
   `derivedHeckeAlgebra` (the
   derived Hecke image of IntegralHeckeAndGaloisDeterminants, Layer 2, applied to `RΓ(X_K, V)`),
-  `idelicCharacter`, `twistMaximalIdeal`, `twistIso`, `oldformSplitting`.
+  `idelicCharacter`, `twistMaximalIdeal`, `twistIso` (coefficients finite free over `O`, with a
+  separate `O`-linear `K_S`-action), `oldformSplitting`.
 * Boundary complexes and localization: `boundaryTriangle`, `Hecke.restrictParabolic`,
   `Hecke.integrateUnipotent`, `Hecke.satakeUnnormalized`, `BorelSerre.stratum_hecke_restrict`,
   `nomizu`, `kostant_splittingField`, `BorelSerre.stratum_kostant`,

@@ -2957,13 +2957,16 @@ endomorphism, and lift to morphisms of the Hecke complexes of [ALS.3.4](#hecke-c
 D(H(G^S,K^S)⊗R); so are the coefficient maps of Layer ALS.1 (induced by R[G(F)×K_S]-linear V → W,
 and the base change isomorphisms of [ALS.1.7](#coefficient-change)). For cup products: π^\* is
 multiplicative, the trace satisfies the projection formula π_\*(π^\*a ∪ b) = a ∪ π_\*b, and for a class
-c ∈ H^0(X_K, W) represented by a G^S-equivariant map R → H^0(𝔛_G, W)(χ) with character χ of G^S, cup
-product with c satisfies c ∪ T(t)(x) = T(f_χ(t))(c ∪ x) ([ALS.3.12](#character-twist)). In general
+`c ∈ H⁰(X_K, W)` represented by a `G^S`-equivariant map `R → H⁰(𝔛_G, W)(χ⁻¹)`, where
+`χ : G^S → Rˣ` is trivial on `K^S`, cup product with `c` satisfies
+`c ∪ T(t)(x) = T(f_χ(t))(c ∪ x)` ([ALS.3.12](#character-twist)). The source `R` has trivial action;
+by `Representation.charTwist`, this hypothesis means `g·c = χ(g)c`. In general
 T(t) is not a ring endomorphism of H^\*(X_K, R). Coefficient base-change isomorphisms here have
 exactly [ALS.1.7](#coefficient-change)’s neatness/perfectness hypotheses; arbitrary-level derived
 invariants require the extra averaging or base-change comparison stated at
 [ALS.4.1](#boundary-triangle). The statement assumes: K neat for the cup-product statements. ([NT16,
-§3.1, before Proposition 3.7, p. 48]; [NT16, §4, after Theorem 4.2, p. 55])
+§3.1, before Proposition 3.7, p. 48]; [NT16, §4, after Theorem 4.2, p. 55];
+[ACC+23, §2.2.20, proof of Proposition 2.2.23, p. 934])
 
 *Needs:* [ALS.3.3](#derived-hecke-action); [ALS.3.6](#level-trace); [ALS.1.7](#coefficient-change);
 [ALS.3.12](#character-twist) (the automorphism f_χ in the twisted cup formula);
@@ -2978,6 +2981,14 @@ invariants require the extra averaging or base-change comparison stated at
   interior cohomology.
 - Projection formula in degree 0 at neat level: on H^0 = Fun(π_0, R) it reads Σ_{y ↦ x} a(x)b(y) =
   a(x) Σ_{y ↦ x} b(y).
+- For `Q = C₃ = ⟨g⟩`, `R = 𝔽₇`, `T_g f(a) = f(ag)` and `χ(g) = 2`, take
+  `c = (1,2,4)` and `x = (1,1,1)` in `Fun(Q,R)`. Then `T_g c = 2c`, so `c` is fixed in the
+  `χ⁻¹` twist, and the cup identity reads `c · T_g x = 4 T_g(c · x) = c`.
+  For `d = (1,4,2)`, the `χ` twist fixes `d`, but `4 T_g(d · x) = 2d ≠ d · T_g x`.
+  These are the component functions for `G = GL₁/ℚ` and
+  `K(7) = {u ∈ Ẑˣ : u ≡ 1 mod 7}`: the full archimedean compact gives
+  `(ℤ/7)ˣ/{±1} ≅ C₃` with trivial arithmetic stabilizers. `Suggested.lean` records the
+  pointwise cup identities and the failure for `d`.
 
 <a id="discrete-topological-comparison"></a>
 
@@ -3188,8 +3199,9 @@ k ∈ det(K_v), and (3) ψ(c_v) = 1 for every real place v of F, c_v a complex c
 holds automatically when F has no real place, in particular for the imaginary CM fields of
 [ACC+23, §2.2.1]. Condition (3) makes g ↦ ψ(Art_F(det g)) invariant under G(F) on the finite
 adeles: for γ ∈ G(F), ψ(Art_F((det γ)_∞)) = ∏_{v real} ψ(c_v)^{[σ_v(det γ) < 0]}. Let O(m) be the
-rank-one O[K_p]-module on which k acts by ∏_τ τ(det k)^{m_τ}. Then for every finite free
-O[K_S]-module V there is an isomorphism RΓ(X_K, V) ≅ RΓ(X_K, V ⊗ O(m)) in D(O),
+rank-one O[K_p]-module on which k acts by ∏_τ τ(det k)^{m_τ}. Then for every
+`O[K_S]`-module `V` whose underlying `O`-module is finite free there is an isomorphism
+RΓ(X_K, V) ≅ RΓ(X_K, V ⊗ O(m)) in D(O),
 equivariant for H(G^S, K^S) ⊗ O acting in the usual way on the source and through f_ψ on the target.
 If K_v = GL_n(O_{F_v}) for v ∉ S, f_ψ descends to an isomorphism T^S(K, V) ≅ T^S(K, V ⊗ O(m)), and 𝔪
 is in the support of H^\*(X_K, V) iff 𝔪(ψ) is in the support of H^\*(X_K, V ⊗ O(m)). (ACC+ states this
@@ -3204,6 +3216,9 @@ and (3). ([ACC+23, §2.2.1, p. 916]; [ACC+23, §2.2.20, Proposition 2.2.23, p. 9
 **Checks.**
 
 - ψ = 1, m = 0 gives the identity.
+- The trivial lattice `V = O` is an allowed coefficient module. For nonzero `O` and
+  `k ≠ 1` in `K_S`, `[k] − [1]` is a nonzero annihilator, so this lattice is not free over
+  `O[K_S]`; the group-ring annihilator example of ALS.F.7 applies here.
 - For n = 1, twisting permutes the Hecke eigensystems in cohomology by ψ∘Art_F; the space need not
   be a finite set for general F.
 - `twistIso_odd_real` (non-example): F = ℚ, n = 1, p = 5, O = ℤ_5, K = K(3) = {u ∈ Ẑ^× : u ≡ 1
