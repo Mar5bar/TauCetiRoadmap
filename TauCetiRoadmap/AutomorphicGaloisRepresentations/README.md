@@ -57,9 +57,13 @@ and finite-slope modules and rational small-slope classicality. Section 0.3
 uses these objects for eigenvariety gluing, normalization comparisons and the
 totally real classicality and density application.
 The finite-weight
-nearly ordinary data, ordinary attached-character formulas, and the particular
-weight-two optimization/level-lowering inputs are also here. Their more general
-modularity-lifting, Serre-weight and potential-automorphy applications consume
+nearly ordinary data and ordinary attached-character formulas are also here.
+SerreWeightAndLevelOptimisation §§2.10, 2.13, 4.7–4.8 owns the shared rational
+weight-two lowering, coefficient-prime bridge and finite-flat optimization
+inputs. Section 6.5 assembles the optimized weight-two wrapper, its extra
+characteristic-three character comparison and type-Σ packaging; §7.6 retains
+the squarefree lowering wrapper and fixed-form ramification deduction. Their
+more general modularity-lifting and potential-automorphy applications consume
 these interfaces. No such later theorem is a prerequisite of the attached
 representation. The algebraic-character and generic period interfaces of
 AutomorphicGaloisRepresentationsPartII, AG2.0 and AG2.P, are independent
@@ -414,11 +418,26 @@ idele/ray-class and unit theorems, and FiniteFlatGroupsAndIntegralPadicHodgeTheo
 classification. These generic suppliers do not assert the modular irreducibility
 theorem which the character converse will prove here.
 
-For the optimized weight-two and squarefree level-lowering targets, the
-ModularCurvesPartII input must include the named degeneracy maps and localized
-Ihara injectivity under their local/residual hypotheses. The weight-two
-optimization and level-lowering deductions are targets of Layer 6 and Layer 7,
-respectively. They cannot be imported from a later general weight roadmap.
+### From SerreWeightAndLevelOptimisation
+
+SerreWeightAndLevelOptimisation §2.10 supplies weight-two trivial-character
+lowering for odd `ℓ`, `q∤Mℓ` and an irreducible residual representation
+arising at level `Mq` and unramified at `q`, returning a level-`M` eigenform
+after coefficient extension. Section 2.13 supplies descent
+to the full prime-to-`ℓ` Artin conductor of a continuous odd irreducible already
+modular representation in odd characteristic. Section 4.7 supplies the weight-two
+coefficient-prime bridge for odd `ℓ` and an irreducible tame-level eigensystem with
+`2≤k≤ℓ+1`, `ℓ∤N` and `ℓ>3` or `N>3`; its conclusion is occurrence at
+level `Nℓ`, with only the residual tame character prescribed at `ℓ=3`.
+Section 4.8 supplies the `ℓ≥5` finite-flat weight-two case for a continuous odd
+irreducible already modular representation, using the actual local extension,
+cyclotomic inertial determinant and extension-sensitive
+weight-two recipe, with the canonical prime-to-`ℓ` character lift.
+Section 6.5 assembles these inputs with the additional characteristic-three
+character comparison and the local inertia comparison for the exact
+coefficient-prime exponent, then proves type-Σ nonemptiness. Section 7.6
+specializes the supplied lowering theorem and deduces fixed-form ramification
+from finite newform sets and strong multiplicity one.
 
 ## How to read the build
 
@@ -2347,10 +2366,16 @@ irreducibility on `G_{ℚ(√−3)}`. With `δ(ρ̄)` defined in §6.4a, prove e
 of a weight-two newform `f` with
 `N_f=N(ρ̄)ℓ^{δ(ρ̄)}`, residual realization `ρ̄` after coefficient extension, and
 nebentypus of order prime to `ℓ`. This is [Darmon–Diamond–Taylor](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf),
-Theorem 3.15, p. 91. Its proof invokes Diamond's level optimization; formalize
-the particular weight-two optimization needed here, using the local newform and
-degeneracy-map hypotheses of that proof. This target does not assert unrestricted
-Serre weight optimization.
+Theorem 3.15, p. 91. Assemble this wrapper using
+SerreWeightAndLevelOptimisation §§2.10, 2.13 for the overlapping
+odd-characteristic lowering and full-conductor descent, §4.7 for the
+coefficient-prime bridge in its stated weight/level range, and §4.8 for the
+`ℓ≥5` finite-flat case under its local hypotheses. Complete the additional
+characteristic-three character comparison under the quadratic restriction
+here: §§2.13 and 4.7 do not prescribe a characteristic-zero tame character at
+`ℓ=3`. Compare the local inertia cases with the weight-two realization to force
+the exact exponent `δ(ρ̄)`; occurrence at a coefficient-prime level alone does
+not determine that exponent or newness.
 
 In the semistable type-`Σ` situation of §6.4a, prove absolute irreducibility
 on `G_L` for `L=ℚ(√((-1)^{(ℓ−1)/2}ℓ))` by DDT Lemma 3.24, p.93, including
@@ -2361,7 +2386,8 @@ reduction on such roots of unity makes `ψ_f=1`. The semistable inertia cases
 give `δ(ρ̄)=0` in the good case and `δ(ρ̄)=1` otherwise. The already defined
 bound with `δ_Σ` then includes this `f` for every allowed `Σ`, so `𝓝_Σ` is nonempty.
 
-*Needs:* §6.4a; Layer 6's residual representation; AlgebraicModularFormsAndSerreWeights
+*Needs:* SerreWeightAndLevelOptimisation §§2.10, 2.13, 4.7–4.8;
+§6.4a; Layer 6's residual representation; AlgebraicModularFormsAndSerreWeights
 R15.5, modular residual eigensystems and eigenvalue lifting; TauCetiRoadmap.ModularForms
 Layer 4, newforms and degeneracy maps; FiniteFlatGroupsAndIntegralPadicHodgeTheory
 R07.3–R07.4, the named good/ordinary/semistable residual inertia cases of R07.5;
@@ -2374,7 +2400,7 @@ ArithmeticGaloisRepresentations Layer 4, finite-image restriction and induction.
 **Checks.**
 
 - For 11a1 at `ℓ=7`, the Frobenius polynomial at 2 is `X²+2X+2` with nonsquare discriminant 3 modulo 7, so the residual representation is irreducible and oddness makes it absolutely irreducible. Good reduction at 7 gives `δ=0` and the level bound includes level 11. At `ℓ=5` this example is reducible and fails the hypotheses.
-- At `ℓ=3` retain the quadratic restriction hypothesis; residual irreducibility by itself is not the stated theorem.
+- At `ℓ=3` retain the quadratic restriction hypothesis and the extra character comparison: the supplied bridge fixes only the residual tame character and does not itself give a prime-to-3-order nebentypus.
 - Without `det ρ̄=χ̄_ℓ`, the theorem returns a prime-to-`ℓ`-order character and does not force trivial nebentypus.
 
 ### 6.6 Classical type-`Σ` Hecke representation
@@ -2743,22 +2769,21 @@ contradicts `f`'s conductor `N`. This is the argument of
 [Skinner](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p01-s.pdf),
 §3, printed p. 350.
 
-Prove the specific level-lowering input in the stated weight-two setting,
-including its `q`-local degeneracy/Ihara hypotheses, from the modular-curve
-cohomology of ModularCurvesPartII Layers 13–17 and the local residual conductor description. The theorem is
+Apply SerreWeightAndLevelOptimisation §2.10 to obtain the public
+`weightTwo_squarefree_levelLowering` wrapper in this weight-two, trivial-character
+setting, with the stated restrictions on `p` and `q`. Prove the finite-newform
+and strong-multiplicity-one deduction of `fixedSquarefreeForm_residual_ramified`
+here. The theorem is
 not inferred from semisimplification of the characteristic-zero local parameter:
 a nontrivial integral extension can become split after reduction at finitely
 many `λ`. The output is uniform over all `λ` above a sufficiently large `p` and over
 the finite set of `q|N`.
 
-*Needs:* Layer 7's Ribet–Momose finite residual exception set; Layer 6's
-residual representations and classical conductor theorem; ModularCurvesPartII
-Layers 13–17, degeneracy maps, localized parabolic cohomology and its Ihara
-injectivity; TauCetiRoadmap.ModularForms Layer 4, finiteness at fixed weight and
+*Needs:* SerreWeightAndLevelOptimisation §2.10; Layer 7's Ribet–Momose finite
+residual exception set; Layer 6's residual representations and classical
+conductor theorem; TauCetiRoadmap.ModularForms Layer 4, finiteness at fixed weight and
 bounded level; GL2AutomorphicRepresentationsAndTransfer R16.6, strong multiplicity
-one. The required Ihara injectivity and weight-two level-lowering argument are
-part of this target, using ModularCurvesPartII §§15.1–15.7; no higher-tier weight roadmap is
-a prerequisite.
+one.
 
 - `fixedSquarefreeForm_residual_ramified`: Produce one rational bound working for every `λ|p` and `q|N`.
 - `weightTwo_squarefree_levelLowering`: Return the lower-level eigenform with its residual identification under the specified local hypotheses.

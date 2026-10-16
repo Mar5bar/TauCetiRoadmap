@@ -477,13 +477,20 @@ The remaining definitions in README.md require arithmetic or geometric carriers:
   local character `δ_𝔭`, and the attached character `η_𝔭` and invariant line.
 * Layer 5: `ordinaryRefinement`, `eigenformDcris` and `eigenformWach`.
 * Layer 6: `residualRep`, `fullHeckeAlgebra`, `heckeRep`, `residualHeckeRep`,
-  the weight-two optimization invariant `δ(ρ̄)`, the semistable type-Σ index
-  data and finite newform set of §6.4a before `typeSigma_eigensystems_nonempty`,
+  the weight-two optimization invariant `δ(ρ̄)` and `optimizedWeightTwo_exists`,
+  using SerreWeightAndLevelOptimisation §§2.10, 2.13, 4.7–4.8 in their stated
+  ranges, with the extra characteristic-three character comparison and exact
+  coefficient-prime exponent comparison of §6.5, `optimizedWeightTwo_trivialCharacter`
+  under the cyclotomic determinant hypothesis, and the semistable type-Σ index
+  data and finite newform set of §6.4a for `typeSigma_eigensystems_nonempty`,
   `geometricHeckeDeterminant`, and the quaternionic completed Hecke representation.
 * Layer 7: the supplied `AutomorphicSystemData`, `Weak` and `Strict`, the predicate
   `IsAlmostStrictlyCompatible` and its transport theorems
   and `fixedEigenformFamily`, together with `HilbertSystemRealizations` and
-  `hilbertSystemRealizations_transport` over the shared carrier and operations.
+  `hilbertSystemRealizations_transport` over the shared carrier and operations;
+  `weightTwo_squarefree_levelLowering` specializes SerreWeightAndLevelOptimisation
+  §2.10 under §7.6's hypotheses, and `fixedSquarefreeForm_residual_ramified`
+  deduces uniform ramification from finite newform sets and strong multiplicity one.
 
 Their intended data, APIs and discriminating checks remain in the corresponding
 README sections.
