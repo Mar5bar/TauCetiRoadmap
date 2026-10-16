@@ -3170,7 +3170,7 @@ Prove `l2_lefschetz`. For Arthur’s reductive `Q`-group, coefficient `ξ`, leve
 
 ### 6.21 Truncated geometric kernel and fixed-degree trace
 
-Define `fixed_degree_trace` as follows. Under convention `Y` fix `K=∏_vGL_n(𝒪_v)`, `vol K=1` and the identity-Hecke test `f=1_K`. For `P=M_PN_P` set `k_P(x,y)=Σ_{a∈Ξ_G}Σ_{γ∈M_P(F)}∫_{N_P(𝔸)}1_K(y⁻¹γu x a)du`, with `vol(N_P(F)\N_P(𝔸))=1`. Form `k^T(x,x)=Σ_P(−1)^{dim 𝔞_P^G}Σ_{δ∈P(F)\G(F)}hat-tau_P(H_P(δx)−T)k_P(δx,δx)`. The central sum belongs to the kernel on the `Ξ_G` quotient; its restriction to a fixed-degree diagonal uses the same kernel. All counting identities of §§6.21–6.24 use this specified test. Set `J_e^T=∫_{G(F)\G(A)^e} k^T(x,x) dx` and `J_e=J_e^0`, with convergence proved separately.
+Define `fixed_degree_trace` as follows. Under convention `Y` fix `K=∏_vGL_n(𝒪_v)`, `vol K=1` and the identity-Hecke test `f=1_K`. For `P=M_PN_P` set `k_P(x,y)=Σ_{a∈Ξ_G}Σ_{γ∈M_P(F)}∫_{N_P(𝔸)}1_K(y⁻¹γu x a)du`, with `vol(N_P(F)\N_P(𝔸))=1`. Form `k^T(x,x)=Σ_P(−1)^{dim 𝔞_P^G}Σ_{δ∈P(F)\G(F)}hat-tau_P(H_P(δx)−T)k_P(δx,δx)`. The central sum belongs to the kernel on the `Ξ_G` quotient; its restriction to a fixed-degree diagonal uses the same kernel. The group counting identities of §§6.21–6.24 use this specified test; the Lie kernels use the divisor tests of §6.22b. Set `J_e^T=∫_{G(F)\G(A)^e} k^T(x,x) dx` and `J_e=J_e^0`, with convergence proved separately.
 
 Prove the following API statements.
 - `parabolicKernel`: assemble rational sums and unipotent integration
@@ -3219,26 +3219,42 @@ Transport integration of right-`K`-invariant functions on a degree fibre to `Σ_
 
 ### 6.22b Higgs pairs and invariant flags
 
-Construct `higgs_flag_dictionary`. For a divisor `D` on `X`, a `D`-Higgs pair is a bundle `E` with an `𝒪_X`-linear map `θ:E→E(D)`. Morphisms commute with `θ`, and saturated flags are `θ`-invariant when every flag subbundle is preserved. Via §6.22a identify these pairs with rational Lie-algebra elements satisfying `g⁻¹θg∈∏_vϖ_v^(−D_v)𝔤(𝒪_v)`; identify the parabolic kernel fibres with `θ`-invariant flags and transport their automorphism groups. At `D=0`, all characteristic-polynomial coefficients lie in `H⁰(X,𝒪_X)=𝔽_q`; invertible pairs give the automorphism fibres of the identity-Hecke group kernel. At `D=K_can`, identify `𝒪_X(D)` with `ω_X` and retain the choice's transport invariance.
+Construct `higgs_flag_dictionary` under convention `Y`. For a divisor `D` on `X`, a `D`-Higgs pair is a bundle `E` with an `𝒪_X`-linear map `θ:E→E(D)`. Morphisms commute with `θ`, and saturated flags are `θ`-invariant when every flag subbundle is preserved. Via §6.22a identify these pairs with rational Lie-algebra elements satisfying `g⁻¹θg∈∏_vϖ_v^(−D_v)𝔤(𝒪_v)`.
 
-The API constructs the pair groupoid, direct sums, scalar shifts at `D=0`, invariant subquotients, characteristic polynomials and the weighted group/Lie fibre comparison.
+For `g∈G(𝔸_F)`, `P=M_PN_P` and `h_D=1_{∏_vϖ_v^(−D_v)𝔤(𝒪_v)}`, construct two distinct parabolic kernels:
+
+```text
+K_{P,D}(g) = Σ_{Y∈𝔭(F)} h_D(g⁻¹Yg),
+k_{P,D}(g) = Σ_{Y∈𝔪_P(F)} ∫_{𝔫_P(𝔸_F)} h_D(g⁻¹(Y+U)g) dU.
+```
+
+The rational kernel `K_{P,D}` counts Higgs fields preserving the saturated flag corresponding to `P`; `K_{P,D}(δg)` counts those preserving the flag of `δ∈P(F)\G(F)`. Transport the pair and flag stabilizers through this dictionary. The integral Arthur kernel `k_{P,D}` uses additive Haar with `vol(𝔫_P(F)\𝔫_P(𝔸_F))=1`, as the Lie analogue of §6.21. Both kernels are right-`K`-invariant; the rational kernel is left-`P(F)`-invariant, whereas the integral kernel is left-`M_P(F)N_P(𝔸_F)`-invariant. A line-bundle lattice contributes `q^{h⁰}` to the rational count and volume `q^χ=q^{h⁰−h¹}` to the integral. Their comparison therefore requires the restricted results in §§6.22c and 6.24.
+
+For `a∈𝒜_D(𝔽_q)`, where `𝒜_D=⊕_{i=1}^n H⁰(X,𝒪_X(iD))`, define `K_{P,D,a}` and `k_{P,D,a}` by imposing characteristic polynomial `a` on the rational summation variable in each formula. Adding `U∈𝔫_P` preserves the characteristic polynomial of the Levi variable. Form `K_D^T` and `k_D^T`, and their `a`-refinements, by the same alternating parabolic sum and cone indicators as §6.21. Only the rational kernels have literal flag-counting fibres. Integration on `G(F)\G(𝔸_F)^e`, with `vol K=1`, weights a bundle by `1/|Aut(E)(𝔽_q)|`; grouping pairs or flagged pairs into orbits gives their own inverse stabilizer orders. The Lie kernels have no `Ξ_G` sum on this fixed-degree quotient.
+
+At `D=0`, all characteristic-polynomial coefficients lie in `H⁰(X,𝒪_X)=𝔽_q`; invertible rational pairs give the automorphism fibres of the identity-Hecke group test. At `D=K_can`, identify `𝒪_X(D)` with `ω_X` and retain the choice's transport invariance.
+
+The API constructs the pair groupoid, direct sums, scalar shifts at `D=0`, invariant subquotients, characteristic polynomials and the weighted rational group/Lie fibre comparison at `D=0`. Section 6.23 compares the integral distributions.
 
 **Checks.**
 
 - For `θ=α` Id at `D=0` every saturated flag is invariant and its characteristic polynomial is `(X−α)^n`.
 - For a rank-two pair with `θ` represented generically by a single nilpotent Jordan block, its unique invariant generic line is the kernel line; a non-kernel generic line cannot define an invariant saturated subbundle.
 - In rank one with `D=K_can`, there are `q^g` choices of `θ` for each degree-e line bundle, all with automorphism group `𝔽_q^×`.
+- On a genus-two curve with a rational point `P`, let `D=0`, `L=𝒪_X(P)` and `E=L⊕𝒪_X`, of rank two and degree one. Here `h⁰(L)=h¹(L)=1`, `χ(L)=0` and `h⁰(L⁻¹)=0`. Every endomorphism preserves the unique destabilizing saturated line `L`. Summing over characteristic polynomials gives `k_{G,0}=K_{G,0}=q³` and `K_{B,0}=q³`, but `k_{B,0}=q²q^{χ(L)}=q²`. Only that destabilizing Borel flag is subtracted at `T=0`, so `K_0^0=0` while `k_0^0=q²(q−1)>0`. Dividing by the finite bundle stabilizer preserves the discrepancy, despite `gcd(2,1)=1`.
 
-([Yu22], §3.2.3, pp.16–17 and Appendix B, pp.78–79; [Ch15], §§2.6–2.7 and §5.1, the bundle and truncated-kernel dictionaries.)
+([Yu22], §3.2.3, pp.16–17 and Appendix B, pp.78–79; [Ch15], §3.11, (3.11.1), p.16; §5.1, (5.1.1)–(5.1.2), p.27; §6.1, (6.1.1)–(6.1.4), p.31.)
 
-*Needs:* §6.22a; AlgebraicVectorBundles `L0B/L2B`; AlgebraicCurves Layer 12`E` (canonical sheaf and `H⁰` comparison).
+*Needs:* §6.22a; §1.10a (additive and quotient measures); AlgebraicVectorBundles `L0B/L2B`; AlgebraicCurves Layer 12`E` (canonical sheaf and `H⁰` comparison); SchemeAndStackFoundations §3.3 (Riemann–Roch).
 
 
 ### 6.22c Higgs slopes, Harder–Narasimhan flags and cone cancellation
 
-Construct `higgs_harder_narasimhan`. Define (geometric) semistability by `deg F/rank F≤deg E/n` for every nonzero proper `θ`-invariant saturated subbundle after base change, and stability by strict inequality. Prove existence and uniqueness of the `θ`-invariant Harder–Narasimhan filtration with semistable quotients and strictly decreasing slopes, its descent and base-change compatibility, and finiteness of the slope/flag data entering each truncated fibre. Prove that semistability implies stability when `gcd(e,n)=1`.
+Construct `higgs_harder_narasimhan`. Define (geometric) semistability by `deg F/rank F≤deg E/n` for every nonzero proper `θ`-invariant saturated subbundle after base change, and stability by strict inequality. Prove existence and uniqueness of the `θ`-invariant Harder–Narasimhan filtration with semistable quotients and strictly decreasing slopes, its descent and base-change compatibility, and finiteness of the slope/flag data entering each truncated fibre. Prove `Hom_Higgs(A,B)=0` when the smallest Higgs slope of `A` exceeds the largest of `B`. Prove that semistability implies stability when `gcd(e,n)=1`.
 
-Prove the flag form of Arthur's alternating cone identity: for each pair and its invariant flags, the `T=0` alternating sum of the truncation indicators equals one for semistable pairs and zero for unstable pairs. Transport this cancellation through the parabolic/unipotent integrations of §6.22b with each flag stabilizer retained. This is a pointwise flag identity; equality of integrated masses uses the absolute convergence and quasipolynomial continuation of §6.22. It applies at the canonical divisor without requiring `deg D>2g−2`.
+For `T=(T_1,…,T_n)` in the closed positive chamber, define `T`-semistability by `deg F/rank F−(T_1+⋯+T_r)/r≤e/n−(T_1+⋯+T_n)/n` for every invariant saturated subbundle of rank `r`. Prove the flag form of Arthur's alternating cone identity on the rational kernels: `K_D^T(g)` counts precisely the `θ∈Hom(E_g,E_g(D))` giving `T`-semistable pairs. At `T=0`, each pair's alternating invariant-flag sum is one for semistable pairs and zero for unstable pairs. With the stabilizers of §6.22a, integrating this rational count gives the finite mass `M_D^e(T)=Σ_{[(E,θ)] T-semistable}1/|Aut(E,θ)(𝔽_q)|`. Prove finiteness of this mass by boundedness of the underlying bundles for fixed `D,n,e,T`. This rational identity holds for every divisor, including `K_can`; the canonical integrated comparison is a separate assertion of §6.24.
+
+Prove the restricted deep-chamber comparison for every divisor `D`: if every `T_i−T_{i+1}>max(0,deg D,2g−2,2g−2−deg D)`, then `k_D^T(g)=K_D^T(g)=F^G(g,T)|Hom(E_g,E_g(D))|`, where `F^G(g,T)` is the indicator that the underlying bundle is `T`-semistable. Prove also its characteristic-polynomial refinement. Establish the underlying-bundle cohomology vanishing and splitting under this bound before the comparison, using Serre duality and Harder–Narasimhan slope bounds. This is an equality of the full alternating truncated kernels in the stated chamber; it does not identify individual parabolic fibres or assert the equality at `T=0` for every divisor.
 
 **Checks.**
 
@@ -3246,18 +3262,18 @@ Prove the flag form of Arthur's alternating cone identity: for each pair and its
 - On `ℙ¹`, `(𝒪(1)⊕𝒪(−1),0)` is unstable with a unique destabilizing first step; its full alternating cone sum is zero, although its untruncated positive contribution is nonzero.
 - At rank two, degree zero, `θ=0` on `𝒪⊕𝒪` has equal-slope invariant lines and is semistable but not stable; `gcd(e,n)=1` cannot be omitted from the stable-mass consumer.
 
-([Ch15], §4.1 for `T`-semistability and §5.1, Proposition 5.1.1, the flag/cone kernel identity; the canonical-boundary application is [Yu22], Appendix B, p.79.)
+([Ch15], Theorem 3.9.1, p.13; Lemma 3.10.1 and (3.10.1)–(3.10.2), pp.15–16; §4.1, (4.1.1)–(4.1.3), pp.17–18; Lemmas 4.2.1–4.2.3, pp.18–20; Proposition 5.1.1 and (5.1.4), pp.27–28; Theorem 6.1.1(2), p.31.)
 
-*Needs:* §6.22a; §6.22b; §3.1 (Arthur cone identities); §6.22 for the integrated comparison.
+*Needs:* §6.22a; §6.22b; §3.1 (Arthur cone identities); §1.10a (reduction and quotient integration); SchemeAndStackFoundations §3.3 (Serre duality and Ext–Hom comparison).
 
 
 ### 6.23 Characteristic-polynomial refinements of the group and Lie kernels
 
-Define `charpoly_kernel_refinement` as follows. For the identity-Hecke group kernel of §6.21 and the Lie test `h_0=1_{𝔤(𝒪)}`, for monic `p∈Fq[X]` of degree `n` restrict the large-`T` kernels to matrices/endormorphisms with characteristic polynomial `p` and extend their integrals quasipolynomially. If `p(0)≠0`, `End(E)` and `Aut(E)` fibres coincide; hence `J_e=Σ_{p(0)≠0} tildeJ_p,e`.
+Define `charpoly_kernel_refinement` as follows. For the identity-Hecke group kernel of §6.21 and the integral Lie kernel `k_{P,0,p}` of §6.22b, for monic `p∈Fq[X]` of degree `n` restrict the kernels to characteristic polynomial `p` and extend their integrals quasipolynomially. For `T` sufficiently deep as in [Ch15], (5.1.4), the refined truncated integral Lie kernel equals its rational counterpart and the characteristic-polynomial count on underlying `T`-semistable bundles. On these bundles `p(0)≠0` identifies the endomorphism and automorphism fibres. Comparing also with the deep-chamber group kernel and then using quasipolynomial uniqueness gives `J_e=Σ_{p(0)≠0} tildeJ_p,e`. Here `tildeJ` denotes the integral Lie distribution, not an unrestricted pointwise rational flag count.
 
 Prove the following API statements.
 - `charpolyFibre`: restrict kernel sums to a monic degree-n polynomial
-- `lieKernel`: replace automorphisms by all endomorphisms
+- `lieKernel`: form the integral Lie kernel and its deep-chamber endomorphism count
 - `continueInT`: extend each truncated integral quasipolynomially
 
 **Checks.**
@@ -3265,16 +3281,20 @@ Prove the following API statements.
 - For `n>0`, the zero matrix belongs to the `X^n` fibre, is not invertible, and does not belong to the `(X−1)^n` fibre.
 - For `A` in the `p` characteristic-polynomial fibre, `A` is invertible iff `p` has nonzero constant term; on a bundle use the corresponding global Cayley–Hamilton inverse.
 
-([Yu22], Appendix B, pp.78–79.)
+([Yu22], Appendix B, pp.78–79; [Ch15], Theorem 6.1.1(2)–(4), pp.31–32.)
 
-*Needs:* §6.21; §6.22; §6.22a; §6.22b; §1.10a (function-field adeles, heights and measures); §3.18.
+*Needs:* §6.21; §6.22; §6.22a; §6.22b; §6.22c (restricted deep-chamber comparison); §1.10a (function-field adeles, heights and measures); §3.18.
 
 
 ### 6.24 Coprime scalar-nilpotent vanishing and the Fourier comparison
 
 Prove `coprime_nilpotent_vanishing`. Let `X_1` be a smooth projective geometrically connected curve of genus `g` over `F_q`, `n≥1` and `gcd(n,e)=1`. At divisor `D=0` with the Lie test `h_0` of §6.23, for monic `p∈F_q[X]` of degree `n`, the `T=0` value `J̃_{p,e}` of the Lie-algebra quasi-polynomial vanishes unless `p=(X−α)^n` with `α∈F_q`; in that case translation by `α` gives `J̃_{p,e}=J̃_{nilp,e}`. ([Ch15], Theorem 6.2.1, pp.32–33.)
 
-Prove `higgs_fourier_comparison` with the quotient measures of §1.10a and a canonical divisor `K_can`. For each divisor `D` use `h_D=∏_v1_{ϖ_v^(−D_v)𝔤(𝒪_v)}`, construct its truncated Lie kernel, and prove absolute convergence and quasipolynomial dependence on `T` by extending §6.22's estimates to these divisor tests. Write `J_K` for the divisor `K_can` test, keeping `K` for the compact subgroup in §6.21. Consume SchemeAndStackFoundations §3.3's vector-bundle degree, Riemann–Roch and Serre duality. Apply them to `End(E)(D)`, of `rank n²` and degree `n² deg D`, using the perfect trace pairing `End(E)^∨≅End(E)`. They give `|Hom(E,E(D))|=q^{n²(1−g+deg D)}|Hom(E,E(K_can−D))|`. The bundle dictionary and deep-chamber kernel comparison transport this equality to the truncated integrals; their quasipolynomial continuation gives it for every `T` and `e`. At `D=0` this yields `Σ_p J̃^T_{p,e}=J^{T,e}_0=q^{n²(1−g)}J^{T,e}_K`. This proof requires no coprimality and uses the quotient-volume conversion of §1.10a. ([Ch15], §§5.1–5.2, Corollary 5.1.2 and Theorem 5.2.1, pp.28–29; Corollary 5.2.3 and its Riemann–Roch/Serre-duality proof, p.30.)
+Prove `higgs_fourier_comparison` with the quotient measures of §1.10a and a canonical divisor `K_can`. For every divisor `D` use the integral kernel `k_D^T` of §6.22b, prove absolute convergence of `J_D^{T,e}=∫_{G(F)\G(𝔸_F)^e}k_D^T(g)dg`, and prove its quasipolynomial dependence on lattice `T` by extending §6.22's estimates to these divisor tests. Write `J_K` for the divisor `K_can` test, keeping `K` for the compact subgroup in §6.21.
+
+Consume SchemeAndStackFoundations §3.3's vector-bundle degree, Riemann–Roch and Serre duality. Apply them to `End(E)(D)`, of `rank n²` and degree `n² deg D`, using the perfect trace pairing `End(E)^∨≅End(E)`. They give `|Hom(E,E(D))|=q^{n²(1−g+deg D)}|Hom(E,E(K_can−D))|`. Section 6.22c's restricted comparison applies to both divisor tests at the same deep `T`, so this equality gives the corresponding equality of integral kernels there. Quasipolynomial uniqueness for the integrated Arthur kernels gives `J_D^{T,e}=q^{n²(1−g+deg D)}J_{K_can−D}^{T,e}` for every lattice `T` and `e`. At `D=0` this yields `Σ_p J̃^T_{p,e}=J^{T,e}_0=q^{n²(1−g)}J^{T,e}_K`, without coprimality. Track the quotient-volume conversion of §1.10a. ([Ch15], Proposition 5.1.1 and (5.1.4), pp.27–28; Corollary 5.1.2 and Theorem 5.2.1, pp.28–29; Corollary 5.2.3, p.30; Theorem 6.1.1(2), p.31.)
+
+Keep the strict large-degree counting theorem separate: for `deg D>2g−2`, prove `M_D^e(T)=J_D^{T,e}` on the closed chamber lattice by the Higgs Harder–Narasimhan stratum masses, quasipolynomiality of the rational counting function, and agreement in the deep chamber. This is [Ch15], Corollaries 4.5.6 and 5.2.2, pp.26 and 30. Its degree hypothesis excludes the canonical boundary.
 
 **Checks of the divisor comparison.**
 
@@ -3282,7 +3302,22 @@ Prove `higgs_fourier_comparison` with the quotient measures of §1.10a and a can
 - In genus one with `K_can=0` and `D=0`, the factor is one and the two tests coincide, for every rank and degree, including noncoprime data.
 - Applying `D↦K_can−D` twice gives reciprocal factors, since `deg K_can=2g−2`; their product is one.
 
-Prove the separate canonical-boundary target `canonical_higgs_mass`: under the coprime hypotheses above, `J^{0,e}_K` equals `Σ_{[(E,θ)]}1/|Aut(E,θ)(F_q)|` for geometrically stable Higgs bundles `θ:E→E⊗ω` of `rank n` and degree `e`. Semistability equals stability because `gcd(n,e)=1`. Derive this comparison by identifying the truncated kernel with `θ`-invariant flags and applying the Arthur cone identity at `T=0`: unstable Higgs bundles cancel, and stable ones have no proper slope-equality flag. Keep the finite stabilizer weights in the adelic bundle dictionary. Chaudouard's Corollary 5.2.2, p.30 assumes `deg D>2g−2`; it cannot supply this equality at `deg K=2g−2` without this additional argument. The canonical case and resulting counting relation are stated in [Yu22], Appendix B, p.79.
+Prove the separate canonical-boundary target `canonical_higgs_mass`: for `n≥1` and `gcd(n,e)=1`, prove `J_K^{T,e}=M_K^e(T)` on the closed chamber lattice, giving geometrically stable canonical Higgs mass at `T=0`. Its construction includes the following cohomological bridge. For canonical Higgs pairs `A,B`, construct the two-term sheaf complex `C(B,A)=[𝒣om(B,A)→𝒣om(B,A)⊗ω_X]` in degrees zero and one, with differential `f↦θ_A f−(f⊗1)θ_B`. Identify its hypercohomology in degrees zero and one with Higgs morphisms and extensions, including the extension groupoid with the endpoints fixed. Using SchemeAndStackFoundations §3.3, prove `H²(C(B,A))≅Hom_Higgs(A,B)^∨`. If `μ_min(A)>μ_max(B)`, §6.22c makes this obstruction space zero. Riemann–Roch gives `χ(C(B,A))=−rank(A)rank(B)(2g−2)`, so the extension groupoid has mass `|H¹(C)|/|H⁰(C)|=q^{rank(A)rank(B)(2g−2)}`. This controls the full Higgs extension groupoid, including its automorphisms; it does not require vanishing of the underlying bundle's `H¹`.
+
+Iterating along the strictly decreasing Higgs Harder–Narasimhan slopes proves that the stratum with ranks `n_i` and degrees `e_i` has mass `q^{(g−1)(n²−Σ_i n_i²)}∏_i m_{n_i,e_i}`, where `m_{r,d}` is the semistable canonical Higgs mass in rank `r` and degree `d`. Use the degree-surjectivity and divisor/Picard comparison supplied through AutomorphicLFunctionsAndLocalFactors AL.3, `curve-additive-analysis`, to choose a degree-one line bundle; twisting gives `m_{r,d+r}=m_{r,d}`. Express the actual rational counting function as
+
+```text
+M_K^e(T) = Σ_{(n_i), Σ_i n_i=n} q^{(g−1)(n²−Σ_i n_i²)}
+             Σ_{(e_i), Σ_i e_i=e} Γ_{(n_i)}((e_i),T) ∏_i m_{n_i,e_i}.
+```
+
+Here the positive `n_i` form an ordered composition, and §3.17a's `Γ` imposes the strict slope order and the `T`-bound on the Harder–Narasimhan polygon. For each fixed `T` these degree sums are finite. Degree periodicity and §3.18 now prove quasipolynomiality of `M_K^e(T)` itself. The deep-chamber comparison above identifies it with `J_K^{T,e}` there, and §3.18 extends equality of these two quasipolynomials to `T=0`. Thus the integral Arthur expression equals the semistable canonical mass after integration, without a pointwise identification of the parabolic kernels at `T=0`. Under `gcd(n,e)=1`, §6.22c identifies this mass with `Σ_{[(E,θ)]}1/|Aut(E,θ)(F_q)|` for geometrically stable canonical Higgs bundles. ([Ch15], Lemma 3.9.4 and its Serre-duality proof, pp.14–15; the stratum argument in Proposition 3.9.2, pp.13–14; Proposition 4.5.5 and the proof of Corollary 4.5.6, pp.25–26, with the canonical obstruction vanishing just specified; Proposition 5.1.1, p.27. The coprime canonical endpoint is [Yu22], Appendix B, p.79.)
+
+**Checks of the canonical bridge.**
+
+- In the genus-two example of §6.22b, take `A=(𝒪_X(P),0)` and `B=(𝒪_X,0)` with canonical twist. The differential is zero, `dim H⁰(C)=1`, `dim H¹(C)=3` and `H²(C)=0`, giving extension mass `q²`, although `H¹(X,𝒪_X(P))` is nonzero.
+- For equal-slope `A=B=(𝒪_X,0)` with canonical twist, `dim H²(C)=1`. The extension mass is `q^{2g−1}`, rather than `q^{2g−2}`; the strict slope separation cannot be omitted.
+- In rank one, there are no proper Harder–Narasimhan strata and `Γ_{(1)}=1`. The counting function is constant in `T`, and the rational and integral whole-group kernels coincide, giving `J_K^{0,e}=|Pic^e(X_1)(F_q)|q^g/(q−1)`.
 
 Combine these targets with `charpoly_kernel_refinement` to obtain
 
@@ -3298,7 +3333,7 @@ J_e = (q−1)J̃_{nilp,e}
 - Scalar translation gives exactly `q` distinct characteristic-polynomial fibres `(X−α)^n`; dropping the zero scalar leaves `q−1` and belongs to the group kernel rather than the unrestricted Lie-algebra kernel.
 - At rank two and degree zero, equal-slope summands can occur. This fails the coprimality hypothesis, so neither `semistable=stable` nor the stable-mass comparison is asserted by this target.
 
-*Needs:* §6.22; §6.23; §6.22a; §6.22b; §6.22c; §1.10a (quotient measures and volume conversion); SchemeAndStackFoundations §3.3 (vector-bundle degree, Riemann–Roch, Serre duality and Ext–Hom comparison).
+*Needs:* §6.22; §6.23; §6.22a; §6.22b; §6.22c; §§3.17a–3.18 (polygon cutoffs and lattice quasipolynomials); §1.10a (quotient measures and volume conversion); AutomorphicLFunctionsAndLocalFactors AL.3, `curve-additive-analysis` (degree-surjectivity and divisor/Picard comparison); SchemeAndStackFoundations §3.3 (vector-bundle degree, Riemann–Roch, Serre duality and Ext–Hom comparison).
 
 
 ### 6.25 Weyl permutations and fixed Levis

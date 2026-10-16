@@ -598,6 +598,20 @@ fixed_degree_trace, charpoly_kernel_refinement, weyl_fixed_levi, torus_pairing,
 multiplicative_gm_family, finite_fibre_trace, root_basis_identity, root_coordinate_haar,
 root_product_derivative.
 
+The higgs_flag_dictionary constructs separate rational flag-counting and integral Arthur
+kernels, with characteristic-polynomial refinements and the fixed-degree quotient measures.
+The higgs_harder_narasimhan cone cancellation counts T-semistable pairs through the rational
+kernel, and its restricted comparison identifies the truncated rational and integral kernels
+under the explicit deep-chamber bound. The higgs_fourier_comparison supplies divisor duality
+for the integrated Arthur distributions. The canonical_higgs_mass construction uses Serre duality
+on the two-term Higgs extension complex: strict Higgs slope separation kills its degree-two
+obstruction. The resulting Harder-Narasimhan stratum masses prove quasipolynomiality of the
+separate canonical counting function, which agrees with the Arthur integral in the deep chamber
+and hence at T = 0.
+It gives stable canonical Higgs mass when rank and degree are coprime.
+At genus two, divisor zero and E = O(P) ⊕ O, the rational truncated kernel is zero while the
+integral kernel is q²(q - 1); this distinguishes the two constructions even in coprime degree.
+
 The normalized V* family and continued W, Green and modular Eisenstein kernels are
 separate continuation targets. The measurable Hilbert fields, direct integrals, decomposable
 operators, bounded diagonal models and complex trace are supplied by VonNeumannAlgebras V4
