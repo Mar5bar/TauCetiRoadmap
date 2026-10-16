@@ -26,7 +26,7 @@ normalization for complex area measure is `Complex.volume_preserving_equiv_real_
 namespace TauCetiRoadmap.GlobalHolomorphicFunctions
 
 open Filter Set Topology MeasureTheory
-open scoped ContDiff
+open scoped ContDiff Manifold
 
 /-- A compact subset has no complementary component relatively compact in the domain.
 Use Mathlib's actual connected components; all closures are in the ambient plane. -/
@@ -277,6 +277,90 @@ theorem exists_smooth_barDerivative_eq {Ω : Set ℂ} (hΩ : IsOpen Ω)
     (f : ℂ → ℂ) (hf : ContDiffOn ℝ ∞ f Ω) :
     ∃ u : ℂ → ℂ, ContDiffOn ℝ ∞ u Ω ∧
       ∀ z ∈ Ω, barDerivative u z = f z := by
+  sorry
+
+
+/-- Holomorphic functions on an open complex subtype, using Mathlib's analytic map bundle. -/
+abbrev HolomorphicMapSpace (U : TopologicalSpace.Opens ℂ) :=
+  ContMDiffMap (modelWithCornersSelf ℂ ℂ) (modelWithCornersSelf ℂ ℂ) U ℂ ω
+
+/-- The underlying continuous map of a native analytic map. -/
+noncomputable def HolomorphicMapSpace.toContinuousMap (U : TopologicalSpace.Opens ℂ)
+    (f : HolomorphicMapSpace U) : C(U, ℂ) :=
+  (f : C(U, ℂ))
+
+theorem HolomorphicMapSpace.toContinuousMap_injective (U : TopologicalSpace.Opens ℂ) :
+    Function.Injective (HolomorphicMapSpace.toContinuousMap U) := by
+  intro f g h
+  apply ContMDiffMap.coe_injective
+  exact congrArg ContinuousMap.toFun h
+
+namespace HolomorphicMapTopology
+
+noncomputable section
+
+scoped instance openSubtypeLocallyCompact (U : TopologicalSpace.Opens ℂ) :
+    LocallyCompactSpace U := U.isOpen.locallyCompactSpace
+
+scoped instance compactConvergenceUniformity (U : TopologicalSpace.Opens ℂ) :
+    UniformSpace (HolomorphicMapSpace U) :=
+  UniformSpace.comap (HolomorphicMapSpace.toContinuousMap U) inferInstance
+
+end
+end HolomorphicMapTopology
+
+open scoped HolomorphicMapTopology
+
+theorem HolomorphicMapSpace.tendsto_iff_tendstoLocallyUniformly
+    (U : TopologicalSpace.Opens ℂ)
+    {ι : Type*} {p : Filter ι} {F : ι → HolomorphicMapSpace U} {f : HolomorphicMapSpace U} :
+    Tendsto F p (𝓝 f) ↔
+      TendstoLocallyUniformly (fun i x => F i x) f p := by
+  letI := HolomorphicMapTopology.compactConvergenceUniformity U
+  simp only [nhds_induced, Filter.tendsto_comap_iff]
+  exact ContinuousMap.tendsto_iff_tendstoLocallyUniformly
+
+/-- Compatibility with the native pointwise algebra structures. -/
+theorem HolomorphicMapSpace.toContinuousMap_mul (U : TopologicalSpace.Opens ℂ)
+    (f g : HolomorphicMapSpace U) :
+    HolomorphicMapSpace.toContinuousMap U (f * g) =
+      HolomorphicMapSpace.toContinuousMap U f * HolomorphicMapSpace.toContinuousMap U g := rfl
+
+/-- A total ambient representative; no continuity outside the open domain is asserted. -/
+noncomputable def ambientRepresentative (U : TopologicalSpace.Opens ℂ) (f : C(U, ℂ)) :
+    ℂ → ℂ :=
+  Function.extend Subtype.val f 0
+
+/-- **GH0.** The analytic-map bundle realizes exactly the ambient holomorphic predicate.
+The comparison is an interface target; it is not assumed in the carrier definition. -/
+theorem range_holomorphicMapSpace_toContinuousMap (U : TopologicalSpace.Opens ℂ) :
+    Set.range (HolomorphicMapSpace.toContinuousMap U) =
+      {f : C(U, ℂ) | DifferentiableOn ℂ (ambientRepresentative U f) (U : Set ℂ)} := by
+  sorry
+
+/-- **GH0.** Holomorphic maps have closed image in native compact convergence. -/
+theorem isClosed_range_holomorphicMapSpace_toContinuousMap (U : TopologicalSpace.Opens ℂ) :
+    IsClosed (Set.range (HolomorphicMapSpace.toContinuousMap U)) := by
+  sorry
+
+/-- **GH1.** One holomorphic function fails to extend across every boundary point.
+Agreement is required on the whole overlap with the boundary-centered ball. -/
+theorem exists_holomorphic_no_boundary_ball_extension {Ω : Set ℂ} (hΩ : IsOpen Ω) :
+    ∃ f : ℂ → ℂ, DifferentiableOn ℂ f Ω ∧
+      ∀ a ∈ frontier Ω, ∀ r : ℝ, 0 < r →
+        ¬ ∃ F : ℂ → ℂ, DifferentiableOn ℂ F (Metric.ball a r) ∧
+          EqOn F f (Metric.ball a r ∩ Ω) := by
+  sorry
+
+/-- **GH1.** Strong branchwise meromorphic noncontinuation on an arbitrary open set.
+The shell-cover zero construction supplies accumulation inside every local branch. -/
+theorem exists_holomorphic_no_meromorphic_boundary_germ {Ω : Set ℂ} (hΩ : IsOpen Ω) :
+    ∃ f : ℂ → ℂ, DifferentiableOn ℂ f Ω ∧
+      ∀ ξ ∈ frontier Ω, ∀ r : ℝ, 0 < r →
+        ∀ z ∈ Metric.ball ξ r ∩ Ω,
+          ξ ∈ closure (connectedComponentIn (Metric.ball ξ r ∩ Ω) z) →
+          ¬ ∃ F : ℂ → ℂ, MeromorphicOn F (Metric.ball ξ r) ∧
+            EqOn F f (connectedComponentIn (Metric.ball ξ r ∩ Ω) z) := by
   sorry
 
 end TauCetiRoadmap.GlobalHolomorphicFunctions

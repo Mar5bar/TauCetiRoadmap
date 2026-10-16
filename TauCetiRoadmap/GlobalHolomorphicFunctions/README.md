@@ -259,6 +259,39 @@ the finite-product rule with their exact derivative and nonvanishing hypotheses.
 series of principal parts receives no value from a paired-product identity.
 
 
+#### Uniform-tail product criterion
+
+For an arbitrary set X and functions `u_n : X → ℂ`, assume each u_n is bounded on X,
+each series `Σ_n |u_n(x)|` converges, and these series have uniformly vanishing tails on X:
+for every ε>0 there is N such
+that `Σ_(n≥N) |u_n(x)|<ε` for every x∈X. Prove uniform convergence of the sequential
+partial products `P_N(x)=∏_(n<N)(1+u_n(x))`, and that the limit vanishes at x exactly when
+one factor vanishes. State empty-X and finite-factor cases. This criterion does not require
+summability of `Σ_n sup_X |u_n|`. Identify the limit with the native pointwise
+`∏' n, (1+u_n(x))` and prove `HasProdUniformlyOn` on X through the unordered
+finite-subset filter, as well as convergence of the displayed sequential products.
+
+Use boundedness of the finite head and a uniformly small absolute tail to obtain one bound
+C for the full absolute sums. Finite product estimates give
+`|P_M−P_N|≤exp(C)(exp(ε)−1)` uniformly once the tail is below ε. The relative estimate
+`|P_M−P_N|≤|P_N|(exp(ε)−1)` gives a nonzero tail and the zero criterion. Reuse
+`Finset.norm_prod_one_add_sub_one_le`, `multipliable_one_add_of_summable`, and
+`tprod_one_add_ne_zero_of_summable` from `Analysis/SpecialFunctions/Log/Summable.lean`
+for the finite estimate and pointwise product and nonvanishing conclusions; the new
+interface supplies the uniform tail control.
+For holomorphic u_n on open Ω, assume pointwise absolute summability and uniformly
+vanishing absolute tails on every compact K⊆Ω. Apply the
+criterion on compact neighborhoods, then use native local-uniform holomorphic closure.
+Prove both the sequential partial-product conclusion and the unordered finite-subset-filter
+conclusion `HasProdLocallyUniformlyOn`; the same absolute-tail estimate controls all omitted
+finite subsets, so reordering does not change the limit. Prove the order identity
+`analyticOrderAt F z = ∑' n, analyticOrderAt (fun w => 1+u_n w) z` in `ℕ∞` for z∈Ω,
+including infinite order when a factor has zero germ. A sufficiently small uniform absolute
+tail is a unit on a compact disk, leaving only finitely many factors carrying nonzero order.
+When no factor vanishes identically on the component, these orders are finite and the
+identity is a finite sum. Use native analytic order and its factorization characterization.
+The stronger compact-sup-summability criterion is also a useful sufficient condition.
+
 <a id="gh0-runge"></a>
 ### GH0. Plane domains, compact hulls, and Runge approximation
 
@@ -278,6 +311,121 @@ set with each `K_n` compact and Runge in `Ω`, `K_n ⊆ int K_{n+1}`, and every 
 distance from the domain complement, and fill relatively compact complementary
 components; prove compactness, nesting into interiors, and exhaustion.
 
+<a id="gh0-holomorphic-function-space"></a>
+#### Holomorphic functions with compact-open convergence
+
+For an open set `U : TopologicalSpace.Opens ℂ`, use Mathlib's native bundled analytic maps
+`H(U) = ContMDiffMap (modelWithCornersSelf ℂ ℂ) (modelWithCornersSelf ℂ ℂ) U ℂ ω`
+([native analytic-map bundle](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Geometry/Manifold/ContMDiffMap.lean)).
+The complex charted-space and analytic-manifold structures on U are the native restrictions
+of those on ℂ. The order is analytic `ω`. Equality is equality of functions on U.
+
+Send such a map to its underlying native continuous map `ι : H(U) → C(U,ℂ)` and prove
+injectivity. Equip H(U) with the uniformity induced by ι from native compact convergence on
+`C(U,ℂ)`; its topology is compact-open. Install this as a scoped instance in the
+function-space namespace, opened explicitly by consumers: the reducible analytic-map alias
+must not install a global uniformity on all native `ContMDiffMap` users. Prove the precise range comparison:
+`g ∈ range ι` iff the ambient representative
+`g₀(z) = if hz : z∈U then g ⟨z,hz⟩ else 0` satisfies `DifferentiableOn ℂ g₀ U`.
+Use the restricted complex charts, complex analyticity versus differentiability on open sets,
+and agreement of representatives on U. Values outside U do not affect this condition.
+Identify ι with a uniform embedding onto this closed subspace. This comparison connects
+the manifold-map bundle with the existing ambient `DifferentiableOn` API; it is not an
+additional definition of holomorphicity.
+
+Use Mathlib’s native compact-convergence infrastructure:
+`CompactExhaustion.hasAntitoneBasis_compactConvergenceUniformity` gives an entourage basis;
+its countable-generation instance on a locally compact σ-compact source supplies
+metrizability; and `ContinuousMap.tendsto_iff_tendstoLocallyUniformly` identifies convergence.
+Construct the following explicit complete comparison metric for that same uniformity,
+retaining it definitionally with `MetricSpace.replaceUniformity`. Scope the resulting
+metric instance in the same `HolomorphicMapTopology` namespace as the induced uniformity;
+keep the comparison distance on `C(U,ℂ)` as an explicit definition, without installing
+a competing global metric instance on that native carrier. Use the elementary exhaustion,
+for integers n≥1 and Ω the underlying set of U,
+
+`K_n = {z : ℂ | ‖z‖ ≤ n ∧ Metric.infEDist z Ωᶜ ≥ ENNReal.ofReal (1/n)}`.
+
+Prove compactness, `K_n ⊆ int K_(n+1)`, and cofinality among compact subsets of Ω.
+For Ω=ℂ the extended distance to its empty complement is ∞; only the radius cutoff remains.
+For Ω=∅ every K_n is empty and H(U) has one element. The metric construction uses no Runge
+theorem and no normal-family theorem. Any cofinal nested compact exhaustion gives the same
+uniformity, by the native compact-exhaustion basis theorem.
+
+For continuous maps f,g on U put `s_n(f,g)=sup_(z∈K_n) |f(z)−g(z)|`, with value zero for
+empty K_n, and define
+
+`d_C(f,g)=Σ_(n≥1) 2^(−n) s_n(f,g)/(1+s_n(f,g))`.
+
+Prove it is a metric on `C(U,ℂ)`, and restrict it through ι to d on H(U). Bound each term by
+`2^(−n)`; use monotonicity and subadditivity of `t/(1+t)` for the triangle inequality and
+cofinality for separation. Also compare with the metric using `min(1,s_n)`, via
+`min(1,t)/2 ≤ t/(1+t) ≤ min(1,t)` for t≥0.
+
+Prove equality of uniformities, rather than only a statement about convergent sequences.
+A finite collection of compact-sup conditions is controlled by one K_N and the smallest
+requested tolerance ε. The inequality `d_C(f,g)<2^(−N)ε/(1+ε)` implies those conditions.
+Conversely, bound the geometric tail after N by ε/2 and the finite initial sum by ε/2 using
+finitely many compact-sup conditions. Deduce that convergence and the Cauchy property are
+exactly uniform convergence and uniform Cauchy convergence on every compact subset of U.
+Prove the representative-level equivalence with `TendstoLocallyUniformlyOn` on the open
+ambient set Ω, and independence from the exhaustion. For every compact K⊆Ω, restriction
+to native `C(K,ℂ)` is uniformly continuous, using cofinality and the same quantitative bound.
+
+For completeness, the open subtype U is locally compact Hausdorff and therefore compactly
+coherent. Native `ContinuousMap.compactConvergenceUniformSpace` and its completeness theorem
+make `C(U,ℂ)` complete. After the metric/uniformity comparison, prove that range ι is closed:
+a convergent sequence of its continuous maps yields ambient representatives converging locally
+uniformly on Ω, and `TendstoLocallyUniformlyOn.differentiableOn` preserves holomorphy there.
+Use the range comparison to lift the limit to H(U). Thus the induced metric on H(U) is
+complete. Establish the open-subtype/ambient local-uniform convergence adapter explicitly.
+
+Reuse the native complex-algebra operations and constants on `ContMDiffMap` from
+`Mathlib.Geometry.Manifold.Algebra.SmoothFunctions`; prove their continuity for the scoped
+compact-convergence topology. Provide continuous point evaluation, restriction to smaller
+open sets and compact subsets, and compatibility with the continuous-map and ambient
+holomorphic APIs. Open-set restriction uses composition with the native smooth inclusion
+(`contMDiff_inclusion`, `ContMDiffMap.comp`); reuse native restriction homomorphisms where
+their codomain structure matches. Give the derivative map
+and prove its compact-open continuity by the native locally uniform derivative theorem and
+Cauchy estimates on compact neighborhoods. These are function-space results independent of
+Montel; ConformalMapping L1 consumes this topology for its compactness criterion.
+
+
+#### Neighborhood-holomorphic restrictions on a compact set
+
+For compact K⊆ℂ, define O(K) as the complex subspace of native `C(K,ℂ)` consisting of
+restrictions of functions holomorphic on some open neighborhood of K. Neighborhoods may depend
+on the function. Prove the subspace laws by intersecting two neighborhoods, and express Runge
+approximation as density of the restriction image of H(Ω) in O(K), with its inherited sup-norm
+topology. Distinguish this space from functions merely holomorphic on the interior of K.
+
+Prove by explicit examples that O(K) need not be open or closed in C(K,ℂ). For the closed
+unit disk, small nonzero multiples of `conj z` tend to zero in norm but cannot extend
+holomorphically across the disk, so O(K) is not open. The polynomial partial sums of
+`Σ_(n≥0) z^n/(n+1)^2` converge uniformly on that disk to a continuous function. Its derivative
+along the real radius tends to infinity as r→1: use nonnegative derivative coefficients,
+their divergent sum at 1, and finite-head lower bounds as r increases to 1. A holomorphic
+extension near the closed disk would have bounded derivative near 1, a contradiction.
+Thus O(K) is not closed. These are counterexamples to a general open/closed assertion;
+for finite K, O(K)=C(K,ℂ) by polynomial interpolation, including empty K.
+
+#### Contour integration and compact-open closure
+
+For finite piecewise-C¹ curves on compact parameter intervals [a,b] with a≤b, prove the integral estimate
+`|∫_γ f−∫_γ g| ≤ sup_(trace γ)|f−g| · length(γ)` with `TauCeti.Contour`’s integral and
+`length(γ)=∫|γ′|`, under the continuity/integrability hypotheses. Treat a=b as zero length and reverse orientation
+by negation, retaining the same length bound. Derive continuity of integration
+under uniform convergence on the trace, and the finite-cycle version by summing with the
+cycle coefficients. Supply the rectangle/wedge-integral comparison to this contour API.
+Also give a disk-Morera proof of compact-open holomorphic closure: rectangle and wedge
+integrals pass to uniform limits as interval integrals, giving `IsConservativeOn`; apply
+Mathlib’s `Complex.isConservativeOn_and_continuousOn_iff_isDifferentiableOn` directly. The function-space completeness theorem can directly
+consume `TendstoLocallyUniformlyOn.differentiableOn`; the contour argument is a reusable
+proof route and continuity result, rather than a second holomorphic-limit predicate.
+
+#### Runge equivalences, pole pushing, and interpolation
+
 Prove the universal Runge equivalence: for compact K⊆Ω, the property that every
 function holomorphic on every open neighborhood U of K can be uniformly approximated
 on K by functions holomorphic on Ω holds if and only if no component of Ω\K is
@@ -292,7 +440,24 @@ the theorem. In the one-pole geometric-series step, assume `dist(a,K), dist(b,K)
 truncate its Laurent series on a neighborhood of `K`, then push the finitely many pole terms. State
 the uniform error on `K` and the finite chain hypotheses explicitly. Prove the finite-jet interpolation refinement: for a finite subset of K and
 prescribed finite jet orders, the approximants may match the given neighborhood function’s
-jets exactly while retaining arbitrary uniform approximation error on K.
+jets exactly while retaining arbitrary uniform approximation error on K. Build a finite
+Hermite interpolation polynomial P matching those jets, using the Chinese remainder theorem
+for the pairwise coprime powers `(X-a)^(m_a+1)`. Put `Q(z)=∏_a(z-a)^(m_a+1)`.
+The quotient `(f-P)/Q` extends holomorphically at the marked points by the native analytic
+order/factorization criterion. Apply scalar Runge to this extended quotient and set the
+approximant to `P+Qg`. The error on K is bounded by `sup_K|Q|` times the quotient-approximation
+error (use `max(1,sup_K|Q|)` to choose its tolerance). This preserves the jets even if K has
+empty interior or a marked point lies on its boundary, without a later neighborhood lemma.
+
+For the finite-chain pole-pushing construction on nonempty K, first choose `4δ₁<dist(w₀,K)` and
+`w∈Θ∩B(w₀,δ₁)` when Θ is a connected component of Ω∖K and w₀∈closure Θ∖Ω. Join the initial
+pole to w by a compact path in Θ, using openness and connectedness. Subdivide it with a
+positive uniform separation from K, and finish with the straight segment from w to w₀ in
+the K-free ball. Only separation from K is required of the final segment. For an unbounded
+complementary component, move the pole to a sufficiently large point w in that component
+and truncate its geometric expansion in z/w on K to obtain polynomials. This route handles
+the unbounded component even when its closure contains no finite point of ℂ∖Ω; a finite excluded endpoint
+is required only for the corresponding bounded-component construction.
 
 Use the preparatory compact-support reconstruction and uniform Riemann-sum lemma under
 their stated support hypotheses. Form finite sums of simple fractions, move poles across
@@ -412,6 +577,76 @@ product is nonzero off E; prove exact orders at E and nonvanishing of the tail p
 consume only earlier preparatory results and GH0; the later full factorization theorem
 does not supply a prerequisite to this milestone.
 
+<a id="gh1-boundary-nonextension"></a>
+#### Boundary zeros and domains of holomorphy
+
+For every open Ω construct a holomorphic f on Ω with no meromorphic continuation through
+any local boundary germ. Precisely, for every ξ∈∂Ω, disk D centered at ξ and connected component
+C of D∩Ω with ξ∈closure C, no meromorphic function on D agrees with f on C.
+
+Use a compact exhaustion `K_n⊂int K_(n+1)` with union Ω. Cover K₁ and each compact shell
+`K_n\int K_(n−1)` by finitely many open disks with closure in Ω and radii less than 1/n.
+For n≥3 choose all disks in that shell disjoint from K_(n−2); prove this is possible because
+K_(n−2) lies in the interior of K_(n−1). Choose a distinct point in each disk, avoiding the
+finitely many earlier choices. The set E of all chosen points is relatively closed discrete:
+any compact in Ω lies in some K_N and all disks from shells n≥N+2 avoid it.
+
+To verify accumulation within each local branch, fix ξ,D,C as above and choose x_j∈C tending
+to ξ. Choose a covering disk for each x_j in its earliest exhaustion shell. The shell indices
+tend to infinity because every K_N is compact inside Ω. Their radii tend to zero; eventually
+the disks lie in D, and their connectedness, containment in Ω and intersection with C put
+them wholly in C. The chosen points therefore lie in C and tend to ξ. Each fixed covering
+disk has closure inside Ω, so a subsequence uses distinct disks and hence distinct points.
+The prescribed-zero theorem supplies f with exact zero set E and no other zeros. A meromorphic extension on D would
+have zeros accumulating at its interior point ξ; remove any possible pole at ξ and apply the
+analytic identity theorem to conclude that the extension is zero. This contradicts the nonzero
+values of f on the nonempty open set C\E. Include Ω empty and boundary empty as vacuous
+boundary cases. Derive the arbitrary-disk statement for every component: if D meets Ω but is not
+contained in Ω, fix any component C of D∩Ω, choose z∈C and w∈D\Ω, and follow the segment
+from z to w. Convexity of D keeps the segment in D. Its first exit ξ from Ω lies in D∩∂Ω, and
+the initial segment stays in C. A sufficiently short tail before ξ lies in one component of a
+centered disk about ξ, still contained in C, whose closure contains ξ. Any meromorphic extension
+on D agreeing on C (or agreeing near z, by the identity theorem on C) would contradict the
+centered boundary-germ result on that local component. For an interior germ
+`g∈M(D_r(z))` agreeing with f near `z∈Ω`, if the disk were not contained in Ω, follow a segment
+from z to a point of `D_r(z)\Ω` and take its first exit. The component containing z accumulates
+at that boundary point, contradicting the centered result. Thus `D_r(z)⊆Ω`. State that the identity
+principle is applied on the connected component containing the initial agreement neighborhood.
+
+##### A simpler whole-overlap zero-set construction
+
+As an alternative explicit zero-set construction for the whole-overlap consequence,
+for every open Ω construct one holomorphic f on Ω admitting no
+holomorphic extension to any ball centered at any boundary point: for every a∈∂Ω and r>0
+there is no holomorphic F on B(a,r) agreeing with f on all of B(a,r)∩Ω. No connectedness
+assumption on Ω is needed; the ball claim is vacuous for Ω=∅ and Ω=ℂ. For nonempty Ω,
+also prove that for every connected open V strictly containing Ω
+there is no holomorphic F on V whose restriction is f. Connectedness of V is essential:
+an unrelated disjoint open component can otherwise be added. The nonempty hypothesis belongs
+to this larger-domain claim. For Ω=ℂ there is no strict larger plane domain.
+
+For nonempty proper Ω use GH1's prescribed-zero theorem with multiplicity one. Choose a countable dense sequence
+`a_j` in the nonempty boundary, allowing repetitions. For n≥1 and j≤n choose pairwise distinct
+`z_(n,j) ∈ Ω∩B(a_j,1/n) \ D_n`, using exactly the `infEDist` distance exhaustion
+[defined in GH0](#gh0-holomorphic-function-space), here renamed D_n. The intersection with
+the ball is infinite, and every point of D_n has distance at least 1/n from a_j∈Ωᶜ.
+Let E be the set of these points. Every D_m meets only finitely many levels n<m, so E is
+relatively closed and discrete in Ω. For each fixed j the chosen points converge to a_j;
+closedness then gives ∂Ω⊆closure E. The exact-zero function is not identically zero on any
+nonempty open component, since a relatively discrete set cannot contain an open subset.
+
+A ball extension would have zeros accumulating at its center and hence vanish on the whole
+ball by the identity theorem, contradicting agreement with f off E in the overlap. For a
+connected larger V, Ω is a nonempty proper relatively open subset of V, so its relative
+boundary in V is nonempty. Choose a∈∂Ω∩V; zeros from E accumulate at a inside V, so the
+identity theorem makes F vanish on V, again a contradiction. This argument uses the global
+set E; it does not require E to accumulate through every individual component of Ω.
+
+This dense-boundary construction gives an alternative direct proof of the whole-overlap
+and connected-larger-domain consequences of the stronger theorem. It does not establish accumulation through every local component; the
+shell-cover construction above supplies the stronger meromorphic branchwise theorem.
+
+
 <a id="gh2-mittag-leffler"></a>
 ### GH2. Mittag–Leffler principal parts on arbitrary plane domains
 
@@ -452,7 +687,7 @@ choice of p_n; for a fixed product and fixed f, two possible logarithms g differ
 genera and impose no finite-order hypothesis on the entire function.
 
 <a id="gh4-examples"></a>
-### GH4. Products, approximation examples, and boundary germs
+### GH4. Products, approximation, and contour examples
 
 The following formulas and examples are explicit targets with the stated convergence hypotheses.
 
@@ -600,12 +835,9 @@ boundary-pole witness on this same crescent, take `f(z)=1/(z+1)` and `z_t=-1+t` 
 `|f(z_t)|=1/t→∞`. Every polynomial remains bounded on the unit disk, hence its uniform
 error against this second witness is infinite as well.
 
-The Cauchy/Pompeiu construction uses the GH0 compact-support identity and uniform
-Riemann-sum lemma, then approximates on compact `K` by finite simple fractions with poles outside `K`, then push each pole along a finite chain whose points
-stay at least `2δ` from `K` and whose adjacent displacement is below `δ`. Truncating the geometric
-series gives uniform error because the ratio is below `1/2`; higher-order poles follow by taking
-powers and controlling compact-uniform limits. A rational pole-set theorem specifies a pole in
-every component of the complement on the sphere.
+Apply GH0’s compact-support Cauchy/Pompeiu identity, uniform Riemann-sum lemma,
+finite-chain pole-pushing and rational pole-set theorem to these approximation examples.
+Use their stated compact separation, error bounds and sphere-complement pole-set hypotheses.
 
 <a id="gh4-full-boundary-pompeiu"></a>
 #### Full-boundary Cauchy–Pompeiu formula
@@ -722,7 +954,8 @@ open `Ω`, approximate by `H(Ω)` or rational functions under GH0's actual compl
 conditions, not by complex polynomials without extra hypotheses.
 
 <a id="gh4-boundary-germs"></a>
-#### Divisors, Mittag–Leffler expansions, and boundary germs
+<a id="gh4-product-logarithmic-derivatives"></a>
+#### Product logarithmic derivatives and boundary examples
 
 For each pole family identify principal parts before summing. Cotangent poles at integers have
 residue one; the regularized series is `1/z+Σ_{n≥1}2z/(z²-n²)`. Derive this by symmetric
@@ -730,38 +963,11 @@ pairing and local-uniform convergence, not by assigning a value to an unpaired b
 The same rule applies to shifted lattices and logarithmic derivatives of products. Preserve the
 local pole exclusions and verify residues directly.
 
-For every open Ω construct a holomorphic f on Ω with no meromorphic continuation through
-any local boundary germ. Precisely, for every ξ∈∂Ω, disk D centered at ξ and connected component
-C of D∩Ω with ξ∈closure C, no meromorphic function on D agrees with f on C.
-
-Use a compact exhaustion `K_n⊂int K_(n+1)` with union Ω. Cover K₁ and each compact shell
-`K_n\int K_(n−1)` by finitely many open disks with closure in Ω and radii less than 1/n.
-For n≥3 choose all disks in that shell disjoint from K_(n−2); prove this is possible because
-K_(n−2) lies in the interior of K_(n−1). Choose a distinct point in each disk, avoiding the
-finitely many earlier choices. The set E of all chosen points is relatively closed discrete:
-any compact in Ω lies in some K_N and all disks from shells n≥N+2 avoid it.
-
-To verify accumulation within each local branch, fix ξ,D,C as above and choose x_j∈C tending
-to ξ. Choose a covering disk for each x_j in its earliest exhaustion shell. The shell indices
-tend to infinity because every K_N is compact inside Ω. Their radii tend to zero; eventually
-the disks lie in D, and their connectedness, containment in Ω and intersection with C put
-them wholly in C. The chosen points therefore lie in C and tend to ξ. Each fixed covering
-disk has closure inside Ω, so a subsequence uses distinct disks and hence distinct points.
-GH1 supplies f with exact zero set E and no other zeros. A meromorphic extension on D would
-have zeros accumulating at its interior point ξ; remove any possible pole at ξ and apply the
-analytic identity theorem to conclude that the extension is zero. This contradicts the nonzero
-values of f on the nonempty open set C\E. Include Ω empty and boundary empty as vacuous
-boundary cases. Derive the arbitrary-disk statement for every component: if D meets Ω but is not
-contained in Ω, fix any component C of D∩Ω, choose z∈C and w∈D\Ω, and follow the segment
-from z to w. Convexity of D keeps the segment in D. Its first exit ξ from Ω lies in D∩∂Ω, and
-the initial segment stays in C. A sufficiently short tail before ξ lies in one component of a
-centered disk about ξ, still contained in C, whose closure contains ξ. Any meromorphic extension
-on D agreeing on C (or agreeing near z, by the identity theorem on C) would contradict the
-centered boundary-germ result on that local component. For an interior germ
-`g∈M(D_r(z))` agreeing with f near `z∈Ω`, if the disk were not contained in Ω, follow a segment
-from z to a point of `D_r(z)\Ω` and take its first exit. The component containing z accumulates
-at that boundary point, contradicting the centered result. Thus `D_r(z)⊆Ω`. State that the identity
-principle is applied on the connected component containing the initial agreement neighborhood.
+For arbitrary-domain boundary noncontinuation, consume
+[GH1’s branchwise meromorphic noncontinuation theorem](#gh1-boundary-nonextension)
+and its shell-cover proof, including the arbitrary-disk and interior-germ corollaries.
+The product and cotangent examples here retain their explicit pole, residue, and
+logarithmic-derivative calculations.
 
 <a id="gh5-dbar"></a>
 ### GH5. Global smooth `∂̄` solvability on an arbitrary plane domain
