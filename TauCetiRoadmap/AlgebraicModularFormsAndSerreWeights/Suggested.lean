@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.NumberTheory.ModularForms.Newforms.Coefficient
 import TauCeti.RingTheory.DedekindDomain.IntegralClosure
 
 /-!
@@ -12,6 +13,9 @@ modularity witnesses are specified in the README.
 The classical coefficient realization there allows the coefficient prime to divide
 the level, using the base with both inverted. The rank-two pairing statement below
 identifies the Frobenius characteristic polynomial, including scalar operators.
+The weight-one prime moment uses the supplied cuspidal eigenform and good-index
+eigenvalue interface. Attachment traces are Hecke eigenvalues; Fourier coefficients
+agree with them under first-coefficient normalization.
 
 The series operators describe coefficients; their preservation of geometric forms
 is a separate target. The arithmetic tables take classified local data and do not
@@ -644,20 +648,21 @@ theorem weightShiftDeterminant (p k n : ℕ) (hn : (p-1) ∣ n) :
     Nat.ModEq (p-1) k (k+n) := by sorry
 end TauCeti.EigenvalueLifting
 
-/-! ## Layer R15.5A: the primitive rank-two Frobenius polynomial -/
+/-! ## Layer R15.5A: Frobenius polynomials and classical weight-one prime moments -/
 namespace TauCeti.ClassicalModularGalois
 
 /-- The alternating pairing and transpose identity determine rank-two Frobenius
-trace, determinant and characteristic polynomial, including scalar Frobenius. -/
+trace, determinant and characteristic polynomial, including scalar Frobenius.
+The scalar `eigenvalue` is the Hecke eigenvalue of the character block. -/
 theorem frobeniusPolynomial_of_pairing {K : Type*} [Field K] [CharZero K]
-    (F V : Matrix (Fin 2) (Fin 2) K) (a epsilon c : K)
+    (F V : Matrix (Fin 2) (Fin 2) K) (eigenvalue epsilon c : K)
     (hepsilon : epsilon ≠ 0) (hc : c ≠ 0)
     (B : LinearMap.BilinForm K (Fin 2 → K)) (hB : B.IsAlt) (hperfect : B.Nondegenerate)
-    (hhecke : F + epsilon • V = a • (1 : Matrix (Fin 2) (Fin 2) K))
+    (hhecke : F + epsilon • V = eigenvalue • (1 : Matrix (Fin 2) (Fin 2) K))
     (hproduct : F * V = c • (1 : Matrix (Fin 2) (Fin 2) K))
     (htranspose : ∀ x y, B (F.mulVec x) y = B x ((epsilon • V).mulVec y)) :
-    F.trace = a ∧ F.det = epsilon * c ∧
-      F.charpoly = Polynomial.X^2 - Polynomial.C a * Polynomial.X +
+    F.trace = eigenvalue ∧ F.det = epsilon * c ∧
+      F.charpoly = Polynomial.X^2 - Polynomial.C eigenvalue * Polynomial.X +
         Polynomial.C (epsilon * c) := by sorry
 
 /-- Scalar Frobenius has a repeated characteristic root. -/
@@ -670,6 +675,37 @@ example :
     (1 : Matrix (Fin 2) (Fin 2) ℚ) * ((2 : ℚ) • 1) = (2 : ℚ) • 1 ∧
     (1 : Matrix (Fin 2) (Fin 2) ℚ).charpoly ≠
       Polynomial.X^2 - Polynomial.C (3 : ℚ) * Polynomial.X + Polynomial.C 2 := by sorry
+
+/-- Good-prime coefficients of a normalized cusp eigenform equal its Hecke eigenvalues. -/
+example {N : ℕ} [NeZero N] {k : ℤ}
+    (f : HeckeRing.GL2.EigenformAwayFromLevel N k)
+    (h₁ : (UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff 1 = 1)
+    (n : ℕ+) (hn : Nat.Coprime (n : ℕ) N) :
+    (UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff (n : ℕ) = f.eigenvalue n hn :=
+  f.qExpansion_coeff_eq_eigenvalue h₁ n hn
+
+/-- The usual E₄ has eigenvalue nine at two, distinct from its Fourier coefficient. -/
+example (e4 : PowerSeries ℂ) (eigenvalue : ℂ)
+    (h₁ : PowerSeries.coeff 1 e4 = 240) (h₂ : PowerSeries.coeff 2 e4 = 2160)
+    (heig : TauCeti.KatzModularForms.seriesHecke 2 8 1 e4 = eigenvalue • e4) :
+    eigenvalue = 9 ∧ PowerSeries.coeff 2 e4 ≠ eigenvalue := by sorry
+
+/-- The eigenvalue of a nonzero eigenvector is invariant under nonzero rescaling. -/
+example {K M : Type*} [Field K] [AddCommGroup M] [Module K M]
+    (T : Module.End K M) (f : M) (hf : f ≠ 0) (c eigenvalue b : K) (hc : c ≠ 0)
+    (hf_eig : T f = eigenvalue • f) (hcf_eig : T (c • f) = b • (c • f)) :
+    b = eigenvalue := by sorry
+
+/-- A weight-one cusp eigensystem has a convergent good-prime second moment
+for every real s>1, bounded by log(1/(s-1)) plus a constant near one. -/
+theorem weightOne_primeMoment {N : ℕ} [NeZero N]
+    (f : HeckeRing.GL2.EigenformAwayFromLevel N 1) :
+    let b := fun q : {q : ℕ // q.Prime ∧ Nat.Coprime q N} =>
+      ‖f.eigenvalue ⟨q.val, q.property.1.pos⟩ q.property.2‖ ^ 2
+    (∀ s : ℝ, 1 < s →
+      Summable (fun q => b q * (q.val : ℝ) ^ (-s))) ∧
+    ∃ C δ : ℝ, 0 < δ ∧ ∀ s : ℝ, 1 < s → s < 1 + δ →
+      (∑' q, b q * (q.val : ℝ) ^ (-s)) ≤ Real.log (1 / (s - 1)) + C := by sorry
 
 end TauCeti.ClassicalModularGalois
 
