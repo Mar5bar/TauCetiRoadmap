@@ -710,6 +710,60 @@ example : IsGeneric (⊥ : Subgroup Unit)
   · rintro ⟨_, _, hinj⟩
     exact (by decide : (0 : Fin 2) ≠ 1) (hinj rfl)
 
+/-- At q=1, the repeated roots of the trivial rank-two matrix representation fail genericity. -/
+example : ¬ IsGeneric (⊥ : Subgroup Unit)
+    (1 : Unit →* Matrix.GeneralLinearGroup (Fin 2) (ZMod 3)) () 1 := by
+  rw [isGeneric_matrix_diagonal _ _ _ _ (fun _ => 1) (by simp)]
+  rintro ⟨_, h⟩
+  exact h 0 1 (by decide) (by simp)
+
+/-- Over 𝔽₇, diagonal Frobenius with entries 1 and 3 is strong generic at q=2. -/
+example : IsStrongGeneric (⊥ : Subgroup (Fin 2 → (ZMod 7)ˣ))
+    (Fixtures.diagonalRep 2) ![1, Units.mk0 (3 : ZMod 7) (by decide)] 2 := by
+  rw [isStrongGeneric_matrix_diagonal _ _ _ _ _ rfl]
+  refine ⟨?_, ?_⟩
+  · intro g hg
+    have : g = 1 := by simpa using hg
+    subst g
+    exact map_one _
+  · constructor
+    · intro i j hij h
+      have hc := (div_eq_iff (Units.ne_zero
+        (![1, Units.mk0 (3 : ZMod 7) (by decide)] j))).mp h
+      fin_cases i <;> fin_cases j
+      · exact hij rfl
+      · exact (by decide : (1 : ZMod 7) ≠ 2 * 3) hc
+      · exact (by decide : (3 : ZMod 7) ≠ 2 * 1) hc
+      · exact hij rfl
+    · intro i j h
+      have hc := congrArg (fun u : (ZMod 7)ˣ => (u : ZMod 7)) h
+      fin_cases i <;> fin_cases j
+      · rfl
+      · exact False.elim ((by decide : (1 : ZMod 7) ≠ 3) hc)
+      · exact False.elim ((by decide : (3 : ZMod 7) ≠ 1) hc)
+      · rfl
+
+/-- Every rank-one matrix representation trivial on inertia is strong generic for every q. -/
+example {G K : Type*} [Group G] [Field K]
+    (I : Subgroup G) (r : G →* Matrix.GeneralLinearGroup (Fin 1) K)
+    (frob : G) (q : K) (hI : ∀ g ∈ I, r g = 1) :
+    IsStrongGeneric I r frob q := by
+  let α : Fin 1 → (AlgebraicClosure K)ˣ := fun _ =>
+    Units.map (algebraMap K (AlgebraicClosure K)).toMonoidHom (r frob).det
+  refine ⟨hI, α, ?_, ?_⟩
+  · have hd : ((r frob).val.map (algebraMap K (AlgebraicClosure K))) =
+        Matrix.diagonal (fun i => (α i : AlgebraicClosure K)) := by
+      ext i j
+      fin_cases i
+      fin_cases j
+      simp [α, Matrix.GeneralLinearGroup.det]
+    rw [hd, Matrix.charpoly_diagonal]
+  · constructor
+    · intro i j hij
+      exact (hij (Subsingleton.elim i j)).elim
+    · intro i j _
+      exact Subsingleton.elim i j
+
 /-- Distinct Frobenius eigenvalues with ratio q fail matrix genericity. -/
 example : ¬ IsGeneric (⊥ : Subgroup (Fin 2 → (ZMod 5)ˣ))
     (Fixtures.diagonalRep 2) ![Units.mk0 (2 : ZMod 5) (by decide), 1] 2 := by
