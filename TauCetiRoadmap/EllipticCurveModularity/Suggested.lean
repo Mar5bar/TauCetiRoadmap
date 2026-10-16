@@ -11,6 +11,7 @@ import Mathlib.NumberTheory.LegendreSymbol.ZModChar
 import Mathlib.NumberTheory.ModularForms.DedekindEta
 import Mathlib.NumberTheory.ModularForms.QExpansion
 import Mathlib.NumberTheory.NumberField.Basic
+import Mathlib.NumberTheory.Padics.HeightOneSpectrum
 import Mathlib.NumberTheory.Padics.RingHoms
 import Mathlib.RepresentationTheory.Irreducible
 import Mathlib.RingTheory.Ideal.Operations
@@ -51,7 +52,7 @@ def lCoeff (E : WeierstrassCurve ℚ) (n : ℕ) : ℤ := E.LFunction n
 
 /-- Good reduction of `E` at `p`, in Mathlib's sense for the minimal model over `ℤ_[p]`. For the conductor `N` of
 `E` this is `p ∤ N`. Mathlib's `LFunction` takes its local factors over the completions `v.adicCompletion ℚ`; the
-comparison of those with `ℚ_[p]` is part of the arithmetic supplier contract. -/
+comparison with `ℚ_[p]` is `localPolynomial_completion_eq_padic` in Layer R29.4. -/
 def HasGoodReductionAt (E : WeierstrassCurve ℚ) (p : ℕ) [Fact p.Prime] : Prop :=
   ((E.baseChange ℚ_[p]).minimal ℤ_[p]).HasGoodReduction ℤ_[p]
 
@@ -208,6 +209,12 @@ example :
     7 ∈ exceptionalPrimes curveIsogenyOnly ∧ HasRationalCyclicSubgroup curveIsogenyOnly 7 ∧
       padicValRat 2 curveIsogenyOnly.j = -3 := by sorry
 
+example : HasRationalCyclicSubgroup curve11a1 5 := by sorry
+
+/-- A rational cyclic subgroup can have no rational nonzero generator. -/
+example : HasRationalCyclicSubgroup curveIsogenyOnly 7 ∧
+    AddSubgroup.torsionBy curveIsogenyOnly.toAffine.Point (7 : ℤ) = ⊥ := by sorry
+
 /-! ## Layer R29.2: trivial character by reduction -/
 
 /-- A weight-two form and a maximal coefficient ideal above p at a supplied positive level.
@@ -224,6 +231,16 @@ example {N : ℕ} [NeZero N] {p : ℕ} (w : SerreWitness N p) : coeff w.form 1 =
 /-- A maximal coefficient ideal is proper, so it cannot contain one. -/
 example {N : ℕ} [NeZero N] {p : ℕ} (w : SerreWitness N p) :
     (1 : integralClosure ℤ ℂ) ∉ w.prime := sorry
+
+/-- A prime above a nonzero rational prime in the algebraic integers is nonzero. -/
+example {N p : ℕ} [NeZero N] (hp : p.Prime) (w : SerreWitness N p) :
+    w.prime ≠ ⊥ := by sorry
+
+example (w : SerreWitness 11 7) : coeff w.form 2 = -2 := by sorry
+
+example (w : SerreWitness 11 7) : ∀ τ : UpperHalfPlane,
+    w.form.toCuspForm τ = ModularForm.eta τ ^ 2 *
+      ModularForm.eta (11 * τ) ^ 2 := by sorry
 
 /-- `EllipticCurveModularity:R29.2/trivial-nebentypus-by-reduction`: a root of unity of order prime to `p` that is
 `≡ 1` modulo a prime above `p` equals 1. Primality and prime-to-p order are essential. -/
@@ -293,6 +310,16 @@ theorem IsNewformOf.coeff_int {M : ℕ} [NeZero M] {F : Newform M 2} (h : IsNewf
 
 /-! ## Layer R29.4: every Euler factor -/
 
+/-- Completion at a rational height-one prime and the corresponding p-adic field
+have the same minimal-model local polynomial. -/
+theorem localPolynomial_completion_eq_padic
+    (v : IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ)) :
+    letI : Fact (Nat.Prime (Rat.HeightOneSpectrum.primesEquiv v : ℕ)) :=
+      ⟨(Rat.HeightOneSpectrum.primesEquiv v).property⟩
+    (E.baseChange (v.adicCompletion ℚ)).localPolynomial (v.adicCompletionIntegers ℚ) =
+      (E.baseChange ℚ_[Rat.HeightOneSpectrum.primesEquiv v]).localPolynomial
+        ℤ_[Rat.HeightOneSpectrum.primesEquiv v] := sorry
+
 /-- `EllipticCurveModularity:R29.4/bad-euler-factors`: every local factor of `E`, in Mathlib's convention, is the
 Euler factor of a newform `F` attached to `E`. -/
 theorem IsNewformOf.localPolynomial_eq {M : ℕ} [NeZero M] {F : Newform M 2} (h : IsNewformOf E F) (ℓ : ℕ)
@@ -326,6 +353,13 @@ theorem IsNewformOf.exists_entire_completed_LSeries
 
 example : lCoeff E 0 = 0 := sorry
 example : lCoeff E 1 = 1 := sorry
+example (h₂ : lCoeff curve11a1 2 = -2) (h₃ : lCoeff curve11a1 3 = -1) :
+    lCoeff curve11a1 4 = 2 ∧ lCoeff curve11a1 6 = 2 := by sorry
+example (h₁₁ : lCoeff curve11a1 11 = 1) :
+    lCoeff curve11a1 121 = 1 := by sorry
+example {M : ℕ} [NeZero M] (F : Newform M 2)
+    (hF : IsNewformOf curve11a1 F) (h₁₁ : coeff F 11 = 1) :
+    coeff F 121 = 1 := by sorry
 example {M : ℕ} [NeZero M] (F : Newform M 2) : coeff F 0 = 0 := sorry
 example {M : ℕ} [NeZero M] (F : Newform M 2) : coeff F 1 = 1 := sorry
 
@@ -339,6 +373,14 @@ example :
     haveI : Fact (Nat.Prime 11) := ⟨by decide⟩
     HasMultiplicativeReductionAt curve11a1 11 := sorry
 example : ¬ HasMultiplicativeReductionAt curveCM 2 := sorry
+example : ¬ HasGoodReductionAt curveCM 2 := by sorry
+example :
+    haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+    ¬ HasMultiplicativeReductionAt curve11a1 7 := by sorry
+example :
+    haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+    HasGoodReductionAt
+      (⟨0, -49, 343, -24010, -2352980⟩ : WeierstrassCurve ℚ) 7 := by sorry
 example : HasRationalCyclicSubgroup E 1 := sorry
 example : ¬ HasRationalCyclicSubgroup E 0 := sorry
 
@@ -350,53 +392,73 @@ example : ¬ Nat.Prime 4 ∧ ¬ (4 : ℕ) ∣ 2 ∧ (-1 : ℤ) ^ 2 = 1 ∧
 example : (-1 : ZMod 2) = 1 ∧ (-1 : ℤ) ≠ 1 := by decide
 
 example : curve11a1.a₄ = -10 ∧ curve11a1.a₆ = -20 := by norm_num [curve11a1]
+example : curve11a1.c₄ = 496 := by
+  norm_num [curve11a1, WeierstrassCurve.c₄, WeierstrassCurve.b₂, WeierstrassCurve.b₄]
 example : curve11a1.Δ = -161051 := by
   norm_num [curve11a1, WeierstrassCurve.Δ, WeierstrassCurve.b₂, WeierstrassCurve.b₄,
     WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
 example : curve11a2.a₄ = -7820 ∧ curve11a2.a₆ = -263580 := by norm_num [curve11a2]
+example : curve11a2.c₄ = 375376 := by
+  norm_num [curve11a2, WeierstrassCurve.c₄, WeierstrassCurve.b₂, WeierstrassCurve.b₄]
 example : curve11a2.Δ = -11 := by
   norm_num [curve11a2, WeierstrassCurve.Δ, WeierstrassCurve.b₂, WeierstrassCurve.b₄,
     WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
 example : curve11a3.a₄ = 0 ∧ curve11a3.a₆ = 0 := by norm_num [curve11a3]
+example : curve11a3.c₄ = 16 := by
+  norm_num [curve11a3, WeierstrassCurve.c₄, WeierstrassCurve.b₂, WeierstrassCurve.b₄]
 example : curve11a3.Δ = -11 := by
   norm_num [curve11a3, WeierstrassCurve.Δ, WeierstrassCurve.b₂, WeierstrassCurve.b₄,
     WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
 example : curve26b1.a₄ = -3 ∧ curve26b1.a₆ = 3 := by norm_num [curve26b1]
+example : curve26b1.c₄ = 129 := by
+  norm_num [curve26b1, WeierstrassCurve.c₄, WeierstrassCurve.b₂, WeierstrassCurve.b₄]
 example : curve26b1.Δ = -1664 := by
   norm_num [curve26b1, WeierstrassCurve.Δ, WeierstrassCurve.b₂, WeierstrassCurve.b₄,
     WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
 example : curveValuationOnly.a₄ = -7 ∧ curveValuationOnly.a₆ = 9 := by norm_num [curveValuationOnly]
+example : curveValuationOnly.c₄ = 337 := by
+  norm_num [curveValuationOnly, WeierstrassCurve.c₄, WeierstrassCurve.b₂, WeierstrassCurve.b₄]
 example : curveValuationOnly.Δ = -17536 := by
   norm_num [curveValuationOnly, WeierstrassCurve.Δ, WeierstrassCurve.b₂, WeierstrassCurve.b₄,
     WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
 example : curveIsogenyOnly.a₄ = -5 ∧ curveIsogenyOnly.a₆ = 5 := by norm_num [curveIsogenyOnly]
+example : curveIsogenyOnly.c₄ = 225 := by
+  norm_num [curveIsogenyOnly, WeierstrassCurve.c₄, WeierstrassCurve.b₂, WeierstrassCurve.b₄]
 example : curveIsogenyOnly.Δ = -648 := by
   norm_num [curveIsogenyOnly, WeierstrassCurve.Δ, WeierstrassCurve.b₂, WeierstrassCurve.b₄,
     WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
 example : curveCM.a₄ = -1 ∧ curveCM.a₆ = 0 := by norm_num [curveCM]
+example : curveCM.c₄ = 48 := by
+  norm_num [curveCM, WeierstrassCurve.c₄, WeierstrassCurve.b₂, WeierstrassCurve.b₄]
 example : curveCM.Δ = 64 := by
   norm_num [curveCM, WeierstrassCurve.Δ, WeierstrassCurve.b₂, WeierstrassCurve.b₄,
     WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
 example : curve37a1.a₄ = -1 ∧ curve37a1.a₆ = 0 := by norm_num [curve37a1]
+example : curve37a1.c₄ = 48 := by
+  norm_num [curve37a1, WeierstrassCurve.c₄, WeierstrassCurve.b₂, WeierstrassCurve.b₄]
 example : curve37a1.Δ = 37 := by
   norm_num [curve37a1, WeierstrassCurve.Δ, WeierstrassCurve.b₂, WeierstrassCurve.b₄,
     WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
 example : curve11a1TwistNegOne.a₄ = -160 ∧ curve11a1TwistNegOne.a₆ = 1264 := by norm_num [curve11a1TwistNegOne]
+example : curve11a1TwistNegOne.c₄ = 7936 := by
+  norm_num [curve11a1TwistNegOne, WeierstrassCurve.c₄, WeierstrassCurve.b₂, WeierstrassCurve.b₄]
 example : curve11a1TwistNegOne.Δ = -659664896 := by
   norm_num [curve11a1TwistNegOne, WeierstrassCurve.Δ, WeierstrassCurve.b₂, WeierstrassCurve.b₄,
     WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
+example : curve11a1TwistNegOne.j = curve11a1.j := by sorry
+
 /-
 The README specifies the conductor-dependent forms and geometric constructions:
-not_dvd_conductor_of_not_mem, absolutelyIrreducible_of_not_mem,
+rationalTateMap_surjective, not_dvd_conductor_of_not_mem, absolutelyIrreducible_of_not_mem,
 artinConductor_residualRep_of_not_mem, serreWeight_residualRep, SerreWitness,
 serreWitness, serreWitness_level, serreWitness_trace, serreWitness_residual,
 serreWitness_11a1, serreWitness_trace_2, serreWitness_not_at_exceptional,
@@ -410,6 +472,9 @@ modularParametrisation_pullback, modularParametrisation_11a1,
 modularParametrisation_11a3, modularParametrisation_37a, exists_isNewformOf_of_J0,
 exists_isNewformOf_of_X0, conductor_dvd_of_J0, modularity, modularity_quotient,
 modularity_parametrisation, LFunction_eq and exists_entire_completed_LSeries.
+The selected form has the explicit input hE : ∃ F : Newform N_E 2, IsNewformOf E F.
+Every selected-form theorem and modularParametrisation carries that input; the latter
+also carries its chosen QuotientIsogeny for newformOf E hE.
 The exceptional-set Checks are exceptionalPrimes_11a1, exceptionalPrimes_contains_small,
 exceptionalPrimes_CM, exceptionalPrimes_11a1_seven, exceptionalPrimes_26b1,
 exceptionalPrimes_valuation_only and exceptionalPrimes_isogeny_only.

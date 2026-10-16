@@ -76,8 +76,8 @@ following divisions of responsibility determine the interfaces.
 The analytic output is continuation and a functional equation for `L(E,s)`. Its
 consumers include EllipticCurves Layer 7 and RankZeroOneBSD. The rank formula,
 special-value formula, Tate–Shafarevich group, and the arithmetic parts of
-Birch–Swinnerton-Dyer belong to those further theories. The companion real
-multiplication statement is specified at the end with its own domain.
+Birch–Swinnerton-Dyer belong to those further theories. The real-multiplication extension
+is motivation for a separate roadmap, as described at the end.
 
 ## Conventions
 
@@ -244,10 +244,12 @@ and Albanese Hecke action. For primitive weight-two forms its stated `N ≥ 5`
 hypothesis causes no gap: ModularForms Layer 10C's dimension formula gives zero cusp
 space at levels 1, 2, 3 and 4, so any such newform has `N ≥ 5`.
 The exhaustive Γ₀ old/new decomposition used in R29.6 is the Γ₀ specialization of
-§16.7, with both degeneracy maps and divisor multiplicities; exactness of rational
-Tate modules comes from AbelianSchemesAndArithmeticModuli A4.1, transported through
-ArithmeticGaloisRepresentations §6.1. ModularCurvesPartII §§7.1–7.4 supplies the
-regular-differential/cusp-form dictionary. AlgebraicCurves Layers 6 and 12 supply
+§16.7, with both degeneracy maps and divisor multiplicities; rational Tate-module
+surjectivity for a surjective abelian-variety homomorphism is the local target
+`rationalTateMap_surjective` in R29.6. It uses Poincaré complete reducibility from
+AbelianSchemesAndArithmeticModuli A6.5 and the isogeny functoriality of A4.1 and
+ArithmeticGaloisRepresentations §6.1, following ModularCurvesPartII §16.3.
+ModularCurvesPartII §§7.1–7.4 supplies the regular-differential/cusp-form dictionary. AlgebraicCurves Layers 6 and 12 supply
 projective curve/function-field degree. JacobianChallenge Layer F supplies the
 Abel–Jacobi universal property over the stated ground field.
 
@@ -505,7 +507,9 @@ but rationality of a chosen generator does not.
 - The given order-5 rational point on 11a1 generates a stable cyclic subgroup; the
   given Frobenius polynomial irreducible over 𝔽₇ excludes a stable order-7 subgroup.
 - The order-7 subgroup in the 162b1 Check has a Galois orbit of x-coordinates of
-  degree three. It is stable even though it has no rational nonzero generator.
+  degree three. It is stable even though it has no rational nonzero generator:
+  `AddSubgroup.torsionBy curveIsogenyOnly.toAffine.Point (7 : ℤ) = ⊥`.
+  Its good reduction at 5 has six points, excluding rational seven-torsion.
 
 ### The exceptional set
 
@@ -1007,10 +1011,15 @@ input, as in Cremona §2.6, pp. 24–25.
 
 ### The newform of an elliptic curve
 
-The intended signature is `newformOf (E : WeierstrassCurve ℚ) [E.IsElliptic] : Newform N_E 2`,
-with the positive-conductor instance supplied by the conductor contract. Define it, denoted `F_E`, by selecting the unique attached newform of weight
-two and level `N_E`. Existence uses the classical Serre hypothesis through `exists_newform_coeff_eq`, and attachment
-uniqueness makes the choice independent of the witnesses used in its proof. The API is:
+The intended signature is
+`newformOf (E : WeierstrassCurve ℚ) [E.IsElliptic] (hE : ∃ F : Newform N_E 2, IsNewformOf E F) : Newform N_E 2`,
+with the positive-conductor instance supplied by the conductor contract. Define it,
+denoted `F_E`, by selecting an attached newform from `hE`. The existence theorem
+produces `hE` either from the classical Serre hypothesis through
+`exists_newform_coeff_eq` or from infinitely many modular residual primes outside
+Σ_E. Attachment uniqueness proves independence from the choice of `hE`. Every
+selected-form API theorem below carries `hE`, including the isogeny and twist Checks
+with an existence input for each curve. The API is:
 
 * `isNewformOf_newformOf`: `F_E` is attached to `E`.
 * `newformOf_coeff_prime`: `A_ℓ(F_E)=a_ℓ(E)` at every good
@@ -1170,11 +1179,39 @@ information; the local-factor interface must preserve it too.
 
 The statement compares Mathlib's minimal model over ℤℓ with its local polynomial.
 Mathlib's number-field Euler product instead uses completions at height-one prime ideals
-of `𝓞_(ℚ)`. The identification of that completion and its valuation
-ring with ℚℓ and ℤℓ is part of the arithmetic comparison interface. It transports the
-curve, minimal model, residue-field point count and polynomial. Treating the completion
-identification as definitional would leave a gap between the local polynomial theorem
-and the formal L-function statement.
+of `𝓞_(ℚ)`. Construct `localPolynomial_completion_eq_padic` here: for E/ℚ elliptic,
+`v : HeightOneSpectrum (𝓞 ℚ)` and `ℓ = Rat.HeightOneSpectrum.primesEquiv v`, prove
+
+`(E.baseChange (v.adicCompletion ℚ)).localPolynomial (v.adicCompletionIntegers ℚ) = (E.baseChange ℚ_[ℓ]).localPolynomial ℤ_[ℓ]`.
+
+Use Mathlib's `Rat.HeightOneSpectrum.adicCompletion.padicEquiv` and
+`Rat.HeightOneSpectrum.adicCompletionIntegers.padicIntEquiv`, with the commuting
+inclusion diagrams in `adicCompletionIntegers.coe_padicIntEquiv_apply` and its inverse
+version. Transport the base-changed curve along the ℚ-algebra equivalence. Build the
+compatible minimal-model and reduction comparison in this layer: the transported
+minimal model is minimal over the equivalent DVR, and comparison with the chosen
+minimal model preserves good, split multiplicative and nonsplit multiplicative
+reduction. The induced residue-field and point-group equivalences preserve both finite
+cardinalities in the good polynomial. Thus each branch of Mathlib's definition has
+the same integer polynomial. This compares the polynomials without requiring the
+chosen minimal equations to be definitionally equal.
+
+*Source and prerequisites.* Mathlib `NumberTheory/Padics/HeightOneSpectrum.lean`,
+`adicCompletion.padicEquiv`, `adicCompletionIntegers.padicIntEquiv` and their inclusion
+diagrams; `AlgebraicGeometry/EllipticCurve/LFunction.lean`, `localPolynomial` and
+`LFunction`; EllipticCurves Layer 4, minimal-model invariance (Silverman, AEC VII.1,
+VII.5). Use this named transport with `IsNewformOf.localPolynomial_eq` when deriving
+`IsNewformOf.coeff_eq` and `LFunction_eq`.
+
+**Checks.**
+
+- At the prime above 7 for 11a1, both polynomials are `1+2T+7T²`; the finite-field
+  count is 10, on either residue-field carrier.
+- At the prime above 11 for 11a1, both polynomials are `1-T`; the transport preserves
+  the split condition, not just multiplicativity.
+- At the prime above 2 for `y²=x³-x`, both polynomials are 1; residue characteristic
+  two is included. Scaling the 11a1 equation by `7²,7³` also leaves the first Check
+  unchanged after minimalization.
 
 `IsNewformOf.coeff_eq` then gives
 
@@ -1264,8 +1301,9 @@ the Abel–Jacobi and nonzero composite interfaces specified next.
 
 ### The morphism from X₀ at the conductor
 
-For `F_E` and a chosen `QuotientIsogeny` `λ`, define `modularParametrisation lam`
-with intended signature `X₀(N_E) ⟶ E` in schemes over ℚ, by the composite
+For `hE : ∃ F : Newform N_E 2, IsNewformOf E F`, put `F_E = newformOf E hE`.
+For a chosen `QuotientIsogeny E (newformOf E hE) (isNewformOf_newformOf E hE)` `λ`,
+define `modularParametrisation E hE λ : X₀(N_E) ⟶ E` in schemes over ℚ by the composite
 
 `X_0(N_E) →[x↦[x-∞]] J_0(N_E)  →[π_(F_E)] A_(F_E)^0 →[λ] E.`
 
@@ -1276,6 +1314,7 @@ with an isogeny between elliptic curves remains nonconstant. A nonconstant morph
 between smooth projective integral curves is finite and surjective, with positive degree
 equal to the extension degree of function fields.
 
+The constructor and every property and Check below carry the same `hE` and `λ`.
 The API consists of the constructor and three mathematical properties:
 
 * `modularParametrisation_cusp` states `φ_E(∞)=O`.
@@ -1291,9 +1330,8 @@ The pullback first lands in the `F_E`-eigenline of differentials on the modular 
 Compatibility of the quotient with the Hecke action identifies that line with the
 normalized cusp form. Its rational structure and the ℚ-defined morphism give
 `c∈ℚ`. Nonconstancy in characteristic zero makes the pullback differential
-nonzero, so `c≠0`. Under the differential dictionary, `pullbackInvariantDifferential` records the
-corresponding cusp form, with the factor `2π i dz` already accounted for in that
-interface.
+nonzero, so `c≠0`. Under ModularCurvesPartII §7.2's `weightTwoRegularDifferentials`,
+normalized by `f ↦ 2πi f(z) dz`, the inverse comparison sends `φ_E^*ω_E` to `c·F_E`.
 
 The assertion is for the differential of the displayed model and the chosen isogeny.
 Changing a Weierstrass model rescales the differential by a rational factor; composing
@@ -1401,6 +1439,30 @@ step uses RepresentationTheory/SemisimpleAlgebras Layer 3, finite-dimensional de
 theorem for semisimple modules, in the faithful simple-module/scalar-commutant case. None of the residual
 Serre witnesses is an input.
 
+### Surjectivity on rational Tate modules
+
+Prove `rationalTateMap_surjective`: for abelian varieties A and B over ℚ, a
+surjective homomorphism `f:A→B`, and any prime r, the induced equivariant linear
+map `V_r(f):V_r(A)→V_r(B)` is surjective. The kernel need not be connected.
+Take the reduced identity component C of the kernel and a Poincaré complement D in A.
+Then `C×D→A` is an isogeny and `f|_D:D→B` is an isogeny by surjectivity and dimension.
+Isogenies induce rational Tate-module isomorphisms, so `V_r(f)` is surjective.
+The proof uses rational coefficients even when r divides the finite isogeny kernels.
+
+*Sources and prerequisites.* Milne, *Abelian Varieties* (2022), Proposition 12.1,
+p. 19; Ribet–Stein, Appendix by B. Conrad, proof of Theorem 5.14, p. 73;
+ModularCurvesPartII §16.3's rational-exactness argument. Consume
+AbelianSchemesAndArithmeticModuli A6.5 for the complement and A4.1 with
+ArithmeticGaloisRepresentations §6.1 for products and isogeny functoriality.
+
+**Checks.**
+
+- The identity of an elliptic curve induces the identity on its rational Tate module.
+- The projection `E×E→E` is surjective with positive-dimensional kernel and induces
+  projection on the two rational Tate summands.
+- Multiplication by r is surjective on `V_r(E)` although its map on `T_r(E)` has
+  cokernel of order `r²`; integral surjectivity is not a conclusion.
+
 ### Recovering a primitive form from a Jacobian quotient
 
 Let `N'≥1` and let `π:J_0(N')→ E` be a surjective homomorphism over ℚ. Then
@@ -1421,7 +1483,7 @@ decomposition must exhaust the whole Jacobian up to ℚ-isogeny; a comparison fo
 selected orbit or for J₁ does not suffice to select a constituent of a general map out
 of J₀(`N'`).
 
-Fix `r`. Exactness of rational Tate modules gives a surjective equivariant map
+Fix `r`. Apply `rationalTateMap_surjective` to obtain a surjective equivariant map
 `V_r(J_0(N'))→ V_r(E)`. The decomposition implies that it is nonzero on at least one
 copy of `V_r(A_f^0)`, for some `M∣ N'`. Through the compatible isogeny with `A_f^1`,
 this module is a free rank-two module over `K_f⊗ℚ_r`. After extending
@@ -1541,7 +1603,11 @@ the acceptance condition for this equivalence.
 
 ### Continuation and the functional equation
 
-`LFunction_eq` gives the equality of the formal Dirichlet coefficients of `E` and `F_E`.
+For `hE : ∃ F : Newform N_E 2, IsNewformOf E F`, put `F_E = newformOf E hE`.
+`LFunction_eq E hE` gives equality of the formal Dirichlet coefficients of `E` and `F_E`.
+The selected-form continuation theorem `exists_entire_completed_LSeries E hE`
+carries this input as well; the attached-form version
+`IsNewformOf.exists_entire_completed_LSeries` instead takes attachment directly.
 By the local factor theorem of R29.4, their Euler products include identical factors at
 bad primes as well as good primes. The complex Dirichlet series therefore agree in their
 half-plane of absolute convergence, `Res>3/2`.
@@ -1585,33 +1651,12 @@ formulation theorem in this layer. It uses residual representations at infinitel
 distinct primes and then Faltings's isogeny criterion; it does not assume that the
 starting elliptic curve is modular.
 
-The companion statement has a different domain. Let `X` be an abelian variety over ℚ of
-positive dimension `n`, with
-
-`K_X = ℚ ⊗_ℤ End_ℚ(X)`
-
-a totally real number field of degree **exactly `n`**. Serre's Theorem 5, §4.7, p. 209,
-asserts, under the same weight-two modularity input, that the conductor of `X` is `N^n`
-for an integer `N` and that `X` is isomorphic to a quotient of `J_0(N)` over ℚ. The
-degree, total reality, and identification of the rational endomorphism algebra are its
-hypotheses; an arbitrary embedding of a smaller totally real field is not that
-statement. The case `n=1` recovers the elliptic formulation.
-
-This companion is a separately scoped target for the real multiplication extension. Its
-proof requires the `K_X`-linear compatible system, the `n`-th-power conductor
-comparison, and the eventual irreducibility, conductor and finite-flat weight-two
-statements at primes split in `K_X`. These are the inputs of Serre (4.7.1)–(4.7.6),
-pp. 209–210, rather than
-consequences of the elliptic point-module interfaces alone. The present application
-records the exact statement and its boundary; the elliptic constructions are the domain
-of the proof here. Its prerequisite is the classical Serre hypothesis together with the modularity
-theorem above. Its compatible-system comparison retains the hypotheses of
-Serre (4.7.1)–(4.7.6): rational endomorphism field exactly K_X, all its embeddings
-real, and dimension equal to its degree. This companion specifies the mathematical
-statement; the elliptic point-module construction is not a construction of that
-K_X-linear system. Neither the
-companion nor Theorem 4 asserts general GL₂-type modularity over other fields or a
-Birch–Swinnerton-Dyer special-value formula.
+The real-multiplication extension of Serre §4.7, Theorem 5, pp. 209–210 is
+motivation for a separate roadmap, rather than an implementation target here. Its
+compatible-system, conductor-power and residual-comparison development in
+(4.7.1)–(4.7.6), and the repeated-witness and isogeny argument in dimension n,
+lie outside this elliptic roadmap. Theorem 4 does not assert general GL₂-type
+modularity over other fields or a Birch–Swinnerton-Dyer special-value formula.
 
 ### Examples
 
@@ -1624,7 +1669,7 @@ nonvanishing example tests the normalization of the completed L-function.
 *Needs:* Layers R29.1–R29.5 as specified for each implication; the explicit classical
 Serre hypothesis for existence; ModularCurvesPartII §16.7 and §17.3;
 FaltingsFinitenessAndIsogenyTheorems §§R28.6.2–R28.6.3; ArithmeticGaloisRepresentations
-§6.1; AbelianSchemesAndArithmeticModuli A4.1; RepresentationTheory/SemisimpleAlgebras Layer 3;
+§6.1; AbelianSchemesAndArithmeticModuli A4.1 and A6.5; RepresentationTheory/SemisimpleAlgebras Layer 3;
 ModularForms Layers 4, 7 and 8G; JacobianChallenge Layer F.
 
 ## Dependency order and reusable outputs
