@@ -28,7 +28,7 @@ The general sheaf theory belongs to `EtaleCohomologyFoundations` §§F.0–F.8, 
 
 `AutomorphicSpectralTheory` AS.6.9 owns the semisimple group orbital integral O_γ, its discriminant normalization J_γ=|D(γ)|^{1/2}O_γ, invariance, convergence and measure scaling. AS.6.18–AS.6.19 owns discrete-series pseudo-coefficients and the Euler–Poincaré trace-function existence theorem. Those definitions and existence theorems have no new aliases or targets here. The additional targets are disconnected-centralizer normalization, stable transport, Lie-algebra descent and the explicit averaged/elliptic Euler–Poincaré formulas.
 
-`ArithmeticLocallySymmetricSpaces` §§ALS.F.5–ALS.F.7 and ALS.5b, `AutomorphicLFunctionsAndLocalFactors`, **Representation prerequisites**, and `AutomorphicSpectralTheory` §§0.48–0.50, AS.4 and AS.6 own relative Lie-algebra cohomology, automorphic spaces, archimedean GL parameters, Eisenstein series and invariant spectral expansions. Layer 5 supplies the full number-field GL residual Speh classification needed by the unitary spectral calculation, beyond a function-field or spherical specialization. The generic pure-inner unitary classification and the GSp₄ general-type comparison have their separate primary classification inputs; the latter is not deduced from a unitary theorem.
+`ArithmeticLocallySymmetricSpaces` §§ALS.F.5–ALS.F.7 and ALS.5b, `AutomorphicLFunctionsAndLocalFactors`, **Representation prerequisites**, and `AutomorphicSpectralTheory` §§0.48–0.50, AS.4 and AS.6 own relative Lie-algebra cohomology, automorphic spaces, archimedean GL parameters, Eisenstein series and invariant spectral expansions. AutomorphicSpectralTheory §4.14a owns the number-field residual index, Speh representations, existence, uniqueness and multiplicity-one classification, with arbitrary ramification. Layer 5 consumes that contract with its original indices and representations for the endoscopic spectral labels; the trace-comparison and transfer applications belong here. The generic pure-inner unitary classification and the GSp₄ general-type comparison have their separate primary classification inputs; the latter is not deduced from a unitary theorem.
 
 ## Conventions
 
@@ -100,7 +100,7 @@ Each external input below is used only at the scope its roadmap states. The addi
 
 - `TauCetiRoadmap.AutomorphicSpectralTheory` §§0.48–0.50 supplies real reductive representations, discrete-series parameters, positive Langlands quotients, smooth Fréchet globalization and restricted tensor factorization. `TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors`, **Representation prerequisites**, **Archimedean GLₙ parameters**, supplies the real and complex Weil-group correspondence, duals and norm twists. `TauCetiRoadmap.ArithmeticLocallySymmetricSpaces` §§ALS.F.5–ALS.F.7 and ALS.5b.1 supplies relative Lie-algebra cochains, automorphic spaces, Wigner’s lemma, algebraic coefficients and the characteristic-zero cohomology comparison. The arbitrary-unitary GL induction theorem is §6.1; the archimedean norm/restriction/induction adapter is §10.22. The definite Shimura-set H⁰ dictionary and the U(N−1,1) Matsushima calculation are §§13.8–13.9 and 13.4.
 - `TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors` AL.1, **Local epsilon factors and Gauss sums** and **Poisson continuation and the global functional equation**, gives Tate factors, measures and the Hecke functional equation. AL.2, **Matrix zeta integrals and standard denominators**, gives standard factors. AL.3, **Induction, functional equations and test realization**, **Poles, functional equations, strip bounds and the closed boundary**, and **Strong multiplicity one and degree-one primes**, gives generic Rankin–Selberg theory and strong multiplicity one for isobaric sums. §§10.27 and 10.29 establish the high-ramification and nongeneric segment-pair extensions used here.
-- `TauCetiRoadmap.AutomorphicSpectralTheory` §§2.1–2.6, 4.1–4.6 and 6.5–6.19 gives meromorphic intertwiners, residues, spectral completeness, invariant trace distributions, ordinary orbital integrals, pseudo-coefficients and real Euler–Poincaré functions. The GL Rankin–Selberg scalar normalization used for residual Speh data is §5.1. Local Langlands quotients come from SmoothRepresentations §SR.3.3 and AutomorphicSpectralTheory §0.48 (real standard quotients). The full number-field residual classification of §5.2 extends the everywhere-unramified function-field statement of AutomorphicSpectralTheory §4.14.
+- `TauCetiRoadmap.AutomorphicSpectralTheory` §§2.1–2.6, 4.1–4.6 and 6.5–6.19 gives meromorphic intertwiners, residues, spectral completeness, invariant trace distributions, ordinary orbital integrals, pseudo-coefficients and real Euler–Poincaré functions. The GL Rankin–Selberg intertwiner normalization used in the unitary comparison is §5.2. Local Langlands quotients come from SmoothRepresentations §SR.3.3 and AutomorphicSpectralTheory §0.48 (real standard quotients). AutomorphicSpectralTheory §4.14a supplies the full number-field residual classification; its §4.14 concerns the separate everywhere-unramified function-field case. The endoscopic labels of §5.1 use its number-field pair (ρ,b) and representation ρ⊠b unchanged.
 
 ### Curves, moduli and cohomology
 
@@ -119,7 +119,7 @@ Each external input below is used only at the scope its roadmap states. The addi
 
 ## How to read the build
 
-Layers 1–4 construct the stable-class invariants, transfer and geometric fundamental-lemma machinery. Layer 5 establishes number-field discrete GL data before Layer 6 uses them on the unitary spectral side; Layer 6 also establishes cyclic base change, induction and the restricted division-unitary descent before the local correspondence. Layers 7–8 form rational Igusa geometry and then count and stabilize its correspondences. Layer 9 constructs raw finite-level compact-unitary cohomology and its commuting actions before Layer 10's independent trace construction of classical local Langlands. Layer 11 supplies the local unitary packets that require that correspondence. Layer 12 realizes the classical parameter in local towers, preserving actual cohomology separately from earlier virtual traces. The pure automorphic branch of Layer 13 and the rational Igusa branch of Layer 14 are separate inputs to the calculations and joint interface of Layer 15. The strict-O Dieudonné normalization of §7.6 precedes the deformation and norm constructions of Layer 10. The independent local harmonic-analysis targets §2.16 and §8.9 precede their trace applications. Within Layer 6 follow its *Needs* edges, with the separate twisted character-support theorem before invariant recursion. Each section's *Needs* names a mathematical construction or a prerequisite interface; no final global Galois or integral concentration theorem is used to build these inputs.
+Layers 1–4 construct the stable-class invariants, transfer and geometric fundamental-lemma machinery. Layer 5 identifies the supplied number-field discrete GL data with the endoscopic labels and fixes the intertwiner normalization before Layer 6 uses them on the unitary spectral side; Layer 6 also establishes cyclic base change, induction and the restricted division-unitary descent before the local correspondence. Layers 7–8 form rational Igusa geometry and then count and stabilize its correspondences. Layer 9 constructs raw finite-level compact-unitary cohomology and its commuting actions before Layer 10's independent trace construction of classical local Langlands. Layer 11 supplies the local unitary packets that require that correspondence. Layer 12 realizes the classical parameter in local towers, preserving actual cohomology separately from earlier virtual traces. The pure automorphic branch of Layer 13 and the rational Igusa branch of Layer 14 are separate inputs to the calculations and joint interface of Layer 15. The strict-O Dieudonné normalization of §7.6 precedes the deformation and norm constructions of Layer 10. The independent local harmonic-analysis targets §2.16 and §8.9 precede their trace applications. Within Layer 6 follow its *Needs* edges, with the separate twisted character-support theorem before invariant recursion. Each section's *Needs* names a mathematical construction or a prerequisite interface; no final global Galois or integral concentration theorem is used to build these inputs.
 
 ## Layer 1: stable conjugacy and arithmetic invariants
 
@@ -1655,67 +1655,54 @@ For GL₁, the endoscopic datum is principal and the Lie transfer identity is th
 
 §3.9; §3.5; §2.4; §2.1; §1.14; §3.17; §3.15; §3.16; §3.3; §3.18; §3.4; §2.9; §1.4; `TauCetiRoadmap.AlgebraicCurves` Layer 5 (consequences of Riemann–Roch, and local components); `TauCetiRoadmap.AlgebraicCurves` Layer 4 (repartitions, Weil differentials, and Riemann–Roch); §2.12; §1.8; §2.6; §2.11; `TauCetiRoadmap.ReductiveGroupsPartII` §RG2.3.6 (Moy–Prasad filtrations); §2.5; §2.7; `TauCetiRoadmap.ReductiveGroupsPartII` §RG2.3.3 (Bruhat–Tits and parahoric group schemes); `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.4.1 (The Satake transform and isomorphism); `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.1.1 (Functions, measures and convolution); §2.13; §2.14; `TauCetiRoadmap.Chebotarev` Layer 10 (Dirichlet-density Chebotarev); §1.13; §1.6; §2.3; `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.3.3 (Tempered representations and the conditional Langlands classification); §2.16 (characters and Weyl integration); §1.16; §2.8; §1.7.
 
-## Layer 5: number-field discrete general linear spectrum
+## Layer 5: number-field discrete general linear input and normalization
 
-Establish the number-field residual GL spectrum using normalized Eisenstein induction and residues. These discrete data enter the next layer even when the geometric side has no proper cuspidal Levi terms.
+Consume the number-field residual classification of `TauCetiRoadmap.AutomorphicSpectralTheory` §4.14a, **Number-field GLₙ residual blocks**, with its central-character realization modulo the centre. These discrete data enter the unitary spectral side even when the geometric side has no proper cuspidal Levi terms.
 
-### 5.1 The global Speh datum
+### 5.1 The supplied residual block and its endoscopic label
 
-For a unitary cuspidal representation ρ of GL_a(A_F) and an integer b≥1, put m=ab. Define Speh(ρ,b) as the unique irreducible Langlands quotient of normalized induction of ρ|det|^((b−1)/2), ρ|det|^((b−3)/2), …, ρ|det|^((1−b)/2) from the Levi GL_a^b. Its central character is ω_ρ^b because the exponents sum to zero. This global residual Speh quotient is distinguished from a local generalized Steinberg subrepresentation.
+Use the supplier's index (ρ,b), where ρ is unitary cuspidal on GL_a(𝔸_F), a,b≥1, ab=m and ω_ρ^b=ω for the fixed unitary central character ω. Write ρ⊠b for its supplied discrete representation, with the supplier's ordered normalized induction and local quotient realizations. AutomorphicSpectralTheory §4.14a supplies the index, quotient construction, automorphic existence, uniqueness and multiplicity one.
 
-*Hypotheses.* F is a number field and ρ is unitary cuspidal. Normalized upper-parabolic induction and decreasing exponents are fixed.
+Every discrete GL block in the endoscopic parameter labels and the Levi sums of §6.22 uses this same pair (ρ,b) and this same representation ρ⊠b, including its local factors. A tuple of these indices for a block Levi denotes the external tensor product of the supplied representations. The endoscopic selection of such tuples and the normalized θ-intertwiner are the additional constructions of Layer 6. The positive-characteristic spherical classification in the supplier's §4.14 is a different input.
 
-([Colette Mœglin and Jean-Loup Waldspurger — Le spectre résiduel de GL(n)](https://www.numdam.org/article/ASENS_1989_4_22_4_605_0.pdf), Introduction and §I.1, pp. 605–607; §I.11, pp. 640–643.)
+([Colette Mœglin and Jean-Loup Waldspurger — Le spectre résiduel de GL(n)](https://www.numdam.org/article/ASENS_1989_4_22_4_605_0.pdf), Introduction, theorem (i)–(ii), pp. 605–606; §I.11, pp. 640–643.)
 
-The interface consists of the following operations and identities.
+**Checks.**
 
-- `Speh.ofCuspidal`: Construct the quotient from (ρ,b) with a≥1, b≥1.
-- `Speh.standardModule`: Expose the normalized induction and its quotient map.
-- `Speh.centralCharacter`: The central character is ω_ρ^b.
-- `Speh.one`: Speh(ρ,1)=ρ.
-- `Speh.ext`: The cuspidal datum and segment length determine the global quotient up to isomorphism.
+- b=1 labels the supplied cuspidal representation ρ itself.
+- For a unitary Hecke character ρ and b=2, the supplied residual block has central character ρ²; for ρ=1 its local unramified quotient is the trivial GL₂ representation, whereas the local Steinberg subrepresentation is a different constituent.
+- Only indices satisfying ω_ρ^b=ω occur in the fixed-character Levi factor; the other pairs are excluded from that space.
+- The b>1 blocks remain in the discrete spectral sum; the continuous Eisenstein spectrum is not indexed by these discrete blocks.
 
-Form the normalized standard module. Use the local Langlands-quotient theorem at all places and restricted tensor product compatibility. Compute the exponent sum and central character. Retain the quotient realization when discussing global residues.
+*Needs:* `TauCetiRoadmap.AutomorphicSpectralTheory` §4.14a (**Number-field GLₙ residual blocks**).
 
-Fix the GL Rankin–Selberg normalization of the global intertwiner as a target here. For unitary cuspidal blocks ρ_i and their complex exponents s_i, let M(w,ρ,s) be the standard meromorphic global operator. For each inversion (i,j) of w put u=s_i−s_j and
+### 5.2 GL Rankin–Selberg intertwiner normalization
+
+**GL Rankin–Selberg intertwiner normalization.** For unitary cuspidal blocks ρ_i over a number field and complex exponents s_i, let M(w,ρ,s) be the standard meromorphic global operator. For each inversion (i,j) of w put u=s_i−s_j and
 
 r(w,ρ,s)=∏_(i,j) L(u,ρ_i×ρ_j∨)/(L(1+u,ρ_i×ρ_j∨) ε(u,ρ_i×ρ_j∨,ψ)),    N(w,ρ,s)=r(w,ρ,s)⁻¹M(w,ρ,s).
 
-Use the same global additive character and compatible local self-dual measures in every factor. The operators satisfy the permutation cocycle, the adjoint relation on the unitary axis, and holomorphy with invertibility for purely imaginary s and unitary blocks. Mœglin–Waldspurger §I.1.1, pp. 607–609, proves these identities from the local functional equations, the rank-one operator and induction in stages; §6.1 gives irreducibility at the unitary point. The API `GLIntertwiner.normalizingFactor`, `.cocycle` and `.unitaryIsomorphism` fixes this normalization before residues are taken. Check the identity permutation has r=1 and N=id; two adjacent transpositions composed with the permuted data give the identity; omitting the epsilon term changes the adjoint/unitary identity at a ramified place. AutomorphicSpectralTheory supplies meromorphic continuation of M, rather than this GL-specific factor formula.
+Use the same global additive character and compatible local self-dual measures in every factor. Construct the local operators with the corresponding local L/epsilon factors and identify the global normalized operator with their restricted tensor product, first in a convergence chamber and then meromorphically. No absolute Euler-product convergence on the unitary axis is asserted. The local normalized operators satisfy the permutation cocycle, the adjoint relation, and holomorphy with invertibility for purely imaginary s and unitary blocks; the extension to arbitrary unitary local blocks is §6.1. The API `GLIntertwiner.normalizingFactor`, `.cocycle` and `.unitaryIsomorphism` fixes this normalization for the unitary trace comparison.
+
+*Hypotheses.* Normalized upper-parabolic induction; unitary cuspidal global blocks; the local unitary-axis clause requires unitary local inducing representations and purely imaginary exponents. Scalar and operator identities are identities of meromorphic families, with values taken only at regular points.
+
+([C. Mœglin and J.-L. Waldspurger — Le spectre résiduel de GL(n)](https://www.numdam.org/article/ASENS_1989_4_22_4_605_0.pdf), §I.1.1, formula for r and properties (1), (3)–(4), pp. 607–608; global factorization in the Introduction, p. 606; `TauCetiRoadmap.AutomorphicSpectralTheory` §2.5.)
 
 **Checks.**
 
-- `Speh.lengthOne`. b=1 gives the original cuspidal representation.
-- `Speh.lengthTwo`. For b=2 the exponents are +1/2 and −1/2 and the central character is ω_ρ².
-- `Speh.quotientVsSub`. Replacing the quotient by the local essentially square-integrable segment subrepresentation is not the global Speh definition.
-- For b>1 it lies in the residual discrete spectrum, not the cuspidal spectrum.
+- The identity permutation has r=1 and N=id.
+- Two adjacent transpositions, with the inducing data permuted for the second operator, compose to the identity as a meromorphic family.
+- At an unramified finite place, with conductor-O additive character and hyperspecial Haar normalization, the local normalized operator sends the normalized spherical vector to its counterpart with coefficient one.
 
-*Needs:* `TauCetiRoadmap.ArithmeticLocallySymmetricSpaces` §ALS.F.6 (automorphic forms and cuspidal representations); `TauCetiRoadmap.AutomorphicSpectralTheory` §4 (Automorphic spectral completeness).
-
-### 5.2 The full GL_m discrete spectrum
-
-With a fixed unitary central character over a number field, every irreducible constituent of L²_disc(GL_m(F) modulo its centre in GL_m(A_F)) is a unique Speh(ρ,b), m=ab, and occurs with multiplicity one. The cuspidal spectrum is the b=1 part and the residual spectrum is b>1. The statement uses square integrability modulo the centre; it does not replace the continuous spectrum by discrete Speh representations.
-
-*Hypotheses.* Use the normalized induction and central-character convention of the Speh datum.
-
-([Colette Mœglin and Jean-Loup Waldspurger — Le spectre résiduel de GL(n)](https://www.numdam.org/article/ASENS_1989_4_22_4_605_0.pdf), Introduction, theorem (i)–(ii), pp. 605–606; §II.3 and its corollary, pp. 647–649.)
-
-Decompose by cuspidal support classes. Normalize intertwining operators by the Rankin–Selberg factors. Analyze the residue hyperplanes and the cancellation of poles at the zero differences. Show that only equal-rank repeated-cuspidal segments survive and each gives its unique quotient once.
-
-**Checks.**
-
-- A b=2 residual constituent must appear in a discrete spectral calculation.
-- Continuous Eisenstein contributions remain in the full trace formula where required.
-
-*Needs:* §5.1; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.13 Fine spectral expansion.
+*Needs:* `TauCetiRoadmap.AutomorphicSpectralTheory` §§2.1–2.5 (meromorphic operators, local normalization and global factorization); `TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors` AL.3 (cuspidal Rankin–Selberg L/epsilon factors and functional equations); `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.2.2 (normalized induction).
 
 ### Examples
 
-Take a unitary Hecke character rho and b=2. The standard data have exponents 1/2 and -1/2, which sum to zero, so Speh(rho,2) has central character rho². For rho=1 its local unramified Langlands quotient is the trivial GL₂ representation, not the Steinberg subrepresentation. The residual automorphic constituent is allowed in the discrete spectral sum; excluding it on the grounds that it is not cuspidal loses an entire term. For b=1 the same construction returns the cuspidal datum itself.
+For the supplied pair (ρ,2) with ρ a unitary Hecke character, the standard exponents are 1/2 and −1/2. They sum to zero and the central character is ρ². This residual representation contributes to the discrete Levi spectrum in §6.22 even though it is not cuspidal. For b=1 the same supplier index gives the original cuspidal representation. In the identity-Weyl normalization the inversion product is empty and the intertwiner is the identity.
 
 ### Dependencies
 
-`TauCetiRoadmap.ArithmeticLocallySymmetricSpaces` §ALS.F.6 (automorphic forms and cuspidal representations); `TauCetiRoadmap.AutomorphicSpectralTheory` §4 (Automorphic spectral completeness); `TauCetiRoadmap.AutomorphicSpectralTheory` §6.13 Fine spectral expansion.
+`TauCetiRoadmap.AutomorphicSpectralTheory` §4.14a (**Number-field GLₙ residual blocks**) and §§2.1–2.5 (intertwiners and factorization); `TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors` AL.3 (cuspidal Rankin–Selberg factors); `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.2.2 (normalized induction).
 
 ## Layer 6: stable and twisted unitary trace comparison
 
@@ -1729,7 +1716,7 @@ Let F be a non-archimedean local field of characteristic 0 and π_1, …, π_m i
 
 ([M. Tadić — Classification of unitary representations in irreducible representations of general linear group (non-Archimedean case)](https://www.numdam.org/item/ASENS_1986_4_19_3_335_0.pdf), §2.5, Theorem (J. N. Bernstein) (i), p. 346; [C. Mœglin and J.-L. Waldspurger — Le spectre résiduel de GL(n)](https://www.numdam.org/item/ASENS_1989_4_22_4_605_0.pdf), §I.1.1, property (3) and its proof, pp. 607–608; [S. W. Shin — Galois representations arising from some compact Shimura varieties](https://math.berkeley.edu/~swshin/StableGal.pdf), §4.5, before Proposition 4.8, p. 28.)
 
-Bernstein’s theorem, stated as Tadić 1986 Theorem 2.5(i) p. 346 with attribution to Bernstein (P-invariant distributions on GL(N), §0.2), gives irreducibility and unitarity of π_1 × π_2 for irreducible unitary π_1, π_2; induction in stages gives the m-fold product. Unitarity of the induced representation is the induced inner product on the normalized induction of SmoothRepresentationsOfLocalGroups §SR.2.2 (Jacquet functors and parabolic induction). Mœglin–Waldspurger §I.1.1(3) pp. 607–608: at purely imaginary exponents the normalized operators are holomorphic, and irreducibility of the unitary induced representation makes the nonzero operator N(σ,π,s) an isomorphism. For ℝ and ℂ use [D. Vogan, *The unitary dual of GL(n) over an archimedean field*](https://www.math.utah.edu/~ptrapa/math-library/vogan/vogan-GLn.pdf), Theorems 17.4 and 17.6, pp. 501–502: classify each unitary block by its nondegenerate Levi datum and use independence of polarization to identify their parabolic product with the irreducible representation attached to the combined datum. This covers arbitrary unitary blocks. Apply the same rank-one normalization and cocycle of §5.1, using Mœglin–Waldspurger §I.1.1(3), to obtain the holomorphic isomorphisms on the unitary axis.
+Bernstein’s theorem, stated as Tadić 1986 Theorem 2.5(i) p. 346 with attribution to Bernstein (P-invariant distributions on GL(N), §0.2), gives irreducibility and unitarity of π_1 × π_2 for irreducible unitary π_1, π_2; induction in stages gives the m-fold product. Unitarity of the induced representation is the induced inner product on the normalized induction of SmoothRepresentationsOfLocalGroups §SR.2.2 (Jacquet functors and parabolic induction). Mœglin–Waldspurger §I.1.1(3) pp. 607–608: at purely imaginary exponents the normalized operators are holomorphic, and irreducibility of the unitary induced representation makes the nonzero operator N(σ,π,s) an isomorphism. For ℝ and ℂ use [D. Vogan, *The unitary dual of GL(n) over an archimedean field*](https://www.math.utah.edu/~ptrapa/math-library/vogan/vogan-GLn.pdf), Theorems 17.4 and 17.6, pp. 501–502: classify each unitary block by its nondegenerate Levi datum and use independence of polarization to identify their parabolic product with the irreducible representation attached to the combined datum. This covers arbitrary unitary blocks. Apply the same rank-one normalization and cocycle of §5.2, using Mœglin–Waldspurger §I.1.1(3), to obtain the holomorphic isomorphisms on the unitary axis.
 
 **Checks.**
 
@@ -1737,7 +1724,7 @@ Bernstein’s theorem, stated as Tadić 1986 Theorem 2.5(i) p. 346 with attribut
 - Non-example: |·|^{1/2} × |·|^{−1/2} is reducible, with the trivial character and the Steinberg representation as constituents; its inducing characters are not unitary, so the hypothesis cannot be weakened to unitary central character.
 - For m = 1 the statement is the irreducibility and unitarity of π_1 itself.
 
-*Needs:* `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.2.2 (Jacquet functors and parabolic induction); `TauCetiRoadmap.AutomorphicSpectralTheory` §§0.48–0.49 (real reductive representations and globalizations).
+*Needs:* §5.2; `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.2.2 (Jacquet functors and parabolic induction); `TauCetiRoadmap.AutomorphicSpectralTheory` §§0.48–0.49 (real reductive representations and globalizations).
 
 ### 6.2 Tamagawa number one for the simply connected classical inputs
 
@@ -2189,7 +2176,7 @@ With f^n⃗ as in §6.21, I^{𝒢_n⃗θ}_spec(f^n⃗θ) = Σ_M |W_M| |W_{𝒢_n
 
 ([S. W. Shin — Galois representations arising from some compact Shimura varieties](https://math.berkeley.edu/~swshin/StableGal.pdf), §4.5, Proposition 4.8 and Corollary 4.14, pp. 28–30; [A. Caraiani and P. Scholze — On the generic part of the cohomology of compact unitary Shimura varieties](https://annals.math.princeton.edu/wp-content/uploads/annals-v186-n3-p01-p.pdf), §5.3, Proposition 5.3.3 and Remark 5.3.4, p. 738; [A. Caraiani and P. Scholze — On the generic part of the cohomology of non-compact unitary Shimura varieties](https://arxiv.org/abs/1909.01898v2), §5.6, proof of Lemma 5.6.2, pp. 75–76; [C. Mœglin and J.-L. Waldspurger — Le spectre résiduel de GL(n)](https://www.numdam.org/item/ASENS_1989_4_22_4_605_0.pdf), §I.1.1(3) and proof pp. 607–608; [Sug Woo Shin — Galois representations arising from some compact Shimura varieties](https://math.berkeley.edu/~swshin/StableGal.pdf), Proposition 4.8 and Remark 4.10, p. 28; Lemma 4.11, p. 29; Corollary 4.14, p. 30 (author copy).)
 
-Shin Proposition 4.8: start with Arthur’s spectral expansion and its chosen parameter ordering. The infinity infinitesimal character eliminates the additional Weyl terms; the surviving involution acts by −1 on the indicated quotient, giving determinant 2^dim. Shin Lemma 4.11 and Corollary 4.14: use the global functional equation and normalized intertwiner to fix A′ and its square; the ξ twist restricts to 𝒢(𝔸)¹. Proper spectral Levi terms remain. Use the number-field residual classification for GL_n, including multiplicity one for discrete Speh data. Mœglin–Waldspurger §I.1.1(3) gives irreducibility of unitary induction and holomorphic invertible normalized operators at the unitary point; its proof invokes Bernstein’s non-archimedean theorem (§6.1) and the archimedean theorem of §6.1. Nonzero Lefschetz trace forces the required cohomological infinity component. Use the invariant spectral expansion and group the regular Weyl terms. Use the Φ^(−1)θ involution to identify the single surviving regular element. Insert the residual spectrum classification into each Levi discrete summand. Transport the intertwining operator through the explicit central twist and retain its determinant coefficient.
+Shin Proposition 4.8: start with Arthur’s spectral expansion and its chosen parameter ordering. The infinity infinitesimal character eliminates the additional Weyl terms; the surviving involution acts by −1 on the indicated quotient, giving determinant 2^dim. Shin Lemma 4.11 and Corollary 4.14: use the global functional equation and normalized intertwiner to fix A′ and its square; the ξ twist restricts to 𝒢(𝔸)¹. Proper spectral Levi terms remain. Use AutomorphicSpectralTheory §4.14a for the number-field residual classification and multiplicity one, with the unchanged pairs (ρ,b) and representations ρ⊠b of §5.1 in each GL factor of the Levi. Mœglin–Waldspurger §I.1.1(3) gives irreducibility of unitary induction and holomorphic invertible normalized operators at the unitary point; its proof invokes Bernstein’s non-archimedean theorem (§6.1) and the archimedean theorem of §6.1. Nonzero Lefschetz trace forces the required cohomological infinity component. Use the invariant spectral expansion and group the regular Weyl terms. Use the Φ^(−1)θ involution to identify the single surviving regular element. Insert those supplied residual blocks into each Levi discrete summand. Transport the intertwining operator through the explicit central twist and retain its determinant coefficient.
 
 **Checks.**
 
@@ -2200,7 +2187,7 @@ Shin Proposition 4.8: start with Arthur’s spectral expansion and its chosen pa
 - For a full Levi with two nonzero endoscopic blocks the determinant is 4 and its reciprocal coefficient is 1/4.
 - Absorbing the normalization operator into an unnamed scalar fails the target.
 
-*Needs:* §6.19; §6.10; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.13 Fine spectral expansion; §6.4; `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.2.2 (Jacquet functors and parabolic induction); `TauCetiRoadmap.AutomorphicSpectralTheory` §4 (Automorphic spectral completeness); `TauCetiRoadmap.AutomorphicSpectralTheory` §§0.48–0.49 (real reductive representations and globalizations); §6.1; §5.2; §6.6; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.16 Invariant trace formula.
+*Needs:* §6.19; §6.10; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.13 Fine spectral expansion; §6.4; `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.2.2 (Jacquet functors and parabolic induction); `TauCetiRoadmap.AutomorphicSpectralTheory` §4 (Automorphic spectral completeness); `TauCetiRoadmap.AutomorphicSpectralTheory` §§0.48–0.49 (real reductive representations and globalizations); §6.1; `TauCetiRoadmap.AutomorphicSpectralTheory` §4.14a (**Number-field GLₙ residual blocks**); §6.6; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.16 Invariant trace formula.
 
 ### 6.23 The simple trace formula for division-algebra unitary groups
 
@@ -2337,7 +2324,7 @@ With tau(G)=tau(H)=2 and an endoscopic outer-automorphism group of order two, `e
 
 ### Dependencies
 
-`TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.2.2 (Jacquet functors and parabolic induction); `TauCetiRoadmap.AutomorphicSpectralTheory` §§0.48–0.49 (real reductive representations and globalizations); `TauCetiRoadmap.AdelicAlgebraicGroups` §2.4 (Gauge forms and Tamagawa normalization); `TauCetiRoadmap.ReductiveGroupsPartII` §RG2.1.5 (arithmetic invariants: π₁, z-extensions and the Kottwitz homomorphism); `TauCetiRoadmap.GlobalNumberFields` Layer 8 (idele classes and norms) and Layer 9 (Hecke characters); `TauCetiRoadmap.AdelicAlgebraicGroups` §2.1 (Characters, logarithms and the split centre); `TauCetiRoadmap.ClassFieldTheory` Layer 11 (the global class formation and global Artin reciprocity); `TauCetiRoadmap.GlobalNumberFields` Layer 10 (archimedean characters, infinity types, and cyclotomic arithmetic); §2.16; §1.16; `TauCetiRoadmap.ReductiveGroupsPartII` §RG2.5.1 (the dual group and its Galois action); §1.11; §1.8; `TauCetiRoadmap.ReductiveGroupsPartII` §§RG2.5.1–RG2.5.2 (the dual group, its Galois action and the L-group); §2.4; §1.4; §2.10; `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.4.1 (The Satake transform and isomorphism); `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.4.2 (Spherical parameters); §4.9; §2.11; §2.15; §2.14; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.19 Real Euler–Poincaré test functions; `TauCetiRoadmap.ReductiveGroups` Layer 7 (structure theory); `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.3.3 (Tempered representations and the conditional Langlands classification); `TauCetiRoadmap.AutomorphicSpectralTheory` §6.16 Invariant trace formula; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.15 (Invariantization by Levi recursion); §4.7; §1.15; §2.7; §1.13; §2.6; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.10 Weighted orbital integrals; §2.1; §4.11; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.6 (Coarse trace formula); `TauCetiRoadmap.AutomorphicSpectralTheory` §6.12 Fine geometric expansion; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.13 Fine spectral expansion; `TauCetiRoadmap.AutomorphicSpectralTheory` §4 (Automorphic spectral completeness); §5.2; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.17 (Trace formula for compact quotients); `TauCetiRoadmap.PELModuli` §M0.7 (The similitude group); `TauCetiRoadmap.PELModuli` §M5.5 (Unitary PEL data with prescribed signatures); §4.10; `TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors` AL.3 — Rankin–Selberg theory and function-field factors; §4.8; Mathlib `MeasureTheory.Measure.IsHaarMeasure`.
+`TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.2.2 (Jacquet functors and parabolic induction); `TauCetiRoadmap.AutomorphicSpectralTheory` §§0.48–0.49 (real reductive representations and globalizations); `TauCetiRoadmap.AdelicAlgebraicGroups` §2.4 (Gauge forms and Tamagawa normalization); `TauCetiRoadmap.ReductiveGroupsPartII` §RG2.1.5 (arithmetic invariants: π₁, z-extensions and the Kottwitz homomorphism); `TauCetiRoadmap.GlobalNumberFields` Layer 8 (idele classes and norms) and Layer 9 (Hecke characters); `TauCetiRoadmap.AdelicAlgebraicGroups` §2.1 (Characters, logarithms and the split centre); `TauCetiRoadmap.ClassFieldTheory` Layer 11 (the global class formation and global Artin reciprocity); `TauCetiRoadmap.GlobalNumberFields` Layer 10 (archimedean characters, infinity types, and cyclotomic arithmetic); §2.16; §1.16; `TauCetiRoadmap.ReductiveGroupsPartII` §RG2.5.1 (the dual group and its Galois action); §1.11; §1.8; `TauCetiRoadmap.ReductiveGroupsPartII` §§RG2.5.1–RG2.5.2 (the dual group, its Galois action and the L-group); §2.4; §1.4; §2.10; `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.4.1 (The Satake transform and isomorphism); `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.4.2 (Spherical parameters); §4.9; §2.11; §2.15; §2.14; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.19 Real Euler–Poincaré test functions; `TauCetiRoadmap.ReductiveGroups` Layer 7 (structure theory); `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.3.3 (Tempered representations and the conditional Langlands classification); `TauCetiRoadmap.AutomorphicSpectralTheory` §6.16 Invariant trace formula; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.15 (Invariantization by Levi recursion); §4.7; §1.15; §2.7; §1.13; §2.6; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.10 Weighted orbital integrals; §2.1; §4.11; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.6 (Coarse trace formula); `TauCetiRoadmap.AutomorphicSpectralTheory` §6.12 Fine geometric expansion; `TauCetiRoadmap.AutomorphicSpectralTheory` §6.13 Fine spectral expansion; `TauCetiRoadmap.AutomorphicSpectralTheory` §4 (Automorphic spectral completeness); `TauCetiRoadmap.AutomorphicSpectralTheory` §4.14a (**Number-field GLₙ residual blocks**); `TauCetiRoadmap.AutomorphicSpectralTheory` §6.17 (Trace formula for compact quotients); `TauCetiRoadmap.PELModuli` §M0.7 (The similitude group); `TauCetiRoadmap.PELModuli` §M5.5 (Unitary PEL data with prescribed signatures); §4.10; `TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors` AL.3 — Rankin–Selberg theory and function-field factors; §4.8; Mathlib `MeasureTheory.Measure.IsHaarMeasure`.
 
 ## Layer 7: algebraic isocrystals and rational Igusa geometry
 
@@ -4527,7 +4514,7 @@ Use the canonical models of the abelian-type unitary Shimura varieties Sh(V,K) a
 - `StandardPair.definite`. For a definite space the occurrence witness is degree-zero Shimura-set cohomology.
 - Residual Speh possibilities remain until cuspidality is separately established.
 
-*Needs:* §6.27; §6.25; §6.8; §6.6; §6.24; §5.2; `TauCetiRoadmap.ShimuraVarieties` §6.7 (Canonical models of abelian type).
+*Needs:* §6.27; §6.25; §6.8; §6.6; §6.24; `TauCetiRoadmap.AutomorphicSpectralTheory` §4.14a (**Number-field GLₙ residual blocks**); `TauCetiRoadmap.ShimuraVarieties` §6.7 (Canonical models of abelian type).
 
 ### 13.2 Automorphic inputs to GSp₄ solvable descent
 
@@ -4691,7 +4678,7 @@ For cyclic prime degree r, an automorphic representation without the class-field
 
 ### Dependencies
 
-§6.27; §6.25; §6.8; §6.6; §6.24; §5.2; `TauCetiRoadmap.ShimuraVarieties` §6.7 (Canonical models of abelian type); §6.26; §11.1; §6.22; §6.10; §6.9; §11.4; `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.5.3 (Coefficient change, Ext and local blocks); §10.26; §10.30; §6.14; §4.6; §4.9; §4.10; §4.7; `TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors`, **Representation prerequisites**, **Archimedean GLₙ parameters**; `TauCetiRoadmap.ArithmeticLocallySymmetricSpaces` §§ALS.F.5–ALS.F.7 (relative cochains and algebraic coefficients).
+§6.27; §6.25; §6.8; §6.6; §6.24; `TauCetiRoadmap.AutomorphicSpectralTheory` §4.14a (**Number-field GLₙ residual blocks**); `TauCetiRoadmap.ShimuraVarieties` §6.7 (Canonical models of abelian type); §6.26; §11.1; §6.22; §6.10; §6.9; §11.4; `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.5.3 (Coefficient change, Ext and local blocks); §10.26; §10.30; §6.14; §4.6; §4.9; §4.10; §4.7; `TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors`, **Representation prerequisites**, **Archimedean GLₙ parameters**; `TauCetiRoadmap.ArithmeticLocallySymmetricSpaces` §§ALS.F.5–ALS.F.7 (relative cochains and algebraic coefficients).
 
 ## Layer 14: rational Igusa spectral comparison
 
@@ -4799,7 +4786,7 @@ Insert the independent twisted spectral decomposition and residual Levi classifi
 - A noncuspidal isobaric constituent is not discarded.
 - Terms with the same unramified eigencharacter are grouped with their summed virtual coefficient.
 
-*Needs:* §14.4; §14.3; §6.22; §5.2; §13.4.
+*Needs:* §14.4; §14.3; §6.22; `TauCetiRoadmap.AutomorphicSpectralTheory` §4.14a (**Number-field GLₙ residual blocks**); §13.4.
 
 ### 14.6 Separation of unramified Hecke characters
 
@@ -4816,7 +4803,7 @@ Identify distinct isobaric GL representations by strong multiplicity one. Apply 
 - Two different characters can be separated by some finite Hecke operator combination.
 - Repeated copies of the same character cannot be independently separated.
 
-*Needs:* §14.5; §5.2.
+*Needs:* §14.5; `TauCetiRoadmap.AutomorphicSpectralTheory` §4.14a (**Number-field GLₙ residual blocks**).
 
 ### 14.7 Rational Igusa export without concentration
 
@@ -4841,7 +4828,7 @@ In the nonbasic two-block case delta_barP^(1/2) is a nontrivial unramified chara
 
 ### Dependencies
 
-§7.3; §6.6; §6.8; §6.9; §6.14; §6.10; §8.1; §8.19; §8.9; §8.18; §6.22; §8.8; §13.5; `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.2.2 (Jacquet functors and parabolic induction); §10.6; §10.10; §8.11; §6.25; §6.7; §6.19; §8.22; §5.2; §13.4.
+§7.3; §6.6; §6.8; §6.9; §6.14; §6.10; §8.1; §8.19; §8.9; §8.18; §6.22; §8.8; §13.5; `TauCetiRoadmap.SmoothRepresentationsOfLocalGroups` §SR.2.2 (Jacquet functors and parabolic induction); §10.6; §10.10; §8.11; §6.25; §6.7; §6.19; §8.22; `TauCetiRoadmap.AutomorphicSpectralTheory` §4.14a (**Number-field GLₙ residual blocks**); §13.4.
 
 ## Layer 15: normalization calculations and coherent outputs
 

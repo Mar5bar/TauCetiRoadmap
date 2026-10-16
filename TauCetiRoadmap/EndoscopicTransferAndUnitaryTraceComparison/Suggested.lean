@@ -140,8 +140,9 @@ end ChevalleyGL
 /-! ## Layer 4: the fundamental lemma and smooth transfer
 The reductive and harmonic carriers required for these statements are described in README.md. -/
 
-/-! ## Layer 5: number-field discrete general linear spectrum
-The residual Speh classification uses the supplied automorphic representation category. -/
+/-! ## Layer 5: number-field discrete general linear input and normalization
+AutomorphicSpectralTheory §4.14a supplies the residual index and representations.
+The endoscopic labels use those same objects; the GL intertwiner normalization is a README target. -/
 
 /-! ## Layer 6: stable and twisted unitary trace comparison -/
 
@@ -297,7 +298,7 @@ AData, ChiData, TransferFactor, TwistedTransferFactor, LieTransferFactor, IsTran
 eulerPoincareFunction, CurveBundles, LocalLoopGrassmannian,
 ChevalleyQuotient, kostantSection, RegularCentralizer, HitchinStack, HitchinBase,
 cameralCover, spectralCurve, HitchinPicard, AffineSpringerFibre, WeakAbelianFibration,
-Speh, StableEllipticDistribution, BaseChangeGroup, BCLMorphism, zetaLMorphism,
+StableEllipticDistribution, BaseChangeGroup, BCLMorphism, zetaLMorphism,
 twistedLefschetzFunction, endoscopicInfinityFunction, IsCuspidalGroup, IsCuspidalSubset,
 CMQuadraticCharacterExtension, TwistedInvariantDistributions, IgusaPELModel,
 GIsocrystal, NewtonMap, KottwitzMap, AdmissibleClass, Jb, DecentRepresentative,
