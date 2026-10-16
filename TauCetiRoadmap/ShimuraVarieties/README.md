@@ -68,7 +68,7 @@ The following contracts specify mathematical inputs, within the scope of their n
 
 **[AdelicAlgebraicGroups, Layer 3, reduction and arithmetic quotients](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#layer-3-reduction-and-arithmetic-quotients).** Import AdelicAlgebraicGroups §3.4 / Reduction.levelArithmetic_commensurable for arbitrary compact-open levels and representatives. Section 0.1 constructs the bridge from an integral-model compact level to G(Q)∩GL_n(Z) for every faithful rational embedding, and arithmeticity of the effective domain image after removing compact ineffective factors. Preserve the finite-index rational component subgroup. Import class-number-finite separately; Layer 0 does not replan reduction or pairwise commensurability.
 
-**[AdelicAlgebraicGroups, Layer 4, approximation, neat levels and Hecke maps](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#layer-4-approximation-neat-levels-and-hecke-maps).** Layers 0–1 specialize the real-stabilizer version of level-covering-map to the Shimura effective-domain quotient: remove the actual central/compact ineffective kernel before asserting freeness or quotient-action degree. Supply finite topological level maps, the effective kernel of a normal K/K′ action, Hecke-span composition via double cosets, and the Cartesian comparison only with its precise U′L=U hypothesis. Arithmetic neatness remains owned by §P.4 / AdelicAlgebraicGroups §4.3. Distinguish the effective normal-level quotient action from the full automorphism group over the base of a disconnected cover. Specialize the existing class-set/Kneser/Hasse theorems for components; import AdelicAlgebraicGroups §4.5 integral almost-all-prime lifts and finite-adelic abelianization, and require only the positive rational component image and local openness specialization of SVI 5.20–5.21.
+**[AdelicAlgebraicGroups, Layer 4, approximation, neat levels and Hecke maps](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#layer-4-approximation-neat-levels-and-hecke-maps).** Layers 0–1 specialize the real-stabilizer version of level-covering-map to the Shimura effective-domain quotient: remove the actual central/compact ineffective kernel before asserting freeness or quotient-action degree. Supply finite topological level maps, the effective kernel of a normal K/K′ action and the generic double-coset combinatorics of Hecke spans. The supplier's single-intersection Cartesian comparison requires both neat U and U′L=U. Section 1.5 owns the analytic comparison: a literal geometric decomposition requires an effective-free common target; arbitrary coarse targets use the normalization of the reduced fibre product. Arithmetic neatness remains owned by §P.4 / AdelicAlgebraicGroups §4.3. Distinguish the effective normal-level quotient action from the full automorphism group over the base of a disconnected cover. Specialize the existing class-set/Kneser/Hasse theorems for components; import AdelicAlgebraicGroups §4.5 integral almost-all-prime lifts and finite-adelic abelianization, and require only the positive rational component image and local openness specialization of SVI 5.20–5.21.
 
 **[ArithmeticLocallySymmetricSpaces, §§ALS.0.5–ALS.0.9](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md#als05-the-symmetric-space-is-contractible-with-proper-action).** Import symmetric-space properness and effective arithmetic quotient/manifold results on their stated domains. Finite normalizer index and ranked S-arithmetic rigidity are the local targets §§7.0c–7.0d; neither is inferred from proper discontinuity.
 
@@ -412,20 +412,27 @@ This uses [1.2 Complex analytic structure of the tower](#12-complex-analytic-str
 
 ### 1.5 Holomorphic Hecke correspondences
 
-Prove `TauCeti.Shimura.holomorphic_hecke` as follows. For K_g=K∩gKg⁻¹, the Hecke span is Sh_K^an←Sh_{K_g}^an→Sh_K^an with arrows [x,a]↦[x,a] and [x,a]↦[x,ag]. Both are finite holomorphic, and locally biholomorphic at neat K. Replacing g by k₁gk₂ gives an isomorphic span. Composition is represented by the fibre product of spans and its double-coset decomposition, retaining multiplicities and effective degrees.
+Prove `TauCeti.Shimura.holomorphic_hecke` as follows. For K_g=K∩gKg⁻¹, the Hecke span is Sh_K^an←Sh_{K_g}^an→Sh_K^an with arrows [x,a]↦[x,a] and [x,a]↦[x,ag]. Both are finite holomorphic, and locally biholomorphic at neat K. Replacing g by k₁gk₂ gives an isomorphic span. At every level the composite has the actual analytic fibre product as apex, with its full structure sheaf.
 
 Use the AA.4 topological span, then holomorphicity of its two factors.
 
-For composition take the actual fibre product, not a single intersection level without the AA.4 product hypothesis U′L=U.
+State the geometric comparison componentwise over a connected common target B=Γ∖X⁺. Transport the two source components to Aᵢ=Γᵢ∖X⁺, where Γ is the effective arithmetic image acting faithfully on X⁺ and Γ₁,Γ₂⊂Γ are finite-index effective images. For P=A₁×_B A₂, the natural finite map
 
-Enumerate the finite double cosets and identify the component isomorphisms; effective stabilizers correct raw indices.
+    ⨿_{γ ∈ Γ₁∖Γ/Γ₂} (Γ₁∩γΓ₂γ⁻¹)∖X⁺ → P,
+    [x] ↦ ([x], [γ⁻¹x])
+
+identifies its source with the normalization of P_red. If Γ acts freely on X⁺, this map is an isomorphism onto P itself; neat common target level is sufficient. Apply this formula to each pair of source components over each target component. Double cosets are taken in the effective images: raw adelic indices can overcount when a central kernel acts trivially. The separate AA.4 assertion that a particular pullback is a single intersection-level space retains both the neat-target hypothesis and U′L=U.
+
+The generic combinatorics come from AA.4. This roadmap proves the analytic comparison using the local finite quotient charts of §1.2. They make the displayed map finite and surjective; over the dense open locus of trivial effective stabilizers it is an isomorphism. The source is normal by finite invariants, so it normalizes P_red componentwise. Under the free-target hypothesis the quotient maps are local biholomorphisms everywhere and the same local charts give the literal fibre-product decomposition. Layer 3 and §8.4 transport this distinction to complex algebraizations and canonical models. Normalization does not retain nilpotents or identify branches that meet in P.
 
 **Checks.**
 
 - Both arrows have target K by the chosen K_g convention.
 - Normality of a sublevel alone does not make every Hecke pullback one intersection-level variety.
+- At neat common target, the displayed effective double-coset map is an isomorphism; at g=1 composition with the identity span leaves both legs unchanged.
+- For the forgetful map f:Y₀(2)_ℂ→Y(1)_ℂ, write E:y²=x³+ax²+bx with C=⟨(0,0)⟩ and b(a²−4b)≠0. The coarse coordinate t=a²/b−3 ranges over A¹∖{1}, and c₄=16(a²−3b), Δ=16b²(a²−4b) give j(t)=256t³/(t−1). Thus the composite of the transpose T₂ span with T₂ has apex Z=Y₀(2)_ℂ×_{f,Y(1)_ℂ,f}Y₀(2)_ℂ, with equation `(t−s)Q(t,s)=0`, where `Q(t,s)=t²s+ts²−t²−ts−s²`. As a quadratic in s, Q has discriminant `t²(t−1)(t+3)`, a nonsquare in ℂ(t), and primitive coefficients, so Q is irreducible. At (0,0), above j=0, its gradient vanishes and its quadratic part is `−(t²+ts+s²)`, with two distinct complex tangent lines. This open irreducible component is nodal and nonnormal; its normalization has two points above the node. Consequently even componentwise isomorphisms with normal Shimura-level spaces fail for the raw coarse fibre product.
 
-([J. S. Milne, Introduction to Shimura varieties](https://jmilne.org/math/xnotes/svi.pdf), §5, pp.58–59; [Tau Ceti Project, Adelic algebraic groups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md), layer-4-approximation-neat-levels-and-hecke-maps.)
+([J. S. Milne, Introduction to Shimura varieties](https://jmilne.org/math/xnotes/svi.pdf), §5, pp.58–59; [Tau Ceti Project, Adelic algebraic groups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md), §4.5, Hecke correspondences and Cartesian squares of level maps; the normalization comparison follows from the finite quotient charts and the dense free locus as above; [Stacks, Tag 035Q](https://stacks.math.columbia.edu/tag/035Q), normalization universal property, for the algebraic comparison.)
 
 This uses [1.4 Holomorphic right translations](#14-holomorphic-right-translations); [1.3 Holomorphic finite level maps](#13-holomorphic-finite-level-maps); [AdelicAlgebraicGroups, §4.5, Hecke correspondences](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#45-hecke-correspondences-volumes-and-abelianization); [AdelicAlgebraicGroups, §4.5, Cartesian squares of level maps](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#45-hecke-correspondences-volumes-and-abelianization); [AdelicAlgebraicGroups, Layer 4, approximation, neat levels and Hecke maps](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#layer-4-approximation-neat-levels-and-hecke-maps), with the exact supplier contracts above.
 
@@ -2273,12 +2280,16 @@ Apply §§4.11 and 8.3 to obtain the two E-morphisms.
 
 Use CategoryTheory.Limits.span, preserving the order of the two legs. The complex comparison is the Layer 1 correspondence; applying native spanCompIso to Over.pullback supplies its base-change isomorphism.
 
+For successive spans L←A→M and M←A′→R, construct `CanonicalHecke.compose` using the native pullback P=A×_M A′ in Over(Spec E), with ordered legs P→A→L and P→A′→R. Analytification after extension to ℂ identifies this actual scheme fibre product with the analytic composite of §1.5. If the common target's effective arithmetic groups act freely on their domains, in particular at neat common target level, §1.5 gives its literal geometric double-coset decomposition. At arbitrary coarse levels, instead normalize P_red in its component function fields using AlgebraicModuliForArithmeticGeometry §5.4; prove that this finite normal E-scheme has the geometric components and comparison maps of §1.5. Establish the comparison after extension to ℂ by finiteness, normality and generic isomorphism. Characteristic zero ensures that reduction and normalization commute with field extension here. Individual geometric summands may be permuted by Galois and need not descend separately to E. Neither this normalization nor its component list replaces P as the composite apex. Both constructions and their specified comparison maps commute with field extension.
+
 Expose the following named operations and laws.
 
 - `CanonicalHecke.span_apex`: The value at WalkingSpan.zero is the supplied apex M_J.
 - `CanonicalHecke.span_first`: The image of WalkingSpan.Hom.fst is exactly pi_{J,K}.
 - `CanonicalHecke.span_second`: The image of WalkingSpan.Hom.snd is exactly T_g followed by pi_{g^{-1}Jg,K}.
 - `CanonicalHecke.span_baseChange`: Postcomposing the span with Over.pullback(b) is naturally isomorphic to native span on the two pulled-back legs, by spanCompIso.
+- `CanonicalHecke.compose_apex`: The value at WalkingSpan.zero is the actual native pullback of the first span's second leg and the second span's first leg.
+- `CanonicalHecke.compose_legs`: The two WalkingSpan arrows are respectively the first pullback projection followed by the first span's first leg, and the second projection followed by the second span's second leg.
 
 **Checks.**
 
@@ -2287,12 +2298,14 @@ Expose the following named operations and laws.
 - `CanonicalHecke.test_distinct_legs`: For two endomorphisms p1,p2 of a supplied apex with p1 distinct from p2, the first-leg evaluation is not p2. A construction that swaps the two legs fails this test.
 - `CanonicalHecke.test_base_change`: After Over.pullback(b), evaluation at the first WalkingSpan arrow is Over.pullback(b).map(p1).
 - `CanonicalHecke.test_gl2_Tp_index`: For GL2, K = GL2(Zhat) and g equal to diag(p,1) at a prime p and the identity elsewhere, J = K ∩ gKg^{-1} is the preimage of the lower-triangular subgroup mod p, which stabilizes the line spanned by e₂; its index in K is p+1 = |P^1(F_p)|, and both legs of the Hecke span have degree p+1 over the coarse j-line, the classical T_p.
+- `CanonicalHecke.test_gl2_T2_node`: The transpose-T₂/T₂ composite over ℂ is the nodal fibre product of §1.5, whose off-diagonal component has two normalization points above (0,0). Suggested.lean states the polynomial factorization defining its diagonal and off-diagonal components. Field extension of the actual canonical composite retains this node.
+- Under an effective-free common target, P is normal and the normalization comparison is an isomorphism. At coarse level the same conclusion is excluded by the preceding T₂ check.
 - J is K intersect gKg^{-1}, not K intersect g^{-1}Kg.
 - For g=1, J=K and both legs are the identity.
 
-([J. S. Milne, Introduction to Shimura varieties](https://jmilne.org/math/xnotes/svi.pdf), 5.29, p.65; 13.6, p.118.)
+([J. S. Milne, Introduction to Shimura varieties](https://jmilne.org/math/xnotes/svi.pdf), 5.29, p.65; 13.6, p.118; [Stacks, Tag 035Q](https://stacks.math.columbia.edu/tag/035Q), normalization universal property, and [Tag 0AB1](https://stacks.math.columbia.edu/tag/0AB1), finite birational comparison with a normal target; §1.5 supplies the ramification qualification.)
 
-This uses [4.11 Hecke translation over the reflex field](#411-hecke-translation-over-the-reflex-field); [8.3 Finite level maps and effective deck groups](#83-finite-level-maps-and-effective-deck-groups); [1.5 Holomorphic Hecke correspondences](#15-holomorphic-hecke-correspondences); `CategoryTheory.Limits.span`; `CategoryTheory.Limits.spanCompIso`; `CategoryTheory.Over.pullback`, with the exact supplier contracts above.
+This uses [4.11 Hecke translation over the reflex field](#411-hecke-translation-over-the-reflex-field); [8.3 Finite level maps and effective deck groups](#83-finite-level-maps-and-effective-deck-groups); [1.5 Holomorphic Hecke correspondences](#15-holomorphic-hecke-correspondences); [AlgebraicModuliForArithmeticGeometry, §5.4, closures and normalization](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AlgebraicModuliForArithmeticGeometry/README.md#54-closures-and-normalization); [ComplexComparisonPartII, §C−1.1, analytic spaces and analytification](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ComplexComparisonPartII/README.md#c11-analytic-local-models-and-scheme-analytification); `CategoryTheory.Limits.span`; `CategoryTheory.Limits.spanCompIso`; `CategoryTheory.Limits.pullback`; `CategoryTheory.Over.pullback`, with the exact supplier contracts above.
 
 ### 8.5 Functoriality of canonical models in the datum
 
@@ -2672,7 +2685,7 @@ Throughout this result, only the stated fine/coarse ranges and supplier's actual
 
 ModularCurvesPartII §§7.1a, 7.3–7.4 and 9.1–9.3 and ModularCurvesPartII §§8.3–8.5 supply the analytic/level/isogeny identities; compare each leg using §§8.10, 8.13 and 8.5.
 
-Faithful C-base change gives equality over Q. Apply §8.19 and uniqueness of dense-open extension for the compact diagram.
+Faithful C-base change gives equality over Q. Compatibility of successive open Hecke spans uses their actual fibre products; the effective-free decomposition and the separate coarse-level normalization comparison are exactly those of §8.4. Apply §8.19 and uniqueness of dense-open extension for the compact diagram.
 
 Identify cusp formal maps using §8.20 and ModularCurvesPartII §§4.1–4.8, 5.11 and 6.3. Import the supplier normalization for differentials rather than redefining the Hecke operator.
 

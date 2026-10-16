@@ -280,6 +280,32 @@ example {i j k : I} (f : i ⟶ j) (g : j ⟶ k) :
 
 end CanonicalTower
 
+namespace CanonicalHecke
+
+variable {C : Type*} [Category C] {L M R A A' : C}
+variable (p1 : A ⟶ L) (p2 : A ⟶ M) (q1 : A' ⟶ M) (q2 : A' ⟶ R)
+variable [HasPullback p2 q1]
+
+/-- Successive ordered spans compose through the actual pullback of their middle legs.
+For canonical schemes take `C = Over (Spec E)`. The normalization comparison at coarse
+level and the double-coset isomorphism at effective-free common target are separate
+statements of Sections 1.5 and 8.4. -/
+noncomputable def compose : WalkingSpan ⥤ C :=
+  span (pullback.fst p2 q1 ≫ p1) (pullback.snd p2 q1 ≫ q2)
+
+/-- The composite apex is the native fibre product, with its full scheme structure
+when the objects are schemes over the reflex field. -/
+theorem compose_apex :
+    (compose p1 p2 q1 q2).obj WalkingSpan.zero = pullback p2 q1 := rfl
+
+/-- The composite retains the ordered outer legs through the two pullback projections. -/
+theorem compose_legs :
+    (compose p1 p2 q1 q2).map WalkingSpan.Hom.fst = pullback.fst p2 q1 ≫ p1 ∧
+    (compose p1 p2 q1 q2).map WalkingSpan.Hom.snd = pullback.snd p2 q1 ≫ q2 :=
+  ⟨rfl, rfl⟩
+
+end CanonicalHecke
+
 -- CanonicalTower.test_base_change uses the native slice pullback on supplied objects.
 example {I C : Type*} [Category I] [Category C] {B B' : C}
     (b : B' ⟶ B) [HasPullbacksAlong b]
@@ -318,6 +344,13 @@ example {C : Type*} [Category C] {B B' : C} (b : B' ⟶ B)
     Nonempty ((span p1 p2) ⋙ Over.pullback b ≅
       span ((Over.pullback b).map p1) ((Over.pullback b).map p2)) := by
   sorry
+
+-- CanonicalHecke.test_gl2_T2_node: the coarse self-fibre-product equation separates
+-- into the diagonal and the off-diagonal nodal component of Sections 1.5 and 8.4.
+example (t s : ℂ) :
+    t ^ 3 * (s - 1) - s ^ 3 * (t - 1) =
+      (t - s) * (t ^ 2 * s + t * s ^ 2 - t ^ 2 - t * s - s ^ 2) := by
+  ring
 
 end NativeCategories
 
