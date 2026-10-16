@@ -20,7 +20,7 @@ The statements here suggest Lean forms for particular targets, so that contribut
 converge on names and signatures; discharging all of them finishes neither a layer nor the roadmap.
 `sorry` is expected in this file — these are goals, not results.
 
-The roadmap builds the arithmetic locally symmetric spaces `X_K = G(F)\(X^G × G(𝔸^∞)/K)` and their
+The roadmap builds the arithmetic locally symmetric spaces `X_K = G(F)∖(X^G × G(𝔸^∞)/K)` and their
 integral cohomology: symmetric spaces and adelic quotients (Layer ALS.0), arithmetic local systems
 and Betti complexes (ALS.1), the Borel–Serre compactification and its boundary strata (ALS.2),
 Hecke actions in the derived category (ALS.3), boundary complexes and Eisenstein localization

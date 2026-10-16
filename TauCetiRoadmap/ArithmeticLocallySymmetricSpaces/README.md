@@ -1,6 +1,6 @@
 # Roadmap: arithmetic locally symmetric spaces and their cohomology
 
-**Summary.** This roadmap builds the arithmetic locally symmetric spaces `X_K = G(F)\(X^G ×
+**Summary.** This roadmap builds the arithmetic locally symmetric spaces `X_K = G(F)∖(X^G ×
 G(𝔸_F^∞)/K)` of a connected reductive group `G` over a number field `F`, and the integral cohomology
 theory that the modularity and torsion-Galois papers use on them. It starts from the adelic level
 quotients of the Tau Ceti roadmap AdelicAlgebraicGroups, the Cartan theory of
@@ -198,7 +198,7 @@ involution fixes `K_∞`. The spaces are
 
 ```text
 X^G = G(F_∞)/(K_∞ A_∞),
-X_K = G(F)\(X^G × G(𝔸_F^∞)/K).
+X_K = G(F)∖(X^G × G(𝔸_F^∞)/K).
 ```
 
 The central directions are removed once. Replacing `K_∞` by `K_∞°` gives the connected-compact
@@ -382,7 +382,7 @@ apply on each transported open boundary stratum, with its own dimension and orie
   compact-twist comparison, preserving the datum used by the Siegel coordinates), §3.4
   (`Reduction.finite_classes`, `Reduction.levelArithmetic`, `Reduction.exists_compact_normOne_iff`
   for `G(F)\G(𝔸_F)^1`, "Arithmetic quotients of anisotropic groups are compact" for
-  `Γ\(G(F_∞)/A_G(ℝ)^0)`, the component decomposition of a level quotient, unipotent groups have
+  `Γ∖(G(F_∞)/A_G(ℝ)^0)`, the component decomposition of a level quotient, unipotent groups have
   class number one), §3.6 (finitely many cusps; finitely many fixed-`K` Siegel sets cover, stated
   there for connected semisimple groups over `ℚ`; finite overlaps of Siegel sets), §4.3
   (`Neat.IsNeatAut`, `Neat.IsNeatLevel`, `Neat.IsFaithfulAlgebraicPointHom`, neat groups are torsion
@@ -392,7 +392,7 @@ apply on each transported open boundary stratum, with its own dimension and orie
   level, fibre masses, quotient groupoids at non-neat level), §4.5 (`LevelMaps.hecke`, degrees,
   cartesian squares of level maps), §§5.1–5.3 (worked examples: `GL_1` level quotients, the
   `GL_2/ℚ` component decomposition `AdelicExamples.GL2.exists_componentHomeomorph`, stated for
-  `K_∞ = ℝ^×SO(2)` and the model `GL_2(ℚ)^+\(ℍ × GL_2(𝔸_f)/U)`, with its principal levels, "GL₂
+  `K_∞ = ℝ^×SO(2)` and the model `GL_2(ℚ)^+∖(ℍ × GL_2(𝔸_f)/U)`, with its principal levels, "GL₂
   components for O(2) and SO(2)" for the folded quotient with `K_∞ = ℝ^×O(2)`, definite quaternion
   groups).
 - **RepresentationTheory/LieGroups**, Layer 2 (the closed-subgroup theorem) and Layer 9 (the
@@ -1228,7 +1228,7 @@ from Mathlib's fixed-point criteria `UpperHalfPlane.gl_smul_I_eq_I_iff_of_pos` a
   UpperHalfPlane through g ↦ g·i, equivariantly for the Möbius action.
 - `symmetricSpace_not_without_centre`: Without the split-centre factor, GL_2(ℝ)/O(2) ≅ ℍ × ℝ_{>0}
   has dimension 3 and every γ ∈ GL_2(ℤ) acts trivially on the ℝ_{>0} factor (|det γ| = 1), so
-  Γ\(GL_2(ℝ)/O(2)) ≅ (Γ\ℍ) × ℝ_{>0} has infinite volume; for the unit group of a definite
+  `Γ∖(GL_2(ℝ)/O(2)) ≅ (Γ\ℍ) × ℝ_{>0}` has infinite volume; for the unit group of a definite
   quaternion algebra over `ℚ` (anisotropic modulo its centre) the quotient would be noncompact.
 
 <a id="symmetric-space-contractible"></a>
@@ -1270,16 +1270,16 @@ Mathlib `ProperlyDiscontinuousSMul`.
 
 ### ALS.0.6 The arithmetic locally symmetric space X_K
 
-Define `LocallySymmetric.X`. For a compact open subgroup K ⊂ G(A_F^∞) put X_K = X^G_K = G(F)\(X^G ×
-G(A_F^∞)/K), with G(F) acting diagonally (through G(F) → G(F_∞) on X^G) and the quotient topology.
-Write 𝔛_G = G(F)\(X^G × G(A_F^∞)^δ), with G(A_F^∞) discrete, a right G(A_F^∞)-space with X_K =
+Define `LocallySymmetric.X`. For a compact open subgroup K ⊂ G(A_F^∞) put `X_K = X^G_K = G(F)∖(X^G ×
+G(A_F^∞)/K)`, with G(F) acting diagonally (through G(F) → G(F_∞) on X^G) and the quotient topology.
+Write `𝔛_G = G(F)∖(X^G × G(A_F^∞)^δ)`, with G(A_F^∞) discrete, a right G(A_F^∞)-space with X_K =
 𝔛_G/K. Right translation by g ∈ G(A_F^∞) induces homeomorphisms r_g : X_{gKg⁻¹} → X_K, [x, h] ↦ [x,
 hg], and for K′ ⊂ K the projection π_{K′,K} : X_{K′} → X_K. Under X^G × G(A_F^∞)/K = G(A_F)/K_∞A_∞K,
 X_K is AdelicAlgebraicGroups' level quotient `LevelMaps.LevelQuotient` (§4.4) for the archimedean
 subgroup K_∞A_∞. The statement assumes: K ⊂ G(A_F^∞) compact open. ([ACC+23, §2.1.1, p. 910]; [NT16,
 §3.1, p. 41])
 
-The API: `LocallySymmetric.X` — X_K = G(F)\(X^G × G(A^∞)/K) as a topological space;
+The API: `LocallySymmetric.X` — `X_K = G(F)∖(X^G × G(A^∞)/K)` as a topological space;
 `LocallySymmetric.X.mk` — The class [x, g] ∈ X_K of (x, g) ∈ X^G × G(A^∞);
 `LocallySymmetric.X.mk_eq_mk_iff` — [x, g] = [x′, g′] iff there are γ ∈ G(F), k ∈ K with x′ = γx and
 g′ = γ g k; `LocallySymmetric.X.translate` — r_g : X_{gKg⁻¹} → X_K, [x, h] ↦ [x, hg], a
@@ -1293,8 +1293,8 @@ AdelicAlgebraicGroups §3.4 (`Reduction.levelArithmetic`).
 
 **Checks.**
 
-- `X_GL1_Q`: For G = GL_{1,ℚ} and K = Ẑ^×, X_K is a single point: ℚ^×\(pt × A_f^×/Ẑ^×) =
-  ℚ^×\(ℚ^×_{>0}·Ẑ^×)/Ẑ^× is one class.
+- `X_GL1_Q`: For G = GL_{1,ℚ} and K = Ẑ^×, X_K is a single point: `ℚ^×∖(pt × A_f^×/Ẑ^×) =
+  ℚ^×∖(ℚ^×_{>0}·Ẑ^×)/Ẑ^×` is one class.
 - `X_trivialGroup`: For G trivial, X_K is a point for the unique K.
 - `X_GL2_levelOne`: For G = GL_{2,ℚ} and K = GL_2(Ẑ), X_K ≅ GL_2(ℤ)\ℍ = (SL_2(ℤ)\ℍ)/(z ↦ −z̄) as
   topological spaces (one component since det GL_2(Ẑ) = Ẑ^× and A_f^× = ℚ^×_{>0}Ẑ^×), where ℍ is
@@ -1328,7 +1328,7 @@ AdelicAlgebraicGroups §3.4 (component decomposition of a level quotient); Adeli
 - GL_{2,ℚ}, K = K(N) principal level N ≥ 3: the components are indexed by GL_2(ℚ)\GL_2(A_f)/K(N) ≅
   Ẑ^×/(±1·det K(N)) = (ℤ/N)^×/±1, so there are φ(N)/2 of them, each Γ(N)\ℍ (AdelicAlgebraicGroups
   §5.2, the `O(2)` component count).
-- Anisotropic G: every Γ_i\X^G is compact, since Γ_i\(G(F_∞)/A_∞) is compact when G^der is
+- Anisotropic G: every Γ_i\X^G is compact, since `Γ_i∖(G(F_∞)/A_∞)` is compact when G^der is
   F-anisotropic (AdelicAlgebraicGroups §3.4, "Arithmetic quotients of anisotropic groups are
   compact"); `Reduction.exists_compact_normOne_iff` concerns G(F)\G(𝔸_F)^1 instead.
 - G = GL_{1,ℚ} and K = Ẑ^×: G(ℚ)\G(𝔸^∞)/K is one point, Γ_1 = {±1}, and X_K = Γ_1\X^G is a point.
@@ -1636,7 +1636,7 @@ projective over R. Pull V back from a point to a G(F)
 × G^S × K_S-equivariant sheaf on X^G × G(A^∞)^δ (G(F) acting through its action on V, G^S trivially,
 K_S through its action on V), descend along the free G(F)-action to a G^S × K_S-equivariant sheaf V
 on 𝔛_G, and, for K neat, along the free K-action to a sheaf V_K on X_K. Concretely V_K is the sheaf
-of locally constant sections of G(F)\(X^G × G(A^∞) × V)/K → X_K with commuting left G(F)-action and
+of locally constant sections of `G(F)∖(X^G × G(A^∞) × V)/K → X_K` with commuting left G(F)-action and
 right K-action (x,g,v) ↦ (γx,γgk,γ·k_S⁻¹·v); this is not written as a left action of G(F) × K with
 its ordinary product law. On the component Γ_i\X^G it is the local system with Γ_i-equivariant
 coefficient representation Γ_i → Aut_R(V), γ ↦ ρ_{G(F)}(γ)ρ_{K_S}((g_i⁻¹γg_i)_S). Fix x₀ and lift a
@@ -2151,8 +2151,8 @@ root-factorization A_P=A_{P,Q}×A_Q gives the analytic open embedding X^G(Q)→X
 containing P and Q (R may be G). This is an atlas of open corners, with cocycle identities from the
 root-factorizations. The interior is X^G; closure(e(P))=⊔_{Q⊂P}e(Q), and e(P) meets closure(e(Q))
 exactly when P⊂Q. The rational action extends analytically by γe(P)=e(γPγ⁻¹). The inclusion of the
-interior is a homotopy equivalence, so X̄^G is contractible. Set 𝔛̄_G=G(F)\(X̄^G×G(A^∞)^δ),
-X̄_K=G(F)\(X̄^G×G(A^∞)/K), with boundary the union of proper-parabolic faces. The statement assumes:
+interior is a homotopy equivalence, so X̄^G is contractible. Set `𝔛̄_G=G(F)∖(X̄^G×G(A^∞)^δ)`,
+`X̄_K=G(F)∖(X̄^G×G(A^∞)/K)`, with boundary the union of proper-parabolic faces. The statement assumes:
 G connected reductive over F. ([ACC+23, §2.1.1, p. 910]; [JM02, §7.3, p. 483]; [JM02, §7.4,
 Proposition 7.4, p. 484]; [BS73, §§5.1–5.3, 7.1–7.6, pp. 455–459, 463–465])
 
@@ -2164,8 +2164,8 @@ containing P,Q. Nested embeddings are analytic and satisfy the cocycle identity;
 `LocallySymmetric.BorelSerre.closure_face` — The closure of e(P) in X̄^G is ⊔_{Q ⊂ P} e(Q);
 `LocallySymmetric.BorelSerre.smul` — 𝐆(ℚ)=G(F) acts analytically on X̄^G extending its action on
 X^G, with γ·e(P) = e(γPγ⁻¹); `LocallySymmetric.BorelSerre.contractible` — X̄^G is contractible and
-the inclusion X^G → X̄^G is a homotopy equivalence; `LocallySymmetric.BorelSerre.adelic` — X̄_K =
-G(F)\(X̄^G × G(A^∞)/K) and ∂X̄_K, with the open immersion j_K : X_K → X̄_K.
+the inclusion X^G → X̄^G is a homotopy equivalence; `LocallySymmetric.BorelSerre.adelic` — `X̄_K =
+G(F)∖(X̄^G × G(A^∞)/K)` and ∂X̄_K, with the open immersion j_K : X_K → X̄_K.
 
 *Needs:* [ALS.2.1](#geodesic-action-boundary-face); Mathlib `ModelWithCorners`; Mathlib
 `ContractibleSpace`; AdelicAlgebraicGroups §3.2 (simple roots of `P` and truncated tori).
@@ -2278,9 +2278,9 @@ GeometricTopology, Layer 11 (`IsTriangulable`); the triangulability input (White
 ### ALS.2.5 The stratification of the Borel–Serre boundary by parabolic classes
 
 Define `LocallySymmetric.BorelSerre.stratum`. Let P_1, …, P_s represent the G(F)-conjugacy classes
-of proper F-parabolic subgroups of G. For a rational parabolic P put 𝔛_P = P(F)\(e(P) × P(A^∞)^δ)
-and, for compact open K, X^P_K = P(F)\(e(P) × G(A^∞)/K). The maps j_{P_i} : Ind_{P_i^∞}^{G^∞}
-𝔛_{P_i} = P_i(F)\(G(A^∞) × e(P_i)) → ∂𝔛̄_G are G(A^∞)-equivariant locally closed immersions and ⊔_i
+of proper F-parabolic subgroups of G. For a rational parabolic P put `𝔛_P = P(F)∖(e(P) × P(A^∞)^δ)`
+and, for compact open K, `X^P_K = P(F)∖(e(P) × G(A^∞)/K)`. The maps `j_{P_i} : Ind_{P_i^∞}^{G^∞}
+𝔛_{P_i} = P_i(F)∖(G(A^∞) × e(P_i)) → ∂𝔛̄_G` are G(A^∞)-equivariant locally closed immersions and ⊔_i
 Ind 𝔛_{P_i} → ∂𝔛̄_G is a continuous bijection; at level K, ⊔_i X^{P_i}_K → ∂X̄_K is a continuous
 bijection onto a finite stratification by locally closed strata, the stratum of P lying in the
 closure of that of Q iff P is conjugate into Q. For P maximal, X^P_K is open in ∂X̄_K. X^P_K
@@ -2291,7 +2291,7 @@ P(F)\P(𝔸^∞)/(P(𝔸^∞) ∩ gKg⁻¹) is finite by finiteness of class num
 statement assumes: K compact open. ([NT16, §3.1, before Lemma 3.10, p. 50]; [NT16, §3.1, Lemma
 3.10(2), p. 51]; [ACC+23, §2.4.1, p. 941])
 
-The API: `LocallySymmetric.BorelSerre.stratum` — X^P_K = P(F)\(e(P) × G(A^∞)/K) with its locally
+The API: `LocallySymmetric.BorelSerre.stratum` — `X^P_K = P(F)∖(e(P) × G(A^∞)/K)` with its locally
 closed immersion j_P : X^P_K → ∂X̄_K (depending only on the G(F)-class of P up to isomorphism);
 `LocallySymmetric.BorelSerre.stratum_bijective` — ⊔_{i} X^{P_i}_K → ∂X̄_K is a continuous bijection,
 P_i running over representatives of G(F)-classes of proper parabolics;
@@ -2384,7 +2384,7 @@ and Levi decompositions); AdelicAlgebraicGroups §3.4 (`Reduction.levelArithmeti
 ### ALS.2.8 Boundary strata fibre over Levi quotients with nilmanifold fibres
 
 Prove `LocallySymmetric.BorelSerre.stratum_fibration`. Let P = M ⋉ N be a rational parabolic.
-Distinguish the P-space Y^P_L = P(F)\(e(P) × P(A^∞)/L) from the induced G-stratum X^P_K of
+Distinguish the P-space `Y^P_L = P(F)∖(e(P) × P(A^∞)/L)` from the induced G-stratum X^P_K of
 [ALS.2.5](#boundary-stratification). The latter decomposes over representatives g of P(A^∞)\G(A^∞)/K
 as a disjoint union of Y^P_{L_g}, where L_g = P(A^∞) ∩ gKg⁻¹. For each good neat L_g decomposed as
 L_{M,g} ⋉ L_{N,g}, the projection e(P) ≅ N(ℝ) × X_M → X_M induces a proper submersion Y^P_{L_g} →
@@ -2466,10 +2466,10 @@ maximal-parabolic simplex. Its global strata include all transported levels.
 
 Prove `LocallySymmetric.BorelSerre.stratumCompactification`. Let `P` be a proper rational parabolic,
 `K` good, and `L_g = P(𝔸^∞) ∩ gKg⁻¹` a transported level (good by *Conventions*), with `Y^P_{L_g} =
-P(F)\(e(P) × P(𝔸^∞)/L_g)` as in [ALS.2.8](#stratum-nilmanifold-fibration). The closure `ē(P)` of
+P(F)∖(e(P) × P(𝔸^∞)/L_g)` as in [ALS.2.8](#stratum-nilmanifold-fibration). The closure `ē(P)` of
 `e(P)` in `X̄^G` is a manifold with corners extending `e(P)`, namely the bordification of `e(P)`
 with its structure of space of type `S−Q` for `P`, and it is `P(F)`-stable. Put `Ȳ^P_{L_g} =
-P(F)\(ē(P) × P(𝔸^∞)/L_g)`. Then `Ȳ^P_{L_g}` is a compact smooth manifold with corners, on each
+P(F)∖(ē(P) × P(𝔸^∞)/L_g)`. Then `Ȳ^P_{L_g}` is a compact smooth manifold with corners, on each
 arithmetic component the quotient `Γ_{P,g}\ē(P)`, with interior `Y^P_{L_g}` and boundary
 `∂Ȳ^P_{L_g} = Ȳ^P_{L_g} ∖ Y^P_{L_g}`; the inclusion of the interior is a homotopy equivalence; and
 the
@@ -2687,7 +2687,7 @@ Define `LocallySymmetric.heckeComplex`. Let `S` be finite, `K = K_S K^S` compact
 normal open subgroup with `K′^S = K^S`, `R` commutative and `V` an `R`-module with commuting `G(F)`
 and `K_S` actions. Put `Δ = G^S × K_S`, `U = K^S × K′_S`, `L = K^S × K_S` and
 `Q = L/U = K/K′`. Use the discrete-group specialization `Sh_Δ(Z,R)` of ALS.F.4,
-where `Z = 𝔛_G = G(F)\(X^G × G(𝔸^∞)^δ)` with the
+where `Z = 𝔛_G = G(F)∖(X^G × G(𝔸^∞)^δ)` with the
 topology induced by the discrete finite-adelic factor, or its Borel–Serre compactification.
 The whole space need not be discrete. The section functor
 `Γ_Z : Sh_Δ(Z,R) → Mod(R[Δ])` is right adjoint to exact equivariant constant-sheaf
@@ -2984,10 +2984,10 @@ invariants require the extra averaging or base-change comparison stated at
 ### ALS.3.10 Topological and discrete set-ups give the same Hecke actions
 
 Prove `LocallySymmetric.heckeAction_discrete_eq_topological`. Let `𝔛̄^top_G = lim_K X̄_K`, the limit
-over good `K`; it is `G(F)\(X̄^G × G(𝔸^∞))` with `G(𝔸^∞)` carrying its locally profinite topology, a
+over good `K`; it is `G(F)∖(X̄^G × G(𝔸^∞))` with `G(𝔸^∞)` carrying its locally profinite topology, a
 compact Hausdorff space with continuous right `G(𝔸^∞)`-action, containing the open interior
-`𝔛^top_G = G(F)\(X^G × G(𝔸^∞))` through `j` and the closed boundary `∂𝔛̄^top_G`. Let `𝔛̄^dis_G =
-G(F)\(X̄^G × G(𝔸^∞)^δ)`, with `π_dis : 𝔛̄^dis_G → 𝔛̄^top_G`. A smooth `R[K_S]`-module `V`
+`𝔛^top_G = G(F)∖(X^G × G(𝔸^∞))` through `j` and the closed boundary `∂𝔛̄^top_G`. Let `𝔛̄^dis_G =
+G(F)∖(X̄^G × G(𝔸^∞)^δ)`, with `π_dis : 𝔛̄^dis_G → 𝔛̄^top_G`. A smooth `R[K_S]`-module `V`
 with discrete coefficient fibre, inflated to
 `G^S × K_S` and pulled back, gives `G^S × K_S`-equivariant sheaves `V̄` and `j_!V` on `𝔛̄^top_G`
 ([ALS.F.4](#equivariant-sheaves-topological)) and the restriction of `V̄` to the boundary. (i) The
@@ -4196,7 +4196,7 @@ statement assumes `K` neat; `V` finite-dimensional complex algebraic. ([ACC+23, 
 
 - For a modular curve, `⟨α, β⟩ = ∫ α ∧ β` on `H¹_c × H¹` with constant coefficients, and for the
   complex orientation (`dx ∧ dy` positive, which trivializes `o_K`) a holomorphic weight-two cusp
-  form `f` gives `∫ f(z)dz ∧ \overline{f(z)dz} = −2i ∫ |f|² dx dy = −2i⟨f, f⟩`, since `dz ∧ dz̄ =
+  form `f` gives `∫ f(z)dz ∧ conj(f(z)dz) = −2i ∫ |f|² dx dy = −2i⟨f, f⟩`, since `dz ∧ dz̄ =
   −2i dx ∧ dy`, with `⟨f, f⟩` the unnormalized Petersson norm.
 - Degenerate: for compact `X_K` this is classical Poincaré duality of de Rham cohomology.
 - Pullback and trace: for `K′ ⊂ K`, `∫_{X_{K′}} π^*α ∧ β = ∫_{X_K} α ∧ π_*β`, the form version of
@@ -4390,7 +4390,7 @@ automorphic representation of `GL_n(𝔸_F)` with `π_∞` regular L-algebraic, 
 finite set `S`. Then `π′ = π|·|^{(n+1)/2}` is regular C-algebraic, i.e. cohomological: there is an
 algebraic representation `ξ` of `Res_{F/ℚ} GL_n` over `ℂ ≅ Q̄_p`, extending to `Res_{𝒪_F/ℤ} GL_n`
 over `Z̄_p`, such that the Hecke eigensystem of `π′` away from `S` occurs in `H^i(X̃_K, M_{ξ,K})
-⊗_{Z̄_p} ℂ` for some sufficiently small `K = K_S K^S` and some `i`, where `X̃_K = GL_n(F)\[(GL_n(F ⊗
+⊗_{Z̄_p} ℂ` for some sufficiently small `K = K_S K^S` and some `i`, where `X̃_K = GL_n(F)∖[(GL_n(F ⊗
 ℝ)/ℝ_{>0}K_∞°) × GL_n(𝔸_F^∞)/K]` is the connected-compact variant of [ALS.0.4](#symmetric-space)
 (equal to `X_K` for `F` CM, and a `(ℤ/2)^{[F:ℚ]}`-cover for `F` totally real). After twisting by a
 quadratic character `η : 𝔸_F^×/F^× → {±1}` with prescribed archimedean components, `π′ ⊗ (η ∘ det)`
