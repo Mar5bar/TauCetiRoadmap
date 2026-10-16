@@ -123,15 +123,36 @@ example : ¬ RingTheory.Sequence.IsRegular (MvPowerSeries (Fin 1) ℚ)
 /-! ## Layers R26.2–R26.3 and R27.2: numerical milestones -/
 
 
-/-- `R26.3/explicit-prime-counting-input`: the Rosser–Schoenfeld inequalities, with the existing
-prime-counting function evaluated at the floor. -/
-theorem explicit_prime_counting (x : ℝ) :
-    (17 ≤ x → x / Real.log x < (Nat.primeCounting ⌊x⌋₊ : ℝ)) ∧
-    (1 < x → (Nat.primeCounting ⌊x⌋₊ : ℝ) < (125506 / 100000 : ℝ) * x / Real.log x) ∧
-    (67 ≤ x → x / (Real.log x - 1 / 2) < (Nat.primeCounting ⌊x⌋₊ : ℝ)) ∧
-    (Real.exp (3 / 2) < x →
-      (Nat.primeCounting ⌊x⌋₊ : ℝ) < x / (Real.log x - 3 / 2)) := by
-  sorry
+/-- `R26.3/elementary-psi-bounds`: Nagura's elementary affine bounds for Chebyshev's psi. -/
+theorem nagura_psi_bounds (x : ℝ) (hx : 0 < x) :
+    (229 / 250 : ℝ) * x - 1159 / 500 < Chebyshev.psi x ∧
+      Chebyshev.psi x < (543 / 500 : ℝ) * x := by sorry
+
+/-- `R26.3/elementary-prime-interval`: an integer at least 25 has a prime in its open
+six-fifths interval. -/
+theorem prime_in_six_fifths (n : ℕ) (hn : 25 ≤ n) :
+    ∃ P : ℕ, P.Prime ∧ n < P ∧ 5 * P < 6 * n := by sorry
+
+/-- The factorial divisor sum at six includes all multiplicities. -/
+example : (∑ n ∈ Finset.Icc (1 : ℕ) 6, Chebyshev.psi ((6 : ℝ) / (n : ℝ))) = Real.log 720 := by sorry
+
+/-- Psi vanishes below two and includes the prime at its endpoint. -/
+example : Chebyshev.psi (3 / 2) = 0 ∧ Chebyshev.psi 2 = Real.log 2 ∧
+    Chebyshev.psi 4 - Chebyshev.psi 3 = Real.log 2 := by sorry
+
+/-- The signed Stirling error at one lies strictly inside the asserted bound. -/
+example : 0 < (1 : ℝ) - Real.log (2 * Real.pi) / 2 ∧
+    (1 : ℝ) - Real.log (2 * Real.pi) / 2 < 1 / 12 := by sorry
+
+/-- The geometric summation fits inside the stated psi upper constant. -/
+example : (10851 / 10000 : ℚ) * 1806 / 1805 < 543 / 500 := by norm_num
+
+/-- The integer interval threshold is attained at 25, while 24 fails. -/
+example : Nat.Prime 29 ∧ 25 < 29 ∧ 5 * 29 < 6 * 25 ∧
+    ¬ (∃ P ∈ Finset.Ioo 24 29, P.Prime) := by native_decide
+
+/-- The finite interval certificate covers its overlap with the large range. -/
+example : Nat.Prime 100003 ∧ 100000 < 100003 ∧ 5 * 100003 < 6 * 100000 := by native_decide
 
 /-- `R26.3/next-prime-ratio`: the exact rational bound for consecutive primes. -/
 theorem next_prime_ratio (p P : ℕ) (hp : p.Prime) (h31 : 31 ≤ p)
@@ -149,16 +170,20 @@ theorem next_nonFermat_prime_ratio (p P : ℕ) (hp : p.Prime) (hbig : 21591 ≤ 
   sorry
 
 
-/-- `R26.3/chebyshev-next-prime` (Khare's estimate (1)): the single owner of the odd
-auxiliary-prime inequality. -/
-theorem odd_auxiliary_prime (p : ℕ) (hp : p.Prime) (h31 : 31 ≤ p)
-    (hfinite : ∀ r : ℕ, r.Prime → 5 ≤ r → r ≤ 21591 →
-      ∃ P ℓ e m : ℕ, P.Prime ∧ r < P ∧
-        (∀ a : ℕ, P ≠ 2 ^ (2 ^ a) + 1) ∧
-        (∀ q : ℕ, q.Prime → r < q → (∀ a : ℕ, q ≠ 2 ^ (2 ^ a) + 1) → P ≤ q) ∧
-        ℓ.Prime ∧ Odd ℓ ∧ 0 < e ∧ ℓ ≤ r ∧
-        ℓ ^ e ∣ P - 1 ∧ ¬ ℓ ^ (e + 1) ∣ P - 1 ∧
-        ℓ ^ e = 2 * m + 1 ∧ (m + 1) * P + m ≤ (2 * m + 1) * r) :
+/-- `R26.3/finite-auxiliary-prime-checks`: certified finite auxiliary data for every prime
+between 5 and 21591, including minimality of the non-Fermat prime and exact valuations. -/
+theorem finite_auxiliary_prime_checks (p : ℕ) (hp : p.Prime) (hlo : 5 ≤ p)
+    (hhi : p ≤ 21591) :
+    ∃ P ℓ e m : ℕ, P.Prime ∧ p < P ∧
+      (∀ a : ℕ, P ≠ 2 ^ (2 ^ a) + 1) ∧
+      (∀ q : ℕ, q.Prime → p < q → (∀ a : ℕ, q ≠ 2 ^ (2 ^ a) + 1) → P ≤ q) ∧
+      ℓ.Prime ∧ Odd ℓ ∧ 0 < e ∧ ℓ ≤ p ∧
+      ℓ ^ e ∣ P - 1 ∧ ¬ ℓ ^ (e + 1) ∣ P - 1 ∧
+      ℓ ^ e = 2 * m + 1 ∧ (m + 1) * P + m ≤ (2 * m + 1) * p := by sorry
+
+/-- `R26.3/chebyshev-next-prime` (Khare's estimate (1)): the unconditional odd
+auxiliary-prime inequality, using the finite certificate and the elementary interval bound. -/
+theorem odd_auxiliary_prime (p : ℕ) (hp : p.Prime) (h31 : 31 ≤ p) :
     ∃ P ℓ e m : ℕ, P.Prime ∧ p < P ∧
       (∀ a : ℕ, P ≠ 2 ^ (2 ^ a) + 1) ∧
       (∀ q : ℕ, q.Prime → p < q → (∀ a : ℕ, q ≠ 2 ^ (2 ^ a) + 1) → P ≤ q) ∧
@@ -194,6 +219,47 @@ theorem dyadic_weight_bound (p P e : ℕ) (he : 4 ≤ e)
     (h : (2 ^ (e - 1) + 2) * P + (2 ^ (e - 1) - 2) ≤ 2 ^ e * p) :
     (2 ^ (e - 1) + 2) * (P - 1) + 2 * 2 ^ e ≤ (p + 1) * 2 ^ e := by
   sorry
+
+/-- The six terminal choices give the prescribed return-weight pairs. -/
+example : ([(7, 2), (11, 4), (19, 8), (29, 16), (29, 14), (31, 18)] : List (ℕ × ℕ)).map
+    (fun (P, j) => (j + 2, P + 1 - j)) = [(4, 6), (6, 8), (10, 12), (18, 14), (16, 16), (20, 14)] := by
+  decide
+
+/-- The terminal exponent cosets include both residue classes needed in characteristic 29. -/
+example : 2 % ((7 - 1) / 3) = 0 ∧ 4 % ((11 - 1) / 5) = 0 ∧
+    8 % ((19 - 1) / 9) = 0 ∧
+    (∀ k ∈ ([14, 16, 18, 20] : List ℕ), (k - 2) % 2 = 0) ∧ 16 % ((29 - 1) / 7) = 0 ∧
+    14 % ((29 - 1) / 7) = 2 ∧ 18 % ((31 - 1) / 5) = 0 ∧
+    (∀ k ∈ ([22, 26, 30] : List ℕ), (k - 2) % 4 = 0) ∧
+    (∀ k ∈ ([24, 28] : List ℕ), (k - 2) % 4 = 2) ∧
+    ¬ (6 : ℕ) ∣ 16 ∧ (6 : ℕ) ∣ 18 ∧ 12 < (18 : ℕ) ∧ (18 : ℕ) ≤ 18 := by decide
+
+/-- Prime counting at the two small values used to test Khare's printed bound. -/
+example : Nat.primeCounting 31 = 11 ∧ Nat.primeCounting 100 = 25 := by native_decide
+
+/-- The Fermat prime after 251 is skipped, and 263 obeys the needed ratio. -/
+example : Nat.Prime 251 ∧ Nat.Prime 257 ∧ Nat.Prime 263 ∧ 257 = 2 ^ (2 ^ 3) + 1 ∧
+    (∀ n ∈ Finset.Ioo 251 257, ¬ n.Prime) ∧
+    (∀ n ∈ Finset.Ioo 257 263, ¬ n.Prime) ∧
+    (263 : ℚ) / 251 ≤ 3 / 2 - 1 / 30 := by native_decide
+
+/-- The dyadic recursion has strict room in the row (13,17,4). -/
+example : (2 ^ (4 - 1) + 2) * 17 + (2 ^ (4 - 1) - 2) = 176 ∧
+    2 ^ 4 * 13 = 208 ∧ (176 : ℕ) ≤ 208 := by norm_num
+
+/-- The corrected local quadratic vanishes while the printed sign gives minus four. -/
+example : (3 : ℤ) - 2 = 1 * (2 - 1) ∧ (3 : ℤ) * 2 = 6 ∧
+    (2 : ℤ) ^ 2 + 2 * 1 * (2 - 1) - 6 = 0 ∧
+    (2 : ℤ) ^ 2 - 2 * 1 * (2 - 1) - 6 = -4 := by norm_num
+
+/-- The conductor six satisfies D1's dyadic divisibility bound and fails D0's. -/
+example : ¬ (4 : ℕ) ∣ 6 ∧ (2 : ℕ) ∣ 6 ∧ (2 : ℕ) - 1 = 1 ∧
+    (1 : ℕ) ≤ 1 ∧ ¬ (1 : ℕ) ≤ 0 := by norm_num
+
+/-- Trivial Weil inertia with rank-one monodromy gives the Steinberg conductor term. -/
+example : Module.finrank ℚ
+    (LinearMap.ker (Matrix.toLin' (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℚ))) = 1 ∧
+    (2 : ℕ) - 1 = 1 := by sorry
 
 /-! ## Layer R26.6: finiteness at level one -/
 
@@ -304,6 +370,22 @@ example (ρ : G →* GL (Fin 2) K) (inertia : ∀ q, I q →* G) (p N : ℕ) (B 
       IsLocallyGoodDihedral ρ inertia p N := by
   sorry
 
+/-- Rotation and reflection on F8 realize a positive good-dihedral example at 41.
+The inertia group is the existing cyclic group of order seven. -/
+example : ∃ (ζ : GaloisField 2 3) (ρ : DihedralGroup 7 →* GL (Fin 2) (GaloisField 2 3))
+    (ι : Multiplicative (ZMod 7) →* DihedralGroup 7),
+    IsPrimitiveRoot ζ 7 ∧
+    (∀ i, ι i = DihedralGroup.r (Multiplicative.toAdd i)) ∧
+    (ρ (DihedralGroup.r 1) : Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) =
+      !![ζ, 0; 0, ζ⁻¹] ∧
+    (ρ (DihedralGroup.sr 0) : Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) =
+      !![0, 1; 1, 0] ∧
+    IsGoodDihedralPrime ρ (fun _ => ι) 2 (41 ^ 2) 41 ∧
+    IsLocallyGoodDihedral ρ (fun _ => ι) 2 (41 ^ 2) := by sorry
+
+example : Nat.Prime 41 ∧ 41 % 8 = 1 ∧ 41 % 2 = 1 ∧ 7 ∣ 41 + 1 ∧
+    max (max (Nat.maxPrimeFac ((41 ^ 2) / 41 ^ 2)) 5) 2 < 7 := by norm_num
+
 end GoodDihedral
 
 /-! ## Layer R27.1: auxiliary-prime density -/
@@ -314,6 +396,24 @@ unramified such that (i) `ρ̄_proj(Frob_q)` and `ρ̄_proj(c)` are conjugate in
 def auxiliaryPrimes {p : ℕ} (ρ : GQ →* GL (Fin 2) (ZMod p)) (c : GQ) : Set ℕ :=
   {q | q.Prime ∧ IsUnramifiedAt ρ q ∧ (∃ σ : GQ, IsFrobAt σ q ∧ IsProjConj ρ σ c) ∧
     (∀ ℓ : ℕ, ℓ.Prime → ℓ ≤ p - 1 → q % ℓ = 1) ∧ q % 8 = 1 ∧ q % p = p - 1}
+
+/-- The candidate 13 fails the modulus-eight condition of the actual auxiliary-prime set. -/
+example (ρ : GQ →* GL (Fin 2) (ZMod 5)) (c : GQ) :
+    13 ∉ auxiliaryPrimes ρ c := by sorry
+
+/-- A candidate satisfying all congruences is excluded when inertia acts nontrivially. -/
+example (ρ : GQ →* GL (Fin 2) (ZMod 5)) (c : GQ)
+    (Q : Ideal IntBar) (hQ : Q.IsPrime) (h409 : (409 : IntBar) ∈ Q)
+    (g : GQ) (hg : g ∈ Q.inertia GQ) (hρ : ρ g ≠ 1) :
+    409 ∉ auxiliaryPrimes ρ c := by sorry
+
+/-- Unramifiedness and the congruences do not replace projective Frobenius conjugacy. -/
+example (φ : AlgebraicClosure ℚ →+* ℂ) (c : GQ) (hc : ComplexEmbedding.IsConj φ c) :
+    ∃ ρ : GQ →* GL (Fin 2) (ZMod 5),
+    IsOpen (ρ.ker : Set GQ) ∧ IsOdd ρ ∧ IsUnramifiedAt ρ 409 ∧
+    (∃ σ : GQ, IsFrobAt σ 409) ∧
+    (∀ σ, IsFrobAt σ 409 → ¬ IsProjConj ρ σ c) ∧
+    409 ∉ auxiliaryPrimes ρ c := by sorry
 
 /-- `R27.1/lemma-8-2-chebotarev-choice-of-auxiliary-primes` (Khare–Wintenberger Lemma 8.2,
 Dieulefait–Pacetti Lemma 1.15): for `p ≡ 1 mod 4` and `ρ̄ : G_ℚ → GL₂(𝔽_p)` with coefficients in
@@ -480,9 +580,16 @@ example {H : Type*} [Group H] (ρ : GQ →* H) (r : ℕ) :
 /-- The identity cannot be arithmetic Frobenius at the unit ideal's rational prime 1. -/
 example (σ : GQ) : ¬ IsFrobAt σ 1 := by sorry
 
-/-- The residue field at an arithmetic Frobenius witness has characteristic dividing r. -/
-example (σ : GQ) (r : ℕ) (h : IsFrobAt σ r) :
-    ∃ Q : Ideal IntBar, Q.IsPrime ∧ (r : IntBar) ∈ Q := by sorry
+/-- A prime Frobenius witness has exactly the asserted residue characteristic. -/
+example (σ : GQ) (r : ℕ) (hr : r.Prime) (h : IsFrobAt σ r) :
+    ∃ Q : Ideal IntBar, Q.IsPrime ∧ IsArithFrobAt ℤ σ Q ∧ CharP (IntBar ⧸ Q) r := by sorry
+
+/-- At two, Frobenius acts nontrivially on an F4 residue subfield. -/
+example : ∃ (σ : GQ) (Q : Ideal IntBar), Q.IsPrime ∧
+    IsArithFrobAt ℤ σ Q ∧ CharP (IntBar ⧸ Q) 2 ∧
+    ∃ x : IntBar, (Ideal.Quotient.mk Q x) ^ 2 + Ideal.Quotient.mk Q x + 1 = 0 ∧
+      Ideal.Quotient.mk Q (σ • x) = (Ideal.Quotient.mk Q x) ^ 2 ∧
+      Ideal.Quotient.mk Q (σ • x) ≠ Ideal.Quotient.mk Q x := by sorry
 
 /-- The trivial action fails absolute irreducibility in dimension two. -/
 example : ¬ IsAbsIrreducible (1 : Unit →* GL (Fin 2) ℚ) := by sorry
@@ -490,9 +597,15 @@ example : ¬ IsAbsIrreducible (1 : Unit →* GL (Fin 2) ℚ) := by sorry
 /-- The full general linear action spans the matrix algebra. -/
 example : IsAbsIrreducible (MonoidHom.id (GL (Fin 2) ℚ)) := by sorry
 
-/-- Every S-type representation has open kernel and is odd. -/
-example {k : Type*} [Field k] (ρ : GQ →* GL (Fin 2) k) (h : IsSType ρ) :
-    IsOpen (ρ.ker : Set GQ) ∧ IsOdd ρ := by sorry
+/-- The totally real S3 extension cut out by x³−4x+1 gives an even absolutely irreducible
+action over F5: among the three S-type conditions only oddness fails. -/
+example [Fact (Nat.Prime 5)] : ∃ (θ : GQ →* DihedralGroup 3) (τ : DihedralGroup 3 →* GL (Fin 2) (ZMod 5))
+    (ρ : GQ →* GL (Fin 2) (ZMod 5)),
+    ρ = τ.comp θ ∧ Function.Surjective θ ∧ IsOpen (θ.ker : Set GQ) ∧
+    (∀ (φ : AlgebraicClosure ℚ →+* ℂ) (c : GQ), ComplexEmbedding.IsConj φ c → θ c = 1) ∧
+    (τ (DihedralGroup.r 1) : Matrix (Fin 2) (Fin 2) (ZMod 5)) = !![0, -1; 1, -1] ∧
+    (τ (DihedralGroup.sr 0) : Matrix (Fin 2) (Fin 2) (ZMod 5)) = !![0, 1; 1, 0] ∧
+    IsOpen (ρ.ker : Set GQ) ∧ IsAbsIrreducible ρ ∧ ¬ IsOdd ρ ∧ ¬ IsSType ρ := by sorry
 
 /-- A trivial two-dimensional representation is never of S-type. -/
 example : ¬ IsSType (1 : GQ →* GL (Fin 2) ℚ) := by sorry
@@ -503,6 +616,11 @@ example (φ : AlgebraicClosure ℚ →+* ℂ) (c : GQ) (hc : ComplexEmbedding.Is
 
 /-- In characteristic two the determinant sign for the trivial action is automatic. -/
 example : IsOdd (1 : GQ →* GL (Fin 2) (ZMod 2)) := by sorry
+
+/-- The diagonal action of one and the mod-three cyclotomic character is odd. -/
+example : ∃ ρ : GQ →* GL (Fin 2) (ZMod 3), IsOpen (ρ.ker : Set GQ) ∧ IsOdd ρ ∧
+    ∀ (φ : AlgebraicClosure ℚ →+* ℂ) (c : GQ), ComplexEmbedding.IsConj φ c →
+      (ρ c : Matrix (Fin 2) (Fin 2) (ZMod 3)) = !![1, 0; 0, -1] := by sorry
 
 /-- Projective conjugacy forgets a nonzero scalar. -/
 example {G k : Type*} [Group G] [Field k] (ρ : G →* GL (Fin 2) k) (a b : G)
@@ -556,6 +674,29 @@ example : dihedralFrob ℤ * dihedralFrob ℤ = 1 ∧ Matrix.det (dihedralFrob �
 
 /-- Characteristic two retains the swap even though the determinant sign disappears. -/
 example : dihedralFrob (ZMod 2) ≠ 1 ∧ Matrix.det (dihedralFrob (ZMod 2)) = 1 := by decide
+
+/-- The standard and adapted integral matrices satisfy all eight local relations. -/
+example (ζ : CyclotomicRing 3 ℤ ℚ) (hζ : ζ ^ 2 + ζ + 1 = 0) :
+    let π := ζ - 1
+    let D₀ : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ) := !![ζ, 0; 0, ζ ^ 2]
+    let F₀ : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ) := !![0, 1; 1, 0]
+    let P : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ) := !![1, 0; 1, π]
+    let D₁ : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ) := !![ζ, 0; ζ, ζ ^ 2]
+    let F₁ : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ) := !![1, π; 0, -1]
+    D₀ ^ 3 = 1 ∧ F₀ ^ 2 = 1 ∧ F₀ * D₀ * F₀ = D₀ ^ 2 ∧
+      D₀ * P = P * D₁ ∧ F₀ * P = P * F₁ ∧
+      D₁ ^ 3 = 1 ∧ F₁ ^ 2 = 1 ∧ F₁ * D₁ * F₁ = D₁ ^ 2 := by sorry
+
+/-- A residue map carrying zeta to one gives both inertia and Frobenius reductions. -/
+example (ζ : CyclotomicRing 3 ℤ ℚ) (f : CyclotomicRing 3 ℤ ℚ →+* ZMod 3)
+    (hζ : ζ ^ 2 + ζ + 1 = 0) (hf : f ζ = 1) :
+    ( !![ζ, 0; 0, ζ ^ 2] : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ)).map f = 1 ∧
+    ( !![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ)).map f =
+      !![0, 1; 1, 0] ∧
+    ( !![ζ, 0; ζ, ζ ^ 2] : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ)).map f =
+      !![1, 0; 1, 1] ∧
+    ( !![1, ζ - 1; 0, -1] : Matrix (Fin 2) (Fin 2) (CyclotomicRing 3 ℤ ℚ)).map f =
+      !![1, 0; 0, 2] := by sorry
 
 /-- The two reductions of the order-three local type have different invariant dimensions.
 The kernels are Mathlib submodules, without a separate matrix-invariant carrier. -/

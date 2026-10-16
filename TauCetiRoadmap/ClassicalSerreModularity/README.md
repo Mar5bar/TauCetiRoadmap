@@ -2,7 +2,7 @@
 
 **Summary.** This roadmap proves Serre's modularity conjecture in its strong form. Let `ρ̄ : G_ℚ → GL₂(𝔽̄_p)` be continuous, odd and absolutely irreducible. Then `ρ̄` arises from a normalised newform of weight `k(ρ̄)`, level `N(ρ̄)` and a character lifting `ε(ρ̄)`: there are such a newform `f`, a prime `λ` above `p` of its coefficient field, and an isomorphism between `ρ̄` and the reduction of `ρ_{f,λ}`. This is Khare–Wintenberger's theorem. Its proof runs through Khare's level-one theorem, and the roadmap also gives the shorter qualitative proof of Dieulefait–Pacetti. Both proofs end in one public statement.
 
-Three other roadmaps use the theorem. Elliptic curve modularity uses its finite-flat weight-two case: an absolutely irreducible residual representation that is finite at `p ≥ 5` with cyclotomic determinant comes from a weight-two newform of level `N(ρ̄)` and trivial character. Modularity of `GL₂`-type abelian varieties over `ℚ` uses the strong form. Weight-one modularity uses its descent to weight one: every odd irreducible two-dimensional Artin representation of `G_ℚ` is the representation attached to a weight-one newform.
+EllipticCurveModularity uses the finite-flat weight-two case: an absolutely irreducible residual representation that is finite at `p ≥ 5` with cyclotomic determinant comes from a weight-two newform of level `N(ρ̄)` and trivial character. The roadmap also proves weight-one modularity by descent: every odd irreducible two-dimensional Artin representation of `G_ℚ` is the representation attached to a weight-one newform.
 
 The build is organised in three strands.
 
@@ -38,7 +38,7 @@ Representative signatures are in [`Suggested.lean`](Suggested.lean). The file re
 
 - The controlled rank-two lifting and compatible-system inputs of Layer I, with the representation and deformation carriers supplied by the named arithmetic roadmaps. The full-scope ordinary dihedral argument and the globalisation independence requirement are included as proof targets.
 - Khare's level-one theorem with the exact meaning of "arises from", its application of Böckle's presentation, the prescribed lifts in conductor one and their compatible systems (R26.1–R26.2).
-- The prime estimates of the weight recursion: explicit prime counting, the consecutive-prime ratio, the finite auxiliary-prime hypothesis, the weight-interval containment and the well-founded induction on the weight bound (R26.3, R27.2).
+- The prime estimates of the weight recursion: elementary prime intervals, the consecutive-prime ratio, the finite auxiliary-prime certificate, the weight-interval containment and the well-founded induction on the weight bound (R26.3, R27.2).
 - The ordinary, reducible, bad-dihedral and solvable branches of the level-one step, and the terminal table of weights `8` to `32` (R26.4–R26.5).
 - The level-one assembly, Corollary 1.2 (prime conductor, weight two) with its corrected proof, the finiteness of level-one representations, and Corollary 8.1(ii), which starts the conductor induction (R26.6).
 - The good-dihedral predicate of Khare–Wintenberger Definition 2.1, its image lemma, Khare–Wintenberger Lemmas 6.1 and 6.2 as the classical strand applies them (solvable dyadic images are dihedral; dihedral modularity at the optimal weight and level; the weights of bad-dihedral representations), the Chebotarev choice of auxiliary primes and the insertion of a good-dihedral prime (R27.1).
@@ -60,19 +60,18 @@ Representative signatures are in [`Suggested.lean`](Suggested.lean). The file re
 | SmallRamificationAndAbelianVarietyBaseCases Layers 2, 4 and 5 | Tate and Serre in characteristics `2` and `3`, Schoof's theorem, `GL₂`-type abelian varieties with descent, Snowden's realisation and reduction control, the level-one dihedral classification and the terminal case tables. |
 | [Chebotarev, Layer 10][cheb] | Dirichlet density of the primes whose Frobenius lies in a given union of conjugacy classes, and infinitude of every Frobenius class. |
 | [ClassFieldTheory, Layer 13][cft] | Kronecker–Weber and the classification of abelian characters by conductor. |
-| [ModularForms, Layer 4][mf] | Newforms, strong multiplicity one and the conductor of a newform, in weight one as well. |
+| [ModularForms, Layers 4–5][mf] | Layer 4 supplies primitive/newform decomposition and the conductor; Layer 5 supplies fixed-space and cross-level strong multiplicity one, including weight one. |
+| AutomorphicGaloisRepresentations §§3.10–3.14, 4.4, 4.7 and 7.3 | General-weight Hilbert attachments, their arithmetic-dual normalization, Hodge–Tate and local Weil–Deligne comparisons, and fixed-eigenform compatible families. |
 
 Each change of prime in the proofs below checks the exact contract of the supplier it uses: the residual image condition, the local type, the coefficient field and the ramification set. A weight recipe never stands in for the integral classification, and a solvable image never stands in for ordinarity.
 
 ### Consumers and boundaries
 
 - `EllipticCurveModularity:R29.2` uses the finite-flat weight-two export of R27.6.
-- `ModularityAndLanglandsExtensions:ML.1` uses the strong form, the weight-one step for unramified residual representations, Khare's weight-one descent and the odd Artin export of R27.6. The general statement for irregular compatible systems, with Sen–Fontaine unramifiedness, belongs to ML.1. Nothing flows back from ML.1 to this roadmap.
-- `EllipticCurveModularityPartIIGL2TypeAbelianVarieties:GT.3` uses the strong form.
 
 ### Outside this roadmap
 
-Other base fields, representations of dimension greater than two, the general construction of attached Galois representations, local classifications, deformation theory and modularity lifting theorems are owned by the suppliers above. Katz weight-one forms in residue characteristic two and Edixhoven's strong form at `p = 2` are not part of the strong theorem here. Corollary 10.2(i) of Khare–Wintenberger, modularity of `GL₂`-type abelian varieties over `ℚ`, follows from Theorem 10.1(i) together with Faltings' isogeny theorem and is outside this roadmap.
+The general theorem for irregular compatible systems is outside this roadmap. Other base fields, representations of dimension greater than two, the general construction of attached Galois representations, local classifications, deformation theory and modularity lifting theorems are owned by the suppliers above. Katz weight-one forms in residue characteristic two and Edixhoven's strong form at `p = 2` are not part of the strong theorem here. Corollary 10.2(i) of Khare–Wintenberger, modularity of `GL₂`-type abelian varieties over `ℚ`, follows from Theorem 10.1(i) together with Faltings' isogeny theorem and is outside this roadmap.
 
 ## Conventions
 
@@ -108,9 +107,9 @@ An *almost strictly compatible system* is a system `(ρ_λ)` over a number field
 
 `ℚ_{N²}` is the unramified quadratic extension of `ℚ_N`, with residue field `𝔽_{N²}`. A character of `I_N` has *niveau 2* if it factors through `𝔽_{N²}^×` and not through `𝔽_N^×`. A residual `ρ̄` is *bad dihedral* if it is irreducible but becomes reducible over `ℚ(√p*), p* = (−1)^{(p−1)/2}p`; equivalently over `ℚ(ζ_p)` (`ArithmeticGaloisRepresentations Layer 4`).
 
-### 2.6 Finite numerical hypotheses
+### 2.6 Finite numerical certificate
 
-`Hfinite` is the finite-range hypothesis stated in R26.3: for each prime `p` with `5 ≤ p ≤ 21591`, the least non-Fermat prime `P` above `p` has an exact odd prime-power divisor `ℓ^e = 2m+1` of `P−1`, with `ℓ ≤ p`, `e ≥ 1` and `(m+1)P+m ≤ (2m+1)p`. The level-one induction, its terminal-row assembly, and the classical conductor induction take `Hfinite` as an explicit standing hypothesis. In particular it is a hypothesis of the classical statements `level_one`, `conductor_prime_weight_two`, `corollary_8_1_ii`, the bounded-weight milestones and `serre_strong` when proved by that induction. The qualitative route R33.1–R33.6 proves the same modularity conclusions without `Hfinite`. Constructing or certifying a table of the remaining finite values is outside the targets; the displayed small values are worked Checks.
+`Hfinite` denotes the finite assertion of `R26.3/finite-auxiliary-prime-checks`: for each prime `5 ≤ p ≤ 21591`, the least non-Fermat prime `P > p` has an exact odd prime-power divisor `ℓ^e = 2m+1` of `P−1`, with `ℓ ≤ p`, `e ≥ 1` and `(m+1)P+m ≤ (2m+1)p`. The theorem `finite_auxiliary_prime_checks` proves this assertion by certified finite arithmetic. The classical endpoints use that theorem and carry no standing finite hypothesis.
 
 ### Arithmetic forms of the representative definitions
 
@@ -121,7 +120,7 @@ The following are lightweight forms of the arithmetic interfaces of ArithmeticGa
 **Checks.**
 
 - At `r = 1` there is no prime ideal containing `r`, so `IsFrobAt σ 1` fails for every `σ`.
-- Arithmetic Frobenius acts by the rth power on the residue field; replacing it by geometric Frobenius reverses this action.
+- For prime `r`, a witness prime `Q` has residue characteristic exactly `r`. At `r = 2` there is a residue element `u` with `u² + u + 1 = 0` and `u² ≠ u`; arithmetic Frobenius sends it to `u²`, and geometric Frobenius reverses the action.
 - A representation trivial on inertia is unramified, including the trivial representation at every `r`; a nontrivial unipotent inertia action fails unramifiedness even when its semisimplification is trivial.
 - Replacing a chosen prime `Q` by a conjugate transports its inertia subgroup and preserves kernel containment, whereas checking only decomposition-group triviality would incorrectly exclude a nontrivial unramified character.
 
@@ -129,10 +128,10 @@ The following are lightweight forms of the arithmetic interfaces of ArithmeticGa
 
 **Checks.**
 
-- The trivial rank-two action over `ℚ` fails oddness at complex conjugation; over `ZMod 2` its determinant sign is `−1`, as required by the characteristic-two convention.
+- The trivial rank-two action over `ℚ` fails oddness at complex conjugation; over `ZMod 2` its determinant sign is `−1`, as required by the characteristic-two convention. The action `diag(1,χ̄₃)` is odd in characteristic three, with determinant `−1` at every complex conjugation.
 - The trivial rank-two action spans only scalar matrices and fails absolute irreducibility, although its kernel is open.
 - The natural action of `GL₂(ℚ)` spans all four matrix units and passes the image-algebra criterion. A diagonal action preserves both coordinate lines and fails it.
-- An even absolutely irreducible action fails S-type in odd characteristic; a noncontinuous action fails the open-kernel condition even if it passes the algebraic image test.
+- The splitting field of `x³−4x+1` is totally real with Galois group `S₃` (the cubic is irreducible and has positive nonsquare discriminant `229`). Its standard action over `𝔽₅`, with a 3-cycle acting by `(0,−1;1,−1)` and a transposition by `(0,1;1,0)`, has open kernel and spans `M₂(𝔽₅)`. Every complex conjugation acts trivially: precisely oddness fails in `IsSType`. A noncontinuous action fails the open-kernel condition even if it passes the algebraic image test.
 
 `IsProjConj ρ a b` means that for some `τ` in the source group and scalar `z` the matrix `ρ(a)` is `z ρ(τbτ⁻¹)`. Its API is reflexivity, symmetry, transitivity, invariance under conjugation and equivalence with conjugacy in the projective image. For field coefficients the scalar is automatically nonzero because both matrices are invertible.
 
@@ -214,7 +213,7 @@ This layer proves the rank-two input statements needed by the three strands. Rep
 
 For an odd absolutely irreducible residual representation over `ℚ` in odd characteristic `p` whose restriction to `G_{ℚ(μ_p)}` is absolutely irreducible, construct a finite totally real Galois extension `F` of even degree over which the residual representation is modular. Retain disjointness from any specified finite extension together with the residual and cyclotomic fields, and the unramified-at-`p` choice used for ordinary lifts. For a given odd irreducible finitely ramified geometric rank-two lift with distinct Hodge–Tate weights, prove potential modularity after a finite totally real extension with the local ordinary or Steinberg prescriptions used in R26.2. The weight-two case and its single-representation solvable descent are supplied by SmallRamificationAndAbelianVarietyBaseCases §§5.0b–5.0c. The target here is the controlled general-weight variant needed to pass from a prescribed lift to a family.
 
-Use HilbertModularVarietiesAndShimuraCurves H1 for the Hilbert–Blumenthal moduli problem and its pairings, and the arithmetic representation and finite-flat suppliers for the prescribed torsion and local conditions. Construct the auxiliary abelian-variety moduli problem, establish nonempty local loci, and prove existence of a totally real point with the stated disjointness. The point supplies the auxiliary automorphic seed. Descent through solvable intermediate fields uses GL2AutomorphicRepresentationsAndTransfer R17.4, with the coefficient and character matching retained. Source: [Kh], §2.1, pp. 8–11, and proof of Proposition 3.1, pp. 16–17; [KW-Ann], proof of Lemma 3.6, pp. 241–242. The general-weight lift-to-family construction below uses this statement, rather than assuming that a weight-two family has arbitrary Hodge–Tate weights.
+Use HilbertModularVarietiesAndShimuraCurves H1 for the Hilbert–Blumenthal moduli problem and its pairings, and the arithmetic representation and finite-flat suppliers for the prescribed torsion and local conditions. Construct the auxiliary abelian-variety moduli problem, establish nonempty local loci, and prove existence of a totally real point with the stated disjointness. The point supplies the auxiliary automorphic seed. Descent through solvable intermediate fields uses GL2AutomorphicRepresentationsAndTransfer R17.4, with the coefficient and character matching retained. Source: [Kh], §2.1, pp. 8–11, and proof of Proposition 3.1, pp. 16–17; [KW-Ann], Theorem 2.1, pp. 233–237. The general-weight lift-to-family construction below uses this statement, rather than assuming that a weight-two family has arbitrary Hodge–Tate weights.
 
 ### I.1 Ordinary lifting over ℚ
 
@@ -232,9 +231,22 @@ The ordinary exact-level specialization identifies the weight and local conducto
 
 ### I.2 Global finiteness, presentations and classical lifting
 
-For a fixed-determinant minimal global deformation problem of an S-type residual representation satisfying the local conditions of LocalGaloisDeformationRings Layer 8 and the residual restriction hypotheses below, prove finiteness over its coefficient DVR. Use the controlled potential-modularity field of I.0, restriction to the corresponding Hilbert deformation ring and the finite integral Hecke algebra. With formally smooth local conditions, prove the integral comparison `R ≅ T` and complete-intersection property. The comparison includes the maps of deformation problems and the matching local types; it is stronger than an isomorphism of generic fibres. Source: [KW-Ann], Lemma 3.6, p. 241, and its proof; [KW-I], Theorem 4.1, pp. 7–8, proved in [KW-II].
+**Hilbert integral comparison over the potential-modularity field** (`I.2/hilbert-fixed-determinant-comparison`). Let `p > 2`, `ρ̄` be S-type, `ρ̄|G_{ℚ(μ_p)}` absolutely irreducible, `2 ≤ k(ρ̄) ≤ p+1`, and `k(ρ̄) ≠ p`. Use I.0 in the form of [KW-Ann], Theorem 2.1: `F/ℚ` is totally real Galois of even degree, unramified above `p`, preserves the residual image, makes `ρ̄|G_{F(μ_p)}` absolutely irreducible, and splits `p` completely in the supersingular case. Retain a cuspidal Hilbert automorphic seed over `F` realizing `ρ̄|G_F`, with the weight, determinant and local conditions of the chosen deformation problem. Let `W = W(𝔽)` and `O/W` be a finite coefficient DVR extension containing the seed's coefficients. The minimal fixed-determinant ring `R_F` is unramified at finite places away from `p`. At every `v | p` impose the restrictions of the corresponding [KW-Ann] §3.1 condition: crystalline weight `k` for `k < p`, or at `k = p+1` either the ordinary crystalline weight-`p+1` branch or the ordinary semistable weight-two branch. Fix determinant `ε̂χ_p^(k−1)` in the crystalline branch and `ε̂χ_p` in the semistable branch. In the ordinary case choose the distinguished filtration and its quotient matching the seed; in the supersingular case use the split-at-`p` crystalline problem. For `p = 3`, include the auxiliary neatness prime and its removal as in [Kh] §2.1.
 
-Böckle's numerical criterion here is: if `O` is a complete DVR with uniformizer `π`, `A=O[[x₁,…,x_n]]`, and `f₁,…,f_m` lie in the maximal ideal with `m ≤ n`, and the nonzero local quotient `R` has the same residue field and is finite over `O`, then `m = n` and `R` is a finite flat complete intersection. The regularity is that of `(π,f₁,…,f_n)` in `A`; in particular the characteristic-zero fibre is nonempty. Its presentation API is the quotient equivalence, the number of variables and relations, the regular sequence and flatness. The representative signature `PowerSeriesPresentation O R n m : Type` bundles a list of exactly `m` equations in the `n`-variable formal power-series algebra and an `O`-algebra equivalence from its quotient to `R`. `IsCompleteIntersection O R : Prop` asks for such a presentation with a regular relation sequence. Its API exposes the presentation and regularity and transports them along `O`-algebra equivalence; flatness, finiteness and relative dimension are asserted separately in the numerical theorem, rather than built into that predicate. The global presentation and the deduction from auxiliary `R_Q ≅ T_Q` to minimal `R_∅ ≅ T_∅` are applied with the exact hypotheses of R26.1. Source: [Bö], Theorem 1, p. 1, Proposition 1, p. 2, and Lemma 2, p. 5.
+Construct the integral Hecke algebra `T_F`, localized at the residual eigensystem in this exact weight and level, its matching rank-two Galois representation, and the surjection `R_F → T_F`. Prove this map is an isomorphism and that `T_F` is finite flat over `O`. The ordinary and supersingular comparisons are separate targets within this contract; formally smooth local conditions alone are not a modularity hypothesis. The Hilbert attachments and their normalization come from AutomorphicGaloisRepresentations §§3.10–3.14, 4.4 and 4.7; the integral comparison is owned here.
+Source: [KW-Ann], Proposition 3.8 and proof, pp. 241–242, using Fujiwara Theorem 0.2 in the ordinary branch and Taylor Theorem 3.2 in the supersingular branch; [Kh], §2.1, pp. 8–11.
+*Needs:* Input I.0; GlobalGaloisDeformations R04.3–R04.6; LocalGaloisDeformationRings Layer 8; HilbertModularVarietiesAndShimuraCurves H1; AutomorphicGaloisRepresentations §§3.10–3.14, 4.4 and 4.7.
+
+**Checks.**
+
+- A residual representation not yet known modular over `ℚ` still has the Hilbert seed after restriction to this `F`; it does not supply a Hecke maximal ideal over `ℚ`.
+- The supersingular comparison requires complete splitting of `p` in `F`; unramifiedness alone is insufficient for this branch.
+- Weight `p` is excluded here. At weight `p+1` both local problems are ordinary, but their weights, determinants and monodromy differ.
+
+For the associated minimal global ring over `ℚ`, prove finiteness over the coefficient DVR by restriction to `R_F`. The finite-characteristic universal inertia images away from `p` have the residual orders, giving the restriction map `R_F/(π) → R_ℚ/(π)`. Use finite universal image over `F`, finite index and the ring/image criterion to deduce finite cardinality of `R_ℚ/(π)`, then integral finiteness. For the integral `R_ℚ ≅ T_ℚ` and complete-intersection conclusion, require residual modularity over `ℚ` and a matching automorphic seed satisfying the determinant and every prescribed local condition, together with the classical lifting hypotheses below. Retain the maps of deformation problems and local types.
+Source: [KW-Ann], Proposition 3.8 and Theorem 3.7, pp. 241–242; Lemma 3.6, p. 241, only for the finite-characteristic ring/image criterion; [KW-I], Theorem 4.1, pp. 7–8, proved in [KW-II].
+
+Böckle's numerical criterion here is: if `O` is a complete DVR with uniformizer `π`, `A=O[[x₁,…,x_n]]`, and `f₁,…,f_m` lie in the maximal ideal with `m ≤ n`, and the nonzero local quotient `R` has the same residue field and is finite over `O`, then `m = n` and `R` is a finite flat complete intersection. The regularity is that of `(π,f₁,…,f_n)` in `A`; in particular the characteristic-zero fibre is nonempty. Its presentation API is the quotient equivalence, the number of variables and relations, the regular sequence and flatness. The representative signature `PowerSeriesPresentation O R n m : Type` bundles a list of exactly `m` equations in the `n`-variable formal power-series algebra and an `O`-algebra equivalence from its quotient to `R`. `IsCompleteIntersection O R : Prop` asks for such a presentation with a regular relation sequence. Its API exposes the presentation and regularity and transports them along `O`-algebra equivalence; flatness, finiteness and relative dimension are asserted separately in the numerical theorem, rather than built into that predicate. The global presentation and the deduction from auxiliary `R_Q ≅ T_Q` to minimal `R_∅ ≅ T_∅` are applied with the exact hypotheses of R26.1. Source: [Bö], Theorem 1, p. 1, Proposition 1, p. 2, Lemma 1, pp. 3–4, Corollary 1, p. 4, and Lemma 2/Corollary 2, p. 5.
 
 **Checks.**
 
@@ -266,7 +278,7 @@ These are mathematical existence targets, using the local rings of LocalGaloisDe
 
 Enrich `ArithmeticCompatibleFamily` by the almost-strict local comparison of Conventions §2.3. Its intended signature is a structure over a number field `E`, its finite places, a finite rational-prime ramification set `S` and a fixed Hodge–Tate multiset. Members are continuous rank-two representations over finite coefficient extensions with identified coefficient embeddings, stable lattices and residual embeddings. Include common trace and determinant polynomials at unramified arithmetic Frobenius, oddness and irreducibility of every characteristic-zero member, and Frobenius-semisimplified local Weil–Deligne comparisons preserving monodromy. The comparison at a ramified coefficient prime retains the reducible-residual exception; at an odd unramified coefficient prime it still asserts crystallinity when reduction is reducible.
 
-Its API consists of coefficient extension, residual members, independence of semisimplified reduction from the lattice, preservation of the stated local inertial types, and comparison of weight and ramification for each selected member. `CompatibleSystem.HasWeight k` means the fixed multiset is `{0,k−1}`; `CompatibleSystem.SplitAt p` means every selected coefficient place above `p` has residue field `𝔽_p`. Construct an almost-strict system containing each prescribed lift, with the local conditions used in R26.2 and R27.1–R33.5. The general-weight system uses I.0 and Brauer induction over solvable subextensions; identify the induced virtual representations with actual semisimple representations at every coefficient place. Source: [Kh], Proposition 3.1, pp. 16–17; [KW-I], §5, pp. 8–10; [DP], Definition 1.10, Theorem 1.11 and Remark 3, pp. 6–7.
+Its API consists of coefficient extension, residual members, independence of semisimplified reduction from the lattice, preservation of the stated local inertial types, and comparison of weight and ramification for each selected member. `CompatibleSystem.HasWeight k` means the fixed multiset is `{0,k−1}`; `CompatibleSystem.SplitAt p` means every selected coefficient place above `p` has residue field `𝔽_p`. Construct an almost-strict system containing each prescribed lift, with the local conditions used in R26.2 and R27.1–R33.5. The general-weight system uses I.0 and Brauer induction over solvable subextensions. For each descended cuspidal Hilbert form `π_i` over the totally real field `F_i`, retain its parallel weight `k ≥ 2`, central character, coefficient field `E_i` and embedding `E_i → ℚ̄_ℓ` at each selected coefficient place. Apply AutomorphicGaloisRepresentations §§3.10–3.14 and 7.3, using its arithmetic dual `ρ_{π_i,λ}^∨`: at arithmetic Frobenius `v` the polynomial is `X²−t_vX+Nv·s_v`. Convert the supplier's `D_HT` degrees `{0,1−k}` for this dual to the positive cyclotomic-weight convention `{0,k−1}` used here and local Weil–Deligne parameters by §§4.4 and 4.7, retaining monodromy. Identify the induced virtual representations with actual semisimple representations at every coefficient place. SmallRamificationAndAbelianVarietyBaseCases §5.0b supplies only the parallel-weight-two special case. Source: [Kh], Proposition 3.1, pp. 16–17; [KW-I], §5, pp. 8–10; [DP], Definition 1.10, Theorem 1.11 and Remark 3, pp. 6–7.
 
 Define two such systems to be linked at `p` when specified places above `p` have isomorphic semisimplified residual representations over a common residue field. The API is symmetry and invariance under coefficient extension; linkage alone does not imply modularity equivalence. Prove modularity transfer when the chosen `p`-adic members satisfy the particular lifting theorem of I.1, I.2 or R33.1 and both lift the same modular residual representation. Once one member is modular, common Frobenius polynomials and ArithmeticGaloisRepresentations Layer 5 give modularity of the entire system. GL2AutomorphicRepresentationsAndTransfer §§R17.6.17–R17.6.19 supply compatible-family transfer and descent with their common-index and character hypotheses. Source: [KW-I], applications of Theorem 4.1 in §§8–9, pp. 12–19; [DP], Remark 4, p. 7.
 
@@ -286,7 +298,7 @@ For the split-at-`p` condition, complete splitting of `p` in the coefficient fie
 
 ### Dependencies
 
-*Needs:* ArithmeticGaloisRepresentations Layers 1–5; GlobalGaloisDeformations R04.3–R04.6; LocalGaloisDeformationRings Layers F and 8; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.3–R07.5; AlgebraicModularFormsAndSerreWeights R15.4–R15.6; GL2AutomorphicRepresentationsAndTransfer R17.4–R17.6; SmallRamificationAndAbelianVarietyBaseCases §§5.0b–5.0e; HilbertModularVarietiesAndShimuraCurves H1. The minimal ring, the auxiliary automorphic seed, the prescribed lift and the family containing a given lift are separate outputs; none assumes the final residual modularity theorem.
+*Needs:* ArithmeticGaloisRepresentations Layers 1–5; GlobalGaloisDeformations R04.3–R04.6; LocalGaloisDeformationRings Layers F and 8; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.3–R07.5; AlgebraicModularFormsAndSerreWeights R15.4–R15.6; GL2AutomorphicRepresentationsAndTransfer R17.4–R17.6; SmallRamificationAndAbelianVarietyBaseCases §§5.0b–5.0e; HilbertModularVarietiesAndShimuraCurves H1; AutomorphicGaloisRepresentations §§3.10–3.14, 4.4, 4.7 and 7.3. The minimal ring, the auxiliary automorphic seed, the prescribed lift and the family containing a given lift are separate outputs; none assumes the final residual modularity theorem.
 
 ## Layer R26.1: The level-one statement and the deformation contract
 
@@ -307,13 +319,19 @@ Suggested name: `conductor_prime_weight_two`.
 **Böckle's presentation as the level-one proof applies it** (`R26.1/bockle-appendix-minimal-deformation-ring-presentation`). Böckle's presentation of a global deformation ring with local conditions, his criterion that a finite `𝒪`-algebra presented by no more relations than variables is a finite flat complete intersection, and his deduction of `R_∅ ≅ T_∅` from an auxiliary `R_Q ≅ T_Q` are targets of Input I.2, with the generic presentation in `GlobalGaloisDeformations:R04.3`. This target verifies their hypotheses for the minimal ring `R_∅` and the `Q`-new rings `R_Q^{α-new}` of the level-one argument:
 
 1. `ρ̄` is odd; the Euler-characteristic count in the presentation uses oddness once.
-2. The local defect `Δ_ℓ` vanishes in the four cases used: no ramification at `ℓ`, no condition at `ℓ`, the minimal condition at a prime where `ρ̄` ramifies, and the `Q`-new condition at a prime of `Q`, where the local ring is `𝒪⟦T⟧`. At `p, Δ_p = 0` for the finite or Selmer conditions, except when `ρ̄|_{G_p}` is decomposable and flat; there the flat lifts with the given determinant are reducible, the tangent space has dimension `2`, and the local ring is `W(k)⟦X₁, X₂⟧`.
+2. The local defect `Δ_ℓ` vanishes in the four cases used: no ramification at `ℓ`, no condition at `ℓ`, the minimal condition at a prime where `ρ̄` ramifies, and the `Q`-new condition at a prime of `Q`, where the local ring is `𝒪⟦T⟧`. At `p`, verify `Δ_p = 0` for the finite or Selmer problems of [Bö]. The split finite-flat calculation requires `p` odd, `ρ̄|G_p ≅ diag(χ̄_p,1)`, coefficient ring `W(k)` and determinant fixed to `χ_p`. In this case the flat lifts are reducible, the tangent dimension is `2` and the versal ring is `W(k)⟦X₁,X₂⟧`; after a finite coefficient extension `O/W(k)` it is `O⟦X₁,X₂⟧`. This calculation does not cover arbitrary decomposable flat representations.
 3. If `R_Q` is finite over `𝒪`, then `R_∅` is a finite flat complete intersection.
 4. The deduction `R_∅ ≅ T_∅` needs `T_Q` and `T_∅` finite flat over `W(k), T_Q` reduced by the choice of `Q`, and Carayol's theorem that a newform unramified at the primes of `Q` has conductor prime to `Q`.
 
 The determinant convention fixes `d` and `Ad_X: d = 0` and `Ad⁰` if the determinant is fixed, otherwise `d = 1` and `Ad`.
-Source: [Bö], Theorem 1, p. 1, and Proposition 1 with its proof, p. 2.
+Source: [Bö], Theorem 1, p. 1, Proposition 1, p. 2, Lemma 1, pp. 3–4, Corollary 1, p. 4, and Lemma 2/Corollary 2, p. 5.
 *Needs:* Input I.2; `GlobalGaloisDeformations:R04.3/local-to-global-presentation`.
+
+**Checks.**
+
+- `diag(χ̄_p,1)` with determinant `χ_p` gives the two-variable flat versal ring for odd `p`.
+- The scalar unramified representation `1 ⊕ 1` with determinant one has three unramified tangent directions, the trace-zero matrices; the two-dimensional calculation cannot apply.
+- Extending `W(k)` to `O` extends the coefficients of the two-variable ring; changing the fixed determinant is a different deformation problem.
 
 ## Layer R26.2: Prescribed lifts in conductor one
 
@@ -322,8 +340,14 @@ Source: [Bö], Theorem 1, p. 1, and Proposition 1 with its proof, p. 2.
 Every lift of this layer is an application of the prescribed-lift and compatible-system theorems of Input I.3; the targets verify their local hypotheses in the cases the level-one proof needs. Throughout, `2 ≤ k(ρ̄) ≤ p + 1` and `k(ρ̄) ≠ p`, and the unframed relative dimension of the local ring at `p` is `h⁰(D_p, Ad⁰ρ̄) + 1`.
 
 **Flatness of the deformation rings of prescribed lifts** (`R26.2/lifting-method-flatness`). Let `p` be odd and `ρ̄ : G_ℚ → GL₂(𝔽)` odd and irreducible with non-solvable image, with `2 ≤ k(ρ̄) ≤ p + 1` and `k(ρ̄) ≠ p`. Let `R` be the deformation ring of lifts with fixed determinant, unramified outside a fixed finite set, with prescribed local conditions. Suppose (a) each local ring `R_ℓ (ℓ ≠ p)` is a flat complete intersection over `𝒪` of relative dimension `h⁰(D_ℓ, Ad⁰ρ̄)`, and `R_p` one of relative dimension `h⁰(D_p, Ad⁰ρ̄) + 1`, and (b) `R/(π)` is finite. Then `R` is finite flat and a complete intersection over `𝒪`, and in particular `ρ̄` has a lift of the prescribed type. Finiteness of `R/(π)` comes from a totally real Galois field `F` of even degree over which `ρ̄` becomes modular (Taylor), `R_F ≅ T_F`, and the equality of the orders of the inertia images, which makes `ρ_R|_{G_F}` a specialisation of `ρ_{R_F}`. For `p = 3` an auxiliary prime handles non-neatness.
-Source: [Kh], §2.1, pp. 8 and 11; [KW-Ann], Lemma 3.6 and its proof, p. 241.
+Source: [Kh], §2.1, pp. 8 and 11; [KW-Ann], Proposition 3.8 and Theorem 3.7, pp. 241–242; Lemma 3.6, p. 241, for the finite-characteristic criterion.
 *Needs:* `R26.1/bockle-appendix-minimal-deformation-ring-presentation`; Input I.3; Input I.2.
+
+**Checks.**
+
+- Finiteness of the Hilbert ring first gives finite residual universal image after restriction; the finite index of `G_F` then gives finite image over `ℚ`.
+- A finite residual deformation ring alone need not be flat: `O/(π)` is a counterexample. The bound on relations supplies the additional argument.
+- Without a matching modular seed over `ℚ`, the Hilbert comparison proves finiteness over `ℚ`, but does not identify a rational Hecke algebra.
 
 **Minimal weight-two lifts of ordinary representations** (`R26.2/minimal-weight-two-lift`). Let `p > 3` and `ρ̄` odd absolutely irreducible, ordinary at `p`, with `2 ≤ k(ρ̄) ≤ p + 1` and `k(ρ̄) ≠ p`. Then `ρ̄` has a lift `ρ` that is minimal at every `ℓ ≠ p`, has determinant `ε ω_p^{k(ρ̄)−2} χ_p`, and satisfies `ρ|_{I_p} ≅ (ω_p^{k−2}χ_p, ∗; 0, 1)` when `ρ̄|_{I_p} ≅ (χ̄_p^{k−1}, ∗; 0, 1)`; it is Barsotti–Tate when `k(ρ̄) = 2`. For `2 < k < p + 1` the tame character `ω_p^{k−2}` is nontrivial and the lift becomes Barsotti–Tate over `ℚ_p(μ_p)`; at the endpoint `k = p + 1` the conductor-one induction uses the semistable weight-two branch. If the image is solvable, Serre's conjecture is known in refined form, and Gross and Edixhoven place an ordinary `mod p` eigenform of weight `k(ρ̄)` in `S₂(Γ₁(N) ∩ Γ₀(p), ω^{k(ρ̄)−2})`; otherwise apply the previous target with the smooth ordinary local ring at `p` of relative dimension `1 + h⁰(D_p, Ad⁰ρ̄)`.
 Source: [Kh], Proposition 2.1, Conventions §2.2, p. 12.
@@ -342,40 +366,87 @@ Source: [Kh], Proposition 2.2, Conventions §2.3, p. 13; [KW-Ann], Proposition 3
 **Placing the lifts in compatible systems** (`R26.2/compatible-system-lifts`).
 (i) Let `p > 3, ρ̄` as in the minimal weight-two target and `ρ` a minimal weight-two lift. There is a weakly compatible system `(ρ_λ)` over a number field `E` containing `ρ` at the place given by `ι_p`. Its member at a place above a prime `ℓ > 2` unramified in `ρ̄` is Barsotti–Tate at `ℓ`, unramified outside `{ℓ} ∪ Ram(ρ̄)`, and has the inertial Weil–Deligne parameter of `ρ` at `p`.
 (ii) Let `p` be odd (`p = 3` allowed), `ρ̄` with non-solvable image, `k(ρ̄) = 2`, and the lift of the previous target with nontrivial nebentypus `χη_q^i = ω_q^j, 1 ≤ j ≤ q − 2`. There is such a system whose member above `q` is unramified outside `{q} ∪ (Ram(ρ̄) ∖ {p})`, unramified at `p` and Barsotti–Tate over `ℚ_q(μ_q)`. If its residual representation has non-solvable image, its Serre weight is `j + 2`, or else the twist by `χ_q^{−j}` has Serre weight `q + 1 − j`.
-Proof outline: Taylor's potential modularity over a Galois totally real field `F`, Brauer's induction `1 = Σ n_i Ind χ_i` over solvable subextensions, and Arthur–Clozel base change give `ρ` as a virtual sum `Σ n_i Ind(χ_i ⊗ ρ_{π_i})`, which is a true representation at the other places too. For (i) Taylor's field is unramified at `p` and the form is ordinary or Steinberg at `p`. For (ii) use a solvable extension completing to `ℚ_q(μ_q)`, Breuil's theorem on finite flat reductions, level raising to a form square-integrable at an auxiliary place, Saito's local-global compatibility for the inertial parameter, and Breuil–Mézard and Savitt for the weights.
+Proof outline: use the field, weight, coefficient embeddings and arithmetic-dual Hilbert attachments fixed in I.3 at each descended `π_i`, with the local comparisons of AutomorphicGaloisRepresentations §§4.4 and 4.7. Taylor's potential modularity over a Galois totally real field `F`, Brauer's induction `1 = Σ n_i Ind χ_i` over solvable subextensions, and Arthur–Clozel base change give `ρ` as a virtual sum `Σ n_i Ind(χ_i ⊗ ρ_{π_i})`, which is a true representation at the other places too; here `ρ_{π_i}` denotes the arithmetic dual specified in I.3. For (i) Taylor's field is unramified at `p` and the form is ordinary or Steinberg at `p`. For (ii) use a solvable extension completing to `ℚ_q(μ_q)`, Breuil's theorem on finite flat reductions, level raising to a form square-integrable at an auxiliary place, Saito's local-global compatibility for the inertial parameter, and Breuil–Mézard and Savitt for the weights.
 Source: [Kh], Proposition 3.1, §3, pp. 16–17.
-*Needs:* `R26.2/minimal-weight-two-lift`; `R26.2/nebentype-lift-at-q`; Input I.3; `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.5`.
+*Needs:* `R26.2/minimal-weight-two-lift`; `R26.2/nebentype-lift-at-q`; Input I.3; `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.5`; AutomorphicGaloisRepresentations §§3.10–3.14, 4.4, 4.7 and 7.3.
+
+**Checks.**
+
+- A parallel-weight-two descended form is within the small-ramification supplier's attachment scope; a weight-twelve one requires the general Hilbert constructor.
+- For the discriminant form over `ℚ`, arithmetic Frobenius at `2` on the arithmetic dual has polynomial `X²+24X+2048`; using the geometric convention on that same representation gives reciprocal roots.
+- A Steinberg place has nonzero monodromy. Equality of good-prime trace polynomials alone does not replace the local comparison needed to preserve that parameter.
 
 ## Layer R26.3: Prime estimates and the weight recursion
 
 *Milestone:* the weight induction for level one.
 
-The prime estimates are owned here and shared with the conductor induction of R27.2. Khare's uniform Chebyshev-type bound is not used: it is false as printed (Corrections to the sources). The replacement route is an explicit form of the prime number theorem with exact thresholds, the finite-range hypothesis below, and an asymptotic consecutive-prime ratio.
+The prime estimates are owned here and shared with R27.2. Use Nagura's elementary interval theorem, derived from factorial estimates and Chebyshev's `ψ`, with certified finite arithmetic. Khare's printed uniform Chebyshev-type bound is false (Corrections to the sources).
 
-**Explicit prime counting** (`R26.3/explicit-prime-counting-input`). For real `x`, with `π(x) = Nat.primeCounting ⌊x⌋₊`:
+**Factorial estimates for the elementary prime bound** (`R26.3/elementary-factorial-estimates`). Write `T(x) = log(⌊x⌋₊!)` for `x ≥ 0`. Prove the finite identity `T(x) = Σ_{1 ≤ n ≤ ⌊x⌋₊} ψ(x/n)` using the von Mangoldt divisor sum and `Chebyshev.psi`. With `LΓ(x) = log(Real.Gamma x)`, prove that for every integer `n > 1` the functions `LΓ(x)/n − LΓ((x+n−1)/n)` on `x > 1` and `LΓ(x+1)/n − LΓ(x/n+1)` on `x > 0` are strictly increasing. Prove the explicit Stirling remainder
+`0 < LΓ(x) − ((x−1/2)log x − x + log(2π)/2) < 1/(12x)` for `x > 0`.
 
-- `π(x) > x/log x` for `x ≥ 17`;
-- `π(x) < 1.25506 x/log x` for `x > 1`;
-- `π(x) > x/(log x − 1/2)` for `x ≥ 67`;
-- `π(x) < x/(log x − 3/2)` for `x > e^{3/2}`.
+Use the resulting floor comparisons to prove, for `x ≥ 2000`,
+`U(x) = T(x)−T(x/2)−T(x/3)−T(x/7)−T(x/43)−T(x/1806) < (10851/10000)x`,
+and `V(x) = T(x)−T(x/2)−T(x/3)−T(x/5)+T(x/30) > (229/250)x`.
+Derive the log-Gamma difference inequalities from strict convexity of `LΓ` on the positive reals and differentiation; establish that strictness from `Real.convexOn_log_Gamma` and the Gamma functional equation. Derive the signed remainder by the convergent logarithmic series and integration extending the bounds for the existing Stirling sequence to positive real arguments. All numerical log bounds are certified by rational upper and lower series bounds.
+Source: [Na], Lemma 1 and equations (1)–(2), pp. 177–179.
+*Needs:* Mathlib `Chebyshev.psi`, `ArithmeticFunction.vonMangoldt`, `Real.Gamma`, its derivative API in `Mathlib/Analysis/SpecialFunctions/Gamma/Deriv.lean`, and `Mathlib/Analysis/SpecialFunctions/Stirling.lean`; finite sums, integration and rational bounds for `Real.log`.
 
-These are the four inequalities `(3.3)–(3.6)` of Rosser–Schoenfeld; their proof is the analytic argument of that paper with its finite verifications. Comparing a lower bound for `π(ap)` with an upper bound for `π(p)` produces a prime in `(p, ap]`. Khare's bound `A x/log x ≤ π(x) ≤ B x/log x` for `x > 30` with `A ≈ 0.921` and `B/A = 6/5` fails at `x = 31 (π(31) = 11)`, so it appears here only as a conditional comparison on a stated range.
-Source: [RS], Theorem 2 and Corollary 1, p. 69; [Kh], §4, p. 19.
-*Needs:* `Nat.primeCounting`.
-Suggested name: `explicit_prime_counting`.
+**Checks.**
 
-**The consecutive-prime ratio** (`R26.3/next-prime-ratio`). If `p ≥ 31` is prime and `P` is the least prime greater than `p`, then `P/p < 22/15`, so `P/p ≤ 3/2 − 1/30`. If `p ≥ 21591`, each of the next two primes after `p` is at most `61/50` times its predecessor; since `(61/50)² = 3721/2500 < 1499/1000`, the least non-Fermat prime greater than `p` is less than `(1499/1000)p`.
-Proof outline: with `a = 22/15` compare `π(ap) > ap/log(ap)` with `π(p) < 1.25506 p/log p`, checking `a log p > 1.25506(log p + log a)` at `p = 31` and monotonicity. For `a = 61/50` and `p ≥ 21591` use the sharper denominators. Of two consecutive odd primes above `5` at most one is a Fermat prime, because between two Fermat primes Bertrand's postulate gives another prime.
-Source: [KW-I], §7, p. 12.
-*Needs:* `R26.3/explicit-prime-counting-input`; `Nat.exists_prime_lt_and_le_two_mul`.
+- At `x = 6`, `T(x) = log(720)`; the sum of `ψ(6/n)` has prime exponents `2⁴·3²·5`, so omitting the terms with `n > 1` fails.
+- At positive integral `x`, the floor in `T` includes `x`; the left limit at a prime power has a smaller `ψ` value.
+- The Stirling remainder is positive at `x = 1` and less than `1/12`; an asymptotic equivalence without the signed error does not give the displayed inequalities.
+
+**Elementary bounds on `ψ`** (`R26.3/elementary-psi-bounds`). Prove `ψ(x)−ψ(x/1806) ≤ U(x)` and `V(x) ≤ ψ(x)` for `x > 0` by grouping the finite sums above. Extend the upper estimate `ψ(x)−ψ(x/1806) < (10851/10000)x` to `0 < x < 2000`, and certify `ψ(x) > (229/250)x−1159/500` on that range. These finite verifications use prime powers and rational enclosures for logarithms, checking the appropriate one-sided endpoints of each constant interval, rather than sampling real points. Sum the upper estimate along `x/1806^j` until `ψ` vanishes to obtain
+`(229/250)x−1159/500 < ψ(x) < (543/500)x` for every `x > 0`.
+Source: [Na], Lemma 2 and proof, pp. 179–180.
+*Needs:* `R26.3/elementary-factorial-estimates`; Mathlib's finite prime factorisation and `Chebyshev.psi_eq_zero_of_lt_two`.
+Suggested name: `nagura_psi_bounds`.
+
+**Checks.**
+
+- On `0 < x < 2`, `ψ(x) = 0` and the lower affine bound is negative; a positive linear lower bound would fail.
+- At `x = 2`, `ψ(x) = log 2`, with the jump included.
+- `(10851/10000)·1806/1805 < 543/500`; the geometric summation changes the upper constant.
+
+**Primes in a six-fifths interval** (`R26.3/elementary-prime-interval`). For every integer `n ≥ 25`, prove that a prime `P` satisfies `n < P` and `5P < 6n`. For real `x ≥ 100000`, put `y = 6x/5`. The existing comparison
+`ψ(y)−θ(y) ≤ ψ(y^(1/2))+ψ(y^(1/3))+ψ(y^(1/5))`
+and the preceding bounds give
+`θ(y)−θ(x) > (229/250)y−1159/500−(543/500)(x+y^(1/2)+y^(1/3)+y^(1/5)) > 0`.
+Prove the final strict inequality at `100000` by rational power bounds and extend it by monotonicity after division by `x`. For every integer `25 ≤ n ≤ 100000`, certify a prime witness with `5P < 6n` by primality certificates and exact integer inequalities. A finite list of overlapping prime intervals can compress this certificate; prove its coverage of every such integer. Since `θ` is the sum of `log P`, positive difference supplies a prime in `(x,6x/5]`; when `x = n` is an integer at least `25`, the upper endpoint cannot itself be prime, giving the strict inequality. This is the elementary route needed for the recursion.
+Source: [Na], theorem and proof, pp. 180–181 (the large threshold `100000` above is a weaker sufficient bound).
+*Needs:* `R26.3/elementary-psi-bounds`; `Chebyshev.psi_sub_theta_le_psi_add_psi_add_psi`; `Chebyshev.theta_eq_sum_primesLE`; certified finite primality and rational-power arithmetic.
+Suggested name: `prime_in_six_fifths`.
+
+**Checks.**
+
+- `n = 25` has witness `29`; `n = 24` has no prime strictly between `24` and `6·24/5`.
+- `n = 100000` has witness `100003`, on the finite/large-range boundary.
+- A prime cannot equal `6n/5` for integral `n ≥ 25`: if integral, it is a multiple of `6`.
+
+**The consecutive-prime ratio** (`R26.3/next-prime-ratio`). If `p ≥ 31` is prime and `P` is the least prime greater than `p`, then `P/p < 6/5 < 22/15`, so `P/p ≤ 3/2 − 1/30`. Each of the next two primes is less than `6/5` times its predecessor. At most one is a Fermat prime, since Bertrand's postulate supplies a prime between any two consecutive Fermat primes above `5`. Thus the least non-Fermat prime above `p` has ratio less than `(6/5)² = 36/25 < 1499/1000`, in particular for `p ≥ 21591`.
+Source: [Na], theorem, pp. 180–181; [KW-I], §7, p. 12, for the ratio required by the recursion.
+*Needs:* `R26.3/elementary-prime-interval`; `Nat.exists_prime_lt_and_le_two_mul`.
 Suggested names: `next_prime_ratio`, `next_nonFermat_prime_ratio`.
 
-**Finite auxiliary-prime hypothesis** (`R26.3/finite-auxiliary-prime-checks`). Let `Hfinite` be the following explicit hypothesis: for each prime `p` with `5 ≤ p ≤ 21591`, if `P` is the least non-Fermat prime greater than `p`, there are an odd prime `ℓ ≤ p` and `e ≥ 1` with `ℓ^e ∥ P − 1, ℓ^e = 2m + 1` and `(m + 1)P + m ≤ (2m + 1)p`. For `p ≤ 31` the triples `(p, P, ℓ^e)` are `(5, 7, 3), (7, 11, 5), (11, 13, 3), (13, 19, 9), (17, 19, 9), (19, 23, 11), (23, 29, 7), (29, 31, 5), (31, 37, 9)`. At `p = 251` the Fermat prime `257` is skipped and `P = 263, ℓ^e = 131`. The displayed small values are worked Checks of the hypothesis. No enumeration or computation of the remaining entries is a target.
-Source: [Kh], §4, pp. 19–20.
-*Needs:* none beyond Mathlib's primality.
-The classical level-one and conductor-induction endpoints take `Hfinite` as an explicit hypothesis; the modern route R33.1–R33.6 does not use it.
+**Checks.**
 
-**Khare's prime estimate** (`R26.3/chebyshev-next-prime`). Assume `Hfinite`. For every prime `p_n ≥ 31` there are a prime `P_{n+1} > p_n` that is not a Fermat prime (`P_{n+1} = p_{n+1}`, or `p_{n+2}` when `p_{n+1}` is a Fermat prime) and an odd prime power `ℓ^e = 2m + 1` exactly dividing `P_{n+1} − 1`, with `ℓ ≤ p_n` and
+- The consecutive primes `31,37` satisfy `37/31 < 6/5`.
+- After `251`, the next prime `257` is Fermat and the next non-Fermat prime is `263`; both steps obey the bound.
+- `36/25 < 1499/1000 < 3/2`; Bertrand's factor `2` alone would not give the recursion's ratio.
+
+**Finite auxiliary-prime certificate** (`R26.3/finite-auxiliary-prime-checks`). Prove `Hfinite`: for every prime `5 ≤ p ≤ 21591`, if `P` is the least non-Fermat prime greater than `p`, there are an odd prime `ℓ ≤ p` and `e ≥ 1` with `ℓ^e ∥ P−1`, `ℓ^e = 2m+1` and `(m+1)P+m ≤ (2m+1)p`. Certify all `2422` primes in this range by an exhaustive sieve or primality certificates, a least-prime check excluding every intervening non-Fermat prime, factorisation of `P−1`, and the exact inequality. Reduce the apparently unbounded Fermat-exponent tests to a finite range using `2^(2^a)+1 ≤ P`. The output is the theorem `finite_auxiliary_prime_checks`, used in every classical endpoint through `odd_auxiliary_prime`.
+Source: [Kh], §4, pp. 19–20, for the inequality and finite range used in the recursion.
+*Needs:* Mathlib's primality, finite enumeration and factorisation API.
+
+**Checks.**
+
+- For `p ≤ 31`, the triples `(p,P,ℓ^e)` are `(5,7,3), (7,11,5), (11,13,3), (13,19,9), (17,19,9), (19,23,11), (23,29,7), (29,31,5), (31,37,9)`; the two occurrences of `19` include skipping the Fermat prime `17`.
+- At `p = 251`, skip `257 = 2⁸+1` and take `P = 263`, `ℓ^e = 131`; taking the next prime without testing the Fermat condition fails.
+- The upper endpoint includes the last prime `21589 ≤ 21591`; its witness is `P = 21599`, `ℓ^e = 10799`, and `(5400·21599)+5399 ≤ 10799·21589`. A certificate must cover this endpoint as well as the small rows.
+
+**Khare's prime estimate** (`R26.3/chebyshev-next-prime`). For every prime `p_n ≥ 31` there are a prime `P_{n+1} > p_n` that is not a Fermat prime (`P_{n+1} = p_{n+1}`, or `p_{n+2}` when `p_{n+1}` is a Fermat prime) and an odd prime power `ℓ^e = 2m + 1` exactly dividing `P_{n+1} − 1`, with `ℓ ≤ p_n` and
 
 `P_{n+1}/p_n ≤ (2m + 1)/(m + 1) − (m/(m + 1))(1/p_n).   (1)`
 
@@ -383,6 +454,12 @@ For `p_n ≤ 21591` this is the finite table. For larger `p_n` the ratio bound g
 Source: [Kh], §4, pp. 19–20.
 *Needs:* `R26.3/next-prime-ratio`; `R26.3/finite-auxiliary-prime-checks`.
 Suggested name: `odd_auxiliary_prime`.
+
+**Checks.**
+
+- At `p = 31`, take `P = 37`, `ℓ^e = 9` and `m = 4`; the inequality is `189 ≤ 279`.
+- At `p = 13`, `P = 19` uses the exact divisor `3²`, not `3³`; the exponent is part of the certificate.
+- A Fermat choice such as `P = 257` has `P−1` a power of two and cannot supply the required odd divisor.
 
 **Twisting the Serre weight** (`R26.3/serre-weight-twist`). Let `τ : G_{ℚ_p} → GL₂(𝔽)` have Serre weight `k ≠ 2` with `k < p`. If `τ` is irreducible and `k − 1 = p − k′` with `k′ ≥ 0`, then `τ ⊗ χ̄_p^{k′}` has weight `k′ + 2 = p + 3 − k`. If `τ|_{I_p}` is split, `τ ⊗ χ̄_p^{1−k}` has weight `p + 1 − k`. This is read off Serre's recipe.
 Source: [Kh], Lemma 5.2, §5, p. 21.
@@ -397,7 +474,7 @@ Suggested names: `weight_interval_containment`, `half_open_interval_residue`.
 The step first proves the full level-one theorem in characteristic `P`: weights `≤ p_n + 1` come from `S(p_n + 1)`, and the new normalised weights `p_n + 2 ≤ k ≤ P + 1` from the step. Only then does Corollary 5.5(ii) export `S(P + 1)` to every characteristic. Corollary 5.5(i) moves a fixed weight `k ≤ p + 1` only to characteristics `q ≥ k − 1`, so a bounded statement in one characteristic does not suffice. Cyclotomic normalisation and its undoing come from Serre's recipe; characteristics `2` and `3` are Tate's and Serre's.
 Source: [Kh], §6.2, p. 26.
 *Needs:* `R26.3/weight-interval-containment`; `R26.3/serre-weight-twist`; `R26.4/level-one-lifting-lemma`; `R26.5/small-weights-table`; `R26.4/ordinary-reduction-and-parity`; `AlgebraicModularFormsAndSerreWeights:R15.4`.
-The intended signature is `LevelOneUpTo : ℕ → Prop`, with exactly the quantifiers in `S(B)`. Its API is `LevelOneUpTo.mono` (`S(C)` implies `S(B)` for `B ≤ C`), the terminal bound `S(32)`, and the displayed step `levelOneUpTo_step` under `Hfinite`.
+The intended signature is `LevelOneUpTo : ℕ → Prop`, with exactly the quantifiers in `S(B)`. Its API is `LevelOneUpTo.mono` (`S(C)` implies `S(B)` for `B ≤ C`), the terminal bound `S(32)`, and the displayed step `levelOneUpTo_step`, using `finite_auxiliary_prime_checks`.
 
 **Checks.**
 
@@ -517,6 +594,7 @@ API:
 
 **Checks.**
 
+- `goodDihedral_positive`: take `G = DihedralGroup 7`, `K = GaloisField 2 3 = 𝔽₈`, `p = 2`, `q = 41`, `N = 41²` and `t = 7`. For a primitive `ζ₇ ∈ 𝔽₈`, send a rotation to `diag(ζ₇,ζ₇⁻¹)` and a reflection to the swap. Inertia is the cyclic rotation subgroup, with its inclusion. The character has exact order seven, `41 ≡ 1 (mod 8)` and modulo `2`, `7 | 42`, and `7 > max(1,5,2)`. This constructs both `IsGoodDihedralPrime` and `IsLocallyGoodDihedral`. This algebraic example does not assert a global Galois realization.
 - `goodDihedral_congruence_fails`: `q = 13` is never good-dihedral, as `13 ≢ 1 (mod 8)`.
 - `goodDihedral_trivial_inertia_fails`: a representation trivial on `I_q` is not good-dihedral at `q`, since `ψ` must have order `t^a` with `a > 0`.
 - `goodDihedral_upper_endpoint`: for `p = 7, q = 241` and `N = 9 · 241², Q(N/q²) = 3`; the congruences modulo `8, 2, 3` and `5` hold but `241 ≢ 1 (mod 7)`, so the predicate fails: the bound `s ≤ max(Q(N/q²), p)` includes `s = p`.
@@ -542,6 +620,12 @@ Proof outline: by Dickson the projective image is `PSL₂(𝔽_p), PGL₂(𝔽_p
 Source: [KW-I], Lemma 8.2, the remark after it, and its proof, pp. 17–18; [DP], Lemma 1.15, p. 9, which restates it with `𝔽_p` coefficients.
 *Needs:* `ArithmeticGaloisRepresentations Layer 3`; `ArithmeticGaloisRepresentations Layer 4`; [Chebotarev, Layer 10][cheb].
 Suggested names: `auxiliaryPrimes`, `lemma_8_2`, `lemma_8_2_trace_eq_zero`.
+
+**Checks.**
+
+- `q = 13` is excluded from `auxiliaryPrimes` for `p = 5`, independently of the representation, by the modulus-eight condition.
+- `q = 409` satisfies every congruence for `p = 5`, but an inertia element outside the kernel excludes it. Thus congruences alone do not establish membership.
+- The action `diag(1,χ_{ℚ(i)})` over `𝔽₅` is odd and unramified at `409`, with Frobenius the identity there since `409 ≡ 1 (mod 4)`. Complex conjugation is `diag(1,−1)`, which is not projectively conjugate to the identity. Consequently `409` is excluded even with all the arithmetic congruences and unramifiedness.
 
 **Inserting a good-dihedral prime** (`R27.1/good-dihedral-prime-insertion`). Let `p′ > 5` be prime with `p′ ≡ 1 (mod 4), ρ̄′ : G_ℚ → GL₂(𝔽_{p′})` of S-type with non-solvable image and `k(ρ̄′) = 2`, and `q` a prime given by Lemma 8.2 for `ρ̄′`. Then `p′ | q + 1` and `ρ̄′|_{D_q}` is, up to an unramified twist, `(χ̄_{p′}, ∗; 0, 1)`. Khare–Wintenberger Theorem 5.1(4) gives an almost strictly compatible system `(ρ′_λ)` lifting `ρ̄′`, minimally ramified at primes other than `p′` and `q`, of weight two and crystalline at `p′`, with `ρ′_{p′}|_{I_q} ≅ χ′ ⊕ χ′^q` for a character `χ′` of `I_q` of niveau two and `p′`-power order; such characters exist because `p′` is odd. If moreover every prime other than `p′` at which `ρ̄′` ramifies is smaller than `p′`, then for every prime `s < p′, s ≠ q`, the residual representation `ρ̄′_s` is good-dihedral for `q` with `t = p′`, so has non-solvable image. In applications `ρ̄′` is the reduction `ρ̄_{p′}` of a compatible system, and `p′` must split completely in its coefficient field so that `ρ̄_{p′}` is `𝔽_{p′}`-valued, as Lemma 8.2 requires.
 Proof outline: compatibility at `q` gives `ρ′_s|_{I_q} ≅ χ′ ⊕ χ′^q`, and reduction `mod s` is injective on a group of `p′`-power order; `t = p′` exceeds every other ramified prime and `s`; the congruences of Lemma 8.2(ii) cover every prime up to `p′ − 1`. Then apply Lemma 6.3(i).
@@ -705,9 +789,15 @@ Source: [Se87], Proposition 4, p. 189; [KW-I], §1, p. 2.
 *Needs:* `R27.6/full-classical-serre-theorem`; `AlgebraicModularFormsAndSerreWeights:R15.6`; `SerreWeightAndLevelOptimisation §4.1`.
 Suggested name: `weight_two_trivial_character` (stated with `k(ρ̄) = 2`, which is what finiteness at `p` is used for).
 
-**Theorem 10.1(i): regular compatible systems** (`R27.6/scope-of-the-final-statement-and-the-compatible-system-export`). Every odd, irreducible, regular compatible system of two-dimensional representations of `G_ℚ` comes, after a twist, from a newform of weight at least `2`. First, `ρ̄_λ` is irreducible for almost all `λ`, by the bounded conductor and fixed Hodge–Tate weights. Twist so that the Hodge–Tate numbers are `(a, 0)` with `a ≥ 0`; regularity gives `a > 0`. Apply the strong form to `ρ̄_λ` for infinitely many `λ`: the forms all lie in `S_k(Γ₁(N))` with `k = a + 1` and `N` fixed, so one newform occurs infinitely often. Part (ii) of Theorem 10.1, for irregular systems, is stated in general by `ModularityAndLanglandsExtensions:ML.1`, which imports from this layer the strong form, the weight-one step and Khare's descent, and adds Sen–Fontaine unramifiedness and the irreducibility of almost all `ρ̄_λ`. Its finite-image case is Corollary 10.2(ii) below.
+**Theorem 10.1(i): regular compatible systems** (`R27.6/scope-of-the-final-statement-and-the-compatible-system-export`). Every odd, irreducible, regular compatible system of two-dimensional representations of `G_ℚ` comes, after a twist, from a newform of weight at least `2`. First, `ρ̄_λ` is irreducible for almost all `λ`, by the bounded conductor and fixed Hodge–Tate weights. Twist so that the Hodge–Tate numbers are `(a, 0)` with `a ≥ 0`; regularity gives `a > 0`. Apply the strong form to `ρ̄_λ` for infinitely many `λ`: the forms all lie in `S_k(Γ₁(N))` with `k = a + 1` and `N` fixed, so one newform occurs infinitely often. The general irregular-system theorem, Theorem 10.1(ii), is outside this roadmap. Its finite-image case is Corollary 10.2(ii) below.
 Source: [KW-I], Theorem 10.1 and its proof, p. 20.
 *Needs:* `R27.6/full-classical-serre-theorem`; Input I.3.
+
+**Checks.**
+
+- Hodge–Tate weights `{0,1}` are regular and give weight two after normalization.
+- The multiset `{0,0}` is irregular and fails this target's hypothesis.
+- An odd finite-image system is irregular; its modularity belongs to the separate Artin weight-one conclusion below.
 
 **Reductions of an odd Artin representation** (`R27.6/artin-reductions-of-serre-type`). Let `ρ : G_ℚ → GL₂(ℂ)` be continuous, irreducible and odd, with image `G = Gal(M/ℚ)` (finite, since `GL₂(ℂ)` has no small subgroups), Artin conductor `N` and determinant `ε`, a Dirichlet character `mod N` with `ε(−1) = −1`.
 (a) There are a number field `E ⊂ ℂ` and `ρ_E : G → GL₂(E)` with `ρ_E ⊗ ℂ ≅ ρ`. For every finite place `λ` of `E`, with residue characteristic `ℓ, ρ_E` stabilises an `𝒪_λ`-lattice `Λ`, and `ρ̄_λ = Λ/λΛ` satisfies `tr ρ̄_λ(Frob_r) ≡ tr ρ(Frob_r)` and `det ρ̄_λ(Frob_r) ≡ ε(r) (mod λ)` for primes `r ∤ Nℓ`. `E` need not be the field of traces.
@@ -733,7 +823,7 @@ Suggested name: `weight_one_reduction_bijective`.
 **Khare's weight-one descent** (`R27.6/weight-one-descent-from-infinitely-many-primes`). Let `N ≥ 1, ε` a Dirichlet character `mod N, E ⊂ ℂ` a number field containing its values, and `(t_r)` elements of `𝒪_E` indexed by the primes `r ∤ N`. Put `N′ = N` if `N ≥ 5` and `N′ = 5N` otherwise. Suppose that for infinitely many primes `ℓ` there are a place `λ | ℓ` of `E`, an embedding of its residue field in `𝔽̄_ℓ`, and a Katz cuspidal eigenform `h_ℓ` of type `(N, 1, ε mod λ)` over `𝔽̄_ℓ` with `T_r h_ℓ = (t_r mod λ) h_ℓ` for every prime `r ∤ Nℓ`. Then there is a normalised newform `f` of weight one and level dividing `N′`, with character agreeing with `ε` on integers prime to `N′`, such that `a_r(f) = t_r` for every prime `r ∤ N′`. If moreover `ρ : G_ℚ → GL₂(ℂ)` is continuous, semisimple and unramified outside `N` with `tr ρ(Frob_r) = t_r` and `det ρ(Frob_r) = ε(r)` for `r ∤ N`, then `ρ` is isomorphic to the Deligne–Serre representation `ρ_f`. Nothing is assumed about `T_ℓ` or the operators at primes dividing `N`, and the level of `f` is only shown to divide `N′`.
 Proof outline: pull `h_ℓ` back to level `N′` and discard `ℓ | 2N′` and `ℓ ∈ B(N′)`. By the previous target, `h_ℓ` lies in the reduction of the finite free module `M = S₁(N′; ℤ[1/N′])`; the Deligne–Serre lemma gives an eigenvector over a discrete valuation ring with eigenvalues `b_r ≡ t_r`. The eigenvalue systems on `M ⊗ ℚ̄` form a finite Galois-stable set, so one system `Θ` occurs for infinitely many `ℓ`; then `Θ(T_r) − t_r` lies in primes above infinitely many rational primes and vanishes. `Θ` is the system of a nonzero weight-one form, and the theory of newforms gives `f`. Two semisimple representations of finite image with equal traces and determinants at all Frobenius elements outside a finite set are isomorphic, by Chebotarev.
 Source: [KW-I], proof of Theorem 10.1, p. 20.
-*Needs:* `R27.6/weight-one-reduction-is-onto-for-almost-all-primes`; `AlgebraicModularFormsAndSerreWeights:R15.5/deligne-serre-eigenvalue-lifting-lemma`; `AlgebraicModularFormsAndSerreWeights:R15.2/finite-generation-of-geometric-sections`; `AlgebraicModularFormsAndSerreWeights:R15.1/all-weight-analytic-comparison`; [ModularForms, Layer 4][mf]; `AlgebraicModularFormsAndSerreWeights §R15.5A.3`; `ArithmeticGaloisRepresentations Layer 5`; [Chebotarev, Layer 10][cheb].
+*Needs:* `R27.6/weight-one-reduction-is-onto-for-almost-all-primes`; `AlgebraicModularFormsAndSerreWeights:R15.5/deligne-serre-eigenvalue-lifting-lemma`; `AlgebraicModularFormsAndSerreWeights:R15.2/finite-generation-of-geometric-sections`; `AlgebraicModularFormsAndSerreWeights:R15.1/all-weight-analytic-comparison`; [ModularForms, Layers 4–5][mf]; `AlgebraicModularFormsAndSerreWeights §R15.5A.3`; `ArithmeticGaloisRepresentations Layer 5`; [Chebotarev, Layer 10][cheb].
 Suggested names: `OccursInWeightOneModulo`, `weight_one_descent`, `weight_one_descent_galoisRep`.
 
 **Odd Artin representations come from weight one** (`R27.6/odd-artin-weight-one-modularity`). Let `ρ : G_ℚ → GL₂(ℂ)` be continuous, odd and irreducible, with Artin conductor `N`; put `N′ = N` if `N ≥ 5` and `N′ = 5N` otherwise. There is a normalised cuspidal newform `f` of weight one, level dividing `N′` and character `det ρ` on integers prime to `N′`, with `ρ ≅ ρ_f`. This is Khare–Wintenberger Corollary 10.2(ii). Proof: for `ℓ` in the positive-density set `P_c` of `R27.6/artin-reductions-of-serre-type`(d) and `λ | ℓ, ρ̄_λ` is absolutely irreducible, odd, unramified at `ℓ` with distinct Frobenius eigenvalues `1, −1`, of conductor `N` and character `det ρ mod λ`; the weight-one step gives a Katz eigenform `h_ℓ` of type `(N, 1, det ρ mod λ)` with eigenvalues `tr ρ(Frob_r) mod λ`; descent over the infinite set `P_c` gives `f`. The weight-one step used is the non-exceptional case of Edixhoven's theorem.
@@ -752,10 +842,16 @@ Source: [DP], Introduction and Remark 1, p. 1; Theorem 1.3, p. 3.
 *Needs:* `GL2AutomorphicRepresentationsAndTransfer:R17.5`; `AlgebraicModularFormsAndSerreWeights:R15.5/deligne-serre-eigenvalue-lifting-lemma`; `AlgebraicModularFormsAndSerreWeights:R15.6`; `ArithmeticGaloisRepresentations Layer 4`.
 Suggested name: `DP.isModular_of_isSolvable`.
 
-**Modularity transfer along congruences** (`R33.1/dp-modularity-lifting-inputs`). Let `ρ, ρ′ : G_ℚ → GL₂(ℚ̄_p)` be continuous, odd, finitely ramified and de Rham at `p` with Hodge–Tate weights `{0, k − 1}` and `{0, k′ − 1}, k, k′ > 1`, with isomorphic residual representations. If `p` is odd and `ρ̄|_{G_{ℚ(√p*)}}` is absolutely irreducible (Theorem 1.4), or `p = 2` and `ρ̄` has non-solvable image (Theorem 1.5), then `ρ` is modular if and only if `ρ′` is. Theorem 1.4 is Kisin's, with the local–global hypothesis removed by Emerton or Paškūnas and the remaining one by Hu–Tan `(p ≥ 5)` and Tung `(p = 3)`; Theorem 1.5 is due to Kisin, Paškūnas and Tung. For residually reducible `ρ̄`: Theorem 1.6 (`p ≥ 5, ρ` irreducible and de Rham with Hodge–Tate weights `{0, k − 1}: ρ` is modular; Skinner–Wiles and Pan), and Theorem 1.7 (`p = 3, ρ̄^{ss} ≅ 1 ⊕ χ̄₃, ρ|_{I₃}` of the form `(∗, ∗; 0, 1), det ρ = ψχ₃^{k−1}` with `ψ` of finite order: Skinner–Wiles). With Remark 4, that a compatible system is modular if one member is, these propagate modularity along every chain of systems below. The residual condition of Theorem 1.4 over `ℚ(√p*)` is equivalent to absolute irreducibility over `ℚ(ζ_p)` (Dieulefait–Pacetti Lemma 1.13). Each application below verifies the contract of `R33.1/dp-modularity-lifting-inputs`: the residual image, the Hodge–Tate weights, oddness, residual modularity or the congruence. No ordinarity is required.
+**Modularity transfer along congruences** (`R33.1/dp-modularity-lifting-inputs`). Let `ρ, ρ′ : G_ℚ → GL₂(ℚ̄_p)` be continuous, odd, finitely ramified and de Rham at `p` with Hodge–Tate weights `{0, k − 1}` and `{0, k′ − 1}, k, k′ > 1`, with isomorphic residual representations. If `p` is odd and `ρ̄|_{G_{ℚ(√p*)}}` is absolutely irreducible (Theorem 1.4), or `p = 2` and `ρ̄` has non-solvable image (Theorem 1.5), then `ρ` is modular if and only if `ρ′` is. Theorem 1.4 is Kisin's, with the local–global hypothesis removed by Emerton or Paškūnas and the remaining one by Hu–Tan `(p ≥ 5)` and Tung `(p = 3)`; Theorem 1.5 is due to Kisin, Paškūnas and Tung. For residually reducible `ρ̄`: Theorem 1.6 (`p ≥ 5, ρ` irreducible and de Rham with Hodge–Tate weights `{0, k − 1}: ρ` is modular; Skinner–Wiles and Pan), and Theorem 1.7 (`p = 3, ρ̄^{ss} ≅ 1 ⊕ χ̄₃, ρ|_{I₃}` of the form `(∗, ∗; 0, 1), det ρ = ψχ₃^{k−1}` with `ψ` of finite order: Skinner–Wiles). With Remark 4, that a compatible system is modular if one member is, these propagate modularity along every chain of systems below. The residual condition of Theorem 1.4 over `ℚ(√p*)` is equivalent to absolute irreducibility over `ℚ(ζ_p)` (Dieulefait–Pacetti Lemma 1.13). Each application below verifies the contract of `R33.1/dp-modularity-lifting-inputs`: the residual image, the Hodge–Tate weights, oddness, residual modularity or the congruence. Theorems 1.4–1.6 impose no ordinarity hypothesis. Theorem 1.7 requires the stated ordinary inertia shape at `3`, the matching finite-order determinant factor and residual distinguishedness.
 Theorem 1.7 is printed with a further condition, that `ρ|_{D₃}` is not the identity. In Skinner–Wiles' theorem, as stated in `R33.1/dp-modularity-lifting-inputs`, the condition is `χ̄|_{D₃} ≠ 1` for the nontrivial residual character `χ̄ = χ̄₃`; it holds automatically, since `χ̄₃` is ramified at `3`.
 Source: [DP], Theorems 1.4–1.7, pp. 4–5, and the proof of Theorem 1.4, p. 4; Remark 4, p. 7.
 *Needs:* `ArithmeticGaloisRepresentations Layer 4`; Input I.3.
+
+**Checks.**
+
+- A nonordinary crystalline lift satisfying Theorem 1.4's residual hypotheses still falls under that theorem.
+- At `p = 3`, a residually reducible de Rham lift without the ordinary inertia shape does not meet Theorem 1.7's hypotheses.
+- In Theorem 1.7, `χ̄₃|I₃ ≠ 1`, so the residual characters are distinguished; a scalar residual pair would fail this condition.
 
 **Fontaine–Laffaille members are not bad dihedral** (`R33.1/fontaine-laffaille-member-not-bad-dihedral`). Let `p` be odd and `ρ : G_ℚ → GL₂(ℚ̄_p)` crystalline at `p` with Hodge–Tate weights `{0, k − 1}, k ≥ 2`, and `p > 2k`. Then `k(ρ̄) = k`, and if `ρ̄` is irreducible it is not bad dihedral. Indeed a bad-dihedral `ρ̄` has `p = 2k(ρ̄) − 1` (niveau one) or `p = 2k(ρ̄) − 3` (niveau two) by Lemma 1.14, the statement of Khare–Wintenberger Lemma 6.2(ii): the projective image of `I_p` has order at most `2`; in niveau one `χ^{k−1}` has order `≤ 2` with `k ≤ p`, so `2k − 2 = p − 1` or `k = p`, and `k = p` makes the image of `I_p` trivial, which a bad-dihedral `ρ̄` excludes; in niveau two `ψ^{(k−1)(p−1)}` has order `(p + 1)/gcd(p + 1, k − 1)`, at most `2` only for `k − 1 = (p + 1)/2`. The uses are `(k, w)` with `w > 2k` in Paso 1, `(2, q)` with `q > 5` in Paso 2, and `(2, p)` with `p > 3` in characteristic two.
 Source: [DP], Lemma 1.14, p. 8, and its proof, p. 9; Paso 1, p. 10.
@@ -821,9 +917,15 @@ API of the bundled insertion datum, which needs the compatible systems of Input 
 Source: [DP], Lemma 2.1, p. 11, and its proof, pp. 11–12.
 *Needs:* `R33.2/dihedral-local-type-at-n`; `R27.1/good-dihedral-prime-definition`; `R27.1/good-dihedral-implies-nonsolvable-image-and-is-preserved`; `R27.1/lemma-8-2-chebotarev-choice-of-auxiliary-primes`.
 
-**Paso 3: killing the odd part of the level** (`R33.2/paso-3-killing-the-odd-level`). Let `{ρ^{(2)}_ℓ}` be ramified at `{p₁ < … < p_r} ∪ {N}, S₁ = {p₁, …, p_r}`. For `i = 2, …, r`, and also `i = 1` when `p₁` is odd, reduce the `p_i`-adic member modulo `p_i`: the residual representation has non-solvable image (Lemma 2.1), so Theorem 1.9(3) gives a minimal crystalline lift unramified at `p_i`, and Theorem 1.11 a system whose ramification set omits `p_i`, stays inside `S₁ ∪ {2, 3, N}` and keeps the type at `N`; Theorem 1.4 makes consecutive systems simultaneously modular. The result is a system ramified only in `{2, N}` (only at `N` if `p₁` is odd, and then Paso 5 follows), equivalent for modularity to `{ρ^{(2)}_ℓ}`. The intermediate systems have weight `k(ρ̄^{(i)}_{p_i})`, not necessarily `2`; Paso 4 restores weight `2`. The lifts must be minimal in the sense of Conventions §2.3 so that the type at `N` is kept.
+**Paso 3: killing the odd part of the level** (`R33.2/paso-3-killing-the-odd-level`). Let `{ρ^{(2)}_ℓ}` be ramified at `{p₁ < … < p_r} ∪ {N}, S₁ = {p₁, …, p_r}`. For `i = 2, …, r`, and also `i = 1` when `p₁` is odd, reduce the `p_i`-adic member modulo `p_i`: the residual representation has non-solvable image (Lemma 2.1), so Theorem 1.9(3) gives a minimal crystalline lift at `p_i`, with Hodge–Tate weights `{0,k(ρ̄_{p_i})−1}` and unramified Weil–Deligne parameter, and Theorem 1.11 a system whose ramification set omits `p_i`, stays inside `S₁ ∪ {2, 3, N}` and keeps the type at `N`; Theorem 1.4 makes consecutive systems simultaneously modular. The result is a system ramified only in `{2, N}` (only at `N` if `p₁` is odd, and then Paso 5 follows), equivalent for modularity to `{ρ^{(2)}_ℓ}`. The `p_i`-adic member can ramify at `p_i`; it is the fixed ramification set of the system that omits `p_i`. The intermediate systems have weight `k(ρ̄^{(i)}_{p_i})`, not necessarily `2`; Paso 4 restores weight `2`. The lifts must be minimal in the sense of Conventions §2.3 so that the type at `N` is kept.
 Source: [DP], Paso 3, p. 12.
 *Needs:* `R33.2/lemma-2-1-large-image`; `R33.1/dp-modularity-lifting-inputs`; `R33.2/dp-lift-existence-and-good-dihedral-insertion`; Input I.3.
+
+**Checks.**
+
+- The cyclotomic character at `p_i` is crystalline and ramified, with unramified Weil–Deligne parameter; adjoining a trivial summand gives weights `{0,1}`.
+- An unramified `p_i`-adic representation has only weight zero, so cannot have weights `{0,k−1}` for `k ≥ 2`.
+- After removing `p_i` from the fixed ramification set, a member of coefficient characteristic different from `p_i` is unramified at `p_i`, while the member above `p_i` is crystalline there.
 
 ## Layer R33.3: The prime two and the auxiliary prime
 
@@ -948,9 +1050,15 @@ Suggested name: `arisesFrom_optimal_of_isModular`.
 1. Qualitative existence: the classical route uses Khare–Wintenberger §§3, 8 and 9 (the `(L_r)/(W_r)/(D_r)` induction with Theorems 3.1–3.4 and 9.1) and Khare's level-one theorem for `(W₁)`; the modern route uses none of these, but shares Theorem 5.1 and the base cases.
 2. Refinement: both routes pass from modularity to weight `k(ρ̄)` and level `N(ρ̄)` through `R27.4/strong-form-by-minimal-lifts`, with Lemma 6.2(i) in the dihedral case. Outside one case the refinement was known before Khare–Wintenberger (Edixhoven, Ribet, Boston–Lenstra–Ribet; Buzzard's mod-`2` level lowering and Wiese in characteristic two). Khare–Wintenberger's argument is indispensable only for `ρ̄|_{D₂}` scalar with non-dihedral projective image `(p = 2, k(ρ̄) = 2)`, where Buzzard's dyadic level lowering needs a multiplicity-one statement that is not known (`SerreWeightAndLevelOptimisation §5.11`); there Theorem 5.1(1) with Theorem 4.1(1) at `2` supplies the level, an argument Khare–Wintenberger do not write out (Corrections to the sources).
 3. The dyadic weight-four optimisation is common to both routes.
-Comparing the prerequisite closures of the two endpoints, the modern route meets R26–R27 only in the three early R27.1 targets and in `R27.4/strong-form-by-minimal-lifts`.
+The qualitative modern endpoint meets the classical strand only in the three early R27.1 targets. Its strong-form refinement also uses `R27.4/strong-form-by-minimal-lifts` and `R27.1/dickson-and-the-dyadic-solvable-refinement`; neither imports the conductor induction.
 Source: [KW-I], §1.1, p. 2; [DP], Introduction, pp. 1–2.
 *Needs:* `R27.6/full-classical-serre-theorem`; `R33.6/strong-form-by-the-modern-route`; `R27.4/strong-form-by-minimal-lifts`; `R27.4/theorem-1-2`; `R27.5/hypothesis-H-and-theorem-9-1`; `R33.5/globalisation-dependency-check`; `SerreWeightAndLevelOptimisation §5.11`.
+
+**Checks.**
+
+- The qualitative endpoint uses the three early R27.1 targets without the Dickson–dihedral refinement target.
+- Passing to the optimal dyadic weight and level adds the Dickson–Lemma 6.2(i) package through `R27.4/strong-form-by-minimal-lifts`.
+- Neither refinement target uses `(L_r)`, `(W_r)` or `(D_r)` to prove its conclusion; the classical conductor induction is needed only by the classical endpoint.
 
 **The finite-flat export from either proof** (`R33.6/elliptic-curve-export-via-either-route`). Let `p ≥ 5` and `ρ̄ : G_ℚ → GL₂(𝔽̄_p)` be continuous, odd and absolutely irreducible, finite at `p`, with `det ρ̄ = χ̄_p`, and assume the strong-form conclusion for this `ρ̄`: it arises from a newform of weight `k(ρ̄)`, level `N(ρ̄)` and nebentypus reducing to `ε(ρ̄)`. Then `ρ̄` arises from a normalised newform `g` of weight `2`, level `N(ρ̄)` and trivial nebentypus, with a coefficient prime `λ` above `p` and `ρ̄_{g,λ} ≅ ρ̄`; hence `a_ℓ(g) ≡ tr ρ̄(Frob_ℓ) (mod λ)` for `ℓ ∤ pN(ρ̄)`. The local finite-flat weight recipe gives `k(ρ̄) = 2` (for coefficients beyond `𝔽_p` in Raynaud's `𝔽`-vector-space form), the determinant gives `ε(ρ̄) = 1`, and Carayol's change of nebentypus at `p ≥ 5` makes the character trivial at the same weight and level; the level is exactly `N(ρ̄)` because the prime-to-`p` conductor of `ρ̄` divides that of every lift. The hypothesis is the strong conclusion for the fixed `ρ̄`, which either proof of the strong form supplies; the R27.6 export is the same argument.
 Source: [KW-I], §1, p. 2.
@@ -977,11 +1085,12 @@ Every target above uses the corrected statement.
 
 - [Kh], §6.1, p. 25 (weights `22–30`): the mod-`7` companion of a level-one mod-`29` representation is ramified only at `7` and `29`; the printed list `3, 19` is carried over from the previous row.
 - [Kh], §6.1, pp. 25–26 (weight `32`): the printed nebentypus exponent `j = 16` is not admissible. A weight-`32 = 31 + 1` representation has a minimal weight-two lift semistable at `31`, so its mod-`5` member is unipotent on `I₃₁`, and the available nebentypes are `ω₃₁^{6i} (5 ∥ 30); 16` is not a multiple of `6`. The interval `(12, 18]` gives `j = 18` (`j = 12` also works), with return weights `20` or `14`.
-- [Kh], §4, p. 19: the uniform bound `A x/log x ≤ π(x) ≤ B x/log x` for `x > 30` with the printed constants is false (`π(31) = 11` exceeds the upper bound, and so does `π(100) = 25`). R26.3 replaces it by Rosser–Schoenfeld with exact thresholds, the finite table and the `61/50` ratio; the auxiliary-prime conclusion is unchanged.
+- [Kh], §4, p. 19: the uniform bound `A x/log x ≤ π(x) ≤ B x/log x` for `x > 30` with the printed constants is false (`π(31) = 11` exceeds the upper bound, and so does `π(100) = 25`). R26.3 replaces it by Nagura's elementary `6/5` interval, its certified finite verifications and the auxiliary-prime certificate; the auxiliary-prime conclusion is unchanged.
 - [Kh], proof of Proposition 2.2, p. 15: the quadratic after `AB = BA` should read `β² + βγ(χ′(τ) − 1) − ψ = 0`; the derivative is still `2r_F` modulo `π`, so the smoothness conclusion is unchanged.
 - [KW-I], §§7–8.2, pp. 12–15: the exponent of the prime power dividing `P − 1` is written `r`, the same letter as the fixed number of conductor primes; the two are unrelated, and this roadmap writes `ℓ^e ∥ P − 1`.
 - [KW-I], proof of Theorem 9.1, p. 19: the system built with Theorem 5.1(4) lifts the mod-`3` representation `ρ̄₃`, not `ρ̄`, and the finite flatness over an extension `K` of `ℚ₂` of ramification index `3` comes from the local type of Theorem 5.1(4) moved to `ℓ = 2` by almost strict compatibility, not from Theorem 5.1(2).
 - [KW-I], §3.2 and the remark after Theorem 3.4, p. 6: Theorem 3.4 proves modularity, and the passage to weight `k(ρ̄)` and level `N(ρ̄)` claimed in Theorem 1.2, including the scalar dyadic case, is not written out. `R27.4/strong-form-by-minimal-lifts` supplies it from Theorems 4.1 and 5.1(1), Lemmas 6.1 and 6.2(i), `θ`-operators, Edixhoven's weight theorem and the Deligne–Serre lemma.
+- [DP], Paso 3, p. 12: the lift at `p_i` is crystalline with unramified Weil–Deligne parameter, not an unramified `p_i`-adic representation. Its system omits `p_i` from the fixed ramification set, while the member above `p_i` can ramify there.
 - [DP], Paso 2, p. 11: `(N − 1)(N + 1)` is the order of the unit group of the residue field `𝔽_{N²}`, which itself has `N²` elements; and the niveau-two condition concerns the restriction of `κ` to the inertia group at `N`, not at `q`.
 - [DP], Paso 2, p. 11: the lift `ρ^{(2)}_q` does not have dihedral image of order `2q` at `N`, since `det ρ^{(2)}_q(Frob_N) = ψ(N)N` is not a root of unity; its inertial type at `N` is that of `Ind κ`, and the projective image of `D_N` is dihedral of order `2q`, which is all Lemma 2.1 uses. Even `Ind κ` has image of order `2q` only when `κ(Art(N)) = 1`.
 - [DP], Remark 6, p. 13: flatness over some extension of even ramification index gives no contradiction. The operative fact is that a très ramifiée representation becomes finite flat over no extension of odd ramification index: up to twist it is given by a Kummer class of odd valuation, which over `K` has valuation `e(K/ℚ₂)` times as large, and it is finite flat over `K` exactly when that valuation is even; so it becomes flat over `ℚ₂(√x)` (index `2`) but over no extension of odd ramification index.
@@ -995,7 +1104,7 @@ Every target above uses the corrected statement.
 - [KW-I] is cited in the running page numbers (2–21) of the authors' preprint, not the Inventiones pages. Its Theorems 4.1 and 5.1 are proved in the sequel, Khare–Wintenberger, Serre's modularity conjecture (II), Invent. Math. 178 (2009), 505–586; this roadmap uses them as stated, through Input I.2 and Input I.3.
 - [DP] is cited in the pages of arXiv v2. The theorems it imports (Kisin, Emerton, Paškūnas, Hu–Tan, Tung, Skinner–Wiles, Pan, Gee, Snowden, Dieulefait, Berger–Li–Zhu) are cited here through the layers that own them.
 - [BM] is cited in the running pages of the authors' copy. Proposition 6.1.1 concerns the nonscalar principal-series type `ω_p^i ⊕ 1, 1 ≤ i ≤ p − 2`, with Hodge–Tate weights `{0, 1}` and any stable lattice, without an `End(ρ̄) = 𝔽` condition; the paper leaves out the details of its computation, which the integral classification of `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.5` supplies.
-- The weight-one step and the descent of R27.6 go back to Gross's companion forms, Coleman–Voloch, Edixhoven's weight paper with its note on the exceptional case, and Khare's note on `mod p` forms of weight one (Internat. Math. Res. Notices `1997`, corrigendum `1999`). The proofs given in R27.6 are complete from the listed prerequisites; the form of the weight-one step without a hypothesis on `Frob_ℓ` rests on Coleman–Voloch through `SerreWeightAndLevelOptimisation §3.7`. The Artin argument uses the distinct-Frobenius form; the general form is supplied to `ModularityAndLanglandsExtensions:ML.1` for irregular compatible systems.
+- The weight-one step and the descent of R27.6 go back to Gross's companion forms, Coleman–Voloch, Edixhoven's weight paper with its note on the exceptional case, and Khare's note on `mod p` forms of weight one (Internat. Math. Res. Notices `1997`, corrigendum `1999`). The proofs given in R27.6 are complete from the listed prerequisites; the form of the weight-one step without a hypothesis on `Frob_ℓ` rests on Coleman–Voloch through `SerreWeightAndLevelOptimisation §3.7`. The Artin argument uses the distinct-Frobenius form; the general theorem for irregular compatible systems is outside this roadmap.
 - The residually dihedral ordinary branch of the level-one proof for `ρ̄` induced from `ℚ(√−p)` rests on the full-scope ordinary lifting target of Input I.1. Khare–Wintenberger refer to Skinner's unpublished correction; the corrected dihedral deformation argument is part of that target. A lifting theorem excluding induction from an imaginary quadratic field cannot supply this branch.
 
 ## Suggested Lean forms
@@ -1018,6 +1127,7 @@ The definitions of `HypL`, `HypW`, `HypD` and `LevelOneUpTo`, and the prescribed
 - [BM] C. Breuil and A. Mézard, *Multiplicités modulaires et représentations de `GL₂(ℤ_p)` et de `Gal(ℚ̄_p/ℚ_p)` en `ℓ = p`*, Duke Math. J. 115 (2002), 205–310; [authors' copy][bm].
 - [DP] L. V. Dieulefait and A. M. Pacetti, *A simplified proof of Serre's Conjectures*, [arXiv:2108.07577v2][dp] (2022).
 - [Ri] K. A. Ribet, *Images of semistable Galois representations*, [Pacific J. Math. 181 (1997), no. 3, 277–297][ri].
+- [Na] J. Nagura, *On the interval containing at least one prime number*, Proc. Japan Acad. 28 (1952), 177–181; [version of record](https://www.jstage.jst.go.jp/article/pjab1945/28/4/28_4_177/_pdf).
 - [RS] J. B. Rosser and L. Schoenfeld, *Approximate formulas for some functions of prime numbers*, [Illinois J. Math. 6 (1962), 64–94][rs].
 - [BCDT] C. Breuil, B. Conrad, F. Diamond and R. Taylor, *On the modularity of elliptic curves over `ℚ`: wild 3-adic exercises*, J. Amer. Math. Soc. 14 (2001), 843–939; [authors' copy][bcdt].
 - [Se87] J.-P. Serre, *Sur les représentations modulaires de degré 2 de `Gal(ℚ̄/ℚ)`*, [Duke Math. J. 54 (1987), 179–230][se].
