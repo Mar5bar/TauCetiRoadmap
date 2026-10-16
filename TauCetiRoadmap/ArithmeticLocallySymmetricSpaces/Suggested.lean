@@ -469,6 +469,47 @@ example (A B : GL (Fin 2) ℚ) (hA : (A : Matrix (Fin 2) (Fin 2) ℚ) = !![1, 1;
 
 end Slice
 
+section TranslationCoefficients
+
+variable {R H V : Type*} [CommRing R] [Group H] [AddCommGroup V] [Module R V]
+
+/-- **ALS.1.8, `translationCoefficientEquiv`.** A group coefficient action supplies the
+linear isomorphism from conjugation-transported coefficients to the prescribed coefficients.
+In the arithmetic application this group contains the relevant levels and the translating element,
+and its action commutes with the rational-group action. -/
+def translationCoefficientEquiv (ρ : Representation R H V) (g : H) : V ≃ₗ[R] V where
+  toLinearMap := ρ g
+  invFun := ρ g⁻¹
+  left_inv := ρ.inv_self_apply g
+  right_inv := ρ.self_inv_apply g
+
+/-- **ALS.1.8.** The group coefficient isomorphism intertwines the action transported from
+`k` with the prescribed action at `g * k * g⁻¹`. -/
+theorem translationCoefficientEquiv_intertwines (ρ : Representation R H V) (g k : H) :
+    (translationCoefficientEquiv ρ g).toLinearMap.comp (ρ k) =
+      (ρ (g * k * g⁻¹)).comp (translationCoefficientEquiv ρ g).toLinearMap := by
+  sorry
+
+/-- **ALS.1.8.** Inverse group elements give inverse coefficient isomorphisms. -/
+example (ρ : Representation R H V) (g : H) :
+    (translationCoefficientEquiv ρ g).symm = translationCoefficientEquiv ρ g⁻¹ := by
+  sorry
+
+/-- **ALS.1.8, monoid coefficient obstruction.** Multiplication by `p` on the integral
+coefficient line is not surjective, so this specified monoid map cannot identify coefficient sheaves. -/
+theorem translation_monoid_p_not_surjective (p : ℕ) [Fact p.Prime] :
+    ¬ Function.Surjective (fun v : ℤ_[p] => (p : ℤ_[p]) * v) := by
+  sorry
+
+/-- **ALS.1.8, smooth mod-p obstruction.** The same monoid coefficient map reduces to zero
+on a nonzero line, so it cannot be a coefficient isomorphism even with smooth level action. -/
+theorem translation_monoid_p_mod_p_zero (p : ℕ) [Fact p.Prime] :
+    let A : ZMod p →ₗ[ZMod p] ZMod p := (p : ZMod p) • LinearMap.id
+    A = 0 ∧ ¬ Function.Bijective A := by
+  sorry
+
+end TranslationCoefficients
+
 /-- **ALS.1.5, `RΓ_eq_groupCohomology_levelOne`.** At level `SL_2(Ẑ)` the Betti cohomology of
 `SL_{2,ℚ}` is the group cohomology of `SL_2(ℤ)`, which has `H² = ℤ/12`, while the coarse quotient
 `SL_2(ℤ)\ℍ ≅ ℂ` has vanishing `H²`. -/
@@ -821,7 +862,13 @@ here.
 * Equivariant sheaves, their derived functors and supports, and singular cochains with supports:
   `localSystem`, `RΓ`, `RΓc`, `RΓrel`, `RΓ.refinementIndependence`, `RΓ.isoSingular`,
   `RΓ.isoGroupCohomology`, `RΓrel.perfect_of_freeCellModel`, `RΓ.baseChange`, `RΓ.pullback`,
-  `RΓ.translate`. For `RΓ.isoSingular`, consume ComplexComparisonPartII §C6.1's comparison
+  `RΓ.translate`. Geometric translation carries the conjugation-transported coefficient
+  `V^(g)` at `gKg⁻¹`, with action `k′ ↦ ρ(g⁻¹k′g)`. Comparison with a prescribed coefficient
+  carries an equivariant linear map commuting with the rational action; a translation isomorphism
+  requires an equivariant `LinearEquiv`. `translationCoefficientEquiv` gives the sufficient group
+  action case and `translationCoefficientEquiv_intertwines` its conjugation identity.
+  Compact-support, boundary and relative versions retain this datum and conjugate the deck group.
+  For `RΓ.isoSingular`, consume ComplexComparisonPartII §C6.1's comparison
   with the arithmetic slice and whole-inverse endpoint conventions. Its value system is `V_K`;
   the pinned Hom-of-twisted-chains carrier uses `L = V_K^∨`, `M = R` and finite-projective
   biduality `Hom_R(V^∨,R) = V`. The arithmetic adapter retains level/translation and Hecke
@@ -860,7 +907,10 @@ here.
   `heckeInvariants_S3_obstruction` states the all-ones-matrix obstruction over `𝔽₃`.
   Supported and boundary sheaves receive their own equivariant injective resolutions.
   The API also includes
-  `heckeAction_eq_correspondence`, `RΓ.trace`, `RΓ.mackey`, `heckeAction_mul`,
+  `heckeAction_eq_correspondence` (at S, the middle arrow is a coefficient morphism
+  `c_g : p₂^*V → p₁^*V`, whose stalk map commutes with the rational action and satisfies
+  `A_g ρ(g⁻¹kg) = ρ(k) A_g` on the intersection level; an isomorphism requires invertibility),
+  `RΓ.trace`, `RΓ.mackey`, `heckeAction_mul`,
   `heckeAction_compatible`, `heckeAction_discrete_eq_topological` (smooth discrete coefficients),
   `heckeAction_integralLimit` (at fixed good level, finite free lattices with smooth reductions,
   complete DVR coefficients and compatible bounded finite models, with the strict Hecke action),
