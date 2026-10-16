@@ -24,6 +24,10 @@ Design choices made explicit here:
   condition is an equality of polynomials, never of traces (M0.14, M0.18).
 * Full Tate trivializations in M1.4 are finite étale pro-systems; their profinite geometric fibres
   are inverse limits of finite fibres, with continuous monodromy and termwise base change.
+* Lattice realization in M1.10 uses units of `RelativeLocalizedHom`, which can be quasi-isogenies
+  such as `id/3`. Integral Tate-lattice preservation supplies actual morphisms before kernels are used.
+* The Newton convention in M2.16 uses unscaled `F` on the covariant Dieudonné module.
+  Its Hodge cocharacter is `μ_cov(z) = z·id·μ_h(z)⁻¹ = h_ℂ(1,z)`, with weight zero on `V₀`.
 * Hecke operators act on the right by precomposition of level markings (M1.13).
 * The analytic-family Riemann input is `E = −ε(h′) q_g ψ`, so `E(Jx, x) > 0` (M3.5).
 -/
@@ -646,11 +650,13 @@ skew-hermitian spaces, `cmTorus`, `rankOneSkewHermitian_classification`; `CMFiel
 `τ`-parts. Layer M1: `HasSignatureType`, `PELDatum.Hom`, `PELModuli.forgetLevel`,
 `heckeCorrespondence`, `mapOfDatumFunctor`, `toSiegelFunctor`; `QuasiIsogeny`, `BoxPolarization`, `PELTriple`, unitary `O_F`-abelian schemes,
 `symplecticIsomSheaf`, `PrincipalLevel`, `IntegralLevel`, `RelativeRationalLevel`, `moduliProblem`,
-`ratModuliProblem`, `adelicModuli`, `isoIsogenyComparison`, `changeOfLatticeAndPrimes`,
+`ratModuliProblem`, `adelicModuli`, `primeToLatticeRealization`, `localizedHom_integral_of_tate`,
+`isoIsogenyComparison`, `changeOfLatticeAndPrimes`,
 `effectiveDescent`, `heckeTranslate`, `toSiegel_finite`. Layer M2: `rigidity`, `IsPinkNeatElement`, `IsNeat`,
 `noAutomorphisms_of_neat`, `isomScheme_finite`, `deformation_prorepresentable`, `formalSmoothness`,
 `effectivity`, `representability`, `universal`, `kodairaSpencer`, `properOfDivision`,
-`unitaryDeformation`, `isogenyDieudonne_coker_length`, `isogenyKernelRanks`, `Display`, `Display.deformationEndomorphism`, `polarizedDisplay_lifting`, `pelNewtonPoint`, `averagedHodgeCocharacter`, `IsMuOrdinary`,
+`unitaryDeformation`, `isogenyDieudonne_coker_length`, `isogenyKernelRanks`, `Display`, `Display.deformationEndomorphism`, `polarizedDisplay_lifting`,
+`covariantHodgeCocharacter`, `pelNewtonPoint`, `averagedHodgeCocharacter`, `IsMuOrdinary`,
 `muOrdinaryLocus`, `wedhornOrdinary`.
 Layer M3: `PELModuli.analyticFamily`, `ker1Classification`, `hasseCases`, `arithmeticQuotient_structure`, `complexPoints`,
 `uniformization`, `algebraization`, `typeDComparison`, `hermitianHomOfAbelianSchemes`,
@@ -684,6 +690,21 @@ The following APIs and discriminating Checks are also specified in the README:
   of the finite fibres. `symplecticIsomSheaf.reduce` projects to the liftable finite pairs;
   `symplecticIsomSheaf.baseChange` is termwise pullback, with monodromy supplied by
   EtaleCohomologyFoundations §F.0.2 `VanishingCycles.finiteEtaleGaloisCategory`.
+* M1.10: `primeToLatticeRealization` realizes a monodromy-stable, `O`-stable open compact
+  prime-to-`□` Tate lattice by an abelian scheme and a unit of `RelativeLocalizedHom ℤ_(□)`.
+  The base is connected and locally noetherian, with residue characteristics zero or in `□`.
+  For abelian schemes over this base, `localizedHom_integral_of_tate` identifies actual morphisms
+  among localized Hom sections by integral Tate-lattice inclusion. Applying it to a quasi-isogeny
+  and its inverse gives the isomorphism in the full-faithfulness of `isoIsogenyComparison`.
+  Over `ℂ`, for `□ = {2}`, the lattice `3T^□A` is realized by `id_A/3`; no actual isogeny
+  in the same direction maps its `3`-adic part onto the target integral Tate module.
+* M2.16: `covariantHodgeCocharacter` complements the weights of M0.12's Shimura cocharacter
+  embedding by embedding, has multiplier `z`, and preserves its reflex field.
+  `averagedHodgeCocharacter` averages the dominant representative of this covariant cocharacter
+  for the local based Galois action. `pelNewtonPoint` uses unscaled covariant `F` with weights
+  in `[0,1]`, and `IsMuOrdinary` equates it with that average. For split Gaussian CM at `5`,
+  with `τ` in `Lie A`, the labelled Hodge weights are `(1,0)` and the covariant Hodge and Newton
+  weights are `(0,1)`; the torus Weyl group cannot exchange them.
 * M4.5: `normalizedModel` uses relative normalization and its integral-factorization property
   `Scheme.Hom.normalizationDesc`, with quasi-compactness and quasi-separatedness of the cover
   map; `Scheme.Hom.normalization.hom_ext` gives uniqueness and

@@ -188,8 +188,10 @@ of `GL(L) × G_m` and these theories are applied to it.
   evaluation on PD thickenings. Its crystalline sites are CrystallineCohomology Layer CR.1.
 - *FiniteFlatGroupsAndIntegralPadicHodgeTheory, R07.2.* Dieudonné theory of finite group schemes
   and `p`-divisible groups over perfect fields, lengths and heights, the covariant Dieudonné module;
-  R07.2.15–R07.2.16 supply Dieudonné–Manin slopes and `slopeSequence`. The PEL Newton point
-  with coefficient action and pairing, and the averaged Hodge cocharacter, are constructed in M2.16.
+  R07.2.15–R07.2.16 supply Dieudonné–Manin slopes and `slopeSequence`, and R07.2.20 fixes
+  `M_cov(G) = M_contra(Gᴰ)`. The PEL Newton point with coefficient action and pairing, the
+  covariant cocharacter adapter and its Galois average are constructed in M2.16 using `F`,
+  with slopes `0` on multiplicative groups and `1` on étale groups.
 - *NeronModelsAndSemistableAbelianVarieties.* R11.1 §§1.5 and 1.8 (extension of homomorphisms;
   abelian schemes are their own Néron models); R11.3 §3.10 (potential semistability,
   with the toric part and its character group in Layer 3); R11.5 §§5.1–5.2
@@ -1755,15 +1757,62 @@ M0.6, M1.8; Mathlib `IsDedekindDomain.FiniteAdeleRing`.
 
 ### M1.10 The integral and rational problems agree
 
-Prove `isoIsogenyComparison`: for `H ⊆ G(Ẑ^□)` open compact, the morphism `M_H → M_H^rat`,
+**Tate lattices and localized homomorphisms.** Prove `primeToLatticeRealization`. Let `S` be
+connected and locally noetherian with every residue characteristic zero or in `□`, fix a geometric
+point `s̄`, and let `(A, λ, i)` have a `BoxPolarization` and a Rosati-compatible
+`O ⊗ ℤ_(□)`-action in `RelativeLocalizedHom ℤ_(□)`. For a `π₁(S,s̄)`-stable, `O`-stable open
+compact `Ẑ^□`-lattice `Λ ⊆ V^□A_{s̄}`, there are an abelian scheme `A₁/S` and a prime-to-`□`
+quasi-isogeny `f : A ⇢ A₁`, a unit of `RelativeLocalizedHom ℤ_(□)`, such that
+`V^□(f)(Λ) = T^□A₁`. The transported action `i₁ = f i f⁻¹` is integral on `O`, and
+`λ₁ = (f⁻¹)^∨ λ f⁻¹` is a `BoxPolarization`. The pair `(A₁,f)` is unique up to a unique
+isomorphism commuting with `f`. To prove existence, choose a positive integer `N` prime to `□`
+with `T^□A ⊆ N⁻¹Λ`. The finite monodromy module `N⁻¹Λ/T^□A` gives a finite étale subgroup
+`K ⊆ A`; its quotient `q : A → A/K` gives `f = q/N` in localized Hom.
+(Source: Lan, Lemma 1.3.5.2, Proposition 1.3.5.3 and Corollary 1.3.5.4, pp. 128–130;
+the quasi-isogeny convention is Definition 1.3.1.15, pp. 110–111.)
+
+Prove also `localizedHom_integral_of_tate`: over such an `S`, for abelian schemes `A,A′` and
+`u ∈ RelativeLocalizedHom ℤ_(□) A A′`, `u` comes from an actual homomorphism iff
+`V^□(u)(T^□A_{s̄}) ⊆ T^□A′_{s̄}`. Locally write `u = g/N`, with `N` prime to `□`.
+The lattice inclusion forces `g` to kill `A[N]`, so the quotient property of `[N]` gives the
+integral homomorphism; uniqueness glues these local morphisms. In particular a prime-to-`□`
+quasi-isogeny mapping the integral lattices onto each other and its inverse are actual morphisms,
+hence inverse isomorphisms. This also proves the uniqueness in lattice realization and the
+integrality of the transported order action.
+(Source: Lan, Corollary 1.3.5.4 and proof of Proposition 1.4.3.3, pp. 129–130 and 159;
+AbelianSchemesAndArithmeticModuli A3.4's torsion-divisibility argument.)
+*Needs:* M1.1; AbelianSchemesAndArithmeticModuli A3.3–A3.4, A4.1;
+EtaleCohomologyFoundations §F.0.2 `VanishingCycles.finiteEtaleGaloisCategory`.
+
+**Checks.**
+
+- For `Λ = T^□A`, lattice realization is `(A,id)`; a localized unit preserving this lattice in
+  both directions is an actual isomorphism.
+- Over `ℂ`, with `□ = {2}` and an elliptic curve `A`, `Λ = 3T^□A` is realized by
+  `A₁ = A`, `f = id_A/3`. No actual isogeny in the direction `A → A₁` realizes it:
+  `V₃(f)(3T₃A) ⊆ 3T₃A₁ ⊊ T₃A₁` for every actual isogeny `f`.
+- In the same example, `Λ = (1/3)T^□A` is realized by the actual isogeny `[3]`.
+  The localized unit `id_A/3` itself fails the integral-lattice inclusion at `3` and is not an
+  actual homomorphism.
+
+**Integral–rational comparison.** Prove `isoIsogenyComparison`: for `H ⊆ G(Ẑ^□)` open compact,
+the morphism `M_H → M_H^rat`,
 `(A, λ, i, α_H) ↦ (A, λ, i, [α̂]_H)` (Lan, Construction 1.4.3.1), is an isomorphism of fibred
-categories (Lan, Proposition 1.4.3.3 and Remark 1.4.3.4, p. 159). Reduce to `S` connected with a
-geometric point. Full faithfulness: a prime-to-`□` quasi-isogeny respecting integral level structures
-preserves `T^□` and is an isomorphism (its kernel has rank prime to `□` and is trivial on Tate modules).
-Essential surjectivity: given `(A, λ, i, [α̂]_H)`, find a prime-to-`□` isogeny `f` with
-`V^□(f) ∘ α̂ (L ⊗ Ẑ^□) = T^□A₁` (Lan, Corollary 1.3.5.4), rescale `λ` by some `r ∈ ℤ_(□),>0^×` to make it
-an actual polarization with the right multiplier, and conclude by M1.6's integrality criterion.
-*Needs:* M1.1, M1.6, M1.7, M1.8.
+groupoids in the sense of a fibrewise equivalence (Lan, Proposition 1.4.3.3 and Remark 1.4.3.4,
+p. 159). Reduce to `S` connected with a geometric point. Full faithfulness: a prime-to-`□`
+quasi-isogeny respecting integral level structures maps `T^□` onto `T^□`; apply
+`localizedHom_integral_of_tate` to it and its inverse to obtain an actual isomorphism.
+The integral multiplier lattices force the positive scalar `r` in M1.8 to be a unit at every
+prime, hence `r = 1`, so the actual polarization is preserved. Essential surjectivity: apply
+`primeToLatticeRealization` to the monodromy-stable lattice `α̂(L ⊗ Ẑ^□)` to obtain a
+prime-to-`□` quasi-isogeny `f : A ⇢ A₁` with
+`V^□(f)(α̂(L ⊗ Ẑ^□)) = T^□A₁`. Transport the action, quasi-polarization and marking along `f`.
+Rescale the transported quasi-polarization by the unique positive `r ∈ ℤ_(□)^×` that makes the
+multiplier carry `Ẑ^□(1)` onto `T^□G_m` (Lan, proof of Proposition 1.4.3.3, pp. 160–162).
+Since `L ⊆ L^#`, its Tate realization then preserves integral lattices; apply
+`localizedHom_integral_of_tate` to obtain an actual polarization, and conclude by M1.6's
+integrality criterion. *Needs:* M1.1, M1.6, M1.7, M1.8;
+`primeToLatticeRealization`, `localizedHom_integral_of_tate`.
 
 **Checks.**
 
@@ -1772,6 +1821,9 @@ an actual polarization with the right multiplier, and conclude by M1.6's integra
 - `isoIsogeny_scalar`: for a positive `m ∈ ℤ_(□)^×`, `(A, λ, i, [mα̂])`
   corresponds to the same integral object as `(A, λ, i, [α̂])`, by `ratModuli_scalar_iso`.
   For `□ = {2}`, scalar `2` is excluded: the two full-level-5 integral objects in M1.13 are distinct.
+- For an integral genus-one marking `α₀` over `ℂ` and `□ = {2}`, `α̂ = 3α₀` has multiplier `9`.
+  Lattice realization uses `f = id_A/3`; the transported polarization is `9λ`, and rescaling it
+  by `r = 1/9` returns the integral object `(A,λ,i,α₀)`.
 
 ### M1.11 Changes of order, lattice and good primes
 
@@ -2364,37 +2416,78 @@ M2.6; AbelianSchemesAndArithmeticModuli A4.9; FiniteFlatGroupsAndIntegralPadicHo
 
 ### M2.16 Wedhorn's ordinariness criterion
 
+**Covariant Hodge cocharacter.** Under the connected type-A or type-C and good-reduction
+hypotheses below, construct `covariantHodgeCocharacter`. Keep M0.12's Shimura cocharacter
+`μ_h(z) = h_ℂ(z,1)`, of weight `1` on `V₀` and `0` on `V₀^c`. Let `ω(z) = z·id_V` be the
+rational central scalar cocharacter and define `μ_cov(z) = ω(z) μ_h(z)⁻¹ = h_ℂ(1,z)`.
+Prove that this cocharacter commutes with the `B`-action and has weights `0` on `V₀` and `1`
+on `V₀^c`, retaining every coefficient embedding. Its similitude character is `z`, since
+`ν(ω(z)) = z²` and `ν(μ_h(z)) = z`. The operation `μ ↦ ω − μ` on commuting cocharacters
+respects conjugacy and the Galois action and is an involution, so the conjugacy classes of
+`μ_h` and `μ_cov` have the same reflex field. Transport `μ_cov` to `ℚ̄_p` through the fixed
+place and then take its dominant representative.
+
+Prove the normalization dictionary with FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.20:
+use the unscaled Frobenius `F` on `M_cov(A[p∞]) = M_contra(A[p∞]ᴰ)`, with slopes in `[0,1]`.
+The ordinary `O`-linear quotient `M_cov/VM_cov ≅ Lie A` has the determinant type of `V₀`;
+`V₀` is the weight-zero space for `μ_cov`. The complementary weight-one space specifies the
+Hodge type of `F`; the polarization gives `⟨Fx,Fy⟩ = p σ(⟨x,y⟩)` after trivializing its
+rank-one target, matching `ν(μ_cov(z)) = z`. Identify Wedhorn's local cocharacter by its
+weight-zero determinant space in §2.1.4, and transport his Newton comparison and density theorem
+with this coefficient action and pairing. (Source: ShimuraVarieties §P.3;
+FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.20;
+Wedhorn §§1.3.1–1.3.3, pp. 580–581, and §2.1.4, p. 586.)
+*Needs:* M0.7, M0.11–M0.12, M0.18; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.20;
+ShimuraVarieties §P.3.
+
+**Checks.**
+
+- For rank-one CM by `ℚ(i)` at `p = 5`, fix the CM embedding `τ` in `Lie A`. At an ordinary
+  geometric CM point, the labelled groups are `μ_{5∞,τ} ⊕ (ℚ₅/ℤ₅)_{τ̄}`. In `(τ,τ̄)` order,
+  `μ_h = (1,0)`, `μ_cov = (0,1)` and the covariant `F`-Newton point is `(0,1)`.
+  Frobenius fixes the labels; the split torus has trivial Weyl group and its dominance order
+  is equality. Thus the CM fibre is μ-ordinary with `μ_cov`; comparison with `μ_h` fails.
+- For the genus-one Siegel datum, the two cocharacters are Weyl conjugate with defining weights
+  `{0,1}` and multiplier `z`; the unlabelled slope sequence does not distinguish them.
+- For rank-one CM at an inert prime, Frobenius exchanges the two embedding labels.
+  The Galois averages of both cocharacters are `(½,½)`, while before averaging their labelled
+  weights are complementary. With the separate normalization `φ = p⁻¹F` the Newton weights
+  would instead be `(−½,−½)`.
+
 **PEL Newton point and averaged Hodge cocharacter.** Under the connected type-A or type-C
 and good-reduction hypotheses below, construct `pelNewtonPoint` and `averagedHodgeCocharacter`
 in the dominant rational cocharacter chamber of `G_{ℚ_p}`. Use the absolute based root datum,
 cocharacter lattice and finite based Galois action of ReductiveGroupsPartII RG2.5.1
-`AbsoluteRootData` (with ReductiveGroups Layer 7). Transport the Hodge cocharacter of M0.12
-to its dominant representative `μ`, and define `μ̄` as the average of its finite Galois orbit.
-For a geometric PEL point `x`, its covariant Dieudonné isocrystal retains the `B`-action and
-alternating pairing up to similitude. A pairing-preserving `B`-linear trivialization identifies
+`AbsoluteRootData` (with ReductiveGroups Layer 7). Let `μ_cov^dom` be the dominant representative
+of `covariantHodgeCocharacter`, and define `averagedHodgeCocharacter`, written `μ̄_cov`, as the
+average of its finite local Galois orbit for the based action.
+For a geometric PEL point `x`, its covariant Dieudonné isocrystal with unscaled `F` retains the
+`B`-action and alternating pairing up to similitude. A pairing-preserving `B`-linear trivialization identifies
 Frobenius with `bσ`, `b ∈ G(Frac W(k))`; changing trivialization gives σ-conjugacy.
 Construct the Newton rational cocharacter `ν(x)` by the tensor-compatible slope decompositions
 in algebraic representations of `G`, retaining the coefficient idempotents and pairing. Its
-weights on the defining representation recover the supplied Dieudonné slope sequence.
+weights on the defining representation recover the supplied covariant `F`-slope sequence.
 Prove independence of splitting field and trivialization and invariance under algebraically
-closed field extension. Define `IsMuOrdinary x` by `ν(x) = μ̄`, and `muOrdinaryLocus` by this
+closed field extension. Define `IsMuOrdinary x` by `ν(x) = μ̄_cov`, and `muOrdinaryLocus` by this
 condition on geometric points; prove it is well defined on underlying points. The slope bound
-`ν(x) ≤ μ̄` and specialization of Newton points make this locus open; density is
+`ν(x) ≤ μ̄_cov` and specialization of Newton points make this locus open; density is
 `wedhornOrdinary`. These PEL adapters are constructed here, using the ordinary slope
-construction of FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.15–R07.2.16.
+construction of FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.15–R07.2.16 and the
+normalization dictionary of `covariantHodgeCocharacter`.
 (Source: Wedhorn §§1.4.3–1.6.1, pp. 583–584, and §2.1.1, p. 585;
 Rapoport–Richartz §§3.4–3.6 as cited there.)
-*Needs:* M0.8, M0.12, M0.27, M2.8; FiniteFlatGroupsAndIntegralPadicHodgeTheory
-R07.2.15–R07.2.16; ReductiveGroupsPartII RG2.5.1 `AbsoluteRootData`; ReductiveGroups Layer 7.
+*Needs:* M0.8, M0.12, M0.27, M2.8; `covariantHodgeCocharacter`;
+FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.15–R07.2.16, R07.2.20;
+ReductiveGroupsPartII RG2.5.1 `AbsoluteRootData`; ReductiveGroups Layer 7.
 
 **Checks.**
 
-- In Siegel genus one, `μ̄` has slopes `(0,1)`; the supersingular point with slopes
+- In Siegel genus one, `μ̄_cov` has slopes `(0,1)`; the supersingular point with slopes
   `(½,½)` is excluded from `muOrdinaryLocus`.
 - For rank-one CM by an imaginary quadratic field at an inert prime, Frobenius exchanges
-  the two embedding labels and `μ̄` has slopes `(½,½)`. The CM point is μ-ordinary
+  the two embedding labels and `μ̄_cov` has slopes `(½,½)`. The CM point is μ-ordinary
   although its elliptic curve is supersingular.
-- For inert Picard signature `(2,1)`, averaging the two labelled Hodge cocharacters gives
+- For inert Picard signature `(2,1)`, averaging the two labelled covariant Hodge cocharacters gives
   slopes `(0,0,½,½,1,1)` on the six-dimensional rational representation. The μ-ordinary
   point is not ordinary; discarding the embedding labels before averaging loses this calculation.
 
@@ -2414,7 +2507,8 @@ by Morita equivalence to four special cases (Wedhorn, Chapter 2, pp. 585–591),
 deformations in the linear, unitary, symplectic and orthogonal cases (Chapter 4, pp. 599–617) to show
 that the `μ`-ordinary Newton polygon (§1.5, p. 583) occurs generically in every deformation, and
 compares: the ordinary polygon is the `μ`-ordinary one exactly when Frobenius fixes the conjugacy class
-of the Hodge cocharacter, that is `E_v = ℚ_p`. *Needs:* M0.10, M0.16, M2.8, M2.15;
+of `μ_cov`, equivalently of `μ_h` by the central complement involution, that is `E_v = ℚ_p`.
+*Needs:* M0.10, M0.16, M2.8, M2.15; `covariantHodgeCocharacter`;
 `pelNewtonPoint`, `averagedHodgeCocharacter`, `IsMuOrdinary`, `muOrdinaryLocus`.
 
 **Checks.**
