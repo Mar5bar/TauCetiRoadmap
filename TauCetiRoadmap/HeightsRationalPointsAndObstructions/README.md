@@ -854,7 +854,7 @@ For global function field K with exact finite constants k and smooth projective 
 
 ### 2.6 The affine rational diagonal
 
-`discrete_closed_diagonal`: for finite-type A/K, X(K)→X(𝔸_K) has discrete closed image and is a closed embedding; the Lean signature records the closed discrete image. Restrict the native K^n⊂𝔸_K^n diagonal along a finite-generator embedding. Source: Conrad Proposition 4.4 pp.10–11. *Needs:* §2.1; RG2.0.1; native adelic diagonal.
+`discrete_closed_diagonal`: for finite-type A/K, X(K)→X(𝔸_K) has discrete closed image and is a closed embedding; the Lean signature records the closed discrete image. Restrict the native K^n⊂𝔸_K^n diagonal along a finite-generator embedding. Source: Conrad Examples 2.2–2.3 p.3 and the paragraph preceding Example 4.3 p.10. *Needs:* §2.1; RG2.0.1; native adelic diagonal.
 
 **Checks.**
 
@@ -1036,12 +1036,13 @@ Define `brauerZero X`=im(Br k→Br X), `brauerOne X`=ker(Br X→Br X_(k^s)). API
 
 ### 2.16a Smooth-pair purity and supported vanishing
 
-For smooth X over a field k, smooth Z⊂X of codimension c and n≥1 invertible in k, `SupportedCohomology`=fib(RΓ(X,μ_n)→RΓ(X∖Z,μ_n)) is ECF §0.7's cohomology with supports. Smooth-pair purity RΓ_Z≃RΓ(Z,ℤ/n(1−c))[−2c], whose counit is the cycle class normalized by c₁O(Z), is ECF §0.10's `ClassicalAlgebraic.smoothBoundaryPurity` with the classes of ECF §0.9; it is not reproved here. Own `supportedCohomology_vanishing`: for an arbitrary closed W⊂X of codimension≥c, H^j_W(X,μ_n)=0 for j<2c. Stratify W by smooth locally closed pieces and apply purity on each stratum with the localization triangle; this does not identify H_W with the cohomology of W. API: `supportedCohomology_vanishing`, the localization triangle, coefficient change and étale pullback of the vanishing. Source: CT–Skorobogatov Theorem 2.3.1/§2.3.2 pp.55–58. *Needs:* ECF §§0.7, 0.9–10; SF Kummer (§2.11).
+For smooth X over a field k, smooth Z⊂X of codimension c and n≥1 invertible in k, `SupportedCohomology`=fib(RΓ(X,μ_n)→RΓ(X∖Z,μ_n)) is ECF §0.7's cohomology with supports. Smooth-pair purity RΓ_Z≃RΓ(Z,ℤ/n(1−c))[−2c], whose counit is the cycle class normalized by c₁O(Z), is ECF §0.10's `ClassicalAlgebraic.smoothBoundaryPurity` with the classes of ECF §0.9; it is not reproved here. Own `supportedCohomology_vanishing`: for an arbitrary closed W⊂X of codimension≥c, H^j_W(X,μ_n)=0 for j<2c. In positive characteristic first pull back to the perfect closure k^perf. The universal homeomorphism preserves codimensions and, by SF §0.23a and ECF §F.0.4, transports the étale site, μ_n, supports and their cohomology. Over the resulting perfect field stratify the reduced support by smooth locally closed pieces and apply smooth-pair purity and localization. In characteristic zero k is already perfect. This does not identify H_W with the cohomology of W. API: `supportedCohomology_vanishing`, the localization triangle, coefficient change and étale pullback of the vanishing. Source: CT–Skorobogatov Theorem 2.3.1/§2.3.2 pp.55–58. *Needs:* ECF §§0.7, 0.9–10, F.0.4; SF §§0.23–0.23a (perfect closure and étale topological invariance), 2.11 (Kummer).
 
 **Checks.**
 
 - (A¹,0) starts in degree two, (A²,0) in degree four.
 - Removing 0 from A² preserves H² but not generally H³.
+- Over k=𝔽_p(s), W=V(t^p−s)⊂A¹ is not smooth over k; after perfect closure its reduced support is a smooth point, with supported vanishing below degree two.
 - Crossing divisors require stratification
 - n=1 gives zero.
 - No arbitrary regular mixed-characteristic purity is asserted.
@@ -1073,7 +1074,7 @@ For smooth geometrically integral V/characteristic-zero k, `unramifiedBrauer V` 
 
 ### 2.17a All valuations and proper models
 
-`properBrauer_intersectionValuations`: for smooth proper integral X/char0 k, F=k(X), im(Br X→Br F)=∩_RBr R over DVRs R⊂F containing k with fraction field F. Properness extends Spec F→X to every Spec R; conversely codimension-one local rings occur and §2.16b extends. This gives model independence/birational invariance without making every valuation a divisor on one model. Compactify quasi-projective U by AM §9.5; general separated smooth U by CC C4.3 Nagata then AM §§9.1–5 resolution preserving U. API: intersection, `modelIndependent/restrictToSmoothOpen/birational`, constants/function-field compatibility. Source: CT–Skorobogatov Propositions 3.7.7–9 p.97. *Needs:* §2.16b; named suppliers; valuative criterion/native DVR Brauer injection.
+`properBrauer_intersectionValuations`: for smooth proper integral X/char0 k, F=k(X), im(Br X→Br F)=∩_RBr R over DVRs R⊂F containing k with fraction field F. Properness extends Spec F→X to every Spec R; conversely codimension-one local rings occur and §2.16b extends. This gives model independence/birational invariance without making every valuation a divisor on one model. Compactify quasi-projective U by AM §9.5; general separated smooth U by EtaleCohomologyFoundations §G.2 `nagataCompactification`, with §§G.1–G.3 supplying compactification objects and refinements, then AM §§9.1–5 resolution preserving U. API: intersection, `modelIndependent/restrictToSmoothOpen/birational`, constants/function-field compatibility. Source: CT–Skorobogatov Propositions 3.7.7–9 p.97. *Needs:* §2.16b; named suppliers; valuative criterion/native DVR Brauer injection.
 
 **Checks.**
 
@@ -1637,13 +1638,21 @@ For proper X, A=Br X. Torsor cups die on Y, so §3.10 lifts x. Perfect Sha duali
 
 Smooth proper geometrically rationally connected X/number field, dense V, T-torsor W→V:
 `X(𝔸)^Br⊆closure(⋃_τ f^τ((W^τ)(𝔸)^Br_nr)).`
-Own `torusCompactification_boundaryFinite`: A=(f*)⁻¹Br_nrW has finite A/(A∩Br X). Descend an equivariant split-torus compactification. Above each boundary divisor a multiplicity-one component has finite constant extension; residue pullback is restriction. Its kernel consists of characters factoring through that finite extension, hence is finite. Finitely many divisors and purity give the bound. Section 2.20a bounds Br X/Br₀; formal lemma gives V(𝔸)^A density; apply §3.14. Source: Harpaz–Wittenberg Corollary 2.2 p.8; CT–Skorobogatov 2000 Proposition 1.1/Lemma 3.1 proof pp.580–585. *Needs:* §§2.16b, 2.20a–21, 3.14; compactification/flatness; ReductiveGroups characters; AnalyticToricGeometry toric varieties of finite regular rational fans, with a Galois-stable regular projective fan chosen in this adapter.
+Own `torusCompactification_boundaryFinite`: A=(f*)⁻¹Br_nrW has finite A/(A∩Br X). Use the field-general equivariant compactification constructed below. Above each boundary divisor a multiplicity-one component has finite constant extension; residue pullback is restriction. Its kernel consists of characters factoring through that finite extension, hence is finite. Finitely many divisors and purity give the bound. Section 2.20a bounds Br X/Br₀; formal lemma gives V(𝔸)^A density; apply §3.14. Source: Harpaz–Wittenberg Corollary 2.2 p.8; CT–Skorobogatov, *Descent on fibrations over P¹ revisited* (2000), Proposition 1.1/Lemma 3.1. *Needs:* §§2.16b, 2.20a–21, 3.14; compactification/flatness; ReductiveGroups characters; AnalyticToricGeometry fan combinatorics and complex specialization; the field-general construction and descent below.
 
 **Checks.**
 
 - V=A^n⊂P^n with trivial torus torsor gives density of the affine open.
 - G_m^n→A^n is not a torsor.
 - The conclusion is a closure statement, not pointwise surjectivity from V.
+
+Own `torusCompactification_splitField` and `torusCompactification_galoisDescent`: for a torus T/K over a number field and a finite Galois splitting field L/K, choose a Galois-stable regular projective fan in its cocharacter lattice. Construct the L-charts from L-valued monoid algebras and glue their face localizations. Prove the torus action, smoothness, projectivity/properness and the multiplicity-one boundary description. The lattice action and scalar Galois action induce compatible semilinear maps on charts, satisfying the descent cocycle and preserving the boundary. Choose a torus-linearized ample bundle from a strictly convex integral support function and tensor its Galois conjugates. The resulting ample bundle has coherent torus and Galois linearizations; effective polarized descent then descends the projective compactification, action and boundary. For W→V use the torus linearization to descend the associated compactification along an étale trivializing cover of the torsor. API: split charts, face maps, boundary multiplicities, semilinear cocycle, descended action and compatibility with splitting-field extension. Sources: Harpaz–Wittenberg Corollary 2.2 proof p.8; CT–Skorobogatov, *Descent on fibrations over P¹ revisited* (2000), Proposition 1.1/Lemma 3.1; AnalyticToricGeometry Layer 0 for the monoid-algebra charts and fan gluing, extended over L here. *Needs:* AnalyticToricGeometry finite regular rational fans and face semigroups; SF §1.24 affine semilinear Galois descent; StableReduction Layer 2 effective descent with a relatively ample invertible sheaf; SF scheme gluing and descent of closed subschemes. The algebraic charts over L and the polarized descent adapter are targets here.
+
+**Checks.**
+
+- For split G_m/K the two-ray fan gives P¹_K, with reduced boundary {0,∞}, each of multiplicity one.
+- For the norm-one torus of a quadratic L/K, Galois negates the cocharacter lattice and exchanges the two boundary points; their descended boundary is a degree-two closed subscheme.
+- Taking L=K gives the split compactification and identity descent; extending a splitting field commutes with the chart and boundary constructions.
 
 ### 3.16 Universal torsors from Brauer points
 
@@ -1760,7 +1769,7 @@ For closure of the count, average a Siegel domain over a compact set. With posit
 
 `w(a_ij)=w(b_ij)=λ∏_(k<i)s_k^(2k)∏_(i≤k<j)s_k^(2k−n)∏_(j≤k<n)s_k^(2k−2n),`
 
-and Haar contributes ∏s_k^(−nk(n−k))d×s d×λ. Prove the required Davenport estimate by slicing semialgebraic cells along coordinate lines: the bounded number of boundary intervals bounds the lattice error by the sum of coordinate-projection volumes. Triangular unipotent changes preserve this bound. On a_11≠0 or b_11≠0 its least weight gives an integrated error O(X^(n+1−1/n)). In the cusp, partition by vanishing coordinate sets U₀. A zero top-left k×(n−k) block forces a double root of det(xA−yB), so is excluded. For each remaining pattern choose minimal nonzero weights γ_i≤w(a_(i,n−i)), γ_i=γ_(n−i). The constraints Cw(γ_i)≥1 allow multiplication by a weight monomial π with total degree <#U₀ and all s-exponents nonpositive. Summing the explicit entry exponents above constructs π: in the patterns meeting the first-row half use π=1; otherwise use the product of (γ_iγ_j)^(1/2) for zero entries, divided by ∏_(i≤n/2)γ_i^(2/n). The total λ exponent drops by at least one. Integration gives O_ε(X^(n+1−1/n+ε)). This is the owned finite weight-pattern argument. Congruence classes are translates of scaled lattices, so the same estimate proves the finite-congruence count. Reducible invariant forms have density zero by sieving at finitely many primes: the irreducible degree-n residue forms have proportion 1/n+O(1/p), and their regular pencil fibres have the same orbit mass.
+and Haar contributes ∏s_k^(−nk(n−k))d×s d×λ. Apply GeometryOfNumbersAndQuadraticArithmetic §4.1, `semialgebraic_uniform_fiber_components`, `davenport_fiber_estimate` and its triangular-unipotent multiset estimate, to these bounded-format orbit regions. This subsection supplies the format bounds and coordinate-projection volume bounds and integrates the resulting errors against the cusp weights. On a_11≠0 or b_11≠0 its least weight gives an integrated error O(X^(n+1−1/n)). In the cusp, partition by vanishing coordinate sets U₀. A zero top-left k×(n−k) block forces a double root of det(xA−yB), so is excluded. For each remaining pattern choose minimal nonzero weights γ_i≤w(a_(i,n−i)), γ_i=γ_(n−i). The constraints Cw(γ_i)≥1 allow multiplication by a weight monomial π with total degree <#U₀ and all s-exponents nonpositive. Summing the explicit entry exponents above constructs π: in the patterns meeting the first-row half use π=1; otherwise use the product of (γ_iγ_j)^(1/2) for zero entries, divided by ∏_(i≤n/2)γ_i^(2/n). The total λ exponent drops by at least one. Integration gives O_ε(X^(n+1−1/n+ε)). This is the owned finite weight-pattern argument. Congruence classes are translates of scaled lattices, so the same estimate proves the finite-congruence count. Reducible invariant forms have density zero by sieving at finitely many primes: the irreducible degree-n residue forms have proportion 1/n+O(1/p), and their regular pencil fibres have the same orbit mass.
 
 Compute the Jacobian of V→(invariants,orbit) on a diagonal pencil; it is a fixed nonzero rational J₀. Its absolute values cancel globally. The only group-volume evaluation needed is `tamagawa_SLquotient_two`: τ(SL_n/μ₂)=2 for even n. For SL_n use the action on nonzero vectors, whose stabilizer is SL_(n−1)⋉G_a^(n−1). Unfold its orbit sum: ∫Σ_(x∈ℚⁿ)φ(gx)dg=τ(SL_n)φ(0)+τ(SL_(n−1))φ̂(0). Poisson summation interchanges φ(0) and φ̂(0), forcing the two coefficients equal. Induct from SL₁ and additive volume one; AA.3 reduction estimates justify unfolding/truncation. Thus τ(SL_n)=1. Igusa, *Lectures on forms of higher degree*, §5.6 pp.138–139, (143)–(144), supplies this proof. For μ₂ use E=(SL_n×G_m)/μ₂, with horizontal 1→SL_n→E→G_m→1 and vertical 1→G_m→E→SL_n/μ₂→1. Fubini and local H¹(SL_n)=1 give horizontal index one: at infinity the identity component lifts, rational torus points meet every component, and the twisted Hasse principle removes the global kernel. Vertically the character restriction has image 2ℤ⊂ℤ. Product-formula normalized torus volume is one; the square-class localization kernel is zero. Hence the vertical character index gives τ(SL_n/μ₂)=2. This is the scoped relative-volume proof of Ono, *On Tamagawa numbers*, §4 pp.129–131, Main Theorem/Corollary 3; it uses AA §§4.1, 4.5, AGD finite duality and CFT, not general Tamagawa evaluation.
 
@@ -1772,10 +1781,11 @@ For the coefficient denominator own `codimensionTwo_congruenceTail`: for fixed c
 
 - Dimension V=n(n+1), invariant degree n, so the exponent is n+1
 - at g=1 the two exceptional local masses are 1/2 and 2
+- A singleton orbit region has volume zero but can contain a lattice point; retain the constant term in the supplied Davenport error.
 - the tail requires codimension two
 - the average is an upper bound, not an asserted equality.
 
-Sources: Bhargava, [\*Most hyperelliptic curves over ℚ have no rational points*](https://arxiv.org/abs/1308.0395), Theorems 9, 17, Propositions 10, 12–16 and proofs, pp.16–24; BGW Theorems 36, 38, 40–41, pp.30–33, Proposition 42, p.33; Bhargava, [\*The geometric sieve*](https://arxiv.org/abs/1402.0031), Theorem 3.3 and proof. The Davenport, cusp, SL-volume and sieve adapters are owned here.
+Sources: Bhargava, [\*Most hyperelliptic curves over ℚ have no rational points*](https://arxiv.org/abs/1308.0395), Theorems 9, 17, Propositions 10, 12–16 and proofs, pp.16–24; BGW Theorems 36, 38, 40–41, pp.30–33, Proposition 42, p.33; Bhargava, [\*The geometric sieve*](https://arxiv.org/abs/1402.0031), Theorem 3.3 and proof. The orbit-region format/projection bounds, cusp, SL-volume and sieve adapters are owned here. *Needs:* GeometryOfNumbersAndQuadraticArithmetic §4.1 semialgebraic Davenport and triangular-unipotent multiset estimates.
 
 ### 3.18c Parity and the real effective-divisor sieve
 
@@ -1873,13 +1883,14 @@ Number field K, finite S⊃∞: `HasGoodReductionOutside C S` means a smooth pro
 
 ### 4.2 Chevalley–Weil
 
-`chevalleyWeil`: finite étale f:Z→proper X/number field K admits finite K′/K lifting all X(K). Proper spreading makes fibre algebras étale outside S; Hermite gives finitely many bounded-degree types; take their splitting compositum. Alternatively apply §3.3a to a Galois closure. Integral points on finite étale models lift over degree≤degf unramified outside S. Source: Poonen Corollary 8.4.8/Theorem 8.4.10 proof pp.242–243; Szpiro Example 1.1 p.86. *Needs:* §3.3a; AGD Hermite; spreading.
+`chevalleyWeil`: a finite étale surjective f:Z→X with X proper over a number field K admits a finite K′/K over which every point of X(K) lifts. Proper spreading makes fibre algebras étale outside S; Hermite gives finitely many bounded-degree types; take their splitting compositum. Alternatively apply §3.3a to a finite étale surjective Galois closure on each connected component. Integral points on finite étale surjective models lift over degree≤degf unramified outside S. Source: Poonen Corollary 8.4.8/Theorem 8.4.10 proof pp.242–243; Szpiro Example 1.1 p.86. *Needs:* §3.3a; AGD Hermite; spreading.
 
 **Checks.**
 
 - Section 3.19's covers need only ℚ(√2)
 - identity needs no extension.
 - A rational lift need not exist over K itself.
+- The first-component inclusion Spec ℚ→Spec ℚ⊔Spec ℚ is finite étale but never lifts the second point; ∅→Spec ℚ likewise fails surjectivity.
 
 ### 4.3 De Franchis
 
@@ -1969,7 +1980,8 @@ Regular finitely generated K/k, k algebraically closed in K, trdeg>0: infinite p
 **Checks.**
 
 - A constant genus-two curve over ℂ(t) has infinitely many constant points.
-- For f separable of odd degree≥5 and q odd, f(t)y²=f(x) has (t^(q^n),f(t)^((q^n−1)/2)), and need only be isotrivial.
+- For q an odd prime power, K=𝔽_q(t), and separable f∈𝔽_q[x] of odd degree≥5, f(t)y²=f(x) has (t^(q^n),f(t)^((q^n−1)/2)) for every n≥0 and need only be isotrivial (Poonen Example 9.5.4, p.287).
+- With k=𝔽₉, q=3 and f=x⁵−a for a∉𝔽₃, the n=1 formula fails: Frobenius changes a to a³.
 - In char p>3, y²=x^p−t has relative genus (p−1)/2 and geometric genus zero, requiring the finite-constants genus-drop branch.
 
 ### 4.9a Jets and nonhorizontal sections
@@ -2249,7 +2261,7 @@ For an isogeny φ commuting with Frobenius, refine the supplied isoclinic decomp
 
 ### 5.8 Uniformity in families
 
-Let A be as in §5.6 or §5.7, V an irreducible quasi-projective variety over the same algebraically closed field and Y⊆V×A an irreducible closed subvariety with fibres Y_v. `uniformTorsionClosure`: there are a finite set 𝓜 of abelian subvarieties of A and an integer D such that for every v∈V the closure of Y_v∩A_tors is a union of at most D translates of members of 𝓜 by torsion points. Sources: Scanlon Theorem 1/Theorem 2.4/Corollary 3.3 pp.1, 3–6; GH Theorem 3.2 p.13. *Needs:* §5.8a.
+Let A be as in §5.6 or §5.7, V an irreducible quasi-projective variety over the same algebraically closed field and Y⊆V×A an irreducible closed subvariety with fibres Y_v. `uniformTorsionClosure`: there are a finite set 𝓜 of abelian subvarieties of A and an integer D such that for every v∈V the closure of Y_v∩A_tors is a union of at most D translates of members of 𝓜 by torsion points. Sources: Scanlon, *Automatic uniformity*, Theorem 2.4 p.2, proof pp.3–6; GH Theorem 3.2 p.13 (characteristic-zero application). *Needs:* §5.8a.
 
 **Checks.**
 
@@ -2259,13 +2271,13 @@ Let A be as in §5.6 or §5.7, V an irreducible quasi-projective variety over th
 
 ### 5.8a Automatic uniformity
 
-`automaticUniformity`: for constructible family Z_b⊂Y and Ξ⊂Y(k), if intersections with Ξ^m in all powers have closures in one fixed definable special collection, these closures form a constructible family. `denseSubsets_uniform`: finite-dimensional coefficient duals are spanned by finitely many Ξ-evaluations; Chevalley makes density constructible. Failure of finite uniform special descriptions gives, by first-order compactness with predicate Ξ, an elementary extension violating closure. Finite evaluation tests descend the contradiction. All powers/intersections then bound Hilbert data/component degrees. Compactness uses native first-order finite satisfiability, or is owned here; no stronger torsion theorem is assumed. Source: Scanlon §§2–3 pp.2–6. *Needs:* logic compactness, Chevalley, §§5.6–7.
+`automaticUniformity`: let k be algebraically closed, Y quasi-projective over k, and Ξ⊂Y(k). An irreducible subvariety of Y^m is Ξ-special when its intersection with Ξ^m is Zariski dense. Assume that, in every Cartesian power, every irreducible component of an intersection of two Ξ-special varieties which meets Ξ^m is itself Ξ-special. Then for every algebraic family Z⊂Y×B there is a constructible family whose fibres include all reduced closures of Z_b∩Ξ. Constructible input families follow by finite stratification. `denseSubsets_uniform`: finite-dimensional coefficient duals are spanned by finitely many Ξ-evaluations; Chevalley makes density constructible. Failure of finite uniform special descriptions gives, by first-order compactness with predicate Ξ, an elementary extension violating closure. Finite evaluation tests descend the contradiction. All powers/intersections then bound Hilbert data/component degrees. Compactness uses native first-order finite satisfiability, or is owned here; no stronger torsion theorem is assumed. Source: Scanlon, *Automatic uniformity*, §§2–3 pp.2–6, especially Theorem 2.4. *Needs:* logic compactness, Chevalley, §§5.6–7.
 
 **Checks.**
 
 - Empty Ξ gives empty closures
 - a dense Ξ yields closures equal to Z_b where appropriate.
-- Pointwise bounds alone need not be uniform without the definable-family and closure hypotheses.
+- For Ξ=ℕ²⊂A²(ℂ), x+y=b meets Ξ in b+1 points when b∈ℕ, so pointwise finiteness does not give automatic uniformity (Scanlon §4 p.6).
 
 ### 5.9 Rational points on abelian subvarieties
 
@@ -2273,7 +2285,7 @@ For an abelian variety A over a number field K and closed X⊂A, prove `rational
 
 **Checks.**
 
-- X=A gives A
+- For X=A the closure is the algebraic subgroup generated by A(K). For E:y²=x³−x over ℚ it is the four-point subgroup E[2]; Zariski-dense A(K) gives A.
 - a point gives one point or ∅
 - a genus≥2 curve gives finitely many points.
 - Positive-rank elliptic curves need not have finitely many points.
@@ -2295,11 +2307,11 @@ Filter the generic tangent space by factors, ranks s_i. The index gap forces mul
 
 Define `projectiveCycleHeight` by the Fubini–Study metrized O(1) divisor action (§5.17a), divided by [K:ℚ], with degrees and embedding fixed. API: add effective cycles, projection, arithmetic Bézout and coefficient-height comparison; projective cycle heights are nonnegative in the chosen normalization. Prove these recursively by Cartier sections, coordinate averaging and Jensen, retaining the coefficient maximum and degree error; this uses the divisor action, not the later general minima inequality. **Checks.**
 
-- a coordinate point has the fixed normalized height
+- A coordinate point has height zero; [1:2] over ℚ has Fubini–Study height ½ log 5 (ArakelovGeometryAndAbelianHeights §1.14).
 - multiplicity two doubles degree and unnormalized height
 - a constant metric shift adds t·deg, so nonnegativity is tied to the chosen metric.
 
-Own `boundedProjectionPresentation`: a degree-D variety in ℙ^n has a finite linear projection and monic coordinate equations with degrees/heights bounded in D, n and its projective height. Choose a projection outside its Chow discriminant using a bounded integer grid (a polynomial of bounded degree cannot vanish on every grid point). The primitive-element equation has degree≤D and discriminant degree≤D(D−1); coefficient extraction from the Chow form bounds heights. Residual coordinate integrality gives the monic equations used in §5.9e. Source: Rémond, *Vojta*, §2 pp.107–110 and §5 pp.123–134; Faltings §2 pp.550–559. *Needs:* §5.17a; scheme Chow forms/finite projections; native polynomial interpolation.
+Own `boundedProjectionPresentation`: a degree-D variety in ℙ^n has a finite linear projection and monic coordinate equations with degrees/heights bounded in D, n and its projective height. Choose a projection outside its Chow discriminant using a bounded integer grid (a polynomial of bounded degree cannot vanish on every grid point). The primitive-element equation has degree≤D and discriminant degree≤D(D−1); coefficient extraction from the Chow form bounds heights. Residual coordinate integrality gives the monic equations used in §5.9e. Source: Rémond, *Vojta*, §2 pp.107–110 and §5 pp.123–134; Faltings §2 pp.550–559. *Needs:* §5.17a; ArakelovGeometryAndAbelianHeights §1.14 for the point normalization; scheme Chow forms/finite projections; native polynomial interpolation.
 
 **Checks.**
 
@@ -2364,11 +2376,12 @@ For m=dim X+1 the preceding finite dimension descent yields constants C₁, C₂
 
 ### 5.10a Jets and derivative bounds
 
-For a section on C×C of bidegrees (r₁,r₂)>0 define `admissibleJet` as a first nonzero divided derivative in a local frame, minimal in the weighted order i/r₁+j/r₂; the preceding rectangular jets vanish. API: local ideal, frame invariance, derivative order, base change and evaluation. Choose finite maps to ℙ¹ and implicit equations p(x,y)=0. Away from p_y=0, differentiate p=0 recursively; denominators at order ℓ divide p_y^(2ℓ−1), and archimedean coefficients are bounded by (2deg p)^(5ℓ). Discriminant and leading-coefficient divisors give one finite exceptional set. **Checks.**
+For a section on C×C of bidegrees (r₁,r₂)>0 define `admissibleJet` as a first nonzero divided derivative in a local frame, minimal in the weighted order i/r₁+j/r₂; the preceding rectangular jets vanish. API: local ideal, frame invariance, derivative order, base change and evaluation. Choose finite maps to ℙ¹ and implicit equations p(x,y)=0. Away from p_y=0, differentiate p=0 recursively; denominators at order ℓ divide p_y^(2ℓ−1), and the universal divided-derivative numerators have combinatorial coefficient bounds in deg p and ℓ. Specializing their coefficient variables to a chosen equation p contributes an additional H_aff(p)^(O(ℓ)), where H_aff(p) is its affine coefficient maximum, including 1. Equivalently retain an O(ℓ)(h_aff(p)+log deg p+1) coefficient-height term; after normalizing one nonzero coefficient to 1, this is controlled by the projective coefficient height. Constants in the application may depend on this fixed presentation. Discriminant and leading-coefficient divisors give one finite exceptional set. **Checks.**
 
 - units have index zero
 - t^i u^j has index i/r₁+j/r₂
 - zero has no admissible jet.
+- For p=y−10⁶x², p_y=1 and y′=2·10⁶x; a degree-only bound of 4⁵=1024 fails.
 - The erratum's D(0,z)≠0 condition is included by removing its finite zero locus.
 
 Source: Bombieri §6 p.625 (admissible pairs) and Lemmas 5–6, §7 pp.626–629; erratum p.473. *Needs:* DiophantineApproximation jets, scheme local frames and finite maps.
@@ -2487,9 +2500,9 @@ Extend along a valuation of Ē centred at s (a smooth flag provides one). Prope
 
 ### 5.13c Keeping bounded directions under specialization
 
-Own `boundedDirections_relativeFiniteEtale`: for polarized abelian A/S in characteristic zero and degree bound δ, its connected abelian subgroups of degree≤δ are parameterized, after shrinking integral S, by a finite étale scheme with universal subgroup. Only Hilbert polynomials (deg B/h!)n^h occur. In their projective relative Hilbert schemes, identity/inverse/addition stability are closed coefficient conditions, using Serre twists of universal ideals on proper flat products. A characteristic-zero subgroup is smooth: its formal logarithm turns its Hopf ideal into a linear ideal, since directional derivatives and division by degree eliminate every higher lowest term. Translation spreads smoothness. Proper smooth component spaces make connectedness open and closed. Fibres are finite by §5.4b. An infinitesimal subgroup deformation is B→Lie(A/B), constant by properness and zero at the identity, so the parameter scheme is unramified. Proper quasi-finite is finite; generic flatness gives étale. A finite extension splits its generic sections; shrink so every retained fibre direction lifts and all quotients extend.
+Own `boundedDirections_relativeFiniteEtale`: for polarized abelian A/S with S integral of finite type over a characteristic-zero field and degree bound δ, its connected abelian subgroups of degree≤δ are parameterized, after shrinking integral S, by a finite étale scheme with universal subgroup. Only Hilbert polynomials (deg B/h!)n^h occur. In their projective relative Hilbert schemes, identity/inverse/addition stability are closed coefficient conditions, using Serre twists of universal ideals on proper flat products. A characteristic-zero subgroup is smooth: its formal logarithm turns its Hopf ideal into a linear ideal, since directional derivatives and division by degree eliminate every higher lowest term. Translation spreads smoothness. Proper smooth component spaces make connectedness open and closed. Fibres are finite by §5.4b. An infinitesimal subgroup deformation is B→Lie(A/B), constant by properness and zero at the identity, so the parameter scheme is unramified. Proper quasi-finite is finite; generic flatness gives étale. A finite extension splits its generic sections. This subsection spreads each resulting generic subgroup and the quotient of §1.0 to abelian schemes after shrinking S to a smooth normal open. Extend the quotient morphism there, identify its scheme-theoretic kernel with the spread subgroup, and prove the fibre and base-change identifications used below. Finite presentation spreads the equations and identities; properness, smoothness and connectedness hold after shrinking. Thus every retained fibre direction lifts together with its quotient.
 
-For `finiteRank_specialization_toNumberField`, fix a geometrically integral X of degree D densely meeting Γ₀^div over finitely generated E. Section 5.4a bounds every maximal coset direction in every retained fibre by one δ. Split the finite list above. Apply §5.13b simultaneously to A and all A/B. In a number-field fibre, §5.13a covers X_s∩Γ_(0,s)^div by finitely many maximal cosets. Each direction lifts to B. Two original points specializing into one coset have difference zero in (A/B)_s; its division-hull injection puts that difference in B already. Thus the original dense set is covered by finitely many generic B-cosets. Irreducibility puts X in one; dim B≤dim X because the special coset lies in X_s, so equality follows. Induct on components. Source: Rémond §4 pp.529–536 for the bounds; the relative Hilbert and simultaneous-quotient argument is the adapter here. *Needs:* §§1.0, 5.4a–b, 5.13a–b; scheme Hilbert/Serre/component spaces; AbelianSchemesAndArithmeticModuli §§A6.3–A6.7 relative subgroups.
+For `finiteRank_specialization_toNumberField`, fix a geometrically integral X of degree D densely meeting Γ₀^div over finitely generated E. Section 5.4a bounds every maximal coset direction in every retained fibre by one δ. Split the finite list above. Apply §5.13b simultaneously to A and all A/B. In a number-field fibre, §5.13a covers X_s∩Γ_(0,s)^div by finitely many maximal cosets. Each direction lifts to B. Two original points specializing into one coset have difference zero in (A/B)_s; its division-hull injection puts that difference in B already. Thus the original dense set is covered by finitely many generic B-cosets. Irreducibility puts X in one; dim B≤dim X because the special coset lies in X_s, so equality follows. Induct on components. Source: Rémond §4 pp.529–536 for the bounds; the relative Hilbert and simultaneous-quotient argument is the adapter here. *Needs:* §§1.0, 5.4a–b, 5.13a–b; scheme Hilbert/Serre/component spaces; AbelianSchemesAndArithmeticModuli §A6.25 `relativeHom` over locally Noetherian normal bases for morphism extension, and §§A6.3–A6.7 for generic-fibre subgroup theory; spreading subgroups, quotients, kernel identities and base-change comparisons is owned here.
 
 **Checks.**
 
@@ -2497,6 +2510,7 @@ For `finiteRank_specialization_toNumberField`, fix a geometrically integral X of
 - include all quotients.
 - E² has infinitely many unbounded directions but finitely many below δ.
 - A special contained coset need not lift as contained in X until the final density/dimension step.
+- For a constant E²/S the diagonal subgroup and quotient (P,Q)↦Q−P spread with their kernel identity; an extra endomorphism in a CM special fibre need not extend to the generic fibre, so the base must be shrunk.
 
 ### 5.14 The difference map
 
@@ -2571,11 +2585,13 @@ Source: Gillet–Soulé §§1.2–1.3, 2.1–2.2 pp.100–120, Theorem 4.2.3(iii
 - pointwise convergence without uniformity/common good model is insufficient.
 - Constant metric twists can have negative heights while remaining semipositive.
 
-`adelicIntersection_uniformBound`: distance≤ε in one metric changes normalized mixed intersection by ≤ε times geometric mixed degree. On common normalized graphs sandwich vertical differences by ε fibres; integrate bounded ratios against positive infinite mixed measures. Telescope/take limits, then multilinearity gives presentation independence. `adelicCycleHeight(L,Z)=I(L^(d+1),Z)/((d+1)deg_LZ)`, I normalized by [K:ℚ]; `cycleProbabilityMeasure=c₁(L_v)^d/deg_LZ`. API: point agreement, degree-weighted additivity, power scaling, extension invariance, projection, Cartier restriction, Lipschitz. **Checks.**
+`adelicIntersection_uniformBound`: when every remaining metrized factor is semipositive, distance≤ε between two metrics on one fixed underlying bundle changes the normalized mixed intersection by at most ε times the geometric mixed degree of the remaining factors. With integrable remaining factors, fix presentations as differences of semipositive bundles, expand by multilinearity and use ε times the sum of their mixed degrees. On common normalized graphs sandwich vertical differences by ε fibres; integrate bounded ratios against positive infinite mixed measures. Telescope/take limits, then multilinearity gives presentation independence. For an integrable metric on an ample L and a nonzero effective pure d-cycle Z, define `adelicCycleHeight(L,Z)=I(L^(d+1),Z)/((d+1)deg_LZ)`, with I normalized by [K:ℚ]. For a semipositive metric on that ample bundle, define `cycleProbabilityMeasure=c₁(L_v)^d/deg_LZ`, a positive measure of mass one; the zero cycle has no such normalization. API: point agreement, degree-weighted additivity, power scaling, extension invariance, projection, Cartier restriction, Lipschitz. **Checks.**
 
 - a point has its original height
 - a double cycle has the same normalized height
-- tensor power changes height by m and leaves probability mass one.
+- A positive tensor power changes height by m and leaves probability mass one for semipositive ample L and nonzero effective Z.
+- On P¹ a trivial bundle with metric e^(−f), f smooth nonconstant and conjugation-invariant at infinity, is integrable but has signed curvature ddᶜf and degree zero. Changing another trivial metric by e^(−tf) changes the intersection by a nonzero multiple of t∫f ddᶜf; the unsigned degree-zero bound cannot apply.
+- The zero cycle is excluded from `cycleProbabilityMeasure`; its degree is zero.
 
 Source: Zhang *Small points* (1.1)–(1.3)/Theorems 1.4, 1.7 pp.3–8; *Positive line bundles* Lemma 6.5 pp.214–215. *Needs:* §§0.22–23, 5.17a; normalized graphs; CC C5.4.
 
@@ -2810,6 +2826,7 @@ EffectiveDiophantineMethods uses explicit heights, Kummer local conditions, fini
 - Y. Harpaz, O. Wittenberg, [The Massey vanishing conjecture for number fields](https://www.math.univ-paris13.fr/~wittenberg/globalmassey.pdf).
 - M. Bhargava, B. H. Gross, X. Wang, [A positive proportion of locally soluble hyperelliptic curves over Q have no point over any odd degree extension](https://arxiv.org/abs/1310.7692v2).
 - T. Scanlon, [Positive characteristic Manin–Mumford theorem](https://arxiv.org/abs/math/0303340).
+- T. Scanlon, [Automatic uniformity](https://math.berkeley.edu/~scanlon/papers/autouni.pdf), IMRN 2004, no.62, 3317–3326.
 - K. Česnavičius, [Purity for the Brauer group](https://arxiv.org/abs/1711.06456v4).
 - Tau Ceti roadmap authors, [EllipticCurves roadmap, Layer 6: the Mordell–Weil theorem](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/EllipticCurves).
 - Tau Ceti roadmap authors, [EllipticCurves roadmap, Layer 7: Selmer groups and Sha](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/EllipticCurves).
@@ -2827,6 +2844,7 @@ EffectiveDiophantineMethods uses explicit heights, Kummer local conditions, fini
 - Xinyi Yuan and Shou-Wu Zhang, [Adelic Line Bundles on Quasi-projective Varieties](https://arxiv.org/abs/2105.13587v9). arXiv v9, 14 June 2025; Theorem A.6.3, pp.248–249.
 - Michael Stoll, [Finite descent obstructions and rational points on curves](https://mathe2.uni-bayreuth.de/stoll/papers/covers8.pdf). Author manuscript; Corollary 7.4 and Lemma 7.5, pp.30–31.
 - J.-L. Colliot-Thélène, A. N. Skorobogatov, [The Brauer–Grothendieck group](https://www.imo.universite-paris-saclay.fr/~jean-louis.colliot-thelene/BGgroup_book.pdf), author version, 31 October 2019. Page numbers here refer to this version.
+- J.-L. Colliot-Thélène, A. N. Skorobogatov, [Descent on fibrations over P¹ revisited](https://www.cambridge.org/core/journals/mathematical-proceedings-of-the-cambridge-philosophical-society/article/abs/descent-on-fibrations-over-p1k-revisited/BDFE76C3E2330070272773709647948C), Math. Proc. Cambridge Philos. Soc. 128 (2000), 383–393.
 - J.-L. Colliot-Thélène, A. N. Skorobogatov, *Good reduction of the Brauer–Manin obstruction*, Trans. AMS 365 (2013), 579–590.
 - D. Harari, *Méthode des fibrations et obstruction de Manin*, Duke Math. J. 75 (1994), 221–260.
 - D. Harari, A. N. Skorobogatov, *Non-abelian cohomology and rational points*, Compositio Math. 130 (2002), 241–273; [Descent theory for open varieties](https://arxiv.org/abs/1012.1765), author version, 8 December 2010.

@@ -59,7 +59,28 @@ example : mk (fun n : ℕ => (n : ℝ)) ≠ 0 := by sorry
 example : mk (fun _ : ℕ => (1 : ℝ)) = mk (fun _ : ℕ => (0 : ℝ)) ∧
     mk (fun n : ℕ => (1 : ℝ) * n) ≠ mk (fun n : ℕ => (0 : ℝ) * n) := by sorry
 
+example : mk (fun n : ℕ => (n : ℝ) + 7) = mk (fun n : ℕ => (n : ℝ)) := by sorry
+example : mk (fun n : ℕ => (n : ℝ) + (-1 : ℝ)^n) =
+    mk (fun n : ℕ => (n : ℝ)) := by sorry
+example : mk (fun n : ℕ => 2 * (n : ℝ)) ≠ mk (fun n : ℕ => (n : ℝ)) := by sorry
+example [Finite X] (h : X → ℝ) : mk h = 0 := by sorry
+example : mk (fun n : ℕ => (n : ℝ) + 7) = mk (fun n : ℕ => (n : ℝ)) ∧
+    (fun n : ℕ => (n : ℝ) + 7) 0 ≠ (fun n : ℕ => (n : ℝ)) 0 := by sorry
+
+example : pullback (fun n : ℕ => 2 * n) (mk (fun n : ℕ => (n : ℝ))) =
+    2 • mk (fun n : ℕ => (n : ℝ)) := by sorry
+example {Y : Type v} {Z : Type w} (f : X → Y) (g : Y → Z) (h : Z → ℝ) :
+    pullback (g ∘ f) (mk h) = pullback f (pullback g (mk h)) := by sorry
+example : ¬ Function.Injective (pullback (fun _ : ℕ => (0 : ℕ))) := by sorry
+example : Function.Injective (pullback (Prod.fst : ℕ × ℕ → ℕ)) := by sorry
+
 end HeightClass
+
+example : Northcott (fun n : ℕ => (n : ℝ) + (-1 : ℝ)^n) := by sorry
+example : ¬ Northcott (fun _ : ℕ => (0 : ℝ)) := by sorry
+example : ¬ Northcott (fun n : ℕ => -(n : ℝ)) := by sorry
+example : Northcott (fun x : ℕ × Fin 2 => (x.1 : ℝ)) := by sorry
+example : ¬ Northcott (fun x : ℕ × ℕ => (x.1 : ℝ)) := by sorry
 
 /-- The Tate limit written as its telescoping series. Its convergence theorem assumes d > 1. -/
 def tateLimit {S : Type u} (φ : S → S) (d : ℝ) (f : S → ℝ) (s : S) : ℝ :=
@@ -88,7 +109,10 @@ theorem tateLimit_unique (hd : 1 < d) (hf : ∃ C, ∀ s, |f (φ s) - d * f s| �
 
 end TateLimit
 
+example : tateLimit (fun n : ℕ => 2 * n) 2 (fun n => (n : ℝ)) =
+    fun n : ℕ => (n : ℝ) := by sorry
 example : tateLimit (id : ℕ → ℕ) 2 (fun _ => 1) = fun _ => 0 := by sorry
+example : |tateLimit (id : ℕ → ℕ) 2 (fun _ => 1) 0 - 1| = 1 := by sorry
 example {F : Type u} [Field F] [AdmissibleAbsValues F] [DecidableEq F]
     {W : WeierstrassCurve.Affine F} [W.IsElliptic] :
     tateLimit (fun P : W.Point => 2 • P) 4 (fun P => P.naiveHeight / 2) =
@@ -107,6 +131,13 @@ theorem logHeight_linearChange_bounded (K : Type u) [Field K] [NumberField K]
 example : Set.ncard {x : Projectivization ℚ (Fin 2 → ℚ) |
     Projectivization.logHeight x ≤ Real.log 2} = 8 := by sorry
 
+example : Set.ncard {x : Projectivization ℚ (Fin 2 → ℚ) |
+    Projectivization.logHeight x = 0} = 4 := by sorry
+example (F : Type u) [Field F] : Nonempty (Projectivization F (Fin 1 → F)) ∧
+    Subsingleton (Projectivization F (Fin 1 → F)) := by sorry
+example (x : Fin 2 → ℚ) (hx : x ≠ 0) :
+    logHeight ![x 0 ^ 2, x 0 * x 1, x 1 ^ 2] = 2 * logHeight x := by sorry
+
 -- The native height is the (2O)-height; its halved polar form is the unhalved (O)-pairing.
 #check WeierstrassCurve.Affine.neronTatePairing_apply
 
@@ -122,6 +153,14 @@ example {F : Type u} [Field F] [Height.AdmissibleAbsValues F] [DecidableEq F]
 example {F : Type u} [Field F] [Height.AdmissibleAbsValues F] [DecidableEq F]
     {W : WeierstrassCurve.Affine F} [W.IsElliptic] (P : W.Point) :
     W.neronTatePairing 0 P = 0 := by sorry
+
+example {F : Type u} [Field F] [Height.AdmissibleAbsValues F] [DecidableEq F]
+    {W : WeierstrassCurve.Affine F} [W.IsElliptic] :
+    (0 : W.Point).canonicalHeight / 2 = 0 := by sorry
+
+example {F : Type u} [Field F] [Height.AdmissibleAbsValues F] [DecidableEq F]
+    {W : WeierstrassCurve.Affine F} [W.IsElliptic] (P : W.Point) :
+    (2 • P).canonicalHeight / 2 = 4 * (P.canonicalHeight / 2) := by sorry
 
 example : logHeight ![(2 : ℚ), 1] = Real.log 2 := by sorry
 
@@ -191,6 +230,12 @@ example : IsEmpty (AdelicPoints ℚ
 example (K : Type) [Field K] [NumberField K] :
     Nonempty (AdelicPoints K (Polynomial K)) := by sorry
 
+example (K : Type) [Field K] [NumberField K] :
+    ∃ e : AdelicPoints K (Polynomial K) ≃ₜ
+        NumberField.AdeleRing (NumberField.RingOfIntegers K) K,
+      ∀ x, e x = (show Polynomial K →ₐ[K]
+        NumberField.AdeleRing (NumberField.RingOfIntegers K) K from x) Polynomial.X := by sorry
+
 example (K : Type) [Field K] [NumberField K] (A : Type) [CommRing A]
     [Algebra K A] (a : A) : Continuous (fun x : AdelicPoints K A =>
       (AlgHom.toRingHom (show A →ₐ[K] NumberField.AdeleRing (NumberField.RingOfIntegers K) K from x)) a) := by sorry
@@ -217,6 +262,8 @@ theorem finiteRank_iff_le_divisionHull {G : Type u} [AddCommGroup G] (Γ : AddSu
 example (r : ℕ) : HasFiniteRank (Fin r → ℤ) := by sorry
 example : HasFiniteRank ℚ ∧ ¬ AddGroup.FG ℚ := by sorry
 example : HasFiniteRank (ZMod 2) := by sorry
+example : HasFiniteRank (ℕ →₀ ZMod 2) ∧ ¬ AddGroup.FG (ℕ →₀ ZMod 2) := by sorry
+example : Finite (ZMod 2) ∧ Infinite (ℕ →₀ ZMod 2) := by sorry
 
 /-- The point-level difference map (x₀,…,x_M) ↦ (x₁−x₀,…,x_M−x₀), with target G^M. -/
 def differenceMap {G : Type u} [AddCommGroup G] (M : ℕ) :
@@ -240,6 +287,8 @@ example {G : Type u} [AddCommGroup G] (M : ℕ) (P : Fin (M + 1) → G) :
 example {G : Type u} [AddCommGroup G] (P : Fin 1 → G) :
     differenceMap 0 P = 0 := by sorry
 example : differenceMap 1 ![(2 : ℤ), 5] 0 = 3 := by rfl
+example {G : Type u} [AddCommGroup G] (P : G) :
+    differenceMap 2 ![0, P, 2 • P] = ![P, 2 • P] := by sorry
 
 
 /-!
@@ -270,7 +319,8 @@ invariant matrices. Affine Azumaya and scheme Brauer evaluation are imported int
 Layer 3: torsor evaluation/twist/Selmer sets, descentSet, descentObstructionSet, etaleSet,
 connectedSet, pglSet, etaleBrauerSet and etaleDescentSet; KDprime, UniversalNTorsor,
 compatible finite torsors, minimal compatible isogenies and invariant Brauer; coflasque
-enlargement and nonabelian H2 links; UniversalTorsor, relativeBrauerOne and residual Sha
+enlargement and nonabelian H2 links; torusCompactification_splitField and
+torusCompactification_galoisDescent; UniversalTorsor, relativeBrauerOne and residual Sha
 functional; CasselsTate, KummerLocal, BrauerPic0 and BrauerPic0_n; PencilSelmerOrbit,
 oriented ideals, the isogeny Q invariant and realEffectiveFraction.
 
