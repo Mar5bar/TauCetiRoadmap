@@ -16,7 +16,9 @@ quotients, inverse topology and size foundations of D0, the topological part of 
 perfectoid spaces of D1, the v-topology
 on Tau Ceti's perfectoid spaces with its descent theorems (D2–D3), the size obstructions for
 torsors and compact Hausdorff realization (D3–D4), and the Berkovich spectrum and the component
-formula of D5, and the affine seminormality and seminormalization inputs of D6.9.
+formula of D5, and the shared affine seminormality, subintegrality and seminormal-reflection
+API of D6.9. Applications use this predicate, reflection carrier and unit; exchanging square–cube
+variables gives the equivalent convention, and `sn_compare` identifies reflection presentations.
 Constructions that are themselves formalisation targets (pro-étale
 morphisms and sites, stackification, diamonds, their underlying spaces, spatial diamonds, marked
 untilts and `Spd`) are specified in the README only.
@@ -198,6 +200,18 @@ theorem IsWLocalSpace.isHomeomorph_connectedComponentsMk {X : Type u} [Topologic
 
 -- Check: the Sierpiński space is w-local; discrete `ℕ` is not (it is not spectral).
 example : IsWLocalSpace Prop ∧ ¬ IsWLocalSpace ℕ := sorry
+
+-- Check `s1_11_doubled_limit` (ECD Definition 7.20, Remark 7.21 and Corollary 7.22):
+-- two open profinite charts glued along ℕ give a quasicompact non-Hausdorff space.
+-- The unrestricted point-case classification retains this space.
+example :
+    ∃ (T : TopCat.{0}) (ePlus eMinus : OnePoint ℕ → T),
+      IsOpenEmbedding ePlus ∧ IsOpenEmbedding eMinus ∧
+      (∀ n : ℕ, ePlus n = eMinus n) ∧
+      ePlus OnePoint.infty ≠ eMinus OnePoint.infty ∧
+      Set.range ePlus ∪ Set.range eMinus = Set.univ ∧
+      CompactSpace T ∧ ¬ T2Space T ∧
+      ¬ IsCompact (Set.range ePlus ∩ Set.range eMinus) := sorry
 
 variable (p : ℕ) [Fact p.Prime]
 

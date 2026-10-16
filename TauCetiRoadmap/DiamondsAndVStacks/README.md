@@ -158,9 +158,13 @@ normalized bounded spectrum for a Tate norm of radius `1/2`, then adds the quoti
 with its identification as the maximal Hausdorff quotient, and the extension from affinoids to small
 v-sheaves. The flat-cover refinement over a strictly henselian local ring used in the perfectoid
 ball argument is a lemma stated inside D3.2; D6.9 constructs the seminormalisation functor of rigid
-spaces with its universal property and proves the seminormal structure-sheaf comparison. Its
-local affine inputs are the square–cube criterion, normal-domain and product comparisons, and the
-seminormalization of rings with its subintegral unit and restriction compatibility.
+spaces with its universal property and proves the seminormal structure-sheaf comparison. D6.9 is
+the single owner of the shared affine seminormality, subintegrality and seminormal-reflection API:
+the square–cube criterion, normal-domain and product comparisons, and the seminormalization of
+rings with its subintegral unit and restriction compatibility. Factorization-system applications
+consume this predicate and reflection and own their factorization-specific characterizations and
+consequences; alternative square–cube conventions use variable exchange, and alternative
+presentations of the reflection use `sn_compare` to identify their carriers and units.
 
 General canonical compactification (Scholze's §18) belongs to the étale cohomology of diamonds that
 imports this roadmap; D3 proves only the elementary special construction needed for its descent
@@ -1433,8 +1437,10 @@ universal Hausdorff quotient, not this criterion). *Needs:* Mathlib
   `Ultrafilter [0, 1]` by the closed relation `S ×_T S`, and `t2Space_quotient_of_isClosed` makes
   the quotient the compact Hausdorff space `[0, 1]`.
 - `s0_16_not_every_quotient_is_profinite` (non-example) — the quotient of a profinite set by a closed
-  equivalence relation is in general only compact Hausdorff and not profinite, which is the whole
-  content of [ECD] Rem. 2.8.
+  equivalence relation is in general only compact Hausdorff. For the binary-expansion surjection
+  from the Cantor space `{0, 1}^ℕ` onto `[0, 1]`, the kernel relation is closed in the profinite
+  product, hence is itself profinite. Its quotient `[0, 1]` is connected with distinct endpoints,
+  so is not profinite ([ECD] Rem. 2.8).
 - `s0_16_empty_and_point` (degenerate cases) — the quotient of the empty profinite set by the empty
   relation is `∅`, and the quotient of a point by the diagonal is a point; both are compact
   Hausdorff.
@@ -2432,9 +2438,9 @@ submersion but not an ordinary quotient map. `Pro(finite sets)` is the profinite
 of `ℤ_p` lives in `lim_j colim_i Hom` of the system `ℤ/pⁿℤ` but not in `colim_i lim_j Hom`, and
 `Spec` of a field and of a discrete valuation ring are the point and the Sierpiński space, the
 latter realized by no finite ring. The unit interval is a quotient of a profinite set by a closed
-equivalence relation that is not itself profinite. For sheaves on `Perfd` the final object is not
-quasiseparated, and in sheaves on discrete `ℕ` the terminal object is not quasicompact although its
-identity is a quasicompact morphism. An infinite disjoint union of points violates the
+profinite equivalence relation whose quotient is not profinite. For sheaves on `Perfd` the final
+object is not quasiseparated, and in sheaves on discrete `ℕ` the terminal object is not quasicompact
+although its identity is a quasicompact morphism. An infinite disjoint union of points violates the
 filtered-colimit comparison without quasicompactness. `ℶ_ω` is a strong limit of cofinality `ω` and
 so is not a cutoff cardinal. Without first countability the completion bound fails. The
 stackification of a discrete prestack is the sheafification, `BG` keeps `G` as automorphisms of the
@@ -3333,11 +3339,18 @@ topological sources. The inverse functor equips a spectral map `S → |X|` with 
 completion of the pullback of `O⁺_X` and with the valuations pulled back from `X`, which is what
 makes it land in perfectoid spaces, and glues on spectral opens ([ECD] §7, Cor. 7.22 with proof, p.
 38). For `X = Spa(C, O_C)` with `C` algebraically closed, affinoid pro-étale objects correspond to
-profinite sets and arbitrary pro-étale objects to locally profinite sets; the infinite disjoint
-union of copies of `X` corresponds to an infinite discrete locally profinite set, and is pro-étale
-but neither affinoid nor profinite. The classification is what reduces descent of étale maps to a
-purely topological statement about local isomorphisms ([ECD] Prop. 9.7). *Needs:* D1.10; D1.5;
-AdicSpacesPartII R0.0; D0.6; Mathlib `SpectralSpace`, `IsSpectralMap`, `Profinite`,
+profinite sets. Arbitrary pro-étale objects correspond to spaces covered by open profinite
+subspaces, with no global Hausdorffness hypothesis. The term locally profinite here includes
+Hausdorffness; such spaces form the Hausdorff full subcategory of this unrestricted topological
+category. Restricting the geometric category to separated pro-étale maps `Y → X` gives precisely
+this subcategory: on the open product charts, the geometric diagonal has the topological diagonal
+as underlying map (PerfectoidSpaces P4.19 and P6.8). The infinite disjoint union of copies of `X`
+corresponds to the infinite discrete locally profinite set `ℕ` and is pro-étale but neither
+affinoid nor profinite. The classification
+reduces descent of étale maps to a purely topological statement about local isomorphisms
+([ECD] Prop. 9.7). *Needs:* D1.10; D1.5;
+AdicSpacesPartII R0.0; D0.6; PerfectoidSpaces P4.19, P6.7–P6.8;
+Mathlib `SpectralSpace`, `IsSpectralMap`, `Profinite`,
 `UniformSpace.Completion`.
 
 **Checks.**
@@ -3354,13 +3367,21 @@ AdicSpacesPartII R0.0; D0.6; Mathlib `SpectralSpace`, `IsSpectralMap`, `Profinit
 - `s1_11_locally_profinite` (non-example for affinoidness) — the infinite discrete `ℕ` over a point is
   pro-étale (an open cover by points, each affinoid pro-étale) but not affinoid pro-étale, since `ℕ`
   is not spectral; it is the underlying space of `⊔_ℕ Spa(C, O_C)`.
+- `s1_11_doubled_limit` (non-example for Hausdorffness) — let `S = OnePoint ℕ = ℕ ∪ {∞}` with
+  its profinite one-point compactification topology, and glue two copies along the open `ℕ`.
+  The resulting `T = S₊ ⊔_ℕ S₋` has two open profinite charts and is quasicompact, but every pair
+  of neighbourhoods of `∞₊` and `∞₋` meets on a cofinite tail. It is not Hausdorff; the charts'
+  intersection `ℕ` is not quasicompact. Gluing `X × S₊` and `X × S₋` along `X × ℕ` gives a
+  perfectoid space pro-étale over `X = Spa(C, O_C)` with underlying space `T`, by PerfectoidSpaces
+  P6.7 and P6.8. It belongs to the unrestricted classification and fails the Hausdorff condition.
 
 The geometric equivalences are `Perfectoid.affinoidProEtale_equivalence` and
 `Perfectoid.proEtale_equivalence`, for `X : Geometry.Spaces p c` with
 `Geometry.strictlyDisconnected p c X`. Their signatures include a natural isomorphism to
 `Over.post (Geometry.space p c)`, fixing the underlying-space functor on objects and morphisms.
 The topological categories are the corresponding full subcategories of
-`DisconnectedTopology.AffinoidOver` and `DisconnectedTopology.ProEtaleOver`. At the fixed
+`DisconnectedTopology.AffinoidOver` and `DisconnectedTopology.ProEtaleOver`; the latter and
+`Perfectoid.proEtale_equivalence` impose no `T2Space` hypothesis on the source. At the fixed
 universes of `Geometry`, affinoid sources have `Small.{0}` underlying sets, while general
 sources have `Small.{1}` underlying sets and an open cover by `Small.{0}` subspaces. These
 are the point-set forms of `Geometry.HasAffinoidCharts`: chart points form `Small.{0}` sets by
