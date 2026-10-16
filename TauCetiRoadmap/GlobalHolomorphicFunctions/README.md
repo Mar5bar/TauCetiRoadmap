@@ -426,7 +426,11 @@ complements, then use GH0 polynomial Runge and diagonal approximation. For the s
 global-sup assertion use `f(z)=1/z`. Every `−t`, `0<t<1`, lies in Ω and `|f(−t)|=1/t`.
 Every polynomial is bounded on the unit disk, so every `p−f` is unbounded on Ω. Continuity
 on this open set also gives infinite essential supremum. Thus no sequence of polynomials
-has global `L∞(Ω)` error tending to zero, despite the compact-open density.
+has global `L∞(Ω)` error tending to zero, despite the compact-open density. As a second
+boundary-pole witness on this same crescent, take `f(z)=1/(z+1)` and `z_t=-1+t` for
+`0<t<1`. Then `|z_t|=1-t<1` and `|2z_t-1|=3-2t>1`, so `z_t∈Ω` and
+`|f(z_t)|=1/t→∞`. Every polynomial remains bounded on the unit disk, hence its uniform
+error against this second witness is infinite as well.
 
 The Cauchy/Pompeiu construction uses the GH0 compact-support identity and uniform
 Riemann-sum lemma, then approximates on compact `K` by finite simple fractions with poles outside `K`, then push each pole along a finite chain whose points
