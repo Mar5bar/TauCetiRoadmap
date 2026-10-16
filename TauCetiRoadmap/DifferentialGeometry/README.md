@@ -290,7 +290,14 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   `bundleMpullback` through `mfderiv` takes values in the pulled-back bundle `fun x ↦ V (f x)`;
   `bundleMpullback_wedgeWith` pulls back the fibrewise pairing as well as both forms. `mpullback` is the
   fixed-coefficient specialization. Its chain rule carries the differentiability hypotheses
-  `mfderiv`'s does (`mpullback_comp_at/_on` and `mpullback_comp`). The pointwise paired product is
+  `mfderiv`'s does (`mpullback_comp_at/_on` and `mpullback_comp`). For fixed coefficients, define
+  `RoughForm.mapCoeff L ω` pointwise by
+  `fun x ↦ L.compContinuousAlternatingMap (ω x)` for every continuous real-linear
+  `L : F →L[ℝ] G`; use Mathlib's native coefficient-postcomposition operation, not a parallel
+  alternating-map carrier. Provide identity, composition, zero, addition and real-linearity laws
+  in both the map and form arguments, and prove that coefficient postcomposition preserves the
+  stated roughness/smoothness class. These calculus targets require normed real coefficient spaces,
+  not completeness. The pointwise paired product is
   `RoughForm.wedgeWith`, identified with `bundleWedgeWith` by `bundleWedgeWith_trivial`;
   `mpullback_wedgeWith` is unconditional, and `mpullback_wedge` is its real
   multiplication specialization. `C^(n+1)` maps pull `C^n` forms back to `C^n` forms.
@@ -309,7 +316,12 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   the old independent carrier is removed; `Geometry/Symplectic/Manifold/{TwoForm,Energy}.lean`
   compiles on the generic carrier with closedness, nondegeneracy, the symplectic predicate,
   tameness, compatibility, constant-form normalization and energy identities preserved; and over
-  `𝓘(ℝ, E)`, `mpullback` is the flat pullback (`mpullback_eq_flat`).
+  `𝓘(ℝ, E)`, `mpullback` is the flat pullback (`mpullback_eq_flat`). Add fixed-coefficient
+  postcomposition `SmoothForm.mapCoeff L ω` using the same native
+  `ContinuousLinearMap.compContinuousAlternatingMap` operation. Its identity, composition, zero,
+  addition and real-linearity API must agree with the rough form API; prove it preserves
+  `SmoothForm` smoothness. Keep the coefficient spaces normed over `ℝ` and do not add a
+  `[CompleteSpace]` requirement for this algebraic or calculus interface.
 
 ### Layer 1: the exterior derivative
 
@@ -321,10 +333,26 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   `mextDeriv`, locality, linearity, `mextDeriv_eq_extDeriv` over the model and
   `mextDeriv_ofFunction`.
 - **1.2 Naturality.** `mpullback_mextDeriv`: `f^*(dω) = d(f^*ω)` for a `C²` map and a `C¹` form,
-  `At`, `On` and globally.
+  `At`, `On` and globally. The primary fixed-coefficient theorem is on the rough fixed-coefficient
+  carriers of Layers 0.3 and 1.1: for every continuous real-linear `L : F →L[ℝ] G` and every rough
+  form `ω` satisfying the `C¹` hypotheses required by `mextDeriv`, prove
+  `mextDeriv (RoughForm.mapCoeff L ω) = RoughForm.mapCoeff L (mextDeriv ω)` in `At`, `On` and
+  global forms. Prove its pointwise `Within` form on the same `RoughForm` carriers: for the
+  chartwise `C¹`-within hypotheses required by `mextDerivWithin` and
+  `UniqueMDiffWithinAt I s x`,
+  `mextDerivWithin (RoughForm.mapCoeff L ω) s x =
+  L.compContinuousAlternatingMap (mextDerivWithin ω s x)`. Here `UniqueMDiffWithinAt` is precisely the
+  flat hypothesis
+  `UniqueDiffWithinAt ℝ ((extChartAt I x).symm ⁻¹' s ∩ range I) ((extChartAt I x) x)`;
+  this is its definition, with no additional set-membership premise. Prove the flat coefficient
+  calculation using `fderivWithin_comp`, the `extDerivWithin` definition and alternatization,
+  then lift through the source chart. Real and imaginary projections `ℂ →L[ℝ] ℝ` consume
+  this general theorem, not separate coefficient carriers. No coefficient-completeness assumption is needed.
 - **1.3 d² = 0 and regularity.** `mextDeriv_mextDeriv` for `C²` forms, and the new flat lemma
   `contDiffOn_extDerivWithin_succ` (`C^(n+1) → C^n` on `range I`) with its transfer
-  `isSmoothForm_mextDeriv`, which is what lets `d` map `Ω^k` to `Ω^(k+1)`.
+  `isSmoothForm_mextDeriv`, which is what lets `d` map `Ω^k` to `Ω^(k+1)`. Use this
+  regularity and Layer 0.4's coefficient-map smoothness preservation to derive the bundled
+  `SmoothForm` mirror of Layer 1.2's coefficient naturality for `C^∞` forms.
 - **1.4 Cartan calculus.** The vector-valued Leibniz law `mextDeriv_wedgeWith` for every fixed
   continuous bilinear pairing `μ`, with `C¹` hypotheses and unit constants; `mextDeriv_wedge` is
   its real multiplication specialization. This includes Lie brackets and the expression
