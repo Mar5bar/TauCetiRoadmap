@@ -33,7 +33,12 @@ open CategoryTheory MonoidalCategory
 universe u v₁ v₂ v₃ v₄ u₁ u₂ u₃ u₄
 
 /-! Layers S0–S2 are specified in README.md: their statements require the v-stack and diamond
-carriers supplied by DiamondsAndVStacks and DiamondEtaleCohomology. -/
+carriers supplied by DiamondsAndVStacks and DiamondEtaleCohomology. Properness is the single
+predicate of DiamondsAndVStacks D4.11, re-exported by DiamondEtaleCohomology C4.1; partial
+properness and canonical compactification are supplied by C4. The generic qcqs topos vocabulary
+is supplied by AdicSpacesPartII R0.19.10, and the generic ringed-site enhancements and derived
+functor calculus by EnhancedDerivedSheaves Sections 0.1–0.4. ClassicalAdicEtaleCohomology
+supplies the analytic hypotheses and comparisons. -/
 
 /-! ## Layer S3: The exceptional inverse image -/
 
