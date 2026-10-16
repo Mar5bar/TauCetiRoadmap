@@ -95,8 +95,8 @@ whose carriers require the cited geometric and enhanced-category foundations.
   category, its finitely presented full subcategory and its continuity along limits, strict
   cofiltered refinements, Cartier-boundary and vector-bundle extension refinements, the asymmetric
   bounded-above constructible/bounded-below Hom continuity theorem, and extension of proper
-  support from the supplied finitely presented D⁺ theory to finite-type maps and larger
-  coefficient domains (L2).
+  support beyond the supplied finitely presented D⁺ and conditional unbounded operations and
+  normalized ℤ_ℓ realizations, with coherent restriction comparisons on their full domains (L2).
 - ECD Propositions 27.1–27.7 with complete proofs: the characteristic-`p` comparisons (L3), the
   analytic test space over `O` and proper support over `O` (L4), descent along proper hypercovers
   by alterations and the normal-crossing local calculation (L5), the punctured trait, strictly
@@ -108,8 +108,10 @@ whose carriers require the cited geometric and enhanced-category foundations.
 The exact contracts in §3 fix the shared carriers. SchemeAndStackFoundations supplies limits,
 approximation, geometric descent, étale continuity, pro-étale repleteness and alterations.
 EtaleCohomologyFoundations supplies compactifications, Nagata, coherent refinements, bounded
-constructible descent, classical D⁺ torsion proper supports, smooth-boundary purity, and the
-Noetherian scheme rational category with its integral-lattice comparison (§F.4.5).
+constructible descent, classical D⁺ torsion proper supports and their conditional unbounded
+extension (§0.8), normalized adic support and its étale/pro-étale realization comparisons
+(§§F.4.2–F.4.3), smooth-boundary purity, and the Noetherian scheme rational category with its
+integral-lattice comparison (§F.4.5).
 EnhancedDerivedSheaves supplies completion and reconstruction, and the diamond and analytic
 roadmaps supply their geometric sites, categories and operations. L2 adds strictness and finite
 presentation refinements to the same compactification category; it introduces no second carrier.
@@ -128,10 +130,11 @@ presentation refinements to the same compactification category; it introduces no
 - The generic theory of derived completion belongs to `EnhancedDerivedSheaves`; this roadmap adds
   only the étale condition and the operations. The discrete theory on diamonds belongs to
   `DiamondEtaleCohomology` and `DiamondSixOperations`; this roadmap lifts it to adic coefficients.
-  The shared compactification and D⁺ torsion support theory belongs to
-  EtaleCohomologyFoundations §§G.1–G.3/0.8; L2 extends this same support functor to its stated
-  finite-type, unbounded and regular adic domains. De Jong's alterations belong to SchemeAndStackFoundations §§4.16–4.20; L5 owns only the descent
-  along them and the local calculations. Huber's comparison theorems for analytic spaces belong to
+  The shared compactification, D⁺ and conditional unbounded torsion support, and normalized
+  adic realization theories belong to EtaleCohomologyFoundations §§G.1–G.3/0.8/F.4.2–F.4.3;
+  L2 extends these operations to its stated finite-type and regular-ideal domains and owns
+  the restriction comparisons, including the change of site. De Jong's alterations belong to
+  SchemeAndStackFoundations §§4.16–4.20; L5 owns only the descent along them and the local calculations. Huber's comparison theorems for analytic spaces belong to
   `ClassicalAdicEtaleCohomology`; L3–L6 compare them with the scheme side.
 - The Tau Ceti roadmap `AdicSpaces` supplies Huber pairs and `Spa`; it says nothing about
   diamonds of schemes.
@@ -371,12 +374,12 @@ density; affine space `AlgebraicGeometry.AffineSpace`, whose line over a field i
 non-proper example; `AlgebraicGeometry.Proj` of a graded algebra, proper over `Spec` of its
 degree-zero part when that algebra is of finite type, which gives `ℙ¹` over a field; sheaves of
 modules on schemes (`AlgebraicGeometry.Scheme.Modules`) and the local freeness predicate
-`SheafOfModules.IsLocallyFree`. Tau Ceti has Cartier divisors on integral schemes in
-`TauCeti.AlgebraicGeometry.CartierDivisor.Basic`, with
-`TauCeti.AlgebraicGeometry.Scheme.CartierDivisor`. L2 needs effective Cartier ideal sheaves on
-possibly reducible ambients, specified by affine-local non-zero-divisor equations; it does not
-rebuild that integral Cartier-divisor class group. Blow-ups use StableReduction Layer 4 and the
-existing affine Rees-algebra charts.
+`SheafOfModules.IsLocallyFree`. On arbitrary schemes, the pinned
+`TauCeti.AlgebraicGeometry.EffectiveCartierDivisor.Basic` supplies
+`AlgebraicGeometry.Scheme.IdealSheafData.IsEffectiveCartier`, its affine-local equations,
+restriction lemmas and flat pullback (`IsEffectiveCartier.comap`). L2 uses this predicate
+for Cartier boundaries; the definition and basic divisor API remain in Tau Ceti. Blow-ups
+use StableReduction Layer 4 and the existing affine Rees-algebra charts.
 
 **Sites and cohomology.** The small étale site `AlgebraicGeometry.Scheme.smallEtaleTopology` with
 its geometric points `AlgebraicGeometry.Scheme.pointSmallEtale`; the pro-étale site
@@ -416,8 +419,9 @@ diamond and the scheme avatars are targets of other roadmaps and of L1.
 | SchemeAndStackFoundations §§4.16–4.20 | de Jong alterations of pairs over fields, including a finite extension of an imperfect ground field, strict normal crossings, and semistable alterations over a trait after a finite extension. |
 | EtaleCohomologyFoundations §§G.1–G.3 | `Compactification`, `Compactification.Hom` (constructor, ambient-map projection and extensionality), `DenseCompactification`, `Compactification.baseChange`, `Compactification.denseReplacement`, `Compactification.denseReplacementMap`, `nagataCompactification`, `compactificationCommonRefinement`, `denseCompactification_cofiltered` and `denseCompactification_hom_unique`. These give the common category, existence for separated finite-type maps over qcqs bases, schematic closure, all base changes and coherent finite-diagram refinement; dense replacement commutes with flat base change. |
 | EtaleCohomologyFoundations §§0.5–0.6 | `ClassicalCoefficients.finitePresentationDescent`, `ClassicalCoefficients.constructibleDerivedDescent`, `ClassicalCoefficients.constructibleHomContinuity`: finite diagrams of fp schemes and fp coefficient modules, bounded constructible complexes over a fixed noetherian coefficient ring, their maps, shifts and eventual equalities descend through qcqs affine-transition limits. L2's Hom theorem instead permits a bounded-above constructible source and a bounded-below nonconstructible target. |
-| EtaleCohomologyFoundations §§F.0.1/0.7–0.8/F.2.1/F.3 | Constructible sheaves, `ClassicalAlgebraic.supportLocalization`, `ClassicalAlgebraic.properSupports`, `VanishingCycles.properBaseChange`, finiteness and the relative cohomological bounds on their stated geometric domains. The supplied support functor acts on D⁺ torsion complexes for separated **finitely presented** maps of qcqs schemes, with arbitrary torsion, and includes noetherian finite-type maps. L2 extends that same functor to finite-type maps, left-completed unbounded complexes under proved amplitude bounds, and regular adic coefficients. |
+| EtaleCohomologyFoundations §§F.0.1/0.7–0.8/F.2.1/F.3 | Constructible sheaves, `ClassicalAlgebraic.supportLocalization`, `ClassicalAlgebraic.properSupports`, `VanishingCycles.properBaseChange`, finiteness and the relative cohomological bounds on their stated geometric domains. The supplied support functor acts on D⁺ torsion complexes for separated **finitely presented** maps of qcqs schemes, with arbitrary torsion, and includes its conditional unbounded extension under amplitude and colimit hypotheses. §F.2.1 supplies proper base change for arbitrary proper maps, without finite presentation or Noetherian hypotheses. L2 extends support to finite-type maps and regular adic coefficients, identifying the supplied operations on their full overlapping domains. |
 | EtaleCohomologyFoundations §§0.9–0.10/F.6 | `ClassicalAlgebraic.cycleClasses`, `ClassicalAlgebraic.smoothBoundaryPurity`, `VanishingCycles.smoothPairGysin`: Kummer Chern classes, smooth-pair purity, cycle classes and Gysin localization with the stated degree-one normalization; these supply L5's algebraic normal-crossing calculation. |
+| EtaleCohomologyFoundations §§F.4.2–F.4.3 | `VanishingCycles.classicalAdicRealization` and `VanishingCycles.etaleProetaleAdicComparison`: normalized ℤ_ℓ lower shriek and its reductions; classical realization by Rlim on the small étale site, pro-étale realization by Rlim of the finite-level pullbacks, and Rν_* comparison on locally Noetherian schemes for bounded normalized systems, with the stated continuity, uniform bounds and finiteness/ML hypotheses for support. L2 identifies its regular-adic extension with this supplied realization on that domain. |
 | EtaleCohomologyFoundations §F.4.5 | `VanishingCycles.rationalAdicRealization`: on Noetherian schemes with invertible ℓ, the constructible rational category and its equivalence with integral constructible models up to isogeny. L0 extends this supplied comparison to topologically noetherian schemes in the setting of [BS] §6.8 and proves agreement on the common domain. |
 | AlgebraicVectorBundles Layer L0B | `isFiniteLocallyFree`, `FiniteLocallyFreeSheaf` on Mathlib's `Scheme.Modules`; the predicate is local freeness together with finite presentation. Local freeness plus finite type is equivalent here. Ranks are locally constant and may vary between components. |
 | StableReduction Layer 4 | Blow-ups along coherent ideals on noetherian schemes, their properness, strict transforms and the isomorphism off the center. |
@@ -575,9 +579,10 @@ completed value is a different object.
 *Proof route.* Restrict the completed tensor product and completed colimits of derived-complete sheaves to
 the étale condition, which is stable under them because it can be checked after reduction
 modulo `I`. Internal `RHom` on `D_ét(Y, Λ)` is the right adjoint of `⊗̂` there; it exists by
-presentability, since `⊗̂` preserves completed colimits in each variable, and it is obtained from
-the complete internal Hom of `D(Y_v, Λ)` through the right adjoint of the inclusion, not by
-restriction.
+presentability, since `⊗̂` preserves completed colimits in each variable. This constructs
+the internal Hom intrinsically in the adic étale category. The inclusion into all of
+`D(Y_v, Λ)` has no right adjoint in general: such an adjoint would force the inclusion to
+preserve colimits, contrary to the ℓ-telescope Check.
 
 *API.*
 
@@ -591,6 +596,7 @@ restriction.
 
 - `AdicEtale.tensor_point` (computation): for `Λ = ℤ_ℓ` at a point, `ℤ/ℓ ⊗ᴸ_{ℤ_ℓ} ℤ/ℓ` has nonzero cohomology in degree `−1`, so the operation is not the underived tensor product.
 - `AdicEtale.telescope` (non-example): for `Λ = ℤ_ℓ`, `I = (ℓ)`, the telescope `Λ̂ →ℓ Λ̂ →ℓ ⋯` has ambient colimit `Λ̂[1/ℓ]`, the continuous coefficient sheaf, and `I`-completion zero.
+  On a nonempty geometric point the ambient colimit is nonzero, so the inclusion into `D(Y_v, Λ)` cannot have a right adjoint.
 - For `Y = Spd C`, sections of `Λ̂[1/ℓ]` over `ℤ_ℓ̲ × Y` are continuous maps `ℤ_ℓ → ℚ_ℓ`; the discrete constant `ℚ_ℓ` has only locally constant maps. The identity map belongs only to the continuous sheaf.
 - `AdicEtale.empty_colimit` (degenerate): the completed colimit of the empty diagram is zero.
 - `AdicEtale.unit` (computation): `Λ̂ ⊗̂ Λ̂ ≅ Λ̂` at a point.
@@ -1098,31 +1104,54 @@ Then `Comp_fp(f)` is nonempty, any two objects have a finitely presented common 
 strict morphisms, and any two parallel morphisms are equalised by a strict morphism from a
 finitely presented compactification. No noetherian hypothesis on `X` is needed.
 
-*Proof route.* Descend `f` and the finite diagram to a noetherian approximation of `X`
-(`L2/fp-compactification-limit`). There, compactify, refine and equalise as in
-EtaleCohomologyFoundations §G.3 (coherent refinements) — closed subschemes of a scheme of finite type over a
-noetherian base are finitely presented — take scheme-theoretic closures to make the maps strict,
-and base change back. Over the original, possibly noncoherent, base the equaliser need not be
-finitely presented, which is why the construction happens at the noetherian stage.
+*Proof route.* For nonemptiness and common strict refinements, descend `f` and the finite
+diagram to a noetherian approximation of `X` (`L2/fp-compactification-limit`), compactify and
+take schematic closures there using EtaleCohomologyFoundations §G.3, then base change back.
+Schematic closure, used for the dense common refinement, need not preserve finite presentation
+over the original base.
 
-*Source:* [Zav] Corollary 2.1.5 and its proof, p. 11.
+Parallel arrows can be equalised directly. For `u,v : B ⇉ C` over `X`, form
+`E = B ×_{C ×_X C} C` using `(u,v)` and the diagonal of `C/X`. Since `C → X` is proper and
+finitely presented, its diagonal is a finitely presented closed immersion (Stacks Tag 0818).
+Thus `E → B` is a finitely presented closed immersion and `E → X` is proper and finitely
+presented. Both arrows restrict to the same interior `Y`, so `E ×_B Y ≅ Y` scheme-theoretically.
+The resulting quasi-compact open `Y → E` makes `E` a finitely presented compactification,
+and `E → B` is a strict refinement equalising `u,v`. No coherence assumption on `X` is used.
 
-*Needs:* SchemeAndStackFoundations §0.9 (`noetherian_approximation`); `L2/fp-compactification-limit`; EtaleCohomologyFoundations §G.3 (coherent refinements); EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3; SchemeAndStackFoundations §2.17; Mathlib `CategoryTheory.IsCofiltered`.
+**Checks.**
 
-*Target names:* `fpStrictCofiltered`, `fpCompactification_isCofiltered`.
+- For `u = v`, `E = B` and the equalising refinement is the identity.
+- For the compactifications `B = C = Y ⊔ Y` of a point `Y`, the identity and the map
+  folding the second component onto the first have equalizer the first component. Its
+  inclusion in `B` is strict and finitely presented.
+- The same diagonal argument works over any noncoherent affine base: proper finitely
+  presented `B,C` still give finitely presented `E`; a schematic dense replacement is a
+  different construction and is not used to form this equalizer.
+
+*Source:* [Zav] Corollary 2.1.5 and its proof, p. 11; [Stacks] Lemma 29.22.12 (Tag 0818).
+
+*Needs:* SchemeAndStackFoundations §0.9 (`noetherian_approximation`); `L2/fp-compactification-limit`; EtaleCohomologyFoundations §G.3 (coherent refinements); Mathlib `CategoryTheory.IsCofiltered`.
+
+*Target names:* `fpStrictCofiltered`, `fpCompactification_isCofiltered`, `fpCompactification_equalizer`.
 
 #### Effective Cartier ideal sheaves
 
-Define `IsEffectiveCartierIdeal I` for `I : Z.IdealSheafData` by requiring that every point
-of Z have an affine open neighborhood U on which `I.ideal U` is generated by a single
-non-zero-divisor in Γ(U,𝒪_Z). This applies to reducible and nonreduced schemes. Prove
-locality on affine covers, transport under scheme isomorphisms, restriction to opens,
-compatibility with products of effective Cartier ideals, and the unit-ideal/empty-divisor
-identity. Under a morphism of schemes, identify the pullback ideal as an effective Cartier
-ideal when the pulled-back local equations remain non-zero-divisors; flat pullback suffices.
-Arbitrary pullback is not asserted to preserve this condition. Source: Stacks, Divisors,
-§31.14 (effective Cartier divisors), Definition 31.14.1 and Lemma 31.14.2 (Tag 01WQ).
-*Needs:* Mathlib `Scheme.IdealSheafData`, `Ideal.span`, `nonZeroDivisors`.
+Use the pinned predicate `AlgebraicGeometry.Scheme.IdealSheafData.IsEffectiveCartier`:
+every point has an affine neighborhood on which the ideal is generated by an element whose
+multiplication map is injective. On a commutative ring this is precisely the non-zero-divisor
+condition. The predicate applies to reducible and nonreduced schemes. The pinned
+`isEffectiveCartier_top`, `isEffectiveCartier_ofIdealTop_span_singleton`,
+`IsEffectiveCartier.exists_eq_span_singleton_le`, `isEffectiveCartier_iff_exists_comap`,
+`isEffectiveCartier_iff_exists_isOpenImmersion` and `IsEffectiveCartier.comap` supply the
+empty divisor, local equations, restriction and flat pullback. Extend this native API with
+stability under products: on a common affine neighborhood the product equation is the product
+of the two non-zero-divisor equations. Arbitrary pullback need not preserve the condition.
+The new geometric target here is `L2/cartier-boundary-cofinal`.
+
+*Source:* Tau Ceti `a91d3aa`, `TauCeti/AlgebraicGeometry/EffectiveCartierDivisor/Basic.lean`,
+`AlgebraicGeometry.Scheme.IdealSheafData.IsEffectiveCartier`; Stacks §31.14,
+Definition 31.14.1 and Lemma 31.14.2 (Tag 01WQ).
+*Needs:* the pinned Tau Ceti effective Cartier divisor API.
 
 **Checks.**
 
@@ -1203,35 +1232,50 @@ SchemeAndStackFoundations §2.15 (`etale_cohomology_limits`).
 
 #### Proper-support direct image over qcqs bases (`L2/scheme-support-extension`)
 
-Extend the classical noetherian étale direct image with proper support to separated finite-type
-morphisms `f : Y → X` of quasi-compact quasi-separated schemes: for any compactification
-`f = p ∘ j` put `Rf_! = Rp_* ∘ j_!`. For coefficients killed by an integer invertible on the
-schemes, the result is independent of the compactification up to coherent isomorphism, and it
+Extend EtaleCohomologyFoundations §0.8's étale direct image with proper support from
+separated finitely presented maps to separated finite-type morphisms `f : Y → X` of qcqs
+schemes. On bounded-below complexes of modules over a ring killed by a positive integer
+invertible on X, for any compactification `f = p ∘ j` put `Rf_! = Rp_* ∘ j_!`. The result is
+independent of the compactification up to coherent isomorphism, and it
 satisfies `R(g ∘ f)_! ≅ Rg_! Rf_!` with identity and associativity coherence, base change along
-any cartesian square, and the projection formula `Rf_!(A ⊗ f*B) ≅ Rf_!A ⊗ B`; it agrees with
+any cartesian square, and the projection formula `Rf_!(A ⊗ f*B) ≅ Rf_!A ⊗ B` for
+bounded-below A,B with B of finite Tor amplitude. It agrees with
 extension by zero for open immersions and with `Rf_*` for proper maps, and with the classical
-construction over noetherian bases. Its regular-adic extension is constructed in
+construction on the full finitely presented qcqs overlap, with its exchange and composition
+maps. Its regular-adic extension is constructed in
 `L2/coefficient-and-unbounded-extension` after `L1/scheme-adic-category`, through the limit
 over `Λ/Iⁿ`, and commutes with reduction. For the perfection of such a map in
 characteristic `p` it is transported through perfection, which does not change the étale site.
 No second direct image with proper support is introduced alongside the classical one.
 
-*Proof route.* Use Nagata (EtaleCohomologyFoundations §G.2 (`nagataCompactification`)) and the cofilteredness of
-EtaleCohomologyFoundations §G.3 (coherent refinements) and `L2/fp-strict-cofiltered` to compare choices. Descend finitely
-presented proper and open diagrams and constructible coefficients to noetherian models and extend
-the noetherian proper base change by SchemeAndStackFoundations §2.15 (`etale_cohomology_limits`) and
-EtaleCohomologyFoundations §0.6 (`ClassicalCoefficients.constructibleDerivedDescent`); compare `Rp_* j_!` along strict refinements by proper base
-change. Coherence is enhanced descent over the category of compactifications.
+*Proof route.* Use Nagata and dense common refinements in the general compactification
+category (EtaleCohomologyFoundations §§G.1–G.3), without a finite-presentation assumption.
+The dense refinements are strict by `L2/strict-from-dense`. For a strict refinement
+`g : C' → C`, properness and the cartesian interior square give the canonical map
+`j_! → Rg_* j'_!`: by proper torsion base change (§F.2.1) it is an equivalence on the
+interior and on every boundary stalk, where both sides vanish. This applies to proper maps
+that are not finitely presented. For a general refinement use the proper/open comparison
+of Stacks Tag 0F7G; equivalently, pass through a dense replacement, whose two composites
+agree by the supplier's uniqueness theorem. The canonical comparisons satisfy composition
+by pasting and the cocycle law by §G.3's comparison principle.
+
+Construct composition, base change and projection by this same proper/open calculus. On
+§0.8's finitely presented qcqs domain these are the supplied transformations, since they
+use the same compactification carrier and the same proper exchange. The separate theorem
+`L2/fp-strict-cofiltered` applies only to finitely presented interiors and is not needed
+for this finite-type extension. No descent of a non-finitely-presented proper map to a
+finite-presentation diagram is used.
 
 *API.*
 
-- `SchemeSupport.extend` (constructor): `Rf_!` for separated finite-type maps of qcqs schemes, extending the classical noetherian functor on the same coefficient categories.
+- `SchemeSupport.extend` (constructor): `Rf_!` on the bounded-below coefficient domain above for separated finite-type maps of qcqs schemes, restricting coherently to `ClassicalAlgebraic.properSupports` on every finitely presented map in that domain.
+- `SchemeSupport.strictRefinement` (compatibility): for every strict morphism `g : C' → C` of compactifications of such an f, the canonical `j_! → Rg_* j'_!` is an equivalence, with identity, composition and base-change coherence; neither ambient proper map nor g is assumed finitely presented.
 - `SchemeSupport.compactification` (characterisation): `Rf_! ≅ Rp_* j_!` for every compactification `f = p ∘ j`, compatibly with refinements.
 - `SchemeSupport.open` (simp): for an open immersion `j`, `Rj_!` is extension by zero.
 - `SchemeSupport.proper` (compatibility): for proper `f`, `Rf_! = Rf_*`.
 - `SchemeSupport.compose` (functoriality): `R(g ∘ f)_! ≅ Rg_! Rf_!`, with identity and associativity coherence.
 - `SchemeSupport.baseChange` (compatibility): for a cartesian square the canonical exchange `g* Rf_! → Rf'_! g'*` is an isomorphism, under the stated hypotheses on schemes and coefficients.
-- `SchemeSupport.projection` (compatibility): `Rf_!(A ⊗ f*B) ≅ Rf_!A ⊗ B`.
+- `SchemeSupport.projection` (compatibility): `Rf_!(A ⊗ f*B) ≅ Rf_!A ⊗ B`, with the coefficient and Tor bounds above; its unbounded extension uses the bounds of `L2/coefficient-and-unbounded-extension`.
 - `SchemeSupport.adic` (compatibility): for adic coefficients, reduction modulo `Iⁿ` identifies the adic `Rf_!` with the finite-level one.
 
 **Checks.**
@@ -1240,28 +1284,40 @@ change. Coherence is enhanced descent over the category of compactifications.
 - `SchemeSupport.openBoundary` (computation): for `𝔸¹ ∖ {0} ⊂ 𝔸¹`, extension by zero has zero stalk at `0`.
 - `SchemeSupport.empty` (degenerate): the map from the empty scheme gives the zero functor.
 - `SchemeSupport.refinement` (characterisation): for two compactifications related by a strict refinement, the two functors `Rp_* j_!` agree by the canonical proper base-change map, not by an arbitrary isomorphism.
+- For `A = 𝔽_p[x₁,x₂,…]`, `J = (x₁,x₂,…)` and `ℓ ≠ p`, the proper closed immersion
+  `f : Spec(A/J) → Spec A` has support `Rf_*` with `𝔽_ℓ` coefficients. The ideal J is not
+  finitely generated, so f is not finitely presented and `Comp_fp(f)` is empty: a quasi-compact
+  open followed by a finitely presented proper map would make f finitely presented.
+- For a proper f, the dense identity compactification strictly refines its extra-component
+  compactification `Y ⊔ Y` (interior the first component); the comparison discards the zero
+  extension on the second component, including for the preceding non-finitely-presented f.
+- Three dense refinements give the same comparison by the canonical cocycle law; for empty
+  interior every support functor and every such comparison is the unique map between zeros.
 
-*Source:* [ECD] proof of Proposition 27.4, p. 165.
+*Source:* [ECD] proof of Proposition 27.4, p. 165; Stacks §63.9 (Tag 0F7H),
+Lemma 63.8.6 (Tag 0F7G), and Lemma 59.91.12 (Tag 0DDE).
 
-*Needs:* EtaleCohomologyFoundations §G.2 (`nagataCompactification`); EtaleCohomologyFoundations §G.3 (coherent refinements); `L2/fp-strict-cofiltered`; EnhancedDerivedSheaves §E4.5 (`coefficientSystemReconstruction`); EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3; SchemeAndStackFoundations §2.17; EnhancedDerivedSheaves §§E1.3–E1.4; SchemeAndStackFoundations §2.15 (`etale_cohomology_limits`); EtaleCohomologyFoundations §0.6 (`ClassicalCoefficients.constructibleDerivedDescent`); SchemeAndStackFoundations §§0.4/0.23–0.23a.
+*Needs:* EtaleCohomologyFoundations §§G.1–G.3 (general compactifications and coherent refinements); `L2/strict-from-dense`; EtaleCohomologyFoundations §§0.7–0.8/F.2.1 (`VanishingCycles.properBaseChange`)/F.3; EnhancedDerivedSheaves §§E1.3–E1.4/E3.4.
 
-*Target names:* `SchemeSupport.extend`, `SchemeSupport.compactification`, `SchemeSupport.«open»`, `SchemeSupport.compose`, `SchemeSupport.baseChange`, `SchemeSupport.projection`, `SchemeSupport.adic`, `SchemeSupport.proper`.
+*Target names:* `SchemeSupport.extend`, `SchemeSupport.strictRefinement`, `SchemeSupport.compactification`, `SchemeSupport.«open»`, `SchemeSupport.compose`, `SchemeSupport.baseChange`, `SchemeSupport.projection`, `SchemeSupport.adic`, `SchemeSupport.proper`.
 
 #### Larger coefficients and unbounded complexes for the qcqs support (`L2/coefficient-and-unbounded-extension`)
 
 The direct image with proper support of `L2/scheme-support-extension` extends to coefficient
 rings killed by an integer invertible on the schemes without any finiteness condition on the
 modules, to bounded-below complexes and to left-completed unbounded complexes, and to regular
-adic coefficients, compatibly with the finite noetherian construction. The proof needs a locally
+adic coefficients, with restriction comparisons to the supplied conditional unbounded and
+normalized adic operations on their full proved domains. The proof needs a locally
 uniform finite relative cohomological bound for the proper models and coherent perfect change of
 scalars; these are part of the target. It does not assume that every module over the
 coefficient ring is finite.
 
-*Proof route.* Pass from finite coefficients to arbitrary ones by filtered colimits of modules and perfect
-change of scalars, keeping the exchange transformations; build the left-completed unbounded
-operation from Postnikov truncations using the relative bounds; obtain the adic operation from
-the reconstruction theorem for coefficient systems on the replete pro-étale topos. Use
-`schemeEtaleToProEt` from `L1/scheme-adic-category` to identify the limit of the left-completed
+*Proof route.* Retain the bounded-below finite-type support comparison of
+`L2/scheme-support-extension`, including for non-finitely-presented proper maps. Use filtered
+colimits and perfect scalar change for coefficient extensions, keeping the exchange maps;
+build the left-completed unbounded operation from Postnikov truncations using the relative
+bounds; obtain the adic operation from coefficient-system reconstruction on the replete
+pro-étale topos. Use `schemeEtaleToProEt` from `L1/scheme-adic-category` to identify the limit of the left-completed
 étale coefficient categories with `SchemeAdic`, retaining its classical étale reduction
 condition. Transport through perfections by the topological invariance of the étale site.
 
@@ -1281,17 +1337,62 @@ reduction. These adjunctions act on the full unbounded categories; restrictions 
 subcategories carry the corresponding amplitude bounds. EnhancedDerivedSheaves
 §§E1.4/E3.2/E4 provide the derived operations, adjoint theorem and completion constructions.
 
+- `SchemeSupport.restrictUnbounded` (restriction and uniqueness): on **every** separated
+  finitely presented qcqs map and coefficient domain where §0.8's conditional unbounded
+  operation and this extension are both defined, identify `coefficientExtension` with that
+  supplied operation. Carry its finite-amplitude and colimit hypotheses, and compare after
+  passage to the left completion when required. The equivalence extends the bounded-below
+  comparison and retains proper/open identifications, composition, base change and projection
+  transformations. It is unique with these truncation and colimit compatibilities; Noetherian
+  hypotheses are not added to this overlap.
+- `SchemeSupport.normalizedAdicRestriction` (restriction and uniqueness): let ℓ be invertible
+  on X and f:Y→X be a separated finite-type map of locally Noetherian qcqs schemes in the
+  domain of EtaleCohomologyFoundations §§F.4.2–F.4.3. For a normalized bounded constructible
+  ℤ_ℓ system K• of §F.4.1, carry the supplier's uniform cohomological/Tor bounds and support continuity hypotheses (including
+  its finiteness/ML conditions where used), so that the output system is normalized and both
+  realizations and support functors are defined. Construct the coherent canonical equivalence
+
+  ```text
+  SchemeSupport.extendAdic_f (Real_proét,Y K•)
+    ≃ Real_proét,X ((Rf_! K_n)_n),
+  Real_proét,Z K• = Rlim_n ν_Z* K_n.
+  ```
+
+  The right-hand operation is the normalized support of `VanishingCycles.classicalAdicRealization`
+  transported by `VanishingCycles.etaleProetaleAdicComparison`. Applying Rν_X* recovers its
+  classical small-étale realization `Real_ét,X ((Rf_! K_n)_n)`, with
+  `Real_ét,Z K• = Rlim_n K_n`, and the supplied classical support comparison. Use the supplied
+  Rν_* equivalence, with no interchange of ν* and inverse limits. Require compatibility with
+  every reduction and transition, proper/open identifications, composition, base change and
+  projection transformations on their common proved domains. Enhanced coefficient-system
+  reconstruction makes this adapter unique among equivalences with those coherent finite-level
+  reductions. The normalized realization and its existing operation remain owned by the supplier.
+
 **Checks.**
 
 - For an identity map both discrete and adic support adjunctions are the identity adjunction.
 - For the empty source all four support and upper-shriek functors are zero.
 - For the fold of two geometric points to one, support is direct sum, its right adjoint is the diagonal functor, and reduction gives the same adjunction at every coefficient level.
+- The normalized constant ℤ/ℓⁿ system on a geometric point realizes the completed ℤ_ℓ lattice;
+  `SchemeSupport.normalizedAdicRestriction` for the identity is the supplied realization
+  equivalence, and Rν_* gives the classical Rlim, without replacing the pro-étale lattice by
+  the discrete constant sheaf.
+- A nonconstant finite lisse normalized system retains its monodromy under the adapter;
+  its comparison square commutes with every n+1→n reduction.
+- For the open immersion `𝔾_m → 𝔸¹` over an algebraically closed field of characteristic
+  different from ℓ, a normalized constant system gives the supplied compact-support comparison;
+  the finite-level extensions by zero have zero stalk at the origin.
+- On a non-Noetherian qcqs base, the identity map is finitely presented and has amplitude zero;
+  `SchemeSupport.restrictUnbounded` identifies the two identity operations on unbounded
+  complexes, not merely on a Noetherian subdomain.
 
-*Source:* [ECD] proof of Proposition 27.4, p. 165 (the reductions to bounded-below and constructible complexes), and the reductions modulo `I` in §§26–27.
+*Source:* [ECD] proof of Proposition 27.4, p. 165, and §§26–27 for coefficient reduction;
+EtaleCohomologyFoundations §0.8 and §§F.4.2–F.4.3 for the restriction comparisons;
+[BS] §§5–6 for the two realizations and their Rν_* comparison.
 
-*Needs:* `L2/scheme-support-extension`; `L1/scheme-adic-category`; EnhancedDerivedSheaves §§E1.3–E1.4/E3.2; EnhancedDerivedSheaves §E2.3; EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3; SchemeAndStackFoundations §2.17; EnhancedDerivedSheaves §E4.5 (`coefficientSystemReconstruction`); EnhancedDerivedSheaves §§E4.2/E4.5 (`regularIdeal_quotients`, `perfectCoefficientChange`); SchemeAndStackFoundations §§0.4/0.23–0.23a.
+*Needs:* `L2/scheme-support-extension`; `L1/scheme-adic-category`; EtaleCohomologyFoundations §§0.8/F.4.2–F.4.3 (`ClassicalAlgebraic.properSupports`, `VanishingCycles.classicalAdicRealization`, `VanishingCycles.etaleProetaleAdicComparison`); EnhancedDerivedSheaves §§E1.3–E1.4/E3.2; EnhancedDerivedSheaves §E2.3; EtaleCohomologyFoundations §§F.0.1/0.8/F.2.1/F.3; SchemeAndStackFoundations §2.17; EnhancedDerivedSheaves §E4.5 (`coefficientSystemReconstruction`); EnhancedDerivedSheaves §§E4.2/E4.5 (`regularIdeal_quotients`, `perfectCoefficientChange`); SchemeAndStackFoundations §§0.4/0.23–0.23a.
 
-*Target names:* `SchemeSupport.extendAdic`, `coefficientExtension`, `SchemeSupport.upperShriek`, `SchemeSupport.extendAdj`, `SchemeSupport.upperShriekAdic`, `SchemeSupport.extendAdicAdj`.
+*Target names:* `SchemeSupport.extendAdic`, `SchemeSupport.restrictUnbounded`, `SchemeSupport.normalizedAdicRestriction`, `coefficientExtension`, `SchemeSupport.upperShriek`, `SchemeSupport.extendAdj`, `SchemeSupport.upperShriekAdic`, `SchemeSupport.extendAdicAdj`.
 
 #### Examples
 
@@ -1867,8 +1968,8 @@ roadmap.
 
 [`Suggested.lean`](Suggested.lean) records light real-bodied coefficient and plus-ring
 definitions, the scalar localization of an existing linear category, scheme-carrier predicates,
-effective Cartier ideal sheaves and the valuation locus of the DVR test space. Its theorem
-statements and examples use existing library carriers. These are suggested forms, not an
+examples using the native effective-Cartier predicate and the valuation locus of the DVR
+test space. Its theorem statements and examples use existing library carriers. These are suggested forms, not an
 exhaustive checklist; the README is definitive.
 
 The enhanced categories `AdicEtale`, `SchemeAdic`, their six operations and coherent exchange
@@ -1908,7 +2009,8 @@ Kummer generators, cup products and residues as specified in L5.
   (p. 83). <https://www.numdam.org/item/PMIHES_1996__83__51_0.pdf>
 - [Stacks] The Stacks Project: Tags 01YX (Lemma 32.2.2), 01ZA (Proposition 32.5.4), 07RN (Lemma
   32.5.3), 01ZM and 01ZR (Lemmas 32.10.1–2), 0EUU (Lemma 32.8.12), 081F (Lemma 32.13.1), 01ZJ
-  (Proposition 32.9.6), 0ATT (Section 38.32), 0ATU (Lemma 38.32.1), 0F41 (Theorem 38.33.8), 0ESN
+  (Proposition 32.9.6), 0ATT (Section 38.32), 0ATU (Lemma 38.32.1), 0F41 (Theorem 38.33.8), 0818 (Lemma 29.22.12),
+  0F7H (§63.9), 0F7G (Lemma 63.8.6), 0DDE (Lemma 59.91.12), 0ESN
   (Lemma 31.36.3), 0G41 (Lemma 28.23.5), 09YQ (Theorem 59.51.3). <https://stacks.math.columbia.edu>
 
 The analytic comparison inputs used in L3–L6 are supplied by
