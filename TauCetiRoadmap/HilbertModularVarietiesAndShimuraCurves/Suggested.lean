@@ -294,6 +294,20 @@ example : (!![1, 1; 0, 1] * !![1, 0; 1, 1] : Matrix (Fin 2) (Fin 2) ℤ) ≠
     !![1, 0; 1, 1] * !![1, 1; 0, 1] := by
   decide
 
+/-! ## Layer H6: paired torsion twists -/
+
+-- `hilbertSelfExtension_unipotent`: a nonscalar self-extension automorphism has square
+-- determinant; its off-diagonal entry need not vanish.
+example {k : Type*} [Field k] (b : k) (hb : b ≠ 0) :
+    Matrix.det (!![1, b; 0, 1] : Matrix (Fin 2) (Fin 2) k) = 1 ∧
+      ∀ a : k, (!![1, b; 0, 1] : Matrix (Fin 2) (Fin 2) k) ≠ a • 1 := by
+  constructor
+  · simp [Matrix.det_fin_two]
+  · intro a h
+    have h01 := congrArg (fun M : Matrix (Fin 2) (Fin 2) k => M 0 1) h
+    apply hb
+    simpa using h01
+
 /-! ## Layer R18.5, part 1: local Drinfeld geometry and auxiliary PEL factors -/
 
 section Drinfeld
@@ -436,6 +450,13 @@ example : QuaternionHodgeLine.metric Complex.I = 2 := by
   simp [QuaternionHodgeLine.metric]
 
 /-! ## Layer R18.3, part 1: definite forms, transfer and auxiliary levels -/
+
+/-- Inverting a left representation supplies the right coefficient action used by the
+fixed-central-character adapter to QuaternionicModularForms. -/
+theorem definiteCoefficient_rightAction {O G W : Type*} [CommRing O] [Group G]
+    [AddCommGroup W] [Module O W] (τ : Representation O G W) (u v : G) (w : W) :
+    τ ((u * v)⁻¹) w = τ (v⁻¹) (τ (u⁻¹) w) := by
+  simp only [mul_inv_rev, map_mul, Module.End.mul_apply]
 
 section Weights
 

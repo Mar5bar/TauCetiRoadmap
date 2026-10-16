@@ -6,7 +6,7 @@ Every theorem below keeps the prime, level, lattice and component hypotheses tha
 
 ## Scope and ownership
 
-The Serre tensor specialization for projective polarization modules is constructed in §H1.0 from the abelian-scheme APIs below. This roadmap owns the specializations of general Shimura, PEL, abelian-scheme and automorphic theory to Hilbert modular varieties, to one-real-split quaternionic Shimura curves and to totally definite quaternion algebras. It also owns the arithmetic constructions that only these spaces need. For the Hilbert strand these are the integral trace lattices, the Deligne–Pappas local and global models, the Hilbert Hasse ideal, the unit-square kernels and polarization quotients, the hybrid, scalar and arithmetic full levels, and the paired torsion twists with their local points. For the quaternionic strand they are the canonical curve and its CM bridge, the Drinfeld half-plane, its formal model and moduli interpretation, the arithmetic Drinfeld quotient and the Čerednik–Drinfeld theorem, integral model towers, the coefficient cohomology of the curves with its Hecke, duality and degeneracy structure, and the Ihara lemma. For definite algebras they are the definite class sets, their integral forms with effective stabilisers, the Taylor–Wiles auxiliary levels and the dyadic twists.
+The Serre tensor specialization for projective polarization modules is constructed in §H1.0 from the abelian-scheme APIs below. This roadmap owns the specializations of general Shimura, PEL, abelian-scheme and automorphic theory to Hilbert modular varieties, to one-real-split quaternionic Shimura curves and to totally definite quaternion algebras. It also owns the arithmetic constructions that only these spaces need. For the Hilbert strand these are the integral trace lattices, the Deligne–Pappas local and global models, the Hilbert Hasse ideal, the unit-square kernels and polarization quotients, the hybrid, scalar and arithmetic full levels, and the paired torsion twists with their local points. For the quaternionic strand they are the canonical curve and its CM bridge, the Drinfeld half-plane, its formal model and moduli interpretation, the arithmetic Drinfeld quotient and the Čerednik–Drinfeld theorem, integral model towers, the coefficient cohomology of the curves with its Hecke, duality and degeneracy structure, and the Ihara lemma. For definite algebras they are the central quotient and fixed-central-character adapters to QuaternionicModularForms, the integral pairings and isotropy-sensitive reduction, the Taylor–Wiles auxiliary levels and the dyadic twists. QuaternionicModularForms owns the general class sets, coefficient conventions, abstract form functor, evaluation equivalence and Hecke action.
 
 The following specializations retain the level, coefficient and polarization conditions needed by these varieties:
 
@@ -25,6 +25,7 @@ Tau Ceti roadmaps supply the general objects, and nothing they contain is repeat
 
 | Tau Ceti roadmap | Material used here |
 | --- | --- |
+| [QuaternionicModularForms (PR #934)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/934), §§0.3, 1.3, 2.1–2.2, 3.1 | Definite class sets and compact stabilizers modulo the centre, right algebraic coefficients, abstract forms, evaluation and the opposite Hecke action. |
 | AdelicAlgebraicGroups (§§3.4, 4.2–4.5) | Reduction theory, class-number finiteness, compactness of anisotropic quotients, neat levels, strong approximation and level maps. |
 | ReductiveGroupsPartII (RG2.0–RG2.3) | Restriction of scalars and central quotients of quaternionic groups, their real and local points, integral quaternion-order levels and the Bruhat–Tits tree of `GL₂`. |
 | SmoothRepresentationsOfLocalGroups (SR.0–SR.3) | Smooth and admissible representations, smooth characters, normalized parabolic induction, Iwahori invariants, Steinberg and square-integrable representations. |
@@ -121,8 +122,10 @@ The contracts below distinguish general supplied theory from the specializations
 
 **[ArithmeticLocallySymmetricSpaces](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md).** Arithmetic local systems and their Betti and sheaf realizations (ALS.1); Hecke correspondences on complexes with their composition and operator formula (ALS.3); Eisenstein maximal ideals (ALS.4); the de Rham comparison, the characteristic-zero cohomological decomposition and finite-level derived duality with Hecke adjoints and Verdier–Poincaré duality (ALS.5a–ALS.5b); Hochschild–Serre for finite covers (ALS.6). The automorphic comparison ALS.5b.4 assumes `LocallySymmetric.FrankeInput`. Its compact quaternionic case is proved here as `quaternionicCompactFrankeInput` (§R18.4.25a), with Hecke, level and component compatibility, before applying that comparison. Layers used: `ALS.1`, `ALS.1.1`, `ALS.1.2`, `ALS.1.4`, `ALS.3`, `ALS.3.8`, `ALS.3.5–ALS.3.7`, `ALS.4.10`, `ALS.5a–ALS.5b`, `ALS.5b.1`, `ALS.5a`, `ALS.5a.3`, `ALS.5a.4`, `ALS.5a.2`, `ALS.6.2`.
 
-**[GL2AutomorphicRepresentationsAndTransfer, §§R16.2.13, R16.4.5, R16.6.3, R17.1.1–R17.1.4, R17.3.1–R17.3.9](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GL2AutomorphicRepresentationsAndTransfer/README.md).** Use the real `GL₂` discrete series, cohomological weight convention, finite coefficient-field models, local quaternionic transfer, global multiplicity-one transfer and its definite finite-level realization. The coefficient lattice of §R18.3.2 specializes Mathlib symmetric powers and Tau Ceti `TauCeti.symPowerRep`; §R18.3.3 constructs the fixed-central-character functions and effective-stabilizer evaluation needed integrally. [ArithmeticLocallySymmetricSpaces, ALS.F.6–ALS.F.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md) supplies automorphic function spaces and relative Lie cohomology; [AutomorphicSpectralTheory, §§4.5–4.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicSpectralTheory/README.md) supplies the discrete spectrum and finite multiplicity. The transfer applications retain the coefficient dual, norm twist and actual common coefficient realizations.
+**[GL2AutomorphicRepresentationsAndTransfer, §§R16.2.13, R16.4.5, R16.6.3, R17.1.1–R17.1.4, R17.3.1–R17.3.9](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GL2AutomorphicRepresentationsAndTransfer/README.md).** Use the real `GL₂` discrete series, cohomological weight convention, finite coefficient-field models, local quaternionic transfer, global multiplicity-one transfer and its definite finite-level realization. The coefficient lattice of §R18.3.2 specializes Mathlib symmetric powers and Tau Ceti `TauCeti.symPowerRep`; §§R18.3.1–R18.3.3 adapt QuaternionicModularForms to the adelic central quotient and fixed central character, retaining its common form carrier and evaluation equivalence. [ArithmeticLocallySymmetricSpaces, ALS.F.6–ALS.F.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md) supplies automorphic function spaces and relative Lie cohomology; [AutomorphicSpectralTheory, §§4.5–4.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicSpectralTheory/README.md) supplies the discrete spectrum and finite multiplicity. The transfer applications retain the coefficient dual, norm twist and actual common coefficient realizations.
 
+
+**[QuaternionicModularForms, §§0.3, 1.3, 2.1–2.2, 3.1](https://github.com/WilliamCoram/TauCetiRoadmap/blob/fe4c14dbe4381c62726cce20430bb84799a5a2e0/TauCetiRoadmap/QuaternionicModularForms/README.md).** Consume the finite class set `D×\\D_f×/U`, compact stabilizers modulo their rational central subgroup, the right algebraic coefficient convention, abstract equivariant functions, evaluation/reconstruction and the opposite Hecke action. Sections R18.3.1–R18.3.3 construct the central quotient and ψ-specialization on those carriers. The abstract evaluation theorem has no compactness hypothesis; full dyadic division factors use the same carrier with their specified extended action, and finiteness is proved using a compact level of finite index modulo the centre. General evaluation and Hecke theory remain with this supplier.
 
 **Quaternionic transfer contract (GL2AutomorphicRepresentationsAndTransfer §§R17.1.1–R17.3.9).** Over a nonarchimedean local field `L`, irreducible admissible representations of its quaternion division algebra correspond to the essentially square-integrable representations of `GL₂(L)`. Central characters and twists agree, matching elliptic characters have opposite signs, and `κ ∘ Nrd` corresponds to `St ⊗ (κ ∘ det)`. At real ramified places the `SU(2)` type `Sym^(k−2)` corresponds to discrete-series weight `k`, with the norm twist that matches central characters. Globally, for a quaternion division algebra, the non-norm discrete spectrum corresponds with multiplicity one to cuspidal `GL₂` representations square-integrable at every ramified place; transfer is identity at split places. It gives inverse transfer, twists, split `T_v` and `S_v` compatibility, strong multiplicity one and actual compatible models after a finite coefficient-field enlargement when Schur descent requires it. These are supplied theorems, rather than additional targets here. For a globally split algebra use the identity on the cuspidal spectrum; being infinite-dimensional alone does not exclude Eisenstein classes. The applications in §§R18.3.19–R18.3.22 fix the coefficient dual, finite-level realization, arithmetic Hecke normalization and integral-pairing comparison; no integral direct-sum or equality of lattices follows from this characteristic-zero contract.
 
@@ -1003,24 +1006,29 @@ Its API:
 
 **Definition** (`HilbertIntegralGamma0`). An integral `Γ₀(pⁿ)` level is a finite locally free O-stable subgroup `C⊂A[pⁿ]` of `rank p^{ng}`, such that every c-indexed polarized Weil pairing vanishes on `C×C`. Require its generic fibre C[1/p] to be étale locally `O/pⁿ O` of rank one. The inclusion `C⊂A[pⁿ]` imposes pⁿ-annihilation; any stronger ideal-annihilator or flat-closure refinement is a separate ideal-annihilator and flat-closure comparison. For a naive integral functor retain precisely these conditions; any flat closure or refined local-model variant is separately stated. `Γ₁` is an integral generator condition only when its group-scheme formulation has been specified; a full constant basis is restricted to the generic fibre.
 
-*Construction.* Use the imported finite-flat subgroup and pairing carriers to state rank, O-stability and isotropy. Check the rank-one residue-module type after inverting p. Keep the integral naive functor separate from any claim of flatness or a splitting-model identification.
+A flagged integral level `HilbertIntegralGamma0Flag` consists of inclusions `0=C₀⊂C₁⊂⋯⊂C_n⊂A[pⁿ]`, with each `C_i⊂A[pⁱ]`, for `1≤i≤n`, a level satisfying all the preceding conditions at exponent i, in particular finite locally free of rank `p^{ig}` and isotropic for the level-i pairings. Integral forgetting is truncation of this flag; it is not defined on the unflagged naive functor by intersection with lower torsion.
+
+*Construction.* Use the finite-flat subgroup and pairing carriers to impose these conditions at every step. Pull back the entire flag under base change and truncate for `1≤r≤n`; truncation preserves each stipulated rank and pairing condition and satisfies identity/composition laws. After inverting p the lower terms are uniquely `C_i=p^{n−i}C_n=C_n∩A[pⁱ]`, so the flagged and unflagged generic functors agree. For `F=ℚ`, consume ModularCurves Layers 3B–3D and 8 for finite-flat subgroups, Drinfeld generators and cyclicity; the naive Hilbert functor is not identified with that integral cyclic functor. No flatness or splitting-model identification is asserted for the flagged functor.
 
 Its API:
 
 - `HilbertIntegralGamma0`: The finite locally free O-stable isotropic subgroup-scheme level.
-- `integralGamma0_baseChange`: Subgroup, rank and isotropy pull back to any base.
+- `HilbertIntegralGamma0Flag`: The integral flag with the required finite-flat ranks and isotropy at every exponent.
+- `integralGamma0_baseChange`: Subgroup, rank, isotropy and flags pull back to any base.
 - `integralGamma0_generic`: On the generic fibre it is the stated `O/pⁿ O` rank-one subgroup level.
-- `integralGamma0_forget`: The nested subgroup levels have forgetful maps, with their actual subgroup intersections.
+- `integralGamma0_forget`: For `1≤r≤n`, truncate a flagged integral level to its first r terms, compatibly with arbitrary base change and composition. Only on the generic fibre is this induced by `C_n↦C_n∩A[pʳ]` on unflagged levels.
 
 **Checks.**
 
 - `gamma0_ordinary`: For an ordinary elliptic curve, the multiplicative `μ_{pⁿ}` subgroup is a valid `rank pⁿ` integral `Γ₀` level.
 - `gamma0_zero`: The zero subgroup has the wrong rank for `n≥1`.
 - `gamma0_points`: Replacing `μ_p` by its geometric points loses its scheme rank and fails the test.
+- `gamma0_bad_intersection`: In characteristic p, `C₂=E[p]⊂E[p²]` has rank p² and is isotropic for the p²-pairing, with vacuous generic condition. But `C₂∩E[p]=E[p]` has rank p² and `[p]C₂=0`; neither gives a rank-p lower level. A flag must supply such a `C₁` independently.
+- `gamma0_flag_truncation`: On an ordinary elliptic curve, `C_i=μ_{pⁱ}` is a flag; forgetting from exponent two to one returns `μ_p` and commutes with base change.
 
-(Source: [BHW23](#references) Definition 5.4(2–3), p.1742; integral subgroup-scheme refinement as specified here.)
+(Source: [BHW23](#references) Definition 5.4(2–3), p.1742, for generic levels; [ModularCurves](../ModularCurves/README.md) Layers 3B–3D and 8, following Katz–Mazur §§1.4, 3.4, 6.4–6.5, for the elliptic finite-flat/Drinfeld comparison; integral flags as specified here.)
 
-*Needs:* [H2.2 Deligne–Pappas integral Hilbert model](#h22-delignepappas-integral-hilbert-model), [H1.8 Linearized Hilbert Weil pairing](#h18-linearized-hilbert-weil-pairing); [AbelianSchemesAndArithmeticModuli](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AbelianSchemesAndArithmeticModuli/README.md) `A3`; [FiniteFlatGroupsAndIntegralPadicHodgeTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md) `R07.1`.
+*Needs:* [H2.2 Deligne–Pappas integral Hilbert model](#h22-delignepappas-integral-hilbert-model), [H1.8 Linearized Hilbert Weil pairing](#h18-linearized-hilbert-weil-pairing); [AbelianSchemesAndArithmeticModuli](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AbelianSchemesAndArithmeticModuli/README.md) `A3`; [FiniteFlatGroupsAndIntegralPadicHodgeTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md) `R07.1`; [ModularCurves](../ModularCurves/README.md) `Layers 3B–3D, 8`.
 
 ### H4.9 Polarization quotient at subgroup level
 
@@ -1390,7 +1398,7 @@ Nothing is asserted at other places, for other residual modules, or for local mo
 **Checks.**
 
 - Over K=ℚ, l=3, `ρ̄=diag(εδ,1)` with δ the even quadratic character of ℚ(√13) has the stated local shape at 3 but fails the global pairing input `det ρ̄=ε`.
-- Over ℚ₃(ζ₃), a nonsplit unipotent self-extension has nonscalar automorphisms `I+bN`, all of determinant one; arbitrary alternating pairings still require extension-class rescaling.
+- `hilbertSelfExtension_unipotent`: Over ℚ₃(ζ₃), a nonsplit unipotent self-extension has nonscalar automorphisms `I+bN`, all of determinant one; arbitrary alternating pairings still require extension-class rescaling.
 - For a ramified quadratic character over ℚ₅, both ℚ₅(√5) and ℚ₅(√10) are minimal-degree tame choices killing its ramification; neither is a distinguished smallest field.
 
 (Source: [Tay02](#references) §1, pp.6–10, for the residual data, the Weil numbers and the auxiliary prime, Lemma 1.1 and the choice of `L, ψ, N` and M; Lemma 1.2 and proof, pp.10–12; Lemma 1.3, p.12; and the moduli space and its local points, p.13. [Rap78](#references) §§2.9.1–2.9.6, pp.273–274, for the Tate HBAV, its torsion and its polarization module.)
@@ -2392,7 +2400,7 @@ The integral crystalline comparison and Hodge filtration are used on the finite-
 
 `F_v/ℚ_p` unramified; the pointwise integral extensions of §R18.2.16 and the comparison of §R18.2.17.
 
-*Proof route.* Use the τ-part tensor formulas of §R18.2.17. The rank-one factor `W(I^t)` and its dual cancel in the product of the two determinants. Identify the result with the Kodaira–Spencer line of §R18.2.14 through the deformation-theoretic chain of YZ §5.2: the Hom of the τ-parts of H″, the Hom of the τ-parts of H tensored up to O_{K′}, the O_{B,v}-Hom, and finally `ω^{−1}`. The false identification of a rank-two Hom with a rank-one Hom is avoided by working with the O_{B,v}-linear Hom throughout.
+*Proof route.* Use the τ-part tensor formulas of §R18.2.17. The rank-one factor `W(I^t)` and its dual cancel in the product of the two determinants. Transport the generic Kodaira–Spencer isomorphism `N≅ω²` through the bridge pullback to fix the ambient generic line before comparing its O_L-lattices. Identify the result with the Kodaira–Spencer line of §R18.2.14 through the deformation-theoretic chain of YZ §5.2: the Hom of the τ-parts of H″, the Hom of the τ-parts of H tensored up to O_{K′}, the O_{B,v}-Hom, and finally `ω^{−1}`. The false identification of a rank-two Hom with a rank-one Hom is avoided by working with the O_{B,v}-linear Hom throughout.
 
 **Checks.**
 
@@ -2414,13 +2422,13 @@ This layer uses earlier layers R18.2, R18.5; AdelicAlgebraicGroups (Layer 4); Ad
 
 ## Layer R18.3, part 1: Definite forms, transfer and auxiliary levels
 
-Use `DefiniteSpecialisation` (§R18.3.3) for the finite fixed-central-character form carrier and evaluation, and specialize GL2AutomorphicRepresentationsAndTransfer §§R16.6.3, R17.3.9 to totally definite quaternion algebras with the adelic central quotient. Except for §R18.3.8, the targets of this layer work under the standing hypotheses of the Conventions: F has even degree, D/F is totally definite, O is the ring of integers of a finite extension of `ℚ_p` with residue field k, U is compact open (or has the explicitly specified dyadic full division factors), and `τ(z)=ψ(z)⁻¹` on `U∩A_{F,f}×`. The geometry of class sets and auxiliary levels is kept apart from Frobenius control, and every isotropy denominator, factorial obstruction and dyadic sign choice stays explicit. The degree-two quaternionic transfer needed here is constructed in this layer (§§R18.3.19–R18.3.22). The definite Ihara lemma over an arbitrary totally real field (§R18.3.8) is the input that the Ihara argument of R18.4 needs beyond the even-degree Khare–Wintenberger setting.
+Use QuaternionicModularForms §§0.3, 1.3, 2.1–2.2 and 3.1 for class sets, right coefficients, forms, evaluation and Hecke actions; `DefiniteSpecialisation` (§R18.3.3) is their central-character adapter. Specialize GL2AutomorphicRepresentationsAndTransfer §§R16.6.3, R17.3.9 to totally definite quaternion algebras with the adelic central quotient. Except for §R18.3.8, the targets of this layer work under the standing hypotheses of the Conventions: F has even degree, D/F is totally definite, O is the ring of integers of a finite extension of `ℚ_p` with residue field k, U is compact open (or has the explicitly specified dyadic full division factors), and `τ(z)=ψ(z)⁻¹` on `U∩A_{F,f}×`. The geometry of class sets and auxiliary levels is kept apart from Frobenius control, and every isotropy denominator, factorial obstruction and dyadic sign choice stays explicit. The degree-two quaternionic transfer supplied by GL2AutomorphicRepresentationsAndTransfer is specialized in §§R18.3.19–R18.3.22. The definite Ihara lemma over an arbitrary totally real field (§R18.3.8) is the input that the Ihara argument of R18.4 needs beyond the even-degree Khare–Wintenberger setting.
 
 ### R18.3.1 Definite quaternionic class set
 
-**Definition** (`DefiniteClassSet`). Specialize the existing double-coset quotient to `C_U=D×\D_f×/(U A_F, f×)`. Its effective stabiliser at t is `Γ_t=(U A_F, f×∩t⁻¹D×t)/F×`. Use the quotient by the rational centre before asserting finiteness. Changing t by dtu z transports the stabiliser and its coefficient action by conjugation.
+**Definition** (`DefiniteClassSet`). Form the central quotient of QuaternionicModularForms §0.3’s class set, `C_U=D×\D_f×/(U A_F, f×)`. Its effective stabiliser at t is `Γ_t=(U A_F, f×∩t⁻¹D×t)/F×`. Use the quotient by the rational centre before asserting finiteness. Changing t by dtu z transports the stabiliser and its coefficient action by conjugation.
 
-*Construction.* Instantiate DoubleCoset.Quotient using the adelic centre times U as right subgroup. Use finiteness of the definite quaternion ideal-class set modulo the centre. Compute isotropy of right level action and divide out `F×`; verify coefficient action is well-defined.
+*Construction.* Map the supplied class set `D×\\D_f×/U` onto C_U by the right adelic centre action. Its finiteness descends to this quotient. Consume the supplied compact stabilizer modulo its central units; the extra central-quotient stabilizers are controlled by the finite unit and ideal square classes in KW §7.2. For a dyadic full-division level, choose a compact sublevel U⁰ with `UZ/U⁰Z` finite, using division valuation parity, and apply the same argument. Transport the supplied representative-change maps and compute the effective coefficient action of §R18.3.3; no second class-set or compact-stabilizer theory is constructed.
 
 Its API:
 
@@ -2437,7 +2445,7 @@ Its API:
 
 (Source: [KW09](#references) §7 (opening), pp.57–59, display (5); §7.2, pp.61–62.)
 
-*Needs:* [AdelicAlgebraicGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md) `§3.4`, `Layer 3`; Tau Ceti `NumberField.card_elementaryTwoQuotient_units`; Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`.
+*Needs:* [QuaternionicModularForms (PR #934)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/934) `§0.3`; [AdelicAlgebraicGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md) `§3.4`, `Layer 3`; Tau Ceti `NumberField.card_elementaryTwoQuotient_units`; Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`.
 
 ### R18.3.2 Quaternionic integral weights
 
@@ -2445,7 +2453,7 @@ Its API:
 
 p unramified in F for the KW weight construction; D split at each active p-adic weight place.
 
-*Construction.* Import integral symmetric powers and tensor coefficient lattices with their semigroup actions. Check the product of central scalar powers and its inverse character. For a division dyadic factor distinguish maximal compact from the full `D_v×` and its sign extension.
+*Construction.* Import integral symmetric powers and tensor coefficient lattices with their semigroup actions. Supply QuaternionicModularForms §1.3 with the inverse right action `v|u=τ(u)⁻¹v` on this lattice. For a natural column factor `Sym^n(O²)`, the change of variables `J=[[0,1],[−1,0]]` identifies this right action with its polynomial module `L_{n,−n}`: `P|γ(z)=det(γ)^{−n}(cz+d)^n P((az+b)/(cz+d))`. Tensor this comparison over the embeddings and retain the determinant scalar on every Hecke coset. For the dual coefficient use the contragredient `τ∨(u)λ=λ∘τ(u)⁻¹`, so `⟨λ,v|u⟩=⟨τ∨(u)λ,v⟩`. The pairing identification with the dual symmetric power is integral only with its stated unit-denominator hypotheses. Check the product of central scalar powers and its inverse character. For a division dyadic factor distinguish maximal compact from the full `D_v×` and its sign extension.
 
 Its API:
 
@@ -2464,30 +2472,35 @@ In [Suggested.lean](Suggested.lean): `SymWeight`, `QuaternionWeight`, `Quaternio
 
 (Source: [KW09](#references) §7 (opening), pp.58–59; [Tay06](#references) §1, pp.741–742.)
 
-*Needs:* [GL2AutomorphicRepresentationsAndTransfer, §§R16.2.13, R16.4.5, R16.6.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GL2AutomorphicRepresentationsAndTransfer/README.md#r1663-hilbert-cohomological-algebraic-weights); Mathlib `Representation`.
+*Needs:* [QuaternionicModularForms (PR #934)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/934) `§1.3`; [GL2AutomorphicRepresentationsAndTransfer, §§R16.2.13, R16.4.5, R16.6.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GL2AutomorphicRepresentationsAndTransfer/README.md#r1663-hilbert-cohomological-algebraic-weights); Mathlib `Representation`.
 
 ### R18.3.3 Fixed-central-character algebraic forms
 
-**Definition and comparison** (`DefiniteSpecialisation`). Define the integral fixed-central-character form module by functions `f:D_f×→W_A` satisfying `f(dgu)=τ(u)⁻¹f(g), f(gz)=ψ(z) f(g)`. Evaluation at class representatives identifies `S_{τ, ψ}(U, A)` with `⊕_{t∈C_U} W_A^{Γ_t}`. Use the adelic central quotient: a discrete-centre hypothesis alone does not cover `O_F×` of positive rank.
+**Definition and comparison** (`DefiniteSpecialisation`). In QuaternionicModularForms §2.1’s common module M(U,W_A), take the central ψ-submodule of functions `f:D_f×→W_A` satisfying `f(dgu)=τ(u)⁻¹f(g), f(gz)=ψ(z) f(g)`. Evaluation at class representatives identifies `S_{τ, ψ}(U, A)` with `⊕_{t∈C_U} W_A^{Γ_t}`. Use the adelic central quotient: a discrete-centre hypothesis alone does not cover `O_F×` of positive rank.
 
 A is an O-algebra; `τ` and `ψ` extend by scalars.
 
-*Proof route.* Impose the two displayed equivariance laws on the existing function module and specialize the adelic quotient of §R18.3.1. At each t compute its effective stabiliser action using `τ` and `ψ`. Evaluate and reconstruct equivariant functions; show independence of representatives.
+*Proof route.* Extend the supplied right coefficient action from U to UZ by `v|(uz)=ψ(z)τ(u)⁻¹v`. The compatibility `τ(z)=ψ(z)⁻¹` on `U∩Z` makes it independent of the factorization uz; it is trivial on rational central elements. Apply the common abstract form/evaluation theorem at the subgroup UZ, then factor its stabilizer action through Γ_t. The inverse-action identity is `v|(uu′)=(v|u)|u′`; keep the coefficient comparison of §R18.3.2. For noncompact dyadic factors extend this action by the chosen division characters on the same abstract carrier; use §R18.3.1 for finiteness, since compactness is not a premise of abstract evaluation. The evaluation/reconstruction and transport maps are the supplied maps under these identifications. Restrict the common Hecke action on M(U,W_A) to this central ψ-submodule; use its original coefficient semigroup action for Hecke and the extended UZ action for evaluation.
 
 Its API:
 
 - `DefiniteSpecialisation.evaluate_recover`: Evaluate and recover are inverse linear maps; invariance characterizes allowable values
 - `DefiniteSpecialisation.transport`: Representative transport and coefficient intertwiners commute with evaluation, with identity/composition laws
+- `definiteCoefficient_rightAction`: Inverting a left representation gives the right coefficient action, with the reversed endomorphism composition required by QuaternionicModularForms.
 
 **Checks.**
 
 - Trivial effective stabilizers give unrestricted coefficients at every class.
 - For the sign C₂-action over `Z₂`, the integral evaluation component is zero while the mod-two invariant component is `F₂`.
 - Replacing t by dtu z transports both stabilizer and coefficient value and preserves the recovered function.
+- For `t∈U∩Z`, the decompositions `uz=(ut)(t⁻¹z)` act equally by `τ(t)⁻¹=ψ(t)`; omitting this inverse breaks the central-character specialization.
+- Two noncommuting coefficient operators satisfy the inverse right-action order, rather than a left-action order; test the associated singleton Hecke cosets under inversion.
+
+In [Suggested.lean](Suggested.lean): `definiteCoefficient_rightAction`.
 
 (Source: [KW09](#references) §7 (opening), pp.58–59, display (5).)
 
-*Needs:* [R18.3.1 Definite quaternionic class set](#r1831-definite-quaternionic-class-set), [R18.3.2 Quaternionic integral weights](#r1832-quaternionic-integral-weights).
+*Needs:* [QuaternionicModularForms (PR #934)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/934) `§§1.3, 2.1–2.2`; [R18.3.1 Definite quaternionic class set](#r1831-definite-quaternionic-class-set), [R18.3.2 Quaternionic integral weights](#r1832-quaternionic-integral-weights).
 
 ### R18.3.4 Neat-level reduction and base change
 
@@ -2517,23 +2530,38 @@ A perfect integral coefficient pairing and unit isotropy denominators; Taylor we
 
 **Comparison** (`SplitHeckeNormalisation`). At `v∉S` with `D_v=M₂(F_v), U_v=GL₂(O_v)` and unramified coefficients, specialize §R18.3.3 double-coset Hecke action: `T_v=[U diag(π_v,1) U], S_v=[U diag(π_v, π_v) U]=ψ(π_v)`. The arithmetic Satake polynomial is `X²−T_vX+q_vS_v`. All change-of-level and commuting away-place actions are imported and checked with these local and coefficient conventions.
 
-*Proof route.* Compute the q_v+1 single cosets in the spherical T_v double coset. Use the generic semigroup coefficient extension and Hecke convolution. Match the arithmetic Satake normalization to R17.3.
+*Proof route.* Restrict QuaternionicModularForms §3.1’s opposite-Hecke action on M(U,W_A) to the central ψ-submodule. Its slash is `(f|δ)(g)=τ(δ)⁻¹f(gδ⁻¹)`; apply it to inverse cosets to obtain the present operators `Σ_i τ(δ_i)f(gδ_i)`. Transport multiplication through the double-coset inversion anti-involution, along with §1.3’s coefficient determinant scalar. Compute the q_v+1 terms of T_v and the singleton central coset S_v, and match the arithmetic Satake normalization to R17.3. Inversion exchanges T_v with S_v⁻¹T_v and S_v with S_v⁻¹ before this transport.
 
 (Source: [KW09](#references) §7 (opening), p.59; §7.4, p.65.)
 
-*Needs:* [R18.3.3 Fixed-central-character algebraic forms](#r1833-fixed-central-character-algebraic-forms); [§R18.3.3 Fixed-central-character algebraic forms](#r1833-fixed-central-character-algebraic-forms).
+**Checks.**
+
+- At a good split place with trivial coefficients, T_v has q_v+1 terms.
+- The central singleton acts by `ψ(π_v)`, fixing S_v rather than its inverse.
+- Two noncommuting normalizing singleton cosets detect the opposite multiplication; inverse-coset transport restores the stated composition.
+
+*Needs:* [R18.3.3 Fixed-central-character algebraic forms](#r1833-fixed-central-character-algebraic-forms); [QuaternionicModularForms (PR #934)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/934) `§§1.3, 3.1`.
 
 ### R18.3.7 Norm-factor forms and Eisenstein support
 
 **Theorem** (`NormBranch`). For parallel weight 2 and compatible finite character, and equally for residual k-valued forms whose finite coefficient action is killed by the level, the forms factoring through Nrd are exactly the SL₂-invariant local branch under the strong-approximation hypotheses of KW §7.1. Their good-place Hecke eigenvalues give sums of characters, so their localization at a non-Eisenstein maximal ideal vanishes. Following KW §7, a maximal ideal m of `T_ψ(U)` is Eisenstein if `T_v−2` and `S_v−1` lie in m for all but finitely many places v split in a fixed finite abelian extension of F; non-Eisenstein means not Eisenstein. No Galois representation is constructed here.
 
-Weight 2; strong approximation for D¹ at a chosen split finite place.
+Weight 2; strong approximation for D¹ at a chosen split finite place w, with hyperspecial w-level and trivial w-coefficient action. F is any totally real field in the following norm-fibre comparison.
 
-*Proof route.* Translate the invariance into constancy on norm fibres by strong approximation. Compute T_v and S_v on a norm character. Use a good-place operator outside the ideal to annihilate the localized branch.
+For D/F totally definite and compact open H with hyperspecial H_w at the split place w, the prerequisite comparison `definiteNormFibres` identifies the norm quotient of `D×\\D_f×/(D_f¹H)` with `Nrd(D×)\\A_{F,f}×/Nrd(H)`, and proves `Nrd(D×)=F_+×`, where `F_+×` is the totally positive subgroup. Thus a function invariant under H and D¹(F_w) factors through the finite narrow ray-class quotient `Q_H⁺=F_+×\\A_{F,f}×/Nrd(H)`. A fixed central character imposes the additional relation `h(a z²)=ψ(z)h(a)`; for trivial ψ it is the further quotient by adelic scalar squares. This relation does not replace `F_+×` by `F×`.
 
-(Source: [KW09](#references) §7 (opening), pp.59–60: definition of Eisenstein maximal ideals and proof of Lemma 7.1.)
+*Proof route.* Obtain the rational norm image from the local norm images and the Hasse–Minkowski scalar-representation theorem applied to the quaternion norm form: finite-place reduced norms are surjective, and real norms of D are positive. Use strong approximation for D¹ at w to pass from local invariance to constancy on these norm fibres. For a norm character χ the good operators have eigenvalues `(1+q_v)χ(π_v)` and `χ(π_v)²`. Over an algebraic closure of the residual field, every simple constituent of the finite abelian norm-quotient module is a character, even when its order is divisible by l. Class field theory gives a finite abelian extension splitting all these characters. This proves Eisenstein support without assuming a semisimple integral or residual character decomposition.
 
-*Needs:* [R18.3.6 Split Hecke normalization](#r1836-split-hecke-normalization); [AdelicAlgebraicGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md) `§4.2`, `§4.2`.
+**Checks.**
+
+- For `F=ℚ` at maximal finite level the positive norm quotient is trivial, and constants have `T_v=q_v+1`, `S_v=1`.
+- For `F=ℚ(√3)`, D totally definite and unramified at every finite place, and maximal H, `Q_H⁺=Cl⁺(F)` has order two while `Cl(F)=1`. The Minkowski bound is `√12/2<2`; the equation `x²−3y²=−1` is impossible modulo 3, so there is no norm-minus-one unit. The nontrivial narrow character gives a nonconstant norm-invariant function in odd characteristic and survives the scalar-square quotient.
+- A scalar z changes its norm argument by z²; a nontrivial ψ requires the displayed transformation law rather than an invariant function on the scalar quotient.
+- If l divides the narrow quotient order, its function module need not split into characters, but every simple constituent still has the stated Eisenstein support.
+
+(Source: [KW09](#references) §7 (opening), pp.59–60, definition of Eisenstein maximal ideals and proof of Lemma 7.1; [PRR23](#references) §1.5.2, Theorem 1.34, pp.43–44, for the rational norm image.)
+
+*Needs:* [R18.3.6 Split Hecke normalization](#r1836-split-hecke-normalization); [AdelicAlgebraicGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md) `§4.2`; [GlobalQuadraticForms](../GlobalQuadraticForms/README.md) `§§5.5, 6.1`; [QuadraticFormInvariants](../QuadraticFormInvariants/README.md) `Layers 2, 6`; [ClassFieldTheory](../ClassFieldTheory/README.md) `Layer 12`.
 
 ### R18.3.8 Definite Ihara lemma over an arbitrary totally real field
 
@@ -2543,17 +2571,18 @@ D is totally definite and split at w; H is compact open and unramified at w; l i
 
 Constant F_l coefficients; central-character parts are taken through the effective central quotient, as in [R18.4.21 Exact central-character localization](#r18421-exact-central-character-localization).
 
-*Proof route.* Construct Y_H, its finiteness and its double-coset Hecke action for arbitrary totally real F from AdelicAlgebraicGroups class-number finiteness and the fixed-central-character carrier and evaluation of `DefiniteSpecialisation` (§R18.3.3), applied to constant coefficients over arbitrary totally real F; no even-degree hypothesis enters. If (f,g) lies in the kernel, then `f(x)=−g(xω)` with `ω=diag(ϖ_w,1)`; so f is invariant under H and `ω⁻¹Hω`, which together generate a group containing `H^w·SL₂(F_w)`. By strong approximation for the reduced-norm-one group of D (split at w), f factors through the reduced norm onto the finite group `F×\A_F,f×/Nrd(H)`. A function `χ∘Nrd` is a T^S-eigenvector with T_v acting by `(1+Nv)χ(ϖ_v)` and S_v by `χ(ϖ_v)²`, so the functions factoring through the reduced norm are supported at Eisenstein maximal ideals; localizing at a non-Eisenstein m kills them, which gives injectivity. Dualize for the trace statement.
+*Proof route.* Consume QuaternionicModularForms §§0.3, 2.1–2.2 and 3.1 for Y_H, its finiteness, evaluation and Hecke action over arbitrary totally real F; apply `DefiniteSpecialisation` (§R18.3.3) only when taking the fixed-central-character part. The sets Y_H and C_H differ by the adelic central quotient; no even-degree hypothesis enters. If (f,g) lies in the kernel, then `f(x)=−g(xω)` with `ω=diag(ϖ_w,1)`; so f is invariant under H and `ω⁻¹Hω`, which together generate a group containing `H^w·SL₂(F_w)`. Apply `definiteNormFibres` (§R18.3.7): strong approximation for D¹, split at w, makes f factor through `Nrd(D×)\\A_{F,f}×/Nrd(H)=F_+×\\A_{F,f}×/Nrd(H)`. Keep the separate relation `h(a z²)=ψ(z)h(a)` on a central-character part. The character-constituent argument of §R18.3.7 puts this entire narrow norm module on Eisenstein support; localizing at a non-Eisenstein m kills it, giving injectivity. Dualize for the trace statement.
 
 **Checks.**
 
 - Injectivity of `π₁*+π₂*` after localization at non-Eisenstein m, for every totally real F.
 - For `F=ℚ` and D ramified at `{2,∞}, H` maximal: Y_H has one point; the kernel of `π₁*+π₂*` consists of the pairs `(f,−f)` with f constant, which are norm-factoring, so injectivity holds exactly after localizing away from the Eisenstein ideal.
 - Without localization the map is not injective: the constant pair `(1,−1)` lies in its kernel.
+- At maximal finite level over `ℚ(√3)`, the nonconstant narrow norm character of §R18.3.7 is another Eisenstein kernel branch in odd characteristic; replacing the narrow quotient by the trivial wide quotient loses it, even after imposing trivial central character.
 
 (Source: [MS19](#references) §6.2, Theorem 6.8 and its proof, pp.34–35 (Definite Ihara lemma for a totally definite quaternion algebra over any totally real F, by SL₂-generation and strong approximation for the reduced-norm-one group; MS attribute earlier versions to Ribet over `ℚ` and to Taylor over F))
 
-*Needs:* [R18.3.6 Split Hecke normalization](#r1836-split-hecke-normalization), [R18.3.7 Norm-factor forms and Eisenstein support](#r1837-norm-factor-forms-and-eisenstein-support); [AdelicAlgebraicGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md) `§3.4`, `§4.2`; [§R18.3.3 Fixed-central-character algebraic forms](#r1833-fixed-central-character-algebraic-forms).
+*Needs:* [QuaternionicModularForms (PR #934)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/934) `§§0.3, 2.1–2.2, 3.1`; [R18.3.6 Split Hecke normalization](#r1836-split-hecke-normalization), [R18.3.7 Norm-factor forms and Eisenstein support](#r1837-norm-factor-forms-and-eisenstein-support); [AdelicAlgebraicGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md) `§3.4`, `§4.2`; [§R18.3.3 Fixed-central-character algebraic forms](#r1833-fixed-central-character-algebraic-forms).
 
 ### R18.3.9 Definite Ihara degeneracy map
 
@@ -2958,7 +2987,7 @@ For weight two the coefficient module has rank one; for degree two and weight fo
 
 ### Dependencies
 
-This layer uses AdelicAlgebraicGroups (Layer 3, Layer 4, §4.5); GL2AutomorphicRepresentationsAndTransfer (R16.2.13, R16.6.3, R17.3.9); the fixed-central-character carrier and evaluation of `DefiniteSpecialisation` (§R18.3.3); AutomorphicSpectralTheory (Layer 4, Layer 6); SmoothRepresentationsOfLocalGroups (SR.0:abelian-category, SR.2, SR.3); the Tau Ceti roadmaps QuadraticFormInvariants; Tau Ceti `NumberField.card_elementaryTwoQuotient_units`, `QuaternionAlgebra.normForm_coe`, `TauCeti.SU2.existsUnique_nonempty_equiv_symPower`, `TauCeti.SU2.finrank_symPower`, `TauCeti.SU2.isIrreducible_symPower`, `TauCeti.SU2.symPower`; Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`, `LinearEquiv`, `Module.Finite`, `Module.Free`, `MonoidAlgebra`, `MvPolynomial.eval₂Hom`, `QuotientGroup.mk`, `Representation`, `Representation.invariants`, `RingHom.ker`, `RingHom.ker_isMaximal_of_surjective`.
+This layer uses QuaternionicModularForms (§§0.3, 1.3, 2.1–2.2, 3.1); AdelicAlgebraicGroups (Layer 3, Layer 4, §4.5); GL2AutomorphicRepresentationsAndTransfer (R16.2.13, R16.6.3, R17.3.9); the fixed-central-character adapter `DefiniteSpecialisation` (§R18.3.3); AutomorphicSpectralTheory (Layer 4, Layer 6); SmoothRepresentationsOfLocalGroups (SR.0:abelian-category, SR.2, SR.3); the Tau Ceti roadmaps QuadraticFormInvariants; Tau Ceti `NumberField.card_elementaryTwoQuotient_units`, `QuaternionAlgebra.normForm_coe`, `TauCeti.SU2.existsUnique_nonempty_equiv_symPower`, `TauCeti.SU2.finrank_symPower`, `TauCeti.SU2.isIrreducible_symPower`, `TauCeti.SU2.symPower`; Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`, `LinearEquiv`, `Module.Finite`, `Module.Free`, `MonoidAlgebra`, `MvPolynomial.eval₂Hom`, `QuotientGroup.mk`, `Representation`, `Representation.invariants`, `RingHom.ker`, `RingHom.ker_isMaximal_of_surjective`.
 
 ## Layer R18.4: Coefficient cohomology, Ihara's lemma and finite-level comparisons
 
@@ -3496,23 +3525,23 @@ The auxiliary residual unipotent Frobenius and non-Eisenstein ideal satisfy the 
 
 ### R18.4.24 Early quaternionic Jacquet–Langlands bridge
 
-**Theorem** (`quaternionicJacquetLanglandsBridge`). For quaternion inner forms of `GL₂` over F, the non-character discrete automorphic spectrum transfers, with multiplicity one, to the cuspidal `GL₂` spectrum whose components at every ramified place are discrete series. Away from ramification the local factors and unnormalized Hecke eigenvalues agree; at ramified places use local Jacquet–Langlands. In particular, exchanging the unique split real place `τ` and a split finite place q changes an indefinite algebra to a definite one, and the common characteristic-zero eigensystems are exactly those for which `π_q` is discrete series. With an actual common field E of definition, compare the corresponding multiplicity spaces, not all H¹ with all `H⁰` and not integral lattices. For the same spherical Hecke algebra away from q and the other bad places, the q-definite Hecke image is consequently a quotient of the q-Iwahori indefinite characteristic-zero Hecke image; finite torsion-free integral images inherit the kernel inclusion.
+**Theorem** (`quaternionicJacquetLanglandsBridge`). Let F be totally real, B/F split at exactly the real place τ and split at the finite place q, and D/F obtained by exchanging the invariants at τ and q. Fix compatible central character, cohomological weights and away-from-q levels, q-Iwahori level on B and maximal division level on D. Consume the global correspondence, local compatibility, split-place Hecke matching, multiplicity one and rational-model conditions from GL2AutomorphicRepresentationsAndTransfer §§R17.3.1, R17.3.3, R17.3.5–R17.3.9. On the non-norm cuspidal part, the common finite-level characteristic-zero eigensystems are exactly those whose GL₂ component at q is discrete series and has the specified level invariants. Compare the corresponding automorphic multiplicity spaces over an actual common field E of definition; this does not identify all H¹ with all H⁰ or identify integral lattices.
 
-F a number field, fixed compatible central character and the indicated quaternion inner forms.
+Let A be the common spherical Hecke algebra away from q and the other bad places. For the matched modules, write `I_B` and `I_D` for the kernels of its indefinite and definite actions. Then `I_B⊂I_D`, so the definite Hecke image is a quotient of the indefinite image. The same inclusion holds for the integral images when both modules are finite torsion-free over the coefficient DVR O and their generic fibres are the matched E-realizations. Localize away from the norm-character/Eisenstein part, as in MS Lemma 4.12.
 
-Exclude characters of `D×` and the corresponding noncuspidal discrete `GL₂` representations; use actual rational models, not a chosen embedding C alone.
+An actual common E-model, after the coefficient enlargement allowed by §R17.3.8, is required. Rationality-field equality alone supplies no such model. The finite-level indefinite cohomological and definite form realizations and their coefficient duals are those of §§R18.4.2 and R18.3.3.
 
-*Proof route.* Use AutomorphicSpectralTheory Layer 4’s discrete cuspidal spectrum and the local discrete-series character correspondence. The quaternion trace comparison is required of AutomorphicSpectralTheory Layer 6, with matching orbital integrals at the ramified places. Apply BR Theorem 18.1 to obtain the global transfer, multiplicity one and common unramified factors. For `GL₂` the only noncuspidal discrete alternatives are the excluded character transfers. At `τ` and q impose the two local compatibilities. Use the general-field definite theorem [R18.3.8 Definite Ihara lemma over an arbitrary totally real field](#r1838-definite-ihara-lemma-over-an-arbitrary-totally-real-field), the indefinite cohomology realization, and the actual common E-model input from GL2AutomorphicRepresentationsAndTransfer §R16.6.3 to compare E-multiplicity spaces. GL2AutomorphicRepresentationsAndTransfer §R16.6.3 supplies rationality under its stated cohomological hypotheses, not an unconditional integral comparison. For the kernel inclusion used in patching, tensor both finite torsion-free integral modules with E, obtain the inclusion by the common eigensystems, then descend the zero action by torsion-freeness.
+*Proof route.* Apply the supplied global transfer to B and D with their fixed local identifications. Match the local invariant spaces at τ and q and the finite-level eigensystems away from the bad set. Use the supplied multiplicity and E-model comparisons to obtain `I_B⊂I_D` after tensoring with E. For an integral element in I_B, its action on the definite module vanishes over E and hence already over O by torsion-freeness. This proves the required quotient of integral Hecke images.
 
 **Checks.**
 
-`- A π_q` principal series is excluded from the q-ramified definite side.
-
+- A principal-series π_q contributes no q-division definite eigensystem; a Steinberg twist has a division-character partner when its maximal-level invariants are nonzero.
 - A rank-two Galois factor in H¹ prevents an unqualified `H⁰≅H¹` statement.
+- If an integral endomorphism becomes zero over E, torsion-freeness makes it zero over O; on `O/ϖ` this implication fails, since tensoring with E kills the whole module.
 
-(Source: [BR10](#references) §1.5, pp.5–6; Theorem 18.1 and proof, pp.44–45 (The global inner-form correspondence identifies the compatible discrete spectra and proves multiplicity one through trace comparison); [MS19](#references) Lemma 4.12 and proof, p.25 (The definite Hecke action factors through the indefinite action at q-Iwahori level by Jacquet–Langlands and integral torsion-freeness))
+(Source: [BR10](#references) §1.5, pp.5–6, Theorem 18.1, pp.44–45, for the supplied correspondence; [MS19](#references) Lemma 4.12 and proof, p.25, for the finite-level Hecke-kernel inclusion and torsion-free descent.)
 
-*Needs:* [R18.3.8 Definite Ihara lemma over an arbitrary totally real field](#r1838-definite-ihara-lemma-over-an-arbitrary-totally-real-field), [R18.4.2 Quaternionic finite-level cohomology](#r1842-quaternionic-finite-level-cohomology); [AutomorphicSpectralTheory, §§4.5–4.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicSpectralTheory/README.md#45-finite-multiplicity-in-the-discrete-spectrum); [GL2AutomorphicRepresentationsAndTransfer, §§R16.2.13, R16.4.5, R16.6.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GL2AutomorphicRepresentationsAndTransfer/README.md#r1663-hilbert-cohomological-algebraic-weights); [AutomorphicSpectralTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicSpectralTheory/README.md) `Layer 6`.
+*Needs:* [R18.4.2 Quaternionic finite-level cohomology](#r1842-quaternionic-finite-level-cohomology), [R18.3.3 Fixed-central-character algebraic forms](#r1833-fixed-central-character-algebraic-forms); [GL2AutomorphicRepresentationsAndTransfer](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GL2AutomorphicRepresentationsAndTransfer/README.md) `§§R17.3.1, R17.3.3, R17.3.5–R17.3.9`, `§R16.6.3`.
 
 ### R18.4.24a Quaternionic geometric semistable comparison
 
@@ -3796,7 +3825,7 @@ For the good-model comparison require Saito Lemma 4: p splits in the chosen imag
 
 For the invoked semistable-model form of Saito Lemma 4, choose a further sufficiently small level with every geometric curve component of genus greater than one; at a good smooth model the same correspondence extension applies directly.
 
-*Specialization.* Match the supplied α,β bridge, PEL and CM families, coefficient field embeddings, finite levels and lattice pairs with the quaternionic objects of §§R18.2.1 and R18.4.1. Transport the supplied correspondence and projected Leray comparison through these actual identifications, verifying the selected second/conjugate matrix factor and the degree shift q₀. Verify Lemma 4's split-p, fixed-p-component and genus hypotheses before importing the extended model. Preserve its coefficient-linear cohomological projector, descent and prime-to-p isogenies. Choose the CM eigensummand before extracting H¹(−a); no saturated integral image follows from rational projection.
+*Specialization.* Match the supplied α,β bridge, PEL and CM families, coefficient field embeddings, finite levels and lattice pairs with the quaternionic objects of §§R18.2.1 and R18.4.1. Transport the supplied correspondence and projected Leray comparison through these actual identifications, verifying the selected second/conjugate matrix factor and the degree shift q₀. Keep the bridge identity `α*F″(k)≅pr₁*F(k)⊗β*F(χ̄)^a`, where `χ₀=χχ̄`. The selected CM elliptic projector has image `F(χ)` in R¹, of weight one. Tensoring its a factors with the bridge factors `F(χ̄)^a` gives `F(χ₀)^a`; only after this tensor product and forgetting the torus action is the correction Tate `(−a)`. Verify Lemma 4's split-p, fixed-p-component and genus hypotheses before importing the extended model. Preserve its coefficient-linear cohomological projector, descent and prime-to-p isogenies. Choose the CM eigensummand before extracting H¹(−a); no saturated integral image follows from rational projection.
 
 Its API:
 
@@ -3811,6 +3840,7 @@ Its API:
 
 - `saito_weight_two`: For `w=k_i=2, q₀=a=0` and the degree-one comparison returns constant weight-two curve cohomology.
 - `saito_g2_w4`: For `g=2,w=4, q₀=6` and `a=2`: the selected degree is seven and the cohomology factor is `H¹(F(k))(−2)`.
+- `saito_CM_character`: At a good CM elliptic fibre, F(χ) and F(χ̄) each have weight one; their product F(χ₀) has weight two and Tate type `(−1)` after forgetting the torus action. Identifying either R¹ constituent alone with `(−1)` fails this weight test.
 - `saito_negative_determinant`: For `k=(6,2),w=4` the exponent `(w−6)/2` is negative; the direct tensor construction is excluded.
 - `saito_no_integral_saturation`: An idempotent containing `1/λ` does not define an integral projector on an O-lattice.
 
