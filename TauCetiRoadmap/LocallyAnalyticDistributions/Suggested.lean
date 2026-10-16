@@ -21,7 +21,9 @@ is Mathlib's bounded `Polynomial.resultant` of the reflected characteristic poly
 
 The README states, and this file omits because their carriers are not at the pins: the
 nonarchimedean locally convex categories, their left hearts and completed tensor products; the
-Stein and tower Hyodo–Kato spaces and completed comparisons of §0.CR.6.6, including
+finite-dimensional inverse-limit tensor comparison `finiteDimensionalML_completedScalar` of §0.0;
+nonproper finite-piece dagger comparison and the Stein and tower Hyodo–Kato spaces and completed
+comparisons of §0.CR.6.6, including
 `LogCrystalline.towerHK.cofinal`; the topologies of `LA` and `D` with their pullbacks, pushforwards, products and convolution; `C^r`,
 order-`r` distributions, vector order and small-order isotropic spaces; the Mellin equivalences
 and the geometric character spaces; analytic reduction modulo a monic polynomial; the resolvent
@@ -1222,7 +1224,7 @@ variable {I : Type*} [TopologicalSpace I] [DiscreteTopology I] [DecidableEq I]
 variable {A : Type*} [NormedCommRing A]
 
 /-- §4.15 (Affinoid-valued Banach-stage distributions): a continuous `A`-linear functional on
-`C₀(I, A)` is determined by its bounded basis values. -/
+`C₀(I, A)` is determined by its basis values. -/
 theorem stageDual_ext [CompleteSpace A] (μ ν : C₀(I, A) →L[A] A)
     (h : ∀ i, μ (NonarchimedeanFredholm.c0Single i (1 : A)) =
       ν (NonarchimedeanFredholm.c0Single i (1 : A))) : μ = ν := by sorry
@@ -1330,40 +1332,79 @@ def analyticStageSpecialization {I : Type*} [TopologicalSpace I] [DiscreteTopolo
   continuous_toFun := continuous_of_discreteTopology
   zero_at_infty' := by sorry
 
-/-- §4.15: specialize bounded dual basis values and sum against the new analytic coefficients. -/
+/-- §4.15: uniformly bounded dual coefficients give a summable specialized pairing. -/
+theorem familySpecialization_summable (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
+    (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (μ : C₀(ℕ, A) →L[A] A)
+    (M : ℝ) (hM : 0 ≤ M) (hμ : ∀ n, ‖μ (NonarchimedeanFredholm.c0Single n 1)‖ ≤ M)
+    (f : C₀(ℕ, B)) :
+    Summable (fun n : ℕ => f n * η (μ (NonarchimedeanFredholm.c0Single n 1))) := by sorry
+
+/-- §4.15: the specialized pairing has the uniform bound `C * M`. -/
+theorem familySpecialization_sum_norm_le (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
+    (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (μ : C₀(ℕ, A) →L[A] A)
+    (M : ℝ) (hM : 0 ≤ M) (hμ : ∀ n, ‖μ (NonarchimedeanFredholm.c0Single n 1)‖ ≤ M)
+    (f : C₀(ℕ, B)) :
+    ‖∑' n : ℕ, f n * η (μ (NonarchimedeanFredholm.c0Single n 1))‖ ≤ (C * M) * ‖f‖ := by sorry
+
+/-- §4.15: specialize dual basis values with an explicit uniform bound and extend their pairing
+continuously to the new analytic stage. -/
 def familySpecialization (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
-    (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (μ : C₀(ℕ, A) →L[A] A) : C₀(ℕ, B) →L[B] B where
+    (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (μ : C₀(ℕ, A) →L[A] A)
+    (M : ℝ) (hM : 0 ≤ M) (hμ : ∀ n, ‖μ (NonarchimedeanFredholm.c0Single n 1)‖ ≤ M) :
+    C₀(ℕ, B) →L[B] B where
   toFun f := ∑' n : ℕ, f n * η (μ (NonarchimedeanFredholm.c0Single n 1))
   map_add' := by sorry
   map_smul' := by sorry
   cont := by sorry
 
-/-- §4.15: specialization maps each dual basis value by the chosen coefficient homomorphism. -/
+/-- §4.15: specialization maps each bounded dual basis value by the coefficient homomorphism. -/
 theorem familySpecialization_coeff (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
-    (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (μ : C₀(ℕ, A) →L[A] A) (n : ℕ) :
-    familySpecialization η C hC hη μ (NonarchimedeanFredholm.c0Single n 1) =
+    (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (μ : C₀(ℕ, A) →L[A] A)
+    (M : ℝ) (hM : 0 ≤ M) (hμ : ∀ n, ‖μ (NonarchimedeanFredholm.c0Single n 1)‖ ≤ M) (n : ℕ) :
+    familySpecialization η C hC hη μ M hM hμ (NonarchimedeanFredholm.c0Single n 1) =
       η (μ (NonarchimedeanFredholm.c0Single n 1)) := by sorry
 
-/-- §4.15: successive bounded coefficient specializations compose. -/
+/-- §4.15: the specialized dual coefficients have uniform bound `C * M`. -/
+theorem familySpecialization_coeff_bound (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
+    (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (μ : C₀(ℕ, A) →L[A] A)
+    (M : ℝ) (hM : 0 ≤ M) (hμ : ∀ n, ‖μ (NonarchimedeanFredholm.c0Single n 1)‖ ≤ M) :
+    ∀ n, ‖familySpecialization η C hC hη μ M hM hμ
+      (NonarchimedeanFredholm.c0Single n 1)‖ ≤ C * M := by sorry
+
+/-- §4.15: successive coefficient specializations compose with the transported bound `Cη * M`. -/
 theorem familySpecialization_comp
     {D : Type*} [NormedCommRing D] [CompleteSpace D] [IsUltrametricDist D]
     (η : A →+* B) (θ : B →+* D) (Cη Cθ : ℝ) (hCη : 0 ≤ Cη) (hCθ : 0 ≤ Cθ)
     (hη : ∀ a, ‖η a‖ ≤ Cη * ‖a‖) (hθ : ∀ b, ‖θ b‖ ≤ Cθ * ‖b‖)
-    (hθη : ∀ a, ‖θ (η a)‖ ≤ (Cθ * Cη) * ‖a‖) (μ : C₀(ℕ, A) →L[A] A) :
-    familySpecialization θ Cθ hCθ hθ (familySpecialization η Cη hCη hη μ) =
-      familySpecialization (θ.comp η) (Cθ * Cη) (mul_nonneg hCθ hCη) hθη μ := by sorry
+    (hθη : ∀ a, ‖θ (η a)‖ ≤ (Cθ * Cη) * ‖a‖) (μ : C₀(ℕ, A) →L[A] A)
+    (M : ℝ) (hM : 0 ≤ M) (hμ : ∀ n, ‖μ (NonarchimedeanFredholm.c0Single n 1)‖ ≤ M) :
+    familySpecialization θ Cθ hCθ hθ (familySpecialization η Cη hCη hη μ M hM hμ)
+        (Cη * M) (mul_nonneg hCη hM) (familySpecialization_coeff_bound η Cη hCη hη μ M hM hμ) =
+      familySpecialization (θ.comp η) (Cθ * Cη) (mul_nonneg hCθ hCη) hθη μ M hM hμ := by sorry
 
-/-- §4.15: specialized evaluation agrees with applying the coefficient homomorphism to the value. -/
+/-- §4.15: evaluation of the bounded specialization agrees with specialization of the value. -/
 theorem familySpecialization_eval (η : A →+* B) (C : ℝ) (hC : 0 ≤ C)
-    (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (μ : C₀(ℕ, A) →L[A] A) (f : C₀(ℕ, A)) :
-    familySpecialization η C hC hη μ (analyticStageSpecialization η C hC hη f) = η (μ f) := by
+    (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖) (μ : C₀(ℕ, A) →L[A] A)
+    (M : ℝ) (hM : 0 ≤ M) (hμ : ∀ n, ‖μ (NonarchimedeanFredholm.c0Single n 1)‖ ≤ M)
+    (f : C₀(ℕ, A)) :
+    familySpecialization η C hC hη μ M hM hμ (analyticStageSpecialization η C hC hη f) = η (μ f) := by
   sorry
 
 /-- §4.15 check `specialization_identity`: the identity ring map fixes analytic coefficients
-and every stage functional. -/
-example (f : C₀(ℕ, A)) (μ : C₀(ℕ, A) →L[A] A) :
+and stage functionals with a specified uniform coefficient bound. -/
+example (f : C₀(ℕ, A)) (μ : C₀(ℕ, A) →L[A] A)
+    (M : ℝ) (hM : 0 ≤ M) (hμ : ∀ n, ‖μ (NonarchimedeanFredholm.c0Single n 1)‖ ≤ M) :
     analyticStageSpecialization (RingHom.id A) 1 (by norm_num) (by intro a; simp) f = f ∧
-    familySpecialization (RingHom.id A) 1 (by norm_num) (by intro a; simp) μ = μ := by sorry
+    familySpecialization (RingHom.id A) 1 (by norm_num) (by intro a; simp) μ M hM hμ = μ := by sorry
+
+/-- §4.15 check `specialization_discreteRing`: vanishing scalars whose prescribed images are one
+obstruct any continuous extension of the specialized dual coefficients. -/
+example [Nontrivial B] (η : A →+* B) (μ : C₀(ℕ, A) →L[A] A) (c : ℕ → B)
+    (hc : Tendsto c atTop (𝓝 0))
+    (hprod : ∀ n, c n * η (μ (NonarchimedeanFredholm.c0Single n 1)) = 1) :
+    ¬ ∃ ν : C₀(ℕ, B) →L[B] B, ∀ n,
+      ν (NonarchimedeanFredholm.c0Single n 1) =
+        η (μ (NonarchimedeanFredholm.c0Single n 1)) := by sorry
 
 /-- §4.15 check `specialization_single`: arbitrary discrete coefficient indices are preserved. -/
 example {I : Type*} [TopologicalSpace I] [DiscreteTopology I] [DecidableEq I]
@@ -1379,7 +1420,8 @@ example (η : A →+* B) (C : ℝ) (hC : 0 ≤ C) (hη : ∀ a, ‖η a‖ ≤ C
 point evaluation to the corresponding specialized point evaluation. -/
 example (η : A →+* B) (C : ℝ) (hC : 0 ≤ C) (hη : ∀ a, ‖η a‖ ≤ C * ‖a‖)
     (a x : A) (hx : ‖x‖ ≤ 1) (hηx : ‖η x‖ ≤ 1) :
-    familySpecialization η C hC hη (a • analyticStageEvaluate x hx) =
+    familySpecialization η C hC hη (a • analyticStageEvaluate x hx)
+        ‖a‖ (norm_nonneg _) (by sorry) =
       η a • analyticStageEvaluate (η x) hηx := by sorry
 
 /-- §4.15 check `specialization_two_factors`: the two actual coefficient projections
@@ -1393,9 +1435,9 @@ example :
     let f := NonarchimedeanFredholm.c0Single 0 (1 : ℚ_[3]) +
       NonarchimedeanFredholm.c0Single 1 (5 : ℚ_[3])
     familySpecialization (AlgHom.snd ℚ_[3] ℚ_[3] ℚ_[3]).toRingHom 1 (by norm_num)
-      (by intro a; simpa using norm_snd_le a) μ f = 22 ∧
+      (by intro a; simpa using norm_snd_le a) μ 1 (by norm_num) (by sorry) f = 22 ∧
     familySpecialization (AlgHom.fst ℚ_[3] ℚ_[3] ℚ_[3]).toRingHom 1 (by norm_num)
-      (by intro a; simpa using norm_fst_le a) μ f = 16 := by sorry
+      (by intro a; simpa using norm_fst_le a) μ 1 (by norm_num) (by sorry) f = 16 := by sorry
 
 /-- §4.15 check `specialization_two_factors`, infinite family: bounded constant dual
 coefficients act on a genuinely decaying analytic vector. -/
@@ -1407,9 +1449,9 @@ example :
         continuous_toFun := continuous_of_discreteTopology
         zero_at_infty' := by sorry }
     familySpecialization (AlgHom.snd ℚ_[3] ℚ_[3] ℚ_[3]).toRingHom 1 (by norm_num)
-      (by intro a; simpa using norm_snd_le a) μ f = -1 ∧
+      (by intro a; simpa using norm_snd_le a) μ 1 (by norm_num) (by sorry) f = -1 ∧
     familySpecialization (AlgHom.fst ℚ_[3] ℚ_[3] ℚ_[3]).toRingHom 1 (by norm_num)
-      (by intro a; simpa using norm_fst_le a) μ f = -1 / 2 := by sorry
+      (by intro a; simpa using norm_fst_le a) μ 1 (by norm_num) (by sorry) f = -1 / 2 := by sorry
 
 /-- §4.15 check `stageDilate_unit`: unit dilation is identity. -/
 example (f : C₀(ℕ, A)) (h : ‖(1 : A)‖ ≤ 1) : analyticStageDilate 1 h f = f := by sorry
@@ -1444,9 +1486,11 @@ example (hd : ‖((3, 3) : ℚ_[3] × ℚ_[3])‖ ≤ 1)
     let acted := analyticStageConstantTranspose (3, 3) hd (2, 3) μ
     let quadratic := NonarchimedeanFredholm.c0Single 2 (1 : ℚ_[3] × ℚ_[3])
     familySpecialization (AlgHom.snd ℚ_[3] ℚ_[3] ℚ_[3]).toRingHom 1 (by norm_num) hs acted
+        1 (by norm_num) (by sorry)
         (analyticStageSpecialization (AlgHom.snd ℚ_[3] ℚ_[3] ℚ_[3]).toRingHom
           1 (by norm_num) hs quadratic) = 189 ∧
     familySpecialization (AlgHom.fst ℚ_[3] ℚ_[3] ℚ_[3]).toRingHom 1 (by norm_num) hf acted
+        1 (by norm_num) (by sorry)
         (analyticStageSpecialization (AlgHom.fst ℚ_[3] ℚ_[3] ℚ_[3]).toRingHom
           1 (by norm_num) hf quadratic) = 90 := by sorry
 

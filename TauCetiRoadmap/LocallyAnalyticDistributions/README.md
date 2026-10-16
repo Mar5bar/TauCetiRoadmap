@@ -37,7 +37,7 @@ The targets below are specifications for formalisation. Every definition comes w
 This roadmap owns the following material.
 
 - Pointwise realization of native restricted series on translated closed discs and finite polydisc charts, with the maximum-principle comparison, the compact-type topology of locally analytic functions and the topology of their dual of distributions, in one variable, on finite products of local integer rings (distinguishing ℚ_p-analytic from F-analytic functions) and on compact p-adic analytic manifolds through charts.
-- The Hyodo–Kato cohomology of semistable Stein curves as Fréchet projective limits, the completed Hyodo–Kato comparison, and semistable curve towers as ind-Fréchet spaces, with continuous Frobenius, monodromy and group actions (§0.CR.6.6).
+- The nonproper finite-piece dagger Hyodo–Kato comparison and the Hyodo–Kato cohomology of semistable Stein curves as Fréchet projective limits, the completed Hyodo–Kato comparison, and semistable curve towers as ind-Fréchet spaces, with continuous Frobenius, monodromy and group actions (§0.CR.6.6).
 - The strict-sequence and three-space results for nonarchimedean Banach, Fréchet and compact-type spaces that are used to pass between stages, limits and duals, including the nonarchimedean Hahn–Banach theorem over a spherically complete field, which is stated here as a target rather than taken from another roadmap.
 - The Fréchet topology of the unbounded Amice transform (distributions ↔ power series convergent on the open disc), and the operator dictionary: point masses, convolution, multiplication by the coordinate, character twists, clopen restriction, the transpose derivative and the logarithm, dilation, φ and ψ, division by the coordinate on the units, local primitives, and the non-splitting of differentiation and of the logarithm sequence.
 - Functions of class C^r, distributions of order r, the identification of order zero with bounded measures, the Amice–Vélu–Vishik theorem with the strict degree bound, vector order on ℤ_p^g through completed tensors of one-variable spaces, rectangular growth bounds, the critical counterexample, the small-order isotropic function spaces and equal-radius extension theorem, and the ray-class growth adapters.
@@ -105,11 +105,12 @@ Layer 0: bounded measures D(X, L) = C⁰(X, L)′ on ℤ_p and ℤ_pˣ with thei
 |---|---|---|
 | §0.CR.6.6 Hyodo–Kato cohomology of Stein curves | AdicSpacesPartIV F1.5, F1.7 and F1.11 | The Monsky–Washnitzer weak completion; Dagger spaces; Finiteness of de Rham cohomology of tubes in a quasi-compact strictly semistable formal scheme |
 | §0.CR.6.6 Hyodo–Kato cohomology of Stein curves | CrystallineCohomology §CR.6.5 | Log rigid Hyodo–Kato cohomology; Proper log rigid and crystalline Hyodo–Kato cohomology |
-| §0.CR.6.6 Completed Hyodo–Kato comparison for Stein curves | CrystallineCohomology §CR.6.2 | Uniformizer-dependent Hyodo–Kato maps |
+| §0.CR.6.6 Nonproper finite-piece Hyodo–Kato comparison, proper compatibility | CrystallineCohomology §§CR.6.2 and CR.6.5 | Uniformizer-dependent Hyodo–Kato maps (proper models); Proper log rigid and crystalline Hyodo–Kato cohomology |
 
 CrystallineCohomology §§CR.6.1–CR.6.5 own the log crystalline and log rigid Hyodo–Kato complexes,
-Frobenius, monodromy and uniformizer-dependent maps. The Stein limits, their completed comparison
-and the ind-Fréchet curve towers belong to §0.CR.6.6 here.
+Frobenius, monodromy and the proper uniformizer-dependent maps. The nonproper finite-piece
+dagger comparison, the Stein limits, their completed comparison and the ind-Fréchet curve towers
+belong to §0.CR.6.6 here.
 
 ### From TauCetiRoadmap.AdicSpaces and TauCetiRoadmap.ReductiveGroups
 
@@ -312,6 +313,38 @@ Here K is a complete nontrivially valued ultrametric field. The categorical latt
 - `c0Tensor_empty`: I=∅ gives zero after any scalar extension; I=singleton gives A.
 - `c0Tensor_infinite`: The array p^n on (n,n), zero elsewhere, is included; the array constantly one on N² is excluded. Both completions give the same result.
 
+**Completed scalar extension of finite-dimensional inverse limits** (comparison). Let F be a
+complete nontrivially valued ultrametric field, C a complete valued extension with isometric
+F-action, and (V_i) a countable inverse system of finite-dimensional Hausdorff F-spaces with
+continuous linear transitions satisfying Mittag–Leffler (the images in each V_i eventually
+stabilize). With projective-limit topologies and the separated completed projective tensor,
+the natural map is a topological C-linear isomorphism
+C⊗̂_F lim_i V_i ≃ lim_i (C⊗_F V_i). The finite-dimensional factors on the right are already
+complete. API: `finiteDimensionalML_completedScalar`, sending c⊗(v_i) to (c⊗v_i), natural in
+maps of systems and invariant under cofinal subsequences.
+
+*Proof sketch.* Replace each V_i by its stable image W_i. This gives the same inverse limit
+with surjective transitions, and the scalar-extended stable images are C⊗_F W_i because scalar
+extension is exact on finite-dimensional spaces. Choose continuous linear splittings of those
+surjections. The limit becomes W_0×∏_i ker(W_(i+1)→W_i), a product of finite-dimensional spaces.
+Every continuous seminorm on this product is controlled by finitely many coordinates. Finite
+coordinate tensor comparisons and density of finite-support tensors therefore identify its
+completed scalar extension with the product of the scalar-extended factors. The resulting map
+is the natural one, hence independent of the splittings. Source: derived from Schneider §17,
+Lemma 17.2, Proposition 17.4 and Corollary 17.5, pp.110–113; Colmez–Dospinescu–Nizioł,
+*Cohomology of p-adic Stein spaces*, §2.1.3, pp.9–10, and the finite-rank limit argument preceding
+Lemma 3.26, p.22. *Needs:* §0.0 (*Locally convex limits*, *Projective tensor and separated
+completion*); finite-dimensional topology over complete valued fields.
+
+**Checks.**
+
+- `scalarLimit_constant`: An identity system on F^d gives C⊗_F F^d≃C^d, including d=0.
+- `scalarLimit_product`: For V_i=F^i with coordinate deletion, C⊗̂_F F^ℕ≃C^ℕ with product
+  topologies. The constant sequence one is included, and e_n tends to zero; a c₀ topology fails.
+- `scalarLimit_stableImages`: For the constant space F² with transition (x,y)↦(x,0), the stable
+  image is F×0. Both limits and the completed scalar extension give one line, although the
+  original transitions are not surjective.
+
 ### 0.1 Discs, locally analytic functions and their distributions
 
 Hypotheses shared by several targets of this subsection, cited by letter below: (a) L ⊆ ℂ_p is a closed subfield (a finite extension of ℚ_p in applications), v_p the valuation with v_p(p) = 1, and ℓ(n) the number of base-p digits of n (ℓ(0) = 0).
@@ -428,6 +461,53 @@ The log rigid Hyodo–Kato complexes, Frobenius and monodromy are those of Cryst
 §§CR.6.1–CR.6.5, with σ the Witt Frobenius. The completed geometric coefficient field K̆₀ is
 specified in the completed comparison below.
 
+**Nonproper finite-piece Hyodo–Kato comparison.** Let 𝔘 be a quasi-compact separated strictly
+semistable weak formal O_K-scheme with only vertical semistable log structure, a chosen
+uniformizer π, special log fibre Y, and smooth dagger generic fibre U^†. Strict semistability
+means that locally 𝔘 admits étale maps to
+Spwf(O_K⟨x_1,…,x_n⟩^†/(x_1⋯x_r−π)), 1≤r≤n. Construct the uniformizer-dependent comparison
+of complexes
+ρ^†_π:RΓ_rig(Y/S₀)⊗_{K₀}K ≃ RΓ_dR(U^†/K),
+where S₀=(Spf W(k),1↦0) and the log rigid complex is that of CrystallineCohomology §CR.6.5.
+In particular it induces the finite-dimensional degree-one isomorphism
+K⊗_{K₀}H¹_rig(Y/S₀)≃H¹_dR(U^†/K), with the usual Hausdorff finite-dimensional topologies.
+No properness assumption is made on Y or 𝔘.
+
+The API is `LogCrystalline.daggerHK.comparison` for the complex-level comparison,
+`LogCrystalline.daggerHK.restriction` for its naturality under morphisms of such models,
+including restrictions to weak formal opens, and `LogCrystalline.daggerHK.refinement` for
+compatibility with common admissible embedding and covering refinements. These maps are
+compatible with finite coefficient-field extension and its semistable base-change
+identifications. `LogCrystalline.daggerHK.proper` identifies the comparison on a proper
+semistable model with CrystallineCohomology §CR.6.2 after the proper log rigid–crystalline
+comparison of §CR.6.5 and proper dagger–rigid de Rham comparison. The dagger generic fibre and
+its overconvergent de Rham complex are part of the hypotheses.
+
+*Proof sketch.* Use the log boundary embeddings and the two parameter specializations t=0 and
+t=π to form Grosse-Klönne's zigzag. Its arrows are quasi-isomorphisms on the simplicial dagger
+tubes; the t=π term is the dagger de Rham complex. Common refinements and restriction of the
+same zigzag supply naturality. The proper compatibility follows by comparing those parameter
+specializations with the proper crystalline ones. Source: [Grosse-Klönne, *Frobenius and
+monodromy operators in rigid analysis, and Drinfel’d’s symmetric space*](https://arxiv.org/abs/1408.3346),
+Theorem 3.4, §3.6 and Corollary 3.7, pp.16–17; §3.11, pp.18–19 for proper compatibility.
+*Needs:* CrystallineCohomology §CR.6.5 (*Log rigid Hyodo–Kato cohomology*, *Proper log rigid and
+crystalline Hyodo–Kato cohomology*) and §CR.6.2 (*Uniformizer-dependent Hyodo–Kato maps*, only
+for the proper compatibility); AdicSpacesPartIV F1.5 (*The Monsky–Washnitzer weak completion*),
+F1.7 (*Dagger spaces*) and F1.11 (*Finiteness of de Rham cohomology of tubes in a quasi-compact
+strictly semistable formal scheme*).
+
+**Checks.**
+
+- `daggerHK_disc`: The good-reduction dagger affine line has H¹=0 on both sides. Ordinary
+  closed rigid-disc de Rham cohomology cannot replace dagger cohomology in this statement.
+- `daggerHK_annulus`: For the weak formal chart xy=π the comparison sends the log rigid
+  class dlog x to the dagger annulus class dlog x, a one-dimensional K-space after extension.
+- `daggerHK_restriction`: Restriction from a good-reduction dagger affine line to the weak
+  formal open with x invertible gives 0→K·dlog x in degree one on both sides. The restriction
+  square commutes, although the restriction on H¹ is not surjective.
+- `daggerHK_proper`: On a proper good-reduction curve the map agrees with the proper
+  crystalline–de Rham comparison and is independent of π because N=0.
+
 **Hyodo–Kato cohomology of Stein curves.** For a smooth Stein curve over K with a semistable weak
 formal model and a Stein exhaustion by relatively compact semistable dagger pieces U_i
 (AdicSpacesPartIV Layer F1), define its overconvergent Hyodo–Kato cohomology as the projective limit
@@ -491,13 +571,17 @@ Colmez–Dospinescu–Nizioł), with Gal(K̄/K) acting through Gal(k̄/k) on Wit
 
 *Hypotheses.* The HK, de Rham and scalar-extended exhaustion models satisfy the common finite
 window, closed differential images, degreewise strict Roos surjectivity and finite-dimensional
-Hausdorff Mittag–Leffler hypotheses of the preceding target.
+Hausdorff Mittag–Leffler hypotheses of the preceding target. Each finite piece is the dagger
+generic fibre of a quasi-compact separated strictly semistable weak formal model as in
+*Nonproper finite-piece Hyodo–Kato comparison*, with compatible restriction maps and common
+refinements; retain these hypotheses after coefficient extension.
 
-*Proof sketch.* Use Grosse-Klönne’s log boundary embedding zigzag on each semistable dagger piece
-(CrystallineCohomology §CR.6.5, *Log rigid Hyodo–Kato cohomology*). Apply
-§0.2 `naProjectiveLimit_cohomology_finiteDimensionalML` to these
-models and the completed projective tensor comparison of §0.0. Compare with the classical formal
-Hyodo–Kato map by the compatible p^N-inverse and section construction of Colmez–Dospinescu–Nizioł,
+*Proof sketch.* Apply §0.CR.6.6 (*Nonproper finite-piece Hyodo–Kato comparison*) to each
+strictly semistable weak formal exhaustion model, using its restriction and common-refinement
+compatibilities. Apply §0.2 `naProjectiveLimit_cohomology_finiteDimensionalML` to the chosen
+models and §0.0 `finiteDimensionalML_completedScalar` to their finite-dimensional cohomology
+systems, over K₀ and over the completed geometric coefficient field K̆₀ respectively. Compare
+with the classical formal Hyodo–Kato map by the compatible p^N-inverse and section construction of Colmez–Dospinescu–Nizioł,
 Appendix A, then pass to C and geometric descent. ([Colmez–Dospinescu–Nizioł, *Cohomology of p-adic
 Stein spaces*](https://arxiv.org/abs/1801.06686v2), §3.1.3 and Proposition 3.12, pp.16–18; Appendix
 A.1–A.5, pp.60–61; [Colmez–Dospinescu–Nizioł, *Cohomologie p-adique de la tour de Drinfeld: le cas
@@ -505,7 +589,8 @@ de la dimension 1*](https://webusers.imj-prg.fr/~wieslawa.niziol/GPW5.pdf), §0.
 pp.10–12, geometric completed comparison.)
 
 *Needs:* §0.CR.6.6 (*Hyodo–Kato cohomology of Stein curves*);
-CrystallineCohomology §CR.6.2 (*Uniformizer-dependent Hyodo–Kato maps*); §0.0 (*Locally convex limits*
+§0.CR.6.6 (*Nonproper finite-piece Hyodo–Kato comparison*);
+§0.0 (`finiteDimensionalML_completedScalar`, *Locally convex limits*
 and *Projective tensor and separated completion*); §0.2
 (`naProjectiveLimit_cohomology_finiteDimensionalML` and *Strict sequences and three-space
 properties*); Mathlib `WittVector.map`.
@@ -663,7 +748,7 @@ The function x on the closed unit disc has Gauss valuation 0; Σ xᵏ converges 
 
 ### Dependencies
 
-Mathlib (`PadicInt.mahlerEquiv`, `ZeroAtInftyContinuousMap`, `ContinuousLinearMap`, `LocallyConstant`, nonarchimedean infinite sums); PadicMeasuresIwasawaAlgebras Layer 0 (bounded measures and their topologies) and Layer 2 (the bounded Amice transform); PadicFunctionalAnalysis §4.3–§4.4 and §4.7 (the stages LA_h, Amice's theorem and the distributions); AdicSpacesPartIV F1.5, F1.7 and F1.11 (weak completions, dagger spaces and tube finiteness); CrystallineCohomology §CR.6.2 (uniformizer-dependent maps) and §CR.6.5 (log rigid Hyodo–Kato cohomology and its proper crystalline comparison); Mathlib `WittVector.map`, `CategoryTheory.Ind` and `CategoryTheory.Ind.lim`. No earlier layer.
+Mathlib (`PadicInt.mahlerEquiv`, `ZeroAtInftyContinuousMap`, `ContinuousLinearMap`, `LocallyConstant`, nonarchimedean infinite sums); PadicMeasuresIwasawaAlgebras Layer 0 (bounded measures and their topologies) and Layer 2 (the bounded Amice transform); PadicFunctionalAnalysis §4.3–§4.4 and §4.7 (the stages LA_h, Amice's theorem and the distributions); AdicSpacesPartIV F1.5, F1.7 and F1.11 (weak completions, dagger spaces and tube finiteness); CrystallineCohomology §CR.6.2 (proper uniformizer-dependent maps, for compatibility) and §CR.6.5 (log rigid Hyodo–Kato cohomology and its proper crystalline comparison); Mathlib `WittVector.map`, `CategoryTheory.Ind` and `CategoryTheory.Ind.lim`. No earlier layer.
 
 ## Layer 1: the unbounded Amice transform and operations on distributions
 
@@ -2490,9 +2575,9 @@ Source for this subsection unless a target says otherwise: Urban, Lemmas 3.4.6�
 - `stageEvaluate_quadratic`: Evaluation of e_2 at x is x², including x=1 on the boundary.
 - `stageEvaluate_zeroFunction`: The zero analytic function evaluates to zero at every allowed point; constant coefficients one are not an analytic input on an infinite index set.
 
-**Specialization of distribution families** (construction). For a bounded K-affinoid map η:A→B, construct the completed analytic-stage coefficient map S_η:c₀(I,A)→c₀(I,B), S_η(f)_i=η(f_i), using ‖η(a)‖≤C_η‖a‖; via §0.0 this is the canonical map of completed scalar tensors. A stage functional is uniquely represented by the bounded values λ_i=μ(e_i). Define sp_η(μ) on f∈c₀(I,B) by Σ_i f_i η(λ_i). The ultrametric bound C_η sup_i‖λ_i‖ ensures convergence and continuity even though λ is not c₀. This constructs D_h(X,A)→D_h(X,B), then its B-bilinear scalar extension D_h(X,A)×B→D_h(X,B). On coefficients it sends μ(e_α)⊗b to image(μ(e_α))b. It is compatible with radius transitions because the substitution matrices specialize coefficientwise and the bounded sums commute with η. Thus sp_η(μ)(S_η f)=η(μ(f)) on every stage, and the same formula holds on the global projective limit. This compatibility is a theorem of the constructed maps, not a supplied equality. For a finite residue-field specialization it gives the character-fibre distribution; an isomorphism after completed tensor is a separate hypothesis. Under (a). Its API consists of `familySpecialization` (Specialize bounded distribution coefficient families along a bounded A→B map), `familySpecialization_coeff` (Basis coefficient values map by the specified algebra homomorphism) and `familySpecialization_comp` (Successive bounded coefficient maps compose on every coefficient), `analyticStageSpecialization` (The completed coefficient map S_η for any discrete index set I), `familySpecialization_eval` (The displayed evaluation comparison) and `familySpecialization_radius` (The projective-limit comparison).
+**Specialization of distribution families** (construction). For a bounded K-affinoid map η:A→B, construct the completed analytic-stage coefficient map S_η:c₀(I,A)→c₀(I,B), S_η(f)_i=η(f_i), using ‖η(a)‖≤C_η‖a‖; via §0.0 this is the canonical map of completed scalar tensors. A stage functional has basis values λ_i=μ(e_i). In the affinoid setting their uniform bound follows by restricting μ to the common nontrivially valued ground field K. The ring-general adapter instead requires explicit data M≥0 and ∀i, ‖λ_i‖≤M; continuity over an arbitrary complete ultrametric normed ring does not imply this bound. For these data, prove summability of Σ_i f_i η(λ_i) and the estimate ‖Σ_i f_i η(λ_i)‖≤(C_η M)‖f‖ using PadicFunctionalAnalysis §2.1, then construct sp_η(μ). The dual family need not be c₀. This constructs D_h(X,A)→D_h(X,B), then its B-bilinear scalar extension D_h(X,A)×B→D_h(X,B). On coefficients it sends μ(e_α)⊗b to image(μ(e_α))b. Successive specializations carry M to C_η M and then C_θ C_η M. For every radius h retain a bound M_h for the corresponding dual coefficients; no uniform bound in h is assumed. It is compatible with radius transitions because the substitution matrices specialize coefficientwise and the bounded sums commute with η. Thus sp_η(μ)(S_η f)=η(μ(f)) on every stage, and the same formula holds on the global projective limit. This compatibility is a theorem of the constructed maps, not a supplied equality. For a finite residue-field specialization it gives the character-fibre distribution; an isomorphism after completed tensor is a separate hypothesis. Under (a). Its API consists of `familySpecialization_summable` and `familySpecialization_sum_norm_le` (Summability and the C_η M bound before constructing the map), `familySpecialization` (Specialize dual coefficients with explicit M≥0 and the bound on every basis value), `familySpecialization_coeff_bound` (The transported bound C_η M), `familySpecialization_coeff` (Basis coefficient values map by the specified algebra homomorphism) and `familySpecialization_comp` (Successive bounded coefficient maps compose on every coefficient), `analyticStageSpecialization` (The completed coefficient map S_η for any discrete index set I), `familySpecialization_eval` (The displayed evaluation comparison) and `familySpecialization_radius` (The projective-limit comparison).
 
-*Needs:* §4.15 (Affinoid-valued Banach-stage distributions); §4.15 `distributionScalarExtension`.
+*Needs:* §4.15 (Affinoid-valued Banach-stage distributions); §4.15 `distributionScalarExtension`; PadicFunctionalAnalysis §2.1 (bounded-family extension from c₀). Source: Urban, Lemmas 3.4.6–3.4.7 and Corollary 3.4.10, pp.43–45; the bounded-coefficient specialization adapter is derived here from that supplied extension.
 
 **Checks.**
 
@@ -2500,6 +2585,7 @@ Source for this subsection unless a target says otherwise: Urban, Lemmas 3.4.6�
 - `AnalyticDistributionTests.specialization_single`: The completed stage map sends e_i⊗a to e_i⊗η(a), preserving its index and specializing its scalar.
 - `AnalyticDistributionTests.specialization_empty`: The empty analytic chart remains zero after any bounded coefficient map.
 - `AnalyticDistributionTests.specialization_atom`: A-valued aδ_x specializes to image(a)δ_x. In the one-disc model both x and η(x) have norm at most one, and the specialized evaluation point is η(x).
+- `specialization_discreteRing` (non-example): Give A=F₃[t] the norm ‖a‖=3^(deg a) for a≠0. It is complete, discrete and Noetherian, and c₀(ℕ,A) consists of finite-support vectors. The continuous A-linear μ((a_n))=Σ_n a_n t^n has unbounded basis values. The isometric map η:A→B=F₃((s)), η(t)=s⁻¹, with ‖s‖=1/3 is contractive. On s^n e_n→0 any coefficient-preserving specialization would have value one, and on the c₀ vector (s^n) its defining summands are all one. Thus no continuous specialization exists without the dual bound, even for a Noetherian A and contractive η.
 - `AnalyticDistributionTests.specialization_logarithm` (compatibility): For finite field specialization the unbounded Amice series specializes coefficientwise, including log(1+T).
 - `AnalyticDistributionTests.specialization_two_factors`: For A=K×K and η the second projection, μ(e_0)=(1,2), μ(e_1)=(3,4), all others zero. On f=e_0+5e_1 the specialization gives 22, whereas the first projection gives 16. With μ(e_n)=(1,2) for every n, specialization is still the coefficient-sum functional multiplied by 2; on the decaying Q₃ vector f_n=3^n it gives −1 (the first projection gives −1/2). Requiring a c₀ dual incorrectly excludes it.
 
