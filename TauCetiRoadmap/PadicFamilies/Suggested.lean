@@ -86,7 +86,12 @@ theorem locally_finite_ordinary_milestone
       (∀ x ∈ LinearMap.ker e, ∀ n : ℕ, ∃ b : ℕ, ∀ k : ℕ, b ≤ k →
         (T ^ k) x ∈ (IsLocalRing.maximalIdeal R ^ n) • (⊤ : Submodule R M)) := sorry
 
+example (I : Ideal R) : IsLocallyFiniteEnd I (0 : Module.End R M) := sorry
 example (I : Ideal R) : IsLocallyFiniteEnd I (1 : Module.End R M) := sorry
+
+/-- Multiplication by the variable has an infinite independent orbit at the zero ideal. -/
+example : ¬ IsLocallyFiniteEnd (⊥ : Ideal (ZMod 2))
+    (LinearMap.mulLeft (ZMod 2) (Polynomial.X : Polynomial (ZMod 2))) := sorry
 example [Module.Finite R M] (I : Ideal R) (T : Module.End R M) :
     IsLocallyFiniteEnd I T := sorry
 end LocallyFinite
@@ -135,6 +140,20 @@ example : Nat.card (congruenceModule (RingHom.fst ℤ ℤ) (ℤ × ℤ)) = 1 := 
 /-- Polynomial augmentation is a negative control for dropping the double annihilator. -/
 example : congruenceIdeal (Polynomial.constantCoeff : Polynomial ℤ →+* ℤ) = ⊥ ∧
     Nat.card (congruenceModule (Polynomial.constantCoeff : Polynomial ℤ →+* ℤ) (Polynomial ℤ)) = 1 := sorry
+/-- Reduction modulo two has a nonzero raw congruence quotient. -/
+example :
+    augmentationAnnihilator (ZMod.castHom (by decide : 2 ∣ 4) (ZMod 2)) =
+      Ideal.span {(2 : ZMod 4)} ∧
+    congruenceIdeal (ZMod.castHom (by decide : 2 ∣ 4) (ZMod 2)) = ⊥ ∧
+    Nat.card (congruenceModule
+      (ZMod.castHom (by decide : 2 ∣ 4) (ZMod 2)) (ZMod 4)) = 2 := sorry
+
+/-- The dual-number augmentation has a nontorsion raw quotient isomorphic to the integers. -/
+example :
+    Nonempty (congruenceModule
+      (TrivSqZeroExt.fstHom ℤ ℤ ℤ).toRingHom (DualNumber ℤ) ≃+ ℤ) ∧
+    ¬ Module.IsTorsion ℤ (congruenceModule
+      (TrivSqZeroExt.fstHom ℤ ℤ ℤ).toRingHom (DualNumber ℤ)) := sorry
 end Congruence
 
 /-! ## Layer 2a: The eigenvariety construction
@@ -169,6 +188,7 @@ congruenceModule_self_eq, congruenceIdeal_map and congruenceIdeal_ne_bot.
 
 The complete-flat and compatible-minimal-model constructions are IsMinimal,
 CompleteFlatComplex, completeFlatBasis and compatibleMinimalModel.
+The odd-prime cuspidal input is ordinaryCuspidal_control_oddPrime.
 The Eisenstein inputs are eisensteinConstantTerm and eisensteinCoefficientMeasure;
 the modular Euler-system inputs are thetaUnit, modularZeta and their period comparisons.
 
@@ -177,6 +197,15 @@ slopeSummand, heckeImage, eigenvarietyOverWeight, complexSpectralVariety,
 eigenmoduleSheaf, distFamily, familySymb, familySymbSlope, symbolEigencurve,
 eigensymbolSheaf, ellipticColemanForms, IsCriticalRefinement, IsThetaCritical,
 IsDecent, criticalPadicL, the local two-variable Mellin construction and secondaryPadicL.
+
+The critical-boundary prerequisites are eisensteinCharacterSelmer,
+preferredEisensteinRepresentation, criticalBoundary_coleman,
+criticalSplit_breuilEmerton, criticalEisenstein_bellaicheChenevier,
+eigencurvePseudocharacter, refinedCrystallinePeriod,
+refinedDeformationRepresentable and refinedTangent_selmer.
+The classical Hilbert coefficient inputs are classicalHilbertQExpansion,
+classicalHilbertQExpansion_injective, classicalHilbertQExpansion_baseChange
+and classicalHilbertQExpansion_idealCoefficients.
 
 The later layers specify hidaBigGaloisRep, nearlyOrdinaryDeformation, familySelmer,
 familySelmerComplex, bigKatoClass, bigLogarithm, familyColemanMap,

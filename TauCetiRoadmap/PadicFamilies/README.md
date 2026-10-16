@@ -61,7 +61,7 @@ Tau Ceti's `HeckeRing.GL2.Newform` (`TauCeti.NumberTheory.ModularForms.Newforms.
 
 ### From the analytic and geometric roadmaps
 
-*Uses.* `LocallyAnalyticDistributions`, Layer 4: orthonormalisable Banach modules and the property-`(Pr)` summand formulation, completed scalar extension, compactness and the compact-matrix criterion, Fredholm determinants, the cyclic determinant identity, entire resultants and the unit-resultant criterion, the Riesz decomposition (for `F = QS` with `Q(0) = 1`, `Q` of unit leading coefficient and `Q`, `S` coprime, a finite projective selected block whose Fredholm polynomial is `Q`), commuting stability and uniqueness of finite-slope summands, uniform radii for the universal weights, bounded cochain models, compact homotopy representatives, finite-slope perfect complexes and finite-slope homotopy invariance. *Required in addition.* The primitive links between Banach modules of different radii and their companions are constructed here (§2a.11, §2.2). The closed-submodule potential-orthonormalisability criterion for family symbol kernels on nice charts and its descent to an admissible chart cover of weight space are constructed here as `familySymb_pr` and `familySymb_chartDescent` in §2.2. Neither compactness on a closed kernel nor projectivity after an arbitrary nonflat base change is inferred formally. These are application hypotheses to verify.
+*Uses.* `LocallyAnalyticDistributions`, Layer 4: orthonormalisable Banach modules and the property-`(Pr)` summand formulation, completed scalar extension, compactness and the compact-matrix criterion, Fredholm determinants, the cyclic determinant identity, entire resultants and the unit-resultant criterion, the Riesz decomposition (for `F = QS` with `Q(0) = 1`, `Q` of unit leading coefficient and `Q`, `S` coprime, a finite projective selected block whose Fredholm polynomial is `Q`), commuting stability and uniqueness of finite-slope summands, uniform radii for the universal weights, bounded cochain models, compact homotopy representatives, finite-slope perfect complexes, intrinsic algebraic slope parts of cohomology and homotopy invariance for strictly equivariant cochain homotopy equivalences. *Required in addition.* The primitive links between Banach modules of different radii and their companions are constructed here (§2a.11, §2.2). The closed-submodule potential-orthonormalisability criterion for family symbol kernels on nice charts and its descent to an admissible chart cover of weight space are constructed here as `familySymb_pr` and `familySymb_chartDescent` in §2.2. Neither compactness on a closed kernel nor projectivity after an arbitrary nonflat base change is inferred formally. These are application hypotheses to verify.
 
 *Uses.* `RigidAnalyticGeometry`, §§1.1–1.5: affinoid presentations, dimension, completed field extension, affinoid fractions and strictness at radii in `√|K×|`; §§6.1–6.3: rigid spaces and admissible coverings; §§7.1–7.4: coherent modules, the identity principle and Kiehl's theorems; §8.3: the rigid–adic comparison. `AdicSpacesPartII`, R0–R1, supplies completed Banach tensors and the adic morphism classes. `AdicSpacesPartIII`, §F0.1, supplies finite modules as complete adic inverse systems; §§R2.4, R2.6–R2.7 supply rig-points, formal-model separatedness, flattening and quasi-finite models; §§R3.1–R3.3 supply coherent sheaves and finite coherent algebras with glueing. The finite-chart argument in §2a.3 uses the finite-neighbourhood criterion of Conrad, Appendix A.1, Theorem A.1.2, pp. 37–40. The weighted Weierstrass and global rigid-component statements needed beyond those suppliers are explicit targets in §§2a.2 and 2a.14 here.
 
@@ -73,9 +73,9 @@ Tau Ceti's `HeckeRing.GL2.Newform` (`TauCeti.NumberTheory.ModularForms.Newforms.
 
 *Uses.* `ModularSymbolsPadicLFunctions`, Layer 0: `Hom_Γ(Δ₀, V)`, coset descriptions, Hecke actions, signs, Eichler–Shimura and the symbol–cohomology comparison. Layer 1: saturated integral eigensymbol lattices and period lines, with the coefficient dual made explicit. Layer 2: single-weight distributions, specialisation, refinements, small-slope control, the integral ordinary measure and interpolation. The family quotient-period comparison in Layer 1 below is an additional theorem, with its integral corrections stated explicitly. The Eisenstein construction is §0.12 here, using classical Eisenstein series from `ModularForms`, Layer 0.
 
-*Uses.* `IntegralHeckeAndGaloisDeterminants`, Layer 4: interpolation of continuous determinants from compatible congruence witnesses at classical specialisations. `GlobalGaloisDeformations`, §3.6 (The relative tangent space is an adjoint Selmer group): the identification of the relative tangent space of the global deformation ring with an adjoint Selmer group. *Constructed here in §§3.4–3.5:* the adjoint Bloch–Kato group `H¹_f(G_ℚ, ad ρ_f)` with the refinement-local tangent constraints and the injection used in [Bellaïche09](#ref-bellaiche09), Theorem 2.16, and the vanishing criteria of its Proposition 2.15; the decent-point smoothness argument itself is §3.5. `SelmerIwasawaCohomology`, Layers 2–3: Greenberg conditions, Selmer groups and complexes, semilocal and Iwasawa cohomology, the condition-change and lattice-change cones, derived control with the local correction complex, and determinants under normality, perfectness and torsion hypotheses. The modular zeta classes, their moment and norm identities, explicit reciprocity and the cyclotomic Euler-system bound are constructed in §4.0 here. The finite-local-field exponential and its Tate-dual boundary use `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.P3, and the actual Bloch–Kato local conditions use `SelmerIwasawaCohomology`, §§4.9–4.12. None of these inputs identifies an integral family regulator with a differently normalised regulator without the bridge proved in Layer 4.
+*Uses.* `IntegralHeckeAndGaloisDeterminants`, Layer 4: interpolation of continuous determinants from compatible congruence witnesses at classical specialisations. `GlobalGaloisDeformations`, §3.6, supplies the residual fixed-determinant tangent comparison over a finite residue field. The characteristic-zero refined deformation and its tangent adapter are separate constructions in §3.4a here. *Constructed here in §§3.4–3.5:* the adjoint Bloch–Kato group `H¹_f(G_ℚ, ad ρ_f)` with the refinement-local tangent constraints and the injection used in [Bellaïche09](#ref-bellaiche09), Theorem 2.16, and the vanishing criteria of its Proposition 2.15; the decent-point smoothness argument itself is §3.5. `SelmerIwasawaCohomology`, Layers 2–3: Greenberg conditions, Selmer groups and complexes, semilocal and Iwasawa cohomology, the condition-change and lattice-change cones, derived control with the local correction complex, and determinants under normality, perfectness and torsion hypotheses. The modular zeta classes, their moment and norm identities, explicit reciprocity and the cyclotomic Euler-system bound are constructed in §4.0 here. The finite-local-field exponential and its Tate-dual boundary use `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.P3, and the actual Bloch–Kato local conditions use `SelmerIwasawaCohomology`, §§4.9–4.12. None of these inputs identifies an integral family regulator with a differently normalised regulator without the bridge proved in Layer 4.
 
-*Uses.* `HilbertModularVarietiesAndShimuraCurves`, R18.3: the centre-quotiented definite class set, integral pairings, neatness and base change, the split Hecke normalisation and definite Jacquet–Langlands. `GL2AutomorphicRepresentationsAndTransfer`, R16.6: Hilbert algebraic weights, the full classical Hecke and level conventions, and the newvector, geometry and Galois exports. The nearly ordinary towers, the finite central-fibre comparison, all torsion-character factors, parallel-weight Hilbert families and their period modules are the additional constructions in Layer 5.
+*Uses.* `HilbertModularVarietiesAndShimuraCurves`, R18.3: the centre-quotiented definite class set, integral pairings, neatness and base change, the split Hecke normalisation and definite Jacquet–Langlands. `GL2AutomorphicRepresentationsAndTransfer`, §§R16.6.3 and R16.6.5: algebraic weight representations and representation-theoretic newvector/multiplicity exports. `HilbertModularVarietiesAndShimuraCurves`, §§H1.1–H1.10, H2.2–H2.9, H3.6–H3.8, H4.8 and H5.3–H5.4, supplies the Hilbert moduli, subgroup levels, Hodge bundles and algebraic weight descent with its polarization, level and scalar-stabilizer hypotheses. The classical Hilbert expansion and integral coefficient dictionary are constructed in §5.9a here. The nearly ordinary towers, the finite central-fibre comparison, all torsion-character factors, parallel-weight Hilbert families and their period modules are the additional constructions in Layer 5.
 
 *Uses.* `ModularForms`, Layer 4 (eigenforms, newforms and the bad-prime eigenvalues of newforms), Layer 8 (modular-symbol path classes and their matrix actions) and Layer 8G (the semisimple Hecke algebra of the newspace). The pinned Tau Ceti `Newform` carries eigenproperties only at good indices.
 
@@ -87,7 +87,7 @@ Tau Ceti's `HeckeRing.GL2.Newform` (`TauCeti.NumberTheory.ModularForms.Newforms.
 
 ## How to read the build
 
-Read Layer 0a before Layer 0: finite-set factorial powers lead to profinite and locally finite ordinary parts, which then act on the integral Hecke and homology towers. Layer 1 constructs periods and measures over the ordinary coefficient algebra. Layer 2a is the general eigenvariety machine, read before Layer 2 instantiates it with analytic family symbols. Layer 3 studies local critical fibres and their L-functions. Layer 4 first constructs the finite-level modular zeta inputs of §4.0, then compares Galois normalisations and constructs family reciprocity, retaining local correction terms. Layer 5 develops the totally real ordinary application. A result involving an integral comparison is used only after its named pairing, control or regulator comparison has been proved; a rational or pointwise equality does not discharge that requirement.
+Read Layer 0a before Layer 0: finite-set factorial powers lead to profinite and locally finite ordinary parts, which then act on the integral Hecke and homology towers. Within Layer 0, build §§0.1–0.9, then §0.16, then §§0.10–0.15, and finally the odd-prime cuspidal extension §0.17. Layer 1 constructs periods and measures over the ordinary coefficient algebra. Layer 2a is the general eigenvariety machine, read before Layer 2 instantiates it with analytic family symbols. Layer 3 studies local critical fibres and their L-functions. Layer 4 first constructs the finite-level modular zeta inputs of §4.0, then compares Galois normalisations and constructs family reciprocity, retaining local correction terms. Layer 5 develops the totally real ordinary application. A result involving an integral comparison is used only after its named pairing, control or regulator comparison has been proved; a rational or pointwise equality does not discharge that requirement.
 
 ## Layer 0a: Ordinary projectors on modules and complexes
 
@@ -417,7 +417,7 @@ Let `R` be a complete noetherian local ring with finite residue field, `I_1 ⊇ 
 
 Cofinality with `(mⁿ)` is an explicit hypothesis. Chevalley supplies it for a decreasing sequence of ideals with zero intersection in a complete noetherian local ring; completeness alone is insufficient. Minimal complexes (KT Lemma 2.3) and the gluing of good complexes and homotopy classes along `R_c` (KT Lemmas 2.13–2.14) are constructed in §0a.0.
 
-Replace each `M_c` by a minimal complex; choose a chain representative `T_c` and put `F_c = (M_c)_{T_c,ord}` with inclusion `i_c` and projection `p_c`; then `i_c p_c = t_c^{N_c!}` in `D(R_c)`. `a_{c+1} = p_c f_{c+1}(i_{c+1} ⊗ 1) : F_{c+1} ⊗ R_c → F_c` is a quasi-isomorphism of minimal complexes, hence an isomorphism; glue the `F_c` to `F_∞` with isomorphisms `b_c` (P7, KT Lemma 2.13) and set `g_c = i_c b_c`, `g'_c = b_c⁻¹ p_c`. `H*(F_∞) = lim H*(F_c)` by the Milnor sequence, since towers of finite modules over `R_c` are Mittag-Leffler. Uniqueness and gluing of `s_∞` by the homotopy-class gluing of P7 (KT Lemma 2.13(3)).
+Replace each `M_c` by a minimal complex; choose a chain representative `T_c` and put `F_c = (M_c)_{T_c,ord}` with inclusion `i_c` and projection `p_c`; then `i_c p_c = t_c^{N_c!}` in `D(R_c)`. `a_{c+1} = p_c f_{c+1}(i_{c+1} ⊗ 1) : F_{c+1} ⊗ R_c → F_c` is a quasi-isomorphism of minimal complexes, hence an isomorphism; glue the `F_c` to `F_∞` with isomorphisms `b_c` (§0a.0.3, `compatibleMinimalModel` and its homotopy-class comparison; KT Lemma 2.13) and set `g_c = i_c b_c`, `g'_c = b_c⁻¹ p_c`. `H*(F_∞) = lim H*(F_c)` by the Milnor sequence, since towers of finite modules over `R_c` are Mittag-Leffler. Uniqueness and gluing of `s_∞` by the homotopy-class comparison of §0a.0.3 (`compatibleMinimalModel`; KT Lemma 2.13(3)).
 
 Keep the ordinary-cohomology compatibility hypothesis; transition maps that are isomorphisms only on the whole cohomology are not required. The identity `g_c g'_c = i_c p_c` holds as chain maps, before passing to `D(R_c)`.
 
@@ -444,7 +444,8 @@ A finite `R`-module carries only locally finite endomorphisms; the notion is new
 **Checks.**
 
 - On `M = R²` over `R = ℤ_p` every endomorphism is locally finite, and the projector agrees with the adic projector of §0a.14.
-- The zero endomorphism and the identity of any complete `M` are locally finite (orbit spans have at most one generator).
+- The zero endomorphism and the identity of any complete `M` are locally finite (orbit spans have at most one generator). In the Lean predicate this holds for every ideal of any commutative coefficient ring.
+- On `(ℤ/2)[X]` as a vector space over `ℤ/2`, multiplication by `X` is not locally finite for `I=0`: the orbit of 1 consists of the independent monomials `Xⁿ`.
 - On the completed direct sum `M` of countably many copies of `ℤ_p`, the shift `e_i ↦ e_{i+1}` is not locally finite: modulo `p` the orbit of `e_0` spans an infinite-dimensional `𝔽_p`-space.
 - On the same `M`, the diagonal endomorphism `e_i ↦ p^i e_i` is locally finite: modulo `pⁿ` it kills all `e_i` with `i ≥ n`, so each orbit span is finitely generated.
 
@@ -623,8 +624,9 @@ The `q`-expansion principle is stated with `A`-flat cokernel, not only injectivi
 **Checks.**
 
 - For `p≥5` the normalised `E_{p−1}` belongs to `W(1;ℤ_p)` and has `q`-expansion 1 modulo p.
-- `V(Np; A) = V(N; A)` for `p ∤ N` (the `p`-part of the level is absorbed).
-- A function in `V(N;A)` whose canonical Tate-curve `q`-expansion is zero is zero; this checks injectivity on the full function space, including nonclassical functions.
+- Over `ℤ/25`, `E₄` has `q`-coefficient `240 ≡ 15`, although its reduction modulo 5 is 1.
+- Over `ℤ/5`, `Δ=q+q²+2q³+⋯` is nonconstant.
+- At `p=5`, the first Igusa level retains the four automorphisms in `μ₄`; the full trivialisation tower cannot be a `1+5ℤ₅`-torsor over the ordinary locus.
 
 See [Hida](#ref-hida), §1, (1.6)–(1.9), pp. 238–239 (Numdam PDF pages 9–10; printed page = PDF page + 229); [Hida](#ref-hida), §1, (1.8a–c), p. 239 (Numdam PDF page 10; printed page = PDF page + 229).
 
@@ -636,7 +638,7 @@ If `N₀ ≥ 3` or `p ≥ 5` (Layer 0 uses `p ≥ 5` throughout), then `W(N; ℤ
 
 Hypothesis `N₀ ≥ 3` or `p ≥ 5` (Katz's Theorem 1.1).
 
-Katz's Theorem 1.1 at full level `Γ(N₀)`, from the Igusa tower being the étale Galois cover of the ordinary locus with group `Γ = 1 + pℤ_p` (Katz, Higher congruences between modular forms, Ann. of Math. 101 (1975), §2, Theorems 2.1–2.2, as recalled by Hida). Descend to `Γ₁(N₀)` with the trace `Tr(f) = N₀⁻¹ Σ_{u ∈ U₀} f|u`, which is uniformly continuous and fixes `E_{p−1} − 1` (Corollary 1.2).
+Katz's Theorem 1.1 at full level `Γ(N₀)`, from the full Igusa trivialisation tower over the ordinary locus, whose group is `ℤ_p^× = μ_{p−1} × Γ`. The `Γ`-tower lies over the first Igusa level; retain the `μ_{p−1}` action and its weight-character decomposition in descent (Katz, Higher congruences between modular forms, Ann. of Math. 101 (1975), §2, Theorems 2.1–2.2, as recalled by Hida). Descend to `Γ₁(N₀)` with the trace `Tr(f) = N₀⁻¹ Σ_{u ∈ U₀} f|u`, which is uniformly continuous and fixes `E_{p−1} − 1` (Corollary 1.2).
 
 The mod-`p` statement uses the Hasse invariant `E_{p−1} ≡ 1`: it is the reason `p`-adic weights are congruent `mod p − 1`.
 
@@ -765,7 +767,7 @@ For `k ≥ 3` and `p ≥ 5`, `T(p)` annihilates the quotients `M_{k+(p−1)}(Γ�
 
 The filtration theory of mod-`p` forms: `U_p` lowers the filtration of a form of weight `k + (p − 1)` to at most weight `k` when `k ≥ 3` (Jochnowitz, via the `θ`-operator and the Hasse invariant).
 
-Test: `p = 5`, `k = 4: S₈(SL₂(ℤ); F₅) = 0` so the statement is empty; nontrivial checks start at `k + 4 ≥ 12`.
+Test: `p=5`, `k=8`: the quotient `S₁₂/S₈` is the nonzero line generated by `Δ`. Since `τ(5)=4830≡0 mod 5` and `Δ` is a Hecke eigenform, `U₅Δ=0` modulo 5.
 
 See [Hida](#ref-hida), §4, Lemma 4.1, p. 258 (Numdam PDF page 29; printed page = PDF page + 229).
 
@@ -864,17 +866,17 @@ This uses §0.11; `ModularSymbolsPadicLFunctions`, §1.3; Tau Ceti `HeckeRing.GL
 
 ### 0.14 `Λ`-adic forms as `q`-expansions and their duality with the ordinary Hecke algebra
 
-Let `p ≥ 5`, `N = N₀p` with `p ∤ N₀`, `Λ = ℤ_p[[X]]` with `X ↔ γ − 1` for `γ = 1 + p`, and `I` a finite flat `Λ`-algebra. An ordinary `Λ`-adic cusp form in weight component a of level `N` with coefficients in `I` is a formal `q`-expansion `F = Σ_{n≥1} a(n, F)qⁿ ∈ I[[q]]` such that for every arithmetic point `P` of `I` above `P_k = (1 + X − (1 + p)^k)` with `k ≥ 2` the specialisation `F mod P` is the `q`-expansion of a classical ordinary cusp form of weight `k` and level `N₀p` with nebentypus `ω^{a−k}` at points above `P_k`. They form an `I`-module `S^ord(N,a; I)`. The pairing `(h, F) ↦ a(1, F|h)` identifies `S^ord(N; Λ)` with `Hom_Λ(h^ord(N,a; Λ), Λ)`, and normalised eigenforms in `S^ord(N,a; I)` correspond to `Λ`-algebra homomorphisms `h^ord(N,a; Λ) → I`. This definition does not use the Eisenstein family.
+Let `p ≥ 5`, `N = N₀p` with `p ∤ N₀`, `Λ = ℤ_p[[X]]` with `X ↔ γ − 1` for `γ = 1 + p`, and `I` a reduced finite flat `Λ`-algebra. An ordinary `Λ`-adic cusp form in weight component a of level `N` with coefficients in `I` is a formal `q`-expansion `F = Σ_{n≥1} a(n, F)qⁿ ∈ I[[q]]` such that for every arithmetic point `P` of `I` above `P_k = (1 + X − (1 + p)^k)` with `k ≥ 2` the specialisation `F mod P` is the `q`-expansion of a classical ordinary cusp form of weight `k` and level `N₀p` with nebentypus `ω^{a−k}` at points above `P_k`. They form an `I`-module `S^ord(N,a; I)`. The pairing `(h, F) ↦ a(1, F|h)` identifies `S^ord(N; Λ)` with `Hom_Λ(h^ord(N,a; Λ), Λ)`, and normalised eigenforms in `S^ord(N,a; I)` correspond to `Λ`-algebra homomorphisms `h^ord(N,a; Λ) → I`. This definition does not use the Eisenstein family.
 
-`p ≥ 5`; `N₀` prime to `p`; specialisation required at every arithmetic point of weight `k ≥ 2`.
+`p ≥ 5`; `N₀` prime to `p`; the arithmetic-point definition requires reduced finite flat `I`, with specialisation at every arithmetic point of weight `k ≥ 2`. For arbitrary finite flat `I`, define `S^ord(N,a; I) = Hom_Λ(h^ord(N,a; Λ), I)` and its coefficients by `a_n = ℓ(T(n))`; control proves its classical specialisation property. Normalised eigenforms correspond to algebra maps for this definition too.
 
 Weight-`k` duality: Hecke algebras and forms are dual under the first-coefficient pairing at every finite weight and level (§0.6). Freeness and control (§0.11): `h^ord(N; Λ)` is free of finite rank and its fibre at `P_k` is the weight-`k` ordinary Hecke algebra; hence `Hom_Λ(h^ord, Λ)` specialises at every `P_k` to the dual of the weight-`k` Hecke algebra, i.e. to ordinary cusp forms of weight `k`, which is the `q`-expansion condition. Conversely a family of `q`-expansions specialising to classical forms defines, through `a(1, F|T(n)) = a(n, F)`, a `Λ`-linear functional on the Hecke algebra (the Hecke operators act on `q`-expansions coefficientwise and their action is determined at a Zariski-dense set of weights).
 
-Wiles's original definition (Invent. Math. 94, 1988) imposes the classicality condition only at a Zariski-dense set of weights; with Hida's control theorem the two versions agree, and prove this equivalence using that control and coefficientwise density.
+For reduced finite flat `I`, prove equivalence with the classicality condition on a Zariski-dense set of arithmetic points of `Spec I`, as in Wiles's definition (Invent. Math. 94, 1988), using control and coefficientwise density. The dense set must meet every component. Field-valued points do not detect nilpotent coefficients.
 
-- `LambdaAdicForm`: `S^ord(N; I) ⊆ I[[q]]` with classical specialisations at arithmetic points.
+- `LambdaAdicForm`: the Hecke-dual module `Hom_Λ(h^ord(N,a; Λ), I)`, embedded in `I[[q]]` by its Hecke coefficients; for reduced finite flat `I` this equals the arithmetic-point definition.
 - `LambdaAdicForm.specialise`: `F ↦ F mod P`, a classical ordinary cusp form.
-- `lambdaAdicForm_equiv_hom`: `S^ord(N; Λ) ≅ Hom_Λ(h^ord(N; Λ), Λ)` via the first-coefficient pairing.
+- `lambdaAdicForm_equiv_hom`: `S^ord(N; I) ≅ Hom_Λ(h^ord(N,a; Λ), I)` for finite flat `I`, via the first-coefficient pairing.
 - `lambdaAdicEigenform_equiv_algHom`: Normalised eigenforms in `S^ord(N; I) ↔ Λ`-algebra maps `h^ord(N; Λ) → I`.
 - `LambdaAdicForm.ext`: Two `Λ`-adic cusp forms on the fixed weight component are equal if all their positive `q`-coefficients agree.
 
@@ -884,6 +886,7 @@ Wiles's original definition (Invent. Math. 94, 1988) imposes the classicality co
 - The zero `q`-expansion is a `Λ`-adic form; `S^ord(N; I) = 0` when `h^ord(N; Λ) = 0`.
 - For a `Λ`-linear functional `ℓ:h^ord(N,a)→Λ`, the corresponding `q`-expansion has coefficient `a_n=ℓ(T(n))`; for `I=h^ord(N,a)`, the identity algebra map gives the universal eigenfamily `Σ_{n≥1}T(n)qⁿ`.
 - The ordinary `Λ`-adic Eisenstein family has nonzero constant term and is not in `S^ord(N; Λ)`.
+- For `I=Λ[ε]/(ε²)`, every arithmetic field-valued point kills `ε`, so all `εqⁿ` pass pointwise classicality. Their infinite independent span cannot be the finite Hecke dual; this algebra requires the Hom definition.
 
 See [Hida](#ref-hida), §2, Proposition 2.1 and Theorem 2.2, pp. 245–247; §3, (3.2), Theorem 3.1 and Corollary 3.2, pp. 249–250.
 
@@ -917,6 +920,20 @@ See [Hida](#ref-hida), §4, proof of Corollary 4.2, pp. 258–259.
 
 This uses Mathlib `IsAdicComplete`; Mathlib `Ideal.finite_quotient_pow`; Mathlib `Submodule.span`.
 
+### 0.17 Cuspidal ordinary control at every odd prime
+
+For every odd prime `p`, tame level `N₀` prime to `p`, and `Λ=𝒪[[1+pℤ_p]]`, construct the cuspidal ordinary Hecke algebra from the integral divided-congruence completion of the full `p`-power level tower. Prove `ordinaryCuspidal_control_oddPrime`: this algebra is finite free over `Λ`; at every arithmetic prime with character `γ↦γ^k ε(γ)`, `k≥2` and finite-order `ε`, its quotient is the faithful Hecke algebra on the classical ordinary cusp forms with that character. Retain the finite `μ_{p−1}` component `ω^a`, hence nebentypus `ω^{a−k}ε`, and its conductor: use level `N₀p^r` with `r=max(1,condExponent_p ε)`. Include coefficient extension, first-coefficient duality and the new-quotient specialization used to select primitive branches. At `p≥5` identify this construction with the cuspidal algebra of §§0.4–0.15.
+
+At `p=3`, build the divided-congruence tower directly from modular-curve cohomology and the ordinary projector of Layer 0a, using fine auxiliary tame level and descent to the stated level. Prove the ordinary moment/control and integral rank comparison in this construction, rather than applying the bounded-weight argument of §0.9 outside its range. The weight-two endpoint and all finite characters are included. Layers 1 and 4 use this cuspidal theorem for every odd prime; their non-Eisenstein localization identifies any all-form algebra with its cuspidal quotient. (Sources: [EPW](#ref-epw), Theorem 2.1.2 and proof, pp. 7–8, Theorem 2.2.2, pp. 9–10; its Hida references, Invent. Math. 85 (1986), Theorem 3.1, and Amer. J. Math. 110 (1988), Theorems 1.1–1.2.)
+
+**Checks.**
+
+- At `p=3`, `N₀=11` and weight 2, the form of 11a1 has `a₃=−1`; its unit-root stabilization is included although §0.11 assumes `p≥5`.
+- At `p=3`, a primitive character of `1+3ℤ₃` of order 3 has conductor 9. Its specialization uses level `9N₀`, retaining the chosen tame Teichmüller component, rather than level `3N₀`.
+- At `p≥5` and `ε=1`, the cuspidal quotient at `P_k` agrees with §0.11, including `k=2` and nebentypus `ω^{a−k}`. The modular-form constants correction is absent from this cuspidal statement.
+
+This uses Layer 0a; §0.16; `ModularCurvesPartII`, §§7.1–7.6, 13.1–13.6 and 14.1–14.15; `ModularForms`, Layers 4 and 8G; `PadicMeasuresIwasawaAlgebras`, §§1 and 5.2.
+
 ### Examples
 
 Fix `p≥5` and a Teichmüller component `ω^a`. Evaluating `[1+p]` at weight `k` sends it to `(1+p)^k` and sends `X` to `(1+p)^k−1`. The residual character of the weight-`k` specialization is `ω^{a−k}`; choosing `k≡a` modulo `p−1` makes it trivial. Two different congruence classes therefore require different components, even when their principal-unit coordinates are arbitrarily close.
@@ -931,7 +948,7 @@ Layer 0a provides the ordinary projector, exactness and compact module operation
 
 ### 1.1 The ordinary family modular-symbol module `M_m`
 
-Let `p` be odd, `N` prime to `p`, `T*_N` (resp. `T_N`) Hida's universal ordinary Hecke algebra of tame level `N` acting on all (resp. cuspidal) forms, and `m` a maximal ideal of `T*_N` whose residual representation `ρ̄_m` is irreducible. For each `r ≥ 0` the relative homology sequence `0 → H₁(X₁(Np^r); ℤ_p) → H₁(X₁(Np^r), C₁(Np^r); ℤ_p) → H̃₀(C₁(Np^r); ℤ_p) → 0` (4.1) remains exact on ordinary parts, and after localising at `m` the reduced `H₀` of the cusps vanishes. So `M_m := lim_r H₁(X₁(Np^r); ℤ_p)^ord_m ≅ lim_r H₁(X₁(Np^r), cusps; ℤ_p)^ord_m` is a module over `(T*_N)_m ≅ (T_N)_m`. Complex conjugation on `X₁(Np^r)` commutes with the Hecke action, and `M_m = M⁺_m ⊕ M⁻_m`.
+Let `p` be odd and `N` prime to `p`. Let `T_N` be the cuspidal ordinary algebra of §0.17 and `m` a maximal ideal with irreducible residual representation `ρ̄_m`. Write `(T*_N)_m` for the ordinary Hecke image on the localized relative homology tower below; the boundary sequence identifies it with `(T_N)_m`. At `p≥5` this agrees with the localization of the all-form algebra of §0.4; at `p=3` this definition requires no all-form control theorem. For each `r ≥ 0` the relative homology sequence `0 → H₁(X₁(Np^r); ℤ_p) → H₁(X₁(Np^r), C₁(Np^r); ℤ_p) → H̃₀(C₁(Np^r); ℤ_p) → 0` (4.1) remains exact on ordinary parts, and after localising at `m` the reduced `H₀` of the cusps vanishes. So `M_m := lim_r H₁(X₁(Np^r); ℤ_p)^ord_m ≅ lim_r H₁(X₁(Np^r), cusps; ℤ_p)^ord_m` is a module over `(T*_N)_m ≅ (T_N)_m`. Complex conjugation on `X₁(Np^r)` commutes with the Hecke action, and `M_m = M⁺_m ⊕ M⁻_m`.
 
 `p` odd (for the `±` splitting); `ρ̄_m` irreducible (so the cusps disappear after localisation and `(T*_N)_m = (T_N)_m`).
 
@@ -952,7 +969,7 @@ The ordinary projector is exact (L0a), so (4.1) stays exact on ordinary parts; E
 
 See [EPW](#ref-epw), §4.1, p. 28 (arXiv v1; printed page = PDF page).
 
-This uses §0.4; §0.5; §0a.7; §0a.11; `ModularCurvesPartII`, §§14.1–14.4a, 14.9 and 14.12.
+This uses §0.17; §0a.7; §0a.11; `ModularCurvesPartII`, §§14.1–14.4a, 14.9 and 14.12.
 
 ### 1.2 Control of the family symbol module
 
@@ -960,7 +977,7 @@ This uses §0.4; §0.5; §0a.7; §0a.11; `ModularCurvesPartII`, §§14.1–14.4a
 
 `ρ̄_m` irreducible; `k ≥ 2`.
 
-The Hecke-algebra statement is §0.11. Construct `ordinaryHomology_moment` using the dual polynomial/divided-power lattice `L_{k−2}` and trace maps, and prove that its kernel and cokernel vanish after the ordinary localization and reduction by `ω_{r,k}`. For the discrete cohomology dual, first prove the `Γ`-invariant level-collapse isomorphism (4.2); duality then gives the compact homology quotient. The proof must identify the ordinary part of the covering/degeneracy cohomology, show that its unwanted terms are `U_p`-nilpotent, and retain the finite character in `ω_{r,k}`. This is the integral homological control theorem cited by EPW from Hida, Invent. Math. 85 (1986), Theorem 3.1, and Amer. `J`. Math. 110 (1988), Theorem 1.9; EPW’s application locators below fix its precise coefficient and level conventions. It is an additional proof target here, not a consequence of the Hecke-algebra quotient alone.
+The Hecke-algebra statement is §0.17. Construct `ordinaryHomology_moment` using the dual polynomial/divided-power lattice `L_{k−2}` and trace maps, and prove that its kernel and cokernel vanish after the ordinary localization and reduction by `ω_{r,k}`. For the discrete cohomology dual, first prove the `Γ`-invariant level-collapse isomorphism (4.2); duality then gives the compact homology quotient. The proof must identify the ordinary part of the covering/degeneracy cohomology, show that its unwanted terms are `U_p`-nilpotent, and retain the finite character in `ω_{r,k}`. This is the integral homological control theorem cited by EPW from Hida, Invent. Math. 85 (1986), Theorem 3.1, and Amer. `J`. Math. 110 (1988), Theorem 1.9; EPW’s application locators below fix its precise coefficient and level conventions. It is an additional proof target here, not a consequence of the Hecke-algebra quotient alone.
 
 The comparison with ModularSymbolsPadicLFunctions Layer 0 is through `H₁(Np^r, cusps; L_{k−2}) ≅` the modular symbols `Symb(V_{k−2})` (up to the duality of L0).
 
@@ -976,7 +993,7 @@ The comparison with ModularSymbolsPadicLFunctions Layer 0 is through `H₁(Np^r,
 
 See [EPW](#ref-epw), §4.1, proof of Proposition 4.1.1, p. 29 (arXiv v1; printed page = PDF page); [EPW](#ref-epw), §4.1, proof of Proposition 4.1.4, p. 30 (arXiv v1; printed page = PDF page).
 
-This uses §1.1; §0.11; `ModularSymbolsPadicLFunctions`, §§0.4 and 0.6.
+This uses §1.1; §0.17; `ModularSymbolsPadicLFunctions`, §§0.4 and 0.6.
 
 ### 1.3 Freeness of `M^±_m`: the family period line
 
@@ -984,13 +1001,13 @@ This uses §1.1; §0.11; `ModularSymbolsPadicLFunctions`, §§0.4 and 0.6.
 
 `ρ̄_m` irreducible and `p`-distinguished (the two characters of `ρ̄_m|_{G_{ℚ_p}}` are distinct).
 
-By Wiles's mod-`p` multiplicity one at ordinary level (Ann. of Math. 141 (1995), Theorem 2.1, as cited by EPW) and EPW Theorem 2.1.2, `J₁(Np)(ℚ̄)[m]^ord` is free of rank 2 over `T_N/m`; this residual multiplicity-one theorem is a target here, with the Hecke and Jacobian carriers of ModularCurvesPartII §§13.1–13.6 and 14.13–14.15. By (4.2), `Hom(M_m, ℚ_p/ℤ_p)[m] ≅ H¹(Np; ℚ_p/ℤ_p)^ord_m[m] ≅ H¹(Np; F_p)^ord_m[m] ≅ J₁(Np)[p][m]^ord`, so `M_m/mM_m` is free of rank 2 over `T_N/m`. The ordinary tower is a compact module with a basis of open Hecke submodules. Its finite-dimensional residual quotient and compact Nakayama give finite generation and a surjection `T_m²→M_m`. EPW conclude from the freeness of `M_m ⊗ ℚ_p` of rank two over `T_m ⊗ ℚ_p`; prove the rank statement this needs at the generic points. Choose a weight `k ≥ 2` whose prime `P_k` avoids the finitely many height-one primes in the support of the `Λ`-torsion of `M_m`. Control (§1.2, §0.11) and Eichler–Shimura in weight `k` then give `rank_Λ M_m = 2 rank_Λ T_m`. So the kernel of `T_m² → M_m` has `Λ`-rank zero; it is a `Λ`-torsion submodule of `T_m²`, which is `Λ`-free by §0.11, hence zero. Since `p` is odd the two signs are direct summands of `M_m`, hence finite projective and so free over the local ring `T_m`. Complex conjugation splits the weight-`k` ordinary homology into two halves of equal dimension (Eichler–Shimura), so each sign has generic rank one and is free of rank one. Rank two of their direct sum alone would not prove the two sign ranks.
+By Wiles's mod-`p` multiplicity one at ordinary level (Ann. of Math. 141 (1995), Theorem 2.1, as cited by EPW) and EPW Theorem 2.1.2, `J₁(Np)(ℚ̄)[m]^ord` is free of rank 2 over `T_N/m`; this residual multiplicity-one theorem is a target here, with the Hecke and Jacobian carriers of ModularCurvesPartII §§13.1–13.6 and 14.13–14.15. By (4.2), `Hom(M_m, ℚ_p/ℤ_p)[m] ≅ H¹(Np; ℚ_p/ℤ_p)^ord_m[m] ≅ H¹(Np; F_p)^ord_m[m] ≅ J₁(Np)[p][m]^ord`, so `M_m/mM_m` is free of rank 2 over `T_N/m`. The ordinary tower is a compact module with a basis of open Hecke submodules. Its finite-dimensional residual quotient and compact Nakayama give finite generation and a surjection `T_m²→M_m`. EPW conclude from the freeness of `M_m ⊗ ℚ_p` of rank two over `T_m ⊗ ℚ_p`; prove the rank statement this needs at the generic points. Choose a weight `k ≥ 2` whose prime `P_k` avoids the finitely many height-one primes in the support of the `Λ`-torsion of `M_m`. Control (§1.2, §0.17) and Eichler–Shimura in weight `k` then give `rank_Λ M_m = 2 rank_Λ T_m`. So the kernel of `T_m² → M_m` has `Λ`-rank zero; it is a `Λ`-torsion submodule of `T_m²`, which is `Λ`-free by §0.17, hence zero. Since `p` is odd the two signs are direct summands of `M_m`, hence finite projective and so free over the local ring `T_m`. Complex conjugation splits the weight-`k` ordinary homology into two halves of equal dimension (Eichler–Shimura), so each sign has generic rank one and is free of rank one. Rank two of their direct sum alone would not prove the two sign ranks.
 
 Without `p`-distinguishedness `M^±_m` need not be free; the family period is then a module, not a line.
 
 See [EPW](#ref-epw), §4.1, Proposition 4.1.1, p. 28 (arXiv v1; printed page = PDF page).
 
-This uses §1.2; §1.1; §0.11; `ModularCurvesPartII`, §§13.1–13.6 and 14.13–14.15.
+This uses §1.2; §1.1; §0.17; `ModularCurvesPartII`, §§13.1–13.6 and 14.13–14.15.
 
 ### 1.4 Family periods as trivialisations of an invertible module
 
@@ -1082,6 +1099,7 @@ The Hecke-module instances in automorphic congruences, level optimisation and in
 
 - For `A = {(a, b) ∈ ℤ_p × ℤ_p : a ≡ b mod pⁿ}` and `λ` the first projection, `𝔭_λ = 0 × pⁿℤ_p`, `I_λ = pⁿℤ_p × 0` and `Ψ_λ(A) ≅ ℤ/pⁿ`.
 - For `A = O` and `λ = id`, `𝔭_λ = 0`, `I_λ = A` and `Ψ_λ(M) = 0` for every `M`.
+- For reduction `λ:ℤ/4→ℤ/2`, `Ann(ker λ)=(2)`, `η_λ=0` and `Ψ_λ(ℤ/4)` has two elements. This uses the general commutative-ring definition; the domain hypothesis is unnecessary for this computation.
 - For `A = O[t]/(t²)` and `λ(t) = 0`, `I_λ = 𝔭_λ = (t)` and `Ψ_λ(A) ≅ O` is not torsion: `A` is not reduced at `𝔭_λ`, so the finite-length statement needs its hypothesis.
 - For `A = O[[t]]/(ϖ²t)` and `M = A/(ϖ³)`, `M/(M[𝔭] + M[I]) ≅ O/(ϖ)` while Iyengar–Khare–Manning's `Ψ_A(M) = 0` (Example 2.11).
 
@@ -1124,7 +1142,7 @@ Let `ρ̄ : G_ℚ → GL₂(k)` be irreducible, odd, ordinary, `p`-distinguished
 
 `ρ̄` irreducible, odd, ordinary, `p`-distinguished and modular; `p ≥ 5` is not needed for the definitions.
 
-Existence and uniqueness of the maximal ideal: modularity of `ρ̄` and level optimisation; the maximal ideal of `T_{N(Σ)}` lifting it with `T_ℓ ∈ 𝔫` for `ℓ ∈ Σ` gives an isomorphism of localisations (EPW Proposition 2.6.2). Reducedness and finite flatness over `Λ: T′_{N(Σ)} ⊗_Λ L` is a product of new Hecke algebras of levels dividing `N(Σ)` (EPW Proposition 2.4.2), and the ordinary Hecke algebra is finite flat over `Λ` (§0.11). Branches: minimal primes of `T_Σ` correspond to local components of `T_Σ ⊗_Λ L`, each of which comes from a unique new level.
+Existence and uniqueness of the maximal ideal: modularity of `ρ̄` and level optimisation; the maximal ideal of `T_{N(Σ)}` lifting it with `T_ℓ ∈ 𝔫` for `ℓ ∈ Σ` gives an isomorphism of localisations (EPW Proposition 2.6.2). Reducedness and finite flatness over `Λ: T′_{N(Σ)} ⊗_Λ L` is a product of new Hecke algebras of levels dividing `N(Σ)` (EPW Proposition 2.4.2), and the ordinary Hecke algebra is finite flat over `Λ` (§0.17). Branches: minimal primes of `T_Σ` correspond to local components of `T_Σ ⊗_Λ L`, each of which comes from a unique new level.
 
 `T_Σ` is reduced and finite flat over `Λ`, and its minimal primes correspond to Hida families of newforms with a definite tame conductor `N(𝔞)`.
 
@@ -1144,7 +1162,7 @@ Existence and uniqueness of the maximal ideal: modularity of `ρ̄` and level op
 
 See [EPW](#ref-epw), §2.6, Theorem 2.6.1, Proposition 2.6.2 and Definition 2.6.3, pp. 18–19; §2.7, Definition 2.7.1, Proposition 2.7.2 and Definition 2.7.3, pp. 19–20.
 
-This uses §0.4; §0.10; §0.11; Mathlib `IsReduced`.
+This uses §0.17; Mathlib `IsReduced`.
 
 ### 1.10 Congruence modules of a branch of a Hida family
 
@@ -1360,7 +1378,7 @@ Prove `Q(0)=1` and a unit leading coefficient, and justify coprimality with the 
 
 - For `M=A` and `φ=a` with `a∈A^×`, the full spectral graph is finite over `Sp(A)`; `Q=1−aT` and `N=M`. Without the unit hypothesis the whole graph need not be a finite-flat block.
 - For `M=A²` and `φ=diag(a,b)` with `a`,`b∈A^×` and `a−b∈A^×`, the two graphs are disjoint finite-flat blocks. Selecting the a-graph gives `Q=1−aT` and `N=A·e₁`.
-- `φ = (a 1; 0 a): Q = (1 − aT)²` and `N = M`; a chart cutting the double root would violate open-and-closedness.
+- On `M=A²`, for `a∈A^×` and `φ=(a 1;0 a)`, the full block has `Q=(1−aT)²` and `N=M`; cutting the double root would violate open-and-closedness. For `a=0`, `φ` is nilpotent, its Fredholm determinant is 1, its spectral space is empty and `N=0`.
 
 See [Buzzard](#ref-buzzard), §5, pp. 34–35.
 
@@ -1509,19 +1527,17 @@ This uses §2a.8; §2a.12.
 
 ### 2a.15 The spectral hypersurface of a compact endomorphism of a complex
 
-Let `A` be a reduced affinoid algebra over a complete non-archimedean field `K ⊇ ℚ_p`, `M•` a bounded complex of projective Banach `A`-modules (direct summands of orthonormalisable ones) and `U ∈ End_{K^proj(A)}(M•)` compact, i.e. represented by a chain endomorphism `Ũ` that is compact in every degree. The characteristic series `P̃(X) = ∏_k det(1 − X Ũ | M^k)` is an entire series over `A` (the product, not the alternating product, so that every eigenvalue in every degree is seen). Its zero locus `Z̃ ⊆ Sp(A) × A¹` carries a complex of coherent sheaves `𝓜•` (the universal generalised eigenspace complex of `Ũ`): `Z̃` has an admissible cover by affinoids `Y` finite and flat over their image `V ⊆ Sp(A)`, with `Y` a union of connected components of `Z̃ ×_{Sp A} V`, and on such `Y` the complex `𝓜•|_Y` is the finite slope subcomplex of `M•|_V` cut out by the factor of `P̃` attached to `Y`, a perfect complex of `O(V)`-modules.
+Let `A` be a reduced affinoid algebra over a finite extension `K/ℚ_p`, `M•` a bounded complex of projective Banach `A`-modules (direct summands of orthonormalisable ones) and `U ∈ End_{K^proj(A)}(M•)` compact, i.e. represented by a chain endomorphism `Ũ` that is compact in every degree. Use the supplied representative product `P̃ = complexFredholmProduct(M•,Ũ)` from `LocallyAnalyticDistributions`, §4.16: it is the entire series `∏_k det(1−XŨ|M^k)`, with constant coefficient 1 and dependence on the chosen cochain representative. It records every degree, without alternating exponents. Its zero locus `Z̃ ⊆ Sp(A) × A¹` carries a complex of coherent sheaves `𝓜•` (the universal generalised eigenspace complex of `Ũ`): `Z̃` has an admissible cover by affinoids `Y` finite and flat over their image `V ⊆ Sp(A)`, with `Y` a union of connected components of `Z̃ ×_{Sp A} V`, and on such `Y` the complex `𝓜•|_Y` is the finite slope subcomplex of `M•|_V` cut out by the factor of `P̃` attached to `Y`, a perfect complex of `O(V)`-modules.
 
-A reduced affinoid; `M•` bounded with projective Banach terms; `Ũ` compact in each degree.
+A reduced affinoid over finite `K/ℚ_p`; `M•` bounded with projective Banach terms; `Ũ` compact in each degree.
 
-In each degree apply the Fredholm theory of compact operators on projective Banach modules (LocallyAnalyticDistributions Layer 4); the characteristic series of the complex is the product of the degreewise ones. The admissible cover by finite flat spectral blocks is §2a.6 applied to `P̃`; on a block the Riesz factorisation `P̃ = Q·S` gives `Ũ`-stable decompositions `Mᵏ = N_Q(Mᵏ) ⊕ F_Q(Mᵏ)` compatible with the differentials, and the finite slope subcomplex `N_Q(M•)` is a bounded complex of finite projective `O(V)`-modules (LocallyAnalyticDistributions Layer 4, the finite-slope subcomplex and its perfect model). `𝓜•|_Y` is `N_Q(M•)` viewed over `O(Y) = O(V)[X]/(Q)` with `X` acting as `Ũ⁻¹`; the identifications glue by the compatibility of Riesz projectors under refinement.
+Use the degreewise Fredholm factors and their product from LocallyAnalyticDistributions §4.16, including its entirety and single-degree comparison. The admissible cover by finite flat spectral blocks is §2a.6 applied to `P̃`; on a block the Riesz factorisation `P̃ = Q·S` gives `Ũ`-stable decompositions `Mᵏ = N_Q(Mᵏ) ⊕ F_Q(Mᵏ)` compatible with the differentials, and the finite slope subcomplex `N_Q(M•)` is a bounded complex of finite projective `O(V)`-modules (LocallyAnalyticDistributions Layer 4, the finite-slope subcomplex and its perfect model). `𝓜•|_Y` is `N_Q(M•)` viewed over `O(Y) = O(V)[X]/(Q)` with `X` acting as `Ũ⁻¹`; the identifications glue by the compatibility of Riesz projectors under refinement.
 
-For a complex concentrated in one degree the construction is §2a.1.
+For a complex concentrated in one degree, the supplied single-degree comparison for `complexFredholmProduct` in LocallyAnalyticDistributions §4.16 identifies `P̃` with its degree Fredholm determinant, so the spectral construction is §2a.1.
 
-- `complexCharSeries`: `P̃(X) = ∏_k det(1 − XŨ | Mᵏ)` as an entire series over `A`.
 - `complexSpectralHypersurface`: `Z̃ = V(P̃) ⊆ Sp(A) × A¹`.
 - `universalEigencomplex`: The complex of coherent sheaves `𝓜•` on `Z̃`.
 - `universalEigencomplex_perfect_on_block`: On a finite flat block `Y` over `V`, `𝓜•|_Y` is a perfect complex of `O(V)`-modules equal to the finite slope subcomplex.
-- `complexCharSeries_single`: For a complex concentrated in one degree, `P̃` is the Fredholm determinant of §2a.1.
 
 **Checks.**
 
@@ -1532,7 +1548,7 @@ For a complex concentrated in one degree the construction is §2a.1.
 
 See [Pilloni](#ref-pilloni), §13.1.2, p. 84; [BCGP](#ref-bcgp), §6.1.1, p. 139; [Buzzard](#ref-buzzard), §§4–5, pp. 25–37.
 
-This uses §2a.1; §2a.6; the projective-determinant supplier contract; `LocallyAnalyticDistributions`, §4.16; `LocallyAnalyticDistributions`, §4.16.
+This uses §2a.1; §2a.6; the projective-determinant supplier contract; `LocallyAnalyticDistributions`, §4.16 (`complexFredholmProduct` and its single-degree comparison).
 
 ### 2a.16 The spectral variety of a compact endomorphism in the homotopy category
 
@@ -1540,14 +1556,14 @@ With `M•`, `U` and a compact representative `Ũ` as in §2a.15, the cohomology
 
 As in §2a.15.
 
-Coherence: on a block, `𝓗ⁱ(𝓜•)` is the cohomology of a bounded complex of finite `O(Y)`-modules. Independence of `Ũ`: construct the comparison for two compact representatives of the same homotopy-category endomorphism. An arbitrary homotopy need not be compact. Apply the finite-slope homotopy-invariance supplier only after projecting to a common finite window and verifying its compact-link hypotheses; on that window `U` is invertible, so the operator links and their companions supply the comparison. The finite slope subcomplexes are then homotopy equivalent (LocallyAnalyticDistributions Layer 4, homotopy invariance on a slope window), so their cohomology sheaves are isomorphic over the common blocks and the annihilators agree. The extra components of `Z̃` coming from a contractible summand (as in the cone test) carry zero cohomology and are removed in `Z`.
+Coherence: on a block, `𝓗ⁱ(𝓜•)` is the cohomology of a bounded complex of finite `O(Y)`-modules. For independence of `Ũ`, identify `Hⁱ(M•^{≤c})` with the intrinsic module `algebraicSlopePartLE Hⁱ(M•) Hⁱ(U) c`, using LocallyAnalyticDistributions §4.16, *Algebraic slope parts* and *Cohomology and finite slopes*. Homotopic representatives induce the same endomorphism on `Hⁱ(M•)`. These identifications therefore give the same modules on common finite windows, compatibly with restriction and refinement; the spectral coordinate acts by the inverse of that same invertible cohomology operator. Glue the cohomology comparisons over common blocks, viewed in `Sp(A)×A¹`, to identify the annihilator ideals and their closed subspaces there. This argument requires no strict intertwiner between the two cochain representatives and asserts no chain-level equivalence. Contractible summands carry zero cohomology and contribute no annihilator support.
 
-Local constancy of `x ↦ Σ_i (−1)ⁱ dim Hⁱ(M•_x)_{=h}` on rank-one points is LocallyAnalyticDistributions §4.16 (finite-slope Euler local constancy), used through that supplier contract; the neighbourhoods need not cover `Sp(A)` (Pilloni's footnote 20).
+For `K/ℚ_p` finite and `h∈ℚ`, local constancy of `x ↦ Σ_i (−1)ⁱ dim Hⁱ(M•_x)_{=h}` near each rank-one point follows on the rational neighbourhoods of LocallyAnalyticDistributions §4.16 (finite-slope Euler local constancy). These hypotheses belong to this Euler-characteristic target; the neighbourhoods need not cover `Sp(A)` (Pilloni’s footnote 20).
 
 - `complexSpectralVariety`: `Z = V(Ann ⊕ᵢ 𝓗ⁱ(𝓜•)) ⊆ Z̃`.
 - `complexSpectralVariety_indep`: `Z` and `𝓗•` are independent of the compact representative of `U`.
 - `complexSpectralVariety_support`: `A` point of `Z̃` lies in `Z` iff some `𝓗ⁱ(𝓜•)` has nonzero stalk there.
-- `complexSpectralVariety_eulerChar`: The slope-`h` Euler characteristic of the fibres is locally constant on rank-one points (LocallyAnalyticDistributions Layer 4).
+- `complexSpectralVariety_eulerChar`: For `K/ℚ_p` finite and rational `h`, the exact-slope-`h` fibre Euler characteristic is locally constant near each rank-one point on the supplied rational neighbourhoods.
 
 **Checks.**
 
@@ -1555,6 +1571,8 @@ Local constancy of `x ↦ Σ_i (−1)ⁱ dim Hⁱ(M•_x)_{=h}` on rank-one poin
 - For `M•=A²[0]` and `U=`identity, `P̃=(1−X)²`, while `Ann(𝓜)=(1−X)` and `Z=V(1−X)`. The two spaces have the same underlying support but different nilpotent structure. For `M•=A[0]`, `U=1`, they agree.
 - For `M• = (A --0--> A)` in degrees 0, 1 with `Ũ = (a, b)`, `a`, `b ∈ A^×`, `Z` is the union of the graphs `X = a⁻¹` and `X = b⁻¹` over `Sp(A)`.
 - `Z̃` depends on `Ũ` (adding a contractible summand changes it) while `Z` does not, so `Z̃` is not an invariant of the homotopy class.
+- On `ℚ_p⟨S⟩[0]` with `U=S` and irrational `h>0`, the exact-`h` rank is 1 at the Gauss point of radius `p^(−h)` and 0 at arbitrarily close distinct radii. Rationality of `h` cannot be removed.
+- On the identity disk `A —1→ A`, the scalar representatives `U₀=1` and `U₁=p` are homotopic but the identity is not a strict intertwiner. Both intrinsic cohomology modules vanish, so both annihilator supports are empty.
 
 See [Pilloni](#ref-pilloni), §13.1.2, p. 84, and §13.1.3 with Proposition 13.1.3.1, pp. 84–85; [BCGP](#ref-bcgp), §6.1.1, p. 139; Theorem 6.3.16 with proof, pp. 152–153.
 
@@ -1595,7 +1613,7 @@ Consider a complex `M⁰=A`, `M¹=A`, `d=1`, with `U` the identity in both degre
 
 ### Dependencies
 
-`LocallyAnalyticDistributions`, Layer 4, supplies property-`(Pr)` Banach modules, compact Fredholm theory, Riesz decompositions and the compact homotopy comparison. `RigidAnalyticGeometry`, §§6.1–6.3 and 7.1–7.4, and `AdicSpacesPartIII`, §§F0.1, R2.6 and R3.1–R3.3, supply rigid gluing and finite coherent modules. The additional component theory is constructed in §2a.14. Finite-projective determinants use `PadicMeasuresIwasawaAlgebras`, §5.1, and `IntegralHeckeAndGaloisDeterminants`, §0.6. This layer constructs finite Hecke charts, their sheaves and their gluing, and verifies the component argument; it does not infer compact homotopy invariance from an arbitrary algebraic homotopy.
+`LocallyAnalyticDistributions`, Layer 4, supplies property-`(Pr)` Banach modules, compact Fredholm theory, Riesz decompositions and intrinsic finite-slope cohomology comparisons. `RigidAnalyticGeometry`, §§6.1–6.3 and 7.1–7.4, and `AdicSpacesPartIII`, §§F0.1, R2.6 and R3.1–R3.3, supply rigid gluing and finite coherent modules. The additional component theory is constructed in §2a.14. Finite-projective determinants use `PadicMeasuresIwasawaAlgebras`, §5.1, and `IntegralHeckeAndGaloisDeterminants`, §0.6. This layer constructs finite Hecke charts, their sheaves and their gluing, and verifies the component argument; it does not infer compact homotopy invariance from an arbitrary algebraic homotopy.
 
 ## Layer 2: Families of distributions and the modular-symbol eigencurve
 
@@ -1603,11 +1621,11 @@ Consider a complex `M⁰=A`, `M¹=A`, `d=1`, with `U` the identity in both degre
 
 ### 2.1 Families of locally analytic distributions over an affinoid of weight space
 
-Let `W = Sp R` be an affinoid subdomain of the weight space `𝒲` of continuous characters of `ℤ_p^×`, with universal character `κ_W : ℤ_p^× → R^×`. For `r ∈ p^ℤ`, `r ≤ 1`, let `A[r]` be the affinoid algebra of the closed neighbourhood `{z ∈ ℂ_p : |z − a| ≤ r for some a ∈ ℤ_p}` of `ℤ_p`, with sup norm, and `D[r]` its continuous dual. The completed tensor products `R ⊗̂ A[r]` and `R ⊗̂ D[r]` are orthonormalisable Banach `R`-modules with a natural continuous evaluation map `R ⊗̂ D[r] → Hom_R`,`cont(R ⊗̂ A[r], R)`, which is not asserted to be surjective; for `r₁ > r₂` the restriction `R ⊗̂ A[r₁] → R ⊗̂ A[r₂]` and the dual map `R ⊗̂ D[r₂] → R ⊗̂ D[r₁]` are compact. The monoid `Σ₀(p)` of integral matrices `(a b; c d)` with `p ∤ a`, `p | c` and `ad − bc ≠ 0` acts on `R ⊗̂ A[r]` by `(γ·f)(z) = κ_W(a + cz) f((b + dz)/(a + cz))` and on the full continuous dual by transposition. The tensor module `R ⊗̂ D[r]` has the action constructed by bounded multiplication of `κ_W(a+cz)` on the weight-zero transformed distribution; for every `w ∈ W(ℚ_p)` the specialisation along `w : R → ℚ_p` identifies these with `A_w[r]` and `D_w[r]` carrying the weight-`w` action.
+Let `W = Sp R` be an affinoid subdomain of the weight space `𝒲` of continuous characters of `ℤ_p^×`, with universal character `κ_W : ℤ_p^× → R^×`. For `r ∈ p^ℤ`, `r ≤ 1`, let `A[r]` be the affinoid algebra of the closed neighbourhood `{z ∈ ℂ_p : |z − a| ≤ r for some a ∈ ℤ_p}` of `ℤ_p`, with sup norm, and `D[r]` its continuous dual. The completed tensor products `R ⊗̂ A[r]` and `R ⊗̂ D[r]` are orthonormalisable Banach `R`-modules with a natural continuous evaluation map `R ⊗̂ D[r] → Hom_R`,`cont(R ⊗̂ A[r], R)`, which is not asserted to be surjective; for `r₁ > r₂` the restriction `R ⊗̂ A[r₁] → R ⊗̂ A[r₂]` and the dual map `R ⊗̂ D[r₂] → R ⊗̂ D[r₁]` are compact. The monoid `Σ₀(p)` of integral matrices `(a b; c d)` with `p ∤ a`, `p | c` and `ad − bc ≠ 0` acts on `R ⊗̂ A[r]` by `(γ·f)(z) = κ_W(a + cz) f((b + dz)/(a + cz))` and on the full continuous dual by transposition. The tensor module `R ⊗̂ D[r]` has the action constructed by bounded multiplication by `κ_W(a+cz)` before applying the weight-zero distribution action; for every `w ∈ W(ℚ_p)` the specialisation along `w : R → ℚ_p` identifies these with `A_w[r]` and `D_w[r]` carrying the weight-`w` action.
 
 `p` is odd. `W=Sp(R)` is an analytic weight chart and `r∈p^ℤ`, `0<r≤1`, is chosen so `κ_W(a+cz)` belongs to `R ⊗̂ A[r]` for every `γ∈Σ₀(p)`. On the central logarithmic chart with exponent coordinate of norm`≤1`, `κ_W(x)=ω(x)^i exp(T log⟨x⟩)` has this property. A general affinoid and high-conductor finite-order weights require smaller analytic radii and suitable local charts; being in one connected component alone does not prove it.
 
-Orthonormalisability: norms of elements of `A[r]` lie in `|ℚ_p^×|` when `r ∈ p^ℤ`, so `A[r]` and `D[r]` are orthonormalisable (Serre), and completed tensor products with `R` stay so. Compactness of the restriction maps between radii is the classical compactness of restriction of affinoid functions to a strictly smaller disc. Choose a deep enough subgroup `1+p^{m+1}ℤ_p` so the universal character’s value on `γ^{p^m}` lies uniformly within the `p`-adic exponential radius. Log/exp on this subgroup and finitely many cosets give an analytic radius `r(W)>0`; retain `r≤min(1,r(W))`. This is the analytic construction required beyond the central exponent chart of the later Lemma 3.3. The bounded bilinear multiplication `A[r]×D[r]→D[r]` extends to `A[r](R)×D[r](R)→D[r](R)`. Define `(b⊗μ)|γ=κ_W(a+cz)·(b⊗(μ|₀γ))` on the dense tensor subspace and extend continuously. Associativity gives the monoid action, and coefficient specialization gives the weight-`w` action. No identification with the full `R`-valued dual is used.
+Orthonormalisability: norms of elements of `A[r]` lie in `|ℚ_p^×|` when `r ∈ p^ℤ`, so `A[r]` and `D[r]` are orthonormalisable (Serre), and completed tensor products with `R` stay so. Compactness of the restriction maps between radii is the classical compactness of restriction of affinoid functions to a strictly smaller disc. Choose a deep enough subgroup `1+p^{m+1}ℤ_p` so the universal character’s value on `γ^{p^m}` lies uniformly within the `p`-adic exponential radius. Log/exp on this subgroup and finitely many cosets give an analytic radius `r(W)>0`; retain `r≤min(1,r(W))`. This is the analytic construction required beyond the central exponent chart of the later Lemma 3.3. The bounded bilinear multiplication `A[r]×D[r]→D[r]` extends to `A[r](R)×D[r](R)→D[r](R)`. Put `h_γ(z)=κ_W(a+cz)` and `(h·μ)(f)=μ(hf)`. Define `(b⊗μ)|γ=((h_γ·(b⊗μ))|₀γ)`, so `(μ|γ)(f)=μ(h_γ(z)f((b+dz)/(a+cz)))`. Extend this bounded bilinear construction continuously and prove the monoid identities from the transposed function action. Coefficient specialization gives the weight-`w` action. No identification with the full `R`-valued dual is used.
 
 At integral weights the specialised action is the weight-`k` action of ModularSymbolsPadicLFunctions Layer 2, so the classical distribution modules are recovered.
 
@@ -1622,6 +1640,7 @@ At integral weights the specialised action is the weight-`k` action of ModularSy
 
 - At `w = k ∈ ℤ_{≥0}`, the specialisation is the weight-`k` distribution module of ModularSymbolsPadicLFunctions Layer 2.
 - The identity matrix acts trivially for every `W`.
+- At weight 1, `δ₁|(1 0; p 1)=(1+p)δ_{1/(1+p)}`. Its value on 1 is `1+p`; multiplying after the weight-zero transform instead gives `(1+2p)/(1+p)` and fails transposition.
 - On an analytic chart, `γ=diag(a,1)`, `a∈ℤ_p^×`, acts on functions by `κ_W(a)f(z/a)`; at an integral weight `k` this is `a^k f(z/a)`.
 - A constant character `κ_W = 1` would give the weight-zero action at every point, failing the specialisation test at `w = k ≠ 0`.
 - Take `R=ℚ_p⟨T⟩` and `A[1]=ℚ_p⟨z⟩`. The bounded `R`-linear functional on `R⟨z⟩` sending `z^n` to `T^n` is evaluation at `z=T`. It does not arise from `R ⊗̂ D[1]`: modulo `p` its moment values `T^n span` an infinite-dimensional `ℤ/p`-vector space, whereas every element of the completed tensor product is uniformly approximable by a finite sum and has moments modulo `p` in a finite-dimensional coefficient space.
@@ -1706,7 +1725,7 @@ Finiteness: a subalgebra of the endomorphisms of a finite projective module over
 
 - If `Symb^±_Γ(R ⊗̂ D)^{≤ν} = 0` the algebra is the zero ring and `C^±_{W,ν}` is empty.
 - If the slope piece is free of rank one, `𝕋^±_{W,ν} = R` and `κ^±` is an isomorphism.
-- At `w = k` and `ν < k + 1`, the punctual eigensystems are those of `Symb^±_Γ(V_k)^{<k+1}` (Stevens' control theorem).
+- At `w = k` and `ν < k + 1`, the punctual eigensystems are those of `Symb^±_Γ(V_k)^{≤ν}` (Stevens' control theorem). For `k=0`, `N=32`, `p=3` and `ν=0`, the CM form has `a₃=0` and both refinement slopes are `1/2`: they occur below 1 but not in this slope-zero piece.
 - `𝕋^±_{w,ν}` can be non-reduced (a Jordan block for `U_p` at a critical point), so it is not the algebra of functions on a finite set of eigensystems.
 
 See [Bellaïche09](#ref-bellaiche09), §3.4.1, Definition 3.15, pp. 31–32; §3.4.2, Definition 3.16, p. 32.
@@ -1848,20 +1867,40 @@ Layer 2a supplies the general finite-slope machine. `LocallyAnalyticDistribution
 
 ## Layer 3: Critical refinements and critical `p`-adic L-functions
 
-**Standing conventions.** Every statement of this layer keeps the standing conventions of Layer 2: the analytic chart construction of §2.1, the Banach and descent targets of §2.2 and the global-image fibre convention of §2.3. At decent classical refined points the `E₂` exception is excluded by the refinement hypotheses.
+**Standing conventions.** Signs use the supplier’s `ι=diag(−1,1)`. At polynomial degree `k`, a sign `s` here corresponds to Bellaïche’s sign `s_B=s(−1)^k`; write `ε(f_β)=(−1)^k ε_B(f_β)` in every Eisenstein sign and period formula below. At a family weight `κ`, the conversion is `s_B=sκ(−1)`, constant on its weight component. Every statement of this layer keeps the standing conventions of Layer 2: the analytic chart construction of §2.1, the Banach and descent targets of §2.2 and the global-image fibre convention of §2.3. At decent classical refined points the `E₂` exception is excluded by the refinement hypotheses.
+
+### 3.0 Preferred Eisenstein representations
+
+For a genuine primitive Eisenstein newform `f` of weight `k+2≥2`, tame level `N` prime to `p`, and distinct roots `α,β`, take its two classical Galois characters `χ₁,χ₂`, ordered with Hodge–Tate weights 0 and `k+1` in Bellaïche’s convention. Construct `eisensteinCharacterSelmer`: the global Bloch–Kato extension spaces, unramified outside `Np`, crystalline at `p` and with finite local condition at every `ℓ≠p`, satisfy `dim Ext¹_f(χ₂,χ₁)=1` and `Ext¹_f(χ₁,χ₂)=0`. Prove this character-Selmer calculation using the Dirichlet-character Bloch–Kato calculation in the proof of [Bellaïche09](#ref-bellaiche09), Lemma 2.11, pp. 17–18 (the Soulé character calculation); it is a target here over the cochains and finite local conditions of `SelmerIwasawaCohomology`, §§2.2 and 4.9–4.12. The primitive Eisenstein hypotheses include the exclusion of the nonexistent level-one weight-two `E₂`; no dimension formula is asserted for arbitrary character pairs.
+
+Construct `preferredEisensteinRepresentation` as the extension `0→χ₁→ρ_f→χ₂→0` associated to a nonzero class. Prove existence, global nonsplitting and uniqueness up to isomorphism, since all nonzero classes in the one-dimensional extension space differ by rescaling the subcharacter. Identify its good-prime traces, determinant, ramification, crystalline realization and its two Frobenius eigenlines. Local splitting at `p` is a separate property. Use this representation in §§3.1–3.5, while the semisimple classical attachment remains the sum `χ₁⊕χ₂`. Both targets have source [Bellaïche09](#ref-bellaiche09), Lemma 2.11 and proof, pp. 17–18.
+
+**Checks for the character calculation.**
+
+- Reversing `χ₁` and `χ₂` reverses the dimensions 1 and 0; it cannot give two independent nonsplit crystalline extensions.
+- A nonzero scalar multiple of the extension class gives an isomorphic middle representation, although it changes an extension with fixed end identifications.
+- The pair underlying the formal level-one `E₂` is excluded; the stated primitive Eisenstein hypothesis cannot be replaced by an arbitrary pair of crystalline characters.
+
+**Checks for the preferred representation.**
+
+- The zero class gives the globally split sum and fails indecomposability despite having the same traces.
+- At each good prime `ℓ`, its trace is `χ₁(Frob_ℓ)+χ₂(Frob_ℓ)=a_ℓ(f)` and its determinant is their product; these identities alone do not determine the extension.
+- Distinct `α,β` give two different Frobenius lines. Their existence does not split the filtered crystalline representation, and global nonsplitting does not preclude local splitting.
+
+This uses `AlgebraicModularFormsAndSerreWeights`, §R15.5A.2; `SelmerIwasawaCohomology`, §§2.2 and 4.9–4.12; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.P2–R07.P5.
 
 ### 3.1 Critical-slope, critical and `θ`-critical refinements
 
 Let `f` be a newform (cuspidal or Eisenstein) of weight `k + 2` and level `Γ₁(N)`, `p ∤ N`, with Hecke polynomial `X² − a_pX + ε(p)p^{k+1}` having distinct roots `α`, `β`. The refinement `f_β` (the `p`-stabilisation with `U_p`-eigenvalue `β`) has critical slope if `v_p(β) = k + 1`; it is critical if the equivalent conditions of §3.2 hold (non-classical overconvergent generalised eigenforms, equivalently the eigencurve is not étale over weight space at `f_β`, equivalently `ρ_f|_{D_p}` is split with `β` on the weight-filtration line); it is `θ`-critical if `f_β` lies in the image of `θ^{k+1} : M†_{−k} → M†_{k+2}`. Critical implies critical slope; for cuspidal `f`, critical `⇔ θ`-critical.
 
-`k≥0`; `p∤N`; `α≠β`. The preferred representation is crystalline at `p` and is globally indecomposable in the Eisenstein case; its restriction to `D_p` may split.
+`k≥0`; `p∤N`; `α≠β`. The preferred representation is crystalline at `p`, supplied by the classical attachment for cuspidal forms and by `preferredEisensteinRepresentation` of §3.0 for Eisenstein forms, and is globally indecomposable in the Eisenstein case; its restriction to `D_p` may split.
 
 Record the three notions separately: slope (valuation), criticality (local Galois/eigencurve geometry), `θ`-criticality (image of `θ^{k+1}` on overconvergent forms).
 
 Keep 'slope `k+`1', '`θ`-critical' and 'critical refinement' distinct. The critical one-variable symbol theory uses precisely these distinctions.
 
 - `IsCriticalSlope`: `v_p(β) = k + 1`.
-- `IsCriticalRefinement`: Any of the equivalent conditions of Proposition 2.12.
+- `IsCriticalRefinement`: strict inclusion of the classical generalized eigenspace in the overconvergent one; §3.2 proves the other characterizations.
 - `IsThetaCritical`: `f_β ∈ θ^{k+1}(M†_{−k})`.
 - `IsCriticalRefinement.isCriticalSlope`: Critical `⇒` critical slope.
 
@@ -1873,17 +1912,39 @@ Keep 'slope `k+`1', '`θ`-critical' and 'critical refinement' distinct. The crit
 
 See [Bellaïche09](#ref-bellaiche09), §2.2.2, p. 18 (arXiv v1 PDF; printed page = PDF page); [Bellaïche09](#ref-bellaiche09), §2.2.2, Definition 2.13, p. 19 (arXiv v1 PDF; printed page = PDF page).
 
-This uses `ModularSymbolsPadicLFunctions`, §2.1; `ModularSymbolsPadicLFunctions`, §1.3; §2.6.
+This uses §3.0; `ModularSymbolsPadicLFunctions`, §2.1; `ModularSymbolsPadicLFunctions`, §1.3; §2.6.
 
 ### 3.2 Equivalent forms of criticality
 
 For a refined form `f_β` the following are equivalent: `(i) M_{k+2}(Γ)(f_β) ⊊ M†_{k+2}(Γ)(f_β)` (non-classical generalised eigenforms); `(i′) dim M†_{k+2}(Γ)(f_β) ≥ 2`; (ii) `v_p(β) > 0` and the eigencurve `C` is not étale over weight space at `x = f_β`; (iii) `v_p(β) > 0` and `ρ_f|_{D_p}` is a direct sum of two characters; (iv) the `β`-line of `D_cris(ρ_f|_{D_p})` equals the weight-filtration line. Then `v_p(β) = k + 1`. For cuspidal `f` these are equivalent to `(v) θ`-criticality; for Eisenstein `f`, `(v)` always holds.
 
-`f` is a cuspidal or Eisenstein newform of weight `k+2≥2` and tame level `N` prime to `p`, with distinct Hecke roots `α`,`β`; use the preferred representation of §3.1. The equivalence with a split `D_p`-restriction includes the condition `v_p(β)>0`. The equivalences (iii) `⇔ (v)` (Breuil–Emerton), `(i) ⇔` (iii) for Eisenstein series (Bellaïche–Chenevier) and Coleman's limit control theorem are cited by Bellaïche and not decomposed here.
+`f` is a cuspidal or Eisenstein newform of weight `k+2≥2` and tame level `N` prime to `p`, with distinct Hecke roots `α`,`β`; use the preferred representation of §3.1. The equivalence with a split `D_p`-restriction includes the condition `v_p(β)>0`. The three boundary theorems below are prerequisite targets of this section and are proved before assembling these equivalences.
 
 `(i) ⇔ (i′) ⇔` (ii): Bellaïche Lemma 2.9 (étaleness of the weight map at `x` versus the dimension of the generalised eigenspace of overconvergent forms). (iii) `⇔` (iv): weak admissibility of `D_cris`. `(v)`: Coleman's limit control theorem makes `coker θ^{k+1}` on the generalised eigenspace equal to `S_{k+2}(Γ)(x)`.
 
-Keep the cited inputs visible in hypotheses; they are not proved here.
+Construct the following inputs with `k≥0`, `p∤N`, a genuine primitive newform and distinct crystalline Hecke roots, as above.
+
+- `criticalBoundary_coleman`: on the generalized `f_β` eigenspace, the cokernel of `θ^{k+1}:M†_{−k}→M†_{k+2}` is the classical cuspidal generalized eigenspace. Retain the Hecke covariance, including the `ℓ^{k+1}` and `p^{k+1}` twists. Source: Coleman, *Classical and overconvergent modular forms*, Invent. Math. 124 (1996), Theorem 7.2 and Corollary 7.2.2, pp. 233–234 ([author copy](https://www.wstein.org/people/coleman/papers/classical_and_overconvergent_forms.pdf)); the tame-level application is [Bellaïche09](#ref-bellaiche09), Proposition 2.12, pp. 18–19.
+- `criticalSplit_breuilEmerton`: for cuspidal ordinary `f`, its unique critical-slope refinement is in the image of `θ^{k+1}` exactly when the crystalline `ρ_f|_{D_p}` splits. Source: Breuil–Emerton, *Représentations p-adiques ordinaires de GL₂(ℚ_p) et compatibilité local-global*, [author copy](https://www.math.uchicago.edu/~emerton/pdffiles/ordinary.pdf), Theorem 1.1.3, p. 4, §§4–5 (the result cited as Theorem 2 in Bellaïche’s version). The construction includes the companion overconvergent form of weight `−k` and the local-global comparison yielding it; transport the source’s dual Galois convention before comparing splitness.
+- `criticalEisenstein_bellaicheChenevier`: for a primitive Eisenstein `f` and `v_p(β)>0`, the generalized overconvergent eigenspace has dimension greater than one exactly when the preferred representation of §3.0 splits at `p`. Source: Bellaïche–Chenevier, *Lissité de la courbe de Hecke de GL₂ aux points Eisenstein critiques*, [arXiv:math/0405415v2](https://arxiv.org/pdf/math/0405415v2), Theorem 3, §6.2, p. 13, with the reducibility-ideal calculation of Theorems 1–2; the primitive tame-level extension uses Lemma 2.9 in place of their Proposition 1(b), as explained in [Bellaïche09](#ref-bellaiche09), Remark 2.10, p. 17. Construct that extension with the finite character, not just the tame-level-one case.
+
+**Checks for Coleman’s boundary theorem.**
+
+- At a cuspidal primitive eigensystem the classical quotient has dimension one; the theta image has codimension one, including at slope `k+1`.
+- At an Eisenstein eigensystem the classical cuspidal quotient is zero, so theta is surjective on the generalized eigenspace.
+- In degree `k=0`, theta is first differentiation and multiplies `U_p` eigenvalues by `p`; forgetting the twist would leave the slope unchanged.
+
+**Checks for the split/companion theorem.**
+
+- The CM form of `X₀(32)` at `p=5` has split local representation and a weight-zero companion for its slope-one refinement.
+- The unit-root refinement of an ordinary cuspidal form cannot be in the theta image: that image has slope at least `k+1`.
+- A cuspidal ordinary form with nonsplit crystalline local representation has no companion for its critical-slope refinement. A valuation test alone cannot establish splitness.
+
+**Checks for the Eisenstein theorem.**
+
+- If the preferred local extension splits, the positive-slope point is ramified over weight space and the generalized eigenspace has dimension at least two.
+- If that local extension is nonsplit, the positive-slope point is étale and the generalized eigenspace is one-dimensional, although its eigenform is theta-critical.
+- The semisimple sum splits at every place and would wrongly predict ramification in the preceding nonsplit case; the representation of §3.0 is essential.
 
 See [Bellaïche09](#ref-bellaiche09), §2.2.2, Proposition 2.12, p. 18 (arXiv v1 PDF; printed page = PDF page).
 
@@ -1926,21 +1987,49 @@ Every CM form is decent; cuspidal non-CM forms are conjecturally doubly decent.
 
 See [Bellaïche09](#ref-bellaiche09), §1.4.1, Definition 1, p. 5 (arXiv v1 PDF; printed page = PDF page); [Bellaïche09](#ref-bellaiche09), §2.2.4, Proposition 2.15, p. 20 (arXiv v1 PDF; printed page = PDF page).
 
-This uses §3.1; `GlobalGaloisDeformations`, §3.6 (The relative tangent space is an adjoint Selmer group).
+This uses §3.1; `SelmerIwasawaCohomology`, §§2.2 and 4.9–4.12; `ArithmeticGaloisDuality`, §R02.4 (local duality and Euler characteristic).
+
+### 3.4a Finite-slope periods and refined characteristic-zero deformations
+
+Construct `eigencurvePseudocharacter` on the reduced Coleman–Mazur–Buzzard eigencurve of §2.10: a continuous two-dimensional pseudocharacter unramified outside `Np`, with good-prime trace `T_ℓ` and the classical determinant. Use the classical Galois attachments, accumulating classical eigensystems and determinant interpolation, verifying the common congruence witnesses in an integral model before passing to affinoid coefficients. Near an irreducible cuspidal classical point `x`, reconstruct a rank-two representation over the completed local ring `T_x`, with residue representation `ρ_f`; normalize one Sen weight to zero. Sources: Coleman–Mazur, *The eigencurve*, §5.1 (the Galois pseudocharacter); [Bellaïche09](#ref-bellaiche09), proof of Theorem 2.16, p. 21; `IntegralHeckeAndGaloisDeterminants`, §§1.3 and 4.2 (reconstruction and quantified interpolation).
+
+For `f_β` cuspidal of weight `k+2≥2`, `p∤N` and `α≠β`, construct `refinedCrystallinePeriod`: for every cofinite-length ideal `I⊂T_x`, `D_cris((ρ⊗T_x/I)|_{D_p})^{ϕ=β̃}` is free of rank one over `T_x/I`, where `β̃` is the image of `U_p`. Prove reduction compatibility. Establish the accumulating crystalline classical points, the unbounded gap between their two Sen weights, and the dimension-one selected period of the semisimplified residue representation. Use Kisin, *Overconvergent modular forms and the Fontaine–Mazur conjecture*, Invent. Math. 153 (2003), §§5, 10, especially Proposition 5.4 and the proof of Proposition 10.6, pp. 444–445; for the split local representation retain the full cofinite-ideal assertion of Bellaïche–Chenevier, [*p-adic families of Galois representations and higher rank Selmer groups*](https://arxiv.org/pdf/math/0602340v2), §3.3, Theorem 3.3.3(ii), pp. 87–90. A period only on reduced field-valued points is insufficient.
+
+Construct `refinedDeformationRepresentable` for Artinian local `E`-algebras with residue field the characteristic-zero coefficient field of `ρ_f`: strict deformations unramified outside `Np`, with constant Sen weight zero and a free rank-one crystalline period of eigenvalue lifting `β`. At each `ℓ|N`, require the restriction to inertia to be isomorphic to the scalar extension of `ρ_f|_{I_ℓ}`. Prove that the local eigencurve representation satisfies these conditions at the primitive point, by rigidity of its tame-level inertia, and that their tangent classes lie in `H¹_f(ℚ_ℓ,ad ρ_f)=ker(H¹(ℚ_ℓ,ad ρ_f)→H¹(I_ℓ,ad ρ_f))`. Prove pro-representability by a complete noetherian local `E`-algebra, and the surjection to `T_x` induced by the preceding compatible periods and Hecke traces. Sources: Kisin, Proposition 8.7; [Bellaïche09](#ref-bellaiche09), proof of Theorem 2.16, pp. 21–22. Prove `refinedTangent_selmer`: first-order deformations embed into `H¹(G_(ℚ,S),ad ρ_f)` by their cocycles, with exactly those local conditions. When `f_β` is critical and `H¹_f(G_ℚ,ad ρ_f)=0`, the remaining tangent space injects into `H¹_{/f}(D_p,χ₂χ₁⁻¹)`; this is the characteristic-zero adapter used in §3.5. Its source is the same proof, using local Tate duality from `ArithmeticGaloisDuality`, §R02.4. A residual fixed-determinant tangent formula alone does not give this assertion.
+
+**Checks for the pseudocharacter.**
+
+- At a cuspidal classical point, its trace and determinant recover the chosen classical attachment, with the same Frobenius convention.
+- At an Eisenstein point it specializes to the character sum; irreducible reconstruction is used only at cuspidal points.
+- Distinct refinements of one newform have identical global traces but different `U_p` functions; the pseudocharacter alone does not select a period.
+
+**Checks for the finite-slope period.**
+
+- For `I` the maximal ideal, the selected crystalline Frobenius line is one-dimensional because `α≠β`.
+- For `T_x/I=E[ε]/(ε²)`, the period is free of rank one over the dual numbers, not merely nonzero on the residue field.
+- Coincident roots can give a two-dimensional selected period and are excluded. A split local representation with distinct roots is included.
+
+**Checks for the deformation and tangent adapters.**
+
+- At `A=E[ε]/(ε²)`, conjugation by `1+εB` changes the infinitesimal cocycle by its coboundary; strict equivalence gives the stated `H¹` carrier.
+- At a critical split point, the constant zero Sen weight and the selected `β`-period kill three of the four local adjoint factors, leaving `χ₂χ₁⁻¹`.
+- The trivial or cyclotomic ratio has exceptional `H⁰` or `H²`, so the one-dimensional local tangent bound requires its explicit exclusion in §3.5. Residue characteristic zero cannot be replaced by the finite-field deformation problem.
+
+This uses §§2.10 and 3.4; `IntegralHeckeAndGaloisDeterminants`, §§1.3 and 4.2; `SelmerIwasawaCohomology`, §§2.2 and 4.9–4.12; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.P2–R07.P5; `ArithmeticGaloisDuality`, §R02.4.
 
 ### 3.5 The eigencurve is smooth at decent points
 
 If `f` is decent (and `v_p(β) ≠ 0` when `f` is Eisenstein), the eigencurve `C` is smooth at the point `x` of `f_β`; when `f` is cuspidal its cuspidal part `C₀` has the same smooth germ; its weight map has some ramification index `e ≥ 1` at `x`, with `e > 1` iff `f_β` is critical.
 
-Chenevier's argument through the tangent space of the Galois deformation functor (cited).
+Use the characteristic-zero refined deformation ring, its period theorem and tangent adapter constructed in §3.4a.
 
-For a noncritical refinement the weight map is étale, hence `C` is smooth. For an Eisenstein refinement of positive slope, prove the Eisenstein local deformation calculation used in Bellaïche’s Theorem 2.16, using the reducible determinant, its extension class, and the local crystalline period condition. This is a distinct `decentEisenstein_smooth` target, rather than a consequence of the irreducible cuspidal tangent argument. For a critical cuspidal refinement, `ρ_f` is irreducible and `H¹_f(G_ℚ,ad ρ_f)=0`. Pass from the eigencurve pseudocharacter to a representation; impose the constant Sen weight zero and a rank-one crystalline `β`-period on infinitesimal deformations. The tangent space injects into the remaining local quotient `H¹_{/f}(D_p,χ₂χ₁⁻¹)`; distinct roots and the exclusion of the trivial/cyclotomic exceptional character give dimension one by local Tate duality and the Euler characteristic formula. A surjection from the resulting deformation ring to the one-dimensional local eigencurve ring proves regularity (Bellaïche Theorem 2.16, proof, pp. 21–22). When `f` is cuspidal, `C₀` is one-dimensional and contains `x`, so at the smooth point its reduced germ agrees with that of `C`. No assertion that an arbitrary Eisenstein point lies in `C₀` is made. The ramification criterion is §3.2.
+For a noncritical refinement the weight map is étale, hence `C` is smooth. For an Eisenstein refinement of positive slope, prove the Eisenstein local deformation calculation used in Bellaïche’s Theorem 2.16, using the reducible determinant, its extension class, and the local crystalline period condition. This is a distinct `decentEisenstein_smooth` target, rather than a consequence of the irreducible cuspidal tangent argument. For a critical cuspidal refinement, `ρ_f` is irreducible and `H¹_f(G_ℚ,ad ρ_f)=0`. Apply `eigencurvePseudocharacter`, `refinedCrystallinePeriod`, `refinedDeformationRepresentable` and `refinedTangent_selmer` of §3.4a to the completed local eigencurve ring. The tangent space injects into the remaining local quotient `H¹_{/f}(D_p,χ₂χ₁⁻¹)`; distinct roots and the exclusion of the trivial/cyclotomic exceptional character give dimension one by local Tate duality and the Euler characteristic formula. A surjection from the resulting deformation ring to the one-dimensional local eigencurve ring proves regularity (Bellaïche Theorem 2.16, proof, pp. 21–22). When `f` is cuspidal, `C₀` is one-dimensional and contains `x`, so at the smooth point its reduced germ agrees with that of `C`. No assertion that an arbitrary Eisenstein point lies in `C₀` is made. The ramification criterion is §3.2.
 
 Smoothness is what makes the local Hecke algebra a `DVR` (§3.7).
 
 See [Bellaïche09](#ref-bellaiche09), §2.3, Theorem 2.16, p. 20 (arXiv v1 PDF; printed page = PDF page).
 
-This uses §3.4; §3.2; §2.10; §2.7; §2a.13.
+This uses §3.4a; §3.4; §3.2; §2.10; §2.7; §2a.13.
 
 ### 3.6 The `θ` exact sequence
 
@@ -2025,7 +2114,8 @@ Interpolation determines `L±` only when `v_p(β) < k + 1`; at critical slope it
 
 **Checks.**
 
-- `L±(f_β, σ) = 0` when `σ(−1) ≠ ±1` (disjoint supports).
+- For `s∈{±1}`, `L^s(f_β,σ)=0` unless `σ(−1)=s(−1)^k`; at family weight `κ` the condition is `σ(−1)=sκ(−1)`.
+- At odd degree `k=1`, the plus symbol supports odd characters and the minus symbol supports even ones: `(μ|_1ι)(f)=−μ(f(−z))`. This detects the weight sign in the period-label conversion.
 - For the ordinary refinement (slope 0) it is the Mazur–Tate–Teitelbaum measure, bounded.
 - `f` Eisenstein, `θ`-critical: `L^{−ε(f_β)} ≡ 0` although `Φ^{−ε(f_β)} ≠ 0`.
 
@@ -2185,7 +2275,7 @@ This construction concerns ordinary elliptic modular families over `ℚ`. The un
 
 See [Ochiai](#ref-ochiai), §1, pp. 114–116 (Hida's nearly ordinary Hecke algebra, condition (F) and the basic properties 1)–3) of the Hida deformation); [EPW](#ref-epw), §2.3, Theorem 2.3.1, p. 10.
 
-This uses §0.11; §0.15; §1.1; §1.2; `ModularCurvesPartII`, §13.5 (The modular Jacobian Tate module); `ModularCurvesPartII`, §17.2 (The Eichler–Shimura relation); `IntegralHeckeAndGaloisDeterminants`, §4.2 (finite-quotient witnesses and interpolation); `PadicMeasuresIwasawaAlgebras`, §§0.1 and 1 (measures and completed group algebras).
+This uses §0.17; §1.9; §1.1; §1.2; `ModularCurvesPartII`, §13.5 (The modular Jacobian Tate module); `ModularCurvesPartII`, §17.2 (The Eichler–Shimura relation); `IntegralHeckeAndGaloisDeterminants`, §4.2 (finite-quotient witnesses and interpolation); `PadicMeasuresIwasawaAlgebras`, §§0.1 and 1 (measures and completed group algebras).
 
 ### 4.2 The ordinary filtration of the big Galois representation at `p`
 
@@ -2408,7 +2498,7 @@ Let `F` be totally real of degree `d`, `p` odd, `U ⊆ GL₂(𝒪_F ⊗ Ẑ)` op
 
 `p` odd; `U` maximal at p. `δ_F = 1 +` the Leopoldt defect of `(F, p)` by class field theory.
 
-`G(U) ≅ (𝒪_F ⊗ ℤ_p)^× × Z(U)`: the map is well defined on `U⁰_a·A_f^×` modulo `U_a·𝒪_F^×` and bijective by the definitions (Skinner–Wiles p. 32). `Z(U)` is `(𝒪_F ⊗ ℤ_p)^×` modulo the closure of the global units, with a finite torsion/idele-class contribution, possibly including `p`-primary torsion; its `ℤ_p`-rank is `d − rank(closure of 𝒪_F^×) = 1 + δ`, which by class field theory is the rank of the maximal abelian pro-`p` extension unramified outside p. `H≅ℤ_p^{δ_F+d}` has finite index in `G(U)`. Choose coset representatives; their group-like elements give a basis of `𝒪[[G(U)]]` as a module over `𝒪[[H]]=Λ′_𝒪`. This gives module freeness of rank `[G(U):H]`, not a canonical `Λ′_𝒪`-algebra isomorphism with `Λ′_𝒪[G(U)/H]` unless the extension splits. In one variable use kernels of evaluations `1+X↦ζ_{p^n}` for unbounded `n`. For `𝒪=ℤ_p` they are generated by `Φ_{p^n}(1+X)` (and `X` for `n=0`). These distinct height-one prime kernels are Zariski dense: a nonzero power series cannot lie in infinitely many distinct height-one primes in the two-dimensional Noetherian domain. For finite coefficient extensions choose the corresponding irreducible factors, and iterate this argument in each variable for products of finite-order characters. Conjugate roots may have the same kernel, and the linear polynomial `1+X−ζ` is not in `𝒪[[X]]` when `ζ∉𝒪`.
+`G(U) ≅ (𝒪_F ⊗ ℤ_p)^× × Z(U)`: the map is well defined on `(U⁰_a·𝒪_F^×)/(U_a·𝒪_F^×)` and bijective by the definitions (Skinner–Wiles p. 32). `Z(U)` is `(𝒪_F ⊗ ℤ_p)^×` modulo the closure of the global units, with a finite torsion/idele-class contribution, possibly including `p`-primary torsion; its `ℤ_p`-rank is `d − rank(closure of 𝒪_F^×) = 1 + δ`, which by class field theory is the rank of the maximal abelian pro-`p` extension unramified outside p. `H≅ℤ_p^{δ_F+d}` has finite index in `G(U)`. Choose coset representatives; their group-like elements give a basis of `𝒪[[G(U)]]` as a module over `𝒪[[H]]=Λ′_𝒪`. This gives module freeness of rank `[G(U):H]`, not a canonical `Λ′_𝒪`-algebra isomorphism with `Λ′_𝒪[G(U)/H]` unless the extension splits. In one variable use kernels of evaluations `1+X↦ζ_{p^n}` for unbounded `n`. For `𝒪=ℤ_p` they are generated by `Φ_{p^n}(1+X)` (and `X` for `n=0`). These distinct height-one prime kernels are Zariski dense: a nonzero power series cannot lie in infinitely many distinct height-one primes in the two-dimensional Noetherian domain. For finite coefficient extensions choose the corresponding irreducible factors, and iterate this argument in each variable for products of finite-order characters. Conjugate roots may have the same kernel, and the linear polynomial `1+X−ζ` is not in `𝒪[[X]]` when `ζ∉𝒪`.
 
 The `X`-variables see only the `ℤ_p`-free part of `Z(U)`; the torsion of `G(U)` (roots of unity, the finite quotient by global units) is not a weight variable. Nearly ordinary weight space includes the torus `(Y)` directions; the ordinary one-variable weight space of L0 is the parallel, untwisted slice.
 
@@ -2424,6 +2514,7 @@ The `X`-variables see only the `ℤ_p`-free part of `Z(U)`; the torsion of `G(U)
 - For `F=ℚ`, `d=δ_ℚ=1`, so `Λ′_𝒪=𝒪[[X,Y]]`. `X` is the chosen free central direction and `Y` the chosen free local-torus direction; the one-variable L0 comparison requires its specified parallel-weight slice, not an identification by the variable names alone.
 - `F` real quadratic and abelian (Leopoldt holds by Brumer): `δ_F = 1`, so `Λ′_𝒪` has `1 + 2 = 3` variables.
 - For `𝒪=ℤ_p`, the kernels of `1+X↦ζ_{p^n}`, `n=0`,1,2,…, are `X` and `Φ_{p^n}(1+X)`. They are distinct height-one prime ideals and dense in `Spec ℤ_p[[X]]`. Conjugate roots of the same order have the same kernel.
+- For `F=ℚ`, allowing all central finite ideles would retain the unbounded valuations of `ℓⁿ` at `ℓ≠p`; the finite-level quotient uses global units instead.
 - Non-example: `G(U)` itself is not the weight space; its torsion (e.g. `∏_{v|p} k_v^×` when `p` is unramified) gives the finite free `Λ′_𝒪`-module structure of rank `[G(U) : H] > 1`.
 
 See [SW](#ref-sw), §3.2, p. 33 (Numdam PDF page 30; printed page = PDF page + 3); [SW](#ref-sw), §3.2, proof of Lemma 3.8, p. 38 (Numdam PDF page 35; printed page = PDF page + 3).
@@ -2432,7 +2523,7 @@ This uses Mathlib `MvPowerSeries`; Mathlib `Module.Free`; Mathlib `IsDedekindDom
 
 ### 5.2 Hida's ordinary projector on definite quaternionic forms
 
-`F` is a totally real field of even degree `d`, `p` an odd prime, `D/F` the quaternion algebra ramified exactly at the infinite places, `X(U) = D^×\G^D(A_f)/U` for open compact `U ⊆ GL₂(𝒪_F ⊗ Ẑ)` with `U_v = GL₂(𝒪_{F,v})` for `v | p`, `U_a = U ∩ U(p^a)` and `U⁰_a = U ∩ U₀(p^a)`, and `𝒪` the ring of integers of a finite extension `K` of `ℚ_p`. For an `𝒪`-module `R`, `H⁰(X(U_a), R)` is the module of `R`-valued functions on the finite set `X(U_a)`, with the Hecke operators `T₀(p) = [U_a (1 0; 0 ϖ_p) U_a]` (`ϖ_p` a finite idele with a uniformiser at each `v | p` and 1 elsewhere), `T₀(𝔭_i)` for the primes above `p`, the group `G(U_a)` and `T(ℓ)`, `S(ℓ)` for `ℓ ∤ p` with `U_ℓ` maximal. For `R` finite as a set, `e := lim_n T₀(p)^{n!}` is the finite ordinary projector of Layer 0a; for `R = 𝒪` it is the adic projector on the finite free module `H⁰(X(U_a), 𝒪)`; for `R = K/𝒪` it is the colimit of the projectors on the `𝒪/πⁿ`-coefficients. `e` is an idempotent commuting with the Hecke algebra `T(U_a, 𝒪)`, with change of coefficients `R → R′`, and with pullback and trace between levels `U_b ⊆ U_a`.
+`F` is a totally real field of even degree `d`, `p` an odd prime, `D/F` the quaternion algebra ramified exactly at the infinite places, `X(U) = D^×\G^D(A_f)/U` for open compact `U ⊆ GL₂(𝒪_F ⊗ Ẑ)` with `U_v = GL₂(𝒪_{F,v})` for `v | p`, `U_a = U ∩ U(p^a)` and `U⁰_a = U ∩ U₀(p^a)`, and `𝒪` the ring of integers of a finite extension `K` of `ℚ_p`. For an `𝒪`-module `R`, `H⁰(X(U_a), R)` is the module of `R`-valued functions on the finite set `X(U_a)`, with the Hecke operators `T₀(p) = [U_a (1 0; 0 p_p) U_a]` (`p_p` has component the rational integer `p` at every `v | p` and 1 elsewhere), `T₀(𝔭_i)` defined using a local uniformiser at `𝔭_i` and 1 elsewhere, the group `G(U_a)` and `T(ℓ)`, `S(ℓ)` for `ℓ ∤ p` with `U_ℓ` maximal. For `R` finite as a set, `e := lim_n T₀(p)^{n!}` is the finite ordinary projector of Layer 0a; for `R = 𝒪` it is the adic projector on the finite free module `H⁰(X(U_a), 𝒪)`; for `R = K/𝒪` it is the colimit of the projectors on the `𝒪/πⁿ`-coefficients. `e` is an idempotent commuting with the Hecke algebra `T(U_a, 𝒪)`, with change of coefficients `R → R′`, and with pullback and trace between levels `U_b ⊆ U_a`.
 
 `F` even degree, `p` odd, `D` definite and unramified at all finite places. Use `p`-power level `a≥1` for the `U`-type operators and the assertion that the norm-form/constant subspace is killed by the ordinary projector. At maximal `p`-level `a=0`, `T_p` on constants instead has eigenvalue `Np+1`, a `p`-adic unit. Construct the finite-central-fibre comparison below in the unquotiented `X(U)` convention; the centre-quotiented definite class set is different.
 
@@ -2493,13 +2584,19 @@ This uses §5.2; §5.1; `HilbertModularVarietiesAndShimuraCurves`, §R18.3.22; `
 
 ### 5.4 The ordinary part does not grow in `Γ₀(p^a)`-level
 
-`F` is a totally real field of even degree `d`, `p` an odd prime, `D/F` the quaternion algebra ramified exactly at the infinite places, `X(U) = D^×\G^D(A_f)/U` for open compact `U ⊆ GL₂(𝒪_F ⊗ Ẑ)` with `U_v = GL₂(𝒪_{F,v})` for `v | p`, `U_a = U ∩ U(p^a)` and `U⁰_a = U ∩ U₀(p^a)`, and `𝒪` the ring of integers of a finite extension `K` of `ℚ_p`. For `a ≥ 2` the double coset `U⁰_a (1 0; 0 ϖ_p) U⁰_a` equals `U⁰_a (1 0; 0 ϖ_p) U⁰_{a−1}`, so `T₀(p)` maps `H⁰(X(U⁰_a), K/𝒪)` into the image of `H⁰(X(U⁰_{a−1}), K/𝒪)`, and `eH⁰(X(U⁰_a), K/𝒪) = eH⁰(X(U⁰_1), K/𝒪)`. Moreover `H⁰(X(U⁰_a), K/𝒪) = H⁰(X(U_a), K/𝒪)^{G(U_a)}`.
+`F` is a totally real field of even degree `d`, `p` an odd prime, `D/F` the quaternion algebra ramified exactly at the infinite places, `X(U) = D^×\G^D(A_f)/U` for open compact `U ⊆ GL₂(𝒪_F ⊗ Ẑ)` with `U_v = GL₂(𝒪_{F,v})` for `v | p`, `U_a = U ∩ U(p^a)` and `U⁰_a = U ∩ U₀(p^a)`, and `𝒪` the ring of integers of a finite extension `K` of `ℚ_p`. For `a ≥ 2` the double coset `U⁰_a (1 0; 0 p_p) U⁰_a` equals `U⁰_a (1 0; 0 p_p) U⁰_{a−1}`, so `T₀(p)` maps `H⁰(X(U⁰_a), K/𝒪)` into the image of `H⁰(X(U⁰_{a−1}), K/𝒪)`, and `eH⁰(X(U⁰_a), K/𝒪) = eH⁰(X(U⁰_1), K/𝒪)`. Moreover `H⁰(X(U⁰_a), K/𝒪) = H⁰(X(U_a), K/𝒪)^{G(U_a)}`.
 
 As in §5.2.
 
 The double coset identity is a matrix computation at the places above p. Iterating, the image of `T₀(p)^{a−1}` lies in the level-`U⁰_1` forms, and `e` is a limit of powers of `T₀(p)` on which `T₀(p)` is invertible, so the ordinary part is contained in, hence equal to, the level-`U⁰_1` ordinary part. Invariants: `U⁰_a/U_a ≅ G(U_a)`-part acting on `X(U_a)`.
 
-See [SW](#ref-sw), §3.2, proof of Proposition 3.3, p. 36 (Numdam PDF page 33).
+**Checks.**
+
+- For `F=ℚ`, `p_p=p` at the unique place above `p`, recovering the rational level-drop identity.
+- For `F=ℚ(√5)`, `p=5` and `a=2`, the local levels are `K₀(π⁴)` and `K₀(π²)`. With `g=diag(1,π)`, every element of `K₀(π⁴)gK₀(π⁴)` has lower-left entry divisible by `π⁴`, but `g(1 0;π² 1)` has entry `π³`. The single-uniformiser operator cannot give this rational-level drop.
+- With `g=diag(1,p)`, use lower unipotent representatives `(1 0;p^{a−1}x 1)` for `K₀(p^{a−1})/K₀(p^a)`. Their conjugates by `g` have entry `p^a x` and lie in `K₀(p^a)`, giving the double-coset identity even at ramified places.
+
+See [SW](#ref-sw), §3.2, definition of `T₀(p)`, p. 30, and proof of Proposition 3.3, p. 36 (Numdam printed pagination).
 
 This uses §5.2; `HilbertModularVarietiesAndShimuraCurves`, §R18.3.1.
 
@@ -2576,7 +2673,7 @@ Weights are parallel here: the torus character `φ` has finite order. Non-parall
 
 See [SW](#ref-sw), §3.2, before Proposition 3.7, p. 37 (Numdam PDF page 34; printed page = PDF page + 3).
 
-This uses §5.7; §5.1; §5.3; `GL2AutomorphicRepresentationsAndTransfer`, R16.6.
+This uses §5.7; §5.1; §5.3; `GL2AutomorphicRepresentationsAndTransfer`, §§R16.6.3 and R16.6.5.
 
 ### 5.9 Weight-two algebraic primes are dense on every component
 
@@ -2592,13 +2689,41 @@ See [SW](#ref-sw), §3.2, Lemma 3.8, p. 38 (Numdam PDF page 35; printed page = P
 
 This uses §5.7; §5.8; §5.1.
 
+### 5.9a Classical Hilbert expansions and integral coefficients
+
+For a totally real field `F`, odd `p`, parallel integral weight `k≥2`, a narrow ray class character `η` of the weight-compatible parity, and level `𝔫p^r` with `p∤𝔫`, construct `classicalHilbertQExpansion` at all polarization components and cusps. Start on a fine auxiliary tame level with an ordered invertible polarization ideal `c` prime to the auxiliary level, as in `HilbertModularVarietiesAndShimuraCurves`, §§H1.1–H1.10 and H2.2–H2.9. Use its Deligne–Pappas model at ramified `p`, its subgroup level of §H4.8, and its characteristic-zero Hodge/weight bundles of §§H5.3–H5.4. Retain their exact scalar-stabilizer character condition when descending by §§H3.6–H3.8; over integral ramified bases retain the unsplit real-multiplication module. Construct the formal Tate HBAV cusp charts and evaluate the weight bundle on their canonical differential. These cusp charts and the expansion principle are targets here, rather than exports of the representation-theoretic weight construction.
+
+Prove `classicalHilbertQExpansion_injective` using expansions at a cusp on each component, with its level and trivialization fixed; include the principle that integral expansions descend the form to the coefficient subring. Define the integral lattice by these expansions with the cusp constants included. Prove `classicalHilbertQExpansion_baseChange` for flat extensions of the coefficient valuation ring, using the same lattice and all cusp charts; for `p`-adically complete flat coefficients use the compatible finite coefficient quotients and their inverse limit. No arbitrary nonflat lifting assertion is included. The source is Deligne–Ribet, [*Values of abelian L-functions at negative integers over totally real fields*](https://math.berkeley.edu/~ribet/Articles/deligne-ribet.pdf), §5, (5.1)–(5.7), pp. 259–262, in particular (5.4)–(5.5), p. 260. Include the comparison of their polarization and `Γ₀₀`-level conventions with the chosen Hilbert model, passing through the fine auxiliary level before descent.
+
+Prove `classicalHilbertQExpansion_idealCoefficients`: the unit-equivariant positive Fourier coefficients at the narrow ideal-class representatives are equivalent to the normalized coefficients indexed by nonzero integral ideals, together with the separate cusp constants. Retain the weight, different and ideal-representative normalization factors and prove independence of representatives. Transport the good-prime and level-dividing Hecke formulas through this dictionary; its weight-`k`, character `χω^{1−k}` version is the coefficient carrier used in §5.10. Sources: Deligne–Ribet, §5, (5.2), (5.6)–(5.7), pp. 260–262, for cusp and analytic conventions; [DKV](#ref-dkv), §3.1, pp. 846–847, and §3.3, p. 850, for the normalized ideal-coefficient convention. The algebraic representation and rational multiplicity inputs are `GL2AutomorphicRepresentationsAndTransfer`, §§R16.6.3 and R16.6.5; they supply no Hilbert expansion theorem.
+
+**Checks for expansions and injectivity.**
+
+- For `F=ℚ`, the construction is the usual Tate-curve expansion, including its constant term.
+- For a field with nontrivial narrow class group, expansion on just one component cannot detect a form supported on another component. Taking one cusp on every component detects it.
+- A nonzero cusp form has a nonzero positive coefficient in some component; an Eisenstein series can have a nonzero cusp constant, which must be retained before testing equality.
+
+**Checks for integral coefficient change.**
+
+- Extension from `ℤ_p` to the integers of a finite extension of `ℚ_p` is flat; an integral expansion maps to the same coefficientwise expansion, without choosing a basis of the ramified coefficient ring.
+- The identity coefficient map fixes every expansion. A compatible integral expansion is recovered from all its reductions modulo `ϖⁿ`; taking just its reduction modulo `ϖ` does not recover it.
+- At ramified `p`, the embedding idempotents of `F⊗E` do not in general extend to `𝒪_F⊗𝒪_E`; integral coefficient change uses the unsplit model.
+
+**Checks for the ideal-coefficient dictionary.**
+
+- For `F=ℚ`, the ideal `(n)` coefficient is the `qⁿ` coefficient, while the constant term is separate.
+- For nontrivial narrow class group, the ideal dictionary uses all class representatives. Restricting to principal ideals would lose coefficients from another narrow class.
+- Rescaling a cusp differential by `x` multiplies its weight-`k` expansion by `Norm(x)^(−k)`, as in Deligne–Ribet (5.2). The normalization in the ideal dictionary compensates for this factor.
+
+This uses `HilbertModularVarietiesAndShimuraCurves`, §§H1.1–H1.10, H2.2–H2.9, H3.6–H3.8, H4.8 and H5.3–H5.4; `GL2AutomorphicRepresentationsAndTransfer`, §§R16.6.3 and R16.6.5; `ModularForms`, Layer 0, for the elliptic specialization.
+
 ### 5.10 `Λ`-adic Hilbert modular forms and their ordinary parts
 
 Let `F` be totally real, `p` odd, `E/ℚ_p` finite with ring of integers `𝒪_E`, `Λ = 𝒪_E[[T]]`, `u` a topological generator of `1 + pℤ_p` and `ν_k : Λ → 𝒪_E`, `T ↦ u^{k−1} − 1`, the weight-`k` specialisation. For a totally odd narrow ray class character `χ` of conductor `𝔫` prime to `p`, a `Λ`-adic Hilbert modular form of tame level `𝔫` and character `χ` is a family `F = (c(𝔞, F))_𝔞 ∈ Λ^{integral ideals}` together with constant terms, such that for every integer `k ≥ 2` the specialisation `ν_k(F)` is the `q`-expansion of a classical Hilbert modular form of parallel weight `k`, level `𝔫p` and character `χω^{1−k}`. They form a `Λ`-module `M(𝔫, χ)` with cuspidal submodule `S(𝔫, χ)`, Hecke operators `T_𝔩 (𝔩 ∤ 𝔫p)` and `U_𝔩 (𝔩 | 𝔫p)`. The ordinary projector `e = lim_n (∏_{𝔭|p} U_𝔭)^{n!}` defines the Hida families `M°(𝔫, χ) = eM(𝔫, χ)` and `S°(𝔫, χ) = eS(𝔫, χ)`, finite free over `Λ` by the separate parallel-weight construction/control target below, with Hecke algebras `T̃` and `T` acting on them.
 
 `F` totally real; `p` odd; `χ` totally odd of conductor `𝔫` prime to `p`, with values in `E`; parallel weights. Finite freeness/control requires the parallel-weight Hida–Wiles construction below, in addition to the coefficient-family definition. The even-degree definite quaternionic theorem alone does not cover all totally real `F`.
 
-Define the coefficient-family module using normalized ideal coefficients and all cusp constants, and transport the classical Hecke formulas coefficientwise. Classical Hilbert `q`-expansion injectivity is supplied by R16.6; no geometric ordinary-tower realization is needed for this coefficient definition. Construct `parallelHilbertOrdinary_control` in all totally real degrees: the integral ordinary Hilbert cohomology/forms tower, the parallel-weight moment maps with character `χω^{1−k}`, the ordinary kernel/cokernel calculation and the first-coefficient Hecke duality. Prove uniform finite generation by ordinary control, and prove finite freeness using equality of the arithmetic fibre ranks and the integral duality, rather than torsion-freeness alone. Establish the finite-quotient locally finite operator hypotheses before taking the projector. These are the additional Hida–Wiles targets recalled in DKV §3.1; the definite quaternionic proof of §5.8 gives the even-degree comparison but is not substituted for this all-degree theorem. This construction is phrased over the classical Hilbert geometry and coefficient systems supplied by R16.6, with its own ordinary tower and control proof.
+Define the coefficient-family module using normalized ideal coefficients and all cusp constants, and transport the classical Hecke formulas coefficientwise. Use `classicalHilbertQExpansion`, its injectivity and its integral ideal-coefficient dictionary from §5.9a for this coefficient definition. Construct `parallelHilbertOrdinary_control` in all totally real degrees: the integral ordinary Hilbert cohomology/forms tower, the parallel-weight moment maps with character `χω^{1−k}`, the ordinary kernel/cokernel calculation and the first-coefficient Hecke duality. Prove uniform finite generation by ordinary control, and prove finite freeness using equality of the arithmetic fibre ranks and the integral duality, rather than torsion-freeness alone. Establish the finite-quotient locally finite operator hypotheses before taking the projector. These are the additional Hida–Wiles targets recalled in DKV §3.1; the definite quaternionic proof of §5.8 gives the even-degree comparison but is not substituted for this all-degree theorem. This construction uses the Hilbert geometry and weight bundles from `HilbertModularVarietiesAndShimuraCurves`, under the hypotheses of §5.9a, with its own ordinary tower and control proof. The integral cohomological coefficient lattice and its comparison with those bundles are part of `parallelHilbertOrdinary_control`; R16.6.3 supplies only the rational algebraic representation.
 
 Weight-one specialisation `ν_1` is not required to be classical in the definition; Dasgupta–Kakde–Ventullo study it separately.
 
@@ -2629,7 +2754,7 @@ Weight-one specialisation `ν_1` is not required to be classical in the definiti
 
 See [DKV](#ref-dkv), §3.1, (25)–(27) and the definitions of M(𝔫, χ), S(𝔫, χ), e, M°, S°, T̃, T, pp. 846–847.
 
-This uses §0a.22; §0a.14; §5.8; `GL2AutomorphicRepresentationsAndTransfer`, §R16.6.3; `GL2AutomorphicRepresentationsAndTransfer`, §R16.6.2; Mathlib `PowerSeries`.
+This uses §5.9a; §0a.22; §0a.14; §5.8; `HilbertModularVarietiesAndShimuraCurves`, §§H1–H4 and H5.3–H5.4; `GL2AutomorphicRepresentationsAndTransfer`, §§R16.6.3 and R16.6.5; Mathlib `PowerSeries`.
 
 ### 5.11 `A` Hida family is determined by its Fourier expansion
 
@@ -2643,7 +2768,7 @@ The common denominator belongs to the localized coefficient module before evalua
 
 See [DKV](#ref-dkv), §3.3, p. 850.
 
-This uses §5.10; `GL2AutomorphicRepresentationsAndTransfer`, §R16.6.2.
+This uses §5.9a; §5.10.
 
 ### 5.12 The localised cuspidal Hecke algebra is reduced at minimal tame level
 
@@ -2708,7 +2833,7 @@ If `G=Δ×ℤ_p^r`, a coefficient extension splitting `Δ` gives `𝒪[G/Δ′]`
 
 ### Dependencies
 
-Layer 0a supplies module projectors and compact exactness; Layer 1 supplies the period convention and congruence comparisons. `HilbertModularVarietiesAndShimuraCurves`, R18.3, supplies centre-quotiented definite spaces and pairings; the finite central-fibre theorem here relates them to the unquotiented tower. `GL2AutomorphicRepresentationsAndTransfer`, R16.6, supplies classical Hilbert forms, weights, full Hecke operators and Galois exports. `PadicMeasuresIwasawaAlgebras` supplies completed group algebras. Twisted-level ordinary control, semilocal projective descent and the all-degree parallel Hilbert ordinary construction are explicit targets here; definite even-degree freeness is not used as an all-degree theorem.
+Layer 0a supplies module projectors and compact exactness; Layer 1 supplies the period convention and congruence comparisons. `HilbertModularVarietiesAndShimuraCurves`, R18.3, supplies centre-quotiented definite spaces and pairings; the finite central-fibre theorem here relates them to the unquotiented tower. `HilbertModularVarietiesAndShimuraCurves`, §§H1–H4 and H5.3–H5.4, supplies the classical Hilbert geometry and weight bundles under §5.9a’s hypotheses. `GL2AutomorphicRepresentationsAndTransfer`, §§R16.6.3 and R16.6.5, supplies algebraic weight representations and representation-theoretic multiplicity exports; §5.9a constructs the expansion/ideal-coefficient dictionary. `PadicMeasuresIwasawaAlgebras` supplies completed group algebras. Twisted-level ordinary control, semilocal projective descent and the all-degree parallel Hilbert ordinary construction are explicit targets here; definite even-degree freeness is not used as an all-degree theorem.
 
 ## Downstream consumers
 
