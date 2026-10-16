@@ -13,6 +13,7 @@ import Mathlib.RepresentationTheory.Irreducible
 import Mathlib.RepresentationTheory.Semisimple
 import Mathlib.LinearAlgebra.Matrix.Rank
 import Mathlib.RingTheory.Ideal.Maps
+import Mathlib.RingTheory.Idempotents
 import Mathlib.Topology.Algebra.Module.FiniteDimension
 import Mathlib.FieldTheory.IntermediateField.Adjoin.Basic
 import Mathlib.Analysis.Complex.Basic
@@ -191,7 +192,7 @@ example {R : Type*} [CommRing R] (q a b c x : R) :
       (x - q * a) * (x - q * b) * (x - q * c) := by ring
 
 /-- Test `heckePolynomial_arith_vs_geom` (its arithmetic): if `β₁ + β₂ = −24` and `β₁β₂ = 2¹¹` (Δ at `2`), the
-reciprocal roots have sum `−24/2¹¹` and product `2⁻¹¹`, so `ρ_Δ`'s geometric polynomial is `X² + 24·2⁻¹¹X + 2⁻¹¹`. -/
+reciprocal roots have sum `−24/2¹¹` and product `2⁻¹¹`, so the arithmetic dual `r_R19,arith` has geometric polynomial `X² + 24·2⁻¹¹X + 2⁻¹¹`. -/
 example (b1 b2 : ℂ) (hs : b1 + b2 = -24) (hp : b1 * b2 = 2 ^ 11) :
     1 / b1 + 1 / b2 = -24 / 2 ^ 11 ∧ 1 / b1 * (1 / b2) = 1 / 2 ^ 11 := by
   have h1 : b1 ≠ 0 := by rintro rfl; norm_num at hp
@@ -218,15 +219,15 @@ example {n : ℕ} {a : Fin n → ℤ} (ha : Antitone a) :
 /-- Test `not_expectedHodgeTate_unshifted`: rank two weight zero has distinct shifted entries. -/
 example : expectedHodgeTate (0 : Fin 2 → ℤ) ≠ ({0, 0} : Multiset ℤ) := by decide
 
-/-! ## Layer AG2.1a: coefficient exponents and degree selectors -/
+/-! ## Layers AG2.0–AG2.1a: algebraic coefficient exponents and corrected selectors -/
 
 namespace Fixtures
 
-/-- Coefficient weight with its central exponent. -/
+/-- Algebraic coefficient weight determined by the central exponent and highest-weight sum. -/
 def coefficientWeight (central highestWeightSum : ℤ) : ℤ :=
   -2 * central - highestWeightSum
 
-/-- The labelled integer k−1−highestWeight−central. -/
+/-- Formal labelled integer k−1−highestWeight−central, before geometric comparison. -/
 def labelledInteger (central highestWeight : ℤ) (k : ℕ) : ℤ :=
   (k : ℤ) - 1 - highestWeight - central
 
@@ -270,7 +271,70 @@ example : (∏ y ∈ (∅ : Finset ℕ), selectorFactor 2 y 2) = 1 := by simp
 example : (2 : ℚ) - 2 ^ 1 = 0 ∧ selectorFactor 2 1 2 = 0 := by
   norm_num [selectorFactor]
 
+/-- A filtered operator with graded identity and a nonzero nilpotent error at eigenvalue one. -/
+def lerayJordan : Matrix (Fin 2) (Fin 2) ℚ := !![1, 1; 0, 1]
+
+/-- The fifth power still fails idempotence near eigenvalue one. -/
+example : (lerayJordan ^ 5) ^ 2 - lerayJordan ^ 5 = !![0, 5; 0, 0] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    norm_num [lerayJordan, pow_succ, Matrix.mul_apply, Fin.sum_univ_succ, Matrix.one_apply]
+
+example : (lerayJordan ^ 5) ^ 2 ≠ lerayJordan ^ 5 := by
+  intro h
+  have he := congrFun (congrFun h 0) 1
+  norm_num [lerayJordan, pow_succ, Matrix.mul_apply, Fin.sum_univ_succ, Matrix.one_apply] at he
+
 end Fixtures
+
+namespace CoefficientProjector
+
+/-- The polynomial correction 1−(1−T^D)^D in the endomorphism ring. -/
+def correction {R : Type*} [Ring R] (D : ℕ) (T : R) : R :=
+  1 - (1 - T ^ D) ^ D
+
+/-- A nilpotent idempotence defect makes the corrected operator idempotent. -/
+theorem correction_idempotent {R : Type*} [Ring R] (D : ℕ) (T : R)
+    (hdef : (T - T ^ 2) ^ D = 0) : IsIdempotentElem (correction D T) :=
+  isIdempotentElem_one_sub_one_sub_pow_pow T D hdef
+
+/-- An operator idempotent on a length-D filtration has an idempotent polynomial correction. -/
+theorem lerayCorrection {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
+    (D : ℕ) (hD : 0 < D) (F : ℕ → Submodule K V) (hF : Monotone F)
+    (hzero : F 0 = ⊥) (htop : F D = ⊤) (T : Module.End K V)
+    (hpres : ∀ i, ∀ v ∈ F i, T v ∈ F i)
+    (hgraded : ∀ i < D, ∀ v ∈ F (i + 1), (T - T ^ 2) v ∈ F i) :
+    (T - T ^ 2) ^ D = 0 ∧ IsIdempotentElem (correction D T) := sorry
+
+/-- The corrected Jordan operator is exactly the identity. -/
+example : correction 5 Fixtures.lerayJordan = 1 := by
+  have hs : (1 - Fixtures.lerayJordan ^ 5) ^ 2 = 0 := by
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      norm_num [Fixtures.lerayJordan, pow_succ, Matrix.mul_apply, Fin.sum_univ_succ,
+        Matrix.one_apply]
+  unfold correction
+  rw [show (5 : ℕ) = 2 + 3 from rfl, pow_add, hs, zero_mul, sub_zero]
+
+/-- The same correction kills the nilpotent Jordan block at eigenvalue zero. -/
+example : correction 5 (Fixtures.lerayJordan - 1) = 0 := by
+  have hs : (Fixtures.lerayJordan - 1) ^ 2 = 0 := by
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      norm_num [Fixtures.lerayJordan, pow_succ, Matrix.mul_apply, Fin.sum_univ_succ,
+        Matrix.one_apply]
+  have hp : (Fixtures.lerayJordan - 1) ^ 5 = 0 := by
+    rw [show (5 : ℕ) = 2 + 3 from rfl, pow_add, hs, zero_mul]
+  simp [correction, hp]
+
+example {R : Type*} [Ring R] (D : ℕ) (hD : 0 < D) :
+    correction D (0 : R) = 0 ∧ correction D (1 : R) = 1 := by
+  simp [correction, Nat.ne_of_gt hD]
+
+example {R : Type*} [Ring R] (T : R) : correction 1 T = T := by
+  simp [correction]
+
+end CoefficientProjector
 
 /-! ## Layer AG2.2: discrete transfer ranks -/
 
