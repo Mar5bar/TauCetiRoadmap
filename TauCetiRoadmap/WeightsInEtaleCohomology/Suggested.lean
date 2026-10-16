@@ -324,6 +324,33 @@ example :
 
 /-! ## Layer R34.6: trace bounds and the local twist -/
 
+/-- Common alternating and outer traces give a common degree-one trace through both
+coefficient maps. The arithmetic application supplies the outer trace comparisons. -/
+theorem degree_one_trace_from_alternating {L E E' : Type*}
+    [CommRing L] [CommRing E] [CommRing E'] (iotaLambda : L →+* E) (iotaMu : L →+* E')
+    (t₀ t₂ t_alt : L) (u : Fin 3 → E) (v : Fin 3 → E')
+    (hu₀ : u 0 = iotaLambda t₀) (hu₂ : u 2 = iotaLambda t₂)
+    (hv₀ : v 0 = iotaMu t₀) (hv₂ : v 2 = iotaMu t₂)
+    (hu : u 0 - u 1 + u 2 = iotaLambda t_alt)
+    (hv : v 0 - v 1 + v 2 = iotaMu t_alt) :
+    u 1 = iotaLambda (t₀ + t₂ - t_alt) ∧ v 1 = iotaMu (t₀ + t₂ - t_alt) := by
+  constructor
+  · rw [map_sub, map_add, ← hu₀, ← hu₂, ← hu]
+    ring
+  · rw [map_sub, map_add, ← hv₀, ← hv₂, ← hv]
+    ring
+
+/-- With constant weight-two coefficients on a fixed connected curve component, the
+outer Frobenius traces one and q both contribute to degree-one trace extraction. -/
+example (q : ℕ) (h : ℚ) : (1 : ℚ) + q - (1 - h + q) = h := by
+  ring
+
+/-- Equal alternating traces of three-degree blocks can have unequal middle traces. -/
+example :
+    (1 - (1 + 1) + 1 : ℚ) = 0 ∧ (2 - (2 + 1) + 1 : ℚ) = 0 ∧
+      (1 + 1 : ℚ) ≠ 2 + 1 := by
+  norm_num
+
 /-- Two roots of the same modulus give the rank-two Ramanujan trace bound. -/
 theorem ramanujan_trace_bound (α β : ℂ) (R : ℝ) (hα : ‖α‖ = R) (hβ : ‖β‖ = R) :
     ‖α + β‖ ≤ 2 * R := by
@@ -383,7 +410,14 @@ ample class and Frobenius-equivariant cup product.
 R34.6/eigenform-purity-and-ramanujan-bound: existing newform eigensummand and Hecke polynomial.
 R34.6/fixed-eigenform-good-prime-compatibility: common coefficient field and actual λ-realizations.
 R34.6/arithmetic-realization-transport: actual comparison morphisms and commuting correspondences.
+R34.6/hilbert-degreewise-trace-comparison: Saito's sufficiently small K=K_𝔫 K^𝔫,
+away-from-𝔫 Hecke algebra and σ∈W⁺; the specified L-coefficient projectors and degree shift,
+Tate twist and period comparison on the chosen C_μ factor; generic-curve H⁰/H² vanishing
+for nonconstant coefficients and component/Tate descriptions with arithmetic and Hecke
+norm-character actions for parallel weight two; common traces through ι_λ and ι_μ,
+outer-degree subtraction and compatibility with extension of L.
 R34.6/hilbert-local-monodromy-weight-export: global Jacquet–Langlands and coefficient models,
+degreewise trace comparison before Hecke isolation and division by positive multiplicity,
 Saito's cohomological decomposition and rank-two multiplicity descent, local WD carriers,
 L-coefficient e and e° with specified embeddings and chosen C_μ factor, descent to the Hecke
 coefficient field with a model and descent datum, and N_HK/e_K = N_p before the Weil–Deligne export.
