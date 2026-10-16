@@ -198,21 +198,6 @@ theorem sn_lift {R T : Type u} [CommRing R] [CommRing T]
     ∃! h : snRing R →+* T, h.comp (snMap R) = g :=
   subintegral_lift (snMap R) (snMap_subintegral R) hT g
 
-/-- Each ring map induces a unique compatible map of seminormal reflections. -/
-theorem sn_map {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S) :
-    ∃! h : snRing R →+* snRing S, h.comp (snMap R) = (snMap S).comp f :=
-  sn_lift (snRing_seminormal S) ((snMap S).comp f)
-
-/-- The unit is an isomorphism exactly on seminormal rings. -/
-theorem snMap_bijective_iff (R : Type u) [CommRing R] :
-    Function.Bijective (snMap R) ↔ IsSeminormalRing R := by
-  sorry
-
-/-- Applying seminormalisation a second time gives an isomorphism. -/
-theorem snMap_idempotent (R : Type u) [CommRing R] :
-    Function.Bijective (snMap (snRing R)) :=
-  (snMap_bijective_iff (snRing R)).2 (snRing_seminormal R)
-
 /-- A subintegral map with seminormal target identifies that target uniquely with the
 seminormal reflection (Stacks 0EUR(4)). -/
 theorem sn_compare {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S)
@@ -258,8 +243,9 @@ positive power in the image. -/
 def IsKummerHom {P Q : Type*} [CommMonoid P] [CommMonoid Q] [IsCancelMul P] [IsCancelMul Q] (f : P →* Q) : Prop :=
   Function.Injective f ∧ ∀ q : Q, ∃ n : ℕ, n ≠ 0 ∧ q ^ n ∈ Set.range f
 
-/-- A prelog ring: a commutative ring `A`, a commutative monoid `P` and a monoid homomorphism
-`α : P → (A, ×)`; elements may map to zero. The monoid is bundled as Mathlib's `CommMonCat`. -/
+/-- Fixed-ring chart data for the prelog category of DerivedDeRhamCohomology §6.20:
+a commutative monoid `P` and `α : P → (A, ×)`, allowing zero images. The monoid is bundled
+as Mathlib's `CommMonCat`. -/
 structure PrelogRing (A : Type u) [CommRing A] where
   /-- The monoid. -/
   P : CommMonCat.{v}
@@ -458,6 +444,10 @@ crystalline direct images; Relative Gauss–Manin connections.
 
 Layer CR.1 also includes `Crystalline.CrisFppfSite`, `Crystalline.CrisCompatibleSite`,
 `Crystalline.CrisCompatibleEtaleSite` and `Crystalline.CrisCompatibleFppfSite`.
+Crystalline.CrisFppfSite.group_sections takes a commutative group scheme G/X and gives the
+abelian sheaf with sections G(U) on (U,T); the structure sheaf instead has sections on T.
+Commutative p-divisible sheaves satisfy the same condition. The downstream internal Ext
+construction is owned by AbelianSchemesAndArithmeticModuli §A4.CR.7.2.
 Layer CR.6 includes log rigid Hyodo–Kato cohomology; Layer CR.5:log-algebra includes the classical
 normalization and tame Kummer comparison used in the logarithmic Abhyankar lemma.
 The following README subsections also specify these APIs; they are names of mathematical
@@ -606,6 +596,22 @@ LogCrystalline.aCrisLog.fine_chart_comparison use the completed periodPDEnvelope
 PadicPeriodRings §3, its θ_cris and §4.1 Frobenius, identified with the general envelope by
 DerivedDeRhamCohomology §PD.7 Crystalline.fontaineEnvelope_periodPDEnvelope. The characteristic
 is Q≥0 with v(p)=1; the chart comparison uses semistable models over finite extensions of K.
+
+CR.DDR.6.1–6.2, 6.4–6.5, 6.7, 6.9–6.10 consume DerivedDeRhamCohomology §6.20:
+DerivedDeRham.freePrelogResolutions, freePrelogUniversal, prelogResolutionAugmentation,
+prelogResolutionComparison, prelogHomotopyPushout, gabberLogCotangent, logCotangentH0,
+logCotangentOrdinaryMap, logCotangentNaturality, logCotangentFunctoriality,
+logDerivedDeRham, logDeRhamDLog, logDeRhamOrdinaryMap, logDeRhamHodgeGraded,
+logDeRhamStrict, logDeRhamCompletions, logCartier and logificationBoundaries.
+The prelog category is supplied there independently of the geometric log layer here;
+LogCrystalline.PrelogRing presents its fixed-ring chart data. The local targets are the
+derivation and extension classifiers, integral log smooth comparison, crystalline comparisons,
+relative filtrations and descent on these same public objects and maps.
+DerivedDeRham.periodLogSpecialization and periodLogComparisonData specialize these constructors;
+§6.21's periodDLogCanonical applies to this logDeRhamDLog. The ordinary-to-log maps,
+transitivity boundary ψ, products, Hodge filtrations, conjugate filtrations on reductions,
+p-completion and Galois/valued-embedding functoriality are those of the supplied §6.20 maps,
+including p = 2 and arbitrary perfect residue fields.
 
 CR.6.1 Logarithmic de Rham–Witt complexes and their crystalline model:
 LogCrystalline.logDeRhamWitt.restriction; LogCrystalline.logWittQuotient;

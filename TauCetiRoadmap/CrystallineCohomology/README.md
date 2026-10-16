@@ -39,7 +39,7 @@ The layers are:
 | CR.3:duality | Trace and Poincaré duality | the crystalline trace, Poincaré duality, Gysin maps, the diagonal class |
 | CR.5:log-algebra | Logarithmic structures | integral, fine and saturated monoids, prelog rings, log structures, charts, strict/exact/integral/Kummer morphisms, log smoothness, Kato's chart criterion, log regularity, Abhyankar |
 | CR.5 | Logarithmic differentials and log crystalline cohomology | log differentials, the log Cartier isomorphism, log PD envelopes, the log crystalline site, log crystals and connections, the log Poincaré lemma, the log structure on `A_cris` |
-| CR.DDR.6 | Derived logarithmic algebra and crystalline comparison | free prelog resolutions, Gabber cotangent complex, log derived de Rham, Cartier, corrected lci comparison, log quasisyntomic descent |
+| CR.DDR.6 | Derived logarithmic algebra and crystalline comparison | supplied logarithmic constructors, derivation and extension classifiers, corrected lci comparison, log quasisyntomic descent |
 | CR.6 | Hyodo–Kato complexes and semistable structure | Hyodo–Kato complexes, `Nφ = pφN`, the Hyodo–Kato comparison theorem, change of uniformizer, convergent complexes, log rigid Hyodo–Kato cohomology |
 | CR.7 | Coefficients and relative cohomology | crystalline coefficients with Frobenius, filtration and monodromy, relative direct images, Gauss–Manin |
 
@@ -100,11 +100,13 @@ target says so, and are otherwise outside it. Comparisons with étale, prismatic
   module derived limits and completion (§§0.1–0.17, 1.1–1.9), and the double-complex spectral
   sequence (§S.1). **DerivedDeRhamCohomology** owns the remaining completion and filtered-module
   interfaces (Layer 1), ordinary and derived de Rham complexes (Layer 2), ordinary derived Cartier
-  theory (Layer 3), quasisyntomic descent (Layer 5), the PD conjugate filtration (§4.2), and the
-  period applications (§§5.11–5.15, 6.21). This roadmap owns the derived de Rham–crystalline map and
+  theory (Layer 3), quasisyntomic descent (Layer 5), the PD conjugate filtration (§4.2), the
+  shared logarithmic constructors and their canonical period specialization (§6.20), and period
+  applications (§§5.11–5.15, 6.21). This roadmap owns the derived de Rham–crystalline map and
   lci comparisons (§§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4, CR.DDR.5.8–CR.DDR.5.10), derived de
   Rham–Witt and quasiregular crystalline calculations (§§CR.DDR.4.5, CR.DDR.5.18,
-  CR.DDR.5.20–CR.DDR.5.22), and derived logarithmic theory (§§CR.DDR.6.1–CR.DDR.6.20).
+  CR.DDR.5.20–CR.DDR.5.22), and logarithmic derivation/extension classifiers, general comparisons
+  and descent on those supplied constructors (§§CR.DDR.6.1–CR.DDR.6.20).
   EnhancedDerivedSheaves supplies the ringed-site enhancement; module completion uses
   DerivedModuleAlgebra and the filtered interfaces use DerivedDeRhamCohomology.
 - **PadicPeriodRings** supplies the completed algebraic closure `C_K` (§2), the ordinary
@@ -113,8 +115,8 @@ target says so, and are otherwise outside it. Comparisons with étale, prismatic
   identities (§§4.1–4.3). The supplier order is PadicPeriodRings, DerivedDeRhamCohomology, then
   CrystallineCohomology. DerivedDeRhamCohomology §PD.7 identifies its general envelope at `O_C`
   with the supplied principal envelope; CR.5.5 places the log structure on that shared carrier.
-- CR.4.6 owns seminormal rings, unique extension along subintegral ring maps and the seminormal
-  reflection used in its degree-zero comparison, including the cusp computation.
+- The seminormality facts, subintegral lifting and reflection used in CR.4.6's degree-zero and
+  cusp comparisons are stated locally by design, with no supplier.
 - **EnhancedDerivedSheaves**
   ([specification](https://github.com/TauCetiProject/TauCetiRoadmap/blob/03046909/TauCetiRoadmap/EnhancedDerivedSheaves/README.md))
   owns the enhanced derived categories of sheaves, derived tensor products and internal Hom,
@@ -423,7 +425,16 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
   3.8, 3.11, 3.13 (conjugate filtration, derived twists, Cartier and quotient calculations);
   §4.2 (PD conjugate filtration); §§5.1–5.8.1, 5.17, 5.19 (quasisyntomic and QRSP descent,
   base-linear schemes and formal schemes, raw lci sheaves with affine recovery and realization,
-  Teichmüller-quotient torsion-freeness).
+  Teichmüller-quotient torsion-freeness); §6.20 (the shared prelog category, free adjunction,
+  `freePrelogResolutions`, `prelogHomotopyPushout`, `gabberLogCotangent`,
+  `logCotangentFunctoriality`, `logDerivedDeRham`, `logDeRhamDLog`, `logCartier`,
+  `logificationBoundaries` and their public laws); §§6.20–6.21 (`periodLogComparisonData`,
+  `periodLogSpecialization` and `periodDLogCanonical`). The logarithmic comparisons here use
+  these same cotangent and de Rham objects, ordinary-to-log maps, transitivity boundaries,
+  products, Hodge filtrations, conjugate filtrations on reductions and completion maps.
+  The period objects and `d log` are their supplied specializations, including p=2 and arbitrary
+  perfect residue fields, naturally for Galois actions and valued embeddings. Generic prelog
+  data are supplied by §6.20 independently of this roadmap's geometric log structures.
 - **PadicPeriodRings**: §2 (`PadicFieldCompletion`, the completed algebraic closure of a complete
   discretely valued mixed-characteristic field with perfect residue field); §3
   (`periodPDEnvelope`, its ordinary p-adic completion, `θ_cris`, logarithm and functorial maps);
@@ -495,7 +506,8 @@ and quasiregular crystalline theory; CR.3:duality uses its top-degree sheaf to b
 Layer CR.5:log-algebra is
 independent of all crystalline layers and can be built in parallel with CR.1–CR.4; Layer CR.5
 combines it with Layer CR.1 and the PD foundations to build log crystalline cohomology. CR.DDR.6 develops
-derived logarithmic algebra and its crystalline comparison after CR.5.5. Layer CR.6 builds
+logarithmic classifiers and crystalline comparisons on DerivedDeRhamCohomology §6.20's shared
+constructors after CR.5.5. Layer CR.6 builds
 Hyodo–Kato theory on CR.4 and CR.5, and Layer CR.7 collects coefficients and relative cohomology for
 the roadmaps that consume this one. Within each layer the targets are in dependency order.
 
@@ -578,10 +590,12 @@ is the full subcategory of the objects (U,T,δ) for which U→X is an open immer
 topology. Also define CRIS_fppf(X/S) on the same big objects, with covers
 U_a=U×_T T_a and a jointly surjective family of flat finitely presented
 maps T_a→T. The divided powers on each T_a are the unique flat extensions.
-Its structure sheaf is O_crys(U,T)=Γ(T,O_T); a group scheme G/X defines the
-abelian sheaf G_crys(U,T)=G(U), sheafified for this topology. The internal
-Ext used in Layer CR.7 is computed in this fppf topos, then restricted to
-Zariski or étale crystalline objects. Changing topology is part of that
+Its structure sheaf is `O_crys(U,T) = Γ(T,O_T)`. For a commutative group scheme G/X,
+`G_crys(U,T) = G(U)` defines an abelian sheaf for this topology, by fppf descent.
+The same construction applies to the commutative p-divisible sheaves used in Dieudonné theory.
+The downstream internal Ext construction belongs to AbelianSchemesAndArithmeticModuli
+§A4.CR.7.2: it is formed in the category of abelian sheaves of this fppf topos and then
+restricted to Zariski or étale crystalline objects. Changing topology is part of that
 restriction; no equivalence of all sheaves or all Ext functors is asserted.
 
 For Dieudonné crystals on a general p-nilpotent X, also define the base-compatible variant
@@ -602,7 +616,8 @@ base is the union of finite levels as in §1.12, pp.16–17).
 
 *Hypotheses.* p is a prime number; (S,I,γ) is a PD scheme over ℤ_(p) and S₀=V(I). X→S₀ is a morphism
 of schemes and p is locally nilpotent on X; no nilpotence of p on S is assumed. For the
-base-compatible variants replace X→S₀ by X→S with γ extending to IO_X.
+base-compatible variants replace X→S₀ by X→S with γ extending to IO_X. The abelian
+group-sheaf construction assumes G commutative.
 
 The API:
 
@@ -615,8 +630,8 @@ The API:
 - `Crystalline.CrisFppfSite.flat_cover`: Cartesian closed fibres and a jointly
   surjective fppf family of ambient schemes give a cover; flat extension
   supplies the PD structures and is compatible with composition and pullback.
-- `Crystalline.CrisFppfSite.group_sections`: On (U,T) the group sheaf is G(U),
-  with its usual fppf descent, whereas the structure sheaf evaluates on T.
+- `Crystalline.CrisFppfSite.group_sections`: For commutative G/X, the abelian group sheaf
+  on (U,T) is G(U), with its usual fppf descent, whereas the structure sheaf evaluates on T.
 - `Crystalline.CrisFppfSite.restrict`: The topology-change restriction sends
   the structure sheaf to the Zariski crystalline structure sheaf.
 - `Crystalline.CrisSite.object`: A compatible p-nilpotent PD thickening with U→X gives a big object;
@@ -680,6 +695,11 @@ pp.13–14, immediately before Proposition 4.3.4.
   group Q_p/Z_p has its usual constant sections, while μ_p has only the
   identity section. On Spec F_p[ε]/(ε²), μ_p has the nonidentity
   section 1+ε, whose p-th power is 1.
+- `test_fppf_noncommutative`: Over `X = S = Spec F₂` with zero PD ideal, the constant
+  finite étale group scheme S₃ has sections S₃ on `(X,X)`. The transpositions `(12)` and
+  `(23)` do not commute. The group functor on X-schemes already satisfies fppf descent,
+  so sheafification leaves these noncommuting sections intact. The abelian specialization
+  excludes this G.
 - `test_fppf_structure`: On (Spec F_p,Spec F_p[ε]/(ε²)) the structure
   sheaf is F_p[ε]/(ε²) but G_crys sees the closed fibre, so
   μ_p,crys has only the identity section. Replacing G(U) by G(T)
@@ -6152,10 +6172,7 @@ every commutative ring R admits a subintegral map to a seminormal commutative ri
 universe. Choose its carrier `Crystalline.snRing R` and unit `Crystalline.snMap R`; write R^sn
 for this carrier. Prove `Crystalline.snRing_seminormal` and `Crystalline.snMap_subintegral`.
 The universal property `Crystalline.sn_lift` says that composition with snMap gives a bijection
-Hom(R^sn,T)→Hom(R,T) for every seminormal T. The theorem `Crystalline.sn_map` gives the unique
-induced map R^sn→S^sn for each f:R→S; these maps preserve identities and composition.
-Prove `Crystalline.snMap_bijective_iff`: the unit is bijective exactly when R is seminormal,
-and `Crystalline.snMap_idempotent`: the unit at R^sn is bijective.
+Hom(R^sn,T)→Hom(R,T) for every seminormal T.
 Prove `Crystalline.sn_compare`: every subintegral R→S with S seminormal identifies S with R^sn
 by a unique R-compatible ring isomorphism. The unit kills precisely the nilradical of R.
 
@@ -6164,11 +6181,10 @@ sn_compare assumes both subintegrality of R→S and seminormality of S. For an F
 the structure map of R^sn is the composite F_p→R→R^sn, so all the comparisons preserve F_p.
 
 *Proof sketch.* The seminormal part of Stacks 0EUR gives a subintegral unit with seminormal
-target. Apply unique extension along subintegral maps to obtain the reflection and its
-functoriality. For seminormal R, the identity extends to an inverse of the unit; uniqueness
-gives both inverse identities. The same argument compares two subintegral maps with seminormal
-targets. Surjectivity on spectra and reducedness of the target identify the kernel with the
-nilradical.
+target. Unique extension along subintegral maps gives the reflection's universal property.
+Applying it in both directions compares two subintegral maps with seminormal targets;
+uniqueness gives inverse identities. Surjectivity on spectra and reducedness of the target
+identify the kernel with the nilradical.
 ([Stacks, Lemma 29.48.6(3)–(4)](https://stacks.math.columbia.edu/tag/0EUR) and its functoriality
 statement; [Swan], Theorem 4.1.) *Needs:* *Seminormal rings and square/cube roots*;
 *Subintegral maps and unique extension to seminormal rings*.
@@ -6176,8 +6192,8 @@ statement; [Swan], Theorem 4.1.) *Needs:* *Seminormal rings and square/cube root
 **Checks.**
 
 - For F_p[ε]/ε² the unit is the quotient onto F_p; reducedness of the source is not assumed.
-- For a normal domain R, including F_p[t], the unit is an isomorphism and its second iterate
-  is the same identity under this identification.
+- For a normal domain R, including F_p[t], sn_compare applied to the identity identifies
+  the unit with an isomorphism.
 - For R=F_p[t²,t³], sn_compare applied to R→F_p[t] gives R^sn≅F_p[t], with the unit equal to
   the inclusion. This distinguishes seminormalisation from reduction, which leaves R unchanged.
 
@@ -6211,7 +6227,7 @@ therefore injective and integral, and the bijections on k-points for every field
 universal homeomorphism and isomorphisms on residue fields. Thus the map is subintegral and
 Ψ(R) is reduced; `Crystalline.subintegral_bijective_of_seminormal` gives R=Ψ(R)
 (BLM, proof of Theorem 6.5.3). This also gives the comparison for arbitrary R by the replacement
-R→R^sn above and the local reflection's idempotence;
+R→R^sn above and its universal property;
 the restricted Dieudonné equivalence follows from the unit and counit (BLM Remark 6.5.4).
 Popescu's theorem for discrete valuation rings of characteristic p
 (Bhatt–Lurie–Mathew, Proposition 6.6.8) is part of the local comparison target.
@@ -7274,9 +7290,14 @@ semistable formal charts.
 
 ### CR.5:log-algebra.1 Prelog rings, log structures and charts
 
-**Prelog rings.** A prelog ring is a commutative ring A, a commutative monoid P and a homomorphism
-α:P→(A,×), including elements mapping to zero. A morphism consists of a ring map and a monoid map
-commuting with α. Additive notation for charts corresponds to multiplication in A.
+**Prelog rings.** Use the prelog category of DerivedDeRhamCohomology §6.20: its data are a
+commutative ring A, a commutative monoid P and a homomorphism α:P→(A,×), including elements
+mapping to zero. A morphism consists of compatible ring and monoid maps. The fixed-ring chart
+presentation `LogCrystalline.PrelogRing` uses these same data for geometric log structures.
+Identify this presentation with the fibre of the supplied category over A by the identity
+on P and α; the displayed morphism laws are transported through that identification.
+Resolutions and derived functors are formed in the supplied category. Additive notation for
+charts corresponds to multiplication in A.
 
 `Suggested.lean` declares `LogCrystalline.PrelogRing`.
 
@@ -7289,7 +7310,8 @@ The API:
 *Proof sketch.* Use the multiplicative monoid of the ring, not its unit group. Define morphisms by
 the commuting square and componentwise composition. ([Kato, *Logarithmic structures of
 Fontaine–Illusie*](https://math.uchicago.edu/~drinfeld/p-adic_periods/Kato_log-structures.pdf),
-§1.1, pp.192–193; multiplicative convention at the start of §1.) *Needs:* Mathlib only.
+§1.1, pp.192–193; multiplicative convention at the start of §1.)
+*Needs:* DerivedDeRhamCohomology §6.20 (the prelog category); Mathlib `CommMonCat`.
 
 **Checks.**
 
@@ -8861,33 +8883,17 @@ DerivedDeRhamCohomology §PD.7 (`Crystalline.fontaineEnvelope_periodPDEnvelope`)
 
 ### CR.DDR.6.1 Free prelog resolutions
 
-For a prelog ring `(A, M)` (a ring `A`, a commutative monoid `M` and a monoid map `α : M → (A, ·)`),
-the free prelog `(A, M)`-algebra on sets `T₀, T₁` is `(A[T₀, ℕ^(T₁)], M ⊕ ℕ^(T₁))`, with the monoid
-generators sent to the corresponding monomials. The free/forgetful comonad on the underlying
-generator sets gives the standard simplicial resolution `P• → (B, N)` of a prelog `(A, M)`-algebra
-by termwise free prelog algebras, `DerivedDeRham.freePrelogResolutions`, surjective on rings and on
-monoids in every simplicial degree; any two such resolutions are homotopy equivalent and every
-functor of free prelog algebras takes them to quasi-isomorphic complexes after realization, as in
-DerivedModuleAlgebra §0.1. Finitely generated free objects are the compact generators; a functor of
-prelog algebras that commutes with filtered colimits and reflexive coequalizers is determined by its
-values on them.
+Use `DerivedDeRham.freePrelogResolutions` of DerivedDeRhamCohomology §6.20, together with
+its `freePrelogUniversal`, `prelogResolutionAugmentation` and `prelogResolutionComparison`.
+The category of prelog rings and its free/forgetful adjunction are supplied there without
+using the geometric log layer here. Ordinary generators `T` and log generators `S` give
+`(A[T,S], M ⊕ ℕ^(S))`, with each log generator mapped to its ring variable. All subsequent
+cotangent and de Rham models use the supplied resolution comparisons and filtration maps.
 
-[Bhatt12], §§4–5, Propositions 5.3–5.5; Remark 6.10, pp.19–24, 26; [KY], §2.1, Notation 2.4 and
-Remark 2.8, pp.12–14.
+[Bhatt12], Propositions 5.3–5.5, Definition 5.6, Proposition 5.7 and Remark 6.10,
+pp.23–26; [KY], §2.1, Notation 2.4 and Remark 2.8, pp.12–14.
 
-*Needs:* §CR.5:log-algebra.1; DerivedModuleAlgebra §0.1 (*Simplicial polynomial resolutions*);
-Mathlib `SimplicialObject`.
-
-Prove the following named laws.
-
-- `freePrelogUniversal`: a base prelog map from the free object is uniquely determined by its
-  ordinary ring generators and compatible monoid generators.
-- `prelogResolutionAugmentation`: the standard resolution has a surjective augmentation on ring and
-  monoid in every simplicial degree.
-- `prelogResolutionComparison`: two resolutions compare by a homotopy equivalence, unique up to
-  homotopy.
-- `prelogAnimationExtend`: a functor of free prelog algebras with values in complexes extends to all
-  prelog algebras by evaluation on resolutions.
+*Needs:* DerivedDeRhamCohomology §6.20 (*Shared free-prelog and cotangent constructors*).
 
 **Checks.**
 
@@ -8899,20 +8905,17 @@ Prove the following named laws.
 
 ### CR.DDR.6.2 Homotopy pushouts of prelog rings
 
-The homotopy pushout of prelog rings `S₁ ⊔^L_R S₂` is computed by a free prelog resolution of `S₁`
-over `R` tensored with `S₂`: its underlying simplicial ring is the derived tensor product of rings
-and its underlying simplicial monoid is the homotopy pushout of commutative monoids, because the
-forgetful functor to pairs (simplicial monoid, simplicial ring) commutes with homotopy colimits. The
-p-completed homotopy pushout completes the ring component only; for p-complete prelog rings with
-bounded p-torsion, reduction modulo `p` is `S ⊗^L_ℤ F_p` on the ring component with the monoid
-unchanged. `DerivedDeRham.prelogHomotopyPushout`.
+Use `DerivedDeRham.prelogHomotopyPushout` of DerivedDeRhamCohomology §6.20, including its
+natural maps and resolution comparisons. Its ring and monoid components are the respective
+derived pushouts. For the p-completed comparisons here apply DerivedModuleAlgebra §1.6 to
+the ring component; the monoid is unchanged. Reduction of a p-complete ring component modulo
+`p` is the derived tensor with `F_p`, including when ordinary reduction has higher Tor.
 
-[KY], Remark 2.8, Definition 2.44 and Remark 2.45, pp.13–14, 23–24; [Bhatt12], Definition 4.8 and
-Proposition 4.9, pp.20–21; [KY], Lemma 3.6(2) with proof, p.28.
+[KY], Remark 2.8, Definition 2.44 and Remark 2.45, pp.13–14, 23–24; [Bhatt12],
+Definition 4.8 and Proposition 4.9, pp.20–21; [KY], Lemma 3.6(2), p.28.
 
-*Needs:* §CR.DDR.6.1 (*Free prelog resolutions*); DerivedModuleAlgebra §0.2 (*Derived tensor
-products on module derived categories*); DerivedModuleAlgebra §1.6 (*Completion of simplicial
-commutative algebras*)
+*Needs:* DerivedDeRhamCohomology §6.20 (`prelogHomotopyPushout`);
+DerivedModuleAlgebra §1.6 (*Completion of simplicial commutative algebras*).
 
 **Checks.**
 
@@ -9000,36 +9003,30 @@ maps and units).
 
 ### CR.DDR.6.4 The Gabber logarithmic cotangent complex
 
-For a prelog map `(A, M) → (B, N)`, define `L_log = L_((B,N)/(A,M))`,
-`DerivedDeRham.gabberLogCotangent`, by realizing `Ω¹_log` of the free prelog resolution and
-extending its coefficients to `B`. It represents log derivations, is natural and
-resolution-independent, and has the universal ring derivation `d` and monoid map `d log`. For
-ordinary prelog rings `H⁰` is the ordinary logarithmic differential module, with `dα(n) = α(n) d log
-n`. This is Gabber's complex; Olsson's complex is identified with it only for integral morphisms of
-integral prelog rings, not for all log smooth maps.
+Use `L_log = DerivedDeRham.gabberLogCotangent` of DerivedDeRhamCohomology §6.20, with
+its universal `d` and `d log`, `logCotangentH0`, `logCotangentOrdinaryMap` and
+`logCotangentNaturality`. In particular `H⁰ L_log = Ω¹_log` and `dα(n) = α(n) d log n`;
+identical monoids identify its ordinary-to-log map with an equivalence. These are the supplied
+objects and maps. Gabber's and Olsson's complexes are compared here only for integral
+morphisms of integral prelog rings, not for all log smooth maps.
 
-[Bhatt12], Definition 6.3, Remark 6.4, Proposition 6.5 and Remark 6.6, pp.24–26; [KY], Definition
-2.5, Lemmas 2.9–2.10, Remark 2.13, pp.13–15; [Ols05], §8 (Gabber's construction), Lemma 8.22 and
-Theorem 8.32.
+On this supplied carrier prove the derivation and extension classifiers:
 
-*Needs:* §CR.DDR.6.1 (*Free prelog resolutions*); §CR.DDR.6.3 (*Derived logarithmic derivations*);
-DerivedModuleAlgebra §0.4 (*The full cotangent complex*); §CR.DDR.6.3.1 (*Log square-zero extension
-classes*); §CR.5.1 (log differentials); Mathlib `DerivedCategory`.
+- `logCotangentUniversal`: for a discrete `B`-module `P`, `Hom_(D(B))(L_log, P)` is the
+  log derivation module of §CR.DDR.6.3, and `Hom_(D(B))(L_log, P[1])` is additively
+  `LogExal_(A,M)((B,N), P)`. The extension class is its ring-and-monoid resolution cocycle;
+  the split class is zero and the log-point extension of §CR.DDR.6.3.1 has its nonzero
+  conormal coefficient.
+- `logDerivationsRepresented`: the degree-zero classifier identifies the universal `d`,
+  `d log` with the compatible derivation pair of §CR.DDR.6.3.
 
-Prove the following named laws.
+[Bhatt12], Definition 6.3, Remark 6.4, Proposition 6.5 and Remark 6.6, pp.24–26;
+[KY], Definition 2.5, Lemmas 2.9–2.10, Remark 2.13, pp.13–15; [Ols05], §8,
+Lemma 8.22 and Theorem 8.32.
 
-- `logCotangentUniversal`: for a discrete `B`-module `P`, `Hom_(D(B))(L_log, P) ≃` the log
-  derivations of §CR.DDR.6.3, and `Hom_(D(B))(L_log, P[1]) ≃ LogExal_(A,M)((B,N), P)` additively,
-  with the class of each extension given by its ring-and-monoid resolution cocycle. The split
-  extension maps to zero and the log-point class of §CR.DDR.6.3.1 maps to its nonzero conormal
-  coefficient.
-- `logDerivationsRepresented`: the Gabber cotangent complex represents the log derivations of
-  §CR.DDR.6.3 by `Hom_(D(B))(L_log, P)`.
-- `logCotangentH0`: for ordinary inputs `H⁰ L_log ≃ Ω¹_log` with the displayed `d`/`d log` relation.
-- `logCotangentOrdinaryMap`: there is a natural map `L_(B/A) → L_log`, an equivalence when the
-  monoid map is an isomorphism ([KY] Lemma 2.9; [Ols05] Lemma 8.22).
-- `logCotangentNaturality`: base-compatible prelog squares give maps of the complexes and of the
-  universal `d`, `d log`.
+*Needs:* DerivedDeRhamCohomology §6.20 (`gabberLogCotangent` and its public maps);
+§CR.DDR.6.3 (*Derived logarithmic derivations*); §CR.DDR.6.3.1 (*Log square-zero extension
+classes*); §CR.5.1 (log differentials); DerivedModuleAlgebra §0.5.
 
 **Checks.**
 
@@ -9042,24 +9039,23 @@ Prove the following named laws.
 
 ### CR.DDR.6.5 Log cotangent transitivity, base change and invariance
 
-For composable prelog maps `R → S → T`, `L_log(S/R) ⊗^L_S T → L_log(T/R) → L_log(T/S)` is a
-distinguished triangle ([Ols05] Theorem 8.18). A homotopy pushout of prelog rings (§CR.DDR.6.2)
-gives the corresponding derived cotangent base-change equivalence, and filtered colimits commute
-with `L_log`. A prelog map inducing an isomorphism of associated log rings has relative cotangent
-zero, so passage to the associated log structure preserves `L_log` ([Ols05] Theorem 8.20). For an
-integral morphism of integral prelog rings that is log smooth after logification, `L_log ≃ Ω¹_log`
-in degree zero ([KY] Lemma 2.14 and its proof, using [Ols05] Theorems 8.32 and 1.1(iii)). The
-derived pushout is replaced by the ordinary one only under homological log flatness.
+Use `DerivedDeRham.logCotangentFunctoriality` of DerivedDeRhamCohomology §6.20 for
+transitivity, homotopy prelog base change, filtered colimits and passage from integral
+prelog monoids to their associated log structures. The maps from ordinary cotangent
+triangles, including connecting arrows, are the supplied maps. The derived pushout is
+replaced by an ordinary pushout only under homological log flatness (§CR.DDR.6.6).
 
-[KY], Lemmas 2.10, 2.14, Theorem 2.11 and Remark 2.12, pp.14–16; [Ols05], Theorems 8.18, 8.20, 8.32
-and 1.1(iii).
+The additional comparison here is `L_log ≃ Ω¹_log` in degree zero for an integral morphism
+of integral prelog rings that is log smooth after logification. Apply the Gabber–Olsson
+comparison to the supplied cotangent complex, then the discrete cotangent theorem for
+integral log smooth maps.
 
-*Needs:* §CR.DDR.6.4 (*The Gabber logarithmic cotangent complex*); §CR.DDR.6.1 (*Free prelog
-resolutions*); §CR.DDR.6.2 (*Homotopy pushouts of prelog rings*); DerivedModuleAlgebra §0.8 (*The
-cotangent transitivity triangle*); §CR.5:log-algebra.3 (log smoothness), §CR.5:log-algebra.5
-(integral log structures).
+[KY], Lemmas 2.10, 2.14, Theorem 2.11 and Remark 2.12, pp.14–16;
+[Ols05], Theorems 8.18, 8.20, 8.32 and 1.1(iii).
 
-Lean: `DerivedDeRham.logCotangentFunctoriality`.
+*Needs:* DerivedDeRhamCohomology §6.20 (`logCotangentFunctoriality`);
+§CR.DDR.6.4 (*The Gabber logarithmic cotangent complex*);
+§CR.5:log-algebra.3 (log smoothness), §CR.5:log-algebra.5 (integral log structures).
 
 **Checks.**
 
@@ -9068,6 +9064,8 @@ Lean: `DerivedDeRham.logCotangentFunctoriality`.
   triangle.
 - `test_log_base_change_pushout`: the homotopy prelog pushout includes ring and monoid terms; for
   trivial monoids it is DerivedModuleAlgebra §0.10.
+- `test_log_cotangent_integral_smooth`: for `(k,0) → (k[x],ℕ → x)`, the integral log smooth
+  comparison gives `L_log = k[x] d log x` in degree zero, with `dx ↦ x d log x`.
 
 ### CR.DDR.6.6 Homological logarithmic flatness
 
@@ -9108,31 +9106,28 @@ Prove the following named laws.
 
 ### CR.DDR.6.7 Logarithmic derived de Rham
 
-For a prelog map `(A, M) → (B, N)`, realize the ordinary log de Rham dg algebra of the free prelog
-resolution with direct sums along antidiagonals, `DerivedDeRham.logDerivedDeRham`. This gives a
-graded-commutative dg `A`-algebra `dR_log` with universal ordinary `d` and closed `d log : N →
-dR_log[1]`. It has a decreasing multiplicative Hodge filtration with `gr_H^i ≃ L∧^i_B L_log[−i]`, an
-increasing exhaustive conjugate filtration, a separate Hodge completion and the p-completion of
-DerivedModuleAlgebra §1.3. Strict maps with identical monoids recover ordinary derived de Rham. The
-derived algebra is `A`-linear; its full differential is generally not `B`-linear.
+Use `DerivedDeRham.logDerivedDeRham` and `DerivedDeRham.logDeRhamDLog` of
+DerivedDeRhamCohomology §6.20, with `logDeRhamOrdinaryMap`, `logDeRhamHodgeGraded`,
+`logDeRhamStrict` and `logDeRhamCompletions`. The raw realization uses direct sums;
+Hodge completion and derived p-completion are separate supplied functors. The algebra is
+base-ring linear, with `gr_H^i ≃ L∧^i_B L_log[−i]`; its differential is generally not
+linear over the target ring. The ordinary-to-log map, closed additive `d log`, products
+and filtration maps in all comparisons here are these public maps.
 
-[Bhatt12], Definition 6.8, Proposition 6.9, Remarks 6.10–6.11, pp.25–26; [KY], Construction 2.6,
-p.13.
+For the period inputs use `DerivedDeRham.periodLogSpecialization` and
+`DerivedDeRham.periodLogComparisonData` of §6.20. Their cotangent and de Rham objects
+specialize the same constructors; their `d log` is this `logDeRhamDLog`.
+`DerivedDeRham.periodDLogCanonical` of §6.21 identifies it with `log[ε]`, preserving
+the first Hodge graded transitivity boundary `ψ_n([ε] − 1) = ε_n⁻¹ dε_n`.
+This specialization includes p=2 and arbitrary perfect residue fields, and preserves the
+ordinary-to-log maps, products, filtrations, completion maps and Galois/valued-embedding
+functoriality supplied there.
 
-*Needs:* §CR.DDR.6.1 (*Free prelog resolutions*); §CR.DDR.6.4 (*The Gabber logarithmic cotangent
-complex*); DerivedDeRhamCohomology §2.22 (*De Rham cohomology from polynomial resolutions*);
-DerivedDeRhamCohomology §2.21 (*The universal differential graded algebra*); DerivedDeRhamCohomology
-§2.25 (*Hodge-completed derived de Rham*); DerivedDeRhamCohomology §2.26 (*p-completed derived de
-Rham*); DerivedModuleAlgebra §0.14 (*Derived exterior powers*); §CR.5.1; DGAInfinity Layer 1 (strict
-DG models and morphisms).
+[Bhatt12], Definitions 6.1, 6.8, Propositions 6.9, 6.11 and Remark 6.10, pp.24–26;
+Proposition 9.3(5), Remark 9.4, Proposition 9.11, Remark 9.12 and Construction 9.15,
+pp.34–38; [KY], Construction 2.6, p.13.
 
-Prove the following named laws.
-
-- `logDeRhamHodgeGraded`: `gr_H^i dR_log ≃ L∧^i L_log[−i]`.
-- `logDeRhamDLog`: the additive monoid map `d log` is closed and lands in `dR_log[1]`.
-- `logDeRhamStrict`: for identical base and target monoids, `dR_log` is ordinary derived de Rham.
-- `logDeRhamCompletions`: Hodge and p-completion are separate functors with their universal maps and
-  quotient towers.
+*Needs:* DerivedDeRhamCohomology §§6.20–6.21 (shared logarithmic de Rham and period maps).
 
 **Checks.**
 
@@ -9142,6 +9137,9 @@ Prove the following named laws.
   x) = 0`.
 - `test_log_derham_rational_logification`: [Bhatt12] Example 6.15: strict `ℚ → ℚ[x, x⁻¹]` gives
   uncompleted `dR = ℚ`, while logifying the units adds a degree-one conjugate class.
+- On the supplied period inputs, the identity root system gives zero `d log`; a Tate
+  generator has the nonzero first graded boundary of §6.20, also at `p=2` with
+  `k=F₂(u)ᵖᵉʳᶠ`. The same specialization gives `log[ε]` under `periodDLogCanonical`.
 
 ### CR.DDR.6.8 Log de Rham base change and Künneth
 
@@ -9168,23 +9166,17 @@ Lean: `DerivedDeRham.logDeRhamBaseChange`.
 
 ### CR.DDR.6.9 Derived logarithmic Cartier theory
 
-For a map `(A, M) → (B, N)` of prelog `F_p`-algebras, define the Frobenius of the base by `p` on `M`
-and Frobenius on `A` and form the homotopy prelog pushout `(B, N)^(1)`. The relative Frobenius maps
-it to `(B, N)`. The increasing conjugate filtration of `dR_log` is levelwise linear over the twisted
-free prelog resolution, and `gr_i^conj ≃ L∧^i L_log((B, N)^(1)/(A, M))[−i]` in `D(A)`, with the
-conventions of DerivedDeRhamCohomology §3.3 and 3.5. On free ordinary coordinates `y`, inverse
-Cartier sends `dy` to `[y^(p−1) dy]`; on free log coordinates `x` it sends `d log x` to `[d log x]`.
-All twists are derived unless the ring and monoid flatness criteria are proved.
+Use `DerivedDeRham.logCartier` of DerivedDeRhamCohomology §6.20 for prelog `F_p`-algebras.
+Its homotopy Frobenius twist uses ring Frobenius and multiplication by p on the base monoid.
+The supplied conjugate filtration has `gr_i^conj ≃ L∧^i L_log((B,N)^(1)/(A,M))[−i]` in
+`D(A)`. Retain the levelwise simplicial scalars of that twist in the relative constructions
+here; an ordinary twist requires the ring and monoid flatness criteria. On free coordinates
+the supplied inverse Cartier map sends `dy` to `[y^(p−1)dy]` and `d log x` to `[d log x]`.
 
-[Bhatt12], Notation 7.1, Lemma 7.2, Theorem 7.3 and Proposition 7.4, pp.27–28; [KY], Notation 2.15
-and Construction 2.6, pp.13, 16.
+[Bhatt12], Notation 7.1, Lemma 7.2, Theorem 7.3 and Proposition 7.4, pp.27–28;
+[KY], Notation 2.15 and Construction 2.6, pp.13, 16.
 
-*Needs:* §CR.DDR.6.7 (*Logarithmic derived de Rham*); §CR.DDR.6.1 (*Free prelog resolutions*);
-§CR.DDR.6.5 (*Log cotangent transitivity, base change and invariance*); DerivedDeRhamCohomology §3.3
-(*The derived Frobenius twist*); DerivedDeRhamCohomology §3.5 (*Derived Cartier graded pieces*);
-DerivedModuleAlgebra §0.14 (*Derived exterior powers*); §CR.5.1 (log Cartier isomorphism).
-
-Lean: `DerivedDeRham.logCartier`.
+*Needs:* DerivedDeRhamCohomology §6.20 (`logCartier` and the shared Frobenius twist).
 
 **Checks.**
 
@@ -9228,21 +9220,17 @@ operations*)
 
 ### CR.DDR.6.10 The boundary of logification invariance
 
-For maps of integral prelog `ℤ/p^n`-algebras, `n ≥ 1`, passage to associated log structures
-preserves uncompleted log derived de Rham with its Hodge and conjugate filtrations. The proof uses
-the derived logarithmic Cartier pieces modulo `p`, logification invariance of `L_log` (§CR.DDR.6.5)
-and finite p-dévissage. The p-completed statement follows under the corresponding integral and
-compatible derived-reduction hypotheses. No characteristic-zero uncompleted invariance is asserted:
-[Bhatt12] Example 6.15 is a counterexample. Cotangent logification invariance and this de Rham
-assertion have different ranges.
+Use `DerivedDeRham.logificationBoundaries` of DerivedDeRhamCohomology §6.20.
+For integral prelog monoids over `ℤ/p^n`, `n ≥ 1`, it identifies raw log derived de Rham
+with that of the associated log structures, preserving the Hodge and conjugate filtrations.
+Its p-completed form requires the compatible derived reductions stated there. These are
+conditions on the comparisons consumed here; cotangent logification invariance alone does
+not extend raw de Rham invariance to characteristic zero.
 
 [Bhatt12], Corollary 7.5 and proof, pp.28–29; Example 6.15, p.27.
 
-*Needs:* §CR.DDR.6.5 (*Log cotangent transitivity, base change and invariance*); §CR.DDR.6.9
-(*Derived logarithmic Cartier theory*); §CR.DDR.6.7 (*Logarithmic derived de Rham*);
-DerivedModuleAlgebra §1.3 (*The derived completion reflector*); §CR.5:log-algebra.5.
-
-Lean: `DerivedDeRham.logificationBoundaries`.
+*Needs:* DerivedDeRhamCohomology §6.20 (`logificationBoundaries`);
+§CR.5:log-algebra.5 (integral log structures).
 
 **Checks.**
 
