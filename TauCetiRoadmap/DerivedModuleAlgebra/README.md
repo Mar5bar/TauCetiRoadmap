@@ -1410,7 +1410,7 @@ below is the integral-module adapter: `Tower.toModuleFunctor`, `Tower.limCompari
 `Tower.limOneComparison` identify its constructions with this interface, naturally in tower
 maps and compatibly with the shift, six-term boundary and Milnor maps.
 
-[AlgebraicTopology Stage 6.0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/77caf227f456d6da938674a1ac50e309d47c476a/TauCetiRoadmap/AlgebraicTopology/README.md#stage-6-cohomology-products-and-manifold-duality) consumes this generic foundation for its cochain and topological
+[AlgebraicTopology Stage 6.0](../AlgebraicTopology/README.md) consumes this generic foundation for its cochain and topological
 applications. The cofinal-shift and specified-homotopy-square comparisons are owned by §1.1
 here. The CharacteristicClasses C3, AffineMorseLefschetz A4 and CStarClassification CL8
 contracts use these same maps, including integer-graded Milnor and `lim¹` functoriality.
