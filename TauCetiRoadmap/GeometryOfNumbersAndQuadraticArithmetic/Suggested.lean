@@ -1441,19 +1441,88 @@ example :
 end HilbertDynamics
 
 section KoopmanActions
+open scoped ENNReal
 variable {G X : Type*} [Group G] [MeasurableSpace X] [MulAction G X]
 
-/-- Inverse-element L² action adapter to IncompressibleFlows Layer 3, item 3. The
-arbitrary-group assembly uses Mathlib's `Lp.compMeasurePreservingₗᵢ` and satisfies
-`(π(g) f)(x) = f(g⁻¹ x)` almost everywhere; the supplier uses forward-time flow pullback. -/
-def quotientKoopman (μ : Measure X)
+/-- Inverse-element pullback gives a representation by scalar Lp isometries. -/
+def scalarLpKoopman (p : ℝ≥0∞) [Fact (1 ≤ p)] (μ : Measure X)
     (hμ : ∀ g : G, MeasurePreserving (fun x : X => g • x) μ μ) :
-    ContRepresentation ℂ G (Lp ℂ 2 μ) where
+    ContRepresentation ℂ G (Lp ℂ p μ) where
   toMonoidHom := {
     toFun := fun g => (Lp.compMeasurePreservingₗᵢ ℂ
       (fun x : X => g⁻¹ • x) (hμ g⁻¹)).toContinuousLinearMap
     map_one' := by sorry
     map_mul' := by sorry }
+
+section ScalarLp
+variable (p : ℝ≥0∞) [Fact (1 ≤ p)] (μ : Measure X)
+  (hμ : ∀ g : G, MeasurePreserving (fun x : X => g • x) μ μ)
+
+/-- The pullback representation acts by inverse elements almost everywhere. -/
+theorem scalarLpKoopman_apply_ae (g : G) (f : Lp ℂ p μ) :
+    (scalarLpKoopman p μ hμ g f : X → ℂ) =ᵐ[μ] (fun x => f (g⁻¹ • x)) := by sorry
+
+/-- Each scalar Lp pullback preserves the norm, without a finite-measure hypothesis. -/
+theorem scalarLpKoopman_norm (g : G) (f : Lp ℂ p μ) :
+    ‖scalarLpKoopman p μ hμ g f‖ = ‖f‖ := by sorry
+
+/-- Pullback by the identity fixes each Lp class. -/
+theorem scalarLpKoopman_one (f : Lp ℂ p μ) :
+    scalarLpKoopman p μ hμ 1 f = f := by sorry
+
+/-- Inverse-element pullback respects the order of the group product. -/
+theorem scalarLpKoopman_mul (g h : G) (f : Lp ℂ p μ) :
+    scalarLpKoopman p μ hμ (g * h) f =
+      scalarLpKoopman p μ hμ g (scalarLpKoopman p μ hμ h f) := by sorry
+
+/-- Pullback by the inverse element inverts each scalar Lp operator. -/
+theorem scalarLpKoopman_inv (g : G) (f : Lp ℂ p μ) :
+    scalarLpKoopman p μ hμ g⁻¹ (scalarLpKoopman p μ hμ g f) = f := by sorry
+
+end ScalarLp
+
+-- Zero measure has just one Lp class; all pullbacks still satisfy the inverse law.
+example (p : ℝ≥0∞) [Fact (1 ≤ p)]
+    (hμ : ∀ g : G, MeasurePreserving (fun x : X => g • x) 0 0)
+    (g : G) (f : Lp ℂ p (0 : Measure X)) :
+    scalarLpKoopman p 0 hμ g⁻¹ (scalarLpKoopman p 0 hμ g f) = f := by sorry
+
+-- A real flow uses the additive time group, with inverse time in its pullback.
+example [MulAction (Multiplicative ℝ) X] (p : ℝ≥0∞) [Fact (1 ≤ p)] (μ : Measure X)
+    (hμ : ∀ t : Multiplicative ℝ, MeasurePreserving (fun x : X => t • x) μ μ)
+    (s t : ℝ) (f : Lp ℂ p μ) :
+    scalarLpKoopman p μ hμ (Multiplicative.ofAdd (s + t)) f =
+      scalarLpKoopman p μ hμ (Multiplicative.ofAdd s)
+        (scalarLpKoopman p μ hμ (Multiplicative.ofAdd t) f) := by sorry
+
+-- On three counting-measure points, a cycle and a transposition detect product order.
+example :
+    let μ : Measure (Fin 3) := Measure.count
+    let hμ : ∀ g : Equiv.Perm (Fin 3), MeasurePreserving (fun x : Fin 3 => g • x) μ μ :=
+      by sorry
+    ∃ f : Lp ℂ 2 μ,
+      (f : Fin 3 → ℂ) =ᵐ[μ] (fun x => (x.val : ℂ)) ∧
+      (scalarLpKoopman 2 μ hμ (Equiv.swap 0 1 * Equiv.swap 1 2) f : Fin 3 → ℂ)
+        =ᵐ[μ] ![2, 0, 1] ∧
+      scalarLpKoopman 2 μ hμ (Equiv.swap 0 1 * Equiv.swap 1 2) f ≠
+        scalarLpKoopman 2 μ hμ (Equiv.swap 1 2 * Equiv.swap 0 1) f := by sorry
+
+-- Translation of an interval is isometric on Lp, but discontinuous at zero on L∞.
+example :
+    let f : ℝ → ℂ := Set.indicator (Set.Icc (0 : ℝ) 1) (fun _ => 1)
+    (∀ t : ℝ, eLpNorm (fun x => f (x - t)) 2 volume = 1) ∧
+      (∀ t : ℝ, t ≠ 0 → eLpNorm (fun x => f (x - t) - f x) ∞ volume = 1) := by sorry
+
+-- Dilation preserves continuity but changes the L² norm of the interval indicator.
+example :
+    let f : ℝ → ℂ := Set.indicator (Set.Icc (0 : ℝ) 1) (fun _ => 1)
+    eLpNorm (fun x => f (2 * x)) 2 volume = ENNReal.ofReal (1 / Real.sqrt 2) ∧
+      ¬ MeasurePreserving (fun x : ℝ => 2 * x) volume volume := by sorry
+
+/-- The L² specialization of the scalar pullback representation. -/
+def quotientKoopman (μ : Measure X)
+    (hμ : ∀ g : G, MeasurePreserving (fun x : X => g • x) μ μ) :
+    ContRepresentation ℂ G (Lp ℂ 2 μ) := scalarLpKoopman 2 μ hμ
 
 /-- The Koopman representation is unitary. -/
 theorem quotientKoopman_unitary (μ : Measure X)
@@ -1503,6 +1572,11 @@ section ContinuousAction
 variable [TopologicalSpace G] [IsTopologicalGroup G]
   [TopologicalSpace X] [BorelSpace X] [R1Space X] [ContinuousSMul G X]
   (μ : Measure X) [Measure.InnerRegularCompactLTTop μ] [IsLocallyFiniteMeasure μ]
+
+/-- A continuous measure-preserving action is strongly continuous on scalar Lp for finite p. -/
+theorem scalarLpKoopman_strong (p : ℝ≥0∞) [Fact (1 ≤ p)] (hp : p ≠ ∞)
+    (hμ : ∀ g : G, MeasurePreserving (fun x : X => g • x) μ μ) :
+    ∀ f : Lp ℂ p μ, Continuous (fun g : G => scalarLpKoopman p μ hμ g f) := by sorry
 
 /-- A continuous measure-preserving action has a strongly continuous Koopman representation. -/
 theorem quotientKoopman_strong
