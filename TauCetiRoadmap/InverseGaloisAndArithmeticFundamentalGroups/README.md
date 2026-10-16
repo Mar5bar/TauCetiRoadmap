@@ -103,7 +103,7 @@ It does not own, and consumes by name:
 
 - finite étale Galois categories, paths and finite lisse monodromy: Supplied by
   EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`.
-  Based π₁ requires connected nonempty locally Noetherian schemes; finite lisse coefficients
+  Based `π₁` requires connected nonempty locally Noetherian schemes; finite lisse coefficients
   need no invertibility;
 - finite CW type, Riemann existence and finite/adic Artin comparison: Supplied by
   ComplexComparisonPartII §§C6.0–C6.6 / `complexAlgebraicTopology`, `riemannExistence`, `artinComparison`, `artinComparisonCompactSupport`, `relativeArtinComparison`, `adicArtinComparison`.
@@ -116,7 +116,7 @@ It does not own, and consumes by name:
   amplitude, and fibre transport retains a chosen path or specialization datum;
 - derived proper supports and localization: Supplied by
   EtaleCohomologyFoundations §§0.7–0.8 / `ClassicalAlgebraic.supportLocalization`, `ClassicalAlgebraic.properSupports`.
-  These use étale module coefficients, with lower shriek defined by compactification on D⁺
+  These use étale module coefficients, with lower shriek defined by compactification on `D⁺`
   torsion complexes;
 - Frobenius and rational-point fixed points: Supplied by
   EtaleCohomologyFoundations §§F.10.1–F.10.2b / `VanishingCycles.frobeniusFixedPoints`,
@@ -280,31 +280,31 @@ convention transport of Layer IG.6.
 | Object | Exact supplier | Convention/consumer |
 | --- | --- | --- |
 | Finite and constructible module sheaves | Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.constructibleEtale` | Finite lissity needs no invertibility; global finite stratifications are Noetherian, and locally Noetherian constructibility is affine-local. |
-| Finite covers, paths and monodromy | Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory` | Based π₁ uses connected nonempty locally Noetherian schemes without coefficient invertibility, and transport uses a chosen path. |
+| Finite covers, paths and monodromy | Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory` | Based `π₁` uses connected nonempty locally Noetherian schemes without coefficient invertibility, and transport uses a chosen path. |
 | Field and multiplicative-group identifications | EtaleCohomologyFoundations §F.0.A0 / *The fundamental groups of a field and of `𝔾_m`* | Retain the intrinsic Tate module and the primitive-root coordinate convention. |
 | Cover decomposition and inertia | EtaleCohomologyFoundations §F.0.A1 / *Decomposition and inertia groups of a cover* | The normalisation is finite; keep residue separability and defectless ramification hypotheses. |
 | Arithmetic sequence | EtaleCohomologyFoundations §F.0.A2 / *The arithmetic fundamental-group sequence* | Exactness supplies the outer action; rational-point sections retain their path choices. |
 | Tate twists | Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.etaleTateTwists` | The annihilator is invertible; chosen primitive-root coordinates and peripheral orientation are retained. |
 | Constructible and ctf complexes | Supplied by EtaleCohomologyFoundations §F.1 / `VanishingCycles.constructibleDerivedCategory` | Use the common module-valued derived carrier, with finite Tor amplitude required separately from constructibility. |
 | Finite cohomology and coherent symmetry | Supplied by EtaleCohomologyFoundations §F.1 / `VanishingCycles.finiteCoefficientCohomology` | Preserve the coefficient-module and finite-group actions, without averaging when the group order is not invertible. |
-| Proper base change | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.properBaseChange` | Proper exchange applies to D⁺ arbitrary torsion without an invertibility assumption. |
+| Proper base change | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.properBaseChange` | Proper exchange applies to `D⁺` arbitrary torsion without an invertibility assumption. |
 | Smooth base change | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.smoothBaseChange` | Use the rotated smooth square with the other map qcqs and sectionwise invertible torsion, including separably closed field extensions. |
 | Local acyclicity and fibre transport | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.localAcyclicity`; Supplied by EtaleCohomologyFoundations §F.3 / `VanishingCycles.lisseDirectImageTransport` | Invertible finite coefficients and verified ULA/constructibility are required; §IG.5.5 proves the tame-boundary case and retains its specialization data. |
 | Dimension, affine vanishing and proper finiteness | Supplied by EtaleCohomologyFoundations §F.3 / `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.affineArtinVanishing`, `VanishingCycles.etaleFiniteness` | The dimension bounds are geometric over separably closed fields with invertible torsion, affine vanishing requires affineness, and proper finiteness retains its proper/Noetherian hypotheses. |
 | Constructible lower shriek and compact cohomology | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleCompactSupports`, `VanishingCycles.compactSupportCohomology`; Supplied by EtaleCohomologyFoundations §F.3 / `VanishingCycles.compactSupportFiniteness` | Use separated finite-type Noetherian geometry and invertible finite ctf coefficients for constructible exchange and perfectness. |
 | Ordinary and compact Künneth | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleKunneth`, `VanishingCycles.etaleKunnethCompactSupport` | The ordinary and compact-support maps are distinct; finite ctf coefficients have invertible annihilator, and the compact form requires separatedness. |
-| Normalized systems and integral realization | Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.normalizedAdicSystems`, `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`, `VanishingCycles.adicFunctoriality` | Use invertible ℓ, coherent derived reductions and uniform cohomological/Tor bounds, retaining derived limits and coefficient/descent actions. |
-| Compact-support rational finiteness | Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.rationalAdicRealization` | §IG.5.5 verifies separated finite type over the separably closed geometric field and invertible ℓ, using the chosen compact-support ℚ_ℓ realization. |
+| Normalized systems and integral realization | Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.normalizedAdicSystems`, `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`, `VanishingCycles.adicFunctoriality` | Use invertible `ℓ`, coherent derived reductions and uniform cohomological/Tor bounds, retaining derived limits and coefficient/descent actions. |
+| Compact-support rational finiteness | Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.rationalAdicRealization` | §IG.5.5 verifies separated finite type over the separably closed geometric field and invertible `ℓ`, using the chosen compact-support `ℚ_ℓ` realization. |
 | Smooth trace and duality | EtaleCohomologyFoundations §§F.5–F.6 / `VanishingCycles.etaleVerdierDuality`, `VanishingCycles.smoothPurity` | Use bounded constructible finite-Tor complexes with invertible coefficients, then the normalized adic realization; smooth relative dimension fixes the shift and twist. |
-| Frobenius and rational points | Supplied by EtaleCohomologyFoundations §§F.10.1–F.10.2b / `VanishingCycles.frobeniusFixedPoints`, `VanishingCycles.frobeniusCohomology` | Arithmetic Frobenius acts by x↦x^q and geometric Frobenius is its inverse, acting on ℚ_ℓ(1) by q⁻¹; coefficient descent data are retained. |
+| Frobenius and rational points | Supplied by EtaleCohomologyFoundations §§F.10.1–F.10.2b / `VanishingCycles.frobeniusFixedPoints`, `VanishingCycles.frobeniusCohomology` | Arithmetic Frobenius acts by `x↦x^q` and geometric Frobenius is its inverse, acting on `ℚ_ℓ(1)` by `q⁻¹`; coefficient descent data are retained. |
 | Étale topological invariance | Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.universalHomeomorphismEtaleEquivalence` | Every universal homeomorphism gives an étale equivalence, with no coefficient-invertibility restriction. |
-| Derived proper supports | Supplied by EtaleCohomologyFoundations §0.8 / `ClassicalAlgebraic.properSupports` | For separated finitely presented maps between qcqs schemes, including separated finite-type Noetherian maps, use Rp_*j_! on D⁺ torsion module complexes, with compactification independence and coherent finite-group/coefficient maps. |
+| Derived proper supports | Supplied by EtaleCohomologyFoundations §0.8 / `ClassicalAlgebraic.properSupports` | For separated finitely presented maps between qcqs schemes, including separated finite-type Noetherian maps, use `Rp_*j_!` on `D⁺` torsion module complexes, with compactification independence and coherent finite-group/coefficient maps. |
 | Localization | Supplied by EtaleCohomologyFoundations §0.7 / `ClassicalAlgebraic.supportLocalization` | Use étale module open–closed triangles and apply the canonical lower-shriek functor to obtain compact-support triangles. |
 
-Layer IG.0 owns integral local systems even when p is not invertible, their isogeny category
+Layer IG.0 owns integral local systems even when `p` is not invertible, their isogeny category
 and stackified rational local systems without a global lattice; the comparison with §F.4 uses
 integral lisse systems and the rational subcategory admitting a global lisse integral lattice.
-Layers IG.1 and IG.5 apply the arithmetic π₁ sequence to tame quotients and own the tame
+Layers IG.1 and IG.5 apply the arithmetic `π₁` sequence to tame quotients and own the tame
 relative-normal-crossings specialization argument; the generic smooth ULA theorem alone does
 not supply local acyclicity at that boundary.
 
@@ -317,10 +317,10 @@ descent are supplied by EtaleCohomologyFoundations §§F.10.3–F.10.5.
 
 | Object | Construction target | Convention/consumer |
 | --- | --- | --- |
-| Curve endomorphism trace | §IG.0.T1 / `VanishingCycles.curveEndomorphismTrace` | Use smooth proper geometrically connected curves and invertible ℓ with the supplied Tate coordinate and isolated fixed-point multiplicities. |
+| Curve endomorphism trace | §IG.0.T1 / `VanishingCycles.curveEndomorphismTrace` | Use smooth proper geometrically connected curves and invertible `ℓ` with the supplied Tate coordinate and isolated fixed-point multiplicities. |
 | Finite-coefficient trace formula | §IG.0.T2 / `VanishingCycles.etaleTraceFormulaFinite` | For separated finite-type finite-field schemes use descended ctf prime-to-characteristic coefficients and perfect-complex traces. |
 | Rational constructible trace formula | §IG.0.T3 / `VanishingCycles.etaleTraceFormula` | Use the normalized rational realization of compatible finite-level systems, with descended coefficients, compact support and geometric Frobenius for every positive power. |
-| Constant-sheaf point-count trace | §IG.0.T4 / `VanishingCycles.pointCountTrace` | §IG.5.5 takes r=1, ℓ≠char k, geometric Frobenius and compact support; the weight bound in the point estimate is a separate hypothesis. |
+| Constant-sheaf point-count trace | §IG.0.T4 / `VanishingCycles.pointCountTrace` | §IG.5.5 takes `r=1`, `ℓ≠char k`, geometric Frobenius and compact support; the weight bound in the point estimate is a separate hypothesis. |
 
 ### From EnhancedDerivedSheaves
 
@@ -352,7 +352,7 @@ descent are supplied by EtaleCohomologyFoundations §§F.10.3–F.10.5.
 
 | Object | Exact supplier | Convention/consumer |
 | --- | --- | --- |
-| `K(π, 1)` group/topological cohomology | ClassifyingSpaces §Stage 4 / item 17, Homology (including cohomology with local coefficients) | §IG.3.1 applies the comparison to the constructed neighbourhood through a CW model and the deck-group/opposite-π₁ convention, with finite trivial coefficients |
+| `K(π, 1)` group/topological cohomology | ClassifyingSpaces §Stage 4 / item 17, Homology (including cohomology with local coefficients) | §IG.3.1 applies the comparison to the constructed neighbourhood through a CW model and the deck-group/opposite-`π₁` convention, with finite trivial coefficients |
 
 ### From SchemeAndStackFoundations
 
@@ -383,9 +383,9 @@ SchemeAndStackFoundations Layers 0 (schemes and morphisms), 1 (descent, stacks, 
 §4.10), with §0.12 (henselization), §0.14 (`henselian_smooth_lifting`), §0.15
 (`popescu_desingularization`) and §0.21 (G-rings), and §5.11 (`weil_bound`, the Weil bound for
 smooth proper geometrically integral curves over finite fields); ArithmeticGaloisDuality §R02.3.1
-(*The Galois group G_{K,S} of the maximal extension unramified outside S*), §R02.4.2
-(*Unramified classes are exact annihilators*, *Restricted products of local cohomology and Ш^r_S*,
-with `PoitouTate.sha_eq_absoluteSha`, and *P^r_S(K, M) is dual to P^{2−r}_S(K, M^D)*) and §R02.4.3 (*Poitou–Tate duality and the nine-term
+(*The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*), §R02.4.2
+(*Unramified classes are exact annihilators*, *Restricted products of local cohomology and `Ш^r_S`*,
+with `PoitouTate.sha_eq_absoluteSha`, and *`P^r_S(K, M)` is dual to `P^{2−r}_S(K, M^D)`*) and §R02.4.3 (*Poitou–Tate duality and the nine-term
 exact sequence*), together with §§R02.3.0d, R02.4.5a–R02.4.5b
 (localization, absolute finite duality and Grunwald–Wang), used by IG.4.2 twisting and cyclic
 prescriptions and IG.4.3 *Restricted-ramification localization adapter*;
@@ -447,15 +447,15 @@ under a unibranch hypothesis.
 ### IG.0.T1 Weil's curve trace and graph–diagonal formula
 
 **Weil's curve trace and graph–diagonal formula.** `VanishingCycles.curveEndomorphismTrace`.
-For smooth proper geometrically connected C/k, ℓ invertible in k and φ:C→C, prove
-Δ_C·Γ_φ = 1 − Tr_alg(φ_* on J_C) + deg φ, with constant maps of degree zero and the induced
+For smooth proper geometrically connected `C/k`, `ℓ` invertible in `k` and `φ:C→C`, prove
+`Δ_C·Γ_φ = 1 − Tr_alg(φ_* on J_C) + deg φ`, with constant maps of degree zero and the induced
 Jacobian map included. Prove the finite-level geometric comparison
-H¹(C_k̄,ℤ/ℓⁿ) ≅ Hom(J_C[ℓⁿ](k̄),ℤ/ℓⁿ), with a chosen separable closure k̄,
+`H¹(C_k̄,ℤ/ℓⁿ) ≅ Hom(J_C[ℓⁿ](k̄),ℤ/ℓⁿ)`, with a chosen separable closure `k̄`,
 supplied Tate coordinate, pullback/pushforward orientation and all reductions.
-Identify isolated fixed-point intersection multiplicities. Over finite k, q-power scheme
+Identify isolated fixed-point intersection multiplicities. Over finite `k`, `q`-power scheme
 Frobenius and its deck-twisted forms have transverse fixed points and yield the finite-level
 curve trace. The identity endomorphism uses the diagonal's self-intersection rather than
-a sum over finitely many fixed points. Derive rational H¹ comparison using EtaleCohomologyFoundations §F.4.
+a sum over finitely many fixed points. Derive rational `H¹` comparison using EtaleCohomologyFoundations §F.4.
 (Stacks §64.14; SGA 4½, curve/Jacobian trace argument.)
 *Needs:* JacobianChallenge Layers A–D; SchemeAndStackFoundations §§2.11, 2.16, 5.6, 5.9;
 AbelianSchemesAndArithmeticModuli §§A3.2, A4.1, A6.10–A6.11 (torsion, `AbelianTate`, `End.trace`,
@@ -464,29 +464,29 @@ AbelianSchemesAndArithmeticModuli §§A3.2, A4.1, A6.10–A6.11 (torsion, `Abeli
 
 **Checks.**
 
-- ℙ¹ has H¹=0 and graph intersection 1+deg φ.
+- `ℙ¹` has `H¹=0` and graph intersection `1+deg φ`.
 - A nonidentity translation of an elliptic curve has fixed-point intersection zero.
-- Frobenius on a genus-g curve gives 1−Tr(H¹)+q.
+- Frobenius on a genus-`g` curve gives `1−Tr(H¹)+q`.
 
 ### IG.0.T2 Finite-coefficient Grothendieck–Lefschetz
 
 **Finite-coefficient Grothendieck–Lefschetz.** `VanishingCycles.etaleTraceFormulaFinite`.
-For separated finite-type X/k, k finite of characteristic p and cardinality q, finite
-commutative Λ of order prime to p and K∈Dᵇ_ctf(X,Λ) descended over k, prove for every r≥1
+For separated finite-type `X/k`, `k` finite of characteristic `p` and cardinality `q`, finite
+commutative `Λ` of order prime to `p` and `K∈Dᵇ_ctf(X,Λ)` descended over `k`, prove for every `r≥1`
 
-Σ_(x∈X(k_r)) L(Frob_(qʳ,x),K_x̄) = L(Frob_qʳ,RΓc(X_k̄,K)).
+`Σ_(x∈X(k_r)) L(Frob_(qʳ,x),K_x̄) = L(Frob_qʳ,RΓc(X_k̄,K))`.
 
 Both terms are perfect-complex traces; stalk perfectness follows from ctf and global
-perfectness from EtaleCohomologyFoundations §F.3. A local term at a k_r-point already uses geometric qʳ-Frobenius,
-without another r-th power. Prove zero-dimensional and finite étale cases by permutation
+perfectness from EtaleCohomologyFoundations §F.3. A local term at a `k_r`-point already uses geometric `qʳ`-Frobenius,
+without another `r`-th power. Prove zero-dimensional and finite étale cases by permutation
 trace, including nilpotents via étale invariance. Give enhanced open–closed devissage and
 the dimension-one proof: reduce to smooth affine curves and finite lisse projective-stalk
 coefficients over primary rings, trivialize on finite étale Galois covers, compactify and
 apply freeTorsorEquivariantPerfectness and freeTorsorCoefficientDescent to obtain
 the group-ring-perfect representatives, then curveEndomorphismTrace and the
 group-ring/centralizer identities. In higher dimension
-use Noether normalization U→𝔸ᵈ followed by 𝔸ᵈ→𝔸^(d−1); prove the fibre dimension bound ≤1,
-induct on the base and establish the reusable Rf! Fubini identity for local terms.
+use Noether normalization `U→𝔸ᵈ` followed by `𝔸ᵈ→𝔸^(d−1)`; prove the fibre dimension bound `≤1`,
+induct on the base and establish the reusable `Rf!` Fubini identity for local terms.
 Include pushforward, coefficient maps, twists/tensor, products/Künneth, finite groups and
 finite-field extensions. (Stacks §§64.16–64.17, with §64.14 for curves; SGA 4½ [Sommes trig.].)
 *Needs:* EtaleCohomologyFoundations §§F.0–F.3, G.1–G.3, 0.7–0.8
@@ -501,18 +501,17 @@ lemmas, building any missing fibre-dimension steps here. The geometric proof use
 
 - A rational point contributes its own geometric stalk trace.
 - A finite étale permutation sheaf gives the permutation fixed-point trace.
-- Extension to k_r uses matching r-th powers in every local and global term.
+- Extension to `k_r` uses matching `r`-th powers in every local and global term.
 
 ### IG.0.T3 Rational constructible trace formula for all powers
 
 **Rational constructible trace formula for all powers.** `VanishingCycles.etaleTraceFormula`.
-For separated finite-type X/k with k finite of cardinality q, ℓ≠char k, K in EtaleCohomologyFoundations §F.4's rational
-bounded constructible category with descent data, and every r≥1, prove
+For separated finite-type `X/k` with `k` finite of cardinality `q`, `ℓ≠char k`, `K` in EtaleCohomologyFoundations §F.4's rational
+bounded constructible category with descent data, and every `r≥1`, prove
 
-Σ_i (−1)ⁱ Tr(Frob_qʳ | Hⁱc(X_k̄,K)) =
-Σ_(x∈X(k_r)) Σ_j (−1)ʲ Tr(Frob_(qʳ,x) | Hʲ(K_x̄)).
+`Σ_i (−1)ⁱ Tr(Frob_qʳ | Hⁱc(X_k̄,K)) = Σ_(x∈X(k_r)) Σ_j (−1)ʲ Tr(Frob_(qʳ,x) | Hʲ(K_x̄))`.
 
-Include finite coefficient-field extensions E/ℚ_ℓ. Derive the equation from the finite-level
+Include finite coefficient-field extensions `E/ℚ_ℓ`. Derive the equation from the finite-level
 theorem by normalized realization and scalar extension, using finite-dimensionality;
 retain coefficient, tensor/twist, group, base-extension and lower-shriek compatibilities.
 (SGA 4½ [Rapport], [Sommes trig.]; finite-level trace and flat scalar extension.)
@@ -522,21 +521,21 @@ adicFiniteness, rationalAdicRealization, adicFunctoriality. No new geometric pro
 
 **Checks.**
 
-- ℙ¹ gives 1+qʳ.
-- 𝔸¹ has only compact-support degree two and gives qʳ.
+- `ℙ¹` gives `1+qʳ`.
+- `𝔸¹` has only compact-support degree two and gives `qʳ`.
 - A nonconstant finite-monodromy coefficient contributes its local traces, not merely a point count.
 
 ### IG.0.T4 Constant-sheaf point count for every finite extension
 
 **Constant-sheaf point count for every finite extension.** `VanishingCycles.pointCountTrace`.
-For every separated finite-type X/k with k finite of cardinality q, ℓ≠char k and r≥1, prove
+For every separated finite-type `X/k` with `k` finite of cardinality `q`, `ℓ≠char k` and `r≥1`, prove
 
-#X(k_r) = Σ_i (−1)ⁱ Tr(Frob_qʳ | Hⁱc(X_k̄,ℚ_ℓ)),
+`#X(k_r) = Σ_i (−1)ⁱ Tr(Frob_qʳ | Hⁱc(X_k̄,ℚ_ℓ))`,
 
-with the natural-number count embedded in ℚ_ℓ. The finite point type is that of
+with the natural-number count embedded in `ℚ_ℓ`. The finite point type is that of
 EtaleCohomologyFoundations §F.10.1 / frobeniusFixedPoints and each constant stalk contributes one. Give finite and integral
 versions using perfect-complex trace, with the count mapped to the coefficient ring.
-Compute 𝔸ⁿ, 𝔾_m and ℙⁿ independently: use the supplied projective-bundle/hyperplane class
+Compute `𝔸ⁿ`, `𝔾_m` and `ℙⁿ` independently: use the supplied projective-bundle/hyperplane class
 formula and its Tate orientation, localization and compact Künneth, then compare their
 traces to independently counted points. (SGA 4½ [Rapport] point-count corollary;
 SGA 5 VII projective-space computation.)
@@ -546,9 +545,9 @@ EtaleCohomologyFoundations §§F.2–F.3 compact cohomology/Künneth; EtaleCohom
 
 **Checks.**
 
-- 𝔸ⁿ gives q^(nr).
-- 𝔾_m gives qʳ−1.
-- ℙⁿ gives 1+qʳ+⋯+q^(nr).
+- `𝔸ⁿ` gives `q^(nr)`.
+- `𝔾_m` gives `qʳ−1`.
+- `ℙⁿ` gives `1+qʳ+⋯+q^(nr)`.
 
 ### IG.0.2 Galois algebras
 
@@ -580,7 +579,7 @@ and Lemma 3.2, pp. 8–9, where lifts of Galois representations are read as Galo
 not be fields. *Needs:* Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`; Mathlib `CommAlgCat.FiniteEtale`;
 SchemeAndStackFoundations Layer 1 (descent).
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 *Lean:* `galoisTensorMap`, `IsGaloisAlgebra`, `isGaloisAlgebra_of_isGalois`.
 
@@ -606,7 +605,7 @@ isomorphically to `Spec B` come from maps. This gives the representability of th
 `B ↦ Hom_R(A, B)` that underlies the affine description of finite étale covers and of the torsor
 map above. *Proof sketch.* After an étale cover of `Spec R` splitting `A` into a finite product of
 copies of the base, a map selects locally one factor; glue the selected rank-one summand and descend
-the idempotent and the isomorphism. Source: [Kedlaya–Liu, *Relative p-adic Hodge theory:
+the idempotent and the isomorphism. Source: [Kedlaya–Liu, *Relative `p`-adic Hodge theory:
 foundations*](https://arxiv.org/pdf/1301.0792v5), Definition 1.2.2 and Lemma 1.2.3, PDF p. 13.
 *Needs:* *Finite Galois algebras and torsors*; Mathlib `Algebra.Etale`, `Module.Finite`;
 SchemeAndStackFoundations Layer 1.
@@ -637,7 +636,7 @@ group `GL_r(ℤ)` is finite. The stabiliser of a frame is open; the correspondin
 trivialises `L`. Source: [Schröer](https://arxiv.org/pdf/2004.07025v3), Proposition 5.5, PDF p. 15.
 *Needs:* Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`; SchemeAndStackFoundations Layer 2.
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
 **Checks.**
@@ -672,16 +671,16 @@ compatibilities. For full faithfulness on connected `X`, a morphism `T[1/p] → 
 local systems is a global section of the stackified `Hom(T, T′)[1/p]`; its value at `x̄` has a
 denominator `p^N`, and the locus where `p^N` times the section is integral is open and closed, hence
 everything. Source: [Kedlaya–Liu,
-*Relative p-adic Hodge theory: foundations*](https://arxiv.org/pdf/1301.0792v5), Definition 1.4.1
+*Relative `p`-adic Hodge theory: foundations*](https://arxiv.org/pdf/1301.0792v5), Definition 1.4.1
 and Remarks 1.4.2–1.4.4 and 1.4.12, PDF pp. 20–23. *Needs:* Supplied by
 EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`;
 SchemeAndStackFoundations Layers 1 and 2. This differs from the constructible `ℤ_ℓ`-systems of
 Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.normalizedAdicSystems` in
 that `p` is not assumed invertible and the objects are lisse sheaves
 of modules, not complexes.
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
-The adic inputs require invertible ℓ, coherent derived reductions and uniform cohomological/Tor
+The adic inputs require invertible `ℓ`, coherent derived reductions and uniform cohomological/Tor
 bounds; the integral-to-rational passage retains the whole finite-level tower.
 
 **Checks.**
@@ -721,7 +720,7 @@ adic objects is the identity, so the comparison is the inclusion of a full subca
 pullback and tensor products are computed levelwise on both sides, and stalks are inverse limits of
 the stalks of the `T_n`. Inverting `p` in the morphisms gives full faithfulness for the isogeny
 category; a global lisse integral lattice gives a compatible tower of finite free reductions,
-which identifies the essential image. Sources: [Kedlaya–Liu, *Relative p-adic Hodge theory:
+which identifies the essential image. Sources: [Kedlaya–Liu, *Relative `p`-adic Hodge theory:
 foundations*](https://arxiv.org/pdf/1301.0792v5), Definition 1.4.1 and Remark 1.4.4, PDF pp. 20–21,
 which identify lisse `ℤ_p`-sheaves with these inverse systems and refer to SGA 5, Exposé VI, §1.2.4,
 for the classical adic formalism; [Bhatt–Scholze, *The pro-étale topology for
@@ -731,9 +730,9 @@ integral models and the full rational constructible category.
 Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`;
 Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.normalizedAdicSystems`.
 The rational category is supplied by its §F.4 / `VanishingCycles.rationalAdicRealization`.
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
-The adic inputs require invertible ℓ, coherent derived reductions and uniform cohomological/Tor
+The adic inputs require invertible `ℓ`, coherent derived reductions and uniform cohomological/Tor
 bounds; the integral-to-rational passage retains the whole finite-level tower.
 
 **Checks.**
@@ -776,12 +775,12 @@ finite étale covers level by level; a compact image has bounded denominators, a
 translates of one lattice is stable. Reduce `L_m` to a finite Grassmannian of submodules of
 `p^{−m}T/p^m T` and build the incidence scheme after trivialising modulo `p^{4m}`. For descent, join
 the finitely many translated lattices to make the descent datum integral; one closure step
-stabilises locally and descends. Source: [Kedlaya–Liu, *Relative p-adic Hodge theory:
+stabilises locally and descends. Source: [Kedlaya–Liu, *Relative `p`-adic Hodge theory:
 foundations*](https://arxiv.org/pdf/1301.0792v5), Remarks 1.4.4–1.4.7, Lemma 1.4.8 and Remark 1.4.9,
 pp. 21–23; the localisation in their argument is of the base ring only, since a finite étale
 covering ring may be semilocal. *Needs:* *Integral, isogeny and rational `ℤ_p`-local systems*;
 Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`.
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
 **Checks.**
@@ -854,7 +853,7 @@ Proposition 1.13, Remarks 1.14 and 4.3.14, pp. 656–657 and 721. *Needs:* *Nooh
 Galois categories*; Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`; SchemeAndStackFoundations Layer 2 (pro-étale
 site, w-contractible covers); SchemeAndStackFoundations §2.17 / `Proetale.isReplete_proetale` (replete topoi).
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
 **Checks.**
@@ -887,7 +886,7 @@ field Galois theory and the finite étale algebras of a field
 from Mathlib and ModularCurves Layer 0d; `ẑ` from ProfiniteArithmetic Layer 0 and the punctured-line
 conventions from BelyiMaps Layers 12–13. Descent, the étale and pro-étale sites and w-contractible
 covers are SchemeAndStackFoundations Layers 1–2, and replete topoi SchemeAndStackFoundations §2.17 / `Proetale.isReplete_proetale`.
-The finite-cover contract uses connected nonempty locally Noetherian schemes for based π₁, without coefficient invertibility.
+The finite-cover contract uses connected nonempty locally Noetherian schemes for based `π₁`, without coefficient invertibility.
 
 ## Layer IG.1: arithmetic fundamental groups, inertia and specialization
 
@@ -906,7 +905,7 @@ stabilisers, which Layer IG.4 uses.
 
 Conventions particular to this layer. All schemes are locally Noetherian.
 Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`:
-based π₁ requires connected nonempty schemes and finite lisse coefficients need no invertibility.
+based `π₁` requires connected nonempty schemes and finite lisse coefficients need no invertibility.
 `k̄` is an algebraic closure of `k` and `Γ_k = Gal(k^sep/k)`. Arithmetic
 Frobenius over `𝔽_q` is `a ↦ a^q`; geometric Frobenius is its inverse. Inertia conjugation uses the
 cyclotomic character `χ`, defined by `σ(ζ) = ζ^{χ(σ)}` for roots of unity `ζ` of order prime to the
@@ -919,7 +918,7 @@ homomorphism by an inner automorphism, and only outer actions are independent of
 
 ### IG.1.2 Tame quotients and tangential fibres
 
-**Tame and prime-to-p fundamental quotients.** Let `U` be a smooth connected curve over an
+**Tame and prime-to-`p` fundamental quotients.** Let `U` be a smooth connected curve over an
 algebraically closed field `K` of characteristic exponent `p`, with smooth proper compactification `X`
 and boundary `D = X ∖ U`. The tame fundamental group `π₁^t(U)` is the quotient of `π₁^ét(U)` by the
 closed normal subgroup generated by the wild inertia groups at the points of `D`; its finite
@@ -957,7 +956,7 @@ positive characteristic the free presentation on loops around the punctures desc
 prime-to-`p` quotient, not the full tame group. *Needs:* EtaleCohomologyFoundations §F.0.A1 *Decomposition and inertia groups of a cover*; Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`; LocalFieldsRamification Layer 3; BelyiMaps Layers 12
 and 13.
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
 **Checks.**
@@ -996,10 +995,10 @@ normalised parameters by henselian roots of units; verify the fibre-functor axio
 Sources: [SGA 1](https://arxiv.org/pdf/math/0206203v2), Exposé XIII, §§2.1–2.4, pp. 277–285, and
 §§2.10–2.12, pp. 289–290; [Wood, *Nonabelian Cohen–Lenstra
 moments*](https://par.nsf.gov/servlets/purl/10152050), Definition 3.12 and Theorem 3.13, pp.
-394–398. *Needs:* EtaleCohomologyFoundations §F.0.A1 *Decomposition and inertia groups of a cover*, *Tame and prime-to-p fundamental
+394–398. *Needs:* EtaleCohomologyFoundations §F.0.A1 *Decomposition and inertia groups of a cover*, *Tame and prime-to-`p` fundamental
 quotients*; Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`; BelyiMaps Layers 12 and 13.
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
 **Checks.**
@@ -1016,7 +1015,7 @@ The arithmetic quotient of `π₁^ét(X)` is `Γ_{𝔽_q} ≅ ẑ`, topologicall
 Frobenius `a ↦ a^q` (LocalFieldsRamification Layer 2). On the prime-to-`q` Tate module arithmetic
 Frobenius acts by multiplication by `q` and geometric Frobenius by `q^{−1}`. For a curve, arithmetic
 Frobenius transports local inertia at `P` to that at `Frob_q(P)` with cyclotomic factor `q` after
-the chosen paths. For a rational boundary point this is the q-power action on its inertia
+the chosen paths. For a rational boundary point this is the `q`-power action on its inertia
 conjugacy class; over a closed point of degree `f`, `Frob_q^f` stabilizes the geometric point
 and has factor `q^f`. Images of local inertia in the global group retain its relations. This one convention is used in every lifting-invariant twist and
 component count of Layers IG.3–IG.5. For the punctured projective line it agrees with BelyiMaps
@@ -1025,10 +1024,10 @@ Combine the arithmetic exact sequence with the identification of `Γ_{𝔽_q}`; 
 each `μ_n` with `n` prime to `q` and pass to the limit. Source: [Wood, *An algebraic lifting
 invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), Theorem 5.2 and §6.1,
 pp. 10–12, where the inverse cyclotomic action enters the discrete action defining the invariant.
-*Needs:* EtaleCohomologyFoundations §F.0.A2 *The arithmetic fundamental-group sequence*, *Tame and prime-to-p fundamental quotients*;
+*Needs:* EtaleCohomologyFoundations §F.0.A2 *The arithmetic fundamental-group sequence*, *Tame and prime-to-`p` fundamental quotients*;
 LocalFieldsRamification Layers 2 and 4; Supplied by EtaleCohomologyFoundations §F.10.1 /
 `VanishingCycles.frobeniusFixedPoints`; BelyiMaps Layers 12 and 13.
-Over the chosen finite field and closure, arithmetic Frobenius is x↦x^q and geometric Frobenius its
+Over the chosen finite field and closure, arithmetic Frobenius is `x↦x^q` and geometric Frobenius its
 inverse; rational points are the fixed points of their matching powers.
 
 **Checks.**
@@ -1074,7 +1073,7 @@ form). *Needs:* Supplied by EtaleCohomologyFoundations §F.0 /
 small étale site); SchemeAndStackFoundations §0.9 (`finite_presentation_limits`), §0.12
 (henselization), §0.14 (`henselian_smooth_lifting`), §0.15 (`popescu_desingularization`), §0.21
 (G-rings) and §4.10 (`Formal.grothendieck_existence`, `grothendieck_existence_fullyFaithful`).
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 The étale equivalence applies to every universal homeomorphism without coefficient invertibility.
 
@@ -1129,7 +1128,7 @@ descent for all étale sheaves. *Needs:* *Finite étale covers over a henselian 
 Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`;
 SchemeAndStackFoundations §0.9 (`finite_presentation_limits`) and §1.1
 (`qcoh_fpqc_descent`).
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
 **Checks.**
@@ -1163,7 +1162,7 @@ smoothness, and identify the fibre functors. Source: [SGA 1](https://arxiv.org/p
 Exposé X, Theorem 3.8 and Corollary 3.9, p. 217, with the proof in §§3.6–3.7, pp. 214–216.
 *Needs:* *Finite étale covers over a henselian local base*; Supplied by
 EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`.
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
 **Checks.**
@@ -1193,7 +1192,7 @@ transport of the Tate module and the conjugations. Sources:
 [SGA 1](https://arxiv.org/pdf/math/0206203v2), Exposé XIII, Theorem 2.4, pp. 282–285, Corollaries
 2.8 and 2.9, pp. 288–289, and §§2.10–2.12, pp. 289–290; [Wood, *An algebraic
 lifting invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), Theorem 5.2,
-p. 10, and Theorem 6.1 with its proof, pp. 11–12. *Needs:* *Tame and prime-to-p fundamental
+p. 10, and Theorem 6.1 with its proof, pp. 11–12. *Needs:* *Tame and prime-to-`p` fundamental
 quotients*, *Specialization for proper smooth families*; SchemeAndStackFoundations Layer 3.
 
 **Checks.**
@@ -1259,7 +1258,7 @@ boundary*; Supplied by EtaleCohomologyFoundations §F.0 /
 (`localIsomorphismResolution`) and §9.5 (`sncCompactification`, for smooth quasi-projective
 varieties); SchemeAndStackFoundations §0.9 (`finite_presentation_limits`), §0.12 (henselization)
 and Layer 1 (Zariski gluing).
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
 **Checks.**
@@ -1363,7 +1362,7 @@ The characteristic-zero base-extension equivalence descends the algebraic sectio
 to `k₀`; extend them to `k`. Faithfulness transports their laws and pointed uniqueness.
 Apply the pinned central-isogeny eliminator over `k` itself. Every connected finite étale cover
 is dominated by a connected Galois cover, so triviality of the latter computes `π₁^ét(G)`.
-Source: [Brion–Szamuely, *Prime-to-p étale covers of algebraic groups and homogeneous
+Source: [Brion–Szamuely, *Prime-to-`p` étale covers of algebraic groups and homogeneous
 spaces*](https://arxiv.org/html/1109.2802v4), Proposition 1.1(a) and its proof in §2; in
 characteristic zero there is no restriction on the degree.
 *Needs:* *Invariance under algebraically closed base extension in characteristic zero*;
@@ -1401,7 +1400,7 @@ Proposition 5.1, pp. 18–19. *Needs:* EtaleCohomologyFoundations §F.0.A2 *The 
 EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`;
 ReductiveGroups Layer 6; ModularCurves Layer 0c (finite quotients and
 torsors).
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 The quotient calculation retains the shared fibre/deck convention.
 
@@ -1868,7 +1867,7 @@ homogènes*](https://arxiv.org/pdf/1802.09605v2),
 specialization*; Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory` (finite étale covers and their fibres);
 SchemeAndStackFoundations Layer 0 (scheme points, residue fields, fibre products).
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 *Lean:* `IsHilbertian` (the polynomial form on the affine line).
 
@@ -1893,7 +1892,7 @@ and keep guards for all denominators and identities. Apply Hilbertianity over `K
 to these minimal polynomials. Each specialized field contains the transported copy of `L`
 and a root of the corresponding `f(t,Y)`; the preserved total degree forces `f(t,Y)` to have
 its original degree and remain irreducible over that copy of `L`. Exclude the finitely many
-K-rational zeros of the guards by adjoining the irreducible tests `Y² − (T − a)`, whose
+`K`-rational zeros of the guards by adjoining the irreducible tests `Y² − (T − a)`, whose
 specializations at `a` are reducible. Source:
 [Serre, *Topics in Galois Theory*](https://indico.math.cnrs.fr/event/11410/attachments/4760/7351/SerreTopicsGaloisTheory.pdf),
 §3.2.1, Proposition 3.2.1 and Corollary 3.2.2, printed pp. 21–22.
@@ -1999,7 +1998,7 @@ and smooth proper models of curves); Supplied by EtaleCohomologyFoundations §F.
 `VanishingCycles.frobeniusFixedPoints`, `VanishingCycles.frobeniusCohomology` (Frobenius and
 rational points as
 fixed points); SchemeAndStackFoundations Layers 0 and 3.
-Over the chosen finite field and closure, arithmetic Frobenius is x↦x^q and geometric Frobenius its
+Over the chosen finite field and closure, arithmetic Frobenius is `x↦x^q` and geometric Frobenius its
 inverse; rational points are the fixed points of their matching powers.
 
 **Checks.**
@@ -2508,7 +2507,7 @@ Supplied by ClassifyingSpaces §Stage 4 / item 17, Homology (including cohomolog
 coefficients).
 Convention gap: this roadmap transports the chosen fundamental group through a CW model supplied
 by ComplexComparisonPartII §C6.0 / `complexAlgebraicTopology` and the supplier's
-deck-group/opposite-π₁ convention, then specializes
+deck-group/opposite-`π₁` convention, then specializes
 the module coefficients to finite abelian `A` with trivial action.
 
 Provides the finite-coefficient topological-to-étale cohomology comparison used in the same
@@ -2867,7 +2866,7 @@ tuples*, *Field of moduli and the central descent obstruction*.
 - With `g₁, g₂` replaced by elements of `A₅` (centreless), the same tuple descends, so the obstruction
   comes from the centre `{±1}`.
 
-**A rigid S₃ cover and its dessin.** In `S₃` the classes (transposition, transposition, `3`-cycle)
+**A rigid `S₃` cover and its dessin.** In `S₃` the classes (transposition, transposition, `3`-cycle)
 are rational, have a single generating product-one orbit under simultaneous conjugation, and the
 centraliser of a generating tuple is trivial; the tuple `((12), (23), (132))` represents the orbit.
 The degree-three map `y ↦ y³ − 3y`, after the affine change of coordinate taking `−2, 2, ∞` to
@@ -3437,7 +3436,7 @@ Cohen–Lenstra moments*](https://par.nsf.gov/servlets/purl/10152050), Definitio
 and its proof, equation (4), pp. 394–398. *Needs:* *The braid lifting invariant*, *Stable
 classification of generating braid orbits*, *The discrete action of units*, *The cyclotomic twist of
 a set*, *Conjugacy classes lift bijectively*, *The marked fibre product and the computation of
-`U(G, c)`*, *The kernel of the universal marked extension*; Layer IG.1 *Tame and prime-to-p
+`U(G, c)`*, *The kernel of the universal marked extension*; Layer IG.1 *Tame and prime-to-`p`
 fundamental quotients*, Layer IG.1 *Tame tangential fibres at a boundary point*, Layer IG.1
 *Frobenius and cyclotomic normalisation*.
 
@@ -3485,7 +3484,7 @@ are Mathlib's; Schur covers are RepresentationTheory/InductionRestriction Layer 
 ProfiniteArithmetic Layer 0; the Belyi dictionary for three points is BelyiMaps Layers 3, 5, 6 and 11.
 The complex topology contract uses separated finite type for global finite CW type, and Riemann existence and Artin comparison keep the shared fibre/deck convention.
 
-## Layer IG.4: embedding problems, Shafarevich's theorem and unramified Γ-groups
+## Layer IG.4: embedding problems, Shafarevich's theorem and unramified `Γ`-groups
 
 This layer develops the arithmetic of embedding problems over global fields. It starts from the finite
 embedding problems and their (weak) solutions in ProfiniteProPGroups Layer 5 and adds two things:
@@ -4584,7 +4583,7 @@ quotient); SchemeAndStackFoundations Layer 3 and §5.1 (divisors, zero-cycles an
 - A nontrivial Galois extension `L/k_i` gives a constant extension `L(t)/k_i(t)` whose constants
   contain `L`. It is not regular over `k_i`, so these fibres do not imply regular realizations.
 
-### IG.4.5 Unramified Γ-groups and Property E
+### IG.4.5 Unramified `Γ`-groups and Property E
 
 **No unramified split-infinity extension of the base.**
 1. A number field `K` whose ring of integers is unramified over `ℤ` has degree one over `ℚ`. This is
@@ -4650,7 +4649,7 @@ that defines the arithmetic `Γ`-action.
 - Conjugacy fails without coprimality: in `C₂ × C₂` with `N = C₂ × 1`, the complements `1 × C₂` and the
   diagonal are not conjugate, because the group is abelian.
 
-**Unramified admissible Γ-groups.** Let `Q₀` be `ℚ` or `𝔽_q(t)`, `Γ` a finite group, and `K/Q₀` a
+**Unramified admissible `Γ`-groups.** Let `Q₀` be `ℚ` or `𝔽_q(t)`, `Γ` a finite group, and `K/Q₀` a
 `Γ`-extension, that is, a Galois extension together with an identification `Gal(K/Q₀) ≅ Γ`. Put
 `Δ = 2|Γ|` if `Q₀ = ℚ` and `Δ = q(q − 1)|Γ|` if `Q₀ = 𝔽_q(t)`. Let `K^#` be the maximal extension of
 `K` that is unramified everywhere, split completely at every place above `∞`, and has all finite
@@ -4746,7 +4745,7 @@ above, and `PropertyE.finiteReduction` is the inverse-limit argument.
 Source: [Liu–Wood–Zureick-Brown](https://arxiv.org/pdf/1907.05002v2), Definition 2.3, the displayed
 extension (2.4), Theorem 2.5 and Lemma 2.7, PDF pp. 11–13 (the special central property of the
 arithmetic admissible group).
-*Needs:* *Proper solutions with local prescriptions*, *Unramified admissible Γ-groups*;
+*Needs:* *Proper solutions with local prescriptions*, *Unramified admissible `Γ`-groups*;
 ProfiniteProPGroups Layer 5.
 
 **Checks.**
@@ -4761,7 +4760,7 @@ ProfiniteProPGroups Layer 5.
   order.
 - The trivial group has Property E: its only quotient is `1`, and the extension `C_p → 1` splits.
 
-**Property E for the arithmetic unramified group.** In the setting of *Unramified admissible Γ-groups*
+**Property E for the arithmetic unramified group.** In the setting of *Unramified admissible `Γ`-groups*
 with `Q₀ = ℚ`, `H = Gal(K^#/K)`, with any of its conjugate `Γ`-actions, has Property E for the category of pro-`Δ′`
 `Γ`-groups.
 
@@ -4783,7 +4782,7 @@ with `Q₀ = ℚ`, `H = Gal(K^#/K)`, with any of its conjugate `Γ`-actions, has
 
 Source: [Liu–Wood–Zureick-Brown](https://arxiv.org/pdf/1907.05002v2), Theorem 2.5 and Lemmas 2.6–2.7
 with proofs, PDF pp. 11–13.
-*Needs:* *Central Property E*, *Unramified admissible Γ-groups*, *Finite abelian-kernel obstruction and
+*Needs:* *Central Property E*, *Unramified admissible `Γ`-groups*, *Finite abelian-kernel obstruction and
 pullback*, ArithmeticGaloisDuality §R02.4.5a *Finite-coefficient Poitou–Tate input*, *Twisting abelian-kernel solutions*;
 ClassFieldTheory Layers 10 and 12.
 
@@ -4959,7 +4958,7 @@ Source: [Wood, *Nonabelian Cohen–Lenstra moments*](https://par.nsf.gov/servlet
 proof, published pp. 402–403 (the two correspondences have different data at infinity and
 different twists).
 *Needs:* *Proper solutions with local prescriptions*, *No unramified split-infinity extension of the
-base*, *Unramified admissible Γ-groups*.
+base*, *Unramified admissible `Γ`-groups*.
 
 **Checks.**
 
@@ -4999,7 +4998,7 @@ its Galois group with `G` that satisfies the conditions. *Proof sketch.* Everyth
 is prime to `|G|`. The ramified places are finite, of total degree `n` where `D = q^n`; there are
 finitely many reduced effective divisors of degree `n` on `𝔸¹_{𝔽_q}`, and for each the tame fundamental
 group of `ℙ¹_{𝔽_q}` minus that divisor is topologically finitely generated (Layer IG.1 *Tame and
-prime-to-p fundamental quotients* over `𝔽̄_q` and the arithmetic sequence), so it has finitely many
+prime-to-`p` fundamental quotients* over `𝔽̄_q` and the arithmetic sequence), so it has finitely many
 homomorphisms to `G`. Inertia is cyclic and tame, and it meets `H` trivially exactly when it is
 generated by an element of `c ∪ {1}`. For (2), the marking of a marked extension selects the embedded
 representative and hence `ψ`; conversely `ψ` gives the fixed field and the marking induced by
@@ -5007,7 +5006,7 @@ representative and hence `ψ`; conversely `ψ` gives the fixed field and the mar
 p. 38 (the definition of `N`, over `ℚ`; the function-field count uses the same conditions), and
 Lemma 10.2 with its proof, PDF pp. 39 and 45–46 (`rDisc = q^n`, inertia generated by `c`, and the
 marked representatives). *Needs:* *Marked extensions and their infinity types*, *Unramified
-admissible Γ-groups*; Layer IG.1 *Tame and prime-to-p fundamental quotients*, EtaleCohomologyFoundations §F.0.A2 *The arithmetic fundamental-group sequence*, EtaleCohomologyFoundations §F.0.A1 *Decomposition and inertia groups of a cover*;
+admissible `Γ`-groups*; Layer IG.1 *Tame and prime-to-`p` fundamental quotients*, EtaleCohomologyFoundations §F.0.A2 *The arithmetic fundamental-group sequence*, EtaleCohomologyFoundations §F.0.A1 *Decomposition and inertia groups of a cover*;
 AlgebraicCurves Layers 7 and 8.
 
 **Checks.**
@@ -5052,7 +5051,7 @@ AlgebraicCurves Layers 7 and 8.
 This layer uses the following earlier layers of this roadmap:
 
 - Layer IG.0: *Finite Galois algebras and torsors*.
-- Layer IG.1: *Tame and prime-to-p fundamental quotients*, *Homogeneous spaces with finite stabilisers*.
+- Layer IG.1: *Tame and prime-to-`p` fundamental quotients*, *Homogeneous spaces with finite stabilisers*.
 - Layer IG.2: *Hilbert subsets and Hilbertian fields*, *Hilbert irreducibility over number fields*
   for specialization and realization.
 - Layer IG.3: *Reduced Schur covers*, *Conjugacy classes lift bijectively*, *The kernel of the universal
@@ -5331,11 +5330,11 @@ preprint pp. 14–15 (the smooth locus of general-genus marked covers);
 unramified-infinity variants);
 [Ellenberg–Venkatesh–Westerland II (withdrawn preprint)](https://arxiv.org/pdf/1212.0923v1), §8.2.2,
 PDF pp. 42–43 (the tangential construction only; no counting result of this withdrawn paper is
-used). *Needs:* Layer IG.1 *Tame and prime-to-p fundamental quotients*,
+used). *Needs:* Layer IG.1 *Tame and prime-to-`p` fundamental quotients*,
 Layer IG.1 *Tame tangential fibres at a boundary point*; Supplied by
 EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`,
 SchemeAndStackFoundations Layer 3, BelyiMaps Layer 12, BelyiMaps Layer 13.
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
 **Checks.**
@@ -5679,7 +5678,7 @@ the displayed isomorphism; the finite symmetry is carried through every sheaf ma
 characteristic-zero fraction field, proper smooth `X`, relative normal-crossings boundary) are not
 replaced by an arbitrary degenerating family.
 *Needs:* *A normal-crossings configuration compactification*,
-Layer IG.1 *Tame and prime-to-p fundamental quotients*; Supplied by
+Layer IG.1 *Tame and prime-to-`p` fundamental quotients*; Supplied by
 EtaleCohomologyFoundations §F.2 / `VanishingCycles.properBaseChange`,
 Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.localAcyclicity`, Supplied by
 EtaleCohomologyFoundations §F.3 / `VanishingCycles.lisseDirectImageTransport`, Supplied by
@@ -5690,11 +5689,11 @@ Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.compactSupportCo
 Supplied by EtaleCohomologyFoundations §F.3 / `VanishingCycles.compactSupportFiniteness`,
 EtaleCohomologyFoundations §§F.5–F.6 /
 `VanishingCycles.etaleVerdierDuality`, `VanishingCycles.smoothPurity`, SchemeAndStackFoundations Layer 2.
-Proper base change is the arbitrary-torsion D⁺ theorem, without coefficient invertibility.
+Proper base change is the arbitrary-torsion `D⁺` theorem, without coefficient invertibility.
 ULA and lisse transport use invertible finite coefficients and verified constructibility/fibre
 comparisons; the tame-boundary argument here supplies local acyclicity and the transport datum is
 retained.
-Use étale module localization and compactification-defined lower shriek on D⁺ torsion; constructible
+Use étale module localization and compactification-defined lower shriek on `D⁺` torsion; constructible
 exchange and perfectness use separated finite-type Noetherian geometry and invertible finite ctf
 coefficients.
 
@@ -5710,7 +5709,7 @@ coefficients.
   and nodal cubic special fibre (multiplicative reduction), `H¹(−, ℤ/ℓ)` has dimension `2` on the
   generic and `1` on the special geometric fibre.
 
-**Fixed-degree Hurwitz mod-ℓ comparison.** Let `G` be a finite centreless group, `c` a conjugacy
+**Fixed-degree Hurwitz mod-`ℓ` comparison.** Let `G` be a finite centreless group, `c` a conjugacy
 class that generates `G` and is rational (stable under invertible powers), `q` a prime power prime
 to `|G|`, `n ≥ 0` fixed, and `ℓ` a prime with `ℓ > max(|G|, q, n)`. For the Hurwitz scheme `Hur^c_n`
 over `ℤ[1/|G|]` of *Arithmetic Hurwitz stacks and schemes*, there are isomorphisms, for every `i`,
@@ -5756,7 +5755,7 @@ retained.
   the unordered cohomology through the pullback.
 
 **Coefficient towers and rational Betti dimensions.** In the setting of
-*Fixed-degree Hurwitz mod-ℓ comparison* (fixed `n`, `ℓ ∤ n!`), the comparison maps exist with
+*Fixed-degree Hurwitz mod-`ℓ` comparison* (fixed `n`, `ℓ ∤ n!`), the comparison maps exist with
 `ℤ/ℓ^a` coefficients for every `a ≥ 1`, built from the same ordered compactification, and commute
 with the reductions `ℤ/ℓ^{a+1} → ℤ/ℓ^a`. The groups at each level are finite, so the towers satisfy
 the Mittag–Leffler condition, and the derived inverse limit identifies the `ℤ_ℓ`-cohomology with the
@@ -5780,7 +5779,7 @@ Theorem 4.7, published pp. 405–406 (the passage through the tower, made explic
 [Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
 end of the proof of Proposition 7.8, published p. 770 (rational rank against the mod-`ℓ` bound);
 [Liu–Wood–Zureick-Brown](https://arxiv.org/pdf/1907.05002v2), proof of Lemma 10.3, PDF p. 46
-(compactly supported dimensions of components). *Needs:* *Fixed-degree Hurwitz mod-ℓ comparison*,
+(compactly supported dimensions of components). *Needs:* *Fixed-degree Hurwitz mod-`ℓ` comparison*,
 *Tame cohomological specialization with symmetry*; Supplied by EtaleCohomologyFoundations
 §F.4 / `VanishingCycles.normalizedAdicSystems`,
 Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.classicalAdicRealization`,
@@ -5798,9 +5797,9 @@ SchemeAndStackFoundations
 Layer 2.
 The finite-type complex comparison includes elementary fibrations and constant finite abelian
 coefficients; its inverse supplies the topological-to-étale direction.
-The adic inputs require invertible ℓ, coherent derived reductions and uniform cohomological/Tor
+The adic inputs require invertible `ℓ`, coherent derived reductions and uniform cohomological/Tor
 bounds; the integral-to-rational passage retains the whole finite-level tower.
-Use étale module localization and compactification-defined lower shriek on D⁺ torsion; constructible
+Use étale module localization and compactification-defined lower shriek on `D⁺` torsion; constructible
 exchange and perfectness use separated finite-type Noetherian geometry and invertible finite ctf
 coefficients.
 Compact Artin comparison requires separated finite type, and its adic version uses the normalized
@@ -5827,7 +5826,7 @@ Provides the constant-`ℚ_ℓ` point-count identity for those Hurwitz schemes.
 §IG.0.T4 / `VanishingCycles.pointCountTrace`.
 Supplied by EtaleCohomologyFoundations §F.10.2b / `VanishingCycles.frobeniusCohomology` for the
 geometric action,
-which acts on ℚ_ℓ(1) by q⁻¹.
+which acts on `ℚ_ℓ(1)` by `q⁻¹`.
 Convention gap: this roadmap takes `r = 1` and geometric Frobenius on compactly supported
 geometric-fibre cohomology, with the supplier's Tate-twist normalization.
 
@@ -5853,9 +5852,9 @@ Supplied by EtaleCohomologyFoundations §F.10.1 / `VanishingCycles.frobeniusFixe
 `VanishingCycles.etaleVerdierDuality`, `VanishingCycles.smoothPurity`,
 SchemeAndStackFoundations Layer 2; the compact-support rational finiteness in *Exact supplier contracts / From EtaleCohomologyFoundations*;
 §IG.0.T4 *Constant-sheaf point count for every finite extension*.
-Over the chosen finite field and closure, arithmetic Frobenius is x↦x^q and geometric Frobenius its
+Over the chosen finite field and closure, arithmetic Frobenius is `x↦x^q` and geometric Frobenius its
 inverse; rational points are the fixed points of their matching powers.
-Use étale module localization and compactification-defined lower shriek on D⁺ torsion; constructible
+Use étale module localization and compactification-defined lower shriek on `D⁺` torsion; constructible
 exchange and perfectness use separated finite-type Noetherian geometry and invertible finite ctf
 coefficients.
 
@@ -5901,10 +5900,10 @@ and its proof, published pp. 404–406). *Needs:*
 `VanishingCycles.rationalAdicRealization`, Supplied by EtaleCohomologyFoundations §F.10.1 /
 `VanishingCycles.frobeniusFixedPoints`;
 §IG.0.T4 *Constant-sheaf point count for every finite extension*; the stated weight bound as a hypothesis.
-Over the chosen finite field and closure, arithmetic Frobenius is x↦x^q and geometric Frobenius its
+Over the chosen finite field and closure, arithmetic Frobenius is `x↦x^q` and geometric Frobenius its
 inverse; rational points are the fixed points of their matching powers.
 Rational finiteness uses the chosen normalized compact-support realization on separated finite-type
-geometric fibres with ℓ invertible.
+geometric fibres with `ℓ` invertible.
 
 **Checks.**
 
@@ -5923,7 +5922,7 @@ geometric fibres with ℓ invertible.
 regular (geometrically connected) `G`-extension `M` of `𝔽_q(t)`, an isomorphism `Gal(M/𝔽_q(t)) ≅ G`,
 and an embedding at `∞` with trivial local type, that is, with `∞` split completely; a split `∞`
 excludes extensions of the constant field. For `G = H ⋊ Γ` with `H` a finite admissible `Γ`-group
-(Layer IG.4 *Unramified admissible Γ-groups*) and `c` the nonidentity elements of `G` whose order
+(Layer IG.4 *Unramified admissible `Γ`-groups*) and `c` the nonidentity elements of `G` whose order
 equals the order of their image in `Γ`, this identifies the number of `𝔽_q`-points of total branch
 degree `n` with the extension count `N(H, Γ, q^n, 𝔽_q(t))` of Layer IG.4 *The marked extension count
 over `𝔽_q(t)`*: continuous surjections onto `G` with the stated local conditions and reduced
@@ -5940,7 +5939,7 @@ from the chosen local embedding. Sources:
 [Wood, *Nonabelian Cohen–Lenstra moments*](https://par.nsf.gov/servlets/purl/10152050), Theorem
 4.5(2), published p. 404 (the separately specified tangential type at infinity). *Needs:*
 *Arithmetic Hurwitz stacks and schemes*, Layer IG.4 *Marked extensions and their infinity types*,
-Layer IG.4 *The marked extension count over `𝔽_q(t)`*, Layer IG.4 *Unramified admissible Γ-groups*.
+Layer IG.4 *The marked extension count over `𝔽_q(t)`*, Layer IG.4 *Unramified admissible `Γ`-groups*.
 
 **Checks.**
 
@@ -5987,7 +5986,7 @@ classification of generating components);
 of Proposition 8.7.1, PDF pp. 52–54 (only the specialization argument for the tangential marking is
 used from this withdrawn source). *Needs:* *Analytic and topological Hurwitz comparison*,
 *Coefficient towers and rational Betti dimensions*,
-Layer IG.1 *Tame and prime-to-p fundamental quotients*, Layer IG.3 *The braid lifting invariant*,
+Layer IG.1 *Tame and prime-to-`p` fundamental quotients*, Layer IG.3 *The braid lifting invariant*,
 Layer IG.3 *Stable classification of generating braid orbits*,
 Layer IG.3 *Tate-twisted arithmetic lifting invariants*, Layer IG.3 *The discrete action of units*,
 Layer IG.3 *The cyclotomic twist of a set*.
@@ -6079,7 +6078,7 @@ with their proofs, PDF pp. 50–52, stated here for `n ≥ 1` with positive weig
   for every `n ≥ 1`; the residue statement, which asserts a nonempty `E_a`, needs `G ≠ 1`.
 
 **Semidirect components versus quotient components.** Let `Γ` be a finite group, `H` a finite
-admissible `Γ`-group (Layer IG.4 *Unramified admissible Γ-groups*), `G = H ⋊ Γ`, and `c` the set of
+admissible `Γ`-group (Layer IG.4 *Unramified admissible `Γ`-groups*), `G = H ⋊ Γ`, and `c` the set of
 nonidentity elements of `G` whose order equals the order of their image in `Γ`. Let `q` be a prime
 power prime to `|G|` with `gcd(q(q−1), |H|) = 1`, let `n ≥ 1`, and let `d_Γ(q)` be the number of
 `q`-power orbits on the nontrivial conjugacy classes of `Γ`. Then
@@ -6098,7 +6097,7 @@ maps onto that of `Γ` with kernel of order prime to `q − 1`, so the power equ
 `b`-formulas agree; the low-class-count bounds and the periodic lattice estimate then give the
 comparison ([Liu–Wood–Zureick-Brown](https://arxiv.org/pdf/1907.05002v2), Theorem 10.4 and its proof
 and Lemma 12.10, PDF pp. 39–40, 53–55). *Needs:* *Frobenius-fixed component formulas*,
-*General rational-class fixed-fiber formula*, Layer IG.4 *Unramified admissible Γ-groups*,
+*General rational-class fixed-fiber formula*, Layer IG.4 *Unramified admissible `Γ`-groups*,
 Layer IG.3 *Coprime semidirect products and admissible inertia*,
 Layer IG.3 *The discrete action of units*.
 
@@ -6285,7 +6284,7 @@ about Jacobians of nodal curves. *Needs:* *The lifted affine coordinate group*,
 *The labelled hyperelliptic quotient family*; Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`,
 SchemeAndStackFoundations Layer 1, SchemeAndStackFoundations Layer 4.
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
 **Checks.**
@@ -6487,7 +6486,7 @@ Théorème (9.7.7) (constructibility of geometric connectedness of fibres). *Nee
 Galois algebras and torsors*; Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`; SchemeAndStackFoundations Layer 0 (limits
 and spreading out).
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
 **Checks.**
@@ -6550,12 +6549,12 @@ EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleCompactSupports`,
 `VanishingCycles.compactSupportCohomology`; Supplied by EtaleCohomologyFoundations §F.3 /
 `VanishingCycles.compactSupportFiniteness`; §IG.0.T1 / `VanishingCycles.curveEndomorphismTrace` (fixed points of curve endomorphisms);
 SchemeAndStackFoundations Layer 3 (curves and the Hurwitz formula).
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
-The curve input uses smooth proper geometrically connected compactifications, invertible ℓ, the
+The curve input uses smooth proper geometrically connected compactifications, invertible `ℓ`, the
 chosen Tate coordinate and isolated fixed-point multiplicities.
-Affine vanishing is geometric over the algebraically closed field, with ℓ≠p.
-Use étale module localization and compactification-defined lower shriek on D⁺ torsion; constructible
+Affine vanishing is geometric over the algebraically closed field, with `ℓ≠p`.
+Use étale module localization and compactification-defined lower shriek on `D⁺` torsion; constructible
 exchange and perfectness use separated finite-type Noetherian geometry and invertible finite ctf
 coefficients.
 
@@ -6610,13 +6609,13 @@ sketch and Corollary 3.7, PDF pp. 10–11 (Serre's theorem), whose sketch prints
 [Stacks, Lemma 59.63.1 (0A3K)](https://stacks.math.columbia.edu/tag/0A3K) and
 [Lemma 59.69.3 (03RR)](https://stacks.math.columbia.edu/tag/03RR) (degree-two vanishing on affine
 curves). *Needs:* *Euler characteristic of `ℓ`-torsion local systems on affine curves*; Layer IG.1
-*Tame and prime-to-p fundamental quotients*; Supplied by EtaleCohomologyFoundations §F.0 /
+*Tame and prime-to-`p` fundamental quotients*; Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`; ArithmeticGaloisRepresentations
 Layer 3 (Swan conductors under tame base change); ProfiniteCohomology Layers 1, 5 and 10
 (inflation–restriction, corestriction); ProfiniteProPGroups Layer 5 (lifting along embedding
 problems); SchemeAndStackFoundations Layers 2 and 3 (Artin–Schreier and Kummer sequences,
 Hochschild–Serre for Galois coverings, Tsen, Picard groups of curves).
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
 **Checks.**
@@ -6658,7 +6657,7 @@ stable model of the cover and the analysis of its tails are part of this target.
 [Harbater–Obus–Pries–Stevenson](https://arxiv.org/pdf/1408.0859v1), Theorems 3.8 and 3.11 with
 their sketches and Remarks 3.9–3.12, PDF pp. 11–12 (Raynaud's theorem). *Needs:* *Serre's solvable
 step on the affine line*, *Patching covers with a fixed branch divisor*, *Specialization of covers
-from `k((t))` to `k`*; Layer IG.1 *Tame and prime-to-p fundamental quotients* (Abhyankar's
+from `k((t))` to `k`*; Layer IG.1 *Tame and prime-to-`p` fundamental quotients* (Abhyankar's
 lemma), Layer IG.1 *Invariance under algebraically closed base extension in characteristic zero*,
 Layer IG.3 *Realizing generating sphere tuples*; StableReduction Layer 7 (semistable reduction of
 curves); SchemeAndStackFoundations Layers 1, 3 and 4.
@@ -6696,7 +6695,7 @@ with *Specialization of covers from `k((t))` to `k`*. Source:
 [Harbater–Obus–Pries–Stevenson](https://arxiv.org/pdf/1408.0859v1), Theorem 3.13 with its sketch and
 Remark 3.14, PDF pp. 12–13 (Harbater's theorem). *Needs:* *Raynaud's theorem for the affine line*,
 *Serre's solvable step on the affine line*, *Patching covers with a fixed branch divisor*,
-*Specialization of covers from `k((t))` to `k`*; Layer IG.1 *Tame and prime-to-p fundamental
+*Specialization of covers from `k((t))` to `k`*; Layer IG.1 *Tame and prime-to-`p` fundamental
 quotients*; SchemeAndStackFoundations Layer 4 (deformations of covers).
 
 **Checks.**
@@ -6740,14 +6739,14 @@ p. 8, and §3.3, the sketch of the general case, PDF p. 13; [SGA 1](https://arxi
 Exposé XIII, Corollary 2.12, p. 290. *Needs:* *Harbater's theorem for the punctured line*, *Raynaud's
 theorem for the affine line*, *Patching covers with a fixed branch divisor*,
 *Specialization of covers from `k((t))` to `k`*, *Field patching for curves over a complete DVR*,
-Layer IG.1 *Tame and prime-to-p fundamental quotients*; Supplied by
+Layer IG.1 *Tame and prime-to-`p` fundamental quotients*; Supplied by
 EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`.
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
 **Checks.**
 
-- For an elliptic curve `C` and `D = {O}`, take `G = C_p × C_ℓ²`, `ℓ ≠ p`. The prime-to-p
+- For an elliptic curve `C` and `D = {O}`, take `G = C_p × C_ℓ²`, `ℓ ≠ p`. The prime-to-`p`
   quotient is realized by the everywhere étale cover `[ℓ] : C → C`, with trivial inertia over
   `O`; patching uses the affine-line realization of `C_p` and its split local piece at `0`.
 - For `A¹` in characteristic `p` the condition is that `G` be generated by its `p`-subgroups: the
@@ -6818,7 +6817,7 @@ for finite covers and invertible-coefficient geometric cohomology on the domains
 contracts above, retaining the tame-boundary argument and chosen transport.
 Supplied by EtaleCohomologyFoundations §§0.7–0.8 / `ClassicalAlgebraic.supportLocalization`,
 `ClassicalAlgebraic.properSupports`
-for étale module localization and compactification-defined D⁺ torsion lower shriek.
+for étale module localization and compactification-defined `D⁺` torsion lower shriek.
 Supplied by ComplexComparisonPartII §§C6.2–C6.6 / `riemannExistence`, `artinComparison`,
 `artinComparisonCompactSupport`, `relativeArtinComparison`, `adicArtinComparison`
 for finite-type complex comparison, with separatedness for compact support and uniformly bounded
@@ -7060,7 +7059,7 @@ Layer IG.1 *Tame tangential fibres at a boundary point*,
 Layer IG.3 *Tate-twisted arithmetic lifting invariants*; Supplied by
 EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`,
 BelyiMaps milestones 2.4, 6.3, 8.6 and 9.8, BelyiMaps Layer 12, BelyiMaps Layer 13.
-Finite lisse coefficients require no invertibility; based π₁ and paths use connected nonempty
+Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
 **Checks.**
@@ -7166,7 +7165,7 @@ PolynomialGaloisGroups Layer 2, PolynomialGaloisGroups Layer 3.
 - **`S₃` three ways.** `S₃` is realized over `ℚ` as a solvable group by
   Layer IG.4 *Shafarevich solvable realization*, as `Equiv.Perm (Fin 3)` by
   *Symmetric groups as realizations*, and regularly over `ℚ(T)` from the rigid classes
-  (transposition, transposition, `3`-cycle) of Layer IG.3 *A rigid S₃ cover and its dessin*; the
+  (transposition, transposition, `3`-cycle) of Layer IG.3 *A rigid `S₃` cover and its dessin*; the
   three realizations are different data for the same group.
 
 ### Dependencies
@@ -7180,7 +7179,7 @@ and the Tate-twisted lifting invariants), Layer IG.4 (Shafarevich's theorem) and
 TauCetiRoadmap it uses PolynomialGaloisGroups Layers 2, 3 and 9, ClassFieldTheory Layers 10 and 12,
 and BelyiMaps Layers 12 and 13; finite-cover monodromy is supplied by
 EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`,
-with connected nonempty locally Noetherian based π₁ and no coefficient-invertibility condition.
+with connected nonempty locally Noetherian based `π₁` and no coefficient-invertibility condition.
 
 ## Worked examples
 
@@ -7269,7 +7268,7 @@ Freely available sources, with the versions to which the locators refer.
   172 (2023), 1–41; author final copy. <https://www.math.univ-paris13.fr/~wittenberg/globalmassey.pdf>
 - V. Kanev, *Hurwitz moduli varieties parameterizing pointed covers of an algebraic curve*,
   arXiv:2403.12756v2. <https://arxiv.org/pdf/2403.12756v2>
-- K. S. Kedlaya and R. Liu, *Relative p-adic Hodge theory: foundations*, Astérisque 371 (2015);
+- K. S. Kedlaya and R. Liu, *Relative `p`-adic Hodge theory: foundations*, Astérisque 371 (2015);
   arXiv:1301.0792v5. <https://arxiv.org/pdf/1301.0792v5>
 - A. Landesman and D. Litt, *Canonical representations of surface groups*, arXiv:2205.15352v4.
   <https://arxiv.org/pdf/2205.15352v4>
@@ -7322,7 +7321,7 @@ Math. Z. 282 (2016), Proposition 6.1(iii), and V. Platonov and A. Rapinchuk, *Al
 number theory*, Academic Press, 1994, Theorems 6.6 and 7.8 (through Harpaz–Wittenberg); R. G. Swan,
 *Induced representations and projective modules*, Ann. of Math. 71 (1960) (through Raynaud);
 M. J. Dunwoody, *Nielsen transformations* (1970), and S. Garion, *Connectivity of
-the product replacement algorithm graph of PSL(2, q)*, J. Group Theory 11 (2008) (through Chen);
+the product replacement algorithm graph of `PSL(2, q)`*, J. Group Theory 11 (2008) (through Chen);
 T. Ekedahl's effective Hilbert irreducibility theorem (through Breuil–Conrad–Diamond–Taylor);
 M. Fried and M. Jarden, *Field Arithmetic*, third edition, Springer, 2008 (through Schmidt–Stix);
 M. Fried and H. Völklein, *The inverse Galois problem and rational points on moduli spaces*, Math.
@@ -7331,8 +7330,8 @@ Schmidt–Wingberg); L. Ribes and P. Zalesskii, *Profinite Groups*, second editi
 (through Liu–Wood–Zureick-Brown); S. Wewers, *Construction of Hurwitz spaces* (1998), Theorem 4
 (through Landesman–Litt); SGA 4, Exposé XI, and SGA 7, Exposé XIII (through Landesman–Litt and
 Ellenberg–Venkatesh–Westerland); J.-P. Serre, *Construction de revêtements étales de la droite
-affine en caractéristique p*, C. R. Acad. Sci. Paris 311 (1990), M. Raynaud, *Revêtements de la
-droite affine en caractéristique p > 0 et conjecture d'Abhyankar*, Invent. Math. 116 (1994), and
+affine en caractéristique `p`*, C. R. Acad. Sci. Paris 311 (1990), M. Raynaud, *Revêtements de la
+droite affine en caractéristique `p > 0` et conjecture d'Abhyankar*, Invent. Math. 116 (1994), and
 D. Harbater, *Abhyankar's conjecture on Galois groups over curves*, Invent. Math. 117 (1994)
 (through Harbater–Obus–Pries–Stevenson); SGA 5, Exposé VI (through Kedlaya–Liu).
 
