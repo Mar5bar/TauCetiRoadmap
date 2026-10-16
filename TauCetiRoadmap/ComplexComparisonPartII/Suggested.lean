@@ -146,8 +146,15 @@ The Leibniz rule makes the shared additive map `k`-linear. Differential operator
 maps with Grothendieck's commutator condition. The ordinary algebraic de Rham core is
 DerivedDeRhamCohomology Layer 2's `DeRham.complex` and `DeRham.complexMap`;
 `AlgebraicDeRham` sheafifies that core. Algebraic logarithmic structures and differentials use
-CrystallineCohomology CR.5:log-algebra and CR.5.1's carriers, with `logAnalytification` as the
-analytic transport. The shared log structure maps take values in the
+CrystallineCohomology CR.5:log-algebra and CR.5.1's algebraic carriers.
+`logAnalytification` transports monoid sheaves, logification and log pullback;
+`AnalyticLogDifferentials` uses the relative holomorphic cotangent sheaf and represents
+log derivations satisfying the convergent chain rule, including on nonreduced analytic
+charts. `logAnalytification.cotangentIso` compares ordinary algebraic differentials with
+that holomorphic cotangent sheaf; `logAnalytification.logDifferentialsIso` compares the
+log relation quotients and, through differential-operator analytification, their exterior
+complexes. The analytic carrier does not represent unrestricted algebraic derivations
+of analytic structure rings. The shared log structure maps take values in the
 multiplicative monoid, so non-units (`0` included) are allowed; the Hodge Laplacian is the
 nonnegative operator, the negative of Mathlib's `Δ = div ∘ grad`.
 -/
@@ -511,6 +518,11 @@ end Positivity
 
 section LogCharts
 
+/-- With trivial logs on the analytic affine line, `AnalyticLogDifferentials` uses
+`d_hol(exp z) = exp z · dz`, the holomorphic cotangent relation. -/
+example (z : ℂ) : deriv Complex.exp z = Complex.exp z :=
+  congrFun Complex.deriv_exp z
+
 /-- **The standard log point** `ℕ → ℂ`, `n ↦ 0ⁿ` (so `1 ↦ 0`): a prelog structure that is not
 a log structure; its logification is `ℂˣ × ℕ`. Restricting prelog targets to units would
 exclude it. This is the chart map for `LogCrystalline.PrelogRing`, not a log-structure carrier. -/
@@ -780,14 +792,28 @@ the supporting presentation and curvature comparisons are also specified there.
   supplies the logarithmic-lattice criterion and compactification independence;
   the sheaf-level `PrelogStructure`, `LogStructure`,
   `AssociatedLog`, `LogPullback`, `FineLogChart`, `DivisorialLog`, `LogSmooth`, `logChartCriterion`,
-  `LogDeRham`, `logAnalytification`, `logDifferentialTransitivitySplit`. The algebraic prefix
+  `LogDeRham`, `logAnalytification`, `AnalyticLogDifferentials`,
+  `logAnalytification.cotangentIso`, `logAnalytification.logDifferentialsIso`,
+  `logDifferentialTransitivitySplit`. The algebraic prefix
   uses CrystallineCohomology CR.5:log-algebra.1–.4's `LogCrystalline.PrelogRing`,
   `LogCrystalline.PrelogRing.IsLog`, `LogCrystalline.LogStructure`,
   `LogCrystalline.IsFineMonoid`, `LogCrystalline.IsSaturatedMonoid`,
   `LogCrystalline.IsLogSmooth`, `LogCrystalline.divisorialLog`, and CR.5.1's
-  `LogCrystalline.logDifferentials` and `LogCrystalline.logDeRham`. Their complex-specialized
-  aliases and analytic adapters use the shared quotient's base-monoid relations and first-factor
-  residue convention. `AlgebraicDeRham` restricts on `Spec A` to DerivedDeRhamCohomology Layer 2's
+  `LogCrystalline.logDifferentials` and `LogCrystalline.logDeRham`. The analytic adapter
+  constructs `Ω¹_hol(X/S)` by holomorphic conormal presentations and imposes the log
+  relations on `Ω¹_hol(X/S) ⊕ (O_X ⊗_ℤ M_X^gp)`.
+  `AnalyticLogDifferentials.lift`, `AnalyticLogDifferentials.d_alpha` and
+  `AnalyticLogDifferentials.dlog_mul` provide the analytic log-derivation property and
+  its defining identities, with coherence, logification invariance, restriction and analytic
+  base change. For an arbitrary module sheaf, its derivations satisfy the convergent chain
+  rule and kill base functions; their additive log maps vanish on the base monoid.
+  For fine log schemes locally of finite type over `ℂ`, the ordinary cotangent comparison
+  and exact analytification of finite chart relation quotients give the log isomorphism;
+  exterior powers and differential operators compare the algebraic and holomorphic complexes.
+  These preserve the base-monoid relations and first-factor residue convention.
+  On `A = ℂ{z, ε}/(ε²)` with trivial logs the absolute module is
+  `A dz ⊕ (A/(ε)) dε`; relative to `ℂ[ε]/(ε²)` it is `A dz`, retaining `ε dz`.
+  `AlgebraicDeRham` restricts on `Spec A` to DerivedDeRhamCohomology Layer 2's
   `DeRham.complex k A`; restrictions and pullbacks use `DeRham.complexMap` and `DeRham.pullback`.
 -/
 

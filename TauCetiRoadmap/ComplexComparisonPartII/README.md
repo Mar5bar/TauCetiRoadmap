@@ -3260,40 +3260,106 @@ CR.5:log-algebra.1–.4 and CR.5.1, over arbitrary characteristics. On algebraic
 names `PrelogStructure`, `LogStructure`, `AssociatedLog`, `LogPullback`, `FineLogChart`,
 `DivisorialLog`, `LogSmooth`, `logChartCriterion` and `LogDeRham` below are specializations
 or aliases of that API. Their formulas and checks specify the shared interface, rather than
-separate constructions. On complex analytic ringed spaces use the same monoid-sheaf and
-universal-derivation definitions, transported through `logAnalytification`. This roadmap
-owns that analytic transport, the SNC identification and boundedness of the specialized
-complex, and `logDifferentialTransitivitySplit` on the shared carrier.
+separate constructions. Complex analytic spaces use the same monoid-sheaf, logification
+and log-pullback constructions. Their differentials use the holomorphic cotangent
+sheaf and the analytic log-derivation property specified by `AnalyticLogDifferentials`.
+This roadmap owns that analytic adapter, `logAnalytification`, the SNC identification
+and boundedness of the specialized complex, and `logDifferentialTransitivitySplit`
+on the algebraic carrier.
+
+**Analytic cotangent and logarithmic differentials.** Define `AnalyticLogDifferentials`
+for a morphism `f : X → S` of fine log complex analytic spaces, retaining nilpotents.
+First construct the coherent relative holomorphic cotangent sheaf `Ω¹_hol(X/S)`.
+On an absolute germ chart `A = ℂ{z₁, …, z_n}/I`, its presentation is
+`(⊕ᵢ A dzᵢ)/(d_hol h : h ∈ I)`, with
+`d_hol h = Σᵢ [∂h/∂zᵢ] dzᵢ`; the relative quotient also kills differentials of
+functions pulled back from `S`. Prove independence of chart presentations and
+compatibility with restriction and analytic base change, using convergent substitution
+and the chain rule. On manifolds this is C5.1's holomorphic cotangent sheaf, with its
+relative version for a holomorphic map.
+
+For any `O_X`-module sheaf `F`, an analytic derivation is an `f⁻¹O_S`-linear
+derivation `D : O_X → F` satisfying the convergent chain rule: in the chart above,
+`D([h]) = Σᵢ [∂h/∂zᵢ] D([zᵢ])` for every convergent germ `h`.
+Prove that `Ω¹_hol(X/S)` represents these derivations. Define the analytic log
+module as the quotient of `Ω¹_hol(X/S) ⊕ (O_X ⊗_ℤ M_X^gp)` by
+`d_hol α(m) − α(m) ⊗ m` and `1 ⊗ q` for local sections `q` from `f⁻¹M_S`.
+Its pair `(d_hol, dlog)` represents analytic logarithmic derivations: such a `D`
+and an additive map `δ : M_X^gp → F` with `Dα(m) = α(m) δ(m)` and
+`δ(f⁻¹M_S) = 0`. The API is `AnalyticLogDifferentials.lift` (this representing
+property), `AnalyticLogDifferentials.d_alpha` and `AnalyticLogDifferentials.dlog_mul`.
+Prove coherence, logification invariance, restriction and analytic base change.
+Exterior powers carry the holomorphic log de Rham differential, determined by
+the holomorphic exterior derivative, `d(dlog m) = 0` and the graded Leibniz rule;
+prove that it respects the relations and squares to zero. The ordinary cotangent
+carrier represents analytic derivations; unrestricted algebraic derivations of
+the analytic structure rings have a different representing module.
+(Freitag, *Complex Spaces*, I.2, pp. 2–5, I.6, pp. 16–18, and II.2, pp. 47–48,
+for convergent substitution and analytic quotient charts; the presentations and
+representing properties follow from the chain rule and quotient relations;
+Kato, §§1.7–1.9, pp. 195–196, for the algebraic log relations and exterior
+extension; Deligne 1970, I.2.10–2.15, pp. 9–11, and I.2.22, p. 14,
+for holomorphic forms and their relative differential.) *Needs:* `ComplexAnalyticSpace`;
+`HolomorphicDeRham`; `coherentOperations`; CrystallineCohomology
+CR.5:log-algebra.1 (monoid sheaves, logification and log pullback).
+
+**Checks.**
+
+- With trivial log structures on the analytic affine line, the module is
+  `O_ℂ dz` and `d_hol(exp z) = exp z · dz`. In the germ ring `A = ℂ{z}`, an
+  algebraic derivation into `Frac(A)` can have `D(z) = 0`, `D(exp z) = 1`;
+  it fails the analytic chain rule and does not factor through this cotangent sheaf.
+- On the nonreduced chart `A = ℂ{z, ε}/(ε²)` with trivial logs,
+  `Ω¹_hol(A/ℂ) = A dz ⊕ (A/(ε)) dε`: `dε ≠ 0` and `ε dε = 0`.
+  Relative to `ℂ[ε]/(ε²)`, the module is `A dz` and `ε dz ≠ 0`.
+- The standard analytic log point over the trivial point has module `ℂ · dlog t`;
+  relative to itself the base-monoid relation makes the module zero.
 
 Define and prove `logAnalytification`: for a fine log scheme `X` locally of finite type
 over `ℂ`, transport the shared étale monoid sheaf to `X^an` and logify its structure map
 along `φ_X`. On an étale chart `P → O_X`, this is the associated analytic log structure
 of `P → O_{X^an}`; analytified étale charts are local biholomorphisms, and their descent
 identifications make this construction independent of charts. It commutes with log
-pullback. For a morphism `X → S` of such log schemes, the universal pair `(d, dlog)` induces
-`(Ω¹_log(X/S))^an ≅ Ω¹_log(X^an/S^an)`, and exterior powers and
-`DifferentialOperatorAnalytification` give the same identification of log de Rham complexes.
+pullback. For a morphism `X → S` of schemes locally of finite type over `ℂ`, prove
+`logAnalytification.cotangentIso`:
+`(Ω¹_{X/S})^an ≅ Ω¹_hol(X^an/S^an)`, compatible with the ordinary derivations.
+Use finite algebraic presentations and their holomorphic conormal presentations,
+including nonreduced charts. For a morphism of fine log schemes with these underlying
+schemes, prove `logAnalytification.logDifferentialsIso`:
+`(Ω¹_log(X/S))^an ≅ AnalyticLogDifferentials(X^an/S^an)`, carrying `(d, dlog)`
+to `(d_hol, dlog)`. On finite charts `Q → P`, apply the ordinary cotangent comparison
+and exact coherent analytification to the relation quotient; logification invariance
+and chart descent make these maps canonical. Exterior powers and
+`DifferentialOperatorAnalytification` identify the algebraic and holomorphic log
+de Rham complexes, including their differentials and pullbacks.
 For an SNC pair, identify this log structure with the analytic divisorial structure and
 the complex with `Ω^•_{X^an}(log D^an)`. Residue along a labelled component puts its
-`dlog` factor first: `Res_z(dlog z ∧ η) = η|_{z=0}`. These are identifications of the
-supplier's carrier and operations (Kato, §§1.3–1.9, pp. 193–196, for logification,
-inverse image, the universal quotient and its complex; Deligne 1970, II.6.6,
-pp. 100–101, for local differential-operator analytification; the chart descent and
-residue compatibility follow from these formulas). *Needs:* CrystallineCohomology
+`dlog` factor first: `Res_z(dlog z ∧ η) = η|_{z=0}`. These compare the supplier's
+algebraic carrier with the holomorphic analytic carrier (Kato, §§1.3–1.9,
+pp. 193–196, for logification, inverse image and the algebraic quotient;
+Freitag, I.6, pp. 16–18, and II.2, pp. 47–48, for the analytic chart presentations;
+Deligne 1970, II.6.6, pp. 100–101, for local differential-operator analytification;
+the cotangent, chart-descent and residue comparisons follow from the presentations).
+*Needs:* `AnalyticLogDifferentials`; CrystallineCohomology
 CR.5:log-algebra.1–.4 and CR.5.1; `CoherentAnalytification`;
 `DifferentialOperatorAnalytification`; §C−1.1
 (`complexSchemeAnalytification.etaleLocalIso`) and §C−1.4 (`analyticPolydisc`).
 
 **Checks.**
 
-- Trivial log structures give the ordinary Kähler module and `AlgebraicDeRham`; on each
-  affine their differential and pullback are `DeRham.complex` and `DeRham.complexMap`.
+- Trivial log structures compare the algebraic Kähler module with the holomorphic
+  cotangent sheaf and `AlgebraicDeRham` with the holomorphic complex. On algebraic
+  affines the differential and pullback are `DeRham.complex` and `DeRham.complexMap`;
+  on the analytic affine line the transported differential sends `exp z` to `exp z · dz`.
 - The standard log point over the trivial complex point has `ℂ · dlog t` in degree one,
   while its identity relative differential module is zero, on both sides of analytification.
 - For the SNC coordinate boundary `xy = 0` in the smooth plane, the shared absolute
   log complex has basis `dlog x`, `dlog y`, with
   `Res_x(dlog x ∧ dlog y) = dlog y` and `Res_y(dlog x ∧ dlog y) = −dlog x`.
   These conventions persist in the analytic complex used in C5.6–C5.7.
+- For `Spec ℂ[z, ε]/(ε²)` with trivial logs, the cotangent comparison gives
+  `A dz ⊕ (A/(ε)) dε` at the origin, where `A = ℂ{z, ε}/(ε²)`; the
+  relation `2ε dε = 0` persists and the chart is not replaced by its reduction.
 
 Use the shared prelog carrier as `PrelogStructure T`: a sheaf of commutative monoids `M` with a morphism of sheaves of monoids
 `α : M → (O_T, ·)`. Non-units, including `0`, are allowed in the image. On a ring `A` with a chart
@@ -3430,7 +3496,7 @@ Layer 9 (`sncCompactification`, SNC boundaries).
 - `DivisorialLog.oneBranch`: at a smooth boundary point the characteristic monoid is `ℕ`.
 - `DivisorialLog.crossing`: at the origin of `xy = 0 ⊂ A²` the characteristic monoid is `ℕ²`, not `ℕ`.
 
-Use `LogCrystalline.logDifferentials` from CrystallineCohomology CR.5.1: for a morphism of prelog rings `(A, Q) → (B, P)` (structure maps
+On the algebraic side use `LogCrystalline.logDifferentials` from CrystallineCohomology CR.5.1: for a morphism of prelog rings `(A, Q) → (B, P)` (structure maps
 `α : P → B`, `β : Q → A`), `Ω¹_log = (Ω¹_{B/A} ⊕ (B ⊗_ℤ P^gp)) / R`, where `R` is generated by
 `dα(p) − α(p) ⊗ p` for `p ∈ P` and `1 ⊗ q` for `q` in the image of `Q`; write `dlog p` for the class of
 `1 ⊗ p`. It carries the universal pair `(d, dlog)` with `dα(p) = α(p) dlog p` and
@@ -3452,8 +3518,9 @@ pp. 18–19). *Needs:* CrystallineCohomology CR.5.1, “Logarithmic differential
 - `LogCrystalline.logDifferentials.relativeLogpoint`: for the identity of the standard log point the relative module
   is `0`; omitting the base relation `1 ⊗ q` gives `ℂ · dlog t` and fails.
 
-The algebraic quotient and its relation submodule are the supplier's construction;
-analytification transports them through the universal log-derivation pair. For a chart
+The algebraic quotient and its relation submodule are the supplier's construction.
+The map `logAnalytification.logDifferentialsIso` compares them with the quotient
+built from the holomorphic cotangent sheaf, through the analytic log-derivation pair. For a chart
 `Q → P`, the base relation kills the image of `Q`, not an independently selected subgroup.
 On the standard log point it kills `dlog t` for the identity base map, while the trivial
 base imposes no such relation (Kato, §1.7–1.8, pp. 195–196).
@@ -3488,7 +3555,7 @@ pp. 202–205; Proposition 3.10, p. 203). *Needs:*
 CrystallineCohomology CR.5:log-algebra.3, “Kato chart criterion”, and CR.5.1,
 “Logarithmic differentials”; `LogSmooth`; `LogCrystalline.logDifferentials`.
 
-Specialize `LogCrystalline.logDeRham` as `LogDeRham`: for a fine log morphism, `Ω^p_log = Λ^p Ω¹_log` with the differential extending the
+On log schemes specialize `LogCrystalline.logDeRham` as `LogDeRham`: for a fine log morphism, `Ω^p_log = Λ^p Ω¹_log` with the differential extending the
 universal log derivation by `d(dlog p) = 0` and the graded Leibniz rule; it is a complex of
 `f⁻¹O_Y`-modules (`ℂ`-linear in the complex case), with finite locally free terms when `f` is log
 smooth. It is bounded when moreover `X` is quasi-compact, since the locally constant rank of
@@ -3500,7 +3567,9 @@ a divisorial structure with SNC boundary it is the classical `Ω^•_X(log D)` g
 and Proposition 3.10, p. 203; the agreement with `Ω^•_X(log D)` follows from the chart formula (1.8),
 p. 196; Qian, Proposition 3.6, pp. 18–19, uses it over the standard log point). *Needs:* CrystallineCohomology CR.5.1,
 “Log de Rham complexes” (`LogCrystalline.logDeRham`); `LogCrystalline.logDifferentials`; `logChartCriterion`;
-`AlgebraicDeRham`.
+`AlgebraicDeRham`. Its analytic counterpart is the exterior complex of
+`AnalyticLogDifferentials`, identified by `logAnalytification.logDifferentialsIso`
+and the differential-operator comparison.
 
 **Checks.**
 
@@ -3565,7 +3634,7 @@ rank-one scalar `localMonodromy`; strip representatives `residueStripRep`) and
 `CanonicalLogExtension.uniqueness` (uniqueness of an extension with the
 strip condition) (Deligne 1970, II.5.1–5.6, printed pp. 91–96: the choice of `τ` in II.5.3, misnumbered
 4.3 in print, and Proposition 5.4, p. 94; the monodromy in Corollary 5.6, p. 96).
-*Needs:* `analyticFlatConnectionLocalSystem`; `DivisorialLog`; `LogCrystalline.logDifferentials`;
+*Needs:* `analyticFlatConnectionLocalSystem`; `DivisorialLog`; `AnalyticLogDifferentials`;
 `logAnalytification`;
 §C−1.4 (`analyticPolydisc`).
 
@@ -3722,8 +3791,11 @@ is spanned by `dz/z`). *Needs:* `CurveLogComplex`; `holomorphicPoincare`;
   `b`, `−(a + b)` at `0`, `1`, `∞`, which sum to `0`.
 
 Prove `properLogGagaMonodromy`: let `X` be a proper fine log-smooth log scheme over the standard log
-point `0^† = (Spec ℂ, ℕ → ℂ, 1 ↦ 0)`. Analytification compares the hypercohomology of the relative log
-de Rham complex `Ω^•_{X/0^†}` with its analytic counterpart in every degree, and compares the exact
+point `0^† = (Spec ℂ, ℕ → ℂ, 1 ↦ 0)`. Through
+`logAnalytification.logDifferentialsIso` and the differential-operator comparison,
+analytification compares the hypercohomology of the relative log de Rham complex
+`Ω^•_{X/0^†}` with the holomorphic exterior complex of `AnalyticLogDifferentials`
+in every degree, and compares the exact
 sequence of complexes `0 → Ω^•_{X/0^†}[−1] → Ω^•_{X/ℂ} → Ω^•_{X/0^†} → 0` (absolute log differentials
 relative to the trivial base; the first map is `dlog t ∧ −`) together with its connecting endomorphism
 `N` of `H^q(X, Ω^•_{X/0^†})`. The exactness comes from `logDifferentialTransitivitySplit`, the terms are
