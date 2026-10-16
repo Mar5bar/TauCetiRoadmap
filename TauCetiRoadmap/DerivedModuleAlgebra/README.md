@@ -35,7 +35,7 @@ representative definitions and theorem signatures that can be stated against the
 | Mathlib exterior powers and regular sequences | `ExteriorAlgebra.exteriorPower`, multilinear generators and maps, `RingTheory.Sequence.IsWeaklyRegular`; §0.K.1 constructs the linear-functional Koszul complex and its tensor, homotopy and resolution contracts. |
 | Mathlib homological and categorical algebra | Complexes, quasi-isomorphisms, K-injectivity, enough injectives in module categories, `DerivedCategory`, `DerivedCategory.Q`, single and homology functors, Dold–Kan, augmented simplicial objects, filtered colimits, tensor, Hom and `CategoryTheory.Tor`. §§0.I.1, 0.1–0.3 and 1.1.1 construct the unbounded module replacements and derived operations. |
 | Mathlib cotangent and flatness inputs | `Algebra.Extension`, `Algebra.H1Cotangent`, Kähler differentials, Jacobi–Zariski, `Derivation`, `derivationToSquareZeroEquivLift`, `Module.Flat.exists_factorization_of_finitePresentation`, finite free modules, localizations and smoothness. §§0.4–0.17 and 0.25 construct the full complex, powers and deformation theory. |
-| Mathlib towers, completion and spectral objects | Abelian groups, `CategoryTheory.Functor.IsMittagLeffler`, exact products, snake lemma, `AdicCompletion`, spectral objects and `HomologicalComplex₂.total`; §§1.T.1, 1.1–1.9, 1.E.1, 1.M.1–1.M.2 and S.1 construct the additional limits, completions, duality and abutment maps. |
+| Mathlib towers, completion and spectral objects | Abelian groups, `CategoryTheory.Functor.IsMittagLeffler`, exact products, snake lemma, `AdicCompletion`, spectral objects and `HomologicalComplex₂.total`; §§1.T.1, 1.1–1.9, 1.E.0–1.E.1, 1.M.1–1.M.2 and S.1 construct the additional limits, completions, duality and abutment maps. |
 | Tau Ceti Artin–Rees | `TauCeti.ArtinRees.exists_controlled_lift` in `TauCeti.RingTheory.Ideal.ArtinRees`: controlled lifts in finite modules over Noetherian rings, used in §1.5 to make higher Koszul homology pro-zero. |
 | Tau Ceti injective envelopes | `TauCeti.IsInjectiveEnvelope`, `isEssential_range` and `exists_linearEquiv` in `TauCeti.Algebra.Module.Injective.Envelope.Basic`: essential injective embeddings and uniqueness; §1.M.2 constructs hull existence and the completion action. |
 
@@ -681,6 +681,71 @@ the reductions to finite free modules in §§0.14–0.16 and the filtered-colimi
   but becomes zero on the nonzero module `ℤ/2`. It cannot be a filtered colimit of finite free
   `ℤ`-modules, since tensor and filtered colimits preserve this injection.
 
+### 0.2.2 Simplicial module tensor and diagonal comparisons
+
+**Simplicial module tensor comparison.** For simplicial modules `X, Y` over a commutative ring
+`A`, construct natural shuffle and Alexander–Whitney maps giving a chain homotopy equivalence
+`Tot_⊕(s(X) ⊗_A s(Y)) ≃ s(X ⊗_A Y)`. Here `s` is Mathlib's alternating-face complex,
+`(X ⊗_A Y)_n = X_n ⊗_A Y_n`, and the total differential on bidegree `(p,q)` is
+`d_h + (−1)^p d_v`. Reindex degree `n` as `−n` using
+`ComplexShape.embeddingDownNat`; this gives the cochain differential
+`d(x ⊗ y) = dx ⊗ y + (−1)^deg(x) x ⊗ dy`. The maps and homotopies exist without flatness.
+If both simplicial modules are degreewise flat, their associated cochain complexes are bounded
+above and K-flat, so the shuffle identifies the left side with §0.2's
+`s(X) ⊗^L_A s(Y)`.
+
+Require naturality in both variables, agreement with normalized Moore complexes under Mathlib's
+normalization homotopy equivalence, and compatibility with scalar extension `A → B`.
+For arbitrary scalar extension, the derived identification uses degreewise-flat models; it does
+not identify an arbitrary underived scalar extension with derived base change. The shuffle
+comparisons preserve the tensor unit, associativity and Koszul symmetry in the homotopy category,
+hence in `D(A)`. These identities give the graded multiplications in §§0.14–0.16 and their scalar
+change laws. ([Stacks](https://stacks.math.columbia.edu/tag/08QD), Remark 21.39.11; [DoldPuppe],
+§2, Theorems 2.9 and 2.15, pp.213–217.)
+
+*Needs:* §0.2 (K-flat models and derived tensor); Mathlib's alternating-face and normalized Moore
+complexes, their homotopy equivalence, module tensor products and `HomologicalComplex.tensorObj`.
+
+*Lean:* `DerivedDeRham.simplicialTensorComparison`, `simplicialTensorComparison_natural`,
+`simplicialTensorDerived`; `simplicialCochains` denotes the reindexed alternating-face functor.
+
+**Checks.**
+
+- For constant simplicial flat modules `P, Q`, the comparison induces `P ⊗_A Q` in degree zero;
+  for `P = A` this is the tensor unit map, including `Q = 0`.
+- If `X, Y` are the Dold–Kan objects of `A[1]`, the shuffle of their degree-one generators is
+  `s₁x ⊗ s₀y − s₀x ⊗ s₁y`. Interchanging the factors acts by `−1` on `H^−2 ≅ A`;
+  over `F₂` the two signs agree without dividing by `2`.
+- For a simplicial free resolution `X` of `ℤ/2`, `s(X ⊗_ℤ X)` has `H^0 = H^−1 = ℤ/2`.
+  The constant simplicial module `ℤ/2` instead has levelwise tensor with itself concentrated
+  in degree zero after realization; the derived identification requires flat models.
+
+**Bisimplicial module diagonal comparison.** For any bisimplicial `A`-module `Z`, construct the
+natural shuffle/Alexander–Whitney chain homotopy equivalence
+`Tot_⊕(s_h s_v Z) ≃ s(diag Z)`, where `(diag Z)_n = Z_(n,n)` and its face maps apply the
+same face in both directions. Use horizontal degree `p`, vertical degree `q`, total degree `p+q`,
+and differential `d_h + (−1)^p d_v`, then the same cochain reindexing as above.
+No flatness is needed for this additive comparison. Require naturality, scalar extension,
+compatibility with the tensor comparison for `Z_(p,q) = X_p ⊗_A Y_q`, and agreement in the
+homotopy category of the two successive comparisons for a trisimplicial module.
+Thus the first-quadrant spectral sequence of the double complex abuts to diagonal homology,
+with the same filtration transported along this comparison.
+([DoldPuppe], §2, Theorems 2.9 and 2.15 and Remark 2.16, pp.213–218.)
+
+*Needs:* Mathlib `SimplicialObject`, alternating-face complexes and `HomologicalComplex₂.total`;
+§0.2.2 / Simplicial module tensor comparison for its tensor compatibility.
+
+*Lean:* `DerivedDeRham.bisimplicialDiagonal`, `bisimplicialTotal`, `bisimplicialDiagonalComparison`.
+
+**Checks.**
+
+- A constant bisimplicial module `P` has diagonal and total homology `P` in degree zero and zero
+  in all positive homological degrees, although the unnormalized complexes have higher terms.
+- For a bisimplicial module constant in the vertical direction, the comparison agrees up to
+  homotopy with the augmentation of that constant direction and recovers `s_h Z`.
+- For `Z_(p,q) = X_p ⊗_A Y_q` with normalized `X` and `Y` equal to `A[1]`, both sides have
+  homology `A` in degree two. Transposition of the two directions contributes the sign `−1`.
+
 ### 0.3 Derived functors of non-additive functors
 
 Let `R → R′` be a ring map and `F` a functor from all projective `R`-modules to `R′`-modules,
@@ -988,8 +1053,11 @@ module structure over a nondiscrete simplicial ring. Downstream consumers use se
 [GR], Proposition 8.1.7 and its proof, pp.220–221; [IllusieCC], Chapter II, 1.2.6.2 (as used in
 [GR] loc. cit.); [BMS19], §2, pp.212–216.
 
-*Needs:* §0.4 (The full cotangent complex); §0.1 (Simplicial polynomial resolutions); Mathlib
-`SimplicialObject`.
+*Needs:* §0.4 (The full cotangent complex); §0.1 (Simplicial polynomial resolutions);
+§0.2.2 / Bisimplicial module diagonal comparison; Mathlib `SimplicialObject`.
+
+The spectral sequence first abuts to the direct-sum total complex; §0.2.2 identifies that
+complex with the diagonal model, after restricting to the constant coefficient ring as above.
 
 Lean: `Algebra.CotangentComplex.diagonalModel`, `Algebra.CotangentComplex.diagonalComparison`.
 
@@ -1094,7 +1162,8 @@ signed-coinvariant description; [BL22] Construction B.1 and Remark B.5, pp.225�
 descriptions in [SAG] Construction 25.2.2.2 and Proposition 25.2.3.4(2), pp.1700, 1703,
 are used with the alternating quotient: signed permutations alone do not kill repeated factors.
 
-*Needs:* §0.3 (Derived functors of non-additive functors); §0.2.1 (Flat modules as filtered colimits of finite free modules); Mathlib `ExteriorAlgebra.exteriorPower`,
+*Needs:* §0.3 (Derived functors of non-additive functors); §0.2.1 (Flat modules as filtered colimits of finite free modules);
+§0.2.2 / Simplicial module tensor comparison (graded multiplication and scalar change); Mathlib `ExteriorAlgebra.exteriorPower`,
 `exteriorPower.ιMulti`.
 
 Prove the following named laws.
@@ -1125,7 +1194,8 @@ is the ordinary symmetric power.
 [SAG], Construction 25.2.2.1, Proposition 25.2.3.1 and Proposition 25.2.3.4(1) with proofs,
 pp.1699–1704; [DoldPuppe] §4, Example 4.10, pp.229–230.
 
-*Needs:* §0.3 (Derived functors of non-additive functors); §0.2.1 (Flat modules as filtered colimits of finite free modules).
+*Needs:* §0.3 (Derived functors of non-additive functors); §0.2.1 (Flat modules as filtered colimits of finite free modules);
+§0.2.2 / Simplicial module tensor comparison (graded multiplication and scalar change).
 
 Prove the following named laws.
 
@@ -1155,7 +1225,8 @@ with base change and graded multiplication. For a flat discrete `M` it is the mo
 proofs, pp.1700–1704; [DoldPuppe] §4, Example 4.13 and (4.14), p.230.
 
 *Needs:* §0.3 (Derived functors of non-additive functors); §0.2.1 (Flat modules as filtered colimits of finite free modules); §0.DP.2;
-§0.DP.3; Mathlib `DividedPowerAlgebra`.
+§0.DP.3; §0.2.2 / Simplicial module tensor comparison (graded multiplication and scalar change);
+Mathlib `DividedPowerAlgebra`.
 
 Prove the following named laws.
 
@@ -1189,7 +1260,13 @@ modules and its levelwise application to cotangent complexes); [SAG], Propositio
 with its proof, pp.1704–1707 (the Koszul filtrations `F_i`, `G_i` and the décalage equivalences);
 [Bhatt12], Proposition 3.22 and Remark 3.43, pp.11–12, 18, for the uses below.
 
-*Needs:* §0.14 (Derived exterior powers); §0.15 (Derived symmetric powers); §0.16 (Derived divided powers); §0.3 (Derived functors of non-additive functors).
+*Needs:* §0.14 (Derived exterior powers); §0.15 (Derived symmetric powers); §0.16 (Derived divided powers);
+§0.3 (Derived functors of non-additive functors); §0.2.2 / Simplicial module tensor comparison.
+
+For simplicial projective representatives `X, Y` of `K, M`, the levelwise graded piece is
+`s(∧^j X ⊗_B ∧^(n−j) Y)`. The exterior powers of these projective modules are projective;
+§0.2.2 identifies this complex with `L∧^j K ⊗^L_B L∧^(n−j) M`. Its natural and monoidal
+compatibilities identify the products on the filtration and on its graded pieces.
 
 Lean: `DerivedDeRham.powerTriangleFiltration`, `DerivedDeRham.decalage`.
 
@@ -1771,22 +1848,181 @@ Lean: `DerivedDeRham.completeFlatDescent`.
 - For `ℤ_p → ℤ_p × ℤ_p`, the Čech complex splits and recovers every derived p-complete `M`.
 - For `ℤ_p → F_p`, faithful ordinary reduction modulo p does not suffice: the nonzero `Tor₁^ℤ_p(F_p,F_p)` violates complete flatness.
 
+### 1.E.0 Finite models and the effectivity interfaces
+
+**Perfect module complexes and finite models.** Define `DerivedDeRham.IsPerfect A K` by the
+existence of a bounded complex of finite projective `A`-modules representing `K ∈ D(A)`.
+Define `IsPseudoCoherent A K` by a bounded-above finite-free representative, and
+`HasTorAmplitude A a b K` by vanishing of `H^i(K ⊗^L_A N[0])` for every `A`-module `N`
+and `i ∉ [a,b]`. Provide invariance under isomorphisms, closure of perfect complexes under shifts
+and the third vertex of distinguished triangles, arbitrary derived scalar change, and a finite
+Tor interval for every perfect complex. A perfect complex is pseudo-coherent; it need not have
+a bounded finite-free representative. For bounded-above finite-free complexes, supply
+`finiteFreeBaseChangeModel`: ordinary termwise scalar extension represents derived base change,
+naturally in complex maps and in compositions of ring maps.
+([StacksMA], Definition 15.76.1, Tag 0657; Lemmas 15.76.2 and 15.76.4, Tags 0658 and 066R;
+Definition 15.66.1, Tag 064Q; §15.68, Tag 0651.)
+
+*Needs:* §0.2 (derived tensor and scalar extension); Mathlib `Module.Projective`, `Module.Free`,
+`Module.Finite`, complexes and `DerivedCategory.Q`.
+
+*Lean:* `DerivedDeRham.IsPerfect`, `IsPseudoCoherent`, `HasTorAmplitude`, `isPerfect_shift`,
+`isPerfect_triangle`, `isPerfect_baseChange`, `isPerfect_finiteTorAmplitude`,
+`isPerfect_isPseudoCoherent`, `finiteFreeBaseChangeModel`. `IsFiniteFreeModel A P b` records
+finite freeness in every degree and vanishing above `b`. The scalar functors are
+`derivedBaseChange`, `derivedRestriction`, with `derivedBaseChangeAdjunction`; `complexBaseChange`
+is Mathlib's termwise `ModuleCat.extendScalars` functor.
+
+**Checks.**
+
+- A finite projective module in degree zero is perfect with Tor amplitude `[0,0]`; its shift
+  by `[1]` has amplitude `[−1,−1]`. The zero complex admits every Tor interval.
+- Over `A = k × k`, the summand `eA`, `e = (1,0)`, is perfect. It has no bounded finite-free
+  representative: its Euler ranks on the two components differ. The bounded-above free resolution
+  with differentials alternating `1−e` and `e` does represent it.
+- The perfect `ℤ`-complex `[ℤ --2→ ℤ]` in degrees `[−1,0]` base-changes to `[F₂ --0→ F₂]`;
+  base change must retain the negative cohomology.
+
+**Compatible finite-free models.** Let `A_(n+1) → A_n` be surjective maps of commutative rings
+with locally nilpotent kernels. A `PerfectSystem` consists of perfect `M_n ∈ D(A_n)` and
+specified isomorphisms `M_(n+1) ⊗^L_(A_(n+1)) A_n ≅ M_n`; their adjoints
+`PerfectSystem.transition` are the given transition maps. For commutative rings the kernel
+condition is equivalently that each of its elements is nilpotent; each finitely generated
+subideal is then nilpotent. Construct `compatibleFiniteFreeModels`: bounded-above complexes `P_n` of
+finite free `A_n`-modules, all zero above one bound, isomorphisms `P_n ≅ M_n` in `D(A_n)`,
+and isomorphisms of complexes `P_(n+1) ⊗_(A_(n+1)) A_n ≅ P_n` compatible with the specified
+derived reductions. Their adjoints are actual semilinear chain maps representing the original
+transitions. Include the perfect-input lifting theorem: for a surjection `R → S` with locally
+nilpotent kernel, a perfect `K ∈ D(R)` and any bounded-above finite-free representative `E` of
+`K ⊗^L_R S`, lift `E`, together with its specified derived identification, to such a representative
+over `R`. Finite stably free lifting applies because `1 + ker(R → S)` consists of units.
+The lifts can be equipped with compatible bases in each degree, of the ranks of `P_0`.
+([StacksMA], Lemma 15.77.5, Tag 0BCB; the all-perfect specialization of Lemma 15.99.1 and its
+proof, Tag 0CQF.)
+
+*Needs:* §1.E.0 / Perfect module complexes and finite models; Mathlib's finite free modules,
+Nakayama's lemma, module scalar extension and complexes.
+
+*Lean:* `DerivedDeRham.PerfectSystem`, `FiniteFreeSystemModel`, `finiteFreeModelLift`,
+`compatibleFiniteFreeModels`.
+
+**Checks.**
+
+- Constant rings and a constant bounded finite-free complex admit identical models and identity
+  reduction isomorphisms, including the zero complex.
+- For constant `A = k × k` and `M_n = eA`, the alternating free resolution above gives compatible
+  bounded-above models. Requiring bounded finite-free models would exclude this perfect system.
+- Over `A_n = k[t]/(t^(n+1))`, the complexes `[A_n --t→ A_n]` themselves are models with a common
+  bound and strict reduction isomorphisms. Replacing them by their cohomology modules loses this
+  compatibility of differentials.
+
+**Strict towers and finite-model limits.** For a surjective ring tower with locally nilpotent
+transition kernels, `A = lim A_n` and a `FiniteFreeSystemModel`, restrict its semilinear chain maps along the compatible projections `π_n : A → A_n` to form a
+strict tower of `A`-complexes. Its image `finiteFreeSystemDiagram` belongs to
+`DerivedCategory (ℕᵒᵖ ⥤ ModuleCat A)`. Evaluation gives the original restricted `M_n`, with
+commuting transition squares in `D(A)`. This is a chosen derived-diagram lift; a tower of objects
+in `D(A)` is not identified with the derived category of strict towers.
+
+Construct the termwise limit complex `finiteFreeSystemLimit`. Compatible bases identify each
+term with a finite free `A`-module of the corresponding rank at stage zero. The complex is bounded
+above, and its ordinary reductions are isomorphic as complexes to `P_n`, compatibly with the
+projections and transition maps. Thus it is pseudo-coherent and computes its derived reductions.
+Prove `finiteFreeSystemLimit_comparison`: §1.1's derived limit of this strict tower is represented
+by the termwise limit, and its fibre triangle for `1−shift` identifies these projections.
+Prove `finiteFreeSystemLimit_reduction` and `finiteFreeSystemLimit_model` with these identifications.
+
+Replacement comparisons and naturality are in the derived category of varying-ring diagrams
+`D(Mod(ℕ,(A_n)))`, followed by restriction to the derived category of strict `A`-towers.
+Use Mathlib's `PresheafOfModules` for the ring presheaf on `ℕ` defined by `(A_n)`; construct
+the induced derived evaluation and restriction functors from its semilinear module diagrams.
+A morphism there induces the corresponding maps on derived limits, reductions and fibre triangles; an isomorphism there
+induces isomorphisms of these data. For replacements use zigzags of levelwise quasi-isomorphisms
+of strict diagrams. A bare family of commuting squares in the categories `D(A_n)` does not specify
+such a derived-diagram morphism. For perfect systems the compatible finite-free models supply
+the lift of Tag 091I. No canonical functor on naive towers in `D(A)` is asserted.
+([StacksMA], Lemmas 15.89.1 and 15.89.5, Tags 091D and 091I; Remark 15.89.10, Tag 091J;
+Lemma 15.99.1 and its proof, Tag 0CQF.)
+
+*Needs:* §1.E.0 / Compatible finite-free models; §1.1 (derived limits on strict towers);
+Mathlib's module diagram categories, complexes, localization and ring inverse limits.
+
+*Lean:* `DerivedDeRham.IsRingTowerLimit` expresses the universal property of the specified ring
+projections; `finiteFreeSystemDiagram`, `finiteFreeSystemLimit`, `finiteFreeSystemLimit_model`,
+`finiteFreeSystemLimit_comparison`, `finiteFreeSystemLimit_reduction`.
+
+**Checks.**
+
+- On a constant strict tower with identity maps, evaluation of the termwise limit is the identity
+  of its complex; the fibre description gives the same projections.
+- For `A_n = k[t]/(t^(n+1))` and `P_n = A_n[0]`, compatible bases give the limit `k[[t]][0]`,
+  with its actual quotient projections.
+- Adding a compatible contractible finite-free disk to each model gives an isomorphism of
+  derived diagrams, and hence the same limit and derived reductions. The disk need not have
+  zero terms, so comparisons are not equalities of chosen complexes.
+
+**Residue-field Tor criterion for the limit.** For a pseudo-coherent `K ∈ D(A)`, prove that a
+uniform interval `[a,b]` containing the cohomology of `K ⊗^L_A κ(m)` for every maximal ideal `m`
+implies that `K` has a finite-projective representative supported in `[a,b]`. In a surjective ring
+tower with locally nilpotent transition kernels, prove `ringTowerLimit_jacobson`: an element of
+`A = lim A_n` whose image in `A_0` is a unit is a unit. Hence `ker(A → A_0)` is in the Jacobson
+radical and every residue field of `A` factors through `A_0`. The reduction comparison above and
+a Tor interval for the perfect `M_0` give the required uniform interval for the limit.
+([StacksMA], Lemmas 15.79.2 and 15.76.2, Tags 068V and 0658; proof of Lemma 15.99.3, Tag 0CQG.)
+
+*Needs:* §1.E.0 / Perfect module complexes and finite models; §1.E.0 / Strict towers and finite-model
+limits; Mathlib's Jacobson radical, residue fields and nilpotent elements.
+
+*Lean:* `DerivedDeRham.pseudoCoherent_residueCriterion`, `ringTowerLimit_jacobson`.
+
+**Checks.**
+
+- A bounded finite-projective complex supported in `[a,b]` satisfies this residue-field criterion
+  and is recovered with that same support bound.
+- For `A = k[ε]/(ε²)`, the module `k` is pseudo-coherent, but its derived tensor with the residue
+  field has nonzero cohomology in every nonpositive degree. It has no finite Tor interval.
+- For `[k[[t]] --t→ k[[t]]]`, the residue fibre is `[k --0→ k]` in `[−1,0]`; the criterion keeps
+  degree `−1` even though the original complex has zero `H^−1`.
+
 ### 1.E.1 Effectivity of compatible perfect systems
 
-Prove `perfectInverseSystemEffectivity`. Let A=lim A_n for an inverse sequence of rings with surjective transitions A_(n+1)→A_n whose kernels are locally nilpotent. Let M_n be perfect complexes in D(A_n), with maps M_(n+1)→M_n in D(A_(n+1)) inducing the specified isomorphisms M_(n+1)⊗ᴸ_(A_(n+1))A_n→M_n. Then M=R lim M_n, with the terms restricted to D(A), is perfect, and the canonical maps M⊗ᴸ_A A_n→M_n are isomorphisms for all n. Its projections and comparison maps retain the transition maps of the given tower.
+Prove `perfectInverseSystemEffectivity`. Let `A = lim A_n` for an inverse sequence of rings with
+surjective transitions `A_(n+1) → A_n` whose kernels are locally nilpotent. Let `M_n` be perfect
+complexes in `D(A_n)`, with maps `M_(n+1) → M_n` in `D(A_(n+1))` inducing the specified
+isomorphisms `M_(n+1) ⊗^L_(A_(n+1)) A_n → M_n`. For any compatible finite-free lift from §1.E.0,
+restrict its strict tower along `A → A_n` and form `M = Rlim M_n` in `D(A)`. Then `M` is perfect,
+and the canonical maps `M ⊗^L_A A_n → M_n` are isomorphisms for all `n`. Its projections and
+comparison maps retain the transition maps of the given tower.
 
 Here every M_n is perfect; ordinary tensor compatibility of cohomology modules does not replace derived compatibility. Locally nilpotent transition kernels need not be nilpotent.
 
 ([Stacks](https://stacks.math.columbia.edu/tag/0CQG), Lemma 15.99.3, the alternative with every finite-stage complex perfect.)
 
-*Needs:* §0.2 (derived module categories and derived tensor); §1.1 (derived limits); Mathlib's derived category and ring inverse limits. Downstream consumers use this ring-complex effectivity theorem for proper-support existence.
+*Needs:* §0.2 (derived module categories and derived tensor); §1.1 (derived limits);
+§1.E.0 (perfect complexes, compatible finite-free models, strict-tower limit and reduction
+comparisons, and the residue-field Tor criterion). Downstream consumers use this ring-complex
+effectivity theorem for proper-support existence.
 
-Construct products in D(A) using exact products of A-modules, and form the derived limit as the homotopy fibre of 1−shift on the product of the restricted complexes. The effectivity theorem identifies this construction with a perfect complex and its specified reductions.
+Choose the compatible finite-free models of §1.E.0, and apply §1.1 to their restricted strict
+tower, with its exact products and fibre of `1−shift`. The termwise finite-free limit computes
+this object and its derived reductions. Since the kernel of `A → A_0` is in the Jacobson radical,
+the Tor interval of `M_0` bounds all residue fibres of the limit. The residue-field criterion
+then gives a bounded finite-projective representative. The theorem holds for every such chosen
+model; its comparisons are natural for morphisms in the derived-diagram category specified in
+§1.E.0. They retain the given transition maps.
+
+*Lean:* `DerivedDeRham.perfectInverseSystemEffectivity`; `multiplicationComplex A x` is the
+two-term complex `[A --x→ A]` used by `PerfectLimitChecks.differential`. Its power-series
+quotients `k[[t]]/(t^n)` identify with the polynomial quotients `k[t]/(t^n)` in the Check below.
 
 **Checks.**
 
 - `PerfectLimitChecks.constant`: a constant ring and perfect complex with identity transitions are recovered by their derived limit.
 - `PerfectLimitChecks.adic`: for A_n=k[t]/(t^n) and M_n=A_n in degree zero, the limit is k[[t]] in degree zero and its derived reductions recover M_n.
+- `PerfectLimitChecks.differential`: for a field `k`, `n ≥ 1`, `A_n = k[t]/(t^n)` and
+  `M_n = [A_n --t→ A_n]` in `[−1,0]`, the limit is `[k[[t]] --t→ k[[t]]]` and its derived
+  reductions are `M_n`. Here `H^−1(M_n) = (t^(n−1)) ≅ k`, with zero transition maps, whereas
+  `H^−1(M) = 0`. In particular `H^−1(M) ⊗ A_n = 0` does not recover `H^−1(M_n)`;
+  derived reduction of the whole complex does.
 - `PerfectLimitChecks.locallyNilpotent`: let B=k[x₁,x₂,…]/(x_i² : i≥1) and I=(x₁,x₂,…). I is locally nilpotent but I^r≠0 for every r. The tower A₁=B/I=k, A_n=B for n≥2, with M_n=A_n, satisfies the hypotheses and has limit B; globally nilpotent kernels would exclude it.
 
 ### 1.M.1 Matlis duality for arithmetic coefficients

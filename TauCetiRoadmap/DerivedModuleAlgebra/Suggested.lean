@@ -504,8 +504,6 @@ example : ∃ f : Tower.Hom (mulTower 3) (mulTower 3),
 
 end CompactCoefficients
 
-/-! ## Derived completeness and complete flatness: 1.2, 1.7 -/
-
 namespace DerivedDeRham
 
 
@@ -524,6 +522,292 @@ abbrev mod0 (R : Type u) [CommRing R] (M : ModuleCat.{u} R) : D R :=
 /-- Cohomology in the indicated cohomological degree. -/
 abbrev H (R : Type u) [CommRing R] (n : ℤ) (M : D R) : ModuleCat.{u} R :=
   (DerivedCategory.homologyFunctor (ModuleCat R) n).obj M
+
+/-! ## Simplicial module comparisons: 0.2.2 -/
+
+open scoped MonoidalCategory
+
+/-- The alternating-face complex, reindexed from degree `n` to cochain degree `−n`. -/
+abbrev simplicialCochains (R : Type u) [CommRing R] :
+    SimplicialObject (ModuleCat.{u} R) ⥤ CochainComplex (ModuleCat.{u} R) ℤ :=
+  AlgebraicTopology.alternatingFaceMapComplex (ModuleCat R) ⋙
+    ComplexShape.embeddingDownNat.extendFunctor (ModuleCat R)
+
+/-- Shuffle and Alexander–Whitney give inverse homotopy equivalences for simplicial modules
+(Stacks 08QD; Dold–Puppe, Theorems 2.9, 2.15). Tensor on complexes uses direct-sum totalization. -/
+def simplicialTensorComparison (R : Type u) [CommRing R]
+    (X Y : SimplicialObject (ModuleCat.{u} R)) :
+    HomotopyEquiv
+      ((AlgebraicTopology.alternatingFaceMapComplex (ModuleCat R)).obj X ⊗
+        (AlgebraicTopology.alternatingFaceMapComplex (ModuleCat R)).obj Y)
+      ((AlgebraicTopology.alternatingFaceMapComplex (ModuleCat R)).obj (X ⊗ Y)) := sorry
+
+/-- The shuffle comparison commutes with maps in both simplicial module variables. -/
+theorem simplicialTensorComparison_natural (R : Type u) [CommRing R]
+    {X Y X' Y' : SimplicialObject (ModuleCat.{u} R)} (f : X ⟶ X') (g : Y ⟶ Y') :
+    (simplicialTensorComparison R X Y).hom ≫
+        (AlgebraicTopology.alternatingFaceMapComplex (ModuleCat R)).map (f ⊗ₘ g) =
+      ((AlgebraicTopology.alternatingFaceMapComplex (ModuleCat R)).map f ⊗ₘ
+        (AlgebraicTopology.alternatingFaceMapComplex (ModuleCat R)).map g) ≫
+        (simplicialTensorComparison R X' Y').hom := sorry
+
+/-- The unbounded module derived tensor bifunctor of README 0.2. -/
+def derivedTensor (R : Type u) [CommRing R] : D R ⥤ D R ⥤ D R := sorry
+
+/-- For degreewise-flat simplicial modules the shuffle identifies realization of their
+levelwise tensor with the derived tensor of their cochain realizations. -/
+def simplicialTensorDerived (R : Type u) [CommRing R]
+    (X Y : SimplicialObject (ModuleCat.{u} R))
+    (hX : ∀ n : SimplexCategoryᵒᵖ, Module.Flat R (X.obj n))
+    (hY : ∀ n : SimplexCategoryᵒᵖ, Module.Flat R (Y.obj n)) :
+    ((derivedTensor R).obj
+      ((DerivedCategory.Q (C := ModuleCat R)).obj ((simplicialCochains R).obj X))).obj
+      ((DerivedCategory.Q (C := ModuleCat R)).obj ((simplicialCochains R).obj Y)) ≅
+      (DerivedCategory.Q (C := ModuleCat R)).obj ((simplicialCochains R).obj (X ⊗ Y)) := sorry
+
+/-- The diagonal of a bisimplicial module applies the same simplicial operator in both directions. -/
+def bisimplicialDiagonal (R : Type u) [CommRing R]
+    (Z : SimplicialObject (SimplicialObject (ModuleCat.{u} R))) :
+    SimplicialObject (ModuleCat.{u} R) := sorry
+
+/-- The direct-sum total of the two alternating-face complexes, with differential
+`d_h + (−1)^p d_v` on horizontal degree `p`. -/
+abbrev bisimplicialTotal (R : Type u) [CommRing R]
+    (Z : SimplicialObject (SimplicialObject (ModuleCat.{u} R))) :
+    ChainComplex (ModuleCat.{u} R) ℕ :=
+  HomologicalComplex₂.total
+    (((AlgebraicTopology.alternatingFaceMapComplex (ModuleCat R)).mapHomologicalComplex
+      (ComplexShape.down ℕ)).obj
+      ((AlgebraicTopology.alternatingFaceMapComplex
+        (SimplicialObject (ModuleCat R))).obj Z)) (ComplexShape.down ℕ)
+
+/-- Bisimplicial module total and diagonal complexes are naturally homotopy equivalent,
+without flatness hypotheses (Dold–Puppe, Theorems 2.9, 2.15). -/
+def bisimplicialDiagonalComparison (R : Type u) [CommRing R]
+    (Z : SimplicialObject (SimplicialObject (ModuleCat.{u} R))) :
+    HomotopyEquiv (bisimplicialTotal R Z)
+      ((AlgebraicTopology.alternatingFaceMapComplex (ModuleCat R)).obj
+        (bisimplicialDiagonal R Z)) := sorry
+
+/-! ## Perfect complexes and compatible finite models: 1.E.0 -/
+
+/-- Derived scalar extension along a homomorphism of commutative rings. -/
+def derivedBaseChange {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S) :
+    D R ⥤ D S := sorry
+
+/-- Exact restriction of scalars on module derived categories. -/
+def derivedRestriction {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S) :
+    D S ⥤ D R := sorry
+
+/-- Derived extension and restriction of scalars are adjoint. -/
+def derivedBaseChangeAdjunction {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S) :
+    derivedBaseChange f ⊣ derivedRestriction f := sorry
+
+/-- Ordinary scalar extension applied to every term and differential of a complex. -/
+abbrev complexBaseChange {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S) :
+    CochainComplex (ModuleCat.{u} R) ℤ ⥤ CochainComplex (ModuleCat.{u} S) ℤ :=
+  (ModuleCat.extendScalars f).mapHomologicalComplex (ComplexShape.up ℤ)
+
+/-- A finite-free complex with a specified upper bound, allowing an infinite left tail. -/
+def IsFiniteFreeModel (R : Type u) [CommRing R]
+    (P : CochainComplex (ModuleCat.{u} R) ℤ) (b : ℤ) : Prop :=
+  ∀ i, Module.Free R (P.X i) ∧ Module.Finite R (P.X i) ∧ (b < i → IsZero (P.X i))
+
+/-- Perfection means a bounded finite-projective representative (Stacks 0657). -/
+def IsPerfect (R : Type u) [CommRing R] (K : D R) : Prop :=
+  ∃ (P : CochainComplex (ModuleCat.{u} R) ℤ) (a b : ℤ),
+    (∀ i, Module.Projective R (P.X i) ∧ Module.Finite R (P.X i) ∧
+      (i < a ∨ b < i → IsZero (P.X i))) ∧
+    Nonempty ((DerivedCategory.Q (C := ModuleCat R)).obj P ≅ K)
+
+/-- Pseudo-coherence over a ring means a bounded-above finite-free representative. -/
+def IsPseudoCoherent (R : Type u) [CommRing R] (K : D R) : Prop :=
+  ∃ (P : CochainComplex (ModuleCat.{u} R) ℤ) (b : ℤ), IsFiniteFreeModel R P b ∧
+    Nonempty ((DerivedCategory.Q (C := ModuleCat R)).obj P ≅ K)
+
+/-- A Tor interval controls tensor with every discrete module, without requiring its flatness. -/
+def HasTorAmplitude (R : Type u) [CommRing R] (a b : ℤ) (K : D R) : Prop :=
+  ∀ (N : ModuleCat.{u} R) (i : ℤ), i < a ∨ b < i →
+    IsZero (H R i (((derivedTensor R).obj K).obj (mod0 R N)))
+
+/-- Perfect complexes are closed under cohomological shifts. -/
+theorem isPerfect_shift (R : Type u) [CommRing R] (K : D R) (hK : IsPerfect R K) (n : ℤ) :
+    IsPerfect R (K⟦n⟧) := sorry
+
+/-- The third vertex of a distinguished triangle of perfect complexes is perfect. -/
+theorem isPerfect_triangle (R : Type u) [CommRing R] (T : Triangle (D R))
+    (hT : T ∈ distTriang (D R)) (h₁ : IsPerfect R T.obj₁) (h₂ : IsPerfect R T.obj₂) :
+    IsPerfect R T.obj₃ := sorry
+
+/-- Arbitrary derived scalar extension preserves perfection. -/
+theorem isPerfect_baseChange {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S)
+    (K : D R) (hK : IsPerfect R K) : IsPerfect S ((derivedBaseChange f).obj K) := sorry
+
+/-- Every perfect complex has a uniform finite Tor interval. -/
+theorem isPerfect_finiteTorAmplitude (R : Type u) [CommRing R] (K : D R)
+    (hK : IsPerfect R K) : ∃ a b : ℤ, HasTorAmplitude R a b K := sorry
+
+/-- Perfect complexes admit bounded-above finite-free representatives. -/
+theorem isPerfect_isPseudoCoherent (R : Type u) [CommRing R] (K : D R)
+    (hK : IsPerfect R K) : IsPseudoCoherent R K := sorry
+
+/-- Termwise scalar extension of a bounded-above finite-free model computes derived extension. -/
+def finiteFreeBaseChangeModel {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S)
+    (P : CochainComplex (ModuleCat.{u} R) ℤ) (b : ℤ) (hP : IsFiniteFreeModel R P b) :
+    (derivedBaseChange f).obj ((DerivedCategory.Q (C := ModuleCat R)).obj P) ≅
+      (DerivedCategory.Q (C := ModuleCat S)).obj ((complexBaseChange f).obj P) := sorry
+
+/-- Perfect input lifts a specified bounded-above finite-free reduction model, including its
+specified derived identification, across a surjection with locally nilpotent kernel (0BCB). -/
+theorem finiteFreeModelLift {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S)
+    (hf : Function.Surjective f) (hnil : ∀ x, f x = 0 → IsNilpotent x)
+    (K : D R) (hK : IsPerfect R K) (E : CochainComplex (ModuleCat.{u} S) ℤ)
+    (b : ℤ) (hE : IsFiniteFreeModel S E b)
+    (e : (derivedBaseChange f).obj K ≅ (DerivedCategory.Q (C := ModuleCat S)).obj E) :
+    ∃ (P : CochainComplex (ModuleCat.{u} R) ℤ) (hP : IsFiniteFreeModel R P b)
+      (eP : (DerivedCategory.Q (C := ModuleCat R)).obj P ≅ K)
+      (r : (complexBaseChange f).obj P ≅ E),
+      (finiteFreeBaseChangeModel f P b hP).hom ≫
+          (DerivedCategory.Q (C := ModuleCat S)).map r.hom =
+        (derivedBaseChange f).map eP.hom ≫ e.hom := sorry
+
+/-- Perfect objects over a ring tower, with the specified derived reduction isomorphisms. -/
+structure PerfectSystem (A : ℕ → Type u) [∀ n, CommRing (A n)]
+    (τ : ∀ n, A (n + 1) →+* A n) where
+  term : ∀ n, D (A n)
+  perfect : ∀ n, IsPerfect (A n) (term n)
+  reduction : ∀ n, (derivedBaseChange (τ n)).obj (term (n + 1)) ≅ term n
+
+/-- The transition map of a perfect system is the adjoint of its specified reduction. -/
+def PerfectSystem.transition {A : ℕ → Type u} [∀ n, CommRing (A n)]
+    {τ : ∀ n, A (n + 1) →+* A n} (M : PerfectSystem A τ) (n : ℕ) :
+    M.term (n + 1) ⟶ (derivedRestriction (τ n)).obj (M.term n) :=
+  (derivedBaseChangeAdjunction (τ n)).homEquiv _ _ (M.reduction n).hom
+
+/-- Compatible finite-free models retain the specified reductions, hence their adjoint transitions. -/
+structure FiniteFreeSystemModel {A : ℕ → Type u} [∀ n, CommRing (A n)]
+    {τ : ∀ n, A (n + 1) →+* A n} (M : PerfectSystem A τ) where
+  complex : ∀ n, CochainComplex (ModuleCat.{u} (A n)) ℤ
+  bound : ℤ
+  finiteFree : ∀ n, IsFiniteFreeModel (A n) (complex n) bound
+  comparison : ∀ n, (DerivedCategory.Q (C := ModuleCat (A n))).obj (complex n) ≅ M.term n
+  reduction : ∀ n, (complexBaseChange (τ n)).obj (complex (n + 1)) ≅ complex n
+  reduction_comm : ∀ n,
+    (finiteFreeBaseChangeModel (τ n) (complex (n + 1)) bound (finiteFree (n + 1))).hom ≫
+        (DerivedCategory.Q (C := ModuleCat (A n))).map (reduction n).hom ≫ (comparison n).hom =
+      (derivedBaseChange (τ n)).map (comparison (n + 1)).hom ≫ (M.reduction n).hom
+
+/-- Surjective transitions with locally nilpotent kernels admit compatible bounded-above
+finite-free models for every perfect system (all-perfect case of 0CQF). -/
+theorem compatibleFiniteFreeModels {A : ℕ → Type u} [∀ n, CommRing (A n)]
+    (τ : ∀ n, A (n + 1) →+* A n) (hsurj : ∀ n, Function.Surjective (τ n))
+    (hnil : ∀ n x, τ n x = 0 → IsNilpotent x) (M : PerfectSystem A τ) :
+    Nonempty (FiniteFreeSystemModel M) := sorry
+
+/-- Compatible ring projections exhibit `R` as the inverse limit of the ring tower. -/
+def IsRingTowerLimit {A : ℕ → Type u} [∀ n, CommRing (A n)]
+    (τ : ∀ n, A (n + 1) →+* A n) (R : Type u) [CommRing R] (π : ∀ n, R →+* A n) : Prop :=
+  (∀ n, (τ n).comp (π (n + 1)) = π n) ∧
+    ∀ x : ∀ n, A n, (∀ n, τ n (x (n + 1)) = x n) → ∃! r : R, ∀ n, π n r = x n
+
+/-- The standard derived category of strict module towers. -/
+local instance (R : Type u) [CommRing R] :
+    HasDerivedCategory.{u+1} (ℕᵒᵖ ⥤ ModuleCat.{u} R) := HasDerivedCategory.standard _
+
+/-- The module derived-limit functor on the derived category of strict towers, as in README 1.1. -/
+def derivedLimit (R : Type u) [CommRing R] :
+    DerivedCategory (ℕᵒᵖ ⥤ ModuleCat.{u} R) ⥤ D R := sorry
+
+/-- The strict tower obtained by restricting the semilinear chain maps adjoint to the model
+reductions. Its evaluation comparisons retain `PerfectSystem.transition`. -/
+def finiteFreeSystemDiagram {A : ℕ → Type u} [∀ n, CommRing (A n)]
+    {τ : ∀ n, A (n + 1) →+* A n} {M : PerfectSystem A τ}
+    (R : Type u) [CommRing R] (π : ∀ n, R →+* A n) (hlim : IsRingTowerLimit τ R π)
+    (F : FiniteFreeSystemModel M) : DerivedCategory (ℕᵒᵖ ⥤ ModuleCat.{u} R) := sorry
+
+/-- The termwise inverse limit of the compatible finite-free model complexes. -/
+def finiteFreeSystemLimit {A : ℕ → Type u} [∀ n, CommRing (A n)]
+    {τ : ∀ n, A (n + 1) →+* A n} {M : PerfectSystem A τ}
+    (R : Type u) [CommRing R] (π : ∀ n, R →+* A n) (hlim : IsRingTowerLimit τ R π)
+    (F : FiniteFreeSystemModel M) : CochainComplex (ModuleCat.{u} R) ℤ := sorry
+
+/-- The termwise limit has finite-free terms and the common upper bound. -/
+theorem finiteFreeSystemLimit_model {A : ℕ → Type u} [∀ n, CommRing (A n)]
+    (τ : ∀ n, A (n + 1) →+* A n) (hsurj : ∀ n, Function.Surjective (τ n))
+    (hnil : ∀ n x, τ n x = 0 → IsNilpotent x) {M : PerfectSystem A τ}
+    (R : Type u) [CommRing R] (π : ∀ n, R →+* A n) (hlim : IsRingTowerLimit τ R π)
+    (F : FiniteFreeSystemModel M) :
+    IsFiniteFreeModel R (finiteFreeSystemLimit R π hlim F) F.bound := sorry
+
+/-- The termwise limit represents the derived limit of the chosen strict diagram, with
+its projections and the fibre triangle of `1−shift` (README 1.E.0). -/
+def finiteFreeSystemLimit_comparison {A : ℕ → Type u} [∀ n, CommRing (A n)]
+    (τ : ∀ n, A (n + 1) →+* A n) (hsurj : ∀ n, Function.Surjective (τ n))
+    (hnil : ∀ n x, τ n x = 0 → IsNilpotent x) {M : PerfectSystem A τ}
+    (R : Type u) [CommRing R] (π : ∀ n, R →+* A n) (hlim : IsRingTowerLimit τ R π)
+    (F : FiniteFreeSystemModel M) :
+    (DerivedCategory.Q (C := ModuleCat R)).obj (finiteFreeSystemLimit R π hlim F) ≅
+      (derivedLimit R).obj (finiteFreeSystemDiagram R π hlim F) := sorry
+
+/-- Reduction of the limit complex recovers each model as a complex, along its quotient projection. -/
+def finiteFreeSystemLimit_reduction {A : ℕ → Type u} [∀ n, CommRing (A n)]
+    (τ : ∀ n, A (n + 1) →+* A n) (hsurj : ∀ n, Function.Surjective (τ n))
+    (hnil : ∀ n x, τ n x = 0 → IsNilpotent x) {M : PerfectSystem A τ}
+    (R : Type u) [CommRing R] (π : ∀ n, R →+* A n) (hlim : IsRingTowerLimit τ R π)
+    (F : FiniteFreeSystemModel M) (n : ℕ) :
+    (complexBaseChange (π n)).obj (finiteFreeSystemLimit R π hlim F) ≅ F.complex n := sorry
+
+/-- Unit reflection from the first stage puts the limit kernel in the Jacobson radical. -/
+theorem ringTowerLimit_jacobson {A : ℕ → Type u} [∀ n, CommRing (A n)]
+    (τ : ∀ n, A (n + 1) →+* A n) (hsurj : ∀ n, Function.Surjective (τ n))
+    (hnil : ∀ n x, τ n x = 0 → IsNilpotent x)
+    (R : Type u) [CommRing R] (π : ∀ n, R →+* A n) (hlim : IsRingTowerLimit τ R π) :
+    ∀ r : R, IsUnit (π 0 r) → IsUnit r := sorry
+
+/-- A uniform residue-field Tor bound on a pseudo-coherent complex gives a finite-projective
+representative supported in that interval (Stacks 068V, 0658). -/
+theorem pseudoCoherent_residueCriterion (R : Type u) [CommRing R] (K : D R)
+    (hK : IsPseudoCoherent R K) (a b : ℤ)
+    (hfib : ∀ (k : Type u) [Field k] (f : R →+* k), Function.Surjective f →
+      ∀ i : ℤ, i < a ∨ b < i → IsZero (H k i ((derivedBaseChange f).obj K))) :
+    ∃ P : CochainComplex (ModuleCat.{u} R) ℤ,
+      (∀ i, Module.Projective R (P.X i) ∧ Module.Finite R (P.X i) ∧
+        (i < a ∨ b < i → IsZero (P.X i))) ∧
+      Nonempty ((DerivedCategory.Q (C := ModuleCat R)).obj P ≅ K) := sorry
+
+/-- The derived limit of every chosen compatible finite-free lift of a perfect system is
+perfect and has the specified derived reductions, for locally nilpotent transition kernels (0CQG). -/
+theorem perfectInverseSystemEffectivity {A : ℕ → Type u} [∀ n, CommRing (A n)]
+    (τ : ∀ n, A (n + 1) →+* A n) (hsurj : ∀ n, Function.Surjective (τ n))
+    (hnil : ∀ n x, τ n x = 0 → IsNilpotent x) (M : PerfectSystem A τ)
+    (R : Type u) [CommRing R] (π : ∀ n, R →+* A n) (hlim : IsRingTowerLimit τ R π)
+    (F : FiniteFreeSystemModel M) :
+    IsPerfect R ((derivedLimit R).obj (finiteFreeSystemDiagram R π hlim F)) ∧
+      ∀ n, Nonempty ((derivedBaseChange (π n)).obj
+        ((derivedLimit R).obj (finiteFreeSystemDiagram R π hlim F)) ≅ M.term n) := sorry
+
+/-! ## A nontrivial-differential effectivity check: 1.E.1 -/
+
+/-- The two-term complex `[R --x→ R]` in degrees `[-1,0]`, as the cone of multiplication. -/
+def multiplicationComplex (R : Type u) [CommRing R] (x : R) :
+    CochainComplex (ModuleCat.{u} R) ℤ :=
+  CochainComplex.mappingCone
+    ((HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) 0).map
+      (x • 𝟙 (ModuleCat.of R R)))
+
+/-- The derived reductions of `[k[[t]] --t→ k[[t]]]` have nonzero negative cohomology,
+although the limit complex has zero negative cohomology. -/
+theorem PerfectLimitChecks.differential (k : Type u) [Field k] (n : ℕ) (hn : 0 < n) :
+    let I : Ideal (PowerSeries k) := Ideal.span {(PowerSeries.X : PowerSeries k) ^ n}
+    let q := Ideal.Quotient.mk I
+    let K := (DerivedCategory.Q (C := ModuleCat (PowerSeries k))).obj
+      (multiplicationComplex (PowerSeries k) PowerSeries.X)
+    let Kₙ := (DerivedCategory.Q (C := ModuleCat (PowerSeries k ⧸ I))).obj
+      (multiplicationComplex (PowerSeries k ⧸ I) (q PowerSeries.X))
+    Nonempty ((derivedBaseChange q).obj K ≅ Kₙ) ∧
+      IsZero (H (PowerSeries k) (-1) K) ∧ ¬ IsZero (H (PowerSeries k ⧸ I) (-1) Kₙ) := sorry
+
+/-! ## Derived completeness and complete flatness: 1.2, 1.7 -/
 
 /-- **Derived `I`-completeness** of `M ∈ D(A)`: every morphism from a shifted localization
 `A[1/f][n]`, `f ∈ I`, to `M` is zero (Stacks, Tags 091P, 091S). This is a homotopical condition, not
@@ -778,7 +1062,8 @@ DerivedDeRham.boundedTorsionCriterion.
 DerivedDeRham.completeFlatDescent.
 
 1.E.1:
-PerfectLimitChecks.constant, PerfectLimitChecks.adic, PerfectLimitChecks.locallyNilpotent,
+PerfectLimitChecks.constant, PerfectLimitChecks.adic, PerfectLimitChecks.differential,
+PerfectLimitChecks.locallyNilpotent,
 perfectInverseSystemEffectivity.
 
 S.1:
