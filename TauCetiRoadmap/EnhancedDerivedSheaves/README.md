@@ -1,19 +1,19 @@
 # Roadmap: enhanced derived categories of sheaves
 
-**Summary.** An ordinary derived category remembers cohomology, shifts and distinguished triangles, but not the homotopies between maps or the coherences among them. Descent along hypercovers, inverse limits of complexes, Kan extensions along diagrams of topoi, adjoints of colimit-preserving functors and the reconstruction of adic coefficient systems all need that higher structure. This roadmap gives unbounded derived categories of sheaves of modules a concrete enhancement, the dg nerve of a K-injective model inside Mathlib's quasicategories, proves that its homotopy category is Mathlib's `DerivedCategory`, and builds in it the operations later roadmaps use: derived tensor products and internal Hom on ringed sites with point-site and affine comparisons, pullback and pushforward, perfect pushforward with proper support and arbitrary base change for algebraic spaces, Koszul complexes, coherent inverse limits and Postnikov completion on replete topoi, hypercover descent, coherent Kan extensions and adjoints, accessible localizations, derived completion and the reconstruction of complete complexes from their reductions modulo powers of a regular ideal, together with the commutative algebra of regular rings and perfect 𝔽_p-algebras that descent on perfect schemes needs (global dimension, Kunz's theorem, Tor independence). It then supplies the shared higher algebra: symmetric monoidal ∞-categories and ∞-operads, algebras and modules, monoidal localizations, Verdier quotients, Barr–Beck–Lurie, descendable algebras and module descent (with h-descent for perfect schemes as the main application), Ind-completion, presentable, dualizable and rigid categories, the ∞-category of spectra, animated commutative rings, Frobenius on animated 𝔽_p-algebras, and the cotangent complex. Every comparison with an ordinary category is a theorem about mapping spaces, never a definition by passage to the homotopy category. The main sources are Lurie's *Higher Topos Theory* and *Higher Algebra*, Bhatt–Scholze's *The pro-étale topology for schemes* (§3) and *Projectivity of the Witt vector affine Grassmannian* (§§3, 6 and 11), Liu–Zheng's *Enhanced six operations*, Nikolaus–Scholze's *On topological cyclic homology* (Appendix A and §I.3), Mathew's *The Galois group of a stable homotopy theory* (§3), and the Stacks Project.
+**Summary.** An ordinary derived category remembers cohomology, shifts and distinguished triangles, but not the homotopies between maps or the coherences among them. Descent along hypercovers, inverse limits of complexes, Kan extensions along diagrams of topoi, adjoints of colimit-preserving functors and the reconstruction of adic coefficient systems all need that higher structure. This roadmap gives unbounded derived categories of sheaves of modules a concrete enhancement, the dg nerve of a K-injective model inside Mathlib's quasicategories, proves that its homotopy category is Mathlib's `DerivedCategory`, and builds in it the operations later roadmaps use: derived tensor products and internal Hom on ringed sites with point-site and affine comparisons, pullback and pushforward, perfect pushforward with proper support and arbitrary base change for algebraic spaces, Koszul complexes, coherent inverse limits and Postnikov completion on replete topoi, hypercover descent, coherent Kan extensions and adjoints, accessible localizations, derived completion and the reconstruction of complete complexes from their reductions modulo powers of a regular ideal, together with the commutative algebra of regular rings and perfect 𝔽_p-algebras that descent on perfect schemes needs (global dimension, Kunz's theorem, Tor independence). Using the generic categorical and monoidal foundations of BordismFormalGroups F6.5, it supplies the higher-algebra extensions: operadic algebras and extension of scalars, idempotent completion, Barr–Beck–Lurie, descendable algebras and module descent (with h-descent for perfect schemes as the main application), compact-object and ordinary Ind comparisons, presentable, dualizable and rigid categories, the ∞-category of spectra, animated commutative rings, Frobenius on animated 𝔽_p-algebras, and the cotangent complex. Every comparison with an ordinary category is a theorem about mapping spaces, never a definition by passage to the homotopy category. The main sources are Lurie's *Higher Topos Theory* and *Higher Algebra*, Bhatt–Scholze's *The pro-étale topology for schemes* (§3) and *Projectivity of the Witt vector affine Grassmannian* (§§3, 6 and 11), Liu–Zheng's *Enhanced six operations*, Nikolaus–Scholze's *On topological cyclic homology* (Appendix A and §I.3), Mathew's *The Galois group of a stable homotopy theory* (§3), and the Stacks Project.
 
 ## Scope and ownership
 
-This roadmap owns the quasicategorical comparisons for enhanced sheaves and the abstract higher-categorical algebra on which the étale, diamond, prismatic, K-theoretic and Langlands roadmaps build. It owns:
+This roadmap owns the dg and quasicategorical comparisons for enhanced sheaves and the higher-algebra extensions specified below. The generic categorical framework is supplied by `BordismFormalGroups` F6.5; this roadmap uses those same definitions and comparison functors. It owns:
 
-- quasicategorical foundations beyond Mathlib's: joins, slices and right mapping spaces, categorical equivalences detected on mapping spaces, functor quasicategories, cores, Dwyer–Kan localizations, limits and colimits, final maps, stability, Cat∞ and Spaces, coCartesian fibrations and straightening, cardinal filteredness, accessibility and presentability (Layer E0);
+- full subcategories, universe-small mapping models, finality, the stable fibre/cofibre API, cardinal filteredness, accessibility and presentability, using the supplied quasicategorical framework (Layer E0);
 - the dg nerve and its comparison with Mathlib's cochain shift, mapping cone and pretriangulated structure (Layer E0);
 - enhanced ringed-site module sheaves, K-injective and K-flat replacements, tensor–Hom, coherent derived limits, module completion comparisons and exact functor calculus (Sections 0.1–0.4);
 - the quasicategorical realization of this enhanced category D∞(O), its dg-nerve, presentability and tensor–Hom comparisons, the point-site comparison with module derived Hom, general derived ringed pullback and pushforward, coefficient change, the cochain reindexing of supplied Koszul complexes, the global dimension of regular rings and Kunz's theorem, the algebra of perfect 𝔽_p-algebras, enhanced quasicoherent derived sheaves, the affine module–sheaf tensor comparison, derived base change on perfect schemes, and perfect pushforward with proper support and arbitrary base change for algebraic spaces (Layer E1);
-- Kan extensions, finality, representability, the adjoint functor theorem, localizations, limits of presentable categories, compact generation, ringed diagrams and coherent mates (Layer E3);
+- relative Kan-extension lifting, finality, presentable-category representability and adjoint criteria, accessible localizations of presentable categories, limits of presentable categories, compact generation, ringed diagrams and coherent mates (Layer E3);
 - derived limits of towers, pro-zero towers and multiplicative derived-limit filtrations (Layer E2:towers), the inverse-limit theory of replete topoi (slices and covers, relative epimorphisms, countable products, the amplitude of Rlim, the Milnor sequence and pro-zero errors), Postnikov completion and convergence, exact sections over projective objects and locally weakly contractible topoi, hypercover descent, sheaves of spaces, and h-descent on perfect schemes with the descendability results for schemes that it needs (Layer E2);
 - derived completion of sheaves, the completed tensor product, Koszul models, regular ideals and coefficient-system reconstruction (Layer E4); its point-topos case is compared with the module completion supplied by DerivedModuleAlgebra §§1.2–1.5;
-- symmetric monoidal ∞-categories, operads, algebras, modules, monoidal localizations, idempotent completion, Verdier quotients and Barr–Beck–Lurie (Layer E5:abstract); presentable categories, Ind, spectra, the tensor product of presentable categories, group actions, dualizable and rigid categories (Layer E5:presentability); descendable algebras and module descent (Layer E5:descent); animation, animated rings, Frobenius and Witt vectors on animated 𝔽_p-algebras (Layer E5:animation); the coherent animated refinement of the supplied cotangent complex and derived powers, and the comparison of animated rings with commutative algebra objects (Layer E5:cotangent-export); Eilenberg–Mac Lane rings and the module comparison (Layer E5:spectra-comparison).
+- operadic algebra and scalar-extension theory on the supplied monoidal and module framework, derived families, the monoidal sheaf comparison, idempotent completion and Barr–Beck–Lurie (Layer E5:abstract); compact-object and ordinary Ind comparisons, presentable categories, spectra, the tensor product of presentable categories, group actions, dualizable and rigid categories (Layer E5:presentability); descendable algebras and module descent (Layer E5:descent); animation, animated rings, Frobenius and Witt vectors on animated 𝔽_p-algebras (Layer E5:animation); the coherent animated refinement of the supplied cotangent complex and derived powers, and the comparison of animated rings with commutative algebra objects (Layer E5:cotangent-export); Eilenberg–Mac Lane rings and the module comparison (Layer E5:spectra-comparison).
 
 The boundaries are as follows.
 
@@ -29,8 +29,8 @@ The boundaries are as follows.
 - `DerivedModuleAlgebra` §0.I.1 supplies module K-injective replacements; §§0.2, 0.4 supplies module K-flat models, `DerivedDeRham.derivedTensor` and `Algebra.CotangentComplex`; §§0.5–0.13 supplies its ordinary deformation and functorial properties; §§0.14–0.17 supplies `DerivedDeRham.derivedExteriorPower` and integral décalage; §1.T.1 and §§1.1–1.1.1 supply elementary tower algebra, module derived limits and `DerivedDeRham.moduleDerivedHom`; §§1.2–1.5 supplies module completeness, `DerivedDeRham.derivedCompletion`, `DerivedDeRham.koszulCompletionTower` and regular-quotient completion. E1.F3.H1 identifies the module derived Hom with point-site internal Hom, and E1.8.DMA.1 identifies module derived tensor with affine derived sheaf tensor. E4 extends module completion to ringed topoi; E5:cotangent-export gives the coherent animated cotangent and power refinements and compares their homotopy-category shadows with these suppliers.
 - Sections 0.1–0.4 supply `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom`, `ClassicalDerived.inverseLimits` and `ClassicalDerived.functorCoherence` on essentially small ringed sites. Additive enhancement and K-injectives allow noncommutative rings; tensor products require commutativity. E1 gives explicit quasicategorical and dg-nerve comparison adapters for these objects. Section 0.3 `ClassicalDerived.derivedCompletion` is the ℓ-adic module specialization over ℤ of DerivedModuleAlgebra §§1.2–1.5; E4 compares both with the sheaf extension.
 - `DerivedModuleAlgebra` §0.K.1 supplies the linear-functional `koszulComplex φ`, its maps, tensor formula, multiplication null-homotopies and finite weakly regular resolutions. E1.5 owns only cochain reindexing and realization in the enhancement.
-- `GeneralizedCohomology` G2 owns concrete symmetric spectra and their stable model structures. Its outbound comparison with this roadmap's abstract Sp, Eilenberg–Mac Lane rings and derived modules, including the localization and completion towers of its G3.8–G3.9, is specified in E5:spectra-comparison below. That comparison consumes this roadmap's exports; no concrete spectral model is an input here.
-- `SchemeKTheoryOperations` and `DeformationAndDerivedPatchingAlgebra` use the enhancement of Layer E1 and the completion of Layer E4 rather than building their own.
+- `BordismFormalGroups` F6.5 owns the generic categorical model, marked straightening, coherent model diagrams and stability, absolute Kan extensions and adjunctions, localization, the operadic framework, LM fibres and rectification, stable quotients, Ind and the monoidal-localization/relative-adjunction constructions. Its generic sub-lanes precede its spectral, chromatic and Tate applications. E0, E3 and E5 use these constructions; the dg nerve, ringed-site realization and the stated presentability and higher-algebra extensions remain here.
+- `GeneralizedCohomology` G2 supplies concrete symmetric spectra, their stable models, sphere/space and Eilenberg–Mac Lane constructions and strict ring/module models; G3.8–G3.9 supplies concrete towers, integer localization and derived prime completion. It consumes BordismFormalGroups F6.5 for generic enhancements. This roadmap owns the comparison of those enhanced concrete models with its abstract Sp, including rings, modules and towers, in E5:spectra-comparison. The abstract stabilization construction uses only the generic foundation; its concrete-model comparison follows G2.
 
 ## Conventions
 
@@ -82,7 +82,7 @@ The baseline is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti 
 
 ### From Mathlib
 
-- Simplicial sets and higher categories: `SSet`, `SSet.Quasicategory`, `SSet.KanComplex`, `SSet.InnerFibration`, `SSet.quasicategory_iff_innerFibration`, the simplicial internal Hom of `SSet` with its quasicategory instance, `CategoryTheory.Nerve.quasicategory`, the homotopy bicategory `SSet.QCat.bicategory` and `SSet.QCat.strictBicategory`, `CategoryTheory.SimplicialNerve` (the homotopy-coherent nerve of a simplicially enriched category), `SSet.HomotopyCategory`, `SSet.mapHomotopyCategory`, `CategoryTheory.Abelian.DoldKan.equivalence` and `CategoryTheory.SimplicialObject`. Mathlib proves that the nerve of a category and the simplicial internal Hom into a quasicategory are quasicategories; equivalences, mapping spaces, limits and straightening are built here.
+- Simplicial sets and higher categories: `SSet`, `SSet.Quasicategory`, `SSet.KanComplex`, `SSet.InnerFibration`, `SSet.quasicategory_iff_innerFibration`, the simplicial internal Hom of `SSet` with its quasicategory instance, `CategoryTheory.Nerve.quasicategory`, the homotopy bicategory `SSet.QCat.bicategory` and `SSet.QCat.strictBicategory`, `CategoryTheory.SimplicialNerve` (the homotopy-coherent nerve of a simplicially enriched category), `SSet.HomotopyCategory`, `SSet.mapHomotopyCategory`, `CategoryTheory.Abelian.DoldKan.equivalence` and `CategoryTheory.SimplicialObject`. Mathlib proves that the nerve of a category and the simplicial internal Hom into a quasicategory are quasicategories; the generic equivalence, mapping-space, limit and straightening APIs are supplied by BordismFormalGroups F6.5.
 - Category theory: `CategoryTheory.Limits` (cones, cocones, `IsLimit`, filtered colimits, zero objects), `CategoryTheory.Functor.IsLeftKanExtension`, `CategoryTheory.Grothendieck`, `CategoryTheory.mateEquiv`, `CategoryTheory.Bicategory.mateEquiv` and `CategoryTheory.Bicategory.mateEquiv_vcomp`, `CategoryTheory.MonoidalCategory`, `CategoryTheory.SymmetricCategory`, `CategoryTheory.Idempotents.Karoubi`, `CategoryTheory.Ind`, `CategoryTheory.IsSifted`, `CategoryTheory.IsFiltered`, `CategoryTheory.Functor.ReflectsIsomorphisms`, `CategoryTheory.ObjectProperty` and `CategoryTheory.ObjectProperty.IsSerreClass`, `CategoryTheory.isIsomorphicSetoid`, `Cardinal.IsRegular`, `Small`.
 - Homological algebra: `CochainComplex`, `HomologicalComplex.monoidalCategory`, `CochainComplex.IsKInjective`, `DerivedCategory` with `DerivedCategory.Q`, `DerivedCategory.isIso_iff` and `DerivedCategory.isIso_Q_map_iff_quasiIso`, `CategoryTheory.Pretriangulated` (with `CategoryTheory.Pretriangulated.Triangle.coyoneda_exact₃` and `CategoryTheory.Pretriangulated.exists_iso_binaryBiproduct_of_distTriang`), `CategoryTheory.HasShift`, `CategoryTheory.Triangulated.TStructure` with `TStructure.eTruncGE`, `TStructure.truncLE` and `TStructure.truncLEι`, `CategoryTheory.Tor`, `CategoryTheory.HasProjectiveDimensionLE`, `CategoryTheory.HasInjectiveDimensionLE`, `ModuleCat.projectiveDimension_eq_of_linearEquiv`.
 - Sheaves: `CategoryTheory.Sheaf`, `CategoryTheory.GrothendieckTopology`, `CategoryTheory.GrothendieckTopology.OneHypercover`, `SheafOfModules` with its Grothendieck abelian instance (`CategoryTheory.IsGrothendieckAbelian`), `SheafOfModules.free`, `SheafOfModules.restrictScalars`, pushforward and pullback of sheaves of modules, `PresheafOfModules.freeYoneda` with `PresheafOfModules.freeYonedaEquiv` and `PresheafOfModules.freeYoneda.isSeparating`, `PresheafOfModules.sheafification` and `PresheafOfModules.sheafificationAdjunction`, `SheafOfModules.IsQuasicoherent`, `CategoryTheory.CountableAB4Star` and `LightCondensed.epi_π_app_zero_of_epi`.
@@ -143,6 +143,10 @@ These are section-level mathematical suppliers. The Lean imports in [Suggested.l
 
 | Supplier sections | Supplied contract | Consumers here |
 | --- | --- | --- |
+| `BordismFormalGroups` F6.5, “Categorical model and functor spaces” and “Unmarked straightening and the categorical model” | Native simplicial/enriched models, locally Kan coherent nerve, joins, slices, mapping spaces, categorical equivalences, cores and Cat∞ | E0.1–E0.6 |
+| `BordismFormalGroups` F6.5, “Marked fibrations and Kan extensions” and “Coherent model diagrams and stable enhancements” | Marked models, general straightening, coherent model diagrams and (co)limit comparison, Spaces, stability, localization, absolute Kan extensions and adjunctions, accessible presheaf localizations | E0, E3, E5:abstract |
+| `BordismFormalGroups` F6.5, monoidal/fibration and quotient/Ind sub-lanes | Operads and LM fibres, rectification under its model hypotheses, unit-adjoined monoidal localization, relative adjunctions, stable quotients, space-valued Yoneda, Ind and monoidal Ind | E0.8, E5:abstract, E5:presentability, E5:spectra-comparison |
+| `GeneralizedCohomology` G2.1–G2.7, G3.8–G3.9 | Pointed simplicial substrate, symmetric spectra and stable/positive-flat models, sphere adjunction, concrete Eilenberg–Mac Lane rings and strict modules, tower limits, integer localizations and derived prime completion | E5:spectra-comparison's concrete-model, module and tower comparisons |
 | `AdicSpacesPartII` §R0.19.10; `SchemeAndStackFoundations` §2.5 | Quasicompact and quasiseparated objects and morphisms of a topos, algebraic topoi, and filtered-colimit cohomology on their qcqs objects | E2.5–E2.6 |
 | This roadmap §§0.1–0.4 | Ringed-site enhancement, K-injective and K-flat replacements, tensor–Hom, coherent derived limits and exact functor calculus; §0.3 also supplies ℓ-adic module completion over ℤ | E1 and E3 comparisons, E2:towers, E5:abstract tensor comparison, E4 specialization |
 | `DerivedModuleAlgebra` §0.I.1, §§0.2, 0.4–0.17, §1.T.1, §§1.1–1.5 (including §1.1.1) | Module K-injective replacements and K-flat tensor models, ordinary cotangent and power functors with their functorial laws, elementary towers and ML/Milnor, module derived limits and Hom, completeness, Koszul completion towers and regular-quotient models | §§0.1–0.3, E1.2, E1.F3.H1, E1.8.DMA.1, E2:towers, E4, E5:cotangent-export |
@@ -154,20 +158,20 @@ PerfectoidSpaces' algebra contracts in this table are direct inputs here.
 
 ## How to read the build
 
-The mathematical build order follows these section contracts. The ordinary Koszul, K-injective, K-flat, cotangent, power, derived-Hom and module-completion models are built in their supplier sections; E0's generic quasicategorical foundations are built independently. These inputs and the ringed-site constructions of Sections 0.1–0.4 precede the corresponding enhanced comparisons in E1, E4 and E5:cotangent-export. E1.F3.H1 follows E1.4's internal Hom, and E1.8.DMA.1 and E1.9 follow E1.8's quasicoherent comparison. E1.9 uses the algebraic-space, descent and coherent-cohomology inputs of SchemeAndStackFoundations, JacobianChallenge and StableReduction. PerfectoidSpaces' algebra sections precede their E1.6–E1.7 consumers, and AdicSpacesPartII §R0.19.10 and SchemeAndStackFoundations §2.5 precede their E2 consumers. Supplier applications that use E3 or E5 follow those layers; each external supplier precedes this roadmap in the dependency order.
+The mathematical build order follows these section contracts. The ordinary Koszul, K-injective, K-flat, cotangent, power, derived-Hom and module-completion models are built in their supplier sections; BordismFormalGroups F6.5 supplies the generic quasicategorical, diagram and monoidal foundations independently of its chromatic and Tate applications. These inputs and the ringed-site constructions of Sections 0.1–0.4 precede the corresponding enhanced comparisons in E1, E4 and E5:cotangent-export. E1.F3.H1 follows E1.4's internal Hom, and E1.8.DMA.1 and E1.9 follow E1.8's quasicoherent comparison. E1.9 uses the algebraic-space, descent and coherent-cohomology inputs of SchemeAndStackFoundations, JacobianChallenge and StableReduction. PerfectoidSpaces' algebra sections precede their E1.6–E1.7 consumers, and AdicSpacesPartII §R0.19.10 and SchemeAndStackFoundations §2.5 precede their E2 consumers. Supplier applications that use E3 or E5 follow those layers; the suppliers in the global order precede this roadmap, and BordismFormalGroups and GeneralizedCohomology are external roadmap suppliers.
 
-The layer labels are identifiers that other roadmaps cite; the build order differs from their numbering. E0 builds quasicategorical foundations, Yoneda and presheaf presentations. Sections 0.1–0.4 construct enhanced ringed-site sheaves after E0. E1 compares this sheaf enhancement with the dg nerve and supplies the additional commutative algebra. E3 builds Kan extensions, adjoints and localizations. The additive part of E2:towers then builds derived limits and pro-zero theory; E5:abstract supplies the monoidal carriers before the multiplicative part of E2:towers. E5:presentability and E5:descent use these constructions. Build E5:spectra-comparison before E5:animation.4, whose animated module comparisons use it. E2 then uses descendability and animation for perfect h-descent; E4 extends module completion to replete topoi. E5:cotangent-export and the final compatibility comparisons use these earlier layers.
+The layer labels are identifiers that other roadmaps cite; the build order differs from their numbering. E0 uses the supplied foundations and Yoneda theorem, and builds the dg nerve and the stated finality and presentability extensions. Sections 0.1–0.4 construct enhanced ringed-site sheaves after E0. E1 compares this sheaf enhancement with the dg nerve and supplies the additional commutative algebra. E3 builds the relative Kan-extension and presentability refinements and the ringed-diagram applications. The additive part of E2:towers then builds derived limits and pro-zero theory; E5:abstract uses the supplied monoidal carriers before the multiplicative part of E2:towers. E5:presentability and E5:descent use these constructions. Build the abstract Eilenberg–Mac Lane comparison in E5:spectra-comparison before E5:animation.4. The concrete spectra comparison also uses GeneralizedCohomology G2; its tower specialization follows E2:towers and its point-site completion specialization follows E4.2. E2 then uses descendability and animation for perfect h-descent; E4 extends module completion to replete topoi. E5:cotangent-export and the final compatibility comparisons use these earlier layers.
 
 | Layer | Construction | Principal outputs |
 | --- | --- | --- |
-| [E0](#layer-e0-a-concrete-enhancement-and-higher-category-operations) | Quasicategorical foundations and the dg nerve | Mapping spaces and equivalences, Dwyer–Kan localization, limits and final maps, stability, Cat∞ and Spaces, the dg nerve and its sign comparison, straightening, presentability |
+| [E0](#layer-e0-a-concrete-enhancement-and-higher-category-operations) | Supplied quasicategorical foundations and the dg nerve | Finality and stable API, the dg nerve and its sign comparison, small mapping models and presentability |
 | [0.1–0.4](#layer-0-ringed-site-enhancement-and-derived-functors) | Ringed-site foundations | Enhanced module sheaves, replacements, tensor–Hom, coherent limits, module completion comparison and exact functor coherence |
 | [E1](#layer-e1-unbounded-derived-sheaves-and-presentability) | The enhanced derived category D∞(O) | Supplied replacement, tensor–Hom and dg comparisons, point-site derived Hom, Lf^∗ ⊣ Rf_∗, Koszul reindexing, perfect 𝔽_p-algebras, Dqc, affine tensor comparison, perfect base change and perfect proper-support pushforward |
 | [E3](#layer-e3-coherent-diagrams-kan-extensions-and-adjoints) | Kan extensions and adjoints | Relative left Kan extension, representability, the adjoint functor theorem, localizations, presentable limits, compact generation, ringed diagrams, mates |
 | [E2:towers, additive](#layer-e2towers-coherent-towers-and-pro-towers) | Towers | Rlim = fib(1 − s), ordinary and stable pro-zero towers |
-| [E5:abstract](#layer-e5abstract-the-monoidal-stable-categorical-baseline) | Monoidal ∞-categories | Operads, algebras, modules, monoidal localizations, the symmetric monoidal D∞(O), idempotent completion, Verdier quotients, Barr–Beck–Lurie |
+| [E5:abstract](#layer-e5abstract-the-monoidal-stable-categorical-baseline) | Extensions of the supplied monoidal framework | Operadic algebras and scalar extension, derived families, the symmetric monoidal D∞(O), idempotent completion, Barr–Beck–Lurie |
 | [E2:towers, multiplicative](#layer-e2towers-coherent-towers-and-pro-towers) | Multiplicative towers | Products of lim¹ classes and derived-limit filtrations, using E5:abstract |
-| [E5:presentability](#layer-e5presentability-presentable-categories-ind-completion-and-their-extensions) | Large categories | Ind, PrL and its limits, Sp, ⊗ of presentable categories, group actions, dualizable and rigid categories |
+| [E5:presentability](#layer-e5presentability-presentable-categories-ind-completion-and-their-extensions) | Large categories | Ind comparisons, PrL and its limits, Sp, ⊗ of presentable categories, group actions, dualizable and rigid categories |
 | [E5:descent](#layer-e5descent-descendable-algebras-and-module-descent) | Descendability | Finite index, module descent, uniform index along colimits |
 | [E5:spectra-comparison](#layer-e5spectra-comparison-eilenbergmac-lane-rings-and-derived-modules) | Eilenberg–Mac Lane rings | Mod_{HR}(Sp) ≃ D(R) |
 | [E5:animation](#layer-e5animation-animated-commutative-algebra) | Animation | Sifted colimits, PΣ, animated rings, Frobenius, Witt vectors, bounded totalizations, animated modules |
@@ -178,85 +182,19 @@ The layer labels are identifiers that other roadmaps cite; the build order diffe
 
 ## Layer E0: A concrete enhancement and higher-category operations
 
-The basic higher category is a quasicategory in Mathlib's sense (`SSet.Quasicategory`) and the basic space is a Kan complex (`SSet.KanComplex`). This layer builds, on those carriers, the operations every later layer uses: joins, slices and right mapping spaces; categorical equivalences detected on mapping spaces; functor quasicategories, full subcategories and cores; Dwyer–Kan localization at a set of edges; limits and colimits with their space-valued universal properties, weakly contractible simplicial sets and final maps; stable quasicategories; the coherent nerve of a locally Kan simplicial category, with Cat∞ and Spaces; the dg nerve of a dg category and its comparison with Mathlib's cochain shift and mapping cone; coCartesian fibrations and straightening over the shapes the later layers need; and cardinal filteredness, accessibility and presentability. Every comparison with an ordinary category is a theorem about mapping spaces, never a definition by passage to the homotopy category.
+The basic higher category is a quasicategory in Mathlib's sense (`SSet.Quasicategory`) and the basic space is a Kan complex (`SSet.KanComplex`). Sections E0.1–E0.5 and E0.7 identify the generic constructions supplied by BordismFormalGroups F6.5. The targets here extend that framework by full subcategories, universe-small mapping models, finality, stable fibre/cofibre calculus, the dg nerve with its shift/cone comparison, and accessibility and presentability. Comparisons concern mapping spaces, rather than only homotopy categories.
 
 ### E0.1 Joins, slices and right mapping spaces
 
-**The simplicial join** (`join`). For simplicial sets K and L, the join K ⋆ L has as n-simplices the disjoint union of K_n, L_n and the products K_a × L_b over a + b + 1 = n. Equivalently, in augmented simplicial degrees with K_{−1} = L_{−1} = ∗, it is the degreewise product ⨿_{a+b+1=n} K_a × L_b. Faces and degeneracies act in the factor they touch; at the boundary between the factors they pass into the other one. Every vertex of K precedes every vertex of L, and this orientation is the one that makes the two slice constructions of the next target come out right. (HTT §1.2.8, PDF pp. 58–59.)
-
-Provide `join` (functorial in both variables), `join_inclusions` (the canonical maps K → K ⋆ L ← L) and `join_map` (maps of factors induce maps of joins, preserving identities and composition). The operators are defined by splitting an ordered simplex at its last vertex in K, and the simplicial identities hold because both sides restrict the same monotone map.
-
-**Checks.**
-
-- ∅ ⋆ K ≅ K ≅ K ⋆ ∅.
-- Δ[0] ⋆ Δ[0] ≅ Δ[1], with the vertex of the first factor as source.
-- Δ[a] ⋆ Δ[b] ≅ Δ[a + b + 1], with the a-block before the b-block. Opposites satisfy (K ⋆ L)ᵒᵖ ≅ Lᵒᵖ ⋆ Kᵒᵖ; exchanging factors alone does not reverse their internal orders.
-
-*Needs:* Mathlib `SSet`.
-
-**Right mapping space** (`rightMappingSpace`). For a quasicategory C and vertices x, y, Hom^R_C(x, y) is the simplicial set whose n-simplices are the maps Δ[n+1] → C whose restriction to the entire initial face Δ[n] is the constant simplex at x and whose final vertex is y. A monotone map α : [m] → [n] acts by extending α to [m+1] → [n+1], sending the final vertex to the final vertex. The Kan property and the comparison with other models of the mapping space are separate targets (Section E0.2). (HA Remark 1.3.1.12, p. 83.)
-
-Provide `rightMappingSpace`, `rightMappingSpace_vertices` (its vertices are exactly the edges x → y of C) and `rightMappingSpace_map` (a simplicial map C → D induces maps of right mapping spaces, compatibly with composition). The construction selects, degreewise, a subset of maps of simplices; restriction along the extended monotone maps preserves the initial-face and final-vertex conditions.
-
-**Checks.**
-
-- For the terminal simplicial set and its unique vertex, the right mapping space is terminal.
-- For the nerve of an ordinary category A, Hom^R(x, y) is the constant simplicial set on Hom_A(x, y).
-- A 1-simplex of Hom^R_C(x, y) is a 2-simplex of C whose first edge is the identity of x and whose last vertex is y, not an arbitrary 2-simplex.
-
-*Needs:* Mathlib `SSet`, `SSet.Quasicategory`.
-
-**Slices and cone categories** (`overDiagram`, `underDiagram`). For p : K → C define C_{/p} by Hom(Y, C_{/p}) ≅ {q : Y ⋆ K → C | q restricted to K is p}, and C_{p/} with K ⋆ Y in place of Y ⋆ K. When C is a quasicategory both are quasicategories. Their vertices are coherent cones on p with cone point before, respectively after, the diagram, and the projection to C remembers the cone point. (HTT §1.2.9, PDF pp. 59–61, and Proposition 1.2.9.3, PDF p. 61.)
-
-Provide `overDiagram`, `underDiagram`, `slice_vertex` (the projection to C) and `slice_joinEquiv` (the representing bijections above, natural in Y). The quasicategory property is proved by extending an inner horn along the inner anodyne join inclusion.
-
-**Checks.**
-
-- For K = ∅ both slices are C.
-- For C = N(A) and p a single object a, the slices are N(A/a) and N(a/A).
-- For K two discrete vertices, a cone consists of two edges out of its cone point; it imposes no arrow between the two prescribed vertices.
-
-*Needs:* `join`; Mathlib `SSet.Quasicategory`.
+Supplied by `BordismFormalGroups` F6.5, “Unmarked straightening and the categorical model”: the simplicial join, slice quasicategories with their join universal properties, and right mapping Kan spaces with their rigidification comparison. Use its native `SSet` constructions and universe comparisons. The orientation is Y ⋆ K for C_{/p} and K ⋆ Y for C_{p/}; the initial face of a right mapping simplex is constant at the source. (HTT §§1.2.8–1.2.9 and §§2.2.1–2.2.4.)
 
 ### E0.2 Equivalences and mapping spaces
 
-**Categorical equivalences** (`IsCategoricalEquivalence`). A simplicial map F : C → D of quasicategories is a categorical equivalence when it has a quasi-inverse G with natural equivalences GF ≃ id_C and FG ≃ id_D, expressed as an equivalence in Mathlib's homotopy bicategory of quasicategories (`SSet.QCat.bicategory`). It is equivalent to essential surjectivity on homotopy categories together with equivalences on all mapping spaces (Section E0.2, next target). An equivalence of homotopy categories alone is not enough. (HTT Definition 1.2.10.1 and Remark 1.2.10.2, PDF p. 61; Theorem 2.2.5.1, PDF p. 107.)
-
-Provide `IsCategoricalEquivalence`, `categoricalEquivalence_comp` (closure under composition), `categoricalEquivalence_of_comp_left` (two-out-of-three) and `categoricalEquivalence_nerve` (N(F) is a categorical equivalence exactly when the ordinary functor F is an equivalence).
-
-**Checks.**
-
-- The identity of a quasicategory is a categorical equivalence.
-- The nerve of the inclusion of a skeleton into an ordinary category is a categorical equivalence.
-- Let A = ℤ ⊕ ℤε be the one-object dg algebra with ε in cohomological degree −1, ε² = 0 and dε = 0. Its projection to ℤ induces an equivalence of homotopy categories, but the self-mapping space has π₁ = ℤ for A and π₁ = 0 for ℤ (Section E0.6), so the induced map of dg nerves is not a categorical equivalence.
-
-*Needs:* Mathlib `SSet.QCat.bicategory`, `SSet.QCat.strictBicategory`.
-
-**Right mapping spaces are Kan and detect equivalences** (`rightMappingSpace_isKan`, `isCategoricalEquivalence_iff`). For a quasicategory C and vertices x, y, Hom^R_C(x, y) is a Kan complex. A categorical equivalence C → D induces weak homotopy equivalences on right mapping spaces; conversely, a map that is essentially surjective on homotopy categories and induces weak homotopy equivalences on all right mapping spaces is a categorical equivalence. For maps of Kan complexes, weak homotopy equivalence and categorical equivalence agree. (HTT Proposition 1.2.2.3, PDF p. 45; Propositions 2.2.2.7, 2.2.2.9 and 2.2.2.13, PDF pp. 94–96; Theorem 2.2.5.1, PDF p. 107.)
-
-**Checks.**
-
-- For the nerve of an ordinary category, every right mapping space is the discrete set Hom_A(x, y).
-- For the square-zero dg algebra of the previous Checks, the self-mapping space has nonzero π₁.
-- For the nerve of a nontrivial one-object group G, the right mapping space is the discrete set G; fixing vertices alone would retain nonidentity edges in its initial face.
-
-*Proof route.* An outer horn in the right mapping space becomes an inner horn in C with fixed initial face, which C fills. For the detection statement compare Hom^R with the mapping space of the simplicial localization through the Q-cosimplicial model of HTT §2.2.2 and apply its equivalence criterion.
-
-*Needs:* `rightMappingSpace`; `IsCategoricalEquivalence`; Mathlib `SSet.KanComplex`.
+Supplied by `BordismFormalGroups` F6.5, “Categorical model and functor spaces” and “Unmarked straightening and the categorical model”: categorical equivalences, their mapping-space and essential-surjectivity criterion, and the Joyal model. On quasicategories use this notion, equivalently quasi-inverses with invertible transformations in Mathlib's `SSet.QCat.bicategory`. Equivalence of ordinary homotopy categories alone is insufficient: the dg algebra ℤ ⊕ ℤε with |ε| = −1 has self-mapping π₁ = ℤ, whereas ℤ has π₁ = 0. (HTT Definition 1.2.10.1 and Theorem 2.2.5.1; HA Remark 1.3.1.12.)
 
 ### E0.3 Functor quasicategories, full subcategories, cores and localizations
 
-**Functor quasicategories and coherent transformations** (`coherentFun`). For a simplicial set K and a quasicategory C, Fun(K, C) is the simplicial internal Hom: its n-simplices are the maps K × Δ[n] → C. It is a quasicategory, its edges are the coherent natural transformations, and an edge is invertible exactly when its evaluation at every vertex of K is invertible. (HTT Proposition 1.2.7.3, printed p. 39, PDF p. 57; pointwise detection of equivalences in §2.3.4, printed p. 106, PDF p. 124.)
-
-The internal Hom and its quasicategory instance already exist at the pinned Mathlib (the simplicial internal Hom of `SSet`, with the inner-anodyne pushout-product instance); they are used unchanged. The new API is `coherentFun` (that carrier with its quasicategory instance), `coherentFun_eval` (evaluation at a vertex as a functor), `coherentNatTrans` (edges are maps K × Δ[1] → C with the two prescribed restrictions) and `coherentFun_pointwiseEquiv` (vertexwise detection of invertible transformations, proved by the equivalence extension theorem).
-
-**Checks.**
-
-- Fun(Δ[0], C) ≅ C.
-- Fun(N(A), N(B)) ≅ N(A ⥤ B) for small ordinary categories A, B.
-- The vertices of Fun(Δ[1], C) are the edges of C, and its edges are squares together with their filling 2-simplices, not four unrelated arrows.
-
-*Needs:* `IsCategoricalEquivalence`; Mathlib `SSet`, `SSet.QCat.bicategory`.
+Supplied by `BordismFormalGroups` F6.5, “Categorical model and functor spaces”, “Unmarked straightening and the categorical model” and “Coherent model diagrams and stable enhancements”: core functor spaces, the marked categorical model, relative localization with its full functor-space universal property, and the enriched Dwyer–Kan localization comparison. Use Mathlib's simplicial internal Hom for Fun(K, C). Localization inverts the specified edges coherently, and its homotopy category is the ordinary localization; it retains higher mapping spaces. (HTT §1.2.7, §§3.1.3–3.1.4; HA Definition 1.3.4.1 and Remark 1.3.4.2.)
 
 **Full enhanced subcategories** (`fullEnhancedSubcategory`). Given a predicate P on the vertices of a simplicial set C, take the simplices all of whose vertices satisfy P. The inclusion is full; when C is a quasicategory so is the subobject, and its vertices are the vertices satisfying P. (HTT §1.2.11, printed p. 44, PDF p. 62.)
 
@@ -268,57 +206,11 @@ Provide `fullEnhancedSubcategory`, `fullEnhancedSubcategory_inclusion` and `full
 - Taking P always false gives the empty simplicial set.
 - For C = N(A), the full enhanced subcategory on P is the nerve of Mathlib's full subcategory of A on P.
 
-*Needs:* `coherentFun`.
-
-**The maximal Kan core** (`enhancedCore`). For a quasicategory C, its core is the simplicial subset of simplices all of whose edges are equivalences. It contains every vertex of C, it is a Kan complex, and every map from a Kan complex into C factors uniquely through it. (HTT Proposition 1.2.5.3 and its proof, printed pp. 35–36, PDF pp. 53–54.)
-
-Provide `enhancedCore`, `enhancedCore_inclusion`, `enhancedCore_vertices` (all vertices survive) and `enhancedCore_edges` (its edges are the equivalence edges of C). The subset is a quasicategory by inner horn filling, an inverse of a retained edge is again an equivalence, and the outer horn criterion for equivalence edges makes it Kan.
-
-**Checks.**
-
-- The core of Δ[0] is Δ[0].
-- The core of Δ[1] is the discrete simplicial set on two vertices.
-- A Kan complex is isomorphic to its own core.
-
-*Needs:* `fullEnhancedSubcategory`; `IsCategoricalEquivalence`.
-
-**Marked simplicial sets and their model structure** (`markedSSetModel`). Construct marked simplicial sets (a simplicial set with edges marked, including all degenerate edges), marked mapping spaces, and the marked categorical model structure over a point. Cofibrations are underlying monomorphisms, fibrant objects are quasicategories with precisely their equivalences marked, and weak equivalences are detected by mapping into these fibrant objects. Construct functorial fibrant replacement by generating marked anodyne maps and prove its mapping-space universal property. (HTT §3.1.3, Proposition 3.1.3.7 and Proposition 3.1.4.1; HA Remark 1.3.4.2.)
-
-**Checks.**
-
-- A quasicategory with precisely its equivalences marked is fibrant over the point.
-- Marking the nondegenerate edge of Δ[1] gives a fibrant replacement equivalent to a point; marking only identities retains the noninvertible arrow.
-- For N(BG) with G nontrivial, marking only degenerate edges is not fibrant: every group element is an equivalence and must be marked.
-
-*Needs:* E0.1–E0.2; `coherentFun`; `enhancedCore`; Mathlib `SSet`, `HomotopicalAlgebra.ModelCategory` and small-object factorizations.
-
-**Dwyer–Kan localization** (`IsDwyerKanLocalization`, `dwyerKanLocalization`). Let C be a quasicategory and W a set of edges of C. A functor f : C → D of quasicategories exhibits D as the localization C[W^{−1}] when, for every quasicategory E, precomposition with f is fully faithful from Fun(D, E) to Fun(C, E) (it induces equivalences on all right mapping spaces, Section E0.2) and its essential image consists of the functors carrying every edge of W to an equivalence. A localization exists for every C and W and is unique up to a contractible space of choices. It is formed by inverting W in the marked sense, not by localizing the homotopy category; its homotopy category is the ordinary localization of the homotopy category of C at the image of W (Mathlib's `CategoryTheory.Functor.IsLocalization`). A reflective full subcategory with left adjoint L is the localization at the edges that L inverts, which relates this notion to `accessibleLocalization` of Layer E3. (HA Definition 1.3.4.1, Remark 1.3.4.2 and Example 1.3.4.3, p. 108.)
-
-Provide `IsDwyerKanLocalization`, `dwyerKanLocalization` (a chosen localization with its functor), `dwyerKanLocalization_universal` (the restriction equivalence onto the W-inverting functors) and `dwyerKanLocalization_homotopyCategory` (the comparison of `SSet.HomotopyCategory` of C[W^{−1}] with Mathlib's ordinary localization).
-
-**Checks.**
-
-- If W consists of equivalences, the identity of C exhibits C as C[W^{−1}].
-- For C = Δ[1] and W its nondegenerate edge, C[W^{−1}] ≃ Δ[0].
-- For an ordinary category A and a class W of morphisms, the homotopy category of N(A)[W^{−1}] is Mathlib's localization of A at W; for cochain complexes of abelian groups and the quasi-isomorphisms it is Mathlib's `DerivedCategory`, while N(A)[W^{−1}] itself keeps the higher homotopy of mapping spaces (Section E1.3).
-
-*Proof route.* Mark the edges of W, take a fibrant replacement in the marked model structure over a point, and read the universal property off the marked mapping spaces; the homotopy-category comparison comes from the adjunction between homotopy categories and nerves.
-
-*Needs:* `markedSSetModel`; `coherentFun`; `rightMappingSpace_isKan`; `IsCategoricalEquivalence`; `enhancedCore`; Mathlib `SSet.HomotopyCategory`, `CategoryTheory.Functor.IsLocalization`.
+*Needs:* the supplied functor quasicategories.
 
 ### E0.4 Limits, colimits and stability
 
-**Enhanced limits and colimits** (`IsEnhancedLimit`, `IsEnhancedColimit`). A cone c ∈ C_{/p} is a limit cone when it is a terminal object of C_{/p}, and a cocone c ∈ C_{p/} is a colimit cocone when it is initial in C_{p/}. Initial means that every right mapping space out of the object is contractible; terminal is the dual condition. Equivalently, for every z the maps Map_C(z, lim p) → lim_k Map_C(z, p(k)) and Map_C(colim p, z) → lim_k Map_C(p(k), z) are equivalences of spaces, naturally in z, and the limit is unique up to a contractible space of choices. (HTT Definition 1.2.12.1, PDF pp. 62–63; Remark 1.2.13.3 and Definition 1.2.13.4, PDF p. 65; Lemma 4.2.4.3, PDF p. 275.)
-
-Provide `IsEnhancedLimit`, `IsEnhancedColimit`, `enhancedLimit_mapEquiv` and `enhancedColimit_mapEquiv` (the natural mapping-space equivalences) and `enhancedLimit_nerve` (in N(A), limit cones are exactly the cones that are limits in Mathlib's sense, `CategoryTheory.Limits.IsLimit`, and dually).
-
-**Checks.**
-
-- The limit of the empty diagram is a terminal object and its colimit an initial object.
-- In the nerve of the category of sets, the product cone of two sets is the cartesian product.
-- In Kan complexes, the homotopy pullback ∗ ×_{K(ℤ,1)} ∗ is K(ℤ, 0) = ℤ, not a point; computing the pullback of π₀ alone misses it.
-
-*Needs:* `overDiagram`, `underDiagram`; `rightMappingSpace`; `rightMappingSpace_isKan`; Mathlib `CategoryTheory.Limits.Cocone`.
+Supplied by `BordismFormalGroups` F6.5, “Coherent model diagrams and stable enhancements”: cones and cocones, limits and colimits with their mapping-space universal properties, pointedness and stability. Stability includes a zero object, finite limits and colimits, and equivalence of the pullback and pushout conditions for squares. These are the definitions used here. (HTT Definition 1.2.13.4 and Lemma 4.2.4.3; HA Definition 1.1.1.9.)
 
 **Weakly contractible simplicial sets and final maps** (`IsWeaklyContractibleSSet`, `IsFinal`). A simplicial set K is weakly contractible when, for every Kan complex Z, the inclusion of the constant maps Z → Fun(K, Z) is a categorical equivalence (for Kan complexes, a homotopy equivalence); equivalently K → Δ[0] is a weak homotopy equivalence. A map f : K → L into a quasicategory is final when, for every vertex y of L, the simplicial set K ×_L L_{y/} is weakly contractible. By the quasicategorical Theorem A this agrees with Joyal's definition through right fibrations, and it holds exactly when, for every quasicategory C, a cocone L ⋆ Δ[0] → C is a colimit cocone if and only if its restriction along f ⋆ Δ[0] is. If f is final, a further map g is final exactly when g ∘ f is. For the nerve of a functor between ordinary categories finality is stronger than Mathlib's `CategoryTheory.Functor.Final`, which asks the comma categories only to be connected. (HTT Definition 4.1.1.1 and Proposition 4.1.1.3, printed p. 223, PDF p. 241; Proposition 4.1.1.8, printed p. 226, PDF p. 244; Theorem 4.1.3.1, printed p. 236, PDF p. 254.)
 
@@ -333,11 +225,11 @@ Provide `IsWeaklyContractibleSSet`, `IsFinal`, `isFinal_iff_colimit` (the colimi
 
 *Proof route.* For Theorem A, factor f through a categorical equivalence followed by an inner fibration, reduce to the left fibrations L_{y/} → L, and compare spaces of sections fibrewise (HTT §4.1.3); the colimit characterization follows because colimit cocones are the initial objects of the cocone quasicategories.
 
-*Needs:* `join`; `overDiagram`, `underDiagram`; `coherentFun`; `IsCategoricalEquivalence`; `IsEnhancedColimit`; Mathlib `SSet.KanComplex`, `CategoryTheory.Functor.Final`.
+*Needs:* E0.1's supplied join; E0.1's supplied cone categories, E0.1's supplied cocone categories; the supplied functor quasicategories; E0.2's supplied categorical equivalences; the supplied colimit universal property; Mathlib `SSet.KanComplex`, `CategoryTheory.Functor.Final`.
 
-**Stable quasicategories** (`IsStable`). A quasicategory is stable when it has a zero object, all finite limits and all finite colimits, and a commutative square is a pullback exactly when it is a pushout. Fibre and cofibre are the pullback over and the pushout from zero, suspension is Σx = cofib(x → 0) and loop is Ωx = fib(0 → x). A functor between stable quasicategories is exact when it preserves finite limits, equivalently finite colimits. This is the stable notion used throughout; the monoidal theory of Layer E5:abstract builds on it. (HA Definition 1.1.1.9, p. 19; Proposition 1.1.3.4, pp. 31–32; Proposition 1.1.4.1, p. 33.)
+**Fibres, cofibres and exactness in stable quasicategories** (`stable_fibre_cofibre`, `stable_suspension_loop`, `stable_exact_iff`). For a stable quasicategory in the supplied sense, construct fibre and cofibre functors by pullback over and pushout from zero. Suspension Σx = cofib(x → 0) and loop Ωx = fib(0 → x) are inverse categorical equivalences. A functor between stable quasicategories preserves finite limits exactly when it preserves finite colimits. (HA Proposition 1.1.3.4, pp. 31–32; Proposition 1.1.4.1, p. 33.)
 
-Provide `IsStable`, `stable_fibre_cofibre` (fibre and cofibre functors with their canonical maps), `stable_suspension_loop` (Σ and Ω are inverse categorical equivalences) and `stable_exact_iff` (finite-limit and finite-colimit preservation agree).
+Provide the fibre and cofibre functors with their canonical maps, the suspension–loop equivalence, and the equivalence of the two exactness conditions.
 
 **Checks.**
 
@@ -345,61 +237,15 @@ Provide `IsStable`, `stable_fibre_cofibre` (fibre and cofibre functors with thei
 - N(Mod_ℤ) is not stable: the pullback square of 0 → ℤ ← 0 has pullback 0, and the square with corners 0, 0, 0, ℤ is a pullback but not a pushout.
 - In the dg nerve of complexes (Section E0.6) ΣK agrees with K[1], including the sign of its differential.
 
-*Needs:* `IsEnhancedLimit`, `IsEnhancedColimit`; `IsCategoricalEquivalence`; Mathlib `CategoryTheory.Limits.HasZeroObject`.
+*Needs:* the supplied limit universal property, the supplied colimit universal property; E0.2's supplied categorical equivalences; Mathlib `CategoryTheory.Limits.HasZeroObject`.
 
 ### E0.5 Coherent nerves, Cat∞ and Spaces
 
-**Coherent nerve of a locally Kan simplicial category** (`simplicialNerve_quasicategory`). Let C be a simplicial category all of whose mapping objects are Kan complexes. Its homotopy-coherent nerve N(C) (Mathlib's `CategoryTheory.SimplicialNerve`) is a quasicategory, and for objects x, y its right mapping space is naturally equivalent to the mapping Kan complex C(x, y). The comparison respects composition in the homotopy category and is natural in simplicial functors. Mapping objects are raised to the universe of the nerve where necessary. Simplicial categories whose mapping objects are not Kan are not covered. (HTT Proposition 1.1.5.10 and its proof, printed pp. 23–24, PDF pp. 41–42; Propositions 2.2.2.7, 2.2.2.9, 2.2.2.13 and Remark 2.2.2.11, printed pp. 76–78, PDF pp. 94–96.)
-
-**Checks.**
-
-- For a discrete ordinary category the comparison recovers its Hom sets.
-- For a one-object simplicial group the comparison retains the whole mapping group, not only its π₀.
-- The terminal simplicial category has nerve Δ[0] and contractible self-mapping space.
-
-*Proof route.* An inner horn in N(C) corresponds to an extension problem along a simplicial thickening; only the mapping cube between the endpoints differs, the punctured-cube inclusion is anodyne, and the Kan hypothesis supplies the filler. The right mapping space is identified with Sing_Q C(x, y) (HTT 2.2.2.13), and the Q-realisation/singular comparison for Kan objects identifies that with C(x, y).
-
-*Needs:* `rightMappingSpace_isKan`; Mathlib `CategoryTheory.SimplicialNerve`.
-
-**The ∞-category of small quasicategories** (`catInfinity`). Cat∞ is the homotopy-coherent nerve of the simplicial category whose objects are the u-small quasicategories and whose mapping object from C to D is the core of Fun(C, D). It is a quasicategory in universe u + 1, and Map_{Cat∞}(C, D) is equivalent to core Fun(C, D): it retains functors and invertible transformations of all orders. (HTT Definition 3.0.0.1 and Remarks 3.0.0.2–3.0.0.5, printed pp. 144–145, PDF pp. 162–163; Proposition 1.1.5.10, PDF p. 41.)
-
-Provide `catInfinity`, `catInfinity_vertices` (vertices are the u-small quasicategories), `catInfinity_mappingComparison` (the comparison with the universe lift of core Fun(C, D)) and `catInfinity_mappingEquiv` (it is an equivalence of Kan complexes). Composition is the strictly associative internal-Hom composition restricted to cores.
-
-**Checks.**
-
-- The mapping space from any C to Δ[0] is contractible.
-- The mapping space out of Δ[1] retains the core of the arrow quasicategory, not only its set of objects.
-- Map_{Cat∞}(Δ[0], Δ[1]) has two components and is not contractible; using the whole of Fun(Δ[0], Δ[1]) instead of its core would give a contractible space.
-
-*Needs:* `enhancedCore`; `coherentFun`; `rightMappingSpace_isKan`; `simplicialNerve_quasicategory`.
-
-**The ∞-category of spaces** (`spaceInfinity`). Spaces_u is the homotopy-coherent nerve of the simplicial category of u-small Kan complexes with internal-Hom mapping objects. For Kan K and L, Map_{Spaces}(K, L) is equivalent to Fun(K, L) in the next universe. The representable functors used for compactness (Section E0.8) take values here. (HTT §1.2.5, printed pp. 34–36, PDF pp. 52–54; Definition 3.0.0.1, printed p. 144, PDF p. 162.)
-
-Provide `spaceInfinity`, `spaceInfinity_vertices`, `spaceInfinity_mappingComparison` and `spaceInfinity_mappingEquiv`. The internal Hom into a Kan complex is Kan, so `simplicialNerve_quasicategory` applies.
-
-**Checks.**
-
-- Map(∗, K) recovers K.
-- For nonempty K, Map(K, ∅) has no vertices.
-- The self-mapping space of the discrete two-point space is the discrete four-point space.
-
-*Needs:* `enhancedCore`; `coherentFun`; `catInfinity`; `simplicialNerve_quasicategory`.
-
-**Space-valued straightening over arbitrary bases** (`spaceStraightening`). For every small quasicategory B, construct right fibrations over B and their equivalence with Fun(Bᵒᵖ, Spaces), and dually left fibrations with Fun(B, Spaces). A right fibration lifts every horn Λⁿᵢ with 0 < i ≤ n; a left fibration lifts every horn with 0 ≤ i < n. The equivalences identify fibres with values and pullback with restriction. Construct the arrow right fibration over C × Cᵒᵖ whose classifying presheaf on Cᵒᵖ × C is Map_C(−, −), its restrictions at fixed targets representing individual objects, and the category of elements of every space-valued presheaf. These constructions use the universe of B and the corresponding spaces, including universe lifts. (HTT §§2.1–2.2, especially Proposition 2.1.4.7 and Theorem 2.2.1.2; §5.1.3, Proposition 5.1.3.1.)
-
-**Checks.**
-
-- Over a point right and left fibrations are Kan complexes, and straightening gives the same space.
-- Over N(A), a discrete presheaf unstraightens to the nerve of its ordinary category of elements.
-- For C = K(ℤ, 2), the fibre of the arrow right fibration at (x, x) is ΩC = K(ℤ, 1), rather than the singleton Hom set in its homotopy category.
-
-*Proof route.* Build the contravariant and covariant model structures on simplicial sets over B, their realization/nerve adjunctions and the space-valued Quillen straightening equivalence of HTT 2.2.1.2. Identify the arrow fibration through the rigidification's mapping complexes, and obtain categories of elements by unstraightening presheaves. This construction uses no category-valued straightening or derived families.
-
-*Needs:* `spaceInfinity`; `coherentFun`; `rightMappingSpace_isKan`; Mathlib `CategoryTheory.SimplicialNerve`, `HomotopicalAlgebra.ModelCategory` and small-object factorizations.
+Supplied by `BordismFormalGroups` F6.5, “Categorical model and functor spaces”, “Unmarked straightening and the categorical model” and “Coherent model diagrams and stable enhancements”: the locally Kan coherent-nerve theorem, Cat∞ with core functor mapping spaces, the Kan-space instance Spaces, and space-valued straightening over arbitrary small bases. Its presheaf construction and Yoneda theorem supply the coherent representables and categories of elements used below. (HTT Proposition 1.1.5.10, Definition 3.0.0.1, Theorem 2.2.1.2 and Proposition 5.1.3.1.)
 
 **Universe control for mapping spaces** (`IsLocallySmall`). A quasicategory C in universe u + 1 is locally u-small when every right mapping space is homotopy equivalent, after universe lift, to a u-small Kan complex. One chooses such small models with comparison equivalences, and the coherent representable Map_C(x, −) then lands in Spaces_u, with its value at y naturally equivalent to the chosen model. The simplices of the original mapping space need not form a u-small type: local smallness concerns homotopy types, not raw simplex sets. (HTT Corollary 5.4.1.5 and Proposition 5.4.1.7, printed pp. 421–423, PDF pp. 439–441.)
 
-Provide `HasSmallSpaceModel` (a Kan complex has a lifted u-small Kan model with comparison maps inverse up to simplicial homotopy), `IsLocallySmall`, `smallMappingSpace` with `smallMappingSpace_compare`, `representableSpaceFunctor` (the coherent Map(x, −) into Spaces_u), `representableSpaceFunctor_vertex` (its value at y is equivalent to Map_C(x, y)) and `representableSpaceFunctor_vertexComparison` (the evaluation comparison, an equivalence natural in y). Construct the coherent representable using `spaceStraightening`, then transport it through the full inclusion of Spaces_u into larger spaces as a whole diagram, never by unrelated vertexwise choices.
+Provide `HasSmallSpaceModel` (a Kan complex has a lifted u-small Kan model with comparison maps inverse up to simplicial homotopy), `IsLocallySmall`, `smallMappingSpace` with `smallMappingSpace_compare`, `representableSpaceFunctor` (the coherent Map(x, −) into Spaces_u), `representableSpaceFunctor_vertex` (its value at y is equivalent to Map_C(x, y)) and `representableSpaceFunctor_vertexComparison` (the evaluation comparison, an equivalence natural in y). Construct the coherent representable using the supplied space-valued straightening, then transport it through the full inclusion of Spaces_u into larger spaces as a whole diagram, never by unrelated vertexwise choices.
 
 **Checks.**
 
@@ -408,7 +254,7 @@ Provide `HasSmallSpaceModel` (a Kan complex has a lifted u-small Kan model with 
 - The nerve of an ordinary category with a Hom type that is not u-small is not locally u-small.
 - A contractible Kan complex whose nondegenerate simplices do not form a u-small type (for example the nerve of the indiscrete groupoid on a larger nonempty type) still has a u-small model, the point; the predicate must accept it.
 
-*Needs:* `rightMappingSpace`; `spaceInfinity`; `spaceStraightening`; Mathlib `Small`.
+*Needs:* E0.1's supplied right mapping spaces; the supplied Spaces; the supplied space-valued straightening; Mathlib `Small`.
 
 ### E0.6 The dg nerve and its comparisons
 
@@ -473,7 +319,7 @@ Outer horns are not filled in general. (HA Proposition 1.3.1.10, p. 82.)
 
 *Proof route.* Restrict the dg simplex equation to simplices constant on their first face: only coherences containing the final vertex survive, and after a sign change these families are exactly chain maps N_∗(ℤΔ[n]) → Map_C(x, y). The normalized-chain description of Dold–Kan (HA 1.2.3.12) then identifies the two sides; the pinned normalization and the composition-order comparison of `DGAInfinity` Layer 0 are part of the statement.
 
-*Needs:* `rightMappingSpace`; `dgNerve`; Mathlib `CategoryTheory.Abelian.DoldKan.equivalence`; `TauCetiRoadmap.DGAInfinity` Layer 0.
+*Needs:* E0.1's supplied right mapping spaces; `dgNerve`; Mathlib `CategoryTheory.Abelian.DoldKan.equivalence`; `TauCetiRoadmap.DGAInfinity` Layer 0.
 
 **Simplicial enrichment of a dg category** (`dgSimplicialCategory`). For a dg category C in homological grading, C_Δ has the same objects and has as mapping simplicial set the underlying simplicial set of DK(τ_{≥0} Map_C(x, y)). Composition is induced by the lax monoidal structures of good truncation and of Dold–Kan (the Alexander–Whitney map), followed by forgetting the abelian group structure. All mapping objects are Kan, since simplicial abelian groups are. (HA Construction 1.3.1.13 and Remark 1.3.1.14, pp. 83–84.)
 
@@ -495,9 +341,9 @@ Provide `dgSimplicialCategory`, `dgSimplicialCategory_hom` and `dgSimplicialCate
 - θ is a bijection on vertices, edges and 2-simplices; the comparison must not be upgraded to an isomorphism in higher dimensions.
 - For the square-zero algebra ℤ ⊕ ℤε with |ε| = −1, both models have self-mapping π₁ = ℤ under the comparison.
 
-*Proof route.* θ sends a coherence f_I to the alternating sum, over permutations of the interior vertices of I, of its values on chains of subsets in the thickening C[Δⁿ]; check faces and degeneracies. θ is the identity on vertices, the source mapping spaces are Sing_Q DK(τ_{≥0} Map) and the target ones are given by `dgNerve_rightMappingSpaceIso`; apply `isCategoricalEquivalence_iff`.
+*Proof route.* θ sends a coherence f_I to the alternating sum, over permutations of the interior vertices of I, of its values on chains of subsets in the thickening C[Δⁿ]; check faces and degeneracies. θ is the identity on vertices, the source mapping spaces are Sing_Q DK(τ_{≥0} Map) and the target ones are given by `dgNerve_rightMappingSpaceIso`; apply E0.2's supplied mapping-space equivalence criterion.
 
-*Needs:* `dgSimplicialCategory`; `dgNerve_rightMappingSpaceIso`; `dgNerve_quasicategory`; `simplicialNerve_quasicategory`; `isCategoricalEquivalence_iff`; Mathlib `CategoryTheory.SimplicialNerve`.
+*Needs:* `dgSimplicialCategory`; `dgNerve_rightMappingSpaceIso`; `dgNerve_quasicategory`; the supplied locally Kan coherent-nerve theorem; E0.2's supplied mapping-space equivalence criterion; Mathlib `CategoryTheory.SimplicialNerve`.
 
 **The stable API and the sign comparison** (`dgNerve_shift_cone_comparison`). Let C be a dg category of cochain complexes closed under zero, shifts and mapping cones (for instance the K-injective model of Layer E1, with these operations transported through replacement). Then N_dg(C) is stable; its suspension is the cochain shift K ↦ K[1] and its cofibre of f is the mapping cone of f, each with the sign conventions of Mathlib (`CategoryTheory.HasShift` on cochain complexes and `CochainComplex.mappingCone`); and the triangulated structure that stability induces on the homotopy category (HA Theorem 1.1.2.14) is the pretriangulated structure Mathlib puts on the homotopy category of complexes. No alternative sign convention is chosen to make the comparison trivial. (HA Definition 1.1.1.9 and Theorem 1.1.2.14, printed pp. 19 and 27.)
 
@@ -509,37 +355,23 @@ Provide `dgSimplicialCategory`, `dgSimplicialCategory_hom` and `dgSimplicialCate
 
 *Proof route.* Construct zero objects, fibres, cofibres and suspension in the dg nerve of complexes through mapping cones; identify Σ with the shift and the cofibre with the cone; compare the induced triangles on the homotopy category with Mathlib's pretriangulated structure, signs included.
 
-*Needs:* `dgNerve_homotopyCategoryIso`; `dgNerve_rightMappingSpaceIso`; `join`; `IsEnhancedLimit`; `IsStable`; Mathlib `CategoryTheory.Pretriangulated`, `CategoryTheory.HasShift`, `CategoryTheory.Limits.HasZeroObject`, `DerivedCategory`.
+*Needs:* `dgNerve_homotopyCategoryIso`; `dgNerve_rightMappingSpaceIso`; E0.1's supplied join; the supplied limit universal property; E0.4's supplied stability predicate; Mathlib `CategoryTheory.Pretriangulated`, `CategoryTheory.HasShift`, `CategoryTheory.Limits.HasZeroObject`, `DerivedCategory`.
 
 ### E0.7 CoCartesian fibrations and restricted straightening
 
-**CoCartesian edges and fibrations** (`IsCoCartesianEdge`, `IsCoCartesianFibration`). Let p : E → B be an inner fibration of quasicategories. An edge e : x → y over a : u → v is p-coCartesian when, for every z, the square formed by Map_E(y, z) → Map_E(x, z) over Map_B(v, pz) → Map_B(u, pz) is a homotopy pullback; equivalently it has the lifting property for outer horns Λⁿ₀ (n ≥ 2) with first edge e. p is a coCartesian fibration when every pair (x, a : px → v) has a coCartesian lift. A coCartesian section is a section B → E sending every edge to a coCartesian edge. The sections form the relative functor quasicategory Fun_B(B, E), whose n-simplices are the maps Δ[n] × B → E over the projection to B; the coCartesian sections are a full subcategory of it, so transformations of sections lie over the identity of B. (HTT Definitions 2.4.1.1 and 2.4.2.1, PDF pp. 133 and 139; Proposition 2.4.4.3, PDF p. 149, dualised; Corollary 3.3.3.2 and the relative mapping object before it, printed pp. 215–216, PDF pp. 233–234.)
+Supplied by `BordismFormalGroups` F6.5, “Unmarked straightening and the categorical model”, “Marked fibrations and Kan extensions” and “Coherent model diagrams and stable enhancements”: Cartesian and coCartesian edges and fibrations, their mapping-space tests, the marked models, and general straightening with base-change and all higher-simplex comparisons. Restrict this single straightening equivalence to nerves of ordinary categories for NΔ, N(ℕ^{op}), N(Fin_∗), small posets and their products with Δ[1]. (HTT §§2.4,3.1–3.3.)
 
-Provide `IsCoCartesianEdge`, `IsCoCartesianFibration`, `coCartesianEdge_comp` (composites of coCartesian edges are coCartesian), `coherentSections` (the relative section quasicategory over B), `coherentSections_simplices` (its n-simplices are the maps Δ[n] × B → E over B, compatibly with all simplicial operators), `coherentSections_inclusion` (its inclusion into Fun(B, E), forgetting the fixed projection) and `coCartesianSections` (the full subcategory on coCartesian sections). The horn condition is the definition; its equivalence with the mapping-space criterion is part of the target.
+**Limits as coCartesian sections** (`coherentSections`, `coCartesianSections`). For a coCartesian fibration E → B classified by B → Cat∞, form the relative section quasicategory Fun_B(B, E); its n-simplices are maps Δ[n] × B → E over the projection to B. Its full subcategory on sections preserving coCartesian edges is the limit of the classified diagram. Transformations remain over the identity of B. (HTT Corollary 3.3.3.2, printed pp. 215–216, PDF pp. 233–234, with its coCartesian dual.)
 
-**Checks.**
-
-- The projection B × C → B is a coCartesian fibration; a lifted edge is coCartesian exactly when its C-component is an equivalence.
-- Over the identity of B every edge is coCartesian.
-- Over a point the coCartesian edges are exactly the equivalences.
-- The non-invertible edge of Δ[1] is not coCartesian over Δ[0].
-- For the nerve of the Grothendieck construction of a functor F : A → Cat, the canonical transport edges are coCartesian.
-- For an interval-classified functor T : C → D, a coCartesian section is an object x of C together with an equivalence T(x) ≃ y in D, not an arbitrary map T(x) → y.
-- For p = id_B the coCartesian sections form Δ[0]. With B = BG for a nontrivial abelian group G, the full subcategory of Fun(B, B) on sections would wrongly retain automorphisms coming from the centre of G.
-
-*Needs:* `rightMappingSpace_isKan`; `IsEnhancedLimit`; `coherentFun`; `fullEnhancedSubcategory`; Mathlib `SSet.InnerFibration`.
-
-**Restricted straightening and sections** (`restrictedStraightening`). Let B be the nerve of a small ordinary category; the cases used later are N(Δ), N(ℕ^{op}), N(Fin_∗), nerves of small posets, the categories of hypercovers and refinements of Layer E2, and products of these with Δ[1]. Straightening and unstraightening identify functors B → Cat∞ with coCartesian fibrations over B. Under this identification the fibre over b is the value at b, transport along an edge is the assigned functor, base change is restriction, and the quasicategory of coCartesian sections is the limit of the classified diagram in Cat∞. Category-valued straightening over arbitrary small bases is `generalStraightening` of Layer E5:abstract; space-valued straightening is `spaceStraightening` of E0.5. (HTT Theorem 3.2.0.1, PDF p. 187; Corollary 3.3.3.2, PDF p. 234, with the coCartesian dual.)
+Provide `coherentSections_simplices` (the relative simplex description), `coherentSections_inclusion` (forgetting the fixed projection), and the limit comparison for `coCartesianSections`.
 
 **Checks.**
 
-- For an ordinary functor A → Cat, unstraightening recovers the nerve of its Grothendieck construction (`CategoryTheory.Grothendieck`).
-- For a constant diagram with value C the coCartesian sections are Fun(B^gpd, C), the full subcategory of Fun(B, C) of functors sending every edge to an equivalence; over an interval this is equivalent to C.
-- For an inverse sequence of quasicategories the section quasicategory retains the coherent transition equivalences; its homotopy category need not be the limit of the homotopy categories.
+- For an ordinary functor A → Cat, the supplied unstraightening is the nerve of its Grothendieck construction; the section comparison retains its transport equivalences.
+- For a constant C-valued diagram, coCartesian sections are Fun(B^gpd, C); over an interval they form C, rather than its whole arrow category.
+- For p = id_B the section category is terminal. If B = BG for a nontrivial abelian G, taking the full subcategory of Fun(B, B) on the identity functor would instead retain the centre of G.
 
-*Proof route.* Construct the relative marked coCartesian model structures over the listed bases (opposite to HTT Proposition 3.1.3.7), their functorial replacements, and the relative coherent realization/nerve adjunction. Prove the Quillen equivalence of HTT Theorem 3.2.0.1 and restrict its derived equivalence to the listed bases. Identify sections with the limit through their fibrewise universal property.
-
-*Needs:* `markedSSetModel`; `IsCoCartesianFibration`; `coherentFun`; `IsEnhancedLimit`; `catInfinity`; Mathlib `CategoryTheory.Grothendieck`.
+*Needs:* `BordismFormalGroups` F6.5 (general straightening and relative functor spaces); `fullEnhancedSubcategory`.
 
 ### E0.8 Filtered diagrams, accessibility and presentability
 
@@ -553,7 +385,7 @@ Provide `IsKappaFiltered`, `HasKappaFilteredColimits` (colimits exist for all sm
 - The empty simplicial set is not κ-filtered.
 - The nerve of the discrete category on two objects is not ω-filtered.
 
-*Needs:* `join`; Mathlib `Cardinal.IsRegular`.
+*Needs:* E0.1's supplied join; Mathlib `Cardinal.IsRegular`.
 
 **Accessible and presentable quasicategories** (`IsPresentable`). Fix universes with C in u + 1 and locally u-small, and an infinite regular cardinal κ. An object c is κ-compact when C admits κ-filtered colimits and Map(c, −) preserves them. C is κ-accessible when it admits κ-filtered colimits and is generated under them by a u-small full subcategory of κ-compact objects; a functor is accessible when it preserves κ-filtered colimits for some regular κ. C is presentable when it is κ-accessible for some κ and admits all u-small colimits. Compactness is a condition on mapping spaces, not on homotopy classes; presentable never means ω-compactly generated. The presheaf presentation theorem is proved in this section; Layer E5:presentability constructs PrL and PrR using it. (HTT Definition 5.3.4.5, PDF p. 414; Definition 5.4.2.1 and Proposition 5.4.2.2, PDF pp. 441–442; Definition 5.5.0.1, PDF p. 474.)
 
@@ -566,9 +398,9 @@ Provide `IsKappaCompact`, `IsKappaAccessible`, `IsAccessible`, `IsAccessibleFunc
 - Δ[0] is presentable and its unique object is compact.
 - (With Layer E1.) A finite free R-module in degree zero is compact in D(R), while ⊕_{n∈ℕ} ℤ[0] is not compact in D(ℤ): its identity does not factor through a finite subsum.
 
-*Needs:* `IsEnhancedLimit`, `IsEnhancedColimit`; `rightMappingSpace_isKan`; `IsLocallySmall`; `IsKappaFiltered`.
+*Needs:* the supplied limit universal property, the supplied colimit universal property; the supplied Kan property of right mapping spaces; `IsLocallySmall`; `IsKappaFiltered`.
 
-**Coherent Yoneda and presheaf presentations** (`enhancedYoneda`, `enhancedYoneda_fullyFaithful`, `presheaf_isPresentable`, `isPresentable_iff_accessibleLocalization`). For small C, construct y : C → Fun(Cᵒᵖ, Spaces) and prove Map(yc, F) ≃ F(c), naturally in c and F; hence y is fully faithful. The presheaf category is presentable. A locally small quasicategory with all small colimits is accessible exactly when it is an accessible reflective localization of such a presheaf category. Reflective localization here means an adjunction with fully faithful right adjoint. (HTT §5.1.3, Proposition 5.1.3.1; Theorem 5.5.1.1, printed pp. 457–460.)
+**Presentability of presheaves and their accessible localizations** (`presheaf_isPresentable`, `isPresentable_iff_accessibleLocalization`). For small C, use the supplied space-valued presheaf category and fully faithful Yoneda embedding, with Map(yc, F) ≃ F(c). Prove that this category is presentable, and that a locally small quasicategory with all small colimits is accessible exactly when it is an accessible reflective localization of such a presheaf category. Reflective localization means an adjunction with fully faithful right adjoint. (HTT Theorem 5.5.1.1, printed pp. 457–460.)
 
 **Checks.**
 
@@ -576,19 +408,19 @@ Provide `IsKappaCompact`, `IsKappaAccessible`, `IsAccessible`, `IsAccessibleFunc
 - For C = N(A), evaluation at a representable recovers the ordinary Yoneda bijection on discrete presheaves.
 - The presentation by κ-compact generators uses κ-small colimits for a sufficiently large κ; it does not assert that every presentable category is compactly generated at ω.
 
-*Proof route.* Construct Yoneda and its mapping-space formula from the right fibration of arrows. For a small family G of κ-compact generators, extend G → C to presheaves by taking the colimit over each presheaf's category of elements. The mapping-space formula makes this extension left adjoint to restricted Yoneda. The κ-filtered presentations of objects make restricted Yoneda fully faithful. Enlarge κ so the generating family is closed under κ-small colimits; the cardinal argument in HTT 5.5.1.1 proves accessibility of this reflector and presentability of presheaves. This construction uses the assumed colimits directly.
+*Proof route.* Use the supplied Yoneda embedding and its mapping-space formula. For a small family G of κ-compact generators, extend G → C to presheaves by taking the colimit over each presheaf's category of elements. The mapping-space formula makes this extension left adjoint to restricted Yoneda. The κ-filtered presentations of objects make restricted Yoneda fully faithful. Enlarge κ so the generating family is closed under κ-small colimits; the cardinal argument in HTT 5.5.1.1 proves accessibility of this reflector and presentability of presheaves. This construction uses the assumed colimits directly.
 
-*Needs:* `IsPresentable`; `IsKappaAccessible`; `coherentFun`; `spaceInfinity`; `spaceStraightening`; `IsEnhancedColimit`.
+*Needs:* `IsPresentable`; `IsKappaAccessible`; the supplied functor quasicategories; the supplied Spaces; the supplied space-valued straightening; the supplied colimit universal property.
 
 ### Examples
 
-- The one-object dg algebras ℤ and ℤ ⊕ ℤε (ε in cohomological degree −1, ε² = dε = 0) have the same homotopy category but different dg nerves: the second has π₁ = ℤ in its self-mapping space. This single example tests `IsCategoricalEquivalence`, `dgNerve_rightMappingSpaceIso` and the convention that negative cohomology appears as positive homotopy.
+- The one-object dg algebras ℤ and ℤ ⊕ ℤε (ε in cohomological degree −1, ε² = dε = 0) have the same homotopy category but different dg nerves: the second has π₁ = ℤ in its self-mapping space. This example tests E0.2's supplied categorical equivalences, `dgNerve_rightMappingSpaceIso` and the convention that negative cohomology appears as positive homotopy.
 - In the dg nerve of cochain complexes of abelian groups, ΣA = A[1] sits in degree −1 and the cofibre of p : ℤ → ℤ is the two-term complex [ℤ → ℤ] in degrees −1 and 0, quasi-isomorphic to ℤ/p[0].
 - Map_{Cat∞}(Δ[0], Δ[1]) has two components while Fun(Δ[0], Δ[1]) is contractible; the core in the definition of Cat∞ is what separates them.
 
 ### Dependencies
 
-Mathlib (simplicial sets, quasicategories, Kan complexes, the homotopy bicategory of quasicategories, the simplicial nerve, Dold–Kan, pretriangulated categories and shifts); `TauCetiRoadmap.DGAInfinity` Layers 0 and 1. No other layer of this roadmap.
+`BordismFormalGroups` F6.5, generic sub-lanes identified in E0.1–E0.7; Mathlib (simplicial sets, quasicategories, Kan complexes, the homotopy bicategory, simplicial nerve, Dold–Kan, pretriangulated categories and shifts); `TauCetiRoadmap.DGAInfinity` Layers 0 and 1.
 
 ## Layer 0: Ringed-site enhancement and derived functors
 
@@ -604,7 +436,7 @@ The generic quasicategorical foundations of E0 precede these ringed-site constru
 - A sheaf concentrated in degree zero has that sheaf as H⁰ and zero other cohomology; its shift obeys the standing cohomological convention.
 - A quasi-isomorphism gives an equivalence of enhanced objects; an acyclic complex gives the zero object.
 
-*Needs:* Mathlib's sheaf, Grothendieck abelian and derived-category APIs; Section 0.2 for K-injectives; E0.3 (`IsDwyerKanLocalization`), E0.4 (`IsStable`, enhanced limits and colimits), E0.6 (`dgNerve`, `dgNerve_quasicategory`, `dgNerve_homotopyCategoryIso`, `dgNerve_rightMappingSpaceIso`, `dgNerve_shift_cone_comparison`) and E0.8 (`IsPresentable`, accessibility and cardinal conventions). These generic foundations precede the ringed-site construction here; its quasicategorical realization and presentability comparisons in E1.3 follow this construction. Sections 0.1–0.2 are joint: replacements are constructed in complexes before the localization.
+*Needs:* Mathlib's sheaf, Grothendieck abelian and derived-category APIs; Section 0.2 for K-injectives; E0.3 (the supplied localization universal property), E0.4 (the supplied stability predicate, enhanced limits and colimits), E0.6 (`dgNerve`, `dgNerve_quasicategory`, `dgNerve_homotopyCategoryIso`, `dgNerve_rightMappingSpaceIso`, `dgNerve_shift_cone_comparison`) and E0.8 (`IsPresentable`, accessibility and cardinal conventions). These generic foundations precede the ringed-site construction here; its quasicategorical realization and presentability comparisons in E1.3 follow this construction. Sections 0.1–0.2 are joint: replacements are constructed in complexes before the localization.
 
 ### 0.2 Replacements on ringed sites
 
@@ -718,7 +550,7 @@ Section 0.2, `ClassicalDerived.replacements`, supplies functorial K-injective re
 
 The export “DG comparison for complexes of module sheaves” is `sheafComplexDG` together with `replacementDGComparison` and `enhancedDerived`: for any small ringed site their mapping spaces are the Dold–Kan truncations of the supplied derived Hom complexes, without boundedness or enough-points hypotheses. The composite-derived-functor spectral sequence for bounded-below sheaf functors is supplied by SchemeAndStackFoundations §2.2, `leray_spectral_sequence`, under its acyclicity hypotheses.
 
-**The enhanced derived category** (`enhancedDerived`). Realize `ClassicalDerived.enhancedCategory` of Section 0.1 in Mathlib's quasicategories by an equivalence with the dg nerve of its supplied K-injective model. For a Grothendieck abelian category A, the same comparison uses the injective model of HA §1.3.5; for a ringed site use A = `SheafOfModules O`, allowing noncommutative O for this additive comparison. Its homotopy category is equivalent to Mathlib's `DerivedCategory A`, through the localization at quasi-isomorphisms, sending a complex to its K-injective replacement; more precisely, the functor from the nerve of complexes to D∞(A) is a Dwyer–Kan localization at the quasi-isomorphisms (`IsDwyerKanLocalization`; HA Proposition 1.3.5.15). Map(K, L) is the Dold–Kan image of the good connective truncation of the derived Hom complex, so π_i Map(K, L) = H^{−i} RHom(K, L) for i ≥ 0. D∞(A) is stable, with suspension and cofibres given by Mathlib's shift and mapping cone. (HA Definition 1.3.5.8 and Propositions 1.3.5.9 and 1.3.5.15, pp. 124–127.)
+**The enhanced derived category** (`enhancedDerived`). Realize `ClassicalDerived.enhancedCategory` of Section 0.1 in Mathlib's quasicategories by an equivalence with the dg nerve of its supplied K-injective model. For a Grothendieck abelian category A, the same comparison uses the injective model of HA §1.3.5; for a ringed site use A = `SheafOfModules O`, allowing noncommutative O for this additive comparison. Its homotopy category is equivalent to Mathlib's `DerivedCategory A`, through the localization at quasi-isomorphisms, sending a complex to its K-injective replacement; more precisely, the functor from the nerve of complexes to D∞(A) is a Dwyer–Kan localization at the quasi-isomorphisms (the supplied localization universal property; HA Proposition 1.3.5.15). Map(K, L) is the Dold–Kan image of the good connective truncation of the derived Hom complex, so π_i Map(K, L) = H^{−i} RHom(K, L) for i ≥ 0. D∞(A) is stable, with suspension and cofibres given by Mathlib's shift and mapping cone. (HA Definition 1.3.5.8 and Propositions 1.3.5.9 and 1.3.5.15, pp. 124–127.)
 
 Provide `enhancedDerived` (the equivalence with the supplied enhancement), `enhancedDerived.homotopyCategory` (the equivalence with `DerivedCategory A`), `enhancedDerived.mappingSpaces` (the Dold–Kan formula and π_i = H^{−i} RHom), `enhancedDerived.isStable` (with the sign comparison of `dgNerve_shift_cone_comparison`) and `enhancedDerived.detection` (a map of complexes becomes an equivalence exactly when it is a quasi-isomorphism, and equivalences are detected by all integer cohomology objects, as in Mathlib's `DerivedCategory.isIso_iff`).
 
@@ -730,7 +562,7 @@ Provide `enhancedDerived` (the equivalence with the supplied enhancement), `enha
 
 *Proof route.* Compare the nerve of complexes localized at quasi-isomorphisms with the dg nerve of fibrant complexes: K-injective replacement gives essential surjectivity and the Hom-acyclicity of K-injectives gives full faithfulness on mapping spaces. Identify the ordinary localization with Mathlib's `DerivedCategory`; zero objects, cones and shifts give stability.
 
-*Needs:* `replacementDGComparison`; Sections 0.1–0.2 (`ClassicalDerived.enhancedCategory`, K-injective replacement); `sheafComplexDG`; `dgNerve`; `IsDwyerKanLocalization`; `dgNerve_rightMappingSpaceIso`; `dgNerve_shift_cone_comparison`; `IsStable`; Mathlib `DerivedCategory`, `DerivedCategory.isIso_iff`, `DerivedCategory.isIso_Q_map_iff_quasiIso`.
+*Needs:* `replacementDGComparison`; Sections 0.1–0.2 (`ClassicalDerived.enhancedCategory`, K-injective replacement); `sheafComplexDG`; `dgNerve`; the supplied localization universal property; `dgNerve_rightMappingSpaceIso`; `dgNerve_shift_cone_comparison`; E0.4's supplied stability predicate; Mathlib `DerivedCategory`, `DerivedCategory.isIso_iff`, `DerivedCategory.isIso_Q_map_iff_quasiIso`.
 
 **Presentability comparison for unbounded derived sheaves** (`enhancedDerived_isPresentable`). Transport presentability and filtered-colimit compatibility from Section 0.1 across `enhancedDerived`; identify its generating family and accessibility cardinal in the quasicategorical realization. The localization functor from complexes inverts exactly the quasi-isomorphisms and is accessible. Filtered colimits in D∞(O) are computed by degreewise filtered colimits of complexes, and cohomology commutes with them. The shifts of the slice-free modules form a small family detecting zero objects, which becomes a family of κ-compact generators for a sufficiently large regular κ. This asserts accessibility, not compact generation: on a general site the generators need not be ω-compact, and D∞(O) need not be left complete. (HA Proposition 1.3.5.21 and Warning 1.3.5.22, pp. 128–130.)
 
@@ -743,7 +575,7 @@ Provide `enhancedDerived` (the equivalence with the supplied enhancement), `enha
 
 *Proof route.* Identify D∞(O) with the underlying ∞-category of the combinatorial injective model; its small generating cofibrations give an accessibility cardinal. AB5 identifies filtered homotopy colimits with degreewise colimits. The slice-free generators and their shifts detect cohomology; choose κ so that their derived mapping functors preserve κ-filtered colimits.
 
-*Needs:* `enhancedDerived`; Section 0.2 (K-injective replacement); `sliceFree_isSeparating`; `IsDwyerKanLocalization`; `IsPresentable`; Mathlib `CategoryTheory.IsGrothendieckAbelian`.
+*Needs:* `enhancedDerived`; Section 0.2 (K-injective replacement); `sliceFree_isSeparating`; the supplied localization universal property; `IsPresentable`; Mathlib `CategoryTheory.IsGrothendieckAbelian`.
 
 ### E1.4 Tensor, internal Hom, pullback, pushforward and change of coefficients
 
@@ -760,7 +592,7 @@ Provide the comparison `derivedTensor`, with `derivedTensor_map` (functoriality 
 
 *Proof route.* Tensoring a quasi-isomorphism between K-flat complexes with a K-flat complex gives a quasi-isomorphism, so the total tensor product of K-flat complexes descends to the localization at quasi-isomorphisms, which is D∞(O) because every complex has a K-flat replacement; compare with the K-injective model through `enhancedDerived`. The bifunctor comparison uses ordinary Dwyer–Kan descent in each variable and requires no points of the topos. Layer E5:abstract identifies the higher symmetric monoidal coherences by monoidal localization.
 
-*Needs:* Section 0.2 (`ClassicalDerived.replacements`, K-flat API); `enhancedDerived`; `enhancedDerived_isPresentable`; `restrictedStraightening`; Mathlib `CategoryTheory.MonoidalCategory`, `HomologicalComplex.monoidalCategory`.
+*Needs:* Section 0.2 (`ClassicalDerived.replacements`, K-flat API); `enhancedDerived`; `enhancedDerived_isPresentable`; E0.7's supplied straightening; Mathlib `CategoryTheory.MonoidalCategory`, `HomologicalComplex.monoidalCategory`.
 
 **Derived internal Hom** (`derivedInternalHom`). For K, L in D∞(O), identify the internal Hom of the supplied `ClassicalDerived.tensorHom` with RℋOM_O(K, L) under `enhancedDerived`; it is right adjoint in L to − ⊗ᴸ K, with a natural equivalence Map(M ⊗ᴸ K, L) ≃ Map(M, RℋOM(K, L)). It is computed by the sheaf Hom complex into a K-injective replacement of L; its global sections give the derived Hom complex of `enhancedDerived.mappingSpaces`, and restriction to a slice commutes with it. On a scheme its homotopy-category shadow is the internal Hom of `TauCetiRoadmap.SchemeAndStackFoundations` §2.18. (HTT Proposition 5.5.2.2 and Corollary 5.5.2.9, PDF pp. 481–484; ECD Lemma 17.8, p. 100.)
 
@@ -786,7 +618,7 @@ Provide `enhancedPullback`, `enhancedPushforward`, `enhancedPullPush_mapEquiv`, 
 - For the point topos and ℤ → ℤ/p, pullback is derived extension of scalars and pushforward is restriction of scalars.
 - Pulling back (ℤ/p)[0] along ℤ → ℤ/p gives cohomology in degrees −1 and 0; the underived extension of scalars is not enough.
 
-*Needs:* Section 0.2 (K-flat replacement); Section 0.2 (K-injective replacement); `derivedTensor`; `coherentFun`; Mathlib `SheafOfModules`, `SheafOfModules.pushforward`, `SheafOfModules.pullback`.
+*Needs:* Section 0.2 (K-flat replacement); Section 0.2 (K-injective replacement); `derivedTensor`; the supplied functor quasicategories; Mathlib `SheafOfModules`, `SheafOfModules.pushforward`, `SheafOfModules.pullback`.
 
 **Change of coefficients and the action of finite-cell coefficients** (`enhancedCoeffChange`). For a map of sheaves of commutative rings R → S on one topos, derived extension of scalars − ⊗ᴸ_R S is left adjoint to restriction of scalars, with coherent identities and composites. The D∞(R)-action on its module categories restricts to thick(R), the finite-cell coefficient subcategory: the smallest stable idempotent-complete subcategory containing R. For an exact functor with coherent R-linear structure, compatibility with this action follows from finite sums, cones, shifts and retracts. Locally perfect sheaves are instead locally represented by bounded complexes of finite locally free modules; they need not belong to thick(R), and coefficient-linearity alone does not imply compatibility with their action. For an ordinary commutative ring A, Perf(A) denotes the ordinary-ring perfect complexes acting externally by constant coefficients, as in E4.5. (Liu–Zheng Lemma 3.2.8, pp. 87–88; Stacks, Cohomology on Sites, Definition 21.47.1, tag 08G5, in §21.47, tag 08G4.)
 
@@ -800,7 +632,7 @@ Provide `enhancedCoeffChange`, `enhancedCoeffChange_comp` ((K ⊗ᴸ_R S) ⊗ᴸ
 - In the topos of C₂-sets with constant coefficients ℚ, the sign representation P is locally free of rank one, trivialized by C₂ → 1, and P ⊗ P ≃ ℚ. Under ℚ[C₂] ≃ ℚ × ℚ, thick(ℚ_triv) lies in the trivial-character factor, so P is locally perfect but lies outside it.
 - The endofunctor F taking C₂-invariants with trivial action on its output is exact and ℚ-linear, but F(ℚ_triv ⊗ P) = 0 while F(ℚ_triv) ⊗ P ≃ P. Thus its finite-cell coefficient compatibility does not extend to all locally perfect sheaves.
 
-*Needs:* `enhancedPullback`; `derivedTensor`; `IsStable`; Mathlib `SheafOfModules.restrictScalars`.
+*Needs:* `enhancedPullback`; `derivedTensor`; E0.4's supplied stability predicate; Mathlib `SheafOfModules.restrictScalars`.
 
 ### E1.F3.H1 Point-site derived-Hom comparison
 
@@ -1152,13 +984,13 @@ Layer E0 and Sections 0.1–0.4. Mathlib (sheaves of modules and their Grothendi
 
 ## Layer E3: Coherent diagrams, Kan extensions and adjoints
 
-This layer comes after E1 and before E2 in the build: it uses only Layers E0 and E1, and the sheaves of spaces of Layer E2 use its accessible localizations. It supplies relative left Kan extension along full inclusions, finality of a terminal fibre and the fibrewise criterion for preserving coCartesian edges; space-valued representability, the adjoint functor theorem, accessible localizations and coreflections; limits of presentable categories along left adjoints for the diagram shapes of restricted straightening; the stable criteria for colimit preservation; coherent diagrams of derived categories over diagrams of ringed topoi with their point-free comparison for coefficient towers; coherent mates and Beck–Chevalley transformations; and the compatibility of adjoints with changes of cardinal cutoff.
+This layer uses E0 and E1 together with the absolute Kan extensions, adjunction pairings and accessible presheaf localizations supplied by BordismFormalGroups F6.5. It adds the relative lifting theorem for left Kan extensions along full inclusions, finality of a terminal fibre, presentable-category representability and adjoint criteria, compact-generation criteria, and the ringed-diagram and coefficient-tower comparisons with coherent mates.
 
 ### E3.1 Kan extensions and finality
 
 **Relative left Kan extension along a full inclusion** (`leftKanExtension_restrict_trivialFibration`). Let i : C₀ → C be the inclusion of a full subcategory of a quasicategory, let p : D → B be a categorical fibration, and fix a functor C → B. A lift F₀ : C₀ → D of the composite extends by relative left Kan extension when, for every c ∈ C, the diagram (C₀)_{/c} → D admits a p-colimit over the given image of the cone point. Then restriction, from the full subcategory of Fun_B(C, D) of relative left Kan extensions to the full subcategory of Fun_B(C₀, D) of extendible F₀, is a trivial Kan fibration. The value at c is that relative colimit, and the space of extensions of a fixed F₀ is contractible. Inner horn lifting alone does not give the trivial fibration; the equivalence-lifting part of a categorical fibration is used. (HTT Definition 4.3.2.2, PDF p. 289; Lemmas 4.3.2.12–4.3.2.13, Proposition 4.3.2.15, Corollary 4.3.2.16 and Proposition 4.3.2.17, PDF pp. 297–303.)
 
-Provide `IsCategoricalFibration` (inner horn lifting together with lifting of every equivalence in B out of the image of a vertex to an equivalence in D) and `IsEnhancedLeftKanExtension` (for a transformation η : F₀ → i^∗F, precomposition with η identifies Map(F, H) with Map(F₀, i^∗H) for every H).
+Use the categorical fibrations supplied by BordismFormalGroups F6.5: inner fibrations lifting equivalence edges with specified source. The relative left Kan extension condition is the pointwise p-colimit condition above; its absolute specialization has the supplied functor-space universal property.
 
 **Checks.**
 
@@ -1170,7 +1002,7 @@ Provide `IsCategoricalFibration` (inner horn lifting together with lifting of ev
 
 *Proof route.* Build the restriction map on relative functor categories and extend over simplices one at a time, using the prescribed slice colimits and their contractible spaces of choices; HTT 4.3.2.12–4.3.2.13 give the boundary lifting and identify the image.
 
-*Needs:* `overDiagram`, `underDiagram`; `IsEnhancedLimit`, `IsEnhancedColimit`; `coherentFun`; `restrictedStraightening`; Mathlib `CategoryTheory.Functor.IsLeftKanExtension`.
+*Needs:* E0.1's supplied cone categories, E0.1's supplied cocone categories; the supplied limit universal property, the supplied colimit universal property; the supplied functor quasicategories; E0.7's supplied straightening; Mathlib `CategoryTheory.Functor.IsLeftKanExtension`.
 
 **Finality of a terminal fibre** (`final_fibre_inclusion`). If p : E → B is a coCartesian fibration of quasicategories and b is a terminal object of B, the inclusion of the fibre E_b → E is final. More generally E_b → E ×_B B_{/b} is final. Hence the colimit of a diagram on the latter total category can be computed on E_b, whenever either colimit exists. (HTT Theorem 4.1.3.1, printed p. 236, PDF p. 254, the quasicategorical Theorem A, applied to the comma categories, which have initial objects given by coCartesian transport; Lemma 4.1.3.2 on the same page is the companion statement that a Cartesian fibration with weakly contractible fibres is cofinal.)
 
@@ -1182,19 +1014,9 @@ Provide `IsCategoricalFibration` (inner horn lifting together with lifting of ev
 
 *Proof route.* For x over u, transport x along u → b by a coCartesian edge; this gives an initial object of x/E_b, unique up to contractible choice, and the quasicategorical Theorem A applies. Replace B by B_{/b} for the general statement.
 
-*Needs:* `IsFinal`; `IsWeaklyContractibleSSet`; `IsCoCartesianFibration`; `overDiagram`; `IsEnhancedLimit`.
+*Needs:* `IsFinal`; `IsWeaklyContractibleSSet`; the supplied coCartesian fibrations; E0.1's supplied cone categories; the supplied limit universal property.
 
-**The fibrewise criterion for preserving coCartesian edges** (`preservesCoCartesianEdges_iff`). Let E, E′ → B be coCartesian fibrations of quasicategories and F : E → E′ a functor over B. Then F preserves coCartesian edges if and only if, for every a : b → c in B and x ∈ E_b, the comparison a′_! F_b(x) → F_c(a_! x) is an equivalence. Such functors correspond under straightening to coherent natural transformations of the classified diagrams. (HTT Proposition 2.4.4.3, PDF p. 149; §2.4.5 and Theorem 3.2.0.1, PDF pp. 150–155 and 187.)
-
-**Checks.**
-
-- For constant product fibrations B × C → B and B × C′ → B, a fibrewise functor preserves transport edges exactly when its transport comparisons are equivalences.
-- A fibrewise functor whose comparison maps are not invertible fails the criterion and does not straighten to a natural transformation.
-- For F = id_E, all transport comparisons are identities, including over nonidentity base arrows.
-
-*Proof route.* Factor the image of a coCartesian lift through a chosen coCartesian lift in E′; the image is coCartesian exactly when the remaining vertical edge is an equivalence. Contractibility of the spaces of lifts makes this independent of choices.
-
-*Needs:* `IsCoCartesianEdge`, `IsCoCartesianFibration`; `restrictedStraightening`; `IsCategoricalEquivalence`.
+The fibrewise transport criterion is supplied by `BordismFormalGroups` F6.5, “Marked fibrations and Kan extensions”: a functor E → E′ over B preserves coCartesian edges exactly when each comparison a′_!F_b(x) → F_c(a_!x) is an equivalence. It is used unchanged for the ringed diagrams of E3.4. (HTT Proposition 2.4.4.3.)
 
 ### E3.2 Representability, adjoints and localizations
 
@@ -1208,7 +1030,7 @@ Provide `IsCategoricalFibration` (inner horn lifting together with lifting of ev
 
 *Proof route.* Present C as an accessible localization of a presheaf category; a limit-preserving functor extends to a representable presheaf whose representing object is local, hence lies in C; full faithfulness of Yoneda gives contractible uniqueness.
 
-*Needs:* `IsPresentable`; `enhancedYoneda_fullyFaithful`; `presheaf_isPresentable`; `isPresentable_iff_accessibleLocalization`; `coherentFun`; `IsEnhancedLimit`; `spaceInfinity`.
+*Needs:* `IsPresentable`; the supplied fully faithful Yoneda embedding; `presheaf_isPresentable`; `isPresentable_iff_accessibleLocalization`; the supplied functor quasicategories; the supplied limit universal property; the supplied Spaces.
 
 **The adjoint functor theorem** (`adjointFunctorTheorem`). Let F : C → D be a functor between presentable quasicategories. F has a right adjoint if and only if it preserves small colimits; F has a left adjoint if and only if it is accessible and preserves small limits. The adjunction is space-valued, Map_D(Fc, d) ≃ Map_C(c, Gd), and unique up to contractible choice. In particular, a full presentable subcategory whose inclusion preserves colimits has a right adjoint to the inclusion. (HTT Corollary 5.5.2.9, PDF p. 484.)
 
@@ -1220,7 +1042,7 @@ Provide `IsCategoricalFibration` (inner horn lifting together with lifting of ev
 
 *Proof route.* For d ∈ D represent c ↦ Map_D(Fc, d) to obtain Gd, and assemble G and the adjunction by the coherent Yoneda embedding; for a left adjoint, accessibility reduces the solution-set argument to one regular cardinal. Yoneda gives uniqueness and the triangle coherences.
 
-*Needs:* `representable_iff_preservesLimits`; `IsPresentable`; `coherentFun`; `enhancedDerived_isPresentable` (for the étale check only).
+*Needs:* `representable_iff_preservesLimits`; `IsPresentable`; the supplied functor quasicategories; `enhancedDerived_isPresentable` (for the étale check only).
 
 **Accessible localization and coreflection** (`accessibleLocalization`, `presentableCoreflector`). Let C be presentable and S a small set of morphisms. An object x is S-local when Map(v, x) → Map(u, x) is an equivalence for every s : u → v in S. The full subcategory C_S of S-local objects is presentable and its inclusion has an accessible left adjoint L_S. Separately, an accessible full presentable subcategory A ⊆ C closed under small colimits has a right adjoint G to its inclusion. The two directions are stated apart. (HTT Proposition 5.5.4.15, PDF pp. 500–501; Corollary 5.5.2.9, PDF p. 484.)
 
@@ -1232,9 +1054,9 @@ Provide `IsLocalObject`, `accessibleLocalization` with its unit, `localization_m
 - In a stable C whose generators g detect zero objects, localizing at all maps g → 0 (and their shifts) gives the zero category.
 - For a colimit-closed presentable A ⊆ C, Map_C(i a, c) ≃ Map_A(a, Gc); exchanging the two variables gives the wrong adjoint.
 
-*Needs:* `adjointFunctorTheorem`; `rightMappingSpace_isKan`; `IsPresentable`.
+*Needs:* `adjointFunctorTheorem`; the supplied Kan property of right mapping spaces; `IsPresentable`.
 
-**Limits of presentable categories along left adjoints, for restricted shapes** (`presentable_limit_restricted`). Let K be the nerve of a small ordinary category (the bases of `restrictedStraightening`; for instance a discrete category, a pullback shape, N(ℕ^{op}), NΔ or a small poset), and let K → Cat∞ be a diagram of presentable quasicategories and colimit-preserving functors. Its limit, computed as the quasicategory of coCartesian sections, is presentable; the projections preserve colimits and colimits in the limit are computed componentwise. In particular, a coherent inverse limit of D∞(X, R/I^n) along derived scalar extension is presentable. Diagrams indexed by arbitrary small ∞-categories, and stability of the limit, are `presentable_limit` of Layer E5:presentability. (HTT Propositions 5.5.3.12–5.5.3.13 and Corollary 5.5.3.14, PDF pp. 487–488.)
+**Limits of presentable categories along left adjoints, for restricted shapes** (`presentable_limit_restricted`). Let K be the nerve of a small ordinary category (the bases of E0.7's supplied straightening; for instance a discrete category, a pullback shape, N(ℕ^{op}), NΔ or a small poset), and let K → Cat∞ be a diagram of presentable quasicategories and colimit-preserving functors. Its limit, computed as the quasicategory of coCartesian sections, is presentable; the projections preserve colimits and colimits in the limit are computed componentwise. In particular, a coherent inverse limit of D∞(X, R/I^n) along derived scalar extension is presentable. Diagrams indexed by arbitrary small ∞-categories, and stability of the limit, are `presentable_limit` of Layer E5:presentability. (HTT Propositions 5.5.3.12–5.5.3.13 and Corollary 5.5.3.14, PDF pp. 487–488.)
 
 **Checks.**
 
@@ -1244,7 +1066,7 @@ Provide `IsLocalObject`, `accessibleLocalization` with its unit, `localization_m
 
 *Proof route.* For a pullback lift objects together with an equivalence of their images, choose a common accessibility cardinal and compute colimits componentwise; build the other shapes from products and pullbacks through the section description.
 
-*Needs:* `IsPresentable`; `restrictedStraightening`; `adjointFunctorTheorem`.
+*Needs:* `IsPresentable`; E0.7's supplied straightening; `adjointFunctorTheorem`.
 
 ### E3.3 Stable colimits and compact generation
 
@@ -1258,7 +1080,7 @@ Provide `IsLocalObject`, `accessibleLocalization` with its unit, `localization_m
 
 *Proof route.* A sequential colimit is the cofibre of 1 − shift on a coproduct; a general colimit is the geometric realization of its simplicial replacement, which is a sequential colimit of finite skeleta. Exactness handles the finite pieces and cofibres; coproduct preservation handles the sums.
 
-*Needs:* `IsStable`; `IsEnhancedColimit`; `coherentFun`.
+*Needs:* E0.4's supplied stability predicate; the supplied colimit universal property; the supplied functor quasicategories.
 
 **The compact-generation criterion for right adjoints** (`rightAdjoint_preservesCoproducts_iff`). Let F : C ⇄ D : G be an adjunction of stable categories with coproducts, with C generated by a small set of compact objects whose shifts detect zero. If F sends the compact generators to compact objects, then G preserves coproducts; conversely, if G preserves coproducts, F sends every compact object to a compact object. Compact generation of C is the detecting hypothesis; presentability alone does not replace it. (Fargues–Scholze Lemma IV.2.20, p. 123, for the first direction on homotopy categories; HTT Proposition 5.5.7.2, printed p. 501, PDF p. 519, for both directions in the accessible form; HA Proposition 1.4.4.1(3), p. 154, for compactness tested against coproducts in a stable category; ECD Proposition 23.7 and its use, pp. 144–145.)
 
@@ -1270,7 +1092,7 @@ Provide `IsLocalObject`, `accessibleLocalization` with its unit, `localization_m
 
 *Proof route.* For each shift of a compact generator c compare Map_C(c, ⊕ G y_i) with Map_D(Fc, ⊕ y_i) using the adjunction and compactness; generator detection shows ⊕ G y_i → G(⊕ y_i) is an equivalence. The converse uses the adjunction on any compact c.
 
-*Needs:* `IsPresentable`; `IsStable`; `exact_preservesColimits_iff_coproducts`; `adjointFunctorTheorem`.
+*Needs:* `IsPresentable`; E0.4's supplied stability predicate; `exact_preservesColimits_iff_coproducts`; `adjointFunctorTheorem`.
 
 ### E3.4 Ringed diagrams, coefficient towers and mates
 
@@ -1286,7 +1108,7 @@ Provide `ringedDiagramDerived`, `ringedDiagram_eval` (evaluation at ξ and at ea
 
 *Proof route.* Mark quasi-isomorphisms among dg-flat complexes before taking the multisimplicial nerve; pullback preserves marked maps; relative localization and straightening assemble the coherent diagram; compare fibrewise with the K-injective enhancement.
 
-*Needs:* `enhancedPullback`; Section 0.2 (K-flat replacement); `IsDwyerKanLocalization`; `restrictedStraightening`; `coherentFun`.
+*Needs:* `enhancedPullback`; Section 0.2 (K-flat replacement); the supplied localization universal property; E0.7's supplied straightening; the supplied functor quasicategories.
 
 **Point-free comparison for coefficient towers** (`ringedSystemComparison`). Let X be a topos presented by a fixed small site and (R_n) an inverse sequence of sheaves of commutative rings on X. The Cartesian full subcategory of the enhanced derived category of R_•-modules on the topos Fun(ℕ^{op}, X) is equivalent, on mapping spaces as well as on objects, to the limit lim_n D∞(X, R_n) along derived scalar extension. No enough-points hypothesis is imposed. (HA Proposition 1.3.4.25, p. 119, for the comparison of coherent and strict diagram categories; BS-proet Definition 3.5.3 and Lemma 3.5.7, pp. 24–25, for the ordinary ringed-system description.)
 
@@ -1298,7 +1120,7 @@ Provide `ringedDiagramDerived`, `ringedDiagram_eval` (evaluation at ξ and at ea
 
 *Proof route.* Use the injective model for module sheaves on the diagram topos (Layer E1 applies to it, being a ringed topos with a small site) and localize the derived transitions; identify homotopy-coherent Cartesian sections through mapping-space localization (HA 1.3.4.25); prove full faithfulness on mapping spaces and essential surjectivity on systems. The constant-diagram case alone does not give the variable-coefficient one.
 
-*Needs:* `ringedDiagramDerived`; `enhancedDerived`; `enhancedCoeffChange`; `restrictedStraightening`.
+*Needs:* `ringedDiagramDerived`; `enhancedDerived`; `enhancedCoeffChange`; E0.7's supplied straightening.
 
 **Coherent mates and Beck–Chevalley transformations** (`coherentMate`). For adjunctions L_i : C_i ⇄ D_i : R_i, functors h : C₂ → C₁ and g : D₂ → D₁, and a square α : L₁ h → g L₂, the right mate h R₂ → R₁ g is the composite h R₂ → R₁ L₁ h R₂ → R₁ g L₂ R₂ → R₁ g, using the first unit, α and the second counit. Function composition in this formula is right-to-left; it is Mathlib's bicategorical mate (`CategoryTheory.Bicategory.mateEquiv`) in the homotopy bicategory of quasicategories, with vertical pasting `CategoryTheory.Bicategory.mateEquiv_vcomp`. The square satisfies Beck–Chevalley when the mate is invertible. The target is a coherent natural transformation representing this mate, functorial for the ringed-diagram constructions of this section; the finite mate in the homotopy bicategory alone does not provide it. (Liu–Zheng Proposition 2.2.4 and its proof, pp. 79–81.)
 
@@ -1310,7 +1132,7 @@ The export “Coherent Beck–Chevalley comparisons” is `coherentMate` with th
 - The mate of a vertical composite of two squares is the composite of the two mates, with the prescribed whiskerings.
 - For extension and restriction along ℤ → ℤ/p in the self-base-change square, the derived multiplication (ℤ/p) ⊗ᴸ_ℤ (ℤ/p) → ℤ/p has nonzero fibre in degree −1, so the base-change mate is not an equivalence.
 
-*Needs:* `coherentFun`; `ringedDiagramDerived`; Mathlib `SSet.QCat.bicategory`, `CategoryTheory.Bicategory.mateEquiv`, `CategoryTheory.Bicategory.mateEquiv_vcomp`, `CategoryTheory.mateEquiv`.
+*Needs:* the supplied functor quasicategories; `ringedDiagramDerived`; Mathlib `SSet.QCat.bicategory`, `CategoryTheory.Bicategory.mateEquiv`, `CategoryTheory.Bicategory.mateEquiv_vcomp`, `CategoryTheory.mateEquiv`.
 
 **Adjoints at cardinal cutoffs** (`cutoffRightAdjoint_compat`). Let (D_κ) be a filtered system of presentable categories with fully faithful transition functors, C a fixed presentable category, and i_κ : C → D_κ compatible colimit-preserving functors with right adjoints G_κ. Then G_λ restricted along D_κ → D_λ is naturally equivalent to G_κ, with all coherences for three cutoffs, and the G_κ assemble on the objects lying in some cutoff. If the source also varies as C_κ, one needs in addition that G_λ sends D_κ into the essential image of C_κ; without it compatibility fails. (ECD Lemma 17.1 and Corollary 17.2, pp. 96–97.)
 
@@ -1322,7 +1144,7 @@ The export “Coherent Beck–Chevalley comparisons” is `coherentMate` with th
 
 *Proof route.* For y ∈ D_κ, G_κ y and G_λ y represent the same functor on C by adjunction and full faithfulness; Yoneda gives the comparison, and its contractible uniqueness gives the coherences.
 
-*Needs:* `adjointFunctorTheorem`; `coherentFun`; `ringedDiagramDerived`.
+*Needs:* `adjointFunctorTheorem`; the supplied functor quasicategories; `ringedDiagramDerived`.
 
 ### Examples
 
@@ -1355,7 +1177,7 @@ Provide `coherentTower` (the functor quasicategory Fun(N(ℕ^{op}), C)), `towerD
 - If every transition is zero then 1 − s is the identity and Rlim = 0.
 - For p prime, the tower ℤ ←p ℤ ←p ⋯ has lim = 0 and lim¹ = ℤ_p/ℤ, so its derived limit is (ℤ_p/ℤ)[−1], nonzero in cohomological degree 1.
 
-*Needs:* `IsStable`; `IsEnhancedLimit`; `coherentFun`; `enhancedDerived`.
+*Needs:* E0.4's supplied stability predicate; the supplied limit universal property; the supplied functor quasicategories; `enhancedDerived`.
 
 **Products of lim¹ classes in a sequential limit** (`towerLimit_lim1_mul_eq_zero`). Let C be a stable symmetric monoidal quasicategory which admits sequential colimits and whose tensor is exact and preserves sequential colimits in each variable, A ∈ C, and (F_i) an ℕ-indexed sequence with colimit F. The Milnor sequence
 
@@ -1372,7 +1194,7 @@ is exact, and the map π₀ Map(F^{⊗m}, A) × π₀ Map(F^{⊗m}, A) → π₀
 - For a constant sequence the lim¹ term is zero.
 - The argument uses ℕ-indexing only through lim² = 0; it does not apply as stated to towers of cohomological dimension two or more (see the next target).
 
-*Needs:* `derivedTowerLimit`; `IsStable`; E5:abstract.1–E5:abstract.2 (`SymmetricMonoidalInfinityCategory`, `operadicAlgebras`); coherent tensor pairings and sequential-colimit preservation.
+*Needs:* `derivedTowerLimit`; E0.4's supplied stability predicate; E5:abstract.1–E5:abstract.2 (the supplied symmetric monoidal ∞-categories, `operadicAlgebras`); coherent tensor pairings and sequential-colimit preservation.
 
 **Multiplicative derived-limit filtration for finite cohomological dimension** (`derivedLimitFiltration`). Let I be a small filtered category such that lim^s over I^{op} of diagrams of abelian groups vanishes for s > d. Let C be a stable quasicategory with I^{op}-indexed limits, X : I^{op} → C a diagram and z an object. Then the abelian groups π_∗ Map(z, lim X) carry a filtration F^s, functorial in z and X, whose graded pieces are subquotients of lim^s_{I^{op}} π_{∗+s} Map(z, X_i); hence F^{d+1} = 0. If C is symmetric monoidal with tensor exact in each variable, the pairing on mapping groups induced by the tensor product is filtered, F^s · F^t ⊆ F^{s+t}, so a product of d + 1 classes in F¹ vanishes. For I = ℕ this is `towerLimit_lim1_mul_eq_zero` with d = 1. (BS17 Lemma 11.22, p. 44, which proves the sequential case and leaves the general case to the reader.)
 
@@ -1384,7 +1206,7 @@ is exact, and the map π₀ Map(F^{⊗m}, A) × π₀ Map(F^{⊗m}, A) → π₀
 
 *Proof route.* Write lim X as the totalization of the cosimplicial replacement and filter by the totalization degree; the E₂-page is lim^s π_t X. External products of cosimplicial replacements are compatible with the Alexander–Whitney pairing of totalizations, which is filtered.
 
-*Needs:* `derivedTowerLimit`; `IsEnhancedLimit`; `IsStable`; E5:abstract.1–E5:abstract.2 (`SymmetricMonoidalInfinityCategory`, `operadicAlgebras`) for the multiplicative assertion.
+*Needs:* `derivedTowerLimit`; the supplied limit universal property; E0.4's supplied stability predicate; E5:abstract.1–E5:abstract.2 (the supplied symmetric monoidal ∞-categories, `operadicAlgebras`) for the multiplicative assertion.
 
 ### E2:towers.2 Pro-zero towers
 
@@ -1411,7 +1233,7 @@ Provide `IsProZero`, `IsProIsomorphism`, `pMultiplicationTower` (the tower ℤ �
 - For A = ℚ[t] with |t| = −2, d = 0, and B = ℚ, the Amitsur fibre tower A[2(n+1)] has pro-zero cohomology in each fixed degree, but its transitions to A are the nonzero powers t^{n+1}. It is not stably pro-zero and A → B is not descendable.
 - For an identity morphism of towers the fibre is zero; the constant tower on a nonzero object with identity transitions is not stably pro-zero.
 
-*Needs:* `IsStable`; `coherentFun`; `derivedTowerLimit`.
+*Needs:* E0.4's supplied stability predicate; the supplied functor quasicategories; `derivedTowerLimit`.
 
 ### Examples
 
@@ -1423,34 +1245,11 @@ Layers E0 and E1 for additive towers; E5:abstract.1–E5:abstract.2 for the mult
 
 ## Layer E5:abstract: The monoidal stable categorical baseline
 
-This layer gives the higher algebra that the K-theory, trace, Langlands and prismatic roadmaps consume: symmetric monoidal ∞-categories and ∞-operads as coCartesian fibrations over N(Fin_∗), algebra and module objects, the monoidal envelope, symmetric monoidal localizations (of a relative category, of a model category, and fibrewise in a coCartesian family, which also gives straightening over arbitrary small bases), the symmetric monoidal structure of the derived tensor product of Layer E1, exact monoidal functors, idempotent completion, stable tensor ideals and Verdier quotients, and the Barr–Beck–Lurie theorem. "∞-category" here means a quasicategory, as in Layers E0–E4, and the stable ∞-categories and exact functors are those of Section E0.4. N(Fin_∗) is the nerve of the category of finite pointed sets ⟨n⟩ = {∗, 1, …, n}; a map is inert when it is a bijection away from the preimage of ∗, and active when only ∗ maps to ∗. The layer uses Layers E0, E1 and E3.
+This layer uses the symmetric monoidal, operadic, localization and module framework supplied by BordismFormalGroups F6.5. It extends that framework to O-monoidal categories and general operadic algebras, scalar extension and relative tensor, left-derivable families, the monoidal sheaf realization, exact monoidal comparisons, idempotent completion, thick tensor closure and Barr–Beck–Lurie. The stable categories use E0.4's supplied definition. The layer follows E0, E1 and E3.
 
 ### E5:abstract.1 Symmetric monoidal ∞-categories and ∞-operads
 
-**Symmetric monoidal ∞-categories** (`SymmetricMonoidalInfinityCategory`). A symmetric monoidal ∞-category is a coCartesian fibration p : C^⊗ → N(Fin_∗) such that, for every n, the n inert maps ρ^i : ⟨n⟩ → ⟨1⟩ induce an equivalence C^⊗_{⟨n⟩} → (C^⊗_{⟨1⟩})^n. The underlying ∞-category is C = C^⊗_{⟨1⟩}; the fibre over ⟨0⟩ is contractible; coCartesian transport along the active map ⟨2⟩ → ⟨1⟩ is the tensor product and along ⟨0⟩ → ⟨1⟩ the unit. CoCartesian lifts are required over all maps, not only inert ones. (HA Definition 2.0.0.7, p. 169; Remark 2.1.2.19, p. 182.)
-
-Provide `SymMonData` (total space, projection, fibres and the Segal equivalences; coCartesianness is part of the definition), `SymMonData.tensor` (active binary transport), `SymMonData.unit` (active nullary transport) and `SymMonData.ofOrdinary` (the nerve of the operadic category of a symmetric monoidal ordinary category, Mathlib's `CategoryTheory.SymmetricCategory`, whose objects over ⟨n⟩ are n-tuples and whose morphisms are multimorphisms built from the tensor product).
-
-**Checks.**
-
-- For finite sets with cartesian product, active binary transport is × and nullary transport is the singleton.
-- For finite sets with disjoint union, active binary transport is ⊔ and nullary transport is ∅; the same underlying category supports a different tensor and unit.
-- In D∞(ℤ), symmetry on ℤ[1] ⊗ ℤ[1] = ℤ[2] is −id, detecting the Koszul sign.
-- For a symmetric monoidal ordinary category C, the homotopy category of the underlying fibre of `SymMonData.ofOrdinary C` is equivalent to C, with the same tensor product (Mathlib's `SSet.HomotopyCategory` and `SSet.mapHomotopyCategory`).
-
-*Needs:* `IsCoCartesianFibration`; `restrictedStraightening`; Mathlib `SSet`, `SSet.Quasicategory`, `CategoryTheory.SymmetricCategory`, `CategoryTheory.MonoidalCategory`, `CategoryTheory.Grothendieck`, `SSet.HomotopyCategory`, `SSet.mapHomotopyCategory`.
-
-**∞-operads** (`InfinityOperad`). An ∞-operad is an inner fibration O^⊗ → N(Fin_∗) with coCartesian lifts of inert maps, such that for every map f : ⟨m⟩ → ⟨n⟩ the space of maps over f is the product over the n outputs of the spaces of maps over ρ^i ∘ f, and the fibre over ⟨n⟩ is equivalent through the inert projections to the n-th power of the colour ∞-category. Nullary operations are included. An ∞-operad need not have coCartesian lifts of active maps. (HA Definition 2.1.1.10, pp. 174–175.)
-
-Provide `OperadData` (the underlying map and colour category; the lifting and operation-space conditions are part of the definition), `commOperad` (the identity of N(Fin_∗), the commutative operad) and `assOperad` (the associative operad, whose operations are maps of finite pointed sets with totally ordered fibres, composed by concatenating orders).
-
-**Checks.**
-
-- The colour ∞-category of the commutative operad is Δ[0].
-- The space of n-ary operations of the associative operad has n! components, one for each total order.
-- The space of nullary associative operations is contractible.
-
-*Needs:* `rightMappingSpace`; `rightMappingSpace_isKan`; `SymmetricMonoidalInfinityCategory`.
+Supplied by `BordismFormalGroups` F6.5, the monoidal/fibration sub-lane following “Coherent model diagrams and stable enhancements”: finite pointed sets with active/inert maps, coCartesian Segal fibrations defining symmetric monoidal ∞-categories, strong and lax functor spaces, ∞-operads with operation-space decompositions, and operadic nerves. Use its definitions and its coherence over every operator simplex. The unit is nullary active transport; lax functors preserve inert edges and need not preserve active ones. (HA Definitions 2.0.0.7, 2.1.1.10 and 2.1.3.7.)
 
 **Monoidal ∞-categories over an operad** (`OMonoidalCategory`). For an ∞-operad O^⊗, an O-monoidal ∞-category is a coCartesian fibration C^⊗ → O^⊗ such that, for every object T of O^⊗ over ⟨n⟩ with inert images T_i, the fibre C_T → ∏_i C_{T_i} is an equivalence; the composite C^⊗ → N(Fin_∗) is then an ∞-operad. A map of O-monoidal ∞-categories is O-monoidal when it preserves all coCartesian edges, and lax O-monoidal when it is a map of ∞-operads over O^⊗ preserving inert edges only. (HA Proposition 2.1.2.12, p. 180; Definition 2.1.2.13, p. 182; Definition 2.1.3.7, p. 185.)
 
@@ -1462,7 +1261,7 @@ Provide `OMonoidalData`, `strongMonoidalFunctors` and `laxMonoidalFunctors` (the
 - The identity map is strong monoidal.
 - A lax monoidal functor carries a unit comparison 1 → F(1); for a strong one it is invertible.
 
-*Needs:* `InfinityOperad`; `SymmetricMonoidalInfinityCategory`; `coherentFun`.
+*Needs:* the supplied ∞-operads; the supplied symmetric monoidal ∞-categories; the supplied functor quasicategories.
 
 ### E5:abstract.2 Algebras, modules and the monoidal envelope
 
@@ -1476,9 +1275,9 @@ Provide `operadicAlgebras` (for symmetric monoidal C, pull C^⊗ back along O^�
 - Commutative algebras in the cartesian monoidal nerve of sets are ordinary commutative monoids.
 - For cartesian sets an associative algebra has A_2 ≃ A_1 × A_1 and A_0 terminal.
 
-*Needs:* `OMonoidalCategory`; `InfinityOperad`; `coherentFun`.
+*Needs:* `OMonoidalCategory`; the supplied ∞-operads; the supplied functor quasicategories.
 
-**Modules and extension of scalars** (`leftModuleObjects`). For an associative algebra A in a monoidal ∞-category C and a left C-tensored ∞-category M, LMod_A(M) is the fibre over A of the ∞-category of LM-algebras, LM being the two-coloured operad of an algebra acting on a module. Its objects carry a coherently unital and associative action A ⊗ M → M. If C and M have geometric realizations and the tensor product and the action preserve them in each variable, a map f : A → B has an extension-of-scalars functor B ⊗_A − left adjoint to restriction, computed by the realization of the two-sided bar construction Bar(B, A, M). For commutative A in a presentably symmetric monoidal C, Mod_A(C) is symmetric monoidal under the relative tensor product, with unit A. (HA Definitions 4.2.1.12–4.2.1.13, pp. 506–507; Definition 4.2.1.19, p. 508; Proposition 4.6.2.17, p. 627.)
+**Modules and extension of scalars** (`leftModuleObjects`). Use the LM operad and its algebra/module fibre supplied by BordismFormalGroups F6.5. For an associative algebra A in a monoidal ∞-category C and a left C-tensored ∞-category M, extend that construction to LMod_A(M). If C and M admit geometric realizations and tensor and action preserve them separately, prove that extension along A → B is left adjoint to restriction and is computed by the realization of Bar(B, A, M). For commutative A in a presentably symmetric monoidal C, construct the symmetric monoidal Mod_A(C) under relative tensor, with unit A. The supplied LM rectification identifies strict model modules with these fibres under its stated model and operadic hypotheses. (HA Definitions 4.2.1.12–4.2.1.13, pp. 506–507; Definition 4.2.1.19, p. 508; Proposition 4.6.2.17, p. 627.)
 
 Provide `leftModuleObjects`, `moduleObjects` (the commutative case Mod_A(C)), `extensionScalars` and `moduleUnit` (the unit of Mod_A(C) is A).
 
@@ -1488,7 +1287,7 @@ Provide `leftModuleObjects`, `moduleObjects` (the commutative case Mod_A(C)), `e
 - Extension of scalars along the identity of A is equivalent to the identity.
 - For composable maps A → B → C of commutative algebras, C ⊗_B (B ⊗_A M) ≃ C ⊗_A M.
 
-*Needs:* `operadicAlgebras`; `overDiagram`.
+*Needs:* `BordismFormalGroups` F6.5 (LM operad and module fibres); `operadicAlgebras`; E0.1's supplied cone categories.
 
 **The monoidal envelope** (`monoidalEnvelope`). For an ∞-operad C^⊗, Env(C^⊗) has as objects the finite lists of colours and as morphisms the active operadic maps; the tensor product concatenates lists. Inclusion as one-element lists induces an equivalence between strong monoidal functors Env(C^⊗) → D and lax monoidal functors C^⊗ → D, for every symmetric monoidal D. The construction uses active arrows of the operad, not the free ordinary tensor category on the homotopy category. (Nikolaus–Scholze Proposition III.3.2, p. 76.)
 
@@ -1504,31 +1303,9 @@ Provide `monoidalEnvelope`, `envelopeSingleton` and `envelopeRestriction`.
 
 ### E5:abstract.3 Monoidal localizations and coCartesian families
 
-**Symmetric monoidal Dwyer–Kan localization** (`monoidalDwyerKanLocalization`). Let C^⊗ be symmetric monoidal and W a class of morphisms of C stable under tensoring with any object in either variable. Then the Dwyer–Kan localization C[W^{−1}] has a symmetric monoidal structure for which C → C[W^{−1}] is strong monoidal; restriction along it is fully faithful on strong and on lax monoidal functor ∞-categories, with essential image the functors inverting W; and for every small quasicategory K with a map K → N(Fin_∗) the localization of the pulled-back total space is the corresponding Dwyer–Kan localization. The saturated class generated by W is used; an ordinary localization of the homotopy category does not give this. (Nikolaus–Scholze Definitions A.1, A.2 and A.4, Remark A.3 and Proposition A.5, pp. 128–130.)
+Supplied by `BordismFormalGroups` F6.5, the monoidal/fibration sub-lane: tensor-compatible localization, its functor-space universal property, the unit-adjoined monoidal model localization, coCartesian base descent, monoidal Ind and relative adjunctions. Use its comparison between the full-model lax functor and the unit-adjoined strong monoidal functor. The model hypotheses include the pushout-product and unit axioms; a noncofibrant unit is handled by its cofibrant replacement. The positive-flat spectrum model is an instance, not an assertion that its unit is cofibrant. (Nikolaus–Scholze Proposition A.5 and Theorem A.7, pp. 129–131; HA §§4.8.1,7.3.2.)
 
-**Checks.**
-
-- Localizing at the equivalences only recovers C and its unit.
-- Restriction is fully faithful on both strong and lax monoidal functors, and its image inverts every map of W; inert and nullary operations are checked as well as binary ones.
-- After base change along any small quasicategory K → N(Fin_∗) the operadic localization comparison is an equivalence. The simplicial set ∂Δ[2] is not such a base: even the terminal monoidal category pulled back constantly to ⟨1⟩ gives ∂Δ[2], which is not a quasicategory.
-
-*Proof route.* Mark the vertical product edges of W in the fibres of C^⊗, localize the total space over N(Fin_∗) and use compatibility with inert projections to prove the Segal equivalences; verify the universal properties after base change from small quasicategories.
-
-*Needs:* `IsDwyerKanLocalization`; `OMonoidalCategory`; `overDiagram`.
-
-**Category-valued straightening over arbitrary bases** (`generalStraightening`). For every small quasicategory S, construct the equivalence between coCartesian fibrations over S and Fun(S, Cat∞), with its Cartesian dual, extending `restrictedStraightening`. Identify fibres with values, transport with the classified functor, and pullback with restriction, coherently in the base. (HTT Theorem 3.2.0.1, printed p. 169, PDF p. 187; Proposition 3.2.1.4.)
-
-**Checks.**
-
-- On nerves of ordinary categories the comparison agrees with `restrictedStraightening`.
-- For constant families over any S, coCartesian sections are functors S^gpd → C.
-- For S = K(ℤ, 2), space-valued families agree with `spaceStraightening`; replacing S by its homotopy category would lose its higher monodromy.
-
-*Proof route.* Extend the relative marked Cartesian and coCartesian model structures, functorial replacements and realization/nerve adjunction to every small S. Construct the Quillen straightening equivalence by HTT 3.2.0.1, reducing first to simplices and then using its model-category descent argument. Derive the equivalence and its base-change comparisons. With this equivalence established, NS A.16–A.17 give gluing along colimits in Cat∞ for `derivedFamily`.
-
-*Needs:* `markedSSetModel`; `IsCoCartesianFibration`; `restrictedStraightening`; `coherentFun`; `catInfinity`; Mathlib `HomotopicalAlgebra.ModelCategory`.
-
-**Derived coCartesian families** (`derivedFamily`). Let X → S be a coCartesian fibration over a small ∞-category, with a class of vertical weak equivalences in each fibre. It is left derivable when every transition functor has an absolute left derived functor, in the sense of a right Kan extension along the localization of its source (Nikolaus–Scholze Definition A.8), and the comparisons between derived composites are equivalences over every 2-simplex of S. Localizing the fibres then gives a coCartesian fibration over S whose transitions are the derived transitions, compatibly with base change along any K → S from a small ∞-category; a transition that preserves the weak equivalences keeps its original coCartesian lifts. Use `generalStraightening` to classify families over arbitrary small bases; NS A.16–A.17 then give gluing along colimits in Cat∞ and its compatibility with pullback. (Nikolaus–Scholze Definition A.8, pp. 131–132; Proposition A.14 and Corollary A.15, pp. 134–135; Lemmas A.16–A.17, pp. 136–137.)
+**Derived coCartesian families** (`derivedFamily`). Let X → S be a coCartesian fibration over a small ∞-category, with a class of vertical weak equivalences in each fibre. It is left derivable when every transition functor has an absolute left derived functor, in the sense of a right Kan extension along the localization of its source (Nikolaus–Scholze Definition A.8), and the comparisons between derived composites are equivalences over every 2-simplex of S. Localizing the fibres then gives a coCartesian fibration over S whose transitions are the derived transitions, compatibly with base change along any K → S from a small ∞-category; a transition that preserves the weak equivalences keeps its original coCartesian lifts. Use the supplied general straightening to classify families over arbitrary small bases; NS A.16–A.17 then give gluing along colimits in Cat∞ and its compatibility with pullback. (Nikolaus–Scholze Definition A.8, pp. 131–132; Proposition A.14 and Corollary A.15, pp. 134–135; Lemmas A.16–A.17, pp. 136–137.)
 
 Provide `DerivedFamilyData` (base, total space, projection and localized fibres; derivability conditions are part of the definition), `derivedFamily` and `derivedFamilyBaseChange`.
 
@@ -1538,25 +1315,13 @@ Provide `DerivedFamilyData` (base, total space, projection and localized fibres;
 - Over Δ[1] the transition is the derived transition, not the underived functor.
 - If the weak equivalences are the equivalences, the localized family is equivalent to the original one.
 
-*Proof route.* Use `generalStraightening` and NS A.16–A.17 to glue coCartesian families along Cat∞-colimits of points and intervals. Localize fibres and derive transitions using `leftKanExtension_restrict_trivialFibration`; assemble a functor S → Cat∞ from the absolute property and the 2-simplex comparisons; identify the total localization by NS A.14–A.15.
+*Proof route.* Use the supplied general straightening and NS A.16–A.17 to glue coCartesian families along Cat∞-colimits of points and intervals. Localize fibres and derive transitions using `leftKanExtension_restrict_trivialFibration`; assemble a functor S → Cat∞ from the absolute property and the 2-simplex comparisons; identify the total localization by NS A.14–A.15.
 
-*Needs:* `IsDwyerKanLocalization`; `generalStraightening`; `leftKanExtension_restrict_trivialFibration`; `coherentFun`; `catInfinity`.
-
-**Monoidal localization of a model category** (`monoidalModelLocalization`). A symmetric monoidal model category satisfying the pushout-product and unit axioms has a symmetric monoidal ∞-localization. The localization of the cofibrant objects carries the derived tensor product and is strongly monoidally equivalent to the Dwyer–Kan localization of all objects with this derived structure; the map from all objects is lax monoidal and initial among lax monoidal functors inverting weak equivalences; and the construction is compatible with base change K → N(Fin_∗) from small quasicategories. If the unit is not cofibrant, the derived unit is its cofibrant replacement, and no strong monoidal map from all objects is asserted. (Nikolaus–Scholze Theorem A.7, pp. 130–131.)
-
-**Checks.**
-
-- For chain complexes, tensoring cofibrant replacements computes the derived tensor product; the ordinary tensor product of non-flat complexes does not.
-- In the positive stable model structure on symmetric spectra, the unit is not cofibrant. A cofibrant replacement supplies the derived unit, but cofibrant objects do not form a strictly unital tensor subcategory.
-- The comparison from all objects is lax monoidal; a strong monoidal comparison from all objects is not claimed.
-
-*Proof route.* Apply `derivedFamily` to the operadic coCartesian family of the model category. Multi-Quillen tensor operations give left derivability of active transport, and the unit axiom identifies the derived unit (Nikolaus–Scholze Example A.13 and Proposition A.14). If the unit is cofibrant, the direct application of `monoidalDwyerKanLocalization` to cofibrant objects also applies.
-
-*Needs:* `derivedFamily`; `monoidalDwyerKanLocalization`; the pushout-product and unit axioms.
+*Needs:* the supplied localization universal property; the supplied general straightening; `leftKanExtension_restrict_trivialFibration`; the supplied functor quasicategories; the supplied Cat∞.
 
 ### E5:abstract.4 Stable monoidal structures
 
-**The symmetric monoidal derived tensor product** (`derivedTensor_symmetricMonoidal`). For a small ringed site with O commutative, D∞(O) carries a symmetric monoidal ∞-category structure whose underlying tensor bifunctor is `derivedTensor` of Layer E1, with unit O[0]. Compare the supplied coherent tensor of Section 0.3 with the operadic structure obtained by applying `monoidalDwyerKanLocalization` to the symmetric monoidal category of K-flat complexes and the quasi-isomorphisms between them, which are stable under tensoring with K-flat complexes; it needs no hypothesis on points of the topos. The tensor product preserves colimits in each variable, so D∞(O) is presentably symmetric monoidal. (Nikolaus–Scholze Proposition A.5, pp. 129–130; Stacks, Cohomology on Sites, Lemma 21.17.12, tag 06YT, PDF p. 31; Liu–Zheng §3.1, pp. 84–86, for the case of enough points.)
+**The symmetric monoidal derived tensor product** (`derivedTensor_symmetricMonoidal`). For a small ringed site with O commutative, D∞(O) carries a symmetric monoidal ∞-category structure whose underlying tensor bifunctor is `derivedTensor` of Layer E1, with unit O[0]. Compare the supplied coherent tensor of Section 0.3 with the operadic structure obtained by applying the supplied monoidal localization to the symmetric monoidal category of K-flat complexes and the quasi-isomorphisms between them, which are stable under tensoring with K-flat complexes; it needs no hypothesis on points of the topos. The tensor product preserves colimits in each variable, so D∞(O) is presentably symmetric monoidal. (Nikolaus–Scholze Proposition A.5, pp. 129–130; Stacks, Cohomology on Sites, Lemma 21.17.12, tag 06YT, PDF p. 31; Liu–Zheng §3.1, pp. 84–86, for the case of enough points.)
 
 **Checks.**
 
@@ -1564,7 +1329,7 @@ Provide `DerivedFamilyData` (base, total space, projection and localized fibres;
 - On homotopy categories the associativity, unit and symmetry isomorphisms are those of the ordinary derived tensor product; the symmetry on two classes of degree one carries the sign −1.
 - The structure on D∞(ℤ) restricted to the heart is not the ordinary tensor product of abelian groups: (ℤ/p) ⊗ (ℤ/p) has a nonzero H^{−1}.
 
-*Needs:* `derivedTensor`; Section 0.2 (`ClassicalDerived.replacements`, K-flat API); `monoidalDwyerKanLocalization`; `enhancedDerived_isPresentable`.
+*Needs:* `derivedTensor`; Section 0.2 (`ClassicalDerived.replacements`, K-flat API); the supplied monoidal localization; `enhancedDerived_isPresentable`.
 
 **Stable monoidal comparison** (`stableMonoidal_homotopyCategory`). Let C be a stable ∞-category (Section E0.4) with a symmetric monoidal structure whose tensor product is exact in each variable. Then the tensor product descends to a symmetric monoidal structure on the homotopy category compatible with suspension and with the distinguished triangles of cofibre sequences. For D∞(R), with the structure of `derivedTensor_symmetricMonoidal`, this is the derived tensor product on Mathlib's `DerivedCategory`, with Mathlib's shift and triangles. Exactness in each variable is a hypothesis; it does not follow from the existence of a monoidal structure. (HA Theorem 1.1.2.14, p. 27; §4.8.1, Corollary 4.8.1.14 and Propositions 4.8.1.15 and 4.8.1.17, pp. 711–715.)
 
@@ -1574,7 +1339,7 @@ Provide `DerivedFamilyData` (base, total space, projection and localized fibres;
 - Tensoring the triangle R → R → 0 with any K gives K → K → 0, with the shift convention of `dgNerve_shift_cone_comparison`.
 - Exactness forces 0 ⊗ K = 0; the comparison preserves this zero object as well as the tensor unit.
 
-*Needs:* `dgNerve_shift_cone_comparison`; `derivedTensor_symmetricMonoidal`; `SymmetricMonoidalInfinityCategory`; Mathlib `DerivedCategory`.
+*Needs:* `dgNerve_shift_cone_comparison`; `derivedTensor_symmetricMonoidal`; the supplied symmetric monoidal ∞-categories; Mathlib `DerivedCategory`.
 
 **Exact monoidal functors and triangles** (`exactMonoidalFunctor_triangle`). Let C, D be stable ∞-categories with symmetric monoidal structures exact in each variable. An exact strong (respectively lax) monoidal functor induces a strong (respectively lax) monoidal functor of homotopy categories and carries the cofibre triangle of f to that of F(f), with the suspension comparison of Section E0.4. Lax monoidal does not imply exact, and exact does not imply strong monoidal. (HA Proposition 1.1.4.1, pp. 33–35; §2.1.2, pp. 177–182.)
 
@@ -1596,7 +1361,7 @@ Provide `idemCompletion`, `idemInclusion` and `idemRestriction`.
 - Idem(N C) ≃ N(`CategoryTheory.Idempotents.Karoubi` C) for an ordinary category C.
 - Idem(Δ[0]) is Δ[0].
 
-*Needs:* `dgNerve_shift_cone_comparison`; `leftKanExtension_restrict_trivialFibration`; `SymmetricMonoidalInfinityCategory`; Mathlib `CategoryTheory.Idempotents.Karoubi`.
+*Needs:* `dgNerve_shift_cone_comparison`; `leftKanExtension_restrict_trivialFibration`; the supplied symmetric monoidal ∞-categories; Mathlib `CategoryTheory.Idempotents.Karoubi`.
 
 **Stable subcategories and tensor ideals** (`stableClosure`, `thickTensorClosure`). A stable subcategory of a stable ∞-category C is a full subcategory containing zero and closed under fibres and cofibres; it need not be closed under retracts. If C is symmetric monoidal with tensor exact in each variable, a stable subcategory D is a tensor ideal when X ⊗ Y ∈ D for all X ∈ C and Y ∈ D; a thick tensor ideal is also closed under retracts. For commutative A → B, the thick tensor ideal generated by B is taken in Mod_A(C). Stable, thick and localizing closures are kept distinct. (Nikolaus–Scholze Definition I.3.2, p. 18; Mathew Definition 3.18, p. 19.)
 
@@ -1610,17 +1375,7 @@ Provide `stableClosure`, `thickTensorClosure` and `tensorIdealInduction` (a thic
 
 *Needs:* `dgNerve_shift_cone_comparison`; `leftModuleObjects`; Mathlib `CategoryTheory.ObjectProperty`.
 
-**Verdier quotients of small stable ∞-categories** (`verdierQuotient`). For a small stable C and a stable subcategory D, C/D is the Dwyer–Kan localization at the maps whose cofibre lies in D. It is stable and universal among exact functors out of C that kill D. Its mapping spaces are Map_{C/D}(X, Y) = colim_{Z→Y, Z∈D} Map_C(X, cofib(Z → Y)), a filtered colimit. The objects sent to zero form the retract closure of D, which is D only when D is thick. If D is a tensor ideal and the tensor product is exact in each variable, C/D is symmetric monoidal and universal among exact lax monoidal functors killing D. No compact generation is used, and idempotent completion of the quotient is a separate construction. (Nikolaus–Scholze Theorems I.3.3 and I.3.6, pp. 18–23.)
-
-Provide `verdierQuotient`, `verdierProjection`, `verdierRestriction` and `verdierMapping`.
-
-**Checks.**
-
-- C/0 ≃ C.
-- C/C is the zero category.
-- q(ΣX) ≃ Σ q(X).
-
-*Needs:* `IsDwyerKanLocalization`; `thickTensorClosure`; `monoidalDwyerKanLocalization`; `overDiagram`.
+Supplied by `BordismFormalGroups` F6.5, the quotient/Ind sub-lane: the stable quotient C/D for small stable C and full stable D, its exact-functor universal property and filtered mapping-space formula, and its monoidal version for tensor ideals. Use the supplied localization and projection. Its kernel is the retract closure of D; idempotent completion remains the separate target above. (Nikolaus–Scholze Theorems I.3.3 and I.3.6, pp. 18–23.)
 
 ### E5:abstract.5 Monadicity
 
@@ -1634,7 +1389,7 @@ Provide `verdierQuotient`, `verdierProjection`, `verdierRestriction` and `verdie
 
 *Proof route.* Build the monad and the comparison from the unit and counit; the split augmented bar resolution and conservativity give full faithfulness and essential surjectivity.
 
-*Needs:* `adjointFunctorTheorem`; `operadicAlgebras`; `overDiagram`; Mathlib `CategoryTheory.Functor.ReflectsIsomorphisms`.
+*Needs:* `adjointFunctorTheorem`; `operadicAlgebras`; E0.1's supplied cone categories; Mathlib `CategoryTheory.Functor.ReflectsIsomorphisms`.
 
 ### Examples
 
@@ -1643,11 +1398,11 @@ Provide `verdierQuotient`, `verdierProjection`, `verdierRestriction` and `verdie
 
 ### Dependencies
 
-Layers E0, E1 and E3. Mathlib (symmetric monoidal categories, the Grothendieck construction, Karoubi envelopes, homotopy categories of simplicial sets, object properties, conservative functors).
+Layers E0, E1 and E3; `BordismFormalGroups` F6.5 (operadic, localization, LM, quotient and Ind sub-lanes). Mathlib (symmetric monoidal categories, the Grothendieck construction, Karoubi envelopes, homotopy categories of simplicial sets, object properties, conservative functors).
 
 ## Layer E5:presentability: Presentable categories, Ind-completion and their extensions
 
-This layer develops the theory of large categories that the trace, Langlands and lisse-sheaf roadmaps consume: compact generation, Ind-completion and its universal property, stable and monoidal Ind, the ∞-categories PrL and PrR and their limits, the ∞-category of spectra as the stabilization of spaces, the tensor product of presentable categories, formal inversion of an object, Ind of a Verdier quotient, the accessible form of the compactness criterion, coherent actions of finite and profinite groups, compact morphisms, dualizable and compactly assembled categories, filtered colimits of dualizable categories and rigid categories. The basic definitions of κ-compact objects, accessibility and presentability are those of Section E0.8. The layer uses Layers E0, E1, E3 and E5:abstract.
+This layer develops the theory of large categories that the trace, Langlands and lisse-sheaf roadmaps consume: compact generation and comparisons for the supplied stable and monoidal Ind, the ∞-categories PrL and PrR and their limits, the ∞-category of spectra as the stabilization of spaces, the tensor product of presentable categories, formal inversion of an object, kernel and compact-object comparisons for the supplied Ind quotient, the accessible form of the compactness criterion, coherent actions of finite and profinite groups, compact morphisms, dualizable and compactly assembled categories, filtered colimits of dualizable categories and rigid categories. The basic definitions of κ-compact objects, accessibility and presentability are those of Section E0.8. The layer uses Layers E0, E1, E3 and E5:abstract.
 
 ### E5:presentability.1 Compact generation and Ind-completion
 
@@ -1661,40 +1416,20 @@ Provide `compactObjects`, `compactMappingComparison` (Map(x, colim y_i) ≃ coli
 - R is compact in D∞(R), and its shifts detect zero, so D∞(R) is compactly generated.
 - For a nonzero field k, the countable direct sum ⊕_ℕ k is not compact in D∞(k).
 
-*Needs:* `IsKappaCompact`; `rightMappingSpace`; `IsEnhancedColimit`; `dgNerve_shift_cone_comparison`.
+*Needs:* `IsKappaCompact`; E0.1's supplied right mapping spaces; the supplied colimit universal property; `dgNerve_shift_cone_comparison`.
 
-**Ind-completion** (`indCompletion`). For a small quasicategory C, Ind_κ(C) is the full subcategory of Fun(C^{op}, Spaces) on κ-filtered colimits of representables. The Yoneda embedding lands in it and is fully faithful, representables are κ-compact, and every object has a κ-filtered presentation. If C is small, idempotent complete and has finite colimits, Ind(C) is compactly generated and its compact objects are C. For an ordinary category C, Ind_κ(N C) is equivalent to the nerve of its ordinary set-valued κ-Ind-completion, modeled for κ = ω by Mathlib's `CategoryTheory.Ind`. Representables are discrete and filtered colimits preserve discreteness objectwise, so all these Ind-objects and their mapping spaces are discrete. For general quasicategories the construction retains higher mapping spaces. (HTT Definition 5.3.5.1, printed p. 403; Propositions 5.3.5.10–5.3.5.11, printed pp. 406–407.)
+Supplied by `BordismFormalGroups` F6.5, the quotient/Ind sub-lane: Ind_κ(C) inside space-valued presheaves, Yoneda, the κ-filtered-colimit universal property, the compact-representable comparison, stability and exact Yoneda for stable C, and monoidal Ind by Day convolution and operadic left Kan extension. Tensor on Ind(C) preserves filtered colimits separately, and all colimits when C is stable and tensor is exact separately. These constructions use the supplied general straightening and presheaf Yoneda theorem. (HTT Propositions 5.3.5.10–5.3.5.11; HA Proposition 1.1.3.6 and Corollary 4.8.1.14.)
 
-Provide `indCompletion`, `indYoneda` and `indCompactComparison`.
-
-**Checks.**
-
-- Ind(Δ[0]) is Δ[0].
-- Ind(N(FinSet)) ≃ N(Set), while PΣ(FinSet) ≃ Spaces (E5:animation.1).
-- For a small stable idempotent-complete C, the compact objects of Ind(C) are C.
-- For a discrete ordinary category, a filtered presentation never creates a new connected component.
-
-*Needs:* `compactObjects`; `leftKanExtension_restrict_trivialFibration`; Mathlib `CategoryTheory.Ind`.
-
-**The universal property of Ind** (`indExtension`). For small C and D with κ-filtered colimits, restriction along Yoneda gives an equivalence between κ-filtered-colimit-preserving functors Ind_κ(C) → D and all functors C → D; the extension sends colim_i y(c_i) to colim_i F(c_i), independently of the presentation. For κ = ω, if C has finite colimits, D is presentable and F preserves finite colimits, the extension preserves all small colimits; for larger κ the corresponding statement uses κ-small colimits. The extension is an equivalence exactly when F is fully faithful with κ-compact values that generate D under κ-filtered colimits. (HTT Propositions 5.3.5.10–5.3.5.11, printed pp. 406–407, PDF pp. 424–425; Proposition 5.5.1.9, printed pp. 461–462, PDF pp. 479–480; HA Corollary 4.8.1.14(2), pp. 711–712.)
+**Compact objects and the ordinary Ind comparison** (`indCompactComparison`, `indOrdinaryComparison`). For small idempotent-complete C with finite colimits, identify the compact objects of the supplied Ind(C) with C. For ordinary C, identify Ind_κ(N C) with the nerve of its ordinary set-valued κ-Ind-completion; for κ = ω use Mathlib's `CategoryTheory.Ind`. Representables are discrete, filtered colimits preserve discreteness objectwise, and mapping spaces between these presheaves are discrete. The ordinary comparison does not apply to a general quasicategory C. (HTT Definition 5.3.5.1, printed p. 403; Propositions 5.3.5.10–5.3.5.11, printed pp. 406–407.)
 
 **Checks.**
 
-- Restricting the extension of F gives F back, and two presentations of one Ind-object give the same value.
-- For small stable idempotent-complete C, the extension of the inclusion C → Ind(C) is the identity.
-- The equivalence criterion fails when the generators are not compact, even if they generate under colimits.
+- Ind(Δ[0]) ≃ Δ[0].
+- Ind(N(FinSet)) ≃ N(Set), whereas PΣ(FinSet) ≃ Spaces (E5:animation.1).
+- For small stable C, compact objects of Ind(C) are Idem(C), and are C when C is idempotent complete.
+- A filtered presentation of a discrete ordinary category creates no new connected component.
 
-*Needs:* `indCompletion`; `leftKanExtension_restrict_trivialFibration`.
-
-**Stable and monoidal Ind-completion** (`indStable`, `indMonoidal`). For small stable C, Ind_κ(C) is stable and Yoneda is exact. For small symmetric monoidal C, Ind(C) has a symmetric monoidal structure whose tensor product preserves filtered colimits in each variable and extends that of C; if C is stable with tensor exact in each variable, the tensor product of Ind(C) preserves all colimits in each variable. Exact strong monoidal functors on C extend uniquely, with their monoidal structure, to colimit-preserving strong monoidal functors on Ind(C). (HA Proposition 1.1.3.6, p. 32; Corollary 4.8.1.14, pp. 711–712.)
-
-**Checks.**
-
-- Yoneda preserves zero objects, cofibres and suspension.
-- The tensor product of two filtered presentations is computed on the product diagram, and the unit is the representable of the unit.
-- Exactness and filtered-colimit preservation together give preservation of all colimits in the stable case.
-
-*Needs:* `indCompletion`; `indExtension`; `SymmetricMonoidalInfinityCategory`; `dgNerve_shift_cone_comparison`.
+*Needs:* `BordismFormalGroups` F6.5 (Ind and its universal property); `compactObjects`; `idemCompletion`; Mathlib `CategoryTheory.Ind`.
 
 ### E5:presentability.2 Presentable categories, their limits and spectra
 
@@ -1708,7 +1443,7 @@ Provide `PresentableData` (a quasicategory, an accessibility cardinal and a smal
 - The forgetful functor N(Ab) → N(Set) is an accessible right adjoint, hence a morphism in PrR.
 - That forgetful functor fails to preserve coproducts: the underlying set of ℤ ⊕ ℤ is not the disjoint union of the two underlying sets with their canonical inclusions, so it is not a PrL morphism.
 
-*Needs:* `IsPresentable`; `indCompletion`; `compactObjects`; `accessibleLocalization`; `adjointFunctorTheorem`; `catInfinity`.
+*Needs:* `IsPresentable`; the supplied Ind-completion; `compactObjects`; `accessibleLocalization`; `adjointFunctorTheorem`; the supplied Cat∞.
 
 **Limits in PrL** (`presentable_limit`). Every small diagram of presentable ∞-categories and colimit-preserving functors, indexed by any small ∞-category, has a limit in PrL whose underlying ∞-category is the limit in Cat∞. Colimits in the limit are computed and detected by the projections. If all the categories are stable, so is the limit. This extends `presentable_limit_restricted` (Layer E3) from nerves of ordinary categories to arbitrary small ∞-categories; it does not say that an unrelated inclusion (for example of complete objects) preserves colimits. (HTT Propositions 5.5.3.12–5.5.3.13, printed pp. 469–470, PDF pp. 487–488; ECD Lemma 17.1, p. 96, and Proposition 26.2, p. 162, for the applications.)
 
@@ -1718,7 +1453,7 @@ Provide `PresentableData` (a quasicategory, an accessibility cardinal and a smal
 - In a pullback C ×_E D along left adjoints, coproducts and cofibres are computed componentwise.
 - For R = ℤ_p and I = (p), the inclusion of derived complete modules into all modules fails to preserve coproducts (⊕_ℕ ℤ_p is not complete), so that inclusion is not a map in PrL. For I = 0 the inclusion is the identity.
 
-*Needs:* `PrL`; `presentable_limit_restricted`; `derivedFamily`; `IsEnhancedLimit`.
+*Needs:* `PrL`; `presentable_limit_restricted`; `derivedFamily`; the supplied limit universal property.
 
 **Limits in PrR** (`presentable_limit_right`). Every small diagram of presentable ∞-categories and accessible right adjoints has a limit in PrR whose underlying ∞-category is its limit in Cat∞. The projections are accessible right adjoints, and small limits are computed componentwise. (HTT Theorem 5.5.3.18, printed pp. 472–473, PDF pp. 490–491; HA Proposition 1.4.4.4, pp. 156–157, for the loop-tower application.)
 
@@ -1730,7 +1465,7 @@ Provide `PresentableData` (a quasicategory, an accessibility cardinal and a smal
 
 *Proof route.* Use Cartesian unstraightening, obtained by taking opposites in `derivedFamily`. Choose a common accessibility cardinal for the fibres and transitions. The Cartesian sections form an accessible reflective localization of the category of all sections (HTT Proposition 5.5.3.17); their inclusion and evaluation preserve limits. These projections and the same criterion for functors into the section category give the limit universal property in PrR.
 
-*Needs:* `PrR`; `derivedFamily`; `accessibleLocalization`; `adjointFunctorTheorem`; `IsEnhancedLimit`.
+*Needs:* `PrR`; `derivedFamily`; `accessibleLocalization`; `adjointFunctorTheorem`; the supplied limit universal property.
 
 **The ∞-category of spectra** (`spectra`). For a pointed quasicategory C with finite limits, Sp(C) is the limit in Cat∞ of the tower ⋯ → C →Ω C →Ω C. Sp(C) is stable; Ω^∞ : Sp(C) → C is an equivalence exactly when C is stable; for presentable C, Sp(C) is presentable and Ω^∞ has a left adjoint Σ^∞. Sp is Sp(Spaces_∗), the stabilization of pointed spaces, with sphere spectrum S = Σ^∞ S⁰. Sp is the unit of the tensor product of presentable stable ∞-categories (next target). No model of spectra by spectrum objects of simplicial sets is used. (HA Corollary 1.4.2.17 and Proposition 1.4.2.21, p. 146; Proposition 1.4.2.24 and Remark 1.4.2.25, p. 147; Proposition 4.8.2.18, p. 722.)
 
@@ -1744,7 +1479,7 @@ Provide `spectra`, `stabilization` (Sp(C) for pointed C with finite limits), `om
 
 *Proof route.* Construct the loop tower using finite limits. For presentable pointed C, suspension defined by pushouts is left adjoint to Ω, which is accessible by `adjointFunctorTheorem`. Apply `presentable_limit_right` to obtain presentability of Sp(C) and the left adjoint to its projection Ω^∞ (HA Proposition 1.4.4.4).
 
-*Needs:* `presentable_limit_right`; `adjointFunctorTheorem`; `overDiagram` (pointed objects as the slice under the point); `spaceInfinity`; `IsStable`.
+*Needs:* `presentable_limit_right`; `adjointFunctorTheorem`; E0.1's supplied cocone categories (pointed objects as the slice under the point); the supplied Spaces; E0.4's supplied stability predicate.
 
 **Tensor products of presentable categories and module base change** (`presentableTensor`). For presentable C and D, C ⊗ D represents functors out of C × D that preserve colimits separately in each variable: FunL(C ⊗ D, E) ≃ FunL,L(C × D, E). This makes PrL symmetric monoidal with unit Spaces, and its full subcategory of stable presentable ∞-categories symmetric monoidal with unit Sp. For a presentably monoidal C, a presentable right C-module M and an algebra A in C, M ⊗_C RMod_A(C) ≃ RMod_A(M). Extension of scalars and these comparisons are coherent for composites and units. This categorical tensor product is distinct from the derived tensor product of objects. (HA Propositions 4.8.1.15 and 4.8.1.17, pp. 712–715; Proposition 4.8.2.18, p. 722; Theorem 4.8.4.6, p. 737.)
 
@@ -1756,7 +1491,7 @@ Provide `presentableTensor`, `presentableTensorUniversal` and `categoricalModule
 - Sp ⊗ C ≃ C for presentable stable C.
 - 0 ⊗ C ≃ 0 in stable presentable categories.
 
-*Needs:* `PrL`; `spectra`; `leftModuleObjects`; `indMonoidal`.
+*Needs:* `PrL`; `spectra`; `leftModuleObjects`; the supplied monoidal Ind.
 
 **Formal inversion of an object** (`tensorInversion`). For a presentably symmetric monoidal C and X ∈ C, C[X^{−1}] is initial among presentably symmetric monoidal ∞-categories with a colimit-preserving strong monoidal functor from C under which X becomes invertible. For a presentable C-module M, M ⊗_C C[X^{−1}] is the universal inversion of X on M. If the cyclic permutation of X ⊗ X ⊗ X is homotopic to the identity, the underlying presentable ∞-category is the colimit in PrL of the telescope M → M → ⋯ with transitions X ⊗ −; without this condition the telescope formula is not asserted. (Robalo Proposition 4.10, pp. 75–76; Definition 4.18, p. 88; Proposition 4.21, p. 90; Remark 4.23 and Corollary 4.24, p. 92.)
 
@@ -1772,7 +1507,7 @@ Provide `tensorInversion`, `tensorInversionMap` and `tensorInversionUniversal`.
 
 ### E5:presentability.3 Verdier quotients, compactness and group actions
 
-**Ind of a Verdier quotient** (`indVerdierLocalization`). For a small stable C and a stable subcategory D, Ind(C) → Ind(C/D) is a localization whose kernel is Ind(D); its right adjoint is fully faithful, preserves colimits, and extends the approximation of C/D in Ind(C) given by the mapping-space formula of `verdierQuotient`. The monoidal version holds for tensor ideals with tensor exact in each variable. The compact objects of Ind(C/D) are Idem(C/D), not C/D unless C/D is idempotent complete. (Nikolaus–Scholze Proposition I.3.5, pp. 21–22.)
+**Kernel and compact objects of the supplied Ind quotient** (`indVerdierLocalization`). For small stable C and full stable D, use the localization Ind(C) → Ind(C/D) and its fully faithful right adjoint supplied by BordismFormalGroups F6.5. Identify its kernel with the essential image of Ind(D), and the compact objects of Ind(C/D) with Idem(C/D). A tensor ideal D with exact tensor gives the monoidal specialization. Completion of the compact quotient is necessary unless C/D is already idempotent complete. (Nikolaus–Scholze Proposition I.3.5, pp. 21–22.)
 
 **Checks.**
 
@@ -1780,7 +1515,7 @@ Provide `tensorInversion`, `tensorInversionMap` and `tensorInversionUniversal`.
 - Objects of Ind(D) map to zero, and the counit of the localization is invertible.
 - The compact objects are the retract closure of C/D.
 
-*Needs:* `verdierQuotient`; `indExtension`; `indStable`; `idemCompletion`.
+*Needs:* the supplied stable quotient; the supplied Ind universal property; the supplied stability of Ind; `idemCompletion`.
 
 **The accessible compactness criterion for right adjoints** (`rightAdjoint_preservesKappaFiltered_iff`). Let F : C ⇄ D : G be an adjunction of presentable ∞-categories with C κ-accessible. F preserves κ-compact objects if and only if G preserves κ-filtered colimits. For κ = ω and compactly generated stable C this is `rightAdjoint_preservesCoproducts_iff` (Layer E3): F preserves compact objects if and only if G preserves coproducts, equivalently all colimits. (HTT Proposition 5.5.7.2, printed p. 501, PDF p. 519; Fargues–Scholze Lemma IV.2.20, pp. 123–124; ECD Proposition 23.7 and its proof, pp. 144–145.)
 
@@ -1802,7 +1537,7 @@ Provide `CoherentActionData`, `homotopyFixedPoints`, `equivariantFunctors` and `
 - For the trivial action of a finite G, C^{hG} ≃ Fun(BG, C).
 - For finite G and a G-module M, the derived invariants of M have cohomology Hⁿ(G, M) in every degree n ≥ 0.
 
-*Needs:* `derivedFamily`; `presentable_limit`; `enhancedDerived`; `coherentFun`; `catInfinity`; `TauCetiRoadmap.ProfiniteCohomology` Layer 0 (discrete modules and continuous sections) and Layer 10 (continuous cohomology in all degrees).
+*Needs:* `derivedFamily`; `presentable_limit`; `enhancedDerived`; the supplied functor quasicategories; the supplied Cat∞; `TauCetiRoadmap.ProfiniteCohomology` Layer 0 (discrete modules and continuous sections) and Layer 10 (continuous cohomology in all degrees).
 
 ### E5:presentability.4 Dualizable, compactly assembled and rigid categories
 
@@ -1816,7 +1551,7 @@ Provide `compactMorphismSquare`, `IsCompactMorphism`, `compactExhaustion` and `c
 - The identity of a countably infinite-dimensional ℚ-vector space in degree zero is not compact in D∞(ℚ).
 - Every finite-rank map of ℚ-vector spaces in degree zero is compact.
 
-*Needs:* `compactObjects`; `rightMappingSpace`; `IsEnhancedColimit`; Mathlib `CategoryTheory.IsFiltered`.
+*Needs:* `compactObjects`; E0.1's supplied right mapping spaces; the supplied colimit universal property; Mathlib `CategoryTheory.IsFiltered`.
 
 **Dualizable and compactly assembled categories** (`IsDualizablePresentable`). A presentable stable ∞-category C is dualizable when it is dualizable in the symmetric monoidal ∞-category of presentable stable categories: it has a dual with evaluation and coevaluation satisfying the triangle identities up to coherent homotopy. Equivalently C is a retract, by colimit-preserving functors, of a compactly generated stable category; equivalently the colimit functor Ind(C) → C, with Ind taken in a larger universe, has a left adjoint. In compactly assembled terms, filtered colimits commute with finite limits and the objects with compact exhaustions generate under filtered colimits. Compact generation of C is not assumed. (Ramzi, *Dualizable*, Theorem 1.49, pp. 17–18; Definition 1.68, p. 25; Theorem 2.39, p. 39; Scholze, *Berkovich motives*, Definition 2.7 and Remark 2.8, p. 9.)
 
@@ -1828,7 +1563,7 @@ Provide `DualPairData`, `IsDualizablePresentable`, `dualizableRetractComparison`
 - The zero category is self-dual.
 - A retract, through colimit-preserving functors, of a compactly generated category is dualizable.
 
-*Needs:* `PrL`; `presentableTensor`; `IsCompactMorphism`; `indCompletion`.
+*Needs:* `PrL`; `presentableTensor`; `IsCompactMorphism`; the supplied Ind-completion.
 
 **Filtered colimits of dualizable categories** (`dualizable_filteredColimit`). A left adjoint is strongly continuous when its right adjoint preserves colimits. A filtered diagram of dualizable presentable stable categories with strongly continuous transitions has a dualizable colimit in PrL, and the comparison from the colimit of the compact subcategories (in small idempotent-complete stable categories) to the compact subcategory of the colimit is an equivalence. Neither the inputs nor the colimit are asserted to be compactly generated. (Scholze, *Berkovich motives*, Lemma 10.5, p. 55; Ramzi, *Dualizable*, Proposition 1.62, p. 22; Efimov, *K-theory and localizing invariants of large categories*, Propositions 2.63, 2.67 and 2.70, pp. 52–55, arXiv v4.)
 
@@ -1861,7 +1596,7 @@ Provide `TraceClassData`, `IsTraceClass`, `RigidData`, `IsRigid` and `rigidRight
 
 ### Dependencies
 
-Layers E0, E1, E3 and E5:abstract. Mathlib (set-valued Ind objects, filtered categories); `TauCetiRoadmap.ProfiniteCohomology` Layers 0 and 10.
+Layers E0, E1, E3 and E5:abstract; `BordismFormalGroups` F6.5 (quotient, Ind and monoidal Ind). Mathlib (set-valued Ind objects, filtered categories); `TauCetiRoadmap.ProfiniteCohomology` Layers 0 and 10.
 
 ## Layer E5:descent: Descendable algebras and module descent
 
@@ -1932,59 +1667,33 @@ Provide `eilenbergMacLane`, `eilenbergMacLane_homotopy` (π_n HR is R for n = 0 
 
 *Needs:* `spectra`; `presentableTensor`; `leftModuleObjects`; `derivedTensor_symmetricMonoidal`; `stableMonoidal_homotopyCategory`; `enhancedDerived`; `IsCompactlyGenerated`.
 
-### Outbound comparison with concrete spectra
+### Comparison with concrete spectra
 
-`GeneralizedCohomology` owns the comparison of its G2.3–G2.7 concrete models
-with these abstract exports. For its category SpΣ of symmetric spectra of pointed
-simplicial sets and its stable equivalences W_st, the contract is a symmetric
-monoidal equivalence
+GeneralizedCohomology G2 supplies the concrete spectral models; BordismFormalGroups F6.5 supplies their generic enhancement and operadic rectification. This roadmap owns the following comparisons with its abstract stabilization. They use those specified constructions and their mapping-space universal properties.
 
-```text
-DK(SpΣ, W_st) ≃ Sp.
-```
-
-It identifies the derived sphere unit, the adjunction Σ^∞ ⊣ Ω^∞ with its unit
-and counit, every integer shift, and mapping spectra naturally in both variables.
-Apply `monoidalModelLocalization` on cofibrant objects, using the derived unit
-also for positive-flat models, and identify the localized category with the
-stabilization of pointed spaces. (Nikolaus–Scholze Theorem A.7, pp. 130–131;
-HA Proposition 1.4.2.24, p. 147, and Proposition 4.8.2.18, p. 722.)
-
-For each commutative ring R, this equivalence carries the concrete HR of
-GeneralizedCohomology G2.7 to `eilenbergMacLane R` in CAlg(Sp), naturally in R
-and compatibly with the ring unit and multiplication. The concrete HR-module
-localization then maps to D∞(R) through `moduleSpectra_equiv_derived`, preserving
-relative tensor products and internal Hom. The CAlg identification uses the
-degree-zero ring identification and discreteness of HR; the module comparison
-uses HA Theorem 7.1.2.13, p. 1212.
-
-GeneralizedCohomology G3.8–G3.9 also owns the comparison of its coherent tower
-limits and integer localizations with `derivedTowerLimit` and the localizations
-of E3, retaining limit projections and localization units. For a prime p, compare
-its derived multiplication-cofibre tower E/p^r, r ≥ 1, with transitions induced
-by (p, id), including the maps from E and the completion unit. On HR-modules
-the module equivalence identifies this tower with the one-generator Koszul tower
-of E4.2 and its limit with `completeSheaf` on the point topos for I = (p).
-Replacing Koszul terms by ordinary R/p^r requires the regular-sequence hypothesis
-of `regularIdeal_quotients`. These comparisons are equivalences of coherent
-diagrams with their maps, rather than only identifications of homotopy groups.
-Their source is the fibre-of-(1 − shift) construction in E2:towers and the
-Koszul completion comparison of E4.2 (Stacks tags 091Y, 091Z and 0920).
-This is an outbound ownership boundary: this roadmap constructs its abstract
-exports independently of the concrete models and their comparisons.
+**Concrete spectra and the abstract stabilization** (`symmetricSpectra_equiv_spectra`). For the symmetric spectra SpΣ of GeneralizedCohomology G2 and their stable equivalences W_st, construct a symmetric monoidal equivalence DK(SpΣ, W_st) ≃ Sp, identifying BordismFormalGroups F6.5's enhancement Sp∞ with E5:presentability.2's stabilization. It preserves the derived sphere unit, Σ^∞ ⊣ Ω^∞ with unit and counit, every integer shift and mapping spectra naturally in both variables. For every commutative ring R it carries GeneralizedCohomology G2.7's concrete HR to `eilenbergMacLane R` in CAlg(Sp), naturally in R with its multiplication and unit. Use the supplied strict/coherent LM-fibre comparison to identify the concrete HR-module localization with Mod_{HR}(Sp), and then with D∞(R) through `moduleSpectra_equiv_derived`, preserving relative tensor and internal Hom. (Nikolaus–Scholze Theorem A.7, pp. 130–131; HA Proposition 1.4.2.24, p. 147, Proposition 4.8.2.18, p. 722, and Theorem 7.1.2.13, p. 1212.)
 
 **Checks.**
 
-- The concrete sphere goes to S = Σ^∞S⁰; its suspension-spectrum adjunction
-  unit and counit agree, and Σ^nS corresponds for every integer n, including n = −1.
-- For R = ℤ, the concrete H(ℤ/p), as an Hℤ-module, has relative tensor square with
-  π₀ = π₁ = ℤ/p and no other homotopy; the module comparison gives
-  (ℤ/p) ⊗ᴸ_ℤ (ℤ/p), including its maps and cochain shift convention.
-- On Hℤ, the p-power cofibre tower corresponds to (ℤ/p^r)_r with quotient
-  transitions, and the completion unit corresponds to ℤ → ℤ_p. On H𝔽_p,
-  the same tower corresponds to 𝔽_p ⊕ 𝔽_p[1] with identity transitions
-  on the first summand and zero on the second; its limit and completion unit
-  are 𝔽_p and its identity. Ordinary 𝔽_p/(p^r) omits the second summand.
+- The concrete sphere goes to S = Σ^∞S⁰; the suspension-spectrum adjunction unit and counit agree, including the shift Σ^(−1)S.
+- For R = ℤ, the concrete H(ℤ/p), as an Hℤ-module, has relative tensor square with π₀ = π₁ = ℤ/p and no other homotopy. Its image is (ℤ/p) ⊗ᴸ_ℤ (ℤ/p), with the cochain shift convention.
+- The positive-flat model has a noncofibrant sphere unit. Its unit-adjoined localization still has derived unit S, and the comparison agrees with that from the cofibrant-unit stable-projective model; it does not require a strong monoidal localization functor on all raw objects.
+
+*Proof route.* Apply BordismFormalGroups F6.5's unit-adjoined monoidal model localization and coherent model-diagram comparison. GeneralizedCohomology G2.5's sequential/symmetric Quillen comparison and G2.3's Ω-spectrum mapping test identify the underlying localization with the loop-tower stabilization. Identify the monoidal structures by the colimit-preserving stabilization universal property with its sphere unit. Discreteness and the degree-zero ring identification determine the HR comparison in CAlg(Sp); apply the supplied associative/module rectification with its actual model hypotheses to compare module fibres.
+
+*Needs:* `GeneralizedCohomology` G2.1–G2.7; `BordismFormalGroups` F6.5 (coherent model diagrams, unit-adjoined monoidal localization and LM rectification); `spectra`; `presentableTensor`; `eilenbergMacLane`; `moduleSpectra_equiv_derived`.
+
+**Concrete towers, localization and completion** (`symmetricSpectra_towerComparison`). Under `symmetricSpectra_equiv_spectra`, identify GeneralizedCohomology G3.8's concrete homotopy limits of countable towers with `derivedTowerLimit`, with every projection and transition. For a multiplicative set of integers, G3.9's integer localization agrees with E3's localization at the corresponding integer multiplications on all shifts of the sphere, including the unit. For a prime p, its tower E/p^r, r ≥ 1, with transitions induced by (p, id), agrees with the abstract multiplication-cofibre tower, with the maps from E and the completion unit. On HR-modules the module comparison identifies this tower with the one-generator Koszul tower of E4.2 and its limit with `completeSheaf` on the point topos for I = (p). Ordinary R/p^r can replace Koszul terms under the regular-sequence hypothesis of `regularIdeal_quotients`. All identifications are equivalences of coherent diagrams. (Nikolaus–Scholze Theorem A.7; Stacks tags 091Y, 091Z and 0920 for derived completion and its Koszul model.)
+
+**Checks.**
+
+- On Hℤ the p-power cofibre tower corresponds to (ℤ/p^r)_r with quotient transitions; the completion unit is ℤ → ℤ_p.
+- On H𝔽_p the tower corresponds to 𝔽_p ⊕ 𝔽_p[1], with identity transitions on the first summand and zero on the second. Its limit and completion unit are 𝔽_p and its identity; ordinary 𝔽_p/(p^r) omits the second summand.
+- Inverting p on Hℤ agrees with ℤ → ℤ[1/p] in D∞(ℤ), including its localization unit. The p-power tower of this localized object is zero.
+
+*Proof route.* The supplied model-diagram theorem compares the concrete tower limit with its coherent limit; use the fibre of 1 − shift on products. An equivalence of stable categories preserves the multiplication-cofibre diagrams, and the localization universal property identifies integer localization. Apply the Koszul completion comparison of E4.2 to HR-modules.
+
+*Needs:* `GeneralizedCohomology` G3.8–G3.9; `BordismFormalGroups` F6.5 (model diagrams and (co)limit comparison); `symmetricSpectra_equiv_spectra`; `derivedTowerLimit`; `accessibleLocalization`; E4.2 (`regularIdeal_quotients`, `completeSheaf`).
 
 ### Examples
 
@@ -1992,7 +1701,7 @@ exports independently of the concrete models and their comparisons.
 
 ### Dependencies
 
-Layers E1, E5:abstract and E5:presentability. Mathlib (`DerivedCategory`, `ModuleCat`).
+The abstract HR/module comparison uses Layers E1, E5:abstract and E5:presentability and Mathlib (`DerivedCategory`, `ModuleCat`). The concrete spectra comparison also uses GeneralizedCohomology G2 and BordismFormalGroups F6.5's generic model and operadic sub-lanes. Its tower specialization uses GeneralizedCohomology G3.8–G3.9 and E2:towers, and the point-site completion specialization follows E4.2. These comparisons require no chromatic or Tate application.
 
 ## Layer E5:animation: Animated commutative algebra
 
@@ -2011,7 +1720,7 @@ Provide `siftedDiagonal`, `siftedProductComparison` (colim(F × G) → colim F �
 - The discrete category on two objects is not sifted.
 - The nerve of Mathlib's `CategoryTheory.Limits.WalkingReflexivePair` is not sifted, although the ordinary category is sifted: the diagonal comma category at (1,1) is connected with H₁(−; ℚ) = ℚ². Its 13 objects and 40 nonidentity arrows give normalized boundary ranks 12 and 26 in degrees one and two. Connectedness cannot replace weak contractibility (HTT Warning 5.5.8.2).
 
-*Needs:* `IsFinal`; `overDiagram`; `final_fibre_inclusion`; `leftKanExtension_restrict_trivialFibration`; Mathlib `CategoryTheory.IsSifted`.
+*Needs:* `IsFinal`; E0.1's supplied cone categories; `final_fibre_inclusion`; `leftKanExtension_restrict_trivialFibration`; Mathlib `CategoryTheory.IsSifted`.
 
 **The nonabelian derived category** (`nonabelianDerived`). For a small category C with finite coproducts, PΣ(C) is the full subcategory of Fun(C^{op}, Spaces) of functors carrying finite coproducts, the empty one included, to products. It is presentable; Yoneda is fully faithful, preserves finite coproducts, and has compact projective image (Map(y(c), −) preserves sifted colimits, which is stronger than compactness); every object is a sifted colimit of representables, namely the geometric realization of a simplicial object of coproducts of representables. Space-valued presheaves are essential; set-valued ones would lose animation. (HTT Proposition 5.5.8.10 and Lemma 5.5.8.14, printed pp. 507–510.)
 
@@ -2045,7 +1754,7 @@ Provide `animatedAlgebras`, `animatedDiscrete`, `animatedPiZero` and `animatedPu
 - For k = 𝔽₂, π₁(k ⊗ᴸ_{k[t]} k) = k, with t acting by zero on both factors.
 - A ⊗ᴸ_A B ≃ B.
 
-*Needs:* `nonabelianDerived`; `animationExtension`; `IsDwyerKanLocalization`; Mathlib `MvPolynomial`, `CommRingCat`, `CategoryTheory.SimplicialObject`.
+*Needs:* `nonabelianDerived`; `animationExtension`; the supplied localization universal property; Mathlib `MvPolynomial`, `CommRingCat`, `CategoryTheory.SimplicialObject`.
 
 ### E5:animation.2 Characteristic p
 
@@ -2090,7 +1799,7 @@ Provide `simplicialWitt`, `simplicialWittPi` and `wittFrobeniusLocalization`.
 
 *Proof route.* In the Reedy tower, passing from Tot_{r−1} to Tot_r has obstruction in degree r − 1 of the matching fibre and space of choices Ω^r of it. For n-truncated spaces both vanish when r > n + 1. In spectra or D∞(R), the layer Ω^r of a matching fibre has π_i = 0 for i > b − r. Its long exact sequence gives stabilization of π_k once r > b − k + 1; the Milnor sequence then identifies π_k of the tower limit with the stable value. Filtered colimits commute with the finite limits defining partial totalizations in these settings, and homotopy groups commute with filtered colimits. Apply these two interchanges to the stabilized groups.
 
-*Needs:* `IsSiftedInfinity`; `IsEnhancedLimit`; `IsStable`.
+*Needs:* `IsSiftedInfinity`; the supplied limit universal property; E0.4's supplied stability predicate.
 
 ### E5:animation.4 Animated rings as commutative algebras and their modules
 
@@ -2235,7 +1944,7 @@ Provide `postnikovCompletion`, `postnikovCompletion_eval` (the n-th term lies in
 - For an abelian sheaf A in degree zero, Ψ(A) is the constant tower A.
 - For A ≠ 0 in the heart, Ψ(A[1]) has Ψ(A[1])_0 = 0 and Ψ(A[1])_n = A[1] for n ≥ 1; the constant tower A[1] violates the condition at n = 0.
 
-*Needs:* `enhancedDerived`; `enhancedPushforward`; `fullEnhancedSubcategory`; `coherentFun`; Mathlib `CategoryTheory.Triangulated.TStructure.eTruncGE`.
+*Needs:* `enhancedDerived`; `enhancedPushforward`; `fullEnhancedSubcategory`; the supplied functor quasicategories; Mathlib `CategoryTheory.Triangulated.TStructure.eTruncGE`.
 
 **The derived limit is right adjoint to Ψ** (`postnikovCompletion_adjunction`). The functor Rlim : D̂(X) → D(X) is right adjoint to Ψ, with unit K → Rlim τ^{≥−n} K. The adjunction is proved on mapping spaces: truncation adjunction identifies maps into the connective objects L_n, but the full derived Hom complexes are not identified degree by degree. (BS-proet Lemma 3.3.2, p. 18, with the proof corrected as described.)
 
@@ -2414,7 +2123,7 @@ Provide `cartesianDerivedSystem`, `cartesianDerivedSystem_transition`, `hypercov
 - The family of restrictions of one complex is Cartesian.
 - On the identity hypercover of Set, the cosimplicial system [n] ↦ ℤ[Hom_Δ([0], [n])] in degree zero is not Cartesian: a coface gives ℤ → ℤ², not an isomorphism.
 
-*Needs:* `Hypercover`; `enhancedDerived`; `enhancedPullback`; `restrictedStraightening`.
+*Needs:* `Hypercover`; `enhancedDerived`; `enhancedPullback`; E0.7's supplied straightening.
 
 **Bounded-below hypercover descent** (`hypercoverDescent_boundedBelow`). For a hypercover of any topos, f^∗ is an equivalence D^+(X) ≃ D^+_cart(U_•), the lower bound being uniform in the simplicial degree, with inverse Rf_∗. Repleteness is not needed. (BS-proet Proposition 3.3.6(1) and (3), p. 20; Stacks, Simplicial Spaces, Lemmas 85.17.1, 85.17.3 and 85.17.5, tags 0D8G, 0D8I, PDF pp. 39–42; Cohomology on Sites, Lemma 21.28.5, tag 0D7U, PDF p. 60.)
 
@@ -2470,7 +2179,7 @@ Provide `cartesianDerivedSystem`, `cartesianDerivedSystem_transition`, `hypercov
 - Two successive refinements give their composite up to the prescribed natural equivalence.
 - The statement concerns Cartesian systems, not arbitrary simplicial derived objects.
 
-*Needs:* `hypercoverDescent`; `hypercoverDescent_boundedBelow`; `coherentFun`; `restrictedStraightening`.
+*Needs:* `hypercoverDescent`; `hypercoverDescent_boundedBelow`; the supplied functor quasicategories; E0.7's supplied straightening.
 
 ### E2.7 Sheaves of spaces
 
@@ -2484,7 +2193,7 @@ Provide `spaceSheaves`, `hypercompleteSpaceSheaves`, `spacePostnikovTower` and `
 - A 0-truncated sheaf of spaces is the nerve of an ordinary sheaf of sets.
 - For n ≥ 1, τ_{≤n−1} K(ℤ, n) is a point while τ_{≤n} K(ℤ, n) ≃ K(ℤ, n).
 
-*Needs:* `coherentFun`; `restrictedStraightening`; `accessibleLocalization`; `Hypercover`; `spaceInfinity`.
+*Needs:* the supplied functor quasicategories; E0.7's supplied straightening; `accessibleLocalization`; `Hypercover`; the supplied Spaces.
 
 **Postnikov convergence for sheaves of spaces on a locally weakly contractible topos** (`IsLocallyWeaklyContractible.spacePostnikov`). If X is locally weakly contractible, Postnikov towers converge in the hypercomplete ∞-topos of sheaves of spaces on X. Repleteness alone is not claimed to suffice, and this is not deduced from left completeness of D(X). (BS-proet Proposition 3.2.3(3), p. 18.)
 
@@ -2802,7 +2511,7 @@ Provide `completedSheafTensor`, `completedSheafTensor_map`, `completedSheafTenso
 - For I = 0 it is the derived tensor product.
 - For X = Set, R = ℤ_p, I = (p): ℤ/p ⊗̂ ℤ/p has H⁰ = ℤ/p and H^{−1} = ℤ/p and nothing else; completion does not change it.
 
-*Needs:* `completeSheaf`; `derivedTensor`; `derivedTensor_symmetricMonoidal`; `monoidalDwyerKanLocalization`; `enhancedCoeffChange`.
+*Needs:* `completeSheaf`; `derivedTensor`; `derivedTensor_symmetricMonoidal`; the supplied monoidal localization; `enhancedCoeffChange`.
 
 **Completed tensor–Hom adjunction** (`completedTensor_hom_adjunction`). For K, K′, L ∈ Dcomp(X, R, I), Map(K′ ⊗̂_R K, L) ≃ Map(K′, RℋOM_R(K, L)), naturally in all three variables, the internal Hom lying in Dcomp. No compactness of K is needed. (BS-proet Lemma 3.4.11, p. 22.)
 
@@ -2827,7 +2536,7 @@ Provide `CompatibleCoefficientSystems`, `coefficientSystem_eval`, `coefficientSy
 - For X = Set, R = ℤ_p, I = (p): the tower with ℤ/p[0] at every n and identity transitions is not a system, since (ℤ/p) ⊗ᴸ_{ℤ/p²} ℤ/p has nonzero H^{−1}.
 - For I = 0, Sys_I(X, R) ≃ D(X, R).
 
-*Needs:* `ringedSystemComparison`; `presentable_limit_restricted`; `enhancedDerived`; `enhancedCoeffChange`; `IsCoCartesianEdge`.
+*Needs:* `ringedSystemComparison`; `presentable_limit_restricted`; `enhancedDerived`; `enhancedCoeffChange`; the supplied coCartesian edges.
 
 **The reduction functor** (`coefficientReduction`). Red : Dcomp(X, R, I) → Sys_I(X, R), Red(K)_n = K ⊗ᴸ_R R_n, with transitions and coherences from associativity of the derived tensor product. (BS-proet Lemma 3.5.7, p. 25; ECD Proposition 26.2, p. 162.)
 
@@ -3027,7 +2736,7 @@ All earlier layers.
 
 ## Downstream consumers
 
-- Layer E0 (quasicategorical foundations, the dg nerve, straightening): `EtaleDualityAndPerverseSheaves`, `PerfectoidQuotients`, `DiamondSixOperations`, `HabiroCohomologyFoundations`, `HabiroRings`, `LefschetzPencilsAndVanishingCycles`, `PrismaticCohomology`, `CrystallineCohomology`, `RefinedTraceMethods`, `SchemeKTheoryOperations`, `StableHomotopyKTheory`, `VStackSheavesAndLisseCategories`.
+- Layer E0 (dg nerve, finality and presentability extensions; generic foundations and straightening supplied by BordismFormalGroups F6.5): `EtaleDualityAndPerverseSheaves`, `PerfectoidQuotients`, `DiamondSixOperations`, `HabiroCohomologyFoundations`, `HabiroRings`, `LefschetzPencilsAndVanishingCycles`, `PrismaticCohomology`, `CrystallineCohomology`, `RefinedTraceMethods`, `SchemeKTheoryOperations`, `StableHomotopyKTheory`, `VStackSheavesAndLisseCategories`.
 - Layer E1 (D∞(O) and its operations, Koszul complexes, regular rings and Kunz's theorem, perfect 𝔽_p-algebras): `AInfCohomology`, `AdicCoefficientsAndComparisons`, `ArithmeticLocallySymmetricSpaces`, `CohomologyComparisons`, `CrystallineCohomology`, `DiamondEtaleCohomology`, `EtaleDualityAndPerverseSheaves`, `PerfectoidQuotients`, `SmoothRepresentationsOfLocalGroups`, `DeformationAndDerivedPatchingAlgebra` (also for the global dimension of regular rings), `HabiroCohomologyFoundations`, `HabiroRings`, `HodgeStructuresPartII`, `IgusaVarietiesAndTorsionConcentration` (Kunz's theorem), `PrismaticCohomology`, `SchemeKTheoryOperations`, `VStackSheavesAndLisseCategories`.
 - Layers E2:towers and E2 (repleteness, Postnikov completion, hypercover descent, h-descent): `AdicCoefficientsAndComparisons`, `CrystallineCohomology`, `DiamondEtaleCohomology`, `LefschetzPencilsAndVanishingCycles`, `PerfectoidQuotients`, `PrismaticCohomology`, `AInfCohomology`, `CohomologyComparisons`, `DiamondSixOperations`, `InverseGaloisAndArithmeticFundamentalGroups`, `MotivicEtaleKTheory`, `SchemeKTheoryOperations`, `VStackSheavesAndLisseCategories`.
 - Layer E3 (Kan extensions, adjoints, localizations, mates): `AdicCoefficientsAndComparisons`, `DerivedDeRhamCohomology`, `DiamondEtaleCohomology`, `DiamondSixOperations`, `EtaleDualityAndPerverseSheaves`, `PerfectoidQuotients`, `GeometricSatakeAndFusion`, `HabiroRings`, `PrismaticCohomology`, `RefinedTraceMethods`, `VStackSheavesAndLisseCategories`.

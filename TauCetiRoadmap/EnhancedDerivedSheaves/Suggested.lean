@@ -8,11 +8,10 @@ The roadmap is `README.md`. This file records the definitions and theorem signat
 roadmap that can be stated against the pinned Mathlib and Tau Ceti; it is not exhaustive.
 The enhancement itself (the dg nerve, D∞(O), coherent towers, sheaves of spaces, Cat∞, operads,
 presentable categories, animated rings and the cotangent complex) is not available at the pins,
-so their comparisons and extensions are specified in the README. What is stated here are the parts that
+so their comparisons and extensions are specified in the README. The generic higher-category
+framework is supplied by BordismFormalGroups F6.5. The signatures below state the parts that
 live on carriers the pinned libraries already have, with the conventions they fix:
 
-* categorical equivalences of quasicategories, as equivalences in Mathlib's homotopy bicategory
-  `SSet.QCat.bicategory` (not equivalences of homotopy categories);
 * the point-site K-flat condition supplied by README §0.2;
 * the global dimension of regular rings and Kunz's theorem, on Mathlib's `IsRegularRing`;
 * Frobenius-root ideals and Tor independence of perfect `𝔽_p`-algebras;
@@ -32,36 +31,6 @@ open scoped ZeroObject
 open TauCetiRoadmap.SchemeAndStackFoundations.Proetale (IsReplete)
 
 universe u v w z
-
-/-! ## Layer E0: A concrete enhancement and higher-category operations -/
-
-section CategoricalEquivalence
-
-/-- **Categorical equivalences** (Section E0.2). A map of quasicategories is a categorical
-equivalence when it has a quasi-inverse up to invertible 2-morphisms in Mathlib's homotopy
-bicategory of quasicategories. This is stronger than an equivalence of homotopy categories:
-the one-object dg algebra `ℤ ⊕ ℤε` (`ε` in degree `-1`) and `ℤ` have equivalent homotopy
-categories but non-equivalent dg nerves (README, Section E0.2). -/
-def IsCategoricalEquivalence {C D : SSet.QCat.{u}} (f : C ⟶ D) : Prop :=
-  ∃ g : D ⟶ C, Nonempty (f ≫ g ≅ 𝟙 C) ∧ Nonempty (g ≫ f ≅ 𝟙 D)
-
-/-- The identity of a quasicategory is a categorical equivalence. -/
-example (C : SSet.QCat.{u}) : IsCategoricalEquivalence (𝟙 C) :=
-  ⟨𝟙 C, ⟨Bicategory.leftUnitor _⟩, ⟨Bicategory.leftUnitor _⟩⟩
-
-/-- Categorical equivalences compose (`categoricalEquivalence_comp`, Section E0.2). -/
-theorem categoricalEquivalence_comp {C D E : SSet.QCat.{u}} {f : C ⟶ D} {g : D ⟶ E}
-    (hf : IsCategoricalEquivalence f) (hg : IsCategoricalEquivalence g) :
-    IsCategoricalEquivalence (f ≫ g) := by
-  sorry
-
-/-- Two-out-of-three for categorical equivalences (`categoricalEquivalence_of_comp_left`). -/
-theorem categoricalEquivalence_of_comp_left {C D E : SSet.QCat.{u}} {f : C ⟶ D}
-    {g : D ⟶ E} (hf : IsCategoricalEquivalence f) (hfg : IsCategoricalEquivalence (f ≫ g)) :
-    IsCategoricalEquivalence g := by
-  sorry
-
-end CategoricalEquivalence
 
 /-! ## Layer E1: Unbounded derived sheaves and presentability -/
 
@@ -480,7 +449,9 @@ The README also specifies API beyond the representative statements above:
   ClassicalDerived.derivedCompletion.moduleComparison, ClassicalDerived.functorCoherence and
   ClassicalDerived.functorCoherence.coefficientComparison specify ringed-site constructions
   and their module and coefficient comparisons; their carriers are not at the pins.
-* E0.2: `isCategoricalEquivalence_iff` uses right mapping spaces.
+* E0 uses BordismFormalGroups F6.5 for the generic quasicategorical constructions.
+  E5:presentability.1 adds `indOrdinaryComparison` and `indCompactComparison` for its Ind.
+  The relative Kan-extension lifting theorem of E3.1 uses its categorical fibrations.
 * E1.2: `replacementDGComparison` compares the replacements supplied by
   README §0.2 with the dg realization; `IsKFlat` spells its point-site
   acyclicity condition. E1.5 `koszulEnhancedComparison` reindexes the Koszul complex supplied
@@ -500,14 +471,15 @@ The README also specifies API beyond the representative statements above:
   `Tor₂^B(A,C) = k`, distinguishing ordinary from derived pullback of `G`.
   These carriers are README targets.
 * E5:spectra-comparison: `eilenbergMacLane` and `moduleSpectra_equiv_derived` are
-  abstract exports. GeneralizedCohomology owns the outbound symmetric monoidal
-  comparison `DK(SpΣ, W_st) ≃ Sp`, preserving the sphere, suspension-spectrum
-  adjunction, integer shifts and mapping spectra. It identifies concrete `HR` with
-  `eilenbergMacLane R` in `CAlg(Sp)` for commutative `R`, routes concrete modules
-  through `moduleSpectra_equiv_derived`, and compares coherent localization and
-  completion towers with their units and transition maps. For `HR`-modules the
-  `p`-power cofibre tower corresponds to E4.2's Koszul tower; ordinary quotients
-  require the hypotheses of `regularIdeal_quotients`.
+  abstract exports. `symmetricSpectra_equiv_spectra` compares GeneralizedCohomology G2's
+  concrete spectra, enhanced through BordismFormalGroups F6.5, with abstract Sp. It
+  preserves the sphere, the suspension-spectrum adjunction, integer shifts and mapping
+  spectra, identifies concrete HR in CAlg(Sp), and routes its rectified module fibres
+  through `moduleSpectra_equiv_derived`. `symmetricSpectra_towerComparison` compares G3.8–G3.9's
+  coherent localization and completion towers with their units and transitions. Its
+  HR-module specialization follows E4.2's Koszul comparison; ordinary quotients require
+  the hypotheses of `regularIdeal_quotients`. The positive-flat model uses the supplied
+  unit-adjoined localization, with no cofibrant-unit assumption on that model.
 * E1.6: `frobeniusRootIdeal_radical` and `frobeniusRootIdeal_colimit` identify the root ideal
   with the radical and its sequential colimit presentation.
 * E2.1–E2.3: `IsReplete.of_over_epi`, `IsReplete.lim_map_epi`, `IsReplete.rlim_amplitude`,
@@ -517,13 +489,14 @@ The README also specifies API beyond the representative statements above:
 SchemeAndStackFoundations §2.17 supplies `IsReplete.lim_epi`, `IsReplete.derived_limits`
 and `IsReplete.derivedCategory_leftComplete`; its predicate is imported above.
 
-The remaining constructions use carriers that are not at the pins: the join, slices and right
-mapping spaces, the dg nerve, Cat∞ and Spaces, coCartesian
-fibrations and straightening, presentable quasicategories (Layer E0); D∞(O), the derived tensor
+The remaining constructions use carriers that are not at the pins: the supplied joins, slices,
+mapping spaces, Cat∞, Spaces and straightening, with the dg nerve and presentability
+extensions (Layer E0); D∞(O), the derived tensor
 product and internal Hom, ringed pullback and pushforward, the supplied Koszul comparison, Dqc and base change
 on perfect schemes (Layer E1); Kan extensions, adjoints, localizations and mates (Layer E3);
-coherent towers and derived-limit filtrations (Layer E2:towers); operads, algebras, modules,
-monoidal localizations, Verdier quotients and Barr–Beck–Lurie (Layer E5:abstract); Ind,
+coherent towers and derived-limit filtrations (Layer E2:towers); operadic algebra and scalar
+extension on the supplied monoidal framework, derived families, idempotent completion and
+Barr–Beck–Lurie (Layer E5:abstract); comparisons for the supplied Ind,
 PrL, PrR, limits along left and right adjoints, spectra, dualizable and rigid categories
 (Layer E5:presentability); descendable algebras (Layer E5:descent); animated rings and bounded
 totalizations in spaces, spectra and module categories (Layer E5:animation); Postnikov completion, hypercover
