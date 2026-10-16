@@ -1622,6 +1622,46 @@ example (k : Type u) [Field k] :
         Subsingleton ((derivedRestrict U.ι).obj K ⟶ ((derivedRestrict U.ι).obj L)⟦i⟧)) := by
   sorry
 
+/-! ### §2.19 Coherent upper shriek and its Čech pasting comparisons -/
+
+/-- Bounded-below complexes with quasi-coherent cohomology, in the ambient derived category.
+Stacks, §36.3 (06YZ); the lower bound is global. -/
+def DQCohPlus (X : Scheme.{u}) : Type (u + 1) :=
+  ObjectProperty.FullSubcategory (fun K : DerivedCategory X.Modules =>
+    (∀ n : ℤ, ((DerivedCategory.homologyFunctor X.Modules n).obj K).IsQuasicoherent) ∧
+      ∃ c : ℤ, K.IsGE c)
+
+instance (X : Scheme.{u}) : Category.{u + 1} (DQCohPlus X) := by
+  unfold DQCohPlus; infer_instance
+
+/-- Inclusion of bounded-below quasi-coherent complexes into the ambient derived category. -/
+def DQCohPlus.toDerived (X : Scheme.{u}) :
+    DQCohPlus X ⥤ DerivedCategory X.Modules := ObjectProperty.ι _
+
+-- A bounded coherent coefficient can have nonzero negative self-Ext even for the identity.
+example (X : Scheme.{u}) [IsAffine X] [IsNoetherian X] [Nonempty X] :
+    let O := (DerivedCategory.singleFunctor X.Modules 0).obj (SheafOfModules.unit X.ringCatSheaf)
+    let K := O ⊞ O⟦(1 : ℤ)⟧
+    (∀ n : ℤ, ((DerivedCategory.homologyFunctor X.Modules n).obj K).IsQuasicoherent) ∧
+      K.IsGE (-1) ∧ ∃ φ : K ⟶ K⟦(-1 : ℤ)⟧, φ ≠ 0 := by
+  sorry
+
+-- A nonidentity unipotent automorphism can restrict to the identity on every affine chart.
+attribute [local instance] MvPolynomial.gradedAlgebra in
+example (k : Type u) [Field k] :
+    let 𝒜 := MvPolynomial.homogeneousSubmodule (Fin 2) k
+    let X := Proj 𝒜
+    letI : X.Over (Spec (.of k)) :=
+      ⟨Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (algebraMap k (𝒜 0)))⟩
+    let O := (DerivedCategory.singleFunctor X.Modules 0).obj (SheafOfModules.unit X.ringCatSheaf)
+    let L := ((DerivedCategory.singleFunctor X.Modules 0).obj (X.relativeDifferentials k))⟦(1 : ℤ)⟧
+    let M := O ⊞ L
+    ∃ (N : M ⟶ M) (e : M ≅ M), N ≠ 0 ∧ N ≫ N = 0 ∧
+      e.hom = 𝟙 M + N ∧ e.inv = 𝟙 M - N ∧ e.hom ≠ 𝟙 M ∧
+      ∀ U : X.Opens, IsAffineOpen U →
+        (derivedRestrict U.ι).map e.hom = 𝟙 ((derivedRestrict U.ι).obj M) := by
+  sorry
+
 end Coherent
 
 /-! ### §2.22 Azumaya algebras -/

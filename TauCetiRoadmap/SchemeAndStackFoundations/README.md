@@ -3940,20 +3940,18 @@ Prove `globalDuality` (`RHom_X(L, a_f K) ≅ RHom_Y(Rf_* L, K)`),
 Here the schemes are Noetherian, so this is the usual lci condition
 (Stacks, §37.62, as used in Lemma 48.17.11). Define
 `upperShriek f : D⁺_QCoh Y ⥤ D⁺_QCoh X` for `f` separated of finite type between Noetherian
-schemes. On affine opens, factor the map as a closed immersion into affine space over an
-affine base followed by the smooth projection. Use the finite-map right adjoint for the
-closed immersion and pullback tensored with the shifted top differential bundle for the
-projection. Construct the comparison isomorphisms for different polynomial presentations
-and for restrictions to smaller affine opens; prove their identity and cocycle laws and
-glue the local functors and transformations using §2.18's derived restriction API.
-Prove independence of these local factorizations and the pseudofunctor structure
+schemes, by the Čech pasting construction below. On affine opens its formula is the
+finite-map right adjoint for a closed immersion into affine space, composed with smooth
+pullback tensored with the shifted top differential bundle. The construction includes
+independence of these local factorizations and the pseudofunctor structure
 `(g ∘ f)^! ≅ f^! g^!` with its unit and associativity coherence.
 For every given factorization `f = f̄ ∘ j` with `j` an open immersion and `f̄` proper, prove
 `upperShriek_compactification_independence`: the canonical comparison
 `f^! ≅ j^* ∘ a_{f̄}` identifies each such expression with the locally constructed functor;
 the induced comparisons between expressions satisfy identity and cocycle laws.
-This is the coherent coefficient comparison of Stacks, Situation 48.16.1,
-Lemmas 48.16.2–48.16.5 (0A9Y). API: `upperShriek_proper` (`f^! ≅ a_f` for proper `f`), `upperShriek_openImmersion` and
+Stacks, Situation 48.16.1 and Lemmas 48.16.2–48.16.5
+([0A9Y](https://stacks.math.columbia.edu/tag/0A9Y)), give the compactification-defined
+comparison model. The local construction and its pasting are supplied here. API: `upperShriek_proper` (`f^! ≅ a_f` for proper `f`), `upperShriek_openImmersion` and
 `upperShriek_etale` (`f^! ≅ f^*` for étale `f`; Stacks, Lemma 48.18.2 (0FWI), with the open
 immersion case Lemma 48.17.1 (0AU0)),
 `upperShriek_flat_baseChange` (for `g` flat, `g'^* f^! ≅ f'^! g^*` on `D⁺_QCoh(O_Y)`; Lemma 48.18.1
@@ -3969,7 +3967,109 @@ non-Noetherian bases. *Needs:* §2.18; the finite-map right adjoint above; affin
 presentations, closed immersions and smooth projections; StableReduction Layer 1
 (the sheaf of differentials, for `upperShriek_smooth`).
 
+**Čech pasting for coherent upper shriek — `upperShriek`.**
+This subsection owns the following construction for separated finite-type morphisms of
+Noetherian schemes, on all of `D⁺_QCoh`. Use the total ringed site of the Čech nerve of a
+finite open cover. Its modules are systems of module sheaves with actual structure maps;
+form their derived category before taking restrictions to the individual levels. An object
+with cartesian cohomology has isomorphisms on cohomology along all simplicial structure
+maps. The construction has three inputs, each a target here.
+
+1. Supply bounded-below Čech descent on these total ringed sites: for the augmentation
+   `a:U_•→X`, restriction `a^*` identifies `D⁺_QCoh X` with the full subcategory of
+   `D⁺(O_{U_•})` whose cohomology is cartesian and levelwise quasi-coherent. Its inverse is
+   `Ra_*`. Include the natural unit and counit, the identification with §2.18's ambient
+   `DerivedCategory X.Modules`, and compatibility with refinement, restriction and their
+   composites. This is the finite Zariski-cover specialization of
+   [Stacks, Lemma 85.20.4 (0DA7)](https://stacks.math.columbia.edu/tag/0DA7), using the
+   ringed total site of [Remark 85.16.6 (0D9X)](https://stacks.math.columbia.edu/tag/0D9X).
+   Prove that this equivalence induces equivalences on functor categories from any fixed
+   coefficient category, including their natural transformations. Thus equality is tested
+   in the derived category of the total site, retaining all simplicial data.
+2. For an affine finite-type map `Spec B→Spec A`, construct the local formula from a
+   presentation `A[t₁,…,tₙ]→B`: apply `RHom_{A[t]}(B,−)` to
+   `K⊗_A A[t]⊗Ωⁿ_{A[t]/A}[n]`. Supply natural comparisons for changing the presentation,
+   localization, identities and composition. The algebraic pasting inputs are the
+   closed-immersion right-adjoint pseudofunctor, the smooth differential-bundle
+   pseudofunctor (using the locally constant relative dimension on each open-and-closed
+   component), smooth base-change isomorphisms for closed immersions, and the
+   fundamental isomorphism `i^!p^!≅id` for a section `i` of a smooth map `p`.
+   Prove the latter by the regular-section Koszul identification, with its orientation
+   and shift. Verify horizontal and vertical base-change transitivity, compatibility of
+   the fundamental isomorphism with both base changes, and its compatibility with
+   concatenation of factorizations of identities. These are precisely the inputs of
+   Nayak, *Pasting pseudofunctors*, §2.1[A]–[D] and Theorem 2.2.4
+   ([primary text](https://arxiv.org/abs/math/0406501)), here applied on affine Noetherian
+   schemes with closed immersions and smooth maps. Verify also §2.1[A]: both classes
+   contain isomorphisms and are stable under base change; if `gf` is a closed immersion
+   and `g` is closed or smooth, then `f` is a closed immersion (use separatedness of
+   affine morphisms). Every affine finite-type map factors in these classes. This
+   supplies the ordinary affine comparisons.
+3. Supply their complex-level realization on the total Čech ringed site. For a finite
+   affine cover of `X` subordinate to an affine cover of `Y`, construct a functor from
+   `D⁺_QCoh Y` into `D⁺(O_{U_•})` realizing those local formulas, with cartesian
+   quasi-coherent cohomology. The data include maps on coefficient morphisms, comparisons
+   on every multiple overlap (using affine refinements of non-affine intersections),
+   and the higher homotopies making the simplicial identities hold in a complex model.
+   Use bounded-below injective module-sheaf representatives, for which quasi-isomorphisms
+   are homotopy equivalences; restriction to an open preserves injectives because its
+   left adjoint, extension by zero, is exact. Construct the overlap data from the local
+   adjunction and Koszul maps above, and rectify them to complexes of modules on the
+   total site. Prove that this realization respects quasi-isomorphisms and agrees with
+   the affine formulas. Ordinary derived comparison isomorphisms alone are not the input.
+   Construct presentation-change and cover-refinement transformations in this total-site
+   derived category, with invertible components and identity and
+   transitivity laws. Do the same for the identity and for composable morphisms: the
+   total-site unit and composition transformations must satisfy the triangle and pentagon
+   identities before applying `Ra_*`. A common refinement compares any two covers.
+   The complex-level comparison and realization are part of this target. A primary model
+   for the multiple-overlap maps and higher homotopies is Block–Holstein–Wei,
+   *Explicit homotopy limits of dg-categories and twisted complexes*, §§3.2,4.1,4.3,
+   Definition 4.3 and Corollary 3
+   ([primary text](https://arxiv.org/abs/1511.08659)); the comparison with global
+   bounded-below module complexes is the descent equivalence in input 1.
+
+Apply `Ra_*` to this functor and these transformations to obtain `upperShriek`,
+its identity and composition comparisons, and associativity. Prove preservation of the
+coefficient conditions: quasi-coherence follows from the affine formulas and is local. If the input has no cohomology below `c`, a chart
+with `n` polynomial variables has no output cohomology below `c−n`; derived Hom from a
+module cannot lower this bound. A finite affine cover gives one maximum `n`, and the
+Čech descent equivalence preserves this common lower bound. Thus the output is globally
+bounded below even when the input has no upper bound or finite-generation condition.
+For proper `f`, lift the local adjunction comparisons to the total site and descend them
+to identify this functor with `a_f`, compatibly with its counit. For any given open-proper
+factorization the same comparisons give `upperShriek_compactification_independence`.
+The construction uses finite Zariski covers and bounded-below module complexes on their
+total ringed sites; general enhancements and unbounded descent retain their existing owners.
+*Needs:* §2.18's derived operations and affine equivalence; this subsection's finite-map
+right adjoints; §2.2's Čech cohomology; affine polynomial presentations and the
+regular-section Koszul formula. The latter formula and the total-site realization,
+including all the comparisons just specified, are locally owned prerequisites here.
+
+The prototype `Coherent.DQCohPlus` is the full subcategory of §2.18's ambient derived
+category with quasi-coherent cohomology and one global lower bound.
+`Coherent.DQCohPlus.toDerived` is its inclusion. Suggested.lean states this carrier and
+the boundary examples below; the total-site objects, their complex-level realization
+and the resulting functor and comparisons have the mathematical specification above.
+
 **Checks.**
+- For the identity on a nonempty affine Noetherian `U`,
+  `K=O_U[0]⊕O_U[1]` is an allowed bounded coherent coefficient and `id^!K≅K`.
+  Nevertheless `Hom(K,K[−1])≠0`: project to its first summand and include into the
+  second summand of `K[−1]`. Čech pasting has no negative-Ext hypothesis.
+- On `ℙ¹_k`, let `α:O→O(−2)[1]` be nonzero, as in §2.18, and
+  `M=O⊕O(−2)[1]`. Then `N=inclusion₂∘α∘projection₁` is nonzero and `N²=0`;
+  `1+N` is a nonidentity automorphism with inverse `1−N`, restricting to the identity
+  on every affine open. Its image under total-site restriction remains nonidentity,
+  by full faithfulness of Čech descent. Degree-zero chart restrictions alone lose it.
+- Adding one polynomial variable to a presentation gives the same local functor:
+  the extra smooth shift `[1]` cancels the regular-section shift `[−1]`, with the
+  canonical differential and conormal lines cancelling. Two added variables test
+  transitivity and the Koszul sign in the comparison.
+- The one-member cover gives the original functor and transformations; refining a
+  two-open cover twice gives the same natural comparison as the composite refinement.
+  On three composable affine maps, both parenthesizations give the same natural comparison;
+  four maps give the pentagon.
 - `IsLocalCompleteIntersection_identity`: the identity has an empty regular sequence.
 - `IsLocalCompleteIntersection_closed_point`: `t = 0` in `A¹_k` is cut out by the regular sequence `[t]`.
 - `IsLocalCompleteIntersection_dual_numbers_rejected`: `Spec k → Spec k[ε]/(ε²)` is not lci;
@@ -5576,8 +5676,12 @@ pp. 8–9, 23–29. *Needs:* §§1.17,1.19–1.22,4.11–4.12; projective bundle
 Grassmannians and finite-type images; StableReduction's blow-ups.
 
 **Checks.**
-- `spaceNakaiMoishezon` gives ampleness of `O(1)` on `ℙ^r`, with top degree one
-  on every integral subvariety of positive dimension.
+- `spaceNakaiMoishezon` gives ampleness of `O(1)` on `ℙ^r`, with positive top
+  self-intersection on every positive-dimensional integral subvariety, equal to its
+  projective degree. This is one on linear subspaces. On a line and a smooth plane
+  conic the degrees are respectively one and two: the conic parametrization pulls
+  `O_{ℙ²}(1)` back to `O_{ℙ¹}(2)`
+  ([Stacks, Lemma 33.45.9 and Definition 33.45.10](https://stacks.math.columbia.edu/tag/0BEL)).
 - On `ℙ¹`, `O` has degree zero and `O(−1)` has degree −1; neither is ample.
 - On a proper zero-dimensional space the numerical condition is empty and every
   invertible sheaf is ample, as the space is finite over `k`.
