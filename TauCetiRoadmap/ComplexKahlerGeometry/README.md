@@ -110,7 +110,20 @@ K1 also proves, from the same determinant comparison, that every local biholomor
 `IsOrientationPreservingAt` for these complex orientations. Transport the
 orientation and these laws together.
 Holomorphic differentials are complex-linear; a smooth map is holomorphic iff its
-differential intertwines J, equivalently carries `T^(1,0)` into `T^(1,0)`. Consume
+differential intertwines J, equivalently carries `T^(1,0)` into `T^(1,0)`. In the flat
+one-variable chart, make this criterion explicit: for a C¹ real map `φ:U→V` between open
+subsets of ℂ and an ambient representative near each point, write
+`dφ=φ_z dz+φ_{\bar z}d\bar z`. The pullback of `dz` is of type `(1,0)` exactly when
+`φ_{\bar z}=0`; preservation of all target `(1,0)` covectors is
+therefore equivalent to this equation (the converse tests `dz`, i.e. coefficient `1`).
+Equivalently, for the real-linear covector `ℓ=Dφ(z)`, complex-linearity is
+`ℓ(I)=I • ℓ(1)`; use native `real_linearMap_map_smul_complex` and
+`ContinuousLinearMap.complexOfReal` to construct the complex-linear map. With the stated
+real C¹ hypothesis, consume Mathlib's
+`differentiableAt_complex_iff_differentiableAt_real` to identify this with complex
+differentiability. Pointwise covectors need only the C¹ map; the bundled smooth-form
+pullback requires a smooth map. This is a coordinate test for K1's existing criterion, not
+another type-form carrier. Consume
 `ContDiffAt.to_localInverse` and `ContDiffAt.implicitFunction` over ℂ, with
 RealAlgebraicGeometry Layer 7's analytic inverse/complexification comparison, and prove their
 complex-manifold transport, composition and inverse APIs, with the relevant derivative invertible.
@@ -762,6 +775,43 @@ Equip its de Rham cohomology quotients with the induced `Module ℂ` structure, 
 maps are complex-linear, and prove the complex-linear isomorphism
 `H_dR(M;ℂ) ≃ ℂ ⊗_ℝ H_dR(M;ℝ)` by scalar extension of the complex. Include the
 singular-cohomology comparison supplied by DifferentialGeometry and AlgebraicTopology.
+
+As a punctured-plane regression, compute `H¹_dR(ℂ\{0};ℂ)≃ℂ` on this same complex
+form carrier. Give `ℂ\{0}` its canonical open-subtype manifold structure with model `𝓘(ℝ,ℂ)`.
+For a smooth closed complex 1-form `ω`, view it as its real-linear covector field on the
+open subtype. Let `γ(t)` be `circleMap 0 1 t`, regarded as a curve in that subtype using its
+nonvanishing unit-circle proof. Define the positive unit-circle period by
+`Per(ω)=∫₀^{2π} ω(γ(t))(deriv (circleMap 0 1) t) dt`.
+Prove the native scalar comparison `Per(f dz)=circleIntegral f 0 1` when the form is the
+complex-linear covector `v↦f(z)v`; the circle-integral definition uses the same derivative
+parametrization. Set `P([ω])=(2πi)⁻¹Per(ω)`. Prove exact forms have zero period by the C¹
+path fundamental theorem, so `P` is well-defined. Prove its complex linearity.
+
+Use the slit domains `V_+=ℂ\(-∞,0]` and `V_-=ℂ\[0,∞)`.
+The first is Mathlib's `Complex.slitPlane`, star-convex about `1` by
+`Complex.starConvex_one_slitPlane`; the second is its image under `z↦−z`, hence star-convex
+about `−1`. Apply DG6.2's smooth star-convex primitive target, constructed from DG5.4's
+radial homotopy, to obtain smooth primitives `g_+` and `g_-` of `ω` on these domains.
+
+Split the positively oriented circle into four arcs: `1→i` and `−i→1` lie in `V_+`, while
+`i→−1` and `−1→−i` lie in `V_-`. The upper and lower overlap components are connected, so
+`g_+−g_-` is constant there, with values `c_U` and `c_L`. Apply the interval fundamental
+theorem to the four arcs, using DG's open-subtype flat adapter and DG1.5's comparison with
+native `curveIntegral`. Their sum gives `Per(ω)=c_U−c_L`. Thus zero period makes the constants
+equal; after one constant adjustment the two local primitives glue to a global smooth primitive.
+For general `ω`, set `k=(2πi)⁻¹Per(ω)`; the closed form `ω−k dz/z` has zero period and is
+exact, so `[ω]=k[dz/z]`. Since `Per(dz/z)=2πi`, `P([dz/z])=1` and `P` is a
+complex-linear equivalence.
+For the normalization, construct `dz/z` as a smooth form through DG0.3 and prove
+`dz/z=β+iα` in the polar notation of DG1.5. Define `Log_+` as the principal logarithm on `V_+` with argument
+`(−π,π)`, and `Log_−(z)=log(−z)+iπ` on `V_-`, with argument `(0,2π)`. Then
+`Log_−−Log_+` is `0` on the upper overlap and `2πi` on the lower. Prove
+`d Log_±=dz/z` on the corresponding slit domains from the real derivative of the complex
+logarithm and the chain rule. This proves closedness of `dz/z` by locality and `d²=0`.
+For these primitives, `c_U=0`, `c_L=−2πi`, and hence `Per(dz/z)=2πi` by the four-arc formula.
+Relate the real slit
+primitive to `Re(Log_-)+Im(Log_-)=log r+θ` on `V_-`. Use the complex form carrier and
+cohomology quotient above throughout this computation.
 
 As a disk regression, let `D={z:|z|<1}` with its open-subtype smooth structure and DG's existing
 form carrier with coefficients in `ℂ`. Compute `H⁰_dR(D;ℂ)≃ℂ` by a complex-linear equivalence,
