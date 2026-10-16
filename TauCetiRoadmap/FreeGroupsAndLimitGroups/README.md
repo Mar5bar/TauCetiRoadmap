@@ -23,6 +23,7 @@ This roadmap owns:
 What it builds on, and does not plan again:
 
 - **Mathlib** (at the Tau Ceti pin) already has the free group with reduced words and cyclic reduction (`FreeGroup.reduce`, `FreeGroup.toWord`, `FreeGroup.IsCyclicallyReduced`, `FreeGroup.reduceCyclically`), torsion-freeness and uniqueness of roots for a fixed exponent (the `IsMulTorsionFree` instance on `FreeGroup α`), free bases (`FreeGroupBasis`, `IsFreeGroup`), the non-constructive Nielsen–Schreier theorem (`subgroupIsFreeOfIsFree`), the Schreier inequality `Subgroup.rank_le_index_mul_rank`, amalgamated products and HNN extensions with their normal forms (`Monoid.PushoutI.NormalWord`, `HNNExtension.NormalWord`, hence Britton's lemma), free products and the ping-pong lemma (`Monoid.CoprodI`, `Monoid.CoprodI.lift_injective_of_ping_pong`, and the free-group form `FreeGroup.injective_lift_of_ping_pong`), presented and finitely presented groups, first-order syntax and semantics with prenex normal form (`FirstOrder.Language.BoundedFormula.toPrenex`), list encodings of terms and formulas, and the computability framework. These are cited, never re-planned. Reduced-word equality and the trivial-word criterion are consumed directly, and syntax encoding and prenex transformations have no second implementation here.
+- **Shared free-group centralizer interfaces.** [Mathlib PR #42677](https://github.com/leanprover-community/mathlib4/pull/42677), commit `b38ce379d898d1284bae5582be27de1d2af39f67`, proposes `FreeGroup/Center.lean` with `FreeGroup.centralizer_of_eq_closure`, `FreeGroup.isCyclic_centralizer`, `FreeGroup.commute_of_commute`, `FreeGroup.center_eq_top_of_subsingleton` and `FreeGroup.center_eq_bot_of_nontrivial`. These overlap §§1.5–1.8. Coordinate the shared signatures with that work and build the required theory in Tau Ceti using its interface shape wherever the pinned Mathlib lacks it; adopt the Mathlib declarations when available. The maximal-root identification and malnormality targets remain here. No reuse of the proposed proofs is required.
 - **Tau Ceti at the pin** already has malnormal subgroups, as trivial-intersection subgroups: `TauCeti.IsTISubgroup` (TauCeti/GroupTheory/TrivialIntersection.lean), with its lattice form `TauCeti.isTISubgroup_iff_inf_conj_smul_eq_bot`. The CSA condition of Layer 1 is stated with it, and malnormality is not defined again here; RepresentationTheory/CharacterTheory, Layer 8 “Frobenius groups and Frobenius’s theorem,” uses the same notion for finite groups.
 - **Tau Ceti at the pin** supplies free-group residual finiteness, residual p and the sharper Schreier inequality through the exact contracts below. The equality for finite-index free subgroups is Layer 2.
 - **Tau Ceti roadmaps.** [GraphConnectivityAndFlows, Target 1.1](../GraphConnectivityAndFlows/README.md#11-undirected-walks-isomorphisms-and-representation-bridges) supplies native multigraph walks, connectivity and components; §§2.1–2.1a own the Serre-dart adapter. [SurfaceTopology, Layers 1–2 and 6–7](../SurfaceTopology/README.md) supplies finite surface maps, polygonal normal forms and finite graph/surface edge-path presentations. §§2.2 and 6.0a–6.1a supply the comparisons with Serre paths and marked boundary groups; §6.0d owns their cutting-to-splitting interface. These are item-level inputs, without flow, Menger or mapping-class-group prerequisites. AlgebraicTopology's surface topology and FuchsianOrbifolds' analytic surfaces have different applications. QH vertices here have hyperbolic surface groups and trivial fiber (§6.10); GeometricTopology's geometric JSJ is distinct from Layer 10's group-theoretic JSJ. ProfiniteProPGroups and PeripheralActions concern pro-p groups. [ClassifyingSpaces, Stage 2 item 7](../ClassifyingSpaces/README.md#stage-2-the-cellular-model) supplies presentation complexes and their fundamental-group comparison to §10.1a, hence §10.2 and downstream JSJ consumers; §2.2 is combinatorial and independent of that input. These roadmap contracts are specifications, distinct from the declarations implemented at the library pin.
@@ -129,12 +130,12 @@ Out of scope (non-goals): the full first-order decision procedure for free group
 - `Subgroup.rank_le_one_add_index_mul_rank_sub_one` (TauCeti/GroupTheory/Schreier.lean): for a finite-index subgroup H of a finitely generated G, rank H ≤ 1 + H.index * (rank G - 1), in natural numbers. Layer 2 asks for the exact integer equality for free groups.
 - `TauCeti.IsTISubgroup.centralizer_singleton_le` (TauCeti/GroupTheory/TrivialIntersection.lean): if H is malnormal and 1≠x∈H, then C_G(x)≤H. Used with maximal abelian subgroups in §1.7.
 
-Cross-layer prerequisites are explicit: §§8.5–8.6 precede §6.8; §§8.8–8.9 provide the NTQ embedding independently of §8.7; §8.6a's carrier and ICE comparison and §8.6b's irreducible-to-NTQ embedding precede §8.7, while §9.5's length-function corollary follows §8.7. Finite presentability in §8.7 precedes §8.2's finite-rank abelian-subgroup conclusion.
+Cross-layer prerequisites are explicit: §§8.5–8.6 precede §6.8; §§8.8–8.9 provide the normalized tower embedding independently of §8.7; §8.6a's carrier and ICE comparison and §8.6b's irreducible-to-tower embedding precede §8.7, while §9.5's length-function corollary follows §8.7. Finite presentability in §8.7 precedes §8.2's finite-rank abelian-subgroup conclusion.
 
 
 ## How to read the build
 
-Layer 1 proves conjugacy, roots and centralizers over Mathlib's free group. Layer 2 adds Serre graphs and the Stallings correspondence; Layer 3 supplies the language of groups and the term–word and formula–system dictionaries. Layer 4 develops Bass–Serre theory. Layer 5 gives algebraic geometry over a coefficient group; Layer 6 treats surface groups and quadratic equations. Layer 7 supplies cancellation families, solution bounds and positive formal solutions. Layer 8 identifies limit groups, fully residually free groups and irreducible coordinate groups and builds NTQ towers. Layer 9 gives length functions, infinite words and subgroup graphs. Layer 10 proves finite JSJ and Makanin–Razborov factorization theorems; Layer 11 proves the regular implicit function theorems. The subsection contracts fix the proof order: §§8.5–8.6 supply §6.8; §§6.8–6.9 and §8.8 supply §8.9 independently of §8.7; §§8.6a–8.6b and §8.9 supply §8.7; §8.7 supplies §8.2's finite-rank centralizers and §9.5's limit-group length-function corollary.
+Layer 1 proves conjugacy, roots and centralizers over Mathlib's free group. Layer 2 adds Serre graphs and the Stallings correspondence; Layer 3 supplies the language of groups and the term–word and formula–system dictionaries. Layer 4 develops Bass–Serre theory. Layer 5 gives algebraic geometry over a coefficient group; Layer 6 treats surface groups and quadratic equations. Layer 7 supplies cancellation families, solution bounds and positive formal solutions. Layer 8 identifies limit groups, fully residually free groups and irreducible coordinate groups and builds NTQ towers. Layer 9 gives length functions, infinite words and subgroup graphs. Layer 10 proves finite JSJ and Makanin–Razborov factorization theorems; Layer 11 proves the regular implicit function theorems. The subsection contracts fix the proof order: §§8.5–8.6 supply §6.8; §§6.8–6.9 and §8.8 supply normalized tower discrimination and embeddings in §8.9 independently of §8.7; §§8.6a–8.6b and §8.9 supply §8.7; §8.7 supplies §8.2's finite-rank centralizers and §9.5's limit-group length-function corollary.
 
 ## Layer 1: Free-group conjugacy, roots and centralizers
 
@@ -1841,7 +1842,7 @@ This layer consumes Layer 1, Layer 3, Layer 5. Library suppliers are the declara
 
 ## Layer 8: Fully residually free groups, limit groups, and ordinary NTQ towers
 
-Fully residually free groups (free discrimination), limit groups as limits of marked free groups, and their identification with coordinate groups of irreducible algebraic sets; extensions of centralizers, the embedding theorems and finite presentability; triangular quasi-quadratic and NTQ systems with their coordinate groups, level maps and the regular subclass used in Layer 11. The cyclic-centralizer theorem of free groups is not transferred: centralizers in limit groups are free abelian, not cyclic.
+Fully residually free groups (free discrimination), limit groups as limits of marked free groups, and their identification with coordinate groups of irreducible algebraic sets; extensions of centralizers, the embedding theorems and finite presentability; raw triangular quasi-quadratic systems, normalized NTQ tower carriers, their finite solution covers and level maps, and the regular subclass used in Layer 11. The cyclic-centralizer theorem of free groups is not transferred: centralizers in limit groups are free abelian, not cyclic.
 
 ### 8.1 Residually free and fully residually free groups
 
@@ -2017,91 +2018,110 @@ Sources: [MRS-REGULAR] §2.1, E1–E3 and the centralizer-chain construction, pp
 
 *Needs:* §§8.5–8.6 (admissible centralizer extensions and discrimination); Mathlib polynomial rings and group direct limits. No absolute limit-group embedding theorem is used.
 
-### 8.6b Irreducible coordinate groups embed in NTQ groups
+### 8.6b Finite tower covers and irreducible coordinate-group embeddings
 
-Fix a nonabelian free coefficient group F of finite rank. For finite X and a finite system S⊆F[X] with a nonempty irreducible algebraic set, prove that F_{R(S)} admits an F-embedding into the coordinate group of an NTQ system with the admissible full-centralizer levels of §8.8. Equivalently, every finitely generated F-group F-discriminated by F admits such an embedding, using equational Noetherianity to choose S. Build the finite solution decomposition tree from parametric generalised equations, periodic structures and the presentation-group kernel reconstruction and full radical transport of §§7.1–7.6. At its terminal branches form the NTQ levels and their word maps; prove that one branch has kernel exactly R(S), using irreducibility and the finite covering, rather than treating a covering map as an embedding. This owns the irreducible-to-NTQ input independently of the absolute embedding theorem; the NTQ-to-ICE input is §8.9(4), proved by structural induction.
+Fix a nonabelian free coefficient group F of finite rank. For finite X and a finite system S⊆F[X], prove `LimitGroup.NTQ.finite_tower_cover`: there are a finite index set I, normalized towers T_j over F as in §8.8, finite generating tuples Y_j with finite saturated presentations U_j⊆F[Y_j], and tuples of words p_j∈F[Y_j]^X such that
+
+- for every F-homomorphism ψ:T_j→F, the tuple p_j(ψ(Y_j)) solves S;
+- every v∈V_F(S) equals p_j(ψ(Y_j)) for some j∈I and some F-homomorphism ψ:T_j→F;
+- each word tuple induces an F-homomorphism θ_j:F_{R_F(S)}→T_j, and its nonempty solution image is irreducible. Empty V_F(S) has I=∅.
+
+Thus R_F(S) is the intersection of the kernels of F[X]→T_j given by the word tuples. This is a finite pointwise cover by all tower specializations, not just discriminating families or compositions of level retractions. For a raw TQ system, the cover includes the specializations where lower coefficient words vanish or their centralizers grow. Construct these branches using the parametric generalised equations, periodic structures, defining-presentation kernel reconstruction and full radical transport of §§7.1–7.6. Prove finiteness and both solution directions, including coefficient-degeneration branches, before extracting any component. The construction uses fixed-coefficient quadratic radicals only within an individual normalized tower; it never identifies them with the raw system's global radical.
+
+If V_F(S) is nonempty and irreducible, one of the finitely many image closures is all of V_F(S). For that j, θ_j is injective: a word vanishing in T_j vanishes on a dense solution image, hence on V_F(S). Conversely tower discrimination (§8.9(2)) makes each θ_j well-defined on the radical quotient and each image irreducible. This proves the F-embedding into a normalized tower, equivalently for every finitely generated F-group F-discriminated by F. This owns the irreducible-to-tower input independently of the absolute embedding theorem; the tower-to-ICE input is §8.9(4), proved by structural induction.
 
 **Checks.**
 
-- For S empty, the free F-group F[X] embeds into the one-level empty NTQ group by the identity.
-- The consistent equation [x,a]=1 over F(a,b) embeds into its admissible centralizer NTQ group.
-- A reducible union ⟨a⟩∪⟨b⟩ has only a finite NTQ cover; an embedding of its coordinate group into an F-discriminated NTQ group would force discrimination and irreducibility, so the irreducibility hypothesis is necessary.
-- An abstract fully residually free group with coefficient subgroup ⟨a²,b⟩ need not be discriminated fixing those coefficients; use the specified relative discrimination hypothesis.
+- For S empty, F[X] is the one-level empty tower and the word map is the identity.
+- The equation [x,a]=1 over F(a,b) has its admissible full-centralizer tower and identity word map.
+- For S={[u,v],[u,x]}, retain both branches: u=1 with v,x free, and [u,v]=[u,x]=[v,x]=1. Their carriers are F∗F(v,x) and F∗ℤ³, with word maps (1,v,x) and (u,v,x). They cover every solution by commutation transitivity. The second carrier is the normalized tower obtained by repairing the conjugacy level over F∗ℤ²; the first retains (1,a,b).
+- A reducible union ⟨a⟩∪⟨b⟩ has a finite tower cover; its coordinate group cannot embed in an F-discriminated tower, since that would force discrimination and irreducibility.
+- An abstract fully residually free group with coefficient subgroup ⟨a²,b⟩ need not be discriminated fixing those coefficients; use the specified relative hypothesis.
 
-Sources: [VAR-II] §0, Theorem 3, p. 4, and its proof in §§1–9 and §10, pp. 7–39; Theorem 4, pp. 4–5, for the separate passage to abstract groups. The finite NTQ covering is Theorem 2; injectivity needs the irreducible-branch argument.
+Sources: [VAR-II] §0, Theorems 2–3, p. 4, and §§1–9, pp. 7–37; [IFT] §5.6, Theorems 5–6, pp. 59–60, for the finite solution-tree and word-map covering. The terminal carriers here use the iterated fixed-coefficient radical presentations of §8.8; their comparison with the original system is the two solution directions above. Theorem 4 of [VAR-II], pp. 4–5, gives the separate passage to abstract groups.
 
-*Needs:* §§7.1–7.6 (cancellation families, transformations, periodic structures and finite solution trees); §8.8 (NTQ carriers); §§5.9–5.11 (Noetherianity and irreducibility); §6.8 (quadratic radicals); §8.9(2) (independently proved NTQ discrimination, for passage of word maps to radical quotients); §8.9(4) for the subsequent passage from NTQ to ICE.
+*Needs:* §§7.1–7.6 (cancellation families, transformations, periodic structures and finite solution trees); §8.8 (normalized tower carriers); §§5.9–5.12 (Noetherianity, irreducibility and word maps); §6.8 (fixed-coefficient quadratic radicals); §8.9(2) (independent tower discrimination); §8.9(4) for the subsequent passage from towers to ICE.
 
 ### 8.7 Embedding theorems and finite presentability
 
 Prove the following statement. Fix a nonabelian free group F of finite rank. (1) (Kharlampovich–Myasnikov) A finitely generated group is fully residually free if and only if it embeds in Lyndon's group F^{ℤ[x]}; equivalently it embeds in an admissible ICE group over a nonabelian free group of finite rank. (2) Every finitely generated residually free group embeds in a direct product of finitely many fully residually free groups. (3) Every finitely generated fully residually free group is finitely presented, and so is every finitely generated subgroup of it (they are themselves fully residually free). (4) Every finitely generated subgroup of an ICE group over F is built from free abelian groups of finite rank by finitely many free products, amalgams over abelian groups one of which is maximal abelian, free extensions of centralizers, and separated HNN extensions with abelian associated subgroups one of which is maximal abelian.
 
-(1) Use the irreducible-coordinate-group-to-NTQ embedding of §8.6b, the independently proved NTQ-to-ICE embedding of §8.9(4), and the completion/ICE comparison of §8.6a. Conversely ICE groups are discriminated by §8.6. VAR-II Theorem 4 passes from an abstract finitely generated fully residually free group to its coefficient-free presentation over F; it does not assert discrimination fixing an arbitrary embedded coefficient subgroup.
+(1) Use the irreducible-coordinate-group embedding into a normalized tower of §8.6b, the independently proved tower-to-ICE embedding of §8.9(4), and the completion/ICE comparison of §8.6a. Conversely ICE groups are discriminated by §8.6. VAR-II Theorem 4 passes from an abstract finitely generated fully residually free group to its coefficient-free presentation over F; it does not assert discrimination fixing an arbitrary embedded coefficient subgroup.
 (2) VAR-II Corollary 2, via §5.10 (Noetherian Zariski topology and irreducible components).
 (3)–(4) VAR-II Theorem 6 and Corollary 3 (structure of finitely generated subgroups of ICE groups by induced splittings, Layer 4).
 
 The closed surface group S⁺(2, 0) embeds in an ICE group over F₂. F₂ × F₂ (residually, not fully residually free) embeds in a product of two fully residually free groups, as (2) allows.
 
-Use [VAR-II] §0, Theorems 1, 3, 4, 6 and Corollaries 2–3, pp. 4–5: Nondegenerate TQ systems have coordinate groups in ICE groups; a finitely generated group is fully residually free iff it embeds in F^{ℤ[x]}; residually free groups embed in finite products; the structure of finitely generated subgroups of ICE groups and finite presentability.; [LIMITS] §4, Theorem 4.2, p. 30: First characterisation: limit groups are exactly the finitely generated subgroups of iterated extensions of centralizers of free groups.; [SUBGROUPS] §2.3, Theorems 1–2, p. 6: Effective versions: from a finite presentation one constructs the embedding into F^{ℤ[t]} and into an ICE group.
+Use [VAR-II] §0, Theorems 1, 3, 4, 6 and Corollaries 2–3, pp. 4–5: The quadratic embeddings supply the normalized tower-to-ICE induction of §8.9; a finitely generated group is fully residually free iff it embeds in F^{ℤ[x]}; residually free groups embed in finite products; the structure of finitely generated subgroups of ICE groups and finite presentability.; [LIMITS] §4, Theorem 4.2, p. 30: First characterisation: limit groups are exactly the finitely generated subgroups of iterated extensions of centralizers of free groups.; [SUBGROUPS] §2.3, Theorems 1–2, p. 6: Effective versions: from a finite presentation one constructs the embedding into F^{ℤ[t]} and into an ICE group.
 
-*Needs:* §8.5 (Extensions of centralizers and iterated extensions); §8.6 (Extensions of centralizers are discriminated by the base group); §8.4 (Limit groups are the finitely generated fully residually free groups); §8.8 (Triangular quasi-quadratic and NTQ systems); §8.9(4) (NTQ-to-ICE embedding); §8.6a (Lyndon completion and ICE comparison); §8.6b (irreducible-to-NTQ embedding); §7.2–§7.6 (cancellation families and solution trees); §5.10 (Noetherian Zariski topology and irreducible components); §4.10–§4.11 (induced splittings and subgroup structure) for (3)–(4); Mathlib `Group.IsFinitelyPresented`.
+*Needs:* §8.5 (Extensions of centralizers and iterated extensions); §8.6 (Extensions of centralizers are discriminated by the base group); §8.4 (Limit groups are the finitely generated fully residually free groups); §8.8 (raw TQ systems and normalized NTQ towers); §8.9(4) (normalized tower-to-ICE embedding); §8.6a (Lyndon completion and ICE comparison); §8.6b (irreducible-to-tower embedding); §7.2–§7.6 (cancellation families and solution trees); §5.10 (Noetherian Zariski topology and irreducible components); §4.10–§4.11 (induced splittings and subgroup structure) for (3)–(4); Mathlib `Group.IsFinitelyPresented`.
 
-### 8.8 Triangular quasi-quadratic and NTQ systems
+### 8.8 Raw TQ systems and normalized NTQ towers
 
-Define `LimitGroup.NTQ.System` as follows. A TQ system over G is a finite system S=S₁∪⋯∪S_n in disjoint finite variable tuples X₁,…,X_n. Put G_{i+1}:=G_{R(S_{i+1},…,S_n)} and G_{n+1}:=G. Each level has one of four types: (1) a standard quadratic equation in X_i with coefficients in G_{i+1}; (2) the equations [x,y]=1 and [x,v]=1 for x,y∈X_i and v∈U_i, with X_i nonempty and admissible centralizer data; (3) [x,y]=1 for x,y∈X_i; (4) the empty system. `LimitGroup.NTQ.IsAdmissibleCentralizerLevel` requires a selected u_i≠1 that is not a proper power, the full abelian centralizer C_{G_{i+1}}(u_i), and a finite set U_i generating that entire subgroup. The representative `IsAdmissibleCentralizerLevel` records these conditions and the positive rank |X_i|. Coefficients are represented by words in the lower variables and G. S is nondegenerate (NTQ) when each S_i=1 has a solution in G_{i+1}, with lower variables held constant. Its radical coordinate group is an NTQ group. It is regular when every level is regular standard quadratic (§6.7) or empty.
+A raw TQ system `LimitGroup.NTQ.System` over G is a finite system S=S₁∪⋯∪S_n in disjoint finite variable tuples X₁,…,X_n. Its raw lower groups are G_{R_G(S_{i+1},…,S_n)}. Each level is (1) a standard quadratic equation; (2) equations [x,y]=[x,v]=1 for x,y∈X_i and v in a specified finite set of lower coefficient words; (3) [x,y]=1 for x,y∈X_i; or (4) empty. Coefficients are words in G and the lower variables. `LimitGroup.NTQ.IsNondegenerate` means that each level has a solution in its raw lower coordinate group. This condition alone gives no discrimination or irreducibility assertion for the raw global coordinate group.
 
-IFT Definition 43's single-word centralizer level [x,u_i]=1 uses a non-proper-power image u_i. Over the fixed lower coefficient group H, with u_i≠1 and H commutative transitive, every H-solution commutes with all of C_H(u_i), so the H-radical contains those extra commutation relators. A specialization of the full system to G may kill u_i and need not satisfy those relators. The finite full-centralizer presentation here includes them explicitly; §8.9(1)'s normal-closure equality concerns this presentation, without identifying its complete solution set with that of a single-word presentation.
+A normalized NTQ tower `LimitGroup.NTQ.Tower` is instead built from the bottom up, with T_{n+1}=G. Over the fixed lower carrier H=T_{i+1}, its next carrier T_i is one of:
 
-A structure listing the levels with their types and coefficient data; nondegeneracy as a Prop referring to Layer 5 coordinate groups of the lower levels.
+1. H[X_i]/R_H(Q_i), where Q_i is a consistent standard quadratic equation with specified H-solution and the nonidentity coefficients required by §6.5. Its presentation uses the entire fixed-H radical of §6.8, including all full-centralizer relations for nonregular quadratic levels. Regular levels use ncl(Q_i).
+2. H∗_{C_H(u_i)}(C_H(u_i)×ℤ^{|X_i|}), with X_i nonempty and admissible full-centralizer data.
+3. H∗ℤ^{|X_i|}.
+4. H∗F(X_i).
+
+`LimitGroup.NTQ.IsAdmissibleCentralizerLevel` requires u_i≠1, u_i not a proper power, an abelian C_H(u_i), and a finite set U_i generating that entire subgroup, with positive added rank. The representative `IsAdmissibleCentralizerLevel` records these conditions over the fixed lower carrier H. At a quadratic conjugacy level c^z d=1, d⁻¹=c^b, use all relations [z b⁻¹,h]=1 for h∈C_H(c), whether or not the raw level was labelled type (2). Root reduction concerns the full centralizer and does not remove these relations. For towers with finite presentations, record finite generators for every centralizer used in exceptional quadratic radicals as well. Over finite-rank free F, §8.9 supplies these finite centralizer data independently of §8.7.
+
+Write U^sat for the union of the tower's defining relators, lifting coefficients and fixed-H radical generators to words in the lower variables and G. Its defining quotient is T₁. A raw system and a tower obtained by adding these relators have a defining-presentation quotient map, but need not have the same G-points or the same global radical. The comparison for all solutions is the finite tower cover of §8.6b. In particular, a lower specialization killing c can release z from the fixed-H centralizer relations and must be represented by another branch.
 
 The public interface should expose the following named results:
 
-- `LimitGroup.NTQ.System`: Levels with their types (quadratic, centralizer, abelian, free) and coefficients.
-- `LimitGroup.NTQ.levelGroup`: G_i := coordinate group of S_i ∪ ⋯ ∪ S_n.
-- `LimitGroup.NTQ.IsNondegenerate`: Each level has a solution in the next coordinate group.
-- `LimitGroup.NTQ.IsRegular`: Every level regular quadratic or empty.
-- `LimitGroup.NTQ.IsAdmissibleCentralizerLevel`: Positive rank, a nonidentity non-proper-power parameter, and a finite generating set of its full abelian centralizer in the lower coordinate group.
-- `LimitGroup.NTQ.inclusion`: The G-homomorphisms G_{i+1} → G_i (injective for NTQ systems).
-- `LimitGroup.NTQ.retraction`: A solution of S_i in G_{i+1} gives a retraction G_i → G_{i+1}.
+- `LimitGroup.NTQ.System`: Raw levels with their types and coefficient words.
+- `LimitGroup.NTQ.IsNondegenerate`: Solvability over the raw lower coordinate groups, with no tower conclusion.
+- `LimitGroup.NTQ.Tower`: Iterated fixed-coefficient carriers, quadratic solutions and radical presentations, and admissible full-centralizer data.
+- `LimitGroup.NTQ.levelGroup`: T_i of a normalized tower, rather than the raw tail's global radical quotient.
+- `LimitGroup.NTQ.IsRegular`: Every raw level regular quadratic or empty, with a solution at each lower level. Such a system has its normalized tower with the same defining equations; §8.9 identifies its global coordinate group with T₁.
+- `LimitGroup.NTQ.IsAdmissibleCentralizerLevel`: The full-centralizer conditions over H above.
+- `LimitGroup.NTQ.inclusion`: The coefficient homomorphisms T_{i+1}→T_i.
+- `LimitGroup.NTQ.retraction`: A fixed-H quadratic solution, or the assignment of 1 to new abelian or free generators, gives T_i→T_{i+1} left inverse to inclusion.
 
 **Checks.**
 
-- `LimitGroup.NTQ.genus2`: The one-level system [x₁,y₁][x₂,y₂] = 1 over F(a,b) is regular NTQ.
-- `LimitGroup.NTQ.empty`: The system with one empty level in X has NTQ group F ∗ F(X) = F[X].
-- `LimitGroup.NTQ.lyndon_not_regular`: The level x₁² x₂² x₃² = 1 is nondegenerate (trivial solution) but not regular: regular NTQ is a proper subclass, and Layer 11 applies only to it.
-- `LimitGroup.NTQ.degenerate_example`: The level [x, y] = a over F(a,b) has no solution (a is not a commutator: its image in the abelianisation is nonzero), so a system containing it is degenerate and not NTQ.
-- Over F(a,b), the equations [x,a]=[x,b]=1 with U={a,b} and u=1 have a solution x=1 but fail centralizer admissibility. Their defining quotient is F₂×ℤ, while every F₂-solution has x=1, so the radical quotient is F₂ and x lies in the radical but not the defining normal closure.
-- Over H=⟨a,b,t | [a,t]=1⟩, a type-(2) level at u=a uses U={a,t}, not just {a}; the full-centralizer relators include [x,t]=1 as well as [x,a]=1.
-- With lower group H=F(a,b)∗⟨z,t | [z,t]=1⟩, the single-word upper relation [x,z]=1 admits the full-system specialization z=1,t=a,x=b. It fails [x,t]=1, so it is not a solution of the admissible level at z with U={z,t}. The fixed-H radical and the full-system G-radical have different coefficient contracts.
+- `LimitGroup.NTQ.genus2`: The one-level equation [x₁,y₁][x₂,y₂]=1 over F(a,b) is regular, with tower F∗S⁺(2,0).
+- `LimitGroup.NTQ.empty`: One empty level gives F∗F(X)=F[X].
+- `LimitGroup.NTQ.lyndon_not_regular`: The quadratic level x₁²x₂²x₃²=1 is consistent but nonregular; its normalized carrier is F∗ℤ² with x₁x₂x₃=1 as well as pairwise commutation.
+- `LimitGroup.NTQ.degenerate_example`: [x,y]=a over F(a,b) has no solution by abelianization and gives no quadratic tower level.
+- Over F(a,b), [x,a]=[x,b]=1 with U={a,b} and u=1 has the solution x=1 but fails centralizer admissibility. Its defining quotient F₂×ℤ differs from its radical quotient F₂.
+- Over H=⟨a,b,t | [a,t]=1⟩, both a type-(2) level at a with U={a,t} and the normalized quadratic level a^x a⁻¹=1 include [x,t]=1 as well as [x,a]=1.
+- With lower raw system [u,v]=1 and upper quadratic equation u^x u⁻¹=1, the raw nondegeneracy condition holds, but normalization gives F∗ℤ³ and excludes the raw point (u,v,x)=(1,a,b). The additional free branch u=1 in §8.6b retains that point.
 
-The one-level system [x₁,y₁][x₂,y₂] = 1 over F is a regular NTQ system with NTQ group F ∗ S⁺(2, 0). The system [x, a] = 1 over F is NTQ of type (2) with NTQ group F(a, ℤ).
+This interface supplies normalized terminal carriers to §§8.6b and 10.7–10.8. Layer 11 uses the regular subclass, whose tower presentation equals its original equations.
 
-This interface is used by Layer 8 NTQ coordinate groups: NTQ groups are fully residually free; Layer 10 Makanin–Razborov diagrams: fundamental sequences end in NTQ systems (IFT Theorem 6); Layer 11 implicit function theorem: regular NTQ systems.
+Sources: [IFT] §7.6, Definition 43, p. 137, for the four raw types and regularity; [VAR-II] §0, Definition 8, p. 4; [VAR-I] §1, Theorem 1, p. 7, and §3, Form 2, p. 28, for the fixed-coefficient quadratic carriers and full-centralizer conjugacy radical. The tower definition keeps these fixed-coefficient quotients distinct from the raw global radical.
 
-Use [IFT] §7.6, the definition of TQ, NTQ and regular NTQ systems, p. 137: Triangular quasi-quadratic systems with quadratic, centralizer, abelian and empty levels; non-degenerate when each level has a solution in the coordinate group of the lower levels; regular when every level is a regular standard quadratic equation or empty.; [VAR-II] §0, Definition 8, p. 4: Triangular quasi-quadratic systems and nondegeneracy.
+*Needs:* §§6.5–6.8 (standard quadratic equations, consistency, regularity and fixed-coefficient radicals); §5.2 (global radicals and coordinate groups); §8.5 (full-centralizer extensions); §4.3 (normal forms).
 
-*Needs:* §6.5 (Quadratic words, standard quadratic equations and their solutions); §6.7 (Regular standard quadratic equations); §5.2 (Algebraic sets, radicals and coordinate groups); §8.5 (Extensions of centralizers and iterated extensions).
+### 8.9 Normalized towers: radicals, discrimination and level maps
 
-### 8.9 NTQ groups: radicals, discrimination and level maps
+Let T be a normalized NTQ tower over a nonabelian fully residually free G, with carriers T_i and saturated presentation U^sat as in §8.8. Prove: (1) R_G(U^sat)=ncl(U^sat), so T₁≅G_{R_G(U^sat)}; for a regular raw system S the saturation adds no relations and R_G(S)=ncl(S). (2) T₁ is G-discriminated by G and V_G(U^sat) is irreducible. (3) Each T_{i+1}→T_i is injective and has the specified retraction. (4) T₁ G-embeds in a finite chain of admissible full-centralizer extensions over G. None of these conclusions identifies the global coordinate group of an arbitrary nondegenerate raw TQ system with its normalized tower.
 
-Prove the following statement. Let S be an NTQ system over a nonabelian fully residually free group G, with every type-(2) level carrying the admissible full-centralizer data of §8.8. Then: (1) R(S)=ncl(S) when every quadratic level is regular, using the full-centralizer relators, while exceptional quadratic levels use the radical quotients of §6.8; (2) G_{R(S)} is G-discriminated by G and V(S) is irreducible; (3) each G_{i+1}→G_i is injective; (4) G_{R(S)} G-embeds in a finite chain of admissible centralizer extensions over G. A regular quadratic level attaches the surface vertex of §6.9. Types (2), (3) and (4) respectively extend the full centralizer of u_i≠1, add a free abelian free factor and add a free factor. Complete factorization of all specializations belongs to §10.7.
+Prove (4) independently of §8.7 by induction on the fixed-coefficient carriers. VAR-I Theorem 1 supplies the quadratic coordinate-group embedding over H=T_{i+1}, using the repaired radicals of §6.8 for nonregular equations and the separate genus-two case. LIFT Propositions 5.1–5.2 provide the construction for regular equations with general-position solutions. A conjugacy level is the extension of the entire C_H(c); types (2), (3) and (4) respectively extend a full centralizer, add a free abelian free factor and add a free factor. When H embeds in an ICE stage E over G, normal forms extend a centralizer step over H to one over E, since C_E(u)∩H=C_H(u); iterate for the finite chain. Reduce nonidentity parameters to non-proper-powers by §8.6. No discrimination hypothesis is part of the tower definition.
 
-Throughout this subsection assume: S nondegenerate (NTQ), with admissible type-(2) levels; G nonabelian fully residually free. For an ICE chain over G the admissibility conditions are those of §8.5 with base G instead of F.
+Over a finite-rank free base F, also prove `LimitGroup.NTQ.finite_centralizer_data`: every nonidentity element in a finite ICE group E has a free abelian centralizer of finite rank, and the same holds in any subgroup H≤E. Induct on ICE steps using normal forms: an elliptic element's centralizer is conjugate into an unchanged old centralizer or the enlarged abelian vertex; a hyperbolic element has cyclic centralizer, since the pointwise stabilizer of its axis is trivial by malnormality. For H use C_H(u)=H∩C_E(u) and the subgroup theorem for finitely generated free abelian groups. This supplies finite full-centralizer generators for each quadratic radical and type-(2) attachment in §8.8, and hence finite saturated presentations for towers over F. It uses the ICE embedding in (4), not the general embedding theorem of §8.7.
 
-First prove (4) independently of §8.7, by induction on levels. VAR-I Theorem 1 supplies quadratic coordinate-group embeddings, including the genus-two case and the exceptional radical quotients of §6.8. For regular equations with general-position solutions, LIFT Propositions 5.1–5.2 give the centralizer-extension construction; their general-position hypothesis does not cover the genus-two equation. Use the admissible extension itself for type (2), and embeddings of the free abelian and free levels in centralizer extensions for types (3)–(4). Reduce nonidentity parameters to non-proper-powers by §8.6. Derive (2) from that embedding, §8.6's discrimination and the G-domain open-set argument of §5.11 (discrimination implies irreducibility without Noetherianity), and (3) from §8.8's retractions. Derive (1) inductively from §6.8 and the full-centralizer presentations. These arguments use neither finite presentation nor the general limit-group embedding theorem.
+Derive (2) from (4), §8.6's discrimination and §5.11's G-domain open-set argument, without Noetherianity. The defining quotient of U^sat is T₁, so discrimination gives (1). At a regular quadratic level the fixed-H radical is its defining normal closure; induction gives the regular-raw comparison. A fixed-H solution annihilates R_H(Q_i), giving (3); types (2)–(4) retract by killing the new generators. The finite cover of §8.6b, not the level retractions alone, transports all raw-system specializations.
 
 **Checks.**
 
-- The nondegenerate level x²=1 retracts by x↦1 and has coordinate group G, so it is nonregular and adds no QH vertex.
-- Over the abelian base ℤ a consistent genus-two level does not have its defining relator as radical; the nonabelian hypothesis is necessary.
-- The inadmissible system [x,a]=[x,b]=1 over F₂ has radical quotient F₂ and defining quotient F₂×ℤ; regularity of its nonexistent quadratic levels cannot repair it.
-- Let H=F(a,b)∗⟨z⟩ and K=H∗_{⟨z⟩}⟨z,x | [z,x]=1⟩. Every H-retraction K→H sends x to z^k; automorphisms fixing H retain this property. Thus level retractions followed by z↦1 force x↦1, whereas z↦1,x↦a is an F-solution. A discriminating family need not cover all specializations.
+- The nonregular level x²=1 has fixed-coefficient radical ncl(x), so its normalized carrier is G and it adds no QH vertex.
+- Finite centralizer data in the empty ICE chain give C_F(a)=⟨a⟩ for a basis letter a.
+- After extending C_F(a), the centralizer of a is ⟨a,t⟩≅ℤ², supplying both generators for the next normalized conjugacy level.
+- In the same extension F(a,b)(a,ℤ), the hyperbolic normal form bt has cyclic centralizer. The identity is excluded from the finite free abelian centralizer statement, since C_E(1)=E can be nonabelian.
+- Over the abelian base ℤ a genus-two equation does not have its defining relator as radical; the nonabelian base hypothesis is necessary.
+- `quadratic_specialization_radical_gap`: For S={[u,v],[u,x]} over F(a,b), both u and [v,x] survive in K=F_{R_F(S)}, by the solutions (a,1,1) and (1,a,b). Every map from K to a free group preserving u kills [v,x], so K is neither fully residually free nor F-discriminated. Over the fixed lower H=F∗ℤ², however, the radical of u^x u⁻¹ contains [v,x]. This verifies the fixed-coefficient/global distinction using `radical`, `CoordGroup` and discrimination.
+- `quadratic_specialization_reducible`: V_F(S)=V_F(u=1)∪V_F([u,v]=[u,x]=[v,x]=1), with both subsets proper, witnessed by those same two solutions. The normalized pairwise-commuting carrier and the free u=1 carrier both occur in the finite cover.
+- For H=F(a,b)∗⟨z⟩ and K=H∗_{⟨z⟩}⟨z,x | [z,x]=1⟩, level retractions followed by z↦1 force x↦1, whereas z↦1,x↦a is an F-homomorphism K→F. All tower homomorphisms, rather than only iterated level retractions, enter the finite-cover interface.
 
-For [x₁,y₁][x₂,y₂] = 1 over F, G_{R(S)} = F ∗ S⁺(2, 0) is F-discriminated by F.
+Sources: [VAR-I] §1, Theorem 1, p. 7, and §3, Form 2, p. 28 (fixed-coefficient quadratic embeddings); [LIFT] §5, Propositions 5.1–5.2, pp. 266–270 (general-position regular embeddings); [IFT] §§2.5–2.7, pp. 6–9 (full centralizers, commutation transitivity and quadratic forms); [SUBGROUPS] §5, Lemmas 19–21, pp. 36–37 (normal-form centralizers in ICE chains, used directly for finite centralizer data). The induction is on normalized fixed-coefficient carriers; the counterexample prevents applying [VAR-I] Theorem 2 or [VAR-II] Theorem 1 to the global radical under raw solvability alone.
 
-Use [VAR-I] §1, Theorems 1–2 and Corollary 1, pp. 7–8 (quadratic and TQ embeddings in centralizer extensions and irreducibility); [LIFT] §5, Propositions 5.1–5.2, pp. 266–270 (regular quadratic embeddings with a general-position solution); [VAR-II] §0, Theorem 1 and Corollary 1, p. 4; [IFT] §7.6, Definition 43, p. 137 (NTQ types and non-proper-power centralizer parameters).
-
-*Needs:* §8.8 (Triangular quasi-quadratic and NTQ systems); §6.8 (Radicals of consistent standard quadratic equations); §6.9 (Coordinate groups of regular quadratic equations as surface amalgams); §8.6 (Extensions of centralizers are discriminated by the base group); §5.3 (G-separation and G-discrimination) and §5.11 (Irreducibility is discrimination of the coordinate group). §8.7 consumes (4).
+*Needs:* §8.8 (normalized carriers and saturated presentations); §6.8 (fixed-coefficient quadratic radicals); §6.9 (regular surface amalgams); §8.6 (centralizer-extension discrimination and root reduction); §§5.3, 5.11 (discrimination and irreducibility); §4.3 (normal forms and extension along a base embedding). §8.7 consumes (4).
 
 ### Examples
 
@@ -2365,7 +2385,7 @@ Let G be finitely generated and fully residually free, given by a finite present
 
 Sources: [JSJ] §3, Theorems 3.1, 3.2, 3.4–3.7, 3.20–3.22, pp. 121–125; [SUBGROUPS] §2.3, Theorems 1–3, p. 6; §§3–6, Theorems 4–11, pp. 14–38; [FOLD] §5, Theorem 5.8, p. 22.
 
-*Needs:* §7.8 (Existential and universal theories as recursive sets); §8.7 (Embedding theorems and finite presentability); §8.9 (NTQ groups: radicals, discrimination and level maps); §9.7 (Intersections and the Howson property).
+*Needs:* §7.8 (Existential and universal theories as recursive sets); §8.7 (Embedding theorems and finite presentability); §8.9 (normalized tower radicals, discrimination and level maps); §9.7 (Intersections and the Howson property).
 
 ### 10.4 Relative Grushko decompositions with presentations
 
@@ -2421,19 +2441,23 @@ Use [JSJ] §11, Theorems 11.1–11.3, pp. 191–194 (stated in the introduction,
 
 ### 10.7 Finite Makanin–Razborov diagrams and factorization
 
-For every finite equation system S over a nonabelian finite-rank free group F, prove existence of a finite F-complete Hom_F(F_{R(S)},F)-diagram C. Every allowed branch composite, including its modular automorphisms and final free-leaf specialization, is an F-homomorphism and hence a solution of S; every solution factors as such a composite. Below the root, edges are proper epimorphisms between finitely generated fully residually free groups, and leaves are F∗F(Y). An inconsistent system has the empty solution diagram and no coefficient-preserving map to F. The target is the finite factorization theorem.
+For every finite equation system S over a nonabelian finite-rank free group F, prove existence of a finite F-complete Hom_F(F_{R(S)},F)-diagram C. Every allowed branch composite, including its modular automorphisms and final free-leaf specialization, is an F-homomorphism and hence a solution of S; every solution factors as such a composite. Below the root, edges are proper epimorphisms between finitely generated fully residually free groups, and leaves are F∗F(Y). An inconsistent system has the empty solution diagram and no coefficient-preserving map to F. The target is the finite factorization theorem. Its solution-tree construction uses the normalized terminal towers and word maps of §8.6b. First prove finite shortening-quotient factorization for all F-homomorphisms T_j→F using the tower's JSJ modular groups and the descending-chain theorem below. Composing with θ_j gives the required root branches. The finite cover proves completeness, including the branches where lower coefficient words vanish; tower discrimination alone does not. The Hom-diagram leaves are F∗F(Y).
 
 Include the descending-chain theorem for proper epimorphisms of limit groups (LIMITS Proposition 3.13), with its finite-generation hypotheses. Branch finiteness and finite branching both enter the finite-diagram conclusion. The modular groups come from twists and QH or abelian vertex automorphisms of §10.6; their presence is essential.
 
-For [x,y]=1, branch specializations give all pairs (u^m,u^n), m,n∈ℤ. For [x,a]=1, modular powers of t↦t a followed by t↦1 give exactly t↦a^k.
+**Checks.**
+
+- For [x,y]=1, branch specializations give all pairs (u^m,u^n), m,n∈ℤ.
+- For [x,a]=1, modular powers of t↦t a followed by t↦1 give exactly t↦a^k.
+- For [u,v]=[u,x]=1, the u=1 branch admits (1,a,b), while the commuting tower admits (a,1,1). Retaining only the normalized conjugacy tower fails completeness.
 
 Sources: [JSJ] §11, Theorem 11.3, p. 94 (proved in §11); [IFT] §5.6, Theorem 5, Theorem 7, pp. 59–61; [LIMITS] §3, Proposition 3.13, p. 23; [SELA-I] §5, Theorem 5.7, p. 68.
 
-*Needs:* §10.6 (Makanin–Razborov (Hom-) diagrams); §10.5 (Relative JSJ graphs with marked presentations); §7.6 (Finiteness and length bounds for minimal solutions); §7.3 (Correctness of the reduction to generalised equations (both directions)).
+*Needs:* §8.6b (finite normalized tower covers with both solution directions); §8.9 (tower discrimination and embeddings); §10.6 (Makanin–Razborov (Hom-) diagrams); §10.5 (Relative JSJ graphs with marked presentations); §7.6 (Finiteness and length bounds for minimal solutions); §7.3 (Correctness of the reduction to generalised equations (both directions)).
 
 ### 10.8 Finite irreducible systems, radicals and NTQ covers
 
-For a finite system S over a nonabelian finite-rank free group F, require finite systems S₁,…,S_m representing its unique irredundant irreducible-component decomposition, with finite presentations of F_{R(S_i)}. For irreducible S require finitely many normal generators of R(S). Require also a finite family of nondegenerate triangular quasi-quadratic systems U_i and word maps p_i:V(U_i)→V(S) with nonempty irreducible images covering V(S). Put C_i=closure(p_i(V(U_i))). The components are exactly the distinct inclusion-maximal C_i; every component is some C_i, while other C_i may be proper subsets of components. Keep the full pointwise cover and the maximal-closure component indices as separate data: closure containment alone does not permit discarding branch images. For V(S)=∅ use empty families.
+For a finite system S over a nonabelian finite-rank free group F, require finite systems S₁,…,S_m representing its unique irredundant irreducible-component decomposition, with finite presentations of F_{R(S_i)}. For irreducible S require finitely many normal generators of R(S). Require also the finite normalized tower cover of §8.6b: saturated systems U_i presenting towers T_i and word maps p_i:Hom_F(T_i,F)≅V_F(U_i)→V_F(S), with nonempty irreducible images covering V_F(S). Put C_i=closure(p_i(V(U_i))). The components are exactly the distinct inclusion-maximal C_i; every component is some C_i, while other C_i may be proper subsets of components. Keep the full pointwise cover and the maximal-closure component indices as separate data: closure containment alone does not permit discarding branch images. For V(S)=∅ use empty families.
 
 The finite-cover principle `component_iff_maximal_cover` states: if finitely many nonempty irreducible closed sets C_i cover a closed set Y, its maximal irreducible closed subsets are precisely the inclusion-maximal C_i. A closed irreducible subset of a finite closed cover lies in one member, which proves the extraction statement independently of diagram normalization.
 
@@ -2443,12 +2467,13 @@ The finite-cover principle `component_iff_maximal_cover` states: if finitely man
 - A duplicated identity word map gives two indices with the same closure; the component data contain that component once.
 - For V(S)=∅ there are no NTQ cover members or components; no nonempty irreducible image is introduced.
 - For ⟨a⟩∪⟨b⟩ the two maximal closures are the two cyclic sets; adding their common point {1} changes neither the cover nor the components.
+- For [u,v]=[u,x]=1, the u=1 and pairwise-commuting branches are two distinct components: their points (1,a,b) and (a,1,1) show neither contains the other. The normalized conjugacy branch alone loses a component.
 
 For a finite subsystem of the equations [[x,a],g[x,b]g⁻¹]=1 defining ⟨a⟩∪⟨b⟩ over F(a,b), the two component systems are [x,a]=1 and [x,b]=1. Such a finite subsystem exists by equational Noetherianity.
 
 Sources: [IFT] §5.6, Theorem 6, p. 60; [VAR-II] §0, Theorem 2, p. 4; [JSJ] §3, Corollary 3.8 and Theorem 3.9, p. 122.
 
-*Needs:* §10.7 (Finite Makanin–Razborov diagrams and factorization); §5.10 (Noetherian Zariski topology and irreducible components); §8.8 (Triangular quasi-quadratic and NTQ systems).
+*Needs:* §10.7 (finite Hom-diagrams); §8.6b (complete normalized tower covers); §8.9(2) (irreducible tower solution sets); §5.10 (Noetherian Zariski topology and irreducible components); §8.8 (normalized terminal carriers).
 
 ### 10.9 Equations over a limit group and subgroup constraints
 
@@ -2574,17 +2599,18 @@ Use [IFT] §7.2, Theorem 10, p. 104, the exception on p. 99, and §7.6, Definiti
 
 ### 11.4a Finite parameter solution trees
 
-For a finite system S(X,Y)=1 over a nonabelian finite-rank free group F, construct the finite parameter solution tree T_sol(Ω,X) for each initial parametric generalised equation from the cancellation family. Its vertices retain X-sections, defining presentation-group reconstruction, full radical transport and canonical automorphisms; its terminal equations have only the parameter sections and free items needed for reconstruction. Prove both directions of solution transport and completeness of the finite terminal covering, with the free assignments of kernel elimination retained at the presentation-group level and the radical transported through the entire reconstructed system. Own the decomposition tree, periodic-structure quotients and induction on complexity of IFT §5.6; finite minimal-solution bounds alone do not assert this complete covering.
+For a finite system S(X,Y)=1 over a nonabelian finite-rank free group F, construct the finite parameter solution tree T_sol(Ω,X) for each initial parametric generalised equation from the cancellation family. Its vertices retain X-sections, defining presentation-group reconstruction, full radical transport and canonical automorphisms; its terminal equations have only the parameter sections and free items needed for reconstruction. Any tower attachments use the normalized carriers of §§8.8–8.9 and the finite solution-transport interface of §8.6b; coefficient-degeneration branches retain the original parameter values. Prove both directions of solution transport and completeness of the finite terminal covering, with the free assignments of kernel elimination retained at the presentation-group level and the radical transported through the entire reconstructed system. Own the decomposition tree, periodic-structure quotients and induction on complexity of IFT §5.6; finite minimal-solution bounds alone do not assert this complete covering.
 
 **Checks.**
 
 - For y=x, a terminal reconstruction is y↦x and the parameter section is retained.
 - A free item eliminated by D4 remains assignable in the presentation-group reconstruction; the full system controls the radical. The reducible kernel of §7.4 gives a proper radical quotient of K∗F(z), although z has arbitrary F-values.
 - For [y,x]=1, the specialization x=1 permits arbitrary y; completeness includes this degenerate parameter value.
+- With parameters u,v satisfying [u,v]=1 and equation u^x u⁻¹=1, the parameter branch u=1 retains arbitrary x even when [v,x]≠1; the normalized fixed-lower-carrier branch alone cannot supply this transport.
 
 Sources: [IFT] §5.6, Theorems 5–7 and their constructions, pp. 59–61; §5.3–§5.5, pp. 35–58, for the decomposition tree and periodic structures.
 
-*Needs:* §§7.1–7.6 (parametric equations, cancellation, elementary moves, kernel reconstruction and periodic structures); §8.8–§8.9 (terminal NTQ data). This parameter-preserving tree is independent of the ordinary Hom-diagram interface of §10.7.
+*Needs:* §§7.1–7.6 (parametric equations, cancellation, elementary moves, kernel reconstruction and periodic structures); §8.6b (finite word-map covers) and §§8.8–8.9 (normalized terminal carriers). This parameter-preserving tree is independent of the ordinary Hom-diagram interface of §10.7.
 
 ### 11.4b Cut equations and finite covering
 
@@ -2638,7 +2664,7 @@ For two disjoint genus-two levels, [x₁,y₁][x₂,y₂]=1 and [u₁,v₁][u₂
 
 Use [IFT] §7.6, Theorem 11 and its proof, pp. 137–141: Every equation compatible with a regular NTQ system admits a complete U-lift, by induction on levels with Merzljakov words for empty levels.; [LIFT] Introduction, Theorem B, p. 217, and §8: The same theorem with effective lifts.
 
-*Needs:* §11.5 (Implicit function theorem for regular quadratic equations); §8.8 (Triangular quasi-quadratic and NTQ systems); §8.9 (NTQ groups: radicals, discrimination and level maps); §7.10 (Merzljakov's theorem: formal solutions of positive sentences); §11.4 (Generic families of solutions of regular quadratic equations).
+*Needs:* §11.5 (Implicit function theorem for regular quadratic equations); §8.8 (raw TQ systems and normalized NTQ towers); §8.9 (normalized tower radicals, discrimination and level maps); §7.10 (Merzljakov's theorem: formal solutions of positive sentences); §11.4 (Generic families of solutions of regular quadratic equations).
 
 ### 11.7 Lifts under substitution and changes of coordinates
 

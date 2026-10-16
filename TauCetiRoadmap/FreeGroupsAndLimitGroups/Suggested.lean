@@ -127,6 +127,10 @@ theorem exists_maximalRoot (x : FreeGroup α) (hx : x ≠ 1) :
   sorry
 
 /-- Commuting elements are powers of a common element (§1.5). -/
+/- Shared Mathlib interface names (README, Scope and ownership):
+`FreeGroup.centralizer_of_eq_closure`,
+`FreeGroup.isCyclic_centralizer`, `FreeGroup.commute_of_commute`,
+`FreeGroup.center_eq_top_of_subsingleton` and `FreeGroup.center_eq_bot_of_nontrivial`. -/
 theorem commute_iff_exists_zpow (x y : FreeGroup α) :
     Commute x y ↔ ∃ r : FreeGroup α, ∃ m n : ℤ, x = r ^ m ∧ y = r ^ n := by
   sorry
@@ -831,8 +835,9 @@ the README's `LimitGroup.IsAdmissibleCentralizerStep`). The extension uses the f
 def IsAdmissibleCentralizerStep {G : Type*} [Group G] (u : G) (n : ℕ) : Prop :=
   u ≠ 1 ∧ ¬ IsProperPower u ∧ 0 < n
 
-/-- An admissible NTQ centralizer level has a finite generating set of the full abelian
-centralizer and positive added rank (§8.8; `LimitGroup.NTQ.IsAdmissibleCentralizerLevel`). -/
+/-- An admissible normalized tower centralizer level over the fixed lower carrier `G` has
+a finite generating set of its full abelian centralizer and positive added rank
+(§8.8; `LimitGroup.NTQ.IsAdmissibleCentralizerLevel`). -/
 def IsAdmissibleCentralizerLevel {G : Type*} [Group G] (u : G) (U : Finset G) (n : ℕ) : Prop :=
   IsAdmissibleCentralizerStep u n ∧
     Subgroup.closure (U : Set G) = Subgroup.centralizer {u} ∧
@@ -882,6 +887,48 @@ example :
     let b : GX (FreeGroup (Fin 2)) Unit := Monoid.Coprod.inl (FreeGroup.of 1)
     let S : Set (GX (FreeGroup (Fin 2)) Unit) := {comm x a, comm x b}
     x ∈ radical (MonoidHom.id (FreeGroup (Fin 2))) S ∧ x ∉ Subgroup.normalClosure S := by
+  sorry
+
+/-- A raw two-level quadratic system has two surviving elements that cannot be preserved
+simultaneously by a map to a free group (§8.9). -/
+theorem quadratic_specialization_radical_gap :
+    let F := FreeGroup (Fin 2)
+    let u : GX F (Fin 3) := Monoid.Coprod.inr (FreeGroup.of 0)
+    let v : GX F (Fin 3) := Monoid.Coprod.inr (FreeGroup.of 1)
+    let x : GX F (Fin 3) := Monoid.Coprod.inr (FreeGroup.of 2)
+    let S : Set (GX F (Fin 3)) := {comm u v, comm u x}
+    let K := CoordGroup (MonoidHom.id F) S
+    let q : GX F (Fin 3) →* K := QuotientGroup.mk' _
+    q u ≠ 1 ∧ q (comm v x) ≠ 1 ∧ ¬ IsFullyResiduallyFree K ∧
+      ¬ IsDiscriminatedBy K F (q.comp Monoid.Coprod.inl) (MonoidHom.id F) := by
+  sorry
+
+/-- The raw quadratic specialization locus is the union of two proper closed branches
+(§§8.6b, 8.9); the free branch retains solutions lost by fixed-coefficient saturation. -/
+theorem quadratic_specialization_reducible :
+    let F := FreeGroup (Fin 2)
+    let u : GX F (Fin 3) := Monoid.Coprod.inr (FreeGroup.of 0)
+    let v : GX F (Fin 3) := Monoid.Coprod.inr (FreeGroup.of 1)
+    let x : GX F (Fin 3) := Monoid.Coprod.inr (FreeGroup.of 2)
+    let V := algSet (MonoidHom.id F) {comm u v, comm u x}
+    let A := algSet (MonoidHom.id F) ({u} : Set (GX F (Fin 3)))
+    let B := algSet (MonoidHom.id F) {comm u v, comm u x, comm v x}
+    V = A ∪ B ∧ A ⊂ V ∧ B ⊂ V ∧
+      ¬ @IsIrreducible _ (zariski (MonoidHom.id F)) V := by
+  sorry
+
+/-- The fixed-lower-group conjugacy radical contains the missing commutator (§8.9).
+Together with `quadratic_specialization_radical_gap`, this distinguishes that radical from
+the raw full-system radical over `F`. -/
+example :
+    let F := FreeGroup (Fin 2)
+    let u : GX F (Fin 2) := Monoid.Coprod.inr (FreeGroup.of 0)
+    let v : GX F (Fin 2) := Monoid.Coprod.inr (FreeGroup.of 1)
+    let H := CoordGroup (MonoidHom.id F) ({comm u v} : Set (GX F (Fin 2)))
+    let q : GX F (Fin 2) →* H := QuotientGroup.mk' _
+    let z : GX H Unit := Monoid.Coprod.inr (FreeGroup.of ())
+    comm z (Monoid.Coprod.inl (q v)) ∈ radical (MonoidHom.id H)
+      {z⁻¹ * Monoid.Coprod.inl (q u) * z * Monoid.Coprod.inl (q u)⁻¹} := by
   sorry
 
 /-- Finitely generated fully residually free groups are finitely presented (§8.7). -/
@@ -1373,7 +1420,8 @@ example :
 example : Nonempty (CentralizerExt (FreeGroup (Fin 2)) (FreeGroup.of 0) ≃*
     PresentedGroup {comm (FreeGroup.of (0 : Fin 3)) (FreeGroup.of 2)}) := by sorry
 
-/-- The conjugacy radical uses all elements of the coefficient centralizer (§6.8). -/
+/-- The conjugacy radical over the fixed coefficient group `G` uses its entire coefficient
+centralizer (§6.8); coefficients remain fixed under every evaluation. -/
 theorem radical_conjugacy_eq {G : Type} [Group G] (hG : IsFullyResiduallyFree G)
     (hNA : ∃ a b : G, ¬ Commute a b) (c d b : G) (hc : c ≠ 1) (hd : d ≠ 1)
     (hb : d⁻¹ = b⁻¹ * c * b) :
@@ -1439,7 +1487,12 @@ finiteness theorem; recursive truth sets for the existential, universal and posi
 general position, `kappa` and quadratic regularity. In particular the README's
 `GroupAlgGeom.Quadratic.IsRegular.of_genus` concerns consistent orientable equations of
 positive genus other than [x,y]=1; `MarkedGroup` and its compactness;
-`NTQ.System`, its level groups, nondegeneracy and regularity;
+`NTQ.System` and its raw nondegeneracy; `LimitGroup.NTQ.Tower`, its iterated fixed-coefficient
+radical carriers, `LimitGroup.NTQ.levelGroup`, inclusions and retractions, and regularity;
+`LimitGroup.NTQ.finite_centralizer_data` in finite ICE stages and their subgroups;
+`LimitGroup.NTQ.finite_tower_cover`, with sound word maps and a pointwise complete finite
+cover retaining coefficient-degeneration branches; only the saturated tower presentation,
+or a regular raw system, is identified with the tower's global radical coordinate group;
 `LimitGroup.centralizerExt_root_reduction`; infinite words, `F^{ℤ[t]}` as
 `LimitGroup.lyndonCompletion` with its ICE comparison, and
 graphs labelled by infinite words; Λ-metric spaces, Λ-trees and free actions on them; JSJ trees and their existence, finite marked Grushko and JSJ graphs, Makanin–Razborov
