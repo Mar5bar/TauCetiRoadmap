@@ -193,11 +193,14 @@ Log proper support keeps the chosen proper model `X` and its open `U`, and appli
 to tube sheaves before derived specialisation; its boundary realisation is log convergent. Base
 change and pushforward with compact supports must preserve the supports, not only the underlying de
 Rham complexes. The residue pairing keeps its one-form: for `∂ = d`/dT it uses dT, and for
-`∂ = (1 + T)d`/dT it uses dT/`(1 + T)`.
+`∂ = (1 + T)d`/dT it uses dT/`(1 + T)`. At a boundary point with coefficient field
+`K_i`, the local residue is `K_i`-valued; the global contribution is
+`Tr_{K_i/K} ∘ Res_i`. Localization retains the separate `K_i` components, and the
+global residue pairing and trace use the sum of these `K`-valued contributions.
 
-Over `𝔽_q`, the cohomological Frobenius `F` is the linear `q`-Frobenius when `σ_K = id`. Over `W(𝔽_q)` the
-p-Frobenius `φ` is semilinear and `φ^a` is linear; characteristic polynomials are those of that
-iterate. The twist `K(n)` multiplies `F` by `q^(−n)` and lowers weights by `2n`. Numerical purity uses a
+Over `𝔽_q`, the cohomological Frobenius `F` is the linear `q`-Frobenius when `σ_K = id`. For an object supplied with a
+p-Frobenius `φ` over `W(𝔽_q)`, that operator is semilinear and `φ^a` is linear; its characteristic
+polynomial is that of the iterate. A specified `q`-Frobenius need not admit such a root. The twist `K(n)` multiplies `F` by `q^(−n)` and lowers weights by `2n`. Numerical purity uses a
 given embedding `ι : K^alg → ℂ`. A real weight normalisation is a constant Frobenius line after a
 finite extension of coefficients, not an integer Tate twist by a real number. Weil factors are
 `P_i(T) = det(1 − TF)`, as with Mathlib's `Matrix.charpolyRev`. A Weil number is algebraic and has the
@@ -1460,7 +1463,9 @@ The API:
 
 **Checks.**
 
-- Non-noetherian but Bézout: the ideal `(x_1, x_2, …)` with `x_j = Π_{i≥j}(1 − u^{p^i}/p^i)` is not finitely generated, while any two elements generate a principal ideal.
+- For `ℓ = k((t))`, use the products `f_j = ∏_{i≥2, 2^j ∣ i}(1 − t^(p^i)/p^i)` of [§RD.0.9](#rd-0-9). They converge on every closed disc of radius less than 1. In `f_j = g_j f_(j+1)`, the zeros of `g_j` have distinct radii `|p|^(i/p^i) → 1`, and `f_(j+1)` is nonzero there. Thus `(f_j) ⊊ (f_(j+1))` on every boundary annulus, and `⋃_j (f_j)` is not finitely generated.
+- The tails `x_j = ∏_{i≥j}(1 − t^(p^i)/p^i)`, for `j ≥ 1`, generate equal principal Robba ideals: `x_j/x_(j+1)` has all its zeros at the single radius `|p|^(j/p^j) < 1` and is a unit on a thinner annulus.
+- Every finite subchain of the dyadic products generates the principal ideal of its last member: `(f_0, …, f_j) = (f_j)`. The infinite union above therefore distinguishes the Bézout property from noetherianity.
 
 <a id="rd-0-30"></a>
 
@@ -6860,7 +6865,7 @@ The API:
 
 *Hypotheses.*
 
-- `e ≤ p − 1` is needed in step `(i)`: the elements `π^{|q|}/q!` must be p-adic integers.
+- `e ≤ p − 1` is needed in step `(i)`: the elements `π^{|q|}/q!` lie in `O`. Their boundedness supplies continuity for the `π`-adic completion.
 - Non-degeneracy (existence of `V`) makes `Φ ⊗ K` an isomorphism, which step (ii) needs.
 
 The API:
@@ -6875,7 +6880,7 @@ The API:
 *Proof sketch.*
 
 1. Glue from affine `P` (the construction is functorial); identify `M` with a separated complete `D̂`-module with stratification (Berthelot 96-03 (2.4.1), pp. 78–79).
-2. Step `(i)`: the composite `D → A ⊗ K → (A ⊗ K){T}/(f_i − πT_i)` is continuous for the `π`-adic topology since `π^{q_1+…+q_r}/q_1!⋯q_r! ∈ ℤ_p` when `e ≤ p − 1`, so it extends to `D̂`; base change gives `M_P` and, from the stratification, its Taylor isomorphism ((2.4.1.1)–(2.4.1.2)).
+2. Step `(i)`: the composite `D → A ⊗ K → (A ⊗ K){T}/(f_i − πT_i)` is continuous for the `π`-adic topology since `π^{q_1+…+q_r}/q_1!⋯q_r! ∈ O` when `e ≤ p − 1`, so it extends to `D̂`; base change gives `M_P` and, from the stratification, its Taylor isomorphism ((2.4.1.1)–(2.4.1.2)).
 3. Step (ii): `F_K` maps `[X]_{λ_{n+1}}` into `[X]_{λ_n}` because `F^*(f_i) = f_i^p + π g_i` ((2.4.1.3)); setting `M_n = (F_K^*)^n M_0` on `[X]_{λ_n}`, the maps `(F_K^*)^n(Φ)` identify `M_n` with the restriction of `M_{n+1}`, and the compatibility of `Φ` with the stratification extends the Taylor isomorphism to `]X[_{P²}`.
 
 *Sources.* Berthelot, *Cohomologie rigide et cohomologie rigide `à` supports propres. Première partie (version provisoire 1991)*, (2.4) introduction and (2.4.1), pp. 78–79; Guo–Reinecke, *A prismatic approach to crystalline local systems*, footnote 3, p. 15.
@@ -7962,7 +7967,8 @@ The API:
 - `frobenius_gm_h1`: With `σ(x) = x^q` on `K⟨x,x^{-1}⟩†, Φ(dx/x) = q·dx/x`, so `H¹_rig(G_m/K) ≅ K(−1)`.
 - `frobenius_point_trivial`: For `X = Spec 𝔽_q` and `E` constant, `Φ = σ_K` on `H⁰ = K` (the identity when `σ_K = id`).
 - `frobenius_affineLine_compact`: `Φ` acts on `H²_{c,rig}(A^1/K)` by `q`, matching the point count `#A^1(𝔽_q) = q` in the trace formula.
-- `frobenius_absolute_nonexample`: For `q = p^a` with `a > 1`, the p-power Frobenius `σ_0` gives only a `σ_0`-semilinear operator `Φ_0` with `Φ_0^a = Φ; Φ_0` is not K-linear when `σ_0 ≠ id`, so it is not the operator whose determinant appears in the trace formula.
+- `frobenius_absolute_nonexample`: If `E` is supplied with a horizontal p-Frobenius over `σ_0` whose `a`-fold iterate is its specified `q`-Frobenius, the induced `Φ_0` satisfies `Φ_0^a = Φ`. This additional datum is needed; `Φ_0` is generally semilinear, and the determinant in the trace formula uses the linear `q`-Frobenius.
+- For `X = Spec 𝔽_(p²)` and `K = W(𝔽_(p²))[1/p]`, the line with linear `q`-Frobenius `Φ(e) = pe` has no compatible p-Frobenius. Writing such a root as `Ψ(e) = ce` over the unramified automorphism `σ_0` would give `cσ_0(c) = p`, whereas `v_p(cσ_0(c)) = 2v_p(c)` is even.
 - `Φ` acts by `q` on `H¹_rig(G_m/K)` and by `q^n` on `H^{2n}_{c,rig}(A^n/K)`.
 
 <a id="rd-4-19"></a>
@@ -9679,25 +9685,28 @@ The API:
 
 - `localAlgebra`: `R_i =` the Robba ring at the boundary point `x_i`, with its plus part `R_i^+`.
 - `localEmbedding`: `ρ_i: A → R_i` and `ρ = ⊕ρ_i: A → ⊕_i R_i`, injective and Frobenius-compatible.
-- `principalParts`: The composite `A → ⊕_i R_i/R_i^+` (and `Ω^1_A → ⊕_i Ω^1_{R_i}/Ω^1_{R_i^+}`).
+- `principalParts`: The `K`-linear composite `A → ⊕_i R_i/R_i^+` (and `Ω^1_A → ⊕_i Ω^1_{R_i}/Ω^1_{R_i^+}`), retaining the coefficient field `K_i` of each component.
 - `localEmbedding_independent`: Different choices give embeddings differing by continuous automorphisms of the `R_i` (Crew 7.2).
-- `localEmbedding_residue`: For `ω ∈ Ω^1_A, Σ_i Res_{t_i} ρ_i(ω) = 0` (residue theorem; Crew, Lemma 7.4).
+- `localEmbedding_residue`: Put `res_i^K = Tr_{K_i/K} ∘ Res_{t_i} : Ω^1_{R_i/K_i} → K`. For `ω ∈ Ω^1_A`, the global residue theorem is `Σ_i res_i^K(ρ_i(ω)) = 0`. The local residues themselves lie in `K_i`.
+- In the localization complex, the boundary contribution to a coefficient pairing is `Σ_i Tr_{K_i/K}(Res_{t_i}⟨m_i, η_i⟩)`, for a local section `m_i` and a dual-coefficient one-form `η_i`. This pairing annihilates global sections against global forms and descends to compact-support cohomology. Scalar extension splits a closed boundary point into its conjugates; the sum over these conjugates is the field trace.
 
 *Proof sketch.*
 
 1. Cohen structure theorem: the `m_x`-adic completion of `A^int` at a point `x ∈ X` is `O'[[t]]`; do the same on the dagger algebra `B` of `U ⊇ {x_i}`, invert the local equations to reach `R_i^int` (Kedlaya, Definition 6.2.3; Crew, 7.2).
 2. Any Frobenius lift on A extends to `C` and then to each `R_i`.
 3. Crew's description: `A(a) = colim_V Γ(V ∩ ]a[, O)`, independent of choices up to non-canonical isomorphism (Crew 7.2).
+4. After a finite separable coefficient extension splitting the boundary, apply the usual residue theorem and sum over conjugates; descent gives the traced formula over `K`. Continuity extends it from algebraic differentials to dagger differentials, as in Crew, Lemma 7.4. The localization pairing uses this same descended sum.
 
-*Sources.* Kedlaya, *Finiteness of rigid cohomology with coefficients*, Definition 6.2.3, p. 37, and Remark 6.2.4, p. 37; Crew, *Finiteness theorems for the cohomology of an overconvergent isocrystal on a curve*, 7.2, p. 743.
+*Sources.* Kedlaya, *Finiteness of rigid cohomology with coefficients*, Definition 6.2.3, p. 37, and Remark 6.2.4, p. 37; Crew, *Finiteness theorems for the cohomology of an overconvergent isocrystal on a curve*, 7.2–7.4, pp. 743–745; AlgebraicCurves Layer 9 (residues at nonrational places).
 
-*Needs:* [§RD.3.28](#rd-3-28) *`(σ,∇)`-modules over a dagger algebra of Monsky–Washnitzer type*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; [§RD.0.42](#rd-0-42) *Existence of Frobenius lifts on the weak completion of a smooth `O_K`-algebra (van der Put; Arabia)*; AdicSpacesPartIV §F1.2 *Dagger algebras over a complete nonarchimedean field*; AdicSpacesPartIV §F1.3 *Fringe (radius-indexed) presentations of a dagger algebra*; AdicSpacesPartIV §F1.3 *The fringe (direct limit) topology on dagger algebras and their finite modules*; AdicSpacesPartIV §F1.9 *The module of (universally finite) differentials `Ω^1_A` of a dagger algebra and the exterior derivative*; AdicSpacesPartIV §F1.4 *The dagger (overconvergent completed) tensor product `A_1 ⊗†_B A_2`*; AdicSpacesPartIV §F1.4 *Rational localisation `A⟨f/g⟩†` of a dagger algebra and its universal property*.
+*Needs:* [§RD.3.28](#rd-3-28) *`(σ,∇)`-modules over a dagger algebra of Monsky–Washnitzer type*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; [§RD.0.42](#rd-0-42) *Existence of Frobenius lifts on the weak completion of a smooth `O_K`-algebra (van der Put; Arabia)*; AlgebraicCurves Layer 9 *Residues at nonrational places and the global residue theorem*; Mathlib `Algebra.trace`; AdicSpacesPartIV §F1.2 *Dagger algebras over a complete nonarchimedean field*; AdicSpacesPartIV §F1.3 *Fringe (radius-indexed) presentations of a dagger algebra*; AdicSpacesPartIV §F1.3 *The fringe (direct limit) topology on dagger algebras and their finite modules*; AdicSpacesPartIV §F1.9 *The module of (universally finite) differentials `Ω^1_A` of a dagger algebra and the exterior derivative*; AdicSpacesPartIV §F1.4 *The dagger (overconvergent completed) tensor product `A_1 ⊗†_B A_2`*; AdicSpacesPartIV §F1.4 *Rational localisation `A⟨f/g⟩†` of a dagger algebra and its universal property*.
 
 **Checks.**
 
 - `localEmbedding_gm`: For `A = K⟨x,x^{-1}⟩†` (`X̄ = P^1`, boundary `{0, ∞}`): `ρ_0(x) = t` and `ρ_∞(x) = t^{-1}`, and `ρ(A) ⊂ R_K ⊕ R_K` is closed.
 - `localEmbedding_affineLine`: For `A = K⟨x⟩†` (one boundary point `∞`): `ρ_∞(x) = t^{-1}` and `A → R_∞/R_∞^+` has kernel `K` and cokernel 0 (the Mittag-Leffler decomposition of `R_K` into `R_K^+` and `t^{-1}K⟨t^{-1}⟩†`).
-- `localEmbedding_residue_theorem`: For `ω = dx/x` on `G_m, Res_0 ρ_0(ω) + Res_∞ ρ_∞(ω) = 1 + (−1) = 0`.
+- `localEmbedding_residue_theorem`: For `ω = dx/x` on `G_m`, both boundary coefficient fields are `K`, so the traced sum is `1 + (−1) = 0`.
+- Over `K = ℚ_5`, remove `∞` and the degree-two point `D : x² − 2 = 0` from `P¹`. For `ω = x dx/(x² − 2)`, the residues are `1/2 ∈ K_D = ℚ_5(√2)` and `−1 ∈ K`. Their traced sum is `Tr_{K_D/K}(1/2) − 1 = 0`; the unweighted sum is `−1/2`. `Suggested.lean` states the field-trace calculation as `RD5.boundary_residue_trace_constant`.
 - `localEmbedding_single_not_closed`: The image of a single `ρ_i` need not be closed when `m > 1`: for `A = K⟨x,x^{-1}⟩†, ρ_0(A)` is dense but not closed in `R_K` (Kedlaya, Remark 6.2.7).
 - `X = G_m, X̄ = P^1`: the two embeddings `K⟨x,x^{-1}⟩† → R_K, x ↦ t` and `x ↦ t^{-1}`, at 0 and `∞`.
 
@@ -10156,6 +10165,12 @@ The API:
 
 **Theorem.** Let `A` be the local algebra (the Robba ring of Laurent series in `x` over a discretely valued `K` converging on some annulus `r < |x| < 1`) with its LF topology `A = lim_{r→1} A_{(r,1)}`, and `Ω^1_A = A·dx/x`. The residue pairing `A × Ω^1_A → K, (f, ω) ↦ Res_{x=0}(fω)` (the coefficient of `dx/x`), is separately continuous and induces topological isomorphisms `A ≅ (Ω^1_A)`'`_b` and `Ω^1_A ≅ A'_b`. A subset of `A` is bounded iff it lies and is bounded in some `A_`{`[r`,1)}, iff its image in `(Ω^1_A)`'`_b` is bounded; `A` is Montel; and for every finite free A-module `M` the induced map `M → (M^∨ ⊗ Ω^1_A)`'`_b` is a topological isomorphism. The pairing satisfies `(f, dg) = −(g, df)`.
 
+For a boundary coefficient field `K_i/K` finite separable, restriction of scalars gives the
+`K`-valued pairing `(f, ω) ↦ Tr_{K_i/K}(Res_i(fω))`. It identifies `R_i` with the
+strong continuous `K`-dual of its differentials: combine the local `K_i`-duality with the
+nondegenerate finite-dimensional field-trace pairing. The direct sum of these pairings is the
+localization pairing of [§RD.5.24](#rd-5-24).
+
 The formal Laurent-series residue and its coefficient duality are supplied by FormalLaurentPuiseux §L3. The target here concerns two-sided analytic Laurent tails, the Robba LF topology and its strong dual.
 
 *Hypotheses.*
@@ -10172,7 +10187,7 @@ The formal Laurent-series residue and its coefficient duality are supplied by Fo
 
 *Sources.* Crew, *Finiteness theorems for the cohomology of an overconvergent isocrystal on a curve*, 4.1–4.4 and 5.1–5.4, pp. 728–734.
 
-*Needs:* FormalLaurentPuiseux §L3 (formal residue and its coefficient formula); [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; Layer RD.0; [§RD.5.42](#rd-5-42) *Strictness of a linear map and of its transpose*; [§RD.5.40](#rd-5-40) *Nonarchimedean duality theory used for strictness and residue duality*; LocallyAnalyticDistributions §0.0 *Locally convex limits*; [§RD.5.41](#rd-5-41) *Strict maps and the LF, Fréchet and Montel conditions over a discretely valued field*.
+*Needs:* FormalLaurentPuiseux §L3 (formal residue and its coefficient formula); [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; Mathlib `Algebra.traceForm_nondegenerate`; Layer RD.0; [§RD.5.42](#rd-5-42) *Strictness of a linear map and of its transpose*; [§RD.5.40](#rd-5-40) *Nonarchimedean duality theory used for strictness and residue duality*; LocallyAnalyticDistributions §0.0 *Locally convex limits*; [§RD.5.41](#rd-5-41) *Strict maps and the LF, Fréchet and Montel conditions over a discretely valued field*.
 
 **Checks.**
 
@@ -10181,6 +10196,7 @@ The formal Laurent-series residue and its coefficient duality are supplied by Fo
 - `Res(x^{−1} dx/x) = 0`, whereas `Res(x^{−1} dx) = 1`; changing the one-form changes the pairing.
 - On formal Laurent series the pairing with `g·dx/x` is `coeff_0`(fg), so it is symmetric by commutativity.
 - `(f, df) = 0` for every `f (Res d = 0)`.
+- For `K_i/K` unramified quadratic, the global pairing of `1` with `(1/2)dt/t` is `Tr_{K_i/K}(1/2) = 1`; its local `K_i`-valued residue is `1/2`.
 
 <a id="rd-5-46"></a>
 
@@ -10197,8 +10213,8 @@ The formal Laurent-series residue and its coefficient duality are supplied by Fo
 
 1. Quasi-unipotence: by [§RD.2.31](#rd-2-31) each local module `M ⊗ A(x)` becomes unipotent after a finite étale cover of the annulus, which is realised by a finite étale cover of `X` (Kedlaya, Weil II, Section 2.6).
 2. Crew, Proposition 10.2: quasi-unipotent ⇒ strict (reduce by 9.3 to the unipotent case, strict by 6.6).
-3. Crew, Theorem 9.5 (steps 1–7): the diagram `0 → M → M ⊗ A^loc → M ⊗ A^qu → 0` over `∇` is strict exact with Fréchet and dual-of-Fréchet terms (Theorem 7.5); the local connection `∇_loc` is strict with finite-dimensional separated cohomology (6.3); the dual of the strict sequence gives the duality isomorphism `H¹_c(M) ≅ H¹(M^∨)^∨` (3.12, [§RD.5.43](#rd-5-43)); a space both Fréchet and dual-of-Fréchet is finite dimensional (Crew, Proposition 2.8).
-4. The trace `H²_c(X, K) → K` is the residue sum (Crew (8.1.7), well defined by the residue theorem, Lemma 7.4); `H⁰(X, K) = K` gives that it is an isomorphism; Frobenius: `H²_c(X, K) ≅ K(−1)` (Crew (9.6.2), via excision and [§RD.4.35](#rd-4-35)).
+3. Crew, Theorem 9.5 (steps 1–7): the diagram `0 → M → M ⊗ A^loc → M ⊗ A^qu → 0` over `∇` is strict exact with Fréchet and dual-of-Fréchet terms (Theorem 7.5); the local connection `∇_loc` is strict with finite-dimensional separated cohomology (6.3); using the `K`-valued sum `Σ_i Tr_{K_i/K} Res_i` in the local pairing, the dual of the strict sequence gives the duality isomorphism `H¹_c(M) ≅ H¹(M^∨)^∨` (3.12, [§RD.5.43](#rd-5-43)); a space both Fréchet and dual-of-Fréchet is finite dimensional (Crew, Proposition 2.8).
+4. The trace `H²_c(X, K) → K` is induced by `Σ_i Tr_{K_i/K} Res_i` on boundary one-forms (Crew (8.1.7)); it kills global forms by the residue theorem of [§RD.5.24](#rd-5-24), and exact local forms by `Res_i d = 0`. For geometrically connected `X`, `H⁰(X, K) = K` and duality makes this trace an isomorphism. Frobenius gives `H²_c(X, K) ≅ K(−1)` (Crew (9.6.2), via excision and [§RD.4.35](#rd-4-35)); the field traces commute with coefficient Frobenius.
 
 *Sources.* Crew, *Finiteness theorems for the cohomology of an overconvergent isocrystal on a curve*, Theorem 9.5, p. 753, and Proposition 10.2, p. 756, and Remark after Corollary 9.6, (9.6.2), p. 755; Kedlaya, *Fourier transforms and p-adic 'Weil II'*, Section 2.6, p. 17, and Section 2.6, p. 18.
 
@@ -10208,6 +10224,7 @@ The formal Laurent-series residue and its coefficient duality are supplied by Fo
 
 - `X = G_m, E = O: H¹_c = K, H¹ = K(−1), H²_c = K(−1)`, and `H¹_c × H¹ → K(−1)` pairs eigenvalue 1 with `q`.
 - `X = P^1 ∖ {N rational points}`: `dim H¹_c = dim H¹ = N − 1, H¹_p = 0`.
+- Over `ℚ_5`, for `X = P¹ ∖ {∞, x² − 2 = 0}` and `E = O`, the boundary has total degree three, so `dim H¹_c = dim H¹ = 2`. The global form `x dx/(x² − 2)` maps to a boundary class with trace `Tr_{ℚ_5(√2)/ℚ_5}(1/2) − 1 = 0`, as required for the trace to descend.
 
 <a id="rd-5-47"></a>
 
@@ -10744,17 +10761,20 @@ The API:
 *Proof sketch.*
 
 1. (a) By the Čech criterion it suffices to show `R^q p_{i*}p_i^* F = 0` for `q > 0` and exactness of the Čech complex; on realisations these are vanishing of higher direct images of coherent sheaves along finite maps of analytic spaces and fpqc descent for coherent sheaves in the flat quasi-finite topology (Zureick-Brown Proposition 5.19, using Berkovich 1993, Corollary 4.3.2 and Proposition 4.1.2).
-2. (b) Step 0: refine an fppf covering by a composite of finite locally free surjections and Zariski coverings (Stacks 05WN) and reduce by Theorem 5.9 and Corollary 3.18. Step 1 (monogenic): embed and homogenise; flatten the projective homogenisation by a modification away from `X` (Raynaud–Gruson, SchemeAndStackFoundations §4.12), obtaining a finite flat map of formal schemes, and apply (a). Step 2: a finite field extension is a tower of monogenic ones. Step 3: over the algebraic closure, finite locally free maps are locally monogenic (Bosch–Lütkebohmert–Raynaud §2.3 Proposition 3), descend to a finite extension of `k` (Zureick-Brown proof of Theorem 1.1 `(i)`, pp. 22–24).
-3. Remark: the modification in Step 1 is needed: a monogenic map can homogenise to a non-flat map (Zureick-Brown Remark 5.20).
+2. For (b), Stacks 05WN and the calculus of [§RD.5.70](#rd-5-70) reduce to finite locally free surjections and Zariski coverings. A surjective monogenic map `Spec B[t]/(P) → Spec B`, with `P` monic, lifts over a formal affine embedding of the base. Homogenise and flatten away from the affine locus, then apply (a) (Zureick-Brown, proof of Theorem 1.1 (i), Step 1). The modification is essential: homogenisation alone can lose flatness (Remark 5.20).
+3. For a general finite locally free surjection, closed coverings by reduced irreducible components of the base and their finite normalizations are universally of descent by [§RD.5.71](#rd-5-71). Thus work over a normal integral affine base `Spec B`. Choose a reduced irreducible component of the source dominating it, with function field `L`, finite over `Frac B`. Finite normalizations in all intermediate fields exist because finite-type `k`-algebras are Nagata (SchemeAndStackFoundations §0.20).
+4. Write `L` as a tower of simple finite field extensions. At each stage the current normal ring `B_j` has fraction field `L_j`. Scale a field generator to make it integral over `B_j`; its minimal polynomial is monic with coefficients in `B_j`, by normality. The resulting domain `B_j[t]/(P_j)` is finite free and monogenic over `B_j`. Normalize it in `L_(j+1)`; this is a finite birational modification, hence universally of descent. The composite tower ends in the normalization of `B` in `L`, which maps to the chosen source component because that component is finite over `B`. Every stage is universally of descent by step 2 or [§RD.5.71](#rd-5-71); composition and cancellation prove descent for the original covering. This argument permits inseparable field extensions and nonreduced finite flat sources.
 
-*Sources.* Zureick-Brown, *Cohomological descent on the overconvergent site*, Definition 5.18 and Proposition 5.19, p. 22, and Proof of Theorem 1.1 `(i)` and Remark 5.20, pp. 22–24.
+*Sources.* Zureick-Brown, *Cohomological descent on the overconvergent site*, Definition 5.18 and Proposition 5.19, p. 22, and Proof of Theorem 1.1 `(i)` and Remark 5.20, pp. 22–24 (the monogenic case); Stacks Tags 05WN, 032F and 0335 for refinement and finite normalization.
 
-*Needs:* [§RD.5.68](#rd-5-68) *Le Stum's overconvergent site of a variety*; [§RD.5.71](#rd-5-71) *Modifications are universally of cohomological descent for overconvergent crystals*; [§RD.5.70](#rd-5-70) *The calculus of universal cohomological descent*; EnhancedDerivedSheaves §E2.6 *Bounded-below hypercover descent*; SchemeAndStackFoundations §4.12 *Flattening by blowing up (Raynaud–Gruson)*; AdicSpacesPartIII §R3.2 *Kiehl's theorem: coherent sheaves on a strongly noetherian Tate affinoid are the `M̃`*.
+*Needs:* [§RD.5.68](#rd-5-68) *Le Stum's overconvergent site of a variety*; [§RD.5.71](#rd-5-71) *Modifications are universally of cohomological descent for overconvergent crystals*; [§RD.5.70](#rd-5-70) *The calculus of universal cohomological descent*; EnhancedDerivedSheaves §E2.6 *Bounded-below hypercover descent*; SchemeAndStackFoundations §0.20 *Japanese and Nagata rings, finite normalization in finite function-field extensions*; SchemeAndStackFoundations §4.12 *Flattening by blowing up (Raynaud–Gruson)*; AdicSpacesPartIII §R3.2 *Kiehl's theorem: coherent sheaves on a strongly noetherian Tate affinoid are the `M̃`*.
 
 **Checks.**
 
 - For `a ∈ k ∖ k^p`, the simple radicial extension `k′ = k(a^{1/p})` gives a monogenic finite flat covering `Spec k′ → Spec k` of degree `p`, hence cohomological descent. The whole extension `k^{1/p}/k` need not be finite or monogenic.
 - The Kummer covering `t ↦ t^ℓ` of `G_m` (`ℓ` prime to `p`) is finite flat; descent recovers `H^*_rig(G_m)` from the Čech complex of the covering.
+- Over algebraically closed `k`, `B = k[u,v]/(u,v)²` is finite free of rank three and has no single algebra generator: every element is `c + n` with `n² = 0`, so its generated subalgebra has dimension at most two. The cover `Spec B → Spec k` nevertheless has a section and satisfies universal cohomological descent. Étale localization of the base cannot make `B` monogenic.
+- For a simple purely inseparable extension of function fields, the integral generator has monic minimal polynomial `t^(p^r) − b`; the monogenic stage followed by finite normalization still gives the required refinement.
 
 <a id="rd-5-73"></a>
 
@@ -10981,7 +11001,7 @@ The API:
 
 ### RD.5.82 The trace map on top-degree compact-support cohomology
 
-**Construction.** For `X` separated of finite type over `k` of pure dimension `n` there is a canonical Frobenius-equivariant trace `Tr_X: H^{2n}_{c,rig}(X/K)(n) → H⁰_{c,rig}(Spec k/K) = K`, i.e. `Tr_X: H^{2n}_{c,rig}(X/K) → K(−n)`. For a smooth affine curve it is Crew's residue sum; for `A^n` it sends the class of `dt_1/t_1 ∧ ⋯ ∧ dt_n/t_n` to 1 (up to a fixed sign convention).
+**Construction.** For `X` separated of finite type over `k` of pure dimension `n` there is a canonical Frobenius-equivariant trace `Tr_X: H^{2n}_{c,rig}(X/K)(n) → H⁰_{c,rig}(Spec k/K) = K`, i.e. `Tr_X: H^{2n}_{c,rig}(X/K) → K(−n)`. For a smooth affine curve it is Crew's traced residue sum `Σ_i Tr_{K_i/K} Res_i`, with the boundary coefficient fields of [§RD.5.24](#rd-5-24); for `A^n` it sends the class of `dt_1/t_1 ∧ ⋯ ∧ dt_n/t_n` to 1 (up to a fixed sign convention).
 
 *Hypotheses.* Pure dimension `n`; the construction uses `H^d_{c,rig} = 0` for `d > 2n` ([§RD.5.78](#rd-5-78)).
 
@@ -10997,7 +11017,7 @@ The API:
 
 1. Use [§RD.5.81](#rd-5-81), constructed from supported coherent duality and the lift-dependent trace. The trace is compatible with compact-support Gysin and finite étale maps under [§RD.5.79](#rd-5-79).
 2. Frobenius: `σ^*(dt/t) = q·dt/t` on each factor, and the residue of `σ^*ω` equals `q^n` times `σ_K` of the residue of `ω`, so Tr is equivariant as a map `H^{2n}_c → K(−n)`. The construction is Berthelot's (Dualité, §1.2), as in [§RD.5.81](#rd-5-81).
-3. This is Berthelot's trace; its residue description on curves and on `A^n` is a computation of it.
+3. This is Berthelot's trace; its residue description on curves uses the `K`-valued localization pairing of [§RD.5.46](#rd-5-46). After splitting the boundary it is the sum of geometric residues, which descends by the field traces. On `A^n` all coordinate residues are already `K`-valued.
 
 *Sources.* Kedlaya, *Finiteness of rigid cohomology with coefficients*, Section 9.3, p. 64; Crew, *Finiteness theorems for the cohomology of an overconvergent isocrystal on a curve*, (8.1.7), p. 750.
 
@@ -11008,7 +11028,7 @@ The API:
 - `traceMap_affineLine`: `Tr_{A^1}([dt/t]) = 1`, and `Tr_{A^1}(Φ[dt/t]) = q`.
 - `traceMap_point`: For `n = 0` and `X = Spec k`, Tr is the identity of `K`.
 - `traceMap_twist_nonexample`: Tr is not Frobenius-equivariant as a map to the untwisted `K`: on `A^1, Tr(Φ[dt/t]) = q ≠ 1 = Tr[dt/t]`.
-- `traceMap_crew`: For a smooth affine curve, Tr agrees with Crew's residue trace `H²_c(X, K) → K` of (8.1.7).
+- `traceMap_crew`: For a smooth affine curve, Tr agrees with Crew's trace `H²_c(X, K) → K` of (8.1.7), with contribution `Tr_{K_i/K} Res_i` at each closed boundary point.
 - `X = A^1: Tr[dt/t] = 1` and `Φ` acts by `q` on `H²_{c,rig}(A^1)`.
 
 <a id="rd-5-83"></a>
@@ -11906,9 +11926,11 @@ The API:
 
 **Theorem.** Let `f : A → S` be an abelian scheme over a smooth separated `k`-scheme `S` (`k` perfect). Then for every `i` the convergent F-isocrystal `(R^i f_crys,* O_{A/W})^an ⊗ ℚ` extends to an overconvergent F-isocrystal on `S/K`, compatible with base change to points.
 
-*Hypotheses.* `S` smooth over a perfect field `k; K` is unramified over `W(k)[1/p]` or, more generally, has absolute ramification `index e ≤ p − 1`, so that the divided powers of the maximal ideal of `O_K` are topologically nilpotent and Dwork's construction of the convergent isocrystal applies.
+*Hypotheses.* `S` is smooth over a perfect field `k`; `O_K` is a complete mixed-characteristic DVR with residue field `k`, the coefficient Frobenius lift, and absolute ramification index `e ≤ p − 1`. This bound gives the integral divided powers `γ_n(π) = π^n/n! ∈ O_K`. They tend to zero for `e < p − 1`, but need not do so at equality. The convergent realization uses the bounded-envelope map of [§RD.3.35](#rd-3-35), which applies also at equality.
 
-*Proof sketch.* Étale locally on `S` choose a polarisation and a level structure; by Zarhin's trick ([§RD.5.116](#rd-5-116)) reduce to principally polarised abelian schemes with level structure, which are pulled back from the universal family over a smooth moduli scheme. The universal family is liftable in Tsuzuki's sense over the smooth formal moduli space, so [§RD.5.115](#rd-5-115) applies there; pull back, and descend along the finite étale level cover with [§RD.3.50](#rd-3-50), using [§RD.3.49](#rd-3-49) for the summand `R^i`. (Étesse, *Descente étale des F-isocristaux surconvergents et rationalité des fonctions `L` de schémas abéliens*, Ann. Sci. ÉNS (4) 35 (2002), Partie III, Théorème 7, p. 599 (with Théorèmes 1 and 6, pp. 593 and 598).)
+*Proof sketch.* First realize the nondegenerate crystalline direct images as convergent F-isocrystals by [§RD.3.35](#rd-3-35). In a smooth formal embedding with ideal generated by `f_j`, the map from the divided-power envelope to the radius-`|π|` tube sends `∏_j f_j^[n_j]` to `π^(Σ_j n_j) ∏_j T_j^n_j / ∏_j n_j!`. These images form a bounded set for `e ≤ p − 1`, so the map is continuous for the `π`-adic topology and extends to the completed envelope. A `π`-adically convergent sum has coefficients tending to zero; decay of the divided-power monomials themselves is unnecessary. Frobenius then extends the realization from this fixed-radius tube to the full tube. Étale locally on `S` choose a polarisation and a level structure; by Zarhin's trick ([§RD.5.116](#rd-5-116)) reduce to principally polarised abelian schemes with level structure, which are pulled back from the universal family over a smooth moduli scheme. The universal family is liftable in Tsuzuki's sense over the smooth formal moduli space, so [§RD.5.115](#rd-5-115) applies there; pull back, and descend along the finite étale level cover with [§RD.3.50](#rd-3-50), using [§RD.3.49](#rd-3-49) for the summand `R^i`. (Étesse, *Descente étale des F-isocristaux surconvergents et rationalité des fonctions `L` de schémas abéliens*, Ann. Sci. ÉNS (4) 35 (2002), Partie III, Théorème 7, p. 599 (with Théorèmes 1 and 6, pp. 593 and 598).)
+
+*Sources.* Berthelot, *Cohomologie rigide et cohomologie rigide à supports propres*, (2.4.1.1)–(2.4.1.3), pp. 78–79; Étesse, *Descente étale des F-isocristaux surconvergents*, Partie III, Théorème 7, pp. 599–600.
 
 *Needs:* [§RD.5.116](#rd-5-116) *Zarhin's trick*; [§RD.5.115](#rd-5-115) *Overconvergent direct images along proper smooth liftable morphisms*; [§RD.3.50](#rd-3-50) *Étesse: étale descent for overconvergent F-isocrystals*; [§RD.3.49](#rd-3-49) *Étesse: convergent direct summands of overconvergent F-isocrystals are overconvergent*; [§RD.3.35](#rd-3-35) *Dwork's construction: the convergent F-isocrystal `M^an` of an F-crystal*.
 
@@ -11917,6 +11939,8 @@ The API:
 - `S = Spec k`: the statement is that `Hⁱ_crys(A/W) ⊗ ℚ` is an F-isocrystal over `K`.
 - `i = 0` and `i = 2g`: the isocrystals `O` and `O(−g)` (the latter via the trace), both overconvergent.
 - For a constant abelian scheme `A_0 × S` the extension is the constant overconvergent F-isocrystal `Hⁱ_crys(A_0) ⊗ O`.
+- At `e = p − 1`, Legendre's formula gives `v_π(π^(p^r)/(p^r)!) = 1` for every `r ≥ 0`; the divided powers are integral and bounded, but do not tend to zero. `RD5.dividedPower_boundary_valuation` in `Suggested.lean` states this valuation identity. For `p = 2` and `π = 2` in `ℤ_2`, the same constant valuation one occurs.
+- For `e < p − 1`, `v_π(π^n/n!) ≥ n(1 − e/(p − 1)) → +∞`. This stronger decay is consistent with the bounded-envelope argument but is not its hypothesis.
 
 ### Examples
 
@@ -13109,41 +13133,42 @@ The API:
 
 ### RD.6.45 The Frobenius-extended Weyl algebra and the Frobenius of the Fourier transform
 
-**Construction.** Let `D†` be the overconvergent Weyl algebra over `K` ([§RD.6.38](#rd-6-38), with `∂` acting as `π^{-1}d/dx`) and `σ(x) = x^q`. The Frobenius-extended algebra `D†⟨F⟩` is generated over `D†` by an element `F` with `Fc = σ_K(c)F` for `c ∈ K`, `Fx = x^σF` and `∂F = (dx^σ/dx)·F∂`. Here `σ_K` is the identity, so `F` commutes with coefficients. A `(σ, ∇)`-module over `K⟨x⟩†` is the same as a left `D†⟨F⟩`-module that is finite free over `A = K⟨x⟩†` and for which the linearisation `A ⊗_{σ,A} M → M` is an isomorphism (`F` acts semilinearly). Let `Σ_i c_i x^i := exp(π(x^σ − x)) ∈ K⟨x⟩†` (Dwork). The Fourier automorphism `ρ` of `D†` (`x ↦ ∂, ∂ ↦ −x`; [§RD.6.40](#rd-6-40)) extends to `D†⟨F⟩` by Kedlaya's formula, which writes `ρ(F)` as an explicit series in `∂` and `x` with the coefficients `c_i`, followed by `(dx^σ/dx)·F`, and `ρ(ρ(F)) = qF`. For a `(σ, ∇)`-module `M`, the Fourier transform `M̂ = D†⟨F⟩ ⊗_ρ M` thus carries a Frobenius `F̂` (the action of `F` through `ρ`), and `M̂` is a `(σ, ∇)`-module when `M̂` is finite free over `K⟨s⟩†` and its Frobenius linearisation is an isomorphism; establish the latter using the geometric cohomology construction, as in [§RD.6.49](#rd-6-49).
+**Construction.** Let `D†` be the overconvergent Weyl algebra of [§RD.6.38](#rd-6-38), with `∂` acting as `π⁻¹d/dx`, and let `σ(x) = x^q`. The algebra `D†⟨F⟩` has relations `Fc = σ_K(c)F`, `Fx = x^qF` and `∂F = qx^(q−1)F∂`, with no unit relation on `F`. Its left modules finite free over `A = K⟨x⟩†` with invertible Frobenius linearisation are the `(σ,∇)`-modules of [§RD.3.28](#rd-3-28).
 
-*Hypotheses.*
+For such a module `M`, construct the Frobenius on its Fourier transform by the geometric comparison `c_M : M̂ ≅ coker ∇_x` of [§RD.6.44](#rd-6-44). On `N = g^*M ⊗ L_{sx}`, the horizontal Frobenius on functions and on one-forms gives a chain map of the relative de Rham complex. Transport the induced map on the cokernel through `c_M` to obtain `F̂`. This construction is functorial in horizontal Frobenius-equivariant maps and compatible with finite coefficient extension and Tate twists. When `M̂` is finite free over `K⟨s⟩†` and its induced Frobenius linearisation is invertible, it is a `(σ,∇)`-module; [§RD.6.50](#rd-6-50) gives sufficient hypotheses.
 
-- `K` ∋ `π` with `π^{p−1} = −p; σ(x) = x^q` with `σ_K = id`.
-- The convergence of `Σ_i c_i ∂^i x^i` on `D†`-modules coming from `(σ, ∇)`-modules uses Kedlaya's Corollary 4.2.2 ([§RD.6.39](#rd-6-39)); Kedlaya states the extension without proof.
+The comparisons include change of Frobenius lift. For `a(x) = −x`, the maps `σ ∘ a` and `a ∘ σ` agree after reduction, so the Taylor isomorphism of [§RD.3.30](#rd-3-30) identifies their pullbacks. Give `a^*M` its Frobenius using this isomorphism. Whenever the first transform is finite free with invertible Frobenius linearisation, the geometric construction can be iterated, and construct a natural Frobenius-equivariant isomorphism `M̂̂ ≅ a^*M(−1)`. Its underlying `D†`-module isomorphism is the reflection isomorphism of [§RD.6.41](#rd-6-41), and `K(−1)` multiplies Frobenius by `q`. The square is a comparison of functors with their Frobenius structures.
+
+*Hypotheses.* `K` contains `π` with `π^(p−1) = −p`, its residue field is `𝔽_q`, and `σ_K = id`. Both odd `p` and `p = 2` are included. Iteration as a transform of `(σ,∇)`-modules requires the stated finite-freeness and invertible-linearisation hypotheses on the first transform.
 
 The API:
 
-- `weylFrobeniusAlgebra`: `D†⟨F⟩ = D†` with `F`, without a unit relation on `F`, `Fc = σ_K(c)F`, `Fx = x^σF`, `∂F = (dx^σ/dx)F∂`.
-- `weylFrobeniusAlgebra.ofSigmaNabla`: `(σ, ∇)`-modules over `K⟨x⟩†` are the left `D†⟨F⟩`-modules finite free over `A = K⟨x⟩†` with invertible linearisation `A ⊗_{σ,A} M → M`.
-- `fourierAut_extend`: The extension of `ρ` to `D†⟨F⟩` with `ρ(F) = (Σ_i c_i ∂^i x^i)(dx^σ/dx)F`, as printed in Kedlaya's Remark 4.2.3.
-- `fourierAut_sq_F`: `ρ(ρ(F)) = qF`.
-- `fourierFrobenius`: The Frobenius `F̂` on `M̂ = D†⟨F⟩ ⊗_ρ M`.
-- `fourierFrobenius_geom`: Under `M̂ ≅ M̂_geom` ([§RD.6.44](#rd-6-44)) `F̂` is the Frobenius induced on `coker ∇_x` ([§RD.6.49](#rd-6-49)).
+- `weylFrobeniusAlgebra`: The algebra with the three displayed Frobenius relations and no inverse for `F`.
+- `weylFrobeniusAlgebra.ofSigmaNabla`: Its modules finite free over `A` with invertible Frobenius linearisation are `(σ,∇)`-modules.
+- `fourierFrobenius`: `F̂ = c_M⁻¹ F_geom c_M`, where `F_geom` is induced on relative de Rham cohomology, including pullback of `dx`.
+- `fourierFrobenius_geom`: `c_M` intertwines `F̂` and `F_geom` exactly.
+- `fourierFrobenius_changeLift`: Given Frobenius for one lift `σ_1`, composition `σ_2^*M ≅ σ_1^*M → M` with the Taylor comparison gives Frobenius for another lift of the same special-fibre map. These comparisons respect composition.
+- `fourierFrobenius_sq`: Under the iteration hypotheses, `M̂̂ ≅ a^*M(−1)` with the Taylor comparison in the Frobenius of `a^*M`.
 
 *Proof sketch.*
 
-1. Dwork: `exp(π(x^σ − x))` is overconvergent (a product of values of Dwork's splitting function, [§RD.6.42](#rd-6-42)).
-2. The relations defining `D†⟨F⟩` are those satisfied by multiplication operators, derivation and Frobenius structure on a `(σ, ∇)`-module: `F(x v) = x^σ F(v)` and `∂(F v) = (dx^σ/dx) F(∂v)` (horizontality of the Frobenius structure).
-3. `ρ` must preserve the defining relations, `ρ(F)ρ(x) = ρ(x^σ)ρ(F)` and `ρ(∂)ρ(F) = ρ(dx^σ/dx)ρ(F)ρ(∂)`, in the completed algebra, and `ρ^2` (which is `x ↦ −x, ∂ ↦ −∂` on `D†`) must send `F` to qF. Kedlaya states both (Remark 4.2.3) without proof; they are identities between series built from Dwork's `exp(π(x^σ − x))`, checked on the Dwork modules `L_{ax}`, which generate the relevant category under the Fourier transform.
+1. The relations of `D†⟨F⟩` express semilinearity and horizontality on `M`; invertibility of the linearisation is a condition on its modules.
+2. On `N`, apply `F_M` and the Dwork multiplier `exp(π((sx)^σ − sx))`, then pull back the relative one-form `dx`. Horizontality makes this a chain map. The overconvergence estimates of [§RD.6.39](#rd-6-39) and the comparison of [§RD.6.44](#rd-6-44) transport it to `M̂` and prove functoriality.
+3. Compare different lifts by the convergent Taylor stratification, using its cocycle identity for compatibility with composition. At `p = 2`, reflection changes the standard lift `x ↦ x^q` to `x ↦ −x^q`; their difference is divisible by 2, so this comparison is essential.
+4. Compose the two geometric Fourier kernels. The kernel phase is `s(x + z)`; relative integration identifies the composite with the module on `z = −x`, giving the reflection isomorphism. Its Frobenius includes the trace factor from `H²_c(A¹) = K(−1)`. The Taylor comparison from step 3 identifies the Frobenius lift on this reflected diagonal with that used for `a^*M`. This gives the square isomorphism including its Tate twist, also at `p = 2`.
 
-*Sources.* Kedlaya, *Fourier transforms and p-adic 'Weil II'*, Remark 4.2.3, pp. 29-30, and Remark 4.2.4, p. 30.
+*Sources.* Kedlaya, *Fourier transforms and p-adic 'Weil II'*, Remark 4.2.3 (geometric construction of Frobenius), Remark 4.2.4 and Proposition 4.3.1, pp. 29–31; Abe–Marmora, *Product formula for p-adic epsilon factors*, §§3.2.2 and 5.1.1–5.1.2, pp. 47 and 56 (geometric Frobenius comparison); Berthelot, *Cohomologie rigide et cohomologie rigide à supports propres*, (2.5.5)–(2.5.6), pp. 85–86 (comparison of lifts).
 
-*Needs:* [§RD.6.38](#rd-6-38) *The overconvergent Weyl algebra `D†`*; [§RD.6.40](#rd-6-40) *The Fourier automorphism `ρ` of `D†`*; [§RD.6.39](#rd-6-39) *A Frobenius structure makes a module with connection a `D†`-module*; [§RD.6.42](#rd-6-42) *The Dwork (Artin–Schreier) isocrystal `L_π`*; [§RD.6.41](#rd-6-41) *The p-adic Fourier transform of a `D†`-module*.
+*Needs:* [§RD.6.38](#rd-6-38) *The overconvergent Weyl algebra*; [§RD.6.40](#rd-6-40) *The Fourier automorphism of `D†`*; [§RD.6.39](#rd-6-39) *The `D†`-action from a Frobenius structure*; [§RD.6.42](#rd-6-42) *The Dwork isocrystal*; [§RD.6.43](#rd-6-43) *The geometric Fourier transform*; [§RD.6.44](#rd-6-44) *Comparison with the geometric transform*; [§RD.3.30](#rd-3-30) *Pullback and comparison of lifts*; [§RD.4.27](#rd-4-27) *Compact-support cohomology of affine space*; [§RD.5.94](#rd-5-94) *Künneth with supports for smooth varieties*; [§RD.5.95](#rd-5-95) *Compact-support Künneth*.
 
 **Checks.**
 
-- On the trivial object `A, F(a) = a(x^q)` has invertible linearisation but `x ∉ F(A)` for `q > 1`. Thus `F` is not a unit acting on A.
-- `fourierAut_sq_F_test`: `ρ(ρ(F)) = qF` and `ρ^4 = id` on `D†`.
-- `fourierFrobenius_trivial`: For `M = K⟨x⟩†, F̂` acts on the generator `δ` of `D†/D†x` by `q` (the Frobenius of `H²_c(A^1) ≅ K(−1)`).
-- `weylFrobeniusAlgebra_point`: For `M = 0, M̂ = 0` with `F̂ = 0`.
-- `fourierTransform_forgets_frobenius`: The `D†`-module transform alone does not determine `F̂: M = K⟨x⟩†` and `M = O(−1)` (same connection, Frobenius multiplied by `q`) have the same `D†`-module transform, the delta module at 0, while their `F̂` differ by the factor `q`.
-- `M = K⟨x⟩†` (trivial module): `M̂` is the delta module `D†/D†x` at 0, and `F̂` acts on its generator `δ` by `q`, the Frobenius of `H²_c(A^1) ≅ K(−1)` that the geometric transform attaches to it.
-- `ρ(ρ(F)) = qF` in `D†⟨F⟩`.
+- On the trivial object `A`, `F(f) = f(x^q)` has invertible linearisation, but `x ∉ F(A)` for `q > 1`. Its Fourier transform is the delta module at 0, with `F̂(δ) = qδ`, from the pullback of the relative one-form.
+- At `p = 2`, a literal extension of `ρ` to this fixed Ore algebra with `ρ²(F) = qF` would send `Fx = x^qF` to `−qFx = qx^qF`, forcing `2qx^qF = 0`. On `A`, `x^qF(1) = x^q ≠ 0`. The Taylor comparison between the reflected lifts supplies the functorial square instead.
+- For odd `q`, reflection commutes with the standard lift, so the square comparison has no change-of-lift correction and gives the Frobenius on `a^*M` multiplied by `q` whenever iteration is defined.
+- For `p = 2` and `μ ∈ O_{K′}` over any finite coefficient extension, the twists `L_{x³ + μx}` and their duals have no `H⁰` and have `dim H¹ = 2`: their Swan conductor at infinity is three. Thus [§RD.6.50](#rd-6-50) gives a finite free rank-two first transform of `L_{x³}`, and its second transform is `a^*L_{x³}(−1)`, with the reflected Frobenius compared by Taylor transport.
+- For `M = 0`, its transform and Frobenius are zero, and the square isomorphism is the identity of zero.
+- The modules `O` and `O(−1)` have the same connection and the same underlying delta-module transform; their transformed Frobenius maps differ by `q`. Thus forgetting Frobenius loses information about the transform.
 
 <a id="rd-6-46"></a>
 
@@ -13263,15 +13288,15 @@ The API:
 
 ### RD.6.49 The Fourier comparison is compatible with Frobenius
 
-**Lemma.** Let `M` be a `(σ, ∇)`-module over `K⟨x⟩†`. The canonical isomorphism `M̂ → M̂_geom` of `D†`-modules ([§RD.6.44](#rd-6-44), `v ↦` class of `(v ⊗ e) ⊗ dx`) intertwines the Frobenius `F̂` of [§RD.6.45](#rd-6-45) with the `σ`-semilinear Frobenius that `M̂_geom = coker`(`∇_x` on `g^*M ⊗ L_{sx}`) inherits from the Frobenius structures of `M` and `L_{sx}`, up to the factor `q` coming from `F` on `dx`. In particular, under the hypotheses of [§RD.6.50](#rd-6-50), `M̂` with `F̂` is a `(σ, ∇)`-module and the irreducibility statement holds Frobenius-equivariantly.
+**Lemma.** Let `M` be a `(σ, ∇)`-module over `K⟨x⟩†`. The canonical isomorphism `M̂ → M̂_geom` of `D†`-modules ([§RD.6.44](#rd-6-44), `v ↦` class of `(v ⊗ e) ⊗ dx`) intertwines the Frobenius `F̂` of [§RD.6.45](#rd-6-45) with the `σ`-semilinear Frobenius that `M̂_geom = coker`(`∇_x` on `g^*M ⊗ L_{sx}`) inherits from the Frobenius structures of `M` and `L_{sx}` and the pullback on relative one-forms. The differential factor `dx^σ/dx` is part of this chain map. In particular, under the hypotheses of [§RD.6.50](#rd-6-50), `M̂` with `F̂` is a `(σ, ∇)`-module and the irreducibility statement holds Frobenius-equivariantly.
 
-*Hypotheses.* `M` a `(σ, ∇)`-module over `K⟨x⟩†; K` ∋ `π`; the Dwork isocrystal `L_{sx}` with the convention of [§RD.6.48](#rd-6-48).
+*Hypotheses.* `M` is a `(σ,∇)`-module over `K⟨x⟩†` with the coefficient and Frobenius data of [§RD.6.45](#rd-6-45). Use the Dwork kernel with connection `∇e = πe d(sx)` and multiplier `exp(π((sx)^σ − sx))`; this horizontal formula applies also at `p = 2`.
 
 *Proof sketch.*
 
 1. On `g^*M ⊗ L_{sx}` the Frobenius is `F_M ⊗ exp(π(s^σx^σ − sx))` on `e`; on the generator `v ⊗ e ⊗ dx` the class of `F` is `F_M(v) ⊗ exp`(`π`((sx)`^σ − sx`)) `e ⊗ (dx^σ/dx) dx`.
-2. Rewriting in `coker ∇_x` the multiplication by `s` as `−π^{-1}∂_x` (the relation used in the proof of Kedlaya's Proposition 4.3.1) turns `exp`(`π`((sx)`^σ − sx`)) `= Σ c_i` (sx)`^i` into Kedlaya's `Σ c_i ∂^i x^i` (`s` brought to the left of `x` and replaced by the derivation), which is the formula for `ρ(F)`; the signs and the order of the factors are fixed by [§RD.6.45](#rd-6-45); comparing both sides on generators `v ⊗ e ⊗ dx` gives the equivariance.
-3. Kedlaya asserts that the Frobenius structure on `M̂` is obtained from the geometric transform; this lemma makes the identification explicit, the remaining point being the convergence of the rewritten series on `coker ∇_x`, which follows from the overconvergence estimate of [§RD.6.39](#rd-6-39).
+2. Transport this chain map through `c_M` to define `F̂`. The comparison is then Frobenius-equivariant on the entire cokernel, with the differential factor included. A change of lift is identified by the Taylor isomorphism of [§RD.3.30](#rd-3-30), including the reflection comparison at `p = 2`.
+3. The estimates of [§RD.6.39](#rd-6-39) give convergence in the completed `D†`-module. Under [§RD.6.50](#rd-6-50), relative cohomology gives a finite free module and an invertible Frobenius linearisation, so the comparison is one of `(σ,∇)`-modules.
 
 *Sources.* Kedlaya, *Fourier transforms and p-adic 'Weil II'*, Remark 4.2.3 and Proposition 4.3.1 with proof, pp. 29-31.
 
@@ -13281,6 +13306,7 @@ The API:
 
 - `M = K⟨x⟩†`: both sides are the delta module at 0 with Frobenius `q` on its generator.
 - `M = L_{ax}, a ∈ O_K`: both sides are the delta module at `−a` with matching Frobenius.
+- Replacing `M` by `M(n)` multiplies both Frobenius maps by `q^(−n)`, and the same comparison intertwines them.
 
 <a id="rd-6-50"></a>
 
@@ -13288,13 +13314,13 @@ The API:
 
 **Lemma.** Let `M` be a `(σ, ∇)`-module over `K⟨x⟩†` and `d ≥ 0` such that for all `K'` and `μ: dim H⁰(M ⊗ L_{μx}) = dim H⁰(M^∨ ⊗ L_{μx}) = 0` and `dim H¹(M ⊗ L_{μx}) = dim H¹(M^∨ ⊗ L_{μx}) = d`. Then `M̂_geom` is a `(σ, ∇)`-module of `rank d` over `K⟨s⟩†`, and if `M` is (absolutely) irreducible so is `M̂ ≅ M̂_geom`.
 
-*Hypotheses.* Constant fibre dimensions as stated for all finite extensions `K'` and all `μ`.
+*Hypotheses.* The coefficient and Frobenius data are those of [§RD.6.45](#rd-6-45). The stated fibre dimensions are constant over all finite extensions `K'` and all `μ` in the closed unit disc.
 
 *Proof sketch.*
 
 1. Apply [§RD.6.34](#rd-6-34) to `N = g^*M ⊗ L_{sx}: R^1 f_* N = M̂_geom` is free of `rank d`; it carries the induced connection and Frobenius.
 2. Irreducibility: a Frobenius-stable `D†`-submodule `N̂` of `M̂` with `N̂` and `M̂/N̂` infinite-dimensional gives, undoing `ρ`, a Frobenius-stable `D†`-submodule of `M`, which is a `(σ, ∇)`-submodule with nontrivial quotient; absolute irreducibility likewise since the construction commutes with extension of `K` ([§RD.6.44](#rd-6-44)).
-3. The Frobenius is transported by the extended Fourier–Frobenius operator of Weil II Remark 4.2.3, pp. 29–30, whose square `ρ²` scales by `q`. Undoing the coordinate twist alone only compares connections. The convergence and invertibility of this transported operator follow from the estimates for the Dwork splitting function.
+3. Use the geometric Frobenius and its comparison of [§RD.6.45](#rd-6-45) and [§RD.6.49](#rd-6-49). On finite free transforms, its square is reflection followed by the twist `(−1)`, with the Taylor comparison of the reflected lifts. Hence undoing the transform carries Frobenius-stable subobjects to Frobenius-stable subobjects, also at `p = 2`. Invertibility of the linearisation follows from the relative cohomology theorem in step 1.
 
 *Sources.* Kedlaya, *Fourier transforms and p-adic 'Weil II'*, Proposition 4.3.2 and proof, p. 31–32, and Remark 4.2.3, pp. 29–30.
 
@@ -13303,6 +13329,8 @@ The API:
 **Checks.**
 
 - `M = L_{ax}` (a a unit): the hypothesis fails at `μ = −a (H⁰ ≠ 0)`, consistent with the transform being a delta module rather than a free module.
+- `M = 0` satisfies the hypotheses with `d = 0`, and its transform is the rank-zero `(σ,∇)`-module.
+- For `M(n)`, the fibre dimensions are unchanged and the transformed Frobenius is multiplied by `q^(−n)`. Thus the criterion preserves the Tate-twist compatibility of the geometric construction.
 
 <a id="rd-6-51"></a>
 

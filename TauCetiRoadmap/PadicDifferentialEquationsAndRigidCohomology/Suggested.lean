@@ -742,6 +742,14 @@ theorem affineCurve_index_identity (g d : ℕ) (hd : 1 ≤ d) :
 
 section Residues
 
+/-- The residue `1/2` at a quadratic boundary point contributes `1` to the global
+residue sum after the coefficient-field trace (README RD.5.24 and RD.5.46). -/
+theorem boundary_residue_trace_constant {K L : Type*} [Field K] [CharZero K]
+    [Field L] [Algebra K L] [FiniteDimensional K L] (hdegree : Module.finrank K L = 2) :
+    Algebra.trace K L (algebraMap K L (1 / 2 : K)) - 1 = 0 := by
+  rw [Algebra.trace_algebraMap, hdegree]
+  norm_num
+
 /-- The arithmetic residue criterion for a rank-one overconvergent log connection.
 Convergence is a separate condition, which this rational predicate does not give. -/
 def RankOneResidueUnipotent (a : ℚ) : Prop := ∃ n : ℤ, a = n
@@ -771,6 +779,26 @@ theorem isNilpotent_of_conj_eq_smul (q : ℕ) (hq : 2 ≤ q) (N : Module.End K V
   sorry
 
 end Residues
+
+section DividedPowers
+
+/-- At absolute ramification index `p - 1`, the uniformiser valuation of
+`π^(p^r)/(p^r)!` is one. These divided powers are integral and bounded but do not
+tend to zero (README RD.5.117). -/
+theorem dividedPower_boundary_valuation (p : ℕ) [Fact p.Prime] (r : ℕ) :
+    ((p ^ r : ℕ) : ℤ) - ((p - 1) * padicValNat p (p ^ r).factorial : ℕ) = 1 := by
+  have hp : 1 < p := (Fact.out : p.Prime).one_lt
+  have hdigits : (p.digits (p ^ r)).sum = 1 := by
+    have h := Nat.digits_base_pow_mul (b := p) (k := r) (m := 1) hp (by decide)
+    simp only [mul_one] at h
+    rw [h, Nat.digits_of_lt p 1 (by decide) hp]
+    simp
+  have h := sub_one_mul_padicValNat_factorial (p := p) (p ^ r)
+  rw [hdigits] at h
+  have hpos : 0 < p ^ r := pow_pos (by omega) r
+  omega
+
+end DividedPowers
 
 -- Bourbaki strictness, with the quotient topology, is Mathlib's notion.
 #check Topology.IsStrictMap
