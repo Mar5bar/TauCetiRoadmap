@@ -458,7 +458,22 @@ example :
       (4, 4, 4, 2) := by
   decide
 
-/-- §2A.4: **The determinant derivative is the trace**: `det(1 + εX) = 1 + ε tr X` over `k[ε]`. -/
+/-- §2A.4: trace is onto in positive rank, even when the characteristic divides the rank. -/
+example [Nonempty n] : Function.Surjective (Matrix.trace : Matrix n n k → k) :=
+  Matrix.trace_surjective
+
+/-- §2A.4: in rank zero trace is not onto the coefficient field. -/
+example : ¬ Function.Surjective (Matrix.trace : Matrix (Fin 0) (Fin 0) k → k) := by
+  intro h
+  obtain ⟨X, hX⟩ := h 1
+  simp [Matrix.trace] at hX
+
+/-- §2A.4: the rank-zero trace is zero and determinant is one. -/
+example (X : Matrix (Fin 0) (Fin 0) k) : X.trace = 0 ∧ X.det = 1 := by
+  simp [Matrix.trace, Matrix.det_isEmpty]
+
+/-- §2A.4: the determinant derivative is the trace, including rank zero:
+`det(1 + εX) = 1 + ε tr X` over `k[ε]`. -/
 theorem det_one_add_eps (X : Matrix n n k) :
     ((1 : Matrix n n (DualNumber k)) +
         (DualNumber.eps : DualNumber k) • X.map (algebraMap k (DualNumber k))).det =
@@ -576,30 +591,6 @@ def complexHodgeGammaFactors (H : TauCeti.Hodge.HodgeStructureOn W ω w) :
   exact H.finite_setOf_hodgeNumber_ne_zero.toFinset.toList.map fun a =>
     (.complex (-min a (w - a)), H.hodgeNumber a)
 
-/-- §4.14: the factor-only product on separate multisets of complex shifts. -/
-def gammaShiftProduct (gammaR gammaC : Multiset ℂ) (s : ℂ) : ℂ :=
-  (gammaR.map fun μ => Complex.Gammaℝ (s + μ)).prod *
-    (gammaC.map fun ν => Complex.Gammaℂ (s + ν)).prod
-
-/-- §4.14: the finite number of real and complex Gamma poles, counting multiset multiplicity. -/
-def gammaShiftPoleCount (gammaR gammaC : Multiset ℂ) (s : ℂ) : ℕ := by
-  classical
-  exact (gammaR.filter fun μ => ∃ n : ℕ, s + μ = -(2 * (n : ℂ))).card +
-    (gammaC.filter fun ν => ∃ n : ℕ, s + ν = -(n : ℂ)).card
-
-/-- §4.14: every finite shifted Gamma product is meromorphic. -/
-theorem gammaShiftProduct_meromorphic (gammaR gammaC : Multiset ℂ) :
-    Meromorphic (gammaShiftProduct gammaR gammaC) := sorry
-
-/-- §4.14: the meromorphic germ is nonzero, even at a totalized zero value. -/
-theorem gammaShiftProduct_nonzero_germ (gammaR gammaC : Multiset ℂ) (s : ℂ) :
-    meromorphicOrderAt (gammaShiftProduct gammaR gammaC) s ≠ ⊤ := sorry
-
-/-- §4.14: the analytic order of the factor-only product is the negative finite pole count. -/
-theorem gammaPoleOrder_analytic (gammaR gammaC : Multiset ℂ) (s : ℂ) :
-    meromorphicOrderAt (gammaShiftProduct gammaR gammaC) s =
-      (-(gammaShiftPoleCount gammaR gammaC s : ℤ) : WithTop ℤ) := sorry
-
 /-- §4.14: expand weighted integral shifts into separate complex-shift multisets,
 retaining the `s + shift` sign. -/
 def hodgeGammaShifts (factors : List (ShiftedGamma × ℕ)) : Multiset ℂ × Multiset ℂ :=
@@ -615,14 +606,7 @@ def hodgeGammaFactor (factors : List (ShiftedGamma × ℕ)) (s : ℂ) : ℂ :=
      | .real a => Complex.Gammaℝ (s + (a : ℂ))
      | .complex a => Complex.Gammaℂ (s + (a : ℂ))) ^ f.2).prod
 
-/-- §4.14: expansion of multiplicities identifies the weighted product with the factor-only
-shift product, including totalized values. -/
-theorem hodgeGammaFactor_eq_shiftProduct (f : List (ShiftedGamma × ℕ)) (s : ℂ) :
-    hodgeGammaFactor f s = gammaShiftProduct (hodgeGammaShifts f).1 (hodgeGammaShifts f).2 s :=
-  sorry
-
-/-- §4.14: the integer pole count for a weighted factor list, interpreted through the analytic
-order theorem for the shift product. -/
+/-- §4.14: the integer pole count for a weighted integral Hodge factor list. -/
 def gammaPoleOrder (factors : List (ShiftedGamma × ℕ)) (m : ℤ) : ℕ :=
   (factors.map fun f =>
     match f.1 with
@@ -637,11 +621,18 @@ theorem gammaFactor_sum (f g : List (ShiftedGamma × ℕ)) (s : ℂ) :
 theorem gammaPoleOrder_sum (f g : List (ShiftedGamma × ℕ)) (m : ℤ) :
     gammaPoleOrder (f ++ g) m = gammaPoleOrder f m + gammaPoleOrder g m := sorry
 
-/-- §4.14: the analytic order of the real-place Hodge product is the negative integer pole
-count, obtained from the factor-only Gamma theorem. -/
+/-- §4.14: the real-place Hodge product has analytic order equal to the negative integer pole
+count. -/
 theorem gammaPoleOrder_hodge_analytic (A : ArchimedeanRealization W ω w) (m : ℤ) :
     meromorphicOrderAt (hodgeGammaFactor (hodgeGammaFactors A)) (m : ℂ) =
       (-(gammaPoleOrder (hodgeGammaFactors A) m : ℤ) : WithTop ℤ) := sorry
+
+/-- §4.14: the complex-place Hodge product has analytic order equal to the negative integer
+pole count. -/
+theorem gammaPoleOrder_complexHodge_analytic
+    (H : TauCeti.Hodge.HodgeStructureOn W ω w) (m : ℤ) :
+    meromorphicOrderAt (hodgeGammaFactor (complexHodgeGammaFactors H)) (m : ℂ) =
+      (-(gammaPoleOrder (complexHodgeGammaFactors H) m : ℤ) : WithTop ℤ) := sorry
 
 /-- §4.13: Tau Ceti's lattice conjugation on the Tate line. -/
 abbrev standardConjugation : TauCeti.Hodge.Conjugation ℂ :=
@@ -780,16 +771,21 @@ example : hodgeGammaShifts [(.real (-2), 2), (.complex 1, 1), (.real 4, 0)] =
     (Multiset.replicate 2 (-2 : ℂ), {1}) := by
   simp [hodgeGammaShifts]
 
-/-- §4.14: the empty generic product has unit value and analytic order zero. -/
-example (s : ℂ) : gammaShiftProduct 0 0 s = 1 ∧
-    meromorphicOrderAt (gammaShiftProduct 0 0) s = 0 := sorry
+/-- §4.14: the zero Hodge realization has unit product and analytic order zero everywhere. -/
+example {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    {ω : TauCeti.Hodge.Conjugation W} {w : ℤ} [Subsingleton W]
+    (A : ArchimedeanRealization W ω w) (s : ℂ) :
+    hodgeGammaFactor (hodgeGammaFactors A) s = 1 ∧
+    meromorphicOrderAt (hodgeGammaFactor (hodgeGammaFactors A)) s = 0 := sorry
 
-/-- §4.14: coincident real and complex poles add their multiplicities. -/
-example : meromorphicOrderAt (gammaShiftProduct {0, 0} {0}) 0 = (-3 : WithTop ℤ) := sorry
+/-- §4.14: coincident poles in combined real- and complex-place Hodge lists add multiplicities. -/
+example : meromorphicOrderAt (hodgeGammaFactor [(.real 0, 2), (.complex 0, 1)]) 0 =
+    (-3 : WithTop ℤ) := sorry
 
-/-- §4.14: minus one is a complex Gamma pole but is not a real Gamma pole. -/
-example : meromorphicOrderAt (gammaShiftProduct {0} 0) (-1) = 0 ∧
-    meromorphicOrderAt (gammaShiftProduct 0 {0}) (-1) = (-1 : WithTop ℤ) := sorry
+/-- §4.14: at minus one the weight-zero Tate line has a pole only at a complex place. -/
+example : meromorphicOrderAt (hodgeGammaFactor (hodgeGammaFactors (tateArchimedean 0))) (-1) = 0 ∧
+    meromorphicOrderAt (hodgeGammaFactor (complexHodgeGammaFactors (tateHodge 0))) (-1) =
+      (-1 : WithTop ℤ) := sorry
 
 /-- §4.14: changing the real sign moves the pole at zero; odd negative arguments are not real
 Gamma poles, while complex Gamma has a pole at every nonpositive integer. -/
@@ -960,7 +956,8 @@ complex-place groups. For trivial `𝔽_p` over `ℚ`, `S = {p, ∞}` and odd p,
 H⁰ map has cokernel `𝔽_p`, while the modified map has zero cokernel;
 the arithmetic compact-support identification and Selmer H¹ correction (§2A.1),
 function-field Greenberg–Wiles (§2A.2), Selmer and deformation tangent comparison (§2A.3),
-the cohomological determinant fibres and their ordinary/modified trace sequences (§2A.4),
+the positive-rank cohomological determinant fibres and their ordinary/modified trace sequences
+(§2A.4, `n ≥ 1`); the determinant derivative above also holds for an empty matrix index type,
 and derived coefficient change with its Tor spectral sequence (§2A.5);
 `ellipticSelmerInfinity` (§2.12); Iwasawa algebras of `ℤ_p^d × Δ` with their
 coordinates, involution and twists (§3.0); `iwasawaComplex`, `iwasawaCohomology`,
@@ -977,6 +974,9 @@ the small-weight crystalline realization and extension exactness (§4.7);
 `blochKatoStructure` (§4.9); `pRamifiedModule`, `unramifiedModule`, `closedGlobalUnitTower`,
 `arithmeticPlusMinus` (§4.16); `PadicLFunctionDatum` and the main-conjecture propositions
 (§§4.21–4.23), with `iwasawaCorank` the tuple of the component coranks above;
+the record comparison `hodgeGammaFactor_eq_gammaFactor` with
+LFunctions Layer 0's `AnalyticLFunctionData.gammaFactor` (§4.14), under equality of the record's
+real and complex shift multisets with `hodgeGammaShifts` of the supplied integral factor list;
 `localAnnihilation_uniform` (§4.25); `elliptic_dDeRham_tangent`, `elliptic_exponential_kummer`,
 `elliptic_local_comparison_descent` (§4.26); the parity theorems
 `selmerComplex_skewPairing` (the untwisted degree-three O-module adjoint for the modified fibre),

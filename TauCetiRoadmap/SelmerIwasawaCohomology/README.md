@@ -110,9 +110,14 @@ Layer R02.1: §R02.1.2 (*Tate's inverse-limit theorem*; *Continuous sections of 
 
 ### Gamma products
 
-Section 4.14 owns the factor-only product on two complex-shift multisets and its
-meromorphic pole-order theorem, built from Mathlib's Gamma and meromorphic-order APIs.
-The Hodge adapters use these products without requiring a full L-function record.
+[LFunctions Layer 0](https://github.com/roed-math/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/README.md#layer-0-completed-l-function-data)
+owns `AnalyticLFunctionData.gammaFactor` on the record's real and complex shift multisets;
+[ZerosOfLFunctions Layer 1, items 5–6](https://github.com/roed-math/TauCetiRoadmap/blob/cce2e04188a559be9a16037d0d65e00a815fcecc/TauCetiRoadmap/ZerosOfLFunctions/README.md#layer-1-gamma-factor-asymptotics-and-the-continued-l-function)
+owns its arbitrary-complex-shift divisor and analytic reciprocal. Section 4.14 owns the
+Hodge/sign recipe, its integral pole count, Tate-dual transformation and the comparison
+`hodgeGammaFactor_eq_gammaFactor` with that record's factor. Its Hodge order formulas use
+Mathlib's scalar Gamma results directly; they require only a Hodge realization. The record
+comparison consumes LFunctions Layer 0, independently of its arithmetic L-function constructions.
 
 ## How to read the build
 
@@ -344,7 +349,13 @@ Mazur–Rubin's `F^b_a(n)` is withCond with strict conditions at `a` and relaxed
 
 Extend the general discrete Selmer interface of TauCetiRoadmap.EllipticCurves Layer 7 to compact lattice `T` and rational `V` cohomology, and compare coefficient propagation on `A=V/T` with that interface. For Selmer data `D, Sel(D) = {c ∈ H : res_v(c) ∈ L_v for all v} = ker(H → ∏_v H_v/L_v)`.
 
-For infinitely many places the product is the right target; in the Galois instance only finitely many conditions are nontrivial (Rubin's remark after Definition 5.1).
+For infinitely many places use the product. For discrete torsion coefficients arising from a
+lattice ramified at finitely many places, each individual global class has only finitely many
+nonzero singular localisations (Rubin's remark after Definition 5.1). Compact and rational
+coefficients use the product unless a smaller target has been justified. Separately, on
+`H¹(G_{K,S}, M)`, with `S` containing the archimedean places, coefficient primes and ramification
+of `M`, the unramified conditions outside `S` hold automatically: each cocycle factors through
+`G_{K,S}`. Neither assertion makes almost every local condition relaxed on `H¹(G_K, M)`.
 
 The construction proceeds as follows. Intersection of the preimages of the `L_v`; equality with the kernel of the product of quotient maps.
 
@@ -362,6 +373,12 @@ The named operations and identities are:
 - Relaxed everywhere gives `H`.
 - Strict everywhere gives `⋂ ker res_v`.
 - An empty index set gives `H`.
+- For `K = ℚ`, `T = ℤ_p(1)` and every prime `ℓ ≠ p`, the Kummer class of `ℓ` has singular
+  localisation of valuation `1` at `ℓ`. Thus no fixed finite set supports the singular
+  localisations of all classes in `H¹(ℚ, T)`.
+- Choose distinct primes `ℓ_j ≠ p`. The classes of `u_m = ∏_{0 ≤ j < m} ℓ_j^(p^j)` modulo
+  `(ℚ^×)^(p^m)` are compatible, since `u_(m+1)/u_m = ℓ_m^(p^m)`. Their limit Kummer class
+  in `H¹(ℚ, ℤ_p(1))` has nonzero singular valuation `p^j` at every `ℓ_j`; it needs a product.
 
 Rubin's `S^Σ` and `S_Σ` are relax and strict applied to `Σ`.
 
@@ -1044,7 +1061,7 @@ Theorem 8.7.9, pp. 511–513.) *Needs:* ArithmeticGaloisDuality §R02.5.1 (*The 
 ### 2A.3 Selmer and deformation tangent comparison
 
 **Selmer and deformation tangent comparison.** Let `F` be a number field, `S` a finite set of places
-of `F`, `k` a finite field and `ρ : G_{F,S} → GL_n(k)` continuous, and let a first-order local lift
+of `F`, `k` a finite field, `n ≥ 1` and `ρ : G_{F,S} → GL_n(k)` continuous, and let a first-order local lift
 problem at each `v ∈ S` be given by a subspace `L_v ⊆ H¹(G_v, ad ρ)`. Deformation-local cochains
 are `C_v^ord(ad ρ)`, including at archimedean places. By ArithmeticGaloisDuality §D8.1 *First-order Galois cocycle
 comparison*, the global first-order lifts form `H¹(G_{F,S}, ad ρ)`, the local ones `H¹(G_v, ad ρ)`,
@@ -1117,11 +1134,13 @@ of its error triangle.
 
 ### 2A.4 Determinant tangent fibres
 
-**Determinant tangent fibres.** Let `ρ : G_{F,S} → GL_n(k)` be as above, `p = char k`, and
+**Determinant tangent fibres.** Let `ρ : G_{F,S} → GL_n(k)` be as above with `n ≥ 1`, `p = char k`, and
 `k[ε] = k[ε]/(ε²)`. On first-order matrices `det(1 + εX) = 1 + ε tr X`, so the differential of the
-determinant is the trace (`Adjoint.det_one_add_eps`). The trace `ad ρ → k` induces maps of the global and local continuous
+determinant is the trace (`Adjoint.det_one_add_eps`), an identity valid also at rank zero. For
+positive rank, `tr(E₁₁) = 1` makes `0 → ad⁰ ρ → ad ρ → k → 0` exact, including when `p | n`
+(Mathlib `Matrix.trace_surjective` uses a nonempty matrix index type). The trace induces maps of the global and local continuous
 cochain complexes `C(G_{F,S}, −)` and `C_v^ord(−)` that commute with restriction. Their mapping
-fibres — fibres of the trace map itself, not an independently chosen tangent complex — give the determinant-relative tangent
+fibres identify with the cochains of `ad⁰ ρ` and give the determinant-relative tangent
 comparison and, globally and at each `v ∈ S`, the long exact sequence
 
 ```text
@@ -1138,7 +1157,7 @@ exact sequence at each real place:
 The initial zero of the ordinary sequence is not present here. The maps `q_v` commute with the
 trace sequence and its connecting maps, giving the ordinary/modified comparison also for the
 determinant fibres. Local determinant conditions are given as maps of local complexes compatible
-with the trace, and the fixed-determinant Selmer comparison uses the dual quotient
+with the trace, and, still with `n ≥ 1`, the fixed-determinant Selmer comparison uses the dual quotient
 `(ad⁰ ρ)^∨ ≅ ad ρ/k·Id` with its
 Tate twist, including when `p` divides `n`.
 
@@ -1155,6 +1174,9 @@ pp. 131–132.) *Needs:* ArithmeticGaloisDuality §D8.1 (*Trace-zero adjoint dua
 **Checks.**
 
 - `n = 1`: the trace is the identity, `ad⁰ = 0`, and the fixed-determinant tangent space is zero.
+- `n = 0`: `ad = ad⁰ = 0` and the trace is not onto `k`. Its cochain fibre is
+  `RΓ(G, k)[−1]`, not `RΓ(G, ad⁰) = 0`; the displayed ordinary sequence would fail at
+  `H⁰(G, k) = k`. The determinant derivative identity still reads `1 = 1`.
 - `p | n` and `H⁰(G_{F,S}, ad ρ) = k·Id`: `H⁰(ad ρ) → H⁰(k)` is zero (`tr Id = n = 0`), so the
   boundary `k → H¹(ad⁰ ρ)` is injective and the fixed-determinant tangent space is
   `H¹(G_{F,S}, ad⁰ ρ)/k`.
@@ -1615,7 +1637,7 @@ Prove this as follows. Higher direct images are sheafifications of `V ↦ H^q(V 
 - `F = ℚ, Σ = {ℓ}` with `ℓ ≡ 1 (mod p)`: the degree-p subfield of `ℚ(μ_ℓ)` gives a class of `H¹(U, ℤ/p)` that is ramified at `ℓ`, so it does not lie in `H¹(X, j_*ℤ/p)`.
 - `R¹j_*ℤ/p ≠ 0` at such `ℓ`, so the degree-two Leray term `H¹(X, R¹j_*ℤ/p)` can be nonzero; replacing `j_*` by `Rj_*` in all degrees would change `H²`.
 
-**Universal norms and the tower limit in degree one.** In a cyclotomic tower `F_∞/F` whose decomposition group at every `v ∈ Σ` is infinite, prove `etale_jStar_iwasawa`: the inverse limit under corestriction of `H¹(X_n, j_*T) (X_n = Spec 𝒪_{F_n}[1/p])` identifies with `H¹_Iw(G_{F,S}, T)` of §3.1. Norm-compatible classes have zero singular localisation at `Σ` by §3.5, so the finite-level injections of the previous target identify the two inverse limits; unramified restriction colimits also vanish locally but form a different limit. The assertion is in degree one only.
+**Universal norms and the tower limit in degree one.** In a cyclotomic tower `F_∞/F` whose decomposition group at every `v ∈ Σ` is infinite, prove `etale_jStar_iwasawa`: the inverse limit under corestriction of `H¹(X_n, j_*T) (X_n = Spec 𝒪_{F_n}[1/p])` identifies with `H¹_Iw(G_{F,S}, T)` of §3.1. Norm-compatible classes have zero singular localisation at `Σ` by §3.5, so the finite-level injections of the previous target identify the two inverse limits. The assertion is in degree one only.
 
 (Kato, §8.2 and §8.5, pp. 180–184, and §12.2, pp. 220–221, for the convention; Rubin (1999 draft), Appendix B, Proposition 3.3 and Corollaries 3.4–3.5, printed pp. 154–155 (PDF pp. 164–165).)
 
@@ -1624,6 +1646,10 @@ Prove this as follows. Higher direct images are sheafifications of `V ↦ H^q(V 
 - For the trivial tower `F_n = ℚ` with identity transitions, `p = 3, Σ =` {7} and `T = ℤ₃(1)`, all decomposition groups are finite, outside the theorem's hypotheses. The Leray injection is `ℤ₃ → ℤ₃²: H¹_cont(Spec ℤ[1/3], j_*T)` is generated by 3, whereas `H¹_cont(Spec ℤ[1/21], T)` is generated by 3 and 7. The class of 7 is norm-compatible but ramified at 7, so the unramified subgroup is proper.
 - If the decomposition group of some `v ∈ Σ` in `F_∞/F` is finite, a norm-compatible class can be ramified at `v`, so `v` must be kept in `S` and the identification is with the limit of `H¹(U_n, T)` instead.
 - In an infinite p-power tower, `lim_{cor} H⁰` vanishes on both sides (§3.1). For the trivial tower and the trivial lattice `ℤ_p` with identity transitions, this limit is `ℤ_p`; the infinite-tower hypothesis cannot be dropped from degree-zero vanishing either.
+- For `K/ℚ_ℓ` finite, `ℓ ≠ p`, its unramified degree-`p^n` extensions `K_n` and trivial
+  `T = ℤ_p`, Frobenius evaluation gives `H¹_ur(K_n, T) ≅ ℤ_p`. Restriction is multiplication
+  by `p`, so the module colimit is `ℚ_p` via `[a,n] ↦ p^(−n)a`; for `V = ℚ_p` it is also
+  `ℚ_p`. These nonzero restriction colimits are distinct from the corestriction limits above.
 
 *Needs:* §2.9 (Compact and rational Galois Selmer groups); §3.1 (Iwasawa cohomology); §3.5 (Universal norms are unramified away from `p`); DerivedModuleAlgebra §1.T.1 (*The Milnor sequence for towers of complexes*; *Mittag-Leffler towers have vanishing `lim¹`*; *The six-term sequence of `lim` and `lim¹`*); PerfectoidTowers §P9.0 (*Continuous cochains into an inverse limit*); ArithmeticGaloisDuality §R02.3.1 (*The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*); ArithmeticGaloisDuality §R02.3.3 (*The S-idele classes as a quotient of the idele classes*); ArithmeticGaloisDuality §R02.4.4 (*Finiteness of Galois cohomology with restricted ramification*; *Cohomological dimension of `G_{K,S}`*; *High-degree cohomology of the S-units*); SchemeAndStackFoundations §§1.1, 2.1, 2.2, 2.11, 2.15; TauCetiRoadmap.ClassFieldTheory (global Brauer group); TauCetiRoadmap.LocalFieldsRamification Layer 4; TauCetiRoadmap.ProfiniteCohomology Layer 11; Mathlib `Algebra.IsUnramifiedAt`, `Algebra.FormallyEtale`.
 
@@ -1904,33 +1930,32 @@ The named operations and identities are:
 
 ### 4.14 Gamma factor and its integer pole order
 
-**Factor-only Gamma products.** Define `gammaShiftProduct` on two finite multisets `R,C` of complex shifts by `∏_{μ∈R}Γ_ℝ(s+μ)·∏_{ν∈C}Γ_ℂ(s+ν)`, using Mathlib’s totalized functions. Prove `gammaShiftProduct_meromorphic` at every `s` and `gammaShiftProduct_nonzero_germ`: the meromorphic germ has finite order, including at a pole. No conductor, Dirichlet coefficients or completed L-function are inputs. Define `hodgeGammaFactor` on weighted integral factor lists and prove `hodgeGammaFactor_eq_shiftProduct` after `hodgeGammaShifts` repeats multiplicities and casts shifts to `ℂ`.
-
-Prove this using Mathlib `Meromorphic.Gamma`, the entire nonzero exponential factors in `Complex.Gammaℝ_def` and `Complex.Gammaℂ_def`, and finite-product meromorphicity. The analytic reciprocals `Complex.differentiable_Gammaℝ_inv` and `Complex.differentiable_Gammaℂ_inv` provide the same germs independently of values assigned at poles.
-
-(Deligne, §5.3 and Table 5.3, p. 329; Mathlib `Analysis/SpecialFunctions/Gamma/Deligne.lean`, definitions and analyticity section, and `Analysis/Meromorphic/Complex.lean`.)
-
-**Checks.**
-
-- Empty shift multisets and the empty weighted list have product `1` and nonzero germ.
-- `R={−2,−2}, C={1}` gives `Γ_ℝ(s−2)²Γ_ℂ(s+1)`, retaining multiplicities and shift signs.
-- `R={0}, C=∅` at `s=0` has totalized value zero but a nonzero meromorphic germ with a pole.
-
-**Analytic pole order of a Gamma product.** Define `gammaShiftPoleCount` to count real shifts with `s+μ=−2n` and complex shifts with `s+ν=−n` for some `n≥0`, with multiset multiplicities. Prove `gammaPoleOrder_analytic`: `meromorphicOrderAt` of `gammaShiftProduct` at `s` is the negative of this count in `WithTop ℤ`. Derive simple poles for individual factors from the Gamma recurrence and residue at zero, then add orders of meromorphic products. Gamma has no meromorphic zeros, so no cancellation occurs. For integral weighted lists, `gammaPoleOrder` is the same count at an integer `m`; `gammaPoleOrder_hodge_analytic` applies this owned theorem to the Hodge list.
-
-(Deligne, §5.3, p. 329; Rodrigues Jacinto–Williams, §13.5.3, arXiv v2 p. 71; Mathlib `Complex.Gammaℝ_residue_zero`, `Complex.Gammaℝ_add_two`, `Complex.Gammaℂ_add_one`, and `meromorphicOrderAt_mul`.)
-
-**Checks.**
-
-- Empty products have order `0` at every complex point, not infinite order.
-- Two real zero shifts and one complex zero shift have order `−3` at `s=0`, despite totalized value zero.
-- A single real zero shift has order `0` at `s=−1`, whereas a complex zero shift has order `−1` there.
-
 **Hodge Gamma recipe and integer adapter.** For a real place, each off-diagonal pair `(a,b),(b,a), a<b`, contributes a complex shift `−a` with multiplicity `h^(a,b)`, and the diagonal sign `ε` contributes a real shift `ε−a` with multiplicity `h_a^ε`. For a complex place each type `(a,b)` contributes a complex shift `−`min`(a,b)` with its multiplicity. Finite support makes these lists finite. The integer carrier `gammaPoleOrder` sums multiplicities of complex factors with `m+`shift`≤0` and real factors with `m+`shift a nonpositive even integer. Products and pole orders include every archimedean place.
 
-Use §4.13’s actual opposed-filtration carrier and diagonal eigenspaces. Expand the Hodge factors with `hodgeGammaShifts`, apply `gammaPoleOrder_analytic`, and prove list-concatenation, Tate-dual shift and analytic-order compatibility.
+Define `hodgeGammaFactor` as the weighted product of Mathlib's real and complex Gamma
+functions on these integral lists, and `hodgeGammaShifts` by repeating their multiplicities
+in two complex-shift multisets. For such a list `f` and a supplied LFunctions
+`AnalyticLFunctionData d` with `(d.gammaR, d.gammaC) = hodgeGammaShifts f`, prove
+`hodgeGammaFactor_eq_gammaFactor`:
+`hodgeGammaFactor f s = d.gammaFactor s`, including totalized values. This is a comparison
+with the existing record's product and needs no analytic or arithmetic predicates on `d`.
+The Hodge product and its order formulas themselves take only the realization data.
 
-(Deligne, §5.3 and Table 5.3, p. 329; Rodrigues Jacinto–Williams, §13.5.3, arXiv v2 p. 71.)
+Prove `gammaPoleOrder_hodge_analytic` for a real-place realization and
+`gammaPoleOrder_complexHodge_analytic` for a complex-place Hodge structure: at each integer
+`m`, the meromorphic order of its product is the negative of `gammaPoleOrder` on its factor
+list, in `WithTop ℤ`. Use §4.13's actual opposed-filtration carrier and eigenspaces. Mathlib
+`Complex.differentiable_Gammaℝ_inv` and `Complex.differentiable_Gammaℂ_inv` supply the scalar
+analytic reciprocals. The Gamma recurrence and residue at zero give the simple scalar poles;
+nonvanishing away from them and `meromorphicOrderAt_mul` then add the weighted orders on
+the finite Hodge lists. The exponential factors in `Complex.Gammaℝ_def` and
+`Complex.Gammaℂ_def` have order zero. Prove list-concatenation and Tate-dual compatibility;
+the dual order formula follows by applying the Hodge theorem to the actual dual realization.
+
+(Deligne, §5.3 and Table 5.3, p. 329; Rodrigues Jacinto–Williams, §13.5.3, arXiv v2 p. 71;
+Mathlib `Analysis/SpecialFunctions/Gamma/Deligne.lean`, Gamma recurrence, scalar reciprocal
+analyticity and residue at zero, and `Analysis/Meromorphic/Order.lean`;
+LFunctions Layer 0, definition of `AnalyticLFunctionData.gammaFactor`.)
 
 The named operations and identities are:
 
@@ -1940,11 +1965,11 @@ The named operations and identities are:
 - `tateDualHodgeGammaFactors` — For `a<b=w−a`, the dual complex shift is `b−1`; diagonal real shifts are `a−1` and a with the original `ε=0` and `ε=1` multiplicities.
 - `tateDualHodgeGammaFactors_eq` — Agreement up to permutation with the native Tate-dual realization and its negative transpose Betti involution.
 - `hodgeGammaShifts` — Expansion into real and complex shift multisets.
-- `hodgeGammaFactor_eq_shiftProduct` — Equality with `gammaShiftProduct`, including totalized values.
+- `hodgeGammaFactor_eq_gammaFactor` — Equality with `AnalyticLFunctionData.gammaFactor` when the record has the expanded Hodge shifts, including totalized values.
 - `gammaPoleOrder` — Weighted integer pole count.
 - `gammaFactor_sum`, `gammaPoleOrder_sum` — Concatenation multiplies products and adds counts.
 - `gamma_tate_factor` — The real Tate line `ℚ_p(n)` gives `Γ_ℝ(s−n)`.
-- `gammaPoleOrder_hodge_analytic` — Real-place Hodge factors have analytic order equal to the negative integer count; the same product theorem handles complex-place and dual factors.
+- `gammaPoleOrder_hodge_analytic`, `gammaPoleOrder_complexHodge_analytic` — Real- and complex-place Hodge products have analytic order equal to the negative integer count.
 
 **Checks.**
 
@@ -1955,8 +1980,13 @@ The named operations and identities are:
 - The dual factors of the zero realization have no positive multiplicities. The dual of the type `(0,0)`, sign `+` line has `Γ_ℝ(s−1)` and a pole at one; the dual of the type `(2,2)`, sign `+` line has `Γ_ℝ(s+1)` and no pole there.
 - Expanding a real shift `−2` of multiplicity two, a complex shift `1` of multiplicity one and a real shift of multiplicity zero preserves signs, kinds and multiplicities.
 - The weight-zero sign `+` Tate realization has totalized product zero at `0`, integer count `1` and analytic order `−1`.
+- A matching record with two real shifts `0` and one complex shift `0` has the same product as
+  the combined Hodge lists and order `−3` at `0`. The record's conductor, coefficients and
+  completed function do not enter this equality.
+- At `−1` the weight-zero real Tate line has order `0`, whereas its complex-place factor
+  has order `−1`. The zero realization has order `0` everywhere, including at `0`.
 
-*Needs:* §4.13 (Archimedean realization on the existing Hodge carrier); Mathlib `Complex.Gammaℝ`, `Complex.Gammaℂ`, `Meromorphic.Gamma`, `meromorphicOrderAt` and its finite-product API.
+*Needs:* §4.13 (Archimedean realization on the existing Hodge carrier); LFunctions Layer 0 (`AnalyticLFunctionData.gammaFactor`, for the record comparison); Mathlib `Complex.Gammaℝ`, `Complex.Gammaℂ`, `Complex.differentiable_Gammaℝ_inv`, `Complex.differentiable_Gammaℂ_inv`, `Meromorphic.Gamma`, `meromorphicOrderAt` and its finite-product API.
 
 ### 4.15 The Gamma factor, `r_V` and criticality
 
@@ -1964,7 +1994,7 @@ For explicit archimedean realization data attached to `L(V,s)`, define `r_V=gamm
 
 A finite-dimensional Hodge realization and its comparison to the chosen L-function convention, together with the compatible Tate-dual realization.
 
-The construction proceeds as follows. Apply §4.14’s Hodge/sign recipe and its factor-only product and analytic pole-order theorems through the integer-count adapter. Apply the Tate-dual transformation to compute the second order. For Tate types, the real factor gives poles at `n,n−2,…`; evaluate at `1` for `n` and `1−n` to obtain the exact parity table.
+The construction proceeds as follows. Apply §4.14’s Hodge/sign recipe and its Hodge analytic-order formulas through the integer-count adapter. Apply the Tate-dual transformation to compute the second order. For Tate types, the real factor gives poles at `n,n−2,…`; evaluate at `1` for `n` and `1−n` to obtain the exact parity table.
 
 (Rodrigues Jacinto–Williams (arXiv v2), §13.5.3, pp. 71–72 (arXiv v2), with Remark 13.23; published pp. 197–198.)
 
@@ -1987,7 +2017,7 @@ The named operations and identities are:
 
 This is Greenberg's Gamma-factor notion; it agrees with Deligne's criticality for Tate twists (`L(ℚ_p(n), 1) = ζ(1 − n)` and `L(ℚ_p(n)^∨, 1) = ζ(n)` both critical).
 
-*Needs:* §4.14 (Factor-only Gamma products, Analytic pole order of a Gamma product, and Hodge Gamma recipe and integer adapter); §4.13 (Archimedean realization on the existing Hodge carrier).
+*Needs:* §4.14 (Hodge Gamma recipe and integer adapter); §4.13 (Archimedean realization on the existing Hodge carrier).
 
 ### 4.16 Class groups, p-ramified Galois groups and unit towers
 
