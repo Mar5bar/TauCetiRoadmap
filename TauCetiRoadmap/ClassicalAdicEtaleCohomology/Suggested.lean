@@ -29,6 +29,14 @@ common finite-coefficient domain. Analytic applications carry their geometric hy
 AdicSpacesPartII §§R0.19.1–R0.19.10 supplies constructible topology, spectral limits,
 generic Pro categories and qcqs topoi. Its §§R0.20.1–R0.20.2 supplies the ordinary predicate
 `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsTildeLimit` and its affinoid and base-change API.
+README §1.5(1) applies its completed-direct-limit criterion to the algebraic colimit with
+compatible definition rings inside the plus rings, finitely generated definition ideals,
+finite-stage detection of ideal powers, and the specified definition-ring topology. The plus
+ring is the integral closure of the stage-plus image; completion takes its image closure.
+The target pair is identified with this actual separated completion by a topological ring
+isomorphism preserving the plus ring and all stage maps. Its kernel on the colimit is exactly
+the closure of zero. The product projection and disc evaluation fail this identification;
+README §1.5(2) separately uses isomorphisms modulo every power of the pseudouniformiser.
 The base-change contract keeps qcqs spaces, adic transitions and cone maps, a final stage,
 a locally weakly finite-type morphism and the required fibre products. README §1.5's
 `SupportedTildeLimit.fullSupport_iff` identifies the full-support predicate with that same
