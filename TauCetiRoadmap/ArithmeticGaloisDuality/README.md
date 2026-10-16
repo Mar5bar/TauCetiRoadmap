@@ -25,7 +25,7 @@ The layers are:
 | --- | --- | --- |
 | R02.1 | Compact coefficients, limits and continuous extensions | Tower supplier contract, Tate's inverse-limit theorem, rationalisation, `HomPt`, the splitting torsor, continuous factor-set extensions, unbalanced cochain products |
 | R02.2 | The Hochschild–Serre spectral sequence, transgression and residue maps | `HochschildSerre.spectralSequence`, transgression as a cup product, descent along open subgroups, Laurent residue sequences, supplied procyclic `H¹` |
-| R02.3 | Restricted ramification and the `S`-idele class formation | Multiplicative completion, S-unit rank and fundamental systems, finite Galois localization, `maxUnramifiedOutside`, `galoisGroupS`, finiteness of `H¹(G_S, M)`, localisation maps, `S`-idele classes, `PClassFormation`, function-field class-field inputs, `Шⁱ`, exponent-two fields |
+| R02.3 | Restricted ramification and the `S`-idele class formation | Multiplicative completion, S-unit rank and fundamental-system adapters, finite Galois localization, `maxUnramifiedOutside`, `galoisGroupS`, finiteness of `H¹(G_S, M)`, localisation maps, `S`-idele classes, `PClassFormation`, function-field class-field inputs, `Шⁱ`, exponent-two fields |
 | R02.4 | Arithmetic duality and local–global obstruction groups | Tate's duality for class formations, Poitou–Tate duality, `cd_p G_S ≤ 2`, global Euler characteristic, function-field Poitou–Tate, finite compact support, all-place `Ш` duality, Grunwald–Wang, character roots, torus duality |
 | D7 | Derived continuous cohomology and compact arithmetic duality | derived tensor and limit comparisons, Grothendieck local duality, admissible coefficients, `RΓ_cont`, compact Hochschild–Serre, derived local duality, compact support, derived Poitou–Tate duality, lattice Poitou–Tate, abelian-variety local duality, dual local conditions and mapping-fibre duality |
 | R02.5 | Selmer duality and dimension formulas | Greenberg–Wiles formula, change of one finite local condition, rank-one numerics |
@@ -47,7 +47,7 @@ continuous Schreier classification; unbalanced cochain products. The Hochschild�
 sequence of a closed normal subgroup with its edge maps, multiplicativity, transgression,
 degeneration, finite-index descent and compact-coefficient variants; residue sequences of Laurent-series fields. The group `G_{K,S}`,
 Hermite's finiteness theorem with ramification outside `S`, finiteness of `H¹(G_S, M)`, localisation
-maps with the modified archimedean groups, `S`-ideles, S-unit rank and fundamental systems, multiplicative completion and its unit injections,
+maps with the modified archimedean groups, `S`-ideles, S-unit cardinality and reindexing adapters, multiplicative completion and its unit injections,
 `S`-units and `S`-idele classes, finite Galois localization and Sha kernels, `P`-class
 formations, the `S`-class formation with its reciprocity and the `S`-unit Kummer sequence; the
 class-field inputs for global function fields (ideles and `S`-units, restricted ramification, the
@@ -93,6 +93,8 @@ and Khare–Wintenberger numerics of Layer R02.6.
   the Hochschild–Serre spectral sequence and all theorems for non-discrete coefficients, profinite
   Sylow theory and Schur multipliers. The spectral sequence and arithmetic coefficient theory are
   owned here, using PerfectoidTowers §P9.0's cochain comparisons; the last two are not used.
+- *HeightsAndUnits* §4.2 owns S-unit rank and fundamental systems on Mathlib's `Set.unit`
+  carrier. Section R02.3.0c supplies their arithmetic cardinality, reindexing and completion adapters.
 - *ClassFieldTheory*. Class formations and fundamental classes (Layer 2), Tate's theorem and the
   Tate–Nakayama isomorphisms (Layer 3), the abstract Artin map (Layer 4); the local Brauer group,
   the local invariant, local Tate duality and the local Euler characteristic for finite modules in
@@ -261,8 +263,10 @@ as inputs; and Galois representations attached to automorphic forms.
   ProfiniteCohomology Layer 5; with them the second differential of the Hochschild–Serre spectral
   sequence of a central extension with class `u` is `d₂ = −u ∪ (·)`.
 - **The coefficient-prime hypothesis.** Write `(P)` for: `p` is odd, or `K` has no real places.
-  Under `(P)` the `p`-primary cohomology of `G_S` vanishes above degree two and compactly
-  supported cohomology lives in degrees `0` to `3`. At `p = 2` with real places, ordinary global
+  For discrete `p`-primary `G_S`-modules, if `S` contains every place above `p`, then under `(P)`
+  global cohomology vanishes above degree two. For finite `S` and finite `p`-primary coefficients,
+  modified compactly supported cohomology lives in degrees `0` to `3`. Finiteness and perfectness
+  require the separate coefficient and finite-`S` hypotheses of their targets. At `p = 2` with real places, ordinary global
   cohomology can be unbounded and the modified compactly supported complex can have negative
   cohomology. For finite `2`-primary coefficients with all places above `2` in `S`, the global
   groups in degrees `i > 2` are the sums of the real Tate groups of those coefficients; their
@@ -320,8 +324,8 @@ as inputs; and Galois representations attached to automorphic forms.
 
 - `TauCeti.RingTheory.DedekindDomain.SInteger.Unit`: `Set.unit_fg`,
   `Set.unit_fg_of_units`, `Set.unitValuation`, `Set.unitValuation_ker` and
-  `Set.unitEmptyEquivUnits`. Section R02.3.0c proves the number-field rank and
-  fundamental-system refinements on Mathlib's `Set.unit` carrier; the additive
+  `Set.unitEmptyEquivUnits`. Section R02.3.0c supplies the additive finite-generation,
+  cardinality, reindexing and completion adapters on Mathlib's `Set.unit` carrier; the additive
   transport of the supplied multiplicative valuation has coordinates `−ord_v`.
 
 - `TauCeti.ofDiscreteModule`, `TauCeti.DiscreteRep`, `TauCeti.IsSmoothDiscrete`: discrete modules
@@ -366,6 +370,9 @@ as inputs; and Galois representations attached to automorphic forms.
 
 ### From TauCetiRoadmap roadmaps
 
+- `HeightsAndUnits` §4.2: the rank identity and the fundamental system with a unique
+  torsion-factor/integer-exponent decomposition for number-field S-units on Mathlib's `Set.unit`
+  carrier, for finite sets of finite places. Section R02.3.0c consumes these statements.
 - `ProfiniteCohomology`: the exported declarations of its §2 table, in particular `TopRep`,
   `continuousCohomology`, `res`, `infl`, `coeffMap`, `continuousFiniteQuotientColimit`,
   `continuousCohomology_preservesFilteredColimits`, `delta`, `longExact_exact`, `transgression`,
@@ -1529,32 +1536,24 @@ Mathlib `NumberField.Units.exist_unique_eq_mul_prod`; Mathlib `IsIntegral.of_pow
 
 ### R02.3.0c The S-unit theorem and the completion of S-units
 
-**The S-unit theorem.** This roadmap owns the rank and fundamental-system theorems stated here
-against Mathlib's `Set.unit` API. For a number field `K` and a finite set
-`S ⊆ IsDedekindDomain.HeightOneSpectrum (𝓞 K)` of finite places, put `U = Set.unit S K`. Use the pinned
-finite-generation theorem `Set.unit_fg` and its specialization through the base-ring units
-`Set.unit_fg_of_units` from `TauCeti.RingTheory.DedekindDomain.SInteger.Unit`. Its module form is
-`Set.unit_moduleFinite`: `Module.Finite ℤ (Additive U)`. Prove `Set.unit_finrank_numberField`:
-`Module.finrank ℤ (Additive U) = NumberField.Units.rank K + Nat.card S`, with `S` explicit, `K` implicit
-and the hypothesis `hS : S.Finite`. Identify the torsion subgroup with the roots of unity of `K`.
+**S-unit rank and cardinality adapter.** For a number field `K` and a finite set
+`S ⊆ IsDedekindDomain.HeightOneSpectrum (𝓞 K)` of finite places, put `U = Set.unit S K`.
+HeightsAndUnits §4.2 supplies the rank identity
+`Module.finrank ℤ (Additive U) = NumberField.Units.rank K + Nat.card S` and identifies the torsion
+with the roots of unity. The finite-generation input is the pinned `Set.unit_fg` and its
+specialization through the base-ring units `Set.unit_fg_of_units` from
+`TauCeti.RingTheory.DedekindDomain.SInteger.Unit`. Its additive module adapter here is
+`Set.unit_moduleFinite : Module.Finite ℤ (Additive U)`, with `hS : S.Finite`.
 
-*Cardinality adapter.* `sUnits_finrank_ncard` rewrites this rank with `S.ncard` using Mathlib's
-`Nat.card_coe_set_eq`; adjoining all archimedean places gives the equivalent rank `#S_total − 1`.
+`sUnits_finrank_ncard` takes the supplied rank identity as a hypothesis and rewrites it with
+`S.ncard` using Mathlib's `Nat.card_coe_set_eq`; adjoining all archimedean places gives the equivalent
+rank `#S_total − 1`. The module adapter uses the pinned finite-generation theorem and Mathlib's
+additive-group/module conversion. The supplied
+`Set.unitValuation`, transported additively, has coordinates `−ord_v`; its image has finite index
+in `ℤ^S`, and need not be the whole lattice.
 
-Prove this as follows. The pinned finite-generation theorem and Mathlib's additive-group/module
-conversion give `Set.unit_moduleFinite`. Reuse `Set.unitValuation : U →* (S → Multiplicative ℤ)` and
-transport its source through `Additive` and its coordinates through `Multiplicative.toAdd` to obtain
-the `ℤ`-linear map `Additive U → ℤ^S`. Its coordinates are `−ord_v(u)` in the pinned valuation
-convention. By `Set.unitValuation_ker` and `Set.unitEmptyEquivUnits`, its kernel is the global units
-`𝒪_K^×`, of rank `NumberField.Units.rank K` by `NumberField.Units.finrank_eq`. Its image has finite
-index in `ℤ^S`: for each `v ∈ S`, the `h`-th power of the prime `𝔭_v` is principal, `h` the class number
-(Mathlib `RingOfIntegers.instFintypeClassGroup`), and a generator is an S-unit with transported
-valuation `−h` at `v` and 0 at the other finite places. Hence the image has rank `Nat.card S`, and the
-sequence `0 → 𝒪_K^× → U → image → 0` gives the stated rank; the torsion subgroup is unchanged because
-S-units of finite order are units.
-
-(Milne, *Algebraic Number Theory* (version 3.08), Chapter 5, Theorem 5.11 and its proof, p. 90,
-where `S` denotes the finite places only and the rank is `r + s + #S − 1`.)
+(Milne, *Algebraic Number Theory* (version 3.08), Chapter 5, Theorem 5.11 and its proof, p. 90;
+HeightsAndUnits §4.2.)
 
 **Checks.**
 
@@ -1570,31 +1569,23 @@ where `S` denotes the finite places only and the rank is `r + s + #S − 1`.)
   and `2ᵐ` to `−m` for `m ∈ ℤ`. The group identity in `Multiplicative ℤ` becomes additive zero; the image
   still has rank 1.
 
-*Needs:* Mathlib `Set.unit`, `NumberField.Units.rank`, `NumberField.Units.finrank_eq`,
-`NumberField.Units.exist_unique_eq_mul_prod`, `RingOfIntegers.instFintypeClassGroup`,
-`Nat.card_coe_set_eq`; Tau Ceti `TauCeti.RingTheory.DedekindDomain.SInteger.Unit` (`Set.unit_fg`,
-`Set.unit_fg_of_units`, `Set.unitValuation`, `Set.unitValuation_ker`, `Set.unitEmptyEquivUnits`).
+*Needs:* HeightsAndUnits §4.2 (S-unit rank and torsion); Mathlib `Set.unit`,
+`Nat.card_coe_set_eq`; Tau Ceti `TauCeti.RingTheory.DedekindDomain.SInteger.Unit`
+(`Set.unit_fg`, `Set.unit_fg_of_units`, `Set.unitValuation`, `Set.unitValuation_ker`,
+`Set.unitEmptyEquivUnits`).
 
-**Fundamental systems of S-units.** For a number field `K` and a finite set `S` of finite places, put
-`U = Set.unit S K` and `r = NumberField.Units.rank K + Nat.card S`. Prove
-`Set.exists_unit_fundSystem`: there is `ε : Fin r → U` such that every `u ∈ U` has a unique integer
-exponent function `e` on `Fin r` with `u = ζ · ∏ᵢ εᵢ^{eᵢ}` for some `ζ ∈ CommGroup.torsion U`. Prove
-`Set.exists_unit_fundSystem'` in the unique-pair form: for every `u` there is a unique `(ζ, e)` in
-`CommGroup.torsion U × (Fin r → ℤ)` satisfying that equation. Both declarations have `S` explicit, `K`
-implicit and the hypothesis `hS : S.Finite`. Thus the images of `ε` form a `ℤ`-basis of `U` modulo
-torsion.
+**Reindexing fundamental systems of S-units.** For a number field `K` and a finite set `S` of
+finite places, put `U = Set.unit S K` and `r = NumberField.Units.rank K + Nat.card S`.
+HeightsAndUnits §4.2 supplies a family `ε : Fin r → U` such that each `u ∈ U` has a unique pair
+`(ζ, e) ∈ CommGroup.torsion U × (Fin r → ℤ)` with `u = ζ · ∏ᵢ εᵢ^{eᵢ}`.
+`sUnits_fundSystem_reindex` takes this supplied existence statement as a hypothesis and gives the
+same unique-pair decomposition on any finite index type `I` with `Fintype.card I = r`.
 
-*Finite-type reindexing adapter.* `sUnits_fundSystem_reindex` gives the same unique-pair
-decomposition on any finite index type `I` with `Fintype.card I = r`.
-
-Prove this as follows. Apply `Set.unit_moduleFinite`, `Set.unit_finrank_numberField` and the
-structure theorem for finitely generated abelian groups to obtain a free quotient by torsion of rank
-`r`. Lift a basis of the quotient to `U`; its coordinates determine the exponents uniquely, and
-cancellation determines `ζ` uniquely. For the adapter, reindex along a bijection `I ≃ Fin r`,
-transporting both the product and exponent vector.
+Choose a bijection `I ≃ Fin r`, transport the family and exponent vector along it, and use
+invariance of the finite product under reindexing. The inverse bijection transports uniqueness.
 
 (Milne, *Algebraic Number Theory* (version 3.08), Chapter 5, the fundamental-system description on
-p. 85 and Theorem 5.11 on p. 90.)
+p. 85 and Theorem 5.11 on p. 90; HeightsAndUnits §4.2.)
 
 **Checks.**
 
@@ -1604,11 +1595,10 @@ p. 85 and Theorem 5.11 on p. 90.)
 - For `F = ℚ(√−5)` and `S_f = {𝔭}`, `𝔭 = (2, 1 + √−5)`, the S-unit 2 is a fundamental generator although
   its `𝔭`-valuation is 2. A fundamental system need not map to the standard basis of the entire
   valuation lattice.
-- Interchanging the two indices in the `ℚ` example interchanges the exponents without changing `ζ`; this
-  checks the arbitrary finite-index form.
+- Interchanging the two indices in the `ℚ` example interchanges the exponents without changing `ζ`.
 
-*Needs:* §R02.3.0c (The S-unit theorem, `Set.unit_moduleFinite`, `Set.unit_finrank_numberField`);
-Mathlib `CommGroup.torsion`, `AddCommGroup.equiv_free_prod_directSum_zmod`.
+*Needs:* HeightsAndUnits §4.2 (the unique-pair fundamental system); Mathlib `CommGroup.torsion`
+and finite-product reindexing.
 
 **Completion of S-units.** This completion adapter applies the S-unit theorem: for a number field `F`
 and a finite set `S` of places containing the archimedean ones, `𝓞_{F,S}^×` is finitely generated, so
@@ -1631,7 +1621,7 @@ valuation zero outside `S`, so it is an S-unit; apply §R02.3.0b.
   the completion of `ℚ^×`, so discarding all torsion would give the wrong comparison.
 
 *Needs:* §R02.3.0a (Comparison of the multiplicative completion with Mathlib adic completion);
-§R02.3.0b (Completion of global units); §R02.3.0c (The S-unit theorem, `Set.unit_moduleFinite`);
+§R02.3.0b (Completion of global units); §R02.3.0c (S-unit rank and cardinality adapter, `Set.unit_moduleFinite`);
 Mathlib `Set.unit`.
 
 ### R02.3.0d Finite Galois localization and Sha kernels
@@ -3130,6 +3120,19 @@ So `H³(G_S, A) = 0` for every finite simple `ℓ`-torsion `A`. By ProfiniteCoho
 Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf), Chapter I, §4, Theorem 4.10(c), p. 57 (PDF
 p. 65).) *Needs:* *Poitou–Tate duality and the nine-term exact sequence*; ProfiniteCohomology Layer
 11.
+
+**Checks.**
+
+- `K = ℚ`, `S = {3, ∞}` and `ℓ = 3`: the real Tate terms vanish, so `cd₃(G_S) ≤ 2`.
+- `K = ℚ`, `S = {2, ∞}` and trivial `M = ℤ/2`: the real term gives `Hʳ(G_S, M) = ℤ/2` for every `r ≥ 3`.
+- With `K = ℚ(√−5)`, `p = 2` and `S` only the complex place, `(P)` holds but the prime above 2 is
+  omitted. The unramified quadratic extension `ℚ(i, √5)/K` and Minkowski's discriminant bound
+  give a finite maximal unramified extension of even degree: its root discriminant is `√20`,
+  whereas the lower bound in absolute degree `n` is `(π/4)(nⁿ/n!)^{2/n}`, tending to
+  `πe²/4 > √20`. Thus `G_S` contains `C₂`. For `M = Coind_{C₂}^{G_S}(𝔽₂)`, Shapiro gives
+  `H⁴(G_S, M) = H⁴(C₂, 𝔽₂) = 𝔽₂`. All modified archimedean terms are zero, so `H⁴_c` is also
+  nonzero. Parity alone gives neither bound. (Milne, *Algebraic Number Theory*, Chapter 4,
+  Theorem 4.3, proof of Theorem 4.9 and Remark 4.11.)
 
 **Surjectivity of `H²` onto finitely many local `H²`.** Let `M` be a finite `G_S`-module whose order is
 a unit in `R_{K,S}`, and `T ⊆ S` a finite subset omitting at least one finite place `v₀` of `S`.
@@ -5563,20 +5566,31 @@ untwisted coefficient dual followed by `(1)`, and keep its coefficient ring expl
 
 #### D7.7.1 Perfect pairings and dual local conditions
 
-Let `O` be the ring of integers of a finite extension `Φ` of `ℚ_p`, `D = Φ/O`, and `b : X × X′ → Y` a bilinear
-pairing of `O`-modules (`Y = Φ`, `O/MO` or `D`). For an `O`-submodule `F ⊆ X`, write `F^⊥` for its annihilator.
+Let `O` be the ring of integers of a finite extension `Φ` of `ℚ_p`, and `D = Φ/O`.
+The annihilator `F^⊥` is taken in the category of the pairing:
+
+- For a perfect `Φ`-bilinear pairing `b : X × X′ → Φ` of finite-dimensional spaces, use a
+  `Φ`-linear subspace `F : Submodule Φ X`.
+- For finite modules paired into `O/MO` (or `ℤ/n`), use submodules over that coefficient ring.
+- For a finitely generated compact `O`-module paired perfectly with a cofinitely generated
+  discrete `O`-module into `D`, use closed `O`-submodules and continuous `O`-linear maps.
+  Submodules of the compact finitely generated module are closed; all submodules on the discrete
+  side are closed. Quotients carry the quotient topology.
+
 Applied to the local Tate pairings `H¹(K, A) × H¹(K, A^*) → Y` for `A = V, W_M, T` and
-`A^* = V^*, W^*_M, W^*` (Rubin, Theorem 4.1), `F^⊥` is the dual local condition `F^*` of Mazur–Rubin, Definition 1.6.
+`A^* = V^*, W^*_M, W^*` (Rubin, Theorem 4.1), `F^⊥` is the dual local condition `F^*` of Mazur–Rubin,
+Definition 1.6. Perfectness is a hypothesis wherever it is used.
 
-`b` bilinear; perfectness, where used, is a hypothesis of the lemma that uses it.
-
-The additional perfect-pairing theory proceeds as follows. If `b` gives the specified character-dual
-identifications and `X` is finite, a finite-dimensional `Φ`-space, or a finitely generated `O`-module
-paired perfectly with a cofinitely generated one, then `F^⊥⊥ = F`: in the last case every finitely
-generated submodule is closed, and Pontryagin duality applies. Image and preimage: if `π : X → Z` and
-`ι : Z′ → X′` are adjoint (`b_Z(π x, z′) = b(x, ι z′)`), then `(π F)^⊥ = ι^{−1}(F^⊥)`; dually
-`(π^{−1} G)^⊥ = ι(G^⊥)` when `b` and `b_Z` are perfect. Counting: for `X` finite and `b` perfect, `#F · #F^⊥ = #X`; for
-`Φ`-spaces, `dim F + dim F^⊥ = dim X`. If `F^⊥ = F′`, then `b` induces a perfect pairing `(X/F) × F′ → Y`.
+In each of these categories, prove `F^⊥⊥ = F`. In the rational case, the annihilator of an arbitrary
+`O`-submodule equals that of its `Φ`-linear span, so its algebraic double annihilator is
+`span_Φ F`. In the compact/discrete case, the assertion follows from character duality and
+closedness. For adjoint maps `π : X → Z` and `ι : Z′ → X′`, meaning
+`b_Z(π x, z′) = b(x, ι z′)`, prove `(π F)^⊥ = ι^{−1}(F^⊥)` and, for perfect pairings,
+`(π^{−1} G)^⊥ = ι(G^⊥)`. The rational maps and both subspaces are `Φ`-linear; the finite maps are
+linear over their coefficient ring; the compact/discrete maps are continuous `O`-linear maps,
+whose images in these categories are closed. For finite `X`, prove `#F · #F^⊥ = #X`; for rational
+spaces prove `dim_Φ F + dim_Φ F^⊥ = dim_Φ X`. The induced pairing `(X/F) × F^⊥ → Y` is perfect
+in the same category, with `F` satisfying its stated linearity and closedness hypotheses.
 
 (Rubin (1999 draft), Chapter I, §4, Theorem 4.1, printed p. 8 (PDF p. 18); Mazur–Rubin (arXiv v1),
 §1, Definition 1.6, p. 5 (arXiv v1).)
@@ -5584,17 +5598,20 @@ generated submodule is closed, and Pontryagin duality applies. Image and preimag
 The named operations and identities are:
 
 - Perfectness of a pairing `b : X × X′ → R` into the base ring is Mathlib's `LinearMap.IsPerfPair`
-  (both curried maps bijective); the finite statements take `R = ℤ/n`. For `Y = Φ/O` or `O/MO` and compact
+  (both curried maps bijective); rational statements take `R = Φ` and `F : Submodule Φ X`,
+  and the finite prototypes take `R = ℤ/n`. For `Y = Φ/O` or `O/MO` and compact
   or discrete modules, perfectness means that the curried maps are isomorphisms onto the continuous
   character duals `Hom_cont(−, Y)`.
 - `orthogonal_orthogonal` — `F^⊥⊥ = F` for perfect pairings of finite modules, of `Φ`-spaces, and of
-  finitely generated `O`-modules against cofinitely generated ones.
+  finitely generated compact `O`-modules against cofinitely generated discrete ones, with `F`
+  a submodule in the category specified above.
 - `orthogonal_map_eq_comap` — `(π F)^⊥ = ι^{−1}(F^⊥)` for adjoint `π`, `ι`.
 - `orthogonal_comap_eq_map` — `(π^{−1} G)^⊥ = ι(G^⊥)` for adjoint `π`, `ι` and perfect pairings.
 - `card_mul_card_orthogonal` — `#F · #F^⊥ = #X` for finite `X`, `b` perfect.
 - `quotientPairing_perfect` — For a perfect pairing in the finite, finite-dimensional or
   compact/discrete dual categories above, `F^⊥=F′` induces a perfect pairing `(X/F)×F′→Y`, with the
-  quotient and dual topologies retained.
+  rational `F : Submodule Φ X`, and closed `F` and quotient and dual topologies in the
+  compact/discrete case.
 
 **Checks.**
 
@@ -5607,6 +5624,9 @@ The named operations and identities are:
 - The pairing `ℤ×ℤ→ℤ` given by `(x,y)↦3xy` is nondegenerate, but its curried maps have image `3ℤ` and are
   not bijective. Thus it fails `LinearMap.IsPerfPair`.
 - The unique pairing between two zero modules is perfect, including both surjectivity requirements.
+- For multiplication `ℚ_p × ℚ_p → ℚ_p` with the `ℤ_p`-submodule `F = ℤ_p`, the annihilator is zero
+  because `1 ∈ F`, and its double annihilator is `ℚ_p`. The quotient `ℚ_p/ℤ_p` is nonzero, so it
+  cannot pair perfectly with `F^⊥ = 0`. The lattice is closed but is not a `ℚ_p`-linear subspace.
 
 Perfectness means that the curried maps identify each argument with the appropriate algebraic or
 continuous character dual of the other. Bilinear nondegeneracy alone is insufficient: the zero
@@ -6442,7 +6462,7 @@ Brauer obstructions* (Layer R02.4); ClassFieldTheory Layers 7 and 12; Chebotarev
 
 ## Downstream consumers
 
-- **SelmerIwasawaCohomology**: multiplicative completion and S-unit rank,
+- **SelmerIwasawaCohomology**: multiplicative completion and the S-unit adapters,
   dual local conditions, the long exact sequences and rationalisation of Layer R02.1;
   the carrier comparison supplied by PerfectoidTowers §P9.0; `G_{K,S}` and the localisation maps of
   Layer R02.3; Poitou–Tate

@@ -44,7 +44,9 @@ Design choices made explicit here:
   `TauCeti.RingTheory.DedekindDomain.SInteger.Unit` supplies `Set.unit_fg`,
   `Set.unit_fg_of_units`, `Set.unitValuation`, `Set.unitValuation_ker` and
   `Set.unitEmptyEquivUnits`. Their multiplicative valuation convention gives negative orders
-  after additive transport. Sections R02.3.0a–R02.3.0c state completion and rank refinements.
+  after additive transport. HeightsAndUnits §4.2 supplies rank and unique-pair fundamental systems;
+  Sections R02.3.0a–R02.3.0c state completion, cardinality and reindexing adapters.
+  The adapter hypotheses below carry those supplied identities and existence statements.
 * `S` is a set of finite places (height-one primes of the ring of integers); the archimedean places
   are always allowed to ramify. `G_{K,S}` is the Galois group of the compositum, inside a fixed
   field `Ω`, of the finite subextensions unramified outside `S`. Unramifiedness at a finite place
@@ -53,7 +55,8 @@ Design choices made explicit here:
 * Compact support is the mapping fibre `Cone(res)[-1]` of Mathlib's `CochainComplex.mappingCone`.
   Arithmetic localization uses ordinary cochains at finite places, complete Tate cochains at
   real places and zero at complex places. For coefficients of residue characteristic `p`,
-  under `(P)` this is the finite-place fibre. The
+  under `(P)` this is the finite-place fibre. Global degree bounds additionally require every
+  place above `p` in `S`, and finiteness and perfectness use their separate coefficient hypotheses. The
   ordinary deformation-local diagram uses ordinary cochains at every place.
   R02.3 and D7 supply arithmetic local complexes, ordinary-to-Tate maps and duality.
   D7.7 constructs dual conditions and parametric mapping-fibre duality on the modified diagram.
@@ -219,37 +222,21 @@ theorem Set.unit_moduleFinite (hS : S.Finite) :
   exact Module.Finite.iff_addGroup_fg.mpr
     (GroupFG.iff_add_fg.mp (_root_.Set.unit_fg_of_units S K))
 
-/-- §R02.3.0c: for finite `S`, the free rank of Mathlib's `S.unit K` is the global unit rank plus
-`Nat.card S`. The rank argument uses the additive transport of the pinned multiplicative
-`Set.unitValuation` and its kernel, the global units. -/
-theorem Set.unit_finrank_numberField (hS : S.Finite) :
-    Module.finrank ℤ (Additive (S.unit K)) = NumberField.Units.rank K + Nat.card S := sorry
+/-- §R02.3.0c: the cardinality adapter rewrites the rank identity supplied by
+HeightsAndUnits §4.2 using `Set.ncard`. -/
+theorem sUnits_finrank_ncard
+    (hRank : Module.finrank ℤ (Additive (S.unit K)) = NumberField.Units.rank K + Nat.card S) :
+    Module.finrank ℤ (Additive (S.unit K)) = NumberField.Units.rank K + S.ncard := by
+  simpa only [Nat.card_coe_set_eq] using hRank
 
-/-- §R02.3.0c: for finite `S`, a fundamental system of Mathlib's `S.unit K` indexed by
-`Fin (NumberField.Units.rank K + Nat.card S)` gives unique integer exponents and a torsion factor
-for every S-unit. -/
-theorem Set.exists_unit_fundSystem (hS : S.Finite) :
-    ∃ ε : Fin (NumberField.Units.rank K + Nat.card S) → S.unit K,
-      ∀ x : S.unit K, ∃! e : Fin (NumberField.Units.rank K + Nat.card S) → ℤ,
-        ∃ ζ ∈ CommGroup.torsion (S.unit K), x = ζ * ∏ i, ε i ^ e i := sorry
-
-/-- §R02.3.0c: for finite `S`, a fundamental system gives each element of Mathlib's `S.unit K` a
-unique pair of torsion factor and integer exponent vector on
-`Fin (NumberField.Units.rank K + Nat.card S)`. -/
-theorem Set.exists_unit_fundSystem' (hS : S.Finite) :
-    ∃ ε : Fin (NumberField.Units.rank K + Nat.card S) → S.unit K,
+/-- §R02.3.0c: reindexing the fundamental system supplied by HeightsAndUnits §4.2 gives
+unique torsion factors and integer exponent vectors on any finite type of the required cardinality. -/
+theorem sUnits_fundSystem_reindex
+    (hFund : ∃ ε : Fin (NumberField.Units.rank K + Nat.card S) → S.unit K,
       ∀ x : S.unit K, ∃! ζe : CommGroup.torsion (S.unit K) ×
           (Fin (NumberField.Units.rank K + Nat.card S) → ℤ),
-        x = (ζe.1 : S.unit K) * ∏ i, ε i ^ ζe.2 i := sorry
-
-/-- §R02.3.0c: the cardinality adapter expresses the canonical S-unit rank using `Set.ncard`. -/
-theorem sUnits_finrank_ncard (hS : S.Finite) :
-    Module.finrank ℤ (Additive (S.unit K)) = NumberField.Units.rank K + S.ncard := by
-  simpa only [Nat.card_coe_set_eq] using Set.unit_finrank_numberField S hS
-
-/-- §R02.3.0c: the reindexing adapter gives unique torsion factors and integer exponent vectors
-on any finite type of the required cardinality. -/
-theorem sUnits_fundSystem_reindex (hS : S.Finite) (I : Type*) [Fintype I]
+        x = (ζe.1 : S.unit K) * ∏ i, ε i ^ ζe.2 i)
+    (I : Type*) [Fintype I]
     (hI : Fintype.card I = NumberField.Units.rank K + Nat.card S) :
     ∃ ε : I → S.unit K,
       ∀ x : S.unit K, ∃! ζe : CommGroup.torsion (S.unit K) × (I → ℤ),
@@ -706,7 +693,8 @@ section Orthogonal
 variable {R : Type*} [CommRing R] {X X' Y : Type*} [AddCommGroup X] [Module R X]
   [AddCommGroup X'] [Module R X'] [AddCommGroup Y] [Module R Y]
 
-/-- §D7.7.1: the image rule for adjoint maps, `(π F)^⊥ = ι^{-1}(F^⊥)`. -/
+/-- §D7.7.1: the image rule for adjoint `R`-linear maps, `(π F)^⊥ = ι^{-1}(F^⊥)`.
+For rational pairings `R` is the coefficient field and `F` is a subspace over that field. -/
 theorem orthogonal_map_eq_comap {Z Z' : Type*} [AddCommGroup Z] [Module R Z] [AddCommGroup Z']
     [Module R Z'] (b : X →ₗ[R] X' →ₗ[R] Y) (bZ : Z →ₗ[R] Z' →ₗ[R] Y) (π : X →ₗ[R] Z)
     (ι : Z' →ₗ[R] X') (hadj : ∀ x z', bZ (π x) z' = b x (ι z')) (F : Submodule R X) :
@@ -740,6 +728,12 @@ theorem card_mul_card_orthogonal (b : A →ₗ[ZMod n] B →ₗ[ZMod n] ZMod n) 
 end FiniteDuality
 
 namespace PairingChecks
+
+/-- The closed lattice of p-adic integers has zero annihilator under rational multiplication,
+while it is a proper subset of the rational space. Rational double annihilation requires a subspace. -/
+example (p : ℕ) [Fact p.Prime] :
+    {y : ℚ_[p] | ∀ x : ℤ_[p], (x : ℚ_[p]) * y = 0} = {0} ∧
+      Set.range (fun x : ℤ_[p] => (x : ℚ_[p])) ≠ Set.univ := sorry
 
 /-- A zero pairing on a nonzero space fails perfectness. -/
 example : ¬ (0 : ℚ →ₗ[ℚ] ℚ →ₗ[ℚ] ℚ).IsPerfPair := sorry
