@@ -218,7 +218,8 @@ example : HasRationalCyclicSubgroup curveIsogenyOnly 7 ∧
 /-! ## Layer R29.2: trivial character by reduction -/
 
 /-- A weight-two form and a maximal coefficient ideal above p at a supplied positive level.
-The README uses N equal to the elliptic conductor and specifies trace and residual comparison. -/
+The README uses N equal to the elliptic conductor and specifies trace and residual comparison.
+ClassicalSerreModularity R27.6 supplies witnesses outside the exceptional set. -/
 structure SerreWitness (N : ℕ) [NeZero N] (p : ℕ) where
   form : Newform N 2
   prime : Ideal (integralClosure ℤ ℂ)
@@ -293,7 +294,9 @@ theorem not_isNewformOf_of_char_ne_one {M : ℕ} [NeZero M] (F : Newform M 2) (h
     ¬ IsNewformOf E F := fun h => hF h.1
 
 /-- Infinitely many congruent exact-level witnesses give one form with every good-prime
-coefficient equal to that of E. The arithmetic production of the witnesses is in the README. -/
+coefficient equal to that of E. These curve-specific congruence hypotheses suffice
+without global residual modularity; ClassicalSerreModularity R27.6 supplies the
+witnesses in the unconditional elliptic application specified in the README. -/
 theorem exists_newform_coeff_eq (N : ℕ) [NeZero N] (P : Set ℕ)
     (hP : P.Infinite) (hprime : ∀ p ∈ P, p.Prime)
     (w : ∀ p ∈ P, SerreWitness N p)
@@ -307,6 +310,14 @@ theorem exists_newform_coeff_eq (N : ℕ) [NeZero N] (P : Set ℕ)
 a rational integer. -/
 theorem IsNewformOf.coeff_int {M : ℕ} [NeZero M] {F : Newform M 2} (h : IsNewformOf E F) (n : ℕ) :
     ∃ m : ℤ, coeff F n = m := sorry
+
+/-- Every elliptic curve over ℚ has an attached weight-two newform with all Fourier
+coefficients equal to its L-function coefficients. ClassicalSerreModularity R27.6
+supplies residual modularity and its finite-flat weight-two export. The README's
+exact-conductor comparison identifies the positive level with the elliptic conductor. -/
+theorem modularity :
+    ∃ (N : ℕ) (hN : NeZero N) (F : Newform N 2),
+      IsNewformOf E F ∧ ∀ n : ℕ, coeff F n = (lCoeff E n : ℂ) := sorry
 
 /-! ## Layer R29.4: every Euler factor -/
 
@@ -472,9 +483,12 @@ modularParametrisation_pullback, modularParametrisation_11a1,
 modularParametrisation_11a3, modularParametrisation_37a, exists_isNewformOf_of_J0,
 exists_isNewformOf_of_X0, conductor_dvd_of_J0, modularity, modularity_quotient,
 modularity_parametrisation, LFunction_eq and exists_entire_completed_LSeries.
-The selected form has the explicit input hE : ∃ F : Newform N_E 2, IsNewformOf E F.
-Every selected-form theorem and modularParametrisation carries that input; the latter
-also carries its chosen QuotientIsogeny for newformOf E hE.
+The selected form newformOf E uses unconditional existence from ClassicalSerreModularity
+R27.6 and the exact-coefficient argument. Its theorems have no existence input.
+The map modularParametrisation E λ carries a chosen
+λ : QuotientIsogeny E (newformOf E) (isNewformOf_newformOf E).
+LFunction_eq E and exists_entire_completed_LSeries E are unconditional; the
+IsNewformOf comparison theorems retain their attached-form hypotheses.
 The exceptional-set Checks are exceptionalPrimes_11a1, exceptionalPrimes_contains_small,
 exceptionalPrimes_CM, exceptionalPrimes_11a1_seven, exceptionalPrimes_26b1,
 exceptionalPrimes_valuation_only and exceptionalPrimes_isogeny_only.

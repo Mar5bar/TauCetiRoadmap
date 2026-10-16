@@ -9,8 +9,8 @@ characteristics, Serre witnesses, the predicate that a newform is attached to an
 elliptic curve, its unique newform, and a modular parametrisation with a chosen quotient
 isogeny.
 
-The existence theorem takes the classical Serre modularity statement as an explicit
-hypothesis, stated in the supplier contracts below. For infinitely many
+The existence theorem consumes ClassicalSerreModularity §R27.6, including its
+finite-flat weight-two export, and applies to every elliptic curve over ℚ. For infinitely many
 primes `p`, the representation on `E[p]` has the conductor of `E`, weight two, and
 trivial residual character. Serre modularity produces forms whose good coefficients
 agree with the traces of `E` modulo primes above `p`. Finiteness of the forms and an
@@ -50,10 +50,11 @@ following divisions of responsibility determine the interfaces.
   finiteness at fixed weight and level, the old/new decomposition, strong
   multiplicity one across levels, L-functions, and Galois conjugation of
   coefficients. The general theory of those constructions stays there.
-* The classical Serre modularity hypothesis supplies global residual modularity.
-  SerreWeightAndLevelOptimisation §4.8 supplies the finite-flat, weight-two,
-  trivial-character optimization from that hypothesis; its input is not a theorem
-  asserting modularity of the elliptic curve itself.
+* ClassicalSerreModularity **§R27.6, Serre’s modularity conjecture, strong form**,
+  supplies unconditional global residual modularity. Its **finite-flat weight-two
+  export** supplies a weight-two newform of exact residual conductor and trivial
+  character. SerreWeightAndLevelOptimisation §4.8 supplies the corresponding
+  optimization for an already modular residual representation.
 * FiniteFlatGroupsAndIntegralPadicHodgeTheory
   **§R07.6.1** and
   AlgebraicModularFormsAndSerreWeights
@@ -219,11 +220,13 @@ the good-reduction abelian scheme. AlgebraicModularFormsAndSerreWeights Layer R1
 *The weight-two criterion*, supplies the extension-sensitive weight recipe, and
 Layer R15.5, *Deligne–Serre eigenvalue lifting*, supplies a characteristic-zero
 eigencharacter after finite fraction-field extension and a dominating DVR. It does not
-lift a prescribed eigenvector. SerreWeightAndLevelOptimisation §4.8,
-*Finite-flat weight-two optimisation*, supplies the weight-two trivial-character witness
-at a level dividing the elliptic conductor from an already modular residual
-representation, at every good prime at least five with the weight-two recipe. At a prime outside Σ_E,
-residual conductor equality and its conductor divisibility force that level to be N_E.
+lift a prescribed eigenvector. ClassicalSerreModularity §R27.6,
+*The finite-flat weight-two export*, supplies a normalized weight-two newform of
+trivial character at the exact prime-to-p residual conductor for a continuous odd
+absolutely irreducible representation finite flat at p ≥ 5 with cyclotomic determinant.
+At a prime outside Σ_E, residual conductor equality identifies this level with N_E.
+SerreWeightAndLevelOptimisation §4.8, *Finite-flat weight-two optimisation*, also
+supplies this optimization when residual modularity is given directly.
 
 AlgebraicModularFormsAndSerreWeights §R15.5A.2 supplies the classical rank-two newform
 representation. AutomorphicGaloisRepresentations §§1.5, 6.1–6.2 and 6.4 supply its
@@ -261,27 +264,31 @@ the elliptic isogeny class, and the infinite-cyclic Hom statement under
 Tate–Hom theorem. The ℚ-endomorphism assertion is established as the first target of
 Layer R29.1 below, including geometric CM curves.
 
-### Classical Serre hypothesis for existence
+### Classical Serre theorem for existence
 
-The existence results take the following mathematical hypothesis. For every prime
-p and every continuous odd absolutely irreducible representation
-`ρ̄ : G_ℚ → GL₂(𝔽̄_p)`, there is a cuspidal modular residual eigenvalue system with
-associated semisimple representation isomorphic to ρ̄ after coefficient embedding.
-This is global residual modularity; weight, level and character optimization are supplied
-separately by SerreWeightAndLevelOptimisation §4.8 in the finite-flat elliptic case. No modularity of E or preselected characteristic-zero eigenform is in this
-hypothesis. The theorem proving this global statement is Khare–Wintenberger,
-*Serre's modularity conjecture (I)*, Theorems 1.2 and 9.1, author pp. 2–3 and 18–19,
-with hypothesis (H) supplied by the modularity-lifting theorem cited there
-([author manuscript](https://www.math.ucla.edu/~shekhar/papers/results.pdf)).
-The target here is the deduction from that statement, as in Serre §4.6, Theorem 4;
-proving the global residual modularity theorem itself is outside this roadmap.
+ClassicalSerreModularity §R27.6, **Serre’s modularity conjecture, strong form**
+(`R27.6/full-classical-serre-theorem`), supplies the unconditional theorem: for every
+prime p, every continuous odd absolutely irreducible
+`ρ̄ : G_ℚ → GL₂(𝔽̄_p)` arises from a normalized newform of Serre weight `k(ρ̄)`
+and prime-to-p conductor `N(ρ̄)`, with character lifting the predicted residual character.
+Its **finite-flat weight-two export** (`R27.6/finite-flat-weight-two-export`) gives
+weight two, exact level `N(ρ̄)` and trivial character when p ≥ 5, the actual local
+representation is finite flat at p, and `det ρ̄ = χ̄_p`. It includes a coefficient
+prime above p, residual isomorphism and trace congruences away from `pN(ρ̄)`.
 
-A weaker curve-specific hypothesis suffices: there are infinitely many primes outside
-Σ_E for which the actual `E[p]` is modular.
-Every existence conclusion below is also required with that weaker input. Its finite
-witness range lies at level N_E because the actual residual conductor is N_E outside
-Σ_E. The non-existence-input comparison theorems start with an attached form and
-require neither hypothesis.
+For `E[p]` with p outside Σ_E, R29.1 and finite-flat torsion supply all these
+hypotheses. Thus witness existence and the resulting modularity of E have no residual
+modularity assumption. The global theorem is owned by ClassicalSerreModularity;
+this roadmap owns its elliptic deduction, as in Serre §4.6, Theorem 4.
+Khare–Wintenberger, *Serre’s modularity conjecture (I)*, Theorems 1.2 and 9.1,
+author pp. 2–3 and 18–19, with the modularity-lifting theorem supplying (H), is the
+source ([author manuscript](https://www.math.ucla.edu/~shekhar/papers/results.pdf)).
+
+The reusable theorem `exists_newform_coeff_eq` instead takes an infinite family of
+exact-level witnesses with character and trace comparisons. These are curve-specific
+congruence data, weaker than a theorem for all odd irreducible residual representations;
+its proof needs no global modularity theorem. The attached-form comparison theorems
+likewise start with an attached form rather than the existence construction.
 
 ### Finite witness range
 
@@ -362,7 +369,7 @@ pins and their constructions have their intended signatures in this README.
 
 ## References
 
-For the explicit global Serre hypothesis, see Khare–Wintenberger,
+For the global Serre theorem supplied by ClassicalSerreModularity §R27.6, see Khare–Wintenberger,
 [*Serre’s modularity conjecture (I)*](https://www.math.ucla.edu/~shekhar/papers/results.pdf),
 Theorems 1.2 and 9.1, author pp. 2–3 and 18–19, and the Kisin modularity-lifting
 input (H) identified in §9. The elliptic deduction uses only residual modularity
@@ -379,8 +386,8 @@ roles are:
   pp. 194–195. The weight-two specialization is §3.3, p. 198. Theorem 4,
   Lemma 5, and (4.6.1)–(4.6.4) in §4.6, pp. 207–208, provide the modularity
   argument; Theorem 5 in §4.7, pp. 208–209, specifies the real multiplication
-  companion. The modularity input in the 1987 paper is conjectural. Here it
-  is used as the explicit classical Serre hypothesis of the existence statements.
+  companion. The modularity input in the 1987 paper is conjectural;
+  ClassicalSerreModularity §R27.6 supplies it as a theorem.
 * [G. Faltings, *Endlichkeitssätze für abelsche Varietäten über Zahlkörpern*,
   Invent. Math. 73 (1983), 349–366][faltings]. In §5, Satz 3 and Satz 4,
   p. 360, give semisimplicity and the endomorphism comparison. Korollar 1
@@ -415,8 +422,8 @@ page.
 ## How to read the build
 
 Layer R29.1 isolates the residual characteristics with the correct irreducibility and
-conductor. Layer R29.2 constructs witnesses under the explicit residual modularity
-input. Layer R29.3 turns infinitely many congruences into one characteristic-zero form;
+conductor. Layer R29.2 constructs witnesses using ClassicalSerreModularity §R27.6.
+Layer R29.3 turns infinitely many congruences into one characteristic-zero form;
 its attachment predicate also starts an independent conditional comparison. Layer R29.4
 identifies every local factor, R29.5 constructs the chosen parametrisation, and R29.6
 proves the geometric converse and transfers the analytic continuation. Definitions that
@@ -685,10 +692,8 @@ NeronModelsAndSemistableAbelianVarieties §§5.3a, 5.3g–5.3i.
 
 ## Layer R29.2. Finite-flat weight two and Serre witnesses
 
-Fix a prime `p∉Σ_E`. For witness existence also assume the classical Serre hypothesis
-or directly supply modularity of the actual E[p]. The finite-flat optimization theorem
-of SerreWeightAndLevelOptimisation §4.8 applies since p ≥ 7. Every purely local
-weight assertion applies without this modularity input. The first layer gives `p≥7`, good reduction at `p`,
+Fix a prime `p∉Σ_E`. ClassicalSerreModularity §R27.6 supplies the finite-flat
+weight-two export since p ≥ 7. The first layer gives `p≥7`, good reduction at `p`,
 absolute irreducibility of `E[p]`, cyclotomic determinant, and residual conductor `N_E`.
 This layer determines its Serre weight and constructs the characteristic-zero modular
 data used in the infinite-congruence argument.
@@ -727,8 +732,10 @@ hypotheses are the residual conclusions of Layer R29.1.
 For positive `N_E` identified with the elliptic conductor, the intended signature is
 `SerreWitness (N_E : ℕ) [NeZero N_E] (p : ℕ) : Type`. The data consist of a normalized newform `g_p` of weight two and
 level `N_E`, and a maximal ideal `λ_p` of the ring of algebraic integers in ℂ
-containing `p`. Its residue field has characteristic `p`. The operation `serreWitness E hp h` selects these data for a prime `p` with `p∉Σ_E` under the stated residual modularity input; no selection is asserted at an exceptional prime. An exact-level
-weight-two modular witness may also be supplied directly at any prime outside Σ_E.
+containing `p`. Its residue field has characteristic `p`. The operation
+`serreWitness E hp h` selects these data for a prime `p` with primality proof `hp`
+and `h : p∉Σ_E`, using ClassicalSerreModularity §R27.6. It has no residual modularity
+input; no selection is asserted at an exceptional prime.
 
 The character and comparison properties are accessed through the API:
 
@@ -761,13 +768,13 @@ norm of the entire ring of algebraic integers in ℂ is used.
 
 *Sources and prerequisites.* Serre, §3.3, (3.3.1 with its conjectural marker), p. 198,
 and its application in §4.6, p. 207, give the weight-two residual modular data. The
-input is the classical Serre hypothesis, followed by SerreWeightAndLevelOptimisation
-§4.8 at each prime outside Σ_E.
+input is ClassicalSerreModularity §R27.6, *Serre’s modularity conjecture, strong form*,
+and *The finite-flat weight-two export*, at each prime outside Σ_E.
 The other inputs are finite-flat weight two in this layer, the residual irreducibility
 and conductor in R29.1, Mathlib `CuspForm`, and Tau Ceti `HeckeRing.GL2.Newform`. The
 automorphic residual representation is the interface of AutomorphicGaloisRepresentations
-**§6.2**. The weight-two level-optimisation theorem used here has residual modularity as
-a hypothesis; its application does not assume an attached characteristic-zero form for E.
+**§6.2**. The export supplies the characteristic-zero newform directly; its use
+requires neither residual modularity as an input nor an attached form for E.
 
 ### Trivial character from reduction
 
@@ -803,8 +810,8 @@ specified rational prime.
 
 ### Examples and witness Checks
 
-For p=7 the Checks use the classical Serre hypothesis or an exact-level witness
-with the irreducible residual comparison as input. Three raw-data controls also apply to `SerreWitness N_E p`: the first coefficient
+For p=7 the witness construction uses ClassicalSerreModularity §R27.6 and the
+nonexceptionality Check. Three raw-data controls also apply to `SerreWitness N_E p`: the first coefficient
 is 1, the maximal ideal contains p but excludes 1, and the zero ideal cannot serve as
 a prime above a nonzero rational prime in the algebraic-integer domain.
 
@@ -836,8 +843,8 @@ congruent to `E`.
 
 *Needs:* Layer R29.1; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.6.1;
 AlgebraicModularFormsAndSerreWeights Layers R15.4–R15.5;
-SerreWeightAndLevelOptimisation §4.8; AutomorphicGaloisRepresentations §6.2;
-the explicit classical Serre hypothesis for existence of the witnesses.
+ClassicalSerreModularity §R27.6, Serre’s modularity conjecture, strong form, and
+The finite-flat weight-two export; AutomorphicGaloisRepresentations §6.2.
 
 ## Layer R29.3. One newform with exact coefficients
 
@@ -946,8 +953,9 @@ level `N_E`, and trivial character with
 
 `A_ℓ(F)=a_ℓ(E) for every prime ℓ∤ N_E.`
 
-Start with the infinite set of primes outside the finite set `Σ_E`. Assume the
-classical Serre hypothesis and apply the witness construction to each. The finite collection of normalized forms at level `N_E`
+Start with the infinite set of primes outside the finite set `Σ_E`. Apply the
+unconditional witness construction of R29.2, using ClassicalSerreModularity §R27.6, to
+each. The finite collection of normalized forms at level `N_E`
 has an infinite fibre, so one form `F` occurs for infinitely many distinct residual
 primes `p`. The prime above `p` is allowed to vary. The Lean milestone takes this witness family,
 its infinite prime domain, character and trace comparisons as explicit hypotheses,
@@ -1012,14 +1020,13 @@ input, as in Cremona §2.6, pp. 24–25.
 ### The newform of an elliptic curve
 
 The intended signature is
-`newformOf (E : WeierstrassCurve ℚ) [E.IsElliptic] (hE : ∃ F : Newform N_E 2, IsNewformOf E F) : Newform N_E 2`,
+`newformOf (E : WeierstrassCurve ℚ) [E.IsElliptic] : Newform N_E 2`,
 with the positive-conductor instance supplied by the conductor contract. Define it,
-denoted `F_E`, by selecting an attached newform from `hE`. The existence theorem
-produces `hE` either from the classical Serre hypothesis through
-`exists_newform_coeff_eq` or from infinitely many modular residual primes outside
-Σ_E. Attachment uniqueness proves independence from the choice of `hE`. Every
-selected-form API theorem below carries `hE`, including the isogeny and twist Checks
-with an existence input for each curve. The API is:
+denoted `F_E`, by selecting an attached newform from the unconditional existence
+theorem: ClassicalSerreModularity §R27.6 supplies the witnesses of R29.2, and
+`exists_newform_coeff_eq` gives exact good coefficients. Attachment uniqueness proves
+independence from the selected witness. The selected-form API and its isogeny and twist
+Checks require no existence input for the curves. The API is:
 
 * `isNewformOf_newformOf`: `F_E` is attached to `E`.
 * `newformOf_coeff_prime`: `A_ℓ(F_E)=a_ℓ(E)` at every good
@@ -1070,7 +1077,8 @@ residual characteristics.
 
 ### Dependencies
 
-*Needs:* Layers R29.1–R29.2 for existence; ModularForms Layers 4, 5 and 8G;
+*Needs:* Layers R29.1–R29.2 and ClassicalSerreModularity §R27.6, The finite-flat
+weight-two export, for existence; ModularForms Layers 4, 5 and 8G;
 Mathlib `Finite.exists_infinite_fiber`, `Algebra.norm` and `Algebra.norm_eq_zero_iff`.
 Attachment uniqueness and rationality use only the attached-form hypothesis.
 
@@ -1301,9 +1309,9 @@ the Abel–Jacobi and nonzero composite interfaces specified next.
 
 ### The morphism from X₀ at the conductor
 
-For `hE : ∃ F : Newform N_E 2, IsNewformOf E F`, put `F_E = newformOf E hE`.
-For a chosen `QuotientIsogeny E (newformOf E hE) (isNewformOf_newformOf E hE)` `λ`,
-define `modularParametrisation E hE λ : X₀(N_E) ⟶ E` in schemes over ℚ by the composite
+Put `F_E = newformOf E`.
+For a chosen `QuotientIsogeny E (newformOf E) (isNewformOf_newformOf E)` `λ`,
+define `modularParametrisation E λ : X₀(N_E) ⟶ E` in schemes over ℚ by the composite
 
 `X_0(N_E) →[x↦[x-∞]] J_0(N_E)  →[π_(F_E)] A_(F_E)^0 →[λ] E.`
 
@@ -1314,7 +1322,7 @@ with an isogeny between elliptic curves remains nonconstant. A nonconstant morph
 between smooth projective integral curves is finite and surjective, with positive degree
 equal to the extension degree of function fields.
 
-The constructor and every property and Check below carry the same `hE` and `λ`.
+The constructor and every property and Check below carry the same chosen `λ`.
 The API consists of the constructor and three mathematical properties:
 
 * `modularParametrisation_cusp` states `φ_E(∞)=O`.
@@ -1394,8 +1402,8 @@ The geometric converse starts with a surjective homomorphism `J_0(N')→ E`, whe
 is an arbitrary positive integer. It recovers an attached primitive form at a divisor of
 `N'`. The conditional comparisons of R29.3–R29.5 then force that divisor to be `N_E`.
 This proves the equivalence of the modularity formulations separately from their
-truth under the classical Serre hypothesis, and prevents a geometric presentation at a larger level from being
-mistaken for the conductor.
+unconditional truth from ClassicalSerreModularity §R27.6, and prevents a geometric
+presentation at a larger level from being mistaken for the conductor.
 
 ### Absolute irreducibility of the rational Tate module
 
@@ -1553,7 +1561,7 @@ and coefficient-field data as explicit hypotheses:
 
 ### The three equivalent modularity formulations
 
-Assume the classical Serre hypothesis. For every elliptic curve `E/ℚ` of conductor
+For every elliptic curve `E/ℚ` of conductor
 `N_E`, the following statements hold:
 
 1. There is a normalized newform `F` of weight
@@ -1567,9 +1575,11 @@ Assume the classical Serre hypothesis. For every elliptic curve `E/ℚ` of condu
 
 The names `modularity`, `modularity_quotient`, and `modularity_parametrisation` present
 these formulations. The first is R29.3 and R29.4 for `F_E`; the second composes the
-quotient map with the isogeny in R29.5; the third is the parametrisation there. Their existence assumes the classical Serre hypothesis in the witness construction
-and uses the intervening comparisons. Taking the established classical Serre theorem
-as input gives the three formulations for every elliptic curve over ℚ.
+quotient map with the isogeny in R29.5; the third is the parametrisation there.
+ClassicalSerreModularity §R27.6 supplies the witness existence used in their proofs,
+so all three conclusions are unconditional. The representative Lean statement
+`modularity` exhibits a positive level and an attached newform with all coefficients
+equal; R29.4 identifies this level with `N_E`.
 
 For an individual curve, there is also an equivalence without that existence input: an
 attached newform at some positive level, a surjective homomorphism `J_0(N')→ E` at
@@ -1603,10 +1613,10 @@ the acceptance condition for this equivalence.
 
 ### Continuation and the functional equation
 
-For `hE : ∃ F : Newform N_E 2, IsNewformOf E F`, put `F_E = newformOf E hE`.
-`LFunction_eq E hE` gives equality of the formal Dirichlet coefficients of `E` and `F_E`.
-The selected-form continuation theorem `exists_entire_completed_LSeries E hE`
-carries this input as well; the attached-form version
+Put `F_E = newformOf E`.
+`LFunction_eq E` gives equality of the formal Dirichlet coefficients of `E` and `F_E`.
+The selected-form continuation theorem `exists_entire_completed_LSeries E`
+is unconditional; the attached-form version
 `IsNewformOf.exists_entire_completed_LSeries` instead takes attachment directly.
 By the local factor theorem of R29.4, their Euler products include identical factors at
 bad primes as well as good primes. The complex Dirichlet series therefore agree in their
@@ -1666,8 +1676,9 @@ nonvanishing example tests the normalization of the completed L-function.
 
 ### Dependencies
 
-*Needs:* Layers R29.1–R29.5 as specified for each implication; the explicit classical
-Serre hypothesis for existence; ModularCurvesPartII §16.7 and §17.3;
+*Needs:* Layers R29.1–R29.5 as specified for each implication; ClassicalSerreModularity
+§R27.6, Serre’s modularity conjecture, strong form, and The finite-flat weight-two export,
+for existence; ModularCurvesPartII §16.7 and §17.3;
 FaltingsFinitenessAndIsogenyTheorems §§R28.6.2–R28.6.3; ArithmeticGaloisRepresentations
 §6.1; AbelianSchemesAndArithmeticModuli A4.1 and A6.5; RepresentationTheory/SemisimpleAlgebras Layer 3;
 ModularForms Layers 4, 7 and 8G; JacobianChallenge Layer F.
@@ -1684,8 +1695,9 @@ Rationality applies to every attached form. The conditional comparison chain sta
 there, passes through R29.4 to the isogeny theorem of R29.5, and supplies the geometric
 equivalence in R29.6. The Jacobian-quotient converse also uses absolute irreducibility
 from Faltings and the exhaustive old/new decomposition. It has no dependency on the
-Serre witnesses or on the definition of a selected `F_E`. Only the existence assertion from the classical Serre hypothesis inserts those inputs
-into the equivalence.
+Serre witnesses or on the definition of a selected `F_E`. The unconditional existence
+assertion uses ClassicalSerreModularity §R27.6 and the Serre witnesses to establish
+the equivalent formulations.
 
 The reusable outputs are the finite exceptional set with its local and global clauses;
 residual witness data at its complement; the attachment predicate and cross-level
