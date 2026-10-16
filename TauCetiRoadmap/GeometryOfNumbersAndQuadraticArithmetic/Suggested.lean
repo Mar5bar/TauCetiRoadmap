@@ -59,7 +59,8 @@ Design choices made explicit here:
   coefficient/duality adapters in the common spectrum category. GeneralizedCohomology supplies
   Γ-space group completion and derived prime completion; BordismFormalGroups supplies the coherent
   finite-group norm/Tate package. The README’s local names specialize these through
-  EnhancedDerivedSheaves’ concrete-spectrum and coherent-tower comparisons;
+  EnhancedDerivedSheaves’ concrete-spectrum and coherent-tower comparisons. The mod-two
+  characterization of `twoAdicEquivalence` is a consequence proved here from the supplied tower;
 * the finite-field K branch consumes TopologicalKTheory's complex classifier and Bott theorem,
   with its CW/Milnor extension and BU-level Adams maps specified in the README;
 * exact categories are Tau Ceti's `ExactStructure`, and a strong duality bundles Tau Ceti's
