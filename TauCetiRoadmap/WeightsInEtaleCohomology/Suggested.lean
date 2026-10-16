@@ -233,12 +233,27 @@ example : (25 : ℤ) + 1 - ((-2) ^ 2 - 2 * 5) = 32 := by
 
 /-! ## Layer R34.3: geometric monodromy normalization -/
 
-/-- A nodal rank-two monodromy operator scales by q⁻¹ under geometric Frobenius. -/
+/-- Nodal monodromy sends the vanishing direction to the graph direction,
+kills the graph direction and scales by q⁻¹ under geometric Frobenius. -/
 theorem nodal_monodromy_scaling (q : ℚ) (hq : q ≠ 0) :
     let F : Matrix (Fin 2) (Fin 2) ℚ := !![1, 0; 0, q]
     let Finv : Matrix (Fin 2) (Fin 2) ℚ := !![1, 0; 0, q⁻¹]
     let N : Matrix (Fin 2) (Fin 2) ℚ := !![0, 1; 0, 0]
-    F * N * Finv = q⁻¹ • N ∧ N * N = 0 := by
+    F * N * Finv = q⁻¹ • N ∧ N * N = 0 ∧
+      N.mulVec ![0, 1] = ![1, 0] ∧ N.mulVec ![1, 0] = 0 := by
+  sorry
+
+/-- A ramified Tate block distinguishes raw HK monodromy from p-normalized monodromy. -/
+example (e : ℕ) (he : 1 < e) :
+    let N_p : Matrix (Fin 2) (Fin 2) ℚ := !![0, (e : ℚ)⁻¹; 0, 0]
+    let N_HK : Matrix (Fin 2) (Fin 2) ℚ := !![0, 1; 0, 0]
+    (e : ℚ) • N_p = N_HK ∧ N_p ≠ N_HK := by
+  sorry
+
+/-- Dividing raw monodromy by absolute ramification commutes with further ramification. -/
+example (e d : ℕ) (he : 0 < e) (hd : 0 < d) :
+    let N_HK : Matrix (Fin 2) (Fin 2) ℚ := !![0, 1; 0, 0]
+    ((d : ℚ) * (e : ℚ))⁻¹ • ((d : ℚ) • N_HK) = (e : ℚ)⁻¹ • N_HK := by
   sorry
 
 /-! ## Layer R34.5: degree and Tate-twist checks -/
@@ -264,19 +279,31 @@ example : (2 * 2 - 1) * (2 - 2) + 1 - 2 * ((2 - 1) * (2 - 2)) = (1 : ℤ) := by
 example : (12 - 2 : ℤ) + 1 = 11 := by
   norm_num
 
-/-- Elliptic inversion projects onto the two degree-one directions. -/
+/-- On a smooth elliptic fibre, inversion projects onto the two degree-one directions. -/
 example :
     let inv : Matrix (Fin 4) (Fin 4) ℚ := Matrix.diagonal ![1, -1, -1, 1]
     let p := (1 / 2 : ℚ) • (1 - inv)
     p * p = p ∧ p = Matrix.diagonal ![0, 1, 1, 0] ∧ p.rank = 2 := by
   sorry
 
-/-- The sign-isotypic projector for graded interchange selects symmetric rank three. -/
+/-- On smooth-fibre tensors, the projector for graded interchange selects symmetric rank three. -/
 example :
     let s : Matrix (Fin 4) (Fin 4) ℚ :=
       !![-1, 0, 0, 0; 0, 0, -1, 0; 0, -1, 0, 0; 0, 0, 0, -1]
     let p := (1 / 2 : ℚ) • (1 - s)
     p * p = p ∧ p.rank = 3 := by
+  sorry
+
+/-- An I₃ boundary divisor survives inversion but is killed by component translations. -/
+example :
+    let s : Matrix (Fin 3) (Fin 3) ℚ := !![1, 0, 0; 0, 0, 1; 0, 1, 0]
+    let t : Matrix (Fin 3) (Fin 3) ℚ := !![0, 0, 1; 1, 0, 0; 0, 1, 0]
+    let D : Fin 3 → ℚ := ![0, 1, -1]
+    let p := (1 / 2 : ℚ) • (1 - s)
+    let a := (1 / 3 : ℚ) • (1 + t + t * t)
+    let intersection : Matrix (Fin 3) (Fin 3) ℚ := !![-2, 1, 1; 1, -2, 1; 1, 1, -2]
+    D ≠ 0 ∧ p.mulVec D = D ∧ (a * p).mulVec D = 0 ∧
+      dotProduct D (intersection.mulVec D) = -6 := by
   sorry
 
 /-! ## Layer R34.6: trace bounds and the local twist -/
@@ -310,22 +337,31 @@ translation invariance and Frobenius-equivariant cohomological trace.
 R34.3/proper-trait-specialization-comparison: proper trait, finite-level nearby cycles and R lim.
 R34.3/nodal-modular-curve-comparison: named integral curve, normalization and dual graph.
 R34.3/arithmetic-picard-lefschetz-normalization: quadratic degeneration and tame inertia.
-R34.3/saito-crystalline-weight-spectral-sequence: filtered log-crystalline complex, stratum maps and N.
-R34.3/saito-stratum-correspondence-trace: crystalline cycle classes, duality and Weil-twisted traces.
-R34.3/saito-semistable-comparison-model: Saito's model, projector and log-crystalline comparison.
+R34.3/saito-crystalline-weight-spectral-sequence: strictly semistable model, smooth intersection
+strata, filtered log-crystalline complex, stratum maps and raw N_HK.
+R34.3/saito-stratum-correspondence-trace: supplied crystalline trace, duality, Gysin and diagonal
+maps, with additional cycle/intersection compatibilities and Weil-twisted traces.
+R34.3/saito-semistable-comparison-model: compatible ramified refinement of Saito's curve models,
+level maps, projector and log-crystalline comparison; N_HK = e N_p in finite-local descent.
+R34.3/semistable-period-comparison: proper strictly semistable model over a finite local field,
+structured period comparison with N_π = e N_p on periods and raw N_HK on cohomology,
+tensor-product operators in that normalization, and ramified base change dividing raw N by d.
 R34.4/finite-field-pencil-descent: supplied finite-field pencil/incidence descent on the chosen axis.
 R34.4/vanishing-quotient-parity-comparison: supplied odd-degree arithmetic radical quotient and
 Tate pairing; comparison with the even-degree symmetric pairing.
 R34.4/original-coefficient-monodromy-hypotheses: original Q_l geometric monodromy and local factors.
 R34.5/parabolic-cohomology-weight-comparison: actual H_c¹→H¹ image of Sym^r R¹.
-R34.5/kuga-sato-projector-weight-comparison: algebraic correspondence and étale comparison.
+R34.5/kuga-sato-projector-weight-comparison: full torsion-translation, inversion and permutation
+Scholl correspondence on the equivariant resolution and its parabolic étale comparison.
 R34.5/weight-two-jacobian-weight-comparison: actual modular abelian quotient and coefficient action.
 R34.5/arithmetic-hard-lefschetz-comparison: smooth projective finite-field scheme, ℓ invertible,
 ample class and Frobenius-equivariant cup product.
 R34.6/eigenform-purity-and-ramanujan-bound: existing newform eigensummand and Hecke polynomial.
 R34.6/fixed-eigenform-good-prime-compatibility: common coefficient field and actual λ-realizations.
 R34.6/arithmetic-realization-transport: actual comparison morphisms and commuting correspondences.
-R34.6/hilbert-local-monodromy-weight-export: local WD carriers and Saito's coefficient conventions.
+R34.6/hilbert-local-monodromy-weight-export: global Jacquet–Langlands and coefficient models,
+Saito's cohomological decomposition and rank-two multiplicity descent, local WD carriers,
+and the conversion N_HK/e = N_p before the Weil–Deligne export.
 R34.6/common-good-prime-polynomials: HasCommonGoodPrimePolynomials on an arithmetic family.
 R34.1/predicate-api: isPureOutside_iff, hasIntegralFrobOutside_iff,
 isIotaPureOutside_iff, IsPureOutside.mono, HasIntegralFrobOutside.mono,
