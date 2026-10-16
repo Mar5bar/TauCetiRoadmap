@@ -111,7 +111,8 @@ Dependencies: AdicSpaces §§0–5; AdicSpacesPartII R0.0–R0.20 and R1.1–R1.
 SchemeAndStackFoundations Layers 0–4, including §0.23a and §4.14;
 RigidAnalyticGeometry (roadmap on main) Layers 1–8;
 CompactOperators §0.1; PivotalSpherical Layers 0–2 and 10;
-DerivedModuleAlgebra §§1.T.1 and 1.1 (the shared tower foundation used in F0).
+DerivedModuleAlgebra §§1.T.1 and 1.1 (the shared tower foundation used in F0)
+and §S.1 (the generic double-complex comparison used in R3).
 The supplier contracts below also specify the main-roadmap inputs from StableReduction,
 JacobianChallenge, ModularCurves and AlgebraicVectorBundles, and the gauge inputs from
 PadicFunctionalAnalysis §0.4 and its Banach-module inputs in §§1.2, 2.1–2.4.
@@ -302,9 +303,8 @@ rigid-space bridge. These supplier contracts are cited by their roadmap and sect
 | `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid.polydisc`, `RigidSpace.Affinoid.point`, `RigidSpace.Sp.map`, `AdicSpace.rigidToAdic`; `Huber.TateAlgebra.ofMvPolynomial` (same namespace); `TauCeti.Huber.restrictedMvPowerSeriesCompletion` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `Huber.TateAlgebra.ofMvPolynomial`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file); `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Completion.lean` | Planned supplier interface: discs, analytic points, polynomial coordinates and induced adic morphisms for the exactness non-example of *glueing-square*, `IsFiniteLocallyFree_closed_point`, `VectorBundle_skyscraper` and `IsFiniteLocallyFree_power_map`. Evaluation at zero is specified on every polynomial. |
 | `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid`, `Sp`, `Sp.map`, AdicSpacesPartII *proper-separated-comparisons*, `HasInnerAffinoidCover`, `IsProper`; `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.rigidToAdic`, `rigidToAdic.proper`, `rigidToAdic.proper_iff` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; they are specified by Part II README targets) | R3 imports the rigid affinoid carriers, generator criterion, and finite inner-cover properness. Part III's `AdicSpace.RelativelyCompact` transports innerness to adic inclusions with commuting base and inclusion maps; its API and Checks belong here. The reverse properness comparison takes `IsDiscreteValuationRing (powerBoundedSubring K)`. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Chart`, `Affinoid.coeff`, `Etale` (same namespace) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Imported affinoid presentations, coefficient maps and the étale predicate used by `proper_directImage_etale_baseChange`. Part III adds the equivalence on coherent cohomology and its pure-tensor equation. |
-| `HomologicalComplex.single`, `HomologicalComplex₂.total`, `HomologicalComplex₂.ιTotalOrZero` | `Mathlib/Algebra/Homology/Single.lean`, `Mathlib/Algebra/Homology/TotalComplex.lean` | The concentrated double complex and the square with four copies of ℤ test the augmentation and actual total differential. |
+| DerivedModuleAlgebra §S.1: `DoubleComplex.totalCohomology_of_exact_rows`, `DoubleComplex.edgeBottom`, `DoubleComplex.edgeLeft`, `DoubleComplex.spectralSequence_map` | `TauCetiRoadmap/DerivedModuleAlgebra/README.md`, §S.1 | The generic exact-row comparison, its canonical edges and naturality; transposition supplies the exact-column comparison. R3 applies them to Čech complexes and sheaf resolutions. |
 | `TrivSqZeroExt.instL1NormedCommRing`, `TrivSqZeroExt.norm_def` | `Mathlib/Analysis/Normed/Algebra/TrivSqZeroExt.lean` | The supplied norm on dual numbers tests the spectral maximum formula on a nonzero nilpotent. |
-| `HomologicalComplex₂.ιTotalOrZero`, `HomologicalComplex₂.total.map` | `Mathlib/Algebra/Homology/TotalComplex.lean` | The summand inclusion and functorial map of total complexes. R3 defines the augmented-edge maps through these inclusions. |
 | `MvPowerSeries.IsRestricted.subring`, `MvPowerSeries.norm_eq_gaussNorm`, `MvPowerSeries.coeff` | `Mathlib/RingTheory/MvPowerSeries/Restricted.lean`; `TauCeti/RingTheory/MvPowerSeries/TateAlgebra/Basic.lean`; `Mathlib/RingTheory/MvPowerSeries/Basic.lean` | The normed Tate algebra, its Gauss norm and its coefficient functions used by the actual Gauss-point and disc-restriction Checks. |
 | `TauCeti.Huber.restrictedMvPowerSeriesCompletion` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Completion.lean` | Completion of restricted series; applied over `K°` in the integral presentation, with its coefficient algebra map. |
 | `TauCeti.Huber.isStablyUniform_iff_forall_isUniform_completionLocObj` | `TauCeti/RingTheory/Huber/StableUniform.lean` | Stable uniformity is uniformity of all rational completions for a pair of definition; R3 expands this criterion in the split-descent statement. |
@@ -324,7 +324,8 @@ rigid-space bridge. These supplier contracts are cited by their roadmap and sect
 
 `HomologicalComplex₂.total` in `Mathlib/Algebra/Homology/TotalComplex.lean` and
 `ComplexShape.ε_up_ℤ` in `Mathlib/Algebra/Homology/ComplexShapeSigns.lean` supply the total
-complex and its signs. R3 adds the comparison with exact augmented edges.
+complex and its signs. DerivedModuleAlgebra §S.1 supplies the generic comparison;
+R3 uses it on Čech complexes with differential `d′ + (−1)^p d″`.
 
 ### Trace contracts
 
@@ -347,9 +348,9 @@ specializations use Mathlib's trace.
 ### From TauCetiRoadmap.AdicSpaces
 
 AdicSpaces layers 0–5 supply the adic-space foundations, the Tate acyclicity statements and
-sheafiness of stably uniform Tate rings. R3 proves its Čech comparison by the
-augmented double-complex comparison `AdicSpace.doubleComplex_edges_homology_equiv`
-applied to a sheaf resolution on the rational basis.
+sheafiness of stably uniform Tate rings. R3 applies DerivedModuleAlgebra §S.1
+`DoubleComplex.totalCohomology_of_exact_rows` and its transpose to a sheaf resolution
+on the rational basis.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations, StableReduction, JacobianChallenge and AlgebraicVectorBundles
 
@@ -434,6 +435,36 @@ hypotheses; density alone does not imply the algebraic Mittag-Leffler condition.
 - The constant `ℤ/p` tower with zero transitions is Artinian and
   Mittag-Leffler with stable image zero, despite nonsurjective transitions;
   the shift is the identity, so both `lim` and `lim¹` vanish.
+
+### From DerivedModuleAlgebra §S.1
+
+[DerivedModuleAlgebra §S.1](../DerivedModuleAlgebra/README.md#s1-the-spectral-sequence-of-a-first-quadrant-double-complex)
+supplies `DoubleComplex.totalCohomology_of_exact_rows`, the canonical edges
+`DoubleComplex.edgeBottom` and `DoubleComplex.edgeLeft`, and their naturality
+`DoubleComplex.spectralSequence_map`, for first-quadrant double complexes of abelian groups
+or modules. Exactness of rows in positive degrees identifies total cohomology with the
+cohomology of the left kernel complex; transposition gives the bottom kernel complex for
+exact columns. Exact augmentations identify the edge complexes with these kernels.
+Use these identifications and the supplier's canonical edge maps in the Čech applications,
+including their compatibility with refinement and the sheaf-cohomology augmentation.
+The sign transport from the supplier's anticommuting convention to Mathlib's commuting
+convention is the one in §S.1: the total differential here is `d′ + (−1)^p d″`.
+The abstract comparison is also Stacks Tag [00M1](https://stacks.math.columbia.edu/tag/00M1),
+Lemma 10.75.3, in homological indexing; the cohomological exact-row form is NSW II,
+Lemma 2.2.4, printed p. 105, as specified by the supplier.
+
+**Checks.**
+
+- On the singleton rational cover of `U`, the Čech augmentation is the identity on
+  `F(U)` and the supplied edge comparison induces the identity in degree zero.
+- For a double complex concentrated in bidegree `(0,0)` with value `ℤ`, the
+  identity augmentation identifies `ℤ` with the kernel; the zero augmentation fails
+  exactness, even though the unaugmented tails agree.
+- For the sign transport, put `ℤ` in bidegrees `(0,0)`, `(1,0)`, `(0,1)`, `(1,1)`
+  with identity horizontal and vertical maps and zero elsewhere. On total degrees
+  zero and one, in the order `(1,0),(0,1)`, the differentials are
+  `x ↦ (x,x)` and `(a,b) ↦ −a+b`; their composite is zero. Thus the sign transport
+  agrees with Mathlib's vertical signs `1` and `−1` in columns zero and one.
 
 ### From TauCetiRoadmap.AdicSpacesPartII
 
@@ -8631,10 +8662,17 @@ The definition and classification are those of
 [Conrad-GEC](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Definition 2.1.4
 and the paragraph following it, p. 5; the polygon construction is on pp. 4–5.
 
-`LevelStructure L E` consists of labelled sections of the smooth group from
-`(ℤ/N)²` in full level and from `ℤ/N` in cyclic level, killed by `N`. In full
-level, over `ℤ[1/N]`, they inject into the smooth group on each geometric fibre,
-exhaust the N-torsion and meet every connected component. In cyclic level the
+In full level, over a `ℤ[1/N]`-scheme `S`, `LevelStructure L E` is an isomorphism
+of commutative `S`-group schemes `α : ((ℤ/N)²)_S ≅ E^sm[N]` whose labelled
+sections meet every irreducible component of every geometric fibre of `E`.
+The label of `(i,j)` is `α(i,j) = iP + jQ`, where `P = α(1,0)` and `Q = α(0,1)`;
+these sections are killed by `N` and give a basis of the N-torsion in every geometric fibre.
+This extends ModularCurves §3N's naive full-level group-scheme definition to generalised
+elliptic curves; for smooth `E` it agrees with `GammaFullStructure` via
+ModularCurves §3D's naive–Drinfeld comparison. The generalised-curve extension and its
+component condition belong to this target. Prove `LevelStructure_map_zero`, giving
+`α(0,0) = 0`, and `LevelStructure_map_add`, giving `α(u + v) = α(u) + α(v)` for
+full level over every `S`-scheme after base change. In cyclic level the
 section `P` is an ample Drinfeld `ℤ/N`-structure: the relative effective Cartier
 divisor `∑_{j ∈ ℤ/N} [jP]` in `E^sm` is a subgroup scheme and meets every
 irreducible component of every geometric fibre. In residue characteristic `p ∣ N`
@@ -8647,7 +8685,8 @@ condition is the curve-specific ampleness criterion, not an extra assumption on 
 arbitrary moduli scheme (Conrad-GEC, Definitions 2.4.1–2.4.2, p. 14, and 2.4.7,
 p. 16). `moduli_classifies` states existence and uniqueness of the classifying
 map for every such family over a `ℤ[1/d]`-scheme, with an isomorphism preserving
-the labelled sections. `moduli_isProper` and `moduli_finitePresentation` apply
+the smooth-group law, the whole-curve action and the level structure.
+`moduli_isProper` and `moduli_finitePresentation` apply
 to this particular representing scheme over `ℤ[1/d]`. For the latter, the conclusion
 is local finite presentation together with quasi-compactness and
 quasi-separatedness. Sources: Conrad-GEC, Theorems 3.1.4, p. 19, 3.2.7 and
@@ -8735,7 +8774,7 @@ table are in `GeneralisedEllipticCurve`, except `GroupCurve`, `ofElliptic`,
 | `projectivePoint` | `projectivePoint_scaling`: unit scaling fixes a point; `projectivePoint_zeroInfinity`: zero and infinity differ; `projectivePoint_affine`: `[a:1] = [b:1]` exactly when `a = b`. |
 | `GeneralisedEllipticCurve` | `GeneralisedEllipticCurve_smooth`: imported elliptic curves qualify; `GeneralisedEllipticCurve_polygon`: every positive polygon qualifies; `GeneralisedEllipticCurve_noEmptyFibre`: every base point has a point above it. |
 | `Level` | `Level_fullThree`: full level three is allowed; `Level_cyclicFive`: cyclic level five is allowed; `Level_smallExcluded`: full levels below three, and cyclic levels without a factor at least five, are excluded; `Level_mixed`: for a prime `p ≠ 5`, cyclic level `5p` with factor `5` is allowed and its base `ℤ[1/5]` does not invert `p`. |
-| `LevelStructure` | `LevelStructure_torsion`: labelled sections are killed by N; `LevelStructure_trivialExcluded`: a constant identity labelling fails over a geometric point; `LevelStructure_polygonDivides`: the polygon size divides N; `LevelStructure_pGonPrimeToP`: over every field of characteristic zero, the standard `p`-gon has no cyclic level structure of level prime to `p`; `LevelStructure_pGonMixed`: for `d ≥ 5` prime to `p`, the point `(ζ_d, 1)` of `G_m × ℤ/p` is a cyclic level structure of level `dp` on the standard `p`-gon over `ℚ_p(ζ_d)`. |
+| `LevelStructure` | `LevelStructure_fullBasis`: a full N-torsion basis on a smooth elliptic curve over `ℂ` gives a structure; `LevelStructure_nonadditiveExcluded`: for `N = 3` and a basis `P,Q`, swapping only the labels `(1,0)` and `(0,1)` fixes zero and bijects onto the torsion but fails `α(2,0) = 2α(1,0)`, since `2P ≠ 2Q`, so is excluded; `LevelStructure_torsion`: labelled sections are killed by N; `LevelStructure_trivialExcluded`: a constant identity labelling fails over a geometric point; `LevelStructure_polygonDivides`: the polygon size divides N; `LevelStructure_pGonPrimeToP`: over every field of characteristic zero, the standard `p`-gon has no cyclic level structure of level prime to `p`; `LevelStructure_pGonMixed`: for `d ≥ 5` prime to `p`, the point `(ζ_d, 1)` of `G_m × ℤ/p` is a cyclic level structure of level `dp` on the standard `p`-gon over `ℚ_p(ζ_d)`. |
 | `moduli` | `moduli_fullThree`: full level three is proper; `moduli_cyclicFive`: cyclic level five is locally finitely presented; `moduli_nonemptyComplex`: every allowed moduli scheme has complex points; `moduli_mixedCharP`: for a prime `p ≠ 5`, the moduli scheme of cyclic level `5p` with factor `5` has a nonempty fibre over `𝔽_p`. |
 | `universalCurve` | `universalCurve_flat`: the curve is flat; `universalCurve_proper`: it is proper; `universalCurve_cusp`: it has a complex polygon fibre. |
 | `universalLevel` | `universalLevel_zero`: the zero label gives the identity; `universalLevel_torsion`: N kills every label; `universalLevel_classifiesIdentity`: identity pullback preserves all labels. |
@@ -9062,7 +9101,7 @@ passing from Čech acyclicity on a basis to sheaf-cohomology vanishing). The cas
 degree 0 is Tau Ceti's sheaf condition `isSheaf_presentationLimitPresheaf_of_isStronglyNoetherian`,
 and in all degrees it is AdicSpaces layer 4.1, whose base-change step `M ⊗_A A⟨X⟩ ≅ M⟨X⟩` is
 `restrictedMvPowerSeriesBaseChange`; the statement for a finite module `M` is new. *Needs:*
-*associated-module-sheaf*; `AdicSpace.doubleComplex_edges_homology_equiv` (R3), applied to a sheaf resolution on the rational basis; Tau Ceti
+*associated-module-sheaf*; DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows` and its transpose, applied to a sheaf resolution on the rational basis; Tau Ceti
 `isSheaf_presentationLimitPresheaf_of_isStronglyNoetherian`, `restrictedMvPowerSeriesBaseChange`,
 `Huber.PairOfDefinition.flat_toCompletionLoc`, `TauCeti.Huber.isNoetherianRing_of_isStronglyNoetherian`,
 `Huber.PairOfDefinition.isStronglyNoetherian_completion`, `Huber.IsTateRing.isModuleTopology`,
@@ -9088,7 +9127,7 @@ has a closed non-analytic point and the theorem still applies (Huber94 §2, proo
 Case I, pp. 525–529, by Raynaud-type blow-up arguments; Huber94 §2, (1.5), p. 529, the existence
 of a refinement with exact strict Čech complex; Huber94 §2, Lem. 2.6, p. 531, the refinement lemma
 by standard rational coverings). *Needs:* *associated-module-sheaf*; *noetherian-rod-sheafy*,
-*noetherian-rod-module-complete* (AdicSpacesPartII layer R0); `AdicSpace.doubleComplex_edges_homology_equiv` (R3), applied to a sheaf resolution on the rational basis; Tau Ceti
+*noetherian-rod-module-complete* (AdicSpacesPartII layer R0); DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows` and its transpose, applied to a sheaf resolution on the rational basis; Tau Ceti
 `TauCeti.ValuationSpectrum.isSheaf_iff_isSheafFor_rationalCover`. Lean: the exactness of
 `0 → M → B₁ ⊗ M × B₂ ⊗ M → B₁₂ ⊗ M → 0` on a simple Laurent cover, `Huber.laurent_exact_of_finite`,
 whose hypothesis `Huber.IsNoetherianType` (AdicSpacesPartII) covers this case; the sheaf and
@@ -9163,63 +9202,6 @@ The spectral identification is supplied by `spaCompletedLocalizationHomeomorph`
 - `AdicSpace.RationalChart.test_zero_function`: in every rational chart the Laurent
   cover for the localized function `0` pulls back to `(U, ∅)`.
 
-Prove that the two edges of a double complex with exact augmented rows and columns have the same
-cohomology (*cech-double-complex-comparison*): let `K = (K^{p,q})_{p,q ≥ 0}` be a first-quadrant
-double complex of abelian groups with commuting differentials `d′ : K^{p,q} → K^{p+1,q}` and
-`d″ : K^{p,q} → K^{p,q+1}`; let `C^•` and `R^•` be cochain complexes of abelian groups
-(`C^p = R^q = 0` in negative degrees) with morphisms `ε′ : C^p → K^{p,0}` commuting with `d′` and
-`ε″ : R^q → K^{0,q}` commuting with `d″`, such that (i) for every `p ≥ 0` the augmented column
-`0 → C^p → K^{p,0} → K^{p,1} → ⋯` (maps `ε′`, `d″`) is exact, and (ii) for every `q ≥ 0` the
-augmented row `0 → R^q → K^{0,q} → K^{1,q} → ⋯` (maps `ε″`, `d′`) is exact; let `Tot(K)` be the
-total complex, `Tot(K)ⁿ = ⊕_{p+q=n} K^{p,q}` with differential `d′ + (−1)^p d″`. Then
-`ε′ : C^• → Tot(K)` and `ε″ : R^• → Tot(K)` (the latter composed with the sign `(−1)^0 = 1` on
-`K^{0,q}`) are morphisms of complexes and quasi-isomorphisms; in particular `Hⁿ(C^•) ≅ Hⁿ(R^•)`
-for every `n ≥ 0`, naturally in the data `(K, C, R, ε′, ε″)`. This is the cohomological form of
-Stacks Tag 00M1, which is stated for chain complexes; the proof is the same staircase argument
-with the indices reversed (Stacks Tag 00M1, Lem. 10.75.3, for the hypotheses and the naturality
-clause; Stacks Tag 00M1, proof of Lem. 10.75.3, the staircase). In the degenerate case
-`K^{p,q} = 0` for `p > 0`, (ii) says `R^• ≅ K^{0,•}`, (i) says `C^0 = ker(K^{0,0} → K^{0,1})` and
-`C^p = 0` for `p > 0`, and the lemma reduces to `Hⁿ(K^{0,•}) = C^0` for `n = 0` and `0` otherwise.
-Mathlib supplies the double complex and its total complex (`HomologicalComplex₂.total`); the
-quasi-isomorphisms from the augmentations are new, and are stated on `HomologicalComplex₂` data.
-The maps are `columnEdgeToTotal` and `rowEdgeToTotal`, with degree-`n` components
-`ε′ₙ ≫ ι_{n,0}` and `ε″ₙ ≫ ι_{0,n}`. Their inputs include the cycle equations
-`d″ε′ = 0` and `d′ε″ = 0`; augmented exactness implies these equations.
-`columnEdgeToTotal_quasiIso` and `rowEdgeToTotal_quasiIso` require exactness only in the
-corresponding direction. Their `_naturality` theorems state equality of the two composites
-for a map of augmented double complexes, before taking cohomology.
-*Needs:* Mathlib `HomologicalComplex₂`, `HomologicalComplex₂.total`.
-
-**Checks for the augmentation maps.**
-
-- `columnEdgeToTotal.test_zero` and `rowEdgeToTotal.test_zero`: zero augmentations give
-  zero chain maps, in every degree.
-- `columnEdgeToTotal.test_injective` and `rowEdgeToTotal.test_injective`: an injective
-  degree-`n` augmentation remains injective into the total degree. In particular the
-  identity augmentation on a nonzero group cannot give the zero map.
-- `columnEdgeToTotal.test_single_row`: when only row zero is nonzero and the column
-  augmentations are isomorphisms, the column map is an isomorphism of complexes.
-- `rowEdgeToTotal.test_single_column`: when only column zero is nonzero and the row
-  augmentations are isomorphisms, the row map is an isomorphism of complexes.
-
-**Checks.**
-
-- `doubleComplex_test_augmentation` (negative control) — use Mathlib's `HomologicalComplex.single`
-  twice to put `ℤ` in bidegree `(0,0)`. The degreewise identity augmentation induces a
-  quasi-isomorphism through `columnEdgeToTotal`; its zero augmentation does not.
-  Thus `ℤ → ℤ → 0` is exact only with the identity augmentation. The tail exactness
-  hypotheses start with `q ≥ 0` and `p ≥ 0`; degree `−1` is the augmentation.
-- `doubleComplex_test_library_sign` (convention) — Mathlib's vertical signs in columns `0`
-  and `1` are `1` and `−1`, respectively.
-- `doubleComplex_test_total_sign` (two-term computation) — put `ℤ` in each of the four
-  bidegrees `(0,0)`, `(1,0)`, `(0,1)`, `(1,1)`, with identity horizontal and vertical maps.
-  In the order `(1,0),(0,1)` the total differentials are `x ↦ (x,x)` and
-  `(a,b) ↦ −a+b`, whose composite is zero. The second map sends `(1,0)` to `−1`
-  and `(0,1)` to `1`, fixing the convention `d′ + (−1)^p d″`. The check
-  supplies the double complex and its four identifications with `ℤ`, then evaluates
-  `(K.total (ComplexShape.up ℤ)).d` on `K.ιTotalOrZero` summands. The final summand
-  contains a nonzero generator, so the sign comparison detects an incorrect differential.
-
 Prove that Čech acyclicity is inherited from a refinement whose restrictions are acyclic
 (*cech-acyclicity-refinement*): let `X` be a topological space, `ℬ` a family of open subsets of `X`
 closed under finite intersections, and `F` a presheaf of abelian groups on `ℬ` (restriction maps
@@ -9239,7 +9221,15 @@ Lem. 20.9.3, a covering having the whole set as a member has contractible augmen
 complex, which gives exactness of the rows; Stacks Tag 01FM, Lem. 20.23.6, alternating and full
 Čech complexes have the same cohomology). If `𝔙 = (U)` is the trivial covering the lemma is a
 tautology, and if `𝔚 = 𝔙` the hypothesis is that `𝔙` is universally acyclic on its own
-intersections. *Needs:* *cech-double-complex-comparison*.
+intersections. Use the double complex whose `(p,q)` term is the product of
+`F(V_{i₀…i_p} ∩ W_{j₀…j_q})` over increasing tuples. Its column augmentations
+are exact by the hypothesis. For each W-intersection, refinement makes the restricted
+V-cover contain that whole intersection as a member, giving exact row augmentations.
+Identify both augmented edges with the supplier's kernel complexes and use its canonical
+comparisons; naturality gives the refinement map and compatibility with `F(U)`.
+*Needs:* DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows`
+and `DoubleComplex.spectralSequence_map`, with transposition and the sign transport
+specified in the supplier contract.
 
 Prove Kedlaya–Liu's Proposition 2.4.21 (*cech-acyclicity-simple-laurent-reduction*): it is the
 corollary of *rational-covering-reduction* for the property `P` = "the augmented alternating Čech
@@ -9339,7 +9329,7 @@ non-sheafy Tate pair some simple Laurent covering of some rational subset has a 
 *cech-acyclicity-simple-laurent-reduction* and the basis criterion of AdicSpaces layer 3.5 would
 make `𝒪_X` a sheaf), while exactness at `B₁₂` persists (by *simple-laurent-difference-surjective*).
 *Needs:* *simple-laurent-difference-surjective*; *cech-acyclicity-simple-laurent-reduction*;
-`AdicSpace.doubleComplex_edges_homology_equiv` (R3), applied to a sheaf resolution on the rational basis; Tau Ceti `Huber.IsTateRing`,
+DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows` and its transpose, applied to a sheaf resolution on the rational basis; Tau Ceti `Huber.IsTateRing`,
 `isSheaf_presentationLimitPresheaf_of_isStronglyNoetherian`.
 
 ### R3.1a affinoid sections of analytified modules
@@ -11103,7 +11093,7 @@ with pullback along morphisms of schemes) (Conrad-RA Appendix A.1, pp. 38–39, 
 GAGA isomorphisms (A.1.1) `Rⁱf_*(F)^an ≃ Rⁱf^an_*(F^an)`, which are instances of these comparison
 maps; Conrad-RA Ex. 3.2.6, p. 24, the relative comparison map defined by δ-functoriality).
 *Needs:* *analytification-of-modules*, *analytification-fibre-products* (AdicSpacesPartII layer R1);
-`AdicSpace.doubleComplex_edges_homology_equiv` (R3), applied to a sheaf resolution on the rational basis; Mathlib `SheafOfModules.pullback`; Tau Ceti
+DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows` and its transpose, applied to a sheaf resolution on the rational basis; Mathlib `SheafOfModules.pullback`; Tau Ceti
 `AlgebraicGeometry.Scheme.Modules.Cohomology`.
 
 **Checks.**
@@ -11188,7 +11178,7 @@ and *projective-bundles-ample-serre* (layer F0); the analytic computation is new
 Tate affinoids it is applied only to the twists `𝒪(m)^an`, which are coherent as line bundles);
 *tate-acyclicity-finite-modules*;
 *analytic-projective-space-proper* (AdicSpacesPartII layer R1); *projective-bundles-ample-serre* (layer F0);
-SchemeAndStackFoundations Layer 2 (§2.6, `projectiveSpace_cohomology`); `AdicSpace.doubleComplex_edges_homology_equiv` (R3), applied to a sheaf resolution on the rational basis; Tau Ceti `AlgebraicGeometry.Scheme.Modules.Cohomology`.
+SchemeAndStackFoundations Layer 2 (§2.6, `projectiveSpace_cohomology`); DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows` and its transpose, applied to a sheaf resolution on the rational basis; Tau Ceti `AlgebraicGeometry.Scheme.Modules.Cohomology`.
 
 **Checks for projective bundles and twists.** Each Check carries the indicated name.
 
@@ -12357,11 +12347,12 @@ unramified, smooth and étale classes (*differentials-unramified-smooth-etale*),
 complete Tate rings), AdicSpacesPartII R1 (analytification of schemes and general module pullback, the rigid–adic comparison,
 properness and finiteness comparisons, analytic affine and projective spaces, analytic Kähler
 differentials), R3.1a's affinoid section comparison for analytified modules,
-DerivedModuleAlgebra §§1.T.1 and 1.1 (generic Mittag-Leffler tower calculus),
+DerivedModuleAlgebra §§1.T.1 and 1.1 (generic Mittag-Leffler tower calculus) and
+§S.1 (canonical double-complex comparisons),
 and F0 (formal-module tower applications, the theorem on formal functions, Chow's lemma and
 dévissage) of this roadmap, and the structure sheaf, rational localisations, sheafiness,
 uniformity and the Buzzard–Verberkmoes theorem of the Foundations of adic spaces roadmap
-(AdicSpaces), layers 0.2, 3.1, 3.4, 3.5, 4.1, 4.2, 5 and 5.2; `AdicSpace.doubleComplex_edges_homology_equiv` (R3), applied to a sheaf resolution on the rational basis; SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`; §2.19, §2.21, `trace`);
+(AdicSpaces), layers 0.2, 3.1, 3.4, 3.5, 4.1, 4.2, 5 and 5.2; DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows` and its transpose, applied to a sheaf resolution on the rational basis; SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`; §2.19, §2.21, `trace`);
 *chow-lemma-devissage* and *projective-bundles-ample-serre* (layer F0: Chow's lemma, dévissage
 and the formal adapters for StableReduction Layer 2's projective bundles).
 R3.7a then supplies analytic Hilbert/Hom comparisons, Artinian GAGA, local algebraicity,

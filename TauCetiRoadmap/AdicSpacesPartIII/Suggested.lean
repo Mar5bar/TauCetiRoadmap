@@ -56,6 +56,12 @@ R3.7a supplies the README-only analytic genus-one projective embedding
 (*rigid-generalised-elliptic-local-algebraicity*). These follow R3.6–R3.7 and provide
 *rigid-generalised-elliptic-level-classification* and *hasse-loci-admissible-opens*.
 R2 retains algebraic moduli and the formal Hasse-section domains.
+R2.11's README-only full level over `ℤ[1/N]` is a commutative group-scheme isomorphism
+`((ℤ/N)²)_S ≅ E^sm[N]` meeting every geometric component. Its labels preserve zero and
+addition; the cyclic Drinfeld divisor condition is specified there.
+R3's Čech applications use DerivedModuleAlgebra §S.1's
+`DoubleComplex.totalCohomology_of_exact_rows`, its transpose and canonical edge naturality,
+with total differential `d′ + (−1)^p d″`.
 F0's ordinary projective-bundle, tensor-power and ampleness interfaces are supplied by
 StableReduction Layer 2; F0 supplies their formal-thickening adapters.
 F0 uses the generic tower calculus and Mittag-Leffler criteria of
