@@ -840,6 +840,9 @@ choice of representative, with restriction and arbitrary-base-change compatibili
   `WeakPolarization`, `Morikawa`.
 * **Coherent and intersection-theoretic carriers**: `relativeInvariantForms`,
   `ampleCohomologyAndDegree`, `ampleIntersectionPositive`, `AbelianHodgeLine`.
+  In A2.4, on an elliptic curve, `h⁰(O(d·0)) = d` assumes `d > 0`; it is `1` at `d = 0`
+  and `0` for `d < 0`. The formulas `χ(O(d·0)) = d` and `deg φ = d²` hold for every integer
+  `d`, with degree zero for a non-isogeny.
 * **Finite flat quotients and level structures**: `AbelianQuotient`, `torsionDivisibility`,
   `FullLevel`, `genusTwoTwoTorsion`, `homDescentFullLevel`.
 * **Abelian torsion, Tate modules and algebraic trace** (A3.2, A4.1, A6.10–A6.11): `AbelianTate`,
@@ -859,9 +862,23 @@ choice of representative, with restriction and arbitrary-base-change compatibili
   The normalized constant tower has uniform cohomological and Tor bounds, so the integral
   realization is compared with the derived finite-level limit and all derived reductions.
 * **De Rham, divided-power and Barsotti–Tate carriers**: `AbelianVectorExtension`, `AbelianH1dR`,
-  `BarsottiTate`, `AbelianPD`, `grothendieckMessing`, `polarizedEffectivity`, `serreTate`,
-  `SerreTate.q`, `ordinaryFrobeniusWeighted`, `oddPrimeLifting`, `dyadicOrdinaryLifting`,
+  `BarsottiTate`, `TruncatedBT`, `AbelianPD`, `grothendieckMessing`, `polarizedEffectivity`, `serreTate`,
+  `SerreTate.q`, `ordinaryFrobeniusWeighted`, `polarizedTruncationLifting`, `oddPrimeLifting`, `dyadicOrdinaryLifting`,
   `genusTwoJacobianLifting`, `polarizedFormalAlgebraization`, `genusTwoFormalEffectivity`.
+  A4.5a owns `TruncatedBT S p n` for prime `p` and `n ≥ 1`: finite locally free commutative
+  groups killed by `p^n`, flat as fppf `ℤ/p^n`-module sheaves, with the additional Frobenius–
+  Verschiebung exactness on `V(p)` at level one. Its API is `TruncatedBT.height`,
+  `TruncatedBT.baseChange`, `TruncatedBT.cartierDual`, `TruncatedBT.restrict` and
+  `BarsottiTate.truncation` with values in this carrier. This is also the carrier used by
+  FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.10; its coLie recognition and generic
+  stack and truncation smoothness are downstream extensions.
+  In A4.12, `p > 2`, `O` is the ring of integers of a finite extension of `ℚ_p` with residue
+  field `k`, `A₀/k` is a principally polarized abelian surface, and `G₁` is a principally
+  quasi-polarized `TruncatedBT (Spec O) p 1` of height four with compatible
+  `G₁_k ≅ A₀[p]`. The theorem `polarizedTruncationLifting` supplies a principally
+  quasi-polarized full tower `H/O` with `H_k ≅ A₀[p^∞]` and `H[p] ≅ G₁`, whose markings
+  and quasi-polarizations agree over `k`. It uses A4.CR.7.2's deformation theory;
+  `oddPrimeLifting` then applies Serre–Tate and polarized effectivity to obtain `A/O`.
 * **Crystalline Dieudonné theory** (A4.CR.7.2): the contravariant crystalline Dieudonné
   crystal of a Barsotti–Tate group, Dieudonné variance and Tate twists, and Grothendieck–Messing
   deformation theory. The APIs `LogCrystalline.dieudonneEvaluation.evaluate`,

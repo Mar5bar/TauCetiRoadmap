@@ -54,8 +54,9 @@ subgroups; dual isogenies with Cartier-dual kernels and Weil pairings; theta gro
 descent; polarized Weil pairings; full level structures; the Rosati involution; the effective
 divisor criterion; principal quotients; the genus-two 2-torsion model. The integral
 prime-to-characteristic Tate module; the universal vector extension; relative `H¹_dR` with its Hodge
-sequence and Gauss–Manin connection; the exterior structure of all cohomology; Barsotti–Tate groups
-of arbitrary height over arbitrary bases; their contravariant crystalline Dieudonné crystals,
+sequence and Gauss–Manin connection; the exterior structure of all cohomology; full and truncated
+Barsotti–Tate groups of arbitrary height over arbitrary bases, with truncation, restriction and
+Cartier duality; their contravariant crystalline Dieudonné crystals for full groups,
 Frobenius and Verschiebung, Cartier duality with Tate twist −1, and Grothendieck–Messing deformation
 theory over locally PD-nilpotent thickenings; the degree-one divided-power realization;
 Grothendieck–Messing and Serre–Tate for abelian schemes with structures; ordinary Serre–Tate
@@ -220,7 +221,7 @@ arithmetic toroidal compactifications belong to ShimuraCompactifications. The ge
 classification of finite flat group schemes and `p`-divisible groups belongs to
 FiniteFlatGroupsAndIntegralPadicHodgeTheory;
 the crystalline site and general crystalline coefficient calculus belong to CrystallineCohomology.
-The Barsotti–Tate interface, contravariant Dieudonné crystal, its variance and twists, and
+The full and truncated Barsotti–Tate interfaces, contravariant Dieudonné crystal, its variance and twists, and
 Grothendieck–Messing deformation theory are A4.5–A4.7 and A4.CR.7.2 here.
 General Galois representations and their local properties (ArithmeticGaloisRepresentations):
 only the Tate local system of an abelian scheme and the finite-index induction comparison for Weil
@@ -551,6 +552,11 @@ over a field and exports the coefficient, twisting, restriction and Hodge-line c
 layer ends with its examples and its dependencies. Within A6 the subsections are in dependency
 order: faithfulness and complete reducibility come before finiteness of Hom, which comes before the
 characteristic polynomial, which comes before positivity.
+Within A4, the full tower (A4.5) precedes the truncated-group interface (A4.5a).
+Crystalline Dieudonné and Grothendieck–Messing theory (A4.CR.7.2), Serre–Tate (A4.9) and
+polarized effectivity (A4.8) precede the compatible polarized tower lifting and abelian-surface
+application (A4.12). Generic truncated-group stack and truncation smoothness are downstream
+targets of FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.23.
 
 <a id="a0"></a>
 
@@ -962,12 +968,20 @@ with a multiplier prime to the characteristic, its trace, and Serre vanishing; t
 `deg φ_L = χ(L)²` computes the Euler characteristic of the Mumford bundle `(id × φ_L)^*P` in two
 ways, by the projection formula for the finite map `id × φ_L` (counting inseparable kernel length)
 and `χ(P) = (−1)^g`, and by Künneth after the shear `(x, y) ↦ (x, x + y)`; the family statements use coherent base change and the projection formula
-(Milne 2022, Theorem 13.3, p. 25; Faltings–Chai I.1.6, p. 4; Conrad–Feng, Theorem 7.2.1, p. 63, for
-`χ(P) = (−1)^g`, and §7.5, pp. 71–72). For `O(d·0)` on an elliptic curve `h⁰ = d` and `deg φ = d²`;
-on `E²` with the product of degrees `1` and `2`, `h⁰ = 2`, the top self-intersection is `4`, and
+(Milne 2022, Theorem 13.3 and Exercise 13.4, p. 25; Faltings–Chai I.1.6, p. 4; Conrad–Feng, Theorem 7.2.1, p. 63, for
+`χ(P) = (−1)^g`, and §7.5, pp. 71–72). For every integer `d`, `O(d·0)` on an elliptic curve has
+`χ = d` and `deg φ = d²`; for `d > 0`, it has `h⁰ = d`.
+On `E²` with the product of degrees `1` and `2`, `h⁰ = 2`, the top self-intersection is `4`, and
 `deg φ_L = 4`: `φ_L` is a polarization of degree `d = 2` in the sense of A2.5. *Needs:* A1.3,
 A2.3; SchemeAndStackFoundations Layer 5 §5.8 (`grothendieck_riemann_roch`), §5.3 (`Chow.c1`);
 AlgebraicModuli Layer 1; EnhancedDerivedSheaves E1.9 (`perfect_proper_pushforward`).
+
+**Checks.**
+
+- On an elliptic curve, `O(0)` has `h⁰ = χ = 1` and its Mumford map has degree one.
+- At `d = 0`, `O(d·0) = O_E` has `H⁰(E, O_E) = k`, hence `h⁰ = 1`, while `χ = 0` and
+  the zero Mumford map has extended degree zero.
+- For `d < 0`, `O(d·0)` has no nonzero section, so `h⁰ = 0`, while `χ = d` and `deg φ = d²`.
 
 ### A2.5 Polarizations
 
@@ -1127,8 +1141,10 @@ Layer E.
 
 ### Examples
 
-For `E` elliptic with the principal polarization `λ`: `φ_{O(d·0)} = [d] ∘ λ`, `deg = d²`, and
-`h⁰(O(d·0)) = d`; the graph bundle of `λ` is `O(2·0)` up to translation by a `2`-torsion point. For
+For `E` elliptic with the principal polarization `λ` and every integer `d`:
+`φ_{O(d·0)} = [d] ∘ λ`, `χ(O(d·0)) = d` and `deg φ = d²`.
+For `d > 0`, `h⁰(O(d·0)) = d`; at `d = 0` it is `1`, and for `d < 0` it is `0`.
+The graph bundle of `λ` is `O(2·0)` up to translation by a `2`-torsion point. For
 `A = E × E′` with the product polarization, `(A)^∨ = E^∨ × E′^∨` and the product polarization is
 principal. For a type-`(1, 2)` polarization of an abelian surface, `deg λ = 4` and `h⁰(L) = 2`.
 
@@ -1757,7 +1773,7 @@ is the elliptic case), `BarsottiTate.truncation` (`G[p^r] = G_r`, of rank `p^{rh
 henselian local base whose connected parts are finite flat at every level, the connected–étale
 sequence of ModularCurves 7E PD-2 applied levelwise; not asserted over arbitrary bases) (Katz,
 *Serre–Tate local moduli*, §§1.1–1.2, pp. 139–146; Faltings–Chai I.3, pp. 14–15). The general theory
-of `p`-divisible groups beyond this interface belongs to FiniteFlatGroupsAndIntegralPadicHodgeTheory,
+of `p`-divisible groups beyond the interfaces of A4.5–A4.5a belongs to FiniteFlatGroupsAndIntegralPadicHodgeTheory,
 which imports it. *Needs:* A3.2, A3.5; ModularCurves 0B, 7E.
 
 **Checks.**
@@ -1769,6 +1785,40 @@ which imports it. *Needs:* A3.2, A3.5; ModularCurves 0B, 7E.
 - `BarsottiTate.zero`: dimension zero gives height zero and trivial levels.
 - `BarsottiTate.finite_dual`: the dual of `μ_{p^r}` is `ℤ/p^r`, agreeing with Cartier duality of
   ModularCurves 0B.
+
+### A4.5a Truncated Barsotti–Tate groups
+
+Define `TruncatedBT S p n` for a scheme `S`, a prime `p` and `n ≥ 1`. Its objects are finite
+locally free commutative group schemes `G/S` killed by `p^n`, flat as fppf sheaves of
+`ℤ/p^n`-modules: `im[p^{n−i}] = ker[p^i]` for `0 ≤ i ≤ n`. At `n = 1` also require exactness of
+`G₀ →F G₀^{(p)} →V G₀` over `S₀ = V(p)`. Use relative scheme Frobenius, upgraded by naturality
+to a group homomorphism, and define Verschiebung by Cartier dualizing Frobenius of the dual;
+prove their base-change laws and `VF = [p] = FV`. Morphisms are group homomorphisms.
+The locally constant height `h = TruncatedBT.height G` is determined by `rk G[p] = p^h`, and
+`rk G = p^{nh}`. Provide `TruncatedBT.baseChange`, effective fppf descent,
+`TruncatedBT.cartierDual` with biduality, and `TruncatedBT.restrict` to `G[p^m]` for
+`1 ≤ m ≤ n`, preserving height. Upgrade `BarsottiTate.truncation` of A4.5 to this carrier,
+compatibly with base change, restriction and Cartier duality (Anschütz–Le Bras, §4.6,
+paragraph after Proposition 4.6.2 and facts (1)–(3), pp. 58–59, recalling Illusie's
+Definition 1.1 and §§1.3(e)–(f), 1.6).
+
+This is the shared input carrier for A4.12 and for
+FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.10. That roadmap adds exact-sequence and
+coLie recognition results in R07.1.10–R07.1.11 and generic stack and truncation smoothness in
+R07.2.23. A4.12 owns compatible mixed-characteristic polarized tower lifting with a prescribed
+level-one group; its construction uses A4.CR.7.2's deformation theory.
+*Needs:* A4.5; ModularCurves 0B, 0E; SchemeAndStackFoundations §0.29
+(`SchemeFrobenius.relativeFrobenius`, `SchemeFrobenius.schemeFrobeniusTwist`).
+
+**Checks.**
+
+- `μ_{p^n}` and `(ℤ/p^n)_S` have height one and are Cartier dual; restriction to level `m`
+  gives `μ_{p^m}` and `(ℤ/p^m)_S`.
+- Over `𝔽_p`, `α_p` has `F = V = 0`, so `im F = 0` and `ker V = α_p`; it is excluded at level one.
+- `(ℤ/p ⊕ ℤ/p²)_S` over a field is killed by `p²` but fails the level-two flatness condition:
+  `ker[p]` has order `p²` and `im[p]` has order `p`.
+- For an elliptic curve `E/S`, `E[p^n]` has height two and rank `p^{2n}` and is the truncation
+  of A4.5's tower, with the Cartier duality of ModularCurves 2E.
 
 ### A4.6 The degree-one divided-power realization
 
@@ -2048,17 +2098,39 @@ parameters for a surface. *Needs:* A3.3, A4.10.
 
 Prove `oddPrimeLifting`. Let `p > 2`, `O` the ring of integers of a finite extension of `ℚ_p` with residue
 field `k`, and `A₀` a principally polarized abelian surface over `k`. Let `G₁` over `O` be a
-principally quasi-polarized truncated Barsotti–Tate group of level one (finite flat, killed by `p`, of
-order `p⁴`) together with a compatible identification `G_{1,k} ≅ A₀[p]`. Then there is a principally
+principally quasi-polarized object of `TruncatedBT (Spec O) p 1` (A4.5a), of height four and
+order `p⁴`, together with a compatible identification `G_{1,k} ≅ A₀[p]`. Here a principal
+quasi-polarization is a Cartier self-duality `λ₁` satisfying `λ₁^∨ = −λ₁`; the pairing is
+strongly alternating since `p > 2`. Then there is a principally
 polarized abelian scheme `A/O` lifting `A₀` with `A[p] ≅ G₁` compatibly with the given identifications.
 The finite group has order `p⁴`, not rank four. The level-one truncated Barsotti–Tate structure and its
 polarization compatibility are hypotheses; an arbitrary self-dual finite flat group killed by `p` is
-not asserted to lift. The proof lifts `G₁` to a principally quasi-polarized Barsotti–Tate group over
-`O` by the truncated polarized lifting theorem, applies A4.9 at every nilpotent level and then A4.8
+not asserted to lift.
+
+Prove `polarizedTruncationLifting` under these same hypotheses: there is a principally
+quasi-polarized Barsotti–Tate group `H/O` with identifications `H_k ≅ A₀[p^∞]` and
+`H[p] ≅ G₁`, preserving quasi-polarizations and agreeing over `k` at level one.
+Thus the theorem extends the prescribed finite group over `O` and the prescribed full tower
+over `k` simultaneously. Its compatible higher levels use A4.5a and the polarized
+Grothendieck–Messing deformation theory of A4.CR.7.2. The proof of `oddPrimeLifting` applies
+A4.9 to this tower at every nilpotent level and then A4.8
 (Boxer–Calegari–Gee–Pilloni, Lemma 9.3.4 and its proof, pp. 200–202, which use Wedhorn's lifting
-theorem (2.17) for the truncated group). Wedhorn's theorem, with the precise finite-level criterion
-and the extension to a polarized Barsotti–Tate group, is not in the cited source and is part of this
-target. *Needs:* A4.5, A4.8, A4.9.
+theorem (2.17) for the truncated group). The compatible polarized lifting assertion over `O` is
+the target `polarizedTruncationLifting` here. The generic unpolarized stack smoothness and
+truncation smoothness of FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.23, and its
+quasi-polarized level-one smoothness over `𝔽_p`, have that roadmap as their owner.
+*Needs:* A4.5, A4.5a, A4.CR.7.2, A4.8, A4.9.
+
+**Checks.**
+
+- If `G₁ = A[p]` for an existing principally polarized abelian surface `A/O`, then
+  `H = A[p^∞]` supplies both compatible identifications, including the prescribed polarization.
+- For a product of ordinary elliptic curves over `O`, its product principal polarization gives
+  height four and order `p⁴` at level one; the ordinary surface has three polarized
+  Serre–Tate parameters, as in A4.10.
+- At `p = 2`, `α₂` with pairing `1 + xy` is skew self-dual but not strongly alternating (A3.6).
+  It lies outside this theorem; level-one smoothness over `𝔽_p` alone does not supply a
+  compatible polarized tower over `O`.
 
 ### A4.13 Ordinary dyadic finite-level lifting
 
@@ -3409,7 +3481,8 @@ semisimplicity and `p`-adic libraries.
   coefficient Hom, localized isogeny categories, weak polarizations and torsor twists (A6.22–A6.29) and the
   Hodge line bundle (A6.38).
 - **FiniteFlatGroupsAndIntegralPadicHodgeTheory** imports the Barsotti–Tate
-  interface (A4.5), the degree-one divided-power realization (A4.6), and the contravariant
+  interface (A4.5), the shared `TruncatedBT` carrier with its basic operations (A4.5a),
+  the degree-one divided-power realization (A4.6), and the contravariant
   Dieudonné crystal, variance, twists and Grothendieck–Messing equivalence (A4.CR.7.2); **IgusaVarietiesAndTorsionConcentration**
   and **HodgeTateAndCanonicalSubgroups** use the ordinary Serre–Tate coordinates and the canonical
   Frobenius (A4.10–A4.11).
