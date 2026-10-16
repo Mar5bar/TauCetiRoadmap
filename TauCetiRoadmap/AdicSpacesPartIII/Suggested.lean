@@ -49,6 +49,18 @@ surjections; Part III supplies their affinoid adapters, the strict predicate, cl
 and restriction theorems, and the series criterion. R3.6 also transports
 PadicFunctionalAnalysis §2.4's countable-type splitting to Part II's completed tensor and
 RigidAnalyticGeometry §7.5's formal functions to adic coherent cohomology.
+R3.7a supplies the README-only analytic genus-one projective embedding
+(*rigid-genus-one-projective-embedding*), projective Hilbert/Hom comparison
+(*rigid-projective-hilbert-hom*), Artinian genus-one GAGA
+(*rigid-artinian-genus-one-gaga*) and local algebraicity preserving group, action and level
+(*rigid-generalised-elliptic-local-algebraicity*). These follow R3.6–R3.7 and provide
+*rigid-generalised-elliptic-level-classification* and *hasse-loci-admissible-opens*.
+R2 retains algebraic moduli and the formal Hasse-section domains.
+F0's ordinary projective-bundle, tensor-power and ampleness interfaces are supplied by
+StableReduction Layer 2; F0 supplies their formal-thickening adapters.
+The README-only coefficient-ideal fibre test requires the extended ideal to be zero on
+the fibre, including nonreduced fibres; its dual-number Check separates this from point sets.
+
 The general-Tate small-perturbation theorem
 (*surjection-small-perturbation*) is also a README target.
 
