@@ -24,7 +24,7 @@ The shared arithmetic-cohomology interfaces have the following ownership. Each c
 
 | Interface | Supplier | Modular specialization and retained work |
 | --- | --- | --- |
-| Betti coefficients and supported complexes | [ArithmeticLocallySymmetricSpaces](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces) ALS.1.1–ALS.1.8 | §§14.1–14.4 compare the chosen GL₂/ℚ component with Γ\ℍ. Use the dual of the fibre homology representation for R¹f_* and Sym^r thereof. Match the row-frame convention with ALS.1.1’s whole-inverse endpoint transport. §14.4a supplies the boundary-compatible finite CW pair and uses ALS.F.3/ALS.1.4 only with finite coefficients; O-adic complexes are derived limits of those finite complexes, and K-complexes are their scalar extensions. The elliptic-family construction and finite étale comparison stay here. |
+| Betti coefficients and supported complexes | [ArithmeticLocallySymmetricSpaces](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces) ALS.1.1–ALS.1.8 | §§14.1–14.4 compare the chosen GL₂/ℚ component with `Γ \ ℍ`. Use the dual of the fibre homology representation for R¹f_* and Sym^r thereof. Match the row-frame convention with ALS.1.1’s whole-inverse endpoint transport. §14.4a supplies the boundary-compatible finite CW pair and uses ALS.F.3/ALS.1.4 only with finite coefficients; O-adic complexes are derived limits of those finite complexes, and K-complexes are their scalar extensions. The elliptic-family construction and finite étale comparison stay here. |
 | Hecke and boundary/support maps | ALS.3.5–ALS.3.9 and ALS.4.1 | §§14.3–14.4 and 14.8 identify pullback/trace with the actual modular isogeny correspondence and the support map. In weight two this is unnormalized curve trace; higher weights retain §14.8’s coefficient transport. Cusp inertia and the weight-two Eisenstein calculation of §14.9 stay here. |
 | Coefficient duality and adjoint ideals | ALS.5a.3–ALS.5a.5 | §14.11 uses §14.4a’s finite-pair and derived-limit construction to identify evaluation/trace with the elliptic coefficient cup pairing, including twists; inverse double cosets become reversed modular legs and transposed coefficient maps. The duality projector is at m†, with inverse diamonds at r=0. The Fricke pairing of §14.7 is a separate transport. |
 | Finite-cover descent | ALS.6.1–ALS.6.3, using AlgebraicTopology Stage 5 | §§17.8–17.10 identify descent and augmentation for the actual Δ_Q-cover. The principal-level Ihara argument, conjugation minus complex, retained auxiliary level and selected-root Taylor–Wiles geometry stay here. |
@@ -42,7 +42,7 @@ These conventions apply throughout. The letters Z, Q, C and H in formulas denote
 
 **Frames and the row action.** A frame of E[n] is an ordered basis (P,Q). A matrix γ=[[a,b],[c,d]] acts on the right by (P,Q)γ=(aP+cQ, bP+dQ), as in ModularCurves. Then Γ₁(N)={a≡1, c≡0} fixes P, Γ₀(N)={c≡0} fixes the line through P, and Γ₁^μ(N)={c≡0, d≡1} records an embedding μ_N→E[N]. On the upper half-plane ℍ the same action is τ·γ=(dτ+b)/(cτ+a) with fibre map z↦z/(a+cτ); in the usual left-action notation τ↦(ατ+β)/(γτ+δ) the corresponding label matrix is [[δ,β],[γ,α]]. A row action of determinant r sends a pairing value ζ to ζ^r, and the diamond action on Γ₁ is P↦aP.
 
-**Weil pairing.** The pairing is Tau Ceti's e_N(S,T)=τ_S^*g_T/g_T (Silverman III.8). On ℂ/(ℤ+ℤτ) with τ∈ℍ, e_N(τ/N,1/N)=ζ_N=e^{2πi/N} and e_N(1/N,τ/N)=ζ_N⁻¹. The open uniformization of a fixed-pairing curve is Γ(N)\ℍ→Y(N,ζ_N), τ↦(ℂ/Λ_τ,(τ/N,1/N)). Complex conjugation inverts pairing values.
+**Weil pairing.** The pairing is Tau Ceti's e_N(S,T)=τ_S^*g_T/g_T (Silverman III.8). On ℂ/(ℤ+ℤτ) with τ∈ℍ, e_N(τ/N,1/N)=ζ_N=e^{2πi/N} and e_N(1/N,τ/N)=ζ_N⁻¹. The open uniformization of a fixed-pairing curve is `Γ(N) \ ℍ → Y(N,ζ_N)`, τ↦(ℂ/Λ_τ,(τ/N,1/N)). Complex conjugation inverts pairing values.
 
 **Moduli problems are not interchangeable.** Strict full ordered level (Xfull(N), Y_full(N)), a fixed Weil-pairing fibre (X(N,ζ), Y(N,ζ)), projective frames modulo scalars, the point-of-exact-order problem (X₁(N), whose objects are pairs (E,P)), the naive cyclic problem X₀(N)^naive and Česnavičius's refined X₀(N), and the mixed problems Γ₁(N;n) and Γ₁(N)∩Γ₀(p) are different moduli problems. Full level carries its cyclotomic determinant algebra and is not geometrically connected; a fixed pairing selects one component over ℤ[ζ_N]. The naive and refined Γ₀ stacks have the same coarse curve but are different stacks for N not squarefree. Γ₀ always has generic inertia {±1}.
 
@@ -84,7 +84,7 @@ The representative signatures use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b4
 - `TauCeti.Subgroup.integerCuspWidth` (`TauCeti/NumberTheory/ModularForms/Cusps/Basic.lean`): For a subgroup 𝒢 of GL₂(ℝ), the least positive n with [[1,n],[0,1]]∈𝒢, or zero if none; positivity needs finite relative index in SL₂(Z). It is the strict width at ∞ of 𝒢 itself (−1 is not adjoined); other cusps σ∞ use σ⁻¹𝒢σ, and at an irregular cusp it is twice the effective PSL₂ width.
 - `TauCeti.AlgebraicGeometry.irreducibleSpace_of_connected_of_isDomain_stalk` (`TauCeti/AlgebraicGeometry/IrreducibleOfConnectedDomainStalk.lean`): A locally Noetherian connected scheme with all stalks domains is irreducible.
 - `HeckeRing.GL2.qExpansion_coeff_one_heckeRingHomCharSpace_heckeTCompositeGamma0` (`TauCeti/NumberTheory/ModularForms/HeckeSlash/Nebentypus/Composite.lean`): For [NeZero N], a character χ of (Z/N)^× and n≠0, a₁(T_n F)=a_n(F) for F in the χ-part of M_k(Γ₁(N)) (width-one q-expansion); trivial χ is the Γ₀(N) case. T_n is the native composite operator, bad-prime blocks included; no coprimality hypothesis.
-- `HeckeRing.GL2.heckeT_mul_of_coprime` (`TauCeti/NumberTheory/HeckeRing/GL2/Basic.lean`): For m,n:ℕ+ and Nat.Coprime(m:ℕ)(n:ℕ), HeckeRing.GL2.heckeT m \* HeckeRing.GL2.heckeT n = HeckeRing.GL2.heckeT (m\*n). This is the abstract full-subgroup integral GL₂ Hecke product, not the cyclic repeated-prime law.
+- `HeckeRing.GL2.heckeT_mul_of_coprime` (`TauCeti/NumberTheory/HeckeRing/GL2/Basic.lean`): For m,n:ℕ+ and Nat.Coprime(m:ℕ)(n:ℕ), `HeckeRing.GL2.heckeT m * HeckeRing.GL2.heckeT n = HeckeRing.GL2.heckeT (m*n)`. This is the abstract full-subgroup integral GL₂ Hecke product, not the cyclic repeated-prime law.
 - `AlgebraicGeometry.Flat` (`Mathlib/AlgebraicGeometry/Morphisms/Flat.lean`): Flat morphisms of schemes
 - `AlgebraicGeometry.IsFinite` (`Mathlib/AlgebraicGeometry/Morphisms/Finite.lean`): Finite morphisms of schemes
 - `AlgebraicGeometry.IsIntegralHom` (`Mathlib/AlgebraicGeometry/Morphisms/Integral.lean`): Integral morphisms of schemes
@@ -158,8 +158,8 @@ For a finite commutative ℓ-group Δ over a commutative local ring O with ℓ n
 ### NeronModelsAndSemistableAbelianVarieties
 
 - **`R11.1`**: Néron extension of generic Jacobian homomorphisms over a DVR when the modular coarse fibre is singular; do not claim abelian good reduction at level-dividing primes.
-- **`R11.3`**: Semistable integral Tate filtration at ℓ≠p: T_tor⊂T_f=T^{I_p}⊂T, toric term Hom(X\*(T),Z_ℓ(1)), finite quotient T_ℓ of the abelian reduction; keep saturation hypotheses.
-- **`R11.4`**: Comparison of the Néron identity fibre with Pic⁰ of a proper regular semistable curve, the thickness-weighted graph monodromy pairing and its component-group discriminant. Import the general theorem; this part supplies the modular component/branch data. Additional consuming contract: Generic graph identification X\*(T)=H₁(dual graph,Z), weighted monodromy into its Z-dual and component-group cokernel, retaining all node thicknesses and primary torsion.
+- **`R11.3`**: Semistable integral Tate filtration at ℓ≠p: T_tor⊂T_f=T^{I_p}⊂T, toric term `Hom(X*(T),Z_ℓ(1))`, finite quotient T_ℓ of the abelian reduction; keep saturation hypotheses.
+- **`R11.4`**: Comparison of the Néron identity fibre with Pic⁰ of a proper regular semistable curve, the thickness-weighted graph monodromy pairing and its component-group discriminant. Import the general theorem; this part supplies the modular component/branch data. Additional consuming contract: Generic graph identification `X*(T)=H₁(dual graph,Z)`, weighted monodromy into its Z-dual and component-group cokernel, retaining all node thicknesses and primary torsion.
 - **`R11.6`**: Generic Néron extension and contravariant maps on characters; exact character sequences only when an exact sequence of reduction tori is given. This does not prove exactness for an arbitrary old/new modular isogeny.
 - **5.1**: The Néron–Ogg–Shafarevich criterion and the isogeny invariance of good reduction, used for the modular quotients of §16.2.
 
@@ -478,7 +478,7 @@ The theorem is `invariantDifferentialsAndPeriods`.
 
 ### 1.4a Sigma, quasi-periods and the oriented Legendre relation
 
-**Lattice sigma function.** For a native `PeriodPair` L with lattice Λ, construct `latticeSigma` by the canonical product σ(z)=z∏_{λ∈Λ\{0}}(1−z/λ)exp(z/λ+z²/(2λ²)). Prove normal convergence, entire oddness, σ′(0)=1 and simple zeros exactly at Λ. Its logarithmic derivative is meromorphic and its negative derivative agrees with the native ℘ off Λ.
+**Lattice sigma function.** For a native `PeriodPair` L with lattice Λ, construct `latticeSigma` by the canonical product `σ(z)=z∏_{λ∈Λ ∖ {0}}(1−z/λ)exp(z/λ+z²/(2λ²))`. Prove normal convergence, entire oddness, σ′(0)=1 and simple zeros exactly at Λ. Its logarithmic derivative is meromorphic and its negative derivative agrees with the native ℘ off Λ.
 
 **Checks.**
 
@@ -634,7 +634,7 @@ The theorem is `neronPolygonAutomorphisms`.
 
 ### 2.4 The degeneration scheme and polygon strata
 
-For a generalized elliptic curve E/S define Eˢⁱⁿᵍ by Fitt₁(Ω¹_E/S) and define S∞ as its schematic image in S. Formation of these closed subschemes commutes with arbitrary base change. The degeneration scheme decomposes into open and closed strata S∞_m on which the geometric fibres are m-gons; Eˢⁱⁿᵍ→S∞_m is finite étale of degree m. Over S∞_m the curve is fppf locally the split m-gon, including when S∞_m is nonreduced. The complement S\S∞ is the largest open elliptic locus.
+For a generalized elliptic curve E/S define Eˢⁱⁿᵍ by Fitt₁(Ω¹_E/S) and define S∞ as its schematic image in S. Formation of these closed subschemes commutes with arbitrary base change. The degeneration scheme decomposes into open and closed strata S∞_m on which the geometric fibres are m-gons; Eˢⁱⁿᵍ→S∞_m is finite étale of degree m. Over S∞_m the curve is fppf locally the split m-gon, including when S∞_m is nonreduced. The complement `S ∖ S∞` is the largest open elliptic locus.
 
 The statement is about schematic degeneration, not just its reduced support.
 
@@ -1333,7 +1333,7 @@ The public interface should expose:
 
 ### 3.14 Open modular uniformization with the specified level
 
-The marked torus family induces an isomorphism from the supplied analytic quotient curve to the analytification of the imported algebraic open modular curve: Γ(N)\H→Y(N,ζ_N)^an for a fixed pairing, through τ↦(C/Λ_τ,(τ/N,1/N)) (the frame (1/N,τ/N) of the marked family has pairing ζ_N⁻¹ and lands in Y(N,ζ_N⁻¹)), Γ₁(N)\H→Y₁(N)^an, and Γ₀(N)\H→Y₀(N)^an. Interpret the first as a fine curve for N≥3 and the second for N≥4; at smaller levels and for Γ₀ use the coarse quotient with its stabilizer charts. Strict full ordered level is the disjoint union of φ(N) pairing components over C, with one such quotient for each primitive pairing value. These isomorphisms identify the corresponding local families on rigidified charts.
+The marked torus family induces an isomorphism from the supplied analytic quotient curve to the analytification of the imported algebraic open modular curve: `Γ(N) \ H → Y(N,ζ_N)^an` for a fixed pairing, through τ↦(C/Λ_τ,(τ/N,1/N)) (the frame (1/N,τ/N) of the marked family has pairing ζ_N⁻¹ and lands in Y(N,ζ_N⁻¹)), `Γ₁(N) \ H → Y₁(N)^an`, and `Γ₀(N) \ H → Y₀(N)^an`. Interpret the first as a fine curve for N≥3 and the second for N≥4; at smaller levels and for Γ₀ use the coarse quotient with its stabilizer charts. Strict full ordered level is the disjoint union of φ(N) pairing components over C, with one such quotient for each primitive pairing value. These isomorphisms identify the corresponding local families on rigidified charts.
 
 N≥1 and the base is C. Full ordered level, a fixed pairing and a projective frame are three separate moduli problems.
 
@@ -1347,7 +1347,7 @@ The theorem is `openLevelUniformization`.
 
 **Checks.**
 
-- For N=2 the coarse full-level curve is A¹_C\{0,1}; its level stack retains [−1].
+- For N=2 the coarse full-level curve is `A¹_C ∖ {0,1}`; its level stack retains [−1].
 - For N≥3 the fixed-pairing curve is connected; the unrestricted full curve has φ(N) components.
 - Every local inverse preserves the analytic structure sheaf.
 
@@ -1518,7 +1518,7 @@ The theorem is `levelMapAndDiamondComparison`.
 
 ### 4.6 Small-level stabilizers and coarse quotients
 
-Over C, a strict ordered full N-frame has no pointed automorphisms for N≥3; a point of exact order N has no pointed automorphisms for N≥4 on the open curve. At N=1 the elliptic stabilizers are generically μ₂, with μ₄ and μ₆ at the special j-values; at strict full N=2 the labels leave only μ₂. Γ₀ retains [−1] generically at every N and may have larger elliptic stabilizers. A scalar-equivalence class of a full frame retains [−1] when N>2. The analytic coarse local chart at a point is U/Aut(E,level), using a finite local chart U; the global infinite-group projection H→Γ\H is not a finite map.
+Over C, a strict ordered full N-frame has no pointed automorphisms for N≥3; a point of exact order N has no pointed automorphisms for N≥4 on the open curve. At N=1 the elliptic stabilizers are generically μ₂, with μ₄ and μ₆ at the special j-values; at strict full N=2 the labels leave only μ₂. Γ₀ retains [−1] generically at every N and may have larger elliptic stabilizers. A scalar-equivalence class of a full frame retains [−1] when N>2. The analytic coarse local chart at a point is U/Aut(E,level), using a finite local chart U; the global infinite-group projection `H → Γ \ H` is not a finite map.
 
 The statements concern pointed automorphisms of the elliptic curve, not translations.
 
@@ -1619,7 +1619,7 @@ The public interface should expose:
 
 ### 4.10 Geometric connectedness of a fixed-pairing curve
 
-For N≥3 and a primitive pairing value ζ, the nonempty smooth affine curve Y(N,ζ) over Q(ζ) is geometrically connected and geometrically irreducible. After an embedding Q̄→C its analytification is Γ(N)\H and is connected. The algebraic connectedness assertion is invariant under the algebraically closed extension Q̄→C. The unrestricted full-level curve over C has exactly φ(N) geometrically irreducible components, indexed by primitive pairing values.
+For N≥3 and a primitive pairing value ζ, the nonempty smooth affine curve Y(N,ζ) over Q(ζ) is geometrically connected and geometrically irreducible. After an embedding Q̄→C its analytification is `Γ(N) \ H` and is connected. The algebraic connectedness assertion is invariant under the algebraically closed extension Q̄→C. The unrestricted full-level curve over C has exactly φ(N) geometrically irreducible components, indexed by primitive pairing values.
 
 Use the fixed-pairing fibre of MC5B, not all ordered bases.
 
@@ -1915,7 +1915,7 @@ For every open level subgroup H the coarse j-map X_H→ℙ¹_ℤ, induced from �
 
 H open; X_H the coarse space of 𝒳_H ([§5.2](#s5-2)).
 
-Establish this as follows. Finite locally free: [§5.2](#s5-2) (Česnavičius §6.1: X_H is normal and finite over X(1)=ℙ¹_ℤ, so locally free by EGA IV₂ 6.1.5). The rank is computed at a geometric point of 𝔸¹_ℚ with j≠0,1728: its preimages are the classes of level-H structures on one curve E modulo Aut(E)={±1}, i.e. the set {±1}\GL₂(ℤ/n)/H̄, of cardinality [GL₂(ℤ/n):±H̄]. The coarse space of the open substack Y_H is the preimage of 𝔸¹ because coarse formation commutes with flat (here open) base change on X_H. The pullback of the Cartier divisor ∞ along a flat morphism is Cartier, and finite locally free of the same rank over ∞≅Spec ℤ.
+Establish this as follows. Finite locally free: [§5.2](#s5-2) (Česnavičius §6.1: X_H is normal and finite over X(1)=ℙ¹_ℤ, so locally free by EGA IV₂ 6.1.5). The rank is computed at a geometric point of 𝔸¹_ℚ with j≠0,1728: its preimages are the classes of level-H structures on one curve E modulo Aut(E)={±1}, i.e. the set `{±1} \ GL₂(ℤ/n)/H̄`, of cardinality [GL₂(ℤ/n):±H̄]. The coarse space of the open substack Y_H is the preimage of 𝔸¹ because coarse formation commutes with flat (here open) base change on X_H. The pullback of the Cartier divisor ∞ along a flat morphism is Cartier, and finite locally free of the same rank over ∞≅Spec ℤ.
 
 **Checks.**
 
@@ -1930,7 +1930,7 @@ Establish this as follows. Finite locally free: [§5.2](#s5-2) (Česnavičius §
 
 ### 5.11 Cusps of X_H away from the level
 
-Let H be an open level subgroup, n with Γ(n)⊂H, and u=[[1,1],[0,1]]. Over every algebraically closed field k with char k∤n, the points of X_H^∞(k) are in bijection with the double cosets ⟨±u⟩\GL₂(ℤ/n)/H̄: the coset of g is the Tate curve over k((q^{1/n})) with the level structure φ₀gH̄, where φ₀=(ζ,q^{1/n}) for a fixed primitive n-th root of unity ζ, the monodromy q^{1/n}↦ζq^{1/n} acting by left multiplication by u and inversion by −I. The width of the cusp of g, equal to its ramification index over ∞ and to its multiplicity in X_H^∞, is the least w≥1 with u^w∈±gH̄g⁻¹, and after base change to a strictly henselian base the completed local ring of X_H at it is a power series ring in a parameter t with t^w equal to q times a unit. The reduced cusp scheme (X_H^∞)_red is finite étale over ℤ[1/n] of rank #(⟨±u⟩\GL₂(ℤ/n)/H̄), the sum of the widths is [GL₂(Ẑ):±H], and Gal(ℚ̄/ℚ) acts on the geometric cusps through Gal(ℚ(ζ_n)/ℚ)≅(ℤ/n)^×, the element d acting by left multiplication by [[d,0],[0,1]].
+Let H be an open level subgroup, n with Γ(n)⊂H, and u=[[1,1],[0,1]]. Over every algebraically closed field k with char k∤n, the points of X_H^∞(k) are in bijection with the double cosets `⟨±u⟩ \ GL₂(ℤ/n)/H̄`: the coset of g is the Tate curve over k((q^{1/n})) with the level structure φ₀gH̄, where φ₀=(ζ,q^{1/n}) for a fixed primitive n-th root of unity ζ, the monodromy q^{1/n}↦ζq^{1/n} acting by left multiplication by u and inversion by −I. The width of the cusp of g, equal to its ramification index over ∞ and to its multiplicity in X_H^∞, is the least w≥1 with u^w∈±gH̄g⁻¹, and after base change to a strictly henselian base the completed local ring of X_H at it is a power series ring in a parameter t with t^w equal to q times a unit. The reduced cusp scheme (X_H^∞)_red is finite étale over ℤ[1/n] of rank `#(⟨±u⟩ \ GL₂(ℤ/n)/H̄)`, the sum of the widths is [GL₂(Ẑ):±H], and Gal(ℚ̄/ℚ) acts on the geometric cusps through Gal(ℚ(ζ_n)/ℚ)≅(ℤ/n)^×, the element d acting by left multiplication by [[d,0],[0,1]].
 
 k algebraically closed of characteristic prime to n; the bad-characteristic cusps are Layers 3–5 and [§5.4](#s5-4).
 
@@ -2221,7 +2221,7 @@ Use Layer 0, Layer 2, Layers 3 and 4. External contracts: AlgebraicModuliForArit
 
 ### 6.1 Compact analytic–algebraic modular comparison
 
-Let X be the actual compact coarse modular curve supplied by the level-H construction in Layers 3 and 5 over a characteristic-zero component field, with open Y from Layers 3 and 4, and choose an embedding into C. The open comparison extends uniquely to an isomorphism X_C^an≅Γ\(H∪P¹(Q)), using the analytic compactification of MF10A. It identifies the algebraic boundary with the analytic cusps and respects pairing components. For prime N≥5 diamond quotients over Z[1/N], use the existing MC Layer 10 model on precisely that overlap. Other full, composite or bad-level constructions are the integral coarse construction of Layer 5 inputs.
+Let X be the actual compact coarse modular curve supplied by the level-H construction in Layers 3 and 5 over a characteristic-zero component field, with open Y from Layers 3 and 4, and choose an embedding into C. The open comparison extends uniquely to an isomorphism `X_C^an ≅ Γ \ (H∪P¹(Q))`, using the analytic compactification of MF10A. It identifies the algebraic boundary with the analytic cusps and respects pairing components. For prime N≥5 diamond quotients over Z[1/N], use the existing MC Layer 10 model on precisely that overlap. Other full, composite or bad-level constructions are the integral coarse construction of Layer 5 inputs.
 
 The compact algebraic curve is independently constructed, normal, projective and smooth on its characteristic-zero fibre.
 
@@ -2270,7 +2270,7 @@ The theorem is `cuspRamificationAndLevelMaps`.
 
 ### 6.3 Cusp fields and pairing components
 
-The compact comparison identifies the boundary labels supplied by the formal cusp charts of Layers 3–5 with the rational-cusp orbit set Γ\P¹(Q), including the determinant label of a full frame. A fixed full N-pairing component is defined over Q(ζ_N), and its geometric cusps split over that field. The unrestricted full curve carries all primitive pairing values and is not a single geometrically connected curve over C. Γ₀(N) has its canonical Q-model with both 0 and infinity rational; each other cusp field is obtained from the Galois action on its cyclotomic Tate-level label, rather than inferred from its complex point alone.
+The compact comparison identifies the boundary labels supplied by the formal cusp charts of Layers 3–5 with the rational-cusp orbit set `Γ \ P¹(Q)`, including the determinant label of a full frame. A fixed full N-pairing component is defined over Q(ζ_N), and its geometric cusps split over that field. The unrestricted full curve carries all primitive pairing values and is not a single geometrically connected curve over C. Γ₀(N) has its canonical Q-model with both 0 and infinity rational; each other cusp field is obtained from the Galois action on its cyclotomic Tate-level label, rather than inferred from its complex point alone.
 
 Statements about splitting apply to generic fibres, not arbitrary bad-level base change of coarse moduli.
 
@@ -2294,7 +2294,7 @@ The theorem is `cuspFieldsAndComponentLabels`.
 
 ### 6.4 The analytic comparison for a symplectic twist
 
-Let N≥3 and let V_ρ/Q be the imported rank-two finite étale Z/N-module scheme with perfect alternating Galois-equivariant pairing to μ_N. Let Y(ρ) be the MC5C symplectic-frame quotient, parametrizing pairing-preserving isomorphisms E[N]≅V_ρ. A symplectic frame after extension to a splitting field identifies Y(ρ) there with the corresponding single fixed-pairing curve. After embedding that field in C, this gives an isomorphism (Y(ρ)_C)^an≅Γ(N)\H. Changing the frame changes the identification by the corresponding SL₂ action and preserves the actual descent cocycle.
+Let N≥3 and let V_ρ/Q be the imported rank-two finite étale Z/N-module scheme with perfect alternating Galois-equivariant pairing to μ_N. Let Y(ρ) be the MC5C symplectic-frame quotient, parametrizing pairing-preserving isomorphisms E[N]≅V_ρ. A symplectic frame after extension to a splitting field identifies Y(ρ) there with the corresponding single fixed-pairing curve. After embedding that field in C, this gives an isomorphism `(Y(ρ)_C)^an≅Γ(N) \ H`. Changing the frame changes the identification by the corresponding SL₂ action and preserves the actual descent cocycle.
 
 The representation comes with its pairing. In a chosen basis its determinant is the cyclotomic character; an arbitrary GL₂ representation without such a pairing does not define this symplectic twist.
 
@@ -2318,7 +2318,7 @@ The theorem is `twistedAnalyticComparison`.
 
 ### 6.5 Geometric irreducibility of the twisted curve
 
-For the paired representation and Y(ρ) of the preceding subsection, Y(ρ) is geometrically connected and geometrically irreducible over Q. Discharge ModularCurves 5C’s three external hypotheses separately: invariance of connectedness under Q̄→C for the actual curve; the twisted analytic isomorphism with Γ(N)\H; and C4’s connectedness equivalence for the smooth affine C-curve. Smoothness and nonemptiness then permit ModularCurves 5C’s conditional irreducibility result to be applied unconditionally.
+For the paired representation and Y(ρ) of the preceding subsection, Y(ρ) is geometrically connected and geometrically irreducible over Q. Discharge ModularCurves 5C’s three external hypotheses separately: invariance of connectedness under Q̄→C for the actual curve; the twisted analytic isomorphism with `Γ(N) \ H`; and C4’s connectedness equivalence for the smooth affine C-curve. Smoothness and nonemptiness then permit ModularCurves 5C’s conditional irreducibility result to be applied unconditionally.
 
 N≥3. A small-level coarse twist is not the fine scheme Y(ρ) treated by this theorem.
 
@@ -3627,7 +3627,7 @@ The public interface should expose:
 
 For j:Y→X the supplied compactification and the geometric L_r with A=O, O/πⁿ or K=Frac(O), define H¹_par(Y,L_r)=im(H¹_c(Y,L_r)→H¹(Y,L_r)). Define finite étale analogues first and take compatible inverse limits for the O-adic realization, with O a finite extension of ℤ_ℓ. For constant weight-two coefficients, H¹_par(Y,A)=im(H¹(X,A)→H¹(Y,A)); for these smooth curves the latter map is injective. Twisted coefficients use j_*L_r and the local boundary sequence, not extension by zero identified with direct image.
 
-N≥5 or a supplied torsion-free fine cover; j and its finite cusp set D=X\Y are fixed.
+N≥5 or a supplied torsion-free fine cover; j and its finite cusp set `D=X ∖ Y` are fixed.
 
 Adic notation denotes the inverse-limit lattice, not merely tensoring rational Deligne cohomology.
 
@@ -3673,7 +3673,7 @@ Establish this as follows. Apply the localization triangle for j_! and Rj_*; com
 
 **Checks.**
 
-- Y=X\{one cusp} has no additional ordinary degree-one rank; with two cusps it has one boundary generator.
+- `Y=X ∖ {one cusp}` has no additional ordinary degree-one rank; with two cusps it has one boundary generator.
 - Do not replace H¹_par by all of H¹ before a localization argument.
 
 *Needs:* [§14.2](#s14-2); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); `EtaleCohomologyFoundations §§F.1–F.4`; `EtaleCohomologyFoundations §0.7/ClassicalAlgebraic.supportLocalization`.
@@ -3708,7 +3708,7 @@ Establish this as follows. Import Artin’s comparison with locally constant and
 
 ### 14.4a The modular Borel–Serre pair and adic adapter
 
-**Modular Borel–Serre comparison — `modularBorelSerreComparison`.** For a torsion-free congruence group Γ and a chosen neat fine GL₂/ℚ component Y_an≃Γ\ℍ, construct a compact oriented surface B with interior Y_an and one boundary circle at each cusp, and a finite triangulation of (B,∂B). Identify this pair with the corresponding Borel–Serre component, preserving cusp stabilizers and orientation. Finite level covers extend to covers of pairs; finite families of level and Hecke maps admit compatible cellular representatives after subdivision. This supplies the boundary-compatible triangulability input of ALS.2.4 on these components.
+**Modular Borel–Serre comparison — `modularBorelSerreComparison`.** For a torsion-free congruence group Γ and a chosen neat fine GL₂/ℚ component `Y_an≃Γ \ ℍ`, construct a compact oriented surface B with interior Y_an and one boundary circle at each cusp, and a finite triangulation of (B,∂B). Identify this pair with the corresponding Borel–Serre component, preserving cusp stabilizers and orientation. Finite level covers extend to covers of pairs; finite families of level and Hecke maps admit compatible cellular representatives after subdivision. This supplies the boundary-compatible triangulability input of ALS.2.4 on these components.
 
 For a finite free O-local system L from §14.1, put A_n=O/πⁿ and L_n=L/πⁿ. Identify the finite-coefficient ALS ordinary/support/boundary triangle with
 
@@ -3835,7 +3835,7 @@ Establish this as follows. Compute the two parts of the good-prime correspondenc
 
 ### 14.9a A finite graph model for the open modular curve
 
-**Finite surface spine.** For a torsion-free congruence subgroup Γ⊂SL₂(ℤ), prove `modularOpenFiniteGraph`: the noncompact surface Y=Γ\ℍ has a deformation retract onto a finite connected graph. Its fundamental group is free of rank 2g+s−1, where g is the compactification genus and s≥1 its cusp count. Use the FuchsianOrbifolds Layer 2 polygon presentation and Layers 3–4 cusp collars to truncate Y to a compact surface with nonempty boundary. Cut that surface along finitely many arcs to a polygon and collapse it to a spine, retaining the side identifications. Compose the cusp-collar and surface retractions. This constructs a finite two-term cellular complex for any finite free local system; the open surface is aspherical because its universal cover is ℍ.
+**Finite surface spine.** For a torsion-free congruence subgroup Γ⊂SL₂(ℤ), prove `modularOpenFiniteGraph`: the noncompact surface `Y=Γ \ ℍ` has a deformation retract onto a finite connected graph. Its fundamental group is free of rank 2g+s−1, where g is the compactification genus and s≥1 its cusp count. Use the FuchsianOrbifolds Layer 2 polygon presentation and Layers 3–4 cusp collars to truncate Y to a compact surface with nonempty boundary. Cut that surface along finitely many arcs to a polygon and collapse it to a spine, retaining the side identifications. Compose the cusp-collar and surface retractions. This constructs a finite two-term cellular complex for any finite free local system; the open surface is aspherical because its universal cover is ℍ.
 
 **Checks.**
 
@@ -4250,7 +4250,7 @@ For a normalized cuspidal newform f of weight exactly two and primitive level N,
 
 f a normalised newform of weight 2 and level exactly N (Tau Ceti ModularForms Layer 4).
 
-Establish this as follows. The eigenvalue map T₁(N) → ℂ has image the order ℤ[a_n(f)] ⊂ K_f; its kernel is prime. The integral Hecke algebra is finite and torsion-free over ℤ. Localizing at ℤ\{0} makes it a finite-dimensional commutative ℚ-algebra, hence Artinian; every prime there is minimal. Since λ_f has characteristic-zero image, p_f is disjoint from ℤ\{0}, and contraction of that minimal prime is minimal. This does not assume the full old-level Hecke algebra is reduced.
+Establish this as follows. The eigenvalue map T₁(N) → ℂ has image the order ℤ[a_n(f)] ⊂ K_f; its kernel is prime. The integral Hecke algebra is finite and torsion-free over ℤ. Localizing at `ℤ ∖ {0}` makes it a finite-dimensional commutative ℚ-algebra, hence Artinian; every prime there is minimal. Since λ_f has characteristic-zero image, p_f is disjoint from `ℤ ∖ {0}`, and contraction of that minimal prime is minimal. This does not assume the full old-level Hecke algebra is reduced.
 
 The public interface should expose:
 
