@@ -4,9 +4,9 @@
 
 ## Scope and ownership
 
-The new functional analysis consists of measurable Hilbert fields and direct integrals, their multiplication models, measurable integral kernels and complex operator traces, locally convex vector integration, meromorphic families and strip-order continuation. The automorphic layers own convergent and continued intertwining operators, Eisenstein residues, truncation, spectral completeness, weighted finite-character acyclicity, Franke's comparison and its cuspidal-support weight contract, Paley–Wiener transforms and trace distributions.
+The new functional analysis consists of the unbounded spectral-domain adapter, measurable integral kernels and their diagonal trace formulas, locally convex vector integration, meromorphic families and strip-order continuation. The automorphic layers own convergent and continued intertwining operators, Eisenstein residues, truncation, spectral completeness, weighted finite-character acyclicity, Franke's comparison and its cuspidal-support weight contract, Paley–Wiener transforms and trace distributions.
 
-OperatorTheory/SelfAdjointSpectralTheory owns projection-valued measures and bounded Borel calculus, Stone's correspondence and unbounded self-adjoint spectral measures. OperatorTheory/OperatorIdeals owns the Hilbert–Schmidt and trace-class ideals and their gauges. RepresentationTheory/CompactGroups owns Peter–Weyl and its continuous compact-group kernels. The present additions are measurable multiplicity models, square-integrable kernels on general scalar L² spaces, the complex trace and its representative-dependent diagonal formula.
+OperatorTheory/SelfAdjointSpectralTheory owns projection-valued measures and bounded Borel calculus, Stone's correspondence and unbounded self-adjoint spectral measures. OperatorTheory/OperatorIdeals owns the Hilbert–Schmidt and trace-class ideals and their gauges. VonNeumannAlgebras V4's early analytic prefix owns measurable Hilbert fields, direct integrals, decomposable operators, diagonal spectral representations and the generic complex operator trace on those ideals. These contracts use the analytic prefix independently of modular theory and factor classification. RepresentationTheory/CompactGroups owns Peter–Weyl and its continuous compact-group kernels. The present additions are the automorphic spectral transform, its unbounded-domain adapter, square-integrable kernels on general scalar L² spaces and representative-dependent or regularized diagonal trace formulas.
 
 For number fields, AdelicAlgebraicGroups owns the adelic topology, restricted Haar products, rational characters, logarithmic height, G(𝔸)¹, homogeneous quotient integration, parabolic and Iwasawa data, reduction and Siegel estimates. ReductiveGroupsPartII owns the underlying local points, parabolics and L-groups. SmoothRepresentationsOfLocalGroups owns the finite-place representation categories, Hecke algebras, normalized induction, Jacquet modules and Satake theory. Sections 0.48–0.50 construct the general-group real representation foundations, smooth Fréchet globalizations and restricted tensor factorization, consuming the GLₙ specializations from AutomorphicLFunctionsAndLocalFactors. ArithmeticLocallySymmetricSpaces owns relative cochains, smooth growth spaces, constant terms, cusp forms and their discreteness, and the de Rham and moderate-growth comparisons. In particular, the comparison from all smooth functions to uniform moderate growth is a supplier theorem; the new comparison here passes from uniform moderate growth to central-finite automorphic forms. AutomorphicLFunctionsAndLocalFactors also owns scalar L-functions, local factors, Fourier–Laplace analysis, K-Bessel transforms, curve additive analysis, GLₙ isobaric sums, cuspidal continuation and pole criteria, and the pure curve-cohomological realization. The present roadmap constructs residual-block classification (§§4.14–4.14a), residual scalar applications (§§4.15a–4.15e), normalized GLₙ intertwining estimates (§2.3a), global strip bounds and standard-completion applications (§§3.6a–3.6d), and GLₙ transfer applications (Layer 7).
 
@@ -38,6 +38,11 @@ For cohomology, V=V_λ is a finite-dimensional algebraic coefficient module and 
 | ArithmeticGaloisRepresentations | §§2.4–2.7: local factors and constants evaluated on the specified compatible packet parameter in §2.8; §2.7 **Global inputs**: the scalar adelic Schwartz–Bruhat space and tensor API, self-dual Fourier transform, Poisson summation, global Tate integral, meromorphic continuation and Hecke functional equation. |
 | ArithmeticLocallySymmetricSpaces | ALS.0.2, ALS.F.1, ALS.F.5–ALS.F.6, ALS.4.5, ALS.5b.1, ALS.5b.3, ALS.5b.5: real Lie data, cochains, growth spaces, constant terms, cuspidal discreteness, Kostant theory and cohomological comparisons. |
 | AutomorphicLFunctionsAndLocalFactors | Representation prerequisites, `isobaric-construction`, `archimedean-smooth-representations`, `restricted-tensor-realizations`; AL.0 local Fourier/Bessel analysis and vector-space adelic extensions; AL.1 distribution-valued Tate theory and number-field normalization adapters; AL.2 standard-factor analysis and generic paired Hadamard theory; AL.3 cuspidal pair factors, continuation, functional equations, poles, `isobaric-strong-multiplicity-one`, curve additive analysis, pure realization and tensor determinant. |
+| VonNeumannAlgebras | V4, early analytic prefix: measurable separable Hilbert fields on standard σ-finite bases, complete direct integrals, decomposable operators, diagonal spectral representations and generic complex traces on OperatorIdeals carriers; §§0.1–0.3, 0.7 and 0.9 consume these contracts. |
+
+| Shared mathematics | Canonical owner and boundary |
+|---|---|
+| Number-field residual Speh index and representations | AutomorphicSpectralTheory §4.14a owns the index (τ,ν) with τ on GL_d, N=νd and ω_τ^ν=ω, the representation τ⊠ν, its residue realization, existence, uniqueness, multiplicity one and exhaustive discrete-spectrum classification. Endoscopic parameter dictionaries and transfer applications use this same index and representation. |
 
 ArithmeticGaloisDuality §§R02.3.0d, R02.4.5a–R02.4.5b and R02.4.6 supply finite Galois localization, finite-coefficient Poitou–Tate and all-place Sha duality, Grunwald–Wang with its dyadic obstruction, and character roots with local Brauer obstructions. Layer 7 constructs their application to controlled auxiliary extensions.
 
@@ -69,7 +74,7 @@ The signatures are expressed against Mathlib `6b7abb3c7686292736be2955bd3eb9ebf6
 
 Tau Ceti supplies `TauCeti.exists_isFiniteMeasure_eq_nevanlinnaKernel_add` in `TauCeti.Analysis.Complex.Pick.Nevanlinna`: a holomorphic F with Im F≥0 on the upper half-plane is F(z)=bz+∫(1+tz)/(t−z)dρ(t)+Re F(i) with ρ finite and b≥0. The density conversion to the subtracted kernel, uniqueness of the triple and the resolvent specialization are the additions here (§0.5).
 
-### From TauCetiRoadmap.OperatorTheory and RepresentationTheory
+### From TauCetiRoadmap.OperatorTheory, VonNeumannAlgebras and RepresentationTheory
 
 SelfAdjointSpectralTheory Part B supplies projection-valued measures (SA-B14–SA-B33), with the diagonal scalar measure `ProjValMeasure.diagMeasure` (SA-B21: μ_v(B)=⟪v,E(B)v⟫ is positive of mass ‖v‖²), the intersection law `proj_inter` (SA-B29: E(B)E(C)=E(B∩C)) and the Borel functional calculus `borelCalculus` of a normal bounded operator (SA-B05), under which bounded Borel indicators map to spectral projections (SA-B26). SA-B01–SA-B36 is the normal bounded calculus. Part E supplies the spectral projection-valued measure P_A of an unbounded self-adjoint A (SA-E01, SA-E03), the resolvent formula ⟪ξ,R(z)ξ⟫=∫(z−s)⁻¹dμ_ξ(s) with R(z)=(z−A)⁻¹ (SA-E05), Stone's theorem (SA-E43) and uniqueness of the spectral measure (SA-E44); it does not state the representation A=∫t dP_A(t) on {v:∫t²dμ_v<∞}, which §0.6 proves. SA-D20 supplies R(z)⁎=R(z̄) for self-adjoint A. These are consumed contracts. ([Tes09], §3.1, (3.5)–(3.15), pp.88–90; §§3.1–3.3, pp.88–105.)
 
@@ -79,7 +84,7 @@ SelfAdjointSpectralTheory Part B supplies projection-valued measures (SA-B14–S
 - E(∅)=0 and E(ℝ)=I, including the zero Hilbert space.
 - On L²(ℝ), E(B) is multiplication by 1_B.
 
-OperatorIdeals supplies the nuclear gauge and the trace-class family (OI-B29–OI-B30), the Hilbert–Schmidt energy `hilbertSchmidtEnergy` and its basis independence (OI-B32–OI-B35), the Hilbert–Schmidt norm and family (OI-B36–OI-B41), the identification of Schatten exponent 1 with trace class (OI-B83) and the Hilbert–Schmidt compactness and energy API (OI-B90, OI-C01–OI-C14). In the notation used below, the basis-norm contract is ‖A‖HS²=Σ_j‖Ae_j‖² (OI-B32–OI-B35) and the ideal bound is ‖BAC‖HS≤‖B‖‖A‖HS‖C‖ (OI-B40). OperatorIdeals does not state that a product of two Hilbert–Schmidt operators is trace class; that statement, BC trace class with ‖BC‖₁≤‖B‖HS‖C‖HS, is the target `trace_class_of_hs_mul` of §0.9 ([Tes09], §6.3, Lemma 6.13, pp.142–143). Trace class means summable singular values; the gauge is Σs_j(A). The complex trace and measurable-kernel formulas below use these contracts. ([Tes09], §§6.2–6.3, Theorems 6.6–6.7, Lemmas 6.10, 6.13, 6.15–6.16 and Corollary 6.14, pp.136–144.) RepresentationTheory/CompactGroups supplies Peter–Weyl, with the convolution operators of continuous kernels used in its proof (Layer 5); general square-integrable kernels are §0.8 here. RepresentationTheory/LieHighestWeight Layer 7 supplies the Harish-Chandra central algebra and infinitesimal characters.
+OperatorIdeals supplies the nuclear gauge and the trace-class family (OI-B29–OI-B30), the Hilbert–Schmidt energy `hilbertSchmidtEnergy` and its basis independence (OI-B32–OI-B35), the Hilbert–Schmidt norm and family (OI-B36–OI-B41), the identification of Schatten exponent 1 with trace class (OI-B83) and the Hilbert–Schmidt compactness and energy API (OI-B90, OI-C01–OI-C14). In the notation used below, the basis-norm contract is ‖A‖HS²=Σ_j‖Ae_j‖² (OI-B32–OI-B35) and the ideal bound is ‖BAC‖HS≤‖B‖‖A‖HS‖C‖ (OI-B40). VonNeumannAlgebras V4 supplies the complex trace on these carriers, its basis formula, trace-class product cyclicity, Hilbert–Schmidt product pairing and the dual pairing (D,A)↦tr(DA) identifying B(H) with the dual of trace class. Its Hilbert–Schmidt product contract gives BC trace class with ‖BC‖₁≤‖B‖HS‖C‖HS and factorization of every trace-class operator into two Hilbert–Schmidt factors ([Tes09], §6.3, Lemma 6.13, pp.142–143). Trace class means summable singular values; the gauge is Σs_j(A). The measurable-kernel formulas below use this supplied complex trace; no second trace or ideal carrier is defined here. ([Tes09], §§6.2–6.3, Theorems 6.6–6.7, Lemmas 6.10, 6.13, 6.15–6.16 and Corollary 6.14, pp.136–144.) RepresentationTheory/CompactGroups supplies Peter–Weyl, with the convolution operators of continuous kernels used in its proof (Layer 5); general square-integrable kernels are §0.8 here. RepresentationTheory/LieHighestWeight Layer 7 supplies the Harish-Chandra central algebra and infinitesimal characters.
 
 ### From the adelic and local representation roadmap targets
 
@@ -106,14 +111,7 @@ The layers group targets by subject. Two branches therefore cite later-numbered 
 
 ### 0.1 Measurable separable Hilbert fields
 
-Define `measurable_hilbert_field` as follows. A measurable Hilbert field over a standard Borel X has complete complex fibres Hₓ and a complex-linear section space M: x↦‖s(x)‖ is measurable for s∈M; a section t lies in M exactly when x↦⟪t(x),s(x)⟫ is measurable for every s∈M; and M contains a countable sequence whose values are dense in every fibre. Changing the fundamental sequence preserves M.
-
-*Standing hypotheses:* X is standard Borel; fibres are separable; inner products conjugate the first variable.
-
-Prove the following API statements.
-- `ofFundamental`: A sequence with measurable pairwise Gram entries and pointwise dense span generates exactly one saturated measurable-section space.
-- `mem_iff_pairing`: s∈M iff its pairings with every fundamental section are measurable.
-- `map_isometry`: A fibrewise unitary carrying one fundamental sequence to measurable sections transports M; identity and composition agree.
+Consume VonNeumannAlgebras V4's measurable separable Hilbert fields on standard σ-finite bases, with countable fundamental sections and their saturated measurable-section space. Use this carrier for every spectral parameter field in Layers 0–4, including its fundamental-sequence independence and measurable fibrewise unitary transport. Write M for the supplied measurable-section space; inner products conjugate the first variable.
 
 **Checks.**
 - For the standard constant ℂ field, with the constant-one section in M, M is exactly the measurable complex functions.
@@ -122,20 +120,12 @@ Prove the following API statements.
 
 ([Yetter04], §2 Definition 1, pp.2–3; Example 4, p.4.)
 
-*Needs:* `MeasureTheory.L2.inner_def`.
+*Needs:* VonNeumannAlgebras V4, early analytic prefix; `MeasureTheory.L2.inner_def`.
 
 
 ### 0.2 Direct integral Hilbert space
 
-Define `direct_integral` as follows. For a measurable Hilbert field and a σ-finite Borel measure μ, form square-integrable measurable sections s with ∫‖s(x)‖²dμ<∞, quotient by equality μ-almost everywhere, and give the quotient inner product ∫⟪s(x),t(x)⟫dμ. This is complete and separable for a standard Borel σ-finite measure. Null fibres and null subsets have no effect. Scalar-valued and finite atomic instances identify with Mathlib L² and weighted Hilbert sums.
-
-*Standing hypotheses:* the field is measurable in the preceding saturated/countable sense; μ is σ-finite.
-
-Prove the following API statements.
-- `mk`: A measurable square-integrable section has a canonical class.
-- `mk_eq_mk`: Two such classes agree iff the sections agree μ-almost everywhere.
-- `inner_mk`: The inner product of classes is the integral of fibre inner products.
-- `reindex`: A measure-preserving Borel isomorphism and measurable fibrewise unitaries induce a unitary reindexing map.
+Consume the complete direct-integral carrier of VonNeumannAlgebras V4 for the fields of §0.1 and σ-finite Borel measures. Its vectors are square-integrable measurable sections modulo almost-everywhere equality. Use its section map, integrated inner product, scalar-L² identification and unitary reindexing for the automorphic integration maps; all null-set identifications take place in this supplied quotient.
 
 **Checks.**
 - The standard constant ℂ field, with the constant-one section in M, identifies unitarily with L²(μ;ℂ).
@@ -144,19 +134,12 @@ Prove the following API statements.
 
 ([Yetter04], §4 Definition 26, p.13; Theorem 27, pp.13–14.)
 
-*Needs:* §0.1; `MeasureTheory.L2.inner_def`; `MeasureTheory.integral_tsum`.
+*Needs:* VonNeumannAlgebras V4, early analytic prefix; §0.1.
 
 
 ### 0.3 Decomposable operators
 
-Define `decomposable_operator` as follows. An operator field Aₓ:Hₓ→Kₓ is measurable when it carries every measurable section to a measurable section. If ess supₓ‖Aₓ‖<∞, it induces a bounded operator D(A) between the direct integrals by [s]↦[x↦Aₓs(x)]. Its norm equals ess sup‖Aₓ‖; adjoints and compositions are fibrewise, and two fields induce the same operator iff they agree almost everywhere.
-
-*Standing hypotheses:* σ-finite standard Borel base; measurable separable fields; essentially bounded operator norm.
-
-Prove the following API statements.
-- `apply_mk`: D(A)[s]=[Aₓsₓ].
-- `norm_eq_essSup`: ‖D(A)‖=ess supₓ‖Aₓ‖.
-- `adjoint`: D(A)⁎=D(A⁎); D(B∘A)=D(B)∘D(A).
+Consume VonNeumannAlgebras V4's measurable essentially bounded operator fields and decomposable operators on §0.2's direct integrals, including their essential-supremum norm, fibrewise adjoints/compositions and almost-everywhere uniqueness. Automorphic bounded spectral multipliers use this operator on the supplied carrier. Unbounded coordinate multiplication uses the domain assertion in §0.6 instead.
 
 **Checks.**
 - The identity operator field induces the identity on the direct integral, of norm one whenever the direct integral is nonzero.
@@ -165,7 +148,7 @@ Prove the following API statements.
 
 ([Yetter04], §2 Definition 2, p.3; §4 Definition 26, p.13; Theorem 27, pp.13–14.)
 
-*Needs:* §0.2.
+*Needs:* VonNeumannAlgebras V4, early analytic prefix; §0.2.
 
 
 ### 0.4 Isometric integration maps
@@ -200,24 +183,30 @@ The API uses `weightedMeasure` for the positive density change, `weighted_mass` 
 
 ### 0.6 Unbounded self-adjoint spectral theorem
 
-Prove `unbounded_selfadjoint_spectral`, the measurable-multiplicity form of the supplied spectral theorem. If H is separable, A is unitarily equivalent to multiplication by the coordinate on a countable Hilbert sum of cyclic spaces L²(ℝ,μₙ), hence on a measurable-multiplicity direct integral (§0.2), compatibly with Stone's correspondence. As a corollary, with P_A the supplied spectral measure, dom A={v:∫t²dμ_v(t)<∞} and ⟪w,Av⟫=∫t d⟪w,P_A(t)v⟫ for v in the domain; the upstream roadmap supplies P_A and the resolvent formula but not this representation.
+Prove `unbounded_selfadjoint_spectral`, the unbounded-domain adapter between the supplied self-adjoint spectral measure P_A and VonNeumannAlgebras V4's diagonal representation on a separable H. In that supplied direct integral A acts by coordinate multiplication with domain {s:∫t²‖s(t)‖²dμ(t)<∞}; transport gives dom A={v:∫t²dμ_v(t)<∞} and ⟪w,Av⟫=∫t d⟪w,P_A(t)v⟫ for v in the domain. Identify the transported resolvents and Stone group with the native partial-operator resolvent and supplied Stone correspondence. The diagonal carrier and bounded functional calculus are supplied; equality of the unbounded domains is proved here.
 
 *Standing hypotheses:* A is self-adjoint, not merely symmetric or essentially self-adjoint on an unspecified domain.
 
+**Checks.**
+
+- For A=0 the domain is all of H, including H=0, and the multiplication model is supported at zero.
+- On ℓ²(ℕ) with (Av)_n=nv_n, the domain is Σ_n n²|v_n|²<∞; v_n=1/(n+1) lies in ℓ² but not in that domain.
+- For coordinate multiplication on L²(ℝ), the transported resolvent (A−i)⁻¹ multiplies by (t−i)⁻¹ and is bounded, although A is unbounded.
+
 ([Tes09], §3.1, Lemma 3.4, p.93 and Theorem 3.7, p.96; §3.3, Theorem 3.17, p.105.)
 
-*Needs:* the projection-measure supplier contract; §0.5; §0.2; `IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul`.
+*Needs:* VonNeumannAlgebras V4, diagonal spectral representation; the projection-measure supplier contract; §0.5; §0.2; `IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul`.
 
 
 ### 0.7 Bounded normal spectral theorem
 
-Prove `bounded_normal_spectral`, the measurable-multiplicity model of the supplied normal calculus. On a separable space N is unitarily equivalent to coordinate multiplication on a measurable-multiplicity direct integral over its spectrum; the finite-dimensional eigenbasis is the atomic case.
+Consume VonNeumannAlgebras V4's diagonal spectral representation of C₀(X) on a separable Hilbert space, applied to the continuous calculus on X=spec N. Use its measurable-multiplicity carrier for the supplied bounded normal Borel calculus: coordinate multiplication represents N and indicators represent its spectral projections. This is the bounded model used by the automorphic spectral transform of §4.3.
 
 *Standing hypotheses:* N⁎N=NN⁎; H is separable and complete.
 
-([Tes09], §3.1, Lemma 3.4, p.93 and §3.3, Lemma 3.16 and Theorem 3.17, pp.104–105 gives self-adjoint multiplication models. The bounded-normal complex-spectrum multiplicity model is the extension required here.)
+([Tes09], §3.1, Lemma 3.4, p.93 and §3.3, Lemma 3.16 and Theorem 3.17, pp.104–105 gives self-adjoint multiplication models. The bounded-normal complex-spectrum specialization uses VonNeumannAlgebras V4's diagonal representation of C₀(spec N).)
 
-*Needs:* §0.6; the projection-measure supplier contract; §0.2; `LinearMap.IsSymmetric.eigenvectorBasis`.
+*Needs:* VonNeumannAlgebras V4, diagonal spectral representation; the projection-measure supplier contract; §0.2; `LinearMap.IsSymmetric.eigenvectorBasis`.
 
 
 ### 0.8 Measurable Hilbert–Schmidt kernels
@@ -243,16 +232,7 @@ Prove the following API statements.
 
 ### 0.9 Complex operator trace
 
-Define `operator_trace` on the supplied trace-class ideal by tr A=Σ⟪e_j,Ae_j⟫. The diagonal series is absolutely convergent and basis independent, |tr A|≤‖A‖₁, and tr(AD)=tr(DA) for bounded D. Trace norm convergence permits passage through trace, unlike strong convergence alone.
-
-*Standing hypotheses:* trace is operator trace, with the first inner-product slot conjugated.
-
-Prove the following API statements.
-- `trace_basis`: tr A=Σ_j⟪e_j,Ae_j⟫ with absolute convergence for any basis.
-- `trace_class_of_hs_mul`: for Hilbert–Schmidt B,C, BC is trace class with ‖BC‖₁≤‖B‖HS‖C‖HS, and every trace-class operator is such a product ([Tes09], §6.3, Lemma 6.13, pp.142–143).
-- `trace_hs_product`: For Hilbert–Schmidt B,C, tr(BC)=Σ_j⟪B⁎e_j,Ce_j⟫; this series converges absolutely by Cauchy–Schwarz.
-- `trace_cyclic`: For trace-class A and bounded D, tr(AD)=tr(DA).
-- `trace_continuous`: |tr(A−B)|≤‖A−B‖₁.
+Consume VonNeumannAlgebras V4's complex operator trace on the OperatorIdeals trace-class carrier, with conjugate-first inner products. Use its absolutely convergent basis formula, trace-norm continuity, cyclicity against bounded operators and Hilbert–Schmidt product pairing. In particular tr(BC)=Σ_j⟪B⁎e_j,Ce_j⟫ for Hilbert–Schmidt B,C, with absolute convergence and ‖BC‖₁≤‖B‖HS‖C‖HS. The L²-kernel comparison is §0.8; the representative-sensitive diagonal theorem is §0.10.
 
 **Checks.**
 - tr(v↦⟪u,v⟫w)=⟪u,w⟫.
@@ -261,7 +241,7 @@ Prove the following API statements.
 
 ([Tes09], §6.2 Theorems 6.6–6.7; §6.3 Lemma 6.13, Corollary 6.14 and Lemmas 6.15–6.16, printed pp.136–144.)
 
-*Needs:* §0.8; the OperatorIdeals trace-class and product contracts.
+*Needs:* VonNeumannAlgebras V4, complex trace and Hilbert–Schmidt pairing; OperatorTheory/OperatorIdeals OI-B29–OI-B41 and OI-B83.
 
 
 ### 0.10 Diagonal trace under a factorization hypothesis
@@ -3518,7 +3498,7 @@ The real transform uses smooth LF tests, normalized real induction and infinites
 
 **Cyclic twisted GLₙ objects.** For n≥1 and number fields E/K cyclic of prime degree l, choose a generator σ and set H=Res_(E/K)GLₙ and Hσ=H⋊σ, the indicated component of H⋊⟨σ⟩. Construct twisted conjugacy δ↦x⁻¹δσ(x), the K-group H_(δ,σ)={x:xδ=δσ(x)}, and the norm-class map: N_σδ=δσ(δ)⋯σ^(l−1)(δ), whose E-conjugacy class descends to GLₙ(K). At every place use E⊗_K K_v, including its split factors. Prove well-definedness, regularity criteria, centralizer comparison and the local-to-global norm criterion. For a regular norm γ, identify H_(δ,σ) with the centralizer of γ and use the same centralizer Haar in the two quotient integrals. Use probability Haar on hyperspecial compacts at unramified finite places and the compatible product/quotient measures of Layer 6 globally; central quotients retain the norm image of the centre and its finite index. Singular semisimple descent retains the inner-centralizer sign of [AC89, I, Lemma 3.6]. The elementary ordered-product interface is `cyclic_twisted_norm`, with `cyclic_twisted_norm_conjugacy`.
 
-Construct normalized twisted characters of σ-stable irreducible admissible local representations Π. An implementing operator A_Π satisfies A_ΠΠ(g)=Π(σg)A_Π. For generic Π fix the Whittaker character from ψ_K∘Tr_(E/K) and normalize by Λ∘A_Π=Λ for a nonzero Whittaker functional Λ; prove uniqueness and A_Π^l=1. For the other representations occurring in the trace comparison, extend this normalization through ordered standard modules and their Langlands subquotients, proving independence of presentations. The twisted trace is Θ_(Π,σ)(φ)=tr(Π(φ)A_Π), with its admissible finite-level interpretation. Globally use U_σf(x)=f(σ⁻¹x); on a σ-stable cuspidal summand prove its factorization into the normalized local operators by the global Whittaker functional. Induced and residual terms carry the compatible induced normalization. The finite-dimensional normalization interface is `whittaker_intertwiner_unique`; it records the scalar-commutant hypothesis explicitly.
+Construct normalized twisted characters of σ-stable irreducible admissible local representations Π. An implementing operator A_Π satisfies A_ΠΠ(g)=Π(σg)A_Π. For generic Π fix the Whittaker character from ψ_K∘Tr_(E/K) and normalize by Λ∘A_Π=Λ for a nonzero Whittaker functional Λ; prove uniqueness and A_Π^l=1. For the nongeneric unitary and residual Speh representations and their common determinant-character twists admitted in §7.0b, define the normalized operator through the multiplicity-one Langlands quotient of an ordered standard module and prove independence of presentation. Descent of this operator is a normalization statement; its Shintani character identity is the separate theorem in §7.0b. The twisted trace is Θ_(Π,σ)(φ)=tr(Π(φ)A_Π), with its admissible finite-level interpretation. Globally use U_σf(x)=f(σ⁻¹x); on a σ-stable cuspidal summand prove its factorization into the normalized local operators by the global Whittaker functional. Induced and residual terms carry the compatible induced normalization. The finite-dimensional normalization interface is `whittaker_intertwiner_unique`; it records the scalar-commutant hypothesis explicitly.
 
 **Checks.**
 
@@ -3528,7 +3508,7 @@ Construct normalized twisted characters of σ-stable irreducible admissible loca
 
 (Source: [AC89], Chapter I §§1–2, pp.3–12, §3, pp.20–26, and §6.3, pp.55–57; [Art05], §26, pp.188–190.)
 
-*Needs:* SmoothRepresentationsOfLocalGroups SR.1–SR.4; AutomorphicLFunctionsAndLocalFactors representation prerequisites and AL.2 local Whittaker uniqueness; §§0.48–0.50, 2.1–2.3 and 4.14 for real representations, intertwiners and residual terms; AdelicAlgebraicGroups §§0.1–0.3 and 2.1–2.3 for restriction of scalars, measures and quotients. The twisted objects and normalizations are constructed here.
+*Needs:* SmoothRepresentationsOfLocalGroups SR.1–SR.4; AutomorphicLFunctionsAndLocalFactors representation prerequisites and AL.2 local Whittaker uniqueness; §§0.48–0.50, 2.1–2.3 and 4.14a for real representations, intertwiners and number-field residual terms; AdelicAlgebraicGroups §§0.1–0.3 and 2.1–2.3 for restriction of scalars, measures and quotients. The twisted objects and normalizations are constructed here.
 
 ### 7.0b Local matching and twisted character transfer
 
@@ -3538,27 +3518,47 @@ O_γ(f)=TO_(δ,σ)(φ),
 
 where TO_(δ,σ)(φ)=∫_(H_(δ,σ)(K_v)\H(K_v))φ(x⁻¹δσ(x))dx. Require O_γ(f)=0 for every regular γ outside the norm image. Prove existence of f for every φ, and the converse for f satisfying this vanishing condition, at finite places. At infinite places construct the invariant-image transfer and the twisted Paley–Wiener/character-separation statements needed by §7.0c. Extend regular matching through semisimple germs, with the centralizer measures and signs in §7.0a, and through the Levi descent needed for the weighted comparison.
 
-For E_v/K_v unramified, prove matching of spherical units and of φ with b_(E_v/K_v)(φ), where b is the spherical Hecke homomorphism whose Satake transform substitutes X_i↦X_i^f, f the residue degree. At a split place transfer an elementary tensor by convolution of its l factors. For irreducible tempered π of GLₙ(K_v) construct its σ-stable tempered lift Π and prove Θ_(Π,σ)(φ)=tr π(f) for matching tests, with the Whittaker-normalized A_Π. Prove compatibility with normalized induction, duals and norm twists, extending the identity to the standard modules and subquotients used globally. The scalar norm-pushforward case of the character identity is `norm_transfer_character`, with the measure identity carried as a hypothesis; `satake_power_sum` records the unramified power substitution on roots.
+For E_v/K_v unramified, prove matching of spherical units and of φ with b_(E_v/K_v)(φ), where b is the spherical Hecke homomorphism whose Satake transform substitutes X_i↦X_i^f, f the residue degree. At a split place transfer an elementary tensor by convolution of its l factors. For irreducible tempered π of GLₙ(K_v) construct its σ-stable tempered lift Π and prove Θ_(Π,σ)(φ)=tr π(f) for matching tests, with the Whittaker-normalized A_Π. Extend this identity to essentially tempered representations by a common determinant-character twist, using χ_E=χ_K∘N. Normalized induction of matching Levi characters gives an identity for the whole finite-length induced representations, with the induced σ-operator. For an identity on irreducible products require both π₁×⋯×π_r and Π₁×⋯×Π_r to be irreducible and every factor pair to satisfy the Shintani relation; then identify the induced operator with the normalized operator. Duals and common norm twists preserve these identities.
+
+For general irreducible local data define Langlands base change by lifting the essentially tempered inducing data, reordering the exponents and taking the unique irreducible Langlands quotient. At finite places carry SR.3.3's Harish–Chandra tempered-support hypothesis: every irreducible tempered representation is a summand of unitary induction from square-integrable data, unique up to conjugacy. This construction, and its compatibility with duals and norm twists, carries no assertion of a Shintani identity for that quotient. The permitted constituent identities are exactly those for essentially tempered representations, irreducible unitary representations and their common determinant-character twists, together with products satisfying the two irreducibility hypotheses above. The unitary class includes the local residual quotients u(γ,k) below. Any subquotient used as an individual Shintani character must belong to these classes; additivity for a whole standard module does not select its quotient's character. The scalar norm-pushforward case of the character identity is `norm_transfer_character`, with the measure identity carried as a hypothesis; `satake_power_sum` records the unramified power substitution on roots.
 
 **Checks.**
 
 - In GL₁, χ and χη have identical transfer characters whenever η is trivial on norms. Their possible distinction cannot be detected by transferred tests.
 - For a quadratic unramified local extension, an element of GL₁(K_v) with odd valuation is not a norm, and every transferred f vanishes there.
 - The unramified spherical unit transfers to the spherical unit with both compact volumes one; at residue degree two, the trace of the Satake matrix becomes Σ_iα_i², not (Σ_iα_i)².
+- For a quadratic nonarchimedean E_v/K_v and its nontrivial norm character η, ν×η with ν=|·|_(K_v) is irreducible, whereas its lifted standard module |·|_(E_v)×1 is reducible. Its Langlands base change |det|_(E_v)^(1/2) fails the Shintani relation: the former character vanishes on elliptic norms and the latter does not. Thus this base-change pair is excluded from the constituent identity; |det|_(E_v)^(1/2) itself is the Shintani lift of |det|_(K_v)^(1/2).
 
-(Source: [AC89], Chapter I, Proposition 3.1, pp.20–21, Lemma 3.6, p.26, §4, Theorem 4.5, and §§5–6, pp.48–62; [Art05], §26, pp.189–190.)
+(Source: [AC89], Chapter I, Proposition 3.1, pp.20–21, Lemma 3.6, p.26, §4, Theorem 4.5, and §§5–6, pp.48–62; [Art05], §26, pp.189–190; [BH16], §2.2, §§6.1–6.2, Propositions 6.4–6.6 and the example following Proposition 6.5, pp.23–24.)
 
 *Needs:* §7.0a; Layer 6 ordinary orbital integrals and Paley–Wiener theory; SmoothRepresentationsOfLocalGroups SR.4 Satake theory; AutomorphicLFunctionsAndLocalFactors AL.2 local Whittaker and factor interfaces. Local twisted transfer, its spherical fundamental lemma and its character identity are targets here.
 
+**Unitary and residual-Speh Shintani lift.** For the prime-degree cyclic extensions of nonarchimedean local fields of characteristic zero in §7.0a, or ℂ/ℝ, prove the Shintani identity for every irreducible unitary π and its Langlands base change Π, with the normalized operator of §7.0a. Include the split cyclic algebra case by cyclic permutation of tensor factors. Retain the finite-place tempered-support hypothesis above in the quotient constructions. As prerequisites construct the GLₙ unitary induction classification: the blocks are u(δ,k), the Langlands quotients with exponents (k−1)/2,…,−(k−1)/2 for square-integrable unitary δ and k≥1, and the complementary blocks ν^αu(δ,k)×ν^(−α)u(δ,k) for 0<α<1/2. Their finite products are irreducible and unitary and exhaust the unitary dual, with block uniqueness up to permutation. Use the smooth Fréchet realization at infinity and continuous Whittaker functionals. This classification and its irreducibility assertions are targets here, beyond the supplied conditional Langlands classification.
+
+Prove the Speh lifting formula: if δ_E=δ′×δ′^σ×⋯×δ′^(σ^(r−1)) is the tempered lift with distinct conjugate square-integrable blocks, then the lift of u(δ,k) is the irreducible product of u(δ′^(σ^i),k), 0≤i<r. For a unitary generic γ, prove that the quotient u(γ,k) of γν^((k−1)/2)×⋯×γν^(−(k−1)/2) is unitary and satisfies the same Shintani identity. The local components of the unitary global blocks τ⊠k of §4.14a have this form, with γ=τ_v. Prove compatibility of their normalized operators with induction, quotient descent and duals, including the multiplicity-one descent of the standard-module operator. Common determinant-character twists retain the identity by norm pullback. For unitary global residual τ⊠k, prove local Shintani compatibility at every place and identify its global lift as the irreducibly induced product of the corresponding residual blocks over the cuspidal base-change orbit.
+
+The proof uses the preliminary twisted trace comparison of §7.0c before any residual Shintani assertion: first establish cuspidal base change and its unitary generic local identities. Construct the globalization of a prescribed square-integrable local δ to a unitary cuspidal representation, cuspidal at an auxiliary place, and a cyclic number-field extension realizing the given local extension and split at the other nonspherical places. Apply §4.14a's residual construction and the comparison to these globalizations to obtain the local Speh identity, then apply the unitary classification to obtain the general unitary and residual identities. The globalization and this prescribed cyclic extension are targets of this theorem. Full residual character substitution in §7.0c follows this argument, rather than being a premise of it.
+
+**Checks.**
+
+- At k=1 the Speh formula reduces to tempered lifting of δ and the residual formula to cuspidal lifting.
+- For γ a unitary GL₁ character and k=2, u(γ,2)=γ∘det is nongeneric but unitary. Its normalized operator descends from the standard module; a Whittaker functional on this quotient cannot define it.
+- When δ_E has r distinct conjugate blocks, u(δ,k) lifts to r Speh blocks of the same length k. It need not lift to a single residual block, and its operator is the compatible induced operator on that product.
+- The complementary-series range is open: α=1/2 can give a reducible product and requires its separate constituent analysis, not the irreducible-product rule.
+
+(Source: [BH16], §§2.1–2.2 and 2.6, Theorem D(a)–(b), pp.14–15, Theorem E, pp.19–20, and §6.7, pp.37–39; [AC89], Chapter I, Lemma 6.5, p.54, and the prescribed cyclic-extension theorem cited in [BH16, §6.7].)
+
+*Needs:* §7.0a and the tempered and whole-induced-module identities of §7.0b; the preliminary comparison and cuspidal isolation of §7.0c; §4.14a; §§0.48–0.50; SmoothRepresentationsOfLocalGroups SR.2–SR.3; AutomorphicLFunctionsAndLocalFactors representation prerequisites and AL.3 cuspidal factors; ClassFieldTheory Layers 11–12 for cyclic characters and local norm compatibility. The local unitary classification, globalization, Speh lifting and its normalized-operator comparison are constructed here.
+
 ### 7.0c Cyclic twisted trace comparison and spectral isolation
 
-**Cyclic twisted trace comparison.** Construct the geometric and spectral trace distributions for Hσ, with normalized characters from §7.0a and restricted tensor tests φ as in §7.0b. Prove convergence, truncation, the fine expansions and invariantization in this component. Reuse Layer 6's reduction estimates, cone identities, meromorphic intertwiners, trace ideals and Levi recursion; construct the twisted kernels, σ-stable Levi/Weyl indexing, twisted orbital and weighted character terms and their coefficients here. Include the twisted real Paley–Wiener input of §7.0b. These constructions concern cyclic GLₙ, including its block Levis.
+**Cyclic twisted trace comparison.** Construct the geometric and spectral trace distributions for Hσ, with normalized characters from §7.0a and restricted tensor tests φ as in §7.0b. Prove convergence, truncation, the fine expansions and invariantization in this component. Reuse Layer 6's reduction estimates, cone identities, meromorphic intertwiners, trace ideals and Levi recursion; construct the twisted kernels, σ-stable Levi/Weyl indexing, twisted orbital and weighted character terms and their coefficients here. Include the twisted real Paley–Wiener input of §7.0b. These constructions concern cyclic GLₙ, including its block Levis. Establish the trace comparison initially in its native spectral characters, with tempered transfer and whole-induced-module identities; cuspidal isolation gives the generic base-change prefix used by §7.0b. Its unitary/residual-Speh theorem then supplies the individual residual character substitutions. This order does not assume the residual Shintani identity in its own proof.
 
 For globally matching (φ,f), compare the geometric expansions by norm classes, including the vanishing off the norm image and the centralizer volumes. Prove the resulting equality of the t-discrete distributions
 
 I_(t,disc)^(Hσ)(φ)=Ĩ_(t,disc)^(K,bc)(f).
 
-Here the left side includes the Weyl-intertwiner contributions from proper Levi discrete data; it is not only the cuspidal trace. Define the right side by pulling back the ordinary GLₙ(K) discrete character expansion with the cyclic norm-character averaging and the split-central scaling in [AC89, II, (9.4), Lemma 12.1 and (17.7)]. Retain its Weyl orders and determinants rather than replacing it by an unweighted sum of cuspidal traces. Prove the corresponding equality of weighted local distributions and global coefficients in Chapter II Theorems A and B. Use the corrected density argument cited in [Art05, p.191] when separating geometric coefficients.
+Here the left side includes the Weyl-intertwiner contributions from proper Levi discrete data; it is not only the cuspidal trace. Define the right side by pulling back the ordinary GLₙ(K) discrete character expansion with the cyclic norm-character averaging and the split-central scaling in [AC89, II, (9.4), Lemma 12.1 and (17.7)]. Retain its Weyl orders and determinants rather than replacing it by an unweighted sum of cuspidal traces. Prove the corresponding equality of weighted local distributions and global coefficients in Chapter II Theorems A and B, using unitary discrete Levi data and their unitary spectral inductions; individual residual character identities use §7.0b's unitary/residual-Speh theorem. Use the corrected density argument cited in [Art05, p.191] when separating geometric coefficients.
 
 Prove spectral isolation: varying the spherical Hecke tests outside a finite set separates the unramified spectral classes; within each class use archimedean infinitesimal characters and local character independence to identify the coefficients and normalized twisted characters. Rank induction, the supplied Rankin–Selberg pole criterion and isobaric multiplicity one then yield existence, Galois-invariant cuspidal descent, the self-twist cuspidality criterion and the constituent-wise fibre theorem of §7.1. These conclusions are derived from the comparison, not hypotheses used to define it. The finite spectral-isolation interface is `trace_coefficient_isolation`.
 
@@ -3576,7 +3576,7 @@ Prove spectral isolation: varying the spherical Hecke tests outside a finite set
 
 <a id="solvable-gln-base-change"></a>
 
-**Solvable GLₙ base change and descent.** Over number fields construct cyclic prime-degree base change on cuspidal representations and extend it to isobaric sums and towers of cyclic prime-degree extensions. Prove unramified local compatibility: a place of residue degree f replaces each Satake eigenvalue α by α^f. Preserve central characters, duals and norm twists. For cyclic E/K of prime degree l with associated order-l character η, a cuspidal π has cuspidal base change precisely when π≄π⊗η; otherwise it splits as the orbit of l distinct conjugate cuspidal blocks of rank n/l. Prove descent of Galois-invariant cuspidal representations and the fibre theorem: cuspidal π,π′ with the same base change differ by a character trivial on norms from E. For isobaric inputs retain constituent orbit matching and multiplicities, rather than claiming one common twist for all constituents. Iterate these constructions and the fibre argument along the specified solvable tower; general normal K/F in the degree-one theorem is not itself assumed solvable.
+**Solvable GLₙ base change and descent.** Over number fields construct cyclic prime-degree base change on cuspidal representations and extend it to isobaric sums and towers of cyclic prime-degree extensions. Prove unramified local compatibility: a place of residue degree f replaces each Satake eigenvalue α by α^f. Preserve central characters, duals and norm twists. For cyclic E/K of prime degree l with associated order-l character η, a cuspidal π has cuspidal base change precisely when π≄π⊗η; otherwise it splits as the orbit of l distinct conjugate cuspidal blocks of rank n/l. Prove descent of Galois-invariant cuspidal representations and the fibre theorem: cuspidal π,π′ with the same base change differ by a character trivial on norms from E. For isobaric inputs retain constituent orbit matching and multiplicities, rather than claiming one common twist for all constituents. For arbitrary specified norm twists in isobaric data, apply cuspidal base change constituent by constituent, preserve each twist and form the supplied isobaric Langlands quotient. This parameter/quotient construction does not assert a Shintani identity for arbitrary local isobaric quotients; the trace comparison uses only the permitted classes in §7.0b. Iterate these constructions and the fibre argument along the specified solvable tower; general normal K/F in the degree-one theorem is not itself assumed solvable.
 
 **Checks.** GL₁ base change is composition with the idele norm; an unramified residue-degree-two place squares its Satake roots; π and π⊗η have the same cyclic base change, and the η-self-twist case need not remain cuspidal.
 
@@ -3720,6 +3720,7 @@ Layer 5 supplies `LocallySymmetric.FrankeInput` to ArithmeticLocallySymmetricSpa
 - **[GS01]**: Stephen Gelbart and Freydoon Shahidi, *Boundedness of automorphic L-functions in vertical strips*. J. Amer. Math. Soc. 14 (2001), 79–107; locators use published pagination.
 - **[Cog04]**: James W. Cogdell, [Lectures on L-functions, converse theorems, and functoriality for GL(n)](https://people.math.osu.edu/cogdell.1/fields-www.pdf). Author Fields Institute lecture notes, 2004.
 - **[YZ17]**: Zhiwei Yun and Wei Zhang, [Shtukas and the Taylor expansion of L-functions](https://math.mit.edu/~zyun/Taylor_Expansion_published.pdf). Annals of Math. 186 (2017), 767–911; published author PDF.
+- **[BH16]**: A. I. Badulescu and G. Henniart, [Shintani relation for base change: unitary and elliptic representations](https://arxiv.org/abs/1605.06948), Contemporary Mathematics 664 (2016), 23–67. Locators use the arXiv manuscript pagination.
 - **[AC89]**: James Arthur and Laurent Clozel, *Simple algebras, base change, and the advanced theory of the trace formula*. Annals of Mathematics Studies 120 (1989); Chapter 3 locators use printed pagination.
 - **[Ram15]**: Dinakar Ramakrishnan, [A mild Tchebotarev theorem for GL(n)](https://www.its.caltech.edu/~dinakar/papers/mildTcheb-arxiv.pdf). J. Number Theory 146 (2015), 519–533; locators use the author preprint pagination.
 - **[Sar03]**: Peter Sarnak, [Notes on the Generalized Ramanujan Conjectures](https://web.math.princeton.edu/~sarnak/Preprints/SarnakFieldsNotes.pdf). Fields Institute lectures, June 2003, §2, pp.7–8.

@@ -7,7 +7,8 @@ import TauCeti.Analysis.Complex.Pick.Nevanlinna
 The roadmap is `README.md`. This file records light definitions and theorem signatures
 statable against the pinned Mathlib and Tau Ceti APIs and is not exhaustive. In particular,
 it keeps native analytic functions, measures and the upper half-plane; the adelic spaces,
-measurable Hilbert fields, trace distributions and relative cohomology belong to the README.
+trace distributions and relative cohomology belong to the README. Measurable Hilbert fields,
+direct-integral carriers and generic complex traces are supplied by VonNeumannAlgebras V4.
 
 Complex inner products conjugate the first slot. Positive real powers use the real logarithm.
 The modular Laplacian has the positive spectral sign. Integrals and sums denote analytic
@@ -422,6 +423,11 @@ The signatures below give the ordered norm, normalized intertwiner, scalar trans
 finite spectral isolation, analytic tail, and arithmetic splitting interfaces of §§7.0–7.1d.
 The full automorphic trace comparison, cuspidal Hecke-root bound, cohomological extension
 construction and descent statements are specified in the README.
+The local unitary and residual-Speh Shintani theorem of §7.0b supplies individual
+constituent character identities. Induction gives such an identity on irreducible products
+only when both products are irreducible. General norm-twisted isobaric base change in §7.1
+uses the Langlands-quotient construction without asserting that character identity.
+Finite-place quotient constructions retain SR.3.3's Harish–Chandra tempered-support hypothesis.
 -/
 
 /-- The cyclic norm is an ordered product, also for a noncommutative group. -/
@@ -535,8 +541,8 @@ theorem self_twist_card_bound {G : Type*} [Group G] (m : ℕ)
 /-
 README constructions needing the adelic, representation-theoretic, direct-integral or
 locally convex carriers:
-Layer 0: measurable_hilbert_field, direct_integral, decomposable_operator, hilbert_schmidt_kernel,
-operator_trace, nuclear_lf_space, nuclear_function_kernel, vector_schwartz, operator_meromorphic, archimedean_v_normalized_entire,
+Layer 0: hilbert_schmidt_kernel, unbounded_selfadjoint_spectral,
+nuclear_lf_space, nuclear_function_kernel, vector_schwartz, operator_meromorphic, archimedean_v_normalized_entire,
 spectral_cycle_coordinates, compact_cover_transfer, whittaker_w,
 vector_schwartz_entire, locally_convex_integration, vector_phragmen_lindelof,
 real_representation_foundations, smooth_frechet_globalization, restricted_tensor_factorization,
@@ -573,8 +579,10 @@ multiplicative_gm_family, finite_fibre_trace, root_basis_identity, root_coordina
 root_product_derivative.
 
 The normalized V* family and continued W, Green and modular Eisenstein kernels are
-separate continuation targets. The multiplication models, measurable Hilbert–Schmidt kernels
-and complex trace consume OperatorTheory carriers. Franke comparison, Kostant support weights,
+separate continuation targets. The measurable Hilbert fields, direct integrals, decomposable
+operators, bounded diagonal models and complex trace are supplied by VonNeumannAlgebras V4
+on OperatorTheory/OperatorIdeals carriers. The unbounded-domain adapter and measurable
+Hilbert–Schmidt kernel comparison are targets here. Franke comparison, Kostant support weights,
 Maass–Selberg, spectral completeness and the trace formulas require the README constructions.
 
 -/
