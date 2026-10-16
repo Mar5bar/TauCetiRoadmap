@@ -114,6 +114,110 @@ example {p : ℕ} (M : DieudonneComplex.{u} p)
     M.IsSaturated ↔ ∀ n, Function.Bijective (M.F n) := by
   sorry
 
+/-! ### CR.4.6: Seminormal rings and the degree-zero reflection -/
+
+/-- Seminormality means reducedness and existence of common square/cube roots, with the
+convention `x² = y³`, `x = t³`, `y = t²` (BLM §6.5; Stacks 0EUL with variables interchanged). -/
+def IsSeminormalRing (R : Type u) [CommRing R] : Prop :=
+  IsReduced R ∧ ∀ x y : R, x ^ 2 = y ^ 3 → ∃ t : R, x = t ^ 3 ∧ y = t ^ 2
+
+/-- Reducedness makes the common root unique, in every characteristic. -/
+theorem seminormal_unique_root {R : Type u} [CommRing R] (hR : IsSeminormalRing R)
+    (x y : R) (hxy : x ^ 2 = y ^ 3) : ∃! t : R, x = t ^ 3 ∧ y = t ^ 2 := by
+  sorry
+
+/-- A domain integrally closed in its fraction field is seminormal. -/
+theorem seminormal_of_isIntegrallyClosed (R : Type u) [CommRing R] [IsDomain R]
+    [IsIntegrallyClosed R] : IsSeminormalRing R := by
+  sorry
+
+/-- A subintegral ring map is integral, bijective on prime spectra, and induces isomorphisms
+on residue fields. These are the maps of Stacks 0CND and 0EUR(3). -/
+def IsSubintegral {R : Type u} {S : Type v} [CommRing R] [CommRing S] (f : R →+* S) : Prop :=
+  f.IsIntegral ∧ Function.Bijective (PrimeSpectrum.comap f) ∧
+    ∀ q : PrimeSpectrum S, Function.Bijective
+      (Ideal.ResidueField.map (q.asIdeal.comap f) q.asIdeal f rfl)
+
+/-- Subintegrality is integrality together with unique extension of points valued in every
+field, the criterion used in BLM's proof of Theorem 6.5.3. -/
+theorem subintegral_iff_fieldPoints {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S) :
+    IsSubintegral f ↔ f.IsIntegral ∧ ∀ (K : Type u) [Field K],
+      Function.Bijective (fun g : S →+* K ↦ g.comp f) := by
+  sorry
+
+/-- An injective single-generator extension with the generator's square and cube in the
+image is subintegral (Stacks 0CND). -/
+theorem subintegral_square_cube {R : Type u} {S : Type v} [CommRing R] [CommRing S]
+    (f : R →+* S) (b : S) (hinj : Function.Injective f)
+    (hgen : Function.Surjective (Polynomial.eval₂RingHom f b))
+    (hsq : b ^ 2 ∈ Set.range f) (hcube : b ^ 3 ∈ Set.range f) : IsSubintegral f := by
+  sorry
+
+/-- Maps to a seminormal ring extend uniquely along every subintegral map, including maps
+with a nil kernel (Stacks 0CND and 0EUR). -/
+theorem subintegral_lift {R S T : Type u} [CommRing R] [CommRing S] [CommRing T]
+    (f : R →+* S) (hf : IsSubintegral f) (hT : IsSeminormalRing T) (g : R →+* T) :
+    ∃! h : S →+* T, h.comp f = g := by
+  sorry
+
+/-- A reduced subintegral extension of a seminormal ring is an isomorphism (Stacks 0H3G).
+Reducedness of the target excludes nilpotent thickenings. -/
+theorem subintegral_bijective_of_seminormal {R : Type u} {S : Type v}
+    [CommRing R] [CommRing S] [IsReduced S] (f : R →+* S)
+    (hf : IsSubintegral f) (hR : IsSeminormalRing R) : Function.Bijective f := by
+  sorry
+
+/-- Every commutative ring admits a subintegral map to a seminormal ring in its universe
+(Stacks 0EUR(3)–(4)). -/
+theorem seminormalization_exists (R : Type u) [CommRing R] :
+    ∃ (S : CommRingCat.{u}) (f : R →+* S), IsSeminormalRing S ∧ IsSubintegral f := by
+  sorry
+
+/-- The seminormal reflection of a commutative ring. -/
+noncomputable def snRing (R : Type u) [CommRing R] : CommRingCat.{u} :=
+  (seminormalization_exists R).choose
+
+/-- The unit from a ring to its seminormal reflection. -/
+noncomputable def snMap (R : Type u) [CommRing R] : R →+* snRing R :=
+  (seminormalization_exists R).choose_spec.choose
+
+/-- The chosen reflection is seminormal. -/
+theorem snRing_seminormal (R : Type u) [CommRing R] : IsSeminormalRing (snRing R) :=
+  (seminormalization_exists R).choose_spec.choose_spec.1
+
+/-- The unit is subintegral, retaining residue-field isomorphisms. -/
+theorem snMap_subintegral (R : Type u) [CommRing R] : IsSubintegral (snMap R) :=
+  (seminormalization_exists R).choose_spec.choose_spec.2
+
+/-- Composition with the unit identifies maps from the reflection with maps from the source
+to every seminormal ring. -/
+theorem sn_lift {R T : Type u} [CommRing R] [CommRing T]
+    (hT : IsSeminormalRing T) (g : R →+* T) :
+    ∃! h : snRing R →+* T, h.comp (snMap R) = g :=
+  subintegral_lift (snMap R) (snMap_subintegral R) hT g
+
+/-- Each ring map induces a unique compatible map of seminormal reflections. -/
+theorem sn_map {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S) :
+    ∃! h : snRing R →+* snRing S, h.comp (snMap R) = (snMap S).comp f :=
+  sn_lift (snRing_seminormal S) ((snMap S).comp f)
+
+/-- The unit is an isomorphism exactly on seminormal rings. -/
+theorem snMap_bijective_iff (R : Type u) [CommRing R] :
+    Function.Bijective (snMap R) ↔ IsSeminormalRing R := by
+  sorry
+
+/-- Applying seminormalisation a second time gives an isomorphism. -/
+theorem snMap_idempotent (R : Type u) [CommRing R] :
+    Function.Bijective (snMap (snRing R)) :=
+  (snMap_bijective_iff (snRing R)).2 (snRing_seminormal R)
+
+/-- A subintegral map with seminormal target identifies that target uniquely with the
+seminormal reflection (Stacks 0EUR(4)). -/
+theorem sn_compare {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S)
+    (hf : IsSubintegral f) (hS : IsSeminormalRing S) :
+    ∃! e : snRing R ≃+* S, e.toRingHom.comp (snMap R) = f := by
+  sorry
+
 end Crystalline
 
 /-! ## Layer CR.3:duality: Trace and Poincaré duality -/
