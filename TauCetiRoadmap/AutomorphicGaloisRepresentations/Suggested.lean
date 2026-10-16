@@ -208,6 +208,11 @@ open Polynomial
 
 /-! ## Layer 3: Hilbert constructions and their arithmetic properties -/
 
+/-- The finite L-function of the algebraic character |·|⁻⁴ at s=2 is ζ(−2),
+which vanishes. Positive integer nonvanishing requires the finite-order range. -/
+example : riemannZeta (-2) = 0 := by
+  simpa using riemannZeta_neg_two_mul_nat_add_one 0
+
 section HilbertNormalization
 variable {K : Type*} [Field K]
 
@@ -408,13 +413,22 @@ example :
 
 /-! ## Layer 7: Compatible systems and large images
 
-The compatible-system carrier with actual continuous local realizations and
-period functors, and its large-image applications, are specified in README.md.
+AutomorphicGaloisRepresentationsPartII AG2.P supplies AutomorphicSystemData,
+Weak, Strict and the generic operations, allowing finite local realization
+extensions. HilbertSystemRealizations records chosen E_λ-models of its rank-two
+members with scalar-extension identifications. Its model transport and the
+almost-strict predicate, with their coefficient embeddings and omitted local
+pairs, are specified in README.md.
 -/
 
 /-!
 The remaining definitions in README.md require arithmetic or geometric carriers:
 
+* Layer 0: `FiniteSlopeEigenvariety` and `QuaternionicFiniteSlopeFamily` on
+  QuaternionicModularForms' supplied modules, `quaternionicFamily_operatorComparison`
+  with its determinant scalar, `quaternionicFamily_totallyRealClassicality`
+  in the even-degree finite-split Skinner domain with strict labelled bounds,
+  and `quaternionicFamily_classicalDensity`.
 * Layer 1: `higherCoefficientHeckeAction`, `ParabolicPremotive` (with its pairing
   and Hecke action), the supplied `schollProjector` and its DFG comparisons
   `schollProjector_dfg` and `schollProjector_dfg_level`,
@@ -422,8 +436,11 @@ The remaining definitions in README.md require arithmetic or geometric carriers:
   (with its lattice), the cohomological newform realisation `M_g`,
   `IntegralPremotive` (with its kernel), `integralParabolic` and
   `integralNewformPremotive`.
-* Layer 3: `Carayol.sigmaLambda`, `hilbertGaloisRep` (with its auxiliary
-  congruence data), and `IsCMHilbert` with its inducing field and character.
+* Layer 3: `Carayol.sigmaLambda`, `hilbertGaloisRep` (using the supplied early
+  parallel attachment and the nonparallel auxiliary congruence construction),
+  `hilbertGaloisRep_parallelAdapter` identifying that supplied arithmetic member
+  with the dual after common coefficient extension and transporting its chosen
+  lattice, and `IsCMHilbert` with its inducing field and character.
 * Layer 4: `NearlyOrdinaryEigenpacket`, its normalized operators and candidate
   local character `δ_𝔭`, and the attached character `η_𝔭` and invariant line.
 * Layer 5: `ordinaryRefinement`, `eigenformDcris` and `eigenformWach`.
@@ -432,7 +449,8 @@ The remaining definitions in README.md require arithmetic or geometric carriers:
   quaternionic completed Hecke representation.
 * Layer 7: the supplied `AutomorphicSystemData`, `Weak` and `Strict`, the predicate
   `IsAlmostStrictlyCompatible` and its transport theorems
-  and `fixedEigenformFamily`.
+  and `fixedEigenformFamily`, together with `HilbertSystemRealizations` and
+  `hilbertSystemRealizations_transport` over the shared carrier and operations.
 
 Their intended data, APIs and discriminating checks remain in the corresponding
 README sections.
