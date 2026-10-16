@@ -25,7 +25,7 @@ Tau Ceti roadmaps supply the general objects, and nothing they contain is repeat
 
 | Tau Ceti roadmap | Material used here |
 | --- | --- |
-| [QuaternionicModularForms (PR #934)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/934), §§0.3, 1.3, 2.1–2.2, 3.1 | Definite class sets and compact stabilizers modulo the centre, right algebraic coefficients, abstract forms, evaluation and the opposite Hecke action. |
+| [QuaternionicModularForms](../QuaternionicModularForms/README.md), §§0.3, 1.3, 2.1–2.2, 3.1 | Definite class sets and compact stabilizers modulo the centre, right algebraic coefficients, abstract forms, evaluation and the opposite Hecke action. |
 | AdelicAlgebraicGroups (§§3.4, 4.2–4.5) | Reduction theory, class-number finiteness, compactness of anisotropic quotients, neat levels, strong approximation and level maps. |
 | ReductiveGroupsPartII (RG2.0–RG2.3) | Restriction of scalars and central quotients of quaternionic groups, their real and local points, integral quaternion-order levels and the Bruhat–Tits tree of `GL₂`. |
 | SmoothRepresentationsOfLocalGroups (SR.0–SR.3) | Smooth and admissible representations, smooth characters, normalized parabolic induction, Iwahori invariants, Steinberg and square-integrable representations. |
@@ -2445,7 +2445,7 @@ Its API:
 
 (Source: [KW09](#references) §7 (opening), pp.57–59, display (5); §7.2, pp.61–62.)
 
-*Needs:* [QuaternionicModularForms (PR #934)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/934) `§0.3`; [AdelicAlgebraicGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md) `§3.4`, `Layer 3`; Tau Ceti `NumberField.card_elementaryTwoQuotient_units`; Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`.
+*Needs:* [QuaternionicModularForms](../QuaternionicModularForms/README.md) `§0.3`; [AdelicAlgebraicGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md) `§3.4`, `Layer 3`; Tau Ceti `NumberField.card_elementaryTwoQuotient_units`; Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`.
 
 ### R18.3.2 Quaternionic integral weights
 
@@ -2472,7 +2472,7 @@ In [Suggested.lean](Suggested.lean): `SymWeight`, `QuaternionWeight`, `Quaternio
 
 (Source: [KW09](#references) §7 (opening), pp.58–59; [Tay06](#references) §1, pp.741–742.)
 
-*Needs:* [QuaternionicModularForms (PR #934)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/934) `§1.3`; [GL2AutomorphicRepresentationsAndTransfer, §§R16.2.13, R16.4.5, R16.6.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GL2AutomorphicRepresentationsAndTransfer/README.md#r1663-hilbert-cohomological-algebraic-weights); Mathlib `Representation`.
+*Needs:* [QuaternionicModularForms](../QuaternionicModularForms/README.md) `§1.3`; [GL2AutomorphicRepresentationsAndTransfer, §§R16.2.13, R16.4.5, R16.6.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GL2AutomorphicRepresentationsAndTransfer/README.md#r1663-hilbert-cohomological-algebraic-weights); Mathlib `Representation`.
 
 ### R18.3.3 Fixed-central-character algebraic forms
 
@@ -2500,7 +2500,7 @@ In [Suggested.lean](Suggested.lean): `definiteCoefficient_rightAction`.
 
 (Source: [KW09](#references) §7 (opening), pp.58–59, display (5).)
 
-*Needs:* [QuaternionicModularForms (PR #934)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/934) `§§1.3, 2.1–2.2`; [R18.3.1 Definite quaternionic class set](#r1831-definite-quaternionic-class-set), [R18.3.2 Quaternionic integral weights](#r1832-quaternionic-integral-weights).
+*Needs:* [QuaternionicModularForms](../QuaternionicModularForms/README.md) `§§1.3, 2.1–2.2`; [R18.3.1 Definite quaternionic class set](#r1831-definite-quaternionic-class-set), [R18.3.2 Quaternionic integral weights](#r1832-quaternionic-integral-weights).
 
 ### R18.3.4 Neat-level reduction and base change
 
@@ -2540,7 +2540,7 @@ A perfect integral coefficient pairing and unit isotropy denominators; Taylor we
 - The central singleton acts by `ψ(π_v)`, fixing S_v rather than its inverse.
 - Two noncommuting normalizing singleton cosets detect the opposite multiplication; inverse-coset transport restores the stated composition.
 
-*Needs:* [R18.3.3 Fixed-central-character algebraic forms](#r1833-fixed-central-character-algebraic-forms); [QuaternionicModularForms (PR #934)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/934) `§§1.3, 3.1`.
+*Needs:* [R18.3.3 Fixed-central-character algebraic forms](#r1833-fixed-central-character-algebraic-forms); [QuaternionicModularForms](../QuaternionicModularForms/README.md) `§§1.3, 3.1`.
 
 ### R18.3.7 Norm-factor forms and Eisenstein support
 
@@ -2582,7 +2582,7 @@ Constant F_l coefficients; central-character parts are taken through the effecti
 
 (Source: [MS19](#references) §6.2, Theorem 6.8 and its proof, pp.34–35 (Definite Ihara lemma for a totally definite quaternion algebra over any totally real F, by SL₂-generation and strong approximation for the reduced-norm-one group; MS attribute earlier versions to Ribet over `ℚ` and to Taylor over F))
 
-*Needs:* [QuaternionicModularForms (PR #934)](https://github.com/TauCetiProject/TauCetiRoadmap/pull/934) `§§0.3, 2.1–2.2, 3.1`; [R18.3.6 Split Hecke normalization](#r1836-split-hecke-normalization), [R18.3.7 Norm-factor forms and Eisenstein support](#r1837-norm-factor-forms-and-eisenstein-support); [AdelicAlgebraicGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md) `§3.4`, `§4.2`; [§R18.3.3 Fixed-central-character algebraic forms](#r1833-fixed-central-character-algebraic-forms).
+*Needs:* [QuaternionicModularForms](../QuaternionicModularForms/README.md) `§§0.3, 2.1–2.2, 3.1`; [R18.3.6 Split Hecke normalization](#r1836-split-hecke-normalization), [R18.3.7 Norm-factor forms and Eisenstein support](#r1837-norm-factor-forms-and-eisenstein-support); [AdelicAlgebraicGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md) `§3.4`, `§4.2`; [§R18.3.3 Fixed-central-character algebraic forms](#r1833-fixed-central-character-algebraic-forms).
 
 ### R18.3.9 Definite Ihara degeneracy map
 
