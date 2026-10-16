@@ -27,6 +27,11 @@ The analytic-to-diamond partial-properness comparison in C8.48a assumes taut pre
 of affinoid target opens. Its unrestricted field-pair predicate also applies without
 that hypothesis to the analytic dimension formulas. Generic ringed-site replacements
 and exact-functor coherence are supplied by EnhancedDerivedSheaves, §§0.1–0.4.
+
+Ambient v-pushforward is a right adjoint at each adequate cutoff. The categorical
+signatures below record its canonical comparison, the essential-image condition for
+invertibility, and the coreflected formula for the intrinsic étale right adjoint.
+The enhanced coherences and geometric hypotheses are specified in C2.9 and C3.1–C3.3.
 -/
 
 noncomputable section
@@ -36,6 +41,42 @@ open CategoryTheory Limits Topology TopologicalSpace
 universe u v w
 
 namespace TauCeti.DiamondEtale
+
+/-! ## Layers C2–C3: cutoff mates and intrinsic pushforward -/
+
+section CutoffPushforward
+variable {C D C' D' : Type u}
+    [Category.{v} C] [Category.{v} D] [Category.{v} C'] [Category.{v} D']
+    {L : C ⥤ D} {R : D ⥤ C} {L' : C' ⥤ D'} {R' : D' ⥤ C'}
+    (adj : L ⊣ R) (adj' : L' ⊣ R') (cC : C ⥤ C') (cD : D ⥤ D')
+    (comm : L ⋙ cD ≅ cC ⋙ L')
+
+/-- The cutoff comparison is the mate of the pullback square, with no invertibility
+assumption. Its components are adjoint to the extended counit (C2.9). -/
+def vPush_cutoffComparison : R ⋙ cC ⟶ cD ⋙ R' where
+  app A := adj'.homEquiv (cC.obj (R.obj A)) (cD.obj A)
+    ((comm.app (R.obj A)).inv ≫ cD.map (adj.counit.app A))
+  naturality := by sorry
+
+/-- For fully faithful cutoff extensions, the ambient comparison is invertible
+exactly when the larger right-adjoint value lies in the smaller essential image (C2.9). -/
+theorem vPush_cutoffComparison_isIso [cC.Full] [cC.Faithful] [cD.Full] [cD.Faithful]
+    (A : D) :
+    IsIso ((vPush_cutoffComparison adj adj' cC cD comm).app A) ↔
+      cC.essImage (R'.obj (cD.obj A)) := by sorry
+
+end CutoffPushforward
+
+/-- Coreflecting a stagewise ambient right adjoint computes the intrinsic right
+adjoint on a fully faithful subcategory, at every adequate cutoff (C3.3). -/
+theorem push_coreflectionIso
+    {C D E F : Type u} [Category.{v} C] [Category.{v} D]
+    [Category.{v} E] [Category.{v} F]
+    {L : C ⥤ D} {R : D ⥤ C} (adj : L ⊣ R)
+    {i : E ⥤ C} {S : C ⥤ E} (corefl : i ⊣ S)
+    {P : E ⥤ F} {Q : F ⥤ E} (intrinsic : P ⊣ Q)
+    (j : F ⥤ D) [j.Full] [j.Faithful] (comm : i ⋙ L ≅ P ⋙ j) :
+    Nonempty (Q ≅ j ⋙ R ⋙ S) := by sorry
 
 /-! ## Topological open extension by zero -/
 

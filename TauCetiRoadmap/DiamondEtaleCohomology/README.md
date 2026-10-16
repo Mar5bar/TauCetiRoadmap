@@ -33,11 +33,12 @@ The prerequisites under each target specify its more precise inputs. A local ref
 ## Conventions
 
 - `Perf` means perfectoid spaces in characteristic p. Maps called étale or quasi-pro-étale satisfy the locally separated convention. Covers are jointly surjective families of maps of v-stacks.
-- Y_ét is defined for a locally spatial diamond, Y_qproét for a diamond, and Y_v for a small v-stack. An adequate cardinal cutoff κ makes the latter sites small. Work in a fixed adequate cutoff when asserting presentability, then prove compatibility with enlargement. For Y≠∅ and Λ≠0, the uncut module-sheaf category has no set of generators and its derived enhancement is not presentable; for Y=∅ or Λ=0 these coefficient categories are zero.
+- Y_ét is defined for a locally spatial diamond, Y_qproét for a diamond, and Y_v for a small v-stack. An adequate cardinal cutoff κ makes the latter sites small. Cutoffs satisfy `DiamondsAndVStacks` §D0.23; they may be singular strong limits with cf(κ)>ω. Work in a fixed adequate cutoff when asserting presentability. Pullbacks and tensor commute with enlargement; ambient right adjoints carry comparison maps whose invertibility requires additional hypotheses. For Y≠∅ and Λ≠0, the uncut module-sheaf category has no set of generators and its derived enhancement is not presentable; for Y=∅ or Λ=0 these coefficient categories are zero.
 - A geometric stalk is evaluated at the closed point of Spa(C, C⁺) → Y, where C is complete and algebraically closed and C⁺ is an open bounded valuation subring of arbitrary rank. Restricting to C⁺ = O_C does not give the full stalk test.
 - D denotes a triangulated homotopy category; 𝒟 denotes its stable ∞-category enhancement. Left completion means the homotopy category of the enhanced Postnikov limit, with its derived inverse-limit model. Ordinary compatible towers in a triangulated category lose the lim¹ contribution to morphisms.
 - ℓ always denotes a prime, and p denotes the characteristic of Perf. Λ is a commutative coefficient ring in the tensor, perfect-complex and compact-generation results. Constructible module sheaves and the cohomology/stalk criterion use noetherian Λ. Prime-to-p torsion means nΛ = 0 for a specified n coprime to p. Results allowing arbitrary Λ retain that generality.
-- Pullback is contravariant: (f ∘ g)^* ≃ g^* ∘ f^*. On D_ét, direct image and internal Hom are obtained by étale coreflection from their v-site versions. Derived tensor is inherited without coreflection. The four operations carry coherent enhancements and natural transformations.
+- Pullback is contravariant: (f ∘ g)^* ≃ g^* ∘ f^*. Direct image and internal Hom on D_ét are intrinsic right adjoints, computed by étale coreflection of their v-site versions at every adequate cutoff. Derived tensor is inherited without coreflection. The four operations carry coherent enhancements and natural transformations.
+- Ambient v- and quasi-pro-étale direct images in C0–C3 are formed at a fixed adequate cutoff κ; a suppressed κ in such a formula denotes this stagewise construction. There is no uncut ambient direct-image functor in this specification. In comparisons with étale objects, write i_{Y,κ} for the fully faithful inclusion into 𝒟(Y_v,κ,Λ), and R_{Y,ét,κ} for its right adjoint. The intrinsic étale categories, their four operations and the uncut coreflection of C2.13 are independent of κ.
 - A constructible stratum is a constructible locally closed subset of the underlying spectral space. It need not define a sub-v-stack. Restriction to a constructible closed support is formed using extension by zero from its open complement.
 - Perfect-constructible means stratified constant perfect complexes after strictly totally disconnected tests. Over a general ring this is stronger than bounded constructible cohomology. Over a field the two agree on a quasicompact space.
 - In C8, complete nonarchimedean fields carry nontrivial ultrametric norms. Field towers and base-change squares commute through explicit algebra structures, and embeddings are isometric for compatible chosen norms. Point-presentation isomorphisms in C8.25 preserve topology and valuation rings, without a prescribed norm normalization.
@@ -621,8 +622,8 @@ Let f : Y′ → Y be a map of locally spatial diamonds. From the commuting squa
 
 Require the following API.
 
-- `vQproetBaseChange`: The natural transformation λ_Y^∗ ∘ Rf_qproét∗ ⟶ Rf_v∗ ∘ λ_{Y′}^∗ of functors D(Y′_qproét, Λ) → D(Y_v, Λ), the mate of f_v^∗λ_Y^∗ ≅ λ_{Y′}^∗f_qproét^∗.
-- `etQproetBaseChange`: The natural transformation ν_Y^∗ ∘ Rf_ét∗ ⟶ Rf_qproét∗ ∘ ν_{Y′}^∗ of functors D(Y′_ét, Λ) → D(Y_qproét, Λ).
+- `vQproetBaseChange`: The natural transformation λ_Y^∗ ∘ Rf_qproét∗ ⟶ Rf_v∗ ∘ λ_{Y′}^∗ of functors D(Y′_qproét,κ, Λ) → D(Y_v,κ, Λ) at each common adequate κ, the mate of f_v^∗λ_Y^∗ ≅ λ_{Y′}^∗f_qproét^∗.
+- `etQproetBaseChange`: The natural transformation ν_Y^∗ ∘ Rf_ét∗ ⟶ Rf_qproét∗ ∘ ν_{Y′}^∗ of functors D(Y′_ét, Λ) → D(Y_qproét,κ, Λ) at each common adequate κ.
 - `squareBaseChange`: For a cartesian square, g^∗Rf∗ ⟶ Rf′∗g′^∗ on the quasi-pro-étale and on the étale sites.
 - `vQproetBaseChange.comp`: For composable f and h, the transformation for f ∘ h is the pasting of those for f and h.
 - `vQproetBaseChange.id`: For f = id the transformation is the identity.
@@ -630,7 +631,7 @@ Require the following API.
 - `vQproetBaseChange.cohomology`: On cohomology sheaves the derived transformation induces the sheaf-level base change maps in each degree i, and for strictly totally disconnected X it is computed by the cohomology comparison over λ∘_X(X̃) ×_X Y′ and X̃ ×_X Y′.
 - `etQproetBaseChange.comp`: For composable f and h, the transformation ν^∗Rf_ét∗ → Rf_qproét∗ν^∗ for f ∘ h is the pasting of those for f and h; for f = id it is the identity.
 - `squareBaseChange.paste`: The base change transformation of a horizontal or vertical composite of cartesian squares is the pasting of the transformations of the two squares.
-- `squareBaseChange.iso_of_qproet`: If g is quasi-pro-étale, X′_qproét is the slice of X_qproét at X′ and g^∗Rf_qproét∗ → Rf′_qproét∗g′^∗ is an isomorphism on all of D(Y_qproét, Λ) (restriction to slices).
+- `squareBaseChange.iso_of_qproet`: If g is quasi-pro-étale, at every common adequate κ the site X′_qproét,κ is the slice of X_qproét,κ at X′ and g^∗Rf_qproét,κ∗ → Rf′_qproét,κ∗g′^∗ is an isomorphism on all of D(Y_qproét,κ, Λ) (restriction to slices).
 
 **Checks.**
 
@@ -679,7 +680,7 @@ Let f : Y′ → Y be a map of locally spatial diamonds and F a small sheaf of a
 
 #### C1.6 Derived comparison of v- and quasi-pro-étale pushforward
 
-Let f : Y′ → Y be a map of locally spatial diamonds, and assume f is quasi-pro-étale or nΛ = 0 for some n prime to p. For every A ∈ D(Y′_qproét, Λ) all of whose cohomology sheaves are pulled back from Y′_ét (by C2.5 this is the subcategory D_ét(Y′, Λ) ⊂ D(Y′_qproét, Λ); the statement here does not use that identification), the base change morphism λ_Y^∗Rf_qproét∗A → Rf_v∗λ_{Y′}^∗A in D(Y_v, Λ) is an isomorphism; more precisely, for X = Y strictly totally disconnected and X̃ ∈ X_v strictly totally disconnected, RΓ((λ∘_X(X̃) ×_X Y′)_qproét, A) = RΓ((X̃ ×_X Y′)_v, λ_{Y′}^∗A).
+Let f : Y′ → Y be a map of locally spatial diamonds, and assume f is quasi-pro-étale or nΛ = 0 for some n prime to p. For every A ∈ D(Y′_qproét, Λ) all of whose cohomology sheaves are pulled back from Y′_ét (by C2.5 this is the subcategory D_ét(Y′, Λ) ⊂ D(Y′_qproét, Λ); the statement here does not use that identification), at each common adequate κ the base change morphism λ_Y^∗Rf_qproét,κ∗A → Rf_v,κ∗λ_{Y′}^∗A in D(Y_v,κ, Λ) is an isomorphism; more precisely, for X = Y strictly totally disconnected and X̃ ∈ X_v strictly totally disconnected, RΓ((λ∘_X(X̃) ×_X Y′)_qproét, A) = RΓ((X̃ ×_X Y′)_v, λ_{Y′}^∗A).
 
 *Needs:* `C1.4`; `C1.5`; `C0.22`; `C1.1`.
 
@@ -695,7 +696,7 @@ Let f : Y′ → Y be a qcqs map of locally spatial diamonds and F a sheaf of ab
 
 #### C1.8 Derived comparison of étale and quasi-pro-étale pushforward
 
-Let f : Y′ → Y be a qcqs map of locally spatial diamonds. For every A ∈ D⁺(Y′_ét, Λ), ν_Y^∗Rf_ét∗A → Rf_qproét∗ν_{Y′}^∗A is an isomorphism in D⁺(Y_qproét, Λ). If Y and Y′ are strictly totally disconnected perfectoid spaces, the same holds for all A ∈ D(Y′_ét, Λ).
+Let f : Y′ → Y be a qcqs map of locally spatial diamonds. For every A ∈ D⁺(Y′_ét, Λ) and every common adequate κ, ν_Y^∗Rf_ét∗A → Rf_qproét,κ∗ν_{Y′}^∗A is an isomorphism in D⁺(Y_qproét,κ, Λ). If Y and Y′ are strictly totally disconnected perfectoid spaces, the same holds for all A ∈ D(Y′_ét, Λ).
 
 *Needs:* `C1.7`; `C0.22`; `C0.24`; `C0.19`.
 
@@ -713,7 +714,7 @@ Let g′ : Y′ → Y, f′ : Y′ → X′, f : Y → X, g : X′ → X be a ca
 
 #### C1.10 Derived base change for quasi-pro-étale pushforward
 
-In the cartesian diagram of target C1.9, assume f or g is quasi-pro-étale, or nΛ = 0 for some n prime to p. Then for every A ∈ D(Y_qproét, Λ) all of whose cohomology sheaves are pulled back from Y_ét, g_qproét^∗Rf_qproét∗A → Rf′_qproét∗g′_qproét^∗A is an isomorphism.
+In the cartesian diagram of target C1.9, assume f or g is quasi-pro-étale, or nΛ = 0 for some n prime to p. Then at every common adequate κ, for every A ∈ D(Y_qproét,κ, Λ) all of whose cohomology sheaves are pulled back from Y_ét, g_qproét^∗Rf_qproét,κ∗A → Rf′_qproét,κ∗g′_qproét^∗A is an isomorphism.
 
 *Needs:* `C1.9`; `C0.22`.
 
@@ -820,7 +821,7 @@ Let Y be a small v-stack and A ∈ D(Y_v, Λ). Then A ∈ D_ét(Y, Λ) if and on
 
 #### C2.7 Étale quasi-pro-étale pushforward computes the v-pushforward
 
-Let f : Y′ → Y be a map of locally spatial diamonds, and assume f is quasi-pro-étale or nΛ = 0 for some n prime to p. If A ∈ D_ét(Y′, Λ) is such that Rf_qproét∗A ∈ D_ét(Y, Λ) ⊂ D(Y_qproét, Λ), then Rf_v∗A ∈ D_ét(Y, Λ) ⊂ D(Y_v, Λ) and it agrees with Rf_qproét∗A.
+Let f : Y′ → Y be a map of locally spatial diamonds, and assume f is quasi-pro-étale or nΛ = 0 for some n prime to p. At a common adequate κ, if A ∈ D_ét(Y′,Λ) and Rf_qproét,κ∗A lies in the étale essential image in D(Y_qproét,κ,Λ), then Rf_v,κ∗i_{Y′,κ}A lies in i_{Y,κ}D_ét(Y,Λ) and agrees with the v-pullback of Rf_qproét,κ∗A. Cutoff compatibility on a range of stages requires this essential-image hypothesis at each stage in that range.
 
 *Needs:* `C1.6`; `C2.5`.
 
@@ -828,7 +829,7 @@ Let f : Y′ → Y be a map of locally spatial diamonds, and assume f is quasi-p
 
 #### C2.8 v-pushforward along qcqs maps preserves étale complexes
 
-For a qcqs map f of small v-stacks, require Rf_v∗ to preserve D_ét when f is quasi-pro-étale. Under the alternative coefficient condition nΛ = 0 for some n prime to p, require preservation of D⁺_ét. If source and target are locally spatial in this second case, identify D⁺_ét with D⁺(−_ét) and prove Rf_v∗ = Rf_ét∗ on that category.
+For a qcqs map f of small v-stacks, at every adequate κ require Rf_v,κ∗ to send i_{Y′,κ}D_ét into i_{Y,κ}D_ét when f is quasi-pro-étale. Under the alternative coefficient condition nΛ = 0 for some n prime to p, require this preservation on D⁺_ét. If source and target are locally spatial in this second case, identify D⁺_ét with D⁺(−_ét) and prove Rf_v,κ∗i_{Y′,κ} ≃ i_{Y,κ}Rf_ét∗ on that category. The étale essential-image assertion supplies cutoff compatibility for these inputs.
 
 *Needs:* `C1.8`; `C2.7`; `C1.6`; `DiamondsAndVStacks`, Layer D1; `C2.2`; `C2.3`; `C2.10`; `DiamondsAndVStacks`, Layer D5; `C2.6`.
 
@@ -838,17 +839,19 @@ For a qcqs map f of small v-stacks, require Rf_v∗ to preserve D_ét when f is 
 
 #### C2.9 The enhanced v-derived categories at a cutoff and their functoriality
 
-For a small v-stack Y, a ring Λ and a cutoff cardinal κ, the ∞-derived category 𝒟(Y_v,κ, Λ) of sheaves of Λ-modules on Y_v,κ is a presentable stable ∞-category with homotopy category D(Y_v,κ, Λ); the transition functors for κ ≤ κ′ and the pullbacks f_v^∗ along 0-truncated maps are colimit-preserving exact functors of ∞-categories, with coherent compatibility data under change of cutoff and composition. For a simplicial small v-stack Y_• with 0-truncated face maps, 𝒟(Y_•,v, Λ) is the ∞-derived category of the simplicial site, with its full subcategory 𝒟_cart(Y_•,v, Λ) of cartesian objects.
+For a small v-stack Y, a ring Λ and a cutoff cardinal κ, the ∞-derived category 𝒟(Y_v,κ, Λ) of sheaves of Λ-modules on Y_v,κ is a presentable stable ∞-category with homotopy category D(Y_v,κ, Λ); the transition functors for κ ≤ κ′ and the pullbacks f_v^∗ along 0-truncated maps are colimit-preserving exact functors of ∞-categories, with coherent compatibility data under change of cutoff and composition. For a simplicial small v-stack Y_• with 0-truncated face maps, use 𝒟(Y_•,v,κ, Λ) for the ∞-derived category of the simplicial site at κ, with its full subcategory 𝒟_cart(Y_•,v,κ, Λ) of cartesian objects.
 
 Require the following API.
 
 - `enhancedV`: The presentable stable ∞-category 𝒟(Y_v,κ, Λ) with an equivalence of its homotopy category with D(Y_v,κ, Λ).
 - `enhancedV.transition`: For κ ≤ κ′ a fully faithful colimit-preserving exact functor 𝒟(Y_v,κ, Λ) → 𝒟(Y_v,κ′, Λ), with coherent composition for κ ≤ κ′ ≤ κ″.
 - `enhancedV.pullback`: For 0-truncated f, a colimit-preserving exact functor f_v^∗ commuting with transitions, with coherent (f ∘ g)_v^∗ ≃ g_v^∗ ∘ f_v^∗.
-- `enhancedV.simplicial`: For a simplicial Y_• with 0-truncated face maps, 𝒟(Y_•,v, Λ) and the full subcategory of cartesian objects.
+- `enhancedV.simplicial`: For a simplicial Y_• with 0-truncated face maps, 𝒟(Y_•,v,κ, Λ) and the full subcategory of cartesian objects at a common adequate κ.
 - `enhancedV.homotopy`: Passing to homotopy categories recovers the triangulated categories and derived pullbacks of C0.
-- `enhancedV.augmentation`: For an augmented simplicial Y_• → Y with 0-truncated maps and all Y_i κ-small, pullback gives 𝒟(Y_v,κ, Λ) → 𝒟(Y_•,v,κ, Λ) landing in cartesian objects; its right adjoint is the totalization of the termwise pushforwards.
-- `enhancedV.pushforward`: For 0-truncated f, the right adjoint Rf_v∗ of f_v^∗, compatible with the cutoff transitions.
+- `enhancedV.augmentation`: For an augmented simplicial Y_• → Y with 0-truncated maps and all Y_i κ-small, pullback gives 𝒟(Y_v,κ, Λ) → 𝒟(Y_•,v,κ, Λ) landing in cartesian objects; its right adjoint is the totalization, in 𝒟(Y_v,κ,Λ), of the termwise Rg_{n,v,κ∗}. This is a formula at κ. Compatibility of the inverse on the cartesian hyperdescent image comes from C2.10, independently of invertibility of the termwise cutoff comparisons.
+- `enhancedV.pushforward`: For 0-truncated f and each adequate κ, the right adjoint Rf_{v,κ∗} of f_{v,κ}^∗. For κ≤κ′ let c_Y^∗ and c_{Y′}^∗ be the fully faithful cutoff extensions. Construct the canonical mate c_Y^∗Rf_{v,κ∗}A → Rf_{v,κ′∗}c_{Y′}^∗A, natural in A and coherent for identities, composition of maps and three cutoffs. It is not required to be invertible. Taking right adjoints of compatible pullbacks instead gives c_{Y∗}Rf_{v,κ′∗} ≃ Rf_{v,κ∗}c_{Y′∗}, with the right adjoints of the extensions.
+- `vPush_cutoffComparison`: The ordinary categorical form of this mate, for adjunctions L⊣R, L′⊣R′ and a commuting square L⋙cD ≃ cC⋙L′, is R⋙cC → cD⋙R′. Its component is adjoint to L′cCRA ≃ cDLRA → cDA, using the counit of L⊣R.
+- `vPush_cutoffComparison_isIso`: When cC and cD are fully faithful, the component at A is invertible if and only if R′(cD A) belongs to the essential image of cC. Applied with cC=c_Y^∗ and cD=c_{Y′}^∗, this is the sufficient essential-image criterion for upgrading the ambient comparison. It does not assert that a geometrically adequate cutoff meets that criterion for arbitrary coefficients.
 
 **Checks.**
 
@@ -856,14 +859,17 @@ Require the following API.
 - `enhancedV_point`: For Y = Spa(C, O_C), mapping spectra from Λ in 𝒟(Y_v,κ, Λ) compute RΓ(Y_v, −); for Λ = F_ℓ (ℓ ≠ p) and the constant sheaf, π_0 Map(Λ, Λ[i]) = F_ℓ for i = 0 and 0 otherwise. This computation in degrees i ≥ 2 uses the higher-vanishing theorem of C0.
 - `enhancedV_homotopy_category`: The homotopy category of 𝒟(Y_v,κ, Λ) is D(Y_v,κ, Λ), compatibly with shifts and distinguished triangles.
 - `enhancedV_not_set_presentable_uncut`: For Y ≠ ∅ and Λ ≠ 0 the colimit over all κ is not presentable: any set of objects lies in one cutoff, whose image is closed under colimits. For each κ construct a perfectoid test Z→Y with a profinite fibre of weight exceeding κ and prove that the free Λ-module sheaf Λ[h_Z], placed in degree zero, does not descend to that cutoff. On that fibre, distinct points give distinct basis vectors since 1≠0; any putative descent would make these vectors factor through a κ-small profinite quotient, contradicting the fibre weight. For Y=∅ or Λ=0 the colimit is zero and presentable.
+- For f=id, the ambient cutoff mate is the identity at every adequate κ≤κ′.
+- For the finite fold Y⊔Y→Y, Rf_{v,κ∗}(A,B)=A×B. Cutoff extension preserves this finite product, so the mate is invertible for arbitrary A,B.
+- Let κ be an allowed singular cutoff with δ=cf(κ)=ω₁<κ, Y=Spa(C,O_C) κ-small with C algebraically closed perfectoid of characteristic p, Λ=F_ℓ, ℓ≠p, and |J_i|<κ cofinal in κ for i<δ. Put S_i=Λ^{J_i}, F_i(T)=C(|T|,S_i) and f:⊔_{i<δ}Y→Y. Each F_i is a module sheaf represented as a set sheaf by the κ-small perfectoid space Y×S_i; strong limit growth bounds both its profinite set and its continuous-function ring below κ. The disjoint union is κ-small, and the family F=(F_i) is an ambient module sheaf with no uniform bound on the |J_i|. Cutoff extension is componentwise and preserves each κ-small representable Y×S_i, hence extends each F_i to the same represented module sheaf. Write J=⊔_i J_i, |J|=κ. Then H⁰Rf_{v,κ∗}F=∏_{j∈J}Λ_Y. At κ′ large enough for Y×S with S=Λ^J, the larger pushforward has the coordinate section given by id_S. By ECD Proposition 8.2, a section extended from κ factors through a κ-small affinoid approximation, so its coordinate image has cardinality <κ, whereas |S|=ℓ^κ>κ. The mate fails already on H⁰. This uses t-exactness of extension, without an exactness assertion for uncountable products.
 
 *Needs:* `EnhancedDerivedSheaves`, Layer E1; `EnhancedDerivedSheaves`, Layer E3; `C0.4`; `C0.3`.
 
-(ECD Lemma 17.1, p. 96; ECD proof of Lemma 17.1, p. 96.)
+(ECD Lemma 17.1 and proof, p. 96; ECD Proposition 8.2 and proof, pp. 39–40; ECD Lemma 4.1, pp. 19–20; `EnhancedDerivedSheaves` §E3.4, `cutoffRightAdjoint_compat`; pinned Mathlib `CategoryTheory/Adjunction/Mates.lean`, `CategoryTheory.mateEquiv`.)
 
 #### C2.10 Hyperdescent for the v-derived category
 
-Let Y be a small v-stack, Y_• → Y a simplicial v-hypercover by small v-stacks with 0-truncated maps Y_i → Y, and κ a cutoff with all Y_i κ-small. Pullback induces a fully faithful functor 𝒟(Y_v,κ, Λ) → 𝒟(Y_•,v,κ, Λ) whose essential image is the full ∞-subcategory of cartesian objects. These equivalences commute with the transition functors for κ ≤ κ′, so they pass to the colimit 𝒟(Y_v, Λ), and for a 0-truncated g : Y′ → Y they commute with g_v^∗ and the pulled-back hypercover Y_• ×_Y Y′. On homotopy categories D(Y_v, Λ) → D(Y_•,v, Λ) is fully faithful with essential image the cartesian objects.
+Let Y be a small v-stack, Y_• → Y a simplicial v-hypercover by small v-stacks with 0-truncated maps Y_i → Y, and κ a cutoff with all Y_i κ-small. Pullback induces a fully faithful functor 𝒟(Y_v,κ, Λ) → 𝒟(Y_•,v,κ, Λ) whose essential image is the full ∞-subcategory of cartesian objects. These equivalences commute with the transition functors for κ ≤ κ′, so they pass to the colimit 𝒟(Y_v, Λ), and for a 0-truncated g : Y′ → Y they commute with g_v^∗ and the pulled-back hypercover Y_• ×_Y Y′. On homotopy categories D(Y_v, Λ) → D(Y_•,v, Λ) is fully faithful with essential image the cartesian objects. On that image the stagewise totalization inverse of C2.9 commutes with cutoff enlargement by uniqueness of an inverse to the compatible pullbacks. This gives no termwise ambient pushforward equivalence on arbitrary simplicial coefficients.
 
 *Needs:* `C0.21`; `EnhancedDerivedSheaves`, Layer E2; `C2.9`; `EnhancedDerivedSheaves`, Layer E3.
 
@@ -965,8 +971,8 @@ Require the following API.
 - `pull_tStructure`: pull f is t-exact for the standard t-structures and commutes with H^i.
 - `pull_colimits`: pull f preserves all small colimits.
 - `pull_twoCell`: A 2-isomorphism α : h ⇒ h′ of maps of small v-stacks induces pull h ≅ pull h′, compatibly with pull_comp and with vertical composition of 2-cells.
-- `vPull`: f_v^∗ : 𝒟(Y_v,κ, Λ) → 𝒟(Y′_v,κ, Λ) for κ adequate for a perfectoid cover Y′_0 → Y′ (the Čech-nerve construction of the statement), with vPull_comp : vPull (g ≫ f) ≅ vPull f ⋙ vPull g; for 0-truncated f the pullback of the morphism of sites.
-- `vPush`: The right adjoint Rf_v∗ of f_v^∗, given by Rf_v∗A = lim_{[n]∈Δ} Rg_{n,v∗}(A|Y′_n) for the Čech nerve g_• : Y′_• → Y of a perfectoid cover of Y′; for 0-truncated f it is the derived pushforward of the morphism of sites; it is compatible with the cutoff transitions and commutes with restriction along 0-truncated maps to Y (v-slices).
+- `vPull`: f_{v,κ}^∗ : 𝒟(Y_v,κ, Λ) → 𝒟(Y′_v,κ, Λ) for κ adequate for the presentations of Y and Y′ and the Čech nerve of Y′_0 → Y′. These pullbacks commute coherently with cutoff extension and assemble to the uncut pullback. Require vPull_comp : vPull (g ≫ f) ≅ vPull f ⋙ vPull g; for 0-truncated f this is the pullback of the morphism of sites.
+- `vPush`: At each such κ, the right adjoint Rf_{v,κ∗} of f_{v,κ}^∗, given by Rf_{v,κ∗}A = lim_{[n]∈Δ} Rg_{n,v,κ∗}(A|Y′_n), with totalization in 𝒟(Y_v,κ,Λ). For 0-truncated f it is the derived pushforward of the morphism of sites. At fixed κ it is independent of the cover by adjunction, composes coherently and commutes with restriction to 0-truncated v-slices at a common adequate κ. Require the canonical cutoff mate and its coherences as in C2.9; its equivalence requires the stated essential-image criterion. The formula uses stagewise termwise pushforwards, and does not assemble an uncut ambient right adjoint.
 
 **Checks.**
 
@@ -991,16 +997,16 @@ Require the following API.
 - `push_id`: R(𝟙 Y)∗ ≅ 𝟭.
 - `push_limits`: Rf∗ is exact and preserves all limits.
 - `push_globalSections`: RΓ(Y, −) := RHom_{𝒟_ét(Y,Λ)}(Λ_Y, −) : D_ét(Y, Λ) → D(Λ), so H^i(Y, A) = Hom(Λ_Y, A[i]); for f : Y → ∗ the adjunction gives Hom(Λ_Y, A[i]) = Hom(Λ_∗, (Rf∗A)[i]) and RΓ(Y, A) = RΓ(∗, Rf∗A). D_ét(∗, Λ) is not D(Λ), so H^i(Rf∗A) is a sheaf on ∗_v, not H^i(Y, A).
-- `push_eq_coreflection`: Rf∗ = R_Yét ∘ Rf_v∗ (target C3.3).
+- `push_eq_coreflection`: For every adequate κ and A∈𝒟_ét(Y′,Λ), Rf∗A ≃ R_{Y,ét,κ}(Rf_{v,κ∗}i_{Y′,κ}A), coherently in κ (target C3.3).
 - `push_locallySpatial`: For locally spatial Y′, Y, Rf∗ is the left-completed Rf_ét∗ (target C3.4).
-- `push.baseChange`: For a 2-cartesian square of small v-stacks (f̃ : Ỹ′ → Ỹ, g′ : Ỹ′ → Y′ over f : Y′ → Y, g : Ỹ → Y), the base change transformation g^∗ ∘ Rf∗ ⟶ Rf̃∗ ∘ g′^∗, the mate of pull_comp and the 2-cell (pull_twoCell); the identity for g = id; compatible with horizontal and vertical pasting; for qcqs f with nΛ = 0, n prime to p, on D⁺_ét it agrees with the v-site base-change map under Rf∗ = Rf_v∗.
+- `push.baseChange`: For a 2-cartesian square of small v-stacks (f̃ : Ỹ′ → Ỹ, g′ : Ỹ′ → Y′ over f : Y′ → Y, g : Ỹ → Y), the base change transformation g^∗ ∘ Rf∗ ⟶ Rf̃∗ ∘ g′^∗, the mate of pull_comp and the 2-cell (pull_twoCell); the identity for g = id; compatible with horizontal and vertical pasting; for qcqs f with nΛ = 0, n prime to p, on D⁺_ét it agrees at every common adequate κ with the v-site base-change map under i_{Y,κ}Rf∗ ≃ Rf_{v,κ∗}i_{Y′,κ}.
 
 **Checks.**
 
 - `push_id_test`: R(𝟙 Y)∗ A ≅ A.
 - `push_point`: For f : Spa(C, O_C) × S → Spa(C, O_C) with S profinite and M a Λ-module, Rf∗ M = C(S, M) placed in degree 0 (locally constant functions).
 - `push_adjunction`: Hom_{D_ét(Y,Λ)}(B, Rf∗A) ≅ Hom_{D_ét(Y′,Λ)}(f^∗B, A) naturally in B and A.
-- `push_not_v_pushforward`: For f : ⊔_{n∈N} Spa(C, O_C) → Spa(C, O_C) (not quasicompact) and Λ ≠ 0 finite, Rf_v∗Λ is the v-sheaf X ↦ C(|X|, Λ^N) with Λ^N in the product topology, which is not in D_ét (its sections over Spa(C, O_C) × (N ∪ {∞}) are not locally constant), while Rf∗Λ = R_Yét Rf_v∗Λ is the constant sheaf Λ^N; for qcqs f with nΛ = 0, n prime to p, the two agree on D⁺_ét (Proposition 17.6).
+- `push_not_v_pushforward`: For f : ⊔_{n∈N} Spa(C, O_C) → Spa(C, O_C) (not quasicompact) and Λ ≠ 0 finite, at each adequate κ, Rf_{v,κ∗}i_{Y′,κ}Λ is the v-sheaf X ↦ C(|X|, Λ^N) with Λ^N in the product topology, which is not in D_ét (its sections over Spa(C, O_C) × (N ∪ {∞}) are not locally constant), while Rf∗Λ ≃ R_{Y,ét,κ}(Rf_{v,κ∗}i_{Y′,κ}Λ) is the constant sheaf Λ^N; for qcqs f with nΛ = 0, n prime to p, the two agree on D⁺_ét (Proposition 17.6).
 
 *Needs:* `C3.1`; `C2.12`; `EnhancedDerivedSheaves`, Layer E3; `CategoryTheory.Adjunction`.
 
@@ -1008,7 +1014,15 @@ Require the following API.
 
 #### C3.3 Rf∗ is the coreflection of the v-pushforward
 
-For any map of small v-stacks f : Y′ → Y, Rf∗ = R_Yét ∘ Rf_v∗ on D_ét(Y′, Λ).
+For any map of small v-stacks f:Y′→Y, every common adequate κ and A∈𝒟_ét(Y′,Λ), prove `Rf_* A ≃ R_{Y,ét,κ}(Rf_{v,κ*}(i_{Y′,κ} A))`. Both sides represent B↦Map(f^∗B,A) on the fixed category 𝒟_ét(Y,Λ), using the adjunctions of C3.1 and C2.13 and full faithfulness of i_{Y′,κ}. The equivalence is natural in A and f. After target coreflection, the ambient cutoff mate of C2.9 induces the equivalence of these representatives at κ and κ′; require the identity, composition and three-cutoff coherences. No ambient essential-image assertion is needed for this coreflected comparison.
+
+The representative ordinary categorical signature `push_coreflectionIso` expresses this argument: if L⊣R, i⊣S, P⊣Q, j is fully faithful and i⋙L≃P⋙j, then Q≃j⋙R⋙S. Here i,j are the étale inclusions, P=f^∗ and Q=Rf∗.
+
+**Checks.**
+
+- For f=id, the formula is R_{Y,ét,κ}i_{Y,κ}≃id at every adequate cutoff.
+- For f:Y⊔Y→Y and étale A,B, it gives their product in 𝒟_ét(Y,Λ), computed by coreflecting the ambient product at either cutoff.
+- In the singular-cutoff example of C2.9 the input F is ambient and need not be étale. Coreflecting it at the source gives an étale input to which this formula applies at every adequate cutoff, without making the failed ambient comparison on F invertible. For the countable fold with constant Λ in C3.2, target coreflection gives the same constant value Λ^N at all adequate cutoffs, despite the ambient output being non-étale.
 
 *Needs:* `C3.2`; `C2.13`; `C3.1`.
 
@@ -1024,7 +1038,7 @@ Let f : Y′ → Y be a map of locally spatial diamonds. Under the identificatio
 
 #### C3.5 Pushforward along qcqs maps with prime-to-p torsion coefficients: comparison and base change on D⁺
 
-Assume nΛ = 0 for some n prime to p, and let f : Y′ → Y be a qcqs map of small v-stacks. For every A ∈ D⁺_ét(Y′, Λ), Rf_v∗A ∈ D⁺_ét(Y, Λ), hence Rf∗A = Rf_v∗A. Moreover the formation of Rf∗ commutes with any base change: for every map g : Ỹ → Y of small v-stacks with f̃ : Ỹ′ = Y′ ×_Y Ỹ → Ỹ and g′ : Ỹ′ → Y′, the natural transformation g^∗Rf∗A → Rf̃∗g′^∗A is an equivalence for all A ∈ D⁺_ét(Y′, Λ).
+Assume nΛ = 0 for some n prime to p, and let f : Y′ → Y be a qcqs map of small v-stacks. For every A ∈ D⁺_ét(Y′, Λ) and every common adequate κ, Rf_{v,κ∗}i_{Y′,κ}A lies in i_{Y,κ}D⁺_ét(Y,Λ), hence i_{Y,κ}Rf∗A ≃ Rf_{v,κ∗}i_{Y′,κ}A. In particular the ambient cutoff mate is invertible on these inputs by the essential-image criterion of C2.9. Moreover the formation of Rf∗ commutes with any base change: for every map g : Ỹ → Y of small v-stacks with f̃ : Ỹ′ = Y′ ×_Y Ỹ → Ỹ and g′ : Ỹ′ → Y′, the natural transformation g^∗Rf∗A → Rf̃∗g′^∗A is an equivalence for all A ∈ D⁺_ét(Y′, Λ).
 
 *Needs:* `C2.8`; `C3.3`; `C3.1`; `C3.2`.
 
@@ -1032,7 +1046,7 @@ Assume nΛ = 0 for some n prime to p, and let f : Y′ → Y be a qcqs map of sm
 
 #### C3.6 Unbounded comparison and base change under finite cohomological dimension
 
-Assume nΛ = 0 for some n prime to p and let f : Y′ → Y be a qcqs map of small v-stacks such that Rf∗ has finite cohomological dimension: there is N with R^if∗A = 0 for i > N and all A ∈ D_ét(Y′, Λ) concentrated in degree 0. Then for all A ∈ D_ét(Y′, Λ), Rf∗A = Rf_v∗A ∈ D_ét(Y, Λ), and for every map g : Ỹ → Y of small v-stacks g^∗Rf∗A → Rf̃∗g′^∗A is an isomorphism. Only Rf∗, not Rf̃∗, needs finite cohomological dimension.
+Assume nΛ = 0 for some n prime to p and let f : Y′ → Y be a qcqs map of small v-stacks such that Rf∗ has finite cohomological dimension: there is N with R^if∗A = 0 for i > N and all A ∈ D_ét(Y′, Λ) concentrated in degree 0. Then for all A ∈ D_ét(Y′, Λ) and every common adequate κ, i_{Y,κ}Rf∗A ≃ Rf_{v,κ∗}i_{Y′,κ}A lies in i_{Y,κ}D_ét(Y,Λ), so the ambient cutoff mate is invertible on these inputs, and for every map g : Ỹ → Y of small v-stacks g^∗Rf∗A → Rf̃∗g′^∗A is an isomorphism. Only Rf∗, not Rf̃∗, needs finite cohomological dimension.
 
 *Needs:* `C3.5`; `EnhancedDerivedSheaves`, Layer E2; `C2.6`; `C0.22`; `C0.21`.
 
