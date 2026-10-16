@@ -6,6 +6,8 @@
 
 This roadmap owns the applications of integral old/new cohomology to residual level descent, the geometric lowering contradictions, weight optimisation for an existing modular eigensystem, coefficient-prime level removal, and the precise conditional exports. It also owns the concrete totally real optimisation in Khare–Wintenberger II §8: minimal modular witnesses after allowable base change, the parallel weight change, quaternionic raising as used in that argument, and modular lifts with prescribed locally admissible types.
 
+Sections 2.10 and 4.8 own rational weight-two level lowering and finite-flat weight-two optimisation; §4.7 owns the weight-two coefficient-prime bridge. AutomorphicGaloisRepresentations §§6.5 and 7.6 consume these results in their overlapping lowering and `ℓ≥5` finite-flat applications. Its type-Σ packaging, extra characteristic-three character comparison and fixed-form eventual-ramification deduction remain there.
+
 ArithmeticGaloisRepresentations Layer 3 owns the full Artin conductor, Swan conductor and invariance under coefficient extension; NeronModelsAndSemistableAbelianVarieties §5.3h owns the elliptic residual conductor formulas. AlgebraicModularFormsAndSerreWeights Layers R15.1–R15.4 owns Katz forms, coherent Hecke modules, Hasse/theta/Frobenius operations and the local weight recipe, including extension classes. This roadmap applies these objects and does not give them new definitions. The analytic old/new decomposition, normalized characteristic-zero newforms, and weight-one lattices belong to Tau Ceti and its ModularForms roadmap. The integral Jacobian and cohomology comparison belongs to ModularCurvesPartII Layers 13–15; analytic orthogonality does not supply it.
 
 IntegralHeckeAndGaloisDeterminants IHG.1 owns the Cayley–Hamilton and reducibility algebra. The augmented-algebra congruence functor requires additional augmentation and generic-rank hypotheses. Section 1.3 constructs the comparison needed for the Hecke application and specifies its localisation and pairing API; it is distinct from the level-change lattice quotient.
@@ -52,13 +54,15 @@ Use `Nat.primeFactors` from `Mathlib/Data/Nat/PrimeFin.lean`. The distinct prime
 
 Use `padicValNat` from `Mathlib/Data/Nat/PadicValNat.lean`. The exponent of the largest dividing p-power for nonzero n and prime p; defaults at zero/base one are excluded by the mathematical input hypotheses.
 
+Suggested.lean mirrors the coordinate quotients and the elementary numerical Checks in §§2.3–2.5, 3.5, 3.14–3.14a, 6.1 and 6.8.
+
 The gluing examples use the existing submodule quotient over a commutative ring and module. The DVR finiteness theorem has the additional finite-free and rational complement assumptions in Layer 1. The suggested `reducedLevel` is an arithmetic expression in natural-number prime factors and exponent valuations of `|Δ|`; its elliptic interpretation requires the conductor and minimal-discriminant hypotheses in Layer 6. Natural valuation defaults at zero are not used to model a zero minimal discriminant.
 
 For `H ⧸ (P ⊔ Q)`, use `Submodule.Quotient.subsingleton_iff` for the zero criterion, `Submodule.Quotient.mk_eq_zero` for membership, `Submodule.quot_hom_ext` and `Submodule.linearMap_qext` for extensionality, `Submodule.liftQ` with `Submodule.liftQ_mkQ` for descent, and `Submodule.mapQ`, `Submodule.mapQ_id`, `Submodule.mapQ_comp` and `Submodule.Quotient.equiv` for maps and transport. These declarations are in `Mathlib/LinearAlgebra/Quotient/Defs.lean` and `Mathlib/LinearAlgebra/Quotient/Basic.lean`; unique descent follows from the quotient projection's surjectivity `Submodule.mkQ_surjective`. Their ring, module and kernel/image hypotheses are retained. The lattice-specific finite-torsion statement and index-`π` example belong to §1.2.
 
 ### From TauCetiRoadmap
 
-The ModularForms layers 3–4 supply the analytic degeneracy and newform theory. Layer 8 supplies modular symbols, integral Hecke algebras and coefficient fields; layer 8W supplies the weight-one q-expansion lattice and integral Hecke/coefficient-field interface, and layer 8G supplies coefficient-Galois stability with conjugate character. These require the stated geometric ModularCurvesPartII Layers 13–15 comparison to pass to integral curve cohomology. The ModularCurves roadmap supplies the curves and Jacobians; its Part II supplies the named integral, bad-fibre and non-Eisenstein comparisons below. ClassFieldTheory layer 7 supplies arithmetic local reciprocity and conductor/unit comparisons, layer 11 supplies global reciprocity and the global extension condition for local characters. Chebotarev layer 10 supplies positive-density arithmetic Frobenius classes in a finite joint quotient, with a finite set of bad primes excluded. LocalGaloisGroups supplies the basic local/profinite foundations; residual conductors and finite-flat optimisation use their ArithmeticGaloisRepresentations/FiniteFlatGroupsAndIntegralPadicHodgeTheory owners.
+The ModularForms layers 3–4 supply the analytic degeneracy and newform theory. Layer 8 supplies modular symbols, integral Hecke algebras and coefficient fields; layer 8W supplies the weight-one q-expansion lattice and integral Hecke/coefficient-field interface, and layer 8G supplies coefficient-Galois stability with conjugate character. These require the stated geometric ModularCurvesPartII Layers 13–15 comparison to pass to integral curve cohomology. The ModularCurves roadmap supplies the curves and Jacobians; its Part II supplies the named integral, bad-fibre and non-Eisenstein comparisons below. ClassFieldTheory layer 7 supplies arithmetic local reciprocity and conductor/unit comparisons, layers 11–12 supply global reciprocity and ray-class existence. Compatible local character prescriptions use ArithmeticGaloisDuality §R02.4.6, with its global and dyadic obstructions. Chebotarev layer 10 supplies positive-density arithmetic Frobenius classes in a finite joint quotient, with a finite set of bad primes excluded. LocalGaloisGroups supplies the basic local/profinite foundations; residual conductors and finite-flat optimisation use their ArithmeticGaloisRepresentations/FiniteFlatGroupsAndIntegralPadicHodgeTheory owners.
 
 ### From the neighbouring roadmap suppliers
 
@@ -72,7 +76,9 @@ From `ArithmeticGaloisRepresentations:Layer 4`: Finite joint quotients and compl
 
 From `ArithmeticGaloisRepresentations:§§6.1–6.4`: Tate modules, their elliptic torsion realisation and determinant, and the Tate-curve local representation. The good-reduction finite-flat model is supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.6.1. Residual irreducibility is a hypothesis of the fixed elliptic export; no eventual-irreducibility theorem follows from the conductor declaration.
 
-From `ArithmeticGaloisDuality:§§R02.4.5b–R02.4.6`: The global character/solvable-extension approximation input used in KWII Lemma 7.10, including the dyadic Grunwald–Wang qualification, prescribed splitting, total reality and disjointness. This extends the global-duality/character prescription interface; no assumption of unrestricted Grunwald approximation at 2.
+From `ArithmeticGaloisDuality:§§R02.4.5b–R02.4.6`: Compatible local character prescriptions, Grunwald–Wang with its dyadic obstruction, and character roots with their local/global obstructions. These supply approximation and root prerequisites, not determinant alignment by themselves.
+
+From `ArithmeticGaloisDuality:§R02.6.2, Finite-order determinant twists`: KWII Lemma 7.10 determinant alignment. Over the totally real field F, the two arithmetic characters have equal reductions, agree on open subgroups of units above p and on all units at the prescribed split finite places, and have equal values at every complex conjugation. Their ratio is finite p-power order and totally even. After coefficient extension and a disjoint totally real solvable change split at those places, a finite p-power-order character ζ, unramified there, satisfies `ζ²ψ=ψ′` after restriction. At p=2 total evenness is an independent hypothesis; local units and dyadic Grunwald–Wang conditions are retained.
 
 From `GlobalGaloisDeformations:§§4.4, 4.8–4.11`: Fixed-determinant lifting data and arithmetic determinant characters `ψχ_p`, transported under allowable changes and residually trivial twists; local square-root compatibility at every special place.
 
@@ -100,7 +106,7 @@ From `AlgebraicModularFormsAndSerreWeights:R15.1`: Actual Katz/coherent forms on
 
 From `AlgebraicModularFormsAndSerreWeights:R15.2`: q-expansion principle and integral finite coefficient modules. Section 6.8 here constructs the finite-field Steinberg comparison, with its product over all residue embeddings in KW Lemma 8.3.
 
-From `AlgebraicModularFormsAndSerreWeights:R15.3`: Hasse, theta cycles, inverse coefficient Frobenius/V/U and the characteristic-two/three corrections; weight-one `T_p=U_p+〈p〉V` with torsion coefficients and localized nilpotence.
+From `AlgebraicModularFormsAndSerreWeights:R15.3`: Hasse, theta cycles, inverse coefficient Frobenius/V/U and the characteristic-two/three corrections. Its torsion weight-one `T_p=U_p+〈p〉V` comparison has `p≥3`, `N≥5`; §3.14a here constructs the dyadic comparison at `N≥5` from ModularCurvesPartII §9.11 and the small-prime Hasse lifts.
 
 From `AlgebraicModularFormsAndSerreWeights:R15.5`: Use the existing Deligne–Serre finite-free eigenvalue-lifting contract: finite fraction-field extension, a dominating DVR and residue embedding; no unique or preselected integral eigenvector and no claim that the DVR must be finite over O.
 
@@ -112,7 +118,7 @@ From `GL2AutomorphicRepresentationsAndTransfer:R17.5`: Finite-image dihedral Art
 
 From `GL2AutomorphicRepresentationsAndTransfer:§§R16.3.1–R16.3.5, R17.6.4`: Classical conductor/local-type compatibility interfaces at `q≠p` and the actual residual normalization. Section R17.6.12 owns the dyadic dihedral weight-one realization. Import its result, not its construction. In §R17.6.12 the supplied statement is: a continuous odd irreducible dihedral `ρ` in characteristic two, unramified at two, has a Katz weight-one witness of tame conductor `N(ρ)` and character `det ρ`. The odd-characteristic dihedral induction and weight-one comparison are §§R17.5.1, R17.5.9. Wiese 2004 Theorem 9, pp. 130–131, gives the all-characteristic formulation.
 
-From `HilbertModularVarietiesAndShimuraCurves:R18.3`: Definite quaternionic `S_{τ,ψ}(U,O)`, finite-free coefficient spaces with the determinant-covariant pairing of Kisin §3.1.9, stabilizer orders prime to p/neatness, full Hecke modules, KWII Lemma 7.7 for p-local compatibility and Lemmas 7.2/7.10 for square-root signs, and the weight-two Lemma 7.1 at p, including `p=2`. Retain its general `q≠p` version; only the weight-two trivial q-action permits q|p. For KW8.2 import the existing tw-twist-reduction-image and ramified-unramified-sign-control targets. The additional field change must enlarge p-parts of residue-unit groups beyond the stabilizer exponent (Lemma 7.3), including characters of order divisible by four at `p=2`. Effective neatness alone gives no such field-degree assertion. Square-root/sign control is Lemma 7.2 and Lemma 7.10; Lemma 7.7 instead supplies p-local Langlands–Fontaine compatibility.
+From `HilbertModularVarietiesAndShimuraCurves:R18.3`: Definite quaternionic `S_{τ,ψ}(U,O)`, finite-free coefficient spaces with the determinant-covariant pairing of Kisin §3.1.9, stabilizer orders prime to p/neatness, full Hecke modules, KWII Lemma 7.7 for p-local compatibility and Lemmas 7.2/7.10 for square-root signs, and the weight-two Lemma 7.1 at p, including `p=2`. Retain its general `q≠p` version; only the weight-two trivial q-action permits q|p. For KW8.2 import §R18.3.24 (`twTwist_commonLiftableImage`) and §R18.3.32 (`ramifiedSign_independentOfEigenform`); unramified eigenroot and coinvariant control uses §R18.3.31 at auxiliary places with `q_v≡1 mod p`, distinct residual Frobenius roots and the stated characteristic-zero local compatibility for every localized constituent. Section R18.3.32 retains the odd-p residual-sign identifiability hypotheses and, at `p=2`, full division level `D_v×` with its fixed central-compatible coefficient character. The additional field change must enlarge p-parts of residue-unit groups beyond the stabilizer exponent (Lemma 7.3), including characters of order divisible by four at `p=2`. Effective neatness alone gives no such field-degree assertion. Square-root/sign control is Lemma 7.2 and Lemma 7.10; Lemma 7.7 instead supplies p-local Langlands–Fontaine compatibility.
 
 From `HilbertModularVarietiesAndShimuraCurves:R18.4`: Residual injection, integral saturation and the geometric degeneracy Gram identity under their exact hypotheses. Extend the application to definite quaternionic modules with Kisin §3.1.9 determinant-covariant coefficient pairing and Corollary 3.1.11’s nonzero support and full-module defect condition. Its definite non-Eisenstein injection uses Kisin 3.1.8/KWII Lemma 7.1; do not substitute an odd-p large-image Shimura-curve Ihara theorem at `p=2`. The existing geometric-gram-identity is for Shimura-curve coefficient cohomology; §6.9 here constructs the separate definite coefficient-space identity with Kisin’s determinant-covariant pairing. Kisin §3.1 assumes `p>2`. For the weight-two `p=2`, `q ∣ p` branch §6.9 here establishes precisely KW7.1 and the integral argument on pp. 76–78, with trivial q-coefficient action when q|p, rather than extending Kisin’s corollary silently.
 
@@ -126,7 +132,7 @@ From `Chebotarev:Layer 10`: Arithmetic Frobenius Chebotarev in the finite joint 
 
 From `ClassFieldTheory:Layer 7`: Local Artin normalization, conductor and inertia/unit comparison; scalar odd-order characters of `G_Q2` kill inertia. Global extension of local characters uses the existing global reciprocity layer, specified below.
 
-From `ClassFieldTheory:Layer 11`: Global finite-order characters with controlled conductors from local data, retaining the global extension condition and any additional ramification; used for residually trivial twists and KW determinant alignment.
+From `ClassFieldTheory:Layers 11–12`: Global reciprocity and ray-class existence. Use `ArithmeticGaloisDuality:§R02.4.6` for compatible local character prescriptions and their obstructions, and `ArithmeticGaloisDuality:§R02.6.2, Finite-order determinant twists` for KW determinant alignment. Rational one-prime twists in §§2.11 and 4.3 are explicit Dirichlet characters, with no ramification away from that prime.
 
 From `ModularForms:Layer 3`: Import the Petersson pairing, degeneracy maps, fixed-character global old/new theory and the bad-prime trace/adjoint milestones. Layer 2.2 here identifies the quotient relative to just the two level-M degeneracies at Mq; it is not the globally new cuspFormsNew at all level primes. Layer 4.6 here proves the `Γ1(N)∩Γ0(ℓ)` trace specialization `Tr(F)=F+ε(ℓ)^{-1}ℓ^{1−w/2}F|W|U_ℓ` in Ribet’s partial-W convention (Ribet94 Step 4, p. 6). Neither specialization is an explicitly stated target of the supplier.
 
@@ -156,7 +162,7 @@ The integral argument starts with actual geometric coefficient lattices. A chara
 
 ### 1.1 Localised integral degeneracy sequence
 
-Let O be a complete DVR of residue characteristic `ℓ` and `q∤Mℓ`. Let `H_M,H_Mq` be finite free parabolic cuspidal lattices with coefficient system `Sym^{k−2}`, fixed compatible diamond data, and adjoint degeneracy pairing. Under the precise localized integral Ihara and pairing hypotheses, `δ:H_M²→H_Mq` is injective with O-free cokernel Q, giving `0→H_M²→H_Mq→Q→0`. Over `K=Frac(O)`, `Q_K` identifies with the q-new quotient, relative to the two maps from level M. Away-q Hecke actions descend. ModularCurvesPartII §15.7 supplies compact Ihara in the constant-coefficient weight-two branch. Establish here its parabolic `Sym^{k−2}` version for the `2≤k≤ℓ+1` branch of Ribet Theorem 5.1, with the coefficient duality, localised freeness and fine-cover descent specified below. No integral complementary new summand is asserted. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), §5, (5.2)–(5.3), author pp. 13–15; §6, author pp. 18–19. Integral degeneracy and its characteristic-zero quotient; injectivity and saturation are the separately imported Ihara input.)
+Let O be a complete DVR of residue characteristic `ℓ` and `q∤Mℓ`. Let `H_M,H_Mq` be finite free parabolic cuspidal lattices with coefficient system `Sym^{k−2}`, fixed compatible diamond data, and adjoint degeneracy pairing. Under the precise localized integral Ihara and pairing hypotheses, `δ:H_M²→H_Mq` is injective with O-free cokernel Q, giving `0→H_M²→H_Mq→Q→0`. Over `K=Frac(O)`, `Q_K` identifies with the q-new quotient, relative to the two maps from level M. Away-q Hecke actions descend. ModularCurvesPartII §15.7 supplies compact Ihara in the constant-coefficient weight-two branch. Establish here its parabolic `Sym^{k−2}` version for the `2≤k≤ℓ+1` branch of Ribet Theorem 5.1, with the coefficient duality, localised freeness and fine-cover descent specified below. No integral complementary new summand is asserted. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), §5, (5.2)–(5.3), author pp. 15–16; §6, author pp. 18–19. Integral degeneracy and its characteristic-zero quotient; injectivity and saturation are the separately imported Ihara input.)
 
 `q∤Mℓ`; actual finite free parabolic lattices, not complex subspaces. Weight two uses ModularCurvesPartII §15.7 with its `Γ1(M)` fine-level or `Γ0(M)` Eisenstein-kernel hypotheses; small levels use the supplied auxiliary fine-level descent. For `2≤k≤ℓ+1`, `ℓ` odd and `ℓ∤M`, require the `Sym^{k−2}` integral Ihara extension, localized freeness and perfect coefficient/diamond duality; these are separate from constant-coefficient Ihara. Apply pairing after localization, with the contragredient character on the dual lattice.
 
@@ -280,9 +286,9 @@ Import the conductor and coefficient-extension invariance. Apply local compatibi
 
 ### 2.2 Integral q-new support interface
 
-Using ModularForms layer 3’s pairing and degeneracies, identify the characteristic-zero quotient by the two level-M images with their Petersson-orthogonal complement at Mq. This relative q-new factor need not be globally new at primes dividing M; the single-prime comparison is the specialization owned here. Under Layer 1’s precise integral hypotheses, q-new residual support means support on its finite free quotient Q. A character on `Q/πQ` lifts to a characteristic-zero q-new eigensystem by the supplied eigenvalue-lifting lemma. Reduction of a complex orthogonal complement alone does not define this support. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), §5, (5.3), author pp. 14–16. Old/new support on the integral quotient that enters Diamond’s criterion.)
+Using ModularForms layer 3’s pairing and degeneracies, identify the characteristic-zero quotient by the two level-M images with their Petersson-orthogonal complement in `S_k(Γ1(M)∩Γ0(q))`. The characteristic-zero character is pulled back from modulo M, so its q-component is trivial. This relative q-new factor need not be globally new at primes dividing M; the single-prime comparison is the specialization owned here. Under Layer 1’s precise integral hypotheses, q-new residual support means support on its finite free quotient Q. A character on `Q/πQ` lifts to a characteristic-zero q-new eigensystem by the supplied eigenvalue-lifting lemma. Reduction of a complex orthogonal complement alone does not define this support. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), §5, (5.3), author pp. 14–16. Old/new support on the integral quotient that enters Diamond’s criterion.)
 
-`q∤Mℓ`, exact integral sequence and pairing from Layer 1. Use a coefficient DVR and a fixed compatible character.
+`q∤Mℓ`, exact integral sequence and pairing from Layer 1. Use a coefficient DVR and the compatible diamond action modulo M, pulled back to the mixed level with trivial q-character in characteristic zero. Localizing at a residual M-character permits its congruent characteristic-zero lifts.
 
 Compare `Q_K` to the relative analytic factor by the adjoint pairing and finite-dimensional orthogonal decomposition, not by the global-new definition. Localise and reduce the actual integral quotient. Apply the finite-free eigenvalue lifting contract only to a nonzero residual support space.
 
@@ -350,11 +356,11 @@ Its applications are [Ribet lowering at an unramified prime](#level-lowering-unr
 
 ### 2.4 Diamond’s level-raising criterion
 
-Let `ℓ≥3`, `2≤k≤ℓ+1`, `ℓ∤N`, and f a normalised eigenform in `S_k(Γ1(N))` with irreducible residual representation. For `q∤Nℓ`, there is a q-new eigenform at level Nq with the same residual good-prime eigensystem exactly when the residual characteristic polynomial of `ρ(Frob_q)` is `(X−a)(X−qa)` for some a. Equivalently `a_q(f)²≡ε(q)q^{k−2}(q+1)²` modulo the coefficient prime. A coefficient extension and a prime above `ℓ` are part of the conclusion. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), Theorem 5.1 and its proof, author pp. 12–16. The odd-characteristic statement of Theorem 5.1, including its small-weight coefficient hypotheses; do not infer an unrestricted coefficient-system Ihara theorem.)
+Let `ℓ≥3`, `2≤k≤ℓ+1`, `ℓ∤N`, and f a normalised eigenform of character ε in `S_k(Γ1(N))` with irreducible residual representation. For `q∤Nℓ`, there is a q-new eigenform in `S_k(Γ1(N)∩Γ0(q))`, with characteristic-zero character pulled back from modulo N and congruent to ε modulo the coefficient prime, and with the same residual good-prime eigensystem, exactly when the residual characteristic polynomial of `ρ(Frob_q)` is `(X−a)(X−qa)` for some a. Equivalently `a_q(f)²≡ε(q)q^{k−2}(q+1)²` modulo the coefficient prime. A coefficient extension and a prime above `ℓ` are part of the conclusion. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), Theorem 5.1 and its proof, author pp. 12–16. The odd-characteristic statement of Theorem 5.1, including its small-weight coefficient hypotheses; do not infer an unrestricted coefficient-system Ihara theorem.)
 
-All operators, weights and diamond character use the arithmetic normalisation. The integral coefficient cohomology and Ihara input at this weight are supplied by ModularCurvesPartII §15.7 and the coefficient comparison of §1.1 here, with explicit coefficient hypotheses.
+The q-character is trivial in characteristic zero throughout the equivalence; no prescribed characteristic-zero lift of the character modulo N is asserted. All operators, weights and diamond character use the arithmetic normalisation. The integral coefficient cohomology and Ihara input at this weight are supplied by ModularCurvesPartII §15.7 and the coefficient comparison of §1.1 here, with explicit coefficient hypotheses.
 
-Use the degeneracy relation and `η=U_q²−q^{k−2}〈q〉` on the old factor. The imported integral Ihara/saturation input transfers the vanishing determinant into residual new support. Lift the new eigensystem and translate determinant/trace into the polynomial factorisation.
+Use the degeneracy relation and `η=U_q²−q^{k−2}〈q〉` on the old factor. The imported integral Ihara/saturation input transfers the vanishing determinant into residual new support with the residual N-diamond character. Lift the new eigensystem and translate determinant/trace into the polynomial factorisation.
 
 *Needs:* [Integral q-new support interface](#q-new-subspace), `ModularCurvesPartII:§§15.1–15.8`, `AlgebraicModularFormsAndSerreWeights:R15.5, Deligne–Serre eigenvalue lifting`.
 
@@ -364,21 +370,23 @@ Use the degeneracy relation and `η=U_q²−q^{k−2}〈q〉` on the old factor.
 
 - At `q≡−1` mod `ℓ` it becomes trace zero and does not require distinct roots.
 
-- An arbitrary q with nonzero determinant defect does not yield a q-new congruent form.
+- A q with nonzero determinant defect has no congruent q-new witness with trivial q-character.
+
+- For `E:y²+y=x³−x²−10x−20`, `ℓ=7`, `q=29`, the counts at 2 and 29 are 5 and 30, giving `a₂=−2`, `a₂₉=0`. The discriminant at 2 is 3 modulo 7, so irreducibility and oddness give absolute irreducibility. An even order-seven character modulo 29 reduces to one; Ribet Theorem 1.3 gives a congruent form at level 319 with that character, necessarily 29-new. But the quadratic criterion is `0≠4` in `F₇`. This witness lies at full `Γ1(319)` and fails the trivial q-character hypothesis.
 
 <a id="degeneracy-map-and-eta"></a>
 
 ### 2.5 Degeneracy matrix and the η operator
 
-For weight two and trivial character, let `δ:J0(N)²→J0(Nq)` be the two degeneracy maps, `q∤N`. On the source, `U_qδ=δU` with `U=[[T_q,q],[-1,0]]`, and `η=U²−1` annihilates the connected kernel. On contravariant torus character groups the matrix is `[[T_q,-1],[q,0]]`. In the general-weight coefficient module the corresponding `η` is `U_q²−q^{k−2}〈q〉`, not `U_q²−1`. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), Theorem 6.1, author pp. 17–18; §5, author pp. 13–15. Two degeneracy matrix conventions and the general-weight factor.)
+For weight two and trivial character, let `δ:J0(N)²→J0(Nq)` be the two degeneracy maps, `q∤N`. On the source, `U_qδ=δU` with `U=[[T_q,q],[-1,0]]`, and put `η=U²−1`. Construct the unique Hecke-equivariant `σ:J0(Nq)→J0(N)²` with `σ∘δ=η`. If δ′ is the pair of norm maps, then `δ′δ=[[q+1,T_q],[T_q,q+1]]` and `σ=[[-1,T_q],[0,-1]]∘δ′`. Thus η annihilates the entire finite kernel of δ. On contravariant torus character groups the matrix is `[[T_q,-1],[q,0]]`. In the general-weight coefficient module the corresponding `η` is `U_q²−q^{k−2}〈q〉`, not `U_q²−1`. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), Theorem 6.1, author pp. 17–18; §5, author pp. 13–15. Two degeneracy matrix conventions and the general-weight factor.)
 
 Integral maps, Hecke correspondences and duality conventions from ModularCurvesPartII Layers 13–14. `q∤N`; the Jacobian formula is weight two with trivial character.
 
-Compose the two finite maps with the `U_q` correspondence. Compute the matrix on Picard varieties, then transpose under the character-group functor. Apply the connected-kernel annihilation argument, retaining diamond factors for nontrivial coefficients.
+Compose the two finite maps with the `U_q` correspondence. Compute the matrix on Picard varieties, then transpose under the character-group functor. Compute σδ from the norm/pullback matrix. Using the component and degeneracy geometry of ModularCurvesPartII §§12.2–12.4, identify the q-new quotient’s reduction at q as toric and that of J0(N) as good. Uniqueness follows because the q-new quotient has no nonzero homomorphism to J0(N)². The same vanishing proves Hecke equivariance. Retain diamond factors for nontrivial coefficients.
 
 Fix the two old-coordinate vectors in the displayed order. The matrix U sends the first to `(T_q,−1)` and the second to (q,0); its characteristic polynomial is `X²−T_q` X+q. Passing to contravariant character groups transposes the off-diagonal entries. This two-vector computation fixes both the sign and the variance. In nontrivial character or higher weight, the central term `q^{k−2}〈q〉` must be restored before taking `η`.
 
-*Needs:* `ModularCurvesPartII:Layers 13–14`, [Localised integral degeneracy sequence](#integral-old-new-exact-sequence).
+*Needs:* `ModularCurvesPartII:Layers 13–14`, `ModularCurvesPartII:§§12.2–12.4`, [Localised integral degeneracy sequence](#integral-old-new-exact-sequence).
 
 **Checks.**
 
@@ -387,6 +395,8 @@ Fix the two old-coordinate vectors in the displayed order. The matrix U sends th
 - Contravariant character groups use the transpose convention.
 
 - Setting `k=2` and `ε=1` recovers `η=U²−1`.
+
+- The kernel of δ is finite, so annihilating its connected abelian-variety kernel would be vacuous. Multiplying the two displayed matrices gives `[[T_q²−q−1,qT_q],[-T_q,−q−1]]=U²−1`, which kills the full finite kernel.
 
 <a id="character-group-of-bad-fibre"></a>
 
@@ -432,13 +442,13 @@ Use the supplied bad-fibre degeneracy sequence and identify its kernel with the 
 
 ### 2.8 Monodromy comparison for lowering
 
-On each semistable Jacobian’s torus character lattice, use the imported integral monodromy map `X→X∨`; its finite cokernel is the geometric component group. Degeneracy maps and their adjoints preserve the monodromy comparison with their actual indices. Localising at the residual ideal and using the two character-group sequences gives the length/dimension relations used in Ribet’s contradiction, with Rosati and diamond twists retained. The statement is an application of NeronModelsAndSemistableAbelianVarieties §§2.4, 4.1–4.6, not a second construction of a Néron pairing. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), §6, author pp. 19–21; §7, (7.6)–(7.10), author pp. 24–27. Component-group and monodromy calculations in the multiplicity-free odd-characteristic proof.)
+On each semistable Jacobian’s torus character lattice, use the imported integral monodromy map `X→X∨`; its finite cokernel is the geometric component group. Degeneracy maps and their adjoints preserve the monodromy comparison with their actual indices; use §2.5’s actual map σ and identity `σδ=η` on character groups and component groups. Localising at the residual ideal and using the two character-group sequences gives the length/dimension relations used in Ribet’s contradiction, with Rosati and diamond twists retained. The statement is an application of NeronModelsAndSemistableAbelianVarieties §§2.4, 4.1–4.6, not a second construction of a Néron pairing. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), §6, author pp. 19–21; §7, (7.6)–(7.10), author pp. 24–27. Component-group and monodromy calculations in the multiplicity-free odd-characteristic proof.)
 
 The semistable fibres and polarization comparison are supplied. The residue-characteristic torsion and component-group exceptional support are accounted for before reduction.
 
 Identify the finite cokernels using the geometric monodromy theorem. Apply the two exact sequences to compare lengths after localisation. Derive the two inequalities with all factors of two, noting the odd-`ℓ` splitting used in (7.10).
 
-*Needs:* [Ribet’s two character-group sequences](#ribet-exact-sequence), `NeronModelsAndSemistableAbelianVarieties:§§2.4, 4.1–4.6`, `ModularCurvesPartII:§§12.2–12.4`.
+*Needs:* [Degeneracy matrix and the η operator](#degeneracy-map-and-eta), [Ribet’s two character-group sequences](#ribet-exact-sequence), `NeronModelsAndSemistableAbelianVarieties:§§2.4, 4.1–4.6`, `ModularCurvesPartII:§§12.2–12.4`.
 
 **Checks.**
 
@@ -494,11 +504,11 @@ Choose the joint complex-conjugation auxiliary prime r and raise there using the
 
 In the special local case at `q≠ℓ`, suppose `π_q=St⊗α` with `α` ramified of `ℓ`-power order and hence residual `α` trivial. A global finite-order character agreeing with `α^{-1}` on q-inertia and unramified at the other controlled primes twists the witness to the same residual representation, removes this ramified twist and reduces its q-level exponent from two to one. The availability and other local conductors of the global character are checked, rather than inferred from local twisting alone. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), (4.5), author pp. 10–11. Special ramified-character case; normalization can make the branch vacuous.)
 
-Special local component with the indicated tame residually trivial character. Global character extension from the supplied reciprocity theory; track any additional ramification. For odd `ℓ` with prime-to-`ℓ` normalized nebentypus this ramified `ℓ-primary` case is empty.
+Special local component with the indicated tame residually trivial character. Under arithmetic local reciprocity, write `α|I_q=ω_q^i` for the Teichmüller character of `(Z/qZ)×`. Take the global Dirichlet character `φ=ω_q^{−i}`, of conductor q and ℓ-power order. It is unramified at every other finite prime; no extra auxiliary ramification enters the lowering induction. For odd `ℓ` with prime-to-`ℓ` normalized nebentypus this ramified `ℓ-primary` case is empty.
 
-Use the local special conductor formula. Extend the inverse inertial character with controlled conductors. Reduction of the twisting character is trivial, so good-prime residual traces are unchanged.
+Use the local special conductor formula. Use this explicit inverse inertial Dirichlet character, with the conductor/unit comparison of ClassFieldTheory Layer 7. Reduction of the twisting character is trivial, so good-prime residual traces are unchanged.
 
-*Needs:* `GL2AutomorphicRepresentationsAndTransfer:§§R16.3.1–R16.3.5, R17.6.4`, `ArithmeticGaloisRepresentations:Layer 3`, `ClassFieldTheory:Layer 7`, `ClassFieldTheory:Layer 11`.
+*Needs:* `GL2AutomorphicRepresentationsAndTransfer:§§R16.3.1–R16.3.5, R17.6.4`, `ArithmeticGaloisRepresentations:Layer 3`, `ClassFieldTheory:Layer 7`, `ClassFieldTheory:Layers 11–12`.
 
 **Checks.**
 
@@ -506,7 +516,7 @@ Use the local special conductor formula. Extend the inverse inertial character w
 
 - The endpoint is special of exponent one, not automatically exponent zero.
 
-- No new ramified prime may be silently added in an induction on level.
+- The explicit conductor-q character is unramified at every other finite prime, so the induction introduces no new ramified prime.
 
 <a id="principal-series-conductor-defect"></a>
 
@@ -556,7 +566,7 @@ For the auxiliary class at odd `ℓ`, the eigenvalues 1 and `−1` give trace ze
 
 ### Dependencies
 
-The external inputs are `AlgebraicModularFormsAndSerreWeights:R15.5, Deligne–Serre eigenvalue lifting`, `ArithmeticGaloisRepresentations:Layer 3`, `ArithmeticGaloisRepresentations:§§3.1–3.2`, `ArithmeticGaloisRepresentations:§3.3`, `ArithmeticGaloisRepresentations:§3.6`, `ArithmeticGaloisRepresentations:Layer 4`, `GL2AutomorphicRepresentationsAndTransfer:§§R16.3.1–R16.3.5, R17.6.4`, `HilbertModularVarietiesAndShimuraCurves:§§R18.5.15–R18.5.18`, `ModularCurvesPartII:Layers 11–12`, `ModularCurvesPartII:Layers 13–14`, `ModularCurvesPartII:§§15.1–15.8`, `ModularCurvesPartII:§§12.2–12.4`, `NeronModelsAndSemistableAbelianVarieties:§§2.4, 4.1–4.6`, `Chebotarev:Layer 10`, `ClassFieldTheory:Layer 11`, `ClassFieldTheory:Layer 7`, `ModularForms:Layer 3`. Their exact contracts are stated above; each target specifies the comparisons it uses.
+The external inputs are `AlgebraicModularFormsAndSerreWeights:R15.5, Deligne–Serre eigenvalue lifting`, `ArithmeticGaloisRepresentations:Layer 3`, `ArithmeticGaloisRepresentations:§§3.1–3.2`, `ArithmeticGaloisRepresentations:§3.3`, `ArithmeticGaloisRepresentations:§3.6`, `ArithmeticGaloisRepresentations:Layer 4`, `GL2AutomorphicRepresentationsAndTransfer:§§R16.3.1–R16.3.5, R17.6.4`, `HilbertModularVarietiesAndShimuraCurves:§§R18.5.15–R18.5.18`, `ModularCurvesPartII:Layers 11–12`, `ModularCurvesPartII:Layers 13–14`, `ModularCurvesPartII:§§15.1–15.8`, `ModularCurvesPartII:§§12.2–12.4`, `NeronModelsAndSemistableAbelianVarieties:§§2.4, 4.1–4.6`, `Chebotarev:Layer 10`, `ClassFieldTheory:Layers 11–12`, `ClassFieldTheory:Layer 7`, `ModularForms:Layer 3`. Their exact contracts are stated above; each target specifies the comparisons it uses.
 
 ## Layer 3: Weight optimisation at p
 
@@ -566,7 +576,7 @@ Weight optimisation uses more than the inertial semisimplification. Ordinary ext
 
 ### 3.1 Ordinary residual local form
 
-Let `p∤N` and f be a Katz cuspidal eigenform of weight `2≤k≤p+1` and character `ε`, with `a_p≠0`. With arithmetic Frobenius and `λ(u)(Frob_p)=u`, its local residual representation has a stable line and shape `[[χ_p^{k−1}λ(ε(p)/a_p), *],[0,λ(a_p)]]`. The extension is retained; the theorem does not identify this representation with its semisimplification or make tame ramification automatic. ([Bas Edixhoven](https://websites.math.leidenuniv.nl/edixhoven/public_html_rennes/publications/weight.dvi), Theorem 2.5, author p. 5; proof §9.2, author pp. 28–30. Ordinary shape including the extension and the `ε/a_p` quotient.)
+Let `p∤N` and f be a Katz cuspidal eigenform of weight `2≤k≤p+1` and character `ε`, with `a_p≠0`. With arithmetic Frobenius and `λ(u)(Frob_p)=u`, its local residual representation has a stable line and shape `[[χ_p^{k−1}λ(ε(p)/a_p), *],[0,λ(a_p)]]`. The extension is retained; the theorem does not identify this representation with its semisimplification or make tame ramification automatic. ([Bas Edixhoven](https://websites.math.leidenuniv.nl/edixhoven/public_html_rennes/publications/weight.dvi), Theorem 2.5, author p. 5. Ordinary shape including the extension and the `ε/a_p` quotient.) ([Benedict H. Gross](https://www.math.purdue.edu/~tongliu/seminar/Mlift/Gross.pdf), Propositions 12.8–12.9, pp. 490–493. The local-form proof, with the Picard/dual normalization translated to arithmetic Frobenius.)
 
 All Hecke normalisations are the q-expansion normalisation T*_q used by Edixhoven. Finite coefficient extension contains all eigenvalues; `ρ_f` is the actual local restriction.
 
@@ -842,7 +852,7 @@ The definition has the following named operations and comparisons, under these h
 
 - `minimalWeightOneIdeal_two_roots`: Two ordinary refinements with roots `α` and `β` contract to this same away-p ideal; their full ideals can differ.
 
-Its applications are [Localised Hasse injection](#hasse-localised-injection): The Hasse map is localized at this away-p ideal. [Hecke congruence-module application](#congruence-module): Identify the weight-one localization; a congruence-functor application additionally requires the finite-flat and generic hypotheses of IHG.1, which are not automatic for a nonliftable torsion weight-one space.
+Its applications are [Localised Hasse injection](#hasse-localised-injection): At tame `N≥5`, the Hasse map is localized at this away-p ideal. [Hecke congruence-module application](#congruence-module): Identify the weight-one localization; a congruence-functor application additionally requires the finite-flat, augmentation-factor and generic-isomorphism hypotheses of §1.3, which are not automatic for a nonliftable torsion weight-one space.
 
 *Needs:* [Conditional descent to the full Serre level](#descend-to-serre-level), [Edixhoven’s conditional weight optimisation](#edixhoven-weight-theorem), `AlgebraicModularFormsAndSerreWeights:R15.1`, `ModularForms:Layers 8, 8W`.
 
@@ -866,15 +876,15 @@ Its applications are [Localised Hasse injection](#hasse-localised-injection): Th
 
 ### 3.14 Localised Hasse injection
 
-Let a weight-one modular `ρ` at tame N have distinct nonzero p-Frobenius roots `α,β`. Localise the coherent weight-one space M at its away-p ideal, with `T_p−(α+β)` and `〈p〉−αβ` nilpotent on the whole localised module. For a suitable positive power A of the Hasse invariant, of weight h divisible by `p−1` and `h+1≥2`, with the torsion-coefficient sufficient-power conditions below, the composite `M→H⁰(ω^{h+1})_m→H⁰(ω^{h+1})_{β,m}` is injective. The second map is projection to the generalized `U_p=β` summand. The assertion holds with torsion `O/π^a` coefficients and for either root; away-p Hecke actions commute with it. ([Frank Calegari and David Geraghty](https://math.uchicago.edu/~fcale/papers/Siegel.pdf), Lemma 8.14 and proof, pp. 865–866. The GL2 injection and torsion/socle reduction, with full localized nilpotence retained.)
+Let a weight-one modular `ρ` at tame `N≥5` have distinct nonzero p-Frobenius roots `α,β`. Localise the coherent weight-one space M at its away-p ideal, with `T_p−(α+β)` and `〈p〉−αβ` nilpotent on the whole localised module. For a suitable positive power A of the Hasse invariant, of weight h divisible by `p−1` and `h+1≥2`, with the torsion-coefficient sufficient-power conditions below, the composite `M→H⁰(ω^{h+1})_m→H⁰(ω^{h+1})_{β,m}` is injective. The second map is projection to the generalized `U_p=β` summand. The assertion holds with torsion `O/π^a` coefficients and for either root; away-p Hecke actions commute with it. ([Frank Calegari and David Geraghty](https://math.uchicago.edu/~fcale/papers/Siegel.pdf), Lemma 8.14 and proof, pp. 865–866. The GL2 injection and torsion/socle reduction, with full localized nilpotence retained.)
 
-`p∤N`; actual tame coherent coefficient modules and q-expansion principle, with fine level or the supplier’s stack descent. `α≠β` and `αβ≠0`; the source operators `T_p−(α+β)` and `〈p〉−αβ` are nilpotent on the entire localized module. Over `O/π^a` choose a lift A of a Hasse power, weight h divisible by `p−1`, q-expansion 1 modulo `π^a`, and `p^h=0` in `O/π^a`. Ensure the away-p cyclotomic weight factor is trivial modulo `π^a` on the relevant Hecke indices. These sufficient-power hypotheses come from AlgebraicModularFormsAndSerreWeights R15.3, “Weight-one T_p with torsion coefficients”. The non-Eisenstein localization makes the source cuspidal; target `T_p=U_p` follows from `p^h=0`, rather than from `h+1≥2` alone.
+`p∤N`, `N≥5`; actual tame coherent coefficient modules and q-expansion principle on this fine level. `α≠β` and `αβ≠0`; the source operators `T_p−(α+β)` and `〈p〉−αβ` are nilpotent on the entire localized module. Over `O/π^a` choose a lift A of a Hasse power, weight h divisible by `p−1`, q-expansion 1 modulo `π^a`, and `p^h=0` in `O/π^a`. Ensure the away-p cyclotomic weight factor is trivial modulo `π^a` on the relevant Hecke indices. For `p≥3`, `N≥5`, these hypotheses and the operator comparison come from AlgebraicModularFormsAndSerreWeights R15.3, “Weight-one T_p with torsion coefficients”. At `p=2`, use the [Dyadic torsion Hasse comparison](#dyadic-torsion-hasse-comparison) constructed here; no weight-one theta injectivity is used. The non-Eisenstein localization makes the source cuspidal; target `T_p=U_p` follows from `p^h=0`, rather than from `h+1≥2` alone.
 
 Reduce injectivity on torsion coefficients to injectivity on the local socle over k. Use Hasse’s unchanged q-expansion and split the ordinary target into `α` and `β` generalized summands. A kernel element can be moved down the nilpotent filtration to satisfy `UF=αF` and `VF=α^{-1}F`: from `T_p=U_p+〈p〉V`, `T_pF=(α+β)F` and `〈p〉F=αβF` one gets `αβVF=βF`. The smallest nonzero exponent of a cuspidal q-expansion contradicts `VF=α^{-1}F`.
 
 The target weight is h+1 with h a positive multiple of `p−1`, not a weight congruent to `−1` modulo `p−1`. Let V send an expansion F(q) to `F(q^p)`. On the residue socle, a hypothetical kernel gives `UF=αF` and `VF=α^{-1}F`. If the first nonzero cuspidal exponent is `n>0`, the first exponent in VF is pn, whereas `α^{-1}F` has first exponent n. Since `α≠0` these cannot agree. Generalized-eigenspace projection and the nilpotent filtration are needed to reduce to these equalities; knowledge of a characteristic polynomial on the socle alone does not give the required nilpotence on the entire source.
 
-*Needs:* [Minimal weight-one Hecke ideal](#minimal-weight-one-ideal), `AlgebraicModularFormsAndSerreWeights:R15.3, The elliptic Hasse invariant`, `AlgebraicModularFormsAndSerreWeights:R15.3, Weight-one T_p with torsion coefficients`, `AlgebraicModularFormsAndSerreWeights:R15.3, Coefficient-linear U and V`.
+*Needs:* [Minimal weight-one Hecke ideal](#minimal-weight-one-ideal), [Dyadic torsion Hasse comparison](#dyadic-torsion-hasse-comparison), `AlgebraicModularFormsAndSerreWeights:R15.3, The elliptic Hasse invariant`, `AlgebraicModularFormsAndSerreWeights:R15.3, Weight-one T_p with torsion coefficients`, `AlgebraicModularFormsAndSerreWeights:R15.3, Coefficient-linear U and V`.
 
 **Checks.**
 
@@ -888,6 +898,26 @@ The target weight is h+1 with h a positive multiple of `p−1`, not a weight con
 
 - With `α=2`, `β=3` in `F₇`, the diamond value is 6 and the socle calculation gives `VF=4F`, since `α^{-1}=4`. Writing `VF=βF` would give 3F and is incompatible with `UVF=F`.
 
+<a id="dyadic-torsion-hasse-comparison"></a>
+
+### 3.14a Dyadic torsion Hasse comparison
+
+For odd `N≥5`, a coefficient DVR O of residue characteristic two and `a≥1`, construct the weight-one `T₂` and high-weight Hasse comparison on the actual cuspidal `O/π^a` section modules. ModularCurvesPartII §9.11 supplies the integral normalized Hecke operator and its base change. Its weight-one expansion is `U+〈2〉V`. Choose `A=E₄^{2^s}` of weight `h=4·2^s` large enough that its expansion is 1 modulo `π^a`, `2^h=0` in `O/π^a`, and the away-two weight factors are trivial on the relevant indices. Multiplication φ by A lands in weight h+1, where the Hecke operator is U. Construct the second section map `D=φT₂−Uφ`; its expansion is `〈2〉V`, and `UD=φ〈2〉`. In particular `U²φ−UφT₂+φ〈2〉=0`. These identities give the ordinary two-root comparison used in §3.14, including coefficients, level, diamond and away-two Hecke compatibility. ([Frank Calegari and David Geraghty](https://math.uchicago.edu/~fcale/papers/Siegel.pdf), Lemma 8.14 and proof, pp. 865–866. The U,V projection and socle argument.)
+
+Use the small-prime `E₄` Hasse-power lift from AlgebraicModularFormsAndSerreWeights R15.3. The integral coherent operator constructs D as a section map; q-expansion injectivity proves the identities, so V is not presumed to preserve the original weight-one section space. On the local residue socle with distinct nonzero roots α,β, the quadratic relation puts φ(M) in the ordinary α/β factors. A kernel of projection to β reduces along the nilpotent filtration to `UF=αF` and `VF=α^{-1}F`. The first positive cuspidal exponent contradicts the latter identity. The torsion-section socle criterion then proves injectivity on `O/π^a`; this argument does not require injectivity of theta in characteristic two.
+
+*Needs:* `ModularCurvesPartII:§9.11`, `AlgebraicModularFormsAndSerreWeights:R15.3, Deligne congruence and small-prime lifts`, `AlgebraicModularFormsAndSerreWeights:R15.3, Socles of torsion section modules`, `AlgebraicModularFormsAndSerreWeights:R15.3, Coefficient-linear U and V`.
+
+**Checks.**
+
+- At `p=2` the interval `1≤k≤p−2` is empty; the projection proof uses U,V and the first positive exponent instead of weight-one theta injectivity.
+
+- Over `Z₂/8`, E₄ has weight 4 and expansion 1, `2⁴=0`, and every odd integer has fourth power 1. Thus h=4 and target weight 5 meet the sufficient-power tests.
+
+- Distinct nonzero roots can occur over `F₄`, although `F₂` has only one nonzero element. Equal roots or a zero root fail the projector hypotheses.
+
+- Levels below five are outside this torsion comparison; no small-level descent is inferred.
+
 ### Examples
 
 The weight-26, `p=107` example gives companion weight 82 and distinct inertia characters, hence a split local restriction. At the boundary `k=p` the same formal weight relation gives companion weight one, but a nonsplit unramified extension with equal diagonal characters is still tame. The stronger splitting conclusion must fail there.
@@ -896,7 +926,7 @@ In a two-dimensional ordinary extension with determinant `χ_p` and trivial quot
 
 ### Dependencies
 
-The external inputs are `AlgebraicModularFormsAndSerreWeights:R15.1`, `AlgebraicModularFormsAndSerreWeights:R15.3, Coefficient-linear U and V`, `AlgebraicModularFormsAndSerreWeights:R15.3, The elliptic Hasse invariant`, `AlgebraicModularFormsAndSerreWeights:R15.3, Theta cycles`, `AlgebraicModularFormsAndSerreWeights:R15.3, Theta and filtration`, `AlgebraicModularFormsAndSerreWeights:R15.3, Weight-one T_p with torsion coefficients`, `AlgebraicModularFormsAndSerreWeights:R15.3, Weight reduction to at most p+1`, `AlgebraicModularFormsAndSerreWeights:R15.4, Edixhoven and classical weights`, `AlgebraicModularFormsAndSerreWeights:R15.4, The weight-two criterion`, `AlgebraicModularFormsAndSerreWeights:R15.4, Invariance and renormalized twists`, `AlgebraicModularFormsAndSerreWeights:R15.4, Tame inertia alternatives`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory:§§R07.1.7–R07.1.9`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.5`, `GL2AutomorphicRepresentationsAndTransfer:R17.5`, `GL2AutomorphicRepresentationsAndTransfer:§§R16.3.1–R16.3.5, R17.6.4`, `ModularCurvesPartII:§§7.1–7.2, 11.1`, `ModularCurvesPartII:Layers 11–12`, `ModularCurvesPartII:Layers 13–14`, `ModularCurvesPartII:§§13.5, 14.13–14.15`, `ModularForms:Layers 8, 8W`. Their exact contracts are stated above; each target specifies the comparisons it uses.
+The external inputs are `AlgebraicModularFormsAndSerreWeights:R15.1`, `AlgebraicModularFormsAndSerreWeights:R15.3, Coefficient-linear U and V`, `AlgebraicModularFormsAndSerreWeights:R15.3, The elliptic Hasse invariant`, `AlgebraicModularFormsAndSerreWeights:R15.3, Theta cycles`, `AlgebraicModularFormsAndSerreWeights:R15.3, Theta and filtration`, `AlgebraicModularFormsAndSerreWeights:R15.3, Weight-one T_p with torsion coefficients`, `AlgebraicModularFormsAndSerreWeights:R15.3, Weight reduction to at most p+1`, `AlgebraicModularFormsAndSerreWeights:R15.4, Edixhoven and classical weights`, `AlgebraicModularFormsAndSerreWeights:R15.4, The weight-two criterion`, `AlgebraicModularFormsAndSerreWeights:R15.4, Invariance and renormalized twists`, `AlgebraicModularFormsAndSerreWeights:R15.4, Tame inertia alternatives`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory:§§R07.1.7–R07.1.9`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.5`, `GL2AutomorphicRepresentationsAndTransfer:R17.5`, `GL2AutomorphicRepresentationsAndTransfer:§§R16.3.1–R16.3.5, R17.6.4`, `ModularCurvesPartII:§§7.1–7.2, 11.1`, `ModularCurvesPartII:Layers 11–12`, `ModularCurvesPartII:Layers 13–14`, `ModularCurvesPartII:§§13.5, 14.13–14.15`, `ModularForms:Layers 8, 8W`, `ModularCurvesPartII:§9.11`, `AlgebraicModularFormsAndSerreWeights:R15.3, Deligne congruence and small-prime lifts`, `AlgebraicModularFormsAndSerreWeights:R15.3, Socles of torsion section modules`. Their exact contracts are stated above; each target specifies the comparisons it uses.
 
 ## Layer 4: Coefficient-prime level and character
 
@@ -948,13 +978,13 @@ Normalize the coefficient-prime character by an `ℓ-primary` square-root twist.
 
 For odd `ℓ` write the coefficient-prime nebentypus as `ηω^i` with `η` of `ℓ`-power order. Choose `ξ` of `ℓ`-power order with `ξ²=η^{-1}`. The twist `f⊗ξ` gives the same residual representation and character `εω^i`. Choose `r′≥r` so that `cond(ξ)²` divides `ℓ^{r′}`; the twisted witness is on `Γ0(ℓ^{r′})∩Γ1(ℓN)`. The twist can increase the initial `ℓ-depth`, which subsequent steps then remove. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), Proof of Theorem 2.1, Step 1, author p. 5. The indicated operation and its coefficient and level conditions.)
 
-`ℓ` odd, `ε` has conductor dividing N, `ℓ∤N`. The global Dirichlet twist has only `ℓ`-power conductor; its level bound includes the square of that conductor.
+`ℓ` odd, `ε` has conductor dividing N, `ℓ∤N`. Regard η as a Dirichlet character modulo a power of ℓ. If its order is `ℓ^a`, choose t with `2t≡−1` modulo `ℓ^a` and take `ξ=η^t`. The global Dirichlet twist has only `ℓ`-power conductor; its level bound includes the square of that conductor.
 
 Check the character or q-expansion operation in the indicated step. Verify good-prime residual Hecke support and the coefficient embedding before passing to an eigenform.
 
 For a character `θ` of odd `ℓ`-power order, multiplication by two is invertible on its character group, so choose `ζ` with `ζ²=θ` and twist by `ζ⁻¹`. The twist changes the determinant by `ζ⁻²` and is trivial residually. At `ℓ=2` this square-root step is unavailable; the dyadic build uses its own geometry.
 
-*Needs:* `ArithmeticGaloisRepresentations:Layer 3`, `GL2AutomorphicRepresentationsAndTransfer:§§R16.3.1–R16.3.5, R17.6.4`, `ClassFieldTheory:Layer 11`.
+*Needs:* `ArithmeticGaloisRepresentations:Layer 3`, `GL2AutomorphicRepresentationsAndTransfer:§§R16.3.1–R16.3.5, R17.6.4`, `ClassFieldTheory:Layers 11–12`.
 
 **Checks.**
 
@@ -1070,7 +1100,7 @@ At `ℓ=3,N≤3` the stated `weight-two-at-Nℓ` theorem excludes the small-leve
 
 ### Dependencies
 
-The external inputs are `AlgebraicModularFormsAndSerreWeights:R15.3`, `AlgebraicModularFormsAndSerreWeights:R15.4, The weight-two criterion`, `AlgebraicModularFormsAndSerreWeights:R15.5, Deligne–Serre eigenvalue lifting`, `ArithmeticGaloisRepresentations:Layer 3`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.5`, `GL2AutomorphicRepresentationsAndTransfer:§§R16.3.1–R16.3.5, R17.6.4`, `ModularCurvesPartII:§§7.1–7.2, 11.1`, `DirichletCharacter.changeLevel`, `TauCeti.ModularForm.levelRaise`, `ClassFieldTheory:Layer 11`, `ModularForms:Layer 0`, `ModularForms:Layer 2`, `ModularForms:Layer 3`, `ModularForms:Layer 6`, `ModularForms:Layer 8G`. Their exact contracts are stated above; each target specifies the comparisons it uses.
+The external inputs are `AlgebraicModularFormsAndSerreWeights:R15.3`, `AlgebraicModularFormsAndSerreWeights:R15.4, The weight-two criterion`, `AlgebraicModularFormsAndSerreWeights:R15.5, Deligne–Serre eigenvalue lifting`, `ArithmeticGaloisRepresentations:Layer 3`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.5`, `GL2AutomorphicRepresentationsAndTransfer:§§R16.3.1–R16.3.5, R17.6.4`, `ModularCurvesPartII:§§7.1–7.2, 11.1`, `DirichletCharacter.changeLevel`, `TauCeti.ModularForm.levelRaise`, `ClassFieldTheory:Layers 11–12`, `ModularForms:Layer 0`, `ModularForms:Layer 2`, `ModularForms:Layer 3`, `ModularForms:Layer 6`, `ModularForms:Layer 8G`. Their exact contracts are stated above; each target specifies the comparisons it uses.
 
 ## Layer 5: Combined classical optimisation and exceptions
 
@@ -1146,6 +1176,24 @@ Reduce every intermediate group to `Γ1(M)` by Lemma 2.3; keep the quantificatio
 
 - A dimension-two factor at one level alone does not establish the universal conclusion.
 
+<a id="auxiliary-character-replacement"></a>
+
+### 5.2a Auxiliary-level character replacement
+
+Let M be positive and `r>3` prime to 2M. For an irreducible residual representation in characteristic two, unramified at r and arising from a normalized characteristic-zero weight-two eigenform f of level `Γ1(Mr)`, write its character as `χ_Mχ_r`. Given a characteristic-zero character ψ modulo M congruent to `χ_M` at the chosen dyadic prime, construct a normalized weight-two eigenform f′ at `Γ1(Mr)` whose M-character is ψ, with the same residual representation and `a₂(f′)≡a₂(f)`. The r-character is allowed to change: the product character must be even. Unramifiedness of ρ at r makes the r-character reduce to one. No parity condition is imposed on ψ alone at this auxiliary stage. ([Kevin Buzzard](https://intlpress.com/api/bgcloud-front/resource/pdf/volume/1806606767503077378-1806606767503077378-04d9b46249cfb494c852bbd118844447.pdf), proofs of Corollaries 2.6–2.7, p. 103, invoking Diamond, *The refined conjecture of Serre*, Lemma 2.2 with m=r>3.)
+
+Construct the integral character-component support comparison at this auxiliary level using the weight-two parabolic cohomology and diamond action. After localization at the irreducible residual system, show that replacing `χ_M` by ψ retains nonzero support with the specified full-Hecke residual `a₂`. Keep the residual M-character, auxiliary r-character and even total parity in this comparison. Only then apply Deligne–Serre to a finite-free integral realization of that support, allowing coefficient extension. The statement does not follow from eigenvalue lifting without the support comparison.
+
+*Needs:* `ModularCurvesPartII:Layers 13–14`, `DirichletCharacter`, `AlgebraicModularFormsAndSerreWeights:R15.5, Deligne–Serre eigenvalue lifting`.
+
+**Checks.**
+
+- If ψ is the odd-order lift of the residual M-character, then ψ is even. For `r≡3 mod 4`, the even r-character has odd order; if its reduction is trivial, it is trivial.
+
+- In the application of §5.4, ψ is already even, and the r-character must absorb no odd parity. An arbitrary preassigned trivial r-character is not part of the auxiliary comparison.
+
+- The common residual away-two character alone does not specify `a₂`; localization retains the full coefficient-prime operator before lifting.
+
 <a id="buzzard-auxiliary-prime"></a>
 
 ### 5.3 Buzzard’s auxiliary-prime removal
@@ -1154,9 +1202,9 @@ If an irreducible mod-two `ρ` is not induced from Q(i), there are primes `r∤2
 
 `ρ` not Q(i)-induced; r unramified for `ρ` and prime to 2M. Weight two and the source’s congruent-character setup; all coefficient primes tracked.
 
-Use the finite-image argument and Chebotarev to find r in the non-Q(i)-induced case. Normalize the character and use `r≡3` mod 4 and even weight. Exclude the special local type by its trace-zero reduction, then remove the old prime.
+Use the finite-image argument and Chebotarev to find r in the non-Q(i)-induced case. Apply [Auxiliary-level character replacement](#auxiliary-character-replacement) to make the M-character odd-order while preserving the residual `a₂`; then use `r≡3` mod 4 and even weight. Exclude the special local type by its trace-zero reduction, then remove the old prime.
 
-*Needs:* `ArithmeticGaloisRepresentations:Layer 4`, `Chebotarev:Layer 10`, `GL2AutomorphicRepresentationsAndTransfer:§§R16.3.1–R16.3.5, R17.6.4`, [Residual support and eigenvalue descent](#eigensystem-level-descent).
+*Needs:* [Auxiliary-level character replacement](#auxiliary-character-replacement), `ArithmeticGaloisRepresentations:Layer 4`, `Chebotarev:Layer 10`, `GL2AutomorphicRepresentationsAndTransfer:§§R16.3.1–R16.3.5, R17.6.4`, [Residual support and eigenvalue descent](#eigensystem-level-descent).
 
 **Checks.**
 
@@ -1174,9 +1222,9 @@ Let `ρ` be irreducible mod two and not induced from Q(i), arising from a weight
 
 Actual characteristic-zero weight-two witness; `ψ` and `χ` congruent at the chosen dyadic prime. `ρ` not Q(i)-induced; `ψ(−1)=1`.
 
-Add the auxiliary prime r and perform character replacement there. The new r-character has odd order and trivial reduction. Remove r by the auxiliary-prime lemma, preserving `a_2`.
+Add the auxiliary prime `r>3`, prime to 2M, and apply [Auxiliary-level character replacement](#auxiliary-character-replacement) to prescribe ψ at M while retaining the residual `a₂`. The new r-character has odd order and trivial reduction. Remove r by the auxiliary-prime lemma, preserving `a_2`.
 
-*Needs:* [Buzzard’s auxiliary-prime removal](#buzzard-auxiliary-prime), `AlgebraicModularFormsAndSerreWeights:R15.5`, `DirichletCharacter`.
+*Needs:* [Auxiliary-level character replacement](#auxiliary-character-replacement), [Buzzard’s auxiliary-prime removal](#buzzard-auxiliary-prime), `AlgebraicModularFormsAndSerreWeights:R15.5`, `DirichletCharacter`.
 
 **Checks.**
 
@@ -1480,11 +1528,11 @@ Factor the scalar character through local abelianization. Kill the pro-two unit 
 
 ### 6.6 KW optimisation data
 
-For an S-type residual `ρ:G_Q→GL2(k)`, p odd with `2≤k(ρ)≤p+1` and cyclotomic absolute irreducibility, or `p=2` with nonsolvable image, choose the KWII §8.1 totally real solvable field F/Q of even degree, unramified at p, split at p if `ρ_p` is irreducible or `k(ρ)=p+1`, preserving the required image and cyclotomic irreducibility. Require `ρ_F` unramified away from p and locally trivial at p when `ρ_p` was unramified. Fix an arithmetic character `ψ`, unramified outside p, with det lift `ψχ_p` and unit restriction (i) `Norm^{2−k(ρ)}`, (ii) `ω_p^{k(ρ)−2}`, or (iii) `Norm^{1−p}` when `k(ρ)=2`; `p=2` uses only (ii). Include modular witnesses `α` (parallel `k(ρ)`, spherical at p) and `β` (weight two, `conductor≤v` at p), and the prescribed local lifting data A/B/C of §8.3. Allowable changes F′/F are totally real solvable of even degree, unramified at p, split where required, and preserve image and the appropriate cyclotomic irreducibility; odd-p constructions below can require complete splitting at p. ([Chandrashekhar Khare and Jean-Pierre Wintenberger](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), Definition 7.9 and Lemma 7.10, author pp. 68–69; §8.1 and Lemma 8.1, author p. 70; §8.3 lifting data, author pp. 74–75. The concrete field, determinant, witnesses and local-type package for optimization, including disjointness and prescribed square-root adjustment.)
+For an S-type residual `ρ:G_Q→GL2(k)`, p odd with `2≤k(ρ)≤p+1` and cyclotomic absolute irreducibility, or `p=2` with nonsolvable image, choose the KWII §8.1 totally real solvable field F/Q of even degree, unramified at p, split at p if `ρ_p` is irreducible or `k(ρ)=p+1`, preserving the required image and cyclotomic irreducibility. Require `ρ_F` unramified away from p and locally trivial at p when `ρ_p` was unramified. Fix an arithmetic character `ψ`, unramified outside p, with det lift `ψχ_p` and unit restriction (i) `Norm^{2−k(ρ)}`, (ii) `ω_p^{k(ρ)−2}`, or (iii) `Norm^{1−p}` when `k(ρ)=2`; `p=2` uses only (ii). Include `β` (weight two, `conductor≤v` at p) in every case, and `α` (parallel `k(ρ)`, spherical at p) when `p>2` or `p=2`, `k(ρ)=2`. The dyadic weight-four data have no α field. Include the prescribed local lifting data A/B/C of §8.3. Allowable changes F′/F are totally real solvable of even degree, unramified at p, split where required, and preserve image and the appropriate cyclotomic irreducibility; odd-p constructions below can require complete splitting at p. ([Chandrashekhar Khare and Jean-Pierre Wintenberger](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), Definition 7.9 and Lemma 7.10, author pp. 68–69; §8.1 and Lemma 8.1, author p. 70; §8.2 and Theorem 8.2, author pp. 70–71; §8.3 lifting data, author pp. 74–75. The concrete field, determinant, witnesses and local-type package for optimization, including disjointness and prescribed square-root adjustment.)
 
-S-type means continuous, absolutely irreducible and totally odd, with the image restrictions above. The field, `ψ`, residual scalar extensions and actual `α/β` witnesses are input data to Theorems 8.2 and 8.4, actual modular representations. At `p=2` require nonsolvability of the residual image; at `p>2` retain cyclotomic absolute irreducibility. Local lifting data specify at each place its ramification, determinant and unramified square-root `γ` where a special type is requested. The p-local A/B/C choice is simultaneous at all p-places: A has a common crystalline weight k, B and C have weight two, and B has a fixed inertial exponent in all embeddings. The determinant character is the corresponding type in §8.3.
+S-type means continuous, absolutely irreducible and totally odd, with the image restrictions above. The field, `ψ`, residual scalar extensions, β and the conditionally required α are input data to Theorems 8.2 and 8.4, actual modular representations. At `p=2` require nonsolvability of the residual image; at `p>2` retain cyclotomic absolute irreducibility. Local lifting data specify at each place its ramification, determinant and unramified square-root `γ` where a special type is requested. The p-local A/B/C choice is simultaneous at all p-places: A has a common crystalline weight k, B and C have weight two, and B has a fixed inertial exponent in all embeddings. The determinant character is the corresponding type in §8.3.
 
-Use the supplied solvable-field approximation and disjointness input to remove outside-p residual ramification without losing image. Choose `ψ` with its exact arithmetic unit type; align determinants by the residually trivial finite-order twist and disjoint solvable change of Lemma 7.10. Record `α/β` and local type choices with the actual restrictions in §8.3, rather than assuming existence of a global modular lift of every type.
+Use the supplied solvable-field approximation and disjointness input to remove outside-p residual ramification without losing image. Choose `ψ` with its exact arithmetic unit type; align determinants using ArithmeticGaloisDuality §R02.6.2, Finite-order determinant twists (KWII Lemma 7.10). The compared characters have equal reductions, agree on open p-local units and all units at the prescribed split places, and have totally even ratio; retain all these hypotheses for the residually trivial twist and disjoint solvable change. Record β, α in its required branches, and local type choices with the actual restrictions in §8.3, rather than assuming existence of a global modular lift of every type.
 
 Use the following determinant choices on each p-local unit group. In the source, the lift has determinant `ψχ_p`. Keep this arithmetic determinant normalization when transferring between Galois and automorphic descriptions.
 
@@ -1494,7 +1542,7 @@ Use the following determinant choices on each p-local unit group. In the source,
 | (ii) | `ω_p^{k(ρ)−2}` | Weight two with the prescribed tame p-type |
 | (iii), `k(ρ)=2` | `Norm^{1−p}` | Parallel weight p+1 |
 
-Here `ω_p` denotes the Teichmüller character in the source's local reciprocity convention. At `k(ρ)=2`, (i) and (ii) both have trivial unit restriction; these labels record two constructions rather than disjoint mathematical cases. At `p=2` use (ii). Lemma 7.10 aligns the determinant after a residually trivial twist and a controlled extension, with the dyadic Grunwald–Wang condition retained. It also retains the chosen unramified square root at special places, rather than just its square.
+Here `ω_p` denotes the Teichmüller character in the source's local reciprocity convention. At `k(ρ)=2`, (i) and (ii) both have trivial unit restriction; these labels record two constructions rather than disjoint mathematical cases. At `p=2` use (ii). ArithmeticGaloisDuality §R02.6.2, Finite-order determinant twists (KWII Lemma 7.10), aligns the determinant after a residually trivial twist and a controlled extension, with the equal-reduction, total-evenness, local-unit and dyadic Grunwald–Wang conditions retained. It also retains the chosen unramified square root at special places, rather than just its square.
 
 The definition has the following named operations and comparisons, under these hypotheses:
 
@@ -1508,7 +1556,7 @@ The definition has the following named operations and comparisons, under these h
 
 - `kwOptimisationData_ext`: Equal underlying field/character/module choices and witness identifications determine the same data, with proof fields irrelevant; transported field data are compared by the designated field isomorphism.
 
-- `kwOptimisationData_projections`: Expose F, residual restriction, `ψ`, the actual `α/β` modularity witnesses, local types and selected square roots; projection formulas hold for the constructor.
+- `kwOptimisationData_projections`: Expose F, residual restriction, `ψ`, β in every branch, α only for `p>2` or dyadic weight two, local types and selected square roots; projection formulas hold for the constructor.
 
 - `kwOptimisationData_restrict_simp`: Restriction leaves `ψχ_p` as the determinant and sends each chosen local `γ_v` to its restriction, rather than merely preserving `γ_v²`.
 
@@ -1520,7 +1568,7 @@ The definition has the following named operations and comparisons, under these h
 
 Its applications are [KW minimal modular lifts](#kw-minimal-modular-lifts): Fix hypotheses, `Σ` and determinant for Theorem 8.2. [KW prescribed-local-type modular lifts](#prescribed-local-type-lifts): State exactly which local data Theorem 8.4 realizes. `GlobalGaloisDeformations:§§4.4, 4.8–4.11`: The optimization witness must land in the intended fixed-determinant quotient.
 
-*Needs:* `ArithmeticGaloisRepresentations:Layer 4`, `GlobalGaloisDeformations:§§4.4, 4.8–4.11`, `ArithmeticGaloisDuality:§§R02.4.5b–R02.4.6`, `GL2AutomorphicRepresentationsAndTransfer:R17.4`, `HilbertModularVarietiesAndShimuraCurves:R18.3`, `ClassFieldTheory:Layer 11`.
+*Needs:* `ArithmeticGaloisRepresentations:Layer 4`, `GlobalGaloisDeformations:§§4.4, 4.8–4.11`, `ArithmeticGaloisDuality:§§R02.4.5b–R02.4.6`, `ArithmeticGaloisDuality:§R02.6.2, Finite-order determinant twists`, `GL2AutomorphicRepresentationsAndTransfer:R17.4`, `HilbertModularVarietiesAndShimuraCurves:R18.3`, `ClassFieldTheory:Layers 11–12`.
 
 **Checks.**
 
@@ -1528,9 +1576,11 @@ Its applications are [KW minimal modular lifts](#kw-minimal-modular-lifts): Fix 
 
 - An even totally real solvable extension intersecting the residual kernel field and shrinking image is rejected. `(kw_bad_image.)`
 
-- At `p=2`, `k(ρ)=4` cannot be assigned the `k(ρ)=2` crystalline A branch; it needs the weight-two semistable C branch. `(kw_p2_type.)`
+- At `p=2`, `k(ρ)=4` the data require β and have no α field. They require the weight-two semistable C branch rather than the `k(ρ)=2` crystalline A branch. `(kw_p2_type.)`
 
 - A special local `γ` with `γ²≠ψ_v` fails the fixed determinant, even if its reduction is correct. `(kw_wrong_square_root.)`
+
+- At `p=2`, `F=Q`, `ψ=1`, `ψ′` the character of Q(i), and prescribed split place 3, reductions and local-unit conditions agree but the ratio is odd. No totally real base change admits `ζ²ψ=ψ′`, since a character square has value 1 at complex conjugation.
 
 - The determinant choice is preserved under field restriction and the specified twist.
 
@@ -1546,9 +1596,9 @@ Its applications are [KW minimal modular lifts](#kw-minimal-modular-lifts): Fix 
 
 Under the KW optimisation setup, assume both `α` and `β` for `p>2`; for `p=2` assume `β` and `α` when `k(ρ)=2`. Let `Σ` be a subset of the Steinberg places of the chosen witness `π`, with no p-place in the `α` branch; in the `β` branch with `k(ρ)=2` it contains every Steinberg p-place. After allowable base change F″/F, split at p for `p>2`, there is `π″` lifting `ρ_F″`, spherical outside `Σ∪{p}`, Steinberg over `Σ`, and with the exact p-local and determinant cases listed below: `p=2` weight two crystalline if `k(ρ)=2` away from `Σ` or Steinberg at every p-place if `k(ρ)=4`; odd-p case (i) weight `k(ρ)` spherical outside `Σ` at p, case (ii) weight two with U1(v) invariants when `k(ρ)<p+1` and U0(v) invariants at `k(ρ)=p+1`. The `k(ρ)=2`, `Σ∩{v|p}=∅` case also admits parallel weight p+1 with determinant choice (iii). ([Chandrashekhar Khare and Jean-Pierre Wintenberger](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), Theorem 8.2 and proof, author pp. 71–74. All determinant, p-local, `Σ` and base-change branches, including `p=2` square-root control.)
 
-KW data, actual `α/β` witnesses, precise permitted initial `π` and `Σ` from Theorem 8.2. At `p=2` use `ψ` of type (ii); the `k(ρ)=4` Steinberg `U_v` eigenvalue is the chosen unramified square-root `ψ′_v` after restriction. Case (i) can use `α`, or `β` when `k(ρ)=2`; cases (ii) use `β`.
+KW data, β and the conditionally required α, precise permitted initial `π` and `Σ` from Theorem 8.2. At `p=2` use `ψ` of type (ii); the `k(ρ)=4` Steinberg `U_v` eigenvalue is the chosen unramified square-root `ψ′_v` after restriction. Case (i) can use `α`, or `β` when `k(ρ)=2`; cases (ii) use `β`.
 
-By allowable changes make unwanted away-p ramification Steinberg and arrange the p-part of residue-unit orders to dominate the stabilizer bounds of KW Lemma 7.3 (at `p=2` with order divisible by four). Choose the characters killing stabilizers and apply the HilbertModularVarietiesAndShimuraCurves §R18.3.24 contract (KW Lemma 7.4). It identifies the same liftable residual Hecke image for the two integral coefficient spaces; it does not identify arbitrary mod-p invariant spaces or give a Hecke-equivariant integral isomorphism. Lift residual eigenvalues in the twisted coefficient space; its nontrivial local characters force principal-series lifts at the unwanted places. A further allowable change removes that ramification while preserving `Σ` and the p-local data. Align `ψ` and its local square roots with Lemma 7.10 and the sign-control input; use Lemma 7.7 for local–global compatibility and Lemma 8.3 for the p+1 alternate branch.
+By allowable changes make unwanted away-p ramification Steinberg and arrange the p-part of residue-unit orders to dominate the stabilizer bounds of KW Lemma 7.3 (at `p=2` with order divisible by four). Choose the characters killing stabilizers and apply the HilbertModularVarietiesAndShimuraCurves §R18.3.24 contract (KW Lemma 7.4). It identifies the same liftable residual Hecke image for the two integral coefficient spaces; it does not identify arbitrary mod-p invariant spaces or give a Hecke-equivariant integral isomorphism. Lift residual eigenvalues in the twisted coefficient space; its nontrivial local characters force principal-series lifts at the unwanted places. A further allowable change removes that ramification while preserving `Σ` and the p-local data. Align `ψ` using ArithmeticGaloisDuality §R02.6.2, Finite-order determinant twists (KWII Lemma 7.10), with the equal-reduction, total-evenness and local-unit hypotheses of §6.6. Use HilbertModularVarietiesAndShimuraCurves §R18.3.32 for ramified signs and §R18.3.31 for unramified eigenroots/coinvariants; use Lemma 7.7 for local–global compatibility and Lemma 8.3 for the p+1 alternate branch.
 
 The exact p-local alternatives are as follows. The modular witness chosen for each branch, its allowed `Σ`, the determinant choice and the output local invariants are joint data. Write `U₀(v)` for the upper-triangular congruence subgroup and `U₁(v)` for its subgroup with the specified lower-right residue entry equal to one, as in KW §8.
 
@@ -1563,7 +1613,7 @@ The exact p-local alternatives are as follows. The modular witness chosen for ea
 
 In every row the away-p output is spherical outside `Σ` and Steinberg at the places over `Σ`. The field change is allowable and is split at p when `p>2`. This table does not assert a lift over the original field or a type for arbitrary `Σ`. Use the coefficient-space residual Hecke-image comparison of HilbertModularVarietiesAndShimuraCurves §R18.3.24, with the stabilizer bounds and determinant/sign control. The dyadic argument does not follow from an odd-characteristic large-image Ihara theorem.
 
-*Needs:* [KW optimisation data](#kw-optimisation-data), `HilbertModularVarietiesAndShimuraCurves:R18.3`, `HilbertModularVarietiesAndShimuraCurves:R18.4`, `GL2AutomorphicRepresentationsAndTransfer:R17.3`, `GL2AutomorphicRepresentationsAndTransfer:R17.4`, [Weight-two to parallel p+1 change](#weight-two-to-p-plus-one), `HilbertModularVarietiesAndShimuraCurves:§R18.3.24`, `HilbertModularVarietiesAndShimuraCurves:§§R18.3.18, R18.3.25–R18.3.27, R18.3.32`, `AlgebraicModularFormsAndSerreWeights:R15.5, Deligne–Serre eigenvalue lifting`.
+*Needs:* [KW optimisation data](#kw-optimisation-data), `HilbertModularVarietiesAndShimuraCurves:R18.3`, `HilbertModularVarietiesAndShimuraCurves:R18.4`, `GL2AutomorphicRepresentationsAndTransfer:R17.3`, `GL2AutomorphicRepresentationsAndTransfer:R17.4`, [Weight-two to parallel p+1 change](#weight-two-to-p-plus-one), `HilbertModularVarietiesAndShimuraCurves:§R18.3.24`, `HilbertModularVarietiesAndShimuraCurves:§§R18.3.18, R18.3.25–R18.3.27, R18.3.31–R18.3.32`, `AlgebraicModularFormsAndSerreWeights:R15.5, Deligne–Serre eigenvalue lifting`.
 
 **Checks.**
 
@@ -1623,9 +1673,9 @@ Given KW data and an even set of primes `v_1,…,v_r` whose prescribed special l
 
 KW’s even-discriminant setup, actual initial optimized modular witness, and locally admissible type choices. Field choices satisfy the disjointness, splitting and neatness requirements; introduced auxiliary ramification is removed. At p-places use only the exact weight-two variant; general-weight p-local raising is not inferred.
 
-Construct each quadratic extension with the prescribed split/inert pattern and linear disjointness. Transfer to the definite quaternion algebra at the even set and perform one local raising step. Repeat, verifying the earlier local types and determinant under restriction. Use Theorem 8.2 to remove `r_0`. The first local comparison realizes the requested special type only up to unramified order-two twist; a further allowable change kills these twists, preserving the specified square-root restrictions. In case C with `k(ρ)=2`, or `p=2` with `k(ρ)=4`, this final extension may be unramified rather than split at p.
+Construct each quadratic extension with the prescribed split/inert pattern and linear disjointness. Transfer to the definite quaternion algebra at the even set and perform one local raising step. Repeat, verifying the earlier local types and determinant under restriction. Use Theorem 8.2 to remove `r_0`. Determinant alignment uses ArithmeticGaloisDuality §R02.6.2, Finite-order determinant twists, with §6.6’s total-evenness and local-unit hypotheses. The first local comparison realizes the requested special type only up to unramified order-two twist; a further allowable change kills these twists, preserving the specified square-root restrictions. In case C with `k(ρ)=2`, or `p=2` with `k(ρ)=4`, this final extension may be unramified rather than split at p.
 
-*Needs:* [KW optimisation data](#kw-optimisation-data), [KW minimal modular lifts](#kw-minimal-modular-lifts), [Quaternionic level raising](#quaternionic-level-raising), `GL2AutomorphicRepresentationsAndTransfer:R17.4`, `ArithmeticGaloisDuality:§§R02.4.5b–R02.4.6`.
+*Needs:* [KW optimisation data](#kw-optimisation-data), [KW minimal modular lifts](#kw-minimal-modular-lifts), [Quaternionic level raising](#quaternionic-level-raising), `GL2AutomorphicRepresentationsAndTransfer:R17.4`, `ArithmeticGaloisDuality:§§R02.4.5b–R02.4.6`, `ArithmeticGaloisDuality:§R02.6.2, Finite-order determinant twists`.
 
 **Checks.**
 
@@ -1639,7 +1689,7 @@ Construct each quadratic extension with the prescribed split/inert pattern and l
 
 ### 6.11 KW prescribed-local-type modular lifts
 
-Under KW optimisation data and the actual `α/β` modularity hypotheses, after allowable base change F′/F there is a cuspidal modular lift of `ρ_F′` with determinant `ψ_F′χ_p` realizing each prescribed lifting datum. At `p>2`: A is crystalline of weight `2≤k≤p+1` (with `k=p+1` only when F′ is split at p and `k(ρ)=p+1`), B is weight-two crystalline over `Q_p^nr(μ_p)` with the prescribed WD inertial parameter, and C is noncrystalline semistable weight two with diagonal `γ_vχ_p,γ_v` and `γ_v²=ψ_v`. At `p=2`: `k(ρ)=2` gives crystalline weight two and `k(ρ)=4` gives semistable noncrystalline weight two with the specified `γ_v`. Away from p the lift is unramified where required and special upper triangular with unramified `γ_v` at the prescribed ramified places. ([Chandrashekhar Khare and Jean-Pierre Wintenberger](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), Theorem 8.4, author pp. 75–76; proof pp. 76–78. All p-local A/B/C and dyadic branches, prescribed outside-p ramification and fixed determinant.)
+Under KW optimisation data with β in every case and α for `p>2` or dyadic weight two, after allowable base change F′/F there is a cuspidal modular lift of `ρ_F′` with determinant `ψ_F′χ_p` realizing each prescribed lifting datum. At `p>2`: A is crystalline of weight `2≤k≤p+1` (with `k=p+1` only when F′ is split at p and `k(ρ)=p+1`), B is weight-two crystalline over `Q_p^nr(μ_p)` with the prescribed WD inertial parameter, and C is noncrystalline semistable weight two with diagonal `γ_vχ_p,γ_v` and `γ_v²=ψ_v`. At `p=2`: `k(ρ)=2` gives crystalline weight two and `k(ρ)=4` gives semistable noncrystalline weight two with the specified `γ_v`. Away from p the lift is unramified where required and special upper triangular with unramified `γ_v` at the prescribed ramified places. ([Chandrashekhar Khare and Jean-Pierre Wintenberger](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), Theorem 8.4, author pp. 75–76; proof pp. 76–78. All p-local A/B/C and dyadic branches, prescribed outside-p ramification and fixed determinant.)
 
 `p>2` requires `α` and `β`; `p=2` requires `β` and `α` when `k(ρ)=2`; image assumptions from §8.1. The specified local type must be among the locally admissible data in §8.3. The determinant and chosen local unramified square roots are part of the conclusion after restriction. Choose the same A/B/C branch simultaneously at all places over p, with common weight k in A and weight two in B/C; the inertial parameter in B is fixed across embeddings. A uses `ψ` of type (i); B and C use type (ii). No mixed A/B/C assignment is asserted.
 
@@ -1707,7 +1757,7 @@ For KW's weight change with residue degree `f=2`, `P¹(k_v)` has `p²+1` points.
 
 ### Dependencies
 
-The external inputs are `AlgebraicModularFormsAndSerreWeights:R15.2`, `AlgebraicModularFormsAndSerreWeights:R15.4, The dyadic weight dichotomy`, `AlgebraicModularFormsAndSerreWeights:R15.5`, `AlgebraicModularFormsAndSerreWeights:R15.5, Deligne–Serre eigenvalue lifting`, `ArithmeticGaloisDuality:§§R02.4.5b–R02.4.6`, `ArithmeticGaloisRepresentations:§6.3`, `NeronModelsAndSemistableAbelianVarieties:§5.3h`, `ArithmeticGaloisRepresentations:Layer 4`, `ArithmeticGaloisRepresentations:§§6.1–6.4`, `HilbertModularVarietiesAndShimuraCurves:§R18.3.29`, `AlgebraicModularFormsAndSerreWeights:R15.5A.2–R15.5A.3, R15.6`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.5`, `GL2AutomorphicRepresentationsAndTransfer:R17.3`, `GL2AutomorphicRepresentationsAndTransfer:R17.4`, `GlobalGaloisDeformations:§§4.4, 4.8–4.11`, `HilbertModularVarietiesAndShimuraCurves:R18.3`, `HilbertModularVarietiesAndShimuraCurves:§R18.3.5`, `HilbertModularVarietiesAndShimuraCurves:§§R18.3.18, R18.3.25–R18.3.27, R18.3.32`, `HilbertModularVarietiesAndShimuraCurves:§R18.3.24`, `HilbertModularVarietiesAndShimuraCurves:R18.4`, `HilbertModularVarietiesAndShimuraCurves:§R18.4.17`, `LocalGaloisDeformationRings:§§8.2–8.5, 8.13–8.18`, `Nat.primeFactors`, `padicValNat`, `HeckeRing.GL2.Newform`, `ClassFieldTheory:Layer 11`, `ClassFieldTheory:Layer 7`. Their exact contracts are stated above; each target specifies the comparisons it uses.
+The external inputs are `AlgebraicModularFormsAndSerreWeights:R15.2`, `AlgebraicModularFormsAndSerreWeights:R15.4, The dyadic weight dichotomy`, `AlgebraicModularFormsAndSerreWeights:R15.5`, `AlgebraicModularFormsAndSerreWeights:R15.5, Deligne–Serre eigenvalue lifting`, `ArithmeticGaloisDuality:§§R02.4.5b–R02.4.6`, `ArithmeticGaloisDuality:§R02.6.2, Finite-order determinant twists`, `ArithmeticGaloisRepresentations:§6.3`, `NeronModelsAndSemistableAbelianVarieties:§5.3h`, `ArithmeticGaloisRepresentations:Layer 4`, `ArithmeticGaloisRepresentations:§§6.1–6.4`, `HilbertModularVarietiesAndShimuraCurves:§R18.3.29`, `AlgebraicModularFormsAndSerreWeights:R15.5A.2–R15.5A.3, R15.6`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.5`, `GL2AutomorphicRepresentationsAndTransfer:R17.3`, `GL2AutomorphicRepresentationsAndTransfer:R17.4`, `GlobalGaloisDeformations:§§4.4, 4.8–4.11`, `HilbertModularVarietiesAndShimuraCurves:R18.3`, `HilbertModularVarietiesAndShimuraCurves:§R18.3.5`, `HilbertModularVarietiesAndShimuraCurves:§§R18.3.18, R18.3.25–R18.3.27, R18.3.31–R18.3.32`, `HilbertModularVarietiesAndShimuraCurves:§R18.3.24`, `HilbertModularVarietiesAndShimuraCurves:R18.4`, `HilbertModularVarietiesAndShimuraCurves:§R18.4.17`, `LocalGaloisDeformationRings:§§8.2–8.5, 8.13–8.18`, `Nat.primeFactors`, `padicValNat`, `HeckeRing.GL2.Newform`, `ClassFieldTheory:Layers 11–12`, `ClassFieldTheory:Layer 7`. Their exact contracts are stated above; each target specifies the comparisons it uses.
 
 ## Downstream consumers
 
@@ -1715,7 +1765,7 @@ ClassicalSerreModularity consumes the conditional conductor/weight cases and sup
 
 EllipticCurveModularity uses the large-good-prime theorem when infinitely many residual representations `E[ℓ]` are already known to be modular and irreducible. The finite set of weight-two newforms at divisor levels of the fixed conductor gives a repeated witness; trace agreement at infinitely many coefficient primes is then the downstream characteristic-zero step. The conditional reduced-level theorem starts instead with an actual weight-two modularity witness for E and is suitable for applications such as Bennett–Siksek's congruences.
 
-GL2ModularityLiftingDefectOne consumes the coherent weight-one ideal, ordinary Tate sequence, known multiplicity-one cases and Wiese's lower bound, then proves its own exact scalar multiplicity upper bound. GSp4NonregularModularityLifting consumes the distinct-root localized Hasse injection as the `GL₂` model for its own nonregular theorem. Weight-zero higher-rank automorphy consumes the one-way companion splitting criterion; its higher-rank lifting theorem is outside this roadmap. GL2ModularityLifting consumes the KW minimal and prescribed-type modular witnesses after allowable totally real base change, together with their actual determinant and local types.
+GL2ModularityLiftingDefectOne consumes the coherent weight-one ideal, ordinary Tate sequence, known multiplicity-one cases and Wiese's lower bound, then proves its own exact scalar multiplicity upper bound. GSp4NonregularModularityLifting consumes the distinct-root localized Hasse injection at tame `N≥5` as the `GL₂` model for its own nonregular theorem. Weight-zero higher-rank automorphy consumes the one-way companion splitting criterion; its higher-rank lifting theorem is outside this roadmap. GL2ModularityLifting consumes the KW minimal and prescribed-type modular witnesses after allowable totally real base change, together with their actual determinant and local types.
 
 AutomorphicCongruences Layer 0, PadicFamilies Layer 1 and IntegralIwasawaTheory §I.5 use the augmented-algebra congruence comparison with their own Hecke modules. The level-changing application here retains the augmentation and generic-rank hypotheses of §1.3.
 

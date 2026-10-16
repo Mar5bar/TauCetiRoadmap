@@ -29,6 +29,45 @@ example : Nat.card
        (Submodule.span ℤ ({![1, 2]} : Set (Fin 2 → ℤ))))) = 2 := by
   sorry
 
+/-- Equal coordinate lines leave a free rank-one quotient. -/
+example : Nonempty
+    (((Fin 2 → ℤ) ⧸
+      ((Submodule.span ℤ ({![1, 0]} : Set (Fin 2 → ℤ))) ⊔
+       (Submodule.span ℤ ({![1, 0]} : Set (Fin 2 → ℤ))))) ≃ₗ[ℤ] ℤ) := by
+  sorry
+
+/-! ## Layer 2: Auxiliary and degeneracy calculations -/
+
+/-- At five the conjugation matrix has trace zero and determinant minus one. -/
+example : Matrix.trace !![(1 : ZMod 5), 0; 0, 4] = 0 ∧
+    Matrix.det !![(1 : ZMod 5), 0; 0, 4] = 4 := by
+  sorry
+
+/-- The norm-map formula factors the entire eta operator. -/
+example (q T : ℤ) :
+    !![-1, T; 0, -1] * !![q + 1, T; T, q + 1] =
+      !![T, q; -1, 0] ^ 2 - 1 := by
+  sorry
+
+/-- The unrestricted-character witness at 29 fails the quadratic raising test. -/
+example : (((29 + 1 : ℕ) : ZMod 7) ^ 2 = 4) ∧ (0 : ZMod 7) ≠ 4 := by
+  sorry
+
+/-! ## Layer 3: Companion and Hasse calculations -/
+
+/-- The weight-26 companion at 107 has weight 82. -/
+example : 107 + 1 - 26 = (82 : ℕ) := by
+  sorry
+
+/-- The socle calculation uses the inverse of alpha, rather than beta. -/
+example : (2 : ZMod 7) * 3 = 6 ∧ (2 : ZMod 7)⁻¹ = 4 ∧
+    (4 : ZMod 7) ≠ 3 := by
+  sorry
+
+/-- Weight four kills the dyadic Hecke correction modulo eight and its unit factors. -/
+example : (2 : ZMod 8) ^ 4 = 0 ∧ ∀ u : (ZMod 8)ˣ, (u : ZMod 8) ^ 4 = 1 := by
+  sorry
+
 /-! ## Layer 6: Exports for Serre and elliptic curves -/
 
 open scoped BigOperators
@@ -71,6 +110,24 @@ example : reducedLevel 33 3 (3 ^ 6 * 11 ^ 2) = 11 := by
 
 /-- A conductor exponent greater than one cannot be removed by this formula. -/
 example : reducedLevel 45 7 (3 ^ 7 * 5 ^ 7) = 9 := by
+  sorry
+
+/-- At coefficient prime three neither prime of 141 passes the removal test. -/
+example : reducedLevel 141 3 (3 ^ 7 * 47) = 141 := by
+  sorry
+
+/-- At coefficient prime seven the exponent-seven prime is removed. -/
+example : reducedLevel 141 7 (3 ^ 7 * 47) = 47 := by
+  sorry
+
+/-- A single symmetric-power factor has dimension p. -/
+example (p : ℕ) (hp : p.Prime) :
+    (∏ _ : Fin 1, (p - 1 + 1)) = p := by
+  sorry
+
+/-- Two residue embeddings require two factors and dimension p squared. -/
+example (p : ℕ) (hp : p.Prime) :
+    (∏ _ : Fin 2, (p - 1 + 1)) = p ^ 2 := by
   sorry
 
 /-!
