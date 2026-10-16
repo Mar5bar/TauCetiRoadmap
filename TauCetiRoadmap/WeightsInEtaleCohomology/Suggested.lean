@@ -233,6 +233,15 @@ example : (25 : ℤ) + 1 - ((-2) ^ 2 - 2 * 5) = 32 := by
 
 /-! ## Layer R34.3: geometric monodromy normalization -/
 
+/-- A quadratic coefficient projector selects a line whose correspondence trace is nonrational. -/
+example (a : ℂ) (ha : a ^ 2 = 2) :
+    let A : Matrix (Fin 2) (Fin 2) ℂ := !![0, 2; 1, 0]
+    let e := (1 / 2 : ℂ) • (1 + a⁻¹ • A)
+    e * e = e ∧ A * e = a • e ∧ Matrix.trace e = 1 ∧
+      Matrix.trace (A * e) = a ∧
+      ¬ ∃ r : ℚ, (r : ℂ) = Matrix.trace (A * e) := by
+  sorry
+
 /-- Nodal monodromy sends the vanishing direction to the graph direction,
 kills the graph direction and scales by q⁻¹ under geometric Frobenius. -/
 theorem nodal_monodromy_scaling (q : ℚ) (hq : q ≠ 0) :
@@ -254,6 +263,13 @@ example (e : ℕ) (he : 1 < e) :
 example (e d : ℕ) (he : 0 < e) (hd : 0 < d) :
     let N_HK : Matrix (Fin 2) (Fin 2) ℚ := !![0, 1; 0, 0]
     ((d : ℚ) * (e : ℚ))⁻¹ • ((d : ℚ) • N_HK) = (e : ℚ)⁻¹ • N_HK := by
+  sorry
+
+/-- A quadratic ramified extension doubles raw monodromy of E_p and preserves N_p. -/
+example :
+    let N_Qp : Matrix (Fin 2) (Fin 2) ℚ := !![0, 1; 0, 0]
+    let N_HK : Matrix (Fin 2) (Fin 2) ℚ := !![0, 2; 0, 0]
+    (2 : ℚ) • N_Qp = N_HK ∧ (2 : ℚ)⁻¹ • N_HK = N_Qp ∧ N_HK ≠ N_Qp := by
   sorry
 
 /-! ## Layer R34.5: degree and Tate-twist checks -/
@@ -338,14 +354,20 @@ R34.3/proper-trait-specialization-comparison: proper trait, finite-level nearby 
 R34.3/nodal-modular-curve-comparison: named integral curve, normalization and dual graph.
 R34.3/arithmetic-picard-lefschetz-normalization: quadratic degeneration and tame inertia.
 R34.3/saito-crystalline-weight-spectral-sequence: strictly semistable model, smooth intersection
-strata, filtered log-crystalline complex, stratum maps and raw N_HK.
+strata, filtered log-crystalline complex, stratum maps and raw N_HK; L-coefficient projector,
+embeddings into L_λ and L_μ, chosen C_μ factor and coefficient extension of the image filtration.
 R34.3/saito-stratum-correspondence-trace: supplied crystalline trace, duality, Gysin and diagonal
-maps, with additional cycle/intersection compatibilities and Weil-twisted traces.
+maps from CrystallineCohomology CR.3:duality.1 with its CR.4.7 and other transitive prerequisites;
+additional cycle/intersection compatibilities, rational constituent trace identities and their
+L-linear extension through the specified coefficient embeddings, including projector images.
 R34.3/saito-semistable-comparison-model: compatible ramified refinement of Saito's curve models,
-level maps, projector and log-crystalline comparison; N_HK = e N_p in finite-local descent.
+level maps, L-coefficient projector and log-crystalline comparison; N_HK = e_V N_p in finite-local
+descent, retaining the embeddings into L_λ and L_μ and the chosen C_μ factor.
 R34.3/semistable-period-comparison: proper strictly semistable model over a finite local field,
-structured period comparison with N_π = e N_p on periods and raw N_HK on cohomology,
-tensor-product operators in that normalization, and ramified base change dividing raw N by d.
+structured period comparison with N_p on the period factor and N_HK/e_K on the HK factor,
+their sum on the HK tensor product and zero on the étale factor; L_μ coefficient extension,
+L-coefficient correspondences and their images, full-algebra Frobenius compatibility and chosen
+C_μ factor for linearized Weil/monodromy, and ramified base change dividing raw N by d.
 R34.4/finite-field-pencil-descent: supplied finite-field pencil/incidence descent on the chosen axis.
 R34.4/vanishing-quotient-parity-comparison: supplied odd-degree arithmetic radical quotient and
 Tate pairing; comparison with the even-degree symmetric pairing.
@@ -353,6 +375,8 @@ R34.4/original-coefficient-monodromy-hypotheses: original Q_l geometric monodrom
 R34.5/parabolic-cohomology-weight-comparison: actual H_c¹→H¹ image of Sym^r R¹.
 R34.5/kuga-sato-projector-weight-comparison: full torsion-translation, inversion and permutation
 Scholl correspondence on the equivariant resolution and its parabolic étale comparison.
+The Hilbert branch uses Saito's L-coefficient e and e°, the L_λ realization, the L_μ structured
+period comparison with chosen C_μ factor, and coefficient extension of projector images.
 R34.5/weight-two-jacobian-weight-comparison: actual modular abelian quotient and coefficient action.
 R34.5/arithmetic-hard-lefschetz-comparison: smooth projective finite-field scheme, ℓ invertible,
 ample class and Frobenius-equivariant cup product.
@@ -361,7 +385,8 @@ R34.6/fixed-eigenform-good-prime-compatibility: common coefficient field and act
 R34.6/arithmetic-realization-transport: actual comparison morphisms and commuting correspondences.
 R34.6/hilbert-local-monodromy-weight-export: global Jacquet–Langlands and coefficient models,
 Saito's cohomological decomposition and rank-two multiplicity descent, local WD carriers,
-and the conversion N_HK/e = N_p before the Weil–Deligne export.
+L-coefficient e and e° with specified embeddings and chosen C_μ factor, descent to the Hecke
+coefficient field with a model and descent datum, and N_HK/e_K = N_p before the Weil–Deligne export.
 R34.6/common-good-prime-polynomials: HasCommonGoodPrimePolynomials on an arithmetic family.
 R34.1/predicate-api: isPureOutside_iff, hasIntegralFrobOutside_iff,
 isIotaPureOutside_iff, IsPureOutside.mono, HasIntegralFrobOutside.mono,
