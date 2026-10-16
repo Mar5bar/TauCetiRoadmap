@@ -10,6 +10,8 @@ Ordinary finite locally free bundles, symmetric and exterior powers and their de
 
 The unmetrized Hodge bundle `e^*Ω¹` and its determinant are the interface of **AbelianSchemesAndArithmeticModuli** §§A1.3 and A6.38, and **NeronModelsAndSemistableAbelianVarieties** §1.11. The exact supplier contracts below record the imported interface and its checks. Abelian varieties, duals, polarizations, theta groups and their algebraic section spaces belong to abelian schemes; Néron models, semistability and their lattice comparison belong to Néron models. **PELModuli** §§M3.9 and M6.3–M6.10 supplies the moduli spaces and their Hodge line. The principal Siegel compactifications over Spec ℤ and their descended ample powers are targets of §5.0; the metric and exact height identity are targets of §§5.3–5.5. Section 2.0 gives the semi-abelian family and extension interface used by these targets.
 
+**ArithmeticGaloisDuality** §D7.6 supplies local Tate duality for abelian varieties and the duality of isogeny sequences. Section 4.3 uses that pairing for its Kummer corollary and proves the Néron Lie-filtration asymptotics and dual-different identity.
+
 **SchemeAndStackFoundations** §§3.4–3.5 and 4.17 supplies ordinary divisors, Picard groups, line-bundle norms and normal crossings; its §5.1 supplies Chow groups on the special fibres. Its §§1.19–1.22 supplies the Deligne–Mumford stack interface, and **AlgebraicModuliForArithmeticGeometry** §3.1 supplies quasi-coherent descent. **ComplexComparisonPartII** §§C−1.1, C0.4 and C5.1 supplies analytification and comparison of algebraic and analytic differential forms. **DiophantineApproximationAndTranscendence** §§0.2–0.3 supplies absolute scalar and tuple heights, field comparison and bounded-degree scalar Northcott. Sections 1.12–1.14 construct the metrized-degree realization, the projective line-bundle height class and its ample Northcott theorem, with the sup and Fubini–Study comparisons.
 
 **FaltingsFinitenessAndIsogenyTheorems**, Layers R28.1–R28.2, consumes the height package. Its descent to number-field isomorphism classes without level, bounds inside an isogeny class, global Hodge–Tate determinant arguments, Tate theorems and Shafarevich finiteness remain there. CM-type invariance and the averaged Colmez theorem, higher arithmetic Chow products, Arakelov Riemann–Roch and general adelic intersection theory are outside this roadmap. The local CM comparison in §4.8 has its precise rank-one freeness hypothesis; it does not construct the whole CM cohomology theory.
@@ -115,11 +117,13 @@ The source identifications are [Faltings, Endlichkeitssätze](https://gdz.sub.un
 - `GroupScheme.hodgeLine_disconnected_proper_nonexample`: The constant group ℤ/2 over S is proper and smooth of dimension zero, but p_*Ω⁰=O_S⊕O_S while the Hodge line at the unit is O_S. Properness without geometrically connected fibres does not imply the abelian-scheme pushforward identity.
 - For G = 𝔾_m over Spec ℤ, ω̄_G = ℤ·dt/t; p_*Ω¹ = ℤ[t, t^{-1}]·dt/t is not of rank one, which is why (d) needs properness.
 
-### From finite flat groups and local class field theory
+### From finite flat groups and local arithmetic duality
 
 **FiniteFlatGroupsAndIntegralPadicHodgeTheory** §R07.1.17 supplies `invariantDifferentialsAndAbsoluteDifferent`: over a complete mixed-characteristic DVR R with perfect residue field, length_R ω_(Γ[p^n]) = n·v_R(p)·dim Γ, and Fitt₀(ω_G) is the absolute different of a finite flat commutative group G. This retains arbitrary ramification and arbitrary prime-power exponent. Section R07.1.21 supplies `BarsottiTate.exists_of_tateModule_summand`: inside an ambient p-divisible group, the closures of a generic p-divisible subgroup become the truncations of a p-divisible group after taking a quotient by a fixed initial level. The ambient group exists for abelian schemes at good reduction; semistable reduction alone does not supply it. Section 4.5 keeps its explicit finite-part hypothesis at bad reduction. The Cartier-dual length sum is an additional theorem of §4.3, using the supplied different; the finite parts of kernels on semi-abelian identity components are not assumed Cartier dual.
 
-**ClassFieldTheory**, Layer 5, supplies `tateDualityPairing_perfect_mixed`, `finite_H` and `eulerCharacteristic_mixed` for finite smooth discrete modules over finite extensions of ℚ_p. Section 4.3 constructs the additional abelian-variety local pairing, its Kummer-image annihilators and the Néron Lie-filtration asymptotics; these are distinct from finite-module duality.
+**ClassFieldTheory**, Layer 5, supplies `tateDualityPairing_perfect_mixed`, `finite_H` and `eulerCharacteristic_mixed` for finite smooth discrete modules over finite extensions of ℚ_p.
+
+**ArithmeticGaloisDuality** §D7.6, “Local abelian-variety duality and gerbe evaluation” and “Self-dual isogenies and their local index,” supplies the perfect local pairings for abelian varieties over every finite extension of ℚ_p, with profinite rational points and discrete torsion H¹, normalized by the Poincaré/Ext construction and the local invariant. It supplies the mutually dual long exact sequences of every characteristic-zero isogeny and its dual, including adjunction of the Kummer boundary maps. This sequence duality allows degree divisible by p; the prime-to-p hypothesis belongs to the supplier's subsequent numerical self-dual index formula. Section 4.3 takes its Kummer corollary from these sequences and constructs the Néron Lie-filtration asymptotics.
 
 ### From elliptic curves and Siegel moduli
 
@@ -398,7 +402,9 @@ The source identifications are [Gillet–Soulé](https://www.numdam.org/item/PMI
 
 ### 1.9 Metrized line bundles and arithmetic divisors
 
-For X as in §1.8, let Pic^(X) be the group of isometry classes of line bundles on X with an F_∞-invariant smooth hermitian metric on L_ℂ over ⊔_σ X_σ(ℂ). The map ĉ₁ : Pic^(X) → ĈH¹(X), L̄ ↦ (div s, −log ‖s‖²) for any rational section s nonvanishing on every irreducible component, is a well-defined group isomorphism. For a morphism f : X′ → X of such schemes with f(X′) not contained in the support, ĉ₁(f^*L̄) = f^*ĉ₁(L̄).
+For X as in §1.8, let Pic^(X) be the group of isometry classes of line bundles on X with an F_∞-invariant smooth hermitian metric on L_ℂ over ⊔_σ X_σ(ℂ). The map ĉ₁ : Pic^(X) → ĈH¹(X), L̄ ↦ (div s, −log ‖s‖²) for any rational section s nonvanishing on every irreducible component, is a well-defined group isomorphism. Every morphism f : X′ → X of such schemes over the arithmetic base pulls back metrized line bundles. Transport this map through ĉ₁ to define pullback on ĈH¹; then ĉ₁(f^*L̄) = f^*ĉ₁(L̄) for every such f.
+
+For a specified arithmetic divisor representative (D,g), the formula f^*(D,g) = (f^*D,g∘f) requires f(ξ) ∉ |D| for the generic point ξ of every irreducible component of X′. Under this hypothesis the formula represents the class pullback just defined. The condition concerns the support of D itself.
 
 X regular, so Cartier divisors and line bundles with rational sections correspond. Metrics are smooth and F_∞-invariant.
 
@@ -408,9 +414,9 @@ Changing s to fs changes (div s, −log‖s‖²) by d̂iv(f), so the class is i
 
 Inverse: from (D, g) form O(D) with the metric ‖1_D‖² = e^{−g}; isometry classes correspond to classes modulo principal divisors.
 
-Group laws: ⊗ goes to + since ‖s ⊗ t‖ = ‖s‖‖t‖. Pullback compatibility follows from the formulas.
+Group laws: ⊗ goes to + since ‖s ⊗ t‖ = ‖s‖‖t‖. Pullback on metrized lines preserves tensor products, identities and composition, so its transport gives these laws on ĈH¹. For an admissible representative, regularity makes X′ reduced and the componentwise condition ensures that pulled-back local equations are rational units defining Cartier divisors. The smooth extension g + log|f_D|² for a local equation f_D pulls back to the required Green-function extension. Thus the representative formula agrees with pullback of O(D) and its metric.
 
-The source identifications are [Gillet–Soulé](https://www.numdam.org/item/PMIHES_1990__72__93_0/), §3.4.2, p. 131; [Andreatta–Goren–Howard–Madapusi Pera](https://arxiv.org/abs/1508.00178v3), §4.6, display (4.6.1); [Szpiro](https://www.numdam.org/item/AST_1985__127__11_0/), §1.2, Proposition 1.1, p. 14.
+The source identifications are [Gillet–Soulé](https://www.numdam.org/item/PMIHES_1990__72__93_0/), §3.4.2, p. 131; [Andreatta–Goren–Howard–Madapusi Pera](https://arxiv.org/abs/1508.00178v3), §4.6, display (4.6.1); [Szpiro](https://www.numdam.org/item/AST_1985__127__11_0/), §1.2, Proposition 1.1, p. 14; [Stacks Project, Tag 02OO](https://stacks.math.columbia.edu/tag/02OO), case (3), for effective Cartier pullback on a reduced source, applied to the positive and negative parts of D.
 
 *Needs:* §1.8; §1.1; **SchemeAndStackFoundations** §§3.4–3.5 (Picard groups and norms).
 
@@ -419,6 +425,7 @@ The source identifications are [Gillet–Soulé](https://www.numdam.org/item/PMI
 - On Spec O_K this is the isomorphism of §1.7; for X = Spec ℤ, ĉ₁(ℤ, r|·|) = (0, −2 log r) of degree −log r.
 - On ℙ¹_ℤ, the section X₀ of sup-metrized O(1) has zero divisor [X₀=0]. On X₁≠0 its Green function is −log(|z|²/max(1,|z|)²), z=X₀/X₁; adding log|z|² leaves the continuous local metric term. For a smooth Fubini–Study metric the corresponding term is log(1+|z|²), which is smooth. Thus the smooth arithmetic Chow group uses the latter metric, while the continuous sup metric belongs to §1.12.
 - For the trivial line on Spec ℤ, tensoring metrics r|·| and s|·| gives Green function −2 log(rs), the sum of −2 log r and −2 log s; dualizing changes its sign. Using −log‖s‖ instead of −log‖s‖² would fail this comparison with the degree of §1.3.
+- For X = ℙ¹_ℤ, D = (t=0) and a smooth metric on O(D), let X′ = Spec ℤ ⊔ Spec ℤ map by t=0 and t=1 on its two components. Its whole image is not contained in |D|, but t pulls back to (0,1) ∈ ℤ×ℤ, annihilated by the nonzero (1,0); the representative pullback fails on the first component. The metrized line and its arithmetic class still pull back. If the two sections instead have t=1 and t=2, each generic point avoids D and the representative formula applies, including the vertical divisor at 2 on the second component.
 
 ### 1.10 Arithmetic degree of ĈH¹ on proper one-cycles
 
@@ -797,25 +804,26 @@ The source identifications are [Gaudron–Rémond, Périodes](https://arxiv.org/
 
 ### 2.6 The Hodge lines of A and its dual
 
-For a semi-abelian scheme G over a normal base S with abelian generic fibre, and its semi-abelian dual model G^t, use the natural generic Serre-duality identification to construct p_G : ω̄_G ≅ ω̄_{G^t}. It extends integrally and is an isometry for the Faltings metrics at every complex embedding. For an isogeny α : G → G_1, with dual α^t, the maps satisfy deg(α)·p_{G_1} = α^{t*} ∘ p_G ∘ α^*. Consequently a semistable abelian variety and its dual have isometric Hodge lines and equal degrees. The squared-line theorem for arbitrary Néron models is stated and constructed in §4.3.
+For a semi-abelian scheme G over a locally Noetherian normal base S, abelian on a dense open meeting every irreducible component, and its semi-abelian dual model G^t, use the natural generic Serre-duality identification to construct p_G : ω̄_G ≅ ω̄_{G^t}. It extends integrally and is an isometry for the Faltings metrics at every complex embedding. For an isogeny α : G → G_1 between such models, with dual α^t, the maps satisfy deg(α)·p_{G_1} = α^{t*} ∘ p_G ∘ α^*. Consequently a semistable abelian variety and its dual have isometric Hodge lines and equal degrees. The squared-line theorem for arbitrary Néron models is stated and constructed in §4.3.
 
-S normal; G and G^t semi-abelian and abelian on a dense open. The arithmetic specialization is an abelian variety semistable over O_K.
+S locally Noetherian and normal; G and G^t semi-abelian and dual abelian schemes on a dense open meeting every component. The metric assertion applies to their complex fibres with the Faltings metrics. The arithmetic specialization is an abelian variety semistable over O_K.
 
-Identify the lines on the abelian locus by Serre duality. In codimension one, pass to a complete discrete valuation ring and use the Raynaud extension and dual one-motive from **NeronModelsAndSemistableAbelianVarieties** §§3.13–3.14 to compare the lattices through their period pairing. This trait package includes residue characteristic zero. Faltings–Chai V, Lemma 3.4, p. 166 computes the order of the possible pole; comparison with multiplication by n forces this order to vanish.
+Identify the lines on the abelian locus by Serre duality. Work affine-locally on S, component by component. Its codimension-one local rings are Noetherian normal local domains of dimension one, hence DVRs (Stacks, Tag 00PD). After faithfully flat completion use the Raynaud extension and dual one-motive from **NeronModelsAndSemistableAbelianVarieties** §§3.13–3.14 to compare the lattices through their period pairing. This trait package includes residue characteristic zero. Faltings–Chai V, Lemma 3.4, p. 166 computes the order of the possible pole; comparison with multiplication by n forces this order to vanish. Apply the codimension-one extension criterion of **SchemeAndStackFoundations** §0.6 (Stacks, Tag 0AY7) to the generic comparison and its inverse: line bundles are reflexive, so both extend and are inverse. Uniqueness on the dense open glues these local isomorphisms.
 
 The same period pairing gives the isogeny identity deg(α)·p_{G_1} = α^{t*}p_Gα^*. Over ℂ the generic comparison is an isometry by the Riemann form and the covolume calculation.
 
 At toric bad reduction the finite parts of the two kernels on identity components need not be Cartier dual. The semistable argument uses the integral comparison of Hodge lines; the Cartier-dual-kernel argument applies to abelian schemes with good reduction.
 
-The source identifications are [Raynaud](https://www.numdam.org/item/AST_1985__127__199_0/), §2.1, p. 206; Théorème 2.1.1 and Corollaire 2.1.3, p. 207; [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), Ch. V, Lemma 3.4, p. 166, and §4, p. 169; [Gaudron–Rémond, Périodes](https://arxiv.org/abs/1105.1230v1), §2.3, p. 7 (arXiv v1).
+The source identifications are [Raynaud](https://www.numdam.org/item/AST_1985__127__199_0/), §2.1, p. 206; Théorème 2.1.1 and Corollaire 2.1.3, p. 207; [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), Ch. V, Lemma 3.4, p. 166, and §4, p. 169; [Gaudron–Rémond, Périodes](https://arxiv.org/abs/1105.1230v1), §2.3, p. 7 (arXiv v1); [Stacks Project, Tag 00PD](https://stacks.math.columbia.edu/tag/00PD), cases (1) and (5), and [Tag 0AY7](https://stacks.math.columbia.edu/tag/0AY7).
 
-*Needs:* §2.4; §2.3; **AbelianSchemesAndArithmeticModuli** §A2.2 (`normalizedPoincare`); **AbelianSchemesAndArithmeticModuli** §A3.5 (`dualIsogenyCartierKernel`); §2.0; **NeronModelsAndSemistableAbelianVarieties** §1.7 (local existence); **NeronModelsAndSemistableAbelianVarieties** §1.9 (Dedekind gluing); **NeronModelsAndSemistableAbelianVarieties** §§3.13–3.14 (`RaynaudExtensionComparison`, `RigidUniformisation`, `RaynaudOneMotive.dual` and `RaynaudOneMotive.polarized_positive`), for complete-trait degeneration data and the dual period pairing in every residue characteristic.
+*Needs:* §2.4; §2.3; **AbelianSchemesAndArithmeticModuli** §A2.2 (`normalizedPoincare`); **AbelianSchemesAndArithmeticModuli** §A3.5 (`dualIsogenyCartierKernel`); §2.0, applied on Noetherian affine opens; **SchemeAndStackFoundations** §0.6 (reflexive sheaves and the codimension-one extension criterion); **NeronModelsAndSemistableAbelianVarieties** §1.7 (local existence); **NeronModelsAndSemistableAbelianVarieties** §1.9 (Dedekind gluing); **NeronModelsAndSemistableAbelianVarieties** §§3.13–3.14 (`RaynaudExtensionComparison`, `RigidUniformisation`, `RaynaudOneMotive.dual` and `RaynaudOneMotive.polarized_positive`), for complete-trait degeneration data and the dual period pairing in every residue characteristic.
 
 **Checks.**
 
 - For an elliptic curve E, A^t ≅ A and the semistable isometry and the squared-line isometry of §4.3 are tautological; for a principally polarized A the canonical isomorphism ω̄_A ≅ ω̄_{A^t} is induced by the polarization.
 - For the split Tate curve with q = π⁵ over ℂ((π)), the trait package has G = 𝔾_m, B = 0 and period pairing 5. Both integral Hodge lines are generated by dt/t; the comparison has order zero also in residue characteristic zero.
 - At good reduction the period lattice Y is zero and the Raynaud extension is the abelian scheme itself. The integral comparison then is the Serre-duality comparison, without a toric contribution.
+- For the compatible union R = ⋃_{n≥1} ℂ[[t^(1/n!)]] inside ⋃_{n≥1} ℂ((t^(1/n!))), the valuation group is ℚ. This rank-one valuation ring is normal and its maximal ideal has height one, but there is no least positive value and no uniformizer. It is not Noetherian and its height-one localization is not a DVR, so it lies outside the stated base hypotheses.
 
 ### 2.7 Normalisations of the Faltings metric and height
 
@@ -1158,11 +1166,11 @@ Prove the local milestone `Isogeny.cartierDual_length`: for a finite flat commut
 
 For semistable models, apply §2.6 to u: the identity deg(u) p_B = u^{t*}p_Au^* gives the equality of determinant ideals directly, including toric reduction.
 
-For arbitrary reduction over number fields, use the following local arithmetic targets, specialized to complete discrete valuation fields with finite residue field, as in Raynaud §2.3 and Remark 2.4.1, pp. 211–212. Establish local Tate duality for abelian varieties: H¹(F,A) ≅ Hom_cont(A^t(F), ℚ/ℤ), with discrete torsion H¹ and the profinite topology on A^t(F). For M = ker(u) and every finite unramified extension F_r/F, the Kummer sequence and this pairing give an exact sequence 0 → coker(A(F_r) → B(F_r)) → H¹(F_r,M) → Hom(coker(B^t(F_r) → A^t(F_r)), ℚ/ℤ) → 0. The finite-module duality and Euler characteristic used here are supplied by ClassFieldTheory, Layer 5; the abelian-variety pairing and the annihilator identification of the two Kummer images are targets of this section. Construct the pairing by the Poincaré biextension, the local invariant H²(F,G_m) → ℚ/ℤ and Kummer boundary maps; prove its perfectness by finite-level Tate pairings and passage to the limits.
+For arbitrary reduction over number fields, take the local abelian-variety pairing and the mutually dual isogeny sequences from **ArithmeticGaloisDuality** §D7.6, with the topology and normalization in the supplier contract above. For F a finite extension of ℚ_p, M = ker(u) and every finite unramified extension F_r/F, specialize these supplied sequences to obtain `Isogeny.localKummer_exact`: 0 → coker(A(F_r) → B(F_r)) → H¹(F_r,M) → Hom(coker(B^t(F_r) → A^t(F_r)), ℚ/ℤ) → 0. The right map is restriction under the supplied pairing; its exactness is the supplied adjunction of Kummer maps. Both cokernels are finite, so their continuous and abstract character groups coincide. This corollary applies to every isogeny over F, including degree divisible by p (Raynaud §2.3 and Remark 2.4.1, pp. 211–212).
 
 Let q be the residue cardinality of F and v_F its integral valuation. Prove log_q #coker(u(F_r)) = r v_F(𝔡_u) + O(1), with the constant independent of r, by comparing the analytic Lie filtrations of Néron models and their finite component groups. Finite-module Tate duality and the local Euler characteristic give log_q #H¹(F_r,M) = r v_F(d) + O(1): #H⁰ and #H² are bounded by d while r varies. The preceding exact sequence then identifies the linear coefficients and proves v_F(𝔡_u)+v_F(𝔡_{u^t})=v_F(d). This finite-residue-field proof supplies exactly the local fields of number-field Néron models.
 
-The additional targets are `AbelianVariety.localTatePairing`, the perfect pairing H¹(F,A) × A^t(F) → ℚ/ℤ for every finite extension F/ℚ_p; `Isogeny.localKummer_exact`, the displayed exact sequence for every isogeny u over F and every finite unramified F_r/F; and `Isogeny.localCokernel_asymptotic`, the displayed conormal-length asymptotic with one bound uniform in r ≥ 1. These targets add abelian-variety duality and Lie-lattice comparison to the finite-module duality supplied by ClassFieldTheory; they are not claimed as existing library results.
+The new local target is `Isogeny.localCokernel_asymptotic`, the displayed conormal-length asymptotic with one bound uniform in r ≥ 1. Together with the supplied duality and its `Isogeny.localKummer_exact` corollary, comparison of linear coefficients gives the dual-different and height identities here.
 
 Globalize the equality of local ideals. Add the two isogeny formulas: ½log d−log N𝔡_u/[K:ℚ] and ½log d−log N𝔡_{u^t}/[K:ℚ] sum to zero. Equivalently h(B)−h(A)=h(B^t)−h(A^t).
 
@@ -1170,7 +1178,7 @@ For a polarization u : A → A^t, u=u^t and 𝔡_u²=(d). The squared pullback m
 
 The source identifications are [Raynaud](https://www.numdam.org/item/AST_1985__127__199_0/), Théorème 2.1.1 and Remarque 2.1.2, p. 207; §2.4 and Remark 2.4.1, pp. 211–212; Corollary 2.1.3, pp. 207–208; [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), V, Lemma 3.4, p. 166.
 
-*Needs:* §4.1; **AbelianSchemesAndArithmeticModuli** §A3.5 (`dualIsogenyCartierKernel`); **FiniteFlatGroupsAndIntegralPadicHodgeTheory** §R07.1.17 (`invariantDifferentialsAndAbsoluteDifferent`); **FiniteFlatGroupsAndIntegralPadicHodgeTheory** §§R07.1.5–R07.1.17; §2.6; §2.3; §4.2; **ClassFieldTheory**, Layer 5 (finite-module local duality and Euler characteristic).
+*Needs:* §4.1; **AbelianSchemesAndArithmeticModuli** §A3.5 (`dualIsogenyCartierKernel`); **FiniteFlatGroupsAndIntegralPadicHodgeTheory** §R07.1.17 (`invariantDifferentialsAndAbsoluteDifferent`); **FiniteFlatGroupsAndIntegralPadicHodgeTheory** §§R07.1.5–R07.1.17; §2.6; §2.3; §4.2; **ArithmeticGaloisDuality** §D7.6 (“Local abelian-variety duality and gerbe evaluation” and “Self-dual isogenies and their local index,” for the pairing and dual isogeny sequences); **ClassFieldTheory**, Layer 5 (finite-module local duality and Euler characteristic).
 
 **Checks.**
 
@@ -1178,6 +1186,7 @@ The source identifications are [Raynaud](https://www.numdam.org/item/AST_1985__1
 - For the unit group of rank one, both conormal lengths vanish and the dual-length formula reads 0 = v_R(1). A formula with v_R(p) in place of v_R(rank G) would fail this case.
 - For a self-dual isogeny (a polarization of degree d), 𝔡_u² = (d).
 - For [p] on a good-reduction g-dimensional variety over F, v_F(𝔡)=g v_F(p). The local cokernel therefore has logarithmic size r g v_F(p)+O(1), while the finite-module H¹ term has size 2r g v_F(p)+O(1); the two dual cokernels give the required factor two.
+- For [p] on an elliptic curve over F/ℚ_p, #coker([p](F)) = #E[p](F)·p^[F:ℚ_p]. The Kummer corollary still applies, whereas replacing this index by #E[p](F) would incorrectly apply the supplier's prime-to-p numerical formula.
 - At split multiplicative reduction, the finite part of the full p-torsion kernel is μ_p, whose Cartier dual is étale and differs from the finite part of the dual [p]-kernel. The semistable Hodge-line argument still gives 𝔡_[p]²=(p²) for an elliptic curve; replacing it by a duality of those finite parts would fail.
 
 ### 4.4 Bounds and denominators for heights along isogenies

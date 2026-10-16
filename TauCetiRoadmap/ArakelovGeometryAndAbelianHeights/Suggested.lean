@@ -35,6 +35,12 @@ example : ((1, 0) : ℚ × ℚ) ≠ 0 ∧ ¬IsUnit ((1, 0) : ℚ × ℚ) := by
 example : IsUnit ((2, 1) : ℚ × ℚ) := by
   norm_num [Prod.isUnit_iff]
 
+/-- The equation t pulled back along the sections t=0 and t=1 is nonzero but annihilates a
+nonzero element. It cannot define a Cartier divisor on their disjoint union (README §1.9). -/
+example : ((0, 1) : ℤ × ℤ) ≠ 0 ∧ ((1, 0) : ℤ × ℤ) ≠ 0 ∧
+    ((0, 1) : ℤ × ℤ) * (1, 0) = 0 := by
+  norm_num [Prod.ext_iff]
+
 /-- An Arakelov divisor is an invertible fractional ideal and one real coefficient per infinite
 place. Addition multiplies the ideals and adds the coefficients (README §1.7). -/
 abbrev ArakelovDivisor : Type _ :=
@@ -140,6 +146,11 @@ end ArakelovDivisor
 
 /-! ## Layer 2: The Hodge line and the Faltings metric -/
 
+/-! The integral dual Hodge-line comparison of README §2.6 is over a locally Noetherian
+normal base, with semi-abelian models dual and abelian on a dense open meeting every component.
+Its codimension-one extension uses the trait degeneration and reflexive-sheaf supplier contracts.
+-/
+
 open UpperHalfPlane
 open scoped MatrixGroups
 
@@ -193,7 +204,10 @@ The metrized Néron Hodge line and its height are the README's arithmetic target
 /-! ## Layer 4: Isogenies, differents and component heights
 
 The determinant different, isogeny formula and squared dual-line theorem use the README's
-Néron-model and local-duality interfaces.
+Néron-model interface and the local abelian-variety pairing and dual isogeny sequences supplied
+by ArithmeticGaloisDuality §D7.6. `Isogeny.localKummer_exact` is their corollary for every isogeny
+over a finite extension of ℚ_p, including degree divisible by p, and every finite unramified
+extension. `Isogeny.localCokernel_asymptotic` is the uniform Lie-filtration estimate of README §4.3.
 -/
 
 /-! ## Layer 5: Logarithmic metrics, moduli and theta heights -/
