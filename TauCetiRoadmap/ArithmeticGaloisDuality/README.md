@@ -3873,9 +3873,9 @@ modular*](https://arxiv.org/pdf/1812.09269), §8.5, proof of Theorem 8.5.2; §9.
   `ℚ(√10)` works instead.
 
 **Roots after prescribed totally real base change.** Let `F` be a CM field,
-`η : G_F → \bar{ℚ}_l^×` a character of finite order, `m ≥ 1`, and `L` a number field. There is a
+`η : G_F → ℚ̄_l^×` a character of finite order, `m ≥ 1`, and `L` a number field. There is a
 totally real finite Galois extension `M/ℚ`, linearly disjoint from `L`, such that
-`η|_{G_{FM}} = ψ^m` for a character `ψ : G_{FM} → \bar{ℚ}_l^×`. If `T` is a finite set of odd primes
+`η|_{G_{FM}} = ψ^m` for a character `ψ : G_{FM} → ℚ̄_l^×`. If `T` is a finite set of odd primes
 such that `η` is unramified at every place above `T`, then `M` can be chosen with every prime of `T`
 split completely and `ψ` unramified at every place above `T`. No solubility of `M` is asserted in
 general. For `m = 2`, in the situation of ACC Theorem 7.1.11, `M` can be taken soluble with local
@@ -6367,7 +6367,7 @@ continuous `p`-adic characters of `G_F`, with values in `O^×` for the ring of i
 finite extension of `ℚ_p`, such that: they have the same reduction; through class field theory they
 agree on open subgroups of the local units at the places above `p` and have equal restrictions to
 the units at `v`; and `ψ(c) = ψ′(c)` for every complex conjugation `c ∈ G_F`. KW II Lemma 7.10 is
-stated for characters of `F^×\(𝔸^∞_F)^×`, which are trivial on the archimedean idele components;
+stated for characters of `F^× ∖ (𝔸^∞_F)^×`, which are trivial on the archimedean idele components;
 the parity condition is what this becomes for Galois characters. For `p` odd it follows from equal
 reductions, since `(ψ′/ψ)(c)` is a square root of `1` in `1 + 𝔪_O`; for `p = 2` it is independent of
 the other conditions (Check). Then `ψ′/ψ` has finite `p`-power order and is totally even. After a
