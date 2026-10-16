@@ -10,6 +10,13 @@ statable against the pinned APIs and is not exhaustive. It keeps fixed-basis mat
 conditions, ordered characters, Frobenius data, coefficient equations and actual quotient
 rings explicit. The universal rings, period, flag-moduli and patching constructions
 are specified in the README, where their full supplier contracts are available.
+
+README 2.26.1 provides the canonical characteristic-zero Jacquet–Langlands equivalence from
+irreducible admissible smooth division-algebra classes to essentially square-integrable general
+linear classes over the algebraic closure of the coefficient field. It specifies coefficient
+transport, both inverse identities, the elliptic sign, central characters and twists. Its inverse
+extends by zero on the other irreducible classes in the finite-length Grothendieck group.
+The degree-two specialization supplies GL2AutomorphicRepresentationsAndTransfer R17.1.1.
 -/
 
 namespace TauCetiRoadmap.LocalGaloisDeformationRings
