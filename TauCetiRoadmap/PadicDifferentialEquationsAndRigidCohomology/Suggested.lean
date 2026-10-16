@@ -26,6 +26,9 @@ Design choices made explicit here. Frobenius is semilinear until the coefficient
 is trivial, and invertibility means invertibility of the linearisation. Tate twists multiply the
 linear q-Frobenius by q^(-n) and lower weights by 2n. Weil factors use `Matrix.charpolyRev`,
 i.e. det(1 - T F). The monodromy convention is N φ = q φ N.
+Uniformiser slopes convert to q-slopes by division by e · a, where e = v_π(p) and q = p^a.
+The numerical highest break of the zero differential module is zero; the unequal-break tensor
+formula requires both ranks positive, and the Artin–Schreier characterization requires positive rank.
 -/
 
 namespace TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology
@@ -170,6 +173,17 @@ end Semilinear
 end
 
 namespace RD1
+
+/-- Successive conversion of a uniformiser slope to p-normalisation and then q-normalisation
+is division by the product of the absolute ramification index and the exponent in q = p^a. -/
+theorem slope_uniformiser_to_q (s e a : ℚ) : s / e / a = s / (e * a) := by
+  rw [div_div]
+
+/-- A π-eigenline over π² = p has q-slope one half when q = p. -/
+example : (1 : ℚ) / (2 * 1) = 1 / 2 := by norm_num
+
+/-- The same eigenline has q-slope one quarter when q = p². -/
+example : (1 : ℚ) / (2 * 2) = 1 / 4 := by norm_num
 
 noncomputable section
 
@@ -388,8 +402,9 @@ def artinSchreierHerbrand (p d m : ℝ) : ℝ :=
 example (p d m : ℝ) (h : m ≤ d) : artinSchreierHerbrand p d m = m := by
   simp [artinSchreierHerbrand, h]
 
-/-- Its inverse sends `β ≥ d` to `pβ − (p − 1)d`: a break `β` of a module becomes the break
-`pβ − (p − 1)d` after pulling back along an Artin–Schreier cover of break `d`. -/
+/-- The inverse Herbrand argument at `β ≥ d` is `pβ − (p − 1)d`.
+This numerical identity supplies the bound in RD.2.44(e); equality with a pullback's highest
+break needs additional hypotheses. At β = d a nonzero Artin–Schreier character can become trivial. -/
 theorem artinSchreierHerbrand_apply_inv (p d β : ℝ) (hp : 1 < p) (hβ : d ≤ β) :
     artinSchreierHerbrand p d (p * β - (p - 1) * d) = β := by
   sorry
