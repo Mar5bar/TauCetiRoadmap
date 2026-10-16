@@ -22,6 +22,14 @@ normalization, monodromy is retained, and coefficient twists use the existing
 symmetric powers and character-twist API. Automorphic classes, local types,
 Whittaker models and their transfer maps have their full specification in README.
 
+LocalGaloisDeformationRings §2.26.1 supplies `DivisionAlgebraTypes.jacquetLanglands`.
+R17.1/local-quaternionic-comparison consumes its degree-two nonarchimedean
+specialization on irreducible admissible smooth complex D× classes, directed to
+essentially square-integrable GL₂ classes. The supplied character sign is -1;
+central characters, contragredients and norm/determinant twists are compatible.
+R17.1 packages its parameters and constructs the split and real comparisons;
+R17.2 supplies matching test functions and R17.3 supplies global transfer.
+
 AutomorphicSpectralTheory §§7.0a–7.0c and §7.1 supplies canonical cyclic matching,
 normalized twisted distributions, weak isobaric base change, descent, fibres and
 tower operations. R17.2 identifies the rank-two local conventions and six-term
@@ -581,7 +589,13 @@ theorem weightKParameterConversion (α β z : ℂ) :
 
 end Classical
 
-/-! ## Layer R17.1: Quaternionic local transfer -/
+/-! ## Layer R17.1: Quaternionic local transfer
+
+The nonarchimedean division correspondence and its inverse are supplied by
+LocalGaloisDeformationRings §2.26.1 at degree two, as specified in README
+R17.1/local-quaternionic-comparison. The ramification and split-algebra statements
+below provide the quaternionic algebra comparisons used by local and global transfer.
+-/
 
 section Quaternion
 
