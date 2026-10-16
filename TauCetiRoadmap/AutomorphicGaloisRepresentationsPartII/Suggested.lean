@@ -27,6 +27,10 @@ The README is the definitive roadmap. These are suggested forms, not an exhausti
 The file records light definitions and milestones statable against the pinned Mathlib APIs.
 Automorphic representations, geometric realizations, period comparisons and compatible systems
 are specified in the README. Geometric Frobenius and `HT(ε) = −1` fix the numerical conventions.
+AG2.P's `arithmeticPadicMonodromy` constructs the Galois representation/differential equation
+bridge used by `potentiallySemistableWD`. Its `finiteCoefficientCorrespondenceTrace` and
+`correspondenceTraceCoefficientLimit` extend the rational correspondence trace theorem supplied
+by EndoscopicTransferAndUnitaryTraceComparison §7.10a; AG2.1a provides the PEL specialization.
 -/
 
 namespace TauCeti.AutomorphicGalois

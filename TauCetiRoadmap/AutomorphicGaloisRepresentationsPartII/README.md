@@ -16,9 +16,10 @@ corrected Kuga–Sato realization, extraction of actual Galois constituents, the
 and ordinary-boundary constructions, their local comparisons and the arithmetic exports.
 General representation theory, raw compact-unitary cohomology, determinant interpolation,
 period-ring carriers and residual Hecke predicates are supplied by the roadmaps in the contracts
-below. The finite-field period comparisons, the particular families and compactifications, and
-the arbitrary-rank compatible-data carrier required here are explicit targets of AG2.P, AG2.3,
-AG2.4 and AG2.P’s compatible-data prelude respectively.
+below. The arithmetic p-adic monodromy bridge, finite-coefficient period comparisons and
+integral extension of correspondence traces belong to AG2.P. The particular families and
+compactifications belong to AG2.3–AG2.4, and AG2.P's compatible-data prelude owns the
+arbitrary-rank carrier.
 
 The following interfaces retain their supplier's definitions and complete API, including its
 Checks. They are used only after the hypotheses of the named specialization are discharged.
@@ -119,13 +120,21 @@ Checks. They are used only after the hypotheses of the named specialization are 
   and continuous actions; §§F.5–F.6 supply duality and cycle classes. Its §F.10.3 supplies
   coherent perfect-complex traces. LefschetzPencilsAndVanishingCycles §F.10 supplies its
   Frobenius trace imports, LPV.0–LPV.1 nearby cycles and monodromy, and LPV.6 perversity.
-  AG2.1a constructs the contracting Hecke-correspondence trace theorem used for the compact
-  PEL fixed-point identity; AG2.5 constructs the two-chart product comparison and filtration.
+  EndoscopicTransferAndUnitaryTraceComparison §7.10a supplies the rational
+  `CohomologicalCorrespondence.operator`, `.compose`, `.trace`, `.localTerm` and
+  `frobeniusTwistedTrace`, including the local-term/stalk-trace comparison for sufficiently
+  large Frobenius twists with proper first leg, quasi-finite second leg and finite-field
+  descent. AG2.P owns its finite-coefficient extension and compatible coefficient limit;
+  AG2.1a verifies the compact PEL/Hecke specialization and corrected-projector compatibility.
+  AG2.5 constructs the two-chart product comparison and filtration.
 - PadicPeriodRings §§4.1–4.3 supply `B_cris, B_st, B_dR` and their actual invariant functors
   and admissibility predicates. FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.0–R07.3.3
   supply finite-`K` filtered `(φ,N)`-modules, weak admissibility and the semistable realization
-  interface. AG2.P supplies the finite-field-coefficient exactness/base-change, potentially
-  semistable WD descent and geometric period comparisons used here.
+  interface. AG2.P constructs the field-of-norms and overconvergent `(φ,Γ)`-module bridge,
+  the de Rham differential equation and its comparison with semistable periods, consuming
+  PadicDifferentialEquationsAndRigidCohomology §§RD.2.33–RD.2.39 for differential local
+  monodromy. Its `arithmeticPadicMonodromy` precedes finite-coefficient period
+  exactness/base-change, potentially semistable WD descent and geometric applications.
 - CrystallineCohomology Layer CR.6 supplies Hyodo–Kato complexes and the semistable
   log-crystalline comparison. WeightsInEtaleCohomology Layer R34.3 supplies the
   stratum/period comparison and the general geometric semistable-period comparison on
@@ -189,6 +198,68 @@ This layer specializes supplied period functors and geometric objects to the fin
 coefficient fields used in the automorphic construction. The rank-two and `GSp₄` comparisons
 state their independent inputs explicitly.
 
+<a id="arithmetic-padic-monodromy"></a>
+
+### Arithmetic p-adic monodromy over finite coefficient fields
+
+For every prime `ℓ`, finite extensions `K/ℚ_ℓ` and `E/ℚ_ℓ`, and continuous finite-dimensional
+de Rham `E`-representation `V` of `G_K`, prove `arithmeticPadicMonodromy`: there is a finite
+Galois extension `L/K` such that `V|G_L` is semistable. The comparison is the actual
+`B_st ⊗_{L₀} D_st(V|G_L) ≅ B_st ⊗_{ℚ_ℓ} V`, where `L₀` is the maximal unramified
+subfield of `L`, and retains the commuting `E`-action, Frobenius and `N_ℓ`.
+There is no geometric-realization hypothesis or restriction on ramification, rank or `ℓ`.
+
+Construct the following arithmetic bridge on the supplied period-ring and representation
+carriers, first on the underlying `ℚ_ℓ`-representation and functorially for every commuting
+`E`-linear endomorphism.
+
+- For the cyclotomic tower `K_∞/K`, construct its field of norms and the identification
+  of finite separable extensions with finite extensions of the tower. Construct the
+  étale `(φ,Γ_K)`-module of `V`, its overconvergent model `D†(V)` and its Robba extension
+  `D†_rig(V)`. Prove the full-rank overconvergence and scalar-extension comparisons,
+  identifying the rings with the finite étale Robba extensions of the differential supplier.
+- Differentiate the action of an open torsion-free subgroup of `Γ_K` to obtain `∇_V`.
+  With the cyclotomic period `t`, construct the full-rank differential equation `N_dR(V)`
+  in `D†_rig(V)[1/t]`, stable under `∂_V=t⁻¹∇_V`, `φ` and `Γ_K`, with invertible
+  Frobenius linearization. Use the de Rham localizations and a Tate twist into Berger's
+  weight range, then untwist; prove independence of the twist and of the open subgroup.
+- Apply PadicDifferentialEquationsAndRigidCohomology §§RD.2.33–RD.2.39 to obtain a full
+  logarithmic horizontal solution space after a finite extension. Through the field of
+  norms identify that extension with an arithmetic one. Kill the residual finite `Γ`
+  action by a further finite cyclotomic extension, retaining the commuting `E`-action.
+- Prove the period-recovery comparison
+  `D_st(V|G_L) = (D†_log(V|G_L)[1/t])^{Γ_L}`, where `D†_log` is the logarithmic Robba
+  extension of `D†`. Embed the horizontal solutions in these invariants and prove their
+  dimension is `dim_{ℚ_ℓ} V`. This gives semistability, rather than only quasi-unipotence
+  of a differential equation. Enlarge `L` to a Galois extension and carry the descent
+  action through the comparison.
+
+These constructions preserve morphisms, direct sums, Tate twists, finite coefficient
+extension and the commuting `E`-action. In particular Frobenius acts on the period factor
+and fixes `E`. The geometric comparison in the following target is a separate application
+to cohomology of specified models.
+(Source: [Berger](#source-berger), §1.1–§1.3, Theorem 1.3, pp.8–12;
+Theorem 3.6, p.33; Proposition 5.9 and Theorem 5.10, pp.51–52;
+Theorems 5.19–5.20 and the proof of 5.19, pp.56–58.)
+
+**Checks.**
+
+- The trivial `E`-line and every Tate line permit `L=K`; the latter has the prescribed
+  Hodge label and crystalline Frobenius, with `N=0`.
+- A Tate-curve representation has a full logarithmic solution space and nonzero
+  semistable monodromy. The arithmetic bridge must retain this `N`.
+- A ramified finite-order character at `ℓ=2` is de Rham of weight 0 and becomes trivial
+  over a finite extension, but is not semistable over `K`. Both ramified `K/ℚ₂` and
+  ramified `E/ℚ₂` are allowed; no PEL realization is an input.
+- For `V₁⊕V₂`, a common finite extension works for both summands and every coefficient
+  scalar commutes with the comparison. Forgetting `E` during scalar restriction must
+  not replace its action by a Frobenius action on `E`.
+
+*Needs:* PadicPeriodRings §§4.1–4.3;
+ArithmeticGaloisRepresentations §§1.1–1.6 and 1.12;
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.3.0;
+PadicDifferentialEquationsAndRigidCohomology §§RD.0.1–RD.0.17 and RD.2.33–RD.2.39.
+
 <a id="finite-coefficient-period-api"></a>
 
 ### Finite-coefficient periods, descent and geometric comparison
@@ -199,9 +270,10 @@ PadicPeriodRings §§4.2–4.3, carrying the commuting `E`-action. Prove `finite
 on the de Rham subcategory, `D_dR` is exact, strict for filtrations and compatible with tensor,
 dual, exterior power, idempotent summands and finite coefficient extension. For finite `L/K`,
 prove `D_dR(V|G_L) = L ⊗_K D_dR(V)` for de Rham `V`; for semistable or crystalline `V` prove the
-corresponding structured unramified-base-field comparison. De Rham representations become
-semistable over a finite extension. Construct their potentially semistable WD parameter by
-finite descent from `D_st(V|G_L)` and prove independence of `L`, Frobenius semisimplification,
+corresponding structured unramified-base-field comparison. Apply `arithmeticPadicMonodromy`
+to de Rham `V` to obtain a finite semistabilizing extension `L/K`. Then construct
+`potentiallySemistableWD` by finite descent from `D_st(V|G_L)` and prove independence of
+`L` by comparison over a common finite extension, Frobenius semisimplification,
 coefficient extension and finite restriction. Semistability is equivalent to trivial WD inertia;
 crystallinity is equivalent to trivial inertia and zero `N`. These criteria concern de Rham `V`.
 
@@ -236,9 +308,55 @@ in Theorem 2.3 and Theorem 3.2.3, pp.8–12; [AHTW](#source-ahtw), §1.2.3–§1
 - An idempotent projecting `V₁ ⊕ V₂` onto `V₁` restricts every period comparison to that
   summand. An arbitrary noncommuting endomorphism supplies no comparison on its image.
 
-*Needs:* PadicPeriodRings §§4.1–4.3; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.0–R07.3.3;.
+*Needs:* [AG2.P: arithmetic p-adic monodromy](#arithmetic-padic-monodromy);
+PadicPeriodRings §§4.1–4.3; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.0–R07.3.3;
 CrystallineCohomology CR.6; ArithmeticGaloisRepresentations §§1.1–1.6 and 2.4;
 EtaleCohomologyFoundations §§F.4.1–F.4.6; WeightsInEtaleCohomology R34.3, geometric semistable-period comparison.
+
+<a id="finite-coefficient-correspondence-traces"></a>
+
+### Finite-coefficient extension of correspondence traces
+
+Use EndoscopicTransferAndUnitaryTraceComparison §7.10a's correspondence convention,
+Verdier local terms and rational `frobeniusTwistedTrace`. Construct
+`finiteCoefficientCorrespondenceTrace`, its extension to finite coefficients on the proper
+domain needed here: `X` smooth proper and `C` proper over `𝔽_q`, `c=(c₁,c₂):C→X×X`,
+`c₂` quasi-finite, and `ℓ≠char 𝔽_q`. For a finite `E/ℚ_ℓ` and `a≥1` use
+`Λ_a=O_E/ℓ^a`, including `ℤ/ℓ^a` when `E=ℚ_ℓ`. For `K_a∈Dᵇ_ctf(X_k̄,Λ_a)` with
+Frobenius descent and an actual cohomological lift `u_a:c₂!c₁* K_a→K_a`, extend the
+supplied operator, composition and Verdier-evaluation constructions using the finite
+coefficient six functors. For `q^r>ram(c₂)`, prove the finite-coefficient trace identity
+for `(Frob_q^r∘c₁,c₂)` and its descended coefficient lift. The fixed points are finite
+and the local terms equal the stalk traces. The contraction geometry and bound are
+independent of `a`; traces of perfect complexes are used even when cohomology has torsion.
+
+Prove `correspondenceTraceCoefficientLimit`: for a normalized constructible integral
+system `(K_a,u_a)` with coherent derived reductions and uniform cohomological and Tor
+bounds, operators and trace identities commute with reduction, the derived adic limit
+and rationalization. Use perfect compact-support cohomology and its derived reductions
+to identify the integral trace with its traces modulo `ℓ^a`. After tensoring with `E`,
+identify the operator, local terms and formula with §7.10a's supplied rational theorem.
+The rational correspondence theory and rational Frobenius-twisted trace theorem have
+that single supplier; this target owns their finite-coefficient and coefficient-limit extension.
+(Source: [Varshavsky](#source-varshavsky), coefficient conventions §0.2, p.5;
+§§1.1–1.2; Theorem 2.1.3, p.17; Corollary 2.2.4, p.19;
+Theorem 2.3.2(a)–(c) and Remark 2.3.3(c), p.20, with `U=X`.)
+
+**Checks.**
+
+- On a point with the free constant system of rank `d`, the identity trace is
+  `d mod ℓ^a`, compatibly in `a`, and rationalizes to the supplied trace `d∈E`.
+- Multiplying a compatible coefficient lift by an integral scalar multiplies all
+  finite, integral and rational traces by that scalar.
+- The identity correspondence with `r=0` on a positive-dimensional proper `X` has
+  fixed locus `X`; the finite stalk sum requires the Frobenius bound. For a finite
+  étale `c₂`, `ram(c₂)=1`, so every positive `r` satisfies it.
+- Ordinary reduction of cohomology can lose torsion terms; the integral-system
+  hypothesis uses derived reduction and perfect-complex traces. Coefficients of
+  residue characteristic `char 𝔽_q` are outside this trace theorem.
+
+*Needs:* EndoscopicTransferAndUnitaryTraceComparison §7.10a;
+EtaleCohomologyFoundations §§F.1–F.6 and F.10.2b.
 
 <a id="compatible-data-prelude"></a>
 
@@ -287,6 +405,7 @@ these data, with their additional omitted-pair conditions.
 
 *Needs:* ArithmeticGaloisRepresentations Layers 1–2 and §7.4; NumberFieldArithmetic Layer 0;
 [AG2.P: finite-coefficient periods](#finite-coefficient-period-api);
+[AG2.P: arithmetic p-adic monodromy](#arithmetic-padic-monodromy), for coefficient-prime WD parameters;
 [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character),
 for the character-system operation.
 
@@ -928,18 +1047,28 @@ Throughout this target, smooth proper `X_U` and the abelian-power projector; coe
 
 ### Contracting Hecke-correspondence trace formula
 
-For the smooth proper good-reduction special fibre `X` over `𝔽_q` and a proper finite-type
-correspondence `c:C→X×X` defined over `𝔽_q` with `c₂` quasi-finite, construct the fixed-point trace
-formula for `c` twisted on its first projection by `Frobenius^r`. For a bounded constructible
-complex of finite Tor dimension, with coefficients `ℤ/ℓ^a (ℓ≠char 𝔽_q)`, and an actual
-cohomological correspondence, choose `q^r` greater than the ramification bound of `c₂`.
-The fixed scheme then has finitely many points, and the alternating global trace equals
-the sum of stalk correspondence traces. Prove contraction near each fixed point and the
-identification of its local term with the stalk trace. Pass compatibly through finite
-coefficient systems to the rational `ℓ`-adic realization. Verify these hypotheses for the
-chosen prime-to-`p` Hecke correspondences and coefficient projector on the compact PEL model.
-(Source: [Varshavsky](#source-varshavsky), Theorem 2.1.3, Corollary 2.2.4 and
-Theorem 2.3.2(a)–(c), pp.17–20, with `U=X.`)
+For the compact PEL model at a good reduction prime `p≠ℓ`, construct the actual
+prime-to-`p` Hecke correspondences, their lifts to the Kuga powers and the cohomological
+lifts on the chosen algebraic coefficients. Descend the schemes, correspondence maps,
+coefficients and lifts to a common `𝔽_q`. Verify smooth properness of the special fibres,
+properness of `c₁`, quasi-finiteness of `c₂` and the coefficient finiteness/Tor bounds.
+For each correspondence obtain its bound `ram(c₂)` and take `q^r` above it.
+Apply EndoscopicTransferAndUnitaryTraceComparison §7.10a's `frobeniusTwistedTrace` to
+identify the rational compact-support trace with the sum of coefficient stalk traces.
+
+For the corrected `a_ξ`, choose the selector integer `N≥2` prime to `p` and express its
+polynomial and Young correspondence as a finite rational combination of the geometric
+correspondences on the proper Kuga power. Verify the same hypotheses and a common
+Frobenius bound for these constituents composed with the Hecke correspondence. Prove
+the actual lifts commute with `T`, `ε_ξ` and hence `a_ξ`, and transport the trace identity
+through the coefficient-cohomology identification, retaining its degree shift, signs
+and Tate twist. For finite coefficients apply AG2.P's finite-coefficient extension and
+coefficient-limit comparison to compatible integral lifts. Clear a common denominator
+of the rational correspondence, prove the integral identity for its numerator and
+divide only after rationalization; integrality of `a_ξ` at `ℓ` is not assumed.
+(Sources: [Shin](#source-shin), §5.2 and Proposition 5.3, pp.31–35;
+[TY](#source-ty), §2, p.12; [Varshavsky](#source-varshavsky),
+Theorem 2.3.2(a)–(c) and Remark 2.3.3(c), p.20, with `U=X`.)
 
 **Checks.**
 
@@ -949,10 +1078,15 @@ Theorem 2.3.2(a)–(c), pp.17–20, with `U=X.`)
   high Frobenius gives isolated fixed points and stalk local terms.
 - For `c=identity` and `r=0` on a positive-dimensional `X` the fixed locus is `X`, so the finite
   stalk-sum assertion cannot be used. For `ℓ=char 𝔽_q` these coefficient hypotheses fail.
+- For `N=2, y=2` the selector denominator is `−2`. At `ℓ=2` it cannot be inverted in
+  finite coefficients; the integral numerator identity is divided only in `E`.
 
 *Needs:* [AG2.1a: Shin raw cohomology](#shin-raw-cohomology-adapter);
-EtaleCohomologyFoundations §§F.4–F.6; LefschetzPencilsAndVanishingCycles §F.10
-for its Frobenius trace imports.
+[AG2.1a: corrected coefficient projector](#kuga-sato-coefficient-projector);
+[AG2.1a: coefficient-cohomology identity](#coefficient-projector-degree-identity);
+PELModuli M4; EndoscopicTransferAndUnitaryTraceComparison §7.10a;
+[AG2.P: finite-coefficient correspondence traces](#finite-coefficient-correspondence-traces);
+EtaleCohomologyFoundations §§F.4–F.6.
 
 <a id="raw-fixed-point-trace-identity"></a>
 
@@ -960,9 +1094,12 @@ for its Frobenius trace imports.
 
 For a good reduction prime `p≠ℓ` and sufficiently large Frobenius power, the alternating trace of a Hecke correspondence times geometric Frobenius on `H^k_U(ξ)` equals the fixed-point sum with the coefficient trace. No local Langlands parameter or automorphic Galois representation occurs in this identity.
 
-Throughout this target, correspondence and Frobenius power satisfy the Fujiwara/Varshavsky fixed-point hypotheses; good integral model and all coefficient factors fixed.
+Throughout this target, use the descended Hecke and coefficient lifts, common Frobenius
+bound and corrected-projector comparison of the preceding PEL specialization. The rational
+trace theorem is EndoscopicTransferAndUnitaryTraceComparison §7.10a's theorem; its
+finite-coefficient and limit extension is AG2.P's target.
 
-*Needs:* [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); PELModuli M4; [AG2.1a: contracting Hecke trace formula](#contracting-hecke-trace-formula).
+*Needs:* [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); PELModuli M4; [AG2.1a: contracting Hecke trace formula](#contracting-hecke-trace-formula); EndoscopicTransferAndUnitaryTraceComparison §7.10a; [AG2.P: finite-coefficient correspondence traces](#finite-coefficient-correspondence-traces).
 
 (Source: [Varshavsky](#source-varshavsky), Theorem 2.3.2(a)–(c), pp.19–20, with U=X.)
 
@@ -2452,9 +2589,9 @@ Under the preceding theorem, `WD(r_{π,ℓ,ι}|G_{F_v})^{F-ss} ≺ ι⁻¹rec^T(
 
 The target `allCMCrystallineIwahoriAdmissibility` has the following hypotheses and conclusion.
 
-For arbitrary regular algebraic cuspidal `π` over a CM field, `r_{π,λ}|G_{F_v}` is crystalline when `v|ℓ` and `π_v` is spherical, and is semistable when `π_v` has Iwahori-fixed vectors. In the spherical case its crystalline Frobenius polynomial is the `rec^T` Satake polynomial. Proof: de Rham implies potentially semistable; ss compatibility gives trivial WD inertia for Iwahori `π_v`, and the monodromy bound against `N=0` forces `N=0` in the spherical case. Iwahori semistability does not establish full monodromy equality.
+For arbitrary regular algebraic cuspidal `π` over a CM field, `r_{π,λ}|G_{F_v}` is crystalline when `v|ℓ` and `π_v` is spherical, and is semistable when `π_v` has Iwahori-fixed vectors. In the spherical case its crystalline Frobenius polynomial is the `rec^T` Satake polynomial. Apply AG2.P's `arithmeticPadicMonodromy` to the de Rham local member, then its `potentiallySemistableWD` and inertia/crystallinity criteria. Semisimplified compatibility gives trivial WD inertia for Iwahori `π_v`, and the monodromy bound against `N=0` forces `N=0` in the spherical case. Iwahori semistability does not establish full monodromy equality.
 
-*Needs:* [AG2.6: nonselfdual de Rham comparison](#all-cm-de-rham-and-semisimplified-coefficient-comparison); [AG2.6: nonselfdual monodromy bound](#nonselfdual-coefficient-prime-monodromy-bound); [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api).
+*Needs:* [AG2.6: nonselfdual de Rham comparison](#all-cm-de-rham-and-semisimplified-coefficient-comparison); [AG2.6: nonselfdual monodromy bound](#nonselfdual-coefficient-prime-monodromy-bound); [AG2.P: arithmetic p-adic monodromy](#arithmetic-padic-monodromy); [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api).
 
 (Sources: [AHTW](#source-ahtw), Theorem 1.2.1 and Corollary 1.2.2, pp.5–6.)
 
@@ -3242,6 +3379,14 @@ Sug Woo Shin, [Galois representations arising from some compact Shimura varietie
 ### Shin-Igusa
 
 Sug Woo Shin, [Stable trace formula for Igusa varieties](https://math.berkeley.edu/~swshin/StableIgusa.pdf). author copy StableIgusa.pdf, 30 pages; locators use author-copy pages.
+
+<a id="source-berger"></a>
+
+### Berger
+
+Laurent Berger, [Représentations p-adiques et équations différentielles](https://arxiv.org/pdf/math/0102179v3).
+arXiv:math/0102179v3 (2001); arXiv pages. The de Rham differential equation is
+Theorem 0.5 / Theorem 5.10, and arithmetic p-adic monodromy is Theorem 0.6 / Theorem 5.19.
 
 <a id="source-varshavsky"></a>
 
