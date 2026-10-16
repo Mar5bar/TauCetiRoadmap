@@ -91,15 +91,21 @@ SmoothBundlesConnections B1.5's general proper-surjective-submersion theorem, in
 native smooth trivializations and their pullbacks; its realification maps come from
 ComplexManifolds Milestone 1. C0.3 identifies ComplexKahlerGeometry K4's supplied
 fixed-rank bundle–sheaf equivalence with C0.1 and assembles clopen rank strata.
-C0 owns the general coherent analytic module interface, including the native open/over-site,
-section/stalk and germ comparisons exported to RealAnalyticGeometry R3.2. C1.4–C1.5 owns
-the general complete-metric weighted and coherent analytic-space Cartan A/B package;
-RealAnalyticGeometry R3.1–R3.2 consumes its manifold specializations. The local inputs are
-ComplexKahlerGeometry K5a's bundle regularity, K5b.0's adjoint/symbol and K6.0's Bochner
-identity, before compact Hodge theory. C5.3 uses K5's supplied harmonic/Green machinery and
-K6.1's Kähler decomposition through its geometric comparison maps.
-The reciprocal coherent and weighted handoffs specify an acyclic order of stages;
-they do not impose a strict merge order on whole roadmap specifications.
+RealAnalyticGeometry R3.2 supplies the native coherent module predicate, its
+`CoherentAnalyticModule.presentation_iff` identification with finite presentation, and
+manifold open/over-site, section/stalk and germ calculus. C0 descends that category on
+C−1's analytic-space quotient charts and identifies its manifold and bundle transports.
+RealAnalyticGeometry R3.1 supplies complete-metric weighted existence, graph-domain
+density, weighted regularity, Stein criteria and approximation; R3.2 supplies coherent
+manifold Cartan A/B. C1.4 transports the positive-definite `(n,k)` theorem and canonical
+`E ⊗ K_M⁻¹` identification through C0.3, retaining completeness, curvature and finite
+inverse-energy hypotheses. C1.5 extends the supplied manifold Cartan maps to strongly
+1-complete analytic spaces, including nilpotents, and compares restriction and germ maps.
+ComplexKahlerGeometry K5a's local bundle regularity, K5b.0's adjoint/symbol and K6.0's
+Bochner identity feed R3.1 independently of compact Hodge theory. C5.3 uses K5's supplied
+harmonic/Green machinery and K6.1's Kähler decomposition through its geometric comparison
+maps. The stage order is K2–K4 → R3.2 item 0 → C−1/C0, R3.1–R3.2 → C1,
+and R3–R5 → K6.1 → C5.3.
 C0.7 constructs `analyticEtaleDescent` and `SpaceCoherentAnalytification`, with canonical
 cohomology/exchange comparisons, before C1.9's `properSpaceComplexGaga`.
 C5.1's nesting-small resolution extends and compares with CharacteristicClasses C1.2's
@@ -223,10 +229,12 @@ noncomputable section
 
 section C0
 
-/-- **C0.1, `CoherentAnalyticModule`.** Coherent modules over a locally ringed space whose
-structure sheaf is coherent: the full subcategory of sheaves of modules that are finitely
-presented. Over a coherent structure sheaf (Oka's theorem, for complex analytic spaces) finite
-presentation is equivalent to coherence. -/
+/-- **C0.1, `CoherentAnalyticModule`.** The finite-presentation form of
+RealAnalyticGeometry R3.2's coherent module category: all finitely presented native modules,
+with all module morphisms. Its supplied `CoherentAnalyticModule.presentation_iff` identifies
+this with native coherence when the structure sheaf is coherent. C0 descends that category
+on complex analytic quotient charts and compares its restrictions and manifold transports.
+The displayed full subcategory is defined over any locally ringed space. -/
 abbrev CoherentAnalyticModule (X : LocallyRingedSpace.{u}) : Type _ :=
   ObjectProperty.FullSubcategory
     (SheafOfModules.isFinitePresentation (TauCeti.SheafOfModules.ringCatSheaf X.sheaf))
@@ -660,9 +668,11 @@ the supporting presentation and curvature comparisons are also specified there.
 * **Forms, metrics and currents on complex manifolds** (the shared carriers are absent at the
   pins): `localDolbeault` identifies ComplexKahlerGeometry K2's resolution with C0's modules;
   K4 supplies Chern connections, K5a/K5b.0 supplies Hodge operators and local adjoints,
-  and K6.0 supplies the Kähler/Bochner identities. C1.4's `weightedDolbeaultEstimate`
-  and C1.5's `cartanTheoremA`/`cartanTheoremB` export the manifold specializations to
-  RealAnalyticGeometry R3.1–R3.2;
+  and K6.0 supplies the Kähler/Bochner identities to RealAnalyticGeometry R3.1's
+  weighted theorem, graph-domain density and regularity. C1.4's `weightedDolbeaultEstimate`
+  transports its positive-definite `(n,k)` theorem to C0.3 and scalar forms with the
+  canonical twist, and C1.5's `cartanTheoremA`/`cartanTheoremB` extends R3.2's coherent
+  manifold Cartan package to strongly 1-complete analytic spaces;
   `HolomorphicDeRham`, `holomorphicPoincare`, `holomorphicConnectionDictionary`
   (finite locally free analytic sheafification of CR.1 identified with K4's holomorphic
   bundle connections on clopen rank strata, using the same local matrices and gauge law;
@@ -747,8 +757,9 @@ the supporting presentation and curvature comparisons are also specified there.
   schemes, compact support requires separatedness, and the relative theorem glues over affine
   base opens. No separate analytification or étale adic category is defined here.
 * **Coherent local presentations and sheaf connections:**
-  `CoherentAnalyticModule.presentation_iff` and `CoherentAnalyticModule.hom_ext` are the
-  analytic coherence and cover-restriction statements of C0.1;
+  `CoherentAnalyticModule.presentation_iff` is RealAnalyticGeometry R3.2's supplied
+  identification of native coherence with finite presentation. C0.1 descends it on
+  analytic-space charts and proves `CoherentAnalyticModule.hom_ext` for cover restrictions;
   C5.2 sheafifies `Crystalline.Connection` on arbitrary coherent coefficients and uses
   `Crystalline.Connection.curvature`,
   `.extend`, `.deRhamComplex`, `.tensor`, `.hom` and `.baseChange` from CrystallineCohomology CR.1

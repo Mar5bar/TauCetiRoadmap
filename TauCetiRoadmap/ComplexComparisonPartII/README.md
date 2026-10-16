@@ -2,9 +2,9 @@
 
 **Summary.** This roadmap compares complex algebraic geometry with complex analytic geometry and
 classical topology, for coherent, de Rham and étale coefficients. It builds the
-category of coherent analytic modules on the analytic space of a complex scheme and the exact
-analytification functor into it; computes coherent analytic cohomology by analytic means
-(Dolbeault's lemma, the weighted `∂̄`-estimate, Cartan's theorem B on strongly 1-complete spaces,
+analytic-space extension of RealAnalyticGeometry R3.2's coherent module category and the exact
+analytification functor into it; computes coherent analytic cohomology using supplied analytic inputs
+(Dolbeault's lemma, RealAnalyticGeometry R3.1's weighted `∂̄`-estimate, Cartan's theorem B on strongly 1-complete spaces,
 Cartan–Serre finiteness, and Serre's analytic generation and vanishing on projective space); states
 the consequences of coherent GAGA that arithmetic consumers use (projection and base change,
 ideal, section and line-bundle dictionaries, coherent descent on algebraic spaces and derived GAGA);
@@ -56,13 +56,15 @@ The layers are C−1–C6:
 
 The roadmap owns C−1's extension of supplied manifold local algebra to analytic spaces with
 nilpotents and their analytification, proper coherent GAGA of C1.9,
-and the algebraicity and component targets of C3.2a–C3.2g, as well as coherent analytic modules and their operations on complex analytic spaces; coherent
+and the algebraicity and component targets of C3.2a–C3.2g, as well as the analytic-space descent
+of RealAnalyticGeometry R3.2's coherent module interface and operations; coherent
 ideals and their nilpotent quotients; the identification of ComplexKahlerGeometry K4's
 bundle–sheaf dictionary with this coherent category, including locally varying finite rank; the analytification functor on coherent algebraic modules with its
 faithfulness and its tensor, Hom, dual and determinant comparisons; the canonical exchange map for
-higher direct images; the Cartan–Remmert fibre-dimension loci. The comparison of the supplied Dolbeault resolution with this coherent category, the general
-complete-metric weighted Dolbeault estimate, the strongly 1-complete analytic-space Cartan A/B
-package, Montel's and Schwartz's theorems, Cartan–Serre finiteness, analytic projective twisting sheaves with their
+higher direct images; the Cartan–Remmert fibre-dimension loci. The comparison of the supplied Dolbeault resolution with this coherent category, the
+complex-geometric transports of RealAnalyticGeometry R3.1's weighted theorem and
+R3.2's manifold Cartan A/B to the strongly 1-complete analytic-space setting,
+Montel's and Schwartz's theorems, Cartan–Serre finiteness, analytic projective twisting sheaves with their
 cohomology, and Serre's analytic generation, vanishing and twist presentations. The base-change and
 dictionary consequences of projective GAGA. Coherent analytic descent on étale presentations, the
 quasi-coherator of an algebraic space (on AlgebraicModuliForArithmeticGeometry's `spaceDQCoh`),
@@ -127,29 +129,30 @@ The analytic ownership and stage order are:
 | Interface | Owner and supplied stage | Reciprocal handoff and retained scope |
 | --- | --- | --- |
 | Scalar compact-support Cauchy–Green and finite-rank Runge | GlobalHolomorphicFunctions GH0.3 (GH0 preparatory calculus and finite-rank Runge paragraphs) | ComplexKahlerGeometry K2 supplies the parameter-dependent extension to C1.1 |
-| Native holomorphic sheaf, convergent local algebra and primitive Oka relations | ComplexKahlerGeometry K2–K4 | C−1 adds analytic quotients, nilpotents and gluing; C0 translates primitive relations into coherent native modules |
+| Native holomorphic sheaf, convergent local algebra and primitive Oka relations | ComplexKahlerGeometry K2–K4 | C−1 adds analytic quotients, nilpotents and gluing; RealAnalyticGeometry R3.2 supplies native coherence; C0 descends it to analytic spaces |
 | Fixed-rank bundle–sheaf equivalence, holomorphic connections and absolute flat correspondence | ComplexKahlerGeometry K4 on native Mathlib bundles and `SheafOfModules` | C0.3 assembles clopen rank strata; C1.3 fixes Chern curvature conventions; C5.2's `holomorphicConnectionDictionary` identifies the analytic connection carriers and absolute unit, evaluation and monodromy maps, and adds all horizontal morphisms and holomorphic parameters |
 | Bundle test sections and distributions | ComplexKahlerGeometry K5a's `BundleTest` and `BundleDistribution` | C5.4 transports these through the complex orientation and exterior wedge pairing; its bidegrees, positive cones, mass and complex-current extension theory use that same substrate |
 | Real dimension-graded currents and complex degree-graded currents | GeometricCurrents G1's real carrier and boundary; C5.4's `realComplexCurrentComparison` | K5a owns the general LF bundle-test/distribution foundation. C5.4 identifies G1's tests with its real exterior-dual/density specialization without an ambient orientation, and supplies complex extension with the grading sign. GeometricCurrents retains rectifiability, integral subgroups and minimizing-current geometry; C5.4 retains complex type, positivity, analytic cycles and comparison applications |
-| Local bundle elliptic regularity, adjoints and symbols | ComplexKahlerGeometry K5a local estimates and K5b.0; K6.0 supplies local Kähler/Bochner identities | Their complete-metric existence consumer is C1.4, which exports the weighted theorem to RealAnalyticGeometry R3.1; the local inputs precede compact Hodge theory and use no C5.3 result |
+| Local bundle elliptic regularity, adjoints and symbols | ComplexKahlerGeometry K5a local estimates and K5b.0; K6.0 supplies local Kähler/Bochner identities | RealAnalyticGeometry R3.1 supplies their complete-metric weighted existence theorem, consumed in C1.4; the local inputs precede compact Hodge theory and use no C5.3 result |
 | Compact bundle Sobolev, harmonic and Green theory | ComplexKahlerGeometry K5a–K5b.1; K6.1 supplies compact Kähler decomposition | C5.3 identifies the supplied maps with coherent and de Rham–Betti comparisons |
-| General coherent analytic module interface, open restriction, section/stalk and germ comparisons | ComplexComparisonPartII C0.1–C0.3 | ComplexKahlerGeometry K3 retains primitive Oka relations and ideal generators; K3 and K4 use C0.1's native coherence predicate and `CoherentAnalyticModule.presentation_iff`. RealAnalyticGeometry R3.2 uses this same category over K4's ring sheaf, with its finite-type/kernel condition identified by that theorem, including open/over-site, section, stalk and germ transport |
-| Complete-metric weighted theorem, graph-domain density, weighted regularity and coherent analytic-space Cartan A/B | ComplexComparisonPartII C1.4–C1.5 | RealAnalyticGeometry R3.1 consumes the positive-definite `(n,k)` theorem with its maximal domain, adjoint, minimal solution and inverse-energy bound, and the exhaustion/Stein and interpolation/approximation specializations. R3.2 consumes Cartan A/B and their evaluation, relation-kernel lifting and exact section maps on the C0.1 carrier. Real-analytic complexification, p-functions, neighborhood constructions and their approximation applications remain in R3–R5 |
+| Native coherent analytic module predicate, finite-presentation comparison and manifold calculus | RealAnalyticGeometry R3.2 item 0, over ComplexKahlerGeometry K4's ring sheaf | K3 retains primitive Oka relations and ideal generators; K3/K4 use R3.2's native predicate. C0.1–C0.3 uses the supplied predicate and `CoherentAnalyticModule.presentation_iff`, descends it through analytic quotient charts, and identifies open/over-site, section/stalk/germ and bundle transports with C−1's analytic-space carriers |
+| Complete-metric weighted theorem, graph-domain density, weighted regularity, Stein criteria and approximation; coherent manifold Cartan A/B | RealAnalyticGeometry R3.1–R3.2 | C1.4 transports the positive-definite `(n,k)` theorem to C0.3's bundle/sheaf dictionary and scalar forms; C1.5 uses the supplied Stein criteria, complete metrics, approximation and coherent Cartan package to obtain strongly 1-complete analytic-space A/B, retaining nilpotents. Real-analytic complexification, p-functions and neighborhood constructions remain in R3–R5 |
 | Coherent analytification on algebraic spaces | ComplexComparisonPartII C0.7 | C1.9 uses its exact functor, coherent operations and canonical cohomology/exchange maps; C3 gives the derived upgrade |
 
-Thus GH0.3 → K2/K3/K4 → C−1/C0 → C1.4–C1.5 → real-analytic applications.
-K5a's local regularity, K5b.0 and K6.0 enter C1.4 independently of K5's compact global
-Hodge stages. These are dependencies on the named stages. RealAnalyticGeometry supplies no
-prerequisite to C0 or C1; its alternative finite-type/relation description of coherence is
-identified with C0.1's native finite-presentation predicate by
-`CoherentAnalyticModule.presentation_iff`, rather than defining a second public coherent category.
-The ring-sheaf, primitive relation and local Bochner suppliers above use neither the coherent
+Thus GH0.3 → K2/K3/K4 → RealAnalyticGeometry R3.2 item 0 → C−1/C0.
+K5a's local regularity, K5b.0 and K6.0 supply RealAnalyticGeometry R3.1's
+weighted theorem independently of compact Hodge theory. R3.1 supplies C1.4's weighted
+and scalar-form transports; R3.1–R3.2 supplies C1.5's Stein and coherent manifold
+inputs. C0 uses R3.2's finite-type/relation predicate and its finite-presentation
+identification `CoherentAnalyticModule.presentation_iff` on the shared native category.
+Its additional descent and comparison maps concern C−1's analytic spaces, rather than
+another manifold coherent category. RealAnalyticGeometry R3 uses neither C0 nor C1.
+The ring-sheaf, primitive relation and local Bochner suppliers use neither the coherent
 Cartan package nor its real-analytic applications.
-The compact Kähler input follows the separate path C1.4–C1.5 →
-RealAnalyticGeometry R3–R5 → ComplexKahlerGeometry K6.1 → C5.3. Neither C0 nor C1
-uses K6.1 or its triangulation inputs.
-This is an acyclic order of stages within and between roadmaps. It does not impose a strict
-merge order on whole roadmap specifications: the reciprocal contracts span those specifications.
+The compact Kähler input follows the separate path RealAnalyticGeometry R3–R5 →
+ComplexKahlerGeometry K6.1 → C5.3. Neither C0 nor C1 uses K6.1 or its triangulation inputs.
+These dependencies are on the named stages and give an acyclic order within and between
+roadmaps; they do not impose a strict merge order on whole roadmap specifications.
 
 **Built in other roadmaps and cited.**
 
@@ -212,6 +215,14 @@ merge order on whole roadmap specifications: the reciprocal contracts span those
 - *GlobalHolomorphicFunctions, GH0.3.* Scalar compact-support Cauchy–Green and finite-rank
   Runge with fixed evaluation points and uniform operator bounds; these feed
   ComplexKahlerGeometry K2's smooth/holomorphic parameter theory used in C1.1.
+- *[RealAnalyticGeometry, R3.1–R3.2](../RealAnalyticGeometry/README.md#r31-weighted-estimates-stein-criteria-and-approximation).* R3.1 supplies the noncompact complete-Kähler
+  positive-definite `(n,k)` weighted theorem, maximal domains, graph-domain density,
+  weighted regularity, complete exhaustion metrics, Stein criteria, jet interpolation
+  and Oka–Weil approximation. R3.2 item 0 supplies the native coherent module predicate,
+  `CoherentAnalyticModule.presentation_iff`, operations and manifold open/over-site,
+  section/stalk/germ comparisons; R3.2 supplies coherent Cartan A/B, exact sections and
+  coherent approximation. C0 extends these to analytic-space charts and descent; C1.4–C1.5
+  retains their complex-geometric transports and analytic-space consequences.
 - *ComplexKahlerGeometry, K2–K5 and K6.0–K6.1.* K2 supplies the parameter Dolbeault
   resolution and native sheaf-cohomology comparison, K3 the convergent local algebra and
   primitive Oka relations, K4 the native holomorphic sheaf, bundle–sheaf equivalence and
@@ -219,8 +230,8 @@ merge order on whole roadmap specifications: the reciprocal contracts span those
   groupoid equivalence. C5.2 identifies the analytic connection and comparison maps and supplies
   all horizontal morphisms and relative holomorphic parameters. K5a supplies `BundleTest`,
   `BundleDistribution`, their topologies, coefficient comparisons and operator action for
-  C5.4's complementary-form specialization. K5a local estimates and K5b.0's adjoint/symbol layer precede C1.4;
-  K6.0 supplies its local Kähler/Bochner identity. K5's compact harmonic/Green theory and
+  C5.4's complementary-form specialization. K5a local estimates, K5b.0's adjoint/symbol layer and K6.0's local Kähler/Bochner
+  identity feed RealAnalyticGeometry R3.1's weighted theorem, used in C1.4. K5's compact harmonic/Green theory and
   K6.1's compact Kähler decomposition feed C5.3.
 - *GeometricCurrents, G1.* The real dimension-graded continuous-dual current carrier,
   unsigned boundary, support and comass mass. C5.4's `realComplexCurrentComparison`
@@ -439,7 +450,7 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   `TauCeti.Algebra.Category.ModuleCat.Sheaf.Quasicoherent.Monoidal`: the monoidal unit is finitely
   presented and tensor products of finitely presented modules are finitely presented. These parts
   of `coherentOperations` use that supplier; kernels, internal Hom, extensions and analytic gluing
-  remain the additional coherence assertions in C0.1.
+  are supplied on manifolds by RealAnalyticGeometry R3.2 and extended to analytic spaces in C0.1.
 - `TauCeti.Topology.subsingleton_H_succ_of_isFlasque`: positive-degree `Sheaf.H` of a flasque sheaf of
   abelian groups on a topological space vanishes.
 - `TauCeti.AlgebraicGeometry.FinitelyPresentedSheaf X`: the full subcategory of finitely presented
@@ -494,9 +505,15 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
 - **ComplexKahlerGeometry K5a, K5b.0, K6.0.** On arbitrary open manifold domains, K5a
   supplies bundle distributions, Sobolev scales and local Laplace-type regularity, K5b.0
   the geometric L² formal adjoint and Dolbeault symbol `½|ξ|² id`, and K6.0 the local
-  Kähler/Bochner identities. These inputs precede C1.4's noncompact domain theory.
+  Kähler/Bochner identities. RealAnalyticGeometry R3.1 supplies their noncompact weighted
+  domain and existence theory to C1.4.
   On compact boundaryless bases K5a/K5b.1 supplies harmonic projections and Green maps;
   K6.1 supplies the compact Kähler decomposition used by C5.3.
+- **RealAnalyticGeometry R3.1–R3.2.** R3.1 supplies weighted existence on complete
+  Kähler manifolds, graph-domain density and regularity, Stein criteria and approximation.
+  R3.2 supplies native coherence and its finite-presentation identification, manifold
+  restriction/stalk calculus and coherent Cartan A/B. C0 descends the supplied category
+  on analytic-space quotient charts; C1 transports its weighted and coherent conclusions.
 - **ComplexManifolds.** Milestones 7.1–7.3 supply native holomorphic gluing to
   ComplexKahlerGeometry K4; Milestone 1 supplies C5.2's functorial realification.
 - **CharacteristicClasses.** C1.2 item 2 supplies the early locally acyclic constant
@@ -678,13 +695,12 @@ The regular last-variable order `d`, monic degree, vanishing lower coefficients,
 quotient/remainder and order-zero unit case retain the supplier's hypotheses. For the
 completed-stalk comparison prove that completion of this analytic stalk at the coordinate
 maximal ideal is `ℂ[[z₁,…,zₙ]]`: Taylor truncation identifies its quotients by powers of that
-ideal, and the compatible limit is the formal power-series ring. Translate K3's primitive
-relations to coherence of the native ring sheaf and its finitely generated ideal quotients,
-by identifying the kernel of each finite row map on stalks with K3's relation module.
-Local finite generators and sheaf kernels give this translation independently of
-C0.1's category-level calculus (Freitag I,
+ideal, and the compatible limit is the formal power-series ring. Consume
+RealAnalyticGeometry R3.2 item 0's translation of K3's primitive relations to native
+coherence. Identify it on the preceding stalk isomorphism and pass to finitely generated
+ideal quotients, retaining their nilpotents, independently of C0.1's analytic-space descent (Freitag I,
 Theorems 3.3–3.4, pp. 7–8; §4, pp. 12–14; Theorem 10.3 and Lemma 10.4, pp. 29–33).
-*Needs:* ComplexKahlerGeometry K3–K4; native sheaf kernels and stalks.
+*Needs:* ComplexKahlerGeometry K3–K4; RealAnalyticGeometry R3.2 item 0; native sheaf kernels and stalks.
 
 **Checks for convergent local algebra.**
 
@@ -832,19 +848,24 @@ ringed spaces of `complexSchemeAnalytification`.
 
 ### C0.1 Coherent analytic modules
 
-Define `CoherentAnalyticModule T` as the full subcategory of Mathlib's `SheafOfModules` over the
-structure sheaf `O_T` on the objects satisfying `SheafOfModules.IsFinitePresentation`; morphisms are
-all `O_T`-linear morphisms of sheaves of modules. Because `O_T` is coherent, finite presentation is
-equivalent to coherence in the classical sense: finite local generation, and finite local
-generation of the relation sheaf of every local finite family of sections (Demailly, *Complex
-Analytic and Differential Geometry*, II.3.11–3.16, pp. 87–88). The API is
-`CoherentAnalyticModule.ofPresentation` (a local finite cokernel presentation `O^p → O^q → F → 0`
-on a cover gives an object), `CoherentAnalyticModule.presentation_iff` (local finite presentation
-is equivalent to the classical coherence condition over coherent `O_T`) and
-`CoherentAnalyticModule.hom_ext` (a morphism is determined by its restrictions to an open cover).
-The definition makes sense over any locally ringed space, and `Suggested.lean` states it in that
-form (`CoherentAnalyticModule`, using `TauCeti.SheafOfModules.ringCatSheaf`); it is the coherent
-category exactly when the structure sheaf is coherent. *Needs:* Mathlib `SheafOfModules.IsFinitePresentation`; §C−1.1 `ComplexAnalyticSpace.coherentStructure`.
+Use RealAnalyticGeometry R3.2 item 0's native coherent module predicate and
+`CoherentAnalyticModule.presentation_iff`: over a coherent ring sheaf it identifies
+the conjunction of finite type and finite-type kernels of every local finite free row
+map with `SheafOfModules.IsFinitePresentation`. Extend that same category to a complex analytic
+space `T` using its local closed embeddings into manifold charts and sheaf descent.
+Here `CoherentAnalyticModule T` is its finite-presentation form, the full subcategory of
+Mathlib's `SheafOfModules` over `O_T` on finitely presented objects, with all `O_T`-linear
+morphisms. The coherent structure sheaf of C−1.1 makes the supplied identification apply
+on every analytic chart, including nonreduced ones; it is compatible with chart changes.
+The supplied `CoherentAnalyticModule.ofPresentation` takes a local exact presentation
+`O^p → O^q → F → 0` to an object. Prove `CoherentAnalyticModule.hom_ext` for the
+descended category: restrictions to an open cover determine a morphism.
+`Suggested.lean` records the finite-presentation form over any locally ringed space
+using `TauCeti.SheafOfModules.ringCatSheaf`; it represents coherent modules when the
+structure sheaf is coherent (Demailly, II.3.11–3.16, pp. 87–88; II §9.4, p. 124).
+*Needs:* RealAnalyticGeometry R3.2 item 0 (predicate, `presentation_iff` and manifold
+calculus); Mathlib `SheafOfModules.IsFinitePresentation`;
+§C−1.1 `ComplexAnalyticSpace.coherentStructure`.
 
 **Checks.**
 
@@ -856,44 +877,43 @@ category exactly when the structure sheaf is coherent. *Needs:* Mathlib `SheafOf
 - `CoherentAnalyticModule.torsion`: `O_ℂ/(z)` (the skyscraper `ℂ` at `0`) is coherent but not
   locally free at `0`; a definition by local freeness would exclude it.
 
-Prove `coherentOperations`: on a complex analytic space, kernels, cokernels, images and extensions
+Prove `coherentOperations` as analytic-space descent of RealAnalyticGeometry R3.2's
+manifold calculus: on a complex analytic space, kernels, cokernels, images and extensions
 of coherent modules are coherent, the internal Hom of two coherent modules is coherent,
 restriction to an open preserves coherence, and coherent modules with
 compatible gluing isomorphisms on an open cover glue to a coherent module. Consequently
 `CoherentAnalyticModule T` is an abelian full subcategory of all `O_T`-modules, closed under
 extensions. Finite tensor products are already coherent by
 `TauCeti.SheafOfModules.isMonoidal_isFinitePresentation`, and use that declaration.
-The proof of the remaining operations reduces each operation to kernels and cokernels of maps between finite free
-modules, using coherence of `O_T`; Hom is presented as the kernel of a map between finite sums of
-the second argument, and gluing is sheaf descent. The pinned tensor supplier constructs the
+On a closed chart `i : T ↪ Ω`, identify coherent `O_T`-modules with coherent
+`O_Ω`-modules annihilated by the defining ideal. The supplied manifold operations give
+kernels, cokernels and Hom in this subcategory; tensor products are taken over `O_T`.
+For a short exact sequence of `O_T`-modules, apply the supplied coherence theorem to
+its ambient pushforward; its middle term already has the given `O_T`-module structure. Identify the operations
+on chart overlaps and glue by sheaf descent. The pinned tensor supplier constructs the
 tensor product as a cokernel by tensoring a finite presentation of the first argument with the
 second. The general monoidal structure
 and internal Hom of sheaves of modules are AlgebraicVectorBundles'; this theorem adds coherence of
 the outputs (Demailly, II.3.13–3.16, pp. 87–88, for kernels, images, cokernels and extensions;
 II §9.4, p. 124, for analytic spaces with nilpotents; II, Exercise 11.3 c), p. 127, for Hom; the
 tensor product is the cokernel argument just given). *Needs:* `CoherentAnalyticModule`;
-TauCetiRoadmap.AlgebraicVectorBundles (sheaf-module tensor and internal Hom).
+RealAnalyticGeometry R3.2 item 0; TauCetiRoadmap.AlgebraicVectorBundles (sheaf-module tensor and internal Hom).
 
-On a manifold, export the following specialization of `coherentOperations` for
-RealAnalyticGeometry R3.2. Use K4's RingCat holomorphic sheaf `R_W` and its isomorphism
-with C−1.1's structure sheaf. Identify native modules on an open `U ⊆ W` with modules
-on the over-site via `Opens.overEquivalence` and
-`SheafOfModules.pushforwardPushforwardEquivalence`. Supply the ring unit comparisons,
-sections, stalks and germ maps, natural for nested open restrictions and their iterated
-slice equivalences. These equivalences preserve finite free modules (including rank zero),
-kernels, finite type, local freeness and finite presentation; use native
-`GeneratingSections`, `LocalGeneratorsData` and `Presentation.map`, retaining their finite
-index types and the required continuity, cocontinuity and colimit-preservation hypotheses.
-On these carriers prove that C0.1's predicate is equivalent to finite type together with:
-for every open `U` and finite `q`, the kernel of every map
-`free (ULift (Fin q)) → F.over U` is of finite type. Translate K3's primitive Oka relations
-into this native kernel condition, and its ideal-generator results into coherent ideal
-submodules. Stalk generators extend to a common smaller neighborhood, and finite relations
-of germs hold after shrinking. The sheafification hypotheses for the native abelian module
-category and generator APIs are supplied on the open and iterated over-sites. All of this is
-local module theory over a coherent ring sheaf; Cartan A/B is not an input (Demailly,
-II.3.11–3.16, pp. 87–88). *Needs:* ComplexKahlerGeometry K3–K4; Mathlib sheaf-module
-restriction, stalk, generator, presentation and continuous-pushforward APIs.
+Identify the supplied manifold restriction calculus with the analytic-space restriction
+of `coherentOperations`. Use K4's RingCat holomorphic sheaf `R_W` and C−1.1's
+ring-sheaf isomorphism. Transport RealAnalyticGeometry R3.2 item 0's module equivalences
+on opens and over-sites through this isomorphism, with its unit comparisons, section,
+stalk and germ maps and naturality for nested opens and iterated slices. Its preservation
+of finite free modules, kernels, finite type, local freeness and finite presentation,
+and its stalk-generator and finite-relation shrinking statements are inputs.
+Prove that these maps agree with restriction and germs on C−1's analytic-space carrier
+and descend on closed quotient charts and their overlaps. In particular a quotient by
+`I` uses sections and stalks of `O/I`, rather than its reduced quotient. Use the supplied
+`CoherentAnalyticModule.presentation_iff` in each chart; the same identification then
+holds globally by locality (Demailly, II.3.11–3.16, pp. 87–88; II §9.4, p. 124).
+*Needs:* RealAnalyticGeometry R3.2 item 0 (native restriction and section/stalk/germ
+comparisons); ComplexKahlerGeometry K4; C−1.1's analytic-space charts and ring-sheaf
+comparison; Mathlib sheaf-module restriction and continuous-pushforward APIs.
 
 **Checks for the manifold restriction interface.**
 
@@ -914,7 +934,7 @@ radical. The API is `CoherentAnalyticIdeal.quotient` (the structure sheaf of the
 `I`) and `CoherentAnalyticIdeal.pullbackQuotientIso` (for a morphism `g : T' → T`, the pullback of
 `O_T/I` is `O_{T'}/I·O_{T'}`: pullback extends the ideal, it does not take the preimage of the
 zero set) (Demailly, II.9.10–9.13, p. 124). *Needs:* `coherentOperations`;
-§C−1.1 `ComplexAnalyticSpace.closedSubspace`.
+RealAnalyticGeometry R3.2 item 0 (coherent ideals and quotient presentations); §C−1.1 `ComplexAnalyticSpace.closedSubspace`.
 
 **Checks.**
 
@@ -951,7 +971,8 @@ to the module operations of AlgebraicVectorBundles. Use K4's section/reconstruct
 the unit and counit without constructing another section functor or gluing another bundle.
 The additional gluing is only the disjoint union of the rank strata, with the operation
 comparisons just stated (Demailly, II.3.1–3.6, pp. 83–86).
-*Needs:* `coherentOperations`; C−1.1's native ring-sheaf comparison;
+*Needs:* `coherentOperations`; RealAnalyticGeometry R3.2 item 0's coherence and
+finite-presentation comparison; C−1.1's native ring-sheaf comparison;
 ComplexKahlerGeometry K4 (fixed-rank section/reconstruction equivalence);
 AlgebraicVectorBundles L0B–L0C (finite local freeness and operations).
 
@@ -1146,7 +1167,7 @@ SchemeAndStackFoundations §§1.10–1.11 and §2.2.
 
 ### Dependencies
 
-§§C−1.1–C−1.2; ComplexKahlerGeometry K3–K4;
+§§C−1.1–C−1.2; ComplexKahlerGeometry K3–K4; RealAnalyticGeometry R3.2 item 0;
 AlgebraicModuliForArithmeticGeometry §3.5 and §7.7; SchemeAndStackFoundations Layers 1–2; Mathlib `JacobsonSpace`; TauCetiRoadmap.AlgebraicVectorBundles; Mathlib sheaves of modules and vector bundles; Tau
 Ceti `FinitelyPresentedSheaf`.
 
@@ -1261,50 +1282,39 @@ K4, K5a's local formal adjoints, K5b.0 and K6.0.
 
 ### C1.4 The weighted L² estimate
 
-Prove `weightedDolbeaultEstimate`. Let `(M, ω)` be a complete Kähler manifold, `E` a Hermitian
-holomorphic bundle of finite rank, `p, q` with `q ≥ 1`, and suppose the curvature operator
-`A = [iΘ(E), Λ]` is positive semidefinite on `(p,q)`-forms. For every `L²` form `g` of bidegree
-`(p,q)` with `D''g = 0` and `∫ ⟨A⁻¹g, g⟩ dV < ∞` (the inverse being taken on the range of `A`;
-the integral is infinite if `g` leaves it) there is `u` with `D''u = g` and
-`‖u‖² ≤ ∫ ⟨A⁻¹g, g⟩ dV`; the solution orthogonal to `ker D''` is unique, and smooth when `g` is.
-For the weighted scalar `(0,q)` specialization on a domain of `ℂⁿ`, identify scalar
-`(0,q)`-forms with `(n,q)`-forms valued in `K_M⁻¹`, and weight that bundle by `e^{−φ}` for a
-smooth strictly plurisubharmonic `φ`. Retain a complete Kähler metric and the displayed curvature
-and integrability hypotheses; the induced metric on `K_M⁻¹` also contributes curvature. The proof
-uses the Bochner–Kodaira identity, completeness to make the
-operator domains agree (cutoffs and Friedrichs mollification), and the Riesz representation of
-`D''*v ↦ ⟨v, g⟩` (Demailly, VIII.1.2, pp. 364–365; VIII.3.2–3.3, pp. 368–369; VIII.4.5–4.8,
-pp. 371–372). In the cutoff argument of VIII.2.4 (statement p. 366, proof p. 367) the cutoff is
-decreasing, so the bound to use is `|ρ'| ≤ 2` (equivalently `−2 ≤ ρ' ≤ 0`), not a nonnegative
-derivative. *Needs:* C1.1–C1.3; ComplexKahlerGeometry K5a's local bundle regularity,
-K5b.0's local formal adjoint and symbol, K6.0's local Bochner identity;
+Prove `weightedDolbeaultEstimate` as the transport of RealAnalyticGeometry R3.1's
+weighted theorem through C0.3's bundle–sheaf dictionary. Let `(M, ω)` be a complete
+Kähler manifold of positive complex dimension `n`, Hausdorff, second countable and without
+boundary, and `E` a finite-rank holomorphic bundle with a smooth Hermitian metric. For `1 ≤ k ≤ n`, a smooth real weight `φ` and pointwise
+positive definite `B = [iΘ(E) + i∂∂̄φ ⊗ id_E, Λ]` on `(n,k)`-forms,
+distributionally closed weighted L² data `f` with finite inverse-curvature integral
+admit the minimal solution with
+`∂̄u = f` and `∫ |u|²e^{−φ} ≤ ∫ h(B⁻¹f,f)e^{−φ}`.
+If `B ≥ ε id` for a constant `ε > 0`, then
+`‖u‖_φ ≤ ε^(−1/2) ‖f‖_φ`; pointwise positivity alone supplies no uniform
+closed-range constant. Use R3.1's maximal distributional domain, adjoint, graph-domain
+density and weighted local regularity, including smoothness for smooth data; their
+construction belongs to that supplier (Demailly, VIII.3.2–3.3, pp. 368–369;
+VIII.4.5–4.8, pp. 371–372).
+
+Identify the bundle-valued `(0,k)` Dolbeault complex with the `(n,k)` complex valued
+in `E ⊗ K_M⁻¹`, with its induced metric. Prove that C0.3's section-sheaf transport
+intertwines this supplied canonical identification, its `∂̄`, norms and curvature
+operator with C1.1–C1.3's geometric conventions. The metric curvature of `K_M⁻¹`
+remains in `B`; retain positivity and finite inverse-energy hypotheses on that twisted
+bundle. The distributional equation commutes with open restriction: the global solution
+restricts to a solution, whose integrals on that open obey the global bound. Minimality
+and the adjoint's boundary domain need not persist on restriction. Applying the theorem
+anew on an open set requires a complete metric there.
+*Needs:* RealAnalyticGeometry R3.1 (weighted theorem, canonical twist, graph-domain
+density and regularity); C0.3; C1.1–C1.3; ComplexKahlerGeometry K4 (Chern connection);
 SmoothBundlesConnections B2's native geometric L² sections.
 
-Use the maximal distributional `D''` on the supplied native L² sections and prove it
-closed and densely defined. On a complete metric prove compact-support smooth density in
-`Dom D'' ∩ Dom D''*` with its graph norm, with cutoffs and the Friedrichs commutator
-estimate. Multiplication of the metric by `e^{−φ}`, for smooth real `φ`, changes its
-adjoint only in lower order, so the weighted Laplacian retains K5b.0's symbol
-`½|ξ|² id`. K5a's local regularity therefore makes the minimal solution smooth for
-smooth data, on noncompact open domains as well as compact ones: minimality gives
-`D''*u = 0`, and the equation implies `Δ''u = D''*g` distributionally, to which
-local regularity applies.
+**Checks for the weighted comparison.**
 
-Export to RealAnalyticGeometry R3.1 the positive-definite `(n,k)` specialization:
-for `1 ≤ k ≤ n`, a smooth real weight `φ` and
-`B = [iΘ(E) + i∂∂̄φ ⊗ id_E, Λ] > 0`, distributionally closed weighted L² data `f`
-with finite inverse-curvature integral admit the minimal solution satisfying
-`∫ |u|²e^{−φ} ≤ ∫ h(B⁻¹f,f)e^{−φ}`. If `B ≥ ε id` for a constant `ε > 0`,
-then `‖u‖_φ ≤ ε^(−1/2) ‖f‖_φ`; pointwise positivity alone supplies no uniform
-closed-range constant. This is `weightedDolbeaultEstimate` with metric `h_E e^{−φ}`.
-The distributional equation commutes with open restriction: a global solution
-restricts to a solution on any open set, and its integrals over that set obey the
-global bound. Minimality and the adjoint's boundary domain need not persist on restriction. Applying the theorem anew on an open set requires a complete metric
-there (Demailly, VIII.3.2–3.3 and VIII.4.5–4.8, pp. 368–372).
-
-**Checks for the weighted theorem and its export.**
-
-- If `B = 0`, finite inverse-curvature energy forces `f = 0`; the minimal solution is zero.
+- `B = 0` is outside the positive-definite hypothesis. For zero data the minimal solution
+  is nevertheless zero; the comparison does not assert solvability for arbitrary data
+  with zero curvature.
 - On complete `ℂⁿ` with a Gaussian line metric, the `(n,k)` curvature eigenvalue is `k`
   in the `ω = iΣ dzⱼ ∧ dz̄ⱼ` convention, giving the bound `k^(−1/2)` for `k ≥ 1`.
 - A positive curvature eigenvalue tending to zero gives a pointwise inverse-weight
@@ -1315,23 +1325,23 @@ there (Demailly, VIII.3.2–3.3 and VIII.4.5–4.8, pp. 368–372).
 
 ### C1.5 Strongly 1-complete spaces and Cartan A/B
 
-Define `SteinManifold M` for a complex manifold `M` by holomorphic convexity and local
-separation by global holomorphic functions. For a compact `K`, its holomorphic hull is
-`{x : ∀ f ∈ O(M), |f(x)| ≤ sup_K |f|}` (the empty hull is empty), and holomorphic convexity
-means that this hull is compact. Local separation means that every `x` has a neighbourhood `V`
-such that for each `y ∈ V ∖ {x}` some `f ∈ O(M)` has `f(y) ≠ f(x)`.
-Supply hull monotonicity and restriction of separating witnesses to smaller neighbourhoods;
-construct a smooth plurisubharmonic exhaustion from convexity and a smooth strictly
-plurisubharmonic function from local separation, giving `StronglyOneComplete.ofStein`
-(Demailly, I.6.6–6.8 and I.6.13–6.18, pp. 47–51). *Needs:* §C−1.1 `HolomorphicStructureSheaf`;
-Mathlib compact sets.
+Use `SteinManifold M` for RealAnalyticGeometry R3.0–R3.1's Stein predicate on a
+finite-dimensional Hausdorff second-countable complex manifold: holomorphic convexity,
+global point separation and holomorphic local coordinates supplied by global functions.
+Transport its holomorphic functions, compact hulls, separating functions and coordinate
+maps through C−1.1's structure-sheaf comparison. The holomorphic hull of a compact `K`
+is `{x : ∀ f ∈ O(M), |f(x)| ≤ sup_K |f|}`; the empty hull is empty.
+Use R3.1's equivalence with a smooth strictly plurisubharmonic exhaustion, including
+its countable-discrete dimension-zero case (Demailly, I.6.6–6.8 and I.6.13–6.18, pp. 47–51).
+*Needs:* RealAnalyticGeometry R3.0–R3.1 (Stein predicate and exhaustion criterion);
+§C−1.1 `HolomorphicStructureSheaf`.
 
 **Checks.**
 
 - `ℂⁿ`, including `n = 0`, is Stein: coordinates separate points and bound compact hulls.
 - A polydisc with positive radii is Stein; its compact hull stays inside a smaller closed polydisc.
 - `P¹` is holomorphically convex but not Stein: its global holomorphic functions are constant,
-  so they do not locally separate points.
+  so they neither separate distinct points nor supply local coordinates.
 
 Define `StronglyOneComplete T` for a Hausdorff second-countable complex analytic space `T`: there is a smooth exhaustion
 function `ψ : T → ℝ` (all sublevel sets relatively compact) that is strictly plurisubharmonic,
@@ -1342,7 +1352,8 @@ strongly 1-complete, by restricting `ψ`), `StronglyOneComplete.prod` (products,
 `StronglyOneComplete.ofStein` (a Stein manifold is strongly 1-complete) (Demailly, I.6.13–6.18,
 pp. 49–51, for manifolds; IX.2.1, IX.2.5 and IX.2.7, pp. 409–410, for analytic schemes).
 *Needs:* §C−1.1 (`ComplexAnalyticSpace`, local embeddings);
-`SteinManifold` for `StronglyOneComplete.ofStein`.
+`SteinManifold` and RealAnalyticGeometry R3.1's exhaustion theorem for
+`StronglyOneComplete.ofStein`.
 
 **Checks.**
 
@@ -1354,12 +1365,16 @@ pp. 49–51, for manifolds; IX.2.1, IX.2.5 and IX.2.7, pp. 409–410, for analyt
   strongly 1-complete (a strictly plurisubharmonic function has no interior maximum on a positive
   dimensional space); the point is.
 
-Prove `StronglyOneComplete.completeKaehlerMetric` on manifolds. Given a smooth strictly
-plurisubharmonic exhaustion `ψ`, shift it to be nonnegative, put `ω = i∂∂̄ψ` and
-`ω̂ = ω + i∂∂̄(ψ²)`. Prove that `ω̂` is positive and closed and hence Kähler, and that it is
-complete: `ω̂ ≥ ω + 2i∂ψ ∧ ∂̄ψ` bounds `|dψ|_{ω̂}` by one, so escape to infinity has infinite
-length by the exhaustion criterion (Demailly, VIII.2.4, pp. 366–367, and VIII.5.2, p. 372).
-*Needs:* `StronglyOneComplete`; DifferentialGeometry's metric, forms and length APIs.
+Prove `StronglyOneComplete.completeKaehlerMetric` as the manifold transport of
+RealAnalyticGeometry R3.1's complete exhaustion metric. Given a smooth strictly
+plurisubharmonic exhaustion `ψ`, identify its supplied complete Kähler metric
+`i∂∂̄χ(ψ)` on C−1's manifold carrier, for the increasing convex `χ` chosen by that
+supplier. For nonnegative `ψ`, the choice `χ(t) = t + t²` gives
+`ω̂ = i∂∂̄ψ + i∂∂̄(ψ²)` and the bound by `2i∂ψ ∧ ∂̄ψ` controls the lengths of
+escaping paths. Compare the metric, Levi form and path lengths under the transport
+(Demailly, VIII.2.4, pp. 366–367, and VIII.5.2, p. 372).
+*Needs:* `StronglyOneComplete`; RealAnalyticGeometry R3.1 (complete metric and
+length bound); DifferentialGeometry's metric, forms and length APIs.
 
 **Checks.**
 
@@ -1373,25 +1388,26 @@ Prove `cartanTheoremB`: on a strongly 1-complete complex analytic space `T` (fin
 Hausdorff, second countable, nilpotents allowed), `H^q(T, F) = 0` for every coherent analytic module `F` and
 every `q ≥ 1`. In particular this holds on polydiscs, on `ℂᵃ × (ℂ*)ᵇ`, on their closed analytic
 subspaces and on Stein manifolds. A finite open cover by itself proves nothing of the kind. The
-vector-bundle case on a manifold first uses `StronglyOneComplete.completeKaehlerMetric` to
-construct `ω̂`. Identify the `F`-valued `(0,q)` Dolbeault complex with the `(n,q)` complex valued
-in `F ⊗ K_M⁻¹`, with induced metrics. Apply `weightedDolbeaultEstimate` to that twisted bundle
-and `ω̂`, choosing a rapidly increasing bundle weight `χ ∘ ψ` to dominate its curvature and make
-the given form integrable. The added curvature acts positively in bidegree `(n,q)` for `q ≥ 1`.
-For coherent modules on analytic spaces resolve locally by free modules of an
-ambient chart and pass along a countable exhaustion by sublevel sets with Runge-type approximation
-(Demailly, IX.4.1, pp. 419–420; IX.4.10–4.11 with `q = 1`, p. 425; IX.4.12–4.13, pp. 426–428).
-*Needs:* `StronglyOneComplete`; `StronglyOneComplete.completeKaehlerMetric`;
-`weightedDolbeaultEstimate`; `coherentOperations`; `holomorphicBundleDictionary` and exterior
-powers/duals for `K_M⁻¹`.
+manifold case is RealAnalyticGeometry R3.2's coherent Cartan B, transported through
+C0.1–C0.3; its Stein hypothesis is supplied by R3.1's exhaustion criterion.
+For analytic spaces, extend that theorem using local free resolutions in ambient
+manifold charts and a countable exhaustion by sublevels with Runge approximation.
+Use the supplier's approximation and exact section maps on the manifold charts;
+prove the overlap and exhaustion-limit comparisons for the analytic-space restrictions,
+including modules annihilated by nonradical chart ideals. No Laplacian is placed on a
+singular or nilpotent locus (Demailly, IX.4.1, pp. 419–420;
+IX.4.10–4.11 with `q = 1`, p. 425; IX.4.12–4.13, pp. 426–428).
+*Needs:* RealAnalyticGeometry R3.1–R3.2 (Stein criterion, approximation, coherent
+Cartan B and exact sections); `StronglyOneComplete`; `coherentOperations`;
+C0.1–C0.3's chart and manifold transports.
 
-**Checks for the weighted Cartan-B application.**
+**Checks for the manifold input and analytic-space Cartan B.**
 
 - On `ℂ²` with `ω = iΣ dzⱼ ∧ dz̄ⱼ`, the trivial line with metric `e^{−|z|²}` has
   `[iΘ,Λ] = −id` on `(0,1)`-forms and `+id` on `(2,1)`-forms; the canonical twist fixes the degree.
 - For `F = O_M`, the identification is `A^{0,q}(O_M) ≅ A^{n,q}(K_M⁻¹)` and preserves `∂̄`.
-- On a polydisc, a sufficiently increasing weight makes any smooth closed form square integrable
-  and dominates the twisted-bundle curvature on successive compact sublevels.
+- On the nonreduced closed subspace `(z² = 0)` of a polydisc, Cartan B applies to
+  the whole structure sheaf and its coherent ideals; it does not discard the class of `z`.
 
 Prove `cartanTheoremA`: for a finite-dimensional Hausdorff second-countable strongly
 1-complete complex analytic space `T`, nilpotents allowed, and coherent `F`, global sections
@@ -1406,7 +1422,8 @@ relation kernel gives global coefficient lifting for every section. These evalua
 coefficient maps commute with the open restriction/germ maps of C0.1 (Demailly,
 II.3.13–3.16, pp. 87–88, and IX.4.10–4.13 with `q = 1`, pp. 425–428; the
 skyscraper-kernel argument gives A from B).
-*Needs:* `cartanTheoremB`; `coherentOperations`; coherent point ideals and Nakayama.
+*Needs:* RealAnalyticGeometry R3.2 (manifold Cartan A and coefficient lifting);
+`cartanTheoremB`; `coherentOperations`; coherent point ideals and Nakayama.
 
 **Checks for Cartan A and coefficient lifting.**
 
@@ -1416,39 +1433,24 @@ skyscraper-kernel argument gives A from B).
 - On a compact subset, a finite subcover selects finitely many global generators;
   this compactness argument supplies no such bound for an arbitrary noncompact set.
 
-Export the following manifold consequences of C1.4–C1.5 to RealAnalyticGeometry
-R3.1–R3.2, on its native K4 ring/module carriers. A smooth strictly psh exhaustion
-implies holomorphic convexity, global point separation and holomorphic local coordinates,
-and hence its Stein predicate; conversely its Stein predicate implies the `SteinManifold`
-predicate above and `StronglyOneComplete.ofStein`. In dimension zero this is the direct
-countable-discrete argument. In positive dimension construct separating and finite-jet
-sections by cutoff local jets and logarithmic weights, regularized near the chosen finite
-set. Choose a convex exhaustion weight on each compact shell to absorb the curvature of
-`E ⊗ K_M⁻¹` and the negative terms on cutoff annuli. The C1.4 bound is uniform in the
-regularization, so weak limits retain the required jets; local Cauchy estimates give
-compact uniform bounds. This also gives the scalar holomorphic-hull separators. For
-Oka–Weil approximation on a holomorphically convex compact, construct a psh separator
-between that compact and the cutoff-derivative support, use an increasing multiple of
-that separator in the weight, and apply those bounds (Demailly, I.6.13–6.18, pp. 49–51,
-and VIII.4.5–VIII.5.7, pp. 371–374, for the exhaustion and weighted inputs; these
-consequences use the stated cutoff and logarithmic-weight arguments).
+On manifolds, identify the evaluation, coefficient lifting and exact global-section
+maps of `cartanTheoremA` and `cartanTheoremB` with RealAnalyticGeometry R3.2's
+maps on the native K4 ring/module carriers. Transport its coherent approximation:
+for `F` coherent on the whole Stein manifold, a section near a holomorphically convex
+compact is approximable there by global sections. The topology is the supplied
+finite-presentation quotient topology, independent of presentation. Prove that these
+maps and topologies agree under C0's ring-sheaf comparison, that restriction is
+continuous, and that section-to-stalk and germ maps commute with those identifications
+(Demailly, IX.4.6, p. 422, and IX.4.10–4.13, pp. 425–428).
+*Needs:* RealAnalyticGeometry R3.1–R3.2 (Stein approximation and coherent Cartan maps);
+C0.1–C0.3's restriction and manifold transports.
 
-On a Stein manifold, export `cartanTheoremA` and `cartanTheoremB`, exactness of global
-sections on coherent short exact sequences, and coherent approximation: for `F` coherent
-on the whole manifold, a section near a holomorphically convex compact is approximable
-there by global sections. Use finite generation near that compact, scalar Oka–Weil and
-summable corrections on a countable holomorphically convex exhaustion. The section
-topology is the finite-presentation quotient topology, independent of presentation;
-restriction is continuous and stalk/germ maps agree with C0.1 (Demailly, IX.4.6, p. 422,
-and IX.4.10–4.13, pp. 425–428). General analytic spaces use the ambient-chart resolutions
-of `cartanTheoremB`, rather than a Laplacian on their singular or nilpotent loci.
-
-**Checks for the manifold handoff.**
+**Checks for the manifold comparison.**
 
 - On a countable discrete complex manifold the exhaustion and point separation are
   direct, and every coherent stalk is generated without a positive-dimensional estimate.
 - The Gaussian example in C1.3 is negative on `(0,1)` but positive on `(2,1)`;
-  the scalar/bundle export includes `K_M⁻¹` and its metric curvature.
+  the scalar/bundle comparison includes `K_M⁻¹` and its metric curvature.
 - Restriction from a Stein manifold to an open set preserves coherent presentations
   and germ maps. Cartan A/B on the open set requires that open set itself to be Stein;
   its inherited metric need not be complete.
@@ -1592,7 +1594,8 @@ pp. 19-1–19-5; Serre, *GAGA*, nos. 16–17, Lemma 8 and the finite presentatio
 
 ### Dependencies
 
-C0; §C−1.1; GlobalHolomorphicFunctions GH0.3; ComplexKahlerGeometry K2–K4,
+C0; §C−1.1; RealAnalyticGeometry R3.1–R3.2; GlobalHolomorphicFunctions GH0.3;
+ComplexKahlerGeometry K2–K4,
 K5a local estimates, K5b.0 and K6.0; AlgebraicModuliForArithmeticGeometry Layer 1; SchemeAndStackFoundations Layer 2;
 SchemeAndStackFoundations §2.2 `cech_to_cohomology`; Tau Ceti `TauCeti.montel`; TauCetiRoadmap.DifferentialGeometry (Layers 0–2, 5
 and 12); Mathlib analysis
