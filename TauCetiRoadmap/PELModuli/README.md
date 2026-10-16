@@ -462,7 +462,7 @@ exactly one of `M_k(ℝ)` with `x ↦ xᵀ` (type C), `M_k(ℍ)` with `x ↦ x̄
 Put `I_bad = 2` if some factor has type D and `I_bad = 1` otherwise. When `B` is simple, `*` is of the
 second kind exactly in type A, and the simple factors of `G^ad_ℂ` for the similitude group (M0.7) of
 any PEL datum over `(B, *)` have the corresponding classical group form, with the
-usual small-rank exceptions: `SO₂` is a torus and `SO₄` has two type-A₁ factors. Apply
+usual small-rank exceptions: `SO₂` is a torus and `SO₄` has two type-`A₁` factors. Apply
 AbelianSchemesAndArithmeticModuli A6.15 `realRosatiDecomposition` to `B ⊗ ℝ` with its regular trace:
 M0.1 gives real positivity and the regular/reduced-trace comparison; cyclicity and invariance under
 the involution give the supplier's remaining trace hypotheses (Milne, Proposition 8.10, p. 84).
@@ -1335,7 +1335,7 @@ over `ℚ` because the set of CM types is `Aut(ℂ/ℚ)`-stable, and is CM or to
   or `ℚ(√−2)`, so `⋂_Φ F_Φ = ℚ`, while `F_rflx = F`; omitting `F` from the definition gives the wrong
   field.
 
-### M0.27 τ-parts at an unramified prime
+### M0.27 `τ`-parts at an unramified prime
 
 Define, for a CM field `F`, a prime `p` unramified in `F` and a fixed `ι_p : ℂ ≅ ℚ̄_p` (so that `Σ_∞`
 is also the set of `p`-adic embeddings): `tauField τ` (the composite `ℚ_p^τ` of `τ(F)` and `ℚ_p`,
@@ -1479,7 +1479,7 @@ M0.18, M1.1; AbelianSchemesAndArithmeticModuli A1, A2, A4 (Lie algebra); Tau Cet
 - `pelTriple_det_picard`: a nonzero homogeneous determinant polynomial of degree three forces
   `rank Lie = 3`; the `τ`-ranks are fixed by the signature.
 
-### M1.3 Unitary O_F-abelian schemes and signature type
+### M1.3 Unitary `O_F`-abelian schemes and signature type
 
 Define, for a CM field `F`, a subring `P ⊆ ℚ` and a `P`-scheme `S`: `LocalizedOFAbelianScheme`
 (`(A, i)` with `i : O_F → RelativeLocalizedHom P A A` unital) and its integral-action case `OFAbelianScheme`;
@@ -1489,8 +1489,8 @@ coefficient unit `c ∈ P^×`) and its
 positive-integral case `UnitaryOFAbelianScheme` (Liu–Tian–Xiao–Zhang–Zhu, Definition 3.4.2, p. 148).
 For a generalized CM type `Ψ = Σ r_τ τ` of rank `N` and `S` over `O_{F_Ψ} ⊗ P`, define
 `HasSignatureType Ψ`: for every finite family in `O_F` the determinant polynomial of its action on
-`Lie_{A/S}` equals `∏_τ (linear form of τ)^{r_τ}`; in particular `charpoly(i(a) | Lie) =
-∏_τ (T − τ(a))^{r_τ}` (Definition 3.4.3, p. 149; checking characteristic polynomials of single
+`Lie_{A/S}` equals `∏_τ (linear form of τ)^{r_τ}`; in particular
+`charpoly(i(a) | Lie) = ∏_τ (T − τ(a))^{r_τ}` (Definition 3.4.3, p. 149; checking characteristic polynomials of single
 elements over a finite residue field is not enough). The API is `HasSignatureType.iff_detCondition`
 and `LocalizedOFAbelianScheme.iff_detCondition` (for `p` unramified in `F`, signature type `Ψ` is the
 Kottwitz condition of the unitary datum of signature `Ψ`, M0.18); `HasSignatureType.dim` and
@@ -1659,7 +1659,7 @@ identified); `IntegralLevel.ofPrincipal` (for `H = U^□(n)` this is `PrincipalL
   of degree `ℓ²` (`ℓ ∉ □`), a rational structure exists but no member maps `L ⊗ Ẑ^□` onto `T^□A`.
 - `rationalLevel_change_compose`: `changeLevel` along `H″ ⊆ H′ ⊆ H` is `changeLevel` along `H″ ⊆ H`.
 
-### M1.7 The PEL moduli problem M_H
+### M1.7 The PEL moduli problem `M_H`
 
 Define `PELModuli.moduliProblem H` (written `M_H`): for an integral datum, a set `□` of good primes,
 `S₀ = Spec O_{F₀,(□)}` and an open compact `H ⊆ G(Ẑ^□)`, the category fibred in groupoids over
@@ -1699,7 +1699,7 @@ Mathlib `CategoryTheory.Functor.IsFibered`, `AlgebraicGeometry.Scheme`.
 - `moduliProblem_det_matters`: for a unitary datum of signature `(2, 1)`, triples of signature
   `(1, 2)` are not objects; dropping the determinant condition adds the conjugate problem.
 
-### M1.8 The rational quasi-isogeny problem M_H^rat
+### M1.8 The rational quasi-isogeny problem `M_H^rat`
 
 Define `PELModuli.ratModuliProblem H` (written `M_H^rat`) for an open compact `H ⊆ G(𝔸^{∞,□})`: objects
 over `S` are `(A, λ, i, [α̂]_H)` with `A` an abelian scheme, `λ` a `ℤ_(□)^×`-polarization (M1.1),
@@ -1724,7 +1724,7 @@ functor of quadruples up to prime-to-`p` isogeny, §5, p. 390); and `ratModuliPr
   transporting the level, M1.10–M1.11) and equivalent `M_H^rat`; inequivalence is never asserted.
 - `ratModuli_principal`: for `H = U^□(n)` this is Lan's `M_n^rat` (Remark 1.4.2.6).
 
-### M1.9 The characteristic-zero adelic problem M_K^ad
+### M1.9 The characteristic-zero adelic problem `M_K^ad`
 
 Define `PELModuli.adelicModuli K` (written `M_K^ad`) for an open compact `K ⊆ G(𝔸_f)` over `F₀`-schemes:
 objects are `(A, λ, i, η̄)` with `A` an abelian scheme, `λ` a positive quasi-polarization
@@ -1733,7 +1733,7 @@ in the sheafified rational Hom up to locally constant `ℚ_{>0}^×`,
 and `η̄` a `π₁`-invariant `K`-orbit of `B ⊗ 𝔸_f`-linear isomorphisms `η : V ⊗ 𝔸_f ≅ V_f(A)` sending
 `⟨·,·⟩` to an `𝔸_f^×`-multiple of the `λ`-Weil pairing; morphisms are quasi-isogenies preserving these
 data. Full level is allowed at every prime only in characteristic zero. Over `ℂ` its points are Milne's
-quadruples (*Introduction to Shimura varieties*, Theorem 8.17, p. 88) without his condition (∗∗),
+quadruples (*Introduction to Shimura varieties*, Theorem 8.17, p. 88) without his condition `(∗∗)`,
 which selects the component attached to `V` itself (M3.4); Kottwitz, §8, p. 398, describes the complex
 points of the `p`-integral problem. The API is `adelicModuli.ofRational` (comparison with the `□ = ∅`
 specialization of M1.8, where `ℤ_(∅) = ℚ` and `𝔸^{∞,∅} = 𝔸_f`); `adelicModuli.hecke` (right
@@ -2128,8 +2128,8 @@ AbelianSchemesAndArithmeticModuli A4.7, A4.9; Mathlib `Algebra.FormallySmooth`.
 
 **Checks.**
 
-- `formalSmoothness_siegel`: for a principally polarized `(A₀, λ₀)`, `Def_{(A₀,λ₀)} ≅
-  Spf W(k)[[t_{ij} : 1 ≤ i ≤ j ≤ g]]`, with `g(g+1)/2` variables.
+- `formalSmoothness_siegel`: for a principally polarized `(A₀, λ₀)`,
+  `Def_{(A₀,λ₀)} ≅ Spf W(k)[[t_{ij} : 1 ≤ i ≤ j ≤ g]]`, with `g(g+1)/2` variables.
 - `formalSmoothness_typeD_two`: for a type D datum at `p = 2` the argument fails (Lan, Remark 1.2.2.3);
   `2` is bad by M0.10.
 - `formalSmoothness_tangent`: for the Picard datum `(2, 1)` the tangent space of `Def_{ξ₀}` has
@@ -2262,7 +2262,7 @@ A4.3; Stacks Tag 02GU.
   and KS conditions and is not étale.
 - `kodairaSpencer_cm`: a rank-one CM datum with signature a CM type has relative dimension `0`.
 
-### M2.11 Properness when End_B(V) is a division algebra
+### M2.11 Properness when `End_B(V)` is a division algebra
 
 Prove `properOfDivision`: let the rational datum have `B` simple and `C = End_B(V)` a division algebra
 (equivalently `V` a simple `B`-module), `□` good and `H` neat. Then `M_H` is proper over `S₀`; for the
@@ -2292,7 +2292,7 @@ R11.3 §3.10, R11.5 §§5.1–5.2.
   involution of type C and `V = B`, `C = B^op` is a division algebra and the moduli space of abelian
   surfaces with quaternionic multiplication (a Shimura curve) is proper over `S₀`; it has no cusps.
 
-### M2.12 Deformations of unitary O_F-abelian schemes
+### M2.12 Deformations of unitary `O_F`-abelian schemes
 
 Prove `unitaryDeformation`: let `F` be CM, `p > 2` unramified in `F`, `Ψ` a generalized CM type of rank `N`
 with `min(r_τ, r_{τ^c}) = 0` for every `τ` not above the distinguished place `τ_∞` of `F⁺`,
@@ -2446,7 +2446,7 @@ ShimuraVarieties §P.3.
   geometric CM point, the labelled groups are `μ_{5∞,τ} ⊕ (ℚ₅/ℤ₅)_{τ̄}`. In `(τ,τ̄)` order,
   `μ_h = (1,0)`, `μ_cov = (0,1)` and the covariant `F`-Newton point is `(0,1)`.
   Frobenius fixes the labels; the split torus has trivial Weyl group and its dominance order
-  is equality. Thus the CM fibre is μ-ordinary with `μ_cov`; comparison with `μ_h` fails.
+  is equality. Thus the CM fibre is `μ`-ordinary with `μ_cov`; comparison with `μ_h` fails.
 - For the genus-one Siegel datum, the two cocharacters are Weyl conjugate with defining weights
   `{0,1}` and multiplier `z`; the unlabelled slope sequence does not distinguish them.
 - For rank-one CM at an inert prime, Frobenius exchanges the two embedding labels.
@@ -2463,7 +2463,7 @@ of `covariantHodgeCocharacter`, and define `averagedHodgeCocharacter`, written `
 average of its finite local Galois orbit for the based action.
 For a geometric PEL point `x`, its covariant Dieudonné isocrystal with unscaled `F` retains the
 `B`-action and alternating pairing up to similitude. A pairing-preserving `B`-linear trivialization identifies
-Frobenius with `bσ`, `b ∈ G(Frac W(k))`; changing trivialization gives σ-conjugacy.
+Frobenius with `bσ`, `b ∈ G(Frac W(k))`; changing trivialization gives `σ`-conjugacy.
 Construct the Newton rational cocharacter `ν(x)` by the tensor-compatible slope decompositions
 in algebraic representations of `G`, retaining the coefficient idempotents and pairing. Its
 weights on the defining representation recover the supplied covariant `F`-slope sequence.
@@ -2485,10 +2485,10 @@ ReductiveGroupsPartII RG2.5.1 `AbsoluteRootData`; ReductiveGroups Layer 7.
 - In Siegel genus one, `μ̄_cov` has slopes `(0,1)`; the supersingular point with slopes
   `(½,½)` is excluded from `muOrdinaryLocus`.
 - For rank-one CM by an imaginary quadratic field at an inert prime, Frobenius exchanges
-  the two embedding labels and `μ̄_cov` has slopes `(½,½)`. The CM point is μ-ordinary
+  the two embedding labels and `μ̄_cov` has slopes `(½,½)`. The CM point is `μ`-ordinary
   although its elliptic curve is supersingular.
 - For inert Picard signature `(2,1)`, averaging the two labelled covariant Hodge cocharacters gives
-  slopes `(0,0,½,½,1,1)` on the six-dimensional rational representation. The μ-ordinary
+  slopes `(0,0,½,½,1,1)` on the six-dimensional rational representation. The `μ`-ordinary
   point is not ordinary; discarding the embedding labels before averaging loses this calculation.
 
 Prove `wedhornOrdinary`: let the PEL datum have connected group `G` (type A or C) and let `p` satisfy
@@ -2541,7 +2541,7 @@ M3 classifies the rational forms of a PEL datum by `ker¹(ℚ, G)` and identifie
 then algebraically. It keeps every locally trivial global form and the full, possibly disconnected,
 group. The comparison does not need SV3; the Shimura-variety name does.
 
-### M3.1 Forms of the skew-hermitian module and ker¹(ℚ, G)
+### M3.1 Forms of the skew-hermitian module and `ker¹(ℚ, G)`
 
 Prove `ker1Classification`: for a rational datum `(B, *, V, ⟨·,·⟩)` with similitude group `G`, the
 similarity classes of nondegenerate skew-hermitian `B`-modules `(V′, ⟨·,·⟩′)`
@@ -2621,9 +2621,9 @@ real image has compact kernel, as required by Milne's definition (p. 34).
 Discreteness before projection and compactness of that kernel make its arithmetic
 intersection finite. Neatness makes this intersection trivial and kills any
 finite-order effective stabilizer. Thus the image is discrete and torsion free. To apply the connected-Shimura suppliers,
-quotient `(G°)^ad` only by its **ℚ-simple factors** on which `h` is trivial;
+quotient `(G°)^ad` only by its **`ℚ`-simple factors** on which `h` is trivial;
 this yields an effective adjoint connected datum satisfying SV3, with the same
-domain. Retain any ℚ-simple factor having both compact and noncompact real
+domain. Retain any `ℚ`-simple factor having both compact and noncompact real
 factors: its compact real factors need not define a quotient over `ℚ`.
 Use Milne's connected-Shimura-variety formulation (§4, p. 46) for the
 arithmetic images; extend the finite component decomposition through the
@@ -2642,8 +2642,8 @@ and group-quotient suppliers named in Scope.
   its domain is a point and the quotient is a finite set; effective stabilizers are trivial.
 - `arithmeticQuotient_mixed_real`: restriction of scalars of a quaternion
   norm-one group over a real quadratic field, split at one real place and
-  division at the other, is ℚ-simple. Its compact real factor acts trivially
-  on the upper half-plane but cannot be removed as a ℚ-factor.
+  division at the other, is `ℚ`-simple. Its compact real factor acts trivially
+  on the upper half-plane but cannot be removed as a `ℚ`-factor.
 - `arithmeticQuotient_typeD`: component indices use the full group; the
   index set is computed by double cosets, not by counting connected components of `G`.
 
@@ -2655,7 +2655,7 @@ forms `G^{(i)}`. Then `M_K^ad(ℂ)` is the disjoint union of the subsets `M_K^ad
 whose `H₁(A, ℚ)` is isomorphic to `V^{(i)}` as a skew-hermitian `B`-module, and
 `M_K^ad(ℂ)^{(i)} ≅ G^{(i)}(ℚ) ∖ (X × G(𝔸_f)/K)` by `(A, λ, i, η̄) ↦ [(h_A, a ∘ η)]` for a `B`-isomorphism
 `a : H₁(A, ℚ) ≅ V^{(i)}`; each piece is nonempty (Kottwitz, §8, p. 400; Milne, Theorem 8.17, p. 88, for
-the piece of `V` and its condition (∗∗)). When SV3 holds and `ker¹ = 1` (Cases C and A with `n` even),
+the piece of `V` and its condition `(∗∗)`). When SV3 holds and `ker¹ = 1` (Cases C and A with `n` even),
 `M_K^ad(ℂ) = Sh_K(G, X)(ℂ)`. For the `p`-integral problem the same holds for `M_H^rat(ℂ)` with
 `K = H · K_p`, `K_p` the stabilizer of a self-dual lattice, using M0.20 at `p` (Kottwitz, §8). For a
 complex point, `H₁(A, ℚ)` with its `B`-action and `λ`-Weil form is isomorphic to `V` at every finite
@@ -2672,7 +2672,7 @@ AbelianSchemesAndArithmeticModuli A5.
 
 - `complexPoints_siegel`: `A_{g,n}(ℂ) ≅ GSp_{2g}(ℚ) ∖ (ℍ_g^± × GSp_{2g}(𝔸_f)/K(n)) ≅ ⊔_{(ℤ/n)^×} Γ(n)\ℍ_g`.
 - `complexPoints_nonempty`: every `ker¹`-piece contains a point.
-- `complexPoints_not_only_V`: for a Case-A odd datum with `ker¹ ≠ 1`, Milne's condition (∗∗) selects
+- `complexPoints_not_only_V`: for a Case-A odd datum with `ker¹ ≠ 1`, Milne's condition `(∗∗)` selects
   one piece and drops the others; `M_K^ad(ℂ)` contains them all.
 
 ### M3.5 The complex uniformization morphism
@@ -2710,7 +2710,7 @@ with level change and Hecke translation), `uniformization_universal` (`u^{(i)*}(
 for `L_K`, is the descended family, with `λ`, `i` and level), and `uniformization_siegel` (for the principal genus-one
 datum, the modular analytic family). The notation `Q` is the PEL arithmetic quotient; it is
 `Sh_K(G^{(i)}, X)` when SV3 holds and `G` is connected (Kottwitz, §8, p. 400; Milne, Proposition 6.3,
-p. 70, for the Siegel case; Tsimerman, *The André–Oort conjecture for A_g*, §6.1, p. 387). *Needs:* M2.9,
+p. 70, for the Siegel case; Tsimerman, *The André–Oort conjecture for `A_g`*, §6.1, p. 387). *Needs:* M2.9,
 M2.10, M3.3, M3.4; AbelianSchemesAndArithmeticModuli A5; ComplexComparisonPartII §§C−1.1–C−1.3;
 ShimuraVarieties Layers 0–1; SchemeAndStackFoundations Layer 1; Mathlib `UpperHalfPlane`.
 
@@ -2820,7 +2820,7 @@ preserves the pairing). *Needs:* M0.22, M1.3, M1.4.
 - `hermitianHom_zero`: for `A = 0` (`N = 0`) the space is `0`; for `A = A₀^N` it is `(F ⊗ 𝔸^□)^N` with the
   standard form.
 
-### M3.9 Siegel moduli at full level over ℂ
+### M3.9 Siegel moduli at full level over `ℂ`
 
 Prove `siegelFineUniformization` by comparing the generic fibre of the integral problem
 with ShimuraVarieties §5.0 `TauCeti.Shimura.rational_siegel_moduli` via M1.10 and applying
@@ -3160,8 +3160,8 @@ tested on explicit lattices and where the comparison with the modular curves is 
 Define `siegelIntegralDatum g D`: for `g ≥ 0` and positive integers `d₁ | d₂ | ⋯ | d_g`, the datum
 `(ℤ, id, L_D, ⟨·,·⟩_D, h)` with `L_D = ℤ^{2g}` on the basis `e₁, …, e_g, f₁, …, f_g`,
 `⟨e_i, f_j⟩_D = d_i δ_{ij}` (in `ℤ(1)` after the choice of `√−1`), `⟨e_i, e_j⟩ = ⟨f_i, f_j⟩ = 0`, and
-`h(√−1) = J_D` with `J_D = Matrix.J (Fin g) ℝ`, `J_D e_i = f_i`, `J_D f_i = −e_i`, so that `⟨x, J_D y⟩ = Σ_i d_i (x_{e_i}y_{e_i} +
-x_{f_i}y_{f_i})` is positive definite. The light matrix `siegelGram D` records
+`h(√−1) = J_D` with `J_D = Matrix.J (Fin g) ℝ`, `J_D e_i = f_i`, `J_D f_i = −e_i`, so that
+`⟨x, J_D y⟩ = Σ_i d_i (x_{e_i}y_{e_i} + x_{f_i}y_{f_i})` is positive definite. The light matrix `siegelGram D` records
 this integral form; `siegelGram_one` identifies its principal form with
 `−Matrix.J`, and `siegelGram_det` computes its determinant as `(∏ d_i)²`.
 The associated integral bilinear form is `siegelForm`.
@@ -3186,7 +3186,7 @@ p. 70). *Needs:* M0.5, M0.7, M0.10, M0.12, M0.16; ShimuraVarieties §P.4; Tau Ce
   with Siegel half spaces); only the integral moduli problems differ.
 - `siegelDatum_not_type_unordered`: `(2, 1)` violates `d₁ | d₂`; it is not a polarization type.
 
-### M5.2 Siegel moduli A_{g,D,n}
+### M5.2 Siegel moduli `A_{g,D,n}`
 
 Prove `siegelModuli`: for the Siegel datum of genus `g ≥ 1` and type `D` and `n ≥ 1`,
 `A_{g,D,n} = M_{U(n)}` over `ℤ[1/(n d_g)]` is the moduli problem of abelian schemes of relative
@@ -3435,7 +3435,7 @@ SchemeAndStackFoundations §§1.19–1.21.
 - `arbitraryLevel_indep`: the presentations by `U(3)` and `U(6)` give equivalent stacks over
   `ℤ[1/6]`.
 
-### M6.3 The stack 𝔄_g over ℤ
+### M6.3 The stack `𝔄_g` over `ℤ`
 
 Prove `siegelStack`: the fibred category `𝔄_g` over `Sch/ℤ` of principally polarized abelian schemes of
 relative dimension `g` is a smooth separated Deligne–Mumford stack of finite type over `Spec ℤ` of
@@ -3474,7 +3474,7 @@ not the line-bundle stack; polarized `Isom` is finite unramified (M2.4's argumen
 `n = 3, 4` on a cover of the base proves finite type, including `p | d`. Faltings–Chai, *Degeneration of
 Abelian Varieties*, Chapter I, Definition 1.6, p. 4, and the preceding discussion, pp. 3–5, give the `Pic⁰`
 torsor, and §4.11, pp. 23–24, the principal case of this presentation (Kottwitz, §5, p. 391;
-Lipnowski–Tsimerman, *How large is A_g(F_q)?*, §4.1 and Remark 4.2, p. 17, for polarizations over
+Lipnowski–Tsimerman, *How large is `A_g(F_q)`?*, §4.1 and Remark 4.2, p. 17, for polarizations over
 finite fields coming from line bundles). The descent uses AlgebraicModuliForArithmeticGeometry Layer 3.
 *Needs:* M1.12, M2.4; AbelianSchemesAndArithmeticModuli A2.4, A2.6, A2.8; AlgebraicModuliForArithmeticGeometry
 Layers 2, 3, 4, 7; SchemeAndStackFoundations Layers 1 and 4.
@@ -3793,8 +3793,8 @@ points, rigidifying extensions, Hodge line and the descent gerbe.
   Math. 183 (2016), 975–1014.
 - T. Wedhorn, *Ordinariness in good reductions of Shimura varieties of PEL-type*, Ann. Sci. École Norm.
   Sup. (4) 32 (1999), 575–618.
-- J. Tsimerman, *The André–Oort conjecture for A_g*, Ann. of Math. 187 (2018), 379–390.
-- M. Lipnowski and J. Tsimerman, *How large is A_g(F_q)?*, Duke Math. J. 167 (2018), 3403–3453
+- J. Tsimerman, *The André–Oort conjecture for `A_g`*, Ann. of Math. 187 (2018), 379–390.
+- M. Lipnowski and J. Tsimerman, *How large is `A_g(F_q)`?*, Duke Math. J. 167 (2018), 3403–3453
   (arXiv:1511.02212v1; locators to the arXiv version).
 - G. Faltings and C.-L. Chai, *Degeneration of Abelian Varieties*, Ergebnisse der Mathematik (3) 22,
   Springer, 1990.
