@@ -25,6 +25,7 @@ Design choices made explicit here:
 * Full Tate trivializations in M1.4 are finite étale pro-systems; their profinite geometric fibres
   are inverse limits of finite fibres, with continuous monodromy and termwise base change.
 * Hecke operators act on the right by precomposition of level markings (M1.13).
+* The analytic-family Riemann input is `E = −ε(h′) q_g ψ`, so `E(Jx, x) > 0` (M3.5).
 -/
 
 namespace TauCetiRoadmap.PELModuli
@@ -325,6 +326,14 @@ theorem siegelGram_det (d : Fin g → ℤ) : (siegelGram d).det = (∏ i, d i) ^
 example : (siegelGram ![(1 : ℤ), 2]).det = 4 := by
   sorry
 
+/-- The type `(1,p)` Gram determinant is `p²` (M0.20's non-self-dual integral reference Check). -/
+example (p : ℤ) : (siegelGram ![(1 : ℤ), p]).det = p ^ 2 := by
+  sorry
+
+/-- The determinant valuations in M0.20's type `(1,p)` Check exclude every rational multiplier. -/
+example (v : ℤ) : 4 * v + 2 ≠ 0 := by
+  omega
+
 /-- The determinant of the genus-zero alternating form is one. -/
 example : (siegelGram (g := 0) (fun _ => (1 : ℤ))).det = 1 := by
   sorry
@@ -346,7 +355,16 @@ theorem siegel_neg (x : Fin g ⊕ Fin g → ℝ) (hx : x ≠ 0) :
 example : Matrix.J (Fin 1) ℝ *ᵥ (Pi.single (Sum.inl 0) 1) = Pi.single (Sum.inr 0) 1 := by
   sorry
 
+/-- In genus one the Riemann input `E = −ψ` has `E(Je,e) = 1` (M3.5's sign Check). -/
+example : (-siegelGram (fun _ : Fin 1 => (1 : ℤ))) (Sum.inr 0) (Sum.inl 0) = 1 := by
+  sorry
+
 end Siegel
+
+/-- A rank-one CM torus has positive real multiplier, so its orbit has no negative-sign component
+(M3.5's CM torus Check). -/
+example (z : ℂ) (hz : z ≠ 0) : 0 < (z * star z).re := by
+  sorry
 
 section Hilbert
 
@@ -619,7 +637,11 @@ the Albert classification `albertTypes`; `Order.disc` and its maximality theorem
 scheme and its structure `similitudeGroupStructure`; Galois cohomology `galoisH1`, `ker1` and their
 finiteness and Hasse statements; `hodgeStructureOfDatum`; the Shimura datum `toShimuraDatum`;
 signatures; `detPoly_classifies`; the reflex field and `reflexField_eq_shimura`;
-`detCondition_splitting`; `selfDualLattice_unique`; `cmTorus_integralH1_trivial`; `bpsSignatureConstancy`; hermitian and
+`detCondition_splitting`;
+`selfDualLattice_unique` (for `D : PIntegralPELDatum p`, comparing its self-dual `D.Λ₀` in
+`V ⊗ ℚ_p` with another self-dual lattice; the integral specialization uses `toPIntegral` and
+`p ∤ I_bad · Disc · [L^# : L]`, retaining the Case-D hypotheses of M0.20);
+`cmTorus_integralH1_trivial`; `bpsSignatureConstancy`; hermitian and
 skew-hermitian spaces, `cmTorus`, `rankOneSkewHermitian_classification`; `CMField.reflexiveClosure`;
 `τ`-parts. Layer M1: `HasSignatureType`, `PELDatum.Hom`, `PELModuli.forgetLevel`,
 `heckeCorrespondence`, `mapOfDatumFunctor`, `toSiegelFunctor`; `QuasiIsogeny`, `BoxPolarization`, `PELTriple`, unitary `O_F`-abelian schemes,

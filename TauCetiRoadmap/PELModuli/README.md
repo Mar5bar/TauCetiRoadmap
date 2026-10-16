@@ -271,7 +271,7 @@ the export of M6.10.
   `α ∘ h ∘ g`, so it is translation by `hg`.
 - **Rational forms and uniformization.** Complex uniformization uses the full similitude group and
   the union over the classes of `ker¹(ℚ, G)`. On the full real orbit `X` of `h` the Riemann form is
-  `ε(h′) q_g ψ`: the sign `ε(h′) ∈ {±1}` makes it positive on the component of `h′`, and the positive
+  `E = −ε(h′) q_g ψ`: the sign `ε(h′) ∈ {±1}` makes `E(h′(√−1)x, x) > 0` for `x ≠ 0`, and the positive
   rational `q_g` makes `q_g c(g)` a unit of `Ẑ` on the chosen lattice. For `γ ∈ G(ℚ)`,
   `ε(γh′) = sign(c(γ)) ε(h′)` and `q_{γg} = q_g/|c(γ)|`, so the family is `G(ℚ)`-equivariant.
 - **SV3.** A Shimura-datum or canonical-model statement additionally requires that the projection
@@ -1108,17 +1108,23 @@ M0.18.
 
 Prove `selfDualLattice_unique`. Let `p ∤ I_bad · Disc`. (1) In Cases A and C, two self-dual symplectic
 `O ⊗ ℤ_p`-lattices of the same multi-rank are isomorphic as symplectic modules, up to the scalar
-identification `ℤ_p(1) ≅ ℤ_p`. (2) Let `(V′, ⟨·,·⟩′)` be a nondegenerate skew-hermitian
-`B ⊗ ℚ_p`-module isomorphic to `V` as a `B`-module and `Λ′ ⊆ V′` self-dual; in Case D assume `p ≠ 2`
+identification `ℤ_p(1) ≅ ℤ_p`. (2) Fix `D : PIntegralPELDatum p` from M0.6, with algebra `B`,
+rational module `V`, order `O_B`, pairing `⟨·,·⟩` and similitude group `G`. Put
+`V_p = V ⊗ ℚ_p` and `Λ = D.Λ₀`, an `O_B ⊗ ℤ_p`-stable self-dual lattice in `V_p`.
+Let `(V′, ⟨·,·⟩′)` be a nondegenerate skew-hermitian
+`B ⊗ ℚ_p`-module isomorphic to `V_p` as a `B ⊗ ℚ_p`-module, with an
+`O_B ⊗ ℤ_p`-stable self-dual lattice `Λ′ ⊆ V′`; in Case D assume `p ≠ 2`
 and that the class of `V′` in `H¹(ℚ_p, G)` maps trivially to `H¹(ℚ_p, G/G°)`. Then there is an
-isomorphism of skew-hermitian modules `V ≅ V′` carrying `Λ` to `Λ′` (Kottwitz, Lemma 7.2,
+isomorphism of skew-hermitian `B ⊗ ℚ_p`-modules `V_p ≅ V′` carrying `Λ` to `Λ′` (Kottwitz, Lemma 7.2,
 pp. 395–396). (3) Consequently, with `p ≠ 2` in Case D, `G(ℚ_p)` acts transitively on the
-`O_B`-lattices in `V ⊗ ℚ_p` that are self-dual up to a scalar in `ℚ_p^×` (Kottwitz, Corollary 7.3,
-p. 396; Lan, Remark 1.4.4.2, p. 168). The proof applies Morita equivalence at the unramified maximal
+`O_B ⊗ ℤ_p`-lattices in `V_p` that are self-dual up to a scalar in `ℚ_p^×` (Kottwitz, Corollary 7.3,
+p. 396; Lan, Remark 1.4.4.2, p. 168). For an integral datum with faithful rationalized action,
+the specialization `Λ = L ⊗ ℤ_p` requires `p ∤ I_bad · Disc · [L^# : L]` and uses
+`IntegralPELDatum.toPIntegral` (M0.6). The proof applies Morita equivalence at the unramified maximal
 order to the order-linear forms (not only to the underlying alternating matrices), uses the local
 hermitian and skew-hermitian classification in Cases A and C, keeps `p ≠ 2` and the component class
 in Case D, and lifts the residual isometry to the completed lattices by smoothness. *Needs:* M0.3,
-M0.4, M0.8; M0.9 (local Galois cohomology classes, for the hypothesis of (2)).
+M0.4, M0.6, M0.8; M0.9 (local Galois cohomology classes, for the hypothesis of (2)).
 
 **Checks.**
 
@@ -1127,6 +1133,12 @@ M0.4, M0.8; M0.9 (local Galois cohomology classes, for the hypothesis of (2)).
 - `selfDualLattice_scaled`: `pL` is self-dual for the form scaled by `p⁻²`, so it lies in the same
   orbit; the lattice spanned by `e₁, f₁, e₂, pf₂` in `ℚ_p⁴` (elementary divisors `1, p`) is self-dual
   for no scaling of the form, so it is in no orbit of self-dual lattices.
+- For odd `p`, take `B = ℚ`, `O = ℤ`, `L = ℤe₁ ⊕ ℤf₁ ⊕ ℤe₂ ⊕ ℤf₂`, with
+  `ψ(e₁,f₁) = 1`, `ψ(e₂,f₂) = p` and all other cross-pairings zero. Although
+  `I_bad = Disc = 1`, the completed lattice has `Λ^#/Λ ≅ (ℤ/p)²` and Gram determinant `p²`.
+  The lattice `Λ′ = ℤ_p e₁ ⊕ ℤ_p f₁ ⊕ ℤ_p e₂ ⊕ ℤ_p(p⁻¹f₂)` is self-dual in the same rational
+  space. A similitude carrying `Λ` to `Λ′` would force `0 = 4v_p(c) + 2`, impossible for
+  `v_p(c) ∈ ℤ`. Thus the integral specialization needs the dual-index factor.
 
 ### M0.21 Signature constancy above a prime
 
@@ -2587,9 +2599,10 @@ comparisons for different such lattices are in the rational isogeny category.
 Here `ε(h′) ∈ {±1}` makes `ε(h′)ψ(x, h′(√−1)x) > 0` on the component of `h′`, and `q_g > 0` is rational
 with `q_g c(g) ∈ Ẑ^×`. The family is `G^{(i)}(ℚ)`-equivariant (`analyticFamily_equivariant`: `γ` maps
 `A_{h′,g}` to `A_{γh′γ⁻¹, γg}` through `γ : V_ℝ → V_ℝ`, with `ε(γh′) = sign(c(γ))ε(h′)` and
-`q_{γg} = q_g/|c(γ)|`, so the polarization is preserved; the raw form `ψ` on every component would be
-negative on half of them). It is built from the relative Riemann theorem for analytic families and the
-Siegel family (AbelianSchemesAndArithmeticModuli A5, whose Riemann-form convention needs the input
+`q_{γg} = q_g/|c(γ)|`, so the polarization is preserved; the raw PEL form `ψ(x, h′(√−1)x)` is
+negative on components with `ε(h′) = −1`, when such components exist). It is built from the relative
+Riemann theorem for analytic families and the Siegel family (AbelianSchemesAndArithmeticModuli A5,
+whose Riemann-form convention needs the input
 `E = −ε(h′) q_g ψ`) and descends to `Q_K^{(i),an} = G^{(i)}(ℚ) ∖ (X × G(𝔸_f)/K)` by M3.3. Define
 `PELModuli.uniformization`: the morphism of complex analytic spaces
 `u^{(i)} : Q_K^{(i),an} → (M_K^ad ⊗_{F₀} ℂ)^an` given by the universal property of the analytification
@@ -2624,6 +2637,11 @@ ShimuraVarieties Layers 0–1; SchemeAndStackFoundations Layer 1; Mathlib `Upper
   period-domain family with action, polarization and level.
 - `uniformization_negative_component`: replacing `J` by `−J` makes `ψ(x, Jx)` negative for all
   `x ≠ 0`; negating `ψ` restores positivity, which is why `ε(h′)` is chosen componentwise.
+- In genus one with `ψ(e,f) = 1`, `Je = f` and `ε = q_g = 1`, the Riemann input
+  `E = −ψ` has `E(Je,e) = 1`; the positive-sign choice has `ψ(Je,e) = −1`.
+- For a rank-one imaginary-quadratic CM torus, `G(ℝ) = ℂ^×` has multiplier
+  `c(z) = z z̄ = |z|² > 0`. Its conjugacy orbit `X` is a point and `ε` is constantly `+1`;
+  there is no negative-multiplier component.
 
 ### M3.6 Algebraization of the uniformization
 
