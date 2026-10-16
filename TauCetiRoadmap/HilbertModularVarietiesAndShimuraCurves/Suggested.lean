@@ -324,6 +324,11 @@ example : (!![1, 1; 0, 1] * !![1, 0; 1, 1] : Matrix (Fin 2) (Fin 2) ℤ) ≠
 
 /-! ## Layer H6: paired torsion twists -/
 
+-- In the quadratic branch of H6.5, q_v = 343 is 1 mod 19 even though the
+-- two beta residues 7 and 11 differ. The prescribed characters can both be trivial.
+example : (343 : ZMod 19) = 1 ∧ (7 : ZMod 19) ≠ 11 := by
+  decide
+
 -- `hilbertSelfExtension_unipotent`: a nonscalar self-extension automorphism has square
 -- determinant; its off-diagonal entry need not vanish.
 example {k : Type*} [Field k] (b : k) (hb : b ≠ 0) :
@@ -335,6 +340,14 @@ example {k : Type*} [Field k] (b : k) (hb : b ≠ 0) :
     have h01 := congrArg (fun M : Matrix (Fin 2) (Fin 2) k => M 0 1) h
     apply hb
     simpa using h01
+
+/-! ## Layer R18.1: weighted CM reflex field -/
+
+-- For F = ℚ the two nearby types sum to weight one on each embedding of E.
+-- Every permutation preserves these weights, giving the minimal reflex field ℚ.
+example (σ : Equiv.Perm (Fin 2)) :
+    (fun _ : Fin 2 => (1 : ℕ)) ∘ σ = (fun _ : Fin 2 => (1 : ℕ)) := by
+  rfl
 
 /-! ## Layer R18.5, part 1: local Drinfeld geometry and auxiliary PEL factors -/
 

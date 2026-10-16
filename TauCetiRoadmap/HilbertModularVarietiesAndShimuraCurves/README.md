@@ -1378,7 +1378,7 @@ Its API:
 - (C1) **Residual data.** l is an odd prime, `k/𝔽_l` is finite, and `ρ̄:G_K→GL₂(k)` is continuous with `det ρ̄=ε` globally, and supplied with a perfect `G_K`-equivariant alternating pairing `a_λ:∧²V_λ≅k(1)`. Thus `det ρ̄(c)=−1` for every complex conjugation c. At each place v|l there is a continuous character `χ_v:G_v→k^×` such that `ρ̄|_{G_v}` is an extension of `χ_v` by `εχ_v⁻¹`; the extension class may be zero. Taylor also assumes that `ρ̄` has insoluble image, but that is used only for the irreducibility of the global twist, not for local points.
 - (C2) **Weil numbers at l.** Let `ζ` be a primitive `(#k^×)-th` root of unity and `π_l=(1+√(1−4l))/2`. Then `π_l` is a root of `X²−X+l`, so it is an ordinary Weil l-number. Put `N₀=ℚ(ζ,√(1−4l))`. The prime l is unramified in `N₀` and its residue fields there are isomorphic to k; fix `λ₀|l` in `N₀` with `O_{N₀}/λ₀≅k`, and choose the square root `√(1−4l)` so that `π_l` is a unit at `λ₀`. Since `π_lπ_l^c=l` and `π_l+π_l^c=1`, exactly one of `π_l, π_l^c` lies in `λ₀`; with the other choice every `β_v` below would lie in `λ₀`, and no `b_v` could match the nonzero residue `χ_v(φ_v)`. For v|l choose a totally tamely ramified Galois extension `F̃_v/K_v` of minimal degree over which `χ_v` is unramified, and include this field and a Frobenius lift `φ_v∈G_{F̃_v}` in the input data. Require transport of the construction between choices after passage to a common extension. Put `f_v=[k(v):𝔽_l]` and `q_v=#k(v)`. Put `β_v=ζ^{b_v}π_l^{f_v}`, with `b_v` chosen so that `β_v≡χ_v(φ_v) mod λ₀`; then `β_vβ_v^c=q_v`. Let `χ̃_v:W_{K_v}→N₀^×` be the Teichmüller lift of `χ_v` when `χ_v²=1`. When `χ_v²≠1`, let `χ̃_v` be the character that sends `φ_v` to `β_v` and is the Teichmüller lift of `χ_v` on inertia.
 - (C3) **The auxiliary prime.** `p≠l` is an odd prime satisfying four conditions. At every `w|p, ρ̄` is unramified and `ρ̄(Frob_w)` has distinct eigenvalues, which lie in k. p splits completely in the Hilbert class field of `N₀`. p splits completely in K, so that `K_w=ℚ_p`; the global determinant condition gives `det ρ̄(Frob_w)=p` in k. Finally p is prime to `β_v−β_v^c` for every v|l. Fix a prime `℘₀` of `N₀` above p. For each w|p choose `α′_w` in the ring of integers of `ℚ(π_l)`, of norm p and prime to `℘₀`. It exists because p splits completely in the Hilbert class field of `ℚ(π_l)`, which lies in that of `N₀`; the order `ℤ[π_l]` equals that ring of integers only when `1−4l` is squarefree. Then put `α_w=ζ^{a_w}α′_w` with `a_w` chosen so that `α_w` is congruent modulo `λ₀` to an eigenvalue of `ρ̄(Frob_w)`.
-- (C4) **The CM character.** L/K is a totally imaginary quadratic extension not contained in `K(ζ_p)`, in which each v|l splits as `v₁v₁^c` and each w|p as `w₁w₁^c`. The character `ψ:G_L→(N̄_{0,℘₀})^×` is continuous, with `det Ind_{G_L}^{G_K}ψ=ε_p`. Its reduction `ψ̄` agrees with `χ̃_v` modulo `℘₀` on `W_{L_{v₁}}=W_{K_v}`. The restriction `ψ|_{G_{w₁}}` is unramified, and `ψ̄` sends `Frob_{w₁}` to `α_w mod ℘₀`. Taylor's Lemma 1.1 constructs such L and `ψ`. Write `ψ̄_{v₁}` and `ψ̄_{v₁^c}` for the restrictions of `ψ̄` to the two places above v, both viewed as characters of `G_v`; then `ψ̄_{v₁}ψ̄_{v₁^c}=ε̄_p` on `G_v`, and `ψ̄_{v₁}≠ψ̄_{v₁^c}` because `p∤β_v−β_v^c`.
+- (C4) **The CM character.** L/K is a totally imaginary quadratic extension not contained in `K(ζ_p)`, in which each v|l splits as `v₁v₁^c` and each w|p as `w₁w₁^c`. The character `ψ:G_L→(N̄_{0,℘₀})^×` is continuous, with `det Ind_{G_L}^{G_K}ψ=ε_p`. Its reduction `ψ̄` agrees with `χ̃_v` modulo `℘₀` on `W_{L_{v₁}}=W_{K_v}`. The restriction `ψ|_{G_{w₁}}` is unramified, and `ψ̄` sends `Frob_{w₁}` to `α_w mod ℘₀`. Taylor's Lemma 1.1 constructs such L and `ψ`. Write `ψ̄_{v₁}` and `ψ̄_{v₁^c}` for the restrictions of `ψ̄` to the two places above v, both viewed as characters of `G_v`; then `ψ̄_{v₁}ψ̄_{v₁^c}=ε̄_p` on `G_v`, and, when `χ_v²≠1`, the condition `p∤β_v−β_v^c` gives `ψ̄_{v₁}≠ψ̄_{v₁^c}` by evaluating on `φ_v`. When `χ_v²=1`, put `a=ψ̄_{v₁}`. Then `a²=1` and `ψ̄_{v₁^c}=ε̄_p a⁻¹`, so `ψ̄_{v₁}≠ψ̄_{v₁^c}` if and only if `q_v≢1 mod p`, since `ε̄_p` is unramified at v with arithmetic Frobenius value `q_v mod p`. Distinctness is not required for local points.
 - (C5) **The coefficient CM field.** `N/N₀` is a Galois CM extension in which the primes above l split and the primes above p are unramified, and `℘|℘₀` is a prime of N such that `ψ̄` takes values in `O_N/℘`. Fix `λ|λ₀` in N and let M be the maximal totally real subfield of N, with `λ_M=λ∩O_M` and `℘_M=℘∩O_M`. Since `√(1−4l)∈N₀` is not real, `N=M(√(1−4l))`. The number `1−4l` is a square at every prime above l (it is `≡1 mod l`) and above p (p splits in `ℚ(√(1−4l))`), so `λ_M` and `℘_M` split in N, and `O_M/λ_M≅k`.
 - (C6) **Ordered class condition.** The norm map from the class group of N to the narrow class group of M is surjective. This holds whenever N/M is ramified at some finite place, because the narrow Hilbert class field of M then meets N only in M. It is used in (O2) and (O3) to make the polarization module isomorphic to `O_M` as an ordered module. A weaker condition suffices: the narrow class of the polarization module produced there lies in the image of the norm.
 
@@ -1396,7 +1396,7 @@ An M-HBAV over a field is a triple (A, i, j). Here A is an abelian variety of di
   The `λ_M`-torsion is then `ρ̄|_{G_v}`. The `℘_M`-torsion is étale. It splits into the ℘-line and the `℘^c`-line: Frobenius acts on them by `β_v` and `β_v^c`, and inertia by the Teichmüller lift of `χ_v` and its inverse, through the descent datum `γ` with `γγ^c=1`. These are `ψ̄_{v₁}` and `ψ̄_{v₁^c}=ε̄_pψ̄_{v₁}⁻¹`.
 
 - (O3) **The auxiliary characteristic: w|p.** There is an M-HBAV over `K_w=ℚ_p` with good ordinary reduction, `A_w[λ_M]≅ρ̄|_{G_w}` and `A_w[℘_M]≅ψ̄_{w₁}⊕ψ̄_{w₁^c}`. Taylor leaves this case to the reader. The route is (O2) with `α_w` in place of `β_v` and no descent step: Honda–Tate over `𝔽_p` with Frobenius `α_w`, the Serre tensor to `O_N`, the class adjustment by (C6), and the canonical Serre–Tate lift, the one with split extension class. The `λ_M`-torsion is unramified with Frobenius eigenvalues `α_w` and `α_w^c mod λ`. These are the two distinct eigenvalues of `ρ̄(Frob_w)`, since `α_wα_w^c=p=det ρ̄(Frob_w)` in k. The `℘_M`-torsion is the sum of the étale and multiplicative parts of the canonical lift. Because `α′_w` is prime to `℘₀`, the étale part has Frobenius `α_w mod` ℘ and is `ψ̄_{w₁}`; the multiplicative part is `ε̄_pψ̄_{w₁}⁻¹=ψ̄_{w₁^c}`.
-- (O4) **Matching the fixed pairings.** Each HBAV of (O1)–(O3) gives a `K_x`-point of X once the torsion identifications carry `a_λ` and `a_℘` to the Weil pairings. A residual module that is a direct sum of two characters has diagonal automorphisms of every determinant, so every alternating form on it is matched. This covers the `℘_M`-parts, `ρ̄|_{G_w}`, and `ρ̄|_{G_v}` when it is split. On a nonsplit `λ_M`-part at v|l every automorphism has square determinant. For distinct graded characters it is scalar; for a self-extension it has the form `aI+bN`, where `N²=0`, with determinant a². The condition `χ_v²=1` does not force distinct graded characters when `K_v` contains `μ_l`. There one rescales the chosen extension class by a unit u: q̄ in (O1), the λ-component of x in (O2). The module is unchanged up to an isomorphism of determinant u, the Weil pairing on its graded pieces is unchanged, and so the pulled-back form is multiplied by u. Taylor compresses this step into the remark that the alternating forms are equivalent. Together with the real points of §H6.4, this gives `X(K_x)≠∅` at every place x of K above l, p and `∞`.
+- (O4) **Matching the fixed pairings.** Each HBAV of (O1)–(O3) gives a `K_x`-point of X once the torsion identifications carry `a_λ` and `a_℘` to the Weil pairings. A residual module with a chosen direct-sum decomposition into two character lines has diagonal automorphisms of every determinant, including when the characters coincide, so every alternating form on it is matched. This covers the `℘_M`-parts, `ρ̄|_{G_w}`, and `ρ̄|_{G_v}` when it is split. On a nonsplit `λ_M`-part at v|l every automorphism has square determinant. For distinct graded characters it is scalar; for a self-extension it has the form `aI+bN`, where `N²=0`, with determinant a². The condition `χ_v²=1` does not force distinct graded characters when `K_v` contains `μ_l`. There one rescales the chosen extension class by a unit u: q̄ in (O1), the λ-component of x in (O2). The module is unchanged up to an isomorphism of determinant u, the Weil pairing on its graded pieces is unchanged, and so the pulled-back form is multiplied by u. Taylor compresses this step into the remark that the alternating forms are equivalent. Together with the real points of §H6.4, this gives `X(K_x)≠∅` at every place x of K above l, p and `∞`.
 
 Nothing is asserted at other places, for other residual modules, or for local modules outside the shapes in (C1).
 
@@ -1407,6 +1407,7 @@ Nothing is asserted at other places, for other residual modules, or for local mo
 - Over `K=ℚ`, `l=3`, `ρ̄=diag(εδ,1)` with δ the even quadratic character of ℚ(√13) has the stated local shape at 3 but fails the global pairing input `det ρ̄=ε`.
 - `hilbertSelfExtension_unipotent`: Over ℚ₃(ζ₃), a nonsplit unipotent self-extension has nonscalar automorphisms `I+bN`, all of determinant one; arbitrary alternating pairings still require extension-class rescaling.
 - For a ramified quadratic character over ℚ₅, both ℚ₅(√5) and ℚ₅(√10) are minimal-degree tame choices killing its ramification; neither is a distinguished smallest field.
+- Take `l=7`, `k=𝔽₇`, `K=ℚ(α)` with `α³−3α+1=0`, `p=19`, and `ρ̄=diag(ε̄₇,1)`. The polynomial has discriminant 81, no root modulo 7 and roots 3, 7, 9 modulo 19; thus K is totally real, 7 is inert and 19 splits completely. At each `w|19` the residual eigenvalues are 5 and 1. Here `χ_v=1`, `q_v=343≡1 mod 19`, and `N₀=ℚ(√−3)` has class number one with 19 split. Choose `π₇=(1+3√−3)/2` unit at `λ₀` and `b_v=0`. Then `β_v=−10−9√−3` has distinct reductions 7 and 11 at the primes over 19, yet `ψ̄_{v₁}=ψ̄_{v₁^c}=1`. The quadratic branch therefore need not have distinct characters even under (C3); rescaling either chosen line still adjusts any alternating pairing.
 
 (Source: [Tay02](#references) §1, pp.6–10, for the residual data, the Weil numbers and the auxiliary prime, Lemma 1.1 and the choice of `L, ψ, N` and M; Lemma 1.2 and proof, pp.10–12; Lemma 1.3, p.12; and the moduli space and its local points, p.13. [Rap78](#references) §§2.9.1–2.9.6, pp.273–274, for the Tate HBAV, its torsion and its polarization module.)
 
@@ -1582,9 +1583,15 @@ Its API:
 
 ### R18.1.6 Weighted CM reflex field of the bridge
 
-**Theorem** (`yzBridgeReflex`). The reflex field F′ of (G′, h′), and likewise(G″, h″), is the field fixing the weighted CM type `Φ₁+Φ₂=2(Φ₁∩Φ₂)+τ₁+τ₂`. It contains `τ(F)`, because a stabilizer fixes the unique weight-one pair and hence its restriction to F. Equality `F′=F` is not asserted. In Carayol’s special `E=F(√λ), λ∈ℚ<0`, with the displayed nearby types, `F′=E` in the chosen embedding.
+**Theorem** (`yzBridgeReflex`). The reflex field F′ of (G′, h′), and likewise(G″, h″), is the field fixing the weighted CM type `Φ₁+Φ₂=2(Φ₁∩Φ₂)+τ₁+τ₂`. It contains `τ(F)`, because a stabilizer fixes the unique weight-one pair and hence its restriction to F. Equality `F′=F` is not asserted. In Carayol’s special `E=F(√λ), λ∈ℚ<0`, with the displayed nearby types and `g=[F:ℚ]`, the minimal reflex field is `F′=ℚ` when `g=1`, and `F′=E` in the chosen embedding when `g>1`. In degree one `Φ₁∩Φ₂=∅` and both embeddings of E have weight one, so the whole absolute Galois group fixes the weighted type. Base change from `ℚ` to E remains available.
 
-*Proof route.* Compute the cocharacter multiplicities on E through the two nearby types. Identify the Galois stabilizer of the weighted set and its unique weight-one restriction. Compute the special quadratic-over `ℚ` case separately; preserve the inclusion `τ(F)⊂F′` in the comparison maps.
+*Proof route.* Compute the cocharacter multiplicities on E through the two nearby types. Identify the Galois stabilizer of the weighted set and its unique weight-one restriction. For `g>1` in the special case, a weight-two embedding exists; preserving it forces the chosen embedding of `ℚ(√λ)` to be fixed. Together with the unique weight-one restriction to F, this gives stabilizer field E. For `g=1` the weight function is constant one and its stabilizer field is `ℚ`. Preserve the inclusion `τ(F)⊂F′` in the comparison maps.
+
+**Checks.**
+
+- For `F=ℚ` and `E=ℚ(i)`, the types `{τ₁}` and `{τ₂}` have empty intersection; their sum has weights `(1,1)`, invariant under exchange of the two embeddings, and minimal reflex field `ℚ`.
+- For `F=ℚ(√5)` and `E=F(i)` with the special nearby types, the weights over the active real place are `(1,1)` and over the other real place `(2,0)`; the stabilizer fixes both `τ(F)` and i, giving `F′=E`.
+- In degree one, a compact quaternionic curve of discriminant 6 still has bridge reflex field `ℚ`; quaternionic division does not remove the degree-one exception.
 
 (Source: [YZ18](#references) Proposition 3.1, p.551; special case §3.2, p.552; §5.1, p.571.)
 
@@ -1615,9 +1622,15 @@ Its API:
 
 ### R18.1.8 Quaternionic and PEL connected comparisons
 
-**Comparison** (`yzComponentComparison`). After base change to an algebraic closure containing F′ and choosing compatible identity components, the quaternionic tower component `X⁰` and the PEL component `X′⁰` have the YZ Proposition 4.2 isomorphism, intertwining the identified effective positive-norm stabilizers through `G_B→G″`. For ideals n supported at p and prime to `d_B`, and sufficiently small `U^p` depending on n, there is a matching `U′^p` and a finite-level connected comparison `X_{n, U^p}⁰≅X′_{n, U′^p}⁰`. Its field and descent maps must be specified: the printed Proposition 4.4 says “over K” without defining K in this passage; construct its local field and descent datum from Carayol’s connected moduli comparison.
+**Comparison** (`yzComponentComparison`). After base change to an algebraic closure containing F′ and choosing compatible identity components, the quaternionic tower component `X⁰` and the PEL component `X′⁰` have the YZ Proposition 4.2 isomorphism, intertwining the identified effective positive-norm stabilizers through `G_B→G″`. For ideals n supported at p and prime to `d_B`, and sufficiently small `U^p` depending on n, there is a matching `U′^p` and a finite-level connected comparison `X_{n, U^p}⁰≅X′_{n, U′^p}⁰`. Its field and descent maps must be specified: the printed Proposition 4.4 says “over K” without defining K in this passage; construct its local field and descent datum from Carayol’s connected moduli comparison. The ambient canonical models use `τ(F)⊂F′` from §R18.1.6; in degree one both are `ℚ`. Replacing this base by E is an additional base change; the selected connected components still require their own field of definition.
 
 *Proof route.* Identify the connected adjoint domains and the effective positive-norm arithmetic actions, preserving all central quotients. Apply the finite-level subgroup comparison with n prime to `d_B` and choose `U^p` small enough for that n. Descend a finite-type comparison only after choosing its actual field of definition and checking the required local/unramified field used by R18.2; do not invent K from the notation.
+
+**Checks.**
+
+- For `F=ℚ` and `E=ℚ(i)`, both ambient canonical models have base `ℚ`; adjoining i is not required by the bridge reflex field.
+- A selected geometric connected component need not descend to the reflex field; the comparison retains its field of definition even when `F′=ℚ`.
+- In degree one at p, the minimal reflex completion is `ℚ_p`; a comparison made after extending to a chosen completion of E carries that additional base change explicitly.
 
 (Source: [YZ18](#references) Propositions 4.2 and 4.4, p.563; [Car86](#references) notation following §0, p.155, §§4.5.1–4.5.5, pp.188–189.)
 
@@ -1625,9 +1638,15 @@ Its API:
 
 ### R18.1.9 Torus bridge for quaternionic towers
 
-**Comparison** (`yzTorusBridge`). Let `Ψ=Φ₁∩Φ₂` and Y/F′ be the zero-dimensional CM torus Shimura tower for `Res_{E/ℚ}G_m` with `h_Ψ(z)=(1, z⁻¹,…, z⁻¹)`. The product datum map induces `X×_FY→X″` over F′, and the tower comparison `(X×_FY)/Δ(A_{F, f}×)≅X″` uses the twisted `diagonalz↦(z, z⁻¹)`. At finite levels use the image U″ of `U×J` and the induced surjective map; an identical finite quotient description at all levels is not automatic. The Tate-module tensor and integral extensions belong to R18.2.
+**Comparison** (`yzTorusBridge`). Let `Ψ=Φ₁∩Φ₂` and Y/F′ be the zero-dimensional CM torus Shimura tower for `Res_{E/ℚ}G_m` with `h_Ψ(z)=(1, z⁻¹,…, z⁻¹)`. The product datum map induces `X×_FY→X″` over F′, and the tower comparison `(X×_FY)/Δ(A_{F, f}×)≅X″` uses the twisted `diagonalz↦(z, z⁻¹)`. At finite levels use the image U″ of `U×J` and the induced surjective map; an identical finite quotient description at all levels is not automatic. For `g=1`, `Ψ=∅`, the torus cocharacter is trivial and Y has reflex field `ℚ`, so this product comparison is over `ℚ`. The Tate-module tensor and integral extensions belong to R18.2.
 
 *Proof route.* Apply the generic torus datum/canonical-model supplier to `Ψ` and form the product over the common reflex field. Compute the kernel of `B××E×→G″` as the twisted diagonal `F×` and compare the complex tower quotients including central closures. Check finite-level image groups separately; pass the specific map to R18.2 for the Tate/p-divisible tensor comparison.
+
+**Checks.**
+
+- In degree one `Ψ=∅` gives the trivial cocharacter, fixed by every Galois automorphism, so Y has reflex field `ℚ`.
+- For `F=ℚ` and `E=ℚ(i)`, the product datum map is over `ℚ`; its base change to `ℚ(i)` does not change the minimal reflex field.
+- A scalar pair `(z,z⁻¹)` maps to the identity in G″ also in degree one; the pair `(2,2)` instead has nonidentity image 4.
 
 (Source: [YZ18](#references) §5.1, pp.571–572, product map and twisted diagonal quotient.)
 
@@ -2350,11 +2369,17 @@ The quotient of `ω_{H^t}` by `J·ω_{H^t}` (the raw τ-quotient) is not used: w
 
 ### R18.2.15 Integral torus-bridge model
 
-**Theorem** (`BridgeIntegralModel`). Over K′, the completed maximal unramified reflex extension at v′, the bridge identifies `X″₁` with the quotient of `X₁×Y₁`. Extending `Y₁` by copies of Spec `O_K′` transports the model of `X₁` to a flat model of `X″₁` and its open-and-closed `X′₁` components. It is smooth if `B_v` splits and has stable Mumford fibres if `B_v` is division; ramified K′/K base change need not preserve regularity.
+**Theorem** (`BridgeIntegralModel`). Over `K′=(F′_{v′}^{ur})^`, where F′ is the minimal bridge reflex field of §R18.1.6 and `v′|v`, the bridge identifies `X″₁` with the quotient of `X₁×Y₁`. Extending `Y₁` by copies of Spec `O_K′` transports the model of `X₁` to a flat model of `X″₁` and its open-and-closed `X′₁` components. It is smooth if `B_v` splits and has stable Mumford fibres if `B_v` is division; ramified K′/K base change need not preserve regularity.
 
-The bridge’s effective quotient and descent data are supplied.
+For `g=1`, `F′=ℚ` and `K′=(ℚ_p^{ur})^=K`; passing to a completion of E is an additional base change. The bridge’s effective quotient and descent data are supplied.
 
 *Proof route.* Extend the zero-dimensional unramified torus components. Descend the product model along the effective diagonal action. Compute the completed node after ramified base change.
+
+**Checks.**
+
+- For `F=ℚ`, `E=ℚ(i)` and an indefinite B of discriminant 6, at any p the minimal bridge completion has `K′=K=(ℚ_p^{ur})^`.
+- If p splits in E in degree one, each completion of E at p is already `ℚ_p`; choosing one does not enlarge K′.
+- Under a further ramified extension with `π=uϖᵉ`, `e>1`, a node `xy=π` becomes `xy=uϖᵉ`; its loss of regularity comes from that extension, not from a nonexistent degree-one reflex extension.
 
 (Source: [YZ18](#references) §5.2, pp.573–574.)
 
@@ -3566,7 +3591,7 @@ An actual common E-model, after the coefficient enlargement allowed by §R17.3.8
 
 **Checks.**
 
-- For `F=ℚ` and B of discriminant pq, exchanging ∞ and q gives D of discriminant p; its definite realization uses the general-field §§R18.3.1–R18.3.3 and R18.3.19–R18.3.22.
+- For `F=ℚ`, B of discriminant 6 is split at `q=5`; exchanging 5 and ∞ gives a definite D of finite discriminant 30. The comparison uses 5-Iwahori level on B and maximal division level on D, with matching levels elsewhere.
 - A principal-series `π_q` contributes no q-division definite eigensystem; a Steinberg twist has a division-character partner when its maximal-level invariants are nonzero.
 - A rank-two Galois factor in H¹ prevents an unqualified `H⁰≅H¹` statement.
 - If an integral endomorphism becomes zero over E, torsion-freeness makes it zero over O; on `O/ϖ` this implication fails, since tensoring with E kills the whole module.
@@ -3640,7 +3665,7 @@ O is the ring of integers of a finite extension of `ℚ_l`, and the algebraic co
 - Constant weight-two coefficients select weight-two discrete series at the split real place.
 - A two-dimensional automorphic level-invariant factor with a rank-two Galois multiplicity factor gives four-dimensional isotypic H¹.
 - The compact comparison uses the supplier specialization of §R18.4.25a and the central-torus comparison of §R18.4.24b; for real quadratic F the intervening ALS space has a circle fibre.
-- For `F=ℚ` and B of discriminant pq, the definite bridge uses D of discriminant p and requires no even-degree hypothesis.
+- For `F=ℚ`, B of discriminant 6 and `q=5`, the early definite bridge uses D of finite discriminant 30, with 5-Iwahori level on B and maximal division level on D; it requires no even-degree hypothesis.
 
 (Source: [CDN20](#references) §5.2.1, pp.41–42, Proposition 5.2.)
 
@@ -3724,7 +3749,7 @@ O is the ring of integers of a finite extension of `ℚ_l`, and the algebraic co
 
 **Checks.**
 
-- For `F=ℚ`, B of discriminant pq and D⁰ of discriminant p are compared by exchanging q and ∞.
+- For `F=ℚ` and distinct finite primes p, q, B of discriminant pq and definite D⁰ of finite discriminant p are compared by exchanging q and ∞. This is the reverse finite-place direction from §R18.4.24: use maximal division level on B at q and q-Iwahori level on D⁰, selecting an unramified Steinberg twist on the split side.
 - At the exchanged finite place a Steinberg twist and its division character are different local representations with matched Hecke data elsewhere.
 - A rank-two curve Galois multiplicity factor prevents identification of the full definite H⁰ with full curve H¹.
 
