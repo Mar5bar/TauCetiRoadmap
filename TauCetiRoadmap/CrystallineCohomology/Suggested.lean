@@ -270,6 +270,19 @@ example (A : Type u) [CommRing A] :
 /-- The collision in the preceding negative control persists in characteristic two. -/
 example : (-1 : ZMod 2) ^ 0 = (-1 : ZMod 2) ^ 2 := by decide
 
+/-- The two-element idempotent chart over `ZMod 2` is already a log ring but is not integral:
+its nonidentity element is `0`, and `0 * 0 = 0 * 1` violates cancellation. This is the boundary
+of the integral-chart crystalline comparison in CR.DDR.6.12. -/
+theorem idempotentChart_boundary :
+    (⟨CommMonCat.of (ZMod 2), MonoidHom.id (ZMod 2)⟩ : PrelogRing.{0, 0} (ZMod 2)).IsLog ∧
+      ¬ IsCancelMul (ZMod 2) := by
+  constructor
+  · exact Function.bijective_id
+  · intro h
+    let := h
+    have hzero : (0 : ZMod 2) = 1 := mul_left_cancel (a := (0 : ZMod 2)) (by simp)
+    exact zero_ne_one hzero
+
 /-- The free monoid on one generator (written `Multiplicative ℕ`) is fine and saturated. -/
 example : IsFineMonoid (Multiplicative ℕ) ∧ IsSaturatedMonoid (Multiplicative ℕ) := by
   sorry
@@ -607,6 +620,24 @@ The prelog category is supplied there independently of the geometric log layer h
 LogCrystalline.PrelogRing presents its fixed-ring chart data. The local targets are the
 derivation and extension classifiers, integral log smooth comparison, crystalline comparisons,
 relative filtrations and descent on these same public objects and maps.
+CR.DDR.6.12's DerivedDeRham.logCrystallineIntegralResolution takes n ≥ 1 and integral source
+and target chart monoids over Z/p^n. Free terms have integral monoid M ⊕ ℕ^(S_i);
+their logifications and the source logification are integral quasi-coherent. The zero base PD
+ideal extends to source and ambient. The source-preserving envelopes are coordinate PD smooth
+objects of CR.5.3's site, functorial by their universal property. On fine models exactification
+precedes the strict PD envelope; the quasi-coherent construction descends these fine models.
+DerivedDeRham.logCrystallineComparisonMap and logCrystallineComparisonNatural,
+logCrystallineComparisonFiltered, logCrystallineComparisonStrict and
+logCrystallineComparisonExactification all use this integral-chart range and n ≥ 1;
+naturality squares have four integral chart monoids. The identity comparison has an integral
+chart. LogCrystalline.idempotentChart_boundary is the excluded nonintegral log-ring example.
+CR.DDR.6.13's DerivedDeRham.correctedLogLciCondition requires integral charts M, Q and N,
+flat source and target over Z/p^n, an integral log smooth Cartier-type first factor modulo p,
+and a strict finite regular quotient as second factor. correctedGLciFactorization,
+correctedGLciStrictRegular, correctedGLciLocalFiltered and correctedGLciExample721 retain
+these hypotheses. Filtered colimits of integral charts are integral.
+CR.DDR.6.14's DerivedDeRham.logLciCrystallineComparison uses this same domain; its p-adic form
+uses compatible flat finite reductions with integral charts and compatible factorizations.
 DerivedDeRham.periodLogSpecialization and periodLogComparisonData specialize these constructors;
 §6.21's periodDLogCanonical applies to this logDeRhamDLog. The ordinary-to-log maps,
 transitivity boundary ψ, products, Hodge filtrations, conjugate filtrations on reductions,

@@ -9267,46 +9267,94 @@ Lean: `DerivedDeRham.logSmoothCartierComparison`.
 
 ### CR.DDR.6.12 The log crystalline comparison map
 
-For a prelog `ℤ/p^n`-map `f : (A, M) → (B, N)`, use the standard free prelog resolution `P• → (B,
-N)`. For every surjection `P_i → (B, N)`, first exactify it, then form the strict PD envelope
-compatible with `p` (§CR.5.2). The natural map `Ω•_log(P•/(A, M)) → Ω•_log(P•/(A, M)) ⊗ D_log(P• →
-(B, N))` yields `Comp_log : dR_log(f) → RΓ(f_log-crys, O_crys)`,
-`DerivedDeRham.logCrystallineComparisonMap`, via the log PD Poincaré lemma (§CR.5.4). It is a
-natural map in `DF(A)`, respects Hodge/PD filtrations, and is multiplicative in the sense of
-§CR.DDR.4.1: a map of strict dg algebras into the envelope model, compatible with cup products in
-`D(A)`. Exactification is performed before the PD envelope.
+**Integral free-resolution envelopes.** For `n ≥ 1` and a prelog `ℤ/p^n`-map
+`f : (A, M) → (B, N)` with integral monoids `M` and `N`, prove
+`DerivedDeRham.logCrystallineIntegralResolution`: every term of the standard free prelog
+resolution has the form `(A[T_i, S_i], M ⊕ ℕ^(S_i))`, hence has integral chart monoid and
+integral quasi-coherent logification. The augmentation is surjective on rings and monoids,
+so its logification embeds the original integral quasi-coherent log scheme of `(B, N)` into
+this coordinate ambient. Over the log base `(Spec A, Mᵃ)` with zero PD ideal, the
+source-preserving quasi-coherent log PD envelope of §CR.5.2 exists and is coordinate PD smooth.
+Its closed fibre retains `Nᵃ`; its ambient log structure remains integral quasi-coherent.
+The zero base PD structure extends to both source and ambient.
 
-[Bhatt12], Proposition 7.18 and proof, p.30.
+On fine models this envelope is obtained by exactification followed by the strict PD envelope;
+in the integral quasi-coherent range use Beilinson's envelope and its fine-model descent,
+without requiring a global chosen exactification. The universal property extends the
+simplicial structure maps and resolution comparisons to the envelopes. The log PD Poincaré
+lemma identifies each resulting log PD de Rham complex with the cohomology of the same site
+of §CR.5.3, compatibly with the PD filtration.
 
-*Needs:* §CR.DDR.6.1 (*Free prelog resolutions*); §CR.DDR.6.7 (*Logarithmic derived de Rham*);
-§CR.DDR.4.1 (*The derived de Rham to crystalline map*); §CR.5.2–§CR.5.4, DerivedDeRhamCohomology §PD.6.
-
-Prove the following named laws.
-
-- `logCrystallineComparisonNatural`: prelog base squares induce commuting comparison-map squares.
-- `logCrystallineComparisonFiltered`: Hodge terms map to the log crystalline PD filtration.
-- `logCrystallineComparisonStrict`: for strict maps with fixed log structure the map is the ordinary
-  `Comp`.
-- `logCrystallineComparisonExactification`: the target model uses the exactification followed by the
-  strict PD envelope, functorially.
+[Bhatt12], Proposition 7.18 and proof, p.30; [Beilinson, *On the crystalline period
+map*](https://arxiv.org/abs/1111.3316v4), §1.3, pp.4–6; §1.4(i), p.6; §§1.8–1.9, pp.11–13.
+*Needs:* §CR.DDR.6.1 (*Free prelog resolutions*); §CR.DDR.6.10 (*The boundary of logification
+invariance*); §CR.5.2–§CR.5.4.
 
 **Checks.**
 
-- `test_log_crys_identity`: for an identity log map, `Comp` is the base identity.
-- `test_log_crys_strict_regular`: a strict regular quotient in the nilpotent-p flat range agrees
-  with the PD comparison of §CR.DDR.4.3.
-- `test_log_crys_noncartier`: [Bhatt12] Example 7.23 has a comparison map, but its relative
-  Frobenius-twisted source and ordinary crystalline target differ.
+- `test_log_crys_free_integral`: adjoining any sets of ordinary and log generators to an
+  integral chart preserves cancellation; the logification is integral quasi-coherent.
+- `test_log_crys_fine_envelope`: for the fine log affine-line diagonal the envelope contains
+  the unit ratio and divided powers of `t₂/t₁ − 1`, with the original log structure on the fibre.
+- `test_log_crys_nonfine_envelope`: the identity embedding of the integral chart
+  `(F_p, ℚ≥0)` sending positive elements to zero has its identity envelope, although the chart
+  is not fine.
+
+**The integral log crystalline comparison map.** For `n ≥ 1` and a prelog `ℤ/p^n`-map
+`f : (A, M) → (B, N)` with integral `M` and `N`, let `f_log-crys` be the site of §CR.5.3 for
+the associated log schemes over `(Spec A, Mᵃ)` with zero base PD ideal. Use
+`logCrystallineIntegralResolution` to form its envelope model `D_log(P• → (B, N))`.
+The natural map `Ω•_log(P•/(A, M)) → Ω•_log(P•/(A, M)) ⊗ D_log(P• → (B, N))` yields
+`Comp_log : dR_log(f) → RΓ(f_log-crys, O_crys)`,
+`DerivedDeRham.logCrystallineComparisonMap`, via the log PD Poincaré lemma (§CR.5.4).
+It is natural in `DF(A)`, respects Hodge/PD filtrations, and is multiplicative in the sense
+of §CR.DDR.4.1: a map of strict dg algebras into the envelope model, compatible with cup products
+in `D(A)`. The derived prelog source and its shared constructors retain the general domain of
+DerivedDeRhamCohomology §6.20; this crystalline comparison uses the integral range above.
+
+[Bhatt12], Proposition 7.18 and proof, p.30, restricted to integral charts;
+[Beilinson, *On the crystalline period map*](https://arxiv.org/abs/1111.3316v4), §1.9, pp.12–13.
+
+*Needs:* §CR.DDR.6.1 (*Free prelog resolutions*); §CR.DDR.6.7 (*Logarithmic derived de Rham*);
+*Integral free-resolution envelopes*; §CR.DDR.4.1 (*The derived de Rham to crystalline map*);
+§CR.5.2–§CR.5.4, DerivedDeRhamCohomology §PD.6.
+
+Prove the following named laws, all for `n ≥ 1` and integral source and target chart monoids.
+
+- `logCrystallineComparisonNatural`: prelog base squares whose four chart monoids are integral
+  induce commuting comparison-map squares.
+- `logCrystallineComparisonFiltered`: Hodge terms map to the log crystalline PD filtration.
+- `logCrystallineComparisonStrict`: for strict maps with fixed log structure the map is the ordinary
+  `Comp`.
+- `logCrystallineComparisonExactification`: on fine models the target uses exactification followed
+  by the strict PD envelope; their descended model is the universal integral quasi-coherent
+  envelope, functorially, retaining the given source log structure.
+
+**Checks.**
+
+- `test_log_crys_identity`: for an identity prelog map with integral chart over `ℤ/p^n`, `n ≥ 1`,
+  `Comp` is the base identity.
+- `test_log_crys_strict_regular`: a strict regular quotient with integral charts in the
+  nilpotent-p flat range agrees with the PD comparison of §CR.DDR.4.3.
+- `test_log_crys_noncartier`: [Bhatt12] Example 7.23 has integral chart monoids and a comparison
+  map, but its relative Frobenius-twisted source and ordinary crystalline target differ.
+- `LogCrystalline.idempotentChart_boundary`: let `E = {1, e}` with `e² = e ≠ 1` and map it
+  to `F₂` by `e ↦ 0`. This is already a log ring, since only `1` maps to a unit, but
+  `e·e = e·1` violates cancellation; its associated log scheme is outside this comparison's
+  domain, including for the identity map. In `E^gp` one has `e = 1`, so integralization
+  cannot preserve this ring and chart: it would force `0 = 1` in `F₂`.
 
 ### CR.DDR.6.13 The corrected logarithmic lci condition
 
-For `n ≥ 1`, a prelog `ℤ/p^n`-map `(A, M) → (B, N)` with `A` and `B` flat over `ℤ/p^n` is *corrected
-G-lci*, `DerivedDeRham.correctedLogLciCondition`, if it factors as `(A, M) → (P, Q) → (B, N)` with
-the first map integral and log smooth of Cartier type modulo `p` and the second a strict surjection
-whose kernel is generated by a finite regular sequence. It is *ind-corrected G-lci* if it is a
-filtered colimit of corrected G-lci maps with compatible factorizations (maps of factorizations
-commuting with the structure maps). A strict effective epimorphism without the regular-sequence
-condition does not suffice: [Bhatt12] Definition 7.20 is corrected by adding it.
+For `n ≥ 1`, a prelog `ℤ/p^n`-map `(A, M) → (B, N)` with integral `M` and `N` and with `A` and `B`
+flat over `ℤ/p^n` is *corrected G-lci*, `DerivedDeRham.correctedLogLciCondition`, if it factors as
+`(A, M) → (P, Q) → (B, N)` with integral `Q`, the first map integral and log smooth of Cartier type
+modulo `p` and the second a strict surjection whose kernel is generated by a finite regular sequence.
+It is *ind-corrected G-lci* if it is a filtered colimit of corrected G-lci maps with compatible
+factorizations (maps of factorizations commuting with the structure maps). Filtered colimits of
+these integral chart monoids remain integral, so the resulting map has the crystalline target of
+§CR.DDR.6.12. A strict effective epimorphism without the regular-sequence condition does not suffice:
+[Bhatt12] Definition 7.20 is corrected by adding it in this integral-chart range.
 
 [Bhatt12], Definition 7.20, Example 7.21 and Theorem 7.22 proof sketch, p.31.
 
@@ -9319,8 +9367,8 @@ Prove the following named laws.
 
 - `correctedGLciFactorization`: the condition returns the chosen factorization with its regular
   quotient and modulo-p Cartier witnesses.
-- `correctedGLciStrictRegular`: a strict regular quotient of flat `ℤ/p^n`-algebras is in the
-  condition, with identity first factor.
+- `correctedGLciStrictRegular`: a strict regular quotient of flat `ℤ/p^n`-algebras with integral
+  charts is in the condition, with identity first factor.
 - `correctedGLciLocalFiltered`: the ind-corrected condition is stable under filtered colimits of
   compatible factorizations.
 - `correctedGLciExample721`: for every `n ≥ 1`, the reductions modulo `p^n` of source examples (i)
@@ -9336,8 +9384,8 @@ Prove the following named laws.
 
 **Checks.**
 
-- `test_corrected_glci_identity`: the identity map has empty regular sequence and Cartier-type first
-  factor.
+- `test_corrected_glci_identity`: the identity map of a flat `ℤ/p^n`-algebra with integral chart has
+  empty regular sequence and Cartier-type first factor.
 - `test_corrected_glci_characteristic_zero`: for `k = F_p`, `W = ℤ_p` has no unital `ℤ/p^n`-algebra
   structure for `n ≥ 1`, whereas its finite reductions admit the Eisenstein factorization above.
 - `test_corrected_glci_hypersurface`: the strict quotient `F_p[t] → F_p` by the regular element `t`
@@ -9348,12 +9396,13 @@ Prove the following named laws.
 
 ### CR.DDR.6.14 The corrected log crystalline comparison theorem
 
-For a corrected G-lci prelog `ℤ/p^n`-map, `Comp_log` is an isomorphism in `DF(A)` compatible with
-cup products (§CR.DDR.6.12). For an ind-corrected G-lci map the same holds, because `dR_log`
-commutes with filtered colimits (§CR.DDR.6.1) and so does the target model of §CR.DDR.6.12
-(exactification, strict PD envelopes and log differentials are left adjoints or are computed
-termwise on the free resolution). The compatible p-adic version uses derived limits of flat finite
-reductions with the same factorizations. The proof combines the integral Cartier-type log smooth
+For a corrected G-lci prelog `ℤ/p^n`-map in the integral-chart range of §CR.DDR.6.13, `Comp_log` is
+an isomorphism in `DF(A)` compatible with cup products (§CR.DDR.6.12). For an ind-corrected G-lci map
+the same holds: filtered colimits preserve integral chart monoids, `dR_log` commutes with filtered
+colimits (§CR.DDR.6.1), and the affine envelope model of §CR.DDR.6.12 commutes with these colimits
+by the universal properties of logification and log PD envelopes and the termwise construction of
+log differentials. The compatible p-adic version uses derived limits of flat finite reductions
+with integral charts and the same factorizations. The proof combines the integral Cartier-type log smooth
 comparison (§CR.DDR.6.11) for the first factor with the regular quotient comparison of §CR.DDR.4.3
 for the second and the logarithmic relative conjugate filtration ([Bhatt12] Proposition 7.8). This
 is the valid scope of [Bhatt12] Theorem 7.22 with the corrected condition; neither arbitrary strict
