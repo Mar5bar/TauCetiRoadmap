@@ -22,10 +22,10 @@ The file makes the following design choices explicit.
 * The lattice-level part of the monodromy theory (the integral pairing, its cokernel and
   cycle lattice of a dual multigraph) is stated over `ℤ` with no geometric carrier, so that the
   arithmetic computations of the roadmap's checks are already meaningful.
-* README §4.2 uses GraphConnectivityAndFlows §§1.3 and 8.1 for incidence and signed circulations,
-  and SurfaceTopology Layer 10 for the binary cycle-space dimension formula;
-  GraphConnectivityAndFlows §1.1 supplies component counts. Local carriers support the retained
-  integral/F₂ coefficient comparison, character-lattice realization and monodromy pairing.
+* README §4.2 uses GraphConnectivityAndFlows §§1.3 and 8.1 for incidence and signed circulations;
+  §1.1 supplies component counts. The spanning-forest cycle bases, binary cycle space, rank
+  formulas and integral/F₂ coefficient comparison are local targets, used by the character-lattice
+  realization and monodromy pairing.
 * The intersection-matrix comparison of the component group of a Jacobian uses Tau
   Ceti's numerical Picard group `TauCeti.NumericalType.Pic` and its degree map, which are pinned
   and not redefined.
@@ -327,14 +327,27 @@ end TateMonodromy
 
 namespace DualGraph
 
-variable {V E : Type*} [Fintype V] [Fintype E] [DecidableEq V] [DecidableEq E]
+variable {V E : Type*}
+
+/-- The underlying simple graph records only reachability of the oriented multigraph.
+Loops and parallel edges remain separate coordinates in the cycle modules (README 4.2). -/
+def supportGraph (src tgt : E → V) : SimpleGraph V :=
+  SimpleGraph.fromRel fun v w => ∃ e, src e = v ∧ tgt e = w
+
+/-- Distinct vertices are adjacent exactly when some edge joins them in either direction. -/
+theorem supportGraph_adj (src tgt : E → V) (v w : V) :
+    (supportGraph src tgt).Adj v w ↔ v ≠ w ∧
+      ((∃ e, src e = v ∧ tgt e = w) ∨ (∃ e, src e = w ∧ tgt e = v)) := by
+  rfl
+
+variable [Fintype V] [Fintype E] [DecidableEq V] [DecidableEq E]
 
 /-- Coordinate adapter for GraphConnectivityAndFlows §1.3, `excessAt`; use its carrier
 through the endpoint-indexed and Finsupp equivalences. Its excess is transported
 along `Q v w := {e : E // src e = v ∧ tgt e = w}` and finite function/Finsupp equivalences.
 The ℤ-linear carrier is needed by `cycleLattice`, the character lattice and monodromy;
 incoming-minus-outgoing excess is `tgt − src`, with loops and parallel edges retained.
-README label: boundary. SurfaceTopology Layer 7 states the surface-cell special case. -/
+README label: boundary. Hatcher, §2.2, pp. 140–141 gives the cellular incidence convention. -/
 noncomputable def boundary (src tgt : E → V) : (E →₀ ℤ) →ₗ[ℤ] (V →₀ ℤ) :=
   Finsupp.linearCombination ℤ fun e => Finsupp.single (tgt e) 1 - Finsupp.single (src e) 1
 
@@ -353,25 +366,107 @@ pairing and the coefficient comparison. README label: cycle-lattice. -/
 noncomputable def cycleLattice (src tgt : E → V) : Submodule ℤ (E →₀ ℤ) :=
   LinearMap.ker (boundary src tgt)
 
-/-- Coordinate adapter for SurfaceTopology §Layer 10, `Graph.cycleSpace`; use its carrier
-through the finite function/Finsupp equivalence. The binary cycle space is transported to
-finite Finsupp coordinates on the same multigraph. This carrier is needed
-by the integral/F₂ coefficient comparison; modulo two the incidence is orientation-independent.
-README supplier label: cycle-rank (`finrank_cycleLattice`). -/
+/-- An edge subset is a spanning forest when it has no loops or repeated unordered endpoint
+pairs, its simple support is acyclic, and it preserves reachability on all vertices.
+Isolated vertices are retained (Hatcher, §1.A, Proposition 1A.1, pp. 83–84; README 4.2). -/
+def IsSpanningForest (src tgt : E → V) (F : Finset E) : Prop :=
+  (∀ e ∈ F, src e ≠ tgt e) ∧
+  (∀ e ∈ F, ∀ f ∈ F,
+    ((src e = src f ∧ tgt e = tgt f) ∨ (src e = tgt f ∧ tgt e = src f)) → e = f) ∧
+  (supportGraph (fun e : {e : E // e ∈ F} => src e.val)
+    (fun e => tgt e.val)).IsAcyclic ∧
+  (supportGraph (fun e : {e : E // e ∈ F} => src e.val)
+    (fun e => tgt e.val)).Reachable = (supportGraph src tgt).Reachable
+
+/-- Every finite oriented multigraph admits a spanning forest of actual edge identities. -/
+theorem exists_spanningForest (src tgt : E → V) :
+    ∃ F : Finset E, IsSpanningForest src tgt F := by sorry
+
+/-- The forest has one fewer edge than vertices in each component, including isolated vertices. -/
+theorem spanningForest_card (src tgt : E → V) (F : Finset E)
+    (hF : IsSpanningForest src tgt F) :
+    F.card + Nat.card (supportGraph src tgt).ConnectedComponent = Fintype.card V := by sorry
+
+/-- The fundamental integral cycles form a basis indexed by edges outside the chosen forest.
+Each cycle traverses its chord forward and returns along the unique forest path
+(Hatcher, §1.A, pp. 84–85 and Chapter 3, p. 187; README 4.2). -/
+noncomputable def fundamentalCycleBasis (src tgt : E → V) (F : Finset E)
+    (hF : IsSpanningForest src tgt F) :
+    Module.Basis {e : E // e ∉ F} ℤ (cycleLattice src tgt) := by sorry
+
+/-- The coefficient of a chord in its own basis cycle is one, and all other chord
+coefficients vanish; these coordinates uniquely determine an integral cycle. -/
+theorem fundamentalCycleBasis_chord (src tgt : E → V) (F : Finset E)
+    (hF : IsSpanningForest src tgt F) (e f : {e : E // e ∉ F}) :
+    (fundamentalCycleBasis src tgt F hF e).val f.val = if e = f then 1 else 0 := by sorry
+
+/-- A loop cannot lie in a spanning forest, even though its simple support has no edges. -/
+example : ¬ IsSpanningForest (fun _ : Unit => ()) (fun _ => ()) {()} := by sorry
+
+/-- Both parallel edges cannot lie in a forest, even though their simple support is a tree. -/
+example : ¬ IsSpanningForest (fun _ : Fin 2 => (0 : Fin 2)) (fun _ => 1) Finset.univ := by
+  sorry
+
+/-- Two isolated vertices have the empty spanning forest; no connectivity assumption is needed. -/
+example : IsSpanningForest (fun _ : Fin 0 => (0 : Fin 2)) (fun _ => 0) ∅ := by sorry
+
+/-- The binary cycle space is the kernel of incidence over `ZMod 2` on the same edge identities.
+Its coefficients count endpoint parity, so reversing any edge does not change it
+(Hatcher, §2.2, pp. 153–154 and Chapter 3, p. 187; README 4.2). -/
 noncomputable def modTwoCycleSpace (src tgt : E → V) : Submodule (ZMod 2) (E →₀ ZMod 2) :=
   LinearMap.ker (Finsupp.linearCombination (ZMod 2)
     fun e => Finsupp.single (tgt e) (1 : ZMod 2) - Finsupp.single (src e) (1 : ZMod 2))
 
-/-- Integral/F₂ coefficient comparison retained for the character-lattice rank consumer;
-SurfaceTopology Layer 10 `cycleSpace_finrank` supplies the component-count combinatorial formula.
-The finite function/Finsupp adapter
-identifies `modTwoCycleSpace` with the supplied binary cycle space, preserving edge identities;
-the integral incidence cokernel is torsion-free, so base change identifies the kernels.
-README label: integral-graph-adapter. Connectedness is needed only when specializing the
-supplied formula to component count one, not for this coefficient comparison. -/
+open scoped TensorProduct
+
+/-- Coefficient reduction identifies integral cycles tensored with `ZMod 2` with binary cycles.
+The forest chord coordinates give bases before and after reduction
+(Hatcher, §2.2, pp. 153–154 and Chapter 3, p. 187; README label: integral-graph-adapter). -/
+noncomputable def cycleLattice_modTwoEquiv (src tgt : E → V) :
+    (ZMod 2) ⊗[ℤ] (cycleLattice src tgt) ≃ₗ[ZMod 2] modTwoCycleSpace src tgt := by sorry
+
+/-- The coefficient comparison sends a pure tensor of an integral cycle to its edgewise reduction. -/
+theorem cycleLattice_modTwoEquiv_tmul (src tgt : E → V) (c : cycleLattice src tgt) (e : E) :
+    (cycleLattice_modTwoEquiv src tgt ((1 : ZMod 2) ⊗ₜ[ℤ] c)).val e =
+      (c.val e : ZMod 2) := by sorry
+
+/-- Integral and binary cycle ranks agree without connectedness: the same forest chords
+index a basis before and after reduction (README 4.2, integral-graph-adapter). -/
 theorem cycleLattice_rank_eq_cycleSpace_finrank (src tgt : E → V) :
     Module.finrank ℤ (cycleLattice src tgt) =
       Module.finrank (ZMod 2) (modTwoCycleSpace src tgt) := by sorry
+
+/-- Binary cycle dimension plus the number of vertices equals edges plus components;
+the formula includes the empty graph (Hatcher, Chapter 3, p. 187; README label: cycle-rank). -/
+theorem modTwoCycleSpace_finrank (src tgt : E → V) :
+    Module.finrank (ZMod 2) (modTwoCycleSpace src tgt) + Fintype.card V =
+      Fintype.card E + Nat.card (supportGraph src tgt).ConnectedComponent := by sorry
+
+/-- Integral cycle rank satisfies the same component-count formula as the binary cycle space. -/
+theorem finrank_cycleLattice (src tgt : E → V) :
+    Module.finrank ℤ (cycleLattice src tgt) + Fintype.card V =
+      Fintype.card E + Nat.card (supportGraph src tgt).ConnectedComponent := by sorry
+
+/-- For a connected graph, whose vertex set is nonempty, the component count is one. -/
+theorem finrank_cycleLattice_of_connected (src tgt : E → V)
+    (hΓ : (supportGraph src tgt).Connected) :
+    Module.finrank ℤ (cycleLattice src tgt) + Fintype.card V = Fintype.card E + 1 := by sorry
+
+/-- Reversing every edge preserves the binary cycle space. -/
+example (src tgt : E → V) : modTwoCycleSpace src tgt = modTwoCycleSpace tgt src := by sorry
+
+/-- The single-loop binary cycle space has dimension one. -/
+example : Module.finrank (ZMod 2)
+    (modTwoCycleSpace (fun _ : Unit => ()) (fun _ => ())) = 1 := by sorry
+
+/-- A single edge between distinct vertices has no nonzero binary cycle. -/
+example : Module.finrank (ZMod 2)
+    (modTwoCycleSpace (fun _ : Unit => (0 : Fin 2)) (fun _ => 1)) = 0 := by sorry
+
+/-- The empty graph satisfies the component-count formula but not its connected specialization. -/
+example : Module.finrank ℤ (cycleLattice (fun e : Fin 0 => e) (fun e => e)) = 0 ∧
+    Nat.card (supportGraph (fun e : Fin 0 => e) (fun e => e)).ConnectedComponent = 0 ∧
+    ¬ (supportGraph (fun e : Fin 0 => e) (fun e => e)).Connected := by sorry
 
 /-- The edge-length form `(c, d) ↦ ∑_e ℓ(e) c_e d_e` on `ℤ^E`; with all lengths `1` it is the
 monodromy pairing of the Jacobian of a regular semistable curve (SGA 7 I, Exposé IX, 12.5). -/
@@ -431,7 +526,7 @@ example : edgeForm (fun _ : Unit => 0) (Finsupp.single () 1) (Finsupp.single () 
   sorry
 
 /-- Negative control for connectedness: two vertices and no edge have cycle lattice `0`, and
-`0 + 2 ≠ 0 + 1`. Apply the coefficient bridge and the supplied component count two. -/
+`0 + 2 ≠ 0 + 1`. The local rank formula uses the supplied component count two. -/
 example : Module.finrank ℤ (cycleLattice (fun _ : Fin 0 => (0 : Fin 2)) (fun _ => 0)) +
     Fintype.card (Fin 2) ≠ Fintype.card (Fin 0) + 1 := by
   rw [cycleLattice_rank_eq_cycleSpace_finrank]
