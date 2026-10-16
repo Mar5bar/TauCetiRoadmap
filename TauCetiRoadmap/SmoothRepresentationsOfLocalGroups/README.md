@@ -2431,24 +2431,51 @@ outside K, so its compact induction fails the criterion and is reducible.
 **The Hecke algebra decomposition** (*hecke-algebra-decomposition*). Let G be reductive over F,
 K₀ a special maximal compact subgroup and K ⊆ K₀ a congruence subgroup normal in K₀ with an
 Iwahori decomposition with respect to every standard parabolic (Bruhat; a congruence subgroup in
-good position, ReductiveGroupsPartII RG2.3). Let Λ = Z(F)/Z(F)₀ for the minimal Levi Z (the
-centraliser of a maximal split torus) and Λ⁺ its dominant cone, so that G = ⊔_{λ ∈ Λ⁺} K₀λK₀
-(Cartan decomposition, RG2.4). Prove that H(G, K; ℂ) = H₀ · D · C · H₀ where H₀ = H(K₀, K) and D
-are finite-dimensional subspaces spanned by double-coset elements. Here one must first take
-Λ_Z, the finite-index image of the centre Z(Z)(F) of the minimal Levi Z in Λ, and choose a
-group lift Λ_Z → Z(Z)(F); lifts of the remaining finitely many lattice cosets are only setwise.
-Then C = span{[KλK] : λ ∈ Λ_Z ∩ Λ⁺} is a commutative finitely generated subalgebra, and D
-accounts for the finitely many remaining cone representatives. Commutativity is not claimed
-for the span of arbitrary lifts of all of Λ⁺. In particular H(G, K) is a finite
+good position, ReductiveGroupsPartII RG2.3). For the minimal Levi Z (the centraliser of a
+maximal split torus), use RG2.4's full-compact lattice Λ_full = Z(F)/(Z(F) ∩ K₀).
+Here Z(F) ∩ K₀ is its unique maximal compact subgroup, and Λ_full is the quotient of
+Z(F)/Z(F)₀ by its torsion subgroup. Let Λ_full⁺ be the dominant cone in Λ_full, the image
+of the connected-parahoric dominant cone. The full-compact Cartan decomposition is
+G = ⊔_{λ ∈ Λ_full⁺} K₀λK₀, with distinct double cosets for distinct parameters.
+Take Λ_Z = im(Z(Z)(F) → Λ_full), of finite index in Λ_full, and choose a group section
+s : Λ_Z → Z(Z)(F) of this image map; the image Λ_Z is free abelian. Take finitely many
+d ∈ Λ_full⁺ with Λ_full⁺ = ⋃_d (d + (Λ_Z ∩ Λ_full⁺)), and choose lifts d̃ ∈ Z(F) only
+setwise. These lattice, cone, lift and finite-cover inputs are supplied by RG2.4
+*cartan-decomposition*.
+Prove H(G, K; ℂ) = H₀ · D · C · H₀, where H₀ = H(K₀, K),
+D = span{[Kd̃K]} and C = span{[Ks(λ)K] : λ ∈ Λ_Z ∩ Λ_full⁺}.
+The spaces H₀ and D are finite-dimensional, and C is a commutative finitely generated
+subalgebra. Commutativity is not claimed for arbitrary lifts of all of Λ_full⁺.
+In particular H(G, K) is a finite
 sum Σ u_i C v_j ([Ber92] Ch. II §1.1, Theorem 9, p. 29, and its proof, pp. 29–30; Ch. II §2.1,
-Theorem 13, p. 42, with the lattice and lift construction on pp. 40–41). *Needs:* *positive-hecke-homomorphism*, *iwahori-decomposition*,
+Theorem 13, p. 42, with Proposition 22 and the lattice and lift construction on pp. 39–40).
+*Needs:* *positive-hecke-homomorphism*, *iwahori-decomposition*,
 *permutation-hecke-algebra*; ReductiveGroupsPartII RG2.4, ReductiveGroupsPartII RG2.3.
 
-The statement gives the finite-index central image, its homomorphic lift, the separate finite set of other lattice representatives, the commutative finite-type subalgebra and the H₀ D C H₀ spanning identity. The special maximal compact subgroup is the pinned fixer of a special point in the enlarged building; normality and all standard-parabolic Iwahori decompositions of K are explicit.
+The special maximal compact subgroup K₀ is the full fixer of a special point in the enlarged
+building. Use its full-compact Cartan decomposition in the support argument: every compactly
+supported K-bi-invariant function meets finitely many K₀λK₀, each a finite union of K double
+cosets. Write λ = d + μ with μ ∈ Λ_Z ∩ Λ_full⁺. Positive Hecke multiplication combines
+the elements for d̃ and s(μ), whose product has full-compact parameter λ; left and right
+multiplication by H₀ spans the K double cosets in that Cartan cell. Finite generation of
+Λ_Z ∩ Λ_full⁺ and the group section give finite generation and commutativity of C.
 
-**Check.** For a split G the minimal Levi is a torus, so Λ_Z = Λ and the familiar
-full-lattice commutative subalgebra is recovered. For a nonsplit minimal Levi the central lift
-and the finite extra factor D must remain in the statement.
+**Checks.**
+
+- For split G the minimal Levi is a split torus, Λ_Z = Λ_full = X_*(Z), and one can take
+  d = 0 alone. This recovers the full-lattice positive commutative subalgebra.
+- For G = B× with B a central division algebra of degree n over F, normalize its valuation
+  by v_B(ϖ_B) = 1. There are no relative roots, Λ_full⁺ = Λ_full = ℤ and Λ_Z = nℤ.
+  The group section sends nk to ϖ_F^k, and the lifts 1, ϖ_B, …, ϖ_B^{n−1} supply D.
+  Thus the finite extra factor can be necessary even though every parameter is dominant.
+- For F = ℚ_p with p odd and T = ker(N : Res_{F(√p)/F} G_m → G_m), the enlarged building
+  is a point and K₀ = T(F). The connected parahoric T(F)₀ has index two, with classes of
+  1 and −1: the smooth integral norm-one model a² − p b² = 1 has special-fibre components
+  a = ±1. These give two connected-parahoric Cartan classes but only one full-compact class,
+  since K₀·1·K₀ = K₀·(−1)·K₀ = T(F). Here Λ_full = Λ_Z = 0, the section sends 0 to 1,
+  and C = D = ℂe_K. For K = T(F)₀ the identity reads H(G, K) = H₀ ≅ ℂ[ℤ/2].
+  The anonymous Lean example states this component comparison for a commutative group
+  with an index-two subgroup and an element outside it, applied to T(F)₀ and −1.
 
 **Dimension bound for commutative subalgebras** (*commutative-subalgebra-bound*). Let V be an
 m-dimensional vector space, m ≥ 1, over ℂ and R ⊆ End_ℂ(V) a commutative

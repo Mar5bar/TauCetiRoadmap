@@ -672,6 +672,20 @@ theorem isAdmissible_of_isIrreducible [ValuativeRel F] [IsNonarchimedeanLocalFie
     (V : SmoothRep ℂ (Points H)) (hV : V.obj.ρ.IsIrreducible) :
     Representation.IsAdmissible V.obj.ρ := sorry
 
+-- For the ramified quadratic norm-one torus over an odd-residue local field, take
+-- T₀ to be its connected parahoric and u = -1. Its two parahoric classes become one
+-- class for the full compact subgroup T, the quotient used in the Hecke decomposition.
+example {T : Type*} [CommGroup T] (T₀ : Subgroup T) (hindex : T₀.index = 2)
+    (u : T) (hu : u ∉ T₀) :
+    Nat.card (T ⧸ T₀) = 2 ∧ Nat.card (T ⧸ (⊤ : Subgroup T)) = 1 ∧
+      (QuotientGroup.mk u : T ⧸ T₀) ≠ QuotientGroup.mk 1 ∧
+      (QuotientGroup.mk u : T ⧸ (⊤ : Subgroup T)) = QuotientGroup.mk 1 := by
+  refine ⟨hindex, Subgroup.index_top, ?_, ?_⟩
+  · intro h
+    apply hu
+    simpa only [div_one] using (QuotientGroup.eq_iff_div_mem.mp h)
+  · exact QuotientGroup.eq_iff_div_mem.mpr (Subgroup.mem_top _)
+
 /-- Uniform admissibility: for a compact open `K` the dimensions of `V^K` are bounded uniformly in
 the irreducible smooth complex representation `V` ([Ber92], Ch. II §1.4, pp. 37–38). -/
 theorem exists_finrank_invariants_le [ValuativeRel F] [IsNonarchimedeanLocalField F]
