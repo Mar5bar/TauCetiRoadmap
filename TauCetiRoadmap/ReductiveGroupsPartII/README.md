@@ -210,7 +210,7 @@ formed on the identical `Root S` and `weightSpace S χ`, with no independently c
 | Induced maps of quotient groups | `QuotientGroup.map` | `Mathlib/GroupTheory/QuotientGroup/Defs.lean` |
 | Lower closure and transport by an order isomorphism | `lowerClosure`, `lowerClosure_image` | `Mathlib/Order/UpperLower/Closure.lean` |
 | Modular character of a locally compact group | `MeasureTheory.Measure.modularCharacter` | `Mathlib/MeasureTheory/Group/ModularCharacter.lean` |
-| DVR lattice indices and linear Haar images | [MassFormula, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md#layer-2-lattices-index-and-the-haar-scaling-law): the image-lattice index and regular-Haar scaling law | `MassFormula/README.md`, Layer 2; RG2.0 supplies denominator clearing, normalized-absolute-value comparison and the inverse-map pushforward adapter, followed by positive-characteristic nonlinear charts. |
+| DVR lattice indices and linear Haar images | [MassFormula, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md#layer-2-lattices-index-and-the-haar-scaling-law) (open target-level supplier): the image-lattice index and regular-Haar scaling law | `MassFormula/README.md`, Layer 2; RG2.0 supplies denominator clearing, normalized-absolute-value comparison and the inverse-map pushforward adapter, followed by positive-characteristic nonlinear charts. |
 
 `NormTorus.norm` differs from the units norm by swapping `k' ⊗[k] R` to `R ⊗[k] k'`
 before taking the norm over `R`. The affine point topology here allows general topological
@@ -696,7 +696,8 @@ p. 11, for fields complete for a nontrivial absolute value; construct its analyt
 and tangent comparison here.
 
 Normalize regular additive Haar measure by `μ(O_E) = 1` and its product `μ_d` by
-`μ_d(O_E^d) = 1`. Consume MassFormula Layer 2's DVR lattice index and linear image law
+`μ_d(O_E^d) = 1`. Consume the open target-level supplier MassFormula, Layer 2, for the
+DVR lattice index and linear image law
 `μ_d(MB) = q^{-ω(det M)} μ_d(B)` for integral matrices `M` with nonzero determinant
 and Borel sets `B`. Here extend that law to `A ∈ GL_d(E)` by clearing uniformizer
 denominators in `A`; identify its factor with `|det A|_E`, where
@@ -711,7 +712,8 @@ theorem identifies their images with the corresponding linear images. The adapte
 and nonlinear Haar-Jacobian comparison belong here. They provide the positive-characteristic
 counterpart of RG2.0 *smooth-group-analytic-charts* for RG2.4.
 *Needs:* *affine-point-topology-embedding*; *points-topological-group*;
-*smooth-morphism-open-map*; MassFormula Layer 2 (DVR lattice index and regular-Haar image law);
+*smooth-morphism-open-map*; MassFormula, Layer 2 (open target-level supplier: DVR lattice index
+and regular-Haar image law);
 ReductiveGroups layer 2; Tau Ceti
 `Derivation.cotangentLinearEquiv`; Mathlib additive Haar measure and
 `HasStrictFDerivAt.toOpenPartialHomeomorph`.
@@ -5588,8 +5590,10 @@ quotient by the Kottwitz map of `Z`, including torsion ([Haines–Rostami], Prop
 over `E` the quotient is `(π₁(G)_I)^σ`. Third, a special point `x` splits the sequence,
 `W_0 ≅ (W_a ∩ Stab_W̃(x)) ⊂ W̃`, so that `W̃ ≅ X_*(T)_I ⋊ W_0` over `L`; this splitting is
 `σ`-equivariant only for `σ`-fixed `x`. Over `E` the splitting is
-`W̃_E ≅ Λ_Z ⋊ W_0(E)`, and rational Cartan classes are `W_0(E)\Λ_Z`;
-Iwasawa parameters likewise use `Λ_Z`. Fourth, `ker(W̃ → Aff(A)) = Z(K)_b/Z(K)_0` is finite and
+`W̃_E ≅ Λ_Z ⋊ W_0(E)`, and rational connected-parahoric Cartan classes are `W_0(E)\Λ_Z`;
+connected-parahoric Iwasawa parameters likewise use `Λ_Z`. The full-compact parameters are the
+torsion-free quotient specified in *cartan-decomposition*. Fourth,
+`ker(W̃ → Aff(A)) = Z(K)_b/Z(K)_0` is finite and
 consists of translations; over `L` it is `(X_*(T)_I)_tors`, so the action on `A` is faithful iff
 `X_*(T)_I` is torsion-free. The full stabilizer of `x` can contain torsion translations, which is
 why `specialVertex_fixer_bijective` uses its intersection with `W_a`. The translations act via `ν`,
@@ -6184,8 +6188,18 @@ the set of dominant `λ ∈ X_*(T)_I` and over `E` is `Z(E)/Z(E)_0` modulo `W_0`
 and `K = 𝒢(O)` hyperspecial with `𝒢` reductive over `O`, `G(E) = ⊔_{λ ∈ X_*(T)^+} Kλ(ϖ)K`, the
 double cosets being distinct for distinct `λ`. Fourth, over `E`, infinitude is controlled by the rational translation quotient
 `Z(E)/Z(E)_0` (equivalently its positive free rank, or `S ≠ 1`). Over the completed
-unramified field `L`, the translation quotient is `X_*(T)_I`; these are separate assertions; for `K̂` the double cosets are unions over the finite quotient `K̂/K`,
-indexed by the orbits of `W_0 ⋉ (K̂/K)`. Fifth, at a non-special point `x`,
+unramified field `L`, the translation quotient is `X_*(T)_I`; these are separate assertions.
+Over `E`, put `F = E` and `K₀ = K̂`, the full fixer of the special point in the enlarged building.
+Then `Z(F) ∩ K₀` is the unique maximal compact subgroup of the minimal Levi, and
+`Λ_full := Z(F)/(Z(F) ∩ K₀) ≅ (Z(F)/Z(F)₀)/(Z(F)/Z(F)₀)_tors` is free abelian.
+The natural quotient is `W_0`-equivariant, its kernel is
+`(Z(F) ∩ K₀)/Z(F)₀ ≅ K₀/K`, and root inequalities descend through it. In particular
+`Λ_full^+` is the image of the connected-parahoric dominant cone and
+`G(F) = ⊔_{λ ∈ Λ_full^+} K₀λK₀`, with distinct double cosets for distinct parameters.
+The comparison of Cartan sets is the map on `W_0`-orbits induced by this quotient
+([Haines–Rostami], Introduction, pp. 1–2, Thms. 1.0.1 and 1.0.3, pp. 2–3,
+and Prop. 11.1.4, p. 14).
+Fifth, at a non-special point `x`,
 `G(K) ≠ P°_xZ(K)P°_x` for the parahoric `P°_x = 𝒢°_x(O)`: the finite Weyl group `W_x` of `P°_x`
 projects onto a proper subgroup of `W_0`. For the full fixer `P_x` of RG2.2 *building* this can
 fail, since `P_x` may contain representatives of further Weyl elements (Check
@@ -6196,10 +6210,41 @@ Prop. 8, p. 4, and Prop. 13, p. 8; [Zhu], Lem. 1.8 (ii), p. 11, for `GL_n` over 
 Prop. 1.23, p. 19, the orbit description of `Gr_μ` resting on the Cartan decomposition). *Needs:*
 *parahoric-double-cosets*; *dominant-coinvariant-cocharacters*; *dominant-normal-form*; RG2.3
 *hyperspecial-vertices*.
-*Lean:* none (README-only).
+
+For the uniform-admissibility Hecke-support argument, take every lattice datum in `Λ_full`.
+Its central image `Λ_c := im(Z(Z)(F) → Λ_full)` (denoted `Λ_Z` in that argument) has finite
+index. Choose a group section `Λ_c → Z(Z)(F)` of this image map; this exists because `Λ_c`
+is free abelian. Choose finitely many `d ∈ Λ_full^+` with
+`Λ_full^+ = ⋃_d (d + (Λ_c ∩ Λ_full^+))`, and lift these `d` only setwise to `Z(F)`.
+The dominant monoid is finitely generated: express its integral root inequalities using
+nonnegative coordinates and slack variables, apply Mathlib's `AddSubmonoid.fg_eqLocusM`,
+and take the image in the lattice. For generators `a_i` and `m > 0` with
+`mΛ_full ⊆ Λ_c`, the finitely many sums `Σ r_i a_i`, `0 ≤ r_i < m`, give such a cone cover.
+The central-image and lift argument is [Bernstein], Ch. II §2.1, Prop. 22 and the following
+minimal-Levi argument, pp. 39–40: the unique maximal compact subgroup of a minimal Levi
+contains every compact subgroup, so it equals the subgroup generated by compact subgroups
+used there.
+Thus the central positive Hecke elements and the finite extra representatives `D` are indexed
+by this torsion-free quotient. For a compact open congruence subgroup `J ⊆ K₀` normal in `K₀`
+and admitting Iwahori decompositions for every standard parabolic, their supports lie in the
+`K₀λK₀` indexed by `Λ_full^+`; each is a finite union of `J` double cosets. These are the
+Cartan support and lattice inputs to the Hecke spanning argument ([Bernstein], Ch. II §2.1,
+Thm. 13, p. 42). The Hecke algebra and its spanning identity belong to the smooth-representation
+theory.
+*Lean:* the abstract index-two component comparison is the example
+`Decomposition.cartan_ramified_normOne_fullCompact`; the general Cartan statements are README-only.
 
 **Checks.**
 
+- `cartan_ramified_normOne_fullCompact` — for `F = ℚ_p`, `p` odd, and
+  `T = ker(N : Res_{F(√p)/F} G_m → G_m)`, the enlarged building is a point and `K₀ = T(F)`.
+  Inertia acts by `−1` on `X_*(T) = ℤ`, so `T(F)/T(F)₀ ≅ ℤ/2` and its two connected-parahoric
+  double cosets are represented by `1` and `−1`. Equivalently, reduction of the smooth norm-one
+  model `a² − p b² = 1` has the two components `a = ±1`.
+  But `Λ_full = 0` and `K₀·1·K₀ = K₀·(−1)·K₀ = T(F)`, giving one full-compact double coset.
+  Its central image is zero, its group section is the identity element, and `D` needs only that
+  element. The Lean example states the component-quotient comparison for a commutative group
+  with an index-two subgroup, applied here with that subgroup equal to `T(F)₀`.
 - `cartan_not_special` (non-example) — at a non-special point `x`, `P°_x Z(K) P°_x ≠ G(K)`; for
   `GL_2` and `x` the barycentre of the standard alcove, `P°_x = P_x = I` is the Iwahori, and the
   element `(0 1; 1 0)` lies in the Iwahori–Bruhat cell of the nontrivial finite Weyl element, which
@@ -7095,6 +7140,9 @@ Moy–Prasad filtrations, the Iwahori–Weyl combinatorics and the L-group.
 - [Anantharaman] Sivaramakrishna Anantharaman, *Schémas en groupes, espaces homogènes et espaces
   algébriques sur une base de dimension 1*, Mém. Soc. Math. France 33 (1973), 5–79.
   http://www.numdam.org/item/MSMF_1973__33__5_0.pdf
+- [Bernstein] J. Bernstein, *Representations of p-adic groups*, Harvard lectures (1992),
+  written by K. Rumelhart, Ch. II §2.1, pp. 39–42.
+  https://www.math.tau.ac.il/~bernstei/Publication_list/publication_texts/Bernst_Lecture_p-adic_repr.pdf
 - [Bosch–Lütkebohmert–Raynaud] Siegfried Bosch, Werner Lütkebohmert, Michel Raynaud,
   *Néron Models*, Ergebnisse der Mathematik und ihrer Grenzgebiete (3) 21, Springer (1990).
   https://doi.org/10.1007/978-3-642-51438-8
@@ -7150,7 +7198,8 @@ Moy–Prasad filtrations, the Iwahori–Weyl combinatorics and the L-group.
   Pappas–Rapoport, *Twisted loop groups and their affine flag varieties*, Adv. Math. 219 (2008),
   118–198. https://www.math.umd.edu/~tjh/HRParahoric3.pdf
 - [Haines–Rostami] Thomas J. Haines, Sean Rostami, *The Satake isomorphism for special maximal
-  parahoric Hecke algebras*, arXiv:0907.4506v2, Proposition 1.0.2, p. 3.
+  parahoric Hecke algebras*, arXiv:0907.4506v2, Introduction and Thms. 1.0.1–1.0.3,
+  pp. 1–3, Prop. 11.1.4, p. 14.
   https://arxiv.org/abs/0907.4506
 - [Harpaz–Wittenberg] Yonatan Harpaz, Olivier Wittenberg, *Zéro-cycles sur les espaces homogènes et
   problème de Galois inverse*, J. Amer. Math. Soc. 33 (2020), 775–805; arXiv:1802.09605v2.

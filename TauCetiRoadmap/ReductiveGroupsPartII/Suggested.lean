@@ -1470,6 +1470,17 @@ example [TopologicalSpace K] [IsNonarchimedeanLocalField K] (ϖ : 𝒪[K]) (hϖ 
     ∃ u : 𝒪[K]ˣ, (x : K) = ((u : 𝒪[K]) : K) *
       (ϖ : K) ^ (Multiplicative.toAdd (TauCeti.normalizedValuation K x)) := sorry
 
+-- Test Decomposition.cartan_ramified_normOne_fullCompact
+/- The component comparison for a compact commutative group with connected parahoric of
+index two: its parahoric quotient separates the nonidentity component, while its full-compact
+quotient is a singleton. For the ramified quadratic norm-one torus over an odd-residue local
+field, `T₀` is the connected parahoric and `u = -1` represents its other component. -/
+example {T : Type v} [CommGroup T] (T₀ : Subgroup T) (hindex : T₀.index = 2)
+    (u : T) (hu : u ∉ T₀) :
+    Nat.card (T ⧸ T₀) = 2 ∧ Nat.card (T ⧸ (⊤ : Subgroup T)) = 1 ∧
+      (QuotientGroup.mk u : T ⧸ T₀) ≠ QuotientGroup.mk 1 ∧
+      (QuotientGroup.mk u : T ⧸ (⊤ : Subgroup T)) = QuotientGroup.mk 1 := by sorry
+
 open scoped Pointwise in
 /-- A double coset `C g C'` of open subgroups with `C` compact is a finite disjoint union of
 `[C : C ∩ g C' g⁻¹]` left cosets of `C'`. -/
