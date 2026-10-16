@@ -18,6 +18,11 @@ compactifications and diamond dimension bounds are specified in the README. Fiel
 and extension embeddings are explicitly isometric for compatible norms; point-presentation isomorphisms preserve
 topology and valuation rings independently of normalization. Generating, independent and
 modified degrees remain distinct.
+
+The analytic-to-diamond partial-properness comparison in C8.48a assumes taut preimages
+of affinoid target opens. Its unrestricted field-pair predicate also applies without
+that hypothesis to the analytic dimension formulas. Generic ringed-site replacements
+and exact-functor coherence are supplied by EnhancedDerivedSheaves, §§0.1–0.4.
 -/
 
 noncomputable section
@@ -676,6 +681,9 @@ C8.4 includes topologicalIndependenceDegree_le_iff and topologicalIndependenceDe
 C8.10 includes modifiedTopologicalTrdeg_le_iff, modifiedTopologicalTrdeg_le,
 modifiedTopologicalTrdeg_mono and modifiedTopologicalTrdeg_equiv. Their mathematical
 contracts and the chain-space construction, quasi-augmentation and nondegeneracy theorem are in those sections.
+C8.48a specifies analyticFieldPairPartiallyProper and its unrestricted reduction
+analyticFieldPairPartiallyProper_iff_perfectoidTests; the comparison
+analyticFieldPairPartiallyProper_diamondification carries relative tautness.
 -/
 
 end TauCeti.DiamondEtale
