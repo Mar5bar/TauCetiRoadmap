@@ -942,7 +942,7 @@ theorem KisinModule.not_finite_height (E : Eisenstein p k) :
         (Set.range fun x : Sfrak p k => (p : Sfrak p k) * frob p k x) := sorry
 
 /-- Semilinear descent data on a module `M` over a ring `S` on which `Γ = Gal(F/F′)` acts by ring
-automorphisms: bijections `ĝ` with `ĝ(s m) = ĝ(s) ĝ(m)` and `ĝ₁ ∘ ĝ₂ = (g₁ g₂)^` (Savitt,
+automorphisms: bijections `ĝ` with `ĝ(s m) = ĝ(s) ĝ(m)`, `ĝ₁ ∘ ĝ₂ = (g₁ g₂)^` and `1̂ = id` (Savitt,
 Definition 3.7). Compatibility with the filtration, `φ₁` and `N` is imposed on the strongly
 divisible module itself. -/
 structure SemilinearDescentData (Γ S M : Type*) [Group Γ] [CommRing S] [AddCommGroup M]
@@ -958,6 +958,16 @@ theorem SemilinearDescentData.act_mul_apply {Γ S M : Type*} [Group Γ] [CommRin
     [AddCommGroup M] [Module S M] [MulSemiringAction Γ S] (D : SemilinearDescentData Γ S M)
     (g h : Γ) (m : M) : D.act (g * h) m = D.act g (D.act h m) := by
   rw [D.act_mul]; rfl
+
+/-- Semilinear descent data on a nonzero module excludes the all-zero family. -/
+theorem SemilinearDescentData.not_all_zero {Γ S M : Type*} [Group Γ] [CommRing S]
+    [AddCommGroup M] [Module S M] [MulSemiringAction Γ S] [Nontrivial M]
+    (D : SemilinearDescentData Γ S M) : ¬ ∀ (g : Γ) (m : M), D.act g m = 0 := by
+  intro h
+  obtain ⟨m, hm⟩ := exists_ne (0 : M)
+  have hzero := h 1 m
+  rw [D.act_one] at hzero
+  exact hm hzero
 
 /-- The tautological action of ring automorphisms on a ring gives semilinear descent data. -/
 theorem semilinearDescent_ring (S : Type*) [CommRing S] :
@@ -1072,7 +1082,9 @@ this file: most need carriers that are not in the pinned libraries, and the rema
 further instances of the statements above.
 
 * Layer R07.1: Frobenius and Verschiebung (`frobeniusHom`, `verschiebungHom`); finite étale groups
-  as `π₁`-modules (`etaleGroupEquivContAction`); `finitePart`; `multiplicativeTypeRigidity`;
+  as `π₁`-modules (`etaleGroupEquivContAction`, transporting the Galois-category and fibre-functor
+  construction of EtaleCohomologyFoundations §F.0.2 through the affine comparison);
+  `finitePart`; `multiplicativeTypeRigidity`;
   `p`-divisible groups beyond the finite levels (`BarsottiTate.Hom`, `BarsottiTate.muPInfty`,
   `BarsottiTate.constQpZp`, `BarsottiTate.exact_levels`, `BarsottiTate.cartierDual_levels`,
   `BarsottiTate.tateModule`, `BarsottiTate.connectedEtale_exact`); `TruncatedBT` and
@@ -1177,11 +1189,15 @@ further instances of the statements above.
   `dyadicClassification`; `finiteFlatRestrictionFullFaithfulness`; `bkIntegralComparisons`;
   `wachBreuilKisinComparison`; `FilteredPhiNModuleDD` (the arithmetic Weil action uses the residue-degree multiple
   of p-Frobenius); `potentiallySemistableDescentEquivalence`;
-  `tameTypeWeightTwoFilteredModules`; `descentDataPDivisibleGroups`; `breuilSyntomicPeriods`; `StronglyDivisibleModule`
+  `tameTypeWeightTwoFilteredModules`; `descentDataPDivisibleGroups` (the group-side maps satisfy
+  [1] = id and the twisted cocycle law); `breuilSyntomicPeriods`; `StronglyDivisibleModule`
   (finite free, weights `1 ≤ k ≤ p−1`, with canonical monodromy only for `k = 2`);
-  `descentDataLatticeClassification`; `StronglyDivisibleRModule`; `BreuilModuleModP`;
+  `descentDataLatticeClassification` (T_st,2(M) = lim_n (H_n(M)^∧(1)), with the finite-level
+  ℚ_p/ℤ_p-duals and transitions dual to precomposition by M/p^{n+1}M → M/pⁿM);
+  `StronglyDivisibleRModule` (the Hom realization is contravariant and T_st is covariant);
+  `BreuilModuleModP`;
   `BreuilModuleModP.exists_hom_to_maximal` (the unique morphism inducing a prescribed
-  isomorphism T_st(M′) ≅ T_st(M″), with the contravariant direction M″ → M′);
+  inverse α.symm of α : T_st(M′) ≅ T_st(M″), with module direction M″ → M′);
   `BreuilModuleModP.exists_nonzero_hom_to_maximal` (requires nonzero realisation);
   `BreuilModuleModP.zero` (the zero identification lifts to the zero morphism);
   `stronglyDivisibleModulesForCharacters`; `KisinModuleCoeff`; `multiplicativeEtaleDictionary`;

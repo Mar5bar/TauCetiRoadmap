@@ -50,8 +50,9 @@ Fontaine–Laffaille functor is contravariant with its safe interval `[0, p − 
 ## Scope and ownership
 
 **Owned here.** Frobenius and Verschiebung of commutative group schemes;
-finite étale group schemes as Galois modules; the finite part of a quasi-finite group over a
-henselian base; rigidity of homomorphisms into étale and out of multiplicative groups. The general
+the group-object applications of the supplied finite étale Galois-category equivalence;
+the finite part of a quasi-finite group over a henselian base; rigidity of homomorphisms into étale
+and out of multiplicative groups. The general
 theory of `p`-divisible groups of arbitrary height over arbitrary bases beyond the basic interface
 listed below: homomorphisms as inverse limits, the levels as torsion, Tate modules and their
 pairing, the connected–étale sequence over a henselian local base, truncated Barsotti–Tate groups
@@ -107,7 +108,8 @@ point-counting applications consume these shared maps and comparisons.
 - TauCetiRoadmap.ModularCurves: Layer 0B (the finite locally free carrier over any base, kernels,
   constant and diagonalizable groups, Cartier duality with evaluation, biduality, rank and base
   change, and the theorem that a group of rank `N` is killed by `N`), Layer 0C (fppf quotients by
-  finite locally free subgroups), Layer 0E (effective descent for finite locally free schemes,
+  finite locally free subgroups), Layer 0D (the field-valued finite étale/Galois-set dictionary
+  and transport of group objects), Layer 0E (effective descent for finite locally free schemes,
   groups and morphisms) and Layer 7E (the elliptic tower `E[p^∞]`, the finite-level connected–étale
   sequence over a henselian local ring with its special-fibre splitting over a perfect residue
   field, Frobenius and Verschiebung of elliptic curves, supersingular Frobenius kernels and the two
@@ -162,8 +164,9 @@ point-counting applications consume these shared maps and comparisons.
   PadicPeriodRings §§4.1–4.3, preserving topology, structure maps and variance.
 - DerivedModuleAlgebra (the full cotangent complex, §0.4, and its transitivity triangle,
   §0.8), SchemeAndStackFoundations §4.1 (thickenings, formally smooth and formally étale morphisms
-  and the infinitesimal lifting criterion), EtaleCohomologyFoundations §F.0 (`finiteEtaleGaloisCategory`)
-  (finite étale covers of a connected scheme and their fibre functors),
+  and the infinitesimal lifting criterion), EtaleCohomologyFoundations §F.0.2
+  (`VanishingCycles.finiteEtaleGaloisCategory`) (finite étale covers of a connected nonempty
+  scheme, their Galois-category structure and geometric fibre functors),
   SchemeAndStackFoundations §0.14 `henselian_smooth_lifting` (smooth sections along henselian
   pairs), and CrystallineCohomology §CR.5:log-algebra.4, *The classical Abhyankar lemma*
   (purity of the branch locus, SGA 1 X 3.1, for finite normal covers with dominant components over
@@ -432,7 +435,10 @@ laws) with `FormalGroup.IsComm`.
   (a smooth-algebra section over C/J lifts to C for every henselian pair, Stacks Tag 0H74),
   and §4.1 (thickenings, formally smooth and formally étale
   morphisms, the infinitesimal lifting criterion), **EtaleCohomologyFoundations**
-  §F.0 (`finiteEtaleGaloisCategory`), **ArithmeticGaloisRepresentations** Layer 6 and **SmoothRepresentationsOfLocalGroups**
+  §F.0.2 (`VanishingCycles.finiteEtaleGaloisCategory`, the general finite étale Galois-category
+  and geometric fibre-functor construction), **ModularCurves** Layer 0D (the field-valued
+  finite étale/Galois-set dictionary and transport of group objects),
+  **ArithmeticGaloisRepresentations** Layer 6 and **SmoothRepresentationsOfLocalGroups**
   Layer SR.2 (smooth and compact induction for `GL₂(F)`), as listed under *Scope and ownership*.
 
 ### Scheme Frobenius contract
@@ -563,15 +569,21 @@ G_ℚ-modules unramified outside N∞. A finite flat group scheme whose order is
 
 The base `S` is connected; `Spec ℤ[1/N]` is connected and normal.
 
-*Proof sketch.* Finite étale `S`-schemes, that is the opposite of Mathlib's `CommAlgCat.FiniteEtale
-R`, form a Galois category with fibre functor `F_{s̄}` when `R` is connected (SGA 1, Exposé V);
-constructing this instance is part of this target, since the pin has the category and its fibre
-functor but no `GaloisCategory` instance on it. Given the instance, Mathlib's
-`PreGaloisCategory.functorToContAction` makes `F_{s̄}` an equivalence onto finite continuous `π₁(S,
-s̄)`-sets. Covariance on fibres and contravariance on algebras are as in
-EtaleCohomologyFoundations §F.0 (`finiteEtaleGaloisCategory`). The equivalence preserves finite products,
-so group objects correspond to group objects: finite étale group schemes ↔ finite groups with
-continuous π₁-action (Stix Theorem 33). The inverse is the explicit twist of Stix 7.3.1,
+*Proof sketch.* Import the Galois-category structure and geometric fibre functor on finite étale
+`S`-schemes from EtaleCohomologyFoundations §F.0.2
+(`VanishingCycles.finiteEtaleGaloisCategory`); the chosen geometric point makes `S` nonempty.
+For this affine base, construct the comparison from `(CommAlgCat.FiniteEtale R)ᵒᵖ` to the
+supplier's finite étale full subcategory of `Over S` by relative Spec. Restrict Mathlib's
+`AlgebraicGeometry.AffineScheme.equivCommRingCat` over `R`: finite morphisms to `Spec R` are affine,
+and finite étale algebras correspond to finite étale morphisms. Identify its fibre at `s̄` with
+Mathlib's `CommAlgCat.FiniteEtale.fiber R Ω` for `s̄ = Spec Ω`, and transport the supplied
+`GaloisCategory` and `FiberFunctor` structures along this equivalence. Mathlib's
+`PreGaloisCategory.functorToContAction` then gives the equivalence with finite continuous
+`π₁(S, s̄)`-sets (SGA 1, Exposé V; Stacks, Theorem 58.6.2, tag 0BND). The comparison and fibre
+equivalence preserve finite products, so transport group objects to identify finite étale group
+schemes with finite groups carrying a continuous `π₁`-action (Stix Theorem 33). Over a field use
+ModularCurves Layer 0D's finite étale/Galois-set dictionary and its transport of group objects,
+compatibly with the affine comparison. The inverse is the explicit twist of Stix 7.3.1,
 representable by fpqc descent (ModularCurves Layer 0E); its fibre at s̄ is M with action ρ. For a
 normal connected S with generic point η, π₁(S, η̄) is the Galois group of the maximal extension of
 the function field unramified over S (SGA 1, Exposé V, 8.2; part of this target); for ℤ[1/N] this is
@@ -579,13 +591,23 @@ Gal(ℚ_S/ℚ). Order invertible ⇒ étale: Stix Theorem 34 (Oort–Tate Lemma 
 33, p. 35: the equivalence; Stix 2012, §7.3.1, pp. 35–36: the inverse construction; Stix 2012, §7.4,
 Theorem 34, p. 37: order invertible implies étale.)
 
-*Needs:* Mathlib `CommAlgCat.FiniteEtale`; Mathlib
+*Needs:* EtaleCohomologyFoundations §F.0.2 `VanishingCycles.finiteEtaleGaloisCategory`
+(finite étale Galois categories and geometric fibre functors); Mathlib
+`AlgebraicGeometry.AffineScheme.equivCommRingCat`; Mathlib `CommAlgCat.FiniteEtale`; Mathlib
 `CategoryTheory.PreGaloisCategory.functorToContAction`; Tau Ceti
-`TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`; TauCetiRoadmap.ModularCurves Layer 0E (descent
-of the twisted form).
+`TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`; TauCetiRoadmap.ModularCurves Layers 0D
+(the field dictionary and transport of group objects) and 0E (descent of the twisted form).
 
 **Checks.**
 
+- The affine comparison sends `R` to the terminal cover `S → S`, sends the zero algebra to
+  the empty cover, and identifies the fibre of `Spec A` with `Hom_{R-alg}(A, Ω)`.
+- For finite étale `R`-algebras `A, B`, `A ⊗_R B` corresponds to the fibre product of their
+  covers, and its `Ω`-fibre is the product of their fibres; this is the product comparison used
+  to transport the group law.
+- For a separably closed field `Ω`, the comparison agrees with
+  `CommAlgCat.FiniteEtale.equivOfIsSepClosed Ω` and ModularCurves Layer 0D: finite étale groups
+  become finite constant groups with trivial Galois action.
 - `etaleGroupEquivContAction_const`: the constant group ℤ/nℤ ↔ trivial action; μ_n over ℤ[1/n] ↔
   (ℤ/n)(1), the cyclotomic character.
 - `etaleGroupEquivContAction_twist`: the twisted constant scheme V(ρ) of a representation ρ : G_ℚ →
@@ -2410,7 +2432,7 @@ constant and diagonalizable groups; TauCetiRoadmap.ModularCurves Layers 0B, 0C, 
 TauCetiRoadmap.LocalFieldsRamification Layers 3 and 4; TauCetiRoadmap.ClassFieldTheory Layers 7
 and 11; AbelianSchemesAndArithmeticModuli §A4.5 and Layer A3; DerivedModuleAlgebra §0.4;
 SchemeAndStackFoundations §0.23 and §4.1 (and §5.4 for the projective-line-bundle Check);
-EtaleCohomologyFoundations §F.0 (`finiteEtaleGaloisCategory`);
+EtaleCohomologyFoundations §F.0.2 (`VanishingCycles.finiteEtaleGaloisCategory`);
 PadicPeriodRings §§1–2; Mathlib's local rings, discrete valuation rings, power series, Kähler
 differentials and continuous cohomology; Mathlib schemes, ringed-space gluing, pullbacks,
 étale and smooth morphisms, ring Frobenius and finite-field Frobenius.
@@ -5900,8 +5922,10 @@ supercuspidal; Savitt 2005, §2.2, Proposition 2.21, p. 10: weak admissibility.)
 ### R07.4.30 Lattices in potentially Barsotti–Tate representations and p-divisible groups with descent data
 
 Prove `descentDataPDivisibleGroups`. Descent data relative to F′ on a p-divisible group G over O_F
-is a collection of morphisms [g] : G → ᵍG, g ∈ Gal(F/F′), of p-divisible groups over O_F with [gh] =
-(ᵍ[h]) ∘ [g] (ᵍG the base change by g). Sending a G_{F′}-stable ℤ_p-lattice T to the p-divisible
+is a collection of morphisms `[g] : G → ᵍG`, `g ∈ Gal(F/F′)`, of p-divisible groups over O_F with
+`[1] = id` and `[gh] = (ᵍ[h]) ∘ [g]`, using the canonical identifications of iterated pullbacks
+(`ᵍG` is the base change by `g`). The unit and cocycle laws make each `[g]` an isomorphism, with
+inverse `ᵍ[g⁻¹]`. Sending a G_{F′}-stable ℤ_p-lattice T to the p-divisible
 group over O_F prolonging the generic group Γ = ∪Γ(n) of the T/pⁿ, with its descent data, is an
 equivalence between G_{F′}-stable lattices in potentially crystalline representations that become
 crystalline over F with Hodge–Tate weights in {0, 1}, and p-divisible groups over O_F with descent
@@ -5912,11 +5936,12 @@ Gal(F′/F); since F′ ⊆ F the group is Gal(F/F′).
 
 *Proof sketch.* Γ(n) = Spec Maps_{G_F}(T/pⁿ, ℚ̄_p) carries a Gal(F/F′)-action g·f = g̃ ∘ f ∘
 g̃^{−1}, independent of the lift g̃ and compatible in n, giving g-semilinear ⟨g⟩ : Γ → Γ and [g] : Γ
-→ ᵍΓ with [gh] = (ᵍ[h]) ∘ [g] (Savitt, §3.1). Γ prolongs to a p-divisible group over O_F:
+→ ᵍΓ with `[1] = id` and `[gh] = (ᵍ[h]) ∘ [g]` (Savitt, §3.1). Γ prolongs to a p-divisible group over O_F:
 crystalline with Hodge–Tate weights in {0, 1} gives one lattice from a p-divisible group (Breuil
 2000, Th. 5.3.2 for p ≠ 2 and finite residue field; for every p, §R07.4.20), and schematic closure
 transports it to every lattice (Raynaud, §§2.2–2.3). Tate's full faithfulness extends each [g]
-uniquely to the prolongation, and the cocycle relation persists (Savitt, §3.1). Conversely descent
+uniquely to the prolongation; uniqueness preserves both the unit and cocycle laws (Savitt, §3.1).
+Conversely descent
 data gives compatible Gal(F/F′)-actions on the bigebras R_n of G(n), and σ·f = σ ∘ f ∘ (σ^{−1}|_F)
 defines a G_{F′}-action on lim G(n)(O_{ℚ̄_p}); the two constructions are inverse (Proposition 3.2).
 (Savitt 2005, §3.1, Definition 3.1, p. 12: the definition; Savitt 2005, §3.1, Proposition 3.2, p.
@@ -5926,8 +5951,12 @@ defines a G_{F′}-action on lim G(n)(O_{ℚ̄_p}); the two constructions are in
 
 **Checks.**
 
-- `descentData_trivial`: F = F′: no descent data, and the statement is the lattice form of
-  §R07.4.20.
+- `descentData_trivial`: `F = F′`: the unit law forces the sole map `[1]` to be the identity,
+  and the statement is the lattice form of §R07.4.20.
+- For `F = F′ = ℚ_p`, `p > 2` and the nonzero height-one group `G = ℚ_p/ℤ_p`, the family
+  `[1] = 0` satisfies the cocycle equation but violates the unit law, so it is excluded. For
+  any Galois group the all-zero family is excluded on every nonzero group. The module-side
+  theorem `SemilinearDescentData.not_all_zero` excludes the all-zero action on a nonzero module.
 - `descentData_tame`: a potentially Barsotti–Tate lattice of tame type becoming crystalline over F₁
   = ℚ_p(ζ_p) gives a p-divisible group over ℤ_p[ζ_p] with an action of Gal(F₁/ℚ_p) ≅ (ℤ/p)^×.
 - `descentData_cocycle`: the cocycle condition is `[gh] = (ᵍ[h]) ∘ [g]`; the condition `[gh] = [g] ∘
@@ -6061,9 +6090,16 @@ T_p(G) ≅ Hom_{′Mod^1_0}(M, Â_cris) as G_{F′}-lattices, and Â_cris ⊂ Â
 Â_cris) = Hom_{′Mod^1}(M, Â_st). (2) Every strongly divisible module M with tame descent data is
 contained in S[1/p] ⊗_{F₀} D for a filtered (φ, N, F/F′, ℚ_p)-module D with N = 0, Fil⁰D_F = D_F and
 Fil²D_F = 0. (3) If ρ : G_{F′} → GL(V) becomes crystalline over F with Hodge–Tate weights in {0, 1},
-then T^{F′}_{st,2}(M) = (lim_n Hom_{′Mod^1}(M/pⁿM, Â_{st,∞}))^∧(1) is an equivalence between
+then `T^{F′}_{st,2}(M) = lim_n (H_n(M)^∧(1))`, where
+`H_n(M) = Hom_{′Mod¹}(M/pⁿM, Â_{st,∞})`, is an equivalence between
 strongly divisible modules with tame descent data contained in S[1/p] ⊗_{F₀} D^F_{st,2}(V) and
-G_{F′}-stable lattices in ρ.
+G_{F′}-stable lattices in ρ. For a finite `p`-primary module `X`, write
+`X^∧ = Hom_{ℤ_p}(X, ℚ_p/ℤ_p)`, with the contragredient Galois action and trivial action on
+`ℚ_p/ℤ_p`; `(1)` is the cyclotomic twist. The quotient
+`q_n : M/p^{n+1}M → M/pⁿM` gives the injection
+`j_n : H_n(M) → H_{n+1}(M)`, `h ↦ h ∘ q_n`. The inverse-limit transition is its dual
+`j_n^∧(1) : H_{n+1}(M)^∧(1) → H_n(M)^∧(1)`, sending a functional to its restriction along
+`j_n`, with the same twist. Thus the dual is taken before the inverse limit.
 
 The setting and the tameness hypotheses are those of §R07.4.27 and §R07.4.31. Breuil's period rings
 `Â_cris ⊂ Â_st` (Breuil 1999b, §2.2.2, as described in Savitt §3.2) are used as Savitt describes them; Savitt's "filtered (φ, N,
@@ -6091,6 +6127,11 @@ descent of the filtered module.)
   representations with Hodge–Tate weights {0, 1} for p ≠ 2.
 - `descentDataLattice_rankOne`: rank one: the strongly divisible module of Proposition 5.1 gives the
   lattice O_E(ε ω̃^j λ_a) (Savitt, §5).
+- For `F = F′ = ℚ_p`, `p > 2` and the strongly divisible module of `G = ℚ_p/ℤ_p`, the Hom
+  groups are `H_n(M) ≅ ℤ/pⁿ`, with `j_n` identified with multiplication by `p` into `ℤ/p^{n+1}`.
+  The dual transitions are reduction, so `T_st,2(M) ≅ ℤ_p(1)` is torsion-free and finite free of
+  rank one. In contrast, dualizing the un-dualized Hom lattice `T_p(G) = ℤ_p` gives
+  `Hom_{ℤ_p}(ℤ_p, ℚ_p/ℤ_p) ≅ ℚ_p/ℤ_p`, a torsion group, even after twisting.
 
 ### R07.4.33 Strongly divisible R-modules with tame descent data and the functor T_st
 
@@ -6107,6 +6148,12 @@ G_{F′}-action, compatible with reduction mod m_R^n and with base change R → 
 strongly divisible. For k = 2 and R = O_E every G_{F′}-stable O_E-lattice in a potentially
 Barsotti–Tate representation becoming crystalline over F is T^{F′}_{st,2}(M) for some strongly
 divisible O_E-module with descent data M.
+
+Here `∧` is the finite-level `ℚ_p/ℤ_p`-dual of §R07.4.32. Precomposition with
+`M/m_R^{n+1}M → M/m_R^n M` embeds the level-`n` Hom group into the level-`n+1` Hom group;
+restriction of dual functionals gives the transition in `T_st,k(M)`. The Hom realization
+`N ↦ Hom_{′Mod^{k−1}}(N, Â_{st,∞})` is contravariant. Duality reverses arrows again, so
+`T_st,k` is covariant, both at finite level and on strongly divisible modules.
 
 The setting and the tameness hypotheses are those of §R07.4.27 and §R07.4.31. Savitt's exposition
 follows Breuil–Mézard §3.2; the lemmas of [BM02] and [Bre99] it invokes (BM02 Lemmes 3.2.2.1–3.2.2.2
@@ -6159,7 +6206,8 @@ k_F[u]/u^{ep}-module of finite rank, Fil¹M′ ⊇ u^e M′ a submodule and φ�
 from objects of Mod¹ killed by p to Breuil modules (quasi-inverse M′ ↦ M′ ⊗ S₁), extending to
 descent data and to R/I-actions. If M′ has Fil¹M′ = u^e M′, then for every M″ and
 identification α : T^{F′}_{st,2}(M′) ≅ T^{F′}_{st,2}(M″), there is a unique morphism
-f : M″ → M′ with T^{F′}_{st,2}(f) = α (the realisation is contravariant). This is the
+`f : M″ → M′` with `T^{F′}_{st,2}(f) = α.symm` on underlying morphisms. The realization is
+covariant, as in §R07.4.33. This is the
 maximal-prolongation universal property; f is nonzero when the common realisation is nonzero.
 Dually Fil¹M′ = M′ gives the minimal one.
 
@@ -6172,7 +6220,8 @@ Raynaud's maximal prolongation are used in the maximality argument.
 with descent data (Savitt, Remark 3.9) and with R/I-actions (Breuil 1998, Prop. 2.2.2.1, as cited).
 Fil¹M′ = u^e M′: the group scheme G′ = G_π(M′) is étale (BCDT01 Th. 5.1.3(3)), so it equals the
 maximal prolongation (G′)⁺ of its generic fibre by the universal property of the connected–étale
-sequence; hence a fixed generic-fibre identification extends to G′ → G″, and so to M″ → M′
+sequence; hence the generic-fibre identification whose dual twist is `α.symm` extends to
+`G′ → G″`, and so to `M″ → M′`
 (Savitt, Lemma 4.14). Uniqueness follows because maps between finite flat groups over O_F
 are determined on the generic fibre; descent data and coefficient actions follow by this
 uniqueness. Nonzero realisation forces the resulting morphism to be nonzero. Minimal:
@@ -6188,9 +6237,9 @@ The API:
 - `BreuilModuleModP.IsMaximal`: Fil¹M′ = u^e M′.
 - `BreuilModuleModP.IsMinimal`: Fil¹M′ = M′.
 - `BreuilModuleModP.exists_hom_to_maximal`: For maximal M′ and any fixed isomorphism
-  α : T_st(M′) ≅ T_st(M″), the unique morphism M″ → M′ inducing α.
+  `α : T_st(M′) ≅ T_st(M″)`, the unique morphism `f : M″ → M′` inducing `α.symm`.
 - `BreuilModuleModP.exists_nonzero_hom_to_maximal`: Under the additional hypothesis
-  T_st(M′) ≠ 0, the morphism inducing α is nonzero.
+  `T_st(M′) ≠ 0`, the morphism inducing `α.symm` is nonzero.
 
 *Needs:* §R07.4.31 `breuilSyntomicPeriods`; §R07.4.33; §R07.1.24.
 
@@ -6205,6 +6254,10 @@ The API:
 - `BreuilModuleModP.zero`: For M′ = M″ = 0, both maximal and minimal conditions hold;
   the unique realisation identification is induced by the zero morphism. The nonzero
   corollary does not apply.
+- Take `p = 5`, `F = F′ = ℚ_5` and two separately named copies `M′ = (𝔽_5[u]/u⁵)e′`,
+  `M″ = (𝔽_5[u]/u⁵)e″` with `Fil¹Mᵢ = uMᵢ` and `φ₁(ueᵢ) = eᵢ`. Choose realization bases
+  `t′, t″` matched by the basis identification, and fix `α(t′) = 2t″`. The unique lift to the
+  maximal `M′` is `f(e″) = 3e′`, and `T_st(f)(t″) = 3t′ = α.symm(t″)`; it cannot equal `α`.
 - `BreuilModuleModP.freeness`: Breuil modules arising as reductions of strongly divisible
   O_E-modules are free over (k_F ⊗ k_E)[u]/u^{ep}; general ones with an action of R/I need not be
   (Savitt, §4).
