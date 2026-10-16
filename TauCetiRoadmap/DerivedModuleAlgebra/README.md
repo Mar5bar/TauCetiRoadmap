@@ -1578,8 +1578,11 @@ left `A`-modules, construct the functor
 It is represented by `Cone(δ)[−1]` on product complexes, or by termwise inverse limit after
 a levelwise quasi-isomorphic degreewise-surjective replacement. Prove localization invariance,
 functoriality, exactness and the natural comparison between these models, including projections
-and connecting maps. This is the shared module-derived limit, independent of topological
-applications. A tower of objects in `D(A)` alone is not a strict derived diagram.
+and connecting maps. For chain maps of strict towers, construct the comparison between the
+product-cone model of `Rlim(Cone f)` and `Cone(Rlim f)`, compatible with cone inclusions,
+projections and shifts. Transport this comparison through localization to obtain exactness
+on the derived category of towers. This is the shared module-derived limit, independent of
+topological applications. A tower of objects in `D(A)` alone is not a strict derived diagram.
 
 The shift kernels and cokernels are supplied by §1.T.1 / *lim and lim¹
 of a tower*, with their connecting maps supplied by §1.T.1 / *The six-term
@@ -1609,7 +1612,13 @@ Provide the following module adapters and functor laws.
   retaining the `A`-module structure.
 - `derivedLimit_milnor`: the natural `A`-linear sequence supplied by §1.T.1 / *The Milnor sequence for towers of complexes* on a degreewise-surjective replacement,
   with `lim¹` vanishing under the cohomology Mittag-Leffler hypothesis stated above.
-- `derivedLimit_triangle`: `Rlim` sends levelwise distinguished triangles to distinguished triangles.
+- `derivedLimit_commShift`: equip `Rlim` with Mathlib's `Functor.CommShift ℤ`, using the
+  product-cone comparison to give coherent isomorphisms `Rlim(K[j]) ≅ (Rlim K)[j]`.
+- `derivedLimit_triangle`: for a triangle `T` in `DerivedCategory (ℕᵒᵖ ⥤ ModuleCat A)`
+  with `T ∈ distTriang _`, its image under `(derivedLimit A).mapTriangle` is distinguished
+  in `D(A)` ([StacksMA], Tag 091D). Retain the source triangle's global connecting morphism,
+  composed with the shift comparison. Short exact sequences of strict towers of complexes
+  use their canonical global connecting morphisms.
 - `derivedLimit_cofinal`: restriction along a monotone cofinal `c : ℕ → ℕ` gives a natural
   isomorphism on derived limits, commuting with projections, the six-term boundaries and both
   Milnor maps; this includes tails and finite shifts. Reindex homological degree `j` as
@@ -1626,6 +1635,20 @@ Provide the following module adapters and functor laws.
 **Checks.**
 
 - `test_rlim_constant`: for a constant system `K`, `Rlim K_n ≅ K`.
+- The mapping-cone triangle of the identity on any strict tower maps to the identity triangle
+  of its derived limit, with zero third vertex; this tests the cone and shift comparisons.
+- Let `k` be a nonzero field, `V = ⊕_(m≥0) k`, `A_n = ⊕_(m≥n) k`, `B_n = V` and
+  `C_n = k^n`, with tail inclusions, identity transitions and last-coordinate projections.
+  Tail inclusion and first-`n`-coordinate projection give `A → B → C`.
+  The diagram `A[0] → B[0] → C[0] → A[1]` with globally zero final arrow evaluates to a
+  split distinguished triangle at every level. Its derived-limit image is not distinguished:
+  its zero boundary would force the finite-support inclusion `⊕ k → ∏ k` to be surjective,
+  whereas the all-ones sequence is outside its image. Levelwise distinguishedness does not
+  satisfy the hypothesis of `derivedLimit_triangle`.
+- For the same towers, the canonical triangle of `0 → A → B → C → 0` is distinguished in
+  the derived category of towers. Its global connecting morphism is nonzero although each
+  evaluation vanishes. The derived-limit boundary is the quotient
+  `∏ k → (∏ k)/(⊕ k) ≅ lim¹ A`, up to the fixed cone sign, and `lim A = 0`.
 - For a prime `p`, removing `r` initial levels of the multiplication-by-`p` tower on `ℤ` induces the inverse of
   multiplication by `p^r` on `ℤ_p/ℤ`, under the convergent-sum identifications: the tail sum is
   `(Σ pⁿa_n − Σ_(n<r) pⁿa_n)/p^r`. This tests the direction of the cofinal comparison.

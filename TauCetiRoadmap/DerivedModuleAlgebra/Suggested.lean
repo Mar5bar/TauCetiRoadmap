@@ -796,6 +796,17 @@ comparison, projections and connecting maps of README 1.1. -/
 def derivedLimit (R : Type u) [Ring R] :
     DerivedCategory (ℕᵒᵖ ⥤ ModuleCat.{u} R) ⥤ D R := sorry
 
+/-- The product-cone comparison gives derived limit coherent commutation with integer shifts. -/
+instance derivedLimit_commShift (R : Type u) [Ring R] :
+    (derivedLimit R).CommShift ℤ := sorry
+
+/-- Derived limit preserves distinguished triangles in the derived category of strict towers,
+including their global connecting morphisms composed with the shift comparison (Stacks 091D). -/
+theorem derivedLimit_triangle (R : Type u) [Ring R]
+    (T : Triangle (DerivedCategory (ℕᵒᵖ ⥤ ModuleCat.{u} R)))
+    (hT : T ∈ distTriang (DerivedCategory (ℕᵒᵖ ⥤ ModuleCat.{u} R))) :
+    (derivedLimit R).mapTriangle.obj T ∈ distTriang (D R) := sorry
+
 /-- The strict tower obtained by restricting the semilinear chain maps adjoint to the model
 reductions. Its evaluation comparisons retain `PerfectSystem.transition`. -/
 def finiteFreeSystemDiagram {A : ℕ → Type u} [∀ n, CommRing (A n)]
@@ -1260,7 +1271,8 @@ CompactCoefficients.Tower.isMittagLeffler_of_finite,
 CompactCoefficients.Tower.isMittagLeffler_iff_ranges, ml_finite, ml_surjective, ml_mul_p_fails.
 
 1.1:
-DerivedDeRham.derivedLimit, derivedLimit_surjective, derivedLimit_milnor, derivedLimit_triangle,
+DerivedDeRham.derivedLimit, derivedLimit_surjective, derivedLimit_milnor, derivedLimit_commShift,
+derivedLimit_triangle,
 derivedLimit_cofinal, derivedLimit_homotopySquare.
 
 1.1.1:
