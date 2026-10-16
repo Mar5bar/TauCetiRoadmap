@@ -181,6 +181,16 @@ example (sb sx : G →* E) (p : E) :
     (∀ g, pathCocycle sb sx p g = 1) ↔ (∀ g, p⁻¹ * sx g * p = sb g) := by
   sorry
 
+/-- A path moved by the reference action gives a nonneutral representative. -/
+example (sb : G →* E) (p : E) (g : G)
+    (h : sb g * p * (sb g)⁻¹ ≠ p) : pathCocycle sb sb p g ≠ 1 := by
+  sorry
+
+/-- Distinct section values give a nonneutral cocycle value at the identity path. -/
+example (sb sx : G →* E) (g : G) (h : sx g ≠ sb g) :
+    pathCocycle sb sx 1 g ≠ 1 := by
+  sorry
+
 end ArithmeticPath
 
 /-! ## Layer 2: Unipotent fundamental groups and their realizations -/
@@ -328,6 +338,18 @@ example (w : ℚ × ℚ) :
 example (w : ℚ × ℚ) : symplecticTensorAction (1, 0) (0, 1) w = (0, w.2) := by
   sorry
 
+/-- A zero first tensor factor gives the zero correspondence action. -/
+example (v : ℚ × ℚ) : symplecticTensorAction 0 v = 0 := by
+  sorry
+
+/-- A zero second tensor factor gives the zero correspondence action. -/
+example (u : ℚ × ℚ) : symplecticTensorAction u 0 = 0 := by
+  sorry
+
+/-- Swapping the symplectic basis inputs gives diag(−1,0). -/
+example (w : ℚ × ℚ) : symplecticTensorAction (0, 1) (1, 0) w = (-w.1, 0) := by
+  sorry
+
 variable {K : Type u} [Field K]
 variable {C : Type v} [AddCommGroup C] [Module K C]
 variable {N : Type w} [AddCommGroup N] [Module K N]
@@ -359,6 +381,12 @@ example : ¬ IsNiceCorrespondence (⊥ : Submodule ℚ (ℚ × ℚ))
     (0 : (ℚ × ℚ) →ₗ[ℚ] ℚ) (LinearMap.snd ℚ ℚ ℚ) (1, 0) := by
   sorry
 
+/-- A nonzero trace excludes a class with nonzero primitive component. -/
+example : ¬ IsNiceCorrespondence (⊥ : Submodule ℚ (ℚ × ℚ))
+    (LinearMap.id : (ℚ × ℚ) →ₗ[ℚ] ℚ × ℚ)
+    (LinearMap.fst ℚ ℚ ℚ) (LinearMap.snd ℚ ℚ ℚ) (1, 1) := by
+  sorry
+
 variable {V : Type v} [AddCommGroup V] [Module K V]
 
 /-- The preheight has both negative splitting corrections. The geometric projections are
@@ -388,6 +416,24 @@ example : HeightPrevalue
     (2 • LinearMap.fst ℚ ℚ ℚ) (3 • LinearMap.snd ℚ ℚ ℚ) 7 1 = 6 := by
   sorry
 
+/-- With zero adjacent vector, the preheight is the central difference 7−1=6. -/
+example : HeightPrevalue
+    ((LinearMap.inl ℚ ℚ ℚ).comp (LinearMap.fst ℚ ℚ ℚ))
+    ((LinearMap.inr ℚ ℚ ℚ).comp (LinearMap.snd ℚ ℚ ℚ)) (0, 0)
+    (2 • LinearMap.fst ℚ ℚ ℚ) (3 • LinearMap.snd ℚ ℚ ℚ) 7 1 = 6 := by
+  sorry
+
+/-- Raising the central Frobenius coordinate by one raises this preheight from −2 to −1. -/
+example : HeightPrevalue
+    ((LinearMap.inl ℚ ℚ ℚ).comp (LinearMap.fst ℚ ℚ ℚ))
+    ((LinearMap.inr ℚ ℚ ℚ).comp (LinearMap.snd ℚ ℚ ℚ)) (1, 2)
+    (2 • LinearMap.fst ℚ ℚ ℚ) (3 • LinearMap.snd ℚ ℚ ℚ) 8 1 = -1 := by
+  sorry
+
+/-- A linear local character respects scalar multiplication of the height coordinate. -/
+example (χ : K →ₗ[K] K) (a z : K) : χ (a * z) = a * χ z := by
+  sorry
+
 variable {I : Type w} [Fintype I]
 
 /-- Complete independent local height upper bounds give the negative away-place sum set. -/
@@ -411,6 +457,24 @@ example : AwayHeightConstants (fun _ : Fin 0 => (∅ : Set ℚ)) = {0} := by
 
 /-- An away-place height of 3 contributes −3, not 3. -/
 example : AwayHeightConstants (fun _ : Fin 1 => ({3} : Set ℚ)) = {-3} := by
+  sorry
+
+/-- Two singleton local values 1 and 2 give correction −3. -/
+example : AwayHeightConstants
+    (fun i : Fin 2 => if i = 0 then ({1} : Set ℚ) else {2}) = {-3} := by
+  sorry
+
+/-- A singleton local value 2 gives correction −2. -/
+example : AwayHeightConstants (fun _ : Fin 1 => ({2} : Set ℚ)) = {-2} := by
+  sorry
+
+/-- The positive value and zero are both excluded by a singleton local value 3. -/
+example : (3 : ℚ) ∉ AwayHeightConstants (fun _ : Fin 1 => ({3} : Set ℚ)) ∧
+    (0 : ℚ) ∉ AwayHeightConstants (fun _ : Fin 1 => ({3} : Set ℚ)) := by
+  sorry
+
+/-- Singleton-zero local sets give exactly the zero correction. -/
+example : AwayHeightConstants (fun _ : I => ({0} : Set K)) = {0} := by
   sorry
 
 variable {X : Type v} {m : ℕ}
@@ -460,6 +524,23 @@ example : HeightDeterminant (fun _ : ℚ => (0 : Fin 0 → ℚ)) (fun x => x)
 /-- A zero feature matrix makes this determinant zero for every height value. -/
 example : HeightDeterminant (fun _ : ℚ => (0 : Fin 1 → ℚ)) (fun x => x)
     (fun _ : Fin 1 => 0) 0 0 7 = 0 := by
+  sorry
+
+/-- Candidate and anchor corrections give the matrix ((5,2),(10,4)) of determinant zero. -/
+example : HeightDeterminant (fun x : ℚ => fun _ : Fin 1 => x)
+    (fun x => x + 5) (fun _ : Fin 1 => 4) 2
+    (fun _ : Fin 1 => -1) 2 = 0 := by
+  sorry
+
+/-- Dropping both corrections changes the same determinant to 10. -/
+example : HeightDeterminant (fun x : ℚ => fun _ : Fin 1 => x)
+    (fun x => x + 5) (fun _ : Fin 1 => 4) 0 0 2 = 10 := by
+  sorry
+
+/-- An anchor with its own correction repeats a row and makes the determinant zero. -/
+example (ψ : X → Fin m → K) (θ : X → K) (anchors : Fin m → X)
+    (anchorα : Fin m → K) (i : Fin m) :
+    HeightDeterminant ψ θ anchors (anchorα i) anchorα (anchors i) = 0 := by
   sorry
 
 end Heights
@@ -525,8 +606,8 @@ README.md specifies the geometric arithmetic path torsor, finite-coefficient ét
 predicate and raw étale pro-space; equivariant topological torsors and their isomorphisms;
 good and symmetric paths; relative outer Hom and Isom; stable log-admissible covers;
 cyclotomic degree; Jacobian-geometric and formal Kummer disc sections, nondegenerate sections
-and canonical relations; neutral tensor reconstruction; completed path algebra, universal
-pointed object, finite path module, filtered path and tangential fibre; algebra-valued Galois
+and canonical relations; two-fibre-functor tensor torsors and the unipotent specialization;
+completed path algebra, universal pointed object, finite path module, filtered path and tangential fibre; algebra-valued Galois
 cohomology family, filtered affine torsor and Selmer variety; admissible period and Albanese
 maps; exact, period-image and closed-image Kim loci; geometric nice correspondences,
 admissible de Rham Tate classes, depth-two height quotient and module, relative-cycle mixed
