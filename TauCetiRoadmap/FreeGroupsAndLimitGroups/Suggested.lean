@@ -270,7 +270,8 @@ theorem graphPresentation_abelianization (T : Γ.SpanningTree) (O : Set E)
     Nonempty (Additive (Abelianization (Γ.GraphPresentation T)) ≃+
       FreeAbelianGroup {e : E // e ∈ O ∧ e ∉ T.edges}) := by sorry
 
-/-- The mod-two incidence boundary counts both ends of a loop (§2.2a). -/
+/-- Finite-function coordinate adapter for NeronModelsAndSemistableAbelianVarieties §4.2's
+mod-two Finsupp incidence on the actual edge type `O` (§2.2a). Both ends of a loop are counted. -/
 noncomputable def cycleBoundary [Fintype V] [Fintype E] (O : Set E) :
     (O → ZMod 2) →ₗ[ZMod 2] (V → ZMod 2) := by
   classical
@@ -280,11 +281,37 @@ noncomputable def cycleBoundary [Fintype V] [Fintype E] (O : Set E) :
       map_add' := by sorry
       map_smul' := by sorry }
 
-/-- The cycle space is the kernel of the incidence boundary (§2.2a). -/
+/-- Finite-function coordinate adapter for the supplied `DualGraph.modTwoCycleSpace`
+(NeronModelsAndSemistableAbelianVarieties §4.2), on the actual edge type `O` (§2.2a). -/
 noncomputable def cycleSpace [Fintype V] [Fintype E] (O : Set E) :
     Submodule (ZMod 2) (O → ZMod 2) := (Γ.cycleBoundary O).ker
 
-/-- Fundamental cycles indexed by non-tree edges form a mod-two basis (§2.2a). -/
+/-- Finite-function/Finsupp coordinates commute with the supplied binary boundary (§2.2a).
+The right side is the incidence map defining `DualGraph.modTwoCycleSpace` in
+NeronModelsAndSemistableAbelianVarieties §4.2, specialized to edge type `O`. -/
+theorem cycleBoundary_finsupp [Fintype V] [Fintype E] (O : Set E) (c : O → ZMod 2) :
+    (Finsupp.linearEquivFunOnFinite (ZMod 2) (ZMod 2) V).symm (Γ.cycleBoundary O c) =
+      Finsupp.linearCombination (ZMod 2)
+        (fun e : O => Finsupp.single (Γ.tgt e) (1 : ZMod 2) -
+          Finsupp.single (Γ.src e) (1 : ZMod 2))
+        ((Finsupp.linearEquivFunOnFinite (ZMod 2) (ZMod 2) O).symm c) := by sorry
+
+/-- The boundary comparison restricts to the supplied binary kernel on edge type `O` (§2.2a).
+The explicit codomain is `DualGraph.modTwoCycleSpace` from
+NeronModelsAndSemistableAbelianVarieties §4.2. -/
+noncomputable def cycleSpace_finsuppEquiv [Fintype V] [Fintype E] (O : Set E) :
+    Γ.cycleSpace O ≃ₗ[ZMod 2]
+      LinearMap.ker (Finsupp.linearCombination (ZMod 2)
+        (fun e : O => Finsupp.single (Γ.tgt e) (1 : ZMod 2) -
+          Finsupp.single (Γ.src e) (1 : ZMod 2))) := by sorry
+
+/-- The supplied-kernel comparison preserves each edge coordinate (§2.2a). -/
+theorem cycleSpace_finsuppEquiv_apply [Fintype V] [Fintype E] (O : Set E)
+    (c : Γ.cycleSpace O) (e : O) :
+    (Γ.cycleSpace_finsuppEquiv O c).val e = c.val e := by sorry
+
+/-- Transport of the supplied binary forest basis along `cycleSpace_finsuppEquiv` and the
+chord-index bijection gives the Serre tree-loop basis (§2.2a). -/
 theorem cycleSpace_basis [Fintype V] [Fintype E] [DecidableEq E] (T : Γ.SpanningTree)
     (O : Set E) (hO : Γ.IsOrientation O) :
     ∃ b : Module.Basis {e : E // e ∈ O ∧ e ∉ T.edges} (ZMod 2) (Γ.cycleSpace O),
@@ -292,7 +319,8 @@ theorem cycleSpace_basis [Fintype V] [Fintype E] [DecidableEq E] (T : Γ.Spannin
         (b e).val ⟨f.val, f.property.1⟩ =
         if e.val = f.val then 1 else 0 := by sorry
 
-/-- The finite connected cycle-space dimension uses the same edge count as graph rank. -/
+/-- The supplied component-count rank formula, transported to Serre coordinates, specializes
+to the connected nonempty graph count (§2.2a). -/
 theorem cycleSpace_finrank [Fintype V] [Fintype E] (T : Γ.SpanningTree)
     (O : Set E) (hO : Γ.IsOrientation O) :
     Module.finrank (ZMod 2) (Γ.cycleSpace O) = Nat.card O + 1 - Nat.card V := by sorry
@@ -1086,6 +1114,22 @@ example : Nat.card (NonorientableSurfaceGroup 1 0) = 2 := by
   sorry
 
 example : orientableEulerChar 2 0 = -2 := by
+  sorry
+
+/-- The zero-square regular example has noncommuting adjacent atoms and an orientable
+four-boundary model (§§6.5, 6.9, 11.3). Its `Standard` branch is orientable type (2),
+with the conjugacy-only basic sequence of length two. -/
+example :
+    let a : FreeGroup (Fin 2) := FreeGroup.of 0
+    let b : FreeGroup (Fin 2) := FreeGroup.of 1
+    let c : Fin 3 → FreeGroup (Fin 2) := ![a, b, a]
+    let z : Fin 3 → GX (FreeGroup (Fin 2)) (Fin 3) :=
+      fun i => Monoid.Coprod.inr (FreeGroup.of i)
+    let S : GX (FreeGroup (Fin 2)) (Fin 3) :=
+      (List.ofFn (fun i => (z i)⁻¹ * Monoid.Coprod.inl (c i) * z i)).prod *
+        Monoid.Coprod.inl (a * b * a)⁻¹
+    evalAt (MonoidHom.id _) (fun _ => 1) S = 1 ∧
+      comm a b ≠ 1 ∧ comm b a ≠ 1 ∧ orientableEulerChar 0 4 = -2 := by
   sorry
 
 /-- A conjugate of a nonidentity coefficient has no solutions (§6.5, the README's
@@ -1963,7 +2007,12 @@ one vertex and no edges. `SurfaceGroup.modelEquiv` with peripheral comparison; g
 equations, finite cancellation families, elementary transformation relations with separate
 presentation-group kernel reconstruction and full radical transport, parameter solution trees, cut equations and Makanin's
 finiteness theorem; recursive truth sets for the existential, universal and positive fragments; quadratic and strictly quadratic words, standard quadratic forms, atoms, degeneracy,
-general position, `kappa` and quadratic regularity. In particular the README's
+general position, `kappa` and quadratic regularity.
+`GroupAlgGeom.Quadratic.Standard` has positive square genus in its non-orientable
+type-(3) and type-(4) constructors. A coefficient-conjugacy form with zero squares uses
+orientable type (2), the surface S⁺(0,m+1), and the conjugacy-only orientable `basicSeq`
+of length m−1 when regular; the mixed one-square or two-square forms require positive square genus.
+In particular the README's
 `GroupAlgGeom.Quadratic.IsRegular.of_genus` concerns consistent orientable equations of
 positive genus other than [x,y]=1; `MarkedGroup` and its compactness;
 `NTQ.System` and its raw nondegeneracy; `LimitGroup.NTQ.Tower`, its iterated fixed-coefficient
