@@ -242,6 +242,24 @@ theorem HermitianMetric.LogSingularAtZero.pow {f : ℂ → ℝ}
     (hf : HermitianMetric.LogSingularAtZero f) (k : ℕ) :
     HermitianMetric.LogSingularAtZero (fun q => f q ^ k) := sorry
 
+/-- Logarithmic growth of a fixed frame norm is equivalent to growth after the finite ramified
+map u ↦ u^e for e > 0. The frame upstairs belongs to the pullback of the same boundary extension
+(README §5.1). -/
+theorem HermitianMetric.LogSingularAtZero.comp_pow_iff {f : ℂ → ℝ} {e : ℕ}
+    (he : 0 < e) :
+    HermitianMetric.LogSingularAtZero (fun u => f (u ^ e)) ↔
+      HermitianMetric.LogSingularAtZero f := sorry
+
+/-- The ramification exponent rescales the logarithmic boundary parameter (README §5.1). -/
+example (u : ℂ) (e : ℕ) : Real.log ‖u ^ e‖ = (e : ℝ) * Real.log ‖u‖ := by
+  simp [norm_pow, Real.log_pow]
+
+/-- A degree-two disc cover detects logarithmic growth of the pulled-back frame (README §5.1). -/
+example (f : ℂ → ℝ) :
+    HermitianMetric.LogSingularAtZero (fun u => f (u ^ (2 : ℕ))) ↔
+      HermitianMetric.LogSingularAtZero f :=
+  HermitianMetric.LogSingularAtZero.comp_pow_iff (by decide)
+
 /-- The constant unit frame norm satisfies the local condition on the affine line
 (README §§5.1, 5.3). -/
 example : HermitianMetric.LogSingularAtZero (fun _ => 1) := by
@@ -303,11 +321,23 @@ The elliptic model comparison in §2.9 is `EllipticCurve.faltingsHeight_formula`
 The boundary-extension API in §5.1 is `HermitianMetric.hasLogSingularities_iff_distance`,
 `HermitianMetric.hasLogSingularities_of_continuous`,
 `HermitianMetric.hasLogSingularities_of_modification`,
+`HermitianMetric.hasLogSingularities_iff_pullback_of_finite_surjective`,
 `HermitianMetric.hasLogSingularities_pullback` and `HermitianMetric.hasLogSingularities_tensor`.
 Its checks are `HermitianMetric.logSing_cusp`, `HermitianMetric.logSing_empty_boundary`,
 `HermitianMetric.logSing_extension_nonexample`, `HermitianMetric.logSing_negative_nonexample`,
 `HermitianMetric.logSing_polynomial_nonexample`, `HermitianMetric.logSing_power` and
 `HermitianMetric.logSing_zero_nonexample`.
+The finite-surjective equivalence is for normal complex analytic varieties q : Ȳ → X̄,
+a closed analytic boundary Z with dense complement U and dense q⁻¹(U), and a continuous
+metric on L|_U for a fixed line L on X̄. The upstairs extension is q^*L and its boundary is
+the reduced inverse image of Z, including at ramification. Section 5.4 uses
+`SiegelModuli.minimalLevelMap`, finite surjective with inverse-image open A_{g,n}, and
+`SiegelModuli.minimalLevel_hodgePower` on the whole minimal compactification.
+`SiegelModuli.modularMetric_logSing` provides growth relative to L on the coarse minimal
+space: §5.3 gives growth on π_n^*q_n^*L, modification descent gives growth on q_n^*L,
+and finite-surjective descent gives growth on L, with the metric identified by the
+universal-family isometries. For g = 1 and j ≠ 0, 1728, [−1] remains nonidentity inertia
+after the twelfth Hodge power descends.
 
 The arithmetic cycle quotient (§1.10), projective Weil-height class (§1.13), semi-abelian
 family and extension theorem (§2.0), strict differential-lattice comparison (§3.6),
