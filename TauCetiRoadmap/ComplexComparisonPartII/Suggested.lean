@@ -20,10 +20,11 @@ import TauCeti.Geometry.RealAlgebraic.Semialgebraic.Function
 The statements here suggest Lean forms for particular targets, so that contributors and reviewers
 converge on names and signatures; discharging all of them finishes neither a layer nor the roadmap.
 
-The roadmap constructs analytic local models and analytification (C−1), then compares complex
+The roadmap uses ComplexKahlerGeometry K2–K4 and GlobalHolomorphicFunctions GH0.3
+to construct analytic-space local models and analytification (C−1), then compares complex
 algebraic and complex analytic geometry: coherent analytic modules and
 coherent analytification (Layer C0), analytic coherent cohomology (C1), the consequences of
-coherent GAGA for projective and proper schemes (C2) and for algebraic spaces (C3), Remmert,
+coherent GAGA (C2), the derived upgrade on algebraic spaces (C3), Remmert,
 Chow and the algebraization of morphisms using supplied scheme compactifications (C4), the de Rham–Betti comparison with Hodge theory, integration over analytic cycles,
 logarithmic structures and regular singular connections (C5), and stratified topology,
 Riemann existence and finite/adic Artin comparison (C6).
@@ -67,8 +68,17 @@ normalized Chern curvature. `chernFubiniStudyIntersection` consumes this identif
 `ehresmannFibration` is C5.2's underlying-smooth holomorphic/analytification adapter to
 SmoothBundlesConnections B1.5's general proper-surjective-submersion theorem, including
 native smooth trivializations and their pullbacks; its realification maps come from
-ComplexManifolds Milestone 1. C0.3 uses that roadmap's Milestone 7.1–7.3 fixed-rank
-holomorphic gluing to build the bundle–sheaf equivalence on clopen rank strata.
+ComplexManifolds Milestone 1. C0.3 identifies ComplexKahlerGeometry K4's supplied
+fixed-rank bundle–sheaf equivalence with C0.1 and assembles clopen rank strata.
+C0 owns the general coherent analytic module interface, including the native open/over-site,
+section/stalk and germ comparisons exported to RealAnalyticGeometry R3.2. C1.4–C1.5 owns
+the general complete-metric weighted and coherent analytic-space Cartan A/B package;
+RealAnalyticGeometry R3.1–R3.2 consumes its manifold specializations. The local inputs are
+ComplexKahlerGeometry K5a's bundle regularity, K5b.0's adjoint/symbol and K6.0's Bochner
+identity, before compact Hodge theory. C5.3 uses K5's supplied harmonic/Green machinery and
+K6.1's Kähler decomposition through its geometric comparison maps.
+C0.7 constructs `analyticEtaleDescent` and `SpaceCoherentAnalytification`, with canonical
+cohomology/exchange comparisons, before C1.9's `properSpaceComplexGaga`.
 C5.1's nesting-small resolution extends and compares with CharacteristicClasses C1.2's
 shared locally acyclic constant-coefficient resolution on Hausdorff CW representatives,
 including the augmentation and maps from singular cochains.
@@ -86,15 +96,15 @@ What is recorded here:
 
 * the library declarations the roadmap consumes, pinned by `#check`;
 * light definitions with real bodies that are statable at the pins: the coherent-module category
-  over a locally ringed space (C0.1), the Wirtinger operator `∂̄` on `ℂ` and the Cauchy–Green
-  transform (C1.1), Grothendieck's order of a differential operator (C5.1),
+  over a locally ringed space (C0.1), the Euclidean Hodge-Laplacian sign adapter (C1.2),
+  Grothendieck's order of a differential operator (C5.1),
   chart maps and the intrinsic saturation adapter (C5.5), and the residue-strip and monodromy
   conventions (C5.6);
-* end theorems and layer milestones whose carriers exist at the pins: the one-variable Dolbeault
-  lemma, Montel's theorem, the Banach case of Schwartz's finiteness theorem, connectedness of
+* end theorems and layer milestones whose carriers exist at the pins: the several-variable
+  Montel theorem, the Banach case of Schwartz's finiteness theorem, connectedness of
   punctured Riemann surfaces, the pointwise form of the semipositive wedge inequality and the
   Fubini–Study normalisation;
-* `example`s fixing every sign and normalisation the README pins with a witness: `∂̄ z̄ = 1`,
+* `example`s fixing the period, Laplacian, residue and log normalisations:
   `∮ dz/z = 2πi`, `Δ_Hodge(x₁²) = −2` in `ℝ³`, residue representatives in `0 ≤ Re < 1` and
   monodromy `exp(−2πia)`, `ℕ → ℂ, 1 ↦ 0` for the standard log point, and intrinsic saturation
   for `⟨2, 3⟩ ⊆ ℤ` and `2ℕ ⊆ ℤ`.
@@ -226,48 +236,6 @@ section C1
 
 open MeasureTheory
 
-/-- **C1.1, the Wirtinger operator** `∂f/∂z̄ = ½(∂f/∂x + i ∂f/∂y)` of a function `ℂ → ℂ`,
-computed from the real derivative. Holomorphic functions are exactly the real-differentiable
-functions with `dbar f = 0`. -/
-def dbar (f : ℂ → ℂ) (z : ℂ) : ℂ :=
-  (1 / 2 : ℂ) * (fderiv ℝ f z 1 + Complex.I * fderiv ℝ f z Complex.I)
-
-/-- Constants have zero conjugate Wirtinger derivative. -/
-example (c z : ℂ) : dbar (fun _ => c) z = 0 := by simp [dbar]
-
-/-- `∂̄ z = 0`: the coordinate is holomorphic. -/
-example (z : ℂ) : dbar (fun w => w) z = 0 := sorry
-
-/-- `∂̄ z̄ = 1`: this fixes the normalisation `½(∂_x + i∂_y)`; the operator `∂_x + i∂_y` would
-give `2`, and `½(∂_x − i∂_y)` (the operator `∂/∂z`) would give `0`. -/
-example (z : ℂ) : dbar (fun w => (starRingEnd ℂ) w) z = 1 := sorry
-
-/-- **C1.1, the Cauchy–Green transform** `u(z) = (1/π) ∫ g(w)/(z − w) dλ(w)`, the solution
-operator of the one-variable `∂̄`-equation for compactly supported `g`. -/
-def cauchyGreen (g : ℂ → ℂ) (z : ℂ) : ℂ :=
-  (Real.pi : ℂ)⁻¹ * ∫ w : ℂ, g w / (z - w)
-
-/-- The zero right-hand side has zero Cauchy–Green transform. -/
-example (z : ℂ) : cauchyGreen (fun _ => 0) z = 0 := by simp [cauchyGreen]
-
-/-- **C1.1, `localDolbeault_oneVariable`.** The base case `n = 1`, `q = 1` of `localDolbeault`:
-for a smooth compactly supported `g`, the Cauchy–Green transform is smooth and solves
-`∂u/∂z̄ = g` on all of `ℂ`. The README's `localDolbeault` (polydiscs in `ℂⁿ`, all bidegrees,
-holomorphic parameters) is proved from this by induction on the number of variables. -/
-theorem localDolbeault_oneVariable (g : ℂ → ℂ)
-    (hg : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) g) (hc : HasCompactSupport g) :
-    ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (cauchyGreen g) ∧ ∀ z, dbar (cauchyGreen g) z = g z := sorry
-
-/-- A smooth compactly supported radial function has zero Cauchy–Green transform at zero. -/
-example (g : ℂ → ℂ) (hg : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) g)
-    (hc : HasCompactSupport g) (hr : ∀ z w : ℂ, ‖z‖ = ‖w‖ → g z = g w) :
-    cauchyGreen g 0 = 0 := sorry
-
-/-- A radial cutoff equal to one near zero fixes the normalization of the solution operator. -/
-example (g : ℂ → ℂ) (hg : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) g)
-    (hc : HasCompactSupport g) (hr : ∀ z w : ℂ, ‖z‖ = ‖w‖ → g z = g w)
-    (h1 : ∀ᶠ z in 𝓝 (0 : ℂ), g z = 1) : dbar (cauchyGreen g) 0 = 1 := sorry
-
 /-- **C1.6, `montelTheorem`.** On an open subset of a finite-dimensional complex normed space, a
 sequence of holomorphic functions that is uniformly bounded on every compact subset has a
 subsequence converging locally uniformly, with holomorphic limit. Tau Ceti's `TauCeti.montel` is
@@ -318,7 +286,7 @@ example {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
 /-! ### C1.2 Zero-dimensional orientation and the sign of the Hodge Laplacian -/
 
 /-- The positive zero-dimensional volume form is `+1`, so the defining wedge identity in
-`HodgeStar.dimensionZero` gives `*1 = 1`. -/
+C1.2 gives `*1 = 1`. -/
 example {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
     [FiniteDimensional ℝ E] [Fact (Module.finrank ℝ E = 0)] :
     (positiveOrientation : Orientation ℝ E (Fin 0)).volumeForm =
@@ -326,7 +294,7 @@ example {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
   Orientation.volumeForm_zero_pos
 
 /-- The negative zero-dimensional volume form is `−1`, so the defining wedge identity in
-`HodgeStar.dimensionZero` gives `*1 = −1`. -/
+C1.2 gives `*1 = −1`. -/
 example {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
     [FiniteDimensional ℝ E] [Fact (Module.finrank ℝ E = 0)] :
     (-positiveOrientation : Orientation ℝ E (Fin 0)).volumeForm =
@@ -352,7 +320,7 @@ example {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
 example (f : EuclideanSpace ℝ (Fin 0) → ℝ) (x : EuclideanSpace ℝ (Fin 0)) :
     hodgeLaplacianFun f x = 0 := sorry
 
-/-- `HodgeLaplacian.euclideanSign`: in `ℝ³`, `Δ_Hodge(x₁²) = −2`. -/
+/-- C1.2: in `ℝ³`, `Δ_Hodge(x₁²) = −2`. -/
 example (x : EuclideanSpace ℝ (Fin 3)) :
     hodgeLaplacianFun (fun y : EuclideanSpace ℝ (Fin 3) => (y 0) ^ 2) x = -2 := sorry
 
@@ -621,12 +589,12 @@ end
 
 The analytic spaces, global forms and sheaf constructions below are mathematical targets in
 `README.md`, which states their exact hypotheses. Their carriers require those constructions;
-the supporting presentation, curvature and Wirtinger APIs are also specified there.
+the supporting presentation and curvature comparisons are also specified there.
 
 * **Complex analytic spaces and analytification** (C−1.1–C−1.3/C1.9):
   `CoherentAnalyticModule` on analytic spaces, `coherentOperations`, `CoherentAnalyticIdeal`,
   `holomorphicBundleDictionary` (model fibre `Fin r → ℂ` at each fixed rank, using
-  ComplexManifolds Milestone 7.1–7.3's gluing and frame changes on clopen rank strata
+  ComplexKahlerGeometry K4's section/reconstruction equivalence on clopen rank strata
   for locally constant ranks), `CoherentAnalytification`, `coherentAnalytification_faithful`,
   `coherentPullbackOperations`, `HigherImageComparison`, `analyticSetGeometry`, `fibreDimensionLoci`;
   `SteinManifold`, `StronglyOneComplete`, `StronglyOneComplete.completeKaehlerMetric`,
@@ -640,7 +608,8 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
   `properDeRhamBetti`, `relativeDeRhamBetti`, `deligneRiemannHilbert`,
   `regularSingularDeRhamComparison`, `properLogGagaMonodromy`.
 * **Analytic local foundations and Picard algebraicity (C−1/C1.9/C3.2a–g):**
-  `HolomorphicStructureSheaf`, `ConvergentGerm`, Weierstrass division and preparation,
+  `HolomorphicStructureSheaf`, `ConvergentGerm` as comparisons with ComplexKahlerGeometry
+  K3–K4's native sheaf and local algebra,
   `ComplexAnalyticSpace`, scheme/space analytification, completed-stalk comparison and
   proper coherent GAGA; `spaceDerivedLimits`, `strongProperSupportExistence`,
   `cohStack_algebraic`, Picard-stack and relative-Picard algebraicity, separatedness,
@@ -652,11 +621,14 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
   `strongProperSupportExistence` consumes EnhancedDerivedSheaves E1.9's perfect
   proper-support pushforward and DerivedModuleAlgebra §1.E.1's perfect-system effectivity.
 * **Algebraic spaces and their derived categories:** `analyticEtaleDescent`,
-  `SpaceCoherentAnalytification`, `spaceQuasiCoherator` (on AlgebraicModuliForArithmeticGeometry's
+  `SpaceCoherentAnalytification` in C0.7, followed by `spaceQuasiCoherator` (on AlgebraicModuliForArithmeticGeometry's
   `spaceDQCoh`), `pseudoCoherenceDetection`, `derivedGagaProperSpace`.
-* **Forms, metrics and currents on complex manifolds** (DifferentialGeometry's forms are not in the
-  library at the pins): `localDolbeault` in several variables, `HodgeStar`, `HodgeLaplacian`,
-  `kaehlerIdentities`, `ChernConnection`, `bochnerKodaira`, `weightedDolbeaultEstimate`,
+* **Forms, metrics and currents on complex manifolds** (the shared carriers are absent at the
+  pins): `localDolbeault` identifies ComplexKahlerGeometry K2's resolution with C0's modules;
+  K4 supplies Chern connections, K5a/K5b.0 supplies Hodge operators and local adjoints,
+  and K6.0 supplies the Kähler/Bochner identities. C1.4's `weightedDolbeaultEstimate`
+  and C1.5's `cartanTheoremA`/`cartanTheoremB` export the manifold specializations to
+  RealAnalyticGeometry R3.1–R3.2;
   `HolomorphicDeRham`, `holomorphicPoincare`, `analyticFlatConnectionLocalSystem`
   (finite locally free holomorphic coefficients on a holomorphic submersion of complex manifolds,
   local horizontal frames with holomorphic parameters; horizontal sheaf locally pulled back from
@@ -667,9 +639,9 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
   integrable finite locally free coefficient connection through that evaluation isomorphism),
   `compactEllipticHodge`
   (operator-dependent shifted coercivity, graph-norm regularity and the original operator's kernel),
-  `HarmonicGreen`, `ddbarLemma` (d-closed pure-type forms on compact Kähler manifolds without
-  boundary have equivalent d-, ∂-, ∂̄- and `∂∂̄`-exactness, with negative bidegrees zero; uses
-  `HarmonicGreen` and `kaehlerIdentities`), `kaehlerHodgeDecomposition`, `CurrentCalculus` (compactly supported test forms
+  ComplexKahlerGeometry K5a–K5b.1's harmonic/Green maps and K6.1's `∂∂̄` lemma feed
+  `kaehlerHodgeDecomposition`, the compatibility with coherent cohomology and integration.
+  `CurrentCalculus` (compactly supported test forms
   with their inductive-limit topology; degree `k` acts on degree `2n − k`, bidegree `(a,b)`
   on type `(n−a,n−b)`, differential sign `(−1)^{k+1}`; positivity dual to strongly positive forms,
   trace mass `T ∧ ω^p/p!` for `ω = (i/2)Σ h_jk dz_j ∧ dz̄_k`, finite-mass extension by zero and
@@ -717,8 +689,6 @@ the supporting presentation, curvature and Wirtinger APIs are also specified the
   coefficient carriers are specified in the README; ordinary comparison admits nonseparated
   schemes, compact support requires separatedness, and the relative theorem glues over affine
   base opens. No separate analytification or étale adic category is defined here.
-* **Wirtinger derivative API:** `dbar.eq_zero_iff` is the real-differentiable
-  characterization in C1.1.
 * **Coherent local presentations and sheaf connections:**
   `CoherentAnalyticModule.presentation_iff` and `CoherentAnalyticModule.hom_ext` are the
   analytic coherence and cover-restriction statements of C0.1;
