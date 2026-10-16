@@ -530,7 +530,7 @@ Lemma 2.2.4, printed p. 105, as specified by the supplier.
 | AdicSpacesPartII *rigid-analytic-space*; RigidAnalyticGeometry Layers 3–4 (*rigid-local-ring-completion*) | RigidAnalyticGeometry README Layers 3–4 | At a maximal point of an affinoid, the germ map is faithfully flat after localising, induces all infinitesimal quotient isomorphisms, and identifies the completed local rings. Conrad-AWS, §2.3, p. 17; KL15, proof of Lemma 2.5.12, p. 50. |
 | `TauCetiRoadmap.AdicSpacesPartII.RigidSpace`, `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Sp`, AdicSpacesPartII *rigid-analytic-space*; RigidAnalyticGeometry Layers 3–4 and §6.2 | RigidAnalyticGeometry README Layers 3–4 and §6.2 | The classical `Sp A` of Layers 3–4 and the locally G-ringed carrier of §6.2 supply the affinoid. Its global sections identify canonically with the affinoid algebra; pullback along an affinoid homomorphism is that homomorphism under this identification. Restriction to admissible opens uses the same locally G-ringed carrier. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analytification.completedLocalRings` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | At a point above a closed scheme point, the canonical stalk map induces the infinitesimal quotient isomorphisms and the equality of completed local rings. |
-| AdicSpacesPartII *analytification-constructible-closure* | AdicSpacesPartII README targets cited in this row | For a locally constructible subset of a scheme locally of finite type over K, inverse image under analytification commutes with closure. |
+| AdicSpacesPartII *analytification-constructible-closure* | AdicSpacesPartII README targets cited in this row | For a locally constructible subset of a scheme locally of finite type over `K`, inverse image under analytification commutes with closure. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.SchemePullback`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.schemePullback`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.schemePullback.map` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | For a locally finite-type scheme map and an adic base with stably sheafy charts, the mixed fibre product represents compatible adic and locally ringed morphisms and is functorial in the scheme. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.toLocallyRingedSpace`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.forgetToLocallyRingedSpace` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Forgetting the point valuations gives the underlying locally ringed space and the functor on adic morphisms used by the mixed fibre product. |
 | `AlgebraicGeometry.Scheme.IdealSheafData.comap`, `AlgebraicGeometry.Scheme.IdealSheafData.comapIso`, `AlgebraicGeometry.topologically`, `CategoryTheory.MorphismProperty.universally` | `Mathlib/AlgebraicGeometry/IdealSheaf/Functorial.lean`, `Mathlib/AlgebraicGeometry/Morphisms/Constructors.lean`, `Mathlib/CategoryTheory/MorphismProperty/Limits.lean` | The pulled-back ideal defines `X ×_Y Y'`; universal specialization uses `(topologically @SpecializingMap).universally`, without a new predicate. |
@@ -1379,8 +1379,7 @@ Ch. I, 10.6.11). Only when `𝒥 = ℒO_X` is this restriction the base change
 finite ideal type need not have a largest ideal of definition, so the ideal condition in (ii) is
 part of the statement. For `K` a complete rank-one nonarchimedean field (possibly non-discretely
 valued, so the rings below are not noetherian), `S = Spf O_K`, `ℒ = ϖO_K`, `X = Spf O_K⟨T⟩`,
-`Y = Spf O_K⟨U⟩`: `Hom_{O_K}(X, Y) ≃ lim_n Hom_{O_K/ϖ^{n+1}}(Spec (O_K/ϖ^{n+1})[T],
-Spec (O_K/ϖ^{n+1})[U]) ≃ lim_n (O_K/ϖ^{n+1})[T] = O_K⟨T⟩`, the image of `U`. The ideal condition
+`Y = Spf O_K⟨U⟩`: `Hom_{O_K}(X, Y) ≃ lim_n Hom_{O_K/ϖ^{n+1}}(Spec (O_K/ϖ^{n+1})[T], Spec (O_K/ϖ^{n+1})[U]) ≃ lim_n (O_K/ϖ^{n+1})[T] = O_K⟨T⟩`, the image of `U`. The ideal condition
 in (ii) is needed: on `X = Spf O_K⟨T⟩` with `𝒥 = ϖ²O_X` and `𝒦 = ϖO_X` the identity does not
 satisfy `id^*(𝒦)O_X ⊆ 𝒥`, and there is no morphism `X_0 = Spec O_K⟨T⟩/(ϖ²) → Y_0 = Spec
 O_K⟨T⟩/(ϖ)` compatible with `ι` (compatibility with `ι` would force `ϖ = 0` in `O_K⟨T⟩/(ϖ²)`).
@@ -1918,8 +1917,7 @@ containing the extended base ideal and a target ideal equal to the extended base
 
 **Fibre products of formal schemes.** (*formal-fibre-product*) Let `f : X → S` and `g : Y → S` be
 morphisms of formal schemes (of finite ideal type). Prove that the fibre product `X ×_S Y` exists
-in formal schemes; for affine formal schemes with `f`, `g` adic, `Spf B ×_{Spf A} Spf C ≅
-Spf(B ⊗̂_A C)` with the projections induced by the canonical maps into the completed tensor
+in formal schemes; for affine formal schemes with `f`, `g` adic, `Spf B ×_{Spf A} Spf C ≅ Spf(B ⊗̂_A C)` with the projections induced by the canonical maps into the completed tensor
 product (EGA I Ch. I, proof of 10.7.2, p. 193; 10.7.3 Proposition, p. 193), and for arbitrary
 `f`, `g` the ring of `Spf B ×_{Spf A} Spf C` is `lim_n (B/I_B^{n+1}) ⊗_A (C/I_C^{n+1})`, the
 limit of the rings of the thickenings (EGA I Ch. 0, 7.7.1); every open cover of `X`, `Y`, `S` by
@@ -1934,8 +1932,7 @@ schemes `X_n ×_{S_n} Y_n`, and the ideal generated by `𝒥` and `𝒦` is an i
 Proposition (ii), p. 209); in general `X ×_S Y` need not be locally noetherian (EGA I Ch. I,
 10.7.4, p. 194). `Spf ℤ_p⟨S⟩ ×_{Spf ℤ_p} Spf ℤ_p⟨T⟩ ≅ Spf ℤ_p⟨S, T⟩` (adic structure maps,
 through *completed-tensor-product-adic*); `Spf ℤ_p⟦S⟧ ×_{Spf ℤ_p} Spf ℤ_p⟦T⟧ ≅ Spf ℤ_p⟦S, T⟧`
-(non-adic structure maps, through the limit of the thickenings `Spec ℤ_p⟦S⟧/(p,S)^{n+1} ×_{Spec
-ℤ/p^{n+1}} Spec ℤ_p⟦T⟧/(p,T)^{n+1}`); for `X = Spf ℤ_p⟨x⟩` over
+(non-adic structure maps, through the limit of the thickenings `Spec ℤ_p⟦S⟧/(p,S)^{n+1} ×_{Spec ℤ/p^{n+1}} Spec ℤ_p⟦T⟧/(p,T)^{n+1}`); for `X = Spf ℤ_p⟨x⟩` over
 `S = Spf ℤ_p` and any locally noetherian `Y` over `Spf ℤ_p`, `X ×_S Y` (affine-locally `Spf B⟨x⟩`
 over `Spf B ⊆ Y`) is locally
 noetherian. *Needs:* *completed-tensor-product-adic*; *spf-morphism-correspondence*;
@@ -2104,11 +2101,9 @@ schemes and `Y′ ⊆ Y` closed, `f̂ : X̂_{/f⁻¹Y′} → Ŷ_{/Y′}` is adi
 
 **Adic formal `S`-schemes are adic inductive systems of `S_n`-schemes.**
 (*adic-systems-equivalence*) Let `S` be a locally noetherian formal scheme with ideal of
-definition `ℒ` and `S_n = (S, O_S/ℒ^{n+1})`. The functor `X ↦ (X ×_S S_n)_n =
-(X, O_X/(ℒO_X)^{n+1})_n` is an equivalence from adic formal `S`-schemes (locally noetherian, adic
+definition `ℒ` and `S_n = (S, O_S/ℒ^{n+1})`. The functor `X ↦ (X ×_S S_n)_n = (X, O_X/(ℒO_X)^{n+1})_n` is an equivalence from adic formal `S`-schemes (locally noetherian, adic
 structure morphism) to `(S_n)`-adic inductive systems with `X_0` locally noetherian, with
-quasi-inverse the colimit (*colimit-of-thickenings*) and with `Hom_S(X, Y) ≃ lim_n
-Hom_{S_n}(X_n, Y_n)`: this is *adic-systems-equivalence-finite-ideal-type* at locally noetherian
+quasi-inverse the colimit (*colimit-of-thickenings*) and with `Hom_S(X, Y) ≃ lim_n Hom_{S_n}(X_n, Y_n)`: this is *adic-systems-equivalence-finite-ideal-type* at locally noetherian
 `S` and `X`, where `X` is locally noetherian iff `X_0` is (EGA I Ch. I, 10.12.3 Théorème, p. 206;
 10.12.3.1; 10.12.3.2, p. 207; 10.6.4). An adic system has first-order ideal `ℒ·O_{X_1}`, of finite
 type since `ℒ` is coherent, so with `X_0` locally noetherian it lies in `𝒯^ft_ln` of
@@ -3031,8 +3026,7 @@ SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`); Tau Ceti
   the finiteness of `H^p(X, F)` over `A` (StableReduction layer 2); for `I = A` it is the
   finiteness of `⊕_k H^p(X, F)` over `A[t]`, i.e. again of `H^p(X, F)` over `A`.
 - `not_serreVanishing_of_not_proper` (non-example, properness in (ii)) — `X = A²_k ∖ {(0, 0)}`
-  is quasi-affine over `A = k`, so `L = O_X` is ample, but `H^1(X, O_X ⊗ L^{⊗d}) = H^1(X, O_X) =
-  ⊕_{i, j < 0} k·x^i y^j ≠ 0` for every `d`: (ii) fails without properness.
+  is quasi-affine over `A = k`, so `L = O_X` is ample, but `H^1(X, O_X ⊗ L^{⊗d}) = H^1(X, O_X) = ⊕_{i, j < 0} k·x^i y^j ≠ 0` for every `d`: (ii) fails without properness.
 - `graded_cohomology_finite_zero` — when every graded piece is zero, `d₀ = 0`
   works even in cohomological degree zero, for every twist.
 - `graded_cohomology_finite_empty` — on the empty scheme, `d₀ = 0` works for
@@ -3061,8 +3055,7 @@ noetherian scheme proper over its spectrum, and a finitely presented sheaf of mo
 (equivalently coherent here); no completeness of the base ring is required.
 For `X = P¹_{k[t]}`, `I = (t)`, `F = O(−2)`, `p = 1`: `H^1(X, F) = k[t]`,
 `H^1(X, F_n) = k[t]/(t^{n+1})`, the transition maps are surjective and the kernels are
-`(t^{n+1}) = I^{n+1}H^1` (`c = 0`; at `n = 0` the kernel of `k[t] → k[t]/(t)` is `(t) = I^{1}H^1
-= I^{n+1−c}H^1`; at `n = 1` it is `(t²) = I²H^1`).
+`(t^{n+1}) = I^{n+1}H^1` (`c = 0`; at `n = 0` the kernel of `k[t] → k[t]/(t)` is `(t) = I^{1}H^1 = I^{n+1−c}H^1`; at `n = 1` it is `(t²) = I²H^1`).
 The Checks `formalFunctionsAffine_exponent` and `formalFunctionsAffine_exponent_one`
 compute the same two kernels on the actual section maps
 `k[t] → Γ((schemeThickeningSystem (Spec k[t]) (t)).obj n, O)` for `n = 0, 1`.
@@ -3073,8 +3066,7 @@ This pins the exponent `n + 1 − c` against the Stacks form `I^{n−c}` for
 `I = A`, `F_n = 0` and the kernel is `H^p(X, F) = A^{n+1}H^p(X, F)` (`c = 0`). Properness is
 needed in (ii): for the projection `X = A²_k ∖ {(0,0)} → Spec k[t]`, `F = O_X`, `p = 0`,
 `H^0(X, F_n) = k[x, x⁻¹][t]/(t^{n+1})` has surjective transitions, so it is Mittag-Leffler, but
-`Im(H^0(X, F_k) → H^0(X, F_n))` is everything while `Im(H^0(X, F) → H^0(X, F_n)) =
-k[x][t]/(t^{n+1})`, for every `k ≥ n`.
+`Im(H^0(X, F_k) → H^0(X, F_n))` is everything while `Im(H^0(X, F) → H^0(X, F_n)) = k[x][t]/(t^{n+1})`, for every `k ≥ n`.
 `not_image_eq_of_not_proper` is an algebraic hypothesis check for this properness
 requirement: the coefficient inclusion `k[x] → k[x,x⁻¹]` is not surjective.
 *Needs:* *graded-cohomology-finiteness*;
@@ -4016,8 +4008,7 @@ against the two-point `Spec ℤ_p`, and `Spf k[x]⟦t⟧` with underlying space 
 sections `ℤ_p`; the largest ideal of definition `(p, T)^Δ` of `Spf ℤ_p⟦T⟧` with reduction
 `Spec F_p`, and the absence of a largest ideal of definition on `Spf O_C`; the thickening system
 `Spec(ℤ/p^{n+1})` recovering `Spf ℤ_p` and the non-adic system
-`k[x_1, x_2, …]/((x_1,…,x_{n+1})^{n+1} + (x_{n+2}, …))`; the colimit `Spf ℤ_p = colim
-Spec(ℤ/p^{n+1})` taken in formal schemes, not in schemes; the non-noetherian examples
+`k[x_1, x_2, …]/((x_1,…,x_{n+1})^{n+1} + (x_{n+2}, …))`; the colimit `Spf ℤ_p = colim Spec(ℤ/p^{n+1})` taken in formal schemes, not in schemes; the non-noetherian examples
 `Spf O_K⟨T⟩` over `Spf O_K` for the finite-ideal-type statements, with the lifting of the standard
 étale `Spec (O_K/ϖ)[T, f′(T)⁻¹]/(f(T))` to `Spf O_K⟨T, f′(T)⁻¹⟩/(f(T))`; `Spf ℤ_p⟨T⟩ → Spf ℤ_p` adic and of
 finite type but not proper against `Spf ℤ_p⟦T⟧ → Spf ℤ_p` neither adic nor of finite type nor a
@@ -4232,7 +4223,7 @@ provided `A` is `ϖ`-adically separated — for instance when `A` is tfp
 (`ϖ·1 ∈ m_K`, `1 ∉ m_K`). For `A = O_K⟨T⟩` and `M = (T − c)` with `c ∈ O_K`, `M` is saturated and
 generated by one element. *Needs:* *topologically-finitely-presented-algebra*.
 
-**A flat algebra topologically of finite type over O_K is topologically finitely presented.**
+**A flat algebra topologically of finite type over `O_K` is topologically finitely presented.**
 (*flat-tft-is-tfp*) Let `O_K` be complete of rank one (Fujiwara–Kato: any height; `K` need not be
 discretely valued) and `A = O_K⟨ξ_1, …, ξ_n⟩/a` tft over `O_K`. Prove: (a) `A` is `ϖ`-adically
 precomplete (`IsPrecomplete`: every compatible residue system lifts); separatedness is not
@@ -4263,7 +4254,7 @@ the quotient `O_K` is admissible. *Needs:* *topologically-finitely-presented-alg
 tfp algebra is finitely presented); the module statements and (b) are specified in this README
 only.
 
-**Being topologically finitely presented or admissible is local on Spf; flatness mod ϖ^m and
+**Being topologically finitely presented or admissible is local on `Spf`; flatness mod `ϖ^m` and
 faithful flatness of covers.** (*tfp-locality*) Let `A` be an `O_K`-algebra that is `ϖ`-adically
 complete and separated, and let `(Spf B_i)_{i∈I}` be an affine open cover of `Spf A` (EGA I §10) by
 formal affine opens, each `B_i` with the `ϖ`-adic topology, `I` finite without loss. Prove that `A`
@@ -4290,16 +4281,15 @@ O_K⟨T,T⁻¹⟩ × O_K⟨T,(1−T)⁻¹⟩`. *Needs:* *topologically-finitely-
 `TauCeti.Huber.PairOfDefinition.flat_toCompletionLoc`; Mathlib `Module.Flat`,
 `AlgebraicGeometry.LocallyOfFinitePresentation`.
 
-### R2.2 admissible formal schemes, type (S) and FS_C
+### R2.2 admissible formal schemes, type (S) and `FS_C`
 
-**Admissible formal O_K-schemes (formal schemes locally topologically of finite presentation without
-ϖ-torsion).** (*admissible-formal-scheme*) Let `K` be complete with nontrivial rank-one valuation,
+**Admissible formal `O_K`-schemes (formal schemes locally topologically of finite presentation without
+`ϖ`-torsion).** (*admissible-formal-scheme*) Let `K` be complete with nontrivial rank-one valuation,
 `O_K` possibly non-noetherian. A formal `O_K`-scheme locally of tf presentation is a formal scheme
 `X` of finite ideal type in the sense of layer F0 (*locally-noetherian-formal-scheme*: locally `Spf
 A` with `A` an adic ring with finitely generated ideal of definition) with a morphism to `Spf O_K`,
 that is covered by open formal subschemes isomorphic to `Spf A` with `A` a tfp `O_K`-algebra
-carrying the `ϖ`-adic topology; then `ϖO_X` is an ideal of definition and each `X_m = X
-⊗_{O_K} O_K/ϖ^{m+1}` is a scheme locally of finite presentation over `O_K/ϖ^{m+1}`. `X` is
+carrying the `ϖ`-adic topology; then `ϖO_X` is an ideal of definition and each `X_m = X ⊗_{O_K} O_K/ϖ^{m+1}` is a scheme locally of finite presentation over `O_K/ϖ^{m+1}`. `X` is
 admissible if moreover `O_X` has no `ϖ`-torsion; by *tfp-locality* this holds iff every
 (equivalently: some covering family of) formal affine open `Spf A` has `A` admissible, iff every
 local ring `O_{X,x}` is `O_K`-flat. Admissible is Bosch–Lütkebohmert's notion (tfp +
@@ -4315,8 +4305,7 @@ some `m` (a single `m` works when `X` is quasi-compact). When `K` is discretely 
 formal `O_K`-schemes are exactly the locally noetherian formal schemes flat and adic locally of
 finite type over `Spf O_K` (F0's notions). In `FormalScheme`, define `IsLocallyTFP` (`X` over `Spf
 O_K` has an open cover by `Spf A` with `A` `IsTopologicallyFinitePresentation` over `O_K`, `ϖ`-adic
-topology), `IsAdmissible` (`X` is `IsLocallyTFP` and `O_X` has no `ϖ`-torsion), `specialFibre` (`X_s
-:= X ×_{Spf O_K} Spec k`, a `k`-scheme locally of finite type, with a homeomorphism of underlying
+topology), `IsAdmissible` (`X` is `IsLocallyTFP` and `O_X` has no `ϖ`-torsion), `specialFibre` (`X_s := X ×_{Spf O_K} Spec k`, a `k`-scheme locally of finite type, with a homeomorphism of underlying
 spaces `X_s → X`), `admissiblePullback` (for admissible `X → Z ← Y`, the closed formal subscheme of
 `X ×_Z Y` cut out by its `ϖ`-power torsion ideal; it is admissible, is the fibre product in the
 category of admissible formal `O_K`-schemes, and equals `X ×_Z Y` when `X` or `Y` is flat over `Z`),
@@ -4324,8 +4313,7 @@ category of admissible formal `O_K`-schemes, and equals `X ×_Z Y` when `X` or `
 (`torsionQuotient` of *topologically-finitely-presented-algebra*) and `X^{tf} := V(O_X[ϖ^∞])` is
 admissible — dividing by the `ϖ`-torsion `O_X[ϖ]` alone does not suffice, see
 `admissible_test_powerTorsion`; every morphism from an admissible formal scheme to `X` factors
-uniquely through `X^{tf}`), `CoherentOpenIdeal` (a coherent ideal `𝒜 ⊆ O_X` that is open: locally `𝒜
-= (f_0, …, f_r)O_{Spf A}` with `ϖ^m ∈ (f_0, …, f_r)` for some `m`; on quasi-compact `X` a single `m`
+uniquely through `X^{tf}`), `CoherentOpenIdeal` (a coherent ideal `𝒜 ⊆ O_X` that is open: locally `𝒜 = (f_0, …, f_r)O_{Spf A}` with `ϖ^m ∈ (f_0, …, f_r)` for some `m`; on quasi-compact `X` a single `m`
 with `ϖ^m O_X ⊆ 𝒜`) and `CoherentModule` (a coherent `O_X`-module on `X` locally of tf presentation:
 on every formal affine open `Spf A` it is the sheaf attached to a coherent — equivalently finitely
 presented, by *tfp-algebra-coherent* — `A`-module (BL I §1, p. 298); coherence itself is
@@ -4451,7 +4439,7 @@ intrinsic topologies of affine sections rather than just abstract coordinate rin
   but not admissible: its nonzero unit section is killed by `ϖ`.
 
 **Formal schemes of type (S): the class on which Huber's generic-fibre functor is defined, and its
-relation to admissible formal schemes and to Conrad's FS_C.** (*formal-schemes-of-type-S*) A formal
+relation to admissible formal schemes and to Conrad's `FS_C`.** (*formal-schemes-of-type-S*) A formal
 scheme `X = (X, O_X)` is of type (S) if every point has an open affine neighbourhood `U` such that
 the topology of `A := O_X(U)` is adic and either (a) `A` is noetherian, or (b) there is `s ∈ A` such
 that `sA` is an ideal of definition and the Tate ring `A(1/s)` — the localisation `A_s` topologised
@@ -4470,8 +4458,7 @@ ideal `aK⟨ξ⟩`, closed because `K⟨ξ⟩` is noetherian, hence a `K`-affino
 strongly noetherian, with ring of definition the image `A/A[ϖ^∞]` of `A`; (iii) every object of
 Conrad's category `FS_C` is locally noetherian, hence of type (S) via (a); (iv) when `K` is not
 discretely valued, admissible formal `O_K`-schemes such as `Spf O_K⟨T⟩` satisfy (b) but not (a) and
-are not objects of any `FS_C`, whereas `Spf R_0[[T]]` for a complete discrete valuation ring `R_0 ⊆
-O_K` lies in `FS_{R_0}` and satisfies (a) but not (b); (v) for non-discrete `K`, `Spf O_K[[T]]` with
+are not objects of any `FS_C`, whereas `Spf R_0[[T]]` for a complete discrete valuation ring `R_0 ⊆ O_K` lies in `FS_{R_0}` and satisfies (a) but not (b); (v) for non-discrete `K`, `Spf O_K[[T]]` with
 the `(ϖ, T)`-adic topology is not of type (S) at all. Completion keeps (S) relative to a base of
 type (S), as in R2.8 (*formal-completion-and-algebraic-comparison*): for `f : X → Y` a morphism of
 schemes locally of finite type and `Y' ⊆ Y` closed with quasi-coherent ideal of finite type, if the
@@ -4519,8 +4506,7 @@ formal schemes, hence of type (S)(a)). *Needs:* *admissible-formal-scheme*;
   and no principal ideal `(s)` is an ideal of definition: `(ϖ,T)^n ⊆ (s)` makes `s` divide `ϖ^n`,
   so `s(0) ≠ 0`, and divide `T^n`, so `s` is a unit, while an ideal of definition lies in `(ϖ, T)`.
   The same computation shows that `Spf R_0[[T]]` below does not satisfy (b).
-- `typeS_test_dvr_powerSeries` (computation) — for a complete discrete valuation ring `R_0`, `Spf
-  R_0[[T]]` is `IsTypeS` through (a) but not through (b), and it is an object of `FS_{R_0}`.
+- `typeS_test_dvr_powerSeries` (computation) — for a complete discrete valuation ring `R_0`, `Spf R_0[[T]]` is `IsTypeS` through (a) but not through (b), and it is an object of `FS_{R_0}`.
 - `typeS_test_microbial` (compatibility) — for every complete rank-one valuation ring `O_K` (not
   necessarily discretely valued), `Spf O_K` is `IsTypeS` via (b) with `s = ϖ`, and `A(1/s) = K`.
 - `typeS_test_discrete` (degenerate) — for a noetherian ring `A` with the discrete topology, `Spec
@@ -4556,11 +4542,10 @@ The named implications `IsTypeS.of_isLocallyNoetherian`, `IsTypeS.of_isLocallyTF
 
 ### R2.3 generic fibres
 
-**Huber's functor t from locally noetherian formal schemes to adic spaces.**
+**Huber's functor `t` from locally noetherian formal schemes to adic spaces.**
 (*noetherian-formal-scheme-as-adic-space*) Let `X` be a locally noetherian formal scheme (layer F0);
 for non-noetherian formal models the functor `d` of *generic-fibre-functor-d* is used instead. There
-are an adic space `t(X)` and a morphism of locally and topologically ringed spaces `π_X: (t(X),
-O⁺_{t(X)}) → (X, O_X)` such that every morphism of locally and topologically ringed spaces `(Z,
+are an adic space `t(X)` and a morphism of locally and topologically ringed spaces `π_X: (t(X), O⁺_{t(X)}) → (X, O_X)` such that every morphism of locally and topologically ringed spaces `(Z,
 O⁺_Z) → (X, O_X)` from an adic space `Z` factors uniquely through a morphism of adic spaces `Z →
 t(X)`. On affines `t(Spf A) = Spa(A, A)`, and `π_X(x) = {a ∈ A : |a(x)| < 1}`, the open prime at
 which the valuation ring `k(x)⁺` of `x` is centred on `Spec A` — centres are those of
@@ -4686,7 +4671,7 @@ locally noetherian wherever a chosen `tData` is used.
   formal schemes correspond bijectively to morphisms `t(Spf ℤ_p[[S]]) → t(Spf ℤ_p[[T]])` of adic
   spaces, i.e. to elements `T ↦ g ∈ (p, S)ℤ_p[[S]]`.
 
-**Huber's analytic adic space d(X) of a formal scheme of type (S).** (*generic-fibre-functor-d*) Let
+**Huber's analytic adic space `d(X)` of a formal scheme of type (S).** (*generic-fibre-functor-d*) Let
 `X` be of type (S) (*formal-schemes-of-type-S*), with morphisms adic. Huber's Proposition 1.9.1:
 there are an adic space `d(X)` and a morphism of topologically ringed spaces `λ = λ_X: d(X) → X`
 such that (a) `d(X)` is analytic: for the ideal sheaf `I ⊆ O_X` of sections vanishing at every
@@ -4817,12 +4802,11 @@ these maps, and `genericFibreData`, `genericFibre`, `specialisation` and
   for a complete rank-one valuation base, the generic fibre is nonempty and specialization
   is bijective on points.
 
-**For formal O_K-schemes locally of tf presentation, d(X) is the adic space of Raynaud's rigid
+**For formal `O_K`-schemes locally of tf presentation, `d(X)` is the adic space of Raynaud's rigid
 generic fibre.** (*raynaud-generic-fibre*) Let `K` be complete with nontrivial rank-one valuation
 (`O_K` may be non-noetherian) and `X` a formal `O_K`-scheme locally of tf presentation over `Spf
 O_K` (including the case where `X` is admissible); `r` and its properties are those of *rigid-adic-comparison-functor*
-(AdicSpacesPartII layer R1). Prove: (i) for `X = Spf A` the integral closure `B` of the image of `A` in `A_K = A
-⊗_{O_K} K` equals the power-bounded subring `A_K°`, so `d(Spf A) = Spa(A_K, A_K°) = r(Sp A_K)`,
+(AdicSpacesPartII layer R1). Prove: (i) for `X = Spf A` the integral closure `B` of the image of `A` in `A_K = A ⊗_{O_K} K` equals the power-bounded subring `A_K°`, so `d(Spf A) = Spa(A_K, A_K°) = r(Sp A_K)`,
 where `r` is Huber's rigid–adic comparison functor (Huber94 §4, Lem. 4.4, p. 543: the plus ring of a
 Tate ring of topologically finite type over `K` is `A°`); (ii) Raynaud's generic fibre `X_rig` (BL I
 §4, p. 306: glue `Sp(A_K)` over formal affine opens `Spf A`, basic opens `Spf A⟨f⁻¹⟩` going to
@@ -4886,15 +4870,13 @@ p. 32; Huber96, Example 1.9.2(ii), pp. 97–98).
 
 **The generic fibre commutes with fibre products and with completed extension of the base field.**
 (*generic-fibre-fibre-products*) Let `X`, `Y`, `Z` be locally tfp over `O_K`. Prove: (a) for
-morphisms `X → Z ← Y` of formal `O_K`-schemes locally of tf presentation, the natural map `d(X ×_Z
-Y) → d(X) ×_{d(Z)} d(Y)` is an isomorphism of adic spaces, where the right side is the fibre product
+morphisms `X → Z ← Y` of formal `O_K`-schemes locally of tf presentation, the natural map `d(X ×_Z Y) → d(X) ×_{d(Z)} d(Y)` is an isomorphism of adic spaces, where the right side is the fibre product
 of *fibre-products-existence* (AdicSpacesPartII layer R0) (it exists because `d(X) → d(Z)` is locally of finite
 type); since `d` kills `ϖ`-torsion, the same holds for the fibre product in the admissible category;
 (b) for a complete nonarchimedean extension `K'/K` — any complete extension of rank-one valued
 fields — `d(X ⊗̂_{O_K} O_{K'}) ≅ d(X) ×_{Spa(K,O_K)} Spa(K', O_{K'})`, functorially in `X` (BL I §4,
 Cor. 4.6, p. 310, the rigid generic fibre commutes with fibre products; Conrad-MR §3.1, Thm
-3.1.5(a), p. 16, the same for Berthelot-type generic fibres on `FS_C`). For instance `d(Spf O_K⟨S⟩
-×_{Spf O_K} Spf O_K⟨T⟩) = d(Spf O_K⟨S,T⟩)` is the closed unit bidisc, the fibre product of two
+3.1.5(a), p. 16, the same for Berthelot-type generic fibres on `FS_C`). For instance `d(Spf O_K⟨S⟩ ×_{Spf O_K} Spf O_K⟨T⟩) = d(Spf O_K⟨S,T⟩)` is the closed unit bidisc, the fibre product of two
 closed unit discs over `Spa(K, O_K)`; and for `P`, `P'` locally topologically finitely presented formal `O_K`-schemes, `d(P × P') = d(P) × d(P')`, written `(P × P')_K = P_K × P'_K` in the rigid-cohomology literature.
 Clause (a) is `FormalScheme.genericFibre_isPullback`. For clause (b),
 `FormalScheme.genericFibre_baseExtension` uses complete nontrivially valued rank-one fields
@@ -4931,7 +4913,7 @@ Checks:
 
 ### R2.4 specialisation, tubes and rig-points
 
-**The specialisation map λ_X = sp: d(X) → X.** (*specialisation-map*) For `X` of type (S) the
+**The specialisation map `λ_X = sp: d(X) → X`.** (*specialisation-map*) For `X` of type (S) the
 specialisation map is the continuous map `λ_X: d(X) → X` underlying Huber's Proposition 1.9.1
 (*generic-fibre-functor-d*). For `X = Spf A` and `x ∈ d(X)`, `λ(x) = {a ∈ A : |a(x)| < 1}`, an open
 prime of `A`; equivalently `λ(x)` is the image of the closed point of `Spec κ(x)⁺` under the map
@@ -4962,9 +4944,7 @@ under `Spec κ(x)⁺ → Spec A`),
 morphism `f: X → Y` of type-(S) formal schemes), `specialisation_classical_isClosed` (for `X`
 admissible and `x` classical, `λ(x)` is a closed point of `X_s`),
 `exists_classical_specialisation_eq` (for `X` admissible, every closed point of `X_s` equals `λ(x)`
-for some classical `x`), `specialisation_blowUp` (for an admissible blow-up `φ: X' → X`, `φ ∘ λ_{X'}
-= λ_X ∘ d(φ)`), `specialisationLimitHomeomorph` (for `X` quasi-compact admissible, `d(X) → lim_{X'}
-|X'|` over admissible blow-ups is a homeomorphism) and `RigPoint.specialPoint_eq_specialisation`
+for some classical `x`), `specialisation_blowUp` (for an admissible blow-up `φ: X' → X`, `φ ∘ λ_{X'} = λ_X ∘ d(φ)`), `specialisationLimitHomeomorph` (for `X` quasi-compact admissible, `d(X) → lim_{X'} |X'|` over admissible blow-ups is a homeomorphism) and `RigPoint.specialPoint_eq_specialisation`
 (for `X` admissible and a rig-point `u: Spf B → X` with classical point `x ∈ d(X)` under
 `RigPoint.equivClassicalPoints` of *rig-point*, `λ(x)` is the special point of `u`; this is stated
 here rather than in *rig-point* because it refers to `λ`) (Huber94 §4, proof of Prop. 4.1, point
@@ -5040,24 +5020,21 @@ It therefore uses the same centre formula (Conrad-AWS Ex. 3.3.13, p. 34).
 - `specialisation_test_closedDisc` (computation) — for `X = Spf O_K⟨T⟩`, `λ` sends the Gauss point
   to the generic point of `A¹_k` (`|f| < 1` at the Gauss point iff all coefficients of `f` lie in
   `m_K`), the classical point `T = c` (`c ∈ O_K`) to the closed point `T = c̄`, and the rank-two
-  point `η_{1⁻}` (the Gauss point specialised towards `0`: `|T(η_{1⁻})| < 1` but `|T(η_{1⁻})|^m >
-  |ϖ|` for every `m`) to the closed point `0`: `λ` is not injective on the disc, since a rank-two point
+  point `η_{1⁻}` (the Gauss point specialised towards `0`: `|T(η_{1⁻})| < 1` but `|T(η_{1⁻})|^m > |ϖ|` for every `m`) to the closed point `0`: `λ` is not injective on the disc, since a rank-two point
   and a classical point share an image. On the closure of the Gauss point, `λ` instead
   identifies the points with `A¹_k` (Wedhorn Ex. 7.57(5), p. 72).
   The Check uses topological nilpotence of a restricted series for the coefficient
   condition, and tests `T − d` at `T = c` by whether `c − d` is a nonunit of `O_K`.
 - `specialisation_test_Spf_OK` (degenerate) — for `X = Spf O_K`, `d(X) = Spa(K, O_K)` is one point
   and `λ` maps it to the unique point of `Spf O_K`.
-- `specialisation_test_preimage_closed` (non-example) — in the closed unit disc, `λ⁻¹({0}) = {|T| <
-  1}` is closed and not open: it contains the rank-two point `η_{1⁻}` (the specialisation of the
+- `specialisation_test_preimage_closed` (non-example) — in the closed unit disc, `λ⁻¹({0}) = {|T| < 1}` is closed and not open: it contains the rank-two point `η_{1⁻}` (the specialisation of the
   Gauss point towards `0`) but contains no neighbourhood of that point.
-- `specialisation_test_blowUp` (compatibility) — for the admissible blow-up `X'` of `(T, ϖ)` on `Spf
-  O_K⟨T⟩`, `λ_X(η_{|ϖ|})` is the closed point `0` of `A¹_k`, while `λ_{X'}(η_{|ϖ|})` is the generic
+- `specialisation_test_blowUp` (compatibility) — for the admissible blow-up `X'` of `(T, ϖ)` on `Spf O_K⟨T⟩`, `λ_X(η_{|ϖ|})` is the closed point `0` of `A¹_k`, while `λ_{X'}(η_{|ϖ|})` is the generic
   point of the exceptional component, and `φ ∘ λ_{X'} = λ_X`.
 - `specialisation_test_surjective_closed` (characterisation) — for `X` admissible, the set of `λ(x)`
   with `x` classical is exactly the set of closed points of `X_s`.
 
-**Tubes ]T[ of locally closed subsets of the special fibre, adic and rigid.** (*tube*) Let `X` be an
+**Tubes `]T[` of locally closed subsets of the special fibre, adic and rigid.** (*tube*) Let `X` be an
 formal scheme of type (S) with specialisation `λ: d(X) → X` (*specialisation-map*).
 The open–closed construction defines `FormalScheme.tube X T hT : Opens (genericFibre X).obj`
 for every locally closed `T`. The affine rational-domain formula requires a principal ideal of
@@ -5136,8 +5113,7 @@ tube exactly when it is empty, by the lifting of closed points on affine special
 - `closedTube_unit` — the unit equation gives the empty open for every `q > 0`.
 - `closedTube_half` — the exponent `1/2` gives `|f|² ≤ |s|`; its open is contained in
   the open for exponent `1/3`.
-- `tube_test_origin_disc` (computation) — for `X = Spf O_K⟨T⟩` and `Z = {0} ⊆ A¹_k`, `tube X Z =
-  ⋃_{m ≥ 1} {x : |T(x)|^m ≤ |ϖ|}`, the open unit disc.
+- `tube_test_origin_disc` (computation) — for `X = Spf O_K⟨T⟩` and `Z = {0} ⊆ A¹_k`, `tube X Z = ⋃_{m ≥ 1} {x : |T(x)|^m ≤ |ϖ|}`, the open unit disc.
 - `tube_test_preimage_not_open` (non-example) — for `X = Spf O_K⟨T⟩` and `Z = {0}`, the point
   `η_{1⁻}` lies in `λ⁻¹(Z)` but not in `tube X Z`; so defining the adic tube as `λ⁻¹(Z)` gives a
   closed, non-open set. The witness has valuation-ring dimension two and
@@ -5146,8 +5122,7 @@ tube exactly when it is empty, by the lifting of closed points on affine special
   are the Galois orbits of `c ∈ K̄` with `|c| < 1`, i.e. Berthelot's `sp⁻¹(0)`.
   The Check proves the stronger membership criterion at every rank-one point;
   classical points have rank one (Wedhorn Ex. 7.57(1) and 7.58, pp. 71–72).
-- `tube_test_open_complement` (characterisation) — for `X = Spf O_K⟨T⟩`: `tube X (A¹_k ∖ {0}) = {|T|
-  = 1}`, and `tube X {0} ∪ tube X (A¹_k ∖ {0}) ≠ d(X)`: the union misses the point `η_{1⁻}`,
+- `tube_test_open_complement` (characterisation) — for `X = Spf O_K⟨T⟩`: `tube X (A¹_k ∖ {0}) = {|T| = 1}`, and `tube X {0} ∪ tube X (A¹_k ∖ {0}) ≠ d(X)`: the union misses the point `η_{1⁻}`,
   matching the non-admissible rigid covering `{|t| = 1} ⊔ {|t| < 1}` of `{|t| ≤ 1}` (Conrad-MR
   Appendix A.1, before the proof of Lem. A.1.4).
 - `tube_test_whole` (degenerate) — `tube X X_s = d(X)` and `tube X ∅ = ∅`; for admissible `X`,
@@ -5328,8 +5303,7 @@ transform here is taken on `ϖ`-adic formal schemes, with the `𝒜O_{X'}`-power
 the sections supported on the exceptional locus. In `FormalScheme`, define `admissibleBlowUp` (`X' = Bl_𝒜 X` for a coherent open
 ideal `𝒜`), `admissibleBlowUp.π` (`φ: Bl_𝒜 X → X`), `admissibleBlowUp.chart` (over `Spf A` with `𝒜 =
 (f_0, …, f_r)`: the open `Spf(A⟨ζ⟩/(f_iζ_j − f_j)/ϖ-power torsion)` where `f_i` generates, with
-`ϖ`-power torsion = `f_i`-power torsion), `strictTransform` (for a coherent `ℳ`: `ℳ' = φ*ℳ /
-(𝒜O_{X'}-power torsion of φ*ℳ)`; when `ℳ'` has no `ϖ`-torsion this is `φ*ℳ` modulo its `ϖ`-power
+`ϖ`-power torsion = `f_i`-power torsion), `strictTransform` (for a coherent `ℳ`: `ℳ' = φ*ℳ / (𝒜O_{X'}-power torsion of φ*ℳ)`; when `ℳ'` has no `ϖ`-torsion this is `φ*ℳ` modulo its `ϖ`-power
 torsion, a coherent `O_{X'}`-module) and `strictTransformBaseChange` (for `f: X → T` locally of tf
 presentation, a coherent `O_X`-module `ℳ` and the admissible blow-up `φ: T' → T` of a coherent open
 ideal `𝒜`: `ℳ' = ℳ_{X'}/(sections of ℳ_{X'} supported over V(𝒜), i.e. killed by a power of 𝒜O_{X'})`
@@ -5342,8 +5316,7 @@ on `X' = X ×_T T'` (RG §5.1, Déf. 5.1.1(ii)); this torsion lies in the `ϖ`-p
 `admissibleBlowUp.isIso_of_disjoint` (`φ` is an isomorphism over `X ∖ V(𝒜)`),
 `admissibleBlowUp.baseChange` (for `Y → X` in the admissible category, the strict transform of `Y`
 is `Bl_{𝒜O_Y} Y` (BL I §2, Rem. 2.3)), `admissibleBlowUp.isProper_surjective_specialFibre` (`φ` is
-proper, and surjective on special fibres), `admissibleBlowUp.mul` (`Bl_{ℬO_{X'}}(Bl_𝒜 X) ≅ Bl_{𝒜ℬ}
-X` over `X`), `admissibleBlowUp.comp` (for `X` quasi-compact and quasi-separated, a composite of admissible blow-ups is
+proper, and surjective on special fibres), `admissibleBlowUp.mul` (`Bl_{ℬO_{X'}}(Bl_𝒜 X) ≅ Bl_{𝒜ℬ} X` over `X`), `admissibleBlowUp.comp` (for `X` quasi-compact and quasi-separated, a composite of admissible blow-ups is
 an admissible blow-up), `admissibleBlowUp.extend` (for `X` quasi-compact and quasi-separated and admissible blow-ups of
 finitely many quasi-compact opens `U_i`, there is one admissible blow-up of `X` restricting to blow-ups dominating
 each), `admissibleBlowUp.dominate` (any two admissible blow-ups of `X` are dominated by the blow-up
@@ -5502,8 +5475,7 @@ closed unit disc (Conrad-AWS §3.3, Exercise 3.3.12). *Needs:* *admissible-blow-
 `TauCeti.ValuationSpectrum.spaLocalizationHomeomorph`, `TauCeti.ValuationSpectrum.rationalSubset`.
 
 **Adjoining power-bounded functions to an admissible algebra is an admissible blow-up.**
-(*bounded-functions-blow-up*) Let `A` be an admissible `O_K`-algebra and `f_1, …, f_n ∈ A_K = A
-⊗_{O_K} K` power-bounded in the affinoid algebra `A_K`, i.e. `|f_i|_sup ≤ 1`, `f_i ∈ A_K°`. Prove
+(*bounded-functions-blow-up*) Let `A` be an admissible `O_K`-algebra and `f_1, …, f_n ∈ A_K = A ⊗_{O_K} K` power-bounded in the affinoid algebra `A_K`, i.e. `|f_i|_sup ≤ 1`, `f_i ∈ A_K°`. Prove
 that `B = A[f_1, …, f_n] ⊆ A_K` is an admissible `O_K`-algebra, finite over `A`, with `B_K = A_K`;
 and that if `r ∈ ℕ` satisfies `ϖ^r f_i ∈ A` for all `i`, then `Spf B → Spf A` is the admissible
 blow-up of the coherent open ideal `(ϖ^r, ϖ^r f_1, …, ϖ^r f_n)` (BL I §4, Lem. 4.5, p. 309). The
@@ -5562,8 +5534,7 @@ blow-up.** (*quasi-compact-opens-from-blow-ups*) Let `X` be a quasi-compact admi
 `d(X)`. Prove that there are an admissible blow-up `φ: X' → X` and open formal subschemes `U'_i ⊆
 X'` with `d(U'_i) = d(φ)⁻¹(U_i)`, and that if the `U_i` cover `d(X)`, the `U'_i` cover `X'` (BL I
 §4, Lem. 4.4, p. 308; Conrad-AWS §3.3, p. 34, the same statement in Conrad's summary). For instance
-`U = {|T| ≥ |ϖ|} ⊆ d(Spf O_K⟨T⟩)` is `d` of the chart `Spf O_K⟨T,V⟩/(TV − ϖ)` of the blow-up of `(T,
-ϖ)`; by contrast the open unit disc `⋃_{m≥1}{|T|^m ≤ |ϖ|}` is not quasi-compact and is `d` of no open formal
+`U = {|T| ≥ |ϖ|} ⊆ d(Spf O_K⟨T⟩)` is `d` of the chart `Spf O_K⟨T,V⟩/(TV − ϖ)` of the blow-up of `(T, ϖ)`; by contrast the open unit disc `⋃_{m≥1}{|T|^m ≤ |ϖ|}` is not quasi-compact and is `d` of no open formal
 subscheme of any admissible blow-up. *Needs:* *admissible-blow-up*;
 *generic-fibre-inverts-admissible-blow-ups*; *rig-point*; *specialisation-map*; Tau Ceti
 `TauCeti.ValuationSpectrum.rationalSubset`, `TauCeti.ValuationSpectrum.rationalSubset_inter`.
@@ -5908,8 +5879,7 @@ Checks:
 **Conrad's scheme lemma: a flat, locally finitely presented, separated morphism with finite fibres
 of locally constant rank is finite.** (*fibral-finiteness-scheme-lemma*) Let `f: X → Y` be a flat
 morphism of schemes that is locally of finite presentation. Prove (Conrad's Lemma A.1.4) that `f` is
-finite if and only if it is separated with finite fibres and its fibre rank `y ↦ dim_{κ(y)} Γ(X_y,
-O)` is locally constant on `Y`; no quasi-compactness and no noetherian hypothesis is needed
+finite if and only if it is separated with finite fibres and its fibre rank `y ↦ dim_{κ(y)} Γ(X_y, O)` is locally constant on `Y`; no quasi-compactness and no noetherian hypothesis is needed
 (Conrad-MR Appendix A.1, Lem. A.1.4, p. 38; Conrad-MR Appendix A.1, proof of Lem. A.1.4, p. 38, the
 finite-part decomposition). Apply *henselian-quasi-finite-finite-part* after base change
 from a local base to its henselization and descend by *scheme-finite-fpqc-descent*.
@@ -5998,7 +5968,7 @@ not decomposed here. Smooth and étale formal morphisms, elementary étale neigh
 étale-site invariance used throughout are *smooth-formal-scheme* and *formal-etale-site-invariance*
 of R2.9.
 
-**Generators modulo ϖ generate topologically.** (*topological-generation-mod-definition-ideal*) Let
+**Generators modulo `ϖ` generate topologically.** (*topological-generation-mod-definition-ideal*) Let
 `f : X → Y` be an affine morphism of formal `O_K`-schemes locally of tf presentation, `ℳ` a coherent
 `O_X`-module and `E ⊆ Γ(X, ℳ)` a family of sections, possibly infinite. Prove that if the images of
 `E` generate `f_*(ℳ/ϖℳ)` as an `O_{Y_0}`-module, then `E` generates `f_*ℳ` topologically over `O_Y`:
@@ -6019,7 +5989,7 @@ target adds the sheaf form on `Y` and the convergent-sum description over `Spf A
 *saturated-submodule-finitely-generated*; *flat-tft-is-tfp*; Mathlib `IsAdicComplete`,
 `AdicCompletion.map_surjective_of_mkQ_comp_surjective`.
 
-**A basis modulo ϖ of a flat module lifts to a topological basis.** (*topological-basis-lifting*) In
+**A basis modulo `ϖ` of a flat module lifts to a topological basis.** (*topological-basis-lifting*) In
 the situation of *topological-generation-mod-definition-ideal* (`f : X → Y` affine, `ℳ` coherent on
 `X`, `E ⊆ Γ(X, ℳ)`), assume that the images of `E` form a basis of `f_*(ℳ/ϖℳ)` over `O_{Y_0}` — a
 basis, not only a generating family — and that `ℳ` is flat over `O_Y` (`ℳ_x` flat over `O_{Y,f(x)}`
@@ -6077,8 +6047,7 @@ presentation (`t ∈ T_0`) and `h_0 : (Y_0, y) → (T_0, t)` a pointed morphism 
 smooth of relative dimension `r` at `y`. Prove that after replacing `Y_0` by an open neighbourhood
 of `y` there are a formal `O_K`-scheme `Y` locally of tf presentation with `Y ⊗ O_K/ϖ = Y_0` and a
 smooth pointed formal morphism `h : (Y, y) → (T, t)` of relative dimension `r`
-(*smooth-formal-scheme*) reducing to `h_0`. Concretely, over an affine open `Spf A ∋ t` with `Y_0 =
-V(f̄_{r+1}, …, f̄_n) ⊆ A^n_{A_0}` and an `(n − r)`-minor `Δ̄` of the Jacobian matrix `(∂f̄_i/∂ξ_j)`
+(*smooth-formal-scheme*) reducing to `h_0`. Concretely, over an affine open `Spf A ∋ t` with `Y_0 = V(f̄_{r+1}, …, f̄_n) ⊆ A^n_{A_0}` and an `(n − r)`-minor `Δ̄` of the Jacobian matrix `(∂f̄_i/∂ξ_j)`
 invertible on `Y_0`, one may take `Y = V(f_{r+1}, …, f_n) ⊆ D^n_T = Spf A⟨ξ_1, …, ξ_n⟩` for
 arbitrary lifts `f_i ∈ A⟨ξ⟩` of the `f̄_i`, restricted to the open where the lift `Δ` of `Δ̄` is a
 unit (BL II §1, Lem. 1.4(a) and its proof, p. 405: the proof lifts a Jacobian presentation of the
@@ -6089,8 +6058,7 @@ morphisms of schemes, is SchemeAndStackFoundations Layer 4 (§4.6,
 §4.1); this target lifts along all the levels `O_K/ϖ^{m+1}` at once, over an
 `O_K` that need not be noetherian. For `T = Spf O_K`
 and `Y_0 = V(ξ_2 − ξ_1²) ⊆ A²_{O_K/ϖ}`, `Y = Spf O_K⟨ξ_1, ξ_2⟩/(ξ_2 − ξ_1²) ≅ Spf O_K⟨ξ_1⟩` is
-smooth of relative dimension `1`; in the étale case `r = 0` a standard étale `Y_0 = Spec
-(A_0[ξ]/(p̄))_{ḡ}` lifts to the étale formal scheme `Y = Spf (A⟨ξ⟩/(p))⟨g⁻¹⟩`. *Needs:*
+smooth of relative dimension `1`; in the étale case `r = 0` a standard étale `Y_0 = Spec (A_0[ξ]/(p̄))_{ḡ}` lifts to the étale formal scheme `Y = Spf (A⟨ξ⟩/(p))⟨g⁻¹⟩`. *Needs:*
 *smooth-formal-scheme*; *admissible-formal-scheme*; *topologically-finitely-presented-algebra*;
 Mathlib `AlgebraicGeometry.Smooth.exists_isStandardSmooth`, `Algebra.IsStandardSmooth`.
 
@@ -6177,9 +6145,7 @@ geometrically irreducible, and `(T, t) → (Z, z)` a connected elementary étale
 étale, `t` over `z` with `k(t) = k(z)`, `T` connected). Prove that `T` is geometrically irreducible
 over `k` (RG Première partie, §1.1, Lemme 1.1.2, p. 4; its proof, pp. 4–5). For `Z = A¹_k`, `z` its
 generic point and `T = A¹_k ∖ {0}`, `T` is geometrically irreducible. The residue condition is
-needed: for `k = ℝ`, `Z = Spec ℝ` and `T = Spec ℂ` (connected, étale, `k(t) ≠ k(z)`), `T ⊗_ℝ ℂ =
-Spec(ℂ × ℂ)` is not irreducible. Normality is needed: for the nodal cubic `Z = Spec k[a, b]/(b² −
-a²(a + 1))` and `z` the node, the henselisation `O^h_{Z,z}` has two minimal primes (the two
+needed: for `k = ℝ`, `Z = Spec ℝ` and `T = Spec ℂ` (connected, étale, `k(t) ≠ k(z)`), `T ⊗_ℝ ℂ = Spec(ℂ × ℂ)` is not irreducible. Normality is needed: for the nodal cubic `Z = Spec k[a, b]/(b² − a²(a + 1))` and `z` the node, the henselisation `O^h_{Z,z}` has two minimal primes (the two
 branches), so some connected affine elementary étale neighbourhood `(T, t)` of `z` has two
 irreducible components through `t` and is not irreducible, although the closure of `z` is the
 point `z`. Here the nodal example assumes `char k ≠ 2`.
@@ -6302,8 +6268,7 @@ coefficients is not the ideal of the scheme-theoretic image and is not determine
 `(a², ϖ)` and `(a, ϖ)` have the same zero locus. In `FormalScheme`, define `IsIdealOfCoefficients`
 as conditions (i) and (ii) for `h : Z → T` and coherent `𝒥 ⊆ O_Z`, `𝒞 ⊆ O_T`; prove
 `IsIdealOfCoefficients.unique` (two ideals of coefficients of `𝒥` are equal),
-`IsIdealOfCoefficients.le_map` (`𝒥 ⊆ 𝒞O_Z`, and `𝒞 ⊆ 𝒞'` for every coherent `𝒞' ⊆ O_T` with `𝒥O_{Z'}
-⊆ 𝒞'O_{Z'}` after every base change), `IsIdealOfCoefficients.baseChange` (for `T' → T`, `𝒞O_{T'}` is
+`IsIdealOfCoefficients.le_map` (`𝒥 ⊆ 𝒞O_Z`, and `𝒞 ⊆ 𝒞'` for every coherent `𝒞' ⊆ O_T` with `𝒥O_{Z'} ⊆ 𝒞'O_{Z'}` after every base change), `IsIdealOfCoefficients.baseChange` (for `T' → T`, `𝒞O_{T'}` is
 an ideal of coefficients of `𝒥O_{Z ×_T T'}`), `IsIdealOfCoefficients.restrict` (restriction to an
 open `U ⊆ T` and to `h⁻¹(U)` preserves ideals of coefficients), `IsIdealOfCoefficients.glue` (ideals
 of coefficients existing on the members of an open cover of `T` glue to one on `T`, by uniqueness),
@@ -6380,8 +6345,7 @@ morphism of formal `O_K`-schemes locally of tf presentation that is, locally on 
 and surjective with geometrically irreducible fibres of constant dimension. Prove (a) that every
 open coherent ideal `𝒥 ⊆ O_Z` (`ϖ^N O_Z ⊆ 𝒥`) has an ideal of coefficients in `O_T`
 (*ideal-of-coefficients*), and that it is open; in the affine case `Z = Spf B → T = Spf A` with a
-topological basis `(e_i)` of `B` over `A` and `𝒥 ↔ b = (f_1, …, f_r)`, it is the ideal `a =
-(a_{ij})` of coordinates `f_j = Σ_i a_{ij} e_i`, which is finitely generated. Prove (b) that if `T =
+topological basis `(e_i)` of `B` over `A` and `𝒥 ↔ b = (f_1, …, f_r)`, it is the ideal `a = (a_{ij})` of coordinates `f_j = Σ_i a_{ij} e_i`, which is finitely generated. Prove (b) that if `T =
 Spf R` with `R` a complete valuation ring of height one (`R = O_L`, `L/K` finite), every finitely
 generated ideal `b ⊆ B`, open or not, has an ideal of coefficients, generated by the coordinate of
 largest absolute value of each generator; in particular every content `c(f)` is principal.
@@ -6470,8 +6434,7 @@ surjective morphism of formal schemes locally of tf presentation over a complete
 of height one (`R = O_K`, or `R = O_L` for a finite extension `L/K`, as needed after base change to
 rig-points) whose fibres `Z ⊗ k(t)`, `t ∈ T_0`, are geometrically irreducible of one dimension `m`,
 and let `f ∈ B` be an element that does not vanish identically on any fibre of `Z_0 → T_0`; no
-torsion hypothesis is made on `A`. Prove that for every `λ ∈ ℕ` the image of `f` in `B_λ =
-B/ϖ^{λ+1}B` is a non-zero-divisor (BL II §2, Lem. 2.5(a) and its proof, p. 409: the reduction to the
+torsion hypothesis is made on `A`. Prove that for every `λ ∈ ℕ` the image of `f` in `B_λ = B/ϖ^{λ+1}B` is a non-zero-divisor (BL II §2, Lem. 2.5(a) and its proof, p. 409: the reduction to the
 case with a section). For `B = A⟨ζ⟩` and `f = ζ`, `ζ` vanishes on no fibre and is a non-zero-divisor
 on every `A_λ[ζ]`. Vanishing on a whole fibre can make `f` a zero-divisor: for `A = O_K⟨a, b⟩/(ab)`
 (admissible), `B = A⟨ζ⟩` and `f = a`, `f` vanishes on the fibres over `{a = 0}` and `a·b = 0` in
@@ -6606,7 +6569,7 @@ For the scheme-theoretic depth input, `AlgebraicGeometry.coherent_hartogs` uses 
 parameters on each excluded stalk; its conclusion is the section isomorphism of
 [Stacks, Lemma 31.5.11, Tag 0E9I](https://stacks.math.columbia.edu/tag/0E9I).
 
-**T-dévissages of a coherent module in one dimension.** (*formal-devissage-step*) Let `f : X → T` be
+**`T`-dévissages of a coherent module in one dimension.** (*formal-devissage-step*) Let `f : X → T` be
 a morphism of quasi-compact formal `O_K`-schemes locally of tf presentation (Bosch–Lütkebohmert's
 standing assumption in their §3), `ℳ` a coherent `O_X`-module (coherent modules as in
 *admissible-formal-scheme*), `x ∈ X_0`, `t = f(x)` and `n ∈ ℕ`. A `T`-dévissage of `ℳ` in dimension
@@ -6638,8 +6601,7 @@ condition (b), p. 411; after Def. 3.1, p. 411, the dimension of the cokernel; RG
 
 - `devissageStep_test_free` (computation) — for `X = Z = D^n_T = Spf A⟨ξ_1, …, ξ_n⟩ → T = Spf A`, `ℳ
   = O_X^ℓ`, `g = id` and `α = id`: a `T`-dévissage in dimension `n` at every point, with `𝒫 = 0`.
-- `devissageStep_test_dimZero` (degenerate) — in dimension `n = 0`, `h` is étale with fibres `Spec
-  k(t)`, so after shrinking `Z = T`; `α : O_T^ℓ → 𝒩` with `ℓ = dim_{k(t)} 𝒩 ⊗ k(t)`, and `𝒫 = 0`
+- `devissageStep_test_dimZero` (degenerate) — in dimension `n = 0`, `h` is étale with fibres `Spec k(t)`, so after shrinking `Z = T`; `α : O_T^ℓ → 𝒩` with `ℓ = dim_{k(t)} 𝒩 ⊗ k(t)`, and `𝒫 = 0`
   near `t`.
 - `devissageStep_test_notFlat` (non-example) — for `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → T = Spf O_K⟨ζ⟩` at
   `x = (ζ, ξ)`, `ℳ = O_X`: `Z = D¹_T` (coordinate `ξ`), `g` the closed immersion, `ℓ = 1` and `α :
@@ -6672,7 +6634,7 @@ identity, composition and zero maps specify the induced map on stalks.
 - `DevissageStep.cokernel_surjective`: an epimorphic basis map has zero cokernel.
 - `DevissageStep.cokernel_zeroMap`: a zero basis map has the direct image as cokernel.
 
-**T-dévissages in several dimensions and complete dévissages.** (*formal-devissage*) In the setting
+**`T`-dévissages in several dimensions and complete dévissages.** (*formal-devissage*) In the setting
 of *formal-devissage-step*, a `T`-dévissage of `ℳ` at `x` in dimensions `N = n¹ > n² > … > n^r = n ≥
 0` (between `N` and `n`; the dimensions strictly decreasing) is a sequence `(D¹, …, D^r)` of
 `T`-dévissages `D^i = (g^i : (Y^i, y^i) → (Z^i, z^i), ℳ^i, α^i : ℒ^i → 𝒩^i = g^i_*ℳ^i, 𝒫^i)` such
@@ -6756,7 +6718,7 @@ dévissage of length one in dimension `N = 1`, without étale localisation. *Nee
 *formal-etale-site-invariance*; *smooth-formal-scheme*; *tfp-algebra-coherent*;
 *admissible-formal-scheme*; Mathlib `Algebra.IsEtaleAt.exists_isStandardEtale`.
 
-**Universal injectivity of α at z is bijectivity at the generic point of the fibre.**
+**Universal injectivity of `α` at `z` is bijectivity at the generic point of the fibre.**
 (*devissage-generic-bijectivity-criterion*) Let `h : (Z, z) → (T, t)` be a pointed affine morphism
 of formal `O_K`-schemes locally of tf presentation that is smooth and surjective with all fibres
 geometrically irreducible of one dimension (as in a dévissage step; Bosch–Lütkebohmert assume this
@@ -6792,7 +6754,7 @@ flat, and the dévissage there is the dimension-`0` step `Z = T`, `g = f`, `α =
 *tfp-algebra-coherent*; *smooth-formal-scheme*; *formal-etale-site-invariance*; Mathlib
 `Module.Flat`.
 
-**Flat locus and flatness in dimension ≥ n.** (*flat-in-dimension*) Let `f : X → T` be a morphism of
+**Flat locus and flatness in dimension `≥ n`.** (*flat-in-dimension*) Let `f : X → T` be a morphism of
 formal `O_K`-schemes locally of tf presentation and `ℳ` a coherent `O_X`-module. The flat locus of
 `ℳ` over `T` is `F(ℳ/T) = {x ∈ X_0 : ℳ_x is a flat O_{T,f(x)}-module} ⊆ X_0` (the points of `X_0`
 are the points of `X`; flatness is stalkwise over the base). For `n ∈ ℕ` and `x ∈ X_0` with `t =
@@ -6852,7 +6814,7 @@ locus is the open `X_0 ∖ V(ζ)`. *Needs:* *formal-devissage-existence*;
 *devissage-flatness-criterion*; *flat-in-dimension*; *formal-etale-site-invariance*;
 *admissible-formal-scheme*.
 
-**Flatness in dimension ≥ n in terms of a dévissage.** (*devissage-flat-in-dimension-criterion*) Let
+**Flatness in dimension `≥ n` in terms of a dévissage.** (*devissage-flat-in-dimension-criterion*) Let
 `f : (X, x) → (T, t)` be a pointed morphism of formal `O_K`-schemes locally of tf presentation, `ℳ`
 a coherent `O_X`-module with `N = dim_x(ℳ ⊗ k(t))`, `n` an integer with `0 ≤ n < N`, and `u : (X',
 x') → (X, x)`, `v : (T', t') → (T, t)` elementary étale affine neighbourhoods such that `ℳ' = u*ℳ`
@@ -6868,7 +6830,7 @@ the hypothesis on `n`; proof of Cor. 3.8, p. 416, induction on `N`; RG Première
 *devissage-flatness-criterion*; *flat-in-dimension*; *formal-flat-locus-open*;
 *formal-etale-site-invariance*.
 
-**Rig-flatness, relative rig-dimension and rig-flatness in dimension ≥ n.**
+**Rig-flatness, relative rig-dimension and rig-flatness in dimension `≥ n`.**
 (*rig-flat-in-dimension*) Let `f : X → T` be a morphism of quasi-compact formal `O_K`-schemes
 locally of tf presentation with `T` admissible (`X` may have `ϖ`-torsion), and `ℳ` a coherent
 `O_X`-module. (i) Rig-flatness: for formal affine opens `Spf C ⊆ X` and `Spf A ⊆ T` with `f(Spf C) ⊆
@@ -7035,8 +6997,7 @@ schemes, `F_0(ℳ) ⊆ F_1(ℳ) ⊆ …`, `F_r(ℳ)_x = O_{X,x}` iff `ℳ_x` is 
 `r > 0`. Indices lie in `ℕ`: at rank zero `F_0(0) = O_X`, so truncated subtraction cannot
 be used to claim `F_{0−1}(0) = 0`. In `FormalScheme`, define
 `fittingIdeal` as `F_r(ℳ)`, a coherent ideal of `O_X`; prove `fittingIdeal_spf` (on `Spf A`,
-`F_r(ℳ)` corresponds to `fittingIdeal A (Γ(Spf A, ℳ)) r`), `fittingIdeal_mono` (`F_r(ℳ) ⊆
-F_{r+1}(ℳ)`, from `fittingIdeal_monotone`), `fittingIdeal_pullback` (`F_r(φ*ℳ) = F_r(ℳ)O_{X'}` for
+`F_r(ℳ)` corresponds to `fittingIdeal A (Γ(Spf A, ℳ)) r`), `fittingIdeal_mono` (`F_r(ℳ) ⊆ F_{r+1}(ℳ)`, from `fittingIdeal_monotone`), `fittingIdeal_pullback` (`F_r(φ*ℳ) = F_r(ℳ)O_{X'}` for
 `φ : X' → X`, from `fittingIdeal_baseChange`), `fittingIdeal_restrict` (compatibility with
 restriction to open formal subschemes), `fittingIdeal_eq_top_iff` (`F_r(ℳ)_x = O_{X,x}` iff `ℳ_x` is
 generated by `r` elements, from `fittingIdeal_le_iff_lt_finrank` and Nakayama),
@@ -7110,7 +7071,7 @@ applied to local presentations.
 - `fittingIdeal_test_twoTerm_core` — the diagonal presentation `diag(4,6)` over `ℤ` gives
   `F_0(ℤ/4 ⊕ ℤ/6) = (24)`, `F_1 = (2)`, and `F_2 = ℤ`.
 
-**A principal Fitting ideal makes M/Ann_M(F_r(M)) generated by r elements.**
+**A principal Fitting ideal makes `M/Ann_M(F_r(M))` generated by `r` elements.**
 (*rg-fitting-ideal-principal-generators*) Let `A` be a ring, `M` a finitely presented `A`-module and
 `r ∈ ℕ`. Prove that if the `r`-th Fitting ideal `F_r(M)` is locally principal (locally generated by
 one element), then `M/Ann_M(F_r(M))` is locally generated by `r` elements, where `Ann_M(I) = {m ∈ M
@@ -7127,8 +7088,7 @@ domain, `a ≠ 0`, `M = A/(a) ⊕ A` and `r = 1`: `F_1(M) = (a)`, `Ann_M((a)) = 
 `r` (BL II §3, Lem. 3.14, p. 418, the statement as quoted by Bosch–Lütkebohmert; RG Première partie,
 §5.4, Lemme 5.4.3 and its proof, p. 40). For `A = O_K⟨ζ⟩` and `M = A/(ζ) ⊕ A`: `F_1(M) = (ζ)` is
 invertible, `M` is free of rank `1` at the only associated point `(0)`, and `M/Ann_M(ζ) ≅ A`.
-Bosch–Lütkebohmert II Example 4.3: for a principal ideal domain `A` and `M = A/(a_1) × … × A/(a_t) ×
-A^{n−t}`, `F_{n−t}(M) = (a_1 ⋯ a_t)` and `M/Ann_M(F_{n−t}(M)) ≅ A^{n−t}`. Invertibility is needed:
+Bosch–Lütkebohmert II Example 4.3: for a principal ideal domain `A` and `M = A/(a_1) × … × A/(a_t) × A^{n−t}`, `F_{n−t}(M) = (a_1 ⋯ a_t)` and `M/Ann_M(F_{n−t}(M)) ≅ A^{n−t}`. Invertibility is needed:
 for `A = k[x, y]`, `M = (x, y) ⊆ A` and `r = 1`, `F_1(M) = (x, y)` is not invertible, `Ann_M(F_1(M))
 = 0`, and `M` is not locally free. *Needs:* *formal-fitting-ideal*;
 *rg-fitting-ideal-principal-generators*; Mathlib `associatedPrimes`,
@@ -7210,8 +7170,8 @@ bijective. The dimension hypothesis is needed: for `𝒩 = O_Z`, `ℒ = ϖO_Z �
 *smooth-geometrically-irreducible-extension*; *smooth-geometrically-irreducible-associated-primes*;
 *tfp-algebra-coherent*; *admissible-formal-scheme*.
 
-**In a dévissage of a module flat in dimension ≥ m + 1, the upper maps are universally injective and
-all 𝒩^i stay rig-flat.** (*devissage-injectivity-and-rig-flatness*) Let `T` be a quasi-compact
+**In a dévissage of a module flat in dimension `≥ m + 1`, the upper maps are universally injective and
+all `𝒩^i` stay rig-flat.** (*devissage-injectivity-and-rig-flatness*) Let `T` be a quasi-compact
 admissible formal `O_K`-scheme, `f : X → T` a morphism of quasi-compact formal `O_K`-schemes locally
 of tf presentation, and `ℳ` a coherent `O_X`-module that is rig-flat over `T` in dimension `≥ n` and
 `T`-flat in dimension `≥ m + 1`, with `m ≥ n`. Let `x ∈ X_0` and `(D¹, …, D^r)` a `T`-dévissage of
@@ -7223,7 +7183,7 @@ dévissage of length one (`r = 1`), (a) is empty and (b) says that `𝒩¹ = g¹
 dimension `≥ n`. *Needs:* *devissage-flat-in-dimension-criterion*; *rig-flat-in-dimension*;
 *formal-devissage*; *flat-in-dimension*; *devissage-flatness-criterion*.
 
-**One step of the flattening induction: enlarging the locus of flatness in dimension ≥ m.**
+**One step of the flattening induction: enlarging the locus of flatness in dimension `≥ m`.**
 (*flattening-local-step*) Let `T` be a quasi-compact admissible formal `O_K`-scheme, `f : X → T` a
 morphism of quasi-compact formal `O_K`-schemes locally of tf presentation, and `ℳ` a coherent
 `O_X`-module that is rig-flat over `T` in dimension `≥ n` and `T`-flat in dimension `≥ m + 1`, `m ≥
@@ -7284,12 +7244,11 @@ valuation ring, hence already flat, and `T' = T` with `ℳ' = ℳ`; for `ℳ = O
 for the strict transform only. *Needs:* *flattening-induction-step*; *flat-in-dimension*;
 *rig-flat-in-dimension*; *admissible-blow-up*; *admissible-formal-scheme*.
 
-**The flattened strict transform is the pull-back modulo ϖ-torsion off a small closed set.**
+**The flattened strict transform is the pull-back modulo `ϖ`-torsion off a small closed set.**
 (*strict-transform-generically-torsion-quotient*) In the situation of
 *module-flattening-by-blow-up*, let `T' → T` be the admissible blow-up of a coherent open ideal `𝒥`
 (`ϖ^N O_T ⊆ 𝒥`) such that the strict transform `ℳ'` is `T'`-flat in dimension `≥ n`, and let `ℳ*` be
-the pull-back of `ℳ` to `X' = X ×_T T'`. Prove that there is an open `U' ⊆ X'_0` with `dim((X'_0 ∖
-U')/T'_0) ≤ n − 1` such that `ℳ'|_{U'} = (ℳ*/ϖ-power torsion)|_{U'}` (BL II §4, Thm 4.1, p. 419, the
+the pull-back of `ℳ` to `X' = X ×_T T'`. Prove that there is an open `U' ⊆ X'_0` with `dim((X'_0 ∖ U')/T'_0) ≤ n − 1` such that `ℳ'|_{U'} = (ℳ*/ϖ-power torsion)|_{U'}` (BL II §4, Thm 4.1, p. 419, the
 additional claim; end of proof of Thm 4.1, pp. 424–425: a power of the ideal of definition lies in
 the centre, and the conclusion). For the annulus model with `ℳ = O_X` and `𝒥 = (ζ, ϖ)`, `ℳ'` is flat
 everywhere, and `U' = X'_0`: the strict transform is the pull-back modulo `ϖ`-torsion. *Needs:*
@@ -7303,8 +7262,7 @@ analytification of its generic fibre: Huber's morphism `σ` and the comparison `
 1.9.6, its specialisation to models over `O_K` (the image of `φ` is the locus of good reduction, and
 `φ` is an isomorphism for proper models), and the converse for flat quasi-projective models.
 
-**Formal completion of a scheme, the morphism σ: d(X̂) → X and the comparison φ: d(X̂) → X ×_Y
-d(Ŷ).** (*formal-completion-and-algebraic-comparison*) (1.9.4) For a scheme `X` and its formal
+**Formal completion of a scheme, the morphism `σ: d(X̂) → X` and the comparison `φ: d(X̂) → X ×_Y d(Ŷ)`.** (*formal-completion-and-algebraic-comparison*) (1.9.4) For a scheme `X` and its formal
 completion `X̂` along a closed subscheme defined by an ideal of finite type — the formal scheme of
 the thickening system `(X_n)` of *colimit-of-thickenings* (layer F0), which for locally noetherian
 `X` is *formal-completion* (layer F0) and on the scheme side is SchemeAndStackFoundations
@@ -7348,15 +7306,15 @@ square; `idealCompletion.isTypeS_comap` supplies type (S) on the source from
 local finite type of `f` and type (S) on the target completion (Huber96 1.9.5,
 p. 98).
 
-`formalCompletionSigma` and `formalCompletionSigma_characterization` give σ and
+`formalCompletionSigma` and `formalCompletionSigma_characterization` give `σ` and
 its uniqueness by the inverse-image inclusion and equality of restricted
 section maps above; `formalCompletionSigma_naturality` gives its square with
 `d(f̂)` (Huber96 1.9.4–1.9.5, p. 98). The target of
 `formalCompletionComparison` is the space of Part II's imported `SchemePullback`.
 `formalCompletionComparison_exists` gives existence of that fibre product, and
-`formalCompletionComparison_projections` fixes both projections of φ.
+`formalCompletionComparison_projections` fixes both projections of `φ`.
 `formalCompletionComparison.isOpenImmersion_local` gives an open neighbourhood
-of each source point on which φ is an open immersion;
+of each source point on which `φ` is an open immersion;
 `formalCompletionComparison.injective_of_isSeparated` requires separatedness;
 `formalCompletionComparison.surjective_of_universallySpecializing` requires
 `(AlgebraicGeometry.topologically @SpecializingMap).universally f`.
@@ -7376,24 +7334,24 @@ the integral locus.
 - `idealCompletion.map_nilpotent`: a nilpotent centre gives back the scheme, and
   the completion morphism agrees with `f` through the completion maps.
 - `formalCompletionSigma_emptyCentre`: the unit ideal gives an empty generic
-  fibre and an empty image for σ.
+  fibre and an empty image for `σ`.
 - `formalCompletionSigma_nilpotent`: even though completion at a nilpotent ideal
   gives the original scheme with discrete topology, its analytic generic fibre
-  and σ's image are empty.
-- `formalCompletionSigma_specialization`: σ(z) specializes to the image of λ(z)
+  and `σ`'s image are empty.
+- `formalCompletionSigma_specialization`: `σ(z)` specializes to the image of `λ(z)`
   under the completion map; the order of these two points is fixed.
 - `formalCompletionComparison_identity`: the comparison for the identity is an
   isomorphism and its base projection is the identity.
 - `formalCompletionComparison_proper`: every proper `f` gives an isomorphism.
 - `formalCompletionComparison_emptyCentre`: a unit pulled-back ideal gives
-  `IsEmpty (genericFibre (idealCompletion …)).obj`; φ is surjective exactly when
+  `IsEmpty (genericFibre (idealCompletion …)).obj`; `φ` is surjective exactly when
   the mixed fibre product is empty. This is also `formalCompletion_test_emptyCentre`.
-- `formalCompletionComparison_affineLine`: over `ℤ_p`, φ is an open immersion
+- `formalCompletionComparison_affineLine`: over `ℤ_p`, `φ` is an open immersion
   with image `|T| ≤ 1` and is not surjective, as in `formalCompletion_test_affineLine`.
 - `formalCompletionComparison_doubledPoint`: over a complete nontrivially valued
   rank-one field `K`, glue two copies of `Spec O_K[T]` along `D(ϖ) ∪ D(T)`,
   using the scheme pushout, where `ϖ` is nonzero and topologically nilpotent.
-  The resulting nonseparated morphism has noninjective φ with image `{|T| ≤ 1}`,
+  The resulting nonseparated morphism has noninjective `φ` with image `{|T| ≤ 1}`,
   as in `formalCompletion_test_doubledPoint`. The check constructs the
   folding map `r : X → A¹_{O_K}`, fixes its restriction to each chart as the
   identity, and states the image equality using the stalk valuation of the
@@ -7416,22 +7374,21 @@ the integral locus.
   `λ⁻¹(x₀) = {|T| < 1}` doubled. This set contains `η_{1⁻}`, for which
   `|T|^m > |ϖ|` for every positive integer `m`; it is strictly larger than the
   open residue disc `⋃_{m≥1}{|T|^m ≤ |ϖ|}` of `tube_test_preimage_not_open`.
-  The comparison φ is a surjective local isomorphism onto `{|T| ≤ 1}` and is
+  The comparison `φ` is a surjective local isomorphism onto `{|T| ≤ 1}` and is
   not injective, so (ii) needs `f` separated. The check states
   `¬ Function.Injective φ.hom.base` and `Set.range φ.hom.base = {|T| ≤ 1}`
   on the imported `AdicSpace.SchemePullback` carrier. The gluing description
   follows from Huber96 (1.9.1), p. 97, and (1.9.3)–(1.9.6), p. 98; the
   rank-two valuation is described in Wedhorn Example 7.57(5), p. 72.
 
-**The generic fibre of the completion of an O_K-scheme is the integral (good-reduction) locus of the
+**The generic fibre of the completion of an `O_K`-scheme is the integral (good-reduction) locus of the
 analytified generic fibre.** (*good-reduction-locus*) Let `K` be complete of nontrivial rank one,
 discreteness not assumed, `X` a separated `O_K`-scheme locally of finite type, `X_K` its generic
 fibre and `X_K^ad = X ×_{Spec O_K} Spa(K, O_K)` its adic analytification, Huber's fibre product of
 *analytification-functor* (AdicSpacesPartII layer R1). Let `X̂` be the `ϖ`-adic completion of `X`, a formal
 `O_K`-scheme locally of tf type, of type (S). Prove that the comparison map `φ_X : d(X̂) → X_K^ad`
 of *formal-completion-and-algebraic-comparison* (with `Y = Spec O_K`, `Y' = V(ϖ)`) is an open
-embedding, whose image is the integral locus `X_K^{ad,int} := {x ∈ X_K^ad : the morphism Spec κ(x) →
-X extends to Spec κ(x)⁺ → X}`, `κ(x)` the completed residue field and `κ(x)⁺` its valuation ring;
+embedding, whose image is the integral locus `X_K^{ad,int} := {x ∈ X_K^ad : the morphism Spec κ(x) → X extends to Spec κ(x)⁺ → X}`, `κ(x)` the completed residue field and `κ(x)⁺` its valuation ring;
 that under `φ_X` the specialisation `λ(x) ∈ X_s` of `x ∈ d(X̂)` is the image of the closed point of
 that extension; that if `X` is proper over `O_K`, `φ_X` is an isomorphism `d(X̂) ≅ X_K^ad`; and that
 a classical point of `X_K^ad` (residue field `K'` finite over `K`) lies in the integral locus iff it
@@ -7526,14 +7483,13 @@ has image `λ⁻¹(P¹_k ∖ {x}) = P^{1,ad}_K ∖ λ⁻¹(x)` (`λ⁻¹(x)` is 
 the open residue disc `]x[`), which is not all of `X_K^ad = P^{1,ad}_K`, and `X` is not proper —
 consistent with the criterion. For `X = P¹_{O_K} ⊔ Spec K` (`Spec K = Spec O_K[1/ϖ]` open in
 `P⁰_{O_K}`, so `X` is quasi-projective): flat, separated, of finite type,
-with proper generic fibre `P¹_K ⊔ Spec K` and proper special fibre `P¹_k`, but not proper; `φ_X :
-d(X̂) = P^{1,ad}_K → P^{1,ad}_K ⊔ Spa(K, O_K)` misses the extra point, as the criterion predicts.
+with proper generic fibre `P¹_K ⊔ Spec K` and proper special fibre `P¹_k`, but not proper; `φ_X : d(X̂) = P^{1,ad}_K → P^{1,ad}_K ⊔ Spa(K, O_K)` misses the extra point, as the criterion predicts.
 *Needs:* *good-reduction-locus*; *rig-point*; *tube*; *specialisation-map*;
 *admissible-formal-scheme*; *analytification-constructible-closure* (AdicSpacesPartII layer R1);
 *analytification-completed-local-rings* (AdicSpacesPartII layer R1); *analytification-functor* (AdicSpacesPartII layer R1); Mathlib
 `AlgebraicGeometry.IsProper.eq_valuativeCriterion`, `AlgebraicGeometry.Flat`.
 
-### R2.9 Conrad's FS_C, smooth formal schemes, étale sites, Frobenius lifts and residue discs
+### R2.9 Conrad's `FS_C`, smooth formal schemes, étale sites, Frobenius lifts and residue discs
 
 This subsection builds Conrad's Berthelot-type generic fibre on the category `FS_C` of locally
 noetherian formal schemes over an adic noetherian ring `C`, for an arbitrary complete nonarchimedean
@@ -7562,7 +7518,7 @@ over the valued-field point, using the rigid–adic comparison.
 `BerthelotData_unique` / `rigOfFSC_unique` identify two representing choices naturally.
 
 
-**Conrad's Berthelot-type functor (·)^rig on FS_C for arbitrary complete k.**
+**Conrad's Berthelot-type functor `(·)^rig` on `FS_C` for arbitrary complete `k`.**
 (*berthelot-type-rig-functor-nonnoetherian-base*) Fix an adic noetherian ring `C` with a continuous
 map `C → R` to the valuation ring `R` of a complete nonarchimedean field `k`, with no discreteness
 assumption on `k` (examples: `C = R` if `k` is discretely valued; `C = R_0` a complete discrete
@@ -7599,10 +7555,8 @@ to non-noetherian formal `O_K`-models when `k` is not discretely valued; those a
 noetherian formal schemes over `Spf C` with reduced scheme locally of finite type over `C_red`) and
 `rigOfFSC` (`X ↦ X^rig`); prove `rigOfFSC.homEquiv` (`Hom_k(Z, X^rig) ≃ Hom^cont_C(Z, X)`, naturally
 in the rigid space `Z`), `rigOfFSC_isOpenImmersion` (open, resp. closed, immersions go to open,
-resp. closed, immersions and open covers to admissible covers), `rigOfFSC_pullback` (`(X ×_Y Z)^rig
-≅ X^rig ×_{Y^rig} Z^rig`, 3.1.5(a)), `rigOfFSC_baseChangeField` (`k' ⊗̂_k X^rig_{/k} ≅ X^rig_{/k'}`
-for an analytic extension `k'/k`, 3.1.5(b)), `rigOfFSC_changeCoefficients` (`X^rig ≅ (Spf C' ×_{Spf
-C} X)^rig` for `C → C'` compatible with the maps to `R`, 3.1.5(c)), `rigOfFSC_isSeparated` (`f`
+resp. closed, immersions and open covers to admissible covers), `rigOfFSC_pullback` (`(X ×_Y Z)^rig ≅ X^rig ×_{Y^rig} Z^rig`, 3.1.5(a)), `rigOfFSC_baseChangeField` (`k' ⊗̂_k X^rig_{/k} ≅ X^rig_{/k'}`
+for an analytic extension `k'/k`, 3.1.5(b)), `rigOfFSC_changeCoefficients` (`X^rig ≅ (Spf C' ×_{Spf C} X)^rig` for `C → C'` compatible with the maps to `R`, 3.1.5(c)), `rigOfFSC_isSeparated` (`f`
 separated implies `f^rig` separated, 3.1.5(d)), `rigOfFSC_quasiCompact` (`f` topologically of finite
 type implies `f^rig` quasi-compact, 3.1.5(e)), `rigOfFSC_powerSeries` (`Spf(C[[q]])^rig ≅ Δ`) and
 `rigOfFSC_eq_genericFibre` (for `k` discretely valued, `C = R` and `X` in `FS_R` locally
@@ -7828,9 +7782,7 @@ SchemeAndStackFoundations §§0.23–0.23a; Mathlib `AlgebraicGeometry.Etale`,
 
 **Unique Frobenius lift on a formal scheme étale over the formal torus.**
 (*frobenius-lift-etale-over-torus*) Let `κ` be a perfect field of characteristic `p`, `W = W(κ)`
-with Witt-vector Frobenius `σ` (Mathlib `WittVector.frobenius`), and `𝕋^d = Spf W⟨T_1^{±1}, …,
-T_d^{±1}⟩` the formal torus. Let `𝔛 = Spf R` be affine with an étale morphism `𝔛 → 𝕋^d`, `T_i ↦ T_i
-∈ R`, so that `R` is `p`-adically complete and étale levelwise over `W⟨T^{±1}⟩`. Prove that there is
+with Witt-vector Frobenius `σ` (Mathlib `WittVector.frobenius`), and `𝕋^d = Spf W⟨T_1^{±1}, …, T_d^{±1}⟩` the formal torus. Let `𝔛 = Spf R` be affine with an étale morphism `𝔛 → 𝕋^d`, `T_i ↦ T_i ∈ R`, so that `R` is `p`-adically complete and étale levelwise over `W⟨T^{±1}⟩`. Prove that there is
 a unique ring endomorphism `φ : R → R` such that `φ` is `σ`-semilinear (`φ(a·r) = σ(a)φ(r)` for `a ∈
 W`), `φ(T_i) = T_i^p` for all `i`, and `φ(r) ≡ r^p mod pR` for all `r ∈ R`; more generally, that if
 `A → R` is a formally étale map of `p`-adically complete rings (étale modulo every `p^m`) and `φ_A`
@@ -7838,8 +7790,7 @@ is a Frobenius lift on `A`, there is a unique Frobenius lift `φ_R` on `R` exten
 Frobenius lifts are compatible with étale maps over `𝕋^d`; uniqueness uses `p`-adic completeness and
 formal unramifiedness. In general a smooth formal scheme over `W` admits no global Frobenius lift;
 lifts exist on each open étale over a torus (TT §2.3, Rem. 2.20, p. 19: no global lift in general,
-and existence and uniqueness on opens étale over the torus). On the torus itself `φ(Σ a_ν T^ν) = Σ
-σ(a_ν) T^{pν}`; on `𝔛 = Spf W⟨T^{±1}, (T − 1)⁻¹⟩` (open in the torus), `φ((T − 1)⁻¹) = (T^p − 1)⁻¹`,
+and existence and uniqueness on opens étale over the torus). On the torus itself `φ(Σ a_ν T^ν) = Σ σ(a_ν) T^{pν}`; on `𝔛 = Spf W⟨T^{±1}, (T − 1)⁻¹⟩` (open in the torus), `φ((T − 1)⁻¹) = (T^p − 1)⁻¹`,
 which lies in `R` because `T^p − 1 ≡ (T − 1)^p mod p` is invertible. For `d = 0`, `R ≅ ∏ᵢ W(κ'ᵢ)`
 for finitely many finite separable `κ'ᵢ/κ` (a single `W(κ')` when `Spf R` is connected, `R = 0`
 allowed), and `φ` is the product of the Witt-vector Frobenii. Equal characteristic
@@ -7890,8 +7841,7 @@ be a formal `O_K`-scheme, `K` complete of rank one, smooth of relative dimension
 (*smooth-formal-scheme*) at a closed point `x` of the special fibre with residue field `κ(x) = k` (a
 `k`-rational point), and let `t_1, …, t_d ∈ Γ(U, O_𝔛)` on an open `U ∋ x` be local parameters at
 `x`: their reductions lie in `m_{𝔛_s,x}` and form a regular system of parameters of `O_{𝔛_s,x}`. Let
-`]x[ ⊆ d(𝔛)` be the tube of `{x}` (*tube*) and `D^d_{<1} = ⋃_{m≥1} {|T_i|^m ≤ |ϖ| ∀i} ⊆ Spa(K⟨T⟩,
-O_K⟨T⟩)` the open unit polydisc. `residueDisc_iso` states that the tube is isomorphic to this
+`]x[ ⊆ d(𝔛)` be the tube of `{x}` (*tube*) and `D^d_{<1} = ⋃_{m≥1} {|T_i|^m ≤ |ϖ| ∀i} ⊆ Spa(K⟨T⟩, O_K⟨T⟩)` the open unit polydisc. `residueDisc_iso` states that the tube is isomorphic to this
 polydisc, and `residueDisc_iso_coordinates` requires its pullback to send each coordinate to the
 specified `t_i` and to preserve the structural `O_K`-map. `residueDisc_reparam` states that if `t'`
 is another system of local parameters at `x`, then `t' = Φ(t)` for an
@@ -7919,8 +7869,7 @@ p. 21, over a complete discretely valued field: the tube of the closed fibre of 
 is a product with open unit polydiscs, with `r = 1` the smooth case; the nondiscrete rank-one
 extension requires the corresponding completed étale-chart comparison, beyond this GK02 locator; Conrad-MR §3.1, proof of Thm 3.1.5, p. 17, the Berthelot generic
 fibre of `Spf C[[q]]` is the open unit disc; Conrad-AWS §5.2, Ex. 5.2.5, p. 51, residue discs of the
-closed unit disc are twisted open unit discs, ordinary over algebraically closed `k`). For `𝔛 =
-P̂¹_{O_K}` and `x = 0 ∈ P¹(k)`, `]x[ = D¹_{<1}` with `t = T`; for `x = ∞`,
+closed unit disc are twisted open unit discs, ordinary over algebraically closed `k`). For `𝔛 = P̂¹_{O_K}` and `x = 0 ∈ P¹(k)`, `]x[ = D¹_{<1}` with `t = T`; for `x = ∞`,
 `]∞[ = D¹_{<1}` in the coordinate `t = 1/T`. These are the increasing unions just defined;
 the raw strict-inequality specialisation fibres include higher-rank boundary points. For `K` discretely valued and a smooth proper curve `X` over `O_K` with `x ∈ X_k(k)`, a
 local parameter at a lift of `x` identifies `]x[` with the open unit disc, the form used for
@@ -7996,17 +7945,14 @@ supporting results used across the layer: the adic flatness criterion behind Bos
 Lemma 1.6, the properties preserved by Conrad's generic-fibre functor, and coherent modules and
 rings.
 
-**Fractional valuation bounds |f| ≤ |g|^q and |f| ≥ |g|^q for q ∈ ℚ_{≥0}.**
-(*fractional-valuation-bound*) Let `A` be a commutative ring, `f, g ∈ A` and `q ∈ ℚ_{≥0}`. For `v ∈
-Spv A` write `q = a/b` with `a ∈ ℕ`, `b ∈ ℕ_{>0}`, and define `|f(v)| ≤ |g(v)|^q` to mean `v(f^b) ≤
-v(g^a)` (the valuative relation `f^b ≤_v g^a`), and `|f(v)| ≥ |g(v)|^q` to mean `v(f^b) ≥ v(g^a)`;
+**Fractional valuation bounds `|f| ≤ |g|^q` and `|f| ≥ |g|^q` for `q ∈ ℚ_{≥0}`.**
+(*fractional-valuation-bound*) Let `A` be a commutative ring, `f, g ∈ A` and `q ∈ ℚ_{≥0}`. For `v ∈ Spv A` write `q = a/b` with `a ∈ ℕ`, `b ∈ ℕ_{>0}`, and define `|f(v)| ≤ |g(v)|^q` to mean `v(f^b) ≤ v(g^a)` (the valuative relation `f^b ≤_v g^a`), and `|f(v)| ≥ |g(v)|^q` to mean `v(f^b) ≥ v(g^a)`;
 strict versions likewise. This does not depend on the representative `(a, b)` of `q`, because `x ↦
 x^n` is strictly increasing on a totally ordered value monoid. No element `g^q` of `A` (or of the
 base field) is used: when `K = ℚ_p`, `|p|^{1/2}` is not the absolute value of any element of `K`,
 yet `{|f| ≤ |p|^{1/2}}` is defined; the threshold `|g|^q` is realised by an element only after an
 explicit extension. Second convention, compatible with the first: if `φ : A → B` is a ring map
-and `B` contains `c` and a unit `u` with `u, u⁻¹ ∈ B⁺` and `c^b = φ(g)^a u` (e.g. `c = ϖ^{a/b} ∈ L =
-K(ϖ^{1/b})`, or `c = p^ε ∈ ℤ_p^cycl` of `p`-adic valuation `ε`), then for `v ∈ Spa(B, B⁺)` one has
+and `B` contains `c` and a unit `u` with `u, u⁻¹ ∈ B⁺` and `c^b = φ(g)^a u` (e.g. `c = ϖ^{a/b} ∈ L = K(ϖ^{1/b})`, or `c = p^ε ∈ ℤ_p^cycl` of `p`-adic valuation `ε`), then for `v ∈ Spa(B, B⁺)` one has
 `|φ(f)(v)| ≤ |φ(g)(v)|^q ⟺ v(φ(f)) ≤ v(c)`, since `v(u) = 1`. Degenerate values: for `q = 0` the
 sets are `{v(f) ≤ 1}` and `{v(f) ≥ 1}` whatever `g` is; for `g = 0` and `q > 0`, `fracPowLE f 0 q =
 {v(f) = 0}` and `fracPowGE f 0 q = Spv A`, consistently for every representative of `q` because
@@ -8018,8 +7964,7 @@ Spa(A, A⁺)` is the rational subset `R({f^b, g^a}/g^a)` and `fracPowGE f g q �
 `basicOpenFinset {f^b} (g^a)` only by the condition `v(g^a) ≠ 0`, which is automatic for a unit
 `g`; Tau Ceti's `FarguesFontaine.IsRadiusLowerBound`/`IsRadiusUpperBound` on `Spv` of a Witt vector
 ring are the case `f = [ϖ]`, `g = p`; this target is the general pair `(f, g)`, and those predicates
-must be its specialisation. In `ValuationSpectrum`, define `fracPowLE f g q := {v ∈ Spv A :
-v(f^{q.den}) ≤ v(g^{q.num})}` and `fracPowGE f g q := {v ∈ Spv A : v(f^{q.den}) ≥ v(g^{q.num})}`;
+must be its specialisation. In `ValuationSpectrum`, define `fracPowLE f g q := {v ∈ Spv A : v(f^{q.den}) ≤ v(g^{q.num})}` and `fracPowGE f g q := {v ∈ Spv A : v(f^{q.den}) ≥ v(g^{q.num})}`;
 prove `mem_fracPowLE_iff` (for every `a ∈ ℕ`, `b ∈ ℕ_{>0}` with `q = a/b`: `v ∈ fracPowLE f g q ↔
 v(f^b) ≤ v(g^a)`); the simp lemma `fracPowLE f g n = {v : v(f) ≤ v(g^n)}` for `n ∈ ℕ`;
 `fracPow_inter_spa` (if `g` is a unit: `fracPowLE f g q ∩ spa A⁺ = rationalSubset A⁺ {f^b, g^a}
@@ -8061,17 +8006,13 @@ positive-exponent `GE` support and classical-specialization Checks as examples; 
   : v(f) ≥ 1}`.
 - (degenerate, `g = 0`; Lean example for `fracPowLE`) — for `q > 0`: `fracPowLE f 0 q = {v : v(f) = 0}` (the
   support of `f`) and `fracPowGE f 0 q = Spv A`.
-- (characterisation, direction of `GE`; Lean examples) — for `g` a unit and `q > 0`, every `v ∈ fracPowGE f g
-  q` has `v(f) ≠ 0`; in `Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)` the classical point `T = 1` lies in `fracPowGE T p
-  (1/2)` and the classical point `T = p` does not (`|p| = p⁻¹ < p^{−1/2}`), which pins the
+- (characterisation, direction of `GE`; Lean examples) — for `g` a unit and `q > 0`, every `v ∈ fracPowGE f g q` has `v(f) ≠ 0`; in `Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)` the classical point `T = 1` lies in `fracPowGE T p (1/2)` and the classical point `T = p` does not (`|p| = p⁻¹ < p^{−1/2}`), which pins the
   direction of `GE`. The Lean examples construct these points by evaluation at `1` and `p`
   on the supplied restricted-series carrier and pull back the `p`-adic valuative relation.
 
-**The domain {|s| ≥ |ϖ|^q} cut out by a section of an invertible sheaf on a formal model.**
-(*section-valuation-domain*) Let `𝔛` be an admissible formal `O_K`-scheme, `ℒ` an invertible `O_𝔛`-module, `s ∈ Γ(𝔛,
-ℒ)` and `q ∈ ℚ_{≥0}`, interpreted by *fractional-valuation-bound*. Choose an open cover `𝔛 = ⋃ U_j`
-by formal affines `U_j = Spf A_j` with generators `ℒ|_{U_j} = O e_j`, and write `s|_{U_j} = f_j
-e_j`. Define `𝔛_η(|s| ≥ |ϖ|^q) := ⋃_j (fracPowGE f_j ϖ q ∩ d(U_j)) ⊆ d(𝔛)`, and likewise `𝔛_η(|s| ≤
+**The domain `{|s| ≥ |ϖ|^q}` cut out by a section of an invertible sheaf on a formal model.**
+(*section-valuation-domain*) Let `𝔛` be an admissible formal `O_K`-scheme, `ℒ` an invertible `O_𝔛`-module, `s ∈ Γ(𝔛, ℒ)` and `q ∈ ℚ_{≥0}`, interpreted by *fractional-valuation-bound*. Choose an open cover `𝔛 = ⋃ U_j`
+by formal affines `U_j = Spf A_j` with generators `ℒ|_{U_j} = O e_j`, and write `s|_{U_j} = f_j e_j`. Define `𝔛_η(|s| ≥ |ϖ|^q) := ⋃_j (fracPowGE f_j ϖ q ∩ d(U_j)) ⊆ d(𝔛)`, and likewise `𝔛_η(|s| ≤
 |ϖ|^q)` with `fracPowLE`. These sets do not depend on the cover or the generators: on `U_j ∩ U_k`
 one has `e_k = u e_j` with `u ∈ O(U_j ∩ U_k)^×`, so `f_j = u f_k`, and `|u(x)| = 1` on `d(U_j ∩
 U_k)` because `u, u⁻¹ ∈ O ⊆ O⁺`. They are open (finite unions of rational subsets when `𝔛` is
@@ -8098,8 +8039,7 @@ III.2.12, p. 38, independence of the local lift; Conrad-MR §4.1, proof of Thm 4
 independence of local coordinates for a valuation-bound locus). For `𝔛 = P̂¹_{O_K}`, `ℒ = O(1)` and
 `s = T_0`, `𝔛_η(|s| ≥ |ϖ|^q)` is `P^{1,ad}_K` minus the closed valuation subset `{|z| < |ϖ|^q}` around `z =
 T_0/T_1 = 0`; replacing `ℒ` by the lattice `ℒ' = ϖ⁻¹ℒ ⊇ ℒ` in the same `ℒ_η` (so `s ∈ Γ(ℒ) ⊆ Γ(ℒ')`
-with coordinate `ϖf` for the generator `ϖ⁻¹e`) changes `𝔛_η(|s| ≥ |ϖ|^q)` into `𝔛_η(|s| ≥
-|ϖ|^{q−1})` computed in `ℒ` (empty for `q < 1`): the domain depends on the formal model of the line
+with coordinate `ϖf` for the generator `ϖ⁻¹e`) changes `𝔛_η(|s| ≥ |ϖ|^q)` into `𝔛_η(|s| ≥ |ϖ|^{q−1})` computed in `ℒ` (empty for `q < 1`): the domain depends on the formal model of the line
 bundle. *Needs:* *fractional-valuation-bound*; *admissible-formal-scheme*;
 *generic-fibre-functor-d*; *specialisation-map*; Tau Ceti
 `TauCeti.ValuationSpectrum.rationalSubset`,
@@ -8178,8 +8118,7 @@ of `(s^{⊗b}, ϖ^a)` and `sectionDomainGE_pow` give the same fractional domain.
   evaluates these two sections after that constant specialization: at `q = 1`
   their domains are respectively the whole generic fibre and the empty open.
 - `sectionDomain_test_integralStructure` (non-example) — replacing `ℒ` by the lattice `ϖ⁻¹ℒ ⊇ ℒ` in
-  the same `ℒ_η` multiplies the local coordinates of `s` by `ϖ` and changes the domain from `{|s| ≥
-  |ϖ|^q}` to `{|s|_ℒ ≥ |ϖ|^{q−1}}`; a definition using only `ℒ_η` is ill-defined. The
+  the same `ℒ_η` multiplies the local coordinates of `s` by `ϖ` and changes the domain from `{|s| ≥ |ϖ|^q}` to `{|s|_ℒ ≥ |ϖ|^{q−1}}`; a definition using only `ℒ_η` is ill-defined. The
   equality uses `q+1` on the rescaled side and `q` on the original side, and
   separately states emptiness for rescaled exponents below one.
 - `sectionDomain_test_degenerate` (degenerate) — if `s̄` generates `ℒ/ϖℒ` everywhere then the domain
@@ -8219,7 +8158,7 @@ is invertible, and is the entire formal scheme when the section generates everyw
 (Scholze15, Lemma III.2.13, p. 38, the equation `u s = 1`).
 
 
-**Formal model of a section domain: the open chart of the admissible blow-up of (s, c).**
+**Formal model of a section domain: the open chart of the admissible blow-up of `(s, c)`.**
 (*section-domain-formal-model*) Let `𝔛` be an admissible formal `O_K`-scheme, `ℒ` invertible, `s ∈
 Γ(𝔛, ℒ)`, and `c ∈ O_K ∖ {0}` the threshold (e.g. `c = ϖ^a`, or `c = p^ε` when `K` contains such an
 element; for a fractional `q = a/b` without such an element use `(s^{⊗b}, ϖ^a)` in `ℒ^{⊗b}`), so
@@ -8238,8 +8177,7 @@ isomorphic over `𝔛` via `u' = u(1 + (c'/c) u t)⁻¹`, compatibly with the eq
 domains; if `c'' = wc` with `w ∈ O_K^×`, the models for `c` and `c''` are isomorphic via `u'' = wu`.
 Flatness: if `f̄` is a non-zero-divisor on `A/ϖ` and `c ∈ m_K` (or `c` a unit), `A⟨u⟩/(fu − c)` is
 already `ϖ`-torsion-free. In `FormalScheme`, define `sectionDomainModel` (`𝔛(|s| ≥ |c|)`, an
-admissible formal scheme over `𝔛`), `sectionDomainModel.toBlowUp` (the open immersion `𝔛(|s| ≥ |c|)
-→ Bl_{(s,c)} 𝔛` onto the locus where `s` generates) and `sectionDomainModel.u_mul_s` (the
+admissible formal scheme over `𝔛`), `sectionDomainModel.toBlowUp` (the open immersion `𝔛(|s| ≥ |c|) → Bl_{(s,c)} 𝔛` onto the locus where `s` generates) and `sectionDomainModel.u_mul_s` (the
 tautological section `u` of `ℒ⁻¹` with `u·s = c`); prove the simp lemma `sectionDomainModel_affine`
 (over `Spf A` with `ℒ = Ae`, `s = fe`: `Spf(A⟨u⟩/(fu − c) / ϖ-torsion)`),
 `sectionDomainModel.homEquiv` (for `ϖ`-torsion-free `Z` and `g : Z → 𝔛`: lifts of `g ≃ {u ∈ Γ(Z,
@@ -8286,7 +8224,7 @@ by invertibility of the section in the formal stalk. `sectionDomainModel_test_sc
 identifies a model of a lift with `hasseDomainModel`, uniquely over the original model
 (Scholze15 Definition III.2.12 and Lemma III.2.13, p. 38).
 
-**Hasse domains X(ε) = {|Ha| ≥ |p|^ε} and their formal models.** (*hasse-domain*) Let `p` be a
+**Hasse domains `X(ε) = {|Ha| ≥ |p|^ε}` and their formal models.** (*hasse-domain*) Let `p` be a
 prime, `K` a complete extension of `ℚ_p` (`|p| = p⁻¹`), `𝔛` an admissible formal `O_K`-scheme, `ω`
 an invertible `O_𝔛`-module, and `Ha ∈ Γ(𝔛 ⊗_{O_K} O_K/p, ω^{⊗(p−1)})` a section — the Hasse
 invariant; for modular curves and Shimura varieties it is supplied by the moduli roadmaps. For `ε ∈
@@ -8298,8 +8236,7 @@ contains an element `p^ε` of `p`-adic valuation `ε` (an explicitly chosen elem
 completion of `ℚ_p(μ_{p^∞})` contains such elements for every `ε ∈ (1/(p−1))·ℤ[1/p]`), the formal
 model `𝔛(ε) := 𝔛(|H̃a| ≥ |p^ε|)` (*section-domain-formal-model*) is independent of the local lift up
 to canonical isomorphism — equivalently it represents, on `p`-adically complete flat `O_K`-algebras
-`S`, pairs `(g : Spf S → 𝔛, u ∈ Γ(Spf S, g*ω^{⊗(1−p)}))` with `u·Ha(ḡ) = p^ε` in `S/p`, modulo `u ~
-u(1 + p^{1−ε}h)` — and `d(𝔛(ε)) = X(ε)`; without such an element one uses the fractional-bound
+`S`, pairs `(g : Spf S → 𝔛, u ∈ Γ(Spf S, g*ω^{⊗(1−p)}))` with `u·Ha(ḡ) = p^ε` in `S/p`, modulo `u ~ u(1 + p^{1−ε}h)` — and `d(𝔛(ε)) = X(ε)`; without such an element one uses the fractional-bound
 domain on the generic fibre or passes to an explicit extension. `X(0) = {|Ha| = 1}` is the tube of
 the ordinary locus `𝔛_s ∖ V(Ha)`. Formation of `X(ε)` commutes with pull-back along morphisms `𝔜 → 𝔛`
 (with the pulled-back `ω` and `Ha`) and with base change along complete extensions of `K`.
@@ -8309,8 +8246,7 @@ formal fibre product need not be flat. In `FormalScheme`, define `hasseDomain` (
 `hasseDomainModel` (`𝔛(ε)` when `p^ε ∈ O_K`); prove `hasseDomain_eq_sectionDomainGE` (`X(ε) =
 sectionDomainGE H̃a ε` for every local lift `H̃a`), `hasseDomain_indep_lift` (`X(ε)` does not depend
 on the lifts, `ε < 1`), `hasseDomainModel.homEquiv` (maps `Spf S → 𝔛(ε)` over `𝔛`, `S` flat
-`p`-adically complete, correspond to `u ∈ Γ(g*ω^{⊗(1−p)})` with `u·Ha(ḡ) = p^ε` in `S/p`, modulo `u
-~ u(1 + p^{1−ε}h)`), `hasseDomainModel_genericFibre` (`d(𝔛(ε)) = X(ε)`),
+`p`-adically complete, correspond to `u ∈ Γ(g*ω^{⊗(1−p)})` with `u·Ha(ḡ) = p^ε` in `S/p`, modulo `u ~ u(1 + p^{1−ε}h)`), `hasseDomainModel_genericFibre` (`d(𝔛(ε)) = X(ε)`),
 `hasseDomainModel_isoOfLift` (different local lifts give canonically isomorphic models),
 `hasseDomain_zero` (`X(0)` is the tube of the ordinary locus), `hasseDomain_mono` (`ε ≤ ε'` implies
 `X(ε) ⊆ X(ε')`), `hasseDomain_preimage` (for `g : 𝔜 → 𝔛` with `ω_𝔜 = g*ω` and `Ha_𝔜 = g*Ha`:
@@ -8412,8 +8348,7 @@ additional extension theorem, not for this assertion).
 **Transition maps between Hasse domains as the radius changes.** (*hasse-domain-transition-maps*) In
 the situation of *hasse-domain*, let `0 ≤ ε'' ≤ ε' ≤ ε < 1`, with chosen elements `c_ε ∈ O_K` of
 valuation `ε` for the formal statements. Prove (a) that `X(ε') ⊆ X(ε)` is an open immersion of adic
-spaces, `X(ε')` being a rational subset of `X(ε)` on every affine chart; (b) that if `c_ε, c_{ε'} ∈
-O_K` are chosen elements of valuations `ε`, `ε'` (so `c_ε/c_{ε'} ∈ O_K`), there is a unique morphism
+spaces, `X(ε')` being a rational subset of `X(ε)` on every affine chart; (b) that if `c_ε, c_{ε'} ∈ O_K` are chosen elements of valuations `ε`, `ε'` (so `c_ε/c_{ε'} ∈ O_K`), there is a unique morphism
 of formal models `ι_{ε',ε} : 𝔛(ε') → 𝔛(ε)` over `𝔛` with `u = (c_ε/c_{ε'})·u'`, inducing the
 inclusion (a) on generic fibres; (c) that `ι_{ε,ε} = id` and `ι_{ε',ε} ∘ ι_{ε'',ε'} = ι_{ε'',ε}` for
 `ε'' ≤ ε' ≤ ε`, and the `ι` are compatible with the lift-change isomorphisms; (d) that the open set
@@ -8423,12 +8358,7 @@ infinitesimally larger than `|p(x)|^ε`, and that under the comparison functor `
 `X(<ε)` corresponds to Conrad's admissible open `{h > |p|^ε}` with its admissible cover by the
 `X(ε')`; (e) that for every `ε > 0`, the closure of `X(0)` in `d(𝔛)` is contained in `X(ε)`
 (Conrad-MR §4.1, Thm 4.1.1(1), p. 26, the open cover of the strict locus by non-strict loci of
-smaller radius; BHW §2.1, p. 7 of the author version, the family of opens `X*(ε)` indexed by the radius). For `𝔛 = Spf
-ℤ_p⟨T⟩`, `Ha = T` and `c_{1/2} = √p`, `c_{1/4} = p^{1/4}` over `ℤ_p[p^{1/4}]`: `ι_{1/4,1/2}` is `u =
-p^{1/4}u'` from `Spf O_K⟨T, u'⟩/(Tu' − p^{1/4})` to `Spf O_K⟨T, u⟩/(Tu − p^{1/2})`, `O_K =
-ℤ_p[p^{1/4}]`; on generic fibres `{|T|
-≥ |p|^{1/4}} ⊆ {|T| ≥ |p|^{1/2}}`. Conrad's admissible cover of `S^{>h_0}` by the `S^{≥h}`, `h ∈
-(h_0, 1)`, is (d) in the elliptic case. *Needs:* *hasse-domain*; *section-domain-formal-model*;
+smaller radius; BHW §2.1, p. 7 of the author version, the family of opens `X*(ε)` indexed by the radius). For `𝔛 = Spf ℤ_p⟨T⟩`, `Ha = T` and `c_{1/2} = √p`, `c_{1/4} = p^{1/4}` over `ℤ_p[p^{1/4}]`: `ι_{1/4,1/2}` is `u = p^{1/4}u'` from `Spf O_K⟨T, u'⟩/(Tu' − p^{1/4})` to `Spf O_K⟨T, u⟩/(Tu − p^{1/2})`, `O_K = ℤ_p[p^{1/4}]`; on generic fibres `{|T| ≥ |p|^{1/4}} ⊆ {|T| ≥ |p|^{1/2}}`. Conrad's admissible cover of `S^{>h_0}` by the `S^{≥h}`, `h ∈ (h_0, 1)`, is (d) in the elliptic case. *Needs:* *hasse-domain*; *section-domain-formal-model*;
 *section-valuation-domain*; *fractional-valuation-bound*; Tau Ceti
 `TauCeti.ValuationSpectrum.rationalSubset`.
 
@@ -8506,8 +8436,8 @@ Artin–Rees and Krull intersection. Prove that if `M/I^n M` is flat over `A/I^n
 then `M` is flat over `A`; and that in the same situation, if moreover `I ⊆ Jac(A)` and `M/IM` is
 faithfully flat over `A/I`, then `M` is faithfully flat over `A` (BL I §1, proof of Lem. 1.6, p.
 295: Bosch–Lütkebohmert reduce Lemma 1.6 to the proof of Bourbaki AC III §5 no. 2 Theorem 1 under
-exactly the conditions (1) and (2), condition (2) reading 'a ⊗ M is separated with respect to the
-𝔍-adic topology'; p. 296, the faithful-flatness addendum via Nakayama). For `A` noetherian, `I ⊆
+exactly the conditions (1) and (2), condition (2) reading '`a ⊗ M` is separated with respect to the
+`𝔍`-adic topology'; p. 296, the faithful-flatness addendum via Nakayama). For `A` noetherian, `I ⊆
 Jac(A)` and `M` finite over a noetherian `A`-algebra `B` with `IB ⊆ Jac(B)`, (1) is Artin–Rees and
 (2) Krull's intersection theorem, giving the noetherian local flatness criterion used in the
 noetherian case of Bosch–Lütkebohmert I 1.6. *Needs:* Mathlib `Module.Flat`,
@@ -8666,8 +8596,8 @@ Modular Curves carrier. `nGon S n` uses positive `n` and cyclically identifies
 infinity on component `i` with zero on component `i+1`; `nGon_normalization`
 states this gluing's universal property over a field, including the self-gluing
 for `n = 1`. `nGon_smoothLocus` identifies the smooth scheme over any ring
-with the disjoint union of n multiplicative groups. `nGon_smoothPoints`
-identifies its group of points over any ring A with units times locally constant
+with the disjoint union of `n` multiplicative groups. `nGon_smoothPoints`
+identifies its group of points over any ring `A` with units times locally constant
 component labels on `Spec A`, including disconnected and nonreduced rings. The points `[a:b]` in this statement are `projectivePoint K a b h`
 in Mathlib's `Proj K[X₀,X₁]`. `GeneralisedEllipticCurve S` requires every
 geometric fibre, with its smooth group and whole-curve action, to be isomorphic
@@ -8686,7 +8616,7 @@ In full level, over a `ℤ[1/N]`-scheme `S`, `LevelStructure L E` is an isomorph
 of commutative `S`-group schemes `α : ((ℤ/N)²)_S ≅ E^sm[N]` whose labelled
 sections meet every irreducible component of every geometric fibre of `E`.
 The label of `(i,j)` is `α(i,j) = iP + jQ`, where `P = α(1,0)` and `Q = α(0,1)`;
-these sections are killed by `N` and give a basis of the N-torsion in every geometric fibre.
+these sections are killed by `N` and give a basis of the `N`-torsion in every geometric fibre.
 This extends ModularCurves §3N's naive full-level group-scheme definition to generalised
 elliptic curves; for smooth `E` it agrees with `GammaFullStructure` via
 ModularCurves §3D's naive–Drinfeld comparison. The generalised-curve extension and its
@@ -8740,7 +8670,7 @@ write `I = ker ε`. If `t ∈ I` is a basis of `I/I²`, then
 `formalGroup_coordinate` sends the image of `t` to `X`.
 `formalGroup_affineCoordinate` gives the formal-scheme isomorphism for an
 actual affine neighbourhood of `identitySection E`, with compatibility of its
-structure map and augmentation, and the X-adic topology on `A[[X]]`.
+structure map and augmentation, and the `X`-adic topology on `A[[X]]`.
 `formalGroup_localParameter` supplies these affine neighbourhoods and a
 parameter locally around every base point, with a scalar-preserving completed-ring
 equivalence. The basis condition is stated explicitly by generation and linear independence
@@ -8751,11 +8681,11 @@ After completion of the base these give the same one-parameter formal group
 over the affine formal opens where the invariant differential line is trivial.
 
 `jMap L b` has the complex fibre of `moduli L` as source and `Proj ℂ[X₀,X₁]`
-as target. `jMap_values` uses points over ℂ and identifies its value on a smooth Weierstrass fibre
+as target. `jMap_values` uses points over `ℂ` and identifies its value on a smooth Weierstrass fibre
 with `[j(W):1]` and characterizes the inverse image of `[1:0]` by polygon
 fibres (Conrad-GEC, proof of Theorem 4.2.1, p. 36).
-`tateCurve n` is the algebraic n-gon Tate family over `ℤ[[Q]]`, with
-`Q = q^(1/n)`; it specializes to `nGon` and becomes smooth after inverting Q.
+`tateCurve n` is the algebraic `n`-gon Tate family over `ℤ[[Q]]`, with
+`Q = q^(1/n)`; it specializes to `nGon` and becomes smooth after inverting `Q`.
 Its identity completion is isomorphic as a formal group to the identity
 completion of the standard 1-gon over the same base, hence to `𝔾̂_m`
 (Conrad-GEC, §2.5, construction and (2.5.3), p. 17).
@@ -8770,7 +8700,7 @@ completion of the standard 1-gon over the same base, hence to `𝔾̂_m`
   of the compactified level-`1` problem, which is not itself one of the `M_Γ`: the level-`1` problem is not representable,
   every curve having the automorphism `−1`); the cusps are `j⁻¹(∞)`.
 - `generalisedEllipticModuli_test_tateCurve` (computation) — the Tate curve over `ℤ[[q]]` (with level after adjoining the
-  required roots of unity and a root of q over `ℤ[1/d]`) has formal
+  required roots of unity and a root of `q` over `ℤ[1/d]`) has formal
   group `𝔾̂_m` along its identity section: `[p](X) = (1 + X)^p − 1`, with coefficient `1` at `X^p`,
   so its Hasse invariant is `1` and its fibres lie in `S^{≥1}` of *hasse-loci-admissible-opens*.
   The Check uses the formal-group isomorphism of `tateCurve n` with the
@@ -8794,16 +8724,16 @@ table are in `GeneralisedEllipticCurve`, except `GroupCurve`, `ofElliptic`,
 | `projectivePoint` | `projectivePoint_scaling`: unit scaling fixes a point; `projectivePoint_zeroInfinity`: zero and infinity differ; `projectivePoint_affine`: `[a:1] = [b:1]` exactly when `a = b`. |
 | `GeneralisedEllipticCurve` | `GeneralisedEllipticCurve_smooth`: imported elliptic curves qualify; `GeneralisedEllipticCurve_polygon`: every positive polygon qualifies; `GeneralisedEllipticCurve_noEmptyFibre`: every base point has a point above it. |
 | `Level` | `Level_fullThree`: full level three is allowed; `Level_cyclicFive`: cyclic level five is allowed; `Level_smallExcluded`: full levels below three, and cyclic levels without a factor at least five, are excluded; `Level_mixed`: for a prime `p ≠ 5`, cyclic level `5p` with factor `5` is allowed and its base `ℤ[1/5]` does not invert `p`. |
-| `LevelStructure` | `LevelStructure_fullBasis`: a full N-torsion basis on a smooth elliptic curve over `ℂ` gives a structure; `LevelStructure_nonadditiveExcluded`: for `N = 3` and a basis `P,Q`, swapping only the labels `(1,0)` and `(0,1)` fixes zero and bijects onto the torsion but fails `α(2,0) = 2α(1,0)`, since `2P ≠ 2Q`, so is excluded; `LevelStructure_torsion`: labelled sections are killed by N; `LevelStructure_trivialExcluded`: a constant identity labelling fails over a geometric point; `LevelStructure_polygonDivides`: the polygon size divides N; `LevelStructure_pGonPrimeToP`: over every field of characteristic zero, the standard `p`-gon has no cyclic level structure of level prime to `p`; `LevelStructure_pGonMixed`: for `d ≥ 5` prime to `p`, the point `(ζ_d, 1)` of `G_m × ℤ/p` is a cyclic level structure of level `dp` on the standard `p`-gon over `ℚ_p(ζ_d)`. |
+| `LevelStructure` | `LevelStructure_fullBasis`: a full `N`-torsion basis on a smooth elliptic curve over `ℂ` gives a structure; `LevelStructure_nonadditiveExcluded`: for `N = 3` and a basis `P,Q`, swapping only the labels `(1,0)` and `(0,1)` fixes zero and bijects onto the torsion but fails `α(2,0) = 2α(1,0)`, since `2P ≠ 2Q`, so is excluded; `LevelStructure_torsion`: labelled sections are killed by `N`; `LevelStructure_trivialExcluded`: a constant identity labelling fails over a geometric point; `LevelStructure_polygonDivides`: the polygon size divides `N`; `LevelStructure_pGonPrimeToP`: over every field of characteristic zero, the standard `p`-gon has no cyclic level structure of level prime to `p`; `LevelStructure_pGonMixed`: for `d ≥ 5` prime to `p`, the point `(ζ_d, 1)` of `G_m × ℤ/p` is a cyclic level structure of level `dp` on the standard `p`-gon over `ℚ_p(ζ_d)`. |
 | `moduli` | `moduli_fullThree`: full level three is proper; `moduli_cyclicFive`: cyclic level five is locally finitely presented; `moduli_nonemptyComplex`: every allowed moduli scheme has complex points; `moduli_mixedCharP`: for a prime `p ≠ 5`, the moduli scheme of cyclic level `5p` with factor `5` has a nonempty fibre over `𝔽_p`. |
 | `universalCurve` | `universalCurve_flat`: the curve is flat; `universalCurve_proper`: it is proper; `universalCurve_cusp`: it has a complex polygon fibre. |
-| `universalLevel` | `universalLevel_zero`: the zero label gives the identity; `universalLevel_torsion`: N kills every label; `universalLevel_classifiesIdentity`: identity pullback preserves all labels. |
+| `universalLevel` | `universalLevel_zero`: the zero label gives the identity; `universalLevel_torsion`: `N` kills every label; `universalLevel_classifiesIdentity`: identity pullback preserves all labels. |
 | `identitySection` | `identitySection_section`: composition with the structure map is the identity; `identitySection_closed`: it is a closed immersion; `identitySection_smooth`: its image lies in the smooth locus. |
-| `formalGroup` | `formalGroup_support`: its topological space is the base; `formalGroup_smoothAffine`: over a field K the identity completion is `Spf K[[X]]` with its X-adic topology; `formalGroup_emptyBase`: an empty base gives an empty completion. |
+| `formalGroup` | `formalGroup_support`: its topological space is the base; `formalGroup_smoothAffine`: over a field `K` the identity completion is `Spf K[[X]]` with its `X`-adic topology; `formalGroup_emptyBase`: an empty base gives an empty completion. |
 | `formalGroup.structure`, `formalGroup.grp`, `formalGroup.comm` | `formalGroup.structure_identity`: the identity lies over the base; `formalGroup.structure_inverse`: inverse cancels; `formalGroup.structure_commutes`: the law is commutative. The same examples are labelled `formalGroup.grp_identity`, `formalGroup.grp_inverse`, `formalGroup.grp_commutes`, and `formalGroup.comm_identity`, `formalGroup.comm_inverse`, `formalGroup.comm_commutes`. |
-| `formalGroup.coordinate` | `formalGroup.coordinate_linear`: the parameter T gives `A[[X]]`; `formalGroup.coordinate_unitMultiple`: so does uT for a unit u; `formalGroup.coordinate_squareExcluded`: T² does not generate the conormal line over a field. |
-| `jMap` | `jMap_finite`: finite and surjective; `jMap_zero`: j = 0 occurs; `jMap_infinity`: a cusp occurs. The first is also `generalisedEllipticModuli_test_jLine`; `jMap_values` identifies precisely which fibres are cusps. |
-| `tateCurve` | `tateCurve_specialFibre`: Q = 0 gives the standard n-gon; `tateCurve_genericSmooth`: inverting Q gives a smooth curve; `tateCurve_formalMultiplicative`: the completed group is the completed multiplicative group. The last is also `generalisedEllipticModuli_test_tateCurve`; its coefficient calculation uses this isomorphism. |
+| `formalGroup.coordinate` | `formalGroup.coordinate_linear`: the parameter `T` gives `A[[X]]`; `formalGroup.coordinate_unitMultiple`: so does `uT` for a unit `u`; `formalGroup.coordinate_squareExcluded`: `T²` does not generate the conormal line over a field. |
+| `jMap` | `jMap_finite`: finite and surjective; `jMap_zero`: `j = 0` occurs; `jMap_infinity`: a cusp occurs. The first is also `generalisedEllipticModuli_test_jLine`; `jMap_values` identifies precisely which fibres are cusps. |
+| `tateCurve` | `tateCurve_specialFibre`: `Q = 0` gives the standard `n`-gon; `tateCurve_genericSmooth`: inverting `Q` gives a smooth curve; `tateCurve_formalMultiplicative`: the completed group is the completed multiplicative group. The last is also `generalisedEllipticModuli_test_tateCurve`; its coefficient calculation uses this isomorphism. |
 
 **Admissible opens, admissible coverings and quasi-compactness descend along étale coverings with
 local quasi-sections.** (*rigid-etale-descent-admissible-opens*) Let `k` be a complete
@@ -8886,12 +8816,10 @@ flat with the pull-back modulo `ϖ`-torsion equal to the strict transform. Conte
 `Spf O_K⟨a, ζ⟩ → Spf O_K⟨a⟩` (`(a²ζ, ϖ)` has `(a², ϖ)`, not `(a, ϖ)`), Fitting ideals on diagonal
 presentations (`F_0((O_X/ϖ)²) = (ϖ²) ≠ Ann = (ϖ)`), and the partition blow-up on `O_K⟨ζ⟩/(ζ(ζ − ϖ))`
 gives `Spf O_K ⊔ Spf O_K`. For completions of schemes: `A¹_{O_K}` gives the closed unit disc inside
-`A^{1,ad}_K`, `G_{m,O_K}` gives `{|T| = 1}`, `P¹_{O_K}` gives `d(P̂¹) ≅ P^{1,ad}_K`, `Spec O_K ⊔
-A¹_{O_K/ϖ}` shows that flatness is needed in the properness converse, and `P¹_{O_K} ⊔ Spec K` is a
+`A^{1,ad}_K`, `G_{m,O_K}` gives `{|T| = 1}`, `P¹_{O_K}` gives `d(P̂¹) ≅ P^{1,ad}_K`, `Spec O_K ⊔ A¹_{O_K/ϖ}` shows that flatness is needed in the properness converse, and `P¹_{O_K} ⊔ Spec K` is a
 flat non-proper quasi-projective model whose `φ` misses a point. For Conrad's functor and
 smoothness: `Spf(ℤ[[q]])^rig` is the open unit disc over any `k`, `Spf O_{ℂ_p}⟨T⟩` is not in any
-`FS_C`, `Spf O_K⟨T_1, …, T_d⟩` and the formal torus are smooth with `Ω¹` free on the `dT_i`, `Spf
-O_K⟨S, T⟩/(ST − ϖ)` is flat with smooth generic fibre but not smooth, `Spf W(𝔽_{p²}) → Spf ℤ_p`
+`FS_C`, `Spf O_K⟨T_1, …, T_d⟩` and the formal torus are smooth with `Ω¹` free on the `dT_i`, `Spf O_K⟨S, T⟩/(ST − ϖ)` is flat with smooth generic fibre but not smooth, `Spf W(𝔽_{p²}) → Spf ℤ_p`
 corresponds to `Spec 𝔽_{p²} → Spec 𝔽_p` with generic fibre `Spa(ℚ_{p²}) → Spa(ℚ_p)`, the Frobenius
 lift on the torus is `Σ a_ν T^ν ↦ Σ σ(a_ν) T^{pν}`, and the residue discs of `P̂¹_{O_K}` at `0` and
 `∞` are the open unit discs in coordinates `T` and `1/T` (the increasing rational unions
@@ -11285,7 +11213,7 @@ acyclicity over the affinoid base (Conrad-RA (A.1.1), p. 39).
 | Part II `Affinoid.toSpec`, applied to `c.affinoid` | `Chart.toSpec_empty`: the zero ring gives empty image; `Chart.toSpec_coefficients`: constants pull back by the coefficient map; `Chart.toSpec_support`: the image prime is the support of the valuation. |
 | `constantPullbackIso` | `constantPullbackIso_zero`: the zero group gives the zero morphism; `constantPullbackIso_naturality`: coefficient homomorphisms commute with the comparison; `constantPullbackIso_constantSections`: every constant section retains its value. |
 | `sheafCohomologyPullback` | `sheafCohomologyPullback_zeroMap`: a zero coefficient map gives zero; `sheafCohomologyPullback_identity`: identity data gives the identity; `sheafCohomologyPullback_sections`: degree zero is the given map of sections. |
-| `rigidRingCatSheaf` | `rigidRingCatSheaf_point`: a point has sections K; `rigidRingCatSheaf_empty`: the empty space has zero sections; `rigidRingCatSheaf_affinoid`: an affinoid recovers its algebra. |
+| `rigidRingCatSheaf` | `rigidRingCatSheaf_point`: a point has sections `K`; `rigidRingCatSheaf_empty`: the empty space has zero sections; `rigidRingCatSheaf_affinoid`: an affinoid recovers its algebra. |
 | `rigidAbelianRestriction` | `rigidAbelianRestriction_zero`: zero stays zero; `rigidAbelianRestriction_biprod`: finite direct sums are preserved; `rigidAbelianRestriction_point`: constant sheaves on a point retain their coefficient group. |
 | `rigidConstantIso` | `rigidConstantIso_zero`: zero coefficients give zero; `rigidConstantIso_naturality`: coefficient maps commute with the specified comparison; `rigidConstantIso_point`: evaluation on the rigid point is bijective. |
 | `rigidModuleSheafIso` | `rigidModuleSheafIso_zero`: zero modules give zero; `rigidModuleSheafIso_unit`: the unit section returns to one under the section comparison; `rigidModuleSheafIso_naturality`: module morphisms commute with the comparison. |
@@ -11611,7 +11539,7 @@ the polygon sizes, including multiples of `p`, so a level prime to `p` is never 
 - `classify_baseChange_point` (compatibility) — for a `k`-point `s` of `S`, the fibre `(E_s, P_s)`
   is classified by `c(s)`.
 
-**Conrad's Hasse-invariant loci S^{>h}, S^{≥h} of a generalized elliptic curve are admissible
+**Conrad's Hasse-invariant loci `S^{>h}`, `S^{≥h}` of a generalized elliptic curve are admissible
 opens.** (*hasse-loci-admissible-opens*) For a generalized elliptic curve `E → S` over a rigid space
 `S` over `k` (`RigidSpace.GeneralisedEllipticCurve S` of *rigid-generalised-elliptic-level-classification*; `k` complete nonarchimedean of residue characteristic `p`, analytic over `ℚ_p`, `|p| =
 p⁻¹`), the Hasse invariant of a fibre `E_s` is `h(E_s) = max(|a|, 1/p) ∈ [1/p, 1]` (Conrad-MR Definition B.3.3: `a` lifts the coefficient of `X^p` in `[p]*(X) mod p` on the formal group of a
@@ -11643,9 +11571,7 @@ the statements on `S`. For an analytic extension `k'/k` and quasi-separated or p
 extension of `S'_i`, by `classify_extendScalars` and the universal case, and that extension of
 `q_i` is surjective. `M̂^rig ≅ M^an_k` and `Ê^rig ≅ E^an_k` use properness
 (*good-reduction-locus*). Local description: on a formal affine `Spf A` of the formal
-completion `M̂` of the proper moduli scheme `M` over which `e*Ω̂¹` is trivial, with `Γ_A ≅ Spf
-A[[X]]` the formal group and `a_{Γ_A}` the coefficient of `X^p` in `[p]*(X)`, `S^{>h} ∩ (Spf A)^rig
-= {|a_{Γ_A}| > h}` and `S^{≥h} ∩ (Spf A)^rig = {|a_{Γ_A}| ≥ h}`, independent of the coordinate `X`.
+completion `M̂` of the proper moduli scheme `M` over which `e*Ω̂¹` is trivial, with `Γ_A ≅ Spf A[[X]]` the formal group and `a_{Γ_A}` the coefficient of `X^p` in `[p]*(X)`, `S^{>h} ∩ (Spf A)^rig = {|a_{Γ_A}| > h}` and `S^{≥h} ∩ (Spf A)^rig = {|a_{Γ_A}| ≥ h}`, independent of the coordinate `X`.
 Thresholds `h ∈ √|k^×|` are read with the convention of *fractional-valuation-bound*. Through the
 comparison `r` of AdicSpacesPartII layer R1 these are opens of the adic space, and for `h = |p|^ε` with `0 ≤ ε < 1`
 (so `h ∈ (1/p, 1]`) `S^{≥h}` is the Hasse domain `X(ε)` of *hasse-domain* for `ω` the Hodge bundle
@@ -11687,11 +11613,9 @@ ordinary or potentially toric reduction, and `h(E) < 1` iff potentially supersin
 - `hasseLocus_test_withoutMax` (non-example) — for `h < 1/p` the locus `{|a_{Γ_A}| ≥ h}` can be
   strictly smaller than `S` (`a` can be divisible by `p`), whereas `{h(E_s) ≥ h} = S`: dropping the
   `max(·, 1/p)` in Definition B.3.3 gives a different, coordinate-dependent set.
-- `hasseLocus_test_hasseDomain` (compatibility) — for `S = M^an` with the universal curve and `h =
-  |p|^ε`, `0 ≤ ε < 1`: `S^{≥h} = X(ε)`, the Hasse domain of `M̂` with `ω` the Hodge bundle and `Ha`
+- `hasseLocus_test_hasseDomain` (compatibility) — for `S = M^an` with the universal curve and `h = |p|^ε`, `0 ≤ ε < 1`: `S^{≥h} = X(ε)`, the Hasse domain of `M̂` with `ω` the Hodge bundle and `Ha`
   the Hasse invariant.
-- `hasseLocus_test_fractionalThreshold` (characterisation) — for `h = |c|^{1/n} ∈ √|k^×|` (`c ∈
-  k^×`), `S^{≥h} ∩ (Spf A)^rig = {|a_{Γ_A}^n| ≥ |c|}`, independent of the choice of `(c, n)`
+- `hasseLocus_test_fractionalThreshold` (characterisation) — for `h = |c|^{1/n} ∈ √|k^×|` (`c ∈ k^×`), `S^{≥h} ∩ (Spf A)^rig = {|a_{Γ_A}^n| ≥ |c|}`, independent of the choice of `(c, n)`
   representing `h`.
 - `hasseLocus_test_pGon` (negative control for the reduction) — for `S = Sp ℚ_p` and `E` the
   standard `p`-gon, the formal group is `𝔾̂_m`, `h(E) = 1` and `S^{≥1} = S`. The reduction reaches
@@ -12258,7 +12182,7 @@ in Mathlib `SheafOfModules.pullback`.
 - `Correspondence_identity`, `Correspondence.pullIdentifyTrace_identity`: the identity correspondence acts identically in every degree.
 - `Correspondence_empty`, `Correspondence.pullIdentifyTrace_empty`: empty correspondences act by zero.
 - `Correspondence_rankTwo`, `Correspondence.pullIdentifyTrace_rankTwo`: for equal legs of constant rank two and identity coefficient map, the operator is multiplication by two, including ramified covers.
-- `Correspondence.pullIdentifyTrace_split`: on the two-summand correspondence with second leg an endomorphism σ, a function s maps to s + σ*s.
+- `Correspondence.pullIdentifyTrace_split`: on the two-summand correspondence with second leg an endomorphism `σ`, a function `s` maps to `s + σ*s`.
 
 **Checks.**
 
