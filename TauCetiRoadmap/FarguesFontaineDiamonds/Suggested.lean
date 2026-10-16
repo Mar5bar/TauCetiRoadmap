@@ -107,10 +107,18 @@ example {B : Type u} [NormedCommRing B] [Nontrivial B]
     (c : ℝ) (hc : 0 < c) : ¬ (∀ b : B, c * ‖b‖ ≤ ‖(0 : B) * b‖) := by
   sorry
 
--- The characteristic-p untilt does not invert p and cannot be a Q_p-untilt.
+-- A nonzero characteristic-p untilt does not invert p and cannot be a Q_p-untilt.
 example (A : Type u) [CommRing A] [Nontrivial A] (p : ℕ) [CharP A p] :
     ¬ IsUnit (p : A) := by
   sorry
+
+-- The zero ring of the empty test has p = 0 and p invertible (`affinoid_product_empty`).
+example (A : Type u) [CommRing A] [Subsingleton A] (p : ℕ) :
+    (p : A) = 0 ∧ IsUnit (p : A) := by
+  constructor
+  · exact Subsingleton.elim _ _
+  · rw [Subsingleton.elim (p : A) (1 : A)]
+    exact isUnit_one
 
 -- Theta evaluates the marked roots, and multiplicative sharp transports source transitions.
 example {R A : Type u} [CommRing R] [CommRing A] (p : ℕ) [Fact p.Prime]
@@ -142,7 +150,8 @@ F3: chart_site_compatibility, sheaf_descent, finite_cover_descent;
 F4: AnalyticCartierIdeal, IsClosedCartier, analytic_cartier_closed_iff,
     section_untilt_equiv, primitive_equation_interface, root_extension_frame,
     boundary_supremum, multiplication_lower_bound, untilt_closed_divisor,
-    untilt_sheaf_exactness, curve_untilt_divisor, untilt_orbit_invariance;
+    untilt_sheaf_exactness, curve_untilt_divisor, untilt_quotient_sections_field,
+    untilt_orbit_invariance;
 F5: completed_derived_equiv, ordinary_bounded_below, completed_global_sections,
     derived_pullback_tensor, adic_derived_equiv, adic_global_sections.
 -/

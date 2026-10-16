@@ -304,7 +304,7 @@ Prove `qp_factorisation`: The structural morphisms Y → Spa(Z_p,Z_p) and X → 
 
 Extend the structural ring map by the localization universal property because p is invertible on Y. Check continuity using the chart topology and boundedness on Z_p. Glue and descend through the Z_p-linear Witt Frobenius and the AdicSpaces construction’s quotient chart maps; use uniqueness to prove the triangles.
 
-Checks: p inverse maps to the actual inverse in each B^I. A characteristic-p untilt does not define a point of Spd Q_p.
+Checks: p inverse maps to the actual inverse in each B^I. A nonempty characteristic-p untilt does not define a point of Spd Q_p. The empty untilt has a unique map to Spa(Q_p,Z_p), since p=0 is a unit in the zero ring.
 
 (FS II.1.1, pp.47–48; II.1.15–16, pp.54–55.)
 
@@ -344,7 +344,7 @@ Prove `bounded_witt_theta`: Let T=Spa(A,A^+) be a characteristic-p affinoid perf
 
 *Needs:* F0, `qp_factorisation`; PerfectoidSpaces, Layer P1 (witt vectors of perfect plus ring); PerfectoidSpaces, Layer P1 (fontaine theta comparison with mathlib); PerfectoidSpaces, Layer P1 (rings of integral elements under tilting); Mathlib `WittVector.map`; Mathlib `WittVector.fontaineTheta`; Mathlib `WittVector.fontaineTheta_teichmuller`.
 
-Use perfectness of O_F for the continuous Witt lifting property, and the supplier’s topological theta and integral-tilt identification. Check p and [varpi] are sent to topologically nilpotent elements of the plus ring, and that theta(W(f)([x]))=f(x)^sharp. Use preservation of units by sharp and the marking to translate the open-locus condition. Construct the inverse and verify equality on all Teichmuller expansions by separated completeness.
+Use perfectness of O_F for the continuous Witt lifting property, and the supplier’s topological theta and integral-tilt identification. On a nonzero untilt ring use P1's nonunit-p hypothesis on the integral ring for the Mathlib theta comparison; on the zero ring use the unique ring map. Check p and [varpi] are sent to topologically nilpotent elements of the plus ring, and that theta(W(f)([x]))=f(x)^sharp. Use preservation of units by sharp and the marking to translate the open-locus condition. Construct the inverse and verify equality on all Teichmuller expansions by separated completeness.
 
 Checks: The map on [x] is f(x)^sharp, not an additive sharp map. Invertibility is tested in A^sharp, not in A^{sharp,+}.
 
@@ -372,7 +372,8 @@ The API is used by FS II.1.2 and II.1.17 to build the fixed-field product formul
 **Checks.**
 
 - `affinoid_product_base` (computation): For T=S and any marked Q_p-untilt u of S, the theta-defined i_u maps to (id_S,u).
-- `affinoid_product_excludes_char_p` (non-example): An untilt with p=0 does not occur in either side with Spd Q_p; its map factors only into the integral analytic locus.
+- `affinoid_product_excludes_char_p` (non-example): A nonempty untilt with p=0 does not occur in either side with Spd Q_p; its induced integral analytic map cannot factor through Y.
+- `affinoid_product_empty` (degenerate): For T=Spa(0,0)=∅ with its unique empty marked untilt, alpha_T is the bijection {*} ≃ {*}×{*}. Here p=0 is invertible; the unique maps to Y and Spa(Q_p,Z_p) exist. Both maps of the product comparison and their naturality include this test.
 - `affinoid_product_teichmuller` (computation): For the inverse of (f,u), [varpi] maps to f(varpi)^sharp, a unit in the untilt Tate ring; its plus-ring membership does not assert that it is a plus-ring unit.
 - `affinoid_product_compatible_roots` (computation): For F=completion(F_p((t^{1/p^infty}))), choose the Q_p(p^{1/p^infty})-completion untilt with t^sharp=p and compatible roots. The inverse of (id_S,u) sends every [t^{1/p^m}] to p^{1/p^m}, with the p-power relations retained and both p and [t] invertible in the untilt Tate field. No algebraic-closedness assumption is used. In the algebraic signature,
   tRoots(m+1)^p=tRoots(m) is a hypothesis on the source family;
@@ -430,7 +431,7 @@ Checks: For the identity field map, the comparison square is the identity.
 
 ### Examples
 
-For F=completion(F_p((t^{1/p^infty}))) and its Kummer untilt, choose the marking t^sharp=p. The point defined by theta then has coordinates (id_S,u), and [t^{1/p^m}] maps to p^{1/p^m}. A characteristic-p untilt cannot lie over Spd(Q_p).
+For F=completion(F_p((t^{1/p^infty}))) and its Kummer untilt, choose the marking t^sharp=p. The point defined by theta then has coordinates (id_S,u), and [t^{1/p^m}] maps to p^{1/p^m}. A nonempty characteristic-p untilt cannot lie over Spd(Q_p).
 
 ### Dependencies
 
@@ -857,17 +858,41 @@ The API is used by FS II.1.18 to descend the analytic untilt divisor to the exis
 - `curve_untilt_divisor_frobenius` (compatibility): Precomposing the marking by phi_S gives the same closed divisor on X, because its lifted graph is related by phi_Y.
 - `curve_untilt_divisor_window_change` (compatibility): Two overlapping wandering windows yield the same Cartier ideal on their common quotient open, including the transition unit.
 
+### Sections of the untilt quotient over the fixed field
+
+Construct `untilt_quotient_sections_field`: For S=Spa(F,O_F), with F a complete rank-one characteristic-p perfectoid field, the quotient projection pi:Spd(Q_p)→Spd(Q_p)/phi^Z induces a bijection
+
+\[
+\operatorname{Spd}(\mathbf Q_p)(S)/\mathbf Z
+\;\simeq\;
+(\operatorname{Spd}(\mathbf Q_p)/\varphi^{\mathbf Z})(S).
+\]
+
+On the left n acts by u↦u∘phi_S^n; on the right the quotient is in v-sheaves. The comparison sends [u] to pi∘u. Every section on the right has a global lift u, and pi∘u=pi∘v holds exactly when v=u∘phi_S^n for some n∈Z. No algebraic-closedness hypothesis on F is imposed.
+
+*Needs:* F4, `section_untilt_equiv`; DiamondsAndVStacks, Layer D0 (groupoid quotients and two fibre products).
+
+Use the untilt-specific identification of the v-sheaf quotient with the quotient for the topology of open covers (FS, paragraph after Definition II.1.19, p.56). Its sections have open-local lifts, and equality of two lifts is open-locally an integer Frobenius shift. Since O_F is the rank-one valuation ring, |S| is a single point. An open cover therefore contains S itself, and a locally constant integer on S is constant. This proves global liftability and the equality-of-lifts clause, hence the displayed bijection. The generic quotient construction remains D0's; this target supplies its fixed-field section comparison.
+
+**Checks.**
+
+- For F=C^flat and the marked untilt C over Q_p, the comparison sends its orbit class to its composite with pi, and the inverse returns that orbit class.
+- The lifts u and u∘phi_S^−1 have equal quotient sections, with integer shift −1; their equality is an orbit relation, not equality of the marked untilts before quotienting.
+- For F=completion(F_p((t^{1/p^infty}))), every quotient section initially presented only by v-local lifts has a global marked Q_p-untilt lift. The open-cover comparison applies even though F is not algebraically closed.
+
+(FS II.1.18, p.55; Definition II.1.19 and the following paragraph, p.56.)
+
 ### Frobenius-orbit invariance of the marked-untilt divisor
 
-Prove `untilt_orbit_invariance`: The assignment u↦D_u is invariant under integer Frobenius shifts of the marking, with canonical isomorphism of closed immersions over X. On the Y lift, the section (id,u∘phi_S^−1) is obtained from (id,u) by positive phi_Y followed by reparametrization by phi_S^−1: (phi_S×id)∘(id,u)∘phi_S^−1=(id,u∘phi_S^−1). Thus positive phi_Y corresponds to inverse precomposition of the marking when one resets the first coordinate to id. Prove this convention explicitly. The resulting fixed-field map factors through maps S→Spd Q_p/phi^Z in the stated FS sense; this moduli quotient is distinct from X^diamond.
+Prove `untilt_orbit_invariance`: The assignment u↦D_u is invariant under integer Frobenius shifts of the marking, with canonical isomorphism of closed immersions over X. On the Y lift, the section (id,u∘phi_S^−1) is obtained from (id,u) by positive phi_Y followed by reparametrization by phi_S^−1: (phi_S×id)∘(id,u)∘phi_S^−1=(id,u∘phi_S^−1). Thus positive phi_Y corresponds to inverse precomposition of the marking when one resets the first coordinate to id. Prove this convention explicitly. The resulting map on the ordinary orbit set factors through (Spd(Q_p)/phi^Z)(S) via `untilt_quotient_sections_field`: a quotient section is sent to the embedded Cartier divisor D_u of any global lift u. This moduli quotient is distinct from X^diamond.
 
-*Needs:* F4, `curve_untilt_divisor`; F4, `section_untilt_equiv`; F2, `frobenius_equivariance`; DiamondsAndVStacks, Layer D0 (groupoid quotients and two fibre products).
+*Needs:* F4, `curve_untilt_divisor`; F4, `section_untilt_equiv`; F4, `untilt_quotient_sections_field`; F2, `frobenius_equivariance`.
 
-Compute the graph identity under alpha_F, retaining the reparametrization. Use q∘phi_Y=q and transport the theta kernel ideals contravariantly; identify the closed immersions over X. Use the marked-untilt quotient’s sheaf descent for the factorization, restricted to the fixed field. No classification of all closed points or identification of quotient functors is made.
+Compute the graph identity under alpha_F, retaining the reparametrization. Use q∘phi_Y=q and transport the theta kernel ideals contravariantly; identify the closed immersions over X. First descend u↦D_u to the ordinary orbit set, then compose with the inverse of `untilt_quotient_sections_field`. Its equality-of-lifts clause makes the embedded ideal independent of the lift. No classification of all closed points or identification of quotient functors is made.
 
-Checks: The graph computation distinguishes the positive generator from its inverse before quotienting. The orbit relation does not produce a sheaf morphism X^diamond→S.
+Checks: The graph computation distinguishes the positive generator from its inverse before quotienting. The orbit relation does not produce a sheaf morphism X^diamond→S. For a quotient section given only by local lifts, the global lifts supplied by `untilt_quotient_sections_field` all give the same embedded Cartier ideal on X.
 
-(FS II.1.4, pp.49–50; II.1.18, p.55.)
+(FS II.1.4, pp.49–50; II.1.18, p.55; paragraph after Definition II.1.19, p.56.)
 
 ### Examples
 
@@ -1046,7 +1071,8 @@ adic-site convention.
   [*Geometrization of the local Langlands correspondence*][fs], author-hosted
   edition with II.1.1–4 on pp.47–50 and II.1.15–18 on pp.54–55
   (SHA-256 `9ab9efbd0df251bfa3b610d1d1d88a8dfb1bdf7c397bd04f4c277280d98ae905`).
-  Definition II.1.19, p.56, fixes the distinction from Div¹.
+  Definition II.1.19 and its following paragraph, p.56, describe Div¹ and the
+  agreement of the v-sheaf and open-cover quotients used in F4.
 - **SW:** Peter Scholze and Jared Weinstein,
   [*Berkeley Lectures on p-adic Geometry*][sw], author draft of 27 March 2020.
   Definitions 5.3.2 and 5.3.7, Proposition 5.3.8 and Remark 5.3.9, pp.38–40;
