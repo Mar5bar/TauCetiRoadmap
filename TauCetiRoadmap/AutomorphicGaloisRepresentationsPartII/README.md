@@ -53,8 +53,10 @@ Checks. They are used only after the hypotheses of the named specialization are 
 
 ### Arithmetic and automorphic contracts
 
-- ArithmeticGaloisRepresentations §§1.1–1.6 supplies `ContinuousRep`, coefficient operations,
-  stable lattices, semisimple reduction and lattice independence. Sections 2.1–2.4 supply
+- ArithmeticGaloisRepresentations §§1.1–1.6 supply `ContinuousRep`, coefficient operations
+  and stable lattices; §§1.7–1.9 supply semisimplification, Brauer–Nesbitt and residual
+  reduction with lattice independence. Section 1.11 retains its additional hypotheses for
+  stronger lattice statements. Section 1.5 supplies finite local coefficient descent. Sections 2.1–2.4 supply
   decomposition groups and Weil–Deligne representations; Layer 5 supplies recognition from
   Frobenius polynomials and finite-field/trace-field descent. Section 7.4 supplies `PolarizedRep`,
   `CHTGroup`, multipliers, signs, operations and coefficient transport of polarizations. The reduction-and-semisimplification
@@ -74,15 +76,17 @@ Checks. They are used only after the hypotheses of the named specialization are 
   cohomological/C-algebraic dictionary. AutomorphicSpectralTheory §4.7 supplies compact quotient
   discrete spectral decomposition, and §5.11 supplies the cuspidal cohomology comparison used
   for the boundary Levi. The rationality theorem for GL_n is the AG2.0 target below.
-- EndoscopicTransferAndUnitaryTraceComparison §9.1 supplies
+- EndoscopicTransferAndUnitaryTraceComparison §9.1 supplies, for its Harris–Taylor
+  division-algebra datum,
   `CompactUnitaryRaw.atLevel`, `CompactUnitaryRaw.localSystem`, `CompactUnitaryRaw.hecke`,
   `CompactUnitaryRaw.nearbyCycles`, `CompactUnitaryRaw.commutingActions`,
   `CompactUnitaryRaw.multiplicity` and `CompactUnitaryRaw.projectorCommutes`.
   Thus H^k_U(ξ), its level colimit, its Hecke/Galois actions and the graded multiplicity Hom
   spaces use that raw object, retaining finite-dimensionality, continuity, finite-coefficient
   descent, admissibility and the discrete decomposition. Its Euler class is never an actual
-  representation by definition. This is the general interface; AG2.1a fixes Shin's odd-rank
-  datum, ramified Drinfeld factor and corrected coefficient realization.
+  representation by definition. AG2.1a constructs the same operations for Shin’s split-algebra odd-rank
+  datum through its raw-cohomology adapter, including properness, the ramified Drinfeld
+  factor and corrected coefficient realization; §9.1 supplies the API shape, not that instance.
 - EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10 supplies finite-level rational Igusa
   geometry and actions; §§8.3, 8.6 and 8.14 supply the polarized Honda/effectivity input;
   §§8.16–8.22 supply raw counting and stabilization; §§10.18–10.27 supply local GL_n parameters;
@@ -100,8 +104,8 @@ Checks. They are used only after the hypotheses of the named specialization are 
   §§R16.6.3–R16.6.4 supply the classical/Hilbert weight and Frobenius dictionaries.
   WeightsInEtaleCohomology Layer R34.6 supplies fixed-form compatible-family and local
   comparisons only on its specified geometric domain. AG2.6's rank-two comparisons assume
-  both independently constructed members and their exact local hypotheses. The full regular
-  Hilbert coefficient-prime comparison used outside that supplied domain is an AG2.P target.
+  both independently constructed members and their exact local hypotheses. The cohomological polarized rank-two
+  coefficient-prime theorem outside that supplied geometric domain is an AG2.P target.
 
 ### Geometry, coefficients and periods
 
@@ -111,10 +115,10 @@ Checks. They are used only after the hypotheses of the named specialization are 
   and Hasse sections are constructed in AG2.4 with the exact HLTT hypotheses.
 - EtaleCohomologyFoundations §§F.4.1–F.4.6 supply rational coefficient realization, finiteness
   and continuous actions; §§F.5–F.6 supply duality and cycle classes. Its §F.10.3 supplies
-  coherent perfect-complex traces. LefschetzPencilsAndVanishingCycles §F.10 supplies the
-  contracting-correspondence fixed-point trace theorem, LPV.0–LPV.1 nearby cycles and
-  monodromy, and LPV.6 the product perverse-nearby-cycle comparison. The compact PEL
-  fixed-point identity is the specialization in AG2.1a.
+  coherent perfect-complex traces. LefschetzPencilsAndVanishingCycles §F.10 supplies its
+  Frobenius trace imports, LPV.0–LPV.1 nearby cycles and monodromy, and LPV.6 perversity.
+  AG2.1a constructs the contracting Hecke-correspondence trace theorem used for the compact
+  PEL fixed-point identity; AG2.5 constructs the two-chart product comparison and filtration.
 - PadicPeriodRings §§4.1–4.3 supply B_cris, B_st, B_dR and their actual invariant functors
   and admissibility predicates. FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.0–R07.3.3
   supply finite-K filtered (φ,N)-modules, weak admissibility and the semistable realization
@@ -122,7 +126,9 @@ Checks. They are used only after the hypotheses of the named specialization are 
   semistable WD descent and geometric period comparisons used here.
 - CrystallineCohomology Layer CR.6 supplies Hyodo–Kato complexes and the semistable
   log-crystalline comparison. WeightsInEtaleCohomology Layer R34.3 supplies the
-  stratum/period comparison in its stated domain. The particular at-ℓ two-boundary
+  stratum/period comparison and the general geometric semistable-period comparison on
+  its finite-K domain, including coefficient extension and projector images with
+  `N_HK/e_K=N_p`. AG2.P applies that comparison to the specified PEL/Kuga models. The particular at-ℓ two-boundary
   automorphic realization and projected diagonal concentration are AG2.6 targets, not an
   unconditional purity assertion about every semistable variety.
 - DeligneWeightsAndPurity Layers DWP.0, DWP.7 and DWP.8 supply Weil weights, proper smooth
@@ -197,12 +203,14 @@ finite descent from `D_st(V|G_L)` and prove independence of L, Frobenius semisim
 coefficient extension and finite restriction. Semistability is equivalent to trivial WD inertia;
 crystallinity is equivalent to trivial inertia and zero N. These criteria concern de Rham V.
 
-For a smooth proper scheme over K with good reduction, construct the crystalline comparison
-for its actual finite-dimensional étale cohomology; for a proper strictly semistable model
-construct the filtered `(φ,N)` comparison with Hyodo–Kato cohomology. Give their de Rham
-comparison and Hodge filtration, functoriality for algebraic correspondences, cup products,
-Tate twists and finite coefficient extension. These maps restrict to the image of a commuting
-idempotent; no admissibility is inferred from equality of good Frobenius polynomials alone.
+Consume WeightsInEtaleCohomology R34.3’s geometric semistable-period comparison for a
+proper strictly semistable model over a finite K, including its good-reduction crystalline
+specialization, filtered `(φ,N)` structure, coefficient extension and correspondence API.
+Here `geometricPeriodComparison` constructs its application to the stated PEL/Kuga models
+and their specified commuting projectors, verifying the model hypotheses and retaining
+`N_HK/e_K=N_p`, where e_K is the absolute ramification index. The de Rham filtration,
+Galois action, twists and coefficient embeddings are carried through these restrictions;
+no admissibility is inferred from equality of good Frobenius polynomials alone.
 Use the semistable filtered-module carrier of FiniteFlatGroupsAndIntegralPadicHodgeTheory
 §§R07.3.0–R07.3.3 and Hyodo–Kato complexes of CrystallineCohomology CR.6.
 
@@ -228,7 +236,7 @@ in Theorem 2.3 and Theorem 3.2.3, pp.8–12; [AHTW](#source-ahtw), §1.2.3–§1
 
 *Needs:* PadicPeriodRings §§4.1–4.3; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.0–R07.3.3;.
 CrystallineCohomology CR.6; ArithmeticGaloisRepresentations §§1.1–1.6 and 2.4;
-EtaleCohomologyFoundations §§F.4.1–F.4.6.
+EtaleCohomologyFoundations §§F.4.1–F.4.6; WeightsInEtaleCohomology R34.3, geometric semistable-period comparison.
 
 <a id="rank-two-construction-contract"></a>
 
@@ -236,16 +244,18 @@ EtaleCohomologyFoundations §§F.4.1–F.4.6.
 
 For the rank-two comparison, take an independently constructed continuous semisimple member
 as a hypothesis: a classical newform of weight k≥2, or a regular cohomological Hilbert eigenform
-with the parity and central-character normalization of [CH](#source-ch), §4, Hypotheses 4.1 and
-Theorem 4.2, p.13. Its arithmetic good-prime polynomial is
-`X² − a_v X + ψ(v) q_v^{k−1}` in the classical case. For Hilbert weights retain the source's
-labelled half-integer norm normalization, its integral parity and fixed coefficient embedding.
+with cohomological coefficient W(Π) and polarization as in [CH](#source-ch), §4,
+Hypotheses 4.1 and Theorem 4.2, p.13. Its arithmetic good-prime polynomial is
+`X² − a_v X + ψ(v) q_v^{k−1}` in the classical case. For Hilbert weights convert the integral cohomological coordinates and Frobenius convention
+explicitly through GL2AutomorphicRepresentationsAndTransfer §§R16.6.3–R16.6.4, retaining the
+fixed coefficient embedding and the parity required by that cohomological dictionary.
 AlgebraicModularFormsAndSerreWeights §R15.5A supplies the classical construction;
 GL2AutomorphicRepresentationsAndTransfer §§R16.6.3–R16.6.4 supplies the weight dictionary.
 Where a local comparison is transported, assume its proved local range, or prove the full
-regular Hilbert coefficient-prime theorem of [CH](#source-ch), Theorem 4.2, p.13, as
-`hilbertCoefficientPrimeComparison`, using the same prescribed norm conversion. This is the
-Skinner comparison in that theorem, not a conditional local theorem with its conditions removed.
+cohomological polarized rank-two coefficient-prime theorem of [CH](#source-ch),
+Theorem 4.2(b)–(d), p.13, as `hilbertCoefficientPrimeComparison`, after the explicit
+R16.6.3–R16.6.4 weight/Frobenius conversion. Its conclusions are de Rhamness with the
+prescribed labels, crystallinity at spherical places and semistability at Iwahori places.
 AG2.6 proves identification of the members and AG2.7 proves identification of their reductions.
 Weight one is outside this overlap.
 
@@ -255,7 +265,7 @@ Weight one is outside this overlap.
 - A classical weight-k member after the dual conversion has labels `{0,k−1}` and
   determinant `r_ψ ε^{1−k}`; a weight-one input is excluded by k≥2.
 - A Hilbert weight failing the source parity does not define an integral cohomological
-  coefficient weight and cannot be inserted into the half-integer normalization.
+  coefficient weight and cannot be inserted into this cohomological comparison.
 
 *Needs:* ArithmeticGaloisRepresentations Layer 5; AlgebraicModularFormsAndSerreWeights §R15.5A;.
 GL2AutomorphicRepresentationsAndTransfer §§R16.6.3–R16.6.4; finite-coefficient period API above.
@@ -384,7 +394,7 @@ The required API is:
 
 Let F be totally real or CM with maximal totally real subfield F⁺ and complex conjugation c, and π an automorphic representation of GL_n(𝔸_F). (i) π is conjugate self-dual if π^c ≅ π^∨. (ii) π is essentially conjugate self-dual with multiplier χ if χ: 𝔸_{F⁺}^×/(F⁺)^× → ℂ^× is continuous and π^c ≅ π^∨ ⊗ (χ ∘ N_{F/F⁺} ∘ det). (iii) (π, χ) is a polarized automorphic representation if moreover χ_v(−1) is independent of v | ∞. (iv) π is polarizable if some (π, χ) is polarized. (v) A regular algebraic polarized (π, χ) of weight a ∈ (ℤⁿ)_w with F imaginary is totally odd if χ_v(−1) = (−1)^{n+w} for all v | ∞. Here π^c = π ∘ c on GL_n(𝔸_F), and π^c = π when F is totally real.
 
-Throughout this target, the multiplier χ is part of the data. It is determined by π only up to δ_{F/F⁺}, since δ_{F/F⁺} ∘ N_{F/F⁺} = 1. BLGGT impose instead χ_v(−1) = (−1)^n for F imaginary (printed with µ in place of χ). That is the correct normalisation only when w is even; with odd w it makes the Galois multiplier even (the multiplier computation below). Condition (v) is the corrected form, and like BLGGT's it can always be achieved by replacing χ by χδ_{F/F⁺}. For regular algebraic (π, χ) of weight a ∈ (ℤⁿ)_w, χ is algebraic with |χ| = ‖·‖^{−w}. Conjugate self-duality is the case χ = 1, possible only when w = 0. For F totally real, polarized means essentially self-dual with χ_v(−1) independent of v. Patrikis shows the independence is automatic for regular algebraic cuspidal π; that result is not needed here.
+Throughout this target, the multiplier χ is part of the data. Replacing χ by χδ_{F/F⁺} preserves the multiplier identity in the CM case, since δ_{F/F⁺} ∘ N_{F/F⁺} = 1. Further ambiguity can arise from automorphic self-twists; the chosen χ remains part of the data. BLGGT impose instead χ_v(−1) = (−1)^n for F imaginary (printed with µ in place of χ). That is the correct normalisation only when w is even; with odd w it makes the Galois multiplier even (the multiplier computation below). Condition (v) is the corrected form, and like BLGGT's it can always be achieved by replacing χ by χδ_{F/F⁺}. For regular algebraic (π, χ) of weight a ∈ (ℤⁿ)_w, χ is algebraic with |χ| = ‖·‖^{−w}. Conjugate self-duality is the case χ = 1, possible only when w = 0. For F totally real, polarized means essentially self-dual with χ_v(−1) independent of v. Patrikis shows the independence is automatic for regular algebraic cuspidal π; that result is not needed here.
 
 The required API is:
 
@@ -399,6 +409,10 @@ The required API is:
 **Checks.**
 
 - `polarized_heckeCharacter_cm` — n = 1, ψ of weight (1, 0) over an imaginary quadratic field: (ψ, ψ|_{𝔸_ℚ}δ) is totally odd; (ψ, ψ|_{𝔸_ℚ}) is not
+
+- For F=ℚ(√−3), base change of the newform of y²=x³−x has multipliers 1 and
+  η_{ℚ(i)/ℚ}; their quotient is neither 1 nor δ_{F/ℚ}, since its restriction to G_F
+  is the nontrivial CM self-twist.
 
 - `isConjSelfDual_iff_multiplier_one` — π.IsConjSelfDual ↔ π.IsEssConjSelfDual 1
 
@@ -577,7 +591,7 @@ For Shin’s compact similitude datum, write an algebraic coefficient ξ by its 
 
 Throughout this target, use the chosen CM type and positive similitude component, with Shin §3.6 and §6.2 indexing; n≥1, t integral.
 
-*Needs:* [AG2.0: dominant weights](#dominant-weights-and-the-weight-w); ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7; [AG2.1a: coefficient projector](#kuga-sato-coefficient-projector).
+*Needs:* [AG2.0: dominant weights](#dominant-weights-and-the-weight-w); ArithmeticLocallySymmetricSpaces §ALS.F.7 and the algebraic similitude character of the chosen PEL datum.
 
 (Sources: [Shin](#source-shin), §3.6, definitions preceding (3.18), and §6.2 preceding Corollary 6.7, pp. 20, 48.)
 
@@ -607,7 +621,7 @@ Throughout this target, relevant regular algebraic CSD cuspidal π and normalize
 
 ### Examples
 
-For Δ, a=(10,0) has labels {11,0}; its good polynomial at 2 is X²+24X+2¹¹. The reciprocal polynomial distinguishes the geometric and arithmetic conventions.
+For Δ, a=(10,0) has labels {11,0}; its good polynomial at 2 is X²+24X+2¹¹. The reciprocal polynomial distinguishes the geometric and arithmetic conventions. Its root-sum and root-product Check uses complex roots with sum −24 and product 2¹¹; no pair of rational roots has those values.
 
 ### Dependencies
 
@@ -645,6 +659,39 @@ The required API is:
 *Needs:* PELModuli M0; PELModuli M4; EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10.
 
 (Sources: [Shin](#source-shin), Lemma 5.1 and §5.2, pp. 30–34.)
+
+<a id="shin-raw-cohomology-adapter"></a>
+
+### Raw cohomology for the split-algebra Shin datum
+
+For the compact PEL instance above, construct the seven operations of the
+`CompactUnitaryRaw` interface: finite-level objects, algebraic local systems, Hecke
+correspondences, nearby cycles, commuting actions, graded multiplicity spaces and projector
+commutation. EndoscopicTransferAndUnitaryTraceComparison §9.1 specifies their API shape
+for a division-algebra datum. Here the PEL algebra is F, with End_F(V)≃M_n(F) split;
+properness follows from the definite real place, which excludes rational isotropic subspaces and hence degeneration
+data with a nonzero toric part. Prove properness by the PEL valuative criterion. Construct
+the finite Drinfeld-level closures, including ramified F_w, and compare their generic-fibre
+cohomology with nearby cycles by proper base change. Retain finite coefficient descent,
+continuity, finite-dimensionality at finite level and admissibility of the level colimit.
+Transport the supplied compact discrete decomposition to this tower. Define multiplicity
+Hom spaces degree by degree with their commuting Weil action before taking Euler classes.
+(Sources: [Shin](#source-shin), Lemma 5.1, §5.2 and Proposition 5.3, pp.30–35.)
+
+**Checks.**
+
+- The n=3 datum with a second, definite real place is proper even though its algebra is
+  split and every finite group is quasi-split; a division invariant is not its properness proof.
+- A finite neat level covering has trace after pullback equal to its degree. At m=0 the
+  Kuga power is the base model and retains the same Hecke/Weil commutation.
+- At a ramified distinguished F_w the Drinfeld closure still gives the proper nearby-cycle
+  comparison; it does not imply smooth special fibre. Removing all definite places does
+  not supply this compactness argument and requires a separate boundary theory.
+
+*Needs:* [AG2.1a: compact PEL instance](#compact-shin-pel-instance);
+PELModuli M2–M4; EtaleCohomologyFoundations §§F.4.1–F.4.6;
+LefschetzPencilsAndVanishingCycles LPV.0–LPV.1;
+AutomorphicSpectralTheory §4.7; ArithmeticLocallySymmetricSpaces §ALS.F.7.
 
 <a id="kuga-sato-coefficient-projector"></a>
 
@@ -695,9 +742,39 @@ Every H^k_U(ξ) is finite-dimensional over a finite extension of Q_ℓ and has c
 
 Throughout this target, smooth proper X_U and the abelian-power projector; coefficient field of definition fixed.
 
-*Needs:* EndoscopicTransferAndUnitaryTraceComparison §9.1; EtaleCohomologyFoundations §§F.4.1–F.4.6 and F.5–F.6; DeligneWeightsAndPurity DWP.7.
+*Needs:* [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); EtaleCohomologyFoundations §§F.4.1–F.4.6 and F.5–F.6; DeligneWeightsAndPurity DWP.7.
 
 (Sources: [Shin](#source-shin), Proposition 5.3(ii)–(iii), pp. 34–35.)
+
+<a id="contracting-hecke-trace-formula"></a>
+
+### Contracting Hecke-correspondence trace formula
+
+For the smooth proper good-reduction special fibre X over 𝔽_q and a proper finite-type
+correspondence c:C→X×X defined over 𝔽_q with c₂ quasi-finite, construct the fixed-point trace
+formula for c twisted on its first projection by Frobenius^r. For a bounded constructible
+complex of finite Tor dimension, with coefficients ℤ/ℓ^a (ℓ≠char 𝔽_q), and an actual
+cohomological correspondence, choose q^r greater than the ramification bound of c₂.
+The fixed scheme then has finitely many points, and the alternating global trace equals
+the sum of stalk correspondence traces. Prove contraction near each fixed point and the
+identification of its local term with the stalk trace. Pass compatibly through finite
+coefficient systems to the rational ℓ-adic realization. Verify these hypotheses for the
+chosen prime-to-p Hecke correspondences and coefficient projector on the compact PEL model.
+(Source: [Varshavsky](#source-varshavsky), Theorem 2.1.3, Corollary 2.2.4 and
+Theorem 2.3.2(a)–(c), pp.17–20, with U=X.)
+
+**Checks.**
+
+- For the identity correspondence, every positive Frobenius power satisfies the bound;
+  the formula is the ordinary Frobenius point-count trace with its coefficient stalks.
+- For a finite étale Hecke correspondence c₂ has ramification bound one; sufficiently
+  high Frobenius gives isolated fixed points and stalk local terms.
+- For c=identity and r=0 on a positive-dimensional X the fixed locus is X, so the finite
+  stalk-sum assertion cannot be used. For ℓ=char 𝔽_q these coefficient hypotheses fail.
+
+*Needs:* [AG2.1a: Shin raw cohomology](#shin-raw-cohomology-adapter);
+EtaleCohomologyFoundations §§F.4–F.6; LefschetzPencilsAndVanishingCycles §F.10
+for its Frobenius trace imports.
 
 <a id="raw-fixed-point-trace-identity"></a>
 
@@ -707,7 +784,7 @@ For a good reduction prime p≠ℓ and sufficiently large Frobenius power, the a
 
 Throughout this target, correspondence and Frobenius power satisfy the Fujiwara/Varshavsky fixed-point hypotheses; good integral model and all coefficient factors fixed.
 
-*Needs:* EndoscopicTransferAndUnitaryTraceComparison §9.1; PELModuli M4; LefschetzPencilsAndVanishingCycles §F.10; EndoscopicTransferAndUnitaryTraceComparison §§8.3, 8.6 and 8.14.
+*Needs:* [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); PELModuli M4; [AG2.1a: contracting Hecke trace formula](#contracting-hecke-trace-formula); EndoscopicTransferAndUnitaryTraceComparison §§8.3, 8.6 and 8.14.
 
 (Sources: [Shin-Igusa](#source-shin-igusa), §4.2, Definition 4.2, pp. 13–14; §4.4, Theorem 4.4, p. 15.)
 
@@ -719,7 +796,7 @@ For the compact Drinfeld model at w|p≠ℓ, identify the generic-fibre alternat
 
 Throughout this target, proper integral model; the actual ramified O_{F_w} charts and coefficient projector; p split in E.
 
-*Needs:* [AG2.1a: compact unitary PEL instance](#compact-shin-pel-instance); EndoscopicTransferAndUnitaryTraceComparison §9.1; [AG2.1a: raw fixed-point traces](#raw-fixed-point-trace-identity); EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10; LefschetzPencilsAndVanishingCycles LPV.0; LefschetzPencilsAndVanishingCycles LPV.1.
+*Needs:* [AG2.1a: compact unitary PEL instance](#compact-shin-pel-instance); [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); [AG2.1a: raw fixed-point traces](#raw-fixed-point-trace-identity); EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10; LefschetzPencilsAndVanishingCycles LPV.0; LefschetzPencilsAndVanishingCycles LPV.1.
 
 (Sources: [Shin](#source-shin), Proposition 5.2 and §5.2, pp. 33–34.)
 
@@ -729,7 +806,7 @@ The odd-rank compact datum with n=3 has dimension 2. For the trivial coefficient
 
 ### Dependencies
 
-PELModuli M0–M4; EndoscopicTransferAndUnitaryTraceComparison §9.1 and Layers 7–8; EtaleCohomologyFoundations §§F.4.1–F.4.6; the coefficient dictionary of AG2.0.
+PELModuli M0–M4; [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter) and Layers 7–8; EtaleCohomologyFoundations §§F.4.1–F.4.6; the coefficient dictionary of AG2.0.
 
 ## Layer AG2.1b. From trace identities to actual Galois constituents
 
@@ -781,7 +858,7 @@ For π∞ in the ST/END Π-part, R^k_{ξ,ℓ}(π∞)=0 for k≠n−1. Thus the a
 
 Throughout this target, the virtual Weil formula, geometric purity of every actual degree k, and the selected constituent purity/temperedness argument of Shin Corollary 6.5; no equality of virtual dimensions is used as cancellation.
 
-*Needs:* [AG2.1b: virtual Weil constituent comparison](#virtual-weil-constituent-comparison); [AG2.1a: geometric Galois actions](#finite-continuous-geometric-galois-action); EndoscopicTransferAndUnitaryTraceComparison §9.1; EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27; DeligneWeightsAndPurity DWP.0.
+*Needs:* [AG2.1b: virtual Weil constituent comparison](#virtual-weil-constituent-comparison); [AG2.1a: geometric Galois actions](#finite-continuous-geometric-galois-action); [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27; DeligneWeightsAndPurity DWP.0.
 
 (Sources: [Shin](#source-shin), Corollary 6.5(i)–(ii) and proof, pp. 47–49.)
 
@@ -793,7 +870,7 @@ Under ST/END, the sum of discrete multiplicities at the ith relevant cohomologic
 
 Throughout this target, the exact cohomological packet and signs of §3.6/§6.1, with middle-degree concentration.
 
-*Needs:* [AG2.1b: middle-degree concentration](#weight-separation-middle-degree); [AG2.1b: stable/endoscopic Igusa traces](#shin-st-end-igusa-computation); EndoscopicTransferAndUnitaryTraceComparison §9.1; EndoscopicTransferAndUnitaryTraceComparison Layer 14; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
+*Needs:* [AG2.1b: middle-degree concentration](#weight-separation-middle-degree); [AG2.1b: stable/endoscopic Igusa traces](#shin-st-end-igusa-computation); [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); EndoscopicTransferAndUnitaryTraceComparison Layer 14; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
 
 (Sources: [Shin](#source-shin), Corollary 6.5(iv), pp. 47–48.)
 
@@ -820,7 +897,7 @@ The required API is:
 
 - `ActualConstituent.rankOnly` — A semisimple rank-4 representation with irreducible multiplicities 1 and 3 cannot be divided into two copies merely because 2 divides 4.
 
-*Needs:* [AG2.1b: middle-degree concentration](#weight-separation-middle-degree); [AG2.1b: archimedean multiplicity](#archimedean-packet-multiplicity); EndoscopicTransferAndUnitaryTraceComparison §9.1; [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); ArithmeticGaloisRepresentations Layer 5; [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api).
+*Needs:* [AG2.1b: middle-degree concentration](#weight-separation-middle-degree); [AG2.1b: archimedean multiplicity](#archimedean-packet-multiplicity); [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); ArithmeticGaloisRepresentations Layer 5; [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api).
 
 (Sources: [Shin](#source-shin), Corollary 6.8 and Remark 6.9, p. 49.)
 
@@ -854,13 +931,23 @@ Throughout this target, shin §7.1 technical datum; m=1 is supplied by the chara
 
 ### Twisting an essentially self-dual form into unitary type
 
-For a CM regular algebraic cuspidal polarized pair (π,χ), choose an algebraic Hecke character ψ with ψψ^c=χ∘N_{F/F⁺} in the source’s compatible infinity-type and parity convention. Then π⊗ψ^−1∘det is conjugate self-dual. Given a good-place attached representation r₀ for the twisted form, r=r₀⊗r(ψ) is attached to π. A change of ψ changes the construction only up to the unique good-place attached isomorphism. The existence of ψ uses the idele-character extension compatibility, not a pointwise square root of χ.
+For a CM regular algebraic cuspidal polarized pair (π,χ), choose an algebraic Hecke character ψ with ψψ^c=χ∘N_{F/F⁺} in the source’s compatible infinity-type and parity convention. Then π⊗ψ^−1∘det is conjugate self-dual. Given a good-place attached representation r₀ for the twisted form, r=r₀⊗r(ψ) is attached to π. A change of ψ gives an isomorphism, by uniqueness of the semisimple good-place attached isomorphism class. The existence of ψ uses the idele-character extension compatibility, not a pointwise square root of χ.
 
 Throughout this target, compatible algebraic infinity types and finite-order parity, with the total-oddness parity convention above; the source extension lemma applies.
 
 *Needs:* [AG2.0: polarized pairs](#polarized-automorphic-representation); [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); [AG2.0: attachment operations](#attachment-twist-dual-and-conjugation); GlobalNumberFields / layer 10 archimedean characters infinity types and cyclotomic arithmetic.
 
 (Sources: [BLGGT](#source-blggt), Proof of Theorem 2.1.1, p. 34; [CT](#source-ct), Lemma 7.4 and proof, accepted copy pp. 47–48.)
+
+**Checks.**
+
+- Even the trivial rank-one member has every nonzero coefficient scalar as an
+  automorphism; good-place recognition does not select an intertwiner.
+- Replacing ψ by a second compatible twisting character gives the same good polynomials
+  after untwisting, hence the same continuous semisimple isomorphism class.
+- An incompatible infinity type does not meet the character-extension hypothesis and
+  supplies no such construction.
+
 
 <a id="discrete-unitary-galois-assembly"></a>
 
@@ -966,15 +1053,46 @@ The required API is:
 
 (Sources: [CH](#source-ch), Lemma 2.1, Hypotheses 2.2 and proof of Theorem 2.3, p. 8.)
 
+<a id="shin-regular-field-descent"></a>
+
+### Shin-regular existence over arbitrary CM fields
+
+For regular algebraic CSD cuspidal π over any CM field, retain odd rank or the even-rank
+slight-regularity condition of AG2.2 and construct its continuous semisimple good-place
+attached representation without auxiliary field restrictions. Use Shin §7.2's two stages:
+first patch the auxiliary CM quadratic extensions over a field containing an imaginary
+quadratic E with ℓ split in E, imposing the rational ramification/splitting conditions;
+then vary E and patch again. Avoid the finitely many self-twist fields to retain cuspidality,
+and prove overlap compatibility by good-place recognition. These extension families and
+effective patching use only the geometric Shin-regular representations of AG2.2, not
+finite-slope interpolation. The rank-one case uses the algebraic character dictionary.
+(Sources: [Shin](#source-shin), Theorem 7.5, Remark 7.8 and its proof, Steps (I)–(II),
+pp.54–55; [CH](#source-ch), §3.1's effective patching statement, p.9.)
+
+**Checks.**
+
+- An even-rank strongly regular classical point over a CH field without an imaginary
+  quadratic subfield now has an attached representation; varying its weight alone would
+  not have supplied that subfield.
+- Odd rank needs no slight-regularity condition. In even rank a weight failing slight
+  regularity remains outside this geometric target and needs interpolation.
+- Each test Frobenius can be arranged split in a patching branch disjoint from a prescribed
+  finite extension; a family with one fixed nontrivial subextension does not suffice.
+
+*Needs:* [AG2.2: Shin-regular geometric existence](#shin-regular-geometric-existence);
+[AG2.3: effective patching](#effective-automorphic-galois-patching);
+[AG2.3: extension families](#s-general-solvable-extension-families);
+[AG2.0: attachment](#galois-representation-attached-at-good-places).
+
 <a id="strongly-regular-classical-density"></a>
 
 ### Density of strongly regular classical points
 
-In the CH definite-unitary family, classical points whose varied algebraic weights lie sufficiently far in the dominant chamber and satisfy slight regularity are Zariski dense in the required finite-slope charts. They retain the fixed other archimedean weights and tame local data. These points have geometric attached representations from AG2.2 and are sufficient to determine analytic good-place trace functions.
+In the CH definite-unitary family, classical points whose varied algebraic weights lie sufficiently far in the dominant chamber and satisfy slight regularity are Zariski dense in the required finite-slope charts. They retain the fixed other archimedean weights and tame local data. These points have geometric attached representations from the Shin-regular field-descent target and are sufficient to determine analytic good-place trace functions.
 
 Throughout this target, the source’s classicality bounds relative to the chosen finite slope and coefficient family; density is asserted on the relevant charts, not on arbitrary eigenvarieties.
 
-*Needs:* [AG2.3: definite-unitary eigenvariety instance](#definite-unitary-eigenvariety-instance); [AG2.2: Geometric existence in the Shin-regular range](#shin-regular-geometric-existence); LocallyAnalyticDistributions §§4.15–4.16; LocallyAnalyticDistributions §§4.2, 4.15–4.16; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
+*Needs:* [AG2.3: definite-unitary eigenvariety instance](#definite-unitary-eigenvariety-instance); [AG2.3: Shin-regular field descent](#shin-regular-field-descent); LocallyAnalyticDistributions §§4.15–4.16; LocallyAnalyticDistributions §§4.2, 4.15–4.16; ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7.
 
 (Sources: [CH](#source-ch), Proof of Theorem 2.3, p. 8; references to Ch Theorems 3.3 and 3.5.)
 
@@ -1042,13 +1160,20 @@ Throughout this target, all S-general quantifiers and all overlap/invariance con
 
 <a id="removal-of-geometric-field-hypotheses"></a>
 
-### Removal of the geometric field hypotheses
+### Field-hypothesis removal for finite-slope existence
 
-The good-place rank-n representation constructed in the geometric or finite-slope range descends over an arbitrary CM K after choosing S-general base changes that make the real degree even, the CM extension unramified and the necessary coefficient place split while preserving cuspidality. Thus the imaginary-quadratic-subfield, degree and field-ramification assumptions are construction devices rather than final hypotheses.
+The finite-slope good-place rank-n representation descends over an arbitrary CM K using
+CH Proposition 3.1.1’s S-general quadratic base changes satisfying Hypotheses 1.2, with
+the coefficient place split and the prescribed Iwahori refinement retained. Patch the
+representations constructed by interpolation over these fields, preserving cuspidality.
+The geometric field restrictions have already been removed by Shin-regular field descent;
+this separate step removes the unramified-field and even-real-degree restrictions on the
+finite-slope target.
 
-Throughout this target, cSD regular cuspidal Π; the local finite-slope or slight-regularity hypothesis needed by the chosen construction is retained at this step.
+Throughout this target, CSD regular cuspidal Π in the even-rank finite-slope range; the
+local Iwahori hypothesis is retained until solvable-index induction.
 
-*Needs:* [AG2.3: effective patching](#effective-automorphic-galois-patching); [AG2.3: Existence at the regular finite-slope target](#finite-slope-regular-target-existence); [AG2.2: Geometric existence in the Shin-regular range](#shin-regular-geometric-existence); EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
+*Needs:* [AG2.3: effective patching](#effective-automorphic-galois-patching); [AG2.3: Existence at the regular finite-slope target](#finite-slope-regular-target-existence); EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
 
 (Sources: [CH](#source-ch), Theorem 3.1.2 and proof, p. 9; [CH](#source-ch), Proof of Theorem 3.2.3, first paragraph, p. 11.)
 
@@ -1294,13 +1419,23 @@ Throughout this target, smooth quasi-projective strata, functorial rigid/dagger 
 
 ### The boundary Levi realization
 
-For i>0, the induced interior cohomology of the GL_n Levi locally symmetric space in HLTT Corollary 6.25 occurs as a subquotient of W₀H^{i+1}_{c−∂}. A regular algebraic GL_n cuspidal π, after all sufficiently large norm twists N, occurs in this interior-cohomology input by Corollary 1.9. Corollary 6.27 gives an actual rank-2n R(π,N) whose good-place parameter is rec(π_v|det|^{(1−n)/2})⊕rec(π^c_{cv}|det|^{(1−n)/2})^{∨,c}ε_p^{1−2n−2N}.
+For i>0, the induced interior cohomology of the GL_n Levi locally symmetric space in HLTT Corollary 6.25 occurs as a subquotient of W₀H^{i+1}_{c−∂}. A regular algebraic GL_n cuspidal π, after all sufficiently large norm twists N, occurs in this interior-cohomology input by Corollary 1.9. Here the outer c transports the second local parameter from W_{F_{cv}} to W_{F_v}. Corollary 6.27 gives an actual rank-2n R(π,N) whose good-place parameter is rec(π_v|det|^{(1−n)/2})⊕rec_{F_{cv}}(π_{cv}|det|^{(1−n)/2})^{∨,c}ε_p^{1−2n−2N}.
 
 Throughout this target, n>1; exact Levi arithmetic quotient, coefficient representation ρ and π∞ with the infinitesimal character of ρ∨; N sufficiently large; good source places q≠p split in F₀ or unramified in F with π spherical above q.
 
 *Needs:* [AG2.4: boundary weight-zero sequence](#boundary-stratum-weight-zero-sequence); [AG2.4: cusp-section spectral sequence](#logarithmic-cusp-section-spectral-sequence); ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
 
 (Sources: [HLTT](#source-hltt), Corollary 1.9, §1.5, p. 41; Corollaries 6.25–6.27, p. 221.)
+
+**Checks.**
+
+- At distinct conjugate places v,cv with independently prescribed spherical parameters,
+  the second summand uses π_{cv}; inserting π^c_{cv} incorrectly repeats the v-data.
+- Each local summand has rank n, so R(π,N) has rank 2n. Dualizing the second factor
+  reciprocates its eigenvalues before applying the displayed cyclotomic power.
+- Increasing N by one multiplies only the second root multiset by ε_p⁻². For n=1 the
+  boundary realization is excluded by the stated n>1 hypothesis.
+
 
 <a id="hltt-factor-separation-specialization"></a>
 
@@ -1467,13 +1602,24 @@ The required API is:
 
 ### Nearby cycles of the two-chart instance
 
-Import the product nearby-cycle comparison of Caraiani Proposition 3.9 and Proposition 4.10, with the single-chart filtration of Proposition 4.6 from LPV.6. On the tensor-square instance RΨ of the product is the derived tensor product of the two factors, and N=N₁⊗1+1⊗N₂. The kernel and image filtrations of the total monodromy operator N yield Corollary 4.29’s double-filtered stratum spectral sequence, compatible with the corrected projector, Hecke and Weil actions.
+Construct Caraiani Propositions 3.9, 4.6 and 4.10 for the specified two-chart instance, including the derived product comparison, monodromy and filtered stratum maps. Consume LPV.0–LPV.1 for nearby-cycle foundations and LPV.6 only for perversity. On the tensor-square instance RΨ of the product is the derived tensor product of the two factors, and N=N₁⊗1+1⊗N₂. The kernel and image filtrations of the total monodromy operator N yield Corollary 4.29’s double-filtered stratum spectral sequence, compatible with the corrected projector, Hecke and Weil actions.
 
 Throughout this target, the actual étale-local product of semistable charts, all shifts and Tate twists, and coefficient projector equivariance. Characteristic-zero ℓ-adic coefficients Λ=Q_ℓ or Q̄_ℓ for the product argument of §4.2; the two charts are semistable over the same trait.
 
-*Needs:* [AG2.5: tensor-square geometry](#caraiani-tensor-square-geometric-instance); LefschetzPencilsAndVanishingCycles LPV.6; [AG2.1a: corrected Kuga–Sato coefficient projector](#kuga-sato-coefficient-projector).
+*Needs:* [AG2.5: tensor-square geometry](#caraiani-tensor-square-geometric-instance); LefschetzPencilsAndVanishingCycles LPV.0–LPV.1 and LPV.6; [AG2.1a: corrected Kuga–Sato coefficient projector](#kuga-sato-coefficient-projector).
 
 (Sources: [Caraiani-away](#source-caraiani-away), Proposition 3.9 (p. 24), Proposition 4.6 (p. 29), Proposition 4.10 (p. 33) and Corollary 4.29 (p. 51).)
+
+**Checks.**
+
+- With a smooth first factor its nearby cycles have N₁=0; the product comparison reduces
+  to pullback/tensor with that factor and total monodromy is 1⊗N₂.
+- Two nodal semistable factors with characteristic-zero ℓ-adic coefficients give
+  N=N₁⊗1+1⊗N₂, including the cross term 2N₁⊗N₂ in N². Dropping one factor loses it.
+- With one factor the trait itself, the filtration recovers Proposition 4.6’s stratum
+  summands with shifts −(k+l) and twists −l. These rational monodromy filtrations are
+  not asserted over arbitrary torsion coefficient rings.
+
 
 <a id="caraiani-stratum-concentration"></a>
 
@@ -1614,7 +1760,7 @@ For the smooth proper PEL/Kuga–Sato realization supplied by AG2.1a, after the 
 
 Throughout this target, aG2.1a first supplies the raw smooth proper PEL or Kuga–Sato realization, algebraic coefficient representation, cohomological degree, commuting Schur/isotypic idempotents, multiplicity and Tate twist. A statement of good-place attachment by itself does not supply these geometric data. The claimed good or strictly semistable reduction belongs to that realization and the specified local model. Comparison is applied to its cohomology before any admissibility conclusion about the attached representation.
 
-*Needs:* AutomorphicGaloisRepresentationsPartII AG2.1a; [AG2.0: Hodge multiset](#expected-hodge-tate-multiset); [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api); EndoscopicTransferAndUnitaryTraceComparison §9.1; [AG2.1a: projector degree identity](#coefficient-projector-degree-identity).
+*Needs:* AutomorphicGaloisRepresentationsPartII AG2.1a; [AG2.0: Hodge multiset](#expected-hodge-tate-multiset); [AG2.P: finite-coefficient periods and comparison](#finite-coefficient-period-api); [AG2.1a: Shin raw-cohomology adapter](#shin-raw-cohomology-adapter); [AG2.1a: projector degree identity](#coefficient-projector-degree-identity).
 
 (Sources: [CH](#source-ch), §1.4–1.5, Theorem 1.4 and formula (1.6), pp.5–7.)
 
@@ -1642,6 +1788,47 @@ Let F be CM and (π,χ) regular algebraic cuspidal polarized of weight a. For ev
 
 (Sources: [BLGGT](#source-blggt), Theorem 2.1.1(3)–(4), pp.33–34.)
 
+<a id="coefficient-prime-tensor-square-model"></a>
+
+### The coefficient-prime two-signature model
+
+For the even-rank n≥2 CSD cohomological cuspidal datum of Caraiani-p §2, construct its
+auxiliary solvable CM extensions F/F′/L with F′=EF₁, ℓ split in E, p|ℓ split as p₁p₂ in F,
+local Iwahori invariants, preserved cuspidality and the stated ramification-splitting
+conditions. Construct the compact PEL model with signature (1,n−1) at the two embeddings
+corresponding to p₁,p₂ and (0,n) elsewhere, its Iwahori integral model and universal Kuga
+powers. Its generic dimension is 2n−2. Give the corrected coefficient projector and the
+selected packet realization of r⊗r, retaining the scalar character, Tate twist and actual
+cohomological multiplicity of §2. Prove properness and the étale-local charts with two
+independent equations `∏X_i=π` and `∏Y_j=π`, with additional smooth coordinates for the
+Kuga powers. Equip them with the fine saturated vertical log structure over the standard
+log DVR; prove log smoothness and Cartier type of the special fibre before forming the
+log-crystalline spectral sequence. Construct both families of boundary divisors and their
+closed smooth intersections, with dimensions `2n+m−i−j` for m additional smooth coordinates.
+The model is a product of semistable charts, not asserted to be strictly semistable itself.
+Prove the structured log-smooth period comparison for this model and its projector under
+these hypotheses, using the comparison preceding Corollary 2.3 in the published source.
+Retain Galois, Frobenius, filtration and `N_HK/e_K=N_p`. A strictly semistable alteration
+uses R34.3 only after its descent and correspondence identifications are supplied.
+(Sources: [Caraiani-p](#source-caraiani-p), §2, pp.2–6 and §3.1, pp.7–9;
+[Caraiani-p-published](#source-caraiani-p-published), §2 and §3A, pp.1600–1611.)
+
+**Checks.**
+
+- For n=2 the base dimension is 2 and the tensor-square constituent has rank 4; the
+  single-signature Shimura curve cannot supply the two divisor families.
+- In a chart with two nodal factors, the two equations share π but their divisors have
+  independent indices. Replacing the second family by the first gives the wrong strata.
+- Removing the Iwahori condition or the split p₁,p₂ prescription does not provide these
+  integral charts. At a smooth factor its monodromy is zero. Odd rank uses the Shin-regular
+  coefficient-prime comparison, rather than this even-rank PEL existence argument.
+
+*Needs:* PELModuli M0–M4; [AG2.3: arbitrary regular existence](#polarized-construction-inputs-shin-and-chenevier-harris);
+[AG2.1a: corrected coefficient projector](#kuga-sato-coefficient-projector);
+[AG2.5: two-chart strata](#caraiani-stratum-concentration);
+CrystallineCohomology CR.6; WeightsInEtaleCohomology R34.3;
+[AG2.P: period interfaces](#finite-coefficient-period-api).
+
 <a id="log-crystalline-purity-on-the-automorphic-summand"></a>
 
 ### Log-crystalline purity of the automorphic summand
@@ -1650,9 +1837,9 @@ The target `logCrystallineAutomorphicPurity` has the following hypotheses and co
 
 In Caraiani’s two-boundary semistable PEL model and its Kuga–Sato projector, the Π-isotypic log-crystalline summand realizing the tensor-square representation is pure as a WD representation (Proposition 5.1). Use the two-index strata Y^(r,s) and Theorem 4.6’s generalized log-crystalline weight spectral sequence, with Frobenius, twists and the residue realization of N. Purity follows after proving the relevant projected stratum cohomology is concentrated on the required diagonal; neither semistability nor the existence of the spectral sequence alone implies purity.
 
-Throughout this target, the separate AG2.1a tensor-square realization includes the two distinguished coefficient-prime places, the closed two-index strata, cohomological multiplicity and coefficient-system projector/Tate twist. Its projected stratum concentration is proved before degeneration and purity are inferred. The log model used for comparison is proper, fine and saturated, log smooth and vertical over the standard log DVR, with special fiber of Cartier type. The second boundary uses its own divisors and s factors. With m smooth local coordinates, a nonempty (i,j)-stratum has dimension 2n+m−i−j; carry this dimension and the Kuga–Sato/Tate shifts into the spectral sequence.
+Throughout this target, the even-rank AG2.6 coefficient-prime two-signature model includes the two distinguished coefficient-prime places, the closed two-index strata, cohomological multiplicity and coefficient-system projector/Tate twist. Its projected stratum concentration is proved before degeneration and purity are inferred. The log model used for comparison is proper, fine and saturated, log smooth and vertical over the standard log DVR, with special fiber of Cartier type. The second boundary uses its own divisors and s factors. With m smooth local coordinates, a nonempty (i,j)-stratum has dimension 2n+m−i−j; carry this dimension and the Kuga–Sato/Tate shifts into the spectral sequence.
 
-*Needs:* [AG2.6: geometric period comparison](#geometric-coefficient-prime-comparison); CrystallineCohomology CR.6; WeightsInEtaleCohomology R34.6; AutomorphicGaloisRepresentationsPartII AG2.1a.
+*Needs:* [AG2.6: geometric period comparison](#geometric-coefficient-prime-comparison); CrystallineCohomology CR.6; WeightsInEtaleCohomology R34.3; [AG2.6: coefficient-prime two-signature model](#coefficient-prime-tensor-square-model).
 
 (Sources: [Caraiani-p](#source-caraiani-p), §§2–4; Theorem 4.6, Remark 4.7, Proposition 5.1, pp.31–32; [Caraiani-p-published](#source-caraiani-p-published), §3A, pp.1609–1611, including Lemma 3.2; comparison hypotheses immediately before Corollary 2.3, p.1609.)
 
@@ -1662,11 +1849,78 @@ Throughout this target, the separate AG2.1a tensor-square realization includes t
 
 The target `fullPolarizedCoefficientPrimeComparison` has the following hypotheses and conclusion.
 
-For n≥2, a conjugate-self-dual cohomological cuspidal Π over CM F, any ℓ, ι and v|ℓ, WD(r_{Π,ℓ,ι}|G_{F_v})^{F-ss} ≅ ι⁻¹ rec(Π_v|det|^{(1−n)/2}) with monodromy. The algebraic-character twist of AG2.2 extends this to the stated polarized branch. The theorem has no Shin-regularity condition; it uses purity of the geometric summand, temperedness and the pure-parameter uniqueness theorem. Rank one is supplied by algebraic local class field theory.
+For n≥2, a conjugate-self-dual cohomological cuspidal Π over CM F, any ℓ, ι and v|ℓ, WD(r_{Π,ℓ,ι}|G_{F_v})^{F-ss} ≅ ι⁻¹ rec(Π_v|det|^{(1−n)/2}) with monodromy. The algebraic-character twist of AG2.2 extends this to the stated polarized branch. The theorem has no Shin-regularity condition; it uses purity of the geometric summand, temperedness and the pure-parameter uniqueness theorem. Odd rank is the Shin-regular case of BLGGT Theorem 2.1.1; the two-signature log-crystalline argument supplies even rank. Rank one is supplied by algebraic local class field theory.
 
 *Needs:* [AG2.6: polarized admissibility](#polarized-branch-de-rham-and-crystalline); [AG2.6: log-crystalline purity](#log-crystalline-purity-on-the-automorphic-summand); [AG2.2: Twisting an essentially self-dual form into unitary type](#algebraic-character-polarization-twist); [AG2.5: full away-prime comparison](#caraiani-upgrade-away-from-p-and-temperedness); ArithmeticGaloisRepresentations Layer 2; EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4.
 
 (Sources: [Caraiani-p](#source-caraiani-p), Theorem 1.1, pp.1–2; §§2 and 5.)
+
+<a id="ahtw-local-shimura-complexes"></a>
+
+### Local Shimura complexes for the AHTW datum
+
+For AHTW §2.2’s U(n,n) datum, auxiliary split p≠ℓ, algebraically closed complete C/ℚ_p,
+finite ℓ-adic coefficient ring O and local Artinian O-algebra Λ with ℓ nilpotent, construct
+for every b∈B(G,μ⁻¹) the minuscule local Shimura space of modifications E_b⇢E₀ and its
+normalized compactly supported complex RΓ_c(G,b,μ,Λ). Construct the required relative
+G-bundle stack, Newton strata, their sheaf categories and the minuscule Hecke correspondence
+on this domain, including the equivalence D(Bun_G^b,Λ)≃D_sm(G_b(ℚ_p),Λ), the functors j_b!,
+j₁* and T_{μ,C}, and their base-change and ULA/admissibility properties. Construct the
+partial Igusa compactification and V_b=RΓ_{c−∂}(Ig_b,Λ), with cohomology in [0,d_b].
+Prove AHTW Theorem 2.4.2’s prime-to-p Hecke-equivariant Newton filtration of RΓ_c of the
+infinite p-level Shimura variety, with graded pieces
+`RΓ_{Kᵖ,b}=j₁* T_{μ,C}(j_b!(V_b[−d]))`, and identify these with
+`RΓ_c(G,b,μ,Λ) ⊗ᴸ_{H(G_b)} V_b[2d_b]` in the source normalization. Retain coefficient and
+tame-level transition maps. This constructs every required b, including nonbasic classes.
+(Sources: [AHTW](#source-ahtw), §§2.3.2 and 2.4, Theorems 2.4.1–2.4.2 and
+Remark 2.4.3, pp.14–16, 19–21.)
+
+**Checks.**
+
+- At the μ-ordinary class the local factor is not a basic formal-module tower; its
+  comparison must specialize to the parabolic-induction formula below.
+- A datum with a nonbasic b retains that Newton graded piece. Keeping only basic b
+  omits part of the filtration and cannot give its length |B(G,μ⁻¹)|.
+- For a zero Igusa complex its graded piece is zero. Changing the Artinian modulus or
+  tame level carries the filtration and both normalized descriptions to the new coefficients.
+
+*Needs:* FarguesFontaineDiamonds Layers F0–F4 for the curve and marked untilt divisors;
+DiamondsAndVStacks; DiamondEtaleCohomology; DiamondSixOperations Layers S1–S2;
+PELModuli M0–M4; SmoothRepresentationsOfLocalGroups SR.0 and SR.0d;
+EndoscopicTransferAndUnitaryTraceComparison Layers 7–8 for finite-level rational Igusa inputs.
+
+<a id="ahtw-integral-spectral-centre"></a>
+
+### Integral spectral centre and Newton annihilation
+
+On the preceding datum construct the integral spectral centre Z_spec(G,O) of the stack
+of Weil parameters and its action on D_lis(Bun_G,O), commuting with the minuscule Hecke
+operators. Retain the invertibility of |π₀Z(G)| in O required in AHTW §2.3.3 (it is one
+for this split local datum). Obtain Ψ_G^b:Z_spec(G,O)→Z(G_b)_O for every b. For each Newton
+graded piece prove the two centre actions agree: `t₁ᵇ Ψ_G¹(z)=t_bᵇ Ψ_Gᵇ(z)` for all z,
+as endomorphisms of RΓ_{Kᵖ,b}. Construct Δ_spec with Ψ_G^b(Δ_spec)=0 for b≠b_μ and
+hyperspecial Satake image Ψ_G¹(Δ_spec)=MΔ. Prove the μ-ordinary comparison
+`j₁* T_{μ,C} j_{b_μ}! ≃ Ind_{P_μ(ℚ_p)}^{G(ℚ_p)}[d]`, with the exact unnormalized
+induction of the source; its application to V_{b_μ}[−d] has amplitude [0,d]. Use the
+integral reduced flat Bernstein centres and characteristic-zero evaluations to prove the
+vanishing integrally, rather than infer it from mod-ℓ support. These supply the centre
+compatibility and annihilation inputs for the quantitative theorem.
+(Sources: [AHTW](#source-ahtw), §2.3.3, Proposition 2.4.5, §2.4.6,
+Proposition 2.4.7 and Lemmas 2.5.3–2.5.5, pp.16–17, 22–25.)
+
+**Checks.**
+
+- For nonordinary b, Ψ_G^b(Δ_spec)=0 forces MΔ to act by zero on that graded piece;
+  the ordinary piece instead uses its [0,d] amplitude.
+- The Satake image is MΔ, including M. If ℓ divides M, inverting Δ alone cannot remove
+  M-torsion, although the rational generic locus sees no such torsion.
+- Changing Λ preserves the equality of the two centre actions and the integral zero
+  operators. Agreement after rationalization alone would not justify a torsion annihilator.
+
+*Needs:* [AG2.6: local Shimura complexes](#ahtw-local-shimura-complexes);
+SmoothRepresentationsOfLocalGroups SR.3 and SR.5;
+EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27;
+IntegralHeckeAndGaloisDeterminants §3a.1.
 
 <a id="quantitative-shimura-annihilators"></a>
 
@@ -1681,8 +1935,8 @@ write the Satake variables `X_{v,i}`, with `1≤i≤2n`, for every v|p, and put
 Prove `quantitativeShimuraAnnihilators`: for every good tame subgroup and every
 `0≤q≤d−1`, both `H^q` and `H_c^{2d−q}` are annihilated by
 `M^([F⁺:ℚ]n+B) Δ^B`, where `B = |B(G,μ⁻¹)|`. The exponents are uniform in the tame level
-and Artinian modulus. Construct the rational Igusa/Newton-stratum comparison and integral
-centre operators needed for this statement as in §§2.3–2.5; nilpotence after localization
+and Artinian modulus. Use the preceding local Shimura/Newton comparison for every b and the integral
+spectral-centre operators as in §§2.3–2.5; nilpotence after localization
 at a generic maximal ideal alone is a weaker conclusion.
 (Source: [AHTW](#source-ahtw), Theorems 2.2.2 and 2.5.7, pp.11–12 and 25–26.)
 
@@ -1695,7 +1949,8 @@ at a generic maximal ideal alone is a weaker conclusion.
 - Changing the tame subgroup or the modulus does not change M or B. The middle degree
   q=d is outside the asserted degree range.
 
-*Needs:* PELModuli M0–M4; EndoscopicTransferAndUnitaryTraceComparison Layers 7–8 and 12;
+*Needs:* PELModuli M0–M4; [AG2.6: local Shimura complexes](#ahtw-local-shimura-complexes);
+[AG2.6: integral spectral centre](#ahtw-integral-spectral-centre);
 EtaleCohomologyFoundations §§F.4.1–F.4.6; ArithmeticLocallySymmetricSpaces ALS.3–ALS.5a.
 
 <a id="bounded-pseudodeformation-quotients"></a>
@@ -1782,6 +2037,40 @@ A’Campo–Hevesi–Thorne–Whitmore v1, Theorem 1.2.1: for every CM F, n≥1,
 
 (Sources: [AHTW](#source-ahtw), Theorem 1.2.1, p.5; §1.2.3–1.2.5; Theorem 5.2.9.)
 
+<a id="generic-weil-deligne-orbits"></a>
+
+### Generic monodromy orbits and local genericity
+
+For a finite extension K/ℚ_ℓ and continuous semisimple complex Weil representation r on V,
+construct `P(r)=Hom_{W_K}(V,V(−1))` with the action of the connected reductive centralizer
+G(r). Prove finiteness of its orbits and existence of a unique open orbit, identified by
+`Hom_WD((r,N),(r(1),N))=0`. Show every orbit lies in its closure and deduce the dominance
+inequalities of AG2.5 against any generic parameter with this semisimple Weil part.
+For the local components of a global cuspidal GL_n representation, prove existence of a
+Whittaker model by the cuspidal Fourier expansion; these local components need not be
+locally cuspidal. Prove the LLC translation: an irreducible admissible local representation
+is generic exactly when its WD parameter satisfies the displayed Hom vanishing. Deduce
+AHTW Corollary 6.0.6 for every WD representation with the same semisimplification as that
+local parameter. Transfer along ι to the coefficient field before applying the result.
+(Sources: [AHTW](#source-ahtw), §6, Lemma 6.0.3, Definition 6.0.4, Proposition 6.0.5 and
+Corollary 6.0.6, pp.111–112; its proof invokes the generic LLC criterion.)
+
+**Checks.**
+
+- For r=1 in rank one, P(r)=0, its single orbit is open and the Hom condition holds;
+  all monodromy operators are zero.
+- For Weil characters 1 and |·| the allowed nonzero rank-one N form the open orbit;
+  N=0 is in its closure and is dominated by that generic parameter.
+- For a repeated trivial character, P(r)=0 and the zero orbit is generic as a WD
+  parameter. This characteristic-zero WD condition is distinct from the residual
+  strong-genericity test, which excludes repeated Frobenius eigenvalues.
+
+*Needs:* ArithmeticGaloisRepresentations §§2.4–2.6;
+[AG2.5: monodromy order](#monodromy-order-interface);
+EndoscopicTransferAndUnitaryTraceComparison §§10.18–10.27;
+ArithmeticLocallySymmetricSpaces §ALS.F.6;
+AutomorphicSpectralTheory §5.11 for cuspidal automorphic realizations.
+
 <a id="nonselfdual-coefficient-prime-monodromy-bound"></a>
 
 ### Nonselfdual monodromy bound at ℓ
@@ -1790,7 +2079,7 @@ The target `nonselfdualCoefficientPrimeMonodromyBound` has the following hypothe
 
 Under the preceding theorem, WD(r_{π,ℓ,ι}|G_{F_v})^{F-ss} ≺ ι⁻¹rec^T(π_v). Equality of the semisimplified Weil representations comes from the preceding comparison theorem, not from the definition of the order. The order compares, for each irreducible Weil representation up to unramified twist, the sums of the largest Jordan-block sizes: every first-i sum on the left is ≤ the corresponding sum on the right. It is Varma’s order of §8.2, used in AHTW Definition 6.0.2. Full equality of N is not asserted for a general nonselfdual ramified π_v.
 
-*Needs:* [AG2.6: nonselfdual de Rham comparison](#all-cm-de-rham-and-semisimplified-coefficient-comparison); [AG2.5: Varma comparison](#varma-semisimplified-comparison-and-monodromy-bound); ArithmeticGaloisRepresentations Layer 2.
+*Needs:* [AG2.6: nonselfdual de Rham comparison](#all-cm-de-rham-and-semisimplified-coefficient-comparison); [AG2.6: generic WD orbits and local genericity](#generic-weil-deligne-orbits); ArithmeticGaloisRepresentations Layer 2.
 
 (Sources: [AHTW](#source-ahtw), Corollary 1.2.2, p.6; Definitions 6.0.1–4, Corollary 6.0.6, pp.111–112.)
 
@@ -1843,7 +2132,7 @@ The required API is:
 - `compatibleSystem_goodPolynomial`: At v outside S_π, the common polynomial is P_v(X).
 - `compatibleSystem_hodgeTate`: The labelled multiset is {a_{τ,i}+n−i}, including multiplicities.
 - `compatibleSystem_weak`: R_π satisfies the AG2.6 weak predicate, with explicit normalization conversion.
-- `compatibleSystem_embedding`: Two ι inducing the same λ on M_π give isomorphic members.
+- `compatibleSystem_embedding`: Two ι with the same restriction M_π→Q̄_ℓ give isomorphic members.
 
 **Checks.**
 
@@ -1852,6 +2141,10 @@ The required API is:
 - `compatibleSystem_weight_k` — At n=2, a=(k−2,0), the Hodge multiset is {k−1,0} and its sum is k−1
 
 - `compatibleSystem_R19` — On the exact classical/Hilbert overlap, applying the stated dual/twist dictionary identifies each λ-member with the independently constructed fixed-form member
+
+- A character of order three has M_π=ℚ(ζ₃). At ℓ=2 its two embeddings induce the
+  same finite place but distinct character values and nonisomorphic members; agreement of
+  the finite place alone does not identify the representations.
 
 - `compatibleSystem_no_automatic_strictness` — A weak instance with only good-place polynomials cannot supply an equality of monodromy at an unspecified bad place.
 
@@ -1950,7 +2243,7 @@ The polarized branch has de Rham admissibility and full pure WD comparison at ev
 
 ### Rank-two comparison with the independent rank-two member
 
-For a fixed classical newform of weight k≥2 or regular cohomological Hilbert eigenform in the exact independent classical/Hilbert overlap, identify the AG2 λ-member with the independent member after converting geometric/arithmetic Frobenius and the stated Tate twist. For the standard weight-k classical normalization this is r_AG2≅r_R19^∨, giving geometric polynomial X²−a_qX+ψ(q)q^{k−1}, HT_AG2={0,k−1}, and det=r_ψ ε^{1−k} where r_ψ(Frob_q^geom)=ψ(q). For Hilbert (k_τ,w) use Skinner’s explicit half-integer normalization before dualizing; parity is part of its hypotheses. Use the full regular Hilbert coefficient-prime theorem specified in AG2.P; a conditional Kisin theorem retains all of its conditions.
+For a fixed classical newform of weight k≥2 or regular cohomological Hilbert eigenform in the exact independent classical/Hilbert overlap, identify the AG2 λ-member with the independent member after converting geometric/arithmetic Frobenius and the stated Tate twist. For the standard weight-k classical normalization this is r_AG2≅r_R19^∨, giving geometric polynomial X²−a_qX+ψ(q)q^{k−1}, HT_AG2={0,k−1}, and det=r_ψ ε^{1−k} where r_ψ(Frob_q^geom)=ψ(q). For Hilbert (k_τ,w) use the R16.6.3–R16.6.4 cohomological weight and Frobenius conversion before dualizing, with its integral parity hypotheses. Use AG2.P’s cohomological polarized rank-two comparison from CH Theorem 4.2(b)–(d); comparisons outside that theorem’s spherical/Iwahori conclusions retain their independently proved local hypotheses.
 
 *Needs:* [AG2.6: embedding independence](#coefficient-embedding-independence-and-semisimple-uniqueness); [AG2.P: independent classical/Hilbert members](#rank-two-construction-contract); [AG2.0: integral Frobenius polynomial](#frobenius-polynomial-and-conventions).
 
@@ -1974,7 +2267,7 @@ Let π_1 and σ be RAESDC over a totally real F. Suppose r_{π_1,ι}⊗r_{σ,ι}
 
 The target `gsp4CrystallineHodgeComparison` has the following hypotheses and conclusion.
 
-In Calegari–Geraghty Proposition 6.8, for a cuspidal GSp4 eigenform f of good p-level and weight (a,b), a≥b≥3, the r_f supplied by the GSp₄ construction and ML.4 transfer is crystalline at p with HT={0,b−2,a−1,W}, W=a+b−3. If f is also an eigenform for the Hecke operators at p, det(X−φ)=λ_f(Q_p(X)) in their monic convention. The eigenform-at-p condition specifies this polynomial; crystallinity in the proposition’s good-level setting does not depend on that additional condition.
+In Calegari–Geraghty Proposition 6.8, for a cuspidal GSp4 eigenform f of good p-level and weight (a,b), a≥b≥3, the r_f supplied by the GSp₄ construction and AG2.P’s `gsp4TransferDictionary` is crystalline at p with HT={0,b−2,a−1,W}, W=a+b−3. If f is also an eigenform for the Hecke operators at p, det(X−φ)=λ_f(Q_p(X)) in their monic convention. The eigenform-at-p condition specifies this polynomial; crystallinity in the proposition’s good-level setting does not depend on that additional condition.
 
 *Needs:* AutomorphicGaloisRepresentationsPartII AG2.2; [AG2.P: GSp₄ construction and transfer](#gsp4-construction-contract); [AG2.6: polarized admissibility](#polarized-branch-de-rham-and-crystalline).
 
@@ -1996,7 +2289,7 @@ Under CG Proposition 6.8(4), assume f is a p-Hecke eigenform and ordinary: its T
 
 ### Pilloni GSp₄ normalization comparison
 
-Pilloni Theorem 5.1.7.1 for cuspidal π with discrete-series π_∞ and parameter (λ_1,λ_2;−λ_1−λ_2+3) gives a de Rham representation with HT={0,−λ_2,−λ_1,−λ_1−λ_2}. At p outside the nonspherical set it is crystalline and det(1−Xφ)=Θ_π(Q_p(X)). Its geometric Frobenius and HT(ε)=−1 conventions require reciprocal conversion X^4Q_p(1/X) to the monic polynomial. The corrected similitude exponent is ε^{λ_1+λ_2}, in the stated geometric and Hodge convention. Substitution λ_1=1−a, λ_2=2−b gives CG’s four Hodge numbers; identifying the automorphic representations also requires the ML.4 Harish–Chandra/Satake dictionary.
+Pilloni Theorem 5.1.7.1 for cuspidal π with discrete-series π_∞ and parameter (λ_1,λ_2;−λ_1−λ_2+3) gives a de Rham representation with HT={0,−λ_2,−λ_1,−λ_1−λ_2}. At p outside the nonspherical set it is crystalline and det(1−Xφ)=Θ_π(Q_p(X)). Its geometric Frobenius and HT(ε)=−1 conventions require reciprocal conversion X^4Q_p(1/X) to the monic polynomial. The corrected similitude exponent is ε^{λ_1+λ_2}, in the stated geometric and Hodge convention. Substitution λ_1=1−a, λ_2=2−b gives CG’s four Hodge numbers; identifying the automorphic representations also requires AG2.P’s `gsp4TransferDictionary` on its stated level and coefficient domain.
 
 *Needs:* [AG2.6: GSp₄ crystalline Hodge comparison](#gsp4-crystalline-hodge-comparison); AutomorphicGaloisRepresentationsPartII AG2.2; [AG2.P: GSp₄ construction and transfer](#gsp4-construction-contract).
 
@@ -2022,9 +2315,14 @@ Residual polarization needs the reduction-and-semisimplification target below fo
 
 The target `existsFinitePadicRealization` has the following hypotheses and conclusion.
 
-For each continuous r_{π,ℓ,ι}:G_F→GL_n(Q̄_ℓ), there is a finite extension E/Q_ℓ over which its matrices are defined, after a change of basis if desired. Prove this before invoking a compact-local-field stable-lattice theorem. The compact image is covered by GL_n(E) for the countably many finite subextensions of Q̄_ℓ/Q_ℓ; Baire gives one such closed subgroup with open intersection, and finitely many coset representatives lie in a larger finite field. A uniform strong number field is available on the polarized branch, but is not needed for this local assertion.
+For each continuous r_{π,ℓ,ι}:G_F→GL_n(Q̄_ℓ), specialize ArithmeticGaloisRepresentations
+§1.5’s `baire_descent` to the compact Hausdorff absolute Galois group to obtain
+`existsFinitePadicRealization`: its matrices lie in a finite extension E/Q_ℓ. Apply this
+before the stable-lattice theorem. The coefficient-descent theorem and its Baire argument
+are supplied by §1.5. A uniform strong number field on the polarized branch is not needed
+for this local specialization.
 
-*Needs:* [AG2.6: automorphic compatible system](#compatible-system-of-pi); ArithmeticGaloisRepresentations Layer 1.
+*Needs:* [AG2.6: automorphic compatible system](#compatible-system-of-pi); ArithmeticGaloisRepresentations §1.5 (`baire_descent`).
 
 (Sources: [BLGGT](#source-blggt), §2.1, after Theorem 2.1.1, p.34; [CG](#source-cg), Proof of Proposition 6.8, author-copy p.39.)
 
@@ -2102,7 +2400,8 @@ The required API is:
 
 - `not_isGeneric_repeated_q_one` — Over F_3 with q=1, (1,1) is not generic
 
-- `isGeneric_matrix_diagonal` — The list condition on α agrees with the characteristic-polynomial factorization of the diagonal matrix diag(α).
+- `isGeneric_matrix_diagonal` — When r(Frob)=diag(α), `IsGeneric` is equivalent to trivial inertia and `IsGenericEigenvalues α q`.
+- `isStrongGeneric_matrix_diagonal` — Under the same diagonal hypothesis, `IsStrongGeneric` is equivalent to trivial inertia and `IsStrongGenericEigenvalues α q`.
 
 *Needs:* [AG2.7: residual representation](#residual-representation-of-pi); ArithmeticGaloisRepresentations Layer 1; Mathlib `Matrix.charpoly`; Mathlib `Matrix.GeneralLinearGroup.map`.
 
@@ -2475,6 +2774,9 @@ The light predicates `IsGeneric` and `IsStrongGeneric` take an actual subgroup I
 actual matrix representation, an element Frob and q. Specialization to a local Galois group
 requires the specified inertia, geometric Frobenius and residue cardinality in AG2.7.
 The complete eigenvalue and representation invariance APIs are the ones stated there.
+`Fixtures.diagonalRep` is the actual matrix homomorphism of tuples of units used in the
+diagonal specialization Checks; it preserves products, has the stated diagonal entries and
+takes the unit tuple to the identity matrix.
 (Source: [ACC+](#source-accplus), Definition 4.3.1, p.972; [CS](#source-cs), Definition 1.9, p.652.)
 
 **Checks.**
@@ -2567,7 +2869,14 @@ Sug Woo Shin, [Galois representations arising from some compact Shimura varietie
 
 ### Shin-Igusa
 
-Sug Woo Shin, [Counting points on Igusa varieties](https://math.berkeley.edu/~swshin/StableIgusa.pdf). author copy StableIgusa.pdf, published Duke Math. J. 146 (2009), 509–568; author-copy pages.
+Sug Woo Shin, [Stable trace formula for Igusa varieties](https://math.berkeley.edu/~swshin/StableIgusa.pdf). author copy StableIgusa.pdf, 30 pages; locators use author-copy pages.
+
+<a id="source-varshavsky"></a>
+
+### Varshavsky
+
+Yakov Varshavsky, [Lefschetz–Verdier trace formula and a generalization of a theorem of Fujiwara](https://arxiv.org/pdf/math/0505564v2).
+arXiv:math/0505564v2 (2005); arXiv pages.
 
 <a id="source-ty"></a>
 

@@ -89,6 +89,18 @@ example : IsExtremelyRegular
 example : ¬ IsExtremelyRegular
     (fun _ : Unit => ⟨(0 : Fin 4 → ℤ), by intro i j _; rfl⟩ : DominantWeight 4 Unit) := sorry
 
+/-- An empty embedding index cannot witness extreme regularity, even in rank zero. -/
+example {n : ℕ} (a : DominantWeight n Empty) : ¬ IsExtremelyRegular a := by
+  rintro ⟨τ, _⟩
+  exact τ.elim
+
+/-- In rank one a nonempty embedding index suffices. -/
+example {ι : Type*} [Nonempty ι] (a : DominantWeight 1 ι) : IsExtremelyRegular a := by
+  obtain ⟨τ⟩ := ‹Nonempty ι›
+  refine ⟨τ, ?_⟩
+  intro H H' hcard _
+  fin_cases H <;> fin_cases H' <;> simp_all
+
 end DominantWeight
 
 /-- The dominant rank-two vector (x,y), with y≤x. -/
@@ -180,13 +192,15 @@ example {R : Type*} [CommRing R] (q a b c x : R) :
 
 /-- Test `heckePolynomial_arith_vs_geom` (its arithmetic): if `β₁ + β₂ = −24` and `β₁β₂ = 2¹¹` (Δ at `2`), the
 reciprocal roots have sum `−24/2¹¹` and product `2⁻¹¹`, so `ρ_Δ`'s geometric polynomial is `X² + 24·2⁻¹¹X + 2⁻¹¹`. -/
-example (b1 b2 : ℚ) (hs : b1 + b2 = -24) (hp : b1 * b2 = 2 ^ 11) :
+example (b1 b2 : ℂ) (hs : b1 + b2 = -24) (hp : b1 * b2 = 2 ^ 11) :
     1 / b1 + 1 / b2 = -24 / 2 ^ 11 ∧ 1 / b1 * (1 / b2) = 1 / 2 ^ 11 := by
   have h1 : b1 ≠ 0 := by rintro rfl; norm_num at hp
   have h2 : b2 ≠ 0 := by rintro rfl; norm_num at hp
   constructor
-  · rw [div_add_div _ _ h1 h2, ← hp]; field_simp; linarith
-  · rw [div_mul_div_comm, ← hp]; ring
+  · calc
+      1 / b1 + 1 / b2 = (b1 + b2) / (b1 * b2) := by field_simp; ring
+      _ = -24 / 2 ^ 11 := by rw [hs, hp]
+  · rw [div_mul_div_comm, hp]; norm_num
 
 example {R : Type*} [CommRing R] (q : R) (t : ℕ → R) (h0 : t 0 = 1) :
     (∑ i ∈ Finset.range (1 + 1), C ((-1) ^ i * q ^ (i * (i - 1) / 2) * t i) * X ^ (1 - i)) = X - C (t 1) :=
@@ -231,12 +245,30 @@ example (t a : ℤ) (k : ℕ) :
   simp [labelledInteger]
   ring
 
+example (c s t : ℤ) : coefficientWeight (c + t) s = coefficientWeight c s - 2 * t := by
+  simp [coefficientWeight]
+  ring
+
+example (c a t : ℤ) (k : ℕ) :
+    labelledInteger c (a + t) k = labelledInteger c a k - t := by
+  simp [labelledInteger]
+  ring
+
+example : labelledInteger 0 0 2 = 1 := by decide
+
 /-- Test `CoefficientProjector.denominator`, the two denominators. -/
 example : (2 : ℚ) - 2 ^ 0 = 1 ∧ (2 : ℚ) - 2 ^ 2 = -2 := by norm_num
 
 /-- Test `CoefficientProjector.degreeSelector`, scalar relative-degree fragment. -/
 example : selectorFactor 2 0 1 = 0 ∧ selectorFactor 2 0 2 = 1 ∧
     selectorFactor 2 2 2 = 1 := by norm_num [selectorFactor]
+
+/-- The empty selector product is one. -/
+example : (∏ y ∈ (∅ : Finset ℕ), selectorFactor 2 y 2) = 1 := by simp
+
+/-- The forbidden degree-one index has zero denominator and does not select degree one. -/
+example : (2 : ℚ) - 2 ^ 1 = 0 ∧ selectorFactor 2 1 2 = 0 := by
+  norm_num [selectorFactor]
 
 end Fixtures
 
@@ -247,6 +279,13 @@ namespace Fixtures
 /-- Rank sum over multiplicities and constituent dimensions. -/
 def discreteRank (blocks : List (ℕ × ℕ)) : ℕ :=
   (blocks.map fun b => b.1 * b.2).sum
+
+example : discreteRank [] = 0 := rfl
+
+example (a b : List (ℕ × ℕ)) : discreteRank (a ++ b) = discreteRank a + discreteRank b := by
+  simp [discreteRank]
+
+example : discreteRank ([(1, 2)] ++ [(1, 3)]) = 5 := by decide
 
 example : discreteRank [(1, 2)] = 2 ∧ discreteRank [(2, 1)] = 2 := by decide
 
@@ -269,6 +308,17 @@ def hasseShift (p M j : ℕ) : ℕ := (p - 1) * p ^ (M - 1) * j
 /-- Add mn[F:ℚ] to the section slope. -/
 def kugaSlope (sectionSlope : ℚ) (m n fieldDegree : ℕ) : ℚ :=
   sectionSlope + (m * n * fieldDegree : ℕ)
+
+example (p M : ℕ) : hasseShift p M 0 = 0 := by simp [hasseShift]
+
+example (M j : ℕ) (_hM : 1 ≤ M) : hasseShift 2 M j = 2 ^ (M - 1) * j := by
+  simp [hasseShift]
+
+example (p M j : ℕ) : hasseShift p M (2 * j) = 2 * hasseShift p M j := by
+  simp [hasseShift]
+  ring
+
+example : kugaSlope 3 2 1 2 = 7 := by norm_num [kugaSlope]
 
 example : hasseShift 3 1 2 = 4 ∧ hasseShift 3 2 2 = 12 := by decide
 
@@ -308,6 +358,13 @@ def impureChainFixture : Matrix (Fin 6) (Fin 6) ℚ :=
   fun i j => if (i.val, j.val) ∈ ([(1, 0), (3, 1), (4, 2), (5, 4)] : List (ℕ × ℕ))
     then 1 else 0
 
+example (k : ℕ) : blockPowerRank [] k = 0 := rfl
+
+example : blockPowerRank [1] 0 = 1 ∧ blockPowerRank [1] 1 = 0 ∧
+    blockPowerRank [4, 2] 4 = 0 := by decide
+
+example : blockPowerRank [4, 2] 0 = 6 ∧ blockPowerRank [3, 3] 0 = 6 := by decide
+
 example : blockPowerRank [4, 2] 1 = 4 ∧ blockPowerRank [3, 3] 1 = 4 := by decide
 
 example : blockPowerRank [4, 2] 3 = 1 ∧ blockPowerRank [3, 3] 3 = 0 := by decide
@@ -322,6 +379,33 @@ example : frobeniusFixture * impureChainFixture =
 example : (pureChainFixture ^ 3) 5 0 = 1 := sorry
 
 example : impureChainFixture ^ 3 = 0 := sorry
+
+example : pureChainFixture ^ 4 = 0 := by
+  let S : Matrix (Fin 6) (Fin 6) ℚ :=
+    fun i j => if (i.val, j.val) ∈ ([(3, 0), (5, 1)] : List (ℕ × ℕ)) then 1 else 0
+  have hsq : pureChainFixture ^ 2 = S := by
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      norm_num [pow_two, Matrix.mul_apply, Fin.sum_univ_succ, pureChainFixture, S]
+  rw [show (4 : ℕ) = 2 + 2 from rfl, pow_add, hsq]
+  ext i j
+  change (∑ k : Fin 6, S i k * S k j) = 0
+  fin_cases i <;> fin_cases j <;>
+    norm_num [Fin.sum_univ_succ, S]
+
+example : impureChainFixture ^ 2 ≠ 0 := by
+  intro h
+  have he := congrFun (congrFun h 3) 0
+  norm_num [pow_two, Matrix.mul_apply, Fin.sum_univ_succ, impureChainFixture] at he
+
+/-- Reciprocal Frobenius violates the geometric Weil relation at entry (1,0). -/
+example : (Matrix.diagonal ![(1 / 8 : ℚ), 1 / 2, 1 / 2, 2, 2, 8]) * pureChainFixture ≠
+    (1 / 4 : ℚ) • (pureChainFixture *
+      Matrix.diagonal ![(1 / 8 : ℚ), 1 / 2, 1 / 2, 2, 2, 8]) := by
+  intro h
+  have he := congrFun (congrFun h 1) 0
+  norm_num [Matrix.mul_apply, Fin.sum_univ_succ, pureChainFixture,
+    Matrix.diagonal, Matrix.smul_apply] at he
 
 end Fixtures
 
@@ -517,7 +601,79 @@ theorem dualAndTwistHeckeComparison {k : Type*} [Field k] {n : ℕ} (α : Fin n 
     IsGenericEigenvalues (fun i => q ^ (n - 1) * (α i)⁻¹) (q : k) ↔
       IsGenericEigenvalues α (q : k) := sorry
 
-/-- Check `isGeneric_matrix_diagonal`: diagonal eigenvalues give the library polynomial. -/
+namespace Fixtures
+
+/-- The diagonal representation of the group of tuples of units. -/
+def diagonalRep {K : Type*} [Field K] (n : ℕ) :
+    (Fin n → Kˣ) →* Matrix.GeneralLinearGroup (Fin n) K where
+  toFun α :=
+    { val := Matrix.diagonal (fun i => (α i : K))
+      inv := Matrix.diagonal (fun i => ((α i)⁻¹ : K))
+      val_inv := by simp [Matrix.diagonal_mul_diagonal]
+      inv_val := by simp [Matrix.diagonal_mul_diagonal] }
+  map_one' := by apply Units.ext; simp
+  map_mul' α β := by apply Units.ext; simp [Matrix.diagonal_mul_diagonal]
+
+end Fixtures
+
+/-- A diagonal Frobenius reduces matrix genericity to trivial inertia and the eigenvalue test. -/
+theorem isGeneric_matrix_diagonal {G K : Type*} [Group G] [Field K] {n : ℕ}
+    (I : Subgroup G) (r : G →* Matrix.GeneralLinearGroup (Fin n) K)
+    (frob : G) (q : K) (α : Fin n → Kˣ)
+    (hd : (r frob).val = Matrix.diagonal (fun i => (α i : K))) :
+    IsGeneric I r frob q ↔ (∀ g ∈ I, r g = 1) ∧ IsGenericEigenvalues α q := sorry
+
+/-- A diagonal Frobenius reduces strong genericity to inertia, ratios and distinctness. -/
+theorem isStrongGeneric_matrix_diagonal {G K : Type*} [Group G] [Field K] {n : ℕ}
+    (I : Subgroup G) (r : G →* Matrix.GeneralLinearGroup (Fin n) K)
+    (frob : G) (q : K) (α : Fin n → Kˣ)
+    (hd : (r frob).val = Matrix.diagonal (fun i => (α i : K))) :
+    IsStrongGeneric I r frob q ↔
+      (∀ g ∈ I, r g = 1) ∧ IsStrongGenericEigenvalues α q := sorry
+
+/-- The trivial rank-two matrix representation is generic at q=2 but is not strong. -/
+example : IsGeneric (⊥ : Subgroup Unit)
+    (1 : Unit →* Matrix.GeneralLinearGroup (Fin 2) (ZMod 3)) () 2 ∧
+    ¬ IsStrongGeneric (⊥ : Subgroup Unit)
+      (1 : Unit →* Matrix.GeneralLinearGroup (Fin 2) (ZMod 3)) () 2 := by
+  rw [isGeneric_matrix_diagonal _ _ _ _ (fun _ => 1) (by simp),
+    isStrongGeneric_matrix_diagonal _ _ _ _ (fun _ => 1) (by simp)]
+  constructor
+  · refine ⟨by simp, ?_⟩
+    intro i j _
+    simp
+    decide
+  · rintro ⟨_, _, hinj⟩
+    exact (by decide : (0 : Fin 2) ≠ 1) (hinj rfl)
+
+/-- Distinct Frobenius eigenvalues with ratio q fail matrix genericity. -/
+example : ¬ IsGeneric (⊥ : Subgroup (Fin 2 → (ZMod 5)ˣ))
+    (Fixtures.diagonalRep 2) ![Units.mk0 (2 : ZMod 5) (by decide), 1] 2 := by
+  rw [isGeneric_matrix_diagonal _ _ _ _ _ rfl]
+  rintro ⟨_, h⟩
+  exact h 0 1 (by decide) (by simp)
+
+/-- A nontrivial inertia image rules out both matrix predicates. -/
+example {G K : Type*} [Group G] [Field K] {n : ℕ}
+    (I : Subgroup G) (r : G →* Matrix.GeneralLinearGroup (Fin n) K)
+    (frob : G) (q : K) (g : G) (hg : g ∈ I) (hr : r g ≠ 1) :
+    ¬ IsGeneric I r frob q ∧ ¬ IsStrongGeneric I r frob q := by
+  exact ⟨fun h => hr (h.1 g hg), fun h => hr (h.1 g hg)⟩
+
+/-- In the diagonal representation, full inertia containing diag(2,1) is nontrivial. -/
+example : ¬ IsGeneric (⊤ : Subgroup (Fin 2 → (ZMod 5)ˣ))
+    (Fixtures.diagonalRep 2) 1 2 ∧
+    ¬ IsStrongGeneric (⊤ : Subgroup (Fin 2 → (ZMod 5)ˣ))
+      (Fixtures.diagonalRep 2) 1 2 := by
+  have hn : Fixtures.diagonalRep 2 ![Units.mk0 (2 : ZMod 5) (by decide), 1] ≠ 1 := by
+    intro h
+    have he := congrArg (fun a : Matrix.GeneralLinearGroup (Fin 2) (ZMod 5) => a.val 0 0) h
+    change (2 : ZMod 5) = 1 at he
+    exact (by decide : (2 : ZMod 5) ≠ 1) he
+  exact ⟨fun h => hn (h.1 _ (Subgroup.mem_top _)),
+    fun h => hn (h.1 _ (Subgroup.mem_top _))⟩
+
+/-- Diagonal matrices have the polynomial used in the representation predicates. -/
 example {K : Type*} [Field K] {n : ℕ} (α : Fin n → Kˣ) :
     (Matrix.diagonal (fun i => (α i : K))).charpoly = ∏ i, (X - C (α i : K)) :=
   Matrix.charpoly_diagonal _
@@ -546,6 +702,16 @@ theorem unitaryDiscreteExport_goodPolynomial (r₁ : G →* Matrix.GeneralLinear
     (ε₁ ε₂ : G →* Kˣ) (x : UnitaryDiscreteExport r₁ r₂ ε₁ ε₂) (g : G) :
     (x.rep g).val.charpoly = (((ε₁ g : K) • (r₁ g).val).charpoly) *
       (((ε₂ g : K) • (r₂ g).val).charpoly) := sorry
+
+/-- A zero-dimensional constituent contributes polynomial one. -/
+example (r₁ : G →* Matrix.GeneralLinearGroup (Fin 0) K)
+    (r₂ : G →* Matrix.GeneralLinearGroup (Fin n₂) K) (ε₁ ε₂ : G →* Kˣ)
+    (x : UnitaryDiscreteExport r₁ r₂ ε₁ ε₂) (g : G) :
+    (((ε₁ g : K) • (r₁ g).val).charpoly = 1) ∧
+    (x.rep g).val.charpoly = ((ε₂ g : K) • (r₂ g).val).charpoly := by
+  have hzero : ((ε₁ g : K) • (r₁ g).val).charpoly = 1 := by
+    simp [Matrix.charpoly]
+  exact ⟨hzero, by rw [unitaryDiscreteExport_goodPolynomial, hzero, one_mul]⟩
 
 /-- Check `unitaryDiscreteExport_two_characters`: the two linear factors multiply. -/
 example (r₁ r₂ : G →* Matrix.GeneralLinearGroup (Fin 1) K) (ε₁ ε₂ : G →* Kˣ)
