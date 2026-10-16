@@ -648,7 +648,24 @@ stronger quantifier order.
 - **5.4 The homotopy operator.** `homotopyOperator` on `M × Icc 0 1`, with `homotopyOperator_spec`:
   for a `C¹` form `ω` with values in a complete space, `hω` is `C¹` and
   `ι₁^*ω − ι₀^*ω = d(hω) + h(dω)`, proved directly rather than through Stokes, so `M` may have
-  boundary. Separately, Stokes on `M × Icc 0 1` for boundaryless `M`, for 10.5.
+  boundary. Prove preservation of `C^r` regularity for every r≥1, including
+  `C^∞`, by differentiation under the compact interval integral. Prove naturality
+  under pullback: `f* h(ω)=h((f×id)*ω)`, including inclusions of parameter slices.
+  For a smooth star-shaped chart contraction to x₀, prove the resulting radial
+  primitive vanishes at x₀. For the coordinate regression, let `D_r(a)={p : ℂ | |p−a|<r}`
+  with `r>0`, as an open subtype with model `𝓘(ℝ,ℂ)`, and use the contraction
+  `H : D_r(a) × Icc 0 1 → D_r(a)`, `H(p,t)=a+t(p−a)`, with the `D_r(a)` variable first.
+  Write `u=Re(p−a)`, `v=Im(p−a)`. For a real coefficient `A∈C¹(D_r(a),ℝ)`, set
+  `I(u,v)=∫₀¹ t A(a+t(u+iv))dt` and `η=−vI dx+uI dy`. Prove the actual comparison
+  `homotopyOperator (H^*(A dx∧dy)) = η` with this slot order and sign, and prove `η` is
+  `C¹`, vanishes at `a`, and satisfies `∂ₓ(uI)−∂ᵧ(−vI)=A`. For smooth `A`, prove the
+  output is smooth. This pins the coordinate formula to the existing operator.
+  For a jointly smooth family on `N×U`, take U to
+  be the star-shaped form domain with a fixed smooth contraction to x₀; N is
+  an arbitrary smooth parameter manifold. Apply the homotopy in U with N fixed
+  and prove that slicing commutes with it; positive-degree closed slice forms
+  then have jointly smooth primitives. No contraction of N is required. Separately, Stokes on
+  `M × Icc 0 1` for boundaryless `M`, for 10.5.
 - **5.5 Densities, and Stokes with corners.** `Density`, `RoughDensity`, `toDensity`
   (`toDensity_apply`), `integralDensity` and `integralTopForm_eq_integralDensity`, making
   integration on nonorientable manifolds a special case [Lee, Ch. 16, "Densities"]; and Stokes on
@@ -866,7 +883,14 @@ orientation, `integralTopForm`, coordinate area, and 12.5's Euclidean divergence
 Those layers own their general manifold theorems and consume this comparison.
 
 **Acceptance examples.** Prove the unit-circle and ellipse area formulas from
-`P=-y/2, Q=x/2`; the annulus formula `π(R²-r²)` for `0<r<R` with a clockwise inner circle;
+`P=-y/2, Q=x/2`. For `a,b>0`, define the closed ellipse
+`E_{a,b}={x+iy : (x/a)²+(y/b)²≤1}` and its positive boundary
+`γ(t)=a cos(t)+i b sin(t)`, `0≤t≤2π`. Prove by the positive affine change of variables
+`(x,y)↦(ax,by)` from the unit disk, with Jacobian `ab`, and the nullity of the boundary, that
+`(volume E_{a,b}).toReal=πab`. Also prove
+`∮_{∂E_{a,b}} x dy=∮_{∂E_{a,b}} (−y dx+x dy)/2=πab`; connect the two integrands by
+`d(xy)/2`, and use the positive orientation. Reversal negates both signed integrals but not the
+geometric area. Also prove the annulus formula `π(R²-r²)` for `0<r<R` with a clockwise inner circle;
 the signed shoelace formula for a closed polygonal path, including a self-intersecting path;
 and a twice-traversed circle with weight two. Give the unit-circle boundary a reparametrization
 `θ(t)=2π√t`, `0≤t≤1`, and recover area `π`: this curve is absolutely continuous with unbounded
@@ -877,6 +901,20 @@ Henstock–Kurzweil integral of `h'` is `sin 1`, and that `h'` is not Bochner in
 These supplement the unit-square sign check of 5.5. The area formula for a general cycle is
 **signed area counted with index**, not the area of the union of its bounded complementary
 components.
+
+**Flat punctured-plane family.** Let `U=ℂ\{0}`, write `x=Re z`, `y=Im z`, and
+`ρ(z)=x²+y²>0`. For every `α∈ℝ`, use `Real.rpow (ρ(z)) (−α)` and define
+`P_α(z)=(x−y)*Real.rpow (ρ(z)) (−α)`, `Q_α(z)=(x+y)*Real.rpow (ρ(z)) (−α)` and the real
+continuous linear functional `ω_α(z)(w)=P_α(z) Re w+Q_α(z) Im w` on `ℂ`. Prove smoothness on
+`U` and, by the native flat `extDerivWithin` coefficient/curl formula,
+`∂ₓQ_α−∂ᵧP_α=2(1−α)ρ^(−α)`, equivalently
+`dω_α=2(1−α)ρ^(−α)dx∧dy` on `U`. Its positively oriented unit-circle integral is `2π` for
+every real α; it is closed exactly when `α=1`. State non-exactness in the same flat carrier:
+there is no real `g : ℂ → ℝ`, differentiable on `U`, such that `fderiv ℝ g z = ω_α(z)` for every
+`z∈U`. Derive this from the chain rule and interval FTC along the unit-circle parametrization;
+the pulled-back derivative is the continuous coefficient `ω_α(γ(t))(γ'(t))`. This argument
+uses the flat differentiable-form calculus on `U` and does not consume DG5.5 or DG6.3. The form
+`ω_α` itself is globally defined on `U`; no global real-valued angle potential is asserted.
 
 **Ownership and ordering.** This layer owns the AC and directional planar extensions and
 their comparisons with existing rectangle and manifold results. Layers
