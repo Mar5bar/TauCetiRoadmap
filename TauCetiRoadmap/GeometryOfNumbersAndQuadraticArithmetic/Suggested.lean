@@ -51,9 +51,10 @@ Design choices made explicit here:
 * LLL-reduced bases use `δ = 3/4` and `η = 1/2`, with their short-vector approximation bound;
 * DG duality acts on Tau Ceti's native cochain-complex enrichment, with its signed opposite and
   Mathlib factor order;
-* the stable, Ind, spectrum, Verdier and Eilenberg–MacLane carriers in the README are supplied
-  by EnhancedDerivedSheaves; this roadmap provides their K-theory and coefficient/duality
-  adapters in the common spectrum category;
+* the stable, Ind and Verdier carriers in the README are supplied by BordismFormalGroups
+  F6.5; EnhancedDerivedSheaves supplies the stable calculus, compact/idempotent comparisons,
+  spectrum and Eilenberg–MacLane carriers. This roadmap provides their K-theory and
+  coefficient/duality adapters in the common spectrum category;
 * the finite-field K branch consumes TopologicalKTheory's complex classifier and Bott theorem,
   with its CW/Milnor extension and BU-level Adams maps specified in the README;
 * exact categories are Tau Ceti's `ExactStructure`, and a strong duality bundles Tau Ceti's
@@ -3538,9 +3539,11 @@ sources are in the README.
   wedge and singular-stratum carriers.
 * Layer 6: `stableIndBoundedTStructure`, `prespectrumToSharedSpectrum`, `stableMappingSpectrum`,
   `bottAdamsOperations`, `brauerLift`, `brauerLift_homotopyEquivalence`, `finiteFieldKGroups`,
-  `PerfectDerivedInfinity` and `perfectDerivedHom` on the supplied EnhancedDerivedSheaves and
-  TopologicalKTheory carriers; `stableIndCompletion` is the supplied `indCompletion` on a stable
-  category. `finiteSemisimpleIsotypicDecomposition` and
+  `PerfectDerivedInfinity` and `perfectDerivedHom` on the supplied EnhancedDerivedSheaves,
+  BordismFormalGroups F6.5 and TopologicalKTheory carriers; `stableIndCompletion` is the
+  space-valued Ind-completion of a stable category supplied by BordismFormalGroups F6.5
+  (quotient/Ind sub-lane), with EnhancedDerivedSheaves E5:presentability.1's
+  `indCompactComparison`. `finiteSemisimpleIsotypicDecomposition` and
   `stableKHeartComparison` on stable/finite-length category carriers; `hyperbolicSpace`, `orthogonalSum`, `negativeSpace`, `isotropicReduction`, `ExactGW0`,
   `ExactW0`, `rationalFormationParity`, `HermitianQ`, `grothendieckWittSpace` and `hermitianCone`.
 -/
