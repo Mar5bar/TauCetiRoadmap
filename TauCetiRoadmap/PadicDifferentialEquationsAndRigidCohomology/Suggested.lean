@@ -188,6 +188,18 @@ def katzCandidate (D : V → V) (e : ℕ → V) (n : ℕ) (x : K) : V :=
 def CyclicFor (D : V → V) (n : ℕ) (v : V) : Prop :=
   ∃ b : Module.Basis (Fin n) K V, ∀ i, b i = (D^[i.val]) v
 
+/-- The zero operator on a rank-two space has no cyclic vector. -/
+example (v : Fin 2 → ℚ) : ¬ CyclicFor (K := ℚ) (fun _ => 0) 2 v := by
+  rintro ⟨b, hb⟩
+  have h : b (1 : Fin 2) = 0 := by simpa using hb (1 : Fin 2)
+  exact b.ne_zero (1 : Fin 2) h
+
+/-- The empty basis gives cyclicity in rank zero. -/
+example : CyclicFor (K := ℚ) (V := Fin 0 → ℚ) (fun _ => 0) 0 0 := by
+  refine ⟨Pi.basisFun ℚ (Fin 0), ?_⟩
+  intro i
+  exact Fin.elim0 i
+
 /-- The empty candidate tests the finite-sum convention. -/
 example (D : V → V) (e : ℕ → V) (x : K) :
     katzCandidate D e 0 x = 0 := by
@@ -1193,9 +1205,9 @@ section DenominatorBounds
 /-- The exponent `⌊log_p(2m + 1)⌋` of Kedlaya's Lemma 2 (README §RD.7.13 (a)). -/
 def kedlayaNegativeExponent (p m : ℕ) : ℕ := Nat.log p (2 * m + 1)
 
-/-- The exponent `⌊log_p((2g + 1)(2m + 3) − 2)⌋` of the corrected Lemma 3
-(README §RD.7.13 (b); Edixhoven, Lemma 4.3.5). -/
-def kedlayaPositiveExponent (p g m : ℕ) : ℕ := Nat.log p ((2 * g + 1) * (2 * m + 3) - 2)
+/-- The exponent `⌊log_p((2g + 1)(2m + 3))⌋` clearing the normalised positive-power
+reduction and polynomial primitive for input degree at most `2g` (README §RD.7.13 (b)). -/
+def kedlayaPositiveExponent (p g m : ℕ) : ℕ := Nat.log p ((2 * g + 1) * (2 * m + 3))
 
 /-- The exponent `c = ⌊log_p(2g − 1)⌋` bounding the index of the crystalline lattice
 (README §RD.7.15 (2); Edixhoven, Proposition 5.3.1). -/
@@ -1210,6 +1222,39 @@ noncomputable def tuitmanReconstructionPrecision (p g n : ℕ) : ℕ :=
 /-- Unit test: for `Q = x³ + x + 1` and `p = 5`, `m = 0`, the corrected exponent is `1`. -/
 example : kedlayaPositiveExponent 5 1 0 = 1 := by
   decide
+
+/-- The full input degree at `p = 3`, `g = 1`, `m = 0` requires exponent two. -/
+example : kedlayaPositiveExponent 3 1 0 = 2 ∧ Nat.log 3 (3 * 3 - 2) = 1 := by
+  decide
+
+/-- The normalised reduction of `x² y dx` for `Q = x³+x+1` has primitive `F y`. -/
+example :
+    let Q : ℚ[X] := X ^ 3 + X + 1
+    let F : ℚ[X] := C (2 / 9) * X ^ 3 + C (4 / 45) * X + C (2 / 9)
+    let b : ℚ[X] := -C (2 / 15) * X - C (1 / 5)
+    X ^ 2 * Q = b + derivative F * Q + C (1 / 2) * F * derivative Q := by
+  dsimp
+  apply Polynomial.funext
+  intro x
+  norm_num [Polynomial.derivative_add, Polynomial.derivative_mul,
+    Polynomial.derivative_pow, Polynomial.derivative_X, Polynomial.derivative_C,
+    Polynomial.eval_add, Polynomial.eval_sub, Polynomial.eval_mul,
+    Polynomial.eval_pow, Polynomial.eval_C, Polynomial.eval_X]
+  ring
+
+/-- Multiplication by three fails to clear the leading primitive coefficient; nine clears it. -/
+example : ¬ ∃ z : ℤ, (z : ℚ) = 3 * (2 / 9 : ℚ) := by
+  intro ⟨z, hz⟩
+  have h : (3 : ℤ) ∣ 2 := by
+    refine ⟨z, ?_⟩
+    have hq : (2 : ℚ) = 3 * (z : ℚ) := by linarith
+    exact_mod_cast hq
+  norm_num at h
+
+/-- The corrected multiplier clears all coefficients of the primitive and reduced form at three. -/
+example : (9 * (2 / 9 : ℚ) = 2) ∧ (9 * (4 / 45 : ℚ) = 4 / 5) ∧
+    (9 * (-(2 / 15) : ℚ) = -(6 / 5)) ∧ (9 * (-(1 / 5) : ℚ) = -(9 / 5)) := by
+  norm_num
 
 /-- Unit test (non-example for the printed Lemma 3 and the literal errata formula):
 both give the exponent `⌊log_5 1⌋ = 0` here. -/
@@ -1247,6 +1292,8 @@ end RD7
 
 RD.1.3 specifies `katzCandidate_basis_coordinates`, `katzCandidate_jet`,
 `katzCandidate_rank_one` and `katzCandidate_zero_rank` for the cyclic-vector development.
+RD.2.25a specifies `IsCConstant.iff_galois` after the Fontaine–Katz equivalence.
+RD.5.116 specifies `AbelianVariety.zarhin_dim` for the relative dimension and base-change API.
 RD.1.48 specifies `IsRationalType.iff_spectralNorm` and `IsRationalType.parameter_iff`
 for the operator-norm and spectral-norm comparisons.
 RD.5.23 specifies `NearIsomorphism.of_bijective`, `NearIsomorphism.of_finiteDimensional`,
