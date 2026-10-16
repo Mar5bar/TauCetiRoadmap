@@ -299,6 +299,9 @@ when r < N + 1, and d^{N+1}δ₀ shows the threshold is sharp. §4.1 (Banach mod
 §§4.7–4.8 (root projectors and finite projective root kernels), and §4.16 (Banach complexes and
 finite-slope decompositions): complete continuity over a field, Fredholm series, Riesz projectors,
 finite projective slope summands and uniqueness of h-slope decompositions.
+§4.15 (Universal-character coefficient action; Cocycle law and handedness) supplies the generic
+analytic stages, multipliers, transposes and compactness comparisons; §2.2 here identifies its
+left action of Σ₀(p)ᵒᵖ with the right modular-symbol coefficient action.
 
 ### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
 
@@ -495,10 +498,11 @@ representation ρ(γ)v = v|γ⁻¹ the condition reads φ(γD) = ρ(γ)φ(D) ([P
 determined by its values on the unimodular divisors {g0} − {g∞}, g ∈ SL₂(ℤ), which generate Δ₀ (Manin's
 presentation, above). When the orders of the torsion elements of Γ act invertibly on V,
 Symb_Γ(V) ≅ H¹_c(Y_Γ, Ṽ); that comparison is the adapter of §0.6. API: `symbols` (Symb_Γ(V) as an
-additive subgroup, and an R-submodule when V is an R-module, of the maps Δ₀ → V),
+R-submodule of the additive maps Δ₀ → V when V is an R-module with R-linear Γ-action, with its
+additive-subgroup view obtained by forgetting scalars),
 `mem_symbols_iff`, `symbols_ext` (two symbols agreeing on unimodular divisors are equal),
 `symbols_mono` (Γ′ ≤ Γ gives Symb_Γ(V) ⊆ Symb_{Γ′}(V)). *Needs:* Mathlib `Representation`,
-`AddSubgroup`, `Matrix.SpecialLinearGroup.map`, `Matrix.SpecialLinearGroup.toGL`,
+`Submodule`, `Matrix.SpecialLinearGroup.map`, `Matrix.SpecialLinearGroup.toGL`,
 `CongruenceSubgroup.Gamma0`; ModularForms Layer 8 (Δ₀ with its GL₂⁺(ℚ)-action and its generation;
 pinned Tau Ceti `TauCeti.ModularSymbols.degreeZero`, `degreeZeroGLRep`; pinned Tau Ceti
 `TauCeti.augmentationSubrepresentation`). *Lean:* `divisor`, `symbols`, `mem_symbols_iff`, `symbols_ext`, `symbols_SL2Z_trivial`.
@@ -511,6 +515,8 @@ pinned Tau Ceti `TauCeti.ModularSymbols.degreeZero`, `degreeZeroGLRep`; pinned T
 - Symb_{Γ₀(11)}(ℤ) is free of rank 3 = 2g + (c − 1), with genus g = 1 and c = 2 cusps.
 - The zero map is a modular symbol for every Γ and V; and for Γ′ ≤ Γ every Γ-symbol is a
   Γ′-symbol, while the converse fails for Γ₀(11) ≤ SL₂(ℤ) by the two previous Checks.
+- For an R-linear Γ-action, a ∈ R and φ ∈ Symb_Γ(V), the pointwise multiple aφ is a symbol,
+  with (aφ)(D) = aφ(D), using ρ(γ)(av) = aρ(γ)v; the divisor module remains Δ₀ over ℤ.
 
 **Modular symbols as functions on cosets** (lemma). Let {g_j} be right coset representatives of
 Γ\SL₂(ℤ), and for g ∈ SL₂(ℤ) write g = γ_g g_{j(g)} with γ_g ∈ Γ. Then φ ↦ (φ({g_j0} − {g_j∞}))_j is an
@@ -1514,7 +1520,21 @@ Layer 0) and A†(ℤ_p, r) = lim→_{s>r} A[s], and let D[r], D(ℤ_p) and D†
 D = D[1] and D† = D†(ℤ_p, 1). For r < p, the monoid
 Σ₀(p) = {(a b; c d) ∈ M₂(ℤ_p) : p ∤ a, p | c, ad − bc ≠ 0} acts on A[r] by (γ·_kf)(z) = (a + cz)^kf((b + dz)/(a + cz)),
 and on distributions on the right by (μ|_kγ)(f) = μ(γ·_kf), giving D_k(ℤ_p), D_k and D†_k ([PS] §§3.1–3.3,
-pp. 15–17). Moments identify D† with the sequences (μ(z^j))_j that are O(r^j) for every r > 1, and D,
+pp. 15–17).
+
+For the coefficient-action comparison with LocallyAnalyticDistributions §4.15, use
+`Σ₀(p)ᵒᵖ`. For a locally analytic character κ : ℤ_p^× → A^× on stages where its multiplier is
+analytic, put `φ_γ(z) = (b + dz)/(a + cz)`, `j_γ(z) = κ(a + cz)` and
+`F_γg = j_γ · (g ∘ φ_γ)`. The identities `φ_(γδ) = φ_δ ∘ φ_γ` and
+`j_(γδ) = j_γ · (j_δ ∘ φ_γ)` give `F_γ ∘ F_δ = F_(γδ)`.
+Instantiate the supplier with `φ_(op γ) = φ_γ` and `j_(op γ) = j_γ`; then
+`R_(op γ) = F_γ` and `μ |κ γ = U_(op γ)(μ)`, so
+`(μ |κ γ) |κ δ = μ |κ (γδ)`. At `κ(u) = u^k` this is the weight-k action above, and
+`(μ |κ β(a,p))(g) = μ(z ↦ g(a + pz))`. This target owns these right-action comparisons;
+the generic analytic stages, multiplier and transpose maps, coefficient specialisation and
+compactness comparisons are supplied by LocallyAnalyticDistributions §4.15.
+
+Moments identify D† with the sequences (μ(z^j))_j that are O(r^j) for every r > 1, and D,
 isometrically, with the bounded sequences ([PS] Proposition 3.1). For r < p, γ ∈ Σ₀(p) with det γ = p^n and
 μ ∈ D[r], ‖μ|γ‖_{r/p^n} ≤ ‖μ‖_r: for z₀ ∈ ℤ_p and |w| ≤ r the factor a + cz is a unit and
 |γ(z₀ + w) − γz₀| = p^{−n}|w|, so γ maps B[ℤ_p, r] into B[ℤ_p, r/p^n] and f ↦ γ·_kf maps A[r/p^n] into A[r] with norm
@@ -1526,7 +1546,8 @@ smaller radius). API: `distWeight` (D_k(ℤ_p), D_k and D†_k with the right we
 `distMoments` (D ≃ bounded sequences, isometrically), `daggerMoments` (D† ≃ sequences O(r^j) for every
 r > 1), `distWeight_norm_le` (the contraction above). *Needs:* LocallyAnalyticDistributions Layer 0
 §§0.0–0.1 (`discAnalytic`, LA_h, locally analytic distributions, `naInductiveLimit`,
-`naProjectiveLimit`) and §0.3 (Compact restriction to a smaller radius); §0.1 (The Hecke monoid Σ₀(N)). *Lean:* `daggerMoments`,
+`naProjectiveLimit`), §0.3 (Compact restriction to a smaller radius) and §4.15
+(Universal-character coefficient action; Cocycle law and handedness); §0.1 (The Hecke monoid Σ₀(N)). *Lean:* `daggerMoments`,
 `mem_daggerMoments_of_isBounded_range`, `Sigma0p`. The monoid `Sigma0p` uses the actual
 p-adic unit, lower-left divisibility and nonzero-determinant conditions. Its API includes the
 entrywise integral inclusion Σ₀(p) → `Sigma0p p` and compatibility of the coefficient actions.
@@ -1538,6 +1559,10 @@ entrywise integral inclusion Σ₀(p) → `Sigma0p p` and compatibility of the c
 - c_j = 1/(j + 1) is O(r^j) for every r > 1 but unbounded (|1/p^m|_p = p^m), so it defines an element of D† not
   in D; such denominators are why the difference equation of §2.3 needs D† ([PS] Remark 4.6).
 - c_j = p^{−j} is not O(r^j) for 1 < r < p, so it is the moment sequence of no element of D†.
+- At weight zero, `(δ₀ | β(1,p)) | diag(−1,1) = δ_{−1}`, while reversing the two matrices
+  gives `δ₁`; this distinguishes the right action from a left action with unchanged labels.
+- For `κ(u) = u^k`, the opposite-monoid comparison gives `(μ |_k γ)(g) = μ((a + cz)^k g(φ_γ(z)))`.
+- For every κ, `β(a,p)` has multiplier κ(1) = 1, so its transpose evaluates g at a + pz.
 
 - diag(1,p) belongs to `Sigma0p p`, while diag(p,1) does not: the upper-left
   entry must be a p-adic unit.
@@ -1823,7 +1848,8 @@ stages, degreewise (Pr), compact representatives and finite-slope perfect comple
 **Local analytic Hecke charts** (construction). Fix p ∤ N, Γ₀ = Γ₁(N) ∩ Γ₀(p), a finite
 extension K/ℚ_p and a sufficiently small affinoid W in the character space of ℤ_p^×, with
 coordinate algebra A and universal character κ. Use the weight-κ distribution action
-(γ·_κg)(z) = κ(a + cz)g((b + dz)/(a + cz)) on analytic stages where κ(a + cz) is analytic.
+`μ |κ γ = U_(op γ)(μ)` from the §2.2 opposite-monoid adapter, whose function operator is
+(γ·_κg)(z) = κ(a + cz)g((b + dz)/(a + cz)), on analytic stages where κ(a + cz) is analytic.
 Use the preceding projective Banach model, its compact chain representative and its
 coefficient-specialisation comparison. Near a cuspidal refined point impose its proved
 cohomological concentration hypotheses. For an adapted Fredholm factor Q over W, take
@@ -2288,16 +2314,26 @@ are small slope and both L_p(f, α_i, ψ, T) exist. A nonzero power series conve
 has finitely many zeros exactly when its coefficients are bounded (Lazard; [Pollack SS] Lemma 3.2,
 p. 533), and
 L_p(f, α_i, ψ, ζ_{p^n} − 1) = c_n/α_i^{n+1} with c_n independent of α_i (exponent n + 2 for p = 2; Remark 2.12). Hence:
-if h₁ ≠ h₂, at least one of the two has infinitely many zeros, comparing valuations of
-α₁^{n+1}L(α₁) = α₂^{n+1}L(α₂) as n → ∞ ([Pollack SS] §3, Theorem 3.3, p. 533, Mazur's argument). If a_p = 0, then
+if h₁ ≠ h₂, at least one of the two has infinitely many zeros. An identically zero branch already
+has this property. Otherwise, if both had finitely many zeros, both would be nonzero bounded
+series. Weierstrass preparation then gives bounded valuations at ζ_{p^n} − 1 for large n,
+contradicting `α₁^{n+1}L(α₁) = α₂^{n+1}L(α₂)` when h₁ ≠ h₂
+([Pollack SS] §3, Theorem 3.3, pp. 533–534, Mazur's argument). If a_p = 0, then
 h₁ = h₂ = (k + 1)/2 and α₂ = −α₁. With the common period bases, coefficient
 automorphisms fixing K_ψ carry L_p(f, α₁, ψ, T) to L_p(f, α₂, ψ, T) when they exchange the roots:
 this follows from the unique small-slope eigenlifts. Hence
 G⁺_ψ = (L_p(α₁) + L_p(α₂))/2 and G⁻_ψ = (L_p(α₁) − L_p(α₂))/(2α₁) descend to K_ψ⟦T⟧
 (the assertion is immediate if the roots already lie in K_ψ). Write L_p(α₁) = G⁺_ψ + α₁G⁻_ψ. For odd p
-G⁺_ψ vanishes at ζ_{p^{2n}} − 1 and G⁻_ψ at ζ_{p^{2n−1}} − 1 (n ≥ 1), the parities being reversed for p = 2; bounded
-G^± cannot have infinitely many zeros, so one L-function is unbounded and has infinitely many zeros, and
-both do if α₁ ∉ K(ψ) ([Pollack SS] Theorem 3.5, p. 534, Perrin-Riou's argument). For an elliptic curve E/ℚ
+G⁺_ψ vanishes at ζ_{p^{2n}} − 1 and G⁻_ψ at ζ_{p^{2n−1}} − 1 (n ≥ 1), the parities being reversed for p = 2.
+If either refined function is identically zero, it already has infinitely many zeros. If both are
+nonzero and bounded, the alternating zero sets and the nonzero-series criterion force
+`G⁺_ψ = G⁻_ψ = 0`, a contradiction. Thus one refined function has infinitely many zeros in every
+case. The stronger assertion that one is unbounded holds under
+`L_p(α₁) ≠ 0 ∨ L_p(α₂) ≠ 0`: boundedness of both would again force both G-series, hence both
+refined functions, to vanish. If α₁ ∉ K_ψ, coefficient conjugation transfers infinitely many zeros
+to the other refined function, including when one is identically zero; under the same nonzero
+hypothesis both are unbounded ([Pollack SS] Theorem 3.5 and proof, pp. 534–535, Perrin-Riou's argument).
+For an elliptic curve E/ℚ
 with good supersingular reduction at p, one of the two has infinitely many zeros: for p ≥ 5, a_p = 0 because
 p | a_p and a_p² < 4p; for p = 2 or 3 with a_p ≠ 0, α₁/α₂ is a primitive fourth or sixth root of unity, which
 still forces infinitely many zeros ([Pollack SS] Corollary 3.6 and its proof, p. 535). Ordinary p is
@@ -2312,6 +2348,10 @@ excluded: only one root has slope < k + 1. *Needs:* §4.1 (p-adic L-functions wi
   inapplicable, although the functions and their zeros are unchanged.
 - At an ordinary good prime the other slope is k + 1, so the pair of small-slope
   L-functions required by this target is unavailable.
+- In the analytic two-series model, `L₁ = L₂ = G⁺_ψ = G⁻_ψ = 0` satisfies the decomposition,
+  alternating vanishing, coefficient descent and upper growth bounds. Both refined functions
+  have infinitely many zeros and bounded coefficients; the nonzero hypothesis of the
+  unboundedness strengthening fails.
 
 **Pollack's half-logarithms** (construction). For an integer j put
 log⁺_{p,j}(T) = (1/p)·∏_{n≥1}Φ_{2n}(γ^{−j}(1 + T))/p and log⁻_{p,j}(T) = (1/p)·∏_{n≥1}Φ_{2n−1}(γ^{−j}(1 + T))/p, and

@@ -72,16 +72,17 @@ section Symbols
 variable {R V : Type*} [CommRing R] [AddCommGroup V] [Module R V]
 
 /-- **Modular symbols** `Symb_Γ(V) = Hom_{ℤ[Γ]}(Δ₀, V)`: the additive maps `φ : Δ₀ → V` with
-`φ(γ D) = ρ(γ) φ(D)` for `γ ∈ Γ` (Pollack–Stevens §2.1). Belongs to Layer 0, §0.2. -/
+`φ(γ D) = ρ(γ) φ(D)` for `γ ∈ Γ`, as an `R`-submodule under pointwise scalars
+(Pollack–Stevens §2.1). Belongs to Layer 0, §0.2. -/
 def symbols (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V) :
-    AddSubgroup ((degreeZero ℤ) →ₗ[ℤ] V) where
+    Submodule R ((degreeZero ℤ) →ₗ[ℤ] V) where
   carrier := {φ | ∀ (γ : Γ) (D : degreeZero ℤ),
     φ (degreeZeroRep ℤ (γ : SL(2, ℤ)) D) = ρ γ (φ D)}
   add_mem' {a b} ha hb γ D := by
     simp only [LinearMap.add_apply, map_add, ha γ D, hb γ D]
   zero_mem' γ D := by simp
-  neg_mem' {a} ha γ D := by
-    simp only [LinearMap.neg_apply, map_neg, ha γ D]
+  smul_mem' a φ hφ γ D := by
+    simp only [LinearMap.smul_apply, hφ γ D, map_smul]
 
 theorem mem_symbols_iff (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V)
     (φ : (degreeZero ℤ) →ₗ[ℤ] V) :
@@ -100,6 +101,12 @@ theorem symbols_ext (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V)
 /-- The zero map is a modular symbol for every `Γ` and `V`. -/
 example (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V) : (0 : (degreeZero ℤ) →ₗ[ℤ] V) ∈ symbols Γ ρ :=
   (symbols Γ ρ).zero_mem
+
+/-- Scalar multiples of symbols remain symbols and evaluate by pointwise scalar multiplication. -/
+example (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V) (a : R)
+    {φ : (degreeZero ℤ) →ₗ[ℤ] V} (hφ : φ ∈ symbols Γ ρ) :
+    a • φ ∈ symbols Γ ρ ∧ ∀ D, (a • φ) D = a • φ D :=
+  ⟨(symbols Γ ρ).smul_mem a hφ, fun _ ↦ rfl⟩
 
 /-- Level one, trivial coefficients: `Symb_{SL₂(ℤ)}(ℤ) = 0` (the Manin relations give `2v = 0` and
 `3v = 0`). A definition on all of `ℤ[P¹(ℚ)]` would contain the constant functions instead. -/
@@ -694,6 +701,12 @@ the tame level and distinct Hecke roots. -/
 /-! ## Layer 4: tame twists, supersingular primes, comparisons and examples -/
 
 section Supersingular
+
+/-- The zero series has bounded coefficients, and the zero function vanishes on the infinite
+open unit disc. -/
+example (p : ℕ) [Fact p.Prime] :
+    Bornology.IsBounded (Set.range fun n ↦ PowerSeries.coeff n (0 : PowerSeries ℚ_[p])) ∧
+      Set.Infinite {T : ℚ_[p] | ‖T‖ < 1 ∧ (0 : ℚ_[p] → ℚ_[p]) T = 0} := sorry
 
 -- The cyclotomic factors and their value at one are supplied by Mathlib.
 #check Polynomial.cyclotomic_prime_pow_eq_geom_sum
