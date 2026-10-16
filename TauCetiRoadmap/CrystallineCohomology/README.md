@@ -179,13 +179,29 @@ no exchange with a limit is used without its stated boundedness hypotheses.
 **Divided powers.** A PD ring is a triple `(A, I, γ)`: a commutative ring `A`, an ideal `I` and
 Mathlib's `DividedPowers I`. The operations `γ_n` are total functions `A → A` that vanish outside
 `I` in every degree, including degree 0, with `γ₀ = 1` and `γ₁ = id` on `I`. The multiplication
-identity has coefficient `choose(m + n, m)`, and the iteration identity is
-`γ_m(γ_n(x)) = uniformBell(m, n)·γ_{mn}(x)` with the integer `uniformBell(m, n) = (mn)!/(m!(n!)^m)`
-formed in `ℤ` and then mapped to `A`; no operation is defined by dividing by a factorial in a ring
-with torsion. A PD morphism is Mathlib's `DividedPowers.IsDPMorphism`. The canonical divided powers
-on `(p)` in a `ℤ_(p)`-algebra are `γ_n(pa) = c_n aⁿ`, with `c_n` the image of `pⁿ/n! ∈ pℤ_(p)`;
-`p = 2` is included. Compatibility of divided powers with a base is Stacks Definition 60.4.1:
-there is a divided power structure on `J + IB` extending both.
+identity has coefficient `choose(m + n, m)` for `x ∈ I` and `m, n ≥ 0`. The iteration identity is
+`γ_m(γ_n(x)) = uniformBell(m, n)·γ_{mn}(x)` for `x ∈ I`, `m ≥ 0` and `n ≥ 1`, as in Mathlib's
+`DividedPowers.dpow_comp`. For these indices, the natural number `uniformBell(m, n)` equals
+`(mn)!/(m!(n!)^m)` and is then mapped to `A`; no operation is defined by dividing by a factorial
+in a ring with torsion. The degree-zero rule remains `γ₀(x) = 1` on `I`, without asserting that
+`γ₀(x) ∈ I`. A PD morphism is Mathlib's `DividedPowers.IsDPMorphism`. For a prime `p`, the canonical
+divided powers on `(p)` in a `ℤ_(p)`-algebra are `γ_n(pa) = c_n aⁿ` for all `n ≥ 0`, where `c₀ = 1`
+and, for `n ≥ 1`, `c_n` is the image of `pⁿ/n! ∈ pℤ_(p)`; `p = 2` is included. These are Stacks
+Definition 23.2.1 (tag [07GL](https://stacks.math.columbia.edu/tag/07GL)) and Example 23.2.3
+(tag [07GN](https://stacks.math.columbia.edu/tag/07GN)), with Mathlib's totalization. Compatibility
+of divided powers with a base is Stacks Definition 60.4.1: there is a divided power structure on
+`J + IB` extending both.
+
+**Checks.**
+
+- For `A = ℤ`, `I = (0)` and `dividedPowersBot`, `γ₀(γ₀(0)) = γ₀(1) = 0`, whereas
+  `uniformBell(0, 0)·γ₀(0) = 1`. Thus iteration cannot include inner index zero.
+- For `x ∈ I`, `m = 0` and `n ≥ 1`, both sides of iteration are `1`, since `γ_n(x) ∈ I`.
+  For `n = 1`, iteration reduces to `γ_m(x) = γ_m(x)` for every `m ≥ 0`.
+- At `m = 2`, `n = 0`, the rational factorial expression is `1/2`, while Mathlib's
+  `uniformBell(2, 0) = 1`; the factorial formula requires positive inner index too.
+- In `ℤ_(2)`, `c₀ = 1 ∉ 2ℤ_(2)` and `c₁ = c₂ = 2 ∈ 2ℤ_(2)`; after passage to `ℤ/4`,
+  `γ₀(2) = 1` and `γ₂(2) = 2`.
 
 **Envelopes and filtrations.** `D_{B,γ}(J)` is the divided power envelope of an ideal `J ⊇ IB` of
 an `A`-algebra `B` relative to `(A, I, γ)`, with divided power ideal `J̄`;

@@ -16,8 +16,10 @@ of rings, Hyodo–Kato complexes) are README targets; the closing comment lists 
 
 Design choices made explicit here:
 - Divided powers are Mathlib's `DividedPowers`: total operations that vanish outside the ideal,
-  with integer coefficients `choose` and `uniformBell`. Divided power morphisms are Mathlib's
-  `DividedPowers.IsDPMorphism`.
+  including in degree zero. On the ideal, `γ₀(x) = 1`; iteration uses `x ∈ I` and positive inner
+  index `n`, with coefficient `uniformBell m n` and arbitrary outer index `m`. The canonical
+  coefficients on `(p)` have `c₀ = 1` and `c_n = pⁿ/n! ∈ pℤ_(p)` for `n ≥ 1`, mapped to the
+  algebra. Divided power morphisms are Mathlib's `DividedPowers.IsDPMorphism`.
 - A Dieudonné complex is a cochain complex of abelian groups (`ModuleCat ℤ`, indexed by `ℤ`) with
   a graded endomorphism `F` satisfying `d ∘ F = p • (F ∘ d)`; `F` is not a map of complexes.
 - Monoids for log structures are written multiplicatively, as in rings; fine means cancellative
