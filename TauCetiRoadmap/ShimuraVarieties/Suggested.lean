@@ -393,6 +393,15 @@ TauCeti.Shimura.abelian_absolute_hodge,
 TauCeti.Shimura.hodge_tensor_moduli_conjugation,
 TauCeti.Shimura.broader_pure_canonical.
 
+Section 7.0b constructs TaniyamaExtension from the relative/global Weil carriers of
+GL2AutomorphicRepresentationsAndTransfer Section R17.5.0, with their projections,
+fundamental classes, transitions and transfer/reciprocity comparisons. The local
+Serre-torus pushouts preserve these data; the Serre protorus, proalgebraic extension,
+finite-adelic section and marked torsors are the Shimura constructions.
+Section 5.0's siegel_moduli_uniformization compares AA.5.2's analytic components
+with ModularCurvesPartII Section 3.14's algebraic-curve uniformization, preserving
+ordered bases and pairing values; Sections 8.9–8.13 give its arithmetic comparisons.
+
 Sections 7.0i–7.0j use the suppliers' abelian-family and realization carriers.
 For any complex abelian variety, abelian_absolute_hodge transports every rational
 (0,0) tensor in degree-one cohomology, its dual and Tate twists under every field
