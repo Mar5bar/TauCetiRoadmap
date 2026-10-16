@@ -115,13 +115,11 @@ target says so, and are otherwise outside it. Comparisons with étale, prismatic
   identities (§§4.1–4.3). The supplier order is PadicPeriodRings, DerivedDeRhamCohomology, then
   CrystallineCohomology. DerivedDeRhamCohomology §PD.7 identifies its general envelope at `O_C`
   with the supplied principal envelope; CR.5.5 places the log structure on that shared carrier.
-- **CommRingFactorizationSystems**
-  ([specification](https://github.com/TauCetiProject/TauCetiRoadmap/blob/391c0775f4aa002ae9ce277fadba0663be843f3c/TauCetiRoadmap/CommRingFactorizationSystems/README.md#milestone-f--weak-normalization-and-seminormalization))
-  owns the generic seminormality predicate (F1), universal homeomorphisms with residue-field
-  isomorphisms (F2), and the seminormal reflection with its unit and universal property (F4).
-  F5–F6 supply square/cube adjunctions and identify the subintegral maps and the reflection's
-  unit. CR.4.6 uses these same predicates and carriers for the saturated de Rham–Witt
-  degree-zero identification and the cusp comparison.
+- **DiamondsAndVStacks** D6.9 owns ring seminormality, subintegral ring maps and the
+  seminormal reflection with its subintegral unit, universal property and restriction
+  compatibility. CR.4.5–CR.4.6 use its public ring-level interface in namespace
+  `DiamondsAndVStacks` for the saturated de Rham–Witt residue, degree-zero identification
+  and cusp comparison; the generic ring theory is supplied there.
 - **EnhancedDerivedSheaves**
   ([specification](https://github.com/TauCetiProject/TauCetiRoadmap/blob/03046909/TauCetiRoadmap/EnhancedDerivedSheaves/README.md))
   owns the enhanced derived categories of sheaves, derived tensor products and internal Hom,
@@ -440,11 +438,13 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
   The period objects and `d log` are their supplied specializations, including p=2 and arbitrary
   perfect residue fields, naturally for Galois actions and valued embeddings. Generic prelog
   data are supplied by §6.20 independently of this roadmap's geometric log structures.
-- **CommRingFactorizationSystems**: F1 (`IsSeminormalRing`, its reducedness instance and
-  normal-domain theorem); F2 (universal homeomorphisms and residue-field isomorphisms);
-  F4 (the shared seminormal reflection, unit and universal property); F5–F6 (square/cube
-  adjunctions, their subintegral characterization and the subintegral unit). Only these
-  ring-theoretic interfaces are consumed.
+- **DiamondsAndVStacks** D6.9: `IsSeminormalRing` (unique square/cube roots),
+  `IsSubintegral` (ring maps), `subintegral_lift` (unique extension to seminormal targets),
+  `subintegral_bijective_of_seminormal` (a subintegral map from a seminormal ring to a reduced
+  ring is bijective), `snRing`, `snMap : R →+* snRing R` (the subintegral unit),
+  `snRing_seminormal`, `sn_lift` (the reflection property) and `sn_compare` (uniqueness of
+  the reflection). All these names are in namespace `DiamondsAndVStacks`; the de Rham–Witt
+  applications use these same predicates, carriers and unit.
 - **PadicPeriodRings**: §2 (`PadicFieldCompletion`, the completed algebraic closure of a complete
   discretely valued mixed-characteristic field with perfect residue field); §3
   (`periodPDEnvelope`, its ordinary p-adic completion, `θ_cris`, logarithm and functorial maps);
@@ -5204,8 +5204,9 @@ The API:
 - `Crystalline.satDRW_degree0_F`: The isomorphism WsatΩ_R⁰≅W(S_R) carries F and V of WsatΩ_R⁰ to the
   Witt vector Frobenius and Verschiebung of W(S_R).
 - `Crystalline.satDRW_unit`: e_R:R→S_R, the unit of the adjunction; e_R factors through R_red.
-- `Crystalline.satDRW_residue_seminormal`: S_R is reduced, and for x, y∈S_R with x²=y³ there is
-  t∈S_R with x=t³ and y=t² (BLM Lemma 3.6.1, Proposition 6.5.1).
+- `Crystalline.satDRW_residue_seminormal`: `DiamondsAndVStacks.IsSeminormalRing S_R`;
+  thus S_R is reduced and x³=y² has a unique root t with x=t² and y=t³
+  (BLM Lemma 3.6.1, Proposition 6.5.1; DiamondsAndVStacks D6.9).
 - `Crystalline.satDRW_red`: WsatΩ_R→WsatΩ_(R_red) is an isomorphism of strict Dieudonné algebras
   (BLM Warning 4.1.3).
 - `Crystalline.satDRW_ofLift`: For a p-torsion-free ring B with an endomorphism φ lifting Frobenius:
@@ -5238,8 +5239,9 @@ arXiv v3, §3.6 (Lemma 3.6.1, Propositions 3.6.2, 3.6.3, Lemma 3.6.4), §4.1 (De
 Warning 4.1.3, Proposition 4.1.4, Corollary 4.1.5), §4.2 (Proposition 4.2.1, Corollary 4.2.3),
 pp.38–45; [Bhatt–Lurie–Mathew, *Revisiting the de Rham–Witt
 complex*](https://arxiv.org/abs/1805.05501v3), arXiv v3, §6.1 Proposition 6.1.2, §6.2 Proposition
-6.2.1, §6.3 Proposition 6.3.1, §6.5 Proposition 6.5.1, pp.70–74.) *Needs:* *Dieudonné algebras and
-multiplicative quotients*; *Strict completion and its adjunction*; DerivedDeRhamCohomology Layer 2
+6.2.1, §6.3 Proposition 6.3.1, §6.5 Proposition 6.5.1, pp.70–74.) *Needs:* DiamondsAndVStacks
+D6.9 (`IsSeminormalRing`); *Dieudonné algebras and multiplicative quotients*; *Strict completion
+and its adjunction*; DerivedDeRhamCohomology Layer 2
 (§2.12 *The ordinary algebraic de Rham complex*); DerivedDeRhamCohomology Layer 2 (§2.21 *The
 universal differential graded algebra*); *Witt lifting from a torsion-free Frobenius lift*;
 *Frobenius lifting after a divided differential*; Mathlib `WittVector`; Mathlib
@@ -6105,18 +6107,19 @@ multiplicative quotients*; SchemeAndStackFoundations §0.15 (`popescu_desingular
 - Outside the regular case γ is not an isomorphism: for R=F_p[ε]/ε², [ε]≠0 in W_rΩ⁰_R=W_r(R) while
   WsatΩ_R=Z_p; for the cusp R=F_p[t²,t³], W_1Ω²_R=Ω²_R≠0 while WsatΩ²_R=0 (BLM Proposition 6.3.1).
 
-The generic ring-theoretic interface is supplied by CommRingFactorizationSystems F1–F2,
-F4–F6. Use its `IsSeminormalRing`, with convention `x³ = y²`, `x = t²`, `y = t³` and a unique
-root, and its reducedness instance and normal-domain theorem. In the notation of
-`CommRingCat.WeakNormalization`, use `univHomeo f ∧ residueIso f` for subintegrality,
-`snRing R` for `R^sn`, and `snMap R` for its unit; the underlying ring map is `(snMap R).hom`.
-Use F4's `sn_lift` and F6's subintegrality of this unit. These are the shared public
-predicate, morphism properties and reflection. For an `F_p`-algebra `R`, the structure map
-of `R^sn` is the composite `F_p → R → R^sn`.
+The generic ring-theoretic interface is supplied by DiamondsAndVStacks D6.9, in namespace
+`DiamondsAndVStacks`. Use `IsSeminormalRing`, with convention `x³ = y²`, `x = t²`, `y = t³`
+and a unique root (Stacks 0EUL), and `IsSubintegral` for ring maps inducing a universal
+homeomorphism and residue-field isomorphisms. Use `snRing R` for `R^sn` and
+`snMap R : R →+* snRing R` for its subintegral unit. The supplied `snRing_seminormal`,
+`sn_lift` and `sn_compare` give seminormality, the reflection property and its uniqueness;
+`subintegral_lift` and `subintegral_bijective_of_seminormal` supply extension and rigidity
+for subintegral maps. For an `F_p`-algebra `R`, the structure map of `R^sn` is the composite
+`F_p → R → R^sn`.
 
 **Degree zero of the saturated complex and seminormalisation.** For every commutative
 F_p-algebra R, identify S_R=WsatΩ_R⁰/V WsatΩ_R⁰ with the supplied seminormal reflection `R^sn` by an
-`F_p`-algebra isomorphism carrying `e_R : R → S_R` to `(snMap R).hom`.
+`F_p`-algebra isomorphism carrying `e_R : R → S_R` to `DiamondsAndVStacks.snMap R`.
 
 Consequently e_R is an isomorphism if and only if R is seminormal; a homomorphism R→R′ inducing an
 isomorphism of seminormalisations induces an isomorphism WsatΩ_R≅WsatΩ_(R′); and the adjunction
@@ -6142,13 +6145,11 @@ regular, hence filtered colimits of smooth F_p-algebras. It follows that R→Ψ(
 Corollary 6.6.6, Propositions 6.6.7, 6.6.8, Corollary 6.6.9). For seminormal R the map R→Ψ(R) is
 therefore injective and integral, and the bijections on k-points for every field k give both a
 universal homeomorphism and isomorphisms on residue fields. Thus the map is subintegral and
-Ψ(R) is reduced. The square/cube adjunction description of subintegral extensions
-(CommRingFactorizationSystems F5–F6; Stacks 0CND) makes this map surjective: at each step the
-adjoined element has its square and cube in the preceding ring, so seminormality supplies a
-root in R and reducedness of Ψ(R) identifies the two roots. Its kernel is nil and R is reduced,
-so the map is also injective. This is the rigidity criterion of Stacks 0H3G and gives R=Ψ(R)
-(BLM, proof of Theorem 6.5.3). This also gives the comparison for arbitrary R by the replacement
-R→R^sn above and its universal property;
+Ψ(R) is reduced. Apply DiamondsAndVStacks D6.9's `subintegral_bijective_of_seminormal`
+with the seminormal source R and reduced target Ψ(R). This is the rigidity criterion of
+Stacks 0H3G and gives R=Ψ(R) (BLM, proof of Theorem 6.5.3). For arbitrary R, replacement
+R→R^sn above, `snRing_seminormal` and `sn_compare` identify Ψ(R) with the supplied reflection
+compatibly with its unit;
 the restricted Dieudonné equivalence follows from the unit and counit (BLM Remark 6.5.4).
 Popescu's theorem for discrete valuation rings of characteristic p
 (Bhatt–Lurie–Mathew, Proposition 6.6.8) is part of the local comparison target.
@@ -6156,22 +6157,26 @@ Popescu's theorem for discrete valuation rings of characteristic p
 arXiv v3, §6.5, Proposition 6.5.1, Corollary 6.5.2, Theorem 6.5.3, Remark 6.5.4, pp.74–75; §6.6
 (Notation 6.6.1 to the proof of Theorem 6.5.3), pp.76–78.) *Needs:* *Universal saturated de
 Rham–Witt complex*; *Classical and saturated de Rham–Witt comparison*;
-CommRingFactorizationSystems F1–F2, F4–F6 (the shared seminormality, subintegral maps,
-reflection and square/cube adjunctions; Stacks [0EUL](https://stacks.math.columbia.edu/tag/0EUL),
-[0CND](https://stacks.math.columbia.edu/tag/0CND),
+DiamondsAndVStacks D6.9 (`IsSeminormalRing`, `IsSubintegral`, `subintegral_lift`,
+`subintegral_bijective_of_seminormal`, `snRing`, `snMap`, `snRing_seminormal`, `sn_lift`,
+`sn_compare`; Stacks [0EUL](https://stacks.math.columbia.edu/tag/0EUL),
 [0EUR](https://stacks.math.columbia.edu/tag/0EUR),
 [0H3G](https://stacks.math.columbia.edu/tag/0H3G)).
 
 The local comparison includes `Crystalline.cuspSeminormalComparison`: for every prime p, the
-`F_p`-algebra isomorphism `snRing(F_p[t²,t³]) ≅ F_p[t]` carrying the underlying map of
-`snMap` to the inclusion.
+`F_p`-algebra isomorphism `DiamondsAndVStacks.snRing(F_p[t²,t³]) ≅ F_p[t]` carrying
+`DiamondsAndVStacks.snMap` to the inclusion.
 Identify `F_p[X,Y]/(Y²−X³)` with the subring `F_p[t²,t³]` by `X ↦ t²`, `Y ↦ t³`:
 its monomials reduce uniquely to `X^a` and `X^aY`, whose images have distinct exponents in t.
-The inclusion into F_p[t] is a single square/cube adjunction, since t² and t³ lie in the
-subring. CommRingFactorizationSystems F5–F6 make it subintegral, and its F1 normal-domain
-theorem makes F_p[t] seminormal. F4's reflection property and F6's characterization identify
-the supplied reflection with F_p[t] by a unique isomorphism compatible with the inclusion,
-as in Stacks Lemma 29.48.6 (tag 0EUR).
+The inclusion into F_p[t] is integral, since t satisfies a monic quadratic over the
+subring. For every field k, a cusp point `(x,y)` with `x³=y²` has the unique parameter
+`a=y/x` when `x≠0` and `a=0` when `x=0`. Thus the inclusion induces a bijection on
+k-valued points for every field k and is subintegral, in the supplied `IsSubintegral`
+sense. The normal domain F_p[t] is seminormal: for `x≠0` the fraction `y/x` with square x
+and cube y is integral and belongs to F_p[t]; the zero case and uniqueness use reducedness.
+The supplied `subintegral_lift` makes this inclusion a reflection into seminormal rings;
+`sn_compare` identifies it with `snMap`, compatibly with the inclusion (Stacks 0EUR).
+This argument applies in characteristics 2 and 3 without division by either prime.
 
 **Checks.**
 

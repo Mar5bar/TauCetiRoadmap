@@ -454,10 +454,16 @@ Crystalline.satDRW_degree0_F; Crystalline.satDRW_unit; Crystalline.satDRW_residu
 Crystalline.satDRW_red; Crystalline.satDRW_ofLift.
 
 CR.4.6 The classical and the relative de Rham–Witt complex:
-The seminormality predicate and reflection are those supplied by CommRingFactorizationSystems
-F1–F2, F4–F6: IsSeminormalRing and CommRingCat.WeakNormalization's univHomeo, residueIso,
-snRing, snMap and sn_lift. The degree-zero identification and cuspSeminormalComparison use
-these shared carriers and unit.
+DiamondsAndVStacks D6.9 supplies the ring-level interface, in namespace DiamondsAndVStacks:
+IsSeminormalRing (unique square/cube roots, Stacks 0EUL), IsSubintegral (ring maps),
+subintegral_lift, subintegral_bijective_of_seminormal, snRing, snMap : R →+* snRing R,
+snRing_seminormal, sn_lift and sn_compare. Crystalline.satDRW_residue_seminormal provides
+IsSeminormalRing S_R. The degree-zero identification S_R ≃ snRing R and
+Crystalline.cuspSeminormalComparison use these shared carriers and ring-map unit.
+Rigidity uses a seminormal source and a reduced target. The cusp comparison identifies
+snRing (F_p[t²,t³]) with F_p[t] compatibly with snMap, for every prime including 2 and 3.
+The dual-number and purely inseparable field Checks distinguish the reflection from reduction
+alone and from universal homeomorphisms with nontrivial residue-field extensions.
 Structural properties of the classical complex on smooth F_p-algebras:
 Crystalline.classicalDRW_injective; Crystalline.classicalDRW_saturated;
 Crystalline.classicalDRW_restriction_kernel; Crystalline.classicalDRW_strict;
