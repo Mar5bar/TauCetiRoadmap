@@ -93,7 +93,11 @@ representation carrier, its isomorphisms, rank-one characters and coefficient ex
 compact-closure criterion for stable lattices, and integral models with continuous restricted
 action, generic-fibre, homothety, saturation, duality and commensurability API. Its §F.3a owns
 the henselian-trait/local-field tame-character comparison and its restriction and conjugation laws.
-Layers 1 and 2 consume these shared interfaces.
+Layers 1 and 2 consume these shared interfaces. PadicMeasuresIwasawaAlgebras §5.1 owns the
+ring-level determinant line and its endomorphism maps for every finite projective module;
+EtaleCohomologyFoundations §F.10.3 owns their scalar realization through `End(det M) ≅ A`.
+Section 1.1 uses that scalar for determinant characters and proves the arithmetic continuity
+and representation-operation comparisons.
 
 It leaves to named suppliers, and never rebuilds: the Krull topology, the separable closure and the
 Galois correspondence (Mathlib); finite-group representation theory, induction and restriction,
@@ -192,8 +196,10 @@ introduces no second local cyclotomic character.
   operator; Mathlib's `ContRepresentation` asks only for the latter. Witness: the character
   `a ↦ (1+ℓ)^a` of `ℤ_ℓ` on `ℚ_ℓ` with the discrete topology is a `ContRepresentation` whose kernel
   `{0}` is not open, so it is not jointly continuous.
-- Determinants of representations on projective modules are defined through the top exterior power,
-  never through `LinearMap.det`, which is `1` on a module without a finite basis; on the zero module
+- Determinants of representations on projective modules use EtaleCohomologyFoundations §F.10.3's
+  scalar of the determinant-line action, on PadicMeasuresIwasawaAlgebras §5.1's rank-decomposed
+  invertible line. At constant rank this is the top exterior-power action. The raw
+  `LinearMap.det` is `1` on a module without a finite basis; on the zero module
   the determinant is the trivial character, and on `ℤ_ℓ(1)` it is `χ_ℓ`. The statements of
   `Suggested.lean` that need a determinant are made on free carriers, where the two agree.
 - Frobenius is **arithmetic** unless the name says `Geom`. A Frobenius lift at a finite place `v` is
@@ -429,6 +435,19 @@ The matrix descriptions of the Lie algebras of `GSp` and `GO`, the reductivity c
 groups and the classification of irreducible connected reductive subgroups of `GL₂` are §§7.3 and 7.6
 here.
 
+### From `PadicMeasuresIwasawaAlgebras` and the scalar determinant supplier
+
+PadicMeasuresIwasawaAlgebras §5.1, *Line modules and top exterior powers*, supplies
+`projectiveDeterminant`, `projectiveDeterminantMap`, their identity, composition and arbitrary
+base-change laws, the clopen rank decomposition, invertibility and constant-rank top
+exterior-power comparison. EtaleCohomologyFoundations §F.10.3 supplies the scalar of
+`projectiveDeterminantMap u` through `End(det M) ≅ A` for every finite projective `M`, and its
+finite-free comparison. Section 1.1 evaluates this same scalar on representation operators;
+its complement and split-retract formulas compare with this supplied scalar, rather than
+specifying another determinant. IntegralHeckeAndGaloisDeterminants §0.6, *Determinant of a finite
+projective representation*, supplies the polynomial-law enhancement at constant rank; the
+value on each operator is the scalar of the same exterior-power action.
+
 ### From `IntegralHeckeAndGaloisDeterminants` and `ReductiveGroupsPartII`
 
 IntegralHeckeAndGaloisDeterminants Layer 0: polynomial laws and determinants on an algebra
@@ -609,15 +628,12 @@ and a commutative `A`-algebra `B`, this identifies `B ⊗_A ⋀^r_A M` with
 `⋀^r_B (B ⊗_A M)` without flatness. Using this comparison, prove that `⋀^r_A M` is
 finitely generated projective when `M` is; and that `M` of
 constant rank `n` gives `⋀^r M` of constant rank `binom(n, r)` (one for `r = n`, zero for `r > n`).
-Prove that a finitely generated projective `L` of constant rank one is `Module.Invertible A L`, so
-`A ≅ End_A(L)` and `Aut(L) = A^×` (this fails for `A × A` with a module of rank `(1, 0)`). Prove that
-for `M` finite projective with a finite free complement `M ⊕ N`, `det_M(u) := LinearMap.det (u ⊕ id_N)`
-is independent of `N` and of the basis, multiplicative, compatible with base change, a unit iff `u`
-is bijective, equal to the scalar by which `⋀^r u` acts on `⋀^r M` in constant rank `r`, equal to
-`LinearMap.det u` for free `M`, and equal to `det(e ∘ u ∘ s + 1 − e ∘ s)` for a splitting
-`s ∘ e = id_M`, `e : M → A^n` (DDT, §2.1, p. 52). *Needs:* Mathlib
-`exteriorPower.alternatingMapLinearEquiv`, `Module.rankAtStalk_eq_finrank_tensorProduct`,
-`Module.Invertible`; the supplied exterior-power comparison.
+Use PadicMeasuresIwasawaAlgebras §5.1's invertible determinant line, its constant-rank
+identification with the top exterior power, and its arbitrary base-change comparison;
+EtaleCohomologyFoundations §F.10.3 supplies the scalar endomorphism realization
+(Stacks, §15.120, tag 0FJ9; DDT, §2.1, p. 52). *Needs:* Mathlib
+`exteriorPower.alternatingMapLinearEquiv`, `Module.rankAtStalk_eq_finrank_tensorProduct`;
+the supplied exterior-power comparison and the determinant suppliers above.
 
 **Checks.**
 - For `A = ℤ`, `B = ℤ/2` and `M = ℤ²`, the comparison takes `1 ⊗ (e₁ ∧ e₂)` to
@@ -627,13 +643,37 @@ is bijective, equal to the scalar by which `⋀^r u` acts on `⋀^r M` in consta
 - Over `A = k × k`, the projective module `k × 0` has ranks `(1,0)` and is not invertible;
   constant rank one is needed for the scalar description of its automorphisms.
 
-**The determinant character.** Define `ContinuousRep.det ρ : Γ →* Aˣ` for a carrier of constant rank
-`r` as the action on the invertible module `⋀^r_A M`; it is continuous and equals `LinearMap.det ∘ ρ`
-for a free carrier. Its API is `det_eq_linearMap_det`, continuity, the value `1` on the zero
-module, the product formula for direct sums, `det(M ⊗ N) = (det M)^{rank N} (det N)^{rank M}`,
-`det(M(χ)) = det M · χ^{rank M}`, `det(M^∨) = (det M)⁻¹` and compatibility with restriction and base
-change (DDT, §2.1, p. 52). *Needs:* the statements on exterior powers above. On free carriers the
-statements of `Suggested.lean` use `LinearMap.det (ρ g)` directly.
+**The determinant character.** Define `ContinuousRep.det ρ : Γ →* Aˣ` by evaluating
+EtaleCohomologyFoundations §F.10.3's scalar determinant on `ρ(g)` for every finite projective
+carrier `M`, including varying rank. The scalar is a unit because `ρ(g)` is invertible. Prove
+continuity and identify it with the action on PadicMeasuresIwasawaAlgebras §5.1's invertible
+`projectiveDeterminant A M`; at constant rank `r` this is the action on `⋀^r_A M`.
+For any `u : End_A(M)` and finite projective complement `N` with `M ⊕ N` finite free, prove
+that the supplied scalar of `u` is `LinearMap.det (u ⊕ id_N)`; hence the free-complement
+expression is independent of the complement and basis, and the scalar is a unit exactly when
+`u` is bijective. For a splitting `s ∘ e = id_M`, `e : M → A^n`, prove that it also equals
+`det(e ∘ u ∘ s + 1 − e ∘ s)`. Apply these comparisons to `u = ρ(g)`.
+Its arithmetic API is `det_eq_linearMap_det` on free carriers, continuity, the value `1` on the zero
+module, the product formula for direct sums, `det(M ⊗ N) = (det M)^{rank N} (det N)^{rank M}`
+when `M,N` have constant ranks, `det(M(χ)) = det M · χ^{rank M}` when `M` has constant rank,
+`det(M^∨) = (det M)⁻¹` and compatibility with restriction and every continuous coefficient
+change; the underlying scalar determinant commutes with arbitrary ring base change
+(DDT, §2.1, p. 52; Stacks, §15.120, tag 0FJ9).
+*Needs:* PadicMeasuresIwasawaAlgebras §5.1; EtaleCohomologyFoundations §F.10.3;
+the exterior-power comparison above and §F.4.0's coefficient extension.
+On free carriers the statements of `Suggested.lean` use `LinearMap.det (ρ g)` directly.
+
+**Checks.**
+- For `A = ℚ × ℚ`, `M = (1,0)A` and `u` multiplication by `2` on `M`, the supplied scalar,
+  determinant-line action and free-complement formula all give `(2,1)`.
+  Here `N = (0,1)A` and `M ⊕ N ≅ A`, so the
+  completed operator is multiplication by `(2,1)`. The raw `LinearMap.det` on `M` gives `1`.
+- On the zero representation the determinant character is `1`; its determinant line is `A`
+  with trivial action, including over a ring with several connected components.
+- For rank-one characters `χ, ψ`, the determinant of their direct sum is `χψ`; for the
+  cyclotomic character it is `χ_ℓ`, rather than `χ_ℓ⁻¹`.
+- After the nonflat coefficient change `ℤ → ℤ/2`, the determinant of the generator acting by
+  `−1` on the sign representation becomes `1`, as does the scalar of its base-changed line.
 
 ### 1.2 Frames, coefficient extension, operations, Tate twists
 

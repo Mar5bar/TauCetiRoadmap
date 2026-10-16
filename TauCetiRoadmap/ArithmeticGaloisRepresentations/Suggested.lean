@@ -32,9 +32,12 @@ Design choices made explicit here.
 * EtaleCohomologyFoundations §F.3a owns the henselian-trait/local-field tame-character
   comparison and its conjugation/restriction laws. Section 2.1a transports it to chosen
   global decomposition groups.
-* The determinant character of a representation on a finite projective carrier is a README target
-  (§1.1); the statements below that need it are made on free carriers, where it is
-  `LinearMap.det ∘ ρ`.
+* PadicMeasuresIwasawaAlgebras §5.1 owns the rank-decomposed invertible determinant line
+  and its endomorphism maps; EtaleCohomologyFoundations §F.10.3 owns their scalar realization.
+  Section 1.1 evaluates this scalar on representation operators, proves continuity and the
+  representation-operation comparisons, and identifies the free-complement and split-retract
+  formulas with it. The statements below that need a determinant use free carriers, where
+  the supplied scalar is `LinearMap.det ∘ ρ`.
 * Frobenius is arithmetic: Tau Ceti's `TauCeti.IsArithFrobeniusLift` locally, Mathlib's
   `AlgHom.IsArithFrobAt` on the integral closure of `𝓞 F` in `F̄` globally
   (`GaloisRep.IsArithFrobAtIntegralPrime`). The local inertia and wild inertia subgroups are Tau
