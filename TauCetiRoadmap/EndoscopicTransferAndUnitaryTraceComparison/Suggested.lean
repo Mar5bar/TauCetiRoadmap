@@ -122,6 +122,11 @@ theorem chevalleyMap_conj (X : Matrix (Fin n) (Fin n) K)
 example (c : K) : chevalleyMap (fun _ _ : Fin 1 => c) 0 = -c := by
   sorry
 
+/-- In dimension two the constant-first vector is determinant followed by minus trace. -/
+example (X : Matrix (Fin 2) (Fin 2) K) :
+    chevalleyMap X = ![X.det, -X.trace] := by
+  sorry
+
 /-- The zero-dimensional characteristic map has an empty coefficient vector. -/
 example (X : Matrix (Fin 0) (Fin 0) K) : chevalleyMap X = Fin.elim0 := by
   funext i
@@ -130,6 +135,11 @@ example (X : Matrix (Fin 0) (Fin 0) K) : chevalleyMap X = Fin.elim0 := by
 /-- In rank one the companion entry is minus the prescribed constant coefficient. -/
 example (a : Fin 1 → K) : kostantSectionGL a = fun _ _ => -a 0 := by
   sorry
+
+/-- The quadratic companion uses minus both coefficients in its last column. -/
+example (a : Fin 2 → K) : kostantSectionGL a = !![0, -a 0; 1, -a 1] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [kostantSectionGL]
 
 /-- For X² the companion is nonzero nilpotent, fixing the subdiagonal orientation. -/
 example : kostantSectionGL (0 : Fin 2 → K) = !![0, 0; 1, 0] := by
@@ -151,6 +161,10 @@ Its group interpretation requires d>0 and a nonempty list of positive sizes. -/
 def unitaryComponentCount (d : ℕ) (blocks : List ℕ) : ℕ :=
   if Even d ∨ ∀ i ∈ blocks, Even i then 2 ^ blocks.length else 2 ^ (blocks.length - 1)
 
+/-- The empty numerical component list has count one, including degree zero. -/
+example : unitaryComponentCount 0 [] = 1 := by
+  norm_num [unitaryComponentCount, even_iff_two_dvd]
+
 /-- Even degree, one block: two components. -/
 example : unitaryComponentCount 2 [1] = 2 := by
   norm_num [unitaryComponentCount, even_iff_two_dvd]
@@ -171,6 +185,10 @@ example (τ : ℚ) (hτ : τ ≠ 0) : endoscopicCoefficient τ τ 1 = 1 := by
 example : endoscopicCoefficient 2 2 2 = 1 / 2 := by
   norm_num [endoscopicCoefficient]
 
+/-- A zero Tamagawa denominator evaluates to zero in the numerical convention. -/
+example : endoscopicCoefficient 2 0 2 = 0 := by
+  norm_num [endoscopicCoefficient]
+
 /-! ## Layer 7: algebraic isocrystals and rational Igusa geometry
 The structured isocrystal and moduli targets are stated in README.md. -/
 
@@ -187,6 +205,10 @@ example : AcceptableValuations (r := 2) ![{0}, {1}] := by
 
 /-- Equal cross-block valuations fail strict acceptability. -/
 example : ¬ AcceptableValuations (r := 2) ![{0}, {0}] := by
+  sorry
+
+/-- Reversing the two valuation blocks violates strict acceptability. -/
+example : ¬ AcceptableValuations (r := 2) ![{1}, {0}] := by
   sorry
 
 /-- At residue cardinality four, the relative Weyl factor and half-modulus orbital factor
@@ -244,13 +266,16 @@ example : specialFrobenius 1 2 = 1 := by
   fin_cases i <;> fin_cases j <;> simp [specialFrobenius, Matrix.diagonal]
 
 /-! ## Layer 11: local unitary packets and global classification
-The bounded and extended packets use the representation and parameter suppliers. -/
+The bounded and extended packets assume the README contract UnitaryClassificationInputs.
+GSp₄ classification instead assumes the separate GSp4ClassificationInputs contract.
+Their packet carriers and weighted stabilization identities are specified in README.md. -/
 
 /-! ## Layer 12: local towers and their cohomology
 The marked relative chart and the actual cohomological realizations are README targets. -/
 
 /-! ## Layer 13: pure automorphic transfer and level comparison
-These statements require the automorphic carriers of the supplier contracts. -/
+The packet and oldform statements require UnitaryClassificationInputs, and GSp₄
+classification requires GSp4ClassificationInputs, as well as the automorphic carriers. -/
 
 /-! ## Layer 14: rational Igusa spectral comparison
 Virtual spectral factorization is separate from degree-wise concentration. -/
@@ -269,6 +294,30 @@ theorem comparisonTrace_eq_trace_diagonal {ι : Type*} [Fintype ι] [DecidableEq
       Matrix.trace (Matrix.diagonal fun i =>
         multiplicity i * coefficient i * localTrace i * auxiliaryTrace i * sphericalTrace i) := by
   sorry
+
+/-- An empty spectral ledger has trace zero for arbitrary factors. -/
+example {ι : Type*} (m c l a h : ι → ℚ) :
+    comparisonTrace (∅ : Finset ι) m c l a h = 0 := by
+  simp [comparisonTrace]
+
+/-- Vanishing local traces kill every term, including signed multiplicities. -/
+example {ι : Type*} (s : Finset ι) (m c a h : ι → ℚ) :
+    comparisonTrace s m c (fun _ => 0) a h = 0 := by
+  simp [comparisonTrace]
+
+/-- The quaternion-sign ledger with multiplicity two has value minus 210. -/
+example : comparisonTrace ({()} : Finset Unit) (fun _ => 2) (fun _ => -1)
+    (fun _ => 3) (fun _ => 5) (fun _ => 7) = -210 := by
+  norm_num [comparisonTrace]
+
+/-- Two products of two and three give the diagonal trace and ledger value five. -/
+example :
+    comparisonTrace (Finset.univ : Finset (Fin 2)) ![2, 3] (fun _ => 1)
+      (fun _ => 1) (fun _ => 1) (fun _ => 1) =
+        Matrix.trace (Matrix.diagonal ![(2 : ℚ), 3]) ∧
+    comparisonTrace (Finset.univ : Finset (Fin 2)) ![2, 3] (fun _ => 1)
+      (fun _ => 1) (fun _ => 1) (fun _ => 1) = 5 := by
+  norm_num [comparisonTrace, Matrix.trace, Matrix.diagonal, Fin.sum_univ_two]
 
 /-- Balanced proper endoscopy contributes one half. -/
 example : comparisonTrace ({()} : Finset Unit) (fun _ => 1) (fun _ => 1 / 2)
