@@ -23,9 +23,15 @@ the roadmap. Section references `§k.n` are to `README.md`.
 
 Design choices made explicit here.
 
-* The carrier `ContinuousRep Γ A M` is a finitely generated projective `A`-module with the module
-  topology and a *jointly* continuous action; Mathlib's `ContRepresentation` (each operator
-  continuous) is the weaker notion it maps to (`ContinuousRep.toContRepresentation`).
+* EtaleCohomologyFoundations §F.4.0 owns `ContinuousRep`, `Iso`, `ofCharacter`, `baseChange`
+  and the stable-lattice/integral-model foundation. The carrier, isomorphism, character,
+  scalar-extension, lattice and restricted-action declarations below are local realizations of
+  that supplied interface for consumer signatures, not additional construction targets.
+  Mathlib's `ContRepresentation` only requires continuity of each operator; the supplied
+  carrier requires a jointly continuous action and the finite-projective module topology.
+* EtaleCohomologyFoundations §F.3a owns the henselian-trait/local-field tame-character
+  comparison and its conjugation/restriction laws. Section 2.1a transports it to chosen
+  global decomposition groups.
 * The determinant character of a representation on a finite projective carrier is a README target
   (§1.1); the statements below that need it are made on free carriers, where it is
   `LinearMap.det ∘ ρ`.
@@ -76,9 +82,8 @@ end LinearMap
 
 /-! ## Layer 1: continuous representations and integral models -/
 
-/-- A continuous representation of `Γ` on the finitely generated projective `A`-module `M` carrying
-the module topology: a linear representation whose action map `Γ × M → M` is jointly continuous
-(§1.1). Mathlib's `ContRepresentation` only asks each operator to be continuous. -/
+/-- Consumer realization of EtaleCohomologyFoundations §F.4.0's shared representation carrier:
+a finite-projective module with its module topology and jointly continuous action (§1.1). -/
 structure ContinuousRep (Γ : Type u) [Group Γ] [TopologicalSpace Γ]
     (A : Type v) [CommRing A] [TopologicalSpace A]
     (M : Type w) [AddCommGroup M] [Module A M] [Module.Finite A M] [Module.Projective A M]
@@ -110,7 +115,8 @@ structure Hom (ρ : ContinuousRep Γ A M) (σ : ContinuousRep Γ A N) where
   /-- Equivariance. -/
   comm : ∀ g : Γ, toLinearMap ∘ₗ ρ g = σ g ∘ₗ toLinearMap
 
-/-- Isomorphisms of continuous representations. -/
+/-- Consumer realization of the equivariant isomorphisms supplied by
+EtaleCohomologyFoundations §F.4.0. -/
 structure Iso (ρ : ContinuousRep Γ A M) (σ : ContinuousRep Γ A N) where
   /-- The underlying linear equivalence. -/
   toLinearEquiv : M ≃ₗ[A] N
@@ -121,7 +127,7 @@ structure Iso (ρ : ContinuousRep Γ A M) (σ : ContinuousRep Γ A N) where
 def charpoly [Module.Free A M] (ρ : ContinuousRep Γ A M) (g : Γ) : Polynomial A :=
   (ρ g).charpoly
 
-/-- The rank-one representation `A(χ)` of a continuous character `χ`. -/
+/-- Consumer realization of EtaleCohomologyFoundations §F.4.0's rank-one character action. -/
 def ofCharacter [IsTopologicalRing A] (χ : Γ →ₜ* Aˣ) : ContinuousRep Γ A A where
   toRepresentation :=
     { toFun g := (χ g : A) • LinearMap.id
@@ -251,8 +257,8 @@ variable {Γ : Type u} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
   {M : Type w} [AddCommGroup M] [Module A M] [Module.Finite A M] [Module.Projective A M]
   [TopologicalSpace M] [IsModuleTopology A M]
 
-/-- Base change `M_B := B ⊗_A M` along a continuous ring homomorphism `A → B`, with the module
-topology over `B`; the underlying representation is Tau Ceti's `Representation.baseChange`. -/
+/-- Consumer realization of EtaleCohomologyFoundations §F.4.0's scalar extension on the module
+`B ⊗_A M` with its module topology and underlying `Representation.baseChange` action. -/
 def baseChange (ρ : ContinuousRep Γ A M)
     (B : Type v') [CommRing B] [TopologicalSpace B] [IsTopologicalRing B] [Algebra A B]
     [ContinuousSMul A B] [TopologicalSpace (B ⊗[A] M)] [IsModuleTopology B (B ⊗[A] M)] :
@@ -266,16 +272,6 @@ variable (B : Type v') [CommRing B] [TopologicalSpace B] [IsTopologicalRing B] [
 theorem charpoly_baseChange [Module.Free A M] (ρ : ContinuousRep Γ A M)
     [TopologicalSpace (B ⊗[A] M)] [IsModuleTopology B (B ⊗[A] M)] (g : Γ) :
     (ρ.baseChange B).charpoly g = (ρ.charpoly g).map (algebraMap A B) := by
-  sorry
-
-/-- Transitivity `(M_B)_C ≅ M_C` for `A → B → C`. -/
-theorem nonempty_iso_baseChange_baseChange (ρ : ContinuousRep Γ A M)
-    (C : Type*) [CommRing C] [TopologicalSpace C] [IsTopologicalRing C] [Algebra B C]
-    [Algebra A C] [IsScalarTower A B C] [ContinuousSMul B C] [ContinuousSMul A C]
-    [TopologicalSpace (B ⊗[A] M)] [IsModuleTopology B (B ⊗[A] M)]
-    [TopologicalSpace (C ⊗[B] (B ⊗[A] M))] [IsModuleTopology C (C ⊗[B] (B ⊗[A] M))]
-    [TopologicalSpace (C ⊗[A] M)] [IsModuleTopology C (C ⊗[A] M)] :
-    Nonempty (Iso ((ρ.baseChange B).baseChange C) (ρ.baseChange C)) := by
   sorry
 
 /-- For an extension of topological fields `K ⊂ K'`, `(V_{K'})^Γ = K' ⊗_K V^Γ`; the statement is
@@ -665,22 +661,17 @@ theorem exists_integral_conj_GL {Γ : Type u} [Group Γ] [TopologicalSpace Γ]
           Matrix (Fin n) (Fin n) (PadicAlgCl ℓ)) i j‖ ≤ 1 := by
   sorry
 
-open ValuativeRel in
-/-- A subgroup of `GL_n(E)` stabilises an `O_E`-lattice iff its closure is compact (DDT, §2.1). -/
-theorem exists_stable_lattice_iff {E : Type v} [Field E] [ValuativeRel E] [TopologicalSpace E]
-    [IsNonarchimedeanLocalField E] (n : ℕ)
-    (K : Subgroup (Matrix.GeneralLinearGroup (Fin n) E)) :
-    IsCompact (closure (K : Set (Matrix.GeneralLinearGroup (Fin n) E))) ↔
-      ∃ L : Submodule 𝒪[E] (Fin n → E), L.FG ∧ Submodule.span E (L : Set (Fin n → E)) = ⊤ ∧
-        ∀ k ∈ K, ∀ x ∈ L, (k : Matrix (Fin n) (Fin n) E).mulVec x ∈ L := by
-  sorry
-
 end ContinuousRep
 
-/-! ### Integral models -/
+/-! ### Supplied integral-model interface for reduction
 
-/-- A `Γ`-stable lattice in a representation `V` over a field `E` with ring of integers `O`: a
-finitely generated `O`-submodule, stable under `Γ`, spanning `V` over `E` (§1.6). -/
+EtaleCohomologyFoundations §F.4.0 owns the stable-lattice criterion, model existence,
+generic-fibre comparison, homotheties, saturation, duality and commensurability.
+The declarations here realize only the carrier and restricted action used in §1.9.
+-/
+
+/-- Consumer realization of EtaleCohomologyFoundations §F.4.0's stable integral model:
+a finitely generated `O`-lattice spanning `V`, with its invariant action (§1.6). -/
 structure GaloisLattice.IntegralModel {Γ : Type u} [Group Γ] [TopologicalSpace Γ]
     (O : Type v) [CommRing O] {E : Type v} [Field E] [TopologicalSpace E] [Algebra O E]
     {V : Type w} [AddCommGroup V] [Module E V] [Module.Finite E V] [Module.Projective E V]
@@ -713,60 +704,13 @@ instance (Λ : IntegralModel O ρ) : Module.Free O Λ.lattice := by
 instance (Λ : IntegralModel O ρ) : Module.Projective O Λ.lattice :=
   Module.Projective.of_free
 
-/-- The lattice `(Λ, ρ|_Λ)` as a continuous representation over `O`. -/
+/-- Consumer realization of the continuous lattice action supplied by
+EtaleCohomologyFoundations §F.4.0, used by reduction in §1.9. -/
 def toContinuousRep (Λ : IntegralModel O ρ) [IsModuleTopology O Λ.lattice] :
     ContinuousRep Γ O Λ.lattice :=
   ⟨{ toFun g := ((ρ g).restrictScalars O).restrict (fun x hx => Λ.stable g x hx)
      map_one' := sorry
      map_mul' := sorry }, sorry⟩
-
-/-- The generic fibre: `E ⊗_O Λ ≅ V` as continuous representations. -/
-theorem nonempty_iso_genericFibre [IsTopologicalRing O] [IsTopologicalRing E] [ContinuousSMul O E]
-    (Λ : IntegralModel O ρ) [IsModuleTopology O Λ.lattice]
-    [TopologicalSpace (E ⊗[O] Λ.lattice)] [IsModuleTopology E (E ⊗[O] Λ.lattice)]
-    [Module.Finite E (E ⊗[O] Λ.lattice)] [Module.Projective E (E ⊗[O] Λ.lattice)] :
-    Nonempty (ContinuousRep.Iso (Λ.toContinuousRep.baseChange E) ρ) := by
-  sorry
-
-/-- Homothety `c Λ` for `c ∈ E^×`. -/
-def smul (c : Eˣ) (Λ : IntegralModel O ρ) : IntegralModel O ρ where
-  lattice := Λ.lattice.map (((c : E) • LinearMap.id : V →ₗ[E] V).restrictScalars O)
-  stable := sorry
-  fg := sorry
-  span_eq_top := sorry
-
-/-- Existence of integral models for compact `Γ` and `O` compact open in the local field `E`. -/
-theorem nonempty [CompactSpace Γ] [CompactSpace O] [IsTopologicalRing E]
-    (hO : Topology.IsOpenEmbedding (algebraMap O E)) : Nonempty (IntegralModel O ρ) := by
-  sorry
-
-/-- Any two lattices are commensurable: `𝔪^a Λ ⊂ Λ' ⊂ 𝔪^{-a} Λ` for some `a`. -/
-theorem exists_pow_le (Λ Λ' : IntegralModel O ρ) :
-    ∃ a : ℕ, (IsLocalRing.maximalIdeal O ^ a) • Λ.lattice ≤ Λ'.lattice ∧
-      (IsLocalRing.maximalIdeal O ^ a) • Λ'.lattice ≤ Λ.lattice := by
-  sorry
-
--- The zero representation has only the zero lattice.
-example [Subsingleton V] (Λ : IntegralModel O ρ) : Λ.lattice = ⊥ := by
-  sorry
-
--- `(1 a; 0 1)` on `ℚ_ℓ²` has the non-homothetic stable lattices `ℤ_ℓ²` and `ℤ_ℓ e₁ ⊕ ℓℤ_ℓ e₂`.
-example (ℓ : ℕ) [Fact ℓ.Prime]
-    (ρ : ContinuousRep (Multiplicative ℤ_[ℓ]) ℚ_[ℓ] (Fin 2 → ℚ_[ℓ]))
-    (hρ : ∀ a, LinearMap.toMatrix' (ρ a) =
-      !![1, ((Multiplicative.toAdd a : ℤ_[ℓ]) : ℚ_[ℓ]); 0, 1])
-    (Λ₁ Λ₂ : IntegralModel ℤ_[ℓ] ρ)
-    (h₁ : Λ₁.lattice = Submodule.span ℤ_[ℓ] {Pi.single 0 1, Pi.single 1 1})
-    (h₂ : Λ₂.lattice = Submodule.span ℤ_[ℓ] {Pi.single 0 1, Pi.single 1 (ℓ : ℚ_[ℓ])}) :
-    ∀ c : ℚ_[ℓ]ˣ, (IntegralModel.smul c Λ₁).lattice ≠ Λ₂.lattice := by
-  sorry
-
--- The integral models of `ℚ_ℓ(χ)` are the `ℓ^k ℤ_ℓ`, with `k` unique.
-example (F : Type) [Field F] (ℓ : ℕ) [Fact ℓ.Prime]
-    (ψ : Field.absoluteGaloisGroup F →ₜ* ℚ_[ℓ]ˣ)
-    (Λ : IntegralModel ℤ_[ℓ] (ContinuousRep.ofCharacter ψ)) :
-    ∃! k : ℤ, Λ.lattice = Submodule.span ℤ_[ℓ] {(ℓ : ℚ_[ℓ]) ^ k} := by
-  sorry
 
 end GaloisLattice.IntegralModel
 
@@ -3203,6 +3147,21 @@ theorem nonempty_iff_similitude (hc : c ∈ Δ) (hc2 : c ^ 2 = 1) (h2 : IsUnit (
       ∀ (σ : Δ) x y, B (ρ σ x) (ρ σ y) = (μ σ : A) * B x y := by
   sorry
 
+/-- If the multiplier at an internal involution is minus the pairing sign and `2` is a unit,
+the form `B(x,y) = ⟨x,ρ(c)y⟩` is alternating, including for the zero carrier (§7.4). -/
+theorem isAlt_comp_of_multiplier (P : PolarizedRep Δ ρ c) (hc : c ∈ Δ)
+    (h2 : IsUnit (2 : A)) (hμ : (P.multiplier c : A) = -((P.sign : ℤ) : A)) :
+    (P.pairing.compl₂ (ρ ⟨c, hc⟩)).IsAlt := by
+  sorry
+
+/-- On a faithful carrier, alternation of `B(x,y) = ⟨x,ρ(c)y⟩` characterizes the multiplier
+at an internal involution as minus the pairing sign when `2` is a unit (§7.4). -/
+theorem isAlt_comp_iff [FaithfulSMul A M] (P : PolarizedRep Δ ρ c) (hc : c ∈ Δ)
+    (h2 : IsUnit (2 : A)) :
+    (P.pairing.compl₂ (ρ ⟨c, hc⟩)).IsAlt ↔
+      (P.multiplier c : A) = -((P.sign : ℤ) : A) := by
+  sorry
+
 /-- The twist `(ρ ⊗ χ, μ')` by a continuous character `χ` of `Δ` is polarised with the same pairing
 and sign, for the multiplier `μ'` with `μ'(σ) = μ(σ) χ(σ) χ(cσc)` on `Δ` and `μ'(c) = μ(c)` if
 `c ∉ Δ`. In the CM/index-two case, the tensor product of two polarisations is polarised with
@@ -3252,6 +3211,31 @@ example (c : Γ) (hc2 : c ^ 2 = 1) :
       (ContinuousRep.trivial : ContinuousRep (⊤ : Subgroup Γ) A A) c,
       P.multiplier = 1 ∧ P.sign = 1 ∧ ∀ x y : A, P.pairing x y = x * y := by
   sorry
+
+-- For `G_ℚ` on the zero `ℚ₃`-module, every involution, including complex conjugation, admits
+-- the perfect alternating zero form with multiplier and sign one, although `1 ≠ -1`.
+example [Fact (Nat.Prime 3)] (c : Field.absoluteGaloisGroup ℚ) (hc : c ^ 2 = 1) :
+    ∃ P : PolarizedRep (⊤ : Subgroup (Field.absoluteGaloisGroup ℚ))
+      (ContinuousRep.trivial : ContinuousRep (⊤ : Subgroup (Field.absoluteGaloisGroup ℚ))
+        ℚ_[3] (Fin 0 → ℚ_[3])) c,
+      P.multiplier = 1 ∧ P.sign = 1 ∧ P.pairing = 0 ∧ P.pairing.IsAlt ∧
+        (P.multiplier c : ℚ_[3]) ≠ -((P.sign : ℤ) : ℚ_[3]) := by
+  refine ⟨
+    { multiplier := 1
+      pairing := 0
+      sign := 1
+      sq_c := hc
+      pairing_perfect := Function.bijective_of_subsingleton' _
+      conj_mem := fun _ => Subgroup.mem_top _
+      covariance := ?_
+      symm := ?_
+      cm_sign := ?_ }, rfl, rfl, rfl, LinearMap.BilinForm.isAlt_zero, ?_⟩
+  · intro σ x y
+    simp
+  · intro x y
+    simp
+  · simp
+  · norm_num
 
 end PolarizedRep
 

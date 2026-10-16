@@ -46,10 +46,11 @@ source, and the earlier statements or library declarations it rests on.
 
 The roadmap owns:
 
-- the carrier `ContinuousRep Γ A M` (jointly continuous action on a finitely generated projective
-  module with the module topology) with its determinant character, framings, coefficient extension
-  and twisting, duals, tensor products, internal Hom, Tate twists and continuous induction; stable
-  lattices and integral models, semisimplification, absolute irreducibility, Brauer–Nesbitt,
+- the arithmetic API on EtaleCohomologyFoundations §F.4.0's shared `ContinuousRep Γ A M`
+  and integral models: determinant characters, framings, characteristic polynomials and invariants
+  under coefficient extension, twisting, duals, tensor products, internal Hom, Tate twists and
+  continuous induction; coefficient-field and integral descent, reduced-building comparison,
+  semisimplification, absolute irreducibility, Brauer–Nesbitt,
   reduction and the residual semisimplification, Teichmüller lifts, coefficient twists, and descent
   to a finite coefficient field (Layer 1);
 - decomposition and inertia groups at the places of a number field and the restriction of a global
@@ -86,6 +87,13 @@ The roadmap owns:
   irreducibility, finite-group cohomology of `GL₂`-type images, Clebsch–Gordan modulo `p`, adequate
   and enormous subgroups with their verification lemmas, the `GSp₄` image conditions, and the
   Taylor–Wiles image conditions (Layer 7).
+
+It leaves to EtaleCohomologyFoundations §F.4.0 the jointly continuous finite-projective
+representation carrier, its isomorphisms, rank-one characters and coefficient extension, the
+compact-closure criterion for stable lattices, and integral models with continuous restricted
+action, generic-fibre, homothety, saturation, duality and commensurability API. Its §F.3a owns
+the henselian-trait/local-field tame-character comparison and its restriction and conjugation laws.
+Layers 1 and 2 consume these shared interfaces.
 
 It leaves to named suppliers, and never rebuilds: the Krull topology, the separable closure and the
 Galois correspondence (Mathlib); finite-group representation theory, induction and restriction,
@@ -448,12 +456,24 @@ interfaces without imposing a dependency on this roadmap's Layer 6 in their cons
 
 EtaleCohomologyFoundations §F.0.2 `finiteEtaleGaloisCategory` supplies finite étale covers
 and the fundamental groupoid, and §F.0.A1 supplies decomposition and inertia groups of a cover
-for §5.13. Its §F.3a supplies henselian traits, inertia and the tame character for the
-local-field comparison of §2.1a.
+for §5.13. Its §F.3a supplies henselian traits, inertia, the tame character and its local-field
+comparison, including henselian lifting of prime-to-residue-characteristic roots of unity and the
+restriction and conjugation laws consumed in §2.1a. Its §F.4.0 supplies the common `ContinuousRep`
+carrier with `Iso`, `ofCharacter` and `baseChange`, the compact-closure criterion for stable
+lattices, and `GaloisLattice.IntegralModel` with continuous restricted action, generic-fibre,
+homothety, saturation, duality and commensurability. Sections 1.1–1.2 and 1.6 use these interfaces;
+coefficient-field descent, integral descent, the building comparison and residual semisimplification
+are arithmetic targets here.
 
 ### From `LFunctions`, `AdelicAlgebraicGroups` and `CFSGBasicProperties`
 
-[LFunctions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/README.md)
+The external roadmap dependencies are [LFunctions](https://github.com/TauCetiProject/TauCetiRoadmap/pull/248)
+and [CFSGBasicProperties](https://github.com/TauCetiProject/TauCetiRoadmap/pull/446), at the sections
+specified below. LFunctions also consumes [ThetaSeries](https://github.com/TauCetiProject/TauCetiRoadmap/pull/286)
+for lattice Poisson summation and Gaussian Fourier transforms. These external dependencies and
+their prerequisites are separate from the supplier order among this portfolio's roadmaps.
+
+[LFunctions](https://github.com/roed-math/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/README.md)
 Layer 0 supplies analytic and arithmetic completed-function records, normalization translation,
 duals and polar divisors. Layers 5–6 supply primitive finite-order Hecke and algebraic
 Grössencharacter presentations on GlobalNumberFields' carriers, their conductors, gamma factors,
@@ -480,6 +500,8 @@ is computed directly. The automorphism-group input to the verification lemmas re
 
 | Input | Interface | Ownership |
 | --- | --- | --- |
+| Jointly continuous representations and stable integral models | EtaleCohomologyFoundations §F.4.0 | Shared foundation supplied there; §§1.1–1.2 and 1.6 consume it and add arithmetic results |
+| Henselian-trait/local-field tame-character comparison | EtaleCohomologyFoundations §F.3a | Supplied comparison and transport laws; §2.1a transports them along global decomposition-group embeddings |
 | Weil group and degree | ClassFieldTheory Layer 9 | Supplier targets |
 | Frobenius-semisimplified Weil–Deligne parameter and functor | SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization` | Supplier target; §2.4 adapter and §2.5 agreement |
 | Linear Weil–Deligne substrate on parameter fields | SmoothRepresentationsOfLocalGroups SR.5.2, `wd-linear-substrate`, `nilpotent-exp-log`, `grothendieck-monodromy`, `wd-parameter-operations`, `full-wd-construction`, `wd-frobenius-semisimplification` | Supplier targets; §2.4 `ContinuousRep` specialization and adapter, §2.5 agreement and local factors |
@@ -500,7 +522,8 @@ is computed directly. The automorphism-group input to the verification lemmas re
 
 ## How to read the build
 
-Layer 1 is the carrier and its integral theory and is used by every other layer. Layer 2 adds the
+EtaleCohomologyFoundations §F.4.0 → Layer 1 supplies the carrier and its integral theory.
+Layer 1 adds the arithmetic API used by every other layer. Layer 2 adds the
 local objects (decomposition groups, Frobenius, tame and cyclotomic characters, Weil–Deligne
 representations, local factors and constants) and depends on Layer 1. Layer 3 defines conductors from
 the ramification filtration and the Weil–Deligne representations of Layer 2. Layer 4 (residual images
@@ -534,8 +557,8 @@ representative signatures and the discriminating checks as `example`s.
 
 ## Layer 1: continuous representations and integral models
 
-This layer fixes the carrier of the roadmap, continuous representations of profinite groups on
-finite projective modules, and the `ℓ`-adic bookkeeping the other layers rely on: integral models,
+This layer uses EtaleCohomologyFoundations §F.4.0's continuous representations and integral models.
+It builds their arithmetic API: coefficient and integral descent, determinant characters,
 semisimplification, Brauer–Nesbitt and residual representations.
 
 Standing hypotheses: `Γ` is profinite; `A` is a commutative ring with continuous ring operations. A
@@ -546,26 +569,25 @@ Sources: DDT = Darmon–Diamond–Taylor 2007, BHKT = Böckle–Harris–Khare�
 
 ### 1.1 Continuous representations
 
-**The carrier.** Define `ContinuousRep Γ A M`: a `Representation A Γ M` on a finitely generated
-projective `A`-module `M` with the module topology, such that `Γ × M → M` is jointly continuous
-(stronger than continuity of each `ρ(g)`). For a field `F`, `Γ = G_F := Field.absoluteGaloisGroup F`
-(Krull topology), profinite by Tau Ceti's instances, whose Galois correspondence is that of the
-separable closure. Morphisms are `A`-linear equivariant maps, automatically continuous; isomorphisms
-are equivariant linear equivalences. The standard coefficient cases are `E`; a finite field or `F̄_p`;
-a complete Noetherian local ring with finite residue field and its `𝔪_A`-adic topology (`M` is then
-free); `ℚ̄_ℓ`; `ℂ`. Its API is the constructor from a representation and a proof of joint continuity,
-`ContinuousRep.toContRepresentation` (the forgetful map to Mathlib's `ContRepresentation`, injective
-with image the jointly continuous ones), `Hom.continuous`, extensionality on operators,
-`continuous_iff_matrixCoeff` (on a free carrier joint continuity is continuity of the matrix
-coefficients `Γ → M_n(A)`), `continuous_iff_orbit` (continuity of all orbit maps `g ↦ ρ(g)m`,
-equivalently of those of a finite generating family), `ContinuousRep.ofCharacter` (the rank-one
-representation `A(χ)` of a continuous character), `ContinuousRep.trivial` and
-`ContinuousRep.charpoly` (`det(X − ρ(g))` on a free carrier) (DDT, §2.1, p. 52; NT, §1.2, p. 7;
-BHKT, §2, p. 5). *Needs:* Mathlib `Representation`, `ContRepresentation`, `IsModuleTopology`; Tau
-Ceti's profiniteness instances for `Field.absoluteGaloisGroup`. *Lean:* `ContinuousRep`,
-`ContinuousRep.Hom`, `ContinuousRep.Iso`, `ContinuousRep.charpoly`, `ContinuousRep.ofCharacter`,
-`ContinuousRep.trivial`, `ContinuousRep.toContRepresentation`, `toContRepresentation_injective`,
-`Hom.continuous`, `continuous_iff_matrixCoeff`, `continuous_iff_orbit`.
+Use EtaleCohomologyFoundations §F.4.0's `ContinuousRep Γ A M`: a `Representation A Γ M` on a
+finitely generated projective `A`-module with the module topology and jointly continuous action
+`Γ × M → M`. Its `ContinuousRep.Iso`, `ContinuousRep.ofCharacter` and coefficient extension are
+supplied there. For a field `F`, use `Γ = G_F := Field.absoluteGaloisGroup F` with the Krull topology
+and Tau Ceti's profiniteness instances. The coefficient cases are `E`, discrete finite fields and
+`F̄_p`, complete Noetherian local rings with finite residue field and their adic topology,
+`ℚ̄_ℓ` and `ℂ`. The local carrier, isomorphism, character and scalar-extension signatures in
+`Suggested.lean` realize this supplied interface for the arithmetic consumers.
+
+**Continuity and characteristic polynomials.** Build equivariant linear morphisms
+`ContinuousRep.Hom`, automatic continuity and extensionality; the injective forgetful map
+`ContinuousRep.toContRepresentation`, with image the jointly continuous actions;
+`continuous_iff_matrixCoeff` on a finite free carrier and `continuous_iff_orbit` (equivalently,
+continuity on a finite generating family); `ContinuousRep.trivial`; and `ContinuousRep.charpoly`
+(`det(X − ρ(g))` on a free carrier) (DDT, §2.1, p. 52; NT, §1.2, p. 7; BHKT, §2, p. 5).
+*Needs:* EtaleCohomologyFoundations §F.4.0; Mathlib `ContRepresentation` and `IsModuleTopology`.
+*Lean:* `ContinuousRep.Hom`, `ContinuousRep.charpoly`, `ContinuousRep.trivial`,
+`ContinuousRep.toContRepresentation`, `toContRepresentation_injective`, `Hom.continuous`,
+`continuous_iff_matrixCoeff`, `continuous_iff_orbit`.
 
 **Checks.**
 - The character `a ↦ (1 + ℓ)^a` of `ℤ_ℓ` on `ℚ_ℓ` with the discrete topology is a `ContRepresentation`
@@ -636,16 +658,18 @@ p. 154). *Needs:* Mathlib `Matrix.GeneralLinearGroup`. *Lean:* `ContinuousRep.of
 - Continuity of `ρ : Γ → GL_n(A)` for the units topology is continuity of `Γ → M_n(A)`; with the
   subspace topology from `M_n(A)` alone, inversion would not be continuous for a general `A`.
 
-**Coefficient extension.** Define `ρ.baseChange B` for a continuous `A → B`: the module `B ⊗_A M` with
-`g ↦ id ⊗ ρ(g)` (Tau Ceti's `Representation.baseChange`) and the module topology over `B`; `m ↦ 1 ⊗ m`
-is continuous, equivariant and semilinear. Extension of scalars along a field extension `E ⊂ E'`
-commutes with equivariant Hom and with invariants: `Hom_Γ(V, W) ⊗_E E' ≅ Hom_Γ(V_{E'}, W_{E'})` and
-`V^Γ ⊗ E' = (V_{E'})^Γ`, statements valid for any monoid. Its API is the formula on pure tensors,
-transitivity `(M_B)_C ≅ M_C`, `M_A ≅ M`, the characteristic polynomial and determinant formulas, the
-invariants formula and agreement of the underlying representation with `Representation.baseChange`
-(BHKT, §2, p. 5; NT, §1.2, p. 7). *Needs:* Tau Ceti `Representation.baseChange`,
-`Representation.finrank_intertwiningMap_baseChange`. *Lean:* `ContinuousRep.baseChange`,
-`charpoly_baseChange`, `nonempty_iso_baseChange_baseChange`, `invariants_baseChange`.
+Use EtaleCohomologyFoundations §F.4.0's `ContinuousRep.baseChange` along a continuous `A → B`:
+`B ⊗_A M` with its module topology and action `id ⊗ ρ(g)`, using Tau Ceti's
+`Representation.baseChange`. Its pure-tensor formula, equivariance and identity/composition
+comparisons are supplied there.
+
+**Invariants and characteristic polynomials under coefficient extension.** Prove the
+characteristic-polynomial and determinant formulas. Along a topological field extension `E ⊂ E'`,
+prove `Hom_Γ(V, W) ⊗_E E' ≅ Hom_Γ(V_{E'}, W_{E'})` and `V^Γ ⊗ E' = (V_{E'})^Γ`; these algebraic
+statements hold for any monoid (BHKT, §2, p. 5; NT, §1.2, p. 7).
+*Needs:* EtaleCohomologyFoundations §F.4.0; Tau Ceti
+`Representation.finrank_intertwiningMap_baseChange`. *Lean:* `charpoly_baseChange`,
+`invariants_baseChange`.
 
 **Checks.**
 - `ℤ_ℓ(1)` along `ℤ_ℓ → ℚ_ℓ` is `ofCharacter χ_ℓ` over `ℚ_ℓ`; a definition that twisted the
@@ -815,39 +839,31 @@ Thm 4.8, p. 17; CG, §6.2, proof of Prop. 6.8, p. 839). *Needs:* Mathlib
 Throughout, `V` is a finite-dimensional `E`-vector space with the module topology, and a lattice in
 `V` is a finitely generated `O_E`-submodule spanning `V` over `E`.
 
-**Stable lattices.** Prove that every lattice is compact and open, with compact open stabiliser
-`GL(Λ) ≤ GL(V)`, equal to `GL_n(O_E)` in a lattice basis; that a subgroup `K ≤ GL(V)` stabilises a
-lattice iff its closure is compact (then `Σ_{k∈K} kΛ` is a finite sum of translates and a `K`-stable
-lattice); and that a continuous representation of a compact `Γ` on `V` has a stable lattice, in whose
-basis it is a continuous `Γ → GL_n(O_E)` (DDT, §2.1, p. 54; Ribet 1976, §2, p. 154; BHKT,
-Thm 4.8(ii), p. 16). Prove that a continuous `ρ : Γ → GL_n(ℚ̄_ℓ)` of a compact Hausdorff group is
-conjugate to a representation with values in `GL_n(O_E)` for a coefficient field `E`. *Needs:*
-Mathlib `IsNonarchimedeanLocalField`, `IsNonarchimedeanLocalField.isCompact_closedBall`. *Lean:*
-`exists_stable_lattice_iff`, `GaloisLattice.IntegralModel.nonempty`, `exists_integral_conj_GL`.
+Use EtaleCohomologyFoundations §F.4.0's compact-closure criterion and integral models:
+a subgroup of `GL(V)` stabilizes a lattice iff its closure is compact, and a continuous action
+of compact `Γ` therefore has a stable lattice. Its `GaloisLattice.IntegralModel O ρ` supplies
+the continuous restricted action `toContinuousRep`, the equivariant generic-fibre isomorphism,
+homotheties, sums, intersections, saturation in stable subspaces, dual lattices and
+commensurability. The lattice carrier and restricted-action signatures in `Suggested.lean` realize
+that supplied interface for §1.9's reduction; the foundation is owned by §F.4.0.
 
-**Integral models.** Define `GaloisLattice.IntegralModel O ρ`: a `Γ`-stable lattice `Λ` of `V`; it is
-free of rank `n`, `(Λ, ρ|_Λ)` is a continuous representation over `O_E` (`toContinuousRep`; the
-`ϖ`-adic topology is the subspace topology), and `E ⊗_{O_E} Λ ≅ V`. For `Γ` compact and `n > 0`,
-homothety classes of models are the `ρ(Γ)`-fixed vertices of the reduced building
-`B_red(GL(V), E)`, the building of `PGL(V)`, whose vertices are the homothety classes `[Λ]`
-(ReductiveGroupsPartII, RG2.2.4 *gl-building-lattice-chains* and RG2.2.2 `ReducedBuilding`, not the
-enlarged `B(GL(V), E)`; a comparison only): if `ρ(g)Λ = c_g Λ` then `n · v(c_g) = v(det ρ(g))`,
-which is `0` because `v ∘ det ∘ ρ` has compact image in `ℤ`, so `c_g ∈ O_E^×` and `Λ` is stable.
-Its API is `toContinuousRep`, the generic-fibre isomorphism, the homothety `c Λ`
-(`c ∈ E^×`) with `(cd)Λ = c(dΛ)` and `1 · Λ = Λ`, the lattice structure (sums and intersections of
-models are models), existence for compact `Γ`, the saturation `W ∩ Λ` in a stable subspace `W` (a
-model of `W`, with `Λ/(W ∩ Λ)` a model of `V/W`), the dual model `Λ^∨ = {λ ∈ V^∨ : λ(Λ) ⊂ O_E}` of
-`V^∨` with `Λ^{∨∨} = Λ`, and commensurability `𝔪^a Λ ⊂ Λ' ⊂ 𝔪^{-a} Λ` (DS, 6.12, p. 523; Ribet 1976,
-§2, p. 153). *Needs:* Mathlib `IsNonarchimedeanLocalField`, `IsDiscreteValuationRing`. *Lean:*
-`GaloisLattice.IntegralModel`, `IntegralModel.toContinuousRep`, `nonempty_iso_genericFibre`,
-`IntegralModel.smul`, `IntegralModel.nonempty`, `exists_pow_le`.
+**Integral descent and reduced buildings.** Combine §1.5's coefficient-field descent with the
+supplied stable-lattice theorem to prove that a continuous `ρ : Γ → GL_n(ℚ̄_ℓ)` of compact Hausdorff
+`Γ` is conjugate into `GL_n(O_E)` for a finite coefficient field `E`. For compact `Γ` and `n > 0`,
+identify homothety classes of integral models with the `ρ(Γ)`-fixed vertices of the reduced building
+`B_red(GL(V), E)`, the building of `PGL(V)`: if `ρ(g)Λ = c_g Λ`, then
+`n · v(c_g) = v(det ρ(g)) = 0`, since the valuation character has compact image in `ℤ`.
+Thus `c_g` is a unit and `Λ` is stable (DDT, §2.1, pp. 53–54; Ribet 1976, §2, p. 154;
+BHKT, Thm 4.8(ii), p. 16).
+*Needs:* §1.5; EtaleCohomologyFoundations §F.4.0; ReductiveGroupsPartII RG2.2.4
+*gl-building-lattice-chains* and RG2.2.2 `ReducedBuilding`. *Lean:* `exists_integral_conj_GL`.
 
 **Checks.**
 - The models of `ℚ_ℓ(χ)` are the `ℓ^k ℤ_ℓ`, with `k` unique; a definition allowing non-spanning
-  submodules would add `0`. *Lean:* the last `example` of §1.6.
-- `V = 0` has only the zero lattice. *Lean:* the first `example`.
+  submodules would add `0`.
+- `V = 0` has only the zero lattice; it needs no reduced-building comparison.
 - `(1 a; 0 1)` on `ℚ_ℓ²` has the non-homothetic models `ℤ_ℓ²` and `ℤ_ℓ e₁ ⊕ ℓℤ_ℓ e₂`, so models are not
-  unique up to homothety in general. *Lean:* the second `example`.
+  unique up to homothety in general.
 - For `V ≠ 0` the whole of `V` is not a lattice (not finitely generated over `O_E`).
 - For `n = 1` and `ρ` trivial the models `ϖ^m O_E` form one homothety class and `B_red(GL_1, E)` is a
   point, while the enlarged `B(GL_1, E)` is a line translated by `ϖ` (ReductiveGroupsPartII,
@@ -1191,25 +1207,27 @@ wild inertia onto `ρ(P_Q)` (Deligne 1973, 3.12, p. 533). At a real place the lo
   and for an `S₃`-extension at `p = 5` the restrictions `ρ_{ι∘σ}` and `ρ_ι` are different
   homomorphisms: the isomorphism between local restrictions is not canonical.
 
-### 2.1a Local-field comparison for henselian-trait inertia
+### 2.1a Arithmetic transport of the henselian-trait tame character
 
-**Local-field comparison.** For the valuation ring `R` of a nonarchimedean local field `K`
-with residue characteristic `p`, identify the inertia of the henselian trait `Spec R` with
-`TauCeti.inertiaSubgroup K` using its valuation-theoretic description. For each prime `ℓ ≠ p`,
-prove `VanishingCycles.tameCharacter_eq_inertiaTameCharacter`: under this identification
-and the identification of the prime-to-`p` roots of unity in the geometric residue and generic
-fields, the character of EtaleCohomologyFoundations §F.3a is the `ℓ`-component of
-`TauCeti.inertiaTameCharacter`. Prove compatibility with the `ℓ`-adic form
-`TauCeti.inertiaPadicTameCharacter`, conjugation and finite extension with ramification index `e`.
-Both characters are determined by their finite-level Kummer ratios on roots of a uniformizer
-(Stacks, Section 15.114, Lemma 09EE, Definition 0BU4, Lemmas 0BU5 and 0BU7, Remark 0BU8).
-*Needs:* §2.1; EtaleCohomologyFoundations §F.3a (henselian traits, valuation inertia and tame
-characters); LocalFieldsRamification Layer 4; Tau Ceti `inertiaTameCharacter`,
-`inertiaPadicTameCharacter` and their Kummer formulas.
+EtaleCohomologyFoundations §F.3a supplies the local-field comparison: for the valuation ring of
+`K`, its trait inertia is `TauCeti.inertiaSubgroup K`, and henselian lifting identifies the residue
+and generic prime-to-residue-characteristic roots of unity. The supplied tame character then
+agrees with `TauCeti.inertiaPadicTameCharacter`, with its conjugation and ramification-index laws.
+
+**Transport to a global decomposition group.** For a number field `F`, a finite place `v`, a
+chosen embedding `F̄ → F̄_v` and a prime `ℓ` different from the residue characteristic, transport
+this supplied comparison along §2.1's `G_{F_v} ≅ D_v` and `I_{F_v} ≅ I_v`. Prove that the resulting
+character on `I_v` is the local character pulled back along this identification, that a change
+of embedding transports it by the same conjugation as the local restriction of a global
+representation, and that restriction along finite extensions has the supplied ramification-index
+factor `e` (Stacks, Section 15.114, Lemma 09EE, Definition 0BU4, Lemmas 0BU5 and 0BU7,
+Remark 0BU8).
+*Needs:* §2.1; EtaleCohomologyFoundations §F.3a, including its local-field comparison and
+restriction/conjugation laws; Tau Ceti `inertiaPadicTameCharacter`.
 
 **Checks.**
 - Arithmetic Frobenius conjugates the `ℓ`-component by multiplication by `#k`, as for the
-  local-field character.
+  local-field character, after transport to `D_v`.
 - For a ramified quadratic extension with `p ≠ 2`, restriction is twice the character
   normalized by the extension's uniformizer.
 - Wild inertia maps to zero on both sides.
@@ -3365,10 +3383,13 @@ in the CM/index-two case `c_v ∉ Δ`, this forces `μ(c_v) = −1`, so `(1, δ_
 whereas `(1, 1)` is not when `2 ≠ 0` in `A`. For `F` totally real, `2 ∈ A^×` and
 `Spec A` connected, `ρ` is polarised iff it factors through `GSp(M, B)` or `GO(M, B)` with
 `ν ∘ ρ = μ`, `B(x, y) = ⟨x, ρ(c_v) y⟩`,
-`B(y, x) = ε_v μ(c_v) B(x, y)`, alternating iff `μ(c_v) = −ε_v`; and a polarised representation is
+`B(y, x) = ε_v μ(c_v) B(x, y)`. If `μ(c_v) = −ε_v`, then `B` is alternating, including in rank zero.
+If `M` is faithful over `A` (in particular, of positive constant rank, or nonzero over a field),
+prove the converse, so `B` is alternating iff `μ(c_v) = −ε_v`. A polarised representation is
 essentially conjugate self-dual, `ρ^c ≅ ρ^∨ ⊗ μ|_Δ` (BLGGT, §2.1, p. 31; CHT, Lemma 2.1.1, p. 7).
 *Needs:* §1.2, §4.1, §7.3. *Lean:* `PolarizedRep`, `PolarizedRep.essConjSelfDual`,
-`PolarizedRep.nonempty_iff_similitude`.
+`PolarizedRep.nonempty_iff_similitude`, `PolarizedRep.isAlt_comp_of_multiplier`,
+`PolarizedRep.isAlt_comp_iff`.
 
 **Checks.**
 - For `Γ = S₃`, `Δ = ⟨(12)⟩` and `c = (23)`, conjugation sends `(12)` to `(13)`;
@@ -3381,6 +3402,10 @@ essentially conjugate self-dual, `ρ^c ≅ ρ^∨ ⊗ μ|_Δ` (BLGGT, §2.1, p. 
   the trivial rank-one representation, multiplier `1`, pairing `xy` and sign `1` are polarised.
   Transport between real places preserves sign `1`, and the type sign `ε_v μ(c_v)` is `1`.
   *Lean:* the trivial rank-one `example` after the CM rank-one `example` in `PolarizedRep`.
+- For `F = ℚ`, `A = ℚ₃`, `Δ = Γ = G_ℚ` and `M = 0`, the zero pairing is perfect and alternating
+  with trivial representation, multiplier `1` and sign `1`, although `1 ≠ −1`. Thus alternation
+  does not determine the type sign without faithfulness. *Lean:* the zero-module `example` in
+  `PolarizedRep`.
 - For `F` totally real, `n = 2`, `2 ∈ A^×` with `Spec A` connected, the pairing is `det(x, ρ(c_v) y)` and
   `ε_v = −det ρ(c_v)`.
 
