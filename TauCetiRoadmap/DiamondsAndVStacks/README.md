@@ -4044,9 +4044,12 @@ by `vPrecoverage` for the underlying-space functor `perfdToTop`) and `Perfectoid
 the small pro-étale site of a perfectoid space `X`; prove `Perfd.proEtaleTopology_le_vTopology`
 (every pro-étale cover is a v-cover), `singleton_mem_vPrecoverage_iff_surjective` (a map `f : Y → X`
 from a quasicompact to a quasiseparated perfectoid space is a v-cover exactly when it is surjective
-on points: a v-cover with `U = X` is surjective, and conversely the locally spectral nature of adic
-morphisms, together with quasicompactness of `Y` and quasiseparatedness of `X`, makes `f`
-quasicompact, so for a quasicompact open `U ⊂ X` the quasicompact open `f⁻¹(U)` has image `U`),
+on points: for a v-cover, each `x ∈ X` has a quasicompact open neighbourhood `U` by local
+spectrality, and the covering condition on `U` gives a preimage of `x`. Thus `f` is surjective,
+and `X` is quasicompact as the continuous image of `Y`. Conversely,
+the locally spectral nature of adic morphisms, together with quasicompactness of `Y` and
+quasiseparatedness of `X`, makes `f` quasicompact, so for a quasicompact open `U ⊂ X` the
+quasicompact open `f⁻¹(U)` has image `U`),
 `Geometry.vPrecoverage_isStableUnderBaseChange` and `Perfd.isStableUnderComposition_vPrecoverage`
 (v-coverings are stable under base change and composition),
 `Perfectoid.proEtaleSite.hasFiniteLimits` (the small pro-étale site has finite limits: identities
@@ -4077,7 +4080,9 @@ inclusion. *Needs:* Mathlib `CategoryTheory.GrothendieckTopology`, `CategoryTheo
 - `s2_2_empty_cover` (characterisation) — the empty family covers the empty perfectoid space and nothing
   else: for `X = ∅` every quasicompact open is `∅`, the empty union; for `X ≠ ∅` a nonempty
   quasicompact open `U` exists and the empty union is not `U`. In particular the empty family is a
-  v-cover of `∅` for the same reason that it is a pro-étale cover of `∅`.
+  v-cover of `∅` for the same reason that it is a pro-étale cover of `∅`. For any map `Y → ∅`,
+  necessarily `Y = ∅`; its singleton family is also a v-cover, and pointwise surjectivity in the
+  singleton criterion is vacuous.
 - `s2_2_identity_cover` (degenerate case) — `{id : X → X}` is a v-cover and a pro-étale cover of every
   `X` (`J = {∗}`, `V = U`), and the topology generated solely by identity coverings is the trivial
   one; every presheaf satisfies the sheaf condition for it.
@@ -8506,9 +8511,10 @@ D0.20; D5.8; PerfectoidSpaces layer P4 (residue-field point injection).
 **Absolute products of locally spatial diamonds and fibre products over underlined compact
 Hausdorff spaces.** (*locally-spatial-absolute-product*) Prove that the absolute product `X × Y`
 (over the terminal v-sheaf `Spd 𝔽_p`, which is *not* a diamond, D5.3) of two locally spatial
-diamonds is a locally spatial diamond: it is the diamond `X × Y` of D5.4 with the atlas built
-from affinoid perfectoid atlases of the factors, locally spatial because a product of two affinoid
-perfectoid spaces is perfectoid and the quasi-pro-étale permanence of D5.5 applies chart by chart
+diamonds is a locally spatial diamond: it is the diamond `X × Y` of D4.2 ([ECD] Proposition 11.4,
+p. 55), with the atlas built from D5.4's affinoid perfectoid presentations over spatial opens of
+the factors, locally spatial because a product of two affinoid perfectoid spaces is perfectoid
+and the quasi-pro-étale permanence of D5.5 applies chart by chart
 ([ECD] §11, proof of Prop. 11.26, p. 66). It is *not* asserted, and is false, that the absolute
 product of two spatial diamonds is spatial: object-level quasi-compactness of the factors does
 not give quasi-compactness of their product over the non-quasiseparated terminal object (D2.4),
@@ -8519,7 +8525,7 @@ maps `X → T̲`, `Y → T̲` from locally spatial diamonds, `X ×_{T̲} Y` is t
 spatial diamond by closed-immersion permanence (D5.5) — this needs only local spatiality of the
 absolute product, and it is the base-change statement that the representability proof of [ECD]
 13.12 uses for the map to `|Y|_B̲`; an underlined compact Hausdorff space is never identified with
-a locally spatial diamond. *Needs:* D5.5; D5.4; D5.3; D2.4; D0.9; D3.8.
+a locally spatial diamond. *Needs:* D4.2; D5.5; D5.4; D5.3; D2.4; D0.9; D3.8.
 
 **Checks.**
 

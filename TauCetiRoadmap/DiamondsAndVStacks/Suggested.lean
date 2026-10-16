@@ -309,7 +309,8 @@ example (X : Perfd.{u} p) :
     (⊥ : Presieve X) ∈ vPrecoverage (perfdToTop p) X ↔ IsEmpty X.obj := sorry
 
 /-- A map from a quasicompact perfectoid space to a quasiseparated one is a v-cover iff it is
-surjective (ECD Definition 8.1(iii), p. 39, as used in the proof of Theorem 8.7, p. 43). -/
+surjective (ECD Definition 8.1(iii), p. 39, as used in the proof of Theorem 8.7, p. 43).
+Surjectivity is detected on quasicompact open neighbourhoods of target points. -/
 theorem singleton_mem_vPrecoverage_iff_surjective {X Y : Perfd.{u} p} (f : Y ⟶ X)
     [CompactSpace Y.obj] [QuasiSeparatedSpace X.obj] :
     Presieve.singleton f ∈ vPrecoverage (perfdToTop p) X ↔
