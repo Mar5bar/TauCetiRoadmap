@@ -34,7 +34,11 @@ AutomorphicSpectralTheory, Layers 0, 2, 4 and 6, owns spectral decomposition, tr
 trace-class bounds and the generic trace formula. R16.0/local-langlands owns the finite-place
 parameter construction; R17.1/local-quaternionic-comparison and R17.2 own the rank-two local
 matching and lifting inputs. R17.4/metaplectic-adjoint-input owns the theta-integral input
-needed for the adjoint lift.
+needed for the adjoint lift. R17.4/whittaker-type-adjoint-converse owns the
+Whittaker-type-module converse and constituent argument, including the nongeneric boundary.
+QuaternionicModularForms §§1.3, 2.1–2.2 and 3.1 owns classical coefficient conventions,
+the definite quaternionic form-space functor and its opposite-Hecke action;
+R17.3/definite-hilbert-exports owns their comparison with Pan’s spaces and JL spectrum.
 
 ArithmeticGaloisRepresentations, Layers 1–5 and §§7.1–7.2, 7.6, owns continuous representations, lattices,
 Weil–Deligne objects, Artin/Swan conductors, finite-image classification, recognition and Galois
@@ -190,7 +194,9 @@ AL.3 `gln-fourier-expansion`, `global-whittaker-factorization`, `global-multipli
 `rs-local-convergence` and `rs-local-factor` are consumed with the hypotheses stated below.
 AL.3 `gln-converse-full-rank` at n=2 needs every GL₁ quasicharacter twist. Its
 `gln-converse-reduced-rank` at n=3 supplies the GL₃ input; an omitted finite set gives only an
-outside-set match. The highly ramified family is obtained by the R17.4 fill-and-twist deduction.
+outside-set match. The highly ramified family for generic candidates is obtained by the
+R17.4 fill-and-twist deduction. The adjoint application with possibly nongeneric local quotients instead uses
+R17.4/whittaker-type-adjoint-converse; genericity is a conclusion of its constituent argument.
 
 AutomorphicSpectralTheory, §3.6a `rs-vertical-strip-bounds`, §6.9 orbital integrals and
 Layers 0, 2, 4, 6, supplies Rankin–Selberg strip bounds, trace class,
@@ -208,6 +214,14 @@ AlgebraicModularFormsAndSerreWeights, R15.1–R15.3, R15.5
 `deligne-serre-eigenvalue-lifting-lemma` and `reduction-to-weight-at-least-two-and-to-a-true-eigenform`,
 R15.5A.1–R15.5A.3 classical cohomology and Galois attachments,
 and R15.6 `residual-modularity-witness`, supplies the geometric residual-form interface.
+
+[QuaternionicModularForms](https://github.com/WilliamCoram/TauCetiRoadmap/blob/fe4c14dbe4381c62726cce20430bb84799a5a2e0/TauCetiRoadmap/QuaternionicModularForms/README.md),
+§1.3 (classical coefficient dictionary), §2.1 (abstract forms and stabilizer-invariant
+evaluation), §2.2 (classical definite forms) and §3.1 (opposite-Hecke action), supplies the
+canonical finite-level form-space and operator interfaces used in R17.3/definite-hilbert-exports.
+Consume these classical targets independently of its split-p analytic-weight theory.
+R17.3 supplies the division-p algebraic coefficient adapter, level colimit, Pan comparison,
+norm-character decomposition and JL spectrum. These are target-level supplier contracts.
 
 GlobalNumberFields, Layers 2, 7–10, supplies moduli, ray subgroups, finite ray quotients and
 characters. ClassFieldTheory, Layers 7, 9–11, supplies reciprocity, local Weil groups and the global
@@ -252,8 +266,8 @@ R17.1–R17.3 constructs quaternionic matching and global transfer.
 After R16.1 construct R17.5/global-weil-group. Within R17.4 first build weak prime-cyclic
 transfer (agreement at good places), split-place
 comparison, descent, cuspidality and fibers, without extraordinary WD compatibility. Construct
-quadratic induction, the metaplectic adjoint input, the independent cubic converse transfer and
-GL₃ applications next. In R17.5 build finite primitive globalization and
+quadratic induction, the metaplectic adjoint input, the Whittaker-type adjoint converse and
+constituent argument, the independent cubic converse transfer and GL₃ applications next. In R17.5 build finite primitive globalization and
 strong solvable Artin theorem using these weak transfers. Then prove R17.4/local-compatibility,
 including extraordinary components, and strengthen prime-cyclic and solvable transfer to all-place
 WD restriction. The cubic converse construction fixes its components through local LLC and uses
@@ -1344,13 +1358,47 @@ Let (π′, π) be the cohomological JL pair of coefficient-conjugation, and L �
 
 ### R17.3.9 Definite quaternionic weights and cuspidal transfer
 
-For totally real F and D ramified at every real place, algebraic real types of a non-norm π′ transfer to the matching discrete series, Sym^{k−2}↔D_k. In Pan's ℚ algebra ramified at {p,∞}, A_{(k,0)} uses W^{(k,0)}, dual to the algebraic D_p× type of highest weight (0,−k). For k≥1 its T_S spectrum is indexed by cusp π with that infinity infinitesimal character, (π^∞)^{K^p}≠0 and π_p special or supercuspidal, hence lies in σ_{k+2,1}^{K^p} on M_{k+2}(K^p)·t; t carries the cyclotomic action. For k=0 split A_{(0,0)}=A^c⊕A^1: A^1 factors through Nrd and has spectrum σ_0, while A^c gives σ_{2,1}. Construct these spaces as finite-level functions on D×(F)\D×(𝔸_f) with the specified algebraic coefficient action and central character; right translation defines their Hecke actions.
+For totally real F and D ramified at every real place, algebraic real types of a non-norm π′ transfer to the matching discrete series, Sym^{k−2}↔D_k. In Pan's ℚ algebra ramified at {p,∞}, A_{(k,0)} uses W^{(k,0)}, dual to the algebraic D_p× type of highest weight (0,−k). For k≥1 its T_S spectrum is indexed by cusp π with that infinity infinitesimal character, (π^∞)^{K^p}≠0 and π_p special or supercuspidal, hence lies in σ_{k+2,1}^{K^p} on M_{k+2}(K^p)·t; t carries the cyclotomic action. For k=0 split A_{(0,0)}=A^c⊕A^1: A^1 factors through Nrd and has spectrum σ_0, while A^c gives σ_{2,1}. Consume the canonical classical finite-level spaces and Hecke actions of QuaternionicModularForms §§1.3, 2.1–2.2 and 3.1.
 
-In Pan's specialization K^p is identified through his main involution, T_S=ℤ_p[T_ℓ,S_ℓ:ℓ∉S], and coefficients are in the completion of Q̄_p. A coefficient-field embedding and the finite tensor weight comparison identify these functions with their complex automorphic realization.
+**The classical coefficient and Hecke adapter to Pan’s spaces.** For D/ℚ ramified at
+{p,∞}, fix a splitting of D_p over a finite p-adic coefficient field and extend scalars
+to C_p. Let τ be the algebraic left action on W^{(k,0)}, the dual of the type of highest
+weight (0,−k). Supply QuaternionicModularForms §2.1 with the right coefficient action
+w|u=τ(u_p)⁻¹w. Compare this action, by the dual/opposite-action dictionary, with §1.3’s
+classical symmetric-power coefficients and determinant normalization. This is an algebraic
+coefficient adapter at the division place; no splitting D_p≅M₂(ℚ_p) or split-p analytic
+weight theorem is an input. For U=K^p U_p the supplied transformation law is exactly
+f(γgu)=τ(u_p)⁻¹f(g). Prove that the filtered colimit over shrinking compact open U_p,
+using §2.1’s level inclusions, is Pan’s A_{(k,0)}^{K^p}. Its D_p× action is
+(h·f)(g)=τ(h)f(gh); prove smoothness of this corrected action. Compare central actions
+explicitly: a scalar z_p acts on coefficients by z_p^k, so the level law uses z_p^{-k};
+if f(gz)=ω_raw(z)f(g), the corrected central action is z_p^kω_raw(z).
+Carry this relation when specifying a fixed automorphic central character.
+The colimit and the comparison commute with coefficient extension and tame level change.
 
-*Needs:* R17.3/global-jl; R17.3/split-hecke; R17.1; R16.6.
+Use Pan’s main involution to fix the away-p split identifications and K^p. Compare
+QuaternionicModularForms §3.1’s action of the opposite Hecke ring with Pan’s left
+operators through the double-coset inversion anti-involution. On functions the supplied
+slash by δ is τ(δ_p)⁻¹f(gδ⁻¹), the corrected left action of δ⁻¹. Prove the corresponding
+finite-sum identities and transport eigencharacters. With these split identifications,
+inversion sends the good coset T_ℓ to S_ℓ⁻¹T_ℓ and S_ℓ to S_ℓ⁻¹; to obtain Pan’s
+T_ℓ,S_ℓ use the inverse cosets in the opposite action. Include §1.3’s determinant
+rescaling when passing from normalized to algebraic coefficients. Thus the resulting
+T_S=ℤ_p[T_ℓ,S_ℓ:ℓ∉S] action has Pan’s normalization, including its cyclotomic factor t.
+A coefficient-field embedding and the finite tensor weight comparison identify the
+classical spaces with their complex automorphic realization before applying JL.
 
-*Source:* [pan26-global], §5.4.10, before Definition 5.4.11, p. 71; Definition 5.4.11(2), p. 71; §5.5.5, p. 75; §5.5.5, p. 76.
+**Checks.** At k=0 the coefficient action is trivial and the level colimit contains the
+constant norm character, which contributes to σ_0 rather than the cuspidal σ_{2,1}.
+At k≥1 the scalar action and dual highest weight recover the k+2 weight and the factor t
+in Pan’s spectrum. At a good split prime, verify both T_ℓ and the central S_ℓ against
+the inverse-coset formulas; test two noncommuting normalizing singleton cosets to detect
+order reversal. At the division place p the algebraic coefficient construction and level
+colimit remain defined without a split-p analytic chart.
+
+*Needs:* QuaternionicModularForms §1.3 (classical coefficient dictionary), §2.1 (abstract forms and evaluation), §2.2 (classical definite forms), §3.1 (opposite-Hecke action); R17.3/global-jl; R17.3/split-hecke; R17.1; R16.6.
+
+*Source:* [pan26-global], §5.4.1, pp.68–69 (main involution); §5.4.10 and Definition 5.4.11(1)–(3), p.71 (coefficients, level union and norm quotient); §5.5.5, pp.75–76 (Hecke normalization and spectrum). The right-action and inverse-coset identities above give the comparison with QuaternionicModularForms §§1.3, 2.1–2.2 and 3.1.
 
 <a id="r17-3-indefinite-parity"></a>
 
@@ -1401,7 +1449,7 @@ For split D, JL fixes every cusp class and excludes an Eisenstein principal seri
 
 ### Dependencies
 
-R16.1–R16.6; R17.1–R17.2; ArithmeticLocallySymmetricSpaces ALS.F.6–F.7; R16.4/cohomological-rationality; GlobalQuadraticForms §4.4; R17.3/definite-hilbert-exports for algebraic form spaces.
+R16.1–R16.6; R17.1–R17.2; ArithmeticLocallySymmetricSpaces ALS.F.6–F.7; R16.4/cohomological-rationality; GlobalQuadraticForms §4.4; QuaternionicModularForms §§1.3, 2.1–2.2, 3.1 for classical form spaces and Hecke actions; R17.3/definite-hilbert-exports for their coefficient and spectral comparisons.
 
 ## Layer R17.4: Cyclic, solvable and cubic base change
 
@@ -1606,7 +1654,8 @@ quotient. For unitary cusp π and a Hecke character sufficiently ramified at the
 bad set, unfold the main integral into local Whittaker integrals. Prove continuation, functional
 equation and finite-vertical-strip boundedness, with the quotient factor
 L(s,(π⊗χ)×π̃)/L(s,χ), and its contragredient partner, entire in the sufficiently ramified family.
-This supplies the analytic input to the fill-and-twist converse construction of Ad π.
+This supplies the analytic input to R17.4/whittaker-type-adjoint-converse, including
+its possibly reducible local Whittaker-type modules.
 
 API: theta is invariant under the chosen rational splitting; unfolding and local factorization
 respect ψ and its self-dual measure; the ramification threshold is specified before quantifying χ.
@@ -1624,13 +1673,81 @@ ArithmeticLocallySymmetricSpaces ALS.F.6 (cusp forms); R16.1/haar-quotient-compa
 *Source:* [gj78], §§5.1–5.6, pp.495–506 (extension, theta, sections and unfolding),
 §6, pp.507–514, §§7–8, pp.515–530, Theorem 8.1 stated p.496 and proved in §8.
 
+<a id="r17-4-whittaker-type-adjoint-converse"></a>
+
+### R17.4.13b Whittaker-type converse and adjoint constituents
+
+**The Whittaker-type-module bridge for the adjoint lift.** Let π be a unitary cuspidal
+GL₂ representation over a number field with no nontrivial Hecke-character self-twist.
+For each place v let Π_v be the Langlands quotient with parameter Ad(rec π_v), using
+R16.0/local-langlands and the archimedean parameter supplier. Its centre is trivial;
+it is spherical almost everywhere, with uniformly bounded real Satake exponents and
+Euler convergence in a right half-plane. No genericity or unitarity of Π_v is a premise.
+Construct the attached modules ξ_v of [gj78] §9.1: use Π_v itself in the unitary generic
+range, and the attached normalized induced Whittaker-type module otherwise. In particular,
+for π_v=I(χν^t,χν^{-t}), 0<t<1/2, the spherical quotient has parameter
+ν^{2t}⊕1⊕ν^{-2t}; retain the full attached induction at t=1/4. At infinity construct
+the Whittaker function spaces and their moderate-growth estimates as in §4, including
+the dual transform W(g)↦W(w·{}^tg⁻¹).
+
+Prove that these module zeta integrals have the adjoint quotient’s prescribed standard
+L- and ε-factors, and prove their twisted dual functional equations. This includes the
+reducible boundary: the factors belong to the attached module, and replacing it by its
+generic constituent requires a separate comparison. Let S be the finite set of finite
+places where π_v is not a character twist of a spherical representation. At v∈S prove
+Π_v is tempered generic from R16.2’s unitary classification and the local parameter
+comparison. Take T=S when S is nonempty, and otherwise take T to be a singleton
+auxiliary finite place. Use R17.4/metaplectic-adjoint-input’s entire, strip-bounded
+sufficiently ramified twists and R16.1’s character prescription. Prove the §9.2 extension of the GL₃ converse argument:
+these data realize ⊗′_{v∉T}ξ_v in slowly increasing automorphic functions under the
+outside-T Hecke algebra. Establish its constant-term alternatives: a cuspidal realization,
+induction from a GL₂ cusp and a character (for either maximal parabolic), or induction
+from three characters. The conclusion at this stage concerns the attached modules and
+common constituents; it does not assert that an arbitrary nongeneric quotient is cuspidal.
+
+For this adjoint input prove the §9.6–9.7 constituent and pole argument excluding both
+noncuspidal alternatives. Compare the twisted L-factors of common constituents, retaining
+the finite correction factors at reducible places and showing that they do not cancel
+the poles used in the argument. Use the GL₂ pair pole criterion, scalar and GL₂ boundary
+nonvanishing, and absence of a nontrivial self-twist, with norm shifts for nonunitary
+inducing characters. The cuspidal realization makes ξ_v semisimple and unitary generic;
+the attached-module quotient property then forces ξ_v=Π_v outside T. When the initial
+bad set is empty choose an auxiliary finite place for T and vary it. Separate the
+remaining places by character prescription and highly ramified stability. At S the
+candidates are already tempered generic; at the auxiliary place vary T to establish
+genericity. Apply the local GL₃ converse between generic representations to recover
+every missing component.
+Conclude that ⊗′Π_v is cuspidal automorphic and that complementary exponents t≥1/4
+cannot occur in π. This bound is an output of the argument. For input with a nontrivial
+self-twist use quadratic induction and [gj78] §3.7’s isobaric decomposition instead.
+
+**Checks.** At a finite place π_v=I(ν^{1/4},ν^{-1/4}) is irreducible unitary generic,
+but its adjoint spherical quotient is nongeneric; ξ_v=I(ν^{1/2},1,ν^{-1/2}) is reducible.
+For any local character χ its prescribed L-factor is
+L(s+1/2,χ)L(s,χ)L(s−1/2,χ), whereas the generic constituent
+I_{(2,1)}(St₂,1) twisted by χ has L-factor L(s+1/2,χ)L(s,χ). At χ=1 the
+extra factor is nontrivial. This prevents
+substitution of that constituent in the converse input. In the tempered spherical case
+ξ_v=Π_v is irreducible generic and gives the usual three Satake roots. For a quadratic
+self-twist the output is isobaric and noncuspidal, so the no-self-twist hypothesis is
+necessary for the cuspidal conclusion.
+
+*Needs:* R16.0/local-langlands; R16.1/full-local-character-prescription; R16.3; R17.4/metaplectic-adjoint-input; R17.4/quadratic-induction; AutomorphicLFunctionsAndLocalFactors/archimedean-gln-parameters and /restricted-tensor-realizations; AutomorphicLFunctionsAndLocalFactors AL.3/gln-fourier-expansion, rs-global-poles, rs-boundary-nonvanishing; ArithmeticGaloisRepresentations §2.7 (scalar Hecke functional equation); ArithmeticLocallySymmetricSpaces ALS.F.6. The Whittaker-type extension of the converse and its constant-term analysis are targets here, beyond AL.3’s irreducible generic converse contract.
+
+*Source:* [gj78], §3.4, pp.489–490; §4, Lemmas 4.1.5 and 4.1.8 and Proposition 4.1.9, pp.492–495; §§9.1–9.2, pp.531–534; §§9.5–9.8, pp.536–541; Theorem 9.3(3)–(4), p.534; §3.7, p.491 and Remark 9.9, p.541.
+
 <a id="r17-4-adjoint-lift"></a>
 
 ### R17.4.13 The Gelbart–Jacquet adjoint lift
 
 For unitary cusp π, Ad(π)=Sym²π⊗ω_π⁻¹ is self-dual isobaric automorphic GL₃ with centre1. At every place its twisted L-factor is L(s,(π_v⊗χ_v)×π̃_v)/L(s,χ_v), with matching ε; LLC pair-factor compatibility identifies the adjoint parameter. Good eigenvalues are α/β,1,β/α, and character twisting preserves the lift. It is cuspidal iff π has no nontrivial self-twist. Otherwise π=AI_{E/F}θ for quadratic E and Adπ=η_{E/F}⊞AI(θ/θ^σ), interpreting the induction isobarically when invariant. ArithmeticGaloisRepresentations §§7.1–7.2 owns the Galois/WD adjoint.
 
-Identify the local adjoint parameter through GL₂ pair-factor compatibility and the GL₃ local converse theorem (R16.3, R16.0/local-langlands). This input also covers extraordinary components; GJ78 alone does not prove that comparison.
+For the no-self-twist case, apply R17.4/whittaker-type-adjoint-converse to the attached
+modules; its constituent argument proves cuspidality and local genericity before any
+irreducible generic converse is used. The self-twist case uses quadratic induction.
+Identify the local adjoint parameter through GL₂ pair-factor compatibility and, after
+genericity is established, the GL₃ local converse theorem (R16.3, R16.0/local-langlands).
+This input also covers extraordinary components; GJ78 alone does not prove that comparison.
 
 Prove the following API.
 - `adjointLift_local`: Each local component of Ad(π) is the Gelbart–Jacquet local lift of π_v; under the GL₂ LLC its parameter is the adjoint of the local parameter of π.
@@ -1644,7 +1761,7 @@ Prove the following API.
 - Multiplying both input eigenvalues by any u≠0 does not change the three adjoint eigenvalues.
 - For diag(2,3), the adjoint output differs from diag(4,6,9); forgetting ω^{-1} gives the wrong lift.
 
-*Needs:* R16.3; AutomorphicLFunctionsAndLocalFactors AL.3; ArithmeticLocallySymmetricSpaces ALS.F.6; ArithmeticGaloisRepresentations §§7.1–7.2; R17.4/metaplectic-adjoint-input; R16.0/local-langlands; ArithmeticLocallySymmetricSpaces ALS.F.6/cuspidalRepresentation; R17.4/highly-ramified-converse.
+*Needs:* R16.3; AutomorphicLFunctionsAndLocalFactors AL.3; ArithmeticLocallySymmetricSpaces ALS.F.6; ArithmeticGaloisRepresentations §§7.1–7.2; R17.4/metaplectic-adjoint-input; R16.0/local-langlands; ArithmeticLocallySymmetricSpaces ALS.F.6/cuspidalRepresentation; R17.4/whittaker-type-adjoint-converse; R17.4/quadratic-induction.
 
 *Source:* [gj78], Introduction, p. 472; §3.1, Definition 3.1.3 and the remark after it, p. 485; §3.6, p. 491; §9, Theorem 9.3, p. 534; Remark 9.9, p. 541; with §3.7, p. 491; §5 lead-in, Theorem 8.1, p. 496; proof in §§5–8.
 

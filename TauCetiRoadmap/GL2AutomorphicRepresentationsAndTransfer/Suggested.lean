@@ -21,6 +21,15 @@ representation carrier is replaced. Frobenius is geometric in the automorphic
 normalization, monodromy is retained, and coefficient twists use the existing
 symmetric powers and character-twist API. Automorphic classes, local types,
 Whittaker models and their transfer maps have their full specification in README.
+
+QuaternionicModularForms §§1.3, 2.1–2.2 and 3.1 supplies classical coefficient
+conventions, canonical definite form spaces and the opposite-Hecke action.
+R17.3/definite-hilbert-exports supplies the division-p coefficient and level-colimit
+comparison with Pan, including dual coefficients, central action and inverse cosets.
+R17.4/whittaker-type-adjoint-converse supplies the attached-module converse and
+constituent argument for the adjoint lift without assuming local genericity.
+Its cuspidal conclusion assumes no nontrivial Hecke-character self-twist;
+quadratic induction supplies the self-twist case.
 -/
 
 noncomputable section
@@ -724,6 +733,16 @@ theorem adjointSatakeDiagonal_twist (α β u : K) (hu : u ≠ 0) :
     adjointSatakeDiagonal (u * α) (u * β) = adjointSatakeDiagonal α β := by sorry
 
 example : adjointSatakeDiagonal (2 : ℚ) 3 ≠ diagonal ![4, 6, 9] := by sorry
+
+/-- The norm-character Satake parameters at the complementary-series boundary
+have adjoint exponents +1/2, 0, -1/2. The Whittaker-type bridge in README uses
+an attached induced module at this boundary, with its prescribed L-factors. -/
+example (p : ℕ) [Fact p.Prime] (u : ℚ_[p]ˣ) :
+    adjointSatakeDiagonal
+        (GL2Blueprint.localNormCharacter p (1/4) u : ℂ)
+        (GL2Blueprint.localNormCharacter p (-(1/4)) u : ℂ) =
+      diagonal ![(GL2Blueprint.localNormCharacter p (1/2) u : ℂ), 1,
+        (GL2Blueprint.localNormCharacter p (-(1/2)) u : ℂ)] := by sorry
 
 end AdjointMatrix
 
