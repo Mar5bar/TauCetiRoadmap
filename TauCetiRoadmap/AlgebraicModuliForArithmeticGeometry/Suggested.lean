@@ -976,6 +976,38 @@ structure MarkedIdeal (R : Type u) [CommRing R] where
 def MarkedIdeal.cosupport (J : MarkedIdeal R) : Set (PrimeSpectrum R) :=
   {p | (J.mark : ℕ∞) ≤ idealOrderAt J.ideal p}
 
+/-- A residual factor of order zero along the cosupport is the unit ideal on its open
+complement of vanishing. This open contains the cosupport, and the ideal equals its other
+factor at every stalk there. -/
+theorem MarkedIdeal.residualUnitOnOpen (J : MarkedIdeal R) (M N : Ideal R)
+    (hfactor : J.ideal = M * N)
+    (hresidual : ∀ p ∈ J.cosupport, idealOrderAt N p = 0) :
+    ∃ U : TopologicalSpace.Opens (PrimeSpectrum R),
+      J.cosupport ⊆ (U : Set (PrimeSpectrum R)) ∧
+      (U : Set (PrimeSpectrum R)) = (PrimeSpectrum.zeroLocus (N : Set R))ᶜ ∧
+      ∀ p : PrimeSpectrum R, p ∈ U →
+        N.map (algebraMap R (Localization.AtPrime p.asIdeal)) = ⊤ ∧
+        J.ideal.map (algebraMap R (Localization.AtPrime p.asIdeal)) =
+          M.map (algebraMap R (Localization.AtPrime p.asIdeal)) := sorry
+
+/-- `CompanionChecks.locallyMonomial`: for `(x²(x−1), 2)` with boundary `x = 0`, the cosupport
+is `{0}` and the residual factor `(x−1)` has order zero there. The ideal equals `(x²)` on
+`D(x−1)`, while at `1` its order is one and the residual factor is nonunit globally. -/
+example :
+    let I : Ideal (Polynomial ℚ) := Ideal.span {Polynomial.X ^ 2 * (Polynomial.X - 1)}
+    let M : Ideal (Polynomial ℚ) := Ideal.span {Polynomial.X ^ 2}
+    let N : Ideal (Polynomial ℚ) := Ideal.span {Polynomial.X - 1}
+    let J := MarkedIdeal.mk I 2 (by decide)
+    let p₀ : PrimeSpectrum (Polynomial ℚ) :=
+      PrimeSpectrum.comap (Polynomial.evalRingHom (0 : ℚ)) ⟨⊥, inferInstance⟩
+    let p₁ : PrimeSpectrum (Polynomial ℚ) :=
+      PrimeSpectrum.comap (Polynomial.evalRingHom (1 : ℚ)) ⟨⊥, inferInstance⟩
+    I = M * N ∧ J.cosupport = {p₀} ∧ idealOrderAt N p₀ = 0 ∧
+      idealOrderAt I p₁ = 1 ∧ N ≠ ⊤ ∧ I ≠ M ∧
+      ∀ p : PrimeSpectrum (Polynomial ℚ), p ∈ PrimeSpectrum.basicOpen (Polynomial.X - 1) →
+        I.map (algebraMap (Polynomial ℚ) (Localization.AtPrime p.asIdeal)) =
+          M.map (algebraMap (Polynomial ℚ) (Localization.AtPrime p.asIdeal)) := sorry
+
 /-- On a ring with regular local rings, `(I, d)` and `(Iᵏ, k d)` have the same cosupport. This is
 the affine shadow of the test equivalence `markedIdeal_rescale` of README §9.1, which also asks for
 equal cosupports after every permitted sequence of blowups and is a README target. -/
