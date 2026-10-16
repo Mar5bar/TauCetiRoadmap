@@ -134,6 +134,18 @@ example : IsIotaPureOutside (Representation.trivial ℂ ℂˣ ℂ)
     (fun _ : Unit => ⊥) (fun _ => three) (fun _ => 3) ∅ (RingHom.id ℂ) 0 := by
   sorry
 
+/-- The geometric Tate line has chosen-embedding weight minus two under every embedding. -/
+example (ι : ℂ →+* ℂ) :
+    IsIotaPureOutside scalarRep (fun _ : Unit => ⊥)
+      (fun _ => three⁻¹) (fun _ => 3) ∅ ι (-2) := by
+  sorry
+
+/-- The rank-zero representation satisfies chosen-embedding purity at every real weight. -/
+example (w : ℝ) (ι : ℂ →+* ℂ) :
+    IsIotaPureOutside (Representation.trivial ℂ ℂˣ (Fin 0 → ℂ))
+      (fun _ : Unit => ⊥) (fun _ => three) (fun _ => 3) ∅ ι w := by
+  sorry
+
 /-- A scalar of modulus three does not have chosen-embedding weight zero. -/
 example : ¬ IsIotaPureOutside scalarRep (fun _ : Unit => ⊥)
     (fun _ => three) (fun _ => 3) ∅ (RingHom.id ℂ) 0 := by
@@ -174,6 +186,15 @@ theorem chosen_embedding_integer_weight_nonexample :
       ∃ α β : ℂ, (X ^ 4 - X ^ 3 - X ^ 2 - X + 1 : ℂ[X]).IsRoot α ∧
         (X ^ 4 - X ^ 3 - X ^ 2 - X + 1 : ℂ[X]).IsRoot β ∧
           ‖α‖ = 1 ∧ 1 < ‖β‖ := by
+  sorry
+
+/-- A quartic unit-circle root gives chosen-embedding purity but fails all-embeddings purity. -/
+example : ∃ α : ℂˣ,
+    (X ^ 4 - X ^ 3 - X ^ 2 - X + 1 : ℂ[X]).IsRoot (α : ℂ) ∧
+    IsIotaPureOutside scalarRep (fun _ : Unit => ⊥)
+      (fun _ => α) (fun _ => 3) ∅ (RingHom.id ℂ) 0 ∧
+    ¬ IsPureOutside scalarRep (fun _ : Unit => ⊥)
+      (fun _ => α) (fun _ => 3) ∅ 0 := by
   sorry
 
 /-- All-embeddings purity specializes to any chosen complex embedding. -/
@@ -230,6 +251,34 @@ theorem parabolic_degree_weight (k : ℤ) : (k - 2) + 1 = k - 1 := by
 theorem hard_lefschetz_target_weight (d a : ℤ) : d + a - 2 * a = d - a := by
   sorry
 
+/-- The Hilbert projected degree and auxiliary Tate twist give weight w−1. -/
+example (g w : ℤ) :
+    (2 * g - 1) * (w - 2) + 1 - 2 * ((g - 1) * (w - 2)) = w - 1 := by
+  ring
+
+/-- At g=w=2 the Hilbert projected degree is one and the auxiliary twist is zero. -/
+example : (2 * 2 - 1) * (2 - 2) + 1 - 2 * ((2 - 1) * (2 - 2)) = (1 : ℤ) := by
+  norm_num
+
+/-- Classical weight twelve occurs in total degree eleven with zero twist. -/
+example : (12 - 2 : ℤ) + 1 = 11 := by
+  norm_num
+
+/-- Elliptic inversion projects onto the two degree-one directions. -/
+example :
+    let inv : Matrix (Fin 4) (Fin 4) ℚ := Matrix.diagonal ![1, -1, -1, 1]
+    let p := (1 / 2 : ℚ) • (1 - inv)
+    p * p = p ∧ p = Matrix.diagonal ![0, 1, 1, 0] ∧ p.rank = 2 := by
+  sorry
+
+/-- The sign-isotypic projector for graded interchange selects symmetric rank three. -/
+example :
+    let s : Matrix (Fin 4) (Fin 4) ℚ :=
+      !![-1, 0, 0, 0; 0, 0, -1, 0; 0, -1, 0, 0; 0, 0, 0, -1]
+    let p := (1 / 2 : ℚ) • (1 - s)
+    p * p = p ∧ p.rank = 3 := by
+  sorry
+
 /-! ## Layer R34.6: trace bounds and the local twist -/
 
 /-- Two roots of the same modulus give the rank-two Ramanujan trace bound. -/
@@ -251,22 +300,28 @@ R34.1/purity-under-restriction-and-induction: continuous Galois induction and lo
 R34.1/purity-under-linear-algebra-operations: full arithmetic subquotient/tensor/Tate interfaces.
 R34.1/frobenius-eigenvalues-need-not-be-algebraic: continuous character of Gal(F_qbar/F_q).
 R34.1/representation-sheaf-weight-comparison: actual lisse sheaf and π₁ correspondence.
-R34.1/arithmetic-complex-weight-normalization: adic constructible complex and Verdier duality.
+R34.1/arithmetic-complex-weight-normalization: smooth finite-field scheme, ℓ invertible, lisse
+cohomology of a bounded constructible adic complex and Verdier duality.
 R34.2/frobenius-on-tate-modules-and-first-cohomology: actual Tate module and étale H¹ duality.
 R34.2/purity-of-tate-modules-with-good-reduction: smooth proper specialization and exterior powers.
 R34.2/good-reduction-point-counts-and-traces: Frobenius on the reduction of an abelian variety.
-R34.2/curve-traces-over-all-residue-extensions: actual curve/Jacobian and cohomological trace.
+R34.2/curve-traces-over-all-residue-extensions: unpointed curve/Jacobian H¹ comparison,
+translation invariance and Frobenius-equivariant cohomological trace.
 R34.3/proper-trait-specialization-comparison: proper trait, finite-level nearby cycles and R lim.
 R34.3/nodal-modular-curve-comparison: named integral curve, normalization and dual graph.
 R34.3/arithmetic-picard-lefschetz-normalization: quadratic degeneration and tame inertia.
+R34.3/saito-crystalline-weight-spectral-sequence: filtered log-crystalline complex, stratum maps and N.
+R34.3/saito-stratum-correspondence-trace: crystalline cycle classes, duality and Weil-twisted traces.
 R34.3/saito-semistable-comparison-model: Saito's model, projector and log-crystalline comparison.
-R34.4/finite-field-pencil-descent: parameter open and actual incidence blowup.
-R34.4/vanishing-quotient-parity-comparison: arithmetic vanishing quotient with radical removed.
+R34.4/finite-field-pencil-descent: supplied finite-field pencil/incidence descent on the chosen axis.
+R34.4/vanishing-quotient-parity-comparison: supplied odd-degree arithmetic radical quotient and
+Tate pairing; comparison with the even-degree symmetric pairing.
 R34.4/original-coefficient-monodromy-hypotheses: original Q_l geometric monodromy and local factors.
 R34.5/parabolic-cohomology-weight-comparison: actual H_c¹→H¹ image of Sym^r R¹.
 R34.5/kuga-sato-projector-weight-comparison: algebraic correspondence and étale comparison.
 R34.5/weight-two-jacobian-weight-comparison: actual modular abelian quotient and coefficient action.
-R34.5/arithmetic-hard-lefschetz-comparison: ample class and Frobenius-equivariant cup product.
+R34.5/arithmetic-hard-lefschetz-comparison: smooth projective finite-field scheme, ℓ invertible,
+ample class and Frobenius-equivariant cup product.
 R34.6/eigenform-purity-and-ramanujan-bound: existing newform eigensummand and Hecke polynomial.
 R34.6/fixed-eigenform-good-prime-compatibility: common coefficient field and actual λ-realizations.
 R34.6/arithmetic-realization-transport: actual comparison morphisms and commuting correspondences.
