@@ -280,7 +280,7 @@ This uses [0.1 Arithmetic component stabilizers](#01-arithmetic-component-stabil
 
 ### 0.5 Finite analytic component decomposition
 
-Prove `TauCeti.Shimura.component_decomposition` as follows. For every compact open K, G(Q)_+\G(A_f)/K is finite, and choice of representatives a induces ⨿_a Γ_a\X⁺ ≅ G(Q)\(X×G(A_f)/K), first as topological spaces and then as complex analytic spaces. Changing a=qbk transports the component by q, so the decomposition is independent of representatives up to the specified analytic isomorphisms.
+Prove `TauCeti.Shimura.component_decomposition` as follows. For every compact open K, `G(Q)_+ ∖ G(A_f)/K` is finite, and choice of representatives a induces `⨿_a Γ_a ∖ X⁺ ≅ G(Q) ∖ (X×G(A_f)/K)`, first as topological spaces and then as complex analytic spaces. Changing a=qbk transports the component by q, so the decomposition is independent of representatives up to the specified analytic isomorphisms.
 
 Finite index of G(Q)_+ in G(Q) refines AA.3 class finiteness to the plus double cosets.
 
@@ -2317,7 +2317,7 @@ This uses [Local datum foundations, §P.1](#p1-pure-data-and-special-pairs); [4.
 
 ### 8.6 Zero-dimensional Shimura varieties and their canonical models
 
-Construct `ZeroDimShimura.shimuraSet` as follows. Let T be a Q-torus, Y a nonempty finite set on which T(R) acts transitively through T(R)/T(R)^+ (T(Q) acting through T(Q) ⊂ T(R)), and mu a cocharacter of T_C with field of definition E ⊂ C. For compact open K ⊂ T(A_f) put Sh_K(T,Y) = T(Q)\(Y × T(A_f))/K, the finite set of classes [y,a]_K with [y,a]_K = [q·y, q a k]_K for q in T(Q), k in K; the sets form an inverse system with right translations by T(A_f). For sigma in Gal(Qbar/E) choose s in the ideles of E with art_E(s) = sigma on E^ab, let r(s) = (r(s)_inf, r(s)_f) be its image under the multiplicative reflex norm r(T,mu) of Layer 4, and put sigma[y,a]_K = [r(s)_inf·y, r(s)_f·a]_K (Milne, formula (64)). This is a continuous action independent of s, compatible with transitions and translations; the canonical model M_K(T,Y,mu) is the finite étale E-scheme attached to this Galois set. When Y is one point and mu = mu_h it is the Layer 4 torus model of the strict torus datum (T,{h}); in general it is not: for T=G_m, E=Q, Y={±1}, mu(t)=t and K = ker(Zhat^× -> (Z/N)^×), N > 0, it is mu_N^prim. With the same mu and Y replaced by a singleton, the strict datum gives Spec of the real subfield of Q(zeta_N). For mu(t)=t^n, n an integer, retain the action through chi_cyc^n on (Z/N)^×; mu=0 gives the split finite Q-scheme. The singleton comparison always uses the same mu.
+Construct `ZeroDimShimura.shimuraSet` as follows. Let T be a Q-torus, Y a nonempty finite set on which T(R) acts transitively through T(R)/T(R)^+ (T(Q) acting through T(Q) ⊂ T(R)), and mu a cocharacter of T_C with field of definition E ⊂ C. For compact open K ⊂ T(A_f) put `Sh_K(T,Y) = T(Q) ∖ (Y × T(A_f))/K`, the finite set of classes [y,a]_K with [y,a]_K = [q·y, q a k]_K for q in T(Q), k in K; the sets form an inverse system with right translations by T(A_f). For sigma in Gal(Qbar/E) choose s in the ideles of E with art_E(s) = sigma on E^ab, let r(s) = (r(s)_inf, r(s)_f) be its image under the multiplicative reflex norm r(T,mu) of Layer 4, and put sigma[y,a]_K = [r(s)_inf·y, r(s)_f·a]_K (Milne, formula (64)). This is a continuous action independent of s, compatible with transitions and translations; the canonical model M_K(T,Y,mu) is the finite étale E-scheme attached to this Galois set. When Y is one point and mu = mu_h it is the Layer 4 torus model of the strict torus datum (T,{h}); in general it is not: for T=G_m, E=Q, Y={±1}, mu(t)=t and K = ker(Zhat^× -> (Z/N)^×), N > 0, it is mu_N^prim. With the same mu and Y replaced by a singleton, the strict datum gives Spec of the real subfield of Q(zeta_N). For mu(t)=t^n, n an integer, retain the action through chi_cyc^n on (Z/N)^×; mu=0 gives the split finite Q-scheme. The singleton comparison always uses the same mu.
 
 Throughout this result, T is a Q-torus; Y is a nonempty finite set with a transitive T(R)-action factoring through T(R)/T(R)^+ (Milne, zero-dimensional Shimura varieties, pp.62–63). mu is a cocharacter of T_C defined over the number field E ⊂ C; r(T,mu) is the multiplicative reflex norm of Layer 4 (Milne (60) with the product convention) and art_E is the Artin map in the Layer 4 normalization. K ranges over compact open subgroups of T(A_f).
 
@@ -2331,7 +2331,7 @@ For Y a point, (64) reduces to (62) for the special pair (T,h), because T(R) fix
 
 Expose the following named operations and laws.
 
-- `ZeroDimShimura.shimuraSet`: Sh_K(T,Y) = T(Q)\(Y × T(A_f))/K, the quotient of Y × T(A_f) by (y,a) ~ (q·y, q a k), q in T(Q), k in K.
+- `ZeroDimShimura.shimuraSet`: `Sh_K(T,Y) = T(Q) ∖ (Y × T(A_f))/K`, the quotient of Y × T(A_f) by (y,a) ~ (q·y, q a k), q in T(Q), k in K.
 - `ZeroDimShimura.mk`: The class [y,a]_K of y in Y and a in T(A_f).
 - `ZeroDimShimura.mk_eq_mk`: [y,a]_K = [y′,a′]_K if and only if y′ = q·y and a′ = q a k for some q in T(Q) and k in K.
 - `ZeroDimShimura.map`: For K ⊂ K′ the transition [y,a]_K -> [y,a]_K′, with map_id and map_comp.
