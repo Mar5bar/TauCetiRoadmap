@@ -19,7 +19,7 @@ universal family and Kodaira–Spencer isomorphism, and it proves properness in 
 case, the Grothendieck–Messing description of unitary deformations, the kernel-rank identities for
 isogenies between unitary abelian schemes and Wedhorn's ordinariness criterion. Over `ℂ` it
 identifies `M_K^ad` with the disjoint union, over `ker¹(ℚ, G)`, of the arithmetic quotients
-`G^{(i)}(ℚ)\(X × G(𝔸_f)/K)`, as analytic spaces and then algebraically; it shows that the generic
+`G^{(i)}(ℚ) ∖ (X × G(𝔸_f)/K)`, as analytic spaces and then algebraically; it shows that the generic
 fibres are canonical models, compatible with level, Hecke maps and morphisms of data, builds normal
 integral models at higher `p`-level and the rank-one CM moduli schemes with their torus trace. It
 ends with the Siegel, Hilbert and unitary examples and the arithmetic moduli interface used by
@@ -2493,7 +2493,7 @@ ArithmeticGaloisDuality R02.4.6 (the three torus targets named above).
 
 Prove `arithmeticQuotient_structure`: for the full PEL similitude group `G`, its
 real orbit `X` and a Pink-neat open compact `K`, the quotient
-`G(ℚ)\(X × G(𝔸_f)/K)` is a finite union of quotients `Γ_j\X_j⁺`.
+`G(ℚ) ∖ (X × G(𝔸_f)/K)` is a finite union of quotients `Γ_j\X_j⁺`.
 Here `Γ_j` means the effective image of a rational stabilizer on a connected
 Hermitian symmetric domain `X_j⁺`, rather than the stabilizer with its central
 kernel retained. These images are torsion-free arithmetic subgroups of the
@@ -2547,7 +2547,7 @@ Prove `complexPoints`: let the rational datum be of Case A or C, `X` the `G(ℝ)
 `K ⊆ G(𝔸_f)` open compact, and `V^{(1)} = V, …, V^{(m)}` representatives of `ker¹(ℚ, G)` with inner
 forms `G^{(i)}`. Then `M_K^ad(ℂ)` is the disjoint union of the subsets `M_K^ad(ℂ)^{(i)}` of quadruples
 whose `H₁(A, ℚ)` is isomorphic to `V^{(i)}` as a skew-hermitian `B`-module, and
-`M_K^ad(ℂ)^{(i)} ≅ G^{(i)}(ℚ)\(X × G(𝔸_f)/K)` by `(A, λ, i, η̄) ↦ [(h_A, a ∘ η)]` for a `B`-isomorphism
+`M_K^ad(ℂ)^{(i)} ≅ G^{(i)}(ℚ) ∖ (X × G(𝔸_f)/K)` by `(A, λ, i, η̄) ↦ [(h_A, a ∘ η)]` for a `B`-isomorphism
 `a : H₁(A, ℚ) ≅ V^{(i)}`; each piece is nonempty (Kottwitz, §8, p. 400; Milne, Theorem 8.17, p. 88, for
 the piece of `V` and its condition (∗∗)). When SV3 holds and `ker¹ = 1` (Cases C and A with `n` even),
 `M_K^ad(ℂ) = Sh_K(G, X)(ℂ)`. For the `p`-integral problem the same holds for `M_H^rat(ℂ)` with
@@ -2564,7 +2564,7 @@ AbelianSchemesAndArithmeticModuli A5.
 
 **Checks.**
 
-- `complexPoints_siegel`: `A_{g,n}(ℂ) ≅ GSp_{2g}(ℚ)\(ℍ_g^± × GSp_{2g}(𝔸_f)/K(n)) ≅ ⊔_{(ℤ/n)^×} Γ(n)\ℍ_g`.
+- `complexPoints_siegel`: `A_{g,n}(ℂ) ≅ GSp_{2g}(ℚ) ∖ (ℍ_g^± × GSp_{2g}(𝔸_f)/K(n)) ≅ ⊔_{(ℤ/n)^×} Γ(n)\ℍ_g`.
 - `complexPoints_nonempty`: every `ker¹`-piece contains a point.
 - `complexPoints_not_only_V`: for a Case-A odd datum with `ker¹ ≠ 1`, Milne's condition (∗∗) selects
   one piece and drops the others; `M_K^ad(ℂ)` contains them all.
@@ -2590,7 +2590,7 @@ with `q_g c(g) ∈ Ẑ^×`. The family is `G^{(i)}(ℚ)`-equivariant (`analyticF
 `q_{γg} = q_g/|c(γ)|`, so the polarization is preserved; the raw form `ψ` on every component would be
 negative on half of them). It is built from the relative Riemann theorem for analytic families and the
 Siegel family (AbelianSchemesAndArithmeticModuli A5, whose Riemann-form convention needs the input
-`E = −ε(h′) q_g ψ`) and descends to `Q_K^{(i),an} = G^{(i)}(ℚ)\(X × G(𝔸_f)/K)` by M3.3. Define
+`E = −ε(h′) q_g ψ`) and descends to `Q_K^{(i),an} = G^{(i)}(ℚ) ∖ (X × G(𝔸_f)/K)` by M3.3. Define
 `PELModuli.uniformization`: the morphism of complex analytic spaces
 `u^{(i)} : Q_K^{(i),an} → (M_K^ad ⊗_{F₀} ℂ)^an` given by the universal property of the analytification
 of the algebraic space `M_K^ad ⊗ ℂ` (ComplexComparisonPartII §§C−1.1–C−1.3,
@@ -2661,7 +2661,7 @@ ShimuraVarieties §§2.7 and 3.2; ComplexComparisonPartII §§C−1.1–C−1.3 
 Prove `typeDComparison`: for an integral datum with a type D factor, keep the full, possibly
 disconnected, similitude group `G`. For neat `K`, the complex moduli `M_K^ad(ℂ)` is the disjoint union
 over the finite pointed set `ker¹(ℚ, G)` of the full rational-form quotients
-`G^{(i)}(ℚ)\(X × G(𝔸_f)/K)`, with the same positive complex-structure orbit and transported level, and
+`G^{(i)}(ℚ) ∖ (X × G(𝔸_f)/K)`, with the same positive complex-structure orbit and transported level, and
 the analytic comparison of M3.5 holds for these quotients (Lan, *An example-based introduction*,
 §5.1.3, pp. 54–56). No replacement of `G` by `G°` with a separate component formula is made. The proof
 is direct: Lan's Hodge–lattice equivalence for the full group, the forms indexed by `ker¹(ℚ, G)`
@@ -2722,7 +2722,7 @@ symmetric complex `g × g` matrices with positive definite imaginary part and
 Tsimerman, §6.1, p. 387, for the level-one quotient). For `g = 1` this is `⊔ Γ(n)\ℍ` with
 Mathlib's `UpperHalfPlane`. The scheme and period family are supplied by §5.0;
 strong approximation for `Sp_{2g}` and
-`ν(K(n)) = Ẑ^× ∩ (1 + nẐ)` identify `G(ℚ)\(ℍ_g^± × G(𝔸_f)/K(n))` with `⊔_{(ℤ/n)^×} Γ(n)\ℍ_g`
+`ν(K(n)) = Ẑ^× ∩ (1 + nẐ)` identify `G(ℚ) ∖ (ℍ_g^± × G(𝔸_f)/K(n))` with `⊔_{(ℤ/n)^×} Γ(n)\ℍ_g`
 (ShimuraVarieties Layer 0). *Needs:* M1.10, M3.4, M3.5; ShimuraVarieties Layer 0 and §5.0
 `TauCeti.Shimura.rational_siegel_moduli`, `TauCeti.Shimura.siegel_moduli_uniformization`;
 Mathlib `UpperHalfPlane`.
