@@ -1,7 +1,7 @@
 # Subfactors, Jones index, and planar standard invariants
 
 Build the theory of finite-index inclusions of II₁ factors, their Hilbert
-bimodules, basic constructions and standard invariants. Prove Jones index
+bimodules, basic constructions, relative inclusion entropy and standard invariants. Prove Jones index
 quantisation by constructing a trace-compatible Temperley–Lieb action and
 applying the independent algebraic positivity theorem. Develop planar
 algebras as usable libraries, reconstruct standard invariants analytically,
@@ -67,7 +67,9 @@ principal graph is substantially weaker data.
   module-category interpretations and planar-to-C*-algebra completions.
   Those later categorical constructions are not prerequisites here.
 
-The inclusion/standard-invariant scope is II₁. S1 develops correspondences
+The inclusion/standard-invariant scope is II₁; S2a also defines relative
+entropy for arbitrary finite von Neumann algebras with a chosen faithful
+normal tracial state. S1 develops correspondences
 for arbitrary von Neumann algebras so its fusion API also supports
 categorical applications over type III factors. General Kosaki-index
 classification for other factor types, the complete exceptional enumeration
@@ -172,8 +174,8 @@ for factors `Ind(E)=E^(-1)(1)` is a scalar. Prove
 construct `E_h(x)=E_N(h^(1/2)xh^(1/2))` and prove
 `Ind(E_h)=[M:N] tr_(N')(h^(-1))`; develop uniqueness of this
 Radon–Nikodym parametrization and the weighted GNS/tower comparison.
-Prove every normal conditional expectation E:M→N has a unique positive
-h∈N′∩M with E_N(h)=1 and `E(x)=E_N(hx)`; this equals the
+At finite Jones index, prove every normal conditional expectation E:M→N
+has a unique positive h∈N′∩M with E_N(h)=1 and `E(x)=E_N(hx)`; this equals the
 half-density formula above. Use N-centrality of τ_N∘E to locate its
 Radon–Nikodym density in the finite-dimensional relative commutant.
 Prove E faithful iff h is invertible, and then finite index holds.
@@ -201,6 +203,64 @@ a positive ratio and all its powers take only finitely many values,
 so that ratio is1. Applied to constituents of X_i⊗X̄_j this gives
 a common ratio for the distinguished odd sectors. S5 uses this
 argument to prove finite-depth extremality.
+
+### S2a. Relative entropy of finite tracial inclusions
+
+For a unital inclusion N⊆M of finite von Neumann algebras carrying a
+faithful normal normalized trace τ_M, consume V6's trace/L² construction
+and V11's trace specialization of Takesaki's expectation theorem.
+These supply the unique normal trace-preserving conditional expectation
+E_N:M→N, its positivity, bimodularity, projection and composition laws.
+S2 develops its II₁ inclusion and Jones-tower applications. No factor
+hypothesis is imposed on the entropy definition below.
+
+Put η(t)=−t log t for t≥0, η(0)=0, using natural logarithms and continuous
+functional calculus on positive elements. For finite positive partitions
+of unity x₁,…,x_n∈M₊, Σ_i x_i=1, define
+
+`H(M|N)=sup_(x_i) Σ_i [τ_M(η(E_N(x_i)))−τ_M(η(x_i))] ∈ [0,∞]`.
+
+Prove trace Jensen for η under E_N, using spectral approximation and
+scalar Jensen on compressed states, or operator Jensen. Handle the zero
+spectral endpoint by continuity; no commutativity of M is assumed.
+Prove that each partition value is real and nonnegative, that the identity
+inclusion has value zero, and that each partition value is bounded by the
+extended supremum. Prove invariance under trace-preserving inclusion
+*-isomorphisms and conditioning monotonicity: N⊆P⊆M gives
+`H(M|P)≤H(M|N)`. For II₁ subfactors prove `0≤H(M|N)≤log[M:N]`,
+allowing ∞. Build operator-log monotonicity on positive invertible
+elements and use S2's optimal Pimsner–Popa inequality for this bound,
+regularizing noninvertible partition elements before passing to the limit.
+
+Prove Pimsner–Popa Theorem4.4 for a II₁ factor M and subfactor N⊆M.
+A diffuse part of N′∩M gives H(M|N)=∞. If N′∩M is atomic with minimal
+projections f_k summing to1, then
+
+`H(M|N)=Σ_k τ_M(f_k) log([f_kMf_k:Nf_k]/τ_M(f_k)^2)`.
+
+There is no finite-index hypothesis in this formula. An infinite corner
+index gives an infinite extended value. At finite index d=[M:N], prove
+Corollary4.5's equivalence of the following conditions:
+
+- H(M|N)=log d;
+- every minimal relative-commutant projection f has
+  `[fMf:Nf]/τ_M(f)^2=d`;
+- τ_M and S2's normalized commutant trace tr_(N′) agree on N′∩M;
+- the linear anti-isomorphism `x↦Jx*J` from N′∩M to M′∩M₁
+  preserves the normalized traces; equivalently `x↦JxJ` conjugates
+  their complex trace values.
+
+Use S2's explicit h_0 and block-trace formula to prove these conditions
+equivalent to minimality of the trace-preserving expectation. Given any projection
+e∈M with E_N(e)=d⁻¹1 from a downward basic construction, prove these
+conditions are also equivalent to `E_(N′∩M)(e)=d⁻¹1`: the criterion
+holds for one such projection exactly when it holds for every such
+projection. This is a projection in M, distinct from e_N∈M₁.
+
+Prove N′∩M=ℂ implies H(M|N)=log[M:N] at finite index. The converse
+in Corollary4.6 additionally requires `4<[M:N]<8` and exclusion of
+every value `(1+2cos(π/n))²`, n≥3. A global equality-iff-irreducible
+claim is not asserted.
 
 ## S3. The TL action and index restriction
 
@@ -295,7 +355,11 @@ t∈(0,1) with `d=t⁻¹+(1−t)⁻¹`, a trace-t projection p∈R, and an
 isomorphism θ:pRp→(1−p)R(1−p) from V13. Show
 `N={x+θ(x):x∈pRp}` is a unital II₁ subfactor and compute its index d
 from the corner/module formula. This construction is allowed to be
-reducible. Realize infinite index by `R⊗1⊂R⊗̄R`: prove both algebras
+reducible. For t≠1/2, equivalently d>4, identify its relative commutant
+as Cp⊕C(1−p), its two corner inclusions as identities, and apply S2a
+to prove `H(R|N)=2η(t)+2η(1−t)<log d`, where η(u)=−u log u.
+At d=4 prove H(R|N)=log4.
+Realize infinite index by `R⊗1⊂R⊗̄R`: prove both algebras
 II₁ factors and use `L²(R⊗̄R)=L²(R)⊗L²(R)` to compute its
 left R-dimension as infinity. Conclude every allowed extended
 index occurs, without claiming every value has an irreducible R⊆R model.
@@ -317,7 +381,8 @@ Prove independence of representations and the trace criteria; S6
 adds rotation equivalences after constructing rotations. Irreducibility implies extremality. In S4's diagonal-corner example
 with t≠1/2, compute tr_(N')(p)=1−t and τ_M(p)=t to prove
 nonextremality despite finite index. Prove E_N is minimal iff the
-inclusion is extremal, equivalently d(X)^2=[M:N].
+inclusion is extremal, equivalently d(X)^2=[M:N]. By S2a these are
+also equivalent to H(M|N)=log[M:N].
 Define finite depth by finiteness of the irreducible bimodule sectors
 generated by the inclusion, equivalently no new principal-graph vertices after some finite
 depth, equivalently the relative-commutant tower becomes a basic
@@ -371,56 +436,111 @@ These definitions do not assume a reconstructed inclusion.
 Build TL and finite-group planar algebras as actual tangle-algebra examples.
 
 Define the rigid shaded operad by the same boundary data with internal
-discs restricted to scaling and translation during isotopy; track total oriented string
-angles in composition. A rigid C*-planar algebra is an action of
-this operad with conjugate-linear reflection, connected zero-box spaces,
-finite-dimensional boxes, identity action of the radial-string annulus,
-equal positive left/right circle modulus
-δ_rig, and positive definite left/right closure pairings. Construct
-the rescaling equivalence arranging equal circle moduli from the
-nonzero two-modulus convention. Develop its
-morphisms, kernels, subalgebras and operation identities. Derive the
-positive invertible first-box modular density w from its two faithful
-closure states, and its propagated tower weights; w is constructed
-from the data, not an unspecified rotation axiom. Prove Burns2.2.36:
-every such object sphericalizes by inserting the inverse angle powers
-of its normalized weight. If `tr_sph(w^(±1/2))=a`, then
-`δ_sph=δ_rig/a`; specify the induced box involution and all
-operation comparisons. Together with the perturbation below, prove
-these are inverse constructions on weighted data.
+discs restricted to scaling and translation during isotopy; internal-disc
+orientations stay fixed. Use Burns's left distinguished interval: positive
+shading means its adjacent distinguished region is white, negative means
+black. Work in the oriented plane with counterclockwise angles positive.
+Orient strings with the black region on their right; Θ is the signed
+change of tangent angle, including its winding multiple of2π. Use this
+same angular convention for disc rotations, composition and reflection.
 
-For extremal finite-index N⊆M give the action on S5's relative commutants
-and verify each generating tangle, isotopy law and positivity from the
-operator-algebra maps. Prove sphericality precisely from extremality and
-identify all box traces and projections. For an arbitrary chosen faithful normal finite-index expectation E
-on a II₁ inclusion build rigid planar data of common modulus
-√Ind(E), with the expectation-weighted GNS/Jones tower. This includes
-E_N as a special case. First construct the rigid data, whose allowed isotopies fix
-internal-disc orientations. Keep both canonical states and their positive
-invertible Radon–Nikodym density on the first relative commutant. Construct
-the corrected rotations and their modular-density formulas; prove trace
-equality gives the spherical specialization and the equality of the
-two rotation conventions. Prove sphericalization of the trace-expectation
-rigid data has modulus d(X). A change of a chosen
-expectation carries corresponding weight data, not an assertion that every
-expectation preserves the normalized trace.
+A rigid C*-planar algebra is an action of this operad with conjugate-linear
+reflection, connected zero-box spaces, finite-dimensional boxes, identity
+action of the radial-string annulus, equal positive circle modulus δ_rig,
+and positive definite left/right closure pairings. Construct the rescaling
+equivalence arranging equal moduli from the nonzero two-modulus convention.
+Develop morphisms, kernels, subalgebras and operation identities.
 
-Develop weight perturbations of rigid planar data and their
-sphericalization as in Burns §2.2.4. For spherical data the starting
-weight is any positive invertible w∈P_(1,+); centrality of w is not
-an extra hypothesis. Its shifted weights and alternating products
-are constructed by the tower modular conjugations; prove the centrality
-of the alternating products rather than assuming centrality of w.
-Normalize w so `tr(w^(1/2))=tr(w^(−1/2))=a`, with normalized
-box trace and a≥1. A full positively oriented turn has total angle
-2π, so compute both rigid circle moduli as `a δ_sph` directly
-from the inserted boxes; its expectation index is a² δ_sph².
-These evaluations determine the normalization. Insert w^(Θ/4π) on an oriented string
-of total angle Θ, and the inverse power for sphericalization. Prove
-isotopy, reflection, positivity, loop/trace formulas and the inverse
-perturbation identities. The original conjugate-linear box involution
-is preserved. Supply finite-dimensional functional calculus for the
-fractional powers and the exact angle-addition convention.
+Use Φ_k for the closure pictured on the right of the marked disc in
+Burns §2.2.2 and Φ'_k for the one on its left, with the distinguished
+interval on the left. Normalize `φ_k=δ_rig^(−k)Φ_k` and
+`φ'_k=δ_rig^(−k)Φ'_k` as faithful states.
+Write P_k^(0)=P_(k,+), P_k^(1)=P_(k,−), with superscripts modulo2.
+Construct the left-string embeddings
+`γ⁺:P_(k,+)→P_(k+1,−)` and `γ⁻:P_(k,−)→P_(k+1,+)`.
+Let V_(j,k)^(r) be the image of P_(k−j)^(r+j) in P_k^(r) obtained by
+adding j strings on the left. Construct the unique Radon–Nikodym
+element w_(j,k) satisfying `φ'_k(x)=φ_k(w_(j,k) x)` there. Prove
+from the closure-tangle identities that it is positive invertible and
+belongs to the φ_k-centralizer, retaining the shading. Put `w_k=w_(k−1,k)`, `z_k=w_(0,k)`, suppressing
+positive shading below.
+
+Construct the action of the specified annular tangle T𝒥_k^(r) in
+Burns Definition2.2.10, with its inner and outer marked intervals on the
+left, as algebra anti-isomorphisms `𝒥_k^(r):P_k^(r)→P_k^(r+k)`.
+Use that tangle itself and prove its state-interchange and adjoint laws. Independently of the weight formulas, define
+`Δ_k^(r)=𝒥_k^(r+k)∘𝒥_k^(r)` as in Definition2.2.15. Prove Δ is
+positive definite on `L²(P_k^(r),φ_k)`; define its real powers by finite-
+dimensional functional calculus. Script 𝒥 is a tangle map, distinct from
+standard-form modular conjugation J.
+
+Set w=w_(0,1) and `w̃=(𝒥_1^(1))⁻¹(w⁻¹)∈P_(1,−)`.
+Prove Lemma2.2.14 in the common higher-box embeddings:
+
+`w_(2r+1)=(γ⁻γ⁺)^r(w)` for r≥0,
+`w_(2r)=(γ⁻γ⁺)^(r−1)γ⁻(w̃)` for r≥1,
+and `z_k=w₁w₂⋯w_k`.
+
+Derive Corollary2.2.18: for x∈V_(j,k)^(0), real t and the GNS map x↦x̂,
+`Δ_k^(0)^t x̂=(w_(j,k)^(−t/2) x w_(j,k)^(t/2))̂`.
+The full-box formula uses z_k. Prove
+`Δ_k^(0)=I ↔ z_k∈Z(P_(k,+))` and the negative-shading analogue.
+These statements concern the resulting rigid data; state centralizers
+and algebra centers are distinct. Construct §2.2.3's modular extension:
+an isotopy rotating an internal input of color (r,k) by θ corrects that
+input by `Δ_k^(r)^(−θ/(2π))`. Prove the gluing/isotopy comparisons
+and recover ordinary planar rotations when Δ=I.
+
+Prove Burns2.2.36: sphericalize every rigid object above by inserting
+`w^(−Θ/(4π))` on each oriented string. Prove the induced box
+involution and all operation comparisons, equality of its two closure
+states, traciality and sphericality. With λ=φ_1(w^(1/2)) in the starting
+rigid data, prove `δ_sph=λ δ_rig` from the circle evaluation.
+
+Conversely, take any positive invertible w∈P_(1,+) in spherical data.
+Rescale by its unique positive scalar to arrange
+`tr_sph(w^(1/2))=tr_sph(w^(−1/2))=a`, with tr_sph the normalized
+first-box trace. Prove a≥1 by Cauchy–Schwarz:
+`tr_sph(w^(1/4)w^(−1/4))²≤tr_sph(w^(1/2))tr_sph(w^(−1/2))`,
+with equality exactly when balanced w is1. Insert `w^(Θ/(4π))` and
+restrict to the rigid operad. Prove its first RN weight is w and its
+shifted weights are those above. A full positive turn has Θ=2π;
+compute both rigid circle moduli as `a δ_sph`. Prove the two angle
+constructions inverse on weighted data, with λ=a⁻¹ and
+`δ_sph=δ_rig/a`. Prove the allowed rigid-isotopy, composition,
+reflection, positivity and loop/trace identities. Reflection reverses
+both string parameter and planar orientation, preserving Θ. The
+original conjugate-linear box involution is preserved.
+
+For extremal finite-index N⊆M construct the spherical action on S5's
+relative commutants. Verify every generating tangle, isotopy and
+positivity law from the operator-algebra maps, identify all traces and
+projections, and prove sphericality precisely from extremality.
+For any chosen faithful normal finite-index expectation E:M→N construct
+the rigid action of common modulus √Ind(E) on its expectation-weighted
+GNS/Jones tower. Pin the first unprimed positive closure by
+`φ_1(x)=τ_N(E(x))`, x∈N′∩M; φ'_1 is the dual/commutant closure.
+Use iterated expectation closures for higher boxes and identify them
+with the abstract closure tangles above. Compare both rotation
+conventions by their constructed modular operators, and prove equality
+of the canonical states gives the spherical specialization.
+Sphericalization of the trace-expectation rigid data has modulus d(X).
+A change of expectation carries its weight data. In the spherical
+reconstruction with `h=a⁻¹w^(−1/2)`, verify
+`φ_1(x)=tr_sph(hx)` and
+`φ'_1(x)=tr_sph(h⁻¹x)/tr_sph(h⁻¹)=φ_1(wx)`;
+identify the chosen-expectation index as `a² δ_sph²`. S8 constructs
+the reconstructed inclusion and transports these operation comparisons.
+
+Include `N=R⊗1⊂M=R⊗M₂`, `w=diag(4,1/4)`, a=5/4 and
+`h=diag(2/5,8/5)`. The unprimed state density is h; the dual state
+density relative to normalized matrix trace is diag(8/5,2/5). Verify
+their RN derivative is w, Δ_1^(0) sends E₁₂ to E₁₂/4, and
+`Ind(E_h)=25/4` while `[M:N]=4`. In the Hilbert–Schmidt second-box
+model identify `z₂=L_w R_(w⁻¹)`, with eigenvalues 1,16,1/16,1 on
+E₁₁,E₁₂,E₂₁,E₂₂. Verify z₁ and z₂ are noncentral. Apply S2a to the
+trace inclusion to compute H(M|N)=log4, independently of h. Centrality
+holds precisely when the corresponding Δ is I.
 
 
 ## S7. Graph planar algebras, embeddings, and evaluation
@@ -778,6 +898,9 @@ theorem for all infinite-index standard invariants is asserted.
 
 ## Sources and interface evidence
 
+- Pimsner–Popa, [*Entropy and index for subfactors*](https://doi.org/10.24033/asens.1504),
+  Ann.Sci.É.N.S.19 (1986),57–106, §3 and Theorem4.4, Corollaries4.5–4.6, for S2a's
+  relative inclusion entropy, atomic corner formula and qualified equality criterion.
 - Jones–Sunder, *Introduction to Subfactors*, Chapters2–5, especially
   2.3.8–2.3.10, 3.1.2, 3.3.2 and §§5.3–5.7, for dimension, index,
   towers, commuting squares and compactness. The finite realization
@@ -802,7 +925,12 @@ theorem for all infinite-index standard invariants is asserted.
   planar algebras and subfactors*](https://arxiv.org/abs/0712.2904),
   §§2,4–5 and Theorem8, for S8's graph/Fock and graded-model comparisons.
 - Burns, [*Subfactors, Planar Algebras and Rotations*](https://arxiv.org/abs/1111.1362),
-  §§2.2,3.3 and Theorems2.2.40,2.2.42, for rigid weights and rotations.
+  §§2.2,3.3, Definitions2.2.10,2.2.15, Lemma2.2.14, Corollary2.2.18
+  and Theorems2.2.36,2.2.40,2.2.42–2.2.43,
+  for rigid weights and rotations. In Theorem2.2.40 the printed conclusion
+  uses λδ_sph, whereas its proof computes λ⁻¹δ_sph for both circle moduli;
+  S6 uses the explicit circle computation with a=λ⁻¹. Remark2.2.39's
+  centrality statement assumes Δ=I.
 - Penneys, [*Introduction to Subfactors*](https://people.math.osu.edu/penneys.2/archive/talks/PenneysNCGOA2014.pdf),
   §§1.4–1.5,2–3, for invariants, finite-depth completeness and graph models.
 - Jones–Penneys, [*The embedding theorem for finite depth subfactor

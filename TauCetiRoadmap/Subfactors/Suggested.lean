@@ -9,6 +9,8 @@ import Mathlib.Basic.ENNReal.Basic
 import Mathlib.Algebra.Star.Subalgebra
 import Mathlib.Algebra.DirectSum.Module
 
+import Mathlib.Analysis.CStarAlgebra.ContinuousFunctionalCalculus.Basic
+import Mathlib.Analysis.SpecialFunctions.Log.NegMulLog
 /-!
 **This file is not the roadmap and is not exhaustive.**
 These are suggested forms. The README is the definitive specification.
@@ -137,3 +139,68 @@ def JonesIndexValues : Set ℝ≥0∞ :=
 theorem infinite_mem_indexValues : (∞ : ℝ≥0∞) ∈ JonesIndexValues := Or.inl rfl
 
 end Subfactors
+end
+
+/-!
+These non-exhaustive interfaces use the actual CFC and positive finite partitions.
+The maps τ and E are raw continuous linear maps. VonNeumannAlgebras V6/V11 construct the trace and normal trace-preserving
+expectation; S2 develops their inclusion APIs and S2a defines H from them.
+No trace or conditional-expectation law is asserted by these definitions.
+-/
+noncomputable section
+open scoped BigOperators ENNReal
+namespace SubfactorsEntropyPrototype
+variable {A : Type*} [CStarAlgebra A] [PartialOrder A] [StarOrderedRing A]
+
+/-- A finite positive partition of unity in the actual C⋆-algebra carrier. -/
+structure PositivePartition (A : Type*) [CStarAlgebra A] [PartialOrder A]
+    [StarOrderedRing A] (n : ℕ) where
+  term : Fin n → A
+  nonneg : ∀ i, 0 ≤ term i
+  sum_one : ∑ i, term i = 1
+
+/-- One partition's real trace-entropy expression, using Mathlib's CFC directly. -/
+def partitionValue (τ : A →L[ℂ] ℂ) (E : A →L[ℂ] A)
+    {n : ℕ} (p : PositivePartition A n) : ℝ :=
+  ∑ i, (τ (cfc Real.negMulLog (E (p.term i)) -
+      cfc Real.negMulLog (p.term i))).re
+
+/-- The extended supremum. Positivity of E ensures its inputs to CFC are self-adjoint.
+For raw τ and E, ofReal truncates negative expressions. S2a proves nonnegativity
+for its normalized trace and actual trace-preserving conditional expectation;
+only then is this identified with relative inclusion entropy. -/
+def relativeEntropyCandidate (τ : A →L[ℂ] ℂ) (E : A →L[ℂ] A)
+    (_E_nonneg : ∀ x : A, (0 : A) ≤ x → (0 : A) ≤ E x) : ℝ≥0∞ :=
+  sSup {v : ℝ≥0∞ | ∃ n : ℕ, ∃ p : PositivePartition A n,
+    v = ENNReal.ofReal (partitionValue τ E p)}
+
+theorem partitionValue_id (τ : A →L[ℂ] ℂ) {n : ℕ}
+    (p : PositivePartition A n) :
+    partitionValue τ (ContinuousLinearMap.id ℂ A) p = 0 := by
+  simp [partitionValue]
+
+theorem relativeEntropyCandidate_id (τ : A →L[ℂ] ℂ) :
+    relativeEntropyCandidate τ (ContinuousLinearMap.id ℂ A) (fun _ hx => hx) = 0 := by
+  unfold relativeEntropyCandidate
+  apply le_antisymm
+  · apply sSup_le
+    rintro v ⟨n,p,rfl⟩
+    rw [partitionValue_id]
+    simp
+  · exact bot_le
+
+theorem partitionValue_le_relativeEntropyCandidate (τ : A →L[ℂ] ℂ) (E : A →L[ℂ] A)
+    (E_nonneg : ∀ x : A, (0 : A) ≤ x → (0 : A) ≤ E x)
+    {n : ℕ} (p : PositivePartition A n) :
+    ENNReal.ofReal (partitionValue τ E p) ≤ relativeEntropyCandidate τ E E_nonneg := by
+  exact le_sSup ⟨n,p,rfl⟩
+
+/-
+Target for S2a's constructed trace τ and trace-preserving normal expectation E_N:
+for every positive finite partition p, 0 ≤ partitionValue τ E_N p.
+Use that nonnegativity to remove the ofReal truncation in S2a's definition of H.
+Trace, expectation and normality structures come from V6/V11 and S2; this file
+does not replace them with unnamed Prop fields or assumed entropy conclusions.
+-/
+end SubfactorsEntropyPrototype
+end
