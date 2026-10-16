@@ -1965,9 +1965,21 @@ NeronModelsAndSemistableAbelianVarieties R11.1.
 
 - `mapOfDatum_id`: the identity morphism of data induces the identity of `M_H` and the identity natural
   transformation of family functors.
-- `toSiegel_g1`: for an imaginary quadratic field `K`, the `j`-invariants of elliptic curves with an
-  `O_K`-action form a finite set (the class number of `O_K`), as finiteness of the forgetful map
-  requires.
+- `toSiegel_g1`: for an imaginary quadratic field `K`, over an algebraically closed field of
+  characteristic zero the distinct `j`-invariants of elliptic curves admitting an `O_K`-action
+  number `h(O_K)` (Kohel, thesis, §3.2, Theorem 17, p. 29). In each good positive-characteristic
+  geometric fibre the set of underlying `j`-invariants remains finite; its cardinality need not
+  equal `h(O_K)`.
+- For `K = ℚ(√−23)`, `h(O_K) = 3`, but over `𝔽̄₅` the set is `{0}`. The prime `5` is inert and
+  unramified and is good for the principal rank-one datum at level prime to `5`. Any such curve is
+  supersingular: an ordinary curve would give a unital embedding `K ⊗ ℚ₅ → ℚ₅` on its rational
+  étale Tate module. For `y² = x³ + ax + b` the Hasse invariant is `2a`, so supersingularity forces
+  `j = 0`. On `E : y² = x³ + 1`, take `ρ(x,y) = (ζ₃x,y)` and `π` the `5`-power Frobenius.
+  Then `π² = −5`, `ρ² + ρ + 1 = 0` and `πρ = ρ²π`; hence `β = π − ρ` satisfies
+  `β² − β + 6 = 0` and `β† = 1 − β`, giving a Rosati-compatible `O_K`-action. The same collision
+  appears as `H_{−23}(T) mod 5 = T³` (Sage reference manual,
+  [`hilbert_class_polynomial`, discriminant `−23` example](https://doc.sagemath.org/html/en/reference/arithmetic_curves/sage/schemes/elliptic_curves/cm.html#sage.schemes.elliptic_curves.cm.hilbert_class_polynomial),
+  and the [`hasse_invariant` criterion](https://doc.sagemath.org/html/en/reference/arithmetic_curves/sage/schemes/elliptic_curves/ell_field.html#sage.schemes.elliptic_curves.ell_field.EllipticCurve_field.hasse_invariant)).
 - `toSiegel_not_injective_on_objects`: for `O = ℤ × ℤ` acting on a product `E₁ × E₂` of two
   nonisogenous complex elliptic curves through the two projectors, swapping the projectors gives
   nonisomorphic PEL triples with the same polarized abelian surface and the same Lie determinant

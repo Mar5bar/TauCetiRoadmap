@@ -716,6 +716,10 @@ The following APIs and discriminating Checks are also specified in the README:
   and its inverse gives the isomorphism in the full-faithfulness of `isoIsogenyComparison`.
   Over `ℂ`, for `□ = {2}`, the lattice `3T^□A` is realized by `id_A/3`; no actual isogeny
   in the same direction maps its `3`-adic part onto the target integral Tate module.
+* M1.14: `toSiegel_g1` counts distinct underlying CM `j`-invariants by `h(O_K)` over an
+  algebraically closed field of characteristic zero. Good positive-characteristic geometric
+  fibres retain finiteness, allowing collisions: for `K = ℚ(√−23)` over `𝔽̄₅` the set is `{0}`,
+  although `h(O_K) = 3`. The finite unramified assertion `toSiegel_finite` holds on the good base.
 * M2.16: `covariantHodgeCocharacter` complements the weights of M0.12's Shimura cocharacter
   embedding by embedding, has multiplier `z`, and preserves its reflex field.
   `averagedHodgeCocharacter` averages the dominant representative of this covariant cocharacter
