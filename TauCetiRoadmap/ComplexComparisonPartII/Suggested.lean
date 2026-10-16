@@ -69,7 +69,18 @@ the complex orientation and bilinear wedge/density pairing. Its test and compact
 dual equivalences intertwine restriction, gluing and real/complex comparisons; K5a's
 distributional operator action gives the current differential signs. It adds
 smooth wedge, positivity, mass and local regularization used by `closedCurrentExtension` and
-the cycle and Chern targets. Its `integralLineBundleChernClass` forgets to the native smooth
+the cycle and Chern targets. C5.4's `realComplexCurrentComparison` identifies
+GeometricCurrents G1's real dimension-q tests and currents with K5a's real
+exterior-dual/density specialization, without an ambient orientation. On the underlying
+real 2n-manifold it gives the conjugation-fixed complex degree-(2n-q) current
+`J_q(T)(φ + iψ) = T(φ) + i T(ψ)`, preserving support, restriction, gluing and integration.
+For `1 ≤ q ≤ 2n` it satisfies `d J_q(T) = (−1)^(2n−q+1) J_(q−1)(∂T)`;
+at q = 0 both differentials land in the zero endpoint. With complex-test comass
+defined on real unit simple vectors its mass equals the real comass mass;
+locally finite mass gives equality of Radon mass measures. Positive bidimension-(p,p)
+currents have compact-local two-sided comparison with the trace mass, with equality
+to volume for complex-submanifold integration. Positivity does not impose membership
+in GeometricCurrents' integral subgroup. Its `integralLineBundleChernClass` forgets to the native smooth
 complex line, uses SmoothBundlesConnections B6's integral class of the right unit-frame bundle
 of the dual line, and identifies it integrally with CharacteristicClasses C1.5/C3's first Chern
 class. The inverse-character cocycle gives the holomorphic coordinate-transition connecting
@@ -681,7 +692,17 @@ the supporting presentation and curvature comparisons are also specified there.
   degree `k` acts on degree `2n − k`, bidegree `(a,b)`
   on type `(n−a,n−b)`, differential sign `(−1)^{k+1}`; positivity dual to strongly positive forms,
   trace mass `T ∧ ω^p/p!` for `ω = (i/2)Σ h_jk dz_j ∧ dz̄_k`, finite-mass extension by zero and
-  local convolution convergence), `closedCurrentExtension`,
+  local convolution convergence), `realComplexCurrentComparison`
+  (GeometricCurrents G1's real dimension-q carrier as K5a's real
+  `BundleDistribution((Λ^q T* M)* ⊗ DensityBundle M)` without ambient orientation;
+  complex-linear extension on tests identifies real currents with the conjugation-fixed
+  complex degree-(2n-q) currents, with compact-convergence topology, support,
+  restriction/gluing and integration compatibility;
+  `d J_q(T) = (−1)^(2n−q+1) J_(q−1)(∂T)` for `1 ≤ q ≤ 2n`, zero endpoint at q = 0;
+  real and complex-test comass masses agree, positive-current trace masses are
+  comparable on compacts and both equal volume on complex submanifolds;
+  no integer-rectifiability hypothesis on general complex or positive currents),
+  `closedCurrentExtension`,
   `AnalyticCycleIntegration`, `semipositiveWedge` on analytic sets, `lelongPoincareSection`,
   `integralLineBundleChernClass` (holomorphic line bundles on arbitrary complex manifolds,
   forgetful adapter to SmoothBundlesConnections B2's smooth complex line carrier;

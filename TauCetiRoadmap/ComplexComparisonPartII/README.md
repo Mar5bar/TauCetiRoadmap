@@ -130,9 +130,10 @@ The analytic ownership and stage order are:
 | Native holomorphic sheaf, convergent local algebra and primitive Oka relations | ComplexKahlerGeometry K2–K4 | C−1 adds analytic quotients, nilpotents and gluing; C0 translates primitive relations into coherent native modules |
 | Fixed-rank bundle–sheaf equivalence, holomorphic connections and absolute flat correspondence | ComplexKahlerGeometry K4 on native Mathlib bundles and `SheafOfModules` | C0.3 assembles clopen rank strata; C1.3 fixes Chern curvature conventions; C5.2's `holomorphicConnectionDictionary` identifies the analytic connection carriers and absolute unit, evaluation and monodromy maps, and adds all horizontal morphisms and holomorphic parameters |
 | Bundle test sections and distributions | ComplexKahlerGeometry K5a's `BundleTest` and `BundleDistribution` | C5.4 transports these through the complex orientation and exterior wedge pairing; its bidegrees, positive cones, mass and complex-current extension theory use that same substrate |
+| Real dimension-graded currents and complex degree-graded currents | GeometricCurrents G1's real carrier and boundary; C5.4's `realComplexCurrentComparison` | K5a owns the general LF bundle-test/distribution foundation. C5.4 identifies G1's tests with its real exterior-dual/density specialization without an ambient orientation, and supplies complex extension with the grading sign. GeometricCurrents retains rectifiability, integral subgroups and minimizing-current geometry; C5.4 retains complex type, positivity, analytic cycles and comparison applications |
 | Local bundle elliptic regularity, adjoints and symbols | ComplexKahlerGeometry K5a local estimates and K5b.0; K6.0 supplies local Kähler/Bochner identities | Their complete-metric existence consumer is C1.4, which exports the weighted theorem to RealAnalyticGeometry R3.1; the local inputs precede compact Hodge theory and use no C5.3 result |
 | Compact bundle Sobolev, harmonic and Green theory | ComplexKahlerGeometry K5a–K5b.1; K6.1 supplies compact Kähler decomposition | C5.3 identifies the supplied maps with coherent and de Rham–Betti comparisons |
-| General coherent analytic module interface, open restriction, section/stalk and germ comparisons | ComplexComparisonPartII C0.1–C0.3 | ComplexKahlerGeometry K3's primitive Oka relations and ideal generators are translated to the native predicate here; K4's coherent-module consumer is C0.1. RealAnalyticGeometry R3.2 uses this same category over K4's ring sheaf, with its finite-type/kernel condition identified by `CoherentAnalyticModule.presentation_iff`, including open/over-site, section, stalk and germ transport |
+| General coherent analytic module interface, open restriction, section/stalk and germ comparisons | ComplexComparisonPartII C0.1–C0.3 | ComplexKahlerGeometry K3 retains primitive Oka relations and ideal generators; K3 and K4 use C0.1's native coherence predicate and `CoherentAnalyticModule.presentation_iff`. RealAnalyticGeometry R3.2 uses this same category over K4's ring sheaf, with its finite-type/kernel condition identified by that theorem, including open/over-site, section, stalk and germ transport |
 | Complete-metric weighted theorem, graph-domain density, weighted regularity and coherent analytic-space Cartan A/B | ComplexComparisonPartII C1.4–C1.5 | RealAnalyticGeometry R3.1 consumes the positive-definite `(n,k)` theorem with its maximal domain, adjoint, minimal solution and inverse-energy bound, and the exhaustion/Stein and interpolation/approximation specializations. R3.2 consumes Cartan A/B and their evaluation, relation-kernel lifting and exact section maps on the C0.1 carrier. Real-analytic complexification, p-functions, neighborhood constructions and their approximation applications remain in R3–R5 |
 | Coherent analytification on algebraic spaces | ComplexComparisonPartII C0.7 | C1.9 uses its exact functor, coherent operations and canonical cohomology/exchange maps; C3 gives the derived upgrade |
 
@@ -221,6 +222,12 @@ merge order on whole roadmap specifications: the reciprocal contracts span those
   C5.4's complementary-form specialization. K5a local estimates and K5b.0's adjoint/symbol layer precede C1.4;
   K6.0 supplies its local Kähler/Bochner identity. K5's compact harmonic/Green theory and
   K6.1's compact Kähler decomposition feed C5.3.
+- *GeometricCurrents, G1.* The real dimension-graded continuous-dual current carrier,
+  unsigned boundary, support and comass mass. C5.4's `realComplexCurrentComparison`
+  identifies its LF test forms with K5a's real exterior-dual/density specialization
+  and compares it with complex currents, retaining the differential sign. The general
+  bundle-test foundation belongs to K5a; integral subgroups and minimizing-current
+  geometry belong to GeometricCurrents.
 - *ComplexManifolds, Milestones 1 and 7.1–7.3.* Functorial realification and native
   holomorphic cocycle gluing underlie ComplexKahlerGeometry K4. C0.3 consumes K4's
   fixed-rank equivalence; C5.2 specializes realification to holomorphic submersions and
@@ -2992,6 +2999,74 @@ integration and Stokes); Mathlib `TestFunction`, `Distribution`, `Distribution.l
   and its trace mass for the Euclidean metric is the usual volume on `Z`.
 - Extending the positive measure `|z|⁻² dx dy` from a punctured disc by zero fails the local
   finite-mass hypothesis at zero; positivity on the complement alone does not provide an extension.
+
+**Real/complex current comparison — `realComplexCurrentComparison`.** For a finite-dimensional
+Hausdorff second-countable smooth real manifold `N` without boundary and `q ∈ ℕ`,
+identify GeometricCurrents G1's compactly supported real `q`-form tests with K5a's real
+`BundleTest(V_q* ⊗ DensityBundle N)`, where
+`V_q = (Λ^q T* N)* ⊗ DensityBundle N`. The evaluation and dual-line cancellation
+`V_q* ⊗ DensityBundle N ≅ Λ^q T* N` give this identification without an orientation
+of `N`. Prove equality of the LF topologies through the fixed-compact seminorms and chart
+extension maps, and the induced compact-convergence dual equivalence between G1's
+`Current q N` and the real `BundleDistribution(V_q)`. Retain evaluation, support,
+restriction, extension by zero on tests, gluing and boundary as the transpose of exterior
+derivative. These are specializations of K5a's general foundation.
+
+For a complex `n`-manifold `M` as in `CurrentCalculus`, put `N = M_ℝ`. For
+`0 ≤ q ≤ 2n` construct the real topological linear equivalence `J_q` from real
+dimension-`q` currents to the conjugation-fixed complex degree-`(2n−q)` currents,
+using the LF real/imaginary test decomposition and
+`J_q(T)(φ + iψ) = T(φ) + i T(ψ)` for real compactly supported `q`-forms `φ, ψ`.
+Conjugation here is `κS(η) = conj(S(conj η))`; the inverse on fixed points restricts
+to real tests. Every complex current is uniquely `J_q(T₁) + i J_q(T₂)`.
+Prove the comparison agrees with K5a's scalar comparison and C5.4's wedge/density
+transport. It preserves support, commutes with restriction and gluing, and sends the
+real integration current of a closed smooth oriented `q`-submanifold to its complex
+integration current, including sources with smooth boundary and their outward-first
+boundary orientation.
+
+For `1 ≤ q ≤ 2n`, the differential identity is
+`d J_q(T) = (−1)^(2n−q+1) J_(q−1)(∂T)`, where `∂T(η) = T(dη)` is G1's boundary.
+This follows by evaluation on real and imaginary test forms; it is the degree sign
+of `CurrentCalculus`. Extend the real dimension grading by zero below zero and the
+complex degree grading by zero above `2n`; then `∂T = 0` for `q = 0` and
+`d J_0(T) = 0`. No negative-degree form is inserted into the test space.
+
+For a smooth Hermitian metric use its underlying real Riemannian metric, with
+`ω = (i/2)Σ h_jk dz_j ∧ dz̄_k`. Give complex `q`-form tests the comass obtained
+by taking absolute values on real unit simple `q`-vectors. The corresponding
+variational mass of `J_q(T)` equals G1's real comass mass of `T`, locally and globally:
+real tests give one inequality, and taking the real part after a constant unit-complex
+rotation of each complex test gives the other. For locally finite mass, identify the
+Radon mass measures by their values on opens. If `q = 2p` and `J_q(T)` is positive
+of bidimension `(p,p)`, prove two-sided comparison on each compact set between this
+mass measure and the trace measure `J_q(T) ∧ ω^p/p!`, using coefficient-norm
+equivalence and the positive-current coefficient bounds. For integration over complex
+`p`-submanifolds both equal their induced Riemannian volume. An arbitrary current
+need not have locally finite mass or a trace mass, and neither complexification nor
+positivity implies integer rectifiability (Demailly, I (2.1)–(2.7), pp. 13–15;
+III (1.14)–(1.15), pp. 133–134, and (1.21)–(1.22) with Wirtinger's formula (1.24),
+pp. 135–136; GeometricCurrents, conventions and G1's boundary and mass definitions).
+*Needs:* `CurrentCalculus`; ComplexKahlerGeometry K5a's real bundle tests,
+distributions, density duality and scalar comparison; GeometricCurrents G1;
+ComplexManifolds Milestone 1's realification.
+
+**Checks for the real/complex comparison.**
+
+- On the nonorientable manifold `ℝP²`, `q = 0` gives `V_0 = DensityBundle N`;
+  its dual-density tests are scalar functions, so point currents require no ambient orientation.
+- On the oriented closed unit disc `D ⊂ ℂ`, `q = 2` gives
+  `d J_2([D]) = −J_1([∂D])`, with the counterclockwise boundary orientation.
+- On an oriented segment from `a` to `b` in `ℂ`, `q = 1` gives
+  `d J_1([a,b]) = J_0(δ_b − δ_a)`, with the opposite sign to the disc case.
+- For a point mass `δ_a`, `J_0(δ_a)(φ + iψ) = φ(a) + iψ(a)` and its
+  differential is zero, including when `n = 0`.
+- For `Z = ℂ^p × {0} ⊂ ℂ^n`, `J_(2p)([Z])` is the complex integration current;
+  its Euclidean comass and trace masses both equal volume on `Z`, locally finite
+  even when its total mass is infinite.
+- The positive current `½δ_a` has mass `½` and is outside G1's integer-rectifiable
+  subgroup. On `ℂ`, a nonzero coordinate derivative of a point mass is a current
+  without locally finite mass.
 
 Prove `closedCurrentExtension` (Skoda–El Mir): let `E` be a closed complete pluripolar subset of a
 complex manifold `M` (locally `{v = −∞}` for a plurisubharmonic `v`; analytic subsets qualify) and `Θ` a
