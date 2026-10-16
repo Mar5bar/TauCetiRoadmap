@@ -231,6 +231,19 @@ example (K : IntermediateField ℚ_[p] (PadicAlgCl p))
 
 end PadicComplex
 
+/-! ## The neighbourhood obstruction for the canonical de Rham topology -/
+
+/-- §4.1: a Hausdorff field whose zero-neighbourhoods contain entire rows of one
+family, with reciprocal rows converging to zero, cannot have jointly continuous
+multiplication. For the canonical de Rham topology the families are `p⁻ᵐtᴺ` and
+`pᵐt⁻ᴺ`; fixed filtration stages still have jointly continuous multiplication. -/
+example {B : Type*} [Field B] [TopologicalSpace B] [T2Space B]
+    (a b : ℕ → ℕ → B)
+    (ha : ∀ U ∈ nhds (0 : B), ∃ N, ∀ m, a N m ∈ U)
+    (hb : ∀ N, Filter.Tendsto (b N) Filter.atTop (nhds (0 : B)))
+    (hab : ∀ N m, a N m * b N m = 1) :
+    ¬ Continuous (fun x : B × B => x.1 * x.2) := sorry
+
 /-
 The remaining targets are specified in the README, without stand-in declarations:
 §0.1 procyclic_H1_equiv_coinvariants; §0.2 continuous inflation–restriction and finite descent
@@ -243,7 +256,9 @@ tate_normalizedTrace and tate_almostEtale;
 §1.4 tate_finiteCochainControl (uniform algebraic cochain approximation with its defect),
 tate_cocycleLimit (convergent primitive sums with uniform valuation loss),
 tate_cyclotomicBanachH1 and tate_H1_padicComplex_twist;
-§1.5 the canonical BDeRhamPlus/BDeRham topology, valuation, action, t and graded pieces;
+§1.5 the canonical BDeRhamPlus/BDeRham topologies, valuation, action, t and graded pieces,
+with joint multiplication on BDeRhamPlus, separate multiplication on BDeRham and
+joint multiplication on each pair of fixed filtration stages;
 §2 PadicFieldCompletion, the general-base periodTraceIdeal, senUpperBreaks (including geometric
 reciprocity and unramified-completion invariance) and senTowerEstimates,
 completedUnramifiedDescent, tateSen, tateSen_H0, tateSen_H1, tateSen_character,
@@ -251,10 +266,15 @@ normalisedTrace, tateSen_cyclotomic_twist, tateSen_trivial, tateSen_unramified_c
 and tateSen_H1_trivial_ne_zero, with the general-base forms of tate_algebraicTraceDescent,
 tate_finiteCochainControl and tate_cocycleLimit on infinitely ramified splitting towers;
 §3 periodPDEnvelope, its completed envelope, initial property and generator independence;
-§§4.1–4.3 generalBasePeriodRings, their structure maps, invariant functors, predicates,
+§§4.1–4.3 generalBasePeriodRings, their continuous additive ℚ_p-module and Galois-action
+interfaces, joint multiplication on the plus, crystalline and semistable carriers,
+separate multiplication on BDeRham and joint fixed-stage multiplication (no global
+ContinuousMul instance on its canonical topology), their structure maps, invariant functors, predicates,
 the fixed fields (B_dR^+)^{G_K}=B_dR^{G_K}=K and B_cris^{G_K}=B_st^{G_K}=K₀,
 the compatible G_K-fixed embedding K→B_dR^+ with θ restricting to K→C_K,
-regularity for B_cris, B_st and B_dR, and the fundamental exact sequence.
+regularity for B_cris, B_st and B_dR, and the fundamental exact sequence with continuous
+additive maps and the quotient topology; finite-K continuous sections and boundary maps
+belong to the consumer's additive continuous-cohomology interface.
 Their complete arithmetic/topological signatures need the prerequisite interfaces specified
 in the README. The pinned libraries do not supply the Banach cyclotomic tower API,
 canonical topological period structures, crystalline/semistable rings or their functors.
