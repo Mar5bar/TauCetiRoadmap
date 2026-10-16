@@ -76,6 +76,9 @@ example : Function.Injective (pullback (Prod.fst : ℕ × ℕ → ℕ)) := by so
 
 end HeightClass
 
+example {X : Type u} {Y : Type v} (e : X ≃ Y) (H : HeightClass X) :
+    HeightClass.pullback e (HeightClass.pullback e.symm H) = H := by sorry
+
 example : Northcott (fun n : ℕ => (n : ℝ) + (-1 : ℝ)^n) := by sorry
 example : ¬ Northcott (fun _ : ℕ => (0 : ℝ)) := by sorry
 example : ¬ Northcott (fun n : ℕ => -(n : ℝ)) := by sorry
@@ -264,6 +267,7 @@ example : HasFiniteRank ℚ ∧ ¬ AddGroup.FG ℚ := by sorry
 example : HasFiniteRank (ZMod 2) := by sorry
 example : HasFiniteRank (ℕ →₀ ZMod 2) ∧ ¬ AddGroup.FG (ℕ →₀ ZMod 2) := by sorry
 example : Finite (ZMod 2) ∧ Infinite (ℕ →₀ ZMod 2) := by sorry
+example : ¬ HasFiniteRank (ℕ →₀ ℤ) := by sorry
 
 /-- The point-level difference map (x₀,…,x_M) ↦ (x₁−x₀,…,x_M−x₀), with target G^M. -/
 def differenceMap {G : Type u} [AddCommGroup G] (M : ℕ) :
@@ -319,7 +323,8 @@ invariant matrices. Affine Azumaya and scheme Brauer evaluation are imported int
 Layer 3: torsor evaluation/twist/Selmer sets, descentSet, descentObstructionSet, etaleSet,
 connectedSet, pglSet, etaleBrauerSet and etaleDescentSet; KDprime, UniversalNTorsor,
 compatible finite torsors, minimal compatible isogenies and invariant Brauer; coflasque
-enlargement and nonabelian H2 links; torusCompactification_splitField and
+enlargement and nonabelian H2 links; galoisStableSmoothProjectiveFan_exists,
+torusCompactification_splitField and
 torusCompactification_galoisDescent; UniversalTorsor, relativeBrauerOne and residual Sha
 functional; CasselsTate, KummerLocal, BrauerPic0 and BrauerPic0_n; PencilSelmerOrbit,
 oriented ideals, the isogeny Q invariant and realEffectiveFraction.
@@ -329,9 +334,11 @@ KodairaParshin covers, S-integral points and section jets.
 
 Layer 5: HasFiniteRank.of_fg; IsCoset, IsTorsionCoset and IsTorsionSubvariety; scheme stabilizer,
 generatedByDifferences, uenoLocus, cosetFreeOpen and orthogonalComplement;
-CartierDieudonneRing, ConnectedDieudonneModule and formalWeight; uniform torsion closure;
-blockIndex, blockIndexLocus, projective cycle heights, bounded projection presentations and
-admissible jets; geometric difference maps; torsionEnvelope, torsionDimension and
+ConnectedDieudonneModule on the supplied DieudonneModule carrier, its covector/crystalline
+scalar and cotangent comparisons, and formalWeight; uniform torsion closure;
+blockIndex, blockIndexLocus, projectiveCycleHeight, bounded projection presentations,
+weightedGap_smallSection, weightedGap_jetLowerBound and multiblock admissible jets;
+geometric difference maps; torsionEnvelope, torsionDimension and
 essentialMinimum; ArithmeticCycleClass, metrized divisor action, arithmeticDegree and
 arithmeticIntersection; AdelicMetrizedLineBundle, SemipositiveAdelic, IntegrableAdelic,
 adelicCycleHeight and cycleProbabilityMeasure; BergmanDensity, AdelicSectionLattice,
