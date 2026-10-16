@@ -288,6 +288,22 @@ theorem iotaMatrix_mul_self : iotaMatrix * iotaMatrix = 1 := by
 theorem det_iotaMatrix : iotaMatrix.det = -1 := by
   simp [iotaMatrix, Matrix.det_fin_two]
 
+/-- The involution is an algebraic Hecke-monoid element with negative determinant;
+its ordinary fractional-linear transformation sends `i` outside the upper half-plane. -/
+example (N : ℕ) : iotaMatrix ∈ Sigma0 N ∧ ¬ 0 < iotaMatrix.det ∧
+    (((-1 : ℂ) * Complex.I + 0) / (0 * Complex.I + 1)).im = -1 := by
+  refine ⟨?_, ?_, ?_⟩
+  · change iotaMatrix.det ≠ 0 ∧ (N : ℤ) ∣ iotaMatrix 1 0 ∧
+      IsCoprime (iotaMatrix 0 0) (N : ℤ)
+    simp [iotaMatrix, Matrix.det_fin_two, IsCoprime.neg_left_iff, isCoprime_one_left]
+  · simp [det_iotaMatrix]
+  · norm_num
+
+/-- The triangular Hecke representatives have positive determinant at every prime. -/
+example (a : ℤ) (ℓ : ℕ) (hℓ : ℓ.Prime) :
+    0 < (!![1, a; 0, (ℓ : ℤ)] : Matrix (Fin 2) (Fin 2) ℤ).det := by
+  simpa [Matrix.det_fin_two] using (Int.natCast_pos.mpr hℓ.pos)
+
 /-- The cusp action fixes zero and infinity and negates the finite coordinate. -/
 example : intMatrixToGL iotaMatrix • (((0 : ℚ) : OnePoint ℚ)) = ((0 : ℚ) : OnePoint ℚ) ∧
     intMatrixToGL iotaMatrix • (∞ : OnePoint ℚ) = ∞ ∧
@@ -643,6 +659,20 @@ example (k : ℕ) : specialiseMoments k (Pi.single (k + 1) (1 : K)) = 0 := by
   refine Finset.sum_eq_zero fun j hj ↦ ?_
   have : j ≠ k + 1 := by simp at hj; omega
   simp [this]
+
+/-- In characteristic zero, equal specialisations preserve every prescribed moment through `k`. -/
+example [CharZero K] (k : ℕ) (c d : ℕ → K) :
+    specialiseMoments k c = specialiseMoments k d ↔ ∀ j ≤ k, c j = d j := sorry
+
+/-- Changing the degree-`k` moment adds `(-1)^k a X^k` to the specialisation. -/
+example (k : ℕ) (c : ℕ → K) (a : K) :
+    specialiseMoments k (c + Pi.single k a) =
+      specialiseMoments k c + C ((-1) ^ k * a) * X 0 ^ k := sorry
+
+/-- At degree zero, a change in mass changes the prescribed constant specialisation. -/
+example (c : ℕ → K) (a : K) (ha : a ≠ 0) :
+    specialiseMoments 0 (c + Pi.single 0 a) ≠ specialiseMoments 0 c := by
+  simpa [specialiseMoments] using ha
 
 /-- The upper-left entry must be a p-adic unit, rather than the lower-right entry. -/
 example (p : ℕ) [Fact p.Prime] :

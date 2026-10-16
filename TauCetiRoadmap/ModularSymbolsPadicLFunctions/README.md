@@ -335,6 +335,31 @@ at p and applies that Selmer kernel to ad ρ_f. It does not reconstruct a modula
 representation, adjoint or period ring. The good-p crystalline comparison, Artinian-family
 period theorem and CM adjoint-Selmer vanishing needed in §3.0 are targets there.
 
+### Direct roadmap prerequisites
+
+Each row records a direct supplier; the section numbers specify the input used here.
+The local Hom-side adapters and the finite-slope critical constructions remain targets of this roadmap.
+
+| Supplier | Exact input | Location | Used in |
+| --- | --- | --- | --- |
+| Supplied by ModularForms | Layers 0, 4–5, 7–8, 8G and 10C: eigenforms, homological symbols, periods, L-series and dimensions | main, TauCetiRoadmap/ModularForms | Layers 0–4 |
+| Supplied by FuchsianOrbifolds | Layers 2–4: finite fundamental polygons, cusp collars and quotient surfaces | main, TauCetiRoadmap/FuchsianOrbifolds | §0.6 |
+| Supplied by AlgebraicTopology | Stages 2, 4 and 6: relative cellular chains, local coefficients and oriented manifold duality | main, TauCetiRoadmap/AlgebraicTopology | §§0.6, 2.3 |
+| Supplied by PadicMeasuresIwasawaAlgebras | §§0.1–0.2, 1.7, 3a.1, 4.2 and 4.5: measures, completed group algebras, character branches and Iwasawa invariants | main, TauCetiRoadmap/PadicMeasuresIwasawaAlgebras | §§2.5, 4.1–4.4 |
+| Supplied by ClassFieldTheory | Layers 5 and 11: local and global reciprocity | main, TauCetiRoadmap/ClassFieldTheory | §3.0, CM adjoint-Selmer vanishing |
+| Supplied by IntegralHeckeAndGaloisDeterminants | §§0.5, 1.3 and 1.5: trace/determinant comparison, henselian reconstruction and coefficient descent | new roadmap, [#789](https://github.com/TauCetiProject/TauCetiRoadmap/pull/789) | §3.0, Galois adapter |
+| Supplied by ArithmeticGaloisRepresentations | §7.2: full endomorphism adjoint, trace pairing and Schur's lemma | new roadmap, [#856](https://github.com/TauCetiProject/TauCetiRoadmap/pull/856) | §3.0, Galois adapter and decency |
+| Supplied by ArithmeticGaloisDuality | §§R02.2.1–R02.2.2: inflation–restriction; D7, Local duality over finite and local coefficient fields: Tate pairings and Euler characteristic | new roadmap, [#858](https://github.com/TauCetiProject/TauCetiRoadmap/pull/858) | §3.0, refined deformation tangent space and CM vanishing |
+| Supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory | §§R07.P2–R07.P5 and R07.P7.1–R07.P7.5: period structures, realization comparisons and labelled Sen theory | new roadmap, [#879](https://github.com/TauCetiProject/TauCetiRoadmap/pull/879) | §3.0, Galois adapter and CM finite/de Rham comparison |
+| Supplied by SelmerIwasawaCohomology | §§2.1–2.2 and 4.9: Selmer data, rational kernel and Bloch–Kato finite conditions | new roadmap, [#869](https://github.com/TauCetiProject/TauCetiRoadmap/pull/869) | §3.0, decency and CM vanishing |
+| Supplied by ArithmeticLocallySymmetricSpaces | §ALS.3.1: Hecke action on derived invariants | new roadmap, [#871](https://github.com/TauCetiProject/TauCetiRoadmap/pull/871) | §0.4, cohomological Hecke adapter |
+| Supplied by LocallyAnalyticDistributions | §§0.0–0.3, Layer 1, §§2.1, 2.3, 3.3 and 4.1–4.2, 4.7–4.8, 4.15–4.16: analytic coefficients, admissibility, Mellin transform and finite-slope families | new roadmap, [#854](https://github.com/TauCetiProject/TauCetiRoadmap/pull/854) | Layers 2–4 |
+| Supplied by ModularCurvesPartII | §§14.1–14.4a, 14.8, 14.11–14.12: geometric coefficients, Betti–étale and symbol comparisons, Hecke and pairings; §§7.1, 9.1–9.3 and 11.1: ordinary modular geometry | new roadmap, [#913](https://github.com/TauCetiProject/TauCetiRoadmap/pull/913) | §§0.6, 0.8 and 3.0 |
+| Supplied by LocalGaloisDeformationRings | §§F.1.1–F.1.10 and 1.15: deformation functors and characteristic-zero Artinian coefficients | new roadmap, [#923](https://github.com/TauCetiProject/TauCetiRoadmap/pull/923) | §3.0, refined deformation functor |
+| Supplied by AutomorphicLFunctionsAndLocalFactors | AL.5, Complex period and stabilization dictionary; The ordinary GL₂ interpolation factor | new roadmap, [#924](https://github.com/TauCetiProject/TauCetiRoadmap/pull/924) | §§1.3 and 4.1 |
+| Supplied by AlgebraicModularFormsAndSerreWeights | R15.5A.2: classical higher-weight Galois attachment with coefficient field and stable lattice | new roadmap, [#928](https://github.com/TauCetiProject/TauCetiRoadmap/pull/928) | §3.0, Galois adapter and decency |
+| Supplied by PadicPeriodRings | §§1.5, 3 and 4.1–4.3: topological period rings, crystalline structures and invariant functors | new roadmap, [#940](https://github.com/TauCetiProject/TauCetiRoadmap/pull/940) | §3.0, crystalline periods and de Rham kernel |
+
 ## How to read the build
 
 Layer 0 turns the divisor presentation into equivariant Hom spaces, defines the Eisenstein subspace by
@@ -1018,8 +1043,16 @@ ModularCurvesPartII §§14.1–14.4a, 14.8 and 14.11–14.12; AlgebraicTopology 
 ψ_f : Δ₀ → V_k(ℂ) is the additive map with ψ_f({s} − {r}) = 2πi∫_r^s f(z)(zX + Y)^k dz along the geodesic
 in ℍ, improper at cusps. It is well defined on Δ₀ by path independence of holomorphic integrals in ℍ,
 the improper integrals converging because f vanishes at every cusp. The substitution z = γu gives
-ψ_f(γD) = ψ_f(D)|γ⁻¹, so ψ_f ∈ Symb_Γ(V_k(ℂ)); the same substitution for δ ∈ Σ₀(N) gives ψ_{f|δ}(D) = ψ_f(δD)|δ
-for the weight-(k + 2) slash f|δ = det(δ)^{k+1}(cz + d)^{−k−2}f(δz), so ψ_{Tf} = ψ_f|T for T_ℓ, U_q and ⟨d⟩. Under
+ψ_f(γD) = ψ_f(D)|γ⁻¹, so ψ_f ∈ Symb_Γ(V_k(ℂ)). For δ ∈ Σ₀(N) with det δ > 0,
+the same substitution gives ψ_{f|δ}(D) = ψ_f(δD)|δ for the weight-(k + 2) slash
+(f|δ)(z) = det(δ)^{k+1}(cz + d)^{−k−2}f(δz). Both symbols are compared at
+Γ′ = SL₂(ℤ) ∩ δ⁻¹Γδ, or any finite-index subgroup of Γ′. Positive determinant ensures δℍ ⊆ ℍ.
+The positive-determinant representatives for T_ℓ, U_q and ⟨d⟩ therefore give ψ_{Tf} = ψ_f|T.
+For the involution use fᶜ(z) = overline(f(−overline(z))), a cusp form for ιΓι⁻¹, and prove
+ψ_f|ι = (−1)^k overline(ψ_{fᶜ}), where the bar conjugates polynomial coefficients.
+Every negative-determinant matrix factors as ι times a positive-determinant matrix;
+its algebraic action on symbols is compared with periods through this conjugation identity.
+The coefficient and symbol monoid Σ₀(N) still includes both determinant signs. Under
 the pairing of §0.6, ⟨(zX + Y)^k, Q⟩ = (w·Q)(z, 1) with w = (0 1; −1 0), as one checks on Q = (sX + tY)^k
 where both sides are (tz − s)^k; hence ⟨ψ_f(D), Q⟩ = 2πi·rawPairing(f)(D ⊗ w·Q), and ψ_f is Layer 8's period map
 transported to the Hom side, with Layer 8's orientation (it integrates {α, β} from β to α) taken into
@@ -1039,6 +1072,12 @@ Layer 8 (pinned Tau Ceti `rawPairing`, `periodMap`, `periodMap_injective`, `cusp
   ψ_f({0} − {∞}) = Σ_{j=0}^{k} C(k, j)·j!(−2πi)^{−j}L(f, j + 1)X^jY^{k−j} ([Pollack AWS] §2.8); the factor 2πi in ψ_f
   and the path from i∞ to 0 are what make the j = 0 term exactly L(f, 1).
 - ψ_0 = 0.
+- δ = diag(−1,1) belongs to Σ₀(N) but its ordinary fractional-linear map takes i to −i;
+  it is excluded from the holomorphic slash formula. At k = 0 and f = fᶜ,
+  the conjugation identity instead reads ψ_f|ι = overline(ψ_f).
+- δ = diag(1,ℓ), ℓ > 0, has positive determinant and maps i to i/ℓ; its period
+  identity holds at the transported level Γ′. Diamond representatives have determinant one.
+- In odd degree, ψ_f|ι = −overline(ψ_{fᶜ}); omitting (−1)^k changes this sign.
 - With the unadjugated action P((X, Y)γ) in place of the adjugate one, ψ_f fails the equivariance
   φ(γD) = φ(D)|γ⁻¹ for k = 2 and Γ₀(11), so the convention is forced.
 - In degree one with Q = X, the rotation Q(−Y, X) evaluates at (z, 1) to −1, matching the determinant
@@ -1223,7 +1262,9 @@ Shapiro, flatness and finite presentation, cusp forms, Cayley–Hamilton and pro
 it uses the Γ₀(N) Hecke ring, the Γ₁(N) diamond cosets, `diamondOp`, the character spaces and their
 decomposition, newforms and newspace multiplicity one, and Petersson definiteness; from the current
 library the Layer-8 divisor modules, homological symbols, binary-form actions and period map. From
-the roadmaps it uses ModularForms Layers 0, 4, 5, 8 and 10C and ModularCurvesPartII §§14.1–14.4a, 14.8 and 14.11–14.12.
+the roadmaps it uses ModularForms Layers 0, 4, 5, 8 and 10C;
+ArithmeticLocallySymmetricSpaces §ALS.3.1; ModularCurvesPartII §§14.1–14.4a, 14.8 and 14.11–14.12;
+FuchsianOrbifolds Layers 2–4 and AlgebraicTopology Stages 2 and 6.
 
 ## Layer 1: periods, critical values and p-stabilisation
 
@@ -1523,26 +1564,64 @@ involution at infinity). *Lean:* `specialiseMoments`, `specialiseMoments_coeff_Y
 - The distribution with moment 1 at z^{k+1} and 0 elsewhere is nonzero and lies in ker ρ_k: specialisation
   forgets the moments above k, so ρ_k is not injective.
 
-**Lifting classical symbols to overconvergent ones** (theorem). ρ*_k : Symb_{Γ₀}(D†_k) → Symb_{Γ₀}(V_k) is
-surjective, by an explicit lift of the values on the fundamental-domain generators. For μ ∈ D†_k,
-μ|β(a, p) ∈ D_k, so U_p maps Symb_{Γ₀}(D†_k) into Symb_{Γ₀}(D_k); consequently every classical symbol in a
-generalised U_p-eigenspace with nonzero eigenvalue has a D_k-valued lift. When U_p is invertible on
-Symb_{Γ₀}(V_k), as at level Γ ∩ Γ₀(p) with Γ of level prime to p, this is the surjectivity of
-ρ*_k : Symb_{Γ₀}(D_k) → Symb_{Γ₀}(V_k) of [PS] Corollary 5.4; at p | N the zero generalised eigenspace (for
-instance when a_p = 0) is not covered. Proof: the difference equation μ|Δ = ν
-(Δ = T − 1) has, for ν ∈ D†_k of total mass zero, the unique solution μ = Σ_{j≥1}ν(z^j)/j·η_{j−1} with
-η_j(z^r) = C(r, j)b_{r−j} (Bernoulli numbers), which lies in D†_k by von Staudt–Clausen and the moment
-description ([PS] Theorem 4.5, p. 20, with Lemmas 4.3–4.4); lift φ(D_i) arbitrarily, lift φ(D′_i), φ(D″_i)
-through the idempotents (2 and 3 are invertible on the ℚ_p-space D†_k), and solve for the value at D_∞
-with the difference equation, whose right side has total mass zero because every element of Δ(V_k) has
-zero Y^k-coefficient; the value can miss φ(D_∞) by cX^k (ker Δ on V_k is ℚ_pX^k), which is corrected by
-adjusting the k-th moments of the lifts of the φ(D_i) ([PS] Theorem 5.1, pp. 21–22, whose proof uses the
-generator criterion of §0.2 with ν_∞ replaced by −ν_∞); then (μ|β(a, p))(z^j) = Σ_rC(j, r)a^{j−r}p^rμ(z^r) is
-bounded ([PS] Lemma 5.3), and for φ = φ′|U_p in a generalised eigenspace with eigenvalue λ ≠ 0, lift φ′ to Ψ′
-over D†_k and take Ψ′|U_p ([PS] Corollary 5.4, p. 22). For a non-Eisenstein eigensymbol, applying
-T_ℓ − (ℓ^{k+1} + 1) also removes the error at D_∞ ([PS] Remark 5.2). The difference equation has no solution
-in D_k in general ([PS] Remark 4.6). *Needs:* §2.3 (Specialisation to polynomial coefficients); §0.2 (A
-modular symbol is determined by its values on the fundamental-domain generators).
+**Lifting classical symbols to overconvergent ones** (theorem). For k ≥ 0 and the refinement
+subgroup Γ₀ ⊆ Γ₀(p) of Convention 11, the specialisation
+ρ*_k : Symb_{Γ₀}(D†_k) → Symb_{Γ₀}(V_k) is surjective: every prescribed classical symbol φ
+has a lift Φ with ρ_k(Φ(D)) = φ(D) for every D ∈ Δ₀. Establish the cohomological
+obstruction calculation below as part of this theorem, over ℚ_p (and after finite coefficient
+extension). It applies to all classical symbols, including boundary symbols.
+
+Put E_k = ker(ρ_k : D†_k → V_k). Use §0.6's comparison with compact-support cohomology
+for these possibly infinite-dimensional coefficient modules. On a torsion-free finite cover,
+finite relative cellular cochains are finite sums of coefficient modules, so a short exact
+coefficient sequence gives a long exact sequence; descend by averaging over the finite cover
+group in characteristic zero. The oriented relative surface complex also gives
+H²_c(Γ₀,E_k) ≅ (E_k)_{Γ₀}, the algebraic coinvariants. Thus the coefficient sequence
+0 → E_k → D†_k → V_k → 0 gives the obstruction map
+Symb_{Γ₀}(V_k) → H²_c(Γ₀,E_k).
+
+Prove (E_k)_{Γ₀} = 0 as follows. Write Δ = T − 1, T = (1 1; 0 1) ∈ Γ₀.
+The difference equation on D† has a unique solution for every right-hand side of total
+mass zero ([PS] Theorem 4.5, with Lemmas 4.3–4.4, pp. 18–20). Its moment recurrence gives
+E_k/ΔE_k ≅ ℚ_p by ν ↦ ν(z^{k+1}): if ν ∈ E_k has this moment zero, its solution
+μ|Δ = ν has all moments through k zero, so μ ∈ E_k. Surjectivity of this quotient
+coordinate is witnessed by the finite moment sequence supported at k + 1.
+Choose a nonzero c ∈ pℤ with C_c = (1 0; c 1) ∈ Γ₀; such c exists at these congruence levels.
+Let e_{k+2} have moment one in degree k + 2 and zero in every other degree.
+It belongs to E_k, and
+(e_{k+2}|(C_c − 1))(z^{k+1}) = e_{k+2}(z^{k+1}/(1 + cz)) = −c ≠ 0.
+Consequently the Γ₀-relations kill the sole remaining quotient coordinate, so H²_c(Γ₀,E_k) = 0.
+Exactness now lifts the original φ without changing any of its generator values after specialisation.
+This is the compact-support argument of [PS critical] §2.1, (1), and §5.1, Lemmas 5.1–5.2,
+pp. 11–12, written directly for E_k; the moment description is [PS] Proposition 3.1.
+
+For μ ∈ D†_k, μ|β(a,p) ∈ D_k, since
+(μ|β(a,p))(z^j) = Σ_r C(j,r)a^{j−r}p^rμ(z^r) is bounded ([PS] Lemma 5.3).
+Thus U_p maps Symb_{Γ₀}(D†_k) into Symb_{Γ₀}(D_k). On a classical generalised U_p-eigenspace
+with eigenvalue λ ≠ 0, write φ = φ′|U_p within that space, lift φ′ over D†_k, and apply U_p.
+When U_p is invertible on Symb_{Γ₀}(V_k), as at level Γ ∩ Γ₀(p) with Γ of level prime to p,
+this gives surjectivity with D_k coefficients ([PS] Corollary 5.4, p. 22).
+At p | N the zero generalised eigenspace is excluded from this D_k conclusion.
+The difference equation need not have a solution in D_k ([PS] Remark 4.6).
+*Needs:* §2.3 (Specialisation to polynomial coefficients); §2.2 (Distribution modules);
+§0.6 (Hom-side symbols and geometric cohomology); §0.2 (the fundamental-domain presentation);
+AlgebraicTopology Stages 2, 4 and 6 (relative cellular cochains and oriented local-coefficient duality).
+
+**Checks.**
+
+- At k = 0, changing the mass of a generator lift changes its prescribed classical value.
+  Corrections in E₀ have zero mass; the nonzero coordinate killed above is their first moment.
+- More generally, changing only μ(z^k) by a changes ρ_k(μ) by (−1)^k aX^k.
+  For μ|Δ = ν, one instead has
+  ν(z^{k+1}) = (k + 1)μ(z^k) + Σ_{r<k} C(k+1,r)μ(z^r).
+  The obstruction calculation uses relations in E_k, preserving every moment through k.
+- For Γ₀(2), p = 2, there are no free D_i in §0.2's presentation. Nevertheless T and
+  C₂ lie in Γ₀(2), and (e_{k+2}|(C₂ − 1))(z^{k+1}) = −2 ≠ 0 in ℚ₂.
+  The same vanishing proves surjectivity while retaining the elliptic relation.
+- On a nonzero generalised U_p-eigenspace, the preimage φ′ under U_p is taken inside that
+  space; lifting φ itself and then applying U_p would specialise to φ|U_p instead of φ.
+- No eigenvalue-separation hypothesis is used for a boundary symbol. The non-Eisenstein
+  Hecke correction of [PS] Remark 5.2 alone does not cover it.
 
 ### 2.4 Stevens' control theorem
 
@@ -1847,7 +1926,8 @@ Artinian coefficient categories);
 FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5 (period structures and
 finite-extension-field realization comparisons) and §§R07.P7.1–R07.P7.5 (labelled Sen theory);
 PadicPeriodRings §§1.5, 3–4; SelmerIwasawaCohomology §§2.1–2.2;
-ArithmeticGaloisDuality (local Tate duality and the local Euler characteristic).
+ArithmeticGaloisDuality D7 (Local duality over finite and local coefficient fields:
+local Tate duality and the local Euler characteristic, with stable-lattice topology).
 
 **CM adjoint-Selmer vanishing** (theorem). Let f be a cuspidal CM newform of weight k + 2 ≥ 2
 and level N, p ∤ N, and F its imaginary quadratic CM field. After a finite coefficient
@@ -1882,10 +1962,10 @@ here; the general imaginary-quadratic main conjecture is not an input from the S
 
 *Needs:* §3.0 (Galois and crystalline-period adapter for the local chart);
 ArithmeticGaloisRepresentations §7.2; SelmerIwasawaCohomology §§2.1–2.2;
-ArithmeticGaloisDuality §R02.2 (inflation–restriction); SelmerIwasawaCohomology §4.9
+ArithmeticGaloisDuality §§R02.2.1–R02.2.2 (inflation–restriction); SelmerIwasawaCohomology §4.9
 (Bloch–Kato local finite conditions); FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P3
 (fundamental period sequences);
-ClassFieldTheory (global class field theory).
+ClassFieldTheory Layers 5 and 11 (local and global class field theory).
 
 **Criticality and decency** (definitions and classification). For a cuspidal newform f and a
 refinement with distinct roots, define criticality by ramification of the local weight map,
@@ -2106,7 +2186,13 @@ character and its top secondary L-function interpolates.
 
 Layer 2; §3.0; LocallyAnalyticDistributions §§2.3, 3.3, 4.15–4.16;
 AlgebraicModularFormsAndSerreWeights R15.5A.2; ArithmeticGaloisRepresentations §7.2;
-SelmerIwasawaCohomology §§2.1–2.2; PadicPeriodRings §1.5.
+SelmerIwasawaCohomology §§2.1–2.2 and 4.9; PadicPeriodRings §§1.5, 3–4;
+IntegralHeckeAndGaloisDeterminants §§0.5, 1.3 and 1.5;
+LocalGaloisDeformationRings §§F.1.1–F.1.10 and 1.15;
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5 and R07.P7.1–R07.P7.5;
+ArithmeticGaloisDuality §§R02.2.1–R02.2.2 and D7;
+ModularCurvesPartII §§7.1, 9.1–9.3, 11.1, 14.1–14.4a and 14.8;
+ClassFieldTheory Layers 5 and 11.
 
 ## Layer 4: tame twists, supersingular primes, comparisons and examples
 
@@ -2472,6 +2558,9 @@ deformations.
   Norm. Supér. (4) 44 (2011), 1–42, doi:10.24033/asens.2139. Open-access PDF:
   https://www.numdam.org/item/10.24033/asens.2139.pdf (printed page = PDF page − 1; locators are printed
   pages).
+- [PS critical] R. Pollack and G. Stevens, *Critical slope p-adic L-functions*, J. Lond. Math. Soc.
+  87 (2013), 428–452. Author version (locators are to this version):
+  https://math.bu.edu/people/ghs/papers/critical_LMS_post_referee_v4.pdf
 - [Wiese] G. Wiese, *Computational arithmetic of modular forms*, course notes, arXiv:1809.04645v1 (2018);
   also in *Modular Forms and Related Topics in Number Theory*, Springer, 2019.
   https://arxiv.org/pdf/1809.04645v1
