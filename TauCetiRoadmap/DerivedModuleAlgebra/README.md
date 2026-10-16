@@ -1820,37 +1820,124 @@ Lean: `DerivedDeRham.ordinaryQuotientCompletion`.
 
 ### 1.6 Completion of simplicial commutative algebras
 
-For a simplicial commutative `A`-algebra `B•` and finite `I = (f₁, …, f_r) ⊂ A`, construct its derived
-`I`-completion as the inverse limit of the simplicial Koszul quotients
-`B• ⊗_(ℤ[x₁,…,x_r]) Q•^(n)`, where `Q•^(n) → ℤ[x]/(x₁^n, …, x_r^n)` are compatible polynomial resolutions
-over `ℤ[x]` with surjective transitions and `x_i` acts through `f_i`. Its underlying `A`-module complex
-is `Λ_I B`; the unit is a map of simplicial algebras, and the construction is a reflector onto
-complete simplicial algebras. Specialize to `(p)` and `(p, d)`. Limits are taken levelwise in
-simplicial rings, not in degree-zero rings.
+**Homotopical category of simplicial algebras.** For a commutative ring `A`, put
+`S_A = SimplicialObject (CommAlgCat A)`, with strict simplicial algebra maps, and let `W` consist
+of maps inducing quasi-isomorphisms on the associated `A`-module cochain complexes, reindexed as
+in §0.2.2. Define `H_A = S_A[W⁻¹]` using Mathlib's `MorphismProperty.Localization` and write
+`q : S_A → H_A` for its localization functor. Construct the induced underlying-module functor
+`U : H_A → D(A)` and the natural comparison between `q ⋙ U` and the associated-module complex
+followed by `DerivedCategory.Q`. Prove that `U` has connective image: `H^i(U B) = 0` for `i > 0`.
+For a finitely generated ideal `I ⊂ A`, call `B ∈ H_A` complete precisely when
+`derivedCompleteness A I (U B)` holds. This algebra localization and its adapters are targets here;
+the generic localization construction is Mathlib's.
 
-[Prisms], §1.2 and Footnote 6, pp.10–11.
+[StacksCt], Definition 92.3.1 and Remark 92.5.5, Tags 08PM and 08QI; [Prisms], §1.2, pp.10–12;
+Mathlib `CategoryTheory/Localization/Construction.lean` and `Algebra/Category/CommAlgCat/Basic.lean`.
+*Needs:* §0.1 (Simplicial polynomial resolutions); §0.2.2 (Simplicial module comparisons);
+§1.2 (Derived ideal completeness); Mathlib `CommAlgCat`, `MorphismProperty.Localization`.
 
-*Needs:* §1.3 (The derived completion reflector); §1.4 (The derived Koszul completion tower);
-§0.1 (Simplicial polynomial resolutions); §1.1 (Derived limits of towers);
-§1.T.1 / *The Milnor sequence for towers of complexes*.
-
-Lean: `DerivedDeRham.simplicialRingCompletion`.
-
-Prove the following named laws.
-
-- `ringCompletionUnit`: `B• → Λ_I B•` is a map of simplicial algebras with the module completion
-  unit underneath.
-- `ringCompletionUnderlying`: the underlying module complex is the derived completion of 1.3,
-  including negative cochain degrees.
-- `ringCompletionMap`: a map of simplicial algebras respecting the ideal induces the completed map.
-- `ringCompletionIdempotent`: completing a complete simplicial algebra gives it back.
+Lean: `DerivedDeRham.SimplicialAlgebra`, `DerivedDeRham.simplicialAlgebraCochains`,
+`DerivedDeRham.simplicialAlgebraWeakEquivalences`, `DerivedDeRham.SimplicialAlgebraHomotopy`,
+`DerivedDeRham.simplicialAlgebraLocalization`, `DerivedDeRham.simplicialAlgebraUnderlying`,
+`DerivedDeRham.simplicialAlgebraUnderlyingComparison`, `DerivedDeRham.simplicialAlgebra_connective`.
 
 **Checks.**
 
-- `test_ring_completion_z`: the p-completion of `ℤ` is the ordinary `ℤ_p`.
-- `test_ring_completion_pd`: the `(p, d)`-completion of `ℤ[d]` is `ℤ_p[[d]]`, with both generators
-  retained.
-- `test_ring_completion_unit`: completion at the unit ideal is the zero ring.
+- A constant algebra `B` has `U(q B) ≅ B[0]`; positive cohomology vanishes.
+- The augmentation of every polynomial resolution `P• → B` becomes an isomorphism in `H_A`,
+  with its prescribed underlying quasi-isomorphism in `D(A)`.
+- At `I = 0` every object of `H_A` is complete; at `I = A` completeness means `U B = 0`.
+
+**Strict completion models and descent.** Fix finite `I = (f₁, …, f_r) ⊂ A` and put
+`R = ℤ[x₁, …, x_r]`, acting on `A` by `x_i ↦ f_i`. For `n ≥ 1`, choose compatible simplicial
+polynomial resolutions `Q•^(n) → R/(x₁^n, …, x_r^n)` over `R`, with transitions surjective in
+every simplicial degree. The standard resolutions of §0.1 give such a tower. For `B• ∈ S_A`,
+form the tower `T(B•)_n = B• ⊗_R Q•^(n)` and its levelwise inverse limit
+`L_model(B•) ∈ S_A`, retaining its strict algebra unit `B• → L_model(B•)`.
+The associated module complex of each stage represents the derived Koszul quotient, and the
+surjective transitions identify the module complex of the strict limit with its derived limit.
+
+Prove that this model functor preserves `W`. For any two such resolution towers for the same
+generating tuple, construct zigzags of algebra maps between their towers, over the quotient
+tower and under constant `R`, through towers with degreewise surjective transitions. Require
+weak equivalences at every stage and prove that the induced limit comparisons belong to `W`. The comparisons after tensoring with `B•` must also
+be stagewise weak equivalences; degreewise polynomial resolutions have bounded-above flat
+associated complexes, so §§0.2–0.2.2 supply the module tensor comparisons used in this proof.
+Give these zigzags naturally in `B•` in the algebra-diagram category
+`Fun(ℕᵒᵖ, S_A)`, compatibly with transition maps, quotient augmentations and units. Use the
+localization of this diagram category at stagewise weak equivalences for their inverses;
+an arbitrary diagram in `H_A` is not substituted for the strict tower. Require compatibility
+with identity comparisons and composites. Thus the localized model and unit are independent
+of the polynomial-resolution/tower choices by algebra comparisons.
+
+Construct the descended endofunctor `L_I : H_A → H_A`,
+`DerivedDeRham.simplicialRingCompletion`, and a natural isomorphism
+`q(L_model B•) ≅ L_I(q B•)` carrying the localized strict unit to its descended unit.
+Every functor and law carries `hI : I.FG`. Independence of the finite generating tuple is the
+unit-compatible algebra isomorphism characterized by the universal property below.
+
+[Prisms], §1.2 and Footnote 6, pp.10–11; [StacksCt], Tags 08PM and 08QI;
+[StacksMA], Tag 0920 for the underlying module limit.
+*Needs:* the homotopical category above; §0.1; §§0.2–0.2.2; §1.1 (Derived limits of towers);
+§1.3 (The derived completion reflector); §1.4 (The derived Koszul completion tower);
+§1.T.1 / *The Milnor sequence for towers of complexes*.
+
+Lean: `DerivedDeRham.simplicialRingCompletionModel`, `DerivedDeRham.ringCompletionModelUnit`,
+`DerivedDeRham.ringCompletionModel_weakEquivalences`, `DerivedDeRham.ringCompletionModelComparison`,
+`DerivedDeRham.simplicialRingCompletion`, `DerivedDeRham.ringCompletionDescent`,
+`DerivedDeRham.ringCompletionDescent_unit`.
+
+**Checks.**
+
+- A weak equivalence `B• → C•` induces weak equivalences of the Koszul towers and their strict
+  limits, giving an isomorphism `L_I(q B•) ≅ L_I(q C•)` in `H_A`.
+- Comparing a resolution tower with itself gives the identity in the localized algebra-diagram
+  category, and its limit comparison fixes the unit.
+- For the zero ideal the empty generating tuple returns `B•`. The tuple `(0)` instead has an
+  extra degree `−1` module term at each Koszul stage with zero transitions there. Its completion
+  is isomorphic to `q B•` in `H_A`; no stagewise equivalence with the empty-tuple tower is asserted.
+
+**Algebra completion reflector.** Construct the natural algebra unit
+`η : id_(H_A) → L_I` and prove that `L_I B` is complete for every `B ∈ H_A`. Construct the natural
+unit-compatible isomorphism `α_B : U(L_I B) ≅ Λ_I(U B)` in `D(A)`, including all negative cochain
+degrees. Its unit equation is `U(η_B) ≫ α_B.hom = completionUnit_(U B)`.
+For every complete `C ∈ H_A`, prove that precomposition with `η_B` is a bijection
+`Hom_(H_A)(L_I B, C) ≃ Hom_(H_A)(B, C)`, naturally in `B` and in complete `C`.
+This is an adjunction for algebra maps in `H_A`.
+
+Prove the following named laws, with `hI : I.FG` throughout.
+
+- `ringCompletionUnit`: the descended natural unit, represented by the strict model unit through
+  `ringCompletionDescent_unit`.
+- `ringCompletionUnderlying`: the natural isomorphism `L_I ⋙ U ≅ U ⋙ Λ_I`, satisfying
+  `ringCompletionUnderlying_unit` as displayed above.
+- `ringCompletionMap`: for any `f : B → C` in `H_A`,
+  `f ≫ η_C = η_B ≫ L_I(f)`; the underlying completed map agrees with module completion via `α`.
+- `ringCompletionComplete`: `derivedCompleteness A I (U(L_I B))` for every `B`.
+- `ringCompletionAdjunction`: the algebra-map bijection, with
+  `ringCompletionAdjunction_apply` identifying it with `g ↦ η_B ≫ g`.
+- `ringCompletionIdempotent`: `η_C` is an isomorphism for complete `C`. In particular,
+  `L_I(η_B) = η_(L_I B)` and its inverse gives `L_I L_I B ≅ L_I B` naturally in `H_A`.
+
+[Prisms], §1.2 and Footnote 6, pp.10–11, for completion of simplicial algebras;
+[StacksMA], Tags 091V and 0920, for the module unit and adjunction underneath.
+*Needs:* strict completion models and descent above; §1.2; §1.3; §1.4.
+
+**Checks.**
+
+- `test_ring_completion_z`: the p-completion of constant `ℤ` is isomorphic in `H_ℤ` to constant
+  `ℤ_p`, compatibly with the algebra unit and its underlying module unit.
+- `test_ring_completion_pd`: the `(p, d)`-completion of constant `ℤ[d]` is isomorphic in `H_(ℤ[d])`
+  to constant `ℤ_p[[d]]`, with both generators retained.
+- `test_ring_completion_unit`: at the unit ideal, `L_I B ≅ q(0)` in `H_A`. This is a localized
+  isomorphism, and does not assert a strict isomorphism of levelwise-limit models with zero.
+- For nonzero `A`, let `P• → 0` be its standard polynomial resolution of the zero `A`-algebra
+  (Tags 08PM, 08QI). Its module complex is acyclic, so it is complete at `I = A`, but
+  `P_0 = A[underlying(0)] ≅ A[t] ≠ 0`. There is exactly one strict map from constant `A` to
+  `P•`, and no strict unital map from constant zero to `P•`: degree zero would give `0 → A[t]`.
+  Thus `Hom_(S_A)(0, P•)` is empty while `Hom_(S_A)(A, P•)` is a singleton. In `H_A` the
+  augmentation identifies `P•` with zero, and both Hom sets into `q P•` are singletons, as
+  the algebra adjunction requires.
 
 ### 1.7 Complete flatness and complete faithful flatness
 

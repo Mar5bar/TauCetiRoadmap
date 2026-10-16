@@ -990,6 +990,124 @@ example (p : ℕ) [Fact p.Prime] :
     ¬ IsCompletelyFlatModule ℤ (Ideal.span {(p : ℤ)}) (ModuleCat.of ℤ (ZMod p)) := by
   sorry
 
+/-! ## Simplicial algebra completion: 1.6 -/
+
+/-- Strict simplicial commutative `A`-algebras and their algebra maps. -/
+abbrev SimplicialAlgebra (A : Type u) [CommRing A] :=
+  SimplicialObject (CommAlgCat.{u} A)
+
+/-- The underlying alternating-face module complex, in nonpositive cochain degrees. -/
+def simplicialAlgebraCochains (A : Type u) [CommRing A] :
+    SimplicialAlgebra A ⥤ CochainComplex (ModuleCat.{u} A) ℤ :=
+  (Functor.whiskeringRight _ _ _).obj
+    (forget₂ (CommAlgCat.{u} A) (AlgCat.{u} A) ⋙
+      forget₂ (AlgCat.{u} A) (ModuleCat.{u} A)) ⋙ simplicialCochains A
+
+/-- Algebra maps that induce quasi-isomorphisms of underlying module complexes. -/
+def simplicialAlgebraWeakEquivalences (A : Type u) [CommRing A] :
+    MorphismProperty (SimplicialAlgebra A) :=
+  fun _ _ f => QuasiIso ((simplicialAlgebraCochains A).map f)
+
+/-- The category `H_A` obtained by inverting underlying-module weak equivalences. -/
+abbrev SimplicialAlgebraHomotopy (A : Type u) [CommRing A] :=
+  (simplicialAlgebraWeakEquivalences A).Localization
+
+/-- Localization of strict simplicial algebras at underlying-module quasi-isomorphisms. -/
+abbrev simplicialAlgebraLocalization (A : Type u) [CommRing A] :
+    SimplicialAlgebra A ⥤ SimplicialAlgebraHomotopy A :=
+  (simplicialAlgebraWeakEquivalences A).Q
+
+/-- The underlying derived module of a localized simplicial algebra. -/
+def simplicialAlgebraUnderlying (A : Type u) [CommRing A] :
+    SimplicialAlgebraHomotopy A ⥤ D A := sorry
+
+/-- The descended underlying-module functor agrees naturally with the strict module complex. -/
+def simplicialAlgebraUnderlyingComparison (A : Type u) [CommRing A] :
+    simplicialAlgebraLocalization A ⋙ simplicialAlgebraUnderlying A ≅
+      simplicialAlgebraCochains A ⋙ DerivedCategory.Q (C := ModuleCat A) := sorry
+
+/-- Underlying derived modules of localized simplicial algebras have no positive cohomology. -/
+theorem simplicialAlgebra_connective (A : Type u) [CommRing A]
+    (B : SimplicialAlgebraHomotopy A) (i : ℤ) (hi : 0 < i) :
+    IsZero (H A i ((simplicialAlgebraUnderlying A).obj B)) := sorry
+
+/-- The strict levelwise-limit model of the finite-ideal simplicial Koszul quotient tower. -/
+def simplicialRingCompletionModel (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG) :
+    SimplicialAlgebra A ⥤ SimplicialAlgebra A := sorry
+
+/-- The strict simplicial algebra map into the chosen completion model, natural in its input. -/
+def ringCompletionModelUnit (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG) :
+    𝟭 (SimplicialAlgebra A) ⟶ simplicialRingCompletionModel A I hI := sorry
+
+/-- Strict completion models preserve underlying-module weak equivalences. -/
+theorem ringCompletionModel_weakEquivalences (A : Type u) [CommRing A]
+    (I : Ideal A) (hI : I.FG) {B C : SimplicialAlgebra A} (f : B ⟶ C)
+    (hf : simplicialAlgebraWeakEquivalences A f) :
+    simplicialAlgebraWeakEquivalences A ((simplicialRingCompletionModel A I hI).map f) := sorry
+
+/-- Derived finite-ideal completion as an endofunctor of the localized algebra category `H_A`. -/
+def simplicialRingCompletion (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG) :
+    SimplicialAlgebraHomotopy A ⥤ SimplicialAlgebraHomotopy A := sorry
+
+/-- Localized strict models agree naturally with the descended algebra completion. -/
+def ringCompletionDescent (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG) :
+    simplicialRingCompletionModel A I hI ⋙ simplicialAlgebraLocalization A ≅
+      simplicialAlgebraLocalization A ⋙ simplicialRingCompletion A I hI := sorry
+
+/-- The natural algebra completion unit in `H_A`. -/
+def ringCompletionUnit (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG) :
+    𝟭 (SimplicialAlgebraHomotopy A) ⟶ simplicialRingCompletion A I hI := sorry
+
+/-- The descent comparison carries the localized strict unit to the algebra completion unit. -/
+theorem ringCompletionDescent_unit (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG)
+    (B : SimplicialAlgebra A) :
+    (simplicialAlgebraLocalization A).map ((ringCompletionModelUnit A I hI).app B) ≫
+        (ringCompletionDescent A I hI).hom.app B =
+      (ringCompletionUnit A I hI).app ((simplicialAlgebraLocalization A).obj B) := sorry
+
+/-- Underlying derived modules of algebra completions are naturally module completions. -/
+def ringCompletionUnderlying (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG) :
+    simplicialRingCompletion A I hI ⋙ simplicialAlgebraUnderlying A ≅
+      simplicialAlgebraUnderlying A ⋙ derivedCompletion A I hI := sorry
+
+/-- The underlying-module comparison identifies the algebra and module completion units. -/
+theorem ringCompletionUnderlying_unit (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG)
+    (B : SimplicialAlgebraHomotopy A) :
+    (simplicialAlgebraUnderlying A).map ((ringCompletionUnit A I hI).app B) ≫
+        (ringCompletionUnderlying A I hI).hom.app B =
+      (completionUnit A I hI).app ((simplicialAlgebraUnderlying A).obj B) := sorry
+
+/-- Algebra completion maps commute with the unit for every morphism in `H_A`. -/
+theorem ringCompletionMap (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG)
+    {B C : SimplicialAlgebraHomotopy A} (f : B ⟶ C) :
+    f ≫ (ringCompletionUnit A I hI).app C =
+      (ringCompletionUnit A I hI).app B ≫ (simplicialRingCompletion A I hI).map f := sorry
+
+/-- Algebra completions are complete for the underlying derived-module notion. -/
+theorem ringCompletionComplete (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG)
+    (B : SimplicialAlgebraHomotopy A) :
+    derivedCompleteness A I ((simplicialAlgebraUnderlying A).obj
+      ((simplicialRingCompletion A I hI).obj B)) := sorry
+
+/-- Algebra maps from the completion to a complete algebra correspond to maps from the input. -/
+def ringCompletionAdjunction (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG)
+    (B C : SimplicialAlgebraHomotopy A)
+    (hC : derivedCompleteness A I ((simplicialAlgebraUnderlying A).obj C)) :
+    ((simplicialRingCompletion A I hI).obj B ⟶ C) ≃ (B ⟶ C) := sorry
+
+/-- The algebra adjunction bijection is precomposition with the completion unit. -/
+theorem ringCompletionAdjunction_apply (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG)
+    (B C : SimplicialAlgebraHomotopy A)
+    (hC : derivedCompleteness A I ((simplicialAlgebraUnderlying A).obj C))
+    (g : (simplicialRingCompletion A I hI).obj B ⟶ C) :
+    ringCompletionAdjunction A I hI B C hC g = (ringCompletionUnit A I hI).app B ≫ g := sorry
+
+/-- The completion unit of a complete algebra is an isomorphism in `H_A`. -/
+theorem ringCompletionIdempotent (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG)
+    (C : SimplicialAlgebraHomotopy A)
+    (hC : derivedCompleteness A I ((simplicialAlgebraUnderlying A).obj C)) :
+    IsIso ((ringCompletionUnit A I hI).app C) := sorry
+
 end DerivedDeRham
 
 namespace PerfectComplex
@@ -1165,8 +1283,13 @@ Res^A_R C ≅ R[1] ⊕ R[0] belongs to D(R). In D(A), Hom(C, R[1]) = 0 by comple
 of R[1] and the completion adjunction, so the truncation triangle is nonsplit.
 
 1.6:
-DerivedDeRham.simplicialRingCompletion, ringCompletionUnit, ringCompletionUnderlying,
-ringCompletionMap, ringCompletionIdempotent.
+DerivedDeRham.ringCompletionModelComparison supplies natural zigzags of stagewise algebra weak
+equivalences between compatible polynomial-resolution towers for the same generating tuple,
+under the base and over the quotient tower, through towers with degreewise surjective transitions,
+with unit-compatible weak equivalences on strict limits.
+The declarations above pin H_A, its underlying-module functor, strict models, descent, and the
+algebra-map completion adjunction. ringCompletionAdjunction is natural in the input and the
+complete target. Idempotence and the unit-ideal output are isomorphisms in H_A.
 
 1.7:
 DerivedDeRham.completeFlatness, DerivedDeRham.IsCompletelyFlatModule, completeFlatReduction,
