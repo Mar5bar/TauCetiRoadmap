@@ -26,14 +26,15 @@ What it builds on, and does not plan again:
 - **Shared free-group centralizer interfaces.** [Mathlib PR #42677](https://github.com/leanprover-community/mathlib4/pull/42677), commit `b38ce379d898d1284bae5582be27de1d2af39f67`, proposes `FreeGroup/Center.lean` with `FreeGroup.centralizer_of_eq_closure`, `FreeGroup.isCyclic_centralizer`, `FreeGroup.commute_of_commute`, `FreeGroup.center_eq_top_of_subsingleton` and `FreeGroup.center_eq_bot_of_nontrivial`. These overlap §§1.5–1.8. Coordinate the shared signatures with that work and build the required theory in Tau Ceti using its interface shape wherever the pinned Mathlib lacks it; adopt the Mathlib declarations when available. The maximal-root identification and malnormality targets remain here. No reuse of the proposed proofs is required.
 - **Tau Ceti at the pin** already has malnormal subgroups, as trivial-intersection subgroups: `TauCeti.IsTISubgroup` (TauCeti/GroupTheory/TrivialIntersection.lean), with its lattice form `TauCeti.isTISubgroup_iff_inf_conj_smul_eq_bot`. The CSA condition of Layer 1 is stated with it, and malnormality is not defined again here; RepresentationTheory/CharacterTheory, Layer 8 “Frobenius groups and Frobenius’s theorem,” uses the same notion for finite groups.
 - **Tau Ceti at the pin** supplies free-group residual finiteness, residual p and the sharper Schreier inequality through the exact contracts below. The equality for finite-index free subgroups is Layer 2.
-- **Tau Ceti roadmaps.** [GraphConnectivityAndFlows, Target 1.1](../GraphConnectivityAndFlows/README.md#11-undirected-walks-isomorphisms-and-representation-bridges) supplies native multigraph walks, connectivity and components; §§2.1–2.1a own the Serre-dart adapter. §§2.2–2.2a own graph path groups, spanning-tree presentations and finite cycle spaces. §§6.0a–6.1a own the finite polygonal surface models, normal forms, face presentations and marked boundary comparisons used here; §6.0d owns their cutting-to-splitting interface. These are item-level inputs, without flow, Menger or mapping-class-group prerequisites. AlgebraicTopology's surface topology and FuchsianOrbifolds' analytic surfaces have different applications. QH vertices here have hyperbolic surface groups and trivial fiber (§6.10); GeometricTopology's geometric JSJ is distinct from Layer 10's group-theoretic JSJ. ProfiniteProPGroups and PeripheralActions concern pro-p groups. [ClassifyingSpaces, Stage 2 item 7](../ClassifyingSpaces/README.md#stage-2-the-cellular-model) supplies presentation complexes and their fundamental-group comparison to §10.1a, hence §10.2 and downstream JSJ consumers; §2.2 is combinatorial and independent of that input. These roadmap contracts are specifications, distinct from the declarations implemented at the library pin.
+- **Tau Ceti roadmaps.** [GraphConnectivityAndFlows, Target 1.1](../GraphConnectivityAndFlows/README.md#11-undirected-walks-isomorphisms-and-representation-bridges) supplies native multigraph walks, connectivity and components; §§2.1–2.1a own the Serre-dart adapter. §§2.2–2.2a own graph path groups, spanning-tree presentations and finite cycle spaces. §§6.0a–6.1a own the finite polygonal surface models, normal forms, face presentations and marked boundary comparisons used here; §6.0d owns combinatorial two-sided curves, proper arcs, their cut models and the cutting-to-splitting comparisons. These are item-level inputs, without flow, Menger or mapping-class-group prerequisites. AlgebraicTopology's surface topology and FuchsianOrbifolds' analytic surfaces have different applications. QH vertices here have hyperbolic surface groups and trivial fiber (§6.10); GeometricTopology's geometric JSJ is distinct from Layer 10's group-theoretic JSJ. ProfiniteProPGroups and PeripheralActions concern pro-p groups. [ClassifyingSpaces, Stage 2 item 7](../ClassifyingSpaces/README.md#stage-2-the-cellular-model) supplies presentation complexes and their fundamental-group comparison to §10.1a, hence §10.2 and downstream JSJ consumers; §2.2 is combinatorial and independent of that input. These roadmap contracts are specifications, distinct from the declarations implemented at the library pin.
 
 | Shared mathematics | Owner and supplier contract | Dependency direction |
 | --- | --- | --- |
 | Underlying multigraph incidence | Mathlib `Graph` | §2.1 supplies the Serre-dart adapter. |
 | Native multigraph walks, connectivity and components | GraphConnectivityAndFlows Target 1.1 | §2.1a consumes this API and proves the Serre comparison; no flow or Menger target is needed. |
 | Graph edge-path groups, spanning-tree bases, rank and finite cycle spaces | Local §§2.2–2.2a, over Mathlib `FreeGroup` and `PresentedGroup` | Layers 2, 4, 7 and 10 use these local graph results. |
-| Finite polygonal surfaces, boundary incidence, moves and normal forms | Local §§6.0a–6.0b | §6.0d supplies cutting; §§6.3–6.4 and §6.10 use the resulting peripheral surfaces. |
+| Finite polygonal surfaces, boundary incidence, moves and normal forms | Local §§6.0a–6.0b | §6.0d consumes this polygonal carrier; §§6.3–6.4 and §6.10 use the resulting peripheral surfaces. |
+| Combinatorial two-sided curves, proper arcs and cut models | Local §6.0d, on the carrier of §§6.0a–6.0b | Both curve and arc cutting, disjoint-family and subdivision compatibility, marked boundary transport, face-group regluing and the monomorphic cyclic edge maps are local targets. §§6.3 and 6.10 consume these contracts. |
 | Surface face presentations and subdivision comparisons | Local §6.0c | §6.1a identifies the marked boundary conjugacy classes in S±(g,m). Quadratic normalization in §6.6 is independent of surface realization. |
 | Presentation complexes and their fundamental groups | ClassifyingSpaces Stage 2.7 (on main), using AlgebraicTopology Stage 1 van Kampen and Stage 4 CW inputs | Stage 2.7 → §10.1a → §10.2 and downstream JSJ consumers; the relative finite-cell construction and track resolution are owned in §10.1a. |
 
@@ -319,7 +320,7 @@ Stallings' method represents a finitely generated subgroup of a free group by a 
 
 ### 2.1 Serre graphs: graphs with edge reversal, loops and multiple edges
 
-Define `SerreGraph` as follows. A Serre graph consists of a vertex type V, an edge type E, an origin map src : E → V and a reversal rev : E → E with rev (rev e) = e and rev e ≠ e for every edge; the terminus is tgt e := src (rev e). Loops (src e = tgt e) and multiple edges are allowed. An orientation is a subset E⁺ ⊆ E containing exactly one edge of each pair {e, rev e}. A path from u to w is a list of edges e₁ … e_k with src e₁ = u, tgt e_i = src e_{i+1} and tgt e_k = w (the empty path at u has u = w); a path is reduced when no e_{i+1} = rev e_i. The graph is connected when any two vertices are joined by a path, and is a tree when it is connected, nonempty and has no reduced closed path of positive length.
+Define `SerreGraph` as follows. A Serre graph consists of a vertex type V, an edge type E, an origin map src : E → V and a reversal rev : E → E with rev (rev e) = e and rev e ≠ e for every edge; the terminus is tgt e := src (rev e). Loops (src e = tgt e) and multiple edges are allowed. An orientation is a subset E⁺ ⊆ E containing exactly one edge of each pair {e, rev e}. A path from u to w is a list of edges e₁ … e_k with src e₁ = u, tgt e_i = src e_{i+1} and tgt e_k = w (the empty path at u has u = w); a path is reduced when no e_{i+1} = rev e_i. Write `SerreGraph.Preconnected` for pairwise path reachability and `SerreGraph.Connected` for Nonempty V together with preconnectivity. Connectedness always includes nonemptiness, as in the shared Graph convention. A tree is nonempty, preconnected and has no reduced closed path of positive length.
 
 Structure with the four fields and two axioms; paths as lists with a chain condition; reduced paths by a second chain condition.
 
@@ -329,24 +330,27 @@ The public interface should expose the following named results:
 - `SerreGraph.Path`: Paths as lists of composable edges between two vertices, with nil, cons, append and reverse (reverse reverses the list and applies rev).
 - `SerreGraph.Path.IsReduced`: No backtracking: no edge immediately followed by its reverse.
 - `SerreGraph.Path.reduce`: Every path is homotopic (by removing backtracks) to a unique reduced path with the same ends.
+- `SerreGraph.Preconnected`, `SerreGraph.Connected`: The path-based predicates above are adapters to shared reachability and nonempty connectedness, respectively.
 - `SerreGraph.IsTree`: Connected, nonempty, and every reduced closed path is empty.
 - `SerreGraph.IsTree.unique_reduced_path`: In a tree, between two vertices there is exactly one reduced path.
 - `SerreGraph.toQuiver`: A Serre graph gives a Quiver on V (hom-type from u to w the edges with those ends) with Mathlib's HasInvolutiveReverse structure given by rev.
 - `SerreGraph.Hom`: Morphisms: maps on vertices and edges commuting with src and rev; composition and identity.
 - `SerreGraph.ofSimpleGraph`: A Mathlib SimpleGraph G gives a Serre graph with E = G.Dart, src = Dart.fst and rev = Dart.symm (rev_rev from Dart.symm_symm, rev_ne from Dart.symm_ne); it is a tree in the sense here iff it is a nonempty Mathlib tree (SimpleGraph.IsTree).
+- `SerreGraph.connected_ofSimpleGraph`: The dart adapter is connected iff G is Mathlib-connected, including when its vertex type is empty.
 - `SerreGraph.toGraph`: The underlying Mathlib `Graph` on V with all vertices and with edge identities the reversal orbits E/{e ∼ rev e}; incidence is the unordered pair of ends. Parallel edge pairs remain distinct.
 - `SerreGraph.ofGraph`: For a Mathlib `Graph`, use its actual vertex and edge subtypes and choose an ordering of the two ends of each edge; attach two darts (e, true), (e, false), reversing the sign. A loop also has two distinct darts. Different endpoint orderings give isomorphic Serre graphs, and forgetting reversal recovers the original `Graph` up to these subtype identifications.
-- `SerreGraph.reachable_toGraph`: Serre path reachability agrees with underlying-graph walk reachability; this identifies connected components and connectedness, with the same nonempty convention. The map on paths forgets loop direction and is surjective, but need not injective. Group-valued path operations use Serre paths, where a loop and its inverse remain distinct.
+- `SerreGraph.reachable_toGraph`: Serre path reachability agrees with underlying-graph walk reachability. `SerreGraph.connected_toGraph` gives Γ.toGraph.Connected ↔ Nonempty V ∧ Γ.Preconnected, equivalently Γ.toGraph.Connected ↔ Γ.Connected. This identifies connected components and connectedness. The map on paths forgets loop direction and is surjective, but need not injective. Group-valued path operations use Serre paths, where a loop and its inverse remain distinct.
 
 **Checks.**
 
 - `SerreGraph.rose_one_not_tree`: The rose with one petal (one vertex, edges e and rev e, a loop) is connected but not a tree: the path [e] is a reduced closed path. A definition of graphs that drops loops (for instance through Mathlib's SimpleGraph) would call it a tree.
 - `SerreGraph.segment_isTree`: The segment (vertices 0, 1; edges e: 0→1 and rev e) is a tree and the unique reduced path from 0 to 1 is [e].
-- `SerreGraph.single_vertex_isTree`: One vertex and no edges is a tree; the empty graph is not (trees are nonempty).
+- `SerreGraph.single_vertex_isTree`: One vertex and no edges is connected and a tree, in both representations.
+- With V=E=Empty, preconnectivity holds vacuously, but connectedness and the tree predicate are false; the underlying Graph is also not connected and has no components.
 - `SerreGraph.double_edge_not_tree`: Two vertices joined by two edge pairs e, f is not a tree ([e, rev f] is a reduced closed path): multiple edges are allowed and detected.
 - `SerreGraph.toQuiver_reverse`: Under toQuiver, Mathlib's Quiver.reverse of the arrow e is rev e.
 - A one-loop rose has one underlying loop and two Serre darts; the paths [e] and [rev e] have the same forgotten walk but represent opposite generators in §2.2.
-- The graph of two isolated vertices has two components in both representations; a nonempty connectedness hypothesis cannot be inferred from the presence of a basepoint.
+- The graph of two isolated vertices is neither preconnected nor connected, and has two components in both representations; a connectedness hypothesis cannot be inferred from the presence of a basepoint.
 
 The one-vertex graph with one pair of loop edges {e, ē} (the rose with one petal) is connected and not a tree. The segment with two vertices and one edge pair is a tree.
 
@@ -358,15 +362,16 @@ Use [TREES] Chapter I, §2.1, Definition 1 (graphs with edge reversal), §2.2 (t
 
 ### 2.1a Shared multigraph connectivity and the Serre adapter
 
-Consume GraphConnectivityAndFlows Target 1.1's `Graph.Walk`, native reachability, `Graph.Connected` and component subgraphs `Graph.IsConnectedComponentOf`. Its walks are indexed by ambient vertices and allow an empty walk even outside the vertex set; reachability requires actual endpoints. Components are the minimal nonempty closed subgraphs, identified there with `toSimpleGraph.ConnectedComponent`. No new walk, connectivity or component definition is introduced here.
+Consume GraphConnectivityAndFlows Target 1.1's `Graph.Walk`, native reachability, `Graph.Connected` and component subgraphs `Graph.IsConnectedComponentOf`. Its walks are indexed by ambient vertices and allow an empty walk even outside the vertex set; reachability requires actual endpoints. Components are the minimal nonempty closed subgraphs, identified there with `toSimpleGraph.ConnectedComponent`. The Serre predicates of §2.1 adapt paths to this API; there is no second generic multigraph connectivity or component theory.
 
-Prove `SerreGraph.reachable_toGraph` and its connectedness and component equivalences on the actual vertex subtypes. The path map retains the sequence of edge identities but forgets the direction of a loop. It is surjective on walks with actual endpoints: choose a dart above each traversal. It is not asserted to be injective or to induce an edge-path-group map by identifying the two loop directions. Group comparisons in §2.2 retain signed oriented edges.
+Prove `SerreGraph.reachable_toGraph`, then `SerreGraph.connected_toGraph` with the explicit Nonempty V conjunct, and the component equivalence on the actual vertex subtypes. The path map retains the sequence of edge identities but forgets the direction of a loop. It is surjective on walks with actual endpoints: choose a dart above each traversal. It is not asserted to be injective or to induce an edge-path-group map by identifying the two loop directions. Group comparisons in §2.2 retain signed oriented edges.
 
 **Checks.**
 
 - In the one-loop bouquet the graph is connected with one component; its one-edge native walk has two Serre lifts. The loops [e] and [rev e] give opposite, distinct generators of the infinite cyclic reduced path group.
 - The two-vertex graph with two parallel edges is connected with one component in both representations; its two length-one walks remain distinct, and [e,rev f] gives a nontrivial reduced loop.
 - Two isolated actual vertices give two components; the empty graph has none and is not connected. An empty walk at an ambient point outside the vertex set supplies no reachability witness.
+- A single isolated actual vertex is preconnected and connected, with one component. On the empty vertex type only preconnectivity holds, so the connectedness comparison needs its nonempty conjunct.
 
 Sources: GraphConnectivityAndFlows Target 1.1 (native walks, reachability and component comparisons); [LEAN] Mathlib/Combinatorics/Graph/Basic.lean (incidence); [TREES] Chapter I, §§2.1–2.2; [FOLD] §2, Convention 2.1, p. 5.
 
@@ -942,12 +947,12 @@ Use [TREES] Chapter I, §6.4, Propositions 24–25 and §6.5, Corollary 2: Autom
 
 ### 4.10 Induced splittings of subgroups, with finiteness under finite generation
 
-Define `GraphOfGroups.inducedSplitting` as follows. Let G = π₁(𝔸, v₀) with Bass–Serre tree X and base vertex x₀, and let U ≤ G. For a U-invariant subtree Y ⊆ X containing x₀, the induced splitting of U is the graph of groups of the structure theorem for the action of U on Y; its vertex groups are U ∩ conjugates of vertex groups of 𝔸 and its edge groups U ∩ conjugates of edge groups. The preferred subtree is X_{U,x₀} := ⋃_{u ∈ U} [x₀, u x₀]. If U is generated by a finite set S, then X_{U,x₀} = U · ⋃_{s ∈ S} [x₀, s x₀], so the induced graph of groups on X_{U,x₀}/U is finite; without finite generation it may be infinite.
+Define `GraphOfGroups.inducedSplitting` as follows. Let G = π₁(𝔸, v₀) with Bass–Serre tree X and base vertex x₀, and let U ≤ G. For a U-invariant subtree Y ⊆ X containing x₀, the induced splitting of U is the graph of groups of the structure theorem for the action of U on Y; its vertex groups are U ∩ conjugates of vertex groups of 𝔸 and its edge groups U ∩ conjugates of edge groups. The preferred subtree is X_{U,x₀} := ⋃_{u ∈ U} [x₀, u x₀]. If U is generated by a finite set S, put K_S := {x₀} ∪ ⋃_{s ∈ S} [x₀, s x₀]. Then X_{U,x₀} = U · K_S, so the induced graph of groups on X_{U,x₀}/U is finite; without finite generation it may be infinite.
 
 Throughout this subsection assume: For finiteness: U finitely generated.
 
 Apply §4.8 to the action of U on Y.
-For finite S: the union of the geodesics [x₀, s x₀] meets every U-orbit of edges of X_{U,x₀}, because [x₀, s₁⋯s_k x₀] ⊆ ⋃ s₁⋯s_{i−1}[x₀, s_i x₀].
+For finite S, K_S is a finite subtree containing x₀, even when S is empty. For a word s₁⋯s_k in S ∪ S⁻¹, [x₀, s₁⋯s_k x₀] is contained in the union of the translated generator segments s₁⋯s_{i−1}[x₀, s_i x₀]. An inverse-generator segment satisfies [x₀, s⁻¹x₀] = s⁻¹[x₀, sx₀]. Thus every such segment lies in U·K_S; the length-zero word contributes x₀. Conversely, X_{U,x₀} is the U-invariant hull of the orbit Ux₀ and contains K_S, so U·K_S lies in it. Hence K_S meets every vertex and edge orbit, proving finiteness of the quotient.
 
 The public interface should expose the following named results:
 
@@ -961,6 +966,7 @@ The public interface should expose the following named results:
 
 - `GraphOfGroups.induced_cyclic`: For U = ⟨a b⟩ in ⟨a⟩ ∗ ⟨b⟩ the induced splitting on X_{U,x₀} is a cycle with two vertices and two edge pairs, all groups trivial: a definition that quotients by the subgroup generated by a and b separately, or that forgets one vertex orbit, gives a one-vertex loop instead.
 - `GraphOfGroups.induced_vertex_subgroup`: For U ≤ A_{v₀}, U fixes x₀, X_{U,x₀} = {x₀}, and the induced splitting is the single vertex U.
+- For U=1 and S=∅, K_S={x₀} and X_{U,x₀}/U has one vertex and no edges, with trivial vertex group; it is not the empty graph.
 - `GraphOfGroups.induced_infinite`: For the commutator subgroup of F(a,b) the induced graph is infinite: finiteness needs finite generation.
 - `GraphOfGroups.induced_kurosh`: For 𝔸 with trivial edge groups (a free product), the induced splitting gives the Kurosh decomposition of U (§4.11).
 
@@ -1408,20 +1414,28 @@ Sources: [HATCHER] §1.2, Proposition 1.26, pp. 50–52 (normal closure of based
 
 ### 6.0d Essential curves, proper arcs and cutting
 
-Define `SurfaceModel.EssentialCurve` as a simple cyclic edge path in the interior after subdivision, with an annular strip of faces as its regular neighborhood, whose normal form is orientable of genus zero with two boundaries. Simplicity means distinct cyclic vertices and edges. It must neither bound a cut component of disc normal form nor cobound an annulus normal form with an original boundary component. The annular neighborhood is the two-sided condition. Define `SurfaceModel.ProperArc` as a simple edge path after subdivision with distinct boundary endpoints and interior disjoint from the boundary, with a disc strip neighborhood meeting the original boundary in two end segments. The neighborhoods are recorded by their finite face and corner data and the normal-form comparisons of §6.0b. For a finite disjoint family of these curves and arcs construct the cut models by duplicating their sides and splitting vertex links, with a bijection on the untouched boundaries and the new boundary traversals. Prove that regluing restores the original model and its face presentation. For a two-sided curve in a model with χ<0, prove that its class has infinite order; the two cut boundary classes map to that class and its inverse. These inputs supply the injective cyclic edge maps and the simultaneous dual splittings of §§6.3 and 6.10.
+**Target.** On the local polygonal carrier of §6.0a, define `SurfaceModel.TwoSidedCurve` as a nonempty simple cyclic edge path in the interior of a subdivision, with an annular strip of faces as its regular neighborhood. Simplicity means distinct cyclic vertices and unoriented edges; the strip has orientable genus-zero normal form with two boundaries. Define `SurfaceModel.ProperArc` as a simple edge path after subdivision with distinct boundary endpoints and interior disjoint from the boundary, with a disc strip neighborhood meeting the original boundary in two end segments. Record these neighborhoods by finite face and corner data and the normal-form comparisons of §6.0b. Curves and arcs with different subdivisions are transported to a common refinement by that subsection's moves.
+
+Construct `SurfaceModel.cutAlong` for a two-sided curve and `SurfaceModel.cutAlongArc` for a proper arc. Both operations, including their curve and arc carriers, are owned here. Their values are finite nonempty families of connected `SurfaceModel` pieces, with incidence maps to the subdivided original model: a cut can disconnect the surface. Duplicate each cut side, distribute its incident faces to its two copies, and split the vertex links at the cut germs. At an interior path vertex a circle link splits into two interval links; at a proper-arc endpoint the interval link splits at its interior cut germ. Prove that these are exactly the resulting corner links and that every piece satisfies §6.0a's surface-link condition. Faces and their corner occurrences are retained, and identifying the paired cut sides and their endpoints recovers the original subdivided incidence model up to isomorphism.
+
+For a finite family of curves and arcs on a common refinement with pairwise disjoint strip neighborhoods, including distinct arc endpoints, construct the simultaneous cut. Prove that it agrees up to incidence isomorphism with successive cuts in any order, transporting each remaining path and neighborhood. Prove compatibility with edge and face subdivisions by common refinement; the comparisons preserve the projection, pairing of cut sides, and boundary markings. Cutting along the empty family returns the original model. The sum of the pieces' Euler characteristics is χ of the original plus the number of arcs. Each closed curve creates two complete boundary circuits. Original boundary circles avoiding arc endpoints correspond bijectively to the distinguished untouched boundary circuits; circles hit by endpoints are instead split into marked segments, with their cyclic order and reconnections recorded in the new boundary circuits.
+
+Define `SurfaceModel.EssentialCurve` as a two-sided curve for which neither side of the cut bounds a disc piece nor cobounds an annulus piece with an original boundary. All cutting operations use the preceding local cut models. This subsection also owns marked boundary transport, the face-group regluing comparison, infinite order and the monomorphic edge maps. In §6.0c's presentations, prove that regluing the paired circles or intervals, with connecting paths and stable letters as required, recovers the original face group and all original boundary conjugacy classes. The two boundary circuits above a curve map to its class and its inverse, up to the chosen connecting-path conjugations. For an essential curve in a model with χ<0, prove that this class has infinite order in the original and the adjacent cut-piece face groups; hence both cyclic edge maps are injective. Proper-arc gluings have trivial edge groups. These comparisons supply the simultaneous dual Bass–Serre splittings of §§6.3 and 6.10.
 
 **Checks.**
 
-- A pair of pants has no essential closed curve; each simple interior closed curve bounds a disc or is boundary-parallel.
+- A pair of pants has no essential closed curve; each simple interior closed curve bounds a disc or is boundary-parallel. A disc-bounding interior curve is two-sided but has trivial face-group class, so two-sidedness alone cannot supply a monomorphic cyclic edge.
 - A primitive nonseparating curve on a torus is two-sided and essential; cutting it gives an annulus with two new boundary traversals.
 - The core of a Möbius band has a Möbius neighborhood and is excluded by the two-sided condition; the core of an annulus is excluded by boundary parallelism.
 - A proper chord of a disc cuts it into two discs; its endpoints split boundary traversals and their interval links.
 - A proper arc joining the boundary circles of an annulus cuts it into a disc.
 - A proper arc joining two distinct boundary circles of a pair of pants cuts it into an annulus and retains the third boundary circle.
+- Two disjoint separating curves in a closed genus-three model give three connected pieces. Simultaneous cutting and either order of successive cuts give the same paired boundary circuits; subdividing a cut side only subdivides the corresponding two boundary copies.
+- The empty cut family returns the original model and its boundary markings; a separating curve returns two pieces rather than a connected surface with their vertices identified.
 
-Sources: [GL-JSJ] §5.1.2, pp. 42–43 (essential two-sided curves and dual splittings); [SURFACES] Gallier–Xu, Chapter 6, §§6.1–6.2 (local vertices and polygonal cutting); [HATCHER] §1.2 (surface presentations under gluing).
+Sources: [GL-JSJ] §5.1.2, pp. 42–43 (essential two-sided curves and dual splittings); [SURFACES] Gallier–Xu, Chapter 6, Definitions 6.1–6.3, pp. 80–85 (face incidence, circle/interval vertex links and subdivisions); [HATCHER] §1.2, Proposition 1.26, pp. 50–52 (based face presentations under gluing). The local cutting and compatibility assertions follow by separating corner incidences along the specified strips; regluing identifies exactly the duplicated sides.
 
-*Needs:* §§6.0a–6.0c (models, subdivisions, normal forms and face presentations); §6.2 (boundary groups); §4.5 (amalgam and HNN normal forms), for the infinite-order group conclusion. The curve and cutting carriers precede that conclusion and §6.1a.
+*Needs:* §§6.0a–6.0b supply the local curve/arc incidence carrier, links, subdivisions and normal forms for both cut operations; §6.0c supplies the face-group and marked-boundary comparisons. The infinite-order and monomorphic edge-map conclusions also use §6.1a, §6.2 (boundary groups) and §4.5 (amalgam and HNN normal forms). The curve carriers and combinatorial cutting, including proper arcs and disjoint families, precede those group conclusions and §6.1a.
 
 ### 6.1 Surface groups with boundary and their peripheral structure
 
@@ -1497,7 +1511,7 @@ S⁺(2, 0) = S⁺(1, 1) ∗_{ℤ} S⁺(1, 1) along [a₁, b₁] = [b₂, a₂] (
 
 Use [GL-JSJ] §5.1.2, pp. 42–43: Any essential two-sided simple closed curve (geodesic) on a surface defines a cyclic splitting of its fundamental group relative to the boundary subgroups, and families of disjoint curves give dual graphs of groups.; [TREES] Chapter I, §4.1 and §5.1: Amalgams and HNN extensions as fundamental groups of segments and loops of groups.
 
-*Needs:* §6.1 (Surface groups with boundary and their peripheral structure); §6.1a (Surface models, presentations and peripheral comparison); §6.2 (Surface groups with boundary are free; closed ones are not); §4.5 (One-edge graphs of groups are Mathlib's amalgams and HNN extensions); §4.2 (The fundamental group of a graph of groups, via paths and via a maximal tree); §4.9 (Elliptic–hyperbolic dichotomy and fixed points of finitely generated groups); §4.7 (The Bass–Serre tree of a graph of groups).
+*Needs:* §6.1 (Surface groups with boundary and their peripheral structure); §6.1a (Surface models, presentations and peripheral comparison); §6.2 (Surface groups with boundary are free; closed ones are not); §6.0d (local curve and arc cut models, boundary transport and face-group regluing); §4.5 (One-edge graphs of groups are Mathlib's amalgams and HNN extensions); §4.2 (The fundamental group of a graph of groups, via paths and via a maximal tree); §4.9 (Elliptic–hyperbolic dichotomy and fixed points of finitely generated groups); §4.7 (The Bass–Serre tree of a graph of groups).
 
 ### 6.4 Finite-index subgroups of surface groups and the Euler characteristic
 
@@ -1659,7 +1673,7 @@ This interface is used by Layer 10 JSJ decompositions: flexible vertices of abel
 
 Use [GL-JSJ] §5.2, Definitions 5.13–5.15, p. 47, specialized to surfaces with trivial fiber (boundary data, dual splittings and used components), and Theorem 9.5, p. 91 (nonabelian flexible vertices of torsion-free CSA groups are surface groups); [SELA-I] §2, Theorem 2.7, p. 43: Surface QH vertices in the abelian JSJ of a freely indecomposable limit group.
 
-*Needs:* §4.6 (Group actions on trees: elliptic and hyperbolic elements, relative trees); §6.1 (Surface groups with boundary and their peripheral structure); §6.1a (Surface models, presentations and peripheral comparison); §6.3 (Cutting and gluing: surface groups as graphs of groups); §4.8 (Structure theorem: actions on trees are graphs of groups).
+*Needs:* §4.6 (Group actions on trees: elliptic and hyperbolic elements, relative trees); §6.1 (Surface groups with boundary and their peripheral structure); §6.1a (Surface models, presentations and peripheral comparison); §6.3 (Cutting and gluing: surface groups as graphs of groups); §6.0d (simultaneous local cut models and their marked peripheral comparisons); §4.8 (Structure theorem: actions on trees are graphs of groups).
 
 ### Examples
 
@@ -1667,7 +1681,7 @@ For S=[x,y][a,b]⁻¹=1 over F(a,b), x=a,y=b is a solution. The equation is regu
 
 ### Dependencies
 
-This layer consumes Layers 1, 2, 4 and 5. §§6.0a–6.1a own the finite polygonal models, corner links, normal forms, face presentations, peripheral comparisons and cutting-to-splitting applications. Its algebraic quadratic normalization does not depend on surface realization.
+This layer consumes Layers 1, 2, 4 and 5. §§6.0a–6.1a own the finite polygonal models, corner links, normal forms, face presentations, peripheral comparisons, combinatorial curve and arc cutting, and cutting-to-splitting applications. Its algebraic quadratic normalization does not depend on surface realization.
 
 ## Layer 7: Generalised equations, equation solving, and positive formal solutions
 

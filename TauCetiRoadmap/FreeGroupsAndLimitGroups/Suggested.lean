@@ -182,9 +182,15 @@ def IsPath : V → List E → V → Prop
 def IsReducedPath (es : List E) : Prop :=
   es.IsChain fun e f => f ≠ Γ.rev e
 
-/-- Trees: nonempty, connected, and without reduced closed paths of positive length. -/
+/-- Pairwise path reachability, allowing the empty vertex type (§2.1). -/
+def Preconnected : Prop := ∀ u w : V, ∃ es, Γ.IsPath u es w
+
+/-- Nonempty path preconnectivity, matching shared multigraph connectedness (§§2.1–2.1a). -/
+def Connected : Prop := Nonempty V ∧ Γ.Preconnected
+
+/-- Trees are nonempty, preconnected, and have no reduced closed path of positive length. -/
 def IsTree : Prop :=
-  Nonempty V ∧ (∀ u w : V, ∃ es, Γ.IsPath u es w) ∧
+  Nonempty V ∧ Γ.Preconnected ∧
     ∀ (v : V) (es : List E), Γ.IsPath v es v → Γ.IsReducedPath es → es = []
 
 /-- The dart adapter for Mathlib simple graphs (§2.1). -/
@@ -193,6 +199,23 @@ def ofSimpleGraph {W : Type*} (G : SimpleGraph W) : SerreGraph W G.Dart where
   rev e := e.symm
   rev_rev := by sorry
   rev_ne := by sorry
+
+/-- The simple-graph dart adapter preserves connectedness, including empty graphs (§2.1). -/
+theorem connected_ofSimpleGraph {W : Type*} (G : SimpleGraph W) :
+    (ofSimpleGraph G).Connected ↔ G.Connected := by sorry
+
+/-- The empty Serre graph is preconnected but neither connected nor a tree (§2.1). -/
+example :
+    let Γ : SerreGraph Empty Empty := ⟨Empty.elim, Empty.elim, by sorry, by sorry⟩
+    Γ.Preconnected ∧ ¬ Γ.Connected ∧ ¬ Γ.IsTree := by sorry
+
+/-- One isolated vertex is connected and a tree (§2.1). -/
+example : (ofSimpleGraph (⊥ : SimpleGraph Unit)).Connected ∧
+    (ofSimpleGraph (⊥ : SimpleGraph Unit)).IsTree := by sorry
+
+/-- Two isolated vertices are neither preconnected nor connected (§2.1). -/
+example : ¬ (ofSimpleGraph (⊥ : SimpleGraph (Fin 2))).Preconnected ∧
+    ¬ (ofSimpleGraph (⊥ : SimpleGraph (Fin 2))).Connected := by sorry
 
 /-- A reversal-closed edge subset with all the original vertices. -/
 def restrict (T : Set E) (hT : ∀ e ∈ T, Γ.rev e ∈ T) : SerreGraph V T where
@@ -209,7 +232,7 @@ structure SpanningTree where
 
 /-- Every connected based Serre graph has a spanning tree (§2.2). -/
 theorem exists_spanningTree (v : V)
-    (hΓ : ∀ u w : V, ∃ es, Γ.IsPath u es w) : Nonempty Γ.SpanningTree := by sorry
+    (hΓ : Γ.Connected) : Nonempty Γ.SpanningTree := by sorry
 
 /-- An orientation chooses one dart from each reversal pair. -/
 def IsOrientation (O : Set E) : Prop := ∀ e, Γ.rev e ∈ O ↔ e ∉ O
@@ -792,8 +815,7 @@ noncomputable def linkDegree (e : E) : ℕ :=
 
 /-- A surface link is a nonempty connected circle or a nondegenerate interval. -/
 def HasSurfaceLink (v : V) : Prop :=
-  Nonempty {e : E // C.graph.src e = v} ∧
-  (∀ x y : {e : E // C.graph.src e = v}, ∃ es, (C.vertexLink v).IsPath x es y) ∧
+  (C.vertexLink v).Connected ∧
   ((∀ e : {e : E // C.graph.src e = v}, C.linkDegree e = 2) ∨
     ∃ a b : {e : E // C.graph.src e = v}, a ≠ b ∧
       C.linkDegree a = 1 ∧ C.linkDegree b = 1 ∧
@@ -827,7 +849,7 @@ structure SurfaceModel where
   complex : PolygonalComplex (Fin vertexCount) (Fin edgeCount × Bool) (Fin faceCount)
   vertices_nonempty : 0 < vertexCount
   faces_nonempty : 0 < faceCount
-  connected : ∀ u w, ∃ es, complex.graph.IsPath u es w
+  connected : complex.graph.Connected
   surface_links : ∀ v, complex.HasSurfaceLink v
 
 namespace SurfaceModel
@@ -1929,8 +1951,15 @@ correspondence; `Term.ofWord`; `GraphOfGroups`, its paths,
 fundamental groups, Bass–Serre trees, `GTree`, the structure theorem,
 induced splittings, Kurosh's theorem and Dehn twists of amalgams; surface QH vertices with
 trivial fiber; `SurfaceModel.boundary` as the
-boundary Serre graph, and `SurfaceModel.Move` as the local polygonal subdivision relation; `SurfaceModel.EssentialCurve` and
-`SurfaceModel.ProperArc`, with the cutting-to-splitting contracts of §§6.0a–6.0d; `SurfaceGroup.modelEquiv` with peripheral comparison; generalised
+boundary Serre graph, and `SurfaceModel.Move` as the local polygonal subdivision relation;
+`SurfaceModel.TwoSidedCurve`, `SurfaceModel.EssentialCurve` and `SurfaceModel.ProperArc`,
+with local `SurfaceModel.cutAlong` and `SurfaceModel.cutAlongArc` returning finite nonempty
+families of connected polygonal pieces (§6.0d). Their contracts include simultaneous disjoint
+families, subdivision compatibility, paired cut sides, marked boundary transport and face-group
+regluing; essential curves in negative Euler characteristic give monomorphic cyclic edge maps.
+`GraphOfGroups.minimalSubtreeAt` is the hull of the base-vertex orbit (§4.10): for a finite
+generating set S it is U·({x₀} ∪ ⋃ s∈S, [x₀,sx₀]); the trivial subgroup with S empty gives
+one vertex and no edges. `SurfaceGroup.modelEquiv` with peripheral comparison; generalised
 equations, finite cancellation families, elementary transformation relations with separate
 presentation-group kernel reconstruction and full radical transport, parameter solution trees, cut equations and Makanin's
 finiteness theorem; recursive truth sets for the existential, universal and positive fragments; quadratic and strictly quadratic words, standard quadratic forms, atoms, degeneracy,
@@ -1954,7 +1983,10 @@ arbitrary lower coordinate groups.
 
 The Serre/underlying-graph comparison includes `SerreGraph.toGraph`, `SerreGraph.ofGraph`
 and `SerreGraph.reachable_toGraph`, using GraphConnectivityAndFlows Target 1.1's `Graph.Walk`, native reachability,
-`Graph.Connected` and `Graph.IsConnectedComponentOf`. The local graph presentations retain
+`Graph.Connected` and `Graph.IsConnectedComponentOf`. The comparison
+`SerreGraph.connected_toGraph` states Γ.toGraph.Connected ↔ Nonempty V ∧ Γ.Preconnected,
+equivalently Γ.toGraph.Connected ↔ Γ.Connected; empty graphs are preconnected but not connected.
+The local graph presentations retain
 opposite loop generators and compatibility with finite subgraph inclusions; the Bass–Serre
 quotient is the base component.
 `GraphOfGroups.dehnTwistAmalgam_eq_refl_iff` is the central-in-the-right-factor identity
