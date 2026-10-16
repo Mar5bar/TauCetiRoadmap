@@ -26,7 +26,7 @@ import Mathlib.Tactic.NormNum
 The README is the definitive roadmap. These are suggested forms, not an exhaustive checklist.
 The file records light definitions and milestones statable against the pinned Mathlib APIs.
 Automorphic representations, geometric realizations, period comparisons and compatible systems
-are specified in the README. Geometric Frobenius and HT(ε) = −1 fix the numerical conventions.
+are specified in the README. Geometric Frobenius and `HT(ε) = −1` fix the numerical conventions.
 -/
 
 namespace TauCeti.AutomorphicGalois
@@ -48,7 +48,7 @@ namespace DominantWeight
 
 variable {n : ℕ} {ι : Type*}
 
-/-- Conjugate coordinates sum to w. -/
+/-- Conjugate coordinates sum to `w`. -/
 def IsInW (c : ι → ι) (w : ℤ) (a : DominantWeight n ι) : Prop :=
   ∀ τ (i : Fin n), (a τ).1 i + (a (c τ)).1 i.rev = w
 
@@ -86,7 +86,7 @@ example : IsExtremelyRegular
     (fun _ : Unit => ⟨![5, 2, 1, 1], by
       intro i j hij; fin_cases i <;> fin_cases j <;> simp_all⟩ : DominantWeight 4 Unit) := sorry
 
-/-- Shifted entries 3,2,1,0 fail extreme regularity since 3+0=2+1. -/
+/-- Shifted entries `3,2,1,0` fail extreme regularity since `3+0=2+1`. -/
 example : ¬ IsExtremelyRegular
     (fun _ : Unit => ⟨(0 : Fin 4 → ℤ), by intro i j _; rfl⟩ : DominantWeight 4 Unit) := sorry
 
@@ -104,7 +104,7 @@ example {ι : Type*} [Nonempty ι] (a : DominantWeight 1 ι) : IsExtremelyRegula
 
 end DominantWeight
 
-/-- The dominant rank-two vector (x,y), with y≤x. -/
+/-- The dominant rank-two vector `(x,y)`, with `y≤x`. -/
 def mk2 (x y : ℤ) (h : y ≤ x) : {a : Fin 2 → ℤ // Antitone a} :=
   ⟨![x, y], by intro i j hij; fin_cases i <;> fin_cases j <;> simp_all⟩
 
@@ -152,7 +152,7 @@ example (n w : ℕ) (hn : 1 ≤ n) (hw : Odd w) : ((-1 : ℤ)) ^ (n - 1) * (-1) 
   rw [this, pow_mul]
   norm_num
 
-/-- The multiset a(i)+n−1−i, with HT(ε)=−1. -/
+/-- The multiset `a(i)+n−1−i`, with `HT(ε)=−1`. -/
 def expectedHodgeTate {n : ℕ} (a : Fin n → ℤ) : Multiset ℤ :=
   Multiset.map (fun i : Fin n => a i + ((n - 1 - i : ℕ) : ℤ)) Finset.univ.val
 
@@ -227,15 +227,15 @@ namespace Fixtures
 def coefficientWeight (central highestWeightSum : ℤ) : ℤ :=
   -2 * central - highestWeightSum
 
-/-- Formal labelled integer k−1−highestWeight−central, before geometric comparison. -/
+/-- Formal labelled integer `k−1−highestWeight−central`, before geometric comparison. -/
 def labelledInteger (central highestWeight : ℤ) (k : ℕ) : ℤ :=
   (k : ℤ) - 1 - highestWeight - central
 
-/-- The relative-degree factor; geometric use assumes N≥2 and y≠1. -/
+/-- The relative-degree factor; geometric use assumes `N≥2` and `y≠1`. -/
 def selectorFactor (N : ℚ) (y : ℕ) (eigenvalue : ℚ) : ℚ :=
   (eigenvalue - N ^ y) / (N - N ^ y)
 
-/-- Nontrivial similitude character ν shifts weight and labelled integers. -/
+/-- Nontrivial similitude character `ν` shifts weight and labelled integers. -/
 example : coefficientWeight 1 0 = -2 ∧ labelledInteger 1 0 1 = -1 := by decide
 
 /-- A trivial central character does not supply a nonzero shift. -/
@@ -289,7 +289,7 @@ end Fixtures
 
 namespace CoefficientProjector
 
-/-- The polynomial correction 1−(1−T^D)^D in the endomorphism ring. -/
+/-- The polynomial correction `1−(1−T^D)^D` in the endomorphism ring. -/
 def correction {R : Type*} [Ring R] (D : ℕ) (T : R) : R :=
   1 - (1 - T ^ D) ^ D
 
@@ -298,7 +298,7 @@ theorem correction_idempotent {R : Type*} [Ring R] (D : ℕ) (T : R)
     (hdef : (T - T ^ 2) ^ D = 0) : IsIdempotentElem (correction D T) :=
   isIdempotentElem_one_sub_one_sub_pow_pow T D hdef
 
-/-- An operator idempotent on a length-D filtration has an idempotent polynomial correction. -/
+/-- An operator idempotent on a length-`D` filtration has an idempotent polynomial correction. -/
 theorem lerayCorrection {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
     (D : ℕ) (hD : 0 < D) (F : ℕ → Submodule K V) (hF : Monotone F)
     (hzero : F 0 = ⊥) (htop : F D = ⊤) (T : Module.End K V)
@@ -353,7 +353,7 @@ example : discreteRank ([(1, 2)] ++ [(1, 3)]) = 5 := by decide
 
 example : discreteRank [(1, 2)] = 2 ∧ discreteRank [(2, 1)] = 2 := by decide
 
-/-- The normalized parameter exponent minus the constituent exponent is −n−j. -/
+/-- The normalized parameter exponent minus the constituent exponent is `−n−j`. -/
 example (n ni j : ℚ) :
     (ni - 1) / 2 - j + (1 - 2 * n) / 2 - ni / 2 = -n - j := by ring
 
@@ -366,10 +366,10 @@ end Fixtures
 
 namespace Fixtures
 
-/-- The Hasse increment (p−1)p^(M−1)j, for M≥1. -/
+/-- The Hasse increment `(p−1)p^(M−1)j`, for `M≥1`. -/
 def hasseShift (p M j : ℕ) : ℕ := (p - 1) * p ^ (M - 1) * j
 
-/-- Add mn[F:ℚ] to the section slope. -/
+/-- Add `mn[F:ℚ]` to the section slope. -/
 def kugaSlope (sectionSlope : ℚ) (m n fieldDegree : ℕ) : ℚ :=
   sectionSlope + (m * n * fieldDegree : ℕ)
 
@@ -405,7 +405,7 @@ namespace Fixtures
 def blockPowerRank (blocks : List ℕ) (k : ℕ) : ℕ :=
   (blocks.map fun d => d - k).sum
 
-/-- Diagonal Frobenius for q=4 with weights 3,1,1,−1,−1,−3. -/
+/-- Diagonal Frobenius for `q=4` with weights `3,1,1,−1,−1,−3`. -/
 def frobeniusFixture : Matrix (Fin 6) (Fin 6) ℚ :=
   fun i j => if i.val = j.val then
     if i.val = 0 then 8 else if i.val = 1 ∨ i.val = 2 then 2
@@ -433,7 +433,7 @@ example : blockPowerRank [4, 2] 1 = 4 ∧ blockPowerRank [3, 3] 1 = 4 := by deci
 
 example : blockPowerRank [4, 2] 3 = 1 ∧ blockPowerRank [3, 3] 3 = 0 := by decide
 
-/-- Both operators satisfy the geometric Weil relation F N = q⁻¹ N F for q=4. -/
+/-- Both operators satisfy the geometric Weil relation `F N = q⁻¹ N F` for `q=4`. -/
 example : frobeniusFixture * pureChainFixture =
     (1 / 4 : ℚ) • (pureChainFixture * frobeniusFixture) := sorry
 
@@ -462,7 +462,7 @@ example : impureChainFixture ^ 2 ≠ 0 := by
   have he := congrFun (congrFun h 3) 0
   norm_num [pow_two, Matrix.mul_apply, Fin.sum_univ_succ, impureChainFixture] at he
 
-/-- Reciprocal Frobenius violates the geometric Weil relation at entry (1,0). -/
+/-- Reciprocal Frobenius violates the geometric Weil relation at entry `(1,0)`. -/
 example : (Matrix.diagonal ![(1 / 8 : ℚ), 1 / 2, 1 / 2, 2, 2, 8]) * pureChainFixture ≠
     (1 / 4 : ℚ) • (pureChainFixture *
       Matrix.diagonal ![(1 / 8 : ℚ), 1 / 2, 1 / 2, 2, 2, 8]) := by
@@ -506,7 +506,7 @@ example (a b : ℤ) (hab : b ≤ a) (hb : 3 ≤ b) :
 
 /-! ## Layer AG2.7: local residual eigenvalue conditions -/
 
-/-- Every ordered ratio of different occurrences avoids q. -/
+/-- Every ordered ratio of different occurrences avoids `q`. -/
 def IsGenericEigenvalues {K : Type*} [Field K] {n : ℕ}
     (α : Fin n → Kˣ) (q : K) : Prop :=
   ∀ i j, i ≠ j → (α i : K) / (α j : K) ≠ q
@@ -695,7 +695,7 @@ theorem isStrongGeneric_matrix_diagonal {G K : Type*} [Group G] [Field K] {n : �
     IsStrongGeneric I r frob q ↔
       (∀ g ∈ I, r g = 1) ∧ IsStrongGenericEigenvalues α q := sorry
 
-/-- The trivial rank-two matrix representation is generic at q=2 but is not strong. -/
+/-- The trivial rank-two matrix representation is generic at `q=2` but is not strong. -/
 example : IsGeneric (⊥ : Subgroup Unit)
     (1 : Unit →* Matrix.GeneralLinearGroup (Fin 2) (ZMod 3)) () 2 ∧
     ¬ IsStrongGeneric (⊥ : Subgroup Unit)
@@ -710,14 +710,14 @@ example : IsGeneric (⊥ : Subgroup Unit)
   · rintro ⟨_, _, hinj⟩
     exact (by decide : (0 : Fin 2) ≠ 1) (hinj rfl)
 
-/-- At q=1, the repeated roots of the trivial rank-two matrix representation fail genericity. -/
+/-- At `q=1`, the repeated roots of the trivial rank-two matrix representation fail genericity. -/
 example : ¬ IsGeneric (⊥ : Subgroup Unit)
     (1 : Unit →* Matrix.GeneralLinearGroup (Fin 2) (ZMod 3)) () 1 := by
   rw [isGeneric_matrix_diagonal _ _ _ _ (fun _ => 1) (by simp)]
   rintro ⟨_, h⟩
   exact h 0 1 (by decide) (by simp)
 
-/-- Over 𝔽₇, diagonal Frobenius with entries 1 and 3 is strong generic at q=2. -/
+/-- Over `𝔽₇`, diagonal Frobenius with entries `1` and `3` is strong generic at `q=2`. -/
 example : IsStrongGeneric (⊥ : Subgroup (Fin 2 → (ZMod 7)ˣ))
     (Fixtures.diagonalRep 2) ![1, Units.mk0 (3 : ZMod 7) (by decide)] 2 := by
   rw [isStrongGeneric_matrix_diagonal _ _ _ _ _ rfl]
@@ -743,7 +743,7 @@ example : IsStrongGeneric (⊥ : Subgroup (Fin 2 → (ZMod 7)ˣ))
       · exact False.elim ((by decide : (3 : ZMod 7) ≠ 1) hc)
       · rfl
 
-/-- Every rank-one matrix representation trivial on inertia is strong generic for every q. -/
+/-- Every rank-one matrix representation trivial on inertia is strong generic for every `q`. -/
 example {G K : Type*} [Group G] [Field K]
     (I : Subgroup G) (r : G →* Matrix.GeneralLinearGroup (Fin 1) K)
     (frob : G) (q : K) (hI : ∀ g ∈ I, r g = 1) :
@@ -764,7 +764,7 @@ example {G K : Type*} [Group G] [Field K]
     · intro i j _
       exact Subsingleton.elim i j
 
-/-- Distinct Frobenius eigenvalues with ratio q fail matrix genericity. -/
+/-- Distinct Frobenius eigenvalues with ratio `q` fail matrix genericity. -/
 example : ¬ IsGeneric (⊥ : Subgroup (Fin 2 → (ZMod 5)ˣ))
     (Fixtures.diagonalRep 2) ![Units.mk0 (2 : ZMod 5) (by decide), 1] 2 := by
   rw [isGeneric_matrix_diagonal _ _ _ _ _ rfl]
@@ -778,7 +778,7 @@ example {G K : Type*} [Group G] [Field K] {n : ℕ}
     ¬ IsGeneric I r frob q ∧ ¬ IsStrongGeneric I r frob q := by
   exact ⟨fun h => hr (h.1 g hg), fun h => hr (h.1 g hg)⟩
 
-/-- In the diagonal representation, full inertia containing diag(2,1) is nontrivial. -/
+/-- In the diagonal representation, full inertia containing `diag(2,1)` is nontrivial. -/
 example : ¬ IsGeneric (⊤ : Subgroup (Fin 2 → (ZMod 5)ˣ))
     (Fixtures.diagonalRep 2) 1 2 ∧
     ¬ IsStrongGeneric (⊤ : Subgroup (Fin 2 → (ZMod 5)ˣ))
