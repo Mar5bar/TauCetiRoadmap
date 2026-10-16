@@ -249,7 +249,7 @@ The source identifications are [Deligne](https://www.numdam.org/item/SB_1983-198
 
 ### 1.4 Independence of the section: the product formula
 
-For a hermitian line bundle L̄ over Spec O_K and nonzero s, t ∈ L, log #(L/O_K s) − Σ_σ log ‖s‖_σ = log #(L/O_K t) − Σ_σ log ‖t‖_σ. Consequently deg^ : Pic^(O_K) → ℝ is a well-defined group homomorphism.
+For a hermitian line bundle L̄ over Spec O_K and nonzero s, t ∈ L, log #(L/O_K s) − Σ_σ log ‖s‖_σ = log #(L/O_K t) − Σ_σ log ‖t‖_σ. Consequently deg^ : Pic^(O_K) → ℝ is a well-defined function; §1.5 proves it is a group homomorphism.
 
 s, t ≠ 0 in L, so t = a s for a unique a ∈ K^×.
 
@@ -257,7 +257,7 @@ Write t = a·s with a ∈ K^×. The finite term changes by log #(L/O_K t) − lo
 
 The archimedean term changes by −Σ_σ log |σ(a)| = −log |N_{K/ℚ}(a)| (InfinitePlace.prod_eq_abs_norm).
 
-The two changes cancel; this is the product formula NumberField.prod_abs_eq_one. Additivity under ⊗ follows by taking s ⊗ s′ as the section of L ⊗ L′ (§1.5).
+The two changes cancel; this is the product formula NumberField.prod_abs_eq_one. Transporting a section by an isometry preserves both terms, so the function descends to hermitian isometry classes.
 
 The source identifications are [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), §1.1, p. 25; [Faltings, Endlichkeitssätze](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0073/LOG_0026.pdf), §3, p. 354; [Szpiro](https://www.numdam.org/item/AST_1985__127__11_0/), §1.2, Proposition 1.1 and Corollaire, pp. 13–14.
 
@@ -265,7 +265,9 @@ The source identifications are [Deligne](https://www.numdam.org/item/SB_1983-198
 
 **Checks.**
 
-- Replacing s by 2s in Ō_ℚ leaves log 2 − log 2 = 0; for K = ℚ(√2) and a = 1 + √2 a unit, both terms are unchanged separately.
+- Replacing s by 2s in Ō_ℚ leaves log 2 − log 2 = 0.
+- For K = ℚ(√2) and a = 1 + √2 a unit, the finite term and the sum of archimedean terms are unchanged separately, although the individual embedding norms change.
+- On the trivial line over ℚ(i), replacing 1 by 2 increases the finite term by log 4 and decreases the sum over the two embeddings by 2 log 2. Counting its complex place only once would fail section independence.
 
 ### 1.5 Additivity of the Arakelov degree
 
@@ -273,7 +275,7 @@ For hermitian vector bundles over Spec O_K: deg^(L̄ ⊗ M̄) = deg^(L̄) + deg^
 
 The sub-bundle F is saturated in E. In the last statement L and L′ are O_K-lattices in one K-line with equal metrics at every σ.
 
-For tensor products use the section s ⊗ s′: the index is multiplicative, #(L ⊗ M / O_K(s ⊗ s′)) = #(L/O_K s)·#(M/O_K s′), and norms multiply.
+For tensor products use the section s ⊗ s′: the index is multiplicative, #(L ⊗ M / O_K(s ⊗ s′)) = #(L/O_K s)·#(M/O_K s′), and norms multiply. Together with section independence from §1.4, this constructs the bundled homomorphism deg^ : Pic^(O_K) →+ ℝ.
 
 Dual: write L = 𝔞·s with 𝔞 ⊇ O_K the fractional ideal determined by s ∈ L, so log #(L/O_K s) = −log N(𝔞) (FractionalIdeal.absNorm). Then L^∨ = 𝔞^{−1}·s^∨ with s^∨(s) = 1 and ‖s^∨‖_σ = ‖s‖_σ^{−1}; s^∨ lies in L^∨ only when 𝔞 = O_K, so compute with the generic-section form of the degree (§1.3, arakelovDegree_eq_fractionalIdeal): deg^(L̄^∨) = −log N(𝔞^{−1}) − Σ_σ log ‖s^∨‖_σ = log N(𝔞) + Σ_σ log ‖s‖_σ = −deg^(L̄).
 
@@ -288,6 +290,8 @@ The source identifications are [Deligne](https://www.numdam.org/item/SB_1983-198
 **Checks.**
 
 - deg^ of the Hodge line of a product is the sum (Layer 2/§2.5); in Deligne §2.1 the exact sequence of group schemes gives deg ω(A) = deg ω(A′) + deg ω(A″).
+- Over ℚ, trivial lines with generator norms e^(−a) and e^(−b) have tensor degree a+b and dual degrees −a and −b.
+- For ℤ ⊂ ½ℤ with the same absolute-value metric, the degrees are 0 and log 2; the quotient has order 2, fixing the sign of the lattice-index term.
 
 ### 1.6 Arakelov degree under finite extension
 
@@ -380,7 +384,7 @@ Localization: an element of ĈH¹(X) restricts to X_S; its kernel is generated b
 
 The source identifications are [Gillet–Soulé](https://www.numdam.org/item/PMIHES_1990__72__93_0/), §3.3.2–3.3.4, pp. 126–127; [Wei Zhang](https://arxiv.org/abs/1909.02697v3), §8.4 and Remark 8.5, p. 42 (arXiv v3); [Andreatta–Goren–Howard–Madapusi Pera](https://arxiv.org/abs/1508.00178v3), §4.6, display (4.6.1), arXiv v3.
 
-*Needs:* §1.7; **SchemeAndStackFoundations** §§3.4–3.5 (Picard groups and norms); **SchemeAndStackFoundations** §5.1 (dimension-graded Chow groups); **ComplexComparisonPartII** §§C−1.1, C0.4 and C5.1.
+*Needs:* §1.7; **SchemeAndStackFoundations** §§3.4–3.5 (Picard groups and norms); **SchemeAndStackFoundations** §5.1 (dimension-graded Chow groups); **ComplexComparisonPartII** §§C−1.1, C0.4 and C5.1; **ComplexComparisonPartII** §C5.4 (`CurrentCalculus`, `AnalyticCycleIntegration`, `lelongPoincareSection`), specialized to a meromorphic function in the trivial constant-metric line. Its (i/π)∂∂̄ log|f| is this roadmap's (i/2π)∂∂̄ log|f|².
 
 **Checks.**
 
@@ -461,23 +465,23 @@ The source identifications are [Wei Zhang](https://arxiv.org/abs/1909.02697v3), 
 
 ### 1.11 Arithmetic degree on relative dimension zero Deligne–Mumford stacks
 
-Let Y be a regular Deligne–Mumford stack, flat and proper with finite geometric fibres (relative dimension 0) over Spec O_E, with finite inertia. ĈH¹(Y) is the group of pairs (Z, Φ) with Z a Cartier divisor (supported in positive characteristic) and Φ an F_∞-invariant real function on Y(ℂ), modulo d̂iv(Ψ) = (div Ψ, −log|Ψ|²), and Pic^(Y) ≅ ĈH¹(Y). Its arithmetic degree is the homomorphism deg^ : ĈH¹(Y) → ℝ with deg^(Z, 0) = Σ_𝔮 log N(𝔮)·Σ_{z ∈ Z(F̄_𝔮)} length(O^{et}_{Z,z})/#Aut(z) for Z effective, and deg^(0, Φ) = ½ Σ_{y ∈ Y(ℂ)} Φ(y)/#Aut(y). For a finite étale morphism Y′ → Y of degree d, deg^(π^*D̂) = d·deg^(D̂); for Y = Spec O_L it is the Arakelov degree over O_L.
+Let Y be a regular Deligne–Mumford stack, flat and proper with finite geometric fibres (relative dimension 0) over Spec O_E, with finite inertia. ĈH¹(Y) is the group of pairs (Z, Φ) with Z a Cartier divisor (supported in positive characteristic) and Φ an F_∞-invariant real function on Y(ℂ), modulo d̂iv(Ψ) = (div Ψ, −log|Ψ|²), for rational functions invertible on every generic component. The comparison with hermitian lines is Pic^(Y) ⊗ ℚ ≅ ĈH¹(Y) ⊗ ℚ. The arithmetic degree extends ℚ-linearly to deg^ : ĈH¹(Y) ⊗ ℚ → ℝ with deg^(Z, 0) = Σ_𝔮 log N(𝔮)·Σ_{z ∈ Z(F̄_𝔮)} length(O^{et}_{Z,z})/#Aut(z) for Z effective, and deg^(0, Φ) = ½ Σ_{y ∈ Y(ℂ)} Φ(y)/#Aut(y). For a finite étale morphism Y′ → Y of degree d, deg^(π^*D̂) = d·deg^(D̂); for Y = Spec O_L it is the Arakelov degree over O_L.
 
 Y is regular, flat, proper, of relative dimension zero over O_E, with finite inertia and finite geometric fibres. The morphism need not be representable, as the classifying-stack example shows. O^{et}_{Z,z} is the étale local ring at z; residue-field norms N(𝔮), not the residue characteristic, weight each prime.
 
 Provide the following maps and identities.
 
-- `StackDegree.arakelovDegree`: deg^ : ĈH¹(Y) → ℝ by the weighted formulas.
+- `StackDegree.arakelovDegree`: deg^ : ĈH¹(Y) ⊗ ℚ → ℝ by the weighted formulas.
 - `StackDegree.degree_effective`: deg^(Z, 0) = Σ_𝔮 log N𝔮 Σ_z length(O^{et}_{Z,z})/#Aut z.
 - `StackDegree.degree_green`: deg^(0, Φ) = ½ Σ_y Φ(y)/#Aut y.
 - `StackDegree.degree_principal`: deg^(d̂iv Ψ) = 0.
 - `StackDegree.degree_pullback_etale`: deg^(π^*D̂) = deg(π)·deg^(D̂) for π finite étale.
 - `StackDegree.degree_scheme`: For Y = Spec O_L, deg^ is the Arakelov degree of hermitian line bundles over O_L.
-- `StackDegree.picHat_iso`: Pic^(Y) ≅ ĈH¹(Y).
+- `StackDegree.picHat_iso`: Pic^(Y) ⊗ ℚ ≅ ĈH¹(Y) ⊗ ℚ.
 
 Define the degree on effective divisors and on Green functions by the displayed weighted sums; principal divisors have degree zero by the product formula applied on an étale atlas by schemes and division by automorphism orders.
 
-Pic^(Y) ≅ ĈH¹(Y) is the stack version of §1.9, glued by étale descent (AlgebraicModuliForArithmeticGeometry §3.1 and SchemeAndStackFoundations §§1.19–1.22).
+For a hermitian line L̄ choose a positive tensor power L̄^{⊗n} with trivial generic stabilizer action. The generic fibre has a finite coarse space over E (SchemeAndStackFoundations §1.23); descent there supplies a rational trivialization of that power. A rational section s then defines n^{−1}(div s, −log ‖s‖²). Principal relations and a common tensor power prove independence of n and s. Conversely the metrized O(Z) construction of §1.9 supplies the inverse after tensoring with ℚ, using étale descent (AlgebraicModuliForArithmeticGeometry §3.1 and SchemeAndStackFoundations §§1.19–1.22).
 
 Finite étale pullback: each geometric point of Y has d preimages counted with automorphism weights, so both sums scale by d.
 
@@ -485,11 +489,12 @@ For a scheme Y = Spec O_L every automorphism group is trivial and the formula is
 
 The source identifications are [Andreatta–Goren–Howard–Madapusi Pera](https://arxiv.org/abs/1508.00178v3), §6.4, arithmetic degree definition before Theorem 6.4.2, pp. 79–80 (arXiv v3).
 
-*Needs:* §1.3; §1.9; **AlgebraicModuliForArithmeticGeometry** §3.1 (`spaceFpqcQuasicoherentDescent`); **SchemeAndStackFoundations** §§1.19–1.22.
+*Needs:* §1.3; §1.9; **AlgebraicModuliForArithmeticGeometry** §3.1 (`spaceFpqcQuasicoherentDescent`); **SchemeAndStackFoundations** §§1.19–1.23 (stack descent and the generic coarse space).
 
 **Checks.**
 
 - `StackDegree.degree_point_aut`: For Y = [Spec O_E / (ℤ/2)] with trivial action and Φ ≡ 2, deg^(0, Φ) = ½·[E:ℚ]·2/2 = [E:ℚ]/2.
+- On B(ℤ/2) over ℤ, the sign line with unit metric has nontrivial generic character and no rational trivialization. Every vertical divisor line has trivial generic character, so the integral comparison fails. The sign line's square is the unit metrized line, and its rationalized class and degree are zero.
 - `StackDegree.degree_scheme_case`: For Y = Spec O_E (trivial automorphisms) deg^ agrees with §1.3.
 - `StackDegree.residue_norm_nonexample`: Weighting a closed point over 𝔮 with log p instead of log N(𝔮) gives the wrong degree for a divisor at an inert prime of residue degree 2.
 - `StackDegree.etale_cover_scaling`: A degree-d finite étale cover multiplies deg^ of pulled-back classes by d.
@@ -1161,7 +1166,7 @@ Globalize the equality of local ideals. Add the two isogeny formulas: ½log d−
 
 For a polarization u : A → A^t, u=u^t and 𝔡_u²=(d). The squared pullback map divided by d identifies ω̄_A^{⊗2} and ω̄_{A^t}^{⊗2} integrally; its archimedean norm is 1 by §2.3. This proves the isometry of squared metrized Hodge lines for arbitrary reduction and equality of their degrees (Raynaud Corollary 2.1.3, pp. 207–208).
 
-The source identifications are [Raynaud](https://www.numdam.org/item/AST_1985__127__199_0/), Théorème 2.1.1 and Remarque 2.1.2, p. 207; [Yuan–Zhang](https://arxiv.org/abs/1507.06903v3), Erratum appended to arXiv v3, §2.1 (November 2021); [Raynaud](https://www.numdam.org/item/AST_1985__127__199_0/), §2.4 and Remark 2.4.1, pp. 211–212; Corollary 2.1.3, pp. 207–208; [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), V, Lemma 3.4, p. 166.
+The source identifications are [Raynaud](https://www.numdam.org/item/AST_1985__127__199_0/), Théorème 2.1.1 and Remarque 2.1.2, p. 207; §2.4 and Remark 2.4.1, pp. 211–212; Corollary 2.1.3, pp. 207–208; [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), V, Lemma 3.4, p. 166.
 
 *Needs:* §4.1; **AbelianSchemesAndArithmeticModuli** §A3.5 (`dualIsogenyCartierKernel`); **FiniteFlatGroupsAndIntegralPadicHodgeTheory** §R07.1.17 (`invariantDifferentialsAndAbsoluteDifferent`); **FiniteFlatGroupsAndIntegralPadicHodgeTheory** §§R07.1.5–R07.1.17; §2.6; §2.3; §4.2; **ClassFieldTheory**, Layer 5 (finite-module local duality and Euler characteristic).
 
@@ -1233,6 +1238,7 @@ Provide the following maps and identities.
 - `AbelianVariety.componentHeight_baseChange`: h(A_L, τ) = h(A, τ) for L/K finite (semistable A).
 - `AbelianVariety.componentPairing_orthogonal`: The pairing of §2.10 is the orthogonal sum over τ of pairings W(A, τ) × W(A^t, τ^c) → ℂ.
 - `AbelianVariety.componentLine_trivial_action`: For E = ℚ, N̄(𝒜, id) = ω̄̂(A) ⊗ ω̄̂(A^t) with the Yuan–Zhang ((2π)^{−g}) metrics, and h(A, id) = (h_YZ(A) + h_YZ(A^t))/2 = h_YZ(A) = h_Del(A).
+- `AbelianVariety.componentHeight_sum`: If every W is locally free and O_K ⊗ O_E → ∏_τ O_K is an isomorphism at every prime, then Σ_τ h(A, τ) = h_Del(A).
 
 The O_E-action on A extends to the Néron model, hence to its identity component, by the Néron mapping property; the dual action on A^t is γ ↦ γ^t.
 
@@ -1251,7 +1257,8 @@ The source identifications are [Yuan–Zhang](https://arxiv.org/abs/1507.06903v3
 - `AbelianVariety.componentHeight_Q`: For E = ℚ, h(A, id) = h_YZ(A).
 - `AbelianVariety.componentQuotient_rank`: For a CM elliptic curve of type {τ}, the generic ranks of W(𝒜,τ) and W(𝒜,τ^c) are 1 and 0. The torsion-free quotient of the latter is zero; the raw quotient at a ramified prime can have torsion.
 - `AbelianVariety.componentHeight_torsion_nonexample`: At a prime ramified in E the raw quotient W(𝒜, τ) can have torsion; taking det of the raw module without the torsion-free convention changes the degree.
-- `AbelianVariety.componentHeight_sum`: When every W is locally free and O_K ⊗ O_E ≅ ∏_τ O_K at all primes, Σ_τ h(A, τ) = h(A) for the Yuan–Zhang normalisation.
+- For E = ℚ(i) and K containing E, at a place v above 5 the map O_{K,v} ⊗ O_E → O_{K,v} × O_{K,v} is an isomorphism: the roots i and −i differ by the unit 2i. The τ- and τ^c-eigenlines give the determinant product with no local index.
+- At v above 2, on a free CM elliptic differential line where i acts by τ(i), the raw τ^c-quotient is O_{K,v}/(2i), whereas its torsion-free quotient is zero. The integral split formula does not apply at this prime.
 - Σ_τ deg^ N̄(𝒜, τ) differs from deg^ ω̄̂(A) + deg^ ω̄̂(A^t) by the discriminant-type correction of the τ-decomposition, which vanishes when all W(𝒜, τ) are locally free and O_K ⊗ O_E → ∏ O_K is an isomorphism at every prime.
 
 ### 4.7 τ-component heights along O_E-isogenies
@@ -1344,14 +1351,14 @@ Prove `SiegelModuli.hodgePower_generated`: a positive Hodge power is globally ge
 
 ### 5.1 Hermitian metrics with logarithmic singularities
 
-Let X̄ be a compact complex analytic variety, Z ⊂ X̄ a closed analytic subvariety and U = X̄ ∖ Z, and let L be a holomorphic line bundle on X̄ with a continuous hermitian metric ‖·‖ on L|_U. The metric has logarithmic singularities along Z if every z ∈ Z has a neighbourhood N, a local generator s of L on N and local generators f_1, …, f_t of the ideal of Z on N, with C > 0 and n ∈ ℕ, such that for x ∈ N ∖ Z: max(‖s(x)‖, ‖s(x)‖^{−1}) ≤ C·(1 + |log max_i |f_i(x)||)^n. Equivalently (Deligne) ‖·‖ is bounded above and below by ‖·‖₀·ρ^{±r} for a continuous metric ‖·‖₀ on L over X̄ and a logarithmic distance function ρ ≍ −log Σ|f_i|² to Z. For the fixed extension L, the condition is independent of frames and boundary generators, is preserved under pullback of that extension, and can be checked after a proper birational modification using π^*L (Faltings–Chai Remark 4.3). Different extensions of L|_U across the boundary can have different answers. On a punctured disc, a bounded unit norm for a frame of O and the norm |q| for a frame of O(−[0]) describe the same metric on U through their identification, but only the first extension has logarithmic growth. Choose a neighbourhood with 0 < max_i |f_i| < 1, and use 1+|log max_i |f_i||; n = 0 is permitted.
+Let X̄ be an arbitrary complex analytic variety, Z ⊂ X̄ a closed analytic subvariety with dense complement U = X̄ ∖ Z, and let L be a fixed holomorphic line bundle on X̄ with a continuous hermitian metric ‖·‖ on L|_U. The metric has logarithmic singularities along Z if every z ∈ Z has a neighbourhood N, a local generator s of L on N and local generators f_1, …, f_t of the ideal of Z on N, with C > 0 and n ∈ ℕ, such that for x ∈ N ∖ Z: max(‖s(x)‖, ‖s(x)‖^{−1}) ≤ C·(1 + |log max_i |f_i(x)||)^n. When X̄ is compact, this is equivalent (Deligne) to bounds by C₀^{±1}‖·‖₀·ρ^{±r}, with one C₀ ≥ 1, r ≥ 0, a continuous metric ‖·‖₀ on L over X̄ and a logarithmic distance function ρ ≥ 1, locally comparable to 1+|log Σ|f_i|²| near Z. For the fixed extension L, the local condition is independent of frames and boundary generators, is preserved under pullback of that extension, and can be checked after a proper birational modification using π^*L (Faltings–Chai Remark 4.3). Different extensions of L|_U across the boundary can have different answers. On a punctured disc, a bounded unit norm for a frame of O and the norm |q| for a frame of O(−[0]) describe the same metric on U through their identification, but only the first extension has logarithmic growth. Choose a neighbourhood with 0 < max_i |f_i| < 1, and use 1+|log max_i |f_i||; n = 0 is permitted.
 
-X̄ compact (the analytification of a proper ℂ-scheme, ComplexComparisonPartII §§C−1.1, C0.4 and C5.1); the bound is local near Z only. Metrics are F_∞-invariant when X̄ comes from a scheme over ℝ or ℚ.
+The predicate and its local functoriality require no compactness. Compactness is required for the uniform distance formulation and for the global height arguments of §5.2. Metrics are F_∞-invariant when X̄ comes from a scheme over ℝ or ℚ.
 
 Provide the following maps and identities.
 
-- `HermitianMetric.HasLogSingularities`: The predicate on a continuous metric on L|_U along Z = X̄ ∖ U.
-- `HermitianMetric.hasLogSingularities_iff_distance`: Equivalent to ‖·‖₀ρ^{−r} ≤ ‖·‖ ≤ ‖·‖₀ρ^r near Z for a logarithmic distance ρ.
+- `HermitianMetric.HasLogSingularities`: The local predicate on a continuous metric on L|_U along Z = X̄ ∖ U, relative to the fixed extension L on an arbitrary complex analytic variety X̄.
+- `HermitianMetric.hasLogSingularities_iff_distance`: For compact X̄, equivalent to C₀^{−1}‖·‖₀ρ^{−r} ≤ ‖·‖ ≤ C₀‖·‖₀ρ^r near Z for a logarithmic distance ρ ≥ 1 and uniform C₀ ≥ 1, r ≥ 0.
 - `HermitianMetric.hasLogSingularities_pullback`: Preserved under pullback along morphisms g with g^{−1}(Z) contained in the new boundary.
 - `HermitianMetric.hasLogSingularities_of_modification`: Can be checked after a proper modification isomorphic over U.
 - `HermitianMetric.hasLogSingularities_tensor`: Closed under tensor products and duals.
@@ -1359,7 +1366,7 @@ Provide the following maps and identities.
 - `HermitianMetric.LogSingularAtZero`: One-variable local model: a positive frame norm f on a punctured disc has a logarithmic singularity at 0 iff max(f, f^{−1}) ≤ C(1 + |log|q||)^n near 0.
 - `HermitianMetric.LogSingularAtZero.pow`: The local model is stable under natural-number powers, including the unit power. Negative integral powers use the dual extension.
 
-The two formulations agree because log Σ|f_i|² and log max|f_i| differ by a bounded amount and any two continuous metrics on L over compact X̄ have bounded ratio.
+Locally, log Σ|f_i|² differs from 2 log max|f_i| by a bounded amount. For compact X̄ a finite cover makes the local constants uniform, and any two continuous metrics on L over X̄ have bounded ratio. This gives the uniform distance formulation.
 
 Independence of the generators f_i: two systems of generators satisfy |f′| ≤ C|f|^a and conversely, so the logarithms are comparable.
 
@@ -1376,6 +1383,7 @@ The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-6
 - `HermitianMetric.logSing_cusp`: On the disc with coordinate q and L trivial, ‖1‖ = −log|q| near 0 has logarithmic singularities along q = 0.
 - `HermitianMetric.logSing_polynomial_nonexample`: ‖1‖ = |q|^{−1/2} does not have logarithmic singularities along q = 0 (it grows faster than any power of log).
 - `HermitianMetric.logSing_empty_boundary`: With Z = ∅ every continuous metric qualifies.
+- On X̄ = 𝔸¹_ℂ with Z = {0}, the constant unit metric on O has logarithmic singularities. This noncompact example and the disc examples use the local predicate.
 - `HermitianMetric.logSing_power`: If ‖·‖ has logarithmic singularities so does ‖·‖^k on L^{⊗k} for k ∈ ℤ.
 - `HermitianMetric.logSing_zero_nonexample`: The zero function is not a frame norm. Eventual strict positivity is part of LogSingularAtZero; max(0,0⁻¹)=0 in Lean must not let the zero function pass.
 - `HermitianMetric.logSing_negative_nonexample`: A negative constant is not a metric, even if its maximum with its reciprocal satisfies a formal upper bound. Require C > 0 and a positive frame norm.
@@ -1406,7 +1414,7 @@ The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-6
 
 ### 5.3 The Faltings metric has logarithmic growth at the boundary
 
-Let S̄ be a smooth complex variety, D ⊂ S̄ a normal-crossings divisor, and G → S̄ a semi-abelian scheme that is abelian (and polarizable) over S = S̄ ∖ D. Then the Faltings metric on ω̄_G|_S (§2.8) has logarithmic singularities along D. In particular, on a smooth toroidal compactification Ā_{g,n} of the fine Siegel moduli space (n ≥ 3) with its universal semi-abelian scheme, and hence (§5.1's modification invariance) on the minimal compactification A*_{g,n} with L = descended ω̄^{⊗m}, the Faltings metric has logarithmic singularities along the boundary.
+Let S̄ be a smooth complex variety, D ⊂ S̄ a normal-crossings divisor, and G → S̄ a semi-abelian scheme that is abelian (and polarizable) over S = S̄ ∖ D. Then the Faltings metric on ω̄_G|_S (§2.8) satisfies §5.1's local logarithmic-singularity predicate along D for the extension ω_G, without a properness assumption on S̄. In particular, on a smooth toroidal compactification Ā_{g,n} of the fine Siegel moduli space (n ≥ 3) with its universal semi-abelian scheme, and hence (§5.1's modification invariance) on the minimal compactification A*_{g,n} with L = descended ω̄^{⊗m}, the Faltings metric has logarithmic singularities along the boundary.
 
 G semi-abelian over S̄, abelian over S; D a normal-crossings divisor (after resolution). For the moduli application the toroidal compactification (smooth cone decompositions, so that the boundary is a divisor with smooth relative intersections) and its universal semi-abelian scheme over ℂ are the base change to ℂ of §5.0a at neat level n ≥ 3. For a general (S̄, D, G) the local degeneration structure is constructed for that family, rather than inferred solely from moduli charts; the proof restricts to holomorphic discs meeting D transversally and uses the one-parameter argument of Deligne's Lemme 1.18 together with the bound for several parameters of Faltings–Chai V.4.5.
 
@@ -1426,6 +1434,7 @@ The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-6
 
 - For g = 1 near the cusp q = 0 of the j-line, ‖dz‖² = Im τ = −(1/2π)log|q|.
 - For a product of a degenerating elliptic curve and a fixed elliptic curve, the logarithmic part has rank one while the full Hodge determinant is positive and proportional to Im τ. Dropping the fixed elliptic block would give determinant zero, contradicting positivity.
+- For a fixed complex elliptic curve E, the constant family E × 𝔸¹_ℂ over 𝔸¹_ℂ with D = {0} has a constant positive Hodge frame norm. Its logarithmic bound has exponent zero despite the noncompact base.
 
 ### 5.4 The Hodge-metrized modular line bundle on the minimal compactification
 
@@ -1516,7 +1525,6 @@ Provide the following maps and identities.
 - `AbelianVariety.thetaHeight`: h_Θ(A, L) = h_FS(Θ(0)).
 - `AbelianVariety.thetaHeight_nonneg`: h_Θ(A, L) ≥ 0.
 - `AbelianVariety.thetaHeight_congr`: thetaHeight is unchanged under geometric isomorphism of (A,L) and under the permitted good-basis choices, with r fixed.
-- `AbelianVariety.thetaHeight_northcott`: Finitely many ℚ̄-classes of bounded theta height definable over fields of bounded degree.
 
 Use the theta group and the canonical isomorphism [r]^*L ≅ L^{⊗r²} from **AbelianSchemesAndArithmeticModuli** §§A3.6 and A1.5. Translation by r²-torsion produces the sections; the canonical A[r]-subgroup identifies representatives differing by A[r]. The good-lift relation is the rigidified translation compatibility of Pazuki §2.3, pp. 7–9.
 
@@ -1531,11 +1539,12 @@ The source identifications are [Pazuki](https://arxiv.org/abs/0907.1458v2), §2.
 **Checks.**
 
 - `AbelianVariety.thetaHeight_level_dependence`: h_Θ depends on r; the comparison constants of §5.8 depend on (g, r).
-- `AbelianVariety.thetaHeight_elliptic`: For g = 1, r = 2, the analytic coordinates can be the four half-characteristic constants θ_(a,b)(τ,0), a,b ∈ {0,½}; θ_(½,½)(τ,0)=0. The equivalent Mumford coordinates are θ_(m,0)(r²τ,0), m ∈ (1/r²)ℤ/ℤ. These are not four second-order constants at 2τ.
+- `AbelianVariety.thetaHeight_elliptic`: For g = 1, r = 2, use the four half-characteristic constants θ_(a,b)(τ,0), a,b ∈ {0,½}, including θ_(½,½)(τ,0)=0. The raw Mumford coordinates θ_(m,0)(4τ,0), m ∈ (¼)ℤ/ℤ, use a different basis related by a Fourier transform. They cannot replace the good translated-basis coordinates in thetaHeight without computing the finite-place correction. Neither system consists of four second-order constants at 2τ.
+- At τ=i, put a=2^(−1/4). The half-characteristic point is [1:a:a:0], while the raw Mumford point is [1+a:a:1−a:a]. At every embedding their squared ℓ² norms differ by factor 2; both have finite height contribution ¼ log 2. The raw Mumford FS height is therefore larger by ½ log 2.
 - `AbelianVariety.thetaHeight_sup_nonexample`: Using the sup-norm Weil height of Θ(0) instead of the ℓ² height changes h_Θ by up to ½ log(r^{2g}).
 - `AbelianVariety.thetaHeight_product`: For a product of principally polarized varieties with product theta structures, Θ(0) is the Segre product and h_Θ is additive.
 - `AbelianVariety.thetaHeight_unitary_nonexample`: The real orthogonal matrix (1/5)[[3,4],[−4,3]] sends [1:0] to [3:−4]. Both vectors have the same archimedean ℓ² norm after scaling, but their absolute FS heights are 0 and log 5. An arbitrary unitary matrix need not preserve finite-place sup norms.
-- Over ℂ with A(ℂ) = ℂ^g/(ℤ^g + τℤ^g), the projective coordinates of Θ(0) are the theta constants θ_m(0, τ) of level r (Pazuki §2.4).
+- Over ℂ with A(ℂ) = ℂ^g/(ℤ^g + τℤ^g), the good translated-basis coordinates of Θ(0) are the theta constants θ_(m₁,m₂)(τ,0), with m₁,m₂ ∈ ((1/r)ℤ/ℤ)^g (Pazuki, §2.3.4, p. 10, arXiv v2).
 
 ### 5.8 Comparison of theta height and stable Faltings height
 
@@ -1543,21 +1552,35 @@ Let (A, L) be a principally polarized abelian variety of dimension g ≥ 1 over 
 
 Principal polarization by a symmetric L; constants depend only on (g, r). The bound on Σ_σ |log det Im τ_σ| by C(g) log(max(h_Θ, 1) + 2) is Masser's matrix lemma, made explicit by David–Philippon (Pazuki Remark 1.2).
 
-Moret-Bailly's key formula expresses the Néron–Tate height of a point through its theta height, h_F(A) and base-point contributions (Pazuki Lemma 5.2); take the origin.
+Construct the following arithmetic package before the comparison, for the symmetric principally polarizing line L and the fixed even r. These are targets of this section. A cubist hermitian line has a rigidification at zero and a norm-one trivialization of its alternating cube bundle on the triple product, satisfying the symmetry and cocycle identities (Pazuki §3.1). After a finite extension, construct a Moret–Bailly model of (A,L,A[r²]): a smooth separated semistable group scheme, possibly with disconnected fibres, a cubist hermitian extension of L, sections extending the r²-torsion points, and a finite flat closure of the theta kernel K(L^{⊗2}). Prove existence, independence up to the induced integral isometries, and compatibility with finite extension as in Definition 3.1 and Theorem 3.4(i), (iii)–(iv). The zero-section pullback is the unit metrized line by the cubist rigidification; no general Néron–Tate-height theory is needed for this specialization.
 
-Estimate the base-point contributions by the inclusion of vector bundles of theta functions and the analysis of theta functions on the fundamental domain (Bost–David), giving Theorem 1.1.
+Construct the locally free pushforwards E = π_*ℒ^{⊗r²} and π_*ℒ with their L² metrics for probability Haar measure. For either ample cubist line ℳ in this model, with ρ = rank π_*ℳ, prove the key degree identity deg^(π_*ℳ)/(ρ[K:ℚ]) = −½h_F(A) + ¼ log(ρ/(2π)^g) (Theorem 3.4(v)). Extend the good translation maps integrally and isometrically, obtaining F = image((π_*ℒ)^{⊕r^{2g}} → E), generically all of E (Proposition 5.1). The full section system generates ℒ^{⊗r²} on the subgroup containing the torsion sections, in particular at the origin (Theorem 3.4(vi)).
 
-Combine with the matrix lemma bound on log det Im τ_σ to get Corollary 1.3.
+For F and E define their base-point ideals by the images of evaluation, β_𝔭 as the lengths after pullback to the zero section, and β_σ = −½ log Σ_i ‖u_i(0)‖² for an L²-orthonormal basis of F_σ (Pazuki §4.1, equations (5)–(6)). Prove the intrinsic/projective degree identity and the index bound for F ⊂ E (Propositions 4.1–4.2). Specializing Lemma 5.2 to the origin gives
+
+```text
+0 = h_Θ(A,L) − ½h_F(A) − (g/4)log(2π)
+    + (Σ_𝔭 β_𝔭 log N𝔭 + Σ_σ β_σ)/[K:ℚ].
+```
+
+Prove the finite-place estimates of Proposition 5.3: β_𝔭(E,0)=0 and 0 ≤ [K:ℚ]^{−1}Σ_𝔭 β_𝔭(F,0) log N𝔭 ≤ (g/2)r^{2g}log r. Prove Lemma 5.4's expression for β_σ as a sum of squared normalized theta values over (1/r)Λ/Λ. Prove Proposition 5.5's lower and upper estimates on this sum, with c(g) = (2+2^{1+3g/4}/3^{1/4})^g. Substitution in the origin identity gives precisely the displayed m(r,g) and M(r,g).
+
+Prove the explicit matrix lemma bound of Remark 1.2 with the displayed C(g), then combine it with Theorem 1.1 to get Corollary 1.3 with the displayed C_1 and C_2.
 
 Translate normalisations with §2.7 (Pazuki uses (2π)^{−g}i^{g²}).
 
-The source identifications are [Pazuki](https://arxiv.org/abs/0907.1458v2), Theorem 1.1, Remark 1.2, Corollary 1.3, pp. 2–3 (arXiv v2); [Pazuki](https://arxiv.org/abs/0907.1458v2), §2.2, pp. 6–7 (arXiv v2).
+Prove `AbelianVariety.thetaHeight_northcott` after these comparisons: for fixed (g,r), bounded h_Θ and bounded degree of a field of definition give finitely many geometric classes of (A,L). Corollary 1.3(1) bounds h_st,Del above, and §5.6 gives finitely many principally polarized geometric classes. For a fixed principal polarization, its symmetric representing lines form a finite A[2]-torsor over ℚ̄. This proof uses only the construction and choice-invariance from §5.7 as inputs to the comparison.
 
-*Needs:* §5.7; §3.4; §2.7; §2.2; §5.2.
+The source identifications are [Pazuki](https://arxiv.org/abs/0907.1458v2), Theorem 1.1, Remark 1.2, Corollary 1.3, pp. 2–3; Definition 3.1 and Theorem 3.4, §§3.1–3.2, pp. 10–13; Propositions 4.1–4.2, pp. 13–16; §5.1, Proposition 5.1 and Lemma 5.2, pp. 16–18; §5.2, Propositions 5.3 and 5.5, Lemma 5.4 and §5.2.1, pp. 18–20 (arXiv v2); §2.2, pp. 6–7.
+
+*Needs:* §5.7 (theta construction and choice-invariance); §3.4; §2.7; §2.2; §2.0; §§1.1–1.6; §1.14; §5.2; §5.6 (for theta Northcott only); **AbelianSchemesAndArithmeticModuli** §§A1.5 and A3.6 (`ThetaGroup`); **NeronModelsAndSemistableAbelianVarieties** §3.10 (semistable reduction after finite extension).
 
 **Checks.**
 
 - Pazuki's Remark 1.4 deduces h_F(A) ≥ −C(g) log C(g) − M(r, g); Bost's explicit linear bound is h_F ≥ −(g/2) log(2π) in this normalisation.
+- On a Moret–Bailly model the zero-section pullback of ℒ is integrally isometric to the unit line, so the left side of the origin identity is exactly zero. Generation by E at zero gives β_𝔭(E,0)=0; replacing F by E without its lattice index would lose the upper bound (g/2)r^{2g}log r.
+- After a finite extension K′/K, the degrees and the total weighted evaluation terms multiply by [K′:K], while the normalized identities and constants m, M, C_1 and C_2 stay unchanged.
+- If h_Θ ≤ T, Corollary 1.3(1) gives h_st,Del ≤ 2T+2C_1 log(max(T,1)+2). Section 5.6 then gives finiteness of the principally polarized geometric classes.
 
 ### 5.9 The stable Faltings height of an elliptic curve and h(j)
 
@@ -1607,7 +1630,7 @@ Provide the following maps and identities.
 - `AbelianVariety.zarhin_principal`: The descended polarization has degree one; its construction is over the original base.
 - `AbelianVariety.zarhin_baseChange`: With the integral choices fixed, base change of the polarized Z(A) is the same construction for A after base change, up to its natural polarized isomorphism.
 
-For a free ℤ-module M of finite rank, A ⊗ M is an abelian scheme (≅ A^{rk M}) with (A ⊗ M)^t ≅ A^t ⊗ M^∨ compatibly with biduality; for a symmetric bilinear form B on M, λ ⊗ B : A ⊗ M → A^t ⊗ M^∨ is symmetric, a polarization iff B is positive definite, of degree d^{2 rk M}·|det B|^{2g} where deg λ = d² (AbelianSchemesAndArithmeticModuli §A5.4; Moret-Bailly IX 1.1–1.3).
+For a free ℤ-module M of finite rank, A ⊗ M is an abelian scheme (≅ A^{rk M}) with (A ⊗ M)^t ≅ A^t ⊗ M^∨ compatibly with biduality. For a symmetric bilinear form B on M, λ ⊗ B : A ⊗ M → A^t ⊗ M^∨ is symmetric. On each component of the base where g = dim(A/S) > 0, it is a polarization iff B is positive definite, and then has degree d^{2 rk M}·|det B|^{2g}, where deg λ = d². On every component where g = 0, it is the unit principal polarization for every B, with degree one. These assertions are componentwise when the relative dimension varies (AbelianSchemesAndArithmeticModuli §A5.4; Moret-Bailly IX 1.1–1.3).
 
 If B is divisible by d², the subgroup K ⊗ M (K = ker λ, killed by d) is isotropic for the Weil pairing of the kernel of λ ⊗ B (polarized Weil pairing and Cartier duality of kernels, A3).
 
@@ -1617,13 +1640,14 @@ Descend the homomorphism, not a line bundle: for an isotropic finite flat K′ �
 
 The quotient (A ⊗ M)/K′ is A^4 × (A^t)^4. Fix the integral four-square choices for each polarization degree once; the resulting construction commutes with base change. This supplies a principal polarization over the original base, without asserting uniqueness of the polarization on Z(A).
 
-The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), Ch. I, Lemma 5.5, p. 29; [Moret-Bailly](https://www.numdam.org/item/AST_1985__129__1_0/), Chapitre IX, §1, Lemme 1.1 and its proof 1.2–1.5, pp. 205–207; [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), Remarque 1.22, p. 35; [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), Ch. V §4, p. 169.
+The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), Ch. I, Lemma 5.5, p. 29; [Moret-Bailly](https://www.numdam.org/item/AST_1985__129__1_0/), Chapitre IX, §1, Lemme 1.1 and proof §§1.2–1.6, pp. 205–208; [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), Remarque 1.22, p. 35; [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), Ch. V §4, p. 169.
 
 *Needs:* **AbelianSchemesAndArithmeticModuli** §A5.4 (`polarizationType`); **AbelianSchemesAndArithmeticModuli** §A3.11 (`principalQuotient`); **AbelianSchemesAndArithmeticModuli** §A3.5 (`dualIsogenyCartierKernel`); **AbelianSchemesAndArithmeticModuli** §A3.7 (`polarizedWeilPairing`); **AbelianSchemesAndArithmeticModuli** §A6.13 (`polarizedIsogenyDegree`).
 
 **Checks.**
 
 - `AbelianVariety.zarhin_zero`: For the zero-dimensional abelian scheme, Z(A) is the trivial group scheme with its unit principal polarization. For dimension g, the product dimension is 8g.
+- For the zero abelian scheme, M = ℤ and B = [−1], λ ⊗ B is still the unit principal polarization. On a positive-dimensional abelian scheme the same negative B gives −λ and is not a polarization.
 - `AbelianVariety.zarhin_degree`: For a polarization of degree d², the rank-eight input polarization has degree d^16 and K′ has order d^8. Passing to the quotient divides degree by (#K′)²=d^16 and leaves degree one.
 - `AbelianVariety.zarhin_baseChange_check`: For an elliptic scheme with a chosen degree m² polarization, the fixed quaternion data works over the original base and after every base change. An arbitrary replacement polarization on E^8 need not equal that selected construction, although the underlying product and its height stay the same.
 - For an elliptic curve E with its principal polarization, Z(E) = E^8 with a principal polarization (not the product one in general).
@@ -1699,17 +1723,35 @@ Principally polarized case: §5.6 (i) gives c′(g) with h_st ≥ c′(g).
 
 General case: §6.2 gives h_st(A) = h_st(Z(A))/8 ≥ c′(8g)/8.
 
-Effective form: Bost's Appendix C bounds h_F from below through second-order theta constants (Proposition C.2 and the reduction theory estimates), then Zarhin and duality invariance.
+For the explicit linear bound, prove Gaudron–Rémond, Périodes, Theorem 8.1 and Lemma 8.2, pp. 34–37. For a principally polarized A over a number field K enlarged to admit a Moret–Bailly model as in §5.8, choose period matrices τ_σ in Siegel's fundamental domain, put Y_σ = Im τ_σ and
+
+```text
+F_σ(τ_σ p+q) = det(2Y_σ)^(1/4)
+               · Σ_{n∈ℤ^g} exp(iπ(n+p)^t τ_σ(n+p) + 2iπ n^t q),
+```
+
+for real p,q. Its absolute value is periodic in p,q. Prove ∫_{(ℝ^g/ℤ^g)^2}|F_σ|² dp dq = 1 and
+
+```text
+−½(h_st,Del(A)+(g/2)log(2π))
+  ≤ [K:ℚ]^(−1) Σ_σ ∫_{(ℝ^g/ℤ^g)^2} log|F_σ| dp dq.
+```
+
+The L² identity follows by integrating the Fourier series in q and then the Gaussian in p (Lemma 8.2); the lower estimate is the normalized theta-integral inequality of Theorem 8.1, proved using cubist theta sections and their arithmetic degrees. The arithmetic cubist-model and degree package is §5.8. Jensen's inequality makes each logarithmic integral at most zero, giving Corollary 8.4, p. 37: h_st,Del(A) ≥ −(g/2)log(2π). Section 6.2 extends the bound to arbitrary A through Z(A), and §2.7 gives the Faltings normalization.
+
+For an effective non-sharp alternative, Bost's Appendix C bounds h_F from below through second-order theta constants (Proposition C.2 and the reduction theory estimates), then Zarhin and duality invariance.
 
 Normalisation translation: §2.7 (h_Fal = h_Del − (g/2) log π).
 
-The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), Ch. V, Proposition 4.6(i), p. 169; [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), Lemme 1.21 and Remarque 1.22, p. 35; [Bost](https://www.numdam.org/item/SB_1994-1995__37__115_0/), Théorème 2.1 i), p. 119, and Appendice C, Proposition C.2, pp. 154–155; [Pazuki](https://arxiv.org/abs/0907.1458v2), Remark 1.4, p. 3 (arXiv v2); [Tsimerman](https://arxiv.org/abs/1506.01466v5), Theorem 2.1, p. 3 (arXiv v5); [Gaudron–Rémond, Polarisations](https://lmbp.uca.fr/~gaudron/art13.pdf), §9 (Conclusion des démonstrations), p. 2101.
+The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), Ch. V, Proposition 4.6(i), p. 169; [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), Lemme 1.21 and Remarque 1.22, p. 35; [Bost](https://www.numdam.org/item/SB_1994-1995__37__115_0/), Théorème 2.1 i), p. 119, and Appendice C, Proposition C.2, pp. 154–155; [Gaudron–Rémond, Périodes](https://arxiv.org/abs/1105.1230v1), Theorem 8.1, Lemma 8.2, pp. 34–35, and Corollary 8.4, p. 37 (arXiv v1); [Pazuki](https://arxiv.org/abs/0907.1458v2), Remark 1.4, p. 3 (arXiv v2); [Tsimerman](https://arxiv.org/abs/1506.01466v5), Theorem 2.1, p. 3 (arXiv v5); [Gaudron–Rémond, Polarisations](https://lmbp.uca.fr/~gaudron/art13.pdf), §9 (Conclusion des démonstrations), p. 2101.
 
-*Needs:* §5.6; §6.2; §2.7.
+*Needs:* §5.6; §5.8 (cubist-model and theta-section degrees); §6.2; §2.7.
 
 **Checks.**
 
 - For g = 1 the minimum of h_st,Del over elliptic curves is attained at j = 0 (Deligne Remarque 1.5), about −0.749, which is above −½ log(2π) ≈ −0.919.
+- For the empty theta product in dimension zero, F_σ = 1, ∫log|F_σ| = 0 and ∫|F_σ|² = 1; the bound is 0 ≥ 0.
+- Dividing the bound h_st,Del(Z(A)) ≥ −(8g/2)log(2π) by 8 gives the same linear constant in dimension g. The normalization shift then gives −(g/2)log(2π²) in Faltings' convention.
 
 ### 6.6 The height inputs to Faltings' finiteness theorems
 
