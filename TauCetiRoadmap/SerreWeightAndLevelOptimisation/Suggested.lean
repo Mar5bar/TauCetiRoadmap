@@ -9,6 +9,8 @@ exhaustive. It uses Mathlib’s submodule quotient for integral level changing a
 the arithmetic reduced level used in the elliptic specialization. Integral
 modular cohomology, residual Galois representations, Katz eigensystems and
 quaternionic automorphic modules are specified in the README.
+The fixed-level characteristic-zero character comparison requires `ℓ≥5`
+and weight `k≥2`.
 -/
 
 namespace TauCetiRoadmap.SerreWeightAndLevelOptimisation

@@ -522,9 +522,9 @@ Use the local special conductor formula. Use this explicit inverse inertial Diri
 
 ### 2.12 Principal-series conductor defect
 
-For `q≠ℓ` and a characteristic-zero principal-series local component whose residual conductor exponent is smaller, Carayol–Livné’s defect classification identifies a tamely ramified character with trivial residual restriction. Character replacement and a controlled global twist remove this factor; a remaining unramified-special component is routed to the one-prime lowering theorem. More generally the conductor drop is the change in the inertia-fixed-space codimension: the wild Swan contribution does not change under residual reduction at `q≠ℓ`. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), §4, (4.2)–(4.4), author pp. 8–11. Conductor defect and principal-series reduction after character normalization.)
+For `q≠ℓ`, let a characteristic-zero modular witness of weight `k≥2` have a principal-series local component whose residual conductor exponent is smaller. Carayol–Livné’s defect classification identifies a tamely ramified character with trivial residual restriction. Character replacement and a controlled global twist remove this factor; a remaining unramified-special component is routed to the one-prime lowering theorem. More generally the conductor drop is the change in the inertia-fixed-space codimension: the wild Swan contribution does not change under residual reduction at `q≠ℓ`. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), §4, (4.2)–(4.4), author pp. 8–11. Conductor defect and principal-series reduction after character normalization.)
 
-Local compatibility and the defect classification imported from R17.6. Compare the same stable lattice; residual representation is globally irreducible. All residue-trivial characters and global twists are tracked at the actual coefficient prime.
+Local compatibility and the defect classification imported from R17.6. Compare the same stable lattice; residual representation is globally irreducible. Fixed-weight character replacement requires `ℓ≥5` and `2≤k`; the other characteristic branches retain their separate inputs. All residue-trivial characters and global twists are tracked at the actual coefficient prime.
 
 Separate the invariant-dimension defect from the common wild term. Dispatch one or two ramified principal-series characters by character replacement or twisting. Reapply the special unramified lowering step only once its hypotheses hold.
 
@@ -930,15 +930,15 @@ The external inputs are `AlgebraicModularFormsAndSerreWeights:R15.1`, `Algebraic
 
 ## Layer 4: Coefficient-prime level and character
 
-Removal of coefficient-prime level preserves the residual representation while changing weight and potentially its characteristic-zero character. The proof proceeds through a controlled square-root twist, an Eisenstein multiplication, depth reduction and a trace. Character replacement at fixed level and weight is a different theorem with a characteristic bound. Each use of these operations must establish Hecke support before lifting a characteristic-zero eigenform.
+Removal of coefficient-prime level preserves the residual representation while changing weight and potentially its characteristic-zero character. The proof proceeds through a controlled square-root twist, an Eisenstein multiplication, depth reduction and a trace. Character replacement at fixed level and weight is a different theorem requiring `ℓ≥5` and `2≤k`. Each use of these operations must establish Hecke support before lifting a characteristic-zero eigenform.
 
 <a id="nebentypus-congruent-character"></a>
 
 ### 4.1 Congruent nebentypus at fixed level
 
-Let `ℓ≥5` and f be a normalized cuspidal eigenform of weight k and level `Γ1(N)`, with irreducible residual representation at `λ`. If `ε′` is a characteristic-zero character modulo N congruent to `ε` modulo `λ` and with `ε′(−1)=(−1)^k`, then a weight-k eigenform of the same level and character `ε′` gives the same residual representation after coefficient extension. In particular one can replace `ℓ-primary` character factors by their canonical prime-to-`ℓ` lift in this range. The fixed-level fixed-character conclusion is not extended to `ℓ=2` or 3. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), §1, Theorem 1.3, author pp. 2–3. The fixed weight/level character replacement and its `ℓ≥5` restriction.) ([Benedict H. Gross](https://www.math.purdue.edu/~tongliu/seminar/Mlift/Gross.pdf), Proposition 9.3 and following remarks, pp. 478–479. The low-characteristic lifting/character obstruction.)
+Let `ℓ≥5`, `2≤k` and f be a normalized cuspidal eigenform of weight k and level `Γ1(N)`, with irreducible residual representation at `λ`. If `ε′` is a characteristic-zero character modulo N congruent to `ε` modulo `λ` and with `ε′(−1)=(−1)^k`, then a weight-k eigenform of the same level and character `ε′` gives the same residual representation after coefficient extension. In particular one can replace `ℓ-primary` character factors by their canonical prime-to-`ℓ` lift in this range. The fixed-level fixed-character conclusion is not extended to `ℓ=2` or 3, or to weight one. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), §1, Theorem 1.3, author pp. 1–3. The fixed weight/level character replacement with `ℓ≥5` and the standing hypothesis `k≥2`.) ([Benedict H. Gross](https://www.math.purdue.edu/~tongliu/seminar/Mlift/Gross.pdf), Proposition 9.3 and following remarks, pp. 478–479. The low-characteristic lifting/character obstruction.)
 
-`ℓ≥5`, irreducible residual representation, compatible parity and congruent characters. Coefficient fields and `λ` are retained throughout; characters of `ℓ`-power order are not themselves trivial in characteristic zero.
+`ℓ≥5`, `2≤k`, irreducible residual representation, compatible parity and congruent characters. Coefficient fields and `λ` are retained throughout; characters of `ℓ`-power order are not themselves trivial in characteristic zero.
 
 Use integral character eigenspaces and the supplied Hecke-localisation comparison. Compare their residual support using congruence of characters. Lift a common residual eigencharacter in the required characteristic-zero character component.
 
@@ -951,6 +951,8 @@ Use integral character eigenspaces and the supplied Hecke-localisation compariso
 - At `ℓ=3` the level-13 weight-two character obstruction is retained.
 
 - Parity is a hypothesis rather than a consequence of arbitrary residual congruence.
+
+- At `N=23`, `ℓ=11`, `k=1`, the form `f(τ)=η(τ)η(23τ)` has character `ε=(−23/·)` and absolutely irreducible reduction. Its Artin representation is induced from a nontrivial order-three class character of `Q(√−23)` and has image `S₃`; modulo 11 the two order-three eigenlines are distinct and interchanged by an involution. If θ modulo 23 has order 11, then `ε′=εθ` is odd and congruent to ε, but no classical cuspidal weight-one form of level 23 has character `ε′`. Conductor exponent one would force projective inertia of order 22. The finite-projective-image classification then forces a dihedral image, whose quadratic quotient is unramified at every finite prime, impossible over Q. Thus congruent Katz characters do not supply the asserted characteristic-zero weight-one witness.
 
 <a id="strip-ell-power-from-level"></a>
 
@@ -1058,7 +1060,7 @@ Let `ℓ≥3`, `ℓ∤N`, `2≤k≤ℓ+1` and `ρ` an irreducible eigensystem at
 
 `2≤k≤ℓ+1`, irreducible `ρ`, `ℓ∤N`. `ℓ>3` or `N>3`; coefficient field enlarged to contain `ω`.
 
-For `3≤k≤ℓ` apply the small-Katz-weight/weight-two geometric bridge with its Teichmüller and residue character. For genuine filtration `ℓ+1` use Gross Proposition 8.18’s special-fibre differential realization and Proposition 9.3(2); do not deduce a tame-level weight-two witness in this nonfinite branch. For weight two or a weight-`ℓ+1` Hasse multiple of it, lift at tame level and include it at `Nℓ`. Lift eigenvalues without fixing a characteristic-zero tame character at `ℓ=3`; at `ℓ≥5` use the separate character-replacement theorem.
+For `3≤k≤ℓ` apply the small-Katz-weight/weight-two geometric bridge with its Teichmüller and residue character. For genuine filtration `ℓ+1` use Gross Proposition 8.18’s special-fibre differential realization and Proposition 9.3(2); do not deduce a tame-level weight-two witness in this nonfinite branch. For weight two or a weight-`ℓ+1` Hasse multiple of it, lift at tame level and include it at `Nℓ`. Lift eigenvalues without fixing a characteristic-zero tame character at `ℓ=3`; at `ℓ≥5` use the separate character-replacement theorem at output weight two.
 
 *Needs:* `AlgebraicModularFormsAndSerreWeights:R15.5, Deligne–Serre eigenvalue lifting`, `ModularCurvesPartII:§§7.1–7.2, 11.1`, `AlgebraicModularFormsAndSerreWeights:R15.3`, [Congruent nebentypus at fixed level](#nebentypus-congruent-character), `TauCeti.ModularForm.levelRaise`.
 
@@ -1080,7 +1082,7 @@ Let `ℓ≥5` and `ρ` be continuous odd irreducible and already modular, finite
 
 `ℓ≥5`, modularity witness, finite-flat extension of the actual local representation, not only semisimplification. Use the supplier’s recipe comparison; no arbitrary finite-image implication. The character at tame level is predicted by det `ρ·χ_ℓ^{-1}`.
 
-Apply the supplied finite-flat local recipe to certify `k=2`. Lower the prime-to-`ℓ` level to the full conductor. Replace the character by its prime-to-`ℓ` lift within the `ℓ≥5` theorem.
+Apply the supplied finite-flat local recipe to certify `k=2`. Lower the prime-to-`ℓ` level to the full conductor. Replace the character by its prime-to-`ℓ` lift at weight two within the `ℓ≥5` theorem.
 
 *Needs:* `AlgebraicModularFormsAndSerreWeights:R15.4, The weight-two criterion`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.5`, [Conditional descent to the full Serre level](#descend-to-serre-level), [Congruent nebentypus at fixed level](#nebentypus-congruent-character).
 
@@ -1490,7 +1492,7 @@ At good q compare both characteristic polynomials by the residual isomorphism. A
 
 For a fixed elliptic curve E/Q of conductor M and every sufficiently large good prime `ℓ` for which `E[ℓ]` is irreducible and already modular, there is a weight-two trivial-character newform giving `E[ℓ]` at level `N(E[ℓ])=M₀` dividing M. Here `ℓ∤M` and `ℓ≥5`, so the residual elliptic conductor formula and finite-flat recipe apply. The hypothesis is residual modularity of `E[ℓ]`, not characteristic-zero modularity of E. Consequently, if residual modularity is supplied for infinitely many sufficiently large good `ℓ`, all witnesses lie in a finite set of weight-two trivial-character newforms of divisor levels of M, as needed by EllipticCurveModularity’s characteristic-zero deduction. ([Michael A. Bennett and Samir Siksek](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p02-s.pdf), Equation (3), Theorem 3, pp. 358–359. Bounded weight-two trivial-character residual witnesses.) ([Kenneth A. Ribet and William A. Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §2.4, author pp. 30–31; §§1–3 character conventions. Elliptic optimization and the distinction from an unconditional modularity input.)
 
-Fixed E/Q, M its conductor, `ℓ≥5` of good reduction; `E[ℓ]` irreducible and already modular. For an infinitely-many-primes export, supply residual modularity and irreducibility for infinitely many good primes; the proof does not assume modularity of E. Bounded-level character orders are finite; character replacement uses the `ℓ≥5` theorem and predicted residual trivial character.
+Fixed E/Q, M its conductor, `ℓ≥5` of good reduction; `E[ℓ]` irreducible and already modular. For an infinitely-many-primes export, supply residual modularity and irreducibility for infinitely many good primes; the proof does not assume modularity of E. Bounded-level character orders are finite; character replacement uses the `ℓ≥5`, weight-two case and predicted residual trivial character.
 
 At a good `ℓ` use the finite-flat elliptic torsion model and determinant `χ_ℓ`. Apply Layer 4 to the already modular residual representation, obtaining weight two at its full tame conductor. Since the predicted residual nebentypus is one, its canonical prime-to-`ℓ` lift is the trivial character. Use NeronModelsAndSemistableAbelianVarieties §5.3h’s `ℓ≥5` formula to identify the conductor with `M₀` and obtain `M₀∣M`; bounded divisor levels and finite-dimensional newform spaces give a finite set of witnesses.
 
@@ -1731,7 +1733,7 @@ Identify residue characteristic and local scalarity first. Route the dihedral an
 
 | Case | Output | Mathematical input |
 | --- | --- | --- |
-| `p≥5`, already modular | Tame conductor `N(ρ)`, classical Serre weight `k(ρ)`, canonical prime-to-p character lift | [Conditional descent to the full Serre level](#descend-to-serre-level) + [Edixhoven’s conditional weight optimisation](#edixhoven-weight-theorem) + [Congruent nebentypus at fixed level](#nebentypus-congruent-character) |
+| `p≥5`, already modular | Tame conductor `N(ρ)`, classical Serre weight `k(ρ)≥2`, canonical prime-to-p character lift | [Conditional descent to the full Serre level](#descend-to-serre-level) + [Edixhoven’s conditional weight optimisation](#edixhoven-weight-theorem) + [Congruent nebentypus at fixed level](#nebentypus-congruent-character) |
 | `p=3`, already modular, any conductor | Tame conductor `N(ρ)`, classical Serre weight; prescribed characteristic-zero character not claimed | [Conditional descent to the full Serre level](#descend-to-serre-level) (Diamond’s general-character theorem) + [Edixhoven’s conditional weight optimisation](#edixhoven-weight-theorem) |
 | `p=2`, local restriction nonscalar and not Q(i)-induced | Weight two if finite flat, weight three otherwise at N; translate to classical even weight four in the latter case | Buzzard Proposition 2.4 + [Buzzard’s combined weight and level theorem](#buzzard-weight-and-level-mod-two) |
 | `p=2`, Q(i)-induced | Classical conductor-level witness by the independent induced weight-one/bridge argument | [Buzzard’s combined weight and level theorem](#buzzard-weight-and-level-mod-two), separate Q(i) proof |
