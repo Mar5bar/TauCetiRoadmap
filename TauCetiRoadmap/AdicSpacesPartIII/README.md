@@ -6589,8 +6589,15 @@ tuple `(Y, Z, g, h, ℓ, α)` with conditions (a)–(c) for `(f, ℳ, x, n)`; de
 `DevissageStep.dim_cokernel_le` (`dim_z(𝒫 ⊗ k(t)) ≤ n − 1`),
 `DevissageStep.exists_closedSubscheme_cokernel` (`𝒫` is a module over a closed formal subscheme `Y'
 ⊆ Z` of finite presentation with `dim(Y' ⊗ k(t)) ≤ n − 1`), `DevissageStep.dim_le` (`dim_x(ℳ ⊗ k(t))
-≤ n`), `DevissageStep.baseChange` (pull-back along a pointed morphism `(T', t') → (T, t)` is a
-`T'`-dévissage of the pull-back of `ℳ` in dimension `n`) and `DevissageStep.reduction` (reduction
+≤ n`). For a pointed morphism `(T', t') → (T, t)` between quasi-compact formal
+`O_K`-schemes locally of tf presentation, `DevissageStep.baseChangeData` gives the pulled-back finite morphism, smooth
+morphism, module and basis map, with finite-direct-image base change and
+`𝒫' ≅ coker α'`. Given compatible points `y'`, `z'` above `y`, `z`,
+`DevissageStep.baseChange` additionally assumes that `y'` is the only point of the finite
+fibre over `z'`; under this hypothesis the literal pull-back is a `T'`-dévissage in
+dimension `n`, with `𝒩'_{z'} ≅ ℳ'_{y'}`. Without this hypothesis the pulled-back data
+still exist, but the single-stalk comparison is not asserted. Prove also
+`DevissageStep.reduction` (reduction
 modulo `ϖ^{λ+1}` is a Raynaud–Gruson `S`-dévissage of `ℳ_λ` over `T_λ`) (BL II §3, Def. 3.1, p. 411;
 condition (b), p. 411; after Def. 3.1, p. 411, the dimension of the cokernel; RG Première partie,
 §1.2, Déf. 1.2.1, p. 6, the scheme-theoretic notion adapted by Bosch–Lütkebohmert). *Needs:*
@@ -6610,6 +6617,14 @@ condition (b), p. 411; after Def. 3.1, p. 411, the dimension of the cokernel; RG
 - `devissageStep_test_reduction` (compatibility) — reduction modulo `ϖ^{λ+1}` turns a `T`-dévissage
   of `ℳ` into an `S`-dévissage of `ℳ_λ` over `T_λ` in the sense of Raynaud–Gruson I 1.2.1 (in
 Raynaud–Gruson's notation, their `X'` is `Y_λ` and their smooth scheme `T` is `Z_λ`).
+- `devissageStep_test_splitFibre` (boundary) — let `O = ℤ₃`,
+  `B = O[i] = O[X]/(X² + 1)`, `T = Z = Spf O`, `X = Y = Spf B`, `ℳ = O_Y`,
+  `n = 0` and `α : O_Z² ≅ g_*O_Y`, `(a, b) ↦ a + bi`. The special fibre is the
+  single point `Spec 𝔽₉`. After `T' = Spf B → T`,
+  `B ⊗̂_O B ≅ B × B`, since `2i` is a unit. The finite fibre has two points, so
+  `DevissageStep.baseChangeData` applies while the hypothesis of
+  `DevissageStep.baseChange` fails at either point. Restricting to one component
+  requires a new rank-one basis map.
 
 The free-disc Check quantifies over every topologically finitely presented adic base
 algebra and every finite rank, including rank zero. The dimension-zero Check asserts
@@ -6641,14 +6656,17 @@ of *formal-devissage-step*, a `T`-dévissage of `ℳ` at `x` in dimensions `N = 
 that `D¹` is a `T`-dévissage of `ℳ` at `x` in dimension `n¹` and, for `i = 2, …, r`, `D^i` is a
 `T`-dévissage of the coherent `O_{Z^{i−1}}`-module `𝒫^{i−1}` at `z^{i−1}` in dimension `n^i`; thus
 `ℳ¹ = ℳ|_{Y¹}` and `ℳ^i = 𝒫^{i−1}|_{Y^i}`. Its length is `r`; it is complete if `𝒫^r = 0`. The
-support of `𝒩^i` has relative dimension `≤ n^i` and that of `𝒫^i` relative dimension `< n^i`, which
-is what makes dévissages the vehicle for induction on relative dimension. In `FormalScheme`, define
+distinguished-fibre bounds are `fibreSupportDim h^i 𝒩^i z^i ≤ n^i` and
+`fibreSupportDim h^i 𝒫^i z^i < n^i`. These give induction at the pointed fibre;
+the cokernel bound is not a bound on every fibre over `T`. In `FormalScheme`, define
 `Devissage` as the chain `(D^i)_{1≤i≤r}` with dimensions `n¹ > … > n^r`, `Devissage.IsComplete` as
 `𝒫^r = 0`, `Devissage.length` as `r` and `Devissage.dim` as the strictly decreasing dimensions
 `n^i`; define `Devissage.truncate` (`(D¹, …, D^k)` for `k ≤ r`, a dévissage in dimensions between
 `N` and `n^k`) and `Devissage.cons` (a step `D¹` of `ℳ` followed by a dévissage of `𝒫¹` at `z¹`);
-prove `Devissage.baseChange` (pull-back along `(T', t') → (T, t)` is a dévissage, and completeness
-is preserved) and `Devissage.reduction` (reduction modulo `ϖ^{λ+1}` is a Raynaud–Gruson
+prove `Devissage.baseChange` (for `(T', t') → (T, t)` as in
+`DevissageStep.baseChange`, the literal pull-back is a dévissage provided that at
+every step the pulled-back distinguished finite fibre has exactly one point;
+completeness is preserved) and `Devissage.reduction` (reduction modulo `ϖ^{λ+1}` is a Raynaud–Gruson
 `S`-dévissage in the sense of their Définition 1.2.2) (BL II §3, Def. 3.2, p. 411, completeness;
 after Def. 3.2, p. 411, base change and the role in the induction; RG Première partie, §1.2, Déf.
 1.2.2, p. 7, the scheme-theoretic recursive definition). *Needs:* *formal-devissage-step*.
@@ -6664,6 +6682,12 @@ after Def. 3.2, p. 411, base change and the role in the induction; RG Première 
   step `D¹`, complete iff `𝒫¹ = 0`.
 - `devissage_test_truncation` (non-example) — the truncation `(D¹)` of the length-two example is a
   dévissage in dimensions between `2` and `2` but is not complete (`𝒫¹ = O_X/(ξ_1) ≠ 0`).
+- `devissage_test_localDimensionDrop` (boundary) — take
+  `T = X = Y = Z = Spf ℤ₃⟨s⟩`, all structural maps the identity, `n = 0`,
+  `ℳ = O_T` and `α` multiplication by `s`, distinguished at `s = 1` in the
+  special fibre. Then `α ⊗ k(t) = id` and `𝒫 = O_T/(s)` vanishes near that
+  point, so `fibreSupportDim id 𝒫 t = −∞ < 0`. At `s = 0` its fibre has
+  dimension `0`; its support has no global relative-dimension bound `< 0`.
 
 In `devissage_test_lengthTwo`, the first basis map is identified with inclusion of
 the free summand and its cokernel with `O_X/(ξ_1)`; the second basis map is an isomorphism.
@@ -6705,18 +6729,56 @@ support intersected with the fibre on open neighbourhoods of `x`.
 dim_x(ℳ ⊗ k(t))`. Prove that there is a commutative square `(X, x) ←u (X', x') →f' (T', t') →v (T,
 t)` with `u`, `v` elementary étale affine neighbourhoods — elementary étale localisation of both `X`
 and `T` is needed — such that `ℳ' = u*ℳ` admits a complete `T'`-dévissage at `x'` in dimensions
-between `N` and some `n ≥ 0` (*formal-devissage*); and that for any prescribed `m` with `0 ≤ m ≤ N`
-the dévissage can be chosen to have `m` among its dimensions (BL II §3, before Prop. 3.3, p. 412,
+between `N` and some `n ≥ 0` (*formal-devissage*) (BL II §3, before Prop. 3.3, p. 412,
 its purpose; proof of Prop. 3.3, p. 412, following Raynaud–Gruson 1.2.3 with Theorem 1.5, and the
 construction of `α`; RG Première partie, §1.2, Prop. 1.2.3, p. 8, the scheme-theoretic statement).
 Bosch–Lütkebohmert, following Raynaud–Gruson 1.2.3, moreover bound `n ≥ N − r` with `r` the codepth
 of `ℳ_x ⊗ k(t)`; that bound, which needs depth theory, is not used by the flattening proof and is
-not part of this target. For `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → T = Spf O_K⟨ζ⟩` at `x = (ζ, ξ)` and `ℳ =
-O_X`, `Z = D¹_T`, `g` the closed immersion and `α : O_Z → g_*O_X` the quotient map give a complete
-dévissage of length one in dimension `N = 1`, without étale localisation. *Needs:*
+not part of this target. For each threshold `m` with `0 ≤ m ≤ N`, prove
+`Devissage.truncateAtDimension`: a complete chain has a nonempty prefix whose
+dimensions are all `≥ m` and whose last cokernel `𝒫^k` satisfies
+`fibreSupportDim h^k 𝒫^k z^k < m`. Take the last step with dimension `≥ m`:
+if there is a following step, its support bound gives this inequality; otherwise
+the last cokernel is zero. No step of dimension exactly `m` is required. This is
+the threshold convention of RG Première partie, §1.2, 1.2.2.2–1.2.2.3, pp. 7–8,
+expressed with the neighbourhood-based `fibreSupportDim`.
+
+Prove also `FormalScheme.devissage_exists_baseChange_local`: for a morphism
+`(T₁, t₁) → (T, t)` between formal `O_K`-schemes locally of tf presentation,
+`X₁ = X ×_T T₁`, and a point `x₁` above `x` with nonzero pulled-back module
+stalk, elementary étale affine neighbourhoods of `(X₁, x₁)` and `(T₁, t₁)`
+admit a complete dévissage of the pulled-back module, starting at its actual
+`fibreSupportDim` at `x₁`. This is the existence theorem applied to the new
+pointed morphism. It reconstructs the finite maps and basis maps; it does not
+identify them with the literal pull-back of a previous chain.
+*Needs:*
 *formal-zariski-local-structure*; *formal-devissage-step*; *formal-devissage*;
 *formal-etale-site-invariance*; *smooth-formal-scheme*; *tfp-algebra-coherent*;
-*admissible-formal-scheme*; Mathlib `Algebra.IsEtaleAt.exists_isStandardEtale`.
+*admissible-formal-scheme*; *formal-fibre-product*;
+Mathlib `Algebra.IsEtaleAt.exists_isStandardEtale`.
+
+**Checks.**
+
+- `devissageExistence_test_annulusModel` — for
+  `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → T = Spf O_K⟨ζ⟩` at `x = (ζ, ξ)` and
+  `ℳ = O_X`, `Z = D¹_T`, `g` the closed immersion and `α` the quotient map
+  give a complete length-one chain in dimension `N = 1`, without localisation.
+- `devissageExistence_test_genericPoint` — for `T = Spf ℤ₃`,
+  `X = Spf ℤ₃⟨u⟩`, `ℳ = O_X` and `x` the generic point of `X₀`,
+  `fibreSupportDim f ℳ x = 1`: every open neighbourhood has dimension one.
+  The identity basis gives a complete step in dimension `1`, with zero
+  cokernel below threshold `m = 0`. There is no pointed chain containing a
+  dimension-zero step: elementary étale neighbourhoods preserve the residue
+  field at the point, pointed closed immersions preserve it, and finite maps
+  preserve its transcendence degree over `k(t)`, here `1`; a point on a smooth
+  zero-dimensional fibre has transcendence degree `0`.
+- `devissageExistence_test_closedSupport` — for `ℳ = O_X/(u)` on the same
+  disc at the closed point `u = 0`, `N = 0`; take `Y = Z = T` with the
+  identity basis map. The resulting dimension-zero chain is complete.
+- `devissageExistence_test_splitFibre` — in `devissageStep_test_splitFibre`,
+  after `T₁ = Spf B → T` each chosen point has its own open component
+  `Spf B ⊆ X₁`. On that neighbourhood the reconstructed complete chain has
+  rank one and dimension zero; the literal rank-two datum is not pointed.
 
 **Universal injectivity of `α` at `z` is bijectivity at the generic point of the fibre.**
 (*devissage-generic-bijectivity-criterion*) Let `h : (Z, z) → (T, t)` be a pointed affine morphism
@@ -6812,23 +6874,71 @@ of *flat-in-dimension* is open in `X_0`; consequently `ℳ` is `T`-flat in dimen
 2.6, p. 14, the scheme-theoretic analogue). For `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → Spf O_K⟨ζ⟩` the flat
 locus is the open `X_0 ∖ V(ζ)`. *Needs:* *formal-devissage-existence*;
 *devissage-flatness-criterion*; *flat-in-dimension*; *formal-etale-site-invariance*;
-*admissible-formal-scheme*.
+*admissible-formal-scheme*; *formal-fibre-product*.
+
+Prove `IsFlatInDim.baseChange`: for a morphism `T₁ → T` of formal
+`O_K`-schemes locally of tf presentation, `T`-flatness in dimension `≥ n`
+implies `T₁`-flatness in dimension `≥ n` of the pull-back on `X ×_T T₁`.
+The pull-back is flat on the inverse image of the open flat locus, and the
+fibre dimensions of its closed complement are preserved by residue-field
+extension. Thus the nonflat locus upstairs has no larger fibre dimension.
+This carries flatness bounds across base change without a single-point
+hypothesis on any finite dévissage map (BL II §3, definition after Cor. 3.8,
+p. 416; RG Première partie, §5.2, Déf. 5.2.1, p. 37).
+
+**Checks.**
+
+- `flatInDimBaseChange_test_flat` — a flat module remains flat everywhere
+  after base change, so every dimension threshold is satisfied.
+- `flatInDimBaseChange_test_zero` — the zero module remains zero and flat
+  in every dimension after any base change in the stated category.
+- `flatInDimBaseChange_test_splitFibre` — in
+  `devissageStep_test_splitFibre` the pulled-back structure sheaf is flat on
+  both components despite the failure of the pointed-chain pull-back.
 
 **Flatness in dimension `≥ n` in terms of a dévissage.** (*devissage-flat-in-dimension-criterion*) Let
 `f : (X, x) → (T, t)` be a pointed morphism of formal `O_K`-schemes locally of tf presentation, `ℳ`
 a coherent `O_X`-module with `N = dim_x(ℳ ⊗ k(t))`, `n` an integer with `0 ≤ n < N`, and `u : (X',
 x') → (X, x)`, `v : (T', t') → (T, t)` elementary étale affine neighbourhoods such that `ℳ' = u*ℳ`
-admits a `T'`-dévissage `(D¹, …, D^r)` at `x'` in dimensions between `N = n¹` and `n = n^r`
-(*formal-devissage*), ending exactly in dimension `n`. Prove that the following are equivalent: (a)
+admits a `T'`-dévissage `(D¹, …, D^r)` at `x'` with `N = n¹ > … > n^r ≥ n`
+and `fibreSupportDim h^r 𝒫^r z^r < n` (*formal-devissage*).
+An actual last step of dimension `n` implies this bound; a complete chain
+ending above `n` also satisfies it. Prove that the following are equivalent: (a)
 `dim_x((X_0 ∖ F(ℳ/T)) ⊗ k(t)) < n`, i.e. `ℳ` is `T`-flat in dimension `≥ n` at `x`
 (*flat-in-dimension*); (b) `α^i` is bijective at the generic point `η^i` of `Z^i ⊗ k(t')` for all
 `i`; (c) `α^i` is injective at `z^i` for all `i`; (d) `α^i` is `T'`-universally injective over a
 neighbourhood of `t'` for all `i` (BL II §3, before Cor. 3.8, p. 415, its purpose; Cor. 3.8, p. 415,
-the hypothesis on `n`; proof of Cor. 3.8, p. 416, induction on `N`; RG Première partie, §2, Cor.
-2.9, p. 15, the scheme-theoretic analogue). For `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → Spf O_K⟨ζ⟩` at `x =
-(ζ, ξ)`, `N = 1`, `n = 0`, append to the step in dimension `1` a trivial step in dimension `0` (`Y² = V(ξ) ⊆ Z¹ = D¹_T`, hence `Y² ≅ T`, `Z² = T`, zero module and `ℓ = 0`). Then (a) fails (`x` is not a flat point) and `α¹_z` is not injective. *Needs:* *formal-devissage*; *devissage-generic-bijectivity-criterion*;
+the hypothesis on `n`; proof of Cor. 3.8, p. 416, induction on `N`, which
+uses only the displayed terminal-cokernel bound; RG Première partie,
+§1.2, 1.2.2.2, p. 8, and §2, Cor. 2.9, p. 15, the threshold form).
+`Devissage.truncateAtDimension` supplies such a prefix of every complete
+chain from *formal-devissage-existence*. If it ends above `n` with zero
+cokernel, the equivalence is also the complete-chain flatness criterion
+with the small-support terminal term omitted. *Needs:* *formal-devissage*;
+*formal-devissage-existence*; *devissage-generic-bijectivity-criterion*;
 *devissage-flatness-criterion*; *flat-in-dimension*; *formal-flat-locus-open*;
 *formal-etale-site-invariance*.
+
+**Checks.**
+
+- `devissageFlatInDim_test_annulusModel` — for
+  `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → Spf O_K⟨ζ⟩` at `x = (ζ, ξ)`,
+  `N = 1`, `n = 0`, the complete dimension-one quotient-map step already
+  has zero terminal cokernel. Condition (a) fails and `α¹_z` is not
+  injective. Appending the rank-zero dimension-zero step
+  `Y² = V(ξ) ⊆ Z¹ = D¹_T`, `Z² = T` gives the same answer.
+- `devissageFlatInDim_test_earlyTermination` — the free disc at its generic
+  special-fibre point in `devissageExistence_test_genericPoint` has `N = 1`,
+  `n = 0` and a complete chain ending in dimension `1`; all four conditions
+  hold, although a pointed dimension-zero step is impossible.
+- `devissageFlatInDim_test_skippedDimension` — let
+  `T = Spf ℤ₃⟨s⟩`, `X = D²_T` with coordinates `u, v`,
+  `ℳ = O_X ⊕ O_X/(u, v, s)`, and distinguish `s = u = v = 0`.
+  The inclusion of the free summand is a dimension-two step with
+  terminal cokernel of fibre dimension `0 < n = 1`. It is universally
+  injective, and the nonflat locus is the section point in the fibre
+  over `s = 0`, so all four conditions hold. This prefix ends above the
+  threshold with nonzero small-support cokernel.
 
 **Rig-flatness, relative rig-dimension and rig-flatness in dimension `≥ n`.**
 (*rig-flat-in-dimension*) Let `f : X → T` be a morphism of quasi-compact formal `O_K`-schemes
@@ -7203,6 +7313,45 @@ is the blow-up of `(ζ, ϖ)` with centre `{t}` outside `U_0`, and `W_0 = T_0`. *
 *devissage-flat-in-dimension-criterion*; *rig-flat-in-dimension*; *flat-in-dimension*;
 *formal-flat-locus-open*; *admissible-blow-up*; *formal-etale-site-invariance*;
 *admissible-formal-scheme*.
+
+In this induction the dévissage after a change of base is supplied by
+`FormalScheme.devissage_exists_baseChange_local` at each chosen point,
+unless every finite fibre satisfies the hypothesis of `Devissage.baseChange`.
+`IsFlatInDim.baseChange` preserves the upper flatness bound. Over an
+admissible base the pulled-back module has no `ϖ`-torsion on the inverse
+image of its original flat locus, so its strict transform has the same
+upper bound. Rig-flatness is retained by `IsRigFlatInDim.baseChange` and
+`IsRigFlatInDim.torsionQuotient`.
+*devissage-flat-in-dimension-criterion* applied to the reconstructed chain's
+prefix gives universal injectivity of its maps in dimensions `≥ m + 1`.
+If `m + 1` equals the starting dimension, flatness at the generic point of
+that fibre and *devissage-generic-bijectivity-criterion* give the first-step
+conclusion directly. These maps need not be the pull-backs of the old basis
+maps. On the current base, at a generic point of an `m`-dimensional
+nonflat fibre component, the residue field
+has transcendence degree `m` over `k(t)`. Pointed closed immersions and finite
+maps preserve this degree, so every step has dimension `≥ m`. A complete
+chain ending above `m` would have all its maps universally injective by the
+upper flatness bound and would make the original stalk flat. Thus at this
+nonflat point its last dimension is `m`, as required by
+*devissage-injectivity-and-rig-flatness* (BL II §4, proof of Lem. 4.7,
+pp. 423–424; RG Première partie, §1.2, Déf. 1.2.1–1.2.2, pp. 6–8).
+
+**Checks.**
+
+- `flatteningLocalStep_test_annulusModel` — the annulus-model computation
+  above has nonflat fibre dimension `m = 1`; the blow-up of `(ζ, ϖ)` makes
+  its strict transform flat and enlarges `U_0` to all of `T_0`.
+- `flatteningLocalStep_test_zero` — on `X = T = Spf ℤ₃⟨s⟩` with
+  `ℳ = 0`, `m = n = 0`, `T(1) = T` and `U_0 = D(s)`, take
+  `T(2) = T`, `W_0 = T_0`. The identity is the blow-up of the unit ideal.
+- `flatteningLocalStep_test_splitFibre` — let `B = ℤ₃[i]` as in
+  `devissageStep_test_splitFibre`, `T = Spf ℤ₃⟨s⟩`, `X = Spf B⟨s⟩`,
+  `ℳ = O_X`, `m = n = 0`, `T(1) = T` and `U_0 = D(s)`.
+  The module is flat, so the identity blow-up and `W_0 = T_0` suffice.
+  After extending the base to `Spf B⟨s⟩`, the two components each have a
+  reconstructed rank-one complete chain, although the original pointed
+  rank-two chain has no literal pointed pull-back.
 
 **Lowering the dimension of the non-flat locus by one admissible blow-up.**
 (*flattening-induction-step*) Let `T` be a quasi-compact admissible formal `O_K`-scheme, `f : X → T`

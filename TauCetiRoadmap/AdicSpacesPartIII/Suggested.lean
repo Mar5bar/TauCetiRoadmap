@@ -82,6 +82,16 @@ On the standard `2`-gon over `ℚ₃`, the kernel has rank `4` over the base, wh
 multiplication on the whole smooth locus has target-component ranks `4` and `0`.
 The README-only coefficient-ideal fibre test requires the extended ideal to be zero on
 the fibre, including nonreduced fibres; its dual-number Check separates this from point sets.
+R2.7's README-only dévissage interfaces distinguish pull-back of finite module and
+basis data from pull-back of a pointed chain. Literal pointed pull-back requires a
+single point in every distinguished finite fibre; after a splitting base change,
+`FormalScheme.devissage_exists_baseChange_local` reconstructs a chain on elementary
+étale neighbourhoods. Cokernel dimension drops concern the distinguished fibre,
+using the neighbourhood-based `FormalScheme.fibreSupportDim`.
+`Devissage.truncateAtDimension` gives a prefix above a threshold with terminal
+cokernel of smaller fibre dimension; a complete chain can terminate above that
+threshold. The flatness-in-dimension criterion uses this terminal bound, and
+`IsFlatInDim.baseChange` transports the upper flatness bound to reconstructed chains.
 
 The general-Tate small-perturbation theorem
 (*surjection-small-perturbation*) is also a README target.
