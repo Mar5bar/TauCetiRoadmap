@@ -12,9 +12,12 @@ over integral Hecke algebras, with ramified monodromy and nilpotents retained.
 
 ## Scope and ownership
 
-This roadmap owns arithmetic extraction from eigenforms, the concrete Kuga–Sato
-projector and coefficient descent, the Hilbert normalization dictionary, and
-comparison with integral Hecke and period realizations. Analytic form spaces,
+This roadmap owns the DFG rational/integral premotive comparisons, the Hilbert
+normalization dictionary and its nonparallel and unrestricted extensions, and
+comparison with integral Hecke and period realizations. Classical attachment,
+primitive multiplicity and coefficient descent belong to
+AlgebraicModularFormsAndSerreWeights R15.5A; the concrete Kuga–Sato model and
+Scholl projector belong to WeightsInEtaleCohomology R34.5. Analytic form spaces,
 Hecke operators, primitive/newform decomposition, modular-symbol rational
 structures, coefficient fields and period lines belong to
 TauCetiRoadmap.ModularForms. Tau Ceti's
@@ -41,8 +44,11 @@ scaling and the classical k≥2 coefficient normalization. The light coefficient
 expressions below fix the additional weight-one and inverse-Hecke-operator
 conventions; they do not introduce another determinant or scaling theory.
 
-The compatible-system carrier and character converse needed by this construction
-are defined here before any potential-modularity application. The finite-weight
+The compatible-system carrier, weak and strict predicates, and their operations
+are supplied by AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank
+compatible data and operations”. Here define rank-two almost-strict
+compatibility on that carrier and prove the character converse.
+The finite-weight
 nearly ordinary data, ordinary attached-character formulas, and the particular
 weight-two optimization/level-lowering inputs are also here. Their more general
 modularity-lifting, Serre-weight and potential-automorphy applications consume
@@ -212,9 +218,9 @@ asserted at an excluded prime. (Diamond–Flach–Guo §§1.2, 2–3, Lemma 4.12
 
 **R16.3.** Local Langlands for GL_2(Q_p) and GL_2(F_v) with the Hecke normalisation σ_h (Carayol 0.5) and its relation to Langlands' (twist by ω^{1/2}, contragredient); preservation of conductors, L- and ε-factors; unramified twists of Steinberg ↔ N ≠ 0. Twisting and duality for the Langlands parameter: Rec_v(π_v ⊗ (χ∘det)) = Rec_v(π_v) ⊗ Rec_v(χ), Rec_v(π_v^∨) = Rec_v(π_v)^∨, π_v^∨ ≅ π_v ⊗ χ_{π_v}^{−1} for GL₂, and preservation of L-, ε-factors and conductors under these operations.
 
-**R17.3.** The Jacquet–Langlands correspondence between automorphic representations of (D ⊗ A_F)^× and cuspidal representations of GL_2(A_F) that are discrete series at the ramification places of D, with local functoriality at every place (one-dimensional representations of D_v^× ↔ unramified twists of Steinberg), as used by KW II §7 and Taylor. Jacquet–Langlands to the totally definite quaternion algebra split at all finite places (Skinner §2.4.2), matching T^S-eigensystems.
+**R17.3.** The Jacquet–Langlands correspondence between automorphic representations of (D ⊗ A_F)^× and cuspidal representations of GL_2(A_F) that are discrete series at the ramification places of D, with local functoriality at every place (one-dimensional representations of D_v^× ↔ unramified twists of Steinberg), as used by KW II §7 and Taylor. In Skinner §2.4.2, [F:Q] is even and the totally definite quaternion algebra is split at every finite place. A general definite instance may have finite ramification, must be split above p for §0.3, and receives only representations discrete series at its ramification places.
 
-**R17.4, especially §§R17.4.3, R17.4.13 and R17.4.17.** Local and global base change for GL₂ along extensions of degree at most 3: Langlands for cyclic extensions and Jacquet–Piatetski-Shapiro–Shalika for non-Galois cubic ones, with the compatibility of the lift with restriction of the Weil–Deligne representation for principal series, special and ordinary cuspidal π, which Carayol (12.2.2) asserts without a reference. Cyclic totally real base change, descent and compatibility of attached good-prime polynomials with restriction; do not infer non-normal cubic base change from cyclic base change. Cyclic and non-normal cubic base change with local parameters and compatibility with Galois restriction, including Carayol §12.2.2; cyclic base change alone does not supply the cubic step. Section R17.4.17 supplies the nonnormal cubic comparison. Carayol §12.2.1–12.2.2 uses its local parameter/restriction assertion for principal series, special and ordinary cuspidal components at the chosen place, in addition to almost-all Satake transfer. Abelian (cyclic, solvable) base change of a cuspidal π of infinity type (k,w) to a totally real F′, cuspidal unless π is induced from F′, compatible with Satake parameters at unramified places and with Rec at every place; totally real quadratic base change; and the Gelbart–Jacquet lift Sym²π ⊗ |·|^{−1} to GL₃, cuspidal for non-CM π.
+**R17.4, especially §§R17.4.3, R17.4.13 and R17.4.17.** Local and global base change for GL₂ along extensions of degree at most 3: Langlands for cyclic extensions and Jacquet–Piatetski-Shapiro–Shalika for non-Galois cubic ones, with the compatibility of the lift with restriction of the Weil–Deligne representation for principal series, special and ordinary cuspidal π, which Carayol (12.2.2) asserts without a reference. Cyclic totally real base change, descent and compatibility of attached good-prime polynomials with restriction; do not infer non-normal cubic base change from cyclic base change. Cyclic and non-normal cubic base change with local parameters and compatibility with Galois restriction, including Carayol §12.2.2; cyclic base change alone does not supply the cubic step. Section R17.4.17 supplies the nonnormal cubic comparison. Carayol §12.2.1–12.2.2 uses its local parameter/restriction assertion for principal series, special and ordinary cuspidal components at the chosen place, in addition to almost-all Satake transfer. Abelian (cyclic, solvable) base change of a cuspidal π of infinity type (k,w) to a totally real F′, cuspidal unless π is induced from F′, compatible with Satake parameters at unramified places and with Rec at every place; totally real quadratic base change; and the Gelbart–Jacquet adjoint lift Ad(π)=Sym²π⊗ω_π⁻¹ to GL₃, cuspidal for non-CM π. Section 0.6 transports it by ω_π|·|⁻¹ to the required Π=Sym²π⊗|·|⁻¹, including local parameters, central character and infinity exponents. For an essentially unitary π first take its unitary norm twist; the adjoint is unchanged by that twist.
 
 **R17.5.** Automorphic induction 𝒲(L, ξ) from a CM quadratic extension L/F with prescribed local component, archimedean types and behaviour at v (Carayol 11.2); Tunnell's globalisation of primitive local representations ([Tu. 1], Theorem 1.3); and the Artin conjecture for tetrahedral (Langlands) and octahedral (Tunnell) representations, with Jacquet–Langlands chapter 12. Algebraic Hecke-character automorphic induction for quadratic extensions, theta-series correspondence, nontrivial quadratic self-twist criterion and index-two induced representation dictionary. The Grunwald–Wang existence theorem in the form Blasius §2.2 uses: for a totally real F, a finite place v and a finite-order character ψ of F_v^×, a finite-order idele class character η of F with η_v = ψ. Use §R16.1.8 for the extension with prescribed full local components; §§R17.5.15–R17.5.16 supply the stated globalization and induction.
 
@@ -224,7 +230,7 @@ asserted at an excluded prime. (Diamond–Flach–Guo §§1.2, 2–3, Lemma 4.12
 
 ### From HilbertModularVarietiesAndShimuraCurves
 
-**R18.4.** Shimura curves attached to quaternion algebras over totally real fields split at one real place, with the ℓ-adic sheaves F_λ and the Hecke decomposition of their cohomology used by Carayol (§§1–10). The CDN §5.2.1 quaternionic Shimura-curve tower and automorphic decomposition of H¹ with π_f⊗ρ_π(−1), all group actions and direct limits; HK/de Rham multiplicity extraction is owned here. Faithful generic rank-two Hecke multiplicity module from geometric cohomology, including the completed local algebra’s generalised eigenspaces, coefficient change and topology; needed before law descent. The quaternionic surfaces and their H² constituent comparison are constructed in §0.7; they are not part of the Shimura-curve carrier.
+**R18.4.** Shimura curves attached to quaternion algebras over totally real fields split at one real place, with the ℓ-adic sheaves F_λ and the Hecke decomposition of their cohomology used by Carayol (§§1–10). The CDN §5.2.1 quaternionic Shimura-curve tower and automorphic decomposition of H¹ with π_f⊗ρ_π(−1), all group actions and direct limits; HK/de Rham multiplicity extraction is owned here. Faithful generic rank-two Hecke multiplicity module from geometric cohomology, including the completed local algebra’s generalised eigenspaces, coefficient change and topology; needed before law descent. R18.3.29 supplies `quaternionEigenformGaloisCompatibility` for parallel weights with its stated existence and local ranges; R18.3.32 supplies `ramifiedSign_independentOfEigenform` with its residual-sign and division-level hypotheses. Here transport these through the ρ/σ/arithmetic-dual dictionary; nonparallel and unrestricted extensions remain here. The quaternionic surfaces and their H² constituent comparison are constructed in §0.7.
 
 **R18.2.** Carayol's integral models of Shimura curves and their bad reduction (Compositio 59, 1986), on which Theorem (B) depends.
 
@@ -258,6 +264,10 @@ the even-degree weight-two case are the precise targets of §0.7.
 
 **R15.5.** Mod-ℓ modular forms: the Eisenstein weight shift and the lifting of mod-λ eigenvalues (Deligne–Serre 6.9–6.11). Deligne–Serre 6.7 includes noncuspidal forms and coefficient characteristic dividing the level. Its reduction-to-weight-at-least-two application assumes a cuspidal integral reduction and ℓ prime to level; retain it for that subset and supply the general Eisenstein weight-shift/reduction-image argument and its integrality hypotheses for 6.7. The lifting lemma in R15.5, “The lifting lemma and its sharp limits”, supplies the finite-free commuting-Hecke input.
 
+**R15.5A.1–R15.5A.2.** Primitive classical parabolic multiplicity, its pairing, coefficient descent and higher-weight attachment. Sections 1.1–1.5 compare these with DFG premotives and §3.11 with the Hilbert convention; they do not reconstruct the classical attachment.
+
+**R15.5A.2a–R15.5A.3.** Classical conjugate prime moments, sparse eigenvalues and the finite-image weight-one Artin attachment, including the uniform finite-group bound and prime-to-order lifting. Layer 2 uses these interfaces. Its light finite-group signatures describe this supplier’s API in `TauCeti.ClassicalModularGalois`.
+
 **R15.2.** Generation of the weight-two Hecke algebra 𝕋_R of Γ_H(N) (Darmon–Diamond–Taylor Lemma 4.1): by the T_n, or by the T_p and ⟨d⟩; and, for D prime to N with D odd or 2 invertible in R, by the T_n with (n, D) = 1 (Diamond–Im Proposition 3.5.1; Wiles 1995, p. 491).
 
 ### From IntegralHeckeAndGaloisDeterminants
@@ -268,7 +278,7 @@ the even-degree weight-two case are the precise targets of §0.7.
 
 ### From GlobalGaloisDeformations
 
-**R04.3.** The universal deformation ring R_Σ of liftings of type Σ of an odd absolutely irreducible ρ̄ : G_ℚ → GL₂(k), ℓ odd (determinant ε, the flat, ordinary or semistable condition at ℓ, minimal ramification at p ∉ Σ, no condition at p ∈ Σ − {ℓ}), with its universal representation ρ^univ_Σ, and the stability of these local conditions under products, subobjects and quotients. Representability and coefficient-quotient stability of the specified fixed-determinant/minimal/ordinary/flat type-Σ local functors and their global universal ring; supply the DDT Lemma 3.27 finite-quotient argument without a false product-embedding assumption. For the Hilbert non-Eisenstein residual representation, the universal fixed determinant ψχ_p deformation functor unramified outside S (and with every local condition explicitly named when one is imposed). Check the Schur and finite-generation hypotheses of LocalGaloisDeformationRings §§F.2.2, F.2.5 before invoking the universal ring.
+**R04.3, especially §§3.3–3.4.** Global representability for supplied local deformation problems and a fixed determinant, with a chosen universal representative when matrices are used. Section 6.6 defines the concrete DDT type-Σ problems and proves their closure properties and cofinal-quotient argument. These are inputs to the abstract global theorem. For the Hilbert non-Eisenstein residual representation, the universal fixed determinant ψχ_p deformation functor unramified outside S (and with every local condition explicitly named when one is imposed). Check the Schur and finite-generation hypotheses of LocalGaloisDeformationRings §§F.2.2, F.2.5 before invoking the universal ring.
 
 ### From TauCetiRoadmap.ModularForms
 
@@ -284,11 +294,11 @@ the even-degree weight-two case are the precise targets of §0.7.
 
 **LPV.0.** The vanishing-cycle exact sequence for a proper curve over a strictly henselian discrete valuation ring with a lisse coefficient sheaf, and its compatibility with finite étale covers and group actions, as Carayol uses it in 4.2–4.5.
 
-**Sections 7a.1–7a.3.** Picard–Lefschetz for a stable curve X over a strictly henselian discrete valuation ring (after the Deligne–Mumford semistable reduction theorem): the monodromy logarithm N maps H¹(X_η̄, F)(1) onto ker(H¹(X_s, F) → H¹(X̃_s, F)), the kernel of pull-back to the normalisation X̃_s, for a lisse F (Carayol 11.4–11.10, Langlands [L.1] for F = ℚ).
+**Sections 7a.1–7a.3.** The constant-ℚ_ℓ graph-monodromy theorem for a stable curve over a strictly henselian discrete valuation ring: N surjects onto the kernel of pullback to the normalization. Section 3.4 proves the coefficient version for Carayol's geometric sheaf ℱ_λ, using its component cohomology, duality and nondegenerate graph pairing (Carayol §§11.4–11.10). Lissity alone does not imply this surjectivity.
 
 ### From AutomorphicLFunctionsAndLocalFactors
 
-**AL.3.** Rankin's theorem for a classical newform f = Σa_nqⁿ of type (k, ε) on Γ₀(N) (Rankin 1939; Deligne–Serre 5.2 also cite Jacquet LN 278, Li and Ogg): Σ|a_n|²n^{−s} converges for Re s > k, and ζ(2s − 2k + 2)·Σ|a_n|²n^{−s} extends meromorphically to ℂ with a single pole, simple, at s = k. This is the classical specialisation of the GL₂ × GL₂ Rankin–Selberg integral. Holomorphy of the standard L-function of a cuspidal GL₂ representation under the stated twist, and nonvanishing of the finite-order Hecke-character L-value at the noncancellation point in Skinner p. 256. For cuspidal π on GL₂(A_F) and an algebraic Hecke character ψ, L(π ⊗ ψ, s) is entire; Hecke L-functions L(ψ, s) do not vanish at s = 1 + n, n ≥ 0, and ζ_F has a pole at 1.
+**AL.3.** Rankin's theorem for a classical newform f = Σa_nqⁿ of type (k, ε) on Γ₀(N) (Rankin 1939; Deligne–Serre 5.2 also cite Jacquet LN 278, Li and Ogg): Σ|a_n|²n^{−s} converges for Re s > k, and ζ(2s − 2k + 2)·Σ|a_n|²n^{−s} extends meromorphically to ℂ with a single pole, simple, at s = k. This is the classical specialisation of the GL₂ × GL₂ Rankin–Selberg integral. Holomorphy of the standard L-function of a cuspidal GL₂ representation under the stated twist, and nonvanishing of the finite-order Hecke-character L-value at the noncancellation point in Skinner p. 256. For cuspidal π on GL₂(A_F) and an algebraic Hecke character ψ, L(π ⊗ ψ, s) is entire. For finite-order θ, L(θ,s) is nonzero at real s>1 and at s=1 when θ is nontrivial; θ=1 has a pole at 1. For ψ=θ|·|^a use L(ψ,s)=L(θ,s+a) and apply nonvanishing only in that range. In Skinner p. 256 order the two exponents a₁≥a₂ before evaluating at 1+a₁−a₂.
 
 ### From TauCetiRoadmap.Chebotarev
 
@@ -341,8 +351,12 @@ cyclotomic-frame comparison at p>2, rather than an all-weight Wach theorem.
 **AG2.0, “The l-adic character r_{l,ι}(χ) of an algebraic Hecke character, its
 Hodge–Tate numbers and its weight”.** Algebraic-character avatars, compatible
 coefficient change, geometric reciprocity and labelled local degrees. Use this
-rank-one construction without the higher-rank existence theorem. The generic
-AG2.P period contract is specified above; the independent unitary geometry
+rank-one construction without the higher-rank existence theorem. AG2.P,
+“Arbitrary-rank compatible data and operations”, supplies `AutomorphicSystemData`,
+`Weak`, `Strict` and their operations; AG2.6 populates that carrier. AG2.P, “Independent
+classical and Hilbert members”, supplies `hilbertCoefficientPrimeComparison`
+with de Rhamness, spherical crystallinity and Iwahori semistability; §4.7
+proves the full Hilbert WD comparison. The generic AG2.P period contract is specified above; the independent unitary geometry
 and packet calculation needed by Skinner are the targets of §0.6.
 
 ### Analytic and unitary geometry suppliers
@@ -363,13 +377,12 @@ realizations, including its multiplicity and character corrections.
 
 ### Geometry and character contracts used by the concrete constructions
 
-For the Kuga–Sato target, TauCetiRoadmap.StableReduction Layer 4 supplies the
-Rees-algebra/relative-Proj blowup, its universal property and base change.
-EtaleCohomologyFoundations §§0.7, F.4.5–F.4.6, F.5–F.7 supplies equivariant cohomological
-pull–push, localization, duality and the projective-bundle comparison over
-characteristic-zero coefficients. The explicit sequence of blowups, its local
-charts, the Γ_r action and the parabolic boundary comparison are proved here
-from Scholl §§2–3; they require no general resolution-of-singularities theorem. For the geometric-character
+For the Kuga–Sato comparison use WeightsInEtaleCohomology R34.5,
+“Classical Kuga–Sato and Hilbert projector comparisons”, “The classical
+compactification” and “The higher-weight model comparison”, for the model,
+equivariant resolution, full Γ_r projector and parabolic comparison.
+EtaleCohomologyFoundations §§0.7, F.4.5–F.4.6, F.5–F.7 supplies equivariant
+pull–push and duality for the DFG comparison here. For the geometric-character
 converse use ClassFieldTheory's geometric reciprocity, GlobalNumberFields'
 idele/ray-class and unit theorems, and FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.3’s rank-one local
 classification. These generic suppliers do not assert the modular irreducibility
@@ -384,8 +397,9 @@ respectively. They cannot be imported from a later general weight roadmap.
 ## How to read the build
 
 Layer 0 gives the specific period, analytic-family and geometric interfaces used
-by the constructions. Layer 1 constructs classical geometric factors and their coefficient action.
-Layer 2 completes the separate weight-one finite-image argument. Layer 3 builds
+by the constructions. Layer 1 compares the supplied classical factors and
+projectors with DFG premotives. Layer 2 records the supplied weight-one
+interfaces and their normalization checks. Layer 3 builds
 the geometric Hilbert local pieces, then the unrestricted representation,
 its Hodge property and irreducibility. Layer 4 proves geometric weights and
 local compatibility on both sides of the coefficient characteristic; its
@@ -394,8 +408,9 @@ Layer 5 identifies ordinary lattices, crystalline/Wach factors and CM lines.
 Layer 6 constructs integral Hecke families and their deformation maps from the
 whole geometric determinant. Layer 7 assembles strict fixed-form systems and
 their large-image and ordinary-density consequences. The internal prerequisites
-of each subsection point backward in this build. All intended API names are in
-`TauCetiRoadmap.AutomorphicGaloisRepresentations`; the representative signatures
+of each subsection point backward in this build. New comparison API names are in
+`TauCetiRoadmap.AutomorphicGaloisRepresentations`; the supplier-owned Layer 2
+prototypes use `TauCeti.ClassicalModularGalois`. The representative signatures
 in Suggested.lean use only carriers available at the pinned commits.
 
 ## Layer 0: Period, family and geometric interfaces
@@ -476,9 +491,12 @@ of the adapted cover, the cocycle identity on overlaps and compatibility with
 coefficient extension. Classicality and density are properties of the supplied
 family, proved separately for the following instance.
 
-Over affinoid weight discs, construct `QuaternionicFiniteSlopeFamily` for the
-totally definite quaternion algebra over a totally real F, with the tame level,
-central character and p-level of Skinner §2.4.2. Its data are overconvergent
+Over affinoid weight discs, construct `QuaternionicFiniteSlopeFamily` for a
+totally definite quaternion algebra D over a totally real F, split above p,
+with finite ramification allowed and with the tame level, central character
+and p-level specified. Its classical JL constituents must be discrete series
+at every finite place in Ram(D). For the Skinner §2.4.2 instance assume
+d=[F:Q] even and D split at every finite place. Its data are overconvergent
 Banach modules `S^D_κ(U;m)`, commuting `T^S` and compact U_p actions,
 restriction links and finite-projective slope summands. Glue their finite
 Hecke spectra over the Fredholm spectral variety using the links. The reduced
@@ -502,8 +520,10 @@ of Skinner §2.4.2 with its normalized operators.
   `1−aT=0`, with U-eigenvalue a; its reciprocal coordinate is a⁻¹.
 - Restricting a slope chart twice agrees with direct restriction and preserves
   its finite-projective rank.
-- At F=ℚ, an algebraic eigenpoint of slope strictly below k−1 is classical;
-  the endpoint is outside this criterion.
+- At F=ℚ choose D ramified at infinity and a finite q≠p. For its JL
+  constituents discrete series at q, slope strictly below k−1 is classical;
+  the endpoint is outside this criterion. There is no definite D/ℚ split at
+  every finite place: its ramification set would have odd cardinality.
 - A zero U_p eigenvalue has infinite slope and belongs to no finite-slope chart.
 
 *Needs:* LocallyAnalyticDistributions §§4.2, 4.15–4.16;
@@ -523,9 +543,8 @@ large truncations and a nonzero crystalline period at every continuous
 specialization to a closed subfield of ℂ_p. Construct the required G_{F_v}
 version with φ^{f_v}, retaining Q(0) as a non-zero-divisor on the family.
 The API gives restriction to admissible affinoids, coefficient specialization,
-the truncated comparison and the specialized eigenperiod. Prove that the
-family of §0.3 satisfies the hypotheses used in §4.7; density of classical
-field points alone is insufficient.
+the truncated comparison and the specialized eigenperiod. The attached-family
+application and verification of these hypotheses are the target of §4.7.
 
 (Sources: [Kisin](https://abel.math.harvard.edu/~kisin/dvifiles/fmform.dvi),
 Proposition 5.14 and Corollary 5.15, pp. 26–27;
@@ -539,7 +558,7 @@ Skinner §2.4.2 pp. 253–255, footnote 9.)
 - Over a nonreduced affinoid, a nilpotent killed by all reduced points defeats
   injectivity to those fields. The asserted product map must be injective.
 
-*Needs:* §0.3; PadicPeriodRings §§4.1–4.3;
+*Needs:* PadicPeriodRings §§4.1–4.3;
 FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P7.1–R07.P7.2;
 AutomorphicGaloisRepresentationsPartII AG2.P, finite-coefficient period API;
 RigidAnalyticGeometry Layers 1 and 6.
@@ -568,7 +587,9 @@ required by these functorial constructions.)
 **Checks.**
 
 - The trivial O_E-line gives the rank-one coefficient power-series module;
-  its π-quotient is O_E, whereas D_cris is obtained after inverting p.
+  its π-quotient is O_E⊗_{ℤ_p}O_K, and its rational crystalline module is
+  E⊗_{ℚ_p}K. For K=ℚ_p these are O_E and E; for E=ℚ_p and unramified
+  quadratic K the quotient has ℤ_p-rank two.
 - A Tate twist changes the height and filtration and changes Frobenius by
   the corresponding p-power; it cannot leave the same filtered module.
 - A noncrystalline Tate-curve extension has N≠0 and supplies no Wach module
@@ -590,6 +611,13 @@ hypotheses, including some k_τ>2 in its non-discrete-series branch, realize
 the prescribed CM base-change twist of ρ_π in that cohomology. Retain every
 auxiliary character, Tate twist and multiplicity in the comparison.
 
+For the symmetric-square application use the supplied adjoint lift and define
+`Π=Ad(π)⊗(ω_π|·|⁻¹)=Sym²π⊗|·|⁻¹`. Its local parameter is the adjoint
+parameter tensored by ω_π|·|⁻¹; its central character is ω_π³|·|⁻³.
+Transport the archimedean exponents and good-place eigenvalues through this
+twist before applying the following construction. The adjoint's trivial
+central character is not the central character of Π.
+
 For an essentially self-dual regular cuspidal Π on GL₃(A_F) whose archimedean
 parameters restrict to
 `z^{a_i}z̄^{b_i} ⊕ z^{b_i}z̄^{a_i} ⊕ (zz̄)^{(a_i+b_i)/2}`,
@@ -597,7 +625,7 @@ with a_i≠b_i and a_i+b_i even, construct the three-dimensional ρ_Π of
 Skinner §2.3.3. Give its good-place WD comparison and realize its cuspidal
 CM base-change twist in an abelian scheme over the Picard modular surface;
 retain the character-induced alternative when that base change is not cuspidal.
-At hyperspecial p-level with Π unramified, good reduction gives crystalline
+For Π=Ad(π)⊗(ω_π|·|⁻¹) use precisely these converted parameters. At hyperspecial p-level with Π unramified, good reduction gives crystalline
 periods and labelled degrees `−a_i,−b_i,−(a_i+b_i)/2`. The API comprises
 coefficient change, Hecke and Galois equivariance, projector comparison,
 the good-reduction model and the associated Frobenius polynomial.
@@ -612,6 +640,8 @@ Theorem 3.3.1 as used there; Blasius §§4.1–4.6 for the GL₃ construction.)
   gives dimension zero and cannot replace it.
 - A multiplicity-two cohomology factor is not itself the single rank-two
   Galois representation; extraction must retain the automorphic factor.
+- If π has Satake roots α,β and q is the residue cardinality, Π has roots
+  qα²,qαβ,qβ² and determinant q³(αβ)³; Ad(π) instead has determinant 1.
 - For the symmetric-square input after the norm conversion of §3.12,
   a=−2,b=0 gives degrees 2,0,1. These are the symmetric square of degrees 0,1.
 
@@ -670,7 +700,7 @@ uses §3.10; none of the construction or surface weight theorems uses §4.2.
 
 For the local cyclotomic character at ℚ_p, the geometric uniformizer value
 is 1 while its crystalline Frobenius is p⁻¹. The trivial lattice has a Wach
-π-quotient O_E and a rational crystalline module after inverting p. A zero
+π-quotient O_E⊗_{ℤ_p}O_K and rational crystalline module E⊗_{ℚ_p}K. A zero
 U_p eigenvalue lies outside the finite-slope families. The two-dimensional
 special WD model of Layer 4 retains nonzero monodromy under these comparisons.
 
@@ -684,9 +714,9 @@ surface tensor comparison consumes §3.10 only when applied in §4.2;
 
 ### 1.1 Coefficient Eichler–Shimura
 
-At a fine level n≥3, put r=k−2 and take p∤nℓ. On parabolic cohomology with Sym^r of the universal elliptic H¹, construct the geometric pull–push operators and prove T_p=F+I_p^*V, FV=p^{r+1}, and R_p=p^rI_p^*. Consequently `1−T_pX+pR_pX²=(1−FX)(1−I_p^*VX)`. The diamond factor I_p^* is essential away from level one. The underlying special-fibre correspondence comes from ModularCurvesPartII §§17.1–17.2; this target transports it through coefficients. Its fibre tests distinguish p+1 lines in the étale situation away from p, one supersingular subgroup scheme, and the connected/étale pair μ_p and Z/p at an ordinary characteristic-p fibre.
+At a fine level n≥3, put r=k−2 and take p∤nℓ. Use AlgebraicModularFormsAndSerreWeights R15.5A.1–R15.5A.2 for the parabolic coefficient realization and its Eichler–Shimura operators. Transport them to the DFG action of §1.2 and prove in that convention T_p=F+I_p^*V, FV=p^{r+1}, and R_p=p^rI_p^*. Consequently `1−T_pX+pR_pX²=(1−FX)(1−I_p^*VX)`. The diamond factor I_p^* is essential away from level one. The underlying special-fibre correspondence comes from ModularCurvesPartII §§17.1–17.2; the coefficient and pairing comparison comes from R15.5A.2, and this target transports it to the DFG premotive. Its fibre tests distinguish p+1 lines in the étale situation away from p, one supersingular subgroup scheme, and the connected/étale pair μ_p and Z/p at an ordinary characteristic-p fibre.
 
-*Needs:* `ModularCurvesPartII:§§17.1–17.2`; `ModularCurvesPartII:§§14.1–14.4, 14.8, 14.11–14.12`; `ArithmeticGaloisRepresentations:Layer 6`; `ModularCurvesPartII:§§17.1–17.2`.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.1–R15.5A.2; `ModularCurvesPartII:§§17.1–17.2`; `ModularCurvesPartII:§§14.1–14.4, 14.8, 14.11–14.12`; `ArithmeticGaloisRepresentations:Layer 6`; `ModularCurvesPartII:§§17.1–17.2`.
 
 See [Pierre Deligne](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf) — Proposition 4.8 and Theorem 4.9, printed pp. 166–167; [Pierre Deligne](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf) — Proposition 3.18(ii), printed p. 158.
 
@@ -697,14 +727,17 @@ See [Pierre Deligne](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf) �
 
 **Checks.**
 
-- `HeckeCorrespondence.fibre_q1_card_of_char_ne` (computation): For char k(s) ≠ p the fibre of q_1 has p + 1 points (the p + 1 lines of E_s[p] ≅ (Z/p)²).
-- `HeckeCorrespondence.fibre_q1_supersingular` (degenerate): Over a supersingular point in characteristic p the fibre is the single point ker F.
-- `HeckeCorrespondence.fibre_q1_ordinary` (non-example): Over an ordinary point in characteristic p the fibre has two points: a definition that keeps only ker F is wrong.
+- `HeckeCorrespondence.fibre_q1_card_of_char_ne` (computation): For a geometric point s of characteristic different from p, the geometric fibre of q_1 has p+1 points, the lines of E_s[p]≅(Z/p)². Over an arbitrary residue field the fibre is finite étale of degree p+1 and need not split.
+- `HeckeCorrespondence.fibre_q1_supersingular` (degenerate): Over a geometric supersingular point in characteristic p the geometric fibre has the single point ker F.
+- `HeckeCorrespondence.fibre_q1_ordinary` (non-example): Over a geometric ordinary point in characteristic p the geometric fibre has two points: a definition that keeps only ker F is wrong.
+- For E:y²=x³−x over F₁₇ with full rational level 4 and p=3, Frobenius has
+  trace 2 and determinant 2 modulo 3. It cycles all four lines: the degree-four
+  fibre is one closed point of degree four, with no F₁₇-point.
 - `eichlerShimura_level_one` (compatibility): At level one I_q^*=1 and for r=k−2 the relation is 1−T_q X+q^{r+1}X²=(1−FX)(1−VX). For r=0 (classical weight two) it agrees with the ModularCurvesPartII §17.2 Eichler–Shimura relation.
 
 ### 1.2 Parabolic realisations
 
-Package the image of H¹_c→H¹ with Sym^{k−2} coefficients as M(N,ψ)_!, with Betti conjugation, filtered de Rham and every λ-adic realisation and their comparisons. At an auxiliary fine level M≥3 with N|M and the same excluded prime set, require canonical change-of-level identifications. For each coefficient embedding its rank is twice the dimension of the corresponding ψ-cusp space; its top filtration has the cusp-space dimension. After tensoring over Q with C the top filtration is the product of those cusp spaces over all coefficient embeddings. The twisted Fricke pairing takes values in M_ψ(1−k) and is rationally perfect. Transport the full Hecke action with the DFG ψ⁻¹ convention. Integral/crystalline comparisons are restricted by the excluded set; λ-adic existence is not. The parabolic image excludes Eisenstein boundary classes.
+Use the classical parabolic realization of AlgebraicModularFormsAndSerreWeights R15.5A.1 and its pairing from R15.5A.2. Compare it with the DFG package M(N,ψ)_!, with Betti conjugation, filtered de Rham and every λ-adic realisation and their comparisons. At an auxiliary fine level M≥3 with N|M and the same excluded prime set, require canonical change-of-level identifications. For each coefficient embedding its rank is twice the dimension of the corresponding ψ-cusp space; its top filtration has the cusp-space dimension. After tensoring over Q with C the top filtration is the product of those cusp spaces over all coefficient embeddings. The twisted Fricke pairing takes values in M_ψ(1−k) and is rationally perfect. Transport the full Hecke action with the DFG ψ⁻¹ convention. Integral/crystalline comparisons are restricted by the excluded set; λ-adic existence is not. The parabolic image excludes Eisenstein boundary classes.
 
 Here k≥2, N≥1 and ψ has conductor dividing N and values in K. The excluded
 set is S_N={ℓ:ℓ divides Nk!}, and the fine level satisfies S_M=S_N.
@@ -713,7 +746,7 @@ For DFG's action, T_p is the double coset of diag(p,1) multiplied by
 acts by ψ(p_p)⁻¹p^{k−2}. These conventions hold on the entire parabolic
 structure, before selecting a newform factor.
 
-*Needs:* `ModularCurvesPartII:§§14.1–14.4, 14.8, 14.11–14.12`; Mathlib `ModularForm`; Mathlib `CuspForm`.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.1–R15.5A.2; `ModularCurvesPartII:§§14.1–14.4, 14.8, 14.11–14.12`; Mathlib `ModularForm`; Mathlib `CuspForm`.
 
 See [F. Diamond, M. Flach and L. Guo](https://arxiv.org/pdf/2512.02348v2) — Theorem 2.4, p. 24 (arXiv v2); [F. Diamond, M. Flach and L. Guo](https://arxiv.org/pdf/2512.02348v2) — §4.5, (28) and Lemma 4.12, p. 51 (arXiv v2); [F. Diamond, M. Flach and L. Guo](https://arxiv.org/pdf/2512.02348v2) — Proposition 5.6, p. 56 (arXiv v2); [F. Diamond, M. Flach and L. Guo](https://arxiv.org/pdf/2512.02348v2) — §5.2, Lemma 5.2 and formula (29), pp. 53–54 (arXiv v2); [F. Diamond, M. Flach and L. Guo](https://arxiv.org/pdf/2512.02348v2) — §1.3, p. 12 (arXiv v2).
 
@@ -732,38 +765,34 @@ See [F. Diamond, M. Flach and L. Guo](https://arxiv.org/pdf/2512.02348v2) — Th
 
 ### 1.3 Scholl's projector
 
-For k>2, r=k−2≥1 and n≥3, construct the fine-level Kuga–Sato fibre power and its equivariant smooth resolution over Q and the action of `Γ_r=((Z/n)²⋊μ₂)^r⋊S_r`. The character ε is trivial on translations, the product of the inversion signs on μ₂^r, and the sign on permutations. Define the rational average `e_ε=|Γ_r|⁻¹Σ_g ε(g)g` on each realisation, prove idempotence and identify its degree-(r+1) image with parabolic H¹(Sym^r). It commutes with Hecke correspondences and fine-level transport. The sign on S_r compensates for graded Künneth signs; dropping it is incorrect. Invert 2n·r! and hence the averaging denominators before asserting integrality. This construction provides cohomological/homological projectors, not an unconditional individual-newform Chow motive.
+For k>2, r=k−2≥1 and n≥3, use the Kuga–Sato model W_r, equivariant
+smooth resolution, full Γ_r=((Z/n)²⋊μ₂)^r⋊S_r action and Scholl projector
+from WeightsInEtaleCohomology R34.5, “Classical Kuga–Sato and Hilbert projector
+comparisons”, “The classical compactification” and “The higher-weight model
+comparison”. Write `schollProjector` for that supplied ε-idempotent. Here
+compare its parabolic image with the DFG premotive of §1.2, including Hecke
+pull–push, Betti/de Rham/étale comparisons and fine-level transport. Keep the
+DFG conjugate-form correction when comparing individual factors in §1.5.
 
-*Needs:* TauCetiRoadmap.StableReduction Layer 4, relative Proj/Rees blowups and their universal property; EtaleCohomologyFoundations §§0.7, F.4.5–F.4.6, F.5–F.7, equivariant cohomology, localization, duality and projective-bundle comparison; `ModularCurvesPartII:§§14.1–14.4, 14.8, 14.11–14.12`.
+The character ε is trivial on translations, the product of inversion signs
+and the permutation sign. Its rational average requires the group-order
+inverse. The model, boundary charts, equivariant resolution and parabolic
+identification are supplied, including the denominators 2n·r! and any extra
+model denominators. They do not supply a saturated integral image or an
+individual-newform Chow motive. Use Mathlib's `Representation.averageMap`
+and `Representation.isProj_averageMap` for the linear averaging identities.
 
-See [A. J. Scholl](https://www.dpmms.cam.ac.uk/~ajs1005/preprints/mf.pdf) — §1.0–1.3, Theorems 1.2.1 and 1.2.4, author-copy pp. 1–3; [A. J. Scholl](https://www.dpmms.cam.ac.uk/~ajs1005/preprints/mf.pdf) — §4.1, 4.1.1–4.1.4, p. 8.
+*Needs:* §1.2; WeightsInEtaleCohomology R34.5, the three targets named above;
+EtaleCohomologyFoundations §§0.7, F.4.5–F.4.6, F.5–F.7.
 
-Start with the universal elliptic curve over the fine modular curve, take its r-fold
-fibre product, compactify over the cusps and resolve the toroidal boundary
-equivariantly. Construct extension of the Γ_r action and Hecke correspondences.
-Use Scholl's boundary exact sequence to identify the compactified ε-eigensummand
-in degree r+1 with the kernel of the boundary map from open cohomology to the
-cusps. Open cohomology has a nonzero cusp quotient; it cannot replace that kernel.
-For r>0 use the weight argument of §1.3.4; for r=0 use the curve comparison
-already supplied by parabolic cohomology. Scholl Theorems 1.2.1 and 1.3.3,
-§1.3.4, pp. 2–3, and the resolution in §§2–3, pp. 4–7, specify this construction.
-The coarse curve with no universal elliptic family does
-not satisfy its input. In the local model x_iy_i=ϖ, blow up the reduced all-zero
-stratum, then the proper transforms of the successive singular strata. The
-charts A^j×E_{r−j} of Scholl Proposition 2.1.1 prove regularity; Theorem 3.1.0
-extends the whole Γ_r action. The blowup formalism, smooth proper cohomology and
-finite-group averaging are imported; the concrete Kuga–Sato compactification,
-resolution and boundary comparison belong to this target. Use Mathlib's
-`Representation.averageMap` and `Representation.isProj_averageMap` after the
-ε-character twist for the rational averaging algebra, rather than introducing a
-second theory of finite-group projectors.
+See [Scholl](https://www.dpmms.cam.ac.uk/~ajs1005/preprints/mf.pdf),
+Theorems 1.2.1, 1.2.4 and §1.3.3, pp. 2–3; §4.1, p. 8;
+DFG Theorem 2.4 and §§4.5, 5.2–5.4, pp. 24, 50–59.
 
-
-- `schollProjector` (constructor): The ε-idempotent acting on all imported realisations.
-- `schollProjector_idempotent` (relation): e_ε²=e_ε.
-- `schollProjector_parabolic` (equivalence): Its degree-(r+1) image is parabolic H¹(Sym^r R¹f_*).
-- `schollProjector_hecke` (compatibility): It intertwines the geometric Hecke action.
-- `schollProjector_level` (functoriality): Transport through fine-level change commutes with the projector.
+- `schollProjector_dfg`: Identify the supplied parabolic projector image with
+  the DFG rational premotive, preserving its Hecke action and comparisons.
+- `schollProjector_dfg_level`: This identification commutes with fine-level
+  transport over the stated common comparison base.
 
 **Checks.**
 
@@ -774,15 +803,15 @@ second theory of finite-group projectors.
 
 ### 1.4 Rational orbit projector and coefficient descent
 
-In the semisimple rational new Hecke quotient form the central idempotent e_[f] for the Galois orbit of f. Its image on Betti, de Rham and λ-adic realisations has rank two over K_f; extension along an embedding σ:K_f→L identifies the σ(f) eigenspace. Construct the K_f-action on the factor itself: traces in K_f alone do not constitute coefficient descent. With Scholl's transposed Hecke action recover the cohomological trace a_p, and with the other action apply the DFG conjugate-form correction. Compare Betti ± lines with the existing modular-symbol period lines. Intersect with the fixed integral module and state any saturation/torsion-freeness requirements. The full old Hecke algebra is not the semisimple new quotient used to select e_[f].
+Use the primitive projector, coefficient-field model and descent of AlgebraicModularFormsAndSerreWeights R15.5A.1–R15.5A.2. In the semisimple rational new Hecke quotient denote the supplied orbit idempotent by e_[f] and compare its image with the DFG factor. Its image on Betti, de Rham and λ-adic realisations has rank two over K_f; extension along an embedding σ:K_f→L identifies the σ(f) eigenspace. Transport the supplied K_f-action to the DFG factor itself; equality of traces alone does not identify coefficient actions. With Scholl's transposed Hecke action recover the cohomological trace a_p, and with the other action apply the DFG conjugate-form correction. Compare Betti ± lines with the existing modular-symbol period lines. Intersect with the fixed integral module and state any saturation/torsion-freeness requirements. The full old Hecke algebra is not the semisimple new quotient used to select e_[f].
 
-*Needs:* [1.3 Scholl's projector](#13-scholls-projector); [1.2 Parabolic realisations](#12-parabolic-realisations); TauCetiRoadmap.ModularForms, layer 8 modular symbols the integral hecke algebra and coefficient fields; `ModularCurvesPartII:§§14.1–14.4, 14.8, 14.11–14.12`; `ModularCurvesPartII:§§16.2–16.3`; `ModularCurvesPartII:§16.4`.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.1–R15.5A.2; [1.3 Scholl's projector](#13-scholls-projector); [1.2 Parabolic realisations](#12-parabolic-realisations); TauCetiRoadmap.ModularForms, layer 8 modular symbols the integral hecke algebra and coefficient fields; `ModularCurvesPartII:§§14.1–14.4, 14.8, 14.11–14.12`; `ModularCurvesPartII:§§16.2–16.3`; `ModularCurvesPartII:§16.4`.
 
 See [A. J. Scholl](https://www.dpmms.cam.ac.uk/~ajs1005/preprints/mf.pdf) — Theorem 1.2.4 and Remark 1.2.6, pp. 2–3; [F. Diamond, M. Flach and L. Guo](https://arxiv.org/pdf/2512.02348v2) — §1.2, pp. 8–10; §4.5, pp. 50–51; §§5.3–5.4, pp. 56–59; [H. Darmon, F. Diamond and R. Taylor](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf) — Exercise 1.18, p. 30.
 
-- `newformOrbitProjector` (constructor): The central idempotent e_[f] of the rational new Hecke algebra.
+- `newformOrbitProjector` (comparison): The supplied central idempotent e_[f] of the rational new Hecke algebra.
 - `newformOrbitProjector_idempotent` (relation): e_[f]²=e_[f] and θ_f(e_[f])=1.
-- `newformFactor` (data): The K_f-linear image on every realisation.
+- `newformFactor` (data): The supplied K_f-linear primitive image, transported to each DFG realisation.
 - `newformFactor_baseChange` (functoriality): Extension along σ:K_f→L identifies the factor with the σ(f)-eigenspace.
 - `newformFactor_rank` (characterisation): Its K_f-dimension is two.
 - `newformFactor_periodLines` (compatibility): The Betti ± lines and modular-symbol rational structure agree with the imported period lines.
@@ -798,7 +827,7 @@ See [A. J. Scholl](https://www.dpmms.cam.ac.uk/~ajs1005/preprints/mf.pdf) — Th
 
 ### 1.5 Rank-two newform realisation
 
-For a normalized cusp newform g, take the common kernel of its Hecke ideal in the rational parabolic realisation. It has rank two over the coefficient field. DFG's factor M_g^DFG realizes the conjugate form, with geometric good polynomial `X²−ψ(p)⁻¹a_pX+ψ(p)⁻¹p^{k−1}`. Define our cohomological factor by `M_g=M_g^DFG⊗M_{ψ⁻¹}`; its polynomial becomes `X²−a_pX+ψ(p)p^{k−1}` and its arithmetic dual is the classical Galois representation. Identify the top Hodge line with Kg and show oddness at every λ. Rational irreducibility has its own target in §4.8. For k=2 use the modular abelian quotient, and for k>2 use the Kuga–Sato projector.
+For a normalized cusp newform g, use the primitive rank-two realization, pairing and coefficient descent of AlgebraicModularFormsAndSerreWeights R15.5A.1–R15.5A.2. Identify its DFG realization with the common kernel of the Hecke ideal in the rational parabolic premotive. The target here is this comparison and its character correction. DFG's factor M_g^DFG realizes the conjugate form, with geometric good polynomial `X²−ψ(p)⁻¹a_pX+ψ(p)⁻¹p^{k−1}`. Define our cohomological factor by `M_g=M_g^DFG⊗M_{ψ⁻¹}`; its polynomial becomes `X²−a_pX+ψ(p)p^{k−1}` and its arithmetic dual is the classical Galois representation. Identify the top Hodge line with Kg and show oddness at every λ. Rational irreducibility has its own target in §4.8. For k=2 use the modular abelian quotient, and for k>2 use the Kuga–Sato projector.
 
 The restricted Fricke pairing on M_g^DFG is alternating and perfect, giving
 `∧²_K M_g^DFG ≅ M_ψ(1−k)`. After the twist,
@@ -808,7 +837,7 @@ The restricted Fricke pairing on M_g^DFG is alternating and perfect, giving
 It is continuous and unramified outside Nℓ, and complex conjugation is
 conjugate to diag(1,−1). These rational statements hold at every finite λ.
 
-*Needs:* [1.2 Parabolic realisations](#12-parabolic-realisations); [1.1 Coefficient Eichler–Shimura](#11-coefficient-eichlershimura); `ArithmeticGaloisRepresentations:§§1.1–1.10`; `ArithmeticGaloisRepresentations:Layer 6`; [1.4 Rational orbit projector and coefficient descent](#14-rational-orbit-projector-and-coefficient-descent).
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.1–R15.5A.2; [1.2 Parabolic realisations](#12-parabolic-realisations); [1.1 Coefficient Eichler–Shimura](#11-coefficient-eichlershimura); `ArithmeticGaloisRepresentations:§§1.1–1.10`; `ArithmeticGaloisRepresentations:Layer 6`; [1.4 Rational orbit projector and coefficient descent](#14-rational-orbit-projector-and-coefficient-descent).
 
 See [F. Diamond, M. Flach and L. Guo](https://arxiv.org/pdf/2512.02348v2) — Lemma 5.7, p. 58 (arXiv v2); [H. Darmon, F. Diamond and R. Taylor](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf) — Theorem 3.1(a)–(c), p. 86 (revision of 9 September 2007); [A. J. Scholl](https://www.dpmms.cam.ac.uk/~ajs1005/preprints/mf.pdf) — Theorem 1.2.4(i), p. 2, with 1.0.0, p. 1, and 4.2.2, p. 9; [F. Diamond, M. Flach and L. Guo](https://arxiv.org/pdf/2512.02348v2) — §5.5, pp. 59–60, and p. 96 (arXiv v2).
 
@@ -857,9 +886,9 @@ See [F. Diamond, M. Flach and L. Guo](https://arxiv.org/pdf/2512.02348v2) — §
 
 ### 1.7 Higher-weight classical existence
 
-Let f≠0 be an eigenform of weight k≥2 and type (k,ψ), not necessarily cuspidal, over a number field containing its good eigenvalues and character values. For every finite λ construct the continuous semisimple arithmetic representation of G_Q, unramified outside Nℓ, with good polynomial `X²−a_pX+ψ(p)p^{k−1}`. Full good polynomials characterize it up to isomorphism. For cusp forms use the arithmetic dual of the geometric factor; for Eisenstein forms use the two Galois characters supplied by the cusp/Eisenstein decomposition. If eigenforms f,f′ of weights k,k′≥2 and levels N,N′ have a_p=a′_p on a density-one prime set, then k=k′, ψ=ψ′ and all good coefficients agree for p∤NN′; neither eigenform need be cuspidal. The weight-two branch uses a modular abelian quotient; Scholl's higher-weight theorem excludes that branch.
+Let f≠0 be an eigenform of weight k≥2 and type (k,ψ), not necessarily cuspidal, over a number field containing its good eigenvalues and character values. Use AlgebraicModularFormsAndSerreWeights R15.5A.2 for the continuous semisimple arithmetic representation of G_Q at every finite λ, unramified outside Nℓ, with good polynomial `X²−a_pX+ψ(p)p^{k−1}`. Full good polynomials characterize it up to isomorphism. For cusp forms prove that the supplied attachment agrees with the arithmetic dual of the DFG-corrected geometric factor; for Eisenstein forms use the two Galois characters supplied by the cusp/Eisenstein decomposition. If eigenforms f,f′ of weights k,k′≥2 and levels N,N′ have a_p=a′_p on a density-one prime set, then k=k′, ψ=ψ′ and all good coefficients agree for p∤NN′; neither eigenform need be cuspidal. The weight-two branch uses a modular abelian quotient; Scholl's higher-weight theorem excludes that branch.
 
-*Needs:* [1.1 Coefficient Eichler–Shimura](#11-coefficient-eichlershimura); [1.5 Rank-two newform realisation](#15-rank-two-newform-realisation); `ArithmeticGaloisRepresentations:§§1.1–1.10`; [1.4 Rational orbit projector and coefficient descent](#14-rational-orbit-projector-and-coefficient-descent); TauCetiRoadmap.ModularForms, layer 0 diamond operators and modular forms with character nebentypus; TauCetiRoadmap.ModularForms, layer 4 eigenforms newforms primitive forms the conductor.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.1–R15.5A.2; [1.1 Coefficient Eichler–Shimura](#11-coefficient-eichlershimura); [1.5 Rank-two newform realisation](#15-rank-two-newform-realisation); `ArithmeticGaloisRepresentations:§§1.1–1.10`; [1.4 Rational orbit projector and coefficient descent](#14-rational-orbit-projector-and-coefficient-descent); TauCetiRoadmap.ModularForms, layer 0 diamond operators and modular forms with character nebentypus; TauCetiRoadmap.ModularForms, layer 4 eigenforms newforms primitive forms the conductor.
 
 See [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Theoreme 6.1, printed p. 520; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Remarque 6.2, printed p. 521; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — footnote (1) to 3.1, printed p. 513; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Introduction, printed p. 507; [A. J. Scholl](https://www.dpmms.cam.ac.uk/~ajs1005/preprints/mf.pdf) — Theorem 1.2.4(i), p. 2, with 1.0.0, p. 1.
 
@@ -884,43 +913,67 @@ Mathlib and Tau Ceti; TauCetiRoadmap.ModularForms; ModularCurvesPartII Layers 13
 
 ## Layer 2: Weight-one representations
 
+The classical construction in this layer is supplied by
+AlgebraicModularFormsAndSerreWeights R15.5A.2a–R15.5A.3. The interfaces below
+fix its use with the DFG and Hilbert conventions. The finite-group declarations
+in Suggested.lean are representative signatures of the supplier-owned API in
+`TauCeti.ClassicalModularGalois`, including its polynomial-support checks.
+
 ### 2.1 Rankin's prime estimate
 
-For a cuspidal eigenform of weight k≥1 and real s>k, prove `Σ_{p∤N}|a_p|²p^{-s} ≤ log(1/(s−k))+O(1)` as s decreases to k. Import the Rankin–Selberg continuation and pole statement, and reduce away-from-level eigensystems to newforms. The output is an upper estimate, not an equality deduced without Ramanujan–Petersson. At weight one it will rule out a two-character cuspidal representation, whose prime sum has leading coefficient two.
+Use R15.5A.2a's conjugate weight-one prime-moment bound
+`Σ_{p∤N}|σ(a_p)|²p^{−s}≤log(1/(s−1))+O_σ(1)` for real s>1 tending to 1.
+Its cuspidality, coefficient lattice and conjugate-eigensystem hypotheses
+precede Artin attachment. The estimate has coefficient one and is an upper
+bound; it is not deduced from the later finite-image representation.
 
-*Needs:* `AutomorphicLFunctionsAndLocalFactors:AL.3`; Tau Ceti `TauCeti.LSeries.landau`; TauCetiRoadmap.ModularForms, layer 4 eigenforms newforms primitive forms the conductor.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.2a.
 
-See [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — §5, Proposition 5.1, printed p. 518; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Démonstration 5.2, printed p. 519.
+(Source: Deligne–Serre Proposition 5.1 and proof 5.2, pp. 518–519.)
 
 ### 2.2 Finite eigenvalue sets off sparse primes
 
-For a weight-one cuspidal eigenform, first obtain algebraic-integral good eigenvalues in one Galois coefficient field from the weight-one lattice and its conjugate eigensystems. For every η>0 construct a prime set X_η of upper Dirichlet density at most η and a finite set Y_η of possible a_p for p∉X_η. Apply the Rankin estimate to every conjugate, and then finiteness of algebraic integers bounded at every embedding. These inputs precede the Artin representation; its finite image is not available as a proof of this statement.
+Use R15.5A.2a for one Galois coefficient field, integral good eigenvalues,
+and, for every η>0, an exceptional prime set of upper Dirichlet density at
+most η and a finite set of remaining eigenvalues. Retain every coefficient
+embedding in the bound; the finite-image Artin theorem is not an input.
 
-*Needs:* [2.1 Rankin's prime estimate](#21-rankins-prime-estimate); Mathlib `NumberField.Embeddings.finite_of_norm_le`; TauCetiRoadmap.Chebotarev, layer 3 prime sums and density normalization; TauCetiRoadmap.ModularForms, layer 8 modular symbols the integral hecke algebra and coefficient fields; TauCetiRoadmap.ModularForms, layer 8g galois stability the character field and rationality.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.2a.
 
-See [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Proposition 5.5, printed pp. 519–520; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Remarque 5.6, printed p. 520.
+(Source: Deligne–Serre Proposition 5.5 and Remark 5.6, pp. 519–520.)
 
 ### 2.3 Residual eigensystems before characteristic-zero eigenforms
 
-For k≥1, start with a nonzero mod-λ eigenform arising from an integral form and eigenvalues away from Nℓ. A characteristic-zero simultaneous eigenvector is not assumed. Weight shifting and the finite-free commuting-Hecke lifting lemma give a continuous semisimple rank-two representation, unramified outside Nℓ, with the reduced good characteristic polynomials. Descend it to the finite field generated by the eigenvalues and character values. Keep the general reduction-image/integrality argument when ℓ divides the level or the form is noncuspidal; the prime-to-level cuspidal subset of R15.5 alone is insufficient. Uniqueness retains determinants in characteristic two.
+Use R15.5A.3's weight-shifting, eigenvalue-lifting and finite-field descent
+step for a nonzero reduction eigensystem in the integral lattice image.
+Keep its reduction-image and integrality conditions, including the general
+argument when ℓ divides the level or the form is noncuspidal. At every good
+prime retain the entire reduced polynomial, also in characteristic two.
 
-*Needs:* [1.7 Higher-weight classical existence](#17-higher-weight-classical-existence); `AlgebraicModularFormsAndSerreWeights:R15.5, Application to modular forms`; `AlgebraicModularFormsAndSerreWeights:R15.5, The lifting lemma and its sharp limits`; `ArithmeticGaloisRepresentations:§§1.1–1.10`; `ArithmeticGaloisRepresentations:§§5.3–5.7`; TauCetiRoadmap.Chebotarev, layer 10 dirichlet density chebotarev; `AlgebraicModularFormsAndSerreWeights:R15.5`.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.3 and R15.5,
+the eigenvalue-lifting and general reduction-image targets.
 
-See [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Théorème 6.7, printed pp. 521–522; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — 6.9, printed p. 522; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Lemme 6.13 and its proof, printed p. 523.
+(Source: Deligne–Serre Theorem 6.7, §§6.9–6.11 and Lemma 6.13, pp. 521–523.)
 
 ### 2.4 Deligne–Serre Condition C
 
-For a finite subgroup G of GL₂(F_ℓ), define C(η,M) by the existence of H⊆G with |H|≥(1−η)|G| and at most M polynomials det(1−hT), h∈H. Define semisimplicity of G by semisimplicity of its identity action on F_ℓ²: each invariant line has an invariant complement. Condition C is monotone in η and M, and restriction to an index-two subgroup gives C(2η,M). Count invertible two-by-two matrices with a fixed monic quadratic of nonzero constant term: the fibre cardinalities are ℓ²+ℓ, ℓ² and ℓ²−ℓ when there are two, one or no distinct roots over F_ℓ. The later order bound assumes η<1/2; that inequality is not part of the definition.
+Use the finite-group step of R15.5A.3. For a finite subgroup G⊆GL₂(F_ℓ),
+`ConditionC ℓ G η M` means that some subset H⊆G has size at least
+(1−η)|G| and at most M characteristic polynomials. The subset need not be
+a subgroup. `IsSemisimpleSubgroup` means that every invariant subspace has
+an invariant complement; it does not mean that every element is diagonalizable.
+The reciprocal polynomials det(1−hT) and monic characteristic polynomials
+have the same support cardinality.
 
-*Needs:* Mathlib `Matrix.card_GL_field`.
+The supplier's API is `ConditionC.mono`, `ConditionC.of_index_two` and
+`card_charpoly_fibre`: index-two restriction doubles η, and a monic quadratic
+with nonzero constant term has ℓ²+ℓ, ℓ² or ℓ²−ℓ invertible-matrix realizations
+when it has two, one or no distinct roots over F_ℓ.
 
-See [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — 7.1, printed p. 523.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.3;
+Mathlib `Matrix.card_GL_field`.
 
-- `ConditionC` (data): ConditionC ℓ G η M : Prop, for G : Subgroup (GL (Fin 2) (ZMod ℓ)), η : ℝ and M : ℕ.
-- `IsSemisimpleSubgroup` (data): Every G-stable submodule of F_ℓ² has a G-stable complement.
-- `ConditionC.mono` (relation): C(η, M) implies C(η′, M′) whenever η ≤ η′ and M ≤ M′.
-- `ConditionC.of_index_two` (compatibility): If G′ ≤ G has index 2 and G satisfies C(η, M), then G′ satisfies C(2η, M): H ∩ G′ has at least (1 − η)|G| − |G|/2 = (1 − 2η)|G′| elements (Deligne–Serre 7.2, case (c)).
-- `card_charpoly_fibre` (characterisation): For a monic quadratic Q=X²−tX+d over F_ℓ with d≠0, the number of elements of GL₂(F_ℓ) of characteristic polynomial Q is ℓ²+ℓ, ℓ² or ℓ²−ℓ according as Q has 2, 1 or 0 distinct roots in F_ℓ. No assertion is made for other polynomials or d=0.
+(Source: Deligne–Serre §7.1 and proof of Proposition 7.2, pp. 523–524.)
 
 **Checks.**
 
@@ -935,55 +988,83 @@ See [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_
 
 ### 2.5 Bounded finite semisimple images
 
-For each η<1/2 and M, find a bound A(η,M) independent of ℓ for |G| whenever the identity action of G⊆GL₂(F_ℓ) is semisimple and satisfies C(η,M). Use the characteristic-polynomial fibres and Dickson's alternatives: a subgroup containing SL₂, a Cartan, a Cartan normalizer, or an exceptional projective image A₄, S₄ or A₅. Include diagonalizable reducible subgroups. The index-two restriction changes η to 2η in the normalizer argument; handle the inequalities with that loss. The exceptional projective orders are at most 60, while scalar fibres still need the Condition C bound.
+Use R15.5A.3's `card_le_of_conditionC`: for η<1/2 and M, one bound A(η,M)
+works for all coefficient primes and all semisimple G satisfying C(η,M).
+Keep the reducible diagonalizable case and the loss η↦2η at an index-two
+normalizer subgroup. Semisimplicity is indispensable.
 
-*Needs:* [2.4 Deligne–Serre Condition C](#24-deligneserre-condition-c); `ArithmeticGaloisRepresentations:§§4.4–4.7`; `ArithmeticGaloisRepresentations:Layer 4; §§5.12, 7.6–7.7`; Mathlib `Matrix.card_GL_field`.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.3, finite-image bound.
 
-See [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Proposition 7.2 and its proof, printed p. 524; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Proposition 7.2, case (d), printed p. 524.
-
-- `card_le_of_conditionC`: The single order bound with η<1/2 and the semisimplicity hypothesis.
+(Source: Deligne–Serre Proposition 7.2, p. 524.)
 
 ### 2.6 A bound uniform in splitting coefficient primes
 
-Fix a weight-one cuspidal eigensystem and a Galois number field K containing its coefficients. For the infinitely many rational ℓ splitting completely in K, the residual coefficient field is F_ℓ. Use Chebotarev and the sparse-prime result to give its residual image C(η,M) with a single M independent of ℓ; count the finite set of Frobenius polynomials before reduction. The finite set of excluded primes Nℓ does not affect the density comparison. The finite-group bound then gives one A for every such residual image.
+Use R15.5A.3's uniform residual-image bound for rational ℓ splitting completely
+in the Galois coefficient field. The single polynomial bound is counted before
+reduction, and the excluded primes dividing Nℓ do not affect the density.
 
-*Needs:* [2.3 Residual eigensystems before characteristic-zero eigenforms](#23-residual-eigensystems-before-characteristic-zero-eigenforms); [2.2 Finite eigenvalue sets off sparse primes](#22-finite-eigenvalue-sets-off-sparse-primes); [2.4 Deligne–Serre Condition C](#24-deligneserre-condition-c); [2.5 Bounded finite semisimple images](#25-bounded-finite-semisimple-images); TauCetiRoadmap.Chebotarev, layer 10 dirichlet density chebotarev; TauCetiRoadmap.Chebotarev, layer 3 prime sums and density normalization.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.2a–R15.5A.3.
 
-See [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — 8.2, printed p. 525; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Lemme 8.3 and its proof, printed p. 525; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Lemme 8.4, printed p. 525.
+(Source: Deligne–Serre §8.2 and Lemmas 8.3–8.4, p. 525.)
 
 ### 2.7 Prime-to-residue-characteristic lifting
 
-Let O be a complete DVR with finite residue field κ of characteristic ℓ, Γ a finite group with ℓ∤|Γ|, and r:Γ→GL_n(κ). Construct a lift Γ→GL_n(O), retaining faithfulness when r is faithful. Apply Schur–Zassenhaus to successive additive congruence kernels and choose compatible lifts through the finite inverse system; O-completeness identifies the limit. This is a lifting theorem for a specified finite group, not a reconstruction theorem for an arbitrary Galois pseudorepresentation. The prime-to-order hypothesis is substantive: for ℓ≥5 an order-ℓ unipotent in GL₂(F_ℓ) cannot lift as an order-ℓ element of GL₂(Z_ℓ).
+Use R15.5A.3's `exists_lift_of_not_dvd_card`: a representation of a specified
+finite group Γ over the finite residue field of a complete DVR O lifts to O
+when ℓ∤|Γ|, preserving faithfulness when given. It supplies neither arbitrary
+pseudorepresentation reconstruction nor lifting without the prime-to-order
+hypothesis. For ℓ≥5 an order-ℓ unipotent of GL₂(F_ℓ) cannot lift as an
+order-ℓ element of GL₂(ℤ_ℓ).
 
-*Needs:* Mathlib `Subgroup.exists_right_complement'_of_coprime`; Mathlib `nonempty_sections_of_finite_inverse_system`; `ArithmeticGaloisRepresentations:§§1.1–1.10`.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.3, integral finite-group lifting.
 
-See [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — 8.6, printed p. 526.
-
-- `exists_lift_of_not_dvd_card`: Lift the specified finite-group representation over a complete DVR with finite residue field when the residue characteristic does not divide the group order.
+(Source: Deligne–Serre §8.6, p. 526.)
 
 ### 2.8 A characteristic-zero weight-one lift
 
-Enlarge K to contain roots of unity of orders at most A. Uniform image bounds imply a finite common list of possible Frobenius polynomials; discard the finite set of coefficient primes at which two distinct list members collide after reduction. Infinitely many residual congruences then force every good characteristic-zero polynomial onto that list. Lift one residual finite image at ℓ>A by the prime-to-order theorem and compare another coefficient prime to remove ramification at the first ℓ. Realize the resulting finite representation over algebraic numbers and then C. This construction does not use a topological embedding Q_ℓ→C.
+Use R15.5A.3's characteristic-zero finite-image lift, retaining the finite
+list of possible root-of-unity polynomials and the exclusion of coefficient
+primes where distinct list members collide. Recognition with a second
+coefficient prime removes the extra ramification. The construction uses a
+number-field realization and no topological embedding ℚ_ℓ→ℂ.
 
-*Needs:* [2.6 A bound uniform in splitting coefficient primes](#26-a-bound-uniform-in-splitting-coefficient-primes); [2.7 Prime-to-residue-characteristic lifting](#27-prime-to-residue-characteristic-lifting); `ArithmeticGaloisRepresentations:§§5.3–5.7`; TauCetiRoadmap.Chebotarev, layer 10 dirichlet density chebotarev.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.3.
 
-See [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — 8.5, printed p. 525; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — 8.6, printed p. 526.
+(Source: Deligne–Serre §§8.5–8.6, pp. 525–526.)
 
 ### 2.9 Weight-one cuspidal irreducibility
 
-A reducible finite-image two-dimensional representation is a sum of two finite-order characters. The odd determinant makes them distinct. Euler logarithms, the bounded higher-prime-power remainder, nonvanishing of nontrivial character L-values at 1 and the zeta residue then give the coefficient-two prime estimate. It contradicts Rankin's coefficient-one bound for a cusp form. This proves irreducibility of the characteristic-zero lift; the reverse direction for an Eisenstein eigensystem belongs to the Artin identification.
+Use R15.5A.3's cuspidal irreducibility. Its two-character alternative has
+prime-moment coefficient two, contradicting R15.5A.2a's coefficient-one bound.
+The nontrivial character L-values at 1 and trivial-character zeta pole must
+remain distinguished as in the nonvanishing supplier contract.
 
-*Needs:* [2.1 Rankin's prime estimate](#21-rankins-prime-estimate); [2.8 A characteristic-zero weight-one lift](#28-a-characteristic-zero-weight-one-lift); Mathlib `DirichletCharacter.LFunction_apply_one_ne_zero`; Mathlib `riemannZeta_residue_one`; TauCetiRoadmap.Chebotarev, layer 3 prime sums and density normalization; ArithmeticDirichletSeries (Completed), Layer 3, layer 3 local factors and euler products.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.2a–R15.5A.3.
 
-See [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — 8.7, printed p. 526; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — 8.7, printed p. 527.
+(Source: Deligne–Serre §8.7, pp. 526–527.)
 
 ### 2.10 The weight-one Artin representation
 
-For a nonzero weight-one eigensystem of odd nebentypus ψ, combine the cuspidal lift with the Eisenstein character sum to attach a semisimple finite-image representation over C, unramified outside N, whose good trace is a_p and determinant is ψ(p). It is unique up to isomorphism and irreducible exactly for a cusp form. Complex conjugation has eigenvalues 1 and −1; all Frobenius eigenvalues are roots of unity, so |a_p|≤2. The cusp form η(z)η(23z) gives the dihedral S₃ example. Weight-one lattices and conjugate eigensystems are inputs, not consequences of this representation.
+Use R15.5A.3's unique semisimple finite-image representation for a nonzero
+weight-one eigensystem of odd nebentypus ψ. Its arithmetic good polynomial
+is `X²−a_pX+ψ(p)`, it is unramified outside N, and it is irreducible exactly
+in the cuspidal case. Here identify its dual's geometric polynomial with the
+k=1 specialization of `arithFrobCharpoly`; the dual at the same Frobenius uses
+`arithFrobCharpolyDual`. Weight one does not define a Sym^{k−2} DFG premotive
+or a regular Hilbert infinity type.
 
-*Needs:* [1.7 Higher-weight classical existence](#17-higher-weight-classical-existence); `AlgebraicModularFormsAndSerreWeights:R15.5`; [2.8 A characteristic-zero weight-one lift](#28-a-characteristic-zero-weight-one-lift); [2.9 Weight-one cuspidal irreducibility](#29-weight-one-cuspidal-irreducibility); TauCetiRoadmap.ModularForms, layer 0 diamond operators and modular forms with character nebentypus; `ArithmeticGaloisRepresentations:§§5.3–5.7`.
+*Needs:* AlgebraicModularFormsAndSerreWeights R15.5A.3; §1.5's polynomial definitions.
 
-See [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Theoreme 4.1, printed pp. 513-514; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Corollaire 4.2, printed p. 514; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — Remarque 6.5, printed p. 521; [Pierre Deligne and Jean-Pierre Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf) — section 8, opening and 8.1, printed p. 525.
+(Source: Deligne–Serre Theorem 4.1, Corollary 4.2, pp. 513–514; §8, pp. 525–527.)
+
+**Checks.**
+
+- The dihedral S₃ form η(z)η(23z) has a trace-zero good Frobenius with
+  determinant −1: both arithmetic and dual polynomials are X²−1 there.
+- A weight-one Eisenstein eigensystem gives two finite characters and prime
+  moment coefficient two; it cannot satisfy the cuspidal coefficient-one bound.
+- A nonquadratic character value ψ(p) distinguishes the Artin polynomial's
+  constant ψ(p) from the same-Frobenius dual's constant ψ(p)⁻¹.
 
 ### Examples
 
@@ -1008,9 +1089,9 @@ Layer 1; TauCetiRoadmap.ModularForms 8W, 8G; AlgebraicModularFormsAndSerreWeight
 
 ### 3.1 The quaternionic multiplicity space
 
-Choose B/F split at one real place τ₁ and ramified at all the others, and split at every finite place except for one finite discrete-series place when d is even. Choose a finite Galois E/Q containing F and the coefficients of π and splitting B. Form the coefficient representation `⊗_τ det^{(w−k_τ+2)/2}Sym^{k_τ−2}`, of dimension ∏_τ(k_τ−1), whose center acts by the norm to the power w, and its lisse sheaf. Extract σ_λ as Hom from the finite automorphic factor to H¹ of the Shimura curve. Matsushima–Shimura multiplicity gives dimension two. Prove compatibility with level change and the direct-limit decomposition into π_f⊗σ_λ. If F=Q, take the parabolic image rather than all H¹; the boundary cannot be absorbed into a cuspidal multiplicity space.
+Choose B/F split at one real place τ₁ and ramified at all the others, and split at every finite place except for one finite discrete-series place when d is even. Choose a finite Galois E/Q containing F and the coefficients of π and splitting B. Form the coefficient representation `⊗_τ det^{(w−k_τ+2)/2}Sym^{k_τ−2}`, of dimension ∏_τ(k_τ−1), whose center acts by the norm to the power w, and its lisse sheaf. For parallel weights use HilbertModularVarietiesAndShimuraCurves R18.3.29 and R18.4.25 for the extracted Galois multiplicity and its automorphic comparison. Here extend the multiplicity extraction to nonparallel weights and compare the parallel specialization with that supplier. Define σ_λ as Hom from the finite automorphic factor to H¹ of the Shimura curve. Matsushima–Shimura multiplicity gives dimension two. Prove compatibility with level change and the direct-limit decomposition into π_f⊗σ_λ. If F=Q, take the parabolic image rather than all H¹; the boundary cannot be absorbed into a cuspidal multiplicity space.
 
-*Needs:* `HilbertModularVarietiesAndShimuraCurves:R18.4`; `GL2AutomorphicRepresentationsAndTransfer:R17.3`.
+*Needs:* HilbertModularVarietiesAndShimuraCurves §§R18.3.29, R18.4.25; `HilbertModularVarietiesAndShimuraCurves:R18.4`; `GL2AutomorphicRepresentationsAndTransfer:R17.3`.
 
 See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 2.2.3, p. 420; [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 2.2.4, p. 420; [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 2.3, p. 421.
 
@@ -1021,13 +1102,30 @@ See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) 
 
 **Checks.**
 
-- `Carayol.sigmaLambda_finrank_two` (computation): For every π ∈ C, σ_λ(π) has dimension 2.
-- `Carayol.coefficient_rank` (computation): dim_E W = ∏_i (k_i − 1); with all k_i = 2 it is 1.
+- For the weight-two level-11 trivial-character eigensystem, the extracted
+  σ has geometric polynomial X²+X+3 at 3, using the parallel-weight supplier
+  and its normalization; an arbitrary trivial rank-two representation fails.
+- Twist this eigensystem by an order-eight character η modulo 17 with
+  η(3)=ζ₈. Then t₃=−ζ₈, s₃=ζ₈²=i. The extracted σ polynomial is
+  X²+ζ₈⁻¹X+3ζ₈⁻², while ρ has X²+ζ₈X+3ζ₈². The central-character
+  conversion distinguishes these genuine multiplicities.
+- At level Γ₀(22), the level-11 weight-two old factor has automorphic
+  multiplicity dim π_f^K=2. Its isotypic cohomology has dimension four,
+  while Hom from the two-dimensional automorphic factor has dimension two.
+
 - `Carayol.parabolic_needed_over_Q` (non-example): For F = ℚ, using the full H¹ of the open modular curve adds Eisenstein classes, so σ(π) must be taken in parabolic cohomology.
 
-### 3.2 Twisting and the exact determinant
+**Coefficient-system Checks.**
 
-Twisting π by a character with component t↦t^{-u} on the positive real scalars changes w to w+2u. Carayol's multiplicity space changes contravariantly by that character's inverse. Establish `det σ_λ=χ_{π,λ}⁻¹ε_ℓ⁻¹`. A calculation of the square of the determinant leaves a quadratic ambiguity; remove it using the source's global comparison, rather than claiming the squared identity already proves the determinant formula.
+- Parallel k_τ=2 gives coefficient rank one.
+- At weights (2,4), the coefficient rank is three, independently of the
+  rank-two Galois multiplicity.
+- At weight 12 over ℚ, Sym¹⁰ has rank eleven; it cannot itself be the
+  rank-two extracted representation.
+
+### 3.2 Twisting and the preliminary determinant
+
+Twisting π by a character with component t↦t^{-u} on the positive real scalars changes w to w+2u. Carayol's multiplicity space changes contravariantly by that character's inverse. Prove the preliminary identity `det σ_λ=αχ_{π,λ}⁻¹ε_ℓ⁻¹` for a quadratic character α. Retain α until the normalized-cohomology calculation of §3.3 and the exact comparison of §3.3a.
 
 *Needs:* [3.1 The quaternionic multiplicity space](#31-the-quaternionic-multiplicity-space); `HilbertModularVarietiesAndShimuraCurves:R18.4`.
 
@@ -1035,11 +1133,11 @@ See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) 
 
 ### 3.3 Vanishing-cycle filtration
 
-At the bad place, identify the two-step filtration of σ_λ furnished by vanishing cycles and the further decomposition of its first piece into supersingular and normalized-curve contributions. If the normalized contribution σ̃₁ is nonzero, π_v is principal series. If dim σ̃₁=2, then σ_v=σ̃₁ and it is the full local parameter. At a smooth unramified place the multiplicity is already the two-dimensional normalized cohomology. Import bad-reduction models and equivariant vanishing cycles, and retain the distinction between these geometrically defined pieces and residual characters. The weight-two exception in the cohomological argument must be retained.
+At the bad place, identify the two-step filtration of σ_λ furnished by vanishing cycles and the further decomposition of its first piece into supersingular and normalized-curve contributions. If the normalized contribution σ̃₁ is nonzero, π_v is principal series. If dim σ̃₁=2, then σ_v=σ̃₁. For spherical π_v=Ind(ξ₁,ξ₂), derive Carayol §5.4's three possibilities: the sum of the two expected characters, or either expected character repeated. Do not select the first possibility using the preliminary determinant. At a smooth unramified place the multiplicity is already the two-dimensional normalized cohomology. Import bad-reduction models and equivariant vanishing cycles, and retain the distinction between these geometrically defined pieces and residual characters. The weight-two exception in the cohomological argument must be retained.
 
-*Needs:* [3.1 The quaternionic multiplicity space](#31-the-quaternionic-multiplicity-space); [3.2 Twisting and the exact determinant](#32-twisting-and-the-exact-determinant); `HilbertModularVarietiesAndShimuraCurves:R18.2`; `LefschetzPencilsAndVanishingCycles:LPV.0`.
+*Needs:* [3.1 The quaternionic multiplicity space](#31-the-quaternionic-multiplicity-space); [3.2 Twisting and the preliminary determinant](#32-twisting-and-the-preliminary-determinant); `HilbertModularVarietiesAndShimuraCurves:R18.2`; `LefschetzPencilsAndVanishingCycles:LPV.0`.
 
-See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 5.6, p. 429; [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 11.1, p. 449.
+See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — §§5.1–5.4, pp. 425–428; 5.6, p. 429; [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 11.1, p. 449.
 
 Keep the term A=ker(H²(special fibre,F)→H²(generic fibre,F)) in the exact
 sequence before extracting the cuspidal multiplicity. If every k_τ=2, the
@@ -1051,20 +1149,63 @@ distinct assertions in Carayol §4.4, p. 424, and §11.5, p. 451. A proof that
 sets A=0 before localization in weight two fails this target.
 
 
+### 3.3a Exact determinant and principal series
+
+Using §3.3's three spherical-prime possibilities and §3.2's twisting law,
+prove `det σ_λ=χ_{π,λ}⁻¹ε_ℓ⁻¹`. The quadratic discrepancy α makes απ≅π
+at almost every spherical place and hence globally by strong multiplicity one.
+Twisting then gives ασ≅σ; comparing the three possibilities forces the
+expected two-character sum at almost every place and α=1. Finish the
+principal-series identification wherever dim σ̃₁=2, using the exact determinant.
+
+(Source: Carayol §§5.4–5.6, printed pp. 428–429.)
+
+*Needs:* §§3.1–3.3; GL2AutomorphicRepresentationsAndTransfer §R16.4.4,
+strong multiplicity one; ArithmeticGaloisRepresentations Layer 5.
+
+**Checks.**
+
+- If the two expected spherical characters are distinct, duplicating one has
+  the wrong exact determinant; the preliminary squared identity alone need
+  not distinguish it when their ratio is quadratic.
+- For 11a1 at 3 the resulting σ polynomial is X²+X+3 and determinant 3.
+- Under a nonquadratic unramified central value s, the determinant is q/s,
+  not qs. A quadratic ambiguity must be removed globally before using it
+  to select the normalized principal-series summand.
+
 ### 3.4 Special local components
 
-If π_v=χ·Sp, identify the parameter as the indecomposable special representation with characters χ⁻¹ and χ⁻¹ε_ℓ⁻¹ in Carayol's convention. The normalized contribution is zero and the supersingular piece supplies the kernel line. Picard–Lefschetz makes N nonzero, with image the kernel of pullback from special-fibre H¹ to the H¹ of its normalization. The target is this kernel, not the opposite cokernel. Semisimplifying the two characters would erase the extension and give an incorrect special parameter.
+If π_v=χ·Sp, identify the parameter as the indecomposable special representation with characters χ⁻¹ and χ⁻¹ε_ℓ⁻¹ in Carayol's convention. The normalized contribution is zero and the supersingular piece supplies the kernel line. Prove the Picard–Lefschetz surjectivity for Carayol's specific geometric ℱ_λ, and hence N≠0 on the special multiplicity, with image the kernel of pullback from special-fibre H¹ to the H¹ of its normalization. The target is this kernel, not the opposite cokernel. Semisimplifying the two characters would erase the extension and give an incorrect special parameter.
 
-*Needs:* [3.3 Vanishing-cycle filtration](#33-vanishing-cycle-filtration); [3.2 Twisting and the exact determinant](#32-twisting-and-the-exact-determinant); `GL2AutomorphicRepresentationsAndTransfer:R17.3`; `LefschetzPencilsAndVanishingCycles:§§7a.1–7a.3`.
+*Needs:* [3.3 Vanishing-cycle filtration](#33-vanishing-cycle-filtration); [3.3a Exact determinant and principal series](#33a-exact-determinant-and-principal-series); `GL2AutomorphicRepresentationsAndTransfer:R17.3`; `LefschetzPencilsAndVanishingCycles:§§7a.1–7a.3`.
 
 See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 6.7, Proposition, p. 432; [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 6.7, Remarque, p. 432; [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 11.4, Proposition, p. 451.
+
+Use Carayol §§11.5–11.10: on each normalized component the geometric
+coefficient sheaf is constant, or has H⁰=H²=0; duality identifies the relevant
+incidence maps. The edge and vertex maps are the rational graph incidence
+maps tensored with the fixed coefficient space. Their image/kernel
+intersection is zero by the nondegenerate rational edge pairing. This is the
+coefficient argument required here, beyond the supplied constant-ℚ_ℓ theorem.
+
+**Checks.**
+
+- For constant coefficients on a one-loop nodal graph, N has rank one and
+  its image is the normalization kernel.
+- For the special cuspidal multiplicity, the kernel line is nonzero and N
+  maps onto it; replacing the local parameter by two characters gives N=0.
+- On a nonseparating genus-two nodal smoothing with rank-two graph holonomy
+  U=[[1,1],[0,1]], put A=U−1. The coefficient model has
+  H¹=coker A⊕ker A⊕ℚ_ℓ⁴ and N([x],y,z)=([y],0,0)=0 since ker A=im A,
+  although coker A≠0. This arbitrary lisse sheaf lacks the geometric incidence
+  identifications above and is outside the asserted coefficient theorem.
 
 ### 3.5 The local fundamental representation
 
 The vanishing-cycle quotient σ₂ is nonzero if and only if π_v is essentially discrete series. Identify π_v⊗σ₂ with the π̄_v^∨-isotypic part of the representation U of the product of the local Weil group, GL₂(F_v) and the division-quaternion group. Construct U from the Drinfeld/supersingular geometry of
 HilbertModularVarietiesAndShimuraCurves §§R18.2.3, R18.2.6 and R18.5.19–R18.5.21. This identifies the local Galois parameter independently of the global eigenform and supplies the cuspidal part of the geometric proof.
 
-*Needs:* [3.3 Vanishing-cycle filtration](#33-vanishing-cycle-filtration); `GL2AutomorphicRepresentationsAndTransfer:R17.3`; `HilbertModularVarietiesAndShimuraCurves:R18.5`.
+*Needs:* [3.3 Vanishing-cycle filtration](#33-vanishing-cycle-filtration); [3.3a Exact determinant and principal series](#33a-exact-determinant-and-principal-series); `GL2AutomorphicRepresentationsAndTransfer:R17.3`; `HilbertModularVarietiesAndShimuraCurves:R18.5`.
 
 See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 10.6, Proposition, pp. 448–449.
 
@@ -1102,7 +1243,7 @@ See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) 
 
 For the fixed geometric construction and auxiliary discrete-series place v₀, identify σ_λ|W_v at every v≠v₀ away from λ except the extraordinary cuspidal case. Combine normalized cohomology for principal series, the special monodromy argument and the ordinary-cuspidal globalization. Both exclusions belong to the conclusion of this intermediate theorem and are discharged by the subsequent comparison steps.
 
-*Needs:* [3.3 Vanishing-cycle filtration](#33-vanishing-cycle-filtration); [3.4 Special local components](#34-special-local-components); [3.5 The local fundamental representation](#35-the-local-fundamental-representation); [3.6 Ordinary cuspidal local components](#36-ordinary-cuspidal-local-components); [3.2 Twisting and the exact determinant](#32-twisting-and-the-exact-determinant); `GL2AutomorphicRepresentationsAndTransfer:R17.3`.
+*Needs:* [3.3 Vanishing-cycle filtration](#33-vanishing-cycle-filtration); [3.4 Special local components](#34-special-local-components); [3.5 The local fundamental representation](#35-the-local-fundamental-representation); [3.6 Ordinary cuspidal local components](#36-ordinary-cuspidal-local-components); [3.3a Exact determinant and principal series](#33a-exact-determinant-and-principal-series); `GL2AutomorphicRepresentationsAndTransfer:R17.3`.
 
 See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 11.1, pp. 449–450; [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 11.3, p. 450.
 
@@ -1129,9 +1270,9 @@ See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) 
 
 ### 3.10 The unrestricted Hilbert constructor
 
-For every π of type (k,w) as fixed above, construct a continuous semisimple ρ_{π,λ} over a sufficiently large E_λ for every finite λ, unramified outside S_π and ℓ, with good geometric polynomial P_v. No finite discrete-series place is required when d is even. In the geometric branch twist Carayol's representation; in the other branch use auxiliary μ_s-new congruences modulo λ^s and compatible trace/determinant reconstruction. The auxiliary prime can vary with s and imposes no hypothesis on π. Prove independence of construction, extension/conjugation of coefficients, twist compatibility and agreement with the classical M_f. Good polynomials characterize the semisimple representation, while minimal descent to Q(π)_λ is a separate assertion not made here.
+For every π of type (k,w) as fixed above, construct a continuous semisimple ρ_{π,λ} over a sufficiently large E_λ for every finite λ, unramified outside S_π and ℓ, with good geometric polynomial P_v. No finite discrete-series place is required when d is even. Use HilbertModularVarietiesAndShimuraCurves R18.3.29's parallel-weight attachment on its stated range, comparing it with the nonparallel geometric extension of §§3.1–3.9. In the geometric branch twist Carayol's representation; in the other branch use auxiliary μ_s-new congruences modulo λ^s and compatible trace/determinant reconstruction. The auxiliary prime can vary with s and imposes no hypothesis on π. Prove independence of construction, extension/conjugation of coefficients, twist compatibility and agreement with the classical M_f. Good polynomials characterize the semisimple representation, while minimal descent to Q(π)_λ is a separate assertion not made here.
 
-*Needs:* [3.7 Carayol's Theorem B](#37-carayols-theorem-b); [3.2 Twisting and the exact determinant](#32-twisting-and-the-exact-determinant); `ArithmeticGaloisRepresentations:§§1.1–1.10`; `ArithmeticGaloisRepresentations:Layer 5`; `IntegralHeckeAndGaloisDeterminants:IHG.1`; `GL2AutomorphicRepresentationsAndTransfer:R17.3`; `HilbertModularVarietiesAndShimuraCurves:R18.4`; `AutomorphicGaloisRepresentationsPartII:AG2.0, The l-adic character r_{l,ι}(χ)`.
+*Needs:* HilbertModularVarietiesAndShimuraCurves §R18.3.29;  [3.7 Carayol's Theorem B](#37-carayols-theorem-b); [3.3a Exact determinant and principal series](#33a-exact-determinant-and-principal-series); `ArithmeticGaloisRepresentations:§§1.1–1.10`; `ArithmeticGaloisRepresentations:Layer 5`; `IntegralHeckeAndGaloisDeterminants:IHG.1`; `GL2AutomorphicRepresentationsAndTransfer:R17.3`; `HilbertModularVarietiesAndShimuraCurves:R18.4`; `AutomorphicGaloisRepresentationsPartII:AG2.0, The l-adic character r_{l,ι}(χ)`.
 
 See [Mark Kisin](https://abel.math.harvard.edu/~kisin/dvifiles/def.dvi) — §4.1, author-copy p. 31; [Mark Kisin](https://abel.math.harvard.edu/~kisin/dvifiles/def.dvi) — Proof of Theorem 4.3, author-copy pp. 32–33; [Christopher Skinner](https://content.ems.press/assets/public/full-texts/serials/dm/14/8965206/online/10.4171-dm-272.pdf) — Introduction, p. 242, after equation (1); [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 0.5, printed p. 410.
 
@@ -1159,7 +1300,7 @@ See [Mark Kisin](https://abel.math.harvard.edu/~kisin/dvifiles/def.dvi) — §4.
 
 Prove all identities in the convention table, the inverse-uniformiser eigenvalue conversion, the determinant/twist formulas, the labelled Hodge degrees and the classical specialization. The essential local identity is the duality relation for GL₂ between π_v and its central-character inverse twist. Apply the de Rham algebraic-Hecke-character comparison when transporting this identity at v|ℓ. The L-factor and conductor translations apply at every place where local–global compatibility has been established. Test both a norm twist of a weight-two form and a nonquadratic nebentypus; otherwise inverse/dual errors can accidentally cancel.
 
-*Needs:* [3.10 The unrestricted Hilbert constructor](#310-the-unrestricted-hilbert-constructor); [3.7 Carayol's Theorem B](#37-carayols-theorem-b); [3.2 Twisting and the exact determinant](#32-twisting-and-the-exact-determinant); [1.5 Rank-two newform realisation](#15-rank-two-newform-realisation); `GL2AutomorphicRepresentationsAndTransfer:R16.3`; `ArithmeticGaloisRepresentations:§§1.1–1.10`; `ArithmeticGaloisRepresentations:§§2.1–2.6`; `AutomorphicGaloisRepresentationsPartII:AG2.0, The l-adic character r_{l,ι}(χ)`.
+*Needs:* [3.10 The unrestricted Hilbert constructor](#310-the-unrestricted-hilbert-constructor); [3.7 Carayol's Theorem B](#37-carayols-theorem-b); [3.3a Exact determinant and principal series](#33a-exact-determinant-and-principal-series); [1.5 Rank-two newform realisation](#15-rank-two-newform-realisation); `GL2AutomorphicRepresentationsAndTransfer:R16.3`; `ArithmeticGaloisRepresentations:§§1.1–1.10`; `ArithmeticGaloisRepresentations:§§2.1–2.6`; `AutomorphicGaloisRepresentationsPartII:AG2.0, The l-adic character r_{l,ι}(χ)`.
 
 See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 0.4–0.5, printed pp. 409–410; [Takeshi Saito](https://arxiv.org/pdf/math/0612077v2) — §2, p. 9 of the arXiv version; [Mark Kisin](https://abel.math.harvard.edu/~kisin/dvifiles/def.dvi) — §4.1, author-copy p. 31; [Christopher Skinner](https://content.ems.press/assets/public/full-texts/serials/dm/14/8965206/online/10.4171-dm-272.pdf) — Introduction, p. 242; [Christopher Skinner](https://content.ems.press/assets/public/full-texts/serials/dm/14/8965206/online/10.4171-dm-272.pdf) — §2.4.2, p. 255; [C. M. Skinner and A. J. Wiles](http://www.numdam.org/item/PMIHES_1999__89__5_0.pdf) — §2.1, p. 9; (3.1′), p. 30; (3.2)–(3.3), pp. 38–39; [C. Khare and J.-P. Wintenberger](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf) — §1.2, p. 5; §7, pp. 59–60; §9.1.1, p. 80 (authors' final version); [Pierre Colmez, Gabriel Dospinescu and Wiesława Nizioł](https://webusers.imj-prg.fr/~wieslawa.niziol/GPW5.pdf) — §5.2.1, pp. 44–45.
 
@@ -1185,9 +1326,9 @@ make the corresponding automorphic input admissible.
 
 ### 3.12 Hilbert Hodge–Tate property
 
-At v|ℓ all unrestricted Hilbert representations have exactly the two labelled degrees specified above. When d is odd, there is a finite discrete-series place, some k_τ>2, or π is CM, obtain de Rham comparison from geometric cohomology up to an algebraic character twist, or from the induced CM character. In the remaining even-degree, parallel-weight-two, everywhere-principal-series, non-CM case, make a totally real abelian base change and a twist to w=0. Its symmetric-square realization comes from a unitary Shimura variety for GU(Φ), over a CM field E=FE₀ with E₀ imaginary quadratic and ℓ split, with signature (2,1) at the distinguished archimedean place and (3,0) at the others. At the chosen good place the symmetric square is crystalline with degrees 0,1,2; lifting along GL₂→GL₂/{±1} gives a crystalline rank-two representation, with the original a possibly nontrivial quadratic twist. Hodge degrees survive this twist. Identification of its WD parameter with π_v requires the full coefficient-prime theorem, not just the symmetric-square argument.
+At v|ℓ all unrestricted Hilbert representations have exactly the two labelled degrees specified above. When d is odd, there is a finite discrete-series place, some k_τ>2, or π is CM, obtain de Rham comparison from geometric cohomology up to an algebraic character twist, or from the induced CM character. In the remaining even-degree, parallel-weight-two, everywhere-principal-series, non-CM case, make a totally real abelian base change and a twist to w=0. Use §0.6's conversion Π=Ad(π)⊗(ω_π|·|⁻¹), with its local parameters, central character ω_π³|·|⁻³ and infinity exponents. Its symmetric-square realization comes from a unitary Shimura variety for GU(Φ), over a CM field E=FE₀ with E₀ imaginary quadratic and ℓ split, with signature (2,1) at the distinguished archimedean place and (3,0) at the others. At the chosen good place the symmetric square is crystalline with degrees 0,1,2; lifting along GL₂→GL₂/{±1} gives a crystalline rank-two representation, with the original a possibly nontrivial quadratic twist. Hodge degrees survive this twist. Identification of its WD parameter with π_v requires the full coefficient-prime theorem, not just the symmetric-square argument.
 
-*Needs:* [3.10 The unrestricted Hilbert constructor](#310-the-unrestricted-hilbert-constructor); [3.11 The representation dictionary as a theorem](#311-the-representation-dictionary-as-a-theorem); [3.1 The quaternionic multiplicity space](#31-the-quaternionic-multiplicity-space); `AutomorphicGaloisRepresentationsPartII:AG2.P, Finite-coefficient periods, descent and geometric comparison`; [0.2 Crystalline lifting through the central isogeny](#02-crystalline-lifting-through-the-central-isogeny); `GL2AutomorphicRepresentationsAndTransfer:R17.4`; `GL2AutomorphicRepresentationsAndTransfer:§R17.4.13`; [0.6 The unitary and GL₃ geometric realizations](#06-the-unitary-and-gl₃-geometric-realizations); `ArithmeticGaloisRepresentations:§§1.1–1.10`; `AutomorphicGaloisRepresentationsPartII:AG2.0, The l-adic character r_{l,ι}(χ)`.
+*Needs:* [3.10 The unrestricted Hilbert constructor](#310-the-unrestricted-hilbert-constructor); [3.11 The representation dictionary as a theorem](#311-the-representation-dictionary-as-a-theorem); [3.1 The quaternionic multiplicity space](#31-the-quaternionic-multiplicity-space); `AutomorphicGaloisRepresentationsPartII:AG2.P, Finite-coefficient periods, descent and geometric comparison`; [0.2 Crystalline lifting through the central isogeny](#02-crystalline-lifting-through-the-central-isogeny); `GL2AutomorphicRepresentationsAndTransfer:R17.4`; `GL2AutomorphicRepresentationsAndTransfer:§R17.4.13`, adjoint lift with the character conversion of §0.6; [0.6 The unitary and GL₃ geometric realizations](#06-the-unitary-and-gl₃-geometric-realizations); `ArithmeticGaloisRepresentations:§§1.1–1.10`; `AutomorphicGaloisRepresentationsPartII:AG2.0, The l-adic character r_{l,ι}(χ)`.
 
 See [Christopher Skinner](https://content.ems.press/assets/public/full-texts/serials/dm/14/8965206/online/10.4171-dm-272.pdf) — Introduction, p. 243; [Christopher Skinner](https://content.ems.press/assets/public/full-texts/serials/dm/14/8965206/online/10.4171-dm-272.pdf) — §2.4.1, p. 251; [Christopher Skinner](https://content.ems.press/assets/public/full-texts/serials/dm/14/8965206/online/10.4171-dm-272.pdf) — §2.4.1, p. 252.
 
@@ -1247,9 +1388,19 @@ avatars.
 
 For the unrestricted ρ_{π,λ}, prove determinant χ_{π,λ}ε_ℓ⁻¹, determinant −1 at complex conjugation at each real place, and absolute irreducibility. Use the exact determinant comparison to remove quadratic ambiguity. If a global decomposition existed, Hodge–Tate characters would be algebraic Hecke characters and the source's L-function pole argument would contradict cuspidality. Prove uniqueness from good Frobenius polynomials and identify totally real solvable cuspidal base change with restriction. Absolute irreducibility of the global representation does not rule out a reducible ordinary local restriction, nor does it imply residual irreducibility.
 
-*Needs:* [3.10 The unrestricted Hilbert constructor](#310-the-unrestricted-hilbert-constructor); [3.2 Twisting and the exact determinant](#32-twisting-and-the-exact-determinant); [3.11 The representation dictionary as a theorem](#311-the-representation-dictionary-as-a-theorem); [3.12 Hilbert Hodge–Tate property](#312-hilbert-hodgetate-property); `ArithmeticGaloisRepresentations:§§1.1–1.10`; `ArithmeticGaloisRepresentations:Layer 5`; `GL2AutomorphicRepresentationsAndTransfer:R17.4`; `AutomorphicLFunctionsAndLocalFactors:AL.3`; `AutomorphicGaloisRepresentationsPartII:AG2.0, The l-adic character r_{l,ι}(χ)`; [3.13 Geometric characters and algebraic Hecke characters](#313-geometric-characters-and-algebraic-hecke-characters).
+*Needs:* [3.10 The unrestricted Hilbert constructor](#310-the-unrestricted-hilbert-constructor); [3.3a Exact determinant and principal series](#33a-exact-determinant-and-principal-series); [3.11 The representation dictionary as a theorem](#311-the-representation-dictionary-as-a-theorem); [3.12 Hilbert Hodge–Tate property](#312-hilbert-hodgetate-property); `ArithmeticGaloisRepresentations:§§1.1–1.10`; `ArithmeticGaloisRepresentations:Layer 5`; `GL2AutomorphicRepresentationsAndTransfer:R17.4`; `AutomorphicLFunctionsAndLocalFactors:AL.3`; `AutomorphicGaloisRepresentationsPartII:AG2.0, The l-adic character r_{l,ι}(χ)`; [3.13 Geometric characters and algebraic Hecke characters](#313-geometric-characters-and-algebraic-hecke-characters).
 
 See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — §§3.1–3.3, printed pp. 421–422; §5.5, printed pp. 428–429; [Christopher Skinner](https://content.ems.press/assets/public/full-texts/serials/dm/14/8965206/online/10.4171-dm-272.pdf) — Remark, p. 256; [Takeshi Saito](https://arxiv.org/pdf/math/0612077v2) — §2, p. 9 of the arXiv version.
+
+**Checks.**
+
+- A finite-order nontrivial θ has L(θ,1)≠0; θ=1 gives a pole there.
+  In Skinner's reducibility argument the latter increases the pole order
+  instead of cancelling ζ_F's pole.
+- For θ|·|^a at 1 evaluate L(θ,1+a). The exponent ordering a₁≥a₂ in the
+  character ratio puts the argument in the nonvanishing range.
+- Over ℚ, ψ=|·|⁻³ has L(ψ,1)=ζ(−2)=0. Without that ordering or a
+  translated evaluation point, algebraicity alone gives no nonvanishing.
 
 ### 3.15 The CM predicate
 
@@ -1288,9 +1439,9 @@ See [Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/invent_28.pdf) 
 
 ### 3.17 Carayol's geometric Hilbert theorem
 
-For π of type (k,w), require additionally a finite essentially square-integrable place if d is even. After enlarging the coefficient field construct Carayol's σ_λ system with the Hecke-correspondence local representation at every finite v of residue characteristic different from λ. The auxiliary-place and extraordinary-place exclusions of Theorem B are removed by base change and the primitive-restriction argument; the even-degree existence hypothesis is retained. Translate σ_λ to ρ_{π,λ} by the dictionary. This geometric theorem is distinct from the unrestricted Hilbert construction above.
+For π of type (k,w), require additionally a finite essentially square-integrable place if d is even. Use HilbertModularVarietiesAndShimuraCurves R18.3.29 on the overlapping parallel-weight range. For nonparallel weights extend Carayol's σ_λ system, after enlarging the coefficient field, with the Hecke-correspondence local representation at every finite v of residue characteristic different from λ. For the nonparallel extension remove the auxiliary-place and extraordinary-place exclusions of Theorem B by base change and the primitive-restriction argument; compare with the supplied parallel theorem by good polynomials and semisimple recognition; the even-degree existence hypothesis is retained. Translate σ_λ to ρ_{π,λ} by the dictionary. This geometric theorem is distinct from the unrestricted Hilbert construction above.
 
-*Needs:* `HilbertModularVarietiesAndShimuraCurves:R18.4`; `HilbertModularVarietiesAndShimuraCurves:R18.2`; [1.5 Rank-two newform realisation](#15-rank-two-newform-realisation); [3.7 Carayol's Theorem B](#37-carayols-theorem-b); [3.8 Primitive two-dimensional restriction](#38-primitive-two-dimensional-restriction); [3.9 The extraordinary cubic step](#39-the-extraordinary-cubic-step); [3.2 Twisting and the exact determinant](#32-twisting-and-the-exact-determinant); `GL2AutomorphicRepresentationsAndTransfer:R17.4`; [3.14 Determinant, total oddness and absolute irreducibility](#314-determinant-total-oddness-and-absolute-irreducibility); `ArithmeticGaloisRepresentations:§§1.1–1.10`.
+*Needs:* HilbertModularVarietiesAndShimuraCurves §§R18.3.29, R18.4.25; `HilbertModularVarietiesAndShimuraCurves:R18.4`; `HilbertModularVarietiesAndShimuraCurves:R18.2`; [1.5 Rank-two newform realisation](#15-rank-two-newform-realisation); [3.7 Carayol's Theorem B](#37-carayols-theorem-b); [3.8 Primitive two-dimensional restriction](#38-primitive-two-dimensional-restriction); [3.9 The extraordinary cubic step](#39-the-extraordinary-cubic-step); [3.3a Exact determinant and principal series](#33a-exact-determinant-and-principal-series); `GL2AutomorphicRepresentationsAndTransfer:R17.4`; [3.14 Determinant, total oddness and absolute irreducibility](#314-determinant-total-oddness-and-absolute-irreducibility); `ArithmeticGaloisRepresentations:§§1.1–1.10`.
 
 See [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 0.3 and Theoreme (A), printed pp. 409–411; [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — Theoreme (B), printed p. 411; [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 0.11, printed p. 412; [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 12.3.1, pp. 458–459; [Henri Carayol](https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf) — 12.3.2, p. 459.
 
@@ -1365,9 +1516,40 @@ See [Mark Kisin](https://abel.math.harvard.edu/~kisin/dvifiles/def.dvi) — Theo
 
 For the unrestricted Hilbert representation and every v|p, prove potential semistability, the labelled degrees and the full local parameter, without residual irreducibility or a discrete-series place. After the geometric/CM cases, reduce the remaining parallel-weight-two case by abelian base change. The symmetric-square geometric realization and crystalline lifting give the parameter up to quadratic twist; the quaternionic eigenvariety and analytic continuation of a crystalline period remove that ambiguity. At v|p the continuation input uses φ^{f_v} and a Sen polynomial P(X)=XQ(X) with Q(0) not a zero divisor. Require this condition on the family, not merely at selected classical points. Import generic periods, unitary geometry, eigenvariety gluing and their exact coefficient hypotheses. An equality of Hodge numbers alone does not discharge this target.
 
-*Needs:* [3.10 The unrestricted Hilbert constructor](#310-the-unrestricted-hilbert-constructor); [3.11 The representation dictionary as a theorem](#311-the-representation-dictionary-as-a-theorem); [3.12 Hilbert Hodge–Tate property](#312-hilbert-hodgetate-property); [3.14 Determinant, total oddness and absolute irreducibility](#314-determinant-total-oddness-and-absolute-irreducibility); [4.4 All-Hilbert compatibility away from λ](#44-all-hilbert-compatibility-away-from-λ); [4.5 Geometric coefficient-prime comparison](#45-geometric-coefficient-prime-comparison); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:§§R07.P7.1–R07.P7.3, R07.3.0–R07.3.3, R07.4.13`; `AutomorphicGaloisRepresentationsPartII:AG2.P, Finite-coefficient periods, descent and geometric comparison`; `GL2AutomorphicRepresentationsAndTransfer:R17.3`; `GL2AutomorphicRepresentationsAndTransfer:R17.4`; `GL2AutomorphicRepresentationsAndTransfer:§R17.4.13`; [0.6 The unitary and GL₃ geometric realizations](#06-the-unitary-and-gl₃-geometric-realizations); [0.3 Quaternionic finite-slope families](#03-quaternionic-finite-slope-families); [0.3 Quaternionic finite-slope families](#03-quaternionic-finite-slope-families).
+For the period-continuation application, construct the attached family near the
+chosen eigenpoint of §0.3 only after §§3.10 and 3.14. Interpolate the traces
+and determinants of the attached classical members as a continuous
+pseudorepresentation on the reduced one-dimensional Hecke chart. Prove the
+boundedness and continuity needed for interpolation; density alone supplies
+neither. Normalize the component and use IntegralHeckeAndGaloisDeterminants
+IHG.1's characteristic-zero reconstruction over its fraction field. Construct
+a finite stable module, use absolute irreducibility from §3.14 to identify
+its point fibers with the attached members, and shrink around the chosen
+point to make it finite free, as in Skinner pp. 255–256. No residual absolute
+irreducibility assumption is imposed on this characteristic-zero step.
+
+For that free family verify §0.4's injective specialization map,
+Sen-polynomial and crystalline-period hypotheses, including φ^{f_v}, Y-smallness,
+truncation invertibilities and Q(0) a non-zero-divisor. Apply
+`extendCrystallinePeriods` only after these verifications. On the overlap,
+compare with AutomorphicGaloisRepresentationsPartII AG2.P's
+`hilbertCoefficientPrimeComparison`, which supplies de Rhamness, spherical
+crystallinity and Iwahori semistability on an independently given member;
+the full WD identification asserted here is additional.
+
+*Needs:* §0.4; IntegralHeckeAndGaloisDeterminants IHG.1, characteristic-zero reconstruction; AutomorphicGaloisRepresentationsPartII AG2.P, “Independent classical and Hilbert members”; [3.10 The unrestricted Hilbert constructor](#310-the-unrestricted-hilbert-constructor); [3.11 The representation dictionary as a theorem](#311-the-representation-dictionary-as-a-theorem); [3.12 Hilbert Hodge–Tate property](#312-hilbert-hodgetate-property); [3.14 Determinant, total oddness and absolute irreducibility](#314-determinant-total-oddness-and-absolute-irreducibility); [4.4 All-Hilbert compatibility away from λ](#44-all-hilbert-compatibility-away-from-λ); [4.5 Geometric coefficient-prime comparison](#45-geometric-coefficient-prime-comparison); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:§§R07.P7.1–R07.P7.3, R07.3.0–R07.3.3, R07.4.13`; `AutomorphicGaloisRepresentationsPartII:AG2.P, Finite-coefficient periods, descent and geometric comparison`; `GL2AutomorphicRepresentationsAndTransfer:R17.3`; `GL2AutomorphicRepresentationsAndTransfer:R17.4`; `GL2AutomorphicRepresentationsAndTransfer:§R17.4.13`, adjoint lift with the character conversion of §0.6; [0.6 The unitary and GL₃ geometric realizations](#06-the-unitary-and-gl₃-geometric-realizations); [0.3 Quaternionic finite-slope families](#03-quaternionic-finite-slope-families).
 
 See [Christopher Skinner](https://content.ems.press/assets/public/full-texts/serials/dm/14/8965206/online/10.4171-dm-272.pdf) — Theorem 1 and Hodge–Tate definition, p. 242; proof strategy pp. 243–244; [Christopher Skinner](https://content.ems.press/assets/public/full-texts/serials/dm/14/8965206/online/10.4171-dm-272.pdf) — §2.4, p. 251; [Christopher Skinner](https://content.ems.press/assets/public/full-texts/serials/dm/14/8965206/online/10.4171-dm-272.pdf) — §2.4.2, p. 254.
+
+**Checks.**
+
+- A chosen classical eigenpoint gives its actual rank-two member as the
+  specialization, not the higher-rank Banach space of automorphic forms.
+- Reduced field points annihilate a nilpotent; without the stated injection
+  they cannot verify the period-continuation hypothesis.
+- A symmetric square can hide a ramified quadratic twist of a crystalline
+  rank-two member. Equality of Hodge degrees or the spherical crystallinity
+  conclusion alone does not identify its full local parameter.
 
 ### 4.8 Classical characteristic-zero irreducibility
 
@@ -1746,7 +1928,7 @@ all-unit/uniformizer comparison is obtained by the intervening argument of
 
 - `ordinaryRefinement_11a1_three` (computation): X²+X+3 has one 3-adic unit root; choose that root for the unramified quotient.
 - `ordinaryRefinement_11a1_two` (non-example): X²+2X+2 at 2 has no unit root; ordinary refinement is not defined.
-- In T=O² with V⁺=Ke₁ the intersection is Oe₁; ϖ_λOe₁ has torsion quotient and fails the contract.
+- For a DVR O with fraction field K, the standard lattice T=O²⊆K² and V⁺=Ke₁ have intersection Oe₁. The actual quotient T/T⁺≃ₗ[O]O is induced by the second coordinate; ϖ_λOe₁ instead has torsion quotient and fails the contract.
 - `ordinaryRefinement_determinant` (compatibility): The two characters multiply to εχ_p^{k−1}, including the unramified unit-root factor.
 - For V⁺=0 the intersection in V and its inverse image in T are both zero; the quotient is T.
 - For V⁺=V the intersection is T and its inverse image is the whole module T; the quotient is zero.
@@ -1946,9 +2128,47 @@ ArithmeticGaloisRepresentations Layer 4, finite-image restriction and induction.
 
 Let ℓ be odd, K/Q_ℓ finite, O its integers and κ its residue field. Let ρ̄:G_Q→GL₂(κ) be continuous, irreducible and modular, with det ρ̄=χ̄_ℓ, semistable at ℓ, and #ρ̄(I_p) dividing ℓ for p≠ℓ. These hypotheses give absolute irreducibility on G_L for `L=Q(√((-1)^{(ℓ−1)/2}ℓ))`. Choose a finite Σ in the allowed set: p=ℓ is allowed only if ρ̄ is good and ordinary there, and p≠ℓ only if ρ̄ is unramified there. The optimized newforms have weight two, trivial character, residual representation ρ̄ after coefficient extension, and level dividing `ℓ^δ N(ρ̄)∏_{p∈Σ\{ℓ}}p^{dim ρ̄^{I_p}}`, with ℓ²∤N_f. Here δ=0 if ρ̄ is good at ℓ and ℓ∉Σ, and δ=1 otherwise; The optimized weight-two theorem supplies nonemptiness. The O-algebra T_Σ generated by T_p for p∉Σ, p∤ℓN(ρ̄), inside the product of coefficient integer rings is reduced, local, complete, Noetherian, finite free and has residue field κ. Construct its arithmetic representation, unramified with trace T_p at those good primes, lifting ρ̄ with type Σ, and the unique surjection R_Σ↠T_Σ carrying the universal lift to it. Enlargement Σ⊆Σ′ gives T_Σ′↠T_Σ; extension K⊆K′ gives T_Σ⊗_O O_{K′}; projection to an eigenform factor gives its representation.
 
-*Needs:* [1.5 Rank-two newform realisation](#15-rank-two-newform-realisation); [6.2 Residual newform representation](#62-residual-newform-representation); [6.3 The full weight-two Hecke algebra](#63-the-full-weight-two-hecke-algebra); [6.4 Classical conductors and bad Euler factors](#64-classical-conductors-and-bad-euler-factors); [4.5 Geometric coefficient-prime comparison](#45-geometric-coefficient-prime-comparison); `GlobalGaloisDeformations:R04.3`; [6.5 Nonempty optimized weight-two eigensystems](#65-nonempty-optimized-weight-two-eigensystems).
+Define the type-Σ local problems here with fixed determinant χ_ℓ. At ℓ
+use DDT's finite-flat (“good”) or ordinary semistable torsion-module category;
+if ρ̄ is good and ℓ∉Σ require good lifts. Away from Σ∪{ℓ}, require
+unramified lifts where ρ̄ is unramified, and inertia extensions of the trivial
+character by itself in the ramified semistable case. At Σ\{ℓ} impose no
+extra local condition. Use DDT §2.7, pp. 76–79, with its definitions of good,
+ordinary and semistable torsion modules in §2.4, rather than a field-valued
+WD test for an Artinian lift.
+
+Prove the Artinian coefficient, strict-conjugation, injection, fiber-product
+and separated-limit axioms of LocalGaloisDeformationRings F.3.1–F.3.2.
+For the underlying torsion-module categories prove finite-product,
+subobject and quotient closure inside their stated ambient categories;
+fixed determinant is imposed separately on lifts. Use its §8.6 categorical
+criterion, ordinary/flat targets, and FiniteFlatGroupsAndIntegralPadicHodgeTheory
+R07.6.7. Then apply GlobalGaloisDeformations §3.4 to obtain R_Σ.
+
+Keep the DDT Lemma 3.27 closure argument here: the ideals
+`I_n=T_Σ∩∏_f λ_f^n` are cofinal with powers of the maximal ideal. The module
+of the reconstructed lift modulo I_n embeds into the product of the
+eigenform modules modulo λ_f^n, where the specified categorical conditions
+hold; subobject closure gives those conditions, and quotient closure gives
+every Artinian coefficient quotient by cofinality. This does not assert
+that every Artinian quotient itself embeds into a product of eigenform
+quotients.
+
+*Needs:* LocalGaloisDeformationRings §§F.3.1–F.3.2, 8.6, 1.7, 4.1; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.6.7;  [1.5 Rank-two newform realisation](#15-rank-two-newform-realisation); [6.2 Residual newform representation](#62-residual-newform-representation); [6.3 The full weight-two Hecke algebra](#63-the-full-weight-two-hecke-algebra); [6.4 Classical conductors and bad Euler factors](#64-classical-conductors-and-bad-euler-factors); [4.5 Geometric coefficient-prime comparison](#45-geometric-coefficient-prime-comparison); `GlobalGaloisDeformations:R04.3`; [6.5 Nonempty optimized weight-two eigensystems](#65-nonempty-optimized-weight-two-eigensystems).
 
 See [H. Darmon, F. Diamond and R. Taylor](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf) — §3.3, p. 93; [H. Darmon, F. Diamond and R. Taylor](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf) — §3.3, Lemma 3.26, p. 94; [H. Darmon, F. Diamond and R. Taylor](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf) — §3.3, Lemma 3.27, p. 94; [H. Darmon, F. Diamond and R. Taylor](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf) — §3.3, proof of Lemma 3.27, p. 95.
+
+**Checks.**
+
+- For residual 57B modulo 3 with Σ=∅, T_Σ={(x,y)∈ℤ₃²:x≡y mod 3};
+  the cofinal intersections prove the torsion local conditions even though
+  T_Σ/3T_Σ is the dual-number ring, not a product of fields.
+- If ρ̄ is good at ℓ and ℓ∉Σ, the ordinary condition alone does not suffice:
+  the required Artinian lifts remain in the good finite-flat category.
+- A quotient by an arbitrary ideal need not embed into the product of the
+  corresponding eigenform quotients. Use a contained cofinal I_n first,
+  then quotient stability; the reduced T_Σ argument does not apply to a
+  Hecke algebra with a nonzero generic nilpotent.
 
 ### 6.7 The specified reduced localization
 
@@ -2015,24 +2235,54 @@ construction and GMA theory remain with that supplier.
 
 ### 6.10 Quaternionic Hecke-algebra representations
 
-Use the Khare–Wintenberger setting: F totally real of even degree, p unramified in F, D definite at infinity and ramified at a finite even-cardinality set Σ, forms S_{k,ψ}(U,O), and the Hecke algebra generated outside a bad set S. Take k≥2 parallel, k=2 if p=2; exclude Σ∩{v|p} if k>2. Choose a sufficiently large p-adic coefficient field containing the embeddings of F, splitting D at p, and a coefficient action with central restriction ψ⁻¹ and ψ on sufficiently small p-units equal to the norm power 2−k. For noncompact U at p=2 specify the extension of the weight-two trivial action from the maximal compact subgroup. S includes infinity, p, Σ, nonmaximal level and nontrivial coefficient action. At a non-Eisenstein maximal ideal, whose residual representation is absolutely irreducible, construct the arithmetic representation over the completed local Hecke algebra, unramified outside S with good polynomial `X²−T_vX+Nvψ(ϖ_v)`. Identify every eigenform specialization and construct the fixed-determinant deformation map; additional local conditions must be named individually.
+Use the Khare–Wintenberger setting: F totally real of even degree, p unramified in F, D definite at infinity and ramified at a finite even-cardinality set Σ, forms S_{k,ψ}(U,O), and the Hecke algebra generated outside a bad set S. Take k≥2 parallel, k=2 if p=2; exclude Σ∩{v|p} if k>2. Choose a sufficiently large p-adic coefficient field containing the embeddings of F, splitting D at p, and a coefficient action with central restriction ψ⁻¹ and ψ on sufficiently small p-units equal to the norm power 2−k. For noncompact U at p=2 specify the extension of the weight-two trivial action from the maximal compact subgroup. S includes infinity, p, Σ, nonmaximal level and nontrivial coefficient action. At a non-Eisenstein maximal ideal, whose residual representation is absolutely irreducible, construct the arithmetic representation over the completed local Hecke algebra, unramified outside S with good polynomial `X²−T_vX+Nvψ(ϖ_v)`. Use HilbertModularVarietiesAndShimuraCurves R18.3.29 for the individual parallel-weight attachment, compare its arithmetic dual convention using §3.11, and identify each specialization of the reconstructed integral representation with it. Construct the fixed-determinant deformation map; additional local conditions must be named individually.
 
 The level `U=∏_v U_v` is open and compact modulo the centre in
 `(D⊗_F A_F^∞)×`, and ψ is an O-valued character of
 `F× ∖ (A_F^∞)×`. The representation is unique up to conjugacy, or up to
 strict equivalence once its residual identification is fixed.
 
-*Needs:* [6.9 From a determinant law to a Hecke representation](#69-from-a-determinant-law-to-a-hecke-representation); `GL2AutomorphicRepresentationsAndTransfer:R17.3`; `IntegralHeckeAndGaloisDeterminants:IHG.1`; [3.10 The unrestricted Hilbert constructor](#310-the-unrestricted-hilbert-constructor); `ArithmeticGaloisRepresentations:§§1.1–1.10`; `IntegralHeckeAndGaloisDeterminants:IHG.4`; `LocalGaloisDeformationRings:§F.2.5`; `LocalGaloisDeformationRings:§F.2.9`; `GlobalGaloisDeformations:R04.3`; [3.11 The representation dictionary as a theorem](#311-the-representation-dictionary-as-a-theorem).
+*Needs:* HilbertModularVarietiesAndShimuraCurves §§R18.3.29, R18.4.25; [6.9 From a determinant law to a Hecke representation](#69-from-a-determinant-law-to-a-hecke-representation); `GL2AutomorphicRepresentationsAndTransfer:R17.3`; `IntegralHeckeAndGaloisDeterminants:IHG.1`; [3.10 The unrestricted Hilbert constructor](#310-the-unrestricted-hilbert-constructor); `ArithmeticGaloisRepresentations:§§1.1–1.10`; `IntegralHeckeAndGaloisDeterminants:IHG.4`; `LocalGaloisDeformationRings:§F.2.5`; `LocalGaloisDeformationRings:§F.2.9`; `GlobalGaloisDeformations:R04.3`; [3.11 The representation dictionary as a theorem](#311-the-representation-dictionary-as-a-theorem).
 
 See [C. Khare and J.-P. Wintenberger](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf) — §9.1.1, p. 80 (authors' final version, 30 May 2009); [C. Khare and J.-P. Wintenberger](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf) — §9.1.1, p. 80.
 
 ### 6.11 A fixed character at quaternionic ramification places
 
-Take the quaternionic Hecke setting of Layer 6: F totally real of even degree, p unramified in F, D definite with finite ramification Σ of even cardinality, parallel k≥2 (k=2 if p=2), and Σ disjoint from p when k>2, with the specified ψ-coefficient action. At its non-Eisenstein maximal ideal take U_v=O_{D_v}× for v∈Σ if p>2, and U_v=D_v× if p=2. For p>2 and v∈Σ away from p, impose `Nv≢−1 mod p`, or require that ρ̄_m|G_{F_v} is not a direct sum of two unramified characters. Then one unramified γ_v, independent of the eigenform in the localization, satisfies γ_v²=ψ_v and gives arithmetic local form `(χ_pγ_v,*;0,γ_v)`. In the fixed cohomological convention the diagonal characters are γ_v⁻¹ and γ_v⁻¹χ_p⁻¹. Read γ_v at arithmetic Frobenius from right translation by a quaternion uniformiser; inverse translation gives its inverse. If v|p, only the allowed weight-two/discrete-series branch supplies the comparison. At `Nv≡−1 mod p` with an unramified split residual representation the two signs can agree residually: a fixed sign cannot be inferred from the original localization. An integral family needs a finite-projective invariant line in addition to these eigenform identities.
+Use HilbertModularVarietiesAndShimuraCurves R18.3.32's
+`ramifiedSign_independentOfEigenform`. Retain F totally real of even degree,
+p unramified in F, D definite with an even finite ramification set Σ,
+parallel k≥2 (k=2 if p=2), Σ disjoint from p when k>2, the non-Eisenstein
+acting maximal ideal and its common residual representation, and ψ_v
+unramified for v∈Σ. For p>2 take U_v=O_{D_v}× and, at v∤p, require
+Nv≢−1 mod p or residual ramification. At v|p use nontrivial cyclotomic
+inertia. For p=2 take U_v=D_v× at every v∈Σ with the fixed
+central-compatible coefficient extension.
 
-*Needs:* [4.3 Hecke versus Langlands normalization](#43-hecke-versus-langlands-normalization); `GL2AutomorphicRepresentationsAndTransfer:R17.3`; [6.4 Classical conductors and bad Euler factors](#64-classical-conductors-and-bad-euler-factors); [6.10 Quaternionic Hecke-algebra representations](#610-quaternionic-hecke-algebra-representations); [4.5 Geometric coefficient-prime comparison](#45-geometric-coefficient-prime-comparison); [3.11 The representation dictionary as a theorem](#311-the-representation-dictionary-as-a-theorem).
+Here compare its arithmetic local form `(χ_pγ_v,*;0,γ_v)` with the fixed
+cohomological representation: the dual has characters γ_v⁻¹ and
+γ_v⁻¹χ_p⁻¹, with the annihilator flag under duality. Transport the common
+uniformizer value from right translation; inverse translation inverts it.
+Compare the parallel-weight attachment of R18.3.29 with §3.10 by good
+polynomials. The supplier owns existence and independence of γ_v; the
+extension class need not be independent of the eigenform. An integral
+family still requires a finite-projective invariant line beyond these
+individual comparisons.
+
+*Needs:* HilbertModularVarietiesAndShimuraCurves §§R18.3.29, R18.3.32;  [4.3 Hecke versus Langlands normalization](#43-hecke-versus-langlands-normalization); `GL2AutomorphicRepresentationsAndTransfer:R17.3`; [6.4 Classical conductors and bad Euler factors](#64-classical-conductors-and-bad-euler-factors); [6.10 Quaternionic Hecke-algebra representations](#610-quaternionic-hecke-algebra-representations); [4.5 Geometric coefficient-prime comparison](#45-geometric-coefficient-prime-comparison); [3.11 The representation dictionary as a theorem](#311-the-representation-dictionary-as-a-theorem).
 
 See [C. Khare and J.-P. Wintenberger](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf) — Lemma 7.2 and its proof, pp. 60–61 (authors' final version); [C. Khare and J.-P. Wintenberger](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf) — Remark after Lemma 7.2, p. 61.
+
+**Checks.**
+
+- At p=3 and Nv≡−1 mod 3 with unramified residual pair {1,−1}, opposite
+  signs give the same residual polynomial. That localization is outside
+  the odd-prime sign-identification hypotheses.
+- At p=2 residual roots coincide. Full division level with its coefficient
+  character fixes the uniformizer value; residual data alone do not.
+- If γ_v(Frob_arith)=2 and q_v=3, the arithmetic diagonal eigenvalues are
+  6,2 and the cohomological dual's arithmetic eigenvalues are 1/6,1/2.
+  Its geometric eigenvalues return to 6,2; a dual without Frobenius inversion
+  would use the wrong polynomial.
 
 ### 6.12 Local conditions on the entire Hecke family
 
@@ -2063,19 +2313,19 @@ Layers 1, 3, 4 and 5; ModularCurvesPartII Layers 13–17; TauCetiRoadmap.Modular
 
 ### 7.1 The compatible-system carrier and operations
 
-Define `CompatibleSystemData` over a number field F and coefficient number
-field E with rank n, a finite set S of finite places of F, a monic degree-n
-polynomial P_v∈E[X] for every v∉S, a continuous semisimple E_λ-representation
-for every finite λ of E, and a labelled Hodge multiset H_τ of size n. The carrier
-records these data separately from its compatibility predicates. For rank two
+Use AutomorphicGaloisRepresentationsPartII AG2.P's `AutomorphicSystemData`,
+`Weak` and `Strict` predicates from “Arbitrary-rank compatible data and operations”. The supplied arbitrary-rank carrier has the base and
+coefficient number fields, finite bad set, common good polynomials, continuous
+semisimple members and labelled Hodge multisets; its operations and identity/
+composition laws are supplied as well. For rank two
 over Q this is the five-tuple of [Dieulefait–Pacetti](https://arxiv.org/pdf/2108.07577v2),
 Definition 1.10, pp. 6–7; labelled multisets extend its parallel {0,k−1} field
 to the Hilbert application.
 
-Define `IsWeaklyCompatible` by good-place unramifiedness and the polynomial
-identity for v∉S, v∤ℓ_λ, together with de Rhamness at every v|ℓ_λ, the specified
-labelled degrees, and crystallinity at v∉S dividing ℓ_λ. Define
-`IsStrictlyCompatible` by weak compatibility and a coefficient-field-independent
+The supplied `Weak` predicate requires good-place unramifiedness and the
+polynomial identity away from the coefficient characteristic, de Rhamness at
+every v|ℓ_λ, the specified labelled degrees, and crystallinity at good v|ℓ_λ.
+The supplied `Strict` predicate adds a coefficient-field-independent
 Frobenius-semisimple WD parameter at every finite v, with its monodromy operator
 retained, comparing D_pst when v|ℓ_λ. The parameter may be specified over Ē with
 its field of definition; an E-rational isomorphism class need not have a model
@@ -2092,15 +2342,16 @@ extension to a general F. Record the omitted pairs; no existence theorem for
 almost-strict systems over general F is asserted by this definition. Strict
 compatibility implies almost strict, which implies weak.
 
-Give coefficient extension, direct sum, tensor product, dual, algebraic-character
-twist, finite base restriction and coefficient conjugation. Polynomials are
+Use AG2.P's coefficient extension, direct sum, tensor product, dual,
+algebraic-character twist and finite base restriction; transport coefficient
+conjugation with the specified field embedding. Polynomials are
 computed from roots or exterior powers without choosing an ordering; dual roots
 are inverse roots, and ε_ℓ^m twists geometric roots by q_v^{−m}. Hodge degrees
 negate under duality, add under tensor product and shift by −m under ε_ℓ^m.
 Pullback to F′ uses the appropriate residue-degree power of Frobenius and base
 change of the local WD parameter; retain finite ramification in the new S.
-Prove preservation of weak and strict compatibility by these operations, with
-the new rank, Hodge multisets and bad set. Character twists use a compatible
+Use their supplied preservation of `Weak` and `Strict`, with the new rank,
+Hodge multisets and bad set. Character twists use a compatible
 rank-one algebraic-character family, and its ramified places enter S.
 Almost-strict compatibility is a rank-two predicate: direct sum or tensor
 product of two rank-two systems has rank four and is outside its domain.
@@ -2114,16 +2365,15 @@ Coefficient extension, duality and conjugation retain the omitted-pair
 bookkeeping. No potential modularity theorem is used to define the carrier or
 any operation.
 
-*Needs:* ArithmeticGaloisRepresentations Layers 1–2, continuous semisimple
+*Needs:* AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank compatible data and operations”; ArithmeticGaloisRepresentations Layers 1–2, continuous semisimple
 carriers, local WD functors and their tensor/dual laws; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P7.1–R07.P7.3,
 labelled period functors; AutomorphicGaloisRepresentationsPartII AG2.0,
 algebraic-character avatars; Layer 3's geometric-character theorem.
 
-- `CompatibleSystemData`: The common field, polynomials, local members, exceptional places and labelled degrees.
-- `CompatibleSystemData.IsWeaklyCompatible`, `.IsAlmostStrictlyCompatible`, `.IsStrictlyCompatible`: The separate predicates with the coefficient-prime clauses above.
-- `CompatibleSystemData.coefficientExtension`, `.directSum`, `.dual`, `.twist`, `.tensor`, `.restrict`, `.conjugate`: Transport the data, weak compatibility and strict compatibility with the exact polynomial and labelled-degree formulas.
-- `CompatibleSystemData.almostStrict_transport`: For a rank-two output, require comparisons at every output pair not covered by a required input comparison; an omitted input pair alone supplies no comparison.
-- `CompatibleSystemData.strict_implies_almostStrict`, `.almostStrict_implies_weak`: Preserve all weaker clauses without asserting their converses.
+- `AutomorphicSystemData`, `Weak` and `Strict`: The supplied carrier and compatibility predicates of AG2.P.
+- `AutomorphicSystemData.IsAlmostStrictlyCompatible`: The rank-two predicate defined here with the omitted coefficient-prime pairs above.
+- `AutomorphicSystemData.almostStrict_transport`: For a rank-two output, require comparisons at every output pair not covered by a required input comparison; an omitted input pair alone supplies no comparison.
+- `AutomorphicSystemData.strict_implies_almostStrict`, `.almostStrict_implies_weak`: Preserve all weaker clauses without asserting their converses.
 
 **Checks.**
 
@@ -2264,8 +2514,8 @@ realization, coefficient projector and fixed rational/integral period lines.
 Crystalline regulators and explicit reciprocity use the actual Wach module and
 semilinear Frobenius with the chosen lattice. Modular and Hilbert deformation
 arguments use the whole integral Hecke determinant and the exact local-functor
-factorizations, including nilpotent quotients. The later AG2 rank-two comparison
-imports this normalization dictionary and local compatibility.
+factorizations, including nilpotent quotients. AG2.P supplies the shared compatible-system carrier; its independent
+rank-two period input has the scope stated above.
 
 
 ## References
@@ -2292,7 +2542,7 @@ Citations above use printed journal pages for the published scans and internal p
 - [Kenneth A. Ribet, *On l-adic representations attached to modular forms*](https://math.berkeley.edu/~ribet/Articles/invent_28.pdf). Invent. Math. 28 (1975), 245–275; printed journal pages in the author-hosted scan.
 - [Kenneth A. Ribet, *On l-adic representations attached to modular forms II*](https://math.berkeley.edu/~ribet/Articles/rankin.pdf). Glasgow Math. J. 27 (1985), 185–194; printed journal pages in the author-hosted scan.
 - [Pierre Colmez, Gabriel Dospinescu and Wiesława Nizioł, *Cohomologie p-adique de la tour de Drinfeld: le cas de la dimension 1*](https://webusers.imj-prg.fr/~wieslawa.niziol/GPW5.pdf). Author copy GPW5, internal pages 43–45 for the Shimura-curve comparison.
-- [James Newton and Jack A. Thorne, *Symmetric power functoriality for holomorphic modular forms, II*](https://arxiv.org/pdf/2009.07180v2). arXiv:2009.07180v2, internal pages; published in Publ. Math. IHÉS 134 (2021), 1–152.
+- [James Newton and Jack A. Thorne, *Symmetric power functoriality for holomorphic modular forms, II*](https://arxiv.org/pdf/2009.07180v2). arXiv:2009.07180v2, internal pages; published in Publ. Math. IHÉS 134 (2021), 117–152.
 - [James Newton and Jack A. Thorne, *Symmetric power functoriality for Hilbert modular forms*](https://arxiv.org/pdf/2212.03595v2). arXiv:2212.03595v2 (19 February 2025), internal pages; published in Ann. Math. 203 (2026), no. 1.
 - [Christopher Skinner, *A converse to a theorem of Gross, Zagier, and Kolyvagin*](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p01-s.pdf). Ann. Math. 191 (2020), 329–354; printed journal pages in the published PDF.
 - [Don Blasius, *Hilbert modular forms and the Ramanujan conjecture*](https://arxiv.org/pdf/math/0511007v1). arXiv:math/0511007v1 (1 November 2005), internal pages; published in Noncommutative Geometry and Number Theory, Aspects Math. E37 (2006), 35–56.
