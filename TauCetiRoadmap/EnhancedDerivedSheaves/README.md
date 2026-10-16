@@ -24,7 +24,7 @@ The boundaries are as follows.
 - The current Tau Ceti library has extension by zero for presheaves on preorders and for open subsets in abelian sheaves (`TauCeti.CategoryTheory.PresheafExtensionByZero.functor`, `TauCeti.CategoryTheory.SheafExtensionByZero.preservesFiniteLimits_sheafPullback`); the slice-free modules of Section E1.1 are the extension by zero of the structure sheaf along an arbitrary object of a ringed site, which that library does not cover. Mathlib has their presheaf version (`PresheafOfModules.freeYoneda`, with `PresheafOfModules.freeYonedaEquiv` and `PresheafOfModules.freeYoneda.isSeparating`); the sheaf version is built here by sheafification. The current Tau Ceti library also makes the sheaves of modules over a sheaf of commutative rings on a small site a closed symmetric monoidal category (`TauCeti.SheafOfModules.monoidalCategory`, `TauCeti.SheafOfModules.symmetricCategory` and `TauCeti.SheafOfModules.monoidalClosed`, in `TauCeti/Algebra/Category/ModuleCat/Sheaf/TensorProduct/Monoidal.lean` and `Closed.lean`); the ordinary tensor product and internal Hom of module sheaves under the supplied K-flat condition and the `derivedTensor` and `derivedInternalHom` comparisons are these, and the tensor product of complexes is Mathlib's `HomologicalComplex.monoidalCategory` over it.
 - `AdicSpacesPartII` §R0.19.10 owns quasicompact and quasiseparated objects and morphisms of a topos and algebraic topoi; `TauCetiRoadmap.SchemeAndStackFoundations` §2.5 supplies cohomology commuting with filtered colimits on coherent sites, applied to the qcqs objects of an algebraic topos.
 - `TauCetiRoadmap.SchemeAndStackFoundations` owns schemes and quasicoherent modules, perfect schemes, the colimit perfection and perfectly finitely presented and perfectly proper maps (Layer 0, §§0.24–0.25); higher direct images on sites and the Leray and Čech-to-cohomology spectral sequences (§§2.1–2.2), cohomology commuting with filtered colimits (§2.5), quasicoherent higher direct images with flat base change (§2.6, `qcoh_higherDirectImages`); depth and Cohen–Macaulay modules (§0.17); and generic flatness, flattening by blowing up and regular schemes (§§4.12–4.13). Its §2.17 owns the repleteness predicate `IsReplete` (BS-proet Definition 3.1.1) with `IsReplete.lim_epi`, `IsReplete.derived_limits` (lim = Rlim for a tower of abelian sheaves with epimorphic transitions, BS-proet Proposition 3.1.10), `IsReplete.derivedCategory_leftComplete` (K ≅ Rlim τ^{≥−n} K for every K in Mathlib's `DerivedCategory`, BS-proet Proposition 3.3.3), `isReplete_of_locallyWeaklyContractible` (BS-proet Proposition 3.2.3(1)) and the pro-étale case of compact generation by weakly contractible objects. Its §2.18 owns `DQCoh X` inside Mathlib's `DerivedCategory X.Modules`, with `DQCoh.affineEquiv` and `DQCoh.restrict`, the derived tensor product, internal Hom, pullback and pushforward of a scheme on that triangulated category, and Tor-independent base change (`torIndependent_baseChange`). All of these are used here unchanged; the targets of this roadmap in the same direction are their refinements to the enhancement D∞ on arbitrary small ringed sites and topoi, and the results those sections do not state.
-- `TauCetiRoadmap.JacobianChallenge` (Layer C) supplies proper-flat-finitely-presented coherent pushforward. Section E2.8 owns `properHigherDirectImage_coherent` without flatness (Stacks 02O5).
+- `TauCetiRoadmap.JacobianChallenge` Layer C supplies coherent higher direct images for proper scheme morphisms over locally Noetherian bases, without flatness of the morphism or coefficients, and finite affine cohomology (Stacks 02O5–02O6). Section E2.8 supplies only the enhanced comparison and boundedness corollary `properHigherDirectImage_coherent`. E1.9 owns the proper-support coherence and perfect-pushforward extensions to algebraic spaces and their approximation interfaces.
 - The geometric roadmaps verify the hypotheses of the abstract theorems: `DiamondEtaleCohomology` proves that the v- and quasi-pro-étale sites of diamonds are locally weakly contractible, hence replete, and exhibits the accessibility and colimit closure of its étale subcategories; `DiamondSixOperations` builds the six operations from the diagram categories, mates and Beck–Chevalley transformations of Layer E3; `AdicCoefficientsAndComparisons` applies coefficient-system reconstruction to étale objects; `VStackSheavesAndLisseCategories`, `PerfectoidQuotients`, `EtaleDualityAndPerverseSheaves`, `PrismaticCohomology`, `AInfCohomology` and `CrystallineCohomology` consume the enhancement, descent and completion.
 - `DerivedModuleAlgebra` §0.I.1 supplies module K-injective replacements; §§0.2, 0.4 supplies module K-flat models, `DerivedDeRham.derivedTensor` and `Algebra.CotangentComplex`; §§0.5–0.13 supplies its ordinary deformation and functorial properties; §§0.14–0.17 supplies `DerivedDeRham.derivedExteriorPower` and integral décalage; §1.T.1 and §§1.1–1.1.1 supply elementary tower algebra, module derived limits and `DerivedDeRham.moduleDerivedHom`; §§1.2–1.5 supplies module completeness, `DerivedDeRham.derivedCompletion`, `DerivedDeRham.koszulCompletionTower` and regular-quotient completion. E1.F3.H1 identifies the module derived Hom with point-site internal Hom, and E1.8.DMA.1 identifies module derived tensor with affine derived sheaf tensor. E4 extends module completion to ringed topoi; E5:cotangent-export gives the coherent animated cotangent and power refinements and compares their homotopy-category shadows with these suppliers.
 - Sections 0.1–0.4 supply `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom`, `ClassicalDerived.inverseLimits` and `ClassicalDerived.functorCoherence` on essentially small ringed sites. Additive enhancement and K-injectives allow noncommutative rings; tensor products require commutativity. E1 gives explicit quasicategorical and dg-nerve comparison adapters for these objects. Section 0.3 `ClassicalDerived.derivedCompletion` is the ℓ-adic module specialization over ℤ of DerivedModuleAlgebra §§1.2–1.5; E4 compares both with the sheaf extension.
@@ -133,9 +133,9 @@ The baseline is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti 
   use this predicate. The other names in the §2.17 contract below are that roadmap's theorem
   targets; they do not assert the existence of an enhanced derived category at the library pins.
 
-- `SchemeAndStackFoundations`, Layer 0: quasicoherent modules and their direct images (§§0.1, 0.4), Noetherian approximation and spreading out (§0.9), depth and Cohen–Macaulay modules (§0.17), perfect schemes and the colimit perfection `Scheme.perfection` (§0.24), perfectly finitely presented and perfectly proper maps (§0.25). Layer 1: descent and algebraic spaces, including étale charts. Layer 2: higher direct images on sites (§2.1), `cech_to_cohomology` (§2.2), `cohomology_filtered_colimits` (§2.5), `qcoh_higherDirectImages` with flat base change (§2.6); `IsReplete`, `IsReplete.lim_epi`, `IsReplete.derived_limits`, `IsReplete.derivedCategory_leftComplete` and `isReplete_of_locallyWeaklyContractible` (§2.17); `DQCoh`, `DQCoh.affineEquiv`, `DQCoh.restrict` and `torIndependent_baseChange` (§2.18). Its Layers 1–2 supply the descent and cohomology inputs for E1.9. Layer 4: `generic_flatness` and `flattening_by_blowup` (§4.12), regular schemes and `IsRegular.isCohenMacaulay` (§4.13).
-- `JacobianChallenge`, Layer C: proper-flat-finitely-presented coherent pushforward; E2.8 supplies proper coherence without flatness.
-- `StableReduction`, Layer 2, together with `JacobianChallenge`, Layer C: coherent cohomology and base change for the Noetherian scheme models in E1.9. E1.9 supplies perfect pushforward with proper support for algebraic spaces over arbitrary bases.
+- `SchemeAndStackFoundations`, Layer 0: quasicoherent modules and their direct images (§§0.1, 0.4), Noetherian approximation and spreading out (§0.9), depth and Cohen–Macaulay modules (§0.17), perfect schemes and the colimit perfection `Scheme.perfection` (§0.24), perfectly finitely presented and perfectly proper maps (§0.25). Layer 1: descent and algebraic spaces, including étale charts. Layer 2: higher direct images on sites (§2.1), `cech_to_cohomology` (§2.2), `cohomology_filtered_colimits` (§2.5), `qcoh_higherDirectImages` with flat base change (§2.6); `IsReplete`, `IsReplete.lim_epi`, `IsReplete.derived_limits`, `IsReplete.derivedCategory_leftComplete` and `isReplete_of_locallyWeaklyContractible` (§2.17); `DQCoh`, `DQCoh.affineEquiv`, `DQCoh.restrict` and `torIndependent_baseChange` (§2.18). Its Layers 1–2 supply the sites, module descent and scheme cohomology used by E1.9; the algebraic-space pushforward and approximation extensions are targets of E1.9. Layer 4: `generic_flatness` and `flattening_by_blowup` (§4.12), regular schemes and `IsRegular.isCohenMacaulay` (§4.13).
+- `JacobianChallenge`, Layer C: coherent higher direct images for proper scheme morphisms over locally Noetherian bases, with no flatness hypotheses, and finite cohomology over Noetherian affine bases; E2.8 identifies these with enhanced pushforward and proves boundedness.
+- `StableReduction`, Layer 2, together with `JacobianChallenge`, Layer C: scheme coherent cohomology and base change. E1.9 constructs proper-support coherent and perfect pushforward for Noetherian algebraic spaces, algebraic-space approximation with the coefficient data, and perfect pushforward with proper support over arbitrary bases.
 
 ### From other roadmaps
 
@@ -151,14 +151,14 @@ These are section-level mathematical suppliers. The Lean imports in [Suggested.l
 | This roadmap §§0.1–0.4 | Ringed-site enhancement, K-injective and K-flat replacements, tensor–Hom, coherent derived limits and exact functor calculus; §0.3 also supplies ℓ-adic module completion over ℤ | E1 and E3 comparisons, E2:towers, E5:abstract tensor comparison, E4 specialization |
 | `DerivedModuleAlgebra` §0.I.1, §§0.2, 0.4–0.17, §1.T.1, §§1.1–1.5 (including §1.1.1) | Module K-injective replacements and K-flat tensor models, ordinary cotangent and power functors with their functorial laws, elementary towers and ML/Milnor, module derived limits and Hom, completeness, Koszul completion towers and regular-quotient models | §§0.1–0.3, E1.2, E1.F3.H1, E1.8.DMA.1, E2:towers, E4, E5:cotangent-export |
 | `DerivedModuleAlgebra` §0.K.1 | Linear-functional Koszul complexes, maps, signed tensor formulas, multiplication null-homotopies and finite weakly regular resolutions | E1.5–E1.6 and E4 |
-| `SchemeAndStackFoundations` §0.9, Layers 1–2 and §2.18; `JacobianChallenge` Layer C; `StableReduction` Layer 2 | Noetherian approximation, algebraic-space descent, derived functors on charts, and scheme coherent cohomology with base change | E1.9 |
+| `SchemeAndStackFoundations` §0.9, Layers 1–2 and §2.18; `JacobianChallenge` Layer C; `StableReduction` Layer 2 | Scheme approximation, algebraic-space sites and module descent, and scheme coherent cohomology with base change; E1.9 constructs the space pushforward and approximation extensions | E1.9 |
 | `PerfectoidSpaces` P0.1–P0.2, P0.5–P0.15, P7.16 | Basic and compatible-root setups, almost modules and algebras, almost projectivity and finite étale algebra; regularity of finite-variable power-series rings over fields | E1.6–E1.7 |
 
 PerfectoidSpaces' algebra contracts in this table are direct inputs here.
 
 ## How to read the build
 
-The mathematical build order follows these section contracts. The ordinary Koszul, K-injective, K-flat, cotangent, power, derived-Hom and module-completion models are built in their supplier sections; BordismFormalGroups F6.5 supplies the generic quasicategorical, diagram and monoidal foundations independently of its chromatic and Tate applications. These inputs and the ringed-site constructions of Sections 0.1–0.4 precede the corresponding enhanced comparisons in E1, E4 and E5:cotangent-export. E1.F3.H1 follows E1.4's internal Hom, and E1.8.DMA.1 and E1.9 follow E1.8's quasicoherent comparison. E1.9 uses the algebraic-space, descent and coherent-cohomology inputs of SchemeAndStackFoundations, JacobianChallenge and StableReduction. PerfectoidSpaces' algebra sections precede their E1.6–E1.7 consumers, and AdicSpacesPartII §R0.19.10 and SchemeAndStackFoundations §2.5 precede their E2 consumers. Supplier applications that use E3 or E5 follow those layers; the suppliers in the global order precede this roadmap, and BordismFormalGroups and GeneralizedCohomology are external roadmap suppliers.
+The mathematical build order follows these section contracts. The ordinary Koszul, K-injective, K-flat, cotangent, power, derived-Hom and module-completion models are built in their supplier sections; BordismFormalGroups F6.5 supplies the generic quasicategorical, diagram and monoidal foundations independently of its chromatic and Tate applications. These inputs and the ringed-site constructions of Sections 0.1–0.4 precede the corresponding enhanced comparisons in E1, E4 and E5:cotangent-export. E1.F3.H1 follows E1.4's internal Hom, and E1.8.DMA.1 and E1.9 follow E1.8's quasicoherent comparison. E1.9 uses the sites and module descent of SchemeAndStackFoundations and scheme coherent cohomology of JacobianChallenge and StableReduction to build its algebraic-space proper-support pushforward and approximation targets before the arbitrary-base theorem. PerfectoidSpaces' algebra sections precede their E1.6–E1.7 consumers, and AdicSpacesPartII §R0.19.10 and SchemeAndStackFoundations §2.5 precede their E2 consumers. Supplier applications that use E3 or E5 follow those layers; the suppliers in the global order precede this roadmap, and BordismFormalGroups and GeneralizedCohomology are external roadmap suppliers.
 
 The layer labels are identifiers that other roadmaps cite; the build order differs from their numbering. E0 uses the supplied foundations and Yoneda theorem, and builds the dg nerve and the stated finality and presentability extensions. Sections 0.1–0.4 construct enhanced ringed-site sheaves after E0. E1 compares this sheaf enhancement with the dg nerve and supplies the additional commutative algebra. E3 builds the relative Kan-extension and presentability refinements and the ringed-diagram applications. The additive part of E2:towers then builds derived limits and pro-zero theory; E5:abstract uses the supplied monoidal carriers before the multiplicative part of E2:towers. E5:presentability and E5:descent use these constructions. Build the abstract Eilenberg–Mac Lane comparison in E5:spectra-comparison before E5:animation.4. The concrete spectra comparison also uses GeneralizedCohomology G2; its tower specialization follows E2:towers and its point-site completion specialization follows E4.2. E2 then uses descendability and animation for perfect h-descent; E4 extends module completion to replete topoi. E5:cotangent-export and the final compatibility comparisons use these earlier layers.
 
@@ -924,6 +924,136 @@ Mathlib `DerivedCategory`, `HomologicalComplex`.
 
 ### E1.9 Perfect pushforward with proper support
 
+**Coherence with proper support on Noetherian algebraic spaces**
+(`spaceProperSupport_coherent`). Let `f : X → Y` be a locally finite type,
+quasi-separated morphism of algebraic spaces over a scheme, with `Y` Noetherian.
+For a coherent module `M` whose scheme-theoretic support is proper over `Y`,
+every `R^q f_*M` is coherent. For `K ∈ D^b_Coh(O_X)` whose cohomology sheaves
+have proper support over `Y`, prove `Rf_*K ∈ D^b_Coh(O_Y)`. Use the enhancement
+of the ringed small étale sites, with quasicoherence, coherence and perfectness
+detected on étale scheme charts; identify its cohomology with ordinary higher
+direct images. This target includes the algebraic-space extensions of proper
+coherence, finite cohomological dimension for qcqs maps over a quasicompact target,
+and the proper-support reduction used here.
+(Stacks, Cohomology of Spaces, Lemmas 69.20.2, tag
+[08AR](https://stacks.math.columbia.edu/tag/08AR), and 69.8.1, tag
+[073G](https://stacks.math.columbia.edu/tag/073G); Derived Categories of Spaces,
+Lemmas 75.7.10 and 75.8.1, tags [08GC](https://stacks.math.columbia.edu/tag/08GC)
+and [08GK](https://stacks.math.columbia.edu/tag/08GK).)
+
+*Proof route.* Work étale locally on the target. Prove proper coherence for spaces
+by Noetherian induction on coherent supports and the algebraic-space Chow lemma:
+a reduced irreducible proper space over a Noetherian affine base admits a proper
+surjection from a projective scheme. Include that proper-surjection theorem
+(Stacks 69.18.1, tag
+[089J](https://stacks.math.columbia.edu/tag/089J)) and the coherent-support dévissage
+of 69.14.6 (08AN) in this extension; use scheme projective cohomology from
+JacobianChallenge Layer C. For a module with proper support, factor it through a
+closed subspace proper over `Y` and use exact closed-immersion pushforward
+(75.7.7, 0CZI). For bounded complexes use the cohomology spectral sequence.
+Establish the uniform cohomological bound for qcqs spaces using the finite étale
+cover and alternating Čech construction of 69.7.3 (072C) and 69.8.1 (073G).
+Restrict to a quasicompact open neighbourhood of the finite union of supports
+when `X` is not quasicompact.
+
+**Checks.**
+
+- For `ℙ¹_k → Spec k`, `RΓ(O) = k[0]`. The étale presentation
+  `U = 𝔸¹_k ⊔ 𝔸¹_k → ℙ¹_k` has `RΓ(U, O_U) = k[t] × k[s]` in degree zero,
+  which is not finite over `k`; neither the chart map nor its support is proper
+  over `k`. The global theorem does not apply separately to these source charts.
+- The finite nonflat map `Spec(k[t]/(t)) → Spec k[t]` has coherent direct image
+  `k[0]` and zero higher direct images, without flatness of the map or coefficient.
+- For `𝔸¹_k → Spec k`, the structure sheaf has nonproper support and
+  `H⁰ = k[t]` is not coherent over `k`; the proper-support hypothesis is necessary.
+
+*Needs:* E1.1–E1.4 (enhanced ringed-site functors and ordinary comparisons);
+SchemeAndStackFoundations §§1.6–1.11 (algebraic spaces, small étale sites and
+quasicoherent module descent), §§2.1–2.2 (higher direct images and spectral
+sequences), §2.18 (scheme derived comparisons); JacobianChallenge Layer C
+(scheme proper coherence and finite affine cohomology).
+
+**Perfect pushforward on a Noetherian algebraic-space base**
+(`spaceProperSupport_perfect`). Under the hypotheses on `f` and `Y` of
+`spaceProperSupport_coherent`, let `K ∈ D^b_Coh(O_X)` have proper cohomological
+support and finite Tor dimension as a complex of `f⁻¹O_Y`-modules. Then `Rf_*K`
+is perfect. In particular this applies to `K = E ⊗ᴸ G•`, where `E` is perfect
+and `G•` is a bounded complex of coherent modules, termwise flat over `Y`,
+with each support proper over `Y`.
+(Stacks, Derived Categories of Spaces, Lemmas 75.22.1–75.22.2, tags
+[08IS](https://stacks.math.columbia.edu/tag/08IS) and
+[0DKJ](https://stacks.math.columbia.edu/tag/0DKJ).)
+
+*Proof route.* The preceding target gives bounded coherent pushforward, hence
+pseudo-coherence on the Noetherian target. Prove the small-étale-site
+pseudo-coherence criterion and the criterion that pseudo-coherence plus finite
+Tor dimension is perfect (Stacks 75.13.7–75.13.8, 08IK–08IL, and 21.47.4, 08G8).
+Include the qcqs algebraic-space projection formula
+`Rf_*K ⊗ᴸ N ≃ Rf_*(K ⊗ᴸ Lf* N)` for quasicoherent complexes (75.20.1,
+[08IN](https://stacks.math.columbia.edu/tag/08IN)). After restricting to a
+quasicompact neighbourhood of the support, apply it to quasicoherent modules
+`N` on `Y`: finite relative Tor dimension gives a uniform lower bound, while
+boundedness above of `Rf_*K` gives the upper bound. For `E ⊗ᴸ G•`, finite free
+models of `E` near the proper supports and target-flatness of `G•` give bounded
+coherent cohomology and finite relative Tor dimension. A finite cover of the
+proper supports supplies uniform bounds.
+
+**Checks.**
+
+- For `ℙ¹_k → Spec k` and `E = O(−2)`, `G• = O[0]`, the pushforward is
+  `k[−1]`, a perfect complex with its nonzero cohomology in degree one.
+- For `f = id_(Spec A)` with `A = k[ε]/(ε²)`, the complex `k[0]` has proper
+  support and coherent bounded cohomology but is not perfect: its resolution
+  over `A` has nonzero Tor in arbitrarily high degrees. Finite relative Tor
+  dimension cannot be dropped.
+- For finite nonflat `Spec(k[t]/(t)) → Spec k[t]`, the source structure sheaf
+  has relative Tor amplitude `[−1, 0]` and pushforward `k[0]`, perfect over `k[t]`.
+  Flatness of `f` is not required.
+
+*Needs:* `spaceProperSupport_coherent`; E1.4 (derived tensor and pullback);
+SchemeAndStackFoundations §2.18 (scheme pseudo-coherence and projection formula).
+The space criteria and projection formula stated here are part of this target.
+
+**Algebraic-space approximation with perfect and proper-support data**
+(`spaceProperSupport_approximation`). Let `R = colim_i R_i` be a filtered colimit
+of Noetherian rings, `X → Spec R` an algebraic space of finite presentation,
+`G•` a bounded complex of finitely presented modules, termwise `R`-flat with
+proper supports, and `E` perfect on `X`. There is a stage `i`, a finitely
+presented space `X_i → Spec R_i`, a bounded complex `G_i•` of finitely presented
+modules termwise `R_i`-flat with proper supports, and a perfect `E_i` whose
+pullbacks are `X`, `G•` and `E`. Pullback of `G_i•` is ordinary termwise
+pullback; pullback of `E_i` is derived. Include descent of morphisms and their
+equalities after increasing the stage, so differentials, their square-zero
+relations and finite diagrams of perfect complexes descend compatibly.
+(Stacks, proof of 75.25.1, [0A1P](https://stacks.math.columbia.edu/tag/0A1P),
+using Limits of Spaces 70.7.1–70.7.2, tags 07SK–07V7, 70.6.12, tag 08K0,
+70.12.3, tag 08K2, and Derived Categories of Spaces 75.24.3, tag 09RJ.)
+
+*Proof route.* Extend the scheme limit interfaces of SchemeAndStackFoundations
+§0.9 to finitely presented spaces and modules by descending finite étale
+presentations and their relations. Descend the bounded coefficient complex,
+then enlarge the stage so all terms are target-flat and have proper support;
+prove these eventual-property statements for spaces as in 08K0 and 08K2.
+Descend the perfect complex by the perfect-category limit comparison of 09RJ;
+descent of shifted morphisms and E1's mapping-space comparison give its enhanced
+mapping-space comparison. Finitely many terms, differentials and relations admit
+a common stage. These are algebraic-space
+approximation statements, independent of perfectness of pushforward.
+
+**Checks.**
+
+- For `X = ℙ¹_R`, `E = O(−2)` and `G• = O[0]`, all data descend from
+  `ℙ¹_ℤ` after choosing a stage containing the image of `ℤ`.
+- Over `R = ℤ[t₁, t₂, …]`, the perfect complex `[O_X →t₃₇ O_X]` on
+  `X = ℙ¹_R` descends to a finite-variable polynomial stage, with the same
+  two-term complex and proper-support coefficient `G• = O_X[0]`.
+- With `R₀ = k[t]`, coefficient `R₀/(t)` and limit ring `R = k[t, t⁻¹]`,
+  the coefficient becomes zero, hence flat with empty proper support. A stage
+  containing `t⁻¹` has the same property; flatness is not asserted at stage zero.
+
+*Needs:* SchemeAndStackFoundations §0.9 (scheme limits), §§1.6–1.11 (spaces,
+étale presentations and module descent); E1.1–E1.4 (enhancement and pullback).
+
 **Perfect proper-support pushforward** (`perfect_proper_pushforward`). Let f : X → Y
 be a finitely presented morphism of algebraic spaces, E a perfect complex on X, and
 G• a bounded complex of finitely presented O_X-modules, termwise flat over Y,
@@ -931,7 +1061,7 @@ each with support proper over Y. Then Rf_∗(E ⊗ᴸ_(O_X) G•) is perfect on 
 For every base change g : Y′ → Y, with X′ = X ×_Y Y′ and induced maps f′ and g′,
 the derived base-change comparison
 
-Lg^∗ Rf_∗(E ⊗ᴸ G•) → Rf′_∗(Lg′^∗E ⊗ᴸ g′^∗G•)
+`Lg* Rf_*(E ⊗ᴸ G•) → Rf′_*(Lg′*E ⊗ᴸ g′*G•)`
 
 is an isomorphism, where g′^∗G• is the termwise ordinary pullback of the given
 complex. Flatness over Y supplies this base-change formula without requiring
@@ -947,12 +1077,12 @@ For base change, use the stalkwise target-flat calculation of Stacks 0A1K:
 ordinary scalar extension of the bounded complex G• over the target computes
 its derived scalar extension over that target. Together with the derived pullback
 of E this gives the displayed comparison with termwise g′^∗G•. For perfectness,
-follow Stacks 0A1P: work étale locally on Y and descend E and G•, including
-target-flatness and proper support, to a Noetherian affine model. Prove perfectness
-on that algebraic-space model by étale descent from the scheme cohomology theorems
-of StableReduction Layer 2 and JacobianChallenge Layer C, using
-SchemeAndStackFoundations §2.18 on the charts. Apply 0A1K to pull this perfect
-pushforward back to Y; perfectness descends on Y.
+follow Stacks 0A1P: work étale locally on `Y` with affine target and apply
+`spaceProperSupport_approximation` to descend the space, `E` and `G•`, including
+target-flatness, proper support and the complex structure, to a Noetherian affine
+base. Apply `spaceProperSupport_perfect` on that algebraic-space model, then
+0A1K to pull its perfect pushforward back to `Y`. Perfectness is étale local on
+the target.
 
 **Checks.**
 
@@ -970,8 +1100,10 @@ pushforward back to Y; perfectness descends on Y.
   Replacing g′^∗G• by Lg′^∗G• gives A ⊗ᴸ_B C, whose H^{−2} is
   Tor₂^B(A, C) = k. Thus target-flatness does not permit that replacement.
 
-*Needs:* SchemeAndStackFoundations §0.9, Layers 1–2 and §2.18; JacobianChallenge Layer C;
-StableReduction Layer 2.
+*Needs:* `spaceProperSupport_coherent`; `spaceProperSupport_perfect`;
+`spaceProperSupport_approximation`; E1.4 (enhanced pullback, pushforward and
+ordinary comparisons); the target-flat base-change comparison of Stacks 0A1K
+constructed above.
 
 ### Examples
 
@@ -1196,17 +1328,75 @@ is exact, and the map π₀ Map(F^{⊗m}, A) × π₀ Map(F^{⊗m}, A) → π₀
 
 *Needs:* `derivedTowerLimit`; E0.4's supplied stability predicate; E5:abstract.1–E5:abstract.2 (the supplied symmetric monoidal ∞-categories, `operadicAlgebras`); coherent tensor pairings and sequential-colimit preservation.
 
-**Multiplicative derived-limit filtration for finite cohomological dimension** (`derivedLimitFiltration`). Let I be a small filtered category such that lim^s over I^{op} of diagrams of abelian groups vanishes for s > d. Let C be a stable quasicategory with I^{op}-indexed limits, X : I^{op} → C a diagram and z an object. Then the abelian groups π_∗ Map(z, lim X) carry a filtration F^s, functorial in z and X, whose graded pieces are subquotients of lim^s_{I^{op}} π_{∗+s} Map(z, X_i); hence F^{d+1} = 0. If C is symmetric monoidal with tensor exact in each variable, the pairing on mapping groups induced by the tensor product is filtered, F^s · F^t ⊆ F^{s+t}, so a product of d + 1 classes in F¹ vanishes. For I = ℕ this is `towerLimit_lim1_mul_eq_zero` with d = 1. (BS17 Lemma 11.22, p. 44, which proves the sequential case and leaves the general case to the reader.)
+**Multiplicative derived-limit filtration for finite cohomological dimension**
+(`derivedLimitFiltration`). Let `I` be a small filtered category such that
+`lim^s` over `Iᵒᵖ` of diagrams of abelian groups vanishes for `s > d`.
+Let `C` be a stable quasicategory with `Iᵒᵖ`-indexed limits,
+`X : Iᵒᵖ → C` a coherent diagram and `z` an object. The mapping groups
+`[z[n], lim X]` carry a filtration `F^s`, functorial in `z` and `X`, whose
+spectral-sequence graded pieces are subquotients of
+`lim^s_i [z[n+s], X_i]`; in particular `F⁰` is the whole group and
+`F^{d+1} = 0`. Here `[a, b] = π₀ Map_C(a, b)` and `n` is any integer.
+If `C` is symmetric monoidal with tensor exact in each variable, then for a
+second diagram `Y : Iᵒᵖ → C` and object `w` the external pairing is
+
+```text
+[z, lim_i X_i] × [w, lim_i Y_i]
+  → [z ⊗ w, lim_i (X_i ⊗ Y_i)].
+```
+
+It tensors the two maps, then composes with the canonical comparison
+`(lim X) ⊗ (lim Y) → lim_i (X_i ⊗ Y_i)`. This pairing and its shifted versions
+satisfy `F^s · F^t ⊆ F^{s+t}`. Thus `d + 1` positive-filtration classes have
+zero external product in the limit of their pointwise tensor diagram.
+For an internal product, require `X` to be a coherent diagram of algebra
+objects, with compatible multiplications `X_i ⊗ X_i → X_i`, and `z` a
+coassociative coalgebra object with diagonal `z → z ⊗ z`. These maps induce
+the product on `[z, lim X]`, respecting the filtration; its ideal `F¹` has
+`(F¹)^{d+1} = 0`.
+(BS17 Lemma 11.22, p. 44, proves the sequential case and indicates the
+finite-cohomological-dimension generalization.)
+
+The mapping-out-of-a-colimit assertion `towerLimit_lim1_mul_eq_zero` is a
+separate application to the mapping spectra of the stages. First compose the
+paired-diagram map with the coherent stage maps
+`map(F_i^{⊗m}, A) ⊗ map(F_i^{⊗m}, A) → map(F_i^{⊗2m}, A)`
+induced by tensor and multiplication on `A`. Sequential-colimit preservation
+and diagonal finality give `F^{⊗r} ≃ colim_i F_i^{⊗r}` for `r = m, 2m`,
+hence identify `lim_i map(F_i^{⊗r}, A)` with `map(F^{⊗r}, A)`.
+Under these identifications `I = ℕ` gives the preceding sequential theorem.
+Exact tensor alone supplies no such identification with the tensor of two limits.
 
 **Checks.**
 
-- For I = ℕ, d = 1 and the statement reduces to the vanishing of products of two lim¹ classes.
-- For I a point, d = 0 and F¹ = 0.
-- Without the bound d the filtration need not be finite, and a product of classes of positive filtration need not vanish.
+- For `I = ℕ`, `d = 1`, the external product of two Milnor `lim¹` classes
+  vanishes in `[z ⊗ w, lim_i (X_i ⊗ Y_i)]`.
+- For `I` a point, `d = 0` and `F¹ = 0`.
+- In `D(ℚ)`, take the inclusion tower `T_i = ⊕_{j≥i} ℚ[0]` and
+  `V = (∏_ℕ ℚ)/(⊕_ℕ ℚ)`, so `lim_i T_i ≃ V[−1]`. A nonzero map
+  `u : ℚ[−1] → V[−1]` lies in `F¹`, since every map to a stage is zero.
+  Its tensor square `u ⊗ u : ℚ[−2] → (V ⊗ V)[−2]` is nonzero over `ℚ`,
+  while its composite into `lim_i (T_i ⊗ T_i)` is zero. The paired-diagram
+  codomain is essential.
+- Without the bound `d` the filtration need not be finite, and a product of
+  classes of positive filtration need not vanish.
 
-*Proof route.* Write lim X as the totalization of the cosimplicial replacement and filter by the totalization degree; the E₂-page is lim^s π_t X. External products of cosimplicial replacements are compatible with the Alexander–Whitney pairing of totalizations, which is filtered.
+*Proof route.* Form `map_C(z, X_i)` from the loop-compatible pointed spaces
+`Map_C(z, X_i[r])`, `r ≥ 0`, using stability's suspension-loop equivalences.
+Apply the cosimplicial replacement to these mapping spectra and filter its
+totalization by degree. The `E₂` page is
+`lim^s_i π_t map_C(z, X_i)`; finite cohomological dimension gives convergence
+and the finite filtration above. The levelwise tensor maps between mapping
+spectra and the Alexander–Whitney pairing give the filtered external map into
+the totalization for `map_C(z ⊗ w, X_i ⊗ Y_i)`. For internal products compose
+with the coherent stage multiplication and the source diagonal. This proof
+uses the canonical tensor-to-limit comparison without asserting it invertible.
 
-*Needs:* `derivedTowerLimit`; the supplied limit universal property; E0.4's supplied stability predicate; E5:abstract.1–E5:abstract.2 (the supplied symmetric monoidal ∞-categories, `operadicAlgebras`) for the multiplicative assertion.
+*Needs:* `derivedTowerLimit`; the supplied limit universal property;
+E0.4's supplied stability predicate; E5:abstract.1–E5:abstract.2 (the supplied
+symmetric monoidal ∞-categories, `operadicAlgebras`) for the multiplicative
+assertion. The mapping-out-of-a-colimit application also uses the
+sequential-colimit preservation in `towerLimit_lim1_mul_eq_zero`.
 
 ### E2:towers.2 Pro-zero towers
 
@@ -2207,7 +2397,7 @@ Provide `spaceSheaves`, `hypercompleteSpaceSheaves`, `spacePostnikovTower` and `
 
 ### E2.8 h-descent on perfect schemes
 
-Schemes are qcqs; perfect schemes and the colimit perfection are those of `TauCetiRoadmap.SchemeAndStackFoundations` §0.24, and perfectly finitely presented and perfectly proper maps those of §0.25. `TauCetiRoadmap.JacobianChallenge` Layer C supplies proper-flat-finitely-presented coherent pushforward; proper coherence without flatness is `properHigherDirectImage_coherent` below, and flat base change for quasicoherent higher direct images is `qcoh_higherDirectImages` of `TauCetiRoadmap.SchemeAndStackFoundations` §2.6.
+Schemes are qcqs; perfect schemes and the colimit perfection are those of `TauCetiRoadmap.SchemeAndStackFoundations` §0.24, and perfectly finitely presented and perfectly proper maps those of §0.25. `TauCetiRoadmap.JacobianChallenge` Layer C supplies ordinary proper coherence over locally Noetherian bases without flatness, and finite cohomology over Noetherian affine bases; `properHigherDirectImage_coherent` below is its enhanced comparison and boundedness corollary. Flat base change for quasicoherent higher direct images is `qcoh_higherDirectImages` of `TauCetiRoadmap.SchemeAndStackFoundations` §2.6.
 
 **The h-topology on perfect schemes** (`perfectHTopology`). On perfect qcqs 𝔽_p-schemes, an h-cover is the perfection of an h-cover of qcqs 𝔽_p-schemes, the h-topology on schemes being generated by fppf covers and by finitely presented proper surjections (equivalently by finitely presented v-covers, BS17 Theorem 2.4 and Definition 2.7). Over a fixed perfect base, the site of perfectly finitely presented schemes uses the same covers; cardinal cutoffs make the site small. (BS17 Definition 11.1, p. 40; Theorem 2.4 and Definition 2.7, pp. 5–6; Theorem 2.9, pp. 6–8.)
 
@@ -2245,15 +2435,36 @@ Provide `perfectHTopology`, `perfectHCovers_pullback` and `perfectHCovers_perfec
 
 *Needs:* `IsDescendable`; `moduleDescent`; `isDescendable_colimit_of_uniformIndex`; `QuasicoherentDerived`; `enhancedPushforward`.
 
-**Proper coherence without flatness** (`properHigherDirectImage_coherent`). For S locally Noetherian, f : X → S proper and F a coherent O_X-module, every R^i f_*F, i ≥ 0, is coherent. Identify these higher direct images with the cohomology sheaves of `enhancedPushforward`. When S is quasicompact, finite affine covers over a finite affine cover of S give a finite cohomological bound for quasicoherent sheaves; thus bounded coherent complexes have bounded coherent pushforward. (Stacks Proposition 30.19.1, tag 02O5; Lemma 30.2.6, tag 01XD, for the affine Čech computation.)
+**Enhanced proper-coherence comparison** (`properHigherDirectImage_coherent`).
+For a proper scheme morphism `f : X → S` with `S` locally Noetherian and a
+coherent `O_X`-module `F`, provide the canonical identification
+`H^i(enhancedPushforward f (F[0])) ≅ R^i f_*F` for `i ≥ 0`, with the coherent
+structure supplied by JacobianChallenge Layer C. No flatness is imposed on
+`f` or `F`. This is the cohomology comparison for `enhancedPushforward`, followed
+by the supplier's ordinary proper-coherence theorem. When `S` is quasicompact,
+a finite affine cover of `S` and finite affine covers of its proper preimages
+give a uniform cohomological bound for quasicoherent sheaves. With the supplied
+coherence and the cohomology spectral sequence, deduce that enhanced pushforward
+sends bounded coherent complexes to bounded coherent complexes.
+(Stacks Proposition 30.19.1 and Lemma 30.19.2, tags
+[02O5](https://stacks.math.columbia.edu/tag/02O5) and
+[02O6](https://stacks.math.columbia.edu/tag/02O6), supplied by JacobianChallenge
+Layer C; Lemma 30.2.6, tag [01XD](https://stacks.math.columbia.edu/tag/01XD),
+for the affine Čech bound.)
 
 **Checks.**
 
 - The blow-up of a smooth surface at a point has coherent higher direct images, although its fibre dimension jumps from zero to one and it is not flat.
-- For a finite map, f_*F is coherent and R^i f_*F = 0 for i > 0.
+- For the finite nonflat map `i : Spec(k[t]/(t)) → Spec k[t]`, enhanced
+  pushforward of `O[0]` has `H⁰ ≅ (k[t]/(t))~` and vanishing higher cohomology,
+  identified with the supplier's coherent `i_*O` and zero higher direct images.
 - For Spec k[t,t⁻¹] → Spec k[t], direct image of the structure sheaf is not coherent, so properness cannot be omitted.
 
-*Needs:* `enhancedPushforward`; SchemeAndStackFoundations §§2.1, 2.6 (higher direct images and quasicoherent cohomology); finite affine Čech cohomology.
+*Needs:* E1.4 (`enhancedPushforward` and its ordinary comparison);
+JacobianChallenge Layer C (ordinary proper coherence, finite affine cohomology
+and its higher-direct-image identification); SchemeAndStackFoundations
+§§2.1–2.2, 2.6 (higher direct images, cohomology spectral sequences and
+quasicoherent cohomology); finite affine Čech cohomology.
 
 **Descendability of h-covers of Noetherian schemes** (`descendable_hCover_noetherian`). For an h-cover f : X → Y of Noetherian schemes, O_Y → Rf_∗ O_X is descendable in Dqc(Y). (BS17 Proposition 11.25, p. 45.)
 

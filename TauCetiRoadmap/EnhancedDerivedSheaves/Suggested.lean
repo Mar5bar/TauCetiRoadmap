@@ -462,7 +462,17 @@ The README also specifies API beyond the representative statements above:
   unit, extension-class and nonperfect-localization computations.
 * E1.8.DMA.1: `derivedTensor_affine`, in namespace `DerivedDeRham`, compares the module
   tensor of DerivedModuleAlgebra §0.2 with SchemeAndStackFoundations §2.18 on `Spec R`.
-* E1.9: `perfect_proper_pushforward` states perfectness and arbitrary base change
+* E1.9: `spaceProperSupport_coherent` supplies coherent higher direct images and
+  bounded coherent pushforward for locally finite type quasi-separated maps of algebraic
+  spaces to a Noetherian base, with proper cohomological support. It includes proper
+  coherence for spaces and the finite cohomological bound. `spaceProperSupport_perfect`
+  adds finite Tor dimension over the target and concludes perfect pushforward, including
+  the case of a perfect factor tensored with a bounded coherent target-flat complex.
+  `spaceProperSupport_approximation` descends a finitely presented algebraic space, its
+  bounded finitely presented target-flat complex with proper supports, and its perfect
+  factor to a common Noetherian stage, with ordinary pullback of the coefficient complex
+  and derived pullback of the perfect factor.
+  `perfect_proper_pushforward` states perfectness and arbitrary base change
   for `Rf_*(E ⊗ᴸ G•)` on algebraic spaces, with `E` perfect and `G•` bounded, finitely
   presented, termwise target-flat and with proper support. Its base-change formula is
   `Lg* Rf_*(E ⊗ᴸ G•) ≃ Rf'_*(Lg'^*E ⊗ᴸ g'^*G•)`, with the second factor pulled
@@ -485,7 +495,22 @@ The README also specifies API beyond the representative statements above:
 * E2.1–E2.3: `IsReplete.of_over_epi`, `IsReplete.lim_map_epi`, `IsReplete.rlim_amplitude`,
   `IsReplete.rlim_eq_zero_of_proZero` and `IsReplete.postnikov_counit` are the cover,
   derived-limit and enhanced Postnikov targets.
+* E2:towers.1: `derivedLimitFiltration` filters the mapping groups `[z[n], lim X]`
+  for a coherent diagram indexed by the opposite of a small filtered category of finite
+  inverse-limit cohomological dimension d. Its tensor pairing has codomain
+  `[z ⊗ w, lim_i (X_i ⊗ Y_i)]`, through the canonical comparison from the tensor of
+  limits. It is filtered, so d + 1 positive-filtration classes have zero external product
+  there. Internal products additionally use a coherent diagram of algebra objects and
+  a coalgebra diagonal on z. The mapping-out-of-a-colimit theorem
+  `towerLimit_lim1_mul_eq_zero` uses its separate tensor/sequential-colimit preservation
+  hypothesis; nilpotence is not asserted in the tensor of two limits.
 * E2.5: `projective_sections_exact` gives exact sections on abelian sheaves over projective objects.
+* E2.8: `properHigherDirectImage_coherent` identifies cohomology of enhanced proper
+  pushforward of a coherent sheaf with the ordinary higher direct images supplied by
+  JacobianChallenge Layer C over a locally Noetherian scheme base, without flatness of
+  the map or coefficient. For a quasicompact base it also gives bounded coherent
+  pushforward using the finite affine cohomological bound. Ordinary scheme proper
+  coherence and finite affine cohomology are consumed from that supplier.
 SchemeAndStackFoundations §2.17 supplies `IsReplete.lim_epi`, `IsReplete.derived_limits`
 and `IsReplete.derivedCategory_leftComplete`; its predicate is imported above.
 
