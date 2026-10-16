@@ -15,7 +15,17 @@ namespace TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
 open scoped BigOperators
 
-/-! ## Layer 1: stable conjugacy and arithmetic invariants -/
+/-! ## Layer 1: stable conjugacy and arithmetic invariants
+Section 1.8 uses the full embedding-permuting Weil action on the supplied pinned dual.
+Section 1.9's InnerTwist.equiv_of_localClass_eq takes equality of localized marked
+cohomology classes and returns equivalence of the two InnerTwist objects as in §1.6.
+Section 1.17's UnitaryLieCentralizer.isometryTorsor, UnitaryLieCentralizer.inv and
+UnitaryLieCentralizer.inv_sameSpace take both Hermitian forms and matching regular
+semisimple endomorphisms. The invariant is the class of the torsor of intertwining
+geometric isometries, using source and target descent; on a fixed space it lies in the
+kernel classifying rational orbits. These reductive and torsor interfaces are README targets.
+The global Weil carrier and its structural API are supplied by
+GL2AutomorphicRepresentationsAndTransfer §R17.5.0, with the endoscopic conventions of §1.3a. -/
 
 /-- The nonarchimedean parity sign from quasi-split and inner derived ranks. Real groups
 use symmetric-space half-dimensions instead. The integer exponent retains
@@ -387,7 +397,7 @@ TowerUntiltChart, LubinTate, Drinfeld, TowerPeriod, TowerInfinity,
 TowerCohomology, TowerSector, BasicTowerFibre, UnitaryWeakBC, TransferableLevel,
 IgusaTests, NewtonRed, HiggsSections, RegularCentralizerPicard,
 SemisimpleCentralizer, TowerLocallyAnalytic, StandardPair, AdmissibleTrace,
-AuxiliaryDivisionPEL, FiniteLengthClass, GLIntertwiner, GlobalWeil, LocalTorusReciprocity, InnerGL,
+AuxiliaryDivisionPEL, FiniteLengthClass, GLIntertwiner, LocalTorusReciprocity, InnerGL,
 Invariants, IsAssociated, IsStableDistribution, NearbyCycles, Newvector, PairFactors,
 ParabolicInduction, QuasiEL, SpehType, StrictDieudonne and StrictNearbyCycles. Their geometry and representation categories are needed
 before their signatures can be stated in Lean.
