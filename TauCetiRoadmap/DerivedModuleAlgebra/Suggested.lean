@@ -20,7 +20,7 @@ open TensorProduct Polynomial
 open scoped TensorProduct
 
 noncomputable section
-universe u uFlat
+universe u uFlat uRing v
 
 /-! ## Polynomial laws: 0.DP.1 -/
 
@@ -279,6 +279,47 @@ example : ¬ Function.Surjective (Module.Dual.eval (ZMod 2) (ℕ →₀ ZMod 2))
 
 /-! ## Towers, lim and lim¹: 1.T.1 -/
 
+namespace ModuleTower
+
+variable {R : Type uRing} [Ring R]
+
+/-- The product of a native module tower's terms. -/
+abbrev Product (F : ℕᵒᵖ ⥤ ModuleCat.{u} R) := ∀ n : ℕ, F.obj (Opposite.op n)
+
+/-- The linear map `1−shift` on the product of a native module tower. -/
+def shift (F : ℕᵒᵖ ⥤ ModuleCat.{u} R) : Product F →ₗ[R] Product F := sorry
+
+/-- The shift uses the transition from level `n+1` to level `n`. -/
+theorem shift_apply (F : ℕᵒᵖ ⥤ ModuleCat.{u} R) (x : Product F) (n : ℕ) :
+    shift F x n = x n - F.map (homOfLE (Nat.le_succ n)).op (x (n + 1)) := sorry
+
+/-- The module of compatible families, with its canonical projections. -/
+def lim (F : ℕᵒᵖ ⥤ ModuleCat.{u} R) : Submodule R (Product F) := (shift F).ker
+
+/-- The first derived limit of a countable module tower. -/
+abbrev limOne (F : ℕᵒᵖ ⥤ ModuleCat.{u} R) := Product F ⧸ (shift F).range
+
+/-- A natural transformation acts levelwise on the tower products. -/
+def productMap {F G : ℕᵒᵖ ⥤ ModuleCat.{u} R} (f : F ⟶ G) :
+    Product F →ₗ[R] Product G := sorry
+
+/-- The product map evaluates by the indicated component of the natural transformation. -/
+theorem productMap_apply {F G : ℕᵒᵖ ⥤ ModuleCat.{u} R} (f : F ⟶ G)
+    (x : Product F) (n : ℕ) : productMap f x n = f.app (Opposite.op n) (x n) := sorry
+
+/-- Product maps commute with `1−shift`, inducing maps on its kernel and cokernel. -/
+theorem shift_natural {F G : ℕᵒᵖ ⥤ ModuleCat.{u} R} (f : F ⟶ G) :
+    (shift G).comp (productMap f) = (productMap f).comp (shift F) := sorry
+
+/-- The induced linear map on limits. -/
+def limMap {F G : ℕᵒᵖ ⥤ ModuleCat.{u} R} (f : F ⟶ G) : lim F →ₗ[R] lim G := sorry
+
+/-- The induced linear map on first derived limits. -/
+def limOneMap {F G : ℕᵒᵖ ⥤ ModuleCat.{u} R} (f : F ⟶ G) :
+    limOne F →ₗ[R] limOne G := sorry
+
+end ModuleTower
+
 namespace CompactCoefficients
 
 /-- An `ℕ`-indexed inverse system of abelian groups `⋯ → A₂ → A₁ → A₀`. -/
@@ -317,6 +358,17 @@ abbrev limOne : Type u := (∀ n, A.obj n) ⧸ A.shift.range
 def toFunctor : ℕᵒᵖ ⥤ AddCommGrpCat.{u} :=
   Functor.ofOpSequence (X := fun n => AddCommGrpCat.of (A.obj n))
     (fun n => AddCommGrpCat.ofHom (A.map n))
+
+/-- The abelian-group presentation as a native tower of integral modules. -/
+def toModuleFunctor : ℕᵒᵖ ⥤ ModuleCat.{u} ℤ :=
+  Functor.ofOpSequence (X := fun n => ModuleCat.of ℤ (A.obj n))
+    (fun n => ModuleCat.ofHom (A.map n).toIntLinearMap)
+
+/-- The abelian-group limit is the integral-module limit, naturally with its projections. -/
+def limComparison : A.lim ≃+ ModuleTower.lim A.toModuleFunctor := sorry
+
+/-- The abelian-group first derived limit agrees with the native integral-module cokernel. -/
+def limOneComparison : A.limOne ≃+ ModuleTower.limOne A.toModuleFunctor := sorry
 
 /-- The Mittag-Leffler condition: Mathlib's condition on the underlying functor to types. -/
 abbrev IsMittagLeffler : Prop :=
@@ -508,19 +560,19 @@ namespace DerivedDeRham
 
 
 /-- The standard derived-category instance for modules over `R`, local to these signatures. -/
-local instance moduleDerived (R : Type u) [CommRing R] :
+local instance moduleDerived (R : Type u) [Ring R] :
     HasDerivedCategory.{u+1} (ModuleCat.{u} R) :=
   HasDerivedCategory.standard _
 
 /-- The derived category `D(R)` of `R`-modules. -/
-abbrev D (R : Type u) [CommRing R] := DerivedCategory (ModuleCat.{u} R)
+abbrev D (R : Type u) [Ring R] := DerivedCategory (ModuleCat.{u} R)
 
 /-- A module placed in cohomological degree zero. -/
-abbrev mod0 (R : Type u) [CommRing R] (M : ModuleCat.{u} R) : D R :=
+abbrev mod0 (R : Type u) [Ring R] (M : ModuleCat.{u} R) : D R :=
   (DerivedCategory.singleFunctor (ModuleCat R) 0).obj M
 
 /-- Cohomology in the indicated cohomological degree. -/
-abbrev H (R : Type u) [CommRing R] (n : ℤ) (M : D R) : ModuleCat.{u} R :=
+abbrev H (R : Type u) [Ring R] (n : ℤ) (M : D R) : ModuleCat.{u} R :=
   (DerivedCategory.homologyFunctor (ModuleCat R) n).obj M
 
 /-! ## Simplicial module comparisons: 0.2.2 -/
@@ -553,6 +605,15 @@ theorem simplicialTensorComparison_natural (R : Type u) [CommRing R]
 
 /-- The unbounded module derived tensor bifunctor of README 0.2. -/
 def derivedTensor (R : Type u) [CommRing R] : D R ⥤ D R ⥤ D R := sorry
+
+/-- A bounded-above flat model computes the shared unbounded derived tensor. In particular this
+identifies Khovanov K5's bounded-projective model through its augmentation comparisons. -/
+def derivedTensor_flatModel (R : Type u) [CommRing R]
+    (P L : CochainComplex (ModuleCat.{u} R) ℤ) (b : ℤ)
+    (hP : ∀ i, Module.Flat R (P.X i) ∧ (b < i → IsZero (P.X i))) :
+    ((derivedTensor R).obj ((DerivedCategory.Q (C := ModuleCat R)).obj P)).obj
+        ((DerivedCategory.Q (C := ModuleCat R)).obj L) ≅
+      (DerivedCategory.Q (C := ModuleCat R)).obj (P ⊗ L) := sorry
 
 /-- For degreewise-flat simplicial modules the shuffle identifies realization of their
 levelwise tensor with the derived tensor of their cochain realizations. -/
@@ -609,19 +670,29 @@ abbrev complexBaseChange {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S
   (ModuleCat.extendScalars f).mapHomologicalComplex (ComplexShape.up ℤ)
 
 /-- A finite-free complex with a specified upper bound, allowing an infinite left tail. -/
-def IsFiniteFreeModel (R : Type u) [CommRing R]
+def IsFiniteFreeModel (R : Type u) [Ring R]
     (P : CochainComplex (ModuleCat.{u} R) ℤ) (b : ℤ) : Prop :=
   ∀ i, Module.Free R (P.X i) ∧ Module.Finite R (P.X i) ∧ (b < i → IsZero (P.X i))
 
-/-- Perfection means a bounded finite-projective representative (Stacks 0657). -/
-def IsPerfect (R : Type u) [CommRing R] (K : D R) : Prop :=
+/-- Perfection over a unital ring means a bounded finite-projective left-module representative
+(README 1.E.0; Stacks 0657 for commutative rings). -/
+def IsPerfect (R : Type u) [Ring R] (K : D R) : Prop :=
   ∃ (P : CochainComplex (ModuleCat.{u} R) ℤ) (a b : ℤ),
     (∀ i, Module.Projective R (P.X i) ∧ Module.Finite R (P.X i) ∧
       (i < a ∨ b < i → IsZero (P.X i))) ∧
     Nonempty ((DerivedCategory.Q (C := ModuleCat R)).obj P ≅ K)
 
+/-- An isomorphism preserves and reflects perfection over a unital ring. -/
+theorem isPerfect_iso (R : Type u) [Ring R] {K L : D R} (e : K ≅ L) :
+    IsPerfect R K ↔ IsPerfect R L := sorry
+
+/-- A retract of a perfect derived left-module object is perfect. -/
+theorem isPerfect_retract (R : Type u) [Ring R] {K L : D R}
+    (i : K ⟶ L) (r : L ⟶ K) (h : i ≫ r = 𝟙 K) (hL : IsPerfect R L) :
+    IsPerfect R K := sorry
+
 /-- Pseudo-coherence over a ring means a bounded-above finite-free representative. -/
-def IsPseudoCoherent (R : Type u) [CommRing R] (K : D R) : Prop :=
+def IsPseudoCoherent (R : Type u) [Ring R] (K : D R) : Prop :=
   ∃ (P : CochainComplex (ModuleCat.{u} R) ℤ) (b : ℤ), IsFiniteFreeModel R P b ∧
     Nonempty ((DerivedCategory.Q (C := ModuleCat R)).obj P ≅ K)
 
@@ -631,11 +702,11 @@ def HasTorAmplitude (R : Type u) [CommRing R] (a b : ℤ) (K : D R) : Prop :=
     IsZero (H R i (((derivedTensor R).obj K).obj (mod0 R N)))
 
 /-- Perfect complexes are closed under cohomological shifts. -/
-theorem isPerfect_shift (R : Type u) [CommRing R] (K : D R) (hK : IsPerfect R K) (n : ℤ) :
+theorem isPerfect_shift (R : Type u) [Ring R] (K : D R) (hK : IsPerfect R K) (n : ℤ) :
     IsPerfect R (K⟦n⟧) := sorry
 
 /-- The third vertex of a distinguished triangle of perfect complexes is perfect. -/
-theorem isPerfect_triangle (R : Type u) [CommRing R] (T : Triangle (D R))
+theorem isPerfect_triangle (R : Type u) [Ring R] (T : Triangle (D R))
     (hT : T ∈ distTriang (D R)) (h₁ : IsPerfect R T.obj₁) (h₂ : IsPerfect R T.obj₂) :
     IsPerfect R T.obj₃ := sorry
 
@@ -648,7 +719,7 @@ theorem isPerfect_finiteTorAmplitude (R : Type u) [CommRing R] (K : D R)
     (hK : IsPerfect R K) : ∃ a b : ℤ, HasTorAmplitude R a b K := sorry
 
 /-- Perfect complexes admit bounded-above finite-free representatives. -/
-theorem isPerfect_isPseudoCoherent (R : Type u) [CommRing R] (K : D R)
+theorem isPerfect_isPseudoCoherent (R : Type u) [Ring R] (K : D R)
     (hK : IsPerfect R K) : IsPseudoCoherent R K := sorry
 
 /-- Termwise scalar extension of a bounded-above finite-free model computes derived extension. -/
@@ -711,11 +782,12 @@ def IsRingTowerLimit {A : ℕ → Type u} [∀ n, CommRing (A n)]
     ∀ x : ∀ n, A n, (∀ n, τ n (x (n + 1)) = x n) → ∃! r : R, ∀ n, π n r = x n
 
 /-- The standard derived category of strict module towers. -/
-local instance (R : Type u) [CommRing R] :
+local instance (R : Type u) [Ring R] :
     HasDerivedCategory.{u+1} (ℕᵒᵖ ⥤ ModuleCat.{u} R) := HasDerivedCategory.standard _
 
-/-- The module derived-limit functor on the derived category of strict towers, as in README 1.1. -/
-def derivedLimit (R : Type u) [CommRing R] :
+/-- The shared module derived-limit functor on strict derived towers, with the shifted-cone
+comparison, projections and connecting maps of README 1.1. -/
+def derivedLimit (R : Type u) [Ring R] :
     DerivedCategory (ℕᵒᵖ ⥤ ModuleCat.{u} R) ⥤ D R := sorry
 
 /-- The strict tower obtained by restricting the semilinear chain maps adjoint to the model
@@ -816,6 +888,31 @@ def derivedCompleteness (A : Type u) [CommRing A] (I : Ideal A) (M : D A) : Prop
   ∀ f ∈ I, ∀ n : ℤ,
     Subsingleton ((mod0 A (ModuleCat.of A (Localization.Away f)))⟦n⟧ ⟶ M)
 
+/-- Derived completion at a finitely generated ideal, as an endofunctor of module-derived objects. -/
+def derivedCompletion (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG) : D A ⥤ D A := sorry
+
+/-- The natural universal map from an object to its derived completion. -/
+def completionUnit (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG) :
+    𝟭 (D A) ⟶ derivedCompletion A I hI := sorry
+
+/-- Every derived completion is complete for the given finitely generated ideal. -/
+theorem completionComplete (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG) (M : D A) :
+    derivedCompleteness A I ((derivedCompletion A I hI).obj M) := sorry
+
+/-- If an ordinary diagram of complete objects has a categorical colimit in the ambient derived
+category, reflecting that colimit gives its colimit in the complete category, with the unit cocone. -/
+theorem completedColimit (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG)
+    {J : Type v} [SmallCategory J] (F : J ⥤ ObjectProperty.FullSubcategory (derivedCompleteness A I))
+    [HasColimit (F ⋙ ObjectProperty.ι (derivedCompleteness A I))] :
+    ∃ c : Cocone F, Nonempty (IsColimit c) ∧
+      ∃ e : (ObjectProperty.ι (derivedCompleteness A I)).obj c.pt ≅
+          (derivedCompletion A I hI).obj
+            (colimit (F ⋙ ObjectProperty.ι (derivedCompleteness A I))),
+        ∀ j, (ObjectProperty.ι (derivedCompleteness A I)).map (c.ι.app j) ≫ e.hom =
+          colimit.ι (F ⋙ ObjectProperty.ι (derivedCompleteness A I)) j ≫
+            (completionUnit A I hI).app
+              (colimit (F ⋙ ObjectProperty.ι (derivedCompleteness A I))) := sorry
+
 /-- The condition can be tested on any finite generating set of `I` (Stacks, Lemma 15.93.1). -/
 theorem isDerivedCompleteGenerators (A : Type u) [CommRing A] (I : Ideal A) (M : D A)
     (s : Finset A) (hs : Ideal.span (s : Set A) = I) :
@@ -846,6 +943,9 @@ theorem isDerivedComplete_triangle (A : Type u) [CommRing A] (I : Ideal A)
 -- For `I = 0` every complex is derived complete.
 example (A : Type u) [CommRing A] (M : D A) : derivedCompleteness A ⊥ M := by
   sorry
+
+-- With zero ideal every object is complete, but this categorical cokernel does not exist.
+example : ¬ HasCokernel ((2 : ℤ) • 𝟙 (mod0 ℤ (ModuleCat.of ℤ ℤ))) := sorry
 
 -- For `I = A` only the zero object is derived complete.
 example (A : Type u) [CommRing A] (M : D A) : derivedCompleteness A ⊤ M ↔ IsZero M := by
@@ -891,6 +991,14 @@ example (p : ℕ) [Fact p.Prime] :
   sorry
 
 end DerivedDeRham
+
+namespace PerfectComplex
+
+/-- The shared ordinary-module perfectness predicate, also used by arithmetic and trace consumers. -/
+abbrev IsPerfect (R : Type u) [Ring R] (K : DerivedDeRham.D R) : Prop :=
+  DerivedDeRham.IsPerfect R K
+
+end PerfectComplex
 
 /-! ## The degree-zero edge boundary: S.1 -/
 
@@ -1028,7 +1136,8 @@ CompactCoefficients.Tower.isMittagLeffler_of_finite,
 CompactCoefficients.Tower.isMittagLeffler_iff_ranges, ml_finite, ml_surjective, ml_mul_p_fails.
 
 1.1:
-DerivedDeRham.derivedLimit, derivedLimit_surjective, derivedLimit_milnor, derivedLimit_triangle.
+DerivedDeRham.derivedLimit, derivedLimit_surjective, derivedLimit_milnor, derivedLimit_triangle,
+derivedLimit_cofinal, derivedLimit_homotopySquare.
 
 1.1.1:
 DerivedDeRham.moduleDerivedHom.
@@ -1040,6 +1149,9 @@ isDerivedCompleteCohomology, isDerivedCompleteLimits.
 1.3:
 DerivedDeRham.derivedCompletion, DerivedDeRham.completionUnit, completionUnit, completionAdjunction,
 completionIdempotent, completeNakayama, completionComplete, completedColimit.
+For completedColimit the ordinary diagram F of complete objects must satisfy
+HasColimit (F ⋙ inclusion) in D(A); the reflector yields its colimit in the complete category
+with the reflected cocone. It does not assert arbitrary categorical colimits in D(A).
 
 1.4:
 DerivedDeRham.koszulCompletionTower.
