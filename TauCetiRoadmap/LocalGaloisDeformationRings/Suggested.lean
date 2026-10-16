@@ -763,6 +763,20 @@ example {F : Type*} [Field F] (ζ : F) (hζ : orderOf ζ = 5) :
 example (q : ℕ) : IsTameMatrixPair q (1 : Matrix (Fin n) (Fin n) A) 1 := by
   simp [IsTameMatrixPair]
 
+/-- At `p=7`, `K=ℚ₁₃`, reciprocal nontrivial inertia characters give a finite tame pair
+with cyclotomic multiplier and zero inertia invariants. Thus this representation fails
+the inertia-fixed plane requirement of type P and its minimal branch (README 2.7, 2.25). -/
+example :
+    let σ : Matrix (Fin 4) (Fin 4) (ZMod 7) := Matrix.diagonal ![2, 2, 4, 4]
+    let Φ : Matrix (Fin 4) (Fin 4) (ZMod 7) := Matrix.diagonal ![6, 6, 1, 1]
+    let J : Matrix (Fin 4) (Fin 4) (ZMod 7) :=
+      !![0, 0, 1, 0; 0, 0, 0, 1; -1, 0, 0, 0; 0, -1, 0, 0]
+    IsTameMatrixPair 13 Φ σ ∧ σ ^ 3 = 1 ∧ σ ≠ 1 ∧ Φ ^ 2 = 1 ∧
+      IsUnit ((13 : ZMod 7) - 1) ∧ σ.transpose * J * σ = J ∧
+      Φ.transpose * J * Φ = (6 : ZMod 7) • J ∧
+      ∀ v : Fin 4 → ZMod 7, σ.mulVec v = v → v = 0 := by
+  sorry
+
 /-- A nontrivial unipotent pair records the direction of the arithmetic exponent. -/
 example : IsTameMatrixPair 2 (!![2, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℚ)
     !![1, 1; 0, 1] := by
@@ -1369,6 +1383,11 @@ Layer 2: `IsMinimallyRamified`, `SteinbergLifts`, `TameGroup`, `GSp4RamType`,
 `typeQuotient`, the symplectic `GSp4.exp₂` and `GSp4.log₂`, `𝒩(q)`, `ℳ(x,y;q)`,
 `LevelRaising.mix`, `LevelRaising.unr`, `LevelRaising.ram`, `InertialType`,
 `fixedTypeRing`, `IsRigidFor`, `TaylorWilesBlock`, `GSp4.MinimalAt`.
+The type P predicate of `GSp4RamType` requires decomposition-group character splitting,
+an inertia-fixed isotropic plane and a complementary isotropic plane with one nontrivial
+scalar inertia character, as well as `x−1` a unit. `GSp4RamType.not_P` excludes this
+predicate when the similitude is trivial on inertia; cyclotomic powers have this property
+at `x≠p`. `GSp4.MinimalAt` uses the same residual predicate for its type-P branch.
 
 Layer 0: `RankTwoNonordinaryEndpoint.exists` supplies the odd-prime local induced lift.
 Layer 3: `HodgeType` retains integer jumps; `HodgeType.tateTwist` transports the residual
