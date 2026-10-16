@@ -120,6 +120,21 @@ example : IsCompleteIntersection ℚ ℚ := by sorry
 example : ¬ RingTheory.Sequence.IsRegular (MvPowerSeries (Fin 1) ℚ)
     ([1] : List (MvPowerSeries (Fin 1) ℚ)) := by sorry
 
+/-- The dual numbers have a single relation, the square of the formal variable. -/
+example : ∃ P : PowerSeriesPresentation ℚ (DualNumber ℚ) 1 1,
+    P.relations = [(MvPowerSeries.X (0 : Fin 1)) ^ 2] ∧
+      P.relations.length = 1 := by sorry
+
+/-- The dual-number relation is regular, so the algebra is a complete intersection. -/
+example : IsCompleteIntersection ℚ (DualNumber ℚ) := by sorry
+
+/-- The square-zero algebra with two tangent directions has no regular presentation. -/
+example :
+    let X := MvPowerSeries.X (0 : Fin 2) (R := ℚ)
+    let Y := MvPowerSeries.X (1 : Fin 2) (R := ℚ)
+    let I := Ideal.ofList [X ^ 2, X * Y, Y ^ 2]
+    ¬ IsCompleteIntersection ℚ (MvPowerSeries (Fin 2) ℚ ⧸ I) := by sorry
+
 /-! ## Layers R26.2–R26.3 and R27.2: numerical milestones -/
 
 
@@ -151,7 +166,7 @@ example : (10851 / 10000 : ℚ) * 1806 / 1805 < 543 / 500 := by norm_num
 example : Nat.Prime 29 ∧ 25 < 29 ∧ 5 * 29 < 6 * 25 ∧
     ¬ (∃ P ∈ Finset.Ioo 24 29, P.Prime) := by native_decide
 
-/-- The finite interval certificate covers its overlap with the large range. -/
+/-- The finite interval estimate includes its overlap with the large range. -/
 example : Nat.Prime 100003 ∧ 100000 < 100003 ∧ 5 * 100003 < 6 * 100000 := by native_decide
 
 /-- `R26.3/next-prime-ratio`: the exact rational bound for consecutive primes. -/
@@ -170,7 +185,7 @@ theorem next_nonFermat_prime_ratio (p P : ℕ) (hp : p.Prime) (hbig : 21591 ≤ 
   sorry
 
 
-/-- `R26.3/finite-auxiliary-prime-checks`: certified finite auxiliary data for every prime
+/-- `R26.3/finite-auxiliary-prime-checks`: the auxiliary-prime estimate for every prime
 between 5 and 21591, including minimality of the non-Fermat prime and exact valuations. -/
 theorem finite_auxiliary_prime_checks (p : ℕ) (hp : p.Prime) (hlo : 5 ≤ p)
     (hhi : p ≤ 21591) :
@@ -182,7 +197,7 @@ theorem finite_auxiliary_prime_checks (p : ℕ) (hp : p.Prime) (hlo : 5 ≤ p)
       ℓ ^ e = 2 * m + 1 ∧ (m + 1) * P + m ≤ (2 * m + 1) * p := by sorry
 
 /-- `R26.3/chebyshev-next-prime` (Khare's estimate (1)): the unconditional odd
-auxiliary-prime inequality, using the finite certificate and the elementary interval bound. -/
+auxiliary-prime inequality, using the finite-range estimate and the elementary interval bound. -/
 theorem odd_auxiliary_prime (p : ℕ) (hp : p.Prime) (h31 : 31 ≤ p) :
     ∃ P ℓ e m : ℕ, P.Prime ∧ p < P ∧
       (∀ a : ℕ, P ≠ 2 ^ (2 ^ a) + 1) ∧
@@ -191,6 +206,27 @@ theorem odd_auxiliary_prime (p : ℕ) (hp : p.Prime) (h31 : 31 ≤ p) :
       ℓ ^ e ∣ P - 1 ∧ ¬ ℓ ^ (e + 1) ∣ P - 1 ∧
       ℓ ^ e = 2 * m + 1 ∧ (m + 1) * P + m ≤ (2 * m + 1) * p := by
   sorry
+
+/-- The nine small rows and the Fermat-skip and upper-boundary rows satisfy the full estimate. -/
+example (p P ℓ e m : ℕ)
+    (hrow : (p, P, ℓ, e, m) ∈
+      ([(5, 7, 3, 1, 1), (7, 11, 5, 1, 2), (11, 13, 3, 1, 1),
+        (13, 19, 3, 2, 4), (17, 19, 3, 2, 4), (19, 23, 11, 1, 5),
+        (23, 29, 7, 1, 3), (29, 31, 5, 1, 2), (31, 37, 3, 2, 4),
+        (251, 263, 131, 1, 65), (21589, 21599, 10799, 1, 5399)] :
+          List (ℕ × ℕ × ℕ × ℕ × ℕ))) :
+    p.Prime ∧ P.Prime ∧ p < P ∧
+      (∀ a : ℕ, P ≠ 2 ^ (2 ^ a) + 1) ∧
+      (∀ q : ℕ, q.Prime → p < q → (∀ a : ℕ, q ≠ 2 ^ (2 ^ a) + 1) → P ≤ q) ∧
+      ℓ.Prime ∧ Odd ℓ ∧ 0 < e ∧ ℓ ≤ p ∧
+      ℓ ^ e ∣ P - 1 ∧ ¬ ℓ ^ (e + 1) ∣ P - 1 ∧
+      ℓ ^ e = 2 * m + 1 ∧ (m + 1) * P + m ≤ (2 * m + 1) * p := by sorry
+
+/-- The sharp ratios and the row at 31 satisfy the displayed numerical boundaries. -/
+example : (37 / 31 : ℚ) < 6 / 5 ∧ (36 / 25 : ℚ) < 1499 / 1000 ∧
+    (1499 / 1000 : ℚ) < 3 / 2 ∧
+    (4 + 1) * (37 : ℕ) + 4 = 189 ∧ 9 * (31 : ℕ) = 279 ∧
+    (189 : ℕ) ≤ 279 := by norm_num
 
 /-- `R26.3/weight-interval-containment`: both returned weights lie in the proved range. -/
 theorem weight_interval_containment (m P p j : ℚ)
@@ -397,6 +433,10 @@ def auxiliaryPrimes {p : ℕ} (ρ : GQ →* GL (Fin 2) (ZMod p)) (c : GQ) : Set 
   {q | q.Prime ∧ IsUnramifiedAt ρ q ∧ (∃ σ : GQ, IsFrobAt σ q ∧ IsProjConj ρ σ c) ∧
     (∀ ℓ : ℕ, ℓ.Prime → ℓ ≤ p - 1 → q % ℓ = 1) ∧ q % 8 = 1 ∧ q % p = p - 1}
 
+/-- Trivial inertia and projective images give a positive auxiliary-prime witness at 409. -/
+example (φ : AlgebraicClosure ℚ →+* ℂ) (c : GQ) (hc : ComplexEmbedding.IsConj φ c) :
+    409 ∈ auxiliaryPrimes (1 : GQ →* GL (Fin 2) (ZMod 5)) c := by sorry
+
 /-- The candidate 13 fails the modulus-eight condition of the actual auxiliary-prime set. -/
 example (ρ : GQ →* GL (Fin 2) (ZMod 5)) (c : GQ) :
     13 ∉ auxiliaryPrimes ρ c := by sorry
@@ -488,9 +528,9 @@ theorem dihedralType_tame_relation {R : Type*} [CommRing R] {q N : ℕ} (ζ : R)
       dihedralFrob R * dihedralFrob R = 1 ∧ dihedralInertia ζ N ^ q = 1 := by
   sorry
 
-/-- `R33.2/dihedral-local-type-at-n`: modulo a maximal ideal containing `ζ − 1` (as for a
-`q`-th root of unity in residue characteristic `q`) the inertia matrix reduces to `1`: the standard
-lattice reduces to `1 ⊕ η`, unramified. -/
+/-- `R33.2/dihedral-local-type-at-n`: any coefficient map sending `ζ` to `1` makes standard
+inertia trivial. In the arithmetic specialization with odd residue characteristic, the swap
+Frobenius diagonalizes with characters `1` and the unramified quadratic character `η`. -/
 theorem dihedralType_reduction {R k : Type*} [CommRing R] [CommRing k] (f : R →+* k) (ζ : R)
     (N : ℕ) (hζ : f ζ = 1) : (dihedralInertia ζ N).map f = 1 := by
   sorry
@@ -577,6 +617,13 @@ example {H : Type*} [Group H] (ρ : GQ →* H) (r : ℕ) :
     IsUnramifiedAt ρ r ↔ ∀ Q : Ideal IntBar, Q.IsPrime → (r : IntBar) ∈ Q →
       ∀ g ∈ Q.inertia GQ, ρ g = 1 := by sorry
 
+/-- Nontrivial unipotent inertia prevents unramifiedness despite trivial semisimplification. -/
+example (ρ : GQ →* GL (Fin 2) (ZMod 3)) (r : ℕ)
+    (Q : Ideal IntBar) (hQ : Q.IsPrime) (hr : (r : IntBar) ∈ Q)
+    (g : GQ) (hg : g ∈ Q.inertia GQ)
+    (hρ : (ρ g : Matrix (Fin 2) (Fin 2) (ZMod 3)) = !![1, 1; 0, 1]) :
+    ¬ IsUnramifiedAt ρ r := by sorry
+
 /-- The identity cannot be arithmetic Frobenius at the unit ideal's rational prime 1. -/
 example (σ : GQ) : ¬ IsFrobAt σ 1 := by sorry
 
@@ -597,6 +644,11 @@ example : ¬ IsAbsIrreducible (1 : Unit →* GL (Fin 2) ℚ) := by sorry
 /-- The full general linear action spans the matrix algebra. -/
 example : IsAbsIrreducible (MonoidHom.id (GL (Fin 2) ℚ)) := by sorry
 
+/-- The diagonal action preserves its coordinate lines and does not span the matrix algebra. -/
+example (ρ : (ℚˣ × ℚˣ) →* GL (Fin 2) ℚ)
+    (hρ : ∀ u, (ρ u : Matrix (Fin 2) (Fin 2) ℚ) =
+      !![(u.1 : ℚ), 0; 0, (u.2 : ℚ)]) : ¬ IsAbsIrreducible ρ := by sorry
+
 /-- The totally real S3 extension cut out by x³−4x+1 gives an even absolutely irreducible
 action over F5: among the three S-type conditions only oddness fails. -/
 example [Fact (Nat.Prime 5)] : ∃ (θ : GQ →* DihedralGroup 3) (τ : DihedralGroup 3 →* GL (Fin 2) (ZMod 5))
@@ -606,6 +658,9 @@ example [Fact (Nat.Prime 5)] : ∃ (θ : GQ →* DihedralGroup 3) (τ : Dihedral
     (τ (DihedralGroup.r 1) : Matrix (Fin 2) (Fin 2) (ZMod 5)) = !![0, -1; 1, -1] ∧
     (τ (DihedralGroup.sr 0) : Matrix (Fin 2) (Fin 2) (ZMod 5)) = !![0, 1; 1, 0] ∧
     IsOpen (ρ.ker : Set GQ) ∧ IsAbsIrreducible ρ ∧ ¬ IsOdd ρ ∧ ¬ IsSType ρ := by sorry
+
+/-- The natural F2 action of the totally real S3 extension is of S-type. -/
+example : ∃ ρ : GQ →* GL (Fin 2) (ZMod 2), IsSType ρ := by sorry
 
 /-- A trivial two-dimensional representation is never of S-type. -/
 example : ¬ IsSType (1 : GQ →* GL (Fin 2) ℚ) := by sorry
@@ -632,9 +687,21 @@ example {G : Type*} [Group G] (ρ : G →* GL (Fin 2) ℚ) (a : G)
     (ha : (ρ a : Matrix (Fin 2) (Fin 2) ℚ) = !![1, 1; 0, 1]) :
     ¬ IsProjConj ρ a 1 := by sorry
 
+/-- The swap conjugates the two signed diagonal matrices under the full GL2 action. -/
+example (a b : GL (Fin 2) ℚ)
+    (ha : (a : Matrix (Fin 2) (Fin 2) ℚ) = !![1, 0; 0, -1])
+    (hb : (b : Matrix (Fin 2) (Fin 2) ℚ) = !![-1, 0; 0, 1]) :
+    IsProjConj (MonoidHom.id (GL (Fin 2) ℚ)) a b := by sorry
+
 /-- Reduction of a trivial action stays trivial. -/
 example {G O : Type*} [Group G] [CommRing O] [IsLocalRing O] :
     residualRep (1 : G →* GL (Fin 2) O) = 1 := by sorry
+
+/-- A uniformizer in an upper-unipotent action vanishes in the residue field. -/
+example {G O : Type*} [Group G] [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+    (π : O) (hπ : Irreducible π) (ρ : G →* GL (Fin 2) O) (g : G)
+    (hρ : (ρ g : Matrix (Fin 2) (Fin 2) O) = !![1, π; 0, 1]) :
+    (residualRep ρ g : Matrix (Fin 2) (Fin 2) (IsLocalRing.ResidueField O)) = 1 := by sorry
 
 /-- Coefficient extension of a trivial action stays trivial. -/
 example {G O : Type*} [Group G] [CommRing O] [IsDomain O] :
@@ -646,11 +713,28 @@ example {G O : Type*} [Group G] [CommRing O] [IsDomain O]
     (genericRep ρ g : Matrix (Fin 2) (Fin 2) (FractionRing O)) i j =
       algebraMap O (FractionRing O) ((ρ g : Matrix (Fin 2) (Fin 2) O) i j) := by sorry
 
+/-- Fraction-field extension keeps the nonzero off-diagonal entry of a unipotent. -/
+example {G O : Type*} [Group G] [CommRing O] [IsDomain O]
+    (ρ : G →* GL (Fin 2) O) (g : G)
+    (hρ : (ρ g : Matrix (Fin 2) (Fin 2) O) = !![1, 1; 0, 1]) :
+    (genericRep ρ g : Matrix (Fin 2) (Fin 2) (FractionRing O)) 0 1 = 1 := by sorry
+
 /-- Pullback of the empty prime set stays empty. -/
 example : primesOfRat ∅ = ∅ := by sorry
 
 /-- Pullback of all rational prime norms is the full height-one spectrum. -/
 example : primesOfRat Set.univ = Set.univ := by sorry
+
+/-- The prime generated by two has norm two and lies in the singleton pullback. -/
+example : ∃ v : IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ),
+    v.asIdeal = Ideal.span {(2 : 𝓞 ℚ)} ∧ Ideal.absNorm v.asIdeal = 2 ∧
+      v ∈ primesOfRat {2} := by sorry
+
+/-- No rational prime ideal has composite norm four. -/
+example : primesOfRat {4} = ∅ := by sorry
+
+/-- The total auxiliary-level function takes zero to zero. -/
+example : auxLevel 0 = 0 := by decide
 
 /-- The matrix-action adapter retains the actual linear action. -/
 example {G R : Type*} [Group G] [CommRing R] (ρ : G →* GL (Fin 2) R)
@@ -660,6 +744,11 @@ example {G R : Type*} [Group G] [CommRing R] (ρ : G →* GL (Fin 2) R)
 /-- The trivial matrix action fixes every vector. -/
 example {G R : Type*} [Group G] [CommRing R] (g : G) (v : Fin 2 → R) :
     toRepresentation (1 : G →* GL (Fin 2) R) g v = v := by sorry
+
+/-- The matrix adapter sends the first basis vector to the second under the swap. -/
+example (a : GL (Fin 2) ℚ)
+    (ha : (a : Matrix (Fin 2) (Fin 2) ℚ) = !![0, 1; 1, 0]) :
+    toRepresentation (MonoidHom.id (GL (Fin 2) ℚ)) a ![1, 0] = ![0, 1] := by sorry
 
 namespace DP
 
@@ -674,6 +763,12 @@ example : dihedralFrob ℤ * dihedralFrob ℤ = 1 ∧ Matrix.det (dihedralFrob �
 
 /-- Characteristic two retains the swap even though the determinant sign disappears. -/
 example : dihedralFrob (ZMod 2) ≠ 1 ∧ Matrix.det (dihedralFrob (ZMod 2)) = 1 := by decide
+
+/-- In characteristic two the nontrivial unipotent swap cannot split into two trivial characters. -/
+example : (dihedralFrob (ZMod 2) - 1) ^ 2 = 0 ∧
+    ¬ ∃ B : GL (Fin 2) (ZMod 2),
+      (B : Matrix (Fin 2) (Fin 2) (ZMod 2)) * dihedralFrob (ZMod 2) *
+        (↑(B⁻¹) : Matrix (Fin 2) (Fin 2) (ZMod 2)) = !![1, 0; 0, 1] := by sorry
 
 /-- The standard and adapted integral matrices satisfy all eight local relations. -/
 example (ζ : CyclotomicRing 3 ℤ ℚ) (hζ : ζ ^ 2 + ζ + 1 = 0) :
