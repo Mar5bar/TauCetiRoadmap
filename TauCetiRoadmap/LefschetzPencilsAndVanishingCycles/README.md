@@ -228,7 +228,7 @@ It leaves to other roadmaps:
   tame character, §2.3 tame characters of local fields, §2.4 unipotent logarithm and
   Grothendieck's monodromy theorem for local fields, §2.6 monodromy filtration of a nilpotent on a vector space) and
   Layer 5 (§5.13 Chebotarev for function fields of curves over finite fields).
-- **DerivedModuleAlgebra** §1.T.1 (towers, inverse limits, lim¹ and Milnor sequences).
+- **DerivedModuleAlgebra** §1.T.1 (towers, inverse limits, `lim¹` and Milnor sequences).
 - **ArithmeticGaloisDuality** Layers R02.1 (continuous cochains and lattices) and R02.2 (Hochschild–Serre).
 - **NeronModelsAndSemistableAbelianVarieties** Layer 3 (§§3.8–3.9 Picard schemes of
   semistable curves) and Layer 4 (§§4.1–4.4 normalization sequence, characters as graph cycles, the integral monodromy
@@ -276,10 +276,10 @@ Frobenius, Jacobian and functorial identifications on the stated domains.
 
 | Imported interface | Construction owner | Hypotheses and compatibility used here |
 | --- | --- | --- |
-| `VanishingCycles.curveEndomorphismTrace` | InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 | Smooth proper geometrically connected C/k, ℓ invertible in k and φ:C→C. The graph–diagonal intersection is 1 − Tr_alg(φ_* on J_C) + deg φ, including constant maps of degree zero and the identity's diagonal self-intersection. The finite-level comparison H¹(C_k̄,ℤ/ℓⁿ) ≅ Hom(J_C[ℓⁿ](k̄),ℤ/ℓⁿ) uses a chosen separable closure, the supplied Tate coordinate, pullback/pushforward orientation and compatible reductions; rational realization uses EtaleCohomologyFoundations §F.4. Over finite k, q-power scheme Frobenius and its deck-twisted forms have transverse fixed points. |
-| `VanishingCycles.etaleTraceFormulaFinite` | InverseGaloisAndArithmeticFundamentalGroups §IG.0.T2 | Separated finite-type X/k, k finite of characteristic p and cardinality q, finite commutative Λ of order prime to p, K∈Dᵇ_ctf(X,Λ) descended over k, and every r≥1. The sum of local perfect-complex traces over X(k_r) equals the global trace on RΓc(X_k̄,K). A local term at a k_r-point uses geometric qʳ-Frobenius without an additional r-th power. Use the supplied pushforward, coefficient-change, tensor/twist, Künneth, finite-group and finite-field-extension compatibilities. |
-| `VanishingCycles.etaleTraceFormula` | InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 | Separated finite-type X/k, k finite of cardinality q, ℓ≠char k, K in EtaleCohomologyFoundations §F.4's rational bounded constructible category with descent data, and every r≥1. The alternating trace on Hⁱc(X_k̄,K) equals the sum over X(k_r) of alternating geometric qʳ-Frobenius stalk traces. Finite coefficient-field extensions E/ℚ_ℓ, normalized finite-level realization and coefficient, tensor/twist, group, base-extension and lower-shriek compatibilities are included. |
-| `VanishingCycles.pointCountTrace` | InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4 | Separated finite-type X/k, k finite of cardinality q, ℓ≠char k and every r≥1. The natural-number count #X(k_r), embedded in ℚ_ℓ, equals Σ_i (−1)ⁱ Tr(Frob_qʳ on Hⁱc(X_k̄,ℚ_ℓ)); each constant stalk contributes one. Finite and integral forms map the count to the coefficient ring. The projective-space computations use the supplied hyperplane class and Tate orientation. |
+| `VanishingCycles.curveEndomorphismTrace` | InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 | Smooth proper geometrically connected `C/k`, `ℓ` invertible in `k` and `φ:C→C`. The graph–diagonal intersection is `1 − Tr_alg(φ_* on J_C) + deg φ`, including constant maps of degree zero and the identity's diagonal self-intersection. The finite-level comparison `H¹(C_k̄,ℤ/ℓⁿ) ≅ Hom(J_C[ℓⁿ](k̄),ℤ/ℓⁿ)` uses a chosen separable closure, the supplied Tate coordinate, pullback/pushforward orientation and compatible reductions; rational realization uses EtaleCohomologyFoundations §F.4. Over finite `k`, `q`-power scheme Frobenius and its deck-twisted forms have transverse fixed points. |
+| `VanishingCycles.etaleTraceFormulaFinite` | InverseGaloisAndArithmeticFundamentalGroups §IG.0.T2 | Separated finite-type `X/k`, `k` finite of characteristic `p` and cardinality `q`, finite commutative `Λ` of order prime to `p`, `K∈Dᵇ_ctf(X,Λ)` descended over `k`, and every `r≥1`. The sum of local perfect-complex traces over `X(k_r)` equals the global trace on `RΓc(X_k̄,K)`. A local term at a `k_r`-point uses geometric `qʳ`-Frobenius without an additional `r`-th power. Use the supplied pushforward, coefficient-change, tensor/twist, Künneth, finite-group and finite-field-extension compatibilities. |
+| `VanishingCycles.etaleTraceFormula` | InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 | Separated finite-type `X/k`, `k` finite of cardinality `q`, `ℓ≠char k`, `K` in EtaleCohomologyFoundations §F.4's rational bounded constructible category with descent data, and every `r≥1`. The alternating trace on `Hⁱc(X_k̄,K)` equals the sum over `X(k_r)` of alternating geometric `qʳ`-Frobenius stalk traces. Finite coefficient-field extensions `E/ℚ_ℓ`, normalized finite-level realization and coefficient, tensor/twist, group, base-extension and lower-shriek compatibilities are included. |
+| `VanishingCycles.pointCountTrace` | InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4 | Separated finite-type `X/k`, `k` finite of cardinality `q`, `ℓ≠char k` and every `r≥1`. The natural-number count `#X(k_r)`, embedded in `ℚ_ℓ`, equals `Σ_i (−1)ⁱ Tr(Frob_qʳ on Hⁱc(X_k̄,ℚ_ℓ))`; each constant stalk contributes one. Finite and integral forms map the count to the coefficient ring. The projective-space computations use the supplied hyperplane class and Tate orientation. |
 
 EtaleCohomologyFoundations §§F.10.1–F.10.5 supplies the separate Frobenius and
 algebraic trace package: fixed points, finite and adic cohomological Frobenius,
@@ -323,7 +323,7 @@ Layer 4; Tau Ceti `TauCeti.inertiaTameCharacter`.
 
 **Checks.**
 
-- For a local-field uniformizer, reduction modulo ℓ^n is the same Kummer quotient
+- For a local-field uniformizer, reduction modulo `ℓ^n` is the same Kummer quotient
   in the two constructions, independently of the chosen root.
 
 ### 0.2 The topos `Y ×_s S` and its galoisian description
@@ -347,11 +347,11 @@ definition. When `k(s)` is not separably closed the 2-product is fibred over `Sp
 
 Define `VanishingCycles.OrientedFibreTopos` as the category of triples, with:
 
-- `VanishingCycles.OrientedFibreTopos`: For Y over s, the category of triples (F_s, F_η, φ): F_s a sheaf on Y (a Gal(s̄/s)-sheaf on Ȳ), F_η a continuous Gal(η̄/η)-sheaf on Ȳ, φ : F_s → F_η equivariant (XIII 1.2.4).
-- `VanishingCycles.OrientedFibreTopos.sp_pullback`: sp^* : sheaves on Y → sheaves on Y ×_s S, F ↦ (F, F, id).
-- `VanishingCycles.OrientedFibreTopos.etaPart`: The restriction to Y ×_s η, (F_s, F_η, φ) ↦ F_η, retaining its continuous Galois descent.
+- `VanishingCycles.OrientedFibreTopos`: For `Y` over `s`, the category of triples `(F_s, F_η, φ)`: `F_s` a sheaf on `Y` (a `Gal(s̄/s)`-sheaf on `Ȳ`), `F_η` a continuous `Gal(η̄/η)`-sheaf on `Ȳ`, `φ : F_s → F_η` equivariant (XIII 1.2.4).
+- `VanishingCycles.OrientedFibreTopos.sp_pullback`: `sp^* : sheaves on Y → sheaves on Y ×_s S`, `F ↦ (F, F, id)`.
+- `VanishingCycles.OrientedFibreTopos.etaPart`: The restriction to `Y ×_s η`, `(F_s, F_η, φ) ↦ F_η`, retaining its continuous Galois descent.
 - `VanishingCycles.OrientedFibreTopos.geometricGenericRestriction`: The exact restriction from sheaves on `Y_et ×_{s_et} η_et` to sheaves on `Ȳ_et`. For a ring sheaf `A` on `Y`, it induces `U : D⁺(Y_et ×_{s_et} η_et, A) → D⁺(Ȳ_et, A_Ȳ)`, where `A_Ȳ` is the pullback of `A`; on triples this forgets the descent of the generic part.
-- `VanishingCycles.OrientedFibreTopos.equivSheavesOnTrait`: For Y = s, sheaves on S ≌ triples (F_s̄, F_η̄, φ : F_s̄ → F_η̄^I) (XIII 1.2.2).
+- `VanishingCycles.OrientedFibreTopos.equivSheavesOnTrait`: For `Y = s`, sheaves on `S` `≌` triples `(F_s̄, F_η̄, φ : F_s̄ → F_η̄^I)` (XIII 1.2.2).
 
 Write `G = Gal(η̄/η)`. For a generic-part object `M`, write
 `c_M(g) : g^*U(M) ≅ U(M)` for its descent isomorphism, with the usual cocycle compatibility;
@@ -369,12 +369,12 @@ is an exact inverse image of topoi; it preserves cohomology, shifts and distingu
 
 **Checks.**
 
-- `VanishingCycles.equivSheavesOnTrait_constant`: The constant sheaf Λ on S is the triple (Λ, Λ, id) with I acting trivially.
-- `VanishingCycles.equivSheavesOnTrait_jPushforward`: j_*G for a Gal(η̄/η)-module G is the triple (G^I, G, inclusion).
-- `VanishingCycles.equivSheavesOnTrait_degenerate`: For Y = ∅ the category is the terminal one.
-- `VanishingCycles.not_triple_of_noninvariant`: For Y = s, take F_s̄=ℚ_ℓ with trivial inertia, F_η̄=ℚ_ℓ with a nontrivial quadratic inertia character, and φ(1)=1. This map is not equivariant and cannot be a specialization map of a sheaf on S.
-- A sheaf on Y ×_s S restricted to the closed Y is F_s and to the open Y ×_s η is F_η; sp^*(F_s) = (F_s, F_s, id).
-- Points (x, s̄) and (x, η̄) form conservative families (1.2.5).
+- `VanishingCycles.equivSheavesOnTrait_constant`: The constant sheaf `Λ` on `S` is the triple `(Λ, Λ, id)` with `I` acting trivially.
+- `VanishingCycles.equivSheavesOnTrait_jPushforward`: `j_*G` for a `Gal(η̄/η)`-module `G` is the triple `(G^I, G, inclusion)`.
+- `VanishingCycles.equivSheavesOnTrait_degenerate`: For `Y = ∅` the category is the terminal one.
+- `VanishingCycles.not_triple_of_noninvariant`: For `Y = s`, take `F_s̄=ℚ_ℓ` with trivial inertia, `F_η̄=ℚ_ℓ` with a nontrivial quadratic inertia character, and `φ(1)=1`. This map is not equivariant and cannot be a specialization map of a sheaf on `S`.
+- A sheaf on `Y ×_s S` restricted to the closed `Y` is `F_s` and to the open `Y ×_s η` is `F_η`; `sp^*(F_s) = (F_s, F_s, id)`.
+- Points `(x, s̄)` and `(x, η̄)` form conservative families (1.2.5).
 - For `Y = s`, `U` sends a continuous Galois `A`-module to its underlying `A`-module; an equivariant morphism becomes an `A`-linear map.
 - Applying `U` to a short exact sequence gives an exact sequence of sheaves on `Ȳ`; its derived functor sends the associated triangle to the underlying triangle.
 - For the constant generic sheaf `A`, `U(A)` is `A_Ȳ`, with descent recovered by the maps `c_A(g)`.
@@ -412,10 +412,10 @@ map for `f` finite and to the inverse-image map for `f` étale. A map of henseli
 inverse-image comparison. All of this is on the actual sites, for sheaves of sets (pointed sets for
 `f_!`).
 
-- `VanishingCycles.psiEta`: Ψ_η(F) = ī^* j̄_* F_η̄, a continuous Gal(η̄/η)-sheaf on X_s̄ (XIII 1.3.2.2).
-- `VanishingCycles.psi`: Ψ(F) = (F_s, Ψ_η(F_η), φ) on X_s ×_s S, φ from F → j_*j^*F (XIII 1.3.3).
-- `VanishingCycles.psi_leftExact`: Ψ and Ψ_η are left exact.
-- `VanishingCycles.psi_pushforward`: The base-change map Ψ f_* → f_* Ψ, an isomorphism for f proper (XIII 1.3.6).
+- `VanishingCycles.psiEta`: `Ψ_η(F) = ī^* j̄_* F_η̄`, a continuous `Gal(η̄/η)`-sheaf on `X_s̄` (XIII 1.3.2.2).
+- `VanishingCycles.psi`: `Ψ(F) = (F_s, Ψ_η(F_η), φ)` on `X_s ×_s S`, `φ` from `F → j_*j^*F` (XIII 1.3.3).
+- `VanishingCycles.psi_leftExact`: `Ψ` and `Ψ_η` are left exact.
+- `VanishingCycles.psi_pushforward`: The base-change map `Ψ f_* → f_* Ψ`, an isomorphism for `f` proper (XIII 1.3.6).
 
 *Proof sketch.* `Ψ_η` is pullback to `η̄`, direct image to `X̄` and restriction to `X_s̄`, with the Galois
 action by transport of structure; the triple is assembled from the adjunction unit, and the
@@ -425,11 +425,11 @@ EtaleCohomologyFoundations §§F.2–F.3.
 
 **Checks.**
 
-- `VanishingCycles.psiEta_trait`: For X = S, Ψ_η(F) is F_η̄ with its Gal(η̄/η)-action.
-- `VanishingCycles.psiEta_ne_invariants`: For X = S, Ψ_η(F) = F_η̄ differs from i^*j_*F = F_η̄^I whenever I acts nontrivially: using j_* in place of j̄_* loses the inertia action.
-- `VanishingCycles.psiEta_smooth_constant`: For X smooth over S and Λ constant, Ψ_η(Λ) = Λ, since the strict henselisations of X̄ at points of X_s̄ are normal domains.
-- `VanishingCycles.psi_proper_pushforward_id`: For f = id the base-change map is the identity.
-- For X = S, Ψ_η(F) is the Gal(η̄/η)-set F_η̄ viewed over s̄ and Ψ(F)_s = F_s with φ: F_s -> F_η̄^I.
+- `VanishingCycles.psiEta_trait`: For `X = S`, `Ψ_η(F)` is `F_η̄` with its `Gal(η̄/η)`-action.
+- `VanishingCycles.psiEta_ne_invariants`: For `X = S`, `Ψ_η(F) = F_η̄` differs from `i^*j_*F = F_η̄^I` whenever `I` acts nontrivially: using `j_*` in place of `j̄_*` loses the inertia action.
+- `VanishingCycles.psiEta_smooth_constant`: For `X` smooth over `S` and `Λ` constant, `Ψ_η(Λ) = Λ`, since the strict henselisations of `X̄` at points of `X_s̄` are normal domains.
+- `VanishingCycles.psi_proper_pushforward_id`: For `f = id` the base-change map is the identity.
+- For `X = S`, `Ψ_η(F)` is the `Gal(η̄/η)`-set `F_η̄` viewed over `s̄` and `Ψ(F)_s = F_s` with `φ: F_s -> F_η̄^I`.
 
 ### 0.4 Vanishing cycles of a triple and the variation
 
@@ -462,14 +462,14 @@ Galois-equivariant morphism. In the representation case it is a `LinearMap`; a
 The uniqueness of a degree-zero factor through the underlying cokernel is separate from
 independence of the derived representative.
 
-- `VanishingCycles.variation`: Var_K(σ) : U(Φ(K)) → U(K_η) for σ ∈ I and K a bounded-below complex on Y ×_s S, in the underlying geometric derived category (XIII 1.4.3).
-- `VanishingCycles.variation_left`: σ = 1 + Var(σ) ∘ U(q) on U(K_η).
-- `VanishingCycles.variation_right`: σ = 1 + U(q) ∘ Var(σ) on U(Φ(K)).
-- `VanishingCycles.variation_mul`: Var(στ) = Var(σ) U(q) Var(τ) + Var(σ) + Var(τ), in the underlying derived category.
-- `VanishingCycles.variation_natural`: For a morphism f : K → L of gluing complexes, U(f_η) ∘ Var_K(σ) = Var_L(σ) ∘ U(Φ(f)).
-- `VanishingCycles.variation_conjugation`: The family satisfies the descent/pullback conjugation formula above for every g ∈ G and σ ∈ I.
-- `VanishingCycles.variation_wellDefined`: The underlying derived morphism Var_K(σ) depends only on K, not on the representative K'.
-- `VanishingCycles.variation_unique`: The degree-zero underlying cokernel factor of σ − 1 is uniquely characterized by its composite with U(q); independence of the derived representative is `variation_wellDefined`.
+- `VanishingCycles.variation`: `Var_K(σ) : U(Φ(K)) → U(K_η)` for `σ ∈ I` and `K` a bounded-below complex on `Y ×_s S`, in the underlying geometric derived category (XIII 1.4.3).
+- `VanishingCycles.variation_left`: `σ = 1 + Var(σ) ∘ U(q)` on `U(K_η)`.
+- `VanishingCycles.variation_right`: `σ = 1 + U(q) ∘ Var(σ)` on `U(Φ(K))`.
+- `VanishingCycles.variation_mul`: `Var(στ) = Var(σ) U(q) Var(τ) + Var(σ) + Var(τ)`, in the underlying derived category.
+- `VanishingCycles.variation_natural`: For a morphism `f : K → L` of gluing complexes, `U(f_η) ∘ Var_K(σ) = Var_L(σ) ∘ U(Φ(f))`.
+- `VanishingCycles.variation_conjugation`: The family satisfies the descent/pullback conjugation formula above for every `g ∈ G` and `σ ∈ I`.
+- `VanishingCycles.variation_wellDefined`: The underlying derived morphism `Var_K(σ)` depends only on `K`, not on the representative `K'`.
+- `VanishingCycles.variation_unique`: The degree-zero underlying cokernel factor of `σ − 1` is uniquely characterized by its composite with `U(q)`; independence of the derived representative is `variation_wellDefined`.
 
 *Proof sketch.* The cone replacement gives an injective, degreewise split specialization whose
 quotient realizes the cone. Trivial inertia on the closed image makes `σ − 1` vanish there; factor it
@@ -482,10 +482,10 @@ cones).
 
 **Checks.**
 
-- `VanishingCycles.variation_one`: Var(1) = 0.
-- `VanishingCycles.variation_of_phi_zero`: If Φ(K) = 0 then Var(σ) = 0 and I acts trivially on U(K_η), by σ = 1 + Var(σ) U(q).
-- `VanishingCycles.variation_picardLefschetz`: At an ordinary quadratic point in odd relative dimension n = 2m + 1, Var(σ)(a) = (−1)^{m+1} t_ℓ(σ)(a, δ)δ, which over rational coefficients is nonzero when t_ℓ(σ) ≠ 0, (a, δ) ≠ 0 and δ ≠ 0 (XV 3.3).
-- `VanishingCycles.variation_ne_sub_one`: Var(σ) has source U(Φ(K)) and target U(K_η); σ − 1 on U(K_η) is its composite with U(q), which vanishes on the closed image. For K_s = 0, q is the identity and Var(σ) does equal σ − 1.
+- `VanishingCycles.variation_one`: `Var(1) = 0`.
+- `VanishingCycles.variation_of_phi_zero`: If `Φ(K) = 0` then `Var(σ) = 0` and `I` acts trivially on `U(K_η)`, by `σ = 1 + Var(σ) U(q)`.
+- `VanishingCycles.variation_picardLefschetz`: At an ordinary quadratic point in odd relative dimension `n = 2m + 1`, `Var(σ)(a) = (−1)^{m+1} t_ℓ(σ)(a, δ)δ`, which over rational coefficients is nonzero when `t_ℓ(σ) ≠ 0`, `(a, δ) ≠ 0` and `δ ≠ 0` (XV 3.3).
+- `VanishingCycles.variation_ne_sub_one`: `Var(σ)` has source `U(Φ(K))` and target `U(K_η)`; `σ − 1` on `U(K_η)` is its composite with `U(q)`, which vanishes on the closed image. For `K_s = 0`, `q` is the identity and `Var(σ)` does equal `σ − 1`.
 - `VanishingCycles.variation_finite_not_equivariant`: Let `S = Spec 𝔽₂[[t]]`, `Y = s`, `A = 𝔽₅`.
   The splitting field `𝔽₄((u))`, `u³ = t`, has group `C₃ ⋊ C₂ ≅ S₃`. On the permutation module
   `V = 𝔽₅³`, take inertia `T = [[0,0,1],[1,0,0],[0,1,0]]` and Frobenius
@@ -495,7 +495,7 @@ cones).
 - `VanishingCycles.variation_finite_conjugation`: In the same example, `T³ = F² = 1`,
   `FTF⁻¹ = T²`, and `F Var(σ) F⁻¹ = T² − 1 = Var(σ²)`. The family satisfies covariance even
   though its fixed member is not equivariant.
-- The variation determines the inertia action on K_η through 1.4.3.2; the cocycle rule 1.4.3.4 is the algebraic analogue of the classical variation.
+- The variation determines the inertia action on `K_η` through 1.4.3.2; the cocycle rule 1.4.3.4 is the algebraic analogue of the classical variation.
 
 ### 0.5 `RΨ`, `RΦ`, the vanishing triangle and Milnor fibres
 
@@ -519,11 +519,11 @@ exactly when `RΦ(K) = 0`; in particular `RΦ` vanishes on a smooth locus where 
 local-acyclicity predicate of EtaleCohomologyFoundations §§F.2–F.3, which defines
 local acyclicity without nearby cycles.
 
-- `VanishingCycles.RPsi`: RΨ : D⁺(X, A) → D⁺(X_s ×_s S, A), the right derived functor of Ψ, with RΨ(K)_s = i^*K and RΨ(K)_η = RΨ_η(K_η) (XIII 2.1.2).
-- `VanishingCycles.RPhi`: RΦ(K) = Φ(RΨ(K)), in D⁺(X_s ×_s η, A).
-- `VanishingCycles.vanishingTriangle`: The distinguished triangle sp^* i^*K → RΨ_η(K_η) → RΦ(K) → (XIII 2.1.2.4).
-- `VanishingCycles.RPsi_stalk`: R^iΨ(K)_(x̄, η̄) = H^i(X_(x̄) ×_{S^nr} η̄, K), the cohomology of the geometric Milnor fibre (XIII 2.1.4).
-- `VanishingCycles.RPhi_eq_zero_iff_locallyAcyclic`: (X, K) is locally acyclic over S if and only if RΦ(K) = 0 (Illusie 2006, §1.1, pp. 1–2); the smooth locally constant special case is SGA 7 XIII, 2.1.5, p. 19.
+- `VanishingCycles.RPsi`: `RΨ : D⁺(X, A) → D⁺(X_s ×_s S, A)`, the right derived functor of `Ψ`, with `RΨ(K)_s = i^*K` and `RΨ(K)_η = RΨ_η(K_η)` (XIII 2.1.2).
+- `VanishingCycles.RPhi`: `RΦ(K) = Φ(RΨ(K))`, in `D⁺(X_s ×_s η, A)`.
+- `VanishingCycles.vanishingTriangle`: The distinguished triangle `sp^* i^*K → RΨ_η(K_η) → RΦ(K) →` (XIII 2.1.2.4).
+- `VanishingCycles.RPsi_stalk`: `R^iΨ(K)_(x̄, η̄) = H^i(X_(x̄) ×_{S^nr} η̄, K)`, the cohomology of the geometric Milnor fibre (XIII 2.1.4).
+- `VanishingCycles.RPhi_eq_zero_iff_locallyAcyclic`: `(X, K)` is locally acyclic over `S` if and only if `RΦ(K) = 0` (Illusie 2006, §1.1, pp. 1–2); the smooth locally constant special case is SGA 7 XIII, 2.1.5, p. 19.
 
 *Proof sketch.* Derive on injective resolutions: open restriction preserves injectives and geometric
 pullback has the needed acyclicity, so the closed and generic parts are as stated. Apply the cone
@@ -535,12 +535,12 @@ EtaleCohomologyFoundations §F.1; EtaleCohomologyFoundations §§F.2–F.3.
 
 **Checks.**
 
-- `VanishingCycles.RPhi_smooth`: For X → S smooth and K = Λ: RΦ(Λ) = 0 and RΨ_η(Λ) = Λ.
-- `VanishingCycles.RPsi_trait`: For X = S: RΨ_η(K) = K_η̄ with its Gal(η̄/η)-action.
-- `VanishingCycles.RPhi_node`: For X = Spec R[x, y]/(xy − π), π a uniformiser and S strictly henselian: R^iΦ(Λ) = 0 for i ≠ 1, and R^1Φ(Λ) is supported at the origin, free of rank 1 (XV 3.1.2 with n = 1).
-- `VanishingCycles.specialization_direction`: For f proper the triangle gives H^i(X_s, K) → H^i(X_η̄, K) → H^i(X_s, RΦ K) → H^{i+1}(X_s, K): specialisation runs from the special to the generic fibre, and the reversed arrow is not a morphism of the triangle.
-- For a smooth family with locally constant coefficients RΦ = 0 and sp^*i^*K ≅ RΨ_η(K_η).
-- For a disjoint union, RΨ is computed componentwise (functoriality in X); for a nodal curve over a trait the stalk formula at the node gives the cohomology of the Milnor fibre (an annulus), as in SGA 7 XV §2.
+- `VanishingCycles.RPhi_smooth`: For `X → S` smooth and `K = Λ`: `RΦ(Λ) = 0` and `RΨ_η(Λ) = Λ`.
+- `VanishingCycles.RPsi_trait`: For `X = S`: `RΨ_η(K) = K_η̄` with its `Gal(η̄/η)`-action.
+- `VanishingCycles.RPhi_node`: For `X = Spec R[x, y]/(xy − π)`, `π` a uniformiser and `S` strictly henselian: `R^iΦ(Λ) = 0` for `i ≠ 1`, and `R^1Φ(Λ)` is supported at the origin, free of rank 1 (XV 3.1.2 with `n = 1`).
+- `VanishingCycles.specialization_direction`: For `f` proper the triangle gives `H^i(X_s, K) → H^i(X_η̄, K) → H^i(X_s, RΦ K) → H^{i+1}(X_s, K)`: specialisation runs from the special to the generic fibre, and the reversed arrow is not a morphism of the triangle.
+- For a smooth family with locally constant coefficients `RΦ = 0` and `sp^*i^*K ≅ RΨ_η(K_η)`.
+- For a disjoint union, `RΨ` is computed componentwise (functoriality in `X`); for a nodal curve over a trait the stalk formula at the node gives the cohomology of the Milnor fibre (an annulus), as in SGA 7 XV §2.
 
 ### 0.6 Functoriality and the specialization sequence
 
@@ -657,7 +657,7 @@ come from those same suppliers. Integral/rational comparison uses EtaleCohomolog
 and the supplied adic theorem. There is one coefficient category on each side.
 
 **Nearby-cycle and inertia comparison.** `VanishingCycles.nearbyBettiCompatibility`.
-For an algebraic complex one-parameter degeneration, compare the stalk of trait RΨ with
+For an algebraic complex one-parameter degeneration, compare the stalk of trait `RΨ` with
 the cohomology of the corresponding analytic Milnor fibre using the supplied relative
 Artin comparisons and the algebraic strict-local/analytic neighbourhood limits. Identify
 chosen étale inertia paths with analytic loops via riemannExistence and prove that
@@ -670,9 +670,9 @@ The LPV.0 constructions use the general supplied comparison, independently of th
 
 **Checks.**
 
-- The Kummer cover of ℂ× has the same cyclic analytic and étale monodromy.
-- The trace on H²(ℙ¹,ℤ/ℓ(1)) is one in both comparison theories.
-- For z²=t the inertia loop exchanges the two generic points in both fibres.
+- The Kummer cover of `ℂ×` has the same cyclic analytic and étale monodromy.
+- The trace on `H²(ℙ¹,ℤ/ℓ(1))` is one in both comparison theories.
+- For `z²=t` the inertia loop exchanges the two generic points in both fibres.
 
 ### 0.10 Absolute cohomological purity
 
@@ -1022,17 +1022,17 @@ ArithmeticGaloisRepresentations Layer 2, §2.6, given by the kernel–image form
 `P_i = ker(N : gr_i → gr_{i−2})`, the bottom vectors of the `N`-strings; it is zero for `i > c`, because
 `N` is injective on `gr_i` for `i > c`.
 
-- `VanishingCycles.monodromyFiltration`: The finite increasing kernel-image filtration M indexed by Z and centered at c.
-- `VanishingCycles.monodromyFiltration_mono`: M_i≤M_j for i≤j, with a finite lower and upper bound.
-- `VanishingCycles.monodromyFiltration_lowering`: N(M_i)⊂M_(i−2).
-- `VanishingCycles.monodromyGradedPower`: The induced map N^r from Gr_(c+r) to Gr_(c−r), with twist −r.
+- `VanishingCycles.monodromyFiltration`: The finite increasing kernel-image filtration `M` indexed by `ℤ` and centered at `c`.
+- `VanishingCycles.monodromyFiltration_mono`: `M_i≤M_j` for `i≤j`, with a finite lower and upper bound.
+- `VanishingCycles.monodromyFiltration_lowering`: `N(M_i)⊂M_(i−2)`.
+- `VanishingCycles.monodromyGradedPower`: The induced map `N^r` from `Gr_(c+r)` to `Gr_(c−r)`, with twist `−r`.
 - `VanishingCycles.monodromyGradedPower_bijective`: Each opposite graded-power map is bijective.
-- `VanishingCycles.monodromyFiltration_scalar`: In an R-linear abelian category, M(aN,c)=M(N,c) for a∈Rˣ; over a field, a≠0 suffices.
-- `VanishingCycles.primitivePart`: P_i is the kernel of the induced graded N, using the lower-weight convention.
+- `VanishingCycles.monodromyFiltration_scalar`: In an `R`-linear abelian category, `M(aN,c)=M(N,c)` for `a∈Rˣ`; over a field, `a≠0` suffices.
+- `VanishingCycles.primitivePart`: `P_i` is the kernel of the induced graded `N`, using the lower-weight convention.
 - `VanishingCycles.monodromyFiltration_conj`: Conjugation by a linear equivalence maps each filtration submodule to the corresponding submodule of the conjugate operator.
-- `VanishingCycles.gradedN`: The map on the actual associated graded induced by N, lowering the index by two.
-- `VanishingCycles.gradedN_mk`: On a class represented by x, the induced graded map returns the class represented by Nx.
-- `VanishingCycles.monodromyGradedPower_mk`: The opposite graded-power map returns the class of N^r x, fixing its relation to the input operator.
+- `VanishingCycles.gradedN`: The map on the actual associated graded induced by `N`, lowering the index by two.
+- `VanishingCycles.gradedN_mk`: On a class represented by `x`, the induced graded map returns the class represented by `Nx`.
+- `VanishingCycles.monodromyGradedPower_mk`: The opposite graded-power map returns the class of `N^r x`, fixing its relation to the input operator.
 - `VanishingCycles.monodromyFiltration_eq_vectorSpace`: for a finite-dimensional vector space the
   filtration centred at `0` is ArithmeticGaloisRepresentations' `WeilDeligneRep.monodromyFiltration N`.
 
@@ -1045,10 +1045,10 @@ abelian categories (`CategoryTheory.Abelian`), images and kernels; EtaleCohomolo
 
 **Checks.**
 
-- `VanishingCycles.monodromyFiltration_zero`: For N=0 the filtration is 0 below c and V at and above c.
-- `VanishingCycles.monodromyFiltration_two_block`: For N(e₁)=e₀ on Q² centered at zero, M_−2=0, M_−1=M_0=Qe₀ and M_1=V.
-- `VanishingCycles.monodromyFiltration_three_block`: For N(e₂)=e₁, N(e₁)=e₀, the weights are −2,0,2 and Gr_−1=Gr_1=0.
-- `VanishingCycles.monodromyFiltration_not_kernel_filtration`: For a two-block, ker N is M_−1, and M_0 is still ker N, whereas ker N² is V.
+- `VanishingCycles.monodromyFiltration_zero`: For `N=0` the filtration is 0 below `c` and `V` at and above `c`.
+- `VanishingCycles.monodromyFiltration_two_block`: For `N(e₁)=e₀` on `ℚ²` centered at zero, `M_−2=0`, `M_−1=M_0=ℚe₀` and `M_1=V`.
+- `VanishingCycles.monodromyFiltration_three_block`: For `N(e₂)=e₁`, `N(e₁)=e₀`, the weights are `−2,0,2` and `Gr_−1=Gr_1=0`.
+- `VanishingCycles.monodromyFiltration_not_kernel_filtration`: For a two-block, `ker N` is `M_−1`, and `M_0` is still `ker N`, whereas `ker N²` is `V`.
 - A size-three Jordan block has weights `c − 2, c, c + 2`; a size-two block has weights `c − 1, c + 1`, so
   the filtration is not the kernel filtration `ker N^j`.
 
@@ -1130,9 +1130,9 @@ graded quotient and the previous subobject, and the uniqueness of 1.3 on each `g
 **Checks.**
 
 - For W pure of weight w the relative filtration is the ordinary filtration centered at w.
-- For N(e₁)=e₀, W_0=Qe₀ and W_1=Q², no relative M exists: the prescribed graded centers force N M_1⊂M_−1=0, contradicting N≠0.
-- For the same N with W_0=W_1=Qe₀ and W_2=Q² (graded pieces in weights 0 and 2), the relative filtration exists and is W itself:
-  M_−1=0, M_0=M_1=Qe₀, M_2=Q², and N M_2=Qe₀⊂M_0. Existence depends on the gap between the weights, which a definition
+- For `N(e₁)=e₀`, `W_0=ℚe₀` and `W_1=ℚ²`, no relative `M` exists: the prescribed graded centers force `N M_1⊂M_−1=0`, contradicting `N≠0`.
+- For the same `N` with `W_0=W_1=ℚe₀` and `W_2=ℚ²` (graded pieces in weights 0 and 2), the relative filtration exists and is `W` itself:
+  `M_−1=0`, `M_0=M_1=ℚe₀`, `M_2=ℚ²`, and `N M_2=ℚe₀⊂M_0`. Existence depends on the gap between the weights, which a definition
   ignoring W would not see.
 
 ### 1.6 Maximal unipotence
@@ -1145,10 +1145,10 @@ unipotent (Tau Ceti's `LinearMap.GeneralLinearGroup.IsUnipotent`) these are equi
 `log T` being maximally nilpotent. The zero space is excluded from the definition: it is not a Jordan block of size
 zero. Define `VanishingCycles.IsMaximallyNilpotent` and `VanishingCycles.IsMaximallyUnipotent`.
 
-- `VanishingCycles.IsMaximallyNilpotent`: For dim V=n>0, N^n=0 and N^(n−1)≠0.
-- `VanishingCycles.IsMaximallyUnipotent`: T is unipotent and T−1 is maximally nilpotent; equivalent to minpoly T=(X−1)^n.
-- `VanishingCycles.maximalLog_iff`: In characteristic zero, maximal unipotence of T is equivalent to maximal nilpotence of log T.
-- `VanishingCycles.maximalNilpotent_kernel_rank`: dim ker N^j=min(j,n).
+- `VanishingCycles.IsMaximallyNilpotent`: For `dim V=n>0`, `N^n=0` and `N^(n−1)≠0`.
+- `VanishingCycles.IsMaximallyUnipotent`: `T` is unipotent and `T−1` is maximally nilpotent; equivalent to `minpoly T=(X−1)^n`.
+- `VanishingCycles.maximalLog_iff`: In characteristic zero, maximal unipotence of `T` is equivalent to maximal nilpotence of `log T`.
+- `VanishingCycles.maximalNilpotent_kernel_rank`: `dim ker N^j=min(j,n)`.
 - `VanishingCycles.maximalNilpotent_conj`: Maximal nilpotence is invariant under conjugation by a linear equivalence.
 
 *Proof sketch.* `log(1 + U) = U · u(U)` with `u` a polynomial with constant term one, so `U` and `log(1 + U)`
@@ -1298,10 +1298,10 @@ Illusie 2021 §6.3.)
   `X` and `X[1]`, the total object is zero, and the nonzero identity filtered map becomes zero
   under the total functor; the total functor is not faithful.
 
-- `VanishingCycles.twoComponentNearbyComplex`: The filtered nearby complex on D₁∪D₂, with actual restriction/Gysin differentials.
-- `VanishingCycles.twoComponentNearbyComplex_grades`: The three graded objects are Λ_C[−1](−1), Λ_D₁⊕Λ_D₂ and Λ_C[−1].
-- `VanishingCycles.twoComponentNearbyComplex_monodromy`: N on the outer grades is the identity after the Tate twist, and N²=0.
-- `VanishingCycles.twoComponentNearbyComplex_resolves`: The corrected total complex is quasi-isomorphic to the geometric nearby complex K, not to L=RΓ(I,K).
+- `VanishingCycles.twoComponentNearbyComplex`: The filtered nearby complex on `D₁∪D₂`, with actual restriction/Gysin differentials.
+- `VanishingCycles.twoComponentNearbyComplex_grades`: The three graded objects are `Λ_C[−1](−1)`, `Λ_D₁⊕Λ_D₂` and `Λ_C[−1]`.
+- `VanishingCycles.twoComponentNearbyComplex_monodromy`: `N` on the outer grades is the identity after the Tate twist, and `N²=0`.
+- `VanishingCycles.twoComponentNearbyComplex_resolves`: The corrected total complex is quasi-isomorphic to the geometric nearby complex `K`, not to `L=RΓ(I,K)`.
 
 *Proof sketch.* Build the two-row restriction/Gysin double complex from the intersections, with
 `1 − T` as the upper differential (Illusie's 1994 erratum corrects its sign); the corrected filtered
@@ -1314,12 +1314,12 @@ EtaleCohomologyFoundations §§F.1–F.2, EtaleCohomologyFoundations §F.6 (Gysi
 
 **Checks.**
 
-- `VanishingCycles.twoComponent_node`: For xy=π, the degree-one nearby stalk is Λ(−1).
-- `VanishingCycles.twoComponent_disjoint`: If C is empty then N=0 and only the center-zero grade remains.
-- `VanishingCycles.twoComponent_not_sheaf_split`: For the nodal local model the cohomology-sheaf inertia action is trivial, but the derived N map on the two outer grades is an isomorphism.
-- `VanishingCycles.twoComponent_N_square`: The filtered two-component operator has N²=0 and gr₁N equal to identity onto gr_−1(−1).
-- For xy=π the intersection term is a point, R¹Ψ=Λ(−1), and the sheaf-level inertia action is trivial.
-- With C empty all off-center grades vanish and N=0.
+- `VanishingCycles.twoComponent_node`: For `xy=π`, the degree-one nearby stalk is `Λ(−1)`.
+- `VanishingCycles.twoComponent_disjoint`: If `C` is empty then `N=0` and only the center-zero grade remains.
+- `VanishingCycles.twoComponent_not_sheaf_split`: For the nodal local model the cohomology-sheaf inertia action is trivial, but the derived `N` map on the two outer grades is an isomorphism.
+- `VanishingCycles.twoComponent_N_square`: The filtered two-component operator has `N²=0` and `gr₁N` equal to identity onto `gr_−1(−1)`.
+- For `xy=π` the intersection term is a point, `R¹Ψ=Λ(−1)`, and the sheaf-level inertia action is trivial.
+- With `C` empty all off-center grades vanish and `N=0`.
 - A nonzero derived N in the nodal case prevents replacing the filtered complex by the direct sum of its cohomology sheaves.
 
 ### 1.10 The semisimple trace of Frobenius
@@ -1340,15 +1340,15 @@ complexes, in equivariant distinguished triangles; and it changes sign under shi
 
 - `VanishingCycles.semisimpleTrace`: Alternating sum of Frobenius traces on the inertia invariants of finite-inertia graded cohomology.
 - `VanishingCycles.semisimpleTrace_refinement`: The trace is unchanged under a finite common refinement.
-- `VanishingCycles.semisimpleTrace_additive`: For an equivariant distinguished triangle, trace B=trace A+trace C.
+- `VanishingCycles.semisimpleTrace_additive`: For an equivariant distinguished triangle, `trace B=trace A+trace C`.
 - `VanishingCycles.semisimpleTrace_frobeniusLift`: Changing Frobenius by an inertia element leaves the semisimple trace unchanged.
-- `VanishingCycles.AdmissibleInertiaFiltration`: Length, monotone submodules with endpoints 0,V, actual action/F stability and finite inertia image on each grade.
-- `VanishingCycles.filtrationRepresentation`: The inertia action induced by ρ on W_(i+1)/W_i.
-- `VanishingCycles.filtrationRepresentation_mk`: Applying g to the class of x gives the class of ρ(g)x.
-- `VanishingCycles.filtrationFrobenius`: The map induced by F on the same actual associated graded.
-- `VanishingCycles.filtrationFrobenius_mk`: Applying graded Frobenius to the class of x gives the class of Fx.
+- `VanishingCycles.AdmissibleInertiaFiltration`: Length, monotone submodules with endpoints `0,V`, actual action/`F` stability and finite inertia image on each grade.
+- `VanishingCycles.filtrationRepresentation`: The inertia action induced by `ρ` on `W_(i+1)/W_i`.
+- `VanishingCycles.filtrationRepresentation_mk`: Applying `g` to the class of `x` gives the class of `ρ(g)x`.
+- `VanishingCycles.filtrationFrobenius`: The map induced by `F` on the same actual associated graded.
+- `VanishingCycles.filtrationFrobenius_mk`: Applying graded Frobenius to the class of `x` gives the class of `Fx`.
 - `VanishingCycles.semisimpleTrace_finiteImage`: When the original inertia image is finite, the admissible trace equals the ordinary trace on its invariants.
-- `VanishingCycles.semisimpleTrace_shortExact`: The three actual representations in a short exact sequence have equivariant injection and surjection, range equals kernel, and intertwining F; their admissible degree-zero traces are additive.
+- `VanishingCycles.semisimpleTrace_shortExact`: The three actual representations in a short exact sequence have equivariant injection and surjection, range equals kernel, and intertwining `F`; their admissible degree-zero traces are additive.
 
 *Proof sketch.* Two admissible filtrations have a common refinement whose subquotients are equivariant
 subquotients of finite-inertia pieces, hence have finite inertia image; averaging over the finite
@@ -1360,8 +1360,8 @@ p. 212.) *Needs:* 1.1, 1.2; 0.8 (the nearby-cycle stalks it is applied to); Etal
 
 **Checks.**
 
-- `VanishingCycles.semisimpleTrace_trivial`: For a degree-zero trivial inertia line with Frobenius a, the semisimple trace is a.
-- `VanishingCycles.semisimpleTrace_unipotent_block`: For ρ(g)(x, y) = (x + gy, y) on ℚ², g ∈ ℤ, and F the identity (the specialization q = 1), the two-step admissible filtration gives semisimple trace two, while the trace on invariants is one.
+- `VanishingCycles.semisimpleTrace_trivial`: For `a` degree-zero trivial inertia line with Frobenius `a`, the semisimple trace is `a`.
+- `VanishingCycles.semisimpleTrace_unipotent_block`: For `ρ(g)(x, y) = (x + gy, y)` on `ℚ²`, `g ∈ ℤ`, and `F` the identity (the specialization `q = 1`), the two-step admissible filtration gives semisimple trace two, while the trace on invariants is one.
 - `VanishingCycles.semisimpleTrace_quadratic`: For a nontrivial quadratic finite inertia line, the semisimple trace is 0.
 - `VanishingCycles.semisimpleTrace_shift`: Shifting a complex by one negates its semisimple trace.
 - A trivial one-dimensional inertia module gives its ordinary Frobenius trace.
@@ -1414,11 +1414,11 @@ of rank at most one). The case `r = 0` is excluded, and no invertibility of two 
 is perfect; over a field this means that its kernel is zero. Ordinarity allows a one-dimensional
 polar kernel in odd rank in characteristic two.
 
-- `Quadric.IsOrdinary`: IsOrdinary Q : Prop — Q nowhere zero with smooth quadric.
-- `Quadric.IsOrdinary.baseChange`: Ordinary is stable under base change and can be checked on the fibres at points of S.
-- `Quadric.isOrdinary_iff_polar_nondegenerate`: Over a field with r even or 2 ≠ 0: IsOrdinary Q ↔ (polarBilin Q).Nondegenerate.
-- `Quadric.isOrdinary_iff_of_char_two`: Over a field of characteristic 2 with r odd: IsOrdinary Q ↔ finrank (ker Φ) = 1 ∧ Q ≠ 0 on ker Φ.
-- `Quadric.isOrdinary_iff_nondegenerate`: Over a field with V ≠ 0: IsOrdinary Q ↔ QuadraticMap.Nondegenerate Q.
+- `Quadric.IsOrdinary`: `IsOrdinary Q : Prop` — `Q` nowhere zero with smooth quadric.
+- `Quadric.IsOrdinary.baseChange`: Ordinary is stable under base change and can be checked on the fibres at points of `S`.
+- `Quadric.isOrdinary_iff_polar_nondegenerate`: Over a field with `r` even or `2 ≠ 0`: `IsOrdinary Q ↔ (polarBilin Q).Nondegenerate`.
+- `Quadric.isOrdinary_iff_of_char_two`: Over a field of characteristic 2 with `r` odd: `IsOrdinary Q ↔ finrank (ker Φ) = 1 ∧ Q ≠ 0` on `ker Φ`.
+- `Quadric.isOrdinary_iff_nondegenerate`: Over a field with `V ≠ 0`: `IsOrdinary Q ↔ QuadraticMap.Nondegenerate Q`.
 
 *Proof sketch.* Apply the Jacobian criterion after passing to an algebraic closure: the projective quadric
 is singular at a geometric point `v ≠ 0` exactly when `Q(v) = 0` and `Φ(v, ·) = 0`. Smoothness and the rank
@@ -1436,12 +1436,12 @@ with the two characteristic-two checks as examples over an arbitrary field of ch
 
 **Checks.**
 
-- `Quadric.isOrdinary_xy_add_sq_char_two`: Characteristic 2, r = 3, Q = xy + z²: ker Φ = k·e_z and Q(e_z) = 1, so Q is ordinary (the conic xy = z² is smooth).
-- `Quadric.not_isOrdinary_sum_sq_char_two`: Characteristic 2, r = 2, Q = x² + y² = (x + y)²: Φ = 0 and the quadric is a double point, so Q is not ordinary.
-- `Quadric.isOrdinary_rank_one`: r = 1, Q = ax² with a a unit: the quadric is empty and Q is ordinary in every characteristic.
-- `Quadric.isOrdinary_iff_nondegenerate_test`: Over a field and for V ≠ 0, IsOrdinary Q agrees with Mathlib's QuadraticMap.Nondegenerate Q: in characteristic 2 the alternating Φ has kernel of dimension ≡ r mod 2, so rank ≤ 1 forces 0 or 1 according to the parity of r.
+- `Quadric.isOrdinary_xy_add_sq_char_two`: Characteristic 2, `r = 3`, `Q = xy + z²`: `ker Φ = k·e_z` and `Q(e_z) = 1`, so `Q` is ordinary (the conic `xy = z²` is smooth).
+- `Quadric.not_isOrdinary_sum_sq_char_two`: Characteristic 2, `r = 2`, `Q = x² + y² = (x + y)²`: `Φ = 0` and the quadric is a double point, so `Q` is not ordinary.
+- `Quadric.isOrdinary_rank_one`: `r = 1`, `Q = ax²` with `a` `a` unit: the quadric is empty and `Q` is ordinary in every characteristic.
+- `Quadric.isOrdinary_iff_nondegenerate_test`: Over a field and for `V ≠ 0`, `IsOrdinary Q` agrees with Mathlib's `QuadraticMap.Nondegenerate Q`: in characteristic 2 the alternating `Φ` has kernel of dimension `≡ r mod 2`, so `rank ≤ 1` forces 0 or 1 according to the parity of `r`.
 - `Quadric.isOrdinary_zero_rank_excluded`: The zero form on the zero module is not ordinary: rank zero is excluded explicitly.
-- xy + z² in characteristic 2 is ordinary; x² + y² in characteristic 2 is not; ax² is ordinary.
+- `xy + z²` in characteristic 2 is ordinary; `x² + y²` in characteristic 2 is not; `ax²` is ordinary.
 
 **Theorem (normal form).** Let `Q` be an ordinary quadratic form on a locally free `A`-module of rank
 `r = 2m` (resp. `2m + 1`). Étale locally on `Spec A` there is a basis `e_1, …, e_r` with
@@ -1455,7 +1455,7 @@ SchemeAndStackFoundations Layer 0, §0.8 (étale-local sections of smooth morphi
 
 **Checks.**
 
-- r = 2: Q = x₁x₂; r = 3: Q = x₁x₂ + λx₃², which over a separably closed field of characteristic not 2 is equivalent to x² + y² + z².
+- `r = 2`: `Q = x₁x₂`; `r = 3`: `Q = x₁x₂ + λx₃²`, which over a separably closed field of characteristic not 2 is equivalent to `x² + y² + z²`.
 - In rank one, `λx²` remains the odd normal form, including characteristic two.
 - In rank four, `x₁x₃+x₂x₄` is the split even form with two hyperbolic planes.
 
@@ -1477,10 +1477,10 @@ separate name; over a field in which two is invertible it is Tau Ceti's `K[X]/(X
 (`CliffordAlgebra.adjoinRootEquivCenterEven`, with `d` the signed discriminant). Define
 `Quadric.lagrangianIdempotent` and `Quadric.discriminantCover`, and prove:
 
-- `Quadric.center_even_isEtale`: For Q satisfying IsOrdinary in positive even rank, Z(Q) is finite étale of rank 2 over A, and C⁺(Q) is Azumaya over Z(Q).
-- `Quadric.lagrangianIdempotent`: e(W) ∈ Z(Q) for W totally isotropic of rank m.
-- `Quadric.lagrangianIdempotent_eq_iff`: Over a field, e(W₁) = e(W₂) ↔ Even (finrank (W₁ ⧸ W₁ ⊓ W₂)).
-- `Quadric.discriminantCover`: Z(X) → S for a smooth quadric of even dimension, with e : Gén(X) → Z(X) the Stein factorisation.
+- `Quadric.center_even_isEtale`: For `Q` satisfying `IsOrdinary` in positive even rank, `Z(Q)` is finite étale of rank 2 over `A`, and `C⁺(Q)` is Azumaya over `Z(Q)`.
+- `Quadric.lagrangianIdempotent`: `e(W) ∈ Z(Q)` for `W` totally isotropic of rank `m`.
+- `Quadric.lagrangianIdempotent_eq_iff`: Over a field, `e(W₁) = e(W₂) ↔ Even (finrank (W₁ ⧸ W₁ ⊓ W₂))`.
+- `Quadric.discriminantCover`: `Z(X) → S` for a smooth quadric of even dimension, with `e : Gén(X) → Z(X)` the Stein factorisation.
 
 *Proof sketch.* Étale locally `Q` is split; for `V = W_1 ⊕ W_2` with both summands totally isotropic,
 `C(Q) ≅ End(ΛW_1)` as graded algebras, so `C⁺(Q) ≅ End(ΛW_1)⁺ × End(ΛW_1)⁻` has centre `A × A`; descent
@@ -1498,15 +1498,15 @@ included).
 
 **Checks.**
 
-- Over ℤ, Q=x²+y² has injective polar map 2I, hence satisfies the native
+- Over `ℤ`, `Q=x²+y²` has injective polar map `2I`, hence satisfies the native
   QuadraticMap.Nondegenerate, but its reduction at 2 is not ordinary. Its even Clifford
-  centre ℤ[t]/(t²+1) has fibre 𝔽₂[t]/((t+1)²), so is not étale at 2 and is excluded.
-- `Quadric.center_even_hyperbolic`: V = Ae ⊕ Af with Q(xe + yf) = xy: C⁺(Q) = Z(Q) ≅ A × A, and the isotropic lines Ae and Af give the two idempotents fe and ef = 1 − fe (XII 1.12, proof).
-- `Quadric.center_even_discriminant`: Over a field of characteristic not 2, Q = x² − dy² with d ≠ 0: C⁺(Q) = k ⊕ k·e₁e₂ with (e₁e₂)² = d, so Z(Q) ≅ k[t]/(t² − d), split if and only if d is a square; this agrees with Tau Ceti's `CliffordAlgebra.adjoinRootEquivCenterEven` for the orthogonal basis (e₁, e₂), whose signed discriminant is (−1)·1·(−d) = d.
-- `Quadric.center_even_char_two`: Over a field of characteristic 2, Q = x² + xy + ay² on k²: with u = e₁e₂ one has u² = u − Q(e₁)Q(e₂), so Z(Q) = C⁺(Q) = k[u]/(u² + u + a), the Artin–Schreier algebra of the Arf invariant a, étale for every a and split exactly when a = t² + t for some t ∈ k. No algebra of the shape k[X]/(X² − d) is étale in characteristic 2 (X² − d = (X − √d)² over k̄), so the characteristic-not-two description does not extend.
-- `Quadric.lagrangianIdempotent_sum`: For an orthogonal sum, e(W₁ ⊕ W₂) = e(W₁)e(W₂) + (1 − e(W₁))(1 − e(W₂)) (XII 1.10.1): the sections add as ℤ/2-torsors, not as idempotents.
-- n = 2: X ≅ P¹ × P¹, Gén(X) is two copies of P¹ (the two rulings) and Z(X) is two points.
-- n = 0: Z(X) = X, a double cover.
+  centre `ℤ[t]/(t²+1)` has fibre `𝔽₂[t]/((t+1)²)`, so is not étale at 2 and is excluded.
+- `Quadric.center_even_hyperbolic`: `V = Ae ⊕ Af` with `Q(xe + yf) = xy`: `C⁺(Q) = Z(Q) ≅ A × A`, and the isotropic lines `Ae` and `Af` give the two idempotents `fe` and `ef = 1 − fe` (XII 1.12, proof).
+- `Quadric.center_even_discriminant`: Over a field of characteristic not 2, `Q = x² − dy²` with `d ≠ 0`: `C⁺(Q) = k ⊕ k·e₁e₂` with `(e₁e₂)² = d`, so `Z(Q) ≅ k[t]/(t² − d)`, split if and only if `d` is a square; this agrees with Tau Ceti's `CliffordAlgebra.adjoinRootEquivCenterEven` for the orthogonal basis `(e₁, e₂)`, whose signed discriminant is `(−1)·1·(−d) = d`.
+- `Quadric.center_even_char_two`: Over `a` field of characteristic 2, `Q = x² + xy + ay²` on `k²`: with `u = e₁e₂` one has `u² = u − Q(e₁)Q(e₂)`, so `Z(Q) = C⁺(Q) = k[u]/(u² + u + a)`, the Artin–Schreier algebra of the Arf invariant `a`, étale for every `a` and split exactly when `a = t² + t` for some `t ∈ k`. No algebra of the shape `k[X]/(X² − d)` is étale in characteristic 2 (`X² − d = (X − √d)²` over `k̄`), so the characteristic-not-two description does not extend.
+- `Quadric.lagrangianIdempotent_sum`: For an orthogonal sum, `e(W₁ ⊕ W₂) = e(W₁)e(W₂) + (1 − e(W₁))(1 − e(W₂))` (XII 1.10.1): the sections add as `ℤ/2`-torsors, not as idempotents.
+- `n = 2`: `X ≅ P¹ × P¹`, `Gén(X)` is two copies of `P¹` (the two rulings) and `Z(X)` is two points.
+- `n = 0`: `Z(X) = X`, a double cover.
 
 ### 2.3 Smooth quadrics, their cohomology and affine quadrics
 
@@ -1520,11 +1520,11 @@ Severi–Brauer scheme `P(X)` depends only on `X/S`. Over an algebraically close
 which need not be represented by a global `O(1)`. Define
 `Quadric.IsSmoothQuadric`.
 
-- `Quadric.IsSmoothQuadric`: IsSmoothQuadric (f : X ⟶ S) (n : ℕ) : Prop — proper, smooth, geometric fibres smooth quadrics of dimension n.
-- `Quadric.isSmoothQuadric_of_isOrdinary`: The quadric of an ordinary form of rank n + 2 is a smooth quadric of dimension n.
-- `Quadric.ambientProjective`: For a smooth quadric X/S of relative dimension n>0, the canonical ambient Severi–Brauer S-scheme P(X) with X a relative divisor of degree 2.
+- `Quadric.IsSmoothQuadric`: `IsSmoothQuadric (f : X ⟶ S) (n : ℕ) : Prop` — proper, smooth, geometric fibres smooth quadrics of dimension `n`.
+- `Quadric.isSmoothQuadric_of_isOrdinary`: The quadric of an ordinary form of rank `n + 2` is a smooth quadric of dimension `n`.
+- `Quadric.ambientProjective`: For a smooth quadric `X/S` of relative dimension `n>0`, the canonical ambient Severi–Brauer `S`-scheme `P(X)` with `X` a relative divisor of degree 2.
 - `Quadric.isSmoothQuadric_zero_iff`: A smooth quadric of dimension 0 is the same as an étale double cover.
-- `Quadric.canonical_iso`: Over an algebraically closed field, ω_X ≅ O_X(−n) for the hyperplane bundle of a smooth n-dimensional quadric.
+- `Quadric.canonical_iso`: Over an algebraically closed field, `ω_X ≅ O_X(−n)` for the hyperplane bundle of a smooth `n`-dimensional quadric.
 
 *Proof sketch.* Over an algebraically closed field compute `Ω^n ≅ O(−n)`, `Pic` and the vanishing of
 `H^i(O)` and `H^1(O(1))`. Use `relativePicardSheaf` and
@@ -1538,11 +1538,11 @@ AlgebraicModuliForArithmeticGeometry §1.1 and §7.6.1 (`relativePicardSheaf`,
 
 **Checks.**
 
-- `Quadric.smoothQuadric_dim_zero`: n = 0 over an algebraically closed field: X ≅ Spec k ⊔ Spec k.
-- `Quadric.smoothQuadric_dim_two`: n = 2: xy = zw in P³ is P¹ × P¹ (Segre).
-- `Quadric.smoothQuadric_real_conic`: n = 1 over ℝ: x² + y² + z² = 0 is a smooth conic without real points, a nontrivial Severi–Brauer curve.
+- `Quadric.smoothQuadric_dim_zero`: `n = 0` over an algebraically closed field: `X ≅ Spec k ⊔ Spec k`.
+- `Quadric.smoothQuadric_dim_two`: `n = 2`: `xy = zw` in `P³` is `P¹ × P¹` (Segre).
+- `Quadric.smoothQuadric_real_conic`: `n = 1` over `ℝ`: `x² + y² + z² = 0` is a smooth conic without real points, a nontrivial Severi–Brauer curve.
 - For `X=Q×ℙ¹` and the hyperplane bundle `L=O_Q(1)⊠O(1)`, `ω_{X/ℙ¹}=O_Q(−n)⊠O`, whereas `L^(−n)=O_Q(−n)⊠O(−n)`; only their relative Picard classes agree.
-- `Quadric.not_smoothQuadric_cone`: The cone xy = z² in P³ (a form of rank 3 in 4 variables) is singular at (0:0:0:1); the form is not ordinary.
+- `Quadric.not_smoothQuadric_cone`: The cone `xy = z²` in `P³` (a form of rank 3 in 4 variables) is singular at `(0:0:0:1)`; the form is not ordinary.
 
 **Theorem (cohomology of smooth quadrics).** Let `p : X → S` be a smooth quadric of dimension `n` and `ℓ`
 invertible on `S`, with hyperplane class `η ∈ H⁰(S, R²p_*ℤ_ℓ(1))`.
@@ -1573,8 +1573,8 @@ cycle classes) and EtaleCohomologyFoundations §F.7 (weak Lefschetz, cohomology 
 
 **Checks.**
 
-- n = 2, X = P¹ × P¹: the two rulings have square 0 and product 1 (m = 1 odd); #X(𝔽_q) = (1 + q)² when split and 1 + q² for the nonsplit form (Weil restriction of P¹ from 𝔽_{q²}).
-- n = 0: two points, Tr(cl(α)²) = 1 (m = 0 even), #X(𝔽_q) = 1 + ε ∈ {0, 2}.
+- `n = 2`, `X = P¹ × P¹`: the two rulings have square 0 and product 1 (`m = 1` odd); `#X(𝔽_q) = (1 + q)²` when split and `1 + q²` for the nonsplit form (Weil restriction of `P¹` from `𝔽_{q²}`).
+- `n = 0`: two points, `Tr(cl(α)²) = 1` (`m = 0` even), `#X(𝔽_q) = 1 + ε ∈ {0, 2}`.
 - For a smooth conic, the only groups are `H⁰=ℤ_ℓ` and `H²(1)=ℤ_ℓ`; its hyperplane class is twice the top generator, including at `ℓ=2`.
 
 **Theorem (affine quadrics and the vanishing class).** Let `X` be the smooth quadric over `S` of an
@@ -1595,15 +1595,14 @@ that character is trivialized.
 *Proof sketch.* Use the localization sequence of `X° ⊂ X ⊃ Y` and its dual Gysin sequence, and compute
 restriction with 2.3: in even dimension the image of a ruling class is the integral generator `c` of the
 adjacent odd-dimensional quadric with `2c = η^m` (the notation `η^m/2` does not invert two in `ℤ_2`); in odd
-dimension restriction is injective with the primitive quotient as cokernel. For `n = 2m`, `δ ↦ ±(cl(α) −
-cl(β))` gives `Tr(δ²) = cl(α)² − 2cl(α)cl(β) + cl(β)²`, which is `1 + 1 − 0 = 2` for `m` even and
+dimension restriction is injective with the primitive quotient as cokernel. For `n = 2m`, `δ ↦ ±(cl(α) − cl(β))` gives `Tr(δ²) = cl(α)² − 2cl(α)cl(β) + cl(β)²`, which is `1 + 1 − 0 = 2` for `m` even and
 `0 + 0 − 2 = −2` for `m` odd. For `n = 2m + 1`, `δ = ∂cl(α)` and `δ² = 0`. (SGA 7 II, Exposé XII, 3.5–3.6,
 pp. 17–18; Table 3.7, p. 20.) *Needs:* the theorem above, 2.3; EtaleCohomologyFoundations §F.6.
 
 **Checks.**
 
-- n = 1: X° = P¹ minus two points ≅ 𝔾_m, H¹_c and H¹ of rank 1, φ = 0, Tr(δ²) = 0.
-- n = 2: Tr(δ²) = −2, the self-intersection of the vanishing sphere of a surface node; over ℂ, Σ z_i² = 1 is diffeomorphic to the tangent bundle of a sphere (XII 3.8).
+- `n = 1`: `X° = P¹` minus two points `≅ 𝔾_m`, `H¹_c` and `H¹` of rank 1, `φ = 0`, `Tr(δ²) = 0`.
+- `n = 2`: `Tr(δ²) = −2`, the self-intersection of the vanishing sphere of a surface node; over `ℂ`, `Σ z_i² = 1` is diffeomorphic to the tangent bundle of a sphere (XII 3.8).
 - For `n=0`, `Y=∅`, both ordinary and compactly supported cohomology are `Λ²` in degree zero; no smooth-quadric carrier of dimension minus one is used.
 
 ### 2.4 Ordinary quadratic points
@@ -1622,13 +1621,13 @@ expansion `Quadric.quadraticSeries` of a quadratic form as a multivariate power 
 diagonal coefficients are `Q(e_i)` and whose mixed coefficients are `Q(e_i + e_j) − Q(e_i) − Q(e_j)`, with
 no division by two.
 
-- `Quadric.IsOrdinaryQuadraticPoint`: Geometric predicate on (Y/k,y), tested after algebraic closure. Its field formal-germ specialization takes a k-algebra A and r=n+1>0 and requires A≅k[[x₁,…,x_r]]/(quadraticSeries(Q)+R) as k-algebras, with Q ordinary and R of order at least three (`3 ≤ MvPowerSeries.order R`).
+- `Quadric.IsOrdinaryQuadraticPoint`: Geometric predicate on `(Y/k,y)`, tested after algebraic closure. Its field formal-germ specialization takes a `k`-algebra `A` and `r=n+1>0` and requires `A≅k[[x₁,…,x_r]]/(quadraticSeries(Q)+R)` as `k`-algebras, with `Q` ordinary and `R` of order at least three (`3 ≤ MvPowerSeries.order R`).
 - `Quadric.IsNondegenerateQuadraticPoint`: The same with the leading form polar-nondegenerate.
-- `Quadric.isNondegenerate_iff`: IsNondegenerateQuadraticPoint Y y ↔ IsOrdinaryQuadraticPoint Y y ∧ (p ≠ 2 ∨ Odd n).
-- `Quadric.isOrdinaryQuadraticPoint_baseChange`: The notion is geometric: it holds at y if and only if it holds at the points over y after any field extension.
-- `Quadric.isOrdinaryQuadraticPoint_cone`: For r > 0 and Q ordinary, the formal quotient k[[x]]/(quadraticSeries Q) is an ordinary germ; its identification with the completed local ring of the cone Q = 0 at its vertex is a statement about schemes (Mathlib `AdicCompletion`; TauCetiRoadmap ModularCurves Layer 4D).
-- `Quadric.quadraticSeries`: The coordinate expansion of Q in multivariate formal power series; its diagonal coefficients are Q(e_i), and its mixed coefficients are Q(e_i+e_j)−Q(e_i)−Q(e_j), with no division by two.
-- `Quadric.quadraticSeries_proj`: For Q=proj_i·proj_j the constructor returns X_i X_j, including i=j.
+- `Quadric.isNondegenerate_iff`: `IsNondegenerateQuadraticPoint Y y ↔ IsOrdinaryQuadraticPoint Y y ∧ (p ≠ 2 ∨ Odd n)`.
+- `Quadric.isOrdinaryQuadraticPoint_baseChange`: The notion is geometric: it holds at `y` if and only if it holds at the points over `y` after any field extension.
+- `Quadric.isOrdinaryQuadraticPoint_cone`: For `r > 0` and `Q` ordinary, the formal quotient `k[[x]]/(quadraticSeries Q)` is an ordinary germ; its identification with the completed local ring of the cone `Q = 0` at its vertex is a statement about schemes (Mathlib `AdicCompletion`; TauCetiRoadmap ModularCurves Layer 4D).
+- `Quadric.quadraticSeries`: The coordinate expansion of `Q` in multivariate formal power series; its diagonal coefficients are `Q(e_i)`, and its mixed coefficients are `Q(e_i+e_j)−Q(e_i)−Q(e_j)`, with no division by two.
+- `Quadric.quadraticSeries_proj`: For `Q=proj_i·proj_j` the constructor returns `X_i X_j`, including `i=j`.
 
 *Proof sketch.* The quadratic part of `f` is determined up to a linear change of coordinates and a unit,
 because `f` has no linear term, and ordinarity is invariant under both. Polar-nondegeneracy is the criterion of
@@ -1643,10 +1642,10 @@ the field formal-germ form `Quadric.IsOrdinaryQuadraticGerm` and `isOrdinaryQuad
 
 - For the mixed projection `xy`, `quadraticSeries` is `X₀X₁`; for `x²` it is `X₀²`.
 - For `xy+z²` over a characteristic-two field, `quadraticSeries` is `X₀X₁+X₂²`, with no division by two.
-- `Quadric.node_isOrdinary`: The node xy = 0 in 𝔸² (n = 1): Q = xy is ordinary and polar-nondegenerate in every characteristic.
-- `Quadric.doublePoint_char_two`: n = 0, Y = Spec k[x]/(x²): Q = x² is ordinary in every characteristic, so the origin is ordinary; it is polar-nondegenerate if and only if p ≠ 2, and for p = 2 it is polar-degenerate.
-- `Quadric.cusp_not_ordinary`: The cusp y² = x³ (n = 1): the quadratic part y² in two variables is not ordinary (its quadric is a double point of P¹), so the cusp is not an ordinary quadratic point.
-- `Quadric.smooth_point_not_quadratic`: A smooth point is not an ordinary quadratic point: its Zariski tangent space has dimension n, not n + 1.
+- `Quadric.node_isOrdinary`: The node `xy = 0` in `𝔸²` (`n = 1`): `Q = xy` is ordinary and polar-nondegenerate in every characteristic.
+- `Quadric.doublePoint_char_two`: `n = 0`, `Y = Spec k[x]/(x²)`: `Q = x²` is ordinary in every characteristic, so the origin is ordinary; it is polar-nondegenerate if and only if `p ≠ 2`, and for `p = 2` it is polar-degenerate.
+- `Quadric.cusp_not_ordinary`: The cusp `y² = x³` (`n = 1`): the quadratic part `y²` in two variables is not ordinary (its quadric is a double point of `P¹`), so the cusp is not an ordinary quadratic point.
+- `Quadric.smooth_point_not_quadratic`: A smooth point is not an ordinary quadratic point: its Zariski tangent space has dimension `n`, not `n + 1`.
 - The node, the double point in both characteristics, the cusp and a smooth point.
 
 **Lemma (the Tjurina module).** Let `y` be an ordinary quadratic point of `Y/k` with `k(y)` purely
@@ -1661,7 +1660,7 @@ quotient is `k[x_0]/(x_0²)`; a radicial subscheme of rank two of affine space l
 
 **Checks.**
 
-- n = 0, Y = Spec k[x]/(x²): T¹ = k[x]/(x², 2x) has dimension 1 for p ≠ 2 and 2 for p = 2.
+- `n = 0`, `Y = Spec k[x]/(x²)`: `T¹ = k[x]/(x², 2x)` has dimension 1 for `p ≠ 2` and 2 for `p = 2`.
 
 - For `xy=0`, the quotient by the equation and its derivatives is `k` in every characteristic.
 - In characteristic two, `x₀²+x₁x₂=0` has Tjurina quotient `k[x₀]/(x₀²)` of rank two.
@@ -1681,7 +1680,7 @@ over henselian pairs).
 
 **Checks.**
 
-- N = c = 1, X : g(x) = 0 in 𝔸¹_A with g′(x̄) a unit (so δ′(x̄) = A): a root x̄ of g modulo 𝔞 lifts to a root in A congruent to x̄ modulo 𝔞, which is Hensel's lemma.
+- `N = c = 1`, `X : g(x) = 0` in `𝔸¹_A` with `g′(x̄)` a unit (so `δ′(x̄) = A`): a root `x̄` of `g` modulo `𝔞` lifts to a root in `A` congruent to `x̄` modulo `𝔞`, which is Hensel's lemma.
 
 - For `A=k[[t]]` with `2` invertible, `g(x)=x²−(1+t)` and `x̄=1`, the lifted root is congruent to one modulo `t`.
 - For `A=k[[t]]`, `g(x)=x²−t` and `x̄=0`, the Jacobian-square hypothesis fails; a root need not exist in `A`.
@@ -1701,7 +1700,7 @@ uses the line of the Tjurina lemma. (SGA 7 II, Exposé XV, Théorème 1.2.6 and 
 
 **Checks.**
 
-- The node xy = 0 is the cone of x₁x₂; y² = x² + x³ at the origin (p ≠ 2) is étale locally the node.
+- The node `xy = 0` is the cone of `x₁x₂`; `y² = x² + x³` at the origin (`p ≠ 2`) is étale locally the node.
 
 - The double point `x²=0` is already its rank-one quadratic cone in every characteristic.
 - Over an imperfect field of characteristic two, `x₀²−a+x₁x₂=0` has its ordinary point over `k(√a)`; the henselian model retains that residue extension.
@@ -1719,7 +1718,7 @@ and 1.3.1–1.3.3, pp. 10–12.) *Needs:* the Tjurina lemma; AlgebraicModuliForA
 
 **Checks.**
 
-- The ordinary quadratic point has a one-parameter versal deformation Q − b = 0 (polar-nondegenerate case) and a two-parameter one in the polar-degenerate case, matching the T¹ ranks one and two.
+- The ordinary quadratic point has a one-parameter versal deformation `Q − b = 0` (polar-nondegenerate case) and a two-parameter one in the polar-degenerate case, matching the `T¹` ranks one and two.
 
 - For the node `xy=0`, `xy=b` supplies the one smoothing parameter.
 - In characteristic two, `x²=0` has the two-parameter deformation `x²+bx+c`; the linear parameter cannot be absorbed by translating `x`.
@@ -1742,7 +1741,7 @@ deformation theorems above.
 
 **Checks.**
 
-- A family of curves acquiring a node: xy = b with b ∈ m_A; for a regular total space b is a uniformiser, which is the b(x) of XV 3.3.1.
+- A family of curves acquiring a node: `xy = b` with `b ∈ m_A`; for a regular total space `b` is a uniformiser, which is the `b(x)` of XV 3.3.1.
 
 - For `x²=π` with residue characteristic not two, the local model has `Q=x²` and `b=π`.
 - In characteristic two, `x²+πx+π=0` has both linear and constant parameters in the maximal ideal and a smooth separable generic fibre.
@@ -1755,7 +1754,7 @@ is at the origin over `V(b)`, where the fibre is the cone `Q = 0`; the degenerat
 
 **Checks.**
 
-- In a Lefschetz pencil the singular points of the fibres near x_s are x_s itself, as condition (B) requires.
+- In a Lefschetz pencil the singular points of the fibres near `x_s` are `x_s` itself, as condition (B) requires.
 
 - For `xy=b` over `Spec k[b]`, the only nonsmooth point in each nonsmooth fibre is its quadratic origin.
 - For `x²+bx+c=0` in characteristic two, the nonsmooth fibres have `b=0` and their unique geometric point is an ordinary double point.
@@ -1774,7 +1773,7 @@ EtaleCohomologyFoundations §§F.2–F.3 (smooth base change); EtaleCohomologyFo
 
 **Checks.**
 
-- The homotheties (x, t) ↦ tx, t ∈ 𝔸¹, make the identity of an affine cone homotopic to the constant map to its vertex.
+- The homotheties `(x, t) ↦ tx`, `t ∈ 𝔸¹`, make the identity of an affine cone homotopic to the constant map to its vertex.
 - For an affine line, homotheties identify the pullbacks by identity and by the constant map in degree zero.
 - On `ℂ^×`, the maps `z↦z` and `z↦z²` act by one and two on `H¹(−,ℤ/3)`; they are not homotopic by such a connected algebraic parameter.
 
@@ -1789,7 +1788,7 @@ localization sequences concludes; the henselian comparison is the five lemma wit
 
 **Checks.**
 
-- Y = P⁰ (X = 𝔸¹): H^i(𝔸¹) = F for i = 0 and 0 otherwise, and H^i_{0}(𝔸¹) = H^i_c(𝔸¹) = F(−1) for i = 2.
+- `Y = P⁰` (`X = 𝔸¹`): `H^i(𝔸¹) = F` for `i = 0` and 0 otherwise, and `H^i_{0}(𝔸¹) = H^i_c(𝔸¹) = F(−1)` for `i = 2`.
 
 - For the cone of two points in `ℙ¹`, the affine nodal union has `H⁰=Λ` and no positive ordinary cohomology.
 - For that nodal cone, supported `H¹` at its vertex has rank one, and equals compactly supported `H¹`.
@@ -1810,7 +1809,7 @@ EtaleCohomologyFoundations §§F.2–F.3.
 
 **Checks.**
 
-- Y = P^{r−1} (X = 𝔸^r, X* = 𝔸^r − {0}): the sequence recovers H^i(𝔸^r − {0}) = F for i = 0, 2r − 1 and 0 otherwise, because cup with η is an isomorphism H^{i−2}(P^{r−1})(−1) → H^i(P^{r−1}) for 2 ≤ i ≤ 2r − 2.
+- `Y = P^{r−1}` (`X = 𝔸^r`, `X* = 𝔸^r − {0}`): the sequence recovers `H^i(𝔸^r − {0}) = F` for `i = 0, 2r − 1` and 0 otherwise, because cup with `η` is an isomorphism `H^{i−2}(P^{r−1})(−1) → H^i(P^{r−1})` for `2 ≤ i ≤ 2r − 2`.
 
 - For `Y=ℙ¹`, the punctured affine-plane cone has `H³=Λ(−2)` and `H¹=H²=0`.
 - The zero section in the blow-up of `𝔸²` has normal bundle `O(−1)` and the infinity section has normal bundle `O(1)`, detecting the opposite signs.
@@ -1843,11 +1842,11 @@ maximal ideal. Smoothness of the generic fibre is an additional hypothesis, not 
 (The source writes "`n + 1` pair" for the exceptional case; it is `n + 1` odd.) Define
 `VanishingCycles.StandardQuadraticDegeneration`.
 
-- `VanishingCycles.StandardQuadraticDegeneration`: The data (S, Λ, Q) with the ordinarity of the leading form (a) and the cone condition (b).
-- `VanishingCycles.StandardQuadraticDegeneration.vertex`: The singular point x₀ of X_s, rational unless char k(s) = 2 and n is even.
-- `VanishingCycles.StandardQuadraticDegeneration.projectiveClosure`: X₁ ⊂ P^{n+1}_S with X = X₁ − Y; Y = X₁ ∩ H is a smooth quadric of dimension n−1 for n>0 and is empty for n=0.
-- `VanishingCycles.StandardQuadraticDegeneration.discriminantCharacter`: For n even, the character ε : I → {±1} of the separable quadratic extension of k(η) given by the centre of the even Clifford algebra of the rank-n+2 homogenized form defining X₁,η in (2.2.1.1), assuming the generic fibre smooth.
-- `VanishingCycles.StandardQuadraticDegeneration.ofLocalEquation`: The local model Q − b = 0 of a family at a polar-nondegenerate ordinary quadratic point (XV 1.3.2) is a standard degeneration.
+- `VanishingCycles.StandardQuadraticDegeneration`: The data `(S, Λ, Q)` with the ordinarity of the leading form (a) and the cone condition (b).
+- `VanishingCycles.StandardQuadraticDegeneration.vertex`: The singular point `x₀` of `X_s`, rational unless `char k(s) = 2` and `n` is even.
+- `VanishingCycles.StandardQuadraticDegeneration.projectiveClosure`: `X₁ ⊂ P^{n+1}_S` with `X = X₁ − Y`; `Y = X₁ ∩ H` is a smooth quadric of dimension `n−1` for `n>0` and is empty for `n=0`.
+- `VanishingCycles.StandardQuadraticDegeneration.discriminantCharacter`: For `n` even, the character `ε : I → {±1}` of the separable quadratic extension of `k(η)` given by the centre of the even Clifford algebra of the rank-`n+2` homogenized form defining `X₁,η` in (2.2.1.1), assuming the generic fibre smooth.
+- `VanishingCycles.StandardQuadraticDegeneration.ofLocalEquation`: The local model `Q − b = 0` of a family at a polar-nondegenerate ordinary quadratic point (XV 1.3.2) is a standard degeneration.
 
 *Proof sketch.* The projective closure is a flat family of quadrics and (a) says its section at infinity is
 smooth; on `X_s` the partial derivatives define the singular locus of the cone, whose degree is computed
@@ -1856,11 +1855,11 @@ over `k(s̄)` as in the Tjurina lemma; if `x_0` is rational, translate it to the
 
 **Checks.**
 
-- `VanishingCycles.standard_node`: n = 1, Q = xy − π with π a uniformiser: Y = {xy = 0, z = 0} is two points (a smooth quadric of dimension 0), X_s is the cone xy = 0, and the generic fibre is smooth.
-- `VanishingCycles.standard_double_point`: n = 0, Q = x² − π with p ≠ 2: Y = ∅, X_s = Spec k(s)[x]/(x²) is a cone, and the geometric generic fibre is two points.
-- `VanishingCycles.not_standard_char_two`: char k(s) = 2, n = 1, Q = x² + y² − π: the leading form (x + y)² is not ordinary, so (a) fails.
-- `VanishingCycles.standard_trivial_family`: Q = xy (c = 0): the geometric generic fibre is again a cone, so the generic fibre is not smooth, and all R^iΦ vanish (SGA 7 XV, Corollaire 2.2.4).
-- The node xy = π and the double point x² = π are standard; x² + y² − π in characteristic 2 is not.
+- `VanishingCycles.standard_node`: `n = 1`, `Q = xy − π` with `π` a uniformiser: `Y = {xy = 0, z = 0}` is two points (a smooth quadric of dimension 0), `X_s` is the cone `xy = 0`, and the generic fibre is smooth.
+- `VanishingCycles.standard_double_point`: `n = 0`, `Q = x² − π` with `p ≠ 2`: `Y = ∅`, `X_s = Spec k(s)[x]/(x²)` is a cone, and the geometric generic fibre is two points.
+- `VanishingCycles.not_standard_char_two`: `char k(s) = 2`, `n = 1`, `Q = x² + y² − π`: the leading form `(x + y)²` is not ordinary, so (a) fails.
+- `VanishingCycles.standard_trivial_family`: `Q = xy` (`c = 0`): the geometric generic fibre is again a cone, so the generic fibre is not smooth, and all `R^iΦ` vanish (SGA 7 XV, Corollaire 2.2.4).
+- The node `xy = π` and the double point `x² = π` are standard; `x² + y² − π` in characteristic 2 is not.
 
 **Theorem (nearby cycles of a standard degeneration).** Let `X/S` be a standard quadratic degeneration
 over a strictly henselian trait, `Λ = ℤ/k` with `k` invertible. Ordinary cohomology of the geometric
@@ -1883,8 +1882,8 @@ above, 2.3, 2.5, 0.5, 0.6; EtaleCohomologyFoundations §F.6.
 
 **Checks.**
 
-- n = 1, xy = π: R¹Φ(Λ) is Λ at the origin, and H¹_c(X_η̄) ≅ Λ with X_η̄ ≅ 𝔾_m.
-- n=0, x²=π with residue characteristic ≠2: R⁰Ψ and degree-zero nearby costalk have rank 2, while R⁰Φ=coker(Λ→Λ²) for the diagonal specialization has rank 1. The trace-zero kernel of Λ²→Λ belongs to the dual support description, not the definition of R⁰Φ.
+- `n = 1`, `xy = π`: `R¹Φ(Λ)` is `Λ` at the origin, and `H¹_c(X_η̄) ≅ Λ` with `X_η̄ ≅ 𝔾_m`.
+- `n=0`, `x²=π` with residue characteristic `≠2`: `R⁰Ψ` and degree-zero nearby costalk have rank 2, while `R⁰Φ=coker(Λ→Λ²)` for the diagonal specialization has rank 1. The trace-zero kernel of `Λ²→Λ` belongs to the dual support description, not the definition of `R⁰Φ`.
 
 - For the persistent cone `xy=0` over the trait, specialization is an isomorphism and every vanishing sheaf is zero.
 
@@ -1956,8 +1955,8 @@ nearby-cycle and coefficient-compatible local variation theorems above, 2.2, 2.3
 
 **Checks.**
 
-- n = 0, x² = π, p ≠ 2: ε is the character of k(η)(√π), and Var(σ)(a) = −(a, δ)δ when ε(σ) = −1, the swap of the two points.
-- n = 1, xy = π: Var(σ)(a) = λ_X t_ℓ(σ)(a, δ)δ with λ_X = −1 (Weil I (4.1): x − (x, δ)δ for n ≡ 1 mod 4).
+- `n = 0`, `x² = π`, `p ≠ 2`: `ε` is the character of `k(η)(√π)`, and `Var(σ)(a) = −(a, δ)δ` when `ε(σ) = −1`, the swap of the two points.
+- `n = 1`, `xy = π`: `Var(σ)(a) = λ_X t_ℓ(σ)(a, δ)δ` with `λ_X = −1` (Weil I (4.1): `x − (x, δ)δ` for `n ≡ 1 mod 4`).
 - For `xy+z²=π` with residue characteristic not two, the leading rank-three form has scalar even-Clifford centre, while the rank-four form `xy+z²−πw²` has quadratic centre with square class `π`; its nontrivial inertia character changes the sign of the vanishing line.
 
 **Theorem (local description of the vanishing cycle).** In a standard quadratic degeneration with
@@ -1970,8 +1969,7 @@ smooth generic fibre over a strictly henselian trait, with `Λ = ℤ/k`:
   each primary factor.
 - (`n = 2m + 1`, so `x_0` is rational.) Let `X_{s(0)}` be the henselization of `X_s` at `x_0`, `X̃_{s(0)}` its blow-up at
   `x_0`, `Y_0` the exceptional divisor (a smooth quadric of dimension `2m`) and `X*_{s(0)} = X_{s(0)} − {x_0}`. The
-  composite `H^{n−1}(Y_0, Λ(m)) ≅ H^{n−1}(X̃_{s(0)}, Λ(m)) → H^{n−1}(X*_{s(0)}, Λ(m)) → H^n_{x_0}(X_s, Λ(m)) →
-  H^n_{x_0}(X_s, RΨ_η̄Λ(m))` identifies the last group with the primitive quotient of `H^{2m}(Y_0, Λ(m))`, and `±δ`
+  composite `H^{n−1}(Y_0, Λ(m)) ≅ H^{n−1}(X̃_{s(0)}, Λ(m)) → H^{n−1}(X*_{s(0)}, Λ(m)) → H^n_{x_0}(X_s, Λ(m)) → H^n_{x_0}(X_s, RΨ_η̄Λ(m))` identifies the last group with the primitive quotient of `H^{2m}(Y_0, Λ(m))`, and `±δ`
   is the image of the natural generators of that primitive quotient.
 
 *Proof sketch.* Even case: another generator with the same norm is `uδ` with `u² = 1` in `ℤ/k`, and `u = ±1` only
@@ -1983,9 +1981,9 @@ above, 2.3, 2.5.
 
 **Checks.**
 
-- n = 1, xy = π: Y₀ is the two tangent directions at the node, H⁰(Y₀) = Λ², its primitive quotient is Λ, and δ generates H¹_c(X_η̄) = H¹_c(𝔾_m).
-- k = 15, m even: u = 4 satisfies u² ≡ 1, so 4δ also has (4δ, 4δ) = 2, and the characterisation by (δ, δ) alone does not single out ±δ.
-- The ambiguity persists after a 2-primary lift: 19²=1 in ℤ/60 and 19 reduces to 4 in ℤ/15; this is not the reduction of either globally signed geometric generator.
+- `n = 1`, `xy = π`: `Y₀` is the two tangent directions at the node, `H⁰(Y₀) = Λ²`, its primitive quotient is `Λ`, and `δ` generates `H¹_c(X_η̄) = H¹_c(𝔾_m)`.
+- `k = 15`, `m` even: `u = 4` satisfies `u² ≡ 1`, so `4δ` also has `(4δ, 4δ) = 2`, and the characterisation by `(δ, δ)` alone does not single out `±δ`.
+- The ambiguity persists after a 2-primary lift: `19²=1` in `ℤ/60` and 19 reduces to 4 in `ℤ/15`; this is not the reduction of either globally signed geometric generator.
 
 ### 2.7 Nearby cycles and variation at an ordinary quadratic point
 
@@ -2004,7 +2002,7 @@ and `Φ` apart in degree zero. (SGA 7 II, Exposé XV, Proposition 3.1.2 and its 
 **Checks.**
 
 - Outside E (points near which the generic fibre is not smooth) the vanishing cycles vanish (SGA 7 XV, Corollaire 2.2.4).
-- For n=0 the nearby stalk and nearby costalk have rank two; the vanishing stalk, coker(Λ→Λ²), has rank one.
+- For `n=0` the nearby stalk and nearby costalk have rank two; the vanishing stalk, `coker(Λ→Λ²)`, has rank one.
 
 - For `xy=π`, the vanishing line occurs in degree one; at every other point of the special fibre it vanishes.
 
@@ -2025,8 +2023,8 @@ pp. 24–25; 3.2.3, pp. 25–26.) *Needs:* the theorem above, 0.4, 2.2, 2.3, 2.6
 
 **Checks.**
 
-- For v(b) even the local monodromy is trivial in even relative dimension; for v(b) odd it is the reflection σ(δ) = −δ (when ε_x(σ) = −1).
-- Sign convention: (δ, δ) = (−1)^m·2 fixes δ up to sign, and the n mod 4 sign table of 2.8 is checked against this normalisation.
+- For `v(b)` even the local monodromy is trivial in even relative dimension; for `v(b)` odd it is the reflection `σ(δ) = −δ` (when `ε_x(σ) = −1`).
+- Sign convention: `(δ, δ) = (−1)^m·2` fixes `δ` up to sign, and the `n mod 4` sign table of 2.8 is checked against this normalisation.
 
 - For `xy+z²=π` with residue characteristic not two, the homogenized discriminant character is nontrivial and the vanishing orientation has square `−2`.
 
@@ -2089,8 +2087,8 @@ EtaleCohomologyFoundations §F.6.
 
 **Checks.**
 
-- The formula has the sign (−1)^{m+1} and the twist Λ(m); the quadratic character of the even case is replaced by the Kummer character ε_b of b.
-- The global formula requires properness; the case δ = 0 is the direct-image theorem of 2.8.
+- The formula has the sign `(−1)^{m+1}` and the twist `Λ(m)`; the quadratic character of the even case is replaced by the Kummer character `ε_b` of `b`.
+- The global formula requires properness; the case `δ = 0` is the direct-image theorem of 2.8.
 
 - For `xy=π`, residue characteristic different from two and modulus two/four, the
   coefficients are `1`/`3`; the doubled comparison distinguishes neither `0` from `1`
@@ -2129,8 +2127,8 @@ p. 288; (5.13) B), p. 294.) *Needs:* 0.5, 0.6, 0.8, 2.6, 2.7; EtaleCohomologyFou
 
 **Checks.**
 
-- n = 1, a curve of genus g acquiring one node: if the node is nonseparating, δ ≠ 0, the middle map is onto, dim H^1(X_s) = 2g − 1 and H^2(X_s) ≅ H^2(X_η̄); if it separates, δ = 0, H^1(X_s) ≅ H^1(X_η̄) and dim H^2(X_s) = 2.
-- n = 0, X = Spec A[y]/(y² − π) with p ≠ 2: X_η̄ is two points, δ = e₁ − e₂ and the sequence is 0 → ℚ_ℓ → ℚ_ℓ² → ℚ_ℓ → 0.
+- `n = 1`, a curve of genus `g` acquiring one node: if the node is nonseparating, `δ ≠ 0`, the middle map is onto, `dim H^1(X_s) = 2g − 1` and `H^2(X_s) ≅ H^2(X_η̄)`; if it separates, `δ = 0`, `H^1(X_s) ≅ H^1(X_η̄)` and `dim H^2(X_s) = 2`.
+- `n = 0`, `X = Spec A[y]/(y² − π)` with `p ≠ 2`: `X_η̄` is two points, `δ = e₁ − e₂` and the sequence is `0 → ℚ_ℓ → ℚ_ℓ² → ℚ_ℓ → 0`.
 - For a smooth proper family, the vanishing term is zero and specialization is an isomorphism in every degree.
 
 **Theorem (Picard–Lefschetz formula).** Let `I = Gal(η̄/η)` act on `H^i(X_η̄, ℚ_ℓ)`. Inertia acts trivially for
@@ -2153,8 +2151,8 @@ specialization sequence, EtaleCohomologyFoundations §F.3a, 0.4, 2.7.
 
 **Checks.**
 
-- n = 0, X = Spec A[y]/(y² − π), p ≠ 2: σ with ε(σ) = −1 swaps the two points, and x − (x, δ)δ with δ = e₁ − e₂ sends e₁ to e₂.
-- Sign table for n = 0, 1, 2, 3: signs −, −, +, +; (δ, δ) = 2, 0, −2, 0; σδ = −δ for n even when ε(σ) = −1 and σδ = δ for n odd.
+- `n = 0`, `X = Spec A[y]/(y² − π)`, `p ≠ 2`: `σ` with `ε(σ) = −1` swaps the two points, and `x − (x, δ)δ` with `δ = e₁ − e₂` sends `e₁` to `e₂`.
+- Sign table for `n = 0, 1, 2, 3`: signs `−, −, +, +`; `(δ, δ) = 2, 0, −2, 0`; `σδ = −δ` for `n` even when `ε(σ) = −1` and `σδ = δ` for `n` odd.
 - For a separating nodal curve, `δ=0` and the middle-cohomology inertia operator is the identity.
 
 **Theorem (direct images).** Let `j : η → S`. (a) If `δ ≠ 0`, then `R^i f_*ℚ_ℓ` is constant for `i ≠ n` and
@@ -2173,7 +2171,7 @@ EtaleCohomologyFoundations §F.6; Mathlib `LinearEquiv.mem_fixedSubmodule_transv
 
 **Checks.**
 
-- δ = 0 is realised by a genus-g curve acquiring a separating node (n = 1): R² f_*ℚ_ℓ has stalk ℚ_ℓ(−1)² at s and ℚ_ℓ(−1) at η̄.
+- `δ = 0` is realised by a genus-`g` curve acquiring a separating node (`n = 1`): `R² f_*ℚ_ℓ` has stalk `ℚ_ℓ(−1)²` at `s` and `ℚ_ℓ(−1)` at `η̄`.
 - For a nonseparating nodal genus-g family, the degree-one closed stalk is the `(2g−1)`-dimensional inertia-fixed subspace, exactly the `j_*` stalk.
 - For `n=0`, `x²=π` has degree-zero generic stalk of rank two and closed stalk its diagonal invariant line.
 
@@ -2193,8 +2191,8 @@ pp. 287–288.) *Needs:* the Picard–Lefschetz formula, the local description o
 
 **Checks.**
 
-- The n=0 model z²=t exchanges the two points and δ=(1,−1) has square 2.
-- The n=1 nodal Milnor fibre gives a transvection with coefficient − and δ²=0.
+- The `n=0` model `z²=t` exchanges the two points and `δ=(1,−1)` has square 2.
+- The `n=1` nodal Milnor fibre gives a transvection with coefficient `−` and `δ²=0`.
 - For a complex surface node (`n=2`), the vanishing sphere has square `−2` and its local monodromy is the reflection with positive Picard–Lefschetz coefficient.
 
 ### Examples
@@ -2246,11 +2244,11 @@ Under (A), 3.3 identifies `π` with the blow-up of `X` along `A ∩ X`, so `X̃`
 local theory of Layer LPV.2 applies to `X̃ ×_D D_(s)` over the henselization `D_(s)`. Define
 `LefschetzPencil.IsLefschetzPencil X A`.
 
-- `LefschetzPencil.IsLefschetzPencil`: IsLefschetzPencil X A : Prop, conditions (A)–(C) for the axis A.
-- `LefschetzPencil.totalSpace`: X̃ ⊂ X × D with π and f, and f^{-1}(t) = X ∩ H_t.
-- `LefschetzPencil.totalSpace_iso_blowup`: Under (A), π : X̃ ≅ Bl_{A∩X} X and X̃ is smooth over k.
-- `LefschetzPencil.singularSet`: The finite set S ⊂ D with its points x_s, and f smooth on X̃ − {x_s}.
-- `LefschetzPencil.localModel`: X̃ ×_D D_s → D_s is proper, X̃ ×_D D_s is regular of dimension n + 1, and it is smooth except at the ordinary quadratic point x_s.
+- `LefschetzPencil.IsLefschetzPencil`: `IsLefschetzPencil X A : Prop`, conditions (`A`)–(C) for the axis `A`.
+- `LefschetzPencil.totalSpace`: `X̃ ⊂ X × D` with `π` and `f`, and `f^{-1}(t) = X ∩ H_t`.
+- `LefschetzPencil.totalSpace_iso_blowup`: Under (A), `π : X̃ ≅ Bl_{A∩X} X` and `X̃` is smooth over `k`.
+- `LefschetzPencil.singularSet`: The finite set `S ⊂ D` with its points `x_s`, and `f` smooth on `X̃ − {x_s}`.
+- `LefschetzPencil.localModel`: `X̃ ×_D D_s → D_s` is proper, `X̃ ×_D D_s` is regular of dimension `n + 1`, and it is smooth except at the ordinary quadratic point `x_s`.
 
 *Proof sketch.* `X̃` is cut out in `X × D` by the bilinear incidence equation. (B) makes `S` finite with `f` smooth
 elsewhere, and (C) is the local condition of 2.4; by 2.4, `X̃ ×_D D_(s)` is regular of dimension `n + 1` (given the
@@ -2260,10 +2258,10 @@ Layer 1 (projective bundles).
 
 **Checks.**
 
-- `LefschetzPencil.line_in_plane`: X a line in P², A a point not on X: every line through A meets X transversally in one point, so S = ∅ and f : X̃ = X → D is an isomorphism. This is a Lefschetz pencil with no singular fibre.
-- `LefschetzPencil.quadric_surface`: X a smooth quadric surface in P³, p ≠ 2, A a general line: S has two points, each X_s is a pair of lines meeting in one point, and X̃ is X blown up in the two points of A ∩ X; χ(X̃) = 6 = 2·2 + 2·1.
-- `LefschetzPencil.cubic_surface`: X a smooth cubic surface in P³, p = 0, A a general line: |S| = 12, the degree 3·2² of the dual surface, each X_s a plane cubic with one node; χ(X̃) = 9 + 3 = 12 = 2·0 + 12·1.
-- `LefschetzPencil.hermitian_curve_not_lefschetz`: p odd, q = p^e, X = {x^{q+1} + y^{q+1} + z^{q+1} = 0} ⊂ P²: along the tangent direction (u, v) at an affine point (a, b), with a^q u + b^q v = 0, one has F(a + tu, b + tv) = t^q(a u^q + b v^q) + t^{q+1}(u^{q+1} + v^{q+1}). So every tangent line meets X with multiplicity ≥ q ≥ 3 at its point of tangency, condition (C) fails, and no pencil of lines is Lefschetz in this embedding.
+- `LefschetzPencil.line_in_plane`: `X` a line in `P²`, `A` a point not on `X`: every line through `A` meets `X` transversally in one point, so `S = ∅` and `f : X̃ = X → D` is an isomorphism. This is a Lefschetz pencil with no singular fibre.
+- `LefschetzPencil.quadric_surface`: `X` a smooth quadric surface in `P³`, `p ≠ 2`, `A` a general line: `S` has two points, each `X_s` is a pair of lines meeting in one point, and `X̃` is `X` blown up in the two points of `A ∩ X`; `χ(X̃) = 6 = 2·2 + 2·1`.
+- `LefschetzPencil.cubic_surface`: `X` a smooth cubic surface in `P³`, `p = 0`, `A` a general line: `|S| = 12`, the degree `3·2²` of the dual surface, each `X_s` a plane cubic with one node; `χ(X̃) = 9 + 3 = 12 = 2·0 + 12·1`.
+- `LefschetzPencil.hermitian_curve_not_lefschetz`: `p` odd, `q = p^e`, `X = {x^{q+1} + y^{q+1} + z^{q+1} = 0} ⊂ P²`: along the tangent direction `(u, v)` at an affine point `(a, b)`, with `a^q u + b^q v = 0`, one has `F(a + tu, b + tv) = t^q(a u^q + b v^q) + t^{q+1}(u^{q+1} + v^{q+1})`. So every tangent line meets `X` with multiplicity `≥ q ≥ 3` at its point of tangency, condition (C) fails, and no pencil of lines is Lefschetz in this embedding.
 
 ### 3.2 The dual variety
 
@@ -2275,11 +2273,11 @@ when `N = n + 1`), so `X̌` is irreducible when nonempty; `g` is smooth over `P�
 with parameter line `D`, `S = D ∩ X̌` (`X ⊂ H_t` cannot happen for `t ∈ D`, because `A ∩ X` has codimension two in
 `X`). For `X = P` the conormal variety and the dual are empty. Define `LefschetzPencil.dualVariety`.
 
-- `LefschetzPencil.dualVariety`: X̌ ⊂ P̌, the reduced closed image of the conormal variety {(x, t) : T_xX ⊂ H_t}.
-- `LefschetzPencil.mem_dualVariety_iff`: t ∈ X̌ if and only if X ∩ H_t is singular or X ⊂ H_t.
-- `LefschetzPencil.dualVariety_isIrreducible`: If X is smooth, connected, projective and its dual is nonempty, the reduced dual is irreducible. For X equal to the ambient projective space the dual is empty.
-- `LefschetzPencil.incidence_smooth_off_dual`: g : Y → P̌ is smooth over P̌ − X̌.
-- `LefschetzPencil.singularSet_eq_inter_dual`: For a Lefschetz pencil, S = D ∩ X̌.
+- `LefschetzPencil.dualVariety`: `X̌ ⊂ P̌`, the reduced closed image of the conormal variety `{(x, t) : T_xX ⊂ H_t}`.
+- `LefschetzPencil.mem_dualVariety_iff`: `t ∈ X̌` if and only if `X ∩ H_t` is singular or `X ⊂ H_t`.
+- `LefschetzPencil.dualVariety_isIrreducible`: If `X` is smooth, connected, projective and its dual is nonempty, the reduced dual is irreducible. For `X` equal to the ambient projective space the dual is empty.
+- `LefschetzPencil.incidence_smooth_off_dual`: `g : Y → P̌` is smooth over `P̌ − X̌`.
+- `LefschetzPencil.singularSet_eq_inter_dual`: For a Lefschetz pencil, `S = D ∩ X̌`.
 
 *Proof sketch.* The conormal variety is a projective bundle over `X`, hence irreducible when nonempty, and
 `X̌` is its image. The Jacobian criterion at each point of `X ∩ H_t` shows `t ∉ X̌` exactly when `X ∩ H_t` is smooth of
@@ -2289,10 +2287,10 @@ AlgebraicModuliForArithmeticGeometry Layer 1, §1.1 (projective bundles); Mathli
 
 **Checks.**
 
-- `LefschetzPencil.dualVariety_projectiveSpace`: X = P: every H_t ∩ P = H_t is smooth and P ⊄ H_t, so X̌ = ∅.
-- `LefschetzPencil.dualVariety_linear`: X a linear subspace of dimension d, 1 ≤ d < N: X ∩ H_t is always smooth, so X̌ = {t : X ⊂ H_t}, a linear subspace of codimension d + 1 ≥ 2, not a hypersurface.
-- `LefschetzPencil.dualVariety_conic`: X the conic xz = y² in P², p ≠ 2: X̌ is the conic of lines (a : b : c) with b² = 4ac.
-- `LefschetzPencil.dualVariety_conic_char_two`: p = 2, X the conic xz = y²: the tangent line at (s² : st : t²) is t²x + s²z = 0, which passes through the nucleus (0 : 1 : 0). So X̌ is a line in P̌² and X → X̌ is purely inseparable of degree 2, not the dual conic.
+- `LefschetzPencil.dualVariety_projectiveSpace`: `X = P`: every `H_t ∩ P = H_t` is smooth and `P ⊄ H_t`, so `X̌ = ∅`.
+- `LefschetzPencil.dualVariety_linear`: `X` a linear subspace of dimension `d`, `1 ≤ d < N`: `X ∩ H_t` is always smooth, so `X̌ = {t : X ⊂ H_t}`, a linear subspace of codimension `d + 1 ≥ 2`, not a hypersurface.
+- `LefschetzPencil.dualVariety_conic`: `X` the conic `xz = y²` in `P²`, `p ≠ 2`: `X̌` is the conic of lines `(a : b : c)` with `b² = 4ac`.
+- `LefschetzPencil.dualVariety_conic_char_two`: `p = 2`, `X` the conic `xz = y²`: the tangent line at `(s² : st : t²)` is `t²x + s²z = 0`, which passes through the nucleus `(0 : 1 : 0)`. So `X̌` is a line in `P̌²` and `X → X̌` is purely inseparable of degree 2, not the dual conic.
 - A smooth plane conic has the dual conic for `p ≠ 2` and a line for `p = 2`.
 
 ### 3.3 The total space of a pencil
@@ -2312,7 +2310,7 @@ property, affine charts); SchemeAndStackFoundations Layer 0, §0.8.
 **Checks.**
 
 - A quadric-surface pencil blows up the two points of its axis intersection.
-- A line in P² with a disjoint point axis has total space X and no critical fibre.
+- A line in `P²` with a disjoint point axis has total space `X` and no critical fibre.
 
 - A transverse-axis pencil on a smooth cubic surface blows up its three axis-intersection points.
 
@@ -2359,7 +2357,7 @@ AlgebraicModuliForArithmeticGeometry Layer 1, §1.4 (relative very ampleness).
 
 **Checks.**
 
-- The Hermitian curve of degree q + 1 in characteristic p odd has no Lefschetz pencil of lines, while a general pencil of conics (r = 2) is Lefschetz.
+- The Hermitian curve of degree `q + 1` in characteristic `p` odd has no Lefschetz pencil of lines, while a general pencil of conics (`r = 2`) is Lefschetz.
 
 - For `X=ℙ¹` with the identity degree-one embedding in `ℙ¹`, the parameter fibres are single points and no singular member occurs.
 - The degree-two Veronese of a line has hyperplane pullbacks given by binary quadratic forms, including the double-root critical members.
@@ -2400,7 +2398,7 @@ EtaleCohomologyFoundations §§F.1–F.2.
 **Checks.**
 
 - The descent theorem supplies a finite extension rather than claiming a rational axis over every small finite field.
-- A Frobenius eigenvalue α becomes α^r after the extension; this is how statements about Frobenius eigenvalues are transported from 𝔽_{q^r} back to 𝔽_q.
+- A Frobenius eigenvalue `α` becomes `α^r` after the extension; this is how statements about Frobenius eigenvalues are transported from `𝔽_{q^r}` back to `𝔽_q`.
 - For an axis already rational over `𝔽_q`, take the extension degree to be one and retain the same Frobenius.
 
 ### Examples
@@ -2478,11 +2476,11 @@ per singular value need not span it. An element of the inertia at `s` acts on `H
 `x ↦ x + (−1)^{m+1} t_ℓ(σ)(x, δ_s)δ_s` (`n` odd), and by the reflection in `δ_s` when `ε_s(σ) = −1` (`n` even), using the possibly wild character
 of 2.7 when `p=2`.
 
-- `LefschetzPencil.vanishingCycle`: vanishingCycle (s : S) (γ : path u ⇝ η̄_s) : H^n(X_u, ℚ_ℓ)(m), up to sign.
-- `LefschetzPencil.vanishingCycle_changePath`: vanishingCycle s (g · γ) = ± g • vanishingCycle s γ for g ∈ π₁(U, u).
-- `LefschetzPencil.vanishingSubspace`: E : Submodule ℚ_ℓ (H^n(X_u, ℚ_ℓ)), the span of all vanishing cycles for all paths.
-- `LefschetzPencil.vanishingSubspace_stable`: g • E = E for every g ∈ π₁(U, u).
-- `LefschetzPencil.localMonodromy_vanishingCycle`: σ in the inertia at s acts on H^n(X_u) by x ↦ x + (−1)^{m+1} t_ℓ(σ)(x, δ_s)δ_s (n odd), and by the reflection in δ_s when ε_s(σ) = −1 (n even), with ε_s from 2.7 when p=2.
+- `LefschetzPencil.vanishingCycle`: `vanishingCycle (s : S) (γ : path u ⇝ η̄_s) : H^n(X_u, ℚ_ℓ)(m)`, up to sign.
+- `LefschetzPencil.vanishingCycle_changePath`: `vanishingCycle s (g · γ) = ± g • vanishingCycle s γ` for `g ∈ π₁(U, u)`.
+- `LefschetzPencil.vanishingSubspace`: `E : Submodule ℚ_ℓ (H^n(X_u, ℚ_ℓ))`, the span of all vanishing cycles for all paths.
+- `LefschetzPencil.vanishingSubspace_stable`: `g • E = E` for every `g ∈ π₁(U, u)`.
+- `LefschetzPencil.localMonodromy_vanishingCycle`: `σ` in the inertia at `s` acts on `H^n(X_u)` by `x ↦ x + (−1)^{m+1} t_ℓ(σ)(x, δ_s)δ_s` (`n` odd), and by the reflection in `δ_s` when `ε_s(σ) = −1` (`n` even), with `ε_s` from 2.7 when `p=2`.
 
 *Proof sketch.* The local vanishing cycle lives in `H^n` of the geometric generic fibre of `X̃ ×_D D_(s)`, and a path
 identifies that fibre functor with the one at `u`; a change of path is an element of `π_1(U, u)`, so the set of
@@ -2493,9 +2491,9 @@ EtaleCohomologyFoundations §F.0 and EtaleCohomologyFoundations §§F.2–F.3 (p
 
 **Checks.**
 
-- `LefschetzPencil.vanishingSubspace_eq_bot_of_no_singular_fibre`: If S = ∅ (a line in P²) then E = 0.
-- `LefschetzPencil.vanishingSubspace_quadric_surface`: Quadric-surface pencil: |S| = 2 but each δ_s lies in H^1 of a conic, which is 0, so E = 0 (case (b)).
-- `LefschetzPencil.vanishingSubspace_conic`: n = 0, X a smooth conic in P², p ≠ 2, A a general point: X_u is two points, |S| = 2 (the tangents from A), δ_s = ±(e₁ − e₂) for both s, E = ℚ_ℓ(e₁ − e₂) and E^⊥ = ℚ_ℓ(e₁ + e₂).
+- `LefschetzPencil.vanishingSubspace_eq_bot_of_no_singular_fibre`: If `S = ∅` (a line in `P²`) then `E = 0`.
+- `LefschetzPencil.vanishingSubspace_quadric_surface`: Quadric-surface pencil: `|S| = 2` but each `δ_s` lies in `H^1` of a conic, which is 0, so `E = 0` (case (b)).
+- `LefschetzPencil.vanishingSubspace_conic`: `n = 0`, `X` a smooth conic in `P²`, `p ≠ 2`, `A` a general point: `X_u` is two points, `|S| = 2` (the tangents from `A`), `δ_s = ±(e₁ − e₂)` for both `s`, `E = ℚ_ℓ(e₁ − e₂)` and `E^⊥ = ℚ_ℓ(e₁ + e₂)`.
 - `LefschetzPencil.wild_twisted_cubic`: in characteristic two the basepoint-free pencil
   `[s:t]↦[s³+t³:st²]` on the twisted cubic has one singular value, infinity. For finite
   `a`, `x³+ax+1` is separable since its derivative is `x²+a` and substitution leaves `1`.
@@ -2503,7 +2501,7 @@ EtaleCohomologyFoundations §F.0 and EtaleCohomologyFoundations §§F.2–F.3 (p
   The connected degree-three cover has transitive monodromy and inertia a transposition,
   hence image `S₃`. For odd `ℓ`, all transports of `e₁−e₂` span the two-dimensional
   sum-zero plane in `ℚ_ℓ³`; one vector at the sole singular value cannot span `E`.
-- `LefschetzPencil.vanishingCycle_depends_on_path`: For the shear ρ(g)(x, y) = (x + gy, y) on ℚ², δ = (0, 1) and g = 1, the transport gδ = (1, 1) is neither δ nor −δ: individual vanishing cycles depend on the path, while their span does not.
+- `LefschetzPencil.vanishingCycle_depends_on_path`: For the shear `ρ(g)(x, y) = (x + gy, y)` on `ℚ²`, `δ = (0, 1)` and `g = 1`, the transport `gδ = (1, 1)` is neither `δ` nor `−δ`: individual vanishing cycles depend on the path, while their span does not.
 
 ### 4.3 The fixed space of the local transvections
 
@@ -2541,14 +2539,14 @@ even. Monodromy preserves `ψ`; for `n` odd it gives a continuous representation
 image concern `V`, not `E`. Define `LefschetzPencil.vanishingQuotient`, `LefschetzPencil.vanishingForm`,
 `LefschetzPencil.monodromyRep`.
 
-- `LefschetzPencil.vanishingQuotient`: E ⧸ (E ⊓ E^⊥), a finite-dimensional ℚ_ℓ-space with a π₁(U, u)-action.
-- `LefschetzPencil.vanishingForm`: ψ, the form induced by Tr(x ∪ y), with values in ℚ_ℓ(−n).
-- `LefschetzPencil.vanishingForm_nondegenerate`: ψ is nondegenerate.
-- `LefschetzPencil.vanishingForm_isAlt`: ψ is alternating for n odd (LinearMap.IsAlt) and symmetric for n even.
-- `LefschetzPencil.monodromyRep`: ρ : π₁(U, u) →* Sp(vanishingQuotient, ψ) for n odd, continuous.
-- `LefschetzPencil.vanishingProjection`: The quotient map E → E/(E ∩ E^⊥).
-- `LefschetzPencil.vanishingForm_mk`: The pairing of the classes of x and y is B(x, y), with values in ℚ_ℓ(−n) in the geometric case.
-- `LefschetzPencil.vanishingQuotient_lift`: Any linear functional on E killing E∩E⊥ uniquely descends through the quotient.
+- `LefschetzPencil.vanishingQuotient`: `E ⧸ (E ⊓ E^⊥)`, a finite-dimensional `ℚ_ℓ`-space with a `π₁(U, u)`-action.
+- `LefschetzPencil.vanishingForm`: `ψ`, the form induced by `Tr(x ∪ y)`, with values in `ℚ_ℓ(−n)`.
+- `LefschetzPencil.vanishingForm_nondegenerate`: `ψ` is nondegenerate.
+- `LefschetzPencil.vanishingForm_isAlt`: `ψ` is alternating for `n` odd (`LinearMap.IsAlt`) and symmetric for `n` even.
+- `LefschetzPencil.monodromyRep`: `ρ : π₁(U, u) →* Sp(vanishingQuotient, ψ)` for `n` odd, continuous.
+- `LefschetzPencil.vanishingProjection`: The quotient map `E → E/(E ∩ E^⊥)`.
+- `LefschetzPencil.vanishingForm_mk`: The pairing of the classes of `x` and `y` is `B(x, y)`, with values in `ℚ_ℓ(−n)` in the geometric case.
+- `LefschetzPencil.vanishingQuotient_lift`: Any linear functional on `E` killing `E∩E⊥` uniquely descends through the quotient.
 - `LefschetzPencil.vanishingQuotient_lift_comp`: Composition of the descended map with the quotient projection is the original map.
 
 *Proof sketch.* The kernel of `( , )|_E` is `E ∩ E^⊥` by definition, so the induced form is nondegenerate.
@@ -2570,14 +2568,14 @@ radical quotient) and the four-dimensional symplectic checks on `stdSymplectic4`
 **Checks.**
 
 - For `LefschetzPencil.stdSymplectic4`, `B(e₀,e₁)=1`, `B(e₁,e₀)=−1`, and its matrix has determinant one, hence the form is nondegenerate.
-- `LefschetzPencil.vanishingQuotient_zero`: For E = 0 in the four-dimensional symplectic space of the next check the quotient is zero; this is the situation of the quadric-surface pencil.
-- `LefschetzPencil.vanishingQuotient_radical`: Over Q with basis e₀,e₁,e₂,e₃ and B(e₀,e₁)=B(e₂,e₃)=1, E=span(e₀,e₁,e₂) has radical Qe₂ and quotient dimension two; span(e₀,e₂) has quotient dimension zero.
-- `LefschetzPencil.vanishingQuotient_conic`: For the dot product on ℚ² and E = ℚ(1, −1), the radical is zero, the quotient is a line and the generator has square two; this is the radical quotient of the conic pencil.
+- `LefschetzPencil.vanishingQuotient_zero`: For `E = 0` in the four-dimensional symplectic space of the next check the quotient is zero; this is the situation of the quadric-surface pencil.
+- `LefschetzPencil.vanishingQuotient_radical`: Over `ℚ` with basis `e₀,e₁,e₂,e₃` and `B(e₀,e₁)=B(e₂,e₃)=1`, `E=span(e₀,e₁,e₂)` has radical `ℚe₂` and quotient dimension two; `span(e₀,e₂)` has quotient dimension zero.
+- `LefschetzPencil.vanishingQuotient_conic`: For the dot product on `ℚ²` and `E = ℚ(1, −1)`, the radical is zero, the quotient is a line and the generator has square two; this is the radical quotient of the conic pencil.
 - For the conic pencil with `n = 0` and `p ≠ 2`, the source of the relative trace has rank two:
   `H⁰(X_u,ℚ_ℓ) = ℚ_ℓ²`. The trace `(a,b) ↦ a+b` is invariant under the coordinate swap.
   Cup product is componentwise, so `Tr(x ∪ y) = x₁y₁+x₂y₂`, the dot-product pairing,
-  also invariant under the swap. `Suggested.lean` gives these coordinate checks over ℚ.
-- `LefschetzPencil.vanishingForm_on_E_degenerate`: The restriction of the standard symplectic form of ℚ⁴ to span(e₀, e₁, e₂) is degenerate, whereas the induced form on the quotient is nondegenerate.
+  also invariant under the swap. `Suggested.lean` gives these coordinate checks over `ℚ`.
+- `LefschetzPencil.vanishingForm_on_E_degenerate`: The restriction of the standard symplectic form of `ℚ⁴` to `span(e₀, e₁, e₂)` is degenerate, whereas the induced form on the quotient is nondegenerate.
 
 ### 4.5 The cohomology of the total space
 
@@ -2700,7 +2698,7 @@ pp. 290–291; (5.8), p. 292; SGA 7 XVIII, 6.1.1–6.1.2, pp. XVIII-58–59.) *N
 
 **Checks.**
 
-- The conic pencil (n = 0, p ≠ 2): both vanishing cycles are ±(e₁ − e₂).
+- The conic pencil (`n = 0, p ≠ 2`): both vanishing cycles are `±(e₁ − e₂)`.
 - The quadric-surface pencil: both vanishing cycles are 0, consistent with the rule that one zero vanishing cycle forces all to vanish.
 - For a tame Lefschetz pencil of plane cubics, every nodal vanishing cycle is nonzero and conjugate up to sign, even without an additional general-line hypothesis.
 
@@ -2762,7 +2760,7 @@ InverseGaloisAndArithmeticFundamentalGroups §IG.1.2; ComplexComparisonPartII §
 
 **Checks.**
 
-- Conic pencil: the image is ℤ/2, generated by the swap of the two points, and the invariants are ℚ_ℓ(e₁ + e₂) = E^⊥.
+- Conic pencil: the image is `ℤ/2`, generated by the swap of the two points, and the invariants are `ℚ_ℓ(e₁ + e₂) = E^⊥`.
 - A three-dimensional subspace of a four-dimensional symplectic space can have a one-dimensional radical;
   the local-to-global equality does not need `E` nondegenerate.
 - For a pencil with no singular fibres, the generating family is empty and its tame image is trivial since the local system extends over `ℙ¹`.
@@ -2779,7 +2777,7 @@ Corollaire (5.5) and its proof, p. 291; (5.13) D), p. 294.) *Needs:* 4.4, 5.2, 5
 
 **Checks.**
 
-- The quadric-surface pencil has E/(E ∩ E^⊥) = 0; the conic pencil has a one-dimensional quotient.
+- The quadric-surface pencil has `E/(E ∩ E^⊥) = 0`; the conic pencil has a one-dimensional quotient.
 - For a plane-cubic Lefschetz pencil, the quotient is the nonzero symplectic plane and has no invariant line even after scalar extension.
 - For the conic pencil, the quotient is a one-dimensional sign representation, irreducible over every extension of `ℚ_ℓ`.
 
@@ -2846,11 +2844,11 @@ pp. 293–294.) *Needs:* Mathlib `skewAdjointLieSubalgebra`, `LieModule.IsIrredu
 
 **Checks.**
 
-- dim V = 2 with ψ(e₁, e₂) = 1: N(e₁) = −E₁₂ and N(e₂) = E₂₁ generate sl₂ = sp(V, ψ), since their bracket is −H.
-- N(δ) is quadratic in δ, N(cδ) = c²N(δ), and lies in sp(V, ψ) with N(δ)² = 0, because ψ(x, δ)(ψ(δ, y) + ψ(y, δ)) = 0 and
-  ψ(δ, δ) = 0 for alternating ψ; for a symmetric form the same formula is not skew-adjoint, and a definition linear in δ
+- `dim V = 2` with `ψ(e₁, e₂) = 1`: `N(e₁) = −E₁₂` and `N(e₂) = E₂₁` generate `sl₂ = sp(V, ψ)`, since their bracket is `−H`.
+- `N(δ)` is quadratic in `δ`, `N(cδ) = c²N(δ)`, and lies in `sp(V, ψ)` with `N(δ)² = 0`, because `ψ(x, δ)(ψ(δ, y) + ψ(y, δ)) = 0` and
+  `ψ(δ, δ) = 0` for alternating `ψ`; for a symmetric form the same formula is not skew-adjoint, and a definition linear in `δ`
   fails the first identity.
-- The simplicity hypothesis is needed: the Lie algebra spanned by N(e₁) alone is one-dimensional, and V is not a simple module for it.
+- The simplicity hypothesis is needed: the Lie algebra spanned by `N(e₁)` alone is one-dimensional, and `V` is not a simple module for it.
 
 ### 5.7 Compact subgroups of `Sp(V)(ℚ_ℓ)` and `O(V)(ℚ_ℓ)`
 
@@ -2872,8 +2870,8 @@ AdelicAlgebraicGroups Layer 4, §4.2; Mathlib `skewAdjointLieSubalgebra`, `IsNil
 
 **Checks.**
 
-- H = Sp(V)(ℤ_ℓ) is compact and open with 𝔏 = sp(V, ψ); H = {1} has 𝔏 = 0; the closure of the group generated by one unipotent exp(N), N ≠ 0, is exp(ℤ_ℓN) with 𝔏 = ℚ_ℓN.
-- On a symplectic plane, the congruence subgroup reducing to identity modulo ℓ has the full `sl₂` Lie algebra and is open.
+- `H = Sp(V)(ℤ_ℓ)` is compact and open with `𝔏 = sp(V, ψ)`; `H = {1}` has `𝔏 = 0`; the closure of the group generated by one unipotent `exp(N)`, `N ≠ 0`, is `exp(ℤ_ℓN)` with `𝔏 = ℚ_ℓN`.
+- On a symplectic plane, the congruence subgroup reducing to identity modulo `ℓ` has the full `sl₂` Lie algebra and is open.
 - The finite subgroup `{±1}` has zero Lie algebra; compactness alone does not imply full Lie algebra.
 
 ### 5.8 The Kazhdan–Margulis theorem
@@ -2888,8 +2886,8 @@ by 5.7. (Weil I, §5, Théorème (5.10) and its proof, p. 293.) *Needs:* EtaleCo
 
 **Checks.**
 
-- V = 0 for the quadric-surface pencil, where the statement is trivial.
-- A Lefschetz pencil of plane cubics (X = P² re-embedded with r = 3): X̃ is P² blown up in 9 points, so H^1(X̃) = 0; the singular fibres are irreducible nodal cubics, so the vanishing cycles are nonzero; f has a section, so the Leray spectral sequence degenerates and the invariants H^0(D, R^1 f_*ℚ_ℓ) ⊂ H^1(X̃) vanish. Hence E = H^1(X_u) is two-dimensional with E ∩ E^⊥ = 0, and the image is open in Sp₂(ℚ_ℓ) = SL₂(ℚ_ℓ).
+- `V = 0` for the quadric-surface pencil, where the statement is trivial.
+- A Lefschetz pencil of plane cubics (`X = P²` re-embedded with `r = 3`): `X̃` is `P²` blown up in 9 points, so `H^1(X̃) = 0`; the singular fibres are irreducible nodal cubics, so the vanishing cycles are nonzero; `f` has a section, so the Leray spectral sequence degenerates and the invariants `H^0(D, R^1 f_*ℚ_ℓ) ⊂ H^1(X̃)` vanish. Hence `E = H^1(X_u)` is two-dimensional with `E ∩ E^⊥ = 0`, and the image is open in `Sp₂(ℚ_ℓ) = SL₂(ℚ_ℓ)`.
 
 - In a nonzero symplectic plane, the closure of one transvection is one-dimensional and not open; it fails the irreducibility and full-generation hypotheses.
 
@@ -2990,13 +2988,13 @@ RepresentationTheory/RootSystems Layer 5.
 
 **Checks.**
 
-- The conic-pencil root δ=(1,−1) gives A₁ and its order-two Weyl group.
+- The conic-pencil root `δ=(1,−1)` gives `A₁` and its order-two Weyl group.
 - In characteristic two the twisted-cubic pencil gives the six roots `±(e_i−e_j)`
   of `A₂`, with Weyl group `S₃`, although the base has only one singular value.
 - Trace identity: for `δ' = δ`, `s_δ²` is the identity, of trace `dim E`, and `(δ, δ)² = 4`; for an `A₂` pair, `(δ, δ') = −1`
   in `E = span(δ, δ')`, `s_δ s_{δ'}` is a rotation of order three with trace `−1 = 2 − 4 + 1`. The constant `2` printed in
   Weil II would give `dim E + 2` and `1` in these two cases.
-- The lattice L is the integral span of the vanishing cycles after the rationality argument; an arbitrary ℤ_ℓ-lattice stable under M is not a substitute.
+- The lattice `L` is the integral span of the vanishing cycles after the rationality argument; an arbitrary `ℤ_ℓ`-lattice stable under `M` is not a substitute.
 
 ### 5.11 Frobenius polynomials of the fibres
 
@@ -3124,7 +3122,7 @@ inverse image) and EtaleCohomologyFoundations §F.6 (Poincaré duality, dualizin
 
 **Checks.**
 
-- The rank-one nodal stalk/costalk pairing reproduces the twist −1.
+- The rank-one nodal stalk/costalk pairing reproduces the twist `−1`.
 - On a point, `ℤ_ℓ/ℓ` is `p`-perverse; its integral Verdier dual is `(ℤ_ℓ/ℓ)[−1]`, which is `p⁺`-perverse and not `p`-perverse.
 - For a smooth constant family, nearby duality is the identity comparison on the dualizing Tate line.
 
@@ -3167,8 +3165,8 @@ t-structures, support and cosupport conditions) and EtaleCohomologyFoundations �
 
 **Checks.**
 
-- For a smooth family of relative dimension d, Q_l[d] on the geometric generic fibre goes to Q_l[d] on the special fibre, with no extra fibrewise shift.
-- For Q_l[d+1] on the smooth total trait space, ψ[−1] gives Q_l[d] on the special fibre.
+- For a smooth family of relative dimension `d`, `ℚ_ℓ[d]` on the geometric generic fibre goes to `ℚ_ℓ[d]` on the special fibre, with no extra fibrewise shift.
+- For `ℚ_ℓ[d+1]` on the smooth total trait space, `ψ[−1]` gives `ℚ_ℓ[d]` on the special fibre.
 
 - A geometric-generic skyscraper specializing to a section of the family stays a point skyscraper in perverse degree zero.
 
@@ -3185,7 +3183,7 @@ EtaleCohomologyFoundations §F.8.
 
 **Checks.**
 
-- At a nodal curve, RΦQ_l[2][−1] is the point skyscraper Q_l(−1) in perverse degree zero.
+- At a nodal curve, `RΦℚ_ℓ[2][−1]` is the point skyscraper `ℚ_ℓ(−1)` in perverse degree zero.
 - For a smooth total family the shifted vanishing object is zero.
 - Over `ℤ/2`, a size-three unipotent block admits `Var(σ)` and `can`, but the coefficient `1/2` in the logarithm is unavailable.
 
@@ -3223,7 +3221,7 @@ that `Ri^!` commutes with every colimit); conclude by exactness of filtered coli
 **Checks.**
 
 - An increasing union of arbitrarily many point-supported perverse sheaves can retain the bound while failing constructibility.
-- A system with bounds tending to −∞ is not covered by the uniform-bound assertion.
+- A system with bounds tending to `−∞` is not covered by the uniform-bound assertion.
 - On a fixed point, the constant diagram `Λ` in degree zero has degree-zero colimit and preserves both bounds.
 
 **Theorem (semiperversity of a tower of nearby cycles).** Let `(𝔛_a)_a` be a cofiltered tower of formal
@@ -3315,10 +3313,10 @@ The integral boundary `DualGraph.boundary` and cycle lattice `DualGraph.cycleLat
 `H_1(Γ, ℤ) = ker ∂`, with its dual, come from NeronModelsAndSemistableAbelianVarieties §4.2.
 Its target-minus-source boundary satisfies `∂ᵗ = −d` in these branch coordinates.
 
-- `Semistable.normalizationDifferential_apply`: For a:Λ^V and e∈E, d(a)(e)=a(tail e)−a(head e).
-- `Semistable.normalizationDifferential_constant`: d sends every constant vertex function to zero.
-- `Semistable.normalizationDifferential_reverse`: Swapping tail and head multiplies d by −1 on the corresponding edge coordinates.
-- `Semistable.normalizationDifferential_ker`: Kernel membership is equality of the vertex values at the two ends of each edge; the quotient map Λ^E → Λ^E/range d is surjective with kernel range d. Regarding d as a two-term complex, these are its degree-zero kernel and degree-one cokernel.
+- `Semistable.normalizationDifferential_apply`: For `a:Λ^V` and `e∈E`, `d(a)(e)=a(tail e)−a(head e)`.
+- `Semistable.normalizationDifferential_constant`: `d` sends every constant vertex function to zero.
+- `Semistable.normalizationDifferential_reverse`: Swapping tail and head multiplies `d` by `−1` on the corresponding edge coordinates.
+- `Semistable.normalizationDifferential_ker`: Kernel membership is equality of the vertex values at the two ends of each edge; the quotient map `Λ^E → Λ^E/range d` is surjective with kernel `range d`. Regarding `d` as a two-term complex, these are its degree-zero kernel and degree-one cokernel.
 
 *Source.* Illusie 1991, §§1.1, 2.1–2.3, formulas (1.1.1)–(1.1.3), (2.1.2), (2.3.5). *Needs:* TauCetiRoadmap
 StableReduction Layer 1 (nodes, normalization, dual graphs);
@@ -3328,9 +3326,9 @@ NeronModelsAndSemistableAbelianVarieties §4.2 (integral boundary, cycle lattice
 
 **Checks.**
 
-- `Semistable.normalization_tree_test`: For two vertices and one oriented edge, d(a0,a1)=a0−a1; hence the degree-one quotient vanishes.
-- `Semistable.normalization_loop_test`: For one vertex and one loop, d=0 and the edge quotient is Λ, not zero.
-- `Semistable.normalization_parallel_test`: For two vertices and two parallel edges with the same orientation, d(a0,a1)=(a0−a1,a0−a1), whose quotient has rank one over ℚℓ.
+- `Semistable.normalization_tree_test`: For two vertices and one oriented edge, `d(a0,a1)=a0−a1`; hence the degree-one quotient vanishes.
+- `Semistable.normalization_loop_test`: For one vertex and one loop, `d=0` and the edge quotient is `Λ`, not zero.
+- `Semistable.normalization_parallel_test`: For two vertices and two parallel edges with the same orientation, `d(a0,a1)=(a0−a1,a0−a1)`, whose quotient has rank one over `ℚ_ℓ`.
 - A loop has zero differential; two parallel edges remain two coordinates.
 - The maps retain the exact source branch sign.
 
@@ -3344,7 +3342,7 @@ construction above; StableReduction Layer 1; EtaleCohomologyFoundations §§F.1�
 
 **Checks.**
 
-- At a node the cokernel of the diagonal Λ→Λ² is rank one.
+- At a node the cokernel of the diagonal `Λ→Λ²` is rank one.
 - At a smooth point the cokernel vanishes.
 - On an irreducible nodal cubic the two branch labels are distinct although their vertex images coincide; the node cokernel is still `Λ`.
 
@@ -3360,8 +3358,8 @@ branch residue and trace dualities identify the twist. (Illusie 1991, §§1.2–
 
 **Checks.**
 
-- The smooth locus has R¹Φ=0.
-- A split node has one copy of Λ(−1) in R¹Φ; trivial sheaf action does not force N=0 globally.
+- The smooth locus has `R¹Φ=0`.
+- A split node has one copy of `Λ(−1)` in `R¹Φ`; trivial sheaf action does not force `N=0` globally.
 
 - An irreducible nodal cubic has two branches at its one node and one rank-one `R¹Φ`, even though both branch endpoints are the same component.
 
@@ -3379,7 +3377,7 @@ cospecialization with normalization through the nine-diagram sign; insert `t_ℓ
 
 **Checks.**
 
-- For uv=π, N_e is minus the identity in the branch bases.
+- For `uv=π`, `N_e` is minus the identity in the branch bases.
 - Reversing the branch order changes both bases, leaving the geometric map unchanged.
 
 - For `uv=π²`, the local residue operator is `−2 id`; with rational coefficients it is nonzero even for `ℓ=2`.
@@ -3400,8 +3398,8 @@ identify the boundary through the sign lemma and the final trace through connect
 
 **Checks.**
 
-- The kernel of the node-to-component map is H₁(Γ,Λ)(−1).
-- A bridge contributes a local vanishing cycle but no nonzero quotient in generic H¹.
+- The kernel of the node-to-component map is `H₁(Γ,Λ)(−1)`.
+- A bridge contributes a local vanishing cycle but no nonzero quotient in generic `H¹`.
 - For a one-loop rational special fibre, the edge-to-component map is zero; the sequence has one-dimensional special `H¹` inside two-dimensional generic `H¹`.
 
 **Theorem (graph and component cohomology).** The normalization resolution gives a canonical exact sequence
@@ -3416,7 +3414,7 @@ torus as integral graph cycles).
 
 **Checks.**
 
-- A tree has H¹(Y)=⊕H¹(Ỹ_v); a cycle of rational components has graph H¹ of rank one.
+- A tree has `H¹(Y)=⊕H¹(Ỹ_v)`; a cycle of rational components has graph `H¹` of rank one.
 - For an irreducible rational nodal cubic, graph `H¹=Λ`, component `H¹=0`, and `H²(Y)=Λ(−1)`.
 - For two rational components joined by one bridge, graph `H¹=0` and `H²(Y)=Λ(−1)²`.
 
@@ -3435,8 +3433,8 @@ two-edge cycle check `u₋((1, −1), (1, −1)) = −2` as an example.
 
 **Checks.**
 
-- N²=0 and rank N=b₁(Γ).
-- For a two-edge cycle the scalar pairing is −2; the integral determinant is not forced to be a unit.
+- `N²=0` and `rank N=b₁(Γ)`.
+- For a two-edge cycle the scalar pairing is `−2`; the integral determinant is not forced to be a unit.
 - For `Semistable.negEdgePairing` on one edge of thickness three, the basis norm is `−3`.
 - Distinct edge basis vectors pair to zero.
 - Doubling every thickness doubles `negEdgePairing`.
@@ -3450,8 +3448,8 @@ Remarques 2.8–2.9, p. 42.) *Needs:* the factorization, 7a.2, 1.2.
 
 **Checks.**
 
-- Smooth specialization has N=0 and is an isomorphism in all degrees.
-- A two-component rational cycle has invariant H¹ of dimension one and generic H¹ of dimension two.
+- Smooth specialization has `N=0` and is an isomorphism in all degrees.
+- A two-component rational cycle has invariant `H¹` of dimension one and generic `H¹` of dimension two.
 
 - For two components joined by one bridge, `N=0` on generic `H¹`, while specialization in degree two is the surjective component-trace sum.
 
@@ -3465,8 +3463,8 @@ p. 42; (2.2.3), (2.6.5).) *Needs:* 1.3, the two theorems above, 7a.2.
 
 **Checks.**
 
-- For a smooth curve only gr_1 survives.
-- For a cycle of rational components gr_1=0, and gr_0,gr_2 each have dimension one.
+- For a smooth curve only `gr_1` survives.
+- For a cycle of rational components `gr_1=0`, and `gr_0,gr_2` each have dimension one.
 - For a smooth genus-one component with one nonseparating node, the graph outer grades each have rank one and the middle grade has rank two, retaining the normalization genus.
 
 ### 7a.4 The Jacobian
@@ -3489,7 +3487,7 @@ InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 (curve/Jacobian comparison
 
 **Checks.**
 
-- The torus rank equals b₁; the abelian rank is twice the sum of normalization genera.
+- The torus rank equals `b₁`; the abelian rank is twice the sum of normalization genera.
 - For split multiplicative genus-one reduction the toric Tate subspace is `ℚ_ℓ(1)`, the component Jacobians vanish, and the graph cycle quotient is `ℚ_ℓ`.
 - For a smooth genus-g special fibre the torus is zero and the comparison is the ordinary Jacobian Kummer isomorphism.
 
@@ -3506,7 +3504,7 @@ Layer 4, §§4.3–4.4; Mathlib `LinearMap.BilinForm`.
 
 **Checks.**
 
-- For a regular two-edge cycle the two pairings are [−2] and [2].
+- For a regular two-edge cycle the two pairings are `[−2]` and `[2]`.
 - For the one-loop graph of a nodal cubic of thickness two, `u₋=[−2]` and `u₊=[2]`; their integral cokernels are `ℤ/2`, so neither is unimodular.
 - For a tree both cycle lattices vanish and both graph pairings have rank zero.
 
@@ -3552,7 +3550,7 @@ Layer 4.
 
 **Checks.**
 
-- The two-edge N is nonzero over ℚℓ for every ℓ, including ℓ=2.
+- The two-edge `N` is nonzero over `ℚ_ℓ` for every `ℓ`, including `ℓ=2`.
 - The bridge is not mistaken for a nonzero global monodromy contribution.
 
 - On the original nodal Weierstrass model of thickness two, the single-loop weighted pairing is `−2`; subdivision to the regular `I₂` model gives the same form.
@@ -3574,7 +3572,7 @@ Corollary 1.1.3; Illusie 2021, §2.2, formula (2.5), and §6.3.) *Needs:* 0.5, 0
 
 **Checks.**
 
-- One branch gives R^qΨ = 0 for q > 0; two branches give one Λ(−1); three give ranks 1, 2, 1.
+- One branch gives `R^qΨ = 0` for `q > 0`; two branches give one `Λ(−1)`; three give ranks 1, 2, 1.
 
 - At a point on three components, `R²Ψ=Λ(−2)` and `R³Ψ=0`.
 - At a point on one component, the cokernel of the diagonal is zero and all positive-degree stalks vanish.
@@ -3596,8 +3594,8 @@ Mathlib `DerivedCategory`.
 
 **Checks.**
 
-- For two components, gr₁=ℚℓ_C(−1)[−1], gr₀=ℚℓ_D1⊕ℚℓ_D2, gr₋₁=ℚℓ_C[−1].
-- Trivial action on R^qΨ does not replace the nonzero derived N.
+- For two components, `gr₁=ℚ_ℓ_C(−1)[−1]`, `gr₀=ℚ_ℓ_D1⊕ℚ_ℓ_D2`, `gr₋₁=ℚ_ℓ_C[−1]`.
+- Trivial action on `R^qΨ` does not replace the nonzero derived `N`.
 - For a smooth model with one component, only the central grade survives and the graded operator is zero.
 
 ### 7a.8 The weight spectral sequence
@@ -3618,8 +3616,8 @@ The columns lie in `[−d, d]`, so the sequence degenerates at the page `2d + 2`
 
 - `Semistable.weightSpectralSequence_e1`: The first page is canonically isomorphic to the displayed finite sum of twisted stratum cohomology.
 - `Semistable.weightSpectralSequence_e2`: The second page is the homology of the first-page differential.
-- `Semistable.weightSpectralSequence_abutment`: For proper X the finite filtration converges to generic-fibre cohomology with induced filtration M′ and actual comparison maps. Relative dimension d bounds columns by [-d,d], so page 2*d+2 is stabilized and identifies with the graded abutment. Earlier stabilization requires a separate degeneration proof.
-- `Semistable.weightSpectralSequence_reindex`: A signed permutation of component indices induces an isomorphism of spectral sequences compatible with stratum maps and N.
+- `Semistable.weightSpectralSequence_abutment`: For proper `X` the finite filtration converges to generic-fibre cohomology with induced filtration `M′` and actual comparison maps. Relative dimension `d` bounds columns by `[-d,d]`, so page `2*d+2` is stabilized and identifies with the graded abutment. Earlier stabilization requires a separate degeneration proof.
+- `Semistable.weightSpectralSequence_reindex`: A signed permutation of component indices induces an isomorphism of spectral sequences compatible with stratum maps and `N`.
 
 *Proof sketch.* Apply the spectral sequence of a filtered complex to 7a.7; compute `E_1` from the graded pieces and proper
 pushforward from the strata; convergence from the bounded filtration and proper base change. (Saito 2003, Corollary 2.2.4
@@ -3629,14 +3627,14 @@ Mathlib `CategoryTheory.Abelian.SpectralObject`, `CategoryTheory.CohomologicalSp
 
 **Checks.**
 
-- `Semistable.weight_ss_smooth_test`: With one smooth component, E₁^{0,q}=H^q(Y,ℚℓ), and E₁^{p,q}=0 for p≠0.
-- `Semistable.weight_ss_curve_test`: For relative dimension 1, E₁^{−1,2} = H⁰(nodes, ℚ_ℓ)(−1), E₁^{0,1} = ⊕H¹(components, ℚ_ℓ), E₁^{1,0} = H⁰(nodes, ℚ_ℓ); d₁ also includes components → nodes and nodes → H²(components).
+- `Semistable.weight_ss_smooth_test`: With one smooth component, `E₁^{0,q}=H^q(Y,ℚ_ℓ)`, and `E₁^{p,q}=0` for `p≠0`.
+- `Semistable.weight_ss_curve_test`: For relative dimension 1, `E₁^{−1,2} = H⁰(nodes, ℚ_ℓ)(−1)`, `E₁^{0,1} = ⊕H¹(components, ℚ_ℓ)`, `E₁^{1,0} = H⁰(nodes, ℚ_ℓ)`; `d₁` also includes `components → nodes` and `nodes → H²(components)`.
 - `Semistable.weight_ss_nonproper_test`: Take `X=𝔸¹_S` minus the closed special-fibre
   origin. This smooth strictly semistable family has `X_s=𝔾_m`, `X_η=𝔸¹` and
   `RΨℚ_ℓ=ℚ_ℓ` on the geometric special fibre. Nearby `H¹` is `ℚ_ℓ(−1)`, whereas
   geometric generic-fibre `H¹=0`; properness is needed for the alternative abutment.
   For relative dimension one the page-four bound still applies.
-- A smooth model has only p=0 terms.
+- A smooth model has only `p=0` terms.
 - For curves the page carries the normalization restriction and node Gysin maps of 7a.2.
 - Nonproperness does not erase the spectral sequence but changes the justified abutment.
 
@@ -3670,8 +3668,8 @@ Liu–Tian–Xiao–Zhang–Zhu 2022, §5.9, p. 233.) *Needs:* 7a.8, 7a.3.
 
 **Checks.**
 
-- The curve E₂ pieces are graph cohomology, component H¹ and graph homology with the stated twist.
-- The rational logarithm and T−1 have the same leading action on gr, without claiming they are equal on every higher-dimensional complex.
+- The curve `E₂` pieces are graph cohomology, component `H¹` and graph homology with the stated twist.
+- The rational logarithm and `T−1` have the same leading action on `gr`, without claiming they are equal on every higher-dimensional complex.
 - For a proper `I₂` curve, the induced outer-grade operator has matrix `[−2]` in the graph bases, agreeing with 7a.3.
 
 ### Examples
@@ -3710,10 +3708,10 @@ inertia acts trivially on `i^*K` and the vanishing triangle is equivariant. Defi
 `Representation.invariants`; its composite with the inclusion is `sp_i`. It is defined for every proper family;
 surjectivity is a theorem only under the hypotheses of 7b.5, 7b.6 and 7b.8.
 
-- `InvariantCycles.invariantSpecialization_coe`: The inclusion of invariants composed with sp^I equals sp.
-- `InvariantCycles.invariantSpecialization_range`: sp^I is surjective exactly when range sp equals the invariant submodule.
-- `InvariantCycles.invariantSpecialization_unique`: A linear map to invariants whose composite with inclusion is sp equals sp^I.
-- `InvariantCycles.invariantSpecialization_natural`: For equivariant cohomology comparison maps commuting with sp, the corestricted maps commute too.
+- `InvariantCycles.invariantSpecialization_coe`: The inclusion of invariants composed with `sp^I` equals `sp`.
+- `InvariantCycles.invariantSpecialization_range`: `sp^I` is surjective exactly when `range sp` equals the invariant submodule.
+- `InvariantCycles.invariantSpecialization_unique`: A linear map to invariants whose composite with inclusion is `sp` equals `sp^I`.
+- `InvariantCycles.invariantSpecialization_natural`: For equivariant cohomology comparison maps commuting with `sp`, the corestricted maps commute too.
 
 *Source.* Weil II, introduction to §3.6, p. 212, and 6.2.9. *Needs:* 0.6; Mathlib `Representation.invariants`,
 `Representation.mem_invariants`, `Representation.trivial`, `LinearMap.codRestrict`; ArithmeticGaloisDuality Layer R02.1
@@ -3724,8 +3722,8 @@ declares the linear-algebra core `InvariantCycles.invariantSpecialization ρ sp 
 
 - `InvariantCycles.invariant_sp_identity_test`: For the identity map and trivial action, the corestriction is surjective.
 - `InvariantCycles.invariant_sp_zero_test`: The zero map to a nonzero trivially acted-on one-dimensional space corestricts but is not surjective.
-- `InvariantCycles.invariant_sp_unipotent_test`: On ℚ² with ρ(t)(a, b) = (a + tb, b), the injection a ↦ (a, 0) corestricts surjectively onto the invariants ℚ ⊕ 0, while the identity map ℚ² → ℚ² does not land in the invariants and has no corestriction.
-- The underlying map is exactly sp_i.
+- `InvariantCycles.invariant_sp_unipotent_test`: On `ℚ²` with `ρ(t)(a, b) = (a + tb, b)`, the injection `a ↦ (a, 0)` corestricts surjectively onto the invariants `ℚ ⊕ 0`, while the identity map `ℚ² → ℚ²` does not land in the invariants and has no corestriction.
+- The underlying map is exactly `sp_i`.
 - There is no surjectivity assertion in this construction.
 
 ### 7b.2 The continuous Wang sequence
@@ -3749,8 +3747,8 @@ dimension one); DerivedModuleAlgebra §1.T.1 (inverse limits); EtaleCohomologyFo
 
 **Checks.**
 
-- For trivial rank-one coefficients, H¹(I,ℚℓ)=ℚℓ(−1).
-- The degree-two term vanishes without treating ℤℓ as a discrete infinite cyclic group.
+- For trivial rank-one coefficients, `H¹(I,ℚ_ℓ)=ℚ_ℓ(−1)`.
+- The degree-two term vanishes without treating `ℤ_ℓ` as a discrete infinite cyclic group.
 - For a nontrivial finite quadratic inertia line with rational coefficients, both invariants and coinvariants vanish; so do its inertia cohomology groups.
 
 ### 7b.3 Arithmetic spreading
@@ -3823,7 +3821,7 @@ Wang sequence of 7b.2, keeping all maps and arithmetic actions. (Weil II, proof 
 
 **Checks.**
 
-- The upper twist is −d and its cohomological degree is 2d − i − 1.
+- The upper twist is `−d` and its cohomological degree is `2d − i − 1`.
 - Integral torsion is explicitly excluded from this dual-vector-space identification.
 
 - For `X=ℙ¹×S` with `d=2` and `i=0`, the upper term is `H³(ℙ¹)^∨(−2)=0` and the right term is the constant line, so the cross gives identity specialization.
@@ -4073,8 +4071,8 @@ EtaleCohomologyFoundations §§F.2–F.3.
 
 **Checks.**
 
-- For X smooth of dimension n + 1 and K = ℚ_ℓ, DK[−2n − 2] = ℚ_ℓ(n + 1); the bound at j = 0 is n + 1, as required.
-- Replacing n + 1 − j by n − 1 − j would wrongly exclude this case.
+- For `X` smooth of dimension `n + 1` and `K = ℚ_ℓ`, `DK[−2n − 2] = ℚ_ℓ(n + 1)`; the bound at `j = 0` is `n + 1`, as required.
+- Replacing `n + 1 − j` by `n − 1 − j` would wrongly exclude this case.
 
 - For `X=ℙ¹`, `K=ℚ_ℓ` and `n=0`, the affine complement has `H⁰_c=0`; the degree-zero bound is attained.
 
