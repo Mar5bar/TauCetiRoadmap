@@ -22,6 +22,8 @@ Design choices made explicit here:
   nonzero lattice and is a theorem, not part of the definition (M0.7).
 * The determinant polynomial is built from Mathlib's `LinearMap.polyCharpoly`; the determinant
   condition is an equality of polynomials, never of traces (M0.14, M0.18).
+* Full Tate trivializations in M1.4 are finite étale pro-systems; their profinite geometric fibres
+  are inverse limits of finite fibres, with continuous monodromy and termwise base change.
 * Hecke operators act on the right by precomposition of level markings (M1.13).
 -/
 
@@ -642,6 +644,9 @@ the residual gerbe `𝒢_x`, `descentObstruction`, `boundedFieldOfDefinition`, `
 `finiteFieldFiniteness`, `nonemptyExamples`.
 
 The following APIs and discriminating Checks are also specified in the README:
+* M0.2: `albertTypes` applies AbelianSchemesAndArithmeticModuli A6.15
+  `realRosatiDecomposition` to the real extension with its positive regular trace; the PEL
+  rational-centre consequences, A/C/D labels and group comparisons are derived here.
 * M0.4: `SymplecticOLattice.le_dual` and double duality using the Tau Ceti supplier
   recorded in the README; `polarizationType` exposes A5.4(1)
   `alternating_elementaryDivisors` on the underlying integral lattice.
@@ -652,9 +657,27 @@ The following APIs and discriminating Checks are also specified in the README:
   `detPoly_eq_polyCharpoly`.
 * M0.15: `detPoly_classifies_charZero`.
 * M0.18: `SatisfiesDetCondition.iff_eval`.
+* M1.4: `symplecticIsomSheaf` is a pro-object in finite étale schemes, with the pro-constant
+  source coefficients `(L/nL)_S` and `((ℤ/n)(1))_S`. Its geometric fibre is the profinite limit
+  of the finite fibres. `symplecticIsomSheaf.reduce` projects to the liftable finite pairs;
+  `symplecticIsomSheaf.baseChange` is termwise pullback, with monodromy supplied by
+  EtaleCohomologyFoundations §F.0.2 `VanishingCycles.finiteEtaleGaloisCategory`.
+* M4.5: `normalizedModel` uses relative normalization and its integral-factorization property
+  `Scheme.Hom.normalizationDesc`, with quasi-compactness and quasi-separatedness of the cover
+  map; `Scheme.Hom.normalization.hom_ext` gives uniqueness and
+  `Scheme.Hom.normalizationPullback` gives smooth base change. Its Hecke extension concerns
+  prime-to-`p` correspondences over the good models.
+* M5.2: `siegelModuli` is a stack at arbitrary positive level. For `n ≥ 3` its characteristic-zero
+  fibre is a quasi-projective fine scheme; at every `n ≥ 1` the characteristic-zero coarse space
+  is a quasi-projective scheme with the ordinary Siegel analytic quotient. Universal families
+  live on the stack and on fine spaces.
 * M5.4: `hilbertRationalDatum`, `hilbertTraceEmbedding`,
   `hilbertTraceEmbedding_injective`, `hilbertTraceEmbedding_multiplier`,
   `hilbertTraceEmbedding_h`.
+* M6.7: `descentObstruction` part (b) defines the étale gerbe `𝒢_x` for a perfect field `k` and
+  `x ∈ M_H^c(k)`, so a finite algebraic lifting field is separable. Part (a), classifying forms
+  split by a finite Galois extension, holds over arbitrary fields.
+  M6.10 `PELModuli.export_obstruction` carries the same perfect-field hypothesis.
 
 The affine determinant polynomial is stated above. Its sheaf construction and classification,
 the order and dual-lattice APIs, and their remaining Checks are README targets; this list does
