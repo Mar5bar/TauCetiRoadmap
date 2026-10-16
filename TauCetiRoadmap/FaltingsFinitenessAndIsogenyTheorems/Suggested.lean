@@ -81,6 +81,18 @@ example : Real.log 4 - Real.log 2 = Real.log 2 ∧ Real.log (2 : ℝ) ≠ 0 ∧
     Real.log 4 - 2 * Real.log 2 = 0 := by
   sorry
 
+/-- A constant metric factor lowers the unit ideal's degree, giving `−log 2` over `ℚ`. -/
+example (t : ℝ) (ht : 0 < t) :
+    fracIdealDegree (1 : FractionalIdeal (𝓞 K)⁰ K) (fun _ => t) =
+      -(Module.finrank ℚ K : ℝ) * Real.log t ∧
+    fracIdealDegree (1 : FractionalIdeal (𝓞 ℚ)⁰ ℚ) (fun _ => 2) = -Real.log 2 := by
+  sorry
+
+/-- On the punctured half interval the logarithmic norm and its inverse have constants one. -/
+example (t : ℝ) (ht : 0 < t) (ht' : t ≤ 1 / 2) :
+    |Real.log t| ≤ 1 + |Real.log t| ∧ |Real.log t|⁻¹ ≤ 1 + |Real.log t| := by
+  sorry
+
 end Degree
 
 /-! ## Layer R28.4: Semisimplicity and the Tate conjecture -/
@@ -106,6 +118,10 @@ example : quatMatrix (2 : ℤ) 3 5 7 * (quatMatrix (2 : ℤ) 3 5 7)ᵀ = (87 : �
 
 /-- Right multiplication by `i` sends the third basis vector to minus the fourth. -/
 example : quatMatrix (0 : ℤ) 1 0 0 3 2 = -1 := by
+  decide
+
+/-- Zero and the scalar quaternion one give the zero and identity matrices. -/
+example : quatMatrix (0 : ℤ) 0 0 0 = 0 ∧ quatMatrix (1 : ℤ) 0 0 0 = 1 := by
   decide
 
 /-- `−1` is a sum of four squares in `ℤ_l` for every prime `l`, `l = 2` included (R28.4.1). -/
@@ -172,6 +188,13 @@ example (B : LinearMap.BilinForm k V) (u w : V) :
 /-- The zero bilinear form gives the zero orthogonal-sum form. -/
 example (x y : (Fin 4 → V) × (Fin 4 → V)) : sumForm (0 : LinearMap.BilinForm k V) x y = 0 := by
   simp [sumForm]
+
+/-- The rational dot product is symmetric and nonzero, and fails the alternating condition. -/
+example :
+    let B := (1 : Matrix (Fin 2) (Fin 2) ℚ).toBilin'
+    B.IsSymm ∧ ¬ B.IsAlt ∧
+      sumForm B (Pi.single 0 ![1, 0], 0) (Pi.single 0 ![1, 0], 0) = 1 := by
+  sorry
 
 /-- A symplectic pair gives one in the same coordinate, zero across blocks, and two in both blocks. -/
 example (B : LinearMap.BilinForm k V) (u w : V) (huw : B u w = 1) :
@@ -297,9 +320,77 @@ example (r : ℝ) : {P : ℤ[X] | P.Monic ∧ P.natDegree = 0 ∧
 
 end WeilPolynomials
 
+section ArithmeticChecks
+
+/-- The six standard `S₃` matrices span dimension four over `ℚ₅`; three class representatives
+span only dimension three (R28.5.2). -/
+example :
+    letI : Fact (Nat.Prime 5) := ⟨by decide⟩
+    let S : Matrix (Fin 2) (Fin 2) ℚ_[5] := !![0, 1; 1, 0]
+    let R : Matrix (Fin 2) (Fin 2) ℚ_[5] := !![-1, -1; 1, 0]
+    S ^ 2 = 1 ∧ R ^ 3 = 1 ∧ S * R * S = R ^ 2 ∧
+      Module.finrank ℚ_[5] (Submodule.span ℚ_[5] {1, R, R ^ 2, S, S * R, S * R ^ 2}) = 4 ∧
+      Module.finrank ℚ_[5] (Submodule.span ℚ_[5] {1, S, R}) = 3 := by
+  sorry
+
+/-- For `11a1` at two, all auxiliary evaluations in the stipulated ranges have prime divisors
+among `2, 3, 5`, so `N = 22` satisfies `auxBound` (R28.5.4). -/
+example :
+    let P : Fin 3 → ℤ[X] := ![X - 1, X ^ 2 + 2 * X + 2, X - 2]
+    max (2 : ℕ) (11 * 2) ≤ 22 ∧
+      ∀ (h : Fin 3) (j : ℕ), j ≤ 1 → 2 * j ≠ h.val →
+        ∀ s : ℤ, (s = 1 ∨ s = -1) →
+          (P h).eval (s * 2 ^ j) ≠ 0 ∧
+            ∀ q : ℕ, q.Prime → (q : ℤ) ∣ (P h).eval (s * 2 ^ j) →
+              q ∈ ({2, 3, 5} : Finset ℕ) ∧ q ≤ 22 := by
+  sorry
+
+/-- The same data reject `N = 21` at the required lower bound, independently of evaluations. -/
+example : ¬ max (2 : ℕ) (11 * 2) ≤ 21 := by
+  decide
+
+/-- For the cube of `11a1`, the admissible evaluation `h = 1, j = 3` has prime divisor `41 > 22`. -/
+example :
+    let P : ℤ[X] := (X ^ 2 + 2 * X + 2) ^ 3
+    (1 : ℕ) ≤ 6 ∧ (3 : ℕ) ≤ 3 ∧ (2 : ℕ) * 3 ≠ 1 ∧
+      P.eval (2 ^ 3) = 82 ^ 3 ∧ P.eval (2 ^ 3) ≠ 0 ∧
+      Nat.Prime 41 ∧ (41 : ℤ) ∣ P.eval (2 ^ 3) ∧ (22 : ℕ) < 41 := by
+  sorry
+
+end ArithmeticChecks
+
 section Lattices
 
 variable (l : ℕ) [Fact l.Prime]
+
+/-- The full scalar lattices `ℤ_l` and `lℤ_l` are distinct and isomorphic inside `ℚ_l`. -/
+example :
+    let Λ := Submodule.span ℤ_[l] {(1 : ℚ_[l])}
+    let Λ' := Submodule.span ℤ_[l] {(l : ℚ_[l])}
+    Submodule.IsLattice ℚ_[l] Λ ∧ Submodule.IsLattice ℚ_[l] Λ' ∧ Λ ≠ Λ' ∧
+      ∃ φ : ℚ_[l] ≃ₗ[ℚ_[l]] ℚ_[l], ∀ x, x ∈ Λ ↔ φ x ∈ Λ' := by
+  sorry
+
+/-- Every full lattice in `ℚ_l²` stable under `M₂(ℤ_l)` is carried to `ℤ_l²` by an
+automorphism commuting with `M₂(ℚ_l)` (the split matrix-order case). -/
+example (Λ : Submodule ℤ_[l] (Fin 2 → ℚ_[l])) (hΛ : Submodule.IsLattice ℚ_[l] Λ)
+    (hstable : ∀ A : Matrix (Fin 2) (Fin 2) ℤ_[l], ∀ x, x ∈ Λ →
+      A.map (algebraMap ℤ_[l] ℚ_[l]) *ᵥ x ∈ Λ) :
+    ∃ φ : (Fin 2 → ℚ_[l]) ≃ₗ[ℚ_[l]] (Fin 2 → ℚ_[l]),
+      (∀ (A : Matrix (Fin 2) (Fin 2) ℚ_[l]) x, φ (A *ᵥ x) = A *ᵥ φ x) ∧
+        ∀ x, x ∈ Λ ↔ ∀ i, ∃ z : ℤ_[l], φ x i = (z : ℚ_[l]) := by
+  sorry
+
+/-- The simple `M₂(ℤ_l)` lattice cannot be free of rank one: even the underlying
+`ℤ_l` modules of columns and matrices are not isomorphic. -/
+example : ¬ Nonempty ((Fin 2 → ℤ_[l]) ≃ₗ[ℤ_[l]] Matrix (Fin 2) (Fin 2) ℤ_[l]) := by
+  sorry
+
+/-- The two one-dimensional modules for `ℚ_l × ℚ_l`, acting by its first and second
+projections, have no intertwining isomorphism. -/
+example : ¬ ∃ φ : ℚ_[l] ≃ₗ[ℚ_[l]] ℚ_[l],
+    ∀ (d : ℚ_[l] × ℚ_[l]) x, φ (d.1 * x) = d.2 * φ x := by
+  sorry
 
 /-- Finitely many stable lattices up to isomorphism in a semisimple `ℚ_l`-representation
 (R28.5.9): there is a finite set of stable lattices such that every stable lattice is the image of
@@ -347,6 +438,57 @@ example (j k : ℕ) :
 
 end Lattices
 
+section IntegralOrders
+
+/-- Integral rank-one idempotents `(1 n; 0 0)` all lie in one `GL₂(ℤ)` conjugacy class. -/
+example (n : ℤ) :
+    let e : Matrix (Fin 2) (Fin 2) ℤ := !![1, n; 0, 0]
+    e * e = e ∧ ∃ u : Matrix.GeneralLinearGroup (Fin 2) ℤ,
+      (u : Matrix (Fin 2) (Fin 2) ℤ) * !![1, 0; 0, 0] *
+        ((u⁻¹ : Matrix.GeneralLinearGroup (Fin 2) ℤ) : Matrix (Fin 2) (Fin 2) ℤ) = e := by
+  sorry
+
+/-- Every integral two-by-two idempotent has exactly one of the three conjugacy representatives. -/
+example (e : Matrix (Fin 2) (Fin 2) ℤ) (he : e * e = e) :
+    ∃! r : Matrix (Fin 2) (Fin 2) ℤ,
+      r ∈ ({0, !![1, 0; 0, 0], 1} : Finset (Matrix (Fin 2) (Fin 2) ℤ)) ∧
+        ∃ u : Matrix.GeneralLinearGroup (Fin 2) ℤ,
+          (u : Matrix (Fin 2) (Fin 2) ℤ) * e *
+            ((u⁻¹ : Matrix.GeneralLinearGroup (Fin 2) ℤ) : Matrix (Fin 2) (Fin 2) ℤ) = r := by
+  sorry
+
+/-- The scalar integral order has precisely its zero and unit idempotents. -/
+example (e : ℤ) : e * e = e ↔ e = 0 ∨ e = 1 := by
+  sorry
+
+/-- For the nonclosed nilpotent orbit, gcd of entries is invariant under integral
+conjugation and distinguishes every positive multiple of `E₁₂`. -/
+example (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    let N (r : ℕ) : Matrix (Fin 2) (Fin 2) ℤ := !![0, (r : ℤ); 0, 0]
+    let content (A : Matrix (Fin 2) (Fin 2) ℤ) : ℕ :=
+      Nat.gcd (Int.gcd (A 0 0) (A 0 1)) (Int.gcd (A 1 0) (A 1 1))
+    N n * N n = 0 ∧ N n ≠ 0 ∧ content (N n) = n ∧
+      (∀ u : Matrix.GeneralLinearGroup (Fin 2) ℤ,
+        content ((u : Matrix (Fin 2) (Fin 2) ℤ) * N n *
+          ((u⁻¹ : Matrix.GeneralLinearGroup (Fin 2) ℤ) : Matrix (Fin 2) (Fin 2) ℤ)) = n) ∧
+      ((∃ u : Matrix.GeneralLinearGroup (Fin 2) ℤ,
+        (u : Matrix (Fin 2) (Fin 2) ℤ) * N m *
+          ((u⁻¹ : Matrix.GeneralLinearGroup (Fin 2) ℤ) : Matrix (Fin 2) (Fin 2) ℤ) = N n) ↔ m = n) := by
+  sorry
+
+/-- Rational rank-one idempotents with distinct least denominators cannot be conjugated
+by integral units. -/
+example (m n : ℕ) (hm : 0 < m) (hn : 0 < n) :
+    let e (r : ℕ) : Matrix (Fin 2) (Fin 2) ℚ := !![1, 1 / (r : ℚ); 0, 0]
+    e m * e m = e m ∧
+      ((∃ u : Matrix.GeneralLinearGroup (Fin 2) ℤ,
+        (u : Matrix (Fin 2) (Fin 2) ℤ).map (Int.castRingHom ℚ) * e m *
+          ((u⁻¹ : Matrix.GeneralLinearGroup (Fin 2) ℤ) : Matrix (Fin 2) (Fin 2) ℤ).map
+            (Int.castRingHom ℚ) = e n) ↔ m = n) := by
+  sorry
+
+end IntegralOrders
+
 /-! ## Layer R28.6: Elliptic curves and the integral commutant -/
 
 section Elliptic
@@ -378,6 +520,30 @@ theorem finite_ellipticIsogenyClass {K : Type*} [Field K] [NumberField K]
 
 end Elliptic
 
+section Centralizers
+
+variable (l : ℕ) [Fact l.Prime]
+
+/-- The integral centralizer of `lE₁₂` has equal diagonal entries and zero lower-left entry. -/
+example :
+    let N : Matrix (Fin 2) (Fin 2) ℤ_[l] := !![0, (l : ℤ_[l]); 0, 0]
+    {A : Matrix (Fin 2) (Fin 2) ℤ_[l] | A * N = N * A} =
+      {A | ∃ a b : ℤ_[l], A = !![a, b; 0, a]} := by
+  sorry
+
+/-- After reduction `lE₁₂` is zero, so every matrix centralizes it; `diag(1,0)` has
+no lift in the integral centralizer. -/
+example :
+    let N : Matrix (Fin 2) (Fin 2) ℤ_[l] := !![0, (l : ℤ_[l]); 0, 0]
+    N.map (PadicInt.toZMod : ℤ_[l] →+* ZMod l) = 0 ∧
+      {A : Matrix (Fin 2) (Fin 2) (ZMod l) |
+        A * N.map PadicInt.toZMod = N.map PadicInt.toZMod * A} = Set.univ ∧
+      ¬ ∃ B : Matrix (Fin 2) (Fin 2) ℤ_[l], B * N = N * B ∧
+        B.map PadicInt.toZMod = !![1, 0; 0, 0] := by
+  sorry
+
+end Centralizers
+
 /-!
 The README states the remaining interfaces, including supplied aliases, with their hypotheses and sources; their carriers
 (abelian varieties with Tate modules, polarizations, semiabelian models, heights, Galois
@@ -392,7 +558,9 @@ representations of number fields with Frobenius elements) are not at the pins. B
 * R28.2: `height_isogeny`, `height_isogeny_padicVal_bounds`, `inertia_trivial_quotient`,
   `card_invDiff_level`, `det_hodgeTate_local`, `ladicChar_eq_cyclotomic_pow_mul_finite`,
   `det_induced_at_l`, `frobenius_weights_induced`, `sum_local_dims_eq`.
-* R28.3: `closure_tower_lDivisible`, `toric_intersection_lDivisible`, `card_invDiff_shifted`,
+* R28.3: `closure_tower_lDivisible` (specialized from
+  FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.21, with the quotient of R07.1.20a),
+  `toric_intersection_lDivisible`, `card_invDiff_shifted`,
   `height_stationary`, `PolarizationReduction`, `ppav_pow`, `tate_invariance`,
   `exists_isomorphic_quotients`.
 * R28.4: `QuaternionIsotropic.finrank_subspace_of_two_ne_zero`,
@@ -406,7 +574,8 @@ representations of number fields with Frobenius elements) are not at the pins. B
   `finite_padicVal_heightQuotient`, `shafarevich`, `zarhinTrick` (supplied by
   PadicDifferentialEquationsAndRigidCohomology RD.5.116), `maximalOrder_lattices_iso`,
   `IntegralOrder.finite_closedConjugacyOrbits`, `IntegralOrder.finite_idempotentConjugacyClasses`,
-  `finite_directFactors`, `shafarevich_unpolarized`, `rationalTorelli`, `finite_curves_goodReduction`.
+  `finite_directFactors`, `shafarevich_unpolarized`, `jacobianCanonicalPolarization`,
+  `rationalTorelli`, `finite_curves_goodReduction`.
 * R28.6: `ellipticBridge`, `elliptic_semisimple`, `elliptic_tate_hom_iso`,
   `elliptic_isogenous_iff_ap`, `quotient_torsion_image`, `order_centralizer_reduce`, `commutant_almostAll`.
 -/

@@ -54,7 +54,8 @@ This roadmap owns:
    place above `l`, the description of `l`-adic characters of `Gal(ℚ̄/ℚ)`, the determinant of the
    induced Tate module at `l`, the Frobenius weights of the induced Tate module, and the determinant
    identity `Σ m_i d_i = mh/2`.
-3. **The erratum** (Layer R28.3): the two shifts of the 1984 erratum, the corrected Satz 2 (heights along
+3. **The erratum** (Layer R28.3): the toric-intersection shift and the comparison of the supplied
+   local closure shift with the global quotient tower of the 1984 erratum, the corrected Satz 2 (heights along
    an `l`-divisible tower become stationary), the polarization reduction to a principally polarized
    semiabelian model, powers of principally polarized models, the invariance of Satz 3 and Satz 4
    under finite extension and isogeny, and the infinitely many isomorphic quotients along a maximal
@@ -134,8 +135,8 @@ This roadmap does not own, and cites:
   stacks).
   The exact statements consumed are listed under *Exact supplier contracts*.
 
-What this roadmap does not do: it gives no effective bound (every constant is ineffective, and the
-height bound of Satz 6 comes from a finiteness argument, not a computation); it does not prove the
+This roadmap gives no effective global height bound in Satz 6: that bound comes from a finiteness
+argument. Auxiliary constants such as `auxBound` have explicit values in worked Checks. It does not prove the
 Mordell conjecture by the Vojta–Bombieri or Lawrence–Venkatesh methods, nor Siegel's theorem by
 Diophantine approximation; it does not develop Arakelov intersection theory beyond the degree of a
 metrized line bundle on `Spec(O_K)`; and it does not treat abelian varieties over function fields.
@@ -287,8 +288,10 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   in the tame case, `v_𝔓(𝔇) = e − 1`. Thus the upper bound holds in both cases. Used in R28.1.9.
 - *EllipticCurves, Layers 1, 2 and 4*: the dual isogeny over `K`, the Tate module of a Weierstrass curve with
   its Galois action, reduction types and `a_v`. Used in Layer R28.6.
-- *JacobianChallenge, Layers D and E*: the Jacobian of a smooth projective geometrically connected curve
-  and its principal polarization by the theta divisor. Used in R28.5.14–R28.5.15.
+- *JacobianChallenge, Layers D and E*: Picard representability and the principal polarization
+  of a pointed curve's Jacobian by the theta divisor, independent of translation of theta.
+  R28.5.14 constructs `jacobianCanonicalPolarization` on the unpointed Jacobian of
+  SchemeAndStackFoundations §3.6 for R28.5.14–R28.5.15.
 
 ### From the roadmaps this one builds on
 
@@ -300,6 +303,10 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   compatibility. Together these supply the Hodge line `det(e^*Ω¹)` on a smooth group scheme.
   On an abelian scheme its proper pushforward description is
   AbelianSchemesAndArithmeticModuli §A1.3 `relativeInvariantForms` and §A6.38 `AbelianHodgeLine`.
+  Section 3.5 supplies `lineBundleNorm`, `lineBundleNorm_pullback` and
+  `lineBundleNorm_baseChange` for R28.1.3, with §3.2 `scheme_riemann_hurwitz`.
+  Section 3.6 supplies `jacobian` and `jacobian_dim` without a rational-point hypothesis;
+  §1.1 supplies descent of sheaf morphisms for R28.5.14.
 - *AlgebraicModuliForArithmeticGeometry*: §5.4 `DMSchematicClosure.stack`, `DMNormalization.stack`,
   `DMNormalization.finite`.
 - *ComplexComparisonPartII*: C0.3 `holomorphicBundleDictionary`, C0.4 `CoherentAnalytification`.
@@ -353,6 +360,7 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
 - *FiniteFlatGroupsAndIntegralPadicHodgeTheory*: R07.1.3 `finitePart`; R07.1.8 `BarsottiTate.tateModule`;
   R07.1.14 `BarsottiTate.dim`; R07.1.16 `BarsottiTate.discr_level`; R07.1.17
   `invariantDifferentialsAndAbsoluteDifferent` (`ω_{G[p^v]} ≅ (R/p^vR)^d`; `v_R(𝔇(𝒢)) = length_R ω_𝒢`); R07.1.19 `BarsottiTate.hodgeTate` (`hodgeTate_det`); R07.1.20 `schematicClosure_flat`;
+  R07.1.20a `BarsottiTate.quotientFiniteFlatSubgroup` (quotients by finite flat subgroups);
   R07.1.21 `BarsottiTate.exists_of_tateModule_summand` (Tate's Proposition 12); R07.1.33
   `raynaudDeterminantTameDifferent` (Raynaud's Théorème 4.1.1, over a strictly henselian base with `e ≤ p − 1`).
 - *WeightsInEtaleCohomology*: R34.2 (Frobenius on the Tate module at good reduction, weights of exterior
@@ -547,9 +555,15 @@ Projection gives `α`; a quasi-inverse to the isogeny restricted to `A_η × 0` 
 with `α ∘ β = [d]`, `d ≠ 0`. If the curve has genus one, construct a ramified double
 cover of it after a finite extension: choose a positive-degree line bundle, a section of its
 square with nonempty reduced zero divisor, and take the smooth double cover defined by that
-section. Riemann–Hurwitz gives genus at least two. Its Jacobian maps surjectively to the
-original Jacobian by the norm, with pullback as quasi-inverse up to `[2]`; compose these maps
-with `α, β`. This covering construction belongs to `CorrespondenceStack`.
+section. SchemeAndStackFoundations §3.2 `scheme_riemann_hurwitz` gives genus at least two.
+For a finite morphism `f : C' → C` of smooth proper geometrically connected curves over this
+characteristic-zero field, use its finite locally free structure and §3.5 `lineBundleNorm`,
+`lineBundleNorm_pullback` and `lineBundleNorm_baseChange`, together with JacobianChallenge
+Layer D's Picard representability. Within `CorrespondenceStack`, restrict norm and pullback
+to `Pic⁰`, by preservation of the identity component, and prove
+`Norm_f ∘ f^* = [deg f]`, compatibly with field extension (Stacks 0BCY, 0BCZ, 0BD2).
+For the double cover this is `[2]`, so norm is surjective; compose these maps with `α, β`.
+This covering and Picard-map construction belongs to `CorrespondenceStack`.
 The curve gives a rational map from the resulting dominant cover to `M̄_{g̃}`.
 First close its graph over `𝔄_g`; projection to `𝔄_g` is proper because `M̄_{g̃}` is proper,
 so this constructs the open correspondence `U`. Its compactification, including the extension
@@ -583,8 +597,9 @@ compactification over `ℚ` and the ample power of the Hodge line); ArakelovGeom
 SchemeAndStackFoundations §4.15 `StableCurves.Mbar` and `Mbar_algebraic_proper_DM`
 (`M̄_{g̃}` is a proper Deligne–Mumford stack over `ℤ`); AlgebraicModuliForArithmeticGeometry §5.4
 `DMSchematicClosure.stack` and `DMNormalization.stack`; NeronModelsAndSemistableAbelianVarieties §4.13
-`StableFamilyPicard` and §3.10 `JacobianIsogenyFactor`; JacobianChallenge Layers D–F
-(Jacobian norm and pullback), AlgebraicCurves (Riemann–Hurwitz);
+`StableFamilyPicard` and §3.10 `JacobianIsogenyFactor`; JacobianChallenge Layer D
+(Picard representability); SchemeAndStackFoundations §3.5 `lineBundleNorm`,
+`lineBundleNorm_pullback`, `lineBundleNorm_baseChange`, §3.2 `scheme_riemann_hurwitz`;
 AbelianSchemesAndArithmeticModuli A6.5 `poincareReducibility`; R28.1.1, R28.1.2;
 Mathlib `AlgebraicGeometry.Scheme.Hom.normalization`.
 
@@ -716,7 +731,9 @@ no additional definition by resolution here. The line extension across `Y` is fi
 **Checks.**
 - `hasLogSingularities_log_metric`: on `X = ℙ^1(ℂ)`, `Y = {0}`, `M = O`, the metric with `‖1‖(t) = |log|t||`
   for `0 < |t| ≤ 1/2` (glued to a constant metric away from `0`) has logarithmic singularities
-  for suitable `C, n`; `C = n = 1` fails near `|t| = 1/2` even with the added `1` in the bound.
+  with `C = n = 1` throughout this punctured interval: writing `s = −log|t| ≥ log 2`,
+  both `s` and `1/s` are at most `1 + s`, since `(log 2)(1 + log 2) > 1`.
+  After gluing away from zero enlarge `C` if necessary.
 - `not_hasLogSingularities_power_metric`: on the same data the metric with `‖1‖(t) = |t|^{−1/2}` near `0`
   does not, since `|t|^{−1/2}` is not bounded by `C(1 + |log|t||)^n` as `t → 0`; a definition allowing
   polynomial growth in `1/|f|` accepts it.
@@ -1295,25 +1312,25 @@ its semiabelian model, by isogeny invariance of semistable reduction). For `k �
 
 ### R28.3.1 Erratum (a): closures form an `l`-divisible group after a shift
 
-Prove `closure_tower_lDivisible` (Faltings 1984, part a; Tate, *p-divisible groups*, (4.2),
-Proposition 12 and its proof, pp. 181–182): let `W ⊆ T_l(Â)` be a `D_i`-stable saturated sublattice and
+Use `closure_tower_lDivisible` as the specialization of FiniteFlatGroupsAndIntegralPadicHodgeTheory
+R07.1.21 `BarsottiTate.exists_of_tateModule_summand` to `F = H_i` and `M = W`
+(Faltings 1984, part a; Tate, *p-divisible groups*, (4.2), Proposition 12 and proof,
+pp. 181–182). Here `R_i` is a complete mixed-characteristic DVR with finite, hence perfect,
+residue field. Let `W ⊆ T_l(Â)` be a `D_i`-stable saturated sublattice and
 `G_{i,n} ⊆ Â` the schematic closures over `R_i` of the levels of the corresponding `l`-divisible subgroup of
 `A ⊗ K_i`. These are finite flat with `G_{i,n} ⊆ G_{i,n+1}` and `l·G_{i,n+1} ⊆ G_{i,n}`, and the system is an
 `l`-divisible group exactly when the maps `G_{i,n+1}/G_{i,n} → G_{i,n}/G_{i,n−1}` are isomorphisms for all
 `n ≥ 1`, which can fail. There is `n_0` such that they are isomorphisms for all `n ≥ n_0`; consequently the
 closures in the local quotient tower `B_k = A_{K_i}/E_*[l^k]`, where `E_*` is the generic
 divisible subgroup corresponding to `W`, form an `l`-divisible group over `R_i` for `k ≥ n_0`.
-Here the integral ambient group is `H_i / closure(E_*[l^k])`; its levels of the subgroup
-are `G_{i,k+n}/G_{i,k}`. This assertion concerns this local tower, with no unrelated global `G`.
+Use R07.1.20a `BarsottiTate.quotientFiniteFlatSubgroup` for the integral ambient group
+`H_i/G_{i,k}`; the shifted subgroup levels are `G_{i,k+n}/G_{i,k}`. Saturation gives the
+direct-summand hypothesis of R07.1.21. R28.3.3 owns the comparison of this local quotient
+with the global tower.
 
-*Proof route.* Saturation identifies `W` with the Tate module of a closed generic `l`-divisible subgroup,
-as Tate's Proposition 12 requires (a direct summand); the closures are finite flat over the discrete
-valuation ring `R_i`. The affine algebras of the successive quotients form an increasing sequence of
-orders in a fixed finite separable `K_i`-algebra, so they stabilise, and from then on the quotients
-form an `l`-divisible group (Tate's discriminant argument, which the erratum cites).
-
-*Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.20 `schematicClosure_flat` and R07.1.21
-`BarsottiTate.exists_of_tateModule_summand`; R28.2.3; AbelianSchemesAndArithmeticModuli A3.3 (finite-flat quotients).
+*Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.20 `schematicClosure_flat`,
+R07.1.20a `BarsottiTate.quotientFiniteFlatSubgroup` and R07.1.21
+`BarsottiTate.exists_of_tateModule_summand`; R28.2.3.
 
 **Checks.**
 - The defect sits in finitely many levels: from `n_0` on the tail is `l`-divisible.
@@ -2273,6 +2290,29 @@ NeronModelsAndSemistableAbelianVarieties §5.1.
 
 ### R28.5.14 The rational Torelli theorem
 
+**Canonical polarization without a curve point.** Construct `jacobianCanonicalPolarization`:
+for a smooth projective geometrically connected curve `C` of genus `g ≥ 2` over a perfect
+field `k`, the abelian variety `jacobian C = Pic⁰_{C/k}` of SchemeAndStackFoundations §3.6
+has a canonical principal polarization `θ_C`, compatible with field extension.
+Choose a finite Galois extension `L/k` with a point on `C_L`, identify its pointed Jacobian
+with `(Pic⁰_{C/k})_L`, and transport JacobianChallenge Layer E's principal polarization.
+Changing the point translates theta and leaves its polarization homomorphism unchanged.
+Consequently that homomorphism is Galois-invariant and descends through the representable
+fppf sheaves using SchemeAndStackFoundations §1.1. Prove independence of `L` by a common
+finite Galois extension. Principality descends faithfully flatly, and the geometric ample
+line bundle makes the descended homomorphism a polarization; no theta divisor over `k`
+is required. The same point-independence proves compatibility with field extension.
+Sources: Milne, *Abelian varieties*, III Theorem 6.6 and Summary 6.11, pp. 105–108.
+
+**Checks for `jacobianCanonicalPolarization`.**
+- If `C(k)` is nonempty, the construction agrees with the supplied pointed polarization;
+  replacing the point changes theta by translation and preserves the homomorphism.
+- The smooth completion of `y² = −(x⁶ + 1)` over `ℚ` has genus two and no real point:
+  its affine right side is negative and its two points at infinity require `sqrt(−1)`.
+  Its Jacobian still has this principal polarization over `ℚ`.
+- For successive field extensions `k ⊆ k' ⊆ k''`, either base-change route gives the same
+  homomorphism on `Pic⁰_{C_{k''}/k''}`; a rational point on `C_{k'}` is not required.
+
 Prove `rationalTorelli` (Milne, *Abelian varieties*, III Theorem 12.1, p. 120, Corollary 12.2, p. 121, with the
 proof in III §13, pp. 122–127, after Martens; IV Theorem 4.2, p. 144): for smooth projective geometrically
 connected curves `C, C'` of genus `g ≥ 2` over a perfect field `k`, if the canonically polarized Jacobians
@@ -2288,8 +2328,10 @@ faithfulness of the action on the Jacobian makes the resulting `α` unique and G
 Thus `α` descends to `k`. A non-hyperelliptic curve has no automorphism inducing `−1` on its
 Jacobian, so sign absorption is not the argument in that case.
 
-*Needs:* TauCetiRoadmap JacobianChallenge Layers D (the Jacobian) and E (abelian varieties, the principal
-polarization by the theta divisor); AbelianSchemesAndArithmeticModuli A6.18 `polarizedAutomorphisms`, A6.20
+*Needs:* `jacobianCanonicalPolarization` above; SchemeAndStackFoundations §3.6 `jacobian`,
+`jacobian_dim` and §1.1 (descent); TauCetiRoadmap JacobianChallenge Layers D–E
+(Picard representability and the pointed principal polarization);
+AbelianSchemesAndArithmeticModuli A6.18 `polarizedAutomorphisms`, A6.20
 `homDescentFullLevel`.
 
 **Checks.**
@@ -2313,7 +2355,8 @@ good reduction outside `S` (good reduction of a curve gives good reduction of it
 Proposition 4.1, p. 144). Satz 6 with `d = 1` gives finitely many `(J, θ)`, and R28.5.14 makes the map injective on
 `K`-isomorphism classes.
 
-*Needs:* R28.5.11, R28.5.14; TauCetiRoadmap JacobianChallenge Layers D, E; NeronModelsAndSemistableAbelianVarieties
+*Needs:* R28.5.11, R28.5.14 `jacobianCanonicalPolarization` and `rationalTorelli`;
+SchemeAndStackFoundations §3.6 `jacobian`, `jacobian_dim`; NeronModelsAndSemistableAbelianVarieties
 §3.8–§3.9 (`PicardNeronIdentity`: for a smooth model the degree-zero Picard scheme is the abelian scheme).
 
 **Checks.**
