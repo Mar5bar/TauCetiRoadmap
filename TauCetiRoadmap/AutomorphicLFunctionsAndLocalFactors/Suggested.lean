@@ -899,6 +899,13 @@ end TauCeti.AutomorphicLFunctions.AL2
 
 namespace TauCeti.AutomorphicLFunctions.AL3
 
+/-- A nontrivial cubic degree character distinguishes geometric from arithmetic
+Frobenius through its local polynomial at a degree-one place. -/
+theorem UnramifiedRankOneReciprocity.constant_field_inversion (ζ : ℂ)
+    (hζ : ζ ^ 3 = 1) (hne : ζ ≠ 1) :
+    (1 - Polynomial.C ζ * Polynomial.X : Polynomial ℂ) ≠
+      1 - Polynomial.C (ζ⁻¹) * Polynomial.X := by sorry
+
 /-- Evaluate a linear functional along a representation orbit. -/
 def whittakerFunction {G V : Type*} [Monoid G] [AddCommGroup V] [Module ℂ V]
     (ρ : G →* Module.End ℂ V) (ℓ : V →ₗ[ℂ] ℂ) (v : V) (g : G) : ℂ := ℓ (ρ g v)
