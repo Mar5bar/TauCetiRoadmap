@@ -991,8 +991,9 @@ end BreuilKisin
 namespace FiniteFlat
 
 /-- The Kummer class of `x ∈ ℚ_p^×` is peu ramifiée exactly when `v_p(x) ≡ 0 mod p`, i.e. when it is
-represented by a unit (Serre 1987, (2.4.7); the case `L = ℚ_p`, `χ̄ = 1` of the peu ramifié
-classes). -/
+represented by a unit. This is membership in `H¹_f` for `L = ℚ_p`, `χ̄ = 1`, including the
+zero class. On extensions with nontrivial wild inertia it agrees with Serre's restricted
+peu ramifiée predicate (Serre 1987, (2.4.7)). -/
 def IsPeuRamifieeClass (p : ℕ) [Fact p.Prime] (x : ℚ_[p]ˣ) : Prop :=
   (p : ℤ) ∣ Padic.valuation (x : ℚ_[p])
 
@@ -1006,8 +1007,14 @@ theorem not_isPeuRamifieeClass_p (p : ℕ) [Fact p.Prime] :
     ¬ IsPeuRamifieeClass p
       (Units.mk0 (p : ℚ_[p]) (by exact_mod_cast (Fact.out : p.Prime).ne_zero)) := sorry
 
-/-- Test: `p`-th powers are peu ramifiée; for a Tate curve with `p ∣ v(q)` the torsion `E[p]` is
-peu ramifiée. -/
+/-- The identity represents the zero Kummer class in `H¹_f`; its extension has trivial wild
+inertia and is split, with a tamely ramified cyclotomic summand when `p` is odd. -/
+theorem isPeuRamifieeClass_one (p : ℕ) [Fact p.Prime] :
+    IsPeuRamifieeClass p (1 : ℚ_[p]ˣ) := by
+  simp [IsPeuRamifieeClass]
+
+/-- `p`-th powers represent the zero Kummer class, so belong to `H¹_f` and give extensions
+with trivial wild inertia. -/
 theorem isPeuRamifieeClass_pow (p : ℕ) [Fact p.Prime] (x : ℚ_[p]ˣ) :
     IsPeuRamifieeClass p (x ^ p) := sorry
 
@@ -1122,14 +1129,24 @@ further instances of the statements above.
   has endomorphisms ℤ_p integrally and ℚ_p rationally; p⁻¹id is only rational. The universal
   cover uses normalized φ_G=p⁻¹F: its F_p-points are ℚ_p for the constant group and zero
   for μ_{p^∞};
-  `wittCovectors`; `BerthelotConstantLength` (finite generation, p-power torsion and
-  constant finite Witt-fibre length); `berthelotPerfectValuationRings`.
+  `wittCovectors` with Berthelot's standard scalar action;
+  `berthelotCovectorModule` M_B(G)=Hom(G,CW) and `berthelotCrystallineModule`
+  M(G)=σ_A^*M_B(G), with F(a⊗m)=σ_A(a)⊗Fm and V(a⊗m)=σ_A⁻¹(a)⊗Vm;
+  `BerthelotConstantLength` (finite generation, p-power torsion and
+  constant finite Witt-fibre length); `berthelotPerfectValuationRings`, transporting
+  duality, localization and field restriction through σ_A^*. On α_p/F_{p²}, x↦ax
+  acts by a on M_B and a^p on M, distinguishing the two natural functors.
 * Layer R07.3: `finiteKPeriodComparison` (arithmetic realization comparisons on the
   supplied PadicPeriodRings §§3–4 carriers, functors and rational predicates, including
   tensor order, continuous-sequence and integral-predicate compatibility); `FilteredPhiNModule.unit`, `FilteredPhiNModule.twist`,
   with the checks `FilteredPhiNModule.unit_twist`, `FilteredPhiNModule.not_abelian` and
   `FilteredPhiNModule.N_nonzero`; `FilteredPhiNModule.tN`, `IsWeaklyAdmissible`;
-  `dSt_isWeaklyAdmissible`, `dSt_fullyFaithful`, `IsAdmissible`; `FLModule.isTorsion_iff`
+  `crisEigenvector_filtration_bound` (over algebraically closed residue field,
+  nonzero b∈B_cris with φ(b)=λb, λ∈K₀ˣ, b∈Fil^s satisfies s≤v_p(λ));
+  `dSt_isWeaklyAdmissible` uses this bound on determinant period coefficients of
+  arbitrary induced-filtration subobjects; a subrepresentation is used only for
+  admissible subobjects D_st(W) with semistable W⊆V;
+  `dSt_fullyFaithful`, `IsAdmissible`; `FLModule.isTorsion_iff`
   (through the divided Frobenius `φ_M` on the colimit `M̃`);
   `mfTorAbelian`; `ringS` (including its p-adic completion and the rational ring formed
   from that completion);
@@ -1172,9 +1189,14 @@ further instances of the statements above.
   `crystallineWithCoefficients`.
 * Layer R07.5: `formalGroupTorsionInertia`; `ordinaryTorsionInertia`;
   `supersingularTorsionInertia`; `multiplicativeTorsionInertia`; `IsPeuRamifiee` and
-  `IsTresRamifiee` for general residual representations; `finiteFlatKummerExtensions`;
+  `IsTresRamifiee` on the nontrivial-wild domain; `finiteFlatKummerExtensions`;
   `finiteFlatWeightTwoCriterion`; `dyadicFiniteFlatDichotomy`; `savittReductionPrincipalSeries`;
-  `savittResidualTypes`; `flResidualWeights`; `crystalline01InertiaTypes`; `peuRamifieH1`,
+  `savittResidualTypes`; `flResidualWeights` (the rank-two inducing character θ_r
+  restricts to ω₂^r on inertia and has θ_r(Φ²)=−1 for arithmetic Φ with ω(Φ)=1,
+  so the induced determinant at Φ is 1 before its unramified twist);
+  `crystalline01InertiaTypes`; `peuRamifieH1`,
+  `peuRamifieH1_iff_isPeuRamifiee` (for every class over ℚ_l with χ̄=1, membership
+  means trivial wild inertia or the restricted nontrivial-wild Serre predicate);
   `peuRamifieH1Int`; `peuRamifieIntegralLifting`; `SerreWeight`, `compactInduction`,
   `heckeOperatorT`, `endEquivPolynomial`.
 * Layer R07.6: `abelianSchemeTorsionFiniteFlat` (generic Galois and Tate-module compatibility); `fontaineLowerIndex`, `fontaineUpper`;

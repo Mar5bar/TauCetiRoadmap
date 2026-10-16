@@ -3578,7 +3578,10 @@ Construct `wittCovectors` over a perfect F_p-algebra A. For an A-algebra B, CW_A
 consists of sequences (x_i)_{i≤0} whose sufficiently far negative tail generates a
 nilpotent ideal: there exist r ≥ 0 and s ≥ 1 with (x_i : i ≤ −r)^s = 0. Define addition
 by the stabilized Witt addition polynomials. This is an fpqc sheaf of abelian groups,
-with its W(A)-action, coordinate Frobenius F(x)_i = x_i^p, Verschiebung
+with Berthelot's standard W(A)-action: a Teichmüller scalar [a] acts by
+([a]x)_i = a^{p^i}x_i for i ≤ 0, using inverse Frobenius on the perfect base A.
+Thus its first coordinate on W_n has scalar action σ_A^{1−n}. Its coordinate
+Frobenius is F(x)_i = x_i^p, with Verschiebung
 V(x)_i = x_{i−1}, and FV = VF = p with the Dieudonné semilinearity relations.
 Construct its finite-length inclusions from W_n along Verschiebung, its nilpotent-tail
 subfunctors CW_{r,s}, and restriction/base-change along perfect A → A′. On arbitrary
@@ -3590,7 +3593,7 @@ convergent evaluation maps on Ā/pĀ used in Fontaine–Laffaille §9.12–§9.1
 The subfunctors CW_{r,s} are representable as functors of sets; they give the fpqc
 sheaf and the convergent W(A)-action. The shift and coordinate p-th powers give FV = p.
 Use these same coordinate polynomials for base change and for the shifted realization.
-(Berthelot 1980, §1.1, formulas (1.1.1)–(1.1.5), pp. 227–230: CW, sheaf property,
+(Berthelot 1980, §1.1, formulas (1.1.1)–(1.1.6), pp. 227–230: CW, sheaf property,
 operators and W(A)-action; Fontaine–Laffaille 1982, §9.12–§9.13, pp. 605–606: CW₋₁
 and its period realization.)
 
@@ -3630,39 +3633,66 @@ Proposition 3.1.4, pp. 247–248: duality.)
 
 Prove `berthelotPerfectValuationRings`. Let A be a perfect integral domain of characteristic p whose
 localisations are fields or valuation rings (for instance a perfect valuation ring). With CW the
-Witt covectors and D_A = W(A)[F, V]/(FV − p, VF − p) (semilinear relations), the functor G ↦ M(G) =
-Hom(G, CW) is an anti-equivalence (with quasi-inverse M ↦ G_M) from finite locally free commutative
+standard Witt covectors of §R07.2.28a and D_A = W(A)[F, V]/(FV − p, VF − p)
+(semilinear relations), define `berthelotCovectorModule` by M_B(G) = Hom(G,CW).
+Define `berthelotCrystallineModule`, the local normalization, by
+
+M(G) = σ_A^*M_B(G) = W(A) ⊗_{W(A),σ_A} M_B(G),   1 ⊗ cm = σ_A(c) ⊗ m.
+
+On this pullback put F(a ⊗ m) = σ_A(a) ⊗ Fm and
+V(a ⊗ m) = σ_A^{−1}(a) ⊗ Vm; morphisms act by 1 ⊗ M_B(u).
+Both M_B and M are anti-equivalences (the inverse for M first applies σ_A^{−1*},
+then Berthelot's M ↦ G_M) from finite locally free commutative
 p-torsion group schemes over A to left D_A-modules satisfying BerthelotConstantLength(A,M), and from
 p-divisible groups over A to left D_A-modules that are locally free of finite rank over Spf W(A);
 M(G) has rank the height of G. In particular the Dieudonné functor over a perfect valuation ring V
 is fully faithful, and a homomorphism of p-divisible groups over Frac V extends to V iff its
 Dieudonné module does.
 
+Transport exactness, Cartier duality, localization and perfect-base change along σ_A^*.
+For duality use the natural identification σ_A^*Hom(M_B,T_A) ≅ Hom(σ_A^*M_B,T_A),
+where T_A = W(A)[1/p]/W(A) for finite groups and T_A = W(A) for p-divisible groups;
+the target-line identification is a ⊗ t ↦ aσ_A(t). It intertwines the dual F/V operators.
+For every perfect A → A′, the square comparing scalar extension of M with M(G_{A′})
+commutes with 1 ⊗ M_B(u), F and V, since σ_{A′} commutes with the base map.
+Over a perfect field k, the resulting natural W(k)-linear comparison is
+M(G) = σ_k^*M_B(G) ≅ M_classical(G) of §§R07.2.8–R07.2.10, with the
+crystalline comparison of §R07.2.20. The native M_B is related by this scalar pullback.
+
 A perfect of characteristic p, integral, with local rings fields or valuation rings; the extension
 to all perfect rings (Gabber, Lau) is not part of this target.
 
-*Proof sketch.* Finite groups: G → G_{M(G)} is an isomorphism over a field (classical theory,
-§R07.2.8); both functors commute with localisation, so reduce to a valuation ring and conclude by
+*Proof sketch.* First use the native realization M_B. Finite groups:
+G → G_{M_B(G)} is an isomorphism over a field (classical covector theory);
+both native functors commute with localisation, so reduce to a valuation ring and conclude by
 Nakayama and a rank count (Berthelot, Théorème 3.4.1, proof). Exactness of M ↦ G_M on short exact
 sequences of modules of constant length (Corollaire 3.4.2). p-divisible groups: pass to the limit
-over G[p^n], using that M(G₁) is torsion-free over A hence locally free of rank h (Corollaire 3.4.3,
-proof). (Berthelot 1980, §3.4, Théorème 3.4.1, p. 251; Corollaires 3.4.2–3.4.3, pp. 252–253: the
+over G[p^n], using that M_B(G₁) is torsion-free over A hence locally free of rank h
+(Corollaire 3.4.3, proof). Since σ_A is an automorphism, scalar pullback is an exact
+autoequivalence preserving constant fibre length, finite local freeness and the duality pairing.
+It gives the stated normalization and field comparison. (Berthelot 1980, §3.4,
+Théorème 3.4.1, p. 251; Corollaires 3.4.2–3.4.3, pp. 252–253: the
 anti-equivalences for finite p-torsion groups and p-divisible groups over perfect domains whose
 local rings are fields or valuation rings; Caraiani–Scholze 2017, §4.2, proof of Lemma 4.2.16, pp.
 710–711: full faithfulness over perfect valuation rings used to extend homomorphisms.)
 
 *Needs:* `BerthelotConstantLength` and its finite-presentation/localization API above;
-§R07.2.28a `wittCovectors`; §R07.2.8; §R07.2.10; §R07.2.5; Mathlib `WittVector`.
+§R07.2.28a `wittCovectors`; §R07.2.8; §R07.2.10; §R07.2.20 (the crystalline scalar
+comparison); §R07.2.5; Mathlib `WittVector`.
 
 **Checks.**
 
-- `berthelot_field`: A = k perfect field: recovers the classical theory with M(ℚ_p/ℤ_p) = (W(k), F =
-  σ).
+- `berthelot_field`: A = k perfect field: σ_k^*M_B recovers the classical crystalline
+  normalization with M(ℚ_p/ℤ_p) = (W(k), F = σ) and M(μ_{p^∞}) = (W(k), F = pσ).
+- Over k = F_{p²}, for G = α_p and u : x ↦ ax with a ∉ F_p, precomposition
+  acts by a on M_B(G) and by a^p on M(G). An ordinary k-linear natural
+  identification of these two unshifted functors would force a = a^p; the scalar
+  pullback in `berthelot_field` is necessary.
 - `berthelot_extension`: as used in Caraiani–Scholze, Lemma 4.2.16: for an isocrystal D over F̄_p
   and a perfect valuation ring V with fraction field K, (D ⊗ W(V)[1/p])^{φ=1} = (D ⊗
   W(K)[1/p])^{φ=1}, which by full faithfulness extends homomorphisms from K to V.
-- For G = 0, Hom(G,CW) = 0; the field case and the valuation-ring case both
-  send the trivial group to the zero Dieudonné module.
+- For G = 0, M_B(G) = 0 and σ_A^*M_B(G) = 0; the field case and the valuation-ring
+  case both send the trivial group to the zero Dieudonné module.
 
 
 ### Examples
@@ -3878,21 +3908,40 @@ with finite K/ℚ_p comparisons supplied by
 The contravariant functors used in Layer R07.4 are `D*_st(V) = Hom_{G_K}(V, B_st) ≅ D_st(V^∨)`, and
 likewise for `D*_cris`; they carry the same statements through `D ↦ D^∨`.
 
-*Proof sketch.* (1) For a rank-one `V` the period of `V` is a unit of `B_st` up to a power of `t`,
-and comparing its Frobenius slope with its filtration gives `t_H = t_N`; the general case applies
-this to `Λ^top D_st(V)` and, for a subobject `D′`, to `Λ^top` of the saturated sub-representation it
-cuts out of `B_st ⊗ V`, using the `(ℚ_p, G_K)`-regularity of `B_st`. (2) Regularity of `B_st` makes
+Prove `crisEigenvector_filtration_bound`: after completed unramified extension so that k is
+algebraically closed, for λ ∈ K₀^×, s ∈ ℤ and nonzero b ∈ B_cris with φ(b) = λb
+and b ∈ Fil^s B_dR, one has s ≤ v_p(λ). This is an arithmetic consequence of the supplied
+period identity. Put n = v_p(λ); divide b by t^n and write λ/p^n = σ(w)/w for a Witt
+unit w (Brinon–Conrad, Lemma 9.3.3), the unit-slope case of Mathlib's
+`WittVector.exists_frobenius_solution_fractionRing`. If s > n, then b/(t^n w) belongs to
+(B_cris)^{φ=1} ∩ Fil¹ B_dR = 0, by the fundamental exact sequence, a contradiction.
+
+*Proof sketch.* (1) For rank-one semistable V, completed unramified base change makes V a
+Tate character, whose period t^{−n} gives t_H = t_N. The same argument applies to det V
+and hence gives equality for D = D_st(V). It applies to a subobject via a subrepresentation
+only for subobjects D′ = D_st(W), with their induced filtration, actually realized by a
+semistable G_K-subrepresentation W ⊆ V (admissible subobjects); arbitrary filtered
+(φ,N)-subobjects are not assumed to have this form. For such an arbitrary nonzero D′ of
+rank r, embed det D′ into Λ^r D = D_st(Λ^r V). Monodromy is nilpotent and hence zero
+on this determinant line. Expand a generator e in a ℚ_p-basis of Λ^r V: its period
+coefficients b_i satisfy N(b_i) = 0, so b_i ∈ B_cris, φ(b_i) = λb_i, and
+b_i ∈ Fil^{t_H(D′)} B_dR. Apply `crisEigenvector_filtration_bound` to any nonzero
+coefficient to get t_H(D′) ≤ v_p(λ) = t_N(D′). This uses no realization of D′.
+(2) Regularity of `B_st` makes
 the comparison map `B_st ⊗_{K₀} D_st(V) → B_st ⊗_{ℚ_p} V` an isomorphism compatible with `φ`, `N`,
 the filtration and `G_K`; take `φ = 1`, `N = 0` and `Fil⁰` invariants, using `B_cris^{φ = 1} ∩ Fil⁰
 B_dR = ℚ_p` (the fundamental exact sequence, §R07.P3). (3) The dimension bound
 for weakly admissible `D` is the first half of the Colmez–Fontaine argument; the converse direction
 "weakly admissible implies admissible" is the theorem proved in §R07.4.13. (Brinon–Conrad 2009,
 Proposition 9.2.11, p. 144: regularity of `B_st`; Proposition 9.2.14, p. 146: full faithfulness and
-the quasi-inverse; Theorem 9.3.4, p. 147: weak admissibility; Definition 9.3.8 and Proposition
+the quasi-inverse; Lemma 9.3.3 and Theorem 9.3.4 with its proof, pp. 147–148:
+the eigenvector filtration bound and weak admissibility; Definition 9.3.8 and Proposition
 9.3.9, p. 151: admissibility and the dimension bound.)
 
 The API:
 
+- `crisEigenvector_filtration_bound`: the bound above for λ ∈ K₀^× after completed
+  unramified base change to algebraically closed residue field.
 - `dSt_isWeaklyAdmissible`, `dCris_isWeaklyAdmissible`: part 1.
 - `dSt_fullyFaithful`, `vSt`, `vSt_dSt`: part 2, with `V_st` and the natural isomorphism
   `V_st(D_st(V)) ≅ V`.
@@ -3903,7 +3952,8 @@ The API:
 *Needs:* PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`); §R07.3.1; §R07.3.2;
 PadicPeriodRings §§4.1–4.3 (`B_st`, `D_st`,
 `D_cris`, semistable and crystalline representations); §R07.P2 (`bCris`) and
-§R07.P3 (the fundamental exact sequence).
+§R07.P3 (the fundamental exact sequence); Mathlib
+`WittVector.exists_frobenius_solution_fractionRing` (Witt-unit Frobenius normalization).
 
 **Checks.**
 
@@ -3912,6 +3962,14 @@ PadicPeriodRings §§4.1–4.3 (`B_st`, `D_st`,
   = t_N`.
 - `dSt_tate_curve`: for the Tate curve `E_q` over `K` (`v(q) > 0`), `D_st(V_p E_q)` has `N ≠ 0`; it
   is weakly admissible but not in the image of `D_cris`.
+- The period t^n has φ(t^n) = p^n t^n and filtration degree n, for every n ∈ ℤ,
+  attaining equality in `crisEigenvector_filtration_bound`.
+- A φ = 1 period in Fil¹ B_dR is zero; the nonzero hypothesis in the bound is essential.
+- For K = K₀ = ℚ_p, take φ = diag(1,p), N = 0, Fil⁰ D = D,
+  Fil¹ D = ℚ_p(e₁+e₂), Fil² D = 0 as in `isWeaklyAdmissible_split_vs_line`.
+  The induced-filtration subobject D′ = ℚ_p e₂ has t_H = 0 < 1 = t_N.
+  Thus it is not admissible and cannot be D_st(W) for a semistable subrepresentation,
+  although D is weakly admissible. Its period coefficients require the inequality argument.
 - `dSt_zero`: the zero representation goes to the zero module.
 - `not_isAdmissible_of_not_wa`: `K₀` with `φ = pσ` and its jump in degree `0` is not the module of
   any representation, because it is not weakly admissible (§R07.3.2).
@@ -6512,7 +6570,7 @@ Proposition 13, pp. 276–277: Proposition 13; Serre 1972, §1.12, p. 277: the c
 - `multiplicativeTorsion_tres`: the Tate curve over ℚ_p with v(q) = 1 and p odd: v(j) = −1 ≢ 0 mod
   p, so case (c) holds and E_p is très ramifiée in the sense of §R07.5.5.
 - `multiplicativeTorsion_peu`: if p | v(q), then q = p^{v(q)}u with u ∈ ℤ_p^\* has the Kummer class
-  of the unit u, so E_p is unramified or peu ramifiée (the level-lowering case).
+  of the unit u, so E_p has trivial wild inertia or is peu ramifiée (the level-lowering case).
 - For the Tate curve over ℚ_p with v(q) = 1, wild inertia acts nontrivially
   on the extension while the full-inertia semisimplification is 1 ⊕ θ_{p−1}.
 
@@ -6528,7 +6586,9 @@ très ramifiée otherwise. For p = 2 (χ̄ = 1, α = 0, β = 1) this applies to 
 → ℤ/2 ramified.
 
 Serre works over `ℚ_p`; only `ρ|_{G_p}` matters, and the definition depends only on `ρ|_I` and on
-`K₀ = ℚ_p^nr`.
+`K₀ = ℚ_p^nr`. In extension-type formulas, “∗ peu ramifiée” denotes the total
+unit-Kummer condition, including wild-trivial extension classes. It agrees with
+`IsPeuRamifiee` on the nontrivial-wild domain; §R07.5.13 gives the total H¹ comparison.
 
 *Construction.* V^{P_K} ≠ 0 since P_K is pro-p; it is a line because P_K acts nontrivially; it is
 G_p-stable because P_K is normal (Serre 1987, §2.4). β = α + 1 gives Gal(K_t/K₀) = (ℤ/p)^\*, K_t =
@@ -6544,7 +6604,8 @@ The API:
 - `IsTresRamifiee`: The negation, in the case β = α + 1.
 - `kummerSubgroup`: The subgroup of K₀^\*/K₀^{\*p} generated by the x_i.
 - `isPeuRamifiee_iff_valuation`: Peu ramifiée iff v_p vanishes mod p on the Kummer subgroup.
-- `isPeuRamifiee_of_unit`: A Kummer class of a unit gives a peu ramifiée representation.
+- `isPeuRamifiee_of_unit`: Under nontrivial wild inertia, a Kummer class of a unit
+  gives a peu ramifiée representation.
 
 *Needs:* §R07.1.26.
 
@@ -6570,7 +6631,8 @@ the category of fppf F_p-modules represented by finite flat R-group schemes, cor
 the class to the Kummer class of the extension of Galois modules in K^\*/K^{\*p}. Consequently a
 Galois extension of F_p-modules ℤ/p by μ_p over K prolongs to a finite flat R-group scheme
 killed by p if and only if its
-Kummer class is represented by a unit, i.e. if and only if it is peu ramifiée (or unramified).
+Kummer class is represented by a unit, i.e. if and only if wild inertia acts trivially or
+it is peu ramifiée.
 
 The notation is that of §R07.1.26, with `K = Frac R`. For p odd, R has e = 1 < p − 1, so
 prolongations are unique (§R07.1.30); for p = 2 the argument uses only the connected–étale sequence
@@ -6584,7 +6646,7 @@ lift of 1 identifies J with μ_p × F_p, and changing the lift gives exactly the
 μ_p-torsors are H¹_fppf(R, μ_p) = R^\*/R^{\*p} by the Kummer sequence and Pic R = 0. On generic
 fibres the fppf Kummer class maps to the Galois Kummer class in K^\*/K^{\*p}; a class lies in the
 image of R^\*/R^{\*p} iff it is represented by a unit, which is peu ramifiée (§R07.5.5) when the
-extension is ramified. Uniqueness of the prolongation for p odd: §R07.1.30 (e = 1 < p − 1). (Serre
+extension has nontrivial wild inertia. Uniqueness of the prolongation for p odd: §R07.1.30 (e = 1 < p − 1). (Serre
 1987, §2.8, proof of Proposition 4, p. 190: the Kummer class of a finite flat extension is a unit
 class; Serre 1987, §2.8, proof of Proposition 4, p. 190: part (a).)
 
@@ -6804,9 +6866,13 @@ crystalline E-representation with an O_E-lattice T and unlabelled weights (0, k 
 1 < k < p (Breuil–Mézard), after extending residual scalars to F̄_p: if V is reducible, V ≅ V(µ₁,
 µ₂), then T̄ ≅ (ω^{k−1}λ(µ₂^{−1}) ∗ ; 0
 λ(µ₁^{−1})), with ∗ peu ramifiée when k = 2; if V is irreducible (V ≅ V(µ, ν) with ν ∈ m), then T̄ ≅
-Ind_{G_{ℚ_{p²}}}^{G_{ℚ_p}} ω₂^{k−1} ⊗ λ(µ^{−1/2}), so T̄|_{I} ≅ ω₂^{k−1} ⊕ ω₂^{p(k−1)} and det T̄ =
-ω^{k−1}λ(µ^{−1}). In particular two crystalline ℚ_p-representations whose weights lie in the same such
-interval and differ cannot have isomorphic reductions (e.g. the adjoints of residual representations
+Ind_{G_{ℚ_{p²}}}^{G_{ℚ_p}} θ_{k−1} ⊗ λ(µ^{−1/2}), so T̄|_{I} ≅ ω₂^{k−1} ⊕ ω₂^{p(k−1)} and det T̄ =
+ω^{k−1}λ(µ^{−1}). Choose an arithmetic Frobenius lift Φ with ω(Φ) = 1.
+Here θ_r is the character of G_{ℚ_{p²}} defined by θ_r|_I = ω₂^r and
+θ_r(Φ²) = −1, where r = k−1; choose either square root µ^{−1/2} in F̄_p.
+The two choices give isomorphic inductions, since the unramified quadratic twist
+restricts trivially to G_{ℚ_{p²}}. In particular two crystalline ℚ_p-representations whose
+weights lie in the same such interval and differ cannot have isomorphic reductions (e.g. the adjoints of residual representations
 of weights {−1, 0, 1} and {−2, 0, 2} are not isomorphic for p large).
 
 The first assertion uses ℤ_p-lattices. The two-dimensional coefficient assertion is
@@ -6842,6 +6908,10 @@ show that residual representations determine Hodge–Tate weights in small range
 
 - `flResidual_supersingular`: k = 2, V irreducible: T̄|_I = ω₂ ⊕ ω₂^p, the supersingular elliptic
   curve case (§R07.5.3).
+- In the induced basis Φ has determinant −θ_{k−1}(Φ²) = 1 before the twist,
+  hence µ^{−1} after it; on inertia the determinant is
+  ω₂^{(p+1)(k−1)} = ω^{k−1}. Setting θ_{k−1}(Φ²) = 1 instead would
+  give −µ^{−1} at Φ, a different determinant since 1 < k < p implies p is odd.
 - `flResidual_endpoint`: at the endpoint weight k − 1 = p − 1 the characters ω^0 and ω^{p−1}
   coincide, so the reduction no longer determines the weights; the length < p − 1 hypothesis is
   needed.
@@ -6894,8 +6964,10 @@ H¹_f(G_L, F_l(ε̄_lχ̄)) is the kernel of the composite H¹(G_L, F_l(ε̄_lχ
 ≅ L^{nr,×}/(L^{nr,×})^l → ℤ/l, the last map induced by the valuation; H¹_f(G_L, ℤ_l(ε_lχ)) is the
 kernel of H¹(G_L, ℤ_l(ε_lχ)) → H¹(G_{L^nr}, ℤ_l(ε_l)) ≅ lim_r L^{nr,×}/(L^{nr,×})^{l^r} → ℤ_l. If χ̄
 (resp. χ) is nontrivial, H¹_f = H¹; and H¹(G_L, F_l(ε̄_l))/H¹_f(G_L, F_l(ε̄_l)) ≅ F_l. For L = ℚ_l
-and χ̄ = 1, a class lies in H¹_f exactly when the corresponding extension of the trivial character
-by ε̄_l is peu ramifiée in Serre's sense (§R07.5.5): its Kummer generator can be taken to be a unit.
+and χ̄ = 1, a class c lies in H¹_f exactly when its extension ρ_c of the trivial character
+by ε̄_l has trivial wild inertia or is peu ramifiée in the restricted sense of §R07.5.5.
+Equivalently its Kummer generator can be taken to be a unit. On the nontrivial-wild domain
+this is precisely Serre's predicate; the kernel also contains the zero and wild-trivial classes.
 
 L/ℚ_l finite, L^nr its maximal unramified extension; Kummer theory H¹(G_M, μ_{l^r}) ≅
 M^×/(M^×)^{l^r} for a field M of characteristic 0 is TauCetiRoadmap.ProfiniteCohomology Layer 9
@@ -6906,7 +6978,12 @@ group of L^nr (Kummer theory). The valuation v : L^{nr,×} → ℤ induces L^{nr
 H¹_f is the kernel of the composite. If χ̄ ≠ 1 the image of restriction lies in the χ̄-isotypic part
 for the Frobenius action, on which the Frobenius-invariant valuation map vanishes, so H¹_f = H¹. For
 χ̄ = 1 the composite H¹(G_L, F_l(ε̄)) ≅ L^×/(L^×)^l → ℤ/l is surjective (a uniformiser maps to 1),
-giving the quotient F_l. The ℤ_l version is the inverse limit over r of the same construction. (ACC
+giving the quotient F_l. If wild inertia acts trivially, the extension splits after the tame
+base change to L^nr(ζ_l): its remaining tame Galois group is pro-prime-to-l, so
+H¹ with these finite coefficients vanishes. Restriction from L^nr to L^nr(ζ_l) is injective
+by restriction-corestriction, so its Kummer class over L^nr is zero and its valuation vanishes.
+When wild inertia is nontrivial, §R07.5.5 identifies that valuation condition with Serre's
+unit-Kummer condition. The ℤ_l version is the inverse limit over r of the same construction. (ACC
 2023, §7.2.1, p. 1098: the definition of H¹_f for F_l(ε̄χ̄) and ℤ_l(εχ) through the valuation, and
 the two facts H¹_f = H¹ for nontrivial χ̄ and H¹/H¹_f ≅ F_l.)
 
@@ -6916,8 +6993,10 @@ The API:
 - `peuRamifieH1Int`: H¹_f(G_L, ℤ_l(εχ)) as a ℤ_l-submodule of H¹(G_L, ℤ_l(εχ)).
 - `peuRamifieH1_eq_top`: χ̄ ≠ 1 implies H¹_f = H¹.
 - `peuRamifieH1_quotient`: H¹(G_L, F_l(ε̄))/H¹_f ≅ F_l.
-- `peuRamifieH1_iff_isPeuRamifiee`: For L = ℚ_l, χ̄ = 1, a class is in H¹_f iff its extension is peu
-  ramifiée.
+- `peuRamifieH1_iff_isPeuRamifiee`: For L = ℚ_l, χ̄ = 1 and every class c,
+  c ∈ H¹_f iff wild inertia acts trivially on ρ_c or `IsPeuRamifiee(ρ_c)`.
+  The second disjunct includes the nontrivial-wild hypothesis of §R07.5.5.
+  Under nontrivial wild inertia this reduces to the restricted peu ramifiée iff.
 
 *Needs:* §R07.5.5; TauCetiRoadmap.ProfiniteCohomology Layer 9.
 
@@ -6928,12 +7007,24 @@ The API:
 - `peuRamifieH1_uniformiser`: The Kummer class of a uniformiser of L is not in H¹_f(G_L, F_l(ε̄)): a
   definition using all of H¹ fails this.
 - `peuRamifieH1_unit`: The Kummer class of a unit of O_L lies in H¹_f(G_L, F_l(ε̄)).
+  For L = ℚ₃, the unit 4 gives a nonzero example: a 3-adic unit cube is ±1 modulo 9,
+  whereas 4 is neither. Its wild action is nontrivial and it satisfies Serre's predicate.
+- The zero class lies in H¹_f and gives ρ₀ = 1 ⊕ ε̄_l, with trivial wild inertia
+  and two-dimensional wild invariants. For odd l the cyclotomic summand is tamely
+  ramified. Its Kummer extension becomes trivial after the tame base change.
+- For L = ℚ₂, the nonzero unit class 5 defines the unramified quadratic extension
+  ℚ₂(√5): (1+√5)/2 has polynomial X²−X−1, irreducible and separable modulo 2.
+  This class lies in H¹_f and satisfies the trivial-wild disjunct.
 
-For `L = ℚ_p` and `χ̄ = 1` the subspace is already statable at the pins on Kummer classes: the class
+For `L = ℚ_p` and `χ̄ = 1`, the Kummer-class description is: the class
 of `x ∈ ℚ_p^×` lies in `H¹_f` exactly when `p ∣ v_p(x)`, which is the predicate
 `IsPeuRamifieeClass p x`. Its tests are `isPeuRamifieeClass_of_valuation_eq_zero` (units),
-`not_isPeuRamifieeClass_p` (the class of `p` is très ramifiée) and `isPeuRamifieeClass_pow`
-(`p`-th powers, so `E[p]` of a Tate curve with `p ∣ v(q)` is peu ramifiée).
+`not_isPeuRamifieeClass_p` (the class of `p` is très ramifiée), `isPeuRamifieeClass_one`
+(the zero Kummer class, with trivial wild inertia), and `isPeuRamifieeClass_pow`
+(`p`-th powers represent that same zero class). The predicate is total on Kummer classes;
+it agrees with §R07.5.5's restricted predicate when wild inertia is nontrivial.
+For a Tate curve with `p ∣ v(q)`, its torsion is wild-trivial or peu ramifiée in that
+restricted sense, according to its Kummer class.
 
 ### R07.5.14 Integral peu ramifié classes lift residual ones
 
