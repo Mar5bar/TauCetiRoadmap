@@ -1040,6 +1040,78 @@ def HasLift {X Y : Type*} (S : Set (GX G X)) (T : Set (GX G (X ⊕ Y))) : Prop :
     ∀ t ∈ T, evalAt ((QuotientGroup.mk' _).comp Monoid.Coprod.inl)
       (Sum.elim (fun x => QuotientGroup.mk' _ (Monoid.Coprod.inr (FreeGroup.of x))) w) t = 1
 
+/-- A complete lift includes an ordinary lift and a lift of every compatible single-inequation
+extension (§11.1), even when the latter condition has no instances. -/
+def HasCompleteLift {X Y : Type*} (S : Set (GX G X))
+    (T : Set (GX G (X ⊕ Y))) : Prop :=
+  HasLift S T ∧ ∀ W : GX G (X ⊕ Y),
+    (∀ v ∈ algSet (MonoidHom.id G) S, ∃ w : Y → G,
+      (∀ t ∈ T, evalAt (MonoidHom.id G) (Sum.elim v w) t = 1) ∧
+        evalAt (MonoidHom.id G) (Sum.elim v w) W ≠ 1) →
+    ∃ w : Y → CoordGroup (MonoidHom.id G) S,
+      let v := Sum.elim
+        (fun x => QuotientGroup.mk' _ (Monoid.Coprod.inr (FreeGroup.of x))) w
+      (∀ t ∈ T, evalAt ((QuotientGroup.mk' _).comp Monoid.Coprod.inl) v t = 1) ∧
+        evalAt ((QuotientGroup.mk' _).comp Monoid.Coprod.inl) v W ≠ 1
+
+/-- A generic family consists of `S`-solutions and turns solvability of every single equation
+on the family into a complete lift (§11.1). Auxiliary tuples are finite. -/
+def IsGenericFamily {X : Type*} (S : Set (GX G X)) (Θ : Set (X → G)) : Prop :=
+  Θ ⊆ algSet (MonoidHom.id G) S ∧
+    ∀ (n : ℕ) (t : GX G (X ⊕ Fin n)),
+      (∀ v ∈ Θ, ∃ w : Fin n → G,
+        evalAt (MonoidHom.id G) (Sum.elim v w) t = 1) → HasCompleteLift S {t}
+
+/-- The regular one-commutator equation `[x,y]=[a,b]` over the fixed coefficient group
+`F(a,b)` (§11.4). -/
+def oneCommutatorEquation : GX (FreeGroup (Fin 2)) (Fin 2) :=
+  comm (Monoid.Coprod.inr (FreeGroup.of 0)) (Monoid.Coprod.inr (FreeGroup.of 1)) *
+    Monoid.Coprod.inl (comm (FreeGroup.of 0) (FreeGroup.of 1))⁻¹
+
+/-- The seven pairs of words for six left-multiplication moves with pattern `y,x,y,y,x,y`,
+starting at the coefficient pair `(a,b)` (§11.4). -/
+def boundedTwistStages {H : Type*} [Group H] (a b : H) (t : Fin 6 → H) :
+    Fin 7 → H × H :=
+  let b₁ := t 0 * b
+  let a₂ := t 1 * a
+  let b₃ := t 2 * b₁
+  let b₄ := t 3 * b₃
+  let a₅ := t 4 * a₂
+  let b₆ := t 5 * b₄
+  ![(a,b), (a,b₁), (a₂,b₁), (a₂,b₃), (a₂,b₄), (a₅,b₄), (a₅,b₆)]
+
+/-- Six centralizing constraints and the final-pair equations for the bounded-twist
+counterexample (§11.4). Intermediate pairs are word abbreviations. -/
+def boundedTwistSystem : Set (GX (FreeGroup (Fin 2)) (Fin 2 ⊕ Fin 6)) :=
+  let a := Monoid.Coprod.inl (FreeGroup.of (0 : Fin 2))
+  let b := Monoid.Coprod.inl (FreeGroup.of (1 : Fin 2))
+  let t : Fin 6 → GX (FreeGroup (Fin 2)) (Fin 2 ⊕ Fin 6) :=
+    fun i => Monoid.Coprod.inr (FreeGroup.of (Sum.inr i))
+  let r := boundedTwistStages a b t
+  {comm (t 0) (r 0).1, comm (t 1) (r 1).2,
+    comm (t 2) (r 2).1, comm (t 3) (r 3).1,
+    comm (t 4) (r 4).2, comm (t 5) (r 5).1,
+    Monoid.Coprod.inr (FreeGroup.of (Sum.inl 0)) * (r 6).1⁻¹,
+    Monoid.Coprod.inr (FreeGroup.of (Sum.inl 1)) * (r 6).2⁻¹}
+
+/-- Every six-exponent twist tuple yields a solution of the regular equation and witnesses
+for the bounded-twist system (§11.4). Indices `1,4` are the two moves changing `x`. -/
+theorem boundedTwist_family_solvable (p : Fin 6 → ℕ) :
+    ∃ t : Fin 6 → FreeGroup (Fin 2),
+      let r := boundedTwistStages (FreeGroup.of 0) (FreeGroup.of 1) t
+      (∀ i : Fin 6, t i =
+        (if i = 1 ∨ i = 4 then (r i.castSucc).2 else (r i.castSucc).1) ^ p i) ∧
+      let v : Fin 2 → FreeGroup (Fin 2) := ![(r 6).1, (r 6).2]
+      v ∈ algSet (MonoidHom.id _) {oneCommutatorEquation} ∧
+        ∀ w ∈ boundedTwistSystem, evalAt (MonoidHom.id _) (Sum.elim v t) w = 1 := by
+  sorry
+
+/-- The bounded-twist system has no lift at the generic pair of the regular one-commutator
+coordinate group, despite solvability on the whole six-move discriminating family (§11.4). -/
+theorem boundedTwist_no_lift :
+    ¬ HasLift {oneCommutatorEquation} boundedTwistSystem := by
+  sorry
+
 /-- The genus-two surface equation `[x₁, y₁][x₂, y₂] = 1` over `F(a, b)`, a regular standard
 quadratic equation. -/
 def genusTwoEquation : GX (FreeGroup (Fin 2)) (Fin 4) :=
@@ -1048,7 +1120,7 @@ def genusTwoEquation : GX (FreeGroup (Fin 2)) (Fin 4) :=
 
 /-- The implicit function theorem for regular quadratic equations (§11.5), in the instance of the
 genus-two equation: every compatible equation lifts to the generic point, using the
-coefficient-enlargement and return to free-group specializations of §11.4. -/
+test-equation-dependent cut reconstruction and the coefficient-enlargement bridge of §11.4c. -/
 theorem hasLift_genusTwo {Y : Type*} [Finite Y]
     (T : Set (GX (FreeGroup (Fin 2)) (Fin 4 ⊕ Y))) (hfinite : T.Finite)
     (hT : IsCompatible {genusTwoEquation} T) : HasLift {genusTwoEquation} T := by
@@ -1496,10 +1568,10 @@ or a regular raw system, is identified with the tower's global radical coordinat
 `LimitGroup.centralizerExt_root_reduction`; infinite words, `F^{ℤ[t]}` as
 `LimitGroup.lyndonCompletion` with its ICE comparison, and
 graphs labelled by infinite words; Λ-metric spaces, Λ-trees and free actions on them; JSJ trees and their existence, finite marked Grushko and JSJ graphs, Makanin–Razborov
-factorization diagrams and finite component systems, equations over limit groups; `HasCompleteLift`,
-`IsGenericFamily`, `basicSeq` and its powers; the implicit function theorem for regular NTQ
+factorization diagrams and finite component systems, equations over limit groups; `basicSeq` and its powers; the implicit function theorem for regular NTQ
 systems, using §11.6's composed F-valued tower families and compatible residual systems,
-with nonvanishing retained for complete lifts rather than an implicit function theorem over
+with block depth and cancellation data chosen after the test equation and inequation,
+and nonvanishing retained for complete lifts rather than an implicit function theorem over
 arbitrary lower coordinate groups.
 
 The Serre/underlying-graph comparison includes `SerreGraph.toGraph`, `SerreGraph.ofGraph`
