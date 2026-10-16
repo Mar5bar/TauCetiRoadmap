@@ -121,6 +121,14 @@ example (a b : ℤ) (hab : Int.gcd a b = 1) (h : ![(a : ℚ), b] ≠ 0) :
 /-- [1:1] has sup height zero; its FS height in the README is instead ½ log 2. -/
 example (h : ![(1 : ℚ), 1] ≠ 0) : degree (ofTuple ![(1 : ℚ), 1] h) = 0 := sorry
 
+/-- Nonprimitive coordinates have the same sup degree as [1:1] (README §1.14). -/
+example (h₂ : ![(2 : ℚ), 2] ≠ 0) : degree (ofTuple ![(2 : ℚ), 2] h₂) = 0 := sorry
+
+/-- Doubling both coordinates subtracts the principal divisor of two (README §1.14). -/
+example (h₂ : ![(2 : ℚ), 2] ≠ 0) (h₁ : ![(1 : ℚ), 1] ≠ 0) :
+    ofTuple ![(2 : ℚ), 2] h₂ =
+      ofTuple ![(1 : ℚ), 1] h₁ - principal (Units.mk0 (2 : ℚ) two_ne_zero) := sorry
+
 /-- At [1:1] the Fubini–Study degree exceeds the sup degree by half log two
 (README §1.14). -/
 example : Real.log (Real.sqrt ((1 : ℝ)^2 + 1^2)) -
@@ -231,6 +239,11 @@ example : HermitianMetric.LogSingularAtZero (fun _ => 1) := by
 example : HermitianMetric.LogSingularAtZero
     (fun q => -(1 / (2 * Real.pi)) * Real.log ‖q‖) := sorry
 
+/-- The reciprocal cusp norm satisfies the logarithmic condition for the fixed dual extension
+(README §5.1). -/
+example : HermitianMetric.LogSingularAtZero
+    (fun q => (-(1 / (2 * Real.pi)) * Real.log ‖q‖)⁻¹) := sorry
+
 /-- A power pole grows faster than every logarithmic bound. -/
 example : ¬ HermitianMetric.LogSingularAtZero (fun q => ‖q‖ ^ (-(1 / 2 : ℝ))) := sorry
 
@@ -242,8 +255,8 @@ example : ¬ HermitianMetric.LogSingularAtZero (fun _ => -1) := sorry
 
 /-! ## Layer 6: Finiteness and uniform height bounds
 
-Zarhin's polarization and height identity, field-degree bounds, moduli finiteness and the lower
-bound are specified in the README.
+The product supplied with Zarhin's principal polarization has its arithmetic height identity,
+field-degree bounds, moduli finiteness and the lower bound specified in the README.
 -/
 
 /-! The README also specifies `HermitianBundle` (module, inner, conjugation, rank, trivial,
