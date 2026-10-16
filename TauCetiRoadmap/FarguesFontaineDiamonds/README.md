@@ -60,10 +60,8 @@ topologically nilpotent varpi in O_F. Use the unlocalized Witt ring
 A_inf = W(O_F), with its **(p,[varpi])-adic topology**, and the complete Huber
 pair of the adic construction. Write
 
-\[
-Y=D(p)\cap D([\varpi])=D(p[\varpi]),\qquad
-q:Y\longrightarrow X=Y/\varphi_Y^{\mathbf Z}.
-\]
+    Y = D(p) ∩ D([ϖ]) = D(p[ϖ]),
+    q : Y → X = Y/φ_Y^ℤ.
 
 Here D(a) is the locus where the valuation of a is nonzero. The generic domain
 is the intersection displayed above. The union D(p) ∪ D([varpi]) contains a
@@ -82,10 +80,8 @@ Use positive generators throughout. Absolute Frobenius phi_S on S is induced
 contravariantly by x ↦ x^p on F. The automorphism phi_Y comes from precomposition
 of valuations with Witt Frobenius. At rank-one generalizations the radius is
 
-\[
-\kappa(x)=\frac{\log|[\varpi](x)|}{\log|p(x)|},\qquad
-\kappa(\varphi_Y x)=p\,\kappa(x).
-\]
+    κ(x) = log|[ϖ](x)| / log|p(x)|,
+    κ(φ_Y x) = p κ(x).
 
 Higher-rank chart inequalities use order-theoretic power comparisons from
 AdicSpaces; no logarithm is assigned directly to a higher-rank value group.
@@ -862,11 +858,7 @@ The API is used by FS II.1.18 to descend the analytic untilt divisor to the exis
 
 Construct `untilt_quotient_sections_field`: For S=Spa(F,O_F), with F a complete rank-one characteristic-p perfectoid field, the quotient projection pi:Spd(Q_p)→Spd(Q_p)/phi^Z induces a bijection
 
-\[
-\operatorname{Spd}(\mathbf Q_p)(S)/\mathbf Z
-\;\simeq\;
-(\operatorname{Spd}(\mathbf Q_p)/\varphi^{\mathbf Z})(S).
-\]
+    Spd(ℚ_p)(S)/ℤ ≃ (Spd(ℚ_p)/φ^ℤ)(S).
 
 On the left n acts by u↦u∘phi_S^n; on the right the quotient is in v-sheaves. The comparison sends [u] to pi∘u. Every section on the right has a global lift u, and pi∘u=pi∘v holds exactly when v=u∘phi_S^n for some n∈Z. No algebraic-closedness hypothesis on F is imposed.
 
