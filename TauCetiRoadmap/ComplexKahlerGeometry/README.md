@@ -30,9 +30,10 @@ theory used in K7 and the [specified ComplexTori contract](https://github.com/Ta
 
 Use [DifferentialGeometry](../DifferentialGeometry/README.md)'s generic smooth forms,
 exterior derivative, pullback, wedge, integration, Stokes and de Rham comparison. Its chain integration and Stokes already allow complete vector-valued coefficients;
-its de Rham comparison is stated over ℝ. K5a owns the complex-linear manifold
-integration compatibility and complex-coefficient de Rham comparison on the same
-generic form carrier, viewed over ℝ; do not construct a second form carrier.
+its de Rham comparison is stated over ℝ. K5a owns the complex-linear manifold integration compatibility and complex-coefficient de Rham
+comparison on the same generic form carrier, viewed over ℝ; do not construct a second form carrier.
+For an open planar domain Ω⊂ℂ, consume [GlobalHolomorphicFunctions GH5.1](../GlobalHolomorphicFunctions/README.md#gh51-cousin-i-and-planar-de-rham-consequences)'s proof that every smooth complex-valued 2-form is
+exact, and prove the adapter to this carrier's complex de Rham quotient and `H²_dR(Ω;ℂ)=0`.
 Consume [RealAlgebraicGeometry Layer 7](../RealAlgebraicGeometry/README.md#layer-7-analytic-preparation-and-mccallum-projection)
 for analytic inversion and local real-germ complexification in model spaces;
 consume the native joint analytic implicit-function theorem as specified in K1,
@@ -113,6 +114,21 @@ differential intertwines J, equivalently carries `T^(1,0)` into `T^(1,0)`. Consu
 `ContDiffAt.to_localInverse` and `ContDiffAt.implicitFunction` over ℂ, with
 RealAlgebraicGeometry Layer 7's analytic inverse/complexification comparison, and prove their
 complex-manifold transport, composition and inverse APIs, with the relevant derivative invertible.
+K1 also equips the generic DG carrier `SmoothForm I M F k` with its natural
+`Module ℂ` action whenever `F` is a normed complex vector space, regarded as a real
+normed coefficient space by scalar restriction. For `c : ℂ`, define `c • ω` through
+DG's fixed-coefficient map `SmoothForm.mapCoeff (L_c) ω`, where
+`L_c : F →L[ℝ] F` is multiplication by `c`. Prove this agrees pointwise with
+complex scalar multiplication, restricts along `ℝ → ℂ` to DG's existing real action,
+and satisfies `IsScalarTower ℝ ℂ (SmoothForm I M F k)`. Prove complex-linearity of
+`mextDeriv` from DG1.2 coefficient naturality, and of `mpullback` pointwise from its
+definition. For every continuous complex-bilinear pairing `μ : F × G → H`, prove
+complex-linearity of `wedgeWith μ` in each form argument using DG0.1's permutation
+formula, complex bilinearity of `μ`, and DG0.3's coefficient-map/paired-wedge compatibility.
+Coefficient conjugation is semilinear:
+`conj(c • ω) = conj(c) • conj(ω)` for complex coefficients. Use these structures for
+the complex type forms and cochain complexes below; do not construct a second form carrier.
+
 For holomorphic `G(z,v)` with invertible v-derivative at `(z₀,v₀)`, construct
 the joint holomorphic implicit map `F(z,w)` near `(z₀,G(z₀,v₀))`, with
 `F(z₀,G(z₀,v₀))=v₀` and `G(z,F(z,w))=w`, and prove its local uniqueness.
@@ -159,22 +175,81 @@ their complex Lie algebroid structures.
 
 ## K2. Dolbeault calculus and the local lemmas
 
-On an integrable complex manifold construct ∂ and ∂̄ on the generic type forms and prove
-their bidegrees, squares zero, anticommutation, graded Leibniz, conjugation and
-holomorphic-pullback naturality. Prove the local Dolbeault–Grothendieck lemma for smooth
-`(p,q)` forms with q>0 on a polydisc, including the one-variable Cauchy-kernel solution
-operator, cutoff and parameter-smoothness estimates used in the several-variable proof.
-Require exactness on the whole open polydisc: use exhaustion by smaller polydiscs and
-holomorphic approximation to glue solutions, following GH chapter 0; local shrinking alone
-does not satisfy this target. Also prove ∂̄-exactness on products of planar domains by
-Laurent/Runge approximation and exhaustion, explicitly on ℂ*×ℂ and ℂ*×ℂ*. Prove the
-corresponding 𝒪 and holomorphic-form sheaves acyclic there, making K7's punctured-plane
-cover a verified Leray cover.
-Here 𝒪 is Mathlib's `smoothSheafCommRing` for `𝓘(ℂ,ℂ)`, with the native
-carrier comparison of K3.0; K2 precedes K3's local coherence calculations.
+On an integrable complex manifold construct ∂ and ∂̄ on generic type forms and prove their
+bidegrees, squares zero, anticommutation, graded Leibniz, conjugation and holomorphic-pullback
+naturality. Prove the local Dolbeault–Grothendieck lemma for smooth `(p,q)` forms, q>0, on a
+polydisc. For the scalar Cauchy–Green step consume [GH0's compact-support operator, identity and real-plane
+area normalization](../GlobalHolomorphicFunctions/README.md#gh-preparatory-calculus) under their support and smoothness hypotheses, and consume
+[GH0's finite-rank Runge operator](../GlobalHolomorphicFunctions/README.md#gh0-runge) with its
+operator bound `sup_K|f−A_jf|≤ε sup_L|f|` for holomorphic f on the stated neighborhood. The
+finite-rank operators have fixed spatial evaluation points and output functions, independent of
+external parameters.
 
-Define the Dolbeault complex and `H^(p,q)_∂̄(M)`, its quotient maps, functoriality, wedge
-product and identification of `H^(p,0)` with holomorphic p-forms. Construct the sheaves
+For whole-open-polydisc exactness and successive Dolbeault elimination, prove one joint
+parameter-dependent one-variable solver. Let P be a finite-dimensional smooth parameter manifold,
+Q⊆ℂ^m any open complex parameter domain (including punctured-plane factors), and Ω⊆ℂ any open
+plane domain. For jointly smooth `f:P×Q×Ω→ℂ` with `∂̄_{q_j}f=0` for every complex parameter
+coordinate, construct jointly smooth `u` with `∂̄_z u=f` and `∂̄_{q_j}u=0`. This includes
+Q=P=point (the scalar case), Q=point with general P (smooth parameters), and P=point with
+holomorphic Q (holomorphic parameters). Do not restrict Q to a polydisc, and do not patch with a
+partition of unity in Q.
+
+**Parameter Cauchy–Green.** Prove the following lemma for this solver. For a fixed
+`χ ∈ C_c^∞(Ω)` independent of all parameters and jointly smooth `f` on
+`P × Q × Ω`, extend `χ f(p,q,·)` by zero and apply GH0's fixed-normalization
+Cauchy–Green operator `T`. The map `(p,q,z) ↦ T(χ f(p,q,·))(z)` is jointly `C^∞`;
+in parameter charts every smooth derivative in `p` commutes with `T`, and
+`∂̄_{q_j} T(χ f) = T(χ ∂̄_{q_j} f)`. Its `z`-equation is
+`∂̄_z T(χ f)=χ f`. Prove these identities by differentiating under the integral
+with the common compact spatial support, and prove smoothness in `z` after the kernel
+substitution `ζ=z−ξ`, using local integrability of the Cauchy kernel. The region
+`ℂ \ tsupport χ` where `T(χ f)` is holomorphic is independent of `p` and `q`. In particular,
+when `f` is holomorphic in `Q`, so is `T(χ f)`. Apply this lemma to each fixed shell
+cutoff `χ_j`; its support is independent of the parameters.
+
+Choose a nested exhaustion of Ω by Runge compacts `K_j⊂int K_j^+⊂K_j^+⊂int K_{j+1}`
+with each `K_j^+` also Runge. Use the open shell cover whose late members are
+`int K_{j+1}\setminus K_{j-1}^+` (with finitely many initial sets), and choose a locally finite
+smooth partition `χ_j` compactly supported in these members. Thus `supp χ_j` misses a
+neighborhood of `K_{j-1}^+` for all sufficiently large j. Write `f_j=χ_j f`. Let `T` be the fixed-cutoff Cauchy–Green operator. Then for such j,
+`T f_j` is holomorphic on a neighborhood of `K_{j-1}^+`. Apply the fixed GH0 finite-rank
+operator `A_j`, chosen for `K_{j-1}^+` and a compact collar `L_j` inside that holomorphy
+neighborhood, and set `u_j=T f_j−A_j(T f_j)`; for the finitely many initial indices use
+`u_j=T f_j`. Thus `∂̄_z u_j=f_j`, and on each fixed earlier compact the tail is bounded by the
+GH0 operator-norm error
+`sup_{K_{j-1}^+}|h−A_jh|≤ε_j sup_{L_j}|h|`.
+
+For parameter dependence apply these same spatial operators to all parameter values:
+`T f_j(p,q,·)` is differentiable in `p` and preserves `q`-holomorphy by differentiation under
+its compactly supported integral; `A_j h(q,·)=Σ_k w_k h(q,ζ_k)g_k` preserves both because its
+points, weights and output functions are fixed independently of parameters. On each relatively
+compact parameter chart in `P`, exhaust that chart and `Q` by compact subsets and define mixed
+seminorms using finitely many parameter coordinates. Choose `ε_j` against the finite suprema of
+every required parameter derivative of `T f_j` on a slightly larger product compact and collar;
+Cauchy estimates on slightly larger `Q`-compacts control holomorphic-parameter derivatives, and
+on `K_{j−1}^+` they control the `z`-derivatives on `K_{j−1}`. Use a diagonal schedule so the `j`th tail
+correction and every mixed derivative through order `j` are at most `2^(−j)` on each earlier
+compact product. No smallness is imposed on the prescribed new-shell datum; it contributes only
+finitely often on each compact, while the later corrected tails satisfy the summable bounds. The
+resulting series converges in every compact-product smooth seminorm,
+permits termwise differentiation, solves `∂̄_z u=f`, and remains holomorphic in `Q`.
+For general `P`, carry this construction in relatively compact parameter charts and glue the
+local solutions with a locally finite smooth partition of unity in `P`; multiplication by those
+functions preserves `q`-holomorphy because the partition is independent of `Q`. Never use a
+partition in `Q`.
+
+Separately prove the multivariable Taylor approximation on ℂⁿ and Laurent approximation on
+`ℂ*×ℂ` and `ℂ*×ℂ*`, with their compact exhaustions, locally finite gluing and convergence of all
+smooth derivatives. Do not infer multivariable Runge from one-variable Runge. Develop the
+product-domain approximation and gluing API. The solver yields solutions on the full open
+parameter/domain products. The resulting 𝒪 and holomorphic-form sheaves are acyclic on the product
+domains used here, so K7's punctured-plane cover is a verified Leray cover. Here 𝒪 is Mathlib's
+`smoothSheafCommRing` for `𝓘(ℂ,ℂ)`, with the native carrier comparison of K3.0; K2 precedes K3's
+local coherence calculations.
+Define the Dolbeault complex in `ModuleCat ℂ` using K1's complex scalar action, and prove
+`∂̄` and the induced maps on `H^(p,q)_∂̄(M)` and its quotient modules are complex-linear.
+Define its quotient maps, functoriality, wedge product and identification of `H^(p,0)` with
+holomorphic p-forms. Construct the sheaves
 Ω^p and smooth type forms, prove the latter fine/acyclic using partitions of unity, and
 prove the Dolbeault theorem `H^q(M;Ω^p)≃H^(p,q)_∂̄(M)` with naturality and products. Build
 the needed analytic-sheaf/Čech/derived comparison using Mathlib's Ext-based sheaf
@@ -235,7 +310,7 @@ parameter dependence. Consume `MvPolynomial.mul_esymm_eq_sum` for Newton identit
 align the factorization API with `PowerSeries.IsWeierstrassFactorization`.
 
 Prove the analytic local rings are Noetherian and factorial of dimension n, with regular
-parameters. Follow GH chapter 0 §§1–2/Demailly chapter II: prove local parametrization of
+parameters. Follow Griffiths–Harris, *Principles of Algebraic Geometry*, chapter 0 §§1–2, and Demailly, chapter II: prove local parametrization of
 a pure-dimensional analytic germ by a finite branched projection to a polydisc,
 elimination under finite projections, density of regular points and dimension/finite-fiber
 formulas. Prove the hypersurface weak Nullstellensatz: for irreducible f, a germ h
@@ -681,10 +756,12 @@ prove independence of the approximants. Combine DG 5.5's
 `∫_M f dvol_g=∫ f d(riemannianVolume I M)` for integrable complex f,
 first on compactly supported smooth functions and then by L¹ density. Use
 this comparison in every L² formal-adjoint and Hodge pairing identity.
-Construct the ℂ-valued
-de Rham complex and prove `H_dR(M;ℂ)≃ℂ⊗_ℝ H_dR(M;ℝ)` via scalar extension of the complex,
-together with the singular-cohomology comparison supplied by DifferentialGeometry and
-AlgebraicTopology.
+Construct the ℂ-valued de Rham complex on DG's same generic form carrier as a cochain
+complex in `ModuleCat ℂ`, using K1's complex scalar action and complex-linear `mextDeriv`.
+Equip its de Rham cohomology quotients with the induced `Module ℂ` structure, prove the quotient
+maps are complex-linear, and prove the complex-linear isomorphism
+`H_dR(M;ℂ) ≃ ℂ ⊗_ℝ H_dR(M;ℝ)` by scalar extension of the complex. Include the
+singular-cohomology comparison supplied by DifferentialGeometry and AlgebraicTopology.
 
 Consume P1.0's differential-operator carrier and Laplace-type predicate:
 order at most 2 and Fourier principal symbol c|ξ|²_g Id for a fixed c>0.
@@ -1156,11 +1233,13 @@ not prove its inclusion is a quasi-isomorphism.
 
 ## Order and references
 
+The global one-variable provider order is GH0 (compact-support formula, area normalization, finite-rank Runge operators and exhaustion) → GH5 (global scalar solver using GH0) → GH5.1 (complex 2-form exactness). K2 consumes [GH0](../GlobalHolomorphicFunctions/README.md#gh0-runge)'s finite-rank operators and compact-support map to build its own smooth/holomorphic/mixed parameter solver; it does not assume a parameter export from the scalar GH5 theorem. K5a consumes [GH5.1](../GlobalHolomorphicFunctions/README.md#gh51-cousin-i-and-planar-de-rham-consequences) and owns the complex-coefficient carrier comparison. GlobalHolomorphicFunctions does not consume ComplexKahlerGeometry.
+
 K3.0 several-variable calculus precedes K1. K1's scalar-restriction and
 orientation paragraph precedes K7.1 and SBC B1's acceptance examples;
 K1's eigenbundle calculus consumes SBC B2's complexification and precedes
-K2's scalar calculus, local lemma and Ω^p sheaves, which precede K4's
-holomorphic bundles and connections. K2's bundle-valued comparison follows
+K2's scalar calculus, whole-polydisc local lemma, parameter-dependent shell solver, and Ω^p sheaves
+consume GH0's fixed finite-rank operators and Cauchy–Green map under their stated interfaces and precede K4's holomorphic bundles and connections. K2's bundle-valued comparison follows
 K4's holomorphic-section sheaf and ∂̄_E. The rest of K3 uses that local analysis and feeds K4's
 analytic-sheaf examples. K5a's pointwise real
 star, orientation line and density bundle use DG and SBC B2 independently
