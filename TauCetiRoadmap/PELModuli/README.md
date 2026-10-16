@@ -910,20 +910,34 @@ Definition 1.2.5.1, p. 90). The embeddings use the identification of `F` with th
 noncommutative `B` the multiplicities are taken after Morita equivalence. The API is
 `RationalPELDatum.signature_add` (`p_τ + q_τ = multiRank_[τ]`, the geometric multi-rank of M0.4);
 `RationalPELDatum.signature_conj` (`p_{c∘τ} = q_τ`), both from `V ⊗ ℂ = V₀ ⊕ V₀^c` and complex
-conjugation (Lan, §1.2.5, p. 90); `RationalPELDatum.signature_unitary` (for `B = K` a CM field and
-`V = K^n` with hermitian form `H`, `(p_τ, q_τ)` is the signature of `τ(H)`, using the hermitian form
-`⟨v, √−1 w⟩ + √−1⟨v, w⟩` of Kottwitz's proof of Lemma 4.3, pp. 388–389; Bijakowski–Pilloni–Stroh,
-*Classicité de formes modulaires surconvergentes*, §1.1, p. 979, for the notation `(a_τ, b_τ)`);
+conjugation (Lan, §1.2.5, p. 90); `RationalPELDatum.signature_unitary` (for `B = K` a CM field,
+`V = K^n` with nondegenerate hermitian form `H`, and, after identifying the Tate-twist line,
+`ψ = Tr_{K/ℚ}(δH)` with `δ ∈ K^×`, `δ̄ = −δ`, choose a CM type `Φ` with
+`Im τ(δ) > 0` for `τ ∈ Φ`. If `τ(H)` has signature `(r_τ, s_τ)`, then
+`(p_τ, q_τ) = (r_τ, s_τ)` for `τ ∈ Φ` and `(p_τ̄, q_τ̄) = (s_τ, r_τ)`.
+Indeed, on the real factor indexed by `τ ∈ Φ`, `ψ(x, Jy)` is
+`2 Im τ(δ) Re H_τ(x, −iJy)`, so positivity identifies the positive and negative
+directions of `H_τ` with the `+i` and `−i` eigenspaces of `J`, respectively
+(Kottwitz, proof of Lemma 4.3, pp. 388–389; Bijakowski–Pilloni–Stroh,
+*Classicité de formes modulaires surconvergentes*, §1.1, p. 979, for `(a_τ, b_τ)`).
+Entrywise conjugation preserves the inertia of `τ(H)`; use the pinned hermitian-inertia API,
+including `Matrix.IsHermitian.signature_map_starRingEnd`, for this matrix comparison);
 and `RationalPELDatum.signatureType` (for `B = K`, `Σ_τ p_τ τ` is a generalized CM type of rank
 `dim_K V`, M0.25). The addition and conjugation identities hold also for
 `IntegralPELDatum.signature`, allowing zero multiplicities on unused factors.
-*Needs:* M0.4, M0.11; the primitive conjugate-pair predicate of M0.25 for `signatureType`.
+*Needs:* M0.4, M0.11; the primitive conjugate-pair predicate of M0.25 for `signatureType`
+and the CM type in the unitary comparison; Tau Ceti `Matrix.IsHermitian.signature_map_starRingEnd`.
 
 **Checks.**
 
 - `signature_siegel`: the Siegel datum of genus `g` has `F = ℚ`, the simple complex module `W = ℂ`, and `(p, q) = (g, g)`.
-- `signature_picard`: for `K = ℚ(√−3)` and `H` of signature `(2, 1)`, `(p_τ, q_τ) = (2, 1)` and
+- `signature_picard`: for `K = ℚ(√−3)`, `τ ∈ Φ` with `Im τ(δ) > 0` and `H` of signature `(2, 1)`, `(p_τ, q_τ) = (2, 1)` and
   `(p_τ̄, q_τ̄) = (1, 2)`.
+- `signature_gaussian_trace`: for `K = ℚ(i)`, `V = K`, `L = ℤ[i]`, `H(x,y) = xȳ`,
+  `δ = i/2` and `Jx = ix`, the trace pairing has Gram matrix `[0,1;−1,0]` on `(1,i)`
+  and `ψ(x,Jx) = a²+b² > 0` for `x = a+bi ≠ 0`. Thus the lattice is unimodular.
+  At `τ(i) = i` the Hodge pair is `(1,0)` and at `τ̄` it is `(0,1)`, although both
+  hermitian Gram matrices are `[1]` with inertia `(1,0)`.
 - For quaternion division `B/ℚ` and `V = B`, `p_τ + q_τ = 2`, although the
   rational simple-module multiplicity is one (Lan's thesis errata, p. 7).
 - `signature_zero`: for the zero module both complex eigenspaces have dimension zero (a zero module
@@ -2197,8 +2211,8 @@ SchemeAndStackFoundations §0.21 and §§1.4, 1.19 (`AlgebraicSpace`, `IsAlgebra
 
 - `representability_siegel`: for the Siegel datum and `H = U(n)`, `n ≥ 3`, `M_n` is a smooth separated
   algebraic space of finite type over `ℤ[1/n]` of relative dimension `g(g+1)/2`.
-- `representability_full_level`: for `g > 0` and `H = GSp_{2g}(Ẑ)` the stack `M_H` is Deligne–Mumford and smooth
-  over `ℤ` but is not an algebraic space (`[−1]` is an automorphism).
+- `representability_full_level`: for `g > 0`, `□ = ∅` and `H = GSp_{2g}(Ẑ)`, the stack `M_H` is Deligne–Mumford
+  and smooth over `ℚ` but is not an algebraic space (`[−1]` is an automorphism).
 - `representability_zero`: for `L = 0`, `M_H` is finite étale over `S₀` (a torsor under a finite
   quotient of `Ẑ^{□×}` over each component).
 

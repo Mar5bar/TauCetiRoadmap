@@ -22,6 +22,8 @@ Design choices made explicit here:
   nonzero lattice and is a theorem, not part of the definition (M0.7).
 * The determinant polynomial is built from Mathlib's `LinearMap.polyCharpoly`; the determinant
   condition is an equality of polynomials, never of traces (M0.14, M0.18).
+* The unitary signature comparison uses `ψ = Tr(δH)` and a CM type on which `Im τ(δ) > 0`;
+  the Hodge multiplicities swap at conjugate embeddings, while the inertia of `τ(H)` does not.
 * Full Tate trivializations in M1.4 are finite étale pro-systems; their profinite geometric fibres
   are inverse limits of finite fibres, with continuous monodromy and termwise base change.
 * Lattice realization in M1.10 uses units of `RelativeLocalizedHom`, which can be quasi-isogenies
@@ -556,6 +558,17 @@ example (K : Type*) [Field K] [NumberField K] [NumberField.IsCMField K]
     unitaryTraceForm K (fun x y => x * NumberField.IsCMField.complexConj K y) (-i) 1 i = -2 := by
   sorry
 
+/-- The normalized Gaussian trace pairing is unimodular on `(1,i)` and its value at `(x,ix)`
+is the sum of the squares of the rational coordinates (Check `signature_gaussian_trace`). -/
+example (K : Type*) [Field K] [NumberField K] [NumberField.IsCMField K]
+    (i : K) (hi : i ^ 2 = -1) (hc : NumberField.IsCMField.complexConj K i = -i)
+    (hdeg : Module.finrank ℚ K = 2) (a b : ℚ) :
+    let ψ := unitaryTraceForm K (fun x y => x * NumberField.IsCMField.complexConj K y) (i / 2)
+    ψ 1 1 = 0 ∧ ψ 1 i = 1 ∧ ψ i 1 = -1 ∧ ψ i i = 0 ∧
+    ψ ((a : K) + (b : K) * i) (i * ((a : K) + (b : K) * i)) = a ^ 2 + b ^ 2 ∧
+    (a ≠ 0 ∨ b ≠ 0 → 0 < ψ ((a : K) + (b : K) * i) (i * ((a : K) + (b : K) * i))) := by
+  sorry
+
 /-- The Gaussian integral trace Gram matrix has determinant `−4`
 (Check `Order.disc_numberField_quadratic`). -/
 example : Matrix.det !![(2 : ℤ), 0; 0, -2] = -4 := by
@@ -680,6 +693,11 @@ The following APIs and discriminating Checks are also specified in the README:
   `alternating_elementaryDivisors` on the underlying integral lattice.
 * M0.10: `PELDatum.IsGoodPrime.not_dvd_dualIndex`,
   `PELDatum.IsGoodPrime.not_two_of_typeD`.
+* M0.13: `RationalPELDatum.signature_unitary` assumes `ψ = Tr_{K/ℚ}(δH)`,
+  `δ ∈ K^×`, `δ̄ = −δ` and a CM type `Φ` with `Im τ(δ) > 0` for `τ ∈ Φ`.
+  For nondegenerate `H` on `K^n`, its inertia `(r_τ,s_τ)` at `τ ∈ Φ` equals the
+  Hodge pair there; the pair at `τ̄` is `(s_τ,r_τ)`. The unweighted hermitian matrix
+  keeps its inertia under conjugation, by `Matrix.IsHermitian.signature_map_starRingEnd`.
 * M0.14: `detPoly_sheaf`, `detPoly_sheaf_restrict`, `detPoly_basis_indep`,
   `detPoly_baseChange`, `detPoly_exact`, `detPoly_homogeneous`,
   `detPoly_eq_polyCharpoly`.
