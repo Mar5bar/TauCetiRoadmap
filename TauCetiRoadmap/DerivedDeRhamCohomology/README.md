@@ -961,29 +961,29 @@ completion); Layers 0–1 here (derived modules and filtered objects).
 
 ### PD.1 Divided powers from identities on generators, and gluing on sums
 
-**Additive divided-power candidates.** For an ideal I⊂A, an additive divided-power candidate
-consists of maps δₙ:A→A, n≥0, zero outside I, such that for all x,y∈I and a∈A: δ₀(x)=1, δ₁(x)=x,
-δₙ(x)∈I for n>0, δₙ(x+y)=Σᵢ₊ⱼ₌ₙδᵢ(x)δⱼ(y), and δₙ(ax)=aⁿδₙ(x). The multiplication and iteration
-identities are not assumed. Every divided power structure on I is an additive candidate with the
+**Additive divided-power candidates.** For an ideal `I⊂A`, an additive divided-power candidate
+consists of maps `δₙ:A→A`, `n≥0`, zero outside `I`, such that for all `x,y∈I` and `a∈A`: `δ₀(x)=1`, `δ₁(x)=x`,
+`δₙ(x)∈I` for `n>0`, `δₙ(x+y)=Σᵢ₊ⱼ₌ₙδᵢ(x)δⱼ(y)`, and `δₙ(ax)=aⁿδₙ(x)`. The multiplication and iteration
+identities are not assumed. Every divided power structure on `I` is an additive candidate with the
 same operations.
 
 `Suggested.lean` declares `PD.AdditivePowers`, `PD.AdditivePowers.ofDividedPowers`,
 `PD.AdditivePowers.ofDividedPowers_dpow`.
 
-*Hypotheses.* A is a commutative ring and I⊂A is an ideal. The operations δₙ, n≥0, are maps A→A that
-vanish outside I in every degree, including degree 0; this is the convention of Mathlib's
-DividedPowers.
+*Hypotheses.* `A` is a commutative ring and `I⊂A` is an ideal. The operations `δₙ`, `n≥0`, are maps `A→A` that
+vanish outside `I` in every degree, including degree 0; this is the convention of Mathlib's
+`DividedPowers`.
 
 The API:
 
 - `PD.AdditivePowers.ofDividedPowers`: Every existing PD structure gives its additive candidate
   without changing any operation.
-- `PD.AdditivePowers.ofDividedPowers_dpow`: The candidate operation obtained from γ is exactly γₙ on
-  every element, including outside I.
-- `PD.AdditivePowers.ext`: Candidates with equal operations on I coincide.
+- `PD.AdditivePowers.ofDividedPowers_dpow`: The candidate operation obtained from `γ` is exactly `γₙ` on
+  every element, including outside `I`.
+- `PD.AdditivePowers.ext`: Candidates with equal operations on `I` coincide.
 
 *Proof sketch.* Collect precisely axioms (1),(3),(4) and ideal membership from Stacks 23.2.4. Use
-total functions with the same outside-ideal convention as the existing DividedPowers structure.
+total functions with the same outside-ideal convention as the existing `DividedPowers` structure.
 ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.2.4 (tag 07GP),
 statement, hypothesis (a); Definition 23.2.1 (tag 07GL), axioms (1), (3), (4).) *Needs:* Mathlib
 `DividedPowers`; Tau Ceti `TauCeti.Associative.dividedPower`; Tau Ceti
@@ -991,180 +991,177 @@ statement, hypothesis (a); Definition 23.2.1 (tag 07GL), axioms (1), (3), (4).) 
 
 **Checks.**
 
-- `test_candidate_zero_index`: For every additive candidate δ on I: δ₀(0)=1.
-- `test_candidate_positive_at_zero`: For every additive candidate δ on I: δ₂(0)=0.
-- `test_candidate_rational`: For a commutative ℚ-algebra R, an ideal I of R, a divided power
-  structure γ on I, x∈I and n≥0: the candidate of γ has value TauCeti.Associative.dividedPower n
-  x=(n!)⁻¹·xⁿ at x. Instance: R=ℚ[X], I=(X), x=X.
-- `test_candidate_not_pd`: On A=F₂[ε]/(ε²) with I=(ε), the maps with δ₀=1, δ₁=δ₃=id and δₙ=0 for n=2
-  and n≥4 on I, and δₙ=0 outside I for all n, form an additive candidate on I, and
-  δ₁(ε)·δ₂(ε)=0≠ε=3·δ₃(ε). So an additive candidate need not satisfy the multiplication identity.
-- `test_candidate_outside`: For every additive candidate δ on I and every x∉I: δ₀(x)=0.
-- Every divided power structure γ on I gives a candidate with the same operations.
+- `test_candidate_zero_index`: For every additive candidate `δ` on `I`: `δ₀(0)=1`.
+- `test_candidate_positive_at_zero`: For every additive candidate `δ` on `I`: `δ₂(0)=0`.
+- `test_candidate_rational`: For a commutative `ℚ`-algebra `R`, an ideal `I` of `R`, a divided power
+  structure `γ` on `I`, `x∈I` and `n≥0`: the candidate of `γ` has value `TauCeti.Associative.dividedPower n x=(n!)⁻¹·xⁿ` at `x`. Instance: `R=ℚ[X]`, `I=(X)`, `x=X`.
+- `test_candidate_not_pd`: On `A=𝔽₂[ε]/(ε²)` with `I=(ε)`, the maps with `δ₀=1`, `δ₁=δ₃=id` and `δₙ=0` for `n=2`
+  and `n≥4` on `I`, and `δₙ=0` outside `I` for all `n`, form an additive candidate on `I`, and
+  `δ₁(ε)·δ₂(ε)=0≠ε=3·δ₃(ε)`. So an additive candidate need not satisfy the multiplication identity.
+- `test_candidate_outside`: For every additive candidate `δ` on `I` and every `x∉I`: `δ₀(x)=0`.
+- Every divided power structure `γ` on `I` gives a candidate with the same operations.
 
-**The multiplication identity is stable under sums.** For an additive candidate δ, suppose the
-identities δₘ(z)δₙ(z)=choose(m+n,m)δₘ₊ₙ(z) hold for every m,n at each of x,y∈I. They then hold at
-x+y.
+**The multiplication identity is stable under sums.** For an additive candidate `δ`, suppose the
+identities `δₘ(z)δₙ(z)=choose(m+n,m)δₘ₊ₙ(z)` hold for every `m,n` at each of `x,y∈I`. They then hold at
+`x+y`.
 
-*Hypotheses.* A is a commutative ring, I⊂A an ideal and δ an additive candidate on I. x,y∈I, and
-δₘ(z)δₙ(z)=choose(m+n,m)·δₘ₊ₙ(z) holds for all m,n≥0 at z=x and at z=y.
+*Hypotheses.* `A` is a commutative ring, `I⊂A` an ideal and `δ` an additive candidate on `I`. `x,y∈I`, and
+`δₘ(z)δₙ(z)=choose(m+n,m)·δₘ₊ₙ(z)` holds for all `m,n≥0` at `z=x` and at `z=y`.
 
-*Proof sketch.* Expand both operations at x+y by the addition law and rearrange the finite
-four-index sum. Apply the multiplication identity separately at x and y. For fixed exponents
-a+b=m+n, the resulting coefficient is the Vandermonde sum Σ choose(a,i)choose(b,m−i)=choose(m+n,m).
-This is an identity of natural integers before casting to A; the source also checks its coefficients
-in Q[X,Y]. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.2.4
-(tag 07GP), proof, paragraph "Proof of (2) for x + y".) *Needs:* *Additive divided-power
+*Proof sketch.* Expand both operations at `x+y` by the addition law and rearrange the finite
+four-index sum. Apply the multiplication identity separately at `x` and `y`. For fixed exponents
+`a+b=m+n`, the resulting coefficient is the Vandermonde sum `Σ choose(a,i)choose(b,m−i)=choose(m+n,m)`.
+This is an identity of natural integers before casting to `A`; the source also checks its coefficients
+in `ℚ[X,Y]`. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.2.4
+(tag 07GP), proof, paragraph "Proof of `(2)` for `x + y`".) *Needs:* *Additive divided-power
 candidates*; Mathlib `Nat.add_choose_eq`.
 
 **Checks.**
 
-- For m=n=1: from x²=2δ₂(x) and y²=2δ₂(y) the lemma gives (x+y)²=2δ₂(x+y)=2δ₂(x)+2xy+2δ₂(y).
-- The coefficient identity is Vandermonde's Σᵢchoose(a,i)·choose(b,m−i)=choose(a+b,m); for a=b=m=1
-  it reads 1+1=2.
+- For `m=n=1`: from `x²=2δ₂(x)` and `y²=2δ₂(y)` the lemma gives `(x+y)²=2δ₂(x+y)=2δ₂(x)+2xy+2δ₂(y)`.
+- The coefficient identity is Vandermonde's `Σᵢchoose(a,i)·choose(b,m−i)=choose(a+b,m)`; for `a=b=m=1`
+  it reads `1+1=2`.
 
-- For m=0 and x+y∈I, δ₀(x+y)δₙ(x+y)=δₙ(x+y), with coefficient choose(n,0)=1.
+- For `m=0` and `x+y∈I`, `δ₀(x+y)δₙ(x+y)=δₙ(x+y)`, with coefficient `choose(n,0)=1`.
 
-**The iteration identity is stable under sums.** For an additive candidate δ satisfying the
-multiplication identity on all I, suppose δₘ(δₙ(z))=uniformBell(m,n)δₘₙ(z) for all m and n>0 at
-x,y∈I. It holds at x+y.
+**The iteration identity is stable under sums.** For an additive candidate `δ` satisfying the
+multiplication identity on all `I`, suppose `δₘ(δₙ(z))=uniformBell(m,n)δₘₙ(z)` for all `m` and `n>0` at
+`x,y∈I`. It holds at `x+y`.
 
-*Hypotheses.* A is a commutative ring, I⊂A an ideal and δ an additive candidate on I such that
-δₘ(z)δₙ(z)=choose(m+n,m)·δₘ₊ₙ(z) for all m,n≥0 and all z∈I. x,y∈I, and
-δₘ(δₙ(z))=uniformBell(m,n)·δₘₙ(z) holds for all m≥0 and all n>0 at z=x and at z=y.
+*Hypotheses.* `A` is a commutative ring, `I⊂A` an ideal and `δ` an additive candidate on `I` such that
+`δₘ(z)δₙ(z)=choose(m+n,m)·δₘ₊ₙ(z)` for all `m,n≥0` and all `z∈I`. `x,y∈I`, and
+`δₘ(δₙ(z))=uniformBell(m,n)·δₘₙ(z)` holds for all `m≥0` and all `n>0` at `z=x` and at `z=y`.
 
-*Proof sketch.* Expand δₙ(x+y) by the addition law, then expand δₘ of that finite sum by
-DividedPowers.dpow_sum' applied to the candidate. The positive inner degree ensures every summand is
-in I. Apply scalar homogeneity to δₖ(δᵢ(x)δⱼ(y)); use iteration at x if i>0 and at y if i=0. Reduce
-repeated products using the multiplication identity. Collect coefficients of δₐ(x)δᵦ(y), a+b=mn.
-Verify their universal integer values by the same calculation in Q[X,Y] with its divided power
-structure fⁿ/n! on (X,Y) (DividedPowers.RatAlgebra.dividedPowers), where these divided monomials are
-linearly independent. The coefficient is uniformBell(m,n). No injection of A into a rational algebra
+*Proof sketch.* Expand `δₙ(x+y)` by the addition law, then expand `δₘ` of that finite sum by
+`DividedPowers.dpow_sum'` applied to the candidate. The positive inner degree ensures every summand is
+in `I`. Apply scalar homogeneity to `δₖ(δᵢ(x)δⱼ(y))`; use iteration at `x` if `i>0` and at `y` if `i=0`. Reduce
+repeated products using the multiplication identity. Collect coefficients of `δₐ(x)δᵦ(y)`, `a+b=mn`.
+Verify their universal integer values by the same calculation in `ℚ[X,Y]` with its divided power
+structure `fⁿ/n!` on `(X,Y)` (`DividedPowers.RatAlgebra.dividedPowers`), where these divided monomials are
+linearly independent. The coefficient is `uniformBell(m,n)`. No injection of `A` into a rational algebra
 is assumed. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.2.4
-(tag 07GP), proof, paragraph "Proof of (5) for x + y".) *Needs:* *Additive divided-power
+(tag 07GP), proof, paragraph "Proof of (5) for `x + y`".) *Needs:* *Additive divided-power
 candidates*; Mathlib `DividedPowers.dpow_sum'`; Mathlib `MvPolynomial.basisMonomials`; Mathlib
 `DividedPowers.RatAlgebra.dividedPowers`.
 
 **Checks.**
 
-- For m=n=2: δ₂(δ₂(x+y))=3δ₄(x+y); the coefficient of δ₂(x)δ₂(y) on the left is 2, from
-  δ₂(xy)=y²δ₂(x)=2δ₂(y)δ₂(x), plus 1, from the cross term δ₂(x)·δ₂(y), and uniformBell(2,2)=3.
-- For n=1 the conclusion is δₘ(δ₁(z))=δₘ(z), and uniformBell(m,1)=1.
+- For `m=n=2`: `δ₂(δ₂(x+y))=3δ₄(x+y)`; the coefficient of `δ₂(x)δ₂(y)` on the left is 2, from
+  `δ₂(xy)=y²δ₂(x)=2δ₂(y)δ₂(x)`, plus 1, from the cross term `δ₂(x)·δ₂(y)`, and `uniformBell(2,2)=3`.
+- For `n=1` the conclusion is `δₘ(δ₁(z))=δₘ(z)`, and `uniformBell(m,1)=1`.
 
-- For m=0 and n>0, δ₀(δₙ(x+y))=1, since δₙ(x+y)∈I and uniformBell(0,n)=1.
+- For `m=0` and `n>0`, `δ₀(δₙ(x+y))=1`, since `δₙ(x+y)∈I` and `uniformBell(0,n)=1`.
 
-**Divided powers from identities on generators.** Let δ be an additive candidate on I and S⊂A with
-I=span(S). If multiplication and positive-inner-index iteration hold at every s∈S, construct the
-existing DividedPowers I with operation δ. No freeness, factorial invertibility, or nilpotence is
+**Divided powers from identities on generators.** Let `δ` be an additive candidate on `I` and `S⊂A` with
+`I=span(S)`. If multiplication and positive-inner-index iteration hold at every `s∈S`, construct the
+existing `DividedPowers I` with operation `δ`. No freeness, factorial invertibility, or nilpotence is
 required.
 
 `Suggested.lean` declares `PD.exists_dividedPowers_of_generators`.
 
-*Hypotheses.* A is a commutative ring, I⊂A an ideal, δ an additive candidate on I and S⊂A a subset
-with I=span(S). For every s∈S: δₘ(s)δₙ(s)=choose(m+n,m)·δₘ₊ₙ(s) for all m,n≥0, and
-δₘ(δₙ(s))=uniformBell(m,n)·δₘₙ(s) for all m≥0 and all n>0.
+*Hypotheses.* `A` is a commutative ring, `I⊂A` an ideal, `δ` an additive candidate on `I` and `S⊂A` a subset
+with `I=span(S)`. For every `s∈S`: `δₘ(s)δₙ(s)=choose(m+n,m)·δₘ₊ₙ(s)` for all `m,n≥0`, and
+`δₘ(δₙ(s))=uniformBell(m,n)·δₘₙ(s)` for all `m≥0` and all `n>0`.
 
 The API:
 
-- `PD.AdditivePowers.toDividedPowers_dpow`: The result uses δₙ exactly on all A.
+- `PD.AdditivePowers.toDividedPowers_dpow`: The result uses `δₙ` exactly on all `A`.
 - `PD.AdditivePowers.toDividedPowers_unique`: Every PD structure with these candidate operations
   equals the constructed structure.
 - `PD.AdditivePowers.toDividedPowers_generators`: Different generating sets and valid identity
   proofs yield the same structure.
 
-*Proof sketch.* Propagate multiplication from S to its scalar multiples using homogeneity; use
+*Proof sketch.* Propagate multiplication from `S` to its scalar multiples using homogeneity; use
 multiplication-addition and induction on ideal span to obtain the identity everywhere. Propagate
 iteration under scalar multiplication using homogeneity twice. Apply iteration-addition and span
-induction to obtain the iteration identity on all I. Fill exactly the two missing fields of
-DividedPowers. The underlying operations are unchanged. ([Stacks
+induction to obtain the iteration identity on all `I`. Fill exactly the two missing fields of
+`DividedPowers`. The underlying operations are unchanged. ([Stacks
 Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.2.4 (tag 07GP),
 statement.) *Needs:* §PD.1 *Additive divided-power candidates*; *The multiplication identity is stable
 under sums*; §PD.1 *The iteration identity is stable under sums*; Mathlib `DividedPowers`.
 
 **Checks.**
 
-- `test_generators_degree_two`: For x,y∈I the constructed structure θ satisfies
-  θ₂(x+y)=δ₂(x)+x·y+δ₂(y).
-- `test_generators_outside`: For x∉I the constructed structure θ satisfies θ₀(x)=0.
-- `test_generators_inner_one`: For x∈I and every n≥0 the constructed structure θ satisfies
-  θₙ(θ₁(x))=δₙ(x).
-- `test_generators_roundtrip`: For every divided power structure γ on I: the structure constructed
-  from the candidate of γ with S=I (the hypotheses on generators being the axioms of γ) is equal to
-  γ.
-- `test_generators_hypothesis_needed`: On A=F₂[ε]/(ε²) with I=(ε) and S={ε}: the additive candidate
-  with δ₀=1, δ₁=δ₃=id and δₙ=0 for n=2 and n≥4 has δ₁(ε)·δ₂(ε)=0≠3·δ₃(ε)=ε, so the multiplication
-  hypothesis fails at the generator ε, and no divided power structure on I has these operations.
+- `test_generators_degree_two`: For `x,y∈I` the constructed structure `θ` satisfies
+  `θ₂(x+y)=δ₂(x)+x·y+δ₂(y)`.
+- `test_generators_outside`: For `x∉I` the constructed structure `θ` satisfies `θ₀(x)=0`.
+- `test_generators_inner_one`: For `x∈I` and every `n≥0` the constructed structure `θ` satisfies
+  `θₙ(θ₁(x))=δₙ(x)`.
+- `test_generators_roundtrip`: For every divided power structure `γ` on `I`: the structure constructed
+  from the candidate of `γ` with `S=I` (the hypotheses on generators being the axioms of `γ`) is equal to
+  `γ`.
+- `test_generators_hypothesis_needed`: On `A=𝔽₂[ε]/(ε²)` with `I=(ε)` and `S={ε}`: the additive candidate
+  with `δ₀=1`, `δ₁=δ₃=id` and `δₙ=0` for `n=2` and `n≥4` has `δ₁(ε)·δ₂(ε)=0≠3·δ₃(ε)=ε`, so the multiplication
+  hypothesis fails at the generator `ε`, and no divided power structure on `I` has these operations.
 
-**Convolution of two divided-power systems.** For γ on I and ε on J define Cₙ(x,y)=Σᵢ₊ⱼ₌ₙγᵢ(x)εⱼ(y).
-Its gluing interpretation uses x∈I and y∈J; outside these domains it is simply the displayed total
+**Convolution of two divided-power systems.** For `γ` on `I` and `ε` on `J` define `Cₙ(x,y)=Σᵢ₊ⱼ₌ₙγᵢ(x)εⱼ(y)`.
+Its gluing interpretation uses `x∈I` and `y∈J`; outside these domains it is simply the displayed total
 function.
 
-*Hypotheses.* A is a commutative ring with ideals I and J; γ is a divided power structure on I and ε
-a divided power structure on J. n≥0, and x,y∈A are arbitrary; γ and ε vanish outside their ideals in
+*Hypotheses.* `A` is a commutative ring with ideals `I` and `J`; `γ` is a divided power structure on `I` and `ε`
+a divided power structure on `J`. `n≥0`, and `x,y∈A` are arbitrary; `γ` and `ε` vanish outside their ideals in
 every degree.
 
 The API:
 
-- `PD.convolution_eq`: C is the antidiagonal sum of the two systems.
-- `PD.convolution_swap`: Exchanging the two ideals and elements leaves C unchanged.
-- `PD.convolution_mem`: For n>0, Cₙ(x,y) lies in I+J when x∈I and y∈J.
-- `PD.convolution_eq_coeff_exp_mul`: For all x,y∈A and n≥0, Cₙ(x,y) is the n-th coefficient of the
-  product of power series (DividedPowers.exp γ x)·(DividedPowers.exp ε y), where DividedPowers.exp γ
-  x=Σₙγₙ(x)Tⁿ.
+- `PD.convolution_eq`: `C` is the antidiagonal sum of the two systems.
+- `PD.convolution_swap`: Exchanging the two ideals and elements leaves `C` unchanged.
+- `PD.convolution_mem`: For `n>0`, `Cₙ(x,y)` lies in `I+J` when `x∈I` and `y∈J`.
+- `PD.convolution_eq_coeff_exp_mul`: For all `x,y∈A` and `n≥0`, `Cₙ(x,y)` is the `n`-th coefficient of the
+  product of power series (`DividedPowers.exp γ x)·(DividedPowers.exp ε y`), where `DividedPowers.exp γ x=Σₙγₙ(x)Tⁿ`.
 
-*Proof sketch.* Use the finite antidiagonal sum in A. Record the quadratic mixed term x y
+*Proof sketch.* Use the finite antidiagonal sum in `A`. Record the quadratic mixed term `x y`
 explicitly; there is no binomial coefficient on it. ([Stacks
 Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.2.5 (tag 07GQ), proof,
-second paragraph, the display defining ε_n.) *Needs:* Mathlib `DividedPowers`; Mathlib
+second paragraph, the display defining `ε_n`.) *Needs:* Mathlib `DividedPowers`; Mathlib
 `DividedPowers.exp`.
 
 **Checks.**
 
-- `test_convolution_zero`: C₀(0,0)=1.
-- `test_convolution_quadratic`: For x∈I and y∈J: C₂(x,y)=γ₂(x)+xy+ε₂(y).
-- `test_convolution_same`: For I=J, γ=ε and x,y∈I: Cₙ(x,y)=γₙ(x+y) for every n≥0.
-- Cₙ(x,y) is the coefficient of Tⁿ in the product of the power series Σγᵢ(x)Tⁱ and Σεⱼ(y)Tʲ.
+- `test_convolution_zero`: `C₀(0,0)=1`.
+- `test_convolution_quadratic`: For `x∈I` and `y∈J`: `C₂(x,y)=γ₂(x)+xy+ε₂(y)`.
+- `test_convolution_same`: For `I=J`, `γ=ε` and `x,y∈I`: `Cₙ(x,y)=γₙ(x+y)` for every `n≥0`.
+- `Cₙ(x,y)` is the coefficient of `Tⁿ` in the product of the power series `Σγᵢ(x)Tⁱ` and `Σεⱼ(y)Tʲ`.
 
-**Convolution is independent of the decomposition.** If γₙ(w)=εₙ(w) for every n and w∈I∩J, then
-Cₙ(x,y)=Cₙ(x′,y′) whenever x,x′∈I, y,y′∈J and x+y=x′+y′.
+**Convolution is independent of the decomposition.** If `γₙ(w)=εₙ(w)` for every `n` and `w∈I∩J`, then
+`Cₙ(x,y)=Cₙ(x′,y′)` whenever `x,x′∈I`, `y,y′∈J` and `x+y=x′+y′`.
 
-*Hypotheses.* A is a commutative ring with ideals I and J; γ is a divided power structure on I and ε
-a divided power structure on J, with γₙ(w)=εₙ(w) for every n≥0 and every w∈I∩J. x,x′∈I and y,y′∈J
-satisfy x+y=x′+y′; n≥0.
+*Hypotheses.* `A` is a commutative ring with ideals `I` and `J`; `γ` is a divided power structure on `I` and `ε`
+a divided power structure on `J`, with `γₙ(w)=εₙ(w)` for every `n≥0` and every `w∈I∩J`. `x,x′∈I` and `y,y′∈J`
+satisfy `x+y=x′+y′`; `n≥0`.
 
-*Proof sketch.* Set w=x−x′=y′−y; it lies in I∩J. Write exp_γ(x) for the power series Σγᵢ(x)Tⁱ
-(DividedPowers.exp). By DividedPowers.exp_add on I, exp_γ(x)=exp_γ(x′)·exp_γ(w); by hypothesis
-exp_γ(w)=exp_ε(w); by DividedPowers.exp_add on J, exp_ε(w)·exp_ε(y)=exp_ε(y′). Hence
-exp_γ(x)·exp_ε(y)=exp_γ(x′)·exp_ε(y′), and comparing n-th coefficients gives Cₙ(x,y)=Cₙ(x′,y′). In
-finite sums this is the source's regrouping of Σγᵢ′(x′)γₗ(w)εⱼ(y). This proves equality in A,
-without assuming I∩J=IJ. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra,
+*Proof sketch.* Set `w=x−x′=y′−y`; it lies in `I∩J`. Write `exp_γ(x)` for the power series `Σγᵢ(x)Tⁱ` (`DividedPowers.exp`). By `DividedPowers.exp_add` on `I`, `exp_γ(x)=exp_γ(x′)·exp_γ(w)`; by hypothesis
+`exp_γ(w)=exp_ε(w)`; by `DividedPowers.exp_add` on `J`, `exp_ε(w)·exp_ε(y)=exp_ε(y′)`. Hence
+`exp_γ(x)·exp_ε(y)=exp_γ(x′)·exp_ε(y′)`, and comparing `n`-th coefficients gives `Cₙ(x,y)=Cₙ(x′,y′)`. In
+finite sums this is the source's regrouping of `Σγᵢ′(x′)γₗ(w)εⱼ(y)`. This proves equality in `A`,
+without assuming `I∩J=IJ`. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra,
 Lemma 23.2.5 (tag 07GQ), proof, second paragraph, the well-definedness computation.) *Needs:*
 §PD.1 *Convolution of two divided-power systems*; Mathlib `DividedPowers`; Mathlib `DividedPowers.exp`;
 Mathlib `DividedPowers.exp_add`.
 
 **Checks.**
 
-- For I=J and γ=ε both sides equal γₙ(x+y).
-- The hypothesis is needed: in ℤ/4 with I=J=(2), take γ the canonical divided powers (γ₂(2)=2) and ε
-  the square-zero structure (ε₂(2)=0); then 2+0=0+2, but C₂(2,0)=2 and C₂(0,2)=0.
+- For `I=J` and `γ=ε` both sides equal `γₙ(x+y)`.
+- The hypothesis is needed: in `ℤ/4` with `I=J=(2)`, take `γ` the canonical divided powers `(γ₂(2)=2)` and `ε`
+  the square-zero structure `(ε₂(2)=0)`; then `2+0=0+2`, but `C₂(2,0)=2` and `C₂(0,2)=0`.
 
-- For n=1 both decompositions give C₁(x,y)=x+y=x′+y′.
+- For `n=1` both decompositions give `C₁(x,y)=x+y=x′+y′`.
 
-**The candidate on the sum of compatible ideals.** Assume γ and ε agree on I∩J. Define an additive
-candidate on I+J by δₙ(z)=Cₙ(x,y) for any decomposition z=x+y with x∈I,y∈J, and zero outside I+J.
+**The candidate on the sum of compatible ideals.** Assume `γ` and `ε` agree on `I∩J`. Define an additive
+candidate on `I+J` by `δₙ(z)=Cₙ(x,y)` for any decomposition `z=x+y` with `x∈I,y∈J`, and zero outside `I+J`.
 
-*Hypotheses.* A is a commutative ring with ideals I and J; γ is a divided power structure on I and ε
-a divided power structure on J, with γₙ(w)=εₙ(w) for every n≥0 and every w∈I∩J.
+*Hypotheses.* `A` is a commutative ring with ideals `I` and `J`; `γ` is a divided power structure on `I` and `ε`
+a divided power structure on `J`, with `γₙ(w)=εₙ(w)` for every `n≥0` and every `w∈I∩J`.
 
 The API:
 
-- `PD.supCandidate_dpow_add`: For x∈I, y∈J and every n≥0: δₙ(x+y)=Cₙ(x,y).
-- `PD.supCandidate_left`: For x∈I and every n≥0: δₙ(x)=γₙ(x).
-- `PD.supCandidate_right`: For y∈J and every n≥0: δₙ(y)=εₙ(y).
+- `PD.supCandidate_dpow_add`: For `x∈I`, `y∈J` and every `n≥0`: `δₙ(x+y)=Cₙ(x,y)`.
+- `PD.supCandidate_left`: For `x∈I` and every `n≥0`: `δₙ(x)=γₙ(x)`.
+- `PD.supCandidate_right`: For `y∈J` and every `n≥0`: `δₙ(y)=εₙ(y)`.
 
-*Proof sketch.* Use membership in I+J to choose a decomposition; sum-independence removes the
-choice. Membership and degrees zero/one follow termwise. For homogeneity choose ax,ay as the
-decomposition of az. For addition choose (x+x′)+(y+y′), expand both factors and reindex the finite
+*Proof sketch.* Use membership in `I+J` to choose a decomposition; sum-independence removes the
+choice. Membership and degrees zero/one follow termwise. For homogeneity choose `ax,ay` as the
+decomposition of `az`. For addition choose `(x+x′)+(y+y′)`, expand both factors and reindex the finite
 four-index sum; this gives the candidate addition law. ([Stacks
 Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.2.5 (tag 07GQ), proof,
 from "Hence, we have defined maps" to the verification of properties (1), (3) and (4).) *Needs:*
@@ -1173,19 +1170,19 @@ independent of the decomposition*.
 
 **Checks.**
 
-- `test_supCandidate_zero`: δ₀(0)=1.
-- `test_supCandidate_mixed`: For x∈I and y∈J: δ₂(x+y)=γ₂(x)+xy+ε₂(y).
-- `test_supCandidate_outside`: For x∉I+J: δ₀(x)=0.
-- For J=0 the candidate on I+0=I is the candidate of γ.
+- `test_supCandidate_zero`: `δ₀(0)=1`.
+- `test_supCandidate_mixed`: For `x∈I` and `y∈J`: `δ₂(x+y)=γ₂(x)+xy+ε₂(y)`.
+- `test_supCandidate_outside`: For `x∉I+J`: `δ₀(x)=0`.
+- For `J=0` the candidate on `I+0=I` is the candidate of `γ`.
 
-**The sum candidate extends both structures.** The sum candidate agrees with γ on I and with ε on J,
+**The sum candidate extends both structures.** The sum candidate agrees with `γ` on `I` and with `ε` on `J`,
 in every degree.
 
-*Hypotheses.* A is a commutative ring with ideals I and J; γ is a divided power structure on I and ε
-a divided power structure on J, with γₙ(w)=εₙ(w) for every n≥0 and every w∈I∩J.
+*Hypotheses.* `A` is a commutative ring with ideals `I` and `J`; `γ` is a divided power structure on `I` and `ε`
+a divided power structure on `J`, with `γₙ(w)=εₙ(w)` for every `n≥0` and every `w∈I∩J`.
 
-*Proof sketch.* Choose x=x+0 or y=0+y and use the positive-degree vanishing at zero. For degree zero
-use γ₀(0)=ε₀(0)=1. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma
+*Proof sketch.* Choose `x=x+0` or `y=0+y` and use the positive-degree vanishing at zero. For degree zero
+use `γ₀(0)=ε₀(0)=1`. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma
 23.2.5 (tag 07GQ), proof, the sentence after the well-definedness computation.) *Needs:* *The
 candidate on the sum of compatible ideals*; §PD.1 *Convolution of two divided-power systems*; Mathlib
 `DividedPowers.dpow_eval_zero`.
@@ -1193,30 +1190,30 @@ candidate on the sum of compatible ideals*; §PD.1 *Convolution of two divided-p
 **Checks.**
 
 - At 0 both restrictions give 1 in degree 0 and 0 in every positive degree.
-- For w∈I∩J the two restrictions give γₙ(w) and εₙ(w), which are equal by hypothesis.
+- For `w∈I∩J` the two restrictions give `γₙ(w)` and `εₙ(w)`, which are equal by hypothesis.
 
-- For J=0, the restriction on I is γ in every degree; no extra mixed term survives.
+- For `J=0`, the restriction on `I` is `γ` in every degree; no extra mixed term survives.
 
-**Divided powers on a compatible sum of ideals.** For PD structures γ on I and ε on J that agree on
-I∩J, construct the unique PD structure on I+J restricting to both.
+**Divided powers on a compatible sum of ideals.** For PD structures `γ` on `I` and `ε` on `J` that agree on
+`I∩J`, construct the unique PD structure on `I+J` restricting to both.
 
-*Hypotheses.* A is a commutative ring with ideals I and J; γ is a divided power structure on I and ε
-a divided power structure on J, with γₙ(w)=εₙ(w) for every n≥0 and every w∈I∩J.
+*Hypotheses.* `A` is a commutative ring with ideals `I` and `J`; `γ` is a divided power structure on `I` and `ε`
+a divided power structure on `J`, with `γₙ(w)=εₙ(w)` for every `n≥0` and every `w∈I∩J`.
 
 The API:
 
-- `PD.sup_dpow_add`: For x∈I, y∈J and every n≥0, the glued operation at x+y is Cₙ(x,y).
-- `PD.sup_left`: The identity ring map from (A,I,γ) to the glued PD ring is a PD morphism.
-- `PD.sup_right`: The identity ring map from (A,J,ε) to the glued PD ring is a PD morphism.
-- `PD.sup_isDPMorphism_iff`: Let g:A→C be a ring map and κ a divided power structure on an ideal K
-  of C. Then g is a PD morphism from I+J with the glued structure to (K,κ) if and only if g is a PD
-  morphism from (I,γ) to (K,κ) and from (J,ε) to (K,κ).
+- `PD.sup_dpow_add`: For `x∈I`, `y∈J` and every `n≥0`, the glued operation at `x+y` is `Cₙ(x,y)`.
+- `PD.sup_left`: The identity ring map from `(A,I,γ)` to the glued PD ring is a PD morphism.
+- `PD.sup_right`: The identity ring map from `(A,J,ε)` to the glued PD ring is a PD morphism.
+- `PD.sup_isDPMorphism_iff`: Let `g:A→C` be a ring map and `κ` a divided power structure on an ideal `K`
+  of `C`. Then `g` is a PD morphism from `I+J` with the glued structure to `(K,κ)` if and only if `g` is a PD
+  morphism from `(I,γ)` to `(K,κ)` and from `(J,ε)` to `(K,κ)`.
 
-*Proof sketch.* Apply the generator criterion to the sum candidate and generating set I∪J. Use
-sum-restrictions to transfer multiplication and iteration from γ or ε to each generator. For
+*Proof sketch.* Apply the generator criterion to the sum candidate and generating set `I∪J`. Use
+sum-restrictions to transfer multiplication and iteration from `γ` or `ε` to each generator. For
 iteration, the inner positive divided power stays in the corresponding ideal. Uniqueness: two
-divided power structures on I+J that restrict to γ on I and to ε on J agree on the generating set
-I∪J, so they are equal by DividedPowers.dpow_eq_from_gens. ([Stacks
+divided power structures on `I+J` that restrict to `γ` on `I` and to `ε` on `J` agree on the generating set
+`I∪J`, so they are equal by `DividedPowers.dpow_eq_from_gens`. ([Stacks
 Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.2.5 (tag 07GQ),
 statement, part (2).) *Needs:* §PD.1 *Divided powers from identities on generators*; *The candidate on the
 sum of compatible ideals*; §PD.1 *The sum candidate extends both structures*; Mathlib
@@ -1225,53 +1222,53 @@ sum of compatible ideals*; §PD.1 *The sum candidate extends both structures*; M
 
 **Checks.**
 
-- `test_sup_same`: For J=I and ε=γ: the glued operation on I+I=I equals γₙ(x) for every n≥0 and
-  every x∈A.
-- `test_sup_zero_ideal`: For J=0 with the divided power structure dividedPowersBot A: the glued
-  operation equals γₙ(x) for every n≥0 and every x∈I.
-- `test_sup_quadratic`: For x∈I and y∈J: the glued operation in degree 2 at x+y is γ₂(x)+xy+ε₂(y).
-- The case used in the proof of Stacks Lemma 23.5.1: on A⟨x⟩ the structures on I·A⟨x⟩ and on A⟨x⟩₊
-  glue to one on I·A⟨x⟩+A⟨x⟩₊.
-- Gluing γ with itself returns γ, and gluing γ with the zero ideal returns γ.
-- In ℤ/4 with I=J=(2), the canonical structure (γ₂(2)=2) and the square-zero structure (operation 0
-  in degree 2) do not agree on I∩J, and no divided power structure on (2) restricts to both.
+- `test_sup_same`: For `J=I` and `ε=γ`: the glued operation on `I+I=I` equals `γₙ(x)` for every `n≥0` and
+  every `x∈A`.
+- `test_sup_zero_ideal`: For `J=0` with the divided power structure `dividedPowersBot A`: the glued
+  operation equals `γₙ(x)` for every `n≥0` and every `x∈I`.
+- `test_sup_quadratic`: For `x∈I` and `y∈J`: the glued operation in degree 2 at `x+y` is `γ₂(x)+xy+ε₂(y)`.
+- The case used in the proof of Stacks Lemma 23.5.1: on `A⟨x⟩` the structures on `I·A⟨x⟩` and on `A⟨x⟩₊`
+  glue to one on `I·A⟨x⟩+A⟨x⟩₊`.
+- Gluing `γ` with itself returns `γ`, and gluing `γ` with the zero ideal returns `γ`.
+- In `ℤ/4` with `I=J=(2)`, the canonical structure `(γ₂(2)=2)` and the square-zero structure (operation 0
+  in degree 2) do not agree on `I∩J`, and no divided power structure on `(2)` restricts to both.
 
-**Existence and uniqueness of the glued divided powers.** (1) Assume γ and ε agree on I∩J in every
-degree. A divided power structure θ on I+J satisfies θₙ=γₙ on I and θₙ=εₙ on J for all n if and only
-if θ is the glued structure of compatible-sum. (2) A divided power structure on I+J restricting to γ
-on I and to ε on J exists if and only if γₙ(w)=εₙ(w) for all n≥0 and all w∈I∩J; it is then unique.
+**Existence and uniqueness of the glued divided powers.** (1) Assume `γ` and `ε` agree on `I∩J` in every
+degree. A divided power structure `θ` on `I+J` satisfies `θₙ=γₙ` on `I` and `θₙ=εₙ` on `J` for all `n` if and only
+if `θ` is the glued structure of compatible-sum. (2) A divided power structure on `I+J` restricting to `γ`
+on `I` and to `ε` on `J` exists if and only if `γₙ(w)=εₙ(w)` for all `n≥0` and all `w∈I∩J`; it is then unique.
 
 `Suggested.lean` declares `PD.exists_dividedPowers_sup_iff`, `PD.dividedPowers_sup_unique`.
 
-*Hypotheses.* A is a commutative ring with ideals I and J; γ is a divided power structure on I and ε
-a divided power structure on J. In part (1), γₙ(w)=εₙ(w) for every n≥0 and every w∈I∩J; in part (2)
+*Hypotheses.* `A` is a commutative ring with ideals `I` and `J`; `γ` is a divided power structure on `I` and `ε`
+a divided power structure on `J`. In part (1), `γₙ(w)=εₙ(w)` for every `n≥0` and every `w∈I∩J`; in part (2)
 no agreement is assumed.
 
 *Proof sketch.* Necessity is equality of the two restrictions at every element of the intersection.
-Sufficiency is compatible-sum. For uniqueness, the addition law evaluates θₙ(x+y) as Cₙ(x,y), which
-also computes the glued operation; use DividedPowers.ext. ([Stacks
+Sufficiency is compatible-sum. For uniqueness, the addition law evaluates `θₙ(x+y)` as `Cₙ(x,y)`, which
+also computes the glued operation; use `DividedPowers.ext`. ([Stacks
 Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.2.5 (tag 07GQ),
 statement, part (2), and last paragraph of the proof.) *Needs:* *Divided powers on a compatible sum
 of ideals*; §PD.1 *Convolution of two divided-power systems*; Mathlib `DividedPowers.ext`.
 
 **Checks.**
 
-- If I=J, existence forces γ=ε.
-- In ℤ/4 with I=J=(2): the canonical structure (γ₂(2)=2) and the square-zero structure (operation 0
-  in degree 2) are two divided power structures on (2), and no divided power structure on (2)
+- If `I=J`, existence forces `γ=ε`.
+- In `ℤ/4` with `I=J=(2)`: the canonical structure `(γ₂(2)=2)` and the square-zero structure (operation 0
+  in degree 2) are two divided power structures on `(2)`, and no divided power structure on `(2)`
   restricts to both.
 
-- For J=0 there is exactly one common extension, namely γ on I+0=I.
+- For `J=0` there is exactly one common extension, namely `γ` on `I+0=I`.
 
-**Gluing when intersection equals product.** If I∩J=IJ, then every divided power structure γ on I
-and every divided power structure ε on J agree in every degree at every element of I∩J. Consequently
-the glued structure of compatible-sum on I+J is defined for every such pair, and it is the unique
-divided power structure on I+J restricting to γ on I and to ε on J.
+**Gluing when intersection equals product.** If `I∩J=IJ`, then every divided power structure `γ` on `I`
+and every divided power structure `ε` on `J` agree in every degree at every element of `I∩J`. Consequently
+the glued structure of compatible-sum on `I+J` is defined for every such pair, and it is the unique
+divided power structure on `I+J` restricting to `γ` on `I` and to `ε` on `J`.
 
-*Hypotheses.* A is a commutative ring with ideals I and J such that I∩J=IJ; γ is a divided power
-structure on I and ε a divided power structure on J.
+*Hypotheses.* `A` is a commutative ring with ideals `I` and `J` such that `I∩J=IJ`; `γ` is a divided power
+structure on `I` and `ε` a divided power structure on `J`.
 
-*Proof sketch.* Rewrite I∩J as the ideal product IJ and apply DividedPowers.coincide_on_smul: two
+*Proof sketch.* Rewrite `I∩J` as the ideal product `IJ` and apply `DividedPowers.coincide_on_smul`: two
 divided power structures agree at every element of the product of their ideals. The glued structure
 and its uniqueness are compatible-sum and sum-universal-property applied to this agreement. ([Stacks
 Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.2.5 (tag 07GQ),
@@ -1281,27 +1278,27 @@ of ideals*; Mathlib `DividedPowers.coincide_on_smul`.
 
 **Checks.**
 
-- In Γ_R(M) one has IΓ∩Γ_R(M)₊=IΓ·Γ_R(M)₊ (gamma-base-ideal-intersection), so any divided power
-  structures on IΓ and on Γ_R(M)₊ agree on the intersection and glue.
-- The hypothesis cannot be dropped: in ℤ/4 with I=J=(2), I∩J=(2) and IJ=0, and the canonical
-  structure (γ₂(2)=2) and the square-zero structure (operation 0 in degree 2) differ at 2.
+- In `Γ_R(M)` one has `IΓ∩Γ_R(M)₊=IΓ·Γ_R(M)₊` (gamma-base-ideal-intersection), so any divided power
+  structures on `IΓ` and on `Γ_R(M)₊` agree on the intersection and glue.
+- The hypothesis cannot be dropped: in `ℤ/4` with `I=J=(2)`, `I∩J=(2)` and `IJ=0`, and the canonical
+  structure `(γ₂(2)=2)` and the square-zero structure (operation 0 in degree 2) differ at 2.
 
-- For J=0, I∩J=IJ=0 and the resulting glued structure on I is γ.
+- For `J=0`, `I∩J=IJ=0` and the resulting glued structure on `I` is `γ`.
 
 
 ### PD.2 Extension along principal ideals, flat maps and localisation
 
-**Uniqueness of extension to the generated ideal.** Let f:A→B and let θ,θ′ be PD structures on
-IB=I.map(f). If f is a PD morphism from γ to both, then θ=θ′. No flatness or injectivity of f is
+**Uniqueness of extension to the generated ideal.** Let `f:A→B` and let `θ,θ′` be PD structures on
+`IB=I.map(f)`. If `f` is a PD morphism from `γ` to both, then `θ=θ′`. No flatness or injectivity of `f` is
 needed.
 
-*Hypotheses.* A and B are commutative rings, f:A→B a ring map, I⊂A an ideal and γ a divided power
-structure on I; IB=I.map(f) is the ideal of B generated by f(I). θ and θ′ are divided power
-structures on IB, and f is a PD morphism from (I,γ) to (IB,θ) and to (IB,θ′).
+*Hypotheses.* `A` and `B` are commutative rings, `f:A→B` a ring map, `I⊂A` an ideal and `γ` a divided power
+structure on `I`; `IB=I.map(f)` is the ideal of `B` generated by `f(I)`. `θ` and `θ′` are divided power
+structures on `IB`, and `f` is a PD morphism from `(I,γ)` to `(IB,θ)` and to `(IB,θ′)`.
 
-*Proof sketch.* Apply DividedPowers.le_equalizer_of_isDPMorphism with K=IB: every element of IB lies
-in the ideal on which θ and θ′ have equal operations. By DividedPowers.mem_dpEqualizer_iff, θ and θ′
-have the same operation at every element of IB in every degree; conclude θ=θ′ by DividedPowers.ext.
+*Proof sketch.* Apply `DividedPowers.le_equalizer_of_isDPMorphism` with `K=IB`: every element of `IB` lies
+in the ideal on which `θ` and `θ′` have equal operations. By `DividedPowers.mem_dpEqualizer_iff`, `θ` and `θ′`
+have the same operation at every element of `IB` in every degree; conclude `θ=θ′` by `DividedPowers.ext`.
 ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.4.2 (tag 07H1),
 statement, first assertion, and first paragraph of the proof.) *Needs:* Mathlib
 `DividedPowers.le_equalizer_of_isDPMorphism`; Mathlib `DividedPowers.mem_dpEqualizer_iff`; Mathlib
@@ -1309,54 +1306,54 @@ statement, first assertion, and first paragraph of the proof.) *Needs:* Mathlib
 
 **Checks.**
 
-- On ℤ/4 the ideal (2) carries two divided power structures, one with γ₂(2)=2 and the square-zero
-  one with γ₂(2)=0; only the first makes ℤ₂→ℤ/4 a PD morphism from PadicInt.dividedPowers 2, because
-  the image of γ₂(2)=2 is 2. So the uniqueness is of extensions of a fixed γ, not of divided power
-  structures on IB.
-- For f=id: a divided power structure θ on I with θₙ=γₙ on I for all n is γ.
+- On `ℤ/4` the ideal `(2)` carries two divided power structures, one with `γ₂(2)=2` and the square-zero
+  one with `γ₂(2)=0`; only the first makes `ℤ₂→ℤ/4` a PD morphism from `PadicInt.dividedPowers 2`, because
+  the image of `γ₂(2)=2` is 2. So the uniqueness is of extensions of a fixed `γ`, not of divided power
+  structures on `IB`.
+- For `f=id`: a divided power structure `θ` on `I` with `θₙ=γₙ` on `I` for all `n` is `γ`.
 
-- For I=0, IB=0 and the only extension is dividedPowersBot B, even if f is neither injective nor flat.
+- For `I=0`, `IB=0` and the only extension is `dividedPowersBot B`, even if `f` is neither injective nor flat.
 
-**The principal extension formula is well defined.** If I=(x), γ is a PD structure on I and f:A→B,
-then bⁿf(γₙ(x))=cⁿf(γₙ(x)) whenever bf(x)=cf(x), for all n≥0.
+**The principal extension formula is well defined.** If `I=(x)`, `γ` is a PD structure on `I` and `f:A→B`,
+then `bⁿf(γₙ(x))=cⁿf(γₙ(x))` whenever `bf(x)=cf(x)`, for all `n≥0`.
 
-*Hypotheses.* A and B are commutative rings, f:A→B a ring map, x∈A, I=(x) and γ a divided power
-structure on I. b,c∈B with b·f(x)=c·f(x); n≥0.
+*Hypotheses.* `A` and `B` are commutative rings, `f:A→B` a ring map, `x∈A`, `I=(x)` and `γ` a divided power
+structure on `I`. `b,c∈B` with `b·f(x)=c·f(x)`; `n≥0`.
 
-*Proof sketch.* At n=0 both expressions equal one. For n>0, γₙ(x) lies in (x); write γₙ(x)=a x. The
-hypothesis says (b−c)f(x)=0. The polynomial bⁿ−cⁿ is divisible by b−c. Multiplying by f(a)f(x)
-proves the claimed equality. This argument uses principal membership rather than division by n!, and
-applies even when f has a kernel. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power
+*Proof sketch.* At `n=0` both expressions equal one. For `n>0`, `γₙ(x)` lies in `(x)`; write `γₙ(x)=a x`. The
+hypothesis says `(b−c)f(x)=0`. The polynomial `bⁿ−cⁿ` is divisible by `b−c`. Multiplying by `f(a)f(x)`
+proves the claimed equality. This argument uses principal membership rather than division by `n!`, and
+applies even when `f` has a kernel. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power
 Algebra, Lemma 23.4.2 (tag 07H1), proof, second paragraph, the well-definedness computation for
-I=(x).) *Needs:* Mathlib `DividedPowers`.
+`I=(x)`.) *Needs:* Mathlib `DividedPowers`.
 
 **Checks.**
 
-- A=ℤ₂ with PadicInt.dividedPowers 2, x=2, B=ℤ/4, b=1, c=3: b·2=c·2 in ℤ/4, and b²·γ₂(2)=2 and
-  c²·γ₂(2)=18=2 in ℤ/4.
-- For n=0 both sides are 1.
+- `A=ℤ₂` with `PadicInt.dividedPowers 2`, `x=2`, `B=ℤ/4`, `b=1`, `c=3`: `b·2=c·2` in `ℤ/4`, and `b²·γ₂(2)=2` and
+  `c²·γ₂(2)=18=2` in `ℤ/4`.
+- For `n=0` both sides are 1.
 
-- For n=1, the asserted equality is bf(x)=cf(x), exactly the hypothesis.
+- For `n=1`, the asserted equality is `bf(x)=cf(x)`, exactly the hypothesis.
 
-**Extension of divided powers on a principal ideal.** For I=(x) and any ring map f:A→B, construct γᴮ
-on IB by γᴮₙ(bf(x))=bⁿf(γₙ(x)), zero outside IB. It is the unique extension of γ; no flatness
+**Extension of divided powers on a principal ideal.** For `I=(x)` and any ring map `f:A→B`, construct `γᴮ`
+on `IB` by `γᴮₙ(bf(x))=bⁿf(γₙ(x))`, zero outside `IB`. It is the unique extension of `γ`; no flatness
 hypothesis is imposed.
 
-*Hypotheses.* A and B are commutative rings and f:A→B is any ring map. x∈A, I=(x), and γ is a
-divided power structure on I; IB is the ideal of B generated by f(x).
+*Hypotheses.* `A` and `B` are commutative rings and `f:A→B` is any ring map. `x∈A`, `I=(x)`, and `γ` is a
+divided power structure on `I`; `IB` is the ideal of `B` generated by `f(x)`.
 
 The API:
 
-- `PD.extendPrincipal_dpow`: For every b∈B and every n≥0: γᴮₙ(b·f(x))=bⁿ·f(γₙ(x)).
-- `PD.extendPrincipal_isDPMorphism`: f is a PD morphism from (I,γ) to (IB,γᴮ).
-- `PD.extendPrincipal_generator_independent`: If I=(x) and I=(y), the structures on IB constructed
-  from the generator x and from the generator y are equal.
+- `PD.extendPrincipal_dpow`: For every `b∈B` and every `n≥0`: `γᴮₙ(b·f(x))=bⁿ·f(γₙ(x))`.
+- `PD.extendPrincipal_isDPMorphism`: `f` is a PD morphism from `(I,γ)` to `(IB,γᴮ)`.
+- `PD.extendPrincipal_generator_independent`: If `I=(x)` and `I=(y)`, the structures on `IB` constructed
+  from the generator `x` and from the generator `y` are equal.
 
-*Proof sketch.* Every element of IB is bf(x); use principal-independence to descend the displayed
-formula. For addition expand (b+c)ⁿ and use the multiplication identity for γ at x. Degrees
+*Proof sketch.* Every element of `IB` is bf(x); use principal-independence to descend the displayed
+formula. For addition expand `(b+c)ⁿ` and use the multiplication identity for `γ` at `x`. Degrees
 zero/one, ideal membership, scalar homogeneity and multiplication follow directly. For iteration
-with n>0 write γₙ(x)=a x. Then γᴮₘ(γᴮₙ(bf(x)))=bⁿᵐ f(aᵐγₘ(x)); apply homogeneity and the source
-iteration identity to a x. For any y∈I write y=a x to verify the PD-morphism condition for f.
+with `n>0` write `γₙ(x)=a x`. Then `γᴮₘ(γᴮₙ(bf(x)))=bⁿᵐ f(aᵐγₘ(x))`; apply homogeneity and the source
+iteration identity to `a x`. For any `y∈I` write `y=a x` to verify the PD-morphism condition for `f`.
 Uniqueness is extension-uniqueness. ([Stacks Project](https://stacks.math.columbia.edu), Divided
 Power Algebra, Lemma 23.4.2 (tag 07H1), statement, condition (2), and proof, second paragraph.)
 *Needs:* §PD.2 *The principal extension formula is well defined*; *Uniqueness of extension to the
@@ -1364,35 +1361,35 @@ generated ideal*; Mathlib `DividedPowers`; Mathlib `PadicInt.dividedPowers`.
 
 **Checks.**
 
-- `test_principal_identity`: For B=A and f=id: γᴮₙ(z)=γₙ(z) for every z∈I and every n≥0.
-- `test_principal_zero`: For I=0, x=0 and γ=dividedPowersBot A: γᴮₙ(0) equals the value at 0 of
-  dividedPowersBot B in degree n, that is 1 for n=0 and 0 for n>0.
-- `test_principal_quadratic`: For every b∈B: γᴮ₂(b·f(x))=b²·f(γ₂(x)).
-- `test_principal_p_two`: For A=B=ℤ₂, f=id, x=2 and γ=PadicInt.dividedPowers 2: γᴮ₂(2)=2.
-- Along ℤ₂→ℤ/4 with x=2 and γ=PadicInt.dividedPowers 2 the extension has γᴮ₂(2)=2, γᴮ₃(2)=0 and
-  γᴮ₄(2)=2 in ℤ/4, a ring in which 2ⁿ/n! cannot be formed by division.
-- Along the identity the extension is γ.
+- `test_principal_identity`: For `B=A` and `f=id`: `γᴮₙ(z)=γₙ(z)` for every `z∈I` and every `n≥0`.
+- `test_principal_zero`: For `I=0`, `x=0` and `γ=dividedPowersBot A`: `γᴮₙ(0)` equals the value at 0 of
+  `dividedPowersBot B` in degree `n`, that is 1 for `n=0` and 0 for `n>0`.
+- `test_principal_quadratic`: For every `b∈B`: `γᴮ₂(b·f(x))=b²·f(γ₂(x))`.
+- `test_principal_p_two`: For `A=B=ℤ₂`, `f=id`, `x=2` and `γ=PadicInt.dividedPowers 2`: `γᴮ₂(2)=2`.
+- Along `ℤ₂→ℤ/4` with `x=2` and `γ=PadicInt.dividedPowers 2` the extension has `γᴮ₂(2)=2`, `γᴮ₃(2)=0` and
+  `γᴮ₄(2)=2` in `ℤ/4`, a ring in which `2ⁿ/n!` cannot be formed by division.
+- Along the identity the extension is `γ`.
 
-**The scalar-extension coefficient formula.** For f:A→B, γ on I, a finite list x₁,…,xᵣ in A and
-coefficients bᵢ∈B, define Eₙ(b,x)=Σₑ₁₊⋯₊ₑᵣ₌ₙ ∏ᵢ bᵢᵉⁱ f(γₑⁱ(xᵢ)). It is a total finite formula. Its
-PD interpretation assumes every xᵢ∈I. For r=0 it is one at n=0 and zero otherwise.
+**The scalar-extension coefficient formula.** For `f:A→B`, `γ` on `I`, a finite list `x₁,…,xᵣ` in `A` and
+coefficients `bᵢ∈B`, define `Eₙ(b,x)=Σₑ₁₊⋯₊ₑᵣ₌ₙ ∏ᵢ bᵢᵉⁱ f(γₑⁱ(xᵢ))`. It is a total finite formula. Its
+PD interpretation assumes every `xᵢ∈I`. For `r=0` it is one at `n=0` and zero otherwise.
 
-*Hypotheses.* A and B are commutative rings, f:A→B a ring map, I⊂A an ideal and γ a divided power
-structure on I. r≥0, n≥0, x₁,…,xᵣ∈A and b₁,…,bᵣ∈B. The formula is defined for all xᵢ∈A; it computes
-divided powers only when every xᵢ lies in I.
+*Hypotheses.* `A` and `B` are commutative rings, `f:A→B` a ring map, `I⊂A` an ideal and `γ` a divided power
+structure on `I`. `r≥0`, `n≥0`, `x₁,…,xᵣ∈A` and `b₁,…,bᵣ∈B`. The formula is defined for all `xᵢ∈A`; it computes
+divided powers only when every `xᵢ` lies in `I`.
 
 The API:
 
-- `PD.extensionCoefficient_eq`: Eₙ is the multiset-indexed finite sum without multinomial
+- `PD.extensionCoefficient_eq`: `Eₙ` is the multiset-indexed finite sum without multinomial
   coefficients.
-- `PD.extensionCoefficient_one`: For r=1, every b∈B, every x∈A and every n≥0: Eₙ(b,x)=bⁿ·f(γₙ(x)).
-- `PD.extensionCoefficient_mem`: For n>0 and xᵢ∈I the coefficient lies in IB.
-- `PD.dpow_sum_mul_map_eq_extensionCoefficient`: If θ is a divided power structure on IB and f is a
-  PD morphism from (I,γ) to (IB,θ), then for all x₁,…,xᵣ∈I, all b₁,…,bᵣ∈B and all n≥0:
-  θₙ(Σᵢbᵢ·f(xᵢ))=Eₙ(b,x).
+- `PD.extensionCoefficient_one`: For `r=1`, every `b∈B`, every `x∈A` and every `n≥0`: `Eₙ(b,x)=bⁿ·f(γₙ(x))`.
+- `PD.extensionCoefficient_mem`: For `n>0` and `xᵢ∈I` the coefficient lies in `IB`.
+- `PD.dpow_sum_mul_map_eq_extensionCoefficient`: If `θ` is a divided power structure on `IB` and `f` is a
+  PD morphism from `(I,γ)` to `(IB,θ)`, then for all `x₁,…,xᵣ∈I`, all `b₁,…,bᵣ∈B` and all `n≥0`:
+  `θₙ(Σᵢbᵢ·f(xᵢ))=Eₙ(b,x)`.
 
-*Proof sketch.* Represent multiindices of total weight n by multisets of cardinality n on Fin r;
-their multiplicities are the exponents. Take the finite product in B and sum over these multisets.
+*Proof sketch.* Represent multiindices of total weight `n` by multisets of cardinality `n` on `Fin r`;
+their multiplicities are the exponents. Take the finite product in `B` and sum over these multisets.
 Each multiindex appears exactly once; there is no multinomial coefficient. ([Stacks
 Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.4.2 (tag 07H1), proof,
 flat case, first display.) *Needs:* Mathlib `DividedPowers`; Mathlib `DividedPowers.dpow_sum`;
@@ -1400,24 +1397,24 @@ Mathlib `DividedPowers.IsDPMorphism`.
 
 **Checks.**
 
-- `test_coefficient_empty_zero`: For r=0: E₀=1.
-- `test_coefficient_empty_positive`: For r=0: E₁=0.
-- `test_coefficient_quadratic`: For r=2, x₀,x₁∈I and b₀,b₁∈B:
-  E₂(b,x)=b₀²·f(γ₂(x₀))+b₀b₁·f(x₀x₁)+b₁²·f(γ₂(x₁)).
+- `test_coefficient_empty_zero`: For `r=0`: `E₀=1`.
+- `test_coefficient_empty_positive`: For `r=0`: `E₁=0`.
+- `test_coefficient_quadratic`: For `r=2`, `x₀,x₁∈I` and `b₀,b₁∈B`:
+  `E₂(b,x)=b₀²·f(γ₂(x₀))+b₀b₁·f(x₀x₁)+b₁²·f(γ₂(x₁))`.
 
-**Invariance under a finite scalar substitution.** Let aᵢⱼ∈A, cⱼ∈B and xᵢ∈I. Put bᵢ=Σⱼf(aᵢⱼ)cⱼ and
-yⱼ=Σᵢaᵢⱼxᵢ. Then Eₙ(b,x)=Eₙ(c,y) for every n, without a flatness assumption.
+**Invariance under a finite scalar substitution.** Let `aᵢⱼ∈A`, `cⱼ∈B` and `xᵢ∈I`. Put `bᵢ=Σⱼf(aᵢⱼ)cⱼ` and
+`yⱼ=Σᵢaᵢⱼxᵢ`. Then `Eₙ(b,x)=Eₙ(c,y)` for every `n`, without a flatness assumption.
 
-*Hypotheses.* A and B are commutative rings, f:A→B a ring map, I⊂A an ideal and γ a divided power
-structure on I. x₁,…,xᵣ∈I, aᵢⱼ∈A for 1≤i≤r and 1≤j≤s, c₁,…,cₛ∈B; bᵢ=Σⱼf(aᵢⱼ)cⱼ and yⱼ=Σᵢaᵢⱼxᵢ; n≥0.
+*Hypotheses.* `A` and `B` are commutative rings, `f:A→B` a ring map, `I⊂A` an ideal and `γ` a divided power
+structure on `I`. `x₁,…,xᵣ∈I`, `aᵢⱼ∈A` for `1≤i≤r` and `1≤j≤s`, `c₁,…,cₛ∈B`; `bᵢ=Σⱼf(aᵢⱼ)cⱼ` and `yⱼ=Σᵢaᵢⱼxᵢ`; `n≥0`.
 
-*Proof sketch.* Expand γ_d(yⱼ) by DividedPowers.dpow_sum and homogeneity: γ_d(Σᵢaᵢⱼxᵢ) is the sum,
-over (m₁ⱼ,…,mᵣⱼ) of total d, of ∏ᵢaᵢⱼ^{mᵢⱼ}γ_{mᵢⱼ}(xᵢ). Expand each power bᵢ^e=(Σⱼf(aᵢⱼ)cⱼ)^e by the
-multinomial theorem (Finset.sum_pow_eq_sum_piAntidiag). Both sides become sums over matrices m=(mᵢⱼ)
-of non-negative integers with total sum n. On the right, reduce ∏ⱼγ_{mᵢⱼ}(xᵢ) to
-multinomial(mᵢ₁,…,mᵢₛ)·γ_{eᵢ}(xᵢ), eᵢ=Σⱼmᵢⱼ, by DividedPowers.prod_dpow. For every matrix m both
-sides have the coefficient ∏ᵢmultinomial(mᵢ₁,…,mᵢₛ) on ∏ᵢⱼ(f(aᵢⱼ)cⱼ)^{mᵢⱼ}·∏ᵢf(γ_{eᵢ}(xᵢ)): on the
-left from the multinomial theorem, on the right from prod_dpow. The two sums agree term by term.
+*Proof sketch.* Expand `γ_d(yⱼ)` by `DividedPowers.dpow_sum` and homogeneity: `γ_d(Σᵢaᵢⱼxᵢ)` is the sum,
+over `(m₁ⱼ,…,mᵣⱼ)` of total `d`, of `∏ᵢaᵢⱼ^{mᵢⱼ}γ_{mᵢⱼ}(xᵢ)`. Expand each power `bᵢ^e=(Σⱼf(aᵢⱼ)cⱼ)^e` by the
+multinomial theorem (`Finset.sum_pow_eq_sum_piAntidiag`). Both sides become sums over matrices `m=(mᵢⱼ)`
+of non-negative integers with total sum `n`. On the right, reduce `∏ⱼγ_{mᵢⱼ}(xᵢ)` to
+`multinomial(mᵢ₁,…,mᵢₛ)·γ_{eᵢ}(xᵢ)`, `eᵢ=Σⱼmᵢⱼ`, by `DividedPowers.prod_dpow`. For every matrix `m` both
+sides have the coefficient `∏ᵢmultinomial(mᵢ₁,…,mᵢₛ)` on `∏ᵢⱼ(f(aᵢⱼ)cⱼ)^{mᵢⱼ}·∏ᵢf(γ_{eᵢ}(xᵢ))`: on the
+left from the multinomial theorem, on the right from `prod_dpow`. The two sums agree term by term.
 ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.4.2 (tag 07H1),
 proof, flat case, the claim introduced by "Next suppose that".) *Needs:* *The scalar-extension
 coefficient formula*; Mathlib `DividedPowers`; Mathlib `DividedPowers.dpow_sum`; Mathlib
@@ -1425,115 +1422,115 @@ coefficient formula*; Mathlib `DividedPowers`; Mathlib `DividedPowers.dpow_sum`;
 
 **Checks.**
 
-- For r=1, s=2: (f(a₁)c₁+f(a₂)c₂)ⁿ·f(γₙ(x))=Σ_{d₁+d₂=n}c₁^{d₁}c₂^{d₂}·f(γ_{d₁}(a₁x)γ_{d₂}(a₂x)),
-  which is the binomial theorem together with γ_{d₁}(x)γ_{d₂}(x)=choose(n,d₁)·γₙ(x).
-- For r=2, s=1: Σ_{e₁+e₂=n}(f(a₁)c)^{e₁}(f(a₂)c)^{e₂}·f(γ_{e₁}(x₁)γ_{e₂}(x₂))=cⁿ·f(γₙ(a₁x₁+a₂x₂)),
-  which is the addition law of γ.
+- For `r=1`, `s=2`: `(f(a₁)c₁+f(a₂)c₂)ⁿ·f(γₙ(x))=Σ_{d₁+d₂=n}c₁^{d₁}c₂^{d₂}·f(γ_{d₁}(a₁x)γ_{d₂}(a₂x))`,
+  which is the binomial theorem together with `γ_{d₁}(x)γ_{d₂}(x)=choose(n,d₁)·γₙ(x)`.
+- For `r=2`, `s=1`: `Σ_{e₁+e₂=n}(f(a₁)c)^{e₁}(f(a₂)c)^{e₂}·f(γ_{e₁}(x₁)γ_{e₂}(x₂))=cⁿ·f(γₙ(a₁x₁+a₂x₂))`,
+  which is the addition law of `γ`.
 
-- For n=1 both coefficient expressions equal Σᵢⱼf(aᵢⱼ)cⱼf(xᵢ); the substitution preserves the linear term.
+- For `n=1` both coefficient expressions equal `Σᵢⱼf(aᵢⱼ)cⱼf(xᵢ)`; the substitution preserves the linear term.
 
-**Independence of the expression over a flat algebra.** For a flat A-algebra B and xᵢ,x′ⱼ∈I,
-equality Σbᵢxᵢ=Σb′ⱼx′ⱼ in B implies Eₙ(b,x)=Eₙ(b′,x′) for every n.
+**Independence of the expression over a flat algebra.** For a flat `A`-algebra `B` and `xᵢ,x′ⱼ∈I`,
+equality `Σbᵢxᵢ=Σb′ⱼx′ⱼ` in `B` implies `Eₙ(b,x)=Eₙ(b′,x′)` for every `n`.
 
-*Hypotheses.* A is a commutative ring, B a flat commutative A-algebra with structure map f:A→B, I⊂A
-an ideal and γ a divided power structure on I; IB is the ideal of B generated by f(I).
-x₁,…,xᵣ,x′₁,…,x′ₛ∈I and b₁,…,bᵣ,b′₁,…,b′ₛ∈B with Σᵢbᵢf(xᵢ)=Σⱼb′ⱼf(x′ⱼ) in B; n≥0.
+*Hypotheses.* `A` is a commutative ring, `B` a flat commutative `A`-algebra with structure map `f:A→B`, `I⊂A`
+an ideal and `γ` a divided power structure on `I`; `IB` is the ideal of `B` generated by `f(I)`.
+`x₁,…,xᵣ,x′₁,…,x′ₛ∈I` and `b₁,…,bᵣ,b′₁,…,b′ₛ∈B` with `Σᵢbᵢf(xᵢ)=Σⱼb′ⱼf(x′ⱼ)` in `B`; `n≥0`.
 
 *Proof sketch.* Apply the equational criterion of flatness
-(Module.Flat.isTrivialRelation_of_sum_smul_eq_zero) to the combined relation with coefficients xᵢ
-and −x′ⱼ, and module elements bᵢ and b′ⱼ. It expresses both coefficient families in common elements
-cₖ with matrices aᵢₖ,a′ⱼₖ. For each k the relation gives Σaᵢₖxᵢ=Σa′ⱼₖx′ⱼ inside A. These common
-elements lie in I. Apply coefficient-substitution to both sides. They become the same coefficient
+(`Module.Flat.isTrivialRelation_of_sum_smul_eq_zero`) to the combined relation with coefficients `xᵢ`
+and `−x′ⱼ`, and module elements `bᵢ` and `b′ⱼ`. It expresses both coefficient families in common elements
+`cₖ` with matrices `aᵢₖ,a′ⱼₖ`. For each `k` the relation gives `Σaᵢₖxᵢ=Σa′ⱼₖx′ⱼ` inside `A`. These common
+elements lie in `I`. Apply coefficient-substitution to both sides. They become the same coefficient
 formula on the common list. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power
 Algebra, Lemma 23.4.2 (tag 07H1), proof, flat case, footnote.) *Needs:* *Invariance under a finite
 scalar substitution*; Mathlib `Module.Flat.isTrivialRelation_of_sum_smul_eq_zero`.
 
 **Checks.**
 
-- Flatness cannot be dropped: for A=F₂⟨t⟩ with I=A₊ and its divided powers (γ₂(t)=t^[2]) and
-  B=A/(t), the element t maps to 0 but t^[2] does not, because the ideal (t) is spanned by the t^[m]
-  with m odd; so E₂(1;t)≠0=E₂ of the empty presentation of 0.
-- For B=A and f=id both sides are γₙ(Σbᵢxᵢ), by the addition and homogeneity laws of γ.
+- Flatness cannot be dropped: for `A=𝔽₂⟨t⟩` with `I=A₊` and its divided powers `(γ₂(t)=t^[2])` and
+  `B=A/(t)`, the element `t` maps to 0 but `t^[2]` does not, because the ideal `(t)` is spanned by the `t^[m]`
+  with `m` odd; so `E₂(1;t)≠0=E₂` of the empty presentation of 0.
+- For `B=A` and `f=id` both sides are `γₙ(Σbᵢxᵢ)`, by the addition and homogeneity laws of `γ`.
 
-- For n=1, E₁(b,x)=Σᵢbᵢf(xᵢ), so equality is exactly equality of the two presentations.
+- For `n=1`, `E₁(b,x)=Σᵢbᵢf(xᵢ)`, so equality is exactly equality of the two presentations.
 
-**The additive candidate on a flat extension.** For B flat over A, define the candidate on IB by
-δₙ(z)=Eₙ(b,x) for any finite presentation z=Σbᵢ·f(xᵢ) with xᵢ∈I and bᵢ∈B; set it to zero outside IB.
+**The additive candidate on a flat extension.** For `B` flat over `A`, define the candidate on `IB` by
+`δₙ(z)=Eₙ(b,x)` for any finite presentation `z=Σbᵢ·f(xᵢ)` with `xᵢ∈I` and `bᵢ∈B`; set it to zero outside `IB`.
 
-*Hypotheses.* A is a commutative ring, B a flat commutative A-algebra with structure map f:A→B, I⊂A
-an ideal and γ a divided power structure on I; IB is the ideal of B generated by f(I).
+*Hypotheses.* `A` is a commutative ring, `B` a flat commutative `A`-algebra with structure map `f:A→B`, `I⊂A`
+an ideal and `γ` a divided power structure on `I`; `IB` is the ideal of `B` generated by `f(I)`.
 
 The API:
 
-- `PD.flatCandidate_formula`: For x₁,…,xᵣ∈I, b₁,…,bᵣ∈B and n≥0: δₙ(Σᵢbᵢ·f(xᵢ))=Eₙ(b,x).
-- `PD.flatCandidate_base`: For x∈I and every n≥0: δₙ(f(x))=f(γₙ(x)).
-- `PD.flatCandidate_outside`: For z∉IB and every n≥0: δₙ(z)=0.
+- `PD.flatCandidate_formula`: For `x₁,…,xᵣ∈I`, `b₁,…,bᵣ∈B` and `n≥0`: `δₙ(Σᵢbᵢ·f(xᵢ))=Eₙ(b,x)`.
+- `PD.flatCandidate_base`: For `x∈I` and every `n≥0`: `δₙ(f(x))=f(γₙ(x))`.
+- `PD.flatCandidate_outside`: For `z∉IB` and every `n≥0`: `δₙ(z)=0`.
 
 *Proof sketch.* Membership in the generated ideal supplies a finite presentation.
-Flat-presentation-independence proves choice independence. At n=0, every γ₀(xᵢ)=1 so the sole
-zero-weight multiindex gives one. At n=1 the coefficient is z; positive coefficients lie in IB.
+Flat-presentation-independence proves choice independence. At `n=0`, every `γ₀(xᵢ)=1` so the sole
+zero-weight multiindex gives one. At `n=1` the coefficient is `z`; positive coefficients lie in `IB`.
 Concatenate two presentations to prove addition: splitting a multiset between the two disjoint
-finite index sets gives the antidiagonal sum. For homogeneity multiply each bᵢ by a; total weight n
-gives the factor aⁿ. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra,
+finite index sets gives the antidiagonal sum. For homogeneity multiply each `bᵢ` by `a`; total weight `n`
+gives the factor `aⁿ`. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power Algebra,
 Lemma 23.4.2 (tag 07H1), proof, flat case, last paragraph.) *Needs:* *Additive divided-power
 candidates*; §PD.2 *The scalar-extension coefficient formula*; *Independence of the expression over a flat
 algebra*.
 
 **Checks.**
 
-- `test_flatCandidate_zero`: δ₀(0)=1.
-- `test_flatCandidate_scalar`: For b∈B, x∈I and n≥0: δₙ(b·f(x))=bⁿ·f(γₙ(x)).
-- `test_flatCandidate_quadratic`: For x,y∈I: δ₂(f(x)+f(y))=f(γ₂(x)+xy+γ₂(y)).
-- For B=A and f=id the candidate is the candidate of γ.
+- `test_flatCandidate_zero`: `δ₀(0)=1`.
+- `test_flatCandidate_scalar`: For `b∈B`, `x∈I` and `n≥0`: `δₙ(b·f(x))=bⁿ·f(γₙ(x))`.
+- `test_flatCandidate_quadratic`: For `x,y∈I`: `δ₂(f(x)+f(y))=f(γ₂(x)+xy+γ₂(y))`.
+- For `B=A` and `f=id` the candidate is the candidate of `γ`.
 
-**The flat candidate preserves the base operations.** For x∈I and every n, the flat candidate has
-δₙ(f(x))=f(γₙ(x)). In particular multiplication and iteration hold on the generating subset f(I) of
-IB.
+**The flat candidate preserves the base operations.** For `x∈I` and every `n`, the flat candidate has
+`δₙ(f(x))=f(γₙ(x))`. In particular multiplication and iteration hold on the generating subset `f(I)` of
+`IB`.
 
-*Hypotheses.* A is a commutative ring, B a flat commutative A-algebra with structure map f:A→B, I⊂A
-an ideal and γ a divided power structure on I; IB is the ideal of B generated by f(I). x∈I and n≥0.
+*Hypotheses.* `A` is a commutative ring, `B` a flat commutative `A`-algebra with structure map `f:A→B`, `I⊂A`
+an ideal and `γ` a divided power structure on `I`; `IB` is the ideal of `B` generated by `f(I)`. `x∈I` and `n≥0`.
 
-*Proof sketch.* Use the singleton presentation f(x)=1·f(x) in the flat-candidate formula. For
-multiplication apply f to the corresponding γ identity. For iteration with positive inner degree,
-γₙ(x) is again in I so apply the formula twice. ([Stacks Project](https://stacks.math.columbia.edu),
+*Proof sketch.* Use the singleton presentation `f(x)=1·f(x)` in the flat-candidate formula. For
+multiplication apply `f` to the corresponding `γ` identity. For iteration with positive inner degree,
+`γₙ(x)` is again in `I` so apply the formula twice. ([Stacks Project](https://stacks.math.columbia.edu),
 Divided Power Algebra, Lemma 23.4.2 (tag 07H1), proof, flat case, last paragraph.) *Needs:* *The
 additive candidate on a flat extension*; §PD.2 *The scalar-extension coefficient formula*; Mathlib
 `DividedPowers`.
 
 **Checks.**
 
-- δₙ(f(0)) is 1 for n=0 and 0 for n>0.
-- For x∈I: δ₂(f(x))·δ₁(f(x))=3·δ₃(f(x)), the image of γ₂(x)γ₁(x)=3γ₃(x).
+- `δₙ(f(0))` is 1 for `n=0` and 0 for `n>0`.
+- For `x∈I`: `δ₂(f(x))·δ₁(f(x))=3·δ₃(f(x))`, the image of `γ₂(x)γ₁(x)=3γ₃(x)`.
 
-- For x∈I and n=1, δ₁(f(x))=f(x), so the candidate preserves the base linear term.
+- For `x∈I` and `n=1`, `δ₁(f(x))=f(x)`, so the candidate preserves the base linear term.
 
-**Flat extension of divided powers.** If B is a flat A-algebra, construct the unique PD structure γᴮ
-on IB for which A→B is a PD morphism. Its operation on a finite expression Σᵢbᵢ·f(xᵢ) with xᵢ∈I and
-bᵢ∈B is Eₙ(b,x).
+**Flat extension of divided powers.** If `B` is a flat `A`-algebra, construct the unique PD structure `γᴮ`
+on `IB` for which `A→B` is a PD morphism. Its operation on a finite expression `Σᵢbᵢ·f(xᵢ)` with `xᵢ∈I` and
+`bᵢ∈B` is `Eₙ(b,x)`.
 
 `Suggested.lean` declares `PD.existsUnique_dividedPowers_map_of_flat`.
 
-*Hypotheses.* A is a commutative ring, B a flat commutative A-algebra with structure map f:A→B, I⊂A
-an ideal and γ a divided power structure on I; IB is the ideal of B generated by f(I).
+*Hypotheses.* `A` is a commutative ring, `B` a flat commutative `A`-algebra with structure map `f:A→B`, `I⊂A`
+an ideal and `γ` a divided power structure on `I`; `IB` is the ideal of `B` generated by `f(I)`.
 
 The API:
 
-- `PD.extendFlat_formula`: For x₁,…,xᵣ∈I, b₁,…,bᵣ∈B and n≥0: γᴮₙ(Σᵢbᵢ·f(xᵢ))=Eₙ(b,x).
-- `PD.extendFlat_isDPMorphism`: f is a PD morphism from (I,γ) to (IB,γᴮ).
-- `PD.extendFlat_unique`: If θ is a divided power structure on IB and f is a PD morphism from (I,γ)
-  to (IB,θ), then θ=γᴮ.
-- `PD.extendFlat_isDPMorphism_iff`: Let g:B→C be a ring map and κ a divided power structure on an
-  ideal K of C. Then g is a PD morphism from (IB,γᴮ) to (K,κ) if and only if g∘f is a PD morphism
-  from (I,γ) to (K,κ).
-- `PD.extendFlat_trans`: Let B be a flat A-algebra and C a flat B-algebra. Then C is a flat
-  A-algebra, (IB)C=IC, and the extension of γᴮ along B→C is equal to the extension of γ along A→C.
-- `PD.extendFlat_eq_ofRingEquiv`: If the structure map f:A→B is bijective, with associated ring
-  isomorphism e, then γᴮ is DividedPowers.ofRingEquiv applied to γ along e: γᴮₙ(e(x))=e(γₙ(x)) for
-  all x∈A and all n≥0.
+- `PD.extendFlat_formula`: For `x₁,…,xᵣ∈I`, `b₁,…,bᵣ∈B` and `n≥0`: `γᴮₙ(Σᵢbᵢ·f(xᵢ))=Eₙ(b,x)`.
+- `PD.extendFlat_isDPMorphism`: `f` is a PD morphism from `(I,γ)` to `(IB,γᴮ)`.
+- `PD.extendFlat_unique`: If `θ` is a divided power structure on `IB` and `f` is a PD morphism from `(I,γ)`
+  to `(IB,θ)`, then `θ=γᴮ`.
+- `PD.extendFlat_isDPMorphism_iff`: Let `g:B→C` be a ring map and `κ` a divided power structure on an
+  ideal `K` of `C`. Then `g` is a PD morphism from `(IB,γᴮ)` to `(K,κ)` if and only if `g∘f` is a PD morphism
+  from `(I,γ)` to `(K,κ)`.
+- `PD.extendFlat_trans`: Let `B` be a flat `A`-algebra and `C` a flat `B`-algebra. Then `C` is a flat
+  `A`-algebra, `(IB)C=IC`, and the extension of `γᴮ` along `B→C` is equal to the extension of `γ` along `A→C`.
+- `PD.extendFlat_eq_ofRingEquiv`: If the structure map `f:A→B` is bijective, with associated ring
+  isomorphism `e`, then `γᴮ` is `DividedPowers.ofRingEquiv` applied to `γ` along `e`: `γᴮₙ(e(x))=e(γₙ(x))` for
+  all `x∈A` and all `n≥0`.
 
-*Proof sketch.* The image of I generates IB. Apply the generator criterion to the flat candidate
+*Proof sketch.* The image of `I` generates `IB`. Apply the generator criterion to the flat candidate
 using this generating set. Flat-candidate-base transfers the multiplication and iteration identities
-on generators from γ. Apply extension-uniqueness to identify all possible extensions. ([Stacks
+on generators from `γ`. Apply extension-uniqueness to identify all possible extensions. ([Stacks
 Project](https://stacks.math.columbia.edu), Divided Power Algebra, Lemma 23.4.2 (tag 07H1),
 statement, condition (3), and proof, flat case.) *Needs:* *Divided powers from identities on
 generators*; §PD.2 *The additive candidate on a flat extension*; *The flat candidate preserves the base
@@ -1542,22 +1539,22 @@ Mathlib `DividedPowers.IsDPMorphism.of_comp`; Mathlib `DividedPowers.ofRingEquiv
 
 **Checks.**
 
-- `test_flat_identity`: For B=A and f=id: γᴮₙ(x)=γₙ(x) for every n≥0 and every x∈A.
-- `test_flat_principal`: If I=(x), then γᴮ is equal to the principal extension of γ along f
-  constructed from the generator x.
-- `test_flat_quadratic`: For b,c∈B and x,y∈I: γᴮ₂(b·f(x)+c·f(y))=b²·f(γ₂(x))+bc·f(xy)+c²·f(γ₂(y)).
-- `test_flat_equiv`: For a ring isomorphism e:A→B, taken as the structure map of the flat A-algebra
-  B: γᴮₙ(e(x))=e(γₙ(x)) for every x∈A and every n≥0; for x∉I both sides are 0.
-- For A=ℤ_p, I=(p) with PadicInt.dividedPowers p and B=ℤ_p[T]: γᴮₙ(p·g)=(pⁿ/n!)·gⁿ for every
-  g∈ℤ_p[T].
-- Along a ring isomorphism the extension is Mathlib's DividedPowers.ofRingEquiv.
-- When I is principal the extension equals the principal extension.
+- `test_flat_identity`: For `B=A` and `f=id`: `γᴮₙ(x)=γₙ(x)` for every `n≥0` and every `x∈A`.
+- `test_flat_principal`: If `I=(x)`, then `γᴮ` is equal to the principal extension of `γ` along `f`
+  constructed from the generator `x`.
+- `test_flat_quadratic`: For `b,c∈B` and `x,y∈I`: `γᴮ₂(b·f(x)+c·f(y))=b²·f(γ₂(x))+bc·f(xy)+c²·f(γ₂(y))`.
+- `test_flat_equiv`: For a ring isomorphism `e:A→B`, taken as the structure map of the flat `A`-algebra
+  `B`: `γᴮₙ(e(x))=e(γₙ(x))` for every `x∈A` and every `n≥0`; for `x∉I` both sides are 0.
+- For `A=ℤ_p`, `I=(p)` with `PadicInt.dividedPowers p` and `B=ℤ_p[T]`: `γᴮₙ(p·g)=(pⁿ/n!)·gⁿ` for every
+  `g∈ℤ_p[T]`.
+- Along a ring isomorphism the extension is Mathlib's `DividedPowers.ofRingEquiv`.
+- When `I` is principal the extension equals the principal extension.
 
-**The base map preserves flatly extended divided powers.** The algebra map A→B is a PD morphism, `DividedPowers.IsDPMorphism`, from
-(I,γ) to (IB,γᴮ). Consequently it evaluates γᴮₙ on every base image in all degrees.
+**The base map preserves flatly extended divided powers.** The algebra map `A→B` is a PD morphism, `DividedPowers.IsDPMorphism`, from
+`(I,γ)` to `(IB,γᴮ)`. Consequently it evaluates `γᴮₙ` on every base image in all degrees.
 
-*Hypotheses.* A is a commutative ring, B a flat commutative A-algebra with structure map f:A→B, I⊂A
-an ideal and γ a divided power structure on I; IB is the ideal of B generated by f(I).
+*Hypotheses.* `A` is a commutative ring, `B` a flat commutative `A`-algebra with structure map `f:A→B`, `I⊂A`
+an ideal and `γ` a divided power structure on `I`; `IB` is the ideal of `B` generated by `f(I)`.
 
 *Proof sketch.* The extended ideal condition is equality by definition. Use flat-candidate-base and
 the unchanged-operation API of the generator criterion. ([Stacks
@@ -1568,21 +1565,21 @@ on generators*.
 
 **Checks.**
 
-- For x∈I and every n: γᴮₙ(f(x))=f(γₙ(x)); in particular γᴮ₀(f(x))=1.
-- For B=A and f=id the statement is that the identity is a PD morphism of (I,γ).
+- For `x∈I` and every `n`: `γᴮₙ(f(x))=f(γₙ(x))`; in particular `γᴮ₀(f(x))=1`.
+- For `B=A` and `f=id` the statement is that the identity is a PD morphism of `(I,γ)`.
 
-- For I=0 the base map is a PD morphism between zero PD ideals, including degree zero at 0.
+- For `I=0` the base map is a PD morphism between zero PD ideals, including degree zero at 0.
 
-**Divided powers after localization.** Let S⊂A be multiplicative, B=S⁻¹A and γ on I. The unique
-extension to IB exists by flatness, and γᴮₙ(x/s)=γₙ(x)/sⁿ for x∈I, s∈S, n≥0.
+**Divided powers after localization.** Let `S⊂A` be multiplicative, `B=S⁻¹A` and `γ` on `I`. The unique
+extension to `IB` exists by flatness, and `γᴮₙ(x/s)=γₙ(x)/sⁿ` for `x∈I`, `s∈S`, `n≥0`.
 
 `Suggested.lean` declares `PD.dpow_localization`.
 
-*Hypotheses.* A is a commutative ring, S⊂A a multiplicative subset, B a localization of A at S, I⊂A
-an ideal and γ a divided power structure on I. x∈I, s∈S and n≥0.
+*Hypotheses.* `A` is a commutative ring, `S⊂A` a multiplicative subset, `B` a localization of `A` at `S`, `I⊂A`
+an ideal and `γ` a divided power structure on `I`. `x∈I`, `s∈S` and `n≥0`.
 
-*Proof sketch.* B is flat over A by IsLocalization.flat, so flat-extension applies. Write
-x/s=(1/s)f(x). Apply scalar homogeneity and flat-extension-map. The displayed denominator is sⁿ,
+*Proof sketch.* `B` is flat over `A` by `IsLocalization.flat`, so flat-extension applies. Write
+`x/s=(1/s)f(x)`. Apply scalar homogeneity and flat-extension-map. The displayed denominator is `sⁿ`,
 including denominator one in degree zero. ([Stacks Project](https://stacks.math.columbia.edu),
 Divided Power Algebra, Lemma 23.4.2 (tag 07H1), statement, condition (3).) *Needs:* *Flat extension
 of divided powers*; §PD.2 *The base map preserves flatly extended divided powers*; Mathlib
@@ -1590,45 +1587,43 @@ of divided powers*; §PD.2 *The base map preserves flatly extended divided power
 
 **Checks.**
 
-- For n=0, x=0 and s=1 both sides are 1.
-- For A=ℤ₂ with PadicInt.dividedPowers 2 on I=(2) and S the powers of 2: B=ℚ₂, IB is the unit ideal,
-  and γᴮₙ(x/2ᵏ)=γₙ(x)/2^{kn}=(x/2ᵏ)ⁿ/n!, the only divided power structure on an ideal of a
-  ℚ-algebra.
-- When I is principal, γᴮ is the principal extension of γ along A→S⁻¹A.
+- For `n=0`, `x=0` and `s=1` both sides are 1.
+- For `A=ℤ₂` with `PadicInt.dividedPowers 2` on `I=(2)` and `S` the powers of 2: `B=ℚ₂`, `IB` is the unit ideal,
+  and `γᴮₙ(x/2ᵏ)=γₙ(x)/2^{kn}=(x/2ᵏ)ⁿ/n!`, the only divided power structure on an ideal of a
+  `ℚ`-algebra.
+- When `I` is principal, `γᴮ` is the principal extension of `γ` along `A→S⁻¹A`.
 
 ### PD.4 The divided power filtration and PD nilpotence
 
-**Divided power filtration.** For n≥0 define Fⁿ_γI, also denoted I^[n], as the ideal generated by
-all finite products γ_(e₁)(x₁)⋯γ_(eₜ)(xₜ), where xⱼ∈I, eⱼ≥0 and ∑eⱼ≥n. Include the empty product
-with total degree zero. Thus the convention at n=0 is intrinsic to the same formula. The carrier is
-Ideal R and the operations are those of the given DividedPowers I.
+**Divided power filtration.** For `n≥0` define `Fⁿ_γI`, also denoted `I^[n]`, as the ideal generated by
+all finite products `γ_(e₁)(x₁)⋯γ_(eₜ)(xₜ)`, where `xⱼ∈I`, `eⱼ≥0` and `∑eⱼ≥n`. Include the empty product
+with total degree zero. Thus the convention at `n=0` is intrinsic to the same formula. The carrier is
+`Ideal R` and the operations are those of the given `DividedPowers I`.
 
 `Suggested.lean` declares `PD.pdFiltration`, `PD.pdFiltration_zero`, `PD.pdFiltration_one`.
 
-*Hypotheses.* R is a commutative ring, I an ideal of R and γ a divided power structure on I (γ :
-DividedPowers I). n and the weights e_j are natural numbers, the x_j are elements of I, and the
+*Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`). `n` and the weights `e_j` are natural numbers, the `x_j` are elements of `I`, and the
 empty product (value 1, weight 0) is allowed.
 
 The API:
 
-- `PD.pdFiltration_le_iff`: For any ideal K of R, Fⁿ_γI⊆K if and only if every finite weighted
-  product of total degree at least n belongs to K.
-- `PD.prod_dpow_mem_pdFiltration`: For xⱼ∈I and natural weights eⱼ whose sum is at least n, the
-  product ∏ⱼγ_(eⱼ)(xⱼ) belongs to Fⁿ_γI, including the empty word when n=0.
-- `PD.dpow_mem_pdFiltration`: For x∈I and n≥0, γ_n(x) belongs to Fⁿ_γI.
-- `PD.pdFiltration_eq_span_of_span`: If I=Ideal.span(S), then Fⁿ_γI is the ideal generated by the
-  finite products ∏_j γ_(e_j)(s_j) with s_j∈S and Σ_j e_j≥n.
+- `PD.pdFiltration_le_iff`: For any ideal `K` of `R`, `Fⁿ_γI⊆K` if and only if every finite weighted
+  product of total degree at least `n` belongs to `K`.
+- `PD.prod_dpow_mem_pdFiltration`: For `xⱼ∈I` and natural weights `eⱼ` whose sum is at least `n`, the
+  product `∏ⱼγ_(eⱼ)(xⱼ)` belongs to `Fⁿ_γI`, including the empty word when `n=0`.
+- `PD.dpow_mem_pdFiltration`: For `x∈I` and `n≥0`, `γ_n(x)` belongs to `Fⁿ_γI`.
+- `PD.pdFiltration_eq_span_of_span`: If `I=Ideal.span(S)`, then `Fⁿ_γI` is the ideal generated by the
+  finite products `∏_j γ_(e_j)(s_j)` with `s_j∈S` and `Σ_j e_j≥n`.
 
-*Proof sketch.* Let W_n be the set of all products γ_(e₁)(x₁)⋯γ_(eₜ)(xₜ) over finite lists of pairs
-(e_j,x_j) with x_j∈I and Σe_j≥n. Put Fⁿ_γI=Ideal.span(W_n). Ideal.span_le gives the containment
-criterion Fⁿ_γI⊆K ⇔ W_n⊆K; Ideal.subset_span gives membership of every word; the one-term list (n,x)
-gives γ_n(x)∈Fⁿ_γI. A factor of weight 0 equals γ₀(x)=1 and can be deleted without changing the
-product or the total weight. Generators: if I=Ideal.span(S), expand each factor γ_e(x) with x=Σa_i
-s_i by DividedPowers.dpow_sum and the scalar rule γ_e(a s)=a^e γ_e(s) into an R-combination of
-products of γ_(e′)(s), s∈S, of the same total weight; hence Fⁿ_γI is generated by the words with all
-x_j∈S. Examples: for the zero ideal a word of positive weight has a factor γ_e(0) with e>0, which is
-0 (DividedPowers.dpow_eval_zero). In ℤ₂, PadicInt.coe_dpow_eq gives γ₂(2)=2²/2!=2, and 2∉(2)²=(4) by
-Ideal.span_singleton_pow, PadicInt.mem_span_pow_iff_le_valuation and PadicInt.valuation_p. ([Stacks
+*Proof sketch.* Let `W_n` be the set of all products `γ_(e₁)(x₁)⋯γ_(eₜ)(xₜ)` over finite lists of pairs
+`(e_j,x_j)` with `x_j∈I` and `Σe_j≥n`. Put `Fⁿ_γI=Ideal.span(W_n)`. `Ideal.span_le` gives the containment
+criterion `Fⁿ_γI⊆K ⇔ W_n⊆K`; `Ideal.subset_span` gives membership of every word; the one-term list `(n,x)`
+gives `γ_n(x)∈Fⁿ_γI`. A factor of weight 0 equals `γ₀(x)=1` and can be deleted without changing the
+product or the total weight. Generators: if `I=Ideal.span(S)`, expand each factor `γ_e(x)` with `x=Σa_i s_i` by `DividedPowers.dpow_sum` and the scalar rule `γ_e(a s)=a^e γ_e(s)` into an `R`-combination of
+products of `γ_(e′)(s)`, `s∈S`, of the same total weight; hence `Fⁿ_γI` is generated by the words with all
+`x_j∈S`. Examples: for the zero ideal a word of positive weight has a factor `γ_e(0)` with `e>0`, which is
+0 (`DividedPowers.dpow_eval_zero`). In `ℤ₂`, `PadicInt.coe_dpow_eq` gives `γ₂(2)=2²/2!=2`, and `2∉(2)²=(4)` by
+`Ideal.span_singleton_pow`, `PadicInt.mem_span_pow_iff_le_valuation` and `PadicInt.valuation_p`. ([Stacks
 Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section 60.6 (07HQ), unnumbered
 paragraph between Lemma 60.6.2 (07HS) and Lemma 60.6.3 (07HT).) *Needs:* Mathlib `DividedPowers`;
 Mathlib `Ideal.span`; Mathlib `Ideal.span_le`; Mathlib `Ideal.subset_span`; Mathlib
@@ -1638,110 +1633,104 @@ Mathlib `PadicInt.mem_span_pow_iff_le_valuation`; Mathlib `Ideal.span_singleton_
 
 **Checks.**
 
-- `pd_filtration_empty_word`: For the zero ideal with the divided power structure dividedPowersBot,
-  F⁰(0)=R: the empty word supplies 1.
-- `pd_filtration_zero_ideal`: For the zero ideal with dividedPowersBot and every n>0, Fⁿ(0)=0,
+- `pd_filtration_empty_word`: For the zero ideal with the divided power structure `dividedPowersBot`,
+  `F⁰(0)=R`: the empty word supplies 1.
+- `pd_filtration_zero_ideal`: For the zero ideal with `dividedPowersBot` and every `n>0`, `Fⁿ(0)=0`,
   because a word of positive total weight has a positive-weight factor evaluated at zero.
-- `pd_filtration_two_adic_counterexample`: For R=ℤ₂, I=(2) and the canonical PadicInt.dividedPowers
-  2, the element 2 lies in F²I but not in I². Indeed γ₂(2)=2 and v₂(2)=1<2.
-- `pd_filtration_two_adic_constant`: For R=ℤ₂, I=(2) and γ=PadicInt.dividedPowers 2: Fⁿ_γI=(2) for
-  every n≥1.
-- F⁰_γI=R and F¹_γI=I for every (I,γ); for the zero ideal Fⁿ=0 for all n≥1.
-- For I=(2)⊂ℤ₂ with the divided powers PadicInt.dividedPowers 2: γ₂(2)=2 lies in F² but not in
-  I²=(4); more precisely Fⁿ=(2) for every n≥1, because γ_(2^a)(2)=2^(2^a)/(2^a)! has 2-adic
+- `pd_filtration_two_adic_counterexample`: For `R=ℤ₂`, `I=(2)` and the canonical `PadicInt.dividedPowers 2`, the element 2 lies in `F²I` but not in `I²`. Indeed `γ₂(2)=2` and `v₂(2)=1<2`.
+- `pd_filtration_two_adic_constant`: For `R=ℤ₂`, `I=(2)` and `γ=PadicInt.dividedPowers 2`: `Fⁿ_γI=(2)` for
+  every `n≥1`.
+- `F⁰_γI=R` and `F¹_γI=I` for every `(I,γ)`; for the zero ideal `Fⁿ=0` for all `n≥1`.
+- For `I=(2)⊂ℤ₂` with the divided powers `PadicInt.dividedPowers 2`: `γ₂(2)=2` lies in `F²` but not in
+  `I²=(4)`; more precisely `Fⁿ=(2)` for every `n≥1`, because `γ_(2^a)(2)=2^(2^a)/(2^a)!` has 2-adic
   valuation 1.
 
-**Zeroth divided power filtration step.** For every divided-power ideal (I,γ), F⁰_γI=R, as an
+**Zeroth divided power filtration step.** For every divided-power ideal `(I,γ)`, `F⁰_γI=R`, as an
 equality of ideals.
 
-*Hypotheses.* R is a commutative ring, I an ideal of R and γ a divided power structure on I (γ :
-DividedPowers I).
+*Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`).
 
-*Proof sketch.* The empty list has weight zero and product 1, so Ideal.subset_span puts 1 in F⁰_γI.
-Apply Ideal.eq_top_iff_one. This proof also covers the zero ring. ([Stacks
+*Proof sketch.* The empty list has weight zero and product 1, so `Ideal.subset_span` puts 1 in `F⁰_γI`.
+Apply `Ideal.eq_top_iff_one`. This proof also covers the zero ring. ([Stacks
 Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section 60.6 (07HQ), unnumbered
 paragraph between Lemma 60.6.2 (07HS) and Lemma 60.6.3 (07HT).) *Needs:* §PD.4 *Divided power filtration*;
 Mathlib `Ideal.subset_span`; Mathlib `Ideal.eq_top_iff_one`.
 
 **Checks.**
 
-- For the zero ideal of a non-zero ring R: F⁰=R≠0, while Fⁿ=0 for n≥1.
+- For the zero ideal of a non-zero ring `R`: `F⁰=R≠0`, while `Fⁿ=0` for `n≥1`.
 
-- For R=ℚ[x] and I=(x), the empty word puts 1 in F⁰ even though 1∉I.
+- For `R=ℚ[x]` and `I=(x)`, the empty word puts 1 in `F⁰` even though `1∉I`.
 
-- For the zero ring, F⁰ is its unit ideal, which also equals its zero ideal.
+- For the zero ring, `F⁰` is its unit ideal, which also equals its zero ideal.
 
-**First divided power filtration step.** For every divided-power ideal (I,γ), F¹_γI=I.
+**First divided power filtration step.** For every divided-power ideal `(I,γ)`, `F¹_γI=I`.
 
-*Hypotheses.* R is a commutative ring, I an ideal of R and γ a divided power structure on I (γ :
-DividedPowers I).
+*Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`).
 
-*Proof sketch.* A list of total weight at least one has a term with eⱼ>0. The field
-DividedPowers.dpow_mem puts γ_(eⱼ)(xⱼ) in I, and multiplying by the other factors stays in I. Apply
-Ideal.span_le. For x∈I the singleton list (1,x) generates γ₁(x)=x, by DividedPowers.dpow_one and
-Ideal.subset_span. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology,
+*Proof sketch.* A list of total weight at least one has a term with `eⱼ>0`. The field
+`DividedPowers.dpow_mem` puts `γ_(eⱼ)(xⱼ)` in `I`, and multiplying by the other factors stays in `I`. Apply
+`Ideal.span_le`. For `x∈I` the singleton list `(1,x)` generates `γ₁(x)=x`, by `DividedPowers.dpow_one` and
+`Ideal.subset_span`. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology,
 Section 60.6 (07HQ), unnumbered paragraph between Lemma 60.6.2 (07HS) and Lemma 60.6.3 (07HT).)
 *Needs:* §PD.4 *Divided power filtration*; Mathlib `DividedPowers`; Mathlib `Ideal.span_le`; Mathlib
 `Ideal.subset_span`.
 
 **Checks.**
 
-- For I=(2)⊂ℤ₂ with its canonical divided powers F¹=(2); for the zero ideal F¹=0.
+- For `I=(2)⊂ℤ₂` with its canonical divided powers `F¹=(2)`; for the zero ideal `F¹=0`.
 
-- For R=ℚ[x] and I=(x), F¹=(x); the scalar 1 is outside F¹.
+- For `R=ℚ[x]` and `I=(x)`, `F¹=(x)`; the scalar 1 is outside `F¹`.
 
-- For a rational algebra and the unit ideal with its rational divided powers, F¹=R.
+- For a rational algebra and the unit ideal with its rational divided powers, `F¹=R`.
 
-**Decreasing divided power filtration.** The function n↦Fⁿ_γI is antitone: if n≤m, then Fᵐ_γI⊆Fⁿ_γI.
+**Decreasing divided power filtration.** The function `n↦Fⁿ_γI` is antitone: if `n≤m`, then `Fᵐ_γI⊆Fⁿ_γI`.
 
-*Hypotheses.* R is a commutative ring, I an ideal of R and γ a divided power structure on I (γ :
-DividedPowers I).
+*Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`).
 
-*Proof sketch.* A word of total weight at least m also has total weight at least n. Apply
-Ideal.span_mono to the inclusion of generating sets. ([Stacks
+*Proof sketch.* A word of total weight at least `m` also has total weight at least `n`. Apply
+`Ideal.span_mono` to the inclusion of generating sets. ([Stacks
 Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section 60.6 (07HQ), unnumbered
 paragraph between Lemma 60.6.2 (07HS) and Lemma 60.6.3 (07HT).) *Needs:* §PD.4 *Divided power filtration*;
 Mathlib `Ideal.span_mono`.
 
 **Checks.**
 
-- For I=(2)⊂ℤ₂: F⁰=ℤ₂⊋F¹=(2), and Fⁿ=(2) for all n≥1, so the filtration need not be strictly
+- For `I=(2)⊂ℤ₂`: `F⁰=ℤ₂⊋F¹=(2)`, and `Fⁿ=(2)` for all `n≥1`, so the filtration need not be strictly
   decreasing.
-- For the zero ideal: F⁰=R⊇F¹=0.
+- For the zero ideal: `F⁰=R⊇F¹=0`.
 
-- For R=ℚ[x] and I=(x), F²=(x²)⊊F¹=(x), so a reverse inclusion would fail.
+- For `R=ℚ[x]` and `I=(x)`, `F²=(x²)⊊F¹=(x)`, so a reverse inclusion would fail.
 
-**Multiplicativity of divided power filtration.** For all m,n≥0, (Fᵐ_γI)(Fⁿ_γI)⊆F^(m+n)_γI.
+**Multiplicativity of divided power filtration.** For all `m,n≥0`, `(Fᵐ_γI)(Fⁿ_γI)⊆F^(m+n)_γI`.
 
-*Hypotheses.* R is a commutative ring, I an ideal of R and γ a divided power structure on I (γ :
-DividedPowers I). m and n are natural numbers.
+*Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`). `m` and `n` are natural numbers.
 
-*Proof sketch.* Use Ideal.span_mul_span to reduce the product of generated ideals to pairwise
+*Proof sketch.* Use `Ideal.span_mul_span` to reduce the product of generated ideals to pairwise
 products of generating words. Concatenate the two finite lists. Its total weight is the sum of the
-weights and its value is the product of the two values. Ideal.subset_span puts this concatenated
-word in F^(m+n)_γI; Ideal.span_le completes the inclusion. ([Stacks
+weights and its value is the product of the two values. `Ideal.subset_span` puts this concatenated
+word in `F^(m+n)_γI`; `Ideal.span_le` completes the inclusion. ([Stacks
 Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section 60.6 (07HQ), unnumbered
 paragraph between Lemma 60.6.2 (07HS) and Lemma 60.6.3 (07HT).) *Needs:* §PD.4 *Divided power filtration*;
 Mathlib `Ideal.span_mul_span`; Mathlib `Ideal.span_le`; Mathlib `Ideal.subset_span`.
 
 **Checks.**
 
-- For I=(2)⊂ℤ₂ with its canonical divided powers: F¹·F¹=(4)⊊F²=(2), so the inclusion can be strict.
+- For `I=(2)⊂ℤ₂` with its canonical divided powers: `F¹·F¹=(4)⊊F²=(2)`, so the inclusion can be strict.
 
-- When m=0, F⁰Fⁿ=RFⁿ=Fⁿ, so the inclusion is equality.
+- When `m=0`, `F⁰Fⁿ=RFⁿ=Fⁿ`, so the inclusion is equality.
 
-- For R=ℚ[x] and I=(x), FᵐFⁿ=(x^(m+n))=F^(m+n).
+- For `R=ℚ[x]` and `I=(x)`, `FᵐFⁿ=(x^(m+n))=F^(m+n)`.
 
-**Ordinary powers inside divided powers.** For every n≥0, Iⁿ⊆Fⁿ_γI, with the usual ideal power on
+**Ordinary powers inside divided powers.** For every `n≥0`, `Iⁿ⊆Fⁿ_γI`, with the usual ideal power on
 the left.
 
 `Suggested.lean` declares `PD.pow_le_pdFiltration`.
 
-*Hypotheses.* R is a commutative ring, I an ideal of R and γ a divided power structure on I (γ :
-DividedPowers I).
+*Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`).
 
-*Proof sketch.* Induct on n. The base case is pdFiltration_zero and I⁰=R. For the successor multiply
-the induction inclusion by I=F¹_γI using pdFiltration_one. Apply pdFiltration_mul and the ordinary
+*Proof sketch.* Induct on `n`. The base case is `pdFiltration_zero` and `I⁰=R`. For the successor multiply
+the induction inclusion by `I=F¹_γI` using `pdFiltration_one`. Apply pdFiltration_mul and the ordinary
 ideal-power recursion. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology,
 Section 60.6 (07HQ), unnumbered paragraph between Lemma 60.6.2 (07HS) and Lemma 60.6.3 (07HT).)
 *Needs:* §PD.4 *Zeroth divided power filtration step*; §PD.4 *First divided power filtration step*;
@@ -1749,25 +1738,24 @@ Section 60.6 (07HQ), unnumbered paragraph between Lemma 60.6.2 (07HS) and Lemma 
 
 **Checks.**
 
-- For the canonical divided powers on (2) in ℤ₂ the n=2 inclusion is strict.
+- For the canonical divided powers on `(2)` in `ℤ₂` the `n=2` inclusion is strict.
 
-- At n=0 both ideals are R, including for the zero ideal.
+- At `n=0` both ideals are `R`, including for the zero ideal.
 
-- For R=ℚ[x] and I=(x), the inclusion at n=2 is equality (x²)=F².
+- For `R=ℚ[x]` and `I=(x)`, the inclusion at `n=2` is equality `(x²)=F²`.
 
-**Divided power maps preserve filtration.** Let f:R→S be a ring homomorphism, J an ideal of S and δ
-a divided-power structure on J. If f is a divided-power morphism from (I,γ) to (J,δ), then
-f(Fⁿ_γI)S⊆Fⁿ_δJ for every n≥0, where the left side is Ideal.map.
+**Divided power maps preserve filtration.** Let `f:R→S` be a ring homomorphism, `J` an ideal of `S` and `δ`
+a divided-power structure on `J`. If `f` is a divided-power morphism from `(I,γ)` to `(J,δ)`, then
+`f(Fⁿ_γI)S⊆Fⁿ_δJ` for every `n≥0`, where the left side is `Ideal.map`.
 
-*Hypotheses.* R is a commutative ring, I an ideal of R and γ a divided power structure on I (γ :
-DividedPowers I). S is a commutative ring, J an ideal of S and δ a divided power structure on J;
-f:R→S is a ring homomorphism that is a divided power morphism from (I,γ) to (J,δ)
-(DividedPowers.IsDPMorphism γ δ f).
+*Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`). `S` is a commutative ring, `J` an ideal of `S` and `δ` a divided power structure on `J`;
+`f:R→S` is a ring homomorphism that is a divided power morphism from `(I,γ)` to `(J,δ)`
+(`DividedPowers.IsDPMorphism γ δ f`).
 
-*Proof sketch.* Use Ideal.map_span and Ideal.span_le to test images of generating words. The
-defining ideal-containment condition sends every xⱼ∈I into J. DividedPowers.IsDPMorphism.map_dpow
-and multiplicativity of f identify the image with the word of the same weights in J. Apply
-Ideal.subset_span. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology,
+*Proof sketch.* Use `Ideal.map_span` and `Ideal.span_le` to test images of generating words. The
+defining ideal-containment condition sends every `xⱼ∈I` into `J`. `DividedPowers.IsDPMorphism.map_dpow`
+and multiplicativity of `f` identify the image with the word of the same weights in `J`. Apply
+`Ideal.subset_span`. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology,
 Section 60.6 (07HQ), unnumbered paragraph between Lemma 60.6.2 (07HS) and Lemma 60.6.3 (07HT).)
 *Needs:* §PD.4 *Divided power filtration*; Mathlib `DividedPowers.IsDPMorphism`; Mathlib
 `DividedPowers.IsDPMorphism.map_dpow`; Mathlib `Ideal.map_span`; Mathlib `Ideal.span_le`; Mathlib
@@ -1775,28 +1763,26 @@ Section 60.6 (07HQ), unnumbered paragraph between Lemma 60.6.2 (07HS) and Lemma 
 
 **Checks.**
 
-- For the identity of R viewed as a divided power morphism from (0,dividedPowersBot) to (I,γ), the
-  inclusion reads Fⁿ(0)=0⊆Fⁿ_γI for n≥1; it is strict for n=1 when I≠0.
+- For the identity of `R` viewed as a divided power morphism from `(0,dividedPowersBot)` to `(I,γ)`, the
+  inclusion reads `Fⁿ(0)=0⊆Fⁿ_γI` for `n≥1`; it is strict for `n=1` when `I≠0`.
 
-- For the identity PD morphism of (I,γ), the image of Fⁿ is exactly Fⁿ for every n.
+- For the identity PD morphism of `(I,γ)`, the image of `Fⁿ` is exactly `Fⁿ` for every `n`.
 
-- At n=0, any unital PD ring map sends the unit ideal to the unit ideal.
+- At `n=0`, any unital PD ring map sends the unit ideal to the unit ideal.
 
-**Divided power filtrations under ideal-generating maps.** Let f:(R,I,γ)→(S,J,δ) be a divided power
-morphism with I.map(f)=J. Then (Fⁿ_γI).map(f)=Fⁿ_δJ for every n≥0. The ring map need not be
+**Divided power filtrations under ideal-generating maps.** Let `f:(R,I,γ)→(S,J,δ)` be a divided power
+morphism with `I.map(f)=J`. Then `(Fⁿ_γI).map(f)=Fⁿ_δJ` for every `n≥0`. The ring map need not be
 surjective.
 
-*Hypotheses.* R is a commutative ring, I an ideal of R and γ a divided power structure on I (γ :
-DividedPowers I). S is a commutative ring, J an ideal of S and δ a divided power structure on J;
-f:R→S is a ring homomorphism that is a divided power morphism from (I,γ) to (J,δ)
-(DividedPowers.IsDPMorphism γ δ f). I.map(f)=J; no surjectivity hypothesis on f.
+*Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`). `S` is a commutative ring, `J` an ideal of `S` and `δ` a divided power structure on `J`;
+`f:R→S` is a ring homomorphism that is a divided power morphism from `(I,γ)` to `(J,δ)`
+(`DividedPowers.IsDPMorphism γ δ f`). `I.map(f)=J`; no surjectivity hypothesis on `f`.
 
-*Proof sketch.* The inclusion from left to right is pd-filtration-map. Every y∈J is a finite sum Σ
-a_i f(x_i), with a_i∈S and x_i∈I. Apply the divided-power addition and scalar axioms to δ_e(y): its
-summands are products ∏ a_i^{e_i} f(γ_{e_i}(x_i)) with Σ e_i=e. Terms of exponent zero contribute 1.
-Expand every factor of a generating word of Fⁿ_δJ in this way. Each resulting summand is an
-S-multiple of the image of a word in the γ_{e_i}(x_i), of the same total weight ≥n. Thus it belongs
-to Ideal.map f (Fⁿ_γI). Ideal.span_le gives the reverse inclusion; degree zero is immediate.
+*Proof sketch.* The inclusion from left to right is pd-filtration-map. Every `y∈J` is a finite sum `Σ a_i f(x_i)`, with `a_i∈S` and `x_i∈I`. Apply the divided-power addition and scalar axioms to `δ_e(y)`: its
+summands are products `∏ a_i^{e_i} f(γ_{e_i}(x_i))` with `Σ e_i=e`. Terms of exponent zero contribute 1.
+Expand every factor of a generating word of `Fⁿ_δJ` in this way. Each resulting summand is an
+`S`-multiple of the image of a word in the `γ_{e_i}(x_i)`, of the same total weight `≥n`. Thus it belongs
+to `Ideal.map f (Fⁿ_γI)`. `Ideal.span_le` gives the reverse inclusion; degree zero is immediate.
 ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section 60.6 (07HQ),
 unnumbered paragraph between Lemma 60.6.2 (07HS) and Lemma 60.6.3 (07HT).) *Needs:* *Divided power
 maps preserve filtration*; Mathlib `DividedPowers.IsDPMorphism.map_dpow`; Mathlib `Ideal.map_span`;
@@ -1804,24 +1790,23 @@ Mathlib `Ideal.span_le`; Mathlib `Ideal.subset_span`.
 
 **Checks.**
 
-- For the quotient map ℤ₂→ℤ/4 and the canonical divided powers on (2), with the induced ones on
-  (2)⊂ℤ/4: the image of Fⁿ((2))=(2) is (2)=Fⁿ((2)⊂ℤ/4) for all n≥1.
-- The hypothesis I.map(f)=J is needed: for the identity of R from (0,dividedPowersBot) to (I,γ) with
-  I≠0 the image of F¹(0)=0 is not F¹_γI=I.
-- For the non-surjective inclusion ℤ_(p)→ℤ_(p)[t] and the canonical divided powers on (p), the image
-  ideal of every PD filtration level equals that level on (p)⊂ℤ_(p)[t]; the coefficients t in sums
+- For the quotient map `ℤ₂→ℤ/4` and the canonical divided powers on `(2)`, with the induced ones on
+  `(2)⊂ℤ/4`: the image of `Fⁿ((2))=(2)` is `(2)=Fⁿ((2)⊂ℤ/4)` for all `n≥1`.
+- The hypothesis `I.map(f)=J` is needed: for the identity of `R` from `(0,dividedPowersBot)` to `(I,γ)` with
+  `I≠0` the image of `F¹(0)=0` is not `F¹_γI=I`.
+- For the non-surjective inclusion `ℤ_(p)→ℤ_(p)[t]` and the canonical divided powers on `(p)`, the image
+  ideal of every PD filtration level equals that level on `(p)⊂ℤ_(p)[t]`; the coefficients `t` in sums
   are handled by the scalar axiom.
 
-**Rational divided powers equal ordinary powers.** If R is a ℚ-algebra, then for every ideal I,
-every divided-power structure γ on I and n≥0, Fⁿ_γI=Iⁿ.
+**Rational divided powers equal ordinary powers.** If `R` is a `ℚ`-algebra, then for every ideal `I`,
+every divided-power structure `γ` on `I` and `n≥0`, `Fⁿ_γI=Iⁿ`.
 
-*Hypotheses.* R is a commutative ring, I an ideal of R and γ a divided power structure on I (γ :
-DividedPowers I). R is a ℚ-algebra.
+*Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`). `R` is a `ℚ`-algebra.
 
-*Proof sketch.* For x∈I, DividedPowers.RatAlgebra.dpow_eq_inv_fact_smul gives γ_e(x)=(1/e!)xᵉ,
-including e=0. By Ideal.pow_mem_pow, xᵉ belongs to Iᵉ. Multiplication by the rational scalar
-preserves that ideal. Induction on word length places each product of weight w in Iʷ. For w≥n,
-Ideal.pow_le_pow_right gives Iʷ⊆Iⁿ. Ideal.span_le yields Fⁿ_γI⊆Iⁿ. The reverse inclusion is
+*Proof sketch.* For `x∈I`, `DividedPowers.RatAlgebra.dpow_eq_inv_fact_smul` gives `γ_e(x)=(1/e!)xᵉ`,
+including `e=0`. By `Ideal.pow_mem_pow`, `xᵉ` belongs to `Iᵉ`. Multiplication by the rational scalar
+preserves that ideal. Induction on word length places each product of weight `w` in Iʷ. For `w≥n`,
+`Ideal.pow_le_pow_right` gives `Iʷ⊆Iⁿ`. `Ideal.span_le` yields `Fⁿ_γI⊆Iⁿ`. The reverse inclusion is
 pd-filtration-ordinary-powers. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline
 Cohomology, Section 60.6 (07HQ), unnumbered paragraph between Lemma 60.6.2 (07HS) and Lemma 60.6.3
 (07HT).) *Needs:* §PD.4 *Ordinary powers inside divided powers*; Mathlib
@@ -1830,42 +1815,41 @@ Cohomology, Section 60.6 (07HQ), unnumbered paragraph between Lemma 60.6.2 (07HS
 
 **Checks.**
 
-- For R=ℚ[x], I=(x): Fⁿ_γI=(xⁿ).
-- For I=(2)⊂ℤ₂, which is not a ℚ-algebra, F²=(2)≠I²=(4).
+- For `R=ℚ[x]`, `I=(x)`: `Fⁿ_γI=(xⁿ)`.
+- For `I=(2)⊂ℤ₂`, which is not a `ℚ`-algebra, `F²=(2)≠I²=(4)`.
 
-- For I=0 over a nonzero rational algebra, F⁰=R and Fⁿ=0 for n>0, matching the ordinary powers.
+- For `I=0` over a nonzero rational algebra, `F⁰=R` and `Fⁿ=0` for `n>0`, matching the ordinary powers.
 
-**PD-nilpotent divided power ideals and ordinary nilpotence.** A divided power ideal (I,γ) of a
-commutative ring R is PD-nilpotent if Fⁿ_γI=0 for some n≥1. Relation to the ordinary notions of
-Mathlib: PD-nilpotent ⇒ IsNilpotent I (Iᴺ=0 for some N; N=n works because Iⁿ⊆Fⁿ_γI) ⇒ I≤nilradical R
-(every element of I is nilpotent). Neither implication is an equivalence: (2)⊂ℤ/4 with the divided
-powers induced from ℤ₂ satisfies (2)²=0 and is not PD-nilpotent; the augmentation ideal of F_p⟨x⟩
-lies in the nilradical (y^p=p!·γ_p(y)=0) and is not nilpotent. If p is a prime that is nilpotent in
-R/I, then I≤nilradical R if and only if p is nilpotent in R.
+**PD-nilpotent divided power ideals and ordinary nilpotence.** A divided power ideal `(I,γ)` of a
+commutative ring `R` is PD-nilpotent if `Fⁿ_γI=0` for some `n≥1`. Relation to the ordinary notions of
+Mathlib: PD-nilpotent `⇒ IsNilpotent I` (`Iᴺ=0` for some `N`; `N=n` works because `Iⁿ⊆Fⁿ_γI`) `⇒ I≤nilradical R`
+(every element of `I` is nilpotent). Neither implication is an equivalence: `(2)⊂ℤ/4` with the divided
+powers induced from `ℤ₂` satisfies `(2)²=0` and is not PD-nilpotent; the augmentation ideal of `𝔽_p⟨x⟩`
+lies in the nilradical (`y^p=p!·γ_p(y)=0`) and is not nilpotent. If `p` is a prime that is nilpotent in
+`R/I`, then `I≤nilradical R` if and only if `p` is nilpotent in `R`.
 
 `Suggested.lean` declares `PD.IsPDNilpotent`, `PD.IsPDNilpotent.isNilpotent`.
 
-*Hypotheses.* R is a commutative ring, I an ideal of R and γ a divided power structure on I (γ :
-DividedPowers I). In the last sentence p is a prime number and some power of p lies in I.
+*Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`). In the last sentence `p` is a prime number and some power of `p` lies in `I`.
 
 The API:
 
-- `Crystalline.pdNilpotent_iff`: PD nilpotent iff FⁿI=0 for some n>0.
-- `Crystalline.pdNilpotent_ordinary`: If Fⁿ_γI=0 with n≥1 then Iⁿ=0; in particular a PD-nilpotent
-  ideal I satisfies IsNilpotent I.
-- `Crystalline.pdNilpotent_map`: If f:R→S is a surjective divided power morphism from (I,γ) to (J,δ)
-  with I.map(f)=J and (I,γ) is PD-nilpotent, then (J,δ) is PD-nilpotent.
-- `Crystalline.pdIdeal_le_nilradical_iff`: Let (I,γ) be a divided power ideal of R and p a prime
-  nilpotent in R/I. Then I≤nilradical R if and only if p is nilpotent in R.
+- `Crystalline.pdNilpotent_iff`: PD nilpotent iff `FⁿI=0` for some `n>0`.
+- `Crystalline.pdNilpotent_ordinary`: If `Fⁿ_γI=0` with `n≥1` then `Iⁿ=0`; in particular a PD-nilpotent
+  ideal `I` satisfies `IsNilpotent I`.
+- `Crystalline.pdNilpotent_map`: If `f:R→S` is a surjective divided power morphism from `(I,γ)` to `(J,δ)`
+  with `I.map(f)=J` and `(I,γ)` is PD-nilpotent, then `(J,δ)` is PD-nilpotent.
+- `Crystalline.pdIdeal_le_nilradical_iff`: Let `(I,γ)` be a divided power ideal of `R` and `p` a prime
+  nilpotent in `R/I`. Then `I≤nilradical R` if and only if `p` is nilpotent in `R`.
 
-*Proof sketch.* Define IsPDNilpotent γ as: there is n≥1 with Fⁿ_γI=0. If Fⁿ_γI=0 then Iⁿ⊆Fⁿ_γI=0
-(pd-filtration-ordinary-powers), so IsNilpotent I. If Iᴺ=0 then xᴺ=0 for x∈I, so I≤nilradical R.
-Criterion. Let p^r∈I. If p^N=0 in R, then for x∈I, x^(pN)=(pN)!·γ_(pN)(x)=0
-(DividedPowers.factorial_mul_dpow_eq_pow; p^N divides (pN)!), so I≤nilradical R. Conversely, if
-I≤nilradical R then p^r is nilpotent, hence so is p. Examples. On (2)⊂ℤ/4 the divided powers induced
-from PadicInt.dividedPowers 2 have γ_(2^a)(2)=2 for all a≥0, because the 2-adic valuation of 2ⁿ/n!
-is the binary digit sum of n; so no Fⁿ vanishes although (2)²=0. In F_p⟨x⟩ the product
-x^[1]·x^[p]⋯x^[p^k] is a unit multiple of x^[1+p+…+p^k] for every k, so no power of the augmentation
+*Proof sketch.* Define `IsPDNilpotent γ` as: there is `n≥1` with `Fⁿ_γI=0`. If `Fⁿ_γI=0` then `Iⁿ⊆Fⁿ_γI=0`
+(pd-filtration-ordinary-powers), so `IsNilpotent I`. If `Iᴺ=0` then `xᴺ=0` for `x∈I`, so `I≤nilradical R`.
+Criterion. Let `p^r∈I`. If `p^N=0` in `R`, then for `x∈I`, `x^(pN)=(pN)!·γ_(pN)(x)=0`
+(`DividedPowers.factorial_mul_dpow_eq_pow`; `p^N` divides `(pN)!`), so `I≤nilradical R`. Conversely, if
+`I≤nilradical R` then `p^r` is nilpotent, hence so is `p`. Examples. On `(2)⊂ℤ/4` the divided powers induced
+from `PadicInt.dividedPowers 2` have `γ_(2^a)(2)=2` for all `a≥0`, because the 2-adic valuation of `2ⁿ/n!`
+is the binary digit sum of `n`; so no `Fⁿ` vanishes although `(2)²=0`. In `𝔽_p⟨x⟩` the product
+`x^[1]·x^[p]⋯x^[p^k]` is a unit multiple of `x^[1+p+…+p^k]` for every `k`, so no power of the augmentation
 ideal vanishes. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section
 60.5 (07HL): Definition 60.5.2 (07HM) and the sentence after it; Section 60.7 (07I1): the
 observation before Situation 60.7.5 (07MF); [Stacks Project](https://stacks.math.columbia.edu),
@@ -1879,61 +1863,60 @@ ideal-generating maps*; §PD.4 *Rational divided powers equal ordinary powers*; 
 
 - `test_nilpotent_zero`: The zero PD ideal is PD nilpotent with bound1.
 - `test_nilpotent_q`: For a rational algebra PD nilpotence equals ordinary ideal nilpotence.
-- `test_nilpotent_two`: In Z/4 with the canonical 2-PD structure, (2)²=0 but γ_(2^a)(2) is twice an
-  odd unit for every a≥0, so the PD ideal is not PD nilpotent.
-- `test_nilpotent_two_structures`: On the ideal (2) of ℤ/4, which has square zero, the divided power
-  structure with γ_n=0 for n≥2 (DividedPowers.OfSquareZero.dividedPowers) is PD-nilpotent with F²=0,
-  whereas the structure induced from ℤ₂, with γ₂(2)=2, is not PD-nilpotent.
-- `test_nilpotent_mod_p_power`: For e≥1 and the divided powers on (p)⊂ℤ/p^e induced from the
-  canonical ones on (p)⊂ℤ_(p): the ideal is PD-nilpotent if and only if p is odd or e=1.
+- `test_nilpotent_two`: In `ℤ/4` with the canonical 2-PD structure, `(2)²=0` but `γ_(2^a)(2)` is twice an
+  odd unit for every `a≥0`, so the PD ideal is not PD nilpotent.
+- `test_nilpotent_two_structures`: On the ideal `(2)` of `ℤ/4`, which has square zero, the divided power
+  structure with `γ_n=0` for `n≥2` (`DividedPowers.OfSquareZero.dividedPowers`) is PD-nilpotent with `F²=0`,
+  whereas the structure induced from `ℤ₂`, with `γ₂(2)=2`, is not PD-nilpotent.
+- `test_nilpotent_mod_p_power`: For `e≥1` and the divided powers on `(p)⊂ℤ/p^e` induced from the
+  canonical ones on `(p)⊂ℤ_(p)`: the ideal is PD-nilpotent if and only if `p` is odd or `e=1`.
 
 ### PD.5 Compatibility with a base, canonical divided powers and square-zero thickenings
 
-**Canonical divided powers on the ideal generated by p.** Let p be a prime and A a commutative ring
-in which every integer not divisible by p is invertible; equivalently, A is a ℤ₍p₎-algebra, in a
-unique way. Construct the divided power structure γ on the ideal pA with γₙ(p·a)=cₙ·aⁿ for all a∈A
-and n≥0, where c₀=1 and, for n≥1, cₙ is the image in A of pⁿ/n!, an element of pℤ₍p₎. It is the
-unique extension to pA of the divided power structure x↦xⁿ/n! on pℤ₍p₎, and the only divided power
-structure on pA with γₙ(p)=cₙ for all n≥1. Every ring map between two such rings is a PD morphism
-for these structures, and for A=ℤ_p the structure is PadicInt.dividedPowers p. The prime p=2 is
-included, and nothing is assumed about p-torsion in A.
+**Canonical divided powers on the ideal generated by `p`.** Let `p` be a prime and `A` a commutative ring
+in which every integer not divisible by `p` is invertible; equivalently, `A` is a `ℤ₍p₎`-algebra, in a
+unique way. Construct the divided power structure `γ` on the ideal `pA` with `γₙ(p·a)=cₙ·aⁿ` for all `a∈A`
+and `n≥0`, where `c₀=1` and, for `n≥1`, `cₙ` is the image in `A` of `pⁿ/n!`, an element of `pℤ₍p₎`. It is the
+unique extension to `pA` of the divided power structure `x↦xⁿ/n!` on `pℤ₍p₎`, and the only divided power
+structure on `pA` with `γₙ(p)=cₙ` for all `n≥1`. Every ring map between two such rings is a PD morphism
+for these structures, and for `A=ℤ_p` the structure is `PadicInt.dividedPowers p`. The prime `p=2` is
+included, and nothing is assumed about p-torsion in `A`.
 
 `Suggested.lean` declares `PD.canonicalCoeff`, `PD.exists_dividedPowers_span_p`,
 `PD.isDPMorphism_canonical`.
 
-*Hypotheses.* p is a prime number. A is a commutative ring in which every integer not divisible by p
-is invertible. A may have p-torsion, and p may be nilpotent or zero in A; A need not be flat over
-ℤ₍p₎.
+*Hypotheses.* `p` is a prime number. `A` is a commutative ring in which every integer not divisible by `p`
+is invertible. `A` may have p-torsion, and `p` may be nilpotent or zero in `A`; `A` need not be flat over
+`ℤ₍p₎`.
 
 The API:
 
-- `PD.canonicalP_dpow_mul`: For all a∈A and n≥0: γₙ(p·a)=cₙ·aⁿ, where c₀=1 and cₙ is the image in A
-  of pⁿ/n!∈ℤ₍p₎ for n≥1. In particular γₙ(p)=cₙ.
-- `PD.pow_div_factorial_mem_span`: For a prime p and n≥1, the rational number pⁿ/n! lies in pℤ₍p₎:
-  the p-adic valuation of n! is less than n. Consequently cₙ∈pA for n≥1.
-- `PD.canonicalP_unique`: If θ is a divided power structure on pA with θₙ(p)=cₙ for all n≥1, then
-  θ=γ. In particular γ is the only divided power structure on pA for which ℤ₍p₎→A is a PD morphism
-  from the structure x↦xⁿ/n! on pℤ₍p₎.
-- `PD.canonicalP_isDPMorphism`: Every ring map g:A→A′ between commutative rings in which the
-  integers not divisible by p are invertible is a PD morphism from (pA,γ) to (pA′,γ′).
-- `PD.canonicalP_padicInt`: For A=ℤ_p the structure γ on pℤ_p is PadicInt.dividedPowers p.
+- `PD.canonicalP_dpow_mul`: For all `a∈A` and `n≥0`: `γₙ(p·a)=cₙ·aⁿ`, where `c₀=1` and `cₙ` is the image in `A`
+  of `pⁿ/n!∈ℤ₍p₎` for `n≥1`. In particular `γₙ(p)=cₙ`.
+- `PD.pow_div_factorial_mem_span`: For a prime `p` and `n≥1`, the rational number `pⁿ/n!` lies in `pℤ₍p₎`:
+  the p-adic valuation of `n!` is less than `n`. Consequently `cₙ∈pA` for `n≥1`.
+- `PD.canonicalP_unique`: If `θ` is a divided power structure on `pA` with `θₙ(p)=cₙ` for all `n≥1`, then
+  `θ=γ`. In particular `γ` is the only divided power structure on `pA` for which `ℤ₍p₎→A` is a PD morphism
+  from the structure `x↦xⁿ/n!` on `pℤ₍p₎`.
+- `PD.canonicalP_isDPMorphism`: Every ring map `g:A→A′` between commutative rings in which the
+  integers not divisible by `p` are invertible is a PD morphism from `(pA,γ)` to `(pA′,γ′)`.
+- `PD.canonicalP_padicInt`: For `A=ℤ_p` the structure `γ` on `pℤ_p` is `PadicInt.dividedPowers p`.
 
-*Proof sketch.* For n≥1 the p-adic valuation of n! is less than n
-(padicValNat_factorial_lt_of_ne_zero), so pⁿ/n! lies in pℤ₍p₎. On ℤ₍p₎, the localization of ℤ at the
-prime ideal (p) (Localization.AtPrime), which embeds in ℚ, define the divided power structure on
-pℤ₍p₎ by γₙ(x)=xⁿ/n!: apply DividedPowers.ofInjective to ℤ₍p₎→ℚ and to
-DividedPowers.RatAlgebra.dividedPowers on the unit ideal of ℚ; for x=p·a the required element is
-(pⁿ/n!)·aⁿ, which lies in pℤ₍p₎ for n≥1 by step 1. This is the construction of
-PadicInt.dividedPowers with ℤ₍p₎ in place of ℤ_p. The hypothesis on A gives the unique ring map
-f:ℤ₍p₎→A (IsLocalization.lift), and the ideal of A generated by f(pℤ₍p₎) is pA. Apply
-principal-extension with x=p: the result is γₙ(b·p)=bⁿ·f(pⁿ/n!) for b∈A. This is case (2) of Stacks
-Lemma 23.4.2, which needs no flatness; A need not be flat over ℤ₍p₎, for example A=ℤ/p². Uniqueness
-of the extension is extension-uniqueness. Two divided power structures on pA=span{p} with the same
-values at p are equal by DividedPowers.dpow_eq_from_gens. For a ring map g:A→A′ between two such
-rings, g∘f=f′ by the uniqueness of the map from ℤ₍p₎, the ideal generated by g(pA) is pA′, and
-g(γₙ(p·a))=g(a)ⁿ·f′(pⁿ/n!)=γ′ₙ(p·g(a)); so g is a PD morphism. For A=ℤ_p, PadicInt.dividedPowers p
-is a divided power structure on pℤ_p whose value at p in degree n is pⁿ/n! (PadicInt.coe_dpow_eq),
-so it equals γ by step 4. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power
+*Proof sketch.* For `n≥1` the p-adic valuation of `n!` is less than `n` (`padicValNat_factorial_lt_of_ne_zero`), so `pⁿ/n!` lies in `pℤ₍p₎`. On `ℤ₍p₎`, the localization of `ℤ` at the
+prime ideal `(p)` (`Localization.AtPrime`), which embeds in `ℚ`, define the divided power structure on
+`pℤ₍p₎` by `γₙ(x)=xⁿ/n!`: apply `DividedPowers.ofInjective` to `ℤ₍p₎→ℚ` and to
+`DividedPowers.RatAlgebra.dividedPowers` on the unit ideal of `ℚ`; for `x=p·a` the required element is
+`(pⁿ/n!)·aⁿ`, which lies in `pℤ₍p₎` for `n≥1` by step 1. This is the construction of
+`PadicInt.dividedPowers` with `ℤ₍p₎` in place of `ℤ_p`. The hypothesis on `A` gives the unique ring map
+`f:ℤ₍p₎→A` (`IsLocalization.lift`), and the ideal of `A` generated by `f(pℤ₍p₎)` is `pA`. Apply
+principal-extension with `x=p`: the result is `γₙ(b·p)=bⁿ·f(pⁿ/n!)` for `b∈A`. This is case (2) of Stacks
+Lemma 23.4.2, which needs no flatness; `A` need not be flat over `ℤ₍p₎`, for example `A=ℤ/p²`. Uniqueness
+of the extension is extension-uniqueness. Two divided power structures on `pA=span{p}` with the same
+values at `p` are equal by `DividedPowers.dpow_eq_from_gens`. For a ring map `g:A→A′` between two such
+rings, `g∘f=f′` by the uniqueness of the map from `ℤ₍p₎`, the ideal generated by `g(pA)` is `pA′`, and
+`g(γₙ(p·a))=g(a)ⁿ·f′(pⁿ/n!)=γ′ₙ(p·g(a))`; so `g` is a PD morphism. For `A=ℤ_p`, `PadicInt.dividedPowers p`
+is a divided power structure on `pℤ_p` whose value at `p` in degree `n` is `pⁿ/n!` (`PadicInt.coe_dpow_eq`),
+so it equals `γ` by step 4. ([Stacks Project](https://stacks.math.columbia.edu), Divided Power
 Algebra, Example 23.2.3 (tag 07GN).) *Needs:* §PD.2 *Extension of divided powers on a principal ideal*;
 §PD.2 *Uniqueness of extension to the generated ideal*; Mathlib `padicValNat_factorial_lt_of_ne_zero`;
 Mathlib `Localization.AtPrime`; Mathlib `IsLocalization.lift`; Mathlib `DividedPowers.ofInjective`;
@@ -1943,47 +1926,47 @@ Mathlib `DividedPowers.OfSquareZero.dividedPowers`; Mathlib `dividedPowersBot`.
 
 **Checks.**
 
-- `test_canonicalP_two_mod_four`: p=2, A=ℤ/4: γ₂(2)=2, γ₃(2)=0 and γ₄(2)=2.
-- `test_canonicalP_not_squareZero`: p=2, A=ℤ/4: the ideal (2) has square zero, and γ is not
-  DividedPowers.OfSquareZero.dividedPowers on (2): that structure has operation 0 in degree 2 at the
-  element 2, whereas γ₂(2)=2.
-- `test_canonicalP_mod_p_sq`: p odd, A=ℤ/p² (the ring W₂(F_p)): γₙ(p)=0 for every n≥2, and γ is
-  DividedPowers.OfSquareZero.dividedPowers on (p).
-- `test_canonicalP_three`: p=3, A=ℤ/27: γ₂(3)=18, γ₃(3)=18 and γ₄(3)=0.
-- `test_canonicalP_char_p`: If p=0 in A, for example A=F_p, then pA=0 and γ=dividedPowersBot A.
-- p=2, A=ℤ/4: γ₂(2)=2, γ₃(2)=0 and γ₄(2)=2; this is not the square-zero structure on (2), whose
+- `test_canonicalP_two_mod_four`: `p=2`, `A=ℤ/4`: `γ₂(2)=2`, `γ₃(2)=0` and `γ₄(2)=2`.
+- `test_canonicalP_not_squareZero`: `p=2`, `A=ℤ/4`: the ideal `(2)` has square zero, and `γ` is not
+  `DividedPowers.OfSquareZero.dividedPowers` on `(2)`: that structure has operation 0 in degree 2 at the
+  element 2, whereas `γ₂(2)=2`.
+- `test_canonicalP_mod_p_sq`: `p` odd, `A=ℤ/p²` (the ring `W₂(𝔽_p)`): `γₙ(p)=0` for every `n≥2`, and `γ` is
+  `DividedPowers.OfSquareZero.dividedPowers` on `(p)`.
+- `test_canonicalP_three`: `p=3`, `A=ℤ/27`: `γ₂(3)=18`, `γ₃(3)=18` and `γ₄(3)=0`.
+- `test_canonicalP_char_p`: If `p=0` in `A`, for example `A=𝔽_p`, then `pA=0` and `γ=dividedPowersBot A`.
+- `p=2`, `A=ℤ/4`: `γ₂(2)=2`, `γ₃(2)=0` and `γ₄(2)=2`; this is not the square-zero structure on `(2)`, whose
   operations of degree at least 2 vanish.
-- A=F_p: pA=0 and γ is the divided power structure of the zero ideal.
+- `A=𝔽_p`: `pA=0` and `γ` is the divided power structure of the zero ideal.
 
-**Compatibility of divided powers with a base.** Let (A,I,γ) and (B,J,δ) be divided power rings and
-φ:A→B a ring map (I need not map into J). δ is compatible with γ if there is a divided power
-structure γ̄ on the ideal J+IB such that φ is a divided power morphism (I,γ)→(J+IB,γ̄) and the
-identity of B is a divided power morphism (J,δ)→(J+IB,γ̄).
+**Compatibility of divided powers with a base.** Let `(A,I,γ)` and `(B,J,δ)` be divided power rings and
+`φ:A→B` a ring map (`I` need not map into `J`). `δ` is compatible with `γ` if there is a divided power
+structure `γ̄` on the ideal `J+IB` such that `φ` is a divided power morphism `(I,γ)→(J+IB,γ̄)` and the
+identity of `B` is a divided power morphism `(J,δ)→(J+IB,γ̄)`.
 
 `Suggested.lean` declares `PD.IsCompatibleWith`.
 
-*Hypotheses.* (A,I,γ) and (B,J,δ) are divided power rings; φ:A→B is a ring homomorphism.
+*Hypotheses.* `(A,I,γ)` and `(B,J,δ)` are divided power rings; `φ:A→B` is a ring homomorphism.
 
 The API:
 
-- `Crystalline.IsCompatibleWith.unique`: If δ is compatible with γ, the divided power structure γ̄
-  on J+IB of the definition is unique.
-- `Crystalline.isCompatibleWith_iff_isDPMorphism`: If IB⊆J, then δ is compatible with γ if and only
-  if φ is a divided power morphism from (I,γ) to (J,δ).
-- `Crystalline.isCompatibleWith_iff_extends_agree`: δ is compatible with γ if and only if γ extends
-  to a divided power structure γ_B on IB (φ a divided power morphism (I,γ)→(IB,γ_B)) and γ_B and δ
-  agree on IB∩J.
-- `Crystalline.isCompatibleWith_of_inf_eq_mul`: If γ extends to IB and IB∩J=IB·J, then δ is
-  compatible with γ.
-- `Crystalline.isCompatibleWith_bot`: Every divided power structure δ on every ideal J of B is
-  compatible with the trivial structure on the zero ideal of A.
+- `Crystalline.IsCompatibleWith.unique`: If `δ` is compatible with `γ`, the divided power structure `γ̄`
+  on `J+IB` of the definition is unique.
+- `Crystalline.isCompatibleWith_iff_isDPMorphism`: If `IB⊆J`, then `δ` is compatible with `γ` if and only
+  if `φ` is a divided power morphism from `(I,γ)` to `(J,δ)`.
+- `Crystalline.isCompatibleWith_iff_extends_agree`: `δ` is compatible with `γ` if and only if `γ` extends
+  to a divided power structure `γ_B` on `IB` (`φ` a divided power morphism `(I,γ)→(IB,γ_B)`) and `γ_B` and `δ`
+  agree on `IB∩J`.
+- `Crystalline.isCompatibleWith_of_inf_eq_mul`: If `γ` extends to `IB` and `IB∩J=IB·J`, then `δ` is
+  compatible with `γ`.
+- `Crystalline.isCompatibleWith_bot`: Every divided power structure `δ` on every ideal `J` of `B` is
+  compatible with the trivial structure on the zero ideal of `A`.
 
-*Proof sketch.* State the predicate as the existence of a divided power structure γ̄ on J+IB with
-DividedPowers.IsDPMorphism γ γ̄ φ and DividedPowers.IsDPMorphism δ γ̄ (identity of B). γ̄ is unique:
-J+IB is generated by J∪φ(I), on which γ̄ is prescribed (DividedPowers.dpow_eq_from_gens). Equivalent
-form: γ̄ restricts to δ on J and, IB being stable under γ̄ by the sum and scalar rules, to an
-extension of γ on IB; conversely an extension of γ to IB that agrees with δ on IB∩J glues with δ
-(compatible-sum). If IB∩J=IB·J the agreement is automatic (DividedPowers.coincide_on_smul). ([Stacks
+*Proof sketch.* State the predicate as the existence of a divided power structure `γ̄` on `J+IB` with
+`DividedPowers.IsDPMorphism γ γ̄ φ` and `DividedPowers.IsDPMorphism δ γ̄` (identity of `B`). `γ̄` is unique:
+`J+IB` is generated by `J∪φ(I)`, on which `γ̄` is prescribed (`DividedPowers.dpow_eq_from_gens`). Equivalent
+form: `γ̄` restricts to `δ` on `J` and, `IB` being stable under `γ̄` by the sum and scalar rules, to an
+extension of `γ` on `IB`; conversely an extension of `γ` to `IB` that agrees with `δ` on `IB∩J` glues with `δ`
+(compatible-sum). If `IB∩J=IB·J` the agreement is automatic (`DividedPowers.coincide_on_smul`). ([Stacks
 Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section 60.4 (07HJ), Definition
 60.4.1 (tag 07HK) and the last paragraph of the section.) *Needs:* *Divided powers on a compatible
 sum of ideals*; Mathlib `DividedPowers`; Mathlib `DividedPowers.IsDPMorphism`; Mathlib
@@ -1992,69 +1975,62 @@ sum of ideals*; Mathlib `DividedPowers`; Mathlib `DividedPowers.IsDPMorphism`; M
 
 **Checks.**
 
-- `test_isCompatibleWith_zero_base`: For I=0 every (B,J,δ) is compatible with γ, and γ̄=δ.
-- `test_isCompatibleWith_Z4`: For (A,I,γ)=(ℤ_(2),(2),canonical), B=ℤ/4 and J=(2): the divided power
-  structure with δ₂(2)=2 is compatible with γ; the one with δ₂(2)=0
-  (DividedPowers.OfSquareZero.dividedPowers) is not.
-- `test_isCompatibleWith_sqZero`: For a divided power ring (A,I,γ), an A-module M and B=A⊕M: the
-  square-zero structure on J=M (δ_n=0 for n≥2) is compatible with γ, and γ̄ is the structure of
-  pd-square-zero-extension on I⊕M.
-- If IB⊆J, δ is compatible with γ exactly when A→B is a divided power morphism (I,γ)→(J,δ).
+- `test_isCompatibleWith_zero_base`: For `I=0` every `(B,J,δ)` is compatible with `γ`, and `γ̄=δ`.
+- `test_isCompatibleWith_Z4`: For `(A,I,γ)=(ℤ_(2),(2),canonical)`, `B=ℤ/4` and `J=(2)`: the divided power
+  structure with `δ₂(2)=2` is compatible with `γ`; the one with `δ₂(2)=0` (`DividedPowers.OfSquareZero.dividedPowers`) is not.
+- `test_isCompatibleWith_sqZero`: For a divided power ring `(A,I,γ)`, an `A`-module `M` and `B=A⊕M`: the
+  square-zero structure on `J=M` (`δ_n=0` for `n≥2`) is compatible with `γ`, and `γ̄` is the structure of
+  pd-square-zero-extension on `I⊕M`.
+- If `IB⊆J`, `δ` is compatible with `γ` exactly when `A→B` is a divided power morphism `(I,γ)→(J,δ)`.
 
-**Canonical divided powers on the augmentation ideal.** For a commutative ring A and an A-module M,
-let Γ_A(M)=DividedPowerAlgebra A M and Γ⁺ its augmentation ideal, the ideal generated by the
-dp_n(m), n≥1. There is a unique divided power structure δ on Γ⁺ with δ_n(dp₁(m))=dp_n(m) for all n≥0
-and m∈M; it satisfies δ_n(dp_k(m))=uniformBell(n,k)·dp_(nk)(m) for k≥1, where
-uniformBell(n,k)=(nk)!/(n!(k!)ⁿ). For every A-algebra C with a divided power ideal (K,ε) and every
-A-linear map g:M→C with values in K, the algebra map DividedPowerAlgebra.lift ε g:Γ_A(M)→C is a
-divided power morphism (Γ⁺,δ)→(K,ε), and it is the only A-algebra map Γ_A(M)→C that is a divided
-power morphism and sends dp₁(m) to g(m) for all m.
+**Canonical divided powers on the augmentation ideal.** For a commutative ring `A` and an `A`-module `M`,
+let `Γ_A(M)=DividedPowerAlgebra A M` and `Γ⁺` its augmentation ideal, the ideal generated by the
+`dp_n(m)`, `n≥1`. There is a unique divided power structure `δ` on `Γ⁺` with `δ_n(dp₁(m))=dp_n(m)` for all `n≥0`
+and `m∈M`; it satisfies `δ_n(dp_k(m))=uniformBell(n,k)·dp_(nk)(m)` for `k≥1`, where
+`uniformBell(n,k)=(nk)!/(n!(k!)ⁿ)`. For every `A`-algebra `C` with a divided power ideal `(K,ε)` and every
+`A`-linear map `g:M→C` with values in `K`, the algebra map `DividedPowerAlgebra.lift ε g:Γ_A(M)→C` is a
+divided power morphism `(Γ⁺,δ)→(K,ε)`, and it is the only `A`-algebra map `Γ_A(M)→C` that is a divided
+power morphism and sends `dp₁(m)` to `g(m)` for all `m`.
 
 `Suggested.lean` declares `PD.existsUnique_dividedPowers_augmentationIdeal`.
 
-*Hypotheses.* A is a commutative ring and M an A-module; no freeness, finiteness or torsion
-hypothesis. For the universal property: C is a commutative A-algebra, K an ideal of C with a divided
-power structure ε, and g:M→C is A-linear with g(M)⊆K.
+*Hypotheses.* `A` is a commutative ring and `M` an `A`-module; no freeness, finiteness or torsion
+hypothesis. For the universal property: `C` is a commutative `A`-algebra, `K` an ideal of `C` with a divided
+power structure `ε`, and `g:M→C` is `A`-linear with `g(M)⊆K`.
 
 The API:
 
-- `Crystalline.gammaPD_generator`: δ_n(dp₁(m))=dp_n(m) for m∈M.
-- `Crystalline.gammaPD_lift`: For an A-algebra C with a divided power ideal (K,ε) and an A-linear
-  map g:M→C with g(M)⊆K there is a unique A-algebra map Γ_A(M)→C that is a divided power morphism
-  (Γ⁺,δ)→(K,ε) and sends dp₁(m) to g(m); it is DividedPowerAlgebra.lift ε g.
-- `Crystalline.gammaPD_map`: For an A-linear map f:M→N, DividedPowerAlgebra.map A f:Γ_A(M)→Γ_A(N) is
+- `Crystalline.gammaPD_generator`: `δ_n(dp₁(m))=dp_n(m)` for `m∈M`.
+- `Crystalline.gammaPD_lift`: For an `A`-algebra `C` with a divided power ideal `(K,ε)` and an `A`-linear
+  map `g:M→C` with `g(M)⊆K` there is a unique `A`-algebra map `Γ_A(M)→C` that is a divided power morphism
+  `(Γ⁺,δ)→(K,ε)` and sends `dp₁(m)` to `g(m)`; it is `DividedPowerAlgebra.lift ε g`.
+- `Crystalline.gammaPD_map`: For an `A`-linear map `f:M→N`, `DividedPowerAlgebra.map A f:Γ_A(M)→Γ_A(N)` is
   a divided power morphism for the canonical divided powers on the augmentation ideals.
-- `Crystalline.gammaPD_unique`: A divided power structure δ′ on Γ⁺ with δ′_n(dp₁(m))=dp_n(m) for all
-  n≥1 and m∈M is equal to δ.
-- `Crystalline.gammaPD_dp`: δ_n(dp_k(m))=uniformBell(n,k)·dp_(nk)(m) for all n≥0, k≥1 and m∈M.
+- `Crystalline.gammaPD_unique`: A divided power structure `δ′` on `Γ⁺` with `δ′_n(dp₁(m))=dp_n(m)` for all
+  `n≥1` and `m∈M` is equal to `δ`.
+- `Crystalline.gammaPD_dp`: `δ_n(dp_k(m))=uniformBell(n,k)·dp_(nk)(m)` for all `n≥0`, `k≥1` and `m∈M`.
 
-*Proof sketch.* Free case, basis. Let M=A^(W) with basis (e_w). The divided monomials x^[e]=∏_w
-dp_(e_w)(e_w), e:W→₀ℕ, span Γ_A(M) (DividedPowerAlgebra.submodule_span_prod_dp_eq_top). They are
-linearly independent: on the free module ⊕_e A·y^[e] put the product y^[e]y^[f]=∏_w
-binom(e_w+f_w,e_w)·y^[e+f]; DividedPowerAlgebra.lift' applied to (n,Σa_w e_w)↦Σ_(|e|=n)∏_w
-a_w^(e_w)·y^[e] (its four relations are the multinomial and Vandermonde identities) gives an algebra
-map sending x^[e] to y^[e]. Free case, divided powers. For e≠0 and k≥0 put c(k,e)=(1/k!)·∏_w
-(k·e_w)!/(e_w!)^k, an integer, and define on Γ⁺=⊕_(e≠0)A·x^[e] the maps δ_n(Σa_e
-x^[e])=Σ_(Σn_e=n)∏_e a_e^(n_e)·c(n_e,e)·x^[n_e·e]. They satisfy δ₁=id, δ_n(ay)=aⁿδ_n(y) and the
-addition rule, and the multiplication and iteration identities hold at the generators x^[e]; all of
-these reduce to identities between integers, valid because x^[e]↦∏_w x_w^(e_w)/e_w! embeds the case
-A=ℤ into ℚ[x_w]. Apply generator-criterion with the generating set {x^[e]:e≠0}. For m=Σa_w e_w,
-δ_n(dp₁(m))=dp_n(m) by DividedPowerAlgebra.dp_sum_smul. General case, kernel. Choose a surjection
-π:F→M from a free module, with kernel N. Γ_A(π):Γ_A(F)→Γ_A(M) is surjective
-(DividedPowerAlgebra.lift_surjective) and its kernel is the ideal 𝔞 generated by the dp_n(k), k∈N,
-n≥1: these lie in the kernel, and conversely (n,m)↦dp_n(m̃) mod 𝔞, for any lift m̃ of m, is well
-defined because dp_n(m̃+k)=Σ_(i+j=n)dp_i(m̃)dp_j(k)≡dp_n(m̃), satisfies the relations of
-DividedPowerAlgebra.lift', and gives a map Γ_A(M)→Γ_A(F)/𝔞 inverse to the map induced by Γ_A(π).
-General case, descent. 𝔞⊆Γ_A(F)⁺ is a sub-PD ideal by DividedPowers.span_isSubDPIdeal_iff, since
-δ_m(dp_n(k))=δ_m(δ_n(dp₁(k)))=uniformBell(m,n)·dp_(mn)(k)∈𝔞.
-DividedPowers.Quotient.OfSurjective.dividedPowers gives divided powers on the image Γ_A(M)⁺ of
-Γ_A(F)⁺ with δ_n(dp₁(m))=dp_n(m). Uniqueness: Γ⁺ is generated by the dp_k(m), k≥1
-(gamma-augmentation-ideal-generators), on which δ is forced by the iteration rule; apply
-DividedPowers.dpow_eq_from_gens. Universal property. lift ε g sends dp_n(m) to ε_n(g(m))
-(DividedPowerAlgebra.lift_apply_dp), hence Γ⁺ into K, and commutes with the divided powers on the
-generators dp_k(m), k≥1, by the iteration rule in both rings; DividedPowers.IsDPMorphism.on_span
-extends this to Γ⁺. A divided power A-algebra map h with h(dp₁(m))=g(m) has h(dp_n(m))=ε_n(g(m)), so
-h=lift ε g by DividedPowerAlgebra.lift_unique. ([Stacks Project](https://stacks.math.columbia.edu),
+*Proof sketch.* Free case, basis. Let `M=A^(W)` with basis `(e_w)`. The divided monomials `x^[e]=∏_w dp_(e_w)(e_w)`, `e:W→₀ℕ`, span `Γ_A(M)` (`DividedPowerAlgebra.submodule_span_prod_dp_eq_top`). They are
+linearly independent: on the free module `⊕_e A·y^[e]` put the product `y^[e]y^[f]=∏_w binom(e_w+f_w,e_w)·y^[e+f]`; `DividedPowerAlgebra.lift'` applied to `(n,Σa_w e_w)↦Σ_(|e|=n)∏_w a_w^(e_w)·y^[e]` (its four relations are the multinomial and Vandermonde identities) gives an algebra
+map sending `x^[e]` to `y^[e]`. Free case, divided powers. For `e≠0` and `k≥0` put `c(k,e)=(1/k!)·∏_w (k·e_w)!/(e_w!)^k`, an integer, and define on `Γ⁺=⊕_(e≠0)A·x^[e]` the maps `δ_n(Σa_e x^[e])=Σ_(Σn_e=n)∏_e a_e^(n_e)·c(n_e,e)·x^[n_e·e]`. They satisfy `δ₁=id`, `δ_n(ay)=aⁿδ_n(y)` and the
+addition rule, and the multiplication and iteration identities hold at the generators `x^[e]`; all of
+these reduce to identities between integers, valid because `x^[e]↦∏_w x_w^(e_w)/e_w!` embeds the case
+`A=ℤ` into `ℚ[x_w]`. Apply generator-criterion with the generating set `{x^[e]:e≠0}`. For `m=Σa_w e_w`,
+`δ_n(dp₁(m))=dp_n(m)` by `DividedPowerAlgebra.dp_sum_smul`. General case, kernel. Choose a surjection
+`π:F→M` from a free module, with kernel `N`. `Γ_A(π):Γ_A(F)→Γ_A(M)` is surjective
+(`DividedPowerAlgebra.lift_surjective`) and its kernel is the ideal `𝔞` generated by the `dp_n(k)`, `k∈N`,
+`n≥1`: these lie in the kernel, and conversely `(n,m)↦dp_n(m̃)` mod `𝔞`, for any lift `m̃` of `m`, is well
+defined because `dp_n(m̃+k)=Σ_(i+j=n)dp_i(m̃)dp_j(k)≡dp_n(m̃)`, satisfies the relations of
+`DividedPowerAlgebra.lift'`, and gives a map `Γ_A(M)→Γ_A(F)/𝔞` inverse to the map induced by `Γ_A(π)`.
+General case, descent. `𝔞⊆Γ_A(F)⁺` is a sub-PD ideal by `DividedPowers.span_isSubDPIdeal_iff`, since
+`δ_m(dp_n(k))=δ_m(δ_n(dp₁(k)))=uniformBell(m,n)·dp_(mn)(k)∈𝔞`.
+`DividedPowers.Quotient.OfSurjective.dividedPowers` gives divided powers on the image `Γ_A(M)⁺` of
+`Γ_A(F)⁺` with `δ_n(dp₁(m))=dp_n(m)`. Uniqueness: `Γ⁺` is generated by the `dp_k(m)`, `k≥1`
+(gamma-augmentation-ideal-generators), on which `δ` is forced by the iteration rule; apply
+`DividedPowers.dpow_eq_from_gens`. Universal property. lift `ε g` sends `dp_n(m)` to `ε_n(g(m))` (`DividedPowerAlgebra.lift_apply_dp`), hence `Γ⁺` into `K`, and commutes with the divided powers on the
+generators `dp_k(m)`, `k≥1`, by the iteration rule in both rings; `DividedPowers.IsDPMorphism.on_span`
+extends this to `Γ⁺`. A divided power `A`-algebra map `h` with `h(dp₁(m))=g(m)` has `h(dp_n(m))=ε_n(g(m))`, so
+`h=lift ε g` by `DividedPowerAlgebra.lift_unique`. ([Stacks Project](https://stacks.math.columbia.edu),
 Divided Power Algebra, Section 23.5 (07H4), Lemma 23.5.1 (07H5) with proof and Remark 23.5.2
 (07H6).) *Needs:* DerivedModuleAlgebra §0.DP.3 *Augmentation ideal*; §PD.1 *Divided powers from
 identities on generators*; DerivedModuleAlgebra §0.DP.3 *Positive-degree generators of the
@@ -2067,65 +2043,63 @@ Mathlib `DividedPowers.IsDPMorphism.on_span`; Mathlib `DividedPowerAlgebra.map`.
 
 **Checks.**
 
-- `test_gammaPD_zero`: For M=0, Γ⁺=0 and its PD structure is the zero-ideal structure.
-- `test_gammaPD_free_generator`: In Γ_A(A), δ₂(dp₁(1))=dp₂(1), while dp₁(1)²=2dp₂(1).
-- `test_gammaPD_F2`: Over F₂ the free rank-one generator has square zero but its second divided
+- `test_gammaPD_zero`: For `M=0`, `Γ⁺=0` and its PD structure is the zero-ideal structure.
+- `test_gammaPD_free_generator`: In `Γ_A(A)`, `δ₂(dp₁(1))=dp₂(1)`, while `dp₁(1)²=2dp₂(1)`.
+- `test_gammaPD_F2`: Over `𝔽₂` the free rank-one generator has square zero but its second divided
   power is nonzero.
-- `test_gammaPD_torsion_module`: In Γ_ℤ(ℤ/2): dp₂(1) has additive order 4, dp₁(1) has order 2,
-  δ₂(dp₁(1))=dp₂(1) and dp₁(1)²=2·dp₂(1)≠0.
-- A torsion ring where division by n! is invalid: for M=A=F_p, Γ_A(A)=F_p⟨x⟩ with x=dp₁(1);
-  x^p=p!·dp_p(1)=0 and δ_p(x)=dp_p(1)≠0, so δ_p(x) is not x^p/p!.
+- `test_gammaPD_torsion_module`: In `Γ_ℤ(ℤ/2)`: `dp₂(1)` has additive order 4, `dp₁(1)` has order 2,
+  `δ₂(dp₁(1))=dp₂(1)` and `dp₁(1)²=2·dp₂(1)≠0`.
+- A torsion ring where division by `n!` is invalid: for `M=A=𝔽_p`, `Γ_A(A)=𝔽_p⟨x⟩` with `x=dp₁(1)`;
+  `x^p=p!·dp_p(1)=0` and `δ_p(x)=dp_p(1)≠0`, so `δ_p(x)` is not `x^p/p!`.
 
-**Relative divided power polynomial algebras.** Let (A,I,γ) be a divided power ring and W a set. Put
-A⟨x_w:w∈W⟩=Γ_A(A^(W)) (DividedPowerAlgebra A (W →₀ A)) and x_w^[n]=dp_n(e_w). (1) The divided
-monomials x^[e]=∏_w x_w^[e_w], e:W→₀ℕ, form an A-basis, with x^[e]x^[f]=(∏_w
-binom(e_w+f_w,e_w))·x^[e+f]. (2) On the ideal J=IA⟨x_w⟩+A⟨x_w⟩₊, where A⟨x_w⟩₊ is the augmentation
-ideal, there is a unique divided power structure δ such that δ_n(x_w)=x_w^[n] for all n and w, and
-A→A⟨x_w⟩ is a divided power morphism (I,γ)→(J,δ). (3) For every divided power ring (C,K,ε), a
-divided power morphism (A⟨x_w⟩,J,δ)→(C,K,ε) is the same as a divided power morphism
-φ:(A,I,γ)→(C,K,ε) together with a family (k_w) of elements of K; the morphism acts by φ on
-coefficients and sends x^[e] to ∏_w ε_(e_w)(k_w).
+**Relative divided power polynomial algebras.** Let `(A,I,γ)` be a divided power ring and `W` a set. Put
+`A⟨x_w:w∈W⟩=Γ_A(A^(W))` (`DividedPowerAlgebra A` (`W →₀ A`)) and `x_w^[n]=dp_n(e_w)`. (1) The divided
+monomials `x^[e]=∏_w x_w^[e_w]`, `e:W→₀ℕ`, form an `A`-basis, with `x^[e]x^[f]=(∏_w binom(e_w+f_w,e_w))·x^[e+f]`. (2) On the ideal `J=IA⟨x_w⟩+A⟨x_w⟩₊`, where `A⟨x_w⟩₊` is the augmentation
+ideal, there is a unique divided power structure `δ` such that `δ_n(x_w)=x_w^[n]` for all `n` and `w`, and
+`A→A⟨x_w⟩` is a divided power morphism `(I,γ)→(J,δ)`. (3) For every divided power ring `(C,K,ε)`, a
+divided power morphism `(A⟨x_w⟩,J,δ)→(C,K,ε)` is the same as a divided power morphism
+`φ:(A,I,γ)→(C,K,ε)` together with a family `(k_w)` of elements of `K`; the morphism acts by `φ` on
+coefficients and sends `x^[e]` to `∏_w ε_(e_w)(k_w)`.
 
-*Hypotheses.* (A,I,γ) is a divided power ring (A commutative) and W is an arbitrary set. For the
-universal property (C,K,ε) is an arbitrary divided power ring.
+*Hypotheses.* `(A,I,γ)` is a divided power ring (`A` commutative) and `W` is an arbitrary set. For the
+universal property `(C,K,ε)` is an arbitrary divided power ring.
 
 The API:
 
-- `Crystalline.pdPolynomial_basis`: The finite-support divided monomials give an A-basis.
-- `Crystalline.pdPolynomial_lift`: For a divided power ring (C,K,ε), a divided power morphism
-  φ:(A,I,γ)→(C,K,ε) and elements k_w∈K (w∈W) there is a unique divided power morphism
-  (A⟨x_w⟩,J,δ)→(C,K,ε) extending φ with x_w↦k_w; it sends x^[e] to ∏_w ε_(e_w)(k_w).
-- `Crystalline.pdPolynomial_monomial_mul`: x^[e]·x^[f]=(∏_w binom(e_w+f_w,e_w))·x^[e+f] for
-  e,f:W→₀ℕ.
-- `Crystalline.pdPolynomial_algebraMap_isDPMorphism`: The structure map A→A⟨x_w⟩ is a divided power
-  morphism from (I,γ) to (J,δ).
-- `Crystalline.pdPolynomial_dpow_var`: δ_n(x_w)=x_w^[n] for all n≥0 and w∈W.
-- `Crystalline.pdPolynomial_dpow_unique`: A divided power structure δ′ on J such that
-  δ′_n(x_w)=x_w^[n] for all n, w and such that A→A⟨x_w⟩ is a divided power morphism (I,γ)→(J,δ′) is
-  equal to δ.
+- `Crystalline.pdPolynomial_basis`: The finite-support divided monomials give an `A`-basis.
+- `Crystalline.pdPolynomial_lift`: For a divided power ring `(C,K,ε)`, a divided power morphism
+  `φ:(A,I,γ)→(C,K,ε)` and elements `k_w∈K (w∈W)` there is a unique divided power morphism
+  `(A⟨x_w⟩,J,δ)→(C,K,ε)` extending `φ` with `x_w↦k_w`; it sends `x^[e]` to `∏_w ε_(e_w)(k_w)`.
+- `Crystalline.pdPolynomial_monomial_mul`: `x^[e]·x^[f]=(∏_w binom(e_w+f_w,e_w))·x^[e+f]` for
+  `e,f:W→₀ℕ`.
+- `Crystalline.pdPolynomial_algebraMap_isDPMorphism`: The structure map `A→A⟨x_w⟩` is a divided power
+  morphism from `(I,γ)` to `(J,δ)`.
+- `Crystalline.pdPolynomial_dpow_var`: `δ_n(x_w)=x_w^[n]` for all `n≥0` and `w∈W`.
+- `Crystalline.pdPolynomial_dpow_unique`: A divided power structure `δ′` on `J` such that
+  `δ′_n(x_w)=x_w^[n]` for all `n`, `w` and such that `A→A⟨x_w⟩` is a divided power morphism `(I,γ)→(J,δ′)` is
+  equal to `δ`.
 
 *Proof sketch.* Take the homogeneous grading and the free-module divided-monomial basis from
 DerivedModuleAlgebra §0.DP.2 (degree, grading, graded multiplication, base change of degrees, the
 comparison with symmetric tensors). Sum the homogeneous bases over degrees to obtain the basis
-indexed by W→₀N. Its product formula is the existing dp multiplication relation. This target adds
-the relative PD base ideal and its universal property; it does not plan a second general Γ grading
-or tensor-symmetry theory. Existence of δ. A⟨x_w⟩ is a free A-module, hence flat
-(Module.Flat.of_free), so γ extends uniquely to IA⟨x_w⟩ (flat-extension). The augmentation ideal
+indexed by `W→₀N`. Its product formula is the existing `dp` multiplication relation. This target adds
+the relative PD base ideal and its universal property; it does not plan a second general `Γ` grading
+or tensor-symmetry theory. Existence of `δ`. `A⟨x_w⟩` is a free `A`-module, hence flat
+(`Module.Flat.of_free`), so `γ` extends uniquely to `IA⟨x_w⟩` (flat-extension). The augmentation ideal
 carries its canonical divided powers (gamma-canonical-pd). By gamma-base-ideal-intersection,
-IA⟨x_w⟩∩A⟨x_w⟩₊=IA⟨x_w⟩·A⟨x_w⟩₊, so the two structures glue uniquely to δ on J
-(product-intersection-gluing); δ_n(x_w)=δ_n(dp₁(e_w))=dp_n(e_w). Uniqueness of δ. J is generated by
-the image of I and the x_w^[k], k≥1; a structure with the two properties is determined on these (by
-γ, and by δ_n(x_w^[k])=uniformBell(n,k)·x_w^[nk]); apply DividedPowers.dpow_eq_from_gens. Universal
-property. Given φ and (k_w), view C as an A-algebra by φ and let g:A^(W)→C be the linear map
-e_w↦k_w. DividedPowerAlgebra.lift ε g is a divided power morphism on A⟨x_w⟩₊ (gamma-canonical-pd)
-and on IA⟨x_w⟩ (because φ is one and the structure there is the extension of γ), hence on J
-(DividedPowers.IsDPMorphism.on_span); it sends x^[e] to ∏_w ε_(e_w)(k_w). Conversely a divided power
-morphism restricts to φ on A and is determined by the images k_w of the x_w. ([Stacks
+`IA⟨x_w⟩∩A⟨x_w⟩₊=IA⟨x_w⟩·A⟨x_w⟩₊`, so the two structures glue uniquely to `δ` on `J`
+(product-intersection-gluing); `δ_n(x_w)=δ_n(dp₁(e_w))=dp_n(e_w)`. Uniqueness of `δ`. `J` is generated by
+the image of `I` and the `x_w^[k]`, `k≥1`; a structure with the two properties is determined on these (by
+`γ`, and by `δ_n(x_w^[k])=uniformBell(n,k)·x_w^[nk]`); apply `DividedPowers.dpow_eq_from_gens`. Universal
+property. Given `φ` and `(k_w)`, view `C` as an `A`-algebra by `φ` and let `g:A^(W)→C` be the linear map
+`e_w↦k_w`. `DividedPowerAlgebra.lift ε g` is a divided power morphism on `A⟨x_w⟩₊` (gamma-canonical-pd)
+and on `IA⟨x_w⟩` (because `φ` is one and the structure there is the extension of `γ`), hence on `J` (`DividedPowers.IsDPMorphism.on_span`); it sends `x^[e]` to `∏_w ε_(e_w)(k_w)`. Conversely a divided power
+morphism restricts to `φ` on `A` and is determined by the images `k_w` of the `x_w`. ([Stacks
 Project](https://stacks.math.columbia.edu), Divided Power Algebra, Section 23.5 (07H4): Lemma 23.5.1
 (07H5) with proof, Remark 23.5.2 (07H6).) *Needs:* *Canonical divided powers on the augmentation
 ideal*; §PD.2 *Flat extension of divided powers*; *Base ideal and augmentation intersection*; §PD.1
 *Gluing when intersection equals product*; TauCetiRoadmap DerivedModuleAlgebra §0.DP.2 (the grading
-Γ_A(M) = ⊕ Γ^d_A(M), arbitrary base change of Γ^d, and Γ^d ≅ TSym^d for free modules); Mathlib
+`Γ_A(M) = ⊕ Γ^d_A(M)`, arbitrary base change of `Γ^d`, and `Γ^d ≅ TSym^d` for free modules); Mathlib
 `Module.Flat.of_free`; Mathlib `DividedPowerAlgebra.lift`; Mathlib `DividedPowerAlgebra.lift'`;
 Mathlib `DividedPowerAlgebra.submodule_span_prod_dp_eq_top`; Mathlib
 `DividedPowers.dpow_eq_from_gens`; Mathlib `DividedPowers.IsDPMorphism.on_span`; Mathlib
@@ -2133,77 +2107,77 @@ Mathlib `DividedPowerAlgebra.submodule_span_prod_dp_eq_top`; Mathlib
 
 **Checks.**
 
-- `test_pdPolynomial_no_variables`: With W empty the relative PD algebra is (A,I,γ).
-- `test_pdPolynomial_two`: x^[1]x^[1]=2x^[2] over Z, and x^[2] remains a nonzero basis vector over
-  F₂.
-- `test_pdPolynomial_eval`: For a divided power morphism g:(A⟨x_w⟩,J,δ)→(C,K,ε) and w∈W:
-  g(x_w^[n])=ε_n(g(x_w)) for all n≥0.
-- `test_pdPolynomial_base_gluing`: For (A,I,γ)=(ℤ_(p),(p),canonical) and one variable x:
-  δ₂(p+x)=γ₂(p)+p·x+x^[2] in ℤ_(p)⟨x⟩.
-- A torsion ring where division by n! is invalid: for A=F_p, I=0 and one variable, F_p⟨x⟩ has basis
-  x^[n], n≥0, with x^p=0 and x^[p]≠0; the divided power ideal is spanned by the x^[n], n≥1.
+- `test_pdPolynomial_no_variables`: With `W` empty the relative PD algebra is `(A,I,γ)`.
+- `test_pdPolynomial_two`: `x^[1]x^[1]=2x^[2]` over `ℤ`, and `x^[2]` remains a nonzero basis vector over
+  `𝔽₂`.
+- `test_pdPolynomial_eval`: For a divided power morphism `g:(A⟨x_w⟩,J,δ)→(C,K,ε)` and `w∈W`:
+  `g(x_w^[n])=ε_n(g(x_w))` for all `n≥0`.
+- `test_pdPolynomial_base_gluing`: For `(A,I,γ)=(ℤ_(p),(p),canonical)` and one variable `x`:
+  `δ₂(p+x)=γ₂(p)+p·x+x^[2]` in `ℤ_(p)⟨x⟩`.
+- A torsion ring where division by `n!` is invalid: for `A=𝔽_p`, `I=0` and one variable, `𝔽_p⟨x⟩` has basis
+  `x^[n]`, `n≥0`, with `x^p=0` and `x^[p]≠0`; the divided power ideal is spanned by the `x^[n]`, `n≥1`.
 
-**Divided powers on a square-zero extension.** Let (A,I,γ) be a divided power ring and M an
-A-module. On the trivial square-zero extension B=A⊕M (TrivSqZeroExt A M; M·M=0) the ideal J=I⊕M
-carries the divided power structure δ with δ₀=1 and δ_n(x+z)=γ_n(x)+γ_(n−1)(x)·z for n≥1, x∈I, z∈M.
-The inclusion A→B is a divided power morphism (I,γ)→(J,δ).
+**Divided powers on a square-zero extension.** Let `(A,I,γ)` be a divided power ring and `M` an
+`A`-module. On the trivial square-zero extension `B=A⊕M` (`TrivSqZeroExt A M`; `M·M=0`) the ideal `J=I⊕M`
+carries the divided power structure `δ` with `δ₀=1` and `δ_n(x+z)=γ_n(x)+γ_(n−1)(x)·z` for `n≥1`, `x∈I`, `z∈M`.
+The inclusion `A→B` is a divided power morphism `(I,γ)→(J,δ)`.
 
-*Hypotheses.* (A,I,γ) is a divided power ring (A commutative) and M an A-module. B=A⊕M has the
-multiplication (a,m)(a′,m′)=(aa′,am′+a′m).
+*Hypotheses.* `(A,I,γ)` is a divided power ring (`A` commutative) and `M` an `A`-module. `B=A⊕M` has the
+multiplication `(a,m)(a′,m′)=(aa′,am′+a′m)`.
 
 The API:
 
-- `Crystalline.pdSqZeroExt_dpow`: δ_n(x+z)=γ_n(x)+γ_(n−1)(x)·z for n≥1, x∈I, z∈M.
-- `Crystalline.pdSqZeroExt_dpow_inr`: δ₁(z)=z and δ_n(z)=0 for z∈M and n≥2.
-- `Crystalline.pdSqZeroExt_inl_isDPMorphism`: The inclusion A→A⊕M is a divided power morphism from
-  (I,γ) to (I⊕M,δ).
-- `Crystalline.pdSqZeroExt_fst_isDPMorphism`: The projection A⊕M→A is a divided power morphism from
-  (I⊕M,δ) to (I,γ).
-- `Crystalline.pdSqZeroExt_map`: An A-linear map u:M→N induces a divided power morphism A⊕M→A⊕N,
-  a+m↦a+u(m), compatible with composition and identities.
-- `Crystalline.pdSqZeroExt_derivation_iff`: Let A₀→A be a ring map and θ:A→M an A₀-derivation. The
-  ring map A→A⊕M, a↦a+θ(a), is a divided power morphism from (I,γ) to (I⊕M,δ) if and only if
-  θ(γ_n(x))=γ_(n−1)(x)·θ(x) for all x∈I and n≥1.
+- `Crystalline.pdSqZeroExt_dpow`: `δ_n(x+z)=γ_n(x)+γ_(n−1)(x)·z` for `n≥1`, `x∈I`, `z∈M`.
+- `Crystalline.pdSqZeroExt_dpow_inr`: `δ₁(z)=z` and `δ_n(z)=0` for `z∈M` and `n≥2`.
+- `Crystalline.pdSqZeroExt_inl_isDPMorphism`: The inclusion `A→A⊕M` is a divided power morphism from
+  `(I,γ)` to `(I⊕M,δ)`.
+- `Crystalline.pdSqZeroExt_fst_isDPMorphism`: The projection `A⊕M→A` is a divided power morphism from
+  `(I⊕M,δ)` to `(I,γ)`.
+- `Crystalline.pdSqZeroExt_map`: An `A`-linear map `u:M→N` induces a divided power morphism `A⊕M→A⊕N`,
+  `a+m↦a+u(m)`, compatible with composition and identities.
+- `Crystalline.pdSqZeroExt_derivation_iff`: Let `A₀→A` be a ring map and `θ:A→M` an `A₀-derivation`. The
+  ring map `A→A⊕M`, `a↦a+θ(a)`, is a divided power morphism from `(I,γ)` to `(I⊕M,δ)` if and only if
+  `θ(γ_n(x))=γ_(n−1)(x)·θ(x)` for all `x∈I` and `n≥1`.
 
-*Proof sketch.* δ₁ is the identity and δ_n(J)⊆J by the formula. Scalar rule: for b=a+m and y=x+z,
-b·y=ax+(az+xm), bⁿ=aⁿ+n·aⁿ⁻¹m, and δ_n(by)=bⁿδ_n(y) reduces to n·γ_n(x)=x·γ_(n−1)(x). Multiplication
-rule: δ_n(y)δ_m(y)=γ_n(x)γ_m(x)+(γ_n(x)γ_(m−1)(x)+γ_(n−1)(x)γ_m(x))z, and
-binom(n+m−1,n)+binom(n+m−1,m)=binom(n+m,n). Iteration rule:
-δ_n(δ_m(y))=γ_n(γ_m(x))+γ_(n−1)(γ_m(x))γ_(m−1)(x)z, and
-uniformBell(n−1,m)·binom(nm−1,m−1)=uniformBell(n,m). Addition rule: compare the coefficients of 1, z
-and z′ in δ_n(x+x′+z+z′) and in Σ_i δ_i(x+z)δ_(n−i)(x′+z′), using the addition rule for γ. The
-inclusion and the projection are divided power morphisms by the formula (z=0, respectively
-forgetting z). ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section
+*Proof sketch.* `δ₁` is the identity and `δ_n(J)⊆J` by the formula. Scalar rule: for `b=a+m` and `y=x+z`,
+`b·y=ax+(az+xm)`, `bⁿ=aⁿ+n·aⁿ⁻¹m`, and `δ_n(by)=bⁿδ_n(y)` reduces to `n·γ_n(x)=x·γ_(n−1)(x)`. Multiplication
+rule: `δ_n(y)δ_m(y)=γ_n(x)γ_m(x)+(γ_n(x)γ_(m−1)(x)+γ_(n−1)(x)γ_m(x))z`, and
+`binom(n+m−1,n)+binom(n+m−1,m)=binom(n+m,n)`. Iteration rule:
+`δ_n(δ_m(y))=γ_n(γ_m(x))+γ_(n−1)(γ_m(x))γ_(m−1)(x)z`, and
+`uniformBell(n−1,m)·binom(nm−1,m−1)=uniformBell(n,m)`. Addition rule: compare the coefficients of 1, `z`
+and `z′` in `δ_n(x+x′+z+z′)` and in `Σ_i δ_i(x+z)δ_(n−i)(x′+z′)`, using the addition rule for `γ`. The
+inclusion and the projection are divided power morphisms by the formula (`z=0`, respectively
+forgetting `z`). ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section
 60.3, Lemma 60.3.1 (tag 07HH) with proof.) *Needs:* Mathlib `DividedPowers`; Mathlib
 `DividedPowers.IsDPMorphism`; Mathlib `TrivSqZeroExt`.
 
 **Checks.**
 
-- `test_pdSqZeroExt_zero_module`: For M=0 the divided power ring (A⊕0,I⊕0,δ) is (A,I,γ).
-- `test_pdSqZeroExt_dpow_two`: δ₂(x+z)=γ₂(x)+x·z for x∈I, z∈M, and 2·δ₂(x+z)=(x+z)².
-- `test_pdSqZeroExt_F2`: For A=F₂, I=0 and M=F₂, so that B=F₂[ε]/(ε²) and J=(ε): the structure δ has
-  δ₂(ε)=0. The ideal (ε) carries a second divided power structure δ′, with δ′_n(ε)=ε when n is a
-  power of 2 and δ′_n(ε)=0 for the other n≥2; δ′ is not δ.
-- For A=ℤ_(p), I=(p) with its canonical divided powers and M=A: δ_p(p+z)=p^p/p!+(p^(p−1)/(p−1)!)·z.
-- For I=0 the structure on J=M is δ_n(z)=0 for n≥2, the divided powers of an ideal of square zero.
+- `test_pdSqZeroExt_zero_module`: For `M=0` the divided power ring `(A⊕0,I⊕0,δ)` is `(A,I,γ)`.
+- `test_pdSqZeroExt_dpow_two`: `δ₂(x+z)=γ₂(x)+x·z` for `x∈I`, `z∈M`, and `2·δ₂(x+z)=(x+z)²`.
+- `test_pdSqZeroExt_F2`: For `A=𝔽₂`, `I=0` and `M=𝔽₂`, so that `B=𝔽₂[ε]/(ε²)` and `J=(ε)`: the structure `δ` has
+  `δ₂(ε)=0`. The ideal `(ε)` carries a second divided power structure `δ′`, with `δ′_n(ε)=ε` when `n` is a
+  power of 2 and `δ′_n(ε)=0` for the other `n≥2`; `δ′` is not `δ`.
+- For `A=ℤ_(p)`, `I=(p)` with its canonical divided powers and `M=A`: `δ_p(p+z)=p^p/p!+(p^(p−1)/(p−1)!)·z`.
+- For `I=0` the structure on `J=M` is `δ_n(z)=0` for `n≥2`, the divided powers of an ideal of square zero.
 
-**Divided powers on a second-order thickening.** Let (A,I,γ) be a PD ring, M and N A-modules and
-q:M×M→N an A-bilinear map. Let B=A⊕M⊕N with multiplication
-(x,z,w)(x′,z′,w′)=(xx′,xz′+x′z,xw′+x′w+q(z,z′)+q(z′,z)) and J=I⊕M⊕N. Then
-δ_n(x,z,w)=(γ_n(x),γ_{n−1}(x)z,γ_{n−1}(x)w+γ_{n−2}(x)q(z,z)), for (x,z,w)∈J and n≥1, with the
-conventions γ₀=1 and γ₋₁=0, is a PD structure on J, and A→B is a PD homomorphism (A,I,γ)→(B,J,δ)
-(Stacks Lemma 60.3.2). For N=0 this is the PD structure on A⊕M of *Divided powers on a square-zero
+**Divided powers on a second-order thickening.** Let `(A,I,γ)` be a PD ring, `M` and `N` `A`-modules and
+`q:M×M→N` an `A`-bilinear map. Let `B=A⊕M⊕N` with multiplication
+`(x,z,w)(x′,z′,w′)=(xx′,xz′+x′z,xw′+x′w+q(z,z′)+q(z′,z))` and `J=I⊕M⊕N`. Then
+`δ_n(x,z,w)=(γ_n(x),γ_{n−1}(x)z,γ_{n−1}(x)w+γ_{n−2}(x)q(z,z))`, for `(x,z,w)∈J` and `n≥1`, with the
+conventions `γ₀=1` and `γ₋₁=0`, is a PD structure on `J`, and `A→B` is a PD homomorphism `(A,I,γ)→(B,J,δ)`
+(Stacks Lemma 60.3.2). For `N=0` this is the PD structure on `A⊕M` of *Divided powers on a square-zero
 extension*.
 
-*Hypotheses.* (A,I,γ) is a PD ring; M and N are A-modules; q:M×M→N is A-bilinear, not assumed
-symmetric. The formula uses γ₀(x)=1 and γ₋₁(x)=0, so δ₁(x,z,w)=(x,z,w).
+*Hypotheses.* `(A,I,γ)` is a PD ring; `M` and `N` are `A`-modules; `q:M×M→N` is `A`-bilinear, not assumed
+symmetric. The formula uses `γ₀(x)=1` and `γ₋₁(x)=0`, so `δ₁(x,z,w)=(x,z,w)`.
 
-*Proof sketch.* B is a commutative ring: the product is symmetric because q(z,z′)+q(z′,z) is, and
-associative because every product of three elements of M⊕N has zero component in M and component in
-N determined by A-bilinearity. Each axiom involves finitely many elements, so it is enough to prove
-it for A₀=ℤ⟨s,s′⟩ with free modules M₀, N₀ and the universal bilinear map, where everything is
-torsion free; there it suffices that n!·δ_n(x,z,w)=(x,z,w)ⁿ, and by induction
-(x,z,w)ⁿ=(xⁿ,nxⁿ⁻¹z,nxⁿ⁻¹w+n(n−1)xⁿ⁻²q(z,z)) (proof of Stacks Lemma 60.3.2). ([Stacks
+*Proof sketch.* `B` is a commutative ring: the product is symmetric because `q(z,z′)+q(z′,z)` is, and
+associative because every product of three elements of `M⊕N` has zero component in `M` and component in
+`N` determined by `A`-bilinearity. Each axiom involves finitely many elements, so it is enough to prove
+it for `A₀=ℤ⟨s,s′⟩` with free modules `M₀`, `N₀` and the universal bilinear map, where everything is
+torsion free; there it suffices that `n!·δ_n(x,z,w)=(x,z,w)ⁿ`, and by induction
+`(x,z,w)ⁿ=(xⁿ,nxⁿ⁻¹z,nxⁿ⁻¹w+n(n−1)xⁿ⁻²q(z,z))` (proof of Stacks Lemma 60.3.2). ([Stacks
 Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section 60.3, Lemma 60.3.2 (tag
 07HI) with proof.) *Needs:* §PD.5 *Divided powers on a square-zero extension*; *Relative divided power
 polynomial algebras*; Mathlib `DividedPowers`; Mathlib `DividedPowers.IsDPMorphism`; Mathlib
@@ -2211,75 +2185,75 @@ polynomial algebras*; Mathlib `DividedPowers`; Mathlib `DividedPowers.IsDPMorphi
 
 **Checks.**
 
-- For N=0 the formula is δ_n(x,z)=(γ_n(x),γ_{n−1}(x)z), the structure of *Divided powers on a
+- For `N=0` the formula is `δ_n(x,z)=(γ_n(x),γ_{n−1}(x)z)`, the structure of *Divided powers on a
   square-zero extension*.
-- For A=ℤ, I=0, M=N=ℤ and q(z,z′)=zz′: B=ℤ⊕ℤε⊕ℤη with ε=(0,1,0), η=(0,0,1), ε²=(0,0,2)=2η and
-  εη=η²=0 (the subring ℤ[ε]≅ℤ[ε]/(ε³) has index 2 in B and does not contain η), and δ₂(ε)=η, so
-  2·δ₂(ε)=ε².
-- For A=F₂, I=0, M=F₂², N=F₂ and q((a,b),(c,d))=ad, let e₁,e₂ be the
-  two M-basis vectors and η the N-basis vector. Then δ₂(e₁)=δ₂(e₂)=0,
-  δ₂(e₁+e₂)=η and e₁e₂=η; this distinguishes a nonsymmetric q from a square-zero product.
+- For `A=ℤ`, `I=0`, `M=N=ℤ` and `q(z,z′)=zz′`: `B=ℤ⊕ℤε⊕ℤη` with `ε=(0,1,0)`, `η=(0,0,1)`, `ε²=(0,0,2)=2η` and
+  `εη=η²=0` (the subring `ℤ[ε]≅ℤ[ε]/(ε³)` has index 2 in `B` and does not contain `η`), and `δ₂(ε)=η`, so
+  `2·δ₂(ε)=ε²`.
+- For `A=𝔽₂`, `I=0`, `M=𝔽₂²`, `N=𝔽₂` and `q((a,b),(c,d))=ad`, let `e₁,e₂` be the
+  two `M`-basis vectors and `η` the `N`-basis vector. Then `δ₂(e₁)=δ₂(e₂)=0`,
+  `δ₂(e₁+e₂)=η` and `e₁e₂=η`; this distinguishes a nonsymmetric `q` from a square-zero product.
 
 ### PD.6 Divided power envelopes
 
-**Universal base-compatible divided power envelope.** Let (A,I,γ) be a divided power ring, B an
-A-algebra and J an ideal of B with IB⊆J. There is a divided power ring (D,J̄,γ̄) with a divided
-power morphism (A,I,γ)→(D,J̄,γ̄) and an A-algebra map B→D sending J into J̄ such that, for every
-divided power ring (C,K,ε) with a divided power morphism (A,I,γ)→(C,K,ε), composition with B→D is a
-bijection from the divided power morphisms (D,J̄,γ̄)→(C,K,ε) over (A,I,γ) to the A-algebra maps B→C
-sending J into K. It is unique up to unique isomorphism and is called the divided power envelope
-D_(B,γ)(J) of J in B relative to (A,I,γ). The map B/J→D/J̄ induced by B→D is an isomorphism.
+**Universal base-compatible divided power envelope.** Let `(A,I,γ)` be a divided power ring, `B` an
+`A`-algebra and `J` an ideal of `B` with `IB⊆J`. There is a divided power ring `(D,J̄,γ̄)` with a divided
+power morphism `(A,I,γ)→(D,J̄,γ̄)` and an `A`-algebra map `B→D` sending `J` into `J̄` such that, for every
+divided power ring `(C,K,ε)` with a divided power morphism `(A,I,γ)→(C,K,ε)`, composition with `B→D` is a
+bijection from the divided power morphisms `(D,J̄,γ̄)→(C,K,ε)` over `(A,I,γ)` to the `A`-algebra maps `B→C`
+sending `J` into `K`. It is unique up to unique isomorphism and is called the divided power envelope
+`D_(B,γ)(J)` of `J` in `B` relative to `(A,I,γ)`. The map `B/J→D/J̄` induced by `B→D` is an isomorphism.
 
 `Suggested.lean` declares `PD.IsPDEnvelope`, `PD.exists_isPDEnvelope`.
 
-*Hypotheses.* (A,I,γ) is a divided power ring, B a commutative A-algebra with structure map φ, and J
-an ideal of B with IB⊆J. The targets of the universal property are divided power rings (C,K,ε)
-together with a divided power morphism (A,I,γ)→(C,K,ε).
+*Hypotheses.* `(A,I,γ)` is a divided power ring, `B` a commutative `A`-algebra with structure map `φ`, and `J`
+an ideal of `B` with `IB⊆J`. The targets of the universal property are divided power rings `(C,K,ε)`
+together with a divided power morphism `(A,I,γ)→(C,K,ε)`.
 
 The API:
 
-- `Crystalline.PDEnvelope.lift`: For a divided power ring (C,K,ε) with a divided power morphism from
-  (A,I,γ) and an A-algebra map f:B→C with f(J)⊆K there is a unique divided power morphism
-  g:(D,J̄,γ̄)→(C,K,ε) of A-algebras with g∘(B→D)=f.
-- `Crystalline.PDEnvelope.quotient`: D/J̄≅B/J compatibly with B.
-- `Crystalline.PDEnvelope.map`: Let (A,I,γ)→(A′,I′,γ′) be a divided power morphism, B→B′ a ring map
-  over A→A′, and J⊆B, J′⊆B′ ideals with IB⊆J, I′B′⊆J′ and JB′⊆J′. There is a unique divided power
-  morphism D_(B,γ)(J)→D_(B′,γ′)(J′) compatible with B→B′; these maps are compatible with
+- `Crystalline.PDEnvelope.lift`: For a divided power ring `(C,K,ε)` with a divided power morphism from
+  `(A,I,γ)` and an `A`-algebra map `f:B→C` with `f(J)⊆K` there is a unique divided power morphism
+  `g:(D,J̄,γ̄)→(C,K,ε)` of `A`-algebras with `g∘(B→D)=f`.
+- `Crystalline.PDEnvelope.quotient`: `D/J̄≅B/J` compatibly with `B`.
+- `Crystalline.PDEnvelope.map`: Let `(A,I,γ)→(A′,I′,γ′)` be a divided power morphism, `B→B′` a ring map
+  over `A→A′`, and `J⊆B`, `J′⊆B′` ideals with `IB⊆J`, `I′B′⊆J′` and `JB′⊆J′`. There is a unique divided power
+  morphism `D_(B,γ)(J)→D_(B′,γ′)(J′)` compatible with `B→B′`; these maps are compatible with
   composition, and the identity induces the identity.
-- `Crystalline.PDEnvelope.span_dpow_image`: The elements γ̄_n(x), n≥1, x in the image of J, generate
-  J̄ as an ideal of D and generate D as a B-algebra.
-- `Crystalline.PDEnvelope.presentation`: Let (B,I,γ) be a divided power ring, J an ideal with I⊆J⊆B
-  and (f_t)_(t∈T) elements of J with J=I+(f_t). The divided power morphism
-  Ψ:(B⟨x_t⟩,IB⟨x_t⟩+B⟨x_t⟩₊,δ)→D_(B,γ)(J) with x_t↦(image of f_t) is surjective, and its kernel is
-  the ideal generated by the x_t−f_t and the δ_n(Σ_t r_t x_t−r₀), n≥1, for all r₀∈I and finitely
-  supported (r_t)∈B^(T) with Σ_t r_t f_t=r₀.
-- `Crystalline.PDEnvelope.compatible_lift`: Let J₀ be any ideal of B, D=D_(B,γ)(J₀+IB) with divided
-  power ideal J̄, and J̄₀⊆J̄ the sub-PD ideal generated by the image of J₀. Then J̄=J̄₀+ID, the
-  divided powers of J̄₀ are compatible with γ, and for every A-algebra C with a divided power ideal
-  (K,ε) compatible with γ and every A-algebra map f:B→C with f(J₀)⊆K there is a unique A-algebra map
-  g:D→C with g∘(B→D)=f that is a divided power morphism (J̄₀,γ̄)→(K,ε).
-- `Crystalline.PDEnvelope.eq_of_isCompatible`: Let J₀ be an ideal of B and (D₀,J̄₀,δ₀) the envelope
-  of J₀ in B relative to the trivial divided power structure on the zero ideal of A. If δ₀ is
-  compatible with γ, with glued structure γ̄ on J̄₀+ID₀, then (D₀,J̄₀+ID₀,γ̄) is the envelope
-  D_(B,γ)(J₀+IB): the canonical map D₀→D_(B,γ)(J₀+IB) is an isomorphism of B-algebras. The
-  hypothesis holds if γ extends to ID₀ and ID₀∩J̄₀=ID₀·J̄₀; for (A,I,γ)=(ℤ_(p),(p),canonical) this
-  is the case when B/J₀ is p-torsion-free, and when B is a ℤ/p^n-algebra with B/J₀ flat over ℤ/p^n.
+- `Crystalline.PDEnvelope.span_dpow_image`: The elements `γ̄_n(x)`, `n≥1`, `x` in the image of `J`, generate
+  `J̄` as an ideal of `D` and generate `D` as a `B`-algebra.
+- `Crystalline.PDEnvelope.presentation`: Let `(B,I,γ)` be a divided power ring, `J` an ideal with `I⊆J⊆B`
+  and `(f_t)_(t∈T)` elements of `J` with `J=I+(f_t)`. The divided power morphism
+  `Ψ:(B⟨x_t⟩,IB⟨x_t⟩+B⟨x_t⟩₊,δ)→D_(B,γ)(J)` with `x_t↦(image of f_t)` is surjective, and its kernel is
+  the ideal generated by the `x_t−f_t` and the `δ_n(Σ_t r_t x_t−r₀)`, `n≥1`, for all `r₀∈I` and finitely
+  supported `(r_t)∈B^(T)` with `Σ_t r_t f_t=r₀`.
+- `Crystalline.PDEnvelope.compatible_lift`: Let `J₀` be any ideal of `B`, `D=D_(B,γ)(J₀+IB)` with divided
+  power ideal `J̄`, and `J̄₀⊆J̄` the sub-PD ideal generated by the image of `J₀`. Then `J̄=J̄₀+ID`, the
+  divided powers of `J̄₀` are compatible with `γ`, and for every `A`-algebra `C` with a divided power ideal
+  `(K,ε)` compatible with `γ` and every `A`-algebra map `f:B→C` with `f(J₀)⊆K` there is a unique `A`-algebra map
+  `g:D→C` with `g∘(B→D)=f` that is a divided power morphism `(J̄₀,γ̄)→(K,ε)`.
+- `Crystalline.PDEnvelope.eq_of_isCompatible`: Let `J₀` be an ideal of `B` and `(D₀,J̄₀,δ₀)` the envelope
+  of `J₀` in `B` relative to the trivial divided power structure on the zero ideal of `A`. If `δ₀` is
+  compatible with `γ`, with glued structure `γ̄` on `J̄₀+ID₀`, then `(D₀,J̄₀+ID₀,γ̄)` is the envelope
+  `D_(B,γ)(J₀+IB)`: the canonical map `D₀→D_(B,γ)(J₀+IB)` is an isomorphism of `B`-algebras. The
+  hypothesis holds if `γ` extends to `ID₀` and `ID₀∩J̄₀=ID₀·J̄₀`; for `(A,I,γ)=(ℤ_(p),(p),canonical)` this
+  is the case when `B/J₀` is p-torsion-free, and when `B` is a `ℤ/p^n`-algebra with `B/J₀` flat over `ℤ/p^n`.
 
-*Proof sketch.* Construction. Let Γ=Γ_B(J) be the divided power algebra of the B-module J with its
-canonical divided powers on Γ⁺ (gamma-canonical-pd). Let 𝔎 be the smallest ideal of Γ that contains
-dp₁(j)−j for j∈J and dp_n(φ(a))−φ(γ_n(a)) for a∈I, n≥1, and whose intersection with Γ⁺ is a sub-PD
-ideal of Γ⁺; it exists because an intersection of ideals with these properties has them and Γ itself
-has them. Put D=Γ/𝔎, let J̄ be the image of Γ⁺ and γ̄ the quotient divided powers
-(DividedPowers.Quotient.dividedPowers). The map B→D sends j∈J to the class of dp₁(j), which lies in
-J̄. A→D is a divided power morphism: for a∈I, φ(a)∈J because IB⊆J, and
-γ̄_n(φ(a))=dp_n(φ(a))=φ(γ_n(a)) in D. Universal property. Given (C,K,ε) over (A,I,γ) and an
-A-algebra map ψ:B→C with ψ(J)⊆K, gamma-canonical-pd gives the unique divided power B-algebra map
-g:Γ→C with g(dp₁(j))=ψ(j). Its kernel contains both families of relations and meets Γ⁺ in a sub-PD
-ideal (DividedPowers.isSubDPIdeal_ker), hence contains 𝔎; so g factors through D. Uniqueness holds
-because D is generated as a B-algebra by the γ̄_n of the images of elements of J. Quotient. With
-ε_Γ:Γ→B the augmentation, D/J̄=Γ/(𝔎+Γ⁺)=B/ε_Γ(𝔎). ε_Γ(𝔎) contains J (image of dp₁(j)−j). Conversely
-𝔎⊆ε_Γ⁻¹(J)=JΓ+Γ⁺, because this ideal contains the relations (φ(γ_n(a))∈IB⊆J) and meets Γ⁺ in Γ⁺.
-Hence D/J̄=B/J. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section
+*Proof sketch.* Construction. Let `Γ=Γ_B(J)` be the divided power algebra of the `B`-module `J` with its
+canonical divided powers on `Γ⁺` (gamma-canonical-pd). Let `𝔎` be the smallest ideal of `Γ` that contains
+`dp₁(j)−j` for `j∈J` and `dp_n(φ(a))−φ(γ_n(a))` for `a∈I`, `n≥1`, and whose intersection with `Γ⁺` is a sub-PD
+ideal of `Γ⁺`; it exists because an intersection of ideals with these properties has them and `Γ` itself
+has them. Put `D=Γ/𝔎`, let `J̄` be the image of `Γ⁺` and `γ̄` the quotient divided powers
+(`DividedPowers.Quotient.dividedPowers`). The map `B→D` sends `j∈J` to the class of `dp₁(j)`, which lies in
+`J̄`. `A→D` is a divided power morphism: for `a∈I`, `φ(a)∈J` because `IB⊆J`, and
+`γ̄_n(φ(a))=dp_n(φ(a))=φ(γ_n(a))` in `D`. Universal property. Given `(C,K,ε)` over `(A,I,γ)` and an
+`A`-algebra map `ψ:B→C` with `ψ(J)⊆K`, gamma-canonical-pd gives the unique divided power `B`-algebra map
+`g:Γ→C` with `g(dp₁(j))=ψ(j)`. Its kernel contains both families of relations and meets `Γ⁺` in a sub-PD
+ideal (`DividedPowers.isSubDPIdeal_ker`), hence contains `𝔎`; so `g` factors through `D`. Uniqueness holds
+because `D` is generated as a `B`-algebra by the `γ̄_n` of the images of elements of `J`. Quotient. With
+`ε_Γ:Γ→B` the augmentation, `D/J̄=Γ/(𝔎+Γ⁺)=B/ε_Γ(𝔎)`. `ε_Γ(𝔎)` contains `J` (image of `dp₁(j)−j`). Conversely
+`𝔎⊆ε_Γ⁻¹(J)=JΓ+Γ⁺`, because this ideal contains the relations `(φ(γ_n(a))∈IB⊆J)` and meets `Γ⁺` in `Γ⁺`.
+Hence `D/J̄=B/J`. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section
 60.2 (07H7): Lemma 60.2.1 (07H8), Definition 60.2.2 (07H9) and the properties listed after it;
 presentation: Lemma 60.2.4 (07HC).) *Needs:* §PD.5 *Canonical divided powers on the augmentation
 ideal*; DerivedModuleAlgebra §0.DP.3 *Augmentation of the divided power algebra*;
@@ -2290,47 +2264,47 @@ Mathlib `DividedPowers.Quotient.dividedPowers`; Mathlib `DividedPowers.isSubDPId
 
 **Checks.**
 
-- `test_envelope_zero`: If I=J=0, D=B with zero PD ideal.
-- `test_envelope_existing`: If (B,J,δ) is a divided power ring and A→B is a divided power morphism
-  (I,γ)→(J,δ), there is a divided power morphism r:D_(B,γ)(J)→B with r∘(B→D)=id_B; in particular B→D
+- `test_envelope_zero`: If `I=J=0`, `D=B` with zero PD ideal.
+- `test_envelope_existing`: If `(B,J,δ)` is a divided power ring and `A→B` is a divided power morphism
+  `(I,γ)→(J,δ)`, there is a divided power morphism `r:D_(B,γ)(J)→B` with `r∘(B→D)=id_B`; in particular `B→D`
   is injective.
-- `test_envelope_Fp_t`: For A=F_p, I=0, B=F_p[t], J=(t): D=F_p⟨t⟩ and t^p=0 in D, so B→D is not
+- `test_envelope_Fp_t`: For `A=𝔽_p`, `I=0`, `B=𝔽_p[t]`, `J=(t)`: `D=𝔽_p⟨t⟩` and `t^p=0` in `D`, so `B→D` is not
   injective.
-- `test_envelope_truncated`: For A=F_p, I=0, B=F_p[t]/(t^p) and J=(t) with the divided powers
-  γ_n(t)=tⁿ/n! for n<p and γ_n(t)=0 for n≥p: D_B(J)=F_p⟨t⟩, and the retraction D→B kills t^[n] for
-  n≥p; so D≠B although J has divided powers.
-- `test_envelope_two_bases`: For B=ℤ_(p) and J=(p): relative to (ℤ_(p),(p),canonical) the envelope
-  is ℤ_(p); relative to the trivial base (ℤ_(p),0) it is ℤ_(p)⟨x⟩/(x−p), in which the class of
-  x^[p]−p^p/p! is non-zero and killed by p.
+- `test_envelope_truncated`: For `A=𝔽_p`, `I=0`, `B=𝔽_p[t]/(t^p)` and `J=(t)` with the divided powers
+  `γ_n(t)=tⁿ/n!` for `n<p` and `γ_n(t)=0` for `n≥p`: `D_B(J)=𝔽_p⟨t⟩`, and the retraction `D→B` kills `t^[n]` for
+  `n≥p`; so `D≠B` although `J` has divided powers.
+- `test_envelope_two_bases`: For `B=ℤ_(p)` and `J=(p)`: relative to `(ℤ_(p),(p),canonical)` the envelope
+  is `ℤ_(p)`; relative to the trivial base `(ℤ_(p),0)` it is `ℤ_(p)⟨x⟩/(x−p)`, in which the class of
+  `x^[p]−p^p/p!` is non-zero and killed by `p`.
 
-**Compatible-base envelopes with fixed quotient.** Let (A,I,γ) be a PD ring, B a commutative
-A-algebra and J⊂B any ideal. Assume γ extends to I(B/J). There is a B-algebra D with PD ideal
-(K,δ), J mapping into K, δ compatible with γ and B/J≅D/K. Its universal property tests all
-A-algebras C with a PD ideal (L,ε) compatible with γ: every A-algebra map B→C carrying J into L
-factors uniquely through a PD A-algebra map (D,K,δ)→(C,L,ε). K need not contain ID; the powers on
-K and ID have a common extension on K+ID.
+**Compatible-base envelopes with fixed quotient.** Let `(A,I,γ)` be a PD ring, `B` a commutative
+`A`-algebra and `J⊂B` any ideal. Assume `γ` extends to `I(B/J)`. There is a `B`-algebra `D` with PD ideal
+`(K,δ)`, `J` mapping into `K`, `δ` compatible with `γ` and `B/J≅D/K`. Its universal property tests all
+`A`-algebras `C` with a PD ideal `(L,ε)` compatible with `γ`: every `A`-algebra map `B→C` carrying `J` into `L`
+factors uniquely through a PD `A`-algebra map `(D,K,δ)→(C,L,ε)`. `K` need not contain `ID`; the powers on
+`K` and `ID` have a common extension on `K+ID`.
 
 `Suggested.lean` declares `PD.IsCompatiblePDEnvelope`, `PD.exists_isCompatiblePDEnvelope`.
 
-*Hypotheses.* The base powers extend to the image ideal I(B/J); neither IB⊆J nor extension to B
-is required. Compatibility of each test ideal with γ is part of the universal property.
+*Hypotheses.* The base powers extend to the image ideal `I(B/J)`; neither `IB⊆J` nor extension to `B`
+is required. Compatibility of each test ideal with `γ` is part of the universal property.
 
 The API:
 
-- `Crystalline.compatiblePDEnvelope.lift`: Maps carrying J into a compatible PD test ideal have the
+- `Crystalline.compatiblePDEnvelope.lift`: Maps carrying `J` into a compatible PD test ideal have the
   unique factorization above.
-- `Crystalline.compatiblePDEnvelope.quotient`: The induced map B/J→D/K is an isomorphism.
-- `Crystalline.compatiblePDEnvelope.containing_base`: If IB⊆J, this is the universal
-  base-compatible envelope, with K its full PD ideal.
+- `Crystalline.compatiblePDEnvelope.quotient`: The induced map `B/J→D/K` is an isomorphism.
+- `Crystalline.compatiblePDEnvelope.containing_base`: If `IB⊆J`, this is the universal
+  base-compatible envelope, with `K` its full PD ideal.
 
-*Proof sketch.* Use `Crystalline.PDEnvelope.compatible_lift`: form the envelope D of J+IB over
-(A,I,γ), and let K be the sub-PD ideal generated by the image of J. Its restricted powers are
-compatible with γ and have the required universal property. The relative PD-polynomial
-presentation of the preceding target imposes the base-compatibility relations. Modulo K all
-positive divided powers of J vanish, so B/J→D/K is surjective. Apply the universal property to
-C=B/J with zero PD ideal, which is compatible because γ extends to I(B/J). The resulting map
-D→B/J kills K and gives a left inverse to that surjection, hence the quotient isomorphism.
-(Berthelot, *Cohomologie cristalline des schémas de caractéristique p>0*, I.2.4.3(iii), as
+*Proof sketch.* Use `Crystalline.PDEnvelope.compatible_lift`: form the envelope `D` of `J+IB` over
+`(A,I,γ)`, and let `K` be the sub-PD ideal generated by the image of `J`. Its restricted powers are
+compatible with `γ` and have the required universal property. The relative PD-polynomial
+presentation of the preceding target imposes the base-compatibility relations. Modulo `K` all
+positive divided powers of `J` vanish, so `B/J→D/K` is surjective. Apply the universal property to
+`C=B/J` with zero PD ideal, which is compatible because `γ` extends to `I(B/J)`. The resulting map
+`D→B/J` kills `K` and gives a left inverse to that surjection, hence the quotient isomorphism.
+(Berthelot, *Cohomologie cristalline des schémas de caractéristique `p>0`*, I.2.4.3(iii), as
 identified in [Du–Moon–Shimizu, *On log crystalline higher direct
 image*](https://arxiv.org/abs/2603.00559v1), Theorem 2.1(1)–(2) and footnote 2, pp.5–6;
 [Stacks Project](https://stacks.math.columbia.edu/tag/07HK), Definition 60.4.1, for compatibility.)
@@ -2340,40 +2314,40 @@ Mathlib `DividedPowers.SubDPIdeal` and `DividedPowers.Quotient.dividedPowers`.
 
 **Checks.**
 
-- `compatible_identity`: For B=A=ℤ/4, J=0 and the canonical powers on I=(2), D=A and K=0;
-  ID=(2) is not contained in K. The zero PD ideal is compatible with the base powers, but the
-  identity is not a PD morphism from (I,γ) to (0,0), since 2 does not map to zero.
+- `compatible_identity`: For `B=A=ℤ/4`, `J=0` and the canonical powers on `I=(2)`, `D=A` and `K=0`;
+  `ID=(2)` is not contained in `K`. The zero PD ideal is compatible with the base powers, but the
+  identity is not a PD morphism from `(I,γ)` to `(0,0)`, since 2 does not map to zero.
   `Suggested.lean` mirrors this compatible identity envelope and the failure of a base PD morphism.
-- `compatible_zero_base`: For A=F_p, I=0, B=F_p[t], J=(t), D=F_p⟨t⟩ with its augmentation
-  ideal K and D/K=F_p.
-- `compatible_containing_base`: For B=A=ℤ/4, I=J=(2) with canonical base powers, D=A,
-  K=(2) and D/K=F₂, agreeing with the preceding envelope.
+- `compatible_zero_base`: For `A=𝔽_p`, `I=0`, `B=𝔽_p[t]`, `J=(t)`, `D=𝔽_p⟨t⟩` with its augmentation
+  ideal `K` and `D/K=𝔽_p`.
+- `compatible_containing_base`: For `B=A=ℤ/4`, `I=J=(2)` with canonical base powers, `D=A`,
+  `K=(2)` and `D/K=𝔽₂`, agreeing with the preceding envelope.
 
-**Pushouts of divided power rings.** The category of PD rings, with objects the triples (A,I,γ) and
+**Pushouts of divided power rings.** The category of PD rings, with objects the triples `(A,I,γ)` and
 morphisms the PD homomorphisms, has all colimits (Stacks, Divided Power Algebra, Lemma 23.3.4). Let
-(B,J,δ)←(A,I,γ)→(B′,J′,δ′) be PD homomorphisms and (B″,J″,δ″) their pushout. Then (1)
-B″/J″=B/J⊗_{A/I}B′/J′; (2) the map φ:B⊗_AB′→B″ is surjective; (3) φ maps J⊗_AB′+B⊗_AJ′ onto J″
-(Remark 23.3.5). The map φ need not be an isomorphism: the forgetful functor (A,I,γ)↦A does not
+`(B,J,δ)←(A,I,γ)→(B′,J′,δ′)` be PD homomorphisms and `(B″,J″,δ″)` their pushout. Then (1)
+`B″/J″=B/J⊗_{A/I}B′/J′`; (2) the map `φ:B⊗_AB′→B″` is surjective; (3) `φ` maps `J⊗_AB′+B⊗_AJ′` onto `J″`
+(Remark 23.3.5). The map `φ` need not be an isomorphism: the forgetful functor `(A,I,γ)↦A` does not
 commute with colimits (Remark 23.3.6).
 
-*Hypotheses.* (A,I,γ), (B,J,δ) and (B′,J′,δ′) are PD rings, with PD homomorphisms from the first to
+*Hypotheses.* `(A,I,γ)`, `(B,J,δ)` and `(B′,J′,δ′)` are PD rings, with PD homomorphisms from the first to
 the other two.
 
-*Proof sketch.* For a small diagram of PD rings, take its underlying commutative-ring colimit R
-using Mathlib CommRingCat.Colimits.hasColimits_commRingCat. Let J⊂R be the ideal generated by the
-images of all source PD ideals. Form the envelope D_R(J) over the PD base (ℤ,0) by *Universal
-base-compatible divided power envelope*. For every source object i, x∈I_i and n≥1 impose
-γ_D,n(image(x))−image(γ_i,n(x))=0. These relations lie in the envelope PD ideal. Take their PD-ideal
-closure with DividedPowers.SubDPIdeal.span_carrier_eq_dpow_span and quotient using
-DividedPowers.Quotient.dividedPowers. The quotient carries a PD cocone. Any PD cocone first induces
-R→C, then extends uniquely to D by the envelope property; it kills the relations and their PD
+*Proof sketch.* For a small diagram of PD rings, take its underlying commutative-ring colimit `R`
+using Mathlib `CommRingCat.Colimits.hasColimits_commRingCat`. Let `J⊂R` be the ideal generated by the
+images of all source PD ideals. Form the envelope `D_R(J)` over the PD base `(ℤ,0)` by *Universal
+base-compatible divided power envelope*. For every source object `i`, `x∈I_i` and `n≥1` impose
+`γ_D,n(image(x))−image(γ_i,n(x))=0`. These relations lie in the envelope PD ideal. Take their PD-ideal
+closure with `DividedPowers.SubDPIdeal.span_carrier_eq_dpow_span` and quotient using
+`DividedPowers.Quotient.dividedPowers`. The quotient carries a PD cocone. Any PD cocone first induces
+`R→C`, then extends uniquely to `D` by the envelope property; it kills the relations and their PD
 closure, so factors uniquely through the quotient. This gives all small colimits without a
-representability criterion. For a pushout, test the universal property on (C,0) to identify B″/J″
-with B/J⊗_(A/I)B′/J′. The image of B⊗_A B′ in B″ and the ideal generated there by images of J,J′ are
-stable under all divided powers: expand sums and use γ_n(ax)=a^nγ_n(x), with the source PD
+representability criterion. For a pushout, test the universal property on `(C,0)` to identify `B″/J″`
+with `B/J⊗_(A/I)B′/J′`. The image of `B⊗_A B′` in `B″` and the ideal generated there by images of `J,J′` are
+stable under all divided powers: expand sums and use `γ_n(ax)=a^nγ_n(x)`, with the source PD
 compatibility on each generator. This image PD subring is itself a cocone; the pushout property
-forces its inclusion into B″ to be an isomorphism. Thus the tensor map is surjective and its ideal
-image is J″, as in Stacks Remark 23.3.5. ([Stacks Project](https://stacks.math.columbia.edu),
+forces its inclusion into `B″` to be an isomorphism. Thus the tensor map is surjective and its ideal
+image is `J″`, as in Stacks Remark 23.3.5. ([Stacks Project](https://stacks.math.columbia.edu),
 Divided Power Algebra, §23.3, Lemma 23.3.4 and Remarks 23.3.5–23.3.6; [Stacks
 Project](https://stacks.math.columbia.edu), Crystalline Cohomology, §60.2, Lemma 60.2.1 (tag 07H8),
 universal envelope construction.) *Needs:* §PD.6 *Universal base-compatible divided power envelope*;
@@ -2384,49 +2358,47 @@ Mathlib `DividedPowers`; Mathlib `DividedPowers.IsDPMorphism`; Mathlib
 
 **Checks.**
 
-- For (A,I,γ)=(ℤ,0,∅) and B=B′=ℤ/4 with J=J′=(2), δ₂(2)=2 and δ′₂(2)=0: the pushout is (F₂,0,∅),
-  because 2=δ₂(2)=δ′₂(2)=0 in it, whereas ℤ/4⊗_ℤℤ/4=ℤ/4 (Remark 23.3.6).
-- A pushout whose second leg is the identity of (A,I,γ) is (B,J,δ), with its original powers.
-- With all three PD ideals zero, the pushout is the ordinary tensor product B⊗_A B′ with zero
+- For `(A,I,γ)=(ℤ,0,∅)` and `B=B′=ℤ/4` with `J=J′=(2)`, `δ₂(2)=2` and `δ′₂(2)=0`: the pushout is `(𝔽₂,0,∅)`,
+  because `2=δ₂(2)=δ′₂(2)=0` in it, whereas `ℤ/4⊗_ℤℤ/4=ℤ/4` (Remark 23.3.6).
+- A pushout whose second leg is the identity of `(A,I,γ)` is `(B,J,δ)`, with its original powers.
+- With all three PD ideals zero, the pushout is the ordinary tensor product `B⊗_A B′` with zero
   PD ideal; no additional divided-power relations change its ring.
 
-**Envelope quotient and transitivity.** (1) Quotients. Let (A,I,γ) be a divided power ring, φ:B′→B a
-surjection of A-algebras with kernel K, J an ideal of B with IB⊆J and J′=φ⁻¹(J). Write
-(D′,J̄′,γ̄′)=D_(B′,γ)(J′). The divided power morphism D′→D_(B,γ)(J) induced by φ is surjective, and
-its kernel is the ideal K′ generated by the γ̄′_n(k), n≥1, k in the image of K; K′ is a sub-PD ideal
-of J̄′ and D_(B,γ)(J)=(D′/K′,J̄′/K′,γ̄′). Consequently, for ideals K⊆L⊆J′ of B′, the envelope of
-J′/L in B′/L is the quotient of the envelope of J′/K in B′/K by the ideal generated by the divided
-powers of the image of L. (2) Change of base. If A→A′ is a ring map such that γ extends to a divided
-power structure γ′ on IA′, B is an A′-algebra and J an ideal of B with IB⊆J, then
-D_(B,γ)(J)=D_(B,γ′)(J): the two universal properties coincide. (3) Envelope over an envelope. Let A″
-be an A-algebra, J″ an ideal of A″ with IA″⊆J″ and (A′,I′,γ′)=D_(A″,γ)(J″). Let B″ be an A″-algebra
-and J an ideal of B″ with J″B″⊆J. Then the canonical divided power morphism
-D_(B″,γ)(J)→D_(B″⊗_(A″)A′,γ′)(J̃), where J̃ is the ideal generated by the images of J and of I′, is
+**Envelope quotient and transitivity.** (1) Quotients. Let `(A,I,γ)` be a divided power ring, `φ:B′→B` a
+surjection of `A`-algebras with kernel `K`, `J` an ideal of `B` with `IB⊆J` and `J′=φ⁻¹(J)`. Write
+`(D′,J̄′,γ̄′)=D_(B′,γ)(J′)`. The divided power morphism `D′→D_(B,γ)(J)` induced by `φ` is surjective, and
+its kernel is the ideal `K′` generated by the `γ̄′_n(k)`, `n≥1`, `k` in the image of `K`; `K′` is a sub-PD ideal
+of `J̄′` and `D_(B,γ)(J)=(D′/K′,J̄′/K′,γ̄′)`. Consequently, for ideals `K⊆L⊆J′` of `B′`, the envelope of
+`J′/L` in `B′/L` is the quotient of the envelope of `J′/K` in `B′/K` by the ideal generated by the divided
+powers of the image of `L`. (2) Change of base. If `A→A′` is a ring map such that `γ` extends to a divided
+power structure `γ′` on `IA′`, `B` is an `A′`-algebra and `J` an ideal of `B` with `IB⊆J`, then
+`D_(B,γ)(J)=D_(B,γ′)(J)`: the two universal properties coincide. (3) Envelope over an envelope. Let `A″`
+be an `A`-algebra, `J″` an ideal of `A″` with `IA″⊆J″` and `(A′,I′,γ′)=D_(A″,γ)(J″)`. Let `B″` be an `A″`-algebra
+and `J` an ideal of `B″` with `J″B″⊆J`. Then the canonical divided power morphism
+`D_(B″,γ)(J)→D_(B″⊗_(A″)A′,γ′)(J̃)`, where `J̃` is the ideal generated by the images of `J` and of `I′`, is
 an isomorphism.
 
-*Hypotheses.* (A,I,γ) is a divided power ring; all rings are commutative. (1): φ:B′→B is a
-surjective A-algebra map with kernel K; J is an ideal of B with IB⊆J and J′ its preimage
-(equivalently K⊆J′ and J=φ(J′)); in the last sentence K⊆L⊆J′. (2): γ′ is a divided power structure
-on IA′ for which A→A′ is a divided power morphism (I,γ)→(IA′,γ′); B is an A′-algebra and J an ideal
-of B with IB⊆J. (3): (A′,I′,γ′) is the divided power envelope of J″ in A″ relative to (A,I,γ); B″ is
-an A″-algebra and J an ideal of B″ containing J″B″.
+*Hypotheses.* `(A,I,γ)` is a divided power ring; all rings are commutative. (1): `φ:B′→B` is a
+surjective `A`-algebra map with kernel `K`; `J` is an ideal of `B` with `IB⊆J` and `J′` its preimage
+(equivalently `K⊆J′` and `J=φ(J′)`); in the last sentence `K⊆L⊆J′`. (2): `γ′` is a divided power structure
+on `IA′` for which `A→A′` is a divided power morphism `(I,γ)→(IA′,γ′)`; `B` is an `A′`-algebra and `J` an ideal
+of `B` with `IB⊆J`. (3): `(A′,I′,γ′)` is the divided power envelope of `J″` in `A″` relative to `(A,I,γ)`; `B″` is
+an `A″`-algebra and `J` an ideal of `B″` containing `J″B″`.
 
-*Proof sketch.* (1) The map D′→D=D_(B,γ)(J) exists by the universal property of D′. It is surjective
-because D is generated as a B-algebra by the γ̄_n of the image of J (PDEnvelope.span_dpow_image) and
-J′→J is surjective. Being a divided power morphism, it kills γ̄′_n(k) for k∈K and n≥1. K′ is the
-carrier of the sub-PD ideal generated by the image of K
-(DividedPowers.SubDPIdeal.span_carrier_eq_dpow_span), so D′/K′ carries the quotient divided powers
-(DividedPowers.Quotient.dividedPowers). B′→D′/K′ kills K (take n=1), hence factors through B and
-sends J into J̄′/K′; the universal property of D gives D→D′/K′, inverse to D′/K′→D. The sentence
-about K⊆L is (1) applied to B′→B′/K and to B′→B′/L. (2) Let C be an A′-algebra with a divided power
-ideal (K,ε). If A→C is a divided power morphism for γ, then A′→C is one for γ′: γ′_n(Σa′_i
-y_i)=Σ_(Σn_i=n)∏a′_i^(n_i)γ_(n_i)(y_i) for y_i∈I (API item dpow_sum_mul_map_eq_extensionCoefficient
-of §PD.2 *The scalar-extension coefficient formula*; γ′ is unique by *Uniqueness of extension to the
-generated ideal*), and ε obeys the same sum and scalar rules. The converse is composition. So the
-two envelopes corepresent the same functor. (3) Let (C,K,ε) be a divided power ring over (A,I,γ) and
-ψ:B″→C an A-algebra map with ψ(J)⊆K. Its restriction to A″ sends J″ into K and extends uniquely to a
-divided power morphism α:A′→C; then (C,K,ε) is a divided power ring over (A′,I′,γ′) and
-ψ⊗α:B″⊗_(A″)A′→C sends J̃ into K. Conversely restrict along B″→B″⊗_(A″)A′, using that A→A′ is a
+*Proof sketch.* (1) The map `D′→D=D_(B,γ)(J)` exists by the universal property of `D′`. It is surjective
+because `D` is generated as a `B`-algebra by the `γ̄_n` of the image of `J` (`PDEnvelope.span_dpow_image`) and
+`J′→J` is surjective. Being a divided power morphism, it kills `γ̄′_n(k)` for `k∈K` and `n≥1`. `K′` is the
+carrier of the sub-PD ideal generated by the image of `K` (`DividedPowers.SubDPIdeal.span_carrier_eq_dpow_span`), so `D′/K′` carries the quotient divided powers
+(`DividedPowers.Quotient.dividedPowers`). `B′→D′/K′` kills `K` (take `n=1`), hence factors through `B` and
+sends `J` into `J̄′/K′`; the universal property of `D` gives `D→D′/K′`, inverse to `D′/K′→D`. The sentence
+about `K⊆L` is (1) applied to `B′→B′/K` and to `B′→B′/L`. (2) Let `C` be an `A′`-algebra with a divided power
+ideal `(K,ε)`. If `A→C` is a divided power morphism for `γ`, then `A′→C` is one for `γ′`: `γ′_n(Σa′_i y_i)=Σ_(Σn_i=n)∏a′_i^(n_i)γ_(n_i)(y_i)` for `y_i∈I` (API item `dpow_sum_mul_map_eq_extensionCoefficient`
+of §PD.2 *The scalar-extension coefficient formula*; `γ′` is unique by *Uniqueness of extension to the
+generated ideal*), and `ε` obeys the same sum and scalar rules. The converse is composition. So the
+two envelopes corepresent the same functor. (3) Let `(C,K,ε)` be a divided power ring over `(A,I,γ)` and
+`ψ:B″→C` an `A`-algebra map with `ψ(J)⊆K`. Its restriction to `A″` sends `J″` into `K` and extends uniquely to a
+divided power morphism `α:A′→C`; then `(C,K,ε)` is a divided power ring over `(A′,I′,γ′)` and
+`ψ⊗α:B″⊗_(A″)A′→C` sends `J̃` into `K`. Conversely restrict along `B″→B″⊗_(A″)A′`, using that `A→A′` is a
 divided power morphism. The two assignments are inverse to each other, so both sides corepresent the
 same functor. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section
 60.2 (07H7), Lemma 60.2.3 (tag 07HB) with proof; [Stacks Project](https://stacks.math.columbia.edu),
@@ -2438,43 +2410,38 @@ the generated ideal*; §PD.2 *The scalar-extension coefficient formula*; Mathlib
 
 **Checks.**
 
-- (1) For A=F_p, I=0, B′=F_p[t]→B=F_p[t]/(t^p), J′=(t): the image of t^p in D′=F_p⟨t⟩ is p!·t^[p]=0,
-  so K′=0 and D_B((t))=F_p⟨t⟩: the envelope does not see the relation t^p=0.
-- (1) For a ℤ_(p)-algebra A, the base (ℤ_(p),(p),canonical), an ideal J⊇pA and K=pA: K′=pD because
-  γ̄_n(pa)=aⁿ·(pⁿ/n!)∈pD; hence D_(A/p)(J/pA)=D_A(J)/pD.
-- (2) needs γ′ to be an extension of γ: for A=F_p, I=0 and A′=B=F_p[t]/(t^p) with I′=J=(t) and
-  γ′_n(t)=tⁿ/n! (n<p), 0 (n≥p), D_(B,γ′)(J)=B but D_(B,0)(J)=F_p⟨t⟩.
+- (1) For `A=𝔽_p`, `I=0`, `B′=𝔽_p[t]→B=𝔽_p[t]/(t^p)`, `J′=(t)`: the image of `t^p` in `D′=𝔽_p⟨t⟩` is `p!·t^[p]=0`,
+  so `K′=0` and `D_B((t))=𝔽_p⟨t⟩`: the envelope does not see the relation `t^p=0`.
+- (1) For a `ℤ_(p)`-algebra `A`, the base `(ℤ_(p),(p),canonical)`, an ideal `J⊇pA` and `K=pA`: `K′=pD` because
+  `γ̄_n(pa)=aⁿ·(pⁿ/n!)∈pD`; hence `D_(A/p)(J/pA)=D_A(J)/pD`.
+- (2) needs `γ′` to be an extension of `γ`: for `A=𝔽_p`, `I=0` and `A′=B=𝔽_p[t]/(t^p)` with `I′=J=(t)` and
+  `γ′_n(t)=tⁿ/n! (n<p)`, 0 `(n≥p)`, `D_(B,γ′)(J)=B` but `D_(B,0)(J)=𝔽_p⟨t⟩`.
 
-**Exact base change of divided power envelopes.** (1) Let (A,I,γ) be a divided power ring and B→B′ a
-homomorphism of A-algebras such that B/IB→B′/IB′ is flat and Tor₁^B(B′,B/IB)=0 (equivalently, IB⊗_B
-B′→B′ is injective). Then for every ideal J of B with IB⊆J the canonical map D_(B,γ)(J)⊗_B
-B′→D_(B′,γ)(JB′) is an isomorphism. (2) Let (B,I,γ)→(B′,I′,γ′) be a homomorphism of divided power
-rings and I⊆J⊆B, I′⊆J′⊆B′ ideals such that B/I→B′/I′ is flat and J′=JB′+I′. Then the canonical map
-D_(B,γ)(J)⊗_B B′→D_(B′,γ′)(J′) is an isomorphism. In both cases the canonical map is the B′-linear
-extension of the divided power morphism between the envelopes given by PDEnvelope.map.
+**Exact base change of divided power envelopes.** (1) Let `(A,I,γ)` be a divided power ring and `B→B′` a
+homomorphism of `A`-algebras such that `B/IB→B′/IB′` is flat and `Tor₁^B(B′,B/IB)=0` (equivalently, `IB⊗_B B′→B′` is injective). Then for every ideal `J` of `B` with `IB⊆J` the canonical map `D_(B,γ)(J)⊗_B B′→D_(B′,γ)(JB′)` is an isomorphism. (2) Let `(B,I,γ)→(B′,I′,γ′)` be a homomorphism of divided power
+rings and `I⊆J⊆B`, `I′⊆J′⊆B′` ideals such that `B/I→B′/I′` is flat and `J′=JB′+I′`. Then the canonical map
+`D_(B,γ)(J)⊗_B B′→D_(B′,γ′)(J′)` is an isomorphism. In both cases the canonical map is the `B′`-linear
+extension of the divided power morphism between the envelopes given by `PDEnvelope.map`.
 
-*Hypotheses.* (1): (A,I,γ) is a divided power ring; B→B′ is a map of A-algebras; B/IB→B′/IB′ is
-flat; Tor₁^B(B′,B/IB)=0; J is an ideal of B with IB⊆J. (2): (B,I,γ)→(B′,I′,γ′) is a divided power
-morphism; I⊆J⊆B and I′⊆J′⊆B′ are ideals; B/I→B′/I′ is flat; J′=JB′+I′.
+*Hypotheses.* (1): `(A,I,γ)` is a divided power ring; `B→B′` is a map of `A`-algebras; `B/IB→B′/IB′` is
+flat; `Tor₁^B(B′,B/IB)=0`; `J` is an ideal of `B` with `IB⊆J`. (2): `(B,I,γ)→(B′,I′,γ′)` is a divided power
+morphism; `I⊆J⊆B` and `I′⊆J′⊆B′` are ideals; `B/I→B′/I′` is flat; `J′=JB′+I′`.
 
-*Proof sketch.* (1) It suffices to put divided powers, compatible with those of D=D_(B,γ)(J), on the
-ideal generated by J̄ in D⊗_B B′; the universal property of D_(B′,γ)(JB′) then gives the inverse of
-the canonical map. Choose a polynomial B-algebra P with a surjection P→B′, with kernel 𝔞. D→D⊗_B P
-is flat, so γ̄ extends to the ideal generated by J̄ in D⊗_B P (flat-extension). Tor₁^B(B′,B/IB)=0
-gives 𝔞∩IP=I𝔞, and flatness of B′/IB′ over B/IB then gives that B/J⊗_B 𝔞→B/J⊗_B P is injective;
-hence the kernel of D⊗_B P→D⊗_B B′ meets J̄⊗_B P in the image of J̄⊗_B 𝔞. That image is generated by
-the elements f⊗a (f∈J̄, a∈𝔞), and γ̄_n(f⊗a)=γ̄_n(f)⊗aⁿ lies in it; so it is a sub-PD ideal
-(DividedPowers.span_isSubDPIdeal_iff) and the divided powers descend to D⊗_B B′
-(DividedPowers.Quotient.OfSurjective.dividedPowers). (2) Choose f_t∈J generating J modulo I and
-write D=B⟨x_t⟩/K by PDEnvelope.presentation. Then D⊗_B B′=B′⟨x_t⟩/K′ with K′ generated by the images
-of the generators of K, and the images f′_t of the f_t generate J′ modulo I′ because J′=JB′+I′. It
-remains to show δ′_n(Σ_t r′_t x_t−r′₀)∈K′ for every relation Σ_t r′_t f′_t=r′₀∈I′ over B′ and n≥1.
-By the equational criterion for the flat map B/I→B′/I′
-(Module.Flat.isTrivialRelation_of_sum_smul_eq_zero) there are relations Σ_t r_(jt)f_t=r_(j0)∈I over
-B and elements c_j∈B′ with i′_t=r′_t−Σ_j c_j r_(jt)∈I′. Then Σ_t r′_t x_t−r′₀=Σ_t i′_t(x_t−f′_t)+Σ_j
-c_j(Σ_t r_(jt)x_t−r_(j0)); expanding δ′_n by the sum and scalar rules, every term has a factor
-δ′_m(i′_t(x_t−f′_t))=(x_t−f′_t)^m·γ′_m(i′_t) or δ_m(Σ_t r_(jt)x_t−r_(j0)) with m≥1, and both lie in
-K′. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section 60.2
+*Proof sketch.* (1) It suffices to put divided powers, compatible with those of `D=D_(B,γ)(J)`, on the
+ideal generated by `J̄` in `D⊗_B B′`; the universal property of `D_(B′,γ)(JB′)` then gives the inverse of
+the canonical map. Choose a polynomial `B`-algebra `P` with a surjection `P→B′`, with kernel `𝔞`. `D→D⊗_B P`
+is flat, so `γ̄` extends to the ideal generated by `J̄` in `D⊗_B P` (flat-extension). `Tor₁^B(B′,B/IB)=0`
+gives `𝔞∩IP=I𝔞`, and flatness of `B′/IB′` over `B/IB` then gives that `B/J⊗_B 𝔞→B/J⊗_B P` is injective;
+hence the kernel of `D⊗_B P→D⊗_B B′` meets `J̄⊗_B P` in the image of `J̄⊗_B 𝔞`. That image is generated by
+the elements `f⊗a` (`f∈J̄`, `a∈𝔞`), and `γ̄_n(f⊗a)=γ̄_n(f)⊗aⁿ` lies in it; so it is a sub-PD ideal
+(`DividedPowers.span_isSubDPIdeal_iff`) and the divided powers descend to `D⊗_B B′` (`DividedPowers.Quotient.OfSurjective.dividedPowers`). (2) Choose `f_t∈J` generating `J` modulo `I` and
+write `D=B⟨x_t⟩/K` by `PDEnvelope.presentation`. Then `D⊗_B B′=B′⟨x_t⟩/K′` with `K′` generated by the images
+of the generators of `K`, and the images `f′_t` of the `f_t` generate `J′` modulo `I′` because `J′=JB′+I′`. It
+remains to show `δ′_n(Σ_t r′_t x_t−r′₀)∈K′` for every relation `Σ_t r′_t f′_t=r′₀∈I′` over `B′` and `n≥1`.
+By the equational criterion for the flat map `B/I→B′/I′` (`Module.Flat.isTrivialRelation_of_sum_smul_eq_zero`) there are relations `Σ_t r_(jt)f_t=r_(j0)∈I` over
+`B` and elements `c_j∈B′` with `i′_t=r′_t−Σ_j c_j r_(jt)∈I′`. Then `Σ_t r′_t x_t−r′₀=Σ_t i′_t(x_t−f′_t)+Σ_j c_j(Σ_t r_(jt)x_t−r_(j0))`; expanding `δ′_n` by the sum and scalar rules, every term has a factor
+`δ′_m(i′_t(x_t−f′_t))=(x_t−f′_t)^m·γ′_m(i′_t)` or `δ_m(Σ_t r_(jt)x_t−r_(j0))` with `m≥1`, and both lie in
+`K′`. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section 60.2
 (07H7), Lemma 60.2.6 (tag 07HD) with proof; [Stacks Project](https://stacks.math.columbia.edu),
 Crystalline Cohomology, Section 60.2, Lemma 60.2.7 (tag 07HE) with proof.) *Needs:* *Universal
 base-compatible divided power envelope*; §PD.5 *Relative divided power polynomial algebras*; *Flat
@@ -2483,34 +2450,33 @@ extension of divided powers*; Mathlib `Module.Flat.isTrivialRelation_of_sum_smul
 
 **Checks.**
 
-- Flat case: for B′=B[y] the canonical map D_(B,γ)(J)[y]→D_(B[y],γ)(JB[y]) is an isomorphism.
-- Hypothesis (1) is needed: for A=ℤ_(p), I=0, B=ℤ_(p)→B′=F_p and J=(p), D_B(J)=ℤ_(p)⟨x⟩/(x−p), so
-  D_B(J)⊗_B B′=F_p⟨x⟩/(x) has F_p-basis x^[pj], j≥0, whereas D_(B′)(JB′)=D_(F_p)(0)=F_p; here
-  B/IB→B′/IB′ is not flat.
+- Flat case: for `B′=B[y]` the canonical map `D_(B,γ)(J)[y]→D_(B[y],γ)(JB[y])` is an isomorphism.
+- Hypothesis (1) is needed: for `A=ℤ_(p)`, `I=0`, `B=ℤ_(p)→B′=𝔽_p` and `J=(p)`, `D_B(J)=ℤ_(p)⟨x⟩/(x−p)`, so
+  `D_B(J)⊗_B B′=𝔽_p⟨x⟩/(x)` has `𝔽_p`-basis `x^[pj]`, `j≥0`, whereas `D_(B′)(JB′)=D_(𝔽_p)(0)=𝔽_p`; here
+  `B/IB→B′/IB′` is not flat.
 
-- For B′=B with its identity map, the canonical envelope base-change map is the identity in both assertions.
+- For `B′=B` with its identity map, the canonical envelope base-change map is the identity in both assertions.
 
-**Localization of divided power envelopes.** Let (A,I,γ) be a divided power ring, B an A-algebra, J
-an ideal of B with IB⊆J and S⊆B a multiplicative subset. Write (D,J̄,γ̄)=D_(B,γ)(J). Then
-S⁻¹D=S⁻¹B⊗_B D, with the divided powers γ̄_n(x/s)=γ̄_n(x)/sⁿ (x∈J̄, s∈S) on S⁻¹J̄, is the divided
-power envelope of S⁻¹J in S⁻¹B relative to (A,I,γ): the canonical map S⁻¹B⊗_B
-D_(B,γ)(J)→D_(S⁻¹B,γ)(S⁻¹J) is an isomorphism. If T⊆A is a multiplicative subset whose image in B
-lies in S and γ_T denotes the extension of γ to T⁻¹I⊆T⁻¹A, the same ring is also the envelope of
-S⁻¹J relative to (T⁻¹A,T⁻¹I,γ_T).
+**Localization of divided power envelopes.** Let `(A,I,γ)` be a divided power ring, `B` an `A`-algebra, `J`
+an ideal of `B` with `IB⊆J` and `S⊆B` a multiplicative subset. Write `(D,J̄,γ̄)=D_(B,γ)(J)`. Then
+`S⁻¹D=S⁻¹B⊗_B D`, with the divided powers `γ̄_n(x/s)=γ̄_n(x)/sⁿ` (`x∈J̄`, `s∈S`) on `S⁻¹J̄`, is the divided
+power envelope of `S⁻¹J` in `S⁻¹B` relative to `(A,I,γ)`: the canonical map `S⁻¹B⊗_B D_(B,γ)(J)→D_(S⁻¹B,γ)(S⁻¹J)` is an isomorphism. If `T⊆A` is a multiplicative subset whose image in `B`
+lies in `S` and `γ_T` denotes the extension of `γ` to `T⁻¹I⊆T⁻¹A`, the same ring is also the envelope of
+`S⁻¹J` relative to `(T⁻¹A,T⁻¹I,γ_T)`.
 
-*Hypotheses.* (A,I,γ) is a divided power ring, B a commutative A-algebra, J an ideal of B with IB⊆J,
-and S a multiplicative subset of B. In the last sentence T is a multiplicative subset of A whose
-image in B is contained in S.
+*Hypotheses.* `(A,I,γ)` is a divided power ring, `B` a commutative `A`-algebra, `J` an ideal of `B` with `IB⊆J`,
+and `S` a multiplicative subset of `B`. In the last sentence `T` is a multiplicative subset of `A` whose
+image in `B` is contained in `S`.
 
-*Proof sketch.* localization-formula, applied to (D,J̄,γ̄) and the image of S, gives the divided
-power structure on S⁻¹J̄ with γ̄_n(x/s)=γ̄_n(x)/sⁿ, and D→S⁻¹D is a divided power morphism. So
-(S⁻¹D,S⁻¹J̄) is a divided power ring over (A,I,γ) receiving S⁻¹B, and S⁻¹J maps into S⁻¹J̄.
-Universal property. For a divided power ring (C,K,ε) over (A,I,γ), an A-algebra map S⁻¹B→C sending
-S⁻¹J into K is a map B→C sending J into K and S to units, that is a divided power morphism g:D→C
-sending S to units, that is a ring map S⁻¹D→C whose restriction to D is a divided power morphism;
-such a map is a divided power morphism on S⁻¹J̄ because ε_n(g(x)/g(s))=g(s)^(−n)·ε_n(g(x)).
-Alternatively B→S⁻¹B is flat (IsLocalization.flat), so the hypotheses of envelope-base-change (1)
-hold. The last sentence is envelope-quotient-transitivity (2) for A→T⁻¹A. ([Stacks
+*Proof sketch.* localization-formula, applied to `(D,J̄,γ̄)` and the image of `S`, gives the divided
+power structure on `S⁻¹J̄` with `γ̄_n(x/s)=γ̄_n(x)/sⁿ`, and `D→S⁻¹D` is a divided power morphism. So
+`(S⁻¹D,S⁻¹J̄)` is a divided power ring over `(A,I,γ)` receiving `S⁻¹B`, and `S⁻¹J` maps into `S⁻¹J̄`.
+Universal property. For a divided power ring `(C,K,ε)` over `(A,I,γ)`, an `A`-algebra map `S⁻¹B→C` sending
+`S⁻¹J` into `K` is a map `B→C` sending `J` into `K` and `S` to units, that is a divided power morphism `g:D→C`
+sending `S` to units, that is a ring map `S⁻¹D→C` whose restriction to `D` is a divided power morphism;
+such a map is a divided power morphism on `S⁻¹J̄` because `ε_n(g(x)/g(s))=g(s)^(−n)·ε_n(g(x))`.
+Alternatively `B→S⁻¹B` is flat (`IsLocalization.flat`), so the hypotheses of envelope-base-change (1)
+hold. The last sentence is envelope-quotient-transitivity (2) for `A→T⁻¹A`. ([Stacks
 Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section 60.2 (07H7), the
 paragraph before Lemma 60.2.6 (07HD), and Lemma 60.2.6.) *Needs:* *Universal base-compatible divided
 power envelope*; §PD.2 *Divided powers after localization*; *Exact base change of divided power
@@ -2518,25 +2484,25 @@ envelopes*; §PD.6 *Envelope quotient and transitivity*; Mathlib `IsLocalization
 
 **Checks.**
 
-- For A=F_p, I=0, B=F_p[t], J=(t) and S the powers of t: S⁻¹D_B(J)=F_p⟨t⟩[1/t]=0 because t^p=0 in
-  F_p⟨t⟩, and D_(F_p[t,1/t])((1))=0 because 1=1^p=p!·γ_p(1)=0.
-- If S consists of units of B, both sides are D_(B,γ)(J).
+- For `A=𝔽_p`, `I=0`, `B=𝔽_p[t]`, `J=(t)` and `S` the powers of `t`: `S⁻¹D_B(J)=𝔽_p⟨t⟩[1/t]=0` because `t^p=0` in
+  `𝔽_p⟨t⟩`, and `D_(𝔽_p[t,1/t])((1))=0` because `1=1^p=p!·γ_p(1)=0`.
+- If `S` consists of units of `B`, both sides are `D_(B,γ)(J)`.
 
-- For A=B=ℚ[t], I=0, J=(t) and S generated by t, the localized envelope is ℚ[t,1/t] with its rational powers on the unit ideal.
+- For `A=B=ℚ[t]`, `I=0`, `J=(t)` and `S` generated by `t`, the localized envelope is `ℚ[t,1/t]` with its rational powers on the unit ideal.
 
-**Étale extension of PD envelopes.** Let (A,I,γ) be a PD ring, P an A-algebra, J⊂P an ideal
-containing IP, and P→P′ an étale map. Put J′=JP′. Then D_(P′,γ)(J′)≅P′⊗_P D_(P,γ)(J), with the
-divided powers extended from D along the flat map, compatibly with the quotient P′/J′. The
+**Étale extension of PD envelopes.** Let `(A,I,γ)` be a PD ring, `P` an `A`-algebra, `J⊂P` an ideal
+containing `IP`, and `P→P′` an étale map. Put `J′=JP′`. Then `D_(P′,γ)(J′)≅P′⊗_P D_(P,γ)(J)`, with the
+divided powers extended from `D` along the flat map, compatibly with the quotient `P′/J′`. The
 construction commutes with composition and localisation. At compatible finite p-power quotients the
 same statement holds; the completed version is the inverse limit of these isomorphisms, without
 replacing completed tensor product by ordinary tensor product.
 
-*Hypotheses.* The base divided powers extend compatibly to each envelope; P→P′ is étale, hence flat.
+*Hypotheses.* The base divided powers extend compatibly to each envelope; `P→P′` is étale, hence flat.
 For the completed statement use the finite quotients on which the given divided powers descend.
 
-*Proof sketch.* Extend the divided powers of D to P′⊗_P D by flat-extension. Its quotient by the
-image PD ideal is P′/J′. For every compatible PD target C receiving P′ with J′ mapping to its PD
-ideal, the P-map gives D→C; together with P′→C it gives a unique map P′⊗_P D→C. The flat-extension
+*Proof sketch.* Extend the divided powers of `D` to `P′⊗_P D` by flat-extension. Its quotient by the
+image PD ideal is `P′/J′`. For every compatible PD target `C` receiving `P′` with `J′` mapping to its PD
+ideal, the `P`-map gives `D→C`; together with `P′→C` it gives a unique map `P′⊗_P D→C`. The flat-extension
 uniqueness shows this is a PD morphism, so it has the envelope universal property. Localisation and
 composition follow from uniqueness. Apply the argument at finite levels and then take the inverse
 limit for the completed statement. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline
@@ -2548,56 +2514,55 @@ power envelopes*; Mathlib `Algebra.Etale`.
 
 **Checks.**
 
-- For P′=P[1/f], the envelope of JP′ is D[1/f] with its extended divided powers.
-- For P′=P the map is the identity.
+- For `P′=P[1/f]`, the envelope of `JP′` is `D[1/f]` with its extended divided powers.
+- For `P′=P` the map is the identity.
 - Completed base change is stated levelwise and uses the completed tensor product.
 
-**Divided power envelopes after adjoining variables.** Let (A,I,γ) be a divided power ring, B an
-A-algebra, J an ideal of B with IB⊆J, and W a set. Write (D,J̄,γ̄)=D_(B,γ)(J). Then the divided
-power envelope of the ideal JB[x_w]+(x_w:w∈W) of the polynomial ring B[x_w:w∈W], relative to
-(A,I,γ), is the divided power polynomial algebra D⟨x_w:w∈W⟩ over the divided power ring (D,J̄,γ̄),
-with divided power ideal J̄·D⟨x_w⟩+D⟨x_w⟩₊ on Mathlib’s `DividedPowerAlgebra` and the ring map B[x_w]→D⟨x_w⟩ extending B→D and sending
-x_w to x_w: the canonical divided power morphism D_(B[x_w],γ)(JB[x_w]+(x_w))→D⟨x_w⟩ is an
+**Divided power envelopes after adjoining variables.** Let `(A,I,γ)` be a divided power ring, `B` an
+`A`-algebra, `J` an ideal of `B` with `IB⊆J`, and `W` a set. Write `(D,J̄,γ̄)=D_(B,γ)(J)`. Then the divided
+power envelope of the ideal `JB[x_w]+(x_w:w∈W)` of the polynomial ring `B[x_w:w∈W]`, relative to
+`(A,I,γ)`, is the divided power polynomial algebra `D⟨x_w:w∈W⟩` over the divided power ring `(D,J̄,γ̄)`,
+with divided power ideal `J̄·D⟨x_w⟩+D⟨x_w⟩₊` on Mathlib’s `DividedPowerAlgebra` and the ring map `B[x_w]→D⟨x_w⟩` extending `B→D` and sending
+`x_w` to `x_w`: the canonical divided power morphism `D_(B[x_w],γ)(JB[x_w]+(x_w))→D⟨x_w⟩` is an
 isomorphism.
 
-*Hypotheses.* (A,I,γ) is a divided power ring, B a commutative A-algebra and J an ideal of B with
-IB⊆J. W is an arbitrary set of variables.
+*Hypotheses.* `(A,I,γ)` is a divided power ring, `B` a commutative `A`-algebra and `J` an ideal of `B` with
+`IB⊆J`. `W` is an arbitrary set of variables.
 
-*Proof sketch.* For a divided power ring (C,K,ε) over (A,I,γ), pd-polynomial applied to the divided
-power ring (D,J̄,γ̄) identifies divided power morphisms D⟨x_w⟩→C over (A,I,γ) with pairs (g,(k_w))
-of a divided power morphism g:D→C and elements k_w∈K. pd-envelope identifies such g with A-algebra
-maps f:B→C with f(J)⊆K. A pair (f,(k_w)) is the same as an A-algebra map B[x_w]→C sending
-JB[x_w]+(x_w) into K. Hence D⟨x_w⟩, with the map from B[x_w], has the universal property of the
-envelope of JB[x_w]+(x_w), and the canonical map is an isomorphism. ([Stacks
+*Proof sketch.* For a divided power ring `(C,K,ε)` over `(A,I,γ)`, pd-polynomial applied to the divided
+power ring `(D,J̄,γ̄)` identifies divided power morphisms `D⟨x_w⟩→C` over `(A,I,γ)` with pairs `(g,(k_w))`
+of a divided power morphism `g:D→C` and elements `k_w∈K`. pd-envelope identifies such `g` with `A`-algebra
+maps `f:B→C` with `f(J)⊆K`. A pair `(f,(k_w))` is the same as an `A`-algebra map `B[x_w]→C` sending
+`JB[x_w]+(x_w)` into `K`. Hence `D⟨x_w⟩`, with the map from `B[x_w]`, has the universal property of the
+envelope of `JB[x_w]+(x_w)`, and the canonical map is an isomorphism. ([Stacks
 Project](https://stacks.math.columbia.edu), Crystalline Cohomology, Section 60.2 (07H7), Lemma
 60.2.5 (tag 07KE) with proof.) *Needs:* §PD.6 *Universal base-compatible divided power envelope*;
 §PD.5 *Relative divided power polynomial algebras*.
 
 **Checks.**
 
-- For B=A=F_p, I=J=0 and one variable t: D_(F_p[t])((t))=F_p⟨t⟩, in which t^p=p!·t^[p]=0.
-- For (A,I,γ)=(ℤ_(p),(p),canonical), B=A, J=(p) and one variable t: D_(ℤ_(p)[t],γ)((p,t))=ℤ_(p)⟨t⟩
-  with divided power ideal (p)+(t^[n]:n≥1).
+- For `B=A=𝔽_p`, `I=J=0` and one variable `t`: `D_(𝔽_p[t])((t))=𝔽_p⟨t⟩`, in which `t^p=p!·t^[p]=0`.
+- For `(A,I,γ)=(ℤ_(p),(p),canonical)`, `B=A`, `J=(p)` and one variable `t`: `D_(ℤ_(p)[t],γ)((p,t))=ℤ_(p)⟨t⟩`
+  with divided power ideal `(p)+(t^[n]:n≥1)`.
 
-- With W empty the canonical isomorphism is D_(B,γ)(J)≅D and preserves the original PD ideal.
+- With `W` empty the canonical isomorphism is `D_(B,γ)(J)≅D` and preserves the original PD ideal.
 
-**Divided power stability of the weighted filtration.** For n≥1, m≥1 and x∈Fⁿ_γI: γ_m(x)∈F^(mn)_γI.
-In particular Fⁿ_γI (n≥1) is a sub-PD ideal of (I,γ) (DividedPowers.IsSubDPIdeal), and γ induces a
-divided power structure on the image of I in R/Fⁿ_γI (DividedPowers.Quotient.dividedPowers).
+**Divided power stability of the weighted filtration.** For `n≥1`, `m≥1` and `x∈Fⁿ_γI`: `γ_m(x)∈F^(mn)_γI`.
+In particular `Fⁿ_γI (n≥1)` is a sub-PD ideal of `(I,γ)` (`DividedPowers.IsSubDPIdeal`), and `γ` induces a
+divided power structure on the image of `I` in `R/Fⁿ_γI` (`DividedPowers.Quotient.dividedPowers`).
 
-*Hypotheses.* R is a commutative ring, I an ideal of R and γ a divided power structure on I (γ :
-DividedPowers I). m≥1 and n≥1 are natural numbers.
+*Hypotheses.* `R` is a commutative ring, `I` an ideal of `R` and `γ` a divided power structure on `I` (`γ : DividedPowers I`). `m≥1` and `n≥1` are natural numbers.
 
-*Proof sketch.* Words. Let w=∏_j γ_(e_j)(x_j) be a generating word with Σe_j≥n≥1 and pick t with
-e_t≥1. Writing w=u·γ_(e_t)(x_t), the scalar rule and the iteration rule give
-γ_m(w)=u^m·uniformBell(m,e_t)·γ_(m·e_t)(x_t), and u^m is an integer multiple of
-∏_(j≠t)γ_(m·e_j)(x_j) by the multiplication rule. So γ_m(w) is a multiple of a word of weight
-m·Σe_j≥mn. Span. γ_m(a·x)=a^m·γ_m(x), γ_m(0)=0, and γ_m(x+y)=Σ_(i+j=m)γ_i(x)γ_j(y) lies in
-Σ_(i+j=m)F^(in)·F^(jn)⊆F^(mn) by pd-filtration-mul once the claim is known for x and y and all
-smaller indices (γ₀=1∈F⁰). Induct over the span Fⁿ_γI=Ideal.span(W_n), for all m≥1 simultaneously.
-Consequences. Fⁿ_γI⊆F¹_γI=I (pd-filtration-antitone, pd-filtration-one) and
-γ_m(Fⁿ_γI)⊆F^(mn)_γI⊆Fⁿ_γI, so Fⁿ_γI is a sub-PD ideal; DividedPowers.Quotient.dividedPowers applies
-with Fⁿ_γI∩I=Fⁿ_γI. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology,
+*Proof sketch.* Words. Let `w=∏_j γ_(e_j)(x_j)` be a generating word with `Σe_j≥n≥1` and pick `t` with
+`e_t≥1`. Writing `w=u·γ_(e_t)(x_t)`, the scalar rule and the iteration rule give
+`γ_m(w)=u^m·uniformBell(m,e_t)·γ_(m·e_t)(x_t)`, and `u^m` is an integer multiple of
+`∏_(j≠t)γ_(m·e_j)(x_j)` by the multiplication rule. So `γ_m(w)` is a multiple of a word of weight
+`m·Σe_j≥mn`. Span. `γ_m(a·x)=a^m·γ_m(x)`, `γ_m(0)=0`, and `γ_m(x+y)=Σ_(i+j=m)γ_i(x)γ_j(y)` lies in
+`Σ_(i+j=m)F^(in)·F^(jn)⊆F^(mn)` by pd-filtration-mul once the claim is known for `x` and `y` and all
+smaller indices `(γ₀=1∈F⁰)`. Induct over the span `Fⁿ_γI=Ideal.span(W_n)`, for all `m≥1` simultaneously.
+Consequences. `Fⁿ_γI⊆F¹_γI=I` (pd-filtration-antitone, pd-filtration-one) and
+`γ_m(Fⁿ_γI)⊆F^(mn)_γI⊆Fⁿ_γI`, so `Fⁿ_γI` is a sub-PD ideal; `DividedPowers.Quotient.dividedPowers` applies
+with `Fⁿ_γI∩I=Fⁿ_γI`. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology,
 Section 60.6 (07HQ), unnumbered paragraph between Lemma 60.6.2 (07HS) and Lemma 60.6.3 (07HT).)
 *Needs:* §PD.4 *Divided power filtration*; §PD.4 *First divided power filtration step*; *Decreasing divided
 power filtration*; §PD.4 *Multiplicativity of divided power filtration*; Mathlib `DividedPowers`; Mathlib
@@ -2605,83 +2570,79 @@ power filtration*; §PD.4 *Multiplicativity of divided power filtration*; Mathli
 
 **Checks.**
 
-- In ℤ₂ with the canonical divided powers on (2): Fⁿ=(2) for all n≥1, and γ_m maps (2) into
-  (2)=F^(mn).
-- For x∈I and m,n≥1: γ_m(γ_n(x))=uniformBell(m,n)·γ_(mn)(x) lies in F^(mn)_γI.
+- In `ℤ₂` with the canonical divided powers on `(2)`: `Fⁿ=(2)` for all `n≥1`, and `γ_m` maps `(2)` into
+  `(2)=F^(mn)`.
+- For `x∈I` and `m,n≥1`: `γ_m(γ_n(x))=uniformBell(m,n)·γ_(mn)(x)` lies in `F^(mn)_γI`.
 
-- For R=ℚ[t] and I=(t), γ₂(t²)=t⁴/2 lies in F⁴=(t⁴), with n=m=2.
+- For `R=ℚ[t]` and `I=(t)`, `γ₂(t²)=t⁴/2` lies in `F⁴=(t⁴)`, with `n=m=2`.
 
-**Envelopes of regular immersions.** For elements f₁,…,f_r of a ring, the Koszul relations are the
-elements f_j e_i−f_i e_j of its r-th power. (0) General divided power base. Let (B,I,γ) be a divided
-power ring, f₁,…,f_r∈B and J=I+(f₁,…,f_r). Assume (K): every (r_t)∈B^r with Σ_t r_t f_t∈I is
-congruent modulo I·B^r to a B-linear combination of Koszul relations. Then the surjection
-Ψ:B⟨x₁,…,x_r⟩→D_(B,γ)(J), x_t↦f_t, of PDEnvelope.presentation has kernel (x₁−f₁,…,x_r−f_r):
-D_(B,γ)(J)=B⟨x₁,…,x_r⟩/(x_t−f_t), with divided power ideal generated by I and the x_t^[n], n≥1. For
-r=1, (K) says that f₁ is a non-zero-divisor on B/I; in general (K) holds when the images of f₁,…,f_r
-in B/I form a regular sequence, or a Koszul-regular one. (1) Characteristic p (Bhatt, Lemma 3.37).
-Let A be an F_p-algebra and f₁,…,f_r a regular sequence in A, I=(f₁,…,f_r), with the trivial divided
-power base; for (b), (c) and the Tor statement in (d) assume moreover that each f_t is a
-non-zero-divisor on A (automatic when A is Noetherian local; without it D_A((f_t)) is a proper
-quotient of A⟨x_t⟩/(x_t−f_t) in general, and (b), (c), (d) hold for the rings A⟨x_t⟩/(x_t−f_t) in
-place of D_A((f_t))). Then (a) D_A(I)=A⟨x₁,…,x_r⟩/(x_t−f_t); (b) the natural map ⊗_A
-D_A((f_t))→D_A(I) from the tensor product of the principal envelopes D_A((f_t))=A⟨x_t⟩/(x_t−f_t) is
-an isomorphism; (c) D_A((f_t)) is a free A/(f_t^p)-module on the γ_(jp)(f_t), j≥0, so D_A(I) is a
-free A/(f₁^p,…,f_r^p)-module on the products ∏_t γ_(j_t p)(f_t), j₁,…,j_r≥0; (d) x₁−f₁,…,x_r−f_r is
-a regular sequence on A⟨x₁,…,x_r⟩=⊗_A A⟨x_t⟩, so the Koszul complex on it is a resolution of D_A(I)
-by free A-modules and the derived tensor product ⊗^L_A D_A((f_t)) is D_A(I) in degree 0
-(Tor_k^A(D_A((f₁,…,f_(t−1))),D_A((f_t)))=0 for k>0). (2) Flat ℤ/p^n-algebras (Bhatt, Lemma 3.38).
-Let A be a flat ℤ/p^n-algebra, f₁,…,f_r a regular sequence in A with A/I flat over ℤ/p^n,
-I=(f₁,…,f_r), and D=D_(A,γ)(I+pA) the envelope relative to (ℤ_(p),(p),γ), γ the canonical divided
-powers on (p). Then D=A⟨x₁,…,x_r⟩/(x_t−f_t), it coincides with the envelope of I over the trivial
-base, D is flat over ℤ/p^n, and D/pD=D_(A/p)((I+pA)/pA), the envelope of the image of I in the
-F_p-algebra A/p.
+**Envelopes of regular immersions.** For elements `f₁,…,f_r` of a ring, the Koszul relations are the
+elements `f_j e_i−f_i e_j` of its `r`-th power. (0) General divided power base. Let `(B,I,γ)` be a divided
+power ring, `f₁,…,f_r∈B` and `J=I+(f₁,…,f_r)`. Assume `(K)`: every `(r_t)∈B^r` with `Σ_t r_t f_t∈I` is
+congruent modulo `I·B^r` to a `B`-linear combination of Koszul relations. Then the surjection
+`Ψ:B⟨x₁,…,x_r⟩→D_(B,γ)(J)`, `x_t↦f_t`, of `PDEnvelope.presentation` has kernel `(x₁−f₁,…,x_r−f_r)`:
+`D_(B,γ)(J)=B⟨x₁,…,x_r⟩/(x_t−f_t)`, with divided power ideal generated by `I` and the `x_t^[n]`, `n≥1`. For
+`r=1`, `(K)` says that `f₁` is a non-zero-divisor on `B/I`; in general `(K)` holds when the images of `f₁,…,f_r`
+in `B/I` form a regular sequence, or a Koszul-regular one. (1) Characteristic `p` (Bhatt, Lemma 3.37).
+Let `A` be an `𝔽_p`-algebra and `f₁,…,f_r` a regular sequence in `A`, `I=(f₁,…,f_r)`, with the trivial divided
+power base; for `(b)`, `(c)` and the Tor statement in `(d)` assume moreover that each `f_t` is a
+non-zero-divisor on `A` (automatic when `A` is Noetherian local; without it `D_A((f_t))` is a proper
+quotient of `A⟨x_t⟩/(x_t−f_t)` in general, and `(b)`, `(c)`, `(d)` hold for the rings `A⟨x_t⟩/(x_t−f_t)` in
+place of `D_A((f_t))`). Then (a) `D_A(I)=A⟨x₁,…,x_r⟩/(x_t−f_t)`; `(b)` the natural map `⊗_A D_A((f_t))→D_A(I)` from the tensor product of the principal envelopes `D_A((f_t))=A⟨x_t⟩/(x_t−f_t)` is
+an isomorphism; (c) `D_A((f_t))` is a free `A/(f_t^p)`-module on the `γ_(jp)(f_t)`, `j≥0`, so `D_A(I)` is a
+free `A/(f₁^p,…,f_r^p)`-module on the products `∏_t γ_(j_t p)(f_t)`, `j₁,…,j_r≥0`; (d) `x₁−f₁,…,x_r−f_r` is
+a regular sequence on `A⟨x₁,…,x_r⟩=⊗_A A⟨x_t⟩`, so the Koszul complex on it is a resolution of `D_A(I)`
+by free `A`-modules and the derived tensor product `⊗^L_A D_A((f_t))` is `D_A(I)` in degree 0
+(`Tor_k^A(D_A((f₁,…,f_(t−1))),D_A((f_t)))=0` for `k>0`). (2) Flat `ℤ/p^n`-algebras (Bhatt, Lemma 3.38).
+Let `A` be a flat `ℤ/p^n`-algebra, `f₁,…,f_r` a regular sequence in `A` with `A/I` flat over `ℤ/p^n`,
+`I=(f₁,…,f_r)`, and `D=D_(A,γ)(I+pA)` the envelope relative to `(ℤ_(p),(p),γ)`, `γ` the canonical divided
+powers on `(p)`. Then `D=A⟨x₁,…,x_r⟩/(x_t−f_t)`, it coincides with the envelope of `I` over the trivial
+base, `D` is flat over `ℤ/p^n`, and `D/pD=D_(A/p)((I+pA)/pA)`, the envelope of the image of `I` in the
+`𝔽_p`-algebra `A/p`.
 
-*Hypotheses.* (0): (B,I,γ) is a divided power ring, f₁,…,f_r∈B, and (K) holds: if Σ_t r_t f_t∈I with
-r_t∈B, then (r_t)−Σ_(i<j)c_(ij)(f_j e_i−f_i e_j)∈I^r for some c_(ij)∈B. (1): p is a prime, A an
-F_p-algebra and f₁,…,f_r a regular sequence in A (RingTheory.Sequence.IsRegular A [f₁,…,f_r]; only
-weak regularity is used); the divided power base is (F_p,0). For (1)(b), (1)(c) and the Tor
-statement of (1)(d) each f_t is moreover a non-zero-divisor on A. (2): p is a prime, n≥1, A a flat
-ℤ/p^n-algebra, f₁,…,f_r a regular sequence in A and A/(f₁,…,f_r) flat over ℤ/p^n; the divided power
-base is (ℤ_(p),(p),γ) with the canonical divided powers.
+*Hypotheses.* (0): `(B,I,γ)` is a divided power ring, `f₁,…,f_r∈B`, and `(K)` holds: if `Σ_t r_t f_t∈I` with
+`r_t∈B`, then `(r_t)−Σ_(i<j)c_(ij)(f_j e_i−f_i e_j)∈I^r` for some `c_(ij)∈B`. (1): `p` is a prime, `A` an
+`𝔽_p`-algebra and `f₁,…,f_r` a regular sequence in `A` (`RingTheory.Sequence.IsRegular A [f₁,…,f_r]`; only
+weak regularity is used); the divided power base is `(𝔽_p,0)`. For (1)(b), (1)(c) and the Tor
+statement of (1)(d) each `f_t` is moreover a non-zero-divisor on `A`. (2): `p` is a prime, `n≥1`, `A` a flat
+`ℤ/p^n`-algebra, `f₁,…,f_r` a regular sequence in `A` and `A/(f₁,…,f_r)` flat over `ℤ/p^n`; the divided power
+base is `(ℤ_(p),(p),γ)` with the canonical divided powers.
 
-*Proof sketch.* (0) By PDEnvelope.presentation the kernel of Ψ is generated by the x_t−f_t and the
-δ_n(Σ_t r_t x_t−r₀), n≥1, for relations Σ_t r_t f_t=r₀∈I. By (K) write r_t=k_t+i_t with i_t∈I and
-(k_t)=Σ_(i<j)c_(ij)(f_j e_i−f_i e_j). Then Σ_t k_t f_t=0, r₀=Σ_t i_t f_t and Σ_t r_t
-x_t−r₀=Σ_(i<j)c_(ij)(f_j x_i−f_i x_j)+Σ_t i_t(x_t−f_t), a sum of elements of the divided power ideal
-IB⟨x⟩+B⟨x⟩₊. δ_n of this sum is a sum of products of δ_m of the summands, each product having a
-factor with m≥1. δ_m(i_t(x_t−f_t))=(x_t−f_t)^m·γ_m(i_t) lies in 𝔟=(x₁−f₁,…,x_r−f_r). δ_m(f_j x_i−f_i
-x_j)=Σ_(a+b=m)(−1)^b f_j^a f_i^b x_i^[a]x_j^[b]; modulo 𝔟 replace f_i,f_j by x_i,x_j and use
-x^b·x^[a]=(m!/a!)·x^[m] to get m!·x_i^[m]x_j^[m]·Σ_b(−1)^b binom(m,b)=0 for m≥1 (the computation in
-the proof of Bhatt's Lemma 3.37). Hence the kernel of Ψ is 𝔟. (1)(a) is (0) for (A,0); (K) is the
+*Proof sketch.* (0) By `PDEnvelope.presentation` the kernel of `Ψ` is generated by the `x_t−f_t` and the
+`δ_n(Σ_t r_t x_t−r₀)`, `n≥1`, for relations `Σ_t r_t f_t=r₀∈I`. By `(K)` write `r_t=k_t+i_t` with `i_t∈I` and
+(`k_t)=Σ_(i<j)c_(ij)(f_j e_i−f_i e_j`). Then `Σ_t k_t f_t=0`, `r₀=Σ_t i_t f_t` and `Σ_t r_t x_t−r₀=Σ_(i<j)c_(ij)(f_j x_i−f_i x_j)+Σ_t i_t(x_t−f_t)`, a sum of elements of the divided power ideal
+`IB⟨x⟩+B⟨x⟩₊`. `δ_n` of this sum is a sum of products of `δ_m` of the summands, each product having a
+factor with `m≥1`. `δ_m(i_t(x_t−f_t))=(x_t−f_t)^m·γ_m(i_t)` lies in `𝔟=(x₁−f₁,…,x_r−f_r)`. `δ_m(f_j x_i−f_i x_j)=Σ_(a+b=m)(−1)^b f_j^a f_i^b x_i^[a]x_j^[b]`; modulo `𝔟` replace `f_i,f_j` by `x_i,x_j` and use
+`x^b·x^[a]=(m!/a!)·x^[m]` to get `m!·x_i^[m]x_j^[m]·Σ_b(−1)^b binom(m,b)=0` for `m≥1` (the computation in
+the proof of Bhatt's Lemma 3.37). Hence the kernel of `Ψ` is `𝔟`. (1)(a) is (0) for `(A,0)`; `(K)` is the
 statement that the relations among the members of a regular sequence are generated by the Koszul
-relations. (b) A⟨x₁,…,x_r⟩=⊗_A A⟨x_t⟩ by the divided monomial bases (pd-polynomial), and the tensor
-product is right exact. (1)(c) F_p⟨t⟩ is free over F_p[t]/(t^p) on the t^[jp]:
-t^a·t^[jp]=a!·binom(a+jp,a)·t^[a+jp] with binom(a+jp,a)≡1 mod p for 0≤a<p
-(Choose.choose_modEq_choose_mod_mul_choose_div_nat), and t^p=p!·t^[p]=0. F_p[t]⟨x⟩/(x−t) and F_p⟨t⟩
-are both the envelope of (t) in F_p[t] (by (0) and by envelope-add-variables); base change along
-F_p[t]→A, t↦f_t, gives A⟨x_t⟩/(x_t−f_t)=⊕_j A/(f_t^p)·γ_(jp)(f_t). The identification with the
-actual principal envelope uses the additional assumption that f_t is a non-zero-divisor on A.
+relations. (b) `A⟨x₁,…,x_r⟩=⊗_A A⟨x_t⟩` by the divided monomial bases (pd-polynomial), and the tensor
+product is right exact. (1)(c) `𝔽_p⟨t⟩` is free over `𝔽_p[t]/(t^p)` on the `t^[jp]`:
+`t^a·t^[jp]=a!·binom(a+jp,a)·t^[a+jp]` with `binom(a+jp,a)≡1` mod `p` for `0≤a<p` (`Choose.choose_modEq_choose_mod_mul_choose_div_nat`), and `t^p=p!·t^[p]=0`. `𝔽_p[t]⟨x⟩/(x−t)` and `𝔽_p⟨t⟩`
+are both the envelope of `(t)` in `𝔽_p[t]` (by (0) and by envelope-add-variables); base change along
+`𝔽_p[t]→A`, `t↦f_t`, gives `A⟨x_t⟩/(x_t−f_t)=⊕_j A/(f_t^p)·γ_(jp)(f_t)`. The identification with the
+actual principal envelope uses the additional assumption that `f_t` is a non-zero-divisor on `A`.
 Without that assumption this argument establishes the module basis for the presentation ring only.
-(1)(d) x₁−f₁ is a non-zero-divisor on A⟨x₁,…,x_r⟩ because f₁ is one on A (compare coefficients of
-x₁^[n]). By (c) the quotient is ⊕_j (A/f₁^p)⟨x₂,…,x_r⟩, on which x₂−f₂ is a non-zero-divisor because
-f₂ is one on A/(f₁^p); continue, using that f₁^p,…,f_(t−1)^p,f_t is a regular sequence. The Koszul
+(1)(d) `x₁−f₁` is a non-zero-divisor on `A⟨x₁,…,x_r⟩` because `f₁` is one on `A` (compare coefficients of
+`x₁^[n]`). By `(c)` the quotient is `⊕_j (A/f₁^p)⟨x₂,…,x_r⟩`, on which `x₂−f₂` is a non-zero-divisor because
+`f₂` is one on `A/(f₁^p)`; continue, using that `f₁^p,…,f_(t−1)^p,f_t` is a regular sequence. The Koszul
 complex of a regular sequence is a resolution. Raising members of a weakly regular sequence to
-positive powers preserves weak regularity. At step t use this with f₁^p,…,f_(t−1)^p,f_t; the Koszul
+positive powers preserves weak regularity. At step `t` use this with `f₁^p,…,f_(t−1)^p,f_t`; the Koszul
 resolution is DerivedModuleAlgebra §0.K.1, and the statement on powers is part of this target. The
 two-term resolution for each actual principal envelope also uses the added non-zero-divisor
-assumption on A. Tensoring these free resolutions yields the Koszul resolution on all x_t−f_t, so
-its concentration in degree zero proves the asserted Tor vanishing. (2) Each A/(f₁,…,f_i) has a
-finite resolution by flat ℤ/p^n-modules (A is flat and the sequence regular), hence is flat; so
-f₁,…,f_r stays a regular sequence on A/p. Let D₀=D_(A,0)(I)=A⟨x⟩/(x_t−f_t) by (0), with divided
-power ideal J̄₀ and D₀/J̄₀=A/I. Flatness of A/I gives pD₀∩J̄₀=pJ̄₀, so the divided powers of J̄₀ and
-the canonical ones on pD₀ glue and D₀=D (PDEnvelope.eq_of_isCompatible). Flatness of D. For r=1, x−f
-is a non-zero-divisor on the flat module A⟨x⟩, so D has a two-term flat resolution and is flat. For
-r>1 induct, replacing A by A₁=A⟨x₁⟩/(x₁−f₁): f₂,…,f_r is regular on A₁/p=⊕_j (A/p)/(f₁^p)·γ_(jp)(f₁)
-by (1)(c) over A/p, hence on the flat ℤ/p^n-module A₁. Reduction. envelope-quotient-transitivity (1)
-with kernel pA gives D_(A/p)((I+pA)/pA)=D/K′ with K′ generated by the γ̄_n(pa)=aⁿ·γ_n(p)∈pD, so
-K′=pD. For a flat ℤ/pⁿ-module, an endomorphism injective modulo p is injective with flat cokernel
-(induction on n); this algebra step and the reduction of the PD relations by Koszul syzygies under
-condition (K) are part of this target, with Koszul exactness for weakly regular sequences from
+assumption on `A`. Tensoring these free resolutions yields the Koszul resolution on all `x_t−f_t`, so
+its concentration in degree zero proves the asserted Tor vanishing. (2) Each `A/(f₁,…,f_i)` has a
+finite resolution by flat `ℤ/p^n`-modules (`A` is flat and the sequence regular), hence is flat; so
+`f₁,…,f_r` stays a regular sequence on `A/p`. Let `D₀=D_(A,0)(I)=A⟨x⟩/(x_t−f_t)` by (0), with divided
+power ideal `J̄₀` and `D₀/J̄₀=A/I`. Flatness of `A/I` gives `pD₀∩J̄₀=pJ̄₀`, so the divided powers of `J̄₀` and
+the canonical ones on `pD₀` glue and `D₀=D` (`PDEnvelope.eq_of_isCompatible`). Flatness of `D`. For `r=1`, `x−f`
+is a non-zero-divisor on the flat module `A⟨x⟩`, so `D` has a two-term flat resolution and is flat. For
+`r>1` induct, replacing `A` by `A₁=A⟨x₁⟩/(x₁−f₁)`: `f₂,…,f_r` is regular on `A₁/p=⊕_j (A/p)/(f₁^p)·γ_(jp)(f₁)`
+by (1)(c) over `A/p`, hence on the flat `ℤ/p^n`-module `A₁`. Reduction. envelope-quotient-transitivity (1)
+with kernel `pA` gives `D_(A/p)((I+pA)/pA)=D/K′` with `K′` generated by the `γ̄_n(pa)=aⁿ·γ_n(p)∈pD`, so
+`K′=pD`. For a flat `ℤ/pⁿ`-module, an endomorphism injective modulo `p` is injective with flat cokernel
+(induction on `n`); this algebra step and the reduction of the PD relations by Koszul syzygies under
+condition `(K)` are part of this target, with Koszul exactness for weakly regular sequences from
 TauCetiRoadmap DerivedModuleAlgebra §0.K.1. ([Bhatt, *p-adic derived de Rham
 cohomology*](https://arxiv.org/abs/1204.6560), Section 3.3, Lemma 3.37 with proof, p.16; [Bhatt,
 *p-adic derived de Rham cohomology*](https://arxiv.org/abs/1204.6560), Section 3.3, Lemma 3.38:
@@ -2689,65 +2650,65 @@ statement p.16, proof p.17; [Stacks Project](https://stacks.math.columbia.edu), 
 Cohomology, Section 60.24, Remark 60.24.9 (tag 07MU), hint.) *Needs:* *Universal base-compatible
 divided power envelope*; §PD.5 *Relative divided power polynomial algebras*; *Envelope quotient and
 transitivity*; §PD.6 *Divided power envelopes after adjoining variables*; *Compatibility of divided
-powers with a base*; §PD.5 *Canonical divided powers on the ideal generated by p*; TauCetiRoadmap
+powers with a base*; §PD.5 *Canonical divided powers on the ideal generated by `p`*; TauCetiRoadmap
 DerivedModuleAlgebra §0.K.1 (*Koszul complexes*); DerivedModuleAlgebra §§1.2–1.5; Mathlib
 `RingTheory.Sequence.IsRegular`; Mathlib `Choose.choose_modEq_choose_mod_mul_choose_div_nat`.
 
 **Checks.**
 
-- Regular principal ideal: for A=F_p[t] and f=t, D_A((t))=F_p⟨t⟩ is free over F_p[t]/(t^p) on the
-  t^[jp], j≥0, and t^p=0 in it.
-- For A=(ℤ/p^n)[t] and f=t, relative to (ℤ_(p),(p),γ): D=(ℤ/p^n)⟨t⟩, flat over ℤ/p^n, with
-  D/pD=F_p⟨t⟩.
-- (0) with r=1 over a general base: for a divided power ring (D,J̄,γ̄) and λ∈D, the monic polynomial
-  z^p−λ is a non-zero-divisor on (D/J̄)[z], and D_(D[z],γ̄)(J̄D[z]+(z^p−λ))=D[z]⟨ξ⟩/(ξ−(z^p−λ)), the
+- Regular principal ideal: for `A=𝔽_p[t]` and `f=t`, `D_A((t))=𝔽_p⟨t⟩` is free over `𝔽_p[t]/(t^p)` on the
+  `t^[jp]`, `j≥0`, and `t^p=0` in it.
+- For `A=(ℤ/p^n)[t]` and `f=t`, relative to `(ℤ_(p),(p),γ)`: `D=(ℤ/p^n)⟨t⟩`, flat over `ℤ/p^n`, with
+  `D/pD=𝔽_p⟨t⟩`.
+- (0) with `r=1` over a general base: for a divided power ring `(D,J̄,γ̄)` and `λ∈D`, the monic polynomial
+  `z^p−λ` is a non-zero-divisor on `(D/J̄)[z]`, and `D_(D[z],γ̄)(J̄D[z]+(z^p−λ))=D[z]⟨ξ⟩/(ξ−(z^p−λ))`, the
   ring of Stacks Lemma 60.25.3 before completion.
 
-**Completed PD envelopes and the derived-completion comparison.** Let p be a prime and (D,J̄,γ̄) a
-divided power ring in which p is nilpotent in D/J̄; this holds for an envelope D=D_(B,γ)(J) whenever
-p is nilpotent in B/J. Let D^=lim_e D/p^eD be the p-adic completion (AdicCompletion (p) D). Then:
-(1) D^→D/J̄ is surjective and its kernel J̄^ is the p-adic completion of J̄; (2) each γ̄_n is
-continuous for the p-adic topology of J̄ and extends uniquely to maps γ̄^_n:J̄^→J̄^, which form a
-divided power structure on J̄^, and D→D^ is a divided power morphism; (3) if D is a ℤ_(p)-algebra
-and p^t∈J̄, then for every e>t the ideal p^eD⊆J̄ is a sub-PD ideal and
-(D^,J̄^,γ̄^)=lim_e(D/p^eD,J̄/p^eD,γ̄) as divided power rings. Relation with derived completion: if D
-has bounded p-power torsion, the derived p-completion of D is D^ placed in degree 0; if D is
-p-torsion-free, D⊗^L_ℤ ℤ/p^e=D/p^eD for all e≥1.
+**Completed PD envelopes and the derived-completion comparison.** Let `p` be a prime and `(D,J̄,γ̄)` a
+divided power ring in which `p` is nilpotent in `D/J̄`; this holds for an envelope `D=D_(B,γ)(J)` whenever
+`p` is nilpotent in `B/J`. Let `D^=lim_e D/p^eD` be the p-adic completion (`AdicCompletion (p) D`). Then:
+(1) `D^→D/J̄` is surjective and its kernel `J̄^` is the p-adic completion of `J̄`; (2) each `γ̄_n` is
+continuous for the p-adic topology of `J̄` and extends uniquely to maps `γ̄^_n:J̄^→J̄^`, which form a
+divided power structure on `J̄^`, and `D→D^` is a divided power morphism; (3) if `D` is a `ℤ_(p)`-algebra
+and `p^t∈J̄`, then for every `e>t` the ideal `p^eD⊆J̄` is a sub-PD ideal and
+`(D^,J̄^,γ̄^)=lim_e(D/p^eD,J̄/p^eD,γ̄)` as divided power rings. Relation with derived completion: if `D`
+has bounded p-power torsion, the derived p-completion of `D` is `D^` placed in degree 0; if `D` is
+p-torsion-free, `D⊗^L_ℤ ℤ/p^e=D/p^eD` for all `e≥1`.
 
-*Hypotheses.* p is a prime; (D,J̄,γ̄) is a divided power ring with p^t∈J̄ for some t≥1 (p is
-nilpotent in D/J̄). (3): every integer prime to p is invertible in D. Derived statements: D has
-bounded p-power torsion (D[p^∞]=D[p^N] for some N), respectively D is p-torsion-free.
+*Hypotheses.* `p` is a prime; `(D,J̄,γ̄)` is a divided power ring with `p^t∈J̄` for some `t≥1` (`p` is
+nilpotent in `D/J̄`). (3): every integer prime to `p` is invertible in `D`. Derived statements: `D` has
+bounded p-power torsion (`D[p^∞]=D[p^N]` for some `N`), respectively `D` is p-torsion-free.
 
 The API:
 
-- `Crystalline.completedEnvelope_reduction`: For p-torsionfree D, LΛ_p(D)⊗^L Z/p^e≅D/p^e.
-- `Crystalline.completedEnvelope_lift`: Let (C,K,ε) be a divided power ring with C p-adically
-  complete and separated and K p-adically closed. Every divided power morphism (D,J̄,γ̄)→(C,K,ε)
-  extends uniquely to a divided power morphism (D^,J̄^,γ̄^)→(C,K,ε). In particular this applies when
-  p is nilpotent in C/K, since then K contains a power of p and is open and closed.
-- `Crystalline.completedEnvelope_functorial`: A divided power morphism f:(D,J̄,γ̄)→(D′,J̄′,γ̄′)
-  between divided power rings with p nilpotent in D/J̄ and in D′/J̄′ induces a divided power
-  morphism f^:(D^,J̄^,γ̄^)→(D′^,J̄′^,γ̄′^) extending f; (g∘f)^=g^∘f^ and id^=id.
-- `Crystalline.completedEnvelope_mod_pow`: Let (A,I,γ) be a divided power ring with A a
-  ℤ_(p)-algebra, A→C a ring map with IC=0 and p^t·C=0, P→C a surjection of A-algebras with kernel J
-  and D=D_(P,γ)(J). For e≥1 let D_e=D_(P/p^eP,γ)(J_e), J_e the image of J. Then for every e>t:
-  D^/p^eD^=D/p^eD=D_e as divided power rings.
-- `Crystalline.completedEnvelope_eq_limit`: In the situation of completedEnvelope_mod_pow,
-  (D^,J̄^,γ̄^)=lim_e(D_e,J̄_e,γ̄) in the category of divided power rings.
+- `Crystalline.completedEnvelope_reduction`: For p-torsionfree `D`, `LΛ_p(D)⊗^L ℤ/p^e≅D/p^e`.
+- `Crystalline.completedEnvelope_lift`: Let `(C,K,ε)` be a divided power ring with `C` p-adically
+  complete and separated and `K` p-adically closed. Every divided power morphism `(D,J̄,γ̄)→(C,K,ε)`
+  extends uniquely to a divided power morphism `(D^,J̄^,γ̄^)→(C,K,ε)`. In particular this applies when
+  `p` is nilpotent in `C/K`, since then `K` contains a power of `p` and is open and closed.
+- `Crystalline.completedEnvelope_functorial`: A divided power morphism `f:(D,J̄,γ̄)→(D′,J̄′,γ̄′)`
+  between divided power rings with `p` nilpotent in `D/J̄` and in `D′/J̄′` induces a divided power
+  morphism `f^:(D^,J̄^,γ̄^)→(D′^,J̄′^,γ̄′^)` extending `f`; `(g∘f)^=g^∘f^` and `id^=id`.
+- `Crystalline.completedEnvelope_mod_pow`: Let `(A,I,γ)` be a divided power ring with `A` a
+  `ℤ_(p)`-algebra, `A→C` a ring map with `IC=0` and `p^t·C=0`, `P→C` a surjection of `A`-algebras with kernel `J`
+  and `D=D_(P,γ)(J)`. For `e≥1` let `D_e=D_(P/p^eP,γ)(J_e)`, `J_e` the image of `J`. Then for every `e>t`:
+  `D^/p^eD^=D/p^eD=D_e` as divided power rings.
+- `Crystalline.completedEnvelope_eq_limit`: In the situation of `completedEnvelope_mod_pow`,
+  `(D^,J̄^,γ̄^)=lim_e(D_e,J̄_e,γ̄)` in the category of divided power rings.
 
-*Proof sketch.* Let p^t∈J̄. D^→D/J̄ is the composite D^→D/p^tD→D/J̄, hence surjective;
-p^eJ̄⊆p^eD∩J̄⊆p^(e−t)J̄ for e≥t shows that its kernel is the p-adic completion of J̄. For x,y∈J̄,
-γ̄_n(x+p^e y)=Σ_(i+j=n)p^(je)γ̄_i(x)γ̄_j(y)≡γ̄_n(x) modulo p^eJ̄; so γ̄_n induces compatible maps
-J̄/p^eJ̄→J̄/p^eJ̄ and a map γ̄^_n on J̄^, and the axioms pass to the limit. If D is a ℤ_(p)-algebra
-and e>t: for n≥2, γ̄_n(p^e a)=pⁿ·γ̄_n(p^(e−1)a)=(pⁿ/n!)·p^(n(e−1))·aⁿ∈p^eD, because pⁿ/n!∈ℤ_(p) and
-n(e−1)≥e. So p^eD is a sub-PD ideal, D/p^eD inherits divided powers
-(DividedPowers.Quotient.dividedPowers), and (D^,J̄^,γ̄^) is their limit. Derived completion. For a
-ring D with bounded p-power torsion the derived p-completion is Rlim_e D/p^eD (comparison of derived
+*Proof sketch.* Let `p^t∈J̄`. `D^→D/J̄` is the composite `D^→D/p^tD→D/J̄`, hence surjective;
+`p^eJ̄⊆p^eD∩J̄⊆p^(e−t)J̄` for `e≥t` shows that its kernel is the p-adic completion of `J̄`. For `x,y∈J̄`,
+`γ̄_n(x+p^e y)=Σ_(i+j=n)p^(je)γ̄_i(x)γ̄_j(y)≡γ̄_n(x)` modulo `p^eJ̄`; so `γ̄_n` induces compatible maps
+`J̄/p^eJ̄→J̄/p^eJ̄` and a map `γ̄^_n` on `J̄^`, and the axioms pass to the limit. If `D` is a `ℤ_(p)`-algebra
+and `e>t`: for `n≥2`, `γ̄_n(p^e a)=pⁿ·γ̄_n(p^(e−1)a)=(pⁿ/n!)·p^(n(e−1))·aⁿ∈p^eD`, because `pⁿ/n!∈ℤ_(p)` and
+`n(e−1)≥e`. So `p^eD` is a sub-PD ideal, `D/p^eD` inherits divided powers
+(`DividedPowers.Quotient.dividedPowers`), and `(D^,J̄^,γ̄^)` is their limit. Derived completion. For a
+ring `D` with bounded p-power torsion the derived p-completion is `Rlim_e D/p^eD` (comparison of derived
 completion with the tower of ordinary quotients, DerivedModuleAlgebra §§1.2–1.5); the tower has
-surjective transition maps, so this is D^ in degree 0. For p-torsion-free D, multiplication by p^e
-is injective, so D⊗^L_ℤ ℤ/p^e=D/p^eD. For the extension property, the completion universal property
-gives the ring map. Closedness of K ensures that it carries J̄^ into K. Continuity of each divided
-power and density then give the PD identities. The hypothesis p nilpotent in C/K is a sufficient
+surjective transition maps, so this is `D^` in degree 0. For p-torsion-free `D`, multiplication by `p^e`
+is injective, so `D⊗^L_ℤ ℤ/p^e=D/p^eD`. For the extension property, the completion universal property
+gives the ring map. Closedness of `K` ensures that it carries `J̄^` into `K`. Continuity of each divided
+power and density then give the PD identities. The hypothesis `p` nilpotent in `C/K` is a sufficient
 special case, not necessary. ([Stacks Project](https://stacks.math.columbia.edu), Crystalline
 Cohomology, Section 60.5 (07HL): Remark 60.5.4 (07KH) and Lemma 60.5.5 (07KG) with proof; [Stacks
 Project](https://stacks.math.columbia.edu), Divided Power Algebra, Section 23.4, Lemma 23.4.5 (tag
@@ -2759,109 +2720,106 @@ the surjective module tower); Mathlib `AdicCompletion`; Mathlib
 
 **Checks.**
 
-- `test_completedEnvelope_Zp`: For (D,J̄,γ̄)=(ℤ_(p),(p),canonical), p is nilpotent in D/J̄=F_p and
-  the completed divided power ring (D^,J̄^,γ̄^) is (ℤ_p,(p),PadicInt.dividedPowers p), for every
-  prime p including p=2.
+- `test_completedEnvelope_Zp`: For `(D,J̄,γ̄)=(ℤ_(p),(p),canonical)`, `p` is nilpotent in `D/J̄=𝔽_p` and
+  the completed divided power ring `(D^,J̄^,γ̄^)` is (`ℤ_p,(p),PadicInt.dividedPowers p`), for every
+  prime `p` including `p=2`.
 - `test_completedEnvelope_modp`: A p-killed envelope has derived completion equal to itself in
   degree0.
-- `test_completedEnvelope_p2`: In ℤ₂ with the canonical divided powers on (2): γ_(2^a)(2) is 2 times
-  a unit for every a≥0, so γ_n(2) does not tend to 0 and Fⁿ((2))=(2) for all n≥1; in ℤ_p with p odd,
-  γ_n(p)→0 and the intersection of the Fⁿ((p)) is 0.
-- For P=ℤ_(p)[t]→F_p (t↦0), J=(p,t), relative to (ℤ_(p),(p),γ): D=ℤ_(p)⟨t⟩; D^ is its p-adic
-  completion, J̄^ the closure of (p)+(t^[n]:n≥1), and D^/p^eD^=(ℤ/p^e)⟨t⟩=D_((ℤ/p^e)[t],γ)((p,t))
-  for every e≥2.
+- `test_completedEnvelope_p2`: In `ℤ₂` with the canonical divided powers on `(2)`: `γ_(2^a)(2)` is 2 times
+  a unit for every `a≥0`, so `γ_n(2)` does not tend to 0 and `Fⁿ((2))=(2)` for all `n≥1`; in `ℤ_p` with `p` odd,
+  `γ_n(p)→0` and the intersection of the `Fⁿ((p))` is 0.
+- For `P=ℤ_(p)[t]→𝔽_p (t↦0)`, `J=(p,t)`, relative to `(ℤ_(p),(p),γ)`: `D=ℤ_(p)⟨t⟩`; `D^` is its p-adic
+  completion, `J̄^` the closure of `(p)+(t^[n]:n≥1)`, and `D^/p^eD^=(ℤ/p^e)⟨t⟩=D_((ℤ/p^e)[t],γ)((p,t))`
+  for every `e≥2`.
 
 ### PD.7 The crystalline period ring
 
-**The crystalline period ring A_cris of a p-adically complete ring.** Let p be a prime and R a
-commutative ring that is p-adically complete and in which p is not a unit. Let R♭=PreTilt R p be the
-perfection of R/p, A=𝕎(R♭) its ring of Witt vectors (a p-torsion-free, p-adically complete ring with
-A/p=R♭) and θ=WittVector.fontaineTheta R p:A→R Fontaine's map, the ring homomorphism with θ([x])=x^♯
-on Teichmüller representatives; θ is surjective when Frobenius is surjective on R/p. Write γ for the
-canonical divided powers on (p), in A and in R. (a) Definition. D(R)=D_(A,γ)(ker θ+pA) is the
-divided power envelope of ker θ+pA relative to (A,pA,γ) (equivalently relative to (ℤ_p,(p),γ)), with
-divided power ideal J̄∋p, and A_cris(R) is the p-adic completion of D(R), with the divided powers on
-the closure J̄^ of J̄ given by completed-envelope. (b) Comparison of bases. If A/ker θ is
-p-torsion-free (for instance if R is), the canonical map D_(A,0)(ker θ)→D(R) from the envelope of
-ker θ over the trivial divided power base is an isomorphism of A-algebras; under it J̄=J̄₀+pD(R),
-where J̄₀ is the divided power ideal of D_(A,0)(ker θ). (c) Principal case. Assume ker θ is
-generated by an element ξ whose image in A/p=R♭ is a non-zero-divisor (so that (p,ξ) is a regular
-sequence in A). Then D(R)=A⟨x⟩/(x−ξ) is p-torsion-free and equals the subring A[ξⁿ/n!:n≥0] of A[1/p]
-(x^[n]↦ξⁿ/n!); A_cris(R) is its p-adic completion and is p-torsion-free. For R=O_C, this is the
+**The crystalline period ring `A_cris` of a p-adically complete ring.** Let `p` be a prime and `R` a
+commutative ring that is p-adically complete and in which `p` is not a unit. Let `R♭=PreTilt R p` be the
+perfection of `R/p`, `A=𝕎(R♭)` its ring of Witt vectors (a p-torsion-free, p-adically complete ring with
+`A/p=R♭`) and `θ=WittVector.fontaineTheta R p:A→R` Fontaine's map, the ring homomorphism with `θ([x])=x^♯`
+on Teichmüller representatives; `θ` is surjective when Frobenius is surjective on `R/p`. Write `γ` for the
+canonical divided powers on `(p)`, in `A` and in `R`. (a) Definition. `D(R)=D_(A,γ)(ker θ+pA)` is the
+divided power envelope of `ker θ+pA` relative to `(A,pA,γ)` (equivalently relative to `(ℤ_p,(p),γ)`), with
+divided power ideal `J̄∋p`, and `A_cris(R)` is the p-adic completion of `D(R)`, with the divided powers on
+the closure `J̄^` of `J̄` given by completed-envelope. `(b)` Comparison of bases. If `A/ker θ` is
+p-torsion-free (for instance if `R` is), the canonical map `D_(A,0)(ker θ)→D(R)` from the envelope of
+`ker θ` over the trivial divided power base is an isomorphism of `A`-algebras; under it `J̄=J̄₀+pD(R)`,
+where `J̄₀` is the divided power ideal of `D_(A,0)(ker θ)`. `(c)` Principal case. Assume `ker θ` is
+generated by an element `ξ` whose image in `A/p=R♭` is a non-zero-divisor (so that `(p,ξ)` is a regular
+sequence in `A`). Then `D(R)=A⟨x⟩/(x−ξ)` is p-torsion-free and equals the subring `A[ξⁿ/n!:n≥0]` of `A[1/p] (x^[n]↦ξⁿ/n!)`; `A_cris(R)` is its p-adic completion and is p-torsion-free. For `R=O_C`, this is the
 presentation and completion supplied by PadicPeriodRings §3, under the specialization below.
-(d) Maps. θ extends
-uniquely to a divided power morphism θ_cris:(A_cris(R),J̄^)→(R,pR,γ); it kills γ_n(x) for x∈ker θ
-and n≥1, and if θ is surjective and R is p-torsion-free it is surjective with kernel the closure of
-J̄₀. For a perfect ring k of characteristic p and a ring map π:R→k, the map A→𝕎(k) induced on Witt
-vectors by R♭→R/p→k (zeroth coefficient followed by π) sends ker θ+pA into p𝕎(k) and extends
-uniquely to a divided power morphism (A_cris(R),J̄^)→(𝕎(k),p𝕎(k),γ).
+`(d)` Maps. `θ` extends
+uniquely to a divided power morphism `θ_cris:(A_cris(R),J̄^)→(R,pR,γ)`; it kills `γ_n(x)` for `x∈ker θ`
+and `n≥1`, and if `θ` is surjective and `R` is p-torsion-free it is surjective with kernel the closure of
+`J̄₀`. For a perfect ring `k` of characteristic `p` and a ring map `π:R→k`, the map `A→𝕎(k)` induced on Witt
+vectors by `R♭→R/p→k` (zeroth coefficient followed by `π`) sends `ker θ+pA` into `p𝕎(k)` and extends
+uniquely to a divided power morphism `(A_cris(R),J̄^)→(𝕎(k),p𝕎(k),γ)`.
 
-*Hypotheses.* p is a prime; R is a commutative ring, p-adically complete (IsAdicComplete (p) R), and
-p is not a unit of R. (b): 𝕎(R♭)/ker θ is p-torsion-free. (c): ker θ=(ξ) and the image of ξ in
-𝕎(R♭)/p=R♭ is a non-zero-divisor. (d), second map: k is a perfect ring of characteristic p and π:R→k
+*Hypotheses.* `p` is a prime; `R` is a commutative ring, p-adically complete (`IsAdicComplete (p) R`), and
+`p` is not a unit of `R`. `(b)`: `𝕎(R♭)/ker θ` is p-torsion-free. `(c)`: `ker θ=(ξ)` and the image of `ξ` in
+`𝕎(R♭)/p=R♭` is a non-zero-divisor. `(d)`, second map: `k` is a perfect ring of characteristic `p` and `π:R→k`
 a ring homomorphism.
 
 The API:
 
-- `Crystalline.fontaineEnvelope_initial`: Let (C,K,ε) be a divided power ring with C p-adically
-  complete and separated, p∈K and ε_n(p)=pⁿ/n! for all n. Every ring map f:𝕎(R♭)→C with f(ker θ)⊆K
-  extends uniquely to a divided power morphism (A_cris(R),J̄^)→(C,K,ε). On O_C this agrees with
+- `Crystalline.fontaineEnvelope_initial`: Let `(C,K,ε)` be a divided power ring with `C` p-adically
+  complete and separated, `p∈K` and `ε_n(p)=pⁿ/n!` for all `n`. Every ring map `f:𝕎(R♭)→C` with `f(ker θ)⊆K`
+  extends uniquely to a divided power morphism `(A_cris(R),J̄^)→(C,K,ε)`. On `O_C` this agrees with
   PadicPeriodRings §3's completed initial property under `Crystalline.fontaineEnvelope_periodPDEnvelope`.
-- `Crystalline.fontaineEnvelope_theta`: θ_cris:(A_cris(R),J̄^)→(R,pR,γ) is the unique divided power
-  morphism restricting to θ on 𝕎(R♭); θ_cris(γ_n(x))=0 for x∈ker θ and n≥1. If θ is surjective and R
-  is p-torsion-free, θ_cris is surjective and its kernel is the closure of the sub-PD ideal
-  generated by ker θ. On O_C it is PadicPeriodRings §3's θ_cris under the same identification.
-- `Crystalline.fontaineEnvelope_identify`: In the principal case (c), the p-adic completion of the
-  subring 𝕎(R♭)[ξⁿ/n!:n≥0] of 𝕎(R♭)[1/p] is isomorphic to A_cris(R) as a 𝕎(R♭)-algebra, by the
-  completion of the isomorphism 𝕎(R♭)⟨x⟩/(x−ξ)→𝕎(R♭)[ξⁿ/n!], x^[n]↦ξⁿ/n!; both rings are
-  p-torsion-free. On O_C use PadicPeriodRings §3's presentation, embedding and completion,
+- `Crystalline.fontaineEnvelope_theta`: `θ_cris:(A_cris(R),J̄^)→(R,pR,γ)` is the unique divided power
+  morphism restricting to `θ` on `𝕎(R♭)`; `θ_cris(γ_n(x))=0` for `x∈ker θ` and `n≥1`. If `θ` is surjective and `R`
+  is p-torsion-free, `θ_cris` is surjective and its kernel is the closure of the sub-PD ideal
+  generated by `ker θ`. On `O_C` it is PadicPeriodRings §3's `θ_cris` under the same identification.
+- `Crystalline.fontaineEnvelope_identify`: In the principal case `(c)`, the p-adic completion of the
+  subring `𝕎(R♭)[ξⁿ/n!:n≥0]` of `𝕎(R♭)[1/p]` is isomorphic to `A_cris(R)` as a `𝕎(R♭)`-algebra, by the
+  completion of the isomorphism `𝕎(R♭)⟨x⟩/(x−ξ)→𝕎(R♭)[ξⁿ/n!]`, `x^[n]↦ξⁿ/n!`; both rings are
+  p-torsion-free. On `O_C` use PadicPeriodRings §3's presentation, embedding and completion,
   transported by `Crystalline.fontaineEnvelope_periodPDEnvelope`.
-- `Crystalline.fontaineEnvelope_eq_trivialBase`: If 𝕎(R♭)/ker θ is p-torsion-free, the canonical map
-  D_(𝕎(R♭),0)(ker θ)→D(R) is an isomorphism of 𝕎(R♭)-algebras, and the divided power ideal of D(R)
-  is J̄₀+pD(R).
-- `Crystalline.fontaineEnvelope_wittResidue`: For a perfect ring k of characteristic p and a ring
-  map π:R→k, the map 𝕎(R♭)→𝕎(k) induced by R♭→R/p→k sends ker θ+(p) into p𝕎(k) and extends uniquely
-  to a divided power morphism (A_cris(R),J̄^)→(𝕎(k),p𝕎(k),γ).
-- `Crystalline.fontaineEnvelope_map`: A ring homomorphism f:R→R′ between p-adically complete rings
-  in which p is not a unit induces 𝕎(f♭):𝕎(R♭)→𝕎(R′♭) with θ′∘𝕎(f♭)=f∘θ and a divided power morphism
-  A_cris(f):A_cris(R)→A_cris(R′) with θ′_cris∘A_cris(f)=f∘θ_cris; A_cris(g∘f)=A_cris(g)∘A_cris(f)
-  and A_cris(id)=id.
+- `Crystalline.fontaineEnvelope_eq_trivialBase`: If `𝕎(R♭)/ker θ` is p-torsion-free, the canonical map
+  `D_(𝕎(R♭),0)(ker θ)→D(R)` is an isomorphism of `𝕎(R♭)`-algebras, and the divided power ideal of `D(R)`
+  is `J̄₀+pD(R)`.
+- `Crystalline.fontaineEnvelope_wittResidue`: For a perfect ring `k` of characteristic `p` and a ring
+  map `π:R→k`, the map `𝕎(R♭)→𝕎(k)` induced by `R♭→R/p→k` sends `ker θ+(p)` into `p𝕎(k)` and extends uniquely
+  to a divided power morphism `(A_cris(R),J̄^)→(𝕎(k),p𝕎(k),γ)`.
+- `Crystalline.fontaineEnvelope_map`: A ring homomorphism `f:R→R′` between p-adically complete rings
+  in which `p` is not a unit induces `𝕎(f♭):𝕎(R♭)→𝕎(R′♭)` with `θ′∘𝕎(f♭)=f∘θ` and a divided power morphism
+  `A_cris(f):A_cris(R)→A_cris(R′)` with `θ′_cris∘A_cris(f)=f∘θ_cris`; `A_cris(g∘f)=A_cris(g)∘A_cris(f)`
+  and `A_cris(id)=id`.
 
-*Proof sketch.* (a) R♭ is a perfect ring of characteristic p, so A=𝕎(R♭) is p-torsion-free
-(WittVector.eq_zero_of_p_mul_eq_zero) and p-adically complete (WittVector.isAdicCompleteIdealSpanP).
-Integers prime to p are units in A and in R, so (p) carries its canonical divided powers in both
-(canonical-p-divided-powers). Form D(R) by pd-envelope; since p∈J̄, p is nilpotent in D(R)/J̄ and
-completed-envelope gives the divided powers on J̄^. (b) Let D₀=D_(A,0)(ker θ) with divided power
-ideal J̄₀. D₀/J̄₀=A/ker θ is p-torsion-free, so pD₀∩J̄₀=pJ̄₀=(pD₀)·J̄₀. Hence the divided powers of
-J̄₀ are compatible with γ (product-intersection-gluing, compatible-divided-powers), and (D₀,J̄₀+pD₀)
-is the envelope of ker θ+pA relative to (A,pA,γ) (PDEnvelope.eq_of_isCompatible). (c) ξ is a
-non-zero-divisor in A: if ξa=0 then a∈pA because ξ is a non-zero-divisor modulo p, a=pa₁ with ξa₁=0,
-and so a∈∩pⁿA=0. A/ξ is p-torsion-free: pa=ξb implies b∈pA, b=pb₁ and a=ξb₁. By regular-envelope (0)
-with r=1 over (A,0), D₀=A⟨x⟩/(x−ξ). x−ξ is a non-zero-divisor on A⟨x⟩ and on (A/p)⟨x⟩ (compare
-coefficients of x^[n]), so D₀ is p-torsion-free; D₀[1/p]=A[1/p]⟨x⟩/(x−ξ)=A[1/p] identifies D₀ with
-A[ξⁿ/n!]. Apply (b). The p-adic completion of a p-torsion-free ring is p-torsion-free. (d) (R,pR,γ)
-is a divided power ring over (A,pA,γ) through θ, and θ(ker θ+pA)⊆pR. pd-envelope gives a divided
-power morphism D(R)→R, and completedEnvelope_lift extends it to A_cris(R), since R is p-adically
-complete and R/pR is killed by p. It kills γ_n(x) for x∈ker θ because γ_n(0)=0. If R is
-p-torsion-free and θ is surjective, the p-adic completion of 0→J̄₀→D₀→R→0 is exact
-(p^eD₀∩J̄₀=p^eJ̄₀) and R is complete. Witt map. Let w=WittVector.map(π̄∘coeff₀):A→𝕎(k), where
-coeff₀:R♭→R/p and π̄:R/p→k is induced by π. For x∈ker θ, WittVector.mk_fontaineTheta gives
-coeff₀(x₀)=θ(x) mod p=0, so w(x) has zeroth coefficient 0 and lies in p𝕎(k)
-(WittVector.mem_span_p_iff_coeff_zero_eq_zero). (𝕎(k),p𝕎(k),γ) is a divided power ring over (A,pA,γ)
-and 𝕎(k) is p-adically complete (WittVector.isAdicCompleteIdealSpanP); conclude as for θ.
-Functoriality. A ring map f:R→R′ induces R/p→R′/p, f♭:R♭→R′♭ on perfections and 𝕎(f♭). Both θ′∘𝕎(f♭)
-and f∘θ send [x] to f(x^♯)=(f♭x)^♯ (WittVector.fontaineTheta_teichmuller; the untilt is a limit of
-p^n-th powers of lifts and f is p-adically continuous), so they agree modulo every power of p
-(WittVector.eq_of_apply_teichmuller_eq) and are equal. Hence 𝕎(f♭) maps ker θ+pA into ker θ′+pA′ and
-induces divided power morphisms D(R)→D(R′) and A_cris(R)→A_cris(R′). Clause (c) needs ker θ
-principal on a non-zero-divisor modulo p; for R = S⁺ with (S, S⁺) a perfectoid Tate pair and S⁺
-p-torsion-free (for instance O_C) this is PerfectoidSpaces §P1.18, and for other integral
+*Proof sketch.* (a) `R♭` is a perfect ring of characteristic `p`, so `A=𝕎(R♭)` is p-torsion-free
+(`WittVector.eq_zero_of_p_mul_eq_zero`) and p-adically complete (`WittVector.isAdicCompleteIdealSpanP`).
+Integers prime to `p` are units in `A` and in `R`, so `(p)` carries its canonical divided powers in both
+(canonical-p-divided-powers). Form `D(R)` by pd-envelope; since `p∈J̄`, `p` is nilpotent in `D(R)/J̄` and
+completed-envelope gives the divided powers on `J̄^`. `(b)` Let `D₀=D_(A,0)(ker θ)` with divided power
+ideal `J̄₀`. `D₀/J̄₀=A/ker θ` is p-torsion-free, so `pD₀∩J̄₀=pJ̄₀=(pD₀)·J̄₀`. Hence the divided powers of
+`J̄₀` are compatible with `γ` (product-intersection-gluing, compatible-divided-powers), and `(D₀,J̄₀+pD₀)`
+is the envelope of `ker θ+pA` relative to `(A,pA,γ)` (`PDEnvelope.eq_of_isCompatible`). (c) `ξ` is a
+non-zero-divisor in `A`: if `ξa=0` then `a∈pA` because `ξ` is a non-zero-divisor modulo `p`, `a=pa₁` with `ξa₁=0`,
+and so `a∈∩pⁿA=0`. `A/ξ` is p-torsion-free: `pa=ξb` implies `b∈pA`, `b=pb₁` and `a=ξb₁`. By regular-envelope (0)
+with `r=1` over `(A,0)`, `D₀=A⟨x⟩/(x−ξ)`. `x−ξ` is a non-zero-divisor on `A⟨x⟩` and on `(A/p)⟨x⟩` (compare
+coefficients of `x^[n]`), so `D₀` is p-torsion-free; `D₀[1/p]=A[1/p]⟨x⟩/(x−ξ)=A[1/p]` identifies `D₀` with
+`A[ξⁿ/n!]`. Apply `(b)`. The p-adic completion of a p-torsion-free ring is p-torsion-free. (d) `(R,pR,γ)`
+is a divided power ring over `(A,pA,γ)` through `θ`, and `θ(ker θ+pA)⊆pR`. pd-envelope gives a divided
+power morphism `D(R)→R`, and `completedEnvelope_lift` extends it to `A_cris(R)`, since `R` is p-adically
+complete and `R/pR` is killed by `p`. It kills `γ_n(x)` for `x∈ker θ` because `γ_n(0)=0`. If `R` is
+p-torsion-free and `θ` is surjective, the p-adic completion of `0→J̄₀→D₀→R→0` is exact
+`(p^eD₀∩J̄₀=p^eJ̄₀)` and `R` is complete. Witt map. Let `w=WittVector.map(π̄∘coeff₀):A→𝕎(k)`, where
+`coeff₀:R♭→R/p` and `π̄:R/p→k` is induced by `π`. For `x∈ker θ`, `WittVector.mk_fontaineTheta` gives
+`coeff₀(x₀)=θ(x)` mod `p=0`, so `w(x)` has zeroth coefficient 0 and lies in `p𝕎(k)` (`WittVector.mem_span_p_iff_coeff_zero_eq_zero`). `(𝕎(k),p𝕎(k),γ)` is a divided power ring over `(A,pA,γ)`
+and `𝕎(k)` is p-adically complete (`WittVector.isAdicCompleteIdealSpanP`); conclude as for `θ`.
+Functoriality. A ring map `f:R→R′` induces `R/p→R′/p`, `f♭:R♭→R′♭` on perfections and `𝕎(f♭)`. Both `θ′∘𝕎(f♭)`
+and `f∘θ` send `[x]` to `f(x^♯)=(f♭x)^♯` (`WittVector.fontaineTheta_teichmuller`; the untilt is a limit of
+`p^n`-th powers of lifts and `f` is p-adically continuous), so they agree modulo every power of `p` (`WittVector.eq_of_apply_teichmuller_eq`) and are equal. Hence `𝕎(f♭)` maps `ker θ+pA` into `ker θ′+pA′` and
+induces divided power morphisms `D(R)→D(R′)` and `A_cris(R)→A_cris(R′)`. Clause `(c)` needs `ker θ`
+principal on a non-zero-divisor modulo `p`; for `R = S⁺` with (`S`, `S⁺`) a perfectoid Tate pair and `S⁺`
+p-torsion-free (for instance `O_C`) this is PerfectoidSpaces §P1.18, and for other integral
 perfectoid rings it is kept as the stated hypothesis. ([Bhatt, *p-adic derived de Rham
 cohomology*](https://arxiv.org/abs/1204.6560), Section 9, Proposition 9.9 (statement), p.35;
 [Bhatt–Morrow–Scholze, *Integral p-adic Hodge
 theory*](https://people.mpim-bonn.mpg.de/scholze/integralpadicHodge.pdf), Section 3.3, Definition
 3.22(i), p.27.) *Needs:* §PD.6 *Universal base-compatible divided power envelope*; *Completed PD envelopes
-and the derived-completion comparison*; §PD.5 *Canonical divided powers on the ideal generated by p*;
+and the derived-completion comparison*; §PD.5 *Canonical divided powers on the ideal generated by `p`*;
 §PD.5 *Compatibility of divided powers with a base*; §PD.1 *Gluing when intersection equals product*; *Envelopes
 of regular immersions*; Mathlib `PreTilt`; Mathlib `WittVector.fontaineTheta`; Mathlib
 `WittVector.fontaineTheta_teichmuller`; Mathlib `WittVector.mk_fontaineTheta`; Mathlib
@@ -2871,16 +2829,16 @@ Mathlib `WittVector.map`; Mathlib `WittVector.eq_of_apply_teichmuller_eq`.
 
 **Checks.**
 
-- `test_fontaineEnvelope_theta`: For x∈ker θ and n≥1: θ_cris(γ_n(x))=0 in R; and
-  θ_cris(γ_n(p))=pⁿ/n!.
-- `test_fontaineEnvelope_identity`: For R=ℤ_p: R♭=F_p, 𝕎(R♭)=ℤ_p, θ is the identity, ker θ=0, and
-  A_cris(ℤ_p)=ℤ_p with divided power ideal (p), its canonical divided powers and θ_cris the
+- `test_fontaineEnvelope_theta`: For `x∈ker θ` and `n≥1`: `θ_cris(γ_n(x))=0` in `R`; and
+  `θ_cris(γ_n(p))=pⁿ/n!`.
+- `test_fontaineEnvelope_identity`: For `R=ℤ_p`: `R♭=𝔽_p`, `𝕎(R♭)=ℤ_p`, `θ` is the identity, `ker θ=0`, and
+  `A_cris(ℤ_p)=ℤ_p` with divided power ideal `(p)`, its canonical divided powers and `θ_cris` the
   identity.
-- `test_fontaineEnvelope_p2`: For p=2: in A_cris(ℤ₂)=ℤ₂ the divided powers γ_(2^a)(2) have 2-adic
-  valuation 1 for every a≥0, so γ_n(2) does not tend to 0; for odd p, γ_n(p)→0 in A_cris(ℤ_p).
-- `test_fontaineEnvelope_mod_p`: In the principal case (c): ξ^p∈pA_cris(R), and A_cris(R)/p is a
-  free R♭/(ξ̄^p)-module on the classes of the γ_(jp)(ξ), j≥0; in particular the kernel of
-  R♭=𝕎(R♭)/p→A_cris(R)/p is (ξ̄^p).
+- `test_fontaineEnvelope_p2`: For `p=2`: in `A_cris(ℤ₂)=ℤ₂` the divided powers `γ_(2^a)(2)` have 2-adic
+  valuation 1 for every `a≥0`, so `γ_n(2)` does not tend to 0; for odd `p`, `γ_n(p)→0` in `A_cris(ℤ_p)`.
+- `test_fontaineEnvelope_mod_p`: In the principal case `(c)`: `ξ^p∈pA_cris(R)`, and `A_cris(R)/p` is a
+  free `R♭/(ξ̄^p)`-module on the classes of the `γ_(jp)(ξ)`, `j≥0`; in particular the kernel of
+  `R♭=𝕎(R♭)/p→A_cris(R)/p` is `(ξ̄^p)`.
 
 **Specialization to the ordinary period envelope.** Let `C` be a complete algebraically closed
 nonarchimedean field of characteristic zero and residue characteristic `p`, and let `O_C` be its
