@@ -156,6 +156,9 @@ Suggested home: `TauCeti/RepresentationTheory/Induction/`, mirroring Mathlib's `
 
 ## What is missing (build here)
 
+The Gassmann work in Layer 2 is also part of the build, including the fixed-coset counting identity and
+finite-set orbit-determinant API.
+
 **Transitivity** of induction, coinduction, and restriction along composites; the **projection formula**
 `Ind(A ⊗ Res B) ≅ Ind A ⊗ B` and its dual, as isomorphisms of representations; the **conjugate
 representation** `conjRep`, its functoriality, character, and cocycle coherence; that **induction preserves
@@ -166,21 +169,27 @@ as an identity of character inner products** in both directions; the **Mackey de
 the **intertwining-number formula** and the **Mackey irreducibility criterion**; and **Clifford theory**
 over a normal subgroup -- the inertia (stabilizer) group, that restriction to a normal subgroup is isotypic
 with the isotypic components permuted transitively, and the induction bijection from the inertia group onto
-the irreducibles lying over a given constituent. As specializations that genuinely unlock: the **permutation
-character** `Ind_H^G(trivial) ≅ k[G/H]` and its fixed-point count, and **induced characters of `Sₙ` from
-Young subgroups**. Beyond Mackey and Clifford, the **virtual-character ring** `R(G) = ch(kG)` with the
+the irreducibles lying over a given constituent. The native **permutation character**
+`Ind_H^G(trivial) ≅ k[G/H]` and its fixed-point character are consumed from Tau Ceti; they are not
+missing work. **Induced characters of `Sₙ` from Young subgroups** remain a build target. Beyond Mackey
+and Clifford, the **virtual-character ring** `R(G) = ch(kG)` with the
 **Artin** and **Brauer** induction theorems, **Brauer's characterization of characters**, the
 **elementary/hyperelementary subgroup** predicates, and the cyclotomic **splitting-field corollary**
 `ℚ(ζ_e)` that the [character-theory roadmap](../CharacterTheory/README.md) cites; and **projective
 representations**, their **factor-set** `2`-cocycles, the **twisted group algebra** `k_α[G]`, the **Schur
 multiplier** `H²(G, k^×)` classifying projective representations and central extensions, the
 **representation group** (Schur cover), and the identification of the Clifford-theory extension obstruction
-with a Schur-multiplier class. None of this is upstream.
+with a Schur-multiplier class.
 
-`Suggested.lean` pins the load-bearing objects (`conjRep`, `indFDRep`, `character_ind`, `mackeyDecomp`,
-`irreducible_ind_iff`, the Clifford targets, the `artin_induction` / `brauer_induction` induction theorems,
-`schurMultiplier`, and `twistedMul`) and the named milestones below as `sorry`-targets, so each is
-claimable and its statement is machine-checked to be expressible against the pinned Mathlib.
+Representative interfaces in Layers 2.1–2.2 include `AlmostConjugate`, the fixed-coset identity
+and criterion, `Gassmann.almostConjugate_iff_permutation_equiv`, `Gassmann.almostConjugate_comap`,
+`Gassmann.not_conj_comap`, `Gassmann.restrictEquiv`, `Gassmann.normalInvariantEquiv`, and the
+finite `S₁₆` pair. The file also reuses native `TauCeti.indTrivialIso` and
+`TauCeti.char_ind_trivial`. The generic orbit-sum basis, quotient-orbit equivariance and full-cycle
+determinant formula are named README targets below; `Suggested.lean` is representative, not
+exhaustive. The existing roadmap targets for `conjRep`, `indFDRep`,
+`character_ind`, `mackeyDecomp`, `irreducible_ind_iff`, the Clifford targets, the `artin_induction` /
+`brauer_induction` theorems, `schurMultiplier`, and `twistedMul` remain in their existing scope.
 
 ---
 
@@ -261,13 +270,13 @@ Finite `G`. The finite-dimensionality result and the induced-character formula n
   obtained from the coset form by summing over the `|S|` elements of each coset. The invertibility
   hypothesis is what makes the `(Nat.card S)⁻¹` factor meaningful; without it the coset form is the one to
   use.
-- **The permutation character.** Fix the coset convention: induction is along `S.subtype`, and inducing
-  the trivial representation gives the **left**-coset permutation representation
-  `Ind_H^G (trivial) ≅ Rep.ofMulAction k G (G ⧸ H)` on Mathlib's quotient `G ⧸ H`, with `G` acting by left
-  translation. Its character at `g` is `#{xH : g • xH = xH}`, the number of fixed cosets; and, over a
-  splitting field with `IsUnit (Nat.card G : k)`, `⟨Ind_H^G 1, Ind_H^G 1⟩_G = #(H \ G / H)` via
-  Frobenius reciprocity and Mackey (`⟨Ind 1, 1⟩_G` itself is just `1`, by reciprocity against the
-  trivial representation).
+- **Native permutation character and double-coset inner product.** Consume
+  `TauCeti.indTrivialIso` for the induced-trivial / left-coset permutation isomorphism on
+  Mathlib's `G ⧸ H`, and `TauCeti.char_ind_trivial` for its character as the number of fixed
+  left cosets. Induction is along `H.subtype`, and `G` acts by left translation. Over a splitting
+  field with `IsUnit (Nat.card G : k)`, prove
+  `⟨Ind_H^G 1, Ind_H^G 1⟩_G = #(H \ G / H)` using Frobenius reciprocity and Mackey.
+  The pairing `⟨Ind_H^G 1, 1⟩_G` is1 by reciprocity against the trivial representation.
 - **Frobenius reciprocity as a character identity.** Over a splitting field with `IsUnit (Nat.card G : k)`,
   for `A : FDRep k S` and `B : FDRep k G`,
   `⟨(indFDRep A).character, B.character⟩_G = ⟨A.character, (res S.subtype B).character⟩_S`, proved from
@@ -278,6 +287,120 @@ Finite `G`. The finite-dimensionality result and the induced-character formula n
   product to the [character-theory roadmap](../CharacterTheory/README.md)'s `characterPairing`: that the
   pairing of two characters equals `finrank` of their `Hom` space, that it is `1` on an irreducible with
   itself, and that it is nonzero exactly when two representations share an irreducible constituent.
+
+#### Layer 2.1: almost-conjugacy and permutation representations
+
+For a finite group `G` and subgroups `H,K`, define almost-conjugacy by equality of their
+intersection cardinalities with every Mathlib conjugacy class. Reuse `ConjClasses`; introduce no
+second conjugacy-class carrier. The proposition may be written with `Nat.card` and no finiteness
+binder in the definition, but all counting theorems state `[Finite G]`. Give a computable
+`Decidable` instance with explicit `[Fintype G] [DecidableEq G]` and decidable subgroup-membership
+instances, using `Fintype.card` on the finite class-intersection subtypes; do not present `Nat.card`
+as computational data.
+
+Prove reflexivity, symmetry, transitivity, simultaneous-conjugation invariance, and that conjugate
+subgroups are almost conjugate. Fix the left-coset action on `G ⧸ H`. Establish the division-free
+identity, for each `g : G`,
+
+```text
+Nat.card (MulAction.fixedBy (G ⧸ H) g) * Nat.card H
+  = Nat.card (MulAction.stabilizer (ConjAct G) g)
+      * Nat.card {x : G // x ∈ (ConjClasses.mk g).carrier ∧ x ∈ H}.
+```
+
+The counting map sends an element `x` to its fixed coset and conjugate; each class element has
+exactly the centralizer cardinality many preimages. Summing over classes gives `|H| = |K|` from
+equal class intersections. Conversely, fixed-coset equality at `g = 1` gives equal indices and
+subgroup orders; the identity then recovers each class-intersection count. Thus prove equivalence of
+almost-conjugacy and equality of fixed-coset counts for every `g`.
+
+Consume the existing characteristic-zero theorem
+`TauCeti.nonempty_equiv_ofMulAction_iff_forall_natCard_fixedBy_eq` over `ℂ` to obtain equivalence
+of the permutation representations, and consume the native induced-trivial equivalence `TauCeti.indTrivialIso` and its fixed-point
+characterization `TauCeti.nonempty_equiv_ind_trivial_iff_forall_natCard_fixedBy_eq`, rather than
+reproving these native results as IR `sorry` targets. The equivalence between `AlmostConjugate` and
+permutation-representation equivalence for finite groups over `ℂ` is IR's own derived declaration
+`Gassmann.almostConjugate_iff_permutation_equiv`; its proof uses the fixed-coset criterion and the
+native `TauCeti.nonempty_equiv_ofMulAction_iff_forall_natCard_fixedBy_eq` as a substrate. Also prove transport of `AlmostConjugate` and subgroup nonconjugacy
+along a `MulEquiv`. Export the positive transport as
+`Gassmann.almostConjugate_comap` and the nonconjugacy transport as
+`Gassmann.not_conj_comap`. For `e : G ≃* G'`, the first declaration takes
+`AlmostConjugate H K` for `H,K ≤ G'` to
+`AlmostConjugate (H.comap e.toMonoidHom) (K.comap e.toMonoidHom)` without a finiteness
+hypothesis.
+The second transports `¬ ∃ τ : G', H.map (MulAut.conj τ) = K` to
+`¬ ∃ σ : G, (H.comap e.toMonoidHom).map (MulAut.conj σ) = K.comap e.toMonoidHom`. The action convention
+`MulAut.conj τ • H` from Layer 1 is the same subgroup as `H.map (MulAut.conj τ)`; state this
+equality explicitly so the Gassmann consumer can use NFA's hypothesis without changing convention.
+
+This layer owns the generic finite-set determinant adapters used by NFA 8.4. It is upstream of
+NFA 8.4; NFA does not own or duplicate these representation-theoretic targets. The generic restriction adapter is
+`Gassmann.restrictEquiv (e : Representation.Equiv ρ σ) (f : D →* G) :
+Representation.Equiv (ρ.comp f) (σ.comp f)`; it restricts a representation equivalence along a
+group homomorphism before applying the same-group invariant API. For a normal subgroup `I ◁ D`, the
+quotient-invariant representation is
+`ρ.quotientToInvariants I : Representation k (D ⧸ I) (Representation.invariants (ρ.comp I.subtype))`,
+using Mathlib's native `Representation.quotientToInvariants` construction. The noncomputable adapter
+`Gassmann.normalInvariantEquiv` transports these quotient representations across an equivalence
+when the subgroup is normal. For a finite group
+`I` acting on a finite set `X`, prove the invariant subspace of `k[X]` has a basis indexed by
+`orbitRel.Quotient I X`, represented by orbit sums. For a field `k` and a finite set `S`, let `ρπ : (S →₀ k) →ₗ[k] (S →₀ k)` be the linear
+endomorphism induced by `π : Equiv.Perm S`, sending the basis vector at `s` to the basis vector at
+`π s`. Prove the polynomial identity
+`(LinearMap.charpoly ρπ).reverse = (π.fullCycleType.map fun d ↦ 1 - Z ^ d).prod`, as an equality in
+`k[Z]`; the product counts the multiset multiplicities and `Z` is the polynomial indeterminate.
+Here `π.fullCycleType` is the multiset of natural-number cycle lengths, including fixed points,
+from Tau Ceti's native `Equiv.Perm.fullCycleType`; `cycleType` omits fixed points. The product is
+over the multiset, so repeated lengths contribute with multiplicity.
+
+For a group `D` acting on `X` and a normal subgroup `I ◁ D`, construct the induced `D/I`
+action on the set of `I`-orbits. Prove that the orbit-sum basis intertwines this permutation
+action with the quotient representation on `I`-invariants: each `d ∈ D` sends the sum over an
+`I`-orbit to the sum over its image orbit. Include the version for any element normalizing `I`.
+Export these generic contracts as `Gassmann.invariantOrbitSumBasis` and
+`Gassmann.orbitSumEquivariant`. Export the full-cycle determinant identity as
+`Gassmann.charpoly_reverse_eq_prod_fullCycleType`; its carrier is the finite-dimensional
+permutation representation on `k[X]`, and the product counts all cycle lengths, including fixed
+points. The identity is invariant under equivariant linear equivalence by native
+`LinearEquiv.charpoly_conj`. NFA instantiates these generic results with its decomposition subgroup `D`, its inertia
+subgroup `I`, the coset action on `G ⧸ H`, and the arithmetic-prime interpretation; IR owns the
+generic induced `D/I` action on the quotient of `I`-orbits and its representation-theoretic
+comparison with `I`-invariants.
+
+Finally, for finite `α`, prove the subgroup criterion in `Equiv.Perm α`: almost-conjugacy is
+equivalent to equality of the multiplicities of each conjugacy class, equivalently of the
+multiset of `cycleType` values over subgroup elements. Consume native
+`Equiv.Perm.isConj_iff_cycleType_eq`, `Equiv.Perm.cycleType_permCongr`, and
+`Equiv.Perm.fullCycleType_permCongr`; distinguish `cycleType`, which omits fixed points, from
+Tau Ceti's `fullCycleType`, which restores them. This is
+the connection to the regular-action example below.
+
+#### Layer 2.2: a nonconjugate almost-conjugate pair in `S₁₆`
+
+Use `A = Multiplicative (ZMod 4) × Multiplicative (ZMod 4)` and
+`B = QuaternionGroup 2 × Multiplicative (ZMod 2)`, respectively `C₄ × C₄` and `Q₈ × C₂`.
+Both have order 16 and element-order distribution 1, 3, 12 at orders 1, 2, 4. Their faithful
+left-regular actions have identical **full** cycle-type distributions `1^16`, `2^8`, `4^4` with
+multiplicities 1, 3, 12. The native raw `cycleType` drops fixed points: for the identity it is the
+empty multiset, and the raw types for orders 2 and 4 are `2^8` and `4^4`. Record this distinction;
+do not call the raw identity type `1^16`.
+
+Prove the regular-action formula for every element of a finite group of order `m`: the full cycle
+type of left multiplication by an element of order `d` is
+`Multiset.replicate (m / d) d`. Use the native `fullCycleType_permCongr` when identifying the
+carriers with `Fin 16`. The cycle-type conjugacy criterion from Layer 2.1 then proves the two
+images are almost conjugate. They are not conjugate because `A` is abelian and `B` is not. Export the result with an exact
+nonconjugacy conclusion of the form `¬ ∃ σ, H.map (MulAut.conj σ) = K`, alongside the
+`AlmostConjugate` result; these declarations are the named inputs used by PGG Layer 9.
+Build the permutation images using `MulAction.toPermHom` and its injectivity.
+`Fintype.equivFinOfCardEq` is noncomputable in the abstract carrier argument: this proof is not a
+`decide` example unless a concrete equivalence is explicitly constructed.
+
+Export the finite group pair as `Gassmann.exists_S16_gassmann_pair`, with the explicit regular
+actions of `C₄ × C₄` and `Q₈ × C₂` as the construction. Layer 2.2 supplies this pair to
+PolynomialGaloisGroups Layer 9. PGG Layer 9 then
+consumes Number Field Arithmetic Layers 3.8 and 8.4 for the fixed-field number-field example. This
+layer does not construct a Galois extension or a number field. No minimum-degree claim is made.
 
 ### Layer 3: the Mackey decomposition formula
 
@@ -511,12 +634,19 @@ extending an irreducible of a normal subgroup to its inertia group is exactly a 
 
 ## Ordering
 
-Layer 0 (transitivity, projection formula) is pure category theory over `Rep k G`, needs only the consumed
-adjunctions, and comes first. Layer 1 (the conjugate representation) is independent of Layer 0 and can
-proceed in parallel; both are prerequisites for everything downstream. Layer 2 (induced characters,
-Frobenius reciprocity) needs Layer 1's conjugate character only for the reciprocity corollaries, and needs
-the finite-dimensionality result as its own first target; it is where the connection to the
-[character-theory roadmap](../CharacterTheory/README.md) is made. Layer 3 splits: the representation-level
+Layer 0 (transitivity and the projection formula) is pure category theory over `Rep k G` and needs only the consumed
+adjunctions. Layer 1 (the conjugate representation) is independent of Layer 0 and can proceed in
+parallel. Layers 0 and 1 are prerequisites for the existing layers whose constructions consume them.
+Within the Layer 2 material, the Gassmann sublayers are ordered: 2.1 builds almost-conjugacy,
+fixed-coset counting, `MulEquiv` transport, and the generic invariant-orbit/cycle-determinant API;
+2.2 depends on 2.1 and builds the concrete `S₁₆` pair. These targets are independent of the
+induced-character and Frobenius-reciprocity targets in the existing Layer 2. Layer 2.1 needs neither
+Layer 0 nor Layer 1; those layers remain prerequisites for their own downstream consumers. NFA Layer
+8.4 consumes 2.1, and PGG Layer 9 consumes the named 2.2 pair and 2.1's transport results together
+with NFA Layers 3.8 and 8.4. The remaining induced-character and Frobenius-reciprocity targets need Layer 1's conjugate
+character only for the reciprocity corollaries, and the finite-dimensionality result as their own
+first target; it is where the connection to the [character-theory roadmap](../CharacterTheory/README.md)
+is made. Layer 3 splits: the representation-level
 Mackey decomposition (3a) needs only Layers 0-1 (transitivity and the projection formula to build the
 summands, the conjugate representation to name them), while the character form (3b) additionally needs
 Layer 2's induced-character formula. Layer 4 (the irreducibility criterion) needs Layer 2's Frobenius
@@ -559,3 +689,7 @@ alongside the layer that first makes each expressible.
   Layer 7.
 - I. M. Isaacs, *Character Theory of Finite Groups*, AMS Chelsea (1976) -- Ch. 8 (the Schur multiplier,
   projective representations, and the extension obstruction to Clifford theory) and Ch. 11 for Layer 7.
+
+The object-level `Representation.comp` and invariant-space interfaces follow the
+[Category Rep and restriction of scalars discussion](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/Category.20Rep.20and.20restriction.20of.20scalars/with/607304102):
+construct the representation maps first and derive categorical wrappers from them.

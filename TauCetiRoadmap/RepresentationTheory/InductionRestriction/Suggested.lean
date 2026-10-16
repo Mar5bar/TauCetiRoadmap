@@ -1,3 +1,5 @@
+import TauCeti.RepresentationTheory.Invariants
+import TauCeti.RepresentationTheory.CharacterTable.FixedPointCount
 import Mathlib
 
 /-!
@@ -134,7 +136,8 @@ theorem character_ind {S : Subgroup G} [S.FiniteIndex] [Fintype G]
 left-coset permutation representation `k[G ⧸ H]` on Mathlib's quotient `G ⧸ H`, with `G` acting by left
 translation; its character at `g` counts the cosets fixed by `g`. -/
 noncomputable def indTrivialIso {H : Subgroup G} :
-    Rep.ind H.subtype (Rep.trivial k _ k : Rep k H) ≅ Rep.ofMulAction k G (G ⧸ H) := sorry
+    Rep.ind H.subtype (Rep.trivial k _ k : Rep k H) ≅ Rep.ofMulAction k G (G ⧸ H) :=
+  TauCeti.indTrivialIso k H
 
 /-- **Frobenius reciprocity as a character identity**: the inner product of `Ind χ` with `ψ` over `G`
 equals that of `χ` with `Res ψ` over `S`. A shadow of `Rep.indResAdjunction`. Regime 3: the `IsUnit`
@@ -399,3 +402,208 @@ noncomputable def cliffordObstruction {N : Subgroup G} [N.Normal] (V : FDRep k N
 end Projective
 
 end TauCetiRoadmap.RepresentationTheory.InductionRestriction
+
+
+
+/-! Almost-conjugacy interfaces for Induction–Restriction Layer 2.1.
+The fixed-coset counting identity is a proof target; its equivalence criterion is derived below.
+The characteristic-zero classification is consumed from Tau Ceti. -/
+
+namespace TauCetiRoadmap.RepresentationTheory.InductionRestriction.Gassmann
+
+variable {G : Type*} [Group G]
+
+/-- Equal intersection sizes with every Mathlib conjugacy class. -/
+def AlmostConjugate (H K : Subgroup G) : Prop :=
+  ∀ C : ConjClasses G,
+    Nat.card {g : G // g ∈ C.carrier ∧ g ∈ H} =
+      Nat.card {g : G // g ∈ C.carrier ∧ g ∈ K}
+
+@[refl] theorem AlmostConjugate.refl (H : Subgroup G) : AlmostConjugate H H :=
+  fun _ ↦ rfl
+
+@[symm] theorem AlmostConjugate.symm {H K : Subgroup G}
+    (h : AlmostConjugate H K) : AlmostConjugate K H :=
+  fun C ↦ (h C).symm
+
+@[trans] theorem AlmostConjugate.trans {H K L : Subgroup G}
+    (h : AlmostConjugate H K) (h' : AlmostConjugate K L) : AlmostConjugate H L :=
+  fun C ↦ (h C).trans (h' C)
+
+variable [Finite G]
+
+/-- Division-free fixed-coset count. The stabilizer is the centralizer of g
+for the conjugation action, with no private centralizer notation. -/
+theorem card_fixedBy_mul_card_subgroup (H : Subgroup G) (g : G) :
+    Nat.card (MulAction.fixedBy (G ⧸ H) g) * Nat.card H =
+      Nat.card (MulAction.stabilizer (ConjAct G) g) *
+        Nat.card {x : G // x ∈ (ConjClasses.mk g).carrier ∧ x ∈ H} := by
+  sorry
+
+
+end TauCetiRoadmap.RepresentationTheory.InductionRestriction.Gassmann
+
+/-! Conjugacy-class partitions, subgroup orders and indices. -/
+
+namespace TauCetiRoadmap.RepresentationTheory.InductionRestriction.Gassmann
+
+variable {G : Type*} [Group G]
+
+/-- A subgroup is partitioned by the ambient conjugacy classes it meets. -/
+noncomputable def subgroupConjugacyPartitionEquiv (H : Subgroup G) :
+    H ≃ Σ C : ConjClasses G, {g : G // g ∈ C.carrier ∧ g ∈ H} :=
+  (Equiv.sigmaFiberEquiv (fun x : H ↦ ConjClasses.mk (x : G))).symm.trans
+    (Equiv.sigmaCongrRight fun C ↦
+      { toFun := fun x ↦ ⟨x.1, (ConjClasses.mem_carrier_iff_mk_eq).mpr x.2, x.1.property⟩
+        invFun := fun x ↦ ⟨⟨x.1, x.2.2⟩, (ConjClasses.mem_carrier_iff_mk_eq).mp x.2.1⟩
+        left_inv := by intro x; rfl
+        right_inv := by intro x; rfl })
+
+variable [Finite G]
+
+/-- Almost-conjugate finite subgroups have equal cardinality. -/
+theorem AlmostConjugate.card_eq {H K : Subgroup G} (h : AlmostConjugate H K) :
+    Nat.card H = Nat.card K := by
+  classical
+  let : Fintype (ConjClasses G) := Fintype.ofFinite _
+  rw [Nat.card_congr (subgroupConjugacyPartitionEquiv H),
+    Nat.card_congr (subgroupConjugacyPartitionEquiv K), Nat.card_sigma, Nat.card_sigma]
+  exact Finset.sum_congr rfl fun C _ ↦ h C
+
+/-- Almost-conjugate finite subgroups have equal indices. -/
+theorem AlmostConjugate.index_eq {H K : Subgroup G} (h : AlmostConjugate H K) :
+    H.index = K.index := by
+  rw [Subgroup.index_eq_card_div, Subgroup.index_eq_card_div, h.card_eq]
+
+/-- Counting bridge derived from the fixed-coset identity and subgroup cardinalities. -/
+theorem almostConjugate_iff_fixedBy (H K : Subgroup G) :
+    AlmostConjugate H K ↔
+      ∀ g : G, Nat.card (MulAction.fixedBy (G ⧸ H) g) =
+        Nat.card (MulAction.fixedBy (G ⧸ K) g) := by
+  classical
+  let : Fintype G := Fintype.ofFinite G
+  constructor
+  · intro h g
+    apply Nat.eq_of_mul_eq_mul_right (Nat.card_pos (α := H))
+    rw [card_fixedBy_mul_card_subgroup H g, h.card_eq,
+      card_fixedBy_mul_card_subgroup K g, h (ConjClasses.mk g)]
+  · intro h
+    have hi : H.index = K.index := by
+      simpa [Subgroup.index_eq_card, MulAction.fixedBy_one_eq_univ] using h 1
+    have hc : Nat.card H = Nat.card K := by
+      apply Nat.eq_of_mul_eq_mul_left (Nat.card_pos (α := G ⧸ H))
+      simpa only [← Subgroup.index_eq_card, ← hi, Subgroup.index_mul_card] using
+        H.index_mul_card.trans K.index_mul_card.symm
+    intro C
+    obtain ⟨g, rfl⟩ := ConjClasses.mk_surjective C
+    apply Nat.eq_of_mul_eq_mul_left
+      (Nat.card_pos (α := MulAction.stabilizer (ConjAct G) g))
+    rw [← card_fixedBy_mul_card_subgroup H g,
+      ← card_fixedBy_mul_card_subgroup K g, h g, hc]
+
+/-- Once the class-count bridge is proved, apply the implemented
+characteristic-zero permutation classification directly. -/
+theorem almostConjugate_iff_permutation_equiv
+    (k : Type*) [Field k] [CharZero k] (H K : Subgroup G) :
+    AlmostConjugate H K ↔
+      Nonempty ((Representation.ofMulAction k G (G ⧸ H)).Equiv
+        (Representation.ofMulAction k G (G ⧸ K))) :=
+  (almostConjugate_iff_fixedBy H K).trans
+    (TauCeti.nonempty_equiv_ofMulAction_iff_forall_natCard_fixedBy_eq
+      (G := G) (X := G ⧸ H) (Y := G ⧸ K) k).symm
+
+
+end TauCetiRoadmap.RepresentationTheory.InductionRestriction.Gassmann
+
+/-! Restriction and normal-subgroup invariants. -/
+
+namespace TauCetiRoadmap.RepresentationTheory.InductionRestriction.Gassmann
+
+variable {k G D V W : Type*} [CommRing k] [Group G] [Group D]
+  [AddCommGroup V] [Module k V] [AddCommGroup W] [Module k W]
+  {ρ : Representation k G V} {σ : Representation k G W}
+
+/-- Restriction of an equivalence along a group homomorphism. -/
+def restrictEquiv (e : ρ.Equiv σ) (f : D →* G) :
+    Representation.Equiv (ρ.comp f) (σ.comp f) :=
+  Representation.Equiv.mk e.toLinearEquiv (fun d ↦ e.isIntertwining' (f d))
+
+/-- A representation equivalence induces an equivalence of the quotient-group
+representations on the invariants of a normal subgroup. -/
+noncomputable def normalInvariantEquiv (e : ρ.Equiv σ) (I : Subgroup G) [I.Normal] :
+    (ρ.quotientToInvariants I).Equiv (σ.quotientToInvariants I) :=
+  Representation.Equiv.mk (restrictEquiv e I.subtype).invariantsLinearEquiv (by
+    intro q
+    refine QuotientGroup.induction_on q ?_
+    intro g
+    apply LinearMap.ext
+    intro x
+    apply Subtype.ext
+    exact congrArg (fun t : V →ₗ[k] W ↦ t (x : V)) (e.isIntertwining' g))
+
+end TauCetiRoadmap.RepresentationTheory.InductionRestriction.Gassmann
+
+/-! Subgroup transport under a group equivalence. -/
+
+namespace TauCetiRoadmap.RepresentationTheory.InductionRestriction.Gassmann
+
+variable {G Γ : Type*} [Group G] [Group Γ]
+
+/-- Pullback of subgroups along a group equivalence preserves nonconjugacy. -/
+theorem not_conj_comap (e : G ≃* Γ) (H K : Subgroup Γ)
+    (hn : ¬ ∃ τ : Γ, H.map (MulAut.conj τ) = K) :
+    ¬ ∃ σ : G, (H.comap e.toMonoidHom).map (MulAut.conj σ) = K.comap e.toMonoidHom := by
+  rintro ⟨σ, hσ⟩
+  apply hn
+  refine ⟨e σ, ?_⟩
+  apply Subgroup.comap_injective (f := e.toMonoidHom) e.surjective
+  calc
+    (H.map (MulAut.conj (e σ))).comap e.toMonoidHom = (H.comap e.toMonoidHom).map (MulAut.conj σ) := by
+      ext x
+      simp only [Subgroup.mem_comap, Subgroup.mem_map]
+      constructor
+      · rintro ⟨y, hy, h⟩
+        refine ⟨e.symm y, by simpa using hy, ?_⟩
+        apply e.injective
+        simpa [MulAut.conj_apply] using h
+      · rintro ⟨y, hy, h⟩
+        refine ⟨e y, hy, ?_⟩
+        simpa [MulAut.conj_apply] using congrArg e h
+    _ = K.comap e.toMonoidHom := hσ
+
+/-- A group equivalence identifies the class-intersection subtypes. -/
+def classIntersectionComapEquiv (e : G ≃* Γ) (H : Subgroup Γ) (g : G) :
+    {x : G // x ∈ (ConjClasses.mk g).carrier ∧ x ∈ H.comap e.toMonoidHom} ≃
+      {y : Γ // y ∈ (ConjClasses.mk (e g)).carrier ∧ y ∈ H} :=
+  e.toEquiv.subtypeEquiv (by
+    intro x
+    simp only [ConjClasses.mem_carrier_iff_mk_eq, ConjClasses.mk_eq_mk_iff_isConj,
+      Subgroup.mem_comap, MulEquiv.coe_toMonoidHom]
+    refine and_congr ?_ Iff.rfl
+    constructor
+    · exact e.toMonoidHom.map_isConj
+    · intro hx
+      simpa using e.symm.toMonoidHom.map_isConj hx)
+
+/-- Pullback along a group equivalence preserves almost-conjugacy. -/
+theorem almostConjugate_comap (e : G ≃* Γ) (H K : Subgroup Γ) (h : AlmostConjugate H K) :
+    AlmostConjugate (H.comap e.toMonoidHom) (K.comap e.toMonoidHom) := by
+  intro C
+  obtain ⟨g, rfl⟩ := C.exists_rep
+  rw [Nat.card_congr (classIntersectionComapEquiv e H g),
+    Nat.card_congr (classIntersectionComapEquiv e K g)]
+  exact h (ConjClasses.mk (e g))
+
+end TauCetiRoadmap.RepresentationTheory.InductionRestriction.Gassmann
+
+namespace TauCetiRoadmap.RepresentationTheory.InductionRestriction.Gassmann
+
+/-- The finite pair built from the regular actions of C4 x C4 and Q8 x C2.
+The README specifies these constructions and their cycle-type calculation. -/
+theorem exists_S16_gassmann_pair :
+    ∃ H K : Subgroup (Equiv.Perm (Fin 16)),
+      Nat.card H = 16 ∧ Nat.card K = 16 ∧ AlmostConjugate H K ∧
+        (¬ ∃ σ : Equiv.Perm (Fin 16), H.map (MulAut.conj σ) = K) := by
+  sorry
+
+end TauCetiRoadmap.RepresentationTheory.InductionRestriction.Gassmann
