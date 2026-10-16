@@ -290,7 +290,40 @@ example (ρ : G →* MulAut U) (localization : ∀ i, Nonabelian.H1 ρ → L i)
     (A : ∀ i, Set (L i)) (i : I) (hi : A i = ∅) : SelmerSet ρ localization A = ∅ := by
   sorry
 
+/-- Universal local conditions accept every global class for arbitrary local indices. -/
+example (ρ : G →* MulAut U)
+    (localization : ∀ i, Nonabelian.H1 ρ → L i) :
+    SelmerSet ρ localization (fun _ => Set.univ) = Set.univ := by
+  sorry
+
+/-- A single failed local condition excludes a class from the Selmer set. -/
+example (ρ : G →* MulAut U)
+    (localization : ∀ i, Nonabelian.H1 ρ → L i)
+    (A : ∀ i, Set (L i)) (x : Nonabelian.H1 ρ) (i : I)
+    (h : localization i x ∉ A i) : x ∉ SelmerSet ρ localization A := by
+  sorry
+
 end Selmer
+
+/-- Dual-number coefficient maps distinguish and kill actual continuous additive H¹ classes.
+The product topology on the dual numbers is their finite-dimensional coordinate topology. -/
+example (p : ℕ) [Fact p.Prime] :
+    let ρ := (1 : Multiplicative ℤ_[p] →* MulAut (Multiplicative (DualNumber ℚ_[p])))
+    ∃ cε c₁ c₀ : Nonabelian.Z1 ρ,
+      (∀ g, (cε.1 g).toAdd =
+        (g.toAdd : ℚ_[p]) • (DualNumber.eps : DualNumber ℚ_[p])) ∧
+      (∀ g, (c₁.1 g).toAdd =
+        algebraMap ℚ_[p] (DualNumber ℚ_[p]) (g.toAdd : ℚ_[p])) ∧
+      (∀ g, c₀.1 g = 1) ∧
+      (Quotient.mk (Relation.EqvGen.setoid (Nonabelian.GaugeRelated ρ)) cε :
+        Nonabelian.H1 ρ) ≠ Quotient.mk _ c₀ ∧
+      (Quotient.mk (Relation.EqvGen.setoid (Nonabelian.GaugeRelated ρ)) c₁ :
+        Nonabelian.H1 ρ) ≠ Quotient.mk _ c₀ ∧
+      (Quotient.mk (Relation.EqvGen.setoid (Nonabelian.GaugeRelated ρ)) c₁ :
+        Nonabelian.H1 ρ) ≠ Quotient.mk _ cε ∧
+      (∀ g, TrivSqZeroExt.fst ((cε.1 g).toAdd) = 0) ∧
+      (∀ g, TrivSqZeroExt.fst ((c₁.1 g).toAdd) = (g.toAdd : ℚ_[p])) := by
+  sorry
 
 /-! ## Layer 5: Albanese maps and Chabauty–Kim finiteness -/
 
@@ -315,6 +348,16 @@ example :
     let I : Equiv.Perm (Fin 3) := Equiv.swap 0 1
     let γ : Equiv.Perm (Fin 3) := Equiv.swap 1 2
     periodRatio I γ ≠ γ * I⁻¹ := by
+  sorry
+
+/-- An identity Frobenius path leaves the Hodge path as its period. -/
+example (g : U) : periodRatio 1 g = g := by
+  sorry
+
+/-- Fixing the identity Hodge path inverts a nontrivial additive rational path. -/
+example :
+    let g : Multiplicative ℚ := Multiplicative.ofAdd 1
+    periodRatio g 1 = g⁻¹ ∧ periodRatio g 1 ≠ g := by
   sorry
 
 end Period
@@ -578,6 +621,10 @@ example (d : ℕ → ℕ) : ¬ KimDimensionCondition d d := by
 /-- A strict inequality at depth one is sufficient for the numeric condition. -/
 example : KimDimensionCondition (fun _ => 1) (fun _ => 2) := by
   sorry
+
+/-- The mod-two boundary excludes simultaneous integral units z and 1 − z. -/
+example : ¬ ∃ z : ZMod 2, z ≠ 0 ∧ 1 - z ≠ 0 := by
+  decide
 
 /-- Eventual equality keeps its tail quantifier; an intersection equality is weaker. -/
 def EventualEquality {X : Type*} (loci : ℕ → Set X) (points : Set X) : Prop :=
