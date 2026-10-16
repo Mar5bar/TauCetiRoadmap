@@ -10,7 +10,7 @@ OperatorTheory/SelfAdjointSpectralTheory owns projection-valued measures and bou
 
 For number fields, AdelicAlgebraicGroups owns the adelic topology, restricted Haar products, rational characters, logarithmic height, G(𝔸)¹, homogeneous quotient integration, parabolic and Iwasawa data, reduction and Siegel estimates. ReductiveGroupsPartII owns the underlying local points, parabolics and L-groups. SmoothRepresentationsOfLocalGroups owns the finite-place representation categories, Hecke algebras, normalized induction, Jacquet modules and Satake theory. Sections 0.48–0.50 construct the general-group real representation foundations, smooth Fréchet globalizations and restricted tensor factorization, consuming the GLₙ specializations from AutomorphicLFunctionsAndLocalFactors. ArithmeticLocallySymmetricSpaces owns relative cochains, smooth growth spaces, constant terms, cusp forms and their discreteness, and the de Rham and moderate-growth comparisons. In particular, the comparison from all smooth functions to uniform moderate growth is a supplier theorem; the new comparison here passes from uniform moderate growth to central-finite automorphic forms. AutomorphicLFunctionsAndLocalFactors also owns scalar L-functions, local factors, Fourier–Laplace analysis, K-Bessel transforms, curve additive analysis, GLₙ isobaric sums, cuspidal continuation and pole criteria, and the pure curve-cohomological realization. The present roadmap constructs residual-block classification (§§4.14–4.14a), residual scalar applications (§§4.15a–4.15e), normalized GLₙ intertwining estimates (§2.3a), global strip bounds and standard-completion applications (§§3.6a–3.6d), and GLₙ transfer applications (Layer 7).
 
-Ordinary orbital integrals, discrete-series pseudo-coefficients and generic packets built from given tempered packets are constructed here. Stable orbital integrals, endoscopic transfer and stabilization belong to the roadmaps that consume them. Tempered packets, their generic members and compatibility of their local factors with parameters are hypotheses; this roadmap does not prove the general local Langlands correspondence. Its analytic Green kernel precedes the arithmetic Green functions and heights of Gross–Zagier.
+Ordinary orbital integrals, discrete-series pseudo-coefficients and generic packets built from given tempered packets are constructed here. Layer 7 also constructs the cyclic GLₙ twisted orbital integrals, transfer and trace comparison required for prime-degree base change. General endoscopic transfer and stabilization belong to the roadmaps that consume this material. Tempered packets, their generic members and compatibility of their local factors with parameters are hypotheses; this roadmap does not prove the general local Langlands correspondence. Its analytic Green kernel precedes the arithmetic Green functions and heights of Gross–Zagier.
 
 ## Conventions
 
@@ -38,6 +38,8 @@ For cohomology, V=V_λ is a finite-dimensional algebraic coefficient module and 
 | ArithmeticGaloisRepresentations | §§2.4–2.7: local factors and constants evaluated on the specified compatible packet parameter in §2.8; §2.7 **Global inputs**: the scalar adelic Schwartz–Bruhat space and tensor API, self-dual Fourier transform, Poisson summation, global Tate integral, meromorphic continuation and Hecke functional equation. |
 | ArithmeticLocallySymmetricSpaces | ALS.0.2, ALS.F.1, ALS.F.5–ALS.F.6, ALS.4.5, ALS.5b.1, ALS.5b.3, ALS.5b.5: real Lie data, cochains, growth spaces, constant terms, cuspidal discreteness, Kostant theory and cohomological comparisons. |
 | AutomorphicLFunctionsAndLocalFactors | Representation prerequisites, `isobaric-construction`, `archimedean-smooth-representations`, `restricted-tensor-realizations`; AL.0 local Fourier/Bessel analysis and vector-space adelic extensions; AL.1 distribution-valued Tate theory and number-field normalization adapters; AL.2 standard-factor analysis and generic paired Hadamard theory; AL.3 cuspidal pair factors, continuation, functional equations, poles, `isobaric-strong-multiplicity-one`, curve additive analysis, pure realization and tensor determinant. |
+
+ArithmeticGaloisDuality §§R02.3.0d, R02.4.5a–R02.4.5b and R02.4.6 supply finite Galois localization, finite-coefficient Poitou–Tate and all-place Sha duality, Grunwald–Wang with its dyadic obstruction, and character roots with local Brauer obstructions. Layer 7 constructs their application to controlled auxiliary extensions.
 
 ### From Mathlib
 
@@ -1708,6 +1710,8 @@ Prove `completed_eisenstein_continuation`. E*(z,s) extends meromorphically with 
 
 Define `resolvent_kernel` as follows. Construct the kernel G(z,z′;s) of (Δ_N−s(1−s))⁻¹ for the self-adjoint level-N realization of §1.16a on L²(Γ₀(N)/{±I}\ℍ), N≥1, off spectrum, and its continued kernel. The displayed full-modular Fourier formulas use N=1; at other levels retain all cusp channels and their scattering matrix. Bounded-inverse analyticity applies only at genuine spectral gaps. At s₀=1/2+ir, r>0, a cuspidal eigenvalue is embedded in continuous spectrum: the finite-rank subtraction in (8.4) requires meromorphic continuation in weighted/test spaces, not operator-norm holomorphy on full L².
 
+Use the test-space realization throughout §§2.19–2.23. On the finite-area orbifold X_N take D(X_N)=C_c^∞(X_N) with its usual strict LF topology (smooth invariant functions in orbifold charts), and its strong distribution dual D′(X_N). Continue R_s as a meromorphic family in L_b(D(X_N),D′(X_N)), the continuous linear maps with uniform convergence on bounded test sets. Locally in Re(s)>0 a single scalar power of s−s₀ makes the family holomorphic in this topology; its negative Laurent coefficients have finite rank. Construct its distribution kernel in D′(X_N×X_N), with ⟨G_s,φ⊗ψ⟩=⟨R_sφ,ψ⟩, by the compact-chart Schwartz kernel theorem and compatible cutoffs; this distributional kernel construction is part of this target and uses the nuclear test spaces of §0.11. Off the orbit diagonal require meromorphic continuation in C^∞ on each compact set, with the seminorms of all spatial derivatives. This regularity justifies the separated-cusp Fourier coefficients of §2.23 and the locally smooth residues in §§2.21–2.22. At an embedded cusp eigenvalue with r>0, subtraction of the projector in §2.20 is holomorphic in these test/kernel topologies.
+
 Prove the following API statements.
 - `inverseEquation`: (Δ−s(1−s))R_s=1 on its domain, assuming membership in the bounded-inverse resolvent set; algebraic bijectivity alone is insufficient.
 - `kernelSymmetry`: The self-adjoint resolvent kernel obeys R_s(z,z′)=conj(R_conj(s)(z′,z)), with conjugation of the parameter as well as exchange of the spatial variables.
@@ -1717,6 +1721,7 @@ Prove the following API statements.
 - On the constant eigenline, the scalar Laplacian resolvent is −1/[s(1−s)] off its poles.
 - At the parameter 1/2+it for the scalar Laplacian eigenvalue 1/4+t², its defining inverse equation has no solution for every right-hand side; a bounded inverse cannot be used there.
 - The scalar resolvent on the eigenline of eigenvalue 1/4 is (s−1/2)^(−2), so the parameter pole is double at the threshold.
+- Pairing the continued kernel with two compactly supported smooth tests is meromorphic at an embedded cusp eigenvalue; subtraction of its cusp projector gives a holomorphic pairing, while the full-L² bounded inverse still does not exist there.
 
 ([DIT16], §8 (8.2)–(8.4), pp.973–974, citing Fay [20, Theorem 3.1, p.173] and Hejhal [27].)
 
@@ -1725,7 +1730,7 @@ Prove the following API statements.
 
 ### 2.20 Finite-rank resolvent polar part
 
-Prove `resolvent_polar_part`. Let s₀=1/2+ir with r>0, and let {u} be an orthonormal basis of the Δ-eigenspace with eigenvalue 1/4+r². With the convention (8.2), (Δ−s(1−s))∫_F G(z,z′;s)u(z)dμ(z)=u(z′), the polar part of G at s₀ is (1/4+r²−s(1−s))⁻¹ Σ_u conj(u(z)) u(z′), as in (8.4). Since 1/4+r²−s(1−s)=(s−s₀)(2s₀−1)+O((s−s₀)²), Res_{s₀}(2s−1)G(z,z′;s)=Σ_u conj(u(z))u(z′).
+Prove `resolvent_polar_part`. Let s₀=1/2+ir with r>0, and let {u} be an orthonormal basis of the Δ-eigenspace with eigenvalue 1/4+r². With the convention (8.2), (Δ−s(1−s))∫_F G(z,z′;s)u(z)dμ(z)=u(z′), the polar part of G at s₀ is (1/4+r²−s(1−s))⁻¹ Σ_u conj(u(z)) u(z′), as in (8.4). Since 1/4+r²−s(1−s)=(s−s₀)(2s₀−1)+O((s−s₀)²), Res_{s₀}(2s−1)G(z,z′;s)=Σ_u conj(u(z))u(z′). Interpret the polar subtraction in §2.19's test-operator topology and locally smooth kernel topology off the diagonal.
 
 ([DIT16], §8, (8.4), p.974.)
 
@@ -3509,6 +3514,64 @@ The real transform uses smooth LF tests, normalized real induction and infinites
 
 ## Layer 7: GLₙ transfer applications
 
+### 7.0a Cyclic twisted objects and normalized characters
+
+**Cyclic twisted GLₙ objects.** For n≥1 and number fields E/K cyclic of prime degree l, choose a generator σ and set H=Res_(E/K)GLₙ and Hσ=H⋊σ, the indicated component of H⋊⟨σ⟩. Construct twisted conjugacy δ↦x⁻¹δσ(x), the K-group H_(δ,σ)={x:xδ=δσ(x)}, and the norm-class map: N_σδ=δσ(δ)⋯σ^(l−1)(δ), whose E-conjugacy class descends to GLₙ(K). At every place use E⊗_K K_v, including its split factors. Prove well-definedness, regularity criteria, centralizer comparison and the local-to-global norm criterion. For a regular norm γ, identify H_(δ,σ) with the centralizer of γ and use the same centralizer Haar in the two quotient integrals. Use probability Haar on hyperspecial compacts at unramified finite places and the compatible product/quotient measures of Layer 6 globally; central quotients retain the norm image of the centre and its finite index. Singular semisimple descent retains the inner-centralizer sign of [AC89, I, Lemma 3.6]. The elementary ordered-product interface is `cyclic_twisted_norm`, with `cyclic_twisted_norm_conjugacy`.
+
+Construct normalized twisted characters of σ-stable irreducible admissible local representations Π. An implementing operator A_Π satisfies A_ΠΠ(g)=Π(σg)A_Π. For generic Π fix the Whittaker character from ψ_K∘Tr_(E/K) and normalize by Λ∘A_Π=Λ for a nonzero Whittaker functional Λ; prove uniqueness and A_Π^l=1. For the other representations occurring in the trace comparison, extend this normalization through ordered standard modules and their Langlands subquotients, proving independence of presentations. The twisted trace is Θ_(Π,σ)(φ)=tr(Π(φ)A_Π), with its admissible finite-level interpretation. Globally use U_σf(x)=f(σ⁻¹x); on a σ-stable cuspidal summand prove its factorization into the normalized local operators by the global Whittaker functional. Induced and residual terms carry the compatible induced normalization. The finite-dimensional normalization interface is `whittaker_intertwiner_unique`; it records the scalar-commutant hypothesis explicitly.
+
+**Checks.**
+
+- For GL₁, the norm-class map is the field/idele norm and twisted conjugacy identifies elements differing by x⁻¹σ(x).
+- For split E_v=K_v^l, δ=(δ₁,…,δ_l) has norm class represented by δ₁⋯δ_l; the centralizer comparison uses that product, not the product of conjugacy classes separately.
+- Replacing A_Π by ζA_Π with ζ^l=1 multiplies its twisted character by ζ. Unless ζ=1 it fails the Whittaker normalization; σ-stability alone does not determine the trace.
+
+(Source: [AC89], Chapter I §§1–2, pp.3–12, §3, pp.20–26, and §6.3, pp.55–57; [Art05], §26, pp.188–190.)
+
+*Needs:* SmoothRepresentationsOfLocalGroups SR.1–SR.4; AutomorphicLFunctionsAndLocalFactors representation prerequisites and AL.2 local Whittaker uniqueness; §§0.48–0.50, 2.1–2.3 and 4.14 for real representations, intertwiners and residual terms; AdelicAlgebraicGroups §§0.1–0.3 and 2.1–2.3 for restriction of scalars, measures and quotients. The twisted objects and normalizations are constructed here.
+
+### 7.0b Local matching and twisted character transfer
+
+**Cyclic GLₙ local transfer.** For the local cyclic algebras and measures of §7.0a, construct matching tests φ on GLₙ(E_v) and f on GLₙ(K_v). At finite places use locally constant compactly supported tests; at infinity use smooth compactly supported maximal-compact-finite tests and their invariant character images. Fixed compatible central characters give the corresponding compact-mod-centre versions. For every σ-regular δ with norm class γ require
+
+O_γ(f)=TO_(δ,σ)(φ),
+
+where TO_(δ,σ)(φ)=∫_(H_(δ,σ)(K_v)\H(K_v))φ(x⁻¹δσ(x))dx. Require O_γ(f)=0 for every regular γ outside the norm image. Prove existence of f for every φ, and the converse for f satisfying this vanishing condition, at finite places. At infinite places construct the invariant-image transfer and the twisted Paley–Wiener/character-separation statements needed by §7.0c. Extend regular matching through semisimple germs, with the centralizer measures and signs in §7.0a, and through the Levi descent needed for the weighted comparison.
+
+For E_v/K_v unramified, prove matching of spherical units and of φ with b_(E_v/K_v)(φ), where b is the spherical Hecke homomorphism whose Satake transform substitutes X_i↦X_i^f, f the residue degree. At a split place transfer an elementary tensor by convolution of its l factors. For irreducible tempered π of GLₙ(K_v) construct its σ-stable tempered lift Π and prove Θ_(Π,σ)(φ)=tr π(f) for matching tests, with the Whittaker-normalized A_Π. Prove compatibility with normalized induction, duals and norm twists, extending the identity to the standard modules and subquotients used globally. The scalar norm-pushforward case of the character identity is `norm_transfer_character`, with the measure identity carried as a hypothesis; `satake_power_sum` records the unramified power substitution on roots.
+
+**Checks.**
+
+- In GL₁, χ and χη have identical transfer characters whenever η is trivial on norms. Their possible distinction cannot be detected by transferred tests.
+- For a quadratic unramified local extension, an element of GL₁(K_v) with odd valuation is not a norm, and every transferred f vanishes there.
+- The unramified spherical unit transfers to the spherical unit with both compact volumes one; at residue degree two, the trace of the Satake matrix becomes Σ_iα_i², not (Σ_iα_i)².
+
+(Source: [AC89], Chapter I, Proposition 3.1, pp.20–21, Lemma 3.6, p.26, §4, Theorem 4.5, and §§5–6, pp.48–62; [Art05], §26, pp.189–190.)
+
+*Needs:* §7.0a; Layer 6 ordinary orbital integrals and Paley–Wiener theory; SmoothRepresentationsOfLocalGroups SR.4 Satake theory; AutomorphicLFunctionsAndLocalFactors AL.2 local Whittaker and factor interfaces. Local twisted transfer, its spherical fundamental lemma and its character identity are targets here.
+
+### 7.0c Cyclic twisted trace comparison and spectral isolation
+
+**Cyclic twisted trace comparison.** Construct the geometric and spectral trace distributions for Hσ, with normalized characters from §7.0a and restricted tensor tests φ as in §7.0b. Prove convergence, truncation, the fine expansions and invariantization in this component. Reuse Layer 6's reduction estimates, cone identities, meromorphic intertwiners, trace ideals and Levi recursion; construct the twisted kernels, σ-stable Levi/Weyl indexing, twisted orbital and weighted character terms and their coefficients here. Include the twisted real Paley–Wiener input of §7.0b. These constructions concern cyclic GLₙ, including its block Levis.
+
+For globally matching (φ,f), compare the geometric expansions by norm classes, including the vanishing off the norm image and the centralizer volumes. Prove the resulting equality of the t-discrete distributions
+
+I_(t,disc)^(Hσ)(φ)=Ĩ_(t,disc)^(K,bc)(f).
+
+Here the left side includes the Weyl-intertwiner contributions from proper Levi discrete data; it is not only the cuspidal trace. Define the right side by pulling back the ordinary GLₙ(K) discrete character expansion with the cyclic norm-character averaging and the split-central scaling in [AC89, II, (9.4), Lemma 12.1 and (17.7)]. Retain its Weyl orders and determinants rather than replacing it by an unweighted sum of cuspidal traces. Prove the corresponding equality of weighted local distributions and global coefficients in Chapter II Theorems A and B. Use the corrected density argument cited in [Art05, p.191] when separating geometric coefficients.
+
+Prove spectral isolation: varying the spherical Hecke tests outside a finite set separates the unramified spectral classes; within each class use archimedean infinitesimal characters and local character independence to identify the coefficients and normalized twisted characters. Rank induction, the supplied Rankin–Selberg pole criterion and isobaric multiplicity one then yield existence, Galois-invariant cuspidal descent, the self-twist cuspidality criterion and the constituent-wise fibre theorem of §7.1. These conclusions are derived from the comparison, not hypotheses used to define it. The finite spectral-isolation interface is `trace_coefficient_isolation`.
+
+**Checks.**
+
+- In the compact quotient case the twisted formula is tr(R(φ)U_σ)=Σ_[δ]_σ vol(H_(δ,σ)(K)\H_(δ,σ)(𝔸_K))TO_(δ,σ)(φ), with the same central quotient in volume and trace.
+- A cuspidal base change with l distinct cuspidal descents has one normalized twisted character; its ordinary descents are averaged with coefficient 1/l on the transferred character image.
+- If π≅πη for the order-l norm character, its base change is a conjugate orbit of l blocks of rank n/l. Restricting the comparison to cuspidal traces on both sides would lose this case.
+
+(Source: [Art05], §26, pp.189–191, especially (26.8) and the corrections on p.191; [AC89], Chapter II §§5, 9–12 and 17, pp.131–158 and 197–198; Chapter III §§3–5, pp.201–213.)
+
+*Needs:* §§7.0a–7.0b; Layers 2–4 and 6; AutomorphicLFunctionsAndLocalFactors AL.3's Rankin–Selberg pole/nonvanishing and isobaric multiplicity-one prefix. The comparison and spectral-isolation arguments are constructed here before §7.1.
+
 ### 7.1 Solvable GLₙ base change and descent
 
 <a id="solvable-gln-base-change"></a>
@@ -3519,8 +3582,81 @@ The real transform uses smooth LF tests, normalized real induction and infinites
 
 (Source: Arthur–Clozel [AC89], *Simple algebras, base change, and the advanced theory of the trace formula*, Chapter 3, Theorems 3.1, 4.2 and 5.1, pp.201–203 and 212–213; Ramakrishnan [Ram18], pp.3–6, Proposition 1.1 and Claim 1.2.)
 
-*Needs:* AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, [GLₙ isobaric sums](../AutomorphicLFunctionsAndLocalFactors/README.md#isobaric-construction); ClassFieldTheory §4, Layers 11–12 (number-field Artin reciprocity, norm quotients and the cyclic character dictionary); AutomorphicLFunctionsAndLocalFactors AL.3's number-field Rankin–Selberg pole/nonvanishing and isobaric multiplicity-one prefix; Layer 6 (ordinary trace distributions). Construct the cyclic twisted trace comparison and norm-transfer identities used in Arthur–Clozel Chapter 3 §§1, 4–5 here from the trace distributions of Layer 6; their existence is part of this base-change target, with its number-field/cyclic hypotheses.
+*Needs:* AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, [GLₙ isobaric sums](../AutomorphicLFunctionsAndLocalFactors/README.md#isobaric-construction); ClassFieldTheory §4, Layers 11–12 (number-field Artin reciprocity, norm quotients and the cyclic character dictionary); AutomorphicLFunctionsAndLocalFactors AL.3's number-field Rankin–Selberg pole/nonvanishing and isobaric multiplicity-one prefix; §§7.0a–7.0c (cyclic twisted objects, local transfer, trace comparison and spectral isolation).
 
+
+### 7.1a Quantitative Hecke roots and low-degree comparison
+
+**Quantitative low-degree multiplicity one.** For n≥1, m≥1 and a unitary cuspidal τ of GL_m over a number field and every finite unramified v, prove the Luo–Rudnick–Sarnak bound |α_(i,v)|≤q_v^(1/2−1/(m²+1)). Apply this to every unitary cuspidal constituent of an isobaric sum of total rank n: m≤n gives the common exponent θ_n=1/2−1/(n²+1), including repeated constituents. Prove the resulting comparison criterion: for number fields L/F, two isobaric sums of unitary cuspidal representations of GL_n(𝔸_L) are isomorphic if they agree at almost every place of each relative degree d≤D_n=⌊(n²+1)/2⌋ over F. No normality of L/F is needed for this analytic criterion.
+
+Construct the positive Rankin–Selberg quotient from the two self-pairs and the two cross-pairs. Prove that the logarithms contributed by degrees d>D_n converge absolutely in a neighbourhood of the real point s=1: their root-product bound gives a majorant over primes of F with exponent d(1−2θ_n)=2d/(n²+1)>1. Include all prime powers and the bounded number of places over each F-prime. The supplied pole criterion then identifies and cancels common constituents with their multiplicities. The scalar signatures `lrs_isobaric_root_bound`, `lrs_degree_margin` and `lrs_rankin_selberg_tail` express the constituent bound and this convergence margin.
+
+For general isobaric inputs write each constituent as τ|det|^t with τ unitary and t real. Write a=−t for the root-growth exponent and group constituents with maximal a on either side. Pair with a unitary cuspidal constituent in this extremal group and compare poles at s=1+a, match and cancel the constituents there, and descend through the finite set of exponents. The tail estimate applies after this shift, since every other growth exponent is at most a; smaller exponents have no pole at s=1+a. This norm-twist argument is part of the target; the degree-one theorem retains arbitrary isobaric inputs.
+
+**Checks.**
+
+- At n=1, θ₁=0 and D₁=1; the high-degree tail has exponent at least two.
+- At n=2, D₂=2 and the first omitted degree is three: its exponent is 6/5>1. A qualitative bound |α|<q^(1/2) alone does not supply this margin.
+- A repeated unitary rank-one constituent satisfies the same rank-n bound. A twist by |det|^t shifts its roots by q_v^(−t), so the bound must be applied after removing the twist, not asserted for the unnormalized roots.
+
+(Source: [Ram15], §1 Theorem 1.2 and §2 Proposition 2.1, Lemmas 2.3 and 2.5, pp.5–7, with §3's norm-twist normalization; [Ram18], Claim 2.2, pp.7–8. The cuspidal bound is Luo–Rudnick–Sarnak, *On the generalized Ramanujan conjecture for GL(n)*, Proc. Sympos. Pure Math. 66 II (1999), pp.301–310; see also [Sar03], §2, (14), pp.7–8.)
+
+*Needs:* AutomorphicLFunctionsAndLocalFactors AL.2–AL.3's cuspidal factors, Rankin–Selberg continuation, pole/nonvanishing criterion and isobaric construction. The quantitative cuspidal bound, the infinite-prime tail estimate and the norm-twist comparison are constructed here; ordinary strong multiplicity one alone supplies none of these estimates.
+
+### 7.1b Auxiliary cyclic extensions with prescribed splitting
+
+**Controlled obstruction-killing extensions.** Let K/F be finite Galois, p a prime dividing [K:F], and I the finite set of intermediate K′ with [K:K′]=p. For each K′ fix β_(K′)∈H²(K′,ℤ/p) whose restriction to K is zero, with trivial action on ℤ/p. For p=2 require that every β_(K′) has zero localization at every real place of K′. Let T₀ be any finite set of finite F-places, prime to p, which split completely in K, and let T consist of all places of K above T₀. Prove that there is an r≥1, depending on K/F, p and the classes but independent of T₀, and a cyclic E/F of degree p^r or 2p^r such that E and K are linearly disjoint, T splits completely in KE/K, and every β_(K′) restricts to zero in every M′ with K′⊂M′⊂KE and [KE:M′]=p.
+
+Construct E by prescribing sufficiently large unramified cyclic local extensions at the finite places supporting the local obstructions, so that the relevant composita contain the unramified p²-extensions of K′_u. Such places do not lie over T₀. Real localizations are zero under the stated hypothesis. At T₀ prescribe splitting; an extra good Frobenius prescription forces disjointness from K. Allow the degree doubling in the dyadic Grunwald–Wang case. Further ramification is allowed at finitely many auxiliary places outside T₀; no fixed ramification set or totally real conclusion is asserted. Local invariant killing and the vanishing of Ш²(M′,ℤ/p) give global vanishing over each M′. These use the earlier supplier ArithmeticGaloisDuality §§R02.4.5a–R02.4.6, including the exceptional case, rather than an unrestricted Grunwald theorem in ClassFieldTheory.
+
+For general classes at p=2, first construct a totally imaginary quadratic F₀/F, linearly disjoint from K and split at T₀, by prescribing signs at the real places, splitting at T₀ and an auxiliary Frobenius condition. Apply the preceding construction to KF₀/F₀ and the restricted classes. The resulting auxiliary extension above K is a tower of cyclic extensions; it need not be cyclic over F. This preliminary step is necessary: a real obstruction need not vanish on every index-two subfield of KE.
+
+Apply this to β=δχ for the order-p character cutting out K/K′. For M′ not containing K (or KF₀ after the preliminary reduction), the restricted character still has order p; construct its p-th root and the resulting cyclic p²-extension. Subfields containing K have trivial restricted character and need no such lift. In each constructed root extension, choose the roots trivial at the places over T₀ by a prime-order character adjustment. Taking their F-conjugates and composita then preserves the prescribed splitting. The native field prototype `auxiliary_cyclic_split` states the disjoint cyclic splitting substatement, using `AuxiliaryCyclicSplitData` and `split_at` for unramified residue degree one at every prime above the specified prime. The cohomological vanishing, preliminary imaginary extension and simultaneous character-root conclusions are also targets of this subsection.
+
+**Checks.**
+
+- For F=ℚ, K=ℚ(i), p=2 and β=(−1,−1), restriction to K vanishes. For any cyclic E/ℚ disjoint from K, the fixed field of complex conjugation in KE has index two and a real place where β remains nonzero. Thus the real-localization hypothesis, or the preliminary F₀, is essential.
+- With β=0 the vanishing conditions are automatic, while disjointness and prescribed splitting still constrain E; they cannot be dropped from its construction.
+- The unramified degree-eight prescription over ℚ₂ has no global cyclic degree-eight realization over ℚ; the degree-sixteen possibility accounts for the dyadic obstruction.
+- A root ψ of χ need not be trivial at a place where χ is trivial: ψ can have nontrivial order-p restriction there. The character adjustment is required before taking conjugates and composita.
+
+(Source: [Ram18], Lemma 4.1 and Sublemma 4.2, pp.9–11, and §5, pp.12–13, with the real-localization hypothesis above and the preliminary quadratic reduction; ArithmeticGaloisDuality §R02.4.6's exact Grunwald–Wang and character-root statements.)
+
+*Needs:* ArithmeticGaloisDuality §§R02.3.0d, R02.4.5a–R02.4.5b and R02.4.6; ClassFieldTheory Layers 11–12 for characters and cyclic extensions; Chebotarev Layer 10 for auxiliary Frobenius conditions; GlobalNumberFields and LocalFieldsRamification for places, composita and local residue degrees. The simultaneous extension construction with these splitting and disjointness conditions is owned here.
+
+### 7.1c Raising residue degrees and obtaining equality upstairs
+
+**Residue-degree raising and iteration.** For finite Galois K/F, 2≤j≤D_n, and any finite set T of relative-degree-one K-primes away from the conductors of π,π′, the absolute discriminant of K and the residue characteristics dividing 2[K:F], construct M/K as a tower of cyclic prime-degree extensions such that T splits completely and every prime of M over almost every relative-degree-j K-prime has degree greater than j over F. Enlarge T to the full fibres over its underlying split F-primes before applying §7.1b. These are the good sets in §§7.1c–7.1d; the excluded set is finite and does not restrict the almost-everywhere hypothesis of §7.2. All auxiliary tower degrees have prime divisors among those of 2[K:F], so the prescribed primes remain eligible through iteration. Other ramified primes are finite exceptions in the residue-degree assertion, never discarded from the prescribed split set. Use the elementary cyclic-p² fact: a Frobenius inert in the degree-p intermediate extension has order p² upstairs. Its group-theoretic signature is `cyclic_square_order`. Composita over the finitely many cyclic subgroups of Gal(K/F) cover every possible unramified decomposition group; retain the finite ramification exclusions.
+
+For a normal tower F=K₀⊂⋯⊂K_r=K, define h as the first d≤D_n with infinitely many unequal local components, and h=D_n+1 if there is none; define the width w=D_n+1−h. Prove that cyclic base change does not increase width and that, when w>0, a finite tower of cyclic extensions lowers it strictly while preserving splitting of a prescribed finite good T. Induct on the normal tower, using residue-degree multiplication in composita to handle primes of degree one over K₁ but higher degree over F. Iterate at most D_n times to obtain M/K with equality at all but finitely many M-primes of degree ≤D_n over F, and hence π_M≅π′_M by §7.1a. At each stage carry the normal-tower and good-place hypotheses to the new field. Neither K/F nor its normal closure is assumed solvable; only the auxiliary towers above K are towers of cyclic extensions.
+
+The numerical termination interface is `width_iteration`: widths bounded by D_n and strictly decreasing whenever positive reach zero within D_n steps. The representation-theoretic conclusion is the split-preserving existence statement of [Ram18, Proposition 1.1], for every finite good T contained in the relative-degree-one primes, with the additional finite exclusion of residue characteristics dividing 2[K:F].
+
+**Checks.**
+
+- In a cyclic p²-extension unramified at v, inertness in its degree-p subextension forces residue degree p²; a C_p×C_p-extension does not have this property.
+- A place already of degree >D_n stays above the cutoff in every extension, while a known equality above a degree-one place is preserved by local base change even if the new residue degree grows.
+- At width zero take M=K; at positive width a non-strict inequality w_M≤w_K is insufficient for termination. Prescribed split places retain local degree one through every iteration.
+
+(Source: [Ram18], Propositions 2.1, 3.1 and 5.1, Claims 2.2 and 3.2, §§5–6, pp.7–14; [Ram15], §4, Lemma 4.4, pp.8–9.)
+
+*Needs:* §§7.1, 7.1a–7.1b; GlobalNumberFields and LocalFieldsRamification for decomposition groups and residue-degree multiplication. The degree-raising, normal-tower induction and width decrease are constructed here.
+
+### 7.1d Eliminating the fibre ambiguity
+
+**Split-preserving descent.** Under the normal-tower and degree-one agreement hypotheses of §7.2, deduce π≅π′ from the split-preserving equality upstairs of §7.1c. Prove that a cuspidal representation of rank m has at most m² finite-order self-twists, using Rankin–Selberg poles and cyclic base change; `self_twist_card_bound` gives its finite-dimensional irreducible representation analogue. In the prime-degree first step, use §7.1's fibre theorem to match cuspidal constituents up to powers of its norm-trivial character, including multiplicities. If a nontrivial twist persists, choose another finite good set of relative-degree-one primes whose splitting forces a different cyclic extension. Chebotarev supplies such primes even with the relative-degree-one restriction: work with Frobenius elements fixing K in a normal closure. Repeating the construction gives more distinct self-twists than the bound permits. Prove the same argument with the finite set of possible constituent matches by pigeonhole, then cancel a common constituent and induct on isobaric length and the auxiliary tower degree. An isobaric fibre need not be a single common twist.
+
+The choice of T is essential: one fixed M can kill a nontrivial character. The descent theorem quantifies over the controlled extensions for every finite good degree-one T. All choices avoid the conductors, absolute discriminant and residue characteristics specified in §7.1c. The argument handles each norm-twist exponent and uses no unitarity assumption on the original π,π′.
+
+**Checks.**
+
+- π and πη have the same base change through the extension cut out by η; a single equality upstairs proves only the fibre statement.
+- For rank one there is only the trivial self-twist. A surviving nontrivial finite-order character is detected at a good relative-degree-one prime; forcing that prime to split in the next auxiliary extension rules out that ambiguity.
+- Two isobaric constituents can acquire different norm-trivial twists after a fixed base change. The descent cancels matched constituents with multiplicity and cannot assume one twist of the whole sum.
+
+(Source: [Ram18], Proposition 1.1 and Claim 1.2, pp.5–7; the self-twist bound and variation argument on pp.3 and 7; [AC89], Chapter III, Theorem 3.1.)
+
+*Needs:* §§7.1, 7.1c; AutomorphicLFunctionsAndLocalFactors AL.3 Rankin–Selberg pole/nonvanishing and isobaric multiplicity one; Chebotarev Layer 10. The variation of split-preserving auxiliaries and constituent cancellation are constructed here before §7.2.
 
 ### 7.2 Ramakrishnan’s degree-one comparison
 
@@ -3534,7 +3670,7 @@ Work under the following hypotheses. Do not weaken the normal-tower hypothesis t
 
 (Source: [Ram18], TheoremA, pp.1–2; proof strategy pp.2–4.)
 
-*Needs:* [Solvable GLₙ base change and descent](#solvable-gln-base-change), including unramified compatibility, cuspidality and the fibre theorem; [Strong multiplicity one for isobaric sums](../AutomorphicLFunctionsAndLocalFactors/README.md#isobaric-strong-multiplicity-one); [Continuation and the Rankin–Selberg pole criterion](../AutomorphicLFunctionsAndLocalFactors/README.md#rs-global-poles).
+*Needs:* §7.1 (solvable base change and constituent-wise fibres); §7.1a (quantitative Hecke bounds and low-degree comparison); §7.1b (controlled obstruction-killing extensions); §7.1c (residue-degree raising and equality upstairs); §7.1d (split-preserving descent).
 
 
 ## Downstream consumers
@@ -3585,4 +3721,6 @@ Layer 5 supplies `LocallySymmetric.FrankeInput` to ArithmeticLocallySymmetricSpa
 - **[Cog04]**: James W. Cogdell, [Lectures on L-functions, converse theorems, and functoriality for GL(n)](https://people.math.osu.edu/cogdell.1/fields-www.pdf). Author Fields Institute lecture notes, 2004.
 - **[YZ17]**: Zhiwei Yun and Wei Zhang, [Shtukas and the Taylor expansion of L-functions](https://math.mit.edu/~zyun/Taylor_Expansion_published.pdf). Annals of Math. 186 (2017), 767–911; published author PDF.
 - **[AC89]**: James Arthur and Laurent Clozel, *Simple algebras, base change, and the advanced theory of the trace formula*. Annals of Mathematics Studies 120 (1989); Chapter 3 locators use printed pagination.
-- **[Ram18]**: Dinakar Ramakrishnan, [A mild Tchebotarev theorem for GL(n)](https://arxiv.org/pdf/1806.08429v1). arXiv:1806.08429v1.
+- **[Ram15]**: Dinakar Ramakrishnan, [A mild Tchebotarev theorem for GL(n)](https://www.its.caltech.edu/~dinakar/papers/mildTcheb-arxiv.pdf). J. Number Theory 146 (2015), 519–533; locators use the author preprint pagination.
+- **[Sar03]**: Peter Sarnak, [Notes on the Generalized Ramanujan Conjectures](https://web.math.princeton.edu/~sarnak/Preprints/SarnakFieldsNotes.pdf). Fields Institute lectures, June 2003, §2, pp.7–8.
+- **[Ram18]**: Dinakar Ramakrishnan, [A Theorem on GL(n) à là Tchebotarev](https://arxiv.org/pdf/1806.08429v1). arXiv:1806.08429v1.

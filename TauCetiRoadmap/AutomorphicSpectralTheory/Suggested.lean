@@ -416,6 +416,122 @@ example : Tendsto (fun z : ℂ => 1 / z + Complex.exp z / (-z))
 example : Tendsto (fun z : ℂ => 1 / z + 1 / (-z))
     (𝓝[≠] 0) (𝓝 0) := by sorry
 
+/-! ## Layer 7: Cyclic transfer and degree-one comparison
+
+The signatures below give the ordered norm, normalized intertwiner, scalar transfer,
+finite spectral isolation, analytic tail, and arithmetic splitting interfaces of §§7.0–7.1d.
+The full automorphic trace comparison, cuspidal Hecke-root bound, cohomological extension
+construction and descent statements are specified in the README.
+-/
+
+/-- The cyclic norm is an ordered product, also for a noncommutative group. -/
+def cyclic_twisted_norm {G : Type*} [Group G] (σ : G ≃* G) (l : ℕ) (δ : G) : G :=
+  (List.ofFn (fun i : Fin l => (σ ^ i.val) δ)).prod
+
+/-- Twisted conjugation becomes ordinary conjugation of the cyclic norm. -/
+theorem cyclic_twisted_norm_conjugacy {G : Type*} [Group G]
+    (σ : G ≃* G) (l : ℕ) (hl : σ ^ l = 1) (δ x : G) :
+    cyclic_twisted_norm σ l (x⁻¹ * δ * σ x) =
+      x⁻¹ * cyclic_twisted_norm σ l δ * x := by sorry
+
+/-- A preserved nonzero Whittaker line fixes the scalar ambiguity in the intertwiner.
+The scalar commutant is the Schur hypothesis used here; the functional is not a zero line. -/
+theorem whittaker_intertwiner_unique {G V : Type*} [Group G]
+    [AddCommGroup V] [Module ℂ V] (ρ : Representation ℂ G V)
+    (σ : G ≃* G) (l : ℕ) (hl : σ ^ l = 1)
+    (Λ : V →ₗ[ℂ] ℂ) (hΛ : Λ ≠ 0)
+    (hSchur : ∀ T : V →ₗ[ℂ] V,
+      (∀ g, T.comp (ρ g) = (ρ g).comp T) → ∃ c : ℂ, T = c • LinearMap.id)
+    (B : V ≃ₗ[ℂ] V) (hB : ∀ g v, B (ρ g v) = ρ (σ g) (B v))
+    (c : ℂ) (hc : c ≠ 0) (hline : Λ.comp B.toLinearMap = c • Λ) :
+    ∃! A : V ≃ₗ[ℂ] V,
+      (∀ g v, A (ρ g v) = ρ (σ g) (A v)) ∧
+      Λ.comp A.toLinearMap = Λ ∧ A ^ l = 1 := by sorry
+
+/-- Norm-pushforward of the measure gives the scalar transfer character identity. -/
+theorem norm_transfer_character {G H : Type*} [Group G] [Group H]
+    [MeasurableSpace G] [MeasurableSpace H] (N : G →* H) (hN : Measurable N)
+    (μ : Measure G) (ν : Measure H) (hμ : Measure.map N μ = ν)
+    (χ : H →* ℂˣ) (f : H → ℂ)
+    (hf : Integrable (fun x => f x * (χ x : ℂ)) ν) :
+    (∫ x, f (N x) * (χ (N x) : ℂ) ∂μ) =
+      ∫ x, f x * (χ x : ℂ) ∂ν := by sorry
+
+/-- The unramified trace after residue degree f is the power sum of the Satake roots. -/
+theorem satake_power_sum {n : ℕ} (α : Fin n → ℂ) (f : ℕ) :
+    Matrix.trace ((Matrix.diagonal α) ^ f) = ∑ i, (α i) ^ f := by sorry
+
+/-- Independent character distributions determine every coefficient in a finite spectral sum. -/
+theorem trace_coefficient_isolation {ι T : Type*} [Fintype ι]
+    (χ : ι → T → ℂ) (hχ : LinearIndependent ℂ χ) (a b : ι → ℂ)
+    (h : ∀ t, ∑ i, a i * χ i t = ∑ i, b i * χ i t) : a = b := by sorry
+
+/-- A constituent LRS bound implies the common total-rank bound after unitary normalization. -/
+theorem lrs_isobaric_root_bound (m n : ℕ) (hm : 0 < m) (hmn : m ≤ n)
+    (q : ℝ) (hq : 1 < q) (α : ℂ)
+    (hα : ‖α‖ ≤ q ^ (1 / 2 - 1 / ((m : ℝ) ^ 2 + 1))) :
+    ‖α‖ ≤ q ^ (1 / 2 - 1 / ((n : ℝ) ^ 2 + 1)) := by sorry
+
+/-- The first omitted residue degree gives a strictly summable Rankin–Selberg exponent. -/
+theorem lrs_degree_margin (n d : ℕ) (hd : (n ^ 2 + 1) / 2 < d) :
+    1 < (d : ℝ) * (2 / ((n : ℝ) ^ 2 + 1)) := by sorry
+
+/-- The LRS high-degree logarithmic majorant is summable, including every prime power.
+Summing over all integers at least two also majorizes the prime sum. -/
+theorem lrs_rankin_selberg_tail (n d : ℕ) (hd : (n ^ 2 + 1) / 2 < d) :
+    Summable (fun k : ℕ => ∑' r : ℕ,
+      (((k : ℝ) + 2) ^ (-(d : ℝ) * (2 / ((n : ℝ) ^ 2 + 1)))) ^ (r + 1) /
+        ((r : ℝ) + 1)) := by sorry
+
+open scoped NumberField in
+/-- Every prime above P has ramification index and residue degree one. -/
+def split_at (F L : Type) [Field F] [NumberField F] [Field L] [NumberField L]
+    [Algebra F L] (P : Ideal (𝓞 F)) : Prop :=
+  ∀ Q : Ideal (𝓞 L), Q.IsMaximal → Q.LiesOver P →
+    Q.ramificationIdx (𝓞 F) = 1 ∧ Q.inertiaDeg (𝓞 F) = 1
+
+open scoped NumberField in
+/-- A cyclic degree-p field, disjoint from K, with the prescribed primes split. -/
+structure AuxiliaryCyclicSplitData (F K : Type) [Field F] [NumberField F]
+    [Field K] [NumberField K] [Algebra F K] (p : ℕ) (T : Finset (Ideal (𝓞 F))) where
+  E : Type
+  [fieldE : Field E]
+  [numberFieldE : NumberField E]
+  [algebraFE : Algebra F E]
+  [galoisFE : IsGalois F E]
+  [cyclic : IsCyclic (E ≃ₐ[F] E)]
+  degree : Module.finrank F E = p
+  disjoint : IsDomain (TensorProduct F K E)
+  split : ∀ P ∈ T, split_at F E P
+
+open scoped NumberField in
+/-- Prime-order Grunwald prescriptions give a disjoint cyclic field split at finite good primes.
+This is the splitting substatement of the auxiliary construction, with no H² assertion. -/
+theorem auxiliary_cyclic_split (F K : Type) [Field F] [NumberField F]
+    [Field K] [NumberField K] [Algebra F K] (p : ℕ) (hp : p.Prime)
+    (T : Finset (Ideal (𝓞 F))) (hT : ∀ P ∈ T, P.IsMaximal ∧ P ≠ ⊥) :
+    Nonempty (AuxiliaryCyclicSplitData F K p T) := by sorry
+
+/-- In a cyclic p² group, a Frobenius nontrivial modulo its order-p subgroup has order p². -/
+theorem cyclic_square_order {G : Type*} [Group G] [Finite G] [IsCyclic G]
+    (p : ℕ) (hp : p.Prime) (hG : Nat.card G = p ^ 2)
+    (H : Subgroup G) (hH : Nat.card H = p) (x : G) (hx : x ∉ H) :
+    orderOf x = p ^ 2 := by sorry
+
+/-- A width bounded by D, decreasing strictly until zero, reaches zero within D steps. -/
+theorem width_iteration (D : ℕ) (w : ℕ → ℕ) (hD : w 0 ≤ D)
+    (hstep : ∀ k, 0 < w k → w (k + 1) < w k)
+    (hzero : ∀ k, w k = 0 → w (k + 1) = 0) : w D = 0 := by sorry
+
+/-- Distinct self-twist characters of an irreducible m-dimensional representation number at most m².
+Each witness is an actual invertible intertwiner, with the character carried in its equation. -/
+theorem self_twist_card_bound {G : Type*} [Group G] (m : ℕ)
+    (ρ : Representation ℂ G (Fin m → ℂ)) [Representation.IsIrreducible ρ]
+    (X : Finset (G →* ℂˣ))
+    (hX : ∀ χ ∈ X, ∃ A : (Fin m → ℂ) ≃ₗ[ℂ] (Fin m → ℂ),
+      ∀ g v, A (ρ g v) = (χ g : ℂ) • ρ g (A v)) :
+    X.card ≤ m ^ 2 := by sorry
+
 /-
 README constructions needing the adelic, representation-theoretic, direct-integral or
 locally convex carriers:
