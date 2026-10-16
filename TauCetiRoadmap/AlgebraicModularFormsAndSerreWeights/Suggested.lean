@@ -9,6 +9,9 @@ README.md is definitive. This file records light definitions and theorem signatu
 statable against the pinned Mathlib and Tau Ceti APIs. Geometric form spaces,
 coherent correspondences, local classification of representations and residual
 modularity witnesses are specified in the README.
+The classical coefficient realization there allows the coefficient prime to divide
+the level, using the base with both inverted. The rank-two pairing statement below
+identifies the Frobenius characteristic polynomial, including scalar operators.
 
 The series operators describe coefficients; their preservation of geometric forms
 is a separate target. The arithmetic tables take classified local data and do not
@@ -385,6 +388,14 @@ theorem dyadicWeightTwoOrFour (d : LocalData)
       | .wild a b _ => a=0 ∧ b=1) :
     serreWeight 2 d = 2 ∨ serreWeight 2 d = 4 := by sorry
 
+/-- Every integer power of a character valued in F₂× is trivial. -/
+theorem dyadicCyclotomicCharacter {G : Type*} [Group G]
+    (chi : G →* (ZMod 2)ˣ) (i : ℤ) : ∀ g : G, chi g ^ i = 1 := by sorry
+
+/-- The dyadic très branch exceeds three; trivial cyclotomic twists preserve it. -/
+example : serreWeight 2 (.wild 0 1 false) = 4 ∧
+    ¬ serreWeight 2 (.wild 0 1 false) ≤ 2+1 := by sorry
+
 /-- The Tate-extension arithmetic branch has the stated classical weights. -/
 theorem semistableMultiplicativeWeight (p : ℕ) [Fact p.Prime] (peu : Bool) :
     serreWeight p (.wild 0 1 peu) =
@@ -632,6 +643,35 @@ theorem normalizeTrueEigenform {K M : Type*} [Field K] [AddCommGroup M] [Module 
 theorem weightShiftDeterminant (p k n : ℕ) (hn : (p-1) ∣ n) :
     Nat.ModEq (p-1) k (k+n) := by sorry
 end TauCeti.EigenvalueLifting
+
+/-! ## Layer R15.5A: the primitive rank-two Frobenius polynomial -/
+namespace TauCeti.ClassicalModularGalois
+
+/-- The alternating pairing and transpose identity determine rank-two Frobenius
+trace, determinant and characteristic polynomial, including scalar Frobenius. -/
+theorem frobeniusPolynomial_of_pairing {K : Type*} [Field K] [CharZero K]
+    (F V : Matrix (Fin 2) (Fin 2) K) (a epsilon c : K)
+    (hepsilon : epsilon ≠ 0) (hc : c ≠ 0)
+    (B : LinearMap.BilinForm K (Fin 2 → K)) (hB : B.IsAlt) (hperfect : B.Nondegenerate)
+    (hhecke : F + epsilon • V = a • (1 : Matrix (Fin 2) (Fin 2) K))
+    (hproduct : F * V = c • (1 : Matrix (Fin 2) (Fin 2) K))
+    (htranspose : ∀ x y, B (F.mulVec x) y = B x ((epsilon • V).mulVec y)) :
+    F.trace = a ∧ F.det = epsilon * c ∧
+      F.charpoly = Polynomial.X^2 - Polynomial.C a * Polynomial.X +
+        Polynomial.C (epsilon * c) := by sorry
+
+/-- Scalar Frobenius has a repeated characteristic root. -/
+example : ((2 : ℚ) • (1 : Matrix (Fin 2) (Fin 2) ℚ)).charpoly =
+    (Polynomial.X - Polynomial.C (2 : ℚ))^2 := by sorry
+
+/-- The two operator relations alone do not identify the characteristic polynomial. -/
+example :
+    (1 : Matrix (Fin 2) (Fin 2) ℚ) + (2 : ℚ) • 1 = (3 : ℚ) • 1 ∧
+    (1 : Matrix (Fin 2) (Fin 2) ℚ) * ((2 : ℚ) • 1) = (2 : ℚ) • 1 ∧
+    (1 : Matrix (Fin 2) (Fin 2) ℚ).charpoly ≠
+      Polynomial.X^2 - Polynomial.C (3 : ℚ) * Polynomial.X + Polynomial.C 2 := by sorry
+
+end TauCeti.ClassicalModularGalois
 
 /-! ## Layer R15.6: residual modularity and the classical target -/
 namespace TauCeti.ResidualModularity
