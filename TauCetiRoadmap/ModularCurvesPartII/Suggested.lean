@@ -334,6 +334,32 @@ end Parabolic
 example : (2 : ℤ) ∈ parabolicH1 (2 • (LinearMap.id : ℤ →ₗ[ℤ] ℤ)) ∧
     (1 : ℤ) ∉ parabolicH1 (2 • (LinearMap.id : ℤ →ₗ[ℤ] ℤ)) := by sorry
 
+/-- Permutation model for the diamond on the five width-one cusps at Γ₁(11),
+with coefficients in 𝔽₅: the basis vector at `i` maps to that at `i + 1`. -/
+def levelElevenCuspCycle : Module.End (ZMod 5) (ZMod 5 → ZMod 5) where
+  toFun v i := v (i - 1)
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+/-- The cusp cycle is a nonidentity unipotent operator of order five in characteristic
+five; a scalar extension cannot make it diagonalizable (README §14.9). -/
+theorem levelElevenCuspCycle_unipotent :
+    levelElevenCuspCycle ^ 5 = 1 ∧ levelElevenCuspCycle ≠ 1 ∧
+      (levelElevenCuspCycle - 1) ^ 5 = 0 := by
+  sorry
+
+/-- The class of 3 has order five on the level-eleven cusp labels modulo sign. -/
+example : (3 : ZMod 11) ^ 5 = 1 ∧ (3 : ZMod 11) ≠ 1 ∧ (3 : ZMod 11) ≠ -1 := by
+  decide
+
+/-- The residue-sum kernel still has nontrivial unipotent action: for `v = e₁ - e₀`,
+the next difference is `e₂ - 2e₁ + e₀`, which is nonzero. -/
+example :
+    let e₀ : ZMod 5 → ZMod 5 := Pi.single 0 1
+    let v := (levelElevenCuspCycle - 1) e₀
+    (∑ i, v i) = 0 ∧ (levelElevenCuspCycle - 1) v ≠ 0 := by
+  sorry
+
 /-- Transport of an ideal through the adjoint ring equivalence. For an involution `ι`,
 this is the ideal of `t` such that `ι t` lies in `m`, as in README §14.11. -/
 def adjointIdeal {T : Type*} [CommRing T] (ι : T ≃+* T) (m : Ideal T) : Ideal T :=

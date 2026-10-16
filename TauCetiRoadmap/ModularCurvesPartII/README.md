@@ -68,6 +68,8 @@ Every division has its stated range: nonzero periods and positive levels in unif
 
 ## Exact supplier contracts
 
+The prerequisite inventory consists of the contracts below and the arithmetic-cohomology table in Scope and ownership. Étale support, trace, curve duality and finite/adic cohomology use EtaleCohomologyFoundations §§0.7–0.11 and F.1–F.4; LefschetzPencilsAndVanishingCycles supplies the semistable-curve layer 7a.
+
 ### Existing Mathlib and Tau Ceti
 
 The representative signatures use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The declarations below supply the ordinary algebraic and analytic carriers; the geometric constructions specified in the layers use the named roadmap contracts.
@@ -275,6 +277,11 @@ For a finite commutative ℓ-group Δ over a commutative local ring O with ℓ n
 ### Finite, compact-support and adic étale cohomology
 
 EtaleCohomologyFoundations §§F.1–F.4 supplies `VanishingCycles.finiteCoefficientCohomology`, proper and smooth base change, `VanishingCycles.etaleCompactSupports`, `VanishingCycles.compactSupportCohomology`, `VanishingCycles.etaleFiniteness`, `VanishingCycles.compactSupportFiniteness` and normalized finite/adic realization. The coefficients are locally constant finite modules with invertible annihilator, or their compatible adic systems, on the supplied Noetherian geometric domain. ComplexComparisonPartII §§C6.2–C6.6 supplies `riemannExistence`, `artinComparison`, `artinComparisonCompactSupport`, `relativeArtinComparison` and `adicArtinComparison`, including trace, cup products and support maps. Section 14.4 identifies the resulting degree-one limit with Mathlib's pro-étale `EllAdicCohomology` carrier.
+
+### Arithmetic cohomology and derived limits
+
+- ArithmeticLocallySymmetricSpaces §§ALS.F.3, ALS.1.1–ALS.1.8, ALS.2.1–ALS.2.4, ALS.3.5–ALS.3.9, ALS.4.1, ALS.5a.3–ALS.5a.5 and ALS.6.1–ALS.6.3 supply the Betti/support, Hecke, adjoint and finite-cover interfaces in the table above. Section 14.4a constructs the modular finite pair and uses the topological coefficient comparison with finite coefficients before passing to adic limits.
+- DerivedModuleAlgebra §§1.T.1 and 1.1 supply module towers, the Milnor sequence, Mittag–Leffler vanishing and derived limits for §14.4a's finite cellular models and their coefficient transitions.
 
 ### Arithmetic tree suppliers
 
@@ -3814,22 +3821,27 @@ Establish this as follows. Import the geometric correspondence and finite-map tr
 
 ### 14.9 Non-Eisenstein removal of the boundary
 
-For weight-two constant coefficients at a torsion-free congruence level and an anemic Hecke maximal ideal m of residue characteristic ℓ≥3, call m non-Eisenstein if its good-prime eigenvalues are not ψ₁(q)+qψ₂(q) with ψ₁,ψ₂ finite congruence characters and diamond product ψ₁ψ₂. The cusp boundary modules and H⁰(Y,O/π) have only those Eisenstein eigensystems. Thus they vanish after localization at m, and H¹_c→H¹ identifies its localized image with ordinary localized H¹. For Sym^r coefficients this theorem asserts nothing; §14.10 carries the higher-weight boundary vanishing as an explicit hypothesis.
+**Boundary Hecke support is Eisenstein without a semisimplicity hypothesis.** For weight-two constant coefficients at a torsion-free congruence level and an anemic Hecke maximal ideal m of residue characteristic ℓ≥3, call m non-Eisenstein if, over a finite extension of its residue field, its good-prime eigenvalues are not `ψ₁(q)+qψ₂(q)` with ψ₁,ψ₂ finite congruence characters and diamond eigenvalues `ψ₁(q)ψ₂(q)`. Every simple constituent of the finite Hecke image on the cusp boundary cohomology and on H⁰(Y,O/π) has such an Eisenstein character. Consequently the entire boundary, including its extensions, vanishes after localization at m, at O and at every O/πⁿ. The support map H¹_c→H¹ is then an isomorphism after localization, identifying its parabolic image with ordinary localized H¹. For Sym^r coefficients this theorem asserts nothing; §14.10 carries the higher-weight boundary vanishing as an explicit hypothesis.
 
 Anemic operators exclude level and residue-characteristic primes; fine level removes stabilizer torsion.
 
 In weight two this definition is an algebraic Hecke condition; the identification with residual Galois irreducibility is a consequence in AutomorphicGaloisRepresentations, not a prerequisite here.
 
-Establish this as follows. Compute the two parts of the good-prime correspondence on cusps from Layer 9, Layer 10: one permutes with multiplicity q and the other with multiplicity one. Diagonalize the finite cusp action after extending residue coefficients; obtain the displayed sums of congruence characters. Apply exact localization to the boundary sequence; compute H⁰ by constants.
+Establish this as follows. Compute the two parts of the good-prime correspondence on the cusp invariants and residues using §§4.1 and 5.11 and Layers 9–10. Identify the commuting congruence multipliers A_q,B_q, with `T_q=A_q+qB_q` and `A_q B_q=D_q` for the diamond D_q, retaining the residue twist. Their actions factor through a finite abelian congruence quotient. After a finite residue-field extension splitting its prime-to-ℓ characters, take a composition series stable under these multipliers. On each simple constituent the ℓ-primary part acts trivially, and A_q,B_q give characters ψ₁(q),ψ₂(q); hence the Hecke and diamond formulas hold there. The ℓ-primary action on the whole module may have unipotent extensions. Submodules and quotients, including the residue-sum kernel, retain only these simple constituents. Constants give H⁰ the character `T_q=1+q`, `D_q=1`.
+
+Use exact localization along the composition series to kill every residual boundary module at m, including nonsplit extensions; faithful scalar extension descends this vanishing. Apply IntegralHeckeAndGaloisDeterminants §§2.1–2.3 to the common finite Hecke image of the support/boundary complexes. Its local-factor projector commutes with reduction. Nakayama on the finite O-boundary modules then gives integral vanishing, and the coefficient reductions of the finite boundary-circle model give vanishing at every O/πⁿ. Apply the localized support triangle. The modular character computation is the target here; finite-image and localization algebra use the supplied interfaces and Mathlib `IsLocalizedModule.map_exact`.
 
 **Checks.**
 
 - An Eisenstein maximal ideal may retain cusp classes.
+- At Γ₁(11) with coefficients 𝔽₅, the five width-one cusps are indexed by `(ℤ/11)ˣ/{±1}`. The class of 3 has order five, so its diamond acts as a 5-cycle P. The permutation model `levelElevenCuspCycle` sends e_i to e_(i+1), and `levelElevenCuspCycle_unipotent` states `P⁵=I`, `P≠I` and `(P−I)⁵=0`. It cannot be diagonalized over any extension of 𝔽₅, although 5∤11 and the level is fine.
+- On that orbit, `v=(P−I)e₀=e₁−e₀` has residue sum zero, but `(P−I)v=e₂−2e₁+e₀≠0`. Thus even the residue-sum kernel has nontrivial unipotent action; its composition factors have P acting as 1, and exact localization away from its Eisenstein support kills the whole extension.
+- For a connected Y, constants have `T_q=1+q` and trivial diamonds, so their localization vanishes at every non-Eisenstein m.
 - The statement does not demand a Galois representation theorem to define non-Eisenstein localization.
 
-*Needs:* [§9.2](#s9-2); [§9.9](#s9-9); [§10.2](#s10-2); [§14.3](#s14-3); [§14.8](#s14-8).
+*Needs:* [§4.1](#s4-1); [§5.11](#s5-11); [§9.2](#s9-2); [§9.9](#s9-9); [§10.2](#s10-2); [§14.3](#s14-3); [§14.4a](#s14-4a); [§14.8](#s14-8); IntegralHeckeAndGaloisDeterminants §§2.1–2.3 (finite Hecke images and local-factor summands); Mathlib `IsLocalizedModule.map_exact`.
 
-([Taylor–Wiles](https://virtualmath1.stanford.edu/~rltaylor/hecke.pdf), Proof of Proposition 1 and preceding localization setup, author pp. 6–8.)
+([Taylor–Wiles](https://virtualmath1.stanford.edu/~rltaylor/hecke.pdf), Proof of Proposition 1 and preceding localization setup, author pp. 6–8; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), (4.2.1) and Definition 4.3.1–Theorem 4.3.4, pp.37–39, for the cusp labels used in the modular constituent calculation.)
 
 <a id="s14-9a"></a>
 
@@ -3851,7 +3863,7 @@ Establish this as follows. Compute the two parts of the good-prime correspondenc
 
 ### 14.10 Finite generation and localized integral freeness
 
-For a torsion-free congruence modular curve Y and a finite free O-local system L, H¹(Y,L) is O-finite. If H⁰(Y,L/π)_m=0, the localized group H¹(Y,L)_m is O-torsion-free, hence O-free; if in addition the boundary sequence localizes to zero, it equals H¹_par(Y,L)_m, and reduction gives H¹_par(Y,L)_m/πⁿ≅H¹_par(Y,L/πⁿ)_m. Constant weight-two coefficients satisfy these conditions at the non-Eisenstein ideals of [§14.9](#s14-9). Higher-weight claims carry the displayed vanishing conditions as hypotheses.
+For a torsion-free congruence modular curve Y and a finite free O-local system L, H¹(Y,L) is O-finite. If H⁰(Y,L/π)_m=0, the localized group H¹(Y,L)_m is O-torsion-free, hence O-free; if in addition the boundary sequence localizes to zero, it equals H¹_par(Y,L)_m, and reduction gives H¹_par(Y,L)_m/πⁿ≅H¹_par(Y,L/πⁿ)_m. Constant weight-two coefficients satisfy these conditions by the boundary Hecke-support theorem of [§14.9](#s14-9), including when ℓ divides the cusp-action order. Higher-weight claims carry the displayed vanishing conditions as hypotheses.
 
 O is a complete DVR finite over ℤ_ℓ. Apply IntegralHeckeAndGaloisDeterminants §§2.1–2.2 to the finite commutative Hecke image on the perfect cochain complex: anemic localization is its supplied finite-local-factor idempotent summand, compatible with coefficient change. Commuting operator/root localizations use §2.3 of that supplier.
 
@@ -3883,6 +3895,8 @@ M_O,m × M_O,m† → O(−r−1)
 
 is perfect, and its reduction is the perfect pairing M_(O/πⁿ),m × M_(O/πⁿ),m† → (O/πⁿ)(−r−1). The second factor uses the displayed coefficient-dual identification and its transported Hecke action. A pairing of a summand with itself is asserted only when m=m†. This natural pairing is separate from the Fricke-transported pairing of §14.7.
 
+At r=0, the boundary Hecke-support theorem of §14.9 supplies both sets of vanishings when m and m† are non-Eisenstein; no semisimplicity of the cusp action is required.
+
 Establish this as follows. Symmetrize products of the rank-two elliptic pairing, with r! inverted for integral coefficients. Apply Betti Poincaré–Lefschetz duality on §14.4a’s finite pair and finite étale curve duality, and compare their traces. The O-adic pairing is the finite-model pairing transported through §14.4a’s derived-limit comparison; the K-pairing is its scalar extension. Duality on the paired complexes identifies the kernels of the correspondence actions under leg reversal, so † descends to their common image and is involutive by biduality. It identifies the support triangle with its dual triangle, including the connecting signs. Apply the finite-local-factor/idempotent interface of IntegralHeckeAndGaloisDeterminants §2.2: B(e_m x,y)=B(x,e_(m†)y), so distinct unpaired summands are orthogonal. Under the two sets of vanishing hypotheses, derived duality restricts to a duality of free degree-one modules. Prove that the projectors, support maps, coefficient reductions and the comparisons of §14.4 commute with this duality; retain the Tate twist in étale realization. The cup sign is (−1)^(r+1). At ℓ≤r, no integral perfection follows from the rational theorem without a separately compared divided-power lattice.
 
 **Checks.**
@@ -3893,7 +3907,7 @@ Establish this as follows. Symmetrize products of the rank-two elliptic pairing,
 - If m is adjoint-stable the pairing is perfect on M_m with itself under the same two-sided hypotheses; adjoint stability is an additional condition.
 - A rationally perfect pairing whose determinant is divisible by ℓ is not an integral acceptance case.
 
-*Needs:* [§14.1](#s14-1); [§14.4](#s14-4); [§14.7](#s14-7); [§14.8](#s14-8); [§14.10](#s14-10); `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.curveDuality`; AlgebraicTopology Stage 6; ArithmeticLocallySymmetricSpaces §§ALS.5a.3–ALS.5a.5 (paired support duality and adjoint transport); IntegralHeckeAndGaloisDeterminants §2.2 (finite local factors and idempotent summands).
+*Needs:* [§14.1](#s14-1); [§14.4](#s14-4); [§14.7](#s14-7); [§14.8](#s14-8); [§14.9](#s14-9); [§14.10](#s14-10); `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.curveDuality`; AlgebraicTopology Stage 6; ArithmeticLocallySymmetricSpaces §§ALS.5a.3–ALS.5a.5 (paired support duality and adjoint transport); IntegralHeckeAndGaloisDeterminants §2.2 (finite local factors and idempotent summands).
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), (3.20), pp.159–160, for the rational pairing and its sign; [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Conrad’s Appendix, Corollary 5.3, p.66, for the inverse-diamond adjoint; [ACC+23](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf), Corollary 2.2.22, p.932, for duality and Hecke adjoints, specialized through ALS.5a.)
 
