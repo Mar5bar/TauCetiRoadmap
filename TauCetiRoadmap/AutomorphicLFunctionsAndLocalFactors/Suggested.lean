@@ -40,6 +40,12 @@ gamma factors, geometric-Frobenius determinant conventions and continuation befo
 The common adelic Schwartz/Fourier/Poisson space and scalar Tate continuation are consumed from
 ArithmeticGaloisRepresentations §2.7 Global inputs. The README specifies their vector-space and
 distribution refinements, representation spaces, shtukas and rational period comparisons.
+The finite-place distribution epsilon scalar is identified unconditionally with
+ArithmeticGaloisRepresentations §2.7's `tateLocalConstant` at the norm-twisted character.
+The rational period datum retains its infinity generator; its Gauss twisting relation uses
+transported generators, or the additional infinity comparison scalar for independent choices.
+The arbitrary-level shtuka purity input is the intersection-cohomology comparison specified
+in AL.3, using EtaleCohomologyFoundations §F.8 and DeligneWeightsAndPurity §§8.11–8.12.
 -/
 
 noncomputable section
@@ -485,7 +491,9 @@ theorem zetaIntegral_twist {G : Type*} [MeasurableSpace G]
     zetaIntegral μ a (fun x => ω x*(a x : ℂ)^t) s f =
       zetaIntegral μ a ω (s+t) f := by sorry
 
-/-- Gamma equals epsilon times the quotient of dual and original local L-factors. -/
+/-- Gamma equals epsilon times the quotient of dual and original local L-factors.
+At finite places the full local API identifies epsilon with the canonical supplied
+Tate local constant at the norm-twisted character and its self-dual measure. -/
 def gammaFactor (ε L Ldual : ℂ → ℂ) (s : ℂ) : ℂ := ε s * Ldual (1-s)/L s
 
 example (ε L Ldual : ℂ → ℂ) (s : ℂ) (hL : L s = 1) (hLdual : Ldual (1-s) = 1) :
@@ -493,7 +501,29 @@ example (ε L Ldual : ℂ → ℂ) (s : ℂ) (hL : L s = 1) (hLdual : Ldual (1-s
 
 example : gammaFactor (fun _ => 2) (fun _ => 3) (fun _ => 5) 0 = 10/3 := by sorry
 
-/-- The finite-place additive Haar normalization and conductor inputs are explicit. -/
+/- `TateZeta.epsilonFactor_eq_tateLocalConstant` identifies the scalar in the
+normalized-distribution equation with tateLocalConstant(ω |·|^s, ψ, dx_ψ)
+for every finite completion, continuous quasi-character, nontrivial continuous
+additive character and s. It uses the positive Fourier kernel and retains ν and c.
+The following scalar checks specialize its common formula to ν=1 and c=1. -/
+
+/-- Both conductor contributions give exponent 1-2s when ν=c=1. -/
+example (a g s : ℂ) :
+    a ^ (1 + 1) * (3 : ℂ) ^ ((1/2 - s) * (1 + 1)) * g =
+      a ^ 2 * (3 : ℂ) ^ (1 - 2*s) * g := by sorry
+
+/-- The negative additive character on the quadratic residue character at 3 has
+normalized Gauss sum -i; after ψ(x) is replaced by ψ(3x), ν=c=1 gives -3i at s=0. -/
+example (χ : DirichletCharacter ℂ 3) (hχ : χ 2 = -1) :
+    gaussSum χ (ZMod.stdAddChar.mulShift (-1)) / (Real.sqrt 3 : ℂ) = -Complex.I ∧
+      (3 : ℂ) ^ (((1/2 : ℂ) - 0) * (1 + 1)) * (-Complex.I) =
+        -3 * Complex.I := by sorry
+
+/-- Omitting the additive conductor changes the ramified value at s=0. -/
+example : (-3 * Complex.I : ℂ) ≠ -(Real.sqrt 3 : ℂ) * Complex.I := by sorry
+
+/-- The normalized Gauss integral used by ArithmeticGaloisRepresentations §2.7,
+with its finite-place additive Haar normalization and conductor inputs explicit. -/
 def localGaussSum {F : Type*} [Field F] [MeasurableSpace F]
     (μ : Measure F) (U : Set F) (q : ℝ) (ν : ℤ) (c : ℕ)
     (ϖ : Fˣ) (ω : F → ℂ) (ψ : AddChar F Circle) : ℂ :=
@@ -556,7 +586,8 @@ example : realStandardEpsilon 0 = 1 ∧ realStandardEpsilon 1 = Complex.I := by 
 example : realStandardEpsilon 0 * realStandardEpsilon 1 = Complex.I := by sorry
 
 /-- Finite-product notation for the scalar epsilon factors supplied by
-ArithmeticGaloisRepresentations §2.7 for general quasi-characters. On algebraic norm twists
+ArithmeticGaloisRepresentations §2.7 for general quasi-characters, identified at each finite
+place with the distribution scalar by epsilonFactor_eq_tateLocalConstant. On algebraic norm twists
 the canonical rank-one comparison identifies the root number and primitive conductor power. -/
 def globalEpsilon {ι : Type*} (S : Finset ι) (ε : ι → ℂ → ℂ) (s : ℂ) : ℂ :=
   ∏ v ∈ S, ε v s
@@ -1078,6 +1109,35 @@ example {Q : Type*} [MeasurableSpace Q] (μ : Measure Q)
 -- The theta-Mellin formula retains its rank in the norm exponent.
 example : MirabolicEisensteinSeries (Measure.dirac ()) 2 3 (fun _ => 2)
     (fun _ => 5) (fun _ => 1) 1 = 60 := by sorry
+
+/-- Specified nonzero infinity generators determine a unique comparison scalar
+under the twisting isomorphism. The compatible choice has scalar one. -/
+theorem RationalPeriodComparison.infinity_scalar
+    {H Hξ : Type*} [AddCommGroup H] [Module ℂ H]
+    [AddCommGroup Hξ] [Module ℂ Hξ] [FiniteDimensional ℂ Hξ]
+    (hdim : Module.finrank ℂ Hξ = 1) (Tξ : H ≃ₗ[ℂ] Hξ)
+    (w : H) (hw : w ≠ 0) (wξ : Hξ) (hwξ : wξ ≠ 0) :
+    ∃! a : ℂˣ, wξ = (a : ℂ) • Tξ w := by sorry
+
+/-- Rescaling only the twisted generator destroys transport compatibility. -/
+example {H Hξ : Type*} [AddCommGroup H] [Module ℂ H]
+    [AddCommGroup Hξ] [Module ℂ Hξ] (Tξ : H ≃ₗ[ℂ] Hξ)
+    (w : H) (hw : w ≠ 0) (wξ : Hξ) (hcompat : wξ = Tξ w)
+    (c : ℂˣ) (hc : c ≠ 1) : (c : ℂ) • wξ ≠ Tξ w := by sorry
+
+/-- The rescaling by i cannot be absorbed into a rational period unit. -/
+example : ¬ ∃ a : ℚ, (a : ℂ) = Complex.I := by sorry
+
+/- The full RationalPeriodComparison.gauss_twist uses wξ = Tξ w and a compatible
+family under twisting and coefficient conjugation, with the signature convention
+of Raghuram §2.5.2.5. RationalPeriodComparison.gauss_twist_independent retains
+the scalar a from infinity_scalar: [pξ] = [a] [G(ξ_f)]^(n(n-1)/2) [p].
+ShtukaIntersectionComparison.middleExtension uses IC⁰=j_!*Q̄_ℓ[d][-d]. Its
+localModel_pullback and pure contracts identify the specified fibre complexes;
+essential_comp compares compact supports on the nested smooth opens with proper
+intersection cohomology, with r-negligible kernels and cokernels under lower-rank
+ramified induction. Its equivariant contract transports Hecke and partial Frobenius
+through these comparisons. These geometric contracts are specified in README AL.3. -/
 
 end TauCeti.AutomorphicLFunctions.AL3
 
