@@ -47,8 +47,9 @@ divided powers, relative PD polynomial algebras, regular envelopes, their comple
 the ordinary algebraic de Rham complex with its differential-symbol presentation, pullback and
 universal property; derived de Rham with its Hodge and conjugate filtrations, completions and
 base-linear sheaf realizations; derived Cartier theory, PD conjugate filtrations, quasisyntomic
-sites and descent, period-ring descriptions and proper smooth control. Section 6.20 constructs
-the restricted logarithmic period comparison data used by §6.21.
+sites and descent, period-ring descriptions and proper smooth control. Section 6.20 owns the shared
+free-prelog, Gabber log cotangent and log derived de Rham constructors and their canonical period
+specialization used by §6.21.
 
 It uses, without restating:
 
@@ -105,10 +106,13 @@ Boundaries with neighbouring roadmaps:
   §§P0.19–P0.24 uses the same API for its almost and semiperfectoid specializations.
 - CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.5, CR.DDR.5.8–CR.DDR.5.10,
   CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 and CR.DDR.6.1–CR.DDR.6.20 owns crystalline
-  comparisons, derived de Rham–Witt theory and the general logarithmic constructions.
+  comparisons, derived de Rham–Witt theory and logarithmic applications of the shared constructors
+  of §6.20, including derivation and extension classifiers, log crystalline comparison and log descent.
   It consumes the de Rham, Cartier, descent and PD algebra here, including the raw lci scheme
   interface of §5.8.1. The restricted period-envelope calculation of §5.12 and the logarithmic
-  period adapter of §6.20 are owned here; the general crystalline and logarithmic comparisons
+  period adapter of §6.20 are owned here. CrystallineCohomology §§CR.DDR.6.1–CR.DDR.6.2,
+  CR.DDR.6.4–CR.DDR.6.5, CR.DDR.6.7 and CR.DDR.6.9–CR.DDR.6.10 use §6.20's public
+  constructors and exported laws; their additional general crystalline and logarithmic results
   remain in CrystallineCohomology.
 - DifferentialGeometry, Layers 0–6, constructs differential forms on smooth real manifolds; Layer 2
   here constructs algebraic Kähler forms over arbitrary commutative rings. AlgebraicVectorBundles,
@@ -4981,29 +4985,133 @@ perfectness and arbitrary base change of proper pushforward; Mathlib supplies `W
 
 ## Layer 6: Logarithmic period classes
 
-The restricted period adapter constructs the canonical comparison data; the final identification
-also has a conditional form for any logarithmic models carrying those data.
+The shared logarithmic constructor prefix and its period specialization have their single owner
+here. CrystallineCohomology develops its general logarithmic applications on these same public
+objects and maps. The period adapter constructs the canonical comparison data; the final
+identification also has a conditional form for logarithmic models carrying those data.
 
 ### 6.20 The canonical logarithmic period adapter
+
+**Shared free-prelog and cotangent constructors.** For a prelog ring `(A, M)`, meaning a
+commutative ring and a commutative monoid with a monoid map `α : M → (A, ·)`, construct the
+free prelog `(A, M)`-algebra on ordinary generators `T` and log generators `S` as
+`(A[T, S], M ⊕ ℕ^(S))`, with each log generator sent to its corresponding ring variable.
+The free/forgetful adjunction on pairs of sets gives the canonical augmented simplicial
+resolution of any prelog map `(A, M) → (B, N)`. Use cofibrant free resolutions for simplicial
+inputs and homotopy pushouts, with their derived ring and monoid components.
+
+This roadmap exports the following public constructors and laws in `DerivedDeRham`.
+
+- `freePrelogResolutions`, `freePrelogUniversal`, `prelogResolutionAugmentation` and
+  `prelogResolutionComparison`: the free universal property, the canonical resolution with
+  surjective augmentation on rings and monoids, and comparison of projective resolutions
+  by homotopy equivalences. Realized cotangent and de Rham models carry the induced natural
+  comparisons, compatible with their maps and filtrations.
+- `prelogHomotopyPushout`: compatible free resolutions compute the homotopy pushout of
+  prelog rings. Its maps and comparisons are natural in the whole pushout diagram.
+- `gabberLogCotangent`: form the universal `B`-module for an `A`-derivation `d` and an
+  additive monoid map `d log` vanishing on the image of `M`, subject to
+  `dα(n) = α(n) d log n` and `d log(nn′) = d log n + d log n′`. Realize its free-resolution
+  model after extension to the target ring. This defines `L_log` in `D(B)` for ordinary
+  inputs, with the corresponding simplicial-module model for derived inputs.
+- `logCotangentH0`, `logCotangentOrdinaryMap` and `logCotangentNaturality`: `H⁰ L_log` is
+  the log differential module, the natural map `L_(B/A) → L_log` is an equivalence for
+  identical monoids, and all these maps preserve the universal `d` and `d log`.
+- `logCotangentFunctoriality`: composable prelog maps have the cotangent transitivity
+  triangle, homotopy prelog pushouts give derived base change, and log cotangent complexes
+  commute with filtered colimits. Passage from integral prelog monoids to their associated
+  log structures preserves `L_log`. The ordinary-to-log maps give a morphism of transitivity
+  triangles, including their connecting arrows, with the cochain signs of the period
+  boundary formula below.
+
+*Source:* [Bhatt12], Propositions 5.3, 5.5, 5.7, Remark 5.4, Definition 5.6, Definitions
+6.1, 6.3, Proposition 6.5 and Remarks 6.4, 6.6, pp.23–25; proof of Corollary 7.5, p.28,
+for integral logification; [Ols05],
+§§8.4–8.5, Theorems 8.18 and 8.20, for transitivity and logification.
+*Needs:* DerivedModuleAlgebra §§0.1–0.4, 0.8–0.10, 0.14; §§2.21–2.22;
+Mathlib `SimplicialObject`, `MvPolynomial`, `KaehlerDifferential` and `DerivedCategory`.
+The category of prelog rings, its free adjunction, log differential modules and the stated
+resolution and cotangent laws are targets of this paragraph.
+
+**Checks.**
+
+- `test_shared_prelog_free`: no generators give `(A, M)`; one ordinary and one log generator
+  give `(A[t, x], M ⊕ ℕ)`, with the monoid generator mapping to `x`.
+- `test_shared_log_cotangent_free`: for `(A, 0) → (A[t, x], ℕ → x)`, `L_log` is free in
+  degree zero on `dt` and `d log x`, and the ordinary-to-log map sends `dx` to `x d log x`.
+- `test_shared_log_transitivity`: with trivial monoids the transitivity triangle and its
+  boundary agree with DerivedModuleAlgebra §0.8; an identity relative map has zero cotangent.
+
+**Shared logarithmic derived de Rham and Cartier theory.** On the same free prelog
+resolutions, the exterior algebra of log differentials, with `d(d log n) = 0`, gives the
+ordinary log de Rham complex. Realize it with direct sums along antidiagonals and the
+shuffle product, with the strict alternation of §2.21 also in characteristic two. Its
+coefficient ring is the base `A`; the differential generally fails target-ring linearity.
+These constructions and laws have their single public owner here in `DerivedDeRham`.
+
+- `logDerivedDeRham`, `logDeRhamDLog` and `logDeRhamOrdinaryMap`: the raw log derived
+  de Rham object, its closed additive monoid map `d log : N → dR_log[1]`, and its canonical
+  multiplicative ordinary-to-log map. On free resolutions the latter sends `db` to `db`.
+  These maps commute with resolution comparisons and prelog functoriality.
+- `logDeRhamHodgeGraded` and `logDeRhamStrict`: the decreasing multiplicative Hodge
+  filtration has `gr_H^i ≃ L∧^i_B L_log[−i]`; for identical monoids the ordinary-to-log
+  map identifies ordinary and log derived de Rham. Its graded map is the exterior power
+  of `logCotangentOrdinaryMap`.
+- `logDeRhamCompletions`: Hodge completion and derived p-completion are the separate
+  functors of §§2.25–2.26, with their quotient towers, universal maps and induced `d log`.
+- `logCartier`: truncation of free log de Rham complexes defines the natural increasing
+  exhaustive conjugate filtration. In characteristic `p`, its weight `i` graded object
+  is `L∧^i L_log((B, N)^(1)/(A, M))[−i]`, with the twist formed by homotopy pushout along
+  ring Frobenius and multiplication by `p` on the base monoid. Keep the levelwise
+  simplicial scalars when this twist is derived, as in §§3.3–3.5. On free coordinates
+  inverse Cartier sends `dy` to `[y^(p−1) dy]` and `d log x` to `[d log x]`.
+- `logificationBoundaries`: for integral prelog monoids over `ℤ/p^n`, `n ≥ 1`, passage
+  to associated log structures preserves raw log derived de Rham and its Hodge and
+  conjugate filtrations. Compare cotangent powers modulo `p`, then use finite p-dévissage.
+  With compatible derived reductions the equivalences pass to derived p-completion.
+
+The ordinary-to-log and functorial de Rham maps preserve products, Hodge filtrations and
+conjugate filtrations on reductions, compatibly with `d log`. Applying the completion
+functors preserves their commuting diagrams. The ordinary cotangent and de Rham comparison
+maps are those induced on these same resolutions.
+
+*Source:* [Bhatt12], Definitions 6.1, 6.8, Propositions 6.9, 6.11 and Remark 6.10,
+pp.24–26; Example 6.15, Notation 7.1, Theorem 7.3, Proposition 7.4 and Corollary 7.5,
+pp.27–28.
+*Needs:* §6.20 (*Shared free-prelog and cotangent constructors*); §§1.14–1.17, 2.21–2.26,
+3.2–3.5; DerivedModuleAlgebra §§0.14, 1.1–1.5; DGAInfinity Layer 1.
+
+**Checks.**
+
+- `test_shared_log_derham_identity`: an identity prelog map gives `A`, with zero positive
+  Hodge pieces, and its ordinary-to-log map is the identity.
+- `test_shared_log_cartier_two`: for `(F₂, 0) → (F₂[x], ℕ → x)`, `dx = x d log x`,
+  `(d log x)² = 0` and inverse Cartier sends `d log x` to its cohomology class.
+- `test_shared_logification_boundary`: the integral chart `ℕ → F_p[x]` and its logification
+  have equivalent raw log derived de Rham. For trivial prelog structures on
+  `ℚ → ℚ[x, x⁻¹]`, raw derived de Rham is `ℚ`, whereas logification has an additional
+  degree-one conjugate class ([Bhatt12], Example 6.15); cotangent logification invariance
+  does not extend the raw de Rham assertion to characteristic zero.
 
 **Canonical period comparison data.** In precisely the period setup of §5.11, put
 `can = (O_K̄ ∖ {0} → O_K̄)`, with trivial base prelog structure on `W`. Construct
 `DerivedDeRham.periodLogComparisonData`, consisting of the following canonical maps and their
 compatibilities, for every perfect residue field `k` and every prime `p`, including `p = 2`.
-The logarithmic constructions required for this adapter are local targets here on these period
-prelog rings, their valuation charts and compatible derived reductions.
+Its log cotangent and de Rham objects, on the period prelog rings, valuation charts and
+compatible derived reductions, are the specializations of `gabberLogCotangent` and
+`logDerivedDeRham` above. Its `d log` is `logDeRhamDLog`. Use the same public ordinary-to-log
+maps, cotangent triangles, products, Hodge filtrations, conjugate filtrations on reductions
+and completion functors. The period notation abbreviates these objects and maps.
 
-Construct their Gabber log cotangent complexes and raw log derived de Rham objects using free
-simplicial prelog resolutions: ordinary generators give polynomial variables, and log generators
-give a free commutative monoid mapping to the corresponding polynomial variables. The log
-differentials impose `dα(m) = α(m) d log m` and `d log(mm′) = d log m + d log m′`.
-Their exterior algebra, direct-sum realization, Hodge filtration and closed `d log` map give
-the required period models, with resolution independence and naturality. Construct their
-modulo-p derived conjugate filtration by the free-coordinate Cartier calculation, including
-`C⁻¹(d log m) = [d log m]`. Use derived ring and monoid pushouts throughout. Prove the
-restricted cotangent transitivity/base-change and integral logification invariance needed for
-these charts; de Rham logification is used only modulo `p^n` and after p-completion.
-
+- `periodLogSpecialization`: these identifications are definitional specializations of the
+  public constructors and maps. The ordinary-to-log cotangent map, ordinary-to-log de Rham
+  map and `d log` in the period data are respectively `logCotangentOrdinaryMap`,
+  `logDeRhamOrdinaryMap` and `logDeRhamDLog` on the period inputs. The `ψ` of
+  `periodLogDLogFirstGraded` is the boundary of the ordinary triangle for `W → A_inf → O_C`.
+  Its map to the log transitivity triangle is `logCotangentFunctoriality`, with commuting
+  connecting arrows through `logCotangentOrdinaryMap`. These identifications preserve
+  products, Hodge filtrations, conjugate filtrations on derived reductions and p-completion,
+  naturally for `G_K` and valued embeddings of all the period data.
 - `periodLogCotangentComparison`: the map induced by adding `can` is an equivalence
   `Λ_p L_(O_K̄/W) → Λ_p L_log((O_K̄, can)/W)`. Prove it for this canonical map, not by choosing
   an abstract isomorphism. After logifying the trivial structure to the unit group, the
@@ -5037,8 +5145,9 @@ and Corollary 7.5, pp.23–29; Proposition 9.3(5), Remark 9.4, Proposition 9.11,
 Proposition 9.13,
 Construction 9.15 and Proposition 9.16, pp.34–38.
 *Needs:* §§2.21–2.26, 3.2–3.5, 5.11–5.12; DerivedModuleAlgebra §§0.1, 0.3, 0.8–0.10,
-0.14, 1.1–1.5; PerfectoidSpaces §§P1.17–P1.18; §PD.7. The restricted free prelog resolutions,
-log differential, cotangent, Cartier and logification statements used above are part of this target.
+0.14, 1.1–1.5; PerfectoidSpaces §§P1.17–P1.18; §PD.7; the shared logarithmic constructors
+and laws of §6.20. De Rham logification is used only on the stated derived reductions and
+after p-completion.
 
 **Checks.**
 
@@ -5062,7 +5171,9 @@ cotangent map is a p-completed equivalence; the conjugate graded comparison is o
 its derived exterior powers and reconstructs the p-completed de Rham objects by convergent
 dévissage; and the first Hodge graded `d log` class is the class of `[ε] − 1` in
 `ker θ/(ker θ)²`. Require compatibility with the `G_K` action, products, completion and the
-PD filtration on `A_cris`. These hypotheses are supplied by §6.20 on the period setup.
+PD filtration on `A_cris`. These hypotheses are supplied by §6.20 on the period setup,
+using its public `gabberLogCotangent`, `logDerivedDeRham` and `logDeRhamDLog` by
+`periodLogSpecialization`.
 Under these hypotheses,
 `Λ_p L_(O_K̄/W) ≃ Λ_p L_log((O_K̄, can)/W)` and `Λ_p dR_log((O_K̄, can)/W) ≃ A_cris` ([Bhatt12] Proposition
 9.11, proved by dévissage and the conjugate filtration from the cotangent statement). Completing
@@ -5088,8 +5199,10 @@ Prove the following named laws.
 - `periodDLogFormula`: `β(ε) = log([ε])` in `A_cris`.
 - `periodDLogFirstGraded`: the first Hodge graded map is the completed `d log` cotangent class.
 - `periodDLogCanonical`: apply these conditional laws to `periodLogComparisonData` of §6.20.
-  The canonical completed `d log` of the actual period prelog ring equals Fontaine's map
-  for every `K` in §5.11, with no logarithmic comparison hypotheses remaining. Under
+  On the period specialization of the shared public `logDerivedDeRham`, the completed
+  `logDeRhamDLog` equals Fontaine's map for every `K` in §5.11, with no logarithmic comparison
+  hypotheses remaining. Its first graded map is the specific transitivity boundary
+  `ψ_n([ε] − 1) = ε_n⁻¹ dε_n` of §6.20. Under
   `Crystalline.fontaineEnvelope_periodPDEnvelope` this is also PadicPeriodRings §3's logarithm.
 
 **Checks.**
@@ -5099,8 +5212,10 @@ Prove the following named laws.
 - `test_period_dlog_logarithm_domain`: an `A_inf` unit `[x]` with `θ([x]) = x^♯ ≠ 1` is not assigned this
   `Fil_H¹` logarithm by the construction.
 - `test_period_dlog_canonical`: for a nontrivial Tate generator over `ℚ_p`, including `p = 2`,
-  and over `W(k)[1/p]` for arbitrary perfect `k`, the constructed `β` has the nonzero first
-  graded class of §6.20 and equals `log[ε]` in the identified ordinary carrier.
+  and over `W(k)[1/p]` for arbitrary perfect `k`, specializing the public `logDeRhamDLog`
+  gives `β`, with the nonzero first graded class of §6.20 and value `log[ε]` in the
+  identified ordinary carrier. This includes the combination `p = 2`, `k = F₂(u)ᵖᵉʳᶠ`;
+  the boundary formula holds even when an early finite-level differential vanishes.
 
 ### Examples
 
@@ -5110,8 +5225,8 @@ becomes addition of logarithms for the canonical period adapter of §6.20.
 ### Dependencies
 
 Layers 1, PD and 5 and DerivedModuleAlgebra §1.3 supply completion, the filtered period object and
-the Tate-invariant vanishing. Section 6.20 constructs the restricted logarithmic inputs, and
-§6.21 applies its conditional identification to them.
+the Tate-invariant vanishing. Section 6.20 constructs the shared logarithmic inputs and their
+canonical period specialization, and §6.21 applies its conditional identification to them.
 
 ## Downstream consumers
 
@@ -5123,8 +5238,18 @@ CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 and CR.DDR.6.1–CR.DDR.6.20 construct th
 Witt and general logarithmic comparisons on these inputs. Its §§CR.DDR.5.8–CR.DDR.5.9 use
 `rawLciDeRhamSheaves`, `rawLciDeRhamAffine`, `rawLciDeRhamRealization` and `rawLciDeRhamCup`
 of §5.8.1 for the uncompleted lci comparison; `schemeDeRhamAffine` of §5.8 recovers the
-completed object. Its general logarithmic theory can use the restricted period adapter
-`periodLogComparisonData` and `periodDLogCanonical` of §§6.20–6.21 for the period specialization.
+completed object. Its §§CR.DDR.6.1–CR.DDR.6.2, CR.DDR.6.4–CR.DDR.6.5, CR.DDR.6.7 and
+CR.DDR.6.9–CR.DDR.6.10 import §6.20's `freePrelogResolutions`, `prelogHomotopyPushout`,
+`gabberLogCotangent`, `logCotangentFunctoriality`, `logDerivedDeRham`, `logDeRhamDLog`,
+`logCartier`, `logificationBoundaries` and their named laws on the same public carriers.
+Those sections add their derivation classifiers, general comparisons and descent results
+to these constructors. The period specialization uses `periodLogSpecialization` and
+`periodLogComparisonData`; it applies `periodDLogCanonical` to this public
+`logDeRhamDLog`, including `p = 2` and arbitrary perfect residue field. The ordinary-to-log
+maps, transitivity boundary `ψ`, products, Hodge filtrations, conjugate filtrations on
+reductions, p-completion and Galois/valued-embedding functoriality are the shared maps and
+laws of §6.20. All the shared constructors are built in this roadmap; the cited sections
+of CrystallineCohomology consume them.
 Prismatic and `A_inf`-cohomology,
 p-adic Hodge theory and motivic and K-theoretic applications use cotangent powers,
 quasisyntomic descent, period identifications and the differential-symbol API.

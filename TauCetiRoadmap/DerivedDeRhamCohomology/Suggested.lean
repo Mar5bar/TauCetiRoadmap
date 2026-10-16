@@ -33,8 +33,10 @@ Design choices made explicit here:
 * `Z_p(1)` is the kernel of Mathlib's untilt `PreTilt.untilt`, and `A_inf`, `θ` and `B_dR⁺` are
   Mathlib's `WittVector p (PreTilt O p)`, `WittVector.fontaineTheta` and `BDeRhamPlus`.
   README PD.7 and 5.13 identify the general envelope and derived period map with the ordinary
-  carrier and map of PadicPeriodRings §§3–4.1. README 6.20 constructs the canonical period
-  logarithmic comparison data used to instantiate the conditional statement of README 6.21.
+  carrier and map of PadicPeriodRings §§3–4.1. README 6.20 owns the shared free-prelog,
+  Gabber log cotangent and log derived de Rham constructors. Its period objects and maps are
+  their definitional specializations (`periodLogSpecialization`); README 6.21 identifies this
+  public `logDeRhamDLog` with Fontaine's map, including p = 2 and arbitrary perfect residue field.
 -/
 
 
@@ -1037,17 +1039,37 @@ with Zariski restriction and refinement, base-linear realization, products, Hodg
 the map to completion; `schemeDeRhamAffine` of README 5.8 recovers Hodge completion.
 CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.5, CR.DDR.5.8–CR.DDR.5.10,
 CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 and CR.DDR.6.1–CR.DDR.6.20 owns crystalline comparisons,
-derived de Rham–Witt and general logarithmic theory. README 5.12 constructs the principal derived period
+derived de Rham–Witt and logarithmic applications of README 6.20's shared constructors.
+README 5.12 constructs the principal derived period
 `periodRegularEnvelopeComparison` and `acrisDerivedDescription` using PadicPeriodRings §3's
 ordinary O_C envelope, presentation, p-adic completion and θ_cris under
 `Crystalline.fontaineEnvelope_periodPDEnvelope`; its integral perfectoid
-generalization retains the regular-envelope hypothesis. README 6.20 constructs the restricted
+generalization retains the regular-envelope hypothesis. README 6.20 owns the public
+`freePrelogResolutions`, `freePrelogUniversal`, `prelogResolutionAugmentation`,
+`prelogResolutionComparison` and `prelogHomotopyPushout`, together with log differentials,
+`gabberLogCotangent`, `logCotangentH0`, `logCotangentOrdinaryMap`, `logCotangentNaturality`
+and `logCotangentFunctoriality`. The latter supplies transitivity, homotopy base change,
+filtered colimits, integral cotangent logification invariance and the morphism from ordinary
+transitivity triangles, including their connecting arrows. The same section owns
+`logDerivedDeRham`, `logDeRhamDLog`, `logDeRhamOrdinaryMap`, `logDeRhamHodgeGraded`,
+`logDeRhamStrict`, `logDeRhamCompletions`, `logCartier` and `logificationBoundaries`.
+Raw objects use direct sums; Hodge and p-completion remain separate. Log de Rham logification
+invariance assumes integral prelog monoids over Z/p^n, n ≥ 1, or compatible derived reductions
+for the p-completed assertion. CrystallineCohomology §§CR.DDR.6.1–CR.DDR.6.2,
+CR.DDR.6.4–CR.DDR.6.5, CR.DDR.6.7 and CR.DDR.6.9–CR.DDR.6.10 import these public
+constructors and laws, and add their derivation classifiers, comparisons and descent results.
+README 6.20's `periodLogSpecialization` makes its period objects and maps definitional
+specializations of these constructors. It preserves the ordinary-to-log maps, d log, the
+transitivity boundary ψ, products, Hodge filtrations, conjugate filtrations on reductions,
+p-completion and Galois/valued-embedding functoriality. The period specialization supplies
 `periodLogComparisonData`, `periodLogCotangentComparison`, `periodLogDeRhamComparison` and
 `periodLogDLogFirstGraded`, including the canonical transitivity boundary and its nonzero Tate class.
 README 6.21's conditional `logPeriodDlog`, `logPeriodOrdinaryComparison`, `periodDLogTate`,
 `periodDLogFormula` and `periodDLogFirstGraded` apply to these constructed data to give
-`periodDLogCanonical`, the unconditional identification of the canonical period d log with log[ε].
-The range is README 5.11, including p = 2 and arbitrary perfect residue fields.
+`periodDLogCanonical`, the unconditional identification of the public `logDeRhamDLog` on
+the actual period prelog ring with log[ε]. Its first graded map is the specified transitivity
+boundary ψ_n([ε] − 1) = ε_n⁻¹ dε_n. The range is README 5.11, including p = 2 and arbitrary
+perfect residue fields, also together at p = 2, k = F₂(u)^perf.
 README 5.13's `periodMapComparison` identifies the derived/Hodge period map with PadicPeriodRings
 §4.1's ordinary map under `Crystalline.fontaineEnvelope_periodPDEnvelope`. It preserves θ,
 Galois actions, filtrations and functorial maps; the source identification intertwines Witt
