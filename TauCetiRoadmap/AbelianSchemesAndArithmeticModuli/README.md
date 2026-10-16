@@ -11,7 +11,7 @@ prime-to-characteristic Tate module, the universal vector extension and first de
 Barsotti–Tate groups, their contravariant crystalline Dieudonné crystals and Tate twists,
 and the degree-one divided-power realization. It proves the deformation theorems of Serre–Tate and
 Grothendieck–Messing, with ordinary Serre–Tate coordinates and the
-finite-level lifting statements used for abelian surfaces. Over ℂ it supplies the lattice
+finite-level lifting statements used for abelian surfaces. Over `ℂ` it supplies the lattice
 uniformization, the Hermitian and homological structure of Riemann forms, the Appell–Humbert theorem, the polarized Hodge equivalence and the
 Siegel universal family. Over a field it proves the arithmetic of Hom: degrees,
 characteristic polynomials, ℓ-independence, finiteness of Hom, Poincaré complete reducibility,
@@ -61,7 +61,7 @@ theory over locally PD-nilpotent thickenings; the degree-one divided-power reali
 Grothendieck–Messing and Serre–Tate for abelian schemes with structures; ordinary Serre–Tate
 coordinates and the
 weighted polarization equations; polarized effectivity; the odd-prime and dyadic finite-level lifting
-theorems and the genus-two Jacobian comparison. Over ℂ: lattice uniformization, the Hermitian, principal and homological structure of Riemann forms,
+theorems and the genus-two Jacobian comparison. Over `ℂ`: lattice uniformization, the Hermitian, principal and homological structure of Riemann forms,
 polarization types, Appell–Humbert and algebraicity, the polarized Hodge equivalence, analytic
 families and the Siegel universal family. Over a field: degree, characteristic polynomial and
 trace of endomorphisms with their ℓ-adic comparison, finiteness and saturation of Hom, complete
@@ -173,8 +173,8 @@ algebra. These targets use no cohomological trace formula. The abelian cohomolog
   descent uses StableReduction Layer 2's étale polarized-scheme descent contract.
 - *CrystallineCohomology.* Layer CR.1 supplies the base-compatible big fppf crystalline site,
   its module-sheaf category and quasi-coherent and finite locally free crystals. CR.7.1 supplies coefficient
-  evaluation, pullback, tensor and dual, and the twist convention φ_{D(r)}=p^{−r}φ_D,
-  Fil^i(D(r))=Fil^{i+r}D. The Barsotti–Tate Dieudonné crystal and its deformation theory
+  evaluation, pullback, tensor and dual, and the twist convention `φ_{D(r)} = p^{−r}φ_D`,
+  `Fil^i(D(r)) = Fil^{i+r}D`. The Barsotti–Tate Dieudonné crystal and its deformation theory
   are A4.CR.7.2 here.
 - *EnhancedDerivedSheaves.* E1.9 supplies perfect proper pushforward and base change
   (`perfect_proper_pushforward`) for the relative coherent-cohomology arguments.
@@ -447,9 +447,9 @@ The exterior structure and freeness of abelian cohomology are A4.4 here.
 
 | Supplier | Provides / consumer | Convention or hypothesis |
 |---|---|---|
-| CrystallineCohomology Layer CR.1 | Base-compatible big fppf crystalline site and quasi-coherent and finite locally free crystals, used by A4.CR.7.2 | p is prime and locally nilpotent on the source; evaluations are module sheaves on the PD ambient scheme. |
-| CrystallineCohomology §CR.7.1 | Finite projective coefficient evaluation, pullback, tensor and dual; filtered Frobenius coefficient and twist calculus, used by A4.CR.7.2 | Twist r scales Frobenius by p^(−r) and shifts Fil^i to Fil^(i+r); completed Witt evaluation retains every finite-level reduction. |
-| EnhancedDerivedSheaves E1.9 / `perfect_proper_pushforward` | Perfect proper pushforward and base change, used by A1.4, A2.4, A4.2 and A4.4 | For finitely presented f, E is perfect and G• is bounded, termwise finitely presented and target-flat, with each support proper over the target; Rf_*E is perfect when f is proper, flat and finitely presented. No Noetherian base hypothesis is added. |
+| CrystallineCohomology Layer CR.1 | Base-compatible big fppf crystalline site and quasi-coherent and finite locally free crystals, used by A4.CR.7.2 | `p` is prime and locally nilpotent on the source; evaluations are module sheaves on the PD ambient scheme. |
+| CrystallineCohomology §CR.7.1 | Finite projective coefficient evaluation, pullback, tensor and dual; filtered Frobenius coefficient and twist calculus, used by A4.CR.7.2 | Twist `r` scales Frobenius by `p^(−r)` and shifts `Fil^i` to `Fil^(i+r)`; completed Witt evaluation retains every finite-level reduction. |
+| EnhancedDerivedSheaves E1.9 / `perfect_proper_pushforward` | Perfect proper pushforward and base change, used by A1.4, A2.4, A4.2 and A4.4 | For finitely presented `f`, `E` is perfect and `G•` is bounded, termwise finitely presented and target-flat, with each support proper over the target; `Rf_*E` is perfect when `f` is proper, flat and finitely presented. No Noetherian base hypothesis is added. |
 
 ### From AlgebraicModuliForArithmeticGeometry, SchemeAndStackFoundations and ComplexComparisonPartII
 
@@ -744,9 +744,7 @@ AlgebraicModuli Layer 1; EnhancedDerivedSheaves E1.9 (`perfect_proper_pushforwar
 Prove `relativeCube`. For an abelian scheme `A/S` and a line bundle `L` rigidified along zero, the
 alternating tensor product of the pullbacks of `L` along the seven nonempty partial sums
 `A³ → A` is canonically trivial, compatibly with the face rigidifications. For every integer `n`,
-```text
-[n]^*L ≅ L^{n(n+1)/2} ⊗ ([−1]^*L)^{n(n−1)/2}
-```
+`[n]^*L ≅ L^{n(n+1)/2} ⊗ ([−1]^*L)^{n(n−1)/2}`
 compatibly with rigidification and base change. Hence a symmetric rigidified `L` has
 `[n]^*L ≅ L^{n²}`, an antisymmetric one has `[n]^*L ≅ L^n`, and in general `[2]^*L ≅ L³ ⊗ [−1]^*L`.
 For unrigidified `L` the formula carries the zero-fibre line pulled back from `S`. For symmetric
@@ -930,9 +928,7 @@ rigidifications. *Needs:* A0.2, A0.3, A1.2, A2.1; JacobianChallenge Layer E; Mod
 
 Prove `mumfordMap`. For `π : A → S` and any line bundle `L` on `A`, define `φ_L : A → A^∨` by the
 rigidified class of
-```text
-t_a^*L_T ⊗ L_T^{-1} ⊗ π_T^*(a^*L_T)^{-1} ⊗ π_T^*(e_T^*L_T)
-```
+`t_a^*L_T ⊗ L_T^{-1} ⊗ π_T^*(a^*L_T)^{-1} ⊗ π_T^*(e_T^*L_T)`
 for a point `a : T → A`. The bundle `m^*L ⊗ p₁^*L^{-1} ⊗ p₂^*L^{-1} ⊗ π²^*e^*L` on `A ×_S A` is doubly
 rigidified and is `(id × φ_L)^*P`. By the cube theorem `φ_L` is a symmetric homomorphism
 (`φ_L^∨ ∘ κ_A = φ_L`), and `φ_{L⊗M} = φ_L + φ_M`, `φ_{t_a^*L} = φ_L`, `φ_{π^*N} = 0`,
@@ -1609,9 +1605,7 @@ pairings `e_{ℓ^r}` of A3.5, with `ℤ_ℓ(1) = lim μ_{ℓ^r}`); `AbelianTate.
 Define `AbelianVectorExtension A` for an abelian scheme `π : A → S`: with `V(F) = Spec_S Sym(F^∨)`
 the vector group of a finite locally free `O_S`-module `F` (AlgebraicVectorBundles L2B), the canonical
 extension
-```text
-0 → V(ω_{A^∨}) → E(A) → A → 0
-```
+`0 → V(ω_{A^∨}) → E(A) → A → 0`
 such that pushout along its vector kernel gives an isomorphism
 `Hom_{O_S}(ω_{A^∨}, F) ≅ Ext¹_{fppf}(A, V(F))`, natural in `F` and compatible with base change. For each
 extension `0 → V(F) → G → A → 0` there are a unique `O_S`-linear `u : ω_{A^∨} → F` and a unique
@@ -1838,38 +1832,38 @@ theory. Their public namespace is `TauCetiRoadmap.CrystallineCohomology`; their 
 is this section. The consumer's Dieudonné–Manin decomposition and relative crystalline direct
 images remain separate constructions of CrystallineCohomology §§CR.4.7 and CR.7.3, respectively.
 
-**The crystalline Dieudonné crystal of a Barsotti–Tate group.** Let p be a prime, S a scheme
-on which p is locally nilpotent, and G a Barsotti–Tate (p-divisible) group over S (A4.5). Its
-contravariant crystalline Dieudonné crystal is D(G) = 𝓔xt¹(G, O_{S/ℤ_p}) on the big crystalline site
-of S over (ℤ_p, (p), γ), using the base-compatible fppf site
+**The crystalline Dieudonné crystal of a Barsotti–Tate group.** Let `p` be a prime, `S` a scheme
+on which `p` is locally nilpotent, and `G` a Barsotti–Tate (`p`-divisible) group over `S` (A4.5). Its
+contravariant crystalline Dieudonné crystal is `D(G) = 𝓔xt¹(G, O_{S/ℤ_p})` on the big crystalline site
+of `S` over `(ℤ_p, (p), γ)`, using the base-compatible fppf site
 `Crystalline.CrisCompatibleFppfSite` of *Small and big crystalline sites*
-(CrystallineCohomology Layer CR.1), and with G_crys(U,T)=G(U). In characteristic p this is
-CRIS_fppf(S/ℤ_p). Construct D, contravariant in G and
-compatible with base change S′ → S; prove that D(G) is a crystal of finite locally free modules of
-rank the height of G. When S has characteristic p, its relative Frobenius and
-Verschiebung induce F : σ*D(G) → D(G) and V : D(G) → σ*D(G) with FV = VF = p;
-here σ is the absolute Frobenius of S. On a general p-nilpotent base use
-D(G) and its Hodge filtration without presupposing an absolute Frobenius of S. Its evaluation
-D(G)_T on a PD thickening T of an open of S is a finite locally free O_T-module, with horizontal
-F and V in the characteristic-p case and base-change isomorphisms for morphisms of thickenings.
-A homomorphism G → H induces D(H) → D(G). For
-an abelian scheme A/S, D(A[p^∞]) is identified with the realization of
+(CrystallineCohomology Layer CR.1), and with `G_crys(U,T) = G(U)`. In characteristic `p` this is
+`CRIS_fppf(S/ℤ_p)`. Construct `D`, contravariant in `G` and
+compatible with base change `S′ → S`; prove that `D(G)` is a crystal of finite locally free modules of
+rank the height of `G`. When `S` has characteristic `p`, its relative Frobenius and
+Verschiebung induce `F : σ*D(G) → D(G)` and `V : D(G) → σ*D(G)` with `FV = VF = p`;
+here `σ` is the absolute Frobenius of `S`. On a general `p`-nilpotent base use
+`D(G)` and its Hodge filtration without presupposing an absolute Frobenius of `S`. Its evaluation
+`D(G)_T` on a PD thickening `T` of an open of `S` is a finite locally free `O_T`-module, with horizontal
+`F` and `V` in the characteristic-`p` case and base-change isomorphisms for morphisms of thickenings.
+A homomorphism `G → H` induces `D(H) → D(G)`. For
+an abelian scheme `A/S`, `D(A[p^∞])` is identified with the realization of
 A4.6 on its stated locally PD-nilpotent thickenings, with the first de Rham cohomology of any
 abelian-scheme lift on those thickenings.
 
 The API:
 
-- `LogCrystalline.dieudonneEvaluation.evaluate`: D(G)_T is a finite locally free O_T-module.
-- `LogCrystalline.dieudonneEvaluation.contravariant`: A map G→H gives a map D(H)_T→D(G)_T.
-- `LogCrystalline.dieudonneEvaluation.fv`: The linearizations satisfy FV=p and VF=p on their
+- `LogCrystalline.dieudonneEvaluation.evaluate`: `D(G)_T` is a finite locally free `O_T`-module.
+- `LogCrystalline.dieudonneEvaluation.contravariant`: A map `G → H` gives a map `D(H)_T → D(G)_T`.
+- `LogCrystalline.dieudonneEvaluation.fv`: The linearizations satisfy `FV = p` and `VF = p` on their
   respective domains.
 
-*Proof sketch.* Construct D(G) as internal 𝓔xt¹ in the big fppf crystalline topos
+*Proof sketch.* Construct `D(G)` as internal `𝓔xt¹` in the big fppf crystalline topos
 (CrystallineCohomology Layer CR.1), and restrict the resulting crystal to the small Zariski
-or étale site; local freeness of rank h is Berthelot–Breen–Messing 3.3.10, proved by reducing to truncated Barsotti–Tate
-groups and the exact sequences 0 → G[pⁿ] → G → G → 0. Apply the general coefficient evaluation maps
-of CrystallineCohomology §CR.7.1 (*Finite projective crystalline coefficients*) and transport F
-and V through the PD pullback isomorphisms. Check FV and VF on the appropriately Frobenius-twisted modules, and compare with A4.6
+or étale site; local freeness of rank `h` is Berthelot–Breen–Messing 3.3.10, proved by reducing to truncated Barsotti–Tate
+groups and the exact sequences `0 → G[pⁿ] → G → G → 0`. Apply the general coefficient evaluation maps
+of CrystallineCohomology §CR.7.1 (*Finite projective crystalline coefficients*) and transport `F`
+and `V` through the PD pullback isomorphisms. Check `FV` and `VF` on the appropriately Frobenius-twisted modules, and compare with A4.6
 for abelian schemes through the universal vector extension. ([de Jong, *Crystalline Dieudonné module
 theory via formal and rigid geometry*](https://www.numdam.org/article/PMIHES_1995__82__5_0.pdf),
 Definition 2.3.2 and construction 2.3.3, pp.21–22; Berthelot–Breen–Messing, *Théorie de Dieudonné
@@ -1877,7 +1871,7 @@ cristalline II*, Lecture Notes in Math. 930 (1982), 3.3.6 and 3.3.10 as cited in
 [Panny–Robert–Sferlazza, *Hensel-lifting black-box algorithms and fast trace computation
 for elliptic-curve endomorphisms*](https://www.math.u-bordeaux.fr/~damienrobert/pro/publications/articles/lifting_traces.pdf),
 Appendix B, printed pp.35–36 in the 28 September 2026 author version: the Ext
-construction over a p-nilpotent base, citing BBM Theorem 3.3.3; the Hodge
+construction over a `p`-nilpotent base, citing BBM Theorem 3.3.3; the Hodge
 sequence, citing BBM Corollary 3.3.5; and the abelian realization, citing BBM
 Theorem 2.5.6 and Proposition 3.3.7. The fppf topology is explicit in
 [Madapusi–Mondal, *Perfect F-gauges and finite flat group schemes*](https://www.keerthimadapusi.com/assets/preprints/fflat.pdf), Remark 4.3.3, pp.13–14.)
@@ -1888,20 +1882,20 @@ A4.6 (*The degree-one divided-power realization*); CrystallineCohomology Layer C
 
 **Checks.**
 
-- `constant`: D(Q_p/Z_p) over W(k) has rank one and F=σ.
-- `multiplicative`: D(μ_{p∞}) over W(k) has rank one and F=pσ.
-- `variance`: For G→H the induced crystal map runs from D(H) to D(G), not from D(G) to D(H).
-- Evaluation over W(k) for perfect k gives the classical contravariant Dieudonné module: W(k)-free
-  of rank h with σ-linear F and σ⁻¹-linear V, FV = VF = p.
+- `constant`: `D(ℚ_p/ℤ_p)` over `W(k)` has rank one and `F = σ`.
+- `multiplicative`: `D(μ_{p∞})` over `W(k)` has rank one and `F = pσ`.
+- `variance`: For `G → H` the induced crystal map runs from `D(H)` to `D(G)`, not from `D(G)` to `D(H)`.
+- Evaluation over `W(k)` for perfect `k` gives the classical contravariant Dieudonné module: `W(k)`-free
+  of rank `h` with `σ`-linear `F` and `σ⁻¹`-linear `V`, `FV = VF = p`.
 
-**Dieudonné variance and Tate twists.** Over a perfect field k of characteristic p, the
-evaluated contravariant crystal takes the following values: D(Q_p/Z_p)=W(k)e with Fe=e, Ve=pe (semilinearity understood), and
-D(μ_{p∞})=W(k)e with Fe=pe, Ve=e. Rationally the latter is K₀(−1) under φ_{D(r)}=p^{−r}φ_D, while
-the constant group gives K₀(0). Cartier duality agrees with D(G∨)≅D(G)∨(−1). Verify the horizontal
+**Dieudonné variance and Tate twists.** Over a perfect field `k` of characteristic `p`, the
+evaluated contravariant crystal takes the following values: `D(ℚ_p/ℤ_p) = W(k)e` with `Fe = e`, `Ve = pe` (semilinearity understood), and
+`D(μ_{p∞}) = W(k)e` with `Fe = pe`, `Ve = e`. Rationally the latter is `K₀(−1)` under `φ_{D(r)} = p^{−r}φ_D`, while
+the constant group gives `K₀(0)`. Cartier duality agrees with `D(G∨) ≅ D(G)∨(−1)`. Verify the horizontal
 evaluation maps and variance, not only the slopes.
 
 *Proof sketch.* Evaluate *The crystalline Dieudonné crystal of a Barsotti–Tate group* at the Witt PD
-thickening W(k) → k and compute it for ℚ_p/ℤ_p (F bijective) and μ_{p^∞} (V bijective). Check
+thickening `W(k) → k` and compute it for `ℚ_p/ℤ_p` (`F` bijective) and `μ_{p^∞}` (`V` bijective). Check
 Frobenius/Verschiebung and the contravariant group-map direction. Apply Cartier duality and the
 declared twist convention to identify the rank-one rational modules. ([de Jong, *Crystalline
 Dieudonné module theory via formal and rigid
@@ -1910,39 +1904,39 @@ contravariant crystal convention;
 [Scholze–Weinstein, *Berkeley lectures on p-adic geometry*](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf),
 Lecture 12, printed p.99, footnote 1 in the March 2020 version: their covariant
 normalization is the naive dual of the contravariant one. Dualizing its
-Frobenius σ for Q_p/Z_p and p⁻¹σ for μ_{p∞} gives exactly σ and pσ here.
+Frobenius `σ` for `ℚ_p/ℤ_p` and `p⁻¹σ` for `μ_{p∞}` gives exactly `σ` and `pσ` here.
 [Illusie, *Grothendieck and the theory of crystals*](https://www.imo.universite-paris-saclay.fr/~luc.illusie/Illusie-Pisa5.pdf),
-§2.2, pp.3–5, fixes contravariance, FV=VF=p and Cartier duality.)
+§2.2, pp.3–5, fixes contravariance, `FV = VF = p` and Cartier duality.)
 *Needs:* A4.CR.7.2 (*The crystalline Dieudonné crystal of a Barsotti–Tate group*);
 CrystallineCohomology §CR.7.1 (*Filtered Frobenius coefficients on semistable models*).
 
 **Checks.**
 
-- For the constant group ℚ_p/ℤ_p, the Witt evaluation has F=σ and V=pσ⁻¹, and its
+- For the constant group `ℚ_p/ℤ_p`, the Witt evaluation has `F = σ` and `V = pσ⁻¹`, and its
   rationalization has slope 0 and twist 0.
-- For μ_{p^∞}, the Witt evaluation has F=pσ and V=σ⁻¹, hence slope 1. The twist
-  convention makes its rational Dieudonné module K₀(−1), with its filtration jump in degree 1.
-- Cartier duality exchanges these two groups and identifies D(G∨) with D(G)∨(−1);
+- For `μ_{p^∞}`, the Witt evaluation has `F = pσ` and `V = σ⁻¹`, hence slope 1. The twist
+  convention makes its rational Dieudonné module `K₀(−1)`, with its filtration jump in degree 1.
+- Cartier duality exchanges these two groups and identifies `D(G∨)` with `D(G)∨(−1)`;
   double duality returns the original evaluation and cancels the two dual twist factors.
-- A group homomorphism G→H induces the horizontal evaluation map D(H)→D(G),
-  compatibly with F, V and every Witt-level reduction.
+- A group homomorphism `G → H` induces the horizontal evaluation map `D(H) → D(G)`,
+  compatibly with `F`, `V` and every Witt-level reduction.
 
-**Grothendieck–Messing deformation theory.** Let S₀ → S be a PD thickening on which p is locally
-nilpotent and whose divided powers are locally nilpotent, and G₀ a Barsotti–Tate group over S₀. A
-lift G/S of G₀ determines a locally direct summand Hodge filtration ω_G ⊂ D(G₀)_S lifting the
-contravariant exact sequence 0 → ω_{G₀} → D(G₀)_{S₀} → Lie(G₀^∨) → 0. Grothendieck–Messing: G ↦ (ω_G
-⊂ D(G₀)_S) is an equivalence between lifts of G₀ to S and lifts of the Hodge filtration to locally
-direct summands of D(G₀)_S; a homomorphism of Barsotti–Tate groups over S₀ lifts exactly when its
+**Grothendieck–Messing deformation theory.** Let `S₀ → S` be a PD thickening on which `p` is locally
+nilpotent and whose divided powers are locally nilpotent, and `G₀` a Barsotti–Tate group over `S₀`. A
+lift `G/S` of `G₀` determines a locally direct summand Hodge filtration `ω_G ⊂ D(G₀)_S` lifting the
+contravariant exact sequence `0 → ω_{G₀} → D(G₀)_{S₀} → Lie(G₀^∨) → 0`. Grothendieck–Messing:
+`G ↦ (ω_G ⊂ D(G₀)_S)` is an equivalence between lifts of `G₀` to `S` and lifts of the Hodge filtration to locally
+direct summands of `D(G₀)_S`; a homomorphism of Barsotti–Tate groups over `S₀` lifts exactly when its
 evaluation preserves the lifted filtrations. For abelian schemes this specialises to
 A4.7 under the identification of *The crystalline Dieudonné
 crystal of a Barsotti–Tate group*.
 
-*Proof sketch.* Construct the Hodge filtration from the universal vector extension of G and identify
-the dual of its Lie algebra with the contravariant D(G₀)_S;
-Lie E(G) itself is the covariant realization. Dualize the universal-extension
-exact sequence to obtain 0→ω_G→D(G₀)_S→Lie(G∨)→0. For an abelian scheme
-this agrees with Lie E(A)=H¹_dR(A/S)∨ (Illusie §4.2(iv), pp.16–17). Prove the deformation theorem by the exponential on the
-nilpotent divided power ideal: lifts of G₀ correspond to lifts of the universal extension, and these
+*Proof sketch.* Construct the Hodge filtration from the universal vector extension of `G` and identify
+the dual of its Lie algebra with the contravariant `D(G₀)_S`;
+`Lie E(G)` itself is the covariant realization. Dualize the universal-extension
+exact sequence to obtain `0 → ω_G → D(G₀)_S → Lie(G∨) → 0`. For an abelian scheme
+this agrees with `Lie E(A) = H¹_dR(A/S)∨` (Illusie §4.2(iv), pp.16–17). Prove the deformation theorem by the exponential on the
+nilpotent divided power ideal: lifts of `G₀` correspond to lifts of the universal extension, and these
 to filtrations (Messing, Chapter V). Transport the evaluation and Hodge inclusion through the
 crystalline coefficients, and verify base change and duality compatibility of the inclusion and
 quotient maps. ([de Jong, *Crystalline Dieudonné module theory via formal and rigid
@@ -1952,22 +1946,22 @@ to Barsotti–Tate groups*, Lecture Notes in Math. 264 (1972), Chapter V, Theore
 as stated with the admissibility condition of Definition V.1.4 in
 Panny–Robert–Sferlazza, Appendix B, p.35, and used in de Jong's proof;
 Illusie, *Grothendieck and the theory of crystals*, §4.2(v), pp.17–18,
-for the p-nilpotent base and locally nilpotent divided-power hypotheses.)
+for the `p`-nilpotent base and locally nilpotent divided-power hypotheses.)
 *Needs:* A4.CR.7.2 (*The crystalline Dieudonné crystal of a Barsotti–Tate group*);
 A4.7 (*Grothendieck–Messing for abelian schemes*).
 
 **Checks.**
 
-- For the constant group ℚ_p/ℤ_p the Hodge submodule is zero, so there is a unique
+- For the constant group `ℚ_p/ℤ_p` the Hodge submodule is zero, so there is a unique
   filtration lift and a unique lift up to unique isomorphism.
-- For μ_{p^∞} the Hodge submodule is the full rank-one evaluation; the lifted group
+- For `μ_{p^∞}` the Hodge submodule is the full rank-one evaluation; the lifted group
   has the full evaluation as its Hodge submodule, compatibly with Cartier duality.
 - For an ordinary elliptic special fibre the rank-two evaluation has a rank-one Hodge
   summand. Over a square-zero PD extension, its summand lifts have one tangent parameter,
   agreeing with A4.7, and a homomorphism lifts exactly when its contravariant map preserves it.
 - Pullback along a compatible locally PD-nilpotent thickening transports the lift,
   Hodge inclusion and quotient together; the filtration equivalence commutes with this pullback.
-- The canonical divided powers on (2)⊂ℤ/4ℤ are not locally nilpotent (A4.6's dyadic
+- The canonical divided powers on `(2) ⊂ ℤ/4ℤ` are not locally nilpotent (A4.6's dyadic
   Check), so a square-zero ideal alone does not meet the deformation theorem's hypotheses.
 
 ### A4.8 Effectivity of polarized formal lifts
@@ -2012,9 +2006,7 @@ abelian scheme. *Needs:* A3.3, A3.4, A4.5, A4.7; ModularCurves 7F.
 Define `SerreTate.q`: for an ordinary abelian variety `A₀` over a perfect field `k` of characteristic
 `p` (working over `k̄` with descent, or after trivializing the étale part of `A₀[p^∞]` and of its dual),
 and a deformation `A` over a local Artin `W(k)`-algebra `R` with residue field `k`, the bilinear map
-```text
-q_A : T_p(A₀^{et}) × T_p((A₀^∨)^{et}) → 1 + m_R
-```
+`q_A : T_p(A₀^{et}) × T_p((A₀^∨)^{et}) → 1 + m_R`
 classifying `A[p^∞]` as an extension of the étale part by the multiplicative part. Deformations
 correspond to such bilinear maps, with Baer sum corresponding to multiplication; `q = 1` is the
 canonical lift. A homomorphism `f : A₀ → B₀` lifts iff `q_A(x, f^∨ y) = q_B(f x, y)`; a principal
@@ -2687,9 +2679,7 @@ polarization of `E` and `α = [n]`, `deg([n]^*λ) = n⁴ = deg(n²λ)`. *Needs:*
 Prove `rosatiPositivity`. For a polarization `λ` of `A`, the form `(α, β) ↦ Tr(α β^†)` on `End⁰ A` is
 symmetric and positive definite. If `g > 0` and `λ = φ_L` over `K̄` with `D` an ample divisor of `L`, then for
 `α ∈ End A`
-```text
-Tr(α^† α) = 2g · (D^{g−1} · α^*D) / (D^g),
-```
+`Tr(α^† α) = 2g · (D^{g−1} · α^*D) / (D^g),`
 and for rational `α` one applies this to an integral multiple. For `g = 0`, `End⁰ = 0`. The formula is
 proved by Riemann–Roch: by A2.3, `φ_{L^n ⊗ α^*L} = nλ + α^∨λα = λ ∘ (n + α^†α)`; by A2.4 and A6.13 its degree
 is `χ(L^n ⊗ α^*L)² = ((nD + α^*D)^g/g!)²` and also `deg λ · P_{α^†α}(−n)` with `deg λ = ((D^g)/g!)²`;
@@ -2920,7 +2910,7 @@ uses the dual `n`-torsion pairing and `μ_n`; a polarization is not assumed to c
 bundle. The proof: the Galois action on the finite free lattice `Hom(A_{K̄}, B_{K̄})` (A6.7) factors through
 a finite quotient; an element `σ` fixing both `n`-torsion groups satisfies `σf − f = 0` on `A[n]`, so it acts
 on Hom as the identity modulo `n` (A3.4); the kernel of `GL_r(ℤ) → GL_r(ℤ/n)` has no nontrivial element of
-finite order for `n ≥ 3` (by `eq_one_of_root_of_unity`) (Tsimerman, *The André–Oort conjecture for A_g*,
+finite order for `n ≥ 3` (by `eq_one_of_root_of_unity`) (Tsimerman, *The André–Oort conjecture for `A_g`*,
 proof of Lemma 4.1, pp. 384–385, citing Silverberg; Milne 2008, Lemma 14.5, p. 63). For `n = 2` the
 statement fails: inversion acts trivially on `2`-torsion and nontrivially on a twisted Hom lattice.
 *Needs:* A3.4, A3.7, A6.7.
@@ -3248,8 +3238,8 @@ separable, `Res_{L/K}(A)` is an abelian variety of dimension `[L : K] dim A`. *N
 ### A6.33 The Tate module of a Weil restriction
 
 Prove `weilRestrictionTate`. For `L/K` finite separable, `A` over `L` and `ℓ` invertible, a choice of
-`L ⊆ K^{sep}` gives a `G_K`-equivariant isomorphism `T_ℓ(Res_{L/K} A) ≅ Ind_{G_L}^{G_K} T_ℓ(A) =
-ℤ_ℓ[G_K] ⊗_{ℤ_ℓ[G_L]} T_ℓ(A)`; another embedding changes it by the canonical isomorphism of induced
+`L ⊆ K^{sep}` gives a `G_K`-equivariant isomorphism
+`T_ℓ(Res_{L/K} A) ≅ Ind_{G_L}^{G_K} T_ℓ(A) = ℤ_ℓ[G_K] ⊗_{ℤ_ℓ[G_L]} T_ℓ(A)`; another embedding changes it by the canonical isomorphism of induced
 modules; for number fields `V_ℓ(Res_{L/K} A)` is the induced representation. Induction and coinduction agree
 for the finite-index `G_L`. This field-level statement implies nothing about good reduction at ramified
 places. The proof splits `L ⊗ K^{sep}` into the embedding-indexed product (A6.31), so the torsion is the
@@ -3489,7 +3479,7 @@ semisimplicity and `p`-adic libraries.
 - [Gao–Habegger] Z. Gao and P. Habegger, *Heights in families of abelian varieties and the geometric
   Bogomolov conjecture*, arXiv:1801.05762v3.
 - [Caro–Pasten] J. Caro and H. Pasten, *A Chabauty–Coleman bound for surfaces*, arXiv:2102.01055v2.
-- [Lipnowski–Tsimerman] M. Lipnowski and J. Tsimerman, *How large is A_g(𝔽_q)?*, arXiv:1511.02212v1.
+- [Lipnowski–Tsimerman] M. Lipnowski and J. Tsimerman, *How large is `A_g(𝔽_q)`?*, arXiv:1511.02212v1.
 - [Voight] J. Voight, *Quaternion algebras*, v0.9.15, §8.4, pp. 116–118,
   <https://jvoight.github.io/quat/quat-book-v0.9.15.pdf>.
 - [Kisin–Pappas] M. Kisin and G. Pappas, *Integral models of Shimura varieties with parahoric level
@@ -3498,7 +3488,7 @@ semisimplicity and `p`-adic libraries.
   819–914; author preprint, <https://people.math.harvard.edu/~kisin/dvifiles/lr.pdf>.
 - [Kisin–Madapusi Pera–Shin] M. Kisin, K. Madapusi Pera and S. W. Shin, *Honda–Tate theory for Shimura
   varieties*, Duke Math. J. 171 (2022), 1559–1614, <https://math.berkeley.edu/~swshin/HT.pdf>.
-- [Tsimerman] J. Tsimerman, *The André–Oort conjecture for A_g*, Ann. of Math. 187 (2018), 379–390.
+- [Tsimerman] J. Tsimerman, *The André–Oort conjecture for `A_g`*, Ann. of Math. 187 (2018), 379–390.
 - [Pilloni] V. Pilloni, *Higher coherent cohomology and p-adic modular forms of singular weight*, Duke
   Math. J. 169 (2020), 1647–1807; author PDF.
 - [Boxer–Calegari–Gee–Pilloni] G. Boxer, F. Calegari, T. Gee and V. Pilloni, *Modularity theorems for
