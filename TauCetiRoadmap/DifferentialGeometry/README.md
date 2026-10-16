@@ -300,7 +300,11 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   not completeness. The pointwise paired product is
   `RoughForm.wedgeWith`, identified with `bundleWedgeWith` by `bundleWedgeWith_trivial`;
   `mpullback_wedgeWith` is unconditional, and `mpullback_wedge` is its real
-  multiplication specialization. `C^(n+1)` maps pull `C^n` forms back to `C^n` forms.
+  multiplication specialization. Coefficient postcomposition is compatible with paired wedges:
+  for `μ : F₁ →L[ℝ] F₂ →L[ℝ] F₃` and `L : F₃ →L[ℝ] G`, let `μ_L` be the continuous
+  real-bilinear pairing `μ_L a b = L (μ a b)` and prove
+  `RoughForm.mapCoeff L (RoughForm.wedgeWith μ φ η) = RoughForm.wedgeWith μ_L φ η`.
+  `C^(n+1)` maps pull `C^n` forms back to `C^n` forms.
 - **0.4 Bundled forms.** `SmoothBundleForm` is the submodule of `C^∞` bundle-valued rough forms;
   `SmoothForm I M F k` is its trivial-bundle specialization, closed under the paired wedge for
   every fixed continuous bilinear pairing. General fibrewise products use a smooth bundle pairing.
@@ -321,7 +325,8 @@ Names in backticks are the declarations of `Suggested.lean`, which carries the e
   `ContinuousLinearMap.compContinuousAlternatingMap` operation. Its identity, composition, zero,
   addition and real-linearity API must agree with the rough form API; prove it preserves
   `SmoothForm` smoothness. Keep the coefficient spaces normed over `ℝ` and do not add a
-  `[CompleteSpace]` requirement for this algebraic or calculus interface.
+  `[CompleteSpace]` requirement for this algebraic or calculus interface. Transfer the
+  coefficient-postcomposition/paired-wedge compatibility from rough forms to bundled forms.
 
 ### Layer 1: the exterior derivative
 
