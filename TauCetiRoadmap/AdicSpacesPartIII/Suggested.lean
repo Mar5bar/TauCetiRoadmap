@@ -62,6 +62,13 @@ addition; the cyclic Drinfeld divisor condition is specified there.
 R3's Čech applications use DerivedModuleAlgebra §S.1's
 `DoubleComplex.totalCohomology_of_exact_rows`, its transpose and canonical edge naturality,
 with total differential `d′ + (−1)^p d″`.
+The README-only Berthelot mapping functor uses the locally power-bounded sheaf,
+continuous chart maps preserving topological nilpotence, and local evaluation maps to
+integral residue fields. Its composite into the analytic stalk need not be local.
+The README-only rational-cover Čech reduction first establishes separatedness and the
+sheaf condition. Its positive-degree induction property is augmented exactness for the
+specified covering after every rational pullback. Localized Laurent exactness supplies
+the base case, and vanishing on the empty open supplies the empty-cover case.
 F0's ordinary projective-bundle, tensor-power and ampleness interfaces are supplied by
 StableReduction Layer 2; F0 supplies their formal-thickening adapters.
 F0 uses the generic tower calculus and Mittag-Leffler criteria of
@@ -538,7 +545,15 @@ example {O : Type*} [CommRing O] [IsDomain O] [ValuationRing O] [TopologicalSpac
 
 end Huber
 
-/-! ### R2.9 Frobenius lifts (*frobenius-lift-etale-over-torus*) -/
+/-! ### R2.9 Integral specialization and Frobenius lifts
+(*berthelot-type-rig-functor-nonnoetherian-base*, *frobenius-lift-etale-over-torus*) -/
+
+/-- The analytic stalk map of the unique integral specialization
+`Sp(ℚ_p) → Spf(ℤ_p)` is not local: it inverts the formal nonunit `p`.
+Its integral evaluation map is the identity of `ℤ_p`. -/
+example (p : ℕ) [Fact p.Prime] :
+    ¬ IsUnit (p : ℤ_[p]) ∧ IsUnit (p : ℚ_[p]) ∧
+      ¬ IsLocalHom (algebraMap ℤ_[p] ℚ_[p]) := sorry
 
 /-- If `A → R` is a map of `p`-adically complete rings that is étale modulo every `p^{m+1}`, a
 Frobenius lift of `A` extends uniquely to a Frobenius lift of `R`; for `A` the formal torus over
@@ -628,6 +643,16 @@ end ValuationSpectrum
 end
 
 /-! ## Layer R3: coherent sheaves and finite traces -/
+
+/-! ### R3.1 The duplicated Laurent cover
+(*cech-acyclicity-simple-laurent-reduction*) -/
+
+/-- The Laurent cover for `f = 1`, and each of its rational pullbacks, has the
+split exact diagonal–difference sequence for the sections of any abelian presheaf. -/
+example (G : Type*) [AddCommGroup G] :
+    Function.Injective (fun x : G ↦ (x, x)) ∧
+      Function.Exact (fun x : G ↦ (x, x)) (fun x : G × G ↦ x.1 - x.2) ∧
+      Function.Surjective (fun x : G × G ↦ x.1 - x.2) := sorry
 
 noncomputable section
 

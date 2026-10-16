@@ -7547,8 +7547,9 @@ source and locally finite type reduced structural map.
 **Checks:** `FSC_base` contains the base; `FSC_discrete` contains discrete
 locally noetherian schemes with the required reduced map; `FSC_powerSeries`
 contains `Spf(C[[q]])` with the `q`-adic topology when `C` is discrete.
-`ContinuousIntegralMap` records bounded continuous specialization over the
-coefficient map, without requiring an ideal-of-definition element to survive.
+`ContinuousIntegralMap` records a continuous map of sites and a map from `𝒪_X` to
+the direct image of the locally power-bounded sheaf `𝒪_Zᵇ`, over the coefficient
+map, with continuity, topological nilpotence and integral centres as specified below.
 **Checks:** `ContinuousIntegralMap_empty` has a unique map from the empty source;
 `ContinuousIntegralMap_noCentre` has none from a nonempty source to the empty target;
 `ContinuousIntegralMap_base` has at most one map to the coefficient base.
@@ -7568,10 +7569,25 @@ assumption on `k` (examples: `C = R` if `k` is discretely valued; `C = R_0` a co
 valuation ring with `R_0 → R` local; `C = ℤ` discrete). `FS_C` is the category of locally noetherian
 formal schemes `X` over `Spf C` whose underlying reduced scheme is locally of finite type over
 `C_red`; affine opens have algebras that are quotients of `C[[q_1, …, q_n]]{{T_1, …, T_m}}` with the
-`(I, q)`-adic topology. For `X` in `FS_C` and a rigid space `Z` over `k`, `Hom^cont_C(Z, X)` is the
-set of morphisms of locally ringed G-topologised spaces whose ring maps are `C`-algebra maps landing
-in locally power-bounded sections and carrying locally topologically nilpotent sections to locally
-topologically nilpotent sections. Prove Theorem 3.1.5: `Hom^cont_C(·, X)` is represented by a
+`(I, q)`-adic topology. For `X` in `FS_C` and a rigid space `Z` over `k`,
+`Hom^cont_C(Z, X)`, realized by `ContinuousIntegralMap`, consists of the following
+integral specialization data. There is a map `f` on rigid points whose inverse images
+take formal opens to admissible opens and open coverings to admissible coverings,
+and a map of sheaves of `C`-algebras `f♯ : 𝒪_X → f_*𝒪_Zᵇ`, where `𝒪_Zᵇ` is the
+subsheaf of locally power-bounded sections of the ordinary analytic sheaf `𝒪_Z`.
+On each formal affine `Spf A ⊆ X` and affinoid `V ⊆ f⁻¹(Spf A)`, the resulting map
+`A → 𝒪_Z(V)` is continuous for the adic and affinoid topologies. The sheaf map
+carries locally topologically nilpotent sections to locally topologically nilpotent
+sections. For each rigid point `z`, evaluation gives a local homomorphism
+`𝒪_{X,f(z)} → κ(z)°`: the inverse image of `κ(z)°°` is the maximal ideal of
+`𝒪_{X,f(z)}`. Equivalently, on `Spf A`, `f(z) = {a ∈ A : |f♯(a)(z)| < 1}`.
+This is the integral-centre condition of R2.4; evaluation factors through the
+integral germ `(𝒪_Zᵇ)_z`. The analytic sheaf map is the composite with
+`f_*𝒪_Zᵇ → f_*𝒪_Z`; locality is imposed on the evaluated integral map, with
+no locality condition on `𝒪_{X,f(z)} → 𝒪_{Z,z}`. No ideal-of-definition element
+is required to have nonzero analytic value.
+Prove the representability assertion of Conrad-MR Theorem 3.1.5 for these
+integral specialization data: `Hom^cont_C(·, X)` is represented by a
 quasi-separated rigid space `X^rig`; `(·)^rig` takes open/closed immersions to open/closed
 immersions and open covers to admissible covers, commutes with fibre products (a), with analytic
 extension of `k` (b) and with change of `C` (c), preserves separatedness (d), and sends
@@ -7605,7 +7621,7 @@ class of formal schemes; proof of Thm 3.1.5, p. 17, `Spf(C[[q]])^rig` is the ope
 *locally-noetherian-formal-scheme* (layer F0); *formal-spectrum* (layer F0); *rigid-analytic-space*
 (AdicSpacesPartII layer R1); *rigid-adic-comparison-functor* (AdicSpacesPartII layer R1); *raynaud-generic-fibre*;
 *noetherian-formal-scheme-as-adic-space*; *raynaud-theorem*; *affinoid-power-bounded-iff-sup* (AdicSpacesPartII layer
-R0).
+R0); *specialisation-map* (R2.4); *adic-valuation-rings-and-centres* (AdicSpacesPartII layer R0).
 
 For `rigOfFSC_powerSeries`, the topology on `C[[q]]` is explicitly `(I,q)`-adic,
 where `I` defines the topology on `C`. The continuous coefficient map has image in `R`;
@@ -7629,7 +7645,11 @@ Example 5.2.5, pp. 50–51, for the rigid open residue disc).
   The example supplies its `FSC R` object and type-(S) instance and preserves the full
   specialization map in the comparison with `genericFibre`.
 - `rigOfFSC_test_point` (degenerate) — `Spf(C)^rig = Sp(k)`, the final object of rigid spaces over
-  `k`.
+  `k`. For `C = R = ℤ_p` and `k = ℚ_p`, construct the unique integral specialization
+  `Sp(ℚ_p) → Spf(ℤ_p)` and prove that `rigOfFSC.homEquiv` sends the identity to it.
+  Its integral evaluation is `ℤ_p → ℤ_p`, local with centre `(p)`; its analytic
+  stalk map is `ℤ_p → ℚ_p`, which is not local, since `p` is a nonunit in the
+  source and a unit in the target. The Lean example states this failure of locality.
 
 **Smooth and étale morphisms of formal schemes locally of tf presentation; continuous
 differentials.** (*smooth-formal-scheme*) Let `f : X → Y` be a morphism of formal `O_K`-schemes
@@ -9154,8 +9174,11 @@ nonempty, so this is the only case): (a)–(c) never reach `P(∅, ∅)`, since 
 pp. 44–45; KL15 §2.4, Lem. 2.4.19, p. 44, the refinement step; Kiehl-AB §1, after Hilfssatz 1.3,
 p. 260, where Kiehl uses Tate's refinement lemma to reduce his glueing theorem to Laurent and
 formal coverings, whereas the Kedlaya–Liu version reduces to simple Laurent coverings only). For
-`P` = "the augmented Čech complex of a presheaf `F` is exact on every refinement pulled back to
-every rational subset" this is the reduction of KL15 Prop. 2.4.21; for `P` = "every finite
+`P(U, (V_i))` = "for every rational `U' ⊆ U`, the augmented Čech complex of
+`F` for the given covering `(V_i ∩ U')` of `U'` is exact", this gives the
+positive-degree step of KL15 Prop. 2.4.21 after establishing separatedness and the
+sheaf condition as below. The quantifier ranges over rational pullbacks of the
+specified covering. For `P` = "every finite
 glueing datum of finite modules on the covering is effective" it reduces Kiehl's theorem to simple
 Laurent coverings (used by *tate-kiehl-affinoid*). Tau Ceti runs this reduction for one property
 only, the sheaf condition (degree 0) of the structure presheaf of a strongly noetherian Tate pair:
@@ -9231,10 +9254,7 @@ comparisons; naturality gives the refinement map and compatibility with `F(U)`.
 and `DoubleComplex.spectralSequence_map`, with transposition and the sign transport
 specified in the supplier contract.
 
-Prove Kedlaya–Liu's Proposition 2.4.21 (*cech-acyclicity-simple-laurent-reduction*): it is the
-corollary of *rational-covering-reduction* for the property `P` = "the augmented alternating Čech
-complex of `F` is exact on every refinement pulled back to every rational subset", whose locality is
-*cech-acyclicity-refinement* and whose transitivity is formal: for a complete Hausdorff Tate Huber
+Prove Kedlaya–Liu's Proposition 2.4.21 (*cech-acyclicity-simple-laurent-reduction*): for a complete Hausdorff Tate Huber
 pair `(A, A⁺)`, `X = Spa(A, A⁺)`, and a presheaf `F` of abelian groups on the rational subsets of
 `X`, with `F(∅) = 0`, such that for every rational `U ⊆ X` and every `f ∈ 𝒪_X(U)`, with `V₁ = {|f| ≤ 1}` and
 `V₂ = {|f| ≥ 1}` in `U`, the sequence `0 → F(U) → F(V₁) ⊕ F(V₂) → F(V₁ ∩ V₂) → 0` is exact, the
@@ -9246,13 +9266,32 @@ strongly noetherian Tate pair the hypothesis is AdicSpaces layer 4.1's two-piece
 (Wedhorn Lem. 8.33) and the conclusion is its all-degree Čech exactness; for `F = M ⊗_A 𝒪_X` with
 `M` finite projective over a sheafy Tate `A` the hypothesis follows from the case `F = 𝒪_X` by
 taking direct summands (stated as *finite-projective-module-acyclicity* below). *Needs:*
-*rational-covering-reduction*; *cech-acyclicity-refinement*; Tau Ceti `Huber.IsTateRing`.
+*rational-covering-reduction*; *cech-acyclicity-refinement*;
+DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows` and
+`DoubleComplex.spectralSequence_map`; Tau Ceti `Huber.IsTateRing`.
 
 `AdicSpace.isCechAcyclic_of_simpleLaurent` takes precisely the injectivity, middle
 exactness and surjectivity of this three-term sequence in each `RationalChart`,
 plus `Subsingleton (F.obj (op ⊥))`. It concludes `IsCechAcyclic` for every finite
 rational cover, with no nonemptiness restriction on the indexing type. A presheaf
 on the rational basis is used through its right Kan extension to all opens.
+
+Apply *rational-covering-reduction* first to injectivity of
+`F(U) → Ȟ⁰(U, F; (V_i))`. Locality and transitivity follow from restriction maps;
+the Laurent hypothesis supplies the base case. Next apply it to bijectivity of
+this map. For locality, a matching family descends along the refinement by its
+sheaf condition, and separatedness on the original members identifies its
+restrictions with the original family. Transitivity is gluing in two stages.
+Together with `F(∅) = 0`, these steps give the sheaf condition on the rational basis.
+For positive degrees use exactly
+`P(U, (V_i)) := ∀ rational U' ⊆ U, the augmented Čech complex for (V_i ∩ U') is exact`.
+Locality follows from *cech-acyclicity-refinement* on each `U'`, and transitivity
+from the Čech double-complex comparison for composite coverings, using the
+universal acyclicity hypotheses on rational intersections. These comparisons use
+DerivedModuleAlgebra §S.1 with the same total differential and natural edge maps.
+A rational pullback of a simple Laurent covering is the simple Laurent covering
+for the restricted function, so the localized three-term hypothesis supplies this
+base case. The empty cover is handled separately by `F(∅) = 0`.
 
 **Checks for `IsCechAcyclic`.**
 
@@ -9264,6 +9303,17 @@ on the rational basis is used through its right Kan extension to all opens.
   has an exact two-member Čech complex over the empty open, but its empty-cover
   augmentation is not injective. Binary-cover exactness alone cannot force `F(∅) = 0`.
 - `IsCechAcyclic.test_zero`: the zero presheaf is acyclic for every family and every `U`.
+- For `f = 1`, the Laurent covering is `(U, U)` and every rational pullback is
+  `(U', U')`. Its augmented complex is the split exact sequence
+  `0 → F(U') → F(U') ⊕ F(U') → F(U') → 0`, with diagonal and difference maps.
+  Every finite rational cover refines `(U, U)`; exactness for those other covers
+  is a conclusion of the reduction, while this base case only concerns the
+  duplicated cover. The Lean example states its split exactness for any abelian group.
+- For `f = 0`, the covering and its pullbacks are `(U, ∅)` and `(U', ∅)`.
+  With `F(∅) = 0` the augmentation is the identity of `F(U')`.
+- For a localized function `f ∈ 𝒪_X(U)` and rational `U' ⊆ U`, the pullback
+  pieces are `{|f|_{U'} ≤ 1}` and `{|f|_{U'} ≥ 1}`; the base case uses the
+  Laurent sequence on `U'` itself, including when `U'` is empty.
 
 Prove that for a simple Laurent covering the difference map `B₁ ⊕ B₂ → B₁₂` is surjective,
 Kedlaya–Liu's Lemma 2.4.22 (*simple-laurent-difference-surjective*): let `(A, A⁺)` be a complete
