@@ -23,6 +23,174 @@ derive the open-set versions under real differentiability at each point. Smoothn
 `ContDiffOn ℝ ∞`, with `open scoped ContDiff`; native `⊤` in this order type is analytic
 order `ω`, and does not express the smooth compact-support inputs.
 
+#### Low-regularity Cauchy–Riemann criterion (Looman–Menchoff)
+
+For an open `Ω ⊆ ℂ` and `f = u + i v : ℂ → ℂ` with `ContinuousOn f Ω`, prove that
+existence at every point of `Ω` of the four real coordinate partial derivatives, together
+with `u_x = v_y` and `u_y = -v_x`, implies `DifferentiableOn ℂ f Ω`. Encode the two
+directional complex derivatives with `HasLineDerivAt ℝ f` in directions `1` and
+`Complex.I`; the CR equations are precisely `f_I = Complex.I * f_1`. Conversely,
+complex differentiability gives these coordinate partials and CR. The assertion is local
+and requires no connectedness assumption. Do not assume continuity or local integrability
+of the partial derivatives, or replace coordinate partial existence by real Fréchet
+differentiability. Keep the separate countable-exception / almost-everywhere-CR extension
+outside this assertion.
+
+Use this proof route. If the conclusion fails, let `E` be the points of `Ω` having no
+relative neighborhood on which `f` is holomorphic. Then `E` is relatively closed in `Ω`;
+if it is empty the conclusion already holds. Regard `Ω` as an open subtype of `ℂ` and
+`E` as a closed subtype of `Ω`. Install their local `LocallyCompactSpace` structures
+using `IsOpen.locallyCompactSpace` and `IsClosed.locallyCompactSpace`, then apply
+the native locally compact Hausdorff Baire instance to `E`;
+do not claim that a relatively closed subset of an open domain is complete in the
+inherited metric.
+
+For each integer `n ≥ 1`, let `E_n` contain those `z ∈ E` for which, for every real `h`
+with `0 < |h| ≤ 1/n`, `|f(z+h)-f(z)| ≤ n|h|` whenever `z+h ∈ Ω`, and
+`|f(z+i h)-f(z)| ≤ n|h|` whenever `z+i h ∈ Ω`. These endpoint-in-domain clauses are part
+of the definition. For a fixed increment the failure set is open relative to `E`, so
+`E_n` is relatively closed. Existence of the two coordinate partials at each `z ∈ E`
+implies `E = ⋃_{n≥1} E_n`. Baire gives some `N ≥ 1` and a nonempty relatively open part
+of `E` contained in `E_N`. Choose an ordinary bounded open rectangle `K` around one of
+its points with `closure K ⊂ Ω` and `E ∩ K ⊂ E_N`.
+
+Identify the real plane with `ℂ` through `Complex.measurableEquivRealProd`.
+Use `Complex.volume_preserving_equiv_real_prod` to transport the scalar product-area
+integrals and `m(R\E)` to native complex `volume` in the content and density steps.
+
+Prove the following balanced-rectangle scalar estimate. For a closed nondegenerate
+rectangle `R`, write `w_R,h_R` for its side lengths and assume `1/2 ≤ w_R/h_R ≤ 2`.
+Let the ambient function `φ : ℝ×ℝ → ℝ` satisfy `ContinuousOn φ R` and have both coordinate
+partial derivatives at every point of `R`. Let `N ≥ 0` and let `F ⊆ R` be closed and
+nonempty. Suppose that for every `(x,y) ∈ F` and all `(ξ,y),(x,η) ∈ R`,
+`|φ(ξ,y)-φ(x,y)| ≤ N|ξ-x|` and `|φ(x,η)-φ(x,y)| ≤ N|η-y|`.
+Let `J=[a,b]×[α,β]` be the smallest rectangle containing `F`. Then
+
+`|∫_a^b (φ(x,β)-φ(x,α)) dx - ∬_F ∂_yφ dxdy| ≤ 5N m(R\F)`,
+
+`|∫_α^β (φ(b,y)-φ(a,y)) dy - ∬_F ∂_xφ dxdy| ≤ 5N m(R\F)`,
+
+where `m` is planar Lebesgue measure. If `J` is degenerate in either coordinate, both
+expressions are zero: use zero-length interval integrals and the zero area of `F`.
+
+Own the one-dimensional interpolation proof. On a nonempty closed vertical slice `P` of
+`F`, write `g(y)=φ(x,y)` for `y∈[α,β]`. Adjoin `α,β` to `P` with their actual values
+`g(α),g(β)`. The increment hypotheses at points of `P` make these enlarged data
+`N`-Lipschitz, including the pair of endpoints by comparison through any point of `P`.
+Extend the data affinely over each complementary component interval. Prove that the
+interpolant is `N`-Lipschitz and has the original endpoint values. Its derivative on a
+gap is the endpoint secant slope, bounded by `N`. At non-isolated points of `P` which
+are not gap endpoints, prove by difference quotients that its derivative agrees with
+`g'`. Isolated points and gap endpoints form a countable exceptional set; the disjoint
+gap intervals are countable by assigning distinct rationals. Define the derivative to
+be zero on the exceptional set. Prove its measurability from difference quotients and
+its interval integrability using the bound `N` on the finite interval. Apply native
+`MeasureTheory.integral_eq_of_hasDerivAt_off_countable_of_le` to obtain the endpoint
+identity. Subtract the integral of `g'` over `P`; the remaining error is at most `N`
+times the length of `[α,β]\P`. The interpolation and accumulation-point proof are
+targets here; the native FTC supplies the final identity after its continuity,
+off-countable derivative and `IntervalIntegrable` hypotheses have been proved.
+
+For an empty vertical slice with `x∈[a,b]`, take points `(x_β,β),(x_α,α)∈F` attaining
+the top and bottom. Bound `|φ(x,β)-φ(x,α)|` along
+`(x,β)→(x_β,β)→(x_α,β)→(x_α,α)→(x,α)`.
+All four increments have an endpoint in `F`. The three horizontal distances total at
+most `2w_J`, so the bound is `N(2w_J+h_J)≤5N h_R`. Let `S` be the set of such empty
+slices in `[a,b]`. Use the full-height region `S×R_y ⊆ R\F`, of area `m₁(S)h_R`, for
+this contribution. The gap regions of the nonempty slices lie in `J\F` and are
+disjoint from `S×R_y`. Their combined error is therefore at most `5N m(R\F)`.
+Exchange axes for the second inequality, using the other aspect-ratio bound.
+
+Discharge the Fubini premises explicitly. The restrictions of `φ` to `R` are continuous
+and Borel measurable. Express each partial derivative on the interior as a pointwise
+limit of measurable coordinate difference quotients. Set it to zero outside its domain
+for this measurability argument; boundary lines have area zero. The increment bounds
+pass to the derivative limit on `F`, giving absolute value at most `N` there; hence the
+restricted derivatives are integrable on this finite-area set. Sections of `F` are
+closed. Use product-measure Fubini with its `AEStronglyMeasurable` and integrability
+premises to identify these area integrals with the section integrals above. These
+arguments add no hypothesis on the partial derivatives of the headline theorem.
+
+Apply the scalar estimate to both real components of `f` on a balanced cell `R ⊂ K`
+with side lengths at most `1/N` and `F=E∩R≠∅`. The CR equations cancel the two area
+integrals in each component of the contour integral, giving
+`|λ(J)|≤20N m(R\E)`, where `λ` is the positively oriented boundary integral and `J`
+is the smallest rectangle containing `F`. To pass from `J` to `R`, subdivide `R\J`
+into finitely many rectangular strips. Each strip's open interior avoids `E`, while
+its boundary may meet `E`. Native Cauchy–Goursat applies to continuity on the closed
+strip and holomorphicity in its interior. Cancel shared edges to obtain `λ(R)=λ(J)`.
+Handle a degenerate `J` by zero-length edges and cancellation; then `λ(J)=0`. If
+`R` misses `E`, apply Cauchy–Goursat directly. Thus every such balanced cell satisfies
+`|λ(R)|≤20N m(R\E)`.
+
+For an arbitrary nondegenerate closed rectangle `R ⊂ K`, set
+`δ=min(w_R,h_R,1/N)`, `m=ceil(w_R/δ)`, `n=ceil(h_R/δ)`, and subdivide equally into
+`m` columns and `n` rows. Each cell side lies in `[δ/2,δ]`; each cell has aspect ratio
+in `[1/2,2]` and side lengths at most `1/N`. Summing the cell estimates and cancelling
+internal edges gives `|λ(R)|≤20N m(R\E)`; common boundaries have zero area. Prove this
+finite grid construction without assuming finite tiling by squares.
+
+Define the complex boundary-integral content on `∅` together with nondegenerate
+half-open rectangles `[a,b)×[c,d)` whose closure lies in `K`, with value zero at `∅`.
+Prove its set-semiring axioms and finite additivity by collecting all coordinate
+endpoints of each finite disjoint partition, refining to a common finite grid, and
+cancelling opposite internal edges. The preceding estimate gives
+`‖A(Q)‖ₑ≤20N area(Q)` on the whole semiring. Apply native
+`VectorMeasure.exists_extension_of_isSetSemiring_of_le_measure` with the finite measure
+`μ=20N·volume|_K`, proving its domination and measurability hypotheses. Since `K` is
+bounded, contain it in a ball of finite volume to prove `volume K<∞` and the required
+`IsFiniteMeasure μ`. Use
+`variation_le_of_forall_enorm_le` to obtain `c.variation≤μ` and hence `c≪volume`.
+
+Construct `ComplexMeasure.HaveLebesgueDecomposition c volume` locally from the real and
+imaginary signed-measure decomposition instances for σ-finite volume. Use
+`ComplexMeasure.rnDeriv`, `integrable_rnDeriv`, and
+`singularPart_add_withDensity_rnDeriv_eq`. Prove singular-part elimination componentwise:
+`ComplexMeasure.absolutelyContinuous_ennreal_iff` gives absolute continuity of `c.re`
+and `c.im`. Each signed density measure is absolutely continuous by
+`Measure.withDensityᵥ_absolutelyContinuous`; subtract it from the corresponding signed
+measure to show its singular part is absolutely continuous. Native
+`SignedMeasure.mutuallySingular_singularPart` makes it mutually singular to volume.
+For each component, split every measurable set at a measurable singularity witness,
+use singularity on one side and absolute continuity on the volume-null side, and then
+additivity to obtain zero. Since the complex singular part is assembled from these two
+signed singular parts, it is zero as well. This identifies `c` with its integrable
+complex RN density `g`.
+
+Use `VitaliFamily.ae_tendsto_average_norm_sub` for the native closed-ball Vitali family
+on `ℂ`, supplied by the finite-dimensional real Besicovitch-covering instance. Transfer
+the norm-average limit to centered half-open squares `Q_r` of half-side `r>0`:
+`Q_r⊆closedBall(x,√2r)`, `area(Q_r)=4r²`, and
+`area(closedBall(x,√2r))=2πr²`, using native `Complex.volume_closedBall`. The average of any nonnegative integrable function
+over `Q_r` is at most `π/2` times its average over that ball. Use the positive-radius
+rescaling `r↦√2r` to transfer the limit as `r→0⁺`; in particular the square average of
+`‖g(y)-g(x)‖` tends to zero. Apply the same comparison to the measurable-set density
+theorem for `E∩K`. At almost every `x∈K\E`, a neighborhood avoids `E`, and all
+sufficiently small rectangle content values vanish. At almost every `x∈E∩K`, density
+of `E` is one and `|c(Q_r)|/area(Q_r)≤20N area(Q_r\E)/area(Q_r)→0`.
+The square differentiation identity therefore gives `g=0` almost everywhere on `K`.
+Domination makes `c` vanish off `K`, so `c=0` and all rectangle contour integrals in
+`K` vanish.
+
+Prove the all-corner Morera bridge. Native `Complex.IsConservativeOn f K` quantifies
+every pair `z,w` with `Rectangle z w⊆K`, including reversed and degenerate rectangles.
+For degenerate coordinate intervals, use zero-length interval integrals and cancellation
+of remaining opposite edges. For nondegenerate rectangles use the half-open content
+identity and boundary formula. Handle every corner order using
+`intervalIntegral.integral_symm` and `Complex.wedgeIntegral_add_wedgeIntegral_eq`.
+Apply native `TauCeti.morera` with `ContinuousOn f K` to obtain holomorphicity on `K`,
+contradicting `E∩K≠∅`.
+
+This target consumes native locally compact Baire, rectangle Cauchy–Goursat/Morera,
+off-countable FTC, product Fubini, finite vector-measure extension, variation domination,
+complex RN decomposition, Besicovitch/Vitali differentiation, and measurable-set density.
+Its new proof targets are the balanced scalar estimate and interpolation construction,
+the measurability/Fubini instantiation, finite-grid rectangle content, complex singular-part
+elimination, square-to-ball adapter, and all-corner Morera bridge. Use native
+`VectorMeasure`/`ComplexMeasure` carriers throughout.
+
+#### Compact-support Cauchy–Green
+
 Let `dA` be native Lebesgue `volume` on ℂ, normalized by
 `Complex.volume_preserving_equiv_real_prod`. Prove local integrability of `1/z` in two real
 dimensions. Pin the fundamental-solution identity by the following complex bilinear weak

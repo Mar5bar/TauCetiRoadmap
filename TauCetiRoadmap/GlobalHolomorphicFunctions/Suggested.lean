@@ -204,6 +204,19 @@ theorem exists_holomorphic_quotient {Ω : Set ℂ} (hΩ : IsOpen Ω) {F : ℂ �
       (∀ᶠ z in codiscreteWithin Ω, g z ≠ 0 ∧ F z = f z / g z) := by
   sorry
 
+/-- **Preparatory Looman–Menchoff.** Continuity and the two everywhere real-direction
+complex derivatives satisfying CR imply holomorphicity. No real Fréchet derivative or
+continuity/integrability of the coordinate partials is assumed. -/
+theorem differentiableOn_complex_of_continuous_real_lineDerivatives_cr
+    {Ω : Set ℂ} (hΩ : IsOpen Ω) (f : ℂ → ℂ) (hcont : ContinuousOn f Ω)
+    (hline : ∀ z ∈ Ω, ∃ fx fy : ℂ,
+      HasLineDerivAt ℝ f fx z 1 ∧
+      HasLineDerivAt ℝ f fy z Complex.I ∧
+      fy = Complex.I * fx) :
+    DifferentiableOn ℂ f Ω := by
+  sorry
+
+
 /-- The real-coordinate Cauchy–Riemann operator `∂̄`, expressed through the native real
 Fréchet derivative. The vectors `1` and `I` are the x and y coordinate directions. -/
 noncomputable def barDerivative (u : ℂ → ℂ) (z : ℂ) : ℂ :=
