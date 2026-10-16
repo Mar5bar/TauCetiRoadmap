@@ -1828,12 +1828,16 @@ Establish this as follows. Split the generic cyclic Tate subgroup cover by `a+b=
 
 For `m≥2` define `Φ_m(U,V)` by the generic cyclic degree-m quotient of the universal j-elliptic curve: its roots in V are `j(E/C)` for cyclic subgroups C of order m. This gives the irreducible polynomial in `ℤ[U,V]`, monic of degree `ψ(m)=m∏_(p|m)(1+1/p)` in each variable, symmetric in U,V. Set `Φ₁(U,V)=V−U` with this orientation. The map (j,j′) from `Y₀(m)_ℚ` is finite birational onto the plane curve `Φ_m=0`, and `ℚ(X₀(m))=ℚ(j,j′)`; the smooth coarse curve is its normalization. The integral plane image is not asserted to be the normal integral modular curve, nor does this normalization commute with arbitrary reduction. Cyclic degree `ψ(m)` differs from the full-subgroup Hecke degree `σ₁(m)`.
 
+For a characteristic-zero field K, elliptic curves E,E′ over K and `m≥1`, the equality `Φ_m(j(E),j(E′))=0` is equivalent to the existence of a cyclic degree-m isogeny `E_K̄→E′_K̄`, for a fixed algebraic closure K̄. Over K itself, a cyclic degree-m isogeny `E→E′` exists exactly when there is a K-defined cyclic subgroup scheme `C⊂E` of order m and a K-isomorphism `E/C≅E′` of elliptic curves. Equivalently, `C(K̄)` is Galois-stable and the quotient is K-isomorphic to the prescribed target. Equality of j-invariants alone gives an isomorphism only after passage to K̄.
+
 Establish this as follows. On the generic j-line take the characteristic polynomial of the target j over the cyclic subgroup algebra. Use finite local freeness of the cyclic coarse algebra over `ℤ[j]` to make the characteristic polynomial integral; its generic distinct roots give the minimal polynomial. Dual isogeny supplies symmetry for `m≥2`. Generic distinct targets give birationality and the stated function-field equality; normalize the plane image, rather than identifying it as a smooth model.
+
+For the geometric criterion, specialize the cyclic-subgroup polynomial over K̄: its roots are the invariants of the quotients `E_K̄/C`. A root equal to `j(E′)` gives an isomorphism of that quotient with `E′_K̄`. For the criterion over K, factor an isogeny through its kernel using ModularCurves Layer 2B; conversely compose the K-quotient map with the specified K-isomorphism.
 
 The public interface should expose:
 
-- `modularPolynomial`: The normalized integral polynomial with its distinguished orientation at `m=1`.
-- `modularPolynomial_cyclic`: In characteristic zero, `Φ_m(j(E),j(E′))=0` precisely when a cyclic degree-m isogeny exists.
+- `modularPolynomial`: The normalized integral polynomial with its distinguished orientation at `m=1`; the Lean polynomial is in V with coefficients in `ℤ[U]`.
+- `modularPolynomial_cyclic`: For a characteristic-zero field K, elliptic curves E,E′ over K and `m≥1`, `Φ_m(j(E),j(E′))=0` if and only if there is a degree-m isogeny `E_K̄→E′_K̄` with cyclic kernel. The isogeny is a morphism over K̄ between the base-changed curves.
 - `modularPolynomial_degree`: For `m≥2` its degree in each variable is `ψ(m)`, with leading coefficient 1.
 - `modularPolynomial_dual`: For `m≥2` dual cyclic isogenies interchange the variables and preserve `Φ_m`.
 - `modularPolynomial_normalization`: `Y₀(m)_ℚ` is the normalization of the affine plane image, with function field `ℚ(j,j′)`.
@@ -1841,6 +1845,9 @@ The public interface should expose:
 **Checks.**
 
 - `Φ₁(U,V)=V−U`; swapping variables changes its sign.
+- At `m=1`, the criterion is `j(E)=j(E′)` if and only if `E_K̄≅E′_K̄` as elliptic curves.
+- Over `ℚ`, the quotient of `E:y²=x³−x` by `⟨(0,0)⟩` is `E₀:y²=x³+4x`, with affine map `(x,y)↦(x−1/x,y(1+1/x²))` for `x≠0`. Over `ℚ(√2)`, the map `(x,y)↦(2x,2√2y)` identifies E₀ with `E′:y²=x³+16x`, so the composite is a cyclic degree-two geometric isogeny and `Φ₂(1728,1728)=0`.
+- The same E and E′ have good reduction at 5, but `#E(𝔽₅)=8` and `#E′(𝔽₅)=4`, including infinity. Their affine solution counts over `x=0,1,2,3,4` are `(1,1,2,2,1)` and `(1,0,1,1,0)`. Different Frobenius traces rule out a `ℚ`-isogeny, despite the modular-polynomial equality.
 - `deg_V Φ₄=6`, not 7.
 - A special elliptic pair can admit several cyclic isogenies of degree m; its plane image point does not encode a unique subgroup or a universal family.
 - `ψ(4)=6` whereas `σ₁(4)=7`; `E[2]` is the extra noncyclic subgroup of order 4.
@@ -1848,7 +1855,7 @@ The public interface should expose:
 
 *Needs:* [§2.8](#s2-8); [§5.2](#s5-2); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing).
 
-([Abelian varieties isogenous to no Jacobian](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p07-s.pdf), §3.1(ii),(v), pp.645–646; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), Chapter I §1, p.226.)
+([Abelian varieties isogenous to no Jacobian](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p07-s.pdf), §3.1(ii),(v), pp.645–646; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), Chapter I §1, p.226; [Milne, Modular Functions and Modular Forms, v1.31](https://www.jmilne.org/math/CourseNotes/MF.pdf), Theorem 6.1, pp.88–90; §8, pp.97–100, especially the cyclic subgroup and quotient-isogeny descriptions preceding Theorem 8.6.)
 
 <a id="s5-7"></a>
 
@@ -3476,7 +3483,7 @@ The public interface should expose:
 - For genus zero `J=0`, so multiplication by any degree is the unique zero endomorphism.
 - For a degree-2 map, norm after pullback is [2], not an identity retraction.
 
-*Needs:* `SchemeAndStackFoundations §3.5/lineBundleNorm`;  [§5.2](#s5-2); [§5.3](#s5-3); [JacobianChallenge Layer D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-d-the-relative-picard-functor-and-the-jacobian-scheme); [JacobianChallenge Layer E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-e-abelian-varieties); `AlgebraicModuliForArithmeticGeometry §7.3/picard_infinitesimal_lifting`; `ComplexComparisonPartII` C3.2d.2–C3.2d.3 and C3.2f.1–C3.2f.2; `AlgebraicModuliForArithmeticGeometry §7.3/sectionPicardSplit`; `EnhancedDerivedSheaves` E1.9 (`perfect_proper_pushforward`); `AlgebraicVectorBundles` L0C (determinants); JacobianChallenge Layers B–C (Serre duality and coherent base change); `AbelianSchemesAndArithmeticModuli` A1.5 (relative cube and square), A2.1–A2.5 (scheme representability, dual schemes and polarizations); `AbelianSchemesAndArithmeticModuli` A6.25 (`relativeHom`); `NeronModelsAndSemistableAbelianVarieties §R11.1`.
+*Needs:* `SchemeAndStackFoundations §3.5/lineBundleNorm`;  [§5.2](#s5-2); [§5.3](#s5-3); [JacobianChallenge Layer D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-d-the-relative-picard-functor-and-the-jacobian-scheme); [JacobianChallenge Layer E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-e-abelian-varieties); `AlgebraicModuliForArithmeticGeometry §7.3/picard_infinitesimal_lifting`; `ComplexComparisonPartII` C3.2d.2–C3.2d.3 and C3.2f.1–C3.2f.2; `AlgebraicModuliForArithmeticGeometry §7.6.1a/sectionPicardSplit`; `EnhancedDerivedSheaves` E1.9 (`perfect_proper_pushforward`); `AlgebraicVectorBundles` L0C (determinants); JacobianChallenge Layers B–C (Serre duality and coherent base change); `AbelianSchemesAndArithmeticModuli` A1.5 (relative cube and square), A2.1–A2.5 (scheme representability, dual schemes and polarizations); `AbelianSchemesAndArithmeticModuli` A6.25 (`relativeHom`); `NeronModelsAndSemistableAbelianVarieties §R11.1`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.1, Lemma 5.4 and Definitions 5.5–5.6, pp.67–68; §5.2, pp.70–72.)
 

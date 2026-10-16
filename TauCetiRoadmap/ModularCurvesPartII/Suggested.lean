@@ -2,6 +2,7 @@ import Mathlib
 import TauCeti.RepresentationTheory.SymmetricPower
 import TauCeti.NumberTheory.ModularForms.Fricke.Matrix
 import TauCeti.AlgebraicGeometry.AbelianVariety.Isogeny
+import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Kernel
 
 /-!
 # ModularCurvesPartII: representative target signatures
@@ -154,6 +155,50 @@ multiplier is −i/2, as in README §4.8. -/
 example : -1 / (2 * Complex.I) = Complex.I / 2 ∧
     1 / (2 * Complex.I) = -Complex.I / 2 := by
   sorry
+
+/-! ## Layer 5: cyclic modular polynomials -/
+
+/-- The integral cyclic modular polynomial, in V over ℤ[U], with Φ₁(U,V)=V−U. -/
+def modularPolynomial (m : ℕ) : Polynomial (Polynomial ℤ) := by
+  sorry
+
+/-- The modular-polynomial equation detects a cyclic isogeny between the curves after
+base change to an algebraic closure of their characteristic-zero field (README §5.6). -/
+theorem modularPolynomial_cyclic {K : Type*} [Field K] [CharZero K]
+    (E E' : WeierstrassCurve K) [E.IsElliptic] [E'.IsElliptic]
+    (m : ℕ) (hm : 0 < m) :
+    Polynomial.eval₂ (Polynomial.eval₂RingHom (Int.castRingHom K) E.j) E'.j
+      (modularPolynomial m) = 0 ↔
+      letI := Classical.decEq (AlgebraicClosure K)
+      ∃ φ : TauCeti.Isogeny (E.baseChange (AlgebraicClosure K)).toAffine
+          (E'.baseChange (AlgebraicClosure K)).toAffine,
+        φ.degree = m ∧ IsAddCyclic φ.ker := by
+  sorry
+
+/-- At m=1 equal j-invariants give an isomorphism over the algebraic closure. -/
+example {K : Type*} [Field K] [CharZero K]
+    (E E' : WeierstrassCurve K) [E.IsElliptic] [E'.IsElliptic]
+    (h : E.j = E'.j) :
+    ∃ c : WeierstrassCurve.VariableChange (AlgebraicClosure K),
+      c • E.baseChange (AlgebraicClosure K) = E'.baseChange (AlgebraicClosure K) := by
+  apply WeierstrassCurve.exists_variableChange_of_j_eq
+  simpa only [WeierstrassCurve.baseChange, WeierstrassCurve.map_j] using
+    congrArg (algebraMap K (AlgebraicClosure K)) h
+
+/-- The affine quotient formula for y²=x³−x lands on y²=x³+4x away from x=0. -/
+example {K : Type*} [Field K] (x y : K) (hx : x ≠ 0) (h : y ^ 2 = x ^ 3 - x) :
+    (y * (1 + 1 / x ^ 2)) ^ 2 = (x - 1 / x) ^ 3 + 4 * (x - 1 / x) := by
+  rw [mul_pow, h]
+  field_simp
+  ring
+
+/-- Over 𝔽₅ the curves y²=x³−x and y²=x³+16x have different point counts,
+although both have j=1728 and satisfy the geometric degree-two relation of §5.6. -/
+example : ((Finset.univ : Finset (ZMod 5 × ZMod 5)).filter
+    (fun P => P.2 ^ 2 = P.1 ^ 3 - P.1)).card + 1 = 8 ∧
+    ((Finset.univ : Finset (ZMod 5 × ZMod 5)).filter
+      (fun P => P.2 ^ 2 = P.1 ^ 3 + 16 * P.1)).card + 1 = 4 := by
+  decide
 
 /-! ## Layer 9: algebraic correspondences and quotient curves -/
 
@@ -641,7 +686,11 @@ the genus-one family over ℍ is AbelianSchemesAndArithmeticModuli's `SiegelFami
 * Formal level structures at cusps
 * Twisted Tate charts for Γ₁
 * Integral coarse modular curves
-* The cyclic modular polynomial
+* The cyclic modular polynomial's degree, duality and normalization interfaces:
+  modularPolynomial_degree, modularPolynomial_dual and modularPolynomial_normalization.
+  modularPolynomial_cyclic quantifies over isogenies of the base-changed curves over
+  an algebraic closure; the criterion over K also retains a K-defined cyclic kernel
+  and a K-isomorphism from its quotient to the prescribed target (README §5.6).
 * Projective scalar level quotients
 * Igusa components of modular fibres
 * Regular resolutions of modular fibres
