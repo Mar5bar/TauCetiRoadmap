@@ -763,6 +763,14 @@ maps are complex-linear, and prove the complex-linear isomorphism
 `H_dR(M;ℂ) ≃ ℂ ⊗_ℝ H_dR(M;ℝ)` by scalar extension of the complex. Include the
 singular-cohomology comparison supplied by DifferentialGeometry and AlgebraicTopology.
 
+As a disk regression, let `D={z:|z|<1}` with its open-subtype smooth structure and DG's existing
+form carrier with coefficients in `ℂ`. Compute `H⁰_dR(D;ℂ)≃ℂ` by a complex-linear equivalence,
+and `H¹_dR(D;ℂ)=H²_dR(D;ℂ)=0`. For degrees one and two use DG5.4's `homotopyOperator` for
+the radial contraction `H(z,t)=tz` with complete complex coefficients; degree-two forms are
+closed by dimension. Pass from primitives to the K5a complex quotient. As a consistency check,
+compare the degree-two result with the specialization to `Ω=D` of the GH5.1 adapter already
+consumed above; this example adds no new dependency edge. Keep it on DG's existing form carrier.
+
 Consume P1.0's differential-operator carrier and Laplace-type predicate:
 order at most 2 and Fourier principal symbol c|ξ|²_g Id for a fixed c>0.
 Consume P1.0's restriction-compatible symbol and formal-adjoint maps,
