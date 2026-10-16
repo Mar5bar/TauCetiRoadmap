@@ -64,7 +64,7 @@ Use X_s(ℓ) for the ordered split-Cartan curve and X_s⁺(ℓ) for the monomial
 
 Every division has its stated range: nonzero periods and positive levels in uniformization, nonzero q on the smooth Tate fibre, p-divisibility before coherent normalization, r! invertible for integral symmetric-power self-duality, and 2 invertible for the minus projector. The nonvanishing and integrality requirements survive specialization.
 
-**Supplier shorthand.** MC followed by a layer label (MC5C, MC9B) is a layer of TauCetiRoadmap ModularCurves, and MF10A–MF10C are layers of TauCetiRoadmap ModularForms. AlgebraicModuliForArithmeticGeometry and SchemeAndStackFoundations are cited by section and target name. A2–A6 are layers of AbelianSchemesAndArithmeticModuli, C2–C6 layers of ComplexComparisonPartII, R11.k layers of NeronModelsAndSemistableAbelianVarieties, and LPV.7a the semistable-curve layer of LefschetzPencilsAndVanishingCycles. The étale support, finite-trace and curve-duality contracts are ClassicalAdicEtaleCohomology §§0.7–0.11; finite/adic geometric cohomology is LefschetzPencilsAndVanishingCycles §§F.1–F.4.
+**Supplier shorthand.** MC followed by a layer label (MC5C, MC9B) is a layer of TauCetiRoadmap ModularCurves, and MF10A–MF10C are layers of TauCetiRoadmap ModularForms. AlgebraicModuliForArithmeticGeometry and SchemeAndStackFoundations are cited by section and target name. A2–A6 are layers of AbelianSchemesAndArithmeticModuli, C2–C6 layers of ComplexComparisonPartII, R11.k layers of NeronModelsAndSemistableAbelianVarieties, and LPV.7a the semistable-curve layer of LefschetzPencilsAndVanishingCycles. The étale support, finite-trace and curve-duality contracts are EtaleCohomologyFoundations §§0.7–0.11; finite/adic geometric cohomology is EtaleCohomologyFoundations §§F.1–F.4.
 
 ## Exact supplier contracts
 
@@ -149,9 +149,9 @@ For a finite commutative ℓ-group Δ over a commutative local ring O with ℓ n
 - **§8.3, `completedAtlasPresentation_equivalence`**: The identity-framed object/relation formal groupoid presentation of a smooth atlas with its stated residue and finiteness hypotheses. Residual automorphisms outside the identity relation completion are retained separately; the coarse invariant-ring theorem is §0.1 here.
 - **§7.5, `arithmetic_normalization_genericallyEtale`**: Finite relative normalization over a field or an excellent base, with generic étaleness only for the separable field-extension case.
 
-### ClassicalAdicEtaleCohomology
+### [EtaleCohomologyFoundations](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/EtaleCohomologyFoundations)
 
-- **§§0.7–0.8, `ClassicalAlgebraic.supportLocalization`, `ClassicalAlgebraic.properSupports`**: Étale extension by zero, open–closed localization and compactification-defined D⁺ torsion lower shriek with its forget-supports map. Constructible operations and finiteness use LefschetzPencilsAndVanishingCycles §§F.1–F.4.
+- **§§0.7–0.8, `ClassicalAlgebraic.supportLocalization`, `ClassicalAlgebraic.properSupports`**: Étale extension by zero, open–closed localization and compactification-defined D⁺ torsion lower shriek with its forget-supports map. Constructible operations and finiteness use EtaleCohomologyFoundations §§F.1–F.4.
 - **§0.8, `ClassicalAlgebraic.finiteTrace`**: Finite locally free trace, the degree formula, length-weighted geometric stalks, composition, base change and Kummer norm compatibility. Section 9.12 specializes this supplied trace to modular H¹ and identifies it with the Jacobian norm.
 - **§0.11, `ClassicalAlgebraic.smoothTrace`, `ClassicalAlgebraic.curveDuality`**: Smooth curve trace and Poincaré–Lefschetz/étale duality with coefficient duals and twists, for invertible finite coefficients and constructible finite-Tor complexes. Integral parabolic perfection here additionally requires the displayed torsion and boundary vanishings. The comparison with complex cohomology is ComplexComparisonPartII §§C6.3–C6.6.
 
@@ -274,7 +274,7 @@ For a finite commutative ℓ-group Δ over a commutative local ring O with ℓ n
 
 ### Finite, compact-support and adic étale cohomology
 
-LefschetzPencilsAndVanishingCycles §§F.1–F.4 supplies `VanishingCycles.finiteCoefficientCohomology`, proper and smooth base change, `VanishingCycles.etaleCompactSupports`, `VanishingCycles.compactSupportCohomology`, `VanishingCycles.etaleFiniteness`, `VanishingCycles.compactSupportFiniteness` and normalized finite/adic realization. The coefficients are locally constant finite modules with invertible annihilator, or their compatible adic systems, on the supplied Noetherian geometric domain. ComplexComparisonPartII §§C6.2–C6.6 supplies `riemannExistence`, `artinComparison`, `artinComparisonCompactSupport`, `relativeArtinComparison` and `adicArtinComparison`, including trace, cup products and support maps. Section 14.4 identifies the resulting degree-one limit with Mathlib's pro-étale `EllAdicCohomology` carrier.
+EtaleCohomologyFoundations §§F.1–F.4 supplies `VanishingCycles.finiteCoefficientCohomology`, proper and smooth base change, `VanishingCycles.etaleCompactSupports`, `VanishingCycles.compactSupportCohomology`, `VanishingCycles.etaleFiniteness`, `VanishingCycles.compactSupportFiniteness` and normalized finite/adic realization. The coefficients are locally constant finite modules with invertible annihilator, or their compatible adic systems, on the supplied Noetherian geometric domain. ComplexComparisonPartII §§C6.2–C6.6 supplies `riemannExistence`, `artinComparison`, `artinComparisonCompactSupport`, `relativeArtinComparison` and `adicArtinComparison`, including trace, cup products and support maps. Section 14.4 identifies the resulting degree-one limit with Mathlib's pro-étale `EllAdicCohomology` carrier.
 
 ### Arithmetic tree suppliers
 
@@ -3014,7 +3014,7 @@ Establish this as follows. Import the finite-curve duality trace and prove the d
 - A degree-2 map with ℓ=2 has f_*f^*=[2], not identity.
 - Absolute Frobenius in characteristic p has degree p and its duality trace retains that factor although it is a bijection on geometric points.
 
-*Needs:* [§9.1](#s9-1); `ClassicalAdicEtaleCohomology §0.8/ClassicalAlgebraic.finiteTrace`; `ClassicalAdicEtaleCohomology §0.11/ClassicalAlgebraic.smoothTrace`; `ClassicalAdicEtaleCohomology §0.11/ClassicalAlgebraic.curveDuality`; `ComplexComparisonPartII §§C6.3–C6.6`.
+*Needs:* [§9.1](#s9-1); `EtaleCohomologyFoundations §0.8/ClassicalAlgebraic.finiteTrace`; `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.smoothTrace`; `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.curveDuality`; `ComplexComparisonPartII §§C6.3–C6.6`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.1, Theorem 5.1 and Lemmas 5.4,5.7, pp.65–69.)
 
@@ -3041,7 +3041,7 @@ For m=4 the HNF data are (1,4,b), 0≤b<4; (2,2,b), 0≤b<2; and (4,1,0): seven 
 
 ### Dependencies
 
-Use Layer 2, Layers 3–5. External contracts: AlgebraicModuliForArithmeticGeometry, ClassicalAdicEtaleCohomology, SchemeAndStackFoundations, TauCetiRoadmap ModularForms Layer 6 and Tau Ceti’s Fricke matrix. The subsection prerequisites identify the precise objects and maps consumed.
+Use Layer 2, Layers 3–5. External contracts: AlgebraicModuliForArithmeticGeometry, EtaleCohomologyFoundations, SchemeAndStackFoundations, TauCetiRoadmap ModularForms Layer 6 and Tau Ceti’s Fricke matrix. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 10: Compatibility of generic components and correspondences
 
@@ -3617,7 +3617,7 @@ The public interface should expose:
 - For r=0 the coefficient system is constant; for r=1 its fibre has rank two.
 - No universal elliptic family is silently put on a coarse level-one curve.
 
-*Needs:* [§3.2](#s3-2); [§3.5](#s3-5); [§4.12](#s4-12); `AbelianSchemesAndArithmeticModuli §A4`; Tau Ceti `TauCeti.LocalCoefficientSystem`; Tau Ceti `TauCeti.LocalCoefficientSystem.pullback`; Tau Ceti `Representation.symmetricPower`; `LefschetzPencilsAndVanishingCycles §§F.1–F.4`; [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent); Tau Ceti `SymmetricPower.finrank_eq`.
+*Needs:* [§3.2](#s3-2); [§3.5](#s3-5); [§4.12](#s4-12); `AbelianSchemesAndArithmeticModuli §A4`; Tau Ceti `TauCeti.LocalCoefficientSystem`; Tau Ceti `TauCeti.LocalCoefficientSystem.pullback`; Tau Ceti `Representation.symmetricPower`; `EtaleCohomologyFoundations §§F.1–F.4`; [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent); Tau Ceti `SymmetricPower.finrank_eq`.
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), §§3.9–3.11, pp. 154–156; §3.16, pp. 157–158.)
 
@@ -3631,7 +3631,7 @@ N≥5 or a supplied torsion-free fine cover; j and its finite cusp set D=X\Y are
 
 Adic notation denotes the inverse-limit lattice, not merely tensoring rational Deligne cohomology.
 
-Establish this as follows. Import absolute and relative twisted cochains and compact supports from AlgebraicTopology, and finite étale cohomology from LefschetzPencilsAndVanishingCycles §§F.1–F.4. Construct the map forgetting support; use its image submodule as the parabolic group. Use the boundary exact sequence to compare with compactification cohomology; establish finite coefficient transition maps before taking limits.
+Establish this as follows. Import absolute and relative twisted cochains and compact supports from AlgebraicTopology, and finite étale cohomology from EtaleCohomologyFoundations §§F.1–F.4. Construct the map forgetting support; use its image submodule as the parabolic group. Use the boundary exact sequence to compare with compactification cohomology; establish finite coefficient transition maps before taking limits.
 
 The public interface should expose:
 
@@ -3653,7 +3653,7 @@ The public interface should expose:
 - On an open genus-zero curve, ordinary boundary classes need not be parabolic.
 - The degree-one pro-étale ℤ_ℓ carrier in Mathlib is an untwisted comparison target, not the whole coefficient API.
 
-*Needs:* [§14.1](#s14-1); [AlgebraicTopology Stage 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-2-relative-singular-chains-and-homology); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); `LefschetzPencilsAndVanishingCycles §§F.1–F.4`; Mathlib `LinearMap.range`; Mathlib `AlgebraicGeometry.Scheme.EllAdicCohomology`.
+*Needs:* [§14.1](#s14-1); [AlgebraicTopology Stage 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-2-relative-singular-chains-and-homology); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); `EtaleCohomologyFoundations §§F.1–F.4`; Mathlib `LinearMap.range`; Mathlib `AlgebraicGeometry.Scheme.EllAdicCohomology`.
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), Definition 3.9, pp. 154–155; (3.20), pp. 159–160.)
 
@@ -3676,7 +3676,7 @@ Establish this as follows. Apply the localization triangle for j_! and Rj_*; com
 - Y=X\{one cusp} has no additional ordinary degree-one rank; with two cusps it has one boundary generator.
 - Do not replace H¹_par by all of H¹ before a localization argument.
 
-*Needs:* [§14.2](#s14-2); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); `LefschetzPencilsAndVanishingCycles §§F.1–F.4`; `ClassicalAdicEtaleCohomology §0.7/ClassicalAlgebraic.supportLocalization`.
+*Needs:* [§14.2](#s14-2); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); `EtaleCohomologyFoundations §§F.1–F.4`; `EtaleCohomologyFoundations §0.7/ClassicalAlgebraic.supportLocalization`.
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), Definition 3.9 and (3.20), pp. 154–155, 159–160.)
 
@@ -3690,7 +3690,7 @@ Through the finite-pair adapter of [§14.4a](#s14-4a), on a neat fine GL₂/ℚ 
 
 Here the arithmetic O-adic support/ordinary/boundary triangle means Rlim_n of the finite O/πⁿ triangles, and its K-realization means tensoring that O-complex with K. It is compared with finite cellular O-cochains by §14.4a, without invoking an ALS complex formed directly from an arbitrary O-valued sheaf. Finite cohomology systems are Mittag–Leffler; reduction modulo π commutes in degree one only under the torsion hypotheses of [§14.10](#s14-10).
 
-Establish this as follows. Import Artin’s comparison with locally constant and compactly supported coefficients from ComplexComparisonPartII §§C6.3–C6.6. Use naturality with j_!→Rj_* and finite correspondences; apply the coefficient comparison from [§14.1](#s14-1). Apply finite generation (LefschetzPencilsAndVanishingCycles §F.3) and Mittag–Leffler exactness to the finite systems, and prove here the comparison of the degree-one limit with Mathlib’s pro-étale carrier.
+Establish this as follows. Import Artin’s comparison with locally constant and compactly supported coefficients from ComplexComparisonPartII §§C6.3–C6.6. Use naturality with j_!→Rj_* and finite correspondences; apply the coefficient comparison from [§14.1](#s14-1). Apply finite generation (EtaleCohomologyFoundations §F.3) and Mittag–Leffler exactness to the finite systems, and prove here the comparison of the degree-one limit with Mathlib’s pro-étale carrier.
 
 **Checks.**
 
@@ -3700,7 +3700,7 @@ Establish this as follows. Import Artin’s comparison with locally constant and
 - At r=0 the boundary triangle gives §14.3’s residue-sum sequence, with the same support map in the arithmetic Betti complex.
 - For a finite Δ-cover the trace of pullback is |Δ|; integral descent keeps derived invariants when |Δ| is not a unit.
 
-*Needs:* [§14.4a](#s14-4a); ArithmeticLocallySymmetricSpaces §§ALS.1.1–ALS.1.8, ALS.3.5–ALS.3.9, ALS.4.1 and ALS.6.1–ALS.6.3 (the shared Betti/support and cover interfaces); [§14.1](#s14-1); [§14.2](#s14-2); ComplexComparisonPartII §§C6.3–C6.6 and LefschetzPencilsAndVanishingCycles §§F.1–F.4; `LefschetzPencilsAndVanishingCycles §§F.1–F.4`; [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `AlgebraicGeometry.Scheme.ellAdicSheaf`.
+*Needs:* [§14.4a](#s14-4a); ArithmeticLocallySymmetricSpaces §§ALS.1.1–ALS.1.8, ALS.3.5–ALS.3.9, ALS.4.1 and ALS.6.1–ALS.6.3 (the shared Betti/support and cover interfaces); [§14.1](#s14-1); [§14.2](#s14-2); ComplexComparisonPartII §§C6.3–C6.6 and EtaleCohomologyFoundations §§F.1–F.4; `EtaleCohomologyFoundations §§F.1–F.4`; [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `AlgebraicGeometry.Scheme.ellAdicSheaf`.
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), Definition 3.9 and discussion of W_ℓ, pp. 154–156; corollary following Theorem 4.1, printed as Corollaire 3.2, p. 161.)
 
@@ -3806,7 +3806,7 @@ Establish this as follows. Import the geometric correspondence and finite-map tr
 - At r=0 this recovers the weight-two Shimura convention.
 - Changing the isogeny pullback to its dual without changing Tate twists must fail the pairing adjoint test.
 
-*Needs:* [§9.1](#s9-1); [§9.2](#s9-2); [§9.10](#s9-10); [§9.12](#s9-12); [§13.5](#s13-5); [§14.2](#s14-2); [§14.4](#s14-4); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields); `LefschetzPencilsAndVanishingCycles §§F.1–F.4`; `ClassicalAdicEtaleCohomology §0.11/ClassicalAlgebraic.curveDuality`.
+*Needs:* [§9.1](#s9-1); [§9.2](#s9-2); [§9.10](#s9-10); [§9.12](#s9-12); [§13.5](#s13-5); [§14.2](#s14-2); [§14.4](#s14-4); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields); `EtaleCohomologyFoundations §§F.1–F.4`; `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.curveDuality`.
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), Propositions 3.18–3.19 and (3.20), pp. 158–160.)
 
@@ -3893,7 +3893,7 @@ Establish this as follows. Symmetrize products of the rank-two elliptic pairing,
 - If m is adjoint-stable the pairing is perfect on M_m with itself under the same two-sided hypotheses; adjoint stability is an additional condition.
 - A rationally perfect pairing whose determinant is divisible by ℓ is not an integral acceptance case.
 
-*Needs:* [§14.1](#s14-1); [§14.4](#s14-4); [§14.7](#s14-7); [§14.8](#s14-8); [§14.10](#s14-10); `ClassicalAdicEtaleCohomology §0.11/ClassicalAlgebraic.curveDuality`; AlgebraicTopology Stage 6; ArithmeticLocallySymmetricSpaces §§ALS.5a.3–ALS.5a.5 (paired support duality and adjoint transport); IntegralHeckeAndGaloisDeterminants §2.2 (finite local factors and idempotent summands).
+*Needs:* [§14.1](#s14-1); [§14.4](#s14-4); [§14.7](#s14-7); [§14.8](#s14-8); [§14.10](#s14-10); `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.curveDuality`; AlgebraicTopology Stage 6; ArithmeticLocallySymmetricSpaces §§ALS.5a.3–ALS.5a.5 (paired support duality and adjoint transport); IntegralHeckeAndGaloisDeterminants §2.2 (finite local factors and idempotent summands).
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), (3.20), pp.159–160, for the rational pairing and its sign; [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Conrad’s Appendix, Corollary 5.3, p.66, for the inverse-diamond adjoint; [ACC+23](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf), Corollary 2.2.22, p.932, for duality and Hecke adjoints, specialized through ALS.5a.)
 
@@ -3936,7 +3936,7 @@ Establish this as follows. Specialize the common Kummer/trace API `jacobianTateM
 - The comparison supplies the actual Jacobian module, not an abstract module declared free by definition.
 - With Conrad’s Weil-pairing convention, the diagram comparing cup and Weil pairings anticommutes (§5.1, p. 69). Preserve that sign; it does not change the resulting adjoints.
 
-*Needs:* [§13.4](#s13-4); [§13.5](#s13-5); [§14.4](#s14-4); `AbelianSchemesAndArithmeticModuli §A4`; [JacobianChallenge Layer F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-f-abeljacobi-and-the-universal-property); `ClassicalAdicEtaleCohomology §0.11/ClassicalAlgebraic.curveDuality`.
+*Needs:* [§13.4](#s13-4); [§13.5](#s13-5); [§14.4](#s14-4); `AbelianSchemesAndArithmeticModuli §A4`; [JacobianChallenge Layer F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-f-abeljacobi-and-the-universal-property); `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.curveDuality`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §5.1, (5.4) and Theorem 5.8, pp. 68–69; Corollary 5.9, pp. 69–70.)
 
@@ -3986,7 +3986,7 @@ For constant coefficients on G_m(ℂ), ordinary H¹ is ℤ but the parabolic ima
 
 ### Dependencies
 
-Use Layers 3 and 4, Layer 7, Layer 9, Layer 10, Layer 13. External contracts: AbelianSchemesAndArithmeticModuli, ClassicalAdicEtaleCohomology, ComplexComparisonPartII §§C6.3–C6.6 and LefschetzPencilsAndVanishingCycles §§F.1–F.4. The subsection prerequisites identify the precise objects and maps consumed.
+Use Layers 3 and 4, Layer 7, Layer 9, Layer 10, Layer 13. External contracts: AbelianSchemesAndArithmeticModuli, EtaleCohomologyFoundations §§0.7–0.11 and F.1–F.4, and ComplexComparisonPartII §§C6.3–C6.6. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 15: Ihara theorems and change of level
 
@@ -4368,20 +4368,30 @@ Establish this as follows. Cot₀(A_f) ↪ Cot₀(J₁(N)) is the subspace kille
 
 ### 16.6 Trivial character: the quotient of J₀(N)
 
-If χ_f is trivial, let p_f⁰ ⊂ T₀(N) be the kernel of the eigenvalue map on the Hecke algebra of J₀(N). Then A_f⁰ := J₀(N)/p_f⁰J₀(N) is an abelian variety over ℚ of dimension [K_f : ℚ], and the map J₀(N) → J₁(N) (pullback along X₁(N) → X₀(N)) induces an isogeny A_f⁰ → A_f compatible with the K_f-actions.
+Let f be a normalized weight-two newform of primitive level N≥5 with χ_f=1, and let p_f⁰ ⊂ T₀(N) be the kernel of the eigenvalue map on the Hecke algebra of J₀(N). Form A_f⁰ := J₀(N)/p_f⁰J₀(N) with the connected image-generated kernel and Albanese action of [§16.2](#s16-2). Then dim A_f⁰=[K_f : ℚ], and pullback along π:X₁(N)→X₀(N) descends to a K_f-equivariant isogeny u:A_f⁰→A_f.
 
-The pullback J₀(N) → J₁(N) is Hecke-equivariant with finite kernel.
+Both π^*:J₀(N)→J₁(N) and its unnormalized norm π_*:J₁(N)→J₀(N) descend through the respective quotient maps q_f⁰ and q_f to u and v:A_f→A_f⁰. Thus u∘q_f⁰=q_f∘π^* and v∘q_f=q_f⁰∘π_*. With d=deg π>0 their composite satisfies v∘u=[d] on A_f⁰.
 
-Establish this as follows. Apply the J₁ argument to J₀(N) with H¹(X₀(N)) free of rank 2 over ℚ ⊗ T₀(N) (same proof as [§14.14](#s14-14)). The composite J₀(N) → J₁(N) → A_f kills p_f⁰J₀(N) and is nonzero on V_ℓ; compare dimensions.
+Establish this as follows. Apply the J₁ dimension argument to J₀(N), using the Γ₀ version of [§14.14](#s14-14). Under the Albanese convention of §13.2, compare π^* and π_* with trace and inclusion on cotangent forms. The trivial-diamond subspace S₂(Γ₀(N))⊂S₂(Γ₁(N)) is stable under every good and bad Hecke operator. Restriction gives T₁(N)→T₀(N), with p_f the inverse image of p_f⁰; the two Jacobian maps intertwine these actions. They therefore send each image-generated kernel into the other, so §16.2's quotient universal property gives u and v. The identity π_*π^*=[d] from §13.1 descends, by surjectivity of q_f⁰, to v∘u=[d]. Consequently ker u is a closed subgroup scheme of A_f⁰[d], which is finite because d>0. A homomorphism of equal-dimensional abelian varieties with finite scheme-theoretic kernel is finite and surjective: its proper image has the full dimension of the target, and translation identifies its fibres with its finite kernel. Apply this criterion to u, using dim A_f⁰=dim A_f=[K_f : ℚ].
+
+The public interface should expose:
+
+- `modularQuotientGamma0_norm_pull`: For χ_f=1 with the displayed weight and primitive-level hypotheses, the descended pullback and norm satisfy v∘u=[deg π].
+- `isogeny_of_norm_pull`: For abelian varieties A,B over a field, homomorphisms u:A→B and v:B→A, an integer d>0 and dim A=dim B, the identity v∘u=[d] implies that u is an isogeny. The signature uses a positive natural number d, cast to ℤ for multiplication.
 
 **Checks.**
 
 - Consumers (EllipticCurveModularity) use the J₀(N) quotient; keep the isogeny explicit.
 - Diamond eigenvalues must all equal one; a nontrivial-character form is not assigned a J₀ quotient.
+- At N=11, d=5 and both quotients have dimension one; the descended composite is [5], without dividing either map by 5.
+- On E×E for an elliptic curve E, (x,y)↦(x,0) is nonzero between equal-dimensional abelian varieties but has kernel {0}×E and is not an isogeny. The matrix diag(1,0) on ℚ² likewise has nonzero image and nonzero kernel.
+- Positivity is necessary: on a positive-dimensional A, u=v=0 satisfies v∘u=[0] and is not an isogeny.
+- Equal dimensions are necessary: u:E→E×E, x↦(x,0), and v the first projection satisfy v∘u=[1], but u is not surjective.
+- For u=v=id and d=1 the criterion includes the identity isogeny, also on the zero-dimensional abelian variety.
 
-*Needs:* [§9.1](#s9-1); [§9.2](#s9-2); [§13.1](#s13-1); [§13.2](#s13-2); [§16.4](#s16-4).
+*Needs:* [§9.1](#s9-1); [§9.2](#s9-2); [§13.1](#s13-1) (`jacobianNorm_pull`); [§13.2](#s13-2); [§14.14](#s14-14); [§16.1](#s16-1); [§16.2](#s16-2) (`modularQuotient_lift`, `modularQuotient_hom_ext`); [§16.4](#s16-4); AbelianSchemesAndArithmeticModuli A3.2 (`multiplicationAndDensity`); SchemeAndStackFoundations §0.7 (dimension of fibres); Tau Ceti `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny`.
 
-([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 2, §2.3.1.2, p. 29 (printed; PDF page 33).)
+([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 2, §2.3.1.2, p. 29, and Appendix by B. Conrad, §5.1, Lemma 5.4, pp.67–68, Definition 5.13 and Theorem 5.14, p.73 (printed pages); [Milne, Abelian Varieties](https://www.jmilne.org/math/xnotes/AVs.pdf), §8, Proposition 8.1 and Theorem 8.2, pp.12–13.)
 
 <a id="s16-7"></a>
 

@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.RepresentationTheory.SymmetricPower
 import TauCeti.NumberTheory.ModularForms.Fricke.Matrix
+import TauCeti.AlgebraicGeometry.AbelianVariety.Isogeny
 
 /-!
 # ModularCurvesPartII: representative target signatures
@@ -473,6 +474,31 @@ example : ∃ ψ : AddMonoidHom (Additive (CongruenceSubgroup.Gamma 3)) (ZMod 5)
 
 /-! ## Layer 16: weight-two modular abelian quotients -/
 
+section NormPull
+open CategoryTheory TauCeti.AlgebraicGeometry
+
+/-- A positive norm–pullback composite and equal dimensions make the pullback an
+isogeny: its kernel is contained in the finite multiplication kernel (README §16.6). -/
+theorem isogeny_of_norm_pull {K : Type} [Field K]
+    (A B : AbelianVariety K) (u : A ⟶ B) (v : B ⟶ A)
+    (d : ℕ) (hd : 0 < d) (hdim : A.dim = B.dim)
+    (hcomp : u ≫ v = AbelianVariety.mulBy A (d : ℤ)) :
+    AbelianVariety.IsIsogeny u := by
+  sorry
+
+/-- The criterion includes the identity with degree one in every dimension. -/
+example {K : Type} [Field K] (A : AbelianVariety K) :
+    AbelianVariety.IsIsogeny (𝟙 A) := by
+  apply isogeny_of_norm_pull A A (𝟙 A) (𝟙 A) 1 (by decide) rfl
+  simp
+
+/-- A nonzero endomorphism of a two-dimensional rational space can have a kernel. -/
+example : (Matrix.toLin' !![(1 : ℚ), 0; 0, 0]) ≠ 0 ∧
+    ¬ Function.Injective (Matrix.toLin' !![(1 : ℚ), 0; 0, 0]) := by
+  sorry
+
+end NormPull
+
 /-- Kernel of the eigencharacter on the actual geometric Hecke algebra once it is constructed. -/
 def heckePrime {T K : Type*} [CommRing T] [Field K] (χ : T →+* K) : Ideal T :=
   RingHom.ker χ
@@ -644,6 +670,9 @@ The additional interfaces specified in the README are:
   degeneracyH1_sign, degeneracyH1_hecke, for the geometric degeneracy legs.
 * §16.1: heckePrime_isPrime, heckePrime_quotient, heckePrime_conjugate,
   on the eigencharacter of the geometric Hecke algebra.
+* §16.6: modularQuotientGamma0_norm_pull for the descended pullback and unnormalized
+  norm at trivial character, weight two and primitive level N≥5; their composite is
+  multiplication by the positive degree of X₁(N)→X₀(N).
 * §17.4: supersingularDegreeZero_ext, supersingularDegreeZero_graph,
   supersingularDegreeZero_correspondence, on the modular intersection set.
 * §17.8: taylorWilesMinus_coefficients, taylorWilesMinus_ext,
