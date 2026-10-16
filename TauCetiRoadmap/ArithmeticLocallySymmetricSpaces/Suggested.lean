@@ -76,8 +76,8 @@ noncomputable section
 /-! ## Group-ring coefficients (ALS.F.2) -/
 
 /-- **ALS.F.2, `groupRing_S3_noncomm`.** The integral group ring of `S₃` has two unequal
-products of transposition basis elements, requiring the general-ring extension of the shared
-perfect left-module interface. -/
+products of transposition basis elements, testing the handedness extensions of the shared
+perfect left-module interface over a noncommutative coefficient ring. -/
 theorem groupRing_S3_noncomm :
     MonoidAlgebra.single (Equiv.swap (0 : Fin 3) 1) (1 : ℤ) *
         MonoidAlgebra.single (Equiv.swap (1 : Fin 3) 2) (1 : ℤ) ≠
@@ -791,32 +791,32 @@ commits; they are stated in `README.md` with their exact hypotheses and are not 
 here.
 
 * Foundations (Layer ALS.F): `realPoints_lieGroup` (real points of algebraic groups as Lie groups).
-  Generic commutative perfect objects, their bounded-finite-projective/compact/dualizable
-  characterization, traces and filtered trace additivity are supplied by
+  DerivedModuleAlgebra §1.E.0 owns ordinary-module perfectness for every unital ring:
+  `DerivedDeRham.IsPerfect` means a bounded finite-projective left-module representative in
+  Mathlib's `DerivedCategory (ModuleCat A)`. `PerfectComplex.IsPerfect` is its shared alias.
+  The elementary finite-model and closure API has that same owner.
+  `PerfectComplex.IsPerfect.of_triangle` and `PerfectComplex.IsPerfect.of_summand` consume
+  `isPerfect_triangle` and `isPerfect_retract`; triangle rotation and `isPerfect_shift`
+  give two-out-of-three. For commutative rings `PerfectComplex.IsPerfect.baseChange` consumes
+  `isPerfect_baseChange`. ALS.F.2 owns the additional noncommutative scalar extension in the
+  order `B ⊗^L_A K`, `PerfectComplex.IsPerfect.restrictScalars` when `B` is perfect as a left
+  `A`-module, `PerfectComplex.IsPerfect.iff_pseudoCoherent_finiteTorDimension` with right-module
+  Tor tests, and `PerfectComplex.IsPerfect.dual` taking values in right modules, or left
+  modules over the opposite ring, with opposite-ring biduality.
   EtaleCohomologyFoundations §F.10.3 / `PerfectComplex.lefschetzNumber`,
-  `PerfectComplex.filteredTraceAdditivity`. ALS.F.2 owns the extension of that theory to
-  general rings; CohomologicalPointCounting/TraceFormula Layers 1–3 consume the same
-  commutative core and retain the geometric trace applications. All consumers use the same
-  perfect full subcategory of Mathlib's `DerivedCategory (ModuleCat A)`.
-  The extension applies to arbitrary unital rings with the shared `PerfectComplex.IsPerfect`
-  interface on Mathlib's `DerivedCategory (ModuleCat A)` for left modules.
-  The general-ring definition, shift invariance,
-  `PerfectComplex.IsPerfect.of_triangle`, `PerfectComplex.IsPerfect.of_summand`,
-  `PerfectComplex.IsPerfect.baseChange` as `B ⊗^L_A K`,
-  `PerfectComplex.IsPerfect.restrictScalars` when `B` is perfect as a left `A`-module,
-  `PerfectComplex.IsPerfect.iff_pseudoCoherent_finiteTorDimension` with right-module Tor tests,
-  and `PerfectComplex.IsPerfect.dual` form the extension API; the dual takes values in right
-  modules over a noncommutative ring. On commutative rings the interface consumes the supplied
-  objects through `PerfectComplexInput(A)`, identifying their realization and
-  shift/scalar/tensor/dual functors with the commutative restriction of this interface.
-  The realization is an equivalence onto the perfect full subcategory, with natural unit,
-  counit and functor comparisons. It sends finite-projective representatives to their usual
-  derived objects and traces to alternating termwise traces. Finite filtered objects use the
-  supplier's coherent enhancement and the same realization and graded-piece comparisons.
-  The supplier does not name the predicate or closure declarations. This identification is an
-  explicit hypothesis; the general-ring proofs and arithmetic finite-cell arguments use
-  finite-projective representatives independently of it. There is no second commutative
-  perfect-object theory or additional arithmetic carrier or predicate.
+  `PerfectComplex.filteredTraceAdditivity` supplies the enhanced DG/module comparison,
+  commutative compact/dualizable characterization, traces and coherent filtered additivity.
+  CohomologicalPointCounting/TraceFormula Layers 1–3 consume the same ordinary-module core
+  and enhanced package and retain the geometric trace applications.
+  On commutative rings `PerfectComplexInput(A)` identifies the supplier's enhanced perfect
+  objects with the full subcategory defined by `DerivedDeRham.IsPerfect A`, equivalently
+  `PerfectComplex.IsPerfect A`. Its realization is an equivalence with natural unit, counit
+  and shift/scalar/tensor/dual comparisons, natural in module morphisms and coefficient maps.
+  Finite-projective representatives realize to their usual derived objects and traces to
+  alternating termwise traces. Finite filtered objects use the supplier's coherent enhancement
+  and the same realization and graded-piece comparisons. This enhanced identification is an
+  explicit hypothesis; the handedness, restriction-of-scalars and right-module Tor proofs and
+  arithmetic finite-cell arguments use the supplied ordinary-module core independently of it.
   Tensor/dualizable identities for two left complexes require commutativity. Arithmetic duality
   uses `RHom_R(−,R)` with the contragredient finite-group action.
   Bounded constructible/ctf categories on the étale domain
