@@ -288,6 +288,13 @@ example : splitCartanFibreGenus 3 = 45 := by decide
 /-- At k=5 the normalizer fibre has arithmetic genus 135. -/
 example : splitCartanFibreGenus 5 = 135 := by decide
 
+/-! ## Layer 13: relative Jacobian specialization -/
+
+/-- A positive-characteristic fibre is reached by specialization over a trait;
+there is no unital field map from the rational generic field (README §13.1). -/
+example (p : ℕ) [Fact p.Prime] : IsEmpty (ℚ →+* ZMod p) := by
+  sorry
+
 /-! ## Layer 14: cohomological realizations and parabolic lattices -/
 
 /-- Specialize the existing symmetric-power action to weight k≥2, without defining
@@ -684,6 +691,15 @@ The additional interfaces specified in the README are:
 * §2.10a: generalizedTorsionTransport before generalized generator ranks and level maps.
 * §7.1a (R12.5): kodairaSpencer_normalization on the fine curve with its universal family.
 * §11.2: cyclicIsogenyDeformationRing with its source/target coordinates.
+* §13.1: modularJacobian_thetaSpecialization constructs the relative theta polarization
+  for a smooth proper geometrically connected curve over a locally Noetherian base,
+  by a rank-zero two-term determinant, with independence and descent of the local
+  homomorphisms. modularJacobian_polarization is this principal polarization;
+  modularJacobian_baseChange preserves it for every base change, including nonreduced
+  bases and the geometric closed fibre of a good-reduction trait. Relative Picard
+  representability and the neutral component use ComplexComparisonPartII C3.2d.2–C3.2d.3
+  and C3.2f.1–C3.2f.2, with universal functions, geometric integrality, locally constant
+  smooth proper fibre components and formal smoothness over nonreduced bases.
 * §13.5: jacobianTateModule_trace after jacobianTateModule_kummer.
 * §14.9a: modularOpenFiniteGraph for the noncompact torsion-free quotient.
 * §9.1: degeneracyDegree_coprime, degeneracyDegree_dvd.

@@ -64,7 +64,7 @@ Use `X_s(ℓ)` for the ordered split-Cartan curve and `X_s⁺(ℓ)` for the mono
 
 Every division has its stated range: nonzero periods and positive levels in uniformization, nonzero q on the smooth Tate fibre, p-divisibility before coherent normalization, r! invertible for integral symmetric-power self-duality, and 2 invertible for the minus projector. The nonvanishing and integrality requirements survive specialization.
 
-**Supplier shorthand.** MC followed by a layer label (MC5C, MC9B) is a layer of TauCetiRoadmap ModularCurves, and MF10A–MF10C are layers of TauCetiRoadmap ModularForms. AlgebraicModuliForArithmeticGeometry and SchemeAndStackFoundations are cited by section and target name. A2–A6 are layers of AbelianSchemesAndArithmeticModuli, C2–C6 layers of ComplexComparisonPartII, R11.k layers of NeronModelsAndSemistableAbelianVarieties, and LPV.7a the semistable-curve layer of LefschetzPencilsAndVanishingCycles. The étale support, finite-trace and curve-duality contracts are EtaleCohomologyFoundations §§0.7–0.11; finite/adic geometric cohomology is EtaleCohomologyFoundations §§F.1–F.4.
+**Supplier shorthand.** MC followed by a layer label (MC5C, MC9B) is a layer of TauCetiRoadmap ModularCurves, and MF10A–MF10C are layers of TauCetiRoadmap ModularForms. AlgebraicModuliForArithmeticGeometry and SchemeAndStackFoundations are cited by section and target name. A2–A6 are layers of AbelianSchemesAndArithmeticModuli, C−1–C6 layers of ComplexComparisonPartII, R11.k layers of NeronModelsAndSemistableAbelianVarieties, and LPV.7a the semistable-curve layer of LefschetzPencilsAndVanishingCycles. The étale support, finite-trace and curve-duality contracts are EtaleCohomologyFoundations §§0.7–0.11; finite/adic geometric cohomology is EtaleCohomologyFoundations §§F.1–F.4.
 
 ## Exact supplier contracts
 
@@ -137,7 +137,7 @@ For a finite commutative `ℓ`-group `Δ` over a commutative local ring O with `
 
 ### AbelianSchemesAndArithmeticModuli
 
-- **A2**: Dual abelian schemes and the Poincaré bundle (A2.2) and polarizations (A2.5). The canonical principal polarization of a relative curve Jacobian and the norm/pullback transpose identity are targets of §13.1; the underlying line-bundle norm is SchemeAndStackFoundations §3.5.
+- **A2**: Scheme representability of abelian algebraic spaces (A2.1, `raynaudRepresentability`), dual abelian schemes and the Poincaré bundle (A2.2) and polarizations (A2.5). The canonical principal polarization of a relative curve Jacobian and the norm/pullback transpose identity are targets of §13.1; the underlying line-bundle norm is SchemeAndStackFoundations §3.5.
 - **A3**: Quotients by finite locally free subgroups (A3.3) and polarized Weil pairings (A3.7).
 - **A4**: The integral `ℓ`-adic Tate module (A4.1): actual `ℓ`-power torsion, its inverse limit of rank 2g and its Weil pairing. In characteristic p the weight-two special-fibre calculation uses Frobenius and Verschiebung from MC7E and the connected–étale structure of A4 over a perfect field. The curve-Picard Kummer comparison `T_ℓPic⁰≅H¹_et(−,ℤ_ℓ(1))` is §13.5's `jacobianTateModule_kummer`.
 - **A5**: Lattice uniformization of complex abelian varieties (A5.1, `AbelianLattice`), specialized to dimension one in §1.2; analytic families of complex tori and the algebraic comparison (A5.6), whose locally constant polarization type holds for one-dimensional families with their standard principal polarization; and the Siegel universal family (A5.8, `SiegelFamily`), whose genus-one case carries the marking of §3.13.
@@ -145,8 +145,7 @@ For a finite commutative `ℓ`-group `Δ` over a commutative local ring O with `
 
 ### AlgebraicModuliForArithmeticGeometry
 
-- **§7.10.1**: `ComplexAnalyticSpace` with nilpotent local models, closed and open subspaces, gluing and fibre products; `complexSchemeAnalytification` on schemes locally of finite type over `ℂ`, with its functor, Hom and étale-local comparisons. **§7.10.3**: `completedAnalyticStalkComparison`, `properSchemeGagaPushforward` and `properSchemeGagaEquivalence`, including `H⁰` and `H¹` of the structure sheaf, `Ω¹` and line powers on proper curves. Analytification and finite-coefficient Artin comparison are distinct contracts.
-- **§§7.3 and 7.9**: `relative_picard_algebraicSpace`, `picard_infinitesimal_lifting` and `picardZeroCriterion` for the Picard space and its full neutral component. On a proper smooth geometrically connected curve over `ℤ[1/N]`, these give the smooth proper neutral component with base change. Section 13.1 supplies its canonical relative polarization and identifies the norm/pullback transpose.
+- **§7.3**: The relative fppf Picard sheaf, its base-change and section-rigidification interfaces, and `picard_infinitesimal_lifting`: for a flat small Artinian thickening with kernel I, the obstruction to lifting a line bundle lies in `H²(C₀,O)⊗I`. Its vanishing gives formal smoothness for curves. **§7.9**, `spaceSectionComponentCriterion`, supplies the general algebraic-space component construction used by ComplexComparisonPartII C3.2f.2.
 - **§§5.1–5.4**: `ArithmeticModuli.NormalInertiaSubgroup`, the rigidification carrier and its stabilizer, coarse-space and base-change theorems; `ArithmeticModuli.FiniteCorrespondence` with coarse finiteness; `ArithmeticModuli.tame_finite_flat_descent`; `ArithmeticModuli.DMNormalization.stack` and `.finite`; schematic closures and normalized correspondences. The identification of the Katz–Mazur coarse scheme with the elliptic stack coarse space is proved here in §§3.9 and 5.17, from ModularCurves 9D and SchemeAndStackFoundations §1.23.
 - **§8.3, `completedAtlasPresentation_equivalence`**: The identity-framed object/relation formal groupoid presentation of a smooth atlas with its stated residue and finiteness hypotheses. Residual automorphisms outside the identity relation completion are retained separately; the coarse invariant-ring theorem is §0.1 here.
 - **§7.5, `arithmetic_normalization_genericallyEtale`**: Finite relative normalization over a field or an excellent base, with generic étaleness only for the separable field-extension case.
@@ -265,10 +264,18 @@ For a finite commutative `ℓ`-group `Δ` over a commutative local ring O with `
 
 ### ComplexComparisonPartII
 
+- **C−1.1–C−1.3**: `ComplexAnalyticSpace` with nilpotent local models, open and closed subspaces, gluing and fibre products; `complexSchemeAnalytification` on locally finite-type complex schemes with its functor, Hom and étale-local comparisons; `completedAnalyticStalkComparison` for the algebraic and analytic local rings. Analytification and finite-coefficient Artin comparison are distinct contracts.
+- **C1.9**: `properSchemeGagaPushforward` compares coherent higher direct images for a proper morphism of finite-type complex schemes; its base need not be proper. `properSchemeGagaEquivalence` is the coherent equivalence for a proper complex scheme, including `H⁰`, `H¹`, `Ω¹` and line powers on proper curves. Use the canonical comparison functors and their composition and exact-sequence compatibilities.
+- **C3.2d.2–C3.2d.3**: `relative_picard_algebraicSpace` for a proper flat finitely presented curve with universal functions: `O_T≅(f_T)_*O_(C_T)` for every `T→S`. The relative fppf class sheaf is quasi-separated and locally of finite presentation; it is separated when the geometric fibres are integral. A global line bundle representing a sheaf point requires the section-rigidification contract or fppf localization.
+- **C3.2f.1–C3.2f.2**: `picardZeroSheaf` and `picardZeroCriterion`, retaining the full neutral component. Over locally Noetherian S, smooth geometric identity components of locally constant dimension give an open group subspace of finite type. Smoothness holds over reduced S, and over nonreduced S with formal smoothness along the component. Proper geometric components and separatedness of the Picard space give properness. Formation commutes with arbitrary base change. Section 13.1 verifies these hypotheses for its smooth curves, constructs the relative polarization and identifies the norm/pullback transpose.
 - **C2.1** (`gagaBaseChange`) and **C2.2** (`projectiveGeometricDictionaries`): Proper coherent GAGA with base change, and the projective dictionaries for ideals, sections and bundles.
 - **C4.4** (`properSourceMorphismAlgebraicity`, `familyMorphismInterface`): Holomorphic maps out of proper complex schemes are algebraic, also in families.
 - **C4.5** (`affineCurveCompletionInterface`, `affineCurveConnectedness`): The smooth projective model of a smooth affine complex curve, and connectedness of the curve is equivalent to connectedness of its analytification.
 - **C5.7** (`curveResidueLocalization`): The residue sequence of logarithmic forms along a finite set of points of a smooth proper curve.
+
+### EnhancedDerivedSheaves
+
+- **E1.9**, `perfect_proper_pushforward`: For a proper flat finitely presented morphism and a perfect complex, perfect derived pushforward and its arbitrary derived base-change comparison. Section 13.1 applies this to a line bundle on the relative curve over its Jacobian and constructs its two-term determinant line and section.
 
 ### LefschetzPencilsAndVanishingCycles
 
@@ -405,7 +412,7 @@ The public interface should expose:
 - Verify the factors `1/2`, `1/4` and `Δ=g₂³−27g₃²` against the native equation.
 - The zero lattice class maps to O; no evaluation of a native junk value is used.
 
-*Needs:* Mathlib `PeriodPair`; Mathlib `PeriodPair.weierstrassP`; Mathlib `PeriodPair.derivWeierstrassP`; Mathlib `PeriodPair.g₂`; Mathlib `PeriodPair.g₃`; Mathlib `PeriodPair.derivWeierstrassP_sq`; Mathlib `WeierstrassCurve`; Mathlib `WeierstrassCurve.IsElliptic`; [ModularCurves Layer 1A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1a-projective-weierstrass-models); [ModularCurves Layer 1D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1d-the-scheme-theoretic-group-law); `ComplexComparisonPartII` C4.4 (`properSourceMorphismAlgebraicity`); `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`.
+*Needs:* Mathlib `PeriodPair`; Mathlib `PeriodPair.weierstrassP`; Mathlib `PeriodPair.derivWeierstrassP`; Mathlib `PeriodPair.g₂`; Mathlib `PeriodPair.g₃`; Mathlib `PeriodPair.derivWeierstrassP_sq`; Mathlib `WeierstrassCurve`; Mathlib `WeierstrassCurve.IsElliptic`; [ModularCurves Layer 1A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1a-projective-weierstrass-models); [ModularCurves Layer 1D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1d-the-scheme-theoretic-group-law); `ComplexComparisonPartII` C4.4 (`properSourceMorphismAlgebraicity`); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
 
 ([Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §3, Propositions 3.11–3.13, pp.46–47; [Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), Proposition 2.9, p.4, corrected domain away from lattice poles.)
 
@@ -413,7 +420,7 @@ The public interface should expose:
 
 ### 1.2 Pointed elliptic uniformization
 
-For a smooth projective Weierstrass elliptic curve `E/C` with identity O, the complex analytification of AlgebraicModuliForArithmeticGeometry §7.10.1 is a compact connected one-dimensional complex Lie group. There is a rank-two discrete lattice `Λ⊂C` and a pointed holomorphic group isomorphism `C/Λ→E^an`. Conversely every such lattice is realized by the preceding Weierstrass model. Isomorphisms of pointed elliptic curves correspond to nonzero homotheties `uΛ=Λ′`; general holomorphic group homomorphisms correspond to complex-linear maps `z↦uz` with `uΛ⊂Λ′`, including `u=0`. Algebraic and analytic pointed morphisms agree.
+For a smooth projective Weierstrass elliptic curve `E/C` with identity O, the complex analytification of ComplexComparisonPartII C−1.1–C−1.3 is a compact connected one-dimensional complex Lie group. There is a rank-two discrete lattice `Λ⊂C` and a pointed holomorphic group isomorphism `C/Λ→E^an`. Conversely every such lattice is realized by the preceding Weierstrass model. Isomorphisms of pointed elliptic curves correspond to nonzero homotheties `uΛ=Λ′`; general holomorphic group homomorphisms correspond to complex-linear maps `z↦uz` with `uΛ⊂Λ′`, including `u=0`. Algebraic and analytic pointed morphisms agree.
 
 The uniformization `C/Λ≅E^an` with `Λ=H₁(E^an,ℤ)`, and the description of holomorphic homomorphisms by lattice-preserving linear maps, are the dimension-one case of AbelianSchemesAndArithmeticModuli A5.1 (`AbelianLattice`, with tangent space C). This subsection adds the realization of every lattice by the Weierstrass model of §1.1, pointed isomorphisms as homotheties, and the Weierstrass coordinates.
 
@@ -421,7 +428,7 @@ E is smooth, projective, geometrically connected of genus one, with its algebrai
 
 Use the projective points dictionary, not only the affine solution set.
 
-Establish this as follows. Analytify the smooth projective curve and its group maps. Proper coherent comparison (properSchemeGagaPushforward in AlgebraicModuliForArithmeticGeometry §7.10.3) gives `H⁰(E^an,O)=C`, hence connectedness, and compact-surface cohomology identifies its analytic genus as one; choose the nonzero algebraic invariant differential `ω`. Integrate `ω` around an oriented integral homology basis. The bilinear relation and positivity of `iω∧conjugate(ω)` make its two periods real-linearly independent. Integration from O defines `E^an→C/Λ`; it is a local isomorphism since `ω` never vanishes. Compactness and connectedness make it a covering onto the torus. Its induced homology image is the whole period lattice by definition, hence the covering has degree one. Invariance of `ω` identifies the group law. Use the explicit lattice Weierstrass map for the inverse construction. Lift pointed group maps to the universal covers; their additive holomorphic lifts are complex-linear. Proper-source morphism comparison algebraizes maps between the proper algebraic curves.
+Establish this as follows. Analytify the smooth projective curve and its group maps. Proper coherent comparison (properSchemeGagaPushforward in ComplexComparisonPartII C1.9) gives `H⁰(E^an,O)=C`, hence connectedness, and compact-surface cohomology identifies its analytic genus as one; choose the nonzero algebraic invariant differential `ω`. Integrate `ω` around an oriented integral homology basis. The bilinear relation and positivity of `iω∧conjugate(ω)` make its two periods real-linearly independent. Integration from O defines `E^an→C/Λ`; it is a local isomorphism since `ω` never vanishes. Compactness and connectedness make it a covering onto the torus. Its induced homology image is the whole period lattice by definition, hence the covering has degree one. Invariance of `ω` identifies the group law. Use the explicit lattice Weierstrass map for the inverse construction. Lift pointed group maps to the universal covers; their additive holomorphic lifts are complex-linear. Proper-source morphism comparison algebraizes maps between the proper algebraic curves.
 
 The theorem is `pointedEllipticUniformization`.
 
@@ -431,7 +438,7 @@ The theorem is `pointedEllipticUniformization`.
 - A translation by a nonzero point is excluded from pointed group homomorphisms.
 - At `j=0` and 1728 retain the extra pointed automorphisms.
 
-*Needs:* [§1.1](#s1-1); [ModularCurves Layer 1A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1a-projective-weierstrass-models); [ModularCurves Layer 1D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1d-the-scheme-theoretic-group-law); `ComplexComparisonPartII` C4.4 (`properSourceMorphismAlgebraicity`); [ModularForms Layer 10B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10b--compact-riemann-surface-cohomology); [ModularCurves Layer 1C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1c-pole-sheaves-weierstrass-coordinates-and-variable-changes); `AbelianSchemesAndArithmeticModuli` A5.1 (`AbelianLattice`); `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`.
+*Needs:* [§1.1](#s1-1); [ModularCurves Layer 1A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1a-projective-weierstrass-models); [ModularCurves Layer 1D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1d-the-scheme-theoretic-group-law); `ComplexComparisonPartII` C4.4 (`properSourceMorphismAlgebraicity`); [ModularForms Layer 10B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10b--compact-riemann-surface-cohomology); [ModularCurves Layer 1C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1c-pole-sheaves-weierstrass-coordinates-and-variable-changes); `AbelianSchemesAndArithmeticModuli` A5.1 (`AbelianLattice`); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
 
 ([Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §3, pp.41–47, especially Propositions 3.12–3.13; [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §1.1, pp.17–18.)
 
@@ -544,7 +551,7 @@ For `Λ=Z+iZ`, `g₃=0` and `j(W_L)=1728`.
 
 ### Dependencies
 
-External contracts: AbelianSchemesAndArithmeticModuli, AlgebraicModuliForArithmeticGeometry, ComplexComparisonPartII. The subsection prerequisites identify the precise objects and maps consumed.
+External contracts: AbelianSchemesAndArithmeticModuli, ComplexComparisonPartII. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 2: Generalized elliptic curves and polygon operations
 
@@ -681,7 +688,7 @@ The theorem is `deligneRapoportStructureCriterion`.
 - An ample subgroup on the standard polygon recovers its standard group/action.
 - On `C₃/ℂ`, `(u,i)↦(ζ₃^i u,i)` fixes e and `Pic⁰` but is nonidentity; it fails to commute with translation by `(1,1)`, so the centralizer hypothesis excludes it.
 
-*Needs:* [§2.1](#s2-1); [ModularCurves Layer 1D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1d-the-scheme-theoretic-group-law); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`; [StableReduction Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-2-coherent-curve-theory-duality-and-positivity).
+*Needs:* [§2.1](#s2-1); [ModularCurves Layer 1D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1d-the-scheme-theoretic-group-law); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `ComplexComparisonPartII` C3.2d.2 and C3.2f.1–C3.2f.2 (relative Picard sheaf and neutral component); [StableReduction Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-2-coherent-curve-theory-duality-and-positivity).
 
 ([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), II Théorème 3.2, pp.193–194; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 2.2.2 and Corollary 2.2.3, pp.7–8.)
 
@@ -918,7 +925,7 @@ The tangent cone at `(0,0)` is `y(y+x)`, so the two branches remain distinct in 
 
 ### Dependencies
 
-External contracts: AdicSpacesPartIII, AlgebraicModuliForArithmeticGeometry, SchemeAndStackFoundations. The subsection prerequisites identify the precise objects and maps consumed.
+External contracts: AdicSpacesPartIII, AlgebraicModuliForArithmeticGeometry, ComplexComparisonPartII, SchemeAndStackFoundations. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 3: Integral level stacks and the open analytic comparison
 
@@ -1332,7 +1339,7 @@ The public interface should expose:
 - Use the same row action as MC9B.
 - The family, section and isomorphism diagrams commute after every holomorphic base change.
 
-*Needs:* [§1.1](#s1-1); [§1.5](#s1-5); `AbelianSchemesAndArithmeticModuli` A5.8 (`SiegelFamily`); `AbelianSchemesAndArithmeticModuli §A5`; `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`.
+*Needs:* [§1.1](#s1-1); [§1.5](#s1-5); `AbelianSchemesAndArithmeticModuli` A5.8 (`SiegelFamily`); `AbelianSchemesAndArithmeticModuli §A5`; `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
 
 ([Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), Example 2.5, Proposition 2.6, Remark 2.8 and Proposition 2.9, pp.3–4; [Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), §7, p.15; §8, p.18.)
 
@@ -1358,7 +1365,7 @@ The theorem is `openLevelUniformization`.
 - For `N≥3` the fixed-pairing curve is connected; the unrestricted full curve has `φ(N)` components.
 - Every local inverse preserves the analytic structure sheaf.
 
-*Needs:* [§3.13](#s3-13); [ModularCurves Layer 3D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3d-comparison-with-naive-level-structures); [ModularCurves Layer 5A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5a-tate-normal-form-and-y₁n-for-n4); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients); [ModularCurves Layer 9E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9e-the-coarse-j-line-and-y₀n); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); `AbelianSchemesAndArithmeticModuli §A5`; `ComplexComparisonPartII` C4.4 (`familyMorphismInterface`); `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`.
+*Needs:* [§3.13](#s3-13); [ModularCurves Layer 3D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3d-comparison-with-naive-level-structures); [ModularCurves Layer 5A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5a-tate-normal-form-and-y₁n-for-n4); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients); [ModularCurves Layer 9E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9e-the-coarse-j-line-and-y₀n); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); `AbelianSchemesAndArithmeticModuli §A5`; `ComplexComparisonPartII` C4.4 (`familyMorphismInterface`); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
 
 ([Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), §§8–9, pp.17–24; Theorem 17.21, p.42; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), Lemmas 8.5 and 8.7, pp.99–100; [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §1.2, pp.22–25.)
 
@@ -1590,7 +1597,7 @@ The theorem is `tateAndCuspParameterAgreement`.
 - For `Γ₀(N)` at infinity `w=1` and at 0 `w=N`.
 - An irregular `Γ₁(4)` cusp has strict width twice its effective width; use the effective parameter for the coarse local ring.
 
-*Needs:* [§1.4](#s1-4); [§3.6](#s3-6); [§3.14](#s3-14); [§4.1](#s4-1); [§4.4](#s4-4); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); Mathlib `PeriodPair`; Tau Ceti `TauCeti.Subgroup.integerCuspWidth`; [FuchsianOrbifolds Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-3-cusps-and-q-coordinates); `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`.
+*Needs:* [§1.4](#s1-4); [§3.6](#s3-6); [§3.14](#s3-14); [§4.1](#s4-1); [§4.4](#s4-4); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); Mathlib `PeriodPair`; Tau Ceti `TauCeti.Subgroup.integerCuspWidth`; [FuchsianOrbifolds Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-3-cusps-and-q-coordinates); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
 
 ([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.1–4.4, pp.310–311; [Conrad, classical curves](https://math.stanford.edu/~conrad/248BPage/handouts/classical.pdf), §3, Proposition 3.1, pp.3–4; [Conrad, q-expansions](https://math.stanford.edu/~conrad/248BPage/handouts/qexp.pdf), pp.1–3; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §4, p.48.)
 
@@ -2243,7 +2250,7 @@ The theorem is `compactModularUniformization`.
 - The map is an isomorphism of analytic spaces; it does not rebuild X via Chow.
 - At `N=1` it gives `X(1)^an≅P¹(C)` with j as coordinate and the unique cusp at infinity.
 
-*Needs:* [§3.14](#s3-14); [§4.1](#s4-1); [§4.8](#s4-8); [§5.2](#s5-2); [§5.19](#s5-19); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering); `ComplexComparisonPartII` C4.5 (`affineCurveCompletionInterface`); `ComplexComparisonPartII` C4.4 (`properSourceMorphismAlgebraicity`); `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`.
+*Needs:* [§3.14](#s3-14); [§4.1](#s4-1); [§4.8](#s4-8); [§5.2](#s5-2); [§5.19](#s5-19); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering); `ComplexComparisonPartII` C4.5 (`affineCurveCompletionInterface`); `ComplexComparisonPartII` C4.4 (`properSourceMorphismAlgebraicity`); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
 
 ([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.1–4.8, pp.310–313; [Conrad, classical curves](https://math.stanford.edu/~conrad/248BPage/handouts/classical.pdf), §3, Proposition 3.1 and proof, pp.3–4; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), Theorems 7.2 and 7.5 and the canonical X₀(N) model, pp.94–96; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §2, pp.25–40.)
 
@@ -2350,7 +2357,7 @@ Use the negative controls in the subsections to check the component labels, hypo
 
 ### Dependencies
 
-Use Layers 3–5. External contracts: AlgebraicModuliForArithmeticGeometry, ComplexComparisonPartII, TauCetiRoadmap FuchsianOrbifolds. The subsection prerequisites identify the precise objects and maps consumed.
+Use Layers 3–5. External contracts: ComplexComparisonPartII, TauCetiRoadmap FuchsianOrbifolds. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 7: Hodge sections and the normalized Hecke pairing
 
@@ -2376,7 +2383,7 @@ The theorem is `hodgeLineAutomorphy`.
 - For `γ=T` the multiplier is 1; for `γ=S` it is `τ⁻¹` on the fibre differential.
 - Weight one fails to descend across generic `−1` inertia, while even powers can pass that obstruction.
 
-*Needs:* [§1.4](#s1-4); [§3.13](#s3-13); [§4.8](#s4-8); [ModularCurves Layer 1C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1c-pole-sheaves-weierstrass-coordinates-and-variable-changes); [ModularForms Layer 10C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10c--modular-forms-as-section-spaces-and-the-dimension-formulas); `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`.
+*Needs:* [§1.4](#s1-4); [§3.13](#s3-13); [§4.8](#s4-8); [ModularCurves Layer 1C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1c-pole-sheaves-weierstrass-coordinates-and-variable-changes); [ModularForms Layer 10C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10c--modular-forms-as-section-spaces-and-the-dimension-formulas); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
 
 ([Conrad, q-expansions](https://math.stanford.edu/~conrad/248BPage/handouts/qexp.pdf), pp.1–3; [Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), §7, p.15; §11, p.26.)
 
@@ -2409,7 +2416,7 @@ No smooth fine universal elliptic curve on the coarse X is assumed.
 
 The formula contains `2πi` and the width w; changing either changes the stated comparison.
 
-Establish this as follows. On the fine cover use `kodairaSpencer_normalization` and the Hodge-line/automorphy comparison, then the imported weight-two canonical-form dictionary on the analytic quotient. At a cusp substitute `dq_w/q_w=(2πi/w)dτ`. The constant term must vanish exactly when the differential has no pole. At an elliptic chart compute invariants in t with quotient coordinate `t^e`. Apply proper coherent comparison (AlgebraicModuliForArithmeticGeometry §7.10.3) to identify holomorphic and algebraic regular differentials. Local pullback and finite trace computations give naturality.
+Establish this as follows. On the fine cover use `kodairaSpencer_normalization` and the Hodge-line/automorphy comparison, then the imported weight-two canonical-form dictionary on the analytic quotient. At a cusp substitute `dq_w/q_w=(2πi/w)dτ`. The constant term must vanish exactly when the differential has no pole. At an elliptic chart compute invariants in t with quotient coordinate `t^e`. Apply proper coherent comparison (ComplexComparisonPartII C1.9) to identify holomorphic and algebraic regular differentials. Local pullback and finite trace computations give naturality.
 
 The theorem is `weightTwoRegularDifferentials`.
 
@@ -2420,7 +2427,7 @@ The theorem is `weightTwoRegularDifferentials`.
 - A weight-two form with nonzero cusp constant gives a logarithmic pole and is excluded from `H⁰Ω¹`.
 - No arbitrary integral base change is claimed: DDT Theorem 1.33 needs its stated flatness or invertibility assumptions.
 
-*Needs:* [§7.1a](#s7-1a), R12.5 (`kodairaSpencer_normalization`); [§5.2](#s5-2); [§5.3](#s5-3); [§6.1](#s6-1); [§7.1](#s7-1); [ModularForms Layer 10C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10c--modular-forms-as-section-spaces-and-the-dimension-formulas); [ModularForms Layer 10B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10b--compact-riemann-surface-cohomology); `ComplexComparisonPartII` C5.7 (`curveResidueLocalization`); `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`; `ComplexComparisonPartII` C2.2 (`projectiveGeometricDictionaries`).
+*Needs:* [§7.1a](#s7-1a), R12.5 (`kodairaSpencer_normalization`); [§5.2](#s5-2); [§5.3](#s5-3); [§6.1](#s6-1); [§7.1](#s7-1); [ModularForms Layer 10C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10c--modular-forms-as-section-spaces-and-the-dimension-formulas); [ModularForms Layer 10B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10b--compact-riemann-surface-cohomology); `ComplexComparisonPartII` C5.7 (`curveResidueLocalization`); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA); `ComplexComparisonPartII` C2.2 (`projectiveGeometricDictionaries`).
 
 ([Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.12, pp.25–26; Theorem 1.33, pp.38–39; [Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.6–4.7, p.312.)
 
@@ -2515,7 +2522,7 @@ The public interface should expose:
 - The domain is the operator image `T_Q` and the whole `V_Q`.
 - The comparison identifies the algebraic rational coefficient normalization at infinity with the analytic one.
 
-*Needs:* [§4.4](#s4-4); [§5.2](#s5-2); [§7.4](#s7-4); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`; `ComplexComparisonPartII` C2.1 (`gagaBaseChange`).
+*Needs:* [§4.4](#s4-4); [§5.2](#s5-2); [§7.4](#s7-4); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA); `ComplexComparisonPartII` C2.1 (`gagaBaseChange`).
 
 ([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), V §1, p.306 (PDF p.82); [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.34, p.39.)
 
@@ -2553,7 +2560,7 @@ At `N=1` both spaces are zero and the zero-dimensional pairing is perfect.
 
 ### Dependencies
 
-Use Layer 1, Layers 3–5, Layer 6. External contracts: AlgebraicModuliForArithmeticGeometry, ComplexComparisonPartII, SchemeAndStackFoundations. The subsection prerequisites identify the precise objects and maps consumed.
+Use Layer 1, Layers 3–5, Layer 6. External contracts: ComplexComparisonPartII, SchemeAndStackFoundations. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 8: Fields of definition and generic descent
 
@@ -2579,7 +2586,7 @@ The theorem is `canonicalGenericFibreDescent`.
 - The map retains the factor `(2πi)^k` from the modular Hodge frame.
 - The full Hecke pairing of Layer 7 is already over Q and remains compatible under this export.
 
-*Needs:* [§4.1](#s4-1); [§4.4](#s4-4); [§5.2](#s5-2); [§6.1](#s6-1); [§6.4](#s6-4); [§7.1](#s7-1); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); [ModularCurves Layer 5C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5c-the-twisted-curve-yρ); `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`; `ComplexComparisonPartII` C2.1 (`gagaBaseChange`).
+*Needs:* [§4.1](#s4-1); [§4.4](#s4-4); [§5.2](#s5-2); [§6.1](#s6-1); [§6.4](#s6-4); [§7.1](#s7-1); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); [ModularCurves Layer 5C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5c-the-twisted-curve-yρ); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA); `ComplexComparisonPartII` C2.1 (`gagaBaseChange`).
 
 ([Conrad, q-expansions](https://math.stanford.edu/~conrad/248BPage/handouts/qexp.pdf), pp.3–6; [Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.5–4.8, pp.311–313.)
 
@@ -2676,7 +2683,7 @@ The theorem is `genericBaseChangeAndLevelCompatibility`.
 - No integral coarse-base-change theorem is smuggled into the field-extension comparison.
 - Every Hecke diagram uses the normalization proved in Layer 7.
 
-*Needs:* [§4.5](#s4-5); [§5.2](#s5-2); [§5.3](#s5-3); [§6.2](#s6-2); [§7.4](#s7-4); [§8.1](#s8-1); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`; `ComplexComparisonPartII` C2.1 (`gagaBaseChange`).
+*Needs:* [§4.5](#s4-5); [§5.2](#s5-2); [§5.3](#s5-3); [§6.2](#s6-2); [§7.4](#s7-4); [§8.1](#s8-1); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA); `ComplexComparisonPartII` C2.1 (`gagaBaseChange`).
 
 ([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.1–4.8, pp.310–313; [Conrad, q-expansions](https://math.stanford.edu/~conrad/248BPage/handouts/qexp.pdf), pp.3–6.)
 
@@ -2686,7 +2693,7 @@ Use the negative controls in the subsections to check the component labels, hypo
 
 ### Dependencies
 
-Use Layer 1, Layer 4, Layer 5, Layer 6, Layer 7. External contracts: AlgebraicModuliForArithmeticGeometry, ComplexComparisonPartII. The subsection prerequisites identify the precise objects and maps consumed.
+Use Layer 1, Layer 4, Layer 5, Layer 6, Layer 7. External contracts: ComplexComparisonPartII. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 9: Algebraic correspondences and quotient curves
 
@@ -3427,22 +3434,38 @@ Use Layer 5, Layer 9, Layer 11. External contracts: LefschetzPencilsAndVanishing
 
 ### 13.1 Modular Jacobians and norms
 
-Over the relative base S the construction consumes relative Picard representability and formation of the proper smooth neutral component (AlgebraicModuliForArithmeticGeometry §§7.3 and 7.9) and dual abelian schemes (AbelianSchemesAndArithmeticModuli A2.2). The line-bundle norm is SchemeAndStackFoundations §3.5. Its restriction to relative `Pic⁰`, the canonical relative principal polarization and the norm/pullback transpose identity are the targets of this subsection. JacobianChallenge Layer D supplies each field Picard/Jacobian scheme, and Layer E supplies its dimension and canonical principal polarization.
+Over the relative base S the construction consumes relative Picard representability, separatedness and formation of the full neutral component (ComplexComparisonPartII C3.2d.2–C3.2d.3 and C3.2f.1–C3.2f.2), and dual abelian schemes (AbelianSchemesAndArithmeticModuli A2.2). The line-bundle norm is SchemeAndStackFoundations §3.5. Its restriction to relative `Pic⁰`, the canonical relative principal polarization and the norm/pullback transpose identity are the targets of this subsection. JacobianChallenge Layer D supplies each field Picard/Jacobian scheme, and Layer E supplies its dimension and canonical principal polarization.
 
 For `N≥5` put `S=Spec ℤ[1/N]` and let `C=X₁(N)/S`, the smooth proper geometrically connected coarse curve. Construct `J₁(N)=Pic⁰_(C/S)`, an abelian scheme of relative dimension `g(C)`, with its canonical principal polarization. For `X₀(N)` or another smooth proper geometrically connected coarse quotient use the same construction on its legal smooth base; disconnected honest full level requires componentwise Picard and field descent. For a finite flat map `f:D→C` of such curves, define Picard pullback `f^*:J_C→J_D` and restrict the supplied line-bundle norm to `f_*:J_D→J_C`, with `f_*f^*=[deg f]`; the polarization dual of `f^*` is `f_*`. Norm counts the ramification/inseparable lengths, not just distinct geometric images. Under the polarization this agrees with the Albanese functor. A bad-level singular coarse fibre is not an abelian scheme: use its smooth generic Jacobian and the lower Néron model.
 
-Establish this as follows. Use the imported relative Picard representability; `H²` of a curve vanishes, giving smoothness via the infinitesimal lifting criterion (AlgebraicModuliForArithmeticGeometry §7.3, `picard_infinitesimal_lifting`). Use the proper neutral component to identify the abelian scheme. Define the canonical principal polarization on the generic fibre by JacobianChallenge Layer E and extend it uniquely over the normal base (AbelianSchemesAndArithmeticModuli A6.25); by base change its fibres are the canonical polarizations of the fibre Jacobians. Restrict the supplied line-bundle norm to relative `Pic⁰`, using its degree, divisor and base-change laws; prove that the resulting morphism of abelian schemes is the polarization transpose of pullback.
+Establish this as follows. A smooth proper geometrically connected curve has geometrically integral fibres and universal functions, by coherent cohomology and base change. Thus its relative Picard space is separated, quasi-separated and locally of finite presentation. On the specified locally Noetherian base the geometric neutral components are proper and smooth of locally constant dimension g, by JacobianChallenge Layers D–E and constancy of the fibre genus. Vanishing of `H²` gives formal smoothness via AlgebraicModuliForArithmeticGeometry §7.3, `picard_infinitesimal_lifting`; this also gives smoothness after nonreduced base change. Apply the supplied neutral-component criterion to obtain relative `Pic⁰` and its base-change identifications. AbelianSchemesAndArithmeticModuli A2.1 (`raynaudRepresentability`) makes this smooth proper group algebraic space an abelian scheme; the local theta construction below supplies a principal polarization. Over the normal arithmetic base, its generic restriction is the canonical field polarization, so uniqueness in AbelianSchemesAndArithmeticModuli A6.25 identifies it with the generic Hom extension. Restrict the supplied line-bundle norm to relative `Pic⁰`, using its degree, divisor and base-change laws. The field norm/pullback transpose identity extends over the normal base by Hom injectivity; it remains true after every base change.
+
+**Relative theta and specialization.** Prove `modularJacobian_thetaSpecialization` for each smooth proper geometrically connected curve `C→S` of this subsection, with S locally Noetherian and genus g locally constant. Given the relative neutral Picard abelian scheme J, construct a canonical principal polarization `λ_C:J→J^∨` whose formation commutes with every `T→S`, including nonreduced T. Under `J_T≅Pic⁰_(C_T/T)`, its geometric fibres equal JacobianChallenge Layer E's canonical field polarizations. This gives compatibility with specialization over a good-reduction trait as well as field extension; no field map from the fraction field to the residue field is assumed.
+
+On a component with `g≥1`, choose an étale cover U of S with a section s of C, and a line bundle L of relative degree `g−1`, for example `O((g−1)s)`. Section-rigidification gives a Poincaré line bundle P on `C_U×_U J_U`. For the projection π to `J_U`, set `F=P⊗pr_C^*L`. Construct the theta line as the determinant of `Rπ_*F[1]`, whose amplitude is `[−1,0]` and Euler rank is zero. Explicitly, for `E=m·s` with `m≥g`, `A=π_*F(E)` and `B=π_*(F(E)|E)` are locally free of rank m, and restriction `r:A→B` represents `Rπ_*F` in degrees 0 and 1. The theta line is `det B⊗(det A)⁻¹`, with section `det r`. Prove the canonical identifications for different presentations and E by cancellation of determinants in exact sequences, including their cocycle laws. Perfect proper pushforward and derived base change (EnhancedDerivedSheaves E1.9) identify these two-term presentations and determinant sections after arbitrary base change. This is a construction on the whole base, including nilpotents.
+
+On a geometric fibre, the determinant vanishes exactly on effective degree-`g−1` classes. This locus is the irreducible field theta divisor; at its general point `h⁰=h¹=1`, and the cup-product differential of r is nonzero by Serre duality, so the determinant has multiplicity one there. Hence its line is the positive field theta line, and its associated homomorphism is the canonical principal polarization. Changing L by a degree-zero class translates the theta line, leaving its homomorphism unchanged by the relative theorem of the square. Changing the normalization of P tensors F with a line from `J_U`; its contribution to the determinant is the zeroth power since `χ(F)=0`. Prove these identities for relative Picard classes, so they also hold on nonreduced overlaps. The homomorphisms therefore descend to `λ_C`, independently of s, L and E. Their fibrewise principal property makes the descended polarization principal. For `g=0`, use `J=0` and its unique principal polarization. These constructions and the descent identities commute with every base change.
+
+([Stacks](https://stacks.math.columbia.edu/tag/0FJX), determinant functor and rank-zero section; [Stacks](https://stacks.math.columbia.edu/tag/0FJY), pullback compatibility; [Milne, Jacobian varieties](https://www.jmilne.org/math/xnotes/JVs.pdf), §6, Theorem 6.6, Lemma 6.9 and Summary 6.11, pp.21–24, for the field theta polarization. The relative construction and its descent are targets here.)
+
+**Checks.**
+
+- For `C=X₁(N)` and `p∤N`, restriction to `Spec ℤ_(p)` gives the canonical polarization of `Jac(C_𝔽̄_p)` on the closed fibre. There is no unital map `ℚ→𝔽̄_p`: p is invertible in ℚ and zero in the target. This is specialization over the trait, not field extension.
+- For a genus-one curve with a section, L has degree zero and its theta divisor is a translated origin. Its homomorphism is the degree-one polarization, independently of that translation.
+- For `C=ℙ¹_S`, the genus-zero construction gives the unique isomorphism `0→0^∨`; no degree-`−1` theta divisor is required.
+- Replacing L by `L⊗M` for a relative degree-zero class M changes the local theta line by translation and preserves `λ_C` on overlaps, including after base change to `Spec k[ε]/(ε²)`.
+- Replacing `m·s` by `(m+1)·s`, with `m≥g`, preserves the determinant section under the canonical determinant identification, even where `h⁰(F)` jumps.
 
 The public interface should expose:
 
 - `modularJacobian`: The relative neutral Picard abelian scheme on the specified smooth base.
 - `modularJacobian_dimension`: Its relative dimension is the fibre genus.
-- `modularJacobian_polarization`: The canonical principal polarization `J→J^∨` over S, restricting on every geometric fibre to the canonical polarization of the fibre Jacobian.
+- `modularJacobian_polarization`: The principal polarization `λ_C` constructed by `modularJacobian_thetaSpecialization`, restricting on every geometric fibre to the canonical polarization of the fibre Jacobian.
 - `jacobianPull`: Contravariant pullback of degree-zero line bundles.
 - `jacobianNorm`: The restriction of SchemeAndStackFoundations §3.5’s line-bundle norm to the relative neutral Picard scheme.
 - `jacobianNorm_pull`: `f_*f^*=[deg f]`.
 - `jacobianNorm_dual`: `f_*` is the polarization transpose of `f^*`.
-- `modularJacobian_baseChange`: Relative `Pic⁰` and its canonical polarization commute with the supplied base changes.
+- `modularJacobian_baseChange`: For every `T→S`, identify relative `Pic⁰` with `J_T` and identify its canonical polarization with `(λ_C)_T`, using the determinant construction and descent of `modularJacobian_thetaSpecialization`.
 
 **Checks.**
 
@@ -3453,7 +3476,7 @@ The public interface should expose:
 - For genus zero `J=0`, so multiplication by any degree is the unique zero endomorphism.
 - For a degree-2 map, norm after pullback is [2], not an identity retraction.
 
-*Needs:* `SchemeAndStackFoundations §3.5/lineBundleNorm`;  [§5.2](#s5-2); [§5.3](#s5-3); [JacobianChallenge Layer D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-d-the-relative-picard-functor-and-the-jacobian-scheme); [JacobianChallenge Layer E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-e-abelian-varieties); `AlgebraicModuliForArithmeticGeometry §7.3/relative_picard_algebraicSpace`; `AlgebraicModuliForArithmeticGeometry §7.9/picardZeroCriterion`; `AlgebraicModuliForArithmeticGeometry §7.3/picard_infinitesimal_lifting`; `AlgebraicModuliForArithmeticGeometry §§7.3, 7.9–7.10`; `AbelianSchemesAndArithmeticModuli §A2`; `AbelianSchemesAndArithmeticModuli` A6.25 (`relativeHom`); `NeronModelsAndSemistableAbelianVarieties §R11.1`.
+*Needs:* `SchemeAndStackFoundations §3.5/lineBundleNorm`;  [§5.2](#s5-2); [§5.3](#s5-3); [JacobianChallenge Layer D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-d-the-relative-picard-functor-and-the-jacobian-scheme); [JacobianChallenge Layer E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-e-abelian-varieties); `AlgebraicModuliForArithmeticGeometry §7.3/picard_infinitesimal_lifting`; `ComplexComparisonPartII` C3.2d.2–C3.2d.3 and C3.2f.1–C3.2f.2; `AlgebraicModuliForArithmeticGeometry §7.3/sectionPicardSplit`; `EnhancedDerivedSheaves` E1.9 (`perfect_proper_pushforward`); `AlgebraicVectorBundles` L0C (determinants); JacobianChallenge Layers B–C (Serre duality and coherent base change); `AbelianSchemesAndArithmeticModuli` A1.5 (relative cube and square), A2.1–A2.5 (scheme representability, dual schemes and polarizations); `AbelianSchemesAndArithmeticModuli` A6.25 (`relativeHom`); `NeronModelsAndSemistableAbelianVarieties §R11.1`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.1, Lemma 5.4 and Definitions 5.5–5.6, pp.67–68; §5.2, pp.70–72.)
 
@@ -3590,7 +3613,7 @@ Establish this as follows. If `β(T,f)=0` for all T, each Fourier coefficient of
 
 ### Dependencies
 
-Use Layer 5, Layer 7, Layer 8, Layer 9, Layer 10. External contracts: AbelianSchemesAndArithmeticModuli, AlgebraicModuliForArithmeticGeometry, ArithmeticGaloisRepresentations, NeronModelsAndSemistableAbelianVarieties. The subsection prerequisites identify the precise objects and maps consumed.
+Use Layer 5, Layer 7, Layer 8, Layer 9, Layer 10. External contracts: AbelianSchemesAndArithmeticModuli, AlgebraicModuliForArithmeticGeometry, ComplexComparisonPartII, EnhancedDerivedSheaves, ArithmeticGaloisRepresentations, NeronModelsAndSemistableAbelianVarieties. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 14: Cohomological realizations and parabolic lattices
 
