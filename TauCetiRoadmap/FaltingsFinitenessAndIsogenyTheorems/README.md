@@ -44,7 +44,7 @@ This roadmap owns:
    theorem for homomorphisms, which ArakelovGeometryAndAbelianHeights §2.0 owns), Faltings' correspondence stack of stable curves over `ℤ` dominating the Siegel moduli
    space (Lemma 2), the comparison of the Hodge and modular line bundles with a uniform constant
    (Korollar to Lemma 2), adapters to the supplied degree, semistable height in Faltings' normalisation and
-   logarithmic-metric results, Hermite–Minkowski
+   logarithmic-metric results, the fixed-degree adapter to supplied Hermite–Minkowski
    finiteness with prescribed ramification (Lemma 4), the descent from geometric to `K`-isomorphism
    classes, polarization descent along isotropic kernels, the polarization reduction with a uniform field
    extension, and Satz 1.
@@ -87,7 +87,9 @@ Faltings-1983 specialization of ArakelovGeometryAndAbelianHeights Layers 1–3; 
 another arithmetic intersection theory. R28.1.5 is an adapter to that supplied degree and semistable
 height. R28.1.6–R28.1.8 use ArakelovGeometryAndAbelianHeights §§5.1–5.4, and R28.2.1–R28.2.2
 use its §§4.1–4.4: the names here are aliases or specializations in the same Faltings normalization,
-not separately owned metric, height or isogeny theorems. Zarhin's trick, including graph descent,
+not separately owned metric, height or isogeny theorems. R28.1.9 specializes
+ArithmeticGaloisDuality R02.3.1 to fixed degree in the chosen algebraic closure;
+the generic restricted-ramification theorem belongs to that supplier. Zarhin's trick, including graph descent,
 is supplied by PadicDifferentialEquationsAndRigidCohomology §RD.5.116 over `Spec(k)`;
 R28.5.12 owns its direct-factor application and the stated order-theoretic auxiliaries.
 The invariant-differential bundle and its determinant are supplied by
@@ -123,7 +125,8 @@ This roadmap does not own, and cites:
   polarizations, Weil pairings, the arithmetic of Hom), NeronModelsAndSemistableAbelianVarieties
   (Néron models, semistable reduction, the monodromy criterion, Néron–Ogg–Shafarevich),
   ArithmeticGaloisRepresentations (Tate modules with their Frobenius polynomials, induction and
-  determinants), WeightsInEtaleCohomology (the Weil bound), FiniteFlatGroupsAndIntegralPadicHodgeTheory
+  determinants), ArithmeticGaloisDuality (bounded-degree Hermite finiteness outside a finite set),
+  WeightsInEtaleCohomology (the Weil bound), FiniteFlatGroupsAndIntegralPadicHodgeTheory
   (`p`-divisible groups, Tate's and Raynaud's local theorems), PadicPeriodRings §2 (Tate–Sen),
   PELModuli (the Siegel moduli stack, its coarse space and level rigidity), ShimuraVarieties (the
   Baily–Borel compactification), ArakelovGeometryAndAbelianHeights (semiabelian families, Siegel compactifications,
@@ -321,6 +324,10 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   `Aut(A, λ)` and level-`n ≥ 3` rigidity); A6.20 `homDescentFullLevel`; A6.33 `weilRestrictionTate`; A6.38
   `AbelianHodgeLine`. Their "polarization of degree `d`" is a polarization of degree `d²` in the convention
   here.
+- *ArithmeticGaloisDuality*: R02.3.1
+  `RestrictedRamification.finite_unramifiedOutside_of_finrank_le`, for extensions inside a
+  fixed separable closure, with bounded degree and unramified at finite places outside a
+  finite set. R28.1.9 retains only the fixed-degree and ambient-closure adapters.
 - *ArithmeticGaloisRepresentations*: §1.3 “The Mackey decomposition”, using pinned
   `Rep.mackeyDecomposition` and `ContinuousRep.finite_doubleCoset_mackey`, and
   `ContinuousRep.det_ind`. Induction is from an open subgroup of a compact group on a finite-rank
@@ -782,10 +789,17 @@ The empty open locus gives the empty set of points. Choose a continuous hermitia
 `h_1 = logHeight + O(1)` on `X(K)` (changing the metric changes the height by a bounded amount). Choose
 `s > 0` and integral sections `f_1, …, f_t ∈ Γ(X/ℤ, O(s))` with common zero set exactly `Y`.
 Rescale the continuous metric by one positive constant so that `‖f_i‖_1 ≤ e^{−1}` on `X(ℂ)`;
-this changes `h_1` by a constant and preserves the integral sections. By the supplied logarithmic-distance estimate (ArakelovGeometryAndAbelianHeights §§5.1–5.2),
-`|log(‖·‖/‖·‖_1)(z)| ≤ c_1 + c_2·min_i log|log ‖f_i(z)‖_1|` on `X(ℂ) − Y(ℂ)`. Faltings prints the left side as
-`log|(‖·‖/‖·‖_1)(z)|` and does not normalise the `f_i`; the normalised form is the one that makes the next
-step work. For `x ∈ X(K) − Y(K)` choose `i` with `ρ_x^*(f_i) ≠ 0`; then
+this changes `h_1` by a constant and preserves the integral sections. Put
+`F(z) = max_i ‖f_i(z)‖_1`. Outside `Y(ℂ)`, `0 < F(z) ≤ exp(−1)`.
+The supplied logarithmic-distance comparison (ArakelovGeometryAndAbelianHeights §§5.1–5.2)
+therefore gives uniform `c_1, c_2 ≥ 0` with
+`|log(‖·‖/‖·‖_1)(z)| ≤ c_1 + c_2·log(−log F(z))`.
+All logarithms in this formula have positive arguments. For each `i` with
+`f_i(z) ≠ 0`, monotonicity gives
+`log(−log F(z)) ≤ log(−log ‖f_i(z)‖_1)`; no logarithm of a zero evaluation is used.
+Faltings prints the left side as `log|(‖·‖/‖·‖_1)(z)|` and does not normalise the `f_i`.
+For `x ∈ X(K) − Y(K)` choose `i` with `ρ_x^*(f_i) ≠ 0`; its evaluation is nonzero at every
+infinite place, so the same index can be used throughout. Then
 `s·[K : ℚ]·h_1(x) ≥ −Σ_v ε_v log ‖f_i(x_v)‖_1 ≥ ε_v·|log ‖f_i(x_v)‖_1|` for each infinite `v`, and summing the
 estimate over the infinite places gives `|h(x) − h_1(x)| ≤ c_3 + c_4·log h_1(x)` for `h_1(x) ≥ 1`. So `h(x) ≤ c`
 bounds `h_1(x)` and hence the projective height, and Northcott on `ℙ^n(K)` (normalise a coordinate to `1`
@@ -799,6 +813,11 @@ DiophantineApproximationAndTranscendence §§0.2–0.3 (absolute normalization a
 
 **Checks.**
 - The common zero locus of the `f_i` must be exactly `Y`; a larger zero locus destroys the comparison.
+- On `ℙ¹(ℂ)` with `M = O(1)`, let `f_1` vanish at `0` and `f_2 = 0`.
+  For a metric ratio `|log|t||` near `0`, the left side grows like `log|log|t||`.
+  Here `F(t) = ‖f_1(t)‖_1` and the corrected bound permits this growth. A minimum
+  over all sections with Mathlib's real logarithm fails: `Real.log |Real.log 0| = 0`
+  makes the zero section force that minimum to be at most zero.
 - The estimate is only `|h − h_1| ≤ c_3 + c_4 log h_1`, not a constant bound, and the conclusion
   follows all the same.
 - On `X = ℙ^1_ℤ`, `Y = {t = 0}`, a metric `‖·‖ = ‖·‖_1·|t|^{−1}` near `t = 0` (a pole of order one) gives
@@ -807,24 +826,42 @@ DiophantineApproximationAndTranscendence §§0.2–0.3 (absolute normalization a
 
 ### R28.1.9 Hermite–Minkowski with prescribed ramification
 
-Prove `hermiteMinkowski` (Faltings 1983, §3, Lemma 4, p. 357; Milne, *Abelian varieties*, IV
+Use `hermiteMinkowski`, the fixed-degree specialization of ArithmeticGaloisDuality
+R02.3.1 `RestrictedRamification.finite_unramifiedOutside_of_finrank_le`
+(Faltings 1983, §3, Lemma 4, p. 357; Milne, *Abelian varieties*, IV
 Theorem 3.1, p. 139): for a number field `K`, a finite set `S` of places of `K` and an integer `n`, there are
 only finitely many extensions `K' ⊆ K̄` of `K` of degree `n` unramified outside `S`. The places of `S` may be
 wildly ramified; ramification at infinite places does not affect the count.
 
-*Proof route.* Only primes above `S` divide the relative different. At a prime `𝔓` above `𝔭 ∈ S` with
-ramification index `e ≤ n`, `v_𝔓(𝔇) ≤ e − 1 + v_𝔓(e)`, which bounds the norm of the different in terms of
-`K`, `S` and `n`; the tower formula `|disc K'| = N(𝔇)·|disc K|^n` bounds `|disc K'|`, and Hermite's
-theorem leaves finitely many fields.
+*Adapter.* Take the subset of the supplier's degree-at-most-`n` set where the degree
+equals `n`; for `n ≤ 0` the set is empty. In characteristic zero the separable closure
+and the chosen algebraic closure are isomorphic over `K`. Transport intermediate fields
+along this isomorphism, preserving degrees and ramification. No quotient by abstract
+field isomorphism replaces the count of embedded subfields.
 
-*Needs:* Mathlib `not_dvd_differentIdeal_iff`,
-`NumberField.natAbs_discr_eq_absNorm_differentIdeal_mul_natAbs_discr_pow`,
-`NumberField.finite_of_discr_bdd`; the bound `v_𝔓(𝔇) ≤ e − 1 + v_𝔓(e)` from TauCetiRoadmap
-NumberFieldArithmetic Layer 6.4 (exact tame and wild exponents) and LocalFieldsRamification Layer 3
-(the compatible-valuation estimate
-`TauCeti.differentExponent_le_ramificationIndex_sub_one_add_natCastValuation`).
+The library realization of the generic input is
+`TauCeti.NumberField.finite_of_finrank_le_of_ramifiedSupport_subset` in
+`TauCeti.NumberTheory.NumberField.Discriminant.RamifiedSupport.Hermite`, at Tau Ceti
+revision `4e9057a126044e69f54ed3b475fd1386de3b14cf`. It counts finite-dimensional
+intermediate fields in any fixed ambient field containing `K`, with degree at most `n`
+and ramified support contained in the finite places of `S`. This module is absent at
+the pinned revision `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`.
+The supplier contract uses that declaration and its ramification-support comparison:
+unramified at each finite place outside `S` is equivalent to ramified support lying
+in the finite places of `S`. At the pin, the same input is built under
+ArithmeticGaloisDuality R02.3.1 with this library interface; when importing the existing
+module, use a dependency revision containing `4e9057a126044e69f54ed3b475fd1386de3b14cf`.
+The local-different and discriminant argument belongs to that generic input.
+
+*Needs:* ArithmeticGaloisDuality R02.3.1
+`RestrictedRamification.finite_unramifiedOutside_of_finrank_le`;
+TauCetiRoadmap NumberFieldArithmetic Layer 4.3 (`ramifiedSupport` and its membership criterion).
 
 **Checks.**
+- For `K = ℚ`, `S = {2, ∞}` and degree exactly `2`, the embedded fields are
+  `ℚ(i)`, `ℚ(√2)` and `ℚ(√−2)`. The supplier's degree-at-most-`2` set also contains `ℚ`;
+  the fixed-degree adapter removes it. The two embeddings of each quadratic field have
+  the same image subfield and do not count twice.
 - The discriminant bound depends on the wild part of `S`: the tame value `e − 1` alone does not bound
   the different at places above the residue characteristic; `ℚ(√2)/ℚ` at `2` has `v_𝔓(𝔇) = 3 = e − 1 + v_𝔓(e)`.
 - Unramified `e = 1` gives different exponent `0`, so the wild lower bound `e ≤ v_𝔓(𝔇)`

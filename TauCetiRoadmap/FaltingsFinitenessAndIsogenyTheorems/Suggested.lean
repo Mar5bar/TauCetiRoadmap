@@ -93,6 +93,11 @@ example (t : ℝ) (ht : 0 < t) (ht' : t ≤ 1 / 2) :
     |Real.log t| ≤ 1 + |Real.log t| ∧ |Real.log t|⁻¹ ≤ 1 + |Real.log t| := by
   sorry
 
+/-- A zero section evaluation contributes zero to a totalized iterated logarithm.
+R28.1.8 uses the positive maximum of the section norms in the logarithmic-distance bound. -/
+example : Real.log |Real.log (0 : ℝ)| = 0 := by
+  simp
+
 end Degree
 
 /-! ## Layer R28.4: Semisimplicity and the Tate conjecture -/
@@ -552,7 +557,13 @@ representations of number fields with Frobenius elements) are not at the pins. B
 * R28.1: `hodgeLine_picard`, `SemiabelianModel.unique`, `CorrespondenceStack`,
   `StablePicard.lie_iso_firstDirectImage`, `StableCurve.relativeSerreDuality`,
   `modular_hodge_commensurable`, `metrizedDegree`, `modularHeight`, `HermitianMetric.HasLogSingularities`,
-  `hodgeMetric_hasLogSingularities`, `northcott_logSingular`, `hermiteMinkowski`,
+  `hodgeMetric_hasLogSingularities`, `northcott_logSingular` (the fixed-field specialization of
+  ArakelovGeometryAndAbelianHeights §5.2, using the positive maximum of section norms),
+  `hermiteMinkowski` (the fixed-degree, fixed-algebraic-closure adapter to
+  ArithmeticGaloisDuality R02.3.1 `RestrictedRamification.finite_unramifiedOutside_of_finrank_le`;
+  its ramification-support library interface is
+  `TauCeti.NumberField.finite_of_finrank_le_of_ramifiedSupport_subset`, from Tau Ceti
+  revision `4e9057a126044e69f54ed3b475fd1386de3b14cf`),
   `finite_forms_semiabelian`, `finite_ppav_bounded_height`, `Polarization.kernelPairing`,
   `Polarization.descend`, `principalReduction_uniform`.
 * R28.2: `height_isogeny`, `height_isogeny_padicVal_bounds`, `inertia_trivial_quotient`,
