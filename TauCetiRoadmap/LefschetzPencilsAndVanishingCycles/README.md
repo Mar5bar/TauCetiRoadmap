@@ -3007,14 +3007,38 @@ in the geometric setting this is the hard-Lefschetz input of Weil II 4.3.9, reta
 an explicit hypothesis. Let `P(T) = ∏(1 − γ_i T)` and `Q(T) = ∏(1 − δ_j T)` with all `γ_i, δ_j ≠ 0`. If for every
 `t ∈ (P¹ − S)(𝔽_{q^k})`, `k ≥ 1`, with `F` the Frobenius of `X_t` relative to `𝔽_{q^k}`,
 `∏(1 − γ_i^k T)` divides `∏(1 − δ_j^k T) · det(1 − FT, E(X_t))`, then `P` divides `Q`. *Proof sketch.* Induct on `deg P`; for
-`P = 1 − γT` with `γ` different from every `δ_j`, choose `N` such that `γ^k ≠ δ_j^k` for `k ≡ 1 mod N`; Chebotarev density
-(ArithmeticGaloisRepresentations Layer 5, §5.13) for the arithmetic monodromy group `G ⊂ GL(E) × ℤ` turns the
-hypothesis into: `γ^{deg g}` is an eigenvalue of `g` for every `g` with `deg g ≡ 1 mod N`; this is impossible because the
+`P = 1 − γT` with `γ` different from every `δ_j`, choose `N ≥ 1` such that `γ^k ≠ δ_j^k` for `k ≡ 1 mod N`.
+Write `U_0 = (P¹ − S)_0`. Since `#U_0(𝔽_{q^k}) ≥ q^k + 1 − #S(𝔽̄_q)`, there is such a point for every sufficiently
+large `k ≡ 1 mod N`. At one of these points the premise makes `γ^k` an eigenvalue of Frobenius on `E`.
+The continuous arithmetic representation has compact image and hence a stable lattice
+(EtaleCohomologyFoundations §F.4.0). Each operator and its inverse preserve that lattice, so its eigenvalues
+are `ℓ`-adic units. Thus `γ` is a unit, a consequence of the premise. If `E = 0`, the rank-one premise is already
+impossible at that point.
+
+Choose a finite extension `L/ℚ_ℓ` containing `γ`. Its unit group `O_L^× = lim_r (O_L/𝔪_L^r)^×` is profinite.
+Use the native `TauCeti.zHat`, whose multiplicative notation has `TauCeti.zHat.gen` for additive degree one,
+and `TauCeti.zHat.lift` on `O_L^×` to obtain the continuous character `θ_γ : ℤ̂ → O_L^×`.
+The native `TauCeti.zHat.lift_gen` and `TauCeti.zHat.lift_ofInt` give `θ_γ(1) = γ` and `θ_γ(k) = γ^k`
+for every integer `k`.
+
+Normalize `deg : π₁^ét(U_0, ū) → ℤ̂` so that geometric Frobenius at a degree-`k` closed point has degree `k`;
+it is the negative of the arithmetic-Frobenius normalization of ArithmeticGaloisRepresentations §5.13.
+The arithmetic fundamental-group sequence (EtaleCohomologyFoundations §F.0.A2) gives the compact diagonal image
+`G = im(ρ, deg) ⊂ GL(E)(ℚ_ℓ) × ℤ̂`, with its subspace topology, and the exact sequence
+`1 → M → G → ℤ̂ → 1`, where `M` is the geometric monodromy image.
+Over `L`, the condition `det(ρ(g) − θ_γ(deg g) · Id) = 0` defines a closed conjugacy-invariant subset of `G`:
+the matrix entries and `θ_γ ∘ deg` are continuous, the determinant is polynomial, and `L` is Hausdorff.
+The premise places every closed-point geometric Frobenius with `deg ≡ 1 mod N` in this subset.
+Profinite Chebotarev (ArithmeticGaloisRepresentations Layer 5, §5.13), with its arithmetic Frobenius classes inverted,
+makes these conjugacy classes dense in the clopen slice `deg ≡ 1 mod N`, so the condition holds throughout that slice.
+Restrict to the nonempty fibre `deg = 1`: there `θ_γ(deg g) = γ`, and the matrices form one coset of `M`.
+This is impossible because the
 elements of a coset `gM` of the geometric monodromy group have no common eigenvalue, by the description of the
 Zariski closure of `M` as a symplectic group (5.8), an orthogonal group (5.10) or a Weyl group of type A, D or E
 (the finite case of 5.10), using `±Id` and Coxeter elements. (Weil II, Lemme 4.5.2 and its proof, Lemme 4.5.4, pp. 231–233.)
 *Needs:* nondegeneracy of `E(X_t)` in both parities, as above; 5.3, 5.8, 5.10;
-ArithmeticGaloisRepresentations Layer 5, §5.13; 5.9 and all-characteristic normal generation
+ArithmeticGaloisRepresentations Layer 5, §5.13; EtaleCohomologyFoundations §§F.0.A2, F.4.0;
+Tau Ceti `Topology/Algebra/Group/Profinite/ZHat/Basic.lean`; 5.9 and all-characteristic normal generation
 of 5.3 for the characteristic-two even branch. The no-common-eigenvalue input is Weil II
 4.5.4: a normalizer coset has no common eigenvalue for `Sp(E)`, `O(E)`, or the finite
 ADE reflection group obtained from the full transported orbit. In the finite case treat
@@ -3043,6 +3067,16 @@ group (Weil II, 4.3.10, p. 226), so the rational statements of this layer are no
 - `integral_torsion_kernel`: replacing the hyperplane class `η` by `ℓη` (the hyperplane class of the `ℓ`-uple Veronese
   re-embedding) makes the kernel of cup product with it contain every class of `H^n(X, ℤ_ℓ)` killed by `ℓ`, so the integral
   intersection is nonzero as soon as `H^n(X, ℤ_ℓ)` has torsion.
+- A continuous map from a compact group to discrete `ℤ` has finite image. For a homomorphism that image is a finite
+  subgroup of `ℤ`, hence zero; it cannot record all Frobenius degrees.
+- For the nonunit `γ = ℓ`, the integers `m!` tend to zero in `ℤ̂`, whereas `ℓ^(m!)` tends to zero in `ℚ_ℓ`.
+  A continuous character would have to tend to its value `1` at degree zero, so no such extension exists.
+- For a unit `γ`, the native lift is continuous and agrees with `γ^k` at every integer `k`; the resulting determinant
+  zero locus is closed. When `E = 0`, its determinant is `1` and the zero locus is empty.
+- The open curve `U_0 = P¹_{𝔽₂} − {0,1,∞}` has no degree-one points. Its Weil group has a nonempty open degree-one
+  fibre meeting no positive power of a closed-point Frobenius, since every such point has degree at least two.
+  In the profinite diagonal image, Chebotarev gives density on each clopen congruence slice and extends the closed
+  determinant condition to the nonempty degree-one fibre.
 
 ### Examples
 

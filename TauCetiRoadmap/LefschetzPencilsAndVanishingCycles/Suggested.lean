@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.AlgebraicGeometry.Fibers
 import TauCeti.LinearAlgebra.GeneralLinearGroup.Unipotent
+import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
 import TauCetiRoadmap.StableReduction.Suggested
 
 /-!
@@ -516,6 +517,30 @@ README 5.6. -/
 example : let L := (LieSubalgebra.lieSpan ℚ (Module.End ℚ (Fin 2 → ℚ))
       {symplecticTransvectionGenerator (Matrix.toBilin' !![(0 : ℚ), 1; -1, 0]) ![1, 0]})
     Module.finrank ℚ L = 1 ∧ ¬ LieModule.IsIrreducible ℚ L (Fin 2 → ℚ) := by
+  sorry
+
+/-- A continuous integer degree on a compact space has finite image. README 5.11. -/
+example {P : Type*} [TopologicalSpace P] [CompactSpace P]
+    (degree : P → ℤ) (hdegree : Continuous degree) :
+    (Set.range degree).Finite := by
+  sorry
+
+/-- The native profinite lift is continuous, sends degree one to its base, and agrees with
+integer powers. For README 5.11 its target is the profinite unit group of a finite local field. -/
+example {P : Type*} [Group P] [TopologicalSpace P] [IsTopologicalGroup P]
+    [CompactSpace P] [TotallyDisconnectedSpace P] (a : P) (k : ℤ) :
+    Continuous (TauCeti.zHat.lift a : TauCeti.zHat → P) ∧
+      TauCeti.zHat.lift a TauCeti.zHat.gen = a ∧
+      TauCeti.zHat.lift a (TauCeti.zHat.ofInt (Multiplicative.ofAdd k)) = a ^ k := by
+  sorry
+
+/-- A continuous unit character of profinite degree makes the eigenvalue determinant
+condition closed. README 5.11. -/
+example {R G : Type*} [CommRing R] [TopologicalSpace R] [IsTopologicalRing R] [T2Space R]
+    [TopologicalSpace G] (d : ℕ) (A : G → Matrix (Fin d) (Fin d) R) (hA : Continuous A)
+    (degree : G → TauCeti.zHat) (hdegree : Continuous degree)
+    (θ : TauCeti.zHat →ₜ* Rˣ) :
+    IsClosed {g : G | (A g - (θ (degree g) : R) • (1 : Matrix (Fin d) (Fin d) R)).det = 0} := by
   sorry
 
 end LefschetzPencil
