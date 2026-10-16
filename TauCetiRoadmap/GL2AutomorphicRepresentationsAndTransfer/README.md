@@ -10,8 +10,8 @@ or modular cohomology are targets here, with their intended inputs and outputs, 
 ## Scope and ownership
 
 This roadmap owns the GL₂ comparisons in layers R16.1–R16.6 and R17.1–R17.6 below. It builds the
-arithmetic character prescription, the specific rank-two trace identities, the strong transfer
-maps, solvable Artin automorphy and residual modularity, and local conductor comparisons
+arithmetic character prescription, the specific rank-two trace comparisons, the strong local transfer
+identifications, solvable Artin automorphy and residual modularity, and local conductor comparisons
 for the supplied classical attachments. It uses existing matrix groups, representation modules, fixed submodules, newforms,
 symmetric powers, coefficient twists, idele classes and quaternion algebras.
 
@@ -32,8 +32,14 @@ Rankin–Selberg analysis and the general converse theorems. ArithmeticGaloisRep
 §2.7 **Global inputs** owns the common scalar adelic Schwartz–Bruhat, Fourier, Poisson and Tate theory.
 AutomorphicSpectralTheory, Layers 0, 2, 4 and 6, owns spectral decomposition, truncation,
 trace-class bounds and the generic trace formula. R16.0/local-langlands owns the finite-place
-parameter construction; R17.1/local-quaternionic-comparison and R17.2 own the rank-two local
-matching and lifting inputs. R17.4/metaplectic-adjoint-input owns the theta-integral input
+parameter construction; R17.1/local-quaternionic-comparison and
+R17.2/quaternionic-orbital-matching own quaternionic local matching.
+AutomorphicSpectralTheory §§7.0a–7.0c and §7.1 owns the canonical cyclic twisted objects,
+local matching, normalized characters, trace comparison, weak cyclic/isobaric base change,
+descent, fibres and tower operations, including rank two and specified norm twists.
+R17.2 compares its explicit GL₂ ledger and local conventions with those supplied objects;
+R17.4 upgrades the same base-change outputs to all-place Weil–Deligne compatibility.
+R17.4/metaplectic-adjoint-input owns the theta-integral input
 needed for the adjoint lift. R17.4/whittaker-type-adjoint-converse owns the
 Whittaker-type-module converse and constituent argument, including the nongeneric boundary.
 QuaternionicModularForms §§1.3, 2.1–2.2 and 3.1 owns classical coefficient conventions,
@@ -202,9 +208,11 @@ AutomorphicSpectralTheory, §3.6a `rs-vertical-strip-bounds`, §6.9 orbital inte
 Layers 0, 2, 4, 6, supplies Rankin–Selberg strip bounds, trace class,
 Eisenstein/intertwining analytic extension, spectral completeness, truncation, compact trace formula
 and Euler–Poincaré functions. The finite-place LLC and its factor comparison are constructed
-in R16.0/local-langlands. R17.1 constructs quaternionic transfer, R17.2/quaternionic-orbital-matching
-and R17.2/cyclic-local-matching construct the orbital-integral matching functions and twisted
-orbital integrals, and R17.2 builds the specific GL₂ spectral ledger and its correction terms.
+in R16.0/local-langlands. R17.1 constructs quaternionic transfer and R17.2/quaternionic-orbital-matching constructs
+its matching functions. AutomorphicSpectralTheory §§7.0a–7.0c supplies cyclic twisted
+objects, local matching and the trace distribution; §7.1 supplies weak cyclic/isobaric
+base change, descent, fibres and towers. R17.2/cyclic-local-matching identifies the rank-two
+normalizations, and R17.2 compares its six-term ledger and correction terms with that distribution.
 
 ArithmeticGaloisRepresentations, §2.4 (arithmetic Weil–Deligne adapter), §3.3
 (Weil–Deligne conductor), Layers 1, 4, 5 and §§7.1–7.2, 7.6 supplies arithmetic
@@ -263,9 +271,9 @@ explicit parameters on that correspondence. R16.4–R16.6 constructs the Hecke-f
 and the classical/Hilbert dictionary from the named automorphic suppliers.
 R17.1–R17.3 constructs quaternionic matching and global transfer.
 
-After R16.1 construct R17.5/global-weil-group. Within R17.4 first build weak prime-cyclic
-transfer (agreement at good places), split-place
-comparison, descent, cuspidality and fibers, without extraordinary WD compatibility. Construct
+After R16.1 construct R17.5/global-weil-group. Within R17.4 first consume
+AutomorphicSpectralTheory §7.1 weak prime-cyclic transfer, descent, cuspidality and fibres;
+compare its rank-two normalizations and split-place components without extraordinary WD compatibility. Construct
 quadratic induction, the metaplectic adjoint input, the Whittaker-type adjoint converse and
 constituent argument, the independent cubic converse transfer and GL₃ applications next. In R17.5 build finite primitive globalization and
 strong solvable Artin theorem using these weak transfers. Then prove R17.4/local-compatibility,
@@ -1170,41 +1178,37 @@ Fixed unitary central character; compact modulo center functions; regular ellipt
 
 <a id="r17-2-cyclic-local-matching"></a>
 
-### R17.2.3 Concrete cyclic norm matching
+### R17.2.3 Rank-two adapter for supplied cyclic matching
 
-Let E/F be a cyclic extension of nonarchimedean local fields with generator σ, and construct the twisted orbital integral by integrating φ(x⁻¹δσ(x)) over the twisted centralizer quotient with its specified measure. For φ∈C_c^∞(GL₂(E)), choose f∈C_c^∞(GL₂(F)) with O_γ(f)=TO_{δ,σ}(φ) whenever γ is a regular norm of δ, and O_γ(f)=0 for regular nonnorm classes, with centralizer measures identified as in AC89 Chapter 1 §3. A matching central character on E is pulled back from F by N_{E/F}; central equivariance must use this norm, not the raw same character. At an unramified place with unit volumes, choose the spherical transfer: 1_{GL₂(O_E)} maps to 1_{GL₂(O_F)}, and Satake transforms are related by (α,β)↦(α^d,β^d), d=[E:F]. At a completely split global place use the product norm δ₁…δ_d and the corresponding convolution of local functions. The function choice is unique only modulo the kernel of regular orbital integrals.
+Use the n=2 objects and matching relation of AutomorphicSpectralTheory §§7.0a–7.0b for a prime-degree cyclic local extension E/F of characteristic-zero nonarchimedean fields, or the split local algebra at a global place. Identify its upper-Borel induction, additive character ψ_F∘Tr_{E/F}, Whittaker functional and central quotient conventions with R16.2–R16.3 and R16.1/haar-quotient-comparison. The adapter identifies the quotient measures and normalized twisted characters, so matching in this roadmap means exactly that supplied relation, including vanishing on regular nonnorm classes. Central characters satisfy ω_E=ω_F∘N_{E/F}; tests have inverse central equivariance. At infinity use the supplied invariant character images with the R16.2 archimedean models.
 
-Cyclic local extension and generator; compatible centralizer Haar measures; unramified spherical assertion requires unramified E/F.
+Discharge the finite-place tempered-support hypothesis of AutomorphicSpectralTheory §7.0b at rank two from R16.2's analytic classification: a tempered irreducible is a unitary principal series or a square-integrable unitary Steinberg twist or supercuspidal. Its inducing support is unique up to permutation, by the Jacquet-module calculation in the principal-series case and cuspidal support in the discrete cases. Compare the supplied quotient-normalized operator with the R16.2 models for determinant characters and Steinberg; on generic classes Whittaker uniqueness identifies the operators. Use individual Shintani identities only in the classes allowed by §7.0b, with both irreducibility hypotheses when using products.
 
-Prove the following API.
-- `cyclicMatching_norm`: Matching regular norm classes have equal ordinary and twisted orbital integrals with identified centralizer measures.
-- `cyclicMatching_non_norm`: The ordinary orbital integral vanishes on regular classes that are not norms.
-- `cyclicMatching_unit`: Unramified hyperspecial units match with hyperspecial volumes one.
-- `cyclicMatching_satake`: On an unramified Satake pair the norm rule sends (α,β) to (α^d,β^d).
-- `cyclicMatching_central`: The E central character is ω_F∘N_{E/F}; test functions use its inverse.
+The spherical adapter identifies the supplied Satake substitution with R17.4/unramified-base-change on conjugacy classes. For a completely split algebra it identifies product norm and convolution, with residue degree one at each place. Composite cyclic steps use the supplied tower operations.
 
 **Checks.**
-- For E=F and σ=1 choose f=φ; ordinary and twisted orbital integrals agree.
-- At an unramified quadratic place the pair (2,3) maps to (4,9), trace 13 and determinant 36.
-- For E/F unramified quadratic, a regular γ with odd valuation of det γ cannot be a norm and its matching ordinary orbital integral is zero.
+- The split degree-one adapter gives the identity matching relation and operator.
+- At an unramified quadratic place diag(2,3) becomes diag(4,9), with trace 13 and determinant 36; a regular class with odd determinant valuation is a nonnorm.
+- Multiplying a normalized generic σ-operator by a nontrivial ℓ-th root of unity changes its twisted trace and fails Whittaker normalization.
+- If η is the quadratic norm character and ν=|·|_F, the irreducible ν×η lifts to the quotient |det|_E^(1/2) of a reducible standard module; no individual Shintani identity is asserted for this pair.
 
-*Needs:* R16.3/principal-series-parameter; R16.3/tate-unitary-normalization; R17.2/quaternionic-orbital-matching; AutomorphicSpectralTheory §6.9 (quotient integration); SmoothRepresentationsOfLocalGroups SR.4.
+*Needs:* AutomorphicSpectralTheory §§7.0a–7.0b; R16.2/local-classification; R16.2/archimedean-classification; R16.3/principal-series-parameter; R16.3/tate-unitary-normalization; R16.1/haar-quotient-comparison; SmoothRepresentationsOfLocalGroups SR.2–SR.4.
 
-*Source:* [ac89], Chapter 1 §3 Proposition 3.1 pp. 20–22; §4 p. 32.
+*Source:* [ac89], Chapter 1 §3 Proposition 3.1 pp.20–22, §4 p.32 and §6 pp.55–62; [bh06], §17.4–§17.5 pp.117–119; AutomorphicSpectralTheory §7.0b, constituent-identity domain and its reducible-lift example.
 
 <a id="r17-2-continuous-residual-ledger"></a>
 
 ### R17.2.4 The continuous and residual spectral ledger
 
-Fix a unitary central character and Tamagawa measures. Retain the cuspidal spectrum, residual determinant characters χdet with χ²=ω, and normalized induced families I(μ,ωμ⁻¹). The ordinary GL₂ trace formula has the elliptic sum, the self-associate intertwining term −¼∑tr(MI(f)), the global normalizing-factor integral (4π)⁻¹∫(m′/m)tr I(f), the singular constant and logarithmic unipotent terms, and the local derivative integral (2π)⁻¹∫∑_v B_v(f_v,η_v)∏_{w≠v}tr I(f_w,η_w). Here B_v is half the trace of R_v⁻¹R_v′I(f_v) minus the Fourier transform of the split logarithmic orbital term. These are the six terms of [langlands80] §10; AutomorphicSpectralTheory supplies Eisenstein analytic extension, truncation and trace-class estimates, not their rank-two transfer identities.
+Fix a unitary central character and Tamagawa measures. Retain the cuspidal spectrum, residual determinant characters χdet with χ²=ω, and normalized induced families I(μ,ωμ⁻¹). The ordinary GL₂ trace formula has the elliptic sum, the self-associate intertwining term −¼∑tr(MI(f)), the global normalizing-factor integral (4π)⁻¹∫(m′/m)tr I(f), the singular constant and logarithmic unipotent terms, and the local derivative integral (2π)⁻¹∫∑_v B_v(f_v,η_v)∏_{w≠v}tr I(f_w,η_w). Here B_v is half the trace of R_v⁻¹R_v′I(f_v) minus the Fourier transform of the split logarithmic orbital term. These are the six terms of [langlands80] §10. Express the n=2 ordinary distribution supplied by AutomorphicSpectralTheory Layer 6 in these coordinates; express the full truncated cyclic distribution of its §7.0c in the twisted coordinates below. Its invariant t-discrete distribution is obtained only after the continuous-term cancellations and the central norm-character averaging of R17.2/specialized-trace-comparison.
 
-For cyclic E/F of degree d, the twisted formula has the corresponding elliptic, singular, global-normalizing and local-derivative terms. Its self-associate term is −¼∑_{η^σ=η̃}tr(I(φ)σM). Besides d copies of the twisted discrete spectrum, include ½∑τ(η) over η^σ=η̃≠η, with τ(σ)=σM; this exceptional induced summand occurs only for d=2. M(η^σ)M(η)=1 verifies the extension, and pairing η with η̃ explains the half weight. At η=η̃ the scalar M=−1 follows from the opposite residues of the two zeta factors and the identity local normalized operators. On a quaternion division algebra retain norm characters χNrd: the Steinberg projector difference has trace −1 on χdet, so this correction cannot be discarded.
+For prime-cyclic E/F of degree d, the supplied twisted formula has the corresponding elliptic, singular, global-normalizing and local-derivative terms. Its self-associate term is −¼∑_{η^σ=η̃}tr(I(φ)σM). Besides d copies of the twisted discrete spectrum, include ½∑τ(η) over η^σ=η̃≠η, with τ(σ)=σM; this exceptional induced summand occurs only for d=2. M(η^σ)M(η)=1 verifies the extension, and pairing η with η̃ explains the half weight. At η=η̃ the scalar M=−1 follows from the opposite residues of the two zeta factors and the identity local normalized operators. On a quaternion division algebra retain norm characters χNrd: the Steinberg projector difference has trace −1 on χdet, so this correction cannot be discarded.
 
 The API includes Label every term and its measure; change local factors while retaining central character; identify the quadratic exceptional summand; restrict to strongly cuspidal test functions only after recording the induced operator identity.
 
 **Checks.** For d odd the exceptional τ summand is zero; d=2 retains η^σ=η̃≠η with weight ½; a Steinberg projector has determinant-character trace −1 rather than zero.
 
-*Needs:* R17.2/steinberg-projector-difference and local matching; AutomorphicSpectralTheory AS.2, AutomorphicSpectralTheory AS.4, AutomorphicSpectralTheory AS.6 for generic spectral expansion, intertwining operators and truncation; AdelicAlgebraicGroups AA.2 for measures. The explicit rank-two ledger belongs here.
+*Needs:* R17.2/steinberg-projector-difference and local matching; AutomorphicSpectralTheory AS.2, AutomorphicSpectralTheory AS.4, AutomorphicSpectralTheory AS.6 and §§7.0a–7.0c for the ordinary and twisted distributions, intertwining operators and truncation; AdelicAlgebraicGroups AA.2 for measures. The explicit rank-two coordinate comparison belongs here.
 
 *Source:* [langlands80], §10, (10.1)–(10.7), pp.112–115; (10.28)–(10.35), pp.126–128; §11, pp.129–131.
 
@@ -1222,11 +1226,11 @@ Compact-mod-center smooth test function, suitable integrability and fixed unitar
 
 <a id="r17-2-specialized-trace-comparison"></a>
 
-### R17.2.6 The concrete quaternionic and cyclic trace comparisons
+### R17.2.6 Quaternionic comparison and the cyclic ledger interface
 
-For matching factorizable functions, prove the ordinary/quaternion and cyclic twisted GL₂ trace identities with the preceding ledger. The cyclic identity is tr R(φ)R(σ)=tr r(f), where R contains d copies of the twisted discrete spectrum and the quadratic exceptional summand, and r excludes one-dimensional and induced continuous constituents as in [langlands80] §11.
+For matching factorizable functions, prove the ordinary/quaternion trace identity with the preceding ledger. For prime-cyclic transfer, specialize the full truncated distributions supplied by AutomorphicSpectralTheory §7.0c to n=2 and express them in the six-term coordinates of R17.2/continuous-residual-ledger. Identify each term after transport by R17.2/cyclic-local-matching, including quotient measures, central norm index d, Weyl factors and normalized σ-operators. After the singular and derivative cancellations below, group by infinitesimal spectral parameter to recover the supplied invariant t-discrete comparison, retaining its proper-Levi Weyl-intertwiner terms. Compute the conversion from its norm-character averaging and split-central scaling to Langlands’s identity tr R(φ)R(σ)=tr r(f): R contains d copies of the twisted discrete spectrum and the quadratic exceptional summand, while r excludes the one-dimensional and induced continuous constituents of [langlands80] §11. For a cuspidal output with d distinct descents the supplied transferred character is their average with coefficient 1/d; the conversion must account for this coefficient and the quadratic exceptional term, as well as the d copies in R. This is a comparison of distributions on all matching tests, including finite variations at bad places. All cyclic consumers use the supplied distributions and transfer map.
 
-*Cyclic proof.* AutomorphicSpectralTheory AS.6 truncation, cyclic Hasse norms, centralizer volumes and index d match elliptic/scalar terms. Pair (10.4) with d(10.31). Norm-fibre Hecke L-products give ∑m′/m=d·m_E′/m_E, cancelling (10.3) with d(10.28). Section 9's A₃=−θ′ and θ′(c,0,φ)=dθ′(Nc,0,f), including archimedean corrections, cancel (10.5) with d(10.32). Exceptional τ, M=−1 and d self-associate preimages cancel (10.2) with d(10.30). The B-discrepancy (11.1) vanishes at good spherical places; separate it at bad places below.
+*Cyclic coordinate comparison.* AutomorphicSpectralTheory §7.0c and AS.6 truncation, cyclic Hasse norms, centralizer volumes and index d match elliptic/scalar terms. Pair (10.4) with d(10.31). Norm-fibre Hecke L-products give ∑m′/m=d·m_E′/m_E, cancelling (10.3) with d(10.28). Section 9's A₃=−θ′ and θ′(c,0,φ)=dθ′(Nc,0,f), including archimedean corrections, cancel (10.5) with d(10.32). Exceptional τ, M=−1 and d self-associate preimages cancel (10.2) with d(10.30). The B-discrepancy (11.1) vanishes at good spherical places; separate it at bad places below.
 
 *Joint absolute bounds.* Fix other factors and the spherical unit at a good split v. Lift compact-mod-centre tests using a central cutoff on GL₂(A)¹, then project to the prescribed character of Z(F)\Z(A)¹. Put Δ=1−Ω+2Ω_K. Its inverse powers bound blocks by powers of (1+t²+λ_π²+λ_τ²)⁻¹. [flm11] §5.1–2 separates M⁻¹M′=(n′/n)Id+∑_u N_u⁻¹N_u′: polynomial weighted L¹ growth for the scalar; bounded finite-level rational degree, polynomial archimedean degree/dimension and unitary variation bounds for local matrices. Choose the resolvent power beyond these and the discrete counting exponent. Block trace norms are jointly summable/integrable before cancellation; central projection preserves this. [mw26] Theorem 11.1 applies the same estimates to Res_{E/F}GL₂ with σ, a unitary twisted operator and conjugated level. Keep the quadratic self-associate term at spectral dimension zero.
 
@@ -1238,9 +1242,9 @@ Hence ∑|cᵢ|<∞ and ∫|d(it)|dt<∞ in (11.6)–(11.7). The algebraic measu
 
 The API includes Joint bounds before summing derivatives; atom-free L¹ periodization (`spectralCircle_fibre_countable`, `spectralCircle_density_singleton`); finite changes of local factors; quadratic exceptional correction; strongly cuspidal and Steinberg/norm-character specializations.
 
-**Checks.** Identity extension gives the ordinary formula; deleting quadratic τ leaves (10.30) unmatched; retain the Steinberg/norm-character correction. Finite harmonic cutoffs do not give an absolute bound. The unbounded |t|⁻¹/² density on (0,1) has atom-free periodization. A constant map gives an atom.
+**Checks.** Identity extension gives the ordinary formula; a cuspidal output with d distinct descents retains the supplied coefficient 1/d under the ledger conversion; deleting quadratic τ leaves (10.30) unmatched; retain the Steinberg/norm-character correction. Finite harmonic cutoffs do not give an absolute bound. The unbounded |t|⁻¹/² density on (0,1) has atom-free periodization. A constant map gives an atom.
 
-*Needs:* R17.2 local matching, continuous-residual-ledger and strong-cuspidal-vanishing; AutomorphicSpectralTheory AS.6 for generic trace formula infrastructure; AdelicAlgebraicGroups AA.2–3; ClassFieldTheory cyclic norm theorem and reciprocity; R16.4 multiplicity one. The rank-two singular and derivative cancellations are owned by this target.
+*Needs:* R17.2 local matching, continuous-residual-ledger and strong-cuspidal-vanishing; AutomorphicSpectralTheory AS.6 and §§7.0a–7.0c for the canonical ordinary and cyclic distributions and spectral isolation; AdelicAlgebraicGroups AA.2–3; ClassFieldTheory cyclic norm theorem and reciprocity; R16.4 multiplicity one. The rank-two singular and derivative cancellations and their comparison with the supplied distribution are owned by this target.
 
 *Source:* [langlands80], §9 pp.97–111, §10 pp.112–128, Theorem 11.1 pp.130–138; [jl70], §16 pp.262–278, Theorem 16.1 pp.269–270; [flm11], Theorem 3 and Proposition 1 pp.183–184, §5.1–2 pp.187–191; [mw26], Theorem 11.1 pp.14–16, Theorem 13.1 pp.17–18 (v2).
 
@@ -1251,7 +1255,7 @@ The Steinberg projector has trace +1 on Steinberg and −1 on its determinant-ch
 
 ### Dependencies
 
-R16.1–R16.4; R17.1; AutomorphicSpectralTheory Layers 0, 2, 4 and 6; AdelicAlgebraicGroups AA.2–AA.3; R17.2/quaternionic-orbital-matching and R17.2/cyclic-local-matching; ClassFieldTheory Layers 11–13.
+R16.1–R16.4; R17.1; AutomorphicSpectralTheory Layers 0, 2, 4 and 6 and §§7.0a–7.0c; AdelicAlgebraicGroups AA.2–AA.3; R17.2/quaternionic-orbital-matching and R17.2/cyclic-local-matching; ClassFieldTheory Layers 11–13.
 
 ## Layer R17.3: Global Jacquet–Langlands
 
@@ -1457,7 +1461,7 @@ R16.1–R16.6; R17.1–R17.2; ArithmeticLocallySymmetricSpaces ALS.F.6–F.7; R1
 
 ### R17.4.1 Unramified base-change Satake rule
 
-Use the existing arithmetic Satake conjugacy class A_v∈GL₂(C) at an unramified finite v. For an unramified local extension E_w/F_v of residue degree f≥1, define its base-change representative to be A_v^f; the conjugacy class is independent of the chosen representative. This is the transfer-specific rule, not a new Satake carrier. Its determinant is det(A_v)^f and its local Euler polynomial is det(1−A_v^f X). For a split global place each local degree is one. The formal degree-zero extension of the matrix-power function is the identity matrix and is not a degree-zero field extension.
+Use the existing arithmetic Satake conjugacy class A_v∈GL₂(C) at an unramified finite v. For an unramified local extension E_w/F_v of residue degree f≥1, define its base-change representative to be A_v^f; the conjugacy class is independent of the chosen representative. This matrix-power fixture represents the n=2 Satake substitution supplied by AutomorphicSpectralTheory §7.0b and §7.1, via R17.2/cyclic-local-matching; it introduces no new Satake carrier or transfer map. Its determinant is det(A_v)^f and its local Euler polynomial is det(1−A_v^f X). For a split global place each local degree is one. The formal degree-zero extension of the matrix-power function is the identity matrix and is not a degree-zero field extension.
 
 Prove the following API.
 - `unramifiedBaseChange_one`: The degree-one rule fixes A.
@@ -1473,43 +1477,37 @@ Prove the following API.
 - For that A, degree two is different from degree one.
 - Residue degrees two then three give diag(64,729), agreeing with degree six.
 
-*Needs:* Mathlib `Matrix.GeneralLinearGroup`; Mathlib `Matrix.GeneralLinearGroup.det`; Mathlib `Matrix.GeneralLinearGroup.map`; R16.3.
+*Needs:* AutomorphicSpectralTheory §7.0b and §7.1; Mathlib `Matrix.GeneralLinearGroup`; Mathlib `Matrix.GeneralLinearGroup.det`; Mathlib `Matrix.GeneralLinearGroup.map`; R16.3.
 
 *Source:* [ac89], Chapter 3 §1, formula (1.1) and Definition 1.1, p. 199; [langlands80], §2, local lifting criterion (i), p. 9; compare §1 formula (1.1), p. 2.
 
 <a id="r17-4-cyclic-base-change"></a>
 
-### R17.4.2 Prime-cyclic base change for GL₂
+### R17.4.2 Rank-two interfaces for canonical prime-cyclic base change
 
-For a cyclic extension E/F of prime degree ℓ of number fields, there is a uniquely determined strong base-change map BC_{E/F} from isobaric automorphic GL₂ classes over F to isobaric automorphic GL₂ classes over E. BC(π) is the unique isobaric Π such that, at every place w|v, Π_w is the local base-change lift of π_v (Langlands §2, criteria (i)/(ii)). At an unramified w|v its Satake class is unramifiedBaseChange(A_v, f(w/v)); when v splits, Π_w ≅ π_v. A cuspidal input has a cuspidal output or, only for ℓ = 2, an output θ⊞θ^σ for a Hecke character θ of E. The central character is ω_π∘N_{E/F}. The output is invariant under Gal(E/F), and the map does not depend on the chosen generator σ. Neither cuspidality nor injectivity is automatic. The theorem local-compatibility identifies BC(π)_w with the restriction to W_{E_w} of the arithmetic-normalised LLC parameter of π_v.
+For number fields E/F cyclic of prime degree ℓ, write BC_{E/F} for the n=2 specialization of AutomorphicSpectralTheory §7.1, on cuspidal classes and two-character isobaric sums with their specified norm twists. Use its weak output, centre, twists and Galois action unchanged. Good-place Satake powers agree with `unramifiedBaseChange` through R17.2/cyclic-local-matching. There is one weak map; the all-place upgrade in R17.4/local-compatibility proves a further property of this same output.
 
-First construct the weak map characterized by good-place Satake powers, its split-place comparison, twist, centre and fibers from the trace identity. The all-place WD assertion is the subsequent local-compatibility target; the strong map is the same isobaric output after that identification.
+Compare the supplied local Langlands-quotient construction with R16.2's ordered GL₂ models. The supplied normalized character identities and spectral isolation give the local comparison at split places, where the operator is cyclic permutation of tensor factors; no extraordinary WD identification is used. For any isobaric GL₂ output obtained from the explicit R17.2 ledger with the same good-place powers, isobaric strong multiplicity one identifies it with this canonical BC output. R17.2/specialized-trace-comparison identifies the normalized trace interfaces, rather than deducing their equality from multiplicity one alone.
 
-Isobaric here means cuspidal or χ₁⊞χ₂. Arthur–Clozel uses induction from unitary cuspidal classes; the GL₂ extension without a unitarity restriction is Langlands's theorem.
-
-Prove the following API.
-- `cyclicBaseChange_local`: At w|v, BC(π)_w is the local base-change lift of π_v in the sense of Langlands §2 (criteria (i)/(ii)); at split v it is π_v. Its description as the restriction of the normalised local parameter to W_{E_w} is the theorem local-compatibility.
-- `cyclicBaseChange_unramified`: At unramified w|v, Satake equals unramifiedBaseChange(A_v,f(w/v)).
-- `cyclicBaseChange_central`: The central character is pullback along the idele norm.
-- `cyclicBaseChange_twist`: BC(π⊗χ)=BC(π)⊗(χ∘N_{E/F}).
-- `cyclicBaseChange_galois`: Every output is Gal(E/F)-invariant; every invariant cuspidal class occurs, with the fibers described in cyclic-descent-fibers.
-- `cyclicBaseChange_coefficients`: In the supplied rational/cohomological regime, coefficient conjugation commutes with BC after the algebraic normalization.
+The GL₂ adapter API consists of:
+- `cyclicBaseChange_local`: After R17.4/local-compatibility, the canonical output at w|v has the restricted normalized WD parameter, retaining N; its split-place identity is available in the weak phase.
+- `cyclicBaseChange_coefficients`: With the R16.4 rational/cohomological input and algebraic normalization, coefficient conjugation commutes with the canonical BC, by conjugating good-place Hecke data and applying isobaric strong multiplicity one.
 
 **Checks.**
-- At a completely split v each local output equals the original component and its Satake representative A_v.
-- At an inert unramified place of a quadratic extension, diag(2,3) becomes diag(4,9).
-- For π=AI_{E/F}(θ) with θ≠θ^σ in a quadratic extension, BC(π)=θ⊞θ^σ and is not cuspidal.
-- For prime ℓ>2, every cuspidal GL₂ input remains cuspidal.
+- At a completely split v the weak output has component π_v and Satake representative A_v.
+- At an inert unramified quadratic place diag(2,3) becomes diag(4,9); any weak output with these good-place data is the canonical isobaric class.
+- A quadratic θ⊞θ^σ output with θ≠θ^σ remains the same noncuspidal class through the normalization comparison and all-place upgrade.
+- The weak output and the normalization comparisons are available before the Artin construction, without R17.4/local-compatibility.
 
-*Needs:* R17.4/unramified-base-change; R17.2; R16.3; R16.4; GlobalNumberFields Layer 8.
+*Needs:* AutomorphicSpectralTheory §§7.0a–7.0c and §7.1; R17.2/cyclic-local-matching; R17.2/specialized-trace-comparison; R17.4/unramified-base-change; R16.2; R16.4; AutomorphicLFunctionsAndLocalFactors AL.3/isobaric-strong-multiplicity-one. Only the all-place clause of cyclicBaseChange_local uses R17.4/local-compatibility.
 
-*Source:* [langlands80], §2, global properties (A),(B), p. 14; proof in §11, Lemma 11.3 and Proposition 11.4, pp. 140–145; §8, split places, p. 93; [ac89], Chapter 3, Theorem 5.1 (with Theorem 4.2(a)–(c)), pp. 202 and 212.
+*Source:* [langlands80], §2 global properties (A),(B), p.14, §8 split places p.93, §11 Lemma 11.3 and Proposition 11.4 pp.140–145; [ac89], Chapter 3 Theorem 4.2 pp.202–203 and Theorem 5.1 pp.212–213.
 
 <a id="r17-4-local-compatibility"></a>
 
 ### R17.4.3 All-place compatibility of cyclic base change
 
-For the weak prime-cyclic BC pair, after the R17.5 Artin construction, and every w|v, identify rec(BC(π)_w) with rec(π_v)|W_{E_w}, retaining N; the same identity holds for recᵀ since local norms restrict compatibly. Principal series restrict both characters; Steinberg twists retain N≠0; a restricted supercuspidal parameter can become reducible. Real-to-complex transfer restricts the real Weil parameter. The global character identity supplies a local Shintani lift; proving that its parameter is the restriction is a further local comparison. Langlands treats reducible, special, dihedral and tetrahedral cases. Include the extraordinary dyadic case in every prime degree. R16.3's existence of local LLC alone does not prove this comparison, and [bh06] §52.9 p.324 explicitly distinguishes tame lifting from Weil restriction.
+For the canonical weak prime-cyclic BC pair supplied by AutomorphicSpectralTheory §7.1, after the R17.5 Artin construction, and every w|v, identify rec(BC(π)_w) with rec(π_v)|W_{E_w}, retaining N; the same identity holds for recᵀ since local norms restrict compatibly. Principal series restrict both characters; Steinberg twists retain N≠0; a restricted supercuspidal parameter can become reducible. Real-to-complex transfer restricts the real Weil parameter. The global character identity supplies a local Shintani lift; proving that its parameter is the restriction is a further local comparison. Langlands treats reducible, special, dihedral and tetrahedral cases. Include the extraordinary dyadic case in every prime degree. R16.3's existence of local LLC alone does not prove this comparison, and [bh06] §52.9 p.324 explicitly distinguishes tame lifting from Weil restriction.
 
 Use Frobenius-semisimple Weil–Deligne parameters and the R16.3 geometric reciprocity and Tate normalization. E_w/F_v is trivial or cyclic of degree ℓ, at every finite and infinite place.
 
@@ -1519,95 +1517,79 @@ Use Frobenius-semisimple Weil–Deligne parameters and the R16.3 geometric recip
 
 <a id="r17-4-cyclic-descent"></a>
 
-### R17.4.4 Prime-cyclic automorphic descent
+### R17.4.4 Supplied prime-cyclic descent
 
-For cyclic E/F of prime degree ℓ, a cuspidal automorphic GL₂ representation Π over E has a cuspidal descent over F if and only if Π^σ≅Π for a generator σ of Gal(E/F). The resulting descents are determined up to twisting by the ℓ characters of F×N_{E/F}(A_E×)\A_F×. This is descent of an automorphic representation, proved by the twisted trace formula comparison, not descent of a Galois representation. Invariant noncuspidal isobaric classes also have isobaric descents, with the two-character ambiguity described separately.
+Consume AutomorphicSpectralTheory §7.1's invariant cuspidal descent and isobaric extension at n=2, using the canonical weak BC of R17.4/cyclic-base-change. A descent is a preimage under that map. The norm-kernel character group is identified by ClassFieldTheory Layer 11. No Galois representation or all-place WD comparison is required for this supplied automorphic descent.
 
-A descent is initially a preimage under weak cyclic base change; norm-kernel characters are identified by global reciprocity.
+*Needs:* AutomorphicSpectralTheory §7.1; R17.4/cyclic-base-change; ClassFieldTheory Layer 11.
 
-*Needs:* R17.4/cyclic-base-change; R17.2; ClassFieldTheory Layer 11.
-
-*Source:* [langlands80], §11, Lemma 11.6(b), p. 151; §2, global property (C), p. 14.
+*Source:* [ac89], Chapter 3 Theorem 4.2(d)–(f), pp.202–203; [langlands80], §11 Lemma 11.6(b), p.151.
 
 <a id="r17-4-cuspidality"></a>
 
-### R17.4.5 The exact prime-cyclic cuspidality criterion
+### R17.4.5 Supplied cuspidality criterion at rank two
 
-Let π be cuspidal GL₂ over F and E/F cyclic of prime degree ℓ; let η be a generator of the order-ℓ group of Hecke characters of F trivial on F^×N_{E/F}(A_E^×). Then BC_{E/F}(π) is noncuspidal if and only if π≅π⊗η. This can occur only for ℓ=2. In that case BC(π)=θ⊞θ^σ for a Hecke character θ with θ≠θ^σ. The identification of π with quadratic automorphic induction is provided by R17.4/quadratic-induction, after this base-change criterion. For prime ℓ>2 the output is always cuspidal. For composite cyclic extensions test each prime step; an odd prime criterion is not a criterion for every composite degree.
+Specialize AutomorphicSpectralTheory §7.1's self-twist criterion: for cuspidal GL₂ input, a noncuspidal prime-cyclic output forces ℓ=2 and is a pair of distinct conjugate Hecke characters. For ℓ>2 the output is cuspidal, since the exceptional block rank 2/ℓ must be integral. Use the supplier's norm-twist extension for nonunitary cuspidal input. R17.4/quadratic-induction identifies the quadratic exceptional input with automorphic induction after this weak phase.
 
-The criterion is independent of the chosen generator η. Reduce Arthur–Clozel's unitary statement by a |det|^s twist for a nonunitary cuspidal π.
+*Needs:* AutomorphicSpectralTheory §7.1; R17.4/cyclic-base-change.
 
-*Needs:* R17.4/cyclic-base-change; R17.4/cyclic-descent; GlobalNumberFields Layer 9.
-
-*Source:* [ac89], Chapter 3, Theorem 4.2(a),(b), p. 202; [langlands80], §11, Lemma 11.7, p. 151; §11, Lemma 11.3(b), p. 141; Lemma 11.3(a) on p. 140.
+*Source:* [ac89], Chapter 3 Theorem 4.2(a)–(b), p.202; [langlands80], §11 Lemmas 11.3 and 11.7, pp.140–141,151.
 
 <a id="r17-4-cyclic-descent-fibers"></a>
 
-### R17.4.6 Cuspidal fibers and quadratic self-twists
+### R17.4.6 Supplied cuspidal fibres
 
-If Π is a Gal(E/F)-invariant cuspidal GL₂ representation and π is one of its cyclic descents, then its cyclic descents are precisely π⊗η^i, 0≤i<ℓ; these ℓ classes are distinct and all cuspidal. If E/F is quadratic and the common output is noncuspidal θ⊞θ^σ with θ≠θ^σ, its descent is unique (and cuspidal): π⊗η≅π. The assertion of ℓ distinct descents therefore applies only when the output is cuspidal.
+Use AutomorphicSpectralTheory §7.1's fibre theorem with its rank-two self-twist criterion. A cuspidal output has ℓ distinct cuspidal descents related by norm-kernel twists. A quadratic output θ⊞θ^σ with distinct characters has a unique cuspidal descent, fixed by the quadratic norm-kernel twist. Distinctness of ℓ descents applies only to a cuspidal output.
 
-E/F is prime-cyclic and η generates its order-ℓ norm-kernel character group; σ generates Gal(E/F).
+*Needs:* AutomorphicSpectralTheory §7.1; R17.4/cuspidality; R17.4/cyclic-descent.
 
-*Needs:* R17.4/cyclic-descent; R17.4/cuspidality.
-
-*Source:* [langlands80], §11, Lemma 11.6(a), p. 150; (b) on p. 151; §2, global property (C), p. 14.
+*Source:* [ac89], Chapter 3 Theorem 4.2(d)–(e), pp.202–203; [langlands80], §11 Lemma 11.6, pp.150–151.
 
 <a id="r17-4-isobaric-fibers"></a>
 
-### R17.4.7 Isobaric character fibers
+### R17.4.7 Supplied constituent-wise isobaric fibres
 
-For π=χ₁⊞χ₂ over F, its cyclic base change is (χ₁∘N_{E/F})⊞(χ₂∘N_{E/F}). Equality of two such outputs is equality of the unordered pairs of pulled-back characters. The two characters can be twisted independently by characters trivial on the norm subgroup; the ambiguity is not in general a simultaneous twist of the whole rank-two representation. When an invariant pair over E is exchanged by σ (possible only for ℓ=2), it has the quadratic cuspidal descent of the exchanged character pair described above.
+Use AutomorphicSpectralTheory §7.1's constituent-wise fibre relation, including multiplicities and specified norm twists. For χ₁⊞χ₂ over F this is equality of the unordered pairs of norm-pulled-back characters; each character may acquire its own norm-kernel twist. An invariant pair exchanged by σ has its quadratic cuspidal descent from R17.4/cyclic-descent-fibers. These are the supplied fibres of the canonical map, with no common-twist assertion for an arbitrary isobaric input.
 
-E/F is prime-cyclic; χ₁,χ₂ need not be unitary. Twisting characters are trivial on F×N(A_E×).
+*Needs:* AutomorphicSpectralTheory §7.1; R17.4/cyclic-descent-fibers; ClassFieldTheory Layer 11.
 
-*Needs:* R17.4/cyclic-base-change; R17.4/cyclic-descent-fibers; GlobalNumberFields Layer 8; ClassFieldTheory Layer 11; R16.4.
-
-*Source:* [langlands80], §2, global property (C), first sentence, p. 14; §11, verification of (A)–(G), p. 151; §11, verification of (B), p. 151.
+*Source:* [ac89], Chapter 3 Theorem 4.2(c),(e),(f), pp.202–203; [langlands80], §2 property (C), p.14, §11 verification of (A)–(G), p.151.
 
 <a id="r17-4-solvable-base-change"></a>
 
-### R17.4.8 Base change along a solvable normal tower
+### R17.4.8 All-place adapter for a solvable normal tower
 
-Let E/F be a finite Galois extension with solvable Galois group. Choose a subnormal tower F=F₀⊂F₁⊂⋯⊂F_r=E with each step cyclic of prime degree and define BC_{E/F} by composing the prime-cyclic maps on isobaric GL₂ classes. At every local place the normalized parameter is restricted from F to E; the map is independent of the chosen prime-cyclic tower by almost-everywhere Satake comparison and isobaric strong multiplicity one. It preserves twists through the total norm and preserves cuspidality exactly when no intermediate step meets its quadratic self-twist exception. A non-Galois cubic extension has no such prime-cyclic tower from F; it is not constructed here.
-
-π is isobaric. Fix compatible embeddings and places; intermediate F_i need not be normal over F.
-
-Prove the following API.
-- `solvableBaseChange_refl`: For E=F and the empty tower the map is identity.
-- `solvableBaseChange_tower`: For a nested pair of solvable normal extensions the map agrees with composition, with the chosen compatible embeddings.
-- `solvableBaseChange_local`: Every local parameter is restriction along the total local extension, and at completely split places it is unchanged.
-- `solvableBaseChange_twist`: Twisting by χ before BC equals twisting after BC by χ∘N_{E/F}.
+Let E/F be finite Galois with solvable group. Use AutomorphicSpectralTheory §7.1's canonical isobaric tower operation on GL₂ classes, with compatible embeddings and places; the intermediate fields need not be normal over F. After R17.4/local-compatibility, prove `solvableBaseChange_local`: its local WD parameter is restriction along the total local extension, retaining N. Apply the prime-step theorem successively to the same supplied output. The empty tower, norm-twist compatibility and composition are the supplier's operations. A non-normal cubic extension uses R17.4/nonnormal-cubic-base-change instead.
 
 **Checks.**
-- The empty tower fixes every isobaric class.
-- For a biquadratic E/F, the towers through two different quadratic subfields give equal isobaric output.
-- At a place with local residue degrees two then three, diag(2,3) becomes diag(64,729).
-- A cuspidal input induced from the first quadratic step is already noncuspidal there, so no blanket solvable cuspidality theorem is asserted.
+- The empty tower fixes the WD parameter and the canonical isobaric class.
+- Through two different quadratic subfields of a biquadratic extension, the supplied outputs agree and the upgraded parameters are the same restriction.
+- At successive unramified residue degrees two and three, diag(2,3) becomes diag(64,729).
+- A first-step quadratic self-twist may destroy cuspidality; the upgrade retains the resulting isobaric output.
 
-*Needs:* R17.4/cyclic-base-change; R17.4/cuspidality; R16.4; GlobalNumberFields Layer 8; R17.4/unramified-base-change; R17.4/local-compatibility.
+*Needs:* AutomorphicSpectralTheory §7.1; R17.4/local-compatibility; R17.4/unramified-base-change; R17.4/cuspidality.
 
-*Source:* [ac89], Chapter 3 §7, proof of Theorem 7.3, p. 222; [langlands80], §3, Lemma 3.1, p. 15.
+*Source:* [ac89], Chapter 3 Theorem 5.1 pp.212–213 and §7 proof of Theorem 7.3 p.222; [langlands80], §3 Lemma 3.1 p.15.
 
 <a id="r17-4-tower-independence"></a>
 
-### R17.4.9 Independence of the solvable tower
+### R17.4.9 Canonical identification of solvable tower outputs
 
-Two prime-cyclic subnormal towers from F to the same solvable Galois E give the same isobaric base change. At good unramified places, residue degrees multiply and both outputs have A_v^f; isobaric strong multiplicity one identifies the global classes, hence all components. Strong local compatibility additionally describes those components by Weil restriction. No tower generator or diagonalization remains in the output.
+Use AutomorphicSpectralTheory §7.1's tower outputs. For two prime-cyclic towers with the same solvable Galois endpoints, R17.4/unramified-base-change identifies both good-place Satake classes with A_v^f. The supplier's isobaric strong multiplicity-one interface identifies their global classes before the Artin construction. R17.4/solvable-base-change subsequently describes their local parameters; tower independence requires only good-place data.
 
-*Needs:* R17.4/solvable-base-change; R17.4/unramified-base-change; R17.4/local-compatibility; R16.4.
+*Needs:* AutomorphicSpectralTheory §7.1; R17.4/unramified-base-change; AutomorphicLFunctionsAndLocalFactors AL.3/isobaric-strong-multiplicity-one.
 
-*Source:* [ac89], Chapter 3 §7, proof of Theorem 7.3, p. 222; [langlands80], §3, Lemma 3.1, p. 15; §11, verification of (A)–(G), p. 151.
+*Source:* [ac89], Chapter 3 §7 proof of Theorem 7.3 p.222; [langlands80], §3 Lemma 3.1 p.15.
 
 <a id="r17-4-solvable-descent"></a>
 
-### R17.4.10 Descent along a solvable tower with character choices
+### R17.4.10 Supplied tower descent with character choices
 
-For a prime-cyclic tower F=F₀⊂⋯⊂F_r=E, an isobaric Π over E descends along that tower precisely when a chain Π_r=Π,…,Π₀ exists with each Π_{i−1} a cyclic descent and, for i≥2, invariant for F_{i−1}/F_{i−2}. Each cuspidal upper class has ℓ_i twist descents. A quadratic θ⊞θ^σ with distinct characters has one cuspidal descent; a sum of two norm-pullback characters permits independent norm-kernel twists. The theorem records these choices, including prescribed-centre compatibility; invariance of Π alone does not produce the whole chain.
+Consume AutomorphicSpectralTheory §7.1's iterated descent and fibre operations for a specified prime-cyclic tower F=F₀⊂⋯⊂F_r=E. A descent chain must have each intermediate class invariant for the next downward step; invariance of the top class alone is insufficient. Carry the supplied cuspidal twist choices and constituent-wise isobaric choices, with any prescribed central-character constraint, throughout that chain. R17.6/compatible-descent adds the comparison with supplied Galois attachments and the common twist index. The automorphic chain itself uses only the canonical weak maps.
 
-*Needs:* R17.4/cyclic-descent; R17.4/cyclic-descent-fibers; R17.4/isobaric-fibers; R17.4/solvable-base-change.
+*Needs:* AutomorphicSpectralTheory §7.1; R17.4/cyclic-descent; R17.4/cyclic-descent-fibers; R17.4/isobaric-fibers.
 
-*Source:* [ac89], Chapter 3 §3, Theorem 3.1 and its introduction, p. 201; Chapter 3, Theorem 4.2(f) (and (d)), p. 203; [langlands80], §2, global properties (A),(B), p. 14.
+*Source:* [ac89], Chapter 3 Theorem 3.1 p.201 and Theorem 4.2(d)–(f), pp.202–203; [langlands80], §2 properties (A),(B), p.14.
 
 <a id="r17-4-prescribed-local-base-change"></a>
 

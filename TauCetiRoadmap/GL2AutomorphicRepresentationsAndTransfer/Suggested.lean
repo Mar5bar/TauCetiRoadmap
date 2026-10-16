@@ -22,6 +22,13 @@ normalization, monodromy is retained, and coefficient twists use the existing
 symmetric powers and character-twist API. Automorphic classes, local types,
 Whittaker models and their transfer maps have their full specification in README.
 
+AutomorphicSpectralTheory §§7.0a–7.0c and §7.1 supplies canonical cyclic matching,
+normalized twisted distributions, weak isobaric base change, descent, fibres and
+tower operations. R17.2 identifies the rank-two local conventions and six-term
+ledger with those supplied objects. R17.4 strengthens the same weak outputs to
+all-place WD compatibility after the Artin construction. The matrix-power
+fixtures below represent the supplied rank-two Satake substitution.
+
 QuaternionicModularForms §§1.3, 2.1–2.2 and 3.1 supplies classical coefficient
 conventions, canonical definite form spaces and the opposite-Hecke action.
 R17.3/definite-hilbert-exports supplies the division-p coefficient and level-colimit
@@ -688,13 +695,15 @@ open _root_.Matrix
 section Satake
 variable {K L : Type*} [CommRing K] [CommRing L]
 
-/-- The transfer-specific power rule on the existing GL, not a Satake carrier:
-the representative `A ^ f` of the base-changed Satake class at a place of residue
-degree `f`. f=0 is the formal matrix-power extension, not a field extension. -/
+/-- A matrix representative for the rank-two Satake substitution supplied by
+AutomorphicSpectralTheory §§7.0b and 7.1, identified by README
+R17.2/cyclic-local-matching: the canonical weak output has class `A ^ f` at an
+unramified place of residue degree `f`. The formal value at zero is the identity. -/
 def unramifiedBaseChange (A : GeneralLinearGroup (Fin 2) K)
     (f : ℕ) : GeneralLinearGroup (Fin 2) K := A ^ f
 
-/-- Residue degrees multiply under successive unramified base change. -/
+/-- Successive residue degrees in the supplied canonical base-change tower
+give the same matrix representative as their product. -/
 theorem unramifiedBaseChange_tower (A : GeneralLinearGroup (Fin 2) K) (f g : ℕ) :
     unramifiedBaseChange (unramifiedBaseChange A f) g =
       unramifiedBaseChange A (f * g) := by sorry
@@ -1079,7 +1088,9 @@ theorem quadratic_restriction {Γ k : Type*} [Group Γ] [Field k] [IsAlgClosed k
     Representation.IsIrreducible ((Representation.ind Kgp.subtype σθ).comp E.subtype) ↔
       ∃ s ∈ E, s ∉ Kgp ∧ ∃ x : Kgp, (x : Γ) ∈ E ∧ θ x ≠ θ (MulAut.conjNormal s x) := by sorry
 
-/-- Restriction of a supplied Frobenius power gives the same matrix power in every coefficient specialization. -/
+/-- Restriction of a supplied Frobenius power agrees in every coefficient
+specialization with the matrix representative of AutomorphicSpectralTheory
+§7.1 canonical weak base change. -/
 theorem compatible_base_change (ρ : Λ → G →* GeneralLinearGroup (Fin 2) K)
     (i : H →* G) (FrobF : V → G) (FrobE : W → H) (below : W → V) (f : W → ℕ)
     (hfrob : ∀ w, i (FrobE w) = FrobF (below w) ^ f w) :
@@ -1105,7 +1116,6 @@ README-only definitions and API targets:
 CentralCharacterL2 and its inner product, completeness, translation and measure API (R16.1).
 brauerCharacter, brauerCharacter_conjugate, brauerCharacter_one, brauerCharacter_spectrum.
 cdtVexingType, cdtVexingType_lattice, cdtVexingType_restrict, cdtVexingType_unramified.
-cyclicMatching_central.
 involution_det_eq_neg_one_of_reduction, involution_det_eq_neg_one_of_residual_conjugacy, involution_odd_of_reduction, nonCM_iff.
 quadraticDirichletFive_ne_one, quadraticDirichletFive_two.
 sphericalValues_swap, sphericalValues_zero, steinbergProjectorDifference.
