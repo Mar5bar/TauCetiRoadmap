@@ -1046,6 +1046,11 @@ DerivedDeRham.koszulCompletionTower.
 
 1.5:
 DerivedDeRham.ordinaryQuotientCompletion.
+For test_ordinary_tower_unbounded_torsion, let R = ℤ_p, T = ℚ_p/R, A = R ⋉ T and
+C = Λ_(p)(A[0]) in D(A), with the completion unit in D(A). Its cohomology is R in degrees
+−1 and 0, with A acting through A → R, and zero otherwise. The decomposition
+Res^A_R C ≅ R[1] ⊕ R[0] belongs to D(R). In D(A), Hom(C, R[1]) = 0 by completeness
+of R[1] and the completion adjunction, so the truncation triangle is nonsplit.
 
 1.6:
 DerivedDeRham.simplicialRingCompletion, ringCompletionUnit, ringCompletionUnderlying,
