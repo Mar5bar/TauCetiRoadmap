@@ -110,7 +110,8 @@ The scheme-level étale topological invariance is supplied by SchemeAndStackFoun
 Dependencies: AdicSpaces §§0–5; AdicSpacesPartII R0.0–R0.20 and R1.1–R1.9;
 SchemeAndStackFoundations Layers 0–4, including §0.23a and §4.14;
 RigidAnalyticGeometry (roadmap on main) Layers 1–8;
-CompactOperators §0.1; PivotalSpherical Layers 0–2 and 10.
+CompactOperators §0.1; PivotalSpherical Layers 0–2 and 10;
+DerivedModuleAlgebra §§1.T.1 and 1.1 (the shared tower foundation used in F0).
 The supplier contracts below also specify the main-roadmap inputs from StableReduction,
 JacobianChallenge, ModularCurves and AlgebraicVectorBundles, and the gauge inputs from
 PadicFunctionalAnalysis §0.4 and its Banach-module inputs in §§1.2, 2.1–2.4.
@@ -158,7 +159,7 @@ waiting for upstream work.
     `Algebra.trace` are used only for free modules. A trace is never defined as a sum over geometric
     points.
 12. **Names.** Declarations live directly under `TauCetiRoadmap.AdicSpacesPartIII` or in its
-    namespaces `IsAdicRing`, `AdicRing`, `MittagLeffler`, `FormalScheme`, `FormalModuleGluing`,
+    namespaces `IsAdicRing`, `AdicRing`, `FormalScheme`, `FormalModuleGluing`,
     `Module`, `IsCoherentRing`, `Huber`, `AlgebraicGeometry`, `ValuationSpectrum`, `AdicSpace`,
     `CountableType`, `LinearMap`, `Algebra`, `SheafOfModules`, `SheafCohomology`, `RigidSpace`,
     `EllipticModuli`, `GeneralisedEllipticCurve` and their subnamespaces, including
@@ -386,6 +387,53 @@ blow-ups with their affine charts. JacobianChallenge B and C supply affine acycl
 Čech-to-derived comparison and flat base change. ModularCurves 0e supplies effective
 faithfully flat descent of modules. AlgebraicVectorBundles L0A and L0B supply flat pullback
 and stalks of internal Homs of finitely presented modules.
+
+### From DerivedModuleAlgebra §§1.T.1 and 1.1
+
+[DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md#11-derived-limits-of-towers),
+§1.1, with its ordinary tower foundation in §1.T.1, supplies the generic tower
+calculus used by F0. Its native carrier is `ℕᵒᵖ ⥤ ModuleCat R`; the
+integral-module/abelian-group adapter preserves projections and connecting maps.
+For a levelwise short exact sequence of countable towers
+`0 → A → B → C → 0`, use its six-term sequence
+`0 → lim A → lim B → lim C → lim¹ A → lim¹ B → lim¹ C → 0`.
+If `A` is Mittag-Leffler, the supplier's vanishing of `lim¹ A` gives
+`0 → lim A → lim B → lim C → 0`, with the maps induced by the original tower maps
+(Stacks Tags [07KW](https://stacks.math.columbia.edu/tag/07KW) and
+[0598](https://stacks.math.columbia.edu/tag/0598); EGA III₁ Ch. 0,
+13.2.2, p. 66). Systems with a countable cofinal subset use §1.1's cofinal comparison.
+
+The same supplier owns the associated generic Mittag-Leffler criteria used here:
+in a levelwise short exact sequence, `B` Mittag-Leffler implies `C`
+Mittag-Leffler, and `A` and `C` Mittag-Leffler imply `B` Mittag-Leffler
+(EGA III₁ Ch. 0, 13.2.1, pp. 65–66). Quotient stability follows by applying the
+levelwise surjections to stable transition images. For extension stability,
+first stabilize the images in `A_n`, then the images in `C_m` at the resulting
+intermediate level `m`; lifts of equal quotient images differ by an element
+of `A_m`, whose image in `A_n` already lifts from every sufficiently high level.
+For towers of modules over a fixed ring with linear transitions, Artinian
+terms imply Mittag-Leffler by stabilization of descending transition-image
+submodules (EGA III₁ Ch. 0, 13.1.2, p. 65).
+Use Mathlib's `CategoryTheory.Functor.IsMittagLeffler` in
+`Mathlib/CategoryTheory/CofilteredSystem.lean`, its
+`isMittagLeffler_iff_eventualRange` and `isMittagLeffler_of_surjective`, and the
+descending-chain stabilization theorem `IsArtinian.monotone_stabilizes` in
+`Mathlib/RingTheory/Artinian/Module.lean`. Part III applies this shared package
+to its quotient-module and coherent-cohomology towers.
+The dense Banach inverse-sequence theorem in R3.4 uses its own topological
+hypotheses; density alone does not imply the algebraic Mittag-Leffler condition.
+
+**Checks.**
+
+- For constant towers from a short exact sequence of abelian groups, the supplied
+  limit maps recover that sequence and all `lim¹` terms vanish.
+- For a prime `p`, the sequence `0 → p^nℤ → ℤ → ℤ/p^n → 0`, with inclusion,
+  identity and reduction transitions, gives the quotient boundary
+  `ℤ_p → ℤ_p/ℤ`. The kernel tower fails Mittag-Leffler and `ℤ → ℤ_p` is not
+  surjective.
+- The constant `ℤ/p` tower with zero transitions is Artinian and
+  Mittag-Leffler with stable image zero, despite nonsurjective transitions;
+  the shift is the identity, so both `lim` and `lim¹` vanish.
 
 ### From TauCetiRoadmap.AdicSpacesPartII
 
@@ -865,22 +913,6 @@ clauses and the other Checks are specified in this README only.
   at `n = 1`, `(x,y)^3 ⊆ (x²,y²) ⊊ (x,y)^2`, since `xy` lies only in the last
   ideal. `completedTensor_two_stage` verifies both terms over `𝔽₂`.
 
-**Inverse limits of Mittag-Leffler systems of abelian groups.** (*mittag-leffler-exactness*) Let
-`0 → (A_n) → (B_n) → (C_n) → 0` be a short exact sequence of inverse systems of abelian groups
-indexed by `ℕ` (a countable cofinal subset suffices). Prove that (i) if `(B_n)` satisfies the
-Mittag-Leffler condition, so does `(C_n)`, and if `(A_n)` and `(C_n)` do, so does `(B_n)`
-(EGA III₁ Ch. 0, 13.2.1); (ii) if `(A_n)` satisfies the Mittag-Leffler condition, then
-`0 → lim A_n → lim B_n → lim C_n → 0` is exact (EGA III₁ Ch. 0, 13.2.2 Proposition, p. 66); (iii)
-an inverse system with surjective transition maps satisfies the Mittag-Leffler condition, and so
-does a system of artinian modules (EGA III₁ Ch. 0, 13.1.2, p. 65). The Mittag-Leffler condition is
-Mathlib's `CategoryTheory.Functor.IsMittagLeffler` for the functor `ℕᵒᵖ ⥤ Type`, and the
-surjective-transitions half of (iii) is Mathlib's `isMittagLeffler_of_surjective`; the content of
-this target is (i), (ii) and the artinian half of (iii), and its lemma that a quotient system of a
-Mittag-Leffler system is Mittag-Leffler is named `IsMittagLeffler.quotient`. For
-`A_n = p^n ℤ ⊂ ℤ = B_n` with inclusions as transitions, `(A_n)` is not Mittag-Leffler and
-`lim(ℤ/p^n) = ℤ_p` is not the image of `lim ℤ = ℤ`: exactness on the right fails without the
-hypothesis. *Needs:* Mathlib `CategoryTheory.Functor.IsMittagLeffler`.
-
 **Finite modules over an adic noetherian ring as compatible systems.**
 (*finite-module-inverse-limit*) Let `A` be an adic noetherian ring with ideal of definition `I`
 and `A_n = A/I^{n+1}`. That every finite `A`-module `M` is `I`-adically separated and complete is
@@ -902,7 +934,7 @@ this README only); the affine case `Coh(X, I) ≃` finite `Â`-modules of Stacks
 argument (Stacks Tag 087W, Lem. 30.23.1). For `A = ℤ_p` and `M_n = ℤ/p^{n+1} ⊕ ℤ/p`,
 `lim M_n = ℤ_p ⊕ ℤ/p`; for `M_n = ℤ/p^{n+1}·e_1 ⊕ ⋯ ⊕ ℤ/p^{n+1}·e_n` with rank growing with `n` the
 kernel condition fails and `lim M_n` is not finite. *Needs:* AdicSpacesPartII R0.1a *adic-ring*;
-*mittag-leffler-exactness*; Tau Ceti `TauCeti.IsAdicComplete.of_finite`; Mathlib
+DerivedModuleAlgebra §§1.T.1 and 1.1; Tau Ceti `TauCeti.IsAdicComplete.of_finite`; Mathlib
 `AdicCompletion.ofTensorProductEquivOfFiniteNoetherian`,
 `Ideal.iInf_pow_smul_eq_bot_of_le_jacobson`, `Module.Finite`, `AdicCompletion.map_exact`.
 
@@ -2909,7 +2941,7 @@ and `F = O_X` with `f_*O_X = A′` finite over `A`: `Â′ = lim_n H^0(X, O_X/I^
 for `f : X = A²_k ∖ {(0,0)} → A¹_k = Spec k[t]` (projection to the coordinate `t`), `F = O_X` and
 `p = 0`, `H^0(X, O_X) = k[x, t]`, whose completion is `k[x]⟦t⟧`, whereas `X ∩ V(t^{n+1})` is the
 thickened punctured line and `lim_n H^0(X, O_X/t^{n+1}) = k[x, x⁻¹]⟦t⟧`. *Needs:*
-*formal-functions-affine*; *mittag-leffler-exactness*; *finite-module-inverse-limit*;
+*formal-functions-affine*; DerivedModuleAlgebra §§1.T.1 and 1.1; *finite-module-inverse-limit*;
 AdicSpacesPartII R0.1a *adic-ring*; *pow-quotient-formal-module-comparison*; SchemeAndStackFoundations §4.9;
 Mathlib `AdicCompletion`, `IsAdicComplete`; Tau Ceti
 `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`,
@@ -3015,7 +3047,7 @@ k[x][t]/(t^{n+1})`, for every `k ≥ n`.
 `not_image_eq_of_not_proper` is an algebraic hypothesis check for this properness
 requirement: the coefficient inclusion `k[x] → k[x,x⁻¹]` is not surjective.
 *Needs:* *graded-cohomology-finiteness*;
-*mittag-leffler-exactness*; Tau Ceti `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`,
+DerivedModuleAlgebra §§1.T.1 and 1.1; Tau Ceti `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`,
 `AlgebraicGeometry.Scheme.Modules.cohomologyMapBaseLinear`,
 `TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyδ`,
 `TauCeti.AlgebraicGeometry.Scheme.Modules.exact_cohomologyMap_cohomologyδ`; Mathlib
@@ -3098,7 +3130,7 @@ sheaves, the instance in Tau Ceti `AlgebraicGeometry/Cohomology/Flasque.lean` th
 is Mathlib `CategoryTheory.Sheaf.H` of the Zariski site of `X`. For `X` a point, `H^i = 0` for
 `i > 0` and the statement reduces to `H^0(lim F_k) = lim H^0(F_k)`; on a noetherian formal scheme
 `𝔛` with ideal of definition `𝒥` and a coherent `F`, the system `F_k = F/𝒥^{k+1}F` on the affine
-formal basis satisfies (i)–(iii). *Needs:* *mittag-leffler-exactness*; SchemeAndStackFoundations
+formal basis satisfies (i)–(iii). *Needs:* DerivedModuleAlgebra §§1.T.1 and 1.1; SchemeAndStackFoundations
 Layer 2 (§2.5, `godementResolution`); Mathlib `CategoryTheory.Sheaf.H`, `TopCat.Presheaf.IsFlasque`,
 `CategoryTheory.Functor.IsMittagLeffler`; Tau Ceti `TauCeti.AlgebraicGeometry.Cohomology.Flasque`
 (the flasque-acyclicity instance).
@@ -3268,7 +3300,7 @@ Ch. III, 5.2.3 Proposition, p. 151; Stacks Tag 0884 and the proof of Tag 089A). 
 `𝔛 = P̂¹_{ℤ_p}` and `L = Ô(1)`: for `d ≥ 0`, `H^0(P¹_{ℤ/p^{k+1}}, O(d)) = (ℤ/p^{k+1})[x,y]_d` and
 the transition maps are surjective; `H^1` vanishes for `d ≥ −1`. *Needs:*
 *graded-cohomology-finiteness*; *coherent-as-inverse-system*; *adic-systems-equivalence*;
-*affine-coherent-equivalence*; *mittag-leffler-exactness*; *proper-formal-morphism*;
+*affine-coherent-equivalence*; DerivedModuleAlgebra §§1.T.1 and 1.1; *proper-formal-morphism*;
 *projective-bundles-ample-serre*; Tau Ceti
 `TauCeti.AlgebraicGeometry.Scheme.Modules.sections_surjective`,
 `TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyδ`,
@@ -4002,7 +4034,8 @@ with `cohomologyMapBaseLinear`, `cohomologyδ`, `exact_cohomologyMap_cohomology�
 `Formal.Scheme.formalCompletion`, `Formal.Scheme.CoherentFormalModule`, the tower carrier of
 *formal-scheme-carrier-comparison*; §4.9 `Scheme.Modules.Cohomology.formalFunctionsIso`; §4.10
 `Formal.grothendieck_existence`, `Formal.algebraize_hom`); StableReduction layer 2 and
-JacobianChallenge layer C;
+JacobianChallenge layer C; DerivedModuleAlgebra §§1.T.1 and 1.1
+(the shared tower calculus and Mittag-Leffler criteria);
 AlgebraicVectorBundles layers L0A and L0B. AdicSpacesPartII R0.1a–R0.1b supplies adic rings
 and noetherian adic completion; its Layer R0 supplies *completed-tensor-product* and AdicSpacesPartII *completed-tensor-product* for the
 comparison with F0's ideal-adic construction. The projective-geometry inputs
@@ -11444,12 +11477,20 @@ whole-curve action. If `E` has a cyclic level structure `P`, require algebraic
 level structures `𝓟_i` and the same isomorphisms to carry `P` to `a_i^*𝓟_i^an`
 (Conrad-MR Corollary 2.2.5, pp. 14–15, and Lemma 3.2.2, pp. 19–20).
 As inputs within this target, prove that the polygon size on the nonsmooth
-locus is Zariski-locally constant, and that where each polygon has `n` sides,
-`[n] : E^sm → E^sm` is finite flat of degree `n²`; its kernel is an ample
-relative divisor (Conrad-MR Theorems 2.2.3–2.2.4, pp. 11–14). Use the preliminary
-étale-local projectivity, Hilbert/Hom comparisons and Artinian rigidity to
-establish these inputs, then embed using `f_*O(3E^sm[n])`. The Hilbert/Hom
-charts algebraize the divisor, its finite group and action. Prove the
+locus is Zariski-locally constant. On an admissible open where every singular
+geometric fibre has `n ≥ 1` sides, prove that the kernel
+`D = E^sm[n] = E^sm ×_{[n], E^sm, e} S` is a finite locally free commutative
+`S`-group of rank `n²`, and that `D ↪ E` is an `S`-ample relative effective
+Cartier divisor. Formation of the kernel, its group law, its inclusion and
+`O(D)` commute with every rigid base change `T → S`
+(Conrad-MR Theorems 2.2.3–2.2.4 and Corollary 2.2.5, pp. 11–15).
+On a constant `n`-gon, `[n](z,i) = (z^n,0)` on `G_m × ℤ/n`:
+its rank as a finite flat map to the whole smooth locus is `n²` on the
+identity target component and `0` on every other target component.
+Use the preliminary étale-local projectivity, Hilbert/Hom comparisons and
+Artinian rigidity to establish the assertions about `D → S`, then embed using
+`f_*O(3D)`, which is locally free of rank `3n²` and commutes with base change.
+The Hilbert/Hom charts algebraize the divisor, its finite group and action. Prove the
 fibrewise extension criterion of Conrad-MR Theorem 2.2.1 and Appendix B.2,
 Theorem B.2.6 for these data, yielding the algebraic generalised elliptic
 structure with the original action. For level data, use the finite-type
@@ -11466,6 +11507,13 @@ Part II R1's analytification and étale morphisms.
   over `Spec k`, with its identity and addition preserved.
 - `localAlgebraicity_polygon` — a constant `n`-gon is pulled back with its component rotations, rather than
   only its underlying nodal curve.
+- On the standard `2`-gon over `ℚ₃`, `D = μ₂ × ℤ/2` has rank `4` over
+  `Sp ℚ₃`, with points `(1,0)`, `(−1,0)`, `(1,1)`, `(−1,1)`. It has degree `2`
+  on each polygon component, so `O(D)` is ample and `f_*O(3D)` has rank `12`.
+- On that same `2`-gon, `[2] : G_m × ℤ/2 → G_m × ℤ/2` has fibre length `4`
+  over `(1,0)` and empty fibre over `(1,1)`; its rank function on the target
+  components is `(4,0)`. Extending `ℚ₃` to `ℚ₃(√3)` preserves both this rank
+  function and the rank-`4` kernel over the base.
 - `localAlgebraicity_mixedLevel` — for the standard `p`-gon over `ℚ_p(ζ_d)`, `d ≥ 5` prime to `p`, the cyclic
   level `(ζ_d, 1)` of level `dp` is preserved; no level prime to `p` meets all
   components. The mixed-level boundary persists under local algebraisation.
@@ -12309,7 +12357,8 @@ unramified, smooth and étale classes (*differentials-unramified-smooth-etale*),
 complete Tate rings), AdicSpacesPartII R1 (analytification of schemes and general module pullback, the rigid–adic comparison,
 properness and finiteness comparisons, analytic affine and projective spaces, analytic Kähler
 differentials), R3.1a's affinoid section comparison for analytified modules,
-and F0 (Mittag-Leffler systems, the theorem on formal functions, Chow's lemma and
+DerivedModuleAlgebra §§1.T.1 and 1.1 (generic Mittag-Leffler tower calculus),
+and F0 (formal-module tower applications, the theorem on formal functions, Chow's lemma and
 dévissage) of this roadmap, and the structure sheaf, rational localisations, sheafiness,
 uniformity and the Buzzard–Verberkmoes theorem of the Foundations of adic spaces roadmap
 (AdicSpaces), layers 0.2, 3.1, 3.4, 3.5, 4.1, 4.2, 5 and 5.2; `AdicSpace.doubleComplex_edges_homology_equiv` (R3), applied to a sheaf resolution on the rational basis; SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`; §2.19, §2.21, `trace`);

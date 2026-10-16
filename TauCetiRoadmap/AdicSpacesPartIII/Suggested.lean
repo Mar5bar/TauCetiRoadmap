@@ -58,6 +58,15 @@ R3.7a supplies the README-only analytic genus-one projective embedding
 R2 retains algebraic moduli and the formal Hasse-section domains.
 F0's ordinary projective-bundle, tensor-power and ampleness interfaces are supplied by
 StableReduction Layer 2; F0 supplies their formal-thickening adapters.
+F0 uses the generic tower calculus and Mittag-Leffler criteria of
+DerivedModuleAlgebra §§1.T.1 and 1.1, including the six-term sequence and vanishing of
+`lim¹` for a Mittag-Leffler kernel tower. Its integral-module adapter preserves the maps.
+R3.4's dense Banach inverse-sequence theorem has separate topological hypotheses.
+The README-only local-algebraicity input on an open with `n ≥ 1` sides in every singular
+geometric fibre gives `D = E^sm[n]` finite locally free of rank `n²` over the base and an
+ample relative effective Cartier divisor in `E`, compatibly with rigid base change.
+On the standard `2`-gon over `ℚ₃`, the kernel has rank `4` over the base, whereas
+multiplication on the whole smooth locus has target-component ranks `4` and `0`.
 The README-only coefficient-ideal fibre test requires the extended ideal to be zero on
 the fibre, including nonreduced fibres; its dual-number Check separates this from point sets.
 
