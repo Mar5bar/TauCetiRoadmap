@@ -486,6 +486,16 @@ Cauchy–Pompeiu identity. As `ε↓0`, the counterclockwise circle integral of 
 `M=sup_{z∈closure(Δ)}|∂̄f(z)|<∞`; the deleted area term is at most `2πMε`. The source
 plus-wedge and minus-area versions then agree by `dz∧d\bar z=−2i dA`.
 
+As a real/imaginary Stokes cross-check for the GH5 disk monomial moment, let `F=u+iv` be smooth
+on a neighborhood of the closed unit disk. Interpret `∮_{|z|=1}F d\bar z` as the pair of
+existing real curve integrals associated to the one-forms `u dx+v dy` and `v dx−u dy`; do not
+introduce a second complex contour carrier. Their curls are `vₓ−uᵧ` and `−uₓ−vᵧ`, which combine
+to `−2i∂_zF`. Specialize DG5.6.3 to the positive unit-circle cycle (index one on the open disk)
+to obtain
+`∮_{|z|=1}F d\bar z=−2i∫_{|z|<1}∂_zF dA`. For `m,n∈ℕ` and
+`F=z^(m+1)\bar z^n/(m+1)`, this recovers the GH5 disk moment identity. This cross-check belongs
+to GH4 because it consumes DG5.6.3; the GH5 target itself uses polar area integration only.
+
 The region-boundary adapter must prove the Jordan separation/orientation-to-winding facts and hole
 cancellation, then identify the geometric boundary with `trace(C_Δ)`; it must not assume a graph-cell
 decomposition. Consume DG 5.6.3 for local fields on an open set and finite integer-weighted AC
@@ -652,6 +662,26 @@ complex primitive and then take its real part; DG1.2's coefficient naturality an
 `Re ∘ L_1 = id` give a real primitive. Thus the real degree-two de Rham quotient vanishes.
 CKG K5a consumes the complex exactness on this same open-subtype carrier and owns its
 complex-coefficient quotient comparison, including `H²_dR(U;ℂ)=0`.
+
+**GH5 coordinate worked examples.** Keep these scalar computations in GH5; the disk moment is
+proved by polar area integration and has no DG or CKG dependency. On all of `ℂ`, prove
+`d(|z|²)=2(x dx+y dy)` and `d(|z|⁴)=4(x²+y²)(x dx+y dy)`. On `ℂ\{0}`, prove
+`d((log|z|)²)=log(x²+y²)(x dx+y dy)/(x²+y²)`, using
+`log|z|=½ log(x²+y²)`; keep the expression `(log|z|)²` distinct from `log(|z|²)`.
+Using the already-defined GH5 Wirtinger operators, for `m,n∈ℤ` prove on `ℂ\{0}`
+`∂_z(z^m\bar z^n)=m z^(m−1)\bar z^n` and
+`∂_{\bar z}(z^m\bar z^n)=n z^m\bar z^(n−1)`. For `m,n∈ℕ`, prove the corresponding formulas on
+all of `ℂ`, reading the derivative term as zero when its exponent is zero: `∂_z=0` if `m=0`
+and `m z^(m−1)\bar z^n` otherwise; `∂_{\bar z}=0` if `n=0` and
+`n z^m\bar z^(n−1)` otherwise.
+
+Let `D=ball 0 1 ⊂ ℂ` with native Lebesgue area `volume`. For `m,n∈ℕ`, prove
+`∫_D z^m\bar z^n dvolume = if m=n then π/(m+1) else 0`, by polar coordinates: the angular
+integral vanishes unless `m=n`, while the equal-index radial integral is
+`2π∫₀¹ r^(2m+1)dr=π/(m+1)`. State that `D` is the open unit disk and that `m,n` are natural
+exponents; negative powers are not part of this disk-integrability claim. GH4's separate
+real/imaginary Green specialization supplies a Stokes cross-check, not a prerequisite for this
+GH5 computation.
 
 <a id="gh51-cousin-i-and-planar-de-rham-consequences"></a>
 ### GH5.1. Cousin I and planar de Rham consequences
