@@ -870,6 +870,66 @@ theory, rather than assuming K5a's Laplace-type theorem covers every order.
 Acceptance includes the de Rham complex's exact nonzero-covector symbol
 sequence and its identification with K5a's Hodge objects.
 
+## P7a. Finite-deck scalar-Laplacian transplantation
+
+For a closed connected Riemannian manifold `X`, let a finite group `Q` act freely by smooth
+isometries. Prove the finite action is properly discontinuous by choosing disjoint translates
+of a sufficiently small neighborhood at each point. Consume
+[RiemannianGeometry R4.7](../RiemannianGeometry/README.md#r4-comparison-complete-manifolds-and-space-forms)'s
+quotient-atlas, descended-metric and covering construction for free properly discontinuous
+isometric actions, and specialize it to each `H≤Q`. Construct `Y=X/H` and `π:X→Y`, verify
+that `Y` is closed, connected and without boundary, and that its quotient metric is the unique
+one making `π` a local isometry. Prove descent of Riemannian volume and the covering degree
+`|H|`. Define the action on functions by `(q·f)(x)=f(q⁻¹x)`, a left unitary `Q`-action.
+
+Use P7 with the trivial Hermitian line bundle and trivial connection. Its operator
+`L=1+∇*∇` has the self-adjoint `H²` realization supplied by K5a, a positive compact inverse
+and complete smooth eigenbasis; define `Δ=L−1` on that same domain and identify its smooth
+expression with the nonnegative scalar Laplacian `d*d`. Derive finite eigenvalue multiplicities from P7's finite eigenbasis cutoffs and completeness.
+Thus `Δ` has pure point spectrum, a smooth eigenbasis and finite multiplicities, including its
+zero eigenvalue. For each isometry `q:X→X`, prove Riemannian volume preservation and
+naturality of `d*d` under the inverse-pullback action, first on smooth functions and then on
+`H¹` and `H²` using P5's chartwise estimates and density. Prove the action is unitary and
+preserves `dom Δ=H²`, commutes with `Δ`, and preserves its closed form. Deduce that
+`L²(X)^H` reduces `Δ` for every `H≤Q`: the finite averaging projection preserves the domain
+and commutes with `Δ`. Only then apply P7's invariant-operator results to its eigenspaces.
+
+Also identify this operator with the Friedrichs realization. Consume
+[UnboundedOperators UO-D06](../OperatorTheory/UnboundedOperators/README.md#uo-d06--closed-forms-and-the-friedrichs-extension)'s
+closed-form representation and Friedrichs-extension theorem. K5a already identifies the shifted
+`H¹` form with VariationalMethods V5.1's represented operator and proves the `H²` operator
+and maximal weak domains; consume that comparison here. For `q(f,g)=∫⟨df,dg⟩`, P5 smooth
+density identifies `H¹` as the completion of the smooth Laplacian's form. By uniqueness of
+the represented operator, UO-D06 and V5.1 give the same operator, so the Friedrichs extension
+of `Δ|C∞` is K5a's `L−1` on `H²`. This layer owns this smooth-core/Friedrichs comparison
+and its finite-cover transport, while K5a retains the weak regularity/domain identification.
+
+For almost-conjugate subgroups `H₁,H₂≤Q`, write `Yᵢ=X/Hᵢ` and `πᵢ:X→Yᵢ`. Prove pullback
+identifies `C∞(Yᵢ)` with the `Hᵢ`-invariant smooth functions on `X` and
+`Δ_X(πᵢ* f)=πᵢ*(Δ_Yᵢ f)`. With Riemannian volume on both quotients, prove
+`‖πᵢ* f‖²_(L²(X))=|Hᵢ|‖f‖²_(L²(Yᵢ))`; hence `Jᵢ=|Hᵢ|^(−1/2)πᵢ*` is the normalized
+unitary onto the invariant subspace. Using covering charts and P5's Sobolev norms, prove that
+`Jᵢ` identifies `H¹(Yᵢ)` and `H²(Yᵢ)` with the corresponding invariant subspaces on `X`.
+Verify the closed-form identity `q_X(Jᵢf,Jᵢg)=q_Yᵢ(f,g)`. By UO-D06's unitary/restriction
+transport and the preceding `H²` comparison, prove the exact operator-domain identity and
+that `Jᵢ` transports `Δ_Yᵢ` to the invariant part of `Δ_X`. Prove the corresponding resolvent
+and spectral-projection intertwining identities.
+
+Consume [InductionRestriction Layer 2.1](../RepresentationTheory/InductionRestriction/README.md#layer-21-almost-conjugacy-and-permutation-representations),
+`Gassmann.almostConjugate_iff_permutation_equiv`, for almost-conjugacy and the complex left-coset
+permutation-module equivalence. For each eigenvalue `λ`, identify `E_λ(Yᵢ)` with
+`E_λ(X)^{Hᵢ}` by normalized pullback and then with
+`Hom_Q(ℂ[Q/Hᵢ],E_λ(X))` by the native induced-trivial Frobenius identification consumed by
+IR (`Rep.indResAdjunction` and `TauCeti.indTrivialIso`), with evaluation at the identity coset.
+The permutation-module
+equivalence gives equal dimensions of these Hom spaces for every `λ`, so the scalar Laplacians
+on `Y₁,Y₂` are isospectral with multiplicities. The pure-point and finite-multiplicity statements
+here follow from the P7 conclusions just cited. The scope of P7a is scalar Laplacians on
+closed manifolds with free finite-group actions. FuchsianOrbifolds L9
+consumes this theorem after constructing its compact hyperbolic covering surfaces and normal
+common cover. P7a has no Fuchsian dependency.
+
+
 ## P8. Wave front sets and microlocal regularity
 
 Define the wave front set of a bundle distribution by rapid Fourier decay of
