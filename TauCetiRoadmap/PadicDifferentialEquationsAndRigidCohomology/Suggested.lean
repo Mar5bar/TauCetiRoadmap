@@ -155,6 +155,16 @@ theorem frobeniusEquivariant_smul (φ : V →ₛₗ[σ] V) (ψ : W →ₛₗ[σ]
   intro v
   simp [LinearMap.smul_apply, hf v, ha]
 
+/-- Conjugation-semilinear Frobenius does not commute with multiplication by i. -/
+example : ¬ FrobeniusEquivariant
+    (starLinearEquiv ℂ : ℂ ≃ₗ⋆[ℂ] ℂ).toLinearMap
+    (starLinearEquiv ℂ : ℂ ≃ₗ⋆[ℂ] ℂ).toLinearMap
+    (Complex.I • (LinearMap.id : ℂ →ₗ[ℂ] ℂ)) := by
+  intro h
+  have h1 := h 1
+  have him := congrArg Complex.im h1
+  norm_num at him
+
 end Semilinear
 
 end
@@ -636,6 +646,28 @@ example (e : V ≃ₗ[K] W) : (e : V →ₗ[K] W).index = 0 := by
 example : (0 : (Fin 2 → K) →ₗ[K] K).index = 1 := by
   simp
 
+/-- A linear equivalence satisfies the near-isomorphism predicate in any dimension. -/
+example (e : V ≃ₗ[K] W) : NearIsomorphism e.toLinearMap := by
+  constructor
+  · rw [LinearMap.ker_eq_bot.mpr e.injective]
+    infer_instance
+  · rw [LinearMap.range_eq_top.mpr e.surjective]
+    infer_instance
+
+/-- Finite kernel and cokernel do not require the map to be injective or surjective. -/
+example : NearIsomorphism (0 : (Fin 2 → K) →ₗ[K] K) := by
+  constructor <;> infer_instance
+
+/-- The zero endomorphism of the polynomial space has an infinite-dimensional kernel. -/
+example : ¬ NearIsomorphism (0 : Polynomial K →ₗ[K] Polynomial K) := by
+  intro h
+  have hker := h.1
+  rw [LinearMap.ker_zero] at hker
+  have : Module.Finite K (⊤ : Submodule K (Polynomial K)) := hker
+  have : Module.Finite K (Polynomial K) :=
+    Module.Finite.equiv (Submodule.topEquiv : (⊤ : Submodule K (Polynomial K)) ≃ₗ[K] Polynomial K)
+  exact (Polynomial.not_finite (R := K)) inferInstance
+
 end Index
 
 /-- `dim H¹_rig` of a smooth geometrically irreducible affine curve whose smooth
@@ -766,6 +798,23 @@ example (q : ℝ) : HasPureSpectrum q 0 (1 : Matrix (Fin 1) (Fin 1) ℂ) := by
 
 end
 
+/-- A zero eigenvalue fails purity even at weight zero. -/
+example : ¬ HasPureSpectrum 2 0 (0 : Matrix (Fin 1) (Fin 1) ℂ) := by
+  intro h
+  apply zero_not_pure 2 0 (by norm_num)
+  exact h 0 (by simp [Polynomial.IsRoot, Matrix.charpoly_zero])
+
+/-- The identity line has weight zero, so it fails weight one over q=2. -/
+example : ¬ HasPureSpectrum 2 1 (1 : Matrix (Fin 1) (Fin 1) ℂ) := by
+  intro h
+  have h1 := h 1 (by simp [Polynomial.IsRoot, Matrix.charpoly_one])
+  have hlt : (1 : ℝ) < 2 ^ (1 / 2 : ℝ) := by
+    calc
+      1 = (2 : ℝ) ^ (0 : ℝ) := by simp
+      _ < _ := Real.rpow_lt_rpow_of_exponent_lt (by norm_num) (by norm_num)
+  simp only [HasIotaWeight, norm_one] at h1
+  linarith
+
 namespace RD6
 
 noncomputable section
@@ -800,6 +849,25 @@ example (x : Lˣ) : kummerTraceFunction (1 : Fˣ →* Kˣ) x = 1 := by
 /-- Unit test: at a rational point (`L = F`) the trace is the character itself. -/
 example (χ : Fˣ →* Kˣ) (x : Fˣ) : kummerTraceFunction (L := F) χ x = χ x := by
   simp [kummerTraceFunction, Algebra.norm_self]
+
+/-- The nontrivial quadratic character of F₃ gives Kummer traces −1 at 2 and 1 at 1. -/
+example :
+    let χ : (ZMod 3)ˣ →* ℚˣ :=
+      (Units.map (Int.castRingHom ℚ).toMonoidHom).comp (quadraticChar (ZMod 3)).toUnitHom
+    kummerTraceFunction χ (Units.mk0 (2 : ZMod 3) (by decide)) = -1 ∧
+      kummerTraceFunction χ (1 : (ZMod 3)ˣ) = 1 := by
+  have htwo : Units.mk0 (2 : ZMod 3) (by decide) = (-1 : (ZMod 3)ˣ) := by decide
+  rw [htwo]
+  have hχ : quadraticChar (ZMod 3) (-1) = -1 := by
+    change quadraticCharFun (ZMod 3) (-1) = -1
+    simp [quadraticCharFun, show ¬ IsSquare (-1 : ZMod 3) by decide]
+    decide
+  constructor
+  · simp only [kummerTraceFunction, Algebra.norm_self]
+    change ((quadraticChar (ZMod 3) (-1) : ℤ) : ℚ) = -1
+    rw [hχ]
+    norm_num
+  · simp [kummerTraceFunction, Algebra.norm_self]
 
 end Kummer
 
@@ -961,6 +1029,19 @@ example : ((1 - C (1 / 2 : ℚ) * X : ℚ[X]) : PowerSeries ℚ) *
     PowerSeries.mk (fun n => (1 / 2 : ℚ) ^ n) = 1 := by
   sorry
 
+/-- A noncoprime Fatou presentation of the integral series 1 can have nonintegral factors. -/
+example (ℓ : ℕ) [Fact ℓ.Prime] :
+    let G : ℚ_[ℓ][X] := 1 - C ((ℓ : ℚ_[ℓ])⁻¹) * X
+    (G : PowerSeries ℚ_[ℓ]) * PowerSeries.map (algebraMap ℤ_[ℓ] ℚ_[ℓ]) 1 =
+      (G : PowerSeries ℚ_[ℓ]) ∧ ‖G.coeff 1‖ > 1 := by
+  dsimp
+  constructor
+  · simp
+  · have hcoeff : (1 - C ((ℓ : ℚ_[ℓ])⁻¹) * X).coeff 1 = -((ℓ : ℚ_[ℓ])⁻¹) := by
+      norm_num [Polynomial.coeff_one]
+    rw [hcoeff, norm_neg, norm_inv, Padic.norm_p, inv_inv]
+    exact_mod_cast (Fact.out : ℓ.Prime).one_lt
+
 /-- **Weight separation** (README §RD.7.5), with the family realised
 in `ℂ`: if `∏ P_i^{(−1)^{i+1}} = A/B` with `A, B ∈ 1 + tℤ[t]` coprime, and every reciprocal
 root of `P_i` (a root of its reverse) is a Weil `q`-number of weight `i` (all conjugates of
@@ -981,12 +1062,95 @@ theorem weightSeparated_factor_extraction (q : ℕ) (hq : 1 < q) (N : ℕ)
       (Fac i).map (Int.castRingHom ℂ) = P i := by
   sorry
 
-/-- Unit test of weight separation on `ℙ¹` over `𝔽_q`: the factors `1 − t`, `1`, `1 − qt`
-satisfy the product relation with `A = 1`, `B = (1 − t)(1 − qt)`. -/
-example (q : ℕ) :
-    ((1 : ℂ[X]) : ℂ[X]) * ((1 - X) * (1 - C (q : ℂ) * X)) =
-      ((1 - X) * (1 - C (q : ℂ) * X)) * 1 := by
-  ring
+/-- The three factors of P¹ have reciprocal roots of weights 0, 1 and 2,
+with the middle factor having no roots. Every conjugate is included. -/
+theorem p1_factor_purity (q : ℕ) (hq : 1 < q) :
+    let P : Fin 3 → ℂ[X] := ![1 - X, 1, 1 - C (q : ℂ) * X]
+    ∀ i, ∀ α ∈ (P i).reverse.roots, IsAlgebraic ℚ α ∧
+      ∀ β ∈ (minpoly ℚ α).aroots ℂ, ‖β‖ = (q : ℝ) ^ (((i : ℕ) : ℝ) / 2) := by
+  classical
+  dsimp only
+  let P : Fin 3 → ℂ[X] := ![1 - X, 1, 1 - C (q : ℂ) * X]
+  have hq0 : (q : ℂ) ≠ 0 := by exact_mod_cast (by omega : q ≠ 0)
+  have hrev (a : ℂ) (ha : a ≠ 0) :
+      (1 - C a * X).reverse = X - C a := by
+    have hid : (1 - C a * X : ℂ[X]) = (-C a) * X + C 1 := by
+      simp only [C_1]
+      ring
+    rw [hid, reverse_add_C]
+    have hdeg : (-C a * X : ℂ[X]).natDegree = 1 := by
+      simp [ha]
+    rw [hdeg]
+    rw [reverse_mul_X, reverse_neg, reverse_C, C_1, pow_one, one_mul]
+    exact add_comm _ _
+  have hconj (n : ℕ) (β : ℂ) (hβ : β ∈ (minpoly ℚ (n : ℂ)).aroots ℂ) : β = n := by
+    have hm : minpoly ℚ (n : ℂ) = X - C (n : ℚ) := by
+      simpa using minpoly.eq_X_sub_C_of_algebraMap_inj (n : ℚ)
+        (algebraMap ℚ ℂ).injective
+    rw [hm, Polynomial.aroots_X_sub_C] at hβ
+    simpa using hβ
+  intro i α hα
+  fin_cases i
+  · have hα1 : α = 1 := by
+      change α ∈ (1 - X : ℂ[X]).reverse.roots at hα
+      rw [show (1 - X : ℂ[X]) = 1 - C 1 * X by simp,
+        hrev 1 one_ne_zero, Polynomial.roots_X_sub_C] at hα
+      simpa using hα
+    subst α
+    refine ⟨by simpa using (isAlgebraic_natCast (R := ℚ) (A := ℂ) 1), ?_⟩
+    intro β hβ
+    rw [show β = 1 by simpa using hconj 1 β (by simpa using hβ)]
+    simp
+  · change α ∈ (C (1 : ℂ)).reverse.roots at hα
+    rw [reverse_C, Polynomial.roots_C] at hα
+    simp at hα
+  · have hαq : α = q := by
+      change α ∈ (1 - C (q : ℂ) * X).reverse.roots at hα
+      rw [hrev (q : ℂ) hq0, Polynomial.roots_X_sub_C] at hα
+      simpa using hα
+    subst α
+    refine ⟨isAlgebraic_natCast q, ?_⟩
+    intro β hβ
+    rw [hconj q β hβ]
+    simp
+
+/-- Factor extraction on P¹ supplies the three integer factors, uniquely identified
+by injectivity of extension from Z to C. The purity check includes every conjugate. -/
+example (q : ℕ) (hq : 1 < q) :
+    let P : Fin 3 → ℂ[X] := ![1 - X, 1, 1 - C (q : ℂ) * X]
+    ∃ Fac : Fin 3 → ℤ[X],
+      (∀ i, (Fac i).coeff 0 = 1 ∧ (Fac i).map (Int.castRingHom ℂ) = P i) ∧
+      Fac = ![1 - X, 1, 1 - C (q : ℤ) * X] := by
+  classical
+  dsimp only
+  let P : Fin 3 → ℂ[X] := ![1 - X, 1, 1 - C (q : ℂ) * X]
+  have hpure := p1_factor_purity q hq
+  have hodd : Finset.univ.filter (fun i : Fin 3 => Odd (i : ℕ)) = {1} := by decide
+  have heven : Finset.univ.filter (fun i : Fin 3 => Even (i : ℕ)) = {0, 2} := by decide
+  have hcop : IsCoprime ((1 : ℤ[X]).map (Int.castRingHom ℚ))
+      (((1 - X) * (1 - C (q : ℤ) * X)).map (Int.castRingHom ℚ)) := by
+    rw [Polynomial.map_one]
+    exact isCoprime_one_left
+  obtain ⟨Fac, hFac⟩ := weightSeparated_factor_extraction q hq 2
+    1 ((1 - X) * (1 - C (q : ℤ) * X)) (by simp) (by simp) hcop
+    P (by intro i; fin_cases i <;> simp [P])
+    (by rw [hodd, heven]; simp [P]) hpure
+  refine ⟨Fac, hFac, ?_⟩
+  funext i
+  apply Polynomial.map_injective (f := Int.castRingHom ℂ) Int.cast_injective
+  have hi := (hFac i).2
+  fin_cases i <;> simpa [P] using hi
+
+/-- Without separated weights, equal factors in odd and even degree cancel, hiding a
+nontrivial factor from the alternating product. At q=4 its reciprocal root 2 fails weight 2. -/
+example :
+    (1 - C (2 : ℂ) * X : ℂ[X]) * 1 = 1 * (1 - C (2 : ℂ) * X) ∧
+      (1 - C (2 : ℂ) * X : ℂ[X]) ≠ 1 ∧ ¬ HasIotaWeight 4 2 (2 : ℂ) := by
+  refine ⟨by ring, ?_, ?_⟩
+  · intro h
+    have hc := congrArg (fun f : ℂ[X] => f.coeff 1) h
+    norm_num at hc
+  · norm_num [HasIotaWeight]
 
 end WeightSeparation
 
