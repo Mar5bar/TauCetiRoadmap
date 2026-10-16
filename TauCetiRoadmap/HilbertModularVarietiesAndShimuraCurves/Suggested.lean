@@ -262,6 +262,34 @@ example (F : Type*) [Field F] [NumberField F] :
 example (F : Type*) [Field F] [NumberField F] (p n : ℕ) : HilbertFiniteGamma0 F p 0 n = ⊤ := by
   sorry
 
+-- `gamma0_mn`: the full exponent forces the lower-left entry to vanish in the quotient.
+example (F : Type*) [Field F] [NumberField F] (p n : ℕ)
+    (γ : Matrix.GeneralLinearGroup (Fin 2) (HilbertResidueRing F p n)) :
+    γ ∈ HilbertFiniteGamma0 F p n n ↔
+      (γ : Matrix (Fin 2) (Fin 2) (HilbertResidueRing F p n)) 1 0 = 0 := by
+  sorry
+
+-- `connectedDelta_Q`: the connected rational polarization groups are trivial.
+example (p n N : ℕ) : Subsingleton
+    (ConnectedPolarizationGroup ℚ (NumberField.totallyPositiveIntegerUnits (K := ℚ)) p n N) := by
+  sorry
+
+-- `connectedDelta_square`: a tame-and-wild congruence square dies in the connected quotient.
+example (F : Type*) [Field F] [NumberField F] (p n N : ℕ) (η : (𝓞 F)ˣ)
+    (hη : η ∈ congruenceUnits F (integerLevelIdeal F (p ^ n * N))) :
+    let P := NumberField.totallyPositiveIntegerUnits (K := F)
+    let u : P := ⟨η ^ 2, NumberField.sq_mem_totallyPositiveIntegerUnits η⟩
+    ∃ hu : u ∈ connectedCongruenceUnits F P p n,
+      (QuotientGroup.mk ⟨u, hu⟩ : ConnectedPolarizationGroup F P p n N) = 1 := by
+  sorry
+
+-- `scalarKernel_central`: a scalar commutes with the upper unipotent, with the same product.
+example {R : Type*} [CommRing R] (η : R) :
+    (η • (1 : Matrix (Fin 2) (Fin 2) R)) * !![1, 1; 0, 1] = !![η, η; 0, η] ∧
+    !![1, 1; 0, 1] * (η • (1 : Matrix (Fin 2) (Fin 2) R)) = !![η, η; 0, η] := by
+  constructor <;> ext i j <;> fin_cases i <;> fin_cases j <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_two]
+
 section AdjugateAction
 
 variable {R : Type*} [CommRing R] {M : Type*} [AddCommGroup M] [Module R M]
@@ -331,6 +359,12 @@ theorem DrinfeldHalfPlane.affineChart (K C : Type*) [Field K] [Field C] [Algebra
 -- `DrinfeldHalfPlane.infinity`: the point at infinity is `K`-rational, hence removed.
 example (K C : Type*) [Field K] [Field C] [Algebra K C] (h : (![1, 0] : Fin 2 → C) ≠ 0) :
     Projectivization.mk C ![1, 0] h ∉ DrinfeldHalfPlane.points K C := by
+  sorry
+
+-- `DrinfeldHalfPlane.quadraticPoint`: the quadratic irrational i gives a retained point.
+example : Projectivization.mk ℂ ![Complex.I, 1]
+    (by intro h; have h1 := congrFun h (1 : Fin 2); simp at h1) ∈
+      DrinfeldHalfPlane.points ℚ ℂ := by
   sorry
 
 -- `DrinfeldExhaustion.residueTwo`: for `k = 𝔽₂` a vertex of the tree has three edges.
@@ -482,6 +516,11 @@ example (O : Type*) [CommRing O] [Nontrivial O] :
     Module.finrank O (QuaternionWeight O 2 4) = 9 := by
   sorry
 
+-- `QuaternionWeight.factorialObstruction`: the derivative pairing on Sym² is not unimodular.
+example : Matrix.det (!![0, 0, 2; 0, -1, 0; 2, 0, 0] : Matrix (Fin 3) (Fin 3) ℤ) = 4 ∧
+    ¬ IsUnit (Matrix.det (!![0, 0, 2; 0, -1, 0; 2, 0, 0] : Matrix (Fin 3) (Fin 3) ℤ)) := by
+  norm_num [Matrix.det_fin_three, Int.isUnit_iff]
+
 end Weights
 
 /-- The value at division valuation `n` of a parity character, once a central-compatible root
@@ -496,6 +535,22 @@ example :
 example : (divisionCharacterValue (1 : ℚˣ) 2 : ℚ) ≠ 1 / 4 := by
   norm_num [divisionCharacterValue]
 
+-- `DivisionParityCharacter.trivialCentre`: the two integral uniformizer values are distinct signs.
+example : divisionCharacterValue (1 : ℤˣ) 1 = 1 ∧
+    divisionCharacterValue (-1 : ℤˣ) 1 = -1 ∧ (1 : ℤˣ) ≠ -1 := by
+  norm_num [divisionCharacterValue]
+
+-- `DivisionParityCharacter.scalarUniformiser`: both signs act trivially at even valuation.
+example (n : ℤ) : divisionCharacterValue (1 : ℤˣ) (2 * n) = 1 ∧
+    divisionCharacterValue (-1 : ℤˣ) (2 * n) = 1 := by
+  simp [divisionCharacterValue, zpow_mul]
+
+-- `DivisionParityCharacter.dyadicSigns`: the two characters have the same reduction mod two.
+example (n : ℤ) :
+    ((divisionCharacterValue (1 : ℤˣ) n : ℤ) : ZMod 2) =
+      ((divisionCharacterValue (-1 : ℤˣ) n : ℤ) : ZMod 2) := by
+  sorry
+
 /-- The `N`-torsion subgroup of a finite abelian diamond factor `Δ′`. -/
 def QuaternionTWLevel.torsionSubgroup (Δ' : Type*) [CommGroup Δ'] (N : ℕ) : Subgroup Δ' :=
   (powMonoidHom N : Δ' →* Δ').ker
@@ -503,6 +558,10 @@ def QuaternionTWLevel.torsionSubgroup (Δ' : Type*) [CommGroup Δ'] (N : ℕ) : 
 /-- The diamond factor `Δ′ / Δ′[N]`: the quotient by `N`-torsion, not by `N`-th powers. -/
 abbrev QuaternionTWLevel.diamondFactor (Δ' : Type*) [CommGroup Δ'] (N : ℕ) :=
   Δ' ⧸ QuaternionTWLevel.torsionSubgroup Δ' N
+
+-- `QuaternionTWLevel.empty`: an empty product of auxiliary diamond factors is trivial.
+example (N : ℕ) : Subsingleton (QuaternionTWLevel.diamondFactor (Empty → ℚˣ) N) := by
+  infer_instance
 
 -- `QuaternionTWLevel.cyclicOrder`: `C₈` modulo its `2`-torsion is `C₄`.
 example : Nat.card (QuaternionTWLevel.diamondFactor (Multiplicative (ZMod 8)) 2) = 4 := by
@@ -560,6 +619,16 @@ example : letI : Fact (Nat.Prime 7) := ⟨by decide⟩
   apply (inv_mul_eq_iff_eq_mul₀ (by decide : (3 : ZMod 7) ≠ 0)).2
   decide
 
+-- The relation T_v = 0 excludes a proposed trace of one on the acting quotient.
+example : letI : Fact (Nat.Prime 2) := ⟨by decide⟩
+    let T := MvPolynomial (Unit × Fin 2) (ZMod 2)
+    let I : Ideal T := Ideal.span {MvPolynomial.X ((), (0 : Fin 2))}
+    ¬ ∃ f : (T ⧸ I) →+* ZMod 2,
+      f.comp (Ideal.Quotient.mk I) =
+        residualEvaluation (RingHom.id (ZMod 2)) (fun _ : Unit => 1)
+          (fun _ => 1) (fun _ => 1) := by
+  sorry
+
 end ResidualKernel
 
 -- `ResidualHeckeIdeal.nonsurjective`: without coefficient surjectivity the kernel need not
@@ -600,6 +669,39 @@ example (ρ : Representation ℤ (Multiplicative (ZMod 2)) (ℤ × ℤ))
     (∀ v : ZMod 2 × ZMod 2, (v.1, -v.2) = v) := by
   sorry
 
+/-- The cyclic coordinate-permutation representation of C₃ on triples over a commutative ring. -/
+def LiftableReductionImage.cyclicPermutation (R : Type*) [CommRing R] :
+    Representation R (Multiplicative (ZMod 3)) (ZMod 3 → R) where
+  toFun g :=
+    { toFun := fun w i => w (i + g.toAdd)
+      map_add' := by intros; rfl
+      map_smul' := by intros; rfl }
+  map_one' := by ext w i; simp
+  map_mul' g h := by
+    apply LinearMap.ext
+    intro w
+    funext i
+    change w (i + (g.toAdd + h.toAdd)) = w ((i + g.toAdd) + h.toAdd)
+    rw [add_assoc]
+
+-- `LiftableReductionImage.oddIsotropy`: both invariant modules for cyclic permutation are
+-- diagonal, and every residual diagonal lifts to an integral invariant triple.
+example :
+    let ρ : Representation ℤ (Multiplicative (ZMod 3)) (ZMod 3 → ℤ) :=
+      LiftableReductionImage.cyclicPermutation ℤ
+    let σ : Representation (ZMod 2) (Multiplicative (ZMod 3)) (ZMod 3 → ZMod 2) :=
+      LiftableReductionImage.cyclicPermutation (ZMod 2)
+    let red : (ZMod 3 → ℤ) →+ (ZMod 3 → ZMod 2) :=
+      { toFun := fun w i => (w i : ZMod 2)
+        map_zero' := rfl
+        map_add' := by intros; ext i; simp }
+    (∀ w : ZMod 3 → ℤ, w ∈ ρ.invariants ↔ ∃ a : ℤ, w = fun _ => a) ∧
+      (∀ v : ZMod 3 → ZMod 2,
+        (∀ g, σ g v = v) ↔ ∃ a : ZMod 2, v = fun _ => a) ∧
+      (∀ v : ZMod 3 → ZMod 2,
+        v ∈ liftableResidueImage ρ red ↔ ∀ g, σ g v = v) := by
+  sorry
+
 /-- The pointwise norm twist `f ↦ (χ ∘ ν) · f` on coefficient functions. -/
 def normTwist {G A O W : Type*} [Group G] [CommGroup A] [CommRing O]
     [AddCommGroup W] [Module O W] (ν : G →* A) (χ : A →* Oˣ) (f : G → W) : G → W :=
@@ -616,6 +718,13 @@ example {G A O W : Type*} [Group G] [CommGroup A] [CommRing O]
     normTwist ν (1 : A →* Oˣ) f = f := by
   funext g
   simp [normTwist]
+
+-- `DyadicNormTwist.scalar`: a quadratic character is trivial on the square norm of a scalar.
+example {G A O W : Type*} [Group G] [CommGroup A] [CommRing O]
+    [AddCommGroup W] [Module O W] (ν : G →* A) (χ : A →* Oˣ)
+    (hχ : ∀ a, χ a * χ a = 1) (f : G → W) (z : G) (a : A) (hz : ν z = a ^ 2) :
+    normTwist ν χ f z = f z := by
+  simp [normTwist, hz, pow_two, hχ]
 
 -- `DyadicNormTwist.nonquadratic`: an order-four character gives square value −1 at
 -- a generator, so its twist is not an involution.
