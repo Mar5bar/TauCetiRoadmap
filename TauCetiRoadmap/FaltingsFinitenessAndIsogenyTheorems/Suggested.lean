@@ -67,6 +67,20 @@ theorem fracIdealDegree_smul (I : FractionalIdeal (𝓞 K)⁰ K) (c : InfinitePl
 example : fracIdealDegree (1 : FractionalIdeal (𝓞 K)⁰ K) (fun _ => 1) = 0 := by
   simp [fracIdealDegree]
 
+/-- The generator `1/2` of the fractional ideal `(1/2)ℤ` gives norm `1/2` and degree `log 2`. -/
+example :
+    FractionalIdeal.absNorm
+        (FractionalIdeal.spanSingleton (𝓞 ℚ)⁰ (1 / 2 : ℚ)) = (1 / 2 : ℚ) ∧
+      fracIdealDegree (FractionalIdeal.spanSingleton (𝓞 ℚ)⁰ (1 / 2 : ℚ)) (fun _ => 1) =
+        Real.log 2 := by
+  sorry
+
+/-- At the complex place of `ℚ(i)`, section `2` has index `4`: weight one leaves `log 2`,
+whereas weight two cancels the finite term. -/
+example : Real.log 4 - Real.log 2 = Real.log 2 ∧ Real.log (2 : ℝ) ≠ 0 ∧
+    Real.log 4 - 2 * Real.log 2 = 0 := by
+  sorry
+
 end Degree
 
 /-! ## Layer R28.4: Semisimplicity and the Tate conjecture -/
@@ -104,6 +118,16 @@ example : ¬ ∃ a b c d : ℚ, a ^ 2 + b ^ 2 + c ^ 2 + d ^ 2 = -1 := by
   rintro ⟨a, b, c, d, h⟩
   nlinarith [sq_nonneg a, sq_nonneg b, sq_nonneg c, sq_nonneg d]
 
+/-- The explicit 2-adic quadruple is `(a,1,1,2)`, with a nonzero root of `X² + 7`. -/
+example : ∃ a : ℤ_[2], a ≠ 0 ∧ a ^ 2 = -7 ∧
+    a ^ 2 + (1 : ℤ_[2]) ^ 2 + 1 ^ 2 + 2 ^ 2 = -1 := by
+  sorry
+
+/-- At `3`, `(a,1,0,0)` works with a nonzero root of `X² + 2`. -/
+example : ∃ a : ℤ_[3], a ≠ 0 ∧ a ^ 2 = -2 ∧
+    a ^ 2 + (1 : ℤ_[3]) ^ 2 + 0 ^ 2 + 0 ^ 2 = -1 := by
+  sorry
+
 variable {k V : Type*} [Field k] [AddCommGroup V] [Module k V]
 
 /-- A `4 × 4` matrix acting on `V ^ 4 = Fin 4 → V` through the coefficients. -/
@@ -126,6 +150,15 @@ example (x : Fin 4 → V) : matAct (0 : Matrix (Fin 4) (Fin 4) k) x = 0 := by
   ext i
   simp [matAct]
 
+/-- Noncommuting matrix units fix the order of composition on a nonzero first-coordinate vector. -/
+example (u : V) (hu : u ≠ 0) :
+    matAct (Matrix.single (0 : Fin 4) 1 (1 : k))
+        (matAct (Matrix.single (1 : Fin 4) 0 (1 : k)) (Pi.single 0 u)) = Pi.single 0 u ∧
+      matAct (Matrix.single (1 : Fin 4) 0 (1 : k))
+        (matAct (Matrix.single (0 : Fin 4) 1 (1 : k)) (Pi.single 0 u)) = 0 ∧
+      (Pi.single (0 : Fin 4) u : Fin 4 → V) ≠ 0 := by
+  sorry
+
 /-- The orthogonal-sum form on `V ^ 8 = V ^ 4 × V ^ 4` induced by a form `B` on `V`. -/
 def sumForm (B : LinearMap.BilinForm k V) (x y : (Fin 4 → V) × (Fin 4 → V)) : k :=
   ∑ i, B (x.1 i) (y.1 i) + ∑ i, B (x.2 i) (y.2 i)
@@ -139,6 +172,18 @@ example (B : LinearMap.BilinForm k V) (u w : V) :
 /-- The zero bilinear form gives the zero orthogonal-sum form. -/
 example (x y : (Fin 4 → V) × (Fin 4 → V)) : sumForm (0 : LinearMap.BilinForm k V) x y = 0 := by
   simp [sumForm]
+
+/-- A symplectic pair gives one in the same coordinate, zero across blocks, and two in both blocks. -/
+example (B : LinearMap.BilinForm k V) (u w : V) (huw : B u w = 1) :
+    sumForm B (Pi.single 0 u, 0) (Pi.single 0 w, 0) = 1 ∧
+      sumForm B (Pi.single 0 u, 0) (0, Pi.single 0 w) = 0 ∧
+      sumForm B (Pi.single 0 u, Pi.single 0 u) (Pi.single 0 w, Pi.single 0 w) = 2 := by
+  sorry
+
+/-- Over characteristic zero the identity graph has nonzero pairing on a symplectic pair. -/
+example [CharZero k] (B : LinearMap.BilinForm k V) (u w : V) (huw : B u w = 1) :
+    sumForm B (Pi.single 0 u, Pi.single 0 u) (Pi.single 0 w, Pi.single 0 w) ≠ 0 := by
+  sorry
 
 namespace QuaternionIsotropic
 
@@ -184,6 +229,24 @@ example (B : LinearMap.BilinForm k V) (v : Matrix (Fin 4) (Fin 4) k) :
     subspace B v ⊥ = (⊤ : Submodule k (Fin 4 → V)).map (LinearMap.prod LinearMap.id (-matAct v)) := by
   sorry
 
+/-- For `W = V` and nondegenerate `B`, the subspace is the graph of `v`. -/
+example (B : LinearMap.BilinForm k V) (hnd : B.Nondegenerate)
+    (v : Matrix (Fin 4) (Fin 4) k) :
+    subspace B v ⊤ = (⊤ : Submodule k (Fin 4 → V)).map
+      (LinearMap.prod LinearMap.id (matAct v)) := by
+  sorry
+
+/-- A symplectic line in dimension two gives `W⁴ × W⁴`, of dimension eight. -/
+example [CharZero k] [FiniteDimensional k V] (hV : Module.finrank k V = 2)
+    (B : LinearMap.BilinForm k V) (hB : B.IsAlt) (hnd : B.Nondegenerate)
+    (v : Matrix (Fin 4) (Fin 4) k) (hv : v * vᵀ = -1)
+    (W : Submodule k V) (hW : Module.finrank k W = 1) :
+    subspace B v W =
+        (Submodule.pi Set.univ fun _ : Fin 4 => W).prod
+          (Submodule.pi Set.univ fun _ : Fin 4 => W) ∧
+      Module.finrank k (subspace B v W) = 8 := by
+  sorry
+
 end QuaternionIsotropic
 
 end Quaternion
@@ -209,6 +272,29 @@ example (n : ℕ) (hn : 0 < n) :
     ∀ z ∈ ((X ^ n - 1 : ℤ[X]).map (Int.castRingHom ℂ)).roots, ‖z‖ = 1 := by
   sorry
 
+/-- Radius `√2` gives precisely five conjugate-root quadratics and `X² − 2`. -/
+example : {P : ℤ[X] | P.Monic ∧ P.natDegree = 2 ∧
+    ∀ z ∈ (P.map (Int.castRingHom ℂ)).roots, ‖z‖ = Real.sqrt 2} =
+    {X ^ 2 - 2 * X + 2, X ^ 2 - X + 2, X ^ 2 + 2,
+      X ^ 2 + X + 2, X ^ 2 + 2 * X + 2, X ^ 2 - 2} := by
+  sorry
+
+/-- Radius zero forces every root to be zero. -/
+example (n : ℕ) : {P : ℤ[X] | P.Monic ∧ P.natDegree = n ∧
+    ∀ z ∈ (P.map (Int.castRingHom ℂ)).roots, ‖z‖ = 0} = {X ^ n} := by
+  sorry
+
+/-- Negative radius excludes positive-degree monic polynomials. -/
+example (r : ℝ) (hr : r < 0) (n : ℕ) (hn : 0 < n) :
+    {P : ℤ[X] | P.Monic ∧ P.natDegree = n ∧
+      ∀ z ∈ (P.map (Int.castRingHom ℂ)).roots, ‖z‖ = r} = ∅ := by
+  sorry
+
+/-- The constant polynomial `1` satisfies even a negative-radius root condition. -/
+example (r : ℝ) : {P : ℤ[X] | P.Monic ∧ P.natDegree = 0 ∧
+    ∀ z ∈ (P.map (Int.castRingHom ℂ)).roots, ‖z‖ = r} = {1} := by
+  sorry
+
 end WeilPolynomials
 
 section Lattices
@@ -230,6 +316,33 @@ theorem finite_stableLattices {G V : Type*} [Group G] [AddCommGroup V] [Module �
       ∀ Λ : Submodule ℤ_[l] V, Submodule.IsLattice ℚ_[l] Λ →
       (∀ g, ∀ x ∈ Λ, ρ g x ∈ Λ) →
       ∃ Λ' ∈ F, ∃ φ : V ≃ₗ[ℚ_[l]] V, (∀ g x, φ (ρ g x) = ρ g (φ x)) ∧ ∀ x, x ∈ Λ ↔ φ x ∈ Λ' := by
+  sorry
+
+/-- For the trivial action on `ℚ_l²` every full lattice is carried to `ℤ_l²` by an automorphism. -/
+example (Λ : Submodule ℤ_[l] (Fin 2 → ℚ_[l]))
+    (hΛ : Submodule.IsLattice ℚ_[l] Λ) :
+    ∃ φ : (Fin 2 → ℚ_[l]) ≃ₗ[ℚ_[l]] (Fin 2 → ℚ_[l]),
+      ∀ x, x ∈ Λ ↔ ∀ i, ∃ z : ℤ_[l], φ x i = (z : ℚ_[l]) := by
+  sorry
+
+/-- The unipotent action has stable lattices `ℤ_l e₁ ⊕ l^k ℤ_l e₂` for every `k ≥ 0`. -/
+example :
+    let Λ (k : ℕ) : Submodule ℤ_[l] (Fin 2 → ℚ_[l]) :=
+      Submodule.span ℤ_[l] {Pi.single 0 1, Pi.single 1 ((l : ℚ_[l]) ^ k)}
+    let U (a : ℤ_[l]) (x : Fin 2 → ℚ_[l]) : Fin 2 → ℚ_[l] :=
+      ![x 0 + (a : ℚ_[l]) * x 1, x 1]
+    ∀ k, Submodule.IsLattice ℚ_[l] (Λ k) ∧
+      ∀ a x, x ∈ Λ k → U a x ∈ Λ k := by
+  sorry
+
+/-- Distinct exponents in those unipotent lattices give distinct equivariant isomorphism classes. -/
+example (j k : ℕ) :
+    let Λ (r : ℕ) : Submodule ℤ_[l] (Fin 2 → ℚ_[l]) :=
+      Submodule.span ℤ_[l] {Pi.single 0 1, Pi.single 1 ((l : ℚ_[l]) ^ r)}
+    let U (a : ℤ_[l]) (x : Fin 2 → ℚ_[l]) : Fin 2 → ℚ_[l] :=
+      ![x 0 + (a : ℚ_[l]) * x 1, x 1]
+    (∃ φ : (Fin 2 → ℚ_[l]) ≃ₗ[ℚ_[l]] (Fin 2 → ℚ_[l]),
+      (∀ a x, φ (U a x) = U a (φ x)) ∧ ∀ x, x ∈ Λ j ↔ φ x ∈ Λ k) ↔ j = k := by
   sorry
 
 end Lattices
@@ -266,11 +379,12 @@ theorem finite_ellipticIsogenyClass {K : Type*} [Field K] [NumberField K]
 end Elliptic
 
 /-!
-The README states the remaining targets with their hypotheses and sources; their carriers
+The README states the remaining interfaces, including supplied aliases, with their hypotheses and sources; their carriers
 (abelian varieties with Tate modules, polarizations, semiabelian models, heights, Galois
 representations of number fields with Frobenius elements) are not at the pins. By layer:
 
 * R28.1: `hodgeLine_picard`, `SemiabelianModel.unique`, `CorrespondenceStack`,
+  `StablePicard.lie_iso_firstDirectImage`, `StableCurve.relativeSerreDuality`,
   `modular_hodge_commensurable`, `metrizedDegree`, `modularHeight`, `HermitianMetric.HasLogSingularities`,
   `hodgeMetric_hasLogSingularities`, `northcott_logSingular`, `hermiteMinkowski`,
   `finite_forms_semiabelian`, `finite_ppav_bounded_height`, `Polarization.kernelPairing`,
@@ -289,10 +403,12 @@ representations of number fields with Frobenius elements) are not at the pins. B
   `sumForm_isAlt`, `sumForm_block`.
 * R28.5: `frobeniusTestSet`, `finite_isogenyClasses`, `auxBound`, `auxPoly_spec`, `twistedDet_unramified`,
   `modl_char_cyclotomic`, `raynaud_determinant`, `height_eq_of_large_prime_isogeny`,
-  `finite_padicVal_heightQuotient`, `shafarevich`, `zarhinGraphDescent`, `zarhinTrick`,
+  `finite_padicVal_heightQuotient`, `shafarevich`, `zarhinTrick` (supplied by
+  PadicDifferentialEquationsAndRigidCohomology RD.5.116), `maximalOrder_lattices_iso`,
+  `IntegralOrder.finite_closedConjugacyOrbits`, `IntegralOrder.finite_idempotentConjugacyClasses`,
   `finite_directFactors`, `shafarevich_unpolarized`, `rationalTorelli`, `finite_curves_goodReduction`.
 * R28.6: `ellipticBridge`, `elliptic_semisimple`, `elliptic_tate_hom_iso`,
-  `elliptic_isogenous_iff_ap`, `order_centralizer_reduce`, `commutant_almostAll`.
+  `elliptic_isogenous_iff_ap`, `quotient_torsion_image`, `order_centralizer_reduce`, `commutant_almostAll`.
 -/
 
 end TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheorems
