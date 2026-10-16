@@ -147,8 +147,9 @@ theorem tameDelta_lift (M : ℕ) {J : Type*} [Group J] (f : P →* J)
     ∃! fbar : TamePolarizationGroup F P M →* J, fbar.comp (tameDelta_mk F P M) = f := by
   sorry
 
-/-- Layer H3 milestone: `Δ(M)` is finite for `M ≥ 1`. At `M = 0` it is the whole of `P`,
-which is infinite as soon as `F` has positive unit rank. -/
+/-- Layer H3 milestone: `Δ(M)` is finite for `M ≥ 1`. At `M = 0` it is the whole of `P`.
+If `F` has positive unit rank, the full unit group gives an infinite quotient; for a totally
+real field of positive unit rank the totally positive unit group does too. -/
 theorem tamePolarizationGroup_finite (M : ℕ) (hM : 1 ≤ M) :
     Finite (TamePolarizationGroup F P M) := by
   sorry
@@ -221,6 +222,41 @@ example (F : Type*) [Field F] [NumberField F] (M : ℕ) (η : (𝓞 F)ˣ)
     tameDelta_mk F (NumberField.totallyPositiveIntegerUnits (K := F)) M
       ⟨η ^ 2, NumberField.sq_mem_totallyPositiveIntegerUnits η⟩ = 1 := by
   sorry
+
+-- `units_Q_tame` and `squareImage_Q`: at rational tame level at least three,
+-- only the identity is congruent to one and its square image is trivial.
+example (M : ℕ) (hM : 3 ≤ M) :
+    congruenceUnits ℚ (integerLevelIdeal ℚ M) = ⊥ ∧
+    congruenceUnitSquares ℚ (NumberField.totallyPositiveIntegerUnits (K := ℚ)) M = ⊥ := by
+  sorry
+
+-- `units_sign` and `squareImage_positive`: both choices of sign have positive square.
+example (F : Type*) [Field F] [NumberField F] (η : (𝓞 F)ˣ) :
+    η ^ 2 ∈ NumberField.totallyPositiveIntegerUnits (K := F) ∧
+    (-η) ^ 2 ∈ NumberField.totallyPositiveIntegerUnits (K := F) := by
+  exact ⟨NumberField.sq_mem_totallyPositiveIntegerUnits η,
+    NumberField.sq_mem_totallyPositiveIntegerUnits (-η)⟩
+
+-- `units_squareRoot`: a congruent square need not have a congruent chosen root.
+example : (-1 : (𝓞 ℚ)ˣ) ^ 2 ∈ congruenceUnits ℚ (integerLevelIdeal ℚ 3) ∧
+    (-1 : (𝓞 ℚ)ˣ) ∉ congruenceUnits ℚ (integerLevelIdeal ℚ 3) := by
+  sorry
+
+-- `squareImage_root`: with s²=2 and ε=1+s, ε⁸≡1 mod 12 but neither ±ε⁴≡1;
+-- therefore ε⁸ is not a square of a congruence unit.
+example (F : Type*) [Field F] [NumberField F] (s : 𝓞 F) (hs : s ^ 2 = 2)
+    (ε : (𝓞 F)ˣ) (hε : (ε : 𝓞 F) = 1 + s) :
+    ε ^ 8 ∈ congruenceUnits F (integerLevelIdeal F 12) ∧
+    ε ^ 4 ∉ congruenceUnits F (integerLevelIdeal F 12) ∧
+    -(ε ^ 4) ∉ congruenceUnits F (integerLevelIdeal F 12) ∧
+    ¬ ∃ η : (𝓞 F)ˣ, η ∈ congruenceUnits F (integerLevelIdeal F 12) ∧ η ^ 2 = ε ^ 8 := by
+  sorry
+
+-- `delta_zero_trivial`: positive field unit rank does not force an arbitrary subgroup
+-- quotient to be infinite.
+example (F : Type*) [Field F] [NumberField F] :
+    Subsingleton (TamePolarizationGroup F (⊥ : Subgroup (𝓞 F)ˣ) 0) := by
+  infer_instance
 
 -- `gamma0_m0`: exponent zero imposes no condition.
 example (F : Type*) [Field F] [NumberField F] (p n : ℕ) : HilbertFiniteGamma0 F p 0 n = ⊤ := by
@@ -336,30 +372,59 @@ example : (1, 0) ∉ PelHeightLattice := by
 example : (1, -1) ∈ PelHeightLattice ∧ difference (1, -1) = 1 := by
   refine ⟨by rw [mem]; decide, by decide⟩
 
+-- `PelHeightLattice.negativeDiagonal`: negative diagonal heights are permitted.
+example : (-1, -1) ∈ PelHeightLattice ∧ difference (-1, -1) = 0 := by
+  refine ⟨by rw [mem]; decide, by decide⟩
+
 -- `PelHeightLattice.translation`: the descent shift moves both labels.
 example : (2, 0) ∈ PelHeightLattice ∧ (2, -1) ∉ PelHeightLattice := by
   refine ⟨by rw [mem]; decide, by rw [mem]; decide⟩
 
 end PelHeightLattice
 
-/-- Strict separation of vertex charts: every nonidentity element moves every vertex a tree
-distance greater than two. `move` is the action and `d` the edge distance. -/
-def VeryFreeChartAction {G V : Type*} [Group G] (move : G → V → V) (d : V → V → ℕ) : Prop :=
-  ∀ g : G, g ≠ 1 → ∀ v : V, 2 < d v (move g v)
+/-- Strict separation of vertex charts for an actual group action: every nonidentity element
+moves every vertex a distance greater than two. -/
+def VeryFreeChartAction (G V : Type*) [Group G] [MulAction G V] (d : V → V → ℕ) : Prop :=
+  ∀ g : G, g ≠ 1 → ∀ v : V, 2 < d v (g • v)
 
 namespace VeryFreeChartAction
 
-end VeryFreeChartAction
+/-- The integer translation action with displacement `step * n`. -/
+abbrev integerTranslationAction (step : ℤ) : MulAction (Multiplicative ℤ) ℤ where
+  smul n v := v + step * n.toAdd
+  one_smul v := by
+    change v + step * (0 : ℤ) = v
+    ring
+  mul_smul m n v := by
+    change v + step * (m.toAdd + n.toAdd) = (v + step * n.toAdd) + step * m.toAdd
+    ring
+
+-- `VeryFreeChartAction.trivialGroup`: the identity is excluded from the displacement test.
+example (G V : Type*) [Group G] [Subsingleton G] [MulAction G V] (d : V → V → ℕ) :
+    VeryFreeChartAction G V d := by
+  intro g hg
+  exact (hg (Subsingleton.elim _ _)).elim
+
+-- `VeryFreeChartAction.fixedVertex`: a nonidentity element cannot fix a vertex.
+example {G V : Type*} [Group G] [MulAction G V] (d : V → V → ℕ)
+    (hd : ∀ v, d v v = 0) (g : G) (hg : g ≠ 1) (v : V) (hv : g • v = v) :
+    ¬ VeryFreeChartAction G V d := by
+  intro h
+  have := h g hg v
+  rw [hv, hd] at this
+  omega
 
 -- `VeryFreeChartAction.translationThree`: translation by three on the integer line.
-example : VeryFreeChartAction (fun (n : Multiplicative ℤ) (v : ℤ) => v + 3 * n.toAdd)
-    (fun v w => (v - w).natAbs) := by
+example : letI := integerTranslationAction 3
+    VeryFreeChartAction (Multiplicative ℤ) ℤ (fun v w => (v - w).natAbs) := by
   sorry
 
--- `VeryFreeChartAction.translationTwo`: free on vertices, but the charts are not separated.
-example : ¬ VeryFreeChartAction (fun (n : Multiplicative ℤ) (v : ℤ) => v + 2 * n.toAdd)
-    (fun v w => (v - w).natAbs) := by
+-- `VeryFreeChartAction.translationTwo`: free on vertices, but charts are not separated.
+example : letI := integerTranslationAction 2
+    ¬ VeryFreeChartAction (Multiplicative ℤ) ℤ (fun v w => (v - w).natAbs) := by
   sorry
+
+end VeryFreeChartAction
 
 /-! ## Layer R18.2, part 2: integral quaternionic models and Hodge comparisons -/
 
@@ -385,6 +450,11 @@ abbrev QuaternionWeight (O : Type*) [CommRing O] (d k : ℕ) : Type _ :=
 theorem QuaternionWeight.rank (O : Type*) [CommRing O] [Nontrivial O] (d k : ℕ) (hk : 2 ≤ k) :
     Module.finrank O (QuaternionWeight O d k) = (k - 1) ^ d := by
   sorry
+
+-- `QuaternionWeight.weightTwoRank`: every embedding contributes a rank-one weight-two factor.
+example (O : Type*) [CommRing O] [Nontrivial O] (d : ℕ) :
+    Module.finrank O (QuaternionWeight O d 2) = 1 := by
+  simpa using QuaternionWeight.rank O d 2 (by omega)
 
 -- `QuaternionWeight.quadraticWeightFour`: degree two and weight four give rank nine.
 example (O : Type*) [CommRing O] [Nontrivial O] :
@@ -458,6 +528,17 @@ theorem ResidualHeckeIdeal.actingFactor (red : O →+* k) (q : V → kˣ) (tr de
       f.comp (Ideal.Quotient.mk I) = residualEvaluation red q tr det := by
   sorry
 
+-- `ResidualHeckeIdeal.normThree`: S evaluates to q⁻¹ det, not to det.
+example : letI : Fact (Nat.Prime 7) := ⟨by decide⟩
+    residualEvaluation (RingHom.id (ZMod 7))
+    (fun _ : Unit => Units.mk0 (3 : ZMod 7) (by decide)) (fun _ => 0) (fun _ => 6)
+    (MvPolynomial.X ((), (1 : Fin 2))) = (2 : ZMod 7) := by
+  let : Fact (Nat.Prime 7) := ⟨by decide⟩
+  norm_num [residualEvaluation]
+  change (3 : ZMod 7)⁻¹ * 6 = 2
+  apply (inv_mul_eq_iff_eq_mul₀ (by decide : (3 : ZMod 7) ≠ 0)).2
+  decide
+
 end ResidualKernel
 
 -- `ResidualHeckeIdeal.nonsurjective`: without coefficient surjectivity the kernel need not
@@ -483,6 +564,21 @@ theorem mem_liftableResidueImage {O Γ W V : Type*} [CommRing O] [Group Γ]
 example : (∀ x : ℤ, -x = x → x = 0) ∧ (∀ x : ZMod 2, -x = x) := by
   sorry
 
+-- `LiftableReductionImage.trivialAction`: every residual vector has an invariant lift.
+example : liftableResidueImage (Representation.trivial ℤ (Multiplicative (ZMod 2)) ℤ)
+    (Int.castAddHom (ZMod 2)) = ⊤ := by
+  sorry
+
+-- `LiftableReductionImage.directSum`: a trivial/sign action on ℤ² has only the first
+-- residual coordinate in its liftable image, although the residual action fixes both.
+example (ρ : Representation ℤ (Multiplicative (ZMod 2)) (ℤ × ℤ))
+    (hρ : ∀ a b : ℤ, ρ (Multiplicative.ofAdd (1 : ZMod 2)) (a, b) = (a, -b)) :
+    (∀ v : ZMod 2 × ZMod 2,
+      v ∈ liftableResidueImage ρ
+        ((Int.castAddHom (ZMod 2)).prodMap (Int.castAddHom (ZMod 2))) ↔ v.2 = 0) ∧
+    (∀ v : ZMod 2 × ZMod 2, (v.1, -v.2) = v) := by
+  sorry
+
 /-- The pointwise norm twist `f ↦ (χ ∘ ν) · f` on coefficient functions. -/
 def normTwist {G A O W : Type*} [Group G] [CommGroup A] [CommRing O]
     [AddCommGroup W] [Module O W] (ν : G →* A) (χ : A →* Oˣ) (f : G → W) : G → W :=
@@ -499,6 +595,16 @@ example {G A O W : Type*} [Group G] [CommGroup A] [CommRing O]
     normTwist ν (1 : A →* Oˣ) f = f := by
   funext g
   simp [normTwist]
+
+-- `DyadicNormTwist.nonquadratic`: an order-four character gives square value −1 at
+-- a generator, so its twist is not an involution.
+example : ∃ χ : Multiplicative (ZMod 4) →* ℂˣ,
+    (χ (Multiplicative.ofAdd (1 : ZMod 4)) : ℂ) = Complex.I ∧
+    normTwist (MonoidHom.id (Multiplicative (ZMod 4))) χ
+      (normTwist (MonoidHom.id (Multiplicative (ZMod 4))) χ (fun _ => (1 : ℂ)))
+      (Multiplicative.ofAdd (1 : ZMod 4)) = -1 ∧
+    ¬ Function.Involutive (normTwist (W := ℂ) (MonoidHom.id _) χ) := by
+  sorry
 
 #check QuaternionAlgebra.normForm_coe
 
@@ -532,6 +638,13 @@ end Components
 -- `component_trivial`: one component and `q_v = 3` give `T_v = 4`.
 example : componentT ℚ Unit 3 () (fun _ => 1) () = 4 := by
   simp [componentT, componentTranslation]
+
+-- `component_central`: on C₃, S translates by the nonidentity square of a generator.
+example : componentS ℚ (Multiplicative (ZMod 3)) (Multiplicative.ofAdd 1)
+    (fun x => if x = 1 then 1 else 0) 1 = 0 ∧
+    (fun x : Multiplicative (ZMod 3) => if x = 1 then (1 : ℚ) else 0) 1 = 1 := by
+  norm_num [componentS, componentTranslation]
+  decide
 
 section Gram
 
@@ -575,6 +688,16 @@ example : degeneracyGram ℚ ℚ 2 3 1 (1, -1) = (0, 0) := by
 
 example : degeneracyDiscriminant ℚ 2 3 1 = 0 := by
   simp [degeneracyDiscriminant]
+
+-- `gram_central_factor`: the inverse central factor changes the off-diagonal entry.
+example : degeneracyGram ℚ ℚ 2 3 (Units.mk0 2 (by norm_num)) (0, 1) = (3 / 2, 3) := by
+  norm_num [degeneracyGram]
+
+-- `gram_zero_hecke`: zero T gives scalar multiplication and its square discriminant.
+example (A M : Type*) [CommRing A] [AddCommGroup M] [Module A M] (q : ℕ) (S : Aˣ) :
+    degeneracyGram A M q 0 S = ((q + 1 : ℕ) : A) • LinearMap.id ∧
+    degeneracyDiscriminant A q 0 S = ((q + 1 : ℕ) : A) ^ 2 := by
+  sorry
 
 section Saturation
 
