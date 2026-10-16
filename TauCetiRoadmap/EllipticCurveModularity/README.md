@@ -1062,9 +1062,10 @@ needed in the following tests.
   formula does not apply.
 
 A further newness Check takes the displayed level-22 dimension and oldspace data as
-explicit inputs. The two forms `f_(11)(z)` and `f_(11)(2z)` span the
-weight-two cusp space there, and its new part is zero. The level-11 form is attached to
-11a1, but this does not produce a newform of level 22. This is a test both of exact
+explicit inputs, with trivial character throughout. The two forms `f_(11)(z)` and
+`f_(11)(2z)` span the weight-two trivial-character cusp space there, and its new part
+is zero. The level-11 form is attached to 11a1, but this does not produce a newform
+of level 22. This is a test both of exact
 level and of the bundled newform condition used in attachment uniqueness. The divisor
 multiplicity behind the example is Cremona, §2.7, p. 26, and is used again in the
 geometric converse.
@@ -1245,7 +1246,8 @@ this layer, AutomorphicGaloisRepresentations
 ModularForms Layer 4 for the bad-prime eigenvalues and newform coefficient recurrences.
 
 For 11a1 the split multiplicative polynomial at 11 is `1-T`, so its newform coefficient
-there is 1. For a nonsplit multiplicative place the polynomial must change to `1+T`. For
+there is 1. For 37a1 at 37 the nonsplit multiplicative polynomial is `1+T`:
+`v_37(Δ)=1`, `c_4=48` is a unit, and `-c_6=216≡31 (mod 37)` is a nonsquare. For
 the CM test curve `y²=x³-x` at 2 the additive polynomial is 1. These three cases test
 the removal of the quadratic term and the split sign. They also show why dropping all
 bad places from the Euler product would lose information needed for equality of L-series
@@ -1611,6 +1613,41 @@ geometric inputs are ModularCurvesPartII **§16.8**,
 between an arbitrary `N'` and `N_E`, together with the two old copies at level 22, is
 the acceptance condition for this equivalence.
 
+### Elliptic coefficient summability
+
+**Elliptic coefficient summability** (`lCoeff_LSeriesSummable`). For every
+`E : WeierstrassCurve ℚ` with `E.IsElliptic` and every `s : ℂ` with `3/2 < s.re`, prove
+
+`LSeriesSummable (fun n => (lCoeff E n : ℂ)) s`.
+
+Establish `|a_n(E)| ≤ d(n)√n` for `n≥1`, where `d(n)` counts positive divisors.
+At a good prime ℓ, Hasse's bound makes the roots α, β of `X²-a_ℓ(E)X+ℓ`
+have absolute value `√ℓ`. The R29.4 recurrence gives
+`a_(ℓ^m)(E)=∑_(i=0)^m α^i β^(m-i)`, hence
+`|a_(ℓ^m)(E)|≤(m+1)ℓ^(m/2)`. At bad primes use `a_ℓ(E)∈{0,±1}` and the
+linear recurrence. Coprime multiplicativity gives the bound for all positive n.
+The Dirichlet convolution of `n ↦ √n` with itself is `d(n)√n` for n positive.
+Each factor is summable at s when `Re s>3/2`, by the real p-series criterion with
+exponent `Re s-1/2>1`. Mathlib's `LSeriesSummable.convolution` and norm comparison
+therefore give the asserted summability, without assuming modularity of E.
+
+*Sources and prerequisites.* Silverman, AEC V.1.1, via EllipticCurves Layer 3's
+Hasse bound, supplied as `WeierstrassCurve.hasse_bound` in
+`TauCeti.AlgebraicGeometry.EllipticCurve.HasseBound`; Cremona §2.6,
+(2.6.1)–(2.6.2), p. 25, for the recurrences and
+multiplicativity, realized for Mathlib's elliptic coefficients in R29.4. The coefficient
+bound and summability deduction are targets here. Use Mathlib
+`NumberTheory/LSeries/Convolution.lean` and its convergence substrate.
+
+**Checks.**
+
+- At n=1 the coefficient and divisor majorant are both 1. For 11a1 at n=4,
+  the good-prime recurrence gives `a_4=2`, within the bound `d(4)√4=6`.
+- At the split multiplicative prime 11 of 11a1, `a_121=1`; at the additive
+  prime 2 of `y²=x³-x`, `a_4=0`. The bad-prime bounds use the linear recurrence.
+- For every elliptic E the series is summable at `s=7/4`, which lies between
+  `3/2` and 2. The strict hypothesis makes no convergence assertion at `s=3/2`.
+
 ### Continuation and the functional equation
 
 Put `F_E = newformOf E`.
@@ -1619,8 +1656,8 @@ The selected-form continuation theorem `exists_entire_completed_LSeries E`
 is unconditional; the attached-form version
 `IsNewformOf.exists_entire_completed_LSeries` instead takes attachment directly.
 By the local factor theorem of R29.4, their Euler products include identical factors at
-bad primes as well as good primes. The complex Dirichlet series therefore agree in their
-half-plane of absolute convergence, `Res>3/2`.
+bad primes as well as good primes. By `lCoeff_LSeriesSummable` and the all-coefficient
+identity, both complex Dirichlet series converge absolutely and agree for `Re s>3/2`.
 
 The completed function, initially on that half-plane, is
 
@@ -1633,8 +1670,12 @@ sign `w_E∈(1,-1)` satisfying
 
 In the weight-two convention the sign is the eigenvalue of `-W_(N_E)` on `F_E`. The
 Mellin transform and Fricke functional equation are supplied by the modular-form
-L-function theory. The inverse gamma factor is entire, so `L(E,s)` also has an entire
-continuation. The literal Mathlib Dirichlet-series expression outside its domain of
+L-function theory. The supplied Mellin comparison agrees with the literal series for
+`Re s>2` in weight two. Prove holomorphy of the elliptic series on `Re s>3/2`
+using the summability target and Mathlib's `LSeries_analyticOnNhd`. The completion
+factors are holomorphic there, so the identity theorem on this connected half-plane
+extends that comparison to `Re s>3/2`. The inverse gamma factor is entire, so `L(E,s)`
+also has an entire continuation. The literal Mathlib Dirichlet-series expression outside its domain of
 convergence is not the definition of that continuation; the suggested statement asserts existence
 of an entire function agreeing with it in the stated half-plane.
 
@@ -1650,7 +1691,9 @@ modular elliptic curve. The direct inputs are the all-local-factor identity in R
 Mathlib `WeierstrassCurve.LFunction` and `WeierstrassCurve.LSeries`, and Tau Ceti
 ModularForms **Layer 7: L-functions**
 ([ModularForms roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ModularForms/README.md#layer-7-l-functions)) for Hecke continuation and
-the functional equation.
+the functional equation. The extension of the Mellin comparison uses
+`lCoeff_LSeriesSummable`, Mathlib `NumberTheory/LSeries/Deriv.lean` and the analytic
+identity theorem.
 
 ### Theorem 4 and the real multiplication boundary
 
@@ -1681,7 +1724,9 @@ nonvanishing example tests the normalization of the completed L-function.
 for existence; ModularCurvesPartII §16.7 and §17.3;
 FaltingsFinitenessAndIsogenyTheorems §§R28.6.2–R28.6.3; ArithmeticGaloisRepresentations
 §6.1; AbelianSchemesAndArithmeticModuli A4.1 and A6.5; RepresentationTheory/SemisimpleAlgebras Layer 3;
-ModularForms Layers 4, 7 and 8G; JacobianChallenge Layer F.
+ModularForms Layers 4, 7 and 8G; JacobianChallenge Layer F; EllipticCurves Layer 3
+for Hasse's bound; Mathlib `NumberTheory/LSeries/Convolution.lean` and
+`NumberTheory/LSeries/Deriv.lean` for elliptic summability and holomorphy.
 
 ## Dependency order and reusable outputs
 

@@ -8,6 +8,7 @@ import Mathlib.FieldTheory.AbsoluteGaloisGroup
 import Mathlib.LinearAlgebra.TensorProduct.Tower
 import Mathlib.NumberTheory.Cyclotomic.CyclotomicCharacter
 import Mathlib.NumberTheory.LegendreSymbol.ZModChar
+import Mathlib.NumberTheory.LSeries.Convolution
 import Mathlib.NumberTheory.ModularForms.DedekindEta
 import Mathlib.NumberTheory.ModularForms.QExpansion
 import Mathlib.NumberTheory.NumberField.Basic
@@ -17,6 +18,7 @@ import Mathlib.RepresentationTheory.Irreducible
 import Mathlib.RingTheory.Ideal.Operations
 import Mathlib.RingTheory.Norm.Basic
 import TauCeti.NumberTheory.ModularForms.Newforms.Newform
+import TauCeti.AlgebraicGeometry.EllipticCurve.HasseBound
 import TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.Determinant
 import TauCeti.NumberTheory.ModularForms.Newforms.OrthogonalBasis
 
@@ -209,7 +211,21 @@ example :
     7 ∈ exceptionalPrimes curveIsogenyOnly ∧ HasRationalCyclicSubgroup curveIsogenyOnly 7 ∧
       padicValRat 2 curveIsogenyOnly.j = -3 := by sorry
 
+example :
+    haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+    HasGoodReductionAt curve26b1 7 ∧
+      HasGoodReductionAt curveValuationOnly 7 ∧
+      HasGoodReductionAt curveIsogenyOnly 7 ∧
+      padicValRat 2 curveValuationOnly.j = -7 := by sorry
+
 example : HasRationalCyclicSubgroup curve11a1 5 := by sorry
+
+example :
+    ∃ C : AddSubgroup (AddSubgroup.torsionBy
+      (curve11a1.baseChange (AlgebraicClosure ℚ)).toAffine.Point (5 : ℤ)),
+      C ≠ ⊥ ∧ C ≠ ⊤ ∧ ∀ σ : GQ,
+        C.map (Multiplicative.toAdd
+          (curve11a1.torsionGaloisAction (5 : ℤ) σ)).toAddMonoidHom = C := by sorry
 
 /-- A rational cyclic subgroup can have no rational nonzero generator. -/
 example : HasRationalCyclicSubgroup curveIsogenyOnly 7 ∧
@@ -238,6 +254,9 @@ example {N p : ℕ} [NeZero N] (hp : p.Prime) (w : SerreWitness N p) :
     w.prime ≠ ⊥ := by sorry
 
 example (w : SerreWitness 11 7) : coeff w.form 2 = -2 := by sorry
+
+example (w : SerreWitness 11 7) :
+    coeff w.form 2 = (lCoeff curve11a1 2 : ℂ) := by sorry
 
 example (w : SerreWitness 11 7) : ∀ τ : UpperHalfPlane,
     w.form.toCuspForm τ = ModularForm.eta τ ^ 2 *
@@ -288,6 +307,8 @@ example :
 /-- Unit test: no newform of level 11 is attached to 37a1. -/
 example (F : Newform 11 2) : ¬ IsNewformOf curve37a1 F := by sorry
 
+example (F : Newform 22 2) (hχ : F.χ = 1) : False := by sorry
+
 omit [E.IsElliptic] in
 /-- Unit test: a newform with nontrivial character is attached to no curve.  -/
 theorem not_isNewformOf_of_char_ne_one {M : ℕ} [NeZero M] (F : Newform M 2) (hF : F.χ ≠ 1) :
@@ -331,6 +352,45 @@ theorem localPolynomial_completion_eq_padic
       (E.baseChange ℚ_[Rat.HeightOneSpectrum.primesEquiv v]).localPolynomial
         ℤ_[Rat.HeightOneSpectrum.primesEquiv v] := sorry
 
+example (v : IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ))
+    (hv : (Rat.HeightOneSpectrum.primesEquiv v : ℕ) = 7) :
+    (curve11a1.baseChange (v.adicCompletion ℚ)).localPolynomial
+      (v.adicCompletionIntegers ℚ) =
+      1 + C (2 : ℤ) * X + C (7 : ℤ) * X ^ 2 := by sorry
+example (v : IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ))
+    (hv : (Rat.HeightOneSpectrum.primesEquiv v : ℕ) = 11) :
+    (curve11a1.baseChange (v.adicCompletion ℚ)).localPolynomial
+      (v.adicCompletionIntegers ℚ) = 1 - X := by sorry
+example (v : IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ))
+    (hv : (Rat.HeightOneSpectrum.primesEquiv v : ℕ) = 2) :
+    (curveCM.baseChange (v.adicCompletion ℚ)).localPolynomial
+      (v.adicCompletionIntegers ℚ) = 1 := by sorry
+example (v : IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ))
+    (hv : (Rat.HeightOneSpectrum.primesEquiv v : ℕ) = 7) :
+    ((⟨0, -49, 343, -24010, -2352980⟩ : WeierstrassCurve ℚ).baseChange
+      (v.adicCompletion ℚ)).localPolynomial (v.adicCompletionIntegers ℚ) =
+      1 + C (2 : ℤ) * X + C (7 : ℤ) * X ^ 2 := by sorry
+
+example :
+    haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+    (curve11a1.baseChange ℚ_[7]).localPolynomial ℤ_[7] =
+      1 + C (2 : ℤ) * X + C (7 : ℤ) * X ^ 2 := by sorry
+example :
+    haveI : Fact (Nat.Prime 11) := ⟨by decide⟩
+    (curve11a1.baseChange ℚ_[11]).localPolynomial ℤ_[11] = 1 - X := by sorry
+example :
+    haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+    (curveCM.baseChange ℚ_[2]).localPolynomial ℤ_[2] = 1 := by sorry
+example :
+    haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+    ((⟨0, -49, 343, -24010, -2352980⟩ : WeierstrassCurve ℚ).baseChange
+      ℚ_[7]).localPolynomial ℤ_[7] =
+      1 + C (2 : ℤ) * X + C (7 : ℤ) * X ^ 2 := by sorry
+
+example :
+    haveI : Fact (Nat.Prime 37) := ⟨by decide⟩
+    (curve37a1.baseChange ℚ_[37]).localPolynomial ℤ_[37] = 1 + X := by sorry
+
 /-- `EllipticCurveModularity:R29.4/bad-euler-factors`: every local factor of `E`, in Mathlib's convention, is the
 Euler factor of a newform `F` attached to `E`. -/
 theorem IsNewformOf.localPolynomial_eq {M : ℕ} [NeZero M] {F : Newform M 2} (h : IsNewformOf E F) (ℓ : ℕ)
@@ -351,8 +411,22 @@ theorem span_range_rationalTateRep (E : WeierstrassCurve ℚ) [E.IsElliptic]
     Submodule.span ℚ_[r] (Set.range (fun σ : GQ => LinearMap.baseChange ℚ_[r]
       (E.tateModuleGaloisRepresentation (K := AlgebraicClosure ℚ) r σ))) = ⊤ := sorry
 
+/-- The elliptic Dirichlet coefficients are absolutely summable for `Re s > 3/2`.
+Hasse's bound and the local recurrences give the divisor majorant `d(n)√n`. -/
+theorem lCoeff_LSeriesSummable (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (s : ℂ) (hs : 3 / 2 < s.re) :
+    LSeriesSummable (fun n => (lCoeff E n : ℂ)) s := by sorry
+
+example : |(lCoeff E 1 : ℝ)| = 1 := by sorry
+example : |(lCoeff curve11a1 4 : ℝ)| ≤ 6 := by sorry
+example : lCoeff curveCM 4 = 0 := by sorry
+example : LSeriesSummable (fun n => (lCoeff E n : ℂ)) (7 / 4 : ℂ) :=
+  lCoeff_LSeriesSummable E (7 / 4) (by norm_num)
+
 /-- An attached form supplies an entire completed L-series with its own level M.
-The README identifies M with the conductor. -/
+It agrees with the literal series for `Re s > 3/2` using elliptic summability
+and holomorphic extension of the Mellin comparison. The README identifies M
+with the conductor. -/
 theorem IsNewformOf.exists_entire_completed_LSeries
     {M : ℕ} [NeZero M] {F : Newform M 2} (h : IsNewformOf E F) :
     ∃ Λ : ℂ → ℂ, Differentiable ℂ Λ ∧
