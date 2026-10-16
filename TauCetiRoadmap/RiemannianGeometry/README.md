@@ -661,8 +661,12 @@ stable homotopy calculations remain with
    remove path dependence.
    Prove the Killing–Hopf universal-cover classification and the quotient
    description by free properly discontinuous discrete smooth isometries.
-   Construct the quotient atlas, descended metric and covering for every such
-   free properly discontinuous action, and prove completeness/curvature descend.
+   Construct the quotient atlas, descended metric and covering for a free properly
+   discontinuous discrete group of smooth isometries on any Riemannian manifold;
+   this construction does not require constant curvature. Prove completeness and
+   curvature descend when the source has those properties. Specialize this generic
+   construction to the preceding space-form classification and to free finite-group
+   actions on closed manifolds used by PDO P7a.
    Local isometries of a connected source are determined by value and tangent
    map at one point. Identify round-sphere isometries with O(n+1), and classify
    even-dimensional spherical space forms as the sphere and real projective
