@@ -16171,7 +16171,7 @@ To prove this, only finitely many local lattices differ from Λ_v. Clear denomin
 
 ### 7.73 The logarithm is injective only after controlling determinant torsion
 
-For a finite p-group and the stated coefficient R, ker(ν:Det(1+I)→φ(I))=Det(G). On Det(1+A), with A=ker(R[G]→R[G_ab]), ν is an isomorphism onto φ(A). In particular equal logarithms alone imply a ratio in Det(G); they imply equality only after a separate torsion check or inside the commutator-ideal determinant subgroup.
+For a finite p-group and the stated coefficient R, ker(ν:Det(1+I)→φ(I))=Det(G). On Det(1+A), with A=ker(R[G]→R[G_ab]), ν is an isomorphism onto φ(A). For two elements of Det(1+I), equal logarithms imply a ratio in Det(G); they imply equality only after a separate torsion check or inside the commutator-ideal determinant subgroup. This kernel statement has no assertion about a character homomorphism outside the integral determinant image.
 
 (Ted Chinburg, Georgios Pappas and Martin J. Taylor, [K₁ of a p-adic group ring I. The determinantal image](#reference-cpt), Theorems3.14–3.16, pp.19–21; Appendix proof of Theorem3.14, pp.36–38.) The full augmentation determinant kernel is group-element torsion, while the commutator-ideal restriction is an isomorphism.
 
@@ -17072,7 +17072,15 @@ To prove this, use Taylor’s unramified correction on each character and the Ar
 - The adjustment is not the ordinary Gauss homomorphism even for unramified characters.
 - Multiplying by Det(c_p) changes no integral-unit determinant quotient whenever c_p is an integral group element.
 
-**Auxiliary proof target.** Taylor’s adjusted Gauss sum and torsion comparison need the unit identities in Fröhlich–Taylor (1980), Theorem 5(ii)–(iii), through Taylor (1981), Propositions 3.6–3.7, p. 47, and Proposition 3.10(v), p. 48, and the local construction of Fröhlich–Taylor (1980), §5.1, through Taylor §9(Ia), p. 66. No source cited here proves the 1980 inputs; the finite-field valuation formula does not replace it. Retain all of these local inputs before using Taylor Theorem 4, pp. 59–60.
+**Auxiliary proof target.** For a tame local Γ-extension, every subgroup Δ≤Γ and every virtual character φ of Δ, prove `y_Γ(Ind_Δ^Γ φ)=y_Δ(φ)`. For every rational prime ℓ and virtual θ of Γ vanishing on all elements of order prime to ℓ, prove `τ_Γ(θ)≡y_Γ(θ) mod 𝔪_ℓ` and hence `τ_Γ*(θ)≡1 mod 𝔪_ℓ`. Here the comparison is in the algebraic ℓ-adic coefficient integers, and `𝔪_ℓ` is their positive-valuation ideal, componentwise at every place above ℓ. The determinant correction is also congruent to one on these θ. These are local unit identities, in addition to the finite-field valuation formula.
+
+(Taylor (1981), Propositions3.6–3.8, p.47, and Proposition3.10(v), p.48, using Fröhlich–Taylor (1980), Theorem5(ii)–(iii).) These identities are targets here. The stronger Gauss congruence using Fröhlich–Taylor (1980), §5.1, through Taylor §9(Ia), p.66, is specified with its modulus in §7.118.
+
+**Checks.**
+
+- θ=0 gives `1≡1` and induction preserves its value.
+- For an ℓ-group, vanishing on the ℓ-regular elements means degree zero; the congruence applies to `χ−χ(1)·1`.
+- The trivial character has degree one and is outside that kernel. Its adjusted value −1 is compatible with this statement, including at odd ℓ.
 
 *Needs:* [Tame local Galois Gauss sums](#layer-7-topic-13); [Gauss sums have the resolvent Galois transformation law](#layer-7-topic-107); [Determinants indexed by virtual characters](#layer-7-topic-28).
 
@@ -17123,17 +17131,35 @@ To prove this, the finite valuations cancel by [Tame norm resolvents and Gauss s
 
 ### 7.115 The Gauss logarithm lifts through the commutator ideal
 
-In Taylor’s cyclic prime-to-ℓ crossed-product reduction, the adjusted Gauss homomorphism f has logarithm in ℓ times the integral conjugacy-class module on inertia. Its restriction to the abelian quotient is the determinant of an integral unit T′. After removing that lift, ν(f) lies in the commutator-ideal image and is ν(Det z) for a unit z∈1+A supported on inertia. This supplies a logarithmic lift; it leaves possible group-element determinant torsion.
+**Target.** Fix distinct primes p and ℓ and a tame local extension with ℚ-ℓ-elementary group `Γ=C⋊P`, where C is cyclic of order prime to ℓ and P is an ℓ-group. Put `K=ℚ(ζ_p)` and `𝒜=𝒪_K⊗ℤ_ℓ`. For a character x of C of order n, pass to `Γ/ker x` and write C for its cyclic quotient, so x is faithful. Put `H=ker(P→Aut(C))`, `Δ=C×H`, `L=K(ζ_n)` and `B=𝒪_L⊗ℤ_ℓ`. Both K and L are unramified at ℓ. The factor of `𝒜[C]` belonging to x gives the crossed product of §7.86; its comparison with `B[H]` is the character-induction and coefficient comparison of Taylor (7.1)–(7.4). For every embedding σ of `K∩ℚ(ζ_n)` into ℚ̄, the comparison sends a character homomorphism h on the corresponding Δ-character summand to `χ↦h(x^σ·χ)`. The product over σ identifies both ambient Hom groups and integral determinant subgroups. Fix one such component, and write `f(χ)=τ_Δ*(x^σ·χ)`, with the Artin correction and additive character of §7.112.
 
-(Martin J. Taylor, [On Fröhlich’s conjecture for rings of integers of tame extensions](#reference-taylor-froehlich-conjecture-1981), §7 Propositions7.5–7.7, p.57; §8, Proposition8.1, Corollary8.2, (8.3)–(8.4) and Theorem5, pp.62–65.) The Gauss logarithm and its abelianization have integral-unit lifts supported on inertia.
+Define the carrier before any integrality assertion. Let `U_ℓ` be the direct limit of `(𝒪_E⊗ℤ_ℓ)×` over finite number fields E in ℚ̄, and set `ℋ_L(H)=Hom_(Gal(ℚ̄/L))(R_H,U_ℓ)`: homomorphisms from the additive virtual-character group to multiplicative coefficient units, equivariant for the character and coefficient actions. The determinant subgroup `D_B(H)=Det(B[H]×)` embeds in this carrier by §7.28. For the Gauss factor, ℓ≠p gives unit values and §7.112 gives equivariance, so `f∈ℋ_L(H)` independently of determinant membership. All statements for B and its fraction algebra are interpreted componentwise over the places above ℓ.
 
-To prove this, use [The Hasse–Davenport product relation](#layer-7-topic-29) only in its weak form, equality up to a root of unity (Taylor writes ~ at Taylor (1981) p.64), with the residue Gauss formulas, to obtain Taylor’s inertia coefficient bounds (Taylor (1981), Theorem5, pp.63–65); roots of unity have zero logarithm, so the boundary [the characteristic-two Gauss-product sign](#layer-7-topic-29) is not used here. Lift the abelianized adjusted Gauss homomorphism by Fourier inversion. Saturation of the conjugacy-class commutator image permits the remaining logarithm to be lifted by [The logarithm is injective only after controlling determinant torsion](#layer-7-topic-73), retaining the inertia support.
+Let `|H|=ℓ^m` and let F on `L(ζ_(ℓ^m))` restrict to arithmetic Frobenius at ℓ on L and fix `ζ_(ℓ^m)`. These requirements are compatible because L is unramified at ℓ; this particular scalar extension is part of the coefficient data. Character evaluation identifies the conjugacy-class algebra `(L⊗ℚ_ℓ)[Cl(H)]` with the equivariant additive character functions. Define `ℒ_char` on all of `ℋ_L(H)` by
+
+    χ(ℒ_char(h)) = log_ℓ(h(χ)^ℓ / h(ψ^ℓχ)^F),
+    ν_char(h) = ℒ_char(h)/ℓ.
+
+The ℓ-adic logarithm on algebraic coefficient units kills roots of unity. Construct this extension and prove `ℒ_char(Det u)=L(u)` on the augmentation units of §7.46, hence `ν_char(Det u)=ν(Det u)` in that section's normalized convention. Prove that `Det(1+rad(B[H]))` has finite index in `ℋ_L(H)`, and that `ker ν_char=ℋ_L(H)_tors`. In particular this is the torsion of the full character carrier; the equality with `Det(H)` in §7.73 applies only after restriction to its integral augmentation determinant subgroup.
+
+Let I be the cyclic inertia subgroup of H, `A_H=ker(B[H]→B[Hᵃᵇ])`, and `Cl_I(H)` the H-conjugacy classes represented by elements of I. Prove `ℒ_char(f)∈ℓ B[Cl_I(H)]`. There is `T′∈B[I]×` whose determinant agrees with f on every linear character, and there is `z∈(1+A_H)∩B[I]×` with `ν_char(f/Det T′)=ν_char(Det z)`. Thus for `d=Det(zT′)` the exact pre-integrality conclusion is
+
+    q=f/d ∈ ℋ_L(H)_tors,   q(λ)=1 for every linear character λ.
+
+No integral-determinant membership of q is asserted here. Its triviality is the congruence theorem of §7.118.
+
+(Martin J. Taylor, [On Fröhlich’s conjecture for rings of integers of tame extensions](#reference-taylor-froehlich-conjecture-1981), §4 (4.2)–(4.5), pp.50–51; §7 (7.1)–(7.4), pp.54–56, Propositions7.5–7.7 and (7.10), pp.57–59; §8 Proposition8.1, Corollary8.2 and Theorem5, pp.62–65.) Taylor extends the logarithm to the full unit-valued Hom group and leaves its torsion subgroup at (7.10). His unnormalized `ν_H` is `ℒ_char`, whereas §7.46 uses `ν=L/ℓ`.
+
+To prove this, character idempotents and sufficiently small principal units give the finite-index determinant subgroup; extend its logarithm by division by the finite index in the characteristic-zero class algebra. The internal determinant kernel theorem, together with the scalar unit logarithm, then identifies the ambient kernel with ambient torsion, without identifying that torsion with group-element determinants. Use the weak Hasse–Davenport relation, equality up to roots of unity, for Taylor's inertia coefficient calculation. Fourier inversion lifts the abelian restriction. Saturation of the commutator class image and §7.73 lift the remaining integral logarithm with its inertia support; this use of §7.73 is entirely inside its determinant domain.
 
 **Checks.**
 
-- G abelian: A = 0, so z = 1, and f agrees with Det(T′) up to the torsion in Det(G) treated in [Taylor’s congruences detect the residual determinant torsion](#layer-7-topic-118).
+- H abelian: `A_H=0`, `z=1`, and the abelian lift already gives `f=Det T′` on every character, so `q=1`.
+- For `B=ℤ₂`, `H=C₂` and the nontrivial element s, `Det(s)` has zero `ν_char` and sign-character value −1. The ambient logarithm retains torsion.
+- For `B=ℤ₂`, `H=Q₈`, the homomorphism with value 1 on all four linear irreducibles and −1 on the faithful degree-two irreducible has zero `ν_char` and trivial abelian restriction. It is outside `Det(H)`; the full rejection test is in §7.118.
+- On integral augmentation determinants, `ℒ_char=ℓν` with §7.46's normalization; replacing the coefficient Frobenius by an action on character roots would change the comparison.
 
-*Needs:* [Adjusted tame Gauss homomorphisms](#layer-7-topic-112); [The Hasse–Davenport product relation](#layer-7-topic-29); [Integral images of the group logarithm](#layer-7-topic-62); [The logarithm is injective only after controlling determinant torsion](#layer-7-topic-73).
+*Needs:* [Adjusted tame Gauss homomorphisms](#layer-7-topic-112); [The Hasse–Davenport product relation](#layer-7-topic-29); [Integral images of the group logarithm](#layer-7-topic-62); [The logarithm is injective only after controlling determinant torsion](#layer-7-topic-73); [Crossed-product descent on elementary subgroups](#layer-7-topic-86).
 
 <a id="layer-7-topic-116"></a>
 
@@ -17173,17 +17199,57 @@ To prove this, fröhlich's proof (his paper J. reine angew. Math. 286 (1976) 380
 
 <a id="layer-7-topic-118"></a>
 
-### 7.118 Taylor’s congruences detect the residual determinant torsion
+### 7.118 Taylor’s congruences detect the pre-integrality character torsion
 
-For the crossed-product Gauss factor f in [The Gauss logarithm lifts through the commutator ideal](#layer-7-topic-115), let z and T′ be its commutator and abelian lifts. The quotient f/Det(zT′) lies in Det(G). Taylor’s four integral congruence families force this quotient to be trivial: induced characters of degree greater than two; degree-two characters with semiabelian action; degree-two inversion action; and degree-two semidihedral action. Hence f is an integral-unit determinant, rather than merely having the logarithm of one.
+**Target.** Use `B,L,H,I,F,f` and `d=Det(zT′)` from §7.115, with `zT′∈B[I]×`. The detection theorem is on the carrier `ℋ_L(H)`, with no assumption that f or `q=f/d` is an integral determinant. Its hypotheses are: q is torsion and trivial on linear characters; f and d are congruent to one modulo `𝔪_ℓ` on virtual characters vanishing on ℓ-regular elements; and for each irreducible `χ=Ind_Φ^H α`, with `I≤Φ` and α linear, both `f(χ)` and `d(χ)` lie in `(L(χ|I)⊗ℚ_ℓ)×`. Here `L(χ|I)` is generated by the values of the restricted character, not by all values of α. In particular the residue condition and `q(1)=1` imply `q(χ)≡1 mod 𝔪_ℓ` on every χ.
 
-(Martin J. Taylor, [On Fröhlich’s conjecture for rings of integers of tame extensions](#reference-taylor-froehlich-conjecture-1981), §7 Theorem4 and its four branches, pp.59–61; §§9–10, pp.65–75.) Four congruence families remove the torsion ambiguity left by the logarithm comparison.
+The further hypotheses are the four paired identities below, for f and for every `d_b=Det(b)`, `b∈B[I]×`. All congruences mean differences in the displayed coefficient ideal after passage to a common finite splitting extension. Write 𝒪 for the algebraic ℓ-adic integers and `𝔪_ℓ` for their positive-valuation ideal, componentwise, and put `J_ℓ=ℓ𝒪` for odd ℓ and `J₂=2𝔪₂`. Thus `mod 2𝔪₂` is stronger than `mod 2`; it distinguishes −1 from 1. Write `u^(−F)=(u^F)⁻¹`, let `v_Φ^Ψ α` denote α composed with group transfer from Ψ to Φ, and let `det χ` denote the linear determinant character of a representation with character χ.
 
-To prove this, for induced characters compare Gauss factors and determinants against the transfer/cotransfer character at the next index-ℓ subgroup. For degree two the semiabelian branch compares modulo 2 times the radical; the inversion branch compares Gauss factors modulo 4 and determinants modulo 2 times the radical; the semidihedral branch uses the corresponding trace relation modulo 4. Group-element torsion is evaluated on these detecting characters, and the congruences eliminate it by induction on the group. Taylor §§9–10 prove these families, but the crucial degree>2 Gauss congruence invokes Fröhlich–Taylor 1980 §5.1; the required congruence input is stated below. No injectivity of the unrestricted logarithm is used.
+The group H is a tame ℓ-group with cyclic inertia I and cyclic quotient `H/I`. Require the inertia sequence to split. When ℓ=2, also require the inversion companions in branch III to exist. Every tame ℓ-group quotient has a finite tame ℓ-power cover satisfying these two requirements: the split inertia sequence is obtained in a sufficiently large unramified cover, and the inversion companion in a further tame 2-power cover. Prove this existence and the compatibility of f under inflation. A group quotient sends group-ring units to units, so integrality on such a cover descends. These cover comparisons are part of this target (Taylor §3, p.50, and §7, p.57).
 
-**Auxiliary proof target.** The local adjusted-Gauss and torsion identities needed from Taylor (1981), §§9–10, pp. 65–75, include the Fröhlich–Taylor (1980) inputs specified at adjusted Gauss sums. Their existence is an obligation; the logarithm-image assertion by itself does not supply the torsion calculation.
+For degree-two characters at ℓ=2 write `2^r=order(α|I)`, and let a be the residue cardinality of the local field fixed by H, so an arithmetic Frobenius lift acts on inertia by its a-th power. The three types have respectively `a≡1 mod 4`, `a≡−1 mod 2^r`, and `a≡−1+2^(r−1) mod 2^r` with r≥3. The first case has nontrivial order-two action on `α(I)` as well; the identity action would give no irreducible degree-two χ.
 
-*Needs:* [The Gauss logarithm lifts through the commutator ideal](#layer-7-topic-115); [The logarithm is injective only after controlling determinant torsion](#layer-7-topic-73); [Local rational Brauer reduction for determinant quotients](#layer-7-topic-63).
+1. Degree greater than two. For `χ=Ind_Φ^H α` let Ψ be the unique subgroup above Φ with `[Ψ:Φ]=ℓ`, put `β=v_Φ^Ψ α` and `χ′=Ind_Ψ^H β`. The inertia order of β is strictly smaller than that of α. Require
+
+       f(χ) f(χ′)^(−F) ≡ 1 mod J_ℓ,
+       d_b(χ) d_b(χ′)^(−F) ≡ 1 mod J_ℓ.
+
+2. Semiabelian degree two. There are Ψ and a linear λ of Ψ with `[H:Ψ]=[I:I∩Ψ]=2`, `χ=Ind_Ψ^H λ` and `χ′=Ind_Ψ^H(λ²)`. Put `β=v_Ψ^H λ` and `γ=v_Ψ^H(λ²)`; for `s∈I`, `β(s)=λ(s²)`. Require the exact Gauss identity and determinant congruence
+
+       f(χ) f(β)^(−F) = f(χ′) f(γ)^(−F),
+       d_b(χ) d_b(β)^(−F) ≡ d_b(χ′) d_b(γ)^(−F) mod 2𝔪₂.
+
+3. Inversion degree two. There is an irreducible `χ̃=Ind_Φ^H α̃` of inversion or semidihedral type with `α̃²|I=α|I`, and an automorphism ω fixing L pointwise, with the induced action on characters, such that
+
+       f(χ̃+χ̃^ω) f(χ)^(−F) ≡ 1 mod 4𝒪,
+       d_b(χ̃+χ̃^ω) d_b(χ)^(−F) ≡ 1 mod 2𝔪₂.
+
+4. Semidihedral degree two. Put `E=L(α|I)` and let `Tr_E/L` be the field trace, extended to the completed coefficient algebras. Let φ range over all linear characters of `I/ker(α²|I)`, each extended to Φ, and put `φ_*=Ind_Φ^H φ` and `ε_*=Ind_Φ^H 1`. For `h=f,d_b` define the additive expressions
+
+       A_h = 2^(1−r) Tr_E/L(h(χ)) − h(det χ)^F,
+       B_h = 2^(1−r) Σ_φ h(φ_*) − h(det ε_*)^F.
+
+   Require `A_f≡B_f mod 4B`, `A_(d_b)≡B_(d_b) mod 4B`, and `A_f,B_f∈2B`. These include integrality of the normalized traces and sums. In particular `2^(1−r) Tr_E/L(f(χ))` is a 2-adic unit: its difference from the unit `f(det χ)^F` is in 2B. Omitting this parity assertion would lose detection of the residual sign.
+
+Prove that these hypotheses imply `q=1` and hence `f=Det(zT′)∈D_B(H)`. Then verify every hypothesis for the constructed adjusted Gauss factor f. The residue assertion is §7.112, and the field-of-values assertion is Taylor Proposition3.10(iv) together with the character-component scalar comparison of §7.115. For `d_b`, inertia support gives the same field of values and Proposition3.8 gives the residue assertion. Prove the f identities from the finite conductor sums: branch I includes the Fröhlich–Taylor (1980), §5.1 local unit congruence, with the modulus `J_ℓ`, as in Taylor §9(Ia), p.66; branches II–IV are Taylor §9, pp.67–71. Prove the paired determinant congruences for all `b∈B[I]×` by the coefficient computations of Taylor §10, pp.71–75. Thus the identities are specified local targets here, rather than assumed integral-determinant membership of f.
+
+(Martin J. Taylor, [On Fröhlich’s conjecture for rings of integers of tame extensions](#reference-taylor-froehlich-conjecture-1981), §4 (4.5), p.51; §7 (7.10), Theorem4(Ia–IVb) and its detection argument, pp.59–61; §§9–10, pp.65–75.) The theorem compares the Gauss homomorphism and an inertia-supported determinant in the ambient unit-valued character group.
+
+To prove detection, induct on `order(α|I)`. Linear characters start the induction. The residue condition makes q's values ℓ-primary roots of unity. For degree two of inversion or semidihedral type the field-of-values assertion restricts these roots to ±1: adjoining unramified coefficients to the relevant 2-power cyclotomic fixed field introduces no further 2-primary roots. Branch II compares with smaller inertia order modulo `2𝔪₂`. In branch III, equivariance makes the two companion signs equal, so their product is 1; the displayed congruence then kills `q(χ)`. In branch IV, the induced φ characters have smaller inertia order, and linear determinant characters already have q-value 1. Subtracting the paired congruences gives
+
+    (q(χ)⁻¹−1) · 2^(1−r) Tr_E/L(f(χ)) ≡ 0 mod 4B.
+
+The trace factor is a unit, so the sign is 1. Finally branch I compares with smaller inertia order modulo `J_ℓ`, which distinguishes all ℓ-primary roots from 1 at the required precision. None of these steps uses the integral-determinant kernel theorem on q.
+
+**Checks.**
+
+- Rejection of unrestricted logarithm-plus-abelianization detection: for `B=ℤ₂`, `H=Q₈`, let h have value 1 on the four linear irreducibles `1,λ₁,λ₂,λ₃` and −1 on the faithful degree-two χ, and extend multiplicatively to virtual characters. This rational assignment is equivariant, torsion, and trivial on the abelian quotient. Both its characterwise logarithm and `ν_char` vanish; `ψ²χ=λ₁+λ₂+λ₃−1` does not detect it. In the faithful representation the generators `diag(i,−i)` and `[[0,1],[−1,0]]` have determinant 1, so every group element has determinant 1 at χ, while `h(χ)=−1`. Thus `h∉Det(Q₈)`. These data alone cannot justify the residual membership or equality; no claim that h is a Gauss factor is part of this example.
+- `groupElement_determinant_eq_one_of_linear_characters`: if a group-element determinant is 1 on all linear characters, it is 1 on every representation, since `g↦det(ρ(g))` is itself a linear character. The four congruence branches therefore concern the larger carrier torsion, not an element of `Det(H)` already trivial on the abelian quotient.
+- At ℓ=2 the sign −1 is congruent to 1 modulo 2 and modulo `𝔪₂`, but not modulo `2𝔪₂` or 4. Residue congruences alone cannot replace branches II–IV.
+- In branch IV with r=3 and L unramified at 2, `[L(ζ₈):L]=4` and `2^(1−r)Tr_(L(ζ₈))/L(1)=1`. The factor 1/4 is essential to both parity and the unit trace conclusion.
+- H abelian: the lift of §7.115 already gives q=1, without any nonlinear branch.
+
+*Needs:* [The Gauss logarithm lifts through the commutator ideal](#layer-7-topic-115); [Adjusted tame Gauss homomorphisms](#layer-7-topic-112); [Local rational Brauer reduction for determinant quotients](#layer-7-topic-63).
 
 <a id="layer-7-topic-119"></a>
 
@@ -17193,7 +17259,7 @@ For a tame local G-Galois extension over F/Q_p and ℓ≠p, put K=Q(ζ_p). The l
 
 (Martin J. Taylor, [On Fröhlich’s conjecture for rings of integers of tame extensions](#reference-taylor-froehlich-conjecture-1981), Theorem2(b), p.45; Theorem3, p.49, proved in §§5–10, pp.52–75.) Away from the ramified prime, the Gauss homomorphism modulo its root-of-unity correction is a determinant unit.
 
-To prove this, reduce by integral-character twisting and ℚ-elementary induction (Taylor (1981), §5: an integral identity over ℚ-elementary subgroups, and for ℚ-ℓ-elementary subgroups a multiplier prime to ℓ). Realize each ℚ-rational virtual character by finite free Z-lattices and extend along Z→O_(K,ℓ), with the compatible local splitting fields; §7.47 applies with B=Z, independently of the ramification prime p. For a ℚ-q-elementary subgroup with q≠ℓ the quotient by its q-part has order prime to ℓ, so its group ring is a maximal order, and Taylor’s congruence Proposition3.10(v), resting on his Propositions3.7–3.8, shows that an ℓ-power of the adjusted Gauss factor is a unit determinant (Taylor (1981), §6, Propositions5.3 and6.1). On the ℚ-ℓ-elementary pieces use [The Gauss logarithm lifts through the commutator ideal](#layer-7-topic-115) and [Taylor’s congruences detect the residual determinant torsion](#layer-7-topic-118), then reassemble the cyclic crossed-product pieces (Taylor (1981), §§7–10). Det(c_p) is already an integral unit determinant and can be removed. Descent of invariant determinants uses [Fixed-point descent for integral determinant units](#layer-7-topic-109).
+To prove this, reduce by integral-character twisting and ℚ-elementary induction (Taylor (1981), §5: an integral identity over ℚ-elementary subgroups, and for ℚ-ℓ-elementary subgroups a multiplier prime to ℓ). Realize each ℚ-rational virtual character by finite free Z-lattices and extend along Z→O_(K,ℓ), with the compatible local splitting fields; §7.47 applies with B=Z, independently of the ramification prime p. For a ℚ-q-elementary subgroup with q≠ℓ the quotient by its q-part has order prime to ℓ, so its group ring is a maximal order, and Taylor’s congruence Proposition3.10(v), resting on his Propositions3.7–3.8, shows that an ℓ-power of the adjusted Gauss factor is a unit determinant (Taylor (1981), §6, Propositions5.3 and6.1). On the ℚ-ℓ-elementary pieces use [The Gauss logarithm lifts through the commutator ideal](#layer-7-topic-115) and [Taylor’s congruences detect the pre-integrality character torsion](#layer-7-topic-118), then reassemble the cyclic crossed-product pieces (Taylor (1981), §§7–10). Det(c_p) is already an integral unit determinant and can be removed. Descent of invariant determinants uses [Fixed-point descent for integral determinant units](#layer-7-topic-109).
 
 **Checks.**
 
@@ -17201,9 +17267,9 @@ To prove this, reduce by integral-character twisting and ℚ-elementary inductio
 - For unramified rank-one χ over F, the different and uniformizer remain in τ_F(χ)=χ(D_F/Q_p)⁻¹ and y_p(χ)=−χ(P_F); unramifiedness alone does not set these two values to 1.
 - At the zero virtual character the factor is 1, since both homomorphisms are multiplicative on the virtual character group.
 
-**Auxiliary proof target.** The determinant representative requires both the logarithm image and the torsion calculation, including the Fröhlich–Taylor (1980) local unit identities, which no source cited here proves. Taylor (1981), Theorem 4, pp. 59–60, and §§9–10, pp. 65–75, give the route.
+The logarithmic lift supplies a quotient in the torsion of `ℋ_L(H)`. The paired congruences of §7.118, including the local unit identities specified there and in §7.112, prove this quotient trivial before any claim of integral-determinant membership. The crossed-product comparison then transports the constructed integral determinant back to the elementary factor.
 
-*Needs:* [Adjusted tame Gauss homomorphisms](#layer-7-topic-112); [The Gauss logarithm lifts through the commutator ideal](#layer-7-topic-115); [Taylor’s congruences detect the residual determinant torsion](#layer-7-topic-118); [Crossed-product descent on elementary subgroups](#layer-7-topic-86); [Fixed-point descent for integral determinant units](#layer-7-topic-109).
+*Needs:* [Adjusted tame Gauss homomorphisms](#layer-7-topic-112); [The Gauss logarithm lifts through the commutator ideal](#layer-7-topic-115); [Taylor’s congruences detect the pre-integrality character torsion](#layer-7-topic-118); [Crossed-product descent on elementary subgroups](#layer-7-topic-86); [Fixed-point descent for integral determinant units](#layer-7-topic-109).
 
 <a id="layer-7-topic-119a"></a>
 

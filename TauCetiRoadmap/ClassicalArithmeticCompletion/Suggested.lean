@@ -1082,6 +1082,17 @@ example : StableEquivalent ℤ ℤ ℤ := by
 example : ¬ StableEquivalent ℤ (Fin 0 → ℤ) ℤ := by
   sorry
 
+/-- A group element invisible to every linear character has determinant one in every
+finite-dimensional representation. The determinant of the representation is a linear
+character, so this criterion applies to group-element determinants. -/
+theorem groupElement_determinant_eq_one_of_linear_characters
+    {Ω G : Type*} [Field Ω] [Group G] (g : G)
+    (hlinear : ∀ χ : G →* Ω, χ g = 1)
+    (n : ℕ) (ρ : Representation Ω G (Fin n → Ω)) :
+    LinearMap.det (ρ g) = 1 := by
+  exact hlinear ((LinearMap.det :
+    ((Fin n → Ω) →ₗ[Ω] (Fin n → Ω)) →* Ω).comp ρ)
+
 /-- Evaluation in a finite-dimensional representation gives the splitting-field determinant. -/
 noncomputable def groupRingDeterminant {R Ω G : Type*} [CommRing R] [Field Ω]
     [Group G] (ι : R →+* Ω) (x : MonoidAlgebra R G) (n : ℕ)
@@ -1131,8 +1142,12 @@ root-number classes and the integral group logarithm remain README targets. The 
 interfaces of §§7.13 and 7.30 transport ArithmeticGaloisRepresentations' local constants
 and completed Artin equation with the stated dual, trace character and self-dual measure;
 §7.47 carries the common coefficient-base map through its lattice twist and projection
-formula. The README also specifies
-the projective height comparison with its actual point at infinity.
+formula. Sections 7.115 and 7.118 specify the logarithm on the full equivariant,
+unit-valued virtual-character Hom group, the residual torsion in that carrier, and the
+paired Gauss/determinant congruences that prove integrality. The group-element criterion
+`groupElement_determinant_eq_one_of_linear_characters` records its narrower domain;
+the quaternion rejection example has trivial linear values without belonging to that domain.
+The README also specifies the projective height comparison with its actual point at infinity.
 -/
 
 end TauCetiRoadmap.ClassicalArithmeticCompletion
