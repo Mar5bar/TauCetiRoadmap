@@ -6,7 +6,7 @@
 
 This roadmap owns the applications of integral old/new cohomology to residual level descent, the geometric lowering contradictions, weight optimisation for an existing modular eigensystem, coefficient-prime level removal, and the precise conditional exports. It also owns the concrete totally real optimisation in Khare–Wintenberger II §8: minimal modular witnesses after allowable base change, the parallel weight change, quaternionic raising as used in that argument, and modular lifts with prescribed locally admissible types.
 
-Sections 2.10 and 4.8 own rational weight-two level lowering and finite-flat weight-two optimisation; §4.7 owns the weight-two coefficient-prime bridge. AutomorphicGaloisRepresentations §§6.5 and 7.6 consume these results in their overlapping lowering and `ℓ≥5` finite-flat applications. Its type-Σ packaging, extra characteristic-three character comparison and fixed-form eventual-ramification deduction remain there.
+Sections 2.10 and 4.8 own rational weight-two level lowering and finite-flat weight-two optimisation; §4.7 owns the weight-two coefficient-prime bridge. For AutomorphicGaloisRepresentations §6.5, use §§2.10, 2.13 and 4.7–4.8 for the overlapping odd-characteristic lowering, coefficient-prime bridge and `ℓ≥5` finite-flat inputs; its type-Σ packaging and extra characteristic-three character comparison remain there. Its §7.6 squarefree lowering wrapper uses §2.10; the fixed-form deduction from finite newform sets and strong multiplicity one remains there.
 
 ArithmeticGaloisRepresentations Layer 3 owns the full Artin conductor, Swan conductor and invariance under coefficient extension; NeronModelsAndSemistableAbelianVarieties §5.3h owns the elliptic residual conductor formulas. AlgebraicModularFormsAndSerreWeights Layers R15.1–R15.4 owns Katz forms, coherent Hecke modules, Hasse/theta/Frobenius operations and the local weight recipe, including extension classes. This roadmap applies these objects and does not give them new definitions. The analytic old/new decomposition, normalized characteristic-zero newforms, and weight-one lattices belong to Tau Ceti and its ModularForms roadmap. The integral Jacobian and cohomology comparison belongs to ModularCurvesPartII Layers 13–15; analytic orthogonality does not supply it.
 
@@ -54,7 +54,7 @@ Use `Nat.primeFactors` from `Mathlib/Data/Nat/PrimeFin.lean`. The distinct prime
 
 Use `padicValNat` from `Mathlib/Data/Nat/PadicValNat.lean`. The exponent of the largest dividing p-power for nonzero n and prime p; defaults at zero/base one are excluded by the mathematical input hypotheses.
 
-Suggested.lean mirrors the coordinate quotients and the elementary numerical Checks in §§2.3–2.5, 3.5, 3.14–3.14a, 6.1 and 6.8.
+Suggested.lean mirrors the coordinate quotients and the elementary numerical Checks in §§2.3–2.5, 3.5, 3.14–3.14a, 4.6, 6.1 and 6.8.
 
 The gluing examples use the existing submodule quotient over a commutative ring and module. The DVR finiteness theorem has the additional finite-free and rational complement assumptions in Layer 1. The suggested `reducedLevel` is an arithmetic expression in natural-number prime factors and exponent valuations of `|Δ|`; its elliptic interpretation requires the conductor and minimal-discriminant hypotheses in Layer 6. Natural valuation defaults at zero are not used to model a zero minimal discriminant.
 
@@ -442,7 +442,7 @@ Use the supplied bad-fibre degeneracy sequence and identify its kernel with the 
 
 ### 2.8 Monodromy comparison for lowering
 
-On each semistable Jacobian’s torus character lattice, use the imported integral monodromy map `X→X∨`; its finite cokernel is the geometric component group. Degeneracy maps and their adjoints preserve the monodromy comparison with their actual indices; use §2.5’s actual map σ and identity `σδ=η` on character groups and component groups. Localising at the residual ideal and using the two character-group sequences gives the length/dimension relations used in Ribet’s contradiction, with Rosati and diamond twists retained. The statement is an application of NeronModelsAndSemistableAbelianVarieties §§2.4, 4.1–4.6, not a second construction of a Néron pairing. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), §6, author pp. 19–21; §7, (7.6)–(7.10), author pp. 24–27. Component-group and monodromy calculations in the multiplicity-free odd-characteristic proof.)
+On each semistable Jacobian’s torus character lattice, use the imported integral monodromy map `X→X∨`; its finite cokernel is the geometric component group. Degeneracy maps and their adjoints preserve the monodromy comparison with their actual indices. Use §2.5’s map σ and `σ∘δ=η` on abelian varieties; contravariance gives `δ*∘σ*=η*` on `X_p`. On component groups use the corresponding covariant identity, retaining the primed dual Hecke actions in the monodromy diagram. Localising at the residual ideal and using the two character-group sequences gives the length/dimension relations used in Ribet’s contradiction, with Rosati and diamond twists retained. The statement is an application of NeronModelsAndSemistableAbelianVarieties §§2.4, 4.1–4.6, not a second construction of a Néron pairing. ([Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), §6, author pp. 19–21; §7, (7.6)–(7.10), author pp. 24–27. Component-group and monodromy calculations in the multiplicity-free odd-characteristic proof.)
 
 The semistable fibres and polarization comparison are supplied. The residue-characteristic torsion and component-group exceptional support are accounted for before reduction.
 
@@ -457,6 +457,8 @@ Identify the finite cokernels using the geometric monodromy theorem. Apply the t
 - The two dimension inequalities are not both valid at `ℓ=2` without an extra input.
 
 - A rational pairing comparison does not discard a component-group factor.
+
+- With `δ*:L_p→X_p` and `σ*:X_p→L_p`, `δ*∘σ*` acts on `X_p`; the reversed composite acts on `L_p` and cannot equal this `η*`.
 
 <a id="mazur-principle"></a>
 
@@ -1440,7 +1442,7 @@ Its applications are [Elliptic residual weight-two newform](#weight-two-newform-
 
 - `M=3²·5` and `v_3(Δ)=v_5(Δ)=7`, `ℓ=7` gives `M₀=9`, retaining the higher conductor exponent at 3. `(reduced_higher_exponent.)`
 
-- The input `E=141` example at `ℓ=3` keeps the coefficient prime in `M₀=141`.
+- For `E=141a1`, with equation `y²+y=x³+x²−12x+2`, conductor 141 and minimal discriminant `3⁷·47`, `ℓ=3` gives `M₀=141`, `N(E[3])=47` and classical Serre weight four. ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §1.4, author pp. 12–13.)
 
 - A higher conductor exponent is never stripped by this formula.
 
@@ -1462,7 +1464,7 @@ Use the Tate-curve local criterion at multiplicative `q∥M` with `ℓ∣v_q(Δ)
 
 - The elliptic residual representation must be irreducible.
 
-- For E of conductor 141 at `ℓ=3`, `M₀` retains 3 and can support weight two while tame Serre level requires weight four.
+- For `E=141a1`, given by `y²+y=x³+x²−12x+2`, conductor 141 and minimal discriminant `3⁷·47`, `ℓ=3` gives a weight-two witness at `M₀=141`, whereas `N(E[3])=47` has classical Serre weight four. ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §1.4, author pp. 12–13.)
 
 - The proof does not cite the final EllipticCurveModularity modularity theorem.
 
@@ -1783,7 +1785,7 @@ AutomorphicCongruences Layer 0, PadicFamilies Layer 1 and IntegralIwasawaTheory 
 
 - Benedict H. Gross, [A tameness criterion for Galois representations associated to modular forms (mod p)](https://www.math.purdue.edu/~tongliu/seminar/Mlift/Gross.pdf). Duke Mathematical Journal 61 (1990), 445–517; scan of published paper.
 
-- Robert F. Coleman and José Felipe Voloch, [Companion forms and Kodaira–Spencer theory](https://www.math.canterbury.ac.nz/~f.voloch/Pdfs/comp2.pdf). Inventiones Mathematicae 110 (1992), 263–281; author manuscript dated 21 May 1992, 26 pages, author pagination.
+- Robert F. Coleman and José Felipe Voloch, [Companion forms and Kodaira–Spencer theory](https://www.math.canterbury.ac.nz/~f.voloch/Pdfs/comp2.pdf). Inventiones Mathematicae 110 (1992), 263–281; author manuscript dated 21 May 1992, 29-page PDF (main text pp. 1–26, Gross’s errata and references pp. 27–28, author address p. 29), author pagination.
 
 - Gabor Wiese, [Dihedral Galois representations and Katz modular forms](https://www.maths.tcd.ie/EMIS/journals/DMJDMV/vol-09/07.pdf). Documenta Mathematica 9 (2004), 123–133; publisher PDF.
 

@@ -70,6 +70,12 @@ example : (2 : ZMod 7) * 3 = 6 ∧ (2 : ZMod 7)⁻¹ = 4 ∧
 example : (2 : ZMod 8) ^ 4 = 0 ∧ ∀ u : (ZMod 8)ˣ, (u : ZMod 8) ^ 4 = 1 := by
   sorry
 
+/-! ## Layer 4: Trace-normalisation arithmetic -/
+
+/-- The trace-step coefficients have five-adic exponent valuations one and three. -/
+example : padicValNat 5 240 = 1 ∧ padicValNat 5 (Int.natAbs (-6000)) = 3 := by
+  sorry
+
 /-! ## Layer 6: Exports for Serre and elliptic curves -/
 
 open scoped BigOperators
