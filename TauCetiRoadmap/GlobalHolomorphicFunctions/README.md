@@ -435,6 +435,67 @@ series gives uniform error because the ratio is below `1/2`; higher-order poles 
 powers and controlling compact-uniform limits. A rational pole-set theorem specifies a pole in
 every component of the complement on the sphere.
 
+<a id="gh4-full-boundary-pompeiu"></a>
+#### Full-boundary Cauchy–Pompeiu formula
+
+Give piecewise-`C¹` Jordan parametrizations `γ₀,…,γₘ`, with `m<∞`, and write `Dⱼ` for the
+bounded Jordan component enclosed by the image of `γⱼ`. Require the closed hole interiors
+`closure(Dⱼ)` (`1≤j≤m`) to be pairwise disjoint and contained in `D₀`; define
+`Δ := D₀ \ ⋃_{j=1}^m closure(Dⱼ)`. Thus `Δ` is the bounded finitely connected region with outer
+boundary `γ₀` and hole boundaries `γ₁,…,γₘ`. Parameterize every `γⱼ` counterclockwise around its
+own bounded component. Define the oriented boundary cycle by
+`C_Δ := [γ₀] − Σ_{j=1}^m [γⱼ]` in the existing free-abelian `TauCeti.Contour.Cycle`; this is the
+same orientation as the outer curve counterclockwise and each hole curve clockwise. Here `[γ]`
+denotes the native cycle generator bundled from its closed piecewise-`C¹` parameterization.
+
+Prove the region-boundary adapter: `trace(C_Δ)=∂Δ`, `n_{C_Δ}=1` on `Δ`, and
+`n_{C_Δ}=0` on `ℂ\closure(Δ)`. Use ConformalMapping L5 for the single-Jordan separation and
+filled-hull topology. GH4 must also prove the orientation-to-winding statement for the chosen
+counterclockwise parameterizations and assemble the finitely many disjoint hole indices; L5 alone
+does not state that winding conclusion. Suppose `Ω` is open, `closure(Δ)⊆Ω`, `f : ℂ → ℂ` is
+`C¹` on `Ω` as a real map, and `ξ∈Δ`. The formal theorem target is the area-integral identity
+
+\[
+ f(ξ)=\frac{1}{2π i}\int_{C_Δ}\frac{f(z)}{z-ξ}\,dz
+       -\frac{1}{π}\int_Δ\frac{∂̄f(z)}{z-ξ}\,dA(z).
+\]
+
+Here `dA` is positive planar Lebesgue measure. Record the source's equivalent plus-wedge display
+as the coefficient identity `dz∧d\bar z=−2i dA` in the positive basis `(1,i)`; do not introduce
+an independent integral of a 2-form. Use `Cycle.integral` for the boundary term and Bochner area
+integration; prove integrability from boundedness of `∂̄f` on `closure(Δ)` and local integrability
+of `z↦‖z−ξ‖⁻¹` in two dimensions.
+
+For sufficiently small `ε>0` with `B̄_ε(ξ)⊆Δ`, let `S_ε` be the positively oriented circle cycle
+and set `C_ε=C_Δ−S_ε`, `U_ε=Ω\B̄_{ε/2}(ξ)`, and `F(z)=f(z)/(z−ξ)` on `U_ε`. Prove `C_ε` has
+trace in `U_ε` and its total winding number vanishes on `ℂ\U_ε`: outside `Ω`, both component
+indices vanish; on `B̄_{ε/2}(ξ)`, the domain-boundary and circle indices are both `1` and cancel.
+On `U_ε` off the traces, its index equals `1` on `Δ\B̄_ε(ξ)` and `0` elsewhere. On `U_ε`,
+`∂̄F=(∂̄f)/(z−ξ)` by the real `C¹` product rule and `∂̄((z−ξ)⁻¹)=0`. Apply
+DifferentialGeometry 5.6.3's finite integer-weighted-cycle Green identity to the two real forms
+associated to `F dz`: for `F=u+iv`, use `u dx−v dy` and `v dx+u dy`. Add the explicit local
+coordinate comparison target: on each native cycle generator,
+`(F∘γ)·γ′=(u∘γ)x′−(v∘γ)y′+i((v∘γ)x′+(u∘γ)y′)`; extend by finite integer additivity. This
+identifies the real and imaginary parts of `Cycle.integral F` with the two finite real circulation
+integrals, without introducing a second cycle or contour-integral carrier. The two curls are
+`−vₓ−uᵧ=−2 Im(∂̄F)` and `uₓ−vᵧ=2 Re(∂̄F)`, so their identities combine to
+`∮_{C_ε}F dz=2i∫_{Δ\B̄_ε(ξ)}∂̄F dA`; traces are area-null. This gives the punctured
+Cauchy–Pompeiu identity. As `ε↓0`, the counterclockwise circle integral of `F dz` tends to
+`2πi f(ξ)`, and the exact error estimate is
+`|∮_{S_ε}F dz−2πi f(ξ)|≤2π sup_{|z−ξ|=ε}|f(z)−f(ξ)|`, which tends to zero. Set
+`M=sup_{z∈closure(Δ)}|∂̄f(z)|<∞`; the deleted area term is at most `2πMε`. The source
+plus-wedge and minus-area versions then agree by `dz∧d\bar z=−2i dA`.
+
+The region-boundary adapter must prove the Jordan separation/orientation-to-winding facts and hole
+cancellation, then identify the geometric boundary with `trace(C_Δ)`; it must not assume a graph-cell
+decomposition. Consume DG 5.6.3 for local fields on an open set and finite integer-weighted AC
+cycles; its full target specializes to native `TauCeti.Contour.Cycle` and imposes no nonzero-speed or
+finite-cell-division hypothesis. GH4 owns only the local `Cycle.integral` real/imaginary-coordinate
+comparison above, not a duplicate AC-cycle theorem. GH0 and GH5’s scalar solver remain independent of the DG Green theorem and
+ConformalMapping; GH5’s form consequences consume DG0–DG1 and DG6 as stated below. GH4 consumes
+DG 5.6.3 and ConformalMapping L5 for Jordan separation. DG has no reverse dependency on GH,
+and there is no CKG edge for this boundary formula.
+
 For the upper/lower/real-axis example, let
 `K_{1,n}={|z|≤n, Im z≥1/n}`, `K_{2,n}={|z|≤n, Im z≤-1/n}`,
 `K_{3,n}={|Re z|≤n, Im z=0}`. Use neighborhoods
@@ -612,10 +673,14 @@ domain is Hausdorff and paracompact. This uses no singular/de Rham comparison or
 
 Consume Mathlib Cauchy/power-series/isolated-zero/meromorphic-order/local-uniform-limit APIs,
 Mathlib's uniform-on product topology, and the Tau Ceti contour/residue/winding API under their
-actual pinned hypotheses. GH0 owns its planar hull and Runge theorems; no ConformalMapping contract is
-needed for these proof routes. This owner provides GH0 Runge/exhaustion and the scalar compact-support Cauchy–Green operator to
-CKG K2, and GH5.1 complex 2-form exactness to CKG K5a. Those CKG targets own the parameter and
-complex-carrier comparison arguments respectively.
+actual pinned hypotheses. GH0 owns its planar hull and Runge theorems. GH0 and GH5 do not consume a
+ConformalMapping contract or DifferentialGeometry Green theorem; GH4 alone consumes ConformalMapping
+L5's Jordan separation/filled-hull target and DifferentialGeometry 5.6.3's finite-cycle Green target,
+with the GH-owned Jordan orientation/winding and `Cycle.integral` coordinate adapters stated above.
+Neither provider depends on GH4, so these edges are acyclic. This owner provides GH0 Runge/exhaustion
+and the scalar compact-support Cauchy–Green operator to CKG K2, and GH5.1 complex 2-form exactness
+to CKG K5a. Those CKG targets own the parameter and complex-carrier comparison arguments
+respectively.
 It builds the global one-variable Runge, Mittag–Leffler, zero-divisor, quotient, entire-factorization,
 and arbitrary-domain smooth ∂̄ results itself; it does not depend on
 the several-variable Runge or local preparation contracts. It does not duplicate the local
