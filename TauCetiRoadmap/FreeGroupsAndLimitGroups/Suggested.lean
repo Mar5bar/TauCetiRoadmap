@@ -187,6 +187,133 @@ def IsTree : Prop :=
   Nonempty V ∧ (∀ u w : V, ∃ es, Γ.IsPath u es w) ∧
     ∀ (v : V) (es : List E), Γ.IsPath v es v → Γ.IsReducedPath es → es = []
 
+/-- The dart adapter for Mathlib simple graphs (§2.1). -/
+def ofSimpleGraph {W : Type*} (G : SimpleGraph W) : SerreGraph W G.Dart where
+  src e := e.fst
+  rev e := e.symm
+  rev_rev := by sorry
+  rev_ne := by sorry
+
+/-- A reversal-closed edge subset with all the original vertices. -/
+def restrict (T : Set E) (hT : ∀ e ∈ T, Γ.rev e ∈ T) : SerreGraph V T where
+  src e := Γ.src e
+  rev e := ⟨Γ.rev e, hT e e.property⟩
+  rev_rev := by sorry
+  rev_ne := by sorry
+
+/-- Spanning trees retain every vertex (§2.2). -/
+structure SpanningTree where
+  edges : Set E
+  rev_mem : ∀ e ∈ edges, Γ.rev e ∈ edges
+  isTree : (Γ.restrict edges rev_mem).IsTree
+
+/-- Every connected based Serre graph has a spanning tree (§2.2). -/
+theorem exists_spanningTree (v : V)
+    (hΓ : ∀ u w : V, ∃ es, Γ.IsPath u es w) : Nonempty Γ.SpanningTree := by sorry
+
+/-- An orientation chooses one dart from each reversal pair. -/
+def IsOrientation (O : Set E) : Prop := ∀ e, Γ.rev e ∈ O ↔ e ∉ O
+
+/-- Reversal relations and the edges of a spanning tree (§2.2). -/
+def graphRelators (T : Γ.SpanningTree) : Set (FreeGroup E) :=
+  {w | (∃ e, w = FreeGroup.of e * FreeGroup.of (Γ.rev e)) ∨
+    ∃ e ∈ T.edges, w = FreeGroup.of e}
+
+/-- The graph group in its spanning-tree presentation (§2.2). -/
+abbrev GraphPresentation (T : Γ.SpanningTree) := PresentedGroup (Γ.graphRelators T)
+
+/-- Closed reduced paths give exactly one representative of each graph-group element. -/
+theorem graphPresentation_reducedLoop_bijective (T : Γ.SpanningTree) (v : V) :
+    Function.Bijective (fun p : {es : List E // Γ.IsPath v es v ∧ Γ.IsReducedPath es} =>
+      PresentedGroup.mk (Γ.graphRelators T) ((p.val.map FreeGroup.of).prod)) := by sorry
+
+/-- Positive darts outside a spanning tree freely generate the graph group (§2.2). -/
+theorem graphPresentation_free (T : Γ.SpanningTree) (O : Set E)
+    (hO : Γ.IsOrientation O) :
+    Nonempty (Γ.GraphPresentation T ≃* FreeGroup {e : E // e ∈ O ∧ e ∉ T.edges}) := by sorry
+
+/-- A finite graph presentation is finitely generated (§2.2). -/
+theorem graphPresentation_fg [Finite E] (T : Γ.SpanningTree) :
+    Group.FG (Γ.GraphPresentation T) := by sorry
+
+/-- The rank of a finite connected graph counts unoriented edges, including loops. -/
+theorem graphPresentation_rank [Finite V] [Finite E] (T : Γ.SpanningTree)
+    (O : Set E) (hO : Γ.IsOrientation O) [Group.FG (Γ.GraphPresentation T)] :
+    Group.rank (Γ.GraphPresentation T) = Nat.card O + 1 - Nat.card V := by sorry
+
+/-- The tree loops also give the free integral abelianization (§2.2a). -/
+theorem graphPresentation_abelianization (T : Γ.SpanningTree) (O : Set E)
+    (hO : Γ.IsOrientation O) :
+    Nonempty (Additive (Abelianization (Γ.GraphPresentation T)) ≃+
+      FreeAbelianGroup {e : E // e ∈ O ∧ e ∉ T.edges}) := by sorry
+
+/-- The mod-two incidence boundary counts both ends of a loop (§2.2a). -/
+noncomputable def cycleBoundary [Fintype V] [Fintype E] (O : Set E) :
+    (O → ZMod 2) →ₗ[ZMod 2] (V → ZMod 2) := by
+  classical
+  exact
+    { toFun := fun c v => ∑ e : O,
+        c e * ((if Γ.src e = v then 1 else 0) + (if Γ.tgt e = v then 1 else 0))
+      map_add' := by sorry
+      map_smul' := by sorry }
+
+/-- The cycle space is the kernel of the incidence boundary (§2.2a). -/
+noncomputable def cycleSpace [Fintype V] [Fintype E] (O : Set E) :
+    Submodule (ZMod 2) (O → ZMod 2) := (Γ.cycleBoundary O).ker
+
+/-- Fundamental cycles indexed by non-tree edges form a mod-two basis (§2.2a). -/
+theorem cycleSpace_basis [Fintype V] [Fintype E] [DecidableEq E] (T : Γ.SpanningTree)
+    (O : Set E) (hO : Γ.IsOrientation O) :
+    ∃ b : Module.Basis {e : E // e ∈ O ∧ e ∉ T.edges} (ZMod 2) (Γ.cycleSpace O),
+      ∀ e f : {e : E // e ∈ O ∧ e ∉ T.edges},
+        (b e).val ⟨f.val, f.property.1⟩ =
+        if e.val = f.val then 1 else 0 := by sorry
+
+/-- The finite connected cycle-space dimension uses the same edge count as graph rank. -/
+theorem cycleSpace_finrank [Fintype V] [Fintype E] (T : Γ.SpanningTree)
+    (O : Set E) (hO : Γ.IsOrientation O) :
+    Module.finrank (ZMod 2) (Γ.cycleSpace O) = Nat.card O + 1 - Nat.card V := by sorry
+
+/-- A rose retains two darts for each petal (§2.2). -/
+def rose (n : ℕ) : SerreGraph Unit (Fin n × Bool) where
+  src _ := ()
+  rev e := (e.1, !e.2)
+  rev_rev := by sorry
+  rev_ne := by sorry
+
+/-- The edgeless spanning tree of a rose. -/
+def roseTree (n : ℕ) : (rose n).SpanningTree where
+  edges := ∅
+  rev_mem := by sorry
+  isTree := by sorry
+
+/-- Parallel edge pairs retain their identities in the finite graph examples (§2.2). -/
+def parallelGraph (n : ℕ) : SerreGraph (Fin 2) (Fin n × Bool) where
+  src e := if e.2 then 0 else 1
+  rev e := (e.1, !e.2)
+  rev_rev := by sorry
+  rev_ne := by sorry
+
+/-- One edge pair spans the two vertices of a nonempty parallel-edge graph. -/
+def parallelTree (n : ℕ) (hn : 0 < n) : (parallelGraph n).SpanningTree where
+  edges := {e | e.1.val = 0}
+  rev_mem := by sorry
+  isTree := by sorry
+
+example : Subsingleton ((parallelGraph 1).GraphPresentation (parallelTree 1 (by decide))) :=
+  by sorry
+example : Module.finrank (ZMod 2) ((parallelGraph 2).cycleSpace {e | e.2 = true}) = 1 :=
+  by sorry
+example : Module.finrank (ZMod 2) ((parallelGraph 3).cycleSpace {e | e.2 = true}) = 2 :=
+  by sorry
+example : Module.finrank (ZMod 2) ((parallelGraph 1).cycleSpace {e | e.2 = true}) = 0 :=
+  by sorry
+
+example : Nonempty ((rose 1).GraphPresentation (roseTree 1) ≃* Multiplicative ℤ) := by sorry
+example : Module.finrank (ZMod 2) ((rose 1).cycleSpace {e | e.2 = true}) = 1 := by sorry
+example : Module.finrank (ZMod 2) ((rose 2).cycleSpace {e | e.2 = true}) = 2 := by sorry
+example : Subsingleton ((rose 0).GraphPresentation (roseTree 0)) := by sorry
+
 example (e : E) : Γ.tgt (Γ.rev e) = Γ.src e := by
   sorry
 
@@ -627,6 +754,244 @@ end layer5
 
 section layer6
 
+/-- Finite polygonal incidence uses actual closed Serre face traversals (§6.0a).
+Repeated edge and vertex occurrences remain distinct corners. -/
+structure PolygonalComplex (V E F : Type*) where
+  graph : SerreGraph V E
+  faceBase : F → V
+  faceWord : F → List E
+  face_closed : ∀ f, graph.IsPath (faceBase f) (faceWord f) (faceBase f)
+  face_nonempty : ∀ f, (faceWord f).length > 0
+
+namespace PolygonalComplex
+
+variable {V E F : Type*} (C : PolygonalComplex V E F)
+
+/-- Corners are occurrences in a face, rather than pairs of vertex labels. -/
+abbrev Corner := Σ f : F, Fin (C.faceWord f).length
+
+/-- The two outgoing edge germs at a face corner. -/
+def cornerEnds (c : C.Corner) : E × E :=
+  let w := C.faceWord c.1
+  let prev : Fin w.length := ⟨(c.2.val + w.length - 1) % w.length, by sorry⟩
+  (C.graph.rev (w.get prev), w.get c.2)
+
+/-- Corner incidence gives a Serre link, retaining loops and parallel link edges. -/
+def vertexLink (v : V) : SerreGraph {e : E // C.graph.src e = v}
+    {p : C.Corner × Bool // C.graph.src (C.cornerEnds p.1).1 = v} where
+  src p := ⟨if p.val.2 then (C.cornerEnds p.val.1).2 else (C.cornerEnds p.val.1).1,
+    by sorry⟩
+  rev p := ⟨(p.val.1, !p.val.2), p.property⟩
+  rev_rev := by sorry
+  rev_ne := by sorry
+
+/-- The local degree counts link darts; a link loop contributes two. -/
+noncomputable def linkDegree (e : E) : ℕ :=
+  Nat.card {p : C.Corner × Bool //
+    (if p.2 then (C.cornerEnds p.1).2 else (C.cornerEnds p.1).1) = e}
+
+/-- A surface link is a nonempty connected circle or a nondegenerate interval. -/
+def HasSurfaceLink (v : V) : Prop :=
+  Nonempty {e : E // C.graph.src e = v} ∧
+  (∀ x y : {e : E // C.graph.src e = v}, ∃ es, (C.vertexLink v).IsPath x es y) ∧
+  ((∀ e : {e : E // C.graph.src e = v}, C.linkDegree e = 2) ∨
+    ∃ a b : {e : E // C.graph.src e = v}, a ≠ b ∧
+      C.linkDegree a = 1 ∧ C.linkDegree b = 1 ∧
+      ∀ e : {e : E // C.graph.src e = v}, e ≠ a → e ≠ b → C.linkDegree e = 2)
+
+/-- Face relators supplement the reversal and tree relations (§6.0c). -/
+def faceRelators (T : C.graph.SpanningTree) : Set (FreeGroup E) :=
+  C.graph.graphRelators T ∪ Set.range (fun f => ((C.faceWord f).map FreeGroup.of).prod)
+
+/-- The finite face presentation is a quotient of the graph presentation (§6.0c). -/
+abbrev FacePresentation (T : C.graph.SpanningTree) := PresentedGroup (C.faceRelators T)
+
+/-- Changing the spanning tree preserves the face group (§6.0c). -/
+theorem facePresentation_tree_independent (T U : C.graph.SpanningTree) :
+    Nonempty (C.FacePresentation T ≃* C.FacePresentation U) := by sorry
+
+/-- Face relations give exactly the kernel of the graph-to-face quotient (§6.0c). -/
+theorem facePresentation_quotient (T : C.graph.SpanningTree) :
+    Nonempty (C.FacePresentation T ≃*
+      (C.graph.GraphPresentation T ⧸ Subgroup.normalClosure
+        (Set.range fun f => PresentedGroup.mk (C.graph.graphRelators T)
+          (((C.faceWord f).map FreeGroup.of).prod)))) := by sorry
+
+end PolygonalComplex
+
+/-- Compact connected polygonal surface models with incidence links (§6.0a). -/
+structure SurfaceModel where
+  vertexCount : ℕ
+  edgeCount : ℕ
+  faceCount : ℕ
+  complex : PolygonalComplex (Fin vertexCount) (Fin edgeCount × Bool) (Fin faceCount)
+  vertices_nonempty : 0 < vertexCount
+  faces_nonempty : 0 < faceCount
+  connected : ∀ u w, ∃ es, complex.graph.IsPath u es w
+  surface_links : ∀ v, complex.HasSurfaceLink v
+
+namespace SurfaceModel
+
+/-- The integer cell Euler characteristic counts reversal pairs as edges. -/
+def eulerChar (M : SurfaceModel) : ℤ :=
+  (M.vertexCount : ℤ) - (M.edgeCount : ℤ) + M.faceCount
+
+/-- A coherent choice of face orientations uses each oriented dart at most once. -/
+def IsOrientable (M : SurfaceModel) : Prop :=
+  ∃ ε : Fin M.faceCount → Bool, ∀ e,
+    (((List.finRange M.faceCount).flatMap fun f =>
+      if ε f then M.complex.faceWord f
+      else (M.complex.faceWord f).reverse.map M.complex.graph.rev).count e) ≤ 1
+
+/-- Boundary darts have one incident face corner. -/
+def boundaryDarts (M : SurfaceModel) : Set ((Fin M.edgeCount × Bool)) :=
+  {e | M.complex.linkDegree e = 1}
+
+/-- Actual boundary vertices exclude interior vertices from the boundary component count. -/
+abbrev BoundaryVertex (M : SurfaceModel) :=
+  {v : Fin M.vertexCount // ∃ e ∈ M.boundaryDarts, M.complex.graph.src e = v}
+
+/-- Components of the boundary subgraph (§6.0a). -/
+abbrev BoundaryComponent (M : SurfaceModel) :=
+  Quot (fun u w : M.BoundaryVertex => ∃ e ∈ M.boundaryDarts,
+    M.complex.graph.src e = u.val ∧ M.complex.graph.tgt e = w.val)
+
+/-- The boundary class of an incident boundary dart. -/
+def boundaryClass (M : SurfaceModel) (e : Fin M.edgeCount × Bool)
+    (he : e ∈ M.boundaryDarts) : M.BoundaryComponent :=
+  Quot.mk _ ⟨M.complex.graph.src e, e, he, rfl⟩
+
+/-- A boundary circuit traverses each edge of its component once, in either orientation. -/
+structure BoundaryCircuit (M : SurfaceModel) (b : M.BoundaryComponent) where
+  baseVertex : M.BoundaryVertex
+  component_eq : Quot.mk _ baseVertex = b
+  word : List (Fin M.edgeCount × Bool)
+  nonempty_word : word ≠ []
+  closed : M.complex.graph.IsPath baseVertex.val word baseVertex.val
+  reduced : M.complex.graph.IsReducedPath word
+  boundary_edges : ∀ e ∈ word, e ∈ M.boundaryDarts
+  once : ∀ e (he : e ∈ M.boundaryDarts),
+    word.count e + word.count (M.complex.graph.rev e) ≤ 1 ∧
+      (word.count e + word.count (M.complex.graph.rev e) = 1 ↔ M.boundaryClass e he = b)
+
+/-- Each boundary component has a cyclic traversal (§6.0a). -/
+theorem boundaryCircuit_exists (M : SurfaceModel) (b : M.BoundaryComponent) :
+    Nonempty (M.BoundaryCircuit b) := by sorry
+
+/-- The local face group retains the chosen tree presentation (§6.0c). -/
+abbrev faceGroup (M : SurfaceModel) (T : M.complex.graph.SpanningTree) :=
+  M.complex.FacePresentation T
+
+/-- A boundary circuit is based by collapsing the chosen tree paths (§6.0c). -/
+def boundaryWord (M : SurfaceModel) (T : M.complex.graph.SpanningTree)
+    {b : M.BoundaryComponent} (c : M.BoundaryCircuit b) : M.faceGroup T :=
+  PresentedGroup.mk (M.complex.faceRelators T) ((c.word.map FreeGroup.of).prod)
+
+/-- A group comparison marks boundary classes bijectively, allowing conjugacy and inversion. -/
+def MarksBoundary (M : SurfaceModel) (T : M.complex.graph.SpanningTree)
+    {K : Type*} [Group K] (φ : M.faceGroup T →* K)
+    (p : Fin (Nat.card M.BoundaryComponent) → K) : Prop :=
+  ∃ β : M.BoundaryComponent ≃ Fin (Nat.card M.BoundaryComponent),
+    ∀ b (c : M.BoundaryCircuit b),
+      IsConj (φ (M.boundaryWord T c)) (p (β b)) ∨
+        IsConj (φ (M.boundaryWord T c)) (p (β b))⁻¹
+
+/-- Each surface edge has one or two face incidences, and boundary reversal is preserved. -/
+theorem boundary_incidence (M : SurfaceModel) (e : (Fin M.edgeCount × Bool)) :
+    (M.complex.linkDegree e = 1 ∨ M.complex.linkDegree e = 2) ∧
+      (M.complex.graph.rev e ∈ M.boundaryDarts ↔ e ∈ M.boundaryDarts) := by sorry
+
+
+/-- The boundary graph retains exactly the boundary sides and their actual endpoints (§6.0a). -/
+def boundary (M : SurfaceModel) :
+    SerreGraph M.BoundaryVertex {e : Fin M.edgeCount × Bool // e ∈ M.boundaryDarts} where
+  src e := ⟨M.complex.graph.src e, e.val, e.property, rfl⟩
+  rev e := ⟨M.complex.graph.rev e, by sorry⟩
+  rev_rev := by sorry
+  rev_ne := by sorry
+
+end SurfaceModel
+
+/-- Adjoining an edge determined by an old word preserves a presentation (§6.0b). -/
+theorem presentation_adjoin_edge {A : Type*} (R : Set (FreeGroup A)) (w : FreeGroup A) :
+    Nonempty (PresentedGroup R ≃*
+      PresentedGroup ((FreeGroup.map Sum.inl '' R) ∪
+        {FreeGroup.of (Sum.inr () : A ⊕ Unit) * (FreeGroup.map Sum.inl w)⁻¹})) := by sorry
+
+/-- Splitting a face along a new edge preserves its presented group (§6.0b). -/
+theorem presentation_split_face {A : Type*} (R : Set (FreeGroup A)) (u v : FreeGroup A) :
+    Nonempty (PresentedGroup (R ∪ {u * v}) ≃*
+      PresentedGroup ((FreeGroup.map Sum.inl '' R) ∪
+        {FreeGroup.map Sum.inl u * FreeGroup.of (Sum.inr () : A ⊕ Unit),
+          (FreeGroup.of (Sum.inr () : A ⊕ Unit))⁻¹ * FreeGroup.map Sum.inl v})) := by sorry
+
+namespace PolygonalComplex
+
+/-- A one-vertex polygon with paired darts, for the basic surface examples (§6.0a). -/
+def polygon (n : ℕ) (w : List (Fin n × Bool)) (hw : 0 < w.length) :
+    PolygonalComplex (Fin 1) (Fin n × Bool) (Fin 1) where
+  graph := {
+    src := fun _ => 0
+    rev := fun e => (e.1, !e.2)
+    rev_rev := by sorry
+    rev_ne := by sorry }
+  faceBase _ := 0
+  faceWord _ := w
+  face_closed := by sorry
+  face_nonempty _ := hw
+
+end PolygonalComplex
+
+namespace SurfaceModel
+
+/-- The disc polygon has one unpaired boundary side (§6.0a). -/
+def disc : SurfaceModel where
+  vertexCount := 1
+  edgeCount := 1
+  faceCount := 1
+  complex := PolygonalComplex.polygon 1 [(0, true)] (by sorry)
+  vertices_nonempty := by sorry
+  faces_nonempty := by sorry
+  connected := by sorry
+  surface_links := by sorry
+
+/-- The torus polygon uses the source commutator's four sides (§6.0a). -/
+def torus : SurfaceModel where
+  vertexCount := 1
+  edgeCount := 2
+  faceCount := 1
+  complex := PolygonalComplex.polygon 2 [(0, false), (1, false), (0, true), (1, true)]
+    (by sorry)
+  vertices_nonempty := by sorry
+  faces_nonempty := by sorry
+  connected := by sorry
+  surface_links := by sorry
+
+/-- The projective-plane polygon traverses one paired side twice (§6.0a). -/
+def projectivePlane : SurfaceModel where
+  vertexCount := 1
+  edgeCount := 1
+  faceCount := 1
+  complex := PolygonalComplex.polygon 1 [(0, true), (0, true)] (by sorry)
+  vertices_nonempty := by sorry
+  faces_nonempty := by sorry
+  connected := by sorry
+  surface_links := by sorry
+
+example : disc.eulerChar = 1 ∧ Nat.card disc.BoundaryComponent = 1 ∧
+    disc.IsOrientable := by sorry
+example : torus.eulerChar = 0 ∧ IsEmpty torus.BoundaryComponent ∧
+    torus.IsOrientable := by sorry
+example : projectivePlane.eulerChar = 1 ∧ IsEmpty projectivePlane.BoundaryComponent ∧
+    ¬ projectivePlane.IsOrientable := by sorry
+example (T : disc.complex.graph.SpanningTree) : Subsingleton (disc.faceGroup T) := by sorry
+example (T : torus.complex.graph.SpanningTree) :
+    Nonempty (torus.faceGroup T ≃* Multiplicative (Fin 2 → ℤ)) := by sorry
+example (T : projectivePlane.complex.graph.SpanningTree) :
+    Nat.card (projectivePlane.faceGroup T) = 2 := by sorry
+
+end SurfaceModel
+
 /-- The source commutator `x⁻¹ y⁻¹ x y`, equal to Mathlib's `⁅x⁻¹, y⁻¹⁆`. -/
 def comm {G : Type*} [Group G] (x y : G) : G := x⁻¹ * y⁻¹ * x * y
 
@@ -654,6 +1019,21 @@ abbrev NonorientableSurfaceGroup (g m : ℕ) : Type :=
 
 /-- Euler characteristic of `S⁺(g, m)`. -/
 def orientableEulerChar (g m : ℕ) : ℤ := 2 - 2 * g - m
+
+/-- Polygonal normalization gives the standard surface presentation with the boundary
+count, marked peripheral classes and Euler characteristic of the incidence model (§§6.0b,6.1a). -/
+theorem SurfaceModel.presentation_normalForm (M : SurfaceModel)
+    (T : M.complex.graph.SpanningTree) :
+    ∃ (o : Bool) (g : ℕ),
+      (o = true ↔ M.IsOrientable) ∧ (o = false → 1 ≤ g) ∧
+      M.eulerChar = (if o then 2 - 2 * (g : ℤ) - Nat.card M.BoundaryComponent
+        else 2 - (g : ℤ) - Nat.card M.BoundaryComponent) ∧
+      (if o then ∃ e : M.faceGroup T ≃*
+          OrientableSurfaceGroup g (Nat.card M.BoundaryComponent),
+        M.MarksBoundary T e.toMonoidHom (fun j => PresentedGroup.of (Sum.inr j))
+      else ∃ e : M.faceGroup T ≃*
+          NonorientableSurfaceGroup g (Nat.card M.BoundaryComponent),
+        M.MarksBoundary T e.toMonoidHom (fun j => PresentedGroup.of (Sum.inr j))) := by sorry
 
 example {G : Type*} [Group G] (x y : G) : comm x y = ⁅x⁻¹, y⁻¹⁆ := by
   sorry
@@ -1548,10 +1928,8 @@ Stallings folds, cores, `basisWords` and the Stallings
 correspondence; `Term.ofWord`; `GraphOfGroups`, its paths,
 fundamental groups, Bass–Serre trees, `GTree`, the structure theorem,
 induced splittings, Kurosh's theorem and Dehn twists of amalgams; surface QH vertices with
-trivial fiber; `SurfaceModel` as the bundled shared `GMap2` surface carrier;
-`SurfaceModel.vertexLink` as its flag-incidence view, `SurfaceModel.boundary` as the shared
-boundary map, `SurfaceModel.Move` as the shared schema move relation, and
-`SurfaceModel.faceGroup` as `GMap2.edgePathGroup`; `SurfaceModel.EssentialCurve` and
+trivial fiber; `SurfaceModel.boundary` as the
+boundary Serre graph, and `SurfaceModel.Move` as the local polygonal subdivision relation; `SurfaceModel.EssentialCurve` and
 `SurfaceModel.ProperArc`, with the cutting-to-splitting contracts of §§6.0a–6.0d; `SurfaceGroup.modelEquiv` with peripheral comparison; generalised
 equations, finite cancellation families, elementary transformation relations with separate
 presentation-group kernel reconstruction and full radical transport, parameter solution trees, cut equations and Makanin's
@@ -1576,9 +1954,9 @@ arbitrary lower coordinate groups.
 
 The Serre/underlying-graph comparison includes `SerreGraph.toGraph`, `SerreGraph.ofGraph`
 and `SerreGraph.reachable_toGraph`, using GraphConnectivityAndFlows Target 1.1's `Graph.Walk`, native reachability,
-`Graph.Connected` and `Graph.IsConnectedComponentOf`; `SerreGraph.edgePathGroup_toGraph`
-compares finite signed Serre path groups with SurfaceTopology Layer 7's shared finite graph
-group, retaining opposite loop generators and compatibility with finite subgraph inclusions; the Bass–Serre quotient is the base component.
+`Graph.Connected` and `Graph.IsConnectedComponentOf`. The local graph presentations retain
+opposite loop generators and compatibility with finite subgraph inclusions; the Bass–Serre
+quotient is the base component.
 `GraphOfGroups.dehnTwistAmalgam_eq_refl_iff` is the central-in-the-right-factor identity
 criterion, alongside the HNN criterion above.
 -/
