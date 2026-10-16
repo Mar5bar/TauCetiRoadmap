@@ -581,6 +581,36 @@ end NumberFieldCertificates
 
 namespace SmallHeight
 
+/-- Polynomial Mahler measure retains every occurrence in the multiset of complex roots. -/
+example (p : Polynomial ℂ) :
+    p.mahlerMeasure = ‖p.leadingCoeff‖ *
+      (p.roots.map (fun z => max 1 ‖z‖)).prod := by
+  exact Polynomial.mahlerMeasure_eq_leadingCoeff_mul_prod_roots p
+
+/-- A repeated root contributes twice to the logarithmic measure and twice to the product. -/
+example :
+    ((X - C 2) ^ 2 : Polynomial ℂ).mahlerMeasure = 4 ∧
+    ((X - C 2) ^ 2 : Polynomial ℂ).logMahlerMeasure = 2 * Real.log 2 := by
+  sorry
+
+/-- Polynomial Mahler measure is multiplicative, including zero factors and repeated roots. -/
+example (p q : Polynomial ℂ) :
+    (p * q).mahlerMeasure = p.mahlerMeasure * q.mahlerMeasure := by
+  exact Polynomial.mahlerMeasure_mul p q
+
+/-- Logarithmic polynomial Mahler measure is additive for a nonzero product. -/
+example (p q : Polynomial ℂ) (hpq : p * q ≠ 0) :
+    (p * q).logMahlerMeasure = p.logMahlerMeasure + q.logMahlerMeasure := by
+  exact Polynomial.logMahlerMeasure_mul_eq_add_logMahlerMeasure hpq
+
+/-- The zero and unit polynomials distinguish multiplicative and logarithmic conventions. -/
+example :
+    (0 : Polynomial ℂ).mahlerMeasure = 0 ∧
+    (0 : Polynomial ℂ).logMahlerMeasure = 0 ∧
+    (1 : Polynomial ℂ).mahlerMeasure = 1 ∧
+    (1 : Polynomial ℂ).logMahlerMeasure = 0 := by
+  simp
+
 /-!
 The scalar power laws and Kronecker criterion of README §§6.15–6.16 are supplied by
 HeightsAndUnits §1.3 on Mathlib's absolute-height carriers. These examples fix their

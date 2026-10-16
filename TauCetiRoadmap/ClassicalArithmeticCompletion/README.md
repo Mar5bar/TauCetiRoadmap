@@ -11935,6 +11935,16 @@ Earlier internal inputs are Layer 3, Layer 4. The declarations and supplier laye
 
 Build the conjugate geometry of Pisot and Salem numbers and the analytic inputs for the Smyth, Dobrowolski and Dimitrov bounds. The potential-theory objects have explicit compactness, normalisation and continuation hypotheses.
 
+Polynomial Mahler measure uses Mathlib's `Polynomial.mahlerMeasure` and `Polynomial.logMahlerMeasure`. For a nonzero p ∈ ℂ[X], write its roots as a multiset, with each root repeated according to its algebraic multiplicity. Then M(p) = ‖lc(p)‖ · ∏_{z ∈ p.roots} max(1, ‖z‖), and log M(p) = log ‖lc(p)‖ + ∑_{z ∈ p.roots} log(max(1, ‖z‖)); both operations retain multiplicities. For integer polynomials apply these same definitions after mapping coefficients to ℂ. At the zero polynomial Mathlib sets M(0) = 0 and logMahlerMeasure(0) = 0; the identity M(p) = exp(logMahlerMeasure(p)) requires p ≠ 0. The algebraic-number measure remains that of the primitive minimal polynomial supplied by DiophantineApproximationAndTranscendence §0.2.
+
+(Chris Smyth, [The Mahler measure of algebraic numbers: a survey](#reference-smyth-mahler-survey-2008), §1, formulas (1)–(2), printed p. 322.) The degree-indexed factorization counts roots with multiplicity. Mathlib's `Polynomial.mahlerMeasure_eq_leadingCoeff_mul_prod_roots` and `Polynomial.logMahlerMeasure_eq_log_leadingCoeff_add_sum_log_roots` express the product and sum using `Multiset.map`.
+
+**Checks.**
+
+- p = (X − 2)² has root multiset {2, 2}, M(p) = 4 and logMahlerMeasure(p) = 2 log 2.
+- M(pq) = M(p)M(q) for all complex polynomials p, q (`Polynomial.mahlerMeasure_mul`), including p = q = X − 2. For pq ≠ 0 the logarithmic measures add; the nonzero hypothesis is necessary when one factor is zero and the other has nonzero logarithmic measure.
+- The zero polynomial has both measures zero, whereas the constant polynomial 1 has multiplicative measure 1 and logarithmic measure 0. Thus exponentiating the zero polynomial's logarithmic measure does not give its multiplicative measure.
+
 <a id="layer-6-topic-1"></a>
 
 ### 6.1 Pisot numbers
