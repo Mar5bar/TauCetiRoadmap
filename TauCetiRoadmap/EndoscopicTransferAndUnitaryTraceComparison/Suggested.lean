@@ -181,9 +181,13 @@ def endoscopicCoefficient (τG τH : ℚ) (outH : ℕ) : ℚ := τG / τH / outH
 example (τ : ℚ) (hτ : τ ≠ 0) : endoscopicCoefficient τ τ 1 = 1 := by
   simp [endoscopicCoefficient, hτ]
 
-/-- The balanced proper datum retains its outer automorphism denominator. -/
+/-- The numerical coefficient retains both the Tamagawa ratio and the outer denominator. -/
 example : endoscopicCoefficient 2 2 2 = 1 / 2 := by
   norm_num [endoscopicCoefficient]
+
+/-- For G₄ and its G₂,₂ endoscopic datum, the stable coefficient is one quarter. -/
+example : endoscopicCoefficient 2 4 2 = 1 / 4 := by
+  sorry
 
 /-- A zero Tamagawa denominator evaluates to zero in the numerical convention. -/
 example : endoscopicCoefficient 2 0 2 = 0 := by
@@ -215,6 +219,26 @@ example : ¬ AcceptableValuations (r := 2) ![{1}, {0}] := by
 agree with the normalized opposite Jacquet character of the trivial representation. -/
 example : (4 : ℚ) * (1 / 2) = 2 ∧ (4 : ℚ) * (1 / 4) ≠ 2 := by
   norm_num
+
+/-- The first two inverse-power rows for eigenvalues two and three have determinant minus one sixth. -/
+example : Matrix.det !![(1 : ℚ), 1; 1 / 2, 1 / 3] = -1 / 6 := by
+  sorry
+
+/-- Consecutive inverse-power rows remain independent at every nonnegative starting exponent. -/
+example (N : ℕ) :
+    Matrix.det !![(2 : ℚ)⁻¹ ^ N, (3 : ℚ)⁻¹ ^ N;
+      (2 : ℚ)⁻¹ ^ (N + 1), (3 : ℚ)⁻¹ ^ (N + 1)] =
+      -((2 : ℚ)⁻¹ ^ (N + 1) * (3 : ℚ)⁻¹ ^ (N + 1)) ∧
+    Matrix.det !![(2 : ℚ)⁻¹ ^ N, (3 : ℚ)⁻¹ ^ N;
+      (2 : ℚ)⁻¹ ^ (N + 1), (3 : ℚ)⁻¹ ^ (N + 1)] ≠ 0 := by
+  sorry
+
+/-- After Frobenius grouping, two consecutive scalar equations separate both coefficients. -/
+example (a : ℕ) (c₁ c₂ : ℚ)
+    (h₀ : c₁ * (2 : ℚ)⁻¹ ^ a + c₂ * (3 : ℚ)⁻¹ ^ a = 0)
+    (h₁ : c₁ * (2 : ℚ)⁻¹ ^ (a + 1) + c₂ * (3 : ℚ)⁻¹ ^ (a + 1) = 0) :
+    c₁ = 0 ∧ c₂ = 0 := by
+  sorry
 
 /-! ## Layer 9: raw compact-unitary cohomology
 The geometric complex, its graded pieces and its commuting actions are README targets. -/
@@ -267,7 +291,8 @@ example : specialFrobenius 1 2 = 1 := by
 
 /-! ## Layer 11: local unitary packets and global classification
 The bounded and extended packets assume the README contract UnitaryClassificationInputs.
-GSp₄ classification instead assumes the separate GSp4ClassificationInputs contract.
+GSp₄ classification instead assumes GSp4ClassificationInputs, including its exterior-square,
+tensor and Asai transfers and the completed local compatibilities.
 Their packet carriers and weighted stabilization identities are specified in README.md. -/
 
 /-! ## Layer 12: local towers and their cohomology
@@ -319,7 +344,7 @@ example :
       (fun _ => 1) (fun _ => 1) (fun _ => 1) = 5 := by
   norm_num [comparisonTrace, Matrix.trace, Matrix.diagonal, Fin.sum_univ_two]
 
-/-- Balanced proper endoscopy contributes one half. -/
+/-- A ledger term with prescribed coefficient one half contributes one half. -/
 example : comparisonTrace ({()} : Finset Unit) (fun _ => 1) (fun _ => 1 / 2)
     (fun _ => 1) (fun _ => 1) (fun _ => 1) = 1 / 2 := by
   norm_num [comparisonTrace]
@@ -362,7 +387,7 @@ TowerUntiltChart, LubinTate, Drinfeld, TowerPeriod, TowerInfinity,
 TowerCohomology, TowerSector, BasicTowerFibre, UnitaryWeakBC, TransferableLevel,
 IgusaTests, NewtonRed, HiggsSections, RegularCentralizerPicard,
 SemisimpleCentralizer, TowerLocallyAnalytic, StandardPair, AdmissibleTrace,
-AuxiliaryDivisionPEL, FiniteLengthClass, GLIntertwiner, GlobalWeil, InnerGL,
+AuxiliaryDivisionPEL, FiniteLengthClass, GLIntertwiner, GlobalWeil, LocalTorusReciprocity, InnerGL,
 Invariants, IsAssociated, IsStableDistribution, NearbyCycles, Newvector, PairFactors,
 ParabolicInduction, QuasiEL, SpehType, StrictDieudonne and StrictNearbyCycles. Their geometry and representation categories are needed
 before their signatures can be stated in Lean.
