@@ -356,7 +356,20 @@ TauCeti.Shimura.global_centre_adjoint_comparison,
 TauCeti.Shimura.quadratic_torus_norms,
 TauCeti.Shimura.compact_negative_ke_metric,
 TauCeti.Shimura.clozel_top_forms_growth,
+TauCeti.Shimura.abelian_absolute_hodge,
+TauCeti.Shimura.hodge_tensor_moduli_conjugation,
 TauCeti.Shimura.broader_pure_canonical.
+
+Sections 7.0i–7.0j use the suppliers' abelian-family and realization carriers.
+For any complex abelian variety, abelian_absolute_hodge transports every rational
+(0,0) tensor in degree-one cohomology, its dual and Tate twists under every field
+automorphism of C, preserving the de Rham and finite-adelic comparisons. Its family
+form includes horizontal algebraic realizations. hodge_tensor_moduli_conjugation
+uses these tensors, neat level structures and the specified finite central-isogeny
+quotients to identify conjugates of Hodge/abelian-type arithmetic quotients.
+Section 3.3's TauCeti.Shimura.unique_algebraization uses Borel only for maps into
+the established Baily–Borel model, then proves those maps are isomorphisms from
+smoothness, their analytic tangent maps and bijectivity on complex points.
 
 Further README definitions and constructions:
 TauCeti.Shimura.Level, TauCeti.Shimura.AutomorphicRing, TauCeti.CM.CMType.reflexNorm,
