@@ -26,6 +26,13 @@ The mathematical targets below occur in prerequisite order. Labels F.2 and F.10 
 
 ## Exact supplier contracts
 
+This table specifies the prerequisites of the roadmap. In particular, §F.10.3 depends on
+AdicSpacesPartIII §R3.8 for commutative finite-projective trace, EnhancedDerivedSheaves
+§§0.1–0.4 for the enhancement, DerivedModuleAlgebra §§0.2/1.E.0 for module-derived tensor
+and perfectness, DGAInfinity Layer 5 for perfect/compact comparison, and
+PadicMeasuresIwasawaAlgebras §5.1 for finite-projective determinants. PerfectoidSpaces P7
+is an additional prerequisite for §0.5's conditional analytic instantiation.
+
 | Supplier | Exact interface consumed |
 | --- | --- |
 | Mathlib, pinned at `6b7abb3c7686292736be2955bd3eb9ebf63b456a` | `AlgebraicGeometry.Scheme`, `Over`, pullbacks, `IsOpenImmersion`, `QuasiCompact`, `IsProper`, `IsSeparated`, `LocallyOfFiniteType`, `IsSchemeTheoreticallyDominant` and its flat-pullback API; schematic images; `Scheme.smallEtaleTopology`, `Scheme.AffineEtale.sheafEquiv`, `ModuleCat`, `SheafOfModules`, `DerivedCategory`, sheaf cohomology and derived functors; `CategoryTheory.GaloisCategory` and `CategoryTheory.FiberFunctor`; finite fields and `FiniteField.frobeniusAlgEquivOfAlgebraic`; finite projectives, matrices, trace and tensor products; henselian DVRs, valuation decomposition and inertia, ideal residue-action groups; nonarchimedean local fields and compact balls. |

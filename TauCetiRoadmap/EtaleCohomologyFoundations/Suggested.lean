@@ -600,6 +600,13 @@ end PerfectComplex
 The remaining signatures are specified in the README, using the following intended names.
 They require the shared sheaf and enhancement carriers; this list declares no placeholder objects.
 
+The README's Exact supplier contracts table specifies the prerequisites. In particular,
+F.10.3 consumes the projective trace of AdicSpacesPartIII R3.8, the enhancement of
+EnhancedDerivedSheaves §§0.1–0.4, module-derived tensor and perfectness from
+DerivedModuleAlgebra §§0.2/1.E.0, and the DGAInfinity and PadicMeasuresIwasawaAlgebras
+interfaces listed below. PerfectoidSpaces P7 supplies the site-continuity and finite-cover
+detection hypotheses for §0.5's conditional analytic instantiation.
+
 DerivedModuleAlgebra §§0.2, 1.1–1.5 and 1.T.1 supply module tensor, towers, ML/Milnor
 and completion comparisons, with bounded power-torsion for principal quotient-tower completion.
 SchemeAndStackFoundations §0.29 supplies SchemeFrobenius.absoluteFrobenius,
