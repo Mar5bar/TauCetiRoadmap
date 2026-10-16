@@ -460,24 +460,22 @@ example (p : ℕ) [Fact p.Prime] :
 
 /-! ## Layer D6: affine inputs for seminormal rigid geometry -/
 
-namespace Affine
-
-/-- Seminormality is reducedness together with existence of square–cube roots
-(KL16 Definition 1.4.1, p. 19; Stacks 0EUL, 0EUQ). -/
+/-- Seminormality is reducedness together with unique square–cube lifting: `x² = y³`
+has a unique root `z` with `x = z³` and `y = z²` (Stacks 0EUL, 0EUQ). -/
 def IsSeminormalRing (A : Type u) [CommRing A] : Prop :=
-  IsReduced A ∧ ∀ x y : A, x ^ 3 = y ^ 2 → ∃ a : A, a ^ 2 = x ∧ a ^ 3 = y
+  IsReduced A ∧ ∀ x y : A, x ^ 2 = y ^ 3 → ∃! z : A, x = z ^ 3 ∧ y = z ^ 2
 
 /-- On arbitrary commutative rings, seminormality is equivalent to unique square–cube lifting
-(KL16 Definition 1.4.1, p. 19). -/
+(Stacks 0EUL, 0EUQ; KL16 Definition 1.4.1, p. 19). -/
 theorem IsSeminormalRing.iff_unique (A : Type u) [CommRing A] :
     IsSeminormalRing A ↔
-      ∀ x y : A, x ^ 3 = y ^ 2 → ∃! a : A, a ^ 2 = x ∧ a ^ 3 = y := sorry
+      ∀ x y : A, x ^ 2 = y ^ 3 → ∃! z : A, x = z ^ 3 ∧ y = z ^ 2 := sorry
 
 -- Checks: a field is seminormal, nilpotents obstruct it, and reducedness alone is insufficient.
 example : IsSeminormalRing ℚ := sorry
 example : ¬ IsSeminormalRing (ZMod 4) := sorry
-example : ¬ IsSeminormalRing
-    (Algebra.adjoin ℚ ({Polynomial.X ^ 2, Polynomial.X ^ 3} : Set (Polynomial ℚ))) := sorry
+example (k : Type u) [Field k] : ¬ IsSeminormalRing
+    (Algebra.adjoin k ({Polynomial.X ^ 2, Polynomial.X ^ 3} : Set (Polynomial k))) := sorry
 
 /-- Integrally closed domains have the square–cube lifting property
 (KL16 Remark 1.4.2, p. 20). -/
@@ -496,13 +494,42 @@ example : ¬ IsSeminormalRing (ℚ × ZMod 4) := sorry
 
 /-- A noetherian ring whose prime localizations are normal domains is a finite product of
 integrally closed domains, allowing the empty product (Stacks 030C). -/
-theorem normal_finiteProduct (A : Type u) [CommRing A] [IsNoetherianRing A]
+theorem Affine.normal_finiteProduct (A : Type u) [CommRing A] [IsNoetherianRing A]
     (hA : ∀ q : PrimeSpectrum A,
       IsDomain (Localization.AtPrime q.asIdeal) ∧
         IsIntegrallyClosed (Localization.AtPrime q.asIdeal)) :
     ∃ (n : ℕ) (B : Fin n → CommRingCat.{u}),
       (∀ i, IsDomain (B i) ∧ IsIntegrallyClosed (B i)) ∧
         Nonempty (A ≃+* ∀ i, B i) := sorry
+
+/-- A subintegral map is integral, bijective on prime spectra, and an isomorphism on
+all induced residue fields (KL16 Lemma 1.4.5, p. 20; Stacks 0CND). -/
+def IsSubintegral {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S) : Prop :=
+  f.IsIntegral ∧ Function.Bijective (PrimeSpectrum.comap f) ∧
+    ∀ q : PrimeSpectrum S,
+      Function.Bijective (Ideal.ResidueField.map (q.asIdeal.comap f) q.asIdeal f rfl)
+
+/-- Maps into a seminormal ring extend uniquely across a subintegral map
+(Stacks 0CND, 0EUR; KL16 Definition 1.4.1 and Lemma 1.4.5). -/
+theorem subintegral_lift {R S T : Type u} [CommRing R] [CommRing S] [CommRing T]
+    (f : R →+* S) (hf : IsSubintegral f) (hT : IsSeminormalRing T) (g : R →+* T) :
+    ∃! l : S →+* T, l.comp f = g := sorry
+
+/-- A subintegral map from a seminormal ring to a reduced ring is bijective
+(Stacks 0H3G). -/
+theorem subintegral_bijective_of_seminormal {R S : Type u} [CommRing R] [CommRing S]
+    [IsReduced S] (f : R →+* S) (hf : IsSubintegral f) (hR : IsSeminormalRing R) :
+    Function.Bijective f := sorry
+
+-- Checks: the cusp inclusion is subintegral; a nilpotent target prevents bijectivity;
+-- a quotient by nilpotents still has unique lifts into seminormal rings.
+example (k : Type u) [Field k] :
+    let A := Algebra.adjoin k ({Polynomial.X ^ 2, Polynomial.X ^ 3} : Set (Polynomial k))
+    IsSubintegral A.val.toRingHom := sorry
+example : IsSubintegral (algebraMap ℚ (TrivSqZeroExt ℚ ℚ)) ∧
+    ¬ Function.Bijective (algebraMap ℚ (TrivSqZeroExt ℚ ℚ)) := sorry
+example {T : Type u} [CommRing T] (hT : IsSeminormalRing T) (g : ZMod 4 →+* T) :
+    ∃! l : ZMod 2 →+* T, l.comp (ZMod.castHom (by decide : 2 ∣ 4) (ZMod 2)) = g := sorry
 
 /-- The seminormalization of a commutative ring (KL16 Definition 1.4.1, p. 19;
 Stacks 0EUR(3)–(4)). -/
@@ -515,18 +542,26 @@ instance snRing.commRing (A : Type u) [CommRing A] : CommRing (snRing A) := sorr
 def snMap (A : Type u) [CommRing A] : A →+* snRing A := sorry
 
 /-- The seminormalization satisfies the square–cube criterion (Stacks 0EUR(4)). -/
-theorem snRing_isSeminormal (A : Type u) [CommRing A] : IsSeminormalRing (snRing A) := sorry
+theorem snRing_seminormal (A : Type u) [CommRing A] : IsSeminormalRing (snRing A) := sorry
 
-/-- Every map to a seminormal ring extends uniquely across the unit
-(KL16 Definition 1.4.1, p. 19, affine form of the adjunction). -/
+/-- Every map to a seminormal ring extends uniquely across the subintegral unit
+(Stacks 0CND, 0EUR; KL16 Definition 1.4.1, p. 19). -/
 theorem sn_lift {A B : Type u} [CommRing A] [CommRing B]
     (hB : IsSeminormalRing B) (f : A →+* B) :
     ∃! g : snRing A →+* B, g.comp (snMap A) = f := sorry
 
--- Checks: nilpotents disappear; already seminormal rings and a disconnected ring are fixed.
+-- Checks: the cusp gains its missing parameter, nilpotents disappear, and seminormal rings
+-- and disconnected seminormal rings are fixed.
+example (k : Type u) [Field k] :
+    let A := Algebra.adjoin k ({Polynomial.X ^ 2, Polynomial.X ^ 3} : Set (Polynomial k))
+    ∃ e : snRing A ≃+* Polynomial k, e.toRingHom.comp (snMap A) = A.val.toRingHom := sorry
 example : Nonempty (snRing (ZMod 4) ≃+* ZMod 2) := sorry
 example : Nonempty (snRing ℚ ≃+* ℚ) := sorry
 example : Nonempty (snRing (ℚ × ℚ) ≃+* (ℚ × ℚ)) := sorry
+
+/-- The seminormalization unit is subintegral, including for rings with nilpotents
+(Stacks 0EUR(3); KL16 Lemma 1.4.5, p. 20). -/
+theorem snMap_subintegral (A : Type u) [CommRing A] : IsSubintegral (snMap A) := sorry
 
 /-- The seminormalization unit is integral (Stacks 0EUR(3); KL16 Lemma 1.4.5, p. 20). -/
 theorem snMap_isIntegral (A : Type u) [CommRing A] : (snMap A).IsIntegral := sorry
@@ -547,6 +582,21 @@ example : IsEmpty (snRing (ZMod 4) →+* ℚ) := sorry
 theorem snMap_bijective (A : Type u) [CommRing A] (hA : IsSeminormalRing A) :
     Function.Bijective (snMap A) := sorry
 
+/-- Any subintegral unit with seminormal codomain identifies that codomain uniquely with
+the seminormal reflection, compatibly with the unit (Stacks 0EUR(3)–(4), 0H3G). -/
+theorem sn_compare {A B : Type u} [CommRing A] [CommRing B]
+    (f : A →+* B) (hf : IsSubintegral f) (hB : IsSeminormalRing B) :
+    ∃! e : snRing A ≃+* B, e.toRingHom.comp (snMap A) = f := sorry
+
+-- Checks: identity units, the cusp, and reduction all identify the reflection over the source.
+example : ∃! e : snRing ℚ ≃+* ℚ, e.toRingHom.comp (snMap ℚ) = RingHom.id ℚ := sorry
+example (k : Type u) [Field k] :
+    let A := Algebra.adjoin k ({Polynomial.X ^ 2, Polynomial.X ^ 3} : Set (Polynomial k))
+    ∃! e : snRing A ≃+* Polynomial k, e.toRingHom.comp (snMap A) = A.val.toRingHom := sorry
+example : ∃! e : snRing (ZMod 4) ≃+* ZMod 2,
+    e.toRingHom.comp (snMap (ZMod 4)) =
+      ZMod.castHom (by decide : 2 ∣ 4) (ZMod 2) := sorry
+
 /-- Seminormalization commutes with principal localization, compatibly with its unit
 (Stacks 0EUM, 0EUS, restricted to principal affine opens). -/
 theorem snRing_localization (A : Type u) [CommRing A] (f : A) :
@@ -559,7 +609,5 @@ theorem snRing_localization (A : Type u) [CommRing A] (f : A) :
 example : Function.Bijective (snMap PUnit) := sorry
 example (A : Type u) [CommRing A] : Function.Bijective (snMap (snRing A)) := sorry
 example (A : Type u) [CommRing A] : Subsingleton (snRing (Localization.Away (0 : A))) := sorry
-
-end Affine
 
 end TauCetiRoadmap.DiamondsAndVStacks
