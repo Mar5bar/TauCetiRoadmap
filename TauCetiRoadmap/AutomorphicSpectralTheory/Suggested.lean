@@ -314,6 +314,16 @@ example (c : ℕ) [NeZero c] : kloosterman_sum 0 0 c = (Nat.totient c : ℂ) := 
 example (p : ℕ) [NeZero p] (hp : p.Prime) (m : ℤ) :
     kloosterman_sum m 0 p = if (p : ℤ) ∣ m then (p : ℂ) - 1 else -1 := by sorry
 
+/-- The SL₂ spherical translate at s = 2 is smooth and has an infinite-dimensional
+rotation-orbit span whenever the translating diagonal element is nontrivial. -/
+example (t : ℝ) (ht : t ≠ 0) :
+    let F : ℝ → ℂ := fun θ =>
+      (((Real.exp (2 * t) * Real.sin θ ^ 2 +
+        Real.exp (-2 * t) * Real.cos θ ^ 2 : ℝ) : ℂ) ^ 2)⁻¹
+    ContDiff ℝ ⊤ F ∧
+      ¬ Module.Finite ℂ (Submodule.span ℂ
+        (Set.range (fun a : ℝ => fun θ : ℝ => F (θ + a)))) := by sorry
+
 /-- Primitive-pair expression for the full modular Eisenstein series; ± pairs count once. -/
 def nonholomorphic_eisenstein (z : UpperHalfPlane) (s : ℂ) : ℂ :=
   1 / 2 * rpowC z.im s *
@@ -557,7 +567,17 @@ poincare_one_form, character_eisenstein, genus_eisenstein.
 
 Layer 2: local_intertwiner, mu_function, residue_calculus, generic_packet, shahidi_normalization,
 isobaric_sum, operator_intertwiner_family, resolvent_kernel, automorphic_green,
-normalized_intertwiner, continued_intertwiner.
+normalized_intertwiner, continued_intertwiner, smooth_eisenstein_extension.
+
+The induced Hilbert family carries the full group action. Its K-finite carrier supports
+only the (𝔤∞, K∞) and finite-adelic actions in flat_section, right_equivariant and intertwines.
+Arbitrary translates of finite-dimensional test sections are holomorphic on the smooth
+compact-picture carrier and can leave the K-finite space, as the SL₂ example above shows.
+The smooth_eisenstein_extension target constructs continuous E and M maps, chamber seminorm
+bounds and local common pole-clearing products in the topology of uniform convergence on
+bounded source sets. It supplies full-group equivariance on smooth inputs and agreement
+with the K-finite maps and the unitary-axis Hilbert intertwiner. The eisenstein_wave_packet
+and spectral_map constructions use that smooth domain before Hilbert completion.
 
 Layer 3: truncation_cones, arthur_truncation, eisenstein_wave_packet, gln_relative_roots,
 chamber_height_functions, auxiliary_chamber_selector, degree_cone_series, floor_monomial_family,

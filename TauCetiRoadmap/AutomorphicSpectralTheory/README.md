@@ -861,22 +861,23 @@ The Hilbert branch uses the measure, operator and compact-group supplier contrac
 
 ### 1.1 Normalized induced Hilbert families
 
-Define `induced_family` as follows. Fix P=MN and a discrete unitary representation σ of M(𝔸)¹, with its automorphic multiplicity space. H_P is the space of measurable functions on N(𝔸)M(F)A_M(ℝ)⁰\G(𝔸) whose m-slices lie in the σ-isotypic discrete space and with ∫_K∫_[M]¹|φ(mk)|²dm dk finite. I_P(λ,g)φ(x)=φ(xg)exp((λ+ρ_P)(H_P(xg)−H_P(x))). The carrier is independent of λ. H_P⁰ consists of smooth, finite-level, K-finite vectors lying in a finite sum of inducing irreducible spaces. A holomorphic section is a holomorphic map to a fixed finite-dimensional subspace of H_P⁰; its flat sections are constant in this compact picture.
+Define `induced_family` as follows. Fix P=MN and a discrete unitary representation σ of M(𝔸)¹, with its automorphic multiplicity space. H_P is the space of measurable functions on N(𝔸)M(F)A_M(ℝ)⁰\G(𝔸) whose m-slices lie in the σ-isotypic discrete space and with ∫_K∫_[M]¹|φ(mk)|²dm dk finite. I_P(λ,g)φ(x)=φ(xg)exp((λ+ρ_P)(H_P(xg)−H_P(x))). The carrier is independent of λ. H_P⁰ consists of smooth, finite-level, K-finite vectors lying in a finite sum of inducing irreducible spaces. H_P⁰ is an algebraic (𝔤_∞,K_∞) × G(𝔸_f)-module. For each fixed finite sum of inducing constituents and compact open finite level K_f, construct H_P^∞(K_f), the smooth compact-picture Fréchet realization from §0.49, with its compact-picture derivative seminorms and K_∞-finite module H_P⁰(K_f) in that inducing sum. Its topology agrees with the smooth-vector Sobolev topology in the unitary Hilbert realization. The union over K_f carries G(𝔸); a finite-adelic translation can change K_f. A finite-dimensional holomorphic test section takes values in a fixed finite-dimensional subspace of H_P⁰; its flat sections are constant in this picture. A holomorphic smooth section is a holomorphic map into H_P^∞(K_f).
 
 *Standing hypotheses:* F is a number field; G is connected reductive; compatible Iwasawa measures have vol K=vol(N(F)\N(𝔸))=1; work on G(𝔸)¹ or quotient A_G(ℝ)⁰ throughout.
 
 Prove the following API statements.
 - `action_comp`: I_P(λ,gh)=I_P(λ,g)I_P(λ,h).
 - `unitary_axis`: For λ imaginary, I_P(λ,g) is unitary.
-- `flat_section`: A fixed φ∈H_P⁰ gives an entire flat section λ↦φ; evaluation and right translation are holomorphic.
+- `flat_section`: A fixed φ∈H_P⁰ gives an entire finite-dimensional flat test section λ↦φ, with holomorphic evaluations. K_∞, finite-adelic translations and each fixed derived Lie-algebra operator preserve finite-dimensional holomorphic test sections, allowing a different finite-dimensional target space and finite level. For arbitrary fixed h∈G(𝔸), λ↦I_P(λ,h)φ is entire in the smooth compact-picture topology at the resulting level; it need not take values in H_P⁰.
 - `local_tensor`: For factorizable σ and section, I_P(σ,λ) is the restricted tensor product of the local normalized inductions.
 
 **Checks.**
 - For P=G on G(𝔸)¹, ρ_P=H_P=0 and I_P is right translation on the discrete inducing space.
 - The GL₂ open-cell torus model acts by r^(s+1/2)f(rx), and preserves the L² norm for purely imaginary s.
 - Dropping the half-modulus in the same dilation model, at r=4 a nonzero vector has half its original norm.
+- For SL₂/ℚ with trivial Borel datum and spherical finite components, let K_∞=SO(2), `a_y = diag(√y, 1/√y)` and `f_s(n a_y k) = y^s`. The compact vector φ=1 is K_∞-fixed. At `s = 2` and `h_t = diag(e^t, e^(−t))`, t≠0, its translate on k_θ is `F_t(θ) = (e^(2t) sin²θ + e^(−2t) cos²θ)^(−2)`. This is smooth but not K_∞-finite: in z=e^(iθ) its denominator is the square of a Laurent polynomial with nonzero z² and z⁻² coefficients; only Laurent monomials are invertible Laurent polynomials. Thus F_t is not a trigonometric polynomial, and its rotation-orbit span is infinite-dimensional. The initial identities in §§1.2 and 1.4 do not accept this translated input; the full translation identities use §2.4a.
 
-([Art05], §7 pp.32–34.)
+([Art05], §7 pp.32–34; [BK14], §2.4 (smooth-vector topology), §11 Theorem 11.6 and §12.1 (smooth and Hilbert compact pictures).)
 
 *Needs:* §0.48; §0.49; §0.50; AdelicAlgebraicGroups §2.1 (logarithmic height); AdelicAlgebraicGroups §2.2 (parabolic modulus); AdelicAlgebraicGroups §2.3 (automorphic quotient measure); ArithmeticLocallySymmetricSpaces ALS.F.6 (cuspidal representations); §0.2.
 
@@ -890,7 +891,7 @@ Define `eisenstein_series` as follows. For φ∈H_P⁰, define E_P(g,φ,λ)=Σ_{
 Prove the following API statements.
 - `linear`: E_P(aφ+bψ)=aE_P(φ)+bE_P(ψ). Require summable φ and ψ summands, supplied by chamber convergence.
 - `automorphic`: E_P(γg,φ,λ)=E_P(g,φ,λ), γ∈G(F). The proof uses the permutation of P(F)\G(F) by γ, which preserves the translated height and the inducing value.
-- `right_equivariant`: E(g,I_P(λ,h)φ,λ)=E(gh,φ,λ), using normalized induction’s pointwise weighted-translation identity.
+- `right_equivariant`: E(g,I_P(λ,h)φ,λ)=E(gh,φ,λ) for h∈K_∞ × G(𝔸_f). For X∈𝔤_∞, E(g,dI_P(λ,X)φ,λ)=R(X)E(g,φ,λ), where R(X) differentiates the g variable. These identities use §1.3 and preserve H_P⁰. The identity for arbitrary h∈G(𝔸) is on the smooth carrier of §2.4a.
 
 **Checks.**
 - For P=G, E_G(g,φ,0)=φ(g).
@@ -915,12 +916,12 @@ Prove `eisenstein_convergence`. On Re λ∈ρ_P+(𝔞_P*)⁺ the series defining
 
 ### 1.4 Convergent Weyl intertwining integrals
 
-Define `convergent_intertwiner` as follows. For w∈W(𝔞_P,𝔞_Q), choose a rational representative ŵ. In the common compact picture M(w,λ)φ(x)=exp(−(wλ+ρ_Q)H_Q(x))∫_{(N_Q∩ŵN_Pŵ⁻¹)(𝔸)\N_Q(𝔸)}φ(ŵ⁻¹nx)exp((λ+ρ_P)H_P(ŵ⁻¹nx))dn. The chamber convergence theorem defines this on H_P⁰. Rational representatives and compatible quotient measures give the same map to H_Q; it intertwines I_P(λ) with I_Q(wλ). This object precedes both the constant-term and pseudo-Eisenstein inner-product formulas.
+Define `convergent_intertwiner` as follows. For w∈W(𝔞_P,𝔞_Q), choose a rational representative ŵ. In the common compact picture M(w,λ)φ(x)=exp(−(wλ+ρ_Q)H_Q(x))∫_{(N_Q∩ŵN_Pŵ⁻¹)(𝔸)\N_Q(𝔸)}φ(ŵ⁻¹nx)exp((λ+ρ_P)H_P(ŵ⁻¹nx))dn. The chamber convergence theorem defines a map H_P⁰→H_Q⁰ with the Weyl-transported inducing datum. Rational representatives and compatible quotient measures give the same map; it intertwines the (𝔤_∞,K_∞) × G(𝔸_f)-actions. Its smooth extension and full-group equivariance are constructed in §2.4a. This object precedes both the constant-term and pseudo-Eisenstein inner-product formulas.
 
 *Standing hypotheses:* Re λ−ρ_P is positive; Haar measures and rational Weyl representatives are fixed compatibly.
 
 Prove the following API statements.
-- `intertwines`: M(w,λ)I_P(λ,g)=I_Q(wλ,g)M(w,λ).
+- `intertwines`: M(w,λ)I_P(λ,h)=I_Q(wλ,h)M(w,λ) for h∈K_∞ × G(𝔸_f), and M(w,λ)dI_P(λ,X)=dI_Q(wλ,X)M(w,λ) for X∈𝔤_∞, as maps on H_P⁰.
 - `identity`: M(1,λ)=id for P=Q.
 - `holomorphic_chamber`: Every compact-picture matrix coefficient is holomorphic in the chamber.
 
@@ -1482,11 +1483,30 @@ Prove `local_normalization`. There exist scalar meromorphic r_Q|P(π_λ), produc
 
 Prove `eisenstein_continuation`. For φ∈H_P⁰, E_P(g,φ,λ) and M(w,λ)φ extend meromorphically to all 𝔞_P,ℂ*. On each finite inducing/K-type block there is a common local product of affine linear forms clearing the polar divisor. They obey E_Q(g,M(w,λ)φ,wλ)=E_P(g,φ,λ) and M(vw,λ)=M(v,wλ)M(w,λ). On i𝔞_P* both families are regular and M(w,λ) extends to a unitary H_P→H_Q. Regularity here is for unitary discrete inducing data and the global family; a scalar normalizing factor or arbitrary nonunitary local family can still have a pole.
 
-*Standing hypotheses:* number field; discrete inducing H_P⁰; hyperplane denominators are local and on fixed finite blocks; the whole smooth Fréchet family requires the explicit seminorm extension.
+*Standing hypotheses:* number field; discrete inducing H_P⁰; hyperplane denominators here are local and on fixed finite blocks. These continuations retain the (𝔤_∞,K_∞) × G(𝔸_f)-equivariance of §§1.2 and 1.4. The smooth Fréchet topology, its pole-clearing statement and full-group identities are supplied by §2.4a.
 
 ([Art05], §7 Theorem 7.2(a), equations (7.3)–(7.4), p.35.)
 
 *Needs:* §1.10; §1.8; §1.4; §0.6; §0.15; §0.16.
+
+
+### 2.4a Smooth Eisenstein and intertwining extensions
+
+Prove `smooth_eisenstein_extension`. Fix the number-field setting of §1.1, a finite sum of discrete unitary inducing constituents with their finite automorphic multiplicities, and a compact open K_f. Use H_P^∞(K_f) from §1.1, with its §0.49 globalization topology. At regular parameters construct unique continuous linear extensions E_P^∞(λ):H_P^∞(K_f)→C^∞([G]/K_f) and M^∞(w,λ):H_P^∞(K_f)→H_Q^∞(K_f), transporting the inducing datum by w. The automorphic target has uniform convergence of every right derivative on compact subsets of the split-central quotient. In the convergence chamber these extensions equal the defining sum and integral, with absolute convergence after every fixed right derivative. For each compact parameter set C in that chamber, compact spatial set B and differential operator D, prove `sup_{λ∈C, g∈B} |D E_P^∞(g,φ,λ)| ≤ C₀ q(φ)` for a continuous source seminorm q, and the analogous bound for the absolute sum and intertwining integral. For every target seminorm p of H_Q^∞ prove `sup_{λ∈C} p(M^∞(w,λ)φ) ≤ C₀ q(φ)`. Include parameter derivatives on smaller compact subsets. On Siegel sets the E estimates have a height-power majorant, with the exponent and q allowed to depend on C and D. These estimates prove holomorphy in the smooth topologies and continuity of the chamber extensions.
+
+Continue both extensions meromorphically as continuous-linear-map families with the topology of uniform convergence on bounded source sets. Near each parameter λ₀, for the fixed inducing constituents and K_f, prove that one finite product d of affine linear forms, with multiplicities, makes dE_P^∞ and dM^∞ holomorphic in these topologies. This denominator is common to all K_∞-types of this fixed smooth carrier; no uniformity over inducing constituents or finite levels is asserted. Prove the required local bounds for every target seminorm after multiplication by d. The common-denominator and uniform moderate-growth estimates needed to apply [BK14], Theorem 11.7 and Remark 11.8 are part of this target, rather than consequences of scalar coefficient continuation alone.
+
+For arbitrary h∈G(𝔸), prove `E_P^∞(g, I_P(λ,h)φ, λ) = E_P^∞(gh, φ, λ)` and `M^∞(w,λ) I_P(λ,h) = I_Q(wλ,h) M^∞(w,λ)`, with the conjugate finite level when needed. Prove the functional and composition equations of §2.4 in these same topologies. All identities are meromorphic identities, hence pointwise identities at common regular parameters; regularized germs carry their specified denominators. Restriction to H_P⁰ gives §§1.2–1.4 and 2.4. On the imaginary axis M^∞ agrees on smooth vectors with §2.4's unitary Hilbert extension. No pointwise Eisenstein map on all of H_P is asserted. Level-change compatibility gives these maps on the union of finite levels, and holomorphic smooth sections are stable under fixed right translations.
+
+**Checks.**
+
+- For P=G at λ=0, E_G^∞ is the inclusion of smooth inducing functions and M^∞(1,0) is the identity, with denominator 1.
+- For the SL₂ vector F_t of §1.1 at s=2, the smooth extension accepts F_t and gives E^∞(g,F_t,2)=E^∞(gh_t,1,2); F_t remains outside H_P⁰.
+- On a local parameter line z where a nonzero polar coefficient A gives E(z)=z⁻¹A+O(1), zE is holomorphic in the stated operator topology. E itself is not a holomorphic family there, and assigning a point value at z=0 does not define its residue.
+
+([Art05], §7 Lemma 7.1 and Theorem 7.2(a), pp.34–35, for the K-finite families; [BK14], §11 Theorems 11.6–11.7 and Remark 11.8, pp.49–50, for extension to smooth sections and the required uniform growth input.)
+
+*Needs:* §§1.1–1.4 and 2.4; §§0.48–0.49 (smooth globalizations and parameter families); §§0.11–0.12 (locally convex maps and integration); AdelicAlgebraicGroups §§3.5–3.6 (Siegel height estimates).
 
 
 ### 2.5 Local–global factorization and adjoints
@@ -1944,13 +1964,13 @@ Work under the following hypotheses. The curve-cohomological determinant theorem
 
 ### 3.7 Regular Eisenstein wave packets
 
-Define `eisenstein_wave_packet` as follows. Let F_P be a smooth compactly supported function on i(𝔞_P/𝔞_G)* with values in a fixed finite-dimensional H_P⁰ subspace and whose support avoids any poles of the chosen inducing continuation. Define W_P(F)(g)=∫E_P(g,F_P(λ),λ)dλ. This initially defines a smooth automorphic function by compact-parameter integration. For an associate family impose F_Q(wλ)=M(w,λ)F_P(λ) and sum n_P⁻¹W_P(F_P), with n_P=Σ_Q|W(𝔞_P,𝔞_Q)|. The weighted family is an L² wave packet by the norm theorem; its construction is here, before Layer 3’s pairings, while onto completeness belongs to Layer 4.
+Define `eisenstein_wave_packet` as follows. Let F_P be a smooth compactly supported function on i(𝔞_P/𝔞_G)* with values in H_P^∞(K_f) for a fixed finite sum of inducing constituents, whose support avoids any poles of the chosen inducing continuation. Use the Fréchet topology and extensions of §2.4a; finite-dimensional H_P⁰-valued functions form a dense test subspace. Define W_P(F)(g)=∫E_P^∞(g,F_P(λ),λ)dλ. This initially defines a smooth automorphic function by compact-parameter integration. For an associate family impose F_Q(wλ)=M^∞(w,λ)F_P(λ) and sum n_P⁻¹W_P(F_P), with n_P=Σ_Q|W(𝔞_P,𝔞_Q)|. The weighted family is an L² wave packet by the norm theorem; its construction is here, before Layer 3’s pairings, while onto completeness belongs to Layer 4.
 
-*Standing hypotheses:* finite-dimensional smooth inducing space; compact smooth spectral support; compatible dual measure and central quotient.
+*Standing hypotheses:* fixed finite inducing sum and finite level; smooth Fréchet-valued compact spectral support; compatible dual measure and central quotient. Parameter derivatives and integration use §2.4a's compact-uniform seminorm estimates.
 
 Prove the following API statements.
 - `linear`: F↦W(F) is complex linear.
-- `right_equivariant`: Right translation acts by the corresponding induced action on F_P(λ).
+- `right_equivariant`: For h∈G(𝔸), R(h)W_P(F)=W_P(λ↦I_P(λ,h)F_P(λ)), using §2.4a on the smooth carrier and allowing a change of finite level. The translated section can have infinitely many K_∞-types.
 - `truncate_integral`: Λᵀ commutes with the compact-parameter integral under the quantitative truncation estimates.
 
 **Checks.**
@@ -1958,14 +1978,14 @@ Prove the following API statements.
 - For P=G on [G]¹ the zero-dimensional integral gives the inducing vector.
 - A compatible constant section v on a two-element Weyl orbit with half counting measure averages to v; omitting the denominator gives 2v.
 
-([Art05], §7 Theorem 7.2(b) wave-packet formula, pp.32–35.)
+([Art05], §7 Theorem 7.2(b) wave-packet formula, pp.32–35; [BK14], §11 Theorems 11.6–11.7 and Remark 11.8, pp.49–50, for smooth inputs.)
 
-*Needs:* §2.4; §2.5; §0.12; §3.4.
+*Needs:* §§2.4–2.4a; §2.5; §0.12; §3.4.
 
 
 ### 3.8 Integrated wave-packet Gram identities
 
-Prove `wave_packet_gram`. For compact spectral wave packets F,F′, the truncated pairing is the double integral of the truncated Eisenstein Gram pairing. For cuspidal inducing data insert the exact ωᵀ sum; for general discrete data insert ωᵀ plus the uniformly exponentially small error on compact parameter support. After imposing associate symmetry, the T→∞ limit is Σ_P n_P⁻¹∫⟪F′_P(λ),F_P(λ)⟫dλ. This proves the isometric dense-domain norm identity, separately from surjectivity.
+Prove `wave_packet_gram`. For finite K_∞-type compact spectral wave packets F,F′, the truncated pairing is the double integral of the truncated Eisenstein Gram pairing. For cuspidal inducing data insert the exact ωᵀ sum; for general discrete data insert ωᵀ plus the uniformly exponentially small error on compact parameter support. After imposing associate symmetry, the T→∞ limit is Σ_P n_P⁻¹∫⟪F′_P(λ),F_P(λ)⟫dλ. K_∞-type truncations of symmetric smooth sections converge in the source Fréchet topology. Their packets converge locally in C^∞ by §2.4a and in L² by the norm identity, identifying the smooth packet with its L² limit. This proves the isometric dense-domain norm identity, separately from surjectivity.
 
 *Standing hypotheses:* compact smooth spectral support; compatible associate symmetry; controlled regular T-cone for the discrete error estimate.
 
@@ -2175,7 +2195,7 @@ Prove the following API statements.
 
 ### 4.2 Unitary Eisenstein spectral map
 
-Define `spectral_map` as follows. On smooth compactly supported symmetric associate families define U(F)=Σ_P n_P⁻¹∫E_P(g,F_P(λ),λ)dλ. Extend by the wave-packet Gram identity to the direct sum over associate classes. The resulting map is an isometry intertwining G(𝔸)¹. The spectral orthosum theorem proves it onto L²([G]¹), so its inverse, the spectral transform, is a unitary equivalence, not just an isometric embedding.
+Define `spectral_map` as follows. On the smooth compactly supported symmetric associate families of §3.7 define U(F)=Σ_P n_P⁻¹∫E_P^∞(g,F_P(λ),λ)dλ. Full-group equivariance on this translation-stable domain follows from §2.4a before extending U by continuity. Extend by the wave-packet Gram identity to the direct sum over associate classes. The resulting map is an isometry intertwining G(𝔸)¹. The spectral orthosum theorem proves it onto L²([G]¹), so its inverse, the spectral transform, is a unitary equivalence, not just an isometric embedding.
 
 *Standing hypotheses:* dense smooth compact spectral domain in the symmetric-family Hilbert space; all discrete Levi data are included.
 
