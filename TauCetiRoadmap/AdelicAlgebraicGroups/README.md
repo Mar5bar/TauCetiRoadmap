@@ -248,9 +248,9 @@ one, and a single weight of multiplicity two contributes the square.
 | Geometric torsors and classes | SchemeAndStackFoundations, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_base_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
 | Finite-image Artin factors | AA.2.4 owns the local factors on inertia invariants, their induction formula, the nonzero leading coefficient at one and its positivity for character lattices (README targets of *convergence-factors* and AA.2.5) | Determinants on inertia invariants and the nonzero leading coefficient at one. Chebotarev layer 10 supplies Dirichlet density only. |
 | Linear Haar scaling | [MassFormula, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md) | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA owns completion, nonlinear charts, gauge forms, extension-basis Jacobians and the global discriminant. |
-| Rational tuple heights | [ArithmeticHeights, §0.1](https://github.com/rwst/TauCetiRoadmap/blob/b8aec35b6cd8e68031df1038a2cae63088be4a17/TauCetiRoadmap/ArithmeticHeights/Suggested.lean): `NumberField.arakelovMulHeight`, `arakelovMulHeight_eq`, `arakelovMulHeight_pow_finrank`, `arakelovMulHeight_rpow_comp` | The relative finite-sup/archimedean-ℓ² height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. AA retains adelic properness and quantitative counting. |
+| Rational tuple heights | [ArithmeticHeights, §0.1](https://github.com/rwst/TauCetiRoadmap/blob/b8aec35b6cd8e68031df1038a2cae63088be4a17/TauCetiRoadmap/ArithmeticHeights/Suggested.lean): `NumberField.arakelovMulHeight`, `arakelovMulHeight_eq`, `arakelovMulHeight_pow_finrank`, `arakelovMulHeight_rpow_comp` | The relative finite-sup/archimedean-`ℓ²` height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. AA retains adelic properness and quantitative counting. |
 | Finite-order Hecke analysis | [LFunctions, layers 5–6](https://github.com/roed-math/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/Suggested.lean): `PrimitiveRayClassCharacter`, `heckeLFunctionC`, `heckeLFunctionC_eq`, `heckeLFunctionC_induced`, `heckeLFunctionC_eq_primitive`, `eulerCorrection`, `heckeLFunction_ne_zero_of_one_le_re` | GlobalNumberFields supplies ray class carriers; ArithmeticDirichletSeries supplies ideal series; ThetaSeries supplies Poisson/Mellin analysis. AA uses the nonzero germ at one for nontrivial primitive finite-order characters. |
-| One-dimensional Artin–Hecke comparison | ClassFieldTheory reciprocity, with arithmetic Frobenius, plus the one-dimensional comparison owned by AA.2.4 (*convergence-factors*) | For a finite-order Galois character χ, choose its primitive ray class character with value χ(Frob_v) at unramified v. Match conductor primes using inertia invariants. For a larger modulus multiply the primitive function by LFunctions' `eulerCorrection`; state equality on `Re s > 1` and of meromorphic germs, including ramified factors. |
+| One-dimensional Artin–Hecke comparison | ClassFieldTheory reciprocity, with arithmetic Frobenius, plus the one-dimensional comparison owned by AA.2.4 (*convergence-factors*) | For a finite-order Galois character `χ`, choose its primitive ray class character with value `χ(Frob_v)` at unramified `v`. Match conductor primes using inertia invariants. For a larger modulus multiply the primitive function by LFunctions' `eulerCorrection`; state equality on `Re s > 1` and of meromorphic germs, including ramified factors. |
 
 | Trace discriminants and lattice indices | `NumberField.discr_eq_of_integralBasis`, `TauCeti/NumberTheory/NumberField/Discriminant/OfIntegralBasis.lean`; `Algebra.discr_of_matrix_vecMul`, `Mathlib/RingTheory/Discriminant.lean`; `AddSubgroup.index_eq_natAbs_det`, `Mathlib/LinearAlgebra/FreeModule/Finite/CardQuotient.lean` | The local lattice covolumes and archimedean determinants in AA.2.5. |
 
@@ -705,9 +705,7 @@ handles the non-unit local volumes needed for Tamagawa measure.
   corresponds to `(Measure.pi (fun i : S => μ i)).prod (∏ʳ_{ι∖S} μ i)`, hence that for `f`
   integrable on `Πʳ i, [G i, B i]` for `∏ʳ μ i`,
 
-  ```text
-  ∫ f ∂(∏ʳ μ i) = ∫_{Π_{i∈S} G i} ∫_{Πʳ_{ι∖S}} f(x_S, x^S) dμ^S dμ_S
-  ```
+  `∫ f ∂(∏ʳ μ i) = ∫_{Π_{i∈S} G i} ∫_{Πʳ_{ι∖S}} f(x_S, x^S) dμ^S dμ_S`
 
   ([Borel], §5.5, p. 21). *Needs:* AA.0.3; AA.0.2; Mathlib
   `MeasureTheory.Measure.isMulLeftInvariant_eq_smul`, `MeasureTheory.integral_prod`.
@@ -956,7 +954,7 @@ every comparison.
     not an embedding (`AdelicPoints.gm_not_subspace`).
   - For the trivial coordinate Hopf algebra `H = F`, `AdelicPoints F F` is a subsingleton.
 
-- **Integral models over S-integers.** For finitely generated `H` and a finite set `S` of places
+- **Integral models over `S`-integers.** For finitely generated `H` and a finite set `S` of places
   of `F` containing the archimedean ones, define `IntegralModel`: an integral model of `H` away
   from `S` is a finitely presented commutative Hopf algebra `𝓗` over the `S`-integers `𝒪_{F,S}`
   (`SIntegers F S`, the elements of `F` integral at every finite place outside `S`)
@@ -994,7 +992,7 @@ every comparison.
   *Needs:* AA.1.1.
   *Lean:* `IntegralModel.exists_of_finiteType`.
 - **Reductive models outside finitely many places.** Call an integral model `M` reductive when
-  its coordinate algebra is `Algebra.Smooth` over the S-integer base and Tau Ceti's
+  its coordinate algebra is `Algebra.Smooth` over the `S`-integer base and Tau Ceti's
   `reductiveCommHopfAlgProperty` holds on every field-valued fibre `k ⊗ M.coordinate`.
   The generic fibre is the specified Hopf algebra through `M.baseChangeIso`.
   Prove that reductivity passes to the generic fibre and to every enlargement, and that
@@ -1012,7 +1010,7 @@ every comparison.
   - Enlarging the standard `GL_n` model keeps it reductive; the
     non-reduced twist described above keeps the local points and fails this.
 
-- **Uniqueness of integral models up to enlarging S.** For finitely generated `H`, prove that
+- **Uniqueness of integral models up to enlarging `S`.** For finitely generated `H`, prove that
   two integral models `𝓗`, `𝓗′` of `H` (away from `S` and `S′`) become isomorphic, compatibly
   with their identifications with `H`, after base change to `𝒪_{F,S″}` for some finite
   `S″ ⊇ S ∪ S′`; consequently `𝓗(𝒪_v) = 𝓗′(𝒪_v)` inside `G(F_v)` for all but finitely many `v`
@@ -1044,7 +1042,7 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   topological groups for the affine-points topology ([Conrad], Proposition 2.1, proof, p. 2).
   *Needs:* AA.1.1; Mathlib `AlgHom.prod`.
   *Lean:* none; specified in the README only.
-- **Finite adeles as a directed union of S-adeles.** For finite sets `S` of finite places, prove
+- **Finite adeles as a directed union of `S`-adeles.** For finite sets `S` of finite places, prove
   that the `S`-adeles `𝔸_{F,S} = ∏_{v∈S} F_v × ∏_{v∉S} 𝒪_v` are open subrings of `𝔸_{F,f}`
   forming a directed union, and that every `F`-algebra map `H → 𝔸_{F,f}` from a finitely
   generated `H` with integral model `𝓗` restricts to a map of models `𝓗 → 𝔸_{F,S}` for `S`
@@ -1052,7 +1050,7 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   isomorphisms ([Conrad], Remark 3.5, p. 6). *Needs:* AA.1.1; Mathlib
   `RestrictedProduct.isOpenEmbedding_inclusion_principal`.
   *Lean:* none; specified in the README only.
-- **The restricted-product bijection on S-adelic points.** For a fixed affine finitely presented
+- **The restricted-product bijection on `S`-adelic points.** For a fixed affine finitely presented
   model `𝓗` over `𝒪_{F,S}` whose generic-fibre identification is a Hopf isomorphism, prove that
   the evaluation map from its `S′`-adelic points to `∏_{v∈S′} G(F_v) × ∏_{v∉S′} 𝓗(𝒪_v)`, for
   finite `S′ ⊃ S`, is a bijection. This is a set and group statement; the topology is proved
@@ -1072,8 +1070,7 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   the finitely many finite `v ∈ S`, and that `G(𝔸_F) ≃ₜ* G(F_∞) × G(𝔸_{F,f})` ([Conrad],
   Theorem 3.6, p. 6; [Borel], §1.2, p. 7). *Needs:* AA.1.1; Mathlib
   `RestrictedProduct.topologicalSpace_eq_iSup`; AA.0.3; ReductiveGroupsPartII, RG2.0; AA.1.2.
-  *Lean:* `IntegralModel.exists_restrictedProductEquiv` (the isomorphism `G(𝔸_{F,f}) ≃ₜ*
-  Πʳ v, [G(F_v), B_v]` exists and is given by the coordinates).
+  *Lean:* `IntegralModel.exists_restrictedProductEquiv` (the isomorphism `G(𝔸_{F,f}) ≃ₜ* Πʳ v, [G(F_v), B_v]` exists and is given by the coordinates).
 - **Independence of the model and of the exceptional set.** For finitely generated `H`, prove
   that the topological group structure on `Πʳ v, [G(F_v), 𝓗(𝒪_v)]` obtained from
   *restricted-product-comparison* does not depend on the integral model `𝓗` or on `S`: for two
@@ -1117,8 +1114,7 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   `φ_𝔸 : AdelicPoints H →* AdelicPoints H′`, `x ↦ x ∘ φ*`. Prove
   that `φ_𝔸` is continuous, that the identity induces the identity,
   that `(φ ∘ ψ)_𝔸 = ψ_𝔸 ∘ φ_𝔸` for Hopf algebra maps
-  (contravariance on Hopf algebras), that `φ_𝔸 (diagonal g) = diagonal
-  (φ g)` and that `p_v ∘ φ_𝔸 = φ_v ∘ p_v`. Under
+  (contravariance on Hopf algebras), that `φ_𝔸 (diagonal g) = diagonal (φ g)` and that `p_v ∘ φ_𝔸 = φ_v ∘ p_v`. Under
   *restricted-product-comparison* it is the restricted product of the local maps `φ_v`, which
   send `𝓗(𝒪_v)` into `𝓗′(𝒪_v)` for almost all `v` ([Borel], §1.3, p. 7). *Needs:* AA.1.1; Tau
   Ceti `TauCeti.CommHopfAlgCat.pointsFunctor`; AA.1.2; Mathlib
@@ -1293,7 +1289,7 @@ restriction of scalars.
 
 ### 2.1 Characters, logarithms and the split centre
 
-- **F-rational characters.** For `G = Spec H` an affine algebraic group over `F` with `H`
+- **`F`-rational characters.** For `G = Spec H` an affine algebraic group over `F` with `H`
   finitely generated, define `RationalCharacter H := GroupLike F H`, the commutative group
   `X*_F(G)` of homomorphisms `G → G_m` defined over `F`, realized as the group-like elements
   `χ ∈ H` (`Δχ = χ ⊗ χ`, `ε(χ) = 1`) under multiplication; `RationalCharacter.apply` is the
@@ -1357,7 +1353,7 @@ restriction of scalars.
   - `G_a` has zero character lattice, although it has dimension one.
   - For `GL₂`, restriction of `det` to the scalar centre is the square character:
     the injective map `ℤ → ℤ` has cokernel `ℤ/2`, rather than being onto.
-- **The real vector space a_G.** For `G = Spec H` affine algebraic over `F` with `H` finitely
+- **The real vector space `a_G`.** For `G = Spec H` affine algebraic over `F` with `H` finitely
   generated and `G` geometrically connected, define
   `RealCharacterSpace H = Hom_ℤ(Additive X*_F(G), ℝ)`, the finite-dimensional real vector space
   `a_G`, with scalar multiplication on the codomain and the finite-dimensional topology from
@@ -1387,7 +1383,7 @@ restriction of scalars.
     `a(φ) a` takes the value `a(T)` on it; the functor conjugated by the rescaling
     `2` on `a_{G_m}` and `1` on `a_{G_m²}` satisfies the identity and composition laws and gives `a(T)/2`.
 
-- **The Harish-Chandra map H_G.** For `G = Spec H` affine algebraic over `F` with `H` finitely
+- **The Harish-Chandra map `H_G`.** For `G = Spec H` affine algebraic over `F` with `H` finitely
   generated and `G` geometrically connected, define `AdelicPoints.logHeight`, the continuous
   homomorphism `H_G : AdelicPoints H →* Multiplicative a_G` (an additive map to `a_G`) with
   `⟨H_G(x), χ⟩ = log ‖χ(x)‖` for `χ ∈ X*_F(G)`, where `χ(x) = χ_𝔸(x) ∈ 𝔸_F^×` and `‖·‖` is the
@@ -1418,12 +1414,12 @@ restriction of scalars.
     Mathlib `IsModuleTopology.continuous_of_linearMap`
     (`Topology/Algebra/Module/ModuleTopology.lean`).
 
-- **H_G vanishes on rational points.** For `G = Spec H` affine algebraic over `F` with `H`
+- **`H_G` vanishes on rational points.** For `G = Spec H` affine algebraic over `F` with `H`
   finitely generated, prove `H_G(g) = 0` for `g ∈ G(F)` ([Arthur], §3, p. 16). *Needs:* AA.2.1; Tau
   Ceti `TauCeti.GlobalNumberFields.finprod_normalizedAbsValue_eq_one`; Mathlib
   `NumberField.prod_abs_eq_one`.
   *Lean:* `AdelicPoints.logHeight_diagonal`.
-- **The norm-one subgroup G(𝔸)^1.** For `G = Spec H` affine algebraic over `F` with `H` finitely
+- **The norm-one subgroup `G(𝔸)^1`.** For `G = Spec H` affine algebraic over `F` with `H` finitely
   generated and `G` geometrically connected, define `AdelicPoints.normOne`,
   `normOne H : Subgroup (AdelicPoints H) := logHeight.ker`, so that
   `G(𝔸_F)^1 = ker H_G = ⋂_{χ ∈ X*_F(G)} ker ‖χ‖`. Prove that `normOne` is closed,
@@ -1442,7 +1438,7 @@ restriction of scalars.
     elsewhere) has norm `1` but its archimedean component has `|p|_∞ ≠ 1`.
   - For `SL₂`, the norm-one subgroup is the full adelic group (`normOne_sl2`).
 
-- **The split component A_G.** For a connected reductive group `G` over `F`, let
+- **The split component `A_G`.** For a connected reductive group `G` over `F`, let
   `G₁ = Res_{F/ℚ} G`; `A_G` is the largest `ℚ`-split torus in the centre of `G₁`. Define
   the subgroup `A_G(ℝ)^0` of `AdelicPoints H` (supported at the archimedean
   places), the identity component of the real points of `A_G` inside
@@ -1479,12 +1475,12 @@ restriction of scalars.
     scalar. This tests the subgroup, not just its dimension; the one-place subgroup
     `{(t, 1)}`, which passes the group-theoretic clauses, fails the defining clause.
 
-- **H_G on the split centre.** (*log-height-split-centre-iso*) For a connected reductive group
+- **`H_G` on the split centre.** (*log-height-split-centre-iso*) For a connected reductive group
   `G` over `F`, prove that the restriction of `H_G` to `A_G(ℝ)^0` is an isomorphism of
   topological groups onto `a_G`; in particular `H_G` is surjective ([Arthur], (5.1), p. 24).
   *Needs:* AA.2.1.
   *Lean:* `AdelicPoints.logHeight_surjective` (surjectivity of `H_G` for connected reductive `G`).
-- **G(𝔸) = G(𝔸)^1 × A_G(ℝ)^0.** (*split-centre-decomposition*) For a connected reductive group
+- **`G(𝔸) = G(𝔸)^1 × A_G(ℝ)^0`.** (*split-centre-decomposition*) For a connected reductive group
   `G` over `F`, prove that multiplication `G(𝔸_F)^1 × A_G(ℝ)^0 → G(𝔸_F)` is an isomorphism of
   topological groups ([Arthur], §3, p. 16). *Needs:* AA.2.1.
   *Lean:* none; specified in the README only.
@@ -1523,7 +1519,7 @@ restriction of scalars.
   - `G_m` has modulus `1` on every idele; the modulus is not the tautological character.
   - On `O(GL₂)/(X₁₀)`, with finite components the identity, the real matrices `diag(2,1)`
     and `diag(1,2)` have moduli `2` and `1/2`, but both ambient determinants have norm `2`.
-- **Modular function of P(𝔸).** For a parabolic `P` of a connected reductive `G` over a number
+- **Modular function of `P(𝔸)`.** For a parabolic `P` of a connected reductive `G` over a number
   field `F`, prove that Mathlib's modular character (`map (·p) μ_l = Δ(p) μ_l`) on `P(𝔸_F)` is
   `δ_P`; with mutually inversion-normalized left and right Haar measures,
   `dμ_l(p) = δ_P(p)⁻¹ dμ_r(p)`. For a proper parabolic `δ_P` is nontrivial; for `P = G` it is `1`
@@ -1549,7 +1545,7 @@ restriction of scalars.
 
   **Checks.**
   - In the upper and the lower Borel of `GL₂`, put `diag(3,1)`
-    at a residue-cardinality-three place of ℚ, with every other coordinate the identity:
+    at a residue-cardinality-three place of `ℚ`, with every other coordinate the identity:
     the adelic moduli are `1/3` and `3`. In general a point supported at one place
     has the local Haar modular character after base change. RG2's Checks for RG2.4
     *iwasawa-integration-and-unimodularity* (over `ℚ₃` and `𝔽₃((t))`, upper and lower Borel)
@@ -1590,9 +1586,7 @@ restriction of scalars.
   group, `H ≤ G` closed, `dg` and `dh` right Haar measures on `G` and `H` with `Δ_G(h) = Δ_H(h)`
   for `h ∈ H` in the Mathlib `modularCharacter` convention, and `f, β ∈ C_c(G, ℝ)`, prove
 
-  ```text
-  ∫_G β(g) Pf(Hg) dg = ∫_G f(g) Pβ(Hg) dg
-  ```
+  `∫_G β(g) Pf(Hg) dg = ∫_G f(g) Pβ(Hg) dg`
 
   ([Arthur], §1, pp. 7–9; [BHV], Appendix B.1, Lemma B.1.3, pp. 344–346). *Needs:* AA.2.2;
   Mathlib `MeasureTheory.Measure.modularCharacter`, `MeasureTheory.integral_prod`.
@@ -1889,13 +1883,13 @@ restriction of scalars.
   - The rank-one trivial determinant Euler product is
     Dedekind zeta; in general the global `L`-function of the trivial character is `ζ_F` as a
     meromorphic germ.
-  - The nontrivial character of ℚ(i)/ℚ is the
-    primitive character χ₄, hence LFunctions' `oddPrimitiveModFour` under reciprocity.
+  - The nontrivial character of `ℚ(i)/ℚ` is the
+    primitive character `χ₄`, hence LFunctions' `oddPrimitiveModFour` under reciprocity.
     Its factor at 2 is one. Raising the modulus 4 to 12 gives
     the correction `1 + 3^(−s)`. These are specializations of the one-dimensional Artin–Hecke
-    comparison. Arithmetic Frobenius distinguishes eigenvalue ζ from ζ⁻¹ for a
-    nontrivial cube root of unity: at q=2 and s=1 the factors are distinct.
-  - `Ind_{ℚ(i)}^ℚ 1 = 1 ⊕ χ₄` gives ζ_{ℚ(i)}
+    comparison. Arithmetic Frobenius distinguishes eigenvalue `ζ` from `ζ⁻¹` for a
+    nontrivial cube root of unity: at `q=2` and `s=1` the factors are distinct.
+  - `Ind_{ℚ(i)}^ℚ 1 = 1 ⊕ χ₄` gives `ζ_{ℚ(i)}`
     on the convergence half-plane and as meromorphic germs. In general
     `L_F(Ind_E^F 1,s)=ζ_E(s)` for every finite
     separable extension, using the ramified induction identity at every place.
@@ -1986,7 +1980,7 @@ restriction of scalars.
   p. 2). *Needs:* AA.2.4; Tau Ceti `TauCeti.GlobalNumberFields.finprod_normalizedAbsValue_eq_one`;
   AA.0.3.
   *Lean:* none; specified in the README only.
-- **Corrected volumes for GL_n and SL_n.** For `n ≥ 1` and the standard models of `GL_n` and `SL_n` over
+- **Corrected volumes for `GL_n` and `SL_n`.** For `n ≥ 1` and the standard models of `GL_n` and `SL_n` over
   `𝒪_F` and their standard gauge forms, prove that at every finite place `v`,
   `λ_v · #GL_n(k_v) q_v^{−n²} = ∏_{i=2}^{n} (1 − q_v^{−i})` with `λ_v = (1 − q_v^{−1})^{−1}`, and
   `#SL_n(k_v) q_v^{−(n²−1)} = ∏_{i=2}^{n} (1 − q_v^{−i})`; both products over `v` converge
@@ -2067,10 +2061,10 @@ gauge forms and the global discriminant; these are not supplied by the linear la
   This global product formula is deduced from the two local Jacobians.
   Use `NumberField.discr_eq_of_integralBasis` to identify the integral trace
   determinant, `Algebra.discr_of_matrix_vecMul` for the square of a basis-change
-  determinant, and `AddSubgroup.index_eq_natAbs_det` on global ℤ-lattices
+  determinant, and `AddSubgroup.index_eq_natAbs_det` on global `ℤ`-lattices
   after clearing denominators. Decompose their finite quotient into its primary
   parts to obtain the local lattice indices; no local integer ring is assumed
-  finite over ℤ. At real places the embedding determinant has
+  finite over `ℤ`. At real places the embedding determinant has
   the factor `2^b` already present in the complex Haar normalization. Multiply
   these equalities and use
   `TauCeti.GlobalNumberFields.finprod_normalizedAbsValue_eq_one` on the nonzero
@@ -2290,7 +2284,7 @@ subgroup orbit maps.
   - For `GL_3` there are `4` standard parabolics.
   - For `GL_2` over `ℚ` the lower triangular Borel is a parabolic that is not standard; it is
     conjugate to the standard one by the Weyl element.
-- **Relative chambers and the spaces a_P.** For a connected reductive group `G` over `F` and
+- **Relative chambers and the spaces `a_P`.** For a connected reductive group `G` over `F` and
   standard `P`, define the real vector space `a_P = a_{M_P}` (AA.2.1), with
   `a_0 = a_{P_0}`; for `P_1 ⊆ P_2`, the canonical linear projection
   `a_{P_1} → a_{P_2}` dual to restriction of rational characters, whose kernel is the relative
@@ -2343,7 +2337,7 @@ subgroup orbit maps.
   - For the Borel of `GL_2`, `ρ = (1/2)(e_1 − e_2)`.
   - For `GL_3`, `a_0^+` is cut out by the two simple roots; positivity of `e_1 − e_3` alone does
     not imply membership.
-- **Admissible maximal compact subgroup of G(𝔸).** For a connected reductive group `G` over `F`,
+- **Admissible maximal compact subgroup of `G(𝔸)`.** For a connected reductive group `G` over `F`,
   define admissibility: a maximal compact subgroup `K = ∏_v K_v` of `G(𝔸_F)` is
   admissible relative to `M_0` if `K_v = 𝓗(𝒪_v)` is hyperspecial for all but finitely many `v`,
   each `K_v` is a special maximal compact subgroup in good position relative to `M_0` at finite
@@ -2396,9 +2390,7 @@ subgroup orbit maps.
   Haar probability measure, and `dn`, `dm` Haar measures on `N(𝔸)`, `M(𝔸)` with
   `vol(N(𝒪_v)) = vol(M(𝒪_v)) = 1` at almost all `v`, prove that the functional
 
-  ```text
-  f ↦ ∫_K ∫_M ∫_N f(nmk) δ_P(m)^{−1} dn dm dk
-  ```
+  `f ↦ ∫_K ∫_M ∫_N f(nmk) δ_P(m)^{−1} dn dm dk`
 
   on compactly supported continuous `f` is a positive functional invariant under right
   translation by `G(𝔸)` (left `P`-invariance and right `K`-invariance are immediate); since
@@ -2412,13 +2404,11 @@ subgroup orbit maps.
   over `F`, admissible `K` and standard `P`, prove
   `G(𝔸_F) = P(𝔸_F)K = N_P(𝔸) M_P(𝔸)^1 A_P(ℝ)^0 K`, and for `f ∈ L¹(G(𝔸))`,
 
-  ```text
-  ∫_{G(𝔸)} f(x) dx = ∫_K ∫_{M_P(𝔸)} ∫_{N_P(𝔸)} f(nmk) δ_P(m)^{−1} dn dm dk
-  ```
+  `∫_{G(𝔸)} f(x) dx = ∫_K ∫_{M_P(𝔸)} ∫_{N_P(𝔸)} f(nmk) δ_P(m)^{−1} dn dm dk`
 
   for compatible Haar measures ([Arthur], §4, p. 24). *Needs:* AA.3.1.
   *Lean:* none; specified in the README only.
-- **The map H_P.** For a connected reductive group `G` over `F`, standard `P` and admissible `K`,
+- **The map `H_P`.** For a connected reductive group `G` over `F`, standard `P` and admissible `K`,
   define `H_P : AdelicPoints H → a_P`, `H_P(nmk) = H_{M_P}(m)` for `n ∈ N_P(𝔸)`,
   `m ∈ M_P(𝔸)`, `k ∈ K`, and write `H_0 = H_{P_0}`. Prove that
   `H_P(n * m * k) = H_{M_P}(m)`, that `H_P(p * x) = H_P(p) + H_P(x)` for
@@ -2454,7 +2444,7 @@ choice of Haar measure. Put `δ_P(m) = exp(2ρ_P(H_M(m)))` for the Levi modulus.
 product map is `(n,m) ↦ nm` into the represented parabolic; its pushforward of
 `δ⁻¹ dn dm` is left Haar and its pushforward of `dn dm` is right invariant.
 The Iwasawa measure attached to `P, K, dn, dm, dk` is the pushforward of `δ⁻¹ dn dm dk` by `(n,m,k) ↦ nmk`.
-For Haar `dn,dm` and Haar probability `dk`, it is Haar on G; the Iwasawa integration formula uses this
+For Haar `dn,dm` and Haar probability `dk`, it is Haar on `G`; the Iwasawa integration formula uses this
 precise normalization, and its right `G`-invariance is part of the target.
 The adelic Iwasawa factorization adds openness to surjectivity; its integral form factors
 `K_v ∩ P(F_v) = (K_v ∩ N_P(F_v))(K_v ∩ M_P(F_v))` at each good place and supplies the
@@ -2464,14 +2454,14 @@ and `m ∈ M(F_v)`, `nm ∈ G(𝒪_v)` if and only if both factors are integral.
 
 **Checks for the Jacobian and measures.**
 
-- For a torus δ=1; for `GL₂` at root logarithm log 2, δ=2 and density=1/2;
-  δ is positive and inversion gives its reciprocal.
-- The parabolic product sends (1,1) to one; multiplication
+- For a torus `δ=1`; for `GL₂` at root logarithm `log 2`, `δ=2` and `density=1/2`;
+  `δ` is positive and inversion gives its reciprocal.
+- The parabolic product sends `(1,1)` to one; multiplication
   is bijective; reversing two noncommuting factors changes it.
-- Zero input gives zero; doubling dn doubles
+- Zero input gives zero; doubling `dn` doubles
   the output; three Dirac masses at one give the Dirac mass at one.
 - Evaluating the infinite
-  points of GL₂/ℚ at its real place preserves one and is bijective onto GL₂(ℝ).
+  points of `GL₂/ℚ` at its real place preserves one and is bijective onto `GL₂(ℝ)`.
 
 **Checks for the parabolic product and integral intersection.**
 In `GL₂`,
@@ -2606,7 +2596,7 @@ integral factorization has `K_v ∩ P` on the left, not all of `K_v`.
   - The zero multiple of `[1]` is not reduced.
   - The multiple `−[1]` is not reduced (`RealSiegel.IsReduced_negative_scale`).
 
-- **The set T_{e,C} of reduced forms.** Define the set of reduced positive definite matrices
+- **The set `T_{e,C}` of reduced forms.** Define the set of reduced positive definite matrices
   `T_{e,C} = {b ∈ X : b is (e, C)-reduced} ⊂ X`, the space of positive definite forms on `V_ℝ`.
   Prove that it is semialgebraic in matrix-entry coordinates, that it is monotone in `C`, and
   that `T_{ge,C} = g·T_{e,C}` for `g ∈ GL(V_ℚ)` ([BKT], §4.5, p. 18 (arXiv v2); JAMS p. 933). *Needs:*
@@ -2680,11 +2670,11 @@ recovered from root coordinates. **Check:** take `G=G_m`:
 
 | Interface | Checks |
 |---|---|
-| The real groups `N`, `A`, `M`, `M^+`, `M^+ K`, the horospherical data, the decomposition and the logarithm | N=A=1 and log=0 at one; N=A=1 on K; a split element retains its A-coordinate |
+| The real groups `N`, `A`, `M`, `M^+`, `M^+ K`, the horospherical data, the decomposition and the logarithm | `N=A=1` and `log=0` at one; `N=A=1` on `K`; a split element retains its `A`-coordinate |
 | Fixed compact dependence | the Weyl element sends `i` to height 1 but `1+i` to height 1/2; the change-of-compact formula identifies this with the new compact's coordinate |
-| Simple roots, truncated torus, corner chart | at t=1 the identity is excluded if roots exist, corner tuple=1; in rank zero there are no inequalities and an empty tuple; root value 2 gives corner coordinate 1/2 and membership at t=1 |
-| Siegel sets and their quotient images | empty U gives empty set; the strict wall excludes one; for the upper Borel of SL₂ with U=n((−1,1)), t=1 and W=K the image is −1<x<1, y>1, excluding i and 2+2i; the quotient is the literal image under the quotient map |
-| Translation | no change at one; left N-translation moves exactly the N-window; the full M^+ K-window absorbs right K-translation |
+| Simple roots, truncated torus, corner chart | at `t=1` the identity is excluded if roots exist, corner `tuple=1`; in rank zero there are no inequalities and an empty tuple; root value 2 gives corner coordinate 1/2 and membership at `t=1` |
+| Siegel sets and their quotient images | empty `U` gives empty set; the strict wall excludes one; for the upper Borel of `SL₂` with `U=n((−1,1))`, `t=1` and `W=K` the image is `−1<x<1`, `y>1`, excluding `i` and `2+2i`; the quotient is the literal image under the quotient map |
+| Translation | no change at one; left `N`-translation moves exactly the `N`-window; the full `M^+ K`-window absorbs right `K`-translation |
 
 The conjugation statements for the decomposition and for Siegel sets compare actual rationally
 conjugate Hopf-ideal parabolics and conjugate compacts. The three coordinates conjugate separately, and the
@@ -2721,10 +2711,7 @@ diagonal and equality of infinite points.
 
 The standard real Siegel domain `Σ_n(u,t)` is the full real domain
 
-```
-Σ_n(u,t) = {v diag(a) k : v upper unitriangular, |v_ij| ≤ u (i<j),
-                        a_i>0, a_i/a_(i+1) ≥ t, kᵀk=1}.
-```
+`Σ_n(u,t) = {v diag(a) k : v upper unitriangular, |v_ij| ≤ u (i<j), a_i>0, a_i/a_(i+1) ≥ t, kᵀk=1}.`
 
 Theorems about reduction use `u,t>0`. Both determinant signs occur through `O(n)`.
 This is [Orr], §2.A, p. 5; inversion converts [Platonov–Rapinchuk–Rapinchuk],
@@ -2758,10 +2745,7 @@ commutative coordinate algebra `A`, a faithfully flat map `π:A→O(G)` and a
 coefficient-natural right action of `G`. Its pinning equations, for every `F`-algebra
 `R`, are
 
-```
-σ_R(g)=g∘π;  σ_R(g)=σ_R(h) ↔ gh⁻¹∈H(R);
-x·1=x;  (x·g)·h=x·(gh);  σ_R(g)·h=σ_R(gh).
-```
+`σ_R(g)=g∘π;  σ_R(g)=σ_R(h) ↔ gh⁻¹∈H(R); x·1=x;  (x·g)·h=x·(gh);  σ_R(g)·h=σ_R(gh).`
 
 Thus the points `(A →ₐ[F] R)` of the quotient also define rational and adelic points.
 Faithful flatness supplies local lifts; it does not assert that every rational
@@ -2810,7 +2794,7 @@ for `G=GL_n`, `a=1`, `C={1}`, membership is equivalent
 to membership of the real component in `Σ_n(u,t)` and of the finite component
 in the standard integral level.
 
-- **Reduction for GL_n(ℝ).** (*gln-real-reduction*) For `n ≥ 1`, prove that there are `C > 0`
+- **Reduction for `GL_n(ℝ)`.** (*gln-real-reduction*) For `n ≥ 1`, prove that there are `C > 0`
   and a standard Siegel set `𝔖 ⊂ GL_n(ℝ)` (with respect to `O(n)` and the upper triangular
   Borel) such that `GL_n(ℝ) = GL_n(ℤ)·𝔖`; equivalently every positive definite form is
   `GL_n(ℤ)`-equivalent to an `(e, C)`-reduced form for the standard basis `e`
@@ -2821,16 +2805,16 @@ in the standard integral level.
   unchanged into our coordinates. *Needs:* AA.3.2; Mathlib `ModularGroup.exists_smul_mem_fd`.
   *Lean:* `RealSiegel.exists_reduced_GLZ` (the reduced-form version, in every rank; the
   Siegel-domain version is specified in the README only).
-- **GLₙ finite class number one over ℚ.** For `n ≥ 1` over the ground field `ℚ` (`ℤ` a PID; over
+- **`GLₙ` finite class number one over `ℚ`.** For `n ≥ 1` over the ground field `ℚ` (`ℤ` a PID; over
   a number field the double coset set is the class group), prove
   `GL_n(𝔸_{ℚ,f}) = GL_n(ℚ) GL_n(ℤ̂)`, and that the rational intersection with `GL_n(ℤ̂)` is
   `GL_n(ℤ)` ([Borel], §2.1–2.2, pp. 11–12; §4.4, p. 17). *Needs:* AA.1.4; AA.1.1.
   *Lean:* none; specified in the README only.
-- **Adelic reduction for GL_n over ℚ.** For `n ≥ 1` and a standard Siegel domain `𝔖` of
+- **Adelic reduction for `GL_n` over `ℚ`.** For `n ≥ 1` and a standard Siegel domain `𝔖` of
   `GL_n(ℝ)` with `GL_n(ℝ) = GL_n(ℤ)·𝔖` (*gln-real-reduction*), prove
   `GL_n(𝔸_ℚ) = GL_n(ℚ) · (𝔖 × GL_n(ℤ̂))` ([Borel], Lemma 4.4, p. 17). *Needs:* AA.3.3.
   *Lean:* none; specified in the README only.
-- **Real GLₙ Siegel overlap.** For `n ≥ 1`, an integer `d ≥ 1` and a standard Siegel domain `Σ`
+- **Real `GLₙ` Siegel overlap.** For `n ≥ 1`, an integer `d ≥ 1` and a standard Siegel domain `Σ`
   of `GL_n(ℝ)` in the left-quotient convention of *gln-real-reduction*, prove that the set of
   `γ ∈ GL_n(ℚ)` with `γ, γ⁻¹ ∈ d^{−1} M_n(ℤ)` and `γΣ ∩ Σ ≠ ∅` is finite; the same holds for two
   fixed rational translates of such domains, with `c_1, c_2 ∈ GL_n(ℚ)` fixed and the overlap
@@ -2874,7 +2858,7 @@ in the standard integral level.
   clears all entries of `ρ(γ)` and `ρ(γ)⁻¹` for rational `γ` whose finite diagonal lies in `C`.
   *Needs:* AA.1.2; AA.1.5.
   *Lean:* none; specified in the README only.
-- **Reduction for reductive subgroups of GL_n.** Let `G ⊂ GL_n` be reductive over `ℚ` with
+- **Reduction for reductive subgroups of `GL_n`.** Let `G ⊂ GL_n` be reductive over `ℚ` with
   `a(G(ℝ))a⁻¹` self-adjoint for some `a ∈ SL_n(ℝ)` (the self-adjoint embedding), and let `𝔖` be
   the left-quotient standard Siegel domain of *gln-real-reduction*. Prove that there are
   finitely many `c_i ∈ GL_n(ℚ)` such that `Ω = ⋃_i (c_i·(𝔖a × GL_n(ℤ̂)) ∩ G(𝔸))` satisfies
@@ -2894,9 +2878,7 @@ in the standard integral level.
   `T_1 ∈ a_0` and a compact subset `ω ⊂ N_0(𝔸) M_0(𝔸)^1`, define
   the Siegel set `𝔖(T₁, ω) ⊂ AdelicPoints H`,
 
-  ```text
-  𝔖(T_1, ω) = {p a k : p ∈ ω, a ∈ A_0(ℝ)^0, k ∈ K, β(H_0(a) − T_1) > 0 for all β ∈ Δ_0}.
-  ```
+  `𝔖(T_1, ω) = {p a k : p ∈ ω, a ∈ A_0(ℝ)^0, k ∈ K, β(H_0(a) − T_1) > 0 for all β ∈ Δ_0}.`
 
   Prove that `x ∈ 𝔖(T₁, ω)` iff `x = p a k` with the stated
   conditions, that the Siegel set is antitone in `T₁`, coordinatewise for `Δ_0`, and
@@ -2923,7 +2905,7 @@ in the standard integral level.
     `y > 1/2`. Both the identity and `n(1)` lie in this Siegel set; their ratio is a nontrivial
     rational element. Thus this specified Siegel set cannot be a fundamental domain with
     disjoint rational translates (the real coordinates already show this).
-- **Siegel sets cover G(F)\G(𝔸).** For a connected reductive group `G` over `F` and admissible
+- **Siegel sets cover `G(F)\G(𝔸)`.** For a connected reductive group `G` over `F` and admissible
   `K`, prove that there are `T_1` and `ω` such that `G(𝔸_F) = G(F) 𝔖(T_1, ω)`
   (Borel–Harish-Chandra) ([Arthur], Theorem 8.1, p. 37; [Borel], Theorem 4.6, p. 18). *Needs:*
   AA.3.4; AA.3.2; AA.1.4; Mathlib `ModularGroup.exists_smul_mem_fd`; AA.3.3.
@@ -3010,13 +2992,13 @@ in the standard integral level.
   - On `x > log 2`, `∫ exp(−x) dx = 1/2`, fixing the sign of
     the truncation parameter.
 
-- **Siegel sets in G(𝔸)^1 have finite measure.** For `G` connected reductive, `ω` compact and
+- **Siegel sets in `G(𝔸)^1` have finite measure.** For `G` connected reductive, `ω` compact and
   an adelic Siegel set `𝔖 = 𝔖(T₁, ω)`, prove that the measure of `𝔖 ∩ G(𝔸)^1` is finite
   (an owned deduction from the exponential chamber integral and the Iwasawa Jacobian,
   using the Siegel sets of [Arthur], §8, Theorem 8.1, p. 37).
   *Needs:* AA.3.4; AA.3.1; AA.2.2.
   *Lean:* none; specified in the README only.
-- **Finite volume of G(F)\G(𝔸)^1.** For every connected linear algebraic group `G/F`,
+- **Finite volume of `G(F)\G(𝔸)^1`.** For every connected linear algebraic group `G/F`,
   prove that `G(F)\G(𝔸_F)^1` has finite positive volume for the invariant quotient measure: [Platonov–Rapinchuk–Rapinchuk],
   Theorem 5.24, pp. 318–321, treats every connected linear algebraic group.
   Supply its characteristic-zero Levi decomposition (*Algebraic Levi decompositions*, AA.3.1),
@@ -3029,7 +3011,7 @@ in the standard integral level.
 - **Tamagawa numbers are finite.** For connected reductive `G`, prove that the Tamagawa number
   `τ(G)` of AA.2.4 is finite and positive ([Rosengarten], §1, p. 3). *Needs:* AA.3.4; AA.2.4.
   *Lean:* none; specified in the README only.
-- **When G(F)\G(𝔸) has finite volume.** For a linear algebraic group `G` over `F`, prove that
+- **When `G(F)\G(𝔸)` has finite volume.** For a linear algebraic group `G` over `F`, prove that
   `G(F)\G(𝔸_F)` carries a nonzero `G(𝔸)`-invariant Radon measure of finite volume iff
   `X*_F(G°) = 0`, with `G°` represented by
   the largest geometrically connected closed subgroup: its Hopf ideal is minimal among
@@ -3081,7 +3063,7 @@ in the standard integral level.
   is `F`-anisotropic ([Rapinchuk], §2.6, p. 16; [Borel], Introduction, p. 6; §8, pp. 26–30).
   *Needs:* AA.3.4; AA.1.2; AA.1.3.
   *Lean:* none; specified in the README only.
-- **Finitely many G(𝒪)-orbits on rational flags.** For `F` a number field, `G` connected
+- **Finitely many `G(𝒪)`-orbits on rational flags.** For `F` a number field, `G` connected
   reductive over `F` (Borel 7.3 allows any connected `G`; the consumers need only reductive `G`)
   and `P` parabolic over `F`, prove that `(G/P)(F)` is a finite union of orbits of an arithmetic
   subgroup; equivalently `G(F) = ⋃_{i∈I} Γ x_i P(F)` with `I` finite ([Borel], Lemma 7.2 and
@@ -3128,15 +3110,15 @@ root evaluates negatively on T. For `G_m/ℚ`, `A K ≠ G_m(𝔸)` for the singl
 window, detecting the finite idele valuations that root inequalities alone miss.
 
 For the S-arithmetic target, the `S`-points are the product of all infinite factors
-and the finite factors indexed by S, and the projection and the diagonal evaluate precisely
+and the finite factors indexed by `S`, and the projection and the diagonal evaluate precisely
 these factors. The `S`-arithmetic group of a level `U` consists of rational points whose finite
-components outside S agree with some element of the compact open finite level U; this is the
-projection of U to the away-S factors. The target states discreteness, finite covolume and the
+components outside `S` agree with some element of the compact open finite level `U`; this is the
+projection of `U` to the away-`S` factors. The target states discreteness, finite covolume and the
 anisotropy criterion for compactness. Finite covolume and compactness require
 `X*_F(G)=0`, which includes the semisimple setting in the target.
 
 **Checks.** `S = ∞` recovers `levelArithmetic 1 U`;
-the GL₁ rational element p is `S`-arithmetic when S contains p but
+the `GL₁` rational element `p` is `S`-arithmetic when `S` contains `p` but
 not at the ordinary integral level; for the trivial group the `S`-arithmetic group is everything.
 
 For a finite-dimensional **central** division algebra `D/F`, the target
@@ -3163,7 +3145,7 @@ cannot replace the reduced norm in the defining equation.
   the adelic height on `g ∈ G(F)` with ArithmeticHeights's relative `NumberField.arakelovMulHeight`
   of the tuple indexed by `Bool × Fin m × Fin m`, containing the entries of
   `ρ(g)` and `ρ(g)⁻¹`. Its finite factors use normalized `|π_v|=N(v)⁻¹`; at infinity
-  they use the ℓ² norm to exponent `mult(v)`. For `d=[F:ℚ]`, the absolute
+  they use the `ℓ²` norm to exponent `mult(v)`. For `d=[F:ℚ]`, the absolute
   Arakelov height is `height(Δg)^(1/d)`, equivalently the adelic height is the
   d-th power of the absolute height. For `m=0`, the empty tuple and the adelic
   representation both have height one. Consume ArithmeticHeights's extension-power comparison;
@@ -3174,12 +3156,12 @@ cannot replace the reduced norm in the defining equation.
 
   **Checks.** Rank zero gives one. The two-dimensional identity
   gives relative height `2^[F:ℚ]` and absolute
-  height two, including over quadratic F. The rational GL₁ point 2 gives
+  height two, including over quadratic `F`. The rational `GL₁` point 2 gives
   `sqrt(17)`: the tuple `(2,1/2)` has archimedean
   factor `sqrt(17)/2` and 2-adic factor 2.
 
 - **Local polynomial comparison for algebraic heights.** Define the local height at a finite
-  place as the maximum of the normalized absolute values of entries of r(g) and its inverse,
+  place as the maximum of the normalized absolute values of entries of `r(g)` and its inverse,
   and at an infinite place as their combined Hilbert–Schmidt norm to the
   archimedean multiplicity. Both are one in rank zero. The comparison is stated at finite and at
   infinite places.
@@ -3207,7 +3189,7 @@ cannot replace the reduced norm in the defining equation.
   `∏_v max(1, |a₁|_v, …, |a_d|_v) ≤ R` is at most `C R^N`, for constants `C, N` depending only on
   `F, d` ([Arthur], §13, p. 70). *Needs:* GlobalNumberFields, layer 6.
   *Lean:* none; specified in the README only.
-- **Height functions on G(𝔸).** (*adelic-height*) For a connected reductive group `G` over `F`,
+- **Height functions on `G(𝔸)`.** (*adelic-height*) For a connected reductive group `G` over `F`,
   choose a faithful `F`-algebraic representation `r : G → GL_m` containing a representation and
   its dual (and, if needed, a trivial summand), so the resulting height is proper and each local
   norm is at least `1`; arbitrary abstract faithful point representations do not suffice. Define
@@ -3261,9 +3243,9 @@ cannot replace the reduced norm in the defining equation.
   `Γ=levelArithmetic 1 U` for compact open `U`, prove that there are only finitely many `Γ`-conjugacy classes of `F`-parabolic
   subgroups ([BKT], Proposition 2.7(1), p. 9; [Borel], Theorem 7.3, p. 25). *Needs:* AA.3.1; AA.3.4.
   *Lean:* none; specified in the README only.
-- **Finitely many fixed-K Siegel sets cover.** The statement
+- **Finitely many fixed-`K` Siegel sets cover.** The statement
   supplies a complete irredundant list of arithmetic conjugacy classes of rational
-  parabolics, their fixed-K data, relatively compact open windows and positive thresholds,
+  parabolics, their fixed-`K` data, relatively compact open windows and positive thresholds,
   covering the connected real group modulo its level arithmetic group. The theorem applies
   to connected reductive `G`; the window enlargement of AA.3.2 supplies semialgebraic
   windows without changing this list or losing coverage. For `G` connected semisimple over `ℚ`, `Γ`
@@ -3273,7 +3255,7 @@ cannot replace the reduced norm in the defining equation.
   p. 9; [BKT erratum], §1.1, p. 1). *Needs:* the preceding bullet; AA.3.2; AA.3.4.
   *Lean:* none; specified in the README only.
 - **Finite overlaps of Siegel sets.** The statement allows two
-  parabolics and independently chosen positive thresholds, at the same K. For Siegel sets `𝔖_1, 𝔖_2` associated to the same `K`,
+  parabolics and independently chosen positive thresholds, at the same `K`. For Siegel sets `𝔖_1, 𝔖_2` associated to the same `K`,
   prove that `{γ ∈ Γ : γ𝔖_1 ∩ 𝔖_2 ≠ ∅}` is finite, and that the same holds for the relatively
   compact closures of their unipotent and Levi factors ([BKT], Proposition 2.7(2), p. 9).
   *Needs:* AA.3.2; AA.3.3.
@@ -3334,11 +3316,7 @@ A Siegel triple consists of relative root data (AA.3.1), its minimal parabolic,
 a Cartan datum, and `u∈N(ℝ)`. Its real split torus, positive component and norm-one
 Levi factor are pinned by
 
-```
-S = u S₀(ℝ) u⁻¹,      θ(S)=S,      A=S⁰,
-M = u {m∈Z_G(S₀)(ℝ) : |χ(m)|=1 for every rational Levi character χ} u⁻¹,
-logA(a)(χ) = log |χ(u⁻¹au)|.
-```
+`S = u S₀(ℝ) u⁻¹,      θ(S)=S,      A=S⁰, M = u {m∈Z_G(S₀)(ℝ) : |χ(m)|=1 for every rational Levi character χ} u⁻¹, logA(a)(χ) = log |χ(u⁻¹au)|.`
 
 The equation for `S` also specifies its real algebraic group: base change the
 rational split torus, then conjugate by the real point `u` on every real algebra.
@@ -3421,9 +3399,7 @@ An orbit-map datum for `H` in dimension `n` specifies a faithful algebraic repre
 the determinant equation on every coefficient algebra, a positive form `b₀`, and
 a compatible Cartan datum on `H`. It defines
 
-```
-value(g)=ρ(g⁻¹)ᵀ b₀ ρ(g⁻¹),      quotient(gK_H)=value(g).
-```
+`value(g)=ρ(g⁻¹)ᵀ b₀ ρ(g⁻¹),      quotient(gK_H)=value(g).`
 
 Equality of values is exactly `g⁻¹h∈K_H`, and
 this pins the quotient map. Its values have determinant `det(b₀)`.
@@ -3571,7 +3547,7 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
 |---|---|
 | The splitting `a_{P₁} ≃ a_{P₂} × a_{P₁}^{P₂}` (AA.3.1) | equal parabolics give `(a,0)`; a relative vector gives `(0,a)`; a lifted quotient vector gives `(a,0)` |
 | The infinite diagonal `G(F) → G(F_∞)` (`AdelicPoints.infiniteDiagonal`) | identity; the actual scalar coordinate; distinct rational points stay distinct |
-| Ordinary right translation on the norm-one quotient, by `G(𝔸)^1` as in AA.2.3 | identity multiplier; ([x]·g)·h=[x]·(gh); the idele with u_∞=−1 and u_p=1 for all finite p moves the base class over ℚ; the idele with g_∞=2 and g_p=1 is excluded since xg has nonzero height |
+| Ordinary right translation on the norm-one quotient, by `G(𝔸)^1` as in AA.2.3 | identity multiplier; `([x]·g)·h=[x]·(gh)`; the idele with `u_∞=−1` and `u_p=1` for all finite `p` moves the base class over `ℚ`; the idele with `g_∞=2` and `g_p=1` is excluded since `xg` has nonzero height |
 | Unipotent rational points | identity; `[[1,1],[0,1]]`; exclusion of `diag(2,1/2)` |
 | The `S`-projection and `S`-diagonal (AA.3.4) | identity; unchanged infinite factor; exact value at every retained finite place |
 
@@ -3598,9 +3574,9 @@ These check the logarithm itself, beyond its simple-root evaluations.
 | The root coordinates of `a_P` | zero; actual character value; central directions survive. |
 | Subgroup points in the ambient group | identity; exact quotient evaluation; distinct subgroup points remain distinct. |
 | The split component `A_P` | contains one; finite projection is one; unique positive split-Levi preimage. |
-| The real identity component | one point for the trivial group; negative component of `G_m` excluded; all real SL₂ points included. |
+| The real identity component | one point for the trivial group; negative component of `G_m` excluded; all real `SL₂` points included. |
 | Real subgroup points in the ambient real group | identity; exact quotient evaluation; distinct real subgroup points remain distinct. |
-| The real groups `N`, `A`, `M`, `M^+`, `M^+ K` | one-point factors for the trivial group; for G_m, N=1, M={±1}, M^+=1, A=G⁺ and M^+ K=K; at P=𝐆=PGL₂, N=A=1, M=PGL₂(ℝ), M^+=G and M^+ K=G; for the upper Borel of SL₂, M=M^+={±I} while M⁰=1; nonempty simple roots force N≠1. |
+| The real groups `N`, `A`, `M`, `M^+`, `M^+ K` | one-point factors for the trivial group; for `G_m`, `N=1`, `M={±1}`, `M^+=1`, `A=G⁺` and `M^+ K=K`; at `P=𝐆=PGL₂`, `N=A=1`, `M=PGL₂(ℝ)`, `M^+=G` and `M^+ K=G`; for the upper Borel of `SL₂`, `M=M^+={±I}` while `M⁰=1`; nonempty simple roots force `N≠1`. |
 | `Reduction.levelArithmetic` | the whole level gives all rational points (`Reduction.level_full`); the trivial level gives only one; exact finite diagonal membership at `x = 1` (`Reduction.level_identity`). |
 
 ### Examples
@@ -3635,8 +3611,7 @@ quaternion norms and compact abelian Fourier limits.
 ### 4.1 Weak approximation and torsors
 
 - **Weak approximation.** For an affine algebraic group `G` over `F` and a finite set `S` of
-  places, define `Approximation.HasWeakApproximation G S : Prop := DenseRange (diagonal G(F) →
-  G(F_S))`, weak approximation with respect to `S`, where `G(F_S) = ∏_{v∈S} G(F_v)` (the
+  places, define `Approximation.HasWeakApproximation G S : Prop := DenseRange (diagonal G(F) → G(F_S))`, weak approximation with respect to `S`, where `G(F_S) = ∏_{v∈S} G(F_v)` (the
   archimedean factors `Approximation.ArchPoints` and the diagonal `Approximation.diagonalS`); `G` has weak
   approximation if this holds for every finite `S`. Prove that
   weak approximation for `S` implies it for every `S′ ⊆ S`,
@@ -3653,7 +3628,7 @@ quaternion norms and compact abelian Fourier limits.
     `{(1,1), (−1,−1)}` is not dense in `{±1}²` (`Approximation.not_hasWeakApproximation_mu2`).
   - For the empty set of places, the target product is a point and every affine group has weak approximation (`hasWeakApproximation_empty`).
 
-- **Weak approximation for GL_n, SL_n and split tori.** (*weak-approximation-gln*) Prove that
+- **Weak approximation for `GL_n`, `SL_n` and split tori.** (*weak-approximation-gln*) Prove that
   `GL_n`, `SL_n`, `G_a` and split tori `G_m^r` over `F` have weak approximation (use field weak approximation on the open affine variety `GL_n`; use elementary matrices
   for `SL_n`, and products for split tori). The `SL₂` elementary-matrix calculation is
   [Rapinchuk], Lemma 1.2, p. 3; field weak approximation is supplied by the exact contract
@@ -3711,7 +3686,7 @@ quaternion norms and compact abelian Fourier limits.
     its identity base change still has nontrivial class, and its real base
     change has the distinguished class.
 
-- **Canonical μ₂ class and scalar extension.** The target
+- **Canonical `μ₂` class and scalar extension.** The target
   uses SchemeAndStackFoundations's group space `G = GroupSpace.ofGroupScheme (Spec ℚ[ℤ/2])` and
   `torsorClasses G = NonabelianH1 (fppfTopology.over (Spec ℚ)) h_G`. Its class is
   `torsorClasses.mk` of `Spec ℚ[t]/(t²−2)` with coaction `t ↦ t⊗g`; it is not the
@@ -3724,9 +3699,9 @@ quaternion norms and compact abelian Fourier limits.
   *Lean:* none; specified in the README only.
 
   **Checks.** This concrete
-  affine torsor has no sections over ℚ, and none after identity
+  affine torsor has no sections over `ℚ`, and none after identity
   scalar extension; it has sections after extension
-  to ℝ. The canonical `torsorClasses.mk_eq_base_iff` turns these into exactly the three class
+  to `ℝ`. The canonical `torsorClasses.mk_eq_base_iff` turns these into exactly the three class
   assertions of the target; the class-comparison Checks above remain transport tests.
 
 - **Local H¹ vanishing.** For connected semisimple simply connected `G` over a
@@ -3734,7 +3709,7 @@ quaternion norms and compact abelian Fourier limits.
   `H¹(E,G)=1`. The source is [PR94], Theorem 6.4, pp. 284–285, with proofs in
   §§6.7–6.8. Reduce by restriction of scalars and products to absolutely simple groups;
   construct twisting and central isogeny sequences, reduced norms and Hermitian-form
-  invariants for classical types, and the exceptional-type arguments, including E₈.
+  invariants for classical types, and the exceptional-type arguments, including `E₈`.
   The quaternion norm-one case in [Khayutin], §2.3, is one specialization.
   *Needs:* AA.4.1 coordinate/geometric comparison; ReductiveGroups simple-factor structure;
   ClassFieldTheory local Brauer and norm theorems; GlobalQuadraticForms' form invariants.
@@ -3764,7 +3739,7 @@ quaternion norms and compact abelian Fourier limits.
   reduction theory, local Kneser–Tits, the Hasse principle, and weak approximation for
   suitable tori. Build these inputs separately; strong approximation is not an input.
   A torsor trivial at real places has a global point by the kernel theorem; translation
-  transfers weak approximation from `G`. This proves property (⋆) used by [HW],
+  transfers weak approximation from `G`. This proves property `(⋆)` used by [HW],
   Theorem 6.1, p. 21. HW Lemma 6.3 only propagates that property through fibrations.
   The anisotropic-factor step of AA.4.2 consumes this weak-approximation theorem.
   *Lean:* `Approximation.hasWeakApproximation_of_simplyConnected`.
@@ -3773,14 +3748,13 @@ quaternion norms and compact abelian Fourier limits.
   field every torsor is trivial; two torsors with the same real classes are isomorphic
   (the twisting/injectivity direction); every family of real classes is realized (the independent
   realization direction). The
-  μ₂ Checks above test comparison and scalar extension only: μ₂ is not semisimple simply
+  `μ₂` Checks above test comparison and scalar extension only: `μ₂` is not semisimple simply
   connected and cannot satisfy the Hasse-kernel conclusion.
 
 ### 4.2 Strong approximation and arithmetic closures
 
 - **Strong approximation.** For an affine algebraic group `G` over `F` and a finite set `S` of
-  places containing every archimedean place, write `S = ∞ ∪ S_f` and define `Approximation.HasStrongApproximation F H S_f : Prop := DenseRange (diagonal G(F) →
-  G(𝔸^S))`, strong approximation with respect to `S`: `G(F)` is dense in `G(𝔸_F^S)`, the adelic
+  places containing every archimedean place, write `S = ∞ ∪ S_f` and define `Approximation.HasStrongApproximation F H S_f : Prop := DenseRange (diagonal G(F) → G(𝔸^S))`, strong approximation with respect to `S`: `G(F)` is dense in `G(𝔸_F^S)`, the adelic
   points away from `S` (equivalently `G(F)G(F_S)` is dense in `G(𝔸_F)`, with `G(F_S)` the
   subgroup `Approximation.supportedAt` of adelic points trivial at the finite places outside
   `S_f`). Prove that
@@ -3878,7 +3852,7 @@ quaternion norms and compact abelian Fourier limits.
   Lemma 3.66, pp. 191–192, uses this construction with extra assumptions
   for its nondiscreteness conclusion). *Needs:* AA.2.2.
   *Lean:* none; specified in the README only.
-- **Lie algebra of an arithmetic closure over ℚ.** For `G` connected absolutely almost
+- **Lie algebra of an arithmetic closure over `ℚ`.** For `G` connected absolutely almost
   simple over `ℚ`, `S` finite containing infinity with `G(ℚ_S)` noncompact, and a finite
   nonempty set `S₁` of rational primes disjoint from `S`, the closure of
   `G(ℤ[S⁻¹, S₁⁻¹])` in `∏_{p∈S₁} G(ℚ_p)` has full `ℚ_p` Lie algebra in each factor.
@@ -3896,24 +3870,24 @@ quaternion norms and compact abelian Fourier limits.
   `p`, the Lie algebra of the projection closure in
   `∏_{v∈S₁,v|p} Res_{F_v/ℚ_p} G(F_v)` is the entire product as a `ℚ_p` Lie
   algebra. First establish that the given
-  S-arithmetic subgroup is ℚ-Zariski dense in `Res_{F/ℚ} G`, including when S
+  S-arithmetic subgroup is `ℚ`-Zariski dense in `Res_{F/ℚ} G`, including when `S`
   contains only some places over a rational prime. Prove that `Δ` is open and of finite index.
   Establish density by a commensurator argument, extending the proof of [PR94],
-  §4.4, pp. 205–206. Put `R=Res_{F/ℚ}G`, which is ℚ-simple, and let `Γ` be the
+  §4.4, pp. 205–206. Put `R=Res_{F/ℚ}G`, which is `ℚ`-simple, and let `Γ` be the
   actual partial-place arithmetic group. Reduction theory and `G_S` noncompact
   make `Γ` infinite. The commensuration target says that every element
   of `G(F)=R(ℚ)` commensurates `Γ`: outside the chosen places, conjugation changes
   only finitely many integral compact opens, whose intersections have finite index.
-  Thus the identity component `J` of the ℚ-Zariski closure of `Γ` is positive
+  Thus the identity component `J` of the `ℚ`-Zariski closure of `Γ` is positive
   dimensional and normalized by `R(ℚ)`. Rational-point Zariski density in connected
-  groups ([PR94], Theorem 2.2) makes `J` normal in `R`; ℚ-simplicity gives `J=R`.
-  This proves the Zariski density without enlarging S or asserting
+  groups ([PR94], Theorem 2.2) makes `J` normal in `R`; `ℚ`-simplicity gives `J=R`.
+  This proves the Zariski density without enlarging `S` or asserting
   finite index in a rational-prime-saturated group.
-  After base change to ℚ_p, the algebraic stabilizer of the closure Lie algebra
-  contains Γ, so it contains the whole restricted group, including every factor
-  over p. Project to the factors in S₁; the Lie algebra is an ideal in that entire
+  After base change to `ℚ_p`, the algebraic stabilizer of the closure Lie algebra
+  contains `Γ`, so it contains the whole restricted group, including every factor
+  over `p`. Project to the factors in `S₁`; the Lie algebra is an ideal in that entire
   product. Each restricted simple
-  factor is ℚ_p-simple (after algebraic closure its simple factors are
+  factor is `ℚ_p`-simple (after algebraic closure its simple factors are
   transitively permuted by the local Galois group); nondiscreteness at each
   place makes every projected ideal nonzero. Ideals in a direct sum of simple
   Lie algebras are sums of factors, excluding diagonal graphs even when two
@@ -3923,7 +3897,7 @@ quaternion norms and compact abelian Fourier limits.
   pp. 17–18, with the scalar-restriction decomposition of AA.1.4; it does not
   infer openness from factorwise surjectivity alone.
   *Needs:* the commensuration of `Γ` by `G(F)`, infinitude from reduction theory,
-  rational-point Zariski density and ℚ-simplicity of the restriction; local restriction of
+  rational-point Zariski density and `ℚ`-simplicity of the restriction; local restriction of
   scalars, closed-subgroup Lie theory, extra-place nondiscreteness,
   *projection-finite-covolume*.
   *Lean:* none; specified in the README only.
@@ -3931,8 +3905,8 @@ quaternion norms and compact abelian Fourier limits.
   **Checks.** Two distinct places of `F` over the same `p` can both be present
   in `S₁`; the diagonal Lie subalgebra in two copies
   of `sl₂(ℚ_p)` surjects to each factor but is not an ideal.
-  One of two places over p may lie in S and the other
-  in S₁. For `F=ℚ(√2)`, write `π=3+√2`, `π′=3−√2`: `ππ′=7`.
+  One of two places over `p` may lie in `S` and the other
+  in `S₁`. For `F=ℚ(√2)`, write `π=3+√2`, `π′=3−√2`: `ππ′=7`.
   A Check gives pairwise distinct additive cosets of
   `π′^(−n)` modulo `𝒪_F[1/π]`. The corresponding upper-unipotent matrices give
   infinitely many cosets of `SL₂(𝒪_F[1/π])` in `SL₂(𝒪_F[1/7])`.
@@ -3964,10 +3938,10 @@ quaternion norms and compact abelian Fourier limits.
   `Γ_W = G(F) ∩ (G_S × G(F_v) × W)` is dense in `G(F_v)`; consequently the closure of `G(F)G_S` in
   `G(𝔸_F)` contains `G(F_v)`, placed at `v` ([Platonov], §3.4, p. 1145; [Rapinchuk], §2.6, pp. 16–17; [Rapinchuk], Remark 1
   after Theorem 2.3, p. 12). *Needs:* AA.3.4; AA.4.2; ReductiveGroupsPartII, RG2.4
-  (kneser-tits-local); the openness of the arithmetic closure over F (*number-field-arithmetic-closure*). For each compact-open
-  condition W, its arithmetic subgroup is commensurable with the partial-S group.
+  (kneser-tits-local); the openness of the arithmetic closure over `F` (*number-field-arithmetic-closure*). For each compact-open
+  condition `W`, its arithmetic subgroup is commensurable with the partial-`S` group.
   Apply the whole-product Lie-ideal argument before local Kneser–Tits; separate
-  rational primes with pro-p subgroups. No saturation of S is used.
+  rational primes with pro-p subgroups. No saturation of `S` is used.
   *Lean:* none; specified in the README only.
 - **Almost all local factors are isotropic.** (*isotropic-almost-everywhere*) For `F` a number
   field and `G` a connected semisimple group over `F` with `dim G > 0`, prove that `G` is
@@ -4172,8 +4146,7 @@ quaternion norms and compact abelian Fourier limits.
 
 - **Nested-level map on double cosets.** For a group `G` and subgroups `H, K′ ≤ K ≤ G`, define
   the map `DoubleCoset.Quotient H K′ → DoubleCoset.Quotient H K`,
-  `π : H\G/K′ → H\G/K`, `[g] ↦ [g]`, and for each `g` the map `K ⧸ K′.subgroupOf K →
-  π⁻¹{[g]}`, `kK′ ↦ [g k]`. Prove that `π [g] = [g]`, that `π` is
+  `π : H\G/K′ → H\G/K`, `[g] ↦ [g]`, and for each `g` the map `K ⧸ K′.subgroupOf K → π⁻¹{[g]}`, `kK′ ↦ [g k]`. Prove that `π [g] = [g]`, that `π` is
   surjective, that the fibre map is surjective for each `g`, and
   that the maps for `K″ ≤ K′ ≤ K` compose; no normality is assumed
   (Tau Ceti `DoubleCoset.quotientMapOfLELeft_apply_mk`,
@@ -4307,8 +4280,7 @@ quaternion norms and compact abelian Fourier limits.
   canonical `U/U′` action is free and transitive on each fibre, so this is a principal `U/U′`
   covering. For connected reductive `G` both conditions hold when `K∞` contains `A_G(ℝ)^0` and is
   compact modulo it (*compact-kernel-split-centre*, *log-height-split-centre-iso*). The second
-  condition gives `G(𝔸) = G(𝔸)^1K∞`, and as `H_G` vanishes on `U`, `K∞U ∩ G(𝔸)^1 =
-  (K∞ ∩ ker H_G)U`; so `G(𝔸)/K∞U` is `G(𝔸)^1/(K∞ ∩ ker H_G)U`, a quotient by a compact subgroup, on
+  condition gives `G(𝔸) = G(𝔸)^1K∞`, and as `H_G` vanishes on `U`, `K∞U ∩ G(𝔸)^1 = (K∞ ∩ ker H_G)U`; so `G(𝔸)/K∞U` is `G(𝔸)^1/(K∞ ∩ ker H_G)U`, a quotient by a compact subgroup, on
   which the discrete group `G(F)` acts properly discontinuously. The first condition alone gives
   finite rational stabilizers (*rational-stabilizer-finite*), which neatness makes trivial, but
   not properness. Equality of `U/U′` with the full deck-transformation group additionally
@@ -4351,9 +4323,7 @@ quaternion norms and compact abelian Fourier limits.
   neatness, prove for `x ∈ X_U` with finite stabilizer group
   `Γ_x = (G(F) ∩ g K_∞U g⁻¹)/(Z(F) ∩ K_∞U)` that the fibre of `X_{U′} → X_U` over `x` satisfies
 
-  ```text
-  ∑_{y ↦ x} 1/|Γ_y| = [U : U′] / (|Γ_x| · [Z(F) ∩ K_∞U : Z(F) ∩ K_∞U′])
-  ```
+  `∑_{y ↦ x} 1/|Γ_y| = [U : U′] / (|Γ_x| · [Z(F) ∩ K_∞U : Z(F) ∩ K_∞U′])`
 
   ([LT], §3.2, pp. 11–16 (level-counting context; the displayed mass formula is derived from
   finite-group orbit–stabilizer)). *Needs:* AA.4.4.
@@ -4429,9 +4399,7 @@ quaternion norms and compact abelian Fourier limits.
   `U`, with a Haar measure `dg_f` on `G(𝔸_f)`, `dg_∞` on `G(F_∞)` and the product measure on
   `G(𝔸)` (AA.0.3), prove
 
-  ```text
-  vol(G(F)\G(𝔸)^1) = vol(U) ∑_i vol(Γ_i\G(F_∞)/A_G(ℝ)^0)
-  ```
+  `vol(G(F)\G(𝔸)^1) = vol(U) ∑_i vol(Γ_i\G(F_∞)/A_G(ℝ)^0)`
 
   for representatives `x_i` of `G(F)\G(𝔸_f)/U`, where `Γ_i = G(F) ∩ x_iUx_i⁻¹`, the measure on
   `G(𝔸)^1` is transported from `G(𝔸)/A_G(ℝ)^0` (AA.2.1) and `G(F_∞)/A_G(ℝ)^0` carries the quotient
@@ -4469,7 +4437,7 @@ quaternion norms and compact abelian Fourier limits.
 
 ### 4.6 Compact abelian quotients and quaternion norms
 
-- **Reduced norms of a quaternion algebra over ℚ.** For a quaternion algebra `B` over `ℚ`,
+- **Reduced norms of a quaternion algebra over `ℚ`.** For a quaternion algebra `B` over `ℚ`,
   prove `Nrd(B_p^×) = ℚ_p^×` for every prime `p`; `Nrd(B_∞^×) = ℝ^×` if `B` is split at `∞` and
   `ℝ_{>0}` otherwise; and `Nrd(B^×) = ℚ^×` if `B` is split at `∞`, `ℚ_{>0}` otherwise
   (Hasse–Schilling–Maass) ([Khayutin], §2.3, arXiv v3 pp. 15–16; Annals p. 162). *Needs:* Tau Ceti
@@ -4559,9 +4527,9 @@ Work out the quotient topology, connected components, cohomology and level chang
 groups. These examples test the centre, determinant, measure and stabilizer conventions of the
 preceding layers; each item is a target with its own locator.
 
-### 5.1 GL₁ and logarithmic tori
+### 5.1 `GL₁` and logarithmic tori
 
-- **The GL_1 quotient is the idele class group.** For `G = G_m` over a number field `F`, prove
+- **The `GL_1` quotient is the idele class group.** For `G = G_m` over a number field `F`, prove
   `G(F)\G(𝔸_F) ≃ₜ* IdeleClassGroup F`; that `G(𝔸_F)^1` is the group `𝔸_F^1` of norm-one ideles;
   that `A_G(ℝ)^0 = ℝ_{>0}` embedded diagonally at the archimedean places; that
   `𝔸_F^× = 𝔸_F^1 × ℝ_{>0}`; and that `F^×\𝔸_F^1` is compact while `F^×\𝔸_F^×` is not ([Arthur],
@@ -4576,7 +4544,7 @@ preceding layers; each item is a target with its own locator.
   - `archimedeanScalar F 1 = 1` (Lean example).
   - `archimedeanScalar F 2 * archimedeanScalar F 3 = archimedeanScalar F 6` (Lean example).
   - `archimedeanScalar F (-1) ∉ posRealsDiag F` (Lean example).
-- **Units at level U_Q form a lattice of rank r₁ + r₂ − 1.** For a compact open `U ⊂ Ô^×`,
+- **Units at level `U_Q` form a lattice of rank `r₁ + r₂ − 1`.** For a compact open `U ⊂ Ô^×`,
   prove that `Γ_U = F^× ∩ U` is a finite-index subgroup of `𝒪_F^×`, and that its image under the
   logarithmic embedding is a lattice of rank `r₁ + r₂ − 1` in the trace-zero hyperplane of
   `ℝ^{r₁+r₂}` ([CG], §8.2, p. 78 (the rank; finite index is a direct deduction from compactness
@@ -4589,7 +4557,7 @@ preceding layers; each item is a target with its own locator.
   - Over `ℚ` the level `ℤ̂^×` gives `{±1}` (`GL1.levelUnits_rat`).
   - Over `ℚ` the principal level `{x ∈ ℤ̂^× : x ≡ 1 mod 3}` gives `⊥`, since `−1 ≢ 1 mod 3`.
   - `levelUnits F ⊤ = ⊤` (Lean example).
-- **Canonical logarithmic torus at GL₁ level.** For `F` a number field with `r₁` real and `r₂`
+- **Canonical logarithmic torus at `GL₁` level.** For `F` a number field with `r₁` real and `r₂`
   complex places, `Q` a finite set of finite places, `p` a prime and `n ≥ 1` with
   `N(v) ≡ 1 mod p^n` for `v ∈ Q`, and `U_Q = K_∞ × ∏_v U_{Q,v}` with `K_∞` and `A_∞^0` as in
   *gl1-XQ-components*, prove that the identity component is the logarithmic quotient `W/Λ_Q`,
@@ -4599,7 +4567,7 @@ preceding layers; each item is a target with its own locator.
   asserts a homeomorphism, without
   naming one. *Needs:* AA.5.1.
   *Lean:* none; specified in the README only.
-- **Geometry of the GL_1 arithmetic quotients X_Q.** (*gl1-XQ-components*) For a finite set `Q`
+- **Geometry of the `GL_1` arithmetic quotients `X_Q`.** (*gl1-XQ-components*) For a finite set `Q`
   of finite places with `N(v) ≡ 1 mod p^n`, let `U_Q = K_∞ × ∏_v U_{Q,v}`, where
   `K_∞ ≅ (S¹)^{r₂}` is the identity component of the maximal compact subgroup of `(F ⊗ ℝ)^×`,
   `U_{Q,v} = 𝒪_v^×` for `v ∉ Q` and the index-`p^n` subgroup of `𝒪_v^×` for `v ∈ Q`, and
@@ -4623,16 +4591,16 @@ preceding layers; each item is a target with its own locator.
   - For `F = ℚ`, `Q = {3}`, `p = 2` and `n = 1`, the idele with component `4` at `3` and `1` at
     every other place lies in `levelQ` (`4 = 2²` with `2 ∈ ℤ_3^×`); the idele with component `2`
     at `3` does not, since `2` is not a square mod `3` (Lean examples).
-- **The invariant l0 for GL_1.** Prove that every connected component of `X_Q` has dimension
+- **The invariant `l0` for `GL_1`.** Prove that every connected component of `X_Q` has dimension
   `r₁ + r₂ − 1 = NumberField.Units.rank F`, the value of Calegari–Geraghty's invariant `l0` for
   `G = GL_1/F`; in particular its cohomology vanishes above degree `r₁ + r₂ − 1` ([CG], §8.2,
   p. 77). *Needs:* AA.5.1; Mathlib `NumberField.Units.rank`; AlgebraicTopology, stage 6.
   *Lean:* none; specified in the README only.
-- **Degree-zero cohomology of X_Q.** Prove that the `ℤ_p`-module of locally constant functions
+- **Degree-zero cohomology of `X_Q`.** Prove that the `ℤ_p`-module of locally constant functions
   `X_Q → ℤ_p` is free on `π_0(X_Q)`: `H^0(X_Q, ℤ_p) ≅ ℤ_p[π_0(X_Q)]` ([CG], §8.2, p. 79), the
   isomorphism evaluating `f` at a point of each component. *Needs:* AA.5.1; AA.3.4.
   *Lean:* none; specified in the README only.
-- **Hecke and diamond operators for GL_1.** Prove that for `v ∉ Q` the `GL₁` Hecke operator of
+- **Hecke and diamond operators for `GL_1`.** Prove that for `v ∉ Q` the `GL₁` Hecke operator of
   the finite idele `π_v` is right translation, and that for `v ∈ Q` a unit `α` gives the diamond
   translation; each permutes `π₀(X_Q)` by its finite idele class. Under the natural
   exterior-power identification of torus cohomology, translation induces the identity within
@@ -4640,7 +4608,7 @@ preceding layers; each item is a target with its own locator.
   ([CG], §8.2, p. 79). *Needs:* AA.4.5; AA.5.1; AlgebraicTopology, stage 6.
   *Lean:* none; specified in the README only.
 
-### 5.2 GL₂ over ℚ and principal levels
+### 5.2 `GL₂` over `ℚ` and principal levels
 
 - **Integral adelic congruence.** For `N : ℕ` and finite adeles `x,y`, define
   `AdelicExamples.GL2.CongrMod N x y` by `x − y ∈ Nℤ̂`. For `N > 0` this is
@@ -4668,7 +4636,7 @@ preceding layers; each item is a target with its own locator.
   - For `[[1,1],[0,1]]`, the raw image of `i` is `1+i`, agreeing with the folded action.
   - For `[[2,0],[0,1]]`, the raw image of `−i` is `−2i`; folding it gives `2i`, the
     folded action on the folded input.
-- **GL_2(ℝ) modulo ℝ^× SO(2).** Prove that `GL_2(ℝ)/ℝ^× SO(2)` is homeomorphic to `ℍ^± = ℂ ∖ ℝ`
+- **`GL_2(ℝ)` modulo `ℝ^× SO(2)`.** Prove that `GL_2(ℝ)/ℝ^× SO(2)` is homeomorphic to `ℍ^± = ℂ ∖ ℝ`
   through `g ↦ g·i`, equivariantly for the Möbius action, and that `GL_2(ℝ)^+` acts transitively
   on `ℍ` with stabilizer `ℝ^× SO(2)` at `i`. This is an owned matrix deduction from the
   raw action and Mathlib `UpperHalfPlane.denom_ne_zero_of_im` and `UpperHalfPlane.moebius_im`
@@ -4684,7 +4652,7 @@ preceding layers; each item is a target with its own locator.
   - The section at `2+3i` is `[[3,2],[0,1]]`, of determinant `3`, and sends `i` to `2+3i`.
   - The section at `−i` has determinant `−1`; the positive-determinant orbit of `i`
     therefore excludes `−i`.
-- **Congruence groups of the GL₂ components.** For compact open subgroups `U′ ⊂ U` of
+- **Congruence groups of the `GL₂` components.** For compact open subgroups `U′ ⊂ U` of
   `GL₂(𝔸_f)`, `g ∈ GL₂(𝔸_f)`, `q ∈ GL₂(ℚ)` with `det q > 0` and `u ∈ U`, put
   `Γ_{g,U} = GL₂(ℚ)^+ ∩ gUg⁻¹`, with `GL₂(ℚ)` embedded diagonally. Prove that every element of
   `Γ_{g,U}` has determinant `1`: `det U` is a compact subgroup of `𝔸_f^×`, hence lies in `ℤ̂^×`,
@@ -4715,12 +4683,10 @@ preceding layers; each item is a target with its own locator.
     principal level `3`.
   - The matrix `[[1,1],[0,1]]` belongs to `Γ₀(3)` and `Γ₁(3)` but not `Γ(3)`.
 
-- **The GL_2/ℚ quotient and the upper half-plane.** For `G = GL_2` over `ℚ`, `K_∞ = ℝ^× SO(2)`
+- **The `GL_2/ℚ` quotient and the upper half-plane.** For `G = GL_2` over `ℚ`, `K_∞ = ℝ^× SO(2)`
   and `U ⊂ GL_2(𝔸_f)` compact open, prove
 
-  ```text
-  G(ℚ)\G(𝔸)/K_∞U ≃ ⊔_{c ∈ ℚ_{>0}\𝔸_f^×/det U} Γ_c\ℍ,
-  ```
+  `G(ℚ)\G(𝔸)/K_∞U ≃ ⊔_{c ∈ ℚ_{>0}\𝔸_f^×/det U} Γ_c\ℍ,`
 
   where `Γ_c = GL_2(ℚ)^+ ∩ g_c U g_c⁻¹` for `g_c ∈ GL_2(𝔸_f)` with `det g_c = c`, acting on `ℍ` by
   Möbius transformations; for `det U = ℤ̂^×` there is a single component ([Milne], Lemma 5.13,
@@ -4749,7 +4715,7 @@ preceding layers; each item is a target with its own locator.
   `N`, and no other bijection is singled out. *Needs:* AA.5.2; Mathlib `CongruenceSubgroup.Gamma`; AA.3.4.
   *Lean:* in `AdelicExamples.GL2`: `principalLevel`, `componentGroup_principalLevel`,
   `nonempty_componentsPrincipalEquiv`.
-- **Riemann-surface structure and change of level for GL₂ quotients.** Let
+- **Riemann-surface structure and change of level for `GL₂` quotients.** Let
   `X_U = G(ℚ)\G(𝔸)/K_∞U` for `G = GL₂` over `ℚ`, `K_∞ = ℝ^× SO(2)`, `U′ ⊂ U` compact open subgroups
   of `GL₂(𝔸_f)`, `h ∈ GL₂(𝔸_f)` and `N ≥ 1`. Transport the Riemann-surface structures of the
   components `Γ_c\ℍ` along the homeomorphism of the upper half-plane decomposition and prove
@@ -4768,7 +4734,7 @@ preceding layers; each item is a target with its own locator.
   FuchsianOrbifolds, layers 1, 4 and 5.
   *Lean:* in `AdelicExamples.GL2`: `level0`, `level1`, `map_det_level1` (`K₁(N)` has determinant
   `ℤ̂^×`; the rest is specified in the README only).
-- **GL₂ components for O(2) and SO(2).** For `G = GL₂` over `ℚ`, `N ≥ 1` and principal finite
+- **`GL₂` components for `O(2)` and `SO(2)`.** For `G = GL₂` over `ℚ`, `N ≥ 1` and principal finite
   level `K(N) = ker(GL₂(ℤ̂) → GL₂(ℤ/N))`, prove that the quotient with `K∞ = ℝ^× SO(2)` (the raw
   Möbius action on `ℍ±`) has components `(ℤ/N)^×` and raw real symmetric space `ℍ±` before
   rational orientation reduction, and that with `K∞ = ℝ^× O(2)` (the folded action on `ℍ`) the
@@ -4805,9 +4771,7 @@ preceding layers; each item is a target with its own locator.
   over `ℚ` and compact open `U′ ⊂ U ⊂ (D ⊗ 𝔸_f)^×`, with `Γ_x = (D^× ∩ xUx⁻¹)/(ℚ^× ∩ U)` the
   finite stabilizers and `Cl(U) = D^× \ (D ⊗ 𝔸_f)^×/U`, prove
 
-  ```text
-  ∑_{x ∈ Cl(U′)} 1/|Γ′_x| = ([U : U′] / [ℚ^× ∩ U : ℚ^× ∩ U′]) · ∑_{x ∈ Cl(U)} 1/|Γ_x|
-  ```
+  `∑_{x ∈ Cl(U′)} 1/|Γ′_x| = ([U : U′] / [ℚ^× ∩ U : ℚ^× ∩ U′]) · ∑_{x ∈ Cl(U)} 1/|Γ_x|`
 
   ([Arthur], §2, p. 12, with the central quotient and its index factor obtained from
   AA.4.5). *Needs:* QuaternionicModularForms §§0.2–0.3, `finite_classSet` and
@@ -4953,7 +4917,7 @@ number-field sources named there.
 - **CG**: Frank Calegari, David Geraghty, *Modularity lifting beyond the Taylor–Wiles method*.
   Inventiones Mathematicae 211 (2018), pp. 297–433; arXiv:1207.4224v2.
   <https://arxiv.org/abs/1207.4224v2>
-- **LT**: Michael Lipnowski, Jacob Tsimerman, *How large is A_g(F_q)?*. Duke Mathematical
+- **LT**: Michael Lipnowski, Jacob Tsimerman, *How large is `A_g(F_q)`?*. Duke Mathematical
   Journal 167 (2018); locators use arXiv:1511.02212v1. <https://arxiv.org/abs/1511.02212v1>
 - **HW**: Yonatan Harpaz, Olivier Wittenberg, *Zéro-cycles sur les espaces homogènes et problème
   de Galois inverse*. Journal of the American Mathematical Society 33 (2020), pp. 775–805;
