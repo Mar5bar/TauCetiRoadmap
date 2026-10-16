@@ -24,6 +24,11 @@ point-site identification and the affine/Spec comparison are owned by the consum
 EnhancedDerivedSheaves. Arithmetic cochains, determinants, crystalline sites and period-ring
 specializations belong to their respective downstream consumers.
 
+| Owner | Tower interfaces exported | Inputs consumed by this roadmap |
+| --- | --- | --- |
+| DerivedModuleAlgebra §§1.T.1/1.1 | Native towers `ℕᵒᵖ ⥤ ModuleCat R`, the product difference map, `lim` and `lim¹`, tower-map and product compatibility, the six-term sequence, Mittag–Leffler vanishing, integer-graded Milnor sequences, shifted-cone derived limits, cofinal comparisons and maps retaining specified square homotopies. The integral-module adapter preserves the projections, boundaries and Milnor maps. | Mathlib's module, functor-category, exact-product, Mittag–Leffler and complex APIs, together with the module replacements constructed here. |
+| [AlgebraicTopology, Stages 2–3 and Stage 6, item 1](../AlgebraicTopology/README.md#stage-6-cohomology-products-and-manifold-duality) | Singular chains and cochains, local coefficients, relative and excision comparisons. Adapters from topological filtrations and exhaustions to module towers belong with these topological constructions; their generic tower operations use §§1.T.1/1.1 here. | None: the module-tower foundation uses no topological results. |
+
 ## Exact supplier contracts
 
 There are no roadmap dependencies. Every target uses Mathlib, implemented Tau Ceti APIs and earlier
@@ -1410,10 +1415,13 @@ below is the integral-module adapter: `Tower.toModuleFunctor`, `Tower.limCompari
 `Tower.limOneComparison` identify its constructions with this interface, naturally in tower
 maps and compatibly with the shift, six-term boundary and Milnor maps.
 
-[AlgebraicTopology Stage 6.0](../AlgebraicTopology/README.md) consumes this generic foundation for its cochain and topological
-applications. The cofinal-shift and specified-homotopy-square comparisons are owned by §1.1
-here. The CharacteristicClasses C3, AffineMorseLefschetz A4 and CStarClassification CL8
-contracts use these same maps, including integer-graded Milnor and `lim¹` functoriality.
+The generic foundation exported to [AlgebraicTopology, Stage 6, item 1](../AlgebraicTopology/README.md#stage-6-cohomology-products-and-manifold-duality)
+applies to its singular cochains and to the relative chains of Stages 2–3 after their
+topological tower adapters. The cofinal-shift and specified-homotopy-square comparisons are
+owned by §1.1 here. CharacteristicClasses C3, AffineMorseLefschetz A4, CStarClassification CL8
+and DGFloer's complete inverse cochain filtrations use these same maps, including the
+six-term boundary, both integer-graded Milnor maps and `lim¹` functoriality. Topological
+identifications of the towers and their limits belong to the applications.
 
 **lim and lim¹ of a tower.** Let `(A_n, φ_n : A_{n+1} → A_n)` be a tower of abelian groups indexed
 by `ℕ`, and let `δ : ∏ A_n → ∏ A_n` be the shift `(a_n) ↦ (a_n − φ_n(a_{n+1}))`. Define

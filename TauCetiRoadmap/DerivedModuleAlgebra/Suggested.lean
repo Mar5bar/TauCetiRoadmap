@@ -279,6 +279,11 @@ example : ¬ Function.Surjective (Module.Dual.eval (ZMod 2) (ℕ →₀ ZMod 2))
 
 /-! ## Towers, lim and lim¹: 1.T.1 -/
 
+/-! `ModuleTower` provides the native module-tower interface of §§1.T.1/1.1 for
+singular-cochain and relative-chain applications. `CompactCoefficients.Tower` is its
+integral-module adapter; its comparisons preserve projections, six-term boundaries and
+Milnor maps. The generic module constructions use no topological input. -/
+
 namespace ModuleTower
 
 variable {R : Type uRing} [Ring R]
@@ -322,7 +327,8 @@ end ModuleTower
 
 namespace CompactCoefficients
 
-/-- An `ℕ`-indexed inverse system of abelian groups `⋯ → A₂ → A₁ → A₀`. -/
+/-- The abelian-group presentation of an `ℕ`-indexed integral-module tower
+`⋯ → A₂ → A₁ → A₀`, compared with the native interface by `toModuleFunctor`. -/
 structure Tower where
   /-- The terms. -/
   obj : ℕ → Type u
