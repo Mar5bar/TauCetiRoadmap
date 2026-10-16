@@ -16354,6 +16354,7 @@ To prove this, for the commutator determinant subgroup use the exact logarithm i
 
 - G = {1}: Det(S^×)^Δ = (S^×)^Δ = R^×.
 - S = R: Δ is trivial and both sides are Det(R[G]^×).
+- R=ℤ₃ and S=ℤ₃[π], π²=3, are outside these hypotheses despite tame Galois ramification and surjective trace: every unital endomorphism sends π to ±π, whereas π³=3π is zero modulo 3S and ±π is not. A lift on the residue field S/(π) does not give a lift modulo 3S.
 
 *Needs:* [Integral images of the group logarithm](#layer-7-topic-62); [The logarithm is injective only after controlling determinant torsion](#layer-7-topic-73).
 
@@ -16968,7 +16969,7 @@ To prove this, use degree-zero Brauer induction and twists to reduce to a tame a
 
 ### 7.109 Fixed-point descent for integral determinant units
 
-Let R⊆S be normal noetherian characteristic-zero integral domains, p-torsion-free and p-adically complete, each with its own lift of Frobenius. Suppose S is finite free over R, Frac(S)/Frac(R) is Galois with finite group Δ, S^Δ=R and Tr_S/R is onto R. For any finite G, Det(S[G]×)^Δ=Det(R[G]×). For a p-group G the fixed-point theorem holds under the domain, completeness, Frobenius, finite-free Galois and invariant hypotheses without the extra normal/noetherian/trace assumptions. The two Frobenius lifts need not commute with the inclusion.
+Let R⊆S be normal noetherian characteristic-zero integral domains, p-torsion-free and p-adically complete, each with an ordinary Frobenius lift F_T satisfying F_T(t) ≡ t^p modulo pT for T=R,S. Suppose S is finite free over R, Frac(S)/Frac(R) is Galois with finite group Δ, S^Δ=R and Tr_S/R is onto R. For any finite G, Det(S[G]×)^Δ=Det(R[G]×). For a p-group G the fixed-point theorem holds under the domain, completeness, Frobenius, finite-free Galois and invariant hypotheses without the extra normal/noetherian/trace assumptions. The two Frobenius lifts need not commute with the inclusion.
 
 (Ted Chinburg, Georgios Pappas and Martin J. Taylor, [K₁ of a p-adic group ring I. The determinantal image](#reference-cpt), Theorem1.5, p.4; p-group Theorem4.1, pp.23–24; §§6a–6b, Theorems6.4–6.7, pp.32–35.) Invariant determinant units descend, with precise coefficient and trace hypotheses.
 
@@ -17194,6 +17195,32 @@ To prove this, reduce by integral-character twisting and ℚ-elementary inductio
 
 *Needs:* [Adjusted tame Gauss homomorphisms](#layer-7-topic-112); [The Gauss logarithm lifts through the commutator ideal](#layer-7-topic-115); [Taylor’s congruences detect the residual determinant torsion](#layer-7-topic-118); [Crossed-product descent on elementary subgroups](#layer-7-topic-86); [Fixed-point descent for integral determinant units](#layer-7-topic-109).
 
+<a id="layer-7-topic-119a"></a>
+
+### 7.119a Tame-inertia descent for local determinant units
+
+Let ℓ be prime, T/ℚ_ℓ a finite tame Galois extension, Δ its Galois group, I its inertia subgroup, U=T^I, S=𝒪_T and R=𝒪_U. Thus S/R is totally ramified Galois of degree e=|I| prime to ℓ, R and S have the same finite residue field, and U/ℚ_ℓ is unramified. For every finite group G, let D_S=Det(S[G]×) and D_R=Det(R[G]×), embedded in the same splitting-field character homomorphisms of §7.28. Inertia acts on coefficients, σ·Det(u)=Det(σu), fixing the group basis. Then D_S^I=D_R; equivalently the determinant obstruction quotient Q_I=D_S^I/D_R is trivial. This assertion requires no Frobenius lift on S. It also holds for any totally ramified tame Galois extension T/U of finite extensions of ℚ_ℓ.
+
+The supporting API comprises:
+
+- `GaloisModules.groupRingDeterminant`: For an embedding ι of coefficients into an algebraically closed characteristic-zero field Ω and a representation ρ on Ωⁿ, evaluate a group-ring element through ρ and take its determinant. On units these values determine the character determinant of §7.28; equality for all n and ρ is equality of those determinants.
+- `GaloisModules.tameInertia_determinant_descent`: An S[G]-unit whose determinant is fixed by every R-automorphism of S has the same determinant as an R[G]-unit. Here R⊂S are complete characteristic-zero DVRs, S is finite free Galois over R, the residue fields are finite of characteristic ℓ and identified by inclusion, and [Frac(S):Frac(R)] is prime to ℓ.
+- Restriction of scalars along R→S defines a determinant transfer N_S/R:D_S→D_R. After inclusion into D_S its value is ∏_(σ∈I)σd. This includes independence of the unit representative: equality of all splitting-field determinants is preserved by transfer. Finite freeness gives the transfer matrix over R[G]; semilocal elimination replaces its determinant by that of a single unit.
+- Put P=Det(1+𝔪_S S[G]). This is an abelian pro-ℓ group, and reduction gives D_S=D_R·P. The power map b↦b^e is an automorphism of P^I. Hence the image of P^I in Q_I is both killed by e, by transfer, and e-divisible through that power automorphism; in fact every b∈P^I is N_S/R(c) for its unique e-th root c∈P^I, so Q_I=1. These transfer and power assertions are part of this target.
+
+(Martin J. Taylor, [On Fröhlich’s conjecture for rings of integers of tame extensions](#reference-taylor-froehlich-conjecture-1981), §12, Theorem6, inertia step (12.2)–(12.3) and norm argument, p.78.) The tame-inertia fixed-point statement follows from the coefficient norm on principal-unit determinants; the unramified step of Theorem6 is separate.
+
+To prove this, the isomorphism of residue fields lifts each residue group-ring unit to R[G]×, since the maximal-ideal group-ring ideal lies in the Jacobson radical. Thus every determinant is a product of a determinant over R and one in P. The congruence filtration on 1+𝔪_S S[G] has finite ℓ-group quotients; its determinant image is compact, hence a pro-ℓ group. Restriction of scalars and the product formula give the stated norm into D_R, using [Semilocal elimination preserves the determinant image](#layer-7-topic-27), without a group logarithm. For d∈D_S^I write d=ab with a∈D_R and b∈P; then b∈P^I. Since (e,ℓ)=1, the unique e-th root c of b in P is also I-fixed. Its norm is c^e=b, which lies in D_R, proving d∈D_R. The reverse inclusion follows from the coefficient action.
+
+**Checks.**
+
+- T=ℚ₃(√3), U=ℚ₃: S=ℤ₃[π], π²=3, I=C₂ and Tr(1)=2. There is no ordinary Frobenius lift on S: an endomorphism sends π to ±π, not to π³ modulo 3S. Nevertheless D_S^I=D_ℤ₃ by this target, and squaring is an automorphism of P^I.
+- G={1}: this is (S×)^I=R×; an invariant principal unit is the norm of its unique e-th root in P^I.
+- I={1}: U=T, R=S, e=1 and the norm and power maps are identities.
+- The prime-to-ℓ condition is used in the power assertion. Already on 1+3ℤ₃ the cube map misses 4, since every cube is 1 modulo 9; the argument cannot be applied to a wild degree-three inertia step.
+
+*Needs:* [Determinants indexed by virtual characters](#layer-7-topic-28); [Semilocal elimination preserves the determinant image](#layer-7-topic-27); [TauCetiRoadmap.LocalFieldsRamification, layer 2 unramified extensions and frobenius](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-2-unramified-extensions-and-frobenius); [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration).
+
 <a id="layer-7-topic-120"></a>
 
 ### 7.120 The Fröhlich–Taylor obstruction equality
@@ -17202,7 +17229,7 @@ For every tame finite G-Galois extension L/F of number fields, with d=[F:Q], [O_
 
 (Martin J. Taylor, [On Fröhlich’s conjecture for rings of integers of tame extensions](#reference-taylor-froehlich-conjecture-1981), Theorem1, pp.41–42; reduction(2.1)–(2.2), pp.44–45; §12 Theorem6 and conclusion, pp.78–79.) Taylor identifies the integer-ring stable class with the root-number obstruction through local determinant factors and descent.
 
-To prove this, represent the class by the norm-resolvent/Gauss homomorphism from [The tame integer-ring class lies in the maximal-order kernel](#layer-7-topic-114). At each ℓ separate the diagonal factor supplied by [The diagonal tame norm-resolvent factor is a determinant unit](#layer-7-topic-116) and the off-diagonal factors supplied by [The off-diagonal local Gauss factor is an integral determinant](#layer-7-topic-119). The product differs from W only by integral-unit determinants after a finite tame scalar extension. Taylor §12 descends first through tame inertia of degree prime to ℓ and then through the unramified quotient; retain the exact coefficient hypotheses of [Fixed-point descent for integral determinant units](#layer-7-topic-109) on each component. The positive principal denominator absorbs the rational basis choices. The remaining quotient is exactly t(W).
+To prove this, represent the class by the norm-resolvent/Gauss homomorphism from [The tame integer-ring class lies in the maximal-order kernel](#layer-7-topic-114). At each ℓ separate the diagonal factor supplied by [The diagonal tame norm-resolvent factor is a determinant unit](#layer-7-topic-116) and the off-diagonal factors supplied by [The off-diagonal local Gauss factor is an integral determinant](#layer-7-topic-119). The assembled corrected factor differs from W by a determinant over a finite tame Galois coefficient extension T/ℚ_ℓ; a common tame Galois compositum contains the coefficients from both local targets. Apply [Gauss sums have the resolvent Galois transformation law](#layer-7-topic-107) with the correction factors to obtain Δ-invariance of this assembled determinant, where Δ=Gal(T/ℚ_ℓ); invariance is required of the product, not of each local factor. Put I=I(T/ℚ_ℓ) and U=T^I. First [Tame-inertia descent for local determinant units](#layer-7-topic-119a) descends from 𝒪_T to 𝒪_U. Then [Fixed-point descent for integral determinant units](#layer-7-topic-109) descends the Δ/I-invariant determinant from 𝒪_U to ℤ_ℓ: these are unramified integer rings with ordinary Frobenius lifts (the identity on ℤ_ℓ and arithmetic Frobenius on 𝒪_U), finite free Galois coefficients and surjective trace. Normality, noetherianity and ℓ-adic completeness hold for both rings. For a product of local coefficient rings, take a decomposition-group component and recover the other components by Galois transport. The positive principal denominator absorbs the rational basis choices. The remaining quotient is exactly t(W).
 
 **Checks.**
 
@@ -17210,7 +17237,7 @@ To prove this, represent the class by the norm-resolvent/Gauss homomorphism from
 - Martinet's tame Q₈-extension of ℚ (Checks of [Taylor's theorem: the Galois module class has order at most two](#layer-7-topic-121)): t(W) ≠ 0, so 𝓞_L is not stably free over ℤ[Q₈] and has no normal integral basis.
 - In particular 2([O_L] − d[ℤ[G]]) = 0, Taylor's theorem ([Taylor's theorem: the Galois module class has order at most two](#layer-7-topic-121)).
 
-*Needs:* [The tame integer-ring class lies in the maximal-order kernel](#layer-7-topic-114); [The root-number class in the kernel group](#layer-7-topic-113); [The diagonal tame norm-resolvent factor is a determinant unit](#layer-7-topic-116); [The off-diagonal local Gauss factor is an integral determinant](#layer-7-topic-119); [Fixed-point descent for integral determinant units](#layer-7-topic-109); [The Hom quotient is the actual maximal-order kernel](#layer-7-topic-106).
+*Needs:* [The tame integer-ring class lies in the maximal-order kernel](#layer-7-topic-114); [The root-number class in the kernel group](#layer-7-topic-113); [The diagonal tame norm-resolvent factor is a determinant unit](#layer-7-topic-116); [The off-diagonal local Gauss factor is an integral determinant](#layer-7-topic-119); [Fixed-point descent for integral determinant units](#layer-7-topic-109); [The Hom quotient is the actual maximal-order kernel](#layer-7-topic-106); [Tame-inertia descent for local determinant units](#layer-7-topic-119a); [Gauss sums have the resolvent Galois transformation law](#layer-7-topic-107).
 
 <a id="layer-7-topic-121"></a>
 

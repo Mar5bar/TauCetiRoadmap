@@ -1052,6 +1052,40 @@ example : StableEquivalent ℤ ℤ ℤ := by
 example : ¬ StableEquivalent ℤ (Fin 0 → ℤ) ℤ := by
   sorry
 
+/-- Evaluation in a finite-dimensional representation gives the splitting-field determinant. -/
+noncomputable def groupRingDeterminant {R Ω G : Type*} [CommRing R] [Field Ω]
+    [Group G] (ι : R →+* Ω) (x : MonoidAlgebra R G) (n : ℕ)
+    (ρ : Representation Ω G (Fin n → Ω)) : Ω :=
+  LinearMap.det (ρ.asAlgebraHom (MonoidAlgebra.mapRingHom G ι x))
+
+/-- Invariant unit determinants over a totally ramified tame extension descend to the
+base integer ring. Inertia acts on coefficients, and equality in every representation
+expresses equality of character determinants. -/
+theorem tameInertia_determinant_descent
+    (R S Ω G : Type*) [CommRing R] [IsDomain R] [CharZero R]
+    [IsDiscreteValuationRing R] [IsAdicComplete (IsLocalRing.maximalIdeal R) R]
+    [CommRing S] [IsDomain S] [CharZero S] [IsDiscreteValuationRing S]
+    [IsAdicComplete (IsLocalRing.maximalIdeal S) S]
+    [Algebra R S] [Module.Finite R S] [Module.Free R S]
+    [IsLocalHom (algebraMap R S)]
+    [Fintype (S ≃ₐ[R] S)] [IsGaloisGroup (S ≃ₐ[R] S) R S]
+    [Finite (IsLocalRing.ResidueField R)] [Finite (IsLocalRing.ResidueField S)]
+    [Field Ω] [IsAlgClosed Ω] [CharZero Ω] [Group G] [Fintype G]
+    (ℓ : ℕ) [Fact ℓ.Prime]
+    [CharP (IsLocalRing.ResidueField R) ℓ] [CharP (IsLocalRing.ResidueField S) ℓ]
+    (hRS : Function.Injective (algebraMap R S))
+    (hres : Function.Bijective (IsLocalRing.ResidueField.map (algebraMap R S)))
+    (htame : Nat.Coprime (Fintype.card (S ≃ₐ[R] S)) ℓ)
+    (ι : S →+* Ω) (hι : Function.Injective ι) (u : (MonoidAlgebra S G)ˣ)
+    (hfixed : ∀ (σ : S ≃ₐ[R] S) (n : ℕ) (ρ : Representation Ω G (Fin n → Ω)),
+      groupRingDeterminant (ι.comp σ.toRingHom) (u : MonoidAlgebra S G) n ρ =
+        groupRingDeterminant ι (u : MonoidAlgebra S G) n ρ) :
+    ∃ v : (MonoidAlgebra R G)ˣ,
+      ∀ (n : ℕ) (ρ : Representation Ω G (Fin n → Ω)),
+        groupRingDeterminant (ι.comp (algebraMap R S)) (v : MonoidAlgebra R G) n ρ =
+          groupRingDeterminant ι (u : MonoidAlgebra S G) n ρ := by
+  sorry
+
 end GaloisModules
 
 /-!
