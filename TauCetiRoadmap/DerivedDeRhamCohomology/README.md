@@ -2341,7 +2341,9 @@ Mathlib `DividedPowers.SubDPIdeal` and `DividedPowers.Quotient.dividedPowers`.
 **Checks.**
 
 - `compatible_identity`: For B=A=ℤ/4, J=0 and the canonical powers on I=(2), D=A and K=0;
-  ID=(2) is not contained in K. `Suggested.lean` mirrors this compatible identity envelope.
+  ID=(2) is not contained in K. The zero PD ideal is compatible with the base powers, but the
+  identity is not a PD morphism from (I,γ) to (0,0), since 2 does not map to zero.
+  `Suggested.lean` mirrors this compatible identity envelope and the failure of a base PD morphism.
 - `compatible_zero_base`: For A=F_p, I=0, B=F_p[t], J=(t), D=F_p⟨t⟩ with its augmentation
   ideal K and D/K=F_p.
 - `compatible_containing_base`: For B=A=ℤ/4, I=J=(2) with canonical base powers, D=A,
@@ -4135,12 +4137,15 @@ schemes. The period setup precedes the period descriptions and proper smooth con
 
 Fix `p`. `QSyn` has p-complete bounded-p-torsion rings whose `L_(A/ℤ_p)` has p-complete Tor amplitude
 `[−1, 0]` (1.23); its opposite has the topology whose covers are the quasisyntomic covers of 1.23.
-Construct the big slices `QSyn_R` (all maps `R → A` with `A ∈ QSyn`) and the relative subsite `qSyn_R`
-(quasisyntomic `R`-algebras), `DerivedDeRham.quasisyntomicSite`. Completed fibre products of covers,
+For an arbitrary ring `R`, construct the big slice `QSyn_R` of all maps `R → A` with `A ∈ QSyn`.
+For a base `R ∈ QSyn`, construct the small relative subsite `qSyn_R` of relative quasisyntomic
+`R`-algebras, `DerivedDeRham.quasisyntomicSite`. The small-site construction and its inclusion take
+an explicit witness of the base's absolute quasisyntomicity. Completed fibre products of covers,
 composition and base-change stability define the sites; the ring category need not have every finite
 limit. The two relative categories are distinguished.
 
-[BMS19], Definition 4.10; Lemmas 4.15–4.17; Variants 4.33 and 4.35, pp.223–225, 231–232.
+[BMS19], Definition 4.10; Lemmas 4.15–4.17 and 4.34; Variants 4.33 and 4.35,
+pp.223–225, 231–232.
 
 *Needs:* Layer 1: The quasisyntomic cotangent condition; DerivedModuleAlgebra §0.8 The cotangent
 transitivity triangle; DerivedModuleAlgebra §0.10 Derived base change of the cotangent complex;
@@ -4155,15 +4160,24 @@ Prove the following named laws.
 - `qSynObjectCoverDescent`: for a relative quasisyntomic cover `A → B` of p-complete
   bounded-p-torsion rings, defined by relative cotangent amplitude and p-complete faithful
   flatness without assuming either absolute object condition, `A ∈ QSyn` iff `B ∈ QSyn`.
-- `qSynRelativeInclusion`: `qSyn_R` embeds in `QSyn_R`; for `R = ℤ_p` or `R` integral perfectoid, the
-  relative cotangent amplitude is automatically `[−1, 0]` on the big slice.
+- `qSynRelativeInclusion`: for `R ∈ QSyn`, a relative quasisyntomic algebra `R → A` has `A ∈ QSyn`
+  by cotangent transitivity and p-complete flatness, giving a fully faithful inclusion
+  `qSyn_R → QSyn_R`. For `R = ℤ_p` or `R` integral perfectoid, the relative cotangent amplitude is
+  automatically `[−1, 0]` on the big slice.
 
 **Checks.**
 
 - `test_qsyn_site_zp`: `ℤ_p` lies in `QSyn` and its identity is a cover.
 - `test_qsyn_site_smooth`: the p-completion of a smooth algebra over an integral perfectoid ring is an
   object.
-- `test_qsyn_site_nonlci`: `F_p[x,y]/(x,y)²` is not an object: by 3.11, `D_n(S|F_p, F_p) ≠ 0` for
+- `test_qsyn_site_relative`: for `R ∈ QSyn` and a relative quasisyntomic `R → A`, the transitivity
+  triangle modulo `p` has base term of Tor amplitude `[−1, 0]` by flatness of `A/p` over `R/p`, and
+  relative term of the same amplitude; hence `A ∈ QSyn`.
+- `test_qsyn_site_nonlci`: for every prime `p`, including `p = 2`, `S = F_p[x,y]/(x,y)²` has a relative
+  quasisyntomic identity map: it is p-completely faithfully flat with `L_(S/S) = 0`. But `S ∉ QSyn`:
+  its minimal complete local presentation `F_p[[x,y]]/(x²,xy,y²)` has an ideal of height 2 needing
+  three generators, so `S` is not lci. Thus it cannot serve as the base of the small-site inclusion.
+  More explicitly, by 3.11, `D_n(S|F_p, F_p) ≠ 0` for
   infinitely many `n`, and the transitivity sequence of `ℤ → F_p → S` identifies `D_n(S|ℤ, F_p)` with
   `D_n(S|F_p, F_p)` for `n ≥ 3`, so `L_(S/ℤ) ⊗^L_S S/p` is not of amplitude `[−1, 0]`.
 
@@ -4247,10 +4261,12 @@ Prove the following named laws.
 
 Completed base change of a `QSyn` cover with `QRSP` target by a `QRSP` object is `QRSP`; each term of the
 completed Čech nerve of `A → S` with `S ∈ QRSPerfd` is `QRSP`. Any two such covers admit a common `QRSP`
-refinement by applying the elementary cover to their completed fibre product. Relative and big-slice
-variants retain the same statement. This establishes the basis condition needed for unfolding.
+refinement by applying the elementary cover to their completed fibre product. The big-slice variant
+allows an arbitrary base `R`; the small relative variant takes a witness `R ∈ QSyn` and uses the
+`QRSP` objects of `qSyn_R` under `qSynRelativeInclusion`. This establishes the basis condition
+needed for unfolding.
 
-[BMS19], Lemmas 4.27 and 4.30, pp.229–230; Variant 4.33.
+[BMS19], Lemmas 4.27 and 4.30, pp.229–230; Variants 4.33 and 4.35, pp.231–232.
 
 *Needs:* Layer 5: The quasisyntomic sites; Layer 5: Quasiregular semiperfectoid rings; Layer 5:
 Compatible-root quasisyntomic covers; DerivedModuleAlgebra §1.9 Complete faithful-flat module
@@ -4271,14 +4287,15 @@ descent for `QRSP` covers in the sense of the Conventions, define the unfolding
 `F^unf(A) = Tot(F(S•))` for any `QRSP` cover `A → S`, `DerivedDeRham.qrspUnfolding`; it is independent of
 the cover up to canonical quasi-isomorphism by common refinement (5.4), satisfies Čech descent on
 `QSyn`, and restriction and unfolding are inverse up to quasi-isomorphism between descent-satisfying
-functors on `QSyn` and on `QRSPerfd`. The same applies to the relative and big-slice sites. For complete
-filtered targets, evaluation and graded pieces commute with unfolding; the underlying object commutes
+functors on `QSyn` and on `QRSPerfd`. The same applies to `QSyn_R` for arbitrary `R`, and to `qSyn_R`
+with a witness `R ∈ QSyn` and its `QRSP` basis from 5.4. For complete filtered targets, evaluation
+and graded pieces commute with unfolding; the underlying object commutes
 for nonnegative filtrations that are constant below zero. When `F` takes values in strict commutative dg
 algebras, `Tot(F(S•))` carries the Alexander–Whitney product. It is associative and unital but
 graded-commutative only in the derived category, so the unfolding is multiplicative in the cup-product
 sense of the Conventions, not as a strict commutative dg algebra.
 
-[BMS19], Proposition 4.31 and Remark 4.32, pp.230–231.
+[BMS19], Proposition 4.31 and Remark 4.32, pp.230–231; Variants 4.33 and 4.35, pp.231–232.
 
 *Needs:* Layer 5: Compatible-root quasisyntomic covers; Layer 5: Refinement and Čech stability of
 QRSP covers; Layer 1: Filtered derived categories; Layer 1: Completion of a filtered object;
@@ -4743,7 +4760,7 @@ For a quasisyntomic `R`-algebra `A`, `Λ_p L_(A/R)` has p-complete Tor amplitude
 additional derived `ℤ/p` tensor bound, and each finite quotient has a specified finite amplitude bound.
 For a quasismooth map the completed `L` is a p-completely flat module in degree zero; ordinary flatness
 requires an additional criterion, such as the Noetherian criterion 1.10. For relative `QRSP` algebras
-the shifted cotangent and divided-power terms are complete-flat in degree zero. These are Tor-amplitude
+over `R ∈ QSyn`, the shifted cotangent and divided-power terms are complete-flat in degree zero. These are Tor-amplitude
 assertions, not finite-projectivity assertions.
 
 [BMS19], Lemma 4.7, Lemma 4.34 and Lemma 5.14(1), pp.222, 231, 241.

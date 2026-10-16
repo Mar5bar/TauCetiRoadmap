@@ -440,8 +440,9 @@ example (γ : DividedPowers I) : IsCompatibleWith (RingHom.id A) (dividedPowersB
 
 /-- `(D, J', δ)` with `ι : B → D` is a divided power envelope of `J ⊆ B` relative to `(A, I, γ)`:
 `ι(J) ⊆ J'`, `A → D` is a divided power morphism, and every `A`-algebra map `B → C` sending `J` into
-a divided power ideal `K` compatible with `γ` factors uniquely through a divided power morphism
-`D → C`. -/
+a divided power ideal `K` with a specified divided power morphism `(A, I, γ) → (C, K, ε)`
+factors uniquely through a divided power morphism `D → C`. In particular, `K` contains the image
+of the base ideal `I`. -/
 structure IsPDEnvelope {B D : Type u} [CommRing B] [CommRing D] [Algebra A B] [Algebra A D]
     (γ : DividedPowers I) (J : Ideal B) {J' : Ideal D} (δ : DividedPowers J') (ι : B →ₐ[A] D) :
     Prop where
@@ -486,13 +487,15 @@ theorem exists_isCompatiblePDEnvelope {B : Type u} [CommRing B] [Algebra A B]
   sorry
 
 /-- With canonical base powers on `(2)`, the identity compatible envelope of `ZMod 4`
-  has zero defining ideal, which does not contain the base ideal (compatible_identity). -/
+has zero defining ideal, which does not contain the base ideal. The identity is therefore not
+a divided power morphism from the base ideal to the zero ideal (compatible_identity). -/
 example (γ : DividedPowers (Ideal.span {(2 : ZMod 4)}))
     (hγ : ∀ n a : ℕ, γ.dpow n (2 * (a : ZMod 4)) =
       canonicalCoeff 2 (ZMod 4) n * (a : ZMod 4) ^ n) :
     IsCompatiblePDEnvelope γ (⊥ : Ideal (ZMod 4)) (dividedPowersBot (ZMod 4))
       (AlgHom.id (ZMod 4) (ZMod 4)) ∧
-      ¬ Ideal.span {(2 : ZMod 4)} ≤ (⊥ : Ideal (ZMod 4)) := by
+      ¬ Ideal.span {(2 : ZMod 4)} ≤ (⊥ : Ideal (ZMod 4)) ∧
+      ¬ DividedPowers.IsDPMorphism γ (dividedPowersBot (ZMod 4)) (RingHom.id (ZMod 4)) := by
   sorry
 
 end PD
@@ -1030,6 +1033,17 @@ using PerfectoidSpaces §P4.15.1, the adic `perfectSystemEffective` adapter to D
 §1.E.1, raw and completed descent (`cotangentFlatDescent`, `hodgeQuotientFlatDescent`,
 `hodgeCompletedFlatDescent`, `pCompletedHodgeDescent`), `relativeConjugateTransitivity`, Cartier theory,
 PD conjugate filtrations, quasisyntomic sites, proper smooth control and period descriptions.
+README 5.1's `quasisyntomicSite` constructs the big slice QSyn_R for an arbitrary ring R.
+Its small-site construction qSyn_R and `qSynRelativeInclusion` take an explicit witness
+hR : R ∈ QSyn. For a relative quasisyntomic R-algebra A, cotangent transitivity and complete
+flatness give A ∈ QSyn (`test_qsyn_site_relative`). The identity of
+S = F_p[x,y]/(x,y)² is a relative quasisyntomic cover for every prime p, including p = 2,
+but S ∉ QSyn (`test_qsyn_site_nonlci`), so it cannot be the base of this small-site inclusion.
+The small relative variants of README 5.4's `qrspRefinement` and 5.5's `qrspUnfolding` take
+the same base witness and use the QRSP objects in qSyn_R under `qSynRelativeInclusion`;
+their big-slice variants allow arbitrary R. README 5.17's `uncompletedPDeRhamDescent`
+requires a witness R ∈ QSyn for the small relative site. README 5.16's
+`relativeTorAmplitude` uses the same base hypothesis for its relative QRSP assertion.
 The base-linear sheaf and filtration adapters compare EnhancedDerivedSheaves §§0.1–0.3 and E1.4;
 `schemeDeRhamRealization` and `schemeDeRhamCup` supply realization and cup products.
 README 5.8.1 constructs `rawLciDeRhamSheaves`, with `rawLciDeRhamAffine`,
