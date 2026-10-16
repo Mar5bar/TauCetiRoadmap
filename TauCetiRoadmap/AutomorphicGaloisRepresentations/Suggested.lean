@@ -69,6 +69,12 @@ example : arithFrobCharpoly (0 : ℚ) 1 3 1 = X ^ 2 + C 1 ∧
     arithFrobCharpolyDual (0 : ℚ) 1 3 1 = X ^ 2 + C 1 := by
   simp [arithFrobCharpoly, arithFrobCharpolyDual]
 
+/-- At weight one a trace-zero, determinant-minus-one Frobenius and its
+dual both have polynomial X²−1. -/
+example : arithFrobCharpoly (0 : ℚ) (-1) 3 1 = X ^ 2 - C 1 ∧
+    arithFrobCharpolyDual (0 : ℚ) (-1) 3 1 = X ^ 2 - C 1 := by
+  simp [arithFrobCharpoly, arithFrobCharpolyDual, sub_eq_add_neg]
+
 end ClassicalPolynomials
 
 /-- The geometric étale good-characteristic fibre has p+1 lines; characteristic-p
@@ -83,8 +89,10 @@ end TauCetiRoadmap.AutomorphicGaloisRepresentations
 /-! ## Layer 2: Supplied weight-one finite-group interfaces
 
 AlgebraicModularFormsAndSerreWeights R15.5A.3 owns these finite-group targets.
-These representative signatures use its namespace and supply polynomial and
-semisimplicity controls for the normalization comparisons in this roadmap.
+These signatures in TauCeti.ClassicalModularGalois are proposed shapes for its
+finite-image bound and prime-to-order lifting steps; their names are prototypes,
+not exports specified by that supplier. The examples provide polynomial and
+semisimplicity controls for this roadmap's normalization comparisons.
 -/
 
 namespace TauCeti.ClassicalModularGalois
@@ -152,6 +160,12 @@ theorem exists_lift_of_not_dvd_card {O : Type*} [CommRing O] [IsDomain O] [IsDis
 polynomial bound at exceptional proportion zero. -/
 example (ℓ : ℕ) [Fact ℓ.Prime] :
     IsSemisimpleSubgroup ℓ ⊥ ∧ ConditionC ℓ ⊥ 0 1 ∧ ¬ ConditionC ℓ ⊥ 0 0 :=
+  sorry
+
+/-- Below exceptional proportion one, a nonempty group cannot have zero
+polynomial support on the required subset. -/
+example (ℓ : ℕ) [Fact ℓ.Prime] (G : Subgroup (GL (Fin 2) (ZMod ℓ)))
+    (η : ℝ) (hη : η < 1) : ¬ ConditionC ℓ G η 0 :=
   sorry
 
 /-- Full GL₂ has precisely ℓ(ℓ−1) characteristic polynomials, so at zero
@@ -257,6 +271,17 @@ theorem hodgeDegrees_normTwist (k w : ℤ) :
 /-- The elliptic, Δ and norm-twisted elliptic pairs. -/
 example : hodgeDegrees 2 0 = (0, 1) ∧ hodgeDegrees 12 10 = (0, 11) ∧
     hodgeDegrees 2 2 = (1, 2) := by decide
+
+/-- Normalizing a parallel type to (k,k−2) and twisting the supplied
+arithmetic member by ε^j gives the negative of the geometric degrees. -/
+example (k w : ℤ) (hparity : Even (w - k)) :
+    let j := (w - k + 2) / 2
+    (-j, 1 - k - j) = (-(hodgeDegrees k w).1, -(hodgeDegrees k w).2) := by
+  rcases hparity with ⟨a, ha⟩
+  apply Prod.ext
+  · rfl
+  · dsimp [hodgeDegrees]
+    omega
 
 /-- Incorrect parity gives the wrong sum if the halves are rounded. -/
 example : ¬ Even (1 - 2 : ℤ) ∧
@@ -434,19 +459,27 @@ The remaining definitions in README.md require arithmetic or geometric carriers:
   `schollProjector_dfg` and `schollProjector_dfg_level`,
   the transported `newformOrbitProjector` and `newformFactor`
   (with its lattice), the cohomological newform realisation `M_g`,
+  `coefficientFontaineLaffaille` with its O_E⊗O_K factors, Frobenius-labelled
+  filtrations, covariant DFG realization and safe-range coefficient/kernel
+  comparisons, and `labelledTameInertia` with niveaux f and 2f and the
+  recorded integral Tate transport,
   `IntegralPremotive` (with its kernel), `integralParabolic` and
   `integralNewformPremotive`.
-* Layer 3: `Carayol.sigmaLambda`, `hilbertGaloisRep` (using the supplied early
+* Layer 3: `Carayol.sigmaLambda` and `Carayol.sigmaLambda_finrank` for π in the
+  specified cuspidal class and sufficiently small K with nonzero π_f^K,
+  `hilbertGaloisRep` (using the supplied early
   parallel attachment and the nonparallel auxiliary congruence construction),
-  `hilbertGaloisRep_parallelAdapter` identifying that supplied arithmetic member
-  with the dual after common coefficient extension and transporting its chosen
-  lattice, and `IsCMHilbert` with its inducing field and character.
+  `hilbertGaloisRep_parallelAdapter` at parallel type (k,w), normalizing
+  π₀=π⊗|det|^j for j=(w−k+2)/2 and identifying r_π=r_{f₀}⊗ε_ℓ^j with the
+  dual after common coefficient extension, with the supplied lattice twisted
+  before dualizing, and `IsCMHilbert` with its inducing field and character.
 * Layer 4: `NearlyOrdinaryEigenpacket`, its normalized operators and candidate
   local character `δ_𝔭`, and the attached character `η_𝔭` and invariant line.
 * Layer 5: `ordinaryRefinement`, `eigenformDcris` and `eigenformWach`.
 * Layer 6: `residualRep`, `fullHeckeAlgebra`, `heckeRep`, `residualHeckeRep`,
-  the weight-two optimization invariant `δ(ρ̄)`, `geometricHeckeDeterminant`, and the
-  quaternionic completed Hecke representation.
+  the weight-two optimization invariant `δ(ρ̄)`, the semistable type-Σ index
+  data and finite newform set of §6.4a before `typeSigma_eigensystems_nonempty`,
+  `geometricHeckeDeterminant`, and the quaternionic completed Hecke representation.
 * Layer 7: the supplied `AutomorphicSystemData`, `Weak` and `Strict`, the predicate
   `IsAlmostStrictlyCompatible` and its transport theorems
   and `fixedEigenformFamily`, together with `HilbertSystemRealizations` and
