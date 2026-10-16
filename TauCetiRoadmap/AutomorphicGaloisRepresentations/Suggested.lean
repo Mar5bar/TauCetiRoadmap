@@ -469,8 +469,8 @@ The remaining definitions in README.md require arithmetic or geometric carriers:
   specified cuspidal class and sufficiently small K with nonzero π_f^K,
   `hilbertGaloisRep` (using the supplied early
   parallel attachment and the nonparallel auxiliary congruence construction),
-  `hilbertGaloisRep_parallelAdapter` at parallel type (k,w), normalizing
-  π₀=π⊗|det|^j for j=(w−k+2)/2 and identifying r_π=r_{f₀}⊗ε_ℓ^j with the
+  `hilbertGaloisRep_parallelAdapter` at parallel type `(k,w)`, normalizing
+  `π₀=π⊗|det|^j` for `j=(w−k+2)/2` and identifying `r_π=r_{f₀}⊗ε_ℓ^j` with the
   dual after common coefficient extension, with the supplied lattice twisted
   before dualizing, and `IsCMHilbert` with its inducing field and character.
 * Layer 4: `NearlyOrdinaryEigenpacket`, its normalized operators and candidate
