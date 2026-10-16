@@ -707,7 +707,16 @@ example : ¬ OddInvolutionEquation (0 : ℚ) 1 0 := by
 
 end RealPlace
 
-/-! ## Layer 2: Tame and minimally ramified deformation conditions -/
+/-! ## Layer 2: Tame and minimally ramified deformation conditions
+
+README 2.19 retains p ≥ 3, ramification, conductor minimality among twists and the compatible
+fixed determinant. Its integral ring is a complete intersection and its scheme generic fibre
+is regular. At each closed characteristic-zero point with residue field E_x finite over E,
+the completed local ring pro-represents a formally smooth framed fixed-determinant deformation
+problem on finite local Artinian E_x-algebras with residue E_x. The completion carries
+the maximal-ideal topology. For 𝒪[[X]], localization at p has uniformly bounded coefficient
+denominators; completion of its local ring at X = 0 gives E[[X]].
+-/
 
 section Tame
 

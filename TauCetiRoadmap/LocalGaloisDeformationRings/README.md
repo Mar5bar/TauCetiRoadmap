@@ -1840,16 +1840,21 @@ The construction provides the following API.
 
 For `p≥3` and conductor minimal among twists, the four ramified obstructed rank-two cases below give two group-algebra power-series rings and two hypersurfaces. The extension-of-1 case includes `C(T)−T` and has `(p^a+1)/2` geometric components, `p^a`∥`q−1`. Retain the ramification and conductor hypotheses.
 
-In the ramified conductor-minimal setting, require `R_v` to be a complete intersection with formally smooth `R_v[1/p]`. For the four exceptional cases its presentations refine as follows:
+In the ramified conductor-minimal setting, require `R_v` to be a complete intersection and `Spec R_v[1/p]` to be regular. At each closed characteristic-zero point `x` with residue field `E_x` finite over `E`, the completed local ring, with its maximal-ideal topology, pro-represents a formally smooth framed fixed-determinant deformation problem on finite local Artinian `E_x`-algebras with residue `E_x`. For the four exceptional cases its presentations refine as follows:
 
 - In the diagonal and induced cases, `R_v` is a power-series algebra over `𝒪[Δ]`, where `Δ` is the maximal `p`-quotient of `ℱ_v×` or `ℱ_{v²}×` respectively.
 - In the two ramified-extension cases, `R_v≅𝒪[[x₁,x₂,x₃,x₄]]/(r)` with `r≠0`.
 - For the `q≡1` extension of 1 by 1, take the trace coordinate `T` at `T=2` and the relation `C(T)−T`, where `C(t+t⁻¹)=t^q+t^{−q}`. If `p^a` is the largest `p`-power dividing `q−1`, the geometric generic components are the unipotent `T=2` component and the `(p^a−1)/2` reciprocal pairs `T=ζ+ζ⁻¹`, `ζ≠1`, `ζ^{p^a}=1`. Thus the total is `(p^a+1)/2`. This `p^a` is distinct from the residue cardinality `q`.
 
+**Checks.**
+
+- The natural inclusion `𝒪[[X]][1/p] → E[[X]]` has image consisting of series with uniformly bounded coefficient denominators. The series `∑ n≥0 p^(−n²) X^n` lies in `E[[X]]` but not in that image: multiplying by any fixed power of `p` leaves nonintegral coefficients for large `n`.
+- For `S=𝒪[[X]][1/p]`, the point `X=0` has residue field `E`, and the completion of its local ring is `E[[X]]`. This completion is formally smooth for the `X`-adic topology on finite local Artinian `E`-algebras with residue `E`; regularity of `Spec S` concerns the uncompleted scheme.
+- In the extension-of-1 case with `p=3` and `q=7`, `p^a=3` gives two geometric components: `T=2` and `T=ζ₃+ζ₃⁻¹=−1`. This retains the count `(p^a+1)/2` with the completed-local formulation.
 
 *Needs:* [2.4](#t2-4); [2.13](#t2-13); [1.18](#t1-18); [1.10](#t1-10); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
-(Sources: [CG18], Lemma 4.11, published p. 364; [CG18], proof of Lemma 4.11, published p. 364; [CG18], footnote 5, published p. 365.)
+(Sources: [CG18], Lemma 4.11, published p. 364; [CG18], proof of Lemma 4.11, published p. 364; [CG18], footnote 5, published p. 365; [BellovinGee], Proposition 3.3.2, Theorem 3.3.3, Remark 3.3.4 and proof, arXiv v3 pp. 30–31.)
 
 <a id="t2-20"></a>
 
