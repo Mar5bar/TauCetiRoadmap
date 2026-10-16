@@ -495,8 +495,9 @@ example : ¬ IsSchur 2 (1 : G →* GL (Fin 2) k) := by
   simp at h0 h1
   exact one_ne_zero (h0.trans h1.symm)
 
-/-- `F.3.1/local-deformation-problem`, `defProblem_not_conj_stable`: an actual strict conjugator
-over the dual numbers `𝔽₃[ε]` moves `diag(1, −1)` off the upper-triangular matrices. -/
+/-- `defProblem_not_conj_stable` and `ideal_maximal_not_invariant` (README F.3.1–F.3.2):
+a strict conjugator over `𝔽₃[ε]` moves the constant residual lift `diag(1, −1)`.
+The conjugate leaves both the upper-triangular matrices and the family factoring through `k`. -/
 example :
     let ε₃ : DualNumber (ZMod 3) := TrivSqZeroExt.inr 1
     let D₃ : Matrix (Fin 2) (Fin 2) (DualNumber (ZMod 3)) := !![1, 0; 0, -1]
@@ -504,7 +505,8 @@ example :
     let b₃inv : Matrix (Fin 2) (Fin 2) (DualNumber (ZMod 3)) := !![1, 0; -ε₃, 1]
     D₃ ^ 2 = 1 ∧ b₃ * b₃inv = 1 ∧ b₃inv * b₃ = 1 ∧
       b₃.map (TrivSqZeroExt.fstHom (ZMod 3) (ZMod 3) (ZMod 3)).toRingHom = 1 ∧
-      b₃ * D₃ * b₃inv = !![1, 0; 2 * ε₃, -1] ∧ (b₃ * D₃ * b₃inv) 1 0 ≠ 0 := by
+      b₃ * D₃ * b₃inv = !![1, 0; 2 * ε₃, -1] ∧ (b₃ * D₃ * b₃inv) 1 0 ≠ 0 ∧
+      b₃ * D₃ * b₃inv ≠ D₃ := by
   let : DecidableEq (DualNumber (ZMod 3)) := inferInstanceAs (DecidableEq (ZMod 3 × ZMod 3))
   decide
 
@@ -708,6 +710,47 @@ variable {A : Type*} [CommRing A] {n : ℕ}
 Continuity and pro-p inertia are additional conditions for the profinite representation. -/
 def IsTameMatrixPair (q : ℕ) (Φ σ : Matrix (Fin n) (Fin n) A) : Prop :=
   IsUnit Φ ∧ IsUnit σ ∧ Φ * σ = σ ^ q * Φ
+
+/-- The tame relation makes the inertia characteristic polynomial invariant under the
+arithmetic Frobenius power, a necessary condition for the types of README 2.15 and 2.22. -/
+theorem IsTameMatrixPair.charpoly_pow (q : ℕ) (Φ σ : Matrix (Fin n) (Fin n) A)
+    (h : IsTameMatrixPair q Φ σ) : σ.charpoly = (σ ^ q).charpoly := by
+  sorry
+
+/-- At `q = 11`, a primitive order-25 inertia value paired with one admits no Frobenius
+matrix (README 2.15), despite its trivial reduction over `ℤ₅[ζ₂₅]`. -/
+example {F : Type*} [Field F] (ζ : F) (hζ : orderOf ζ = 25) :
+    ¬ ∃ Φ : Matrix (Fin 2) (Fin 2) F,
+      IsTameMatrixPair 11 Φ !![1, 0; 0, ζ] := by
+  sorry
+
+/-- The same order-25 datum is already impossible in rank one (README 2.15). -/
+example {F : Type*} [Field F] (ζ : F) (hζ : orderOf ζ = 25) :
+    ¬ ∃ Φ : Matrix (Fin 1) (Fin 1) F, IsTameMatrixPair 11 Φ !![ζ] := by
+  sorry
+
+/-- Order-five values satisfy the split-character Frobenius condition at `q = 11`
+and give a tame pair with distinct inertia eigenvalues (README 2.15). -/
+example {F : Type*} [Field F] (ζ : F) (hζ : orderOf ζ = 5) :
+    IsTameMatrixPair 11 (1 : Matrix (Fin 2) (Fin 2) F) !![1, 0; 0, ζ] ∧ ζ ≠ 1 := by
+  sorry
+
+/-- The order-25 reciprocal eigenvalues fail Frobenius stability even in `GL₄`,
+so cannot define the fixed-similitude type of README 2.22. -/
+example {F : Type*} [Field F] (ζ : F) (hζ : orderOf ζ = 25) :
+    ¬ ∃ Φ : Matrix (Fin 4) (Fin 4) F,
+      IsTameMatrixPair 11 Φ (Matrix.diagonal ![ζ, ζ ^ 2, ζ⁻¹ ^ 2, ζ⁻¹]) := by
+  sorry
+
+/-- Order-five reciprocal eigenvalues give a tame symplectic pair in the anti-diagonal
+Gram convention, with four distinct inertia eigenvalues (README 2.22). -/
+example {F : Type*} [Field F] (ζ : F) (hζ : orderOf ζ = 5) :
+    let σ : Matrix (Fin 4) (Fin 4) F := Matrix.diagonal ![ζ, ζ ^ 2, ζ⁻¹ ^ 2, ζ⁻¹]
+    let J : Matrix (Fin 4) (Fin 4) F :=
+      !![0, 0, 0, 1; 0, 0, 1, 0; 0, -1, 0, 0; -1, 0, 0, 0]
+    IsTameMatrixPair 11 1 σ ∧ σ.transpose * J * σ = J ∧
+      Function.Injective (![ζ, ζ ^ 2, ζ⁻¹ ^ 2, ζ⁻¹] : Fin 4 → F) := by
+  sorry
 
 /-- Trivial Frobenius and inertia satisfy the tame equation. -/
 example (q : ℕ) : IsTameMatrixPair q (1 : Matrix (Fin n) (Fin n) A) 1 := by

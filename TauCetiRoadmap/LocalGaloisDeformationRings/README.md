@@ -54,6 +54,7 @@ The contracts state the input needed at each boundary. Library declarations belo
 - `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4` supplies coefficient Breuil–Kisin and étale φ-module categories over 𝔖, the G_{K∞} realization, finite-height lattice uniqueness with the repaired argument [KisinPST], Errata (E.4), author DVI p. 34, and semistable-to-height comparison. For p>2 it supplies height-one/finite-flat and p-divisible equivalences, full faithfulness of restriction and the multiplicative/étale dictionary. At p=2 import the full integral height-one classification and restriction full faithfulness of §§R07.4.23–R07.4.24 (`dyadicClassification`); Kisin’s connected groupoid and resolution in Layer 5 use their connected subcase. See [Kisin2adic], (1.2.8), (1.3.2), (1.3.9), (1.3.10), (1.3.13). Savitt's strongly divisible modules with tame descent data, their lattices and reductions are also required by Layer 4.
 - Target 6.9 extends the coefficient Kisin modules of `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.4.36, by tame descent data over 𝔖_{L′,A}=(W(k′)⊗A)[[u′]], v=(u′)^{p^{f′}−1}, for K′/K unramified of degree ≤3 and L′=K′((−p)^{1/(p^{f′}−1)}). The semilinear Δ-action commutes with φ; descent to the étale module and T*_dd are coefficient compatible, as are changes of eigenbasis on partial Frobenius matrices. These are [LLHLM20], Definition 3.1.3, p. 21, and its cited LLHLM18 Propositions 2.13 and 2.15; plain coefficient Kisin modules do not include descent data.
 - `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and §1.7 supplies projective Grassmannians and flag schemes, direct-summand universal subbundles, very ample bundles and closed invariant/Frobenius-stability equations; `SchemeAndStackFoundations`, §§4.9–4.10, and `AdicSpacesPartIII`, F0.8 supplies formal functions and algebraization. Target [4.7.1](#t4-7-1) constructs the Pappas–Rapoport and Deligne–Pappas local models and the comparisons required by 4.8 and 5.13. Grassmannian representability supplies their carriers, rather than their flatness or singularities.
+- `AdelicAlgebraicGroups`, AA.3.4 (`Reduction.finite_classes`) and AA.4.4 (level quotients and finite full rational stabilizers, with the compactness hypotheses there), supplies the adelic finiteness and level infrastructure used by [6.30](#t6-30). The definite-unitary function modules, Hecke actions and their patching application belong to 6.30.
 - Target [4.14.1](#t4-14-1) constructs the Breuil–Kisin/Emerton–Gee comparison giving generic reducedness of potentially Barsotti–Tate special fibres for p>2 and tame τ, and its fixed-determinant scalar-twisting adapter.
 - The period and filtered-module carriers use `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.0–R07.3.3 and R07.4.13; §§R07.4.27–R07.4.28 give its odd-prime field-valued descent dictionary. Target [0.2](#t0-2) supplies finite local E-algebra descent and completed deformation groupoids, with maximal-ideal topology. Targets [0.3](#t0-3) and [0.4](#t0-4) supply the ordinary and coefficient Robba comparisons.
 - `ReductiveGroups`, Layers 8–9, supplies smooth affine integral reductive groups, Lie algebras and G/G^der, the scheme of Borels G/B₀ and coefficient-ring conjugacy/canonical-torus comparisons. For split G over local A, Borels are G(A)-conjugate to B₀ with canonically identified torus quotients ([Conrad], Theorem 5.2.11 and Corollary 5.2.13, pp. 157–159). `ArithmeticGaloisRepresentations`, §§7.3–7.5 supplies the integral GSp realization and transpose conventions.
@@ -918,9 +919,11 @@ are not asserted to form an ordinary group action on that ring. The annihilator 
 tangent space is `L̃(D) ⊆ Z¹(G_v, ad ρ̄_v)`, the inverse image of a subspace
 `L(D) ⊆ H¹(G_v, ad ρ̄_v)`. Every proper closed strict-conjugation-invariant ideal
 `I ⊊ R^□_ρ̄_v` defines a problem
-`D(I)`, and the two constructions are inverse on proper invariant ideals. This includes
-non-radical ideals and `I = 𝔪`; properness puts `I` in the maximal ideal and supplies the residual
-point. The radical case of [Gee22]’s converse is a special case of the general correspondence of
+`D(I)`, and the two constructions are inverse on proper invariant ideals. Invariance means that
+for every coefficient object `A`, every classifying map `α : R^□_ρ̄_v → A` killing `I` and every
+strict conjugator `b ∈ Γ̂ₙ(A)`, the classifying map of `bρ_αb⁻¹` also kills `I`. This includes
+non-radical invariant ideals. Properness supplies the residual point; it does not imply invariance,
+even for `I = 𝔪`. The radical case of [Gee22]’s converse is a special case of the general correspondence of
 [CHT08] Lemma 2.2.3 ([Gee22], Lemma 3.17, p. 14; [CHT08], Lemma 2.2.3, p. 19).
 
 For a compatible determinant lift `χ_v`, pull `D_v` back along `LiftDet_{χ_v} → Lift` and write
@@ -947,7 +950,7 @@ p. 15; `SelmerIwasawaCohomology`, §2A.4, *Determinant tangent fibres*).
 [F.2.9](#fixed-determinant-rings); `ArithmeticGaloisDuality`, D8.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by n*;
 `SelmerIwasawaCohomology`, §2A.4, *Determinant tangent fibres*.
 
-*Lean:* `adjoint_coboundary_mem_slIdeal` and the rank-one trace-zero `example`.
+*Lean:* `adjoint_coboundary_mem_slIdeal`, the rank-one trace-zero `example` and the `D₃`, `b₃`, `b₃inv` example of F.3.1.
 
 **Checks.**
 
@@ -959,8 +962,11 @@ p. 15; `SelmerIwasawaCohomology`, §2A.4, *Determinant tangent fibres*).
   thickening; a statement asserting radicality for every problem would exclude it.
 - **ideal_unit_excluded.** `I = R^□` is radical and invariant, but no unital residue map kills `1`,
   so `D(I)(k)` is empty. It is excluded by properness, not by `I ≠ 𝔪`.
-- **ideal_maximal_allowed.** `I = 𝔪` gives `R^□/I = k`; its points are precisely the constant
-  residual lifts over coefficient objects annihilating `λ`. This is a deformation problem.
+- **ideal_maximal_not_invariant.** for `𝒪 = ℤ₃`, `G = ℤ/2` and residual generator
+  `D = diag(1, −1)`, the constant lift over `A = 𝔽₃[ε]/(ε²)` kills `𝔪`, but its strict conjugate
+  by `b = 1 + εE₂₁` has generator `D + 2εE₂₁ ≠ D` and does not factor through `k`.
+  Thus `𝔪` is not invariant. Its zero relative tangent space cannot contain the nonzero
+  coboundary direction of this conjugation.
 - **fixed_local_tangent_rank_one.** take `F = ℚ`, `p = 3`, `S = {3, 7}`, `T = {3}`, rank one and
   unrestricted local conditions. At `7`, `L(D_7) = H¹(G_7, k)` contains the nonzero unramified
   character direction, but `ad⁰ = 0` and `L_7^χ = L̃_7^χ = 0`. The fixed-determinant quotient uses
@@ -1760,7 +1766,18 @@ For p≥3, global residual (χ̄,*;0,1) and geometric determinant μ=κ^{r−1}�
 
 ### 2.15 Components for Ihara avoidance
 
-For trivial rank-d residual data, q≡1 mod p and splitting coefficients, distinct finite inertia characters reducing to one give a geometrically irreducible ring of dimension d²+1. All character conditions share special-fibre equations. For trivial characters, components have that dimension and each special generic point has a unique generic generalisation. The Steinberg closure is a domain; the rank-two fixed-determinant comparison requires p>2.
+For trivial rank-d residual data, ℓ≠p and q≡1 mod p, take finite p-power tame characters χᵢ of inertia with values in 1+ϖ𝒪, each the restriction of a continuous character of G_K. Equivalently, they factor through the p-primary quotient of the residue-field units, so χᵢ(t)^{q−1}=1 for a pro-p tame generator t. Choose coefficients containing their values. Let Rχ denote the framed quotient imposing the prescribed characteristic polynomial for every inertia element, and let Rχᶠˡᵃᵗ,ʳᵉᵈ be its reduced 𝒪-flat closure, the image in (Rχ[1/ϖ])ᵣₑd. These are separate rings.
+
+Pairwise distinct χᵢ give geometrically irreducible Spec Rχ of integral dimension d²+1 with characteristic-zero generic point; Rχᶠˡᵃᵗ,ʳᵉᵈ is a domain of the same dimension. The equation quotients satisfy Rχ/ϖ=R₁/ϖ. For trivial characters, all components of Spec R₁ have that dimension and characteristic-zero generic points, and each special generic point has a unique generic generalisation. These component statements pass to the reduced flat closures; equality of their special-fibre rings is not inferred from equality of the equation quotients. The Steinberg closure is a domain; the rank-two fixed-determinant comparison requires p>2.
+
+*Lean:* `IsTameMatrixPair.charpoly_pow` gives the necessary Frobenius stability; the order-25 and order-5 diagonal examples give the boundary cases.
+
+**Checks.**
+
+- At p=5, K=ℚ₁₁ and 𝒪=ℤ₅[ζ₂₅], the proposed characters with values 1 and ζ₂₅ reduce to one but do not extend to G_K. The polynomials (X−1)(X−ζ₂₅) and (X−1)(X−ζ₂₅¹¹) differ, contradicting Frobenius conjugacy. The characteristic-zero locus is empty and its reduced flat closure is zero.
+- In rank one with the same forbidden value ζ₂₅, the equation quotient is 𝒪/(ζ₂₅¹⁰−1)[[T]], of dimension one. Its reduced flat closure is zero; it does not have the dimension-two geometry of a permitted character.
+- For p=5 and q=11, values 1 and ζ₅ are permitted: ζ₅¹⁰=1, and Φ=1, Σ=diag(1,ζ₅) obey ΦΣΦ⁻¹=Σ¹¹. Their reductions give the trivial residual representation.
+- Since every permitted χᵢ reduces to one, the characteristic-polynomial equations reduce to those of the trivial characters. Taking the reduced flat closure is a separate quotient operation.
 
 *Needs:* [2.5](#t2-5); [2.4](#t2-4); [2.9](#t2-9).
 
@@ -1871,11 +1888,19 @@ A single regular unipotent residual inertia block makes every unipotent lift min
 
 ### 2.22 GSp₄ Ihara-avoidance deformation rings
 
-For p>2, ℓ≠p, trivial residual GSp₄, q≡1 mod p and unramified fixed similitude, distinct nontrivial inertia characters up to inverse give an irreducible scheme of integral dimension eleven with regular scheme generic fibre of dimension ten and formally smooth completed local deformation rings at closed points for their maximal-ideal topology. Trivial characters give an equidimensional scheme of integral dimension eleven, characteristic-zero generic points and unique generic generalisation over each special generic point. Both have equal special-fibre equations; variable multiplier adds one variable.
+For p>2, ℓ≠p, trivial residual GSp₄, q≡1 mod p and an unramified fixed similitude reducing to one, take two finite p-power tame inertia characters χ₁, χ₂ valued in 1+ϖ𝒪, each extending to a continuous character of G_K. Thus their values have order dividing q−1; equivalently they are characters of the p-primary quotient of the residue-field units. Choose coefficients containing these values. Require χ₁, χ₂ nontrivial with χ₁≠χ₂^{±1}. The fixed-similitude characteristic-polynomial quotient for inertia eigencharacters χ₁, χ₂, χ₂⁻¹, χ₁⁻¹ has irreducible spectrum of integral dimension eleven, regular scheme generic fibre of dimension ten and formally smooth completed local deformation rings at its closed characteristic-zero points for their maximal-ideal topology. Trivial characters give an equidimensional spectrum of integral dimension eleven, characteristic-zero generic points and unique generic generalisation over each special generic point. These equation quotients have equal special fibres. Their reduced flat closures retain the stated component geometry; equality of special-fibre rings after this further quotient is a separate assertion. Variable multiplier adds one variable.
+
+*Lean:* the order-25 rank-four diagonal example excludes even a GL₄ Frobenius; the order-5 example gives a permitted symplectic tame pair.
+
+**Checks.**
+
+- At p=5 and q=11 with similitude one, eigenvalues ζ₂₅, ζ₂₅², ζ₂₅⁻², ζ₂₅⁻¹ are not preserved by eleventh powers. No Frobenius matrix exists, even in GL₄, so the characteristic-zero locus and reduced flat closure are empty.
+- Replacing ζ₂₅ by ζ₅ gives four distinct nontrivial eigenvalues. In an anti-diagonal symplectic basis, Σ=diag(ζ₅,ζ₅²,ζ₅⁻²,ζ₅⁻¹) has multiplier one, and Φ=1 satisfies the tame relation at q=11.
+- Trivial χ₁=χ₂=1 belongs to the unipotent branch, rather than the distinct-character branch. Reduction of each permitted characteristic polynomial gives (X−1)⁴ in both branches, at the level of the equation quotients.
 
 *Needs:* [2.11](#t2-11); [2.15](#t2-15); [1.22](#t1-22); [1.17](#t1-17).
 
-(Sources: [BCGP21], Proposition 7.4.7, arXiv v3 p. 189; [BCGP21], Proposition 7.4.21, arXiv v3 p. 197.)
+(Sources: [BCGP21], §7.4.5 and Lemma 7.4.6, arXiv v3 p. 189; Propositions 7.4.7–7.4.8, pp. 189–190; Proposition 7.4.18, p. 196; Propositions 7.4.20–7.4.21, p. 197.)
 
 <a id="t2-23"></a>
 
@@ -2005,7 +2030,7 @@ For reductive, possibly disconnected G and fixed full abelianisation, the generi
 
 ### 2.29 Unipotent ramification and Ihara-avoidance rings at p = 2
 
-At p=2 away from 2, one finite extension makes every lift unipotently ramified. With unramified regular semisimple residual Frobenius, first make the finite unramified coefficient extension splitting its residual polynomial and fix the resulting residual eigenbasis. In that basis strictly diagonalize lifts into characters. Over these extended coefficients a single finite extension of the local field makes all these lifts unramified. Trivial-residual character rings retain the Ihara dimension d²+1, distinct-character irreducibility and unique-generalisation statements.
+At p=2 away from 2, one finite extension makes every lift unipotently ramified. With unramified regular semisimple residual Frobenius, first make the finite unramified coefficient extension splitting its residual polynomial and fix the resulting residual eigenbasis. In that basis strictly diagonalize lifts into characters. Over these extended coefficients a single finite extension of the local field makes all these lifts unramified. For the Frobenius-compatible characters of 2.15, trivial-residual character rings retain the Ihara dimension d²+1, distinct-character irreducibility and unique-generalisation statements.
 
 **Checks.**
 
@@ -3393,7 +3418,7 @@ The construction provides the following API.
 - The cyclotomic rank-one lattice ℤ_p(1) is realized from the contravariant height-one Kisin module with Frobenius E(u) times its normalization unit, and has weight +1; its dual has weight −1. This is the dictionary of FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.12–R07.4.13.
 - A rank-three type-η point has determinant of labelled Hodge–Tate weight 0+1+2=3. Its dual has determinant weight −3 and residual representation ρ̄∨, inertia type τ∨ and dual weight/shape labels; it belongs to the transported dual deformation problem.
 
-*Needs (conditional local theorem):* [6.9](#t6-9); [6.20](#t6-20); [6.21](#t6-21); [6.28](#t6-28); [3.4](#t3-4); `GL3.WeakMinimalPatchingFunctor`; the weight-elimination argument of [LLHLM20], Proposition 3.5.6 and Theorem 3.5.2. *Needs (existence):* the auxiliary lifts, scoped globalization and finite-level unitary patching targets above; [F.0.1](#completed-coefficient-products) and [F.0.2](#minimal-relative-presentations). Integral Cohen–Macaulayness is the conditional type-geometry theorem here, not an inference from [3.11](#t3-11)'s generic-fibre complete intersection.
+*Needs (conditional local theorem):* [6.9](#t6-9); [6.20](#t6-20); [6.21](#t6-21); [6.28](#t6-28); [3.4](#t3-4); `GL3.WeakMinimalPatchingFunctor`; the weight-elimination argument of [LLHLM20], Proposition 3.5.6 and Theorem 3.5.2. *Needs (existence):* the auxiliary lifts, scoped globalization and finite-level unitary patching targets above; `AdelicAlgebraicGroups`, AA.3.4 (`Reduction.finite_classes`) and AA.4.4 (level quotients and rational stabilizers); [F.0.1](#completed-coefficient-products) and [F.0.2](#minimal-relative-presentations). Integral Cohen–Macaulayness is the conditional type-geometry theorem here, not an inference from [3.11](#t3-11)'s generic-fibre complete intersection.
 
 (Sources: [LLHLM20], Theorem 3.5.3, arXiv v4 p. 29; [LLHLM20], Lemma 3.5.4, arXiv v4 pp. 29–30; [LLHLM20], §3.5.3, proof of Theorem 3.5.3 and Remark 3.5.17, arXiv v4 p. 34; Theorem 3.5.2 and Proposition 3.5.15, arXiv v4 pp. 29, 34.)
 
