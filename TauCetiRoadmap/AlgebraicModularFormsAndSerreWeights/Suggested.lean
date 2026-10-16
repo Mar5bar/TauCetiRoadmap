@@ -40,7 +40,7 @@ namespace TauCeti.KatzModularForms
 example {A M : Type*} [CommRing A] [AddCommGroup M] [Module A M]
     (h2 : IsUnit (2 : A)) (f : M) (h : -f = f) : f = 0 := by sorry
 
-/-- The Eisenstein coefficients use σ₃, including its value at two. -/
+/-- The Eisenstein coefficients use `σ₃`, including its value at two. -/
 example :
   let e4 : PowerSeries ℤ := PowerSeries.mk
     (fun n => if n = 0 then 1 else 240 * n.divisors.sum (fun d => (d : ℤ)^3))
@@ -52,7 +52,7 @@ example :
 section QHecke
 variable {A : Type*} [CommRing A]
 
-/-- The formal Hecke coefficient model with c=l^(k-1) and diamond scalar d.
+/-- The formal Hecke coefficient model with `c=l^(k−1)` and diamond scalar `d`.
 The geometric operator retains its full-level structures as specified in R15.2. -/
 noncomputable def seriesHecke (l : ℕ) (c d : A) (f : PowerSeries A) : PowerSeries A :=
   PowerSeries.mk (fun n => PowerSeries.coeff (l * n) f +
@@ -77,7 +77,7 @@ example (delta : PowerSeries ℤ) (h : PowerSeries.coeff 2 delta = -24) :
 example :
     PowerSeries.coeff 2 (seriesHecke 2 (1 : ℤ) (-1) PowerSeries.X) = -1 ∧
     PowerSeries.coeff 2 (seriesHecke 2 (1 : ℤ) 1 PowerSeries.X) = 1 := by sorry
-/-- The leading coefficient of Δ remains one after every residue map. -/
+/-- The leading coefficient of `Δ` remains one after every residue map. -/
 example {O k : Type*} [CommRing O] [Field k] (place : O →+* k)
     (delta : PowerSeries O) (h : PowerSeries.coeff 1 delta = 1) :
     PowerSeries.map place delta ≠ 0 := by sorry
@@ -114,21 +114,21 @@ namespace TauCeti.ModPModularForms
 section Series
 variable {A : Type*} [CommRing A]
 
-/-- The series derivation q d/dq; geometric preservation is specified in R15.3. -/
+/-- The series derivation `q d/dq`; geometric preservation is specified in R15.3. -/
 noncomputable def seriesTheta (f : PowerSeries A) : PowerSeries A :=
   PowerSeries.mk (fun n => (n : A) * PowerSeries.coeff n f)
 
-/-- qU selects coefficients; it does not assert geometric preservation. -/
+/-- `qU` selects coefficients; it does not assert geometric preservation. -/
 noncomputable def qU (p : ℕ) : PowerSeries A →ₗ[A] PowerSeries A where
   toFun f := PowerSeries.mk (fun n => PowerSeries.coeff (p*n) f)
   map_add' f g := by ext n; simp
   map_smul' a f := by ext n; simp
 
-/-- Coefficient selection by the formal U operator. -/
+/-- Coefficient selection by the formal `U` operator. -/
 theorem qU_coefficient (p n : ℕ) (f : PowerSeries A) :
     PowerSeries.coeff n (qU p f) = PowerSeries.coeff (p*n) f := by sorry
 
-/-- Formal U is a left inverse of coefficient-linear V when p>0. -/
+/-- Formal `U` is a left inverse of coefficient-linear `V` when `p>0`. -/
 theorem qU_qV (p : ℕ) (hp : 0 < p) (f : PowerSeries A) : qU p (PowerSeries.expand p (Nat.ne_of_gt hp) f) = f := by sorry
 
 example (p : ℕ) (hp : 0 < p) :
@@ -165,12 +165,12 @@ theorem seriesTheta_hecke (p l : ℕ) [Fact p.Prime] [CharP A p]
     TauCeti.KatzModularForms.seriesHecke l ((l : A)^2*c) d (seriesTheta f) =
       (l : A) • seriesTheta (TauCeti.KatzModularForms.seriesHecke l c d f) := by sorry
 
-/-- Coefficient-linear expansion scales q d/dq by the expansion index. -/
+/-- Coefficient-linear expansion scales `q d/dq` by the expansion index. -/
 theorem seriesTheta_expand (p : ℕ) (hp : 0 < p) (f : PowerSeries A) :
     seriesTheta (PowerSeries.expand p (Nat.ne_of_gt hp) f) =
       (p : A) • PowerSeries.expand p (Nat.ne_of_gt hp) (seriesTheta f) := by sorry
 
-/-- Theta vanishes on coefficient-linear V in characteristic p. -/
+/-- Theta vanishes on coefficient-linear `V` in characteristic `p`. -/
 theorem seriesTheta_expand_charP (p : ℕ) (hp : 0 < p) [CharP A p]
     (f : PowerSeries A) :
     seriesTheta (PowerSeries.expand p (Nat.ne_of_gt hp) f) = 0 := by sorry
@@ -182,12 +182,12 @@ example :
     seriesTheta (PowerSeries.expand 3 (by decide) (PowerSeries.X : PowerSeries (ZMod 9))) ≠
       0 := by sorry
 
-/-- The same V contribution has zero theta after passing to characteristic three. -/
+/-- The same `V` contribution has zero theta after passing to characteristic three. -/
 example :
     seriesTheta (PowerSeries.expand 3 (by decide) (PowerSeries.X : PowerSeries (ZMod 3))) =
       0 := by sorry
 
-/-- Weight one retains the V term in its formal Hecke formula. -/
+/-- Weight one retains the `V` term in its formal Hecke formula. -/
 theorem seriesHecke_weightOne (p : ℕ) (hp : 0 < p) (d : A) (f : PowerSeries A) :
     TauCeti.KatzModularForms.seriesHecke p 1 d f =
       qU p f + d • PowerSeries.expand p (Nat.ne_of_gt hp) f := by sorry
@@ -232,7 +232,7 @@ theorem thetaCyclesSmallCharacteristic :
     smallThetaCycle 2 3 false = none ∧ smallThetaCycle 2 3 true = some [6] ∧
     smallThetaCycle 3 2 false = some [6,2] ∧ smallThetaCycle 3 3 false = some [3,3] := by sorry
 
-/-- Edixhoven Proposition 3.3: arithmetic table for p>3 on classified filtration data. -/
+/-- Edixhoven Proposition 3.3: arithmetic table for `p>3` on classified filtration data. -/
 def largeThetaCycle (p k : ℕ) (ordinary : Bool) : Option (List ℕ) :=
   if p.Prime ∧ 3 < p then
     let progression := fun start count => (List.range count).map (fun j => start+j*(p+1))
@@ -251,7 +251,7 @@ def largeThetaCycle (p k : ℕ) (ordinary : Bool) : Option (List ℕ) :=
       else none
   else none
 
-/-- Every admissible large-prime arithmetic row has p−1 entries. -/
+/-- Every admissible large-prime arithmetic row has `p−1` entries. -/
 theorem thetaCycles (p k : ℕ) [Fact p.Prime] (hp : 3 < p)
     (hk : 1 ≤ k ∧ k ≤ p+1) (ordinary : Bool)
     (hadmissible : ordinary = false → k ≠ p+1) :
@@ -285,7 +285,7 @@ example : ordinaryWeightDivisor 2 2 = 2 ∧ ordinaryWeightDivisor 2 3 = 2 ∧
 
 example : ordinaryWeightDivisor 5 2 = 20 := by sorry
 
-/-- The inverse deck character follows the weight-k trivialization. -/
+/-- The inverse deck character follows the weight-`k` trivialization. -/
 theorem igusaCharacterCalculation {K : Type*} [Field K] (u a f : Kˣ) (k : ℤ) :
     (f * (u*a)^(-k) : Kˣ) = u^(-k) * (f*a^(-k)) := by sorry
 end TauCeti.ModPModularForms
@@ -304,7 +304,7 @@ def tameExponents : LocalData → Option (ℕ × ℕ)
   | .niveauOne a b | .niveauTwo a b => some (a,b)
   | .wild _ _ _ => none
 
-/-- Projects the ordered quotient/stable-line exponents; LocalData retains the peu/très branch. -/
+/-- Projects the ordered quotient/stable-line exponents; `LocalData` retains the peu/très branch. -/
 def wildExponents : LocalData → Option (ℕ × ℕ)
   | .wild a b _ => some (a,b)
   | _ => none
@@ -363,7 +363,7 @@ example : wildExponents (.wild 0 1 true) = wildExponents (.wild 0 1 false) ∧
 example : serreWeight 2 (.wild 0 1 true) = 2 ∧
     serreWeight 2 (.wild 0 1 false) = 4 := by sorry
 
-/-- The tame arithmetic weight has the required determinant exponent modulo p−1. -/
+/-- The tame arithmetic weight has the required determinant exponent modulo `p−1`. -/
 theorem determinantWeightCongruence (p a b : ℕ) [Fact p.Prime] :
     Nat.ModEq (p-1) ((1+p*a+b)-1) (a+b) := by sorry
 
@@ -375,12 +375,12 @@ theorem recipeLowerBound (p : ℕ) [Fact p.Prime] (d : LocalData)
       | .wild a b _ => a ≤ p-2 ∧ 1 ≤ b ∧ b ≤ p-1) :
     2 ≤ serreWeight p d := by sorry
 
-/-- The tame arithmetic rows with exponents (0,r) have weight r+1 in the FL range. -/
+/-- The tame arithmetic rows with exponents `(0,r)` have weight `r+1` in the FL range. -/
 theorem fontaineLaffailleWeight (p r : ℕ) [Fact p.Prime] (hr : 1 ≤ r) (h : r ≤ p-2) :
     serreWeight p (.niveauTwo 0 r) = r+1 ∧
     serreWeight p (.niveauOne 0 r) = r+1 := by sorry
 
-/-- The niveau-two arithmetic weight is two precisely for exponents (0,1). -/
+/-- The niveau-two arithmetic weight is two precisely for exponents `(0,1)`. -/
 theorem weightTwoNiveauTwo (p a b : ℕ) (hp : 2 ≤ p) (hab : a < b) :
     serreWeight p (.niveauTwo a b) = 2 ↔ a=0 ∧ b=1 := by sorry
 
@@ -392,7 +392,7 @@ theorem dyadicWeightTwoOrFour (d : LocalData)
       | .wild a b _ => a=0 ∧ b=1) :
     serreWeight 2 d = 2 ∨ serreWeight 2 d = 4 := by sorry
 
-/-- Every integer power of a character valued in F₂× is trivial. -/
+/-- Every integer power of a character valued in `𝔽₂×` is trivial. -/
 theorem dyadicCyclotomicCharacter {G : Type*} [Group G]
     (chi : G →* (ZMod 2)ˣ) (i : ℤ) : ∀ g : G, chi g ^ i = 1 := by sorry
 
@@ -550,7 +550,7 @@ variable {O L M : Type*} [CommRing O] [IsDomain O] [CommRing L]
 
 /-- The pure-tensor formula fixes the canonical action. Its existence is the
 usual tensor-product universal property; its injectivity is the substantive claim.
-It is injectivity of the scalar-extended algebra, not just of H. -/
+It is injectivity of the scalar-extended algebra, not just of `H`. -/
 theorem generic_action_faithfulness (H : Subalgebra O (Module.End O M))
     (r : (L ⊗[O] H) →ₐ[L] Module.End L (L ⊗[O] M))
     (hr : ∀ (a : L) (h : H), r (a ⊗ₜ[O] h) =
@@ -579,8 +579,8 @@ variable {M ι : Type*} [AddCommGroup M] [Module O M]
   [Module.Finite O M] [Module.Free O M]
 
 /-- Deligne–Serre 6.11. This retains the complete mathematical
-content, with explicit scalar and residue maps. No prescribed reduction of f'
-appears, no separability is assumed, and V need not be finite over O. -/
+content, with explicit scalar and residue maps. No prescribed reduction of `f′`
+appears, no separability is assumed, and `V` need not be finite over `O`. -/
 theorem deligneSerreEigenvalueLifting
     (T : ι → Module.End O M) (hcomm : ∀ i j, Commute (T i) (T j))
     (a : ι → ResidueField O) (f : ResidueField O ⊗[O] M) (hf : f ≠ 0)
@@ -601,8 +601,8 @@ end DeligneSerre
 section RegressionExamples
 variable {D : Type*} [CommRing D] [IsDomain D]
 
-/-- Matrix [[0,pi],[0,0]] over any domain: every nonzero eigenvector has y=0.
-Specialize to a dominating DVR; its reduction therefore cannot be e_2. -/
+/-- Matrix `[[0,π],[0,0]]` over any domain: every nonzero eigenvector has `y=0`.
+Specialize to a dominating DVR; its reduction therefore cannot be `e₂`. -/
 theorem nilpotent_eigenvector_nonlifting (π : D) (hπ : π ≠ 0)
     (eigenvalue x y : D) (hv : x ≠ 0 ∨ y ≠ 0)
     (hfirst : π * y = eigenvalue * x) (hsecond : 0 = eigenvalue * y) :
@@ -613,7 +613,7 @@ example {k : Type*} [Field k] :
     (0 * (1 : k), 0) = (0 : k) • ((0, 1) : k × k) := by
   sorry
 
-/-- A nonzero eigenvector of [[0,pi],[1,0]] forces lambda^2=pi. -/
+/-- A nonzero eigenvector of `[[0,π],[1,0]]` forces `λ²=π`. -/
 theorem ramified_eigenvalue_equation (π eigenvalue x y : D) (hv : x ≠ 0 ∨ y ≠ 0)
     (hfirst : π * y = eigenvalue * x) (hsecond : x = eigenvalue * y) : eigenvalue ^ 2 = π := by
   sorry
@@ -643,7 +643,7 @@ theorem normalizeTrueEigenform {K M : Type*} [Field K] [AddCommGroup M] [Module 
     (a₁ : M →ₗ[K] K) (f : M) (h : a₁ f ≠ 0) :
     a₁ ((a₁ f)⁻¹ • f) = 1 := by sorry
 
-/-- A shift divisible by p−1 preserves the cyclotomic determinant exponent. -/
+/-- A shift divisible by `p−1` preserves the cyclotomic determinant exponent. -/
 theorem weightShiftDeterminant (p k n : ℕ) (hn : (p-1) ∣ n) :
     Nat.ModEq (p-1) k (k+n) := by sorry
 end TauCeti.EigenvalueLifting
@@ -684,7 +684,7 @@ example {N : ℕ} [NeZero N] {k : ℤ}
     (UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff (n : ℕ) = f.eigenvalue n hn :=
   f.qExpansion_coeff_eq_eigenvalue h₁ n hn
 
-/-- The usual E₄ has eigenvalue nine at two, distinct from its Fourier coefficient. -/
+/-- The usual `E₄` has eigenvalue nine at two, distinct from its Fourier coefficient. -/
 example (e4 : PowerSeries ℂ) (eigenvalue : ℂ)
     (h₁ : PowerSeries.coeff 1 e4 = 240) (h₂ : PowerSeries.coeff 2 e4 = 2160)
     (heig : TauCeti.KatzModularForms.seriesHecke 2 8 1 e4 = eigenvalue • e4) :
@@ -697,7 +697,7 @@ example {K M : Type*} [Field K] [AddCommGroup M] [Module K M]
     b = eigenvalue := by sorry
 
 /-- A weight-one cusp eigensystem has a convergent good-prime second moment
-for every real s>1, bounded by log(1/(s-1)) plus a constant near one. -/
+for every real `s>1`, bounded by `log(1/(s−1))` plus a constant near one. -/
 theorem weightOne_primeMoment {N : ℕ} [NeZero N]
     (f : HeckeRing.GL2.EigenformAwayFromLevel N 1) :
     let b := fun q : {q : ℕ // q.Prime ∧ Nat.Coprime q N} =>
@@ -722,12 +722,12 @@ example (F : Matrix (Fin 2) (Fin 2) (ZMod 3))
     (htrace : Matrix.trace F = 1) (hdet : F.det = 2) :
     F.charpoly ≠ (1 : Matrix (Fin 2) (Fin 2) (ZMod 3)).charpoly := by sorry
 
-/-- The different Frobenius traces of 11a1 and Δ at two modulo three exclude attachment. -/
+/-- The different Frobenius traces of 11a1 and `Δ` at two modulo three exclude attachment. -/
 example (F D : Matrix (Fin 2) (Fin 2) (ZMod 3))
     (hF : Matrix.trace F = 1) (hD : Matrix.trace D = 0) :
     F.charpoly ≠ D.charpoly := by sorry
 
-/-- The trivial rank-two representation over F₃ cannot satisfy determinant oddness. -/
+/-- The trivial rank-two representation over `𝔽₃` cannot satisfy determinant oddness. -/
 example {G : Type*} [Group G]
     (rho : G →* Matrix.GeneralLinearGroup (Fin 2) (ZMod 3)) (c : G)
     (hodd : (rho c : Matrix (Fin 2) (Fin 2) (ZMod 3)).det = -1) :
