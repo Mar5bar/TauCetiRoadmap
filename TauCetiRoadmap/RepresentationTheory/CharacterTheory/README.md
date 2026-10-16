@@ -16,7 +16,7 @@ What Mathlib does **not** have is everything that turns those pieces into charac
 space of **class functions** and its pairing; the **center of the group algebra**, its **class-sum
 basis** and the **structure constants**; the count **#irreducibles = #conjugacy classes**;
 **completeness** of the irreducible characters and the **second (column) orthogonality relation**; the
-arithmetic of character values (that they are **algebraic integers** in `ℤ[ζ_e]`, the **central
+arithmetic of character values (their lifts into **cyclotomic integers** in `ℤ[ζ_e]`, the **central
 characters** `ωᵪ`, the **primitive central idempotents**, that a degree **divides `|G|`**, the **Galois
 action** on the values); the **character table** as an object at all; and, above all, any means of
 **computing** a character table. Mathlib's eigenvalue and characteristic-polynomial machinery is
@@ -128,6 +128,9 @@ Suggested home: `TauCeti/RepresentationTheory/CharacterTable/` (deliverable C un
   (`DihedralGroup n`, `deriving DecidableEq`, computable `Group`/`Fintype`), `Quaternion.lean`, `Cyclic.lean`.
 - **Group algebra, computably:** `Algebra/MonoidAlgebra/*` (`MonoidAlgebra k G = G →₀ k`, computable
   multiplication for computable `k` and `[DecidableEq G]`).
+- **Character-value integrality:** `Representation.isIntegral_character` and `FDRep.isIntegral_character` in
+  `RepresentationTheory/Character.lean` for finite groups and finite-dimensional representations;
+  cyclotomic value lifts and their embedding compatibility are Layer 4 targets.
 - **Algebraic integers:** `RingTheory/IntegralClosure/*` - `IsIntegral`, `integralClosure`,
   `IsIntegral.add/mul/...`; `IsIntegrallyClosed` with `isIntegral_iff`, `IsIntegrallyClosed ℤ` via
   `GCDMonoid.toIsIntegrallyClosed`; `NumberField.RingOfIntegers` (`𝓞 K`).
@@ -152,7 +155,7 @@ composition of Maschke with Artin-Wedderburn into **`k[G] ≅ ⊕ Matₙᵢ(k)` 
 **irreducible-indexing infrastructure** and the center-splitting `Z(k[G]) ≃ (Irreps → k)`, and the count
 **#irreducibles = #conjugacy classes**; **completeness**, the **second (column) orthogonality relation**,
 the **primitive central idempotents**, the **virtual-character lattice**, and the **character table** as
-a matrix with its labeled uniqueness; the arithmetic - **values are algebraic integers in `ℤ[ζ_e]`**, the
+a matrix with its labeled uniqueness; the arithmetic - **cyclotomic-integer value lifts and `ℤ[ζ_e]` membership**, the
 **central characters** and their integrality via the integral class center, **`nᵢ ∣ |G|`**, the **Galois
 action**, and (application, off the critical path) **Brauer splitting** and **Burnside `pᵃqᵇ`**; the
 **Dixon-Schneider characterization** (the explicit class-algebra eigenvector identity, the ordinary/
@@ -347,7 +350,10 @@ finite-dimensional representations, at arbitrary carrier universes.
 - **Labeled uniqueness.** With columns indexed by the actual classes of `G` and rows by `Irreps ℂ G`, the
   table is determined **up to a permutation of rows only**. (Column permutation is meaningful only for an
   unlabeled printed table, and would have to transport all class data with it; Layers 5-6 use the labeled
-  table.)
+  table.) Make the finite indexing adapters explicit: each row index selects its irreducible character,
+  exactly one row is the trivial character, and a class-column entry is the value at any representative
+  by `Representation.char_conj`. For Burnside's obstruction, specialize column orthogonality to the
+  identity class and the class of `g`.
 
 ### Layer 4: the arithmetic of character values
 
@@ -355,9 +361,12 @@ finite-dimensional representations, at arbitrary carrier universes.
   `X^d - 1` (`d = orderOf g ∣ e`), so it is semisimple with eigenvalues among the `d`-th roots of unity
   *in `k`* (`isSemisimple_of_squarefree_aeval_eq_zero`). *Over `ℂ`*: those eigenvalues are complex `e`-th
   roots of unity, so `χ(g) = ∑ (eigenvalues)` is a sum of `e`-th roots of unity.
-- **Values are cyclotomic integers.** Over `ℂ`, `χ(g)` lies in the image of `ℤ[ζ_e] → ℂ` and is integral
-  over `ℤ` (`IsPrimitiveRoot.isIntegral`, closure under `+`). State `IsIntegral ℤ (χ g)` and membership
-  in `ℤ[ζ_e]`. Do **not** state a cyclotomic-integrality theorem over an arbitrary `k`.
+- **Values are cyclotomic integers.** Over `ℂ`, exhibit the finite-order eigenvalues as `e`-th roots
+  and lift their sum into `K = CyclotomicField e ℚ`; fix an embedding `ι : K →+* ℂ` and require it to recover `χ(g)`.
+  Mathlib already proves `Representation.isIntegral_character` for the complex character value. The
+  additional targets are the cyclotomic lift, its integrality/membership in the cyclotomic integer ring,
+  and the embedding-transfer adapter used in the Burnside argument. Do **not** state a
+  cyclotomic-integrality theorem over an arbitrary `k`.
 - **Central characters, integrally.** `centralCharacter χ : Z(k[G]) → k`, the scalar by which the center
   acts on the simple module (Schur; `Intertwining.centralMul`/`equivAlgEnd`), an algebra homomorphism,
   with `ωᵪ(Kⱼ) = |Cⱼ| · χ(gⱼ) / χ(1)`. Its value on a class sum is an **algebraic integer**: `classSum C`
@@ -371,12 +380,96 @@ finite-dimensional representations, at arbitrary carrier universes.
   `(σ_k · χ)(g) = χ(g^k)`, permuting the irreducibles; the fixed field of `χ`'s stabilizer is its field
   of values. That ordinary character values lie in `ℚ(ζ_e)` and Galois acts by these power maps is
   **mandatory** for Layer 6's lift; it is proved here.
-- **Application, off the critical path - Brauer and Burnside.** `ℚ(ζ_e)` is a **splitting field**
-  (Brauer): every irreducible `ℂ`-representation is realizable over `ℚ(ζ_e)`. And **Burnside's `pᵃqᵇ`
-  theorem**: a group of order `pᵃqᵇ` is solvable, via central-character integrality and the vanishing
-  lemma `χ(g) = 0` when `gcd(|C|, χ(1)) = 1`, `g ≠ 1`. Both are genuine targets and classical high points,
-  but neither is a prerequisite for the algorithm; they are marked as applications so they do not distort
-  the Layer 5-6 dependency chain.
+- **Application, off the critical path — Brauer and Burnside.** `ℚ(ζ_e)` is a **splitting field**
+  (Brauer): every irreducible `ℂ`-representation is realizable over `ℚ(ζ_e)`. **Burnside's `pᵃqᵇ`
+  theorem** says every finite group of order `pᵃqᵇ`, for primes `p,q` and `a,b ≥ 0`, is solvable. This
+  application is not a prerequisite for the algorithm and does not alter the Layer 5–6 dependency chain.
+
+  Its character-theoretic proof has the following explicit route.
+
+  1. **Coprime class-size alternative.** For an ordinary irreducible complex character `χ` of a finite
+     group and `C = gᴳ` with `gcd(|C|, χ(1)) = 1`, prove that either `χ(g) = 0` or the irreducible
+     representation acts by a scalar on `g` (equivalently, `|χ(g)| = χ(1)`). This alternative includes
+     trivial and linear characters, which have scalar action. The central-character value
+     `|C|χ(g)/χ(1)` is integral by the class-sum integrality target above; `χ(g)` is already integral by
+     Mathlib's `Representation.isIntegral_character`. Bézout for `|C|` and `χ(1)` makes `χ(g)/χ(1)`
+     integral in `ℂ`.
+
+     State the field bridge explicitly. Put `e = Monoid.exponent G`, `K = CyclotomicField e ℚ`,
+     and fix any `ι : K →+* ℂ`, available from the native nonempty embedding instance for
+     number fields. No canonical embedding of this abstract splitting field is assumed.
+     Build the root-lifting adapter: choose a primitive e-th root in K, map it through the
+     injective ι, and use `IsPrimitiveRoot.map_of_injective` and `eq_pow_of_pow_eq_one` to
+     show every complex e-th root lies in the image. The character-value lift target gives
+     a multiset μ of exactly `χ(1)` elements of K, each with `ξ^e=1`, such that
+     `χ_K(g)=μ.sum` and `ι (χ_K(g))=χ(g)`. This single decomposition lives in K before any
+     other embedding is applied.
+
+     Let `α_K := χ_K(g)/(χ(1):K)`. Its image is the already integral complex quotient.
+     Transfer that integrality to K with `isIntegral_algHom_iff` for the injective
+     `ι.toIntAlgHom`; no second Bézout argument or separate central-character lift is needed.
+     For every field embedding `φ : K →+* ℂ`, apply φ to the same root multiset μ.
+     Each image has norm one, so `‖φ (χ_K(g))‖ ≤ χ(1)` and `‖φ α_K‖ ≤ 1`.
+     Apply `NumberField.Embeddings.pow_eq_one_of_norm_le_one` when `α_K≠0`.
+     It is a root of unity, so `|χ(g)|=χ(1)`. Own the finite-sum equality adapter:
+     equality in the triangle inequality for unit complex numbers forces all eigenvalues
+     equal. With `d=orderOf g`, the endomorphism `ρ g` annihilates the separable `X^d−1`;
+     consume `Module.End.isSemisimple_of_squarefree_aeval_eq_zero` and build the adapter that
+     a semisimple endomorphism over ℂ with one eigenvalue is scalar.
+     `Monoid.neZero_exponent_of_finite` supplies `NeZero e` for the primitive-root and norm
+     arguments; `CyclotomicField` has its native number-field instance independently of that
+     nonzero-exponent hypothesis. The separate Galois power-map target remains required for
+     the algorithm's character-lattice action. Layer 6 also owns compatibility of a chosen
+     primitive-root embedding with its fixed exact cyclotomic-integer embedding.
+
+  2. **Prime-power class obstruction for nonabelian simple groups.** For a finite nonabelian simple group
+     `S`, prove that no `g ≠ 1` has a conjugacy class of size `pʳ` with `p` prime and `r > 0`. The
+     Layer 3 row/class adapters identify table entries with `χ(g)` for the chosen representative. Use
+     column orthogonality with the class of `g` first and the identity class second to obtain
+     `∑_{χ ∈ Irr(S)} χ(g) * χ(1) = 0`. The inverse of the identity is the identity, so this
+     specialization needs no conjugation of character values. If every nontrivial irreducible
+     character with nonzero value at `g` had degree divisible by `p`, isolate the unique trivial
+     row to get `1 + p * β = 0`, where `β` is a finite sum of integer multiples of character
+     values and is therefore integral over `ℤ` in `ℂ`. Hence `β = -1/p`. Apply
+     `IsIntegral.ratCast_iff` and `IsIntegrallyClosed.algebraMap_eq_of_integral` with `ℤ` and
+     `ℚ` (or consume `IsIntegral.exists_int_iff_exists_rat`); this would make `-1/p` an integer,
+     a contradiction since p is prime. Thus some
+     nontrivial `χ` has `χ(g) ≠ 0` and `p ∤ χ(1)`. Here nontrivial means its row index differs
+     from the unique trivial row. Use `Nat.Prime.coprime_iff_not_dvd` and `Nat.Coprime.pow_left`
+     to get `Coprime (p^r) χ(1)`; the coprime alternative forces scalar action of `g`.
+     For faithfulness, its kernel is normal; simplicity makes that kernel bottom or top, and the top
+     case is excluded by the owned adapter that an irreducible trivial-action representation
+     has dimension one and is the trivial row. Scalarity and injectivity of the representation
+     then put `g` in the center. The
+     center is normal, so `IsSimpleGroup.eq_bot_or_eq_top_of_normal` makes it bottom or top;
+     `Subgroup.center_eq_top_iff` identifies the latter with commutativity, excluded here. Make the
+     uses of column orthogonality and algebraic-integer divisibility explicit as targets alongside
+     these kernel and center arguments; faithfulness and trivial center then give `g = 1`,
+     contradicting the chosen `g ≠ 1`.
+
+  3. **Solvability by induction on group order.** Use strong induction on `Nat.card G`,
+     generalizing over the finite group (at an arbitrary universe) and both exponents a,b.
+     The trivial group is the base case; the remaining branches assume nontriviality.
+     First handle the prime-power case by consuming Mathlib's `IsPGroup.isNilpotent` for finite
+     `p`-groups and the instance `IsNilpotent.to_isSolvable`; do not duplicate the center-induction
+     proof. For a simple group, the abelian case is solvable by
+     `Group.isSolvable_of_comm`. In the remaining simple nonabelian case, `p ≠ q` and both exponents
+     are positive: otherwise the order is a prime power and the group is solvable.
+     Choose a Sylow `p`-subgroup `P` of `S`; it is
+     nontrivial, and its center is nontrivial by `IsPGroup.center_nontrivial`. Choose `1 ≠ x ∈ Z(P)`.
+     Since `P ≤ C_S(x)`, the index `[S : C_S(x)]` divides `[S : P] = q^b`. Identify this centralizer
+     index with the cardinality of the actual conjugacy-class carrier: Mathlib's
+     `Subgroup.index_centralizer_eq_ncard` states the cardinality of `conjugatesOf x`, so target the
+     equivalence with `ConjClasses.carrier`. The class size is greater than one since `Z(S) = ⊥` for a
+     nonabelian simple group. This contradicts the prime-power class obstruction. Make the arithmetic
+     explicit: `Sylow.card_eq_multiplicity` gives Sylow orders and indices; for distinct primes `p,q`,
+     a divisor of `p^a*q^b` has form `p^i*q^j` with `i ≤ a` and `j ≤ b`. The exponent-zero and
+     one-prime cases are handled by
+     the prime-power result. For a general `pᵃqᵇ`-group, induct on its order: if it is not simple,
+     choose a nontrivial proper normal subgroup
+     `N`; both `N` and `G/N` have smaller order and no new prime divisors. Combine their solvability
+     using `Group.isSolvable_iff_subgroup_quotient`. Include the finite-order subgroup/quotient
+     divisibility adapters and the application of native prime-power solvability in this development.
 
 ## B. The class algebra and the Dixon-Schneider specification
 
@@ -663,7 +756,7 @@ A is in place.
 
 - I. M. Isaacs, *Character Theory of Finite Groups*, AMS Chelsea (1976) - Layers 0-4: class functions and
   orthogonality (Ch. 2), central characters, primitive central idempotents, integrality of character
-  values, `χ(1) ∣ |G|` (Ch. 3), Burnside's `pᵃqᵇ` theorem (Ch. 3, Thm 3.8); the Frobenius-Schur indicator
+  values, `χ(1) ∣ |G|` (Ch. 3), Burnside's `pᵃqᵇ` theorem (Ch. 3); the Frobenius-Schur indicator
   and the real/complex/quaternionic classification (Ch. 4, Layer 7) and Frobenius groups via trivial-
   intersection sets and exceptional characters (Ch. 7, Thm 7.2, Layer 8).
 - J.-P. Serre, *Linear Representations of Finite Groups*, Springer GTM 42 (1977) - Part I: characters,
@@ -693,3 +786,7 @@ A is in place.
   non-split torus, the model account for Layer 9.
 - P. Deligne, G. Lusztig, *Representations of reductive groups over finite fields*, Ann. of Math. 103 (1976)
   103-161 - the general Deligne-Lusztig theory that the cuspidal series of Layer 9 specializes to `GL₂`.
+
+Supplementary public proof reference: [Math 6320 lecture notes, §17.2](https://vkuperberg.math.ethz.ch/math6320notes.pdf),
+Lemma 17.2.3 (coprime zero-or-scalar alternative), Theorem 17.2.4 (prime-power class obstruction),
+and Theorem 17.2.2 (Burnside). These supplement the character-theory texts above.
