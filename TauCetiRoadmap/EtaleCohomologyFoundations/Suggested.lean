@@ -678,6 +678,13 @@ Both integral hearts have H_c^i = 0 for i < 0, and p⁺ objects have torsion-fre
 F.10.2/F.10.2b: VanishingCycles.frobeniusCohomology carries coefficient descent data, first
 at finite level, then through normalized realization. F.10.3: PerfectComplex.lefschetzNumber,
 PerfectComplex.filteredTraceAdditivity require perfect/filtered enhanced module objects.
+DerivedModuleAlgebra §1.E.0 supplies DerivedDeRham.IsPerfect and its PerfectComplex.IsPerfect
+alias on DerivedCategory (ModuleCat R). For commutative R, PerfectComplexInput(R) realizes
+the perfect DG objects as exactly this full subcategory and identifies them with the
+dualizable objects for the tensor of DerivedModuleAlgebra §0.2. Its unit, counit and comparisons
+are natural in module morphisms and coefficient maps and commute with shifts, scalar
+extension, tensor, duals and finite filtered graded-piece maps. Bounded finite-projective
+representatives realize to their usual derived objects and traces to alternating termwise traces.
 F.10.4–F.10.5: VanishingCycles.freeTorsorEquivariantPerfectness and
 VanishingCycles.freeTorsorCoefficientDescent use total-complex perfectness over the actual
 possibly noncommutative group ring and inverse deck action for right modules. Their proofs

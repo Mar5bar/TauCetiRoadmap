@@ -1234,12 +1234,20 @@ and take the alternating termwise trace supplied by AdicSpacesPartIII §R3.8 /
 `LinearMap.projectiveTrace`, with its finite-free comparison, base change and cross-object
 cyclicity. Prove representative, lift and homotopy
 independence, shift sign, scalar extension, tensor/dual identities and agreement with
-cohomology traces when cohomology is finite projective or R is a field. Identify bounded
-finite-projective and dualizable module objects using Mathlib's existing notions. Consume
+cohomology traces when cohomology is finite projective or R is a field. Identify the module
+objects satisfying `DerivedDeRham.IsPerfect R K`, equivalently its alias
+`PerfectComplex.IsPerfect R K` from DerivedModuleAlgebra §1.E.0, with the dualizable
+objects for the tensor of DerivedModuleAlgebra §0.2, using Mathlib's existing notions
+(Stacks, Tag 0FNS). Consume
 DGAInfinity Layer 5's perfect/compact equivalence on the one-object DG category R
-concentrated in degree zero. Construct the adapter to the module-derived carrier here,
-identify its perfect objects with bounded finite-projective representatives, and prove the
-dualizable comparison through that adapter.
+concentrated in degree zero. Construct `PerfectComplexInput(R)` as the realization
+equivalence from these perfect DG objects onto the full subcategory of
+`DerivedCategory (ModuleCat R)` defined by that
+shared predicate, and prove the dualizable comparison through it. Its unit, counit and
+comparisons are natural in module morphisms and coefficient maps and commute with shifts,
+scalar extension, tensor, duals and finite filtered graded-piece maps. A bounded
+finite-projective representative realizes to its usual derived object, and its trace to
+the alternating termwise trace.
 Construct filtered derived objects and endomorphisms before localization and prove
 L(u,K)=Σ_a L(grᵃu,grᵃK) when the finite filtration and its graded pieces are perfect.
 Use this coherent enhancement for open–closed additivity and devissage.
@@ -1273,7 +1281,8 @@ contraction formula, `contractLeft R P ((dualTensorHomEquiv R P P).symm u)`.
 split retract. Every finite projective admits such a finite-free retract.
 (Stacks §§64.4–64.6, 64.15; finite-projective duality and filtered-complex trace formalism.)
 *Needs:* EnhancedDerivedSheaves §§0.1–0.4 enhancement/tensor; the finite filtered enhanced objects constructed in this target before localization;
-Mathlib projective modules, matrices and trace; DerivedModuleAlgebra §0.2 for module-derived tensor;
+Mathlib projective modules, matrices and trace; DerivedModuleAlgebra §§0.2, 1.E.0 for
+module-derived tensor and the shared ordinary-module perfectness predicate;
 AdicSpacesPartIII §R3.8 for commutative projective trace; DGAInfinity Layer 5 for
 perfect/compact equivalence; PadicMeasuresIwasawaAlgebras §5.1 for finite-projective
 determinants and determinant maps.
