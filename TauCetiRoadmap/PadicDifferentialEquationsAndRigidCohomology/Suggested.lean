@@ -682,6 +682,30 @@ example : ¬ NearIsomorphism (0 : Polynomial K →ₗ[K] Polynomial K) := by
 
 end Index
 
+section Averaging
+
+variable {K V W : Type*} [Field K] [CharZero K]
+  [AddCommGroup V] [Module K V] [AddCommGroup W] [Module K W]
+
+/-- A positive constant degree makes the normalized trace a retraction and pullback followed
+by normalized trace an idempotent, in ordinary or compact-support cohomology (RD.5.85). -/
+theorem finiteEtale_averaging (d : ℕ) (hd : 0 < d)
+    (u : V →ₗ[K] W) (tr : W →ₗ[K] V)
+    (htr : tr ∘ₗ u = (d : K) • LinearMap.id) :
+    (((d : K)⁻¹ • tr) ∘ₗ u = LinearMap.id) ∧
+      (u ∘ₗ ((d : K)⁻¹ • tr)) ∘ₗ (u ∘ₗ ((d : K)⁻¹ • tr)) =
+        u ∘ₗ ((d : K)⁻¹ • tr) := by
+  have hdK : (d : K) ≠ 0 := Nat.cast_ne_zero.mpr (Nat.ne_of_gt hd)
+  have hpoint (v : V) : tr (u v) = (d : K) • v := by
+    simpa using LinearMap.congr_fun htr v
+  constructor
+  · ext v
+    simp [hpoint, smul_smul, hdK]
+  · ext w
+    simp [hpoint, smul_smul, hdK]
+
+end Averaging
+
 /-- `dim H¹_rig` of a smooth geometrically irreducible affine curve whose smooth
 compactification has genus `g` and whose boundary has degree `d ≥ 1`. -/
 def affineCurveH1Dim (g d : ℕ) : ℕ := 2 * g + d - 1
@@ -1011,9 +1035,9 @@ open Polynomial
 
 section WeightSeparation
 
-/-- **Local Fatou lemma** (README §RD.7.4 (b)): the coprime
-normalised numerator and denominator of an `ℓ`-adically integral rational series are
-`ℓ`-adically integral (Milne, Lemma 27.10, with `≤ 1` at the boundary). -/
+/-- The local Fatou specialization of DeligneWeightsAndPurity §4.4 gives integrality of the
+coprime normalized numerator and denominator of an `ℓ`-adically integral rational series
+(README RD.7.4; Milne, Lemma 27.10, with `≤ 1` at the boundary). -/
 theorem fatou_local (ℓ : ℕ) [Fact ℓ.Prime] (f : PowerSeries ℤ_[ℓ])
     (hf : PowerSeries.constantCoeff f = 1) (G H : ℚ_[ℓ][X]) (hcop : IsCoprime G H)
     (hG : G.coeff 0 = 1) (hH : H.coeff 0 = 1)
@@ -1022,8 +1046,9 @@ theorem fatou_local (ℓ : ℕ) [Fact ℓ.Prime] (f : PowerSeries ℤ_[ℓ])
     (∀ n, ‖G.coeff n‖ ≤ 1) ∧ ∀ n, ‖H.coeff n‖ ≤ 1 := by
   sorry
 
-/-- **Fatou's lemma** (README §RD.7.4 (c)): an integral power series
-with constant term `1` that is rational over `ℚ` is `A/B` with `A, B ∈ 1 + tℤ[t]` coprime. -/
+/-- The global Fatou specialization of DeligneWeightsAndPurity §4.4 gives a coprime
+presentation `A/B`, with `A, B ∈ 1 + tℤ[t]`, for an integral power series with constant
+term `1` that is rational over `ℚ` (README RD.7.4). -/
 theorem fatou (f : PowerSeries ℤ) (hf : PowerSeries.constantCoeff f = 1) (A B : ℚ[X])
     (hB : B.coeff 0 ≠ 0)
     (h : (B : PowerSeries ℚ) * PowerSeries.map (Int.castRingHom ℚ) f = (A : PowerSeries ℚ)) :
@@ -1054,8 +1079,9 @@ example (ℓ : ℕ) [Fact ℓ.Prime] :
     rw [hcoeff, norm_neg, norm_inv, Padic.norm_p, inv_inv]
     exact_mod_cast (Fact.out : ℓ.Prime).one_lt
 
-/-- **Weight separation** (README §RD.7.5), with the family realised
-in `ℂ`: if `∏ P_i^{(−1)^{i+1}} = A/B` with `A, B ∈ 1 + tℤ[t]` coprime, and every reciprocal
+/-- The complex-coefficient specialization of the coefficient-field/factor-family interface
+of DeligneWeightsAndPurity §4.4 provides integral factors (README RD.7.5): if
+`∏ P_i^{(−1)^{i+1}} = A/B` with `A, B ∈ 1 + tℤ[t]` coprime, and every reciprocal
 root of `P_i` (a root of its reverse) is a Weil `q`-number of weight `i` (all conjugates of
 absolute value `q^{i/2}`; the inline condition is the Weil `q`-number of
 DeligneWeightsAndPurity §0.1), then every `P_i` comes from a unique
