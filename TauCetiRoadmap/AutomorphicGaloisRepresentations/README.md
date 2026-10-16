@@ -310,7 +310,15 @@ the even-degree weight-two case are the precise targets of §0.7.
 
 ### From AutomorphicLFunctionsAndLocalFactors
 
-**AL.3.** Rankin's theorem for a classical newform `f = Σa_nqⁿ` of type `(k, ε)` on `Γ₀(N)` (Rankin 1939; Deligne–Serre 5.2 also cite Jacquet LN 278, Li and Ogg): `Σ|a_n|²n^{−s}` converges for `Re s > k`, and `ζ(2s − 2k + 2)·Σ|a_n|²n^{−s}` extends meromorphically to `ℂ` with a single pole, simple, at `s = k`. This is the classical specialisation of the `GL₂ × GL₂` Rankin–Selberg integral. Holomorphy of the standard `L`-function of a cuspidal `GL₂` representation under the stated twist, and nonvanishing of the finite-order Hecke-character `L`-value at the noncancellation point in Skinner p. 256. For cuspidal `π` on `GL₂(A_F)` and an algebraic Hecke character `ψ, L(π ⊗ ψ, s)` is entire. Here `L` denotes the finite Euler-product `L`-function, meromorphically continued, without archimedean factors. For finite-order `θ, L(θ,s)` is finite and nonzero at real `s>1` and at `s=1` when `θ` is nontrivial; `θ=1` has a simple pole at 1. Separately, for an integral norm twist `ψ=θ|·|^a`, prove the meromorphic identity `L(ψ,s)=L(θ,s+a)`. Nonvanishing applies only when the translated argument lies in the stated range. In Skinner p. 256 order `a₁≥a₂` before evaluating at `1+a₁−a₂`; the trivial ratio at equal exponents contributes a pole.
+**AL.3.** For a normalized cuspidal newform `f = Σa_nqⁿ` of type `(k, ε)` on `Γ₀(N)`, with `k≥1` and `N≥1`, put `D_f(s)=Σ_{n≥1}|a_n|²n^(−s)` and `R_f(s)=ζ(2s−2k+2)D_f(s)`. The series converges for `Re(s)>k`. The function `R_f` extends meromorphically to `ℂ` and is holomorphic at every point of `Re(s)≥k` except for a simple pole at `s=k`. Its comparison with the `GL₂ × GL₂` self-pair Rankin–Selberg L-function retains every ramified Euler correction; those corrections can have poles outside this half-plane. This analytic continuation and local-factor comparison are supplied by AL.3. (Source: Rankin 1939; Deligne–Serre Proposition 5.1 and proof 5.2, pp. 518–519, for the right-half-plane input.)
+
+Holomorphy of the standard `L`-function of a cuspidal `GL₂` representation under the stated twist, and nonvanishing of the finite-order Hecke-character `L`-value at the noncancellation point in Skinner p. 256. For cuspidal `π` on `GL₂(A_F)` and an algebraic Hecke character `ψ, L(π ⊗ ψ, s)` is entire. Here `L` denotes the finite Euler-product `L`-function, meromorphically continued, without archimedean factors. For finite-order `θ, L(θ,s)` is finite and nonzero at real `s>1` and at `s=1` when `θ` is nontrivial; `θ=1` has a simple pole at 1. Separately, for an integral norm twist `ψ=θ|·|^a`, prove the meromorphic identity `L(ψ,s)=L(θ,s+a)`. Nonvanishing applies only when the translated argument lies in the stated range. In Skinner p. 256 order `a₁≥a₂` before evaluating at `1+a₁−a₂`; the trivial ratio at equal exponents contributes a pole.
+
+**Checks.**
+
+- For the level-one form `Δ`, there are no ramified finite corrections: in unitary automorphic normalization `R_Δ(s)=L(s−11,π_Δ×π_Δ^∨)`, with a simple pole at `s=12`.
+- For `f(z)=η(z)η(23z)`, let `E=ℚ(√−23)` and `K=ℚ(α)`, where `α³−α−1=0`. Its standard `S₃` representation `r` satisfies `r⊗r^∨≅1⊕sgn⊕r`, so `R_f(s)=ζ_E(s)ζ_K(s)/(ζ(s)(1+23^(−s)))`. At 23, `a_(23^m)=1`: with `x=23^(−s)`, the factor of `R_f` is `1/((1−x²)(1−x))`, while the tensor-product factor is `1/(1−x)²`. Their ratio is `1/(1+x)`. At `s₀=iπ/log(23)`, this correction has a simple pole; the three zeta functions are finite and nonzero there by their functional equations and nonvanishing on `Re(s)=1`. Thus `R_f` has a pole away from `s=1`. (Source: [F. Calegari, Who proved it first?](https://galoisrepresentations.org/2017/04/25/who-proved-it-first/), displayed eta product and root-count formula for the equivalent polynomial `x³−x+1`; the Euler factors give the displayed identity.)
+- In the level-23 example, `Re(s)≥1` gives `|23^(−s)|≤1/23`, so the correction is holomorphic and nonzero throughout the required half-plane. At `s=1` it equals `23/24`, preserving the simple pole and the coefficient-one prime-moment bound of §2.1.
 
 ### From TauCetiRoadmap.Chebotarev
 
@@ -420,10 +428,12 @@ theorem which the character converse will prove here.
 
 ### From SerreWeightAndLevelOptimisation
 
-SerreWeightAndLevelOptimisation §2.10 supplies weight-two trivial-character
+SerreWeightAndLevelOptimisation §2.10 owns weight-two trivial-character
 lowering for odd `ℓ`, `q∤Mℓ` and an irreducible residual representation
 arising at level `Mq` and unramified at `q`, returning a level-`M` eigenform
-after coefficient extension. Section 2.13 supplies descent
+with coefficient embeddings and a residual isomorphism after common
+residue-field extension. Its residual-support argument is part of that supplier.
+Section 2.13 supplies descent
 to the full prime-to-`ℓ` Artin conductor of a continuous odd irreducible already
 modular representation in odd characteristic. Section 4.7 supplies the weight-two
 coefficient-prime bridge for odd `ℓ` and an irreducible tame-level eigensystem with
@@ -2758,8 +2768,7 @@ See [Kenneth A. Ribet](https://math.berkeley.edu/~ribet/Articles/rankin.pdf) —
 Fix a non-CM weight-two newform `f` of squarefree level `N` and trivial character.
 For every sufficiently large rational `p` and every `λ|p`, prove that `ρ̄_{f,λ}` is
 ramified at every `q|N`. First choose `p≥5` outside the level and exceptional
-residual-reducibility set, and enlarge the bound past every `q+1` for `q|N`, so
-`q≢±1` modulo `p`. If a reduction is unramified at `q`, use the
+residual-reducibility set. If a reduction is unramified at `q`, use the
 weight-two squarefree-level lowering theorem with `q≠p` and absolute residual
 irreducibility to obtain a weight-two form of level dividing `N/q` with the same
 prime-to-`Np` residual eigensystem. Only finitely many newforms occur at those
@@ -2771,7 +2780,16 @@ contradicts `f`'s conductor `N`. This is the argument of
 
 Apply SerreWeightAndLevelOptimisation §2.10 to obtain the public
 `weightTwo_squarefree_levelLowering` wrapper in this weight-two, trivial-character
-setting, with the stated restrictions on `p` and `q`. Prove the finite-newform
+setting. The wrapper requires only `p≥3`, `p∤N`, `q|N`, squarefree `N`,
+absolute residual irreducibility and unramifiedness at `q`: set `M=N/q`, so
+`q∤Mp`. It returns a weight-two trivial-character cuspidal eigenform `g` at
+level `M`, coefficient embeddings `E_f→L` and `E_g→L` into a common number
+field, a prime `μ|p` of `L` restricting to the chosen `λ` of `E_f`, and an
+isomorphism of the two semisimplified residual representations over `κ_μ`.
+Here `ν` is the restriction of `μ` to `E_g`, and both residual representations
+are extended along `κ_λ→κ_μ` and `κ_ν→κ_μ`, respectively. Passing to the
+primitive associate gives a newform of level dividing `M`. The lowering theorem
+and its residual-support proof belong to the supplier. Prove the finite-newform
 and strong-multiplicity-one deduction of `fixedSquarefreeForm_residual_ramified`
 here. The theorem is
 not inferred from semisimplification of the characteristic-zero local parameter:
@@ -2786,12 +2804,13 @@ bounded level; GL2AutomorphicRepresentationsAndTransfer R16.6, strong multiplici
 one.
 
 - `fixedSquarefreeForm_residual_ramified`: Produce one rational bound working for every `λ|p` and `q|N`.
-- `weightTwo_squarefree_levelLowering`: Return the lower-level eigenform with its residual identification under the specified local hypotheses.
+- `weightTwo_squarefree_levelLowering`: Specialize the supplied theorem with `M=N/q`, returning the lower-level eigenform, coefficient embeddings and residual isomorphism for odd `p∤N` under absolute residual irreducibility and unramifiedness at `q`.
 
 **Checks.**
 
 - For level 11 the only proper divisor level is 1, whose weight-two cusp space is zero; this rules out an unramified residual representation at 11 once the hypotheses hold.
 - The bound excludes the finite residual-reducibility set; the reducible mod-5 representation of 11a1 cannot be used as a counterexample.
+- For squarefree `N` and `q|N`, the adapter still applies when `q≡1` or `q≡−1` modulo the odd coefficient prime `p`, provided `p∤N` and the residual hypotheses hold; it uses no residual multiplicity-one assumption.
 - Level `p` or nonsquarefree `N` does not satisfy this target and cannot be inserted without new local hypotheses.
 
 ### 7.7 Density-one ordinary primes for the fixed weight-two form

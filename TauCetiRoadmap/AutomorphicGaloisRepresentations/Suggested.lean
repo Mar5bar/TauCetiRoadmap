@@ -220,6 +220,17 @@ namespace TauCetiRoadmap.AutomorphicGaloisRepresentations
 
 open Polynomial
 
+/-! ## Rankin–Selberg supplier normalization -/
+
+/-- At level 23, R_f's Euler factor is the tensor-product
+factor times (1+x)⁻¹, with x=23^(−s). The denominators are nonzero here;
+the meromorphic correction and its extra pole are specified in README AL.3. -/
+example (x : ℂ) (hminus : 1 - x ≠ 0) (hplus : 1 + x ≠ 0) :
+    1 / ((1 - x ^ 2) * (1 - x)) = (1 / (1 - x) ^ 2) / (1 + x) := by
+  have hsq : 1 - x ^ 2 = (1 - x) * (1 + x) := by ring
+  rw [hsq]
+  field_simp [hminus, hplus]
+
 /-! ## Layer 3: Hilbert constructions and their arithmetic properties -/
 
 /-- The finite L-function of the algebraic character |·|⁻⁴ at s=2 is ζ(−2),
@@ -489,7 +500,10 @@ The remaining definitions in README.md require arithmetic or geometric carriers:
   and `fixedEigenformFamily`, together with `HilbertSystemRealizations` and
   `hilbertSystemRealizations_transport` over the shared carrier and operations;
   `weightTwo_squarefree_levelLowering` specializes SerreWeightAndLevelOptimisation
-  §2.10 under §7.6's hypotheses, and `fixedSquarefreeForm_residual_ramified`
+  §2.10 for squarefree N, odd p∤N and q|N, with absolute residual
+  irreducibility and unramifiedness at q, returning the coefficient embeddings
+  and residual isomorphism over a common residue field. It imposes no
+  q≢±1 condition. The theorem `fixedSquarefreeForm_residual_ramified`
   deduces uniform ramification from finite newform sets and strong multiplicity one.
 
 Their intended data, APIs and discriminating checks remain in the corresponding
