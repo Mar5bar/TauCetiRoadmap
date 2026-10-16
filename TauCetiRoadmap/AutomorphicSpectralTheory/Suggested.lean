@@ -212,7 +212,7 @@ theorem sine_power_integral (nu beta : ℂ) (hnu : 0 < nu.re) :
         (rpowC 2 (nu - 1) * Complex.Gamma ((nu + beta + 1) / 2) *
           Complex.Gamma ((nu - beta + 1) / 2)) := by sorry
 
-/-- The branch Q_{s−1}(t) for t>1, initially Re(s)>0. -/
+/-- The branch `Q_{s−1}(t)` for `t>1`, initially `Re(s)>0`. -/
 def legendre_q (s : ℂ) (t : ℝ) : ℂ :=
   ∫ u in Set.Ioi (0 : ℝ), rpowC (t + Real.sqrt (t ^ 2 - 1) * Real.cosh u) (-s)
 
