@@ -892,6 +892,15 @@ end ModifiedNilpotent
 
 /-! ## Layer 3: Potentially semistable and crystalline quotient rings
 
+The family quotients of README 3.5 carry a continuous finite-free representation,
+a fixed Hodge interval or labelled Hodge type, and, for the potential variants,
+a finite inertia type extending to the Weil group and a finite Galois extension
+killing that type. Their point criteria include nilpotent finite local coefficients;
+the potentially crystalline quotient imposes `N=0` on the bounded period module.
+README 3.8 retains weights `{0,1}` and the inertia and extension data before fixing
+the full Weil–Deligne parameter. README 3.11 retains the induced types and extension
+in its general-linear family input and the tensor-compatible period comparison.
+
 The G-valued integral type quotient is reduced and flat. Complete intersection,
 equidimensionality and a dense regular open are properties of its localized scheme
 generic fibre. Crystalline scheme generic fibres are regular; formal smoothness refers

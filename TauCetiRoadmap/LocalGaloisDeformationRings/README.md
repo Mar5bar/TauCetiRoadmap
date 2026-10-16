@@ -2137,11 +2137,22 @@ For finite-image τ and Hodge type v, construct the quotient of R□[1/p] with t
 
 ### 3.5 Potentially semistable loci in families over a complete local base
 
-For any complete Noetherian local A° with finite residue field, define semistable, potentially semistable and crystalline quotients of A°[1/p] by their universal finite-E-algebra point conditions, compatibly with allowable coefficient maps.
+Fix `A° ∈ C_𝒪`, a continuous representation `ρ : G_K → GL_d(A°)` on the finite-free module `V°`, and `A=A°[1/p]`, `V=V°[1/p]`. Fix integers `a≤b` and a labelled Hodge type `v` with jumps in `[a,b]`, in the convention of 3.1. Transport the bounded constructions of 3.2–3.4 to this family, using the Tate twist of 3.2 for an arbitrary interval.
 
-*Needs:* [1.8](#t1-8); [3.1](#t3-1); [3.3](#t3-3); [0.2](#t0-2).
+Construct the unique quotients `A^{st,[a,b]}` and `A^{st,v}` with the following criterion: for every finite local E-algebra `B`, including nonreduced ones, an E-algebra map `ζ : A → B` factors through the respective quotient exactly when `V_B=V⊗_A B` is semistable over K with weights in `[a,b]`, respectively semistable of labelled Hodge type `v`.
 
-(Sources: [KisinPST], setup (2.7.5), Theorem (2.7.6) and Corollary (2.7.7), author DVI p. 23; Theorem (2.5.5), pp. 19–20.)
+For the potential variants, also fix a finite-image inertia type `τ` extending to `W_K` and a finite Galois extension `L/K` with `I_L ⊆ ker τ`. Construct `A^{pst,τ,v}`: the same factorization criterion for finite local E-algebras requires `V_B|G_L` to be semistable of the Hodge type pulled back from `v`, and the WD inertia type of `V_B` to be `τ`. Construct `A^{pcrys,τ,v}` by imposing `N=0` on this bounded potentially semistable period module; its point criterion requires crystallinity over L with the same Hodge and inertia types. Supply the finite-projective filtered period modules with descent data and their comparison isomorphisms, compatible with these specializations. Allowable coefficient maps transport the family and all the fixed data and induce the corresponding quotient maps. The criterion for a finite E-algebra follows by its product decomposition into local factors.
+
+**Checks.**
+
+- For the constant trivial rank-one family, `v={0}`, `[a,b]=[0,0]`, `τ=1` and `L=K`, all four quotients equal A.
+- A ramified quadratic character over `K=E=ℚ₃` is potentially crystalline of weight zero over the quadratic extension cutting it out. Its constant family has `A^{pcrys,τ,{0}}=A` for its nontrivial inertia type, whereas `A^{st,[0,0]}=0`. Retaining the extension and inertia data distinguishes these loci.
+- In the unramified rank-one family over `𝒪[[T]]` with arithmetic Frobenius `1+T`, specialization `T↦u` in `B=E[u]/(u²)` is crystalline of weight zero and trivial inertia type. The criterion includes this nilpotent coefficient family, not just its residue character.
+- For odd p, take `A°=ℤ_p[[T]]`, `K=E=ℚ_p`, `ε=ω·⟨ε⟩` and `ℓ(g)=log(⟨ε(g)⟩)/log(1+p)`. The residually trivial continuous family `κ_T(g)=(1+T)^{ℓ(g)}` specializes at `T_s=(1+p)^s−1` to `⟨ε⟩^s`. For `s_m=(p−1)p^m` these are crystalline characters `ε^{s_m}`, with distinct `T_{s_m}→0` and unbounded weights. Any ideal J cutting out all crystalline points would vanish at every `T_{s_m}`. A nonzero series in `ℤ_p[[T]][1/p]` has no distinct zeros accumulating at zero: after its first nonzero power of T is removed, its constant coefficient dominates near zero. Thus `J=0`, but the specialization `s=1/2 ∈ ℤ_p` has Sen weight `1/2` and is not Hodge–Tate. The same obstruction excludes unbounded semistable and potentially semistable quotients, even with trivial inertia type fixed.
+
+*Needs:* [1.8](#t1-8); [3.1](#t3-1); [3.2](#t3-2); [3.3](#t3-3); [3.4](#t3-4); [0.2](#t0-2); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.P7.3 (the character criterion for the weight-family Check).
+
+(Sources: [KisinPST], setup (2.7.5), Theorem (2.7.6) and Corollary (2.7.7), author DVI p. 23; Theorem (2.5.5), pp. 19–20; Wang–Erickson, [Algebraic families of Galois representations and potentially semi-stable pseudodeformation rings](https://sites.pitt.edu/~caw203/pdfs/algfam.pdf), Theorems 6.1, 6.4 and 6.6, author pp. 46–49.)
 
 <a id="t3-6"></a>
 
@@ -2211,6 +2222,8 @@ The construction provides the following API.
 - `WDTypeRing.universalRep`: The representation ρ_{B,M} with Tr ρ_{B,M} = the universal pseudo-character.
 - `WDTypeRing.integralImage`: R⁺ is the integral image: its kernel is the preimage of I under localization and R⁺[1/p]=R_{B,M}.
 
+The family input from [3.5](#t3-5) retains labelled Hodge type `{0,1}`, inertia type `M|I_K` and a finite Galois `L/K` killing that inertia type. The full WD condition here also fixes M's Frobenius data.
+
 **Checks.**
 
 - Every maximal ideal x of R_{B,M} gives ρ_x de Rham of weights {0, 1} with WD(ρ_x) ≅ M (Frobenius included).
@@ -2247,7 +2260,7 @@ The crystalline scheme generic fibre Spec R□,crys_{τ,v}[1/ϖ] is regular and 
 
 ### 3.11 G-valued potentially semistable lifting rings (Balaji, Bellovin–Gee)
 
-Let G/𝒪 be a smooth affine group scheme with reductive identity component and the G-valued lifting interface of 1.17. Fix a continuous residual representation, a G⁰-conjugacy class of finite-image inertia representations extending to the required Weil action, and a labelled Hodge cocharacter class v. Construct the unique reduced 𝒪-flat integral quotient R□_{τ,v} characterized, on every finite local E-algebra, by potentially semistable lifts with those data. The quotient can be zero. If nonzero, its scheme generic fibre Spec R□_{τ,v}[1/ϖ] is reduced, locally a complete intersection and equidimensional, with a dense regular open. Its dimension is dim G+Σ_σdim(G/P_{v,σ}), or dim G+f dim Fl_G for regular v. A nonempty compatible fixed full abelianisation replaces dim G by dim G^der and has the corresponding generic-fibre properties. Integral complete intersection, Cohen–Macaulayness or formal smoothness requires a separate theorem carrying its own hypotheses; ordinary quotients and patching modules use only the properties on the stated fibre.
+Let G/𝒪 be a smooth affine group scheme with reductive identity component and the G-valued lifting interface of 1.17. Fix a continuous residual representation, a G⁰-conjugacy class `τ` of finite-image inertia representations extending to the required Weil action, and a labelled Hodge cocharacter class `v`. Choose a finite Galois `L/K` with `τ|I_L=1`. The general-linear family input from [3.5](#t3-5) carries the induced fixed labelled Hodge and inertia types and this extension L; its period modules retain the tensor compatibility of [0.2](#t0-2). Construct the unique reduced 𝒪-flat integral quotient R□_{τ,v} characterized, on every finite local E-algebra including nonreduced ones, by lifts of labelled Hodge type v and WD inertia type τ whose restriction to G_L is semistable. The quotient can be zero. If nonzero, its scheme generic fibre Spec R□_{τ,v}[1/ϖ] is reduced, locally a complete intersection and equidimensional, with a dense regular open. Its dimension is dim G+Σ_σdim(G/P_{v,σ}), or dim G+f dim Fl_G for regular v. A nonempty compatible fixed full abelianisation replaces dim G by dim G^der and has the corresponding generic-fibre properties. Integral complete intersection, Cohen–Macaulayness or formal smoothness requires a separate theorem carrying its own hypotheses; ordinary quotients and patching modules use only the properties on the stated fibre.
 
 **Checks.**
 
@@ -2255,7 +2268,7 @@ Let G/𝒪 be a smooth affine group scheme with reductive identity component and
 - For a complete DVR 𝒪 with uniformizer π, A=𝒪[x,y]/(x²−πx,xy,y²−πy) is free on 1,x,y. The map A→𝒪³ given by evaluation at (0,0),(π,0),(0,π) is injective, so A is reduced; after inverting π it is E³ and is étale. This is an algebraic control for the fibre distinction.
 - The same A has special fibre k[x,y]/(x,y)² with socle spanned by x,y. An Artinian local complete intersection has one-dimensional socle, so this fibre is not a complete intersection. Since π is regular in A, an integral complete intersection would have a complete-intersection special fibre; thus flatness, reducedness and an étale generic fibre do not imply integral complete intersection.
 
-*Needs:* [1.17](#t1-17); [3.5](#t3-5); [3.4](#t3-4); [3.9](#t3-9).
+*Needs:* [1.17](#t1-17); [3.5](#t3-5); [3.4](#t3-4); [3.9](#t3-9); [0.2](#t0-2).
 
 (Sources: [FKP22], Appendix B, arXiv v5 pp. 52–53; [BellovinGee], §3.2 and Theorem 3.3.3 (= Theorem A), arXiv v3 pp. 29–30.)
 
