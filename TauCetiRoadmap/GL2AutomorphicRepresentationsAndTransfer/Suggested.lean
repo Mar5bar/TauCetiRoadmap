@@ -22,6 +22,11 @@ normalization, monodromy is retained, and coefficient twists use the existing
 symmetric powers and character-twist API. Automorphic classes, local types,
 Whittaker models and their transfer maps have their full specification in README.
 
+AutomorphicFormsOnReductiveGroups §§7.2–7.3 supplies adelization, its inverse,
+raising and Casimir formulas, scalar normalization and Hecke and diamond comparisons.
+R16.1/finite-level-comparison identifies these with the matrix and level realizations;
+R16.6 compares the supplied primitive occurrence with local newvectors and conductors.
+
 LocalGaloisDeformationRings §2.26.1 supplies `DivisionAlgebraTypes.jacquetLanglands`.
 R17.1/local-quaternionic-comparison consumes its degree-two nonarchimedean
 specialization on irreducible admissible smooth complex D× classes, directed to
@@ -477,7 +482,9 @@ example {M N d : ℕ} [NeZero M] [NeZero N] [NeZero d] {k : ℤ}
 example {N : ℕ} [NeZero N] {k : ℤ} (f : HeckeRing.GL2.Newform N k)
     (c : ℂ) (hc : c ≠ 1) : c * (UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff 1 ≠ 1 := by sorry
 
-/-- The trace and determinant conversions of a good-prime Satake pair. -/
+/-- Scaling a supplied Satake pair converts its trace and determinant.
+At a good prime, the hypotheses come from AutomorphicFormsOnReductiveGroups §7.3,
+with z = p^((k-1)/2) in the unitary normalization. -/
 theorem classicalHeckeLevel (α β z ap χp : ℂ)
     (htrace : z * (α + β) = ap) (hdet : α * β = χp) :
     z * α + z * β = ap ∧ (z * α) * (z * β) = χp * z ^ 2 := by sorry

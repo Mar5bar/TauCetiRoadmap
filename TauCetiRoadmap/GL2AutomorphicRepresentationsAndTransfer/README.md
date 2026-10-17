@@ -24,9 +24,12 @@ AutomorphicLFunctionsAndLocalFactors representation prerequisites own GLₙ arch
 modules, globalizations and restricted tensors. AutomorphicSpectralTheory §§0.48–0.50 supplies
 the general reductive-group extensions of these constructions.
 ArithmeticLocallySymmetricSpaces ALS.F.6 owns automorphic forms and cuspidal classes.
-R16.1/finite-level-comparison builds the GL₂ function dictionary; R16.4/cohomological-rationality
-compares the supplied finite-part rational models with classical Hecke fields, and R16.6 builds
-the holomorphic dictionary. AutomorphicLFunctionsAndLocalFactors, AL.0–AL.4, owns
+AutomorphicFormsOnReductiveGroups §§7.2–7.3 owns the classical/adelic dictionary, its
+inverse, raising and Casimir normalizations, and Hecke and diamond comparisons.
+R16.1/finite-level-comparison adapts that dictionary to the matrix and level conventions here;
+R16.4/cohomological-rationality compares the supplied finite-part rational models with classical
+Hecke fields, and R16.6 compares the supplied primitive correspondence with local newvectors
+and conductors. AutomorphicLFunctionsAndLocalFactors, AL.0–AL.4, owns
 local Fourier analysis, vector-space and distribution refinements, local factors,
 Rankin–Selberg analysis and the general converse theorems. ArithmeticGaloisRepresentations
 §2.7 **Global inputs** owns the common scalar adelic Schwartz–Bruhat, Fourier, Poisson and Tate theory.
@@ -175,10 +178,15 @@ realizations for GLₙ. AutomorphicSpectralTheory §§0.48–0.50 (`real_represe
 to general reductive groups. ArithmeticLocallySymmetricSpaces ALS.F.6
 `LocallySymmetric.AutomorphicForm`, `.cuspForm` and `.cuspidalRepresentation` supplies the
 function spaces and their admissible constituents; ALS.F.7 supplies relative Lie cohomology.
-R16.1/finite-level-comparison constructs restriction and reconstruction on the double cosets.
+AutomorphicFormsOnReductiveGroups §§7.2–7.3 supplies adelization and its inverse over ℚ,
+including the lowering criterion for every k≥1, the raising and Casimir formulas, the unitary
+scalar normalization, the actual cuspidal newform occurrence and the good-prime Hecke and
+diamond actions. R16.1/finite-level-comparison transports these maps to the matrix realization
+and levels here; its general-number-field restriction uses the supplied double-coset spaces.
 AL/finite-part-rationality supplies the regular-algebraic finite-part rational model and
 coefficient conjugates; R16.4/cohomological-rationality constructs their GL₂ Hecke-field comparison.
-R16.6 constructs the holomorphic GL₂ dictionary, including weight one's lowering condition.
+R16.6 specializes the supplied primitive dictionary to the AL.2 newvector tensor and compares
+its exact conductor and local factors, including the weight-one limit.
 Isobaric GL₂ means a cusp class or
 the Langlands quotient attached to two Hecke characters; the GL₃ isobaric carrier used in transfer
 is assembled from cuspidal blocks by normalized induction. Use AL.3's isobaric uniqueness.
@@ -426,24 +434,34 @@ A nonunitary ω does not define this Hermitian norm on the central quotient.
 
 ### R16.1.6 Finite-level automorphic functions
 
-At compact open Kf, the GL₂ finite-level space is the Kf-fixed subspace of ArithmeticLocallySymmetricSpaces ALS.F.6 automorphic forms with chosen central character, finite K∞ types and infinitesimal-character ideal. Using the finite double-coset decomposition GL₂(𝔸)=⊔GL₂(F)tᵢGL₂(F∞)Kf, restriction identifies it with the direct sum of classical spaces on `Γᵢ\GL₂(F∞)`, with Γᵢ the corresponding arithmetic stabilizer. The central character, growth, differential and right-translation conditions are transported, not redefined. ArithmeticGaloisRepresentations §2.7 **Global inputs** owns scalar adelic Schwartz–Bruhat/Fourier theory; SmoothRepresentationsOfLocalGroups SR.1 owns the compactly supported smooth Hecke carrier.
+For a number field F and compact open Kf, take the Kf-fixed subspace of
+ArithmeticLocallySymmetricSpaces ALS.F.6 automorphic forms with chosen central character,
+finite K∞ types and finite-codimension infinitesimal-character ideal. Specialize
+AdelicAlgebraicGroups §§3.4 and 4.4's double-coset spaces to GL₂. For representatives tᵢ,
+restriction `f↦(g∞↦f(tᵢg∞))` identifies this space with the direct sum on
+`Γᵢ\GL₂(F∞)`, where `Γᵢ=GL₂(F)∩tᵢKf tᵢ⁻¹`. The summands carry the transported
+central-character, growth and differential conditions. This adapter identifies inverse
+reconstruction, finite Hecke actions and archimedean differentiation on the supplied spaces.
 
-Kf compact open; finite type and finite-codimension annihilator data as in ArithmeticLocallySymmetricSpaces ALS.F.6.
+Over ℚ, N>0, k≥1 and `χ(−1)=(−1)^k`, use
+AutomorphicFormsOnReductiveGroups §7.2's adelization and inverse on the χ-character
+subspace at K₀(N). Identify these with the preceding restriction maps and the Γ₁(N)
+χ-subspace. The conclusion is the same holomorphic form precisely for the supplied right
+SO(2)-weight k and lowering equation, and the same cuspidality condition. The unitary
+central character is `χ⁻¹` on finite units and trivial on positive real scalars; the
+negative-determinant component supplies the conjugate weight. Transport the supplier's
+raising, Casimir and slash-scalar conventions and §7.3's Hecke and diamond actions through
+this identification. The maps and operator formulas are those of the supplier.
 
-Construct inverse restriction and reconstruction maps and prove equivariance for finite Hecke
-operators and archimedean differentiation. Over ℚ, for integer k≥1 and nebentypus χ of parity
-`χ(−1)=(−1)^k`, the weight-k SO(2) vector annihilated by the lowering operator corresponds to a
-holomorphic classical form; cuspidality is equivalent to vanishing constant Fourier terms.
-The negative-determinant component supplies the conjugate weight. This function dictionary
-precedes primitive normalization and requires neither a Galois representation nor Artin automorphy.
+**Checks.** Level one over ℚ has a single finite double coset. At a split finite prime the
+transported right double-coset action is the supplier's classical Hecke comparison. Weight
+one retains the lowering condition in the full-O(2) limit without a `Sym^(−1)` coefficient.
+At weight two the supplied Casimir scalar is zero; for a level character value i, right
+translation acts by −i and the classical diamond by i, detecting the inverse convention.
 
-**Checks.** Level one has a single finite double coset; at a split finite prime right double-coset
-translation agrees with the classical Hecke action; weight one satisfies the lowering condition
-in the full-O(2) limit even though it has no regular algebraic `Sym^(−1)` coefficient.
+*Needs:* R16.1/haar-quotient-comparison; AutomorphicFormsOnReductiveGroups §§7.2–7.3; AdelicAlgebraicGroups §§3.4 and 4.4; ArithmeticLocallySymmetricSpaces ALS.F.6; ArithmeticGaloisRepresentations §2.7 (Global inputs: scalar adelic Schwartz–Bruhat space); SmoothRepresentationsOfLocalGroups SR.1.
 
-*Needs:* R16.1/haar-quotient-comparison; ArithmeticLocallySymmetricSpaces ALS.F.6; ArithmeticGaloisRepresentations §2.7 (Global inputs: scalar adelic Schwartz–Bruhat space); SmoothRepresentationsOfLocalGroups SR.1.
-
-*Source:* [jl70], §10, Definition 10.2 and cusp-form definition, pp.169–170; §5, Theorem 5.11, pp.85–86; [getz15], §6.4 Lemma 6.19 and §6.5, pp.33–34, for the lowering condition, including weight one.
+*Source:* [jl70], §10, Definition 10.2 and cusp-form definition, pp.169–170; §5, Theorem 5.11, pp.85–86; [getz15], §6.4 Lemma 6.19 and Remark 6.20, p.33, and §6.5, pp.33–34. Operator and scalar conventions are those of AutomorphicFormsOnReductiveGroups §§7.2–7.3.
 
 <a id="r16-1-chevalley-congruence"></a>
 
@@ -499,7 +517,7 @@ level and is not the identity modulo 5. At depth zero both local factors are GL�
 
 ### Dependencies
 
-AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; ReductiveGroupsPartII RG2.0/RG2.4; ArithmeticGaloisRepresentations §2.7 (Global inputs); AdelicAlgebraicGroups AA.0–AA.3; ArithmeticLocallySymmetricSpaces ALS.F.6; AutomorphicSpectralTheory §§0.48–0.50; GlobalNumberFields Layers 2 and 7–10; Chebotarev Layer 10.
+AutomorphicFormsOnReductiveGroups §§7.2–7.3; AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; ReductiveGroupsPartII RG2.0/RG2.4; ArithmeticGaloisRepresentations §2.7 (Global inputs); AdelicAlgebraicGroups AA.0–AA.3; ArithmeticLocallySymmetricSpaces ALS.F.6; AutomorphicSpectralTheory §§0.48–0.50; GlobalNumberFields Layers 2 and 7–10; Chebotarev Layer 10.
 
 ## Layer R16.2: Local representations and newvectors
 
@@ -976,11 +994,19 @@ R16.2–R16.4; AutomorphicLFunctionsAndLocalFactors AL.0–AL.3; ArithmeticGaloi
 
 ### R16.6.1 Primitive newforms and holomorphic cuspidal classes
 
-For k≥2 and `χ(−1)=(−1)^k`, identify normalized primitive Γ₁(N) newforms with cusp `GL₂(𝔸_ℚ)` classes of conductor N, centre from χ via R16.1/finite-level-comparison, and unitary infinite component `D_k`. Use the finite newvector tensor and holomorphic lowest-weight vector in the positive-determinant piece; full O(2) still has both signs. Set the first Fourier coefficient to one. ModularForms Layer4 supplies all bad-prime eigenproperties; pinned `Newform` alone does not store them.
+For N>0, k≥2 and `χ(−1)=(−1)^k`, specialize the primitive correspondence of
+AutomorphicFormsOnReductiveGroups §§7.2–7.3 to the existing normalized Γ₁(N) newform
+carrier and the matrix realization of R16.1/finite-level-comparison. Its output is a cusp
+`GL₂(𝔸_ℚ)` class of conductor N, the supplied central character attached to χ, and
+unitary infinite component `D_k`. Compare the occurrence supplied there with AL.2's finite
+newvector tensor and the holomorphic lowest-weight line in its positive-determinant piece;
+full O(2) retains both signs. For a fixed additive character, the tensor normalized by its
+first Fourier coefficient recovers the supplied newform, and the supplier's inverse recovers
+the original class. Thus this adapter identifies the local conductor product with N and
+the supplied primitive vector with the normalized Whittaker tensor. It uses ModularForms
+Layer 4's bad-prime eigenproperties as well as the pinned newform carrier.
 
-N>0, k≥2; primitive at exact conductor, existing newspace and R16.1/finite-level-comparison dictionary; chosen additive character for the vector comparison.
-
-Prove the following API.
+The specialization provides the following API.
 - `primitiveBijection_conductor`: The product of the local conductor ideals is exactly N.
 - `primitiveBijection_weight_character`: `π∞=D_k` and the central character is the idele-class character attached to χ.
 - `primitiveBijection_hecke`: For p∤N, `α_p+β_p=a_p p^{−(k−1)/2}` and `α_pβ_p=χ(p)`.
@@ -992,21 +1018,23 @@ Prove the following API.
 - A primitive form of level M properly dividing N is not primitive of conductor N after the oldform inclusion.
 - For a normalized eigenform with a₁=1, multiplying by a scalar c≠1 changes a₁ to c and fails normalization. Every nonzero c yields the same primitive class after renormalization; c=0 is excluded from the eigenform carrier.
 
-*Needs:* AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; R16.2/archimedean-classification; R16.4/global-multiplicity-one; R16.4/strong-multiplicity-one; R16.1/finite-level-comparison; ModularForms Layer 4; Tau Ceti `HeckeRing.GL2.Newform`; Tau Ceti `HeckeRing.GL2.Newform.qExpansion_coeff_one`.
+*Needs:* AutomorphicFormsOnReductiveGroups §§7.2–7.3; AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; R16.2/archimedean-classification; R16.4/global-multiplicity-one; R16.4/strong-multiplicity-one; R16.1/finite-level-comparison; ModularForms Layer 4; Tau Ceti `HeckeRing.GL2.Newform`; Tau Ceti `HeckeRing.GL2.Newform.qExpansion_coeff_one`.
 
-*Source:* [jl70], §11, Proposition 11.1.1 p. 183; §5, Theorem 5.11 pp. 85–86. Use the R16.1/finite-level-comparison holomorphic dictionary.
+*Source:* [jl70], §11, Proposition 11.1.1 p. 183; §5, Theorem 5.11 pp. 85–86. Specialize AutomorphicFormsOnReductiveGroups §§7.2–7.3 via R16.1/finite-level-comparison.
 
 <a id="r16-6-classical-hecke-and-level"></a>
 
 ### R16.6.2 The complete level and Hecke dictionary
 
-For primitiveBijection, at p∤N the unitary Satake polynomial is `X²−a_p p^{−(k−1)/2}X+χ(p)`, while the arithmetic Hecke polynomial is `X²−a_pX+χ(p)p^{k−1}`. The primitive level is `∏p p^{c(πp)}`. At a ramified p the local standard factor has degree zero, one or two according to `(ker N)^I` in rec πp, and its coefficients match the ModularForms Layer 4 primitive `U_p` factor after the same variable shift; do not impose a degree-two good-prime polynomial there. The finite-unit central character is `χ^{-1}` in the R16.1/finite-level-comparison right-equivariance convention, whereas its value on a good local uniformizer is χ(p) after global rational invariance.
+For the R16.6/primitive-classical-bijection adapter, specialize AutomorphicFormsOnReductiveGroups §7.3 at p∤N, with vol(GL₂(ℤ_p))=1. The supplied good-prime Hecke comparison gives the unitary Satake polynomial `X²−a_p p^{−(k−1)/2}X+χ(p)`, while the arithmetic Hecke polynomial is `X²−a_pX+χ(p)p^{k−1}`. The primitive level is `∏p p^{c(πp)}`. At a ramified p the local standard factor has degree zero, one or two according to `(ker N)^I` in rec πp, and its coefficients match the ModularForms Layer 4 primitive `U_p` factor after the same variable shift; do not impose a degree-two good-prime polynomial there. The finite-unit central character is `χ^{-1}` in the R16.1/finite-level-comparison right-equivariance convention, whereas its value on a good local uniformizer is χ(p) after global rational invariance.
 
-Write `n=v_p(N)` and `c=v_p(cond χ)`. ModularForms Layer 4 gives `a_p≠0` precisely when n=max(1,c). For n=c≥1, the local class is principal series with one unramified character α and `a_p=p^((k−1)/2)α(ϖ)`; for n=1,c=0 it is an unramified Steinberg twist µ, with `a_p=p^((k−2)/2)µ(ϖ)` and `a_p²=χ^(p)(p)p^(k−2)`, where `χ^(p)` is the character away from p. In all other ramified cases `L_p=1` and `a_p=0`. Thus the classical ramified factor is `(1−a_pp^(−t))⁻¹` in the first two cases, with t=s+(k−1)/2. Test the one-ramified-character case, the Steinberg square relation, and a supercuspidal with `a_p=0`. These specialize the existing bad-prime theorem rather than define new Hecke operators.
+Write `n=v_p(N)` and `c=v_p(cond χ)`. ModularForms Layer 4 gives `a_p≠0` precisely when n=max(1,c). For n=c≥1, the local class is principal series with one unramified character α and `a_p=p^((k−1)/2)α(ϖ)`; for n=1,c=0 it is an unramified Steinberg twist µ, with `a_p=p^((k−2)/2)µ(ϖ)` and `a_p²=χ^(p)(p)p^(k−2)`, where `χ^(p)` is the character away from p. In all other ramified cases `L_p=1` and `a_p=0`. Thus the classical ramified factor is `(1−a_pp^(−t))⁻¹` in the first two cases, with t=s+(k−1)/2. Test the one-ramified-character case, the Steinberg square relation, and a supercuspidal with `a_p=0`. These specialize the existing bad-prime theorem rather than define new Hecke operators. The algebraic adapter `classicalHeckeLevel` takes complex scalars α, β, z, a_p and χ(p) with `z(α+β)=a_p` and `αβ=χ(p)` and gives the scaled trace a_p and determinant `χ(p)z²`. At a good prime set `z=p^((k−1)/2)` using the supplier's trace identity.
 
-*Needs:* R16.6/primitive-classical-bijection; R16.3/principal-series-parameter; R16.3/steinberg-monodromy; R16.3/supercuspidal-parameter; R16.5/classical-l-function-comparison; ModularForms Layer 4; R16.1/finite-level-comparison.
+**Checks.** At k=2 the scaled trace is a_p and the determinant is `χ(p)p`. A one-ramified-character principal series has the stated linear factor. An unramified Steinberg twist satisfies the displayed square relation, while a supercuspidal has `a_p=0` and trivial standard factor.
 
-*Source:* [casselman73], §3 start, p. 308; §1 local conductor theorem.
+*Needs:* AutomorphicFormsOnReductiveGroups §§7.2–7.3; R16.6/primitive-classical-bijection; R16.3/principal-series-parameter; R16.3/steinberg-monodromy; R16.3/supercuspidal-parameter; R16.5/classical-l-function-comparison; ModularForms Layer 4; R16.1/finite-level-comparison.
+
+*Source:* AutomorphicFormsOnReductiveGroups §7.3 for the good-prime normalization; [casselman73], §3 start, p. 308; §1 local conductor theorem for the ramified comparison.
 
 <a id="r16-6-hilbert-algebraic-weights"></a>
 
@@ -1061,11 +1089,11 @@ Consumer coefficient field, local level and infinite type fixed; geometric state
 
 ### R16.6.6 Primitive weight-one comparison
 
-For N>0 and odd nebentypus χ, the existing primitive normalized weight-one cusp forms at conductor N correspond to cuspidal GL₂(𝔸ℚ) classes of exact conductor N and central character `ω_χ` whose unitary infinite component is the full-O(2) limit D₁(0). Its positive-determinant restriction has holomorphic and antiholomorphic limits of lowest weights ±1. Its real Weil parameter is 1⊕sgn, not an irreducible induction from ℂ×; its standard infinite factor is Γℝ(s)Γℝ(s+1)=Γℂ(s). Use the k≥1 function dictionary constructed in R16.1/finite-level-comparison, finite newvector normalization and global multiplicity. This comparison does not give a regular algebraic Hilbert coefficient `Sym^{−1}` or a weight-one Galois construction. The Casimir is −1/4 at k=1 in the convention Δ=(H²+2XY+2YX)/4.
+For N>0 and odd nebentypus χ, the existing primitive normalized weight-one cusp forms at conductor N correspond to cuspidal GL₂(𝔸ℚ) classes of exact conductor N and central character `ω_χ` whose unitary infinite component is the full-O(2) limit D₁(0). Its positive-determinant restriction has holomorphic and antiholomorphic limits of lowest weights ±1. Its real Weil parameter is 1⊕sgn, not an irreducible induction from ℂ×; its standard infinite factor is Γℝ(s)Γℝ(s+1)=Γℂ(s). Specialize AutomorphicFormsOnReductiveGroups §§7.2–7.3 at k=1 through R16.1/finite-level-comparison, then compare its primitive occurrence with the finite newvector normalization and global multiplicity. This comparison does not give a regular algebraic Hilbert coefficient `Sym^{−1}` or a weight-one Galois construction. The Casimir is −1/4 at k=1 in the convention Δ=(H²+2XY+2YX)/4.
 
 N>0; χ(−1)=−1; existing primitive newform carrier with k=1 and exact conductor; chosen AutomorphicSpectralTheory §§0.48–0.49 limit globalization and R16.1/finite-level-comparison dictionary.
 
-*Needs:* R16.2/archimedean-classification; R16.4/global-multiplicity-one; R16.1/finite-level-comparison; AutomorphicSpectralTheory §§0.48–0.49; AutomorphicLFunctionsAndLocalFactors AL.1; ModularForms Layer 4; AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors.
+*Needs:* AutomorphicFormsOnReductiveGroups §§7.2–7.3; R16.2/archimedean-classification; R16.4/global-multiplicity-one; R16.1/finite-level-comparison; AutomorphicSpectralTheory §§0.48–0.49; AutomorphicLFunctionsAndLocalFactors AL.1; ModularForms Layer 4; AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors.
 
 *Source:* [getz15], §6.4 Lemma 6.19, p. 33, with the AutomorphicSpectralTheory §§0.48–0.49 normalization; §6.5 limit module, p. 34.
 
@@ -1076,7 +1104,7 @@ For one embedding, (k,m)=(2,0) gives the trivial line and (3,1) gives the two-di
 
 ### Dependencies
 
-R16.2–R16.5; ModularForms Layers 3–4; AutomorphicSpectralTheory §§0.48–0.49; R16.4/cohomological-rationality; R16.1/finite-level-comparison; ArithmeticGaloisRepresentations Layer 2.
+R16.2–R16.5; AutomorphicFormsOnReductiveGroups §§7.2–7.3; ModularForms Layers 3–4; AutomorphicSpectralTheory §§0.48–0.49; R16.4/cohomological-rationality; R16.1/finite-level-comparison; ArithmeticGaloisRepresentations Layer 2.
 
 ## Layer R17.1: Quaternionic local transfer
 
