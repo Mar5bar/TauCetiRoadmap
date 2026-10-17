@@ -31,6 +31,8 @@ Design choices made explicit here:
 * The Newton convention in M2.16 uses unscaled `F` on the covariant Dieudonné module.
   Its Hodge cocharacter is `μ_cov(z) = z·id·μ_h(z)⁻¹ = h_ℂ(1,z)`, with weight zero on `V₀`.
 * Hecke operators act on the right by precomposition of level markings (M1.13).
+* The analytic period map goes from the analytified moduli space to the arithmetic quotient;
+  its inverse gives uniformization after the Kodaira–Spencer tangent comparison (M3.5, M3.7).
 * The analytic-family Riemann input is `E = −ε(h′) q_g ψ`, so `E(Jx, x) > 0` (M3.5).
 -/
 
@@ -671,7 +673,7 @@ skew-hermitian spaces, `cmTorus`, `rankOneSkewHermitian_classification`; `CMFiel
 `unitaryDeformation`, `isogenyDieudonne_coker_length`, `isogenyKernelRanks`, `Display`, `Display.deformationEndomorphism`, `polarizedDisplay_lifting`,
 `covariantHodgeCocharacter`, `pelNewtonPoint`, `averagedHodgeCocharacter`, `IsMuOrdinary`,
 `muOrdinaryLocus`, `wedhornOrdinary`.
-Layer M3: `PELModuli.analyticFamily`, `ker1Classification`, `hasseCases`, `arithmeticQuotient_structure`, `complexPoints`,
+Layer M3: `PELModuli.analyticFamily`, `PELModuli.periodMap`, `ker1Classification`, `hasseCases`, `arithmeticQuotient_structure`, `complexPoints`,
 `uniformization`, `algebraization`, `typeDComparison`, `hermitianHomOfAbelianSchemes`,
 `siegelFineUniformization`. Layer M4: `cmReciprocity`, `twist`, `adelicTwist`, `canonicalModel`,
 `canonicalModel_functorial`, `normalizedModel`, `normalizedModel_finite_normal_flat`, `cmModuli`,
@@ -727,11 +729,22 @@ The following APIs and discriminating Checks are also specified in the README:
   in `[0,1]`, and `IsMuOrdinary` equates it with that average. For split Gaussian CM at `5`,
   with `τ` in `Lie A`, the labelled Hodge weights are `(1,0)` and the covariant Hodge and Newton
   weights are `(0,1)`; the torus Weyl group cannot exchange them.
+* M3.5: `PELModuli.periodMap` constructs holomorphic maps from locally marked Betti homology
+  and the universal family's Hodge filtration on an analytified étale atlas. The pairing, order
+  action and locally constant level are retained. Changing markings and atlas overlaps descends
+  the maps and their structure-sheaf pullbacks. M3.4 gives bijectivity and M2.10 identifies its
+  differential with an isomorphism, so the analytic inverse theorem gives `uniformization`.
+  M3.7 extends this construction using its full-group point classification in type D.
 * M4.5: `normalizedModel` uses relative normalization and its integral-factorization property
   `Scheme.Hom.normalizationDesc`, with quasi-compactness and quasi-separatedness of the cover
   map; `Scheme.Hom.normalization.hom_ext` gives uniqueness and
   `Scheme.Hom.normalizationPullback` gives smooth base change. Its Hecke extension concerns
   prime-to-`p` correspondences over the good models.
+* M4.6: `normalizedModel_finite_normal_flat` uses normality of the finite étale generic
+  cover over the smooth good-level generic model. Integral closure in this normal algebra
+  agrees with closure in its product of function fields. For `ℚ[t²] ⊆ ℚ[t²,t³]`, relative
+  closure in the reduced cusp algebra is the nonnormal cusp algebra itself, whereas closure
+  in `ℚ(t)` is `ℚ[t]` (Check `normalizedModel_requires_normal_cover`).
 * M5.2: `siegelModuli` is a stack at arbitrary positive level. For `n ≥ 3` its characteristic-zero
   fibre is a quasi-projective fine scheme; at every `n ≥ 1` the characteristic-zero coarse space
   is a quasi-projective scheme with the ordinary Siegel analytic quotient. Universal families
@@ -743,6 +756,11 @@ The following APIs and discriminating Checks are also specified in the README:
   `x ∈ M_H^c(k)`, so a finite algebraic lifting field is separable. Part (a), classifying forms
   split by a finite Galois extension, holds over arbitrary fields.
   M6.10 `PELModuli.export_obstruction` carries the same perfect-field hypothesis.
+  Check `forms_twist_nontrivial` assumes `E/ℚ` elliptic, `j(E) ∉ {0,1728}` and
+  `d ∈ ℚ^× ∖ ℚ^{×2}`. Check `forms_twist_exceptional` takes `y² = x³ − x` and `d = −1`:
+  its short-Weierstrass twist is the same equation, and its discriminant-`−4` trace/norm
+  representative `y² = x³ − 16x` is isomorphic via `(x,y) ↦ (4x,8y)`.
+  The forms classification keeps the full automorphism group at exceptional j-invariants.
 
 The affine determinant polynomial is stated above. Its sheaf construction and classification,
 the order and dual-lattice APIs, and their remaining Checks are README targets; this list does

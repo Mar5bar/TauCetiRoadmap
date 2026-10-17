@@ -2723,21 +2723,40 @@ with `q_g c(g) ∈ Ẑ^×`. The family is `G^{(i)}(ℚ)`-equivariant (`analyticF
 negative on components with `ε(h′) = −1`, when such components exist). It is built from the relative
 Riemann theorem for analytic families and the Siegel family (AbelianSchemesAndArithmeticModuli A5,
 whose Riemann-form convention needs the input
-`E = −ε(h′) q_g ψ`) and descends to `Q_K^{(i),an} = G^{(i)}(ℚ) ∖ (X × G(𝔸_f)/K)` by M3.3. Define
-`PELModuli.uniformization`: the morphism of complex analytic spaces
-`u^{(i)} : Q_K^{(i),an} → (M_K^ad ⊗_{F₀} ℂ)^an` given by the universal property of the analytification
-of the algebraic space `M_K^ad ⊗ ℂ` (ComplexComparisonPartII §§C−1.1–C−1.3,
-`SpaceAnalytification`, on an étale presentation; analytic spaces are `ComplexAnalyticSpace`, with
-nilpotents). Prove that `⊔_i u^{(i)}` is an isomorphism of analytic spaces and each `u^{(i)}` an open
-and closed immersion (`uniformization_openClosed`, `uniformization_analyticOpenClosed`): bijectivity
-on points is M3.4, and the local isomorphism compares the Kodaira–Spencer map (M2.10) with the tangent
-space of `X` (variation of the Hodge filtration). The API further has `uniformization_hecke` (commutes
-with level change and Hecke translation), `uniformization_universal` (`u^{(i)*}(A^univ)^an`, using the integral presentation
-for `L_K`, is the descended family, with `λ`, `i` and level), and `uniformization_siegel` (for the principal genus-one
-datum, the modular analytic family). The notation `Q` is the PEL arithmetic quotient; it is
+`E = −ε(h′) q_g ψ`) and descends to `Q_K^{(i),an} = G^{(i)}(ℚ) ∖ (X × G(𝔸_f)/K)` by M3.3.
+
+Construct `PELModuli.periodMap`: for a Case A or C datum and neat `K`, the morphism
+`per : (M_K^ad ⊗_{F₀} ℂ)^an → ⊔_i Q_K^{(i),an}`. On an étale scheme atlas of the moduli space,
+use M1.10's integral presentation and M2.9's universal family. Analytify this algebraic family and
+apply AbelianSchemesAndArithmeticModuli A5.6. On simply connected analytic opens, mark the rational
+Betti homology as a `B`-module with pairing up to rational scalar by `V^{(i)}`. The action and pairing
+are flat, so the rational-form index is locally constant; M3.4 supplies its allowed values.
+The holomorphic Hodge filtration gives a holomorphic map to the flag variety.
+The order action, polarization and determinant condition put its image in `X`; the Betti–étale
+comparison transports the level to a locally constant coset in `G(𝔸_f)/K`.
+Changing the marking by `γ ∈ G^{(i)}(ℚ)` changes `(h′,gK)` to `(γh′γ⁻¹,γgK)`.
+Thus the maps to the quotient agree on marking overlaps and on the analytified atlas relation.
+Their structure-sheaf maps are pullbacks of holomorphic functions along these flag-coordinate maps;
+ComplexComparisonPartII §C−1.3 `SpaceAnalytification.quotient` descends them to `per`.
+This constructs a morphism of analytic spaces, including its sheaf map (Milne, §2, pp. 28–29,
+for holomorphic filtrations and their differential, and Proposition 6.3, p. 70, for the marking
+formula; Kottwitz, §8, p. 400, for the rational-form pieces).
+
+Prove that `per` is an isomorphism: M3.4 gives bijectivity on points, and its differential is the
+variation of the Hodge filtration, identified by A5.6 with the Kodaira–Spencer map of M2.10.
+That is an isomorphism onto the tangent space of `X`. Both source and target are complex manifolds
+by M2.8 and M3.3, so the analytic inverse function theorem gives local analytic inverses, which glue
+by bijectivity (Tau Ceti `AnalyticAt.exists_openPartialHomeomorph`, used in
+ComplexComparisonPartII §C−1.1). Define `PELModuli.uniformization` by this inverse, with restrictions
+`u^{(i)} : Q_K^{(i),an} → (M_K^ad ⊗_{F₀} ℂ)^an`. Each is an open and closed immersion
+(`uniformization_openClosed`, `uniformization_analyticOpenClosed`). The API further has
+`uniformization_hecke` (commutes with level change and Hecke translation), `uniformization_universal`
+(`u^{(i)*}(A^univ)^an`, using the integral presentation for `L_K`, is the descended family by A5.6
+applied to the marked Hodge variations, with `λ`, `i` and level), and `uniformization_siegel`
+(for the principal genus-one datum, the modular analytic family). The notation `Q` is the PEL arithmetic quotient; it is
 `Sh_K(G^{(i)}, X)` when SV3 holds and `G` is connected (Kottwitz, §8, p. 400; Milne, Proposition 6.3,
-p. 70, for the Siegel case; Tsimerman, *The André–Oort conjecture for `A_g`*, §6.1, p. 387). *Needs:* M2.9,
-M2.10, M3.3, M3.4; AbelianSchemesAndArithmeticModuli A5; ComplexComparisonPartII §§C−1.1–C−1.3;
+p. 70, for the Siegel case; Tsimerman, *The André–Oort conjecture for `A_g`*, §6.1, p. 387). *Needs:* M1.10, M2.8, M2.9,
+M2.10, M3.3, M3.4; AbelianSchemesAndArithmeticModuli A5.6; ComplexComparisonPartII §§C−1.1–C−1.3;
 ShimuraVarieties Layers 0–1; SchemeAndStackFoundations Layer 1; Mathlib `UpperHalfPlane`.
 
 **Checks.**
@@ -2751,6 +2770,13 @@ ShimuraVarieties Layers 0–1; SchemeAndStackFoundations Layer 1; Mathlib `Upper
   `ζ_n = exp(2πi/n)`, has Weil pairing `ζ_n^a`. The basis `(1/n,τ/n)` is the
   `a = 1` component. At `n = 3`, `a = 2`, `τ = i`, the pairing is `ζ₃²`,
   distinct from that on the `a = 1` component.
+- `periodMap_constant`: a constant polarized PEL family with constant level on a connected analytic
+  open has constant `per`; its Hodge filtration is constant in a flat marking.
+- `periodMap_marking`: replacing a marking by `γ` changes both the filtration and the level coset
+  by the displayed full rational action, so the quotient map and its structure-sheaf pullback agree.
+- `periodMap_g1`: on the standard marked elliptic family over `ℍ`, `per` is the quotient of
+  `τ ↦ τ`; its differential is the identity in the period coordinate, and its inverse recovers
+  the family `ℂ/(ℤ + ℤτ)` with its level and polarization.
 - `uniformization_all_pieces`: every locally trivial rational form contributes its own open and closed
   piece.
 - `uniformization_family_pullback`: pulling back the universal family along `u^{(i)}` gives the
@@ -2803,16 +2829,22 @@ over the finite pointed set `ker¹(ℚ, G)` of the full rational-form quotients
 the analytic comparison of M3.5 holds for these quotients (Lan, *An example-based introduction*,
 §5.1.3, pp. 54–56). No replacement of `G` by `G°` with a separate component formula is made. The proof
 is direct: Lan's Hodge–lattice equivalence for the full group, the forms indexed by `ker¹(ℚ, G)`
-(M3.1, with M0.9 for disconnected groups), the family from relative Riemann theory descended by the full
-rational action (M3.3), the analytic carrier of ComplexComparisonPartII §§C−1.1–C−1.3, and the
-tangent comparison of M2.10. *Needs:* M0.8, M0.9, M0.11, M0.20, M1.9, M2.9, M2.10, M3.1, M3.3;
-AbelianSchemesAndArithmeticModuli A5; ComplexComparisonPartII §§C−1.1–C−1.3;
-ComplexComparisonPartII §§C−1.1–C−1.3, C0.4.
+(M3.1, with M0.9 for disconnected groups), and the relative Riemann family descended by the full
+rational action (M3.3). Extend `PELModuli.periodMap` by the atlas and marked-filtration construction
+of M3.5, now using this full-group point classification: changes of marking lie in the full
+`G^{(i)}(ℚ)`, including its disconnected components, and descend both the holomorphic maps and their
+sheaf pullbacks. M2.10 identifies its differential with an isomorphism; the analytic inverse theorem
+therefore gives the comparison as its inverse, with the universal-family identification from A5.6.
+*Needs:* M0.8, M0.9, M0.11, M0.20, M1.9, M2.9, M2.10, M3.1, M3.3, M3.5;
+AbelianSchemesAndArithmeticModuli A5.6; ComplexComparisonPartII §§C−1.1–C−1.3, C0.4.
 
 **Checks.**
 
 - `typeD_not_connected_datum`: a type D datum is not identified with the connected-group Shimura datum;
   the component and level comparison is made with the full group.
+- `typeD_period_marking`: a change of marking in a nonidentity component of `G^{(i)}(ℚ)`
+  still gives the same period-map value in the full quotient; quotienting only by `G°(ℚ)`
+  need not identify these markings.
 - `typeD_components`: for a definite quaternion algebra over `ℚ` with `V = B²`, `G` has two components
   before taking double cosets. Whether their adelic representatives remain distinct depends
   on `G(ℚ)` and `K`; component count alone does not determine the quotient index set.
@@ -3052,8 +3084,15 @@ normal and flat over `O_{F₀,v}`; its special fibre is equidimensional of the d
 fibre and need not be reduced or smooth. Finiteness: `𝔐` is of finite type over the excellent
 `O_{F₀,v}`, hence Nagata (SchemeAndStackFoundations Layer 0, `IsExcellentScheme`), and the normalization of
 a Nagata scheme in a reduced finite-type scheme is finite (Stacks, Tag 03GR; Tag 035S for the absolute
-case), applied on an étale atlas. Normality: the integral closure of a normal ring in a reduced algebra
-whose total ring of fractions is a product of fields is normal. Flatness: every irreducible component
+case), applied on an étale atlas. Normality: the generic cover is finite étale over the smooth
+characteristic-zero good model, hence normal (Stacks, Tag 033C). On an affine chart write `A` for
+the good-model ring and `B` for the normal generic-cover algebra, finite étale over `A[1/p]`.
+Its relative integral closure `C` of `A` inside `B` equals the integral closure of `A` in the
+product of function fields of `B`: any element of that product integral over `A` is integral over
+`B`, hence lies in `B` by normality. Componentwise integral closure in those fields is normal;
+the component idempotents are themselves integral over `A`. This gives normality on the atlas
+and hence on the normalized model (Stacks, Tag 035L, whose finite-component hypothesis holds
+because the generic cover is noetherian). Flatness: every irreducible component
 dominates `Spec O_{F₀,v}` because the structure sheaf injects into the pushforward from the generic
 fibre, so the local rings are torsion free over the discrete valuation ring, hence flat (Stacks, Tag
 0539). *Needs:* M4.5; SchemeAndStackFoundations Layer 0; Mathlib `Flat`, `IsFinite`;
@@ -3072,6 +3111,10 @@ ModularCurvesPartII §11.5 for the genus-one special-fibre Check.
 - `normalizedModel_equidimensional`: for the Siegel datum of genus `g` and any `K_p`, every component of
   the special fibre has dimension `g(g+1)/2`, the dimension of the generic fibre; a definition that
   allowed vertical components of smaller dimension would fail flatness.
+- `normalizedModel_requires_normal_cover`: for `A = ℚ[t²] ⊆ B = ℚ[t²,t³]`, the relative integral
+  closure inside `B` is `B` because `t³` is integral over `A`. Although `B` is reduced with fraction
+  field `ℚ(t)`, it is not normal: `t` is integral and missing. Closure inside `ℚ(t)` is `ℚ[t]`;
+  this distinguishes the normal generic cover used above from an arbitrary reduced algebra.
 - `normalizedModel_not_smooth`: for `p ≥ 5`, at level `Γ₀(p)` with neat prime-to-`p` level, the model is not smooth at the supersingular points.
 
 ### M4.7 The rank-one CM moduli schemes
@@ -3607,8 +3650,15 @@ Tau Ceti `WeierstrassCurve.j_quadraticTwist`, `WeierstrassCurve.not_exists_smul_
 - `forms_elliptic`: over a field of characteristic `≠ 2, 3` every point of the `j`-line lifts (Mathlib
   `WeierstrassCurve.ofJ` with `ofJ_j`), and the forms are the quadratic twists (quartic or sextic at
   `j = 1728, 0`), classified by `H¹(Gal, Aut E)`.
-- `forms_twist_nontrivial`: `E` and `E^d` are forms of each other over `ℚ(√d)` and not isomorphic over `ℚ`
+- `forms_twist_nontrivial`: for an elliptic curve `E/ℚ` with `j(E) ∉ {0,1728}` and
+  `d ∈ ℚ^× ∖ ℚ^{×2}`, `E` and `E^d` become isomorphic over the nontrivial quadratic extension
+  `ℚ(√d)` and are not isomorphic over `ℚ`, with their canonical polarizations
   (Tau Ceti `WeierstrassCurve.not_exists_smul_quadraticTwist_eq`).
+- `forms_twist_exceptional`: for `E : y² = x³ − x`, `j(E) = 1728` and the nonsquare `d = −1`,
+  the short-Weierstrass twist `(A,B) ↦ (d²A,d³B)` leaves the equation unchanged, so the polarized
+  curves are already isomorphic over `ℚ`. The trace/norm representative with discriminant `−4`
+  is `y² = x³ − 16x`; the map `(x,y) ↦ (4x,8y)` from `E` is a `ℚ`-isomorphism.
+  The full `Aut E` in the forms classification retains this exceptional behavior.
 - `gerbe_neat_trivial`: at neat level the band is trivial and `𝒢_x` is `Spec k`.
 - For `k = 𝔽_p(t)`, let the constant étale group `C_p` act by `σ(u,v) = (u+v,v)` on `𝔸²_k`.
   Its invariants are `k[v,w]`, `w = u^p − u v^{p−1}`. The coarse point `(v,w) = (0,t)` of
