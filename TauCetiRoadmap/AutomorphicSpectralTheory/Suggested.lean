@@ -8,7 +8,11 @@ The roadmap is `README.md`. This file records light definitions and theorem sign
 statable against the pinned Mathlib and Tau Ceti APIs and is not exhaustive. In particular,
 it keeps native analytic functions, measures and the upper half-plane; the adelic spaces,
 trace distributions and relative cohomology belong to the README. Measurable Hilbert fields,
-direct-integral carriers and generic complex traces are supplied by VonNeumannAlgebras V4.
+direct-integral carriers and measure transport are supplied by VonNeumannAlgebras V4.0.Fields;
+generic complex traces are supplied by V4.Core. README §0.7 constructs the spectral
+representation with measurable multiplicity. OperatorTheory/UnboundedOperators UO-A01–UO-A02
+supplies the generic unbounded integral and exact domain used by the automorphic
+realization and resolvent-convention transport in §0.6.
 AutomorphicFormsOnReductiveGroups supplies the test-function topology, real representation
 constructions, smooth globalizations, algebraic restricted tensors and constant-term
 transitivity used by the spectral adapters of README §§0.11 and 0.48–0.51.
@@ -416,6 +420,19 @@ end Modular
 
 /-! ## Layer 6: Paley–Wiener theory and trace distributions -/
 
+/-- The rank-one regularized sum retains the coroot-lattice covolume.
+Wall agreement cancels the pole, leaving the covolume times the derivative difference. -/
+theorem gm_family_rank_one_limit (cPlus cMinus : ℂ → ℂ) (dPlus dMinus : ℂ)
+    (v : ℝ) (hv : 0 < v)
+    (hPlus : HasDerivAt cPlus dPlus 0) (hMinus : HasDerivAt cMinus dMinus 0)
+    (hwall : cPlus 0 = cMinus 0) :
+    Tendsto (fun z : ℂ => cPlus z / (z / (v : ℂ)) + cMinus z / (-z / (v : ℂ)))
+      (𝓝[≠] 0) (𝓝 ((v : ℂ) * (dPlus - dMinus))) := by sorry
+
+-- Covolume two and wall-compatible members z and zero give regularized value two.
+example : Tendsto (fun z : ℂ => z / (z / 2) + 0 / (-z / 2))
+    (𝓝[≠] 0) (𝓝 2) := by sorry
+
 /-- The scalar rank-one weighted character is the negative logarithmic derivative
 times the scalar test operator. The reference chamber is P, R maps I_P to I_P̄,
 and the coroot coordinate z gives denominators z and −z with covolume one. -/
@@ -554,7 +571,7 @@ theorem self_twist_card_bound {G : Type*} [Group G] (m : ℕ)
 /-
 README constructions needing the adelic, representation-theoretic, direct-integral or
 locally convex carriers:
-Layer 0: hilbert_schmidt_kernel, unbounded_selfadjoint_spectral,
+Layer 0: hilbert_schmidt_kernel, unbounded_selfadjoint_spectral, spectral_representation,
 nuclear_lf_space, nuclear_function_kernel, vector_schwartz, operator_meromorphic, archimedean_v_normalized_entire,
 spectral_cycle_coordinates, compact_cover_transfer, whittaker_w,
 vector_schwartz_entire, locally_convex_integration, vector_phragmen_lindelof,
@@ -624,9 +641,14 @@ integral kernel is q²(q - 1); this distinguishes the two constructions even in 
 
 The normalized V* family and continued W, Green and modular Eisenstein kernels are
 separate continuation targets. The measurable Hilbert fields, direct integrals, decomposable
-operators, bounded diagonal models and complex trace are supplied by VonNeumannAlgebras V4
-on OperatorTheory/OperatorIdeals carriers. The unbounded-domain adapter and measurable
-Hilbert–Schmidt kernel comparison are targets here. Franke comparison, Kostant support weights,
+operators and measure transport are supplied by VonNeumannAlgebras V4.0.Fields; V4.Core
+supplies complex trace on OperatorTheory/OperatorIdeals carriers. The spectral_representation
+target constructs the representation-to-multiplicity model and its PVM compatibility in §0.7.
+OperatorTheory/UnboundedOperators UO-A01–UO-A02 supplies the generic unbounded integral,
+exact domain and self-adjoint recovery. The unbounded_selfadjoint_spectral target applies
+that contract to automorphic realizations, transporting domains and the negative of the
+native resolvent convention. The measurable Hilbert–Schmidt kernel comparison is a target here.
+Franke comparison, Kostant support weights,
 Maass–Selberg, spectral completeness and the trace formulas require the README constructions.
 
 -/

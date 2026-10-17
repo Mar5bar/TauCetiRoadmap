@@ -4,9 +4,9 @@
 
 ## Scope and ownership
 
-The new functional analysis consists of the unbounded spectral-domain adapter, measurable integral kernels and their diagonal trace formulas, locally convex vector integration, meromorphic families and strip-order continuation. The automorphic layers own convergent and continued intertwining operators, Eisenstein residues, truncation, spectral completeness, weighted finite-character acyclicity, Franke's comparison and its cuspidal-support weight contract, Paley–Wiener transforms and trace distributions.
+The new functional analysis consists of spectral representations with measurable multiplicity, automorphic spectral-domain transport, measurable integral kernels and their diagonal trace formulas, locally convex vector integration, meromorphic families and strip-order continuation. The automorphic layers own convergent and continued intertwining operators, Eisenstein residues, truncation, spectral completeness, weighted finite-character acyclicity, Franke's comparison and its cuspidal-support weight contract, Paley–Wiener transforms and trace distributions.
 
-OperatorTheory/SelfAdjointSpectralTheory owns projection-valued measures and bounded Borel calculus, Stone's correspondence and unbounded self-adjoint spectral measures. OperatorTheory/OperatorIdeals owns the Hilbert–Schmidt and trace-class ideals and their gauges. VonNeumannAlgebras V4's early analytic prefix owns measurable Hilbert fields, direct integrals, decomposable operators, diagonal spectral representations and the generic complex operator trace on those ideals. These contracts use the analytic prefix independently of modular theory and factor classification. RepresentationTheory/CompactGroups owns Peter–Weyl and its continuous compact-group kernels. The present additions are the automorphic spectral transform, its unbounded-domain adapter, square-integrable kernels on general scalar `L²` spaces and representative-dependent or regularized diagonal trace formulas.
+OperatorTheory/SelfAdjointSpectralTheory owns projection-valued measures and bounded Borel calculus, Stone's correspondence and unbounded self-adjoint spectral measures. OperatorTheory/UnboundedOperators Part A owns the generic unbounded spectral integral, its exact domain and recovery of the original self-adjoint partial operator (UO-A01–UO-A02), and the generic multiplier comparison (UO-A07). Only UO-A01–UO-A02's independent PVM-based prefix is consumed here. OperatorTheory/OperatorIdeals owns the Hilbert–Schmidt and trace-class ideals and their gauges. VonNeumannAlgebras V4.0.Fields owns measurable Hilbert fields, direct integrals, decomposable operators and measure transport; V4.Core owns the generic complex operator trace on those ideals. These contracts use the analytic prefix independently of modular theory and factor classification. Section 0.7 constructs the spectral representation of a nondegenerate `C₀(X)` representation on these supplied fields. RepresentationTheory/CompactGroups owns Peter–Weyl and its continuous compact-group kernels. The other additions are the automorphic spectral transform, its domain and resolvent-convention transport, square-integrable kernels on general scalar `L²` spaces and representative-dependent or regularized diagonal trace formulas.
 
 For number fields, AdelicAlgebraicGroups owns the adelic topology, restricted Haar products, rational characters, logarithmic height, `G(𝔸)¹`, homogeneous quotient integration, parabolic and Iwasawa data, reduction and Siegel estimates. ReductiveGroupsPartII owns the underlying local points, parabolics and `L`-groups. SmoothRepresentationsOfLocalGroups owns the finite-place representation categories, Hecke algebras, normalized induction, Jacquet modules and Satake theory. AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7 and 3.4–3.5 supplies the general-group real representation foundations, smooth Fréchet globalizations and algebraic restricted tensor factorization; §§0.48–0.50 identify their spectral inducing realizations and Hilbert tensor completions, agreeing with the `GLₙ` specializations of AutomorphicLFunctionsAndLocalFactors. Its §0.2 supplies the support/level test-function topology and §4.1 supplies constant-term transitivity; §§0.11 and 0.51 add the nuclear-space and spectral constant-term adapters. ArithmeticLocallySymmetricSpaces owns relative cochains, smooth growth spaces, constant terms, cusp forms and their discreteness, and the de Rham and moderate-growth comparisons. In particular, the comparison from all smooth functions to uniform moderate growth is a supplier theorem; the new comparison here passes from uniform moderate growth to central-finite automorphic forms. AutomorphicLFunctionsAndLocalFactors also owns scalar `L`-functions, local factors, Fourier–Laplace analysis, `K`-Bessel transforms, curve additive analysis, `GLₙ` isobaric sums, cuspidal continuation and pole criteria, and the pure curve-cohomological realization. The present roadmap constructs residual-block classification (§§4.14–4.14a), residual scalar applications (§§4.15a–4.15e), normalized `GLₙ` intertwining estimates (§2.3a), global strip bounds and standard-completion applications (§§3.6a–3.6d), and `GLₙ` transfer applications (Layer 7).
 
@@ -39,7 +39,8 @@ For cohomology, `V=V_λ` is a finite-dimensional algebraic coefficient module an
 | ArithmeticGaloisRepresentations | §§2.4–2.7: local factors and constants evaluated on the specified compatible packet parameter in §2.8; §2.7 **Global inputs**: the scalar adelic Schwartz–Bruhat space and tensor API, self-dual Fourier transform, Poisson summation, global Tate integral, meromorphic continuation and Hecke functional equation. |
 | ArithmeticLocallySymmetricSpaces | ALS.0.2, ALS.F.1, ALS.F.5–ALS.F.6, ALS.4.5, ALS.5b.1, ALS.5b.3, ALS.5b.5: real Lie data, cochains, growth spaces, constant terms, cuspidal discreteness, Kostant theory and cohomological comparisons. |
 | AutomorphicLFunctionsAndLocalFactors | Representation prerequisites, `isobaric-construction`, `archimedean-smooth-representations`, `restricted-tensor-realizations`; AL.0 local Fourier/Bessel analysis and vector-space adelic extensions; AL.1 distribution-valued Tate theory and number-field normalization adapters; AL.2 standard-factor analysis and generic paired Hadamard theory; AL.3 cuspidal pair factors, continuation, functional equations, poles, `isobaric-strong-multiplicity-one`, curve additive analysis, pure realization and tensor determinant. |
-| VonNeumannAlgebras | V4, early analytic prefix: measurable separable Hilbert fields on standard `σ`-finite bases, complete direct integrals, decomposable operators, diagonal spectral representations and generic complex traces on OperatorIdeals carriers; §§0.1–0.3, 0.7 and 0.9 consume these contracts. |
+| VonNeumannAlgebras | [V4.0.Fields](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1041): measurable separable Hilbert fields on standard `σ`-finite bases, complete direct integrals, decomposable operators and measure transport; V4.Core: generic complex traces on OperatorIdeals carriers. Sections 0.1–0.3 and 0.9 consume these contracts; §0.7 constructs the representation-to-multiplicity model. |
+| OperatorTheory/UnboundedOperators | [Part A, UO-A01–UO-A02](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bd1bbc0a33b022a053df88d9efd662f963f8dcde/TauCetiRoadmap/OperatorTheory/UnboundedOperators/README.md#part-a--unbounded-borel-calculus-and-spectral-correspondences): the unbounded PVM integral, exact second-moment domain, polarized action and recovery of a self-adjoint partial operator with its actual domain. This prefix uses SelfAdjointSpectralTheory independently of V10 multiplier models. |
 
 | Shared mathematics | Canonical owner and boundary |
 |---|---|
@@ -77,7 +78,7 @@ Tau Ceti supplies `TauCeti.exists_isFiniteMeasure_eq_nevanlinnaKernel_add` in `T
 
 ### From TauCetiRoadmap.OperatorTheory, VonNeumannAlgebras and RepresentationTheory
 
-SelfAdjointSpectralTheory Part B supplies projection-valued measures (SA-B14–SA-B33), with the diagonal scalar measure `ProjValMeasure.diagMeasure` (SA-B21: `μ_v(B)=⟪v,E(B)v⟫` is positive of mass `‖v‖²`), the intersection law `proj_inter` (SA-B29: `E(B)E(C)=E(B∩C)`) and the Borel functional calculus `borelCalculus` of a normal bounded operator (SA-B05), under which bounded Borel indicators map to spectral projections (SA-B26). SA-B01–SA-B36 is the normal bounded calculus. Part E supplies the spectral projection-valued measure `P_A` of an unbounded self-adjoint `A` (SA-E01, SA-E03), the resolvent formula `⟪ξ,R(z)ξ⟫=∫(z−s)⁻¹dμ_ξ(s)` with `R(z)=(z−A)⁻¹` (SA-E05), Stone's theorem (SA-E43) and uniqueness of the spectral measure (SA-E44); it does not state the representation `A=∫t dP_A(t)` on `{v:∫t²dμ_v<∞}`, which §0.6 proves. SA-D20 supplies `R(z)⁎=R(z̄)` for self-adjoint `A`. These are consumed contracts. ([Tes09], §3.1, (3.5)–(3.15), pp.88–90; §§3.1–3.3, pp.88–105.)
+SelfAdjointSpectralTheory Part B supplies projection-valued measures (SA-B14–SA-B33), with the diagonal scalar measure `ProjValMeasure.diagMeasure` (SA-B21: `μ_v(B)=⟪v,E(B)v⟫` is positive of mass `‖v‖²`), the intersection law `proj_inter` (SA-B29: `E(B)E(C)=E(B∩C)`) and the Borel functional calculus `borelCalculus` of a normal bounded operator (SA-B05), under which bounded Borel indicators map to spectral projections (SA-B26). SA-B01–SA-B36 is the normal bounded calculus. Part E supplies the spectral projection-valued measure `P_A` of an unbounded self-adjoint `A` (SA-E01, SA-E03), the resolvent formula `⟪ξ,R(z)ξ⟫=∫(z−s)⁻¹dμ_ξ(s)` with `R(z)=(z−A)⁻¹` (SA-E05), Stone's theorem (SA-E43) and uniqueness of the spectral measure (SA-E44). OperatorTheory/UnboundedOperators UO-A01–UO-A02 supplies the representation `A=∫t dP_A(t)` on `{v:∫t²dμ_v<∞}` and its polarized action. Section 0.6 applies these to automorphic realizations and their resolvent convention. SA-D20 supplies `R(z)⁎=R(z̄)` for self-adjoint `A`. These are consumed contracts. ([Tes09], §3.1, (3.5)–(3.15), pp.88–90; §§3.1–3.3, pp.88–105.)
 
 **Checks of the supplied projection-measure contract.**
 
@@ -101,7 +102,7 @@ For the specified compatible packet parameters in §2.8, ArithmeticGaloisReprese
 
 ## How to read the build
 
-Layer 0 constructs the new analytic interfaces and explicit kernels. Layers 1–4 pass from convergent induction and Eisenstein series through continuation, truncation and norm identities to the onto spectral transform. Layer 5 uses that theory to prove weighted acyclicity and the complete Franke contract. Within Layer 5, construct the rapidly decreasing core theorem §5.7a and the constant-term resolution §5.9 before weighted acyclicity §5.8. Layer 6 constructs Paley–Wiener transforms and then the trace distributions. Layer 7 constructs the cyclic twisted trace comparison and norm transfer from those distributions, then solvable base change and the degree-one comparison. Build §2.3a before §3.6a; build §§3.6a–3.6d in order after their listed prerequisites. The number-field residual-block theorem §4.14a follows §§1.1–1.5, 2.4 and 2.6. Within the main branch, chamber convergence and the pseudo-Eisenstein inner product precede continuation; the packet norm precedes, and does not substitute for, onto completeness.
+Layer 0 constructs the new analytic interfaces and explicit kernels. Construct §0.7 after the measurable-field and compact-space PVM suppliers, then apply the independent UO-A01–UO-A02 domain theorem in §0.6. Layers 1–4 pass from convergent induction and Eisenstein series through continuation, truncation and norm identities to the onto spectral transform. Layer 5 uses that theory to prove weighted acyclicity and the complete Franke contract. Within Layer 5, construct the rapidly decreasing core theorem §5.7a and the constant-term resolution §5.9 before weighted acyclicity §5.8. Layer 6 constructs Paley–Wiener transforms and then the trace distributions. Layer 7 constructs the cyclic twisted trace comparison and norm transfer from those distributions, then solvable base change and the degree-one comparison. Build §2.3a before §3.6a; build §§3.6a–3.6d in order after their listed prerequisites. The number-field residual-block theorem §4.14a follows §§1.1–1.5, 2.4 and 2.6. Within the main branch, chamber convergence and the pseudo-Eisenstein inner product precede continuation; the packet norm precedes, and does not substitute for, onto completeness.
 
 The layers group targets by subject. Two branches therefore cite later-numbered sections; the dependency graph has no cycles, and the following orders build them.
 
@@ -182,11 +183,11 @@ The API uses `weightedMeasure` for the positive density change, `weighted_mass` 
 *Needs:* Tau Ceti `Analysis.Complex.Pick.Nevanlinna`; Mathlib `Measure.withDensity` and change-of-density integration.
 
 
-### 0.6 Unbounded self-adjoint spectral theorem
+### 0.6 Self-adjoint spectral realizations
 
-Prove `unbounded_selfadjoint_spectral`, the unbounded-domain adapter between the supplied self-adjoint spectral measure `P_A` and VonNeumannAlgebras V4's diagonal representation on a separable `H`. In that supplied direct integral `A` acts by coordinate multiplication with domain `{s:∫t²‖s(t)‖²dμ(t)<∞}`; transport gives `dom A={v:∫t²dμ_v(t)<∞}` and `⟪w,Av⟫=∫t d⟪w,P_A(t)v⟫` for `v` in the domain. Identify the transported resolvents and Stone group with the native partial-operator resolvent and supplied Stone correspondence. The diagonal carrier and bounded functional calculus are supplied; equality of the unbounded domains is proved here.
+Prove `unbounded_selfadjoint_spectral`, the domain and resolvent-convention transport for the self-adjoint realizations in automorphic `L²` spaces. Consume OperatorTheory/UnboundedOperators UO-A01–UO-A02's generic theorem: `dom A={v:∫t²dμ_v(t)<∞}` and `⟪w,Av⟫=∫t dμ_(w,v)(t)` on that domain, where `μ_(w,v)(B)=⟪w,P_A(B)v⟫`. Apply §0.7 to the nondegenerate `C₀(ℝ)` representation given by the bounded `P_A` calculus; spectral cutoffs prove nondegeneracy. For its onto unitary `U`, the supplied domain formula and `dμ_v(t)=‖(Uv)(t)‖²dμ(t)` give `U(dom A)={s:∫t²‖s(t)‖²dμ(t)<∞}` and `UAv=t(Uv)`. Identify `(A−zI)⁻¹` with multiplication by `(t−z)⁻¹` for nonreal `z`, and with the negative of the native `(zI−A)⁻¹`. Identify the transported Stone group with multiplication by `exp(iut)`, for real time `u`. The generic unbounded integral and its domain remain the supplier's constructions.
 
-*Standing hypotheses:* `A` is self-adjoint, not merely symmetric or essentially self-adjoint on an unspecified domain.
+*Standing hypotheses:* `A` is self-adjoint on its specified domain in a separable complete complex Hilbert space, with its supplied spectral PVM `P_A`.
 
 **Checks.**
 
@@ -194,20 +195,30 @@ Prove `unbounded_selfadjoint_spectral`, the unbounded-domain adapter between the
 - On `ℓ²(ℕ)` with `(Av)_n=nv_n`, the domain is `Σ_n n²|v_n|²<∞`; `v_n=1/(n+1)` lies in `ℓ²` but not in that domain.
 - For coordinate multiplication on `L²(ℝ)`, the transported resolvent `(A−i)⁻¹` multiplies by `(t−i)⁻¹` and is bounded, although `A` is unbounded.
 
-([Tes09], §3.1, Lemma 3.4, p.93 and Theorem 3.7, p.96; §3.3, Theorem 3.17, p.105.)
+([Tes09], §3.1, (3.25)–(3.37), Theorems 3.2 and 3.7, pp.91–96; §3.3, Lemma 3.16 and Theorem 3.17, pp.104–105.)
 
-*Needs:* VonNeumannAlgebras V4, diagonal spectral representation; the projection-measure supplier contract; §0.5; §0.2; `IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul`.
+*Needs:* OperatorTheory/UnboundedOperators Part A, UO-A01–UO-A02; §0.7; the projection-measure supplier contract; §0.5; §0.2; `IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul`.
 
 
-### 0.7 Bounded normal spectral theorem
+### 0.7 Spectral representations and bounded normal models
 
-Consume VonNeumannAlgebras V4's diagonal spectral representation of `C₀(X)` on a separable Hilbert space, applied to the continuous calculus on `X=spec N`. Use its measurable-multiplicity carrier for the supplied bounded normal Borel calculus: coordinate multiplication represents `N` and indicators represent its spectral projections. This is the bounded model used by the automorphic spectral transform of §4.3.
+Prove `spectral_representation`. For a second-countable locally compact Hausdorff space `X` with its Borel σ-algebra and a nondegenerate complex star representation `π:C₀(X)→B(H)` on separable complete `H`, construct a finite regular measure `μ`, a measurable multiplicity function `m:X→ℕ∪{∞}`, a measurable field `K_x=ℓ²({j∈ℕ:j<m(x)})` on the carrier of §§0.1–0.2, and an onto unitary `U:H→∫⊕K_x dμ(x)` satisfying `Uπ(f)U⁻¹=M_f`. Here nondegeneracy means that the closed linear span of all `π(f)v` is `H`. Construct the normalized regular PVM `E` recovering `π`, with `μ(B)=0` exactly when `E(B)=0`, `UE(B)U⁻¹=M_(1_B)` for every Borel `B`, and `dμ_v(x)=‖(Uv)(x)‖²dμ(x)` for its supplied diagonal measures. Prove the same intertwining identity for every bounded Borel symbol, and compatibility with any supplied regular PVM recovering `π`.
 
-*Standing hypotheses:* `N⁎N=NN⁎`; `H` is separable and complete.
+The target includes extension to `C(X⁺)` on the one-point compactification, vanishing of the projection at infinity by nondegeneracy, and restriction of the supplied compact-space representation PVM to `X`. Its countable orthogonal cyclic decomposition gives finite scalar measures `μ_j`; a finite positive weighted sum controls them all. The Radon–Nikodym densities and V4.0.Fields' measure transport identify their scalar `L²` sum with a measurable field, whose fibre dimension is `m(x)`. Establish the unitary and indicator identities on the entire Hilbert space, including surjectivity. This constructs the spectral model from the representation; the measurable-field carrier is supplied.
 
-([Tes09], §3.1, Lemma 3.4, p.93 and §3.3, Lemma 3.16 and Theorem 3.17, pp.104–105 gives self-adjoint multiplication models. The bounded-normal complex-spectrum specialization uses VonNeumannAlgebras V4's diagonal representation of `C₀(spec N).`)
+Apply this theorem to the continuous calculus of a bounded normal `N` on `X=spec N⊂ℂ`. Then coordinate multiplication represents `N` and indicators represent its supplied spectral projections. On `X=ℝ`, apply it to the bounded `P_A` calculus for §0.6. These are the models used by the automorphic spectral transform of §4.3.
 
-*Needs:* VonNeumannAlgebras V4, diagonal spectral representation; the projection-measure supplier contract; §0.2; `LinearMap.IsSymmetric.eigenvectorBasis`.
+*Standing hypotheses:* `π` is nondegenerate; its measure need not have full support unless `π` is faithful. The bounded-normal specialization assumes `N⁎N=NN⁎`.
+
+**Checks.**
+
+- For `H=0`, take `μ=0` and the zero field, also when `X` is empty. The zero representation on nonzero `H` is degenerate and cannot have an onto normalized multiplier model.
+- For `N=diag(i,i,−i)` on `ℂ³`, counting measure on `{i,−i}` gives multiplicities two and one; `E({i})=diag(1,1,0)`. Both spectral points are nonreal.
+- For scalar multiplication by `C₀(ℝ)` on `L²(ℝ,dt)⊕L²(ℝ,dt)`, use the finite equivalent measure `e^(−t²)dt` and multiplicity two. Indicators act on both summands, and the density transport is onto.
+
+([Tes09], §3.1, Lemmas 3.3–3.4, (3.31)–(3.37), pp.92–94; §3.3, Lemma 3.16 and Theorem 3.17, pp.104–105. The general `C₀(X)` statement uses this cyclic decomposition argument on the compactification with SelfAdjointSpectralTheory SA-B59–SA-B62's representation PVM, then Radon–Nikodym field transport.)
+
+*Needs:* VonNeumannAlgebras V4.0.Fields; SelfAdjointSpectralTheory SA-B59–SA-B62 and SA-B70–SA-B72; §§0.1–0.3; Mathlib `OnePoint`, `C₀(X,ℂ)`, Riesz–Markov–Kakutani, scalar `L²` density and positive Radon–Nikodym theory.
 
 
 ### 0.8 Measurable Hilbert–Schmidt kernels
@@ -2942,10 +2953,11 @@ Prove the following API statements.
 - `wall`: Adjacent `c_P,c_P′` have identical restrictions to the common wall.
 - `product`: Pointwise multiplication and restriction produce `(G,M)`-families.
 - `regularized_sum`: `c_M` is the unique smooth extension of `Σ_P c_P/θ_P`, evaluated at zero.
+- `gm_family_rank_one_limit`: For complex-differentiable scalar members `c₊,c₋` at zero with `c₊(0)=c₋(0)` and covolume `v>0`, the punctured limit of `c₊(z)/(z/v)+c₋(z)/(−z/v)` is `v·(c₊′(0)−c₋′(0))`.
 
 **Checks.**
 - For a genuine one-member `gm_family` with no walls, the regularized zero value equals its member at zero.
-- For a genuine two-member family with agreement on the shared wall, the full regularized sum has limit `c₊′(0)−c₋′(0)`, and its zero-value construction has that value.
+- For a genuine two-member family with agreement on the shared wall and `θ₊(z)=z/v`, `θ₋(z)=−z/v`, the full regularized sum has limit `v·(c₊′(0)−c₋′(0))`, and its zero-value construction has that value. In particular, `v=2`, `c₊(z)=z` and `c₋(z)=0` give value `2`.
 - No `gm_family` on a domain containing the shared wall can have constant members one and zero on the adjacent parabolics.
 
 ([Art05], §17 definition and Lemma 17.1, pp.93–94.)
