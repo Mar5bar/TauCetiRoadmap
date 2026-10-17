@@ -128,6 +128,21 @@ example (A : AVQ) (h : A.dim = 0) : ¬ IsSimpleOverQ A := sorry
 example (A : AVQ) {E : Type} [Field E] [Algebra ℚ E]
     (ι : E →ₐ[ℚ] End0 A) : EEquivariant ι ι (𝟙 A) := sorry
 
+/-- Integer-scalar isogenies intertwine the same rational field action. -/
+example (A : AVQ) {E : Type} [Field E] [Algebra ℚ E]
+    (ι : E →ₐ[ℚ] End0 A) :
+    EEquivariant ι ι
+      (TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom
+        (2 : TauCeti.AlgebraicGeometry.AbelianVariety.End A)) := sorry
+
+/-- The identity inclusion is stable for every rational field action. -/
+example (A : AVQ) {E : Type} [Field E] [Algebra ℚ E]
+    (ι : E →ₐ[ℚ] End0 A) : IsStable ι (𝟙 A) := sorry
+
+/-- Rational scalar actions preserve every homomorphism's image. -/
+example {A B : AVQ} (f : B ⟶ A) :
+    IsStable (Algebra.ofId ℚ (End0 A)) f := sorry
+
 /-- Distinct conjugate actions cannot intertwine the identity. -/
 example (A : AVQ) {E : Type} [Field E] [Algebra ℚ E]
     (ι : E →ₐ[ℚ] End0 A) (hι : Function.Injective ι)
@@ -155,10 +170,26 @@ example {A B : AVQ} {E : Type} [Field E] [Algebra ℚ E]
 #check Module.finrank_dvd_finrank_right
 
 /-! GT.1/primitive. The underlying power is a native finite product.
-The regular field action and primitivity are specified in README.md. -/
+The regular field action uses a chosen basis; primitivity is specified in README.md. -/
 
 def power (B : AVQ) (F E : Type) [Field F] [Field E] [Algebra F E] : AVQ :=
   piObj (fun _ : Fin (Module.finrank F E) => B)
+
+/-- Regular multiplication in the chosen basis acts through the given rational F-action. -/
+def powerAction (B : AVQ) {F E : Type} [Field F] [NumberField F]
+    [Field E] [NumberField E] [Algebra F E] [IsScalarTower ℚ F E]
+    (b : Module.Basis (Fin (Module.finrank F E)) F E) (ι : F →ₐ[ℚ] End0 B) :
+    E →ₐ[ℚ] End0 (power B F E) := sorry
+
+/-- For the regular quadratic action in the basis (1, √2), the first factor is unstable. -/
+example (B : AVQ) (hB : B.dim = 1) {E : Type} [Field E] [NumberField E]
+    (b : Module.Basis (Fin (Module.finrank ℚ E)) ℚ E)
+    (i j : Fin (Module.finrank ℚ E)) (hij : i ≠ j)
+    (hi : b i = 1) (hj : b j ^ 2 = 2) (hd : Module.finrank ℚ E = 2) :
+    ¬ IsStable (powerAction B b (Algebra.ofId ℚ (End0 B)))
+      (Pi.lift (fun k => if k = i then 𝟙 B else
+        TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom
+          (0 : TauCeti.AlgebraicGeometry.AbelianVariety.End B))) := sorry
 
 /-- Dimension of the native finite power (GT.1). -/
 theorem power_dim (B : AVQ) (F E : Type) [Field F] [Field E] [Algebra F E]
@@ -303,6 +334,11 @@ example : X0_11_model.Δ = -161051 := by
   norm_num [X0_11_model, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
     WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
+example : ({ X0_11_model with a₃ := 0 } : WeierstrassCurve ℚ).Δ ≠
+    X0_11_model.Δ := by
+  norm_num [X0_11_model, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
+    WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
+
 example : X0_11_model.c₄ = 496 := sorry
 
 example : X0_11_model.j = (-122023936 / 161051 : ℚ) := sorry
@@ -319,6 +355,10 @@ instance : Gaussian_model.IsElliptic := by
     WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
 example : Gaussian_model.Δ = 64 := by
+  norm_num [Gaussian_model, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
+    WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
+
+example : ({ Gaussian_model with a₄ := 0 } : WeierstrassCurve ℚ).Δ = 0 := by
   norm_num [Gaussian_model, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
     WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
@@ -359,6 +399,10 @@ example {A : TauCeti.AlgebraicGeometry.AbelianVariety Qbar}
 
 example {A : TauCeti.AlgebraicGeometry.AbelianVariety Qbar}
     (e : ℚ ≃ₐ[ℚ] End0 A) : rationalScalar e 1 = 1 := sorry
+
+example {A : TauCeti.AlgebraicGeometry.AbelianVariety Qbar}
+    (e : ℚ ≃ₐ[ℚ] End0 A) :
+    rationalScalar e (Units.map e.toMonoidHom (-1 : ℚˣ)) = -1 := sorry
 
 example {A : TauCeti.AlgebraicGeometry.AbelianVariety Qbar}
     (e : ℚ ≃ₐ[ℚ] End0 A) :
@@ -439,7 +483,7 @@ end TauCeti.GL2Type
 
 /-
 README targets whose full carriers or constructions require the stated supplier interfaces:
-GT.1: powerAction, power_basis_indep, IsPrimitive, IsPrimitive.of_isogeny,
+GT.1: power_basis_indep, IsPrimitive, IsPrimitive.of_isogeny,
 isPrimitive_iff_isSimple, endField_equiv, endField_isGL2Type, endField_involution,
 modularQuotientIsGl2Type; the derivative action. IsStable and
 stable_subvariety_surjective use nonzero denominators above.
