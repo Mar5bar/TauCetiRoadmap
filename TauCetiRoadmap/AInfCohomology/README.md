@@ -394,13 +394,13 @@ unimplemented carrier is already available for a Lean declaration.
   and `moduleSpectra_equiv_derived`; its `symmetricSpectra_equiv_spectra` transports the
   concrete spectral constructions, their coherent action diagrams, products and `HR` objects
   to this abstract stabilization.
-- **BordismFormalGroups**, [§F6.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/269912e4950a075eeb50885cdc68638b0d08dc2f/TauCetiRoadmap/BordismFormalGroups/README.md#f65-local-group-actions-and-completion-comparisons):
+- **BordismFormalGroups**, §F6.5:
   for every finite group `G`, Borel actions, homotopy orbits and fixed points, the norm and
   its Tate cofibre, restriction and induction, and the coherent lax symmetric monoidal
   Tate functor with `can` and module products. The local name `AInf.Trace.tateFinite` is
   its `G=C_p` specialization transported through EnhancedDerivedSheaves
   E5:spectra-comparison. AI.7 owns the circle extension and Tate-orbit comparison.
-- **TangentialBordism**, [§B4, items 2 and 7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4a5e27d2dd1b94abcca3e9b2151e9adf460a8a2f/TauCetiRoadmap/TangentialBordism/README.md):
+- **TangentialBordism**, §B4, items 2 and 7:
   the actual mod-p Eilenberg–Mac Lane homology Hopf algebra, polynomial on `ξ_i` (`i≥1`)
   at `p=2`, and polynomial on `ξ_i` (`i≥1`) tensor exterior on `τ_i` (`i≥0`) at odd `p`,
   with its dual Steenrod coaction, coproduct and conjugation. Use its Milnor generators
