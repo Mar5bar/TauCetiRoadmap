@@ -10,9 +10,11 @@ Taylor–Wiles data and the finite-level patching systems use the coefficient ca
 arithmetic suppliers named in the README.
 
 LocalGaloisDeformationRings §§F.1.1–F.1.10, F.2.1–F.2.11 and F.3.1–F.3.2 supply the generic
-lifts, strict-class functors, representability and local-condition interface. The twisting
-signatures here take matrix homomorphisms directly; continuity and preservation of reduction
-are explicit hypotheses of their compatibility theorems.
+lifts, strict-class functors, representability and local-condition interface. Layer F
+specializes the complete-local coproduct, relative presentation algebra
+and continuous framed matrix ring of DeformationAndDerivedPatchingAlgebra §1.12 and §§2.1–2.7.
+The twisting signatures here take matrix homomorphisms directly; continuity and preservation
+of reduction are explicit hypotheses of their compatibility theorems.
 -/
 
 namespace TauCetiRoadmap.GlobalGaloisDeformations

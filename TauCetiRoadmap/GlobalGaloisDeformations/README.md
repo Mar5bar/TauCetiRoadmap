@@ -331,7 +331,10 @@ supply the coefficient-product adapters and obstruction-compatible minimal prese
 ### From LocalGaloisDeformationRings
 
 Layer F supplies the generic deformation foundations at §§F.0.1–F.0.2, F.1.1–F.1.10,
-F.2.1–F.2.11, F.3.1–F.3.2 and F.4.12. The coefficient products use the local topology and residue
+F.2.1–F.2.11, F.3.1–F.3.2 and F.4.12. For the common complete-local coproduct, relative presentation
+algebra and continuous framed matrix ring, Layer F in turn uses
+[DeformationAndDerivedPatchingAlgebra](../DeformationAndDerivedPatchingAlgebra/README.md),
+§1.12 and §§2.1–2.7. The coefficient products use the local topology and residue
 identifications of §F.0.1; §F.0.2 gives the conditional obstruction-compatible minimal
 presentation; §§F.2.3–F.2.4 give continuous framed representability; and §F.4.12 gives the
 finite-inertia model used in R04.6. Layers 1–3 and 6 and §§8.2–8.15, 8.17–8.18 supply the local
