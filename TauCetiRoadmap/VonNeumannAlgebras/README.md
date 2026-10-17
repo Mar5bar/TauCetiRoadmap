@@ -80,6 +80,37 @@ Add the canonical cyclic vector, recovery of the functional, unitary uniqueness 
 transport/restriction lemmas; prove state separation and construct the faithful direct-sum
 representation (Gelfand–Naimark) from these representations.
 
+**V0.SeparableFaithful — separable carriers and the ℓ² refinement.** For a
+separable complex C*-algebra A, possibly nonunital, construct a faithful
+nondegenerate representation on a separable complete complex Hilbert space.
+For A≠0, choose a countable norm-dense family b_n in A₊ and norm-one
+positive functionals φ_n with φ_n(b_n)>‖b_n‖/2 whenever b_n≠0, using
+V0's preceding state separation and faithful Gelfand–Naimark representation;
+when b_n=0 choose a fixed state. Prove that these states jointly detect
+nonzero positive elements. Form the norm-convergent positive series
+ψ=Σ_n 2^(-n-1)φ_n, prove ‖ψ‖=1 and ψ(a*a)>0 for a≠0, and use the
+native `PositiveLinearMap.GNS` and `gnsNonUnitalStarAlgHom` on this faithful
+state. Prove separability from the dense image of A and the bound
+‖[a]‖≤‖a‖. Prove faithfulness and nondegeneracy using the native positive
+contractive approximate unit and the dense classes [a]; do not assume an
+unimplemented canonical GNS cyclic-vector theorem. When A is unital, use
+`gnsStarAlgHom` and retain unit preservation.
+
+For A≠0, amplify this nonzero separable GNS carrier by the countable
+Hilbert sum `lp (fun _ : ℕ => ψ.GNS) 2`, with diagonal action. Prove the
+action bounded, star-preserving, faithful and nondegenerate, and unital
+when A is unital. Prove this carrier is separable and infinite-dimensional,
+choose a Hilbert basis indexed by ℕ, and transport the representation by
+its unitary coefficient map to native `lp (fun _ : ℕ => ℂ) 2`.
+Include the finite-dimensional nonzero GNS case in this amplification;
+no infinite-dimensionality of A is assumed. For A=0 use the zero Hilbert
+space: its zero representation is faithful and nondegenerate, and is
+unital when the zero algebra is viewed as unital. The zero action on ℓ²
+is faithful but degenerate and is not a unital representation of that
+zero unital algebra. Do not claim a nondegenerate representation of
+A=0 on nonzero ℓ². This owns CStarAlgebras C2's separable faithful ℓ²
+supplier; it has no C2 pure-state/irreducibility or V12.J prerequisite.
+
 ## V1. Operator topologies and the bicommutant theorem
 
 Use `ContinuousLinearMapWOT` and the existing SOT `PointwiseConvergenceCLM`
