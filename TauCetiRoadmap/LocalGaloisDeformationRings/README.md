@@ -51,7 +51,7 @@ The contracts state the input needed at each boundary. Library declarations belo
 
 - [F.1.1](#lifting-functor)–[F.1.10](#determinant-comparison) construct deformation functors, strict equivalence and determinant conditions; [F.2.1](#phi-p-condition)–[F.2.11](#pseudodeformation-rings) supply continuous representability under `Φ_p` and Schur unframed representability. [F.3.1](#local-deformation-problem)–[F.3.2](#deformation-problem-ideal) supply the condition/ideal correspondence, and [F.4.12](#inertia-rigid-deformations) supplies inertia-rigid rings. [F.0.2](#minimal-relative-presentations) specializes the supplied relation bound for a natural, additive obstruction assignment detecting lifts over every finite-dimensional socle kernel. The local Galois obstruction assignment and surjection `H²(Γ,ad ρ̄)∨→J/𝔪_SJ` for a minimal `S=𝒪[[x₁,…,x_r]]→R` with kernel `J` are constructed in [1.4](#t1-4). See [Gee22], Lemma 3.2, p. 12, Corollary 3.12 and Lemma 3.13, p. 13.
 - `DeformationAndDerivedPatchingAlgebra`, §1.12 supplies the joint-maximal-ideal completion coproduct, inclusions, symmetry, associativity and coefficient comparisons; §§2.1–2.5 supply the chosen relative presentation, relation space and obstruction bound for all finite-dimensional socle kernels; §§2.6–2.7 supply the fixed-basis continuous matrix ring and uniqueness of its representing pair. Its §3.9 supplies the canonical module by normalized duality and its regular-presentation `Ext`, power-series, regular-quotient, type/socle and Gorenstein comparisons; §4.6 supplies the pointed tensor-domain comparison, including generic regularity for `E/ℚ_p` finite. These interfaces specialize on the same carriers in [F.0.1](#completed-coefficient-products), [F.0.2](#minimal-relative-presentations), [F.2.3](#universal-lifting-ring), [F.2.4](#universal-continuous-lift) and [0.1](#t0-1).
-- Completed coefficient products and the pointed domain comparison specialize the supplied algebra in [F.0.1](#completed-coefficient-products), with residue-extension and flat-dimension statements on that coproduct. Its product component formula retains equidimensional special fibres; its domain comparison retains an `𝒪`-point and regular generic fibre for each domain factor. The coefficient categories and Schlessinger criteria use `SchemeAndStackFoundations`, §§4.2–4.4; excellence and regular completion maps use its §0.21. Target [0.1](#t0-1) specializes the supplied ungraded canonical-module/type tests and adds the graded completion comparison for 6.18.
+- Completed coefficient products and the pointed domain comparison specialize the supplied algebra in [F.0.1](#completed-coefficient-products), with residue-extension and flat-dimension statements on that coproduct. Its product component dimensions require equidimensional total factors; identification of components by tuples retains geometric integrality of the domain quotients. Its domain comparison retains an `𝒪`-point and regular generic fibre for each domain factor. The coefficient categories and Schlessinger criteria use `SchemeAndStackFoundations`, §§4.2–4.4; excellence and regular completion maps use its §0.21. Target [0.1](#t0-1) specializes the supplied ungraded canonical-module/type tests and adds the graded completion comparison for 6.18.
 - `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`, supplies the cocycle, strict-class and adjoint tangent comparisons. `SelmerIwasawaCohomology`, §`2A`.4, *Determinant tangent fibres*, retains the trace-sequence boundary when `p` divides the rank. Apply these to the functors of §§F.1.1–F.1.10; the local obstruction assignment and relation-space comparison are [1.4](#t1-4).
 - `ClassFieldTheory`, Layer 5, supplies finite smooth discrete local Tate duality and the Euler characteristic. Above `p` the `κ`-linear extension is `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields*: retain continuity, a stable valuation-ring lattice for local `κ`, and its adic topology. It supplies finite-dimensional `κ`-linear cohomology, perfect pairings and Euler characteristic `−[K:ℚ_p] dim V` for precisely the fields of 1.15. Away from `p` use the finite duality input and the supplied tame inertia quotient and procyclic resolutions in 1.18, passing through stable-lattice quotients and localization; the resulting Euler characteristic is zero. The latter adapter, including scalar extension, is constructed in [1.18](#t1-18). Pinned `TauCeti.ContCohomology.H2` is only the additive `Z²/B²` carrier.
 - `ClassFieldTheory`, Layer 7, supplies the local Artin map and its normalization, the identification of abelianized inertia with completed units and its pro-`p` factor. `LocalGaloisGroups`, Layers 3 and 7, supplies the `p`-finiteness input over every finite extension. The Kummer maps named in the scope supply `H¹(G_L,μ_{pⁿ})≅L×/L×^{pⁿ}` for characteristic-zero `L`. Target [4.2.1](#t4-2-1) constructs the decomposition-equivariant completed valuation sequence over `K^nr`, including its coefficient twists, from these finite-level maps and `SelmerIwasawaCohomology`, §§0.4–0.6. Full tame inertia and its coefficient-`p` quotient are different, as specified in the scope.
@@ -106,16 +106,30 @@ use the same completion and its finite-factor comparison `B ⊗̂_𝒪 𝒪′ �
 Noetherian local `𝒪′`-algebra with residue `k′`, flat over `B`. Specialize the mapping property
 to maps respecting `k → k′`; uniqueness gives transitivity ([KW209], §2.1, pp. 5–6).
 
-For a finite nonempty family of `𝒪`-flat coefficient rings `B_i` whose special fibres are
-equidimensional of dimensions `d_i`, prove that `⊗̂_𝒪 B_i` is flat, with each component of
-absolute dimension `1 + Σ d_i`. In particular its generic fibre has dimension `Σ d_i`.
-For a nonzero flat coefficient ring `B`, prove `dim B = 1 + dim B[1/λ]`.
+For a finite nonempty family of `𝒪`-flat coefficient rings `B_i`, put
+`d_i = dim(B_i/ϖ B_i)` and `T = ⊗̂_𝒪 B_i`. Prove that `T` is flat,
+`dim T = 1 + Σ d_i` and `dim T[1/ϖ] = Σ d_i`. These whole-ring dimension formulas
+require no equidimensionality. Reduction modulo `ϖ` gives the completed product over `k`,
+whose dimension is `Σ d_i`; flatness then gives the integral dimension
+(Stacks, tag [00KW](https://stacks.math.columbia.edu/tag/00KW)).
+For every nonzero flat coefficient ring `B`, prove `dim B = 1 + dim B[1/ϖ]`
+([KW209], Proposition 2.2 and proof, p. 9; §4.1.3, p. 39).
+
+If each total ring `B_i` is equidimensional of absolute dimension `1+d_i`, prove that
+every minimal-prime quotient of `T` has absolute dimension `1+Σ d_i`, and its generic
+fibre has dimension `Σ d_i`. Specialize `DeformationAndDerivedPatchingAlgebra`, §4.6
+to the reduced factors; passing to these quotients changes neither the minimal components
+nor their dimensions. For the identification of minimal components by tuples of factor
+components, require each domain quotient `B_i/𝔭_i` to be geometrically integral: its scalar
+extension to every finite coefficient DVR extension is a domain. Under this hypothesis the
+component for `(𝔭_i)_i` has quotient `⊗̂_𝒪 (B_i/𝔭_i)`, and the component maps commute with
+coefficient extension ([BIP23], Lemma 6.3 and proof, pp. 52–53).
+Equidimensionality of the special fibres alone does not give these component dimensions.
+
 If every `B_i` is a domain with an `𝒪`-point and regular generic fibre, specialize
 `DeformationAndDerivedPatchingAlgebra`, §4.6 to obtain a domain with regular generic fibre;
 retain these hypotheses and `E/ℚ_p` finite ([KW209], §2.3, Proposition 2.2
-and proof, p. 9; §4.1.3, p. 39). For the dimension assertion, reduction modulo `λ` gives the
-completed product over `k`; systems of parameters give its dimension `Σ d_i`, and catenarity
-and flatness give the component and generic-fibre assertions.
+and proof, p. 9).
 
 *Needs:* DeformationAndDerivedPatchingAlgebra §§1.12, 4.6;
 SchemeAndStackFoundations §§4.2, 0.16, 0.20–0.21; Mathlib `AdicCompletion`,
@@ -124,9 +138,18 @@ SchemeAndStackFoundations §§4.2, 0.16, 0.20–0.21; Mathlib `AdicCompletion`,
 **Checks.**
 
 - **coefficient_product_series.** `𝒪⟦X⟧ ⊗̂_𝒪 𝒪⟦Y⟧ ≅ 𝒪⟦X,Y⟧`, with dimensions `2 + 2 − 1 = 3`.
-  The completed ring carries the joint maximal-ideal topology, rather than only the `λ`-adic one.
+  The completed ring carries the joint maximal-ideal topology, rather than only the `ϖ`-adic one.
 - **coefficient_product_torsion.** `k ⊗̂_𝒪 k = k` has dimension zero; inserting the flat formula
   `0 + 0 − 1` would give `−1`, so flatness is essential.
+- **coefficient_product_special_fibre.** in `S=𝒪[[x,y]]`, the ideal
+  `I=(x(x−ϖ),xy)` equals `(x)∩(x−ϖ,y)`: modulo the second prime, `x` is the
+  nonzerodivisor `ϖ`. Thus `B=S/I` embeds into `𝒪[[y]]×𝒪`, is reduced and `𝒪`-flat,
+  and has an `𝒪`-point. Its special fibre `k[[x,y]]/(x²,xy)` has unique minimal prime
+  `(x)` and dimension one. Its two total components have quotients `𝒪[[y]]` and `𝒪`,
+  of dimensions two and one. For the singleton family, `dim B=2` and `dim B[1/ϖ]=1`,
+  but the smaller horizontal component has generic dimension zero and specializes inside
+  the other component's special fibre. Catenarity and a pure special fibre do not imply
+  equidimensionality of the total ring.
 - **coefficient_extension_residue.** for `𝒪 = W(k)` and `𝒪′ = W(k′)`,
   `𝒪⟦X⟧ ⊗̂_𝒪 𝒪′ ≅ 𝒪′⟦X⟧` has residue `k′`, and extension by `𝒪` itself is the identity.
 - **coefficient_product_domain_hypotheses.** take a nontrivial finite coefficient extension
@@ -3914,6 +3937,12 @@ For `p=2`, the KW weight-two condition is crystalline/Barsotti–Tate for residu
 ### 8.17 the completed tensor product of KW II's local rings
 
 For the selected KW conditions at a finite set `S` containing all real and `p`-adic places of a totally real field, the completed tensor product of the local fixed-determinant framed rings is flat, with all components of relative dimension `3|S|` and regular generic fibre. If all finite away-from-`p` conditions are semistable, it is a domain. After finite coefficient extension it has an integral point. Use the completed-tensor-product and geometric-domain results of [F.0.1](#completed-coefficient-products); for `ℚ` and `S={∞,p}`, the dimensions add as `2+4=6`.
+
+The total factors are equidimensional by their component dimensions in 8.3–8.4,
+8.7–8.9, 8.13 and 8.15. For component identification, enlarge coefficients so that each domain component
+is geometrically integral, retaining the component maps of F.0.1. The domain conclusion
+uses the selected domain factors, their integral points over common coefficients and their
+regular generic fibres; special-fibre dimensions alone supply neither conclusion.
 
 *Needs:* [8.7](#t8-7); [8.9](#t8-9); [8.8](#t8-8); [F.0.1](#completed-coefficient-products); [8.2](#t8-2); [8.3](#t8-3); [8.4](#t8-4); [8.13](#t8-13); [8.15](#t8-15).
 

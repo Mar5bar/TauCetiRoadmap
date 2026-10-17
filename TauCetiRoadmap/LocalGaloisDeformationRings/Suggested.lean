@@ -16,10 +16,12 @@ completion and §§2.1–2.5's chosen presentations and relation spaces to the l
 coefficient category. F.2.3–F.2.4 use §§2.6–2.7's continuous framed representing pair;
 under Φ_p, the Schlessinger comparison preserves the actual universal lift and all
 its reductions. README 0.1 uses §3.9's canonical-module/type interface, retaining the
-graded Ext/completion comparison here. The pointed tensor comparison uses §4.6 with
-flat domain factors, coefficient-ring points and regular generic fibres over a finite
-extension of Q_p. Arithmetic tangent and obstruction assignments and local conditions
-retain the hypotheses in the README.
+graded Ext/completion comparison here. F.0.1 separates whole-ring dimensions of flat
+completed products from component dimensions, which require equidimensional total factors.
+Identification by tuples retains geometric integrality of the factor domain quotients.
+The pointed tensor comparison uses §4.6 with flat domain factors, coefficient-ring points
+and regular generic fibres over a finite extension of Q_p. Arithmetic tangent and
+obstruction assignments and local conditions retain the hypotheses in the README.
 
 README 2.26.1 provides the canonical characteristic-zero Jacquet–Langlands equivalence from
 irreducible admissible smooth division-algebra classes to essentially square-integrable general
