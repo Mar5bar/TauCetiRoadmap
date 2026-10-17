@@ -105,6 +105,16 @@ theorem unitFactor_mul {p : ℕ} {δ : A → A} {α : M →* A} (s : DeltaLogStr
   simp only [unitFactor, s.deltaLog_mul]
   ring
 
+/-- For the unit chart at `p = 2` with identity Frobenius, compatibility forces
+`δ_log(3) = −1/3 ≠ 0`. This is the unit calculation in §8.15: the Teichmüller chart has
+rank one, while its logification contains units with nonzero logarithmic delta. -/
+example (s : DeltaLogStructure 2 (fun x : ℚ ↦ (x - x ^ 2) / 2) (Units.coeHom ℚ)) :
+    s.deltaLog (Units.mk0 (3 : ℚ) (by norm_num)) = -(1 / 3 : ℚ) ∧
+      s.deltaLog (Units.mk0 (3 : ℚ) (by norm_num)) ≠ 0 := by
+  have h := s.compat (Units.mk0 (3 : ℚ) (by norm_num))
+  change (3 : ℚ) ^ 2 * s.deltaLog (Units.mk0 (3 : ℚ) (by norm_num)) = (3 - 3 ^ 2) / 2 at h
+  constructor <;> linarith
+
 /-- On the chart, the Frobenius `φ(x) = x^p + p·δ(x)` is `α(m)^p` times the correction factor
 (§8.1, `Log.frobenius_chart`). It is an equality; `α(m)^p` is never cancelled. -/
 theorem frobenius_chart {p : ℕ} {δ : A → A} {α : M →* A} (s : DeltaLogStructure p δ α)
@@ -248,7 +258,17 @@ example : (2 : ℤ) ∈ AddSubgroup.zmultiples (2 : ℤ) ∧
 
 end LogQDeRham
 
-/-! ### §§8.71–8.72 Small-prime inertia controls -/
+/-! ### §§8.70–8.72 Disconnected ranks and small-prime inertia controls -/
+
+/-- The ranks one and two on two clopen components admit no single constant rank
+(§§8.70–8.71). Their trivial-log local system satisfies the p-Kummer test piecewise. -/
+example : ¬ ∃ r : ℕ, ∀ b : Bool, (if b then 2 else 1 : ℕ) = r := by
+  rintro ⟨r, hr⟩
+  have h₁ := hr false
+  have h₂ := hr true
+  simp only [Bool.false_eq_true, ↓reduceIte] at h₁
+  simp only [↓reduceIte] at h₂
+  omega
 
 /-- At `p = 3`, the sign character retains order two modulo `p`. -/
 example : (-1 : ZMod 3) ^ 2 = 1 ∧ (-1 : ZMod 3) ≠ 1 := by
@@ -281,6 +301,14 @@ example : 2 ∣ Nat.factorial 2 ∧ ¬ 4 ∣ Nat.factorial 2 ∧
 
 end LogPDDeformation
 
+/-! ### §8.0 The periodic coefficient reduction -/
+
+/-- Multiplication by two over `ℤ/4` has kernel equal to its image, giving the exact
+periodic free resolution of `ℤ/2` in §8.0. Reduction to `ℤ/2` makes every differential zero. -/
+example : (∀ x : ZMod 4, 2 * x = 0 ↔ ∃ y : ZMod 4, x = 2 * y) ∧
+    (∀ x : ZMod 2, 2 * x = 0) := by
+  decide
+
 end TauCetiRoadmap.PrismaticCohomologyPartIV
 
 /-!
@@ -295,11 +323,20 @@ diamonds and condensed coefficients) are not at the pins.
   envelopes and the big formal log crystalline site, including its continuous compatible PD
   data. Derived complete flatness of smooth charts uses the stated completion comparison
   (bounded base p-power torsion in the p-adic case).
+  `LogRH.algebraicDerived` and `LogRH.solution_equivalence` retain all bounded algebraic
+  objects and arbitrary bounded sheaf complexes. For `n ≥ 2`, `LogRH.wittReduction`
+  compares derived coefficient change only when both reductions are bounded; finite Tor
+  amplitude on both sides suffices. On Frobenius modules it uses derived Witt truncation
+  over the perfected base and restriction back to the original base. Ordinary p-filtration,
+  p-torsion and quotient exact sequences give bounded triangles without this hypothesis.
 * §§8.3–8.13: free δ_log-rings, completions, associated log structures, extension to `M^gp`,
   exactification of δ_log-triples, prelog and log prisms, the standard prelog prisms, prelog and
   log prismatic envelopes and their flatness.
 * §§8.15–8.17: perfect log prisms, perfectoid log rings and the equivalence with perfect log
   prisms; log cotangent complexes of perfectoid pre-log rings.
+  `LogPrism.ainfPerfect` gives a rank-one Teichmüller prelog prism for a perfectoid integral
+  pre-log ring, and a perfect associated log prism admitting that specified rank-one chart.
+  It does not assert that logarithmic delta vanishes on all units after logification.
 * §§8.18–8.35: the relative and absolute log prismatic sites, log prismatic cohomology,
   Čech–Alexander complexes, the log Hodge–Tate comparison, base change, the δ_log-crystalline
   site and the log crystalline comparison. In §8.24a,
@@ -327,6 +364,12 @@ diamonds and condensed coefficients) are not at the pins.
   `TauCeti.LogAdic.logification`, `TauCeti.LogAdic.logPullback`,
   `TauCeti.LogAdic.IntegralChart` and `TauCeti.LogAdic.KummerEtaleSite`, with finite-free
   local systems `NoetherianFsLogAdicSpace.LocalSystem`.
+  `PKummerLocalSystem.stdisc_iff` tests all compatible-chart maps from saturated log diamonds
+  whose underlying perfectoid is strictly totally disconnected and whose characteristic is
+  p-divisible. Pullbacks are constant on a finite clopen partition, with ranks allowed to vary.
+  This condition uses no all-integer divisibility predicate on the log structure. For locally
+  perfect complexes, the universal and p-root-chart criteria require ordinary quasi-pro-étale
+  locally perfect pullbacks, allowing different perfect fibres and amplitudes on different pieces.
 * §§8.76–8.79: the étale comparison over `A_inf[1/φ⁻¹(μ)]`, the log PD deformation base and
   Frobenius rigidity, the Hyodo–Kato isomorphism over `A_crys`, Breuil–Kisin–Fargues modules,
   and the standard semistable chart.
