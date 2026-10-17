@@ -210,7 +210,7 @@ formed on the identical `Root S` and `weightSpace S χ`, with no independently c
 | Induced maps of quotient groups | `QuotientGroup.map` | `Mathlib/GroupTheory/QuotientGroup/Defs.lean` |
 | Lower closure and transport by an order isomorphism | `lowerClosure`, `lowerClosure_image` | `Mathlib/Order/UpperLower/Closure.lean` |
 | Modular character of a locally compact group | `MeasureTheory.Measure.modularCharacter` | `Mathlib/MeasureTheory/Group/ModularCharacter.lean` |
-| DVR lattice indices and linear Haar images | [MassFormula, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md#layer-2-lattices-index-and-the-haar-scaling-law) (open target-level supplier): the image-lattice index and regular-Haar scaling law | `MassFormula/README.md`, Layer 2; RG2.0 supplies denominator clearing, normalized-absolute-value comparison and the inverse-map pushforward adapter, followed by positive-characteristic nonlinear charts. |
+| DVR lattice indices and linear Haar images | MassFormula, Layer 2 (open target-level supplier): the image-lattice index and regular-Haar scaling law | `MassFormula/README.md`, Layer 2; RG2.0 supplies denominator clearing, normalized-absolute-value comparison and the inverse-map pushforward adapter, followed by positive-characteristic nonlinear charts. |
 
 `NormTorus.norm` differs from the units norm by swapping `k' ⊗[k] R` to `R ⊗[k] k'`
 before taking the norm over `R`. The affine point topology here allows general topological
@@ -382,8 +382,8 @@ with its map to `Γ_K`, for the Weil form of the L-group.
 
 ### Additional supplier contracts
 
-The [ChevalleyGroups specification](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1d6918b25647df1f606ccae78241fc75527d50ee/TauCetiRoadmap/ChevalleyGroups/README.md)
-supplies C2–C4 below. The [CFSGBasicProperties specification](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2ac39458eaba8c50e0b1acf1c56401986ea10ca6/TauCetiRoadmap/CFSGBasicProperties/README.md)
+The ChevalleyGroups specification
+supplies C2–C4 below. The CFSGBasicProperties specification
 supplies T0–T2. C2–C4 concern every Chevalley datum; only the full-weight datum is
 simply connected. T0 requires perfectness and a nontrivial central quotient; T1–T2
 prove these inputs in the validity range of the ordinary and graph-twisted finite families.
