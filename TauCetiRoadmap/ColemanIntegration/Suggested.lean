@@ -19,7 +19,8 @@ at zero; the signatures below characterize these adapters by their series and va
 The `ℚ_p` logarithm-series theory is supplied by PadicFunctionalAnalysis §4.5; L0.10 and
 L0.13 extend it to general ultrametric fields of characteristic zero. The Laurent coefficient predicates,
 convolution and Gauss norms below are adapters to PadicDifferentialEquationsAndRigidCohomology
-RD.0.1–RD.0.2, with derivation supplied by RD.0.36. Its annulus series are two-sided coefficient families `ℤ → K` with a decay predicate, not Mathlib's `LaurentSeries`,
+RD.0.1–RD.0.2. Compact preparation, finite Newton breaks and the dominant-term unit criterion
+come from RD.0.18, with derivation supplied by RD.0.36. Its annulus series are two-sided coefficient families `ℤ → K` with a decay predicate, not Mathlib's `LaurentSeries`,
 whose supports are bounded below. The complex polylogarithm uses its scalar series, with a
 principal logarithm at weight one. Cross-ratios use homogeneous determinants in the displayed
 order. The Amice operator is `(1 + T) d/dT`, and smoothing cancels poles before formal inversion.
@@ -165,6 +166,14 @@ def discAnalytic (a : K) (r : ENNReal) (hr : 0 < r) :
   add_mem' := by sorry
   algebraMap_mem' := by sorry
 
+/-- L0.7: a whole-disc series restricts about an interior centre to a positive numerical
+radius no larger than the original radius. -/
+theorem discAnalytic.restrict {a b : K} {r r' : ENNReal} {f : K → K}
+    {P : FormalMultilinearSeries K K K} (hf : HasFPowerSeriesOnBall f P a r)
+    (hb : b ∈ Metric.eball a r) (hr' : 0 < r') (hle : r' ≤ r) :
+    ∃ Q : FormalMultilinearSeries K K K, HasFPowerSeriesOnBall f Q b r' := by
+  sorry
+
 /-- Constants are analytic on every disc of positive radius, including `r = ∞`. -/
 example (a c : K) (r : ENNReal) (hr : 0 < r) :
     (fun _ : Metric.eball a r => c) ∈ discAnalytic a r hr := by sorry
@@ -285,7 +294,7 @@ theorem laurentGaussNorm_laurentMul {I : Set ℝ} {a b : ℤ → K} (ha : IsLaur
     laurentGaussNorm (laurentMul a b) ρ = laurentGaussNorm a ρ * laurentGaussNorm b ρ := by
   sorry
 
-/-- L0.A1: a member is a unit of the carrier exactly when one index dominates at every radius. -/
+/-- L0.A1: the adapter to RD.0.18’s dominant-term unit criterion on the Laurent carrier. -/
 theorem isUnit_laurentOn_iff {I : Set ℝ} (hI : I ⊆ Set.Ioi 0) (hne : I.Nonempty) {a : ℤ → K}
     (ha : IsLaurentOn I a) :
     (∃ b : ℤ → K, IsLaurentOn I b ∧ laurentMul a b = Pi.single 0 1) ↔
@@ -402,7 +411,8 @@ theorem laurentGaussNorm_eq_max_on_circle {I : Set ℝ} {a : ℤ → ℂ_[p]} (h
       ∃ w : ℂ_[p], ‖w‖ = ‖c‖ ∧ ‖laurentSeriesEval a w‖ = laurentGaussNorm a ‖c‖ := by
   sorry
 
-/-- L0.A2 (d): a nonzero member has finitely many zeros on each closed sub-annulus. -/
+/-- L0.A2 (d): RD.0.18 compact preparation gives finiteness of the evaluated zero set
+on each closed sub-annulus over `ℂ_p`. -/
 theorem finite_zeros_closedSubannulus {I : Set ℝ} {a : ℤ → ℂ_[p]} (ha : IsLaurentOn I a)
     (ha0 : a ≠ 0) {ρ₁ ρ₂ : ℝ} (h₁ : ρ₁ ∈ I) (h₂ : ρ₂ ∈ I) (hρ₁ : 0 < ρ₁) :
     {w : ℂ_[p] | ρ₁ ≤ ‖w‖ ∧ ‖w‖ ≤ ρ₂ ∧ laurentSeriesEval a w = 0}.Finite := by
@@ -1068,6 +1078,33 @@ example {V : Type*} [AddCommGroup V] [Module ℚ V] (v : V) (f : V →ₗ[ℚ] �
   pairings and Artin L-functions with coefficients (L3.Fa.1–L3.Fd.2); cyclotomic
   regulators and the p-adic Beilinson conjecture, including the dyadic formulas
   (L3.15–L3.16, L3.36–L3.37).
+
+In L3.Fb.1, `modSyntomicComplex` is indexed by `(φ,q)`. The chain map
+`modSyntomicComplex.iterate` to `(φ^m,q^m)` sends `(ω,ε)` to
+`(ω,(1 + T + ⋯ + T^(m-1))ε)` for `T = φ*/q^n` and `m ≥ 1`.
+`modSyntomicComplex.directLimit` supplies the general theory, with common finite descent
+refinements and comparisons of rigid realizations. The explicit pair description is at a
+fixed stage; the normalized rigid identification in the stated comparison range commutes
+with transitions. Cup products and finite base change use common stages, including in
+relative cubes. In L3.Fb.2, `syntomicRegulator_weightOne` requires `ϕ* f̄ = f̄^q`
+at its representing stage: its second component is the dagger function
+`log(f^q/φ*f)/q`. Every finite collection of units admits a common compatible iterate.
+For `R = W(F₄), a³ = 1 ≠ a, f = t-a` on the complement of the roots of `t²+t+1`,
+`φ(t) = t²` at `q = 2` fails this condition and the required differential has end
+residues `+1,-1`; at `φ²(t) = t⁴, q = 4` the unit formula applies.
+
+In L3.Fd.2(a), `rayClassPartialZeta` and `rayClassPartialZeta_rational` supply
+ray-class partial-zeta continuation and rationality at all nonpositive integers, with
+arithmetic Frobenius and the removed p-Euler factors. In (b),
+`partialZeta_smoothed_congruences` bounds polynomial moment tests for the moments
+`N(𝔞)^(-n)(b^(-n-1)-1)ζ_c(-n)`. The target `partialZetaMeasure` extends this bounded
+functional to the native `AbstractMeasure` carrier on `1 + qℤ_p`, using clopen restriction
+and Mahler density from PadicMeasuresIwasawaAlgebras. In (c), `partialZetaPadic`,
+`partialZetaPadic_common_residue` and `padicArtinL_one_dim_analytic` give the analytic
+numerators, smoothing independence, the common residue after the Teichmüller factors,
+and pole cancellation for nontrivial characters on the stated ball. Here `q = 4`
+for `p = 2`. These arithmetic targets hold over arbitrary totally real number fields;
+DirichletPadicLFunctions supplies the comparison over `ℚ`.
 
 In L3.Fa.4 the unreduced complex is the actual alternating symbolic quotient by the
 cup-product subcomplex, and the reduced complex is its quotient by the inversion subcomplex.
