@@ -220,6 +220,149 @@ example (d : Structure 2 ℤ) : ¬ IsRankOne d 2 := by
 example (p : ℕ) (hp : p.Prime) (d : Structure p R) : associatedFrobenius d 0 = 0 := by
   simp [associatedFrobenius, hp.ne_zero, d.delta_zero]
 
+/-- The dyadic correction is the negative cross term over every commutative ring. -/
+example (x y : R) : addCorrection 2 x y = -(x * y) := correction_two x y
+
+/-- The cubic correction contains both mixed monomials. -/
+example (x y : R) : addCorrection 3 x y = -(x * y * (x + y)) := by
+  sorry
+
+/-- The integral correction vanishes on a zero argument for every natural index. -/
+example (p : ℕ) (x : R) : addCorrection p x 0 = 0 := by
+  sorry
+
+/-- Delta axioms force the nonzero dyadic scalar value. -/
+example (d : Structure 2 ℤ) : d.delta 2 = -1 := by
+  sorry
+
+/-- A zero operation cannot satisfy the integer delta axioms. -/
+example (d : Structure 2 ℤ) : ¬ (∀ x, d.delta x = 0) := by
+  sorry
+
+/-- The scalar product tests the final term in the delta product rule. -/
+example (d : Structure 2 ℤ) : d.delta 4 = -6 := by
+  sorry
+
+/-- Squaring fails to be a unital ring endomorphism of the integers. -/
+example : ¬ ∃ f : FrobeniusLift 2 ℤ, ∀ x, f.hom x = x ^ 2 := by
+  sorry
+
+/-- Rank-one evaluation does not require cancellation of p. -/
+example (p : ℕ) (d : Structure p R) (x : R) (h : IsRankOne d x) :
+    associatedFrobenius d x = x ^ p := by
+  simp [associatedFrobenius, IsRankOne] at h ⊢
+  rw [h]
+  simp
+
+/-- Associated Frobenius fixes the integer 2. -/
+example (d : Structure 2 ℤ) : associatedFrobenius d 2 = 2 := by
+  sorry
+
+/-- Every two operations give the same Frobenius on the zero ring. -/
+example (p : ℕ) (d e : Structure p (ZMod 1)) :
+    ∀ x, associatedFrobenius d x = associatedFrobenius e x := by
+  sorry
+
+/-- Integer division has the stated sign on negative input. -/
+example : integerDelta 2 (-1) = -1 := by
+  norm_num [integerDelta]
+
+/-- The integer operation vanishes at zero. -/
+example (p : ℕ) : integerDelta p 0 = 0 := by
+  cases p <;> simp [integerDelta]
+
+/-- Cancellation of p fails on the nonzero characteristic-p ring. -/
+example : ¬ Function.Injective (fun x : ZMod 2 => (2 : ZMod 2) * x) := by
+  sorry
+
+/-- Cancellation remains valid on the zero ring. -/
+example (p : ℕ) : Function.Injective (fun x : ZMod 1 => (p : ZMod 1) * x) := by
+  sorry
+
+/-- Delta stabilization fixes stable ideals. -/
+example (p : ℕ) (hp : p.Prime) (d : Structure p R) (I : Ideal R)
+    (h : IsStable d I) : idealClosure d I = I := by
+  sorry
+
+/-- All elements of the zero ring are distinguished. -/
+example (p : ℕ) (d : Structure p (ZMod 1)) (x : ZMod 1) :
+    IsDistinguished d x := by
+  sorry
+
+/-- The unit is rank one. -/
+example (p : ℕ) (d : Structure p R) : IsRankOne d 1 := d.delta_one
+
+/-- Invertibility of the zeroth Witt coordinate alone is insufficient over the integers. -/
+example : ¬ IsUnit (TruncatedWittVector.mk 2 ![(1 : ℤ), 1]) := by
+  sorry
+
+/-- Witt addition retains its mixed coordinate in characteristic two. -/
+example : (TruncatedWittVector.mk 2 ![(1 : ZMod 2), 0] +
+    TruncatedWittVector.mk 2 ![(1 : ZMod 2), 0]).coeff 1 = 1 := by
+  sorry
+
+/-- The rational localization has the forced delta value on one third. -/
+example (d : Structure 2 ℚ) : d.delta (1 / 3) = 1 / 9 := by
+  sorry
+
+section SquareZero
+
+local instance squareZeroRightModule : Module ℤᵐᵒᵖ (ZMod 2) :=
+  Module.compHom _ ((RingHom.id ℤ).fromOpposite mul_comm)
+
+local instance squareZeroCentral : IsCentralScalar ℤ (ZMod 2) := ⟨fun _ _ => rfl⟩
+
+local instance squareZeroCommRing : CommRing (TrivSqZeroExt ℤ (ZMod 2)) :=
+  @TrivSqZeroExt.commRing ℤ (ZMod 2) _ _ _ squareZeroRightModule squareZeroCentral
+
+
+/-- The dyadic square-zero family retains the torsion parameter in its delta operation. -/
+theorem squareZeroFamily_exists :
+    ∃ family : ZMod 2 → Structure 2 (TrivSqZeroExt ℤ (ZMod 2)),
+      ∀ (c : ZMod 2) (x : TrivSqZeroExt ℤ (ZMod 2)), (family c).delta x =
+        (integerDelta 2 x.fst, (c - (x.fst : ZMod 2)) * x.snd) := by
+  sorry
+
+/-- Every parameter occurs as the delta of the square-zero generator. -/
+example (c : ZMod 2) :
+    ∃ d : Structure 2 (TrivSqZeroExt ℤ (ZMod 2)),
+      d.delta (TrivSqZeroExt.inr 1) = TrivSqZeroExt.inr c := by
+  sorry
+
+/-- The sum of the unit and the square-zero generator detects the addition correction. -/
+example (c : ZMod 2) :
+    ∃ d : Structure 2 (TrivSqZeroExt ℤ (ZMod 2)),
+      d.delta (TrivSqZeroExt.inr 1) = TrivSqZeroExt.inr c ∧
+      d.delta (1 + TrivSqZeroExt.inr 1) = TrivSqZeroExt.inr (c - 1) := by
+  sorry
+
+/-- The square-zero family restricts to the canonical integer delta operation. -/
+example (c : ZMod 2) :
+    ∃ d : Structure 2 (TrivSqZeroExt ℤ (ZMod 2)),
+      d.delta (TrivSqZeroExt.inr 1) = TrivSqZeroExt.inr c ∧
+      ∀ a : ℤ, d.delta (TrivSqZeroExt.inl a) =
+        TrivSqZeroExt.inl (integerDelta 2 a) := by
+  sorry
+
+/-- Delta compatibility is preserved by composition of ring maps. -/
+example {T : Type*} [CommRing T] (p : ℕ)
+    (d : Structure p R) (e : Structure p S) (t : Structure p T)
+    (f : R →+* S) (g : S →+* T) (hf : IsDeltaMap d e f) (hg : IsDeltaMap e t g) :
+    IsDeltaMap d t (g.comp f) := by
+  intro x
+  change g (f (d.delta x)) = t.delta (g (f x))
+  rw [hf x, hg (f x)]
+
+/-- Equal Frobenius maps can forget a nonzero change of delta on torsion. -/
+example : ∃ d e : Structure 2 (TrivSqZeroExt ℤ (ZMod 2)),
+    d.delta (TrivSqZeroExt.inr 1) = 0 ∧
+    e.delta (TrivSqZeroExt.inr 1) = TrivSqZeroExt.inr 1 ∧
+    (∀ x, associatedFrobenius d x = associatedFrobenius e x) ∧
+    ¬ IsDeltaMap d e (RingHom.id _) := by
+  sorry
+
+end SquareZero
+
 end Delta
 
 /-- The completion counterexample uses a right shift: the first coordinate becomes zero,
@@ -241,7 +384,11 @@ example : ¬ (Polynomial.X : Polynomial (ZMod 2)) ^ 2 ∣ Polynomial.X := by
   sorry
 
 /-- In the next torsion component, the second power is killed, not the first. -/
-example : (Polynomial.X : Polynomial (ZMod 2)) ^ 2 ∣ Polynomial.X ^ 2 := dvd_refl _
+example :
+    let I : Ideal (Polynomial (ZMod 2)) := Ideal.span {Polynomial.X ^ 2}
+    let x : Polynomial (ZMod 2) ⧸ I := Ideal.Quotient.mk I Polynomial.X
+    x ≠ 0 ∧ x * x = 0 := by
+  sorry
 
 /-!
 The README also specifies these mathematical interfaces.

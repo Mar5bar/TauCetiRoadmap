@@ -1,20 +1,20 @@
 # Roadmap: prismatic cohomology, Part I — Delta rings, prisms and relative cohomology
 
-**Summary.** Construct the integral delta-algebra API beyond the p-local inputs of PerfectoidSpaces, orientation-free relative cohomology over bounded prisms, its animated extension and general perfectoidization. The smooth Hodge–Tate, crystalline and de Rham comparisons feed the Nygaard theory of Part II.
+**Summary.** Construct the integral delta-algebra API beyond the p-local inputs of PerfectoidSpaces, orientation-free relative cohomology over bounded prisms, its animated extension and general perfectoidization. The smooth Hodge–Tate, crystalline and restricted de Rham comparisons are constructed in Layer 1.
 
 ## Scope and ownership
 
-The four roadmaps form the chain [PrismaticCohomology](../PrismaticCohomology/README.md) (Layers 0–2) → [PrismaticCohomologyPartII](../PrismaticCohomologyPartII/README.md) (Layers 3–5) → [PrismaticCohomologyPartIII](../PrismaticCohomologyPartIII/README.md) (Layers 6–7) → [PrismaticCohomologyPartIV](../PrismaticCohomologyPartIV/README.md) (Layer 8). PerfectoidQuotients → AInfCohomology precede this chain; PadicHodgeTheory consumes it.
+PerfectoidQuotients and AInfCohomology supply prerequisites. This roadmap constructs Layers 0–2.
 
 Cross-roadmap prerequisites use the section labels of their owning roadmaps.
 
 This part owns the integral polynomial, localization, completion and δ-ideal API over arbitrary commutative rings; the p-local geometric δ-ring and prism objects and restricted affine theory are imported from PerfectoidSpaces. It owns the extension to arbitrary bounded prisms with canonical Breuil–Kisin twists and formal schemes, and animated perfectoidization, arc descent and integral J-almost purity (§§2.0, 2.22–2.31). PerfectoidSpaces owns the semiperfectoid universal quotient.
 
-Mathlib supplies ordinary Witt vectors, adic completions, divided powers and divided power algebras, localizations, sites and derived categories. EnhancedDerivedSheaves and DerivedDeRhamCohomology supply their enhanced, completed and animated interfaces; SchemeAndStackFoundations supplies formal schemes. No divided power envelope or full cotangent complex is inferred from its naive counterpart. AlgebraicVectorBundles supplies the ordinary affine vector-bundle dictionary; compatible-system effectivity in §2.28 is additional.
+Mathlib supplies ordinary Witt vectors, adic completions, divided powers and divided power algebras, localizations, sites and derived categories. EnhancedDerivedSheaves and DerivedDeRhamCohomology supply their enhanced, completed and animated interfaces; SchemeAndStackFoundations supplies adic thickening systems; §1.0 constructs the bounded p-adic formal schemes and sites used here. No divided power envelope or full cotangent complex is inferred from its naive counterpart. AlgebraicVectorBundles supplies the ordinary affine vector-bundle dictionary; compatible-system effectivity in §2.28 is additional.
 
 ### Imported interfaces
 
-The following interfaces are consumed from their single owners. The section labels identify these inputs throughout the four parts. The interfaces and checks specify the supplier contracts; they are not additional construction targets.
+The following interfaces are consumed from their single owners. The section labels identify these inputs throughout this roadmap. The interfaces and checks specify the supplier contracts; they are not additional construction targets.
 
 <a id="s0-59"></a>
 <a id="layer-0-delta-etale-extension"></a>
@@ -141,7 +141,7 @@ QRSP means derived p-complete with bounded p-power torsion, a quotient of a perf
 
 Unless a target specifies a different range, `(A,I)` in Layers 1–2 is a bounded prism: `A/I` has bounded p-power torsion and A is derived and classically `(p,I)-complete`. An animated `A/I-algebra` is derived p-complete; its tensor products and colimits are derived and p-completed. For a perfect prism `φ_A` is bijective, `I=(d)` with `d` distinguished regular, `A=A_inf(A/I)`; this perfect hypothesis is imposed explicitly where used. Delta-algebra targets before p-localization impose neither p-torsion-freeness nor finiteness.
 
-The Hodge–Tate module twist is `M{n}=M⊗(I/I²)^(⊗n)`, `n∈Z`, with negative powers duals. It differs from the absolute prism twist of Part II. Filtered and graded operations, exterior/divided powers and completed Tor-amplitude use the enhanced supplier interfaces below. No orientation is silently chosen.
+The Hodge–Tate module twist is `M{n}=M⊗(I/I²)^(⊗n)`, `n∈Z`, with negative powers duals. Only twists of `A/I-modules` are used here. Filtered and graded operations, exterior/divided powers and completed Tor-amplitude use the enhanced supplier interfaces below. No orientation is silently chosen.
 
 ## Exact supplier contracts
 
@@ -156,19 +156,23 @@ A supplier row specifies the interface used, under the hypotheses shown. Its the
 | EnhancedDerivedSheaves §§0.1–0.3, E1.1–E1.4 | `0` | Enhanced module derived categories, derived tensor, adjunctions and derived limits; their homotopy categories recover ordinary derived categories. The complete enhancements and algebra objects are retained, not inferred from triangulated categories. |
 | DerivedModuleAlgebra §§0.1–0.17, 0.25 | `0`, `1`, `2` | Full cotangent complexes, transitivity, derived exterior/divided powers, décalage `∧^i(M[1])≃Γ^i(M)[i]`, p-complete Tor-amplitude and quasisyntomic/QRSP predicates. Square-zero deformation classes, map-lifting and uniqueness under cotangent vanishing are affine inputs; scheme lifting groupoids are §2.6. |
 | DerivedDeRhamCohomology §§2.7–2.26, 5.8 | `1` | Derived p-complete de Rham algebras with Hodge filtration, polynomial models, continuous forms for smooth algebras and crystalline base change; the shared logarithmic constructors are in DerivedDeRhamCohomology §6.20. Comparison maps preserve multiplication and the stated filtrations. |
-| DerivedDeRhamCohomology §§5.1–5.7, 5.17 | `1`, `2` | Quasisyntomic site and QRSP basis, completed faithfully flat cotangent-power descent, unfolding from QRSP objects and completed left Kan extension. BMS2 Lemma 4.34 supplies the relative cotangent-flatness condition only in its perfect-base range. |
+| DerivedDeRhamCohomology §§5.1–5.7, 5.17, 5.26 | `1`, `2` | Quasisyntomic site and QRSP basis, completed faithfully flat cotangent-power descent, unfolding from QRSP objects and completed left Kan extension. BMS2 Lemma 4.34 supplies the relative cotangent-flatness condition only in its perfect-base range. §5.26 supplies `DerivedDeRham.formalEtaleRealization`, `formalEtaleAffine`, `formalEtaleCoverDescent`, `formalEtalePullback` and `formalEtaleFiltered` on quasisyntomic charts. |
 | CrystallineCohomology §§CR.1.1–CR.1.3 | `1` | Crystalline sites/topoi and crystals, Čech–Alexander models, connections and smooth descent; the prismatic realization uses these actual sites and evaluation maps. |
-| CrystallineCohomology §§CR.2.1–CR.2.3 | `1`, `2` | Crystalline–de Rham comparison on smooth lifts and its polynomial/derived extension with Frobenius and completed base change. No singular site comparison follows from the smooth theorem alone. |
+| CrystallineCohomology §§CR.2.1–CR.2.3 | `1`, `2` | Smooth-lift crystalline–de Rham comparison at finite PD level, Čech computation and derived inverse p-power limits, with the stated Frobenius and completed-base-change compatibilities. The perfect-k animated polynomial extension is constructed in §2.19. |
 | DerivedDeRhamCohomology §§3.4–3.6 | `1` | Cartier isomorphism for smooth characteristic-p schemes, including exterior products, relative Frobenius and crystalline Bockstein normalization. |
 | EnhancedDerivedSheaves Layer E2 | `1` | Enhanced sheaves, hypercovers, effective epimorphisms, cohomological descent and replete-topos limits. Use space-valued fpqc sheafification, not just groupoid stackification. |
 | SchemeAndStackFoundations §§2.1–2.6 | `1` | Small étale sites and functorial morphisms of topoi, smooth and étale localization and gluing of scheme cohomology. |
-| SchemeAndStackFoundations §§4.7–4.8 | `1` | Bounded p-adic formal schemes, `Spf`, their étale sites, affine charts and descent. The prismatic sheaves and the quasisyntomic/formal adapters are constructed here. |
+| SchemeAndStackFoundations §§4.7–4.8 | `1` | Adic thickening systems, level-preserving `Spf`, and completion systems. The bounded p-adic formal-scheme carrier, its small étale site and the prismatic gluing adapter are constructed in §1.0. |
 | CrystallineCohomology §§CR.DDR.4.5, CR.DDR.5.18–CR.DDR.5.22 | `2` | Derived de Rham–Witt as the p-completed polynomial extension, its smooth crystalline comparison and quasiregular semiperfect PD identification; the prismatic comparison is §2.19. |
 | EnhancedDerivedSheaves Layers E5:abstract and E5:descent | `2` | Symmetric monoidal stable ∞-categories and commutative algebra objects (E5:abstract); descendability and module descent (E5:descent); conservativity and colimits require the stated uniform descendability index. All coherences survive completion. |
-| SchemeAndStackFoundations §1.1 | `2` | Affine module and vector-bundle faithfully flat descent and henselian invariance. Complete formal QCoh, compatible-tower effectivity and punctured derived-completion descent have explicit local owners where used. |
+| SchemeAndStackFoundations §1.1 | `2` | Affine module and finite locally free faithfully flat descent (`qcoh_fpqc_descent`); complete-projective effectivity is constructed in §2.28. |
 | DerivedDeRhamCohomology §§3.1–3.6 | `1` | Polynomial Cartier maps and completed derived Cartier comparison, compatible with cotangent transitivity and the conjugate filtration. |
 | PerfectoidSpaces §§P1.16–P1.18, P1.24–P1.25; §§P4.15.2–P4.15.5 | 0–2 | Integral perfectoid predicate, tilt, `A_inf`, `θ` and primitive `ξ`; prisms, rigidity, regular prismatic envelopes, completed perfection and perfect-prism equivalence; initial Fontaine prism; oriented smooth affine `Δ`, Hodge–Tate comparison, completed base change and Construction 7.6, QRSP initial prism and retract argument; André covers and surjective semiperfectoid perfectoidization. Extensions to an invertible ideal, formal schemes and general animated inputs are identified below. |
 | PerfectoidQuotients §0.0; §§0.1, 0.3 | 0–2 | `perfectoid_tor_independence` and `fontaine_tor_independence` for completed perfectoid maps; `delta_etale_extension`, `completeEtale_algebraization`, `delta_witt2_etale`, `delta_derivedCompletion`, `perfectPrism_completeEtale_lift` with the stated complete étale hypotheses. Quasisyntomic/QRSP predicates, p-completed cotangent consequences and bounded Witt torsion retain their original hypotheses; the semiperfectoid universal quotient is supplied by PerfectoidSpaces §§P4.15.2–P4.15.5. |
+| EnhancedDerivedSheaves §E1.9; DerivedDeRhamCohomology §5.23 | `1` | `perfect_proper_pushforward` for perfect complexes tensored with bounded finitely presented, target-flat modules of proper support over arbitrary bases; effectivity and perfectness for the compatible proper smooth p-adic tower. |
+| AInfCohomology §AI.7.2; EnhancedDerivedSheaves §§E5:presentability.2, E5:spectra-comparison | `2` | `AInf.Trace.tateFinite`, `AInf.Trace.tateDiagonal`, `spectra`, `eilenbergMacLane` and `moduleSpectra_equiv_derived` for the underlying-spectrum power operation of §2.24. |
+| EnhancedDerivedSheaves §E5:animation.2 | `2` | `frobenius_zero_on_positive_homotopy` and `perfection_isDiscrete` for characteristic-p animated rings. |
+| EtaleCohomologyFoundations §§0.5–0.6, F.0.4, F.1, F.2.1 | `2` | Qcqs continuity, `VanishingCycles.universalHomeomorphismEtaleEquivalence`, `VanishingCycles.finiteCoefficientCohomology` and `VanishingCycles.properBaseChange` for arbitrary torsion. |
 
 Idempotent lifting uses Tau Ceti `TauCeti.IsAdicComplete.exists_isIdempotentElem_eq` and `TauCeti.exists_projective_quotient_smul_top_linearEquiv` (a91d3aaf, `RingTheory/AdicCompletion/Idempotent.lean`, `Algebra/Module/Projective/Lift.lean`): the first needs complete source algebra and prescribed kernel, the second a projective ambient module with complete endomorphism ring. The compatible-tower equivalence is the categorical adapter of §2.28.
 
@@ -291,7 +295,7 @@ CrystallineCohomology §§CR.DDR.4.5, CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 sup
 
 ## How to read the build
 
-Construct the integral delta-algebra API beyond the p-local inputs of PerfectoidSpaces, orientation-free relative cohomology over bounded prisms, its animated extension and general perfectoidization. The smooth Hodge–Tate, crystalline and de Rham comparisons feed the Nygaard theory of Part II. Within a layer, the explicit prerequisites determine construction order. Earlier parts are consumed by roadmap name and section. Suggested.lean states only lightweight definitions, end statements and examples over carriers present at the pins.
+Construct the integral delta-algebra API beyond the p-local inputs of PerfectoidSpaces, orientation-free relative cohomology over bounded prisms, its animated extension and general perfectoidization. The smooth Hodge–Tate, crystalline and restricted de Rham comparisons are constructed in Layer 1. Within a layer, the explicit prerequisites determine construction order. Suppliers are consumed by roadmap name and section. Suggested.lean states only lightweight definitions, end statements and examples over carriers present at the pins.
 
 ## Layer 0: Delta algebra and prisms
 
@@ -307,6 +311,8 @@ Start with integral polynomials on the existing ring carrier. The Witt-section d
 Define `C_p(x,y)` as minus the sum over `1≤i≤p-1` of `(binomial(p,i)/p) x^i y^(p-i)`. The quotient is an exact natural/integer coefficient, then cast to `R`. Never divide by `p` in `R`.
 
 (BS22, Definition 2.1; p. 13.)
+
+*Needs:* Mathlib `Nat.Prime.dvd_choose_self`.
 
 - `Delta.addCorrection_map`: Every ring map carries `C_p(x,y)` to `C_p` of the images.
 - `Delta.addCorrection_zero`: `C_p(x,0)=0`.
@@ -329,6 +335,8 @@ Multiplication by `p` need not be injective in `R`.
 
 (BS22, Definition 2.1; p. 13.)
 
+*Needs:* §0.1 and Mathlib `add_pow`.
+
 <a id="s0-3"></a>
 <a id="layer-0-delta-frobenius-dictionary"></a>
 
@@ -339,6 +347,8 @@ On the existing ring `R`, a `δ` structure is a function `δ:R→R` with `δ(0)=
 `R` is a commutative ring. The elementary polynomial prefix is generalized to rings; subsequent prismatic consumers retain the source `Z_(p)-algebra` hypotheses.
 
 (BS22, Definition 2.1; opening p-local convention; p. 13.)
+
+*Needs:* §0.1.
 
 - `Delta.Structure.ext`: Pointwise equality of `δ` gives equality of structures.
 - `Delta.Structure.delta_neg`: `δ(-x)=-δ(x)-C_p(x,-x)`.
@@ -359,6 +369,8 @@ On the existing ring `R`, a `δ` structure is a function `δ:R→R` with `δ(0)=
 A FrobeniusLift is a unital endomorphism `f` of `R` such that for each `x` there exists `y` with `f(x)=x^p+p y`. Equivalently its reduction modulo `(p)` is Frobenius. The witnesses form a proposition, not a chosen `δ` operation or a derived homotopy.
 
 (BS22, Remarks 2.2 and 2.5; pp. 13, 14.)
+
+*Needs:* Mathlib `Ideal.Quotient.mk` and `Ideal.span`.
 
 - `Delta.FrobeniusLift.ext`: Equality of underlying maps gives equality of lifts.
 - `Delta.FrobeniusLift.mod_p`: `f(x)` and `x^p` have equal images modulo `(p)`.
@@ -381,6 +393,8 @@ use the given `δ` structure on `R`.
 
 (BS22, Remark 2.2; p. 13.)
 
+*Needs:* §§0.2–0.4.
+
 - `Delta.toFrobenius_apply`: Evaluation is `x^p+p δ(x)`.
 - `Delta.toFrobenius_rank_one`: `δ(x)=0` implies `φ(x)=x^p`.
 - `Delta.toFrobenius_map`: Delta-compatible ring maps commute with associated Frobenius.
@@ -401,6 +415,8 @@ If multiplication by `p` on `R` is injective, construct an equivalence between `
 Multiplication by the cast of `p` on `R` is injective; the zero ring is permitted.
 
 (BS22, Remark 2.2; p. 13.)
+
+*Needs:* §§0.3–0.5 and the stated injectivity of multiplication by p.
 
 - `Delta.frobeniusEquiv_apply`: The forward map is toFrobenius.
 - `Delta.frobeniusEquiv_symm_spec`: The inverse satisfies `p δ(x)=f(x)-x^p`.
@@ -423,6 +439,8 @@ For `δ` rings `R,S` and a ring map `f:R→S`, if multiplication by `p` is injec
 
 (BS22, Remark 2.2 and Definition 2.1; p. 13.)
 
+*Needs:* §§0.3, 0.5 and injectivity of multiplication by p on the target.
+
 **Proof route.** Verify the integral polynomial identities universally, then specialize; cancel `p` only for the explicitly torsion-free reconstruction (BS22 §2, pp.13–16).
 
 *Needs:* Mathlib `Nat.Prime.dvd_choose_self`, Mathlib `add_pow`, Mathlib `Ideal.Quotient.mk`, Mathlib `Ideal.span`.
@@ -439,6 +457,8 @@ Construct the canonical `δ` structure on `Z` with `D_p(a)=(a-a^p)/p`, using exa
 Negative integers and `p=2` are included.
 
 (BS22, Example 2.6; p. 14.)
+
+*Needs:* §0.6 and Mathlib `FiniteField.pow_card` for integer Fermat divisibility.
 
 - `Delta.intDelta_apply`: `δ(a)=(a-a^p)/p` in `Z`.
 - `Delta.intDelta_frobenius`: Associated Frobenius is RingHom.id `Z`.
@@ -461,6 +481,8 @@ use the actual ideal and quotient ring.
 
 (BS22, Lemma 2.9; p. 15.)
 
+*Needs:* §§0.1, 0.3 and Mathlib `Ideal.Quotient.mk`, `Ideal.Quotient.lift`.
+
 <a id="s0-10"></a>
 <a id="layer-0-square-zero-correction"></a>
 
@@ -471,6 +493,8 @@ Let `B` map to `F_p` and use its central action. In the existing square-zero ext
 `B` is commutative; the left action comes from the unital `B→F_p` map and the opposite action is central.
 
 (BS22, Definition 2.1; square-zero calculation; p. 13; PIN-square, snd_mul and snd_pow.)
+
+*Needs:* §0.1 and Mathlib `TrivSqZeroExt.snd_mul`, `TrivSqZeroExt.snd_pow`, `add_pow`.
 
 <a id="s0-11"></a>
 <a id="layer-0-witt2-mul-coordinate"></a>
@@ -483,6 +507,8 @@ On TruncatedWittVector `p 2 R`, `(xy)_1=x_0^p`*y_1+y_0^p*`x_1+p`*x_1*`y_1`.
 
 (BS22, Remark 2.4; p. 13.)
 
+*Needs:* Mathlib `WittVector.ghostComponent`, `WittVector.ghostComponent_apply`, `wittPolynomial_one`, `WittVector.truncate_surjective` and `WittVector.coeff_truncate`.
+
 <a id="s0-12"></a>
 <a id="layer-0-correction-map-naturality"></a>
 
@@ -493,6 +519,8 @@ For a unital ring map `f:R→T`, `f(C_p(x,y))=C_p(f(x),f(y))`. This promotes the
 `R` and `T` are commutative rings, including rings with p-torsion.
 
 (BS22, Definition 2.1: integral addition polynomial; existing addCorrection_map API; p. 13.)
+
+*Needs:* §0.1 and integral polynomial evaluation under ring maps.
 
 <a id="s0-13"></a>
 <a id="layer-0-integer-cast-delta"></a>
@@ -505,6 +533,8 @@ Do not assume p-torsionfreeness of `R`.
 
 (BS22, Example 2.6; p. 14.)
 
+*Needs:* §§0.1–0.3, 0.8 and the unital integer ring map.
+
 <a id="s0-14"></a>
 <a id="layer-0-square-zero-delta-family"></a>
 
@@ -516,6 +546,11 @@ The left scalar action on `F_p` is induced by the displayed ring map and the opp
 
 (BS22, Remark 2.2 torsion boundary; square-zero example; p. 13; PIN-square, TrivSqZeroExt and central-action CommRing structure.)
 
+*Needs:* §§0.3, 0.5, 0.8, 0.10, 0.13 and Mathlib `TrivSqZeroExt` with its central-action commutative ring structure.
+
+The square-zero signatures use `Delta.squareZeroRightModule`, `Delta.squareZeroCentral` and `Delta.squareZeroCommRing` as local instances for the central opposite integer action and its standard square-zero ring.
+
+- `Delta.squareZeroFamily_exists`: On `TrivSqZeroExt ℤ (ZMod 2)`, there is a family of `Structure 2` indexed by `λ∈ZMod 2` with `δ_λ(a,b)=(integerDelta 2 a,(λ−abar)b)`.
 - `Delta.squareZeroDelta_fst`: The first coordinate is `delta_B(a)`.
 - `Delta.squareZeroDelta_snd`: The second coordinate is `(λ-abar^(p-1))*b`.
 - `Delta.squareZeroDelta_frobenius`: Frobenius is `inl(phi_B(a))`, independent of `λ`.
@@ -537,6 +572,8 @@ The base and scalar actions are those of Delta structures on a square-zero exten
 
 (BS22, Remarks 2.2-2.3 and Example 2.6; square-zero witness; pp. 13, 14.)
 
+*Needs:* §§0.5, 0.14 and Mathlib `TrivSqZeroExt.inr_injective`.
+
 **Proof route.** Verify the integral polynomial identities universally, then specialize; cancel `p` only for the explicitly torsion-free reconstruction (BS22 §2, pp.13–16).
 
 *Needs:* [§0.6](#s0-6), Mathlib `FiniteField.pow_card`, [§0.3](#s0-3), [§0.1](#s0-1), [§0.2](#s0-2), Mathlib `TrivSqZeroExt.snd_mul`, Mathlib `TrivSqZeroExt.snd_pow`, Mathlib `add_pow`, Mathlib `WittVector.ghostComponent`, Mathlib `WittVector.ghostComponent_apply`, Mathlib `wittPolynomial_one`, Mathlib `WittVector.constantCoeff`, Mathlib `WittVector.map_coeff`, Mathlib `WittVector.truncate`, Mathlib `WittVector.truncate_surjective`, Mathlib `WittVector.coeff_truncate`, Mathlib `WittVector.map`, [§0.5](#s0-5), Mathlib `TrivSqZeroExt`, Mathlib `TrivSqZeroExt.inr_injective`.
@@ -554,6 +591,8 @@ use the existing Witt ring operations, not pointwise operations.
 
 (BS22, Remark 2.4; p. 13.)
 
+*Needs:* §0.1 and Mathlib `WittVector.ghostComponent`, `wittPolynomial_zero`, `wittPolynomial_one`, `WittVector.truncate_surjective`, `WittVector.coeff_truncate`.
+
 <a id="s0-17"></a>
 <a id="layer-0-delta-witt-section-equivalence"></a>
 
@@ -564,6 +603,8 @@ For arbitrary `R`, construct an equivalence between `δ` structures and unital r
 no p-torsionfreeness hypothesis on `R`.
 
 (BS22, Remark 2.4; p. 13.)
+
+*Needs:* §§0.3, 0.5, 0.11, 0.16 and Mathlib `TruncatedWittVector.ext`, `WittVector.constantCoeff`.
 
 - `Delta.wittSectionEquiv_apply`: The section has coordinates `(x,δ(x))`.
 - `Delta.wittSectionEquiv_symm_apply`: The inverse recovers coordinate one.
@@ -585,6 +626,8 @@ For a ring map `f:R→T` construct `witt2Map(f):W_2(R)→W_2(T)` with both Witt 
 `R,T` are commutative rings. No torsion-freeness or condition on the Jacobson radical.
 
 (BS22, Lemma 2.15 and proof; p. 16.)
+
+*Needs:* §0.12 and Mathlib `WittVector.map`, `WittVector.map_coeff`, `WittVector.truncate`, `WittVector.truncate_surjective`, `WittVector.coeff_truncate`.
 
 - `Delta.witt2Map_coeff`: The jth coordinate of `witt2Map(f)(z)` equals `f(z_j)`; the separate lemma target supplies this API.
 - `Delta.witt2Map_id`: The identity ring map induces the identity Witt map.
@@ -608,6 +651,8 @@ For `j` in Fin `2`, `(witt2Map(f)(z))_j=f(z_j)`. This is the projection API prom
 
 (BS22, Lemma 2.15 and proof; p. 16.)
 
+*Needs:* §0.18 and Mathlib `TruncatedWittVector.ext`.
+
 <a id="s0-20"></a>
 <a id="layer-0-witt2-unit-criterion"></a>
 
@@ -619,6 +664,8 @@ For `z=(a,b)` in `W_2(R)`, `z` is a unit if and only if both a and `a^p+p*b` are
 
 (BS22, Lemma 2.15 and proof; p. 16.)
 
+*Needs:* §§0.11, 0.16 and the two-coordinate inverse equations on Mathlib `TruncatedWittVector`.
+
 <a id="s0-21"></a>
 <a id="layer-0-witt-section-coordinates"></a>
 
@@ -629,6 +676,8 @@ The section associated to `δ` sends `x` to the length-two vector `(x,δ(x))`. T
 `δ` is a structure on the existing commutative ring.
 
 (BS22, Remark 2.4 and existing wittSectionEquiv_apply API; p. 13.)
+
+*Needs:* §0.17.
 
 **Proof route.** Verify the integral polynomial identities universally, then specialize; cancel `p` only for the explicitly torsion-free reconstruction (BS22 §2, pp.13–16).
 
@@ -646,6 +695,8 @@ Let `B` be an A-algebra carrying IsLocalization `S B` and let `i:A→B` be its a
 `A,B` are commutative rings; `S` is a submonoid of A. The image-unit condition is in `B`; it is not an assertion that `φ(S)` is literally contained in `S`.
 
 (BS22, Lemma 2.15 and proof; p. 16.)
+
+*Needs:* §§0.17–0.20 and Mathlib `IsLocalization`, `IsLocalization.map_units`, `IsLocalization.lift`, `IsLocalization.lift_eq`, `IsLocalization.ringHom_ext`.
 
 - `Delta.localize_algebraMap`: `delta_B(i(a))=i(delta_A(a))`; supplied by Compatibility with the localization map.
 - `Delta.localize_unique`: Every `δ` structure on `B` compatible with `i` equals localize; supplied by Uniqueness of localized `δ` data.
@@ -669,6 +720,8 @@ The hypotheses and unit witnesses are those of Localization of a `δ` structure.
 
 (BS22, Lemma 2.15 and proof; p. 16.)
 
+*Needs:* §0.22 and Mathlib `IsLocalization.lift_eq`.
+
 <a id="s0-24"></a>
 <a id="layer-0-delta-localization-unique"></a>
 
@@ -679,6 +732,8 @@ Under the localization construction hypotheses, every `δ` structure `e` on `B` 
 `B` carries the actual IsLocalization `S B` instance. Compatibility means equality of `δ` operations on the image of A, not merely compatibility of Frobenius.
 
 (BS22, Lemma 2.15 and proof; p. 16.)
+
+*Needs:* §§0.17, 0.19–0.20, 0.22 and Mathlib `IsLocalization.ringHom_ext`, `TruncatedWittVector.ext`.
 
 <a id="s0-25"></a>
 <a id="layer-0-delta-localization-criterion"></a>
@@ -691,6 +746,8 @@ A and `B` are commutative rings; IsLocalization `S B` specifies `i`.
 
 (BS22, Lemma 2.15 and proof; p. 16.)
 
+*Needs:* §§0.5, 0.20, 0.22–0.24 and Mathlib `IsLocalization.algebraMap_isUnit_iff`.
+
 <a id="s0-26"></a>
 <a id="layer-0-delta-localization-universal"></a>
 
@@ -701,6 +758,8 @@ Let `e` be any compatible extension of `d` from A to the localization `B`. For a
 `C` is a commutative ring with a specified `δ` structure; no p-torsionfreeness of `C`.
 
 (BS22, Lemma 2.15 and proof; p. 16.)
+
+*Needs:* §§0.17, 0.19–0.20, 0.22–0.24 and Mathlib `IsLocalization.lift`, `IsLocalization.lift_eq`, `IsLocalization.ringHom_ext`.
 
 <a id="s0-27"></a>
 <a id="layer-0-delta-localization-fraction"></a>
@@ -713,6 +772,8 @@ The data and unit condition are those of Localization of a `δ` structure; a is 
 
 (BS22, Lemma 2.15 and proof; p. 16.)
 
+*Needs:* §§0.3, 0.5, 0.22–0.23 and Mathlib `IsLocalization.mk'`, `IsLocalization.mk'_spec'`.
+
 <a id="s0-28"></a>
 <a id="layer-0-delta-localization-phi-stable"></a>
 
@@ -723,6 +784,8 @@ If `φ(S)` is contained in `S`, the given `δ` structure on A extends uniquely t
 The elementary ring statement holds generally; the source instance retains A as a `Z_(p)-algebra`.
 
 (BS22, Lemma 2.15 and proof; p. 16.)
+
+*Needs:* §§0.22–0.26 and Mathlib `IsLocalization.map_units`.
 
 **Proof route.** Localize the length-two Witt section and use its unique extension; the necessary denominator is `φ(s)`, not merely `s` (BS22 Remark 2.16, p.17).
 
@@ -741,6 +804,8 @@ A is a commutative ring. The ideal need not contain `p`.
 
 (BS22, Lemma 2.17, full statement and proof, printed; p. 17.)
 
+*Needs:* §0.1 and closure of an ideal under addition and multiplication by scalars.
+
 <a id="s0-30"></a>
 <a id="layer-0-delta-adic-power-loss"></a>
 
@@ -751,6 +816,8 @@ If `p` is in the ideal `I` of the `δ` ring A, then `δ(x)` is in `I^n` whenever
 `I` is an actual ideal in the given commutative `δ` ring; `p` means the integer cast.
 
 (BS22, Lemma 2.17, full statement and proof, printed; p. 17.)
+
+*Needs:* §§0.3, 0.29 and Mathlib `Submodule.mul_induction_on'`.
 
 <a id="s0-31"></a>
 <a id="layer-0-delta-adic-congruence"></a>
@@ -763,6 +830,8 @@ If `p` is in `I` and x-y is in `I^(n+1)`, then `δ(x)-δ(y)` is in `I^n`. Thus t
 
 (BS22, Lemma 2.17, full statement and proof, printed; p. 17.)
 
+*Needs:* §§0.3, 0.29–0.30.
+
 <a id="s0-32"></a>
 <a id="layer-0-delta-shifted-quotient"></a>
 
@@ -773,6 +842,8 @@ For each `n`, construct the function `q_n:A/I^(n+1) → A/I^n` sending the class
 `p` is prime and lies in `I`; A carries the given `δ` structure.
 
 (BS22, Lemma 2.17, full statement and proof, printed; p. 17.)
+
+*Needs:* §0.31 and Mathlib `Ideal.Quotient.mk`.
 
 - `Delta.shiftedQuotient_mk`: `q_n([a]_(n+1))=[δ(a)]_n`; the separate lemma target supplies this evaluation.
 - `Delta.shiftedQuotient_transition`: For `m≤n`, reduction from `n` to `m` after `q_n` equals `q_m` after reduction from `n+1` to `m+1`.
@@ -795,6 +866,8 @@ The data are those of Shifted quotient `δ` operation.
 
 (BS22, Lemma 2.17, full statement and proof, printed; p. 17.)
 
+*Needs:* §0.32.
+
 <a id="s0-34"></a>
 <a id="layer-0-delta-shifted-quotient-transition"></a>
 
@@ -806,6 +879,8 @@ For `m≤n`, `factorPow(I,m≤n)` composed with `q_n` equals `q_m` composed with
 
 (BS22, Lemma 2.17, full statement and proof, printed; p. 17.)
 
+*Needs:* §§0.32–0.33 and Mathlib `Ideal.Quotient.factorPow`.
+
 <a id="s0-35"></a>
 <a id="layer-0-delta-classical-completion"></a>
 
@@ -816,6 +891,8 @@ Let `I` contain `p`. On the existing ring `B=AdicCompletion I A` construct a `δ
 A is a commutative `δ` ring; `I` is an ideal with `p` in `I`. Use the actual inverse-limit carrier, coordinate maps and ring structure from the pinned library; do not introduce a replacement completed ring.
 
 (BS22, Lemma 2.17, full statement and proof, printed; p. 17.)
+
+*Needs:* §§0.3, 0.12, 0.32–0.34 and Mathlib `AdicCompletion`, `AdicCompletion.transitionMap_comp_eval_apply`, `AdicCompletion.ext_evalₐ`.
 
 - `Delta.completion_eval`: `rho_n(D(x))=q_n(rho_(n+1)(x))`; supplied by Coordinates of completed `δ`.
 - `Delta.completion_algebraMap`: `D(i(a))=i(δ(a))`; supplied by Compatibility with the canonical completion map.
@@ -839,6 +916,8 @@ For the constructed `D` on AdicCompletion `I A`, `rho_n(D(x))=q_n(rho_(n+1)(x))`
 
 (BS22, Lemma 2.17, full statement and proof, printed; p. 17.)
 
+*Needs:* §0.35 and Mathlib `AdicCompletion.evalₐ`.
+
 <a id="s0-37"></a>
 <a id="layer-0-delta-completion-base"></a>
 
@@ -849,6 +928,8 @@ If `i:A→AdicCompletion I A` is the existing algebra map, then `D(i(a))=i(δ(a)
 `p` is in `I`; neither `I` finite nor `i` injective is assumed.
 
 (BS22, Lemma 2.17, full statement and proof, printed; p. 17.)
+
+*Needs:* §§0.33, 0.35–0.36 and Mathlib `AdicCompletion.evalₐ_of`, `AdicCompletion.algebraMap_apply`, `AdicCompletion.ext_evalₐ`.
 
 <a id="s0-38"></a>
 <a id="layer-0-delta-completion-congruence"></a>
@@ -861,6 +942,8 @@ If `rho_(n+1)(x)=rho_(n+1)(y)`, then `rho_n(D(x))=rho_n(D(y))`. Thus `D` is unif
 
 (BS22, Lemma 2.17, full statement and proof, printed; p. 17.)
 
+*Needs:* §§0.32, 0.35–0.36.
+
 <a id="s0-39"></a>
 <a id="layer-0-delta-completion-unique-fg"></a>
 
@@ -872,6 +955,8 @@ I.FG is retained for the kernel-power equality and hence uniqueness among ALL co
 
 (BS22, Lemma 2.17, full statement and proof, printed; p. 17; PIN-adic-complete, pow_smul_top_eq_ker_eval and isAdicComplete.)
 
+*Needs:* §§0.31, 0.35–0.38 and Mathlib `AdicCompletion.pow_smul_top_eq_ker_eval`, `AdicCompletion.isAdicComplete`, with I finitely generated.
+
 <a id="s0-40"></a>
 <a id="layer-0-frobenius-image-unit-jacobson"></a>
 
@@ -882,6 +967,8 @@ Let `d` be a `δ` structure on A and `f:A→B` any unital ring map. If `p` lies 
 A and `B` are commutative unital rings, including zero rings; `p_B` belongs to `jacobson(0_B)`.
 
 (BS22, Remark 2.16, printed; associated Frobenius formula of Remark 2.2; pp. 13, 17.)
+
+*Needs:* §0.5 and Mathlib `Ideal.jacobson`, `Ideal.mem_jacobson_bot`.
 
 **Proof route.** Use the integral addition and product laws to lose one ideal-adic power, then pass to the shifted inverse system (BS22 Lemma 2.17, p.17).
 
@@ -900,6 +987,8 @@ If `p` belongs to `jacobson(0_B)`, a vector `z` in the existing `W_2(B)` is a un
 
 (BS22, Remark 2.4; Remark 2.16; pp. 13, 17.)
 
+*Needs:* §0.20 and Mathlib `Ideal.mem_jacobson_bot`.
+
 <a id="s0-42"></a>
 <a id="layer-0-delta-localization-jacobson"></a>
 
@@ -910,6 +999,8 @@ Given a `δ` structure `d` on A and an existing localization `B` of A at `S`, co
 A and `B` are commutative rings; `B` has Algebra A `B` and IsLocalization `S B`; `p_B` is in the Jacobson radical.
 
 (BS22, Remark 2.16, printed; Lemma 2.15; pp. 16, 17.)
+
+*Needs:* §§0.22–0.26, 0.40–0.41 and Mathlib `IsLocalization.map_units`.
 
 - `Delta.localizeJacobson_algebraMap`: The operation on `i(a)` is `i(delta_A(a))`.
 - `Delta.localizeJacobson_unique`: Every compatible `δ` structure equals localizeJacobson.
@@ -930,6 +1021,8 @@ The associated Frobenius of intDelta `p` on `Z` is the identity ring endomorphis
 
 (BS22, Example 2.6; integral restriction of its formula; p. 14.)
 
+*Needs:* §§0.5, 0.8.
+
 <a id="s0-44"></a>
 <a id="layer-0-p-local-integer-delta"></a>
 
@@ -940,6 +1033,8 @@ On the existing Localization.AtPrime of the prime ideal `(p)` in `Z`, construct 
 Use the prime-ideal instance from `Nat.prime_iff_prime_int` and `Ideal.isPrime_span_singleton_of_prime`.
 
 (BS22, Example 2.6; Lemma 2.15; pp. 14, 16.)
+
+*Needs:* §§0.8, 0.25, 0.27–0.28, 0.43 and Mathlib `Nat.prime_iff_prime_int`, `Ideal.isPrime_span_singleton_of_prime`, `Localization.AtPrime`, `IsLocalization.AtPrime.isLocalRing`.
 
 - `Delta.intAtPrime_algebraMap`: Delta of the image of a in `Z` equals the image of `intDelta(a)`.
 - `Delta.intAtPrime_frobenius`: The associated ring endomorphism is the identity.
@@ -964,6 +1059,8 @@ use the existing algebra map to Localization.AtPrime `(p)`.
 
 (BS22, Example 2.6; p. 14.)
 
+*Needs:* §§0.23, 0.44.
+
 <a id="s0-46"></a>
 <a id="layer-0-p-local-integer-initial"></a>
 
@@ -974,6 +1071,8 @@ For commutative `δ` ring `B` in which the image of every integer not divisible 
 the coefficient condition is explicit: for every integer `n` with `p` not dividing `n`, the cast of `n` is a unit of `B`.
 
 (BS22, Example 2.6, printed; p. 14.)
+
+*Needs:* §§0.13, 0.26, 0.44–0.45 and Mathlib `IsLocalization.lift`, `IsLocalization.lift_eq`, `IsLocalization.ringHom_ext`.
 
 **Proof route.** Witt units over a Jacobson-radical base permit localization of the section; specialize the integer operation for initiality (BS22 Remark 2.16, p.17).
 
@@ -990,6 +1089,8 @@ For a subset `S` of A, the ordinary ideal `J` generated by `S` is delta-stable i
 
 (BS22, Section 2 opening convention and Definition 2.1; Lemma 2.9 and Example 2.10; pp. 13, 15.)
 
+*Needs:* §§0.3, 0.29 and Mathlib `Submodule.span_induction`, `Ideal.subset_span`.
+
 <a id="s0-48"></a>
 <a id="layer-0-delta-ideal-closure"></a>
 
@@ -998,6 +1099,8 @@ For a subset `S` of A, the ordinary ideal `J` generated by `S` is delta-stable i
 For an ideal `I` of A, define its delta-stabilization `C_d(I)` to be the ordinary ideal generated by all `δ^n(a)`, for `n` a nonnegative integer and a in `I`. The exponent means iteration of `δ`, with `δ^0` the identity; it is not a ring power or a Witt-coordinate operation.
 
 (BS22, Section 2 opening convention and Definition 2.1; Lemma 2.9 and Example 2.10; pp. 13, 15.)
+
+*Needs:* §0.3 and Mathlib `Ideal.span`, `Function.iterate_zero_apply`, `Function.iterate_succ_apply'`.
 
 - `Delta.idealClosure_eq_span`: Span of `δ^n(x)` for `x∈I`, `n≥0`.
 - `Delta.le_idealClosure`: `I⊂I_δ`.
@@ -1023,6 +1126,8 @@ For ideal `I`, `δ` carries `C_d(I)` into `C_d(I)`.
 
 (BS22, Section 2 opening convention and Definition 2.1; Lemma 2.9 and Example 2.10; pp. 13, 15.)
 
+*Needs:* §§0.47–0.48 and Mathlib `Function.iterate_succ_apply'`.
+
 <a id="s0-50"></a>
 <a id="layer-0-delta-ideal-closure-minimal"></a>
 
@@ -1031,6 +1136,8 @@ For ideal `I`, `δ` carries `C_d(I)` into `C_d(I)`.
 For any delta-stable ideal `J`, `C_d(I)` is contained in `J` if and only if `I` is contained in `J`.
 
 (BS22, Section 2 opening convention and Definition 2.1; Lemma 2.9 and Example 2.10; pp. 13, 15.)
+
+*Needs:* §0.48 and Mathlib `Ideal.span_le`, using delta stability of the target ideal.
 
 <a id="s0-51"></a>
 <a id="layer-0-delta-kernel-stability"></a>
@@ -1041,6 +1148,8 @@ If f:A to `B` is a unital ring map between `δ` rings and `f` commutes with thei
 
 (BS22, Section 2 opening convention and Definition 2.1; Lemma 2.9 and Example 2.10; pp. 13, 15.)
 
+*Needs:* §0.3 and Mathlib `RingHom.ker`, `RingHom.mem_ker`.
+
 <a id="s0-52"></a>
 <a id="layer-0-delta-universal-quotient"></a>
 
@@ -1049,6 +1158,8 @@ If f:A to `B` is a unital ring map between `δ` rings and `f` commutes with thei
 On the existing quotient ring `Q=A/C_d(I)`, construct the unique `δ` structure for which the ordinary quotient map q:A to `Q` commutes with `δ`. This is the universal `δ` A-algebra annihilating `I`, as proved by the separate universal-property theorem.
 
 (BS22, Section 2 opening convention and Definition 2.1; Lemma 2.9 and Example 2.10; pp. 13, 15.)
+
+*Needs:* §§0.9, 0.48–0.50 and Mathlib `Ideal.Quotient.mk`.
 
 - `Delta.quotientByIdealClosure_mk`: The quotient `δ` operation sends `q(a)` to `q(δ(a))`; this is also a separate projection lemma.
 - `Delta.quotientByIdealClosure_unique`: Every `δ` structure on `A/C_d(I)` compatible with `q` equals the constructed one.
@@ -1069,6 +1180,8 @@ For a in A, the constructed `δ` operation on `A/C_d(I)` sends `q(a)` to `q(δ(a
 
 (BS22, Section 2 opening convention and Definition 2.1; Lemma 2.9 and Example 2.10; pp. 13, 15.)
 
+*Needs:* §0.52 and Mathlib `Ideal.Quotient.eq_zero_iff_mem`.
+
 <a id="s0-54"></a>
 <a id="layer-0-delta-universal-quotient-lift"></a>
 
@@ -1077,6 +1190,8 @@ For a in A, the constructed `δ` operation on `A/C_d(I)` sends `q(a)` to `q(δ(a
 Let `B` be a `δ` ring and f:A to `B` a unital ring map commuting with `δ` and annihilating `I`. There exists a unique ring map `g:A/C_d(I)` to `B` extending `f` and commuting with the quotient `δ` operation. Its underlying map is the existing ordinary quotient lift.
 
 (BS22, Section 2 opening convention and Definition 2.1; Lemma 2.9 and Example 2.10; pp. 13, 15.)
+
+*Needs:* §§0.50–0.53 and Mathlib `Ideal.Quotient.lift`, `Ideal.Quotient.lift_mk`, `Ideal.Quotient.mk_surjective`, `Ideal.Quotient.ringHom_ext`.
 
 **Proof route.** The `δ` product and sum laws make the ideal generated by all δ-iterates stable; minimality gives the quotient universal property (BS22 Lemma 2.9, p.15).
 
@@ -1106,10 +1221,11 @@ Extend the p-local free object of PerfectoidSpaces §P4.15.2 integrally: `Delta.
 
 - `free_delta_frobenius_X`: `φ(x_{s,0}) = x_{s,0}^p + p·x_{s,1}` in Free `S`.
 - `free_delta_lift_int_two`: For `p = 2` the δ-map `Free(point) → Z` with `x_0 ↦ 2` sends `x_1` to `−1`.
+- `free_delta_finite_stage_not_finite`: For one generator, `Z[x₀]→Z[x₀,x₁]`, `x₀↦x₀ᵖ+px₁`, becomes a polynomial extension after inverting p, so the transition itself is not finite.
 - `free_delta_empty`: The free δ-ring on the empty set is `Z` with its canonical δ-structure: the structure map `Z → Free(∅)` is bijective.
 - `free_delta_not_free_ring`: The ring map Z[x] `→ Free(point)`, `x ↦ x_0`, is not surjective: `x_1 = δ(x_0)` is not in its image, so the free δ-ring is strictly bigger than the free ring.
 
-**Proof route.** The integral polynomial Frobenius is finite free in each finite stage; filtered colimits and p-local base change give the free interface (BS22 Lemma 2.11, pp.15–16).
+**Proof route.** Put `A_n=Z[x₀,…,x_n]`. For `n≥1`, `A_n` is finite free of rank `pⁿ` over `φ(A_(n−1))[x_n]`, with basis `∏_(j<n)x_j^(a_j)`, `0≤a_j<p`, by the triangular monic relations. Hence `φ(A_(n−1))→A_n` is faithfully flat, as a polynomial extension followed by a finite free map. The initial integer map is the identity. Pass to the filtered colimit and finite subsets of the generator set (BS22 Lemma 2.11, pp.15–16).
 
 <a id="s0-56"></a>
 <a id="layer-0-delta-ring-category"></a>
@@ -1264,6 +1380,8 @@ A is a δ-ring; `rad(A)` is the Jacobson radical. For `(1)`: `d`, `p ∈ rad(A)`
 
 (BS22, Lemmas 2.23 and 2.24 with proofs; p. 19.)
 
+*Needs:* §§0.3, 0.5, 0.61 and Mathlib `Ideal.jacobson`, `Ideal.mem_jacobson_bot`.
+
 <a id="s0-63"></a>
 <a id="layer-0-local-distinguished-prism-generators"></a>
 
@@ -1274,6 +1392,8 @@ Let A be a δ-ring. (a) (Lemma 2.25) If `d`, `p ∈ rad(A)`, then `d` is disting
 A is a δ-ring; in (a) `d`, `p ∈ rad(A)`; in `(b) I` is locally principal and `p`, `I ⊂ rad(A)`. No global generator of `I` is assumed in `(b)`.
 
 (BS22, Lemma 2.25 and Lemma 3.1 with proofs; pp. 19, 28.)
+
+*Needs:* §§0.5, 0.57, 0.61–0.62 and Mathlib `Module.FaithfullyFlat`.
 
 <a id="s0-64"></a>
 <a id="layer-0-p-torsion-freeness-criteria"></a>
@@ -1286,6 +1406,8 @@ A is any δ-ring. (The source assumes `Z_(p)-algebras` and uses that `δ(p) = 1 
 
 (BS22, Lemma 2.28 (p-torsion in δ-rings) with proof; Remark 2.29; p. 20.)
 
+*Needs:* §§0.3, 0.5, 0.13 and Mathlib `IsReduced`.
+
 <a id="s0-65"></a>
 <a id="layer-0-perfect-delta-rings"></a>
 
@@ -1296,6 +1418,8 @@ A δ-ring A is perfect if `φ` is an isomorphism. The following categories are e
 "p-complete" in `(1)` and `(2)` is classical p-adic completeness; for perfect δ-rings it agrees with derived p-completeness because they are p-torsion-free.
 
 (BS22, Definition 2.26, Remark 2.27, Corollary 2.31 with proof; p. 20.)
+
+*Needs:* §§0.6, 0.55–0.56, 0.64, Mathlib `PerfectRing`, `WittVector.frobenius_bijective`, `WittVector.isAdicCompleteIdealSpanP` and DerivedModuleAlgebra §§0.1–0.17, 0.25 for the complete-category comparison.
 
 <a id="s0-66"></a>
 <a id="layer-0-rank-one-elements"></a>
@@ -1308,6 +1432,8 @@ A is a δ-ring; for the second statement A is p-adically separated.
 
 (BS22, Lemma 2.32 (Perfect elements have rank 1) with proof; p. 21.)
 
+*Needs:* §§0.3, 0.5, 0.55 and p-adic separatedness for the infinite-root conclusion.
+
 <a id="s0-67"></a>
 <a id="layer-0-distinguished-in-perfect-delta-rings"></a>
 
@@ -1319,7 +1445,9 @@ First statement: A perfect and p-complete. Second statement: A p-torsion-free, p
 
 (BS22, Lemma 2.33 (Distinguished elements in perfect δ-rings) and Lemma 2.34, with proofs; p. 21.)
 
-**Proof route.** Use the product identity and radical unit tests, then the Witt expansion on perfect rings; separatedness is needed only at the stated infinite-root step (BS22 §§2.2–2.3, pp.18–21).
+*Needs:* §§0.61, 0.64–0.66 and Mathlib `WittVector.teichmuller`, `nonZeroDivisors`; p-adic separatedness for distinguished-element regularity.
+
+**Proof route.** Use the product identity and radical unit tests, then the Witt expansion on perfect rings; separatedness is used both for §0.66’s infinite-root conclusion and for §0.67’s distinguished-element regularity theorem (BS22 §§2.2–2.3, pp.18–21).
 
 *Needs:* [§0.3](#s0-3), [§0.61](#s0-61), Mathlib `Ideal.jacobson`, Mathlib `Ideal.mem_jacobson_bot`, [§0.57](#s0-57), [§0.5](#s0-5), Mathlib `Module.FaithfullyFlat`, Mathlib `IsReduced`, [§0.13](#s0-13), [§0.6](#s0-6), [§0.56](#s0-56), Mathlib `PerfectRing`, Mathlib `WittVector.frobenius_bijective`, Mathlib `WittVector.isAdicCompleteIdealSpanP`, Mathlib `WittVector`, DerivedModuleAlgebra §§0.1–0.17, 0.25, [§0.55](#s0-55), Mathlib `WittVector.teichmuller`, Mathlib `nonZeroDivisors`.
 
@@ -1612,6 +1740,8 @@ Let `(A, I)` be a prism and `d ∈ I` a distinguished element. If `(p, d)` is a 
 
 (ALB23, Lemma 2.1.7 (arXiv numbering; Lemma 2.7 in the published version) with proof; p. 13.)
 
+*Needs:* §§0.5, 0.61, 0.72, 0.81 and Mathlib `RingTheory.Sequence.IsRegular`.
+
 <a id="s0-88"></a>
 <a id="layer-0-prismatic-envelope-rank-one-presentation"></a>
 
@@ -1623,6 +1753,8 @@ Let `(A, I)` be a bounded prism, `d ∈ A` a distinguished element and `x ∈ A`
 
 (ALB23, Lemma 4.9.4 (arXiv numbering; Lemma 4.89 in the published version) with proof, and the sentence before the proof; p. 72.)
 
+*Needs:* §§0.5, 0.61, 0.66, 0.86.
+
 <a id="s0-89"></a>
 <a id="layer-0-unbounded-torsion-example"></a>
 
@@ -1633,6 +1765,8 @@ Let `R` be the `(p, f)-adic` completion of Z[f, `x_{i,j}` : `i ≥ 0`, `0 ≤ j 
 The displayed chain is the corrected one: the source prints `p^i·f·x_{i,1}` for its second term.
 
 (ALB23, Appendix A, Example A.4; p. 95.)
+
+*Needs:* Mathlib `MvPolynomial`, `AdicCompletion` and the square-zero module model, with the stated uniform filtration estimate.
 
 - `Prismatic.UnboundedTorsion.Rel`: Relations `p x_(i,j)=f x_(i,j+1)`, `x_(i,i+1)=0`, and all products of x-generators zero.
 - `Prismatic.UnboundedTorsion.Ring`: The quotient polynomial ring by those relations.
@@ -1658,6 +1792,8 @@ no p-torsion-freeness or completion of A is assumed.
 
 (BS22, Corollary 2.12, §2; p. 16.)
 
+*Needs:* §§0.55–0.56 and Mathlib `RingHom.FaithfullyFlat`.
+
 <a id="s0-91"></a>
 <a id="layer-0-delta-prime-power-valuation"></a>
 
@@ -1668,6 +1804,8 @@ On `Z_(p)`, if `v_p(a)=n>0` then `v_p(δ(a))=n−1`. In particular `δ^n(p^n)` i
 the valuation formula concerns `Z_(p)`, while the nilpotence conclusion concerns all δ-rings.
 
 (BS22, Example 2.6, §2; p. 14.)
+
+*Needs:* §§0.8, 0.13, 0.27–0.28, 0.44.
 
 <a id="s0-92"></a>
 <a id="layer-0-joyal-delta-operations"></a>
@@ -1680,17 +1818,19 @@ The identity is integral, including with p-torsion; only its universal torsion-f
 
 (BS22, Remarks 2.13–2.14, §2.1; p. 16.)
 
+*Needs:* §§0.55–0.56 and the integral Witt ghost identities.
+
 - `Delta.joyalDelta`: Define `δ_n(x)=(w_A(x))_n`, with `δ_0=id` and `δ_1=δ`.
 - `Delta.joyalDelta_ghost`: `φ^n(x)=∑_(i=0)^n p^iδ_i(x)^(p^(n−i))`, naturally under δ-ring maps.
 - `Delta.joyalDelta_free_generators`: The `δ_n(x)` freely generate the underlying polynomial algebra of the free δ-ring; the change from iterated `δ` is integral and triangular.
 
 **Checks.**
 
-- `pr0_joyal_zero`: `δ_0(0)=0` and `δ_1(0)=0`.
-- `pr0_joyal_first`: `δ_0(x)=x` and `δ_1(x)=δ(x)`.
+- `pr0_joyal_second_three`: At `p=2` in `Z_(2)`, `δ₂(3)=−24`, whereas `δ²(3)=−6`; the ghost equation is `3=3⁴+2(−3)²+4δ₂(3)`.
+- `pr0_joyal_third_two`: At `p=2`, `δ₃(2)=−40`, since `2=2⁸+2(−1)⁴+4(−4)²+8δ₃(2)`.
 - `pr0_joyal_second_not_iterate`: At `p=2` in `Z_(2)`, `δ(2)=−1`, `δ²(2)=−1`, whereas `δ_2(2)=−4` from `2=2⁴+2(−1)²+4δ_2(2)`. Higher Witt coordinates are not iterated `δ`.
 
-**Proof route.** Use regular-sequence cancellation for envelopes and integral Witt-coordinate identities for torsion; compute the explicit bounded-quotient counterexample separately (BS22 Lemmas 2.14, 3.7, pp.16,30; ALB23 Example A.4, p.95).
+**Proof route.** Use regular-sequence cancellation for envelopes and integral Witt-coordinate identities for torsion; compute the explicit bounded-quotient counterexample separately (BS22 Remark 2.14, p.16, and Lemma 3.7, p.30; ALB23 Example A.4, p.95).
 
 *Needs:* [§0.72](#s0-72), [§0.61](#s0-61), [§0.5](#s0-5), Mathlib `RingTheory.Sequence.IsRegular`, [§0.86](#s0-86), [§0.66](#s0-66), [§0.81](#s0-81), [§0.78](#s0-78), Mathlib `MvPolynomial`, Mathlib `AdicCompletion`, [§0.55](#s0-55), [§0.56](#s0-56), Mathlib `RingHom.FaithfullyFlat`, [§0.8](#s0-8), [§0.44](#s0-44), [§0.28](#s0-28), [§0.13](#s0-13).
 
@@ -1750,7 +1890,7 @@ At `p=2` on `Z`, `δ(a)=(a−a²)/2` gives `δ(2)=−1` and `δ(4)=−6`. Its as
 
 **§0.66.** In `W(R)` for `R` perfect, the Teichmüller representatives [a] have rank `1`: `φ([a]) = [a]^p`. `q ∈ Z_p[[q − 1]]` with `δ(q) = 0` has rank `1` without having p-power roots: the converse of the lemma fails.
 
-**§0.67.** In `W(F_p) = Z_p`: `d = p` has `a_0 = 0`, `a_1 = 1`; `d = p^2` has `a_1 = 0` and is not distinguished. `ξ = p − [p^♭] ∈ A_inf(O_C)` has unit coefficient of `p` in its Teichmüller expansion and is distinguished; `A_inf/ξ = O_C` is p-torsion-free.
+**§0.67.** The nonseparated raw perfection of §0.83 has a distinguished zero divisor, so its regularity cannot be inferred before imposing separatedness. In `W(F_p) = Z_p`: `d = p` has `a_0 = 0`, `a_1 = 1`; `d = p^2` has `a_1 = 0` and is not distinguished. `ξ = p − [p^♭] ∈ A_inf(O_C)` has unit coefficient of `p` in its Teichmüller expansion and is distinguished; `A_inf/ξ = O_C` is p-torsion-free.
 
 **§0.68.** For `p = 2` and `z = x`: `δ(x^2/2) = x^4/8 + x^2·δ(x) + δ(x)^2`, which exhibits `x^4/8 = 3·γ_4(x)` as an element of `C`. `C ≠ Z_(p){x}[1/p]`: `1/p ∉ C`.
 
@@ -1788,20 +1928,22 @@ DerivedDeRhamCohomology §§PD.6–PD.7, DerivedModuleAlgebra §§0.1–0.17, 0.
 
 ## Layer 1: Relative prismatic cohomology and smooth comparisons
 
-Construct the bounded-prism site with finite jointly faithful covers, then its relative slices and structure sheaves. The Čech–Alexander model makes the Frobenius and Bockstein explicit. Smooth Hodge–Tate comparison removes the preliminary complete Tor-amplitude restriction on base change. The early de Rham comparison has its Witt torsion hypothesis; the general version is in Layer `3`.
+Construct the bounded-prism site with finite jointly faithful covers, then its relative slices and structure sheaves. The Čech–Alexander model makes the Frobenius and Bockstein explicit. Smooth Hodge–Tate comparison removes the preliminary complete Tor-amplitude restriction on base change. The de Rham comparison retains its Witt torsion hypothesis.
 
 <a id="s1-0"></a>
 <a id="layer-1-bounded-formal-sites"></a>
 
 ### 1.0 Bounded formal sites and restriction from the quasisyntomic basis
 
-Prove `Prismatic.Formal.boundedSite_gluing`. On the bounded p-adic formal schemes of SchemeAndStackFoundations §§4.7–4.8, affine completed fibre products and completely étale localization define the small formal étale site. A complete-derived-category-valued affine functor satisfying completely étale descent extends uniquely to these formal schemes by affine-open descent. For a formal scheme with quasisyntomic affine charts, restriction of a quasisyntomic sheaf is computed by the right Kan extension from the QRSP basis of DerivedDeRhamCohomology §§5.1–5.7, and this restriction agrees on overlaps with affine-open descent. Prove `Prismatic.Formal.qsyn_rightKan`: on a quasisyntomic affine `Spf B` the right Kan limit over its QRSP objects is its original value, with all Čech, coefficient and filtered compatibilities. Arbitrary bounded `B` is allowed for affine animated prismatic cohomology and its étale sheafification; the QRSP-basis assertion has the additional quasisyntomic hypothesis. (BMS2, Definitions 4.10, 4.20, Lemmas 4.28–4.30, pp.21–25, Remark 10.4, §10; BL22, Construction 7.4.1 and Proposition 7.4.7, pp.177–179.)
+Construct p-adic formal schemes as thickening systems locally of the form `(Spec(B/p^(n+1)))_(n≥0)` for classically p-complete B, and their full subcategory `Prismatic.Formal.BoundedPadicScheme` with bounded p-power torsion on charts. The ambient category supplies the formal arc site of §2.0; bounded charts supply the relative smooth comparisons. Morphisms are compatible morphisms of systems; over the p-adic ideal every unital ring map is level-preserving. Prove affine ring-map recovery and Zariski gluing. Compute affine fibre products in the ambient category by classically p-completed tensor products. A product lies in the bounded subcategory when that tensor product has bounded p-power torsion, in particular for p-completely étale charts. No closure of bounded rings under arbitrary completed tensor products is assumed. Construct the small formal étale site from p-completely étale charts and prove its equivalence with the small étale site of the special fibre. SchemeAndStackFoundations §§4.7–4.8 provide the underlying systems. (Stacks Definition 87.9.9, Tag 0AIF; BS22 Definition 4.1 and Construction 4.4, pp.36–37.)
 
-*Needs:* SchemeAndStackFoundations §4.7, SchemeAndStackFoundations §§4.7–4.8, SchemeAndStackFoundations §§2.1–2.6, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, DerivedDeRhamCohomology §§5.1–5.7, 5.17 (quasisyntomic sites, QRSP unfolding, formal étale realization), EnhancedDerivedSheaves Layer E2, EnhancedDerivedSheaves Layer E3.
+Prove `Prismatic.Formal.boundedSite_gluing`: a complete-derived-category-valued affine functor with completely étale descent extends uniquely by affine-open descent. On quasisyntomic charts apply DerivedDeRhamCohomology §5.5's QRSP unfolding and §5.26's `DerivedDeRham.formalEtaleRealization`, with `formalEtaleAffine`, `formalEtaleCoverDescent`, `formalEtalePullback` and `formalEtaleFiltered`. `Prismatic.Formal.qsyn_rightKan` specializes those supplied maps to the prismatic functor: its QRSP limit on `Spf B` recovers the affine value with the supplied overlap, pullback and filtered laws. For arbitrary bounded B, construct the étale sheafification and formal gluing of affine animated prismatic cohomology here; the QRSP-limit assertion requires quasisyntomic charts. (BMS2 Definitions 4.10, 4.20, Lemmas 4.28–4.30, pp.21–25, Remark 10.4, §10; BL22 Construction 7.4.1 and Proposition 7.4.7, pp.177–179.)
 
-**Checks.** On `Spf B` the identity affine chart recovers `F(B)`. For `B=O_C⟨x⟩` the compatible-root Čech nerve computes the same value as formal restriction. A disjoint union of two affine charts gives a product, including the empty formal scheme with terminal value. A single proper principal open is not a cover of `Spf B`; its value cannot replace the chart limit. A ring with unbounded p-power torsion does not qualify as a bounded chart.
+*Needs:* SchemeAndStackFoundations §4.7, SchemeAndStackFoundations §§4.7–4.8, SchemeAndStackFoundations §§2.1–2.6, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, DerivedDeRhamCohomology §§5.1–5.7, 5.26 (quasisyntomic sites, QRSP unfolding, `DerivedDeRham.formalEtaleRealization`, `formalEtaleAffine`, `formalEtaleCoverDescent`, `formalEtalePullback`, `formalEtaleFiltered`), EnhancedDerivedSheaves Layer E2, EnhancedDerivedSheaves Layer E3.
 
-**Proof route.** Glue the affine completed Čech descent of SchemeAndStackFoundations §§4.7–4.8, and on quasisyntomic charts commute its limit with DerivedDeRhamCohomology §§5.1–5.7’s QRSP-basis limit (BL22 Proposition 7.4.7, pp.178–179).
+**Checks.** Morphisms `Spf C→Spf B` recover precisely unital maps `B→C`. The two principal charts of the formal projective line glue to its p-power system. Completely étale charts of `Spf B` reduce to étale charts of `Spec(B/p)` and lift uniquely back. For p-completely étale charts the completed fibre product remains bounded. On `Spf B` the identity affine chart recovers `F(B)`. For `B=O_C⟨x⟩` the compatible-root Čech nerve computes the same value as formal restriction. A disjoint union of two affine charts gives a product, including the empty formal scheme with terminal value. A single proper principal open is not a cover of `Spf B`; its value cannot replace the chart limit. A ring with unbounded p-power torsion does not qualify as a bounded chart.
+
+**Proof route.** Glue the affine p-power systems, lift special-fibre étale charts uniquely using cotangent vanishing and completely étale algebraization, and apply the supplied formal realization on quasisyntomic charts (BS22 Construction 4.4, p.37; BL22 Proposition 7.4.7, pp.178–179).
 
 <a id="s1-1"></a>
 <a id="layer-1-prismatic-structure-sheaf"></a>
@@ -1848,7 +1990,7 @@ For a p-adic formal `X` over `A/I`, define the relative site by bounded prisms u
 
 (BS22, Definition 4.1; p. 36; BS22, Remark 4.3; p. 37; ALB23, Definition 3.1.1; p. 16.)
 
-*Needs:* [§1.1](#s1-1), [§0.73](#s0-73), [§0.79](#s0-79), SchemeAndStackFoundations §§4.7–4.8, EnhancedDerivedSheaves Layer E2, Mathlib `CategoryTheory.GrothendieckTopology.over`, Mathlib `CategoryTheory.Presheaf.IsSheaf`.
+*Needs:* [§1.0](#s1-0), [§1.1](#s1-1), [§0.73](#s0-73), [§0.79](#s0-79), SchemeAndStackFoundations §§4.7–4.8, EnhancedDerivedSheaves Layer E2, Mathlib `CategoryTheory.GrothendieckTopology.over`, Mathlib `CategoryTheory.Presheaf.IsSheaf`.
 
 - `Prismatic.Site.RelativePrism`: Object `(B,J)`, `A→B`, `R→B/J`, with reverse-ring site arrows.
 - `Prismatic.Site.RelativePrism.ideal_eq_map`: `J=IB`.
@@ -1880,7 +2022,7 @@ The construction only needs p-adic formal `X`, though comparisons assume smoothn
 
 (BS22, Construction 4.4; p. 37; BS22, Construction 4.4; p. 37.)
 
-*Needs:* [§1.2](#s1-2), [§0.81](#s0-81), [§0.59](#s0-59), DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, SchemeAndStackFoundations §§2.1–2.6, SchemeAndStackFoundations §§4.7–4.8, Mathlib `CategoryTheory.Functor.IsCocontinuous`, Mathlib `CategoryTheory.Functor.sheafPushforwardCocontinuous`, Mathlib `Algebra.Etale`.
+*Needs:* [§1.0](#s1-0), [§1.2](#s1-2), [§0.81](#s0-81), [§0.59](#s0-59), DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, SchemeAndStackFoundations §§2.1–2.6, SchemeAndStackFoundations §§4.7–4.8, Mathlib `CategoryTheory.Functor.IsCocontinuous`, Mathlib `CategoryTheory.Functor.sheafPushforwardCocontinuous`, Mathlib `Algebra.Etale`.
 
 **Proof route.** Lift completely étale maps uniquely in prisms to prove cocontinuity; compute direct image on each étale slice (BS22 §4.2, pp.37–38).
 
@@ -1922,7 +2064,7 @@ For smooth formal `X/A/I` set `Δ_(X/A)=Rν_*O_Δ` and `RΓ_Δ(X/A)=RΓ(X_ét,Δ
 
 For smooth `X/A/I` define `Δ̄_(X/A)=Rν_*Ō_Δ≃Δ_(X/A)⊗^L_A A/I`, with its `O_X-algebra` structure; use the same reduction on affines. With the twists below, the coefficient extension gives the triangle `Δ̄{i+1}→Δ⊗^L_A I^i/I^(i+2)→Δ̄{i}`, `i≥0`.
 
-`(A,I)` is a bounded prism, `X` a smooth p-adic formal scheme over `A/I`, `R` a p-completely smooth `A/I-algebra`. The twist M{i} of this layer is the twist of `A/I-modules` of Bhatt–Scholze Construction 4.9. The Breuil–Kisin twists A{n} of the prism itself, with `A{1}/I = I/I²`, belong to [PrismaticCohomologyPartII §3.9, Breuil–Kisin twists A{n} of a prism](../PrismaticCohomologyPartII/README.md#s3-9) and are not used here. The Hodge–Tate comparison carries the twist `{−i}` on `Ω^i` and no Frobenius twist.
+`(A,I)` is a bounded prism, `X` a smooth p-adic formal scheme over `A/I`, `R` a p-completely smooth `A/I-algebra`. The twist M{i} of this layer is the twist of `A/I-modules` of Bhatt–Scholze Construction 4.9. Absolute twists of the prism itself are outside this roadmap. The Hodge–Tate comparison carries the twist `{−i}` on `Ω^i` and no Frobenius twist.
 
 (BS22, Construction 4.9, first paragraph; p. 39; ALB23, Definition 3.1.5; p. 16.)
 
@@ -1987,7 +2129,7 @@ Here `R` is p-completely smooth or syntomic over `A/I` (ALB23 Remark 3.1.8). Fin
 - `pr1_cech_alexander_affine_line`: For `R = A/I⟨X⟩` with the presentation A⟨X⟩ `→ R`: `C^0 = A{X}^∧` is the completed free `δ-A-algebra` on one generator, so maps of prisms over `(A,I)` from `(C^0,IC^0)` to a bounded prism (B,IB) over `(A,I)` correspond bijectively to elements of `B`; and `C^1 = A{X,Y}{(X−Y)/I}^∧`.
 - `pr1_weakly_initial_not_initial`: If `Ω^1_{R/(A/I)} ≠ 0` the two coface maps `C^0` ⇉ `C^1` are different; so the weakly initial object is not initial and `Δ_{R/A} ≠ C^0`.
 
-**Proof route.** Consume the oriented envelope construction, glue its generator changes, and pass to completed filtered colimits for regular families (BS22 Construction 4.5, pp.37–38).
+**Proof route.** Consume the oriented envelope construction, glue its generator changes, and pass to completed filtered colimits for regular families (BS22 Construction 4.17, pp.41–42).
 
 <a id="s1-8"></a>
 <a id="layer-1-cech-alexander-computes-cohomology"></a>
@@ -2002,7 +2144,7 @@ Extend the oriented affine computation of PerfectoidSpaces §P4.15.3 by orientat
 
 *Needs:* [§1.7](#s1-7), [§1.1](#s1-1), [§1.4](#s1-4), EnhancedDerivedSheaves Layer E2.
 
-**Proof route.** The weakly initial object’s coproduct nerve resolves the terminal sheaf; tensor-product refinements identify the augmentations (BS22 Construction 4.5 and Remark 4.6, pp.37–38).
+**Proof route.** The weakly initial object’s coproduct nerve resolves the terminal sheaf; tensor-product refinements identify the augmentations (BS22 Construction 4.18 and its footnote, p.42).
 
 <a id="s1-9"></a>
 <a id="layer-1-frobenius-on-prismatic-cohomology"></a>
@@ -2043,7 +2185,7 @@ Finite complete Tor-amplitude means `A′⊗^L_AA/(p,I)` has finite amplitude ov
 
 *Needs:* [§1.7](#s1-7), [§1.8](#s1-8), [§0.86](#s0-86), DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23.
 
-**Proof route.** Use oriented base change termwise and finite complete `Tor` amplitude to commute tensor with totalization, then descend orientations (BS22 Corollary 4.12, pp.42–43).
+**Proof route.** Use oriented base change termwise and finite complete `Tor` amplitude to commute tensor with totalization, then descend orientations (BS22 Lemma 4.20, p.43, and Lemma 4.22, p.44).
 
 <a id="s1-11"></a>
 <a id="layer-1-etale-localization"></a>
@@ -2058,7 +2200,7 @@ Use PerfectoidSpaces §P4.15.3 and PerfectoidQuotients §0.0 for the oriented af
 
 *Needs:* [§1.7](#s1-7), [§1.8](#s1-8), [§1.5](#s1-5), [§0.81](#s0-81), [§0.59](#s0-59), DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, Mathlib `Algebra.Etale`.
 
-**Proof route.** Use PerfectoidQuotients §0.0’s complete étale δ-lift to construct the adjoint and compare the two Čech augmentations (BS22 Lemma 4.8, p.39).
+**Proof route.** Use PerfectoidQuotients §0.0’s complete étale δ-lift to construct the adjoint and compare the two Čech augmentations (BS22 Lemma 4.21, pp.43–44, using Lemma 2.18, pp.17–18).
 
 <a id="s1-12"></a>
 <a id="layer-1-bockstein-differential"></a>
@@ -2115,7 +2257,7 @@ For a crystalline prism (A,(p)), a PD ideal `I` containing `p` and smooth `R/(A/
 
 (BS22, Notation 5.1, Theorem 5.2 and its proof; p. 45; BS22, Theorem 1.8 (1) and Example 1.9 (1); pp. 4, 5; ALB23, Theorem 3.1.7 and the paragraph before it; p. 17.)
 
-*Needs:* [§1.7](#s1-7), [§1.8](#s1-8), [§1.13](#s1-13), [§1.10](#s1-10), [§1.9](#s1-9), [§0.74](#s0-74), [§0.69](#s0-69), [§0.86](#s0-86), DerivedDeRhamCohomology §§PD.6–PD.7, CrystallineCohomology §§CR.1.1–CR.1.3, CrystallineCohomology §§CR.2.1–CR.2.3, DerivedDeRhamCohomology §§3.4–3.6, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, Mathlib `DividedPowers`, SchemeAndStackFoundations §§4.7–4.8.
+*Needs:* [§1.0](#s1-0), [§1.7](#s1-7), [§1.8](#s1-8), [§1.13](#s1-13), [§1.10](#s1-10), [§1.9](#s1-9), [§0.74](#s0-74), [§0.69](#s0-69), [§0.86](#s0-86), DerivedDeRhamCohomology §§PD.6–PD.7, CrystallineCohomology §§CR.1.1–CR.1.3, CrystallineCohomology §§CR.2.1–CR.2.3, DerivedDeRhamCohomology §§3.4–3.6, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, Mathlib `DividedPowers`, SchemeAndStackFoundations §§4.7–4.8.
 
 **Proof route.** Compare Frobenius-twisted prismatic envelopes with PD envelopes termwise and totalize (BS22 Theorem 5.2, pp.44–45).
 
@@ -2145,7 +2287,7 @@ Consume the affine crystalline Hodge–Tate calculation from PerfectoidSpaces §
 
 (BS22, §5, introduction, p. 45; Corollary 5.5, p. 49, and its proof, p. 50.)
 
-*Needs:* [§1.14](#s1-14), [§1.11](#s1-11), [§1.10](#s1-10), [§1.12](#s1-12), DerivedDeRhamCohomology §3.4, DerivedDeRhamCohomology §§2.7–2.21, DerivedDeRhamCohomology §§2.7–2.26, 5.8, CrystallineCohomology §§CR.2.1–CR.2.3, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, Mathlib `Algebra.Smooth`, SchemeAndStackFoundations §§4.7–4.8, DerivedDeRhamCohomology §§3.1–3.6.
+*Needs:* [§1.0](#s1-0), [§1.14](#s1-14), [§1.11](#s1-11), [§1.10](#s1-10), [§1.12](#s1-12), DerivedDeRhamCohomology §3.4, DerivedDeRhamCohomology §§2.7–2.21, DerivedDeRhamCohomology §§2.7–2.26, 5.8, CrystallineCohomology §§CR.2.1–CR.2.3, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, Mathlib `Algebra.Smooth`, SchemeAndStackFoundations §§4.7–4.8, DerivedDeRhamCohomology §§3.1–3.6.
 
 **Proof route.** Use crystalline Cartier on affine charts and glue; the dyadic square-zero identity is integral (BS22 Corollary 5.5 and proof, pp.49–50).
 
@@ -2191,7 +2333,7 @@ Consume the oriented affine-line comparison of PerfectoidSpaces §P4.15.3; desce
 
 *Needs:* [§1.12](#s1-12), [§1.16](#s1-16), [§1.17](#s1-17), [§1.10](#s1-10), [§1.7](#s1-7), [§1.8](#s1-8), [§0.81](#s0-81), DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, [§0.78](#s0-78).
 
-**Proof route.** Reduce the affine line to the crystalline case by §1.17 and descend its square-zero generator identity (BS22 Lemma 4.10 and Theorem 6.3, pp.40,53–54).
+**Proof route.** Reduce the affine line to the crystalline case by §1.17 and descend its square-zero generator identity (BS22 Lemma 4.10, p.39, and Proposition 6.2, pp.51–52).
 
 <a id="s1-19"></a>
 <a id="layer-1-hodge-tate-comparison-map"></a>
@@ -2231,9 +2373,9 @@ Extend PerfectoidSpaces §P4.15.3 by canonical twists and étale gluing: on smoo
 
 (BS22, Theorem 4.11; p. 40; BS22, Theorem 6.3 and its proof; p. 52; BS22, Theorem 1.8 (2); p. 4.)
 
-*Needs:* [§1.19](#s1-19), [§1.18](#s1-18), [§1.16](#s1-16), [§1.11](#s1-11), [§1.17](#s1-17), [§1.10](#s1-10), [§1.7](#s1-7), [§0.81](#s0-81), SchemeAndStackFoundations §§2.1–2.6, DerivedDeRhamCohomology §§2.7–2.26, 5.8, SchemeAndStackFoundations §§4.7–4.8.
+*Needs:* [§1.0](#s1-0), [§1.19](#s1-19), [§1.18](#s1-18), [§1.16](#s1-16), [§1.11](#s1-11), [§1.17](#s1-17), [§1.10](#s1-10), [§1.7](#s1-7), [§0.81](#s0-81), SchemeAndStackFoundations §§2.1–2.6, DerivedDeRhamCohomology §§2.7–2.26, 5.8, SchemeAndStackFoundations §§4.7–4.8.
 
-**Proof route.** Check `η*` on the affine line and étale polynomial charts, then glue with the canonical twists (BS22 Theorem 4.11, pp.40–42).
+**Proof route.** Check `η*` on the affine line and étale polynomial charts, then glue with the canonical twists (BS22 Theorem 6.3 and its proof, pp.52–53).
 
 <a id="s1-21"></a>
 <a id="layer-1-prismatic-base-change"></a>
@@ -2248,22 +2390,22 @@ The global qcqs restriction is necessary for base change of products; BS22 Theor
 
 *Needs:* [§1.20](#s1-20), [§1.19](#s1-19), [§1.5](#s1-5), [§1.4](#s1-4), [§1.14](#s1-14), DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, DerivedDeRhamCohomology §§2.7–2.26, 5.8, SchemeAndStackFoundations §§2.1–2.6.
 
-**Proof route.** Reduce to Hodge–Tate and complete Nakayama; qcqs finite descent commutes with completed base change (BS22 Corollary 4.12, pp.42–43).
+**Proof route.** Reduce to Hodge–Tate and complete Nakayama; qcqs finite descent commutes with completed base change (BS22 Corollary 4.12 and its proof, p.40).
 
 <a id="s1-22"></a>
 <a id="layer-1-de-rham-comparison"></a>
 
 ### 1.22 The de Rham comparison (W(A/I) p-torsion-free)
 
-Assume `W(A/I)` is p-regular. For smooth formal `X/A/I`, `Δ_(X/A)⊗̂^L_(A,φ_A)A/I≃Ωhat*_(X/(A/I))`, multiplicatively. More precisely `ψ=F∘w_A:A→W(A/I)` gives `Δ_(R/A)⊗̂^L_(A,ψ)W(A/I)≃RΓ_crys((R/p)/W(A/I))`, relative to the PD ideal `ker(W(A/I)→A/(I,p))`; reduction is the de Rham iso. For qcqs `X` it holds on `RΓ`. All reductions are derived p-completed; the downstream PrismaticCohomologyPartII §3.17 removes the Witt regularity condition.
+Assume `W(A/I)` is p-regular. For smooth formal `X/A/I`, `Δ_(X/A)⊗̂^L_(A,φ_A)A/I≃Ωhat*_(X/(A/I))`, multiplicatively. Let `q:A→A/I` be the quotient and put `ψ=F∘WittVector.map(q)∘w_A:A→W(A/I)`, equivalently `F∘Delta.wittLift(q)`. This gives `Δ_(R/A)⊗̂^L_(A,ψ)W(A/I)≃RΓ_crys((R/p)/W(A/I))`, relative to the PD ideal `ker(W(A/I)→A/(I,p))`; reduction is the de Rham iso. For qcqs `X` it holds on `RΓ`. All reductions are derived p-completed.
 
-Assume `W(A/I)` p-torsion-free, as when `A/I` is p-torsion-free or `I=(p)` with `A/p` reduced. The reduction is along `A→_(φ)A/I`; untwisted reduction is Hodge–Tate, with `Ω^i{−i}` cohomology. The unrestricted bounded-prism comparison is PrismaticCohomologyPartII §3.17, deduced using `Lη_I`. In the proof `ψ(I)⊂FVW(A/I)=pW(A/I)`.
+Assume `W(A/I)` p-torsion-free, as when `A/I` is p-torsion-free or `I=(p)` with `A/p` reduced. The reduction is along `A→_(φ)A/I`; untwisted reduction is Hodge–Tate, with `Ω^i{−i}` cohomology. In the proof `ψ(I)⊂FVW(A/I)=pW(A/I)`.
 
 (BS22, Theorem 6.4, the paragraph before it, and its proof; p. 53; BS22, Theorem 6.4, proof; p. 53; BS22, Theorem 1.8 (3); p. 4.)
 
 *Needs:* [§1.21](#s1-21), [§1.14](#s1-14), [§1.4](#s1-4), [§0.56](#s0-56), [§0.74](#s0-74), CrystallineCohomology §§CR.2.1–CR.2.3, DerivedDeRhamCohomology §§2.7–2.26, 5.8, DerivedDeRhamCohomology §§2.7–2.21, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, Mathlib `WittVector`, Mathlib `WittVector.frobenius_verschiebung`.
 
-**Proof route.** Use the Witt crystalline lift with the stated `ψ`, then reduce along its zeroth coordinate (BS22 Theorem 6.3, pp.53–54).
+**Proof route.** Use the Witt crystalline lift with the stated `ψ`, then reduce along its zeroth coordinate (BS22 Theorem 6.4 and its proof, pp.53–54).
 
 <a id="s1-23"></a>
 <a id="layer-1-proper-smooth-perfectness"></a>
@@ -2276,9 +2418,9 @@ For proper smooth formal `X/A/I`, `RΓ_Δ` is perfect, with Tor-amplitude [0,2di
 
 (BS22, Theorem 1.8, final sentence; p. 4; BS22, Theorem 1.8, final sentence; p. 4.)
 
-*Needs:* [§1.20](#s1-20), [§1.21](#s1-21), [§1.5](#s1-5), [§0.81](#s0-81), DerivedDeRhamCohomology §§5.1–5.7, 5.17, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, SchemeAndStackFoundations §§4.7–4.8, SchemeAndStackFoundations §§2.1–2.6.
+*Needs:* [§1.0](#s1-0), EnhancedDerivedSheaves §E1.9 (`perfect_proper_pushforward`), DerivedDeRhamCohomology §5.23 (effectivity and perfectness for the proper smooth p-adic tower), [§1.20](#s1-20), [§1.21](#s1-21), [§1.5](#s1-5), [§0.81](#s0-81), DerivedDeRhamCohomology §§5.1–5.7, 5.17, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, SchemeAndStackFoundations §§4.7–4.8, SchemeAndStackFoundations §§2.1–2.6.
 
-**Proof route.** Proper coherent cohomology makes the finite Hodge–Tate filtration perfect; complete Nakayama lifts this to `Δ` (BS22 Corollary 4.13, p.43).
+**Proof route.** Apply `perfect_proper_pushforward` to `Ω^i_(X_n/A_n)` at each finite level, then DerivedDeRhamCohomology §5.23’s compatible-perfect-system argument. The finite Hodge–Tate filtration is perfect; complete Nakayama lifts perfectness to `Δ` (BS22 Theorem 1.8, final sentence, p.4).
 
 <a id="s1-24"></a>
 <a id="layer-1-p-torsion-free-h0-syntomic"></a>
@@ -2383,9 +2525,9 @@ For `R=A/I` the relative site has final object (A,I,id), `Δ=A` and `Δ̄=A/I`. 
 
 **§1.21.** Crystalline base: for `(Z_p,(p)) → (W(k),(p))`, `Δ_{F_p[X]/Z_p} ⊗̂ W(k) ≃ Δ_{k[X]/W(k)}`. For the map of prisms α `= can∘φ` : `(A_inf, ker θ) → (A_crys,(p))` (Construction 6.1 with `d = ξ`) and `X` smooth, quasi-compact and quasi-separated over `O_C`: `RΓ_Δ(X/A_inf) ⊗̂^L_{A_inf,α} A_crys ≃ RΓ_Δ(Y/A_crys)` with `Y = X ×_{Spf O_C} Spf(A_crys/p) = (X_{O_C/p})^{(1)}`; by §1.14 for the PD ideal `ker(A_crys → O_C/p)` the right side is `RΓ_crys(X_{O_C/p}/A_crys)`, the `A_crys-comparison` of BMS1. Non-example: for `X` an infinite disjoint union of copies of `Spf(F_p)` over `(Z_p,(p))` and `B = Z_p⟨x⟩`, the map `(∏ Z_p) ⊗̂ Z_p⟨x⟩ → ∏ Z_p⟨x⟩` is not surjective.
 
-**§1.22.** `A = Z_p[[u]]`, `I = (E(u))`, `A/I = O_K` p-torsion-free: `Δ_{X/A} ⊗^L_{A,φ} O_K ≃ Ω^*_{X/O_K}`. `A = W(k)`, `I = (p)`, `k` perfect: `Δ_{R/W(k)} ⊗^L_{W(k),φ} k ≃ Ω^*_{R/k}`; with the Cartier isomorphism this is consistent with `Δ̄_{R/W(k)}` having cohomology `Ω^i_{R/k}`. A hypothesis check: `W(F_p[x]/(x²))` has p-torsion, and for A a p-torsion-free δ-lift of `F_p[x]/(x²)` the theorem does not apply; the general comparison is PrismaticCohomologyPartII §3.17.
+**§1.22.** `A = Z_p[[u]]`, `I = (E(u))`, `A/I = O_K` p-torsion-free: `Δ_{X/A} ⊗^L_{A,φ} O_K ≃ Ω^*_{X/O_K}`. `A = W(k)`, `I = (p)`, `k` perfect: `Δ_{R/W(k)} ⊗^L_{W(k),φ} k ≃ Ω^*_{R/k}`; with the Cartier isomorphism this is consistent with `Δ̄_{R/W(k)}` having cohomology `Ω^i_{R/k}`. A hypothesis check: `W(F_p[x]/(x²))` has p-torsion, and for A a p-torsion-free δ-lift of `F_p[x]/(x²)` the theorem does not apply.
 
-**§1.23.** For `X=P¹` over `A/I`, `RΓ_Δ` is `A⊕A{−1}[−2]`, a perfect complex of rank two. A proper abelian formal scheme of relative dimension `g` has amplitude [0,2g], with `H¹` of rank 2g after field base change. Properness matters: over `(Z_p,(p))`, the affine line has `H⁰(Δ̄)=F_p[x]`, which is not finite over `F_p`, so its global `Δ` is not perfect.
+**§1.23.** For `X=P¹_(A/I)`, `RΓ_Δ` is a perfect A-complex of Tor-amplitude `[0,2]`; its Hodge–Tate reduction has `H⁰=A/I`, `H²=(A/I){−1}` and no other cohomology. A proper abelian formal scheme of relative dimension `g` has amplitude [0,2g], with `H¹` of rank 2g after field base change. Properness matters: over `(Z_p,(p))`, the affine line has `H⁰(Δ̄)=F_p[x]`, which is not finite over `F_p`, so its global `Δ` is not perfect.
 
 **§1.26.** On the torus `R=(A/I)⟨X^±1⟩`, `H¹(Δ̄){1}=R·η¹(dX/X)`. The four calculations above detect the sign of the twist, the Bockstein and the base Frobenius.
 
@@ -2404,9 +2546,9 @@ Extend the polynomial theory by completed left Kan extension, retaining the anim
 
 ### 2.0 Arc descent for the comparisons
 
-Use valuation rings from ordinary commutative algebra, the schemes and sheaves of SchemeAndStackFoundations §§1.1, 2.1–2.6, and the completed formal geometry of SchemeAndStackFoundations §§4.7–4.8. PerfectoidSpaces supplies perfectoid rings, André covers and the universal semiperfectoid quotient. This prefix constructs the topologies and descent statements used by the perfect-site, étale and logarithmic comparisons.
+Use valuation rings from ordinary commutative algebra, the schemes and sheaves of SchemeAndStackFoundations §§1.1, 2.1–2.6, and the bounded formal geometry constructed in §1.0 from SchemeAndStackFoundations §§4.7–4.8. PerfectoidSpaces supplies perfectoid rings, André covers and the universal semiperfectoid quotient. This prefix constructs the topologies and descent statements used by the perfect-site, étale and logarithmic comparisons.
 
-Define `Arc.Cover (f : Y → X)` for qcqs schemes by the following lifting condition. Given a rank-at-most-one valuation ring `V` and `Spec V → X`, there must be an injective local extension `V → W` of rank-at-most-one valuation rings and a compatible `Spec W → Y`. Define `Arc.Site` using finite affine refinements of covering families and Zariski localization. Prove closure under composition and base change and that the resulting covering families generate a Grothendieck topology. (Bhatt–Mathew, The arc-topology, Definitions 1.1–1.2, pp.2–3; Proposition 2.1 and Lemma 2.2, p.9.)
+Define `Arc.Cover (f : Y → X)` for qcqs schemes by the following lifting condition. Given a rank-at-most-one valuation ring `V` and `Spec V → X`, there must be an injective local extension `V → W` of rank-at-most-one valuation rings and a compatible `Spec W → Y`. Define `Arc.Site` using finite affine refinements of covering families and Zariski localization. Prove closure under composition and base change and that the resulting covering families generate a Grothendieck topology. (Bhatt–Mathew, The arc-topology, Definition 1.2, pp.2–3; Proposition 2.1 and Remark 2.2, p.9.)
 
 - `Arc.Cover`, `Arc.Site`: the lifting predicate and its associated site, with the universe of test valuation rings explicit.
 - `Arc.Cover.baseChange`, `Arc.Cover.comp`, `Arc.Cover.ofVCover`: stability and the comparison with the v-topology.
@@ -2414,7 +2556,7 @@ Define `Arc.Cover (f : Y → X)` for qcqs schemes by the following lifting condi
 
 **Checks for the covering predicate.** The identity of `Spec Z_p` is a cover by choosing `W=V`. The empty scheme does not cover `Spec F_p`, as the identity map from `F_p` has no lift. The reduction `Spec F_p → Spec F_p[ε]/(ε²)` is a cover, because every map to a valuation ring annihilates `ε`; requiring faithful flatness of the displayed scheme map would reject it.
 
-**Checks for the site.** A two-open affine Zariski covering is a covering family after the finite affine refinement. The empty family does not cover the nonempty scheme `Spec F_p`. For a rank-two valuation ring `V` with a height-one prime `q`, `Spec(V_q) ⊔ Spec(V/q)` covers `Spec V` in the arc-topology although it is not a v-cover; this distinguishes the rank-one testing convention (Example 2.8, p.10).
+**Checks for the site.** A two-open affine Zariski covering is a covering family after the finite affine refinement. The empty family does not cover the nonempty scheme `Spec F_p`. For a rank-two valuation ring `V` with a height-one prime `q`, `Spec(V_q) ⊔ Spec(V/q)` covers `Spec V` in the arc-topology although it is not a v-cover; this distinguishes the rank-one testing convention (ARC Proposition 2.8 and Corollary 2.9, p.10).
 
 Define `ArcPCover (R → S)` over `Z_p` by testing rank-one valuation rings `V` in which `p` is a pseudouniformizer, permitting an injective local extension of valuation rings before lifting. Define `ArcP.Equivalence` by bijectivity on maps to p-complete absolutely integrally closed valuation test rings. The topology generated by these covers is the algebraic `arc_p` topology. This is different from imposing an adic completeness condition on every algebra under consideration. (Bhatt–Mathew, The arc-topology, Definition 6.14, p.51; Definition 6.19 and Example 6.20, pp.53–54, with `t=p.`)
 
@@ -2437,7 +2579,11 @@ Define `FormalArc.Site` on p-adic formal schemes using Zariski covers and qcqs m
 
 **Checks for the basis.** The p-completion of the ring of integers in an algebraic closure of `Q_p` supplies a perfectoid cover of `Spf Z_p`. A characteristic-p perfection supplies a cover of `Spf F_p[T]`. `Spf Z_p` itself is not a perfectoid basis object: it has no element whose p-th power generates an ideal containing `p` but smaller than the unit ideal. Thus being p-complete does not suffice for membership in this basis.
 
-For a torsion étale sheaf `G` on a base, `X ↦ RΓ(X_ét,G)` satisfies arc descent and excision. For a finite coefficient ring Λ, the bounded constructible categories `Dᵇ_cons(X_ét,Λ)`, also with a fixed cohomological range, satisfy hypercomplete arc descent. For a formal-gluing datum `(A → B,I)`, with `I` finitely generated and `A/Iⁿ` ≅ `B/IⁿB` for every `n`, the square of torsion étale cohomology on `Spec A`, `Spec B` and their complements of `V(I)` is cartesian. If `(A,I)` is henselian, cohomology on `Spec A` \ `V(I)` agrees with that on `Spec Â_I` \ `V(IÂ_I)`. Finally, `R ↦ RΓ_ét(Spec R̂_p[1/p],G)` is an `arc_p` sheaf. Prove these as torsion statements first; the `Z_p` versions are derived inverse limits of the finite-level assertions. (Bhatt–Mathew ARC, Theorem 5.4, p.38; Theorem 5.13, pp.42–43; Proposition 6.4, pp.48–49; Theorem 6.11, p.50; Corollary 6.17, pp.51–52.)
+*Needs:* EtaleCohomologyFoundations §§0.5–0.6 (qcqs continuity), F.0.4 (`VanishingCycles.universalHomeomorphismEtaleEquivalence`), F.1 (`VanishingCycles.finiteCoefficientCohomology`) and F.2.1 (`VanishingCycles.properBaseChange`) for arbitrary torsion; EnhancedDerivedSheaves Layer E2 for cohomological descent; §1.0 for bounded formal schemes and their sites.
+
+Prove v-descent first by the proper-surjective refinement argument of ARC Proposition 5.2, using arbitrary-torsion proper base change and continuity. Then apply valuation excision to obtain ARC Theorem 5.4.
+
+For a torsion étale sheaf `G` on a base, `X ↦ RΓ(X_ét,G)` satisfies arc descent and excision. For a finite coefficient ring Λ, the bounded constructible categories `Dᵇ_cons(X_ét,Λ)`, also with a fixed cohomological range, satisfy hypercomplete arc descent. For a formal-gluing datum `(A → B,I)`, with `I` finitely generated and `A/Iⁿ` ≅ `B/IⁿB` for every `n`, the square of torsion étale cohomology on `Spec A`, `Spec B` and their complements of `V(I)` is cartesian. If `(A,I)` is henselian, cohomology on `Spec A` \ `V(I)` agrees with that on `Spec Â_I` \ `V(IÂ_I)`. Finally, `R ↦ RΓ_ét(Spec R̂_p[1/p],G)` is an `arc_p` sheaf. Prove these as torsion statements first; the `Z_p` versions are derived inverse limits of the finite-level assertions. (Bhatt–Mathew ARC, Theorem 5.4, p.38; Theorem 5.13, pp.42–43; Theorem 6.4, pp.48–49; Theorem 6.11, p.50; Corollary 6.17, pp.51–52.)
 
 On the perfectoid formal basis prove that the presheaf `O` is an arc sheaf with `RΓ_arc(Spf S,O)` ≅ `S` for perfectoid `S`. This is the structure-sheaf acyclicity needed by §2.30’s perfect-prismatic-site comparison, rather than an assertion about every p-complete ring. (Bhatt–Scholze BS22, Proposition 8.10, pp.67–68.) For the formal-gluing square check `I=A`, when both open complements are the whole spectra and its vertical maps are identities, and `I=0`, when both complements are empty. Do not apply the henselian theorem to `I=A` unless `A=0`, since a henselian ideal lies in the Jacobson radical. Check the nilpotent affine reduction above, where `O` on the entire formal site cannot have the acyclicity just proved on the perfectoid basis.
 
@@ -2506,7 +2652,7 @@ Filtered objects use `(N,≤)→D(R)` with completed tensor and graded pieces (D
 - `pr2_conj_fil_zero`: `Fil_0^conj Δ̄_{R/A} ≃` R[0].
 - `pr2_conj_fil_base`: For `R = A/I` the map `Fil_i^conj → Δ̄_{R/A}` is an isomorphism for every `i`.
 - `pr2_conj_fil_smooth_truncation`: For `R` smooth over `A/I`, `H^n(Fil_i^conj Δ̄_{R/A}) = 0` for `n > i`: the filtration is the canonical one.
-- `pr2_conj_fil_not_postnikov`: For `f` a nonzerodivisor of `A/I` with `(A/I)/(f)` nonzero and of bounded `p^∞-torsion`, `Fil_i^conj → Δ̄` is not an isomorphism for any `i`, although `Δ̄` is discrete.
+- `pr2_conj_fil_not_postnikov`: For `f` a nonzerodivisor of `A/I`, put `R=(A/I)/(f)` and assume R nonzero with bounded p-power torsion. Then `Fil_i^conjΔ̄_(R/A)→Δ̄_(R/A)` is not an isomorphism for any `i`, although `Δ̄_(R/A)` is discrete. In contrast, for `(A,I)=(Z_p[[u]],(u−p))`, `f=p` and `R=A/I`, the base Check gives an isomorphism at every stage.
 
 **Proof route.** Left Kan extend the smooth truncation filtration, then glue its canonical ideal twists (BS22 Construction 7.6, p.56).
 
@@ -2696,7 +2842,7 @@ Twists are tensor powers of the invertible B-module `I/I²`. Tensor products and
 
 **Argument.** For `(1)`, cotangent base change gives `L_{R/B}=R[1]`, and `exterior/divided-power` décalage gives `∧^i_R(R[1])[−i]=R`. For `(2)`, write `F_i=Fil_i^conj`. Inductively `F_i∈D^{[−1,0]}`; the extension `F_{i−1}→F_i→R{−i}` splits in `D(R)`, since `Hom_R(R{−i},F_{i−1}[1])=H¹(F_{i−1}{i})=0`. Choose each splitting to retain the preceding inclusion. Thus the uncompleted filtered colimit is a direct sum of twists of `R`, and its first summand `R` has a compatible retraction. Its two homology modules are sums of invertible B-modules and have the same uniform bound on p-power torsion as `B`. Derived p-completion therefore has no extra cohomology outside `[−1,0]`; completing the retraction preserves the complete summand `R`. This proves survival through completion, rather than presuming it from the finite stages. Part `(3)` is completed Künneth, followed by reduction.
 
-For `(4)`, use the free animated `Z_p-lift R̃=Z_p⊗ᴸ_{Z_p[x]}Z_p` of `R`. The smooth crystalline comparison, extended along its polynomial simplicial resolution, identifies `Δ_{R/Z_p}` with the p-completed derived de Rham complex of `R̃/Z_p`. Derived de Rham base change along `Z_p[x]→Z_p`, `x↦0`, applied to `Z_p[x]→Z_p`, `x↦0`, gives `P̂⊗̂ᴸ_{Z_p[x]}Z_p`, where `x` acts on P̂ by `u`. Resolve `Z_p` over `Z_p[x]` by `[Z_p[x]→Z_p[x]]`, multiplication by `x`; the resulting differential is multiplication by `u`. As `u·u^{[n]}=(n+1)u^{[n+1]}`, it has zero kernel even on restricted coefficient sequences. The class of `u^{[p]}` in the cokernel is nonzero (reduce its coefficient modulo `p`), while `p·u^{[p]}=u·u^{[p−1]}` vanishes. All steps use p-completion, with no Hodge completion.
+For `(4)`, apply §2.8’s Künneth formula to the polynomial comparison of §1.14. The derived de Rham base-change calculation of Bha12 Lemma 8.3, for `Z_p[x]→Z_p`, `x↦0`, followed by base change along that same map, gives `P̂⊗̂ᴸ_{Z_p[x]}Z_p`, where `x` acts on P̂ by `u`. Resolve `Z_p` over `Z_p[x]` by `[Z_p[x]→Z_p[x]]`, multiplication by `x`; the resulting differential is multiplication by `u`. As `u·u^{[n]}=(n+1)u^{[n+1]}`, it has zero kernel even on restricted coefficient sequences. The class of `u^{[p]}` in the cokernel is nonzero (reduce its coefficient modulo `p`), while `p·u^{[p]}=u·u^{[p−1]}` vanishes. All steps use p-completion, with no Hodge completion.
 
 **Checks.**
 
@@ -2842,9 +2988,9 @@ That the map in `(3)` is an equivalence is BS22 Proposition 8.5; `(3)` only cons
 
 (BS22, Example 8.3; p. 63; BS22, §8.1, before Proposition 8.5; p. 64; BS22, Remark 4.6; p. 38.)
 
-*Needs:* [§2.22](#s2-22), [§2.3](#s2-3), [§2.10](#s2-10), [§2.2](#s2-2), [§0.84](#s0-84), [§0.65](#s0-65), [§1.20](#s1-20), DerivedModuleAlgebra §§0.1–0.17, 0.25, DerivedDeRhamCohomology §§5.1–5.7, 5.17, PerfectoidSpaces §§P1.16–P1.18, P1.24–P1.25, [§1.25](#s1-25), Mathlib `PerfectRing`.
+*Needs:* EnhancedDerivedSheaves §E5:animation.2 (`frobenius_zero_on_positive_homotopy`, `perfection_isDiscrete`), [§2.22](#s2-22), [§2.3](#s2-3), [§2.10](#s2-10), [§2.2](#s2-2), [§0.84](#s0-84), [§0.65](#s0-65), [§1.20](#s1-20), DerivedModuleAlgebra §§0.1–0.17, 0.25, DerivedDeRhamCohomology §§5.1–5.7, 5.17, PerfectoidSpaces §§P1.16–P1.18, P1.24–P1.25, [§1.25](#s1-25), Mathlib `PerfectRing`.
 
-**Proof route.** Use the localization universal property of that colimit; characteristic-p Frobenius kills the positive conjugate graded pieces (BS22 Example 8.3, p.63).
+**Proof route.** Use the localization universal property of the colimit. After the characteristic-p conjugate-filtration comparison, apply the supplied generic animated-perfection theorems to identify the colimit with the discrete perfection of `π₀S` (BS22 Example 8.3, p.63).
 
 <a id="s2-24"></a>
 <a id="layer-2-perfectoidization-coconnective"></a>
@@ -2857,13 +3003,13 @@ The operation `P⁰` below is a natural map of underlying spectra; it is not ass
 
 (BS22, Lemma 8.4 and its proof; p. 63; BS22, Proof of Lemma 8.4; p. 63.)
 
-*Needs:* [§2.22](#s2-22), [§2.12](#s2-12), [§0.65](#s0-65), [§0.61](#s0-61), [§0.84](#s0-84), [§1.7](#s1-7), DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, EnhancedDerivedSheaves §E5:abstract.2, [§0.67](#s0-67).
+*Needs:* AInfCohomology §AI.7.2 (`AInf.Trace.tateFinite`, `AInf.Trace.tateDiagonal`), EnhancedDerivedSheaves §E5:presentability.2 (`spectra`) and §E5:spectra-comparison (`eilenbergMacLane`, `moduleSpectra_equiv_derived`), [§2.22](#s2-22), [§2.12](#s2-12), [§0.65](#s0-65), [§0.61](#s0-61), [§0.84](#s0-84), [§1.7](#s1-7), DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, EnhancedDerivedSheaves §E5:abstract.2, [§0.67](#s0-67).
 
 Prerequisite API: `Prismatic.PowerOperation.pZero` is the natural underlying-spectrum `P⁰` operation on characteristic-p `E∞-algebras`; `pZero_positive` says it kills `π_n` for `n>0`, `pZero_discrete` is `x↦x^p`, and `pZero_totalization_realization` identifies it with termwise Frobenius on simplicial-cosimplicial ordinary algebras. It need not be an `E∞-ring` map or linear over an arbitrary coefficient ring (Lur11 Construction 2.2.6 and Warnings 2.2.8, 2.2.10, pp.34–35).
 
 **Checks for P⁰.** On `F_p[t]`, it sends `t` to `t^p`. On the split square-zero `E_∞` algebra `F_p⊕F_p[1]`, it kills its nonzero `π₁` class, whereas an identity operation would retain it. Over `k=F_(p²)`, `P⁰` on `k` is Frobenius and is not k-linear, so linearity over a general `k` must not enter the construction. On the zero algebra all these maps are zero.
 
-**Proof route.** Construct `P⁰` from the Tate diagonal: it kills positive homotopy and is Frobenius on discrete inputs, so perfected totalizations are coconnective (Lur11 Construction 2.2.6, pp.34–35; BS22 Lemma 8.4, p.63).
+**Proof route.** Construct `P⁰` using the supplied Tate constructions and the class `1∈π₁(k^{tC_p})` for discrete characteristic-p k, following Lur11 Construction 2.2.6: it kills positive homotopy and is Frobenius on discrete inputs, so perfected totalizations are coconnective (Lur11 Construction 2.2.6, pp.34–35; BS22 Lemma 8.4, p.63).
 
 <a id="s2-25"></a>
 <a id="layer-2-perfectoidization-symmetric-monoidal"></a>
@@ -2951,7 +3097,7 @@ Faithfully flat includes faithfulness modulo `(p,I)`, omitted in ALB23’s appen
 
 Consume semiperfectoid perfectization from PerfectoidSpaces §§P4.15.2–P4.15.3 and André covers from §P4.15.4. The extension is base independence and arc excision for general animated inputs.
 
-Prove `Prismatic.Perfection.perfectSite_equiv`: for a perfect prism `(A,I)`, `R=A/I` and a derived p-complete animated R-algebra `S`, the canonical map `Δ_(S/A),perf→RΓ((S/A)_Δ^perf,O_Δ)` is an equivalence for every topology between the flat and chaotic topologies. Consequently `S_perfd=lim_(S→T` perfectoid) `T` in derived p-complete `E_∞` rings, depends only on `π₀S`, and is independent of the perfect base. Prove `Prismatic.Perfectoidization.arc_sections` and `arc_excision`: this limit is `RΓ_arc(Spf S,O)`; if `S→S′` is an isomorphism on rank-one p-complete valuation points outside a derived p-complete ideal `J`, then the square with vertices `S_perfd`, `S′_perfd`, `(S/J)_perfd` and `(S′/J)_perfd` is cartesian. Here `S′/J` is the completed quotient by the image ideal, and the outside-J condition means existence and uniqueness of the extension of every valuation point not killing `J`. These are local prerequisites, not inputs from a later roadmap. (BS22, Proposition 8.5, pp.64–66; Corollaries 8.11–8.12, pp.68–69.)
+Prove `Prismatic.Perfection.perfectSite_equiv`: for a perfect prism `(A,I)`, `R=A/I` and a derived p-complete animated R-algebra `S`, the canonical map `Δ_(S/A),perf→RΓ((S/A)_Δ^perf,O_Δ)` is an equivalence for every topology between the flat and chaotic topologies. Consequently `S_perfd=lim_(S→T` perfectoid) `T` in derived p-complete `E_∞` rings, depends only on `π₀S`, and is independent of the perfect base. Prove `Prismatic.Perfectoidization.arc_sections` and `arc_excision`: this limit is `RΓ_arc(Spf(π₀S),O)`; if `S→S′` is an isomorphism on rank-one p-complete valuation points outside a derived p-complete ideal `J`, then the square with vertices `S_perfd`, `S′_perfd`, `(S/J)_perfd` and `(S′/J)_perfd` is cartesian. Here `S′/J` is the completed quotient by the image ideal, and the outside-J condition means existence and uniqueness of the extension of every valuation point not killing `J`. These are local prerequisites, not inputs from a later roadmap. (BS22, Proposition 8.5, pp.64–66; Corollaries 8.11–8.12, pp.68–69.)
 
 *Needs:* [§2.26](#s2-26), [§2.24](#s2-24), [§2.27](#s2-27), [§2.15](#s2-15), [§2.0](#s2-0), PerfectoidSpaces §§P4.15.2–P4.15.3, PerfectoidSpaces §P4.15.5, EnhancedDerivedSheaves Layer E5:descent.
 
@@ -2968,11 +3114,11 @@ Prove `Prismatic.Perfectoidization.integral_discrete`: if `R` is perfectoid with
 
 *Needs:* [§2.30](#s2-30), [§2.25](#s2-25), [§2.27](#s2-27), [§0.85](#s0-85), PerfectoidSpaces §§P0.1–P0.11, PerfectoidSpaces §§P4.15.2–P4.15.3, EnhancedDerivedSheaves Layers E5:abstract and E5:descent.
 
-Local prerequisite `Prismatic.Integral.finiteStratification`: a finitely presented finite map of commutative `Z_(p)-algebras R→S` has a finite reduced locally closed stratification `R_i=R/(g₁,…,g_(i−1))_red[1/g_i]`, `(g_i)=R`, on which its finite map factors as finite étale `R_i→T_i` followed by a universal homeomorphism `T_i→S_i` that is an isomorphism after inverting `p`; `p` is zero or invertible on each stratum. Descend the finite data to a noetherian `Z_(p)-algebra` and use generic separability, spreading and noetherian induction; replacing `g_i` by `pg_i` followed by `g_i` separates the p-invertible and characteristic-p cases (BS22 Lemma 10.12, p.83).
+Local prerequisite `Prismatic.Integral.finiteStratification`: a finitely presented finite map of commutative `Z_(p)-algebras R→S` has a finite reduced locally closed stratification `R_i=(R/(g₁,…,g_(i−1)))_red[1/g_i]` and `S_i=(S/(g₁,…,g_(i−1))S)_red[1/g_i]`, `(g_i)=R`, on which the induced map `R_i→S_i` factors as finite étale `R_i→T_i` followed by a universal homeomorphism `T_i→S_i` that is an isomorphism after inverting `p`; `p` is zero or invertible on each stratum. Descend the finite data to a noetherian `Z_(p)-algebra` and use generic separability, spreading and noetherian induction; replacing `g_i` by `pg_i` followed by `g_i` separates the p-invertible and characteristic-p cases (BS22 Lemma 10.12, p.83).
 
 Local API `Prismatic.Almost.ideal_tensor`: for `Q=(R/J)_perfd` and `K=ker(R→Q)`, `K⊗̂ᴸ_RK≃K` and `K⊗̂ᴸ_RQ=0`. `connectivityCriterion`: `M∈D_(p-comp)(R)` is connective exactly when `M⊗̂ᴸ_RQ` is connective and every `H^i(M)`, `i>0`, is K-annihilated; restriction `D_(p-comp)(Q)→D_(p-comp)(R)` is fully faithful with image those complexes whose cohomology is K-annihilated (BS22 Proposition 10.2, Lemma 10.3 and Proposition 10.4, p.78–79; Lemma 10.5, p.79). For a principal root-compatible `J`, `K/p^n` is the root-transition filtered colimit of `R/p^n` and hence flat; the general almost argument is tested on generators.
 
-**Checks.** An integral perfectoid `S` remains `S`. A finite étale product `R^r` remains `R^r` with its product idempotents. For perfect `R` of characteristic `p` and `S=R[z]/(z^p−a)`, perfectoidization kills the purely inseparable defect and is the reduced perfect quotient; it cannot retain its nilpotents. For `J=(1)` the almost statement is ordinary finite étale descent; for `J=0` it is vacuous and cannot prove connectivity by itself. For `R=O_C` and `S=R⟨x⟩` the integrality hypothesis fails, consistently with the nonconnective example of §2.27.
+**Checks.** For finite stratification over `R=Q_p` with `S=Q_p[ε]/(ε²)`, reduction gives `S_red=Q_p` and both factors are identities; the unreduced algebra is not étale. An integral perfectoid `S` remains `S`. A finite étale product `R^r` remains `R^r` with its product idempotents. For perfect `R` of characteristic `p` and `S=R[z]/(z^p−a)`, perfectoidization kills the purely inseparable defect and is the reduced perfect quotient; it cannot retain its nilpotents. For `J=(1)` the almost statement is ordinary finite étale descent; for `J=0` it is vacuous and cannot prove connectivity by itself. For `R=O_C` and `S=R⟨x⟩` the integrality hypothesis fails, consistently with the nonconnective example of §2.27.
 
 **Proof route.** Prove J-almost connectivity by arc excision and split Galois covers first; finite stratification then yields integral discreteness and the full almost-purity conclusion without a circular hypothesis (BS22 §§10.1–10.2, pp.78–83).
 
@@ -3032,7 +3178,7 @@ Layers `0`, `1`; DerivedDeRhamCohomology §§PD.6–PD.7, CrystallineCohomology 
 
 ## Downstream consumers
 
-PrismaticCohomologyPartII Layers 3–5 consumes the relative, derived and perfectoidization theory. Parts III–IV use these same interfaces through that chain. PadicHodgeTheory and CohomologyComparisons consume the completed comparisons.
+[PrismaticCohomologyPartII](../PrismaticCohomologyPartII/README.md) consumes Layers 0–2. PadicHodgeTheory and CohomologyComparisons consume the completed comparisons.
 
 ## References
 
