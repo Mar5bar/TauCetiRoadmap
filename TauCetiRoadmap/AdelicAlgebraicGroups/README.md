@@ -4855,7 +4855,16 @@ in the same rational representation. ALS retains existence for arbitrary real gr
 
 The generic adelic quotient and Tamagawa-measure interfaces referenced as `TamagawaMeasures`
 in IntegralLattices are supplied here by AA.1–AA.2 and the finite-volume targets of AA.3.4.
-OrthogonalTamagawaAndLatticeMass owns the orthogonal specialization and its mass comparison.
+Among the downstream orthogonal applications,
+[GeometryOfNumbersAndQuadraticArithmetic, §3.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/101be94/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#33-finite-stabilizers-genus-classes-and-mass)
+owns the number-field Tamagawa theorem for `SO(Q)` in rank at least three, the orthogonal gauge
+forms and their comparisons, maximal integral models and their canonical local volumes, the
+adelic mass identity and the maximal-lattice mass formula. Its
+[Scope and ownership](https://github.com/TauCetiProject/TauCetiRoadmap/blob/101be94/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#scope-and-ownership)
+places strong approximation for `Spin`, Eichler's theorem, mass formulas for arbitrary genera
+and dyadic density formulas for arbitrary lattices, extending the maximal case, in
+OrthogonalTamagawaAndLatticeMass. That consumer uses the shared inputs with their rank and
+maximality hypotheses.
 The finite-image Artin factors, induction and leading-coefficient statements referenced under
 `ArtinRepresentations` in LFunctions are owned by AA.2.4; LFunctions supplies the Hecke analytic
 statements used there. These ownership assignments concern the stated generic-measure and
