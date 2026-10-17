@@ -541,6 +541,34 @@ example : let a : HilbertArithmeticWeight Unit := ⟨fun _ ↦ 4, 2, fun _ ↦ r
     (a.add b).k () = 6 ∧ (a.add b).w = 2 ∧ (a.add b).detExponent () = -2 := by
   decide
 
+-- The zero weight is a right and left identity for every index type.
+example (a : HilbertArithmeticWeight ι) :
+    let zeroWeight : HilbertArithmeticWeight ι := ⟨fun _ ↦ 0, 0, fun _ ↦ rfl⟩
+    a.add zeroWeight = a := by
+  apply ext
+  · funext i
+    exact add_zero _
+  · exact add_zero _
+
+example (a : HilbertArithmeticWeight ι) :
+    let zeroWeight : HilbertArithmeticWeight ι := ⟨fun _ ↦ 0, 0, fun _ ↦ rfl⟩
+    zeroWeight.add a = a := by
+  apply ext
+  · funext i
+    exact zero_add _
+  · exact zero_add _
+
+-- Negation preserves parity and gives an additive inverse.
+example (a : HilbertArithmeticWeight ι) :
+    let zeroWeight : HilbertArithmeticWeight ι := ⟨fun _ ↦ 0, 0, fun _ ↦ rfl⟩
+    let negWeight : HilbertArithmeticWeight ι :=
+      ⟨fun i ↦ -a.k i, -a.w, fun i ↦ by have h := a.parity i; omega⟩
+    a.add negWeight = zeroWeight := by
+  apply ext
+  · funext i
+    exact add_neg_cancel _
+  · exact add_neg_cancel _
+
 end HilbertArithmeticWeight
 
 /-! ## Layer B5: Hecke action and Fourier expansions -/
