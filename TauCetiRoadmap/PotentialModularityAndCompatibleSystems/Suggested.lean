@@ -326,6 +326,21 @@ end Fields
 
 namespace Auxiliary
 
+/-- A residual order-three element need not have eigenvalues in its coefficient field. -/
+example :
+    let M : Matrix (Fin 2) (Fin 2) (ZMod 5) := !![0, -1; 1, -1]
+    M ^ 3 = 1 ∧ M ≠ 1 ∧ ∀ x : ZMod 5, x ^ 2 + x + 1 ≠ 0 := by
+  decide
+
+/-- The order-three matrix has the nonsplit polynomial used in `taylorAux_split_eigenvalues`. -/
+example :
+    (!![0, -1; 1, -1] : Matrix (Fin 2) (Fin 2) (ZMod 5)).charpoly =
+      Polynomial.X ^ 2 + Polynomial.X + 1 := by
+  have : Fact ((1 : ℕ) < 5) := ⟨by decide⟩
+  rw [Matrix.charpoly_fin_two]
+  norm_num [Matrix.trace, Matrix.diag, Matrix.det_fin_two, Fin.sum_univ_two]
+
+
 /-- For `l = 5`, the discriminant `1 − 4l = −19` of Taylor's Weil number is prime to `5`, so `5` is
 unramified in `ℚ(√(1 − 4l))` (Taylor, Fontaine–Mazur, p. 7). -/
 example : ¬ (5 : ℤ) ∣ 1 - 4 * 5 := by decide
