@@ -96,9 +96,9 @@ Mathlib manifolds; the de Rham comparison uses its precise σ-compact hypotheses
   Euler interface.
   C2 constructs general Euler/Thom and compares its rank2 restriction with
   that standalone plane construction.
-- [LieGroups](../RepresentationTheory/LieGroups/README.md) owns Lie groups,
+- [LieGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/0942b6c99c9c9baff3c962bc672bcaab81baff48/TauCetiRoadmap/RepresentationTheory/LieGroups/README.md) owns Lie groups,
   closed subgroups, adjoint action, tori, Weyl groups and root planes;
-  [CompactGroups](../RepresentationTheory/CompactGroups/README.md) owns Haar
+  [CompactGroups](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1047) owns Haar
   averaging and Peter–Weyl. C1 builds finite faithful representations as the
   universal-approximation connector. C5 builds invariant-polynomial restriction;
   it uses [LieHighestWeight L1,L7 and L9](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e2bb7060603f59e7b353b224589766a18e9e396e/TauCetiRoadmap/RepresentationTheory/LieHighestWeight/README.md#layer-7-the-center-of-ul-harish-chandra-freudenthal-and-serres-relations)
@@ -347,17 +347,33 @@ curvature is −2πiω_FS, so the Chern form is +ω_FS.
    `cechComplexFunctor` and AddCommGrpCat coordinate comparisons of Mathlib
    [#35073](https://github.com/leanprover-community/mathlib4/pull/35073), and
    sheaf/derived cohomology of [#35790](https://github.com/leanprover-community/mathlib4/pull/35790)
-   where that comparison is used. Own `cechSingularCWTypeComparison`:
-   for every paracompact Hausdorff X of CW type and constant abelian
-   coefficient group A, construct the natural all-degree Čech/singular
-   comparison on these actual complexes. Prove Čech homotopy invariance
-   here using numerable partitions/refinements and finite interval
-   subdivision. On a Hausdorff CW representative construct the locally
-   acyclic singular-cochain sheaf resolution using AT4's cell-neighborhood
-   contraction and small-chain maps; prove its paracompact acyclicity and
-   the comparison with the filtered colimit of Čech complexes over covers.
-   Transport through a CW homotopy equivalence and prove independence,
-   coefficient/cup naturality and the closed-CW-pair exact-sequence version.
+   where that comparison is used. Consume
+   [TopologicalSheafCohomology TS1.1–TS1.2](https://github.com/TauCetiProject/TauCetiRoadmap/pull/973)'s
+   early, purely cover-theoretic interface for arbitrary topological spaces:
+   fixed-cover native tuple complexes, actual raw refinement cochain maps,
+   their identity/composition laws and explicit cochain homotopies between
+   any two functions realizing the same refinement. Retain compatibility
+   with coefficients, restriction, further refinement and the ordered/tuple
+   comparison. These early interfaces impose no local-compactness hypothesis.
+   Choose a small cofinal system of point-neighborhood covers and prove its
+   common-refinement/cofinality laws. After the refinement homotopies prove
+   cohomological independence, use the directed preorder ordered by existence
+   of refinement to define Čech H^q(X;A)=colim_U H^q(Čech•(U;A)), with A
+   viewed as a ℤ-module. Keep raw refinement functions at the cochain level;
+   their category is not assumed filtered and their maps need not be equal.
+   Own `cechSingularCWTypeComparison`: for every paracompact Hausdorff X of
+   CW type and constant abelian coefficient group A, construct the natural
+   all-degree Čech/singular comparison from these actual fixed-cover complexes.
+   Prove constant-coefficient Čech homotopy invariance here using numerable
+   partitions/refinements and finite interval subdivision. On a Hausdorff CW
+   representative construct the locally acyclic singular-cochain sheaf
+   resolution using AT4's cell-neighborhood contraction and small-chain maps;
+   prove its paracompact acyclicity. Construct the fixed-cover augmented
+   resolution comparison and its refinement-homotopy compatibility, then
+   descend the resulting cohomology maps to the displayed cohomological
+   colimit. Transport through a CW homotopy equivalence and prove independence,
+   coefficient/cup naturality and the closed-CW-pair exact-sequence version,
+   using fixed-cover relative complexes and their compatible homotopies.
    This route requires no good cover on an arbitrary CW-type X. Retain the
    good-cover specialization on finite smooth approximations. After AT8.10,
    prove that this comparison carries the Čech class pulled back by a
@@ -827,17 +843,16 @@ AT8.1's relative-cell connectivity and transport theorem.
 1. Prove Chevalley restriction `I(G)≃Sym(t*)^W` for compact connected G. The
    injective direction uses conjugacy into a maximal torus. Identify group
    invariance with infinitesimal invariance using connected generation by
-   exponential neighbourhoods before applying the Lie-algebra theorem. Prove compact
-   Lie-algebra reductivity using the Haar-invariant positive form and Lie's
-   theorem, then consume L9's centre/semisimple decomposition. Identify g
-   with g* by its invariant form, with the Cartan orthogonal to the root
-   spaces. Construct the identification of the complexified maximal-torus
-   algebra in the semisimple derived summand as `LieSubalgebra.IsCartanSubalgebra`.
-   Compare LieGroups L6's geometric N(T)/T-to-`RootPairing.weylGroup` isomorphism,
-   retaining its action on t* and the central summand. Prove that its root
-   pairing agrees with LieHighestWeight's `rootSystem H` for
-   `H=t_C∩[g_C,g_C]`; this comparison of the two root data is owned here. For surjectivity
-   consume LieHighestWeight L7's generic Lie-algebra Chevalley supplier.
+   exponential neighbourhoods before applying the Lie-algebra theorem. Consume
+   [LieGroups Layer5A and Layer6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/0942b6c99c9c9baff3c962bc672bcaab81baff48/TauCetiRoadmap/RepresentationTheory/LieGroups/README.md)
+   for compact reductivity, the invariant positive form, center/semisimple
+   orthogonal splitting and negative Killing comparison, the identification of
+   t_ss,C as a Cartan subalgebra, and the actual root-pairing isomorphism with
+   LieHighestWeight's rootSystem, preserving geometric Weyl action and center.
+   This item owns transport of those supplied maps through invariant polynomial
+   functions and their restriction square, rather than a second construction of
+   compact reductivity or the Cartan/root dictionary. For surjectivity
+   consume [LieHighestWeight L7](https://github.com/TauCetiProject/TauCetiRoadmap/pull/949)'s generic Lie-algebra Chevalley supplier.
    Its `lieInvariantSymmetricAlgebra`, `lieCartanRestriction`,
    `lieChevalleyRestrictionIso` and `lieChevalleyRestrictionIso_coe`
    give the actual restriction isomorphism for the semisimple complex
@@ -852,7 +867,7 @@ AT8.1's relative-cell connectivity and transport theorem.
    commuting Cartan-restriction square; treat the reductive central tensor
    factor separately. L7 constructs these generic Lie-algebra targets independently
    of C5. This item owns the compact-group versus infinitesimal invariants
-   comparison, geometric Cartan/root-data transport, tensor factor for
+   comparison, transport of the supplied geometric Cartan/root-data maps, tensor factor for
    the reductive centre, and finite-degree real descent.
 2. Prove the torus Chern–Weil map is an isomorphism with H*(BT;R), with each
    integral character giving its normalized degree2 class. For connected G,
