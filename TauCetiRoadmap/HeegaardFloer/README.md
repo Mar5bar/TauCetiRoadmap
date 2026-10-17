@@ -584,6 +584,81 @@ identifying only abstract homology ranks. Compare the Morse Euler/index
 proof with MN N7's orientation-free Poincaré–Hopf theorem and CC C2.3's
 oriented Euler pairing after the ordinary comparison is available.
 
+**M.9a Geometric Morse cup product.** On any closed smooth X, including
+nonorientable X, construct the ordinary cochain complex
+`C^k_M(f;R)=Hom_Z(CM_k(f;Z),R)` for a commutative coefficient ring R,
+with `δa=a∘∂`. Use M.3's integral orientation lines and actual coefficient
+change, not `Hom(H_*(X),R)` in place of cohomology. M.9's Cartesian-product
+complex and Künneth comparison are inputs; this construction owns the
+internal cup product. It precedes any symplectic quantum deformation.
+
+For one fixed standard-near-critical Morse–Smale datum construct perturbed
+Y-flow spaces: the root half-trajectory has limit p0 at −∞ and two ordered
+leaf half-trajectories have limits p1,p2 at +∞; their finite endpoints
+agree at the vertex. Every edge solves `γdot=−grad f+Y_e(t,γ)`, with
+smooth time-dependent perturbations supported in a fixed finite interval
+next to the vertex and zero on the asymptotic tails. Fix the vertex time;
+there is no simultaneous translation quotient. Constant tails are allowed.
+Build the actual perturbation spaces and endpoint maps. Independent
+localized variations on the leaf cores give the evaluation directions
+needed for transversality to the vertex diagonal; prove the linearized
+surjectivity and relative parameter theorem using F0, including every
+broken stratum and prescribed regular face collar. Using the unperturbed
+stable sets for two identical leaf data does not give that theorem.
+The regular dimension is `ind(p0)−ind(p1)−ind(p2)`.
+
+Orient the diagonal chain correspondence by the source unstable
+orientation and the ordered coorientations of the two target stable
+manifolds. The normal coorientation of W^s(p_i) is transported from
+M.3's oriented unstable space at p_i; construct that transport and its
+broken-face comparison. At the finite matching time transport the root
+unstable orientation and both stable-normal coorientations by the
+corresponding finite-core flow diffeomorphisms, retaining these transports
+on all broken and relative faces. For the matched space use the kernel-first
+exact sequence from the source unstable tangent to the ordered target
+stable-normal spaces, with the quotient map induced by the endpoint
+maps. This uses cooriented stable cells rather than an orientation of TX;
+prove independence of charts and the orientation-line version on
+nonorientable X. Compare the resulting signs with M.3 and the ordered
+M.9 tensor differential. Prove compactness, finite rigid counts and the
+one-dimensional oriented boundary formula by M.1–M.2 gluing and finite-core
+ODE estimates. Dualize the resulting geometric diagonal chain map
+`CM_*(f)→CM_*(f)⊗CM_*(f)` to obtain the R-bilinear degree-zero product,
+using the ordered tensor evaluation. Prove
+`δ(a cup_M b)=δa cup_M b+(-1)^|a| a cup_M δb`.
+
+Construct the two three-leaf metric-tree families: their zero-length
+internal edge is the same four-valent matching problem, while the
+infinite-length ends are the two broken binary products. Choose
+perturbations that agree at the collapsed vertex and on already regular
+broken faces; construct their extensions, uniform finite-core bounds,
+compactification and gluing before counting. Their oriented interval
+and ordinary trajectory-breaking faces give the degree−1 cochain
+homotopy for associativity. Construct the leaf-exchange family and its
+Koszul `(-1)^(|a||b|)` comparison, and fixed-end continuation families
+showing independence of the Morse datum and perturbations on cohomology.
+No strictly associative or strictly commutative chain product is asserted.
+With canonical index-zero orientations the sum of the minimum dual
+cochains is the unit cycle; prove its two unit homotopies and transport
+it under other unstable-orientation choices. Work componentwise, with
+the empty/zero-dimensional cases given by the actual finite point model.
+
+Use M.4's actual Morse/singular maps and M.9's cross-product comparison
+to construct a chain homotopy between this counted diagonal and the
+singular diagonal followed by the Alexander–Whitney map. Deduce a natural
+unital graded-ring isomorphism with AT's ordinary H^*(X;R), compatible
+with coefficient change, orientation change and continuation. Include
+the integral exterior ring of the two-torus, and the mod2 projective-plane
+ring `F2[x]/(x^3)`, |x|=1, together with the integral torsion comparison;
+additive ranks alone do not check these products. HFO H7 owns the separate
+symplectic Morse-incidence/quantum comparison, consuming this ordinary
+Morse product at its constant-class endpoint. Construct these finite
+flow-tree and diagonal comparisons following the perturbed-trajectory
+route of [Mescher, §§1–5 and AppendixA](https://arxiv.org/html/1611.07916v1),
+with the stated degree/normal-orientation conversion to M.3. The source's
+oriented-manifold treatment does not supply the nonorientable comparison
+without the coorientation argument required here.
+
 **M.10 Witten comparison.** On closed manifolds construct
 `d_t=e^(−tf)d e^(tf)=d+t df∧`, its formal adjoint and self-adjoint Witten
 Laplacian on CKG K5a's real form-bundle Hilbert/Sobolev carrier. Compute
@@ -826,10 +901,27 @@ from Mathlib.
 
 5. Build the regularity-loss comparisons for the surface/strip universal
    Cauchy–Riemann section and finite C^ℓ almost-complex families, including
-   compact supports and relative parameter restrictions. Prove the Banach
-   completions yield smooth solutions and the resulting moduli/charts
-   are independent of Sobolev completion. Carry the explicit N,r,k,ℓ
-   inequalities into each genericity theorem.
+   compact supports and relative parameter restrictions. Construct the finite
+   C^ℓ carrier of sections of End(TX) satisfying J²=−id and the specified
+   tame or compatible condition, with prescribed end/relative germs.
+   Use pointwise anti-commuting tangent sections and conjugation charts.
+   For the tame branch impose the open tameness inequality. For the
+   compatible branch use symplectic conjugation; its tangent variation A
+   satisfies both AJ+JA=0 and
+   `ω(Au,Jv)+ω(Ju,Av)=0` for all u,v. Construct the charts within this
+   restricted tangent bundle and prove they preserve compatibility.
+   Prove the Banach chart, openness and composition/Nemytskii estimates.
+   The smooth almost-complex carrier does not stand in for this finite-order
+   parameter space. For Sobolev order r and parameter class C^k use the
+   explicit budget ℓ≥k+r+1 and the other N,p embedding/trace inequalities
+   from F1; prove the section and chart-transition regularity with that
+   loss. For finite-order data prove bootstrapping and comparison only
+   through the available derivative budget. Completion independence
+   identifies the same solution spaces and regular charts on overlapping
+   allowed Sobolev orders; it does not make finite-C^ℓ coefficients smooth.
+   For smooth data iterate these estimates through arbitrary orders to
+   obtain smooth solutions and the smooth completion comparison. Carry
+   all N,p,r,k,ℓ inequalities into each genericity theorem.
 6. Prove the C^k closed-return genericity theorem for general vector
    fields on a compact smooth boundaryless manifold, for each integer k≥1:
    residual nondegeneracy of periodic
@@ -861,8 +953,13 @@ from Mathlib.
    critical components. Prove residual/dense componentwise unstable/stable
    transversality and simultaneous transversality of all iterated endpoint
    fiber products. Construct exponential-weight trajectory charts with
-   free endpoint variables in TC and TD; choose a weight below the uniform
-   nonzero normal-Hessian spectral gap and prove the Fredholm index,
+   free endpoint variables in TC and TD. Verify F1.5's weighted-tail
+   membership for every cutoff tangent-end section on the actual Bott
+   linearizations, with the required spatial and parameter derivatives.
+   In the fixed standard normal models derive a positive uniform decay
+   rate κ on each compact family, and choose weights smaller than both κ
+   and the uniform nonzero normal-Hessian spectral gap. Construct the
+   actual end-kernel bundles and cutoff maps, then prove the Fredholm index,
    extended-domain and split-range statements using F1.3–5. Prove universal
    surjectivity for each finite broken string by localized metric variations
    in disjoint regular-level windows, then sharp Sard–Smale and a countable
@@ -1006,10 +1103,25 @@ consume the shared spine rather than duplicate it:
    Construct escaping approximate kernels when a limiting eigenvalue is0
    and prove the resulting failure of Fredholmness. Use finite-time evolution
    and dichotomy projections, not a normalized-limit map that loses linearity.
-4. Define the Maslov and Conley–Zehnder indices with crossing normalization,
-   homotopy, concatenation, direct sum, trivialization-change and gluing
-   laws. This is the single owner; DGFloer7 consumes its graph/Robbin–Salamon
-   construction. Normalize the CZ index of `exp(t J S)` for sufficiently
+4. Consume the native loop invariant
+   [`TauCeti.TotallyRealLoop.maslovIndex`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/LinearAlgebra/TotallyReal/Maslov/Index.lean),
+   its phase-degree/half-turn normalization, framed homotopy invariance,
+   [`maslovIndex_map`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/LinearAlgebra/TotallyReal/Maslov/Map.lean)
+   and [`maslovIndex_prod`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/LinearAlgebra/TotallyReal/Maslov/Prod.lean).
+   Construct the boundary-loop/frame adapter on this carrier. For
+   Lagrangian loops compare the native phase-degree integer with the
+   closed-loop specialization of the Robbin–Salamon path index. For a
+   general maximal-totally-real loop construct the required homotopy
+   to Lagrangian planes in a chosen Hermitian trivialization: choose
+   real-orthonormal frames of its real tautological bundle over the cut
+   interval, with orthogonal endpoint monodromy, and polar-deform their
+   complex frames to unitary frames. Prove equivariance under that
+   monodromy, closed-loop continuity and preservation of the native
+   phase degree before using the Lagrangian RS comparison. Build the remaining path and
+   Conley–Zehnder theory with crossing normalization, homotopy,
+   concatenation, direct sum, trivialization-change and gluing laws.
+   The path/RS/CZ theory and this native-loop comparison have this single
+   owner; DGFloer7 consumes its graph/Robbin–Salamon construction. Normalize the CZ index of `exp(t J S)` for sufficiently
    small nondegenerate symmetric S to `−signature(S)/2`; in particular
    a small positive rotation on ℝ² has index−1. For the Hamiltonian
    convention `ι_(X_H)ω=dH` used by DGFloer this gives
@@ -1075,12 +1187,33 @@ consume the shared spine rather than duplicate it:
    formula by gluing and test scalar crossing, trivial cylinder, capped
    disk and constant closed sphere. When A_e has a zero eigenspace,
    choose positive weights smaller than every nonzero end spectral gap.
-   For a specified subset S of ends extend the decaying domain by cutoff
-   constant sections in ker A_e, leaving the weighted target unchanged.
-   Prove this finite-dimensional extension is Fredholm and
-   `ind D_extended=ind D_weighted+Σ_(e∈S)dim_R ker A_e`, with its
-   determinant-line comparison; use precisely the chosen free endpoint
-   variables in each Bott application. These linear theorems precede
+   Fix the actual end trivializations and cutoff extension E_e(v)=χ_e v
+   of each v∈ker A_e. Before adjoining these variables, require and prove
+   the weighted-tail condition `D(E_e(v))∈W^(r−1,p)_δ` and its bounded
+   linear dependence on v, with the required C^k parameter estimates.
+   A sufficient geometric hypothesis is convergence of the operator
+   coefficients and trivializations to their limiting forms at rates
+   κ_e>δ_e through every spatial and parameter derivative needed by
+   those estimates; prove the resulting bounds. An exponential rate
+   with no relation to δ_e is insufficient. The explicit weighted-tail
+   condition also covers operators not specified by one decay rate.
+   On constant-nullity parameter ranges construct the actual kernel
+   bundles, cutoff maps and these estimates uniformly on compact
+   parameter sets. Handle nullity changes by the separate spectral/weight
+   crossing theorem, rather than asserting a fixed-rank kernel bundle.
+
+   For a specified subset S of ends define the bounded operator
+   `D_extended(ξ,(v_e))=Dξ+Σ_(e∈S)D(E_e(v_e))`
+   on `W^(r,p)_δ ⊕ ⊕_(e∈S)ker A_e`, with the unchanged weighted target.
+   Construct its exact kernel/cokernel sequence relative to D_weighted,
+   prove Fredholmness and
+   `ind D_extended=ind D_weighted+Σ_(e∈S)dim_R ker A_e`, and derive the
+   determinant-line comparison from that sequence, with the end factors
+   ordered by the declared end labels. Prove independence under admissible
+   cutoff/trivialization changes by actual bounded families. Use precisely
+   the chosen free endpoint variables in each Bott application; F0.7
+   verifies the weighted-tail conditions before consuming this theorem.
+   These linear theorems precede
    the moduli-space dimension and orientation applications.
 
 ### Lane F2: J-holomorphic curves
@@ -1679,8 +1812,11 @@ that smaller neighborhood. Prove these extension/collar/support assertions
 for this cap union and apply F2.1's compact-support Moser flow. Restrict
 to the end-fixed symplectomorphism X≃ℝ⁴.
 
-**F2.6h The equal-area group.** Use native compact-source `Diffeomorph`
-weak Whitney C-infinity topology, group structure, inversion and evaluation.
+**F2.6h The equal-area group.** Consume
+[GeometricTopology Layer3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/eb5d2bfe8e4b38bc80042132127133120f2697e5/TauCetiRoadmap/GeometricTopology/README.md)'s
+compact-source weak Whitney C-infinity topology and topological-group
+construction on the native `Diffeomorph` carrier, including inversion
+and evaluation.
 Construct the symplectic subgroup with the shared pullback predicate and
 its action on integral H₂. Define G₀ as the kernel of that action. Fix the
 product round J₀ and p₀=∞. Let E consist of `(J,u,v)` where u and v
@@ -1787,37 +1923,122 @@ finrank and orthogonal-complement comparisons. Under the real-linear identificat
 
 ### Lane F3: Lagrangian Floer homology, exact case
 
-Floer's theorem in its cleanest nontrivial generality, and the first genuine Floer
-homology in any prover: **exact Lagrangians in an exact symplectic manifold**
-(zero section vs its Hamiltonian image in `T*S¹`, then `T*M`); exactness kills
-bubbling outright, so F2.3's bubbling analysis is not yet load-bearing.
-Generators, the action functional, moduli of strips, `∂² = 0` by gluing +
-compactness, continuation maps, Hamiltonian-isotopy invariance, and
-`HF(L, φ(L)) ≅ H_*(L)`-type computations in cotangent bundles. ⚠ Skip monotone
-Floer theory entirely: Heegaard Floer replaces monotonicity with admissibility, so
-the monotone chapter is a detour on this roadmap.
+Construct exact strip theory on a finite-type Liouville completion X of a
+specified compact domain, with primitive λ, ω=dλ and outward Liouville field.
+Use compact boundaryless embedded exact Lagrangians L_i, λ|L_i=df_i, with
+relative-spin/orientation-line data for integral counts, the actual path and
+reference-cap sectors, and transverse nondegenerate end chords. Hamiltonians
+and all continuation/parameter variations are constant-plus-compactly supported
+in a common compact region on each compact parameter sector; subtract their
+spatial constants explicitly in the action. On the end λ=ρ α, choose cylindrical
+compatible J with dρ∘J=−λ, uniformly in every parameter and constant on the
+prescribed asymptotic blocks. This is geometric input, not a conclusion of exactness.
+
+Before compactification prove uniform no escape for differential strips,
+continuation strips and the one-/two-parameter families used for chain maps,
+inverses and compositions. Put all compact branes, end data and supports inside
+{ρ<R}; outside it the equation is J-holomorphic and Δ(ρ∘u)≥0. Use finite-energy
+asymptotics and the maximum principle to exclude an exterior maximum, uniformly
+for those families. Construct the collar/radial formula and the resulting fixed
+compact image K before invoking F2.3. Its proof consumes isolated Liouville
+geometry and F1/F2 local estimates, not a later Floer count or FK category.
+
+Also construct the proper cylindrical exact-pair sector with disjoint
+Legendrian ends, fixed exterior geometry and compactly supported deformations.
+Prove its boundary maximum principle using λ|TL=0 on the ends, its actual
+finite/nondegenerate chord condition and uniform confinement on compact
+parameter sectors. Export the general conditional strip construction for
+specified exact pairs equipped with a proved common compact-image theorem,
+the stated finite nondegenerate generators and all F1/F2 regularity/gluing
+hypotheses; both declared geometric sectors instantiate this interface.
+Hamiltonian invariance carries those allowed-family witnesses.
+
+Use this lane's Hamiltonian convention ι_(X_H)ω=dH. For a chord x from L_0 to
+L_1 in a fixed reference sector put
+A_H(x)=−∫x*λ−∫_0^1 H_t(x(t))dt+f_1(x(1))−f_0(x(0)),
+with the stated reference constant. Derive negative action gradient
+∂_s u+J(∂_t u−X_H)=0 and
+E=A_(H_-)(x_-)−A_(H_+)(x_+)−∫ℝ×I(∂_sH_s)(u),
+including the separately derived moving-primitive/end-reference terms when
+these vary. Require finite uniform absolute derivative/extra-term bounds.
+Exactness and positive area exclude nonconstant sphere and boundary-disc
+bubbles; it does not supply the preceding image bound. Construct the signed
+complex, ∂²0, continuation and its relative homotopies from these actual compact
+moduli and gluing. Keep closed-base cotangent zero sections and their compactly
+supported Hamiltonian images as the self-Morse computation models, with
+HF(L,φ(L))≅H_*(L) on the declared grading/local-coefficient conventions.
+
+For the arity-one overlap with FukayaTheory FK4.2, set H_FK=−H_HF, identify
+primitive/action/reference and determinant data, and account for its positive-end
+cochain input versus this homological strip readout. F3 supplies the strip
+construction independently; FK owns its categorical/polygon/self-comparison
+applications and their own confinement. No F3 prerequisite is a later FK count.
+The special nonexact Heegaard continuation below has its own admissibility and
+energy package; no general monotone chapter is required as its replacement.
 
 ### Lane F4: Heegaard Floer homology, holomorphically
 
 Ozsváth–Szabó ([arXiv:math/0101206](https://arxiv.org/abs/math/0101206)) §§2–4
-over 𝔽₂, consuming Lanes F0–F3 and the diagram combinatorics of the combinatorial
-roadmap's Lane H.1:
+over 𝔽₂, consuming F0–F2's analytic/orientation foundations, F3's
+formal strip/gluing arguments on independently verified hypotheses, and the
+diagram combinatorics of the combinatorial roadmap's Lane H.1:
 
 1. **`Sym^g(Σ)` geometry:** smooth complex structure (elementary symmetric
-   functions), the totally real tori `T_α`, `T_β`, `π₂ ≅ ℤ` for `g > 2`, the
-   basepoint divisor and positivity `n_z(φ) ≥ 0`. ⚠ `T_α` is only ever needed
-   *totally real* (with a taming form); do not chase Lagrangian-ness.
+   functions), totally real Heegaard tori T_α,T_β, π₂ and relative-period
+   calculations (including the low-genus exceptions before using the g>2
+   formula), the basepoint divisor V_z and positivity n_z≥0. Construct
+   Perutz's Lagrangian realization rather than infer exactness: choose a small
+   λ>0 and a positive surface area form satisfying the handleslide area
+   equation ∫_D α=(1+λ)∫_A α−2λ in the source's fixed η,θ normalization.
+   Construct the smooth taming/Kähler form in class η+λθ agreeing with the
+   product form near the relevant tori. Preserve disjointness from the divisor
+   and make both tori Lagrangian for this form. Totally-real boundary analysis
+   remains the general F1/F2 input; it does not substitute for the Lagrangian
+   form needed by this Hamiltonian-handleslide route.
 2. **Spin^c structures** (Turaev's vector-field model) and `s_z`; domains and the
    combinatorial Maslov index (Lipshitz's formula `e(D) + n_x(D) + n_y(D)`,
    stateable now, against F1.3 later).
-3. **Nearly-symmetric `J`** and transversality (OS Theorem 3.4 = Sard–Smale + Oh);
-   **admissibility energy bounds** (OS Lemmas 4.12–4.13) replacing monotonicity.
-4. **`HF̂` over 𝔽₂:** `∂² = 0` (boundary degenerations have `n_z ≥ 1`, so they are
-   absent from the hat differential); `J`-independence and isotopy invariance by
-   continuation; **handleslides via Perutz**
-   ([arXiv:0801.0564](https://arxiv.org/abs/0801.0564)): the handleslid torus is
-   Hamiltonian-isotopic, so invariance reduces to F3's continuation maps instead of
-   a new (triangle) moduli problem; stabilization.
+3. **Nearly-symmetric J and admissibility:** instantiate F0/F1's actual
+   universal-section and Oh/Sard–Smale hypotheses, keeping V_z holomorphic and
+   the required product behavior; prove the comparison with the chosen smooth
+   symplectic form. Construct positive-domain/periodic-domain finiteness and
+   energy bounds with fixed Spin^c, asymptotics, Maslov index and n_z, before
+   compactification. Give uniform compact-parameter versions.
+
+   **F4.3a. The handleslide triangle/degeneration floor.** Before handleslide
+   counts, construct the actual admissible pointed triple
+   (α,α′,β,z), its distinguished α–α′ corner and the relative-period map.
+   Establish precisely the periodic-domain/admissibility restrictions needed
+   to make the nonnegative triangle classes finite at fixed index and n_z;
+   construct compatible admissible choices from the endpoint diagrams. Prove
+   the resulting area bound, including the moving-boundary disc class and
+   its area determined by the relative-period/Maslov/divisor data. Construct
+   the strip-to-triangle-plus-disc degeneration and smoothing of relative
+   classes, with additive area and bounded connection-curvature contribution.
+   Verify low-genus variants separately rather than reuse π₂=ℤ outside its
+   range. This early finiteness/energy floor is independent of the later
+   triangle cobordism-map counts. An exact-strip theorem is not this input.
+4. **HF̂ over 𝔽₂ and allowed Heegaard continuation:** construct ∂²0 with
+   the actual divisor/boundary-degeneration analysis. For a handleslide use
+   the two-intersection local pattern, the area-balanced Lagrangian form and
+   basepoint outside the sliding region; construct its Hamiltonian isotopy
+   and fixed-end reparametrization. Build moving-boundary section spaces,
+   operators and determinant identifications, converting the generator sign
+   to ι_(X_H)ω=dH. Construct the Hamiltonian-fibration coupling form and check
+   its actual boundary restrictions; derive the energy identity and uniform
+   bounds using F4.3a, then compactness, regularity, gluing and all oriented
+   boundary formulas. Prove chain-map, inverse and composition homotopies
+   with the same energy bounds and divisor control. Construct comparison
+   with nearly-symmetric J and the original diagram complex. The hat map
+   uses n_z0. Track the CF∞ lattice/subcomplex/quotient maps producing CF−
+   and CF+, and their integral orientation-system extension in item5.
+   Prove isotopy, auxiliary/form and stabilization comparisons on their
+   actual allowed data. Compare the handleslide map with the triangle map
+   on the declared admissible triples by the section gluing/degeneration
+   comparison, including its chain homotopy and orientation/divisor data;
+   do not claim that
+   the citation eliminates the triangle-finiteness proof or reduces this
+   nonexact application to F3's exact continuation.
 5. **Then, staged:** orientation systems and ℤ; `HF^±`, `HF^∞` (boundary
    degenerations now matter: OS Theorem 3.15); holomorphic triangles and cobordism
    maps; surgery exact triangles; `d`-invariants; naturality (JTZ) as the
@@ -1850,10 +2071,82 @@ back to this section.
    stable invariant agrees with the holomorphic `HF̂` of Lane F4 up to the tracked
    `(𝔽 ⊕ 𝔽)`-factors, exactly `HF̂` for `b₁(Y) = 0`. Depends on F4.4 (stabilization
    and diagram-move invariance) and the combinatorial Lane H.
-2. **Lattice homology = `HF⁻` of plumbed manifolds** (Zemke
-   [arXiv:2111.14962](https://arxiv.org/abs/2111.14962)): Némethi's `ℍ⁻` computes the
-   holomorphic `HF⁻` of every plumbed 3-manifold. Depends on the staged `HF^-`/`HF^∞`
-   flavors of F4.5 and the combinatorial Lane L.
+2. **Completed lattice/surgery comparison and its extension problems.**
+   The source-backed first theorem is for an integrally weighted spherical
+   plumbing TREE G, Y(G)=∂X(G) with outward-boundary orientation, over
+   𝔽₂[[U]]. Construct the full lattice chain complex, not only its
+   lattice-degree-zero/cohomological invariant. Fix the characteristic
+   labels, their restriction to Spin^c(Y), actual [K,E] generators, U weights
+   and grading conventions with combinatorial Lane L. Construct both chain
+   completions and continuous maps before passing to homology. Prove the
+   completed 𝔽₂[[U]]-module isomorphism; preserve the source's relative
+   grading conclusion for b₁(Y)=0. Do not assert the b₁>0 exterior-H₁ action
+   compatibility without its separate comparison theorem.
+
+   **R2a. Actual surgery engine.** Construct multi-pointed link complexes,
+   sublink localizations, Alexander/Spin^c decompositions, explicit arc
+   systems, admissible complete hyperboxes and their compression. Define all
+   higher polygon arrows and prove the full hypercube differential and
+   comparison homotopies, using F4's actual multi-diagram energy,
+   compactification, orientations and gluing. Prove the completed link
+   surgery formula, its framing/basepoint/arc changes and naturality; a
+   surgery exact triangle is only its one-dimensional case. Construct the
+   Hopf-link and rooted-tree gluing/merge models and the pairing
+   comparisons. Supply the finite-generation/continuous tensor hypotheses
+   before replacing the pair-of-pants model by the merge model; retain the
+   additional homology-action terms when both summands are essential.
+   These are explicit F4.5/F5 application targets, not an assumed general
+   bordered theorem or input from a later reconciliation.
+
+   **R2b. Filtered perturbation/completion.** Construct chain contractions
+   with πi=id, iπ−id=dh+hd and h²=πh=hi=0 in the declared coefficient
+   category. Transfer all hypercube arrows by finite sums over strictly
+   increasing cube paths, with continuous extension on the completed
+   carriers and actual signs in the integral version. For the mod2 tree
+   theorem construct the appropriate Hopf-filtered model and prove higher
+   transferred arrows vanish, using its filtration behavior; an arbitrary
+   Hopf model need not have that property. Treat b₁0 and b₁>0 reductions
+   with their different pairing hypotheses. Prove the grading and Spin^c
+   comparison and the homology/completion passage; no unrestricted equality
+   of H(C) completed with H(completed C) is assumed. Recover polynomial,
+   torsion-sector or reduced statements only by a proved faithful graded
+   completion/descent theorem on their actual finite-generation hypotheses.
+
+   **R2c. Integral and broader-graph scope.** Lane L retains integral
+   lattice (co)chains and arbitrary declared plumbing graph/surface data.
+   Their HF relationship is a separate explicit extension problem, not a
+   theorem supplied by the cited mod2 tree result. Construct coherent
+   integral polygon orientations, signed surgery hypercubes, signed lattice
+   contractions and their coefficient/Spin^c comparison; prove the analogue
+   of the higher-arrow cancellation before asserting an integral isomorphism.
+   Compare reduction of the CHAIN complexes, including Tor/derived and
+   completion comparisons; reducing integral homology is not that theorem.
+   For every finite declared plumbing graph, including cycles and
+   positive-genus vertex surfaces, construct its framed Kirby surgery link,
+   explicit arc/Spin^c/H₁ dictionaries and completed signed surgery
+   hypercube. Its full total complex, with every higher polygon arrow,
+   is the definite corrected computation output; prove its comparison with
+   completed HF⁻ by R2a's surgery theorem. Retain vertex/sublink chain
+   blocks when no continuous chain contraction has been constructed.
+   For supplied continuous contractions to chosen free/projective chain
+   replacements, construct R2b's transferred differential by all increasing
+   paths and prove the filtered chain-homotopy comparison; no contraction
+   onto nonprojective homology is presumed.
+
+   Compare this output with Lane L's ordinary lattice complex on the
+   actual graph/coefficient hypotheses: construct the leading filtered
+   identification where it exists, compute the higher transferred arrows,
+   and define the successive chain-map lifting obstructions in the
+   corresponding filtered Hom complexes. Prove that vanishing obstructions
+   together with the specified acyclic comparison-cone/convergence data
+   gives the filtered quasi-isomorphism. Compute these arrows and tests for
+   the spherical-tree, single-cycle and one-positive-genus-vertex examples,
+   retaining their explicit H₁ and coefficient data. The signed surgery
+   complex remains the computation when the ordinary-lattice comparison
+   conditions fail. The integral analogue of the tree isomorphism and an
+   uncorrected ordinary-lattice equality for broader graphs are comparison
+   problems, not conclusions of the cited theorem. See [the precise tree
+   theorem and its proof](https://arxiv.org/html/2111.14962v4).
 3. **Grid homology = knot Floer homology**
    ([arXiv:math/0607691](https://arxiv.org/abs/math/0607691)): the combinatorial grid
    invariant agrees with `HFK̂`, computed holomorphically from doubly-pointed
