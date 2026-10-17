@@ -187,10 +187,6 @@ example (E : Type u) [Field E] [ValuativeRel E] [TopologicalSpace E]
         ((generalLinearPointsHomeomorph (k := E) (R := E) n x) :
           Matrix (Fin n) (Fin n) E)) := by sorry
 
--- Test PointTopology.generalLinear_integral_iff_det
-example (n : ℕ) (M : Matrix (Fin n) (Fin n) R) : IsUnit M ↔ IsUnit M.det :=
-  Matrix.isUnit_iff_isUnit_det M
-
 end Group
 
 section LocalInstances
@@ -237,6 +233,23 @@ theorem isOpenEmbedding_integralPoints {A : Type u} [CommRing A] [Algebra 𝒪[E
 /-- Integral points of a finite-type `𝒪[E]`-algebra form a compact space. -/
 theorem compactSpace_integralPoints {A : Type u} [CommRing A] [Algebra 𝒪[E] A]
     [Algebra.FiniteType 𝒪[E] A] : CompactSpace (A →ₐ[𝒪[E]] 𝒪[E]) := sorry
+
+-- Test PointTopology.generalLinear_integral_iff_det
+/- An `E`-matrix lifts to a point of `GL_n` over `𝒪[E]` exactly when it lifts to a matrix over
+`𝒪[E]` with unit determinant. -/
+example (n : ℕ) (g : Matrix (Fin n) (Fin n) E) :
+    (∃ x : WithConv (TauCeti.GeneralLinear.coordinateHopfAlgebra 𝒪[E] n →ₐ[𝒪[E]] 𝒪[E]),
+      (TauCeti.GeneralLinear.pointsMulEquiv (R := 𝒪[E]) n (A := 𝒪[E]) x :
+        Matrix (Fin n) (Fin n) 𝒪[E]).map (algebraMap 𝒪[E] E) = g) ↔
+    ∃ M : Matrix (Fin n) (Fin n) 𝒪[E],
+      M.map (algebraMap 𝒪[E] E) = g ∧ IsUnit M.det := by
+  constructor
+  · rintro ⟨x, hx⟩
+    exact ⟨_, hx, (Matrix.isUnit_iff_isUnit_det _).mp (Units.isUnit _)⟩
+  · rintro ⟨M, hM, hdet⟩
+    obtain ⟨u, hu⟩ := (Matrix.isUnit_iff_isUnit_det M).mpr hdet
+    refine ⟨(TauCeti.GeneralLinear.pointsMulEquiv (R := 𝒪[E]) n (A := 𝒪[E])).symm u, ?_⟩
+    simpa only [MulEquiv.apply_symm_apply, hu] using hM
 
 -- Test PointTopology.diag_uniformizer_not_integral
 /- `diag(ϖ, 1)` has integral entries and nonzero determinant but is not a point of `GL_2` over

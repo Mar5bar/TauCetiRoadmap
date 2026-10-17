@@ -366,7 +366,7 @@ tame realization of stabilizers.
 
 Layer 0F supplies the affine finitely presented Hom scheme along a finite locally free map; for
 finitely presented `A'` it is RG2.0a's `(Res A', universal)`, with `finitePresentation_res`
-(RG2.0a *weil-restriction-representing-algebra*); layer 4D supplies strict henselisation.
+(RG2.0a *weil-restriction-finiteness*); layer 4D supplies strict henselisation.
 
 ### From TauCetiRoadmap.RepresentationTheory.RootSystems
 
@@ -763,7 +763,7 @@ p. 3; the determinant criterion is Mathlib's `Matrix.isUnit_iff_isUnit_det`). *N
 
 **Checks.**
 
-- `generalLinear_integral_iff_det` (Lean example) — `g ∈ M_n(E)` is the image of a point of `GL_n` over `O` iff
+- `generalLinear_integral_iff_det` (Lean example, proved) — `g ∈ M_n(E)` is the image of a point of `GL_n` over `O` iff
   `g` is the image of some `M ∈ M_n(O)` with `det M ∈ O^×`.
 - `diag_uniformizer_not_integral` (non-example; Lean example, proved) — `diag(ϖ, 1) ∈ M_2(O)` has
   nonzero determinant but is not a point of `GL_2` over `O`, since `ϖ ∉ O^×`.
@@ -968,7 +968,7 @@ representable by an affine `k`-scheme when `k → k'` is finite locally free, an
 needed only there. In `WeilRestriction`, define `functor` as the functor `CommAlgCat k ⥤ Type`,
 `R ↦ (A' →ₐ[k'] k' ⊗[k] R)`, and `functorMap` (a map `φ : B' → A'` induces
 `functor A' ⟶ functor B'`, `x ↦ x ∘ φ`); prove *functor_obj* (`obj R = (A' →ₐ[k'] k' ⊗[k] R)`
-definitionally), *functor_map_apply* (`(map f) x = (id ⊗ f) ∘ x`) and `functorMap_app`
+definitionally), *functor_map_apply* (`(map f) x = (id ⊗ f) ∘ x`) and *functorMap_app*
 (`x ↦ x ∘ φ`). Its base change along `k → l` is recorded on the representing algebra
 (see *weil-restriction-base-change*) ([Stacks], Section 97.11 (Tag 05Y8), definition of
 `Res_{Z/B}(X)`, and Proposition 97.11.5 (Tag 05YF), representability by an algebraic space for
@@ -4486,12 +4486,16 @@ the fixer in place of the group scheme (the two agree over a strictly henselian 
 - `SLTwo.standard_parahoric` — at the standard `SL₂/ℚ_p` vertex the parahoric model is `SL₂/O`.
 - `SLTwo.fixer_connected` — at the same vertex the map from the fixer scheme to its identity
   component is an isomorphism.
-- *NormTorus.ramified_connected_index* — over any base of the standing context (henselian,
-  discretely valued, perfect residue field; for instance `ℚ_p` or `Ĕ`), in every residue
+- *NormTorus.ramified_connected_index* — over any model field `K` with `char K ≠ 2`
+  (for instance `ℚ_p` or `Ĕ`), in every residue
   characteristic, the quadratic norm-one torus with `a²=ϖ` has a singleton building but its
   connected parahoric has index two: `−1 = a/σ(a)` is a norm-one unit whose Kottwitz image is the
   class of `ω_L(a) = 1` in `X_*(T)_I = ℤ/2`.
   Boundedness does not imply connectedness.
+- *NormTorus.squareRoot_inseparable_char_two* (non-example) — over `K = 𝔽₂((t))`,
+  `X² − t` is inseparable and `K(√t)/K` has no nontrivial `K`-automorphism. Its norm-one
+  group has equation `x² + ty² = 1`, which becomes `(x + √t y − 1)² = 0` over an algebraic
+  closure; it is not smooth and is not a torus.
 - `Parahoric.generic_torus` — when there are no relative roots (for instance for a torus), every
   point of a facet is generic.
 - `Parahoric.generic_gl2_vertex` — every point of the facet of the standard `GL_2` vertex (a line in
@@ -4802,7 +4806,7 @@ root `a`, the ray intersection is
 `G(K^ur)_{x,r} ∩ U_a(K^ur) = U_{a,c_a(x,r)}·U_{2a,c_{2a}(x,r)}`, omitting the doubled-root
 factor when `2a ∉ Φ`. The two cutoffs are imposed separately; they need not satisfy
 `c_{2a} = 2c_a`, and the product need not be a single raw cutoff `U_{a,c}`. Here `U_{b,c}` and
-`Apartment.filtrationAt` retain their raw valuation-inequality definitions. The minimum exists
+*Apartment.filtrationAt* retain their raw valuation-inequality definitions. The minimum exists
 by the discrete affine value sets; it rounds up in `Γ'_b`, not in `Γ_b`
 ([Fintzen MP], §§2.3–2.4, arXiv v4 pp. 9–10; [Bruhat–Tits I], (6.4.9) (i)–(ii), p. 136).
 Prove `filtration_eq_closure_generators`: for `x` in the apartment of `S` and `r > 0`, `G_{x,r}`
