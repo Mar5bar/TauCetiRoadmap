@@ -98,6 +98,9 @@ variable {n : ℕ}
 theorem dominant_iff (a b : Fin n → ℤ) (hn : 0 < n) (ha : Antitone a) (hb : Antitone b) :
     Antitone (UnitaryLeviWeight a b) ↔ -b ⟨0, hn⟩ ≥ a ⟨0, hn⟩ := by sorry
 
+/-- `UnitaryLeviWeight.zero`: zero Levi rows give the zero unitary row, including rank zero. -/
+example : UnitaryLeviWeight (0 : Fin n → ℤ) 0 = 0 := by sorry
+
 /-- `UnitaryLeviWeight.rank_one`: `λ_τ = (2)`, `λ_{τc} = (-3)` give `(3, 2)`. -/
 example : UnitaryLeviWeight ![(2 : ℤ)] ![(-3 : ℤ)] = ![(3 : ℤ), 2] := by sorry
 /-- `UnitaryLeviWeight.rank_two`: `λ_τ = (2, 1)`, `λ_{τc} = (-3, -4)` give `(4, 3, 2, 1)`;
@@ -136,6 +139,9 @@ theorem minimal_representative (w : Equiv.Perm (Fin (n + n))) :
     (∀ (s : KostantShuffle n) (v : Equiv.Perm (Fin (n + n))),
       (∀ i, (v i).val < n ↔ i.val < n) → s.length ≤ inversionCount (v * s.val)) := by sorry
 
+/-- `KostantShuffle.rank_zero`: the unique rank-zero shuffle has length zero. -/
+example : ∃! s : KostantShuffle 0, s.length = 0 := by sorry
+
 /-- `KostantShuffle.rank_one`: for `n = 1` there are exactly two shuffles, of lengths `0`
 and `1`. -/
 example : ∃ s₀ s₁ : KostantShuffle 1,
@@ -157,6 +163,9 @@ def CTGWeight {W Emb : Type*} {n : ℕ} (c : Emb → Emb)
 
 namespace CTGWeight
 variable {W Emb : Type*} {n : ℕ} {c : Emb → Emb}
+
+/-- `CTGWeight.empty_w`: an empty representative set satisfies CTG for every table. -/
+example [IsEmpty W] (μ : W → Emb → Fin n → ℤ) : CTGWeight c μ := by sorry
 
 /-- `CTGWeight.zero`: for nonempty `W` the zero table is not CTG (in every rank, including
 rank zero). -/
@@ -234,6 +243,9 @@ def RankTwoWeightZero {Emb : Type*} (H : Emb → Multiset ℤ) : Prop :=
   ∀ τ, H τ = {0, 1}
 
 namespace RankTwoWeightZero
+/-- `RankTwoWeightZero.standard`: the constant multiset table `{0, 1}` has weight zero. -/
+example {Emb : Type*} : RankTwoWeightZero (fun _ : Emb => ({0, 1} : Multiset ℤ)) := by sorry
+
 /-- `RankTwoWeightZero.reversed`: the table presented as `{1, 0}` has weight zero. -/
 example : RankTwoWeightZero (fun _ : Unit => ({1, 0} : Multiset ℤ)) := by sorry
 /-- `RankTwoWeightZero.repeated_zero`: the table `{0, 0}` does not have weight zero. -/
@@ -283,6 +295,9 @@ the rational prime `p` has this row multiplied by `v(p)`. -/
 def contractingElement (n : ℕ) (U : Type*) [CommGroup U] : SplitTorus n U :=
   (1, Multiplicative.ofAdd (fun i => (n : ℤ) - 1 - i.val))
 
+/-- `PositiveTorusMonoid.rank_one`: every rank-one torus element is positive. -/
+example (t : SplitTorus 1 U) : t ∈ PositiveTorusMonoid 1 U := by sorry
+
 /-- `PositiveTorusMonoid.rank_two_positive`: the row `(1, 0)` is positive. -/
 example : ((1 : Fin 2 → U), Multiplicative.ofAdd ![(1 : ℤ), 0]) ∈
     PositiveTorusMonoid 2 U := by sorry
@@ -304,6 +319,9 @@ noncomputable def LowestWeightCharacter {Emb U R : Type*} [Fintype Emb]
 namespace LowestWeightCharacter
 variable {Emb U R : Type*} [Fintype Emb] [CommGroup U] [CommRing R]
 variable {n : ℕ} (σ : Emb → U →* Rˣ) (lam : Emb → Fin n → ℤ)
+/-- `LowestWeightCharacter.zero`: zero weight gives the trivial character on the full torus. -/
+example : LowestWeightCharacter n σ (0 : Emb → Fin n → ℤ) = 1 := by sorry
+
 /-- `LowestWeightCharacter.rank_one_square`: one embedding, rank one, weight `2`: a unit `u`
 acts by `τ(u)²`. -/
 example (σ : Unit → U →* Rˣ) (u : U) :
@@ -345,6 +363,9 @@ theorem diamondQuotient [IsLocalRing O] (t : IwahoriLevelTower) :
       f.ker = (level ϖ n t).subgroupOf (level ϖ n ⟨0, t.c, Nat.zero_le _, t.one_le_c⟩) ∧
       ∀ g i, ((f g i : (O ⧸ Ideal.span {ϖ ^ t.b})ˣ) : O ⧸ Ideal.span {ϖ ^ t.b}) =
         Ideal.Quotient.mk _ (((g : GL (Fin n) O) : Matrix (Fin n) (Fin n) O) i i) := by sorry
+
+/-- `IwahoriLevelTower.zero_b`: at depth zero the diagonal diamond group is trivial. -/
+example : Subsingleton (Fin n → (O ⧸ Ideal.span {ϖ ^ (0 : ℕ)})ˣ) := by sorry
 
 /-- `IwahoriLevelTower.deep_unipotent`: for `b = 1` a diagonal unit not congruent to `1`
 modulo `ϖ` lies in `K(0, c)` but not in `K(1, c)`. -/
@@ -397,6 +418,11 @@ theorem open_union [Fintype P] {K : P → Type*} [∀ v, NontriviallyNormedField
     IsOpen (⋃ (w : RelativeBruhatCells P n) (_ : i ≤ relLength w),
       cell (fun v => (⊤ : Subring (K v))) w) := by sorry
 
+/-- `RelativeBruhatCells.identity_cell`: the identity representative has both lengths zero. -/
+example [Fintype P] (d : P → ℕ) (w : RelativeBruhatCells P n)
+    (hw : ∀ v, (w v).val = Equiv.refl (Fin (n + n))) :
+    relLength w = 0 ∧ absLength d w = 0 := by sorry
+
 /-- `RelativeBruhatCells.degree_two_place`: one `p`-adic place of local degree `2` and `n = 1`:
 the longest relative length is `1` but its absolute length is `2`. -/
 example : ∃ w₀ : RelativeBruhatCells Unit 1,
@@ -421,6 +447,14 @@ noncomputable def OrdinaryGaloisCharacters {Emb Uo T : Type*} [Fintype Emb] [Com
 namespace OrdinaryGaloisCharacters
 variable {Emb Uo T : Type*} [Fintype Emb] [CommGroup Uo] [CommRing T]
 variable (ε : Uo × Multiplicative ℤ →* Tˣ) (U : ℕ → Tˣ)
+
+/-- `OrdinaryGaloisCharacters.determinant`: the product of uniformizer values telescopes to
+the top operator times the cyclotomic power `n(1-n)/2`, with `U 0 = 1`. -/
+example (n : ℕ) (σ : Emb → Uo →* Tˣ) (lam : Emb → Fin n → ℤ)
+    (δ : Fin n → Uo →* Tˣ) (hU : U 0 = 1) :
+    (∏ i : Fin n, OrdinaryGaloisCharacters n σ lam ε δ U i
+      (1, Multiplicative.ofAdd 1)) =
+      ε (1, Multiplicative.ofAdd 1) ^ ((n : ℤ) * (1 - (n : ℤ)) / 2) * U n := by sorry
 
 /-- `OrdinaryGaloisCharacters.rank_one`: for `n = 1`, `χ₁(Art ϖ_v) = U_{v,1}`. -/
 example (σ : Emb → Uo →* Tˣ) (lam : Emb → Fin 1 → ℤ) (δ : Fin 1 → Uo →* Tˣ) (hU : U 0 = 1) :
@@ -453,6 +487,16 @@ noncomputable def BruhatOrientationCharacter {p : ℕ} [Fact p.Prime] {G : Type*
 
 namespace BruhatOrientationCharacter
 variable {p : ℕ} [Fact p.Prime]
+
+/-- `BruhatOrientationCharacter.zero_lie`: the trivial determinant character has orientation
+value one. -/
+example {G : Type*} [Group G] (t : G) :
+    BruhatOrientationCharacter (1 : G →* ℚ_[p]ˣ) t = 1 := by sorry
+
+/-- `BruhatOrientationCharacter.one_unit`: a rational root of norm one has orientation value
+equal to its inverse. -/
+example (t : ℚ_[p]ˣ) (ht : padicNormE (t : ℚ_[p]) = 1) :
+    BruhatOrientationCharacter (MonoidHom.id ℚ_[p]ˣ) t = (t : ℚ_[p])⁻¹ := by sorry
 
 /-- `BruhatOrientationCharacter.one_uniformizer`: for a rational root with adjoint scalar `p`,
 `χ_w(p) = 1`, because the norm factor cancels `p⁻¹`. -/
@@ -487,6 +531,10 @@ example (b : ℚ) : b / 2 + b / 2 = b := by ring
 namespace WeightIndependentHidaTwist
 /-- The row `ν_i = i - 1` (one-based) entering the inverse Hida twist. -/
 def nu (n : ℕ) : Fin n → ℤ := fun i => i.val
+
+/-- `WeightIndependentHidaTwist.rank_one_zero`: in rank one and weight zero the exponent row
+of the Hida twist is zero. -/
+example : nu 1 + (fun _ : Fin 1 => (0 : ℤ)) = 0 := by sorry
 
 /-- `WeightIndependentHidaTwist.rank_two_zero`: for `n = 2` and `μ = 0`, `ν = (0, 1)`, so the
 twist is not trivial. -/
@@ -553,11 +601,23 @@ theorem trace_scalar [∀ v, IsLocalRing (O v)] (Q : Finset ι)
 /-- `TaylorWilesArithmeticLevels.empty`: for `Q = ∅` both levels are `K`. -/
 example [DecidableEq ι] (K : ∀ v, Subgroup (GL (Fin n) (O v))) :
     TaylorWilesArithmeticLevels ϖ n p K ∅ = (K, K) := by sorry
+/-- `TaylorWilesArithmeticLevels.old_bad_place`: at an old place outside the auxiliary set,
+both local factors retain the specified level. -/
+example [DecidableEq ι] (K : ∀ v, Subgroup (GL (Fin n) (O v)))
+    (Q : Finset ι) (S : Set ι) (v : ι) (hvS : v ∈ S) (hvQ : v ∉ Q) :
+    (TaylorWilesArithmeticLevels ϖ n p K Q).1 v = K v ∧
+      (TaylorWilesArithmeticLevels ϖ n p K Q).2 v = K v := by sorry
+
 /-- `TaylorWilesArithmeticLevels.single_prime`: for one place, `n = 2` and `p > 2` the trace
 scalar is `2` modulo `p`, a unit. -/
 example (q : ℕ) (hp : p.Prime) (hp2 : 2 < p) (hq : q ≡ 1 [MOD p]) :
     flagCount q 2 ≡ 2 [MOD p] ∧ Nat.Coprime (flagCount q 2) p := by sorry
 end TaylorWilesArithmeticLevels
+
+/-- `taylor_wiles_residual_iwahori_hecke.integral_normalization`: with `q = 11`, multiplying
+the spherical eigenvalue `2a` by `a⁻¹` gives `2`, while multiplying by `a` gives `22`. -/
+example {K : Type*} [Field K] [CharZero K] (a : K) (ha : a ^ 2 = 11) :
+    a⁻¹ * (2 * a) = 2 ∧ a * (2 * a) = 22 ∧ (2 : K) ≠ 22 := by sorry
 
 /-- With `q_v = 3` and ordered roots `2, 5`, the Fontaine–Laffaille selected second eigenvalue is
 `10/3`, while the ordinary one is `10`. -/
@@ -565,7 +625,9 @@ example : (3 : ℚ) ^ (-1 : ℤ) * 2 * 5 = 10 / 3 ∧ (2 : ℚ) * 5 = 10 := by s
 
 /-
 Stated in README.md and absent here, because their carriers are not available at the pins:
-the integral cohomology models and Siegel boundary comparisons of Layer 0, the integral dual Weyl
+the integral cohomology models and Siegel boundary comparisons of Layer 0, its torsion attachments
+(`residual_unitary_galois_inputs`, `finite_coefficient_gln_galois_inputs`) and geometric vanishing
+(`integral_caraiani_scholze_vanishing`), the integral dual Weyl
 modules with their Levi splitting and bottom-alcove duality (`IntegralDualWeylModule`), the Hecke
 algebras of positive monoids, the image of a residually multiplicity-free pair, the forms of
 products of `PGL₂`, the density-one comparison of semisimple Galois representations, the
@@ -576,7 +638,8 @@ Fontaine–Laffaille comparisons of Layer 1 (`unitary_generic_vanishing`,
 `fontaine_laffaille_local_global`), the soluble
 transport and rank-two compatible-system theorems of Layer 2
 (`auxiliary_cm_extension_prescriptions`, `soluble_base_change_and_descent`,
-`WeaklyAutomorphicPrimeTo`), the ordinary parts, completed cohomology and determinant comparisons
+`local_base_change_rec_compatibility`, `WeaklyAutomorphicPrimeTo`), the ordinary parts, completed
+cohomology and determinant comparisons
 of Layer 3 (`LocalOrdinaryParts`, `ArithmeticOrdinarySummand`, `CompletedArithmeticCohomology`,
 `CompletedOrdinaryCohomology`, `UnitaryOrdinaryTower`, `UnitaryCompletedBoundary`,
 `BruhatCellInduction`, `BruhatUnipotentInvariants`, `DeterminantTorus`, `IotaOrdinary`,
@@ -588,16 +651,14 @@ patching verifications and lifting theorems of Layer 5 (`TaylorWilesSelectedIdea
 `ordinary_automorphy_lifting`).
 
 Further API statements and Checks specified in the README, without additional Lean declarations:
-BruhatOrientationCharacter.one_unit, BruhatOrientationCharacter.uniformizer_part, BruhatOrientationCharacter.unit_part,
-BruhatOrientationCharacter.zero_lie, CTGWeight.empty_w, CTGWeight.iff_witness,
-CTGWeight.no_cuspidal_levi_weight, CTGWeight.not_parallel, IwahoriLevelTower.zero_b,
-KostantShuffle.mem_iff, KostantShuffle.rank_zero, LowestWeightCharacter.uniformizer_eval,
+BruhatOrientationCharacter.uniformizer_part, BruhatOrientationCharacter.unit_part,
+CTGWeight.iff_witness, CTGWeight.no_cuspidal_levi_weight, CTGWeight.not_parallel,
+KostantShuffle.mem_iff, LowestWeightCharacter.uniformizer_eval,
 LowestWeightCharacter.unit_eval, OrdinaryGaloisCharacters.change_uniformizer, OrdinaryGaloisCharacters.coordinate_uniformizer_change,
 OrdinaryGaloisCharacters.on_uniformizer, OrdinaryGaloisCharacters.on_units, OrdinaryGaloisCharacters.unique_from_units_and_uniformizer,
 PositiveTorusMonoid.mem_iff, PositiveTorusMonoid.unit_subgroup, RankTwoOdd.automorphic_weight_zero,
-RankTwoOdd.det_eq, RankTwoOdd.no_real_places, RelativeBruhatCells.identity_cell,
-TaylorWilesArithmeticLevels.old_bad_place, UnitaryLeviWeight.first_block, UnitaryLeviWeight.second_block,
-WeightIndependentHidaTwist.rank_one_zero, WeightIndependentHidaTwist.weight_compare.
+RankTwoOdd.det_eq, RankTwoOdd.no_real_places, UnitaryLeviWeight.first_block, UnitaryLeviWeight.second_block,
+WeightIndependentHidaTwist.weight_compare.
 -/
 
 end TauCetiRoadmap.PotentialAutomorphyInfrastructure
