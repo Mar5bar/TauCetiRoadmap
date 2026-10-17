@@ -165,7 +165,7 @@ groups are stated for GL_n(ℚ_p), realised as the units of the matrix ring.
 **Coefficients.** A is any commutative ring. A statement that needs averaging assumes a cofinal
 family of compact open subgroups of pro-order invertible in A; for a locally pro-p group this means
 p ∈ Aˣ. Statements that do not need it hold over every A, including F_p for a p-adic group.
-Normalised induction and Jacquet functors need a chosen square root q^{1/2} ∈ Aˣ; the unnormalised
+Normalised induction and Jacquet functors need a chosen square root `q^{1/2} ∈ Aˣ`; the unnormalised
 versions exist always and are kept separate. Layers SR.3a, SR.3 and SR.2a are over ℂ. The
 coefficient residue characteristic is ℓ ≠ p in SR.1's Λ-linear centre, in SR.5 and in SR.6; a
 noetherian, flat, reduced or ℓ-torsion-free hypothesis is written on the theorem that needs it and
@@ -179,29 +179,29 @@ a Haar measure of N, so δ_B(diag(p, 1)) = p⁻¹ in GL_2(ℚ_p). Because the Le
 parabolic of a reductive group is unimodular, δ_P is Mathlib's `modularCharacter` of P restricted
 to M. For a general semidirect product P = M ⋉ N the two agree only when M is unimodular: for
 P = M = G non-unimodular and N = 1 the conjugation modulus is trivial and the modular character is
-not. Also δ_{P̄} = δ_P⁻¹ on M. Normalised induction is i_P σ = Ind_P^G(δ_P^{1/2} ⊗ σ), normalised
-Jacquet is r_P V = δ_P^{−1/2} ⊗ V_N, and the unnormalised functors are written I_P and R_P. For
+not. Also `δ_{P̄} = δ_P⁻¹` on M. Normalised induction is `i_P σ = Ind_P^G(δ_P^{1/2} ⊗ σ)`, normalised
+Jacquet is `r_P V = δ_P^{−1/2} ⊗ V_N`, and the unnormalised functors are written I_P and R_P. For
 hyperspecial K the characteristic function of K is the convolution identity with vol(K) = 1, and
 the raw Satake transform uses vol(N ∩ K) = 1.
 
 **Hecke algebras.** H(G, U; A) is the algebra of finitely supported functions on U\G/U with the
 matrix product of G-invariant kernels on G/U × G/U; it acts on V^U on the right by
-v ∗ h = Σ_{Ug ∈ U\G} h(U, gU) g⁻¹v. When μ(U) is a unit it is the corner e_U H(G, A) e_U of the
+`v ∗ h = Σ_{Ug ∈ U\G} h(U, gU) g⁻¹v`. When μ(U) is a unit it is the corner e_U H(G, A) e_U of the
 convolution algebra. The convolution algebra acts on the left, f·v = ∫ f(g) ρ(g)v dμ(g); with
-μ(U) = 1 the characteristic function 1_{UgU} acts on V^U by v ↦ Σ_{xU ⊆ UgU} ρ(x)v, which is the
+μ(U) = 1 the characteristic function `1_{UgU}` acts on V^U by `v ↦ Σ_{xU ⊆ UgU} ρ(x)v`, which is the
 right action of [Ug⁻¹U], not of [UgU]. The basis element [UgU] of SR.1.2 acts by the right action. Its comparison with
 Tau Ceti's `HeckeCoset.heckeSum` uses the left regular representation on A[G] and the
 U-invariant linear map q_v(δ_x) = ρ(x)⁻¹v: evaluating that Hecke sum at δ_1 gives
 v ∗ [UgU] (*permutation-hecke-algebra*); the operator of a double coset KaK on V^K in
 SR.2.3, SR.2a, SR.4.2, SR.5.2 and SR.6.5 (Jacquet's lemma on invariants, Borel–Casselman,
 stabilisation, spherical characters, integral stability, stable operators) is the convolution
-operator of 1_{KaK}. The double coset
+operator of `1_{KaK}`. The double coset
 [UgU] has degree #(UgU/U). The integral Iwahori quadratic
 relation is (T_s + 1)(T_s − q_s) = 0, and the integral presentation uses the positive braid monoid.
 
 **Adjunctions.** First adjointness is r_P ⊣ i_P along the same parabolic; second adjointness is
-i_P ⊣ r_{P̄} along the opposite parabolic, and in unnormalised terms the right adjoint of I_P is
-δ_P ⊗ R_{P̄}. Frobenius reciprocity for compact induction from an open subgroup is c-Ind ⊣ Res;
+`i_P ⊣ r_{P̄}` along the opposite parabolic, and in unnormalised terms the right adjoint of I_P is
+`δ_P ⊗ R_{P̄}`. Frobenius reciprocity for compact induction from an open subgroup is c-Ind ⊣ Res;
 for smooth induction from a closed subgroup it is Res ⊣ Ind.
 
 **Centres.** The centre of a category is Mathlib's `CatCenter`, the endomorphisms of the identity
@@ -213,13 +213,13 @@ Z-finiteness of a representation V concerns the image Z_V of the centre in End_G
 a maximal F-split torus, with the Frobenius action on the pinned dual group retained; no
 absolute-Weyl formula is substituted. Arithmetic Frobenius Fr satisfies Fr s Fr⁻¹ = s^q in the
 discrete Weil group; a consumer using geometric Frobenius inverts it. The raw transform S* has
-twisted relative-Weyl invariants as image; the normalised S = δ_P^{1/2} S* needs a chosen q^{1/2}
+twisted relative-Weyl invariants as image; the normalised `S = δ_P^{1/2} S*` needs a chosen `q^{1/2}`
 and has ordinary invariants as image. The lattice Λ = T(F)/T(F)⁰ is identified with the character
 lattice of the dual torus by sending the class of λ(ϖ) to λ, and an unramified character θ of
 T(F) with the point t_θ given by λ(t_θ) = θ(λ(ϖ)). With these identifications and
 S*f(t) = ∫_N f(tn) dn, the Weyl twist is ((wΣ* − Σ*)/2)(q) and a pseudoroot squares to Σ*(q)⁻¹;
 it satisfies both this square condition and a twisted-fixed-point condition. Treumann–Venkatesh
-[TV] §2.9, (2.9.2), p. 187, associates α ⊗ z with t ↦ z^{v(α(t))}; with v(ϖ) = 1
+[TV] §2.9, (2.9.2), p. 187, associates α ⊗ z with `t ↦ z^{v(α(t))}`; with v(ϖ) = 1
 this is our identification, not its inverse. Their displayed point-action signs require the
 inversion transport explained in *twisted-weyl-invariance*. Unitary spherical
 parameters are tuples of units paired under
@@ -703,8 +703,8 @@ U-invariants V^U of a smooth representation V as Mathlib's invariants of the res
 V^U = (ρ.comp U.subtype).invariants, an A-submodule of V (for a compact open, or indeed any,
 subgroup U), and `SmoothRep.invariantsFunctor`, the A-linear functor invariantsFunctor U :
 SmoothRep A G ⥤ ModuleCat A, V ↦ V^U, acting on morphisms by restriction; it is left exact. Prove
-that U' ≤ U implies V^U ≤ V^{U'}; that
-ρ(g) maps V^U isomorphically onto V^{gUg⁻¹}; that for U' ≤ U open normal, V^U = (V^{U'})^{U/U'};
+that U' ≤ U implies `V^U ≤ V^{U'}`; that
+ρ(g) maps V^U isomorphically onto `V^{gUg⁻¹}`; that for U' ≤ U open normal, `V^U = (V^{U'})^{U/U'}`;
 and the union description: V is smooth iff V = ⨆_U V^U, the supremum running over any
 neighbourhood basis of 1 consisting of compact open subgroups, and that family is directed. This
 extends Tau Ceti's profinite exhaustion `iSup_fixedPoints_openNormal_eq_top` (ProfiniteCohomology
@@ -762,12 +762,12 @@ disconnected Hausdorff group, and test it on every open subgroup without requiri
 **The averaging projector onto U-invariants** (*averaging-projector*). Let G be locally
 profinite, A commutative, U a compact open subgroup of G with HasUnitProOrder A U, and V a smooth
 A[G]-module. For v ∈ V choose an open normal subgroup U' ≤ U fixing v and set
-e_U v = [U : U']⁻¹ Σ_{u ∈ U/U'} ρ(u) v. Define the averaging operator e_U : V →ₗ[A] V, and prove
-that e_U v = [U:U']⁻¹ Σ_{u∈U/U'} ρ u v for any open normal U' ≤ U fixing
+`e_U v = [U : U']⁻¹ Σ_{u ∈ U/U'} ρ(u) v`. Define the averaging operator e_U : V →ₗ[A] V, and prove
+that `e_U v = [U:U']⁻¹ Σ_{u∈U/U'} ρ u v` for any open normal U' ≤ U fixing
 v, so that it is independent of U'; it is A-linear, natural in V, commutes with every
 U-equivariant map, and extends Mathlib's `Representation.averageMap` from finite groups. Prove
 that e_U ∘ e_U = e_U and range e_U = V^U.
-For U' ≤ U, e_U e_{U'} = e_{U'} e_U = e_U. Its kernel is the span of {ρ(u)v − v : u ∈ U} ([Ber92]
+For `U' ≤ U, e_U e_{U'} = e_{U'} e_U = e_U`. Its kernel is the span of {ρ(u)v − v : u ∈ U} ([Ber92]
 Ch. I §2.1, p. 11 and Proposition 6(1), p. 14). *Needs:* *compact-open-invariants*,
 *unit-pro-order*.
 
@@ -807,7 +807,7 @@ IsAdmissible ρ :⇔ IsSmooth ρ ∧ ∀ U compact open, Module.Finite A (V^U): 
 every compact open subgroup U the A-module V^U is finitely generated. Over a field this says
 dim V^U < ∞ (Casselman's definition). Prove that it suffices to check U in a neighbourhood basis
 of compact open subgroups when either every compact open subgroup has pro-order invertible
-in A (then V^U = e_U V^{U'} is a direct summand of V^{U'} for U' ≤ U) or A is noetherian (then
+in A (then `V^U = e_U V^{U'}` is a direct summand of `V^{U'}` for U' ≤ U) or A is noetherian (then
 V^U is a submodule of a finitely generated module). Prove that finite direct
 sums of admissible representations are admissible;
 that over a noetherian A subrepresentations of admissible representations are admissible; and
@@ -820,19 +820,19 @@ open subgroup).
 
 **Checks.**
 
-- For G = ℤ_p and A = ℚ, ℚ[ℤ_p ⧸ p^n ℤ_p] is admissible with (·)^{ℤ_p} of dimension 1.
+- For G = ℤ_p and A = ℚ, ℚ[ℤ_p ⧸ p^n ℤ_p] is admissible with `(·)^{ℤ_p}` of dimension 1.
 - For G = ℚ_p and A = ℚ, ℚ[ℚ_p ⧸ ℤ_p] is smooth but not admissible.
 - The zero representation is admissible.
 
 **Checks (coefficient modules).** The tests give admissibility for a finite module with
 trivial action over a Noetherian A, and for the zero module over any A. For compact G the
-trivial action on ℚ^{(ℕ)} is not admissible: its G-invariants are the whole infinite-dimensional
+trivial action on `ℚ^{(ℕ)}` is not admissible: its G-invariants are the whole infinite-dimensional
 module (a Lean `example` for G = ℤ_p). These distinguish finite generation from smoothness.
 
 **Check (local compactness).** The Lean predicate quantifies over compact open subgroups, so its
 finiteness clause is empty when there are none. For G = ℚ_p^ℕ with the product topology every open
 subgroup contains a coordinate factor ℚ_p, so no open subgroup is compact, and the trivial action
-on ℚ^{(ℕ)} satisfies `Representation.IsAdmissible`. The admissibility is a Lean `example`, and the
+on `ℚ^{(ℕ)}` satisfies `Representation.IsAdmissible`. The admissibility is a Lean `example`, and the
 absence of compact open subgroups is a further test; every statement
 about admissibility in this roadmap assumes G locally profinite.
 
@@ -842,7 +842,7 @@ finiteness conditions are kept separate from admissibility. A smooth representat
 generated if ρ.asModule is a finitely generated A[G]-module (Mathlib's Module.Finite over
 MonoidAlgebra A G); prove that finite generation is
 Module.Finite (MonoidAlgebra A G) ρ.asModule, equivalently that V is a quotient of
-⊕_{i≤n} A[G/U_i] for compact open U_i. Define local admissibility: V is locally
+`⊕_{i≤n} A[G/U_i]` for compact open U_i. Define local admissibility: V is locally
 admissible if every v ∈ V generates an admissible subrepresentation A[G]·v. Prove
 admissible ⇒ locally admissible over a
 noetherian A, and finitely generated and
@@ -854,7 +854,7 @@ Emerton's); the comparisons are elementary from *admissible*). *Needs:* *admissi
 **Checks.**
 
 - ℚ[ℚ_p ⧸ ℤ_p] is finitely generated and not admissible.
-- ⊕_{n≥1} of characters of ℤ_p of exact conductor p^n (over ℚ(μ_{p^∞})) is admissible and not
+- `⊕_{n≥1}` of characters of ℤ_p of exact conductor p^n (over `ℚ(μ_{p^∞})`) is admissible and not
   finitely generated.
 - The trivial rank-one representation A is locally admissible and finitely generated. An
   arbitrary trivial module need not be finitely generated.
@@ -878,7 +878,7 @@ products and inverses of smooth characters are smooth ([BZ76] Ch. I §1,
 
 **Checks.**
 
-- x ↦ t^{v_p(x)} on ℚ_p^× is a smooth character for any t ∈ Aˣ.
+- `x ↦ t^{v_p(x)}` on ℚ_p^× is a smooth character for any t ∈ Aˣ.
 - The trivial character is smooth and twisting by it is the identity (smoothness is a Lean
   `example`).
 - x ↦ (1+p)^x, ℤ_p → ℤ_p^×, is not smooth with ℤ_p^× discrete (a Lean `example`, for every
@@ -928,7 +928,7 @@ the adjunction base change ⊣ restriction of scalars. For a compact open U defi
 the natural B-linear map B ⊗_A V^U → (B ⊗_A V)^U, and prove
 that it is an isomorphism if B is flat over A or if U has pro-order invertible in A, and that it
 is not an isomorphism in general. A ring automorphism σ of A (for instance σ ∈ Aut(ℂ)) gives the
-σ-twist V ↦ A ⊗_{A,σ} V, an autoequivalence preserving admissibility and irreducibility ([Ber87]
+σ-twist `V ↦ A ⊗_{A,σ} V`, an autoequivalence preserving admissibility and irreducibility ([Ber87]
 §2.0, Generalization, p. 9 (the decomposition over a commutative algebra B); the functor, its
 adjunction and the comparison map on invariants are elementary from Tau Ceti's
 `Representation.baseChange`). *Needs:* *smooth-rep-category*, *averaging-projector*.
@@ -993,10 +993,10 @@ topology this is Mathlib's CompactlySupportedContinuousMap X M), with
 the injective coercion to functions X → M, extensionality (f = g iff f x = g x for
 all x), and the indicator 1_K · m for K a compact open subset and
 m ∈ M. Prove that C_c^∞(X, M) is spanned by the functions 1_K·m for K compact open and m ∈ M, that
-every f is a finite sum Σ m_i 1_{K_i} with the K_i pairwise disjoint compact open, and that any two
+every f is a finite sum `Σ m_i 1_{K_i}` with the K_i pairwise disjoint compact open, and that any two
 such presentations have a common refinement. For X = G a locally profinite group, prove that every
 f ∈ C_c^∞(G, M) is left and right invariant under some compact open subgroup, and that
-C_c^∞(G, M)^{right-U} ≅ finitely supported functions on G/U ([Ber92] Ch. I §1.1 Lemma 1 and §1.2,
+`C_c^∞(G, M)^{right-U}` ≅ finitely supported functions on G/U ([Ber92] Ch. I §1.1 Lemma 1 and §1.2,
 pp. 7–8). [BH06] §3.1, p. 25, gives the compact-open double-coset expansion for groups over ℂ; [Ber92] Ch. I §1.1 Lemma 1, pp. 7–8, gives the finite compact-open refinements on general l-spaces. Neither argument uses division in the coefficients. *Needs:* *van-dantzig*.
 
 **Checks.**
@@ -1058,7 +1058,7 @@ finite additivity). *Needs:* *locally-constant-compact-support*, *unit-pro-order
 structure permits the zero measure, while the existence and unit claims above concern the
 specified normalization.
 
-- For G = ℚ_p, U₀ = ℤ_p over ℤ[1/p], μ(p^n ℤ_p) = p^{−n} for all n ∈ ℤ.
+- For G = ℚ_p, U₀ = ℤ_p over ℤ[1/p], `μ(p^n ℤ_p) = p^{−n}` for all n ∈ ℤ.
 - For G finite discrete normalised at {1}, μ(K) = |K|.
 - There is no F_p-valued Haar measure on ℤ_p with μ(ℤ_p) = 1 (a Lean `example`).
 
@@ -1116,7 +1116,7 @@ and Theorem 2, pp. 11–12). [BH06] §4.1, pp. 33–34, gives the same convoluti
 **Checks.**
 
 - For G = ZMod 3 discrete with counting measure, H(G, ℤ) ≃ ℤ[ZMod 3].
-- In H(ℚ_p, ℤ[1/p]) normalised on ℤ_p, 1_{pℤ_p} * 1_{pℤ_p} = p⁻¹ • 1_{pℤ_p}.
+- In H(ℚ_p, ℤ[1/p]) normalised on ℤ_p, `1_{pℤ_p} * 1_{pℤ_p} = p⁻¹ • 1_{pℤ_p}`.
 - H(ℚ_p, ℚ) has no multiplicative identity.
 - For s = (01), t = (12) in S₃ with counting measure, δ_s * δ_t has coefficient 1 at st
   and 0 at ts. This pins the order in the product formula; one test
@@ -1135,7 +1135,7 @@ measure and U a compact open subgroup with μ(U) ∈ Aˣ (equivalently, for the 
 of invertible pro-order). Define e_U := μ(U)⁻¹ • 1_U ∈ H(G, A), and
 prove e_U * e_U = e_U. It acts on every smooth V as the
 averaging projector of SR.0, so e_U V = V^U. Prove that
-e_U * e_{U'} = e_{U'} * e_U = e_U for U' ≤ U, and that f is
+`e_U * e_{U'} = e_{U'} * e_U = e_U` for U' ≤ U, and that f is
 left (right) U-invariant iff e_U * f = f (f * e_U = f). If such U are cofinal,
 H(G, A) = ⋃_U e_U * H(G, A) * e_U, and e_U H e_U is a unital algebra with unit e_U. Normalised
 idempotents are defined exactly when the volume is a unit; without this only 1_U (with
@@ -1145,7 +1145,7 @@ idempotents are defined exactly when the volume is a unit; without this only 1_U
 **Checks.**
 
 - For G = ZMod 2 discrete and A = ℤ[1/2], e_G = (1/2)(δ_0 + δ_1).
-- In H(ℚ_p, ℤ[1/p]) normalised on ℤ_p, e_{pℤ_p} = p • 1_{pℤ_p}.
+- In H(ℚ_p, ℤ[1/p]) normalised on ℤ_p, `e_{pℤ_p} = p • 1_{pℤ_p}`.
 - For G compact open in itself and U = G of invertible pro-order, e_G * f = (∫ f) e_G.
 - In C₂ with counting measure, the nonidentity singleton has unit volume but δ₁ * δ₁ = δ₀ ≠ δ₁.
   It is a compact open subset, not a subgroup. The test records this product.
@@ -1170,18 +1170,18 @@ Prove that when S has finitely many G-orbits, Fun_G(S × S, A) ≃ End_G(A[S]) a
 H(G, U; A) := Fun_G(G/U × G/U, A), the Hecke algebra of finitely supported
 functions on U\G/U for S = G/U, with basis the double cosets [UgU]. It is defined over every A,
 including F_p for p-adic G: no measure or averaging is used. Through V^U = Hom_G(A[G/U], V), V^U
-is a right H(G, U; A)-module, explicitly v * h = Σ_{Ug ∈ U\G} h(U, gU) ρ(g)⁻¹ v (the summand
+is a right H(G, U; A)-module, explicitly `v * h = Σ_{Ug ∈ U\G} h(U, gU) ρ(g)⁻¹ v` (the summand
 depends only on Ug, and only finitely many are nonzero); for v ∈ V^U define the A-linear map q_v : A[G] → V by q_v(δ_x) = ρ(x)⁻¹v.
 Prove q_v is U-invariant for the algebraic left regular representation on A[G], and that
 Tau Ceti's `HeckeCoset.heckeSum` applied to that representation and q_v, evaluated on δ_1,
-is v ∗ [UgU], naturally in V and under every commutative coefficient change A → B. For U' ≤ U the inclusion V^U ⊆ V^{U'} and the trace
-tr_{U/U'}(v) = Σ_{u ∈ U/U'} ρ(u) v are induced by the G-maps A[G/U'] → A[G/U], gU' ↦ gU, and
-A[G/U] → A[G/U'], gU ↦ Σ_{u ∈ U/U'} guU'; tr ∘ incl = [U : U'], and for U' normal in U,
-incl ∘ tr = Σ_{u ∈ U/U'} ρ(u). The anti-involution [UgU] ↦ [Ug⁻¹U] identifies H(G, U; A) with
+is v ∗ [UgU], naturally in V and under every commutative coefficient change A → B. For U' ≤ U the inclusion `V^U ⊆ V^{U'}` and the trace
+`tr_{U/U'}(v) = Σ_{u ∈ U/U'} ρ(u) v` are induced by the G-maps A[G/U'] → A[G/U], gU' ↦ gU, and
+`A[G/U] → A[G/U']`, `gU ↦ Σ_{u ∈ U/U'} guU'`; `tr ∘ incl = [U : U']`, and for U' normal in U,
+`incl ∘ tr = Σ_{u ∈ U/U'} ρ(u)`. The anti-involution [UgU] ↦ [Ug⁻¹U] identifies H(G, U; A) with
 its opposite ([TV] §2.10, (2.10.1)–(2.10.3), pp. 187–188 (published; arXiv v1 §2.10)). *Needs:*
 *van-dantzig*, *compact-open-invariants*.
 *Lean:* `heckeInvariantMap`, `heckeInvariantMap_comp_of_mem`,
-`heckeSum_invariantMap_apply_one` (the left-regular comparison above); `HeckeAlgebraLevel`, in the endomorphism form End_{A[G]}(A[G/U]) of the permutation module
+`heckeSum_invariantMap_apply_one` (the left-regular comparison above); `HeckeAlgebraLevel`, in the endomorphism form `End_{A[G]}(A[G/U])` of the permutation module
 (Mathlib's `Representation.ofMulAction` on G ⧸ U, as a module over `MonoidAlgebra A G`); for
 S = G/U, a single orbit, the comparison above identifies it with Fun_G(G/U × G/U, A).
 
@@ -1208,7 +1208,7 @@ matrix indices in the action on A[S].
 - For G = GL_2(ℚ_p), U = GL_2(ℤ_p), [U diag(p,1) U] is the sum of p + 1 left cosets.
 - For U normal in G, H(G, U; A) ≃ MonoidAlgebra A (G ⧸ U) (a Lean `example`, in the endomorphism
   form).
-- tr_{U/U'} ∘ incl = [U : U'] • id on V^U.
+- `tr_{U/U'} ∘ incl = [U : U'] • id` on V^U.
 
 **Comparison with the double-coset Hecke ring** (*hecke-ring-comparison*). Let G be locally
 profinite, U compact open and A commutative; for the convolution statement assume μ(U) = 1 (U of
@@ -1218,8 +1218,8 @@ invertible pro-order for e_U). Prove that the Hecke algebra H(G, U; A) of
 [UgU] ↦ the double coset of g, and that the structure constants agree with Shimura's
 multiplicities m(D₁, D₂; D). If μ is an A-valued Haar measure with μ(U) = 1, prove that the
 U-bi-invariant functions in H(G, A) form the subalgebra e_U * H(G, A) * e_U = 1_U * H(G, A) * 1_U,
-that 1_{UgU} ↦ [UgU] is an algebra isomorphism onto H(G, U; A), and that the convolution
-1_{UgU} * 1_{UhU} = Σ_D m(UgU, UhU; D) 1_D is a finite integral sum. The comparison is compatible
+that `1_{UgU} ↦ [UgU]` is an algebra isomorphism onto H(G, U; A), and that the convolution
+`1_{UgU} * 1_{UhU} = Σ_D m(UgU, UhU; D) 1_D` is a finite integral sum. The comparison is compatible
 with base change and with the action on invariants, and no second double-coset multiplication is
 introduced ([He18] §1.2, p. 7, formula (a) (convolution of double cosets); §4.1, p. 15; the
 identification with Mathlib's `HeckeRing` is proved here). *Needs:* *permutation-hecke-algebra*,
@@ -1237,9 +1237,9 @@ has coefficient one on U and zero on other double cosets; and the inverse image 
 basis element [UgU] sends δ_U to the sum of the cosets in Ug⁻¹U. All three are
 tests. The inverse is required by composition of endomorphisms of the left permutation
 module; it is the same convention as the right action on invariants above. For the discrete
-group ℤ and U = 0, the basis element of the double coset of 1 sends δ_0 to δ_{−1}, not δ_1 (a
+group ℤ and U = 0, the basis element of the double coset of 1 sends δ_0 to `δ_{−1}`, not δ_1 (a
 fourth test), so through V^U = Hom_G(A[G/U], V) it acts as ρ(1)⁻¹: the right action of
-[UgU] is the convolution operator of 1_{Ug⁻¹U}, as recorded in the conventions.
+[UgU] is the convolution operator of `1_{Ug⁻¹U}`, as recorded in the conventions.
 
 ### SR.1.3 Smooth representations as Hecke modules
 
@@ -1270,7 +1270,7 @@ Checks:
 **Checks.**
 
 - For H = A (unital), NondegMod H ≌ ModuleCat A.
-- For A ≠ 0, ⊕_{n ∈ ℕ} A with componentwise product is idempotented, and ∏_n A is not a
+- For `A ≠ 0`, `⊕_{n ∈ ℕ} A` with componentwise product is idempotented, and ∏_n A is not a
   nondegenerate module: the all-one tuple has no finite local unit. For A = 0 both modules
   are zero and nondegenerate.
 - A with the zero multiplication is not idempotented, for A ≠ 0.
@@ -1281,7 +1281,7 @@ subgroups of pro-order invertible in A (HasCofinalUnitProOrder A G), and fix an 
 measure μ normalised on one of them. Prove that H(G, A) is idempotented with local units e_U, and
 that V ↦ (V, f·v = ∫ f(g) ρ(g) v dμ) is an equivalence of categories
 SmoothRep A G ≌ NondegMod H(G, A), with V^U = e_U·V. The inverse sends M to M with
-g·m = (δ_g * e_U)·m for m ∈ e_U M, where δ_g * e_U = μ(U)⁻¹ 1_{gU}. The equivalence is A-linear,
+g·m = (δ_g * e_U)·m for m ∈ e_U M, where `δ_g * e_U = μ(U)⁻¹ 1_{gU}`. The equivalence is A-linear,
 compatible with base change, and preserves the centre. Without invertible pro-orders
 (F_p-coefficients for a p-adic group) SmoothRep is used directly, with the integral operators of
 *permutation-hecke-algebra* ([Ber92] Ch. I §2.1, Theorem 2 and Lemma 4, pp. 12–13). [BH06] 4.2 Propositions 1–2, pp. 35–37, constructs the two inverse actions; the ring-valued version uses the cofinal unit-volume idempotents stated here. *Needs:*
@@ -1294,16 +1294,16 @@ statement specifies the integrated action f·v.
 Checks for the bimodule endomorphisms of H that compute the centre: central coefficient scalars
 are admitted; for unital H an endomorphism is determined by its central value at 1;
 multiplication by a noncentral element is excluded. For general idempotented H, determine the
-endomorphism on every principal object He. For H = ⊕_{n ∈ ℕ} ℚ with coordinatewise product,
-the centre is ∏_{n ∈ ℕ} ℚ acting by coordinate multipliers, including the all-one multiplier;
+endomorphism on every principal object He. For `H = ⊕_{n ∈ ℕ} ℚ` with coordinatewise product,
+the centre is `∏_{n ∈ ℕ} ℚ` acting by coordinate multipliers, including the all-one multiplier;
 H itself has no identity element.
 
 **Hecke corners and irreducible representations** (*corner-irreducibles*). Let G be locally
 profinite and U a compact open subgroup with μ(U) ∈ Aˣ; A is a field for the irreducibility
 statements. Prove that the functor V ↦ V^U = e_U V from SmoothRep A G to right (or, through the
 anti-involution, left) H(G, U; A)-modules is exact and has a left adjoint
-M ↦ H(G, A)e_U ⊗_{e_U H e_U} M = c-Ind_U^G A ⊗_{H(G,U)} M, with the unit
-M → e_U(H(G, A)e_U ⊗_{e_U H e_U} M) an isomorphism. Over a field A = k prove: V irreducible implies
+`M ↦ H(G, A)e_U ⊗_{e_U H e_U} M = c-Ind_U^G A ⊗_{H(G,U)} M`, with the unit
+`M → e_U(H(G, A)e_U ⊗_{e_U H e_U} M)` an isomorphism. Over a field A = k prove: V irreducible implies
 V^U is 0 or a simple H(G, U; k)-module; every simple H(G, U; k)-module arises from a unique (up to
 isomorphism) irreducible smooth V with V^U ≠ 0; and two irreducibles with nonzero U-invariants
 are isomorphic iff their U-invariants are isomorphic H(G, U; k)-modules. If U splits the category
@@ -1324,9 +1324,9 @@ The left adjoint is realised as the quotient by the explicit balancing relations
 profinite with a cofinal family 𝒦 of compact open subgroups of pro-order invertible in the
 commutative ring Λ (HasCofinalUnitProOrder Λ G; for G locally pro-p these are the open pro-p
 subgroups, with p ∈ Λˣ). Prove
-SmoothCentre Λ G ≃+* lim_{K ∈ 𝒦} Subring.center (H(G, K; Λ)): restricting
+`SmoothCentre Λ G ≃+* lim_{K ∈ 𝒦} Subring.center (H(G, K; Λ))`: restricting
 z ∈ Z(G, Λ) = CatCenter(SmoothRep Λ G) (SR.0 *smooth-centre*) to the generators Λ[G/K] gives
-Z(G, Λ) ≅ lim_{K ∈ 𝒦} Z(H(G, K; Λ)), with transition map
+`Z(G, Λ) ≅ lim_{K ∈ 𝒦} Z(H(G, K; Λ))`, with transition map
 z ↦ e_K z : Z(H(G,K'; Λ)) → Z(H(G,K; Λ)) for K' ≤ K in 𝒦. Prove that the
 isomorphism is compatible with coefficient change, for Λ → Λ' there being a natural ring map
 Z(G, Λ) → Z(G, Λ') induced by Z(H(G,K;Λ)) ⊗ Λ' → Z(H(G,K;Λ')) and compatible with the actions on
@@ -1382,16 +1382,16 @@ parabolics P = M ⋉ N and P̄ = M ⋉ N̄ with their common Levi M, and a compa
 The parabolics and Iwahori factorisation are supplied by ReductiveGroups layer 7 and
 ReductiveGroupsPartII RG2.4. The abstract factorisation definition makes sense for other
 locally profinite groups, but the theorems below have these reductive hypotheses. Define Iwahori decompositions: U has an Iwahori decomposition with respect to
-(P, P̄) if both multiplication maps U_{N̄} × U_M × U_N → U and U_N × U_M × U_{N̄} → U are
+(P, P̄) if both multiplication maps `U_{N̄} × U_M × U_N → U` and `U_N × U_M × U_{N̄} → U` are
 bijective, where U_X = U ∩ X; prove that every u ∈ U is
-uniquely ū m n with ū ∈ U_{N̄}, m ∈ U_M, n ∈ U_N, and also uniquely n m ū. Define
-Δ_M⁺ := {m ∈ M | m U_N m⁻¹ ⊆ U_N, m⁻¹ U_{N̄} m ⊆ U_{N̄}} as a Submonoid M, the
-U-positive elements, containing U_M, and Δ⁺ := U_N Δ_M⁺ U_{N̄}. Define strong positivity: a
+uniquely ū m n with `ū ∈ U_{N̄}, m ∈ U_M, n ∈ U_N`, and also uniquely n m ū. Define
+`Δ_M⁺ := {m ∈ M | m U_N m⁻¹ ⊆ U_N, m⁻¹ U_{N̄} m ⊆ U_{N̄}}` as a Submonoid M, the
+U-positive elements, containing U_M, and `Δ⁺ := U_N Δ_M⁺ U_{N̄}`. Define strong positivity: a
 central z ∈ Z(M) ∩ Δ_M⁺ is strongly positive if for all compact open subgroups H₁, H₂ of U_N there
-is n ≥ 0 with z^n H₁ z^{−n} ⊆ H₂, and for all compact open subgroups K₁, K₂ of U_{N̄} there is
-n ≥ 0 with z^{−n} K₁ z^n ⊆ K₂ (Allen–Calegari–Caraiani–Gee–Helm–Le Hung–Newton–Scholze–Taylor–Thorne
+is n ≥ 0 with `z^n H₁ z^{−n} ⊆ H₂`, and for all compact open subgroups K₁, K₂ of `U_{N̄}` there is
+n ≥ 0 with `z^{−n} K₁ z^n ⊆ K₂` (Allen–Calegari–Caraiani–Gee–Helm–Le Hung–Newton–Scholze–Taylor–Thorne
 [ACC] §2.1.9, definition after Lemma 2.1.12, p. 914; application in Lemma 2.1.13, p. 915).
-These quantifiers range over subgroups of U_N and U_{N̄}, respectively, as in the source. *Needs:* *van-dantzig*;
+These quantifiers range over subgroups of U_N and `U_{N̄}`, respectively, as in the source. *Needs:* *van-dantzig*;
 ReductiveGroups layer 7, ReductiveGroupsPartII RG2.3, ReductiveGroupsPartII RG2.4.
 
 Additional Checks: a torus with trivial radicals has the factorization, and overlapping nontrivial factors are rejected. For a torus the contraction conditions of strong positivity are vacuous; together with the GL_2 checks that diag(p, 1) is strongly positive and the identity is not, this distinguishes contraction from mere positivity. For a torus the positive monoid is the whole Levi; for GL_2 it contains diag(p,1) and excludes its inverse.
@@ -1417,8 +1417,8 @@ and it is injective; (3) with
 [U_M m U_M], by |δ_P(m)|⁻¹ = #(U_N / m U_N m⁻¹) on basis elements. In particular, for M = T a
 torus, the [U t U] (t ∈ Δ_T⁺) span a commutative subalgebra of H(G, U; ℤ). For M = T a maximal
 torus of a split group, U = K_p with an Iwahori decomposition relative to (B, B̄) and T⁺ the
-monoid of t with t U_{K_p} t⁻¹ ⊆ U_{K_p} and t⁻¹ Ū_{K_p} t ⊆ Ū_{K_p}, t ↦ [K_p t K_p] is an
-algebra homomorphism ℤ[T⁺/T_{K_p}] → H(G, K_p; ℤ). The two contraction conditions are needed: the
+monoid of t with `t U_{K_p} t⁻¹ ⊆ U_{K_p}` and `t⁻¹ Ū_{K_p} t ⊆ Ū_{K_p}`, `t ↦ [K_p t K_p]` is an
+algebra homomorphism `ℤ[T⁺/T_{K_p}] → H(G, K_p; ℤ)`. The two contraction conditions are needed: the
 product decomposition alone does not make t ↦ [K_p t K_p] multiplicative ([ACC] §2.1.9,
 Lemma 2.1.12 and the following paragraph, p. 914). *Needs:* *iwahori-decomposition*,
 *permutation-hecke-algebra*, *hecke-ring-comparison*.
@@ -1477,10 +1477,10 @@ The localisation statement gives centrality, invertibility, and the universal pr
 reductive group over the ring of integers O_v of a nonarchimedean local field F_v with residue
 field k(v) of characteristic p, B = TU a Borel, Iw(v) and Iw₁(v) the preimages of B(k(v)) and
 U(k(v)) under G(O_v) → G(k(v)) (Iw₁(v) the pro-p Iwahori subgroup), O the ring of integers of a finite extension of ℚ_ℓ with ℓ > 2,
-containing a chosen q_v^{1/2}, and H₁ = O[Iw₁(v)\G(F_v)/Iw₁(v)]. Prove that for x, y in the positive monoid
+containing a chosen `q_v^{1/2}`, and H₁ = O[Iw₁(v)\G(F_v)/Iw₁(v)]. Prove that for x, y in the positive monoid
 T(F_v)⁺ = {t : α(t) ∈ O_v for every simple root α}, [Iw₁ x Iw₁][Iw₁ y Iw₁] = [Iw₁ xy Iw₁], and
 that [Iw₁ x Iw₁] is a unit of H₁[1/p] (of H₁ when p is invertible in O). Writing t = x y⁻¹ with
-x, y positive, prove that t ↦ δ_B^{1/2}(t)[Iw₁ x Iw₁][Iw₁ y Iw₁]⁻¹ is a well-defined homomorphism
+x, y positive, prove that `t ↦ δ_B^{1/2}(t)[Iw₁ x Iw₁][Iw₁ y Iw₁]⁻¹` is a well-defined homomorphism
 T(F_v) → (H₁[1/p])ˣ with kernel T(O_v)₁ = ker(T(O_v) → T(k(v))); the Iwahori analogue embeds
 O[X_*(T)] ⊗ O[1/p] into O[Iw(v)\G(F_v)/Iw(v)][1/p] ([BCGP] §2.4.1, Proposition 2.4.2 and the
 following paragraph; the paragraph after Proposition 2.4.4 (arXiv v3 pp. 20–21; PMIHÉS 134,
@@ -1493,7 +1493,7 @@ the kernel assertion at least needs a nonzero localized coefficient ring.
 be all of T(F_v), not T(O_v)₁. *Needs:* *positive-hecke-homomorphism*, *strongly-positive-localisation*;
 ReductiveGroupsPartII RG2.3.
 
-The target states positive multiplication, invertibility and the unique normalized torus homomorphism with its kernel. The level is the pinned Bruhat–Tits pro-unipotent radical of an alcove, and a chosen square root of the modulus fixes the half modulus δ_B^{1/2}. Its coefficient-ring formulation includes the stated integral-basis proof obligation. The Iwahori analogue is the injectivity of the Bernstein embedding below.
+The target states positive multiplication, invertibility and the unique normalized torus homomorphism with its kernel. The level is the pinned Bruhat–Tits pro-unipotent radical of an alcove, and a chosen square root of the modulus fixes the half modulus `δ_B^{1/2}`. Its coefficient-ring formulation includes the stated integral-basis proof obligation. The Iwahori analogue is the injectivity of the Bernstein embedding below.
 
 Change of coefficients of the finite double-coset matrices is specified coefficientwise. Its checks test the identity, composition and the zero-ring obstruction.
 
@@ -1520,9 +1520,9 @@ Checks: the identity, a balanced diagonal element and an unbalanced diagonal ele
 reductive group (Chevalley group) over a nonarchimedean local field F with residue cardinality q,
 I an Iwahori subgroup, A any commutative ring, and W̃ = N_G(T)(F)/T(O_F) the extended affine Weyl
 group, W̃ = W_aff ⋊ Ω with W_aff a Coxeter group on the simple affine reflections S_aff and Ω the
-length-zero elements. Prove that G = ⊔_{w ∈ W̃} IwI, [IwI : I] = q^{ℓ(w)}, and that H(G, I; ℤ) is
-free over ℤ on T_w = [IwI] (w ∈ W̃) with: T_w T_{w'} = T_{ww'} when ℓ(ww') = ℓ(w) + ℓ(w');
-(T_s − q)(T_s + 1) = 0 for s ∈ S_aff; T_ω T_w = T_{ωw} for ω ∈ Ω. These relations (quadratic,
+length-zero elements. Prove that `G = ⊔_{w ∈ W̃} IwI`, `[IwI : I] = q^{ℓ(w)}`, and that H(G, I; ℤ) is
+free over ℤ on T_w = [IwI] (w ∈ W̃) with: `T_w T_{w'} = T_{ww'}` when ℓ(ww') = ℓ(w) + ℓ(w');
+`(T_s − q)(T_s + 1) = 0` for `s ∈ S_aff`; `T_ω T_w = T_{ωw}` for ω ∈ Ω. These relations (quadratic,
 braid and length-zero) present H(G, I; ℤ) ≅ ℤ[Ω] ⊗̃ H_aff. Base change gives H(G, I; A) for every
 A; each T_w is invertible once q ∈ Aˣ; if q = 1 in A then H(G, I; A) ≅ A[W̃] ([IM65] §2,
 Theorem 2.16, p. 36 and Proposition 2.8, p. 33; §3, Proposition 3.2, Theorem 3.3,
@@ -1535,33 +1535,33 @@ Over a nonarchimedean local field F, the basis T_w uses the Iwahori–Bruhat ind
 Checks: T₁ = 1; Tₛ² = (q − 1)Tₛ + q; at q = 1 each basis vector is identified with its group-algebra basis vector.
 
 The ordinary Iwahori index statement is `HeckeAlgebraLevel.iwahoriBasis_index`: for split G,
-the supplied Iwahori–Bruhat basis satisfies deg(T_w) = q^{ℓ(w)}, independently of A.
-Construct the residue-field parametrization I/(I ∩ wIw⁻¹) ≃ 𝓀[F]^{ℓ(w)} from the
+the supplied Iwahori–Bruhat basis satisfies `deg(T_w) = q^{ℓ(w)}`, independently of A.
+Construct the residue-field parametrization `I/(I ∩ wIw⁻¹) ≃ 𝓀[F]^{ℓ(w)}` from the
 root-cell products of ReductiveGroupsPartII RG2.4, and take cardinalities. This requires no
 positive-depth-intersection-presentation hypothesis. The Lean signature records the cardinal
 computation from this parametrization on the pinned double-coset carrier.
 Coefficient extension is specified on every basis vector.
 
 Checks for the index clause: the identity has degree 1, a simple affine reflection has degree q,
-and a translation λ(ϖ) has degree q^{Σ_{α>0}|⟨α,λ⟩|}. These use the ordinary Iwahori,
+and a translation λ(ϖ) has degree `q^{Σ_{α>0}|⟨α,λ⟩|}`. These use the ordinary Iwahori,
 including when q is zero or a nonunit in A.
 
 **The Bernstein presentation** (*bernstein-presentation*). In the setting of *iwahori-matsumoto*
-(G split connected reductive) let A be a ring containing an inverse square root q^{−1/2} of q
-(A ∋ q^{±1/2}). For a dominant cocharacter λ set θ_λ = q^{−ℓ(λ)/2} T_{λ(ϖ)}, and
-θ_{λ−μ} = θ_λ θ_μ⁻¹ for λ, μ dominant. Prove that λ ↦ θ_λ is a well-defined injective algebra
+(G split connected reductive) let A be a ring containing an inverse square root `q^{−1/2}` of q
+(`A ∋ q^{±1/2}`). For a dominant cocharacter λ set `θ_λ = q^{−ℓ(λ)/2} T_{λ(ϖ)}`, and
+`θ_{λ−μ} = θ_λ θ_μ⁻¹` for λ, μ dominant. Prove that λ ↦ θ_λ is a well-defined injective algebra
 homomorphism A[X_*(T)] → H(G, I; A); that multiplication gives an A-module isomorphism
 A[X_*(T)] ⊗_A H(K, I; A) ≅ H(G, I; A), where H(K, I; A) is the finite Hecke algebra of
 K = G(O_F), with basis T_w (w ∈ W); and that for a simple reflection s = s_α ∈ W the Bernstein
-relation T_s θ_λ − θ_{s(λ)} T_s = (q − 1)(θ_λ − θ_{s(λ)})/(1 − θ_{−α^∨}) holds (the right side
+relation `T_s θ_λ − θ_{s(λ)} T_s = (q − 1)(θ_λ − θ_{s(λ)})/(1 − θ_{−α^∨})` holds (the right side
 lies in A[X_*(T)]). The same holds for the generic affine Hecke algebra over ℤ[v, v⁻¹], which
-specialises to H(G, I; A) by v ↦ q^{1/2}. [Lus89] 3.2–3.7, pp. 607–609,
+specialises to H(G, I; A) by `v ↦ q^{1/2}`. [Lus89] 3.2–3.7, pp. 607–609,
 works over ℂ[v,v⁻¹]; its equal-parameter relations have integral coefficients, but proving the
 ℤ[v,v⁻¹] basis theorem and arbitrary-ring specialization is an additional integral proof
 obligation, not a quoted conclusion of that source. *Needs:*
 *iwahori-matsumoto*, *positive-hecke-homomorphism*.
 
-The Bernstein embedding has source the translation subgroup of the pinned Iwahori–Weyl group; it takes the splitness hypothesis, a unit q^{1/2} with (q^{1/2})² = #𝓀[F], and a regular vector specifying dominance over the nonarchimedean local field F. Its dominant values and its injectivity are stated separately; multiplication is specified on pure tensors, and the Bernstein relation uses a finite geometric sum for the divided difference, including negative pairings.
+The Bernstein embedding has source the translation subgroup of the pinned Iwahori–Weyl group; it takes the splitness hypothesis, a unit `q^{1/2}` with `(q^{1/2})² = #𝓀[F]`, and a regular vector specifying dominance over the nonarchimedean local field F. Its dominant values and its injectivity are stated separately; multiplication is specified on pure tensors, and the Bernstein relation uses a finite geometric sum for the divided difference, including negative pairings.
 
 Checks: the zero cocharacter goes to the unit; the dominant values fix the normalization exponent; opposite translations are distinguished.
 
@@ -1571,10 +1571,10 @@ Checks: the quotient imposes T₁ = 1; it gives both coefficients in the quadrat
 
 **The centre of the Iwahori–Hecke algebra** (*iwahori-hecke-centre*). With G split and
 A = ℂ[v,v⁻¹] for the generic affine Hecke algebra, prove that the centre of
-H(G, I; A) is θ(A[X_*(T)])^W = θ(A[X_*(T)]^W), free over A on the orbit sums z_λ = Σ_{μ ∈ Wλ} θ_μ
+H(G, I; A) is θ(A[X_*(T)])^W = θ(A[X_*(T)]^W), free over A on the orbit sums `z_λ = Σ_{μ ∈ Wλ} θ_μ`
 for λ dominant. Prove that H(G, I; A) is free of rank |W| over θ(A[X_*(T)]), which is finite over
 the centre, so H(G, I; A) is a finitely generated module over its centre. The extension to
-arbitrary rings with q^{±1/2} is a stated gap: formation of the center does not formally
+arbitrary rings with `q^{±1/2}` is a stated gap: formation of the center does not formally
 commute with base change, so an integral basis argument is needed. For q = 1 the
 centre of A[X_*(T) ⋊ W] is again A[X_*(T)]^W, W acting faithfully on X_*(T). This group-algebra case is a separate direct calculation, not a formal consequence of
 specializing a center. The comparison of this centre with the spherical Hecke algebra (z ↦ e_K z, the Satake isomorphism) is an SR.4
@@ -1586,7 +1586,7 @@ The central basis is characterized by the coefficient-one orbit sums, and the fi
 ### Examples
 
 The checks of the layer compute the normalised measure and the convolution on ℚ_p over ℤ[1/p]
-(μ(p^n ℤ_p) = p^{−n}, 1_{pℤ_p} * 1_{pℤ_p} = p⁻¹ • 1_{pℤ_p}, e_{pℤ_p} = p • 1_{pℤ_p}), recover the
+(`μ(p^n ℤ_p) = p^{−n}`, `1_{pℤ_p} * 1_{pℤ_p} = p⁻¹ • 1_{pℤ_p}`, `e_{pℤ_p} = p • 1_{pℤ_p}`), recover the
 group ring for finite discrete groups and for U normal in G, count the p + 1 left cosets of
 [U diag(p,1) U] in GL_2(ℚ_p), exhibit the Iwahori decomposition of the Iwahori subgroup of
 GL_2(ℚ_p) and its failure for GL_2(ℤ_p), and show that there is no F_p-valued Haar measure on ℤ_p
@@ -1610,12 +1610,12 @@ compact inductions c-Ind_K Λ from pro-p subgroups K are compact generators.
 
 **The smooth category is a Grothendieck category** (*grothendieck-abelian*). Let G be locally
 profinite, A a commutative ring and U a compact open subgroup. Prove that SmoothRep A G is a
-Grothendieck abelian category: filtered colimits exist and are exact (AB5), and ⊕_{U ∈ 𝒰} A[G/U]
+Grothendieck abelian category: filtered colimits exist and are exact (AB5), and `⊕_{U ∈ 𝒰} A[G/U]`
 is a generator for any neighbourhood basis 𝒰 of compact open subgroups, because
 Hom_G(A[G/U], V) ≅ V^U and V = ⋃ V^U. Hence SmoothRep A G has enough injectives, Ext groups and a
 derived category (Mathlib). Prove that for a compact open U the restriction functor
 SmoothRep A G ⥤ SmoothRep A U preserves injective objects, since its left adjoint, algebraic
-induction A[G] ⊗_{A[U]} −, is exact and preserves smoothness ([Ber87] §1.1–1.2, pp. 3–4).
+induction `A[G] ⊗_{A[U]} −`, is exact and preserves smoothness ([Ber87] §1.1–1.2, pp. 3–4).
 *Needs:* *smooth-rep-abelian*, *compact-open-invariants*.
 
 
@@ -1655,7 +1655,7 @@ EnhancedDerivedSheaves E1.2 / *replacementDGComparison* to the Grothendieck abel
 SmoothRep A G: every unbounded smooth cochain complex X has a quasi-isomorphism X → I with I
 K-injective. Construct unbounded derived invariants RΓ(U, −) : D(G, A) → D(A) from these
 resolutions and derived Hom complexes from HomComplex(X, I_Y), whose degree-n cohomology is
-Hom_{D(G,A)}(X, Y[n]). Identify the restriction to bounded-below objects with Mathlib's right
+`Hom_{D(G,A)}(X, Y[n])`. Identify the restriction to bounded-below objects with Mathlib's right
 derived functor of invariants. The generic replacement theorem belongs to the supplier
 ([Stacks] Tag 079P); this target supplies its smooth-category application and invariant-functor
 comparison. *Needs:* *grothendieck-abelian*, *derived-smooth-category*;
@@ -1708,7 +1708,7 @@ RHom_G(V, W) := Hom_A-linear(V, I_W) with I_W a K-injective resolution, a comple
 prove that RHom_G is functorial in both variables on D(G, A),
 contravariant in the first (functorial up to homotopy on complexes), with its action on morphisms
 fixed by H^n RHom_G(V, W) ≅ Hom(V, W[n]) natural in both variables; that
-H^n RHom_G(V, W) ≅ Hom_{D(G,A)}(V, W[n]); and RHom_G(A[G/U], W) ≅ RΓ(U, W) for U compact open,
+`H^n RHom_G(V, W) ≅ Hom_{D(G,A)}(V, W[n])`; and RHom_G(A[G/U], W) ≅ RΓ(U, W) for U compact open,
 which is the comparison of *derived-invariants*. The forgetful functor to complexes of A-modules,
 restriction to open subgroups, derived invariants and derived tensor products over A are dg
 functors or are computed by K-flat/K-injective replacements in this model ([Stacks] Tag 070Y and
@@ -1734,7 +1734,7 @@ Let G be locally profinite with a cofinal family 𝒦 of compact open
 subgroups of pro-order invertible in A (HasCofinalUnitProOrder A G; for a locally pro-p group,
 p ∈ A^×). Prove that for K ∈ 𝒦 the permutation module A[G/K] = c-Ind_K^G A is projective in
 SmoothRep A G, that RHom_G(A[G/K], V) = V^K, and that A[G/K] is a compact object of D(G, A) (Hom
-out of it commutes with arbitrary direct sums). Prove that the family {A[G/K]}_{K ∈ 𝒦} generates
+out of it commutes with arbitrary direct sums). Prove that the family `{A[G/K]}_{K ∈ 𝒦}` generates
 D(G, A): a complex V with V^K acyclic for all K ∈ 𝒦 is 0. Hence D(G, A) is compactly generated,
 and the thick subcategory generated by these objects consists of compact objects (for Λ a
 ℤ_ℓ-algebra with ℓ ≠ p it is exactly the compact objects, as Fargues–Scholze state) ([FS] Ch. I
@@ -1751,11 +1751,11 @@ profinite with HasCofinalUnitProOrder A G (e.g. locally pro-p and p ∈ A^×). D
 𝔻 : D(G, A)ᵒᵖ ⥤ D(G, A), the right derived functor of the left
 exact functor V ↦ (V*)^sm = smooth part of Hom_A(V, A), 𝔻(V) := R((−)*)^sm (V), and prove
 the characterising property
-Hom_{D(G,A)}(B, 𝔻(V)) ≅ Hom_{D(G,A)}(B ⊗^L_A V, A) natural in B and V. Define
+`Hom_{D(G,A)}(B, 𝔻(V)) ≅ Hom_{D(G,A)}(B ⊗^L_A V, A)` natural in B and V. Define
 admissible complexes: a complex V is admissible if V^K is a perfect complex of
 A-modules for every K in the cofinal family of compact open subgroups of invertible pro-order.
 Prove 𝔻(V)^K ≅ RHom_A(V^K, A) for K of invertible
-pro-order, and consequently (H^n 𝔻V)^K ≅ Hom_{D(A)}(V^K, A[n]), naturally in V.
+pro-order, and consequently `(H^n 𝔻V)^K ≅ Hom_{D(A)}(V^K, A[n])`, naturally in V.
 Here V^K denotes the invariant complex, since K-invariants are exact. Thus the dual of an
 admissible complex is admissible, and the natural map
 V → 𝔻𝔻(V) is an isomorphism for admissible V. A further statement pins that map: over a
@@ -1805,13 +1805,13 @@ The scalar-annihilation assertion and the unit-difference vanishing are stated s
 
 **The derived Hecke algebra** (*derived-hecke-algebra*). Let G be locally profinite, S a
 commutative ring and U, U₁, U₂ compact open subgroups. Define the derived
-Hecke algebra H*(G, U; S) := Ext*_{SmoothRep S G}(S[G/U], S[G/U]), a graded S-algebra under Yoneda
+Hecke algebra `H*(G, U; S) := Ext*_{SmoothRep S G}(S[G/U], S[G/U])`, a graded S-algebra under Yoneda
 composition (opposite convention as in Venkatesh), and its graded
 action on the derived invariants H*(U, V) = Ext*_G(S[G/U], V) of every smooth V, natural in V.
 Prove that its degree-zero part is the Hecke algebra End_G(S[G/U]) of
 SR.1 (*permutation-hecke-algebra*). Prove the
 invariant-function model given by Shapiro's lemma,
-H*(G, U; S) ≅ ⊕_{x ∈ U\G/U} H*(U ∩ xUx⁻¹, S) as graded S-modules, with product given by
+`H*(G, U; S) ≅ ⊕_{x ∈ U\G/U} H*(U ∩ xUx⁻¹, S)` as graded S-modules, with product given by
 restriction, conjugation and corestriction along double cosets (the double-coset model). More
 generally, for compact open U₁, U₂ the derived bimodules Ext*(S[G/U₁], S[G/U₂]) make H*(G, U₁)
 and H*(G, U₂) act compatibly, as for the derived Iwahori–Hecke algebra and its spherical
@@ -1879,8 +1879,8 @@ comparison), A commutative and σ smooth on H. Define c-Ind_H^G σ ⊆ Ind_H^G �
 the subrepresentation of functions whose support is compact modulo H (has compact image in H\G),
 and `SmoothRep.cIndFunctor`, the A-linear functor SmoothRep A H ⥤ SmoothRep A G. Prove
 that if H\G is compact, c-Ind_H^G = Ind_H^G. Prove
-that if H is open, f ↦ Σ_{gH ∈ G/H} g ⊗ f(g⁻¹) identifies c-Ind_H^G σ with
-Mathlib's algebraic induction Rep.ind along H.subtype (A[G] ⊗_{A[H]} σ), naturally in σ; in
+that if H is open, `f ↦ Σ_{gH ∈ G/H} g ⊗ f(g⁻¹)` identifies c-Ind_H^G σ with
+Mathlib's algebraic induction Rep.ind along H.subtype (`A[G] ⊗_{A[H]} σ`), naturally in σ; in
 particular c-Ind_U^G A = A[G/U] for a compact open U (Tau Ceti's indTrivialIso), and c-Ind_U^G A
 is generated by the characteristic function of U ([Cas95] §2.4, p. 26; Theorem 2.4.1(d)).
 [BH06] §2.5 and Lemma (1)–(2), pp. 19–20, gives the support condition and the open-subgroup coset model. Its construction applies over A. *Needs:* *smooth-induction*.
@@ -1889,7 +1889,7 @@ is generated by the characteristic function of U ([Cas95] §2.4, p. 26; Theorem 
 
 **Checks.**
 
-- c-Ind_{ℤ_p}^{ℚ_p} A ≅ A[ℚ_p ⧸ ℤ_p].
+- `c-Ind_{ℤ_p}^{ℚ_p} A ≅ A[ℚ_p ⧸ ℤ_p]`.
 - c-Ind_G^G σ ≅ σ.
 - For G = ℚ_p, H = {0} and A nonzero, the constant function 1 lies in Ind but not in
   c-Ind. For the zero coefficient ring both function spaces are zero.
@@ -1915,9 +1915,9 @@ H), `SmoothRep.compactFrobeniusReciprocity` (`SmoothRep.cIndFunctor` ⊣ `Smooth
 
 **Invariants of induced representations** (*induced-invariants*). For H closed, σ smooth on H, K
 compact open in G and A commutative, prove that evaluation at representatives gives
-(Ind_H^G σ)^K ≅ ∏_{x ∈ H\G/K} σ^{H ∩ xKx⁻¹} and (c-Ind_H^G σ)^K ≅ ⊕_{x ∈ H\G/K} σ^{H ∩ xKx⁻¹}. In
-particular, if G = H K then (Ind_H^G σ)^K ≅ σ^{H ∩ K}; and for a parabolic P = MN and K with an
-Iwahori decomposition, (Ind_P^G σ)^K ≅ ⊕_{x ∈ P\G/K} σ^{pr_M(P ∩ xKx⁻¹)} (M-components, N acting
+`(Ind_H^G σ)^K ≅ ∏_{x ∈ H\G/K} σ^{H ∩ xKx⁻¹}` and `(c-Ind_H^G σ)^K ≅ ⊕_{x ∈ H\G/K} σ^{H ∩ xKx⁻¹}`. In
+particular, if G = H K then `(Ind_H^G σ)^K ≅ σ^{H ∩ K}`; and for a parabolic P = MN and K with an
+Iwahori decomposition, `(Ind_P^G σ)^K ≅ ⊕_{x ∈ P\G/K} σ^{pr_M(P ∩ xKx⁻¹)}` (M-components, N acting
 trivially) ([Ber87] §2.3(vii), Lemma, p. 11 (the parabolic case); the closed-subgroup formulas
 are evaluation at representatives of H\G/K). *Needs:* *smooth-induction*, *compact-induction*,
 *compact-open-invariants*; ReductiveGroupsPartII RG2.4.
@@ -1981,7 +1981,7 @@ Checks:
 infinity, and H, Q closed subgroups of G such that Q has finitely many orbits on X = H\G, each
 locally closed, numbered Z₁, …, Z_k so that Y_i = Z₁ ∪ … ∪ Z_i is open. Prove that the restriction
 to Q of c-Ind_H^G σ has a Q-stable filtration 0 = F₀ ⊆ F₁ ⊆ … ⊆ F_k with
-F_i/F_{i−1} ≅ c-Ind_{Q ∩ x_i⁻¹Hx_i}^Q (x_i⁻¹ · σ), x_i ∈ G a representative of Z_i. For H, Q open
+`F_i/F_{i−1} ≅ c-Ind_{Q ∩ x_i⁻¹Hx_i}^Q (x_i⁻¹ · σ)`, `x_i ∈ G` a representative of Z_i. For H, Q open
 (in particular G finite) this is the Mackey decomposition, a direct sum (Tau Ceti's
 Rep.mackeyDecomposition) ([BZ77] §5.1–5.2, pp. 459–460; §5.10–5.14). *Needs:* *l-sheaf-model*;
 InductionRestriction layer 3.
@@ -1995,9 +1995,9 @@ The natural form of the filtration fixes each graded isomorphism by restriction 
 ### SR.2.2 Jacquet functors and parabolic induction
 
 **The modulus character and its square root** (*modulus-character*). Let G be locally profinite
-and P = M ⋉ N closed with N a union of compact open subgroups; A ∋ q^{−1}, and q^{±1/2} ∈ A for
+and P = M ⋉ N closed with N a union of compact open subgroups; `A ∋ q^{−1}`, and `q^{±1/2} ∈ A` for
 the square root. For a closed subgroup N of G normalised by m ∈ G define the module
-mod_N(m), on the normaliser of N with values in ℚ_{>0}, by index ratios of compact open subgroups
+mod_N(m), on the normaliser of N with values in `ℚ_{>0}`, by index ratios of compact open subgroups
 of N: it is the factor by which conjugation u ↦ m u m⁻¹ scales a Haar measure of N, and for a
 compact open N₀ ⊆ N it is [mN₀m⁻¹ : mN₀m⁻¹ ∩ N₀]/[N₀ : mN₀m⁻¹ ∩ N₀]. Prove that
 mod_N(mm') = mod_N(m) mod_N(m'), and that mod_N(m) = [mN₀m⁻¹ : N₀] when
@@ -2009,11 +2009,11 @@ identification uses that the Levi factor M is unimodular, as it is for a parabol
 group: for a general P = M ⋉ N the modular character of P restricted to M is the conjugation
 modulus of N only when M is unimodular, and for P = M = G non-unimodular (N = 1) the conjugation
 modulus is 1 while the modular character is not. A square
-root δ_P^{1/2} : P → Aˣ is fixed by choosing q^{1/2} ∈ Aˣ, which is a choice of coefficients, not
+root `δ_P^{1/2} : P → Aˣ` is fixed by choosing `q^{1/2} ∈ Aˣ`, which is a choice of coefficients, not
 part of the group data ([Cas95] §1.5 and Lemma 1.5.1, p. 16).
 [BH06] §3.3, p. 29, and 7.6 Proposition, pp. 54–55, use the inverse module:
-δ_B^{BH}(diag(a,d)) = |d/a|_F. Thus our δ_B = (δ_B^{BH})⁻¹; the factor
-(δ_B^{BH})^{−1/2} in [BH06] (9.11.1), p. 69, is our δ_B^{1/2}. *Needs:* *a-valued-haar-measure*,
+`δ_B^{BH}(diag(a,d)) = |d/a|_F`. Thus our `δ_B = (δ_B^{BH})⁻¹`; the factor
+`(δ_B^{BH})^{−1/2}` in [BH06] (9.11.1), p. 69, is our `δ_B^{1/2}`. *Needs:* *a-valued-haar-measure*,
 *smooth-character*; ReductiveGroups layer 7; ReductiveGroupsPartII RG2.4
 `LocalIntegration.modularCharacter_eq_adjointModulus` and *parabolic-adjoint-determinant*,
 with the algebraic identity in every characteristic specified in the RG2 supplier contract above.
@@ -2027,7 +2027,7 @@ of P restricted to M, with values in ℂˣ; by the remark above it is the conjug
 M is unimodular, as for a Levi subgroup of a reductive group),
 `LeviDecomposition.modulusCharacter_isSmooth` (smoothness holds for G Hausdorff and totally
 disconnected, the locally profinite case: a compact open subgroup of M maps into a compact subgroup
-of ℝ_{>0}, which is trivial, so it lies in the kernel; the lemma carries these hypotheses, since the
+of `ℝ_{>0}`, which is trivial, so it lies in the kernel; the lemma carries these hypotheses, since the
 modular character of a general locally compact group need not have open kernel).
 
 **Checks.**
@@ -2047,16 +2047,16 @@ modular character of a general locally compact group need not have open kernel).
   `adjointModulus_f3Laurent_opposite`; coefficient specialization requires 3 ∈ Aˣ.
 
 **The Jacquet module** (*jacquet-module*). Let G be locally profinite, P = M ⋉ N closed subgroups
-of G (N normal in P) and A commutative, with q^{±1/2} ∈ A for r_P. For a smooth P-representation
+of G (N normal in P) and A commutative, with `q^{±1/2} ∈ A` for r_P. For a smooth P-representation
 (in particular the restriction of a G-representation) V define the Jacquet
 module V_N = V/V(N), V(N) = span{ρ(n)v − v : n ∈ N, v ∈ V}, which is Mathlib's coinvariants
 (Representation.Coinvariants of the restriction to N) with the induced smooth M-action, and
 `SmoothRep.jacquetFunctor`, the unnormalised Jacquet functor (−)_N : SmoothRep A G ⥤ SmoothRep A M,
 A-linear, right exact and preserving colimits. Prove that the
 projection V → V_N is an M-equivariant surjection with kernel V(N). Define
-r_P(V) := δ_P^{−1/2} ⊗ V_N, given q^{1/2} ∈ Aˣ. Prove that (−)_N is
+`r_P(V) := δ_P^{−1/2} ⊗ V_N`, given `q^{1/2} ∈ Aˣ`. Prove that (−)_N is
 right exact over any A, commutes with direct sums, colimits and base change, satisfies
-transitivity (V_{N₂})_{N₁ ∩ M₂} ≅ V_{N₁} for P₁ ⊆ P₂, and sends finitely generated
+transitivity `(V_{N₂})_{N₁ ∩ M₂} ≅ V_{N₁}` for P₁ ⊆ P₂, and sends finitely generated
 G-representations to finitely generated M-representations when G = P K₀ with K₀ compact ([Cas95]
 §3.2, pp. 33–34; Theorem 3.3.1, p. 35; §4.4, p. 45). *Needs:* *smooth-rep-category*,
 *modulus-character*.
@@ -2074,7 +2074,7 @@ G-representations to finitely generated M-representations when G = P K₀ with K
 union of an increasing sequence of compact open subgroups N₀ ⊆ N₁ ⊆ … each with
 HasUnitProOrder A N_i (e.g. N the unipotent radical of a parabolic of a p-adic group and p ∈ Aˣ).
 Prove that for every smooth N-representation V,
-V(N) = ⋃_i ker(e_{N_i}) = {v : ∫_{N_i} ρ(n)v dn = 0 for some i}, and that (−)_N is exact. In
+`V(N) = ⋃_i ker(e_{N_i}) = {v : ∫_{N_i} ρ(n)v dn = 0 for some i}`, and that (−)_N is exact. In
 characteristic-p coefficients for a pro-p N the functor is right exact but not left exact; no
 characteristic-p exactness is asserted ([Cas95] Proposition 3.2.1, p. 33; Corollary 3.2.2 and
 Proposition 3.2.3, p. 34). *Needs:* *jacquet-module*, *averaging-projector*, *invariants-exact*.
@@ -2083,12 +2083,12 @@ Proposition 3.2.3, p. 34). *Needs:* *jacquet-module*, *averaging-projector*, *in
 The exactness statement assumes an increasing compact-open exhaustion of N with invertible pro-orders; the kernel is identified by eventual vanishing of the averages; separate statements give the colimit and coefficient compatibilities.
 
 **Normalised parabolic induction** (*parabolic-induction*). Let G be reductive over F (or
-locally profinite with P\G compact), P = M ⋉ N a parabolic subgroup, and A ∋ q^{±1/2} for
+locally profinite with P\G compact), P = M ⋉ N a parabolic subgroup, and `A ∋ q^{±1/2}` for
 normalised induction. Define normalised parabolic induction
-i_P^G σ := Ind_P^G(δ_P^{1/2} ⊗ infl_M^P σ), and the unnormalised functor
+`i_P^G σ := Ind_P^G(δ_P^{1/2} ⊗ infl_M^P σ)`, and the unnormalised functor
 I_P = Ind_P^G ∘ infl, available over every A. Prove that i_P^G is an exact
-functor SmoothRep A M ⥤ SmoothRep A G for any A ∋ q^{±1/2} (P\G is compact, so Ind = c-Ind).
-Prove transitivity i_P^G ∘ i_{Q ∩ M}^M ≅ i_Q^G for parabolics
+functor SmoothRep A M ⥤ SmoothRep A G for any `A ∋ q^{±1/2}` (P\G is compact, so Ind = c-Ind).
+Prove transitivity `i_P^G ∘ i_{Q ∩ M}^M ≅ i_Q^G` for parabolics
 Q ⊆ P; that i_P^G preserves admissibility (preservation of finite generation over ℂ is
 supplied by *noetherian*); and that it is
 compatible with twisting by unramified characters of M and with base change ([Cas95] §3.1,
@@ -2100,13 +2100,13 @@ the normalised twist is specified here only.
 
 **Checks.**
 
-- For GL_2(ℚ_p), f ∈ i_B(χ₁ ⊗ χ₂) satisfies f((a b; 0 d)g) = χ₁(a)χ₂(d)|a/d|^{1/2} f(g).
+- For GL_2(ℚ_p), f ∈ i_B(χ₁ ⊗ χ₂) satisfies `f((a b; 0 d)g) = χ₁(a)χ₂(d)|a/d|^{1/2} f(g)`.
 - i_G^G σ ≅ σ.
-- The trivial representation of GL_2(ℚ_p) embeds in i_B(δ_B^{−1/2}).
+- The trivial representation of GL_2(ℚ_p) embeds in `i_B(δ_B^{−1/2})`.
 
 **First adjointness** (*first-adjointness*). For a parabolic P = M ⋉ N closed in G, a smooth
 G-representation V and a smooth M-representation σ over a commutative A, prove
-Hom_G(V, Ind_P^G infl σ) ≅ Hom_M(V_N, σ), and in normalised form (q^{±1/2} ∈ A)
+`Hom_G(V, Ind_P^G infl σ) ≅ Hom_M(V_N, σ)`, and in normalised form (`q^{±1/2} ∈ A`)
 Hom_G(V, i_P^G σ) ≅ Hom_M(r_P V, σ): the Jacquet functor r_P is left adjoint to i_P^G.
 Consequently i_P^G preserves injectives when r_P is exact, and r_P preserves projectives when
 i_P is exact ([Cas95] Theorem 3.2.4, p. 34). *Needs:* *frobenius-reciprocity*,
@@ -2121,11 +2121,11 @@ only.
 
 **Contragredients of induced representations** (*induced-contragredient*). Let G be unimodular
 locally profinite, H closed, σ smooth on H over a field k in which the compact open subgroups have
-invertible pro-order (characteristic 0 suffices; e.g. k = ℂ), and for i_P let k ∋ q^{±1/2}. Prove
+invertible pro-order (characteristic 0 suffices; e.g. k = ℂ), and for i_P let `k ∋ q^{±1/2}`. Prove
 (c-Ind_H^G σ)~ ≅ Ind_H^G(σ̃ ⊗ δ_H), δ_H the modulus character of H, via the G-invariant functional
 on c-Ind_H^G δ_H given by integration over H\G. For a parabolic P = M ⋉ N (P\G compact) prove
 (i_P^G σ)~ ≅ i_P^G σ̃ naturally in σ, so that normalised induction is compatible with smooth
-duality, the pairing i_P σ × i_P σ̃ → k being f ⊗ f' ↦ ∮_{P\G} ⟨f, f'⟩ ([Cas95] Theorem 2.4.2 and
+duality, the pairing i_P σ × i_P σ̃ → k being `f ⊗ f' ↦ ∮_{P\G} ⟨f, f'⟩` ([Cas95] Theorem 2.4.2 and
 Corollary 2.4.3, pp. 27–28; Proposition 3.1.2, p. 32). *Needs:* *compact-induction*,
 *parabolic-induction*, *smooth-dual*, *integration*, *modulus-character*.
 
@@ -2138,15 +2138,15 @@ Checks: compact groups have trivial Haar module; counting volume is unchanged by
 Compatibility with base change transports the half modulus along arbitrary coefficient extension, and compatibility with twists identifies twisting the inducing object by a restricted character with twisting the induced representation.
 
 **The geometric lemma** (*geometric-lemma*). Let G be a connected reductive group over F,
-P = MN and Q = LV standard parabolic subgroups, W the Weyl group and W^{M,L} the set of
+P = MN and Q = LV standard parabolic subgroups, W the Weyl group and `W^{M,L}` the set of
 minimal-length representatives of W_L\W/W_M, and σ a smooth representation of M over ℂ (or over
-any A with p ∈ Aˣ and q^{±1/2} ∈ A, where exactness of r is available). Prove that r_Q ∘ i_P (σ)
+any A with p ∈ Aˣ and `q^{±1/2} ∈ A`, where exactness of r is available). Prove that r_Q ∘ i_P (σ)
 has a filtration, natural in σ, whose graded pieces are
-F_w(σ) = i^L_{L ∩ wPw⁻¹}(w · r^M_{M ∩ w⁻¹Qw}(σ)), w ∈ W^{M,L}, in an order compatible with the
+`F_w(σ) = i^L_{L ∩ wPw⁻¹}(w · r^M_{M ∩ w⁻¹Qw}(σ)), w ∈ W^{M,L}`, in an order compatible with the
 closure order on the double cosets Pw⁻¹Q (open orbits give subfunctors, closed orbits quotients).
 More generally, for an l-group G with closed subgroups P = MU, Q = NV satisfying
 Bernstein–Zelevinsky's conditions (finitely many Q-orbits on P\G, U and V unions of compact
-subgroups, decomposability), r_{V} ∘ i_{U} is glued from functors indexed by the Q-orbits on P\G
+subgroups, decomposability), `r_{V} ∘ i_{U}` is glued from functors indexed by the Q-orbits on P\G
 ([BZ77] Lemma 2.11 and Geometrical Lemma 2.12, p. 448; Theorem 5.2 with conditions 5.1(1)–(4),
 pp. 459–460; §6.4, pp. 468–469). *Needs:* *mackey-filtration*, *jacquet-lemma*,
 *parabolic-induction*, *l-sheaf-model*; ReductiveGroups layer 7, ReductiveGroupsPartII RG2.4.
@@ -2159,12 +2159,12 @@ The natural form states compatibility of the graded isomorphisms with every morp
 **Jacquet modules of principal series** (*principal-series-jacquet*). Let G be reductive over F
 and quasi-split, B = TU a Borel (minimal parabolic) subgroup and χ a smooth character of the
 maximal torus T over ℂ. Prove that r_B(i_B χ) has a filtration with graded pieces the Weyl
-conjugates wχ (w ∈ W), so its semisimplification is ⊕_{w ∈ W} wχ, and that if χ is regular
+conjugates wχ (w ∈ W), so its semisimplification is `⊕_{w ∈ W} wχ`, and that if χ is regular
 (wχ ≠ χ for w ≠ 1) the filtration splits. Conclude that every irreducible subquotient π of i_B χ
 has r_B(π) ≠ 0, that its semisimplified Jacquet module is a sub-sum of ⊕ wχ, that π embeds in
 i_B(wχ) for some w, and that i_B χ has length ≤ |W| ([BZ77] Corollary 2.13(c), p. 449;
 Theorem 2.8, p. 448 (length); [Cas95] Proposition 6.4.1, p. 61 (splitting for regular χ)).
-For GL_2(F), [BH06] 9.3 Restriction-Induction Lemma, p. 63, gives the unnormalised two-step sequence; conversion using δ_B = (δ_B^{BH})⁻¹ gives the normalized Weyl characters. It is a filtration, not an unconditional splitting. *Needs:* *geometric-lemma*, *first-adjointness*, *central-ext-vanishing*.
+For GL_2(F), [BH06] 9.3 Restriction-Induction Lemma, p. 63, gives the unnormalised two-step sequence; conversion using `δ_B = (δ_B^{BH})⁻¹` gives the normalized Weyl characters. It is a filtration, not an unconditional splitting. *Needs:* *geometric-lemma*, *first-adjointness*, *central-ext-vanishing*.
 
 The Weyl-character filtration splits under pairwise distinctness of the Weyl characters; the subquotient statement gives the nonzero Jacquet module, its sub-sum of characters and the principal-series embedding; the length statement gives the Weyl-cardinality bound. The statements use the relative Weyl quotient and explicit representatives, retaining the quasi-split hypothesis.
 
@@ -2174,12 +2174,12 @@ The Weyl-character filtration splits under pairwise distinctness of the Weyl cha
 reductive over F, K₀ a compact open subgroup with an Iwahori decomposition K₀ = N̄₀M₀N₀ with
 respect to (P, P̄), and V an admissible representation over ℂ (or over a field with invertible
 pro-orders; general smooth V is *jacquet-lemma-smooth* of SR.2a). Prove: (1) the projection
-V^{K₀} → (V_N)^{M₀} is surjective; (2) for a ∈ M contracting N (a N₀ a⁻¹ ⊆ N₀, a ∈ A⁻), the
-convolution operator of 1_{K₀aK₀} on V^{K₀} (vol K₀ = 1), v ↦ Σ_{x ∈ K₀aK₀/K₀} π(x)v, written
+`V^{K₀} → (V_N)^{M₀}` is surjective; (2) for a ∈ M contracting N (a N₀ a⁻¹ ⊆ N₀, a ∈ A⁻), the
+convolution operator of `1_{K₀aK₀}` on `V^{K₀}` (`vol K₀ = 1`), `v ↦ Σ_{x ∈ K₀aK₀/K₀} π(x)v`, written
 [K₀aK₀] below, lifts δ_P(a)⁻¹ π_N(a) on V_N, i.e. the projection intertwines
 [K₀aK₀] with δ_P⁻¹(a) a; (3) for a sufficiently contracting, the subspaces
-V^{K₀}_a = [K₀aK₀] V^{K₀} are all equal to a space V^{K₀}_{A⁻} on which every [K₀aK₀] (a ∈ A⁻) is
-invertible, and the projection V^{K₀}_{A⁻} → (V_N)^{M₀} is an isomorphism (its inverse is
+`V^{K₀}_a = [K₀aK₀] V^{K₀}` are all equal to a space `V^{K₀}_{A⁻}` on which every [K₀aK₀] (a ∈ A⁻) is
+invertible, and the projection `V^{K₀}_{A⁻} → (V_N)^{M₀}` is an isomorphism (its inverse is
 Casselman's canonical lifting); the kernel of the projection is the generalised null space of
 [K₀aK₀]. Over a ring R with p ∈ Rˣ the same surjectivity holds for all smooth V once [K₀aK₀] is
 invertible in H(G, K₀) ⊗ R (Bushnell–Kutzko) ([Cas95] Theorems 3.3.3–3.3.4, p. 35; Lemma 4.1.1,
@@ -2194,17 +2194,17 @@ Checks of these operators: at a = 1 the operator is the identity; for a normaliz
 The characteristic-function action is given as an integral radical index over any coefficient ring; a single stable summand is supplied for the whole positive central cone over a field with the required invertible pro-orders; and the coefficient-ring surjectivity statement holds under invertibility of the strongly positive Hecke element.
 
 **Check (which operator).** Take G = P = GL_1(ℚ_p), so N = 1, K₀ = ℤ_p^×, a = p, and V the
-unramified character with χ(p) = 2 over ℚ. The convolution operator of 1_{K₀pK₀} is
+unramified character with χ(p) = 2 over ℚ. The convolution operator of `1_{K₀pK₀}` is
 multiplication by χ(p) = 2 = δ_P(p)⁻¹χ(p), as (2) asserts. The right action v ∗ [K₀pK₀] of
 SR.1.2 is multiplication by χ(p)⁻¹ = 1/2, so (2) fails for it; the test on ℤ in SR.1.2
-(the double coset of 1 sends δ_0 to δ_{−1}) is this inversion.
+(the double coset of 1 sends δ_0 to `δ_{−1}`) is this inversion.
 
 **Casselman's pairing for admissible representations** (*casselman-pairing*). Let V be an
 admissible complex representation of a reductive p-adic group G, P = MN a parabolic with opposite
-P̄ = MN̄. Prove that there is a unique bilinear pairing ⟨, ⟩_N : V_N × (Ṽ)_{N̄} → ℂ such that for
+P̄ = MN̄. Prove that there is a unique bilinear pairing `⟨, ⟩_N : V_N × (Ṽ)_{N̄} → ℂ` such that for
 v ∈ V, ṽ ∈ Ṽ with images u, ũ there is ε > 0 with ⟨π(a)v, ṽ⟩ = ⟨π_N(a)u, ũ⟩_N for all a in the
 ε-contracting part A⁻(ε) of the split centre of M. It is M-invariant and nondegenerate, so
-(V_N)~ ≅ (Ṽ)_{N̄} and, normalised, r_{P̄}(Ṽ) ≅ (r_P V)~. This is the compatibility of Jacquet
+`(V_N)~ ≅ (Ṽ)_{N̄}` and, normalised, `r_{P̄}(Ṽ) ≅ (r_P V)~`. This is the compatibility of Jacquet
 functors with smooth duality on admissible representations; the extension to all smooth
 representations is *jacquet-duality* (SR.2a) ([Cas95] Lemmas 4.2.1–4.2.2, Proposition 4.2.3,
 Theorem 4.2.4 and Corollary 4.2.5, pp. 40–42). *Needs:* *jacquet-invariants*, *smooth-dual*,
@@ -2212,14 +2212,14 @@ Theorem 4.2.4 and Corollary 4.2.5, pp. 40–42). *Needs:* *jacquet-invariants*, 
 
 The pairing is stated as the unique nondegenerate M-invariant pairing, characterized by eventual agreement along powers of every strongly positive central element.
 
-A cone form gives the uniform ε-cone equation for each pair of vectors and identifies the opposite Jacquet module with the smooth dual; the normalized functor comparison r_{P̄}(Ṽ) ≅ (r_P V)~ is stated separately.
+A cone form gives the uniform ε-cone equation for each pair of vectors and identifies the opposite Jacquet module with the smooth dual; the normalized functor comparison `r_{P̄}(Ṽ) ≅ (r_P V)~` is stated separately.
 
 **Iwahori invariants and the Jacquet module** (*borel-casselman-invariants*). Let G be connected
 reductive over F with minimal parabolic P = MN, B an Iwahori subgroup in good position
 (B = N̄₀M₀N₀) and V an admissible representation over ℂ (or Ē). Prove that the projection V → V_N
-induces an isomorphism V^B ≅ (V_N)^{M₀}, and that for m in the contracting cone M⁻ the convolution
-operator of 1_{BmB} on V^B corresponds to meas(BmB)·π_N(m) = δ_P(m)⁻¹ π_N(m). For split G and the
-pro-p Iwahori Iw₁ prove the same with (V_N)^{T(O)₁} and the normalised Jacquet module, compatibly
+induces an isomorphism `V^B ≅ (V_N)^{M₀}`, and that for m in the contracting cone M⁻ the convolution
+operator of `1_{BmB}` on V^B corresponds to meas(BmB)·π_N(m) = δ_P(m)⁻¹ π_N(m). For split G and the
+pro-p Iwahori Iw₁ prove the same with `(V_N)^{T(O)₁}` and the normalised Jacquet module, compatibly
 with the convolution action of T(F) through H(G, Iw₁)[1/p] (*pro-iwahori-torus*) ([Cas80] §2,
 Propositions 2.3–2.5,
 pp. 395–396; [Cas95] Lemma 1.5.1, p. 16 (meas(BmB) = δ_P(m)⁻¹); the pro-p Iwahori form is [BCGP]
@@ -2242,8 +2242,8 @@ The Gelfand–Graev representation is c-Ind_U^G ψ. Whittaker data (B, ψ) are a
 conjugation, and genericity depends only on the T(F)-orbit of ψ. Define the twisted Jacquet module,
 the canonical inverse-twist coinvariants `WhittakerCoinvariants` with presentation
 V/span{ρ(u)v − ψ(u)v}, and prove
-(V_{U,ψ})* ≃ Hom_U(V, ψ), so that it is dual to Whittaker functionals. For G = GL_2(F), A = ℂ, nontrivial smooth ψ and irreducible smooth V of infinite
-dimension, prove that both V_{U,ψ} and
+`(V_{U,ψ})* ≃ Hom_U(V, ψ)`, so that it is dual to Whittaker functionals. For G = GL_2(F), A = ℂ, nontrivial smooth ψ and irreducible smooth V of infinite
+dimension, prove that both `V_{U,ψ}` and
 Hom_U(V,ψ) have dimension one, and there is a unique G-subrepresentation of Ind_U^G ψ
 isomorphic to V. For a one-dimensional irreducible V these spaces are zero
 ([BH06] 36.1 Theorem and Corollary 1, pp. 226–227). For every complex principal
@@ -2254,7 +2254,7 @@ quasi-split G this target asserts the functional and quotient constructions ([BZ
 and c-Ind_U^G ψ); the genericity condition is a definition and the description of Hom_U(V, ψ) is
 *frobenius-reciprocity*). *Needs:* *smooth-induction*, *compact-induction*,
 *frobenius-reciprocity*, *jacquet-module*; ReductiveGroups layer 7.
-*Lean:* the twisted coinvariants V_{U,ψ} are `WhittakerCoinvariants` (SR.5.1); the rest of this
+*Lean:* the twisted coinvariants `V_{U,ψ}` are `WhittakerCoinvariants` (SR.5.1); the rest of this
 target is specified here only.
 
 The genericity predicate takes the simple-root subgroups inside the radical as explicit data and requires a smooth character nontrivial on each. The algebraic root subgroups are supplied by ReductiveGroupsPartII.
@@ -2279,10 +2279,10 @@ nontrivial ψ over a domain. The ℤ/6 test shows why the domain assumption matt
 
 GL_2(ℚ_p) with its upper-triangular Borel B carries the examples of the layer: δ_B(diag(a,d)) =
 |a/d|_p agrees with Mathlib's modular character; the Jacquet module of the trivial representation
-is the trivial character of T and the trivial representation embeds in i_B(δ_B^{−1/2}); f ∈ i_B
-(χ₁ ⊗ χ₂) transforms by χ₁(a)χ₂(d)|a/d|^{1/2}; the big-cell sequence of c-Ind has kernel
+is the trivial character of T and the trivial representation embeds in `i_B(δ_B^{−1/2})`; `f ∈ i_B`
+(χ₁ ⊗ χ₂) transforms by `χ₁(a)χ₂(d)|a/d|^{1/2}`; the big-cell sequence of c-Ind has kernel
 C_c^∞(ℚ_p, A) twisted by χ and one-dimensional quotient; i_B χ is ψ-generic and the trivial
-representation is not. The p-adic line gives c-Ind_{ℤ_p}^{ℚ_p} A ≅ A[ℚ_p ⧸ ℤ_p] and the
+representation is not. The p-adic line gives `c-Ind_{ℤ_p}^{ℚ_p} A ≅ A[ℚ_p ⧸ ℤ_p]` and the
 separation of Ind from coind and of c-Ind from Ind.
 
 ### Dependencies
@@ -2306,7 +2306,7 @@ and countable at infinity, with complex coefficients. A smooth V is compact if f
 compact open K the function g ↦ e_K π(g⁻¹) v has compact support; equivalently all matrix
 coefficients ⟨ṽ, π(g⁻¹)v⟩ are compactly supported. Prove: a finitely generated compact
 representation is admissible; an irreducible compact W has a nonzero formal degree d(W) and a
-corner-central idempotent E_{W,K} ∈ e_K H(G)e_K acting on W as e_K and by 0 on every
+corner-central idempotent `E_{W,K} ∈ e_K H(G)e_K` acting on W as e_K and by 0 on every
 irreducible not isomorphic to W; it is not asserted central in all of H(G). Consequently {W} splits SmoothRep ℂ G, every smooth V being
 V_W ⊕ V_W^⊥ with V_W a direct sum of copies of W and no subquotient of V_W^⊥ isomorphic to W. In
 particular W is projective and injective, and the subcategory of compact representations is
@@ -2441,7 +2441,7 @@ maximal split torus), use RG2.4's full-compact lattice Λ_full = Z(F)/(Z(F) ∩ 
 Here Z(F) ∩ K₀ is its unique maximal compact subgroup, and Λ_full is the quotient of
 Z(F)/Z(F)₀ by its torsion subgroup. Let Λ_full⁺ be the dominant cone in Λ_full, the image
 of the connected-parahoric dominant cone. The full-compact Cartan decomposition is
-G = ⊔_{λ ∈ Λ_full⁺} K₀λK₀, with distinct double cosets for distinct parameters.
+`G = ⊔_{λ ∈ Λ_full⁺} K₀λK₀`, with distinct double cosets for distinct parameters.
 Take Λ_Z = im(Z(Z)(F) → Λ_full), of finite index in Λ_full, and choose a group section
 s : Λ_Z → Z(Z)(F) of this image map; the image Λ_Z is free abelian. Take finitely many
 d ∈ Λ_full⁺ with Λ_full⁺ = ⋃_d (d + (Λ_Z ∩ Λ_full⁺)), and choose lifts d̃ ∈ Z(F) only
@@ -2471,9 +2471,9 @@ multiplication by H₀ spans the K double cosets in that Cartan cell. Finite gen
   d = 0 alone. This recovers the full-lattice positive commutative subalgebra.
 - For G = B× with B a central division algebra of degree n over F, normalize its valuation
   by v_B(ϖ_B) = 1. There are no relative roots, Λ_full⁺ = Λ_full = ℤ and Λ_Z = nℤ.
-  The group section sends nk to ϖ_F^k, and the lifts 1, ϖ_B, …, ϖ_B^{n−1} supply D.
+  The group section sends nk to ϖ_F^k, and the lifts `1, ϖ_B, …, ϖ_B^{n−1}` supply D.
   Thus the finite extra factor can be necessary even though every parameter is dominant.
-- For F = ℚ_p with p odd and T = ker(N : Res_{F(√p)/F} G_m → G_m), the enlarged building
+- For F = ℚ_p with p odd and `T = ker(N : Res_{F(√p)/F} G_m → G_m)`, the enlarged building
   is a point and K₀ = T(F). The connected parahoric T(F)₀ has index two, with classes of
   1 and −1: the smooth integral norm-one model a² − p b² = 1 has special-fibre components
   a = ±1. These give two connected-parahoric Cartan classes but only one full-compact class,
@@ -2484,7 +2484,7 @@ multiplication by H₀ spans the K double cosets in that Cartan cell. Finite gen
 
 **Dimension bound for commutative subalgebras** (*commutative-subalgebra-bound*). Let V be an
 m-dimensional vector space, m ≥ 1, over ℂ and R ⊆ End_ℂ(V) a commutative
-unital ℂ-subalgebra generated by l ≥ 1 elements. Prove dim_ℂ R ≤ m^{2 − 2^{1−l}}
+unital ℂ-subalgebra generated by l ≥ 1 elements. Prove `dim_ℂ R ≤ m^{2 − 2^{1−l}}`
 (I. N. Bernstein and A. V. Zelevinsky [BZ76] Ch. II §4, Lemma 4.10, p. 39,
 and proof 4.12, p. 40). The exponent applies to every l ≥ 1, including l ≥ 3.
 *Needs:* the library vocabulary of this layer.
@@ -2492,10 +2492,10 @@ and proof 4.12, p. 40). The exponent applies to every l ≥ 1, including l ≥ 3
 **Check.** At l = 3 the exponent is 7/4; at l = 1 it is 1.
 
 **Uniform admissibility** (*uniform-admissibility*). Let G be reductive over F, K a compact open
-subgroup (reduce to a congruence subgroup in good position, since V^K ⊆ V^{K'} for K' ⊆ K), and
+subgroup (reduce to a congruence subgroup in good position, since `V^K ⊆ V^{K'}` for K' ⊆ K), and
 the coefficients complex. Prove that there is a constant c(G, K) such that dim_ℂ V^K ≤ c(G, K) for
 every irreducible smooth complex representation V; equivalently every simple H(G, K; ℂ)-module
-has dimension ≤ c(G, K). One can take c = d^{2^l} where H(G, K) = Σ_{i,j ≤ d} u_i C v_j with C
+has dimension ≤ c(G, K). One can take `c = d^{2^l}` where `H(G, K) = Σ_{i,j ≤ d} u_i C v_j` with C
 commutative generated by l elements. The bound is uniform in V, not merely finiteness for each V.
 It is not asserted for characteristic-p coefficients or for integral coefficient rings ([Ber92]
 Ch. II §1.4, Uniform Admissibility Theorem and its proof, pp. 37–38; Ch. II §2.2, p. 43).
@@ -2569,7 +2569,7 @@ parahoric M₁, define the weakly unramified characters (relative to M₁) as sm
 trivial on M₁. Here M₁ = ker κ_M, whereas M°/M₁ is the torsion subgroup of
 Ω_M = M(F)/M₁. Thus ordinary characters form the identity component of Hom(Ω_M, ℂˣ).
 The two notions coincide exactly when Ω_M is torsion-free. For unramified G the minimal
-Levi is an unramified torus T and Ω_T = X_*(T)^{Fr}, so M₁ = M°; this includes split G.
+Levi is an unramified torus T and `Ω_T = X_*(T)^{Fr}`, so M₁ = M°; this includes split G.
 They can differ when Ω_M has torsion, as for the ramified norm-one torus.
 These identifications are owned by
 *iwahori-components* below ([Ros14] §§2.5–2.9, §3.2).
@@ -2626,7 +2626,7 @@ Finiteness over an exact datum, independence of the parabolic, and embedding aft
 
 **Checks.**
 
-- scs(1_{GL_2(ℚ_p)}) = [T, |·|^{−1/2} ⊗ |·|^{1/2}].
+- `scs(1_{GL_2(ℚ_p)}) = [T, |·|^{−1/2} ⊗ |·|^{1/2}]`.
 - scs(V) = [G, V] for V irreducible cuspidal.
 - The Steinberg representation of GL_2(ℚ_p) has the same cuspidal support as the trivial representation.
 
@@ -2689,7 +2689,7 @@ Checks:
 coefficients, prove that each cuspidal component D of G (an unramified-twist class of
 irreducible cuspidal representations) splits SmoothRep ℂ G, and so does the set of all
 irreducible cuspidals: SmoothRep ℂ G = M_cusp × M_ind with M_cusp = ∏_D M(D). For D = Ψ(G)ρ prove
-that Π(D) = c-Ind_{G°}^G(ρ|_{G°}) ≅ ℂ[Λ(G)] ⊗ ρ is a finitely generated projective generator of
+that `Π(D) = c-Ind_{G°}^G(ρ|_{G°}) ≅ ℂ[Λ(G)] ⊗ ρ` is a finitely generated projective generator of
 M(D), and that M(D) is equivalent to left modules over End(Π(D))ᵒᵖ, the crossed product of the
 coordinate ring B = ℂ[Λ(G)] with the finite self-twist group of ρ ([Ber92] Ch. II §3, Proposition 26, Theorem 17 and
 Corollary, Proposition 27, Lemma 22, Proposition 28, pp. 44–49). *Needs:*
@@ -2743,7 +2743,7 @@ here only.
 
 **The Bernstein centre** (*bernstein-centre-blocks*). For G reductive over F and complex
 coefficients, prove that the centre Z(G) = CatCenter(SmoothRep ℂ G) of SR.0 is the product over
-inertial classes of the centres Z_s of the blocks, and that Z_s ≅ ℂ[D_s]^{W_s}, the ring of
+inertial classes of the centres Z_s of the blocks, and that `Z_s ≅ ℂ[D_s]^{W_s}`, the ring of
 W_s-invariant regular functions on the cuspidal component D_s; hence Z(G) is the ring of regular
 functions on Ω(G) = ⊔_s D_s/W_s. An element z acts on every i_P(π), π ∈ D_s, by the scalar z(π),
 and on every irreducible V by z(scs V). The action on every object is the SR.0 action; on the
@@ -2772,17 +2772,17 @@ Separate statements give the finite set of blocks seen at a compact open level, 
 Finiteness of the endomorphism corner of the block part of ℂ[G/U] over the corresponding categorical block center is stated with the action given by composition.
 
 **The universal unramified twist** (*universal-unramified-twist*). Let G be reductive over F
-with complex coefficients (any A ∋ q^{±1/2} for the construction), P = MN a parabolic and σ a
+with complex coefficients (any `A ∋ q^{±1/2}` for the construction), P = MN a parabolic and σ a
 smooth representation of M; let ℂ[Λ(M)] = ℂ[M/M°] carry the tautological unramified character
 χ_univ : M → ℂ[Λ(M)]^×. Define the universal twist
 i_P(σ ⊗ χ_univ), a smooth (G, ℂ[Λ(M)])-module, and prove
 that for every ψ ∈ Ψ(M), specialisation at ψ gives
-i_P(σ ⊗ χ_univ) ⊗_{ℂ[Λ(M)], ψ} ℂ ≅ i_P(σ ⊗ ψ). Prove
+`i_P(σ ⊗ χ_univ) ⊗_{ℂ[Λ(M)], ψ} ℂ ≅ i_P(σ ⊗ ψ)`. Prove
 that if σ is admissible, its K-invariants
 are finitely generated projective ℂ[Λ(M)]-modules (free for the unramified principal series),
 compatibly with specialisation. For σ cuspidal and P = G this is Π(D) of *cuspidal-splitting*;
 for the unramified principal series prove that
-for split G, M = T and σ = 1 it is i_B(χ_univ) ≅ c-Ind_{T(O)N}^G 1 after
+for split G, M = T and σ = 1 it is `i_B(χ_univ) ≅ c-Ind_{T(O)N}^G 1` after
 transporting the coefficient action by [λ] ↦ [−λ]. HKP's untransported coefficient action
 gives i_B(χ_univ⁻¹), so this involution is essential for a coefficient-linear comparison (T. Haines, R. Kottwitz and A. Prasad [HKP] §1.4 and §1.5,
 (1.5.1)–(1.5.2), p. 2; specialization at χ gives i_B(χ⁻¹), p. 3;
@@ -2792,7 +2792,7 @@ Lemma 1.6.1, p. 3; [Ber92] Ch. III §3.3, pp. 67–69 (cuspidal σ); the K-invar
 
 **Checks.**
 
-- For G = M = ℚ_p^× and σ = 1, the universal twist is ℂ[t^{±1}] with p acting by t.
+- For G = M = ℚ_p^× and σ = 1, the universal twist is `ℂ[t^{±1}]` with p acting by t.
 - For G = M = ℚ_p^× and σ = 1, ϖ acts by t on
   the tautological twist and by t⁻¹ after transporting the coefficients by [λ] ↦ [−λ], which is
   the untransported HKP model.
@@ -2801,10 +2801,10 @@ Lemma 1.6.1, p. 3; [Ber92] Ch. III §3.3, pp. 67–69 (cuspidal σ); the K-invar
 
 **Compatibilities of the Bernstein centre** (*centre-compatibilities*). For G, G₁, G₂ reductive
 over F and complex coefficients prove: (1) inner automorphisms act trivially on Z(G): for g ∈ G
-the autoequivalence V ↦ V^{Int g} is isomorphic to the identity via ρ(g), so the induced
+the autoequivalence `V ↦ V^{Int g}` is isomorphic to the identity via ρ(g), so the induced
 automorphism of Z(G) is the identity, and an isomorphism of groups G ≅ G' induces Z(G) ≅ Z(G')
 depending only on its G'(F)-conjugacy class; (2) for G = G₁ × G₂, B(G) = B(G₁) × B(G₂) and
-Z_{(s₁,s₂)} ≅ Z_{s₁} ⊗ Z_{s₂}, so Z(G) = ∏_{s₁,s₂} Z_{s₁} ⊗ Z_{s₂}, and irreducibles of G₁ × G₂
+`Z_{(s₁,s₂)} ≅ Z_{s₁} ⊗ Z_{s₂}`, so `Z(G) = ∏_{s₁,s₂} Z_{s₁} ⊗ Z_{s₂}`, and irreducibles of G₁ × G₂
 are external tensor products ([BD84] Théorème 2.13, p. 22). *Needs:* *bernstein-centre-blocks*,
 *bernstein-components*, *smooth-centre*.
 
@@ -2822,7 +2822,7 @@ G/Z(G) (with Mathlib's Lp and the quotient Haar measure). Define the central exp
 the characters χ of the split centre A_M occurring in the Jacquet modules r_P(V), and
 and temperedness: V is tempered if ω is unitary and every exponent of every r_P(V) has
 absolute value ≤ 1 on the negative cone (Casselman's criterion taken as the definition; it agrees
-with the L^{2+ε} condition on matrix coefficients of Waldspurger's Plancherel theory, which is
+with the `L^{2+ε}` condition on matrix coefficients of Waldspurger's Plancherel theory, which is
 not used here). In terms of exponents, the central characters χ of A_M on the r_P(V) satisfy
 |χ(a)| < 1 (square-integrable, Casselman's criterion) resp. ≤ 1 (tempered, by definition) on the
 negative cone outside the compact-times-central part; prove square-integrable ⇒
@@ -2843,9 +2843,9 @@ complex representation with a central character ω; finite length is not require
 is square-integrable modulo the centre iff ω is unitary and, for every proper standard parabolic
 P = MN and every exponent χ of the normalised Jacquet module r_P(V), one has |χ(a)| < 1 on
 the closed negative cone of A_M outside its compact-times-central part. In Casselman's notation
-this set is A_Θ⁻ ∖ A_∅(𝒪)A_Δ; on A_Θ the factor δ_∅^{−1/2} in his unnormalised statement
-is δ_P^{−1/2}. The tempered condition replaces < by ≤, with the same unitary central
-character requirement. For an irreducible π equipped with an embedding into i_{P_Θ} σ with σ
+this set is A_Θ⁻ ∖ A_∅(𝒪)A_Δ; on A_Θ the factor `δ_∅^{−1/2}` in his unnormalised statement
+is `δ_P^{−1/2}`. The tempered condition replaces < by ≤, with the same unitary central
+character requirement. For an irreducible π equipped with an embedding into `i_{P_Θ} σ` with σ
 irreducible cuspidal, the square-integrability test need only use P_Ω with Ω associate to Θ
 ([Cas95] Theorem 4.4.6, p. 45; Theorem 6.5.1, pp. 64–65). The latter reduction is not asserted
 for a general admissible V with no specified cuspidal embedding. *Needs:*
@@ -2881,9 +2881,9 @@ and *geometric-lemma*. Every use of the classification retains this input.
 characteristic, with complex coefficients. (1) Hypothesis (Harish-Chandra's theorem, assumed as
 in [Kon03]): every irreducible tempered representation is a direct summand of i_P σ for a
 parabolic P = MN and a square-integrable σ of M, unique up to conjugacy. (2) For a standard
-parabolic P = MN, an irreducible tempered τ of M and ν in the open positive chamber a_P^{*,+}
-(|χ_ν(m)| = q^{⟨ν, H_M(m)⟩}, where H_M is defined by q^{⟨χ, H_M(m)⟩} = |χ(m)|_F, so that
-δ_P^{1/2} = χ_{ρ_P}), prove that the standard module i_P(τ ⊗ χ_ν) has a unique irreducible
+parabolic P = MN, an irreducible tempered τ of M and ν in the open positive chamber `a_P^{*,+}`
+(`|χ_ν(m)| = q^{⟨ν, H_M(m)⟩}`, where H_M is defined by `q^{⟨χ, H_M(m)⟩} = |χ(m)|_F`, so that
+`δ_P^{1/2} = χ_{ρ_P}`), prove that the standard module i_P(τ ⊗ χ_ν) has a unique irreducible
 quotient J_P(τ, ν) (the Langlands quotient). Prove that every irreducible admissible V is
 isomorphic to some J_P(τ, ν), that the triple (P, τ, ν) is unique up to W-conjugacy, and that V
 is tempered iff P = G and ν = 0 ([Kon03] Theorem 3.5, p. 396; Corollary 3.2(ii), p. 393 (the
@@ -2942,16 +2942,16 @@ For split G, the level category is identified with the named inertial block of t
 
 **The Steinberg representation** (*steinberg*). For a connected reductive G over F with minimal
 parabolic B and complex coefficients, define the Steinberg representation
-St_G := C^∞(B\G)/Σ_{B ⊊ P} C^∞(P\G), the quotient of the smooth functions on the flag variety by
+`St_G := C^∞(B\G)/Σ_{B ⊊ P} C^∞(P\G)`, the quotient of the smooth functions on the flag variety by
 the sum of those pulled back from the partial flag varieties of the parabolics strictly
 containing B; the quotient map is Mathlib's `Submodule.mkQ` (surjective with kernel the relation
 submodule by `Submodule.mkQ_surjective` and `Submodule.ker_mkQ`), and the construction is pinned by
 the GL_2 exact sequence of the first Check below. Prove that St_G is irreducible;
 that it is square-integrable modulo the centre; and
-that its normalised Jacquet module along B is r_B(St_G) ≅ δ_B^{1/2};
+that its normalised Jacquet module along B is `r_B(St_G) ≅ δ_B^{1/2}`;
 its Iwahori invariants are one-dimensional by *borel-casselman-invariants*. For GL_2,
 0 → 1 → Ind_B^G 1 → St → 0 (unnormalised), i.e. St is the irreducible subrepresentation of
-i_B(δ_B^{1/2}) ([Cas95] §8, Lemmas 8.1.1–8.1.2 and Theorem 8.1.3, p. 70). For GL_2(F), [BH06] (9.10.3)–(9.10.5), p. 68, verifies the quotient sequence, its dual embedding and self-duality, with the inverse-module conversion above. *Needs:*
+`i_B(δ_B^{1/2})` ([Cas95] §8, Lemmas 8.1.1–8.1.2 and Theorem 8.1.3, p. 70). For GL_2(F), [BH06] (9.10.3)–(9.10.5), p. 68, verifies the quotient sequence, its dual embedding and self-duality, with the inverse-module conversion above. *Needs:*
 *borel-casselman-invariants*, *smooth-induction*, *parabolic-induction*,
 *principal-series-jacquet*, *square-integrable-tempered*; ReductiveGroups layer 7.
 
@@ -2979,11 +2979,11 @@ Checks: (1, 1) acts as the identity; on rank-one operators the inverse sits in t
 ### Examples
 
 GL_2(ℚ_p) again: the trivial and Steinberg representations share the cuspidal support
-[T, |·|^{−1/2} ⊗ |·|^{1/2}] and the inertial support [T, 1] but differ in their Jacquet modules;
+`[T, |·|^{−1/2} ⊗ |·|^{1/2}]` and the inertial support [T, 1] but differ in their Jacquet modules;
 the Steinberg representation is square-integrable and the trivial representation is not tempered,
 while a unitary principal series is tempered; and (i_B χ_univ)^I is free of rank one over
 H(G, I). For GL_1 the unramified characters are ℂ^× via χ ↦ χ(p), the inertial classes are the
-characters of ℤ_p^×, and the universal twist is ℂ[t^{±1}]; for SL_2(ℚ_p) the unramified
+characters of ℤ_p^×, and the universal twist is `ℂ[t^{±1}]`; for SL_2(ℚ_p) the unramified
 characters are trivial.
 
 ### Dependencies
@@ -2997,7 +2997,7 @@ Second adjointness over ℂ by Bernstein's route. A strictly dominant central el
 on the K-invariants of any smooth representation, and its action stabilises: a power splits V^K
 into a nilpotent part and an invertible part, with exponent bounded by the uniform admissibility
 constant. From this come Jacquet's lemma and Jacquet duality without admissibility, the unit and
-counit of the adjunction, and second adjointness: i_P is left adjoint to r_{P̄}, along the
+counit of the adjunction, and second adjointness: i_P is left adjoint to `r_{P̄}`, along the
 opposite parabolic.
 
 ### SR.2a.1 Stabilisation and the second adjunction
@@ -3005,13 +3005,13 @@ opposite parabolic.
 **Bernstein's stabilisation theorem** (*stabilization*). Let G be reductive over F with complex
 coefficients, (P, P̄) a parabolic pair with Levi M, K a compact open subgroup in good position
 (K = K₋K_MK₊ with respect to (P, P̄)) and a ∈ Z(M) strictly dominant with respect to (P, P̄, K);
-let h be the convolution operator of 1_{KaK} on V^K (the right action of [Ka⁻¹K] in SR.1.2).
+let h be the convolution operator of `1_{KaK}` on V^K (the right action of [Ka⁻¹K] in SR.1.2).
 Prove that for every smooth complex representation V (no
 admissibility assumed) and every n ≥ c(G, K), the *uniform-admissibility* constant,
 V^K = ker hⁿ ⊕ im hⁿ, that h acts invertibly on V^K_* := im hⁿ, and that V^K_0 := ker hⁿ and
-V^K_* do not depend on n or on a. Prove moreover that V^K_0 = V^K ∩ ker e_C and V^K_* = e_K e_{C̄} V
-for sufficiently large compact open C ⊆ N, C̄ ⊆ N̄, and that the projection V^K → (V_N)^{K_M} has
-kernel V^K_0 and restricts to an isomorphism V^K_* ≅ (V_N)^{K_M} ([Ber87] §5.1–5.3, pp. 19–23;
+V^K_* do not depend on n or on a. Prove moreover that V^K_0 = V^K ∩ ker e_C and `V^K_* = e_K e_{C̄} V`
+for sufficiently large compact open C ⊆ N, C̄ ⊆ N̄, and that the projection `V^K → (V_N)^{K_M}` has
+kernel V^K_0 and restricts to an isomorphism `V^K_* ≅ (V_N)^{K_M}` ([Ber87] §5.1–5.3, pp. 19–23;
 §5.4 Remark 1, pp. 23–24). *Needs:* *uniform-admissibility*, *bernstein-decomposition*,
 *cuspidal-splitting*, *universal-unramified-twist*, *generic-irreducibility*, *noetherian*,
 *geometric-lemma*, *jacquet-invariants*, *iwahori-decomposition*,
@@ -3025,8 +3025,8 @@ The averaging form identifies the stable kernel and image with sufficiently larg
 
 **Jacquet's lemma for all smooth representations** (*jacquet-lemma-smooth*). For G reductive over
 F with complex coefficients, every smooth complex representation V of G, and K, P = MN in good
-position with respect to (P, P̄), prove that the projection V^K → (V_N)^{K_M} is surjective, and
-that it has a natural section (Bernstein's canonical lifting) identifying (V_N)^{K_M} with the
+position with respect to (P, P̄), prove that the projection `V^K → (V_N)^{K_M}` is surjective, and
+that it has a natural section (Bernstein's canonical lifting) identifying `(V_N)^{K_M}` with the
 direct summand V^K_* of V^K, functorially in V. The section is independent of the strictly
 dominant element used to define it, and compatible with shrinking K ([Ber92] Ch. III §3.2,
 Jacquet's Lemma (Final Version), p. 65). *Needs:* *stabilization*, *jacquet-invariants*.
@@ -3038,10 +3038,10 @@ Averaging the canonical lift from a smaller good compact-open level gives the ca
 **Jacquet modules of contragredients** (*jacquet-duality*). For G reductive over F with complex
 coefficients, every smooth complex representation V of G (not necessarily admissible) and
 opposite parabolics P = MN, P̄ = MN̄, prove that there is a unique nondegenerate M-equivariant
-pairing (Ṽ)_{N̄} × V_N → ℂ such that for ṽ ∈ Ṽ, v ∈ V and a strictly dominant central a,
-⟨ṽ, π(aⁱ)v⟩ = ⟨p̄(ṽ), π_N(aⁱ)p(v)⟩ for i ≫ 0. It identifies (Ṽ)_{N̄} with the full smooth
-contragredient of V_N; with normalised functors (using δ_{P̄} = δ_P⁻¹ on M),
-r_{P̄}(Ṽ) ≅ (r_P V)~ naturally in V. For admissible V this is Casselman's pairing
+pairing `(Ṽ)_{N̄} × V_N → ℂ` such that for ṽ ∈ Ṽ, v ∈ V and a strictly dominant central a,
+⟨ṽ, π(aⁱ)v⟩ = ⟨p̄(ṽ), π_N(aⁱ)p(v)⟩ for i ≫ 0. It identifies `(Ṽ)_{N̄}` with the full smooth
+contragredient of V_N; with normalised functors (using `δ_{P̄} = δ_P⁻¹` on M),
+`r_{P̄}(Ṽ) ≅ (r_P V)~` naturally in V. For admissible V this is Casselman's pairing
 (*casselman-pairing*) ([Ber87] §0.2 Theorem, p. 2; §6.1 Theorem and Corollary, p. 25; §6.2,
 pp. 25–26). *Needs:* *stabilization*, *jacquet-lemma-smooth*, *smooth-dual*,
 *casselman-pairing*, *modulus-character*.
@@ -3051,15 +3051,15 @@ The normalized duality is stated for every smooth representation, with no admiss
 
 **Unit and counit of the second adjunction** (*second-adjunction-unit*). For G reductive over F,
 opposite parabolics P = MN and P̄ = MN̄, complex coefficients, and Haar measures on N and N̄ fixed
-to normalise η, define the unit η : 𝟭 ⟶ i_P ⋙ r_{P̄}, the
-natural embedding η_τ : τ ↪ r_{P̄}(i_P τ) given by the open orbit P·P̄ of P̄ on P\G: functions in
+to normalise η, define the unit `η : 𝟭 ⟶ i_P ⋙ r_{P̄}`, the
+natural embedding `η_τ : τ ↪ r_{P̄}(i_P τ)` given by the open orbit P·P̄ of P̄ on P\G: functions in
 i_P τ supported in the big cell P N̄ form the bottom piece of the *geometric-lemma* filtration of
-r_{P̄} i_P, isomorphic to τ. Define the counit
-ε : r_{P̄} ⋙ i_P ⟶ 𝟭, ε_π : i_P(r_{P̄} π) → π being the map corresponding, under the Hom
+`r_{P̄} i_P`, isomorphic to τ. Define the counit
+`ε : r_{P̄} ⋙ i_P ⟶ 𝟭, ε_π : i_P(r_{P̄} π) → π` being the map corresponding, under the Hom
 isomorphism constructed from *jacquet-duality*, *first-adjointness* and the induced
-contragredient comparison, to the identity of r_{P̄} π. Construct that Hom isomorphism here,
+contragredient comparison, to the identity of `r_{P̄} π`. Construct that Hom isomorphism here,
 first on smooth duals and then on injective resolutions, before defining the counit.
-The triangle identities r_{P̄}(ε_π) ∘ η_{r_{P̄}π} = id and ε_{i_P τ} ∘ i_P(η_τ) = id hold for
+The triangle identities `r_{P̄}(ε_π) ∘ η_{r_{P̄}π} = id` and `ε_{i_P τ} ∘ i_P(η_τ) = id` hold for
 the unit and counit of every adjunction: they are Mathlib's
 `CategoryTheory.Adjunction.right_triangle_components` and
 `CategoryTheory.Adjunction.left_triangle_components` for the second adjunction
@@ -3071,7 +3071,7 @@ Comment on Theorem 20, pp. 66–67). *Needs:* *geometric-lemma*, *l-sheaf-model*
 
 **Checks.**
 
-- For GL_2 and τ = χ, η_χ identifies χ with the subrepresentation of r_{B̄}(i_B χ) coming from functions supported on B N̄.
+- For GL_2 and τ = χ, η_χ identifies χ with the subrepresentation of `r_{B̄}(i_B χ)` coming from functions supported on B N̄.
 - For P = G and mass one on the trivial unipotent radical, η and ε are identities under the evaluation identifications.
 - η_τ is injective for every τ.
 
@@ -3086,12 +3086,12 @@ Checks:
 **Second adjointness** (*second-adjointness*). For a connected reductive group G over a
 nonarchimedean local field F, opposite parabolics P = MN and P̄ = MN̄, and complex coefficients,
 prove that normalised parabolic induction i_P is left adjoint to the normalised Jacquet functor
-r_{P̄} along the opposite parabolic, Hom_G(i_P τ, π) ≅ Hom_M(τ, r_{P̄} π) naturally in τ and π,
+`r_{P̄}` along the opposite parabolic, `Hom_G(i_P τ, π) ≅ Hom_M(τ, r_{P̄} π)` naturally in τ and π,
 with unit and counit those of *second-adjunction-unit*. This is separate from the first
-adjunction r_P ⊣ i_P. Conclude that r_{P̄} commutes with arbitrary products; that i_P preserves
+adjunction r_P ⊣ i_P. Conclude that `r_{P̄}` commutes with arbitrary products; that i_P preserves
 projective objects; and that for admissible π, Hom_G(i_P τ, π̃) ≅ Hom_M(τ, (r_P π)~), compatibly
 with Casselman's pairing. In unnormalised terms the right adjoint of Ind_P^G ∘ infl is
-δ_P ⊗ (−)_{N̄}, as in the conventions ([Ber87] §0.1 Main theorem, p. 1; §6.5 Theorem, p. 27).
+`δ_P ⊗ (−)_{N̄}`, as in the conventions ([Ber87] §0.1 Main theorem, p. 1; §6.5 Theorem, p. 27).
 *Needs:* *jacquet-duality*, *second-adjunction-unit*, *induced-contragredient*,
 *first-adjointness*, *smooth-dual*.
 
@@ -3103,7 +3103,7 @@ the Jacquet functor along the opposite parabolic P̄ = P(λ⁻¹) followed by th
 is `oppositeDecomposition`, built from `oppositeCocharacter` with the same Levi by
 `levi_oppositeCocharacter`, and δ_P is `LeviDecomposition.modulusCharacter` of P, which uses
 `instLocallyCompactSpaceParabolic`. Taking the opposite cocharacter twice gives back λ (a Lean
-`example`). The normalised statement i_P ⊣ r_{P̄} and the consequences are specified here only.
+`example`). The normalised statement `i_P ⊣ r_{P̄}` and the consequences are specified here only.
 
 **Checks.**
 
@@ -3117,7 +3117,7 @@ is `oppositeDecomposition`, built from `oppositeCocharacter` with the same Levi 
 ### Examples
 
 For GL_2 the unit η_χ identifies the character χ of the torus with the functions in i_B χ
-supported on the big cell B N̄ inside r_{B̄}(i_B χ); for P = G the unit and counit are the
+supported on the big cell B N̄ inside `r_{B̄}(i_B χ)`; for P = G the unit and counit are the
 identities; and the unit is injective for every τ.
 
 ### Dependencies
@@ -3141,7 +3141,7 @@ the cocharacter lattice Λ = T(F)/T(F)⁰, over a coefficient ring in which p is
 the raw transform S*(f)(t) = ∫_N f(tn) dn with vol(N ∩ K) = 1. Prove
 that S* has finite support on the lattice Λ, and that the
 coefficient at t is the N-integral with N ∩ K of volume one; it takes values over ℤ[q⁻¹]. With a
-chosen square root of q in the coefficient ring, S = δ_P^{1/2} S*. The level form is the
+chosen square root of q in the coefficient ring, `S = δ_P^{1/2} S*`. The level form is the
 same raw transform on the level-K Hecke algebra `HeckeAlgebraLevel`, whose product is the finite
 double-coset product (through `HeckeAlgebraLevel.exists_ringEquiv_heckeRing`); its coefficient
 at the image of m is the N-integral of the radical integrand
@@ -3154,12 +3154,12 @@ ReductiveGroupsPartII RG2.4; ModularForms layer 2.
 
 - If N = 1 and K = T(F)⁰, S* is the identity.
 - The characteristic function of K maps to the identity lattice monomial.
-- For GL_2, normalized S([K diag(ϖ, 1) K]) = q^{1/2}(X₁ + X₂).
+- For GL_2, normalized `S([K diag(ϖ, 1) K]) = q^{1/2}(X₁ + X₂)`.
 - The integrand of f at m takes the value f(KmnK) at n; for the identity operator at m = 1 it is
   the indicator of N ∩ K; the zero operator has zero integrand.
 - The identity operator [K] goes to the identity lattice monomial.
 - If N = 1, the coefficient at the image of g is the double-coset coefficient of g.
-- For GL_2(ℚ_p), the operator [K diag(p, 1) K] goes to p X^{(1,0)} + X^{(0,1)}, the raw GL_2 value
+- For GL_2(ℚ_p), the operator [K diag(p, 1) K] goes to `p X^{(1,0)} + X^{(0,1)}`, the raw GL_2 value
   above, with no Haar measure on GL_2.
 
 **The twisted relative Weyl action** (*twisted-weyl-invariance*). Let W₀ = N_G(A)/Z_G(A) for the
@@ -3176,7 +3176,7 @@ Separate statements give the evenness of the modulus-exponent difference, the co
 **Source convention.** The printed point action (7.2.1), p. 206, uses ((Σ* − wΣ*)/2)(q),
 and §7.4(a)(i), p. 209, uses α₀² = Σ*(q). These are the inverse of the twist and square
 used here. They do not follow from an inverse lattice dictionary in §2.9: (2.9.2), p. 187,
-uses t ↦ z^{v(α(t))}, hence λ(ϖ) ↦ λ for v(ϖ) = 1. With that dictionary, the printed
+uses `t ↦ z^{v(α(t))}`, hence λ(ϖ) ↦ λ for v(ϖ) = 1. With that dictionary, the printed
 point formulas disagree with (7.2.5) and the modulus-character version (7.4.2).
 To use the printed point formulas consistently, transport the raw transform by the lattice
 involution [λ] ↦ [−λ], and the parameter by a ↦ a⁻¹. The transported transform has TV's
@@ -3185,11 +3185,11 @@ sign without attributing an unstated inverse dictionary to the source. *Needs:*
 *satake-transform*; ReductiveGroupsPartII RG2.1, ReductiveGroupsPartII RG2.5.
 
 **Check (sign of the twist).** For GL_2 write X₁, X₂ for the classes of diag(ϖ,1) and diag(1,ϖ).
-Then S*(1_{K diag(ϖ,1) K}) = qX₁ + X₂: the N-integral at diag(ϖ,1) is the volume q of ϖ⁻¹O, and
+Then `S*(1_{K diag(ϖ,1) K}) = qX₁ + X₂`: the N-integral at diag(ϖ,1) is the volume q of ϖ⁻¹O, and
 at diag(1,ϖ) it is the volume 1 of O. For s the reflection, the twist ((sΣ* − Σ*)/2)(q) = (−α)(q)
 sends X₁ ↦ q⁻¹X₂ and X₂ ↦ qX₁, and fixes qX₁ + X₂. The opposite twist ((Σ* − sΣ*)/2)(q) sends it
-to q⁻¹X₁ + q²X₂, so it does not describe the image of S*. Normalising, S = δ_B^{1/2}S* gives
-q^{1/2}(X₁ + X₂), which is symmetric. The Lean example states this for q = 3 as a coefficient
+to q⁻¹X₁ + q²X₂, so it does not describe the image of S*. Normalising, `S = δ_B^{1/2}S*` gives
+`q^{1/2}(X₁ + X₂)`, which is symmetric. The Lean example states this for q = 3 as a coefficient
 function on ℤ² and proves both halves. A companion test uses the coefficients at (−1,0) and
 (0,−1) and is fixed by TV's printed opposite twist.
 *Lean:* the GL₂ sign check is the `example` after the `Pseudoroot` section; the target itself is
@@ -3237,7 +3237,7 @@ element of the twisted relative Weyl action of *twisted-weyl-invariance* (the fi
 condition, with twist w ↦ ((wΣ* − Σ*)/2)(q)). Prove that translation by a₀
 takes ordinary Weyl orbits to twisted Weyl orbits; division by a₀ takes twisted
 parameters to ordinary ones. Choosing a square root of q constructs a pseudoroot, namely
-the parameter t_{δ_P^{1/2}} = (Σ*/2)(q)⁻¹ of δ_P^{1/2}; an even Σ* gives a canonical one ([TV] §7.4,
+the parameter `t_{δ_P^{1/2}} = (Σ*/2)(q)⁻¹` of `δ_P^{1/2}`; an even Σ* gives a canonical one ([TV] §7.4,
 (a)–(b) and (7.4.2), p. 209, and (7.4.3)–(7.4.4), p. 210). The displayed
 point pseudoroot in TV is the inverse of ours: `Pseudoroot.inv_iff` records the simultaneous
 inversion of the square and the twist. This is a transport of the printed formulas, with
@@ -3267,14 +3267,14 @@ a square root of q are specified here only.
 closed coefficient field of characteristic different from p, prove that a spherical Hecke
 character determines a semisimple unramified parameter. Under the convolution action, the K-fixed
 line in the unnormalized Ind_P^G(θ) has character f ↦ θ(S*f), the value of S*f at t_θ, and
-parameter t_θ a₀⁻¹ ⋊ Fr; normalized induction i_P χ = Ind_P^G(χδ_P^{1/2}) has parameter t_χ ⋊ Fr,
-consistently, because t_{χδ_P^{1/2}} = t_χ a₀ for the canonical pseudoroot a₀ = t_{δ_P^{1/2}}
+parameter t_θ a₀⁻¹ ⋊ Fr; normalized induction `i_P χ = Ind_P^G(χδ_P^{1/2})` has parameter t_χ ⋊ Fr,
+consistently, because `t_{χδ_P^{1/2}} = t_χ a₀` for the canonical pseudoroot `a₀ = t_{δ_P^{1/2}}`
 ([TV] §7.5, formulas (7.5.2)–(7.5.5), pp. 210–211; [TVpre] §7.6, formulas (7.6.1)–(7.6.3), p. 28).
 For a classical newform the pair at p is Tau Ceti's
 `HeckeRing.GL2.Newform.satakeParameters`. *Needs:*
 *satake-isomorphism*, *pseudoroot*, *frobenius-component-invariants*; layer SR.2.
 
-Semisimple parameters are dual-torus points modulo Frobenius-twisted conjugacy in the existing dual group, and their classes are identified with characters of the invariant coordinate algebra. The spherical-line statement gives the action of the double-coset operator v ↦ Σ_{xK ⊆ KgK} ρ(x)v on the one-dimensional fixed space of unnormalized induction, by the value at the inducing character of the level-K raw transform of [KgK]; no Haar measure enters, so it holds whenever char k ≠ p. The normalization statement computes the simultaneous half-modulus change in the inducing character and constant term for GL_2(ℚ_p) at the character with values 2 and 3 on the coordinate generators: both sides equal √p(2 + 3), the value of q^{1/2}(X₁ + X₂).
+Semisimple parameters are dual-torus points modulo Frobenius-twisted conjugacy in the existing dual group, and their classes are identified with characters of the invariant coordinate algebra. The spherical-line statement gives the action of the double-coset operator `v ↦ Σ_{xK ⊆ KgK} ρ(x)v` on the one-dimensional fixed space of unnormalized induction, by the value at the inducing character of the level-K raw transform of [KgK]; no Haar measure enters, so it holds whenever char k ≠ p. The normalization statement computes the simultaneous half-modulus change in the inducing character and constant term for GL_2(ℚ_p) at the character with values 2 and 3 on the coordinate generators: both sides equal √p(2 + 3), the value of `q^{1/2}(X₁ + X₂)`.
 
 Checks: equality of parameters uses the Frobenius-twisted relation; distinct points of a split torus give distinct parameters; regular class functions distinguish semisimple parameters.
 
@@ -3304,7 +3304,7 @@ so their composite Satake map is unchanged ([TVpre] §7.8, pp. 29–30; Theorem 
 ### SR.4.3 The general linear group
 
 **Explicit GL_n spherical generators** (*gln-generators*). For GL_n(F), prove
-S([K diag(ϖ, …, ϖ, 1, …, 1) K]) = q^{r(n−r)/2} e_r(X₁, …, X_n), with ϖ repeated r times and 1
+`S([K diag(ϖ, …, ϖ, 1, …, 1) K]) = q^{r(n−r)/2} e_r(X₁, …, X_n)`, with ϖ repeated r times and 1
 repeated n − r times. The scalar coset is invertible, and the target is the symmetric Laurent
 polynomial ring. Reuse the existing arithmetic GL_n Hecke algebra and the central-coset
 localization comparison, rather than defining another multiplication ([TV] Theorem 7.2 and formulas (7.2.4)–(7.2.6), pp. 206–207;
@@ -3323,7 +3323,7 @@ length n and invertible variables X_i, define P_λ(X; t) by the symmetric ration
 P_λ(X; t) = v_λ(t)⁻¹ · Σ_{w ∈ S_n} w( X^λ · ∏_{i<j} (X_i − t X_j)/(X_i − X_j) ),
 ```
 
-the sum over permutations of X^λ times ∏_{i<j} (X_i − t X_j)/(X_i − X_j), divided by the
+the sum over permutations of X^λ times `∏_{i<j} (X_i − t X_j)/(X_i − X_j)`, divided by the
 stabilizer Poincaré polynomial v_λ(t). Prove that the universal expression
 cancels to a symmetric Laurent polynomial over ℤ[t], so specialization uses no
 variable-difference inverses; prove this before specializing denominators in coefficient rings.
@@ -3346,7 +3346,7 @@ Symmetry and Laurent homogeneity are stated for the integral polynomial, includi
 
 **Checks.**
 
-- For n = 1, P_{(m)} = X^m.
+- For `n = 1`, `P_{(m)} = X^m`.
 - P₀ = 1 at pairwise distinct coordinates with nonzero Hall normalizer (the raw rational expression need not equal its polynomial extension at collisions).
 - For λ = (1, …, 1, 0, …, 0) with r ≤ n ones, P_λ = e_r at pairwise distinct coordinates with nonzero Hall normalizer.
 
@@ -3363,7 +3363,7 @@ is again 0, whereas the universal P₀ specializes to 1. These are negative cont
 using a rational evaluation at a pole.
 
 **Macdonald formula for GL_n** (*macdonald-formula*). For GL_n(E), with E/F unramified quadratic
-and q = #k_F, prove S(1_λ) = q^{⟨λ, 2ρ⟩} P_λ(X; q⁻²). Hall–Littlewood branching separates
+and q = #k_F, prove `S(1_λ) = q^{⟨λ, 2ρ⟩} P_λ(X; q⁻²)`. Hall–Littlewood branching separates
 n = a + b variables into bidegrees with |α| + |β| = |λ| ([Les] proof of Lemma 3.2, pp. 24–25). *Needs:*
 *hall-littlewood*, *gln-generators*.
 
@@ -3372,14 +3372,14 @@ The formula is stated when the residue cardinality of E is q². The branching st
 **Spherical parabolic descent** (*parabolic-descent*). For G = GL_n(E), E/F unramified
 quadratic, K = GL_n(O_E) and the standard Levi M = GL_a(E) × GL_b(E), a + b = n,
 take P = MN and use complex coefficients. Define the normalized
-spherical descent f^P(m) = δ_P(m)^{1/2} ∫_N ∫_K f(kmnk⁻¹) dk dn, with vol(K) = vol(N ∩ K) = 1.
+spherical descent `f^P(m) = δ_P(m)^{1/2} ∫_N ∫_K f(kmnk⁻¹) dk dn`, with vol(K) = vol(N ∩ K) = 1.
 Prove that descent preserves compact support modulo the Levi compact
 subgroup; that under Satake descent is restriction along the dual
 Levi embedding (normalized Satake followed by dual-Levi restriction equals Levi Satake after
 descent); and that nested Levi descents agree, using the product of
-the specified modulus halves. Leslie's ξ_{(a,b)} also twists the two determinant characters by
-|·|_E^{b/2} and |·|_E^{a/2}: its dual embedding is
-(m₁,m₂) ↦ diag(q^{−b}m₁,q^{−a}m₂) (S. Leslie [Les] Lemma 3.1 and the preceding
+the specified modulus halves. Leslie's `ξ_{(a,b)}` also twists the two determinant characters by
+`|·|_E^{b/2}` and `|·|_E^{a/2}`: its dual embedding is
+`(m₁,m₂) ↦ diag(q^{−b}m₁,q^{−a}m₂)` (S. Leslie [Les] Lemma 3.1 and the preceding
 definition, p. 23; Lemma 3.2, p. 24, and proof, pp. 24–25). *Needs:* *satake-transform*;
 layer SR.2. The corresponding statement for arbitrary unramified reductive groups is
 outside this sourced target: it needs a reference proving normalized constant-term
@@ -3390,8 +3390,8 @@ compatibility and transitivity with the chosen Haar measures.
 - For GL₂(E), δ_B(diag(ϖ,1)) = q⁻² and its positive square root is q⁻¹. Use the normalized E-absolute value on determinants; the F-absolute-value subscript in the displayed modulus in [Les], p. 23, must not change this factor.
 - For M = G, descent is the identity.
 - For M = T, descent agrees with the normalized constant term.
-- ξ_{(a,b)} replaces the first a variables by q^{−b} X_i and the
-  last b by q^{−a} Y_j. For a = 1, b = 2, q = 3 and all coordinates 1, the
+- `ξ_{(a,b)}` replaces the first a variables by `q^{−b} X_i` and the
+  last b by `q^{−a} Y_j`. For a = 1, b = 2, q = 3 and all coordinates 1, the
 three coordinates become (1/9,1/3,1/3), distinguishing this twist from the modulus half.
 The coordinate map is part of the target.
 
@@ -3409,7 +3409,7 @@ normalizer can vanish at t = −1.
 ### SR.4.4 Unramified unitary groups
 
 **Ordered unitary Satake parameters** (*paired-unitary-parameter*). Over a coefficient ring L,
-define an inert rank-N paired parameter as an ordered tuple of units α with α_i α_{N+1−i} = 1
+define an inert rank-N paired parameter as an ordered tuple of units α with `α_i α_{N+1−i} = 1`
 and, for odd N, middle entry α = 1, with its monic polynomial
 P_α(T) = ∏_i (T − α_i). Prove P_α(T) = (−T)^N P_α(T⁻¹), interpreted
 after clearing Laurent powers, and that permutations and inversion of
@@ -3456,9 +3456,9 @@ conditions. Field-only root descriptions in Remark 3.1.6 are not definitions ove
 **Unitary dual-group trace coordinates** (*unitary-weyl-traces*). For the unramified unitary
 rank-N dual group GL_N ⋊ (the pinned transpose-inverse involution), prove that the invariant
 lattice coordinates are the elementary symmetric functions in
-μ_i = x_i/x_{N+1−i} + x_{N+1−i}/x_i, and that the extended exterior-power tensor-dual
+`μ_i = x_i/x_{N+1−i} + x_{N+1−i}/x_i`, and that the extended exterior-power tensor-dual
 representation has Frobenius-component trace equal to the subset sum of the products
-x_i/x_{N+1−i}, over subsets of cardinality δ ([LTXZZ] Remark B.1.1, p. 332, and Lemmas B.1.2–B.1.4 with proofs, pp. 332–334). *Needs:* *satake-isomorphism*; ReductiveGroupsPartII RG2.5.
+`x_i/x_{N+1−i}`, over subsets of cardinality δ ([LTXZZ] Remark B.1.1, p. 332, and Lemmas B.1.2–B.1.4 with proofs, pp. 332–334). *Needs:* *satake-isomorphism*; ReductiveGroupsPartII RG2.5.
 
 The Weyl invariants are the subalgebra fixed by signed permutations of the relative lattice, identified with the polynomial algebra on the elementary symmetric functions in the paired coordinates. The exterior-power tensor-dual representation is a Mathlib `Representation` whose matrix entries are minors of g and g inverse in the ordered wedge tensor basis, with the pinned transpose-inverse extension and its action specified. Its Frobenius-component trace is computed and identified with the relative-lattice subset sum.
 
@@ -3484,8 +3484,8 @@ Checks: choosing no vectors has coefficient one; impossible dimensions vanish as
 **Mixed-level spherical product counts** (*unitary-isotropic-counts*). Prove that the product I
 of the two neighboring unitary lattice correspondences has coefficient at T_δ equal to the
 number of maximal isotropic subspaces in a residual hermitian space of dimension N − 2δ: in even
-dimension 2k this is ∏_{i=1}^{k} (q^{2i−1} + 1), and in odd dimension 2k + 1 it is
-∏_{i=1}^{k} (q^{2i+1} + 1). These coefficients define its hyperspecial spherical image ([LTXZZ]
+dimension 2k this is `∏_{i=1}^{k} (q^{2i−1} + 1)`, and in odd dimension 2k + 1 it is
+`∏_{i=1}^{k} (q^{2i+1} + 1)`. These coefficients define its hyperspecial spherical image ([LTXZZ]
 Lemma B.2.4 and proof, pp. 335–337; Lemmas B.2.7–B.2.8, pp. 338–339). *Needs:* layer SR.1;
 *unitary-triangular-transform*.
 
@@ -3504,18 +3504,18 @@ d_k(Q) = Σ_{j=0}^{k} (−1)^j (2j+1) Q^{j(j+1)} [2k+1 choose k−j]_{−Q},
 ```
 
 Prove both divisions by Q+1 exact in ℤ[Q], including the one in the second numerator;
-thus evaluation d_{k,q} and d•_{k,q} makes sense in every coefficient ring without assuming
-q+1 invertible. For N = 2r define T = Σ_{δ=0}^{r−1} d•_{r−δ,q} T_δ; for N = 2r+1 define
-T = Σ_{δ=0}^{r} d_{r−δ,q} T_δ. These are parity-specific spherical combinations
+thus evaluation `d_{k,q}` and `d•_{k,q}` makes sense in every coefficient ring without assuming
+q+1 invertible. For N = 2r define `T = Σ_{δ=0}^{r−1} d•_{r−δ,q} T_δ`; for N = 2r+1 define
+`T = Σ_{δ=0}^{r} d_{r−δ,q} T_δ`. These are parity-specific spherical combinations
 ([LTXZZ] Notation 1.3.1, pp. 119–120; Proposition B.3.5(3), p. 343;
 Lemma B.4.2 and Proposition B.4.3, pp. 345–346). *Needs:*
 *unitary-triangular-transform*, *unitary-isotropic-counts*.
 
 **Checks.**
 
-- d_{0,q} = 1 and d•_{0,q} = 0; hence the even T has zero T_r coefficient.
-- d_{1,q} = 1 − q − 2q² and d•_{1,q} = −q.
-- At q = −1, d_{1,−1} = 0 and d•_{1,−1} = 1; the coefficients remain defined when q+1 = 0.
+- `d_{0,q} = 1` and `d•_{0,q} = 0`; hence the even T has zero T_r coefficient.
+- `d_{1,q} = 1 − q − 2q²` and `d•_{1,q} = −q`.
+- At `q = −1`, `d_{1,−1} = 0` and `d•_{1,−1} = 1`; the coefficients remain defined when `q+1 = 0`.
 
 **Even-rank unitary spherical identities** (*unitary-even-formulas*). For N = 2r with r ≥ 1 prove
 
@@ -3526,7 +3526,7 @@ S(R + (q+1)T)   = −(q^{r²+1} − q^{r²−1}) Σ_j ∏_{i≠j} (μ_i − q �
 ```
 
 where R is the linear combination of the T_δ with coefficient
-((1 − (−q)^{r−δ})/(q+1)) ∏_{i=1}^{r−δ} (q^{2i−1} + 1); all apparent quotients are universal
+`((1 − (−q)^{r−δ})/(q+1)) ∏_{i=1}^{r−δ} (q^{2i−1} + 1)`; all apparent quotients are universal
 polynomials ([LTXZZ] Lemmas B.3.1–B.3.4 and Proposition B.3.5, pp. 339–343). *Needs:*
 *unitary-isotropic-counts*, *unitary-triangular-transform*, *unitary-spherical-coefficients*.
 
@@ -3535,12 +3535,12 @@ All three identities are stated on the actual spherical functions, with the disp
 Checks: even rank removes the top term; the first nonzero even coefficient is -q; clearing q+1 is an identity over Z[q]; in rank one μ has both opposite lattice monomials; the paired coordinate has no constant term; different pairs are distinct Laurent functions.
 
 **Odd-rank unitary spherical identities** (*unitary-odd-formulas*). For N = 2r + 1 prove
-S(I) = q^{r²+r} ∏_i (μ_i + q + q⁻¹) and S(T) = q^{r²+r} ∏_i (μ_i − 2). Here
+`S(I) = q^{r²+r} ∏_i (μ_i + q + q⁻¹)` and `S(T) = q^{r²+r} ∏_i (μ_i − 2)`. Here
 T is the odd combination of *unitary-spherical-coefficients*
 ([LTXZZ] Lemmas B.4.1–B.4.2 and Proposition B.4.3, pp. 344–346). *Needs:*
 *unitary-isotropic-counts*, *unitary-triangular-transform*, *unitary-spherical-coefficients*.
 
-Both identities are stated with the universal polynomial d_{k,q}. The coefficient ring is arbitrary with q invertible.
+Both identities are stated with the universal polynomial `d_{k,q}`. The coefficient ring is arbitrary with q invertible.
 
 Checks: the top double coset has coefficient one; rank three detects the sign and the factor three; every coefficient has constant term one.
 
@@ -3572,10 +3572,10 @@ rather than reversal at the actual degree, defines the monic comparison.
 - Scaling all four spin roots by c multiplies the coefficient of
   X^j by c^j.
 
-**GSp_4 spin and monic polynomial comparison** (*gsp4-galois-comparison*). Under the q^{−3/2}
-similitude twist convention, prove Q(X) = ∏_{ξ ∈ {α, β, γ, δ}} (1 − ξX), with αδ = βγ,
-T₀ = q⁻³ αδ and the generator evaluations of Pilloni Lemma 5.1.5.1. The substitution T_{x,1} = T₂,
-T_{x,2} = T₁, S_x = T₀ identifies the reciprocal polynomial with Calegari–Geraghty
+**GSp_4 spin and monic polynomial comparison** (*gsp4-galois-comparison*). Under the `q^{−3/2}`
+similitude twist convention, prove `Q(X) = ∏_{ξ ∈ {α, β, γ, δ}} (1 − ξX)`, with αδ = βγ,
+T₀ = q⁻³ αδ and the generator evaluations of Pilloni Lemma 5.1.5.1. The substitution `T_{x,1} = T₂`,
+`T_{x,2} = T₁, S_x = T₀` identifies the reciprocal polynomial with Calegari–Geraghty
 Definition 6.7. This is a local normalization comparison, not a construction of global Galois
 representations ([CG20-arXiv] Definition 6.7, p. 28; [Pil] Lemma 5.1.5.1 and Remark 5.1.5.1, p. 21). *Needs:*
 *gsp4-spin-polynomial*, *spherical-parameter*.
@@ -3622,7 +3622,7 @@ The Morita statement identifies the Iwahori algebra at q = 1 with the affine sem
 of ℚ_p with p odd, E/F ramified quadratic, and G the quasi-split unitary group of odd rank
 2k + 1. Use the special maximal compact subgroup K and the full chamber stabilizer B of
 Clozel–Thorne §2.1; B contains the connected Iwahori subgroup with index two. Over ℂ, prove that
-the comparison with the split Sp_{2k} Iwahori algebra identifies the center with ℂ[Λ]^W, and
+the comparison with the split `Sp_{2k}` Iwahori algebra identifies the center with ℂ[Λ]^W, and
 compare its action on K-fixed vectors using the same normalized Satake convention ([CT]
 Proposition 2.2, p. 7, and the Bernstein presentation following it, p. 8).
 For characteristic-double-coset generators the integral quadratic relation is
@@ -3643,7 +3643,7 @@ index-two connected Iwahori requires a separate algebra comparison.
 
 ### Examples
 
-The checks compute S([K diag(ϖ, 1) K]) = q^{1/2}(X₁ + X₂) for GL_2, the identity transform for a
+The checks compute `S([K diag(ϖ, 1) K]) = q^{1/2}(X₁ + X₂)` for GL_2, the identity transform for a
 torus and the identity monomial for 1_K; the Hall–Littlewood polynomials X^m, 1 and e_r; the
 rank-one and rank-two paired parameters and the reciprocal T² − 3T + 1 over ℚ with no paired
 ordering; the failure of even raising at (T − 1)² with q = 1 and of odd intertwining at T − 1 with
@@ -3669,7 +3669,7 @@ explains why endomorphisms of generic objects are scalars after any coefficient 
 ### SR.5.1 Derivatives
 
 **Whittaker coinvariants** (*twisted-coinvariants*). For an A-linear U-action ρ and a character
-ψ : U → Aˣ, take V_{U,ψ} to be Mathlib's `Representation.Coinvariants`
+ψ : U → Aˣ, take `V_{U,ψ}` to be Mathlib's `Representation.Coinvariants`
 of Tau Ceti's `Representation.charTwist ψ⁻¹ ρ`, with the canonical `Representation.Coinvariants.mk`.
 The presentation statement identifies its relation submodule with the A-span of
 ρ(u)v − ψ(u)v: multiplying the supplier generator ψ(u)⁻¹ρ(u)v − v by the unit ψ(u)
@@ -3709,11 +3709,11 @@ hypotheses. *Needs:* layer SR.0.
 two, let k be a perfect field of characteristic ℓ ≠ p and A a Noetherian W(k)-algebra. After
 extending k to k̃ containing the required p-power roots of unity, fix the smooth additive
 character used by [EH]. Use their **unnormalised** functors (Definition 3.1.1 and Remark 3.1.2,
-p. 12); the square-root twists of the normalised functors do not enter their descent. Let P_n = GL_{n−1} ⋉ F^{n−1} be
+p. 12); the square-root twists of the normalised functors do not enter their descent. Let `P_n = GL_{n−1} ⋉ F^{n−1}` be
 the mirabolic subgroup. Define Ψ⁻ by ordinary last-row coinvariants, Ψ⁺ by inflation, Φ⁻ by the
 specified nontrivial last-row character quotient, Φ⁺ by compact induction (left adjoint to Φ⁻)
 and Φ̂⁺ by smooth induction (right adjoint to Φ⁻); Ψ⁻ is left adjoint to Ψ⁺. Set
-D^r = Ψ⁻ (Φ⁻)^{r−1} for 1 ≤ r ≤ n and D⁰ = identity. Prove that D⁰ is the
+`D^r = Ψ⁻ (Φ⁻)^{r−1}` for 1 ≤ r ≤ n and D⁰ = identity. Prove that D⁰ is the
 identity functor; that D^n agrees with the nondegenerate Whittaker
 coinvariants; and that every derivative commutes with arbitrary
 extension to a Noetherian A-algebra B. Over W(k) without
@@ -3773,11 +3773,11 @@ For the descended functors, exactness, the compact-adjunction unit isomorphism a
 
 **Schwartz submodule** (*schwartz-submodule*). For any smooth P_n-representation V over the
 Noetherian W(k)-algebra A above (in particular, a restricted GL_n-representation), define the
-Schwartz submodule J(V) as the image of the canonical mirabolic map (Φ⁺)^{n−1} Ψ⁺(V^{(n)}) into V.
+Schwartz submodule J(V) as the image of the canonical mirabolic map `(Φ⁺)^{n−1} Ψ⁺(V^{(n)})` into V.
 Prove that the canonical mirabolic map has zero kernel;
-that J(V) has the same top derivative V^{(n)} as V; that J
+that J(V) has the same top derivative `V^{(n)}` as V; that J
 commutes with coefficient-module tensoring; and that
-the derivative identifies End_{P_n}(J(V)) with End_A(V^{(n)}). The injection and tensor
+the derivative identifies `End_{P_n}(J(V))` with `End_A(V^{(n)})`. The injection and tensor
 compatibility are constructed in [EH] §3.1, p. 14, immediately before Lemma 3.1.5; the
 endomorphism identification is the adjunction calculation in the proof of Proposition 3.1.16,
 p. 17 (whose stated rank-one case says this ring is A). Lemma 6.3.2, pp. 50–51 instead concerns
@@ -3788,7 +3788,7 @@ source of the injection. *Needs:* *mirabolic-derivatives*,
 **Checks.**
 
 - J(V) = V for n = 1.
-- If V^{(n)} = 0 then J(V) = 0.
+- If `V^{(n)} = 0` then J(V) = 0.
 - J(M ⊗ V) = M ⊗ J(V), for an arbitrary coefficient module M.
 
 The top-derivative functor performs the iterated quotient, compared with the explicit upper-unipotent relations. The Schwartz source performs the iterated compact induction, and J(V) is the invariant image of the canonical map, whose successive maps are specified step by step.
@@ -3831,21 +3831,21 @@ extension of ℚ_p with residue field 𝔽_q, G = GL_n(F) with n ≥ 1, k an alg
 of characteristic ℓ ≠ p, 𝒦 = Frac W(k) with an algebraic closure 𝒦̄, and R either k or 𝒦̄, so
 that R is algebraically closed. An R-type is a pair (K, τ) of a compact open subgroup K of G and a
 smooth R[K]-module τ that is finitely generated over R; its Hecke algebra is
-H(G, K, τ) = End_{R[G]}(c-Ind_K^G τ). A maximal distinguished cuspidal R-type is built, in the
+`H(G, K, τ) = End_{R[G]}(c-Ind_K^G τ)`. A maximal distinguished cuspidal R-type is built, in the
 sense of Bushnell–Kutzko, from a simple stratum [𝔄, m, 0, β] and a simple character θ of it. Here 𝔄 is the hereditary order of endomorphisms preserving every lattice of a
 periodic lattice chain, β generates a field E = F[β] of ramification index e and residue degree f
 whose multiplicative group normalises 𝔄, and 𝔄 meets the centraliser of E in a maximal order of that centraliser
 (in depth zero β = 0, E = F and 𝔄 is a maximal order). Then K = J(β, 𝔄) has a normal pro-p
-subgroup K¹ = J¹(β, 𝔄) with K/K¹ ≅ GL_{n/(ef)}(𝔽_{q^f}), and τ = κ ⊗ σ, where κ is a β-extension of
+subgroup K¹ = J¹(β, 𝔄) with `K/K¹ ≅ GL_{n/(ef)}(𝔽_{q^f})`, and τ = κ ⊗ σ, where κ is a β-extension of
 the Heisenberg representation of K¹ containing θ and σ is the inflation of an irreducible cuspidal
 R-representation of K/K¹. Cuspidal means that every Jacquet module along a proper parabolic
 vanishes.
 
 Prove the following, Vignéras' ℓ-modular form of the Bushnell–Kutzko theory, as an owned input
 theorem. The G-intertwining of τ is E^×K. The type τ extends to E^×K, and for every extension τ̂
-the algebra H(G, K, τ) is R[T, T⁻¹], with T supported on Kϖ_E K, and c-Ind_{E^×K}^G τ̂ is an
+the algebra H(G, K, τ) is R[T, T⁻¹], with T supported on Kϖ_E K, and `c-Ind_{E^×K}^G τ̂` is an
 irreducible cuspidal representation. Every irreducible cuspidal R-representation of G contains a
-maximal distinguished cuspidal R-type. The representations c-Ind_{E^×K}^G τ̂, as τ̂ runs over
+maximal distinguished cuspidal R-type. The representations `c-Ind_{E^×K}^G τ̂`, as τ̂ runs over
 the extensions of τ, are exactly the irreducible cuspidal representations whose restriction to K
 contains τ, and they form a single class under twisting by χ ∘ det for unramified characters
 χ : F^× → R^×. A 𝒦̄-representation is integral if it is the scalar extension of a G-stable
@@ -3892,13 +3892,13 @@ RG2.2.4 (*gl-building-lattice-chains*).
   lattice forces ϖ to act by a unit. Since ℓ has valuation one, no χ(ϖ) ∈ 𝒦 does this, while
   χ(ϖ) = 1/√ℓ does over 𝒦(√ℓ).
 - The pair (GL_2(O_F), 1) is not a maximal distinguished cuspidal type, because the trivial
-  representation of GL_2(𝔽_q) is not cuspidal. Consistently, c-Ind_{F^×GL_2(O_F)}^G 1 is not
+  representation of GL_2(𝔽_q) is not cuspidal. Consistently, `c-Ind_{F^×GL_2(O_F)}^G 1` is not
   irreducible: Frobenius reciprocity gives a nonzero map onto the one-dimensional trivial
   representation, while the source is infinite-dimensional.
 - F = ℚ_2, n = 1, ℓ = 3, k = F̄_3 and the trivial type (ℤ_2^×, 1). Let V = 𝒦[t]/(t² − 3), with
   ℤ_2^× acting trivially and 2 acting by t. As 3 has valuation one it is not a square in 𝒦, so V
   is a field and a simple smooth W(k)[F^×]-module on which ℓ is invertible; it is cuspidal and
-  contains the type. Over End_{𝒦[G]}(c-Ind_K^G 𝒦) = 𝒦[T, T⁻¹], Hom_K(1, V) = V is a simple module
+  contains the type. Over `End_{𝒦[G]}(c-Ind_K^G 𝒦) = 𝒦[T, T⁻¹]`, `Hom_K(1, V) = V` is a simple module
   of dimension two, with T acting by t or t⁻¹ according to the normalisation of T; it is not a
   character module 𝒦[T, T⁻¹]/(T − c), so V is not a character and the exhaustion statement
   applies only to its summands over 𝒦(√3). No twist of V by an unramified 𝒦^×-valued character
@@ -3915,29 +3915,29 @@ P_σ → σ be a projective envelope of σ among W(k)[K/K¹]-modules. Prove the 
 
 - κ lifts to a smooth W(k)[K]-module κ̃ that is free of finite rank over W(k).
 - κ̃ ⊗ P_σ, with P_σ inflated to K, is a projective envelope of τ among smooth W(k)[K]-modules.
-- P_{(K,τ)} = c-Ind_K^G(κ̃ ⊗ P_σ) is projective in the smooth W(k)[G]-category and surjects onto
+- `P_{(K,τ)} = c-Ind_K^G(κ̃ ⊗ P_σ)` is projective in the smooth W(k)[G]-category and surjects onto
   c-Ind_K^G τ.
 - Every simple cuspidal smooth W(k)[G]-module in the mod-ℓ inertial class of (K, τ) is a quotient
-  of P_{(K,τ)}, including those on which ℓ is invertible that are not absolutely simple.
+  of `P_{(K,τ)}`, including those on which ℓ is invertible that are not absolutely simple.
 - For a W(k)-algebra B and an unramified character χ of G with values in Bˣ, multiplication of
-  functions by χ⁻¹ is an isomorphism from B ⊗ P_{(K,τ)} to its twist by χ, since χ is trivial on K.
+  functions by χ⁻¹ is an isomorphism from `B ⊗ P_{(K,τ)}` to its twist by χ, since χ is trivial on K.
   With right translation (ρ(g)f)(x) = f(xg) and ρ^χ(g) = χ(g)ρ(g), its formula is
   f(x) ↦ χ(x)⁻¹f(x); its inverse multiplies by χ(x). The formula preserves the K-covariance,
   support modulo K and smoothness. *Lean:* `coindUnramifiedTwistEquiv` gives this map on the
   ambient induced functions for any character trivial on the inducing subgroup, using
   `Representation.charTwist`.
 
-P_{(K,τ)} is not asserted to be a projective envelope of any simple G-module: it surjects onto
+`P_{(K,τ)}` is not asserted to be a projective envelope of any simple G-module: it surjects onto
 every member of the class at once.
 
-For the Levi construction, let M = GL_{n₁} × ⋯ × GL_{n_r} be a block-diagonal Levi with standard
+For the Levi construction, let `M = GL_{n₁} × ⋯ × GL_{n_r}` be a block-diagonal Levi with standard
 upper parabolic P, and π = π₁ ⊗ ⋯ ⊗ π_r an irreducible cuspidal k-representation of M. Choose
 maximal distinguished cuspidal k-types (K_i, τ_i) whose classes contain the π_i, and set
-P_{(M,π)} = I_P^G(P_{(K₁,τ₁)} ⊗ ⋯ ⊗ P_{(K_r,τ_r)}), with the unnormalised induction
-I_P = Ind_P^G ∘ infl. On X = B ⊗ (P_{(K₁,τ₁)} ⊗ ⋯ ⊗ P_{(K_r,τ_r)}), the map
-X → δ_P^{1/2} ⊗ X on the c-Ind_{K₁×⋯×K_r}^M function model is
-f(m) ↦ δ_P(m)^{−1/2}f(m). Applying I_P to this map identifies B ⊗ P_{(M,π)} with the normalised
-induction i_P^G(B ⊗ P_{(K₁,τ₁)} ⊗ ⋯ ⊗ P_{(K_r,τ_r)}) for every W(k)-algebra B containing a square root of q,
+`P_{(M,π)} = I_P^G(P_{(K₁,τ₁)} ⊗ ⋯ ⊗ P_{(K_r,τ_r)})`, with the unnormalised induction
+I_P = Ind_P^G ∘ infl. On `X = B ⊗ (P_{(K₁,τ₁)} ⊗ ⋯ ⊗ P_{(K_r,τ_r)})`, the map
+`X → δ_P^{1/2} ⊗ X` on the `c-Ind_{K₁×⋯×K_r}^M` function model is
+`f(m) ↦ δ_P(m)^{−1/2}f(m)`. Applying I_P to this map identifies `B ⊗ P_{(M,π)}` with the normalised
+induction `i_P^G(B ⊗ P_{(K₁,τ₁)} ⊗ ⋯ ⊗ P_{(K_r,τ_r)})` for every W(k)-algebra B containing a square root of q,
 such as W(k)[√q]; this normalised module is [Hel16]'s P(M,π), whose construction assumes ℓ odd so
 that the root lies in W(k) ([Hel16] §3, p. 6). A simple smooth W(k)[G]-module has mod-ℓ
 inertial cuspidal support (M, π) if either ℓ kills it and its cuspidal support is an unramified
@@ -3945,20 +3945,20 @@ twist of (M, π), or ℓ is invertible on it and the cuspidal support of each ab
 summand over the 𝒦′ of *distinguished-cuspidal-types* is an unramified twist of an integral lift of
 (M, π). Cuspidal supports are taken with I_P; up to unramified twist they agree with those for
 i_P over any field containing a square root of q, because I_P and i_P differ by the unramified
-twist δ_P^{1/2}. Prove that every such module is a quotient of P_{(M,π)}.
+twist `δ_P^{1/2}`. Prove that every such module is a quotient of `P_{(M,π)}`.
 
 For a smooth W(k)[G]-module Π let Π^∨ be its smooth 𝒦/W(k)-dual, the smooth vectors of
-Hom_{W(k)}(Π, 𝒦/W(k)). Both Hom_G(Π, Π′^∨) and Hom_G(Π′, Π^∨) are the G-invariant pairings
+`Hom_{W(k)}(Π, 𝒦/W(k))`. Both Hom_G(Π, Π′^∨) and Hom_G(Π′, Π^∨) are the G-invariant pairings
 Π × Π′ → 𝒦/W(k), so the dual of a projective object is injective. Integration over P\G is a
 G-invariant functional on I_P(δ_P); normalised to be 1 on the function supported on PU₀ for a
 pro-p compact open U₀, it takes values in ℤ[1/p], since comparing two pro-p levels only
-introduces indices that are powers of p. The pairing (f, f′) ↦ ∫_{P\G} ⟨f, f′⟩ then gives
+introduces indices that are powers of p. The pairing `(f, f′) ↦ ∫_{P\G} ⟨f, f′⟩` then gives
 (I_P X)^∨ ≅ I_P(δ_P ⊗ X^∨), naturally in the smooth W(k)[M]-module X. Let
-I_{(M,π)} = P_{(M,π^∨)}^∨, built from the types (K_i, τ_i^∨). Prove that it is injective and that
+`I_{(M,π)} = P_{(M,π^∨)}^∨`, built from the types (K_i, τ_i^∨). Prove that it is injective and that
 every simple module with mod-ℓ inertial cuspidal support (M, π) embeds in it. For injectivity,
-I_{(M,π)} ≅ I_P(δ_P ⊗ X^∨), where X = P_{(K₁,τ₁^∨)} ⊗ ⋯ ⊗ P_{(K_r,τ_r^∨)} is projective over M,
+`I_{(M,π)} ≅ I_P(δ_P ⊗ X^∨)`, where `X = P_{(K₁,τ₁^∨)} ⊗ ⋯ ⊗ P_{(K_r,τ_r^∨)}` is projective over M,
 so X^∨ is injective, and I_P preserves injectives because it is right adjoint to the Jacquet
-functor R_P, which is exact. Projectivity of P_{(M,π)} is not claimed here; it is a consequence of
+functor R_P, which is exact. Projectivity of `P_{(M,π)}` is not claimed here; it is a consequence of
 *integral-second-adjointness* ([Hel16] Lemmas 4.7–4.8 and the construction after them,
 and Proposition 4.9, pp. 11–12; Definition 4.10, p. 13; the definition of P(M,π) and
 Proposition 4.16, p. 14; Definition 11.1, Lemmas 11.2 and 11.4 and Corollary 11.3, p. 56, and
@@ -3969,26 +3969,26 @@ Proposition 11.5, p. 57; [DHKM1] proof of Corollary 1.3, p. 15, for the unnormal
 **Checks.**
 
 - n = 1, ℓ ∤ q − 1 and the trivial type (O_F^×, 1): P_σ = W(k) and
-  P_{(K,τ)} = W(k)[F^×/O_F^×] ≅ W(k)[T, T⁻¹], with T the class of ϖ. Its simple quotients killed
+  `P_{(K,τ)} = W(k)[F^×/O_F^×] ≅ W(k)[T, T⁻¹]`, with T the class of ϖ. Its simple quotients killed
   by ℓ are exactly the unramified k-valued characters, so it is not the envelope of any one of
   them.
 - n = 1, ℓ | q − 1 and the trivial type: P_σ is the group ring over W(k) of the ℓ-Sylow subgroup
-  of 𝔽_q^×, of rank the ℓ-part of q − 1. P_{(K,τ)} is the group ring of F^× modulo 1 + 𝔭_F and the
+  of 𝔽_q^×, of rank the ℓ-part of `q − 1`. `P_{(K,τ)}` is the group ring of F^× modulo 1 + 𝔭_F and the
   roots of unity of order prime to ℓ. The characters over finite extensions of Frac W(k) through
   which it factors are exactly those whose restriction to O_F^× factors through 𝔽_q^× with
   ℓ-power order, which are the absolutely simple summands of the characteristic-zero members of
   the class.
-- n = 2, M the diagonal torus T, π = 1 ⊗ 1 and ℓ ∤ q − 1: P_{(T,π)} = I_B^G(W(k)[T(F)/T(O_F)]).
+- n = 2, M the diagonal torus T, π = 1 ⊗ 1 and `ℓ ∤ q − 1`: `P_{(T,π)} = I_B^G(W(k)[T(F)/T(O_F)])`.
   Its specialisation along T_i ↦ a_i ∈ kˣ is the unnormalised unramified principal series
   I_B(χ₁ ⊗ χ₂) with χ_i(ϖ) = a_i. The trivial character of G is a quotient, through
   I_B(ν ⊗ ν⁻¹) = I_B(δ_B), that is at (a₁, a₂) = (q⁻¹, q); with a square root of q this is
-  i_B(ν^{1/2} ⊗ ν^{−1/2}).
+  `i_B(ν^{1/2} ⊗ ν^{−1/2})`.
 - F = ℚ_3 and ℓ = 2, so q = 3 and ℓ | q − 1. W(k) contains no square root of 3: a root would
   reduce to 1 in k, hence be 1 + 2a, and (1 + 2a)² ≡ 1 mod 4 while 3 ≢ 1 mod 4. So i_B^G for
   GL_2(ℚ_3) is not defined over W(k). The trivial type of GL_1(ℚ_3) gives
   P = W(k)[ℚ_3^×/(1 + 3ℤ_3)] = W(k)[X, X⁻¹][ε]/(ε² − 1), with X the class of 3 and ε that of −1,
-  and P_{(T,1⊗1)} = I_B^G(P ⊗ P) is defined over W(k); over W(k)[√3] multiplication by
-  δ_B^{−1/2} on the Levi functions, followed by I_B, identifies it with
+  and `P_{(T,1⊗1)} = I_B^G(P ⊗ P)` is defined over W(k); over W(k)[√3] multiplication by
+  `δ_B^{−1/2}` on the Levi functions, followed by I_B, identifies it with
   i_B^G(W(k)[√3] ⊗ P ⊗ P).
 - F = ℚ_2, ℓ = 3, k = F̄_3 and (K, τ) = (ℤ_2^×, 1). Take the unramified character χ with
   χ(2) = 2 ∈ W(k)^× and f = 1_K. At g = 2 and x = 1/2, multiplication by χ gives
@@ -4024,51 +4024,51 @@ cokernel and direct-sum statements are specified here only.
 Keep the setting of *type-projective-construction*: F is a finite extension of ℚ_p with residue
 field 𝔽_q, G = GL_n(F) with n ≥ 1, k is algebraically closed of characteristic ℓ ≠ p, and the
 coefficients are W(k), with no square root of q assumed, so ℓ = 2 is included. Let
-M = GL_{n₁} × ⋯ × GL_{n_r} be a block-diagonal Levi subgroup, P = MU the standard upper parabolic
+`M = GL_{n₁} × ⋯ × GL_{n_r}` be a block-diagonal Levi subgroup, P = MU the standard upper parabolic
 and P̄ = MŪ the opposite lower one. Let I_P = Ind_P^G ∘ infl be the unnormalised parabolic
-induction, R_{P̄}Π = Π_Ū the unnormalised Jacquet functor along P̄, and δ_P : M → W(k)^× the
+induction, `R_{P̄}Π = Π_Ū` the unnormalised Jacquet functor along P̄, and δ_P : M → W(k)^× the
 modulus of P, whose values lie in q^ℤ and are units of W(k) because p ≠ ℓ. Prove that
-I_P : SmoothRep W(k) M ⥤ SmoothRep W(k) G is left adjoint to δ_P ⊗ R_{P̄}, with isomorphisms
+I_P : SmoothRep W(k) M ⥤ SmoothRep W(k) G is left adjoint to `δ_P ⊗ R_{P̄}`, with isomorphisms
 
-  Hom_G(I_P σ, Π) ≅ Hom_M(σ, δ_P ⊗ R_{P̄} Π)
+  `Hom_G(I_P σ, Π) ≅ Hom_M(σ, δ_P ⊗ R_{P̄} Π)`
 
 natural in the smooth W(k)[M]-module σ and the smooth W(k)[G]-module Π. Conclude the following.
 
-- R_{P̄} commutes with arbitrary products.
-- I_P carries projective objects to projective objects, because R_{P̄} is exact (*jacquet-lemma*).
-- I_P carries finitely generated projective objects to finitely generated ones, because R_{P̄}
+- `R_{P̄}` commutes with arbitrary products.
+- I_P carries projective objects to projective objects, because `R_{P̄}` is exact (*jacquet-lemma*).
+- I_P carries finitely generated projective objects to finitely generated ones, because `R_{P̄}`
   commutes with direct sums and a projective object is finitely generated exactly when Hom out of
   it commutes with direct sums.
-- Each P_{(M,π)} of *type-projective-construction*, and each finite direct sum of them, is a
+- Each `P_{(M,π)}` of *type-projective-construction*, and each finite direct sum of them, is a
   finitely generated projective object of the smooth W(k)[G]-category.
 
-Use Helm's type and stability arguments with I_P and δ_P ⊗ R_{P̄} in place of i_P and r_{P̄},
+Use Helm's type and stability arguments with I_P and `δ_P ⊗ R_{P̄}` in place of i_P and `r_{P̄}`,
 and the smooth-product coresolutions of [DHKM1] Lemma 4.8 and proof of Corollary 1.3, pp. 14–15.
 [DHKM1] makes the unnormalised substitution in Helm's §11 arguments in the proofs of Lemmas 4.5
-and 4.10, pp. 13–15. Helm fixes q^{1/2} ∈ W(k) and so assumes ℓ odd ([Hel16] §3, p. 6), and each
+and 4.10, pp. 13–15. Helm fixes `q^{1/2} ∈ W(k)` and so assumes ℓ odd ([Hel16] §3, p. 6), and each
 twist by it in these arguments either cancels or is absorbed into δ_P. This target owns the
 following four steps.
 
 1. *Decomposition.* For a Levi subgroup L and an irreducible supercuspidal k-representation π of
-   L, let Rep_{[L,π]} be the full subcategory of smooth W(k)[G]-modules all of whose simple
-   subquotients have mod-ℓ inertial supercuspidal support (L, π). Let I_{[L,π]} be the sum of the
-   injectives I_{(M,π′)} of *type-projective-construction* over the finitely many mod-ℓ inertial
+   L, let `Rep_{[L,π]}` be the full subcategory of smooth W(k)[G]-modules all of whose simple
+   subquotients have mod-ℓ inertial supercuspidal support (L, π). Let `I_{[L,π]}` be the sum of the
+   injectives `I_{(M,π′)}` of *type-projective-construction* over the finitely many mod-ℓ inertial
    cuspidal supports (M, π′) with mod-ℓ inertial supercuspidal support (L, π). The supercuspidal
-   supports of the characteristic-zero constituents of the P_{(K,τ)} show that every simple
-   subquotient of I_{(M,π′)} has the mod-ℓ inertial supercuspidal support of (M, π′). Construct the
+   supports of the characteristic-zero constituents of the `P_{(K,τ)}` show that every simple
+   subquotient of `I_{(M,π′)}` has the mod-ℓ inertial supercuspidal support of (M, π′). Construct the
    canonical central block projectors and prove that the smooth W(k)[G]-category is the product
-   of the Rep_{[L,π]}. Prove that each projector fixes the smooth product of objects in its block;
+   of the `Rep_{[L,π]}`. Prove that each projector fixes the smooth product of objects in its block;
    in particular the block is closed under such products. For a family (V_j), write
    ∏_j^sm V_j for the smooth vectors of the algebraic product, with coordinatewise action
    (*smooth-rep-abelian*); *Lean:* `SmoothRep.smoothProduct`.
 
-   Prove that I_{[L,π]} is an injective cogenerator of its block. For Π in the block the
-   evaluation map Π → ∏_{f ∈ Hom_G(Π,I_{[L,π]})}^sm I_{[L,π]}, v ↦ (f(v))_f, is a monomorphism:
+   Prove that `I_{[L,π]}` is an injective cogenerator of its block. For Π in the block the
+   evaluation map `Π → ∏_{f ∈ Hom_G(Π,I_{[L,π]})}^sm I_{[L,π]}, v ↦ (f(v))_f`, is a monomorphism:
    every nonzero cyclic subrepresentation has a simple quotient, that quotient embeds in
-   I_{[L,π]}, and injectivity extends the map to Π. Each tuple has the open stabiliser of v.
+   `I_{[L,π]}`, and injectivity extends the map to Π. Each tuple has the open stabiliser of v.
    Products of injectives are injective by their Hom universal property. Iterating evaluation
    on the successive cokernels gives a coresolution within the block, with all terms smooth
-   products of copies of I_{[L,π]}.
+   products of copies of `I_{[L,π]}`.
 
    A module W(k)[G/U] with U pro-p compact open has nonzero components in only finitely many
    factors. Its component projections are
@@ -4081,41 +4081,41 @@ following four steps.
    construction, p. 14, for the product coresolution).
 2. *Stability.* Let K be a pro-p compact open subgroup with an Iwahori decomposition
    K = K_Ū K_M K_U and λ a strongly positive central element of M (*iwahori-decomposition*), and
-   let T_λ be the convolution operator of 1_{KλK} on Π^K. A smooth Π is (K, P)-stable if
+   let T_λ be the convolution operator of `1_{KλK}` on Π^K. A smooth Π is (K, P)-stable if
    Π^K = ker T_λ^c ⊕ Π^K_* for some c ≥ 1, with T_λ invertible on Π^K_*. Prove the following.
-   - For every smooth Π, the projection Π^K → (Π_U)^{K_M} identifies its target with
-     Π^K ⊗_{W(k)[T_λ]} W(k)[T_λ^{±1}]. So for (K, P)-stable Π it is surjective with kernel
+   - For every smooth Π, the projection `Π^K → (Π_U)^{K_M}` identifies its target with
+     `Π^K ⊗_{W(k)[T_λ]} W(k)[T_λ^{±1}]`. So for (K, P)-stable Π it is surjective with kernel
      ker T_λ^c, and the splitting does not depend on λ.
    - Kernels and cokernels of maps between (K, P)-stable modules, smooth duals of
      (K, P)-stable modules, and direct sums of (K, P)-stable modules with a common c are
      (K, P)-stable.
    - Smooth products of (K, P)-stable modules with a common c are (K, P)-stable with that c.
      The coordinate projections give (∏_j^sm V_j)^K ≅ ∏_j V_j^K, since K is open. Thus if
-     V_j^K = ker T_j^c ⊕ V_{j,*} for every j, the product splits as
-     ker((∏_j T_j)^c) ⊕ ∏_j V_{j,*}, with the inverse on the second part taken coordinatewise.
+     `V_j^K = ker T_j^c ⊕ V_{j,*}` for every j, the product splits as
+     `ker((∏_j T_j)^c) ⊕ ∏_j V_{j,*}`, with the inverse on the second part taken coordinatewise.
      The Hecke action agrees with ∏_j T_j. *Lean:* `SmoothRep.nonempty_invariants_smoothProduct`
      and *stable-operator*
      (`StableOperator.pi_of_uniform`) carry the open-subgroup and common-exponent hypotheses.
    - Π is (K, P)-stable if Π and Π_U are admissible over a commutative noetherian W(k)-algebra
      acting compatibly.
-   - E_{(K,τ)} = End_G(P_{(K,τ)}) is commutative and finite over a finitely generated
-     W(k)-subalgebra. P_{(M,π)} and its Jacquet modules along all parabolics are admissible over
-     ⊗_i E_{(K_i,τ_i)}.
+   - `E_{(K,τ)} = End_G(P_{(K,τ)})` is commutative and finite over a finitely generated
+     W(k)-subalgebra. `P_{(M,π)}` and its Jacquet modules along all parabolics are admissible over
+     `⊗_i E_{(K_i,τ_i)}`.
 
-   So each I_{[L,π]} is (K, P)-stable with a constant depending only on K, P, λ and [L,π].
+   So each `I_{[L,π]}` is (K, P)-stable with a constant depending only on K, P, λ and [L,π].
    Its product coresolution has this common constant, and the kernel of its first differential
    is Π. Exactness of K-invariants and stability under kernels therefore give stability for every
-   Π in Rep_{[L,π]}. Every smooth module is stable, since its K-invariants lie in the finitely
+   Π in `Rep_{[L,π]}`. Every smooth module is stable, since its K-invariants lie in the finitely
    many factors met by W(k)[G/K]; take the maximum of their constants. The same
    holds with P̄ and λ⁻¹ in place of P and λ ([Hel16] Corollary 9.2, p. 44; Theorem 9.4, p. 46;
    Lemma 10.3, p. 53; Theorem 10.7, Corollary 10.8 and Theorem 10.9, p. 55; Definition 11.9,
    p. 58; Lemmas 11.10–11.13 and Corollary 11.14, pp. 59–60; [DHKM1] the common-constant
    product and kernel statements following Corollary 4.6, and Lemma 4.8, p. 14).
-3. *Jacquet duality.* For every smooth Π, R_P(Π^∨) ≅ (R_{P̄}Π)^∨ and R_{P̄}(Π^∨) ≅ (R_PΠ)^∨,
+3. *Jacquet duality.* For every smooth `Π`, `R_P(Π^∨) ≅ (R_{P̄}Π)^∨` and `R_{P̄}(Π^∨) ≅ (R_PΠ)^∨`,
    naturally in Π. Write 𝒦 = Frac W(k) and D = 𝒦/W(k). For compact open K of invertible
-   pro-order, averaging identifies (Π^∨)^K with Hom_{W(k)}(Π^K, D). The nondegenerate evaluation
-   pairing makes T_λ on the dual adjoint to T_{λ⁻¹} on Π^K. Restrict to their invertible
-   summands to identify the dual summand with Hom_{W(k)}((Π^K)_*, D). Over a cofinal family of
+   pro-order, averaging identifies (Π^∨)^K with `Hom_{W(k)}(Π^K, D)`. The nondegenerate evaluation
+   pairing makes T_λ on the dual adjoint to `T_{λ⁻¹}` on Π^K. Restrict to their invertible
+   summands to identify the dual summand with `Hom_{W(k)}((Π^K)_*, D)`. Over a cofinal family of
    decomposed K these identifications give the first smooth-dual isomorphism; exchange P and P̄
    for the second. Arbitrary Π need not identify with its bidual, so this construction asserts
    only the one-sided dual identification ([Hel16] Proposition 11.16, pp. 60–61, for that
@@ -4123,22 +4123,22 @@ following four steps.
 4. *Adjunction.* For Π = Π′^∨ the isomorphism is the composite of step 3, the exchange
    Hom(X, Y^∨) ≅ Hom(Y, X^∨) and the duality (I_P σ)^∨ ≅ I_P(δ_P ⊗ σ^∨) of
    *type-projective-construction*, and *first-adjointness*. Put
-   Q_{[L,π]} = ⊕_{(M,π′)} P_{(M,π′^∨)}, over the finite set in step 1, so
-   I_{[L,π]} = Q_{[L,π]}^∨. Prove the natural restriction isomorphism
+   `Q_{[L,π]} = ⊕_{(M,π′)} P_{(M,π′^∨)}`, over the finite set in step 1, so
+   `I_{[L,π]} = Q_{[L,π]}^∨`. Prove the natural restriction isomorphism
    (⊕_j Q_j)^∨ ≅ ∏_j^sm Q_j^∨. Each term of the product coresolution is therefore itself a
    smooth dual, so the dual-target comparison applies for every σ. Prove that this comparison
    is natural for all morphisms between these terms, including maps not presented as duals
    of maps between the Q_j, by its canonical compact-open-level pairings from step 3.
 
-   For 0 → Π → J⁰ → J¹, both Hom_G(I_P σ, −) and Hom_M(σ, δ_P ⊗ R_{P̄}(−)) identify their
+   For 0 → Π → J⁰ → J¹, both Hom_G(I_P σ, −) and `Hom_M(σ, δ_P ⊗ R_{P̄}(−))` identify their
    value on Π with the kernel of their map on J⁰ → J¹: use left exactness of Hom and exactness
-   of R_{P̄}. The natural comparison on J⁰ and J¹ thus restricts to the comparison on Π,
+   of `R_{P̄}`. The natural comparison on J⁰ and J¹ thus restricts to the comparison on Π,
    independently of the coresolution and naturally in σ and Π. At each compact-open level only
    finitely many blocks have invariants, by step 1; hence the smooth product of block components
-   is their direct sum. Evaluation into smooth products of the I_{[L,π]} over all blocks gives
-   a global coresolution whose terms are duals of direct sums of the Q_{[L,π]}, so the same
+   is their direct sum. Evaluation into smooth products of the `I_{[L,π]}` over all blocks gives
+   a global coresolution whose terms are duals of direct sums of the `Q_{[L,π]}`, so the same
    kernel argument applies to every Π. Conclude preservation of smooth
-   products by R_{P̄} from this adjunction ([Hel16] Theorem 11.17 and Corollary 11.18,
+   products by `R_{P̄}` from this adjunction ([Hel16] Theorem 11.17 and Corollary 11.18,
    pp. 61–62, for the dual-target comparison and projectivity; [DHKM1] proof of Corollary 1.3,
    p. 15, for extension through products of duals).
 
@@ -4150,17 +4150,17 @@ following four steps.
 **Checks.**
 
 - P = G, so r = 1, M = G and U = Ū = 1: δ_G = 1, I_G and R_G are identity functors, and the
-  adjunction is id ⊣ id. Here P_{(G,π)} = P_{(K,τ)} is projective already by
+  adjunction is id ⊣ id. Here `P_{(G,π)} = P_{(K,τ)}` is projective already by
   *type-projective-construction*.
 - n = 2, P = B and Π the trivial character: Hom_G(I_B χ, 1) ≅ Hom_T(χ, δ_B) for every smooth
   character χ : T → W(k)^×. For χ = δ_B this is W(k), spanned by integration over B\G. For χ = 1
   it is 0, because δ_B(diag(ϖ, 1)) = q⁻¹ ≠ 1 in the domain W(k), whereas
-  Hom_T(1, R_{B̄}1) = W(k). So the twist by δ_B cannot be dropped.
+  `Hom_T(1, R_{B̄}1) = W(k)`. So the twist by δ_B cannot be dropped.
 - F = ℚ_3 and ℓ = 2, as in the fourth Check of *type-projective-construction*. W(k) has no
-  square root of 3, so i_B and r_{B̄} are not defined over W(k). But δ_B takes values in
-  3^ℤ ⊂ W(k)^×, so I_B ⊣ δ_B ⊗ R_{B̄} is stated over W(k). P ⊗ P = W(k)[T(ℚ_3)/T₁], with
+  square root of 3, so i_B and `r_{B̄}` are not defined over W(k). But δ_B takes values in
+  3^ℤ ⊂ W(k)^×, so `I_B ⊣ δ_B ⊗ R_{B̄}` is stated over W(k). P ⊗ P = W(k)[T(ℚ_3)/T₁], with
   T₁ = (1 + 3ℤ_3)², is projective over T(ℚ_3), because T₁ is pro-3 and 3 ∈ W(k)^×. So
-  P_{(T,1⊗1)} = I_B^G(P ⊗ P) is a finitely generated projective object of the smooth
+  `P_{(T,1⊗1)} = I_B^G(P ⊗ P)` is a finitely generated projective object of the smooth
   W(k)[GL_2(ℚ_3)]-category.
 - F = ℚ_2, n = 1, ℓ = 3, k = F̄_3, A = W(k), 𝒦 = Frac A and D = 𝒦/A. For the trivial type
   P = A[T, T⁻¹] and I = Hom_A(P, D)^sm. K = ℤ_2^× acts trivially, so I is the full sequence
@@ -4168,12 +4168,12 @@ following four steps.
   (⊕_J I)^G = ⊕_J D is 3-power torsion, so no G-map from the trivial A-line to ⊕_J I is
   injective. This A-line is finitely generated and admissible. The assertion is about I^G;
   sequences in I can have unbounded denominators.
-- In that same block, a ↦ (a/3^n + A)_{n≥1}, with each coordinate viewed as a constant sequence
-  in I, embeds the trivial A-line in ∏_{n≥1}^sm I. Every tuple is G-fixed, and injectivity
-  follows from ⋂_{n≥1} 3^n A = 0. The image of 1 has infinitely many nonzero coordinates and
+- In that same block, `a ↦ (a/3^n + A)_{n≥1}`, with each coordinate viewed as a constant sequence
+  in I, embeds the trivial A-line in `∏_{n≥1}^sm I`. Every tuple is G-fixed, and injectivity
+  follows from `⋂_{n≥1} 3^n A = 0`. The image of 1 has infinitely many nonzero coordinates and
   does not lie in the direct sum.
-- For GL₁(ℚ₂), ℓ = 3 and k = F̄₃, take Π = ⊕_{n ∈ ℕ} k with trivial action. Both contracting
-  operators are identity. Its dual is ∏_n k and evaluation is nondegenerate, but Π → Π^{∨∨}
+- For GL₁(ℚ₂), ℓ = 3 and k = F̄₃, take `Π = ⊕_{n ∈ ℕ} k` with trivial action. Both contracting
+  operators are identity. Its dual is ∏_n k and evaluation is nondegenerate, but `Π → Π^{∨∨}`
   is not surjective: a k-linear functional on ∏_n k that vanishes on all finitely supported
   tuples and takes the all-one tuple to 1 cannot be evaluation at a finitely supported vector.
   Thus the one-sided identification does not imply two-sided perfectness.
@@ -4186,24 +4186,24 @@ following four steps.
 **Integral GL_n Bernstein blocks** (*integral-blocks*). For F a finite extension of ℚ_p and an
 algebraically closed field k of characteristic ℓ different from p, take the decomposition of the
 smooth W(k)[GL_n(F)] category by mod-ℓ inertial supercuspidal support given by
-*integral-second-adjointness*. Prove that each block center A_{[L,π]} is a reduced,
+*integral-second-adjointness*. Prove that each block center `A_{[L,π]}` is a reduced,
 ℓ-torsion-free finite-type W(k)-algebra whose k-points classify the exact supercuspidal supports
 of the simple representations in that block. This center specializes the existing abstract
 CatCenter; it is not a new abstract center construction ([Hel16] Definition 4.12, pp. 13–14;
 Theorems 11.8, 12.8–12.9 and Corollary 12.12, pp. 58, 67–69). No square root of q in W(k) is
 assumed, so ℓ = 2 is included, and second adjointness enters only through
-*integral-second-adjointness*. Let P_{[L,π]} be the sum of the P_{(M,π′)} over the finitely many
+*integral-second-adjointness*. Let `P_{[L,π]}` be the sum of the `P_{(M,π′)}` over the finitely many
 mod-ℓ inertial cuspidal supports (M, π′) with mod-ℓ inertial supercuspidal support (L, π). It is
 a finitely generated projective object by *integral-second-adjointness*, and it lies in the
 block of (L, π). By *type-projective-construction* every simple object of the block is a quotient
-of it. So P_{[L,π]} is a faithfully projective object of the block, and the centre of its
-endomorphism ring is A_{[L,π]} ([Hel16] Corollaries 11.18–11.19, pp. 61–62). *Needs:*
+of it. So `P_{[L,π]}` is a faithfully projective object of the block, and the centre of its
+endomorphism ring is `A_{[L,π]}` ([Hel16] Corollaries 11.18–11.19, pp. 61–62). *Needs:*
 *distinguished-cuspidal-types*, *type-projective-construction*, *integral-second-adjointness*;
 layer SR.0, layer SR.3.
 
 Supercuspidal pairs use matrix parabolics and modular supercuspidality. Exact support is distinguished from inertial support. Exact supercuspidal supports of k-representations use normalized induction with a fixed square root of q in k, which exists because k is algebraically closed; inertial supports do not depend on that choice, and no square root in W(k) is used. The block idempotent is characterized on simple residue-field objects. Separate statements give the block idempotents of the decomposition, the three center properties, and the exact-support classification with its scalar-action equation.
 
-Checks: three tests (a nonzero pair, a proper induction, rank one) distinguish supercuspidal supports. Three tests (exact, inertial, nonconjugate) distinguish the two equivalence relations. Three tests (nonzero, covariance, rank one) fix the inducing representation and the half modulus over k. Three tests check nonzero, disjoint, and exhaustive block projections. For F = ℚ_3 and ℓ = 2, where W(k) has no square root of 3, P_{(T,1⊗1)} = I_B^G(P ⊗ P) of the fourth Check of *type-projective-construction*, which is projective by the third Check of *integral-second-adjointness*, lies in the block of (T, 1 ⊗ 1).
+Checks: three tests (a nonzero pair, a proper induction, rank one) distinguish supercuspidal supports. Three tests (exact, inertial, nonconjugate) distinguish the two equivalence relations. Three tests (nonzero, covariance, rank one) fix the inducing representation and the half modulus over k. Three tests check nonzero, disjoint, and exhaustive block projections. For F = ℚ_3 and ℓ = 2, where W(k) has no square root of 3, `P_{(T,1⊗1)} = I_B^G(P ⊗ P)` of the fourth Check of *type-projective-construction*, which is projective by the third Check of *integral-second-adjointness*, lies in the block of (T, 1 ⊗ 1).
 
 **Modular generic segments** (*modular-generic-segments*). Let F be a finite extension
 of ℚ_p, n ≥ 1 and κ an algebraically closed field of characteristic different from p.
@@ -4243,12 +4243,12 @@ layer SR.3 for characteristic-zero support theory.
 
 **Distinguished type projectives and their fibers** (*type-projectives*). For F a finite extension
 of ℚ_p, k algebraically closed of characteristic ℓ ≠ p, and a maximal distinguished cuspidal
-k-type (K, τ) of *distinguished-cuspidal-types*, let P_{(K,τ)} = c-Ind_K^G(κ̃ ⊗ P_σ) be the
+k-type (K, τ) of *distinguished-cuspidal-types*, let `P_{(K,τ)} = c-Ind_K^G(κ̃ ⊗ P_σ)` be the
 projective of *type-projective-construction*. It is the compact induction of a projective
 envelope of τ among smooth W(k)[K]-modules, not an envelope of a simple G-module. Prove that
-P_{(K,τ)} lies in the integral block of the supercuspidal support of the cuspidal
+`P_{(K,τ)}` lies in the integral block of the supercuspidal support of the cuspidal
 representations containing (K, τ). Prove also that it has commutative endomorphism ring
-E_{(K,τ)}, is E-admissible, and has top derivative locally free of rank one over E, and that every
+`E_{(K,τ)}`, is E-admissible, and has top derivative locally free of rank one over E, and that every
 prime fiber has absolutely irreducible generic cosocle and essentially AIG smooth dual ([Hel12]
 Theorem 4.1, Proposition 4.3, Proposition 4.8 and Corollary 4.9, pp. 6–9). *Needs:*
 *distinguished-cuspidal-types*, *type-projective-construction*, *integral-blocks*,
@@ -4256,31 +4256,31 @@ Theorem 4.1, Proposition 4.3, Proposition 4.8 and Corollary 4.9, pp. 6–9). *Ne
 
 **Checks.**
 
-- n = 1, ℓ ∤ q − 1 and the trivial type: E = W(k)[T, T⁻¹], and the top derivative is P_{(K,τ)}
+- n = 1, ℓ ∤ q − 1 and the trivial type: E = W(k)[T, T⁻¹], and the top derivative is `P_{(K,τ)}`
   itself, free of rank one over E. The fiber at a prime is the unramified character sending ϖ to
   the image of T, which is absolutely irreducible and generic.
 - n = 1 and ℓ | q − 1: E = W(k)[T, T⁻¹][S] for the ℓ-Sylow subgroup S of 𝔽_q^×. It is
   commutative and reduced, while E ⊗ k is not reduced; every prime fiber is still a character.
-- P_{(K,τ)} ⊕ P_{(K,τ)} has endomorphism ring M_2(E), which is not commutative, and a top
-  derivative of rank two, so these conclusions are specific to P_{(K,τ)}.
+- `P_{(K,τ)} ⊕ P_{(K,τ)}` has endomorphism ring M_2(E), which is not commutative, and a top
+  derivative of rank two, so these conclusions are specific to `P_{(K,τ)}`.
 
 **Universal block Whittaker projective** (*universal-whittaker*). Here F is a finite extension
 of ℚ_p, n ≥ 1 (in particular n ≥ 2 is included), G = GL_n(F), and k is algebraically closed
 of characteristic ℓ ≠ p. Let U be the unipotent radical of a Borel and choose a smooth
-nondegenerate character ψ : U → W(k)^×. Form W = c-Ind_U^G ψ; let W_{[L,π]} be its
-summand for the inertial class of a Levi L and an irreducible supercuspidal k-representation π. Prove that Hom_G(W_{[L,π]}, V) is naturally the top derivative
+nondegenerate character ψ : U → W(k)^×. Form W = c-Ind_U^G ψ; let `W_{[L,π]}` be its
+summand for the inertial class of a Levi L and an irreducible supercuspidal k-representation π. Prove that `Hom_G(W_{[L,π]}, V)` is naturally the top derivative
 of the block part of any smooth W(k)[G]-module V, with W(k)[G]-linear Hom. In particular,
-for V in that block it is V^{(n)}; no admissibility or finite-generation hypothesis on V is
+for V in that block it is `V^{(n)}`; no admissibility or finite-generation hypothesis on V is
 needed. The locator is D. Helm [Hel12] §3, numbered property (2) after Theorem 3.1, p. 5,
 restricted to the block, with [Hel16] Theorem 11.8, p. 58, for the block decomposition.
 The printed property (2) is stated for W without a block restriction; the ordinary module
 Hom used here requires the following product/direct-sum distinction. Since W is the direct
 sum of its block summands, Hom_G(W, V) is the
-product over blocks of these derivatives; it equals V^{(n)}, the corresponding direct sum, when V
+product over blocks of these derivatives; it equals `V^{(n)}`, the corresponding direct sum, when V
 lies in finitely many blocks (for instance V finitely generated), and not in general.
 Prove also that
-W_{[L,π]} is projective and admissible over its block center and End_G(W_{[L,π]}) is the integral
-block center; and that W_{[L,π]}^{(n)} is free of rank one over that
+`W_{[L,π]}` is projective and admissible over its block center and `End_G(W_{[L,π]})` is the integral
+block center; and that `W_{[L,π]}^{(n)}` is free of rank one over that
 center. The carrier of compactly induced functions records only locally constant equivariant
 functions supported in U times a compact set. Its comparison with c-Ind uses U closed and
 smooth vectors for the right translation action; it is not the integral-block summand.
@@ -4289,16 +4289,16 @@ representation ([Hel12] §3, p. 4, for projectivity; Lemma 3.2, p. 5, for the de
 line; Theorem 5.2, p. 10, for the endomorphism ring; Proposition 5.3, pp. 10–11, for
 admissibility and finite generation). These assertions use Helm's p-adic-field hypotheses;
 they do not assert the positive-characteristic-local-field extension. The endomorphism
-identification compares W_{[L,π]} with the induced type projective I_P^G(⊗_i P_{(K_i,τ_i)}) of
+identification compares `W_{[L,π]}` with the induced type projective `I_P^G(⊗_i P_{(K_i,τ_i)})` of
 *type-projective-construction*, taken at a maximal cuspidal pair of the block in Helm's order. Its
-top derivative is the tensor product of the rank-one E_{(K_i,τ_i)}-modules of *type-projectives*.
-The comparison uses that the block centre maps injectively to ⊗_i E_{(K_i,τ_i)} with ℓ-saturated
+top derivative is the tensor product of the rank-one `E_{(K_i,τ_i)}`-modules of *type-projectives*.
+The comparison uses that the block centre maps injectively to `⊗_i E_{(K_i,τ_i)}` with ℓ-saturated
 image ([Hel12] Proposition 5.1, p. 10; in the numbering of [Hel16], Theorems 12.4 and 13.7,
 pp. 65 and 73). *Needs:* *twisted-coinvariants*, *integral-blocks*,
 *type-projective-construction*, *type-projectives*; layer SR.2.
 
 
-A central block is specified by a primitive central idempotent; its actual image on a smooth representation is the block part, and the block centre is Mathlib’s idempotent corner in the categorical centre. W_{[L,π]} is this block part of compact induction of the nondegenerate character. The central actions on the derivative and on W_{[L,π]} are pinned, and centre-admissibility is stated separately.
+A central block is specified by a primitive central idempotent; its actual image on a smooth representation is the block part, and the block centre is Mathlib’s idempotent corner in the categorical centre. `W_{[L,π]}` is this block part of compact induction of the nondegenerate character. The central actions on the derivative and on `W_{[L,π]}` are pinned, and centre-admissibility is stated separately.
 
 Checks:
 
@@ -4314,33 +4314,33 @@ it does not belong for a nontrivial ψ. These test the carrier, independently of
 
 - Hom_G(W, V) = 0 for a representation with zero top derivative.
 - For GL_1 (n = 1, U = 1) W is the regular representation
-  C_c^∞(F^×, W(k)) and V^{(1)} = V. Take F = ℚ_p with p odd and k = F̄_ℓ, ℓ ≠ p.
+  C_c^∞(F^×, W(k)) and `V^{(1)} = V`. Take F = ℚ_p with p odd and k = F̄_ℓ, ℓ ≠ p.
   Let V be the direct sum, over the infinitely many smooth characters χ of 1 + pℤ_p,
-  of the extensions of χ to F^× trivial on μ_{p−1} and on p. Then Hom_G(W, V) is the limit of the V^K under trace maps over pro-p K, a countable
-  product of copies of W(k), while V^{(1)} = V is the countable direct sum, so the unrestricted
-  formula Hom_G(W, V) = V^{(n)} fails: reduction modulo ℓ gives a product versus a direct
+  of the extensions of χ to F^× trivial on `μ_{p−1}` and on p. Then Hom_G(W, V) is the limit of the V^K under trace maps over pro-p K, a countable
+  product of copies of W(k), while `V^{(1)} = V` is the countable direct sum, so the unrestricted
+  formula `Hom_G(W, V) = V^{(n)}` fails: reduction modulo ℓ gives a product versus a direct
   sum over the countable field F̄_ℓ. The same product/direct-sum distinction holds for n ≥ 2
   by taking generic simple targets from infinitely many distinct integral blocks. A further
-  test records only the analogous cardinality obstruction ℚ^ℕ ≇ ℚ^{(ℕ)}; it is not a statement
+  test records only the analogous cardinality obstruction `ℚ^ℕ ≇ ℚ^{(ℕ)}`; it is not a statement
   about W itself.
 - A generic simple fiber is a nonzero quotient of the corresponding universal fiber.
 - After a center map to A, the top derivative of W ⊗ A is A.
 
 **Co-Whittaker families** (*co-whittaker*). For a Noetherian W(k)-algebra A, define a smooth
-A[GL_n(F)] representation V to be co-Whittaker if it is admissible, V^{(n)} is free of rank one
+A[GL_n(F)] representation V to be co-Whittaker if it is admissible, `V^{(n)}` is free of rank one
 over A (the top derivative is isomorphic to A as an A-module), and for
 every prime ideal 𝔞 the smooth dual of V ⊗_A κ(𝔞) is essentially AIG (the fiber condition).
 The Lean fiber predicate is defined for arbitrary commutative A and specified subgroup/character
 data; the GL_n structure and Noetherian W(k)-algebra hypotheses apply to the theorems here.
 Domination means a surjective equivariant map. Prove `CoWhittaker.scalars`: the natural map
-A → End_{A[G]}(V) is an isomorphism. The generic character in this statement is a nontrivial
+`A → End_{A[G]}(V)` is an isomorphism. The generic character in this statement is a nontrivial
 smooth character ψ : F → W(k)ˣ pushed to A, which is Helm's setting; with an arbitrary nontrivial
 A-valued ψ a fibre character could become trivial (for instance over A = W(k) × W(k)). The fiber
 condition is not replaced by genericity at minimal
 primes only ([Hel12] Definition 6.1 and Proposition 6.2, p. 12). *Needs:* *essentially-aig*,
 *universal-whittaker*, *schwartz-submodule*; layer SR.0.
 *Lean:* Tau Ceti's `TauCeti.upperUnitriangularGroup (Fin n) F`, `genericCharacter`
-(u ↦ ψ(u₁₂ + ⋯ + u_{n−1,n}), trivial for n = 1 by a Lean `example`; for n = 2,
+(`u ↦ ψ(u₁₂ + ⋯ + u_{n−1,n})`, trivial for n = 1 by a Lean `example`; for n = 2,
 u = [[1,x],[0,1]] has value ψ(x); for n = 3, u = [[1,a,b],[0,1,c],[0,0,1]] has value ψ(a + c),
 independent of b (a Lean `example`); the values at [[1,x],[0,1]] and [[1,y],[0,1]] multiply to
 the value at their product [[1,x+y],[0,1]] (a Lean `example`)), `CoWhittaker` (relative to
@@ -4370,7 +4370,7 @@ is isomorphic to A and there are no prime ideals. The first is a Lean `example` 
 test; both supplement the two-copy and nongeneric negative controls.
 
 **Universal co-Whittaker domination** (*universal-domination*). For any Noetherian A and center
-map A_{[L,π]} → A, prove that W_{[L,π]} ⊗ A is co-Whittaker and surjects onto every co-Whittaker
+map `A_{[L,π]} → A`, prove that `W_{[L,π]} ⊗ A` is co-Whittaker and surjects onto every co-Whittaker
 A-family with that center character, and that a co-Whittaker family has a uniquely determined
 center character through its scalar endomorphisms. Domination does not assert that every quotient
 is isomorphic to the universal object ([Hel12] Theorem 6.3, pp. 12–13). *Needs:* *co-whittaker*,
@@ -4392,7 +4392,7 @@ Checks: for zero maps and for the empty family the diagonal kernel is the whole 
 **Segments and their two representations** (*segment-representations*). Work over ℂ with
 ν = |det|. A segment Δ = [x, y]_ρ is a unitary irreducible cuspidal representation ρ of GL_d(F),
 with d ≥ 1, together with real endpoints x ≤ y, x ≡ y mod ℤ. It stands for the list
-ρν^x, ρν^{x+1}, …, ρν^y of length y − x + 1; powers that are not unitary are recorded in the
+`ρν^x, ρν^{x+1}, …, ρν^y` of length y − x + 1; powers that are not unitary are recorded in the
 endpoints, not in ρ. Prove that the normalised product ρν^x × ⋯ × ρν^y has a unique irreducible
 subrepresentation Z(Δ) and a unique irreducible quotient L(Δ), the generalized Steinberg
 representation, and that L(Δ) is generic. Two segments are linked when neither contains the
@@ -4414,8 +4414,8 @@ apart: Breuil–Schneider uses L(Δ) and π(m), and *highest-derivative-adapter*
 - For Δ = [−1/2, 1/2]_1 in GL_2, Z(Δ) is the trivial character and L(Δ) is the Steinberg
   representation. Z(Δ) has zero top derivative, and L(Δ) has a one-dimensional one.
 - For m = [0, 0]_1 + [1, 1]_1 the two segments are linked and [0, 0]_1 precedes [1, 1]_1, so
-  π(m) = ν × 1. Its unique irreducible subrepresentation, ν^{1/2} ⊗ St, is generic and equals
-  Z(m); its unique irreducible quotient L(m) is the character ν^{1/2}. The other order, 1 × ν,
+  π(m) = ν × 1. Its unique irreducible subrepresentation, `ν^{1/2} ⊗ St`, is generic and equals
+  Z(m); its unique irreducible quotient L(m) is the character `ν^{1/2}`. The other order, 1 × ν,
   exchanges the subrepresentation and the quotient.
 
 <a id="wd-raw-parameters"></a>
@@ -4423,7 +4423,7 @@ apart: Breuil–Schneider uses L(Δ) and π(m), and *highest-derivative-adapter*
 **Shared raw Weil–Deligne parameters** (*wd-raw-parameters*). For a characteristic-zero field E,
 a finite-dimensional E-space V, the local Weil group W_F and q the residue cardinality,
 define the canonical fields (V,r,N): r is a linear representation with open kernel,
-N is nilpotent and r(w) N r(w)⁻¹ = q^{deg w} N. Arithmetic Frobenius has degree one.
+N is nilpotent and `r(w) N r(w)⁻¹ = q^{deg w} N`. Arithmetic Frobenius has degree one.
 Frobenius semisimplicity is a separate predicate: r(w) is semisimple for every w of nonzero
 degree. Over characteristic zero this agrees with geometric semisimplicity of those operators.
 The same raw fields underlie the full construction and the Frobenius-semisimple parameters
@@ -4443,7 +4443,7 @@ and semisimplification targets use the supplied local Weil group with compact op
 
 - An unramified parameter with r(Φ) = [[1,1],[0,1]] and N = 0 is raw but fails the
   Frobenius-semisimplicity predicate. Its Frobenius semisimplification has r(Φ) = 1 and N = 0.
-- The parameter Sp(2), in the basis with r(w) = diag(q^{deg w},1) and N = [[0,1],[0,0]],
+- The parameter Sp(2), in the basis with `r(w) = diag(q^{deg w},1)` and N = [[0,1],[0,0]],
   is Frobenius-semisimple with nonzero monodromy, retained by Frobenius semisimplification.
 - A change of basis conjugates both r and N. Duality gives (r∨,−Nᵗ); applying it twice
   recovers the original parameter.
@@ -4460,7 +4460,7 @@ used here with Tau Ceti's local characters.
 
 **Nilpotent exponential and unipotent logarithm** (*nilpotent-exp-log*).
 In a ℚ-algebra define the logarithm of a unipotent unit u by
-log u = Σ_{1 ≤ i < b} (−1)^{i+1}(u−1)^i/i when (u−1)^b = 0.
+`log u = Σ_{1 ≤ i < b} (−1)^{i+1}(u−1)^i/i` when (u−1)^b = 0.
 Prove independence of b and that this is inverse to Mathlib's finite nilpotent
 exponential. Both operations commute with algebra maps and conjugation.
 For every nonzero integer m, the unique unipotent m-th root is exp(m⁻¹ log u).
@@ -4488,9 +4488,9 @@ N⊗1+1⊗N', duals (r∨,−Nᵗ), character twists, determinants, restriction 
 extensions, finite-index induction, scalar extension and inertial type on the same raw fields.
 Prove their functoriality and compatibility with transport. Restriction uses the supplied
 Weil-group embedding and deg_F = f(L/F) deg_L; induction in left-coset notation has
-N_Ind(g⊗v) = q^{−deg_F g} g⊗Nv. Index inversion compares this notation with
+`N_Ind(g⊗v) = q^{−deg_F g} g⊗Nv`. Index inversion compares this notation with
 Mathlib's right-translation convention for induction.
-Put ω(w) = q^{deg w}. Define Sp(n) by r(w)e_i = ω(w)^i e_i and Ne_i = e_(i+1),
+Put `ω(w) = q^{deg w}`. Define Sp(n) by r(w)e_i = ω(w)^i e_i and Ne_i = e_(i+1),
 with Ne_(n−1) = 0. For q ≥ 2 and finite inertia image, prove (r,N) ≅ (r,aN)
 for every a ≠ 0, as well as Sp(2)∨ ≅ Sp(2)⊗ω⁻¹ and det Sp(2) = ω
 ([Del73] §2.2.4, p. 522, §8.4.1, p. 568, and the proof of §8.4.3, p. 569).
@@ -4520,7 +4520,7 @@ on a finite-dimensional E-space V with its module topology. The norm on E extend
 on the raw parameter fields for these coefficients.
 For a trivialisation t of the ℓ-adic tame character, prove that there is a unique nilpotent N
 with ρ(σ) = exp(t(σ)N) on an open subgroup of inertia and
-ρ(w) N ρ(w)⁻¹ = q^{deg w} N on W_F. For a chosen arithmetic lift Φ define
+`ρ(w) N ρ(w)⁻¹ = q^{deg w} N` on W_F. For a chosen arithmetic lift Φ define
 r(Φ^m σ) = ρ(Φ^m σ) exp(−t(σ)N); this gives `WD_full(ρ) = (V,r,N)` on the shared raw fields.
 Prove functoriality on intertwining maps, lift and trivialisation independence up to isomorphism,
 exactness and the basis-change, dual and coefficient-extension comparisons. Scalar extension
@@ -4551,10 +4551,10 @@ linear actions; the full formula and comparisons are README targets on the share
 - The Tate-curve parameter Sp(2) has nonzero N. The dual has monodromy −Nᵗ, and
   coefficient extension preserves this operator and the arithmetic conjugation relation.
 - For E the Gauss-norm completion of ℚ₃(T), put u = 1+3T. The binomial character
-  z ↦ u^z on ℤ₃ is continuous. Inflating it along G_{ℚ₂} → ℤ̂ → ℤ₃ gives an unramified
+  z ↦ u^z on ℤ₃ is continuous. Inflating it along `G_{ℚ₂} → ℤ̂ → ℤ₃` gives an unramified
   rank-one ρ with `WD_full(ρ)(Φ) = u` and N = 0, fixed by Frobenius semisimplification.
   The transcendental eigenvalue u prevents descent to a finite extension of ℚ₃.
-- The cyclotomic character on G_{ℚ_ℓ} fails the open-inertia unipotence conclusion;
+- The cyclotomic character on `G_{ℚ_ℓ}` fails the open-inertia unipotence conclusion;
   the hypothesis ℓ ≠ p is necessary.
 
 <a id="full-wd-construction"></a>
@@ -4567,7 +4567,7 @@ of *wd-parameter-operations*. For trivialisation t and arithmetic lift Φ, the i
 W_F is ρ(Φ^m σ) = r(Φ^m σ) exp(t(σ)N).
 Prove that it extends continuously to G_F exactly when all eigenvalues of r(Φ) have
 ℓ-adic absolute value one. Morphisms intertwine ρ exactly when they intertwine r and N.
-Prove V^{ρ(I)} = (ker N)^{r(I)}, finite inertia image iff N = 0, and the change-of-lift
+Prove `V^{ρ(I)} = (ker N)^{r(I)}`, finite inertia image iff N = 0, and the change-of-lift
 and trivialisation comparisons; replacing t by at scales N by a⁻¹. Under restriction of
 ramification index e, compatible normalized tame trivialisations scale N by e.
 The extension criterion uses bounded positive and negative Frobenius powers and a preserved
@@ -4590,7 +4590,7 @@ ClassFieldTheory layer 9; finite-extension local-field linear algebra.
 **Frobenius semisimplification** (*wd-frobenius-semisimplification*).
 For a characteristic-zero field E and a raw parameter on the local Weil group with finite
 inertia image, take the multiplicative Jordan decomposition r(Φ) = su at an arithmetic lift.
-Construct r^{F-ss}(Φ^m σ) = r(Φ^m σ)u^{−m}, retaining N.
+Construct `r^{F-ss}(Φ^m σ) = r(Φ^m σ)u^{−m}`, retaining N.
 Prove independence of the lift, idempotence, the predicate
 `WeilDeligneParameter.IsFrobeniusSemisimple`, preservation of characteristic polynomials,
 and compatibility with transport, direct sums, tensors, duals and scalar extension.
@@ -4619,7 +4619,7 @@ Attach the basis-change, algebraic-dual and coefficient-extension comparisons to
 (r,N)∨ = (r∨,−Nᵗ), and WD(ρ∨) ≅ WD(ρ)∨.
 It also owns the classical GL_n correspondence rec, and
 the Breuil–Schneider generic-socle representation BS, defined using its
-segments and the |det|^{−(n−1)/2} normalization of [EH] §4.2, Definition 4.2.1,
+segments and the `|det|^{−(n−1)/2}` normalization of [EH] §4.2, Definition 4.2.1,
 pp. 29–30. Construct descent to characteristic-zero coefficient fields and scalar
 extension, using [EH] Proposition 4.1.6, pp. 26–27, and §4.2. The Weil group and
 reciprocity come from ClassFieldTheory layer 9; reciprocity sends a uniformizer
@@ -4646,16 +4646,16 @@ dual-parameter statement gives WD(ρ∨) ≅ (r∨, −Nᵗ) for WD(ρ) = (r, N)
 description of the fibre.
 
 Checks: in rank one in characteristic zero N = 0, since q ≠ 1; N = [[0,1],[0,0]] is accepted with
-r(w) = diag(q^{deg w}, 1) and rejected with r(w) = diag(1, q^{deg w}). The contragredient inverts
+`r(w) = diag(q^{deg w}, 1)` and rejected with `r(w) = diag(1, q^{deg w})`. The contragredient inverts
 a scalar, sends [[1,1],[0,1]] to [[1,0],[−1,1]], and applied twice gives the identity. In rank one
 and in the unramified case (trivial inertia, semisimple Frobenius) WD gives N = 0 and the
 restriction to the Weil group; Frobenius semisimplification sends an unramified ρ with Frobenius
 acting by [[1,1],[0,1]] to the trivial parameter, with N = 0. In rank one rec and BS act on
 GL_1(F) by the parameter at a Weil element over det g; rec makes the scalar a act by det r(w) for
-w over a. For r(w) = diag(q^{deg w}, 1): with N = 0, rec gives a one-dimensional representation
+w over a. For `r(w) = diag(q^{deg w}, 1)`: with N = 0, rec gives a one-dimensional representation
 and BS a representation that is not simple; with N = [[0,1],[0,0]], BS is simple. In rank one
 π_norm acts by ρ at a Weil element over det g (the two duals cancel), in rank zero it is a line,
-and it is not simple for unramified ρ with Frobenius images diag(q^{deg w}, 1).
+and it is not simple for unramified ρ with Frobenius images `diag(q^{deg w}, 1)`.
 
 **Integral centre interpolation** (*integral-llc-centre*). SR.5.2 owns
 the integral centre map. For a complete reduced ℓ-torsion-free Noetherian
@@ -4725,7 +4725,7 @@ A = W(k) satisfies the ring hypotheses; nonzero ℓ-torsion is excluded.
 
 **Endomorphisms after arbitrary coefficient tensoring** (*tensor-endomorphisms*). For a
 co-Whittaker GL_2(ℚ_l) family V over a Noetherian ℤ_p-algebra A, p different from l, and any
-A-module M, prove that End_A(M) → End_{A[G]}(M ⊗_A V) is an isomorphism. After renaming the local
+A-module M, prove that `End_A(M) → End_{A[G]}(M ⊗_A V)` is an isomorphism. After renaming the local
 residue characteristic to p and the coefficient characteristic to ℓ, the Schwartz proof extends to
 GL_n with the preceding derivative package (Nakamura states the GL_2 case) ([Nak] Lemma
 B.10 and proof, p. 274). *Needs:* *co-whittaker*, *schwartz-submodule*,
@@ -4766,7 +4766,7 @@ Checks: each residual-unit generator has the prescribed order relation; differen
 residual-eigenvalue block, prove that the projection e_α to a chosen simple Frobenius root
 induces an isomorphism from hyperspecial invariants to the distinguished line-parahoric
 invariants, and an isomorphism on all their right derived functors. The projector is the
-stabilized Q(V)^{(n!)} construction of CG, with Q isolating the chosen residual root; the result
+stabilized `Q(V)^{(n!)}` construction of CG, with Q isolating the chosen residual root; the result
 is specific to this local block ([CG18-arXiv] Lemma 9.14, Remark 9.15 and Theorem 9.16, p. 92, with proof on p. 93). *Needs:* *cg-distinct-block*; layer SR.1.
 
 The factorial projector is pinned by eventual equality with factorial powers. The derived statement applies it to the polynomial in the actual parahoric double-coset operator, and identifies hyperspecial Ext with its image in every degree. The comparison is restriction followed by the projector.
@@ -4784,7 +4784,7 @@ Lemma 2.9 and its proof, p. 14, specify endpoint shortening after the Zelevinsky
 
 Segments, multisegments and their subrepresentation-convention representations Z(Δ) and Z(m) are those of *segment-representations*. The normalized and parabolic products and the norm character specify the inductions and determinant powers. The normalized derivative uses the existing mirabolic quotient and its determinant normalization. The highest nonzero derivative is identified with the endpoint shortening, and in the iterated form the highest order is recomputed after each shortening.
 
-Checks: exponent zero gives the trivial twist; real exponents add under twisting; the norm at a uniformizer is q inverse; a zero inducing factor kills the normalized product; the rank-zero trivial line is a unit for it; the two determinant half powers have opposite signs; the empty parabolic product has rank zero and dimension one; one factor retains its group action; any zero factor makes the ordered product zero; the cuspidal block of a segment cannot have rank zero; a zero representation cannot label a segment; nonunitary powers are recorded in the endpoint, not hidden in the cuspidal label; a one-term segment is its cuspidal twist; for the GL₁ label ρ = 1, Z([a,a+1]_1) = |det|^{a+1/2} on GL₂ whereas L([a,a+1]_1) = |det|^{a+1/2}St; for a GL₂-supercuspidal label the two-term segment is on GL₄ and Z is not a determinant character; a segment with more than one term has zero top derivative; the empty multisegment is the rank-zero line; one segment recovers the segment representation; the multisegment is unordered, although its defining induction is ordered; shortening keeps the empty multisegment empty; all one-term segments disappear; the lower endpoint stays fixed and the upper endpoint decreases; the normalized derivative of order zero preserves the original action; the full derivative of a GL₁ character is the rank-zero line; the full derivative of every character of GL_n for n ≥ 2 is zero.
+Checks: exponent zero gives the trivial twist; real exponents add under twisting; the norm at a uniformizer is q inverse; a zero inducing factor kills the normalized product; the rank-zero trivial line is a unit for it; the two determinant half powers have opposite signs; the empty parabolic product has rank zero and dimension one; one factor retains its group action; any zero factor makes the ordered product zero; the cuspidal block of a segment cannot have rank zero; a zero representation cannot label a segment; nonunitary powers are recorded in the endpoint, not hidden in the cuspidal label; a one-term segment is its cuspidal twist; for the GL₁ label `ρ = 1`, `Z([a,a+1]_1) = |det|^{a+1/2}` on GL₂ whereas `L([a,a+1]_1) = |det|^{a+1/2}St`; for a GL₂-supercuspidal label the two-term segment is on GL₄ and Z is not a determinant character; a segment with more than one term has zero top derivative; the empty multisegment is the rank-zero line; one segment recovers the segment representation; the multisegment is unordered, although its defining induction is ordered; shortening keeps the empty multisegment empty; all one-term segments disappear; the lower endpoint stays fixed and the upper endpoint decreases; the normalized derivative of order zero preserves the original action; the full derivative of a GL₁ character is the rank-zero line; the full derivative of every character of GL_n for n ≥ 2 is zero.
 
 The Langlands representations L(Δ) and L(m) are the quotient-convention representations of *segment-representations*. The Zelevinsky involution sends Z(m) to L(m), and the classification pins this on all irreducibles. The shortening formula is also given after converting a Langlands label to the Z convention.
 
@@ -4942,11 +4942,11 @@ Finiteness is stated through the induced homomorphism of invariant coordinate al
 and let Ĥ be a reductive R-group with a tame finite-quotient W_F-action preserving a Borel
 pair (B,T). Write s for a generator of I_F⁰/P_F, Fr for arithmetic Frobenius and
 Ω = N_Ĥ(T)/T. Let N_T^s be the inverse image of Ω^s, and put
-N_s = {n ∈ N_T^s : n s^q(n)⁻¹ ∈ T^{s,0}}, where T^{s,0} is the maximal subtorus of T^s.
+`N_s = {n ∈ N_T^s : n s^q(n)⁻¹ ∈ T^{s,0}}`, where `T^{s,0}` is the maximal subtorus of T^s.
 The closed R-subscheme
-A_s = {(t,n) ∈ T^{s,0} × N_s : n Fr(t)n⁻¹ t^{−q} = s^q(n)n⁻¹}
+`A_s = {(t,n) ∈ T^{s,0} × N_s : n Fr(t)n⁻¹ t^{−q} = s^q(n)n⁻¹}`
 is finite over N_s. The equation describes a fiber of the relative torus isogeny
-(t,n) ↦ (n Fr(t)n⁻¹ t^{−q},n). Prove that A_s reaches every geometric point of the
+`(t,n) ↦ (n Fr(t)n⁻¹ t^{−q},n)`. Prove that A_s reaches every geometric point of the
 tame invariant quotient. The normalizer condition and the finite action are essential
 ([DHKM1] Lemmas 2.7–2.9, pp. 7–8). *Needs:* *wild-strata*,
 *twisted-component-finiteness*.
@@ -4959,7 +4959,7 @@ Proposition 2.1.2, printed p. 56. Finite presentation and the split-torus hypoth
 of the normalizer, normalizer-locus and relation-locus constructors and therefore of their
 point, exclusion and specialization interfaces. In the tame application, smoothness of the
 reductive ambient group supplies finite presentation and T is the split maximal torus of the
-preserved Borel pair. The maximal fixed split subtorus T^{s,0} is characterized; it does not replace the fixed subgroup by its full, possibly disconnected kernel. The points of the loci N_s and A_s are given by their equations. Finite faithful flatness of the relative isogeny is stated with its two coordinates, the finite projection is pinned by the second tensor inclusion, and a representative is given above every geometric quotient point.
+preserved Borel pair. The maximal fixed split subtorus `T^{s,0}` is characterized; it does not replace the fixed subgroup by its full, possibly disconnected kernel. The points of the loci N_s and A_s are given by their equations. Finite faithful flatness of the relative isogeny is stated with its two coordinates, the finite projection is pinned by the second tensor inclusion, and a representative is given above every geometric quotient point.
 
 Checks: the normalizer is tested on a whole split torus, on a split-torus subgroup of a commutative finitely presented affine group,
 and on a point moving the torus, within the same valid domain. Three tests (identity, inversion, a subtorus) distinguish the fixed subtorus from torsion in the fixed subgroup. Three tests (identity, untwisted, an excluded point) check both normalizer-locus equations. Three tests check t=1, the (q−1)-power kernel, and failure of finiteness when q=1.
@@ -5030,7 +5030,7 @@ The comparison statement gives the homeomorphism after every affine base change,
 ### SR.6.4 Finiteness over the centre
 
 **Z-finite smooth representations** (*z-finite*). For a Noetherian coefficient ring R, let Z_V be
-the image of the smooth categorical center in End_{R[G]}(V). Concretely,
+the image of the smooth categorical center in `End_{R[G]}(V)`. Concretely,
 Z_V is the subalgebra of underlying R-linear endomorphisms consisting
 exactly of `(z.app V).hom.hom.toLinearMap` for z in `CatCenter (SmoothRep R G)`. Thus all its
 elements are equivariant, and Z_V is commutative. Define V to be Z-finite if Z_V is a finite-type
@@ -5054,7 +5054,7 @@ categorical central element, show that the image on zero is the zero ring, and s
 trivial ℚ-representation of the trivial group it is all of End_ℚ(ℚ). The invariant carrier
 agrees with Mathlib's `Representation.invariants`, is zero on the zero object, and is the
 whole module for a trivial action. The three direct Z-finiteness tests are the zero object,
-the trivial rank-one object, and failure for ℚ^{(ℕ)} with trivial group. In the last case
+the trivial rank-one object, and failure for `ℚ^{(ℕ)}` with trivial group. In the last case
 naturality with the inclusions of rank-one summands forces the center image to be scalar.
 
 **Depth projective generators and center criteria** (*depth-generators*). Prove that a
@@ -5076,7 +5076,7 @@ generator construction over Q̄_ℓ by transporting the algebraic ℂ-theory of 
 irreducible Q̄_ℓ-supercuspidal representation π to a finite extension E/ℚ_ℓ. Choose an
 unramified character χ, with finite enlargement of E allowed, such that π ⊗ χ has integral
 central character; construct a G-stable admissible cyclic O_E-lattice L with
-Q̄_ℓ ⊗_{O_E} L ≅ π ⊗ χ. Here admissible means that L^K is finitely generated over O_E for every
+`Q̄_ℓ ⊗_{O_E} L ≅ π ⊗ χ`. Here admissible means that L^K is finitely generated over O_E for every
 compact open K, and cyclic means generated by one vector as an O_E[G]-module.
 
 For each Levi M let M⁰ be its subgroup generated by compact elements. Construct the
@@ -5120,7 +5120,7 @@ The embedding is stated over the actual subalgebra ℤ_ℓ[√q] of an algebraic
 **Stable contracting Hecke operators** (*stable-contracting-hecke-operator*). For a smooth
 representation V of a connected reductive local group with p invertible in A, a compact open
 K of invertible pro-order in A with an Iwahori decomposition, Haar measure normalized
-by volume(K) = 1, and a strictly P-positive central element λ of the Levi, let T_λ be the convolution operator of 1_{KλK} on V^K. Prove that the direct limit along
+by volume(K) = 1, and a strictly P-positive central element λ of the Levi, let T_λ be the convolution operator of `1_{KλK}` on V^K. Prove that the direct limit along
 T_λ is the Levi compact-open Jacquet invariants and that its canonical map is the Jacquet
 projection. When T_λ is stable, the invertible summand of *stable-operator* maps isomorphically
 to these invariants ([Ber87] §5.1–5.3, pp. 19–23; [DHKM1] §4, preceding Lemma 4.5,
@@ -5166,7 +5166,7 @@ integral local families of SR.5.
 
 | Supplier target | Consumer | Conventions |
 |---|---|---|
-| SR.4.3 / *gln-generators* | IntegralHeckeAndGaloisDeterminants IHG.3a.1 / Integral GLn Hecke polynomial | Characteristic-double-coset T_i and the q^{i(i−1)/2} factors; determinant characteristic polynomials and traces are supplied by IHG.0 / Characteristic polynomial and trace of a determinant. |
+| SR.4.3 / *gln-generators* | IntegralHeckeAndGaloisDeterminants IHG.3a.1 / Integral GLn Hecke polynomial | Characteristic-double-coset T_i and the `q^{i(i−1)/2}` factors; determinant characteristic polynomials and traces are supplied by IHG.0 / Characteristic polynomial and trace of a determinant. |
 | SR.4.5 / *gsp4-spin-polynomial*, *gsp4-galois-comparison* | IntegralHeckeAndGaloisDeterminants IHG.3a.2 / GSp4 dual-spin Hecke polynomial | `SpinPolynomial.reciprocal` uses reflect at 4; this roadmap's (T₀,T₂,T₁) are the consumer's (T₀,T₁,T₂). IHG.0 owns characteristic polynomials, traces and reciprocal determinant identities. |
 
 ## References
