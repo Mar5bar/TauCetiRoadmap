@@ -97,7 +97,9 @@ example [Module.Finite R M] (I : Ideal R) (T : Module.End R M) :
 end LocallyFinite
 
 /-! ## Layer 0: Ordinary Hecke algebras and Hida families
-The Hecke and form carriers are described in README.md. -/
+The Hecke and form carriers use the saturated mixed-weight divided-congruence
+lattices D_j^M and D_j^S described in README.md, including the separate
+positive-coefficient lattice for the quotient by constants. -/
 
 /-! ## Layer 1: Integral period modules and family measures -/
 
@@ -193,7 +195,9 @@ The spectral and eigenmodule carriers are described in README.md. -/
 The Banach family and eigensymbol carriers are described in README.md. -/
 
 /-! ## Layer 3: Critical refinements and critical p-adic L-functions
-The refinement, eigencurve and Mellin carriers are described in README.md. -/
+The cuspidal critical suite is supplied by ModularSymbolsPadicLFunctions §3.0.
+The README specifies its comparison with the global model, the equality of the
+adjoint finite and de Rham Selmer conditions, and the Eisenstein extensions. -/
 
 /-! ## Layer 4: Galois representations, Selmer conditions and family reciprocity
 The Galois family, local comparison and regulator targets are described in README.md. -/
@@ -226,13 +230,24 @@ Its analytic constructions are Eigenvariety.spectralVariety, slopePolynomial,
 slopeSummand, heckeImage, eigenvarietyOverWeight, complexSpectralVariety,
 eigenmoduleSheaf, distFamily, familySymb, familySymbSlope, symbolEigencurve,
 eigensymbolSheaf, ellipticColemanForms, IsCriticalRefinement, IsThetaCritical,
-IsDecent, criticalPadicL, the local two-variable Mellin construction and secondaryPadicL.
+IsDecent, criticalPadicL, the local two-variable Mellin construction and the supplied secondaryPadicL and localFamilyPadicL.
 
 The critical-boundary prerequisites are eisensteinCharacterSelmer,
 preferredEisensteinRepresentation, criticalBoundary_coleman,
 criticalSplit_breuilEmerton, criticalEisenstein_bellaicheChenevier,
 eigencurvePseudocharacter, refinedCrystallinePeriod,
-refinedDeformationRepresentable and refinedTangent_selmer.
+refinedDeformationRepresentable and refinedTangent_selmer; the three local
+cuspidal adapters are transported from ModularSymbolsPadicLFunctions §3.0.
+The model and local-condition comparisons are familySymb_localComparison and
+decentAdjoint_f_eq_g. Global density and comparison are
+symbolEigencurve_classicalDensity and eigenvariety_classicalComparison_global.
+The minimal-conductor ordinary adapter is ordinaryResidual_minimalTameWitness,
+retaining its odd prime, distinguished ordered ordinary quotient, coefficient
+extension and residual lattice identification. The quaternionic class-set
+finiteness definiteClassSet_finite specializes the supplied finite_classSet;
+quaternionicOrdinary_algebraicMoment_control uses nilpotence modulo each
+uniformizer power and complete inverse limits, so integral errors have zero
+ordinary factor without requiring annihilation by a single operator power.
 The Coleman boundary cokernel is asserted at slope k+1; smaller cuspidal
 slopes use small-slope control. The Eisenstein inputs and all their Layer 3
 consumers exclude the cyclotomic character ratio in weight two.
