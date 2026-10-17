@@ -1617,7 +1617,7 @@ Let `(A,A⁺)` be an adic Banach ring and `V_i=T_i⊗ℚ_p, i=1`,2, isogeny inte
 
 Inside `Q_p`, the `Z_p`-lattices between `pᵐZ_p` and `p⁻ᵐZ_p` are exactly `pᵃZ_p` for `−m≤a≤m`. There are 2m`+1`, not an infinite family, in this bounded rank-one window. For the monodromy transformation `x↦p·x`, the orbit of `Z_p` is `{pᵃZ_p:a∈Z}`; it escapes every such window. Therefore the resulting `Q_p`-local system on a Tate curve has local lattices but no monodromy-invariant global lattice. `A` representation whose image preserves `Z_p` has the invariant lattice `Z_p` and passes the integral test. (Kedlaya–Liu, §8.4, Remark 8.4.8, pp. 168–169; de Jong, Proposition 5.3, pp. 107–108.)
 
-The annular gluing of Section 3.7 yields an analytic quotient `G_m^an/q^Z` with `0<|q|<1`. Its real skeleton is `R`/log`|q|Z`, a circle with fundamental group `Z`. This gives an infinite locally finite analytic cover; a profinite fundamental group alone cannot classify it. The rational rank-one monodromy sending the circle generator to `p` fixes the convention for the counterexample above. (de Jong, Example 5.3, pp. 107–108; Kedlaya–Liu, Example 8.5.17, pp. 174–175.)
+The annular gluing of Section 3.7 yields an analytic quotient `G_m^an/q^Z` with `0<|q|<1`. Its real skeleton is `R`/log`|q|Z`, a circle with fundamental group `Z`. This gives an infinite locally finite analytic cover; a profinite fundamental group alone cannot classify it. The rational rank-one monodromy sending the circle generator to `p` fixes the convention for the counterexample above. (de Jong, Proposition 5.3, pp. 107–108; Kedlaya–Liu, Example 8.5.17, pp. 174–175.)
 
 ### Dependencies
 
