@@ -64,28 +64,44 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   numerable join/frame specialization after T1.6 and T6.4. The early
   precursor uses neither the join nor T6.4; stable BSO comparisons belong
   to T1.6 and are consumed by C1.1b and T7.
-- [ComplexKahlerGeometry K5–K7](../ComplexKahlerGeometry/README.md) supplies
+- [ComplexKahlerGeometry K5–K7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/13b2335ea038b439655df55654e71b19603d8ee1/TauCetiRoadmap/ComplexKahlerGeometry/README.md) supplies
   static Laplace-type estimates, Dolbeault Hodge theory, Kähler identities and
   projective examples. T6 owns the continuous-parameter, vertically smooth
   family bridges needed for its projective transfer. A static Hodge theorem does not
   supply those family bridges.
-- [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md)
-  supplies Haar averaging and Peter–Weyl; [LieGroups](../RepresentationTheory/LieGroups/README.md)
-  supplies the compact Lie subgroup/torus vocabulary. Representation rings of
-  continuous finite-dimensional representations and their bundle comparison are T6.
+- [CompactGroups Layer5.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e081fe4d3c5837231222ed50cf396ffcf51a8d46/TauCetiRoadmap/RepresentationTheory/CompactGroups/README.md)
+  supplies Haar averaging, Peter–Weyl and the generic G-finite-vector density
+  theorem for strongly continuous Banach representations. T6.1 owns the
+  continuous-section and L²-section actions and finite equivariant embedding
+  applications. [NoncompactQuantumSymmetry M0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f6afdcaea14fd4be5cdff6df091710bbc70aaa02/TauCetiRoadmap/NoncompactQuantumSymmetry/README.md)
+  retains its Hilbert isotypic projections, multiplicity/tensor decomposition,
+  smooth-vector comparisons and later noncompact theory; its K-finite
+  predicate is compared with the same orbit-span definition.
+- [BanachAlgebras A2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4ca3e99e0e27255fdcf8aea71e4e9aef052a3d77/TauCetiRoadmap/BanachAlgebras/README.md)
+  owns the holomorphic calculus, Riesz idempotents and fixed-contour
+  continuity. T4.4 supplies finite-matrix generalized-eigenspace,
+  image-subbundle and clutching applications of that one projector.
+- [LieGroups](../RepresentationTheory/LieGroups/README.md) supplies the compact
+  Lie subgroup/torus vocabulary. T6 constructs continuous finite-dimensional
+  representation rings and their bundle comparison.
 - [SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md)
   supplies Clifford algebras, their graded tensor products, exterior spin modules
   and algebraic periodicity. Existing Tau Ceti `Spin.Structure`, `Spin.OddStructure`
   and `Spin.Polarization.CliffordAction` are consumed; algebraic periodicity does
   not prove topological periodicity.
 - [HomotopySpheres §4A–4B](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284)
-  supplies stable O/SO, finite oriented Grassmannians, stable BSO, stable oriented
-  real-bundle classification and the full real Bott loop chain, including its
-  Clifford comparison. T1.6 owns the unoriented and oriented stable
-  classifier comparisons; T7 proves the geometric KO comparison and multiplicative normalization.
-  The real loop-space proof remains that supplier's target; consume its exact
-  §4B.1–4B.9 contract and build any unavailable mathematics in Tau Ceti in
-  that shape before using the comparison.
+  supplies stable O/SO, the loop comparison with T1.6's oriented classifier,
+  and the full real Bott loop chain with its Clifford comparison. T1.5–T1.6
+  own the finite Grassmannian carriers, fixed-rank BO(n)/BSO(n), stable BO/BSO
+  colimits, universal bundles and their finite-CW/numerable classification.
+  CharacteristicClasses C1.1a supplies only the earlier finite oriented-cover
+  and lifted-cell precursor; C1.1b consumes these same classifier carriers.
+  HomotopySpheres uses them for its stable group/loop, clutching and framing
+  applications; any distinct homogeneous model has a named comparison to
+  these carriers, not a second classifier definition. T7 owns the geometric
+  KO/ABS and multiplicative normalization. Consume the supplier's exact
+  §4B.1–4B.9 real loop proof contract and construct unavailable mathematics in
+  Tau Ceti in that shape before its comparison is used.
 - Mathlib `Analysis/Normed/Operator/Fredholm/{Basic,Open}` supplies
   native Fredholm packages, composition, openness and local index constancy.
   Tau Ceti `Analysis/Fredholm/{SmallPerturbation,CompactPerturbation,ContinuousFamily}`
@@ -209,9 +225,10 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    with clutching naturality. For oriented real stable bundles compare
    using CharacteristicClasses C1.1a's finite oriented-cover precursor.
    Own the fixed-rank BSO(n) ambient colimits and
-   `stableOrientedGrassmannian` BSO rank-colimit on those lifted cells and
-   their based homotopy comparison with HomotopySpheres §4A, compatible
-   with the universal bundle diagrams and stabilization.
+   `stableOrientedGrassmannian` BSO rank-colimit on those lifted cells,
+   their universal bundle diagrams and stabilization. HomotopySpheres §4A
+   consumes this carrier/classification and owns ΩBSO≃SO and its comparison
+   with its stable homogeneous-space models.
    This supplies T7's BO/BSO classification input. Prove numerable fixed-rank classification
    over paracompact Hausdorff bases, with the universal numerable bundle and
    locally finite partition/classifying-map proof explicitly constructed.
@@ -232,76 +249,97 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    bundle and pullback classification; BO/BU denote these connected
    Grassmannian models.
 
-   **T1.6b. Actual BO/BU sum and its coordinate homotopies.** Define the
-   finite-stage block sum by interleaving
-   coordinates: Fin index i↦2i for the first ambient 𝕜^a and
-   j↦2j+1 for the second 𝕜^b inside 𝕜^(2 max(a,b)), then take
-   the direct sum of the two images. Prove its bundle comparison
-   ⊕*γ_(k+l)≅pr₁*γ_k⊕pr₂*γ_l, continuity and compatibility
-   with ambient inclusions and sum naturality of T1.6a's classification.
-   Prove the exact diagonal-rank identity
-   μ_(k+1,k+1)∘(s×s)=s²∘μ_(k,k) and the paired-tower/product comparison
-   in CompactlyGenerated; it gives the actual based stable sum map.
-   Build its based left/right unit, associativity and block-swap homotopies
-   across both ambient and rank stages. For each k, the unit endpoint is
-   μ_(k,k)(V,*_k) versus s^k V in rank2k, and the left unit is
-   μ_(k,k)(*_k,V) versus the same s^k V. The associativity endpoints in rank4k
-   are μ_(2k,2k)(μ_(k,k)(U,V),s^k W) and
-   μ_(2k,2k)(s^k U,μ_(k,k)(V,W)). Require
+   **T1.6b. Actual BO/BU sum and coherent coordinate homotopies.** Define
+   the finite-stage block sum by interleaving: i↦2i on the first ambient
+   𝕜^a and j↦2j+1 on the second inside 𝕜^(2 max(a,b)), then sum the
+   two images. Prove continuity, the actual tautological-bundle comparison
+   μ*γ_(k+l)≃pr₁*γ_k⊕pr₂*γ_l, ambient compatibility and classification
+   naturality. Retain the strict diagonal identity
+   μ_(k+1,k+1)∘(s×s)=s²∘μ_(k,k), and prove the paired-tower/product
+   comparison in CompactlyGenerated to obtain the based stable map.
+   The based unit endpoints are μ_(k,k)(V,*_k), μ_(k,k)(*_k,V)
+   and s^k V in rank2k. Associativity compares
+   μ_(2k,2k)(μ_(k,k)(U,V),s^k W) with
+   μ_(2k,2k)(s^k U,μ_(k,k)(V,W)) in rank4k.
+   Construct the unit, associativity and symmetry homotopies together with
+   their unit triangles, associativity pentagon, symmetry involution and
+   mixed symmetry/associativity face compatibilities. Each finite coherence
+   diagram has prescribed labelled faces; constructing only a path between
+   its endpoint subspaces does not construct its relative filler.
+
+   Use one based coordinate-choice carrier (J,P). Put U=ℕ→₀𝕜 with its
+   finite-coordinate Hermitian form. For j labelled input copies, J is a
+   linear isometric embedding U^j→U, and P is an unframed finite padding
+   plane orthogonal to J. It sends input k-planes to
+   J(V₁⊕⋯⊕V_j)⊕P, of target rank N=jk+dim P. At the basepoint require
+   J(B)⊂*_N and P=*_N∩J(B)^perp for
+   B=(span(e₀,…,e_(k−1)))^j; hence the total output is literally *_N.
+   For units use one variable input and its specified trivial input/padding;
+   for associativity use three labelled inputs. Symmetry uses TWO labelled
+   embeddings: after a positive k-line stabilization of μ, its endpoints
+   in rank3k are (J₀,P₀) and (J₀∘τ,P₀), where τ literally permutes the
+   two entire input copies, including their frames. Both have the same
+   underlying based output, and carry the actual Whitney swap isomorphism.
+   The extra padding carries no virtual class: every target operation is
+   read as [output]−[1^N]=Σ_i([V_i]−[1^k]).
+
+   Equip these embedding spaces with the weak finite-coordinate topology
+   and its compactly generated compact-open comparison. Construct their
+   finite orthonormal-frame tower, forgetful Serre fibrations and relative
+   extension API. For every finite collection of coherence polytopes,
+   first construct its complete closed boundary in the (J,P) carrier:
+   use the labelled direct-sum, permutation and unit isomorphisms, literal
+   permutation endpoints, already chosen lower faces and one common positive
+   padding. Prove equality on every face intersection before extending.
+   The equalities of permutations and associators supply the endpoint
+   identifications, not a sign-forgetting map from planes to frames.
+
+   At a bottom rank k and common target rank N=rk, r≥j+1, the based
+   input-frame problem is V_(jk)(𝕜^N). For the binary symmetry it is
+   V_(2k)(𝕜^(3k)), of connectivity k−1 over ℝ and 2k over ℂ.
+   For a finite d-dimensional relative parameter complex choose a cofinal
+   bottom rank k₀ with N−jk₀−1≥d−1 over ℝ, respectively
+   2(N−jk₀)≥d−1 over ℂ; increase r as well when needed. Apply the
+   relative Stiefel extension theorem to the ACTUAL closed boundary map.
+   Simultaneously extend the remaining input-ambient frames into *_N^perp
+   after separately increasing the external ambient dimension so its
+   corresponding finite Stiefel connectivity meets the same bound. These
+   are two distinct extension problems. Pass through their finite-frame
+   tower to the remaining U-input embedding, with compact parameter
+   families on finitely many coordinates contained in a common finite
+   ambient stage. Set P=*_N∩J(B)^perp continuously; no global padding
+   frame is assumed. Include rank0, zero padding where applicable, and all
+   relative parameter faces.
+
+   Prove rank compatibility of these choices, not only their existence at
+   one rank. For a j-input operation landing in rank rk, require
+   J^(k+1)∘shift=shift^r∘J^k on every old input copy. Put
+   D=span(e₀,…,e_(r−1))⊕shift^r(P^k). Choose the j new labelled input
+   lines in D relative to all specified faces; the orthogonal remainder is
+   P^(k+1). Here dim D=r+(r−j)k, so its new-frame space is
+   V_j(𝕜^dim D); choose the tail/padding so its connectivity also permits
+   each relative extension. Prove its rank equations, basepoint condition,
+   ambient compatibility and agreement on all lower boundary strata.
+   For the unit and associativity homotopies retain
    H_unit^(k+1)∘s=s²∘H_unit^k and
-   H_assoc^(k+1)∘(s,s,s)=s⁴∘H_assoc^k, as well as ambient compatibility.
-   For block swap use R_t∘μ, where R_t simultaneously rotates every real
-   coordinate plane (e_(2i),e_(2i+1)) through tπ/2, also for complex coordinates
-   viewed as real rotations. Its endpoint exchanges the two subspaces, and it
-   commutes exactly with s² and the ambient inclusions while fixing the
-   coordinate basepoint. The endpoint is the block swap on subspaces; it need
-   not be the literal permutation on oriented frames.
-   Own the coordinate-choice construction for the unit/associativity laws.
-   Write the homotopy data as (J_t,P_t), where U=ℕ→₀𝕜 has the finite-coordinate
-   Hermitian form, J_t is a linear isometric embedding (Fin j→U)→U, and P_t
-   is a moving k-dimensional padding plane orthogonal to its image. Use j=1
-   for either unit and j=3 for associativity. The resulting plane is the direct
-   sum of the images of the j input planes and P_t, of rank2k or4k.
-   Its endpoints are the displayed coordinate injections and finite padding
-   planes. Equip embedding spaces with the weak finite-coordinate topology
-   and k-ified native compact-open mapping topology. Own the contraction and
-   relative-extension API for (Fin j→U)→U through the finite orthonormal-frame
-   tower and its forgetful Serre fibrations. Compact parameter families
-   evaluated on finitely many coordinates must land in a common finite ambient
-   stage. Start the unit and associativity law homotopies at rank0, where
-   P=0 and the basepoint condition is automatic, using that contraction.
-   At the next rank require the
-   old shifted input coordinates to satisfy J_t^(k+1)∘shift=shift^m∘J_t^k
-   on every input copy, with m=2 for units and m=4 for associativity.
-   Define D_t=span(e₀,…,e_(m−1))⊕shift^m(P_t^k), a plane equal to
-   s^m(P_t^k). Choose the one new input line for a
-   unit, or three new input lines for associativity, in D_t; the orthogonal
-   remainder is P_t^(k+1), so no padding frame is required to stabilize.
-   The frame spaces are the unit sphere of 𝕜^(k+2) for units (S^(k+1) overℝ,
-   S^(2k+3) overℂ) and V₃(𝕜^(k+4)) for associativity. Trivialize D_t as a
-   vector bundle over the parameter interval relative to the specified endpoint
-   data and use these connected frame spaces for the new paths. Prove their
-   rank equations, basepoint conditions and ambient compatibility.
-   For unit/associativity/block-swap overlap diagrams require based fillers
-   on each parameter polytope. Compare their prescribed boundary maps in a
-   common target rank N=rk, with r≥j+1 for j inputs; stabilize target stages
-   by additional positive trivial lines when needed, retaining the same map
-   on BO/BU. Choose a bottom tail rank k₀ whose finite Stiefel connectivity
-   exceeds the parameter dimension. Put B=Fin j→span(e₀,…,e_(k₀−1)).
-   At that bottom rank the based extension problem is a frame
-   J|_B∈V_(jk₀)(𝕜^N) inside the fixed coordinate plane *_N, and a linear
-   isometric embedding of the remaining input coordinates into *_N^perp.
-   Extend the finite frame by its connectivity (N−jk₀−1 overℝ and
-   2(N−jk₀) overℂ), and the remaining infinite-coordinate embedding by the
-   contraction. Set P=*_N∩J(B)^perp; this constructs the unframed padding
-   while preserving the basepoint. For successive ranks use the corresponding constrained
-   new-line frame space in D_t and its relative extension with the prescribed
-   boundary frames. Prove compatibility between these tail fillers, then
-   transport the specific diagrams to the CW rank-colimit by homotopy
-   extension and the paired-tower comparison.
-   Export the unit triangles and associativity pentagon with their fixed
-   endpoints. GeneralizedCohomology G2.8 owns the generic permutative
-   group-completion machine.
+   H_assoc^(k+1)∘(s,s,s)=s⁴∘H_assoc^k.
+   Compare different sufficient tails/paddings by the same relative
+   construction, then use CW homotopy extension and the paired-tower
+   comparison to obtain the coherent stable diagrams with their fixed
+   endpoints. Export the actual coordinate homotopies and fillers, not
+   only equality of induced K-classes. GeneralizedCohomology G2.8 owns
+   the subsequent generic permutative/group-completion machine.
+
+   The simultaneous quarter-turn R_t on each coordinate pair is retained
+   as an auxiliary based homotopy between the block-sum SUBSPACES. Its
+   endpoint has a minus sign on one labelled frame, so its double swap
+   need not bound the unit/symmetry diagram; it is not the prescribed
+   coherent symmetry above. For the oriented classifier, transport the
+   constructed BO diagrams by the based covering lift of T1.6c. Keep its
+   actual determinant/padding orientation transport and ε_k finite formula,
+   strict diagonal-rank identity and positive-trivial stabilization
+   comparison. Do not identify the literal Whitney swap with an
+   orientation-preserving frame permutation without its determinant sign.
 
    **T1.6c. Actual oriented sum.**
    On the oriented model construct `stableOrientedGrassmannianWhitneySum`.
@@ -460,7 +498,13 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    `Kred(X/Y)` for compact Hausdorff closed pairs, including the empty pair
    and based point. Supply neighbourhood extension/gluing and the quotient
    descent proof, rather than assuming a boundary isomorphism determines a
-   class uniquely.
+   class uniquely. For the finite-dimensional RelativeSymbol prototype,
+   retain both finite-dimensional model-fibre hypotheses as actual declaration
+   parameters. In finite local trivializations, fibrewise bijectivity puts
+   its boundary matrices in GL; continuous matrix inversion gives the
+   continuous inverse family and the total-space bundle isomorphism over Y.
+   Compare this global-morphism representative with the intrinsic boundary
+   isomorphism model, including neighbourhood extension and stabilization.
 2. First construct the source's finite sequences of bundles on X with their
    differentials defined only on Y, exact there, and isomorphism, homotopy and
    adjacent identity-pair stabilization. Separately construct global complexes
@@ -533,14 +577,18 @@ all steps below are targets, including independence of the constructed inverse.
    `(1,−z)` and final row `(p_d,…,p_0)`. Prove invertibility on the circle and
    elementary-row/column homotopy to `diag(id_(E^d),p(z))`;
    export additivity and naturality of this stabilization.
-4. Prove the finite-dimensional spectral-projection lemma for continuous
-   endomorphism families whose spectrum avoids S¹: the Riesz contour projector
-   is continuous, idempotent, commutes with the endomorphism and has locally
-   constant rank; its images are actual subbundles with inside/outside spectra.
-   Derive this from finite-dimensional generalized eigenspaces and Mathlib's
-   complex contour-integral/resolvent API, building contour parametrization,
-   resolvent identities, the projection and rank-continuity proofs here.
-   Self-adjoint spectral theory does not suffice for a general pencil.
+4. Consume BanachAlgebras A2's holomorphic calculus and fixed-contour Riesz
+   idempotent for continuous endomorphism families whose spectrum avoids S¹.
+   Compare its normalized contour formula with the finite-dimensional
+   generalized-eigenspace projector: on generalized eigenvectors it is1
+   for |λ|<1 and0 for |λ|>1. Prove the two constructions equal, including
+   their contour orientation and normalization, and use this one projector
+   thereafter. Own its local-matrix/bundle covariance, locally constant
+   rank and actual inside/outside image subbundles, finite-dimensional
+   generalized-eigenspace characterization and clutching/pullback
+   naturality. The scalar/resolvent identities and fixed-contour continuity
+   are the generic A2 inputs; self-adjoint spectral theory does not suffice
+   for a general companion pencil.
 5. Reduce `Az+B` to a pencil with invertible leading coefficient through
    `H_t(z)=(A+tB)z+(tA+B)`, with one uniform t<1 sufficiently close to1 on
    compact X; prove the circle Möbius identity and endpoint invertibility.
@@ -583,9 +631,18 @@ all steps below are targets, including independence of the constructed inverse.
    If X is noncompact the class is fibre-compact; define the corresponding
    multiplier on Kc(X), and prove the product has genuine compact support in E.
    Do not call the bare class compactly supported over a noncompact base.
-2. Prove the ordinary complex projective-bundle theorem with powers of the
-   tautological line as a free K(X)-basis and relation
-   `Σ_(j=0)^r (−1)^j [Λ^j E] t^(r−j)=0`. First give CP^(r−1) its affine-cell
+2. For a complex bundle E of CONSTANT rank r≥1, prove the ordinary
+   projective-bundle theorem with t=[O_(P(E))(−1)], basis
+   1,t,…,t^(r−1) over K(X), and relation
+   `Σ_(j=0)^r (−1)^j [Λ^j E] t^(r−j)=0`.
+   For r=0, P(E)=∅ and its K-group is0, with the empty basis; the
+   corresponding relation is1=0 in this zero target ring, not CP^(−1).
+   For locally constant variable rank apply the constant-rank theorem on
+   each clopen rank stratum X_r, and assemble the idempotent-stratum
+   module description. A compact base has finitely many such strata;
+   no global free module of one fixed rank is asserted. The relative
+   version uses (X_r,Y∩X_r); compact supports meet only finitely many
+   rank strata and assemble through T3.3. First give CP^(r−1) its affine-cell
    filtration and identify the relative cell generator with the Koszul external
    Bott product from T4, including the factor (−1)^k for a k-dimensional
    complex cell in the dual-Koszul convention. For every compact Hausdorff parameter A run the
@@ -651,18 +708,22 @@ comparisons, not an assumption on every K-object.
 
 1. Construct equivariant bundle metrics by Haar averaging, sums/tensors/duals,
    pullbacks and their small category. Prove equivariant splitting of bundle
-   exact sequences and finite-dimensional representation embedding over a
-   compact G-base: finitely many sections are approximated by finite
-   Peter–Weyl subspaces, giving a surjective evaluation map X×V→E and a
-   Hermitian complement. Supply the missing representation-level approximation:
-   for every strongly continuous Banach representation of compact G, convolution
-   with representative functions gives G-finite vectors, and approximate-identity
-   convolution gives their density. Prove continuity of the sup-norm action on
-   continuous sections and strong continuity on L² sections for a finite
-   invariant Radon measure and an invariant continuous Hermitian metric,
-   with the resulting L² action unitary; then apply the density theorem to
-   both spaces. Peter–Weyl for C(G)/L²(G) alone is insufficient.
-   The ambient representation need not be trivial.
+   exact sequences. Consume CompactGroups Layer5.1's G-finite-vector
+   predicate and density for strongly continuous Banach representations,
+   with its integrated-action normalization. Construct the sup-norm action
+   on continuous sections and prove strong continuity. For a finite invariant
+   Radon measure and invariant continuous Hermitian metric construct the
+   L²-section action, prove strong continuity and unitarity, and compare
+   continuous sections with their L² realizations. Applying the same generic
+   density theorem to these two spaces is an application here, distinct from
+   NQS M0's isotypic projection/multiplicity decomposition.
+   For a compact G-base choose finitely many sections with surjective
+   evaluation; approximate them by G-finite sections sufficiently in sup norm
+   to retain surjectivity, sum their finite-dimensional orbit spans and
+   construct X×V→E. Use its invariant Hermitian complement to obtain the
+   finite equivariant embedding. The ambient representation need not be
+   trivial. Peter–Weyl for C(G) or an L²-density statement alone is not
+   substituted for this sup-norm section argument.
 2. Construct K_G, relative and compact-support groups and products by T2/T3's
    same machinery; prove equivariant homotopy invariance, proper pullback,
    invariant-open extension, exact and Mayer–Vietoris sequences. Define R(G)

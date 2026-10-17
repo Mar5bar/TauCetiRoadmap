@@ -119,7 +119,13 @@ variable {X : Type u} [TopologicalSpace X]
 
 /-- A relative symbol represented by a global morphism invertible on the relative set.
 T3 also constructs the extension/comparison with maps initially defined only on Y. -/
-structure RelativeSymbol (Y : Set X) where
+structure RelativeSymbol (Y : Set X)
+    [finiteDimensionalSource : FiniteDimensional ℂ F₁]
+    [finiteDimensionalTarget : FiniteDimensional ℂ F₂]
+    [sourceBundle : FiberBundle F₁ E₁]
+    [targetBundle : FiberBundle F₂ E₂]
+    [sourceVectorBundle : VectorBundle ℂ F₁ E₁]
+    [targetVectorBundle : VectorBundle ℂ F₂ E₂] where
   toLinear : ∀ x, E₁ x →L[ℂ] E₂ x
   continuous_total : Continuous (fun p : Bundle.TotalSpace F₁ E₁ ↦
     (⟨p.proj, toLinear p.proj p.2⟩ : Bundle.TotalSpace F₂ E₂))
