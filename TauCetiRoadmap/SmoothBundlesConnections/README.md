@@ -136,7 +136,16 @@ replace the corresponding local constructions when they become available.
    `Manifold.IsSubmersion`/`IsSubmersionAt`. Consume LieGroupoidsPoisson G0.1's
    independent submersion fiber product for `P×_M P`; identify its inherited
    topology and charts with the principal local model `M×G×G`.
-   Division is smooth on this manifold, not a function on unrelated pairs. Isomorphisms have inverses,
+   Division is smooth on this manifold, not a function on unrelated pairs.
+   Prove generic smooth descent along a principal projection: a map from the
+   base to any smooth manifold is smooth iff its composite with the projection
+   is smooth. Every invariant smooth map on the total space descends uniquely
+   to a smooth base map; use the formula `f|U=F∘s_U` for local sections and
+   prove agreement on overlaps, restriction and composition. These generic
+   results are owned here; groupoid actions and Hamiltonian reduction consume
+   them. From the principal local trivializations prove
+   `ker(dπ_p)=range(d(g↦p·g)_1)`, with the orbit map a diffeomorphism onto
+   its fiber. Isomorphisms have inverses,
    composition, restriction, transport and extensionality APIs.
 2. Construct trivial bundles, restrictions, pullbacks and products over a
    common base, with universal properties and coherent identity/composition
