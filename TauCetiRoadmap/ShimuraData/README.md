@@ -65,20 +65,20 @@ The library baseline is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and T
 
 ### From the surrounding roadmaps
 
-- [ShimuraVarieties][supplier-1] §§P.1–P.5: `PureDatum`, full and connected conjugacy-class conventions, the homogeneous Hodge filtrations and their holomorphicity, the Borel map, maximal rational tori through `h`, cocharacter classes and finite reflex fields with datum functoriality. The action of `G^ad(ℝ)⁺` on a component and its tangent complex structure are §P.2. Only the intrinsic quotient identification and additional conclusions below are new.
-- [PELModuli][supplier-2] §§M0.12, M5.1, M5.4–M5.5: `RationalPELDatum.toShimuraDatum` and `siegelMorphism` with connected group and `SV3`; Siegel, scalar-determinant Hilbert and unitary PEL data. The Hilbert trace pairing is positive with its supplied `h`. Unitary signature `(r_τ,s_τ)` has dimension `Σ_τr_τs_τ`.
-- [ReductiveGroupsPartII][supplier-3] `§§RG2.0a`, RG2.1.5, RG2.3, RG2.5: Affine Weil restriction with its natural points equivalence; `DeligneTorus` with real and complex comparisons, conjugation, inverse diagonal, norm and `μ`; torus norms; z-extensions in the simply connected case; pro-unipotent Iwahori reduction; Pilloni coordinates, corrected simple roots and duality. The general prescribed-derived-cover extension is proved in Layer 4.6, not assumed from the `z`-extension theorem.
-- [AdelicAlgebraicGroups][supplier-4] §§1.3–1.4, 3.4, 4.3: Topological functoriality on finite adelic points, restriction of scalars and its local factors; compactness of anisotropic arithmetic quotients; `Neat.IsNeatAut`, representation independence and rational neat levels; the cyclotomic distance `v(ζ−1)=1/(ℓ^{r−1}(ℓ−1))` for a primitive `ℓʳ`-th root and zero for nontrivial prime-to-`ℓ` torsion. No discreteness of all rational points in finite adeles is inferred.
-- [ArithmeticLocallySymmetricSpaces][supplier-5] `§§ALS.F.1`, ALS.0.1–ALS.0.2: `realPoints_lieGroup` with Lie algebra `Lie(H)`, independence of faithful embedding, and finitely many components; Cartan involutions via compact twisted real form, with the central-torus condition separate from the Killing-form criterion on the derived algebra.
-- [AbelianSchemesAndArithmeticModuli][supplier-6] §§A5.2, A5.5: The rational polarized Hodge structure `H¹(A,ℚ)`, its Riemann form and isogeny compatibility. Layer 1 uses its rational symplectic similitude group without a Siegel Shimura datum.
-- [StableReduction][supplier-7] Layer 2: Effective étale descent of schemes equipped with a compatible relatively ample invertible sheaf, by descent of the graded section algebra and relative Proj; including morphisms, the polarization and base-change coherence. A finite separable splitting extension is an étale cover, and the canonical parabolic polarization or the Segre bundle supplies the compatible invertible sheaf. Descent of a variety does not assert a rational point.
-- [ComplexManifolds][supplier-8] Milestone 7: Holomorphic vector bundles and bundle morphisms on the native vector-bundle carrier, cocycle gluing, pullback, direct sums, tensor products and duals. Layer 3.1 specifies the holomorphic subbundle condition for its filtration on those carriers.
-- [ComplexKahlerGeometry][supplier-9] §K4: Holomorphic connections and parallel local frames; equivalence of finite-rank complex local systems, flat holomorphic connections and flat smooth complex connections, natural under holomorphic pullback. The associated bundle is `L⊗O` with connection `1⊗d`.
-- [ReductiveGroups][supplier-10] Layers 0–4, 6–7, `9`: The Hopf/group-scheme/functor dictionary, closed subgroups and quotients, finite-dimensional comodules with scalar extension, tensor generation by a faithful representation, identity components, rational torus character lattices, reductivity and semisimplicity, cocharacter parabolics and their Lie quotients, based roots and field Bruhat theory. Layer 9 gives split pinned groups over `ℤ` and root subgroups; the integral flag and Schubert targets of Layer 3 are additional consequences to establish here.
-- [RepresentationTheory/LieGroups][supplier-11] Layers 7–8: Complexification and complex flag-manifold charts. For a parabolic quotient use analytification of the algebraic open root charts and their transition functions, with tangent space `g/p`, as detailed in Layer 3.8.
-- [LocalFieldsRamification][supplier-12] Layer 0: Finite extensions of `ℚ_ℓ`, ramification index, and extension of the normalized valuation to an algebraic closure. This is combined with the cyclotomic distance theorem from AdelicAlgebraicGroups, not replaced by an assumed torsion-freeness predicate.
-- [ComplexComparisonPartII §C−1.1][supplier-23]: `complexSchemeAnalytification.smooth`, `complexSchemeAnalytification.separatedHausdorff`, `complexSchemeAnalytification.openSubspace` and `complexSchemeAnalytification.fibreProduct`: scheme analytification with smooth manifold charts, Hausdorffness for separated schemes, and natural open and fibre-product comparisons. Section 3.8 applies these to the projective parabolic quotient.
-- [HodgeStructures][supplier-13], L0–L1: pure real, rational and integral Hodge structures, opposed filtrations, tensor/dual/Tate operations, polarization and semisimplicity. Fibrewise substructures and orthogonal complements use the native declarations above.
+- ShimuraVarieties §§P.1–P.5: `PureDatum`, full and connected conjugacy-class conventions, the homogeneous Hodge filtrations and their holomorphicity, the Borel map, maximal rational tori through `h`, cocharacter classes and finite reflex fields with datum functoriality. The action of `G^ad(ℝ)⁺` on a component and its tangent complex structure are §P.2. Only the intrinsic quotient identification and additional conclusions below are new.
+- PELModuli §§M0.12, M5.1, M5.4–M5.5: `RationalPELDatum.toShimuraDatum` and `siegelMorphism` with connected group and `SV3`; Siegel, scalar-determinant Hilbert and unitary PEL data. The Hilbert trace pairing is positive with its supplied `h`. Unitary signature `(r_τ,s_τ)` has dimension `Σ_τr_τs_τ`.
+- ReductiveGroupsPartII `§§RG2.0a`, RG2.1.5, RG2.3, RG2.5: Affine Weil restriction with its natural points equivalence; `DeligneTorus` with real and complex comparisons, conjugation, inverse diagonal, norm and `μ`; torus norms; z-extensions in the simply connected case; pro-unipotent Iwahori reduction; Pilloni coordinates, corrected simple roots and duality. The general prescribed-derived-cover extension is proved in Layer 4.6, not assumed from the `z`-extension theorem.
+- AdelicAlgebraicGroups §§1.3–1.4, 3.4, 4.3: Topological functoriality on finite adelic points, restriction of scalars and its local factors; compactness of anisotropic arithmetic quotients; `Neat.IsNeatAut`, representation independence and rational neat levels; the cyclotomic distance `v(ζ−1)=1/(ℓ^{r−1}(ℓ−1))` for a primitive `ℓʳ`-th root and zero for nontrivial prime-to-`ℓ` torsion. No discreteness of all rational points in finite adeles is inferred.
+- ArithmeticLocallySymmetricSpaces `§§ALS.F.1`, ALS.0.1–ALS.0.2: `realPoints_lieGroup` with Lie algebra `Lie(H)`, independence of faithful embedding, and finitely many components; Cartan involutions via compact twisted real form, with the central-torus condition separate from the Killing-form criterion on the derived algebra.
+- AbelianSchemesAndArithmeticModuli §§A5.2, A5.5: The rational polarized Hodge structure `H¹(A,ℚ)`, its Riemann form and isogeny compatibility. Layer 1 uses its rational symplectic similitude group without a Siegel Shimura datum.
+- StableReduction Layer 2: Effective étale descent of schemes equipped with a compatible relatively ample invertible sheaf, by descent of the graded section algebra and relative Proj; including morphisms, the polarization and base-change coherence. A finite separable splitting extension is an étale cover, and the canonical parabolic polarization or the Segre bundle supplies the compatible invertible sheaf. Descent of a variety does not assert a rational point.
+- ComplexManifolds Milestone 7: Holomorphic vector bundles and bundle morphisms on the native vector-bundle carrier, cocycle gluing, pullback, direct sums, tensor products and duals. Layer 3.1 specifies the holomorphic subbundle condition for its filtration on those carriers.
+- ComplexKahlerGeometry §K4: Holomorphic connections and parallel local frames; equivalence of finite-rank complex local systems, flat holomorphic connections and flat smooth complex connections, natural under holomorphic pullback. The associated bundle is `L⊗O` with connection `1⊗d`.
+- ReductiveGroups Layers 0–4, 6–7, `9`: The Hopf/group-scheme/functor dictionary, closed subgroups and quotients, finite-dimensional comodules with scalar extension, tensor generation by a faithful representation, identity components, rational torus character lattices, reductivity and semisimplicity, cocharacter parabolics and their Lie quotients, based roots and field Bruhat theory. Layer 9 gives split pinned groups over `ℤ` and root subgroups; the integral flag and Schubert targets of Layer 3 are additional consequences to establish here.
+- RepresentationTheory/LieGroups Layers 7–8: Complexification and complex flag-manifold charts. For a parabolic quotient use analytification of the algebraic open root charts and their transition functions, with tangent space `g/p`, as detailed in Layer 3.8.
+- LocalFieldsRamification Layer 0: Finite extensions of `ℚ_ℓ`, ramification index, and extension of the normalized valuation to an algebraic closure. This is combined with the cyclotomic distance theorem from AdelicAlgebraicGroups, not replaced by an assumed torsion-freeness predicate.
+- ComplexComparisonPartII §C−1.1: `complexSchemeAnalytification.smooth`, `complexSchemeAnalytification.separatedHausdorff`, `complexSchemeAnalytification.openSubspace` and `complexSchemeAnalytification.fibreProduct`: scheme analytification with smooth manifold charts, Hausdorffness for separated schemes, and natural open and fibre-product comparisons. Section 3.8 applies these to the projective parabolic quotient.
+- HodgeStructures, L0–L1: pure real, rational and integral Hodge structures, opposed filtrations, tensor/dual/Tate operations, polarization and semisimplicity. Fibrewise substructures and orthogonal complements use the native declarations above.
 
 ## How to read the build
 
@@ -116,7 +116,7 @@ Points of a fibre product are the fibre product of the points, and the diagonal 
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), Example 5.24, pp.63–64.)
 
-*Needs:* [ReductiveGroupsPartII][supplier-3] `§RG2.0a`; [AdelicAlgebraicGroups][supplier-4] §§1.3–1.4; [ArithmeticLocallySymmetricSpaces][supplier-5] `§§ALS.F.1`, ALS.0.1–0.2; `NumberField.IsTotallyReal`; `Matrix.GeneralLinearGroup.map`.
+*Needs:* ReductiveGroupsPartII `§RG2.0a`; AdelicAlgebraicGroups §§1.3–1.4; ArithmeticLocallySymmetricSpaces `§§ALS.F.1`, ALS.0.1–0.2; `NumberField.IsTotallyReal`; `Matrix.GeneralLinearGroup.map`.
 
 <a id="d0-hilbert-adelic-points"></a>
 
@@ -144,7 +144,7 @@ No discreteness is claimed: `G*(ℚ)` contains the infinite group `SL₂(O_F)`, 
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), Example 5.24, pp.63–64; §5, compact open levels in `G(𝔸_f)`, pp.57–58.)
 
-*Needs:* [ReductiveGroupsPartII][supplier-3] `§RG2.0a`; [AdelicAlgebraicGroups][supplier-4] §§1.3–1.4; `IsDedekindDomain.FiniteAdeleRing`.
+*Needs:* ReductiveGroupsPartII `§RG2.0a`; AdelicAlgebraicGroups §§1.3–1.4; `IsDedekindDomain.FiniteAdeleRing`.
 
 ### Examples
 
@@ -152,7 +152,7 @@ Over `ℚ(√2)`, opposite determinant signs distinguish the two Hilbert groups,
 
 ### Dependencies
 
-[AdelicAlgebraicGroups][supplier-4] §§1.3–1.4; [ArithmeticLocallySymmetricSpaces][supplier-5] `§§ALS.F.1`, ALS.0.1–0.2; [ReductiveGroupsPartII][supplier-3] `§RG2.0a`; `IsDedekindDomain.FiniteAdeleRing`; `Matrix.GeneralLinearGroup.map`; `NumberField.IsTotallyReal`.
+AdelicAlgebraicGroups §§1.3–1.4; ArithmeticLocallySymmetricSpaces `§§ALS.F.1`, ALS.0.1–0.2; ReductiveGroupsPartII `§RG2.0a`; `IsDedekindDomain.FiniteAdeleRing`; `Matrix.GeneralLinearGroup.map`; `NumberField.IsTotallyReal`.
 
 ## Layer 1: rational weight, Mumford–Tate groups and Hodge genericity
 
@@ -177,7 +177,7 @@ A rational `Gm`-action has rational eigenspaces. Conversely a rational grading d
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), §2, Homomorphisms `S→GL(V)`, p.26.)
 
-*Needs:* [ReductiveGroupsPartII][supplier-3] `§RG2.0a`; [ShimuraVarieties][supplier-1] §§P.1–P.5; [ReductiveGroups, Layer 4 (Jordan decomposition, diagonalizable groups and tori)][supplier-14]; [ReductiveGroups, Layer 1 (representations and comodules)][supplier-15]; [HodgeStructures, L0 (pure Hodge structures)][supplier-16].
+*Needs:* ReductiveGroupsPartII `§RG2.0a`; ShimuraVarieties §§P.1–P.5; ReductiveGroups, Layer 4 (Jordan decomposition, diagonalizable groups and tori); ReductiveGroups, Layer 1 (representations and comodules); HodgeStructures, L0 (pure Hodge structures).
 
 <a id="d1-mumford-tate-group"></a>
 
@@ -220,7 +220,7 @@ The weight `w_h=h∘w` is a `ℚ`-cocharacter; its image is a closed `ℚ`-subgr
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), Theorem 2.14, proof of (a), p.30; Aside after 2.16, p.31.)
 
-*Needs:* [ReductiveGroups, Layer 0 (the functor of points and the three-way dictionary)][supplier-17]; [§1.1](#d1-rational-weight-criterion); `TauCeti.HopfIdeal.sSup_toIdeal`; `TauCeti.GeneralLinear.coordinateHopfAlgebra`; [HodgeStructures, L0 (pure Hodge structures)][supplier-16]; [ReductiveGroupsPartII][supplier-3] `§RG2.0a`.
+*Needs:* ReductiveGroups, Layer 0 (the functor of points and the three-way dictionary); [§1.1](#d1-rational-weight-criterion); `TauCeti.HopfIdeal.sSup_toIdeal`; `TauCeti.GeneralLinear.coordinateHopfAlgebra`; HodgeStructures, L0 (pure Hodge structures); ReductiveGroupsPartII `§RG2.0a`.
 
 <a id="d1-mumford-tate-connected"></a>
 
@@ -241,7 +241,7 @@ In characteristic zero the rational identity component is a normal `ℚ`-subgrou
 
 (J. S. Milne, [Shimura varieties and moduli](https://www.jmilne.org/math/xnotes/svhIP.pdf), §6, definition of Mumford–Tate groups, p.494.)
 
-*Needs:* [§1.2](#d1-mumford-tate-group); [ReductiveGroups, Layer 3 (subgroups, quotients and components)][supplier-18]; `TauCeti.geometricallyConnectedCommHopfAlgProperty`.
+*Needs:* [§1.2](#d1-mumford-tate-group); ReductiveGroups, Layer 3 (subgroups, quotients and components); `TauCeti.geometricallyConnectedCommHopfAlgProperty`.
 
 <a id="d1-mumford-tate-reductive"></a>
 
@@ -261,7 +261,7 @@ Each rational `MT`-stable subspace is a Hodge substructure, and `HodgeStructures
 
 (J. S. Milne, [Shimura varieties and moduli](https://www.jmilne.org/math/xnotes/svhIP.pdf), §6, Corollary 6.5, p.495.)
 
-*Needs:* [§1.2](#d1-mumford-tate-group); [§1.3](#d1-mumford-tate-connected); [HodgeStructures, L1 (polarization and semisimplicity)][supplier-19]; [ReductiveGroups, Layer 6 (reductive and semisimple groups)][supplier-20]; `TauCeti.reductiveCommHopfAlgProperty`.
+*Needs:* [§1.2](#d1-mumford-tate-group); [§1.3](#d1-mumford-tate-connected); HodgeStructures, L1 (polarization and semisimplicity); ReductiveGroups, Layer 6 (reductive and semisimple groups); `TauCeti.reductiveCommHopfAlgProperty`.
 
 <a id="d1-hodge-generic"></a>
 
@@ -289,7 +289,7 @@ For an arbitrary isogeny, transport one polarization to the rational Hodge struc
 
 (David Masser; Umberto Zannier, [Abelian varieties isogenous to no Jacobian](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p07-s.pdf), §1 (Introduction), p.637, paragraph preceding Theorem 1.1.)
 
-*Needs:* [§1.2](#d1-mumford-tate-group); [HodgeStructures, L1 (polarization and semisimplicity)][supplier-19]; [ReductiveGroups, Layer 6 (reductive and semisimple groups)][supplier-20]; [AbelianSchemesAndArithmeticModuli][supplier-6] §§A5.2, A5.5.
+*Needs:* [§1.2](#d1-mumford-tate-group); HodgeStructures, L1 (polarization and semisimplicity); ReductiveGroups, Layer 6 (reductive and semisimple groups); AbelianSchemesAndArithmeticModuli §§A5.2, A5.5.
 
 ### Examples
 
@@ -297,7 +297,7 @@ The trivial Hodge structure, a nonzero Tate structure and elliptic `H¹` disting
 
 ### Dependencies
 
-[AbelianSchemesAndArithmeticModuli][supplier-6] §§A5.2, A5.5; [ReductiveGroupsPartII][supplier-3] `§RG2.0a`; [ShimuraVarieties][supplier-1] §§P.1–P.5; `TauCeti.GeneralLinear.coordinateHopfAlgebra`; `TauCeti.HopfIdeal.sSup_toIdeal`; `TauCeti.geometricallyConnectedCommHopfAlgProperty`; `TauCeti.reductiveCommHopfAlgProperty`; [HodgeStructures, L0 (pure Hodge structures)][supplier-16]; [HodgeStructures, L1 (polarization and semisimplicity)][supplier-19]; [ReductiveGroups, Layer 0 (the functor of points and the three-way dictionary)][supplier-17]; [ReductiveGroups, Layer 1 (representations and comodules)][supplier-15]; [ReductiveGroups, Layer 3 (subgroups, quotients and components)][supplier-18]; [ReductiveGroups, Layer 4 (Jordan decomposition, diagonalizable groups and tori)][supplier-14]; [ReductiveGroups, Layer 6 (reductive and semisimple groups)][supplier-20].
+AbelianSchemesAndArithmeticModuli §§A5.2, A5.5; ReductiveGroupsPartII `§RG2.0a`; ShimuraVarieties §§P.1–P.5; `TauCeti.GeneralLinear.coordinateHopfAlgebra`; `TauCeti.HopfIdeal.sSup_toIdeal`; `TauCeti.geometricallyConnectedCommHopfAlgProperty`; `TauCeti.reductiveCommHopfAlgProperty`; HodgeStructures, L0 (pure Hodge structures); HodgeStructures, L1 (polarization and semisimplicity); ReductiveGroups, Layer 0 (the functor of points and the three-way dictionary); ReductiveGroups, Layer 1 (representations and comodules); ReductiveGroups, Layer 3 (subgroups, quotients and components); ReductiveGroups, Layer 4 (Jordan decomposition, diagonalizable groups and tori); ReductiveGroups, Layer 6 (reductive and semisimple groups).
 
 ## Layer 2: uniqueness of the complex structure
 
@@ -327,7 +327,7 @@ Two integrable complex structures with the same almost complex structure have th
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), Proposition 5.9 and proof, p.56.)
 
-*Needs:* [ShimuraVarieties][supplier-1] §§P.1–P.5; [ReductiveGroups, Layer 1 (representations and comodules)][supplier-15]; [RepresentationTheory/LieGroups, Layer 8 (Borel–Weil, flag manifolds and Bruhat)][supplier-21].
+*Needs:* ShimuraVarieties §§P.1–P.5; ReductiveGroups, Layer 1 (representations and comodules); RepresentationTheory/LieGroups, Layer 8 (Borel–Weil, flag manifolds and Bruhat).
 
 ### Examples
 
@@ -335,7 +335,7 @@ A torus component is a point. For `GL₂` the upper-half-plane line moves holomo
 
 ### Dependencies
 
-[ShimuraVarieties][supplier-1] §§P.1–P.5; [ReductiveGroups, Layer 1 (representations and comodules)][supplier-15]; [RepresentationTheory/LieGroups, Layer 8 (Borel–Weil, flag manifolds and Bruhat)][supplier-21].
+ShimuraVarieties §§P.1–P.5; ReductiveGroups, Layer 1 (representations and comodules); RepresentationTheory/LieGroups, Layer 8 (Borel–Weil, flag manifolds and Bruhat).
 
 ## Layer 3: variations, compact duals and integral flags
 
@@ -372,7 +372,7 @@ Use local-system trivializations to glue the flat bundle and filtration; fiber p
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), §2, Variations of Hodge structures, pp.28–29.)
 
-*Needs:* [ComplexManifolds Milestone 7][supplier-8]; [ComplexKahlerGeometry §K4][supplier-9]; [HodgeStructures, L0 (pure Hodge structures)][supplier-16]; `TauCeti.LocalCoefficientSystem`.
+*Needs:* ComplexManifolds Milestone 7; ComplexKahlerGeometry §K4; HodgeStructures, L0 (pure Hodge structures); `TauCeti.LocalCoefficientSystem`.
 
 <a id="d3-variation-morphism"></a>
 
@@ -433,7 +433,7 @@ Orthogonal splitting: on a fibre choose a `ℤ`-lattice on which a multiple of `
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), §2, Polarizations, p.28; Variations of Hodge structures, pp.28–29.)
 
-*Needs:* [§3.1](#d3-variation); [HodgeStructures, L1 (polarization and semisimplicity)][supplier-19]; `TauCeti.Hodge.IsPolarization`; `TauCeti.Hodge.RationalHodgeSubstructure.orthogonal`; `TauCeti.Hodge.RationalHodgeSubstructure.isCompl_orthogonal`.
+*Needs:* [§3.1](#d3-variation); HodgeStructures, L1 (polarization and semisimplicity); `TauCeti.Hodge.IsPolarization`; `TauCeti.Hodge.RationalHodgeSubstructure.orthogonal`; `TauCeti.Hodge.RationalHodgeSubstructure.isCompl_orthogonal`.
 
 <a id="d3-polarized-integral-variation"></a>
 
@@ -460,7 +460,7 @@ Bundle the finite-free integral local system and parallel pairing; identify the 
 
 (Benjamin Bakker; Bruno Klingler; Jacob Tsimerman, [Tame topology of arithmetic quotients and algebraicity of Hodge loci](https://arxiv.org/pdf/1810.04801v2), §1.3, pp.4–5; §4.2, p.13 (arXiv v2).)
 
-*Needs:* [HodgeStructures, L1 (polarization and semisimplicity)][supplier-19]; [§3.1](#d3-variation); `TauCeti.Hodge.IsPolarization`; [§3.3](#d3-rational-polarized-variation).
+*Needs:* HodgeStructures, L1 (polarization and semisimplicity); [§3.1](#d3-variation); `TauCeti.Hodge.IsPolarization`; [§3.3](#d3-rational-polarized-variation).
 
 <a id="d3-flat-bundle-local"></a>
 
@@ -480,7 +480,7 @@ Check the change-of-frame formula for constant transition matrices; apply the ch
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), §2, Variations of Hodge structures, pp.28–29.)
 
-*Needs:* [ComplexManifolds Milestone 7][supplier-8]; [ComplexKahlerGeometry §K4][supplier-9]; [§3.1](#d3-variation); [HodgeStructures, L0 (pure Hodge structures)][supplier-16].
+*Needs:* ComplexManifolds Milestone 7; ComplexKahlerGeometry §K4; [§3.1](#d3-variation); HodgeStructures, L0 (pure Hodge structures).
 
 <a id="d3-transversality-tangent"></a>
 
@@ -501,7 +501,7 @@ Identify tangent to the flag variety with `End/F⁰` and differentiate each filt
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), §2, Variations of Hodge structures, p.29, with the flag tangent space (18) of p.24.)
 
-*Needs:* [§3.5](#d3-flat-bundle-local); [ReductiveGroups, Layer 7 (structure theory)][supplier-22]; [RepresentationTheory/LieGroups, Layer 8 (Borel–Weil, flag manifolds and Bruhat)][supplier-21].
+*Needs:* [§3.5](#d3-flat-bundle-local); ReductiveGroups, Layer 7 (structure theory); RepresentationTheory/LieGroups, Layer 8 (Borel–Weil, flag manifolds and Bruhat).
 
 <a id="d3-filtration-parabolic"></a>
 
@@ -526,7 +526,7 @@ The filtration uses `p` while `μ` acts by `−p`: matrices preserving `p≥a` h
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), §2, Flag varieties pp.23–24; Theorem 2.14 proof p.30; §12 p.111.)
 
-*Needs:* [ShimuraVarieties][supplier-1] §§P.1–P.5; [ReductiveGroups, Layer 7 (structure theory)][supplier-22]; [ReductiveGroups, Layer 1 (representations and comodules)][supplier-15].
+*Needs:* ShimuraVarieties §§P.1–P.5; ReductiveGroups, Layer 7 (structure theory); ReductiveGroups, Layer 1 (representations and comodules).
 
 <a id="d3-compact-dual"></a>
 
@@ -538,7 +538,7 @@ The Hodge sign dictionary of Layer 1 is fixed. Analytic bases are complex manifo
 
 First establish the local auxiliary `parabolicTypeVariety`. For a reductive group scheme `G/S` and an étale-locally constant conjugacy type `t` invariant under descent, the functor of parabolic subgroup schemes of type `t` is represented by a smooth proper `S`-scheme `Par_t(G)`, with a canonical relatively ample line bundle; it is projective when `S` is affine, in particular over a field or `ℤ`, with its universal parabolic and arbitrary-base-change comparison. If `P/S` has that type, the orbit map `gP↦gPg⁻¹` identifies `G/P` with `Par_t(G)`. Construct the quotient by the étale-local conjugacy functor: parabolics are self-normalizing, and the determinant of their Lie algebra’s dual supplies the canonical relatively ample line bundle. Over a split étale cover, use `G/P` for the finitely many standard types; descend the schemes, universal subgroups and ample line bundles. This is Conrad, *Reductive group schemes*, Theorem 2.3.6, pp.72–73, and Corollaries 5.2.8–5.2.9, pp.155–157. Test the Borel type of `GL₂ (ℙ¹)`, `P=G (S)`, and the nonsplit quaternion conic (no rational point).
 
-Apply this to `G_ℂ` and `P_h`. The resulting identification with `Par_t` makes change of basepoint canonical, with the orbit maps satisfying the cocycle law; inversion gives the left-coset comparison. For the manifold and tangent comparisons use `complexSchemeAnalytification.smooth`, `separatedHausdorff`, `openSubspace` and `fibreProduct` of [ComplexComparisonPartII §C−1.1][supplier-23]. The regular root charts have holomorphic transition maps and tangent `g_ℂ/p_h`. This supplies a genuine complex manifold, compatibly with the `LieGroups` full-flag construction.
+Apply this to `G_ℂ` and `P_h`. The resulting identification with `Par_t` makes change of basepoint canonical, with the orbit maps satisfying the cocycle law; inversion gives the left-coset comparison. For the manifold and tangent comparisons use `complexSchemeAnalytification.smooth`, `separatedHausdorff`, `openSubspace` and `fibreProduct` of ComplexComparisonPartII §C−1.1. The regular root charts have holomorphic transition maps and tangent `g_ℂ/p_h`. This supplies a genuine complex manifold, compatibly with the `LieGroups` full-flag construction.
 
 Borel embedding: the filtration map is `G(ℝ)`-equivariant by construction and holomorphic by ShimuraVarieties §P.3. It is injective because the Hodge filtration determines the Hodge decomposition (Milne SVI `(19)`, p.25), and its differential `g_ℝ/k_h→g_ℂ/F⁰g_ℂ` is injective (diagram `(26)` in the proof of Milne's Theorem 2.14) between spaces of equal real dimension, so it is an open embedding. Its image lies in the `G_ℂ`-orbit of `F_h`, which is `G_ℂ/P_h` because `P_h` is the stabilizer of `F_h` for every faithful representation ([§3.7](#d3-filtration-parabolic)).
 
@@ -558,7 +558,7 @@ Borel embedding: the filtration map is `G(ℝ)`-equivariant by construction and 
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), Theorem 2.14 and its proof, pp.29–30, with diagram (26).)
 
-*Needs:* [§3.7](#d3-filtration-parabolic); [ReductiveGroups, Layer 7 (structure theory)][supplier-22]; [RepresentationTheory/LieGroups, Layer 8 (Borel–Weil, flag manifolds and Bruhat)][supplier-21]; [ShimuraVarieties][supplier-1] §§P.1–P.5; [ComplexComparisonPartII §C−1.1][supplier-23]; [StableReduction][supplier-7] Layer 2.
+*Needs:* [§3.7](#d3-filtration-parabolic); ReductiveGroups, Layer 7 (structure theory); RepresentationTheory/LieGroups, Layer 8 (Borel–Weil, flag manifolds and Bruhat); ShimuraVarieties §§P.1–P.5; ComplexComparisonPartII §C−1.1; StableReduction Layer 2.
 
 <a id="d3-reflex-flag-descent"></a>
 
@@ -580,7 +580,7 @@ The class determines its parabolic type equivariantly. Apply `parabolicTypeVarie
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), Lemma 12.1 and Definition 12.2, pp.111–112; representability is Conrad, Corollaries 5.2.8–5.2.9, pp.155–157.)
 
-*Needs:* [§3.7](#d3-filtration-parabolic); [§3.8](#d3-compact-dual); [ShimuraVarieties][supplier-1] §§P.1–P.5; [ReductiveGroups, Layer 7 (structure theory)][supplier-22]; [StableReduction][supplier-7] Layer 2.
+*Needs:* [§3.7](#d3-filtration-parabolic); [§3.8](#d3-compact-dual); ShimuraVarieties §§P.1–P.5; ReductiveGroups, Layer 7 (structure theory); StableReduction Layer 2.
 
 <a id="d3-kostant-representatives"></a>
 
@@ -606,7 +606,7 @@ Use the native Coxeter-system length and the subgroup generated by the chosen Le
 
 (George Boxer; Vincent Pilloni, [Higher Hida theory for Siegel modular forms](https://www.imo.universite-paris-saclay.fr/~pilloni/higherhidaSiegel.pdf), Definition 1.3.1, p.3; §3.1, p.34.)
 
-*Needs:* [ReductiveGroups, Layer 7 (structure theory)][supplier-22]; [ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes)][supplier-24]; [§3.7](#d3-filtration-parabolic); [ArithmeticLocallySymmetricSpaces][supplier-5] §ALS.4.5.
+*Needs:* ReductiveGroups, Layer 7 (structure theory); ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes); [§3.7](#d3-filtration-parabolic); ArithmeticLocallySymmetricSpaces §ALS.4.5.
 
 <a id="d3-kostant-cone-criterion"></a>
 
@@ -626,7 +626,7 @@ Pair `wκ` with Levi coroots and use `w⁻¹` on the coroot. If an image root is
 
 (George Boxer; Vincent Pilloni, [Higher Hida theory for Siegel modular forms](https://www.imo.universite-paris-saclay.fr/~pilloni/higherhidaSiegel.pdf), §3.1, p.34.)
 
-*Needs:* [§3.10](#d3-kostant-representatives); [ReductiveGroups, Layer 7 (structure theory)][supplier-22].
+*Needs:* [§3.10](#d3-kostant-representatives); ReductiveGroups, Layer 7 (structure theory).
 
 <a id="d3-kostant-cones"></a>
 
@@ -647,7 +647,7 @@ Choose a full-W dominant translate. Move its coset into a minimal left represent
 
 (George Boxer; Vincent Pilloni, [Higher Hida theory for Siegel modular forms](https://www.imo.universite-paris-saclay.fr/~pilloni/higherhidaSiegel.pdf), §1.3.3, p.3.)
 
-*Needs:* [§3.11](#d3-kostant-cone-criterion); [ReductiveGroups, Layer 7 (structure theory)][supplier-22].
+*Needs:* [§3.11](#d3-kostant-cone-criterion); ReductiveGroups, Layer 7 (structure theory).
 
 <a id="d3-kostant-involution"></a>
 
@@ -667,7 +667,7 @@ Use positive-root characterization and longest-element root reversal; count root
 
 (George Boxer; Vincent Pilloni, [Higher Hida theory for Siegel modular forms](https://www.imo.universite-paris-saclay.fr/~pilloni/higherhidaSiegel.pdf), §1.3, p.5.)
 
-*Needs:* [§3.10](#d3-kostant-representatives); [ReductiveGroups, Layer 7 (structure theory)][supplier-22].
+*Needs:* [§3.10](#d3-kostant-representatives); ReductiveGroups, Layer 7 (structure theory).
 
 <a id="d3-bruhat-integral"></a>
 
@@ -689,7 +689,7 @@ Establish `integralParabolicQuotient` by applying `parabolicTypeVariety` (§3.8)
 
 (George Boxer; Vincent Pilloni, [Higher Coleman theory](https://arxiv.org/pdf/2110.10251v1), §3.1, Lemma 3.1.3, p.32.)
 
-*Needs:* [§3.10](#d3-kostant-representatives); [ReductiveGroups, Layer 7 (structure theory)][supplier-22]; [ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes)][supplier-24].
+*Needs:* [§3.10](#d3-kostant-representatives); ReductiveGroups, Layer 7 (structure theory); ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes).
 
 <a id="d3-schubert-families"></a>
 
@@ -715,7 +715,7 @@ Establish `integralSchubertBaseChange`: the schematic closures of the cells in t
 
 (George Boxer; Vincent Pilloni, [Higher Coleman theory](https://arxiv.org/pdf/2110.10251v1), §3.1, pp.31–32.)
 
-*Needs:* [§3.14](#d3-bruhat-integral); [ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes)][supplier-24].
+*Needs:* [§3.14](#d3-bruhat-integral); ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes).
 
 <a id="d3-bruhat-closure-order"></a>
 
@@ -735,7 +735,7 @@ Use the proper Bott–Samelson map of §3.15: its boundary strata correspond to 
 
 (George Boxer; Vincent Pilloni, [Higher Hida theory for Siegel modular forms](https://www.imo.universite-paris-saclay.fr/~pilloni/higherhidaSiegel.pdf), §3.1, p.34.)
 
-*Needs:* [§3.14](#d3-bruhat-integral); [§3.15](#d3-schubert-families); [ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes)][supplier-24].
+*Needs:* [§3.14](#d3-bruhat-integral); [§3.15](#d3-schubert-families); ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes).
 
 <a id="d3-opposite-intersection"></a>
 
@@ -755,7 +755,7 @@ Prove the geometric fibre assertion using a maximal-torus fixed point in the pro
 
 (George Boxer; Vincent Pilloni, [Higher Coleman theory](https://arxiv.org/pdf/2110.10251v1), Lemma 3.1.2 proof, p.32; Brion–Lakshmibai, §1, Lemma 1, pp.5–6 of arXiv v1.)
 
-*Needs:* [§3.15](#d3-schubert-families); [§3.16](#d3-bruhat-closure-order); [ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes)][supplier-24].
+*Needs:* [§3.15](#d3-schubert-families); [§3.16](#d3-bruhat-closure-order); ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes).
 
 <a id="d3-opposite-inside-upper"></a>
 
@@ -783,7 +783,7 @@ For `GL₂` the compact dual is `ℙ¹`, with a point and an affine line as its 
 
 ### Dependencies
 
-[StableReduction][supplier-7] Layer 2; [ComplexComparisonPartII §C−1.1][supplier-23]; [ArithmeticLocallySymmetricSpaces][supplier-5] §ALS.4.5; [ShimuraVarieties][supplier-1] §§P.1–P.5; `TauCeti.Hodge.HodgeStructureOn.IsMorphism.isSubstructure_ker`; `TauCeti.Hodge.HodgeStructureOn.IsMorphism.isSubstructure_range`; `TauCeti.Hodge.HodgeStructureOn.IsSubstructure`; `TauCeti.Hodge.HodgeStructureOn.IsSubstructure.hodgeStructure`; `TauCeti.Hodge.HodgeStructureOn.IsSubstructure.isMorphism_subtype`; `TauCeti.Hodge.IsPolarization`; `TauCeti.Hodge.RationalHodgeSubstructure.isCompl_orthogonal`; `TauCeti.Hodge.RationalHodgeSubstructure.orthogonal`; `TauCeti.LocalCoefficientSystem`; [HodgeStructures, L0 (pure Hodge structures)][supplier-16]; [HodgeStructures, L1 (polarization and semisimplicity)][supplier-19]; [ReductiveGroups, Layer 1 (representations and comodules)][supplier-15]; [ReductiveGroups, Layer 7 (structure theory)][supplier-22]; [ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes)][supplier-24]; [RepresentationTheory/LieGroups, Layer 8 (Borel–Weil, flag manifolds and Bruhat)][supplier-21].
+StableReduction Layer 2; ComplexComparisonPartII §C−1.1; ArithmeticLocallySymmetricSpaces §ALS.4.5; ShimuraVarieties §§P.1–P.5; `TauCeti.Hodge.HodgeStructureOn.IsMorphism.isSubstructure_ker`; `TauCeti.Hodge.HodgeStructureOn.IsMorphism.isSubstructure_range`; `TauCeti.Hodge.HodgeStructureOn.IsSubstructure`; `TauCeti.Hodge.HodgeStructureOn.IsSubstructure.hodgeStructure`; `TauCeti.Hodge.HodgeStructureOn.IsSubstructure.isMorphism_subtype`; `TauCeti.Hodge.IsPolarization`; `TauCeti.Hodge.RationalHodgeSubstructure.isCompl_orthogonal`; `TauCeti.Hodge.RationalHodgeSubstructure.orthogonal`; `TauCeti.LocalCoefficientSystem`; HodgeStructures, L0 (pure Hodge structures); HodgeStructures, L1 (polarization and semisimplicity); ReductiveGroups, Layer 1 (representations and comodules); ReductiveGroups, Layer 7 (structure theory); ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes); RepresentationTheory/LieGroups, Layer 8 (Borel–Weil, flag manifolds and Bruhat).
 
 ## Layer 4: types, additional axioms and distinguished data
 
@@ -816,7 +816,7 @@ Quantify over the Hodge-type witness and connected-adjoint datum isomorphism; de
 
 (David Hansen; Christian Johansson, [Completed cohomology and preabelian type Shimura varieties](https://pure.mpg.de/rest/items/item_3525265_3/component/file_3560933/content), Definition 4.1, §4.1, published p.1980 (PDF p.27).)
 
-*Needs:* [ShimuraVarieties][supplier-1] §§P.1–P.5.
+*Needs:* ShimuraVarieties §§P.1–P.5.
 
 <a id="d4-type-implications"></a>
 
@@ -846,7 +846,7 @@ Non-converse: a Hodge-type datum `(G,X)⊂(GSp,ℋ^±)` satisfies `SV2*` because
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), §8, PEL Shimura data, p.88; §5, Notes, p.66.)
 
-*Needs:* [§4.5](#d4-pel-type); [§4.1](#d4-preabelian-type); [§4.3](#d4-additional-axioms); [§4.4](#d4-sv5-criterion); [ShimuraVarieties][supplier-1] §§P.1–P.5; [PELModuli][supplier-2] §M0.12.
+*Needs:* [§4.5](#d4-pel-type); [§4.1](#d4-preabelian-type); [§4.3](#d4-additional-axioms); [§4.4](#d4-sv5-criterion); ShimuraVarieties §§P.1–P.5; PELModuli §M0.12.
 
 <a id="d4-additional-axioms"></a>
 
@@ -886,7 +886,7 @@ Products: the weight of `(G₁×G₂,X₁×X₂)` is `(w₁,w₂)` and its centr
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), Example 5.24, pp.63–64.)
 
-*Needs:* [ShimuraVarieties][supplier-1] §§P.1–P.5; [§1.1](#d1-rational-weight-criterion); [ArithmeticLocallySymmetricSpaces][supplier-5] `§§ALS.F.1`, ALS.0.1–0.2; [AdelicAlgebraicGroups][supplier-4] §§1.3–1.4; `NumberField.IsCMField`.
+*Needs:* ShimuraVarieties §§P.1–P.5; [§1.1](#d1-rational-weight-criterion); ArithmeticLocallySymmetricSpaces `§§ALS.F.1`, ALS.0.1–0.2; AdelicAlgebraicGroups §§1.3–1.4; `NumberField.IsCMField`.
 
 <a id="d4-sv5-criterion"></a>
 
@@ -915,7 +915,7 @@ For a datum, apply this to `T=Z(G)°`.
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), Theorem 5.26, Example 5.25 and Remark 5.27, p.64.)
 
-*Needs:* [§4.3](#d4-additional-axioms); [AdelicAlgebraicGroups][supplier-4] §§1.3–1.4; [AdelicAlgebraicGroups][supplier-4] §3.4; [ArithmeticLocallySymmetricSpaces][supplier-5] `§§ALS.F.1`, ALS.0.1–0.2; [ReductiveGroups, Layer 4 (Jordan decomposition, diagonalizable groups and tori)][supplier-14].
+*Needs:* [§4.3](#d4-additional-axioms); AdelicAlgebraicGroups §§1.3–1.4; AdelicAlgebraicGroups §3.4; ArithmeticLocallySymmetricSpaces `§§ALS.F.1`, ALS.0.1–0.2; ReductiveGroups, Layer 4 (Jordan decomposition, diagonalizable groups and tori).
 
 <a id="d4-pel-type"></a>
 
@@ -949,7 +949,7 @@ Invariance under isomorphism: compose the witness isomorphism.
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), §8, PEL data and Proposition 8.14, pp.86–88.)
 
-*Needs:* [ShimuraVarieties][supplier-1] §§P.1–P.5; [PELModuli][supplier-2] §M0.12; [§4.3](#d4-additional-axioms).
+*Needs:* ShimuraVarieties §§P.1–P.5; PELModuli §M0.12; [§4.3](#d4-additional-axioms).
 
 <a id="d4-connected-datum-lift"></a>
 
@@ -981,7 +981,7 @@ Replace `G` by the preimage of the smallest subtorus of `G/G^der` whose real poi
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), §5, Aside after Remark 5.30, p.66.)
 
-*Needs:* [§4.3](#d4-additional-axioms); [§4.4](#d4-sv5-criterion); [ShimuraVarieties][supplier-1] §§P.1–P.5; [ReductiveGroupsPartII][supplier-3] §RG2.1.5 and the prescribed-cover extension in Layer 4.6; [ReductiveGroups, Layer 6 (reductive and semisimple groups)][supplier-20]; [ReductiveGroups, Layer 4 (Jordan decomposition, diagonalizable groups and tori)][supplier-14].
+*Needs:* [§4.3](#d4-additional-axioms); [§4.4](#d4-sv5-criterion); ShimuraVarieties §§P.1–P.5; ReductiveGroupsPartII §RG2.1.5 and the prescribed-cover extension in Layer 4.6; ReductiveGroups, Layer 6 (reductive and semisimple groups); ReductiveGroups, Layer 4 (Jordan decomposition, diagonalizable groups and tori).
 
 <a id="d4-product-reflex-field"></a>
 
@@ -1008,7 +1008,7 @@ This refines §P.3's functoriality: the two projections are datum morphisms, so 
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), Lemma 12.1, Definition 12.2 and Remark 12.3, pp.111–112.)
 
-*Needs:* [ShimuraVarieties][supplier-1] §§P.1–P.5.
+*Needs:* ShimuraVarieties §§P.1–P.5.
 
 <a id="d4-distinguished-datum"></a>
 
@@ -1059,7 +1059,7 @@ Abelian type: apply the construction to `(G₁,X₁)` and to `(G,X)` with the sa
 
 (Pierre Deligne, [Variétés de Shimura: interprétation modulaire, et techniques de construction de modèles canoniques](https://publications.ias.edu/sites/default/files/34_VarietesdeShimura.pdf), 2.5.6, p.282.)
 
-*Needs:* [ShimuraVarieties][supplier-1] §§P.1–P.5; [ReductiveGroupsPartII][supplier-3] `§RG2.0a`; [ReductiveGroups, Layer 4 (Jordan decomposition, diagonalizable groups and tori)][supplier-14]; [ReductiveGroups, Layer 6 (reductive and semisimple groups)][supplier-20]; [§3.8](#d3-compact-dual).
+*Needs:* ShimuraVarieties §§P.1–P.5; ReductiveGroupsPartII `§RG2.0a`; ReductiveGroups, Layer 4 (Jordan decomposition, diagonalizable groups and tori); ReductiveGroups, Layer 6 (reductive and semisimple groups); [§3.8](#d3-compact-dual).
 
 <a id="d4-distinguished-levi"></a>
 
@@ -1090,7 +1090,7 @@ Subtori and their real and rational splitting are ReductiveGroups layer 4's; ima
 
 (Tom Lovering, [Integral canonical models for automorphic vector bundles of abelian type](https://arxiv.org/pdf/1605.02717v3), Lemma 4.6.2, p.38 (arXiv v3).)
 
-*Needs:* [§4.8](#d4-distinguished-datum); [§4.2](#d4-type-implications); [§4.3](#d4-additional-axioms); [§3.7](#d3-filtration-parabolic); [ReductiveGroups, Layer 4 (Jordan decomposition, diagonalizable groups and tori)][supplier-14].
+*Needs:* [§4.8](#d4-distinguished-datum); [§4.2](#d4-type-implications); [§4.3](#d4-additional-axioms); [§3.7](#d3-filtration-parabolic); ReductiveGroups, Layer 4 (Jordan decomposition, diagonalizable groups and tori).
 
 ### Examples
 
@@ -1098,7 +1098,7 @@ The full real-quadratic Hilbert datum and its scalar-determinant PEL datum have 
 
 ### Dependencies
 
-[AdelicAlgebraicGroups][supplier-4] §§1.3–1.4; [AdelicAlgebraicGroups][supplier-4] §3.4; [ArithmeticLocallySymmetricSpaces][supplier-5] `§§ALS.F.1`, ALS.0.1–0.2; [PELModuli][supplier-2] §M0.12; [ReductiveGroupsPartII][supplier-3] `§RG2.0a`; [ReductiveGroupsPartII][supplier-3] §RG2.1.5 and the prescribed-cover extension in Layer 4.6; [§1.1](#d1-rational-weight-criterion); [§3.8](#d3-compact-dual); [§3.7](#d3-filtration-parabolic); [ShimuraVarieties][supplier-1] §§P.1–P.5; `NumberField.IsCMField`; [ReductiveGroups, Layer 4 (Jordan decomposition, diagonalizable groups and tori)][supplier-14]; [ReductiveGroups, Layer 6 (reductive and semisimple groups)][supplier-20].
+AdelicAlgebraicGroups §§1.3–1.4; AdelicAlgebraicGroups §3.4; ArithmeticLocallySymmetricSpaces `§§ALS.F.1`, ALS.0.1–0.2; PELModuli §M0.12; ReductiveGroupsPartII `§RG2.0a`; ReductiveGroupsPartII §RG2.1.5 and the prescribed-cover extension in Layer 4.6; [§1.1](#d1-rational-weight-criterion); [§3.8](#d3-compact-dual); [§3.7](#d3-filtration-parabolic); ShimuraVarieties §§P.1–P.5; `NumberField.IsCMField`; ReductiveGroups, Layer 4 (Jordan decomposition, diagonalizable groups and tori); ReductiveGroups, Layer 6 (reductive and semisimple groups).
 
 ## Layer 5: Hilbert and Siegel coordinates and neat levels
 
@@ -1131,7 +1131,7 @@ Use eigenvalue-generated subgroups at all local places and transport only global
 
 (George Boxer; Frank Calegari; Toby Gee; Vincent Pilloni, [Abelian surfaces over totally real fields are potentially modular](https://pmihes.centre-mersenne.org/item/10.1007/s10240-021-00128-2.pdf), Definition 3.2.1, pp.201–202.)
 
-*Needs:* [AdelicAlgebraicGroups][supplier-4] §4.3; [AdelicAlgebraicGroups][supplier-4] §§1.3–1.4.
+*Needs:* AdelicAlgebraicGroups §4.3; AdelicAlgebraicGroups §§1.3–1.4.
 
 <a id="d5-siegel-reflex-dual"></a>
 
@@ -1157,7 +1157,7 @@ The cocharacter is defined over `ℚ`, so the parabolic type is `ℚ`-rational a
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), §6, Siegel datum, pp.68–69; §12, Remark 12.3(b), p.112, for a rational representative of `μ`. The Lagrangian quotient and tangent dimension follow from the calculation above.)
 
-*Needs:* [ShimuraVarieties][supplier-1] §§P.1–P.5; [§3.7](#d3-filtration-parabolic); [§3.8](#d3-compact-dual); [§3.9](#d3-reflex-flag-descent); [ReductiveGroups, Layer 7 (structure theory)][supplier-22].
+*Needs:* ShimuraVarieties §§P.1–P.5; [§3.7](#d3-filtration-parabolic); [§3.8](#d3-compact-dual); [§3.9](#d3-reflex-flag-descent); ReductiveGroups, Layer 7 (structure theory).
 
 <a id="d5-hilbert-datum"></a>
 
@@ -1187,7 +1187,7 @@ Apply restriction of scalars to the determinant Hopf map and compare it with the
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), Example 5.24, pp.63–64, split quaternion case `B=M₂(F)`.)
 
-*Needs:* [§0.1](#d0-hilbert-real-points); [ShimuraVarieties][supplier-1] §§P.1–P.5; [§3.9](#d3-reflex-flag-descent); [§3.8](#d3-compact-dual); [ReductiveGroupsPartII][supplier-3] `§RG2.0a`; [ReductiveGroups, Layer 7 (structure theory)][supplier-22].
+*Needs:* [§0.1](#d0-hilbert-real-points); ShimuraVarieties §§P.1–P.5; [§3.9](#d3-reflex-flag-descent); [§3.8](#d3-compact-dual); ReductiveGroupsPartII `§RG2.0a`; ReductiveGroups, Layer 7 (structure theory).
 
 <a id="d5-hilbert-star-datum"></a>
 
@@ -1219,7 +1219,7 @@ The compact dual of `X*` is the flag variety of the same parabolic type, hence t
 
 (J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf), §9, Hilbert modular varieties (type C PEL), pp.94–95; Example 5.24, pp.63–64.)
 
-*Needs:* [PELModuli][supplier-2] §§M5.1, M5.4–M5.5; [PELModuli][supplier-2] §M0.12; [ShimuraVarieties][supplier-1] §§P.1–P.5; [§5.3](#d5-hilbert-datum); [§0.1](#d0-hilbert-real-points); [§3.9](#d3-reflex-flag-descent); [ReductiveGroups, Layer 6 (reductive and semisimple groups)][supplier-20].
+*Needs:* PELModuli §§M5.1, M5.4–M5.5; PELModuli §M0.12; ShimuraVarieties §§P.1–P.5; [§5.3](#d5-hilbert-datum); [§0.1](#d0-hilbert-real-points); [§3.9](#d3-reflex-flag-descent); ReductiveGroups, Layer 6 (reductive and semisimple groups).
 
 <a id="d5-siegel-root-convention"></a>
 
@@ -1239,7 +1239,7 @@ Subtract the compact positive roots from the full positive system; count occurre
 
 (George Boxer; Vincent Pilloni, [Higher Hida theory for Siegel modular forms](https://www.imo.universite-paris-saclay.fr/~pilloni/higherhidaSiegel.pdf), §3.1, pp.33–34.)
 
-*Needs:* [ReductiveGroups, Layer 7 (structure theory)][supplier-22]; [ShimuraVarieties][supplier-1] §§P.1–P.5; [§3.7](#d3-filtration-parabolic); `RootPairing`; `RootPairing.Base`; `RootPairing.Base.IsPos`.
+*Needs:* ReductiveGroups, Layer 7 (structure theory); ShimuraVarieties §§P.1–P.5; [§3.7](#d3-filtration-parabolic); `RootPairing`; `RootPairing.Base`; `RootPairing.Base.IsPos`.
 
 <a id="d5-siegel-weyl-permutations"></a>
 
@@ -1259,7 +1259,7 @@ Translate the positive Levi roots using the cyclic order determined by this Bore
 
 (George Boxer; Vincent Pilloni, [Higher Hida theory for Siegel modular forms](https://www.imo.universite-paris-saclay.fr/~pilloni/higherhidaSiegel.pdf), §3.1, p.34; corrected cyclic criterion for the stated sign convention.)
 
-*Needs:* [§5.5](#d5-siegel-root-convention); [§3.10](#d3-kostant-representatives); [§3.11](#d3-kostant-cone-criterion); [ReductiveGroups, Layer 7 (structure theory)][supplier-22]; `RootPairing.weylGroup`.
+*Needs:* [§5.5](#d5-siegel-root-convention); [§3.10](#d3-kostant-representatives); [§3.11](#d3-kostant-cone-criterion); ReductiveGroups, Layer 7 (structure theory); `RootPairing.weylGroup`.
 
 <a id="d5-kostant-sequence"></a>
 
@@ -1305,7 +1305,7 @@ Check at the Weyl representative by counting basis indices; right `B` multiplica
 
 (George Boxer; Vincent Pilloni, [Higher Hida theory for Siegel modular forms](https://www.imo.universite-paris-saclay.fr/~pilloni/higherhidaSiegel.pdf), §3.1, p.34.)
 
-*Needs:* [§5.7](#d5-kostant-sequence); [§3.14](#d3-bruhat-integral); [ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes)][supplier-24]; `Matrix.GeneralLinearGroup.toLin`.
+*Needs:* [§5.7](#d5-kostant-sequence); [§3.14](#d3-bruhat-integral); ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes); `Matrix.GeneralLinearGroup.toLin`.
 
 <a id="d5-gsp4-cg-roots"></a>
 
@@ -1329,7 +1329,7 @@ Evaluate each root on the torus and check coroot pairings; sum roots for `ρ`. P
 
 (Frank Calegari; David Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), §2.1, PDF pp.7–8.)
 
-*Needs:* [ReductiveGroups, Layer 7 (structure theory)][supplier-22]; [§5.5](#d5-siegel-root-convention); `RootPairing`; `RootPairing.Base`; `RootPairing.Base.IsPos`.
+*Needs:* ReductiveGroups, Layer 7 (structure theory); [§5.5](#d5-siegel-root-convention); `RootPairing`; `RootPairing.Base`; `RootPairing.Base.IsPos`.
 
 <a id="d5-gsp4-kostant"></a>
 
@@ -1353,7 +1353,7 @@ Generate signed permutations, pair with the single positive Levi root, and compu
 
 (Frank Calegari; David Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), §2.1, PDF p.8.)
 
-*Needs:* [§5.9](#d5-gsp4-cg-roots); [§3.13](#d3-kostant-involution); [§3.10](#d3-kostant-representatives); [ReductiveGroups, Layer 7 (structure theory)][supplier-22]; `RootPairing.weylGroup`.
+*Needs:* [§5.9](#d5-gsp4-cg-roots); [§3.13](#d3-kostant-involution); [§3.10](#d3-kostant-representatives); ReductiveGroups, Layer 7 (structure theory); `RootPairing.weylGroup`.
 
 <a id="d5-gsp4-cone-reversal"></a>
 
@@ -1397,7 +1397,7 @@ Use the symplectic equation together with `gJ=Jg` to derive `gᵀg=ν(g)I`. Posi
 
 (Frank Calegari; David Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), §2.2, PDF pp.8–9.)
 
-*Needs:* [ShimuraVarieties][supplier-1] §§P.1–P.5; [§5.9](#d5-gsp4-cg-roots).
+*Needs:* ShimuraVarieties §§P.1–P.5; [§5.9](#d5-gsp4-cg-roots).
 
 <a id="d5-gsp4-unitary"></a>
 
@@ -1417,7 +1417,7 @@ Expand `kᵀk=I` and the `J` centralizer relation, then compare with (A+iB)* `(A
 
 (Frank Calegari; David Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), §2.2, PDF p.9.)
 
-*Needs:* [§5.12](#d5-gsp4-centralizer); [ArithmeticLocallySymmetricSpaces][supplier-5] `§§ALS.F.1`, ALS.0.1–0.2; `Matrix.unitaryGroup`.
+*Needs:* [§5.12](#d5-gsp4-centralizer); ArithmeticLocallySymmetricSpaces `§§ALS.F.1`, ALS.0.1–0.2; `Matrix.unitaryGroup`.
 
 <a id="d5-gsp4-compact-cartan"></a>
 
@@ -1441,7 +1441,7 @@ Take the inverse image of the diagonal unitary subgroup and multiply by positive
 
 (Frank Calegari; David Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), §2.2, PDF pp.9–10; Theorem 5.5 proof, PDF p.28.)
 
-*Needs:* [§5.13](#d5-gsp4-unitary); [ReductiveGroups, Layer 7 (structure theory)][supplier-22].
+*Needs:* [§5.13](#d5-gsp4-unitary); ReductiveGroups, Layer 7 (structure theory).
 
 <a id="d5-gsp4-exp-kernel"></a>
 
@@ -1459,7 +1459,7 @@ Exponentiate the two commuting angular blocks and scalar block. The image is ide
 
 (Frank Calegari; David Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), §2.2, PDF p.9.)
 
-*Needs:* [§5.14](#d5-gsp4-compact-cartan); [RepresentationTheory/LieGroups, Layer 7 (complexification and real forms)][supplier-25].
+*Needs:* [§5.14](#d5-gsp4-compact-cartan); RepresentationTheory/LieGroups, Layer 7 (complexification and real forms).
 
 <a id="d5-gsp4-cayley-basis"></a>
 
@@ -1484,7 +1484,7 @@ Multiply `C` by the proposed inverse and use `S²=I`. Apply `J` to each column t
 
 (Frank Calegari; David Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), §2.2, PDF p.10.)
 
-*Needs:* [§5.12](#d5-gsp4-centralizer); [ShimuraVarieties][supplier-1] §§P.1–P.5.
+*Needs:* [§5.12](#d5-gsp4-centralizer); ShimuraVarieties §§P.1–P.5.
 
 <a id="d5-gsp4-cayley-action"></a>
 
@@ -1504,7 +1504,7 @@ Multiply the three block matrices; the off-diagonal blocks vanish and the diagon
 
 (Frank Calegari; David Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), §2.2, PDF p.10.)
 
-*Needs:* [§5.16](#d5-gsp4-cayley-basis); [§5.13](#d5-gsp4-unitary); [§5.14](#d5-gsp4-compact-cartan); [ReductiveGroups, Layer 7 (structure theory)][supplier-22].
+*Needs:* [§5.16](#d5-gsp4-cayley-basis); [§5.13](#d5-gsp4-unitary); [§5.14](#d5-gsp4-compact-cartan); ReductiveGroups, Layer 7 (structure theory).
 
 <a id="d5-gsp4-pilloni-convention"></a>
 
@@ -1524,7 +1524,7 @@ Apply the lattice conversion and negate the CG full positive roots, then pair wi
 
 (Vincent Pilloni, [Higher coherent cohomology and p-adic modular forms of singular weights](https://www.imo.universite-paris-saclay.fr/~pilloni/complexhidatheorygsp4.pdf), §5.1.1, author p.20; Remark 5.2.1.1, author p.23.)
 
-*Needs:* [ReductiveGroups, Layer 7 (structure theory)][supplier-22]; [§5.9](#d5-gsp4-cg-roots); [§5.5](#d5-siegel-root-convention); [§5.17](#d5-gsp4-cayley-action); [ReductiveGroupsPartII][supplier-3] §RG2.5; `RootPairing`; `RootPairing.Base`; `RootPairing.Base.IsPos`.
+*Needs:* ReductiveGroups, Layer 7 (structure theory); [§5.9](#d5-gsp4-cg-roots); [§5.5](#d5-siegel-root-convention); [§5.17](#d5-gsp4-cayley-action); ReductiveGroupsPartII §RG2.5; `RootPairing`; `RootPairing.Base`; `RootPairing.Base.IsPos`.
 
 <a id="d5-local-eigenvalue-bound"></a>
 
@@ -1545,7 +1545,7 @@ Shift `χγ` to `Y=X−1`. All lower coefficients have valuation `≥1`. If `v(Y
 
 (George Boxer; Frank Calegari; Toby Gee; Vincent Pilloni, [Abelian surfaces over totally real fields are potentially modular](https://pmihes.centre-mersenne.org/item/10.1007/s10240-021-00128-2.pdf), Lemma 7.8.3, published p.409.)
 
-*Needs:* [AdelicAlgebraicGroups][supplier-4] §4.3; [ReductiveGroupsPartII][supplier-3] §RG2.3; `AddValuation`; [LocalFieldsRamification, Layer 0 (local fields and their finite extensions)][supplier-26]; `AddValuation.map_mul`; `AddValuation.map_le_add`; `AddValuation.map_inv`; `AddValuation.map_zero`.
+*Needs:* AdelicAlgebraicGroups §4.3; ReductiveGroupsPartII §RG2.3; `AddValuation`; LocalFieldsRamification, Layer 0 (local fields and their finite extensions); `AddValuation.map_mul`; `AddValuation.map_le_add`; `AddValuation.map_inv`; `AddValuation.map_zero`.
 
 <a id="d5-local-products-bound"></a>
 
@@ -1565,7 +1565,7 @@ The closed ball `1+{x:v(x)≥1/4}` is a multiplicative subgroup by the two ident
 
 (George Boxer; Frank Calegari; Toby Gee; Vincent Pilloni, [Abelian surfaces over totally real fields are potentially modular](https://pmihes.centre-mersenne.org/item/10.1007/s10240-021-00128-2.pdf), Proof of Lemma 7.8.3, published p.409 (generated-group step expanded here).)
 
-*Needs:* [§5.19](#d5-local-eigenvalue-bound); `AddValuation`; [LocalFieldsRamification, Layer 0 (local fields and their finite extensions)][supplier-26]; `AddValuation.map_mul`; `AddValuation.map_le_add`; `AddValuation.map_inv`; `AddValuation.map_zero`.
+*Needs:* [§5.19](#d5-local-eigenvalue-bound); `AddValuation`; LocalFieldsRamification, Layer 0 (local fields and their finite extensions); `AddValuation.map_mul`; `AddValuation.map_le_add`; `AddValuation.map_inv`; `AddValuation.map_zero`.
 
 <a id="d5-iwahori-neat"></a>
 
@@ -1591,7 +1591,7 @@ Adelic conjugation preserves each local spectrum. A rational element of a conjug
 
 (George Boxer; Frank Calegari; Toby Gee; Vincent Pilloni, [Abelian surfaces over totally real fields are potentially modular](https://pmihes.centre-mersenne.org/item/10.1007/s10240-021-00128-2.pdf), Lemma 7.8.3, published p.409.)
 
-*Needs:* [§5.19](#d5-local-eigenvalue-bound); [§5.20](#d5-local-products-bound); [§5.1](#d5-adelic-neat); [AdelicAlgebraicGroups][supplier-4] §4.3; `AddValuation`; [LocalFieldsRamification, Layer 0 (local fields and their finite extensions)][supplier-26]; [AdelicAlgebraicGroups][supplier-4] §§1.3–1.4; [ReductiveGroupsPartII][supplier-3] §RG2.3; [ReductiveGroups, Layer 1 (representations and comodules)][supplier-15]; `NumberField.RingOfIntegers`; `IsDedekindDomain.FiniteAdeleRing`.
+*Needs:* [§5.19](#d5-local-eigenvalue-bound); [§5.20](#d5-local-products-bound); [§5.1](#d5-adelic-neat); AdelicAlgebraicGroups §4.3; `AddValuation`; LocalFieldsRamification, Layer 0 (local fields and their finite extensions); AdelicAlgebraicGroups §§1.3–1.4; ReductiveGroupsPartII §RG2.3; ReductiveGroups, Layer 1 (representations and comodules); `NumberField.RingOfIntegers`; `IsDedekindDomain.FiniteAdeleRing`.
 
 ### Examples
 
@@ -1599,7 +1599,7 @@ Genus two has four Siegel Kostant representatives and sequences `(0,0,0)`, `(0,0
 
 ### Dependencies
 
-[AdelicAlgebraicGroups][supplier-4] §§1.3–1.4; [AdelicAlgebraicGroups][supplier-4] §4.3; [ArithmeticLocallySymmetricSpaces][supplier-5] `§§ALS.F.1`, ALS.0.1–0.2; [PELModuli][supplier-2] §M0.12; [PELModuli][supplier-2] §§M5.1, M5.4–M5.5; [ReductiveGroupsPartII][supplier-3] `§RG2.0a`; [ReductiveGroupsPartII][supplier-3] §RG2.3; [ReductiveGroupsPartII][supplier-3] §RG2.5; [§0.1](#d0-hilbert-real-points); [§3.14](#d3-bruhat-integral); [§3.8](#d3-compact-dual); [§3.7](#d3-filtration-parabolic); [§3.11](#d3-kostant-cone-criterion); [§3.12](#d3-kostant-cones); [§3.13](#d3-kostant-involution); [§3.10](#d3-kostant-representatives); [§3.9](#d3-reflex-flag-descent); [ShimuraVarieties][supplier-1] §§P.1–P.5; `AddValuation`; `AddValuation.map_inv`; `AddValuation.map_le_add`; `AddValuation.map_mul`; `AddValuation.map_zero`; `IsDedekindDomain.FiniteAdeleRing`; `Matrix.GeneralLinearGroup.toLin`; `Matrix.unitaryGroup`; `NumberField.RingOfIntegers`; `RootPairing`; `RootPairing.Base`; `RootPairing.Base.IsPos`; `RootPairing.weylGroup`; [LocalFieldsRamification, Layer 0 (local fields and their finite extensions)][supplier-26]; [ReductiveGroups, Layer 1 (representations and comodules)][supplier-15]; [ReductiveGroups, Layer 6 (reductive and semisimple groups)][supplier-20]; [ReductiveGroups, Layer 7 (structure theory)][supplier-22]; [ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes)][supplier-24]; [RepresentationTheory/LieGroups, Layer 7 (complexification and real forms)][supplier-25].
+AdelicAlgebraicGroups §§1.3–1.4; AdelicAlgebraicGroups §4.3; ArithmeticLocallySymmetricSpaces `§§ALS.F.1`, ALS.0.1–0.2; PELModuli §M0.12; PELModuli §§M5.1, M5.4–M5.5; ReductiveGroupsPartII `§RG2.0a`; ReductiveGroupsPartII §RG2.3; ReductiveGroupsPartII §RG2.5; [§0.1](#d0-hilbert-real-points); [§3.14](#d3-bruhat-integral); [§3.8](#d3-compact-dual); [§3.7](#d3-filtration-parabolic); [§3.11](#d3-kostant-cone-criterion); [§3.12](#d3-kostant-cones); [§3.13](#d3-kostant-involution); [§3.10](#d3-kostant-representatives); [§3.9](#d3-reflex-flag-descent); ShimuraVarieties §§P.1–P.5; `AddValuation`; `AddValuation.map_inv`; `AddValuation.map_le_add`; `AddValuation.map_mul`; `AddValuation.map_zero`; `IsDedekindDomain.FiniteAdeleRing`; `Matrix.GeneralLinearGroup.toLin`; `Matrix.unitaryGroup`; `NumberField.RingOfIntegers`; `RootPairing`; `RootPairing.Base`; `RootPairing.Base.IsPos`; `RootPairing.weylGroup`; LocalFieldsRamification, Layer 0 (local fields and their finite extensions); ReductiveGroups, Layer 1 (representations and comodules); ReductiveGroups, Layer 6 (reductive and semisimple groups); ReductiveGroups, Layer 7 (structure theory); ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes); RepresentationTheory/LieGroups, Layer 7 (complexification and real forms).
 
 ## Downstream consumers
 
@@ -1620,37 +1620,11 @@ AutomorphicBundles uses rational weight summands, the intrinsic filtration parab
 - David Hansen; Christian Johansson, [Completed cohomology and preabelian type Shimura varieties](https://pure.mpg.de/rest/items/item_3525265_3/component/file_3560933/content), Published J. Lond. Math. Soc. 107 (2023), §4.1 p.1980 (PDF p.27), DOI 10.1112/jlms.12799; public MPG copy.
 - J. S. Milne, [Shimura varieties and moduli](https://www.jmilne.org/math/xnotes/svhIP.pdf), Published Handbook of Moduli, Vol. II (2013), author-hosted typeset chapter; printed pagination.
 - Tom Lovering, [Integral canonical models for automorphic vector bundles of abelian type](https://arxiv.org/pdf/1605.02717v3), arXiv:1605.02717v3; published Algebra Number Theory 11 (2017), no. 8, 1837–1890.
-- Tau Ceti Project, [ComplexKahlerGeometry: complex manifolds, Dolbeault theory, and Kähler geometry][supplier-9], §K4.
-- Tau Ceti Project, [ComplexManifolds: transport, quotients, bundles, and gluing][supplier-8], Milestone 7.
+- Tau Ceti Project, ComplexKahlerGeometry: complex manifolds, Dolbeault theory, and Kähler geometry, §K4.
+- Tau Ceti Project, ComplexManifolds: transport, quotients, bundles, and gluing, Milestone 7.
 - Brian Conrad, [Reductive group schemes](https://math.stanford.edu/~conrad/papers/luminysga3.pdf), Panoramas et Synthèses 42–43 (2014), Theorem 2.3.6, pp.72–73; Theorem 5.1.13, p.143; Corollaries 5.2.8–5.2.9, pp.155–157.
 - Michel Brion and V. Lakshmibai, [A geometric approach to Standard Monomial Theory](https://arxiv.org/pdf/math/0111054v1), arXiv:math/0111054v1, §1, Lemma 1 and proof, pp.5–6 (published Represent. Theory 7 (2003), 651–680).
 - J. S. Milne and K.-y. Shih, [Conjugates of Shimura varieties](https://www.jmilne.org/math/articles/1982d.pdf), in Hodge Cycles, Motives, and Shimura Varieties, LNM 900 (1982), Proposition 3.1, Lemma 3.2 and Remark 3.3(a), pp.297–299.
 
 - J. C. Jantzen, *Representations of Algebraic Groups*, second edition, AMS, 2003, Part II §§13.1–13.8, pp.353–362; Propositions 14.15–14.16 and the partial-flag remark, pp.376–378. [Publisher record](https://doi.org/10.1090/surv/107).
 
-[supplier-1]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/1dd09ed7a832fd36e071726e9066948d76173d0a/TauCetiRoadmap/ShimuraVarieties/README.md
-[supplier-2]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/2d7f7efb3b030d00aed5feb226e0ec1221c09a87/TauCetiRoadmap/PELModuli/README.md
-[supplier-3]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/1cdde3240025076c7f74afcb491e9e97d6fdbea6/TauCetiRoadmap/ReductiveGroupsPartII/README.md
-[supplier-4]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/cf3e93ea9e1049c8e5fa6f683e676214f474d09a/TauCetiRoadmap/AdelicAlgebraicGroups/README.md
-[supplier-5]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/c98d3d119d8401f01f0c71223e5c2b7300ba72f3/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md
-[supplier-6]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/8c67a7e01f942506afaaca5bd38a27e8d2f94bea/TauCetiRoadmap/AbelianSchemesAndArithmeticModuli/README.md
-[supplier-7]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/StableReduction/README.md#layer-2-coherent-curve-theory-duality-and-positivity
-[supplier-8]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/275ce8b253d32e715b7832d2b0df4a62ccbb0699/TauCetiRoadmap/ComplexManifolds/README.md
-[supplier-9]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/8b03be51f4642eef1442c7ccbe611e71151836a7/TauCetiRoadmap/ComplexKahlerGeometry/README.md
-[supplier-10]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md
-[supplier-11]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/LieGroups/README.md
-[supplier-12]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md
-[supplier-13]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/HodgeStructures/README.md
-[supplier-14]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-4-jordan-decomposition-diagonalizable-groups-tori
-[supplier-15]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-1-representations--comodules
-[supplier-16]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/HodgeStructures/README.md#layers-each-a-discharge-gated-milestone-the-sorry-goal-in-suggestedlean-is-the-target
-[supplier-17]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-0-the-functor-of-points-and-the-three-way-dictionary
-[supplier-18]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-3-subgroups-quotients-components
-[supplier-19]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/HodgeStructures/README.md#layers-each-a-discharge-gated-milestone-the-sorry-goal-in-suggestedlean-is-the-target
-[supplier-20]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups
-[supplier-21]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/LieGroups/README.md#layer-8-borel-weil-flag-manifolds-and-bruhat
-[supplier-22]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-7-structure-theory
-[supplier-23]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/654c956cf2e193efd94e91816658b2fcd1ffb8d8/TauCetiRoadmap/ComplexComparisonPartII/README.md#c11-analytic-local-models-and-scheme-analytification
-[supplier-24]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-9-pinned-chevalleydemazure-group-schemes-over-ℤ
-[supplier-25]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/LieGroups/README.md#layer-7-complexification-and-real-forms
-[supplier-26]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-0-local-fields-and-their-finite-extensions
