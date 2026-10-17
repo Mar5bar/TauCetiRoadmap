@@ -822,8 +822,6 @@ here.
   EtaleCohomologyFoundations §F.10.3 / `PerfectComplex.lefschetzNumber`,
   `PerfectComplex.filteredTraceAdditivity` supplies the enhanced DG/module comparison,
   commutative compact/dualizable characterization, traces and coherent filtered additivity.
-  CohomologicalPointCounting/TraceFormula Layers 1–3 consume the same ordinary-module core
-  and enhanced package and retain the geometric trace applications.
   On commutative rings `PerfectComplexInput(A)` identifies the supplier's enhanced perfect
   objects with the full subcategory defined by `DerivedDeRham.IsPerfect A`, equivalently
   `PerfectComplex.IsPerfect A`. Its realization is an equivalence with natural unit, counit
@@ -843,12 +841,11 @@ here.
   `topologicalCoefficientComparison`; §C6.4 / `artinComparisonCompactSupport` supplies
   compact-support Artin comparison and independence of algebraic compactification on separated
   finite-type complex schemes. Relative Borel–Serre comparison consumes §C6.1 and the arithmetic
-  pair model. The finite-coefficient carrier and maps of §C6.1 are also consumed by
-  CohomologicalPointCounting/ComplexComparison Layers 5–7: `FiniteModuleLocalSystem Λ T` is
+  pair model. The finite-coefficient carrier `FiniteModuleLocalSystem Λ T` of §C6.1 is
   the finite-stalk subcategory of `TauCeti.LocalCoefficientSystem Λ T`. On locally
   path-connected, semilocally simply connected spaces its sheaf equivalence preserves
   vertex stalks and path transport, and its direct cochains use inverse first-edge
-  transport. These consumers use the same sheaf resolution and support functors.
+  transport. The arithmetic adapters use the supplied sheaf resolution and support functors.
   `TopologicalCoefficientInput(R)` assumes the ordinary
   local-system comparison for arbitrary commutative rings/stalk modules, compact support on
   the relative finite CW models, and functor coherence on all spaces used here outside that
