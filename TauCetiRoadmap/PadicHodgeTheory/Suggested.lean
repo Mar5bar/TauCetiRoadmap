@@ -27,6 +27,16 @@ namespace TauCetiRoadmap.PadicHodgeTheory
 
 /-! ## Layer 0: Rational period rings -/
 
+/-- The exponent two is a nonunit in the dyadic integers. -/
+example : ¬ IsUnit (2 : ℤ_[2]) := by
+  sorry
+
+/-- Scaling a nonzero period by two gives a proper dyadic sublattice;
+these spans test its scalar coordinates inside the dyadic field. -/
+example : Submodule.span ℤ_[2] ({(2 : ℚ_[2])} : Set ℚ_[2]) ≠
+    Submodule.span ℤ_[2] ({(1 : ℚ_[2])} : Set ℚ_[2]) := by
+  sorry
+
 /-- A normalized trace fixes one in a degree-two step, including the 2-adic tower. -/
 example : (1 / 2 : ℚ) * 2 = 1 ∧ (2 : ℚ) ≠ 1 := by
   norm_num
@@ -229,6 +239,11 @@ example : (!![(0 : ℚ), 1; -1, 0]) *ᵥ ![0, 1] = ![1, 0] ∧
   sorry
 
 /-! ## Layer 5: Monodromy and admissibility -/
+
+/-- The reduction of X squared plus one has no root at three;
+monic reduction then excludes a root over the 3-adic field. -/
+example : ∀ x : ZMod 3, x ^ 2 + 1 ≠ 0 := by
+  decide
 
 /-- With the corrected Berger logarithm at p=3, N(X) is minus three halves. -/
 example : (- Polynomial.C (3/2 : ℚ) * Polynomial.derivative Polynomial.X) =
