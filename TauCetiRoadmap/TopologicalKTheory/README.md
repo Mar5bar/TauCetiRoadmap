@@ -658,8 +658,10 @@ comparisons, not an assumption on every K-object.
    for every strongly continuous Banach representation of compact G, convolution
    with representative functions gives G-finite vectors, and approximate-identity
    convolution gives their density. Prove continuity of the sup-norm action on
-   continuous sections and strong continuity on L² sections, then apply that
-   theorem to both spaces. Peter–Weyl for C(G)/L²(G) alone is insufficient.
+   continuous sections and strong continuity on L² sections for a finite
+   invariant Radon measure and an invariant continuous Hermitian metric,
+   with the resulting L² action unitary; then apply the density theorem to
+   both spaces. Peter–Weyl for C(G)/L²(G) alone is insufficient.
    The ambient representation need not be trivial.
 2. Construct K_G, relative and compact-support groups and products by T2/T3's
    same machinery; prove equivariant homotopy invariance, proper pullback,
@@ -668,7 +670,13 @@ comparisons, not an assumption on every K-object.
    representations: use Mathlib ContRepresentation with the additional
    continuity of G→(V→L[C]V), which that carrier alone does not require.
    Construct biproduct/monoidal instances and compare with compact-group
-   representation models. Export the forgetful ring map to TauCeti.repRing C G;
+   representation models. This algebraic representation-ring construction is
+   independent of K_G and precedes Bott or analytic indices. Construct the
+   external tensor product R(G)×R(H)→R(G×H), induced by external tensor
+   of continuous finite-dimensional representations; prove bilinearity,
+   compatibility with tensor multiplication, restriction and forgetful maps,
+   and its tensor-of-irreducibles comparison using compact-group Schur
+   and complete reducibility. Export the forgetful ring map to TauCeti.repRing C G;
    prove it an isomorphism for finite discrete G, not for arbitrary compact G
    where abstract representations may be discontinuous. Prove the ring
    isomorphism K_G(pt)≃R(G), restriction maps
