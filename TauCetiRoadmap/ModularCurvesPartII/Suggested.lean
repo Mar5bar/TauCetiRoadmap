@@ -142,6 +142,22 @@ theorem nodePowerFibreMonomials_card (m : ℕ) (hm : 0 < m) :
     (nodePowerFibreMonomials m).card = 2 * m - 1 := by
   sorry
 
+/-- The row action on the positive-pairing frame `(τ/N, 1/N)` has period
+`(aτ+c)/(bτ+d)`: it is Mathlib's left action of the transpose label matrix.
+The fibre multiplier is `(bτ+d)⁻¹`, as in README §3.14. -/
+theorem positiveFrame_changeMarking (γ : Matrix.SpecialLinearGroup (Fin 2) ℤ)
+    (τ : UpperHalfPlane) :
+    ((γ.transpose • τ : UpperHalfPlane) : ℂ) =
+      ((γ 0 0 : ℂ) * (τ : ℂ) + (γ 1 0 : ℂ)) /
+        ((γ 0 1 : ℂ) * (τ : ℂ) + (γ 1 1 : ℂ)) := by
+  sorry
+
+/-- At level five and period 2i, the positive-frame T action has period
+`(4+2i)/5` and fibre multiplier `(1-2i)/5` (README §§3.14 and 4.5). -/
+example : (2 * Complex.I) / (2 * Complex.I + 1) = (4 + 2 * Complex.I) / 5 ∧
+    1 / (2 * Complex.I + 1) = (1 - 2 * Complex.I) / 5 := by
+  norm_num [Complex.ext_iff, Complex.div_re, Complex.div_im, Complex.normSq_apply]
+
 /-! ## Layer 4: formal cusps and fixed-pairing components -/
 
 /-- Component counts are modulo inversion, rather than marked-chart counts. -/
@@ -278,6 +294,11 @@ example : ((TauCeti.frickeGL ℝ 1 • (⟨2 * Complex.I, by simp⟩ : UpperHalf
 example : ((TauCeti.frickeGL ℝ 2 • (⟨Complex.I, by simp⟩ : UpperHalfPlane) :
     UpperHalfPlane) : ℂ) = Complex.I / 2 := by
   sorry
+
+/-- The Fricke image of the cusp 1/2 at level four differs from it by translation
+by -1, a matrix in Γ₀(4); this fixed cusp contributes to ramification (README §9.8). -/
+example : -1 / ((4 : ℚ) * (1 / 2)) = 1 / 2 - 1 := by
+  norm_num
 
 /-- The exact divisors of 12 are 1,3,4,12, excluding 2 and 6. -/
 example :
@@ -670,7 +691,8 @@ Definitions and constructions whose geometric carriers remain in README.md (the 
 elliptic curve, its polygons and the n-gon Tate family are AdicSpacesPartIII's carriers, and
 the genus-one family over ℍ is AbelianSchemesAndArithmeticModuli's `SiegelFamily 1`):
 * The lattice uniformization of the normalized Weierstrass model
-* The marked torus family over the upper half-plane
+* The marked torus family over the upper half-plane, with the positive-frame
+  KγK action and the S transport for its forgetful maps (README §§3.14 and 4.5)
 * Characteristic-zero pullback and trace actions
 * The full Hecke first-coefficient pairing
 * Semistable genus-one curves
@@ -714,7 +736,8 @@ the genus-one family over ℍ is AbelianSchemesAndArithmeticModuli's `SiegelFami
 * Compactified twisted curves X(ρ)
 * Level maps between coarse curves
 * Cartan modular curves
-* Atkin–Lehner quotient curves X₀⁺(N)
+* Atkin–Lehner quotient curves X₀⁺(N), with noncuspidal CM fixed points and
+  separate fixed-cusp contributions to the characteristic-zero ramification divisor
 * Geometric weight coefficient systems
 * Finite and adic parabolic cohomology
 * The natural parabolic pairing between the m and adjointIdeal m summands, with
