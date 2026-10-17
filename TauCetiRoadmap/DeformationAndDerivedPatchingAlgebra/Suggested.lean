@@ -170,14 +170,14 @@ theorem hilbertSamuel_degree_and_positive_integral_coefficient
   sorry
 
 
-/-- A finite module over a regular local ring has projective dimension at most its dimension. -/
+/-- The EnhancedDerivedSheaves §E1.6 bound specializes to finite modules over regular local rings. -/
 theorem regular_local_finite_module_dimension_bound
     [IsRegularLocalRing A] [Module.Finite A M] :
     CategoryTheory.projectiveDimension (ModuleCat.of A M) ≤ ringKrullDim A := by
   sorry
 
-/-- Over a local ring, trace one detects an actual split copy of A. -/
-theorem trace_eq_top_iff_free_summand [IsLocalRing A] [Module.Finite A M] :
+/-- Over a local ring, trace one detects a split copy of A in any module. -/
+theorem trace_eq_top_iff_free_summand [IsLocalRing A] :
     traceIdeal A M = ⊤ ↔
       ∃ (i : A →ₗ[A] M) (r : M →ₗ[A] A), r.comp i = LinearMap.id := by
   sorry
@@ -222,6 +222,14 @@ example [Subsingleton M] : traceIdeal A M = ⊥ := by
 example : traceIdeal ℤ (ZMod 2) = ⊥ := by
   sorry
 
+/-- The two-variable parameter ideal has proper trace, hence no free rank-one summand. -/
+example (K : Type u) [Field K] :
+    let R := MvPowerSeries (Fin 2) K
+    let I : Ideal R := Ideal.span {MvPowerSeries.X (0 : Fin 2),
+      MvPowerSeries.X (1 : Fin 2)}
+    traceIdeal R I = I := by
+  sorry
+
 
 
 
@@ -233,6 +241,20 @@ example (p : Ideal A) [p.IsMaximal] : symbolicSquare A p = p ^ 2 := by
 
 example (p : Ideal A) [p.IsPrime] (a : A) (ha : a ∉ p) :
     a ∉ symbolicSquare A p := by
+  sorry
+
+/-- The quadric cone has a symbolic-square element outside the ordinary square in every characteristic. -/
+example (K : Type u) [Field K] :
+    let Q := MvPolynomial (Fin 3) K
+    let I : Ideal Q := Ideal.span
+      {(MvPolynomial.X (0 : Fin 3) : Q) * MvPolynomial.X (2 : Fin 3) -
+        MvPolynomial.X (1 : Fin 3) ^ 2}
+    let R := Q ⧸ I
+    let x : R := Ideal.Quotient.mk I (MvPolynomial.X (0 : Fin 3))
+    let y : R := Ideal.Quotient.mk I (MvPolynomial.X (1 : Fin 3))
+    let p : Ideal R := Ideal.span {x, y}
+    ∃ hp : p.IsPrime, letI : p.IsPrime := hp
+      x ∈ symbolicSquare R p ∧ x ∉ p ^ 2 := by
   sorry
 
 -- Total-jet normalization for the nonzero plane equation x^4.
@@ -318,14 +340,25 @@ example (a : A) : HasSquarePresentation A (A ⧸ Ideal.span {a}) := by
 example [Subsingleton M] : HasSquarePresentation A M := by
   sorry
 
+/-- The dual-number residue admits a square presentation despite its infinite projective dimension. -/
+example (K : Type u) [Field K] :
+    HasSquarePresentation (TrivSqZeroExt K K) (ResidueField (TrivSqZeroExt K K)) := by
+  sorry
+
+/-- The two-variable regular local residue needs two relations and one generator. -/
+example (K : Type u) [Field K] :
+    ¬ HasSquarePresentation (MvPowerSeries (Fin 2) K)
+      (ResidueField (MvPowerSeries (Fin 2) K)) := by
+  sorry
+
 /-! ## Layer 6: Components and quotient identification -/
 
 /-- Near faithfulness means the annihilator lies in the nilradical, even without Noetherianity. -/
 def NearlyFaithful : Prop :=
   Module.annihilator A M ≤ (⊥ : Ideal A).radical
 
-/-- For a finite module over a Noetherian ring, near faithfulness is full support. -/
-theorem nearlyFaithful_iff_full_support [IsNoetherianRing A] [Module.Finite A M] :
+/-- For a finite module over any commutative ring, near faithfulness is full support. -/
+theorem nearlyFaithful_iff_full_support [Module.Finite A M] :
     NearlyFaithful A M ↔ Module.support A M = Set.univ := by
   sorry
 
@@ -353,6 +386,12 @@ example : NearlyFaithful ℤ (ℚ ⧸ Submodule.span ℤ {(1 : ℚ)}) ∧
 
 example (I : Ideal A) (hI : I ≤ (⊥ : Ideal A).radical) :
     NearlyFaithful A (A ⧸ I) := by
+  sorry
+
+/-- The dual-number residue has nilpotent annihilator but is not faithful. -/
+example (K : Type u) [Field K] :
+    NearlyFaithful (TrivSqZeroExt K K) (ResidueField (TrivSqZeroExt K K)) ∧
+      ¬ FaithfulSMul (TrivSqZeroExt K K) (ResidueField (TrivSqZeroExt K K)) := by
   sorry
 
 /-! ## Layer 7: Finite complexes, signed duality and coefficient towers -/
@@ -407,6 +446,20 @@ example {R : Type u} [CommRing R] [IsLocalRing R] (i : ℤ) :
 example {R : Type u} [CommRing R] [IsLocalRing R] (P : Cpx R) (i : ℤ)
     (x : P.X i) (hunit : (P.d i (i + 1)).hom x ∉
       maximalIdeal R • (⊤ : Submodule R (P.X (i + 1)))) : ¬ IsMinimal P := by
+  sorry
+
+/-- The identity disk over a field has a unit differential and is not minimal. -/
+example (K : Type u) [Field K] :
+    let S := (HomologicalComplex.single (ModuleCat K) (ComplexShape.up ℤ) 0)
+    ¬ IsMinimal (CochainComplex.mappingCone (𝟙 (S.obj (ModuleCat.of K K)))) := by
+  sorry
+
+/-- A DVR uniformizer disk is minimal in cochain degrees -1 and zero. -/
+example (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    (π : R) (hπ : Irreducible π) :
+    let S := (HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) 0)
+    IsMinimal (CochainComplex.mappingCone
+      (S.map (ModuleCat.ofHom (LinearMap.mul R R π)))) := by
   sorry
 
 -- The differential of the rational 2-disk dual is +2; its bidual is -2.
