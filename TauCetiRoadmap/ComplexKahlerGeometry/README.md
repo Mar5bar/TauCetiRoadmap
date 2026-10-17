@@ -28,21 +28,21 @@ Complex-torus quotients follow
 [#280](https://github.com/TauCetiProject/TauCetiRoadmap/pull/280) Milestone 1, with the fixed-torus
 theory used in K7 and the [specified ComplexTori contract](https://github.com/TauCetiProject/TauCetiRoadmap/blob/583f86009a6841d01e758fdefec6ff41014b2f6a/TauCetiRoadmap/ComplexTori/README.md).
 
-Use [DifferentialGeometry](../DifferentialGeometry/README.md)'s generic smooth forms,
+Use [DifferentialGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f2c41bace7640366666d72c8939784696e8e3888/TauCetiRoadmap/DifferentialGeometry/README.md)'s generic smooth forms,
 exterior derivative, pullback, wedge, integration, Stokes and de Rham comparison. Its chain integration and Stokes already allow complete vector-valued coefficients;
 its de Rham comparison is stated over ℝ. K5a owns the complex-linear manifold integration compatibility and complex-coefficient de Rham
 comparison on the same generic form carrier, viewed over ℝ; do not construct a second form carrier.
-For an open planar domain Ω⊂ℂ, consume [GlobalHolomorphicFunctions GH5.1](../GlobalHolomorphicFunctions/README.md#gh51-cousin-i-and-planar-de-rham-consequences)'s proof that every smooth complex-valued 2-form is
+For an open planar domain Ω⊂ℂ, consume [GlobalHolomorphicFunctions GH5.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/30a7252b70e6e7169abc023ea8856ceabb43206a/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#L1065-L1078)'s proof that every smooth complex-valued 2-form is
 exact, and prove the adapter to this carrier's complex de Rham quotient and `H²_dR(Ω;ℂ)=0`.
 Consume [RealAlgebraicGeometry Layer 7](../RealAlgebraicGeometry/README.md#layer-7-analytic-preparation-and-mccallum-projection)
 for analytic inversion and local real-germ complexification in model spaces;
 consume the native joint analytic implicit-function theorem as specified in K1,
 which owns the complex-manifold, chart and local-uniqueness adapters.
-[SmoothBundlesConnections](../SmoothBundlesConnections/README.md) supplies real smooth
+[SmoothBundlesConnections](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1c45ab4061b483b832b5d54f597dc69afd3f97a5/TauCetiRoadmap/SmoothBundlesConnections/README.md) supplies real smooth
 bundles with complex structure, tensor/dual/Hom/complexification, Hermitian metrics,
 connections, curvature and their principal-bundle comparison maps. [PDE](../PDE/README.md)
 supplies scalar real-domain Sobolev, embedding, Rellich and elliptic estimates, not system
-estimates. [PseudodifferentialOperators P1.0](../PseudodifferentialOperators/README.md)
+estimates. [PseudodifferentialOperators P1.0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/063cf517a1dcc4d929e0602c6e6f585953aceab8/TauCetiRoadmap/PseudodifferentialOperators/README.md#p10-differential-operator-core)
 supplies differential-operator carriers, jets, symbols and formal density adjoints
 after K5a's initial density-line construction and before its analytic scale.
 K5 owns generic finite-rank real/complex bundle distributions,
@@ -50,7 +50,7 @@ the all-real-order Hilbert scale, smooth Laplace-type regularity, pointwise real
 Hodge star and real/complex Hodge theory. The later pseudodifferential calculus
 and its Peetre theorem consume that analysis; K5a's analytic operator layer
 consumes only P1.0. The initial pointwise star and density layer consumes no PDO.
-[AlgebraicTopology](../AlgebraicTopology/README.md) owns singular cohomology
+[AlgebraicTopology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/77caf227f456d6da938674a1ac50e309d47c476a/TauCetiRoadmap/AlgebraicTopology/README.md) owns singular cohomology
 and products. The linear Hodge-structure objects in `Completed/HodgeStructures` are a
 target for K6's comparison, not a proof of analytic Hodge theory.
 
@@ -73,10 +73,14 @@ two-form carrier is introduced. On `(TM,J)` set
 `h_T(∂_(z_j),∂_(z_k))=δ_jk` and `ω=Σdx^j∧dy^j`. A coframe's h_T-dual norm
 is its complexified-real Gram norm divided by √2.
 
-For the source's tensor notation `h_src=2Σdz^j⊗dbar(z^j)` alongside
-`ω=(i/2)Σdz^j∧dbar(z^j)`, record the dictionary `h_src=2h_T`.
-If that tensor is instead used as the Hermitian tangent metric itself, its
-associated form is twice the displayed ω; prove this scaling comparison.
+For the source's tensor notation `h_src,tensor=2Σdz^j⊗dbar(z^j)` alongside
+`ω=(i/2)Σdz^j∧dbar(z^j)`, pin the slots before comparing metrics:
+`h_src,tensor(u,v)=2h_T(v,u)`. This tensor is linear in its first
+argument and conjugate-linear in its second. Convert it to the native
+Hermitian convention by
+`h_src,native(u,v)=h_src,tensor(v,u)=2h_T(u,v)`.
+Prove that the associated fundamental form of this converted metric is `2ω`;
+the unconverted tensor is not a conjugate-linear-first Hermitian metric.
 
 For a column of section coefficients in a holomorphic frame with metric matrix
 `h=(h(e_i,e_j))`, the Chern connection is `d+A` with `A=h⁻¹∂h`. Frame change `e′=e g`
@@ -192,8 +196,8 @@ On an integrable complex manifold construct ∂ and ∂̄ on generic type forms 
 bidegrees, squares zero, anticommutation, graded Leibniz, conjugation and holomorphic-pullback
 naturality. Prove the local Dolbeault–Grothendieck lemma for smooth `(p,q)` forms, q>0, on a
 polydisc. For the scalar Cauchy–Green step consume [GH0's compact-support operator, identity and real-plane
-area normalization](../GlobalHolomorphicFunctions/README.md#gh-preparatory-calculus) under their support and smoothness hypotheses, and consume
-[GH0's finite-rank Runge operator](../GlobalHolomorphicFunctions/README.md#gh0-runge) with its
+area normalization](https://github.com/TauCetiProject/TauCetiRoadmap/blob/30a7252b70e6e7169abc023ea8856ceabb43206a/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#L192-L220) under their support and smoothness hypotheses, and consume
+[GH0's finite-rank Runge operator](https://github.com/TauCetiProject/TauCetiRoadmap/blob/30a7252b70e6e7169abc023ea8856ceabb43206a/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#L468-L480) with its
 operator bound `sup_K|f−A_jf|≤ε sup_L|f|` for holomorphic f on the stated neighborhood. The
 finite-rank operators have fixed spatial evaluation points and output functions, independent of
 external parameters.
@@ -310,7 +314,10 @@ real `IsManifold 𝓘(ℝ,E) ω M`. Its underlying smooth structure agrees with
 comparisons required by K6's analytic-set triangulation. Use the native
 `contDiffGroupoid` at order ω; no separate analytic groupoid carrier is needed.
 
-Define holomorphic germs using the analytic/smooth sheaf stalk carrier. Consume
+**K3.HolomorphicStalk — finite-dimensional complex local germs.**
+Define holomorphic germs on every finite-dimensional complex domain E using
+the analytic/smooth sheaf stalk carrier; retain its chosen point, local
+coordinates and convergent multivariable power-series comparison. Consume
 `smoothSheafCommRing`, its `IsLocalRing` stalk instance and `isUnit_stalk_iff` after K3.0
 identifies analytic and complex-smooth sections. Supply restriction/pullback and the
 maximal-ideal comparison. Consume `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq` for
@@ -321,6 +328,50 @@ germs vanishing at the origin. Construct the contour/power-sum proof and Newton
 identities, using ContourIntegration's residue/argument-principle inputs and K3.0
 parameter dependence. Consume `MvPolynomial.mul_esymm_eq_sum` for Newton identities and
 align the factorization API with `PowerSeries.IsWeierstrassFactorization`.
+
+**K3.MeromorphicGermField — one-variable finite-pole local field.** For
+`a∈ℂ`, use K3's holomorphic stalk O_a and its comparison with holomorphic
+neighborhood representatives in native `Filter.Germ (𝓝 a)`. Prove O_a is
+a domain by the identity/isolated-zero theorem and construct
+`K_a=FractionRing O_a`. Identify it with a field structure on the subring of punctured
+`Filter.Germ (𝓝[≠] a)` represented by native `MeromorphicAt f a`.
+Use `MeromorphicAt`'s finite-power analytic characterization and
+`meromorphicOrderAt_eq_int_iff`; the zero germ is treated separately.
+Prove the holomorphic-to-punctured map is injective, every fraction has a
+finite pole, every such punctured germ is a fraction, and all operations
+commute with these maps. For a specified local biholomorphism taking a to b,
+prove the pullback comparison with K_b and its local-inverse identities.
+
+Consume [GH2's local Laurent construction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/30a7252b70e6e7169abc023ea8856ceabb43206a/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#L651-L673), specifically its
+finite-pole local phase before global Runge patching. The generic local
+Laurent decomposition and coefficient extraction remain owned by
+GlobalHolomorphicFunctions; this target owns their comparison with the
+stalk/fraction field and regular evaluation. Make this pole-only comparison
+explicit using the native finite-power characterization of `MeromorphicAt`:
+choose N≥0 and an analytic germ h with `f(z)=(z-a)^(-N)h(z)` on a
+punctured neighbourhood, split its convergent Taylor expansion as
+`h(z)=Σ_(j<N)c_j(z-a)^j+(z-a)^N q(z)`, and identify the resulting
+finite principal part and holomorphic germ q. Prove that changing N,
+shrinking the neighbourhood or changing a punctured representative gives
+the same principal coefficients and regular germ. Prove uniqueness by
+multiplying the difference by a sufficiently high power and comparing the
+Taylor coefficients below that power. Include N=0 and the zero germ.
+Identify the negative Laurent coefficient of order -k, k≥1, with
+`(2πi)^(-1) ∮_(|z-a|=ρ) f(z)(z-a)^(k-1) dz` for every
+sufficiently small positive ρ. Use native Cauchy coefficient formulas and
+annulus integral invariance to prove agreement with GH2's coefficients.
+Transport restriction, finite sums/products and differentiation to this
+field; in the product formula a fixed negative coefficient is a finite
+convolution because both input Laurent series are bounded below. Prove
+these comparisons with the native analytic factorization and all existing
+field maps, rather than selecting a second generic Laurent construction.
+Identify the regular subring with O_a and its value-at-a ring homomorphism
+to ℂ; the arbitrary value assigned to a meromorphic representative at its
+centre is never used. K3.MeromorphicGermField consumes the stalk/identity
+foundation, native analytic/meromorphic APIs and this local GH2 phase, and
+precedes applications needing scalar meromorphic coefficient germs. It
+has no QFT prerequisite. General isolated essential-singularity and global
+Mittag–Leffler constructions retain their GlobalHolomorphicFunctions owner.
 
 Prove the analytic local rings are Noetherian and factorial of dimension n, with regular
 parameters. Follow Griffiths–Harris, *Principles of Algebraic Geometry*, chapter 0 §§1–2, and Demailly, chapter II: prove local parametrization of
@@ -405,15 +456,18 @@ restricted by native `U.sheafRestrict`, compatibly with ring operations,
 restrictions and germ maps. Use `Opens.overPullbackSheafEquivOver` to compare
 this restriction with the native over-site carrier.
 These are the ring-sheaf inputs for bundle sections here and coherent analytic
-sheaves in RealAnalyticGeometry R3.2. For every native finite-rank `VectorBundle ℂ F E` equipped with
-that holomorphic-transition mixin, construct the sheaf of holomorphic sections
-in Mathlib's `SheafOfModules` over R.
-Define its sections on each open set by holomorphic local frame coordinates,
-prove frame independence and local freeness of rank r, and compare with the
-sections of the bundle glued by #279 from a holomorphic GL_r cocycle.
-Reconstruct the bundle from a locally
-free finite-rank O-module using local bases. Prove the section/reconstruction
-equivalence, including morphisms and pullbacks, on these actual carriers.
+sheaves in RealAnalyticGeometry R3.2. For a fixed finite-dimensional complex normed model F and every native
+`VectorBundle ℂ F E` equipped with that holomorphic-transition mixin,
+construct the sheaf of holomorphic sections in Mathlib's `SheafOfModules`
+over R. Put `r=finrank ℂ F`. Define sections by holomorphic local frame
+coordinates, prove frame independence and local freeness of the same rank r
+at every point, and compare with sections of the bundle glued by #279 from
+a holomorphic GL_r cocycle. Conversely reconstruct the native F-bundle from
+a locally free O-module whose rank is r at every point, transporting its
+local bases to F. Prove the section/reconstruction equivalence, including
+morphisms and pullbacks, on these actual carriers. This fixed-model theorem
+does not identify a varying-rank sheaf with a single `VectorBundle ℂ F E`;
+the componentwise construction below supplies that full locally finite-rank scope.
 K4 supplies the holomorphic bundle and holomorphic-connection carriers for
 [FormalConnectionsOpers F2.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c9f4ac867e9f22bbf6f71d6f5c4a361ab9f0e622/TauCetiRoadmap/FormalConnectionsOpers/README.md)'s analytification comparison. F2.4 owns the
 algebraic-to-holomorphic comparison, consuming K1's manifold inverse/implicit
@@ -451,18 +505,56 @@ holomorphic. With a frame e at a basepoint, continue it along γ to
 e_γ=e·M(γ), and pin `T_γ∘e=e∘M(γ)`, where T_γ is B5's source-to-target
 parallel transport; thus M(γ)=e⁻¹T_γe, with the same frame-bundle holonomy,
 not its inverse. The inverse in B5's deck quotient remains in that quotient
-action. Prove an equivalence of groupoids between flat holomorphic connections,
-flat smooth ℂ-linear connections and finite-rank ℂ-local systems. The
-local-system carrier is a functor from Mathlib's `FundamentalGroupoid M` to
-`ModuleCat ℂ` with finite-dimensional value at each object; build its
-comparison with locally constant sheaves of ℂ-modules with finite-dimensional
-stalks by local parallel frames and path transport. Include the inverse
-sheaf/gluing construction and stalk/monodromy naturality. Extract
-(D^(0,1),D^(1,0)) by Koszul–Malgrange, and construct the inverse holomorphic
-object as L⊗𝒪 with connection 1⊗d: use local parallel frames of L and their
-constant GL_r transition cocycle in the preceding bundle construction, and
-identify its sections sheaf with the tensor sheaf. Include morphisms and naturality in
-holomorphic pullback. This is the analytic correspondence on the common carrier.
+action. Prove the flat correspondence first at fixed rank r on the native
+fixed-model bundles just constructed. Its local-system carrier is a functor
+from Mathlib's `FundamentalGroupoid M` to `ModuleCat ℂ` whose value at every
+object has dimension r. Include all connection-preserving fibrewise linear
+maps and natural transformations, not only isomorphisms.
+
+**K4.ComponentwiseFiniteRankAssembly.** Retain the full pointwise finite-dimensional
+scope on a disconnected M: local systems have finite-dimensional values at
+each object, with no uniform bound on their dimensions. Prove that connected
+components C of M are open complex submanifolds, that their disjoint union is
+homeomorphic to M, and that the rank is constant on each component. For an
+arbitrary rank function `r : ConnectedComponents M → ℕ`, use the model
+`F_C=(Fin (r C) → ℂ)` on C and #279's native fixed-F construction there.
+Define the componentwise category of these native bundles with connections;
+its morphisms are families of connection-preserving linear bundle maps,
+including maps between objects with different rank functions. Construct the
+assembly over M with fibre at x equal to the fibre over x in its component,
+and total space the disjoint union of the component total spaces. Give its
+local charts, smooth/holomorphic transition comparisons and projection on
+the open component cover; reconstruct its sheaf of sections by sections over
+`U∩C`, with componentwise connections and restriction/gluing. Prove restriction
+and assembly are inverse up to natural bundle/sheaf isomorphism. This is an
+explicit family and assembly adapter using native fixed-model bundles on
+each component, not a purported global `VectorBundle ℂ F E` instance with
+varying `finrank ℂ F`.
+
+Apply restriction/assembly and the fixed-rank section/reconstruction theorem
+also without a connection: locally free O-modules of arbitrary locally
+constant finite rank correspond to componentwise native holomorphic bundles,
+with all holomorphic fibrewise linear maps. Prove this equivalence using the
+same section sheaf on the open component cover; no flatness assumption is
+imposed on this holomorphic-bundle/sheaf comparison.
+
+Use the absence of paths between distinct components to compare the full
+componentwise category with pointwise finite-dimensional functors on
+`FundamentalGroupoid M` and with locally constant sheaves of ℂ-modules
+having finite-dimensional stalks. Prove the three category equivalences for
+flat holomorphic connections, flat smooth ℂ-linear connections and those
+local systems; recover the equivalences of isomorphism groupoids as well.
+Use local parallel frames and path transport, including inverse sheaf/gluing,
+stalk and monodromy naturality. Extract `(D^(0,1),D^(1,0))` by
+Koszul–Malgrange. Construct the inverse holomorphic object as `L⊗𝒪` with
+connection `1⊗d`, using constant GL_(r C) transition cocycles componentwise,
+and identify its section sheaf with that tensor sheaf. Include the units,
+counits, all morphisms and naturality under holomorphic pullback, with the
+rank function pulled back along the induced component map. Cover rank zero
+and the empty base, and permit unbounded ranks across infinitely many
+components. These constructions retain the analytic correspondence on the
+actual componentwise carriers without changing the fixed finite-rank
+hypotheses of later elliptic theorems.
 
 For bundle-valued forms construct ∂_∇, ∂̄ and curvature identities on the generic carrier.
 Prove the torsion tensor and Cartan frame structure equations for tangent connections,
@@ -474,7 +566,9 @@ B3 rather than new connection objects.
 
 **K5a. Real and complex-coefficient analysis on real manifolds.** This shared
 layer uses DifferentialGeometry, SmoothBundlesConnections B2–B4, PDE Lane A.3,
-VariationalMethods V2–V5.2, AlgebraicTopology and Mathlib, and HopfRinow Layer 1's Levi-Civita connection
+[VariationalMethods V2–V5.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md#L200-L491),
+[UnboundedOperators UO-D06](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bd1bbc0a33b022a053df88d9efd662f963f8dcde/TauCetiRoadmap/OperatorTheory/UnboundedOperators/README.md#L94-L154),
+AlgebraicTopology and Mathlib, and HopfRinow Layer 1's Levi-Civita connection
 through PDO P1.0. Its pointwise real star, orientation line and
 density bundle precede PDO P1.0. Its distributional operator action and
 Laplace analysis then consume P1.0's operator and symbol core. It precedes the complex-manifold
@@ -557,6 +651,67 @@ bilinear transpose on E*⊗density tests. Prove compactly supported
 Euclidean distributions extend uniquely to tempered distributions after
 cutoff, with the explicit test-pairing and cutoff-independence on their
 support. Prove finite derivative order on each fixed compact support.
+
+**K5a.DistributionLocalStructure.** Own the continuous-primitive and supported
+finite-jet structure on these distribution carriers, before their consumers.
+
+For an interval I and J relatively compact in I, choose χ∈C_c∞(I), equal1
+near closure J, and χ̃∈C_c∞(I), equal1 near supp χ. Put w=χu, extended
+by0 to ℝ. Choose compact support stages around both cutoffs and prove a
+finite order k for w there. Prove the density/extension theorem from smooth
+tests to C^k compact tests on a slightly larger stage, using mollification
+with support control and the C^k bound; express the result on the native
+order-indexed `Distribution Ω F (k:ℕ∞)` carrier and its smooth-test restriction.
+Keep its native compact-convergence topology; prove the restriction map
+continuous without identifying the finite-order topology with a subspace
+topology on `Distribution Ω F ⊤`.
+Use χ̃ to pair w with arbitrary C^k functions near its compact support,
+and prove independence of this second cutoff.
+
+For m≥k+2 put `H_m(t)=t_+^(m−1)/(m−1)!`, which is C^(m−2). Define
+`F(x)=⟨w(t),χ̃(t)H_m(x−t)⟩` using that finite-order extension. Prove
+continuity from C^k translation continuity on the common compact t-stage,
+and the explicit pairing identity, for every compact smooth ψ,
+`⟨F,ψ⟩=⟨w,χ̃(t)∫_ℝH_m(x−t)ψ(x)dx⟩`.
+Prove this Fubini interchange in the C^k test topology, even though H_m is
+noncompact and not infinitely differentiable. Its distribution derivative
+`D^mH_m=δ` and the pairing identity give `D^mF=w`, hence `D^mF=u` on J.
+Own this compact distribution–finite-regularity convolution API, not just
+the name of a convolution. The order is that of w, not of an unspecified
+uncut distribution.
+
+Own the supported finite-jet structure on these same carriers. For a closed embedded submanifold S of
+codimension q, in every product normal chart (y,z), prove that a distribution
+supported in S has a locally finite-order expression
+`u=Σ_(|α|≤N)u_α(y)⊗∂_z^αδ(z)` on compact chart stages, with unique
+tangential distribution coefficients. N may depend on the compact stage.
+Construct coefficients by proper normal projection of z^β times u with a
+cutoff equal1 near S, giving `(-1)^|β|β!u_β`, and prove the Taylor/Hadamard
+remainder argument that the remaining distribution vanishes. Prove restriction,
+chart/density/bundle transport and compatibility of finite stages; coordinate
+normal jets transform by their actual normal-jet law. For S a point, deduce
+finite delta-derivative sums and linear independence. For scalar pullback under
+positive dilation prove `∂^αδ` has degree−q−|α|. The generic support/structure
+theorem is supplied here; application-specific scaling and wavefront ambiguity
+bounds belong to their consumers.
+
+For every real n≥1 own the distribution nonextension example
+`exp(1/‖x‖²)` on the punctured Euclidean space. Choose a nonzero nonnegative
+smooth bump φ supported in the unit ball and `0<c<1/4`, and put
+`φ_ε(x)=φ((x−εe₁)/(cε))`. All small supports lie in one fixed compact ball
+and avoid0. A finite-order extension would bound its value by `Cε^(−N)`,
+while its positive punctured-domain integral is at least
+`C'ε^n exp((1+c)^(−2)ε^(−2))`. Prove this contradicts every finite N.
+Transport by the native Euclidean/chart comparison. Dimension0 is separate.
+This generic distribution theorem supplies both the Hyperfunctions and RQFT
+source examples and uses no hyperfunction or renormalization theorem.
+
+Own the literal delta-series failure at distribution level. With a compact
+smooth test equal near0 to `1/(1+2x)` and supported inside `(-1/4,1/4)`,
+prove `⟨δ^(n)/n!,φ⟩=2^n`; its partial sums do not converge in D′.
+The point-supported analytic-functional interpretation and convergent
+factorial-square comparison belong to Hyperfunctions HF5.
+
 Construct the Fréchet topology on all smooth sections of every finite-rank
 bundle, including E*⊗DensityBundle M,
 from a countable exhaustion by compact chart/frame sets and all derivative
@@ -564,6 +719,8 @@ seminorms; prove completeness, atlas independence and continuous restriction.
 Identify its continuous dual with compactly supported distributions, proving
 that continuity bounds the pairing by finitely many such seminorms and hence
 forces compact support. These carriers precede the Hilbert scale.
+
+**K5a.SmoothSectionMontel — compact and bounded dual convergence.** For a finite-dimensional second-countable Hausdorff smooth manifold M and a finite-rank real or complex smooth bundle E, use the preceding complete compact-C^k Fréchet section topology. Prove that every bounded subset has compact closure: on each compact chart/frame set apply Arzelà–Ascoli to every derivative using the next derivative bound, choose a diagonal subsequence along the countable exhaustion and derivative orders, and show the limits are compatible smooth sections. Include finite/disconnected and compact M. Install the native `MontelSpace` instance from `Mathlib.Analysis.LocallyConvex.Montel`; do not define another Montel predicate. Consume its `ContinuousLinearEquiv.toCompactConvergenceCLM` (and its pointwise apply laws) for the continuous-dual strong/compact-convergence comparison, supplying the native Hausdorff and scalar/module hypotheses. Its two continuity directions use that compact sets are von Neumann bounded and every von Neumann bounded set lies in its compact closure. The new target here is the smooth-section Montel instance and its bundle/density adapters, not a duplicate generic dual-topology theorem. Transport through the section/density trivializations already constructed here. This comparison supplies E′ on Euclidean configuration spaces and on the compact real sphere; it does not identify the LF compact-test dual topology or the pointwise Schwartz-dual topology with either topology by notation.
 
 For compact M define `BundleSobolev E s`, s∈ℝ, as the subspace of
 BundleDistribution(E) whose localizations χ_i u in a fixed finite smooth
@@ -885,26 +1042,32 @@ Sobolev-coefficient perturbation estimates, gauge-specific identifications and
 Coulomb slice.
 
 For every formally self-adjoint nonnegative Laplace-type system on a compact
-boundaryless base, identify its coercive shifted form with
-VariationalMethods V5.1's abstract form-represented self-adjoint operator in
-B2's geometric L². Prove its operator domain and adjoint/maximal weak domain
-are H² by regularity, thereby obtaining the specified H² realization.
+boundaryless base, identify its form and inclusion in B2's geometric L² with
+[VariationalMethods V5.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md#L433-L463)'s
+`CompactFormPair.operator`, which is the specialization of the same
+[UO-D06 `closedFormOperator`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bd1bbc0a33b022a053df88d9efd662f963f8dcde/TauCetiRoadmap/OperatorTheory/UnboundedOperators/README.md#L94-L154).
+UO-D06 owns general closed-form representation, real-shift self-adjointness,
+both adjoint inclusions and witness independence; V5.1 applies these on the
+identical form/inclusion data and owns its compact-pair comparisons. Prove
+here that the operator domain and adjoint/maximal weak domain are H² by
+elliptic regularity, thereby obtaining the specified geometric H² realization.
 Prove the shifted energy form coercive on H¹ using its scalar principal part
 and bounded lower-order coefficients. Consume
-[VariationalMethods V2.2–V2.4](../VariationalMethods/README.md)'s RCLike
+[VariationalMethods V2.2–V2.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md#L221-L322)'s RCLike
 coercive solution operator and its `toRealBilin` comparison with native
 real `IsCoercive.continuousLinearEquivOfBilin`; complex Hermitian forms
 use the realification and i-test supplied there. Use H¹ Rellich and
-[VariationalMethods V3–V4](../VariationalMethods/README.md)'s abstract compact-
-embedding form/solution-operator spectral theorem to prove compact resolvent,
+[VariationalMethods V3–V4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md#L324-L431)'s abstract compact-
+embedding form/solution-operator spectral theorem, with
+[V5.1–V5.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md#L433-L491)'s same-operator
+compact-resolvent, graph/domain and eigen-expansion comparisons, to obtain
 finite-dimensional kernel, complete smooth eigensections, Green inverse on
 the kernel's orthogonal complement and its projection/recovery identities.
-The elliptic weak-domain identification and smoothness are owned here;
-V3–V4 supplies the abstract form and compact spectral argument. Use
-V5.1–V5.2's graph/domain and eigen-expansion API in that comparison;
-self-adjointness is consumed from V5.1. Apply the
-same construction to Δ_d and Δ_A; PDO P7 and HamiltonianReduction
-R5 consume it for smooth reference operators before their additional estimates.
+The geometric elliptic weak-domain identification and smoothness are owned
+here; the abstract represented operator and compact spectral arguments are
+consumed through those suppliers. Apply the same construction to Δ_d and Δ_A;
+PDO P7 and HamiltonianReduction R5 consume it for smooth reference operators
+before their additional estimates.
 
 Pin d* as the formal L² adjoint and the nonnegative Hodge Laplacian
 `Δ=d*d+dd*`, `σ_F(Δ_d)=|ξ|²_g Id`. Prove its self-adjoint realization with
@@ -916,6 +1079,88 @@ splitting, and the de Rham Hodge theorem on compact real Riemannian manifolds;
 identify its cohomology with DifferentialGeometry's de Rham object.
 Own `d*=(−1)^(m(k+1)+1)*d*` on real k-forms of an oriented m-manifold
 and `*Δ_d=Δ_d*`; PDO P1.1, Riem R7.4 and K5b consume these identities.
+
+**K5a.ComponentwiseCompact — analytic transport for locally finite rank.**
+For a compact locally connected boundaryless manifold M and a smooth real or
+complex bundle family assembled from native fixed-model bundles E_C on its
+connected components, prove that the component open cover has a finite
+subcover. Components are disjoint and nonempty, so every component occurs in
+that finite subcover; they are clopen and compact. Give the resulting finite
+component index and restrict the metric, density and all bundle operations
+to each C. The rank r(C) may vary. This supplies an analytic adapter on the
+actual componentwise carriers, without constructing a single fixed-F native
+bundle from a finite rank bound. Its smooth bundle-family input uses the
+componentwise assembly of K4; in the real smooth case construct the same
+restriction/pasting adapter directly from native smooth bundles. K4's
+holomorphic construction supplies this input for K5b. The early pointwise,
+density and fixed-model analysis of K5a remains independent of that application.
+
+Define smooth sections on the assembled fibre family by the actual pointwise
+pasting of the component native `ContMDiffSection` carriers, and prove that
+restriction and pasting are inverse topological linear maps for the smooth
+section seminorms. Construct the corresponding compactly supported
+density-dual test sections and their fixed-compact/LF topology, with the
+explicit restriction and clopen extension-by-zero maps. Prove their comparison
+with the finite product of component `BundleTest` spaces. For distributions,
+pin `u_C(φ_C)=u(ext_C φ_C)` and
+`u(φ)=Σ_C u_C(φ|C)`; prove inverse continuous linear maps with the actual
+compact-convergence dual topologies, compact test families and distributional
+section embeddings. Include restriction, evaluation, real/complex scalar and
+conjugation compatibility. These constructions act on sections/tests of the
+assembled fibres and use the component native maps, rather than introducing
+an unconstrained space merely named after a section carrier.
+
+Prove the induced geometric measure on each C agrees with restriction of
+the measure on M under the open-submanifold inclusion, and prove the finite
+component integration formula before comparing completed section spaces.
+Construct geometric L² on that assembled family from measurable sections
+with square-integrable fibre norm, modulo almost-everywhere equality for the
+actual geometric measure. Prove the restriction map and measurable pasting
+map descend to inverse linear isometries with native `PiLp 2 (fun C => L²(E_C))`;
+its inner product is the finite sum of the component geometric integrals.
+Identify smooth-section and test/distribution embeddings through this map.
+For every real s, define the assembled Sobolev subspace in the assembled
+`BundleDistribution` by component membership in `BundleSobolev E_C s`, and
+prove equivalence with localization in the disjoint union of the component
+finite atlases. Pin the sum-of-squares component Sobolev norm; restriction
+identifies it isometrically with `PiLp 2` of the component H^s spaces. Give
+its completeness, embeddings, interpolation, density, localization and
+all-real-order duality comparisons, including negative s. The bilinear
+H^s/H^(−s) density pairing is the sum of component pairings; realification,
+conjugation and Hermitian Riesz transport commute with these maps. At s=0,
+compare with geometric L² by the component continuous linear equivalences
+and equivalent norms; retain the distinction between that comparison and
+the isometric component splitting of each separately chosen norm.
+
+For a finite-order local differential operator between these bundle families,
+prove that its smooth and distributional action commutes with restriction
+and clopen extension by zero, hence acts by the component operators. Prove
+the same for their density transposes and geometric formal adjoints using
+the summed Green pairing, and transport their real-order Sobolev mapping
+bounds. This block assertion concerns local differential operators, including
+the geometric Laplace-type and Dolbeault operators used here; a general
+nonlocal linear operator may couple components. For the specified formally
+self-adjoint nonnegative Laplace-type systems, prove the maximal weak/adjoint
+domain is the finite product of component maximal domains and thus exactly
+the assembled H². Give the actual domain/action and graph comparison with
+the finite orthogonal sum of the component realizations by testing against
+single-component extensions. For each stated operator and Sobolev order,
+choose common admissible shifts and positive coercivity constants by finite
+maxima/minima of the component data, and finite constants for the estimates.
+Consume [VM V3.1's finite orthogonal-sum transport](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md#L324-L335)
+for the resulting compact form pair and identify its represented operator
+with that same component operator through the UO-D06 graph characterization;
+no second generic form-representation or self-adjointness theorem is owned
+by this adapter. Prove compactness of the assembled inclusion/resolvent,
+the componentwise harmonic projection and Green inverse with their recovery
+identities, and the complete smooth eigenbasis obtained from the component
+bases. The eigenbasis index is the disjoint union of the component indices;
+coincident eigenvalues retain the sum of their multiplicities. Treat empty M
+and zero-rank component bundles by the zero section/test/distribution/Hilbert
+spaces and empty eigenbases, with vacuous positive bounds and zero operators
+where appropriate. None of these finite-component estimates supplies a
+uniform rank, shift or analytic constant for an arbitrary noncompact base;
+K4 retains its unbounded-rank componentwise scope there.
 
 **K5b. Hermitian type calculus, Dolbeault Hodge theory and Serre duality.**
 **K5b.0 — Local Hermitian identities on arbitrary complex manifolds.**
@@ -958,6 +1203,21 @@ dual metric.
 
 
 **K5b.1 — Compact Dolbeault Hodge theory.**
+For K4's pointwise finite-rank holomorphic bundles on a compact base, consume
+K5a.ComponentwiseCompact on the actual component restrictions, including
+E-valued type forms, the dual bundle and `E*⊗K_M`. Prove that clopen
+restriction/pasting intertwines ∂̄, its geometric adjoint, the Dolbeault
+Laplacian and barStar_E. Transport the H² realization, harmonic/Green maps
+and decomposition below through those explicit comparisons. Identify the
+Dolbeault complex and its cohomology with the finite products of component
+complexes and cohomology groups, compatibly with the section-sheaf Dolbeault
+comparison. Prove the global integration pairing is the sum of the component
+integrals with the already pinned wedge/evaluation slot order. Use the
+component perfect pairings and the finite-product dual comparison to obtain
+the stated global finite-dimensionality and Serre duality for varying ranks,
+including rank zero and empty M; do not impose connectedness or a single
+native fibre model on this compact conclusion.
+
 On compact boundaryless Hermitian manifolds, consume K5b.0's symbol and
 instantiate K5a's full real-manifold generic
 estimates, regularity, self-adjoint H² realization in B2's geometric L²,
@@ -1071,7 +1331,7 @@ S=V_sing as subcomplexes.
 Use K3.0's real `IsManifold` at order ω and its real-analytic defining
 equations. Derive `dim_ℝ S≤2k−2` from K3's complex dimension drop and the
 realified analytic-submanifold dimensions. Consume
-[RealAnalyticGeometry R0–R5](../RealAnalyticGeometry/README.md), including
+[RealAnalyticGeometry R0–R5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/525a920850e39a4db23a778eec27cb75308b877a/TauCetiRoadmap/RealAnalyticGeometry/README.md), including
 real semianalytic normal decomposition, the affine Łojasiewicz theorem,
 real-analytic embedding and transport, for the manifold-level semianalytic
 triangulation theorem of Łojasiewicz (§3, Theorem 2, p. 464).
@@ -1220,13 +1480,29 @@ Prove its flat Kähler structure, invariant holomorphic forms, and
 genus/Betti dictionary. For every compact connected Riemann surface define
 its geometric genus g=h^(1,0) and prove `h^(0,0)=h^(1,1)=1`,
 `h^(0,1)=g` and `b₁=2g` by Hodge comparison. Prove the topological dictionary:
-on a closed oriented surface presented as a connected sum of j tori, use
-AlgebraicTopology's cellular comparison on the standard polygon cell model
-(one vertex, 2j edges, one face attached by the product of commutators) to
-compute b₁=2j, hence g=j. Consume GeometricTopology Layer 1's
-polygon/smooth-surface comparison; its compact surface
-classification supplies such a presentation and its uniqueness, while K7
-owns the cohomology and genus comparison. On the same oriented polygon model compute
+use K1's realification of the complex curve and its complex tangent
+orientation to construct the native topological surface required by
+[PlanarTopology's surface convention](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/PlanarTopology/README.md#L108-L120).
+Own the adapter from its real two-dimensional atlas to the half-space-charted
+carrier, with empty boundary, T2, compactness and connectedness, and compare
+the complex orientation with
+[PlanarTopology Layer 6's `Surface.Orientation`](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/PlanarTopology/README.md#L656-L719).
+Consume [SurfaceTopology Layers 2–3](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/SurfaceTopology/README.md#L299-L468)'s
+presentation/realization comparisons,
+[Layer 6](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/SurfaceTopology/README.md#L658-L714)'s polygon normal forms and
+[Layer 8](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/SurfaceTopology/README.md#L832-L900)'s compact-surface classification
+to obtain the unique orientable closed model of genus j and a homeomorphism.
+Transport the chosen complex orientation to that model, comparing it with
+the polygon orientation (and an orientation-reversing model reflection when
+needed). K7 owns this orientation adapter; a classification homeomorphism
+does not assert compatibility with a preassigned smooth triangulation.
+Construct the comparison of that realization with AlgebraicTopology's
+standard CW model (one vertex, 2j edges, one face attached by the product of
+commutators), treating j=0 by the sphere comparison rather than identifying
+an empty polygon word with SurfaceTopology's schema. Use AT's singular/cellular
+comparison to compute b₁=2j, hence g=j. SurfaceTopology supplies presentations
+and their topological uniqueness; K7 with AT owns cohomology, the
+real/smooth de Rham comparison and the genus calculation. On this oriented CW model compute
 `H²(Σ;ℤ)≃ℤ`, identify its generator by evaluation on AlgebraicTopology
 Stage6.3's fundamental class, and prove that evaluation is an isomorphism.
 Compute the integral degree-one cup pairing on the 2g polygon generators
@@ -1269,13 +1545,60 @@ the nonzero first spectral differential and the failure of an additive Hodge dec
 on this compact complex manifold. Own the Heisenberg group and lattice, the
 freeness and proper discontinuity of its holomorphic lattice action, and
 cocompactness. Consume #279 Milestone 4 for the quotient complex manifold and
-its projection/descent API; build the cohomology-comparison prerequisites here. Consume [LieGroupoidsPoisson G1.3](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1050)'s all-degree real
+its projection/descent API; build the cohomology-comparison prerequisites here. Consume [LieGroupoidsPoisson G1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/87bef440778a642d5c56abb30ffdbbce83db923f/TauCetiRoadmap/LieGroupoidsPoisson/README.md#L379-L396)'s all-degree real
 Chevalley–Eilenberg differential and own its scalar-extension and complex-summand adapter:
 on the underlying real algebra, identify the complexification with `𝔤⊕bar(𝔤)`, with zero
 mixed bracket, and construct the complex-linear CE complex of `bar(𝔤)` and the invariant
 Dolbeault bicomplex. Own Nomizu's real de Rham comparison for compact nilmanifolds and
-Sakane's Dolbeault comparison for compact complex parallelizable nilmanifolds. For a
-central extension by a compact torus, filter the CE complex by base/horizontal degree and
+Sakane's Dolbeault comparison for compact complex parallelizable nilmanifolds.
+
+**K8.NilpotentCentralReduction.** Supply the existence and lattice theorem
+needed at every induction step, for a finite-dimensional simply connected
+real nilpotent Lie group G with a given discrete uniform lattice Γ. Include
+the universal-cover/lifted-lattice comparison for a connected nilpotent
+presentation of the same compact quotient. Prove the restricted Malcev
+rationality statement from Γ: using the global exponential/BCH coordinates
+and a Γ-adapted Malcev basis, `𝔤_ℚ=span_ℚ(log Γ)` is a rational Lie form of
+𝔤, and rational ideals give closed connected exponential subgroups with
+uniform lattice intersection and discrete cocompact projected lattice.
+Own the finite-generation, rational-basis and subgroup/lattice arguments;
+a theorem label or a conditional assumption that a suitable A exists is
+not this input. In the nonabelian case take the last nonzero lower-central
+ideal of 𝔤. Prove it is positive-dimensional, central, proper and rational
+for this Γ-induced rational form; put `A=exp(𝔞)`. Prove A is closed,
+connected and simply connected, `Γ∩A` is a uniform lattice, AΓ is closed,
+and the image Γ̄ in G/A is discrete and cocompact. Construct G/A as a
+simply connected nilpotent Lie group of strictly smaller dimension using
+quotient BCH charts. Construct the smooth principal torus bundle
+`G/Γ → (G/A)/Γ̄` with fibre `A/(Γ∩A)`, its local trivializations and
+translation transition maps. In particular prove the resulting cohomology
+local systems have trivial monodromy by centrality, rather than assuming
+triviality from a merely abstract fibration.
+
+For simply connected complex nilpotent G, apply that rationality theorem to
+the underlying real group. Its last nonzero lower-central ideal is also a
+complex ideal by complex bilinearity of the bracket; prove this without
+requiring the rational form itself to be stable under multiplication by i.
+Thus A is a complex central subgroup, its lattice has real rank
+`2 dim_ℂ A`, and `A/(Γ∩A)` is a complex torus. Own the complex quotient
+charts/local holomorphic sections for G/A and prove the torus bundle above
+is holomorphic, with complex-nilpotent simply connected base group of
+strictly smaller complex dimension. Prove freeness, proper discontinuity
+and compactness for each discrete lattice action before consuming
+[ComplexManifolds #279 Milestone 4](https://github.com/Paul-Lez/TauCetiRoadmap/blob/275ce8b253d32e715b7832d2b0df4a62ccbb0699/TauCetiRoadmap/ComplexManifolds/README.md#L218-L246)'s
+quotient/descent API. That supplier handles those discrete quotients; the
+continuous central quotient, rationality, lattice existence and
+smooth/holomorphic principal-torus comparison are K8's targets.
+Use real and complex tori, including dimension zero, as the abelian base
+cases, and the constructed A at each nonabelian step. Compare the chosen
+left/right lattice-quotient and invariant-form conventions by inversion,
+with the corresponding CE chain map, before applying [G1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/87bef440778a642d5c56abb30ffdbbce83db923f/TauCetiRoadmap/LieGroupoidsPoisson/README.md#L379-L396). This supplies the
+full Nomizu/Sakane induction, not just the Iwasawa example. The central
+reduction follows the nilpotent case in Sakane, pp. 188–189, whose lattice
+step invokes the restricted Malcev theory; K8 owns that needed theory here.
+
+For these constructed central extensions by compact tori, filter the CE
+complex by base/horizontal degree and
 prove the Hochschild–Serre E₂ identification with base CE cohomology tensor central-fiber
 cohomology. For the full de Rham complex own the central-torus bundle spectral-sequence
 page identifications (vertical de Rham E₁ followed by base cohomology E₂). For Dolbeault
@@ -1291,11 +1614,28 @@ not prove its inclusion is a quasi-isomorphism.
 
 ## Order and references
 
-The global one-variable provider order is GH0 (compact-support formula, area normalization, finite-rank Runge operators and exhaustion) → GH5 (global scalar solver using GH0) → GH5.1 (complex 2-form exactness). K2 consumes [GH0](../GlobalHolomorphicFunctions/README.md#gh0-runge)'s finite-rank operators and compact-support map to build its own smooth/holomorphic/mixed parameter solver; it does not assume a parameter export from the scalar GH5 theorem. K5a consumes [GH5.1](../GlobalHolomorphicFunctions/README.md#gh51-cousin-i-and-planar-de-rham-consequences) and owns the complex-coefficient carrier comparison. GlobalHolomorphicFunctions does not consume ComplexKahlerGeometry.
+The local Laurent construction within [GlobalHolomorphicFunctions GH2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/30a7252b70e6e7169abc023ea8856ceabb43206a/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#L651-L673)
+is a native-only preparatory phase before GH0; GH2's global prescribed-singularity
+patching follows GH0. Separate these phases explicitly. On a punctured disk of any radius r in (0,∞], using finite circles
+0<ρ<R<r, construct Laurent coefficients by circle integrals and prove radius independence
+using native Cauchy-Goursat on concentric annuli. Derive the two-circle Cauchy
+representation for ρ<|w-a|<R by applying annulus integral invariance to the removable divided
+difference `(f(z)-f(w))/(z-w)`, filling its value at w by f'(w). For the kernel
+`(z-w)^(-1)`, the outer circle integral is2πi and the inner integral is0. Expand the two kernels by
+geometric series on smaller closed subannuli, with uniform summable bounds,
+and interchange the circle integrals and sums. The positive part converges on
+the original disk; the negative part converges on the whole punctured plane,
+using arbitrarily small inner circles. Prove uniqueness and the coefficient,
+restriction and differentiation laws in this local phase. These are
+GlobalHolomorphicFunctions' existing local Laurent targets, proved from native
+one-variable Cauchy/power-series inputs, not from GH0/GH5 or CKG. This phase
+supplies GH0's Laurent truncation for pole pushing and its finite-pole output
+to K3.MeromorphicGermField's native field/regular-evaluation adapter.
+The global one-variable provider order is GH0 (compact-support formula, area normalization, finite-rank Runge operators and exhaustion) → GH5 (global scalar solver using GH0) → GH5.1 (complex 2-form exactness). K2 consumes [GH0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/30a7252b70e6e7169abc023ea8856ceabb43206a/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#gh0-runge)'s finite-rank operators and compact-support map to build its own smooth/holomorphic/mixed parameter solver; it does not assume a parameter export from the scalar GH5 theorem. K5a consumes [GH5.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/30a7252b70e6e7169abc023ea8856ceabb43206a/TauCetiRoadmap/GlobalHolomorphicFunctions/README.md#L1065-L1078) and owns the complex-coefficient carrier comparison. GlobalHolomorphicFunctions does not consume ComplexKahlerGeometry.
 
 K3.0 several-variable calculus precedes K1. K1's scalar-restriction and
 orientation paragraph precedes K7.1 and SBC B1's acceptance examples;
-K1's eigenbundle calculus consumes SBC B2's complexification and precedes
+K1's eigenbundle calculus consumes SBC B2's complexification and precedes K2.
 K2's scalar calculus, whole-polydisc local lemma, parameter-dependent shell solver, and Ω^p sheaves
 consume GH0's fixed finite-rank operators and Cauchy–Green map under their stated interfaces and precede K4's holomorphic bundles and connections. K2's bundle-valued comparison follows
 K4's holomorphic-section sheaf and ∂̄_E. The rest of K3 uses that local analysis and feeds K4's
@@ -1307,9 +1647,16 @@ and SBC B3–B4's connection comparisons,
 independently of P1.0. PDO P1.0 consumes that density bundle; K5a's
 distributional operator action, Hilbert-scale, Laplace-type and de Rham Hodge
 developments then consume P1.0, SBC B2–B4, PDE Lane A.3 (componentwise
-on finite-dimensional fibers), VariationalMethods V2–V5.2 and AT, with
-HopfRinow Layer 1's Levi-Civita connection through P1.0. VM V2–V5.2
-are abstract prerequisites; its geometric comparison V5.3 follows K5a.
+on finite-dimensional fibers), [VariationalMethods V2–V5.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md#L200-L491),
+[UO-D06](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bd1bbc0a33b022a053df88d9efd662f963f8dcde/TauCetiRoadmap/OperatorTheory/UnboundedOperators/README.md#L94-L154) and AT, with
+HopfRinow Layer 1's Levi-Civita connection through P1.0. The abstract order is
+VM V2.3 → UO-D06 → VM V5.1, with VM V3–V4 also preceding V5.1;
+CKG consumes that same-operator compact specialization. VM V5.3's geometric
+comparison follows K5a, so it is not an input to this abstract order.
+K5a.ComponentwiseCompact follows its component fixed-model analytic theorems
+and the smooth component-family assembly, and feeds K5b.1 for K4's holomorphic
+componentwise bundles. Its finite-product/orthogonal-sum maps precede the
+global compact Hodge/Serre conclusions for locally finite varying ranks.
 PDO P1.1 and P2 onward consume this analysis. K5b uses K1, K2, K4
 and K5a. K6.0 uses K1/K2/K4 and K5a local identities, and precedes
 RealAnalyticGeometry R3/R4/R5. K6.1 follows K5b, K6.0 and K3's analytic-set theory, K3.0's real-analytic
@@ -1320,12 +1667,19 @@ construction uses K7.1 and AT Stage 4 before AT Stage 7, independently
 of K2–K6; its bundle/forms/Hodge applications use K4–K6. K8 uses K2/K5/K6
 and the generic spectral-sequence machinery. K7.2's torus computations follow
 #280 Milestone 1 and K5b/K6.1. Its Riemann-surface genus and integral cup
-computations follow GT Layer 1, AT Stage4's CW theory, Stage6's
-cellular/cohomology-product comparisons including Stage6.3, and K6.1. Its Hopf computations
+computations follow K1's realification/complex orientation, the K7 adapter to
+[PlanarTopology](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/PlanarTopology/README.md#L108-L120) and
+[SurfaceTopology Layers 2/3/6/8](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/SurfaceTopology/README.md#L299-L900),
+AT Stage4's CW theory, Stage6's cellular/cohomology-product comparisons
+including Stage6.3, and K6.1. Its Hopf computations
 follow #279 Milestone 4, K2's Leray-cover comparison, K3's Hartogs theorem,
 K5b's Serre duality and DG's Mayer–Vietoris theorem. The Iwasawa quotient
-consumes #279 Milestone 4; its invariant cohomology comparisons consume
-LieGroupoidsPoisson G1.3 and the filtered-complex machinery as specified in K8.
+consumes #279 Milestone 4; the general invariant-cohomology comparisons
+first use K8.NilpotentCentralReduction's Γ-rational central subgroup,
+lattice, lower-dimensional quotient and smooth/holomorphic principal-torus
+bundle theorem, then [LieGroupoidsPoisson G1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/87bef440778a642d5c56abb30ffdbbce83db923f/TauCetiRoadmap/LieGroupoidsPoisson/README.md#L962-L977)'s CE adapter and the geometric
+spectral-sequence page comparisons in K8. The generic filtered-complex
+machinery supplies convergence after those inputs.
 Every local definition and bundle construction has restriction, gluing, functoriality and transport
 APIs before it becomes a global theorem's input.
 Within K3, the convergent complex local-algebra and singular-locus targets
