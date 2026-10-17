@@ -372,6 +372,13 @@ example (σ : Equiv.Perm (Fin 2)) :
     (fun _ : Fin 2 => (1 : ℕ)) ∘ σ = (fun _ : Fin 2 => (1 : ℕ)) := by
   rfl
 
+-- R18.1.1a: order-three norm components distinguish arithmetic Frobenius from its inverse.
+-- The central 2-idele has reduced norm 2², giving the required correction modulo seven.
+example : (4 : ZMod 7) ≠ 2 ∧ (4 : ZMod 7) * 2 = 1 ∧
+    (4 : ZMod 7) ^ 3 = 1 ∧ (2 : ZMod 7) ^ 3 = 1 ∧
+    (2 : ZMod 7) ^ 2 = 4 ∧ (2 : ZMod 7) * ((4 : ZMod 7) ^ 2) = 4 := by
+  decide
+
 /-! ## Layer R18.5, part 1: local Drinfeld geometry and auxiliary PEL factors -/
 
 section Drinfeld
