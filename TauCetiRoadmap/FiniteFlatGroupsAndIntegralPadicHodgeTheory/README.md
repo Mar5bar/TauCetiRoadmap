@@ -110,7 +110,8 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   `p`-divisible groups of an elliptic curve over an algebraically closed field). ModularCurves
   schedules neither Dieudonné theory nor the Oort–Tate classification; both are owned here.
 - TauCetiRoadmap.LocalFieldsRamification: Layer 3 (Herbrand functions, upper numbering and the
-  different) and Layer 4 (the tame quotient `I_K/P_K ≅ lim_{p ∤ m} μ_m` and the tame character,
+  different for finite residue fields; §R07.6.1a owns the perfect-residue extension) and
+  Layer 4 (the tame quotient `I_K/P_K ≅ lim_{p ∤ m} μ_m` and the tame character,
   which Tau Ceti implements as `TauCeti.inertiaTameCharacter` and
   `TauCeti.quotientWildInertiaSubgroupEquiv`). §R07.1.26 keeps only what lies beyond Layer 4:
   the tame quotient for arbitrary perfect residue fields and its agreement with that carrier.
@@ -236,7 +237,9 @@ the Colmez–Fontaine theorem from here.
 - **Fontaine–Laffaille** theory is that of Fontaine and Laffaille over `W(k)` (`e = 1`, `π = p`):
   `Fil^i` with `σ`-semilinear `φ^i` and `φ^i|_{Fil^{i+1}} = p φ^{i+1}`; `MF_tor^{[a,b]}` means
   `Fil^a = M` and `Fil^{b+1} = 0`. The functor `U_S` is contravariant, a filtration jump in degree
-  `i` gives the character `ω^i` on inertia, and the torsion functor is fully faithful on `[0, p − 2]`.
+  `i` in `[0,p−1]` gives the character `ω^i` on inertia, and the torsion functor is fully faithful
+  on `[0, p − 2]`.
+  For a translated safe interval use `U_[a,b](M) = U_S(M(−a))(a)` (§R07.3.3a).
 - **Breuil–Kisin** theory follows Kisin: `𝔖 = W(k)⟦u⟧` with `φ(u) = u^p`, `E(u)` the Eisenstein
   polynomial of a fixed uniformiser `π` of `K` (totally ramified of degree `e` over `K₀`),
   `π_{n+1}^p = π_n` and `K_∞ = ⋃_n K(π_n)`. Kisin's functors are contravariant: `D = Hom_{G_K}(V, B⁺_cris)`, `V_𝔖(𝔐) = Hom_{𝔖,φ}(𝔐, 𝔖^ur)` and `G ↦ 𝔻(G)(S)`. The introduction of Kisin's 2006 paper
@@ -249,8 +252,9 @@ the Colmez–Fontaine theorem from here.
   the form of the bound.
 - **Tame inertia** follows Serre: `I_t = I_K/P_K` with `θ : I_t ≅ lim_d μ_d`; the fundamental
   characters of level `n` are `θ_{p^n−1}` composed with the embeddings of `F_{p^n}`, and the mod-`p`
-  cyclotomic character is `θ_{p−1}^e` on `I_t`. "Finite at `p`" means that the finite `ℚ_p`-group
-  scheme defined by the representation prolongs to a finite flat `ℤ_p`-group scheme; peu and très
+  cyclotomic character is `θ_{p−1}^e` on `I_t`. For a representation over `𝔽̄_p`, "finite at `p`"
+  means that a finite coefficient model over `k/𝔽_p` has a finite flat `ℤ_p`-model with `k`-action;
+  for odd `p`, this is independent of the model and coefficient enlargement (§R07.5.6a). Peu and très
   ramifiée are Serre's, defined in the extension-sensitive case `β = α + 1`.
 - **Truncated Barsotti–Tate groups** follow Illusie (flat over `ℤ/p^n`, with `ker F = im V` for `n = 1`). The Hasse invariant of a `BT₁` is `Ha(G) = det V* ∈ H⁰(S, (det ω_G)^{⊗(p−1)})`.
 - **Universal covers** follow Scholze–Weinstein: `G̃ = lim_p G` on `Nilp_R^op`, and `G̃ = T_p G[1/p]` as sheaves.
@@ -364,7 +368,7 @@ laws) with `FormalGroup.IsComm`.
   the finite-level connected–étale sequence of `7E` is used over henselian local rings, and its
   splitting only on the special fibre over a perfect residue field.
 - **LocalFieldsRamification.** Layer 3 (the lower and upper numbering, Herbrand's functions, the
-  different) and Layer 4 (the tame character `I_K/P_K ≅ lim μ_m` and its Frobenius twist).
+  different for finite residue fields) and Layer 4 (the tame character `I_K/P_K ≅ lim μ_m` and its Frobenius twist).
 - **EllipticCurves.** Layer 4 (the Tate curve `E_q` and its `p`-torsion).
 - **ProfiniteCohomology.** Layer 9 (Hilbert `90` and Kummer theory for local fields).
 - **ClassFieldTheory.** Layer 5 (local Tate duality, its target `tateDualityPairing_perfect_mixed`),
@@ -414,8 +418,13 @@ laws) with `FormalGroup.IsComm`.
 - **ArithmeticGaloisDuality.** §R02.1.2 supplies continuous-cochain long exact sequences
   for quotient maps admitting continuous nonequivariant sections; §R02.2.3a supplies
   the finite-type procyclic cohomology calculation.
+- **RestrictedPowerSeries.** Section 7.1 supplies the open-disc scalar algebra, its Gauss topology,
+  completeness, evaluations, differentiation and bounded-coefficient inclusion. Section R07.4.1
+  specializes it to radius one over `K₀` and owns its arithmetic structures.
 - **ArithmeticGaloisRepresentations.** §§1.1–1.2 supply continuous representations and maps;
-  §1.5 supplies finite coefficient models; §7.6 supplies strong irreducibility, the Zariski and
+  §1.4 supplies `residual_descent_finite_field` for residual finite coefficient models;
+  §1.5 supplies characteristic-zero finite coefficient models; §7.6 supplies strong irreducibility,
+  the Zariski and
   Goursat inputs, roots of characters and projective lifting used in §§R07.P7.1–R07.P7.5.
   Section 2.3 supplies the finite-local-field `fundamentalCharacter`,
   `fundamentalCharacter_pow_p`, norm maps between levels, `cyclotomic_restrict_tameInertia`
@@ -2578,10 +2587,15 @@ The API:
 
 Prove `dieudonneGaloisDescent`. Let `k` be perfect with algebraic closure `k̄`. `(i)` For a perfect
 extension `K/k, M(G_K) ≅ W(K) ⊗_{W(k)} M(G)` functorially, for finite commutative `p`-group schemes and
-for `p`-divisible groups. `(ii) M(G) = M(G_{k̄})^{Gal(k̄/k)}`, and `G ↦` (`M(G_{k̄})`, its `σ`-semilinear
-`Gal(k̄/k)`-action, continuous for the Krull topology and commuting with `F` and `V`) is an
-anti-equivalence onto finite-length `W(k̄)`-modules with such an action; so the forms over `k` of a
-group `G₀` over `k̄` correspond to the Galois-semilinear structures on `M(G₀)`. (iii) Over `k̄`, a
+for `p`-divisible groups. `(ii) M(G) = M(G_{k̄})^{Gal(k̄/k)}`. On `M(G_{k̄})` the descent action satisfies
+`g(am) = W(g)(a)g(m)`, `1(m) = m` and `g(h(m)) = (gh)(m)`, where `W(g)` is the Witt-vector
+lift of that same `g ∈ Gal(k̄/k)`. The action commutes with `F,V`; `σ` denotes only Witt
+Frobenius. For finite groups require continuity with the discrete topology on the finite-length
+module and the Krull topology on the Galois group. For `p`-divisible groups require continuity
+modulo every `pⁿ`, equivalently for the `p`-adic topology. This gives anti-equivalences onto
+finite-length Dieudonné modules with descent action, respectively finite free Dieudonné modules
+with descent action. Morphisms are Dieudonné maps commuting with every `g`. The forms of `G₀`
+over `k̄` correspond to such descent structures on `M(G₀)`. (iii) Over `k̄`, a
 finite-length `W(k̄)`-module `N` with a bijective `σ`-linear `F` satisfies `N ≅ W(k̄) ⊗_{ℤ_p} N^{F=1}` (Lang).
 
 *Proof sketch.* `(i)` The functors `colim_n Hom(−, W_n)` and `colim_{n,m} Hom(−, W_n^m)` commute with perfect base
@@ -2602,6 +2616,8 @@ in the connected group `Aut_{W(k̄)}(N)` and apply Lang's theorem to write `g = 
 - `dieudonneGaloisDescent_twist`: over `𝔽_p` (`p` odd), the twist `G` of `ℤ/pℤ` on which the Frobenius of
   `Gal(𝔽̄_p/𝔽_p)` acts by `−1` has `M(G) = 𝔽_p` with `F = −1`, not isomorphic to `M(ℤ/pℤ) = 𝔽_p` with `F = 1`;
   over `k̄` both become `k̄` with `F = σ`, and only the Galois actions tell them apart.
+- On the constant `ℤ/p` over `k̄`, the module is `k̄` with `g(a)=g(a)` and identity action
+  `1(a)=a`. For `a∉𝔽_p`, replacing every scalar action by `σ(a)=a^p` violates this identity law.
 - `dieudonneGaloisDescent_length`: length is preserved: `length_{W(k)} M(G) = length_{W(k̄)} M(G_{k̄})`.
 
 ### R07.2.8 Dieudonné classification of finite commutative `p`-group schemes
@@ -3219,8 +3235,10 @@ of this target. Grothendieck–Messing deformation theory is AbelianSchemesAndAr
 *Proof sketch.* Deformations of a `BT_n` along a square-zero thickening are unobstructed (Illusie,
 Théorème 4.4: the obstruction to deforming a truncated Barsotti–Tate group lies in a group that
 vanishes for `BT_n`, computed with the coLie complex of §R07.1.11), which gives formal smoothness;
-algebraicity of `BT_n^h` follows because a `BT_n` is a finite locally free group scheme with a closed
-condition on the Hopf algebra. The truncation map is smooth because a `BT_{n−1}` lifts to a `BT_n`
+algebraicity of `BT_n^h` is the algebraicity theorem for the stack of truncated Barsotti–Tate
+groups cited below, applied to the supplied finite locally free carrier. In a parameter space,
+the BT exactness conditions involve open rank conditions as well as equations. The truncation map
+is smooth because a `BT_{n−1}` lifts to a `BT_n`
 locally (Illusie; Anschütz–Le Bras use both facts in Lemma 4.6.6). The quasi-polarised statement is
 quoted by Pilloni from Illusie (Lemma 6.3.1.1, proof); density of the ordinary locus is checked on
 the versal deformation, where the Hasse invariant is a nonzero function (§R07.2.21). (Anschütz–Le
@@ -3236,6 +3254,9 @@ Illusie, Astérisque `127`).)
 - `btStackSmooth_elliptic`: for an elliptic curve `E` over the ordinary locus, `E[p]` gives a point of
   `BT₁²`; the map from the moduli of elliptic curves to `BT₁²` is smooth (Serre–Tate with
   Grothendieck–Messing) and the ordinary locus is dense, as the theorem predicts.
+- Over `R=𝔽₂[t]`, the Hopf algebra `R[x]/(x²)` with
+  `Δx=x⊗1+1⊗x+t x⊗x` has BT₁ locus `D(t)`: there `1+tx` identifies the group with `μ₂`,
+  while at `t=0` it is `α₂` with `F=V=0`. Thus the BT condition is not closed.
 - `btStackSmooth_needs_bt`: the stack of all finite locally free groups of order `p²` is not smooth
   (`α_p × α_p` and its deformations); the `BT` condition is what makes the stack smooth.
 - At `p = 2`, take `M = F₂²` with `Fe₁ = Ve₁ = e₂` and `Fe₂ = Ve₂ = 0`, paired by
@@ -3863,11 +3884,23 @@ For a commutative ring `W`, an automorphism `σ` and a natural number `p`, defin
 
 For the covariant realization `T_cov`, filtration support `[a,b]` corresponds to the
 Hodge–Tate interval `[−b,−a]` in §R07.P5a. In particular `ℤ_p(1)` has Hodge–Tate
-weight `+1` and its covariant crystalline filtration jump is `−1`. For the contravariant
-`U_S` of §§R07.3.7–R07.3.17, the same filtration support `[a,b]` corresponds to
-Hodge–Tate interval `[a,b]`; `T_cov` is the integral or torsion linear dual of `U_S`,
-without a Tate twist. Retain these interval conversions under rationalization and
-every finite reduction.
+weight `+1` and its covariant crystalline filtration jump is `−1`. Define `flIntervalRealization`, written
+`U_[a,b](M) = U_S(M(−a))(a)`, where the filtered twist of §R07.3.4 places `M(−a)` in
+`[0,b−a]`, and the outer `(a)` is a Galois Tate twist. For finite free objects use
+`lim_n U_S(M(−a)/pⁿ)(a)`. This contravariant realization has Hodge–Tate interval `[a,b]`
+in the lattice case; for torsion objects this interval records the corresponding crystalline
+lattice-quotient condition. Define `T_cov` as its integral linear dual, or its exact
+Pontryagin dual `Hom_{ℤ_p}(−,ℚ_p/ℤ_p)` for torsion objects, with contragredient action.
+Its interval is `[−b,−a]`. The raw `U_S` retains the definition of §R07.3.7 and is used
+without translation only in its effective range.
+
+Prove natural identifications of `U_[a,b]` for any two permitted intervals containing the
+same support, satisfying the transitivity law on triple overlaps. Prove compatibility with
+finite reductions, rationalization and §R07.3.16's translated rational functor. Direct sums,
+duals and tensor products commute with realization whenever the input and resulting intervals
+have width at most `p−2`; a filtered jump shift by `j` gives a Galois twist by `j`.
+These comparisons use the effective-range period pairing after translating all relevant
+objects; they do not identify raw `U_S(M(j))` with `U_S(M)(j)` outside that range.
 
 The construction proceeds as follows. Define the finite module, filtration, divided Frobenius maps and morphisms on native module carriers. Embed in the category of diagrams with separate filtration modules as Fontaine–Laffaille §1.11; establish exactness on strongly divisible torsion objects. Give induced direct sums, interval restriction, allowed tensor/dual operations and the scalar-forgetting convention.
 
@@ -3879,10 +3912,10 @@ The named operations and identities are:
 - `FontaineLaffailleHom` — Filtration- and Frobenius-preserving linear maps.
 - `fontaineLaffaille_sum` — Direct sums and their divided Frobenius maps.
 - `fontaineLaffaille_interval` — Filtration support `[a,b]`, meaning `Fil^a=M` and `Fil^{b+1}=0`;
-  its covariant Hodge–Tate interval is `[−b,−a]`, and its `U_S` interval is `[a,b]`.
+  its covariant Hodge–Tate interval is `[−b,−a]`, and its translated `U_[a,b]` interval is `[a,b]`.
 - `fontaineLaffaille_dual` — On free objects, dual filtration support is `[−b,−a]`.
   Tensoring with the rank-one filtered object of jump `j` shifts support to `[a+j,b+j]`;
-  `T_cov` is twisted by `−j`, and `U_S` by `+j`. For torsion objects use the exact dual
+  `T_cov` is twisted by `−j`, and `U_[a,b]` by `+j` (with the interval shifted). For torsion objects use the exact dual
   `Hom_{ℤ_p}(−,ℚ_p/ℤ_p)` on the representation side. Impose the small-width bound
   whenever the realization comparison is used.
 - `IsFreeFontaineLaffaille` — The module is free and every filtration step has a `W`-submodule complement. `FontaineLaffailleModule` is stated for a general ring `W` with an automorphism `σ`; the arithmetic statements take `W = W(k) = 𝒪_{K₀}` with `σ` the Witt Frobenius.
@@ -3893,10 +3926,13 @@ The named operations and identities are:
 - The rank-one weight-zero object has `Fil⁰=M, Fil¹=0` and unit Frobenius; omitting generation would admit `φ₀=0`.
 - For interval support, a weight-zero line lies in `[0,0]` and `[−1,1]`, but not `[1,2]`. A nonzero object cannot lie in a reversed interval `a>b`; the zero object can.
 - The free rank-one filtered object with jump `−1` and `φ_{−1}=σ` has `T_cov=ℤ_p(1)`
-  and `U_S=ℤ_p(−1)`; the object with jump `+1` and `φ_1=σ` has `T_cov=ℤ_p(−1)`
-  and `U_S=ℤ_p(1)`. Their reductions modulo `p^m` have the same realization formulas.
+  and `U_[−1,−1]=ℤ_p(−1)`; the object with jump `+1` and `φ_1=σ` has `T_cov=ℤ_p(−1)`
+  and `U_[1,1]=ℤ_p(1)`. Their reductions modulo `p^m` have the same realization formulas.
   Their filtration intervals are `[−1,−1]` and `[1,1]`, respectively.
 - The identity and zero maps are Fontaine–Laffaille morphisms. Between weight-zero rank-one objects over `ℤ₃` with `φ₀` multiplication by `1` and by `2`, the underlying identity preserves the filtration but does not commute with Frobenius, so it is not a morphism.
+- At `p=5`, the jump-`−1` line `𝔽₅e` with `φ_{−1}(e)=e` has raw `U_S=0`:
+  in the enlarged cokernel `S₁`, degree `−1` has identity inclusion and divided Frobenius
+  `pΦ=0`, forcing every morphism to vanish. Its translated realization is `𝔽₅(−1)`.
 - A tensor product with combined width `>p−2` is not covered by the small-weight comparison theorem.
 - In the free rank-one `W`-module, the proper filtration step `pW` (`p` nonunit) is not a direct summand. A free filtered object admitting that step fails IsFreeFontaineLaffaille, even if its underlying module is free.
 
@@ -3916,7 +3952,8 @@ category uses the `W(k)` specialization of §R07.3.3a's `FontaineLaffailleModule
 `FontaineLaffailleHom` and `fontaineLaffaille_interval` on finite generating objects.
 The enlarged `FLModule` category also admits nongenerating objects: generation is part of
 `FLModule.IsTorsion`, and the two carriers agree on that full subcategory. The covariant
-realization dualizes Fontaine and Laffaille's contravariant functor (§R07.3.7).
+realization dualizes the translated `flIntervalRealization` of §R07.3.3a, using the raw
+functor of §R07.3.7 only after the input twist.
 
 *Construction.* Definition as displayed (FL 1.2 and 0.4 with `π = p`; 1.5 for `MF_tor`; 3.2 for the
 range condition). Equivalently (FL 1.4(b)) one gives the filtered module and a single `σ`-semilinear
@@ -3932,7 +3969,8 @@ The API:
 - `FLModule.Hom`: `W(k)`-linear maps preserving the filtrations and commuting with every `φ^i`.
 - `FLModule.IsTorsion`: Finite length and `Σ φ^i(Fil^i M) = M`; equivalent to bijectivity of `φ_M : M̃ → M` (FL 1.6).
 - `FLModule.weights`: The filtration-jump interval `[a, b]` with `Fil^a = M` and `Fil^{b+1} = 0`,
-  giving `U_S` Hodge–Tate interval `[a,b]` and covariant realization interval `[−b,−a]`.
+  giving translated `U_[a,b]` interval `[a,b]` and covariant realization interval `[−b,−a]`
+  in the small-width comparison of §R07.3.3a.
 - `FLModule.twist`: The shift `M(j): Fil^i M(j) = Fil^{i−j} M, φ^i_{M(j)} = φ^{i−j}_M`.
 
 *Needs:* Mathlib `WittVector`; Mathlib `WittVector.frobeniusEquiv`; Mathlib `Module.length`;
@@ -4545,8 +4583,16 @@ to `u^p`; `θ_𝔖 : 𝔖 → 𝒪_K, u ↦ π`, has kernel `E(u)𝔖`, and `E(u
 of `𝔖[1/u]`, a complete discrete valuation ring with uniformiser `p` and residue field `k((u))`, and `ℰ = 𝒪_ℰ[1/p]`. With `π̃ = (π_n)_n ∈ R = lim_{x↦x^p} 𝒪_K̄/p`, the map `u ↦ [π̃]` embeds `𝔖` in `W(R)` compatibly
 with `φ` and `θ, 𝒪_ℰ` in `W(Fr R)` and `ℰ` in `W(Fr R)[1/p]`; `ℰ^ur` is the maximal unramified extension of `ℰ` in
 `W(Fr R)[1/p], 𝒪̂_{ℰ^ur}` the `p`-adic completion of its ring of integers, and `𝔖^ur = 𝒪̂_{ℰ^ur} ∩ W(R)`.
-`G_{K∞}` acts on these rings, fixing `𝔖` and `𝒪_ℰ`. `𝒪` is the ring of rigid analytic functions on the open
-unit `u-disc` (`𝔖[1/p]` is its subring of bounded functions), with `λ = ∏_{n≥0} φⁿ(E(u)/E(0))` and `N_∇ = −uλ·d`/du. `S` is the `p`-adic completion of the divided-power envelope of `W[u]` for the ideal `(E(u))`,
+`G_{K∞}` acts on these rings, fixing `𝔖` and `𝒪_ℰ`. Use RestrictedPowerSeries §7.1's
+open-disc subring of `PowerSeries K₀`, at radius one, as the scalar carrier `𝒪`, with its
+supplied Gauss topology, completeness, evaluations and differentiation. Prove
+`kisinOpenDiscBounded`: its bounded-coefficient subring is canonically `𝔖[1/p]`, by
+coefficientwise inclusion; bounded denominators are equivalent to bounded coefficients since
+`W(k)` is a discrete valuation ring. This identification preserves constants, `u`, evaluation
+and the Gauss seminorms. Here extend Witt Frobenius by `φ(u)=u^p` and prove its continuity,
+the convergence of `λ` and its Frobenius and differentiation identities, with
+`λ = ∏_{n≥0} φⁿ(E(u)/E(0))`, `λ(0)=1` and `N_∇ = −uλ·d/du`.
+`S` is the `p`-adic completion of the divided-power envelope of `W[u]` for the ideal `(E(u))`,
 with `Fil¹S` the closure of the ideal generated by the `E(u)ⁱ/i!`, `φ(u) = u^p, φ(Fil¹S) ⊆ pS` and `φ₁ = φ/p` on `Fil¹S`; `u ↦ [π̃]` extends to `S → A_cris`.
 
 `k` is a perfect field of characteristic `p, W = W(k), K₀ = W[1/p]`, and `K/K₀` is finite and totally
@@ -4579,14 +4625,25 @@ The API:
 - `SUr`: `𝔖^ur = 𝒪̂_{ℰ^ur} ∩ W(R)` with its `G_{K∞}`-action and `φ`.
 - `toWittR`: `𝔖 → W(R), u ↦ [π̃], φ`-equivariant, with `θ ∘ (𝔖 → W(R)) = θ_𝔖`.
 - `breuilS`: Breuil's `S` with `Fil¹S, φ` and `φ₁ = φ/p` on `Fil¹S`.
+- `breuilMonodromyIdeal`: `I_N = Σ_{i≥1} S·u^i/⌊i/e⌋!`, the ideal generated by these
+  divided monomials. For §R07.4.33 set `J_N = Σ_{i≥1} S_R·u^i/⌊i/e⌋!`, the extended
+  ideal `I_N S_R`; coefficient maps carry these generators to the same generators.
+  These ideals are distinct from the PD filtration ideals and from coefficient ideals in `R`
+  (Savitt §3.2, p.14; Definition 4.1(8), p.22).
 
-*Needs:* PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`); §R07.P2 (`aCris`, `bCris`);
+*Needs:* RestrictedPowerSeries §7.1 (open-disc scalar algebra);
+PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`); §R07.P2 (`aCris`, `bCris`);
 PadicPeriodRings §4.1 (`B_st`); Mathlib `PowerSeries`; Mathlib `WittVector`; Mathlib `WittVector.frobenius`; Mathlib
 `Polynomial.IsEisensteinAt`; Mathlib `AdicCompletion`; Mathlib `PreTilt`; Mathlib
 `WittVector.fontaineTheta`.
 
 **Checks.**
 
+- The series `Σ_{n≥0} u^n` is in `𝔖⊂𝒪`; it need not converge on the closed unit disc.
+  The series `Σ_{n≥0} p^{−⌊√n⌋}u^n` lies in `𝒪` but has unbounded coefficients and is
+  outside `𝔖[1/p]`. Evaluation at zero and differentiation agree with the supplied carrier.
+- `N(u^i/⌊i/e⌋!) = −i u^i/⌊i/e⌋!` gives `N(S)⊆I_N` and `N(S_R)⊆J_N`.
+  In particular `N(u)=−u∈I_N`, whereas `u∉Fil¹S` since its image is `π≠0`.
 - `frob_X` and `frob_C`: frob `u = u^p`, and frob restricts to WittVector.frobenius on `W`.
 - `theta_eisenstein`: `θ_𝔖(E(u)) = 0` and `ker θ_𝔖 = E(u)𝔖`.
 - `Eisenstein.not_isUnit`: `E(u)` is not a unit of `𝔖 (θ_𝔖(E(u)) = 0)`, although it is a unit of `𝒪_ℰ`;
@@ -4910,6 +4967,30 @@ The API:
 - `pure_descends_zero`: `ℛ e` with `φ(e) = u e` descends to `ℛ^b` (it is already defined there) and
   is pure of slope `0`; `ℛ e` with `φ(e) = p e` does not descend to an étale module over `ℛ^int`.
 
+### R07.4.8a Rational-fibre monodromy
+
+Define `KisinRationalMonodromy` on a finite-height Kisin module `𝔐`: it is a
+`K₀`-linear endomorphism `N₀` of `D₀=(𝔐/u𝔐)[1/p]` satisfying
+`N₀φ₀=pφ₀N₀`, with `φ₀` induced by `φ`. No integral preservation of `𝔐/u𝔐`
+is required. The category `Mod^{φ,N}_{/𝔖}` has these objects and Kisin morphisms whose
+rational fibres commute with `N₀`. On the disc use the same definition on `𝓜/u𝓜`;
+base change `𝔐↦𝒪⊗_𝔖𝔐` identifies these rational fibres and their `φ₀,N₀`.
+Prove functoriality, tensor and dual compatibility wherever the underlying finite-height
+categories admit those operations. Distinguish `N₀` from a disc differential operator `N_∇`,
+which satisfies the Leibniz rule for `−uλ d/du` and reduces to `N₀` at zero.
+(Conrad, Definition 2.4.4 and Remark 2.4.5, p.18; Kisin 2006, §1.3.10.)
+
+*Needs:* §R07.4.1; §R07.4.2; §R07.4.6.
+
+**Checks.**
+
+- The unit Kisin module has `D₀=K₀`, `φ₀=σ` and `N₀=0`.
+- For `K=ℚ_p`, `E=u−p`, take `φe₁=e₁`, `φe₂=(p−u)e₂`,
+  `N₀e₂=p⁻¹e₁`, `N₀e₁=0`. The height is at most one and
+  `N₀φ₀=pφ₀N₀`, but `N₀` does not preserve the integral fibre.
+- The underlying identity between this example and the same `φ`-module with `N₀=0`
+  is not a monodromy morphism. Base change to `𝒪` retains this distinction.
+
 ### R07.4.9 Weak admissibility is slope `0` over the Robba ring
 
 Prove `weaklyAdmissibleSlopeZero`. Let `D` be an effective filtered `(φ, N)`-module over `K` and `𝓜(D)` its
@@ -4931,7 +5012,7 @@ to a finite free `𝔖[1/p]`-module; `φ`-stability and finite `E`-height are re
 §1.3.8, Theorem (1.3.8), p. 17: the theorem; Kisin 2006, §1.3.2, Theorem (1.3.2), p. 14: Kedlaya's
 slope filtration, as quoted by Kisin.)
 
-*Needs:* §R07.4.6; §R07.3.2; §R07.4.7; §R07.4.8.
+*Needs:* §R07.4.6; §R07.3.2; §R07.4.7; §R07.4.8; §R07.4.8a.
 
 **Checks.**
 
@@ -4948,8 +5029,10 @@ slope filtration, as quoted by Kisin.)
 Prove `kisinCrystallineEmbedding`. There is a fully faithful `⊗`-functor `D ↦ 𝔐(D)` from effective
 weakly admissible filtered `(φ, N)`-modules over `K` to `Mod^{φ,N}_{/𝔖} ⊗ ℚ_p` (`(φ, N)`-modules over `𝔖` of
 finite `E`-height up to isogeny), with `𝔐(D) ⊗_𝔖 𝒪 ≅ 𝓜(D)`. For `𝔐` in `Mod^{φ,N}_{/𝔖}` and `𝓜 = 𝔐 ⊗_𝔖 𝒪`, the
-module `𝓜[1/λ]` carries a canonical connection `∇` with `φ∇ = ∇φ`, and `𝔐` is in the essential image iff `∇`
-has only logarithmic singularities on `𝓜`. On crystalline representations `(N = 0)` this gives a fully
+module `𝓜[1/(uλ)]` carries a canonical connection into ordinary `K₀`-differentials,
+with Frobenius horizontality. It has residue `−N₀` at zero. The object `𝔐` is in the
+essential image iff this connection has at most simple poles on `𝓜` at the zeros of `uλ`,
+equivalently its associated `N_∇` preserves `𝓜`. On crystalline representations `(N = 0)` this gives a fully
 faithful embedding of crystalline `G_K`-representations with Hodge–Tate weights `≥ 0` into `Mod^φ_{/𝔖} ⊗ ℚ_p`, which is not essentially surjective.
 
 The setting is the Kummer frame of §R07.4.1. Conventions: Kisin's contravariant functors and `HT(χ) = +1`, as in *Conventions*.
@@ -4959,16 +5042,19 @@ modules to `(φ, N_∇)`-modules over `𝒪` of slope `0` (Kisin 2006, 1.3.15, p
 `N_∇` to `N = N_∇ mod u` is fully faithful onto the modules stable under the operator `N_∇` on `𝓜[1/λ]`, and
 every rank-one object is in the image. By (1.3.13), `(φ, N)`-modules over `𝒪` of slope `0` are the base
 changes of `Mod^{φ,N}_{/𝔖} ⊗ ℚ_p`; compose. The image criterion: `∇(m) = −λ⁻¹N_∇(m)·du/u`, and
-`N_∇`-stability of `𝓜` inside `𝓜[1/λ]` is logarithmic singularity of `∇` (Kisin 2006, 1.3.15, end of proof).
+`N_∇`-stability of `𝓜` inside `𝓜[1/(uλ)]` is the simple-pole condition on `∇` (Kisin 2006, 1.3.15, end of proof).
 Crystalline case: `V ↦ D = Hom_{G_K}(V, B⁺_cris)`, effective iff weights `≥ 0`, with `N = 0` (Kisin 2006,
 Theorem 0.1, read with `HT(χ) = +1`). (Kisin 2006, §1.3.15, Corollary (1.3.15), p. 19: the functor;
 Kisin 2006, Introduction, Theorem (0.1), p. 2: crystalline case.)
 
-*Needs:* §R07.4.6; §R07.4.9; §R07.4.2; §R07.3.2; §R07.3.3.
+*Needs:* §R07.4.6; §R07.4.8a; §R07.4.9; §R07.4.2; §R07.3.2; §R07.3.3.
 
 **Checks.**
 
 - `kisinEmbedding_rankOne`: `ℚ_p ↦ (𝔖, φ)` and `ℚ_p(1) ↦ (𝔖e, φ(e) = a·E(u)e)` up to isogeny, with `a ∈ W^×` fixed by the normalisation (`E(0)/p` is a unit of `W`); `E`-heights `0` and `1`.
+- For the height-one rational-monodromy example of §R07.4.8a, `λ(0)=1` but the
+  residue is `−N₀≠0`. Inverting `λ` alone therefore does not give a connection into
+  ordinary differentials; inverting `uλ` does (Conrad, equation (2.4.6), p.21).
 - `kisinEmbedding_not_surjective`: the embedding is not essentially surjective (Kisin 2006,
   introduction): its image is cut out by the logarithmic-pole condition on `∇`.
 
@@ -5823,12 +5909,13 @@ Tau Ceti `TauCeti.Algebra.IsStandardSyntomicOfRelativeDimension`
 **Strongly divisible modules and their descent data.**
 
 Construct `StronglyDivisibleModule`. Let `R = O_F` with ramification `e, S = S_R` the `p`-adic completion
-of `W(k)[u, u^{ie}/i!]`, with `φ(u) = u^p, N(u) = −u` and `c = φ₁(E(u))`.
+of `W(k)[u, u^{ie}/i!]`, with `φ(u) = u^p, N(u) = −u` and `c = φ₁(E(u))`. Use
+`I_N=breuilMonodromyIdeal` of §R07.4.1, generated by `u^i/⌊i/e⌋!` for `i≥1`.
 The ring divisibility `φ(Fil^{k−1}S) ⊆ p^{k−1}S` defines `φ_{k−1} = φ/p^{k−1}`
 for `1 ≤ k ≤ p`. For the module categories assume `1 ≤ k ≤ p−1`. `Mod^{k−1}_0`
 (strongly divisible modules of weight `k`) consists of finite free `S`-modules `M` with
 `Fil^{k−1}M ⊇ (Fil^{k−1}S)M, Fil^{k−1}M ∩ pM = p Fil^{k−1}M`, and `φ_{k−1} : Fil^{k−1}M → M` semilinear
-with `φ_{k−1}(Fil^{k−1}M)` generating `M`; `Mod^{k−1}_{cris}` adds a `W(k)`-linear derivation `N` with `N(M) ⊆ IM, E(u)N(Fil^{k−1}M) ⊆ Fil^{k−1}M` and
+with `φ_{k−1}(Fil^{k−1}M)` generating `M`; `Mod^{k−1}_{cris}` adds a `W(k)`-linear derivation `N` with `N(M) ⊆ I_N M, E(u)N(Fil^{k−1}M) ⊆ Fil^{k−1}M` and
 `φ_{k−1}(E(u)N(x)) = cN(φ_{k−1}(x))` for `x ∈ Fil^{k−1}M`.
 For general `k` this `N` is structure data. Under
 Hypotheses 3.5, `Mod_dd` adds additive bijections `ĝ, g ∈ Gal(F/F′)`, with `ĝ(sx) = ĝ(s)ĝ(x)`, preserving
@@ -5852,7 +5939,7 @@ divisible modules for `p ≠ 2` (Th. 4.2.2.9). Base change: for `g` with `g(π) 
 BCDT01 Cor. 5.4.5). A `g`-semilinear `⟨g⟩ : G → G` with `[g]` a morphism over `R` is the same as an additive
 `ĝ` on `M_π(G)` that is `ĝ`-semilinear and commutes with `Fil¹` and `φ₁` (Corollary 3.4); with the cocycle
 condition this is descent data (Corollary 3.6, Definition 3.7). Canonical `N`: every finite free strongly
-divisible module of weight two `(k = 2, p > 2)` has a unique `N` with `N(sx) = N(s)x + sN(x), Nφ₁ = φN` and `N(M) ⊆ IM` (Breuil 2000,
+divisible module of weight two `(k = 2, p > 2)` has a unique `N` with `N(sx) = N(s)x + sN(x), Nφ₁ = φN` and `N(M) ⊆ I_N M` (Breuil 2000,
 Prop. 5.1.3(1)); `ĝ` commutes with `φ`, since `ĝ(E(u)) = E(u)` when `π^{e(F/F′)} ∈ F′`, hence with `N` by
 uniqueness (Savitt, §3.5). (Savitt 2005, §3.2, p. 14: strongly divisible modules; Savitt 2005, §3.3,
 Definition 3.8, p. 17: the category with descent data; Breuil 2000, Théorème 4.2.2.9, p. 46:
@@ -5879,7 +5966,8 @@ The API:
 **Checks.**
 
 - `StronglyDivisibleModule.unit_is_object`: `S` with `Fil^{k−1}S` and `φ_{k−1}` is an object of
-  `Mod^{k−1}_{cris}`.
+  `Mod^{k−1}_{cris}`: its derivation has `N(S)⊆I_N`; after coefficient extension
+  the unit has `N(S_R)⊆J_N`. The condition `N(S)⊆Fil¹S` would fail on `u`.
 - `StronglyDivisibleModule.rank_one_character`: For `E = ℚ_p: S·e` with `Fil¹ = Fil¹S·e, φ(e) = a^{−1}e (a ∈ ℤ_p^×), ĝ(e) = ω̃^j(g)e` is an object (Savitt, Proposition 5.1).
 - `StronglyDivisibleModule.not_strongly_divisible`: `M = S e` with `Fil¹M = Fil¹S·e + pM` contains
   `(Fil¹S)M`, but `e ∉ Fil¹M`, so `Fil¹M ∩ pM = pM ≠ p Fil¹M`: not strongly divisible.
@@ -5947,9 +6035,10 @@ descent of the filtered module.)
 
 Construct `StronglyDivisibleRModule`. Assume `1 ≤ k ≤ p−1`. Let `R` be a complete local
 noetherian flat `O_E`-algebra with
-residue field finite over `k_E`, and `S_R = {Σ r_j u^j/⌊j/e⌋! : r_j ∈ W(k_F) ⊗ R, r_j → 0 m_R-adically}`. A strongly divisible `R`-module with tame descent data is a finitely generated free
+residue field finite over `k_E`, and `S_R = {Σ r_j u^j/⌊j/e⌋! : r_j ∈ W(k_F) ⊗ R, r_j → 0 m_R-adically}`. Use the ideal `J_N=I_N S_R=Σ_{i≥1} S_R·u^i/⌊i/e⌋!` from §R07.4.1,
+compatible with coefficient maps. A strongly divisible `R`-module with tame descent data is a finitely generated free
 `S_R`-module `M` with `Fil^{k−1}M ⊇ (Fil^{k−1}S_R)M, Fil^{k−1}M ∩ IM = I Fil^{k−1}M` for every ideal `I` of
-`R, φ` semilinear with `φ(Fil^{k−1}M) ⊆ p^{k−1}M` generating it, `N` a derivation with `Nφ = pφN, E(u)N(Fil^{k−1}M) ⊆ Fil^{k−1}M` and `N(M) ⊆ JM`, and descent data `ĝ` commuting with `φ, N` and preserving
+`R, φ` semilinear with `φ(Fil^{k−1}M) ⊆ p^{k−1}M` generating it, `N` a derivation with `Nφ = pφN, E(u)N(Fil^{k−1}M) ⊆ Fil^{k−1}M` and `N(M) ⊆ J_N M`, and descent data `ĝ` commuting with `φ, N` and preserving
 `Fil^{k−1}`. `T^{F′}_{st,k}(M) = lim_n T^{F′}_{st,k}(M/m_R^n M)`, with `T^{F′}_{st,k}(N) = Hom_{′Mod^{k−1}}(N, Â_{st,∞})^∧(k − 1)`, is a free `R`-module of rank `rk M` with continuous
 `G_{F′}`-action, compatible with reduction `mod m_R^n` and with base change `R → R′` when `M ⊗_R R′` is
 strongly divisible. For `k = 2` and `R = O_E` every `G_{F′}`-stable `O_E`-lattice in a potentially
@@ -5995,9 +6084,9 @@ The API:
 - `StronglyDivisibleRModule.zp_coefficients`: `R = ℤ_p, k = 2`: the category is `Mod^1_{cris,dd}`
   (Example 4.2).
 - `StronglyDivisibleRModule.no_descent_qp`: `F = F′ = ℚ_p`: these are Breuil–Mézard strongly divisible
-  `R`-modules with `N(M) ⊆ JM` (Example 4.3).
+  `R`-modules with `N(M) ⊆ J_N M` (Example 4.3).
 - `StronglyDivisibleRModule.semistable_excluded`: A Breuil–Mézard strongly divisible module with
-  `N(M) ⊄ JM` (semistable, not crystalline) is not an object.
+  `N(M) ⊄ J_N M` (semistable, not crystalline) is not an object.
 - `StronglyDivisibleRModule.tst_rank_one`: For the rank-one module of Proposition 5.1, `T_st,2(M) ≅ O_E(ε ω̃^j λ_a)` is free of rank one.
 - `StronglyDivisibleRModule.baseChange_unramified`: `R → O_{E′}` for a finite extension `E′/E`
   preserves strong divisibility (Remark 4.8).
@@ -6171,7 +6260,8 @@ multiplicative subobject and étale quotient.)
 
 Prove `breuilModulesWithCoefficients`. Let `A` be a `ℤ_p`-algebra with `|A| < ∞`. The functor `𝔐 ↦ S ⊗_{φ,𝔖} 𝔐` of Kisin 2009 (1.1.10) induces an exact, fully faithful functor `(Mod FI/𝔖)_A → (Mod FI/S)_A`; it is an equivalence if moreover `p·A = 0`.
 
-The setting is Kisin 2009's standing hypotheses of §R07.4.36.
+The setting is Kisin 2009's standing hypotheses of §R07.4.36. The target is the
+full-faithfulness statement of Lemma 1.2.4 and the killed-by-`p` equivalence of Lemma 1.2.5.
 
 *Proof sketch.* `𝓜 = S ⊗_{φ,𝔖} 𝔐` is an object of `(Mod FI/S)` by (1.1.10), with `A` acting by
 functoriality; `𝓜/Fil¹𝓜` embeds via `1 ⊗ φ` into `𝔐/E(u)𝔐` with image that of `φ*𝔐`, which is `A`-projective
@@ -6187,8 +6277,12 @@ if `𝓜` is free of rank `d` over `S_A, W ⊗_𝔖 𝔐 ≅ W ⊗_S 𝓜` is fr
 
 - `breuilCoeff_Fp`: `A = 𝔽_p`: the equivalence of objects killed by `p` of (1.1.11), with trivial
   coefficients.
-- `breuilCoeff_not_equiv`: for `A = ℤ/p²`, the functor is only fully faithful in general: Kisin proves
-  no equivalence.
+- `breuilCoeff_Zp2`: for `A=ℤ/p²`, full faithfulness holds. There is also an
+  equivalence on these coefficient subcategories: Caruso–Liu, Theorem 2.3.1 and
+  Proposition 2.3.2, pp.9–10, give an exact torsion inverse for `r=1<p−1`.
+  Applying it to multiplication by `p` gives `ker(p)=p𝔐`, and lifting a mod-`p` basis
+  gives freeness over `𝔖/p²`.
+- The zero coefficient object maps to zero, with zero filtration quotient and endomorphism group.
 
 ### R07.4.39 Étale `φ`-modules and `G_{K∞}`-representations with finite coefficients
 
@@ -6488,10 +6582,57 @@ class; Serre 1987, §2.8, proof of Proposition 4, p. 190: part `(a)`.)
   nonsplit extension with a trivial torsor above `1: (1,1)² = (−1,0)`. It is not
   killed by `2` and lies outside the fppf `F₂`-module classification.
 
+### R07.5.6a Finite coefficients and the finite-flat Kummer comparison
+
+For a continuous representation on a finite-dimensional `𝔽̄_p`-space, import
+ArithmeticGaloisRepresentations §1.4's `residual_descent_finite_field` to choose a finite
+field `k/𝔽_p` and a model `V_k`. Define `IsFiniteFlatResidual` by existence of a finite
+flat commutative `ℤ_p`-group scheme with `k`-action whose generic points are `V_k`.
+Here `p>2`. Prove independence of the chosen model and invariance in both directions
+under finite coefficient extension. Raynaud full faithfulness (`e=1<p−1`) extends every
+scalar endomorphism and its algebra relations uniquely to the model. Coefficient enlargement
+is tensoring in the finite-flat `𝔽_p`-linear category. For descent from `k'` to `k`,
+restriction of scalars gives a model of a direct sum of copies of `V_k`; a `k`-linear projection
+onto one copy extends uniquely and its idempotent splits. Models that become isomorphic
+after coefficient extension therefore give the same predicate.
+
+Prove `finiteFlatKummerCoefficients`. For the strict henselisation `R` of `ℤ_p`, or a finite
+étale extension sufficient to trivialize the unramified characters in question, put
+`k_R=k⊗_{𝔽_p}(ℤ/p)_R` and `k_R(1)=k⊗_{𝔽_p}μ_p`. These are rank-one `k`-objects of
+order `#k`. In the exact category of finite flat fppf `k`-modules over `R`,
+`Ext¹(k_R,k_R(1)) ≅ (R×/R×p)⊗_{𝔽_p}k` as `k`-spaces, and extensions in the opposite
+order split. The generic-fibre map is the tensor extension of the Kummer inclusion
+`R×/R×p → K×/K×p`, `K=Frac R`; it commutes with coefficient extension and unramified descent.
+In particular the image consists precisely of the coefficientwise unit classes.
+This Ext category is killed by `p`; extensions in the category of all abelian sheaves need
+not satisfy this formula.
+
+*Proof sketch.* Choose an `𝔽_p`-basis of `k`, apply §R07.5.6 to the components of an
+extension, and impose `k`-linearity. The scalar compatibility identifies these component
+classes with `H¹_fppf(R,μ_p)⊗_{𝔽_p}k`, independently of the basis. The same calculation
+on generic fibres gives the claimed map and unit criterion; connected–étale splitting gives
+the opposite-order vanishing. Faithful coefficient extension detects the valuation-zero
+condition. (Serre 1987, §2.8, pp.189–190, the finite-field-vector-scheme formulation and
+order-`p` Kummer proof; Raynaud 1974, Proposition 3.3.2; §R07.5.6's Kummer torsor construction.)
+
+*Needs:* ArithmeticGaloisRepresentations §1.4; §R07.1.30; §R07.5.6;
+TauCetiRoadmap.ModularCurves Layer 0E (effective descent).
+
+**Checks.**
+
+- For `k=𝔽_p` the comparison is exactly §R07.5.6; for `k=𝔽_{p²}` each end object
+  has order `p²`, rather than order `p`.
+- A unit class tensored with any `c∈k` prolongs; the class of the uniformizer tensored
+  with `c≠0` does not. Enlarging `k` does not kill its nonzero valuation component.
+- Twist a nonzero unit-Kummer extension of `1` by `χ̄` by an unramified scalar character
+  `λ_a`, with `a∈𝔽_{p²}∖𝔽_p`. It remains finite flat, has inertial determinant `χ̄`
+  and nontrivial wild inertia. At a Frobenius lift `Φ` with `χ̄(Φ)=1` its trace is
+  `2a∉𝔽_p`, so it need not admit a two-dimensional `𝔽_p`-model.
+- The split extension corresponds to zero and is preserved under every coefficient enlargement.
+
 ### R07.5.7 Serre's finite-flat criterion: finite with `det = χ̄` on inertia
 
-Prove `finiteFlatWeightTwoCriterion`. Let `p` be odd and `ρ_p : G_p → GL₂(F̄_p)` continuous with `det ρ_p|_I = χ̄`. Then `ρ_p` is finite at `p` (the finite `ℚ_p`-group scheme it defines prolongs to a finite
-flat `ℤ_p`-group scheme) if and only if either `(i) I_t` acts through the two fundamental characters `ψ, ψ^p` of level `2`, or `(ii) ρ_p|_I ≅ (χ̄ *; 0 1)` with the extension trivial on `P_K` or peu ramifiée.
+Prove `finiteFlatWeightTwoCriterion`. Let `p` be odd and `ρ_p : G_p → GL₂(F̄_p)` continuous with `det ρ_p|_I = χ̄`. Then `ρ_p` is finite at `p` in the finite-coefficient sense of §R07.5.6a if and only if either `(i) I_t` acts through the two fundamental characters `ψ, ψ^p` of level `2`, or `(ii) ρ_p|_I ≅ (χ̄ *; 0 1)` with the extension trivial on `P_K` or peu ramifiée.
 Equivalently, by Serre's Proposition 3, finite with `det|_I = χ̄` is Serre's weight `k(ρ_p) = 2` (Serre
 1987, Proposition 4); the weight recipe itself belongs to AlgebraicModularFormsAndSerreWeights
 R15.`4`.
@@ -6502,17 +6643,25 @@ is §R07.5.8; Serre says the case `p = 2` is similar and gives no details.
 *Proof sketch.* Only if: by Raynaud (§R07.1.32 (iii), Raynaud Corollary 3.4.4) the tame characters
 are `ψ^{a+pb}` with `a, b ∈ {0, 1}`; with `ψψ′ = χ̄` this leaves `(i)` or `{1, χ̄}` (Serre 1987, §2.8). In the
 level-`1` case with `P_K` nontrivial, `ρ_p` and the prolongation `J` are reducible: `0 → A → J → B → 0` with
-`A, B` of order `p`, one étale and one multiplicative; over a finite étale `R`, either `0 → ℤ/p → J → μ_p → 0`, which splits, or `0 → μ_p → J → ℤ/p → 0` with unit Kummer class, i.e. peu ramifiée (§R07.5.6). If:
+`A, B` rank-one `k`-objects of order `#k` for a finite field of definition `k`,
+one étale and one multiplicative. Raynaud full faithfulness extends the `k`-action. Over a
+finite étale `R` killing their unramified characters, either
+`0 → k_R → J → k_R(1) → 0`, which splits, or
+`0 → k_R(1) → J → k_R → 0`, whose `k`-linear Kummer class is coefficientwise a unit
+by §R07.5.6a. This is the peu ramifiée condition when wild inertia is nontrivial. If:
 case `(i)` prolongs by Raynaud's Théorème 3.4.3 (§R07.1.32 `(ii)`) with exponents `(1, 0)`; case `(ii)`
-prolongs over a finite étale `R` by the Kummer construction from a unit class and descends to `ℤ_p`
+prolongs over a finite étale `R` by §R07.5.6a's `k`-linear Kummer construction from unit classes and descends to `ℤ_p`
 (effective descent, TauCetiRoadmap.ModularCurves Layer 0E), as in Serre 1987 §2.8, `(b)`. (Serre 1987,
 §2.8, Proposition 4, p. 189: Proposition 4 (`k = 2` iff `det|_I = χ` and finite at `p`); Serre 1987, §2.8,
 proof of Proposition 4, p. 190: the 'if' direction and its two cases.)
 
-*Needs:* §R07.1.26; §R07.5.6; §R07.1.32; §R07.1.30; TauCetiRoadmap.ModularCurves Layer 0E.
+*Needs:* §R07.1.26; §R07.5.6a; §R07.1.32; §R07.1.30; TauCetiRoadmap.ModularCurves Layer 0E.
 
 **Checks.**
 
+- The unramified `𝔽_{p²}` scalar twist of the unit-Kummer extension in §R07.5.6a
+  satisfies case `(ii)`, with no two-dimensional `𝔽_p`-model. The criterion applies to it
+  using end objects of order `p²`.
 - `finiteFlatCriterion_elliptic`: `E[p]` for `E/ℚ_p` with good reduction and `p` odd: finite
   (abelian-scheme torsion), `det = χ̄`, and ordinary (type `ii`) or supersingular (type `i`).
 - `finiteFlatCriterion_tres`: `(χ̄ *; 0 1)` très ramifiée, e.g. the Tate curve with `v(q) = 1`, is not
@@ -6971,6 +7120,44 @@ abelian scheme.)
 - `abelianTorsion_rank`: `A[n]` has rank `n^{2g}`, not `n^g`: for an elliptic curve, `E[2]` has rank
   `4`, with three nonzero points of order `2` over `K̄` when `2` is invertible.
 
+### R07.6.1a Herbrand theory over complete DVRs with perfect residue field
+
+Prove `perfectResidueHerbrand`. Let `K` be complete discretely valued with perfect residue
+field of characteristic `p>0`, and `L/K` finite Galois. On the existing congruence carrier
+`Ideal.ramificationGroup` for the maximal ideal of `O_L`, extend the lower filtration to
+real indices by the ceiling convention. Use Serre's normalization
+`φ(s)=∫₀ˢ [G₀:G_t]⁻¹ dt` for `s≥0`, extended by `φ(s)=s` on `[-1,0]`, and its inverse `ψ`.
+Prove strict monotonicity, continuity, the inverse identities, subgroup compatibility of lower
+numbering, tower compatibility of the Herbrand functions and quotient compatibility of upper
+numbering for every normal subgroup. Prove the different formula
+`v_L(𝒟_{L/K})=Σ_{j≥0} (|G_j|−1)`, with `v_L` normalized to have value group `ℤ`.
+Construct the absolute upper filtration by inverse limit and prove invariance of inertia,
+upper ramification and the normalized different after completed maximal unramified base change,
+with the finite extension there obtained by compositum. This includes the algebraically closed
+residue reduction used in §R07.6.5.
+
+These are extensions of LocalFieldsRamification Layer 3 on the same local-ring congruence
+carrier, owned here for arbitrary perfect residue fields. Prove agreement of all groups,
+functions and different ideals with that supplier when the residue field is finite. Use
+`TauCeti.IsLocalRing.lowerIndex` for the local-ring index, without assuming local compactness.
+(Serre, *Local Fields*, IV §§1–3, especially Propositions 4 and 14;
+Fontaine 1985, §§1.1–1.3, pp.517–518 and §2.1, p.525.)
+
+*Needs:* LocalFieldsRamification Layer 3 (finite-residue interface); Mathlib `differentIdeal`;
+Tau Ceti `Ideal.ramificationGroup` (`RingTheory/Ideal/RamificationGroup.lean`) and
+`TauCeti.IsLocalRing.lowerIndex` (`RingTheory/LocalRing/RamificationGroup.lean`).
+
+**Checks.**
+
+- `K=Frac W(𝔽̄_p)` is permitted despite its infinite residue field. For odd `p`,
+  `K(ζ_p)/K` is tame of degree `p−1`, with `G₀=G`, `G₁=1` and different exponent `p−2`.
+- On finite extensions of `ℚ_p`, the groups and `φ,ψ` are the supplied LocalFieldsRamification
+  objects, including the tame slope `1/e` after the last lower break.
+- A finite unramified extension has `G₀=1` and unit different; after completed maximal
+  unramified base change its compositum extension is trivial and has the same upper inertia.
+- Completed maximal unramified base change of `ℚ₃(ζ₉)/ℚ₃` retains its ramification index,
+  lower breaks, upper breaks and normalized different.
+
 ### R07.6.2 Fontaine's normalisation of the ramification filtration
 
 Define `fontaineLowerIndex`. For `L/K` finite Galois with group `G` and `g ∈ G`, let `i_{L/K}(g) = v_K(a_g), a_g` the ideal of `O_L` generated by the `(g − 1)x, x ∈ O_L`, and for real `i` let `G_(i) = {g : i_{L/K}(g) ≥ i}`. `φ_{L/K}(i) = Σ_{g∈G} min(i, i_{L/K}(g))` is piecewise linear, increasing and
@@ -6983,11 +7170,9 @@ for all `ε > 0`. The different satisfies `v_K(𝒟_{L/K}) = u_{L/K} − i_{L/K}
 normalised by `v_K(K^*) = ℤ` and extended to `K̄`; for `L/K` finite Galois with group `G, e_{L/K}` is its
 ramification index and `a^m_{L/K} = {x ∈ O_L : v_K(x) ≥ m}` (Fontaine 1985, §1). Serre's lower and
 upper numbering, Herbrand's functions, compatibility with quotients (Local Fields IV, Prop. `14`) and
-`v(𝒟) = Σ i_G(g)` (Local Fields IV, Prop. `4`) are TauCetiRoadmap.LocalFieldsRamification Layer 3's
-(implemented in Tau Ceti as `TauCeti.LocalFieldsRamification.lowerRamificationGroup`,
-`TauCeti.LocalFieldsRamification.upperRamificationGroup` and
-`TauCeti.LocalFieldsRamification.herbrand`); this
-target adds only Fontaine's shifted normalisation and the invariants `u_{L/K}, i_{L/K}`.
+`v(𝒟) = Σ i_G(g)` (Local Fields IV, Prop. `4`) are supplied in this generality by
+§R07.6.1a, agreeing with LocalFieldsRamification Layer 3 for finite residue fields. This
+target adds Fontaine's shifted normalisation and the invariants `u_{L/K}, i_{L/K}`.
 
 *Construction.* Fontaine's `i_{L/K}(g)` is Serre's `i_G(g)` divided by `e_{L/K}` (`v_K` rather than `v_L`),
 which gives `G_j = G_((j+1)/e_{L/K})`; Herbrand's `φ` is rescaled the same way, giving `G^v = G^(v+1)`
@@ -7004,7 +7189,7 @@ The API:
 - `fontaineUpper_eq_serreUpper`: `G^(u) = G^{u−1}` in Serre's upper numbering.
 - `valuation_different_eq`: `v_K(𝒟_{L/K}) = u_{L/K} − i_{L/K}`.
 
-*Needs:* Mathlib `differentIdeal`; TauCetiRoadmap.LocalFieldsRamification Layer 3.
+*Needs:* Mathlib `differentIdeal`; §R07.6.1a.
 
 **Checks.**
 
@@ -7030,7 +7215,10 @@ IsKrasner.krasner (complete base).
 conjugate; Krasner's lemma gives `g₀α ∈ K(β) ⊆ E` (1.5). `(ii)`: reduce to `L/K` totally ramified with `α` a
 uniformiser and `P` Eisenstein; the tame case uses an extension of degree `e_{L/K} − 1`; in the wild
 case perturb `P` by a `X^s` to an Eisenstein `R` with a root `β`, and show that a `K`-embedding `L → E` would
-force `e_{L/K}·ψ(m) ∈ ℤ`, while `e_{L/K}ψ(m) = e_{L/K}u_{L/K} − d^{−1}` with `d = |G_(i_{L/K})|` (1.5).
+force `e_{L/K}·ψ(m) ∈ ℤ`. At the boundary `m=u_{L/K}−1/e_{L/K}`,
+put `d=|G_(i_{L/K})|`. Immediately below the last lower break, `φ` has slope `d`, so
+`ψ(m)=i_{L/K}−1/(e_{L/K}d)` and
+`e_{L/K}ψ(m)=e_{L/K}i_{L/K}−1/d`, a noninteger in the wild case (1.5).
 (Fontaine 1985, §1.5, Proposition, p. 519: Proposition 1.5; Fontaine 1985, §1.4, Proposition, p.
 518: Proposition 1.4.)
 
@@ -7038,6 +7226,9 @@ force `e_{L/K}·ψ(m) ∈ ℤ`, while `e_{L/K}ψ(m) = e_{L/K}u_{L/K} − d^{−1
 
 **Checks.**
 
+- For `L=ℚ₃(ζ₉)`, `K=ℚ₃`, the values are `e=6`, `i_{L/K}=1/2`,
+  `u_{L/K}=2`, `d=3` and boundary `m=11/6`. Thus `eψ(m)=8/3`; substituting
+  the upper break for the lower break would give the incorrect `35/3`.
 - `krasnerCriterion_trivial`: `L = K: (P_m)` holds for every `m ≥ 0`, and `u_{L/K} = 0`.
 - `krasnerCriterion_tame_boundary`: for `K = ℚ₃` and `L = K(ζ₃), e_{L/K} = 2`
   and `u_{L/K} = 1`, so `(P_{1/2})` fails; for `L = K, (P₀)` holds.
@@ -7117,7 +7308,7 @@ gets `0 → ω_Γ → ω_Γ → ω_{Γ_{pⁿ}} → 0` with `ω_Γ` free over `O_
 Introduction, Théorème A, p. 515: Théorème A; Fontaine 1985, §2.1, Théorème 1, p. 525: Théorème 1;
 Fontaine 1985, §2.2, Remarque a), p. 526: the case `e = n = 1`.)
 
-*Needs:* §R07.6.4; §R07.6.2; §R07.6.1; §R07.1.6; §R07.1.40; §R07.1.17.
+*Needs:* §R07.6.4; §R07.6.1a; §R07.6.2; §R07.6.1; §R07.1.6; §R07.1.40; §R07.1.17.
 
 **Checks.**
 
@@ -7355,8 +7546,16 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
 - **LocalGaloisDeformationRings** and **GlobalGaloisDeformations** use Fontaine–Laffaille modules
   (R07.3), Kisin modules with coefficients, finite-height lattices and Kisin's full faithfulness
   (R07.4), and the flat deformation condition and its tangent space (§R07.6.7).
-- **PadicHodgeTheory** uses the Fontaine–Laffaille categories, the ring `S`, the functor `U_S` and
-  its endpoint analysis (R07.3) and imports the filtered modules, weak admissibility and the
+- **PadicHodgeTheory** consumes the finite-`K`, finite-coefficient `B_HT`, `D_HT`, labelled
+  weights and Sen module/operator of §§R07.P7.1–R07.P7.2. A Laurent presentation of `B_HT`
+  is identified with the supplied direct-sum presentation by a graded Galois-algebra
+  equivalence, transporting the same invariant functor and weight/Sen API. Extensions to
+  arbitrary perfect residue fields and arbitrary semilinear `ℂ_p`-representations, and
+  differential/Robba comparisons, preserve these specializations. Full Dieudonné–Manin
+  theory is supplied by CrystallineCohomology §CR.4.7; §R07.2.15 here owns its group-theoretic
+  application. PadicHodgeTheory also uses the Fontaine–Laffaille categories, the ring `S`,
+  the raw functor `U_S` with its endpoint analysis, and the translated
+  `flIntervalRealization` (R07.3) and imports the filtered modules, weak admissibility and the
   Colmez–Fontaine theorem (§R07.3.1, §R07.3.2, §R07.4.13).
 - **ClassicalSerreModularity**, **SerreWeightAndLevelOptimisation**, **EllipticCurveModularity**,
   **GL2ModularityLifting** and **PotentialModularityAndCompatibleSystems** use the residual types of
@@ -7372,6 +7571,12 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
 - **Fontaine 1994, Représentations semi-stables.** *Représentations p-adiques semi-stables*, Astérisque 223, 113–184. <https://www.numdam.org/item/AST_1994__223__113_0.pdf>
 - **Liu–Tian–Xiao–Zhang–Zhu 2022.** *On the Beilinson–Bloch–Kato conjecture for Rankin–Selberg motives*, Invent. Math. 228, 107–375. <https://doi.org/10.1007/s00222-021-01088-4>
 - **Newton–Thorne.** James Newton and Jack A. Thorne, *Symmetric power functoriality for Hilbert modular forms*, arXiv:2212.03595v2; locators use the preprint pagination. <https://arxiv.org/abs/2212.03595v2>
+- **Conrad, Kisin survey.** Brian Conrad, *Survey of Kisin’s paper Crystalline representations
+  and F-crystals*, Definitions 2.4.4–2.4.5 and equation (2.4.6).
+  <https://math.stanford.edu/~conrad/papers/luminy.pdf>
+- **Caruso–Liu 2007.** Xavier Caruso and Tong Liu, *Quasi-semi-stable representations*,
+  Theorem 2.3.1 and Proposition 2.3.2, pp.9–10.
+  <https://www.math.purdue.edu/~tongliu/pub/quasi.pdf>
 - **Nizioł 1993.** Wiesława Nizioł, *Cohomology of crystalline representations*, Duke Math. J. 71, 747–791. <https://webusers.imj-prg.fr/~wieslawa.niziol/duke1993.pdf>
 - **Patrikis 2019.** Stefan Patrikis, *Variations on a theorem of Tate*, Mem. Amer. Math. Soc. 258; locators use arXiv:1207.6724v4. <https://arxiv.org/abs/1207.6724v4>
 

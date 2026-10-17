@@ -37,7 +37,8 @@ The design choices made explicit here:
 * Filtered `(φ, N)`-modules live over `K₀ = Frac W(k)` with the filtration on `K ⊗_{K₀} D`, and
   Fontaine–Laffaille modules are filtered `W(k)`-modules with divided Frobenii `φ^i`.
   Representation intervals use `HT(χ_p) = +1`. Filtration support `[a,b]` corresponds to
-  Hodge–Tate interval `[-b,-a]` for the covariant realization and `[a,b]` for contravariant `U_S`.
+  Hodge–Tate interval `[-b,-a]` for the covariant realization and `[a,b]` for the translated
+  contravariant realization `U_[a,b](M) = U_S(M(-a))(a)`. Raw `U_S` uses the effective range.
 * Breuil–Kisin modules live over `𝔖 = W(k)⟦u⟧` with `φ` the Witt vector Frobenius on coefficients
   and `u ↦ u^p`, and an Eisenstein polynomial `E(u)` of positive degree.
 * Peu ramifiée Kummer classes over `ℚ_p` are those of `p`-adic valuation divisible by `p`.
@@ -648,7 +649,8 @@ section FontaineLaffaille
 /-- §R07.3.3a: filtered Frobenius data with semilinear divided maps and generation. The arithmetic
 statements take `W = W(k)` with `σ` the Witt Frobenius, `p > 2` and a filtration interval of width
 at most `p - 2`. The covariant realization reverses and negates this interval to obtain the
-Hodge–Tate interval, with `HT(χ_p) = +1`; contravariant `U_S` preserves the interval. -/
+Hodge–Tate interval, with `HT(χ_p) = +1`. The translated contravariant realization
+`U_[a,b](M) = U_S(M(-a))(a)` preserves the interval; raw `U_S` is applied after the input twist. -/
 structure FontaineLaffailleModule (W : Type*) [CommRing W] (p : ℕ) (σ : W ≃+* W)
     (M : Type*) [AddCommGroup M] [Module W M] [Module.Finite W M] where
   /-- The decreasing filtration `Fil^i M`. -/
@@ -668,7 +670,8 @@ def IsFreeFontaineLaffaille {W M : Type*} [CommRing W] [AddCommGroup M] [Module 
   Module.Free W M ∧ ∀ i : ℤ, ∃ N : Submodule W M, IsCompl (D.F i) N
 
 /-- §R07.3.3a: support in the closed filtration interval `[a, b]`. In the arithmetic small-width
-range this gives Hodge–Tate interval `[-b,-a]` for the covariant realization and `[a,b]` for `U_S`.
+range this gives Hodge–Tate interval `[-b,-a]` for the covariant realization and `[a,b]` for
+the translated realization `U_[a,b](M) = U_S(M(-a))(a)`.
 These indices are filtration jumps, so the covariant crystalline Tate line has support `[-1,-1]`. -/
 def fontaineLaffaille_interval {W M : Type*} [CommRing W] [AddCommGroup M] [Module W M]
     [Module.Finite W M] {p : ℕ} {σ : W ≃+* W} (D : FontaineLaffailleModule W p σ M) (a b : ℤ) :
@@ -708,13 +711,14 @@ example : (∃ D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ,
 example (D : FontaineLaffailleModule ℤ 3 (RingEquiv.refl ℤ) ℤ) :
     ¬ fontaineLaffaille_interval D 1 0 := sorry
 
-/-- The jump-minus-one line has covariant Hodge–Tate weight `+1`; its filtration support
+/-- The jump-minus-one line has covariant Hodge–Tate weight `+1` via the dual of
+`U_[-1,-1](M) = U_S(M(1))(-1)`; its filtration support
 distinguishes it from the jump-plus-one line. -/
 example : ∃ D : FontaineLaffailleModule ℤ_[3] 3 (RingEquiv.refl ℤ_[3]) ℤ_[3],
     fontaineLaffaille_interval D (-1) (-1) ∧ ¬ fontaineLaffaille_interval D 1 1 ∧
       ∀ x : D.F (-1), D.φ (-1) x = x := sorry
 
-/-- The jump-plus-one line has covariant Hodge–Tate weight `-1` and contravariant `U_S`
+/-- The jump-plus-one line has covariant Hodge–Tate weight `-1` and translated contravariant
 Hodge–Tate weight `+1`, with divided Frobenius the identity over `ℤ₃`. -/
 example : ∃ D : FontaineLaffailleModule ℤ_[3] 3 (RingEquiv.refl ℤ_[3]) ℤ_[3],
     fontaineLaffaille_interval D 1 1 ∧ ¬ fontaineLaffaille_interval D (-1) (-1) ∧
@@ -740,7 +744,9 @@ section FL
 variable (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p] [PerfectRing k p]
 
 /-- A Fontaine–Laffaille filtered module over `W(k)`: a decreasing filtration indexed by `ℤ` with
-`σ`-semilinear `φ^i : Fil^i → M` and `φ^i = p φ^{i+1}` on `Fil^{i+1}`. -/
+`σ`-semilinear `φ^i : Fil^i → M` and `φ^i = p φ^{i+1}` on `Fil^{i+1}`. Realization on a
+small-width interval `[a,b]` uses `U_[a,b](M) = U_S(M(-a))(a)`, with raw `U_S` applied in the
+effective range; the covariant realization is its integral or torsion Pontryagin dual. -/
 structure FLModule where
   /-- The underlying `W(k)`-module. -/
   M : Type u
@@ -766,8 +772,9 @@ def FLModule.IsTorsion (M : FLModule p k) : Prop :=
     (⨆ i, AddMonoidHom.range (M.phi i).toAddMonoidHom) = (⊤ : AddSubgroup M.M)
 
 /-- `M ∈ MF_tor^{[a,b]}`: finite-length generating objects with filtration support `[a,b]`,
-so `Fil^a = M` and `Fil^{b+1} = 0`. In the small-width comparison the `U_S` Hodge–Tate interval is
-`[a,b]`, and the covariant realization uses `[-b,-a]`, with `HT(χ_p) = +1`. -/
+so `Fil^a = M` and `Fil^{b+1} = 0`. In the small-width comparison the translated realization
+`U_[a,b](M) = U_S(M(-a))(a)` uses interval `[a,b]`, and the covariant realization uses
+`[-b,-a]`, with `HT(χ_p) = +1`. -/
 def FLModule.IsTorsionIn (M : FLModule p k) (a b : ℤ) : Prop :=
   M.IsTorsion ∧ M.fil a = ⊤ ∧ M.fil (b + 1) = ⊥
 
@@ -1114,7 +1121,10 @@ and all their finite reductions, use intervals `[1,1]` and `[-1,-1]` respectivel
 covariant crystalline filtration jumps are `-1` and `+1`.
 `fontaineLaffaille_sum` preserves filtration support, and `fontaineLaffaille_dual` negates
 and reverses free dual support. A filtered jump shift by `j` twists the covariant realization
-by `-j` and `U_S` by `j`; torsion realization duality uses `Hom(−, ℚ_p/ℤ_p)`. -/
+by `-j` and the translated `flIntervalRealization` by `j`; torsion realization duality uses
+`Hom(−, ℚ_p/ℤ_p)`. The interval comparisons satisfy transitivity and commute with finite
+reductions, rationalization and allowed tensors/duals. At `p=5` the jump-minus-one line
+`𝔽₅e`, `φ_{-1}(e)=e`, has raw `U_S=0` but translated realization `𝔽₅(-1)`. -/
 
 /-! The period target of §R07.P7.1 uses §R07.P5's `dDeRham` and `IsDeRham`
 on the scalar restriction of a finite-dimensional continuous `E`-representation of `G_K`, for
@@ -1219,6 +1229,9 @@ further instances of the statements above.
   constant finite Witt-fibre length); `berthelotPerfectValuationRings`, transporting
   duality, localization and field restriction through σ_A^*. On α_p/F_{p²}, x↦ax
   acts by a on M_B and a^p on M, distinguishing the two natural functors.
+* `dieudonneGaloisDescent` uses `g(am)=W(g)(a)g(m)`, identity and cocycle laws,
+  commuting with `F,V`; continuity is discrete at finite length and p-adic at finite free
+  level. Witt Frobenius `σ` is distinct from the varying Galois scalar action.
 * Layer R07.3: `finiteKPeriodComparison` (arithmetic realization comparisons on the
   supplied PadicPeriodRings §§3–4 carriers, functors and rational predicates, including
   tensor order, continuous-sequence and integral-predicate compatibility); `FilteredPhiNModule.unit`, `FilteredPhiNModule.twist`,
@@ -1241,10 +1254,19 @@ further instances of the statements above.
   `flEssentialImageSubquotients`; `StronglyDivisibleLattice`; `flLatticeFunctor`;
   `flPeriodComparison`; `flAdmissibility` (unshifted on jumps `[0,p−1]`, with Tate
   twists for translated intervals); `flLatticeCorrespondence`; `flFiniteFlatDictionary`.
-* Layer R07.4: `OE`, `SUr`, `breuilS`; `TorsionKisinModule`; `kummerFieldOfNorms`;
+* Layer R07.4: `OE`, `SUr`, `breuilS`; `kisinOpenDiscBounded` identifies the bounded
+  subring of RestrictedPowerSeries §7.1's radius-one open-disc algebra with `𝔖[1/p]`;
+  `breuilMonodromyIdeal` is `I_N=Σ_{i≥1}S·u^i/⌊i/e⌋!`, with coefficient extension
+  `J_N=I_N S_R`. The crystalline conditions are `N(M)⊆I_N M` or `N(M)⊆J_N M`;
+  arbitrary coefficient ideals in `R` remain distinct; `TorsionKisinModule`; `kummerFieldOfNorms`;
   `etalePhiModulesCohenRing`; `kummerEtalePhiModules`; `kisinEtaleFullFaithfulness`;
   `phiNNablaModules`; `robba`, `robbaBounded`, `robbaInt`, `PhiModule.slope`;
-  `kedlayaSlopeFiltration`; `weaklyAdmissibleSlopeZero`; `kisinCrystallineEmbedding`;
+  `kedlayaSlopeFiltration`; `KisinRationalMonodromy` is `N₀` on `(𝔐/u𝔐)[1/p]`,
+  with `N₀φ₀=pφ₀N₀`; morphisms commute on rational fibres and disc base change preserves them.
+  `N_∇` is the distinct differential operator lifting `N₀`.
+  `weaklyAdmissibleSlopeZero`; `kisinCrystallineEmbedding` uses the ordinary connection
+  on `𝓜[1/(uλ)]`, with residue `-N₀` at zero and essential image characterized by simple
+  poles, equivalently preservation of `𝓜` by `N_∇`;
   `finiteHeightLattices`; `semistableFiniteHeight`; `crystallineRestrictionFullFaithfulness`;
   `bkModuleStructure`; `bmsKisinFunctor` (all weights use meromorphic Frobenius);
   `kisinPeriodScalarMaps` (ι₀ has u ↦ [π^♭] and identity on W(k), ι₁ = φ ∘ ι₀ has
@@ -1272,11 +1294,18 @@ further instances of the statements above.
   `BreuilModuleModP.exists_nonzero_hom_to_maximal` (requires nonzero realisation);
   `BreuilModuleModP.zero` (the zero identification lifts to the zero morphism);
   `stronglyDivisibleModulesForCharacters`; `KisinModuleCoeff`; `multiplicativeEtaleDictionary`;
-  `breuilModulesWithCoefficients`; `etalePhiModulesWithCoefficients`;
+  `breuilModulesWithCoefficients` has the Kisin full-faithfulness scope; its
+  `breuilCoeff_Zp2` check is consistent with the stronger exact torsion equivalence of
+  Caruso–Liu at height `1<p-1`;
+  `etalePhiModulesWithCoefficients`;
   `crystallineWithCoefficients`.
 * Layer R07.5: `formalGroupTorsionInertia`; `ordinaryTorsionInertia`;
   `supersingularTorsionInertia`; `multiplicativeTorsionInertia`; `IsPeuRamifiee` and
   `IsTresRamifiee` on the nontrivial-wild domain; `finiteFlatKummerExtensions`;
+  `IsFiniteFlatResidual` uses ArithmeticGaloisRepresentations §1.4's
+  `residual_descent_finite_field` and is independent of finite coefficient model or enlargement;
+  `finiteFlatKummerCoefficients` gives the `k`-linear finite-flat Ext/unit-Kummer comparison
+  for rank-one `k`-objects of order `#k`, used in Serre's criterion;
   `finiteFlatWeightTwoCriterion`; `dyadicFiniteFlatDichotomy`; `savittReductionPrincipalSeries`;
   `savittResidualTypes`; `flResidualWeights` (the rank-two inducing character θ_r
   restricts to ω₂^r on inertia and has θ_r(Φ²)=−1 for arithmetic Φ with ω(Φ)=1,
@@ -1287,7 +1316,11 @@ further instances of the statements above.
   `peuRamifieH1Int`; `peuRamifieIntegralLifting`; `SerreWeight`, `compactInduction`,
   `heckeOperatorT`, `endEquivPolynomial`.
 * Layer R07.6: `abelianSchemeTorsionFiniteFlat` (generic Galois and Tate-module compatibility); `fontaineLowerIndex`, `fontaineUpper`;
-  `krasnerEmbeddingCriterion`; `lciLiftingAndRamification`; `fontaineRamificationBound`;
+  `perfectResidueHerbrand` extends the shared local-ring ramification carrier, Herbrand
+  functions, quotient theorem and different formula to complete DVRs with perfect residue,
+  agrees with LocalFieldsRamification for finite residue and permits completed unramified
+  base change. `krasnerEmbeddingCriterion` uses the boundary
+  `eψ(u_{L/K}-1/e)=e i_{L/K}-1/d`, `d=|G_(i_{L/K})|`; `lciLiftingAndRamification`; `fontaineRamificationBound`;
   `illusieObstructionHomomorphisms`; `flatDeformationTangentSpace`; `finiteFlatBaseChangeTwist`;
   `raynaudDetTateModule`; `cyclotomicImageStability`.
 -/
