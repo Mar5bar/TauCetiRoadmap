@@ -16,7 +16,7 @@ The following specializations retain the level, coefficient and polarization con
 - the structured ordinary Honda–Tate construction used for finite local points (§H6.5);
 - the finite-level coefficient, norm-twist and Hecke comparisons for the quaternionic transfer supplied by GL2AutomorphicRepresentationsAndTransfer (§§R18.3.19–R18.3.22 and §R18.4.24);
 - the division-place parity characters (§R18.3.17);
-- the early eigenform Galois compatibility used before any Taylor–Wiles argument (§R18.3.29 and §R18.4.27);
+- the arithmetic normalization and additional Taylor/Kisin, degree-one and lattice extensions of the Carayol/Saito core supplied by WeightsInEtaleCohomology R34.6, used before Taylor–Wiles arguments (§R18.3.29 and §R18.4.27);
 - the local deformation datum and Taylor–Wiles prime datum of the Ihara argument (§§R18.4.19–R18.4.20).
 
 These targets supply the arithmetic applications of §R18.6. General toroidal and minimal compactifications, general automorphic bundles, arithmetic heights, the general Jacquet–Langlands correspondence, Galois representations attached to general Hilbert modular forms, Moret–Bailly and modularity lifting are not constructed here; they consume the outputs listed in §R18.6.
@@ -38,7 +38,7 @@ Tau Ceti roadmaps supply the general objects, and nothing they contain is repeat
 | ClassFieldTheory, Layer 12; Chebotarev, Layer 10 | Ray-class characters and reciprocity, and infinitude of Frobenius classes, used in residual Eisenstein vanishing and early Galois arguments. |
 | AlgebraicTopology, Stage 6 | Twisted chains, cochains and cohomology of local coefficient systems; this roadmap adds only the arithmetic finite-free dual adapter. |
 
-Cross-roadmap references name the supplier and its section or target. The exact contracts are stated below; local Hilbert data are constructed in §H0.0.
+Cross-roadmap references name the supplier and its section or target. The exact contracts are stated below. PELModuli M5.4 owns the rational star datum and trace embedding; ShimuraData §§5.3–5.4 owns the full datum and domain inclusion. Section H0.0 transports their conventions; the c-dependent integral refinements belong here.
 
 ## Conventions
 
@@ -60,7 +60,7 @@ This is a family of integral forms; no generator of c is chosen. The balance law
 
 Unless a target says otherwise, `N≥4` is prime to p, the tame `μ_N` level is a map `𝔡⁻¹⊗μ_N→A[N]`, and the generic full `p^n` level is a frame of `A∨[p^n]`. The level action is `γ·α=α∘adj(γ)`: adjugation reverses products, so this is a left action. A compatible local isomorphism `β:c⁻¹O_p≅𝔡⁻¹(1)` fixes the pairing multiplier, and replacing `β` by `uβ` replaces the multiplier b by `u⁻¹b`. Integral `Γ₀` levels are finite locally free subgroup schemes, including non-étale ones; full constant frames are characteristic-zero data.
 
-Let `U=O_F×, U⁺` its totally positive subgroup, `U_M={u∈U : u≡1 mod MO}` and `S_M={u² : u∈U_M}`. Square roots in `U_M` need not be totally positive. Distinguish `Δ(M)=U⁺/S_M` from `Δ_n(N)=(U_{p^n}∩U⁺)/S_{p^nN}`, from the ineffective scalar image `Z_n` and from a selected pairing-multiplier fibre. The connected inverse limit stabilizes to its images `I_n⊂Δ_n(N)`; at `p=2` the projections onto the whole of `Δ_n(N)` need not stabilize to isomorphisms (§H4.19).
+Let `U=O_F×, U⁺` its totally positive subgroup, `U_M={u∈U : u≡1 mod MO}` and `S_M={u² : u∈U_M}`. Square roots in `U_M` need not be totally positive. Distinguish `Δ(M)=U⁺/S_M` from `Δ_n(N)=(U_{p^n}∩U⁺)/S_{p^nN}`, from the ineffective scalar image `Z_n` and from a selected pairing-multiplier fibre. Polarization quotients retain their quotient stacks; a coarse torsor assertion requires trivial geometric stabilizers for the relevant action (§H3.6). The connected inverse limit stabilizes to its images `I_n⊂Δ_n(N)`; at `p=2` the projections onto the whole of `Δ_n(N)` need not stabilize to isomorphisms (§H4.19).
 
 **Quaternionic curves (R18.1, R18.2, R18.4, R18.5).** B/F is a division quaternion algebra split at exactly the designated real embedding `τ`. Its canonical compact curve is defined over `τ(F)`, identified with F only through `τ`. Fix a maximal finite adelic order `O_B` and all local splittings. At v|p write `K=(F_v^{ur})^` for the completed maximal unramified extension; an auxiliary reflex completion K′ is a different field. The effective pro-level centre is the closure of `F×` in `B_f×`, whereas a finite arithmetic stabilizer on `ℍ` is divided by its rational scalar subgroup. The split rational modular case is stated separately and has its cusps. In R18.4 the level is sufficiently small in the effective central quotient, so the curve is smooth and proper with no cusps; coefficients are the integers O of a finite extension of `ℚ_l`, the algebraic coefficient lattice is level-stable with the specified central character and is trivial on every rational scalar stabilizer `Γ_g∩F×`. Its finite étale reductions descend through the effective central kernel at every level and correspondence in use (§R18.4.1). These coefficient hypotheses apply throughout R18.4, including the compact automorphic comparisons. A perfect integral pairing is an extra hypothesis wherever integral duality is used. Hodge–Tate weights here are filtration indices, so `HT(ε_p)=−1`; negate the labelled weights of FiniteFlatGroupsAndIntegralPadicHodgeTheory when importing its statements.
 
@@ -135,13 +135,15 @@ The contracts below distinguish general supplied theory from the specializations
 
 **[ComplexComparisonPartII, §§C6.3–C6.6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ComplexComparisonPartII/README.md).** Use finite constructible étale/Betti comparison, its compact-support and lower-shriek functoriality, and its derived integral realization. Trace orientation for the arithmetic coefficient adapter is fixed in §R18.4.13 by the complex orientation and finite-cover degree; the comparison preserves the actual map from compactly supported to ordinary cohomology.
 
-**[ShimuraVarieties, §§P.1–P.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ShimuraVarieties/README.md).** Pure datum axioms, datum maps, products, Hodge- and abelian-type conditions, the Cartan adjoint criterion, cocharacter classes and reflex fields are supplied there. The rational Hilbert groups, domain homomorphisms, trace form and Siegel embedding are the specialization constructed in §H0.0.
+**[ShimuraVarieties, §§P.1–P.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ShimuraVarieties/README.md).** Pure datum axioms, datum maps, products, Hodge- and abelian-type conditions, the Cartan adjoint criterion, cocharacter classes and reflex fields are supplied there. The rational Hilbert specializations are supplied by PELModuli M5.4 and ShimuraData §§5.3–5.4; §H0.0 supplies their convention adapters.
 
-**[WeightsInEtaleCohomology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/WeightsInEtaleCohomology/README.md).** Purity under linear-algebra operations (R34.1), purity of Tate modules with good reduction (R34.2) and proper specialization over a trait (R34.3). R34.3 also constructs the Hilbert–Shimura Saito model/projector and the geometric semistable-period comparison. Sections R18.4.24a and R18.4.34 specialize these inputs to the quaternionic finite levels here, retaining coefficient embeddings, descent and `N_p=N_HK/e_L`. The weight arithmetic is computed in §§R18.4.35–R18.4.36. Layers used: `R34.1, Linear algebra operations and rational integrality`, `R34.2, Purity and integral polynomials at good reduction`, `R34.3, Proper specialization over an arithmetic trait`.
+**[ShimuraData, §§5.3–5.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ShimuraData/README.md).** The full restriction-of-scalars Hilbert datum, independent-sign domain, reflex field and common-sign star inclusion are supplied there. The star datum and rational trace embedding come from PELModuli M5.4. These suppliers precede H0; §H0.0 transports h, the trace sign and row/column conventions, and §H0.2 transports their domain comparison.
+
+**[WeightsInEtaleCohomology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/WeightsInEtaleCohomology/README.md).** Purity under linear-algebra operations (R34.1), purity of Tate modules with good reduction (R34.2) and proper specialization over a trait (R34.3). R34.3 also constructs the Hilbert–Shimura Saito model/projector and the geometric semistable-period comparison. Sections R18.4.24a and R18.4.34 specialize these inputs to the quaternionic finite levels here, retaining coefficient embeddings, descent and `N_p=N_HK/e_L`. R34.6 owns the common Carayol/Saito cohomological decomposition, rank-two Galois multiplicity with actual coefficient-model descent and source-qualified p-adic compatibility for degree greater than one under (C), including the source's auxiliary-place/base-change reduction. Section R18.3.29 consumes that core through its arithmetic contragredient adapter; the Taylor/Kisin branch outside (C), degree-one routes and stable-lattice extensions belong here. The weight arithmetic is computed in §§R18.4.35–R18.4.36. Layers used: `R34.1, Linear algebra operations and rational integrality`, `R34.2, Purity and integral polynomials at good reduction`, `R34.3, Proper specialization over an arithmetic trait`, `R34.6, Hilbert eigensummands and local monodromy weights`.
 
 **[AutomorphicSpectralTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicSpectralTheory/README.md).** The discrete spectrum with multiplicity spaces, separated from its residual and cuspidal parts, and the spectrum of a compact quotient (Layer 4). The Franke comparison and cuspidal-support theorem, yielding `franke_input` (§§5.10, 5.12, 5.14), are specialized in §R18.4.25a with the supplier’s rational split-centre, balanced-character and full K∞ conventions. The trace formula (Layer 6). GL2AutomorphicRepresentationsAndTransfer §§R17.1.1–R17.3.9 supplies the quaternionic matching and transfer; its degree-two specialization in §§R18.3.19–R18.3.22 retains ramified discrete-series matching and excludes norm-character transfers. Layers used: `§4.7`, `§4.5`, `§§5.10, 5.12, 5.14`, `Layer 6`.
 
-**[PELModuli](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PELModuli/README.md).** Integral PEL data with involution, trace-dual lattice, signature and determinant condition (M0). Moduli functors, PEL abelian schemes, `O_B`-actions, p-divisible torsion and level descent, change of lattice and prime, and the characteristic-zero adelic moduli space (M1). Good-prime representability with its universal family (M2). Complex points and algebraization of components (M3). Canonical-model comparison, finite normal level changes and finite effective coarse quotients, with no universal family on an arbitrary normalization (M4). Section R18.5.13 constructs basic Rapoport–Zink uniformisation for the auxiliary quaternionic datum (Boutot–Zink Proposition 6.2): the framed polarized quasi-isogeny quotient, Serre–Tate local étaleness, the Hasse-principle surjectivity onto special-fibre points and Weil equivariance, with the p-adic local levels retained. The same target constructs the selected open-and-closed canonical-model embedding with its closure (Boutot–Zink Definition 6.5, Proposition 6.6), with the inverse-diagonal central quotient and cofinal auxiliary levels. Layers used: `M0`, `M0.18`, `M0.5`, `M1`, `M1.11`, `M1.9`, `M1.7`, `M1.2`, `M2`, `M2.8`, `M2.9`, `M3`, `M3.6`, `M3.4`, `M4`.
+**[PELModuli](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PELModuli/README.md).** Integral PEL data with involution, trace-dual lattice, signature and determinant condition (M0). Moduli functors, PEL abelian schemes, `O_B`-actions, p-divisible torsion and level descent, change of lattice and prime, and the characteristic-zero adelic moduli space (M1). Good-prime representability with its universal family (M2). Complex points and algebraization of components (M3). Canonical-model comparison, finite normal level changes and finite effective coarse quotients, with no universal family on an arbitrary normalization (M4). M5.4 supplies the principal Hilbert datum, its rationalization, positive trace form and closed trace embedding with multiplier and h-compatibility; H0 transports these rational objects and constructs the c-dependent integral lattices. Section R18.5.13 constructs basic Rapoport–Zink uniformisation for the auxiliary quaternionic datum (Boutot–Zink Proposition 6.2): the framed polarized quasi-isogeny quotient, Serre–Tate local étaleness, the Hasse-principle surjectivity onto special-fibre points and Weil equivariance, with the p-adic local levels retained. The same target constructs the selected open-and-closed canonical-model embedding with its closure (Boutot–Zink Definition 6.5, Proposition 6.6), with the inverse-diagonal central quotient and cofinal auxiliary levels. Layers used: `M0`, `M0.18`, `M0.5`, `M1`, `M1.11`, `M1.9`, `M1.7`, `M1.2`, `M2`, `M2.8`, `M2.9`, `M3`, `M3.6`, `M3.4`, `M4`, `M5.4`.
 
 **[FiniteFlatGroupsAndIntegralPadicHodgeTheory, §§R07.3.0–R07.3.3, R07.4.13, R07.4.27–R07.4.28](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md).** Use period functors, weak admissibility and admissibility, and filtered (φ,N)-modules with descent and their Weil–Deligne normalization for potentially semistable representations. Section R18.4.24a specializes the geometric proper semistable comparison supplied by WeightsInEtaleCohomology R34.3, retaining descent, coefficient embeddings, normalized monodromy and the dual/twist convention. [LocalGaloisDeformationRings, §0.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalGaloisDeformationRings/README.md) supplies its finite-coefficient and every-prime descent extension.
 
@@ -149,7 +151,7 @@ The contracts below distinguish general supplied theory from the specializations
 
 ## How to read the build
 
-The layers carry the identifiers by which other roadmaps cite them. The numbered layers interleave according to the prerequisites below; their subsection identifiers remain the citation keys. Local Drinfeld geometry (R18.5, part 1) precedes the quaternionic PEL comparison (R18.2, part 1). Arithmetic uniformisation (R18.5, part 2) then supplies the division-prime input to the integral models (R18.2, part 2). After R18.4.24a, the central-torus comparison R18.4.24b and the supplier specialization R18.4.25a, build CohomologicalEigenspaces, then quaternionEigenformGaloisCompatibility (§R18.3.29), then earlyQuaternionicGaloisHeckeSupport (§R18.4.27), before the local-type and patching consumers. The remaining localized-control targets of R18.3, part 2 follow these early targets. Subsection identifiers are the citation keys; the table gives their build order across the interleaving. Section R18.5.15 opens the arithmetic uniformisation part.
+The layers carry the identifiers by which other roadmaps cite them. The numbered layers interleave according to the prerequisites below; their subsection identifiers remain the citation keys. Local Drinfeld geometry (R18.5, part 1) precedes the quaternionic PEL comparison (R18.2, part 1). Arithmetic uniformisation (R18.5, part 2) then supplies the division-prime input to the integral models (R18.2, part 2). After R18.4.24a, the central-torus comparison R18.4.24b and the supplier specialization R18.4.25a, build CohomologicalEigenspaces, then the R34.6 adapter and extensions quaternionEigenformGaloisCompatibility (§R18.3.29), then earlyQuaternionicGaloisHeckeSupport (§R18.4.27), before the local-type and patching consumers. The remaining localized-control targets of R18.3, part 2 follow these early targets. Subsection identifiers are the citation keys; the table gives their build order across the interleaving. Section R18.5.15 opens the arithmetic uniformisation part.
 
 | Layer | Delivers |
 | --- | --- |
@@ -167,7 +169,7 @@ The layers carry the identifiers by which other roadmaps cite them. The numbered
 | R18.2, part 2 | Integral model towers, coarse and ℚ-factorial models, Hecke extensions, the arithmetic Hodge line, integral p-divisible groups, Kodaira–Spencer and the CM-bridge comparisons. |
 | R18.3, part 1 | Definite class sets, integral weights and forms, pairings, Hecke normalization, the definite Ihara lemma, Taylor–Wiles levels, quaternionic transfer and dyadic twists. |
 | R18.4, early geometry | §§R18.4.1–R18.4.25, including the supplied geometric comparison (§R18.4.24a), central-torus comparison (§R18.4.24b) and specialized FrankeInput (§R18.4.25a), ending with CohomologicalEigenspaces. |
-| R18.3.29 | Individual quaternionEigenformGaloisCompatibility, using the standalone geometric comparison. |
+| R18.3.29 | quaternionEigenformGaloisCompatibility: R34.6 realization/compatibility adapter and the Taylor/Kisin, degree-one and stable-lattice extensions. |
 | R18.4.27 | Hecke-valued earlyQuaternionicGaloisHeckeSupport from those individual representations. |
 | R18.4, remaining targets | §R18.4.26 and §§R18.4.28–R18.4.36: local types, patching, Ihara, saturation and the supplied Saito projector specialization and purity. |
 | R18.3, part 2, §§30–32 | The Steinberg obstruction, localized control and ramified signs, using the preceding individual and Hecke-valued realizations. |
@@ -177,15 +179,15 @@ Suggested.lean records the real-bodied definitions available over native carrier
 
 ## Layer H0: Integral Hilbert data and trace lattices
 
-Construct the rational Hilbert specialization of ShimuraVarieties §§P.1–P.3, then its integral lattice, different and polarization family.
+Transport the rational Hilbert data of PELModuli M5.4 and ShimuraData §§5.3–5.4, then construct the c-dependent integral lattice, different and polarization family.
 
 ### H0.0 Rational Hilbert data and trace embedding
 
-Construct `HilbertDatum` and `HilbertStarDatum` from a totally real number field `F` of degree `g`: their rational groups are `G = Res_{F/ℚ} GL₂` and `G* = G ×_{Res_{F/ℚ} G_m} G_m`, using determinant and the diagonal inclusion. Their domains are the actual conjugacy classes of the homomorphism whose τ-component sends `a + bi` to `[[a,b],[-b,a]]`. Thus the full domains have respectively independent and common signs, with selected positive component `ℍ^Σ`. Use the pure data, datum morphisms and cocharacter reflex fields of ShimuraVarieties §§P.1–P.3, and the restriction of scalars and fibre products of ReductiveGroupsPartII RG2.0a. This constructs a specialization of those carriers.
+Use `HilbertDatum` and `HilbertStarDatum` as convention adapters to ShimuraData §§5.3–5.4 and PELModuli M5.4, respectively, for a totally real number field F of degree g. Their rational groups are `G = Res_{F/ℚ} GL₂` and `G* = G ×_{Res_{F/ℚ} G_m} G_m`. The rational star datum and trace embedding are owned by PELModuli, and the full datum and star inclusion by ShimuraData. Their domains have respectively independent and common signs.
 
-Define `hilbertRationalTraceForm` on `V = F²` by `ψ₀(x,y) = Tr_{F/ℚ}(x₁y₂ − x₂y₁)`. The representation of `G*` has scalar determinant multiplier, so it preserves this form up to that multiplier and gives `hilbertTraceEmbedding` into the corresponding Siegel similitude group. With the displayed h-matrix, `ψ₀(e₁,h(i)e₁) = −1` over `ℚ`; the positive `ψ(x,h(i)x)` Riemann convention therefore uses `−ψ₀`. The integral family of §H0.4 retains `ψ₀` and records this sign at the Siegel comparison. The row-vector lattice convention is transported by transposition; it does not change the alternating determinant formula.
+Put `C=diag(1,−1)` on column vectors in every real factor. Transport the supplied h by `h=C h_PEL C⁻¹`: its τ-component sends `a+bi` to `[[a,b],[−b,a]]`. Transport the supplied positive trace form by the same C. With `hilbertRationalTraceForm` denoting the supplied form `ψ₀(x,y)=Tr_{F/ℚ}(x₁y₂−x₂y₁)`, the transported positive Riemann form is `ψ₀(C⁻¹x,C⁻¹y)=−ψ₀(x,y)`. Thus `hilbertTraceEmbedding` here denotes the supplied closed embedding transported to `GSp(V,−ψ₀)`, with group map `j_new(g)=C j_PEL(C⁻¹gC)C⁻¹`, which is again the standard action on the transported coordinates. This keeps `ψ(x,h(i)x)>0`. The integral family of §H0.4 retains `ψ₀`, recording this sign at the Siegel comparison. For row vectors, `(xg)ᵀ=gᵀxᵀ`; transpose reverses composition, so the right row action and left column action are compared with that reversal.
 
-Give these definitions their API: base change to a splitting field identifies the two groups with `∏_τ GL₂` and its common-determinant subgroup; the chosen domain maps, scalar multiplier and trace embedding commute with field embeddings, products and base change; the trace form is alternating and nondegenerate; the representation is faithful and its closed immersion respects h. Prove the reflex fields are `ℚ` by invariance of the parallel cocharacter class. Sections H0.1–H0.5 supply the derived, centre, component, lattice and type comparisons.
+Transport the supplier's splitting-field group identifications, field/base-change compatibilities, scalar determinant multiplier, alternating nondegenerate trace form, faithful closed immersion and h-compatibility. The reflex fields remain `ℚ`, and C identifies the chosen positive domains after the corresponding relabelling of half-planes. Sections H0.1 and H0.3–H0.5 construct the centre specialization and c-dependent integral refinements; they do not reconstruct the rational datum.
 
 **Checks.**
 
@@ -197,7 +199,7 @@ Give these definitions their API: base change to a splitting field identifies th
 
 (Source: [BHW23](#references), Notation 5.1 and §5.1, pp.1740–1743, and §8.1, pp.1775–1777; [Rap78](#references), §1, pp.257–264. The trace and component formulas are the indicated restrictions of scalars.)
 
-*Needs:* ShimuraVarieties §§P.1–P.3; ReductiveGroupsPartII RG2.0a; Mathlib `Algebra.trace` and its nondegeneracy for finite separable field extensions.
+*Needs:* PELModuli M5.4 and M0.12; ShimuraData §§5.3–5.4; Mathlib `Algebra.trace` and its nondegeneracy for finite separable field extensions.
 
 ### H0.1 Derived groups and algebraic centres
 
@@ -211,13 +213,19 @@ Give these definitions their API: base change to a splitting field identifies th
 
 ### H0.2 Independent signs and common signs
 
-**Comparison** (`domainComparison`). The map of §H0.0 data identifies the common-sign G* domain `H^Σ` ⊔ `(H⁻)^Σ` with the corresponding two components of the G domain `(H^±)^Σ`. The latter has `2^g` components; both have complex dimension g and reflex field `ℚ`. The connected positive domains are equal, but the full conjugacy classes differ for g>1.
+**Comparison** (`domainComparison`). Transport ShimuraData §5.4's star inclusion through the C and row/column adapters of §H0.0. The resulting map identifies the common-sign G* domain `H^Σ` ⊔ `(H⁻)^Σ` with the corresponding two components of the G domain `(H^±)^Σ`. The latter has `2^g` components; both have complex dimension g and reflex field `ℚ`. The connected positive domains are equal, but the full conjugacy classes differ for g>1.
 
-*Proof route.* Use the imported real group identifications and the signs of the determinants acting on each half-plane. A common determinant forces a common sign; arbitrary G determinants allow independent signs. Compare the imported cocharacter Galois orbits to their already computed reflex fields.
+*Proof route.* Apply ShimuraData §§5.3–5.4 to its supplied data and conjugate both sides by C. Its component count, dimension, connected adjoint comparison and reflex field are preserved by this datum isomorphism. Record the relabelling of upper and lower half-planes on both sides.
+
+**Checks.**
+
+- For `F=ℚ` the transported inclusion is the identity on the full two-component datum.
+- For real quadratic F, C exchanges the two common-sign components while the full domain still has four components.
+- A tuple with opposite determinant signs stays outside G* after conjugation by C.
 
 (Source: [BHW23](#references) Notation 5.1, pp.1740–1741; compute the real conjugacy classes using the determinant sign at each embedding.)
 
-*Needs:* [H0.1 Derived groups and algebraic centres](#h01-derived-groups-and-algebraic-centres); [§H0.0 Rational Hilbert data and trace embedding](#h00-rational-hilbert-data-and-trace-embedding); [ShimuraVarieties, §§P.1–P.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ShimuraVarieties/README.md#p1-pure-data-and-special-pairs).
+*Needs:* ShimuraData §§5.3–5.4; [H0.1 Derived groups and algebraic centres](#h01-derived-groups-and-algebraic-centres); [§H0.0 Rational Hilbert data and trace embedding](#h00-rational-hilbert-data-and-trace-embedding); [ShimuraVarieties, §§P.1–P.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ShimuraVarieties/README.md#p1-pure-data-and-special-pairs).
 
 ### H0.3 Polarization lattice
 
@@ -287,9 +295,15 @@ In [Suggested.lean](Suggested.lean): `traceAlternatingDual`, `lattice_duality`.
 
 ### H0.6 Hodge and abelian type witnesses
 
-**Theorem** (`typeWitnesses`). §H0.0’s actual trace embedding of (G*, X*) into the Siegel datum, with the sign fixed by the integral trace family, is a Hodge-type witness in ShimuraVarieties §P.1. The identity `Res SL₂→Res SL₂` on the derived groups induces the common connected adjoint datum, and is an abelian-type witness in ShimuraVarieties §P.1 for (G, X). It does not assert a Hodge-type embedding of the exact group G.
+**Theorem** (`typeWitnesses`). §H0.0’s transport of PELModuli M5.4’s trace embedding of (G*, X*) into the Siegel datum, with the sign fixed by the integral trace family, is a Hodge-type witness in ShimuraVarieties §P.1. The identity `Res SL₂→Res SL₂` on the derived groups induces the common connected adjoint datum, and is an abelian-type witness in ShimuraVarieties §P.1 for (G, X). It does not assert a Hodge-type embedding of the exact group G.
 
 *Proof route.* Verify closed immersion and compatibility with h for §H0.0’s map, not just faithfulness of a real representation. Use the common derived group and connected adjoint domains for the central-isogeny condition. Separate the integral lattice refinement from the rational type assertion.
+
+**Checks.**
+
+- At F=ℚ the transported witness is the genus-one Siegel datum.
+- The C transport changes both h and the trace-form sign, preserving positivity.
+- For g>1 the derived identity does not turn the exact full group G into the supplied scalar-determinant G*.
 
 (Source: [BHW23](#references) Notation 5.1, extension p.1741.)
 
@@ -301,7 +315,7 @@ For `F=ℚ` and `c=ℤ` the lattice is `ℤ²` and `ψ_{ℤ,1}((1,0),(0,1))=1`. 
 
 ### Dependencies
 
-This layer uses ShimuraVarieties (§§P.1–P.3) and §H0.0; Mathlib `Algebra.trace`, `FractionalIdeal.dual`, `FractionalIdeal.dual_dual`, `FractionalIdeal.dual_eq_mul_inv`, `Submodule.mem_traceDual`.
+This layer uses PELModuli M5.4, ShimuraData §§5.3–5.4, ShimuraVarieties (§§P.1–P.3) and §H0.0; Mathlib `Algebra.trace`, `FractionalIdeal.dual`, `FractionalIdeal.dual_dual`, `FractionalIdeal.dual_eq_mul_inv`, `Submodule.mem_traceDual`.
 
 ## Layer H1: Hilbert–Blumenthal moduli and pairings
 
@@ -763,9 +777,9 @@ In [Suggested.lean](Suggested.lean): `congruenceUnitSquares`.
 
 ### H3.3 Positive unit action on polarizations
 
-**Construction** (`polarizationUnitAction`). For the fine `DP μ_N` object, `η∈U⁺` sends `(A, ι, λ, μ_N)` to `(A, ι, ηλ, μ_N)`. This gives an action compatible with base change and the H1 moduli comparisons. The O-linear `automorphism[η]` gives `(A, ι, η²λ, η⁻¹μ_N, ηα)≅(A, ι, λ, μ_N, α)`, with the last marking on `A∨`. Its tame kernel is exactly `S_N` under this level convention.
+**Construction** (`polarizationUnitAction`). For the fine `DP μ_N` object, `η∈U⁺` sends `(A, ι, λ, μ_N)` to `(A, ι, ηλ, μ_N)`. This gives an action compatible with base change and the H1 moduli comparisons. The O-linear `automorphism[η]` gives `(A, ι, η²λ, η⁻¹μ_N, ηα)≅(A, ι, λ, μ_N, α)`, with the last marking on `A∨`. The scalar isomorphisms from `U_N` make `S_N` act trivially, so the action factors through `Δ(N)`. This factorization does not identify geometric point stabilizers with `S_N`.
 
-*Construction.* Scale the ordered identification by a positive unit; evaluation remains an isomorphism. Use Rosati adjointness and the actual dual level convention to verify the three isomorphism diagrams. Prove the stabilizer in the fine `μ_N` functor by rigidity, obtaining squares of `U_N`.
+*Construction.* Scale the ordered identification by a positive unit; evaluation remains an isomorphism. Use Rosati adjointness and the actual dual level convention to verify the three isomorphism diagrams. Use the explicit scalar diagrams to kill `S_N`. Rigidity of a polarized marked object does not exclude an isomorphism between distinct polarization scalings.
 
 Its API:
 
@@ -778,7 +792,8 @@ Its API:
 
 - `unitAction_Q`: For `F=ℚ` the positive unit group is trivial.
 - `unitAction_negative`: `−1` is not an allowed polarization-scaling unit for the standard positive cone.
-- `unitAction_level`: `η²` acts trivially at tame level precisely when a root `η` with `η≡1` modulo N supplies the moduli isomorphism.
+- `unitAction_level`: A root `η≡1 mod N` supplies a scalar isomorphism for `η²`; non-scalar endomorphisms can give additional point stabilizers.
+- At `F=ℚ(√3), c=O_F, N=7`, take `E/ℂ` with `End(E)=ℤ[i]`, `A=E²` with product polarization and `ι(√3)=S=[[1,1+i],[1−i,−1]]`. Then `S†=S`, `S²=3I`, and the Rosati-fixed integral centralizer is `ℤ[S]`: its rational Hermitian part is `ℚ+ℚS`, and the entries force both coefficients integral. Thus this is an ordered DP object. Put `u=7+4√3`, `η=u²=97+56√3` and `f=i(7I+4S)`. One has `f†f=ι(η)`. Modulo 7, `f=4iS` is an involution with trace zero; its +1 eigenspace is a line over `ℤ[i]/7=𝔽₄₉`, on which `S=−2i`, hence is free of rank one over `O_F/7`. A marking `𝔡⁻¹⊗μ₇` onto this line is fixed by f. Consequently `[η]` fixes this moduli point, although `η≡−1 mod 7` excludes `η∈S_7`. Its class has order two since `−u²∈U_7`. This also has `7∤disc(F)=12` and permits `p=5`.
 
 (Source: [BHW23](#references) Lemma 8.2, Definition 8.3 and Proposition 8.4, pp.1765–1766.)
 
@@ -830,13 +845,19 @@ In [Suggested.lean](Suggested.lean): `tamePolarizationGroup_finite`.
 
 ### H3.6 Arithmetic Hilbert quotient
 
-**Theorem** (`arithmeticQuotient`). With the exact `μ_N` convention, `X(c, μ_N)→X_G(c, μ_N)` is a finite étale Δ(N)-torsor, and its quotient identifies with the G canonical Hilbert variety through §§8.1–8.5, 8.22. For the integral model the quotient exists in the stated category and has the characteristic-zero comparison. A universal HBAV on the fine source descends only when its descent datum is verified; no universal HBAV is asserted on an arbitrary coarse arithmetic quotient.
+**Theorem** (`arithmeticQuotient`). With the exact `μ_N` convention, construct the finite quotient `X_G(c,μ_N)=X(c,μ_N)/Δ(N)` in algebraic spaces and the quotient stack `[X(c,μ_N)/Δ(N)]`. The stack atlas is a finite étale Δ(N)-torsor; its coarse quotient has the G canonical Hilbert variety as generic fibre through ShimuraVarieties §§8.1–8.5, 8.22. On the integral DP model the same stack and finite coarse quotient exist. Let `X^free` be the complement of the union of fixed loci of nonidentity elements of Δ(N). This invariant open has trivial geometric stabilizers on every fibre, and `X^free→X^free/Δ(N)` is a finite étale torsor. The whole coarse map is not asserted étale. A universal HBAV descends only with a verified descent datum.
 
-*Proof route.* Use the exact stabilizer calculation to factor the action through `Δ(N)`. Prove the quotient-moduli and torsor diagrams on test objects, including rigidifying tame marking. Apply the imported effective finite quotient and §§8.1–8.5, 8.22 comparison with the G datum; keep stack/coarse and fine-family claims distinct.
+*Proof route.* Factor the action using the scalar diagrams, form the quotient groupoid and use finite effective quotients. The standard atlas identity `X×_[X/Δ]X≅Δ×X` proves the stack torsor. The diagonal of X is separated, so the finitely many fixed loci are closed; outside their union the action is free. Apply the free finite-action theorem there. Identify generic coarse points and the canonical model by H1's comparison and datum functoriality. Equivariant Hecke correspondences descend as quotient stacks and as coarse correspondences; coarse torsor base-change arguments use only the free locus.
 
-(Source: [BHW23](#references) Proposition 8.4, p.1766.)
+**Checks.**
 
-*Needs:* [H3.3 Positive unit action on polarizations](#h33-positive-unit-action-on-polarizations), [H3.5 Finiteness of the tame quotient](#h35-finiteness-of-the-tame-quotient), [H1.10 Complex Hilbert moduli comparison](#h110-complex-hilbert-moduli-comparison); [AlgebraicModuliForArithmeticGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AlgebraicModuliForArithmeticGeometry/README.md) `§§5.1–5.4`; [ShimuraVarieties](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ShimuraVarieties/README.md) `§8.3`.
+- For `F=ℚ`, Δ(N) is trivial and the stack and coarse quotient coincide with X.
+- The `F=ℚ(√3), N=7` CM point of §H3.3 has nontrivial order-two inertia in the quotient stack and is excluded from `X^free`.
+- An integral torsor restriction uses trivial stabilizers on all its geometric fibres; generic freeness alone does not suffice.
+
+(Source: [BHW23](#references) Proposition 8.4, p.1766, for the action and quotient; the torsor conclusion here is for the quotient stack and the coarse free locus, with nonfree points as in §H3.3. [Stacks, Lemma 66.14.2, tag 07S7](https://stacks.math.columbia.edu/tag/07S7), for free finite actions.)
+
+*Needs:* [H3.3 Positive unit action on polarizations](#h33-positive-unit-action-on-polarizations), [H3.5 Finiteness of the tame quotient](#h35-finiteness-of-the-tame-quotient), [H1.10 Complex Hilbert moduli comparison](#h110-complex-hilbert-moduli-comparison); AlgebraicModuliForArithmeticGeometry §§5.1–5.4; SchemeAndStackFoundations §§1.19–1.23 (quotient stacks and coarse moduli); ShimuraVarieties §8.3.
 
 ### H3.7 Polarization ideal representative comparisons
 
@@ -854,13 +875,19 @@ In [Suggested.lean](Suggested.lean): `tamePolarizationGroup_finite`.
 
 - (i) **Quotient structure.** `B=A/D` carries a unique HBAV structure `(ι′, λ′, μ′_N)` for which `φ:A→B` is a morphism of HBAVs. Here `ι′` is the quotient action, `μ′_N=φ∘μ_N`, and `λ′` is the unique cb-polarization with `λ∘(φ_D⊗c)=φ^∨∘λ′` as maps `B⊗cb→A^∨`, where `φ_D:B⊗b→A` is the map whose composite with `φ` is the natural map `B⊗b→B`.
 - (ii) **Cyclic step.** If D is étale locally isomorphic to O/b, then `λ′` is obtained as follows. Dualizing `A=A⊗b⁻¹⊗b→A⊗b⁻¹` and using `λ` identifies `A[b]^∨` with `A[b]⊗cb`. The Weil pairing `A[b]×(A[b]⊗cb)→𝔾_m⊗𝔡⁻¹` is alternating and O-linear, so the exact annihilator of D is the Cartier dual of `D′=A[b]/D`. Hence `(A/D)^∨≅(A^∨⊗b)/(D′)^∨≅(A/D)⊗cb`, and this isomorphism is `λ′`. A general D has a filtration by O-stable subgroups with cyclic graded pieces; composing the cyclic steps gives the `λ′` of (i), independently of the filtration by the uniqueness in (i).
-- (iii) **Ordered target and its classes.** Let c′ be in the narrow class of cb and `ε:cb≅c′` an isomorphism carrying the positive cone of cb onto that of c′. Then `λ′_ε=λ′∘(1⊗ε⁻¹)` is a c′-polarization. The isomorphism class of `(B, ι′, λ′_ε, μ′_N)` depends only on the class of `ε` modulo `S_N=U_N² (§H3.2)`: if `ε` is replaced by `u²ε` with `u∈U_N`, multiplication by `u⁻¹` on B is an isomorphism between the two quadruples, and it fixes `μ′_N` because `u≡1 mod N`. The classes `[ε]` form a torsor under `Δ(N)=U⁺/S_N`.
+- (iii) **Ordered target and its classes.** Let c′ be in the narrow class of cb and `ε:cb≅c′` an isomorphism carrying the positive cone of cb onto that of c′. Then `λ′_ε=λ′∘(1⊗ε⁻¹)` is a c′-polarization. The isomorphism class of `(B, ι′, λ′_ε, μ′_N)` depends only on the class of `ε` modulo `S_N=U_N² (§H3.2)`: if `ε` is replaced by `u²ε` with `u∈U_N`, multiplication by `u⁻¹` on B is an isomorphism between the two quadruples, and it fixes `μ′_N` because `u≡1 mod N`. The ordered ideal-isomorphism classes `[ε]` form a torsor under `Δ(N)=U⁺/S_N`; their associated HBAV isomorphism classes can have additional stabilizers.
 - (iv) **Correspondence.** For cyclic D with annihilator a, the functor of triples `(A, D, [ε])` over the fine `μ_N`-model is represented by a disjoint union, indexed by the classes `[ε]`, of copies of the quotient by `(O/a)^×` of the open subscheme of the universal A[a] consisting of points that generate O/a. The projection `π₁` forgets D and `[ε]`; `π₂` sends the triple to `(B, λ′_ε, μ′_N)` on the c′-component. Both projections are finite over `ℤ[1/N]` away from the primes dividing a. Over a list `c₁,…,c_{h⁺}` of narrow class representatives the union of these correspondences runs from the `c_i`-component to the `c_j`-component with `[c_j]₊=[c_i a]₊`. A single c-component is preserved only when [a]₊ is trivial.
 - (v) **Descent to the arithmetic quotient.** By the uniqueness in `(i), λ′` depends O-linearly on `λ`: replacing `λ` by `ηλ` for `η∈U⁺` replaces `λ′` by `ηλ′`. So the correspondence commutes with the U⁺-action of §H3.3, and on the arithmetic quotients of §H3.6 the choice of `[ε]` disappears: changing `ε` by `η∈U⁺` changes `λ′_ε` by `η⁻¹`. Changing the representatives `c_i` by ordered ideal isomorphisms transports the correspondence through the comparisons of §H3.7. Hence the correspondence on the arithmetic Hilbert quotient is independent of the choices of representatives and of `ε`.
 
 Nothing is asserted at primes dividing a, where D need not be étale. The integral finite-flat subgroup levels of §H4.8 are a separate statement.
 
-*Proof route.* Construct `ι′` and `μ′_N` directly. For a cyclic D build `λ′` from the two isogenies through `A⊗b⁻¹`, the identification of `A[b]^∨` with `A[b]⊗cb`, and Cartier duality of the annihilator (KL05 §1.9). Check that `λ′` is a polarization by pulling back along `φ`, and that it satisfies the diagram in (i). Uniqueness holds because homomorphism groups of abelian schemes are torsion-free, so two maps that agree after composing with the isogenies `φ^∨` and `φ_D⊗c` are equal. Compose cyclic steps for a general D, which is how BHW23 prove Lemma 8.22. Verify the u²-independence by the explicit isomorphism `u⁻¹`. For representability, write the triple functor as a disjoint union over the classes `[ε]` of quotients of the generator locus of the universal A[a]. Then check O-linearity in `λ` and transport along §H3.7. Finally descend through the Δ(N)-torsor of §H3.6.
+*Proof route.* Construct `ι′` and `μ′_N` directly. For a cyclic D build `λ′` from the two isogenies through `A⊗b⁻¹`, the identification of `A[b]^∨` with `A[b]⊗cb`, and Cartier duality of the annihilator (KL05 §1.9). Check that `λ′` is a polarization by pulling back along `φ`, and that it satisfies the diagram in (i). Uniqueness holds because homomorphism groups of abelian schemes are torsion-free, so two maps that agree after composing with the isogenies `φ^∨` and `φ_D⊗c` are equal. Compose cyclic steps for a general D, which is how BHW23 prove Lemma 8.22. Verify the u²-independence by the explicit isomorphism `u⁻¹`. For representability, write the triple functor as a disjoint union over the classes `[ε]` of quotients of the generator locus of the universal A[a]. Then check O-linearity in `λ` and transport along §H3.7. Finally descend the equivariant correspondence through the stack quotient and its coarse quotient of §H3.6; use a coarse torsor only on the free locus.
+
+**Checks.**
+
+- For trivial D, `b=O` and the ordered quotient is A itself; changing ε still gives the positive-unit orbit.
+- If `[a]₊` is nontrivial, the Hecke correspondence changes the narrow polarization component, even on the free locus.
+- The H3.3 CM point can identify distinct `[ε]` as HBAV classes; quotient descent of the correspondence does not make the coarse polarization map a torsor there.
 
 (Source: [BHW23](#references) Lemma 8.22 and diagram (8.7), pp.1776–1777, for the general D and the characterization of `λ′`; [KL05](#references) §1.9, author version pp.7–9, for the cyclic construction, the classes `[ε]` modulo squares of `U_N` and representability, and §1.10, p.9, for the union over narrow class representatives and finiteness of the two projections.)
 
@@ -961,9 +988,15 @@ In [Suggested.lean](Suggested.lean): `adjugateFrameAction`, `adjugate_level_acti
 
 ### H4.5 Unit squares versus scalar levels
 
-**Theorem** (`unitSquareLevel`). For `η∈U_N`, its polarization action by `η²` on the hybrid full-level space equals the level action of the scalar matrix `η⁻¹I₂`. Consequently the kernel at full `pⁿ` level is `S_{pⁿ N}=U_{pⁿ N}²`. This statement uses the dual-level action and the fixed tame `μ_N` convention; it is recalculated for another tame level.
+**Theorem** (`unitSquareLevel`). For `η∈U_N`, its polarization action by `η²` on the hybrid full-level space equals the level action of the scalar matrix `η⁻¹I₂`. Consequently `S_{pⁿ N}=U_{pⁿ N}²` acts trivially at full `pⁿ` level and is exactly the kernel supplied by scalar isomorphisms; this is not a claim about every geometric point stabilizer. This statement uses the dual-level action and the fixed tame `μ_N` convention; it is recalculated for another tame level.
 
-*Proof route.* Insert `η` into the H3 HBAV isomorphism diagrams. Because `η∈U_N` the tame marking is unchanged; for a scalar rank-two matrix `adj(ηI)=ηI`. The scalar acts trivially on `α_n` exactly when `η≡1` modulo `pⁿ`, andp∤N combines the congruences.
+*Proof route.* Insert `η` into the H3 HBAV isomorphism diagrams. Because `η∈U_N` the tame marking is unchanged; for a scalar rank-two matrix `adj(ηI)=ηI`. The scalar acts trivially on `α_n` exactly when `η≡1` modulo `pⁿ`, and p∤N combines the congruences.
+
+**Checks.**
+
+- For F=ℚ the positive-unit square relation is trivial.
+- A scalar root in `U_N` but outside `U_{pⁿ}` changes the full frame even though its square is trivial at tame polarization level.
+- The H3.3 CM example illustrates why scalar-kernel calculations do not determine all point stabilizers.
 
 (Source: [BHW23](#references) Lemma 8.12, p.1771.)
 
@@ -971,7 +1004,7 @@ In [Suggested.lean](Suggested.lean): `adjugateFrameAction`, `adjugate_level_acti
 
 ### H4.6 Arithmetic full Hilbert level
 
-**Definition** (`HilbertArithmeticFullLevel`). Define `X_{G, Γ(pⁿ)}` as the polarization-class quotient of the hybrid fine moduli by `Δ(pⁿ N)=U⁺/U_{pⁿ N}²`. Its coarse moduli interpretation retains(A, `ι,[λ], μ_N, α_n`), with isomorphisms acting on the dual basis. Denote `β₂` the quotient map. A local HBAV representative may be used for this interpretation; no universal HBAV on the whole arithmetic quotient is part of this definition.
+**Definition** (`HilbertArithmeticFullLevel`). Define `X_{G, Γ(pⁿ)}` as the polarization-class quotient of the hybrid fine moduli by `Δ(pⁿ N)=U⁺/U_{pⁿ N}²`. Its coarse moduli interpretation retains(A, `ι,[λ], μ_N, α_n`), with isomorphisms acting on the dual basis. Denote `β₂` the coarse quotient map and retain `[X_Γ(pⁿ)/Δ(pⁿ N)]` as its quotient stack. Its atlas is a Δ(pⁿ N)-torsor; the coarse map is a torsor only on the action-free locus. A local HBAV representative may be used for this interpretation; no universal HBAV on the whole arithmetic quotient is part of this definition.
 
 *Construction.* Use the exact full-level kernel and the finite quotient supplied by §§5.1–5.4. Check the polarization-class coarse interpretation with its dual-level isomorphism convention. Compare `β₂` to the G canonical finite-level map by §§8.1–8.5, 8.22.
 
@@ -985,7 +1018,7 @@ Its API:
 **Checks.**
 
 - `arithmeticLevel_Q`: For `F=ℚ` the positive-unit quotient is trivial and all three full levels agree.
-- `arithmeticLevel_beta1`: The composite `β₂β₁` need not be surjective and is not called a torsor merely because `β₂` is one.
+- `arithmeticLevel_beta1`: The composite `β₂β₁` need not be surjective and is not a torsor merely from the quotient description of `β₂`.
 - `arithmeticLevel_universal`: The coarse interpretation supplies no automatic descended universal abelian scheme.
 
 (Source: [BHW23](#references) Lemma 8.16(1), p.1772.)
@@ -1032,9 +1065,15 @@ Its API:
 
 ### H4.9 Polarization quotient at subgroup level
 
-**Comparison** (`gamma0Cartesian`). On the generic fibre, the `Γ₀(pⁿ)` subgroup-level squares over `X→X_G` are Cartesian: units preserve O-stable C, so the same `Δ(N)` torsor acts before and after adjoining C. Any invariant rational Hasse neighborhood restricts this finite-level Cartesian diagram. No perfectoid limit theorem is proved or imported here.
+**Comparison** (`gamma0Cartesian`). On the generic fibre the `Γ₀(pⁿ)` subgroup-level squares over the quotient stack `[X/Δ(N)]` are 2-Cartesian, since the forgetful map to X is equivariant. For coarse quotients assert the Cartesian square after restricting over `X^free/Δ(N)` of §H3.6. There the same Δ(N)-torsor acts before and after adjoining C. Any invariant rational Hasse neighborhood restricts this finite-level Cartesian diagram. No perfectoid limit theorem is proved or imported here.
 
-*Proof route.* Use `ηC=C` for O-stable subgroups in the H3 moduli isomorphism. Check the quotient functor Cartesian square. Restrict to the Hasse domain after verifying invariance of Ha under polarization changes.
+*Proof route.* Use `ηC=C` for scalar units on O-stable subgroups in the H3 moduli isomorphism. Apply the quotient-stack pullback identity to the equivariant subgroup functor; use free descent for the coarse Cartesian square over the stated free locus. Restrict to the Hasse domain after verifying invariance of Ha under polarization changes.
+
+**Checks.**
+
+- For F=ℚ the stack square is the ordinary fine modular square.
+- Above the H3.3 CM fixed point, coarse Cartesianity cannot be inferred from the quotient-stack identity.
+- On any invariant Hasse open inside the free locus, base change retains the coarse torsor square.
 
 (Source: [BHW23](#references) Lemma 8.5, p.1766.)
 
@@ -1089,9 +1128,15 @@ Its API:
 
 ### H4.12 Full and connected component comparisons
 
-**Theorem** (`componentAndTorsorComparison`). With BHW’s fixed c and tame `μ_N` convention, after a splitting/cyclotomic base and the required component choice, `π₀(X_Γ*(pⁿ))=(ℤ/pⁿ ℤ)×, π₀(X_Γ(pⁿ))=(O/pⁿ O)×`, and `π₀(X_{G, Γ(pⁿ)})=𝒰_n` for that c-fibre. Over all c classes the arithmetic labels form the narrow ray-class extension by `Cl⁺(O)`. `β₂` is `a Δ(pⁿ N)` torsor on the whole space and `a Δ_n(N)` torsor on paired chosen components. Base-field Galois actions on the labels are retained.
+**Theorem** (`componentAndTorsorComparison`). With BHW’s fixed c and tame `μ_N` convention, after a splitting/cyclotomic base and the required component choice, `π₀(X_Γ*(pⁿ))=(ℤ/pⁿ ℤ)×, π₀(X_Γ(pⁿ))=(O/pⁿ O)×`, and `π₀(X_{G, Γ(pⁿ)})=𝒰_n` for that c-fibre. Over all c classes the arithmetic labels form the narrow ray-class extension by `Cl⁺(O)`. `β₂` lifts to a Δ(pⁿ N)-torsor over the whole-space quotient stack and a Δ_n(N)-torsor over a paired-component quotient stack. The corresponding coarse maps are torsors only where their respective actions have trivial geometric stabilizers. Base-field Galois actions on the labels are retained.
 
 *Proof route.* Use strong approximation for the imported derived `Res SL₂` group and compute determinant double cosets at this exact tame level. Use the multiplier induction comparison to pass from scalar to O-unit labels. Compute the subgroup preserving the selected multiplier component and divide its scalar kernel, giving `A_n/B_n²`.
+
+**Checks.**
+
+- For F=ℚ the positive-unit groups are trivial.
+- A chosen pairing component uses Δ_n(N), not the whole-space Δ(pⁿN).
+- A nontrivial geometric stabilizer gives stack inertia rather than a coarse torsor fibre.
 
 (Source: [BHW23](#references) Lemmas 8.15–8.16, pp.1771–1773.)
 
@@ -1123,7 +1168,7 @@ In [Suggested.lean](Suggested.lean): `HilbertResidueRing`, `HilbertFiniteGamma0`
 
 ### H4.14 Diagonal level and polarization group
 
-**Definition** (`HilbertDiagonalLevelGroup`). Define `E(pᵐ, pⁿ)=(Γ₀(pᵐ, pⁿ)×U⁺)/image (η↦(ηI₂, η²), η∈U_N)`. The subgroup is central. For the left adjugate frame action and positive polarization action this is exactly the joint ineffective subgroup.
+**Definition** (`HilbertDiagonalLevelGroup`). Define `E(pᵐ, pⁿ)=(Γ₀(pᵐ, pⁿ)×U⁺)/image (η↦(ηI₂, η²), η∈U_N)`. The subgroup is central. For the left adjugate frame action and positive polarization action this is the scalar relation killed in the joint action; point stabilizers need not be scalar.
 
 Its API:
 
@@ -1185,9 +1230,15 @@ Its API:
 
 ### H4.17 Finite-level torsors and diagonal exact sequences
 
-**Theorem** (`finiteLevelTorsors`). In characteristic-zero with the stated fine tame level, `X_Γ*→X_Γ₀*` is `a Γ₀*` torsor, `X_Γ→X_Γ₀* a Γ₀` torsor, and `X_{G, Γ}→X_{G, Γ₀} a PΓ₀` torsor. The diagonal hybrid-to-arithmetic-subgroup map is an E torsor with exact sequences `1→Γ₀→E→Δ(N)→1` and `1→Δ(pⁿ N)→E→PΓ₀→1`. No universal nonsplitting assertion is imposed on these extensions.
+**Theorem** (`finiteLevelTorsors`). In characteristic zero with the stated fine tame level, `X_Γ*→X_Γ₀*` is a Γ₀* torsor and `X_Γ→X_Γ₀*` a Γ₀ torsor. For the arithmetic maps use quotient stacks: the full-to-subgroup map is a PΓ₀ torsor and the diagonal hybrid-to-arithmetic-subgroup map an E torsor, with exact sequences `1→Γ₀→E→Δ(N)→1` and `1→Δ(pⁿ N)→E→PΓ₀→1`. On coarse spaces the same conclusions hold over opens where the relevant actions have trivial geometric stabilizers; for the diagonal map this means the E-action is free, not merely the frame action. No universal nonsplitting assertion is imposed on these extensions.
 
-*Proof route.* Use finite étale frame moduli to prove the first two torsor diagrams. Calculate the two central quotient kernels directly from the H4 square relation. Obtain the arithmetic and diagonal torsor diagrams by the finite Cartesian quotient squares, using the already proved first sequences, so the proof is not circular.
+*Proof route.* Use finite étale frame moduli to prove the first two torsor diagrams. Calculate the two central quotient kernels directly from the H4 square relation. Obtain the arithmetic and diagonal torsor diagrams from the quotient-stack Cartesian squares and the exact group sequences. Pass to coarse torsor diagrams only on the respective free loci of §H3.6 and §H4.6.
+
+**Checks.**
+
+- For F=ℚ the positive-unit quotient vanishes and the fine frame torsors remain.
+- The H3.3 CM stabilizer prevents deducing a coarse diagonal torsor solely from tame rigidity.
+- An exact sequence of acting groups alone does not prove that their actions on coarse spaces are free.
 
 (Source: [BHW23](#references) Proposition 8.18, diagram (8.6), Lemma 8.19, pp.1773–1775.)
 
@@ -2034,7 +2085,7 @@ Compact curve hypothesis; principal level `N≥3`.
 
 **Definition** (`QuaternionPDiv`). On the pro-level canonical curve define `H_n=(B_p/O_B, p×X)/U_p(n)`, with `U_p(n)=(1+n O_B, p)^×` acting on the fibre by right multiplication and n supported above p. For each fixed torsion level m, shrink tame level until `U_p(1)/U_p(m)` acts freely; `H_n[m]` then descends as a finite étale `O_B, p`-module on that finite generic level. Do not assert a common finite tame level for the entire p-divisible group without proof.
 
-The effective free pro-level action and all fibre actions are specified; n may be 1.
+The local pro-level action is free, and its lift to coefficients retains the central scalar representation; n may be 1. An effective action on the base alone does not define the coefficient action.
 
 *Construction.* Use the quotient/torsor construction on the imported tower. Construct compatible finite torsion sheaves, verifying freeness at each torsion level. Take the filtered union and descend each finite stage, with tame level allowed to depend on that stage.
 
@@ -2057,9 +2108,9 @@ Its API:
 
 ### R18.5.19 Split-place comparison and its finite-level fields
 
-**Comparison** (`SplitPlaceDescentBoundary`). For Carayol's split finite-place quaternionic and auxiliary PEL towers, with the fixed neutral-component identifications and sufficiently small compatible tame levels, Proposition 4.4.3 gives an isomorphism of level-zero neutral components and their `O_p`-linear p-divisible groups over `F_p^nr`, equivariant for the indicated inclusion of effective extension groups `Δ⁰/SL₂(O_p)` into `Δ⁰′/SL₂(O_p)`. Section 4.5.1 lifts it to the unions of p-power level structures above these level-zero components over `F_p^nr`. For each finite n, Section 4.5.5 compares the chosen neutral connected components over `F_pⁿ`, the abelian extension of `F_p^nr` inside `F_p^ab` that corresponds under local class field theory to the group `U_pⁿ` of units congruent to 1 modulo `pⁿ` (Carayol's notations, p.155); `U_p⁰` is all units, so `F_p⁰ = F_p^nr`. The compatible auxiliary tame level can depend on n. Comparison of a full union over `F_p^nr` and comparison of one selected component over `F_pⁿ` are different contracts. No division-prime or all-n common-tame conclusion follows from these split-place statements.
+**Comparison** (`SplitPlaceDescentBoundary`). For Carayol's split finite-place quaternionic and auxiliary PEL towers, with the fixed neutral-component identifications and sufficiently small compatible tame levels, Proposition 4.4.3 gives an isomorphism of level-zero neutral components and their `O_p`-linear p-divisible groups over `F_p^nr`, equivariant for Carayol's inclusion of coefficient extension groups `Δ⁰_coef/SL₂(O_p)→Δ⁰′_coef/SL₂(O_p)`. Here `Δ_coef` and `Δ′_coef` denote the extensions before quotienting by rational central scalars; their effective quotients `Δ̄` and `Δ̄′` act on the curves. The effective isomorphism of the geometric bases does not identify these coefficient extensions. Section 4.5.1 lifts it to the unions of p-power level structures above these level-zero components over `F_p^nr`. For each finite n, Section 4.5.5 compares the chosen neutral connected components over `F_pⁿ`, the abelian extension of `F_p^nr` inside `F_p^ab` that corresponds under local class field theory to the group `U_pⁿ` of units congruent to 1 modulo `pⁿ` (Carayol's notations, p.155); `U_p⁰` is all units, so `F_p⁰ = F_p^nr`. The compatible auxiliary tame level can depend on n. Comparison of a full union over `F_p^nr` and comparison of one selected component over `F_pⁿ` are different contracts. No division-prime or all-n common-tame conclusion follows from these split-place statements.
 
-B at p is `M2(F_p)`; use the Carayol determinant, reciprocity and right-Galois-action conventions, and the coefficient-free connected towers.
+B at p is `M₂(F_p)`; use the Carayol determinant, reciprocity and right-Galois-action conventions. On the split rank-two Morita coefficient, a rational central scalar z acts by `z_p⁻¹`, although its effective action on the curve is trivial. Retain this scalar representation in the extension-group inclusion and in every finite torsion descent.
 
 The finite torsion component field `F_pⁿ` corresponds by local class field theory to `U_pⁿ`; use Carayol's geometric-Frobenius normalization. Completing the comparison field gives the corresponding completed-field statement, not a descent to a smaller field.
 
@@ -2068,7 +2119,8 @@ The finite torsion component field `F_pⁿ` corresponds by local class field the
 **Checks.**
 
 - The theorem never assumes `B_p` division.
-`- F_p⁰` is `F_p^nr`; for n positive `F_pⁿ` can be ramified over it.
+- At odd p, the rational diagonal scalar −1 is identity in the effective curve group but acts by −1 on nonzero p-torsion. The local element `−1_p∈SL₂(O_p)` also moves the lift in the principal torsor; its associated-bundle relation does not make a vector equal to its negative over a fixed lift.
+- `F_p⁰` is `F_p^nr`; for positive n, `F_pⁿ` can be ramified over it.
 
 - The statement gives an auxiliary level for each fixed n, not one small tame level working uniformly at all n.
 - For a split place with nontrivial level-n inertia, the full union is defined over `F_p^nr` while a selected connected component is defined over `F_pⁿ`; identifying the latter with a component already defined over `F_p^nr` would incorrectly remove its inertia permutation.
@@ -2079,17 +2131,18 @@ The finite torsion component field `F_pⁿ` corresponds by local class field the
 
 ### R18.2.4 Connected quaternionic and PEL comparison
 
-**Comparison** (`ConnectedPelComparison`). Over F̄ identify the identity pro-components `X⁰` and `X′⁰` equivariantly for the norm-positive effective groups `Δ̄≅Δ̄′`. At split v, after the indicated norm-one quotient, use `SplitPlaceDescentBoundary` (§R18.5.19): the neutral level-zero components `X₁⁰,X′₁⁰` are defined over `F_v^nr`, and the unions of torsion-level structures descend over that field. On them identify `H|X₁⁰` with `H′|X′₁⁰` with the transported effective group action. The comparison is of connected components with specified descent, not an isomorphism of the full unrelated global towers.
+**Comparison** (`ConnectedPelComparison`). Over F̄ identify the identity pro-components `X⁰` and `X′⁰` equivariantly for the norm-positive effective groups `Δ̄≅Δ̄′`. At split v, after the indicated norm-one quotient, use `SplitPlaceDescentBoundary` (§R18.5.19): the neutral level-zero components `X₁⁰,X′₁⁰` are defined over `F_v^nr`, and the unions of torsion-level structures descend over that field. On them identify `H|X₁⁰` with `H′|X′₁⁰`, equivariantly for the inclusion of coefficient extensions of §R18.5.19. Only the underlying geometric bases carry the effective isomorphism `Δ̄≅Δ̄′`. The comparison is of connected components with specified descent, not an isomorphism of the full unrelated global towers.
 
 The auxiliary split CM choice and effective central kernels are fixed.
 
-*Proof route.* Reuse [R18.1.8 Quaternionic and PEL connected comparisons](#r1818-quaternionic-and-pel-connected-comparisons) for the geometric connected components over a common algebraic closure; apply Carayol §4.2 for the pro-tower and norm-one quotient. The geometric supplier does not settle arithmetic descent; use the earlier §R18.5.19 for the exact split-place fields and equivariance, and complete those fields only by base change. At division v this target asserts only the geometric comparison over F̄. Transport the p-divisible coefficients by §4.4, retaining the centre quotient. Check the norm-one quotient and equivariance, correcting the printed inclusion to an isomorphism.
+*Proof route.* Reuse [R18.1.8 Quaternionic and PEL connected comparisons](#r1818-quaternionic-and-pel-connected-comparisons) for the geometric connected components over a common algebraic closure; apply Carayol §4.2 for the pro-tower and norm-one quotient. The geometric supplier does not settle arithmetic descent; use the earlier §R18.5.19 for the exact split-place fields and equivariance, and complete those fields only by base change. At division v this target asserts only the geometric comparison over F̄. Transport the p-divisible coefficients by §§4.2.3 and 4.4.3, retaining the coefficient extensions and their local scalar action. The norm-one quotient preserves Carayol's inclusion; the effective isomorphism of the bases is a separate statement.
 
 **Checks.**
 
 - At split v the level-zero neutral components and their divisible groups are compared over `F_v^nr`.
 - At division v the geometric F̄-comparison gives no split-place arithmetic descent theorem.
-- The connected comparison is equivariant for the effective norm-positive groups, not an isomorphism of the unrelated full global towers.
+- The base comparison is equivariant for the effective norm-positive groups, whereas coefficients use the unquotiented extension inclusion.
+- At odd p, −1 is trivial on the curve and nontrivial on p-torsion; identifying these two acting groups fails this test.
 
 (Source: [YZ18](#references) §4.1, Propositions 4.2–4.3, pp.562–563; [Car86](#references) §§4.2 and 4.4, pp.183–188, connected canonical and auxiliary PEL curves.)
 
@@ -2097,7 +2150,7 @@ The auxiliary split CM choice and effective central kernels are fixed.
 
 ### R18.2.5 Finite-level PEL comparison
 
-**Comparison** (`FinitePelComparison`). For n supported above p and coprime to `d_B`, and tame `U^p` sufficiently small depending on n, choose `U′^p` so that the geometric connected n-level quaternionic and auxiliary PEL curves are isomorphic; the maps and coefficient sheaves agree under this isomorphism. At a split place the level-zero neutral components and the union of the level structures descend to `F_v^nr`, whereas a selected connected component at level n is defined over the finite extension `F_vⁿ` of Carayol §4.5.5; the auxiliary tame level may depend on n. Neither statement is extended to division places or to one tame level uniform in n (Carayol Proposition 4.4.3 and §§4.5.1–4.5.5, pp.184–189; [R18.5.19 Split-place comparison and its finite-level fields](#r18519-split-place-comparison-and-its-finite-level-fields)).
+**Comparison** (`FinitePelComparison`). For n supported above p and coprime to `d_B`, and tame `U^p` sufficiently small depending on n, choose `U′^p` so that the geometric connected n-level quaternionic and auxiliary PEL curves are isomorphic; the maps and the finite torsion coefficient stages that descend at the chosen tame level agree under this isomorphism, with the coefficient-extension inclusion retained. The whole p-divisible system remains on the pro-level base. At a split place the level-zero neutral components and the union of the level structures descend to `F_v^nr`, whereas a selected connected component at level n is defined over the finite extension `F_vⁿ` of Carayol §4.5.5; the auxiliary tame level may depend on n. Neither statement is extended to division places or to one tame level uniform in n (Carayol Proposition 4.4.3 and §§4.5.1–4.5.5, pp.184–189; [R18.5.19 Split-place comparison and its finite-level fields](#r18519-split-place-comparison-and-its-finite-level-fields)).
 
 n prime to the quaternion discriminant; smallness depends on n.
 At split v use §R18.5.19 for the arithmetic comparison: the full union above the neutral level-zero component is over `F_v^nr`, and a selected connected n-component is over `F_vⁿ`. The completed-field comparison is its base change. No descent of that selected component to K is inferred.
@@ -2348,24 +2401,34 @@ Strict `O_v`-module convention; active relative Lie rank 2 and `O_v`-height 4; a
 
 ### R18.2.14 Integral quaternionic Kodaira–Spencer
 
-**Theorem** (`IntegralKodairaSpencer`). Let v be a place of F above p, at which `F_v/ℚ_p` may be ramified, and let `X_v` be the regular fine model at maximal v-level over `O_v^{ur}`, the integers of the completed maximal unramified extension K of `F_v`. `X_v` is smooth when `B_v` is split, and semistable with local equation `xy=π_v` at the nodes when `B_v` is division. Let H be the integral v-divisible group of §R18.2.13, a strict `O_v`-module of `O_v`-height 4 and relative dimension 2. Let `X̂_v` be the completion of `X_v` along its special fibre and D(H) the covariant Dieudonné crystal of H over `ℤ_p` evaluated on `X̂_v`, with Hodge filtration `0→ω_{H^t}→D(H)→Lie(H)→0`. Let J be the kernel of the multiplication map `O_v⊗_{ℤ_p}O_{X̂_v}→O_{X̂_v}`. Define
+**Theorem** (`IntegralKodairaSpencer`). Let v|p, allowing `F_v/ℚ_p` ramified, and let `X_{U,v}` be a finite regular fine proper model at maximal v-level over `O_v^{ur}`, the integers of the completed maximal unramified extension K of `F_v`. It is smooth for split `B_v`, and semistable with node equation `xy=π_v` for division `B_v`. First define the finite-level algebraic line `N_U=L_U^{⊗2}(−d_{B,v})` from §R18.2.12, where `L_U=ω_{X_{U,v}}` at this fine level and `d_{B,v}` is zero in the split case and the reduced special fibre in the division case.
+
+Let `q:𝔛_v→X_{U,v}` be the pro-limit of compatible fine tame models and H the integral v-divisible group of §R18.2.13 on that pro-model, a strict special `O_{B,v}`-module of `O_v`-height 4 and relative dimension 2. Form its covariant Dieudonné crystal and Hodge filtration on the completed pro-model `𝔛̂_v`, or on its local PEL deformation charts, not on the finite model. For `J=ker(O_v⊗_{ℤ_p}O_{𝔛̂_v}→O_{𝔛̂_v})`, put
 
 ```text
-M = D(H)/J·D(H),   W^t = ω_{H^t}/J·D(H) ⊂ M,   W = Lie(H)^∨,   N = det W ⊗ det W^t.
+M = D(H)/J·D(H),   W^t = ω_{H^t}/J·D(H) ⊂ M,   W = Lie(H)^∨,   N_pro = det W ⊗ det W^t.
 ```
 
 Then:
 
-- (i) **Saturated filtration.** `0→W^t→M→Lie(H)→0` is an exact sequence of locally free `O_{X̂_v}`-modules of ranks 2, 4 and 2, stable under `O_{B,v}`. This is the saturated relative filtration. When `F_v/ℚ_p` is unramified it is the summand of the absolute Hodge filtration cut out by the idempotent of the structure embedding.
-- (ii) **Kodaira–Spencer.** The Gauss–Manin connection descends to M, and the composite `W^t→M→M⊗ω_{X̂_v}→Lie(H)⊗ω_{X̂_v}` induces an isomorphism of line bundles `N≅ω_{X̂_v}^{⊗2}(−d_{B,v})` on `X̂_v`. Since `X_v` is proper over `O_v^{ur}`, Grothendieck's existence theorem algebraizes N and this isomorphism to `X_v`. Here `d_{B,v}=0` when `B_v` is split and `d_{B,v}` is the reduced special fibre when `B_v` is division.
+- (i) **Saturated filtration.** `0→W^t→M→Lie(H)→0` is an exact sequence of locally free `O_{𝔛̂_v}`-modules of ranks 2, 4 and 2, stable under `O_{B,v}`. This is the saturated relative filtration. When `F_v/ℚ_p` is unramified it is the summand of the absolute Hodge filtration cut out by the idempotent of the structure embedding.
+- (ii) **Kodaira–Spencer on the pro-model.** The descended Gauss–Manin connection induces `N_pro≅q*ω_{X̂_{U,v}}^{⊗2}(−d_{B,v})≅q*N̂_U`. This comparison is compatible with local PEL charts and tame level changes, with their coefficient-extension actions.
+- (iii) **Finite-level determinant descent.** Prove that this comparison carries the coefficient determinant action to the pullback action on `q*N̂_U`, including rational central scalars and the entire tame descent groupoid. A scalar a acts with reciprocal weights on the two rank-two Hodge factors; their determinant multipliers `a²` and `a⁻²` cancel. The functorial deformation/connection comparison supplies the cocycle on overlaps. Thus `N_pro` and its Kodaira–Spencer map descend as `N̂_U≅ω_{X̂_{U,v}}^{⊗2}(−d_{B,v})` on the finite formal model. Algebraize that descended isomorphism by proper Grothendieck existence on `X_{U,v}`. The line N_U is already algebraic by its definition; no descent of the whole H to `X_{U,v}` is required.
 
 The quotient of `ω_{H^t}` by `J·ω_{H^t}` (the raw τ-quotient) is not used: when `F_v/ℚ_p` is ramified it does not inject into M.
 
-*Proof route.* (i) Strictness says that `O_v` acts on Lie(H) through the structure map, so `J·D(H)⊂ω_{H^t}` and the sequence is exact. For local freeness, it suffices that D(H) is locally free over `O_v⊗_{ℤ_p}O_{X̂_v}`. At a closed point the Dieudonné module over the perfect residue field is free over `O_v⊗W(k̄)`: that ring is a finite product of discrete valuation rings, and Frobenius permutes the factors, which forces equal ranks. The fibrewise criterion for flatness over the finite flat `O_{X̂_v}`-algebra `O_v⊗O_{X̂_v}` then gives local freeness of D(H), so M is locally free of rank 4. Lie(H) is locally free of rank 2 by §R18.2.13, hence so is `W^t`. (ii) Over a first-order thickening, Grothendieck–Messing identifies the `O_{B,v}`-stable lifts of `ω_{H^t}` with `O_{B,v}`-linear maps `ω_{H^t}→Lie(H)`. A lift is strict exactly when it contains `J·D(H)`, that is, when the map kills `J·D(H)`. So the tangent space of strict `O_{B,v}`-deformations is `Hom_{O_{B,v}⊗O_{X̂_v}}(W^t, Lie(H))`, and since `X̂_v` is the universal deformation space (§R18.2.13), `ω_{X̂_v}^∨≅Hom_{O_{B,v}}(W^t, Lie(H))`. The Gauss–Manin connection is `O_v`-linear because `O_v`-constants have zero differential, so it preserves `J·D(H)`. Take determinants as in YZ18. At split v the matrix idempotents give the result directly. At division v use the `O_{K₀}`-eigenspaces and the j-grading with `j₁j₂=π_v`. The identity `πω²=N` holds wherever one of `j₁, j₂` is invertible, that is, away from the nodes, where both can be nonunits. Extend the isomorphism of line bundles across the nodes, which have codimension two in the regular two-dimensional `X̂_v`. Algebraize as in (ii).
+*Proof route.* All crystalline and tangent calculations take place on the completed pro-model or its local PEL charts. (i) Strictness says that `O_v` acts on Lie(H) through the structure map, so `J·D(H)⊂ω_{H^t}` and the sequence is exact. For local freeness, it suffices that D(H) is locally free over `O_v⊗_{ℤ_p}O_{𝔛̂_v}`. At a closed point the Dieudonné module over the perfect residue field is free over `O_v⊗W(k̄)`: that ring is a finite product of discrete valuation rings, and Frobenius permutes the factors, which forces equal ranks. The fibrewise criterion for flatness over the finite flat `O_{𝔛̂_v}`-algebra `O_v⊗O_{𝔛̂_v}` then gives local freeness of D(H), so M is locally free of rank 4. Lie(H) is locally free of rank 2 by §R18.2.13, hence so is `W^t`. (ii) Over a first-order thickening, Grothendieck–Messing identifies the `O_{B,v}`-stable lifts of `ω_{H^t}` with `O_{B,v}`-linear maps `ω_{H^t}→Lie(H)`. A lift is strict exactly when it contains `J·D(H)`, that is, when the map kills `J·D(H)`. So the tangent space of strict `O_{B,v}`-deformations is `Hom_{O_{B,v}⊗O_{𝔛̂_v}}(W^t, Lie(H))`, and since `𝔛̂_v` is the universal deformation space (§R18.2.13), `ω_{𝔛̂_v}^∨≅Hom_{O_{B,v}}(W^t, Lie(H))`. The Gauss–Manin connection is `O_v`-linear because `O_v`-constants have zero differential, so it preserves `J·D(H)`. Take determinants as in YZ18. At split v the matrix idempotents give the result directly. At division v use the `O_{K₀}`-eigenspaces and the j-grading with `j₁j₂=π_v`. The identity `πω²=N_pro` holds wherever one of `j₁, j₂` is invertible, that is, away from the nodes, where both can be nonunits. Extend the isomorphism of line bundles across the nodes, which have codimension two in each regular two-dimensional finite deformation chart. (iii) Functoriality of the connection and determinant comparison identifies the tame descent cocycle with the pullback cocycle of N_U. Verify the reciprocal central weights before descending. Apply proper existence only to the resulting finite-level formal isomorphism.
 
-(Source: [YZ18](#references) Theorem 4.9, pp.568–569, and Theorem 4.10 with proof, pp.569–570. The source writes the Hodge pieces of the relative crystal without constructing them at ramified v; the saturated construction (i) and the strict tangent computation in the proof route supply that step.)
+**Checks.**
 
-*Needs:* [R18.2.13 Integral quaternionic p-divisible group](#r18213-integral-quaternionic-p-divisible-group), [R18.2.12 Quaternionic arithmetic Hodge line](#r18212-quaternionic-arithmetic-hodge-line); AbelianSchemesAndArithmeticModuli §A4.CR.7.2; CrystallineCohomology §CR.7.3; Tau Ceti roadmap [StableReduction, layer 4 blowups and intersection theory on arithmetic surfaces](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/StableReduction/README.md#layer-4-blowups-and-intersection-theory-on-arithmetic-surfaces).
+- At split v the pro-level comparison pulls back `N_U=L_U²`; at division v it pulls back `L_U²(−[special fibre])`.
+- For `[F:ℚ]>1`, any fixed finite tame level contains the away-p components of an infinite-order global unit ε. Its away-p action is trivial on `X/U_p`, since diagonal ε is central and its p-component lies in U_p, but acts by `ε_v^{±1}` on coefficients and is detected at some finite torsion stage. No fixed tame shrink descends this entire prescribed coefficient system.
+- On the determinant line the same scalar contributes `ε_v² ε_v⁻²=1`; this cancellation permits line descent without group descent.
+- Proper existence on `X_{U,v}` applies to a formal line and map already descended there, not to a line defined only on `𝔛̂_v`.
+
+(Source: [YZ18](#references) Theorem 4.9, pp.568–569, and Theorem 4.10 with proof, pp.569–570. The paragraph after Theorem 4.10, p.570, defines the finite-level line `N(n)=L(n)²(−d_B)` and its pro-level pullback comparison. The source writes the Hodge pieces of the relative crystal without constructing them at ramified v; the saturated construction (i) and the strict tangent computation in the proof route supply that step.)
+
+*Needs:* [R18.2.13 Integral quaternionic p-divisible group](#r18213-integral-quaternionic-p-divisible-group), [R18.2.12 Quaternionic arithmetic Hodge line](#r18212-quaternionic-arithmetic-hodge-line); AbelianSchemesAndArithmeticModuli §A4.CR.7.2; CrystallineCohomology §CR.7.3; AlgebraicModuliForArithmeticGeometry §3.5 (line descent); SchemeAndStackFoundations §1.22 (descent cocycles); Tau Ceti roadmap [StableReduction, layer 4 blowups and intersection theory on arithmetic surfaces](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/StableReduction/README.md#layer-4-blowups-and-intersection-theory-on-arithmetic-surfaces).
 
 ### R18.2.15 Integral torus-bridge model
 
@@ -2429,7 +2492,7 @@ The integral crystalline comparison and Hodge filtration are used on the finite-
 
 ### R18.2.18 Bridge Hodge determinant cancellation
 
-**Theorem** (`BridgeDeterminant`). Assume `F_v/ℚ_p` is unramified and the point data have the verified finite-local descent of §§R18.2.16–R18.2.17. At the point x″ of §R18.2.17 the rank-one torus factor twists `W(H″^t)` by `W(I^t)` and W(H″) by its dual. Hence `det W(H″)⊗det W(H″^t)≅(det W(H)⊗det W(H^t))⊗O_L` as `O_L`-lattices in the generic fibre of `ω^{⊗2}` at x″, using `N≅ω^{⊗2}(−d_{B,v})` from §R18.2.14. Combined with §R18.2.14 this gives `N_{x″}=det W(H″)⊗det W(H″^t)`. The theorem is not asserted when `F_v/ℚ_p` is ramified. There the type decomposition of the Hodge pieces of H″, which is not a strict `O_v`-module, is not an exact direct-summand decomposition. The saturated construction of §R18.2.14 needs strictness and does not apply. No equality `Hom_{O_E}=Hom_{O_B}` and no unrestricted `O_E`-linear universal deformation is claimed.
+**Theorem** (`BridgeDeterminant`). Assume `F_v/ℚ_p` is unramified and the point data have the verified finite-local descent of §§R18.2.16–R18.2.17. At the point x″ of §R18.2.17 the rank-one torus factor twists `W(H″^t)` by `W(I^t)` and W(H″) by its dual. Hence `det W(H″)⊗det W(H″^t)≅(det W(H)⊗det W(H^t))⊗O_L` as `O_L`-lattices in the generic fibre of `ω^{⊗2}` at x″, using the pullback comparison `N_pro≅q*N_U` and finite-level `N_U≅ω^{⊗2}(−d_{B,v})` of §R18.2.14, evaluated at a compatible pro-level lift of the point. The identified determinant lattice is independent of that lift by the determinant descent cocycle. Combined with §R18.2.14 this gives `N_{x″}=det W(H″)⊗det W(H″^t)`. The theorem is not asserted when `F_v/ℚ_p` is ramified. There the type decomposition of the Hodge pieces of H″, which is not a strict `O_v`-module, is not an exact direct-summand decomposition. The saturated construction of §R18.2.14 needs strictness and does not apply. No equality `Hom_{O_E}=Hom_{O_B}` and no unrestricted `O_E`-linear universal deformation is claimed.
 
 `F_v/ℚ_p` unramified; the pointwise integral extensions of §R18.2.16 and the comparison of §R18.2.17.
 
@@ -2633,11 +2696,17 @@ F is totally real of even degree, p is unramified in F, and D/F is totally defin
 
 ### R18.3.10 Quaternionic isotropy exponent bound
 
-**Theorem** (`IsotropyExponent`). For an auxiliary split place w∤p with hyperspecial local control, write `N_w=|GL₂(k_w)|`. The Sylow-p subgroups of all `Γ_t` have exponent dividing `2N_w` in the compact-level case and `4N_w` in KW’s allowed noncompact dyadic division-factor case. The norm maps to `((A_F, f×)²V∩F×)/(F×)²`; this final map need not be surjective. Its target has exact sequence `0→O_F×/(O_F×)²→target→Cl(O_F)[2]→0`. Only finite p-subgroups, not the entire finite norm-one group, inject through reduction at the auxiliary place of residue characteristic different from p. The reduction kernel is pro-residue-characteristic. The norm sequence is left exact, with no surjectivity assertion onto its final square-class term.
+**Theorem** (`IsotropyExponent`). For an auxiliary split place w∤p with hyperspecial local control, write `N_w=|GL₂(k_w)|`. The Sylow-p subgroups of all `Γ_t` have exponent dividing `2N_w` in the compact-level case and `4N_w` in KW’s allowed noncompact dyadic division-factor case. For compact U the reduced norm on `Γ_t(U)` maps to `T=((A_F, f×)²V∩F×)/(F×)²`, where `V=∏_{v<∞}O_v×`; this map need not be surjective. In the allowed noncompact case this norm sequence is asserted for `Γ_t(U⁰)` only, where U⁰ is the compact sublevel. Its target has exact sequence `0→O_F×/(O_F×)²→target→Cl(O_F)[2]→0`. Only finite p-subgroups, not the entire finite norm-one group, inject through reduction at the auxiliary place of residue characteristic different from p. The reduction kernel is pro-residue-characteristic. The norm sequence is left exact, with no surjectivity assertion onto its final square-class term.
 
-U, V and the distinguished w satisfy KW §7.2; in the noncompact case `U⁰` is used for local compactness.
+U, V and the distinguished w satisfy KW §7.2. In the noncompact case `Γ_t(U⁰)` is normal in `Γ_t(U)` with elementary-two quotient, induced by `UZ/U⁰Z`; this gives the extra factor two in the exponent bound.
 
 *Proof route.* Control the norm-one subgroup by injective reduction at w and divide by ±1. Bound the norm-square quotient by its unit/class-group two-torsion sequence. Combine exponents, distinguishing `p=2` and the extra elementary-two level quotient.
+
+**Checks.**
+
+- For compact U, all finite valuations of a reduced norm are even modulo scalar squares, as required by T.
+- Let `F=ℚ(√17)` and `D=(−1,−1)_F`, with maximal orders containing i and j, full division factors at the two places above 2 and maximal compact units elsewhere. Then `b=i+j` has `b²=−2`, `Nrd(b)=2`, and defines an order-two class in `Γ_1(U)`. Its norm has odd valuation at both dyadic places, so it lies outside T and the class lies outside `Γ_1(U⁰)`. Scalar changes multiply the norm by a square and cannot repair its valuations.
+- An elementary-two extension of a group with Sylow-p exponent dividing `2N_w` has Sylow-p exponent dividing `4N_w`, without a norm map on the whole extension to T.
 
 (Source: [KW09](#references) §7.2, displays (6)–(7), pp.61–62.)
 
@@ -2924,17 +2993,18 @@ In [Suggested.lean](Suggested.lean): `liftableResidueImage`, `mem_liftableResidu
 
 ### R18.3.24 Common liftable image of Taylor–Wiles coefficient twists
 
-**Theorem** (`twTwist_commonLiftableImage`). For a fixed admissible Q and exponent bound N, enlarge O to contain the values of all characters of `Δ_Q`. For every `χ:Δ_Q→O×`, evaluation at the same representatives identifies the underlying O-modules `S_{W(χ),ψ}(U_Q⁰,O)` with the same direct sum `W^{Γ_t}`; reduction gives identical Hecke-stable liftable subspaces in the residual form space. The integral identifications need not intertwine Hecke. Equal reduction images do not identify the entire residual form space when p divides an isotropy order.
+**Theorem** (`twTwist_commonLiftableImage`). For a fixed admissible Q and exponent bound N, enlarge O to contain the values of all characters of `Δ_Q`. For every `χ:Δ_Q→O×`, evaluation at the same representatives identifies the underlying O-modules `S_{W(χ),ψ}(U′_Q,O)` with the same direct sum `W^{Γ_t}`; reduction gives identical Hecke-stable liftable subspaces in the residual form space. The integral identifications need not intertwine Hecke. Equal reduction images do not identify the entire residual form space when p divides an isotropy order.
 
-`Q, U_Q⁰, U_Q` and `Δ_Q` use the N-torsion quotient convention. Characters reduce to 1 in k.
+`Q, U′_Q, U_Q` and `Δ_Q` use the N-torsion quotient convention. Here U′_Q is the Iwahori level of §R18.3.12, distinct from the compact sublevel U⁰ of §R18.3.10. Characters reduce to 1 in k.
 
 *Proof route.* By the stabiliser theorem every `Δ_Q`-character restricts trivially to `Γ_t`. Evaluation gives identical invariant lattices; the reduction-image construction identifies the common liftable image. The generic Hecke sums reduce to the same operators because the p-power character values reduce to one; no integral Hecke equivariance is asserted.
 
 **Checks.**
 
-`- Q=∅` gives the identity image.
+- `Q=∅` gives the identity image.
 
 - The dyadic sign example still has residual vectors outside the liftable image.
+- For a single auxiliary place, the character twist is a representation of U′_v through `U′_v/U_v=Δ_v`; the kernel level U_v and the compact dyadic sublevel U⁰ are different objects.
 
 (Source: [KW09](#references) Lemma 7.4(1), pp.64–65 (Uses triviality on isotropy and the common reduction image, with a non-Hecke integral comparison))
 
@@ -3286,7 +3356,7 @@ The algebraic sheaf/Betti comparison is imported from the arithmetic local-syste
 
 **Comparison** (`hilbertEtaleBettiAdapter`). For a smooth finite-level Hilbert modular variety Y over a number field, algebraic integral coefficients from the Hilbert arithmetic local-system construction, and an embedding into C, finite `O/λⁿ` étale and Betti cohomology agree naturally in every degree, with ordinary and compact supports and the map `H_c^i→H^i`. Passing to compatible O-adic systems gives their derived integral comparison. Inner cohomology is the image of this support map; its rational Hecke eigenspaces use ALS.5a–ALS.5b. No compactness, integral torsion-freeness or degree-g concentration is inferred.
 
-The level is small enough for a smooth scheme or the declared effective groupoid treatment; coefficients are genuinely defined on both sides.
+The level is small enough for a smooth scheme or the declared effective groupoid treatment; coefficients are genuinely defined on both sides. Any use of H4.17 as a coarse torsor retains its geometric-freeness hypothesis. A quotient-stack torsor alone supplies no integral invariants comparison on a coarse space.
 
 Support comparisons, constructible extension by zero and inverse-system hypotheses are those of ComplexComparisonPartII §§C6.3–C6.6.
 
@@ -3674,7 +3744,7 @@ O is the ring of integers of a finite extension of `ℚ_l`, and the algebraic co
 
 ### R18.3.29 Early rank-two eigensystem realisation and local compatibility
 
-**Theorem** (`quaternionEigenformGaloisCompatibility`). Let F be any totally real field and π a cuspidal automorphic representation of `GL₂(𝔸_F)` of parallel weight `k≥2`, with an actual coefficient-field model. Its eigenpacket f is given either by a non-norm eigenform in `S_{k,ψ}(U,O)_m` through §§R18.3.21–R18.3.22 or by `CohomologicalEigenspaces` on the compact quaternionic curve. Let ψ be its arithmetic central character, including the algebraic weight factor, and retain the acting maximal ideal m wherever a residual assertion is made. In the definite realization, `π_v` is discrete series at every finite v where D ramifies. Say that `π` satisfies Carayol's hypothesis (C) if `[F:ℚ]` is odd or `π_w` is discrete series at some finite place w. After a finite extension of coefficients there is a continuous `ρ_f:G_F→GL₂(O′)` with a stable O′-lattice satisfying (a)–(c).
+**Theorem** (`quaternionEigenformGaloisCompatibility`). Let F be any totally real field and π a cuspidal automorphic representation of `GL₂(𝔸_F)` of parallel weight `k≥2`, with an actual coefficient-field model. Its eigenpacket f is given either by a non-norm eigenform in `S_{k,ψ}(U,O)_m` through §§R18.3.21–R18.3.22 or by `CohomologicalEigenspaces` on the compact quaternionic curve. Let ψ be its arithmetic central character, including the algebraic weight factor, and retain the acting maximal ideal m wherever a residual assertion is made. In the definite realization, `π_v` is discrete series at every finite v where D ramifies. Say that `π` satisfies Carayol's hypothesis (C) if `[F:ℚ]` is odd or `π_w` is discrete series at some finite place w. For `[F:ℚ]>1` under (C), use the rank-two multiplicity and source-qualified local compatibility supplied by WeightsInEtaleCohomology R34.6; retain its auxiliary-place quadratic base-change reduction where used. This theorem transports that representation and extends it to the Taylor/Kisin and degree-one cases below. After a finite extension of coefficients there is a continuous `ρ_f:G_F→GL₂(O′)` with a stable O′-lattice satisfying (a)–(c).
 
 - (a) **Existence and unramified places.** At every finite v∤p outside the level of `f, ρ_f` is unramified and `ρ_f(Frob_v)` has characteristic polynomial `X²−T_v(f)X+q_vS_v(f)`, with `Frob_v` arithmetic. This holds for every such f: by Carayol's Theorem A when (C) holds, and by Taylor's Theorem 2 when `[F:ℚ]` is even.
 - (b) **Finite places v∤p, under (C).** The Frobenius-semisimplified Weil–Deligne representation of `ρ_f|_{G_v}` corresponds to `π_v` under the normalization fixed below. Hypothesis (C) holds automatically whenever `π` is discrete series at some finite place, for instance when D ramifies at a finite place or when `π_v` is a twist of the Steinberg representation. If `π_v` is the Steinberg representation twisted by an unramified character, then `ρ_f|_{G_v}` is an extension of `γ` by `ε_pγ` for an unramified character `γ` with `γ²=ψ_v`.
@@ -3688,9 +3758,11 @@ The stable lattice has the residual eigensystem under discussion. Realizing an a
 
 *Proof route.*
 
-- (a) In the definite realization transfer f to π; in the curve realization use its supplied cuspidal eigenpacket. Under (C), Carayol realizes `ρ_π` in the cohomology of the Shimura curve of the quaternion algebra split at exactly one real place, isolating the rank-two Galois multiplicity factor of the π-isotypic part rather than all of it. Otherwise take Taylor's congruence construction. Take the contragredient and choose a stable lattice.
-- (b) Apply Carayol's Theorem A, as restated in Saito's Theorem 0, and convert by the normalization above. For a Steinberg twist the special Weil–Deligne representation has Frobenius eigenvalues on the two lines differing by `q_v`, which gives the triangular shape with `γ²=ψ_v (KW` Lemma 7.2, proof).
-- (c) Apply Kisin's Theorem 4.3, which reduces to Saito's Theorem 1 under (C) and otherwise uses Taylor's congruences with Kisin's potentially semistable quotients. For `k=2` at a Steinberg place above p, the Weil–Deligne representation is unramified with `N≠0`, so `ρ_f|_{G_v}` is semistable with Hodge–Tate weights {0,−1}. In its weakly admissible module the kernel of N is the only line stable under `φ` and N. Weak admissibility makes this line, with the induced filtration, an admissible sub-object, and the corresponding sub-representation is `ε_pγ`. This gives the extension of `γ` by `ε_pγ`.
+- (a) In the definite realization transfer f to π; in the curve realization use its supplied cuspidal eigenpacket. For degree greater than one under (C), import R34.6's cohomological decomposition and actual coefficient-field models, and identify its rank-two Galois multiplicity with the one in this curve realization through the matching finite-part model, coefficient sheaf/dual and Hecke actions. In parallel weight k take `k_i=w=k` in that supplier's general multiweight interface. Do not construct a second Carayol multiplicity. Outside (C) use Taylor's congruence construction. In degree one use Carayol's compact quaternionic construction or the classical parabolic realization of ModularCurvesPartII §§14.1–14.4a and AlgebraicModularFormsAndSerreWeights R15.5A.1–R15.5A.2 as appropriate. Take the contragredient, then choose the stable lattice for the acting residual eigensystem.
+- (b) On the shared degree-greater-than-one range, transport R34.6's Carayol/Saito local parameter through its local-Langlands normalization bridge, then take the contragredient as above. In degree one apply Carayol's Theorem A directly to the supplied compact realization, or the classical realization and its local comparison. Compare the resulting local parameters, including duals and twists. For a Steinberg twist the special Weil–Deligne representation has Frobenius eigenvalues on the two lines differing by `q_v`, which gives the triangular shape with `γ²=ψ_v (KW` Lemma 7.2, proof).
+- (c) In R34.6's range import its potential semistability and Frobenius-semisimplified compatibility, with coefficient embeddings, descent and `N_p=N_HK/e_L` retained. Its geometric realization and Hodge filtration give the stated parallel weights after taking the dual. For the additional branch outside (C) apply Kisin's Theorem 4.3 under the absolute residual irreducibility hypothesis, using Taylor's congruences and the potentially semistable quotients. In degree one use the elliptic modular p-adic compatibility theorem cited in [Sai09], introduction p.1 and reference [S], p.46, on the classical realization; identify the compact quaternionic realization by its matching eigenpacket. This degree-one route carries no residual irreducibility hypothesis. For `k=2` at a Steinberg place above p, the Weil–Deligne representation is unramified with `N≠0`, so `ρ_f|_{G_v}` is semistable with Hodge–Tate weights {0,−1}. In its weakly admissible module the kernel of N is the only line stable under `φ` and N. Weak admissibility makes this line, with the induced filtration, an admissible sub-object, and the corresponding sub-representation is `ε_pγ`. This gives the extension of `γ` by `ε_pγ`.
+
+**Overlap comparison.** After a common coefficient extension admitting both finite-part models, the coefficient-model comparison and matching Hecke actions identify the multiplicity with R34.6's representation. Thus `ρ_f≅ρ_R34.6^∨` on the overlap, with the same arithmetic good-prime polynomial and the converted local parameters. Any Taylor/Kisin realization on that overlap has the same good-prime traces and determinants; Chebotarev and Brauer–Nesbitt identify its semisimplification with this absolutely irreducible representation. This compares fraction-field representations, not arbitrary stable lattices. No identification over a rationality field is made without an actual model and descent datum.
 
 **Checks.**
 
@@ -3698,13 +3770,13 @@ The stable lattice has the residual eigensystem under discussion. Realizing an a
 - For v∤p Steinberg, the two diagonal Frobenius eigenvalues differ by the cyclotomic `q_v` factor.
 - At a division p-place a non-character irreducible representation with invariants only at deeper level transfers to a supercuspidal representation; the general conclusion is potentially semistable compatibility, not the unramified Steinberg extension.
 - The determinant at a good split place is `q_v` `S_v`, not `S_v`.
-- This construction must precede [R18.3.31 Localized eigenroot and coinvariant control](#r18331-localized-eigenroot-and-coinvariant-control), and its proof uses no part of that target.
-- If the finite-level automorphic factor has dimension two and the Galois multiplicity factor dimension two, the isotypic cohomology has dimension four; extract the multiplicity factor rather than declaring all of it rank two.
+- This construction must precede [R18.3.31 Localized eigenroot and coinvariant control](#r18331-localized-eigenroot-and-coinvariant-control), and its R34.6 supplier and extensions use no part of that target.
+- For the supplied decomposition, if the finite-level automorphic factor has dimension two and the Galois multiplicity factor dimension two, the isotypic cohomology has dimension four; extract the multiplicity factor rather than declaring all of it rank two.
 - Conversion: with geometric eigenvalues `α, β` of `ρ_π(Frob_v^{geom}), ρ_f(Frob_v^{arith})` has the same eigenvalues `α, β`, not `α⁻¹, β⁻¹`; taking `ρ_f=ρ_π` instead would give `X²−(t_v/N(v)s_v)X+1/(N(v)s_v)`.
 
-(Source: [Car86a](#references) §0.3, p.409, for hypothesis (C); §§0.4–0.5, pp.409–410, for the geometric class-field normalization and the Hecke correspondence; Theorem A, pp.410–411; §§0.10–0.11, pp.411–412, for the Shimura-curve construction. [Tay89](#references) Conjecture 1 and Theorem 2, pp.265–266, for existence when `[F:ℚ]` is even. [Sai09](#references) Theorem 0, pp.10–11, and Theorem 1, p.12. [Kis08](#references) §(4.1), p.542, and Theorem (4.3) with proof, pp.543–544. [KW09](#references) §7, p.60, for the arithmetic convention, and Lemma 7.2 with proof, pp.60–61.)
+(Source: WeightsInEtaleCohomology R34.6, ‘Hilbert eigensummands and local monodromy weights’, for the shared realization, coefficient descent and source-qualified compatibility; [Car86a](#references) §0.3, p.409, for hypothesis (C); §§0.4–0.5, pp.409–410, for the geometric class-field normalization and the Hecke correspondence; Theorem A, pp.410–411; §§0.10–0.11, pp.411–412, for the Shimura-curve construction. [Tay89](#references) Conjecture 1 and Theorem 2, pp.265–266, for existence when `[F:ℚ]` is even. [Sai09](#references) Theorem 0, pp.10–11, and Theorem 1, p.12. [Kis08](#references) §(4.1), p.542, and Theorem (4.3) with proof, pp.543–544. [KW09](#references) §7, p.60, for the arithmetic convention, and Lemma 7.2 with proof, pp.60–61.)
 
-*Needs:* [R18.3.21 Degree-two global inner-form spectral transfer](#r18321-degree-two-global-inner-form-spectral-transfer), [R18.3.22 Definite Jacquet–Langlands realization](#r18322-definite-jacquetlanglands-realization), [R18.4.2 Quaternionic finite-level cohomology](#r1842-quaternionic-finite-level-cohomology), [R18.4.25 Cohomological automorphic eigenspaces](#r18425-cohomological-automorphic-eigenspaces); [ArithmeticGaloisRepresentations](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticGaloisRepresentations/README.md) `§1.6`, `§1.2`, `§1.9`, `§1.9`, `§2.4`, `§2.4`; [FiniteFlatGroupsAndIntegralPadicHodgeTheory, §§R07.3.0–R07.3.3, R07.4.13, R07.4.27–R07.4.28](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md#r0730-finite-k-comparison-of-period-rings-and-realizations); [R18.4.24a Quaternionic geometric semistable comparison](#r18424a-quaternionic-geometric-semistable-comparison).
+*Needs:* WeightsInEtaleCohomology R34.6 (Carayol/Saito rank-two multiplicity, coefficient-model descent and source-qualified compatibility); ModularCurvesPartII §§14.1–14.4a; AlgebraicModularFormsAndSerreWeights R15.5A.1–R15.5A.2; [R18.3.21 Degree-two global inner-form spectral transfer](#r18321-degree-two-global-inner-form-spectral-transfer), [R18.3.22 Definite Jacquet–Langlands realization](#r18322-definite-jacquetlanglands-realization), [R18.4.2 Quaternionic finite-level cohomology](#r1842-quaternionic-finite-level-cohomology), [R18.4.25 Cohomological automorphic eigenspaces](#r18425-cohomological-automorphic-eigenspaces); [ArithmeticGaloisRepresentations](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticGaloisRepresentations/README.md) `§1.6`, `§1.2`, `§1.9`, `§1.9`, `§2.4`, `§2.4`; [FiniteFlatGroupsAndIntegralPadicHodgeTheory, §§R07.3.0–R07.3.3, R07.4.13, R07.4.27–R07.4.28](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md#r0730-finite-k-comparison-of-period-rings-and-realizations); [R18.4.24a Quaternionic geometric semistable comparison](#r18424a-quaternionic-geometric-semistable-comparison).
 
 ### R18.4.27 Early finite-level quaternionic Galois–Hecke realization
 
@@ -3724,8 +3796,8 @@ Coefficient field enlarged to split residual `ρ̄`; ψ-central part treated by 
 *Proof route.*
 
 - **Characteristic-zero points.** T is reduced and finite flat over O. Its maps `x:T→O′` to finite extensions correspond to cuspidal `π_x` of `GL₂(𝔸_F)` of parallel weight two, cohomological at the split real place, that transfer to the quaternion algebra B (§§R18.4.24–R18.4.25). Because B is split at exactly one real place, Carayol's hypothesis (C) of the preceding §R18.3.29 holds for every `π_x`: either `[F:ℚ]` is odd, or B ramifies at some finite place, where `π_x` is then discrete series.
-- **Away from l.** Apply the preceding `quaternionEigenformGaloisCompatibility` (§R18.3.29) to the curve eigenpacket `π_x`. Its Carayol realization gives the rank-two cohomological representation `ρ_{π_x}` with local compatibility at every v∤l under (C). Take the dual of its arithmetic form to use the geometric normalization below.
-- **At v|l.** The same preceding individual theorem supplies Saito/Kisin potentially semistable compatibility and its Frobenius-semisimplified Weil–Deligne parameter, using the standalone geometric comparison of §R18.4.24a. Since `π_{x,v}` has `K_v⁰`-fixed vectors, the choice of L′ in §R18.4.19 (MS §3.6) makes `ρ_{π_x}|_{G_{L′}}` semistable with weights {0,1}.
+- **Away from l.** Apply the preceding `quaternionEigenformGaloisCompatibility` (§R18.3.29) to the curve eigenpacket `π_x`. Its R34.6 Carayol realization, or the stated degree-one realization, gives the rank-two cohomological representation `ρ_{π_x}` with local compatibility at every v∤l under (C). Take the dual of its arithmetic form to use the geometric normalization below.
+- **At v|l.** The same preceding individual theorem supplies the R34.6 compatibility adapter and its stated extensions, including the Frobenius-semisimplified Weil–Deligne parameter. The geometric comparison of §R18.4.24a retains the period normalization. Since `π_{x,v}` has `K_v⁰`-fixed vectors, the choice of L′ in §R18.4.19 (MS §3.6) makes `ρ_{π_x}|_{G_{L′}}` semistable with weights {0,1}.
 - **Gluing.** Interpolate the determinants into T using §4.1, then reconstruct `ρ_T` with §1.7 at the absolutely irreducible residue.
 - **Local conditions.** The map from the unrestricted global deformation ring to T sends each local framed ring at v|l into T. Every characteristic-zero point of T factors through the reduced O-flat quotient of §R18.4.19, and T is reduced and O-flat, so the intersection of the kernels of its points is zero. Hence the map factors through the local quotient, as in KW's proof of the analogous factorization.
 - **Surjectivity and uniqueness.** The universal property supplies `R^θ→T`, which is surjective because the traces and determinants of Frobenius away from S generate T. Chebotarev gives uniqueness and compatibility between levels.
@@ -4085,7 +4157,7 @@ The local targets retain these hypotheses and construct the quotients, uniformis
 - **HodgeTateAndCanonicalSubgroups**, **OverconvergentAutomorphicForms** and **PerfectoidShimuraVarieties** use the integral Hilbert models, Hasse ideals, polarization quotients and full levels of H1–H5.
 - **HeegnerPointEulerSystems** and **GrossZagierAndArithmeticHeights** use the quaternionic curves, their integral models, Hodge line and uniformisation (R18.1–R18.5).
 - **NeronModelsAndSemistableAbelianVarieties**, **CompletedCohomologyAndLocalGlobalCompatibility** and **PerfectoidShimuraVarieties** use the arithmetic Drinfeld quotient and its graphs.
-- The finite-level Saito specialization of §R18.4.34 gives arithmetic applications the quaternionic coefficient realization; its model, projector and geometric comparison come from WeightsInEtaleCohomology R34.3.
+- The finite-level Saito specialization of §R18.4.34 gives arithmetic applications the quaternionic coefficient realization; its model, projector and geometric comparison come from WeightsInEtaleCohomology R34.3. The shared Carayol/Saito rank-two realization and source-qualified compatibility come from R34.6 through the arithmetic adapter of §R18.3.29.
 - Automorphic-bundle, compactification and height applications use the restricted Hodge-line, cusp and metric targets listed under Scope and ownership. The quaternionic transfer theory is supplied by GL2AutomorphicRepresentationsAndTransfer as recorded above.
 
 ## References

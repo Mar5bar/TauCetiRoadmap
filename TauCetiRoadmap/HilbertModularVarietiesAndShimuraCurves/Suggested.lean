@@ -23,7 +23,9 @@ Design choices made explicit here:
   is a theorem under an explicit relation hypothesis.
 
 Moduli spaces, integral models, formal and rigid spaces, adelic form spaces, Galois representations
-and étale cohomology have no carriers at the pins; they are README targets only.
+and étale cohomology have no carriers at the pins; they are README targets only. In particular,
+the Hilbert quotient-stack/free-locus torsors, coefficient extension groups and finite-level
+Kodaira–Spencer determinant descent are specified in the README, not by stand-in propositions here.
 -/
 
 open scoped NumberField nonZeroDivisors
@@ -93,9 +95,17 @@ example (x : ℚ × ℚ) :
 example : integralTraceFamily ℚ 1 (1, 0) (0, 1) = 1 := by
   simp [integralTraceFamily]
 
--- The h(i)-matrix of README H0.0 sends the first column vector to minus the second.
+-- The transported h(i)-matrix of README H0.0 sends the first column vector to minus the second.
 example : integralTraceFamily ℚ 1 (1, 0) (0, -1) = -1 := by
   simp [integralTraceFamily]
+
+-- H0.0's C = diag(1, -1) sends the owner's positive trace form to its negative.
+example (x y : ℚ × ℚ) :
+    integralTraceFamily ℚ 1 (x.1, -x.2) (y.1, -y.2) =
+      -integralTraceFamily ℚ 1 x y := by
+  unfold integralTraceFamily
+  rw [show (1 : ℚ) * (x.1 * -y.2 - -x.2 * y.1) =
+    -(1 * (x.1 * y.2 - x.2 * y.1)) by ring, map_neg]
 
 -- `traceFamily_zero`: the parameter `a = 0` gives the zero form, which is degenerate.
 example (x y : ℚ × ℚ) : integralTraceFamily ℚ 0 x y = 0 := by
@@ -157,6 +167,19 @@ theorem tamePolarizationGroup_finite (M : ℕ) (hM : 1 ≤ M) :
 /-- The Hilbert case `P = U⁺`, with Tau Ceti's totally positive integer units. -/
 abbrev HilbertTamePolarizationGroup (M : ℕ) :=
   TamePolarizationGroup F (NumberField.totallyPositiveIntegerUnits (K := F)) M
+
+-- H3.3's CM witness has S self-adjoint, S² = 3 and f†f = 97 + 56 S.
+example :
+    let S : Matrix (Fin 2) (Fin 2) ℂ :=
+      !![1, 1 + Complex.I; 1 - Complex.I, -1]
+    let f : Matrix (Fin 2) (Fin 2) ℂ := Complex.I • (7 • 1 + 4 • S)
+    star S = S ∧ S * S = 3 • 1 ∧ star f * f = 97 • 1 + 56 • S := by
+  sorry
+
+-- H3.3: the totally positive norm-one unit has square congruent to -1, not 1, mod seven.
+example : (7 : ℤ) ^ 2 - 3 * 4 ^ 2 = 1 ∧
+    (97 : ZMod 7) = -1 ∧ (56 : ZMod 7) = 0 ∧ (-1 : ZMod 7) ≠ 1 := by
+  decide
 
 /-! ## Layer H4: full levels, effective actions and connected limits -/
 
@@ -760,6 +783,13 @@ example : ∃ χ : Multiplicative (ZMod 4) →* ℂˣ,
       (Multiplicative.ofAdd (1 : ZMod 4)) = -1 ∧
     ¬ Function.Involutive (normTwist (W := ℂ) (MonoidHom.id _) χ) := by
   sorry
+
+-- R18.5.19 and R18.2.4: a central -1 remains visible on odd-prime torsion.
+example : (-(1 : ZMod 5)) ≠ 1 := by decide
+
+-- R18.2.14: reciprocal scalar actions cancel on the two rank-two determinants.
+example {K : Type*} [Field K] (a : Kˣ) : a ^ 2 * (a⁻¹) ^ 2 = 1 := by
+  simp
 
 #check QuaternionAlgebra.normForm_coe
 
