@@ -354,6 +354,42 @@ layer makes the next layer's *types* expressible, its milestones go into `Sugges
   with `‖S_k f−s‖∞` small. This proves uniform density. Only after this does
   point separation (`representativeStarSubalgebra_separatesPoints`) and any
   Stone–Weierstrass argument enter as corollaries.
+#### Layer5.1. G-finite vectors in strongly continuous Banach representations
+
+For a compact Hausdorff topological group G, a complete complex normed space E
+and a representation by continuous linear automorphisms, assume explicitly
+that g↦π(g)v is continuous for every v. Define `IsGFinite π v` by
+finite dimensionality of the complex span of {π(g)v | g∈G}. Prove that these
+vectors form an invariant complex subspace and that continuous equivariant
+linear maps preserve them. Use uniform boundedness on the compact orbit maps
+to obtain C_π=sup_g‖π(g)‖<∞; operator-norm continuity is not assumed.
+Consume [BanachAlgebras A7.IntegratedRepresentations](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4ca3e99e0e27255fdcf8aea71e4e9aef052a3d77/TauCetiRoadmap/BanachAlgebras/README.md)
+for the integrated action T_f v=∫f(g)π(g)v dμ_G with
+‖T_f‖≤C_π‖f‖₁, and its chosen neighbourhood-net approximate identities.
+Only this early integration contract is used, not A7's later Fourier or
+Johnson applications. Construct their compact-group Haar-probability
+normalization and prove the left-translation covariance
+π(h)T_f v=T_(L_h f)v, L_h f(g)=f(h⁻¹g).
+
+If p is a finite sum of matrix coefficients, its left translates span a
+finite-dimensional space; covariance makes T_p v G-finite. Given v and ε>0,
+first choose an approximate-identity kernel u with ‖T_u v−v‖<ε/2, then use
+the preceding uniform density in C(G) to choose such p with
+C_π‖p−u‖₁‖v‖<ε/2 (treat v=0 separately). Thus the G-finite vectors are
+dense. Keep the actual finite-orbit span and approximation witnesses. Prove
+the estimates, covariance, naturality under continuous intertwiners and the
+uniform-on-compact-vector-sets refinement from the bounded operator norms
+and a finite ε-net. Use nets for arbitrary compact groups. The vector-valued
+Bochner integral and its separable-compact-image measurability are supplied
+by the stated integration contract, without separability of the whole E.
+
+TopologicalKTheory T6.1 owns the continuous-section/L²-section actions and
+finite bundle embeddings that apply this theorem. NoncompactQuantumSymmetry
+M0 owns the further Hilbert isotypic orthogonal projections, multiplicity
+spaces, completed-tensor and smooth-vector comparisons, using this same
+orbit-span predicate and density input. Its Hilbert structure is not part
+of the generic Banach density theorem.
+
 - **Density in `L²(G)`.** From uniform density plus `ContinuousMap.toLp_denseRange` (continuous
   functions dense in `L²` on the compact finite-measure `G`), `𝓡(G)` is **dense in `L²(G)`**, so its
   orthogonal complement is `⊥`.
