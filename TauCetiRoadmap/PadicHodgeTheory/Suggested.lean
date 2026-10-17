@@ -201,6 +201,22 @@ example (x : ℚ) : (LinearMap.fst ℚ ℚ ℚ - LinearMap.snd ℚ ℚ ℚ) (x, 
 
 /-! ## Layer 3: Filtered period functors -/
 
+/-!
+README §3.6's `RegularOrdinary` abbreviates LocalGaloisDeformationRings §1.7's
+`IsOrdinaryOfWeight` with coefficient algebra `A = E`. Here K and E are finite
+extensions of Q_p, E contains all embeddings of K, V is a continuous n-dimensional
+E-representation of G_K, and the integral labels satisfy
+λ_(τ,1) ≥ ⋯ ≥ λ_(τ,n). The supplied increasing stable full flag has rank-one
+graded characters ψ_i satisfying
+ψ_i(Art_K^geom(u)) = ∏_τ τ(u)^(-(λ_(τ,n-i+1) + i - 1))
+on an open subgroup of O_K^×. Over E every subspace is a direct summand.
+Dominance makes the labelled weights strictly ordered; finite-order inertia is allowed.
+The supplied graded-character, restriction, dual/twist and rank-two dictionaries
+give `regularOrdinary_graded`, `regularOrdinary_restrict` and `regularOrdinary_rank_two`.
+Flag uniqueness uses the distinct ordered inertial characters. The slope, monodromy
+and finite-extension descent comparisons remain the targets of §3.6.
+-/
+
 /-- A Tate-line period of exponent minus one has filtration jump minus one. -/
 example : ((-1 : ℤ) + 1 = 0) ∧ -(-1 : ℤ) = 1 := by
   decide

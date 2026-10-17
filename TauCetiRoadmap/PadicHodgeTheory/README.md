@@ -17,6 +17,7 @@ Existing objects are inputs:
 - **ReductiveGroupsPartII**, §§RG2.1.5 and RG2.4.3, supplies algebraic fundamental groups, central extensions, the Kottwitz homomorphism and cocharacter averaging. Section 5.5 owns `localTorsorKottwitz`, descent to sigma-conjugacy, tensor Newton invariants and the period-torsor comparison.
 - **DerivedDeRhamCohomology**, §§PD.6–PD.7, supplies general PD envelopes and their comparison with the principal period envelope of **PadicPeriodRings** §3. **CrystallineCohomology**, Layers CR.1–CR.3 and CR.5, supplies crystalline and log crystalline/Hyodo–Kato realizations. Full coefficient/family crystalline comparison, log period sheaves on semistable models and general analytic Hyodo–Kato comparison are downstream **CohomologyComparisons** work.
 - **AInfCohomology**, **PrismaticCohomology** and **PerfectoidQuotients** own their integral constructions and comparison maps. Their integral interfaces are inputs to this roadmap's rational comparison and compatibility theorems.
+- **LocalGaloisDeformationRings**, §1.7, owns the common ordinary predicate and elementary ordered-flag API. Section 3.6 uses its field specialization as `RegularOrdinary` and owns the crystalline slope, monodromy and descent comparisons.
 
 ## Conventions
 
@@ -63,6 +64,10 @@ Sections P1.6, P1.10–P1.11 and P1.16–P1.18 supply integral tilt, sharp, thet
 ### From SchemeAndStackFoundations
 
 SF.0, “Catenary, Cohen–Macaulay, Nagata and excellent rings”, supplies finiteness of normalization for reduced finite-type algebras over the excellent complete DVR `W(κ)`, used in §2.3's algebraic toric models.
+
+### From LocalGaloisDeformationRings
+
+Section 1.7, including its ordinary flag definitions, supplies `IsOrdinaryOfWeight`, ordered rank-one graded characters, flag uniqueness over fields with distinct inertial characters, restriction with pullback of labels, coefficient change, and the dual/twist and rank-two dictionaries. Section 3.6's `RegularOrdinary` abbreviates this predicate with coefficient algebra `A=E`; its `regularOrdinary_graded, _restrict, _rank_two` are the supplied field specializations. Equality of the prescribed characters is required only on an open subgroup of units, so finite ramified inertia is retained. No integral flag-uniqueness assertion without residual separation is used here.
 
 ### From AdicSpaces
 
@@ -698,9 +703,9 @@ Use FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.13’s Colmez–Fontaine
 
 ### 3.6 Labelled ordinary flags, characters and group-valued data
 
-Let `E` contain all embeddings of `K`, and let `λ_(τ,1)≥⋯≥λ_(τ,n)` be integral. `RegularOrdinary` requires a stable full flag with characters satisfying on open units
+Let `K/ℚ_p` and `E/ℚ_p` be finite, with `E` containing all embeddings of `K`, and let `λ_(τ,1)≥⋯≥λ_(τ,n)` be integral. For a continuous n-dimensional E-representation of `G_K`, `RegularOrdinary` abbreviates the field specialization `A=E` of `IsOrdinaryOfWeight` supplied by LocalGaloisDeformationRings §1.7. Its increasing stable full flag has rank-one graded characters satisfying on an open subgroup of `𝒪_K^×`
 `ψ_i(Art^(geom)_K(u)) =∏_ττ(u)^(−(λ_(τ,n-i+1)+i-1)).`
-Geometric Artin inverts arithmetic Artin. Labelled weights are `−(λ_(τ,n-i+1)+i-1)`, filtration jumps their negatives. API: `regularOrdinary_graded, _restrict, _rank_two`, including the dual/twist dictionary. For crystalline `V` put `h_(τ,j)=λ_(τ,j)+n-j`. Order the eigenvalues `α_i` of `φ^f`, `f=[K_0:ℚ_p]`, by decreasing `v_K`, where `v_K(p)=e_K`. Ordinarity is equivalent to
+Geometric Artin inverts arithmetic Artin. Labelled weights are `−(λ_(τ,n-i+1)+i-1)`, filtration jumps their negatives. Dominance makes these weights strictly ordered, so no extra regularity condition is imposed. Use the supplier's ordered graded-character, restriction, flag-uniqueness and dual/twist API, with field specializations `regularOrdinary_graded, _restrict, _rank_two`. The following slope, monodromy and descent comparisons belong here. For crystalline `V` put `h_(τ,j)=λ_(τ,j)+n-j`. Order the eigenvalues `α_i` of `φ^f`, `f=[K_0:ℚ_p]`, by decreasing `v_K`, where `v_K(p)=e_K`. Ordinarity is equivalent to
 `v_K(α_i)=∑_(τ:K↪ E)(λ_(τ,i)+n-i).`
 All coefficient components have the same Frobenius polynomial. If `dimker N^j=j` and jumps are `c_τ,…,c_τ+n-1`, the representation is regular ordinary with `λ_(τ,i)=c_τ`. A de Rham regular ordinary restriction to finite (L/K) descends: its unique ordered flag descends and labels agree over each embedding of `K`. (Qian, Def. 1.2 and Lemma 2.4, pp. 1240, 1250; BLGGT, Lemma 2.2, pp. 16–17; Qian, Dwork-family paper, Lemmas 4.1–4.2, pp. 19–20).
 
@@ -715,6 +720,7 @@ For connected reductive `G/ℚ_p`, finite `K/ℚ̆_p`, `b∈ G(ℚ̆_p)` and a `
 - In rank one the ordinary condition is exactly the displayed locally algebraic inertia condition.
 - For `K=ℚ_p`, the ordered sum `⊕_(j=0)^(n-1)ℚ_p(−j)` has ordinary weight zero.
 - An irreducible two-dimensional crystalline representation has no full stable flag even with distinct weights.
+- At `λ=(0,0)`, the dual Tate-curve representation has ordered characters `1,χ⁻¹`. A nonsplit extension with subline `χ⁻¹` and quotient `1` has the wrong order and fails this condition.
 - For `G=𝔾_m`, `b=p^m`, `μ(z)=z^h`, admissibility is `m=h`; `b=1,μ=0` gives the unit tensor functor.
 - For `GL_2`, slopes `(1,0)` and jumps `(1,0)` fail if the jump-one line is the slope-zero line.
 - A ramified finite-order character distinguishes equality on all units from equality on an open subgroup.
@@ -739,7 +745,7 @@ The two-line examples of §3.4 give equal total degrees with different stable-su
 
 ### Dependencies
 
-Layer 0 supplies regular periods and invariant fields; Layer 1 supplies analytic rings only for the later converse proof. Existing isocrystals and general filtered linear algebra are reused. LocalFieldsRamification, Layer `3`, and LocalGaloisGroups, Layers 5 and `7`, supply the arithmetic groups and cyclotomic orientation, while ClassFieldTheory supplies the arithmetic Artin map. Algebraic representations of reductive groups are lower-tier inputs; Layer 5 proves the bounded torsor-neutrality theorem using the general residue-field crystalline equivalence imported from FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.13.
+Layer 0 supplies regular periods and invariant fields; Layer 1 supplies analytic rings only for the later converse proof. Existing isocrystals and general filtered linear algebra are reused. LocalFieldsRamification, Layer `3`, and LocalGaloisGroups, Layers 5 and `7`, supply the arithmetic groups and cyclotomic orientation, while ClassFieldTheory supplies the arithmetic Artin map. LocalGaloisDeformationRings §1.7 supplies the ordinary predicate and elementary flag API specialized in §3.6. Algebraic representations of reductive groups are lower-tier inputs; Layer 5 proves the bounded torsor-neutrality theorem using the general residue-field crystalline equivalence imported from FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.13.
 
 ## Layer 4: Robba realizations, differential periods and B-pairs
 
