@@ -75,7 +75,7 @@ These interfaces describe the inputs to the targets. Each is attached to its own
 | ModularForms Layers 6–7 | Normalized Fricke companion and pseudo-eigenvalue, Euler products including bad primes, and the completed functional equation. Entire analytic extension of the native cusp-form coefficient Dirichlet series is a library input. |
 | Tau Ceti continuous-cohomology library (ProfiniteCohomology Layer 10) | Use the existing canonical degree-two comparison, its coefficient-map and inflation compatibility, and positive-degree vanishing for discrete rational modules, cited below. The quotient `ℚ̄ˣ/μ_∞` is uniquely divisible and hence admits the required ℚ-module structure. These are library inputs. |
 | ArithmeticGaloisRepresentations §7.6, “Projective lifting” | Tate's vanishing for trivial-action ℚ/ℤ coefficients, from which the ℚ̄ˣ version follows. |
-| GL2AutomorphicRepresentationsAndTransfer §§R17.4.3–R17.4.9 and R17.6.17–R17.6.18; ClassFieldTheory Layer 11 | Solvable base change, finite character twists, local compatibility, coherent algebraic characters across auxiliary coefficient primes, and global Artin reciprocity. |
+| GL2AutomorphicRepresentationsAndTransfer §§R17.4.3–R17.4.9 and R17.6.17–R17.6.18; ClassFieldTheory Layer 11 | Solvable base change, rank-two finite quotient character extraction, finite character twists, local compatibility, coherent algebraic characters across auxiliary coefficient primes, and global Artin reciprocity. GT.6/twisting-lemma owns the extension of character extraction to arbitrary positive finite rank. |
 | AbelianSchemesAndArithmeticModuli §§A5.1–A5.3; EllipticCurves Layer 1, “Isogenies, the dual, the invariant differential, and formal groups” | Complex lattice uniformization, algebraicity of analytic homomorphisms and geometric endomorphism actions. GT.5/q-curve proves its CM conjugate-isogeny consequence. |
 | EllipticCurveModularity R29.3, R29.5–R29.6 | Infinite congruence-to-equality arguments and the dimension-one modularity and pointed parametrisation with which GT.4 compares its choices. |
 
@@ -1299,7 +1299,18 @@ The geometric factor from GT.5 identifies Tate representations on a sufficiently
 
 ### GT.6/twisting-lemma — Representations agreeing on an open normal subgroup differ by a character
 
-Prove that Let G be profinite and H an open normal subgroup. Over an algebraically closed characteristic-zero field L with its ℓ-adic or discrete topology, take continuous representations `ρ₁, ρ₂ : G → GL_n(L)` of any positive finite dimension `n`. If their restrictions to H are isomorphic and absolutely irreducible, there is a character `ψ : G/H → Lˣ` with `ρ₂ ≃ ρ₁ ⊗ ψ`. In particular the inflated character has finite order.
+Let G be profinite and H an open normal subgroup. Over an algebraically closed characteristic-zero field L with its ℓ-adic or discrete topology, take continuous representations `ρ₁, ρ₂ : G → GL_n(L)` of any positive finite dimension `n`. Prove that if their restrictions to H are isomorphic and absolutely irreducible, there is a character `ψ : G/H → Lˣ` with `ρ₂ ≃ ρ₁ ⊗ ψ`. In particular the inflated character has finite order.
+
+GT.6 owns `GL2Type.twistingLemma` in arbitrary positive finite rank.
+Its rank-two specialization is the finite-character export
+`GL2Transfer.compatible_descent_twist` of GL2AutomorphicRepresentationsAndTransfer
+R17.6.18: set `r = ρ₂`, `s = ρ₁`, and use the same H-intertwiner P. Its character
+χ is ψ, since its central scalar matrix gives `ρ₂(g) = ψ(g) · Pρ₁(g)P⁻¹`.
+The open normal subgroup has finite discrete quotient, so the supplied algebraic
+quotient character is automatically continuous. Use this supplied specialization
+for the rank-two Tate comparison below. R17.6.18 owns the common twist across
+coefficient primes and automorphic descent; GT.6 owns the higher-rank extension
+and the ℚ-curve application.
 
 The proof uses the following steps.
 
@@ -1310,9 +1321,10 @@ The proof uses the following steps.
 
 - For any positive finite dimension, `ρ₂ = ρ₁ ⊗ η` with a character `η` of `G/H` recovers `ψ = η`.
 - For `n = 2`, the hypothesis says there is no common invariant line on the open subgroup; this is the form used for the Tate components here.
+- For `G = S₃ × C₃`, `H = S₃ × {1}`, let ρ₁ be the inflated standard two-dimensional representation of S₃ and η a character of C₃ taking a generator to a primitive cube root ζ₃. For `ρ₂ = ρ₁ ⊗ η`, both rank-two interfaces give `ψ = η`; the trace at that generator is `2ζ₃`, distinguishing η from its inverse.
 - Fails without absolute irreducibility on H: for `ρ₁|_H` reducible, `Hom_H` can be two-dimensional and no character need exist.
 
-*Needs:* `IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed`; `LinearMap.bijective_or_eq_zero`; `ArithmeticGaloisRepresentations Layer 1`.
+*Needs:* `IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed`; `LinearMap.bijective_or_eq_zero`; `ArithmeticGaloisRepresentations Layer 1`; `GL2AutomorphicRepresentationsAndTransfer R17.6.18` for the rank-two specialization.
 
 Sources: [Ribet92](#references), proof of Theorem 5.3, p. 10.
 

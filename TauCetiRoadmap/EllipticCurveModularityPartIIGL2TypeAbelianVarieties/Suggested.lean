@@ -460,8 +460,13 @@ theorem tateVanishingQbar (x : TauCeti.QCurve.unitCohomology2 Qbar) : x = 0 := s
 /-! ## Layer GT.6: character twists -/
 
 /- GT.6/twisting-lemma. The finite-order character acts on the Hom line in the
-same convention as the displayed scalar twist. No geometric context is required. -/
-/-- Isomorphic irreducible restrictions of positive finite rank differ by a finite character. -/
+same convention as the displayed scalar twist. -/
+/-- Isomorphic irreducible restrictions of positive finite rank differ by a finite character.
+This extends GL2AutomorphicRepresentationsAndTransfer R17.6.18's rank-two export
+`TauCeti.GL2Transfer.compatible_descent_twist`: take `r = ρ₂`, `s = ρ₁` and the same
+H-intertwiner P, so its character is ψ. Openness of H makes the quotient character
+continuous. The extension to arbitrary positive rank belongs to GT.6; the common
+twist across coefficient primes and automorphic descent belong to R17.6.18. -/
 theorem twistingLemma {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     [CompactSpace G] [TotallyDisconnectedSpace G] (H : Subgroup G) [H.Normal]
     (hH : IsOpen (H : Set G)) {L : Type} [Field L] [IsAlgClosed L] [CharZero L]
