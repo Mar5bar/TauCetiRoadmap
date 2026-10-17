@@ -83,7 +83,7 @@ groups; LocalFieldsRamification Layer 3 for the upper numbering and Herbrand fun
 fields with finite residue field, which [§RD.2.45](#rd-2-45) extends to perfect residue fields; and EtaleCohomologyFoundations §`F`.0.2 for étale fundamental groups and
 InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 for the Grothendieck–Lefschetz
 trace formula for all finite extensions and its determinant expression of zeta functions. The
-last is the only `ℓ`-adic input, and it enters only the comparison of rigid and `ℓ`-adic Weil factors
+last is the only `ℓ`-adic geometric input, and it enters only the comparison of rigid and `ℓ`-adic Weil factors
 ([§RD.7.7](#rd-7-7) and [§RD.7.8](#rd-7-8)).
 
 **What it takes from other roadmaps.** All of the following are roadmaps built before this one.
@@ -121,7 +121,7 @@ last is the only `ℓ`-adic input, and it enters only the comparison of rigid an
  modules of abelian varieties (Layer 6). The perfect infinite residue field case is [§RD.2.45](#rd-2-45).
 - DeligneWeightsAndPurity: Weil numbers, `ι`-weights of endomorphisms, characteristic power series,
  purity under extensions and twists (Layer 0), point counts of abelian varieties (Layer 1),
- positive power series (§2.7), the abstract rational-series/Fatou and weight-separated degree-factor extraction API (§4.4), and Weil purity of smooth projective varieties (§§4.3, 7.15). The §4.4 supplier contract includes arbitrary characteristic-zero coefficient fields and polynomial factor families with algebraic Weil reciprocal roots, as specified in RD.7.4–RD.7.5; the rigid applications and compatibility wrappers are here.
+ positive power series (§2.7), the abstract rational-series/Fatou and weight-separated degree-factor extraction API (§4.4), and Weil purity of smooth projective varieties (§§4.3, 7.15). The extraction interface of §4.4 uses finite-dimensional ℚ_ℓ-Frobenius modules. RD.7.4–RD.7.5 provide the coefficient descent and companion-matrix adapter for rigid factor families over other characteristic-zero fields; the abstract Fatou and degree extraction results remain with that supplier.
 - InverseGaloisAndArithmeticFundamentalGroups (local systems §IG.0.3, tame fundamental groups of curves
  §IG.1.2, with EtaleCohomologyFoundations §§`F`.0.2, `F`.0.A2 for the general fundamental group and arithmetic sequence), LefschetzPencilsAndVanishingCycles (monodromy filtration, §1.3),
  AbelianSchemesAndArithmeticModuli (Tate modules and characteristic polynomials, §§A5.7, A6.11),
@@ -1335,7 +1335,7 @@ The API:
 
 <a id="rd-0-25"></a>
 
-### RD.0.25 The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree
+### RD.0.25 The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree
 
 **Comparison.** Let `R = R_K` be the Robba ring over `K` (germs of Laurent series `Σ_{i∈Z} c_i t^i, c_i ∈ K`, converging on some annulus `r < |t| < 1`; constructed in [§RD.0.5](#rd-0-5) with its Gauss norms `|·|_ρ`, Fréchet topology on each annulus ring and limit-of-Fréchet (LF) topology on `R`), `R^int, R^bd = R^int[1/π], O_E` and `E = O_E[1/π]` as in the Frobenius-lift target. Let `σ` be a Frobenius lift with `u = σ(t)`, and let `ℓ = k((t)), Γ = O_E`, so that the analytic-ring construction applies. Choose `r > 0` with `u/t^q` a unit of the ring of bounded functions on `|π|^r ≤ |t| < 1`. Then for `s ∈ (0, qr]` and all `n: min_{j≤n} v_{j,s} = min_{j≤n} v^naive_{j,s}`, where `v^naive_n(Σ c_i t^i) = min{i : w(c_i) ≤ n}`; consequently `Γ_s =` bounded functions on `|π|^s ≤ |t| < 1` with integral coefficients, `w_s(f) = log_{|π|} |f|_{|π|^s}` (sup norm on the circle `|t| = |π|^s`), `Γ` has enough qr-units, and `Γ_con = R^int, Γ_con[π^{-1}] = R^bd, Γ[π^{-1}] = E, Γ_{(0,s]} = functions` on `|π|^s ≤ |t| < 1, Γ_an,con = R`. The identification is independent of `σ` as topological rings; only the auxiliary partial valuations `v_n`, and the embedding into `W(k((t))^perf, O^perf)`, depend on `σ`.
 
@@ -1348,7 +1348,7 @@ The API:
 *Proof sketch.*
 
 1. Lemma 2.3.3: for `s ∈` (0, qr], `min_{j≤n} v^naive_{j,s}(x) = min_{j≤n} v^naive_{j,s/q}(x^σ)`, checked on monomials `u^i` and then termwise with a unique minimising index.
-2. Lemma 2.3.5: write `x` via Teichmüller coordinates, raise to a large `q`-power by `σ` and compare with naive valuations of lifts of the coordinates; with Lemma 2.3.3 this gives equality of the true and naive partial valuations.
+2. Lemma 2.3.5: write `x` via Teichmüller coordinates, raise to a large `q`-power by `σ` and compare with naive valuations of lifts of the coordinates; with Lemma 2.3.3 this gives equality of the truncated weighted minima `min_{j≤n}(s v_j+j)`, hence of `w_s`.
 3. Corollary 2.3.7: `Γ` has enough qr-units and `Γ_con = Γ_con^naive = R^int`.
 4. Remark 2.3.8 and Example 2.4.9: `Γ^naive_r[π^{-1}]` is the ring of bounded analytic functions on `|π|^r ≤ |t| < 1, w^naive_s` is the sup norm on `|t| = |π|^s`, and `Γ_an,con` consists of the Laurent series over `O[π^{-1}]` with `lim inf_{n→−∞} w(c_n)/(−n) > 0` and `lim inf_{n→∞} w(c_n)/n ≥ 0`, which is the Laurent-series Robba ring.
 5. Independence of `σ` as topological rings: both sides are described by coefficient conditions that do not mention `σ` (Remark 2.3.9).
@@ -1360,7 +1360,8 @@ The API:
 **Checks.**
 
 - The Laurent polynomial `t − p` (`K = ℚ_p`, standard lift) has `v^naive_0 = 1` and `v^naive_n = 0` for `n ≥ 1`, one slope 1, and its zero is on `|t| = p^{-1} = |π|^1`.
-- For the cyclotomic lift `σ(t) = (1+t)^p − 1` the naive and true valuations agree on `Γ_s` for `s ≤ pr` with `r` chosen as in the statement.
+- For the cyclotomic lift `σ(t) = (1+t)^p − 1` the naive and true truncated weighted minima, and hence `w_s`, agree on `Γ_s` for `s ≤ pr` with `r` chosen as in the statement.
+- For `p=2` and `σ(t)=t²+2t`, the Witt embedding has `v₁(t)=1/2` whereas `v₁^naive(t)=1`; equality of weighted minima does not identify individual partial valuations.
 
 <a id="rd-0-26"></a>
 
@@ -1382,7 +1383,7 @@ The API:
 
 *Sources.* Kedlaya, *Local monodromy of p-adic differential equations: an overview*, Lemma 3.5.2, p. 15, and Remark 3.5.3, p. 15; Kedlaya, *A p-adic local monodromy theorem*, Section 2.3, p. 12, and Section 2.3, p. 13.
 
-*Needs:* [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; [§RD.0.8](#rd-0-8) *`W_con(ℓ, O)` is a henselian discrete valuation ring*; [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; Mathlib `HenselianLocalRing`; Mathlib `IsDiscreteValuationRing`; Mathlib `HenselianRing`.
+*Needs:* [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.0.8](#rd-0-8) *`W_con(ℓ, O)` is a henselian discrete valuation ring*; [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; Mathlib `HenselianLocalRing`; Mathlib `IsDiscreteValuationRing`; Mathlib `HenselianRing`.
 
 **Checks.**
 
@@ -1407,7 +1408,7 @@ The API:
 
 *Sources.* Kedlaya, *Slope filtrations revisited*, Corollary 2.5.12, p. 19, and Proof of Proposition 3.3.2, p. 33; Kedlaya, *A p-adic local monodromy theorem*, Corollary 3.23, p. 36.
 
-*Needs:* [§RD.0.13](#rd-0-13) *Units of `Γ_I` are the elements without slopes; units of `Γ_an,r` lie in `Γ_r[π^{-1}]`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; [§RD.0.26](#rd-0-26) *The bounded Robba ring `R^bd` is a henselian discretely valued field with residue field `k((t)); R^bd = R ∩ E`*.
+*Needs:* [§RD.0.13](#rd-0-13) *Units of `Γ_I` are the elements without slopes; units of `Γ_an,r` lie in `Γ_r[π^{-1}]`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.0.26](#rd-0-26) *The bounded Robba ring `R^bd` is a henselian discretely valued field with residue field `k((t)); R^bd = R ∩ E`*.
 
 **Checks.**
 
@@ -1633,7 +1634,7 @@ The API:
 
 *Sources.* Kedlaya, *Slope filtrations revisited*, Definition 2.2.3, p. 8; Kedlaya, *Notes on isocrystals*, Remark 4.7, p. 9.
 
-*Needs:* [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; [§RD.0.34](#rd-0-34) *The extended Robba ring `R^alg = Γ^alg_an,con` over the completed algebraic closure of `k((t))`*.
+*Needs:* [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.0.34](#rd-0-34) *The extended Robba ring `R^alg = Γ^alg_an,con` over the completed algebraic closure of `k((t))`*.
 
 **Checks.**
 
@@ -1704,7 +1705,7 @@ The API:
 
 *Sources.* Kedlaya, *Swan conductors for p-adic differential modules, `I`: A local construction*, Definition 2.6.2, p. 10; Kedlaya, *Local monodromy of p-adic differential equations: an overview*, Remark 4.1.9, pp. 17-18; Kedlaya, *Slope filtrations revisited*, Remark 3.3.6, p. 34.
 
-*Needs:* [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; [§RD.0.36](#rd-0-36) *The derivation `d/dt` on annulus rings, `R, R^bd, R^int, O_E` and `E`, its norm bounds and `Ω^1 = R dt`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*.
+*Needs:* [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; [§RD.0.36](#rd-0-36) *The derivation `d/dt` on annulus rings, `R, R^bd, R^int, O_E` and `E`, its norm bounds and `Ω^1 = R dt`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*.
 
 **Checks.**
 
@@ -1965,7 +1966,7 @@ The API:
 
 *Sources.* Kedlaya, *Slope filtrations revisited*, Lemmas 2.3.3 and 2.3.5, p. 12; Corollary 2.3.7, p. 13; Definition 2.4.2, p. 14.
 
-*Needs:* [§RD.0.4](#rd-0-4) *Weak convergence of semilinear Laurent substitution*; [§RD.0.2](#rd-0-2) *Laurent Fréchet charts and the Robba inductive limit*; [§RD.0.6](#rd-0-6) *Partial valuations `v_n, w_r` on Witt vectors and the overconvergent Witt vectors `W_con`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*.
+*Needs:* [§RD.0.4](#rd-0-4) *Weak convergence of semilinear Laurent substitution*; [§RD.0.2](#rd-0-2) *Laurent Fréchet charts and the Robba inductive limit*; [§RD.0.6](#rd-0-6) *Partial valuations `v_n, w_r` on Witt vectors and the overconvergent Witt vectors `W_con`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*.
 
 **Checks.**
 
@@ -2762,7 +2763,7 @@ The API:
 
 *Proof sketch.*
 
-1. Kedlaya-Xiao, Theorem 2.6.1 (which includes Swan conductors `I`, Theorems 2.7.2 and 2.8.2): for `M` solvable at 1 on `A(η_0, 1)`, the functions `d!·F_i(M, r)` (`F_i =` sum of the `i` smallest −log of intrinsic subsidiary radii) are continuous, convex and piecewise affine with integer slopes (their Theorem 2.4.4), nonnegative and tending to 0 as `r → 0^+`, hence linear near `r = 0`; their decomposition Theorem 2.5.2 then splits `M` on `A(η, 1)` according to the distinct slopes, with `Σ_i b_i·rank(M_i) ∈ Z`.
+1. Kedlaya-Xiao, Theorem 2.6.1 (which includes Swan conductors `I`, Theorems 2.7.2 and 2.8.2): for `M` solvable at 1 on `A(η_0, 1)`, the functions `d!·F_i(M, r)` (`F_i =` sum of the `i` largest −log of intrinsic subsidiary radii) are continuous, convex and piecewise affine with integer slopes (their Theorem 2.4.4), nonnegative and tending to 0 as `r → 0^+`, hence linear near `r = 0`; after establishing eventual affineness and the strict gaps between distinct profiles, their annular decomposition Theorem 2.5.1 splits `M` on `A(η, 1)` according to the distinct slopes, with `Σ_i b_i·rank(M_i) ∈ Z`.
 2. Historical route: Christol–Mebkhout, *Sur le théorème de l'indice des équations différentielles p-adiques III*, Corollaire 2.4-1, for `K` spherically complete.
 3. Swan conductors `I` Lemma 2.7.3: for general `K`, embed `K` into a spherically complete `K'`, decompose over `A_{K'}(η, 1)`, obtain the projector `v` on the highest break component, show `v` is defined over `A_K` using Robba's factorisation over `A_K[ρ, ρ]` and `Γ(A_K[ρ,ρ], O) ∩ Γ(A_{K'}(J), O) = Γ(A_K(J), O)`.
 
@@ -2773,6 +2774,8 @@ The API:
 **Checks.**
 
 - The Dwork exponential module has uniform break 1; `E_π ⊕ O` decomposes as `E_1 = E_π, E_0 = O`.
+- For `E_π ⊕ O`, the first intrinsic profile is `F₁(r)=r=−log ρ`, and the second cumulative profile is also `r`.
+- For `O²` both intrinsic profiles vanish and the sole break block is the whole module; no strict gap splits equal breaks.
 
 <a id="rd-1-19"></a>
 
@@ -2802,7 +2805,8 @@ The API:
 - `swanConductor_not_rank`: Swan is not a function of rank: `E_π` and `O` are both of rank one with Swan 1 and 0.
 - `swanConductor_compat_galois`: For the Dwork isocrystal attached to the Artin-Schreier character of `z^p − z = t^{-1}`, the differential Swan conductor equals the Galois Swan conductor 1 (Swan conductors `I` Example 3.5.10).
 - `Swan(O) = 0; Swan(E_π) = 1; Swan(E_π ⊕ O) = 1`.
-- For the character of the Artin-Schreier extension `z^p − z = x` the Dwork isocrystal has Swan conductor equal to the least `m ≥ 0` with `v(x − y^p + y) ≥ −m` for some `y` (Swan conductors `I` Example 3.5.10).
+- When `k` is perfect, for the character of the Artin-Schreier extension `z^p − z = x` the Dwork isocrystal has Swan conductor equal to the least `m ≥ 0` with `v(x − y^p + y) ≥ −m` for some `y` (Swan conductors `I` Example 3.5.10).
+- Over `k=𝔽_p(s)` with odd `p`, the class `s t^(−p)` has least Artin–Schreier pole order `p`, but its t-only Dwork line has break 1: after adjoining `A^p=S`, the splitting-function gauge replaces `S/t^p` by `A/t`. The conductor `p` requires the coefficient derivation in `s` as in Swan conductors I, Definition 3.5.2; it is not this t-only invariant.
 
 <a id="rd-1-20"></a>
 
@@ -2878,7 +2882,7 @@ The API:
 
 ### RD.1.22 Restriction and induction of Frobenius `([a]_*, [a]^*)` and Frobenius pullback
 
-**Construction.** For a positive integer a let `[a]`: A`{σ^a} → A{σ}` be the inclusion. The pushforward `[a]_*` sends a `σ`-module `(M, F)` to the `σ^a`-module `(M, F^a)` (restriction along `[a]`); the pullback `[a]^*` sends a `σ^a`-module `N` to A`{σ} ⊗_{A{σ^a}} N` (rank multiplied by a). They are adjoint (in both directions), `[a]^*[a']^* = [`aa'`]^*, [a]_*[a']_* = [`aa'`]_*, [a]_*(M(c)) = ([a]_*M)`(ac), and `[a]_*[a]^*(A(c)) ≅ A(c)^{⊕a}`. If the residue field of `O` contains an algebraic closure of `𝔽_q` and `L_i` denotes the fixed field of `O[π^{-1}]` under `σ^i`, then for `σ`-modules over `Γ_an,con: H⁰([a]_*M) = H⁰(M) ⊗_{L_1} L_a`, and `M ≅ N` iff `[a]_*M ≅ [a]_*N`. Frobenius pullback: `σ^*(M, F) = (M ⊗_{A,σ} A, F ⊗ 1)`, and `F: σ^*M → M` is a morphism of `σ`-modules which is an isomorphism after inverting `π`; for a `∇`-module `E` over `R, σ^*E` carries the pulled-back connection, and a Frobenius structure is a horizontal isomorphism `σ^*E ≅ E`.
+**Construction.** For a positive integer a let `[a]`: A`{σ^a} → A{σ}` be the inclusion. The pushforward `[a]_*` sends a `σ`-module `(M, F)` to the `σ^a`-module `(M, F^a)` (restriction along `[a]`); the pullback `[a]^*` sends a `σ^a`-module `N` to A`{σ} ⊗_{A{σ^a}} N` (rank multiplied by a). They are adjoint (in both directions), `[a]^*[a']^* = [aa']^*`, `[a]_*[a']_* = [aa']_*`, and `[a]_*(M(c))` has Frobenius `N_{σ,a}(π^c)F^a`, where `N_{σ,a}(π^c)=∏_{j=0}^{a−1}σ^j(π^c)`, and `[a]_*[a]^*(A(c)) ≅ ⊕_{j<a} L(σ^j(π^c))` as `σ^a`-modules. Here `L(λ)` denotes the line with Frobenius multiplier `λ`, so `A(c)=L(π^c)` for integer `c`. If `σ(π)=π`, these become `([a]_*M)(ac)` and `A(c)^{⊕a}`. If the residue field of `O` contains an algebraic closure of `𝔽_q` and `L_i` denotes the fixed field of `O[π^{-1}]` under `σ^i`, then for `σ`-modules over `Γ_an,con: H⁰([a]_*M) = H⁰(M) ⊗_{L_1} L_a`, and `M ≅ N` iff `[a]_*M ≅ [a]_*N`. Frobenius pullback: `σ^*(M, F) = (M ⊗_{A,σ} A, F ⊗ 1)`, and `F: σ^*M → M` is a morphism of `σ`-modules which is an isomorphism after inverting `π`; for a `∇`-module `E` over `R, σ^*E` carries the pulled-back connection, and a Frobenius structure is a horizontal isomorphism `σ^*E ≅ E`.
 
 *Hypotheses.* `σ^a` is again a Frobenius lift (for a `q^a`-power map); slopes of `σ^a`-modules are measured for `σ^a`.
 
@@ -2887,8 +2891,8 @@ The API:
 - `FrobeniusModule.pushforward`: `[a]_*: σ`-modules `→ σ^a`-modules, `(M, F) ↦ (M, F^a)`.
 - `FrobeniusModule.pullback`: `[a]^*: σ^a`-modules `→ σ`-modules, `N ↦ A{σ} ⊗_{A{σ^a}} N`.
 - `FrobeniusModule.pullback_pushforward_adj`: `[a]^*` and `[a]_*` are adjoint to each other.
-- `FrobeniusModule.pushforward_pullback_rankOne`: `[a]_*[a]^*(A(c)) ≅ A(c)^{⊕a}`.
-- `FrobeniusModule.pushforward_twist`: `[a]_*(M(c)) = ([a]_*M)`(ac).
+- `FrobeniusModule.pushforward_pullback_rankOne`: `[a]_*[a]^*(A(c)) ≅ ⊕_{j<a} L(σ^j(π^c))`; with `σ(π)=π` this is `A(c)^{⊕a}`.
+- `FrobeniusModule.pushforward_twist`: The iterated multiplier is `N_{σ,a}(π^c)`; it equals `π^(ac)` if `σ(π)=π`.
 - `FrobeniusModule.frobeniusPullback`: `σ^*M = M ⊗_{A,σ}` A with `F ⊗ 1`, and the linearised `F: σ^*M → M`.
 
 *Proof sketch.*
@@ -2906,10 +2910,11 @@ The API:
 - `pushforward_rank_deg`: `rank([a]_*M) = rank M` and `deg([a]_*M) = a·deg M`.
 - `pullback_rank_deg`: `rank([a]^*N) = a·rank N` and `deg([a]^*N) = deg N`.
 - `pushforward_one`: `[1]_*` and `[1]^*` are the identity functors.
-- `pushforward_pullback_rankOne_check`: `[a]_*[a]^*(A(c)) ≅ A(c)^{⊕a}` as `σ^a`-modules.
+- `pushforward_pullback_rankOne_check`: With `σ(π)=π`, `[a]_*[a]^*(A(c)) ≅ A(c)^{⊕a}` as `σ^a`-modules.
 - `pushforward_not_faithful_on_iso_without_residue`: Without the residue-field hypothesis of Lemma 3.2.5, `[a]_*` can identify non-isomorphic modules: over `W(𝔽_p)[1/p]` with `a = 2`, the rank-one `σ`-modules `F e = e` and `F e = −e` become isomorphic after `[2]_*` but are not isomorphic (`−1` is not of the form `σ(x)/x` in `ℚ_p`).
 - `[d]^*(A(c))` with `A(c)` viewed as a `σ^d`-module is the standard module `M_{c,d}`.
-- `[2]_*(M_{1,2}) ≅ A(1)^{⊕2}` as `σ^2`-modules.
+- If `σ(π)=π`, `[2]_*(M_{1,2}) ≅ A(1)^{⊕2}` as `σ^2`-modules.
+- For odd `p`, `K=ℚ_p(π)`, `π²=p` and `σ_K(π)=−π`, the twice-iterated twist of the unit line has multiplier `−p`, while its twist by 2 has multiplier `p`. Restriction of the induced `A(1)` has multipliers `π,−π`. Their degrees still scale as stated, since `σ` is isometric.
 
 <a id="rd-1-23"></a>
 
@@ -3614,14 +3619,14 @@ The API:
 
 ### RD.1.50 Decomposition by intrinsic radii over a rational-type field
 
-**Theorem.** Let `K` be of rational type for `∂₁`,…,`∂ₘ`. Every `∂_J`-differential module `V` over `K` decomposes as `V=⊕_`(`r∈`(0,1]) `V_r`, where every subquotient of `V_r` has pure intrinsic radii `r`; for one derivation this is the decomposition by intrinsic `∂`-radii. If `p=0` then `r^(dim V_r)∈|K^×|`; if `p>0` and `h≥0`, then `r<p^(−p^(−h)/(p−1))` implies `r^(dim V_r)∈|K^×|^(1/p^h)`.
+**Theorem.** Let `K` be of rational type for `∂₁`,…,`∂ₘ`. Every `∂_J`-differential module `V` over `K` decomposes as `V=⊕_`(`r∈`(0,1]) `V_r`, where every subquotient of `V_r` has pure intrinsic radii `r`; for one derivation this is the decomposition by intrinsic `∂`-radii. If `p=0` then `r^(dim V_r)∈|K^×|`; if `p>0` and `h≥0`, then `r<p^(−p^(−h)/(p−1))` implies `(r/ω^(1/p^h))^(dim V_r)∈|K^×|^(1/p^h)`, where `ω=p^(−1/(p−1))`.
 
 *Hypotheses.*
 
 - `K` complete nonarchimedean of characteristic 0, of rational type for `u₁`,…,`uₘ`; any residue characteristic.
 - `V` a finite-dimensional `∂_J`-differential module; the decomposition is by `∂_J`-submodules and is unique.
 
-*Proof sketch.* One derivation: below the visibility bound this is Robba's decomposition ([§RD.1.10](#rd-1-10)); beyond it, iterate Frobenius descendants ([§RD.1.49](#rd-1-49)) as in Kedlaya, *p-adic Differential Equations*, Theorem 10.6.2, p. 177, and Theorem 10.7.1, p. 180, which KX cite for their Theorem 1.4.21. The value-group statement comes from the Newton-polygon slopes. Several derivations: each `∂ⱼ`-decomposition is stable under every `∂ᵢ`, since the projection of `∂ᵢ(V_r)` to `V_(r′)` is K-linear and `∂ⱼ`-equivariant between modules with disjoint radii, hence zero; take the common refinement (KX's proof of Theorem 1.5.6). (Kedlaya–Xiao, *Differential modules on p-adic polyannuli*, Theorem 1.4.21 and Remark 1.4.22, p. 15; Theorem 1.5.6 and proof, p. 16.)
+*Proof sketch.* One derivation: below the visibility bound this is Robba's decomposition ([§RD.1.10](#rd-1-10)); beyond it, iterate Frobenius descendants ([§RD.1.49](#rd-1-49)) as in Kedlaya, *p-adic Differential Equations*, Theorem 10.6.2, p. 177, and Theorem 10.7.1, p. 180, which KX cite for their Theorem 1.4.21. For a visible block of dimension `d`, the Newton polygon gives `(r/ω)^d∈|K^×|`. After `h` Frobenius antecedents its radius is `r^(p^h)`; applying the visible assertion there gives `(r/ω^(1/p^h))^d∈|K^×|^(1/p^h)`. This includes the normalization by the rational parameter, whose norm is already in the value group. The unnormalized printed clauses in KX Theorems 1.4.21 and 1.5.6 require this factor unless `ω` belongs to the value group. Several derivations: each `∂ⱼ`-decomposition is stable under every `∂ᵢ`, since the projection of `∂ᵢ(V_r)` to `V_(r′)` is K-linear and `∂ⱼ`-equivariant between modules with disjoint radii, hence zero; take the common refinement (KX's proof of Theorem 1.5.6). (Kedlaya–Xiao, *Differential modules on p-adic polyannuli*, Theorem 1.4.21 and Remark 1.4.22, p. 15; Theorem 1.5.6 and proof, p. 16.)
 
 *Needs:* [§RD.1.48](#rd-1-48) *Rational-type differential fields and intrinsic radii for several derivations*; [§RD.1.49](#rd-1-49) *Frobenius antecedents and descendants for a rational-type derivation*; [§RD.1.10](#rd-1-10) *Robba's factorisation of twisted polynomials and the decomposition by subsidiary radii*.
 
@@ -3629,6 +3634,7 @@ The API:
 
 - A module with pure intrinsic radii has a single summand.
 - For `m=0` and `∂₀` on `F_η` the summands are those of the decomposition of `E⊗F_η` by subsidiary radii.
+- For `p=3`, the 1-Gauss completion of `ℚ₃(u)` with `D(e)=3⁻¹e` has `r=3^(−3/2)∉3^ℤ`, but `r/ω=1/3∈3^ℤ`. If `ω∈|K^×|`, the normalized assertion also gives the unnormalized value-group conclusion.
 
 <a id="rd-1-51"></a>
 
@@ -3650,7 +3656,7 @@ The API:
 
 *Sources.* Kedlaya–Xiao, *Differential modules on p-adic polyannuli*, Theorem 2.2.5, p. 20; Hypothesis 2.0.1, p. 18; Notation 2.2.4, p. 19.
 
-*Needs:* [§RD.1.48](#rd-1-48) *Rational-type differential fields and intrinsic radii for several derivations*; [§RD.1.11](#rd-1-11) *Generic radius of convergence `R(E, ρ)`, intrinsic radius `T(E, ρ)` and subsidiary radii*; [§RD.1.12](#rd-1-12) *Basic properties of generic radii: exact sequences, duals, tensor products, log-concavity, continuity, invariance*; [§RD.1.9](#rd-1-9) *Christol-Dwork: the spectral norm from the Newton polygon of a cyclic presentation*; [§RD.1.15](#rd-1-15) *Christol-Dwork Frobenius antecedent theorem*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*.
+*Needs:* [§RD.1.48](#rd-1-48) *Rational-type differential fields and intrinsic radii for several derivations*; [§RD.1.11](#rd-1-11) *Generic radius of convergence `R(E, ρ)`, intrinsic radius `T(E, ρ)` and subsidiary radii*; [§RD.1.12](#rd-1-12) *Basic properties of generic radii: exact sequences, duals, tensor products, log-concavity, continuity, invariance*; [§RD.1.9](#rd-1-9) *Christol-Dwork: the spectral norm from the Newton polygon of a cyclic presentation*; [§RD.1.15](#rd-1-15) *Christol-Dwork Frobenius antecedent theorem*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*.
 
 **Checks.**
 
@@ -3678,7 +3684,7 @@ The API:
 
 *Sources.* Kedlaya–Xiao, *Differential modules on p-adic polyannuli*, Theorem 2.2.6 and proof, pp. 20–22; Proposition 2.2.2 and Lemma 2.2.3, p. 19.
 
-*Needs:* [§RD.1.48](#rd-1-48) *Rational-type differential fields and intrinsic radii for several derivations*; [§RD.1.12](#rd-1-12) *Basic properties of generic radii: exact sequences, duals, tensor products, log-concavity, continuity, invariance*; [§RD.1.9](#rd-1-9) *Christol-Dwork: the spectral norm from the Newton polygon of a cyclic presentation*; [§RD.1.49](#rd-1-49) *Frobenius antecedents and descendants for a rational-type derivation*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; [§RD.1.5](#rd-1-5) *Katz cyclic-vector theorem*.
+*Needs:* [§RD.1.48](#rd-1-48) *Rational-type differential fields and intrinsic radii for several derivations*; [§RD.1.12](#rd-1-12) *Basic properties of generic radii: exact sequences, duals, tensor products, log-concavity, continuity, invariance*; [§RD.1.9](#rd-1-9) *Christol-Dwork: the spectral norm from the Newton polygon of a cyclic presentation*; [§RD.1.49](#rd-1-49) *Frobenius antecedents and descendants for a rational-type derivation*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.1.5](#rd-1-5) *Katz cyclic-vector theorem*.
 
 **Checks.**
 
@@ -3980,7 +3986,7 @@ The API:
 
 *Sources.* Dwork, *On the zeta function of a hypersurface*, §4(a), equations (4.3)–(4.4), p. 56.
 
-*Needs:* [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*.
+*Needs:* [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*.
 
 **Checks.**
 
@@ -4147,7 +4153,7 @@ The API:
 
 *Sources.* Fargues–Fontaine, *Courbes et fibrés vectoriels en théorie de Hodge p-adique*, §11.2.5: Proposition 11.2.20, p. 377, and Corollaire 11.2.22, p. 378; Remarque 11.3.4, p. 382.
 
-*Needs:* [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; [§RD.0.34](#rd-0-34) *The extended Robba ring `R^alg = Γ^alg_an,con` over the completed algebraic closure of `k((t))`*; [§RD.0.12](#rd-0-12) *Numerical membership criterion, intersections and Mayer-Vietoris splitting for `Γ_I`*.
+*Needs:* [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.0.34](#rd-0-34) *The extended Robba ring `R^alg = Γ^alg_an,con` over the completed algebraic closure of `k((t))`*; [§RD.0.12](#rd-0-12) *Numerical membership criterion, intersections and Mayer-Vietoris splitting for `Γ_I`*.
 
 **Checks.**
 
@@ -4263,7 +4269,7 @@ The API:
 
 *Sources.* Dospinescu–Bras, *Revêtements `du` demi-plan de Drinfeld et correspondance de Langlands p-adique*, §§6.1–6.4, printed pp. 355–357; Proposition 6.4 proof p. 357.
 
-*Needs:* [§RD.1.1](#rd-1-1) *Differential `(∇-)`modules over annuli, the Robba ring and differential fields*; [§RD.1.43](#rd-1-43) *`(σ,∇)`-modules `(φ,∇)`-modules over `R, R^bd, R^int, E` and dagger algebras; Frobenius structures*; [§RD.0.36](#rd-0-36) *The derivation `d/dt` on annulus rings, `R, R^bd, R^int, O_E` and `E`, its norm bounds and `Ω^1 = R dt`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*.
+*Needs:* [§RD.1.1](#rd-1-1) *Differential `(∇-)`modules over annuli, the Robba ring and differential fields*; [§RD.1.43](#rd-1-43) *`(σ,∇)`-modules `(φ,∇)`-modules over `R, R^bd, R^int, E` and dagger algebras; Frobenius structures*; [§RD.0.36](#rd-0-36) *The derivation `d/dt` on annulus rings, `R, R^bd, R^int, O_E` and `E`, its norm bounds and `Ω^1 = R dt`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*.
 
 **Checks.**
 
@@ -4386,7 +4392,7 @@ these categories.
 
 *Sources.* Crew, *Finiteness theorems for the cohomology of an overconvergent isocrystal on a curve*, Proposition 6.1, p. 735; André, *Filtrations de type Hasse-Arf et monodromie p-adique*, §3.4, p. 10.
 
-*Needs:* [§RD.0.30](#rd-0-30) *Finite modules over Bézout domains: unimodular rows, saturated spans, freeness, Galois descent of saturated submodules*; [§RD.0.14](#rd-0-14) *`Γ_r` and `Γ_I` for closed `I` are principal ideal domains (Lazard)*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*.
+*Needs:* [§RD.0.30](#rd-0-30) *Finite modules over Bézout domains: unimodular rows, saturated spans, freeness, Galois descent of saturated submodules*; [§RD.0.14](#rd-0-14) *`Γ_r` and `Γ_I` for closed `I` are principal ideal domains (Lazard)*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*.
 
 **Checks.**
 
@@ -4508,7 +4514,7 @@ these categories.
 
 *Sources.* Kedlaya, *Slope filtrations revisited*, Theorem 6.4.1, p. 65, and Corollary 6.4.2, p. 66; Kedlaya, *A p-adic local monodromy theorem*, Section 1.2, Theorem 1.2, p. 5, and Section 6.3, Theorem 6.10 and proof, pp. 77-78, and Theorem 1.2, Ann. of Math. 160 (2004), p. 97.
 
-*Needs:* [§RD.2.6](#rd-2-6) *Isoclinic `σ`-modules descend uniquely from the Robba ring to the bounded Robba ring*; [§RD.1.33](#rd-1-33) *Dieudonné-Manin decomposition of `σ`-modules over the extended Robba ring `R^alg` (Kedlaya)*; [§RD.1.28](#rd-1-28) *Existence of eigenvectors and of embeddings of twists over `R^alg`*; [§RD.1.26](#rd-1-26) *Semistable and stable `σ`-modules, HN filtrations, HN polygons and descent of subobjects*; [§RD.0.30](#rd-0-30) *Finite modules over Bézout domains: unimodular rows, saturated spans, freeness, Galois descent of saturated submodules*; [§RD.2.5](#rd-2-5) *Good models: every `σ`-module over `Γ_an,con` has, after a finite separable extension, a model with equal polygons*; [§RD.2.4](#rd-2-4) *Coincident generic and special polygons give a common filtration over `Γ_con[π^{-1}]`*; [§RD.0.31](#rd-0-31) *Finite separable extensions: `Γ^L_con` finite étale over `Γ^ℓ_con` and `Γ^L_an,con = Γ^ℓ_an,con ⊗ Γ^L_con`*; [§RD.1.36](#rd-1-36) *Pure (isoclinic) and unit-root `σ`-modules over `R, R^bd` and `E`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; [§RD.1.35](#rd-1-35) *Frobenius slopes and Newton (HN) polygons of `σ`-modules: generic slopes over `E` and `R^bd`, special slopes over `R`*; [§RD.1.29](#rd-1-29) *Every `σ`-module over `Γ_an,con` has a Harder-Narasimhan filtration*; [§RD.1.40](#rd-1-40) *Descent of a saturated subobject through its determinant line*.
+*Needs:* [§RD.2.6](#rd-2-6) *Isoclinic `σ`-modules descend uniquely from the Robba ring to the bounded Robba ring*; [§RD.1.33](#rd-1-33) *Dieudonné-Manin decomposition of `σ`-modules over the extended Robba ring `R^alg` (Kedlaya)*; [§RD.1.28](#rd-1-28) *Existence of eigenvectors and of embeddings of twists over `R^alg`*; [§RD.1.26](#rd-1-26) *Semistable and stable `σ`-modules, HN filtrations, HN polygons and descent of subobjects*; [§RD.0.30](#rd-0-30) *Finite modules over Bézout domains: unimodular rows, saturated spans, freeness, Galois descent of saturated submodules*; [§RD.2.5](#rd-2-5) *Good models: every `σ`-module over `Γ_an,con` has, after a finite separable extension, a model with equal polygons*; [§RD.2.4](#rd-2-4) *Coincident generic and special polygons give a common filtration over `Γ_con[π^{-1}]`*; [§RD.0.31](#rd-0-31) *Finite separable extensions: `Γ^L_con` finite étale over `Γ^ℓ_con` and `Γ^L_an,con = Γ^ℓ_an,con ⊗ Γ^L_con`*; [§RD.1.36](#rd-1-36) *Pure (isoclinic) and unit-root `σ`-modules over `R, R^bd` and `E`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; [§RD.1.35](#rd-1-35) *Frobenius slopes and Newton (HN) polygons of `σ`-modules: generic slopes over `E` and `R^bd`, special slopes over `R`*; [§RD.1.29](#rd-1-29) *Every `σ`-module over `Γ_an,con` has a Harder-Narasimhan filtration*; [§RD.1.40](#rd-1-40) *Descent of a saturated subobject through its determinant line*.
 
 **Checks.**
 
@@ -4605,7 +4611,7 @@ The API:
 
 *Sources.* Kedlaya, *Local monodromy of p-adic differential equations: an overview*, Proposition 3.5.5, p. 15, and Definition 3.5.6, p. 16; Kedlaya, *Finiteness of rigid cohomology with coefficients*, Theorem 5.1.2 and proof, pp. 29-30.
 
-*Needs:* [§RD.0.8](#rd-0-8) *`W_con(ℓ, O)` is a henselian discrete valuation ring*; [§RD.0.31](#rd-0-31) *Finite separable extensions: `Γ^L_con` finite étale over `Γ^ℓ_con` and `Γ^L_an,con = Γ^ℓ_an,con ⊗ Γ^L_con`*; [§RD.0.9](#rd-0-9) *Kedlaya's analytic rings `Γ^ℓ_I, Γ^ℓ_an,r` and `Γ^ℓ_an,con`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; [§RD.0.26](#rd-0-26) *The bounded Robba ring `R^bd` is a henselian discretely valued field with residue field `k((t)); R^bd = R ∩ E`*; [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; Mathlib `HenselianLocalRing`; Mathlib `Algebra.Etale`; Mathlib `Algebra.IsSeparable`; Mathlib `IsGalois`.
+*Needs:* [§RD.0.8](#rd-0-8) *`W_con(ℓ, O)` is a henselian discrete valuation ring*; [§RD.0.31](#rd-0-31) *Finite separable extensions: `Γ^L_con` finite étale over `Γ^ℓ_con` and `Γ^L_an,con = Γ^ℓ_an,con ⊗ Γ^L_con`*; [§RD.0.9](#rd-0-9) *Kedlaya's analytic rings `Γ^ℓ_I, Γ^ℓ_an,r` and `Γ^ℓ_an,con`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.0.26](#rd-0-26) *The bounded Robba ring `R^bd` is a henselian discretely valued field with residue field `k((t)); R^bd = R ∩ E`*; [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; Mathlib `HenselianLocalRing`; Mathlib `Algebra.Etale`; Mathlib `Algebra.IsSeparable`; Mathlib `IsGalois`.
 
 **Checks.**
 
@@ -4720,7 +4726,7 @@ The API:
 
 *Proof sketch.* (a) For `n ≠ −1, |a_n/(n+1)|ρ^{n+1} ≤ |a_n|ρ^n·(|n|+1)ρ`, and polynomial factors do not change convergence on open annuli, so the primitive converges where `f` does; uniqueness up to constants since `d(Σ c_n u^n) = 0` forces `c_n = 0` for `n ≠ 0`. (Kedlaya, *Local monodromy of p-adic differential equations: an overview*, Example 4.1.11, p. 18.)
 
-*Needs:* [§RD.2.11](#rd-2-11) *Finite étale extensions of `R^int` and the Robba rings `R^L` of finite separable extensions of `k((t))`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*.
+*Needs:* [§RD.2.11](#rd-2-11) *Finite étale extensions of `R^int` and the Robba rings `R^L` of finite separable extensions of `k((t))`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*.
 
 **Checks.**
 
@@ -5239,7 +5245,7 @@ The API:
 
 *Sources.* Kedlaya, *A p-adic local monodromy theorem*, Section 1.1, Theorem 1.1, p. 4, and Section 6.4, p. 180; published Annals 160 (2004), §1.5, pp. 100–101 (Bessel example, with the Artin–Schreier equation corrected below); Kedlaya, *Slope filtrations revisited*, Theorem 7.2.5, p. 68; Kedlaya, *Local monodromy of p-adic differential equations: an overview*, Theorem 6.2.1, p. 39.
 
-*Needs:* [§RD.2.7](#rd-2-7) *Slope filtration theorem for `σ`-modules over the Robba ring (Kedlaya)*; [§RD.2.9](#rd-2-9) *Each step of the slope filtration of a `(σ,∇)`-module is `∇`-stable*; [§RD.2.6](#rd-2-6) *Isoclinic `σ`-modules descend uniquely from the Robba ring to the bounded Robba ring*; [§RD.2.10](#rd-2-10) *The isoclinic model over `R^bd` inherits the connection*; [§RD.2.27](#rd-2-27) *Tsuzuki's theorem: unit-root `(σ,∇)`-modules have finite local monodromy*; [§RD.2.30](#rd-2-30) *The slope pieces become horizontal after a finite (nearly) separable extension*; [§RD.1.44](#rd-1-44) *Independence of the Frobenius lift: the Taylor isomorphism `σ_1^*E ≅ σ_2^*E`*; [§RD.2.14](#rd-2-14) *Quasi-unipotent `∇`-modules and `(σ,∇)`-modules*; [§RD.1.22](#rd-1-22) *Restriction and induction of Frobenius `([a]_*, [a]^*)` and Frobenius pullback*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; [§RD.1.43](#rd-1-43) *`(σ,∇)`-modules `(φ,∇)`-modules over `R, R^bd, R^int, E` and dagger algebras; Frobenius structures*.
+*Needs:* [§RD.2.7](#rd-2-7) *Slope filtration theorem for `σ`-modules over the Robba ring (Kedlaya)*; [§RD.2.9](#rd-2-9) *Each step of the slope filtration of a `(σ,∇)`-module is `∇`-stable*; [§RD.2.6](#rd-2-6) *Isoclinic `σ`-modules descend uniquely from the Robba ring to the bounded Robba ring*; [§RD.2.10](#rd-2-10) *The isoclinic model over `R^bd` inherits the connection*; [§RD.2.27](#rd-2-27) *Tsuzuki's theorem: unit-root `(σ,∇)`-modules have finite local monodromy*; [§RD.2.30](#rd-2-30) *The slope pieces become horizontal after a finite (nearly) separable extension*; [§RD.1.44](#rd-1-44) *Independence of the Frobenius lift: the Taylor isomorphism `σ_1^*E ≅ σ_2^*E`*; [§RD.2.14](#rd-2-14) *Quasi-unipotent `∇`-modules and `(σ,∇)`-modules*; [§RD.1.22](#rd-1-22) *Restriction and induction of Frobenius `([a]_*, [a]^*)` and Frobenius pullback*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.0.5](#rd-0-5) *Weakly continuous Frobenius lifts on the integral Amice ring*; [§RD.1.43](#rd-1-43) *`(σ,∇)`-modules `(φ,∇)`-modules over `R, R^bd, R^int, E` and dagger algebras; Frobenius structures*.
 
 **Checks.**
 
@@ -5261,15 +5267,16 @@ The API:
 - This is the local input for Layer RD.5 (finiteness, duality); Layer RD.5 also proves the relative version over dagger algebras (Kedlaya, Finiteness, Theorem 5.1.3).
 - `K_0 = K^{σ^{-m}}` denotes the `m`-th copy of `K` in the direct limit along `σ_K`, with the original `K` embedded by `σ_K^m`; no inverse map on `K` is assumed; its residue field, as an extension of `k`, is `k^{q^{-m}}` (adjoin the `q^m`-th roots of `k`).
 
-*Proof sketch.* By [§RD.1.44](#rd-1-44) assume `σ` is a power of a p-power lift. By [§RD.2.31](#rd-2-31) (precise form), `M` becomes unipotent over the Robba ring of a nearly finite separable extension `L` of `k_0((t)), k_0 = k^{q^{-m}}`; enlarge `L` to be Galois and increase `m` so that the residue field `k_1` of `L` is separable over `k_0`. Let `K_1` be the unramified extension of `K_0` with residue field `k_1`; lift `L` to a finite étale `R'` over the henselian `R^int_{K_1}` ([§RD.2.11](#rd-2-11) (a)); the Cohen structure theorem `L ≅ k_1((u))` and a lift of `u` give `R'`' `≅ R_{K_1}` ([§RD.2.11](#rd-2-11) (c)) (Kedlaya, Finiteness, proof of Theorem 5.1.2). (Kedlaya, *Finiteness of rigid cohomology with coefficients*, Theorem 5.1.2 and proof, p. 29; Kedlaya, *A p-adic local monodromy theorem*, Theorem 6.12, pp. 80–82.)
+*Proof sketch.* Apply [§RD.2.31](#rd-2-31) directly for the specified general-q lift: `M` becomes unipotent over the Robba ring of a nearly finite separable extension `L` of `k_0((t)), k_0 = k^{q^{-m}}`; enlarge `L` to be Galois and increase `m` so that the residue field `k_1` of `L` is separable over `k_0`. Let `K_1` be the unramified extension of `K_0` with residue field `k_1`; lift `L` to a finite étale `R'` over the henselian `R^int_{K_1}` ([§RD.2.11](#rd-2-11) (a)); the Cohen structure theorem `L ≅ k_1((u))` and a lift of `u` give `R'`' `≅ R_{K_1}` ([§RD.2.11](#rd-2-11) (c)) (Kedlaya, Finiteness, proof of Theorem 5.1.2). (Kedlaya, *Finiteness of rigid cohomology with coefficients*, Theorem 5.1.2 and proof, p. 29; Kedlaya, *A p-adic local monodromy theorem*, Theorem 6.12, pp. 80–82.)
 
-*Needs:* [§RD.2.31](#rd-2-31) *The p-adic local monodromy theorem (Crew's conjecture): `(φ,∇)`-modules over the Robba ring are quasi-unipotent*; [§RD.1.44](#rd-1-44) *Independence of the Frobenius lift: the Taylor isomorphism `σ_1^*E ≅ σ_2^*E`*; [§RD.2.11](#rd-2-11) *Finite étale extensions of `R^int` and the Robba rings `R^L` of finite separable extensions of `k((t))`*; [§RD.2.13](#rd-2-13) *Unipotent `∇`-modules over the Robba ring*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; [§RD.1.43](#rd-1-43) *`(σ,∇)`-modules `(φ,∇)`-modules over `R, R^bd, R^int, E` and dagger algebras; Frobenius structures*.
+*Needs:* [§RD.2.31](#rd-2-31) *The p-adic local monodromy theorem (Crew's conjecture): `(φ,∇)`-modules over the Robba ring are quasi-unipotent*; [§RD.1.44](#rd-1-44) *Independence of the Frobenius lift: the Taylor isomorphism `σ_1^*E ≅ σ_2^*E`*; [§RD.2.11](#rd-2-11) *Finite étale extensions of `R^int` and the Robba rings `R^L` of finite separable extensions of `k((t))`*; [§RD.2.13](#rd-2-13) *Unipotent `∇`-modules over the Robba ring*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.1.43](#rd-1-43) *`(σ,∇)`-modules `(φ,∇)`-modules over `R, R^bd, R^int, E` and dagger algebras; Frobenius structures*.
 
 **Checks.**
 
 - For `M` unipotent already (e.g. SFR Example 7.2.6) take `m = 0, K_1 = K, R' = R^int`.
 - For the Dwork module at `∞: R' = R^int[y]/(y^p − y − t^{-1}), K_1 = K` ([§RD.2.42](#rd-2-42)).
 - The Kummer module De `= e/((q−1)t)` over `R_K` becomes unipotent (indeed trivial) over the degree `q−1` Kummer extension, which is identified with `R_{K_1}` via `u = t^{1/(q−1)}`.
+- For `q=p²`, odd `p`, `K=ℚ_p(π)`, `π²=p`, `σ_K(π)=−π`, the coefficient lift has no square root among continuous endomorphisms of `K`. The general-q monodromy theorem applies without one; Taylor transport fixes `σ_K`.
 
 <a id="rd-2-33"></a>
 
@@ -5353,7 +5360,7 @@ The API:
 *Proof sketch.*
 
 1. (b) Maschke: average a projector over `G` (Kedlaya overview Lemma 4.2.3); Schur: kernels and images are subrepresentations (Lemma 4.2.4); Frobenius reciprocity: induction `V ⊗_{F{G}} F{H}` is left adjoint to restriction (Lemma 4.2.7); Corollary 4.2.9 by reciprocity applied to the trivial group; triviality for `G = Gal(F/𝔽_0)` by Hilbert-Noether descent (Remark 4.2.5; Tau Ceti's `TauCeti.GaloisDescent.span_invariants_eq_top` and `liftBaseChange_injective_of_invariant`).
-2. (a) Full faithfulness: `H⁰(E ⊗ R^L)^∨ ⊗ H⁰(F ⊗ R^L) ≅ H⁰((E^∨ ⊗ F) ⊗ R^L)` by dimension count and injectivity, and `G_L`-invariant horizontal sections of `E^∨ ⊗ F` over `R^L` are horizontal sections over `R_K` ([§RD.2.15](#rd-2-15): `ker d` on `R^L` is `K'`); essential surjectivity: `H⁰(R^L)` is the regular representation of `G_L` over `K'`, so an irreducible `V` is the image of a `G_L`-equivariant projector on `H⁰(R^L)`, which comes from a projector of the `∇`-module `R^L` over `R_K` (overview Lemma 4.3.2).
+2. (a) Full faithfulness: `H⁰(E ⊗ R^L)^∨ ⊗ H⁰(F ⊗ R^L) ≅ H⁰((E^∨ ⊗ F) ⊗ R^L)` by dimension count and injectivity, and `G_L`-invariant horizontal sections of `E^∨ ⊗ F` over `R^L` are horizontal sections over `R_K` ([§RD.2.15](#rd-2-15): `ker d` on `R^L` is `K'`); essential surjectivity: `H⁰(R^L ⊗_{R_K} R^L) ≅ (K')^{|G_L|}` is the semilinear regular representation (the permutation of the Galois factors includes the coefficient action on `K'`); this is the fibre of the pushforward `R^L` over `R_K`. Thus an irreducible `V` is the image of a `G_L`-equivariant projector on `H⁰(R^L ⊗_{R_K} R^L)`, which comes from a projector of the `∇`-module `R^L` over `R_K` (overview Lemma 4.3.2).
 3. (c) follows from (a) and (b) as in overview Definition 4.3.1 and the proof of Proposition 4.4.3.
 
 *Sources.* Kedlaya, *Local monodromy of p-adic differential equations: an overview*, Section 4.2, Lemmas 4.2.3, 4.2.4, 4.2.7, Corollary 4.2.9, Remark 4.2.5, pp. 18-19, and Definition 4.3.1 and Lemma 4.3.2, p. 20; Kedlaya, *p-adic Differential Equations*, Proof of Proposition 20.1.3, p. 327.
@@ -5649,8 +5656,8 @@ The API:
 *Proof sketch.*
 
 1. Enlarge `k` to an algebraic closure, i.e. replace `K` by the completion of its maximal unramified extension: the inertia group with its upper ramification filtration does not change, so neither do the Galois breaks (ArithmeticGaloisRepresentations §3.4 records the consequence for the conductor and the Swan conductor), and generic radii and differential breaks are unchanged as well ([§RD.1.12](#rd-1-12) (f)). By [§RD.2.44](#rd-2-44) (c) pass to a tame cover so that the image `H` of `τ` is a p-group; by [§RD.2.36](#rd-2-36) and parts (a), (b) of that lemma reduce to `E` quasi-constant and irreducible (Kedlaya overview, proof of Theorem 5.4.10).
-2. Induct on `|H|` and then on the lowest upper break `i` of `H`, an integer by Hasse-Arf for the abelian quotient (ArithmeticGaloisRepresentations §3.2). Base case `|H| = p`: Lemma 5.4.`9 =` part (d) of [§RD.2.44](#rd-2-44) with the break of ArithmeticGaloisRepresentations §3.7.
-3. Inductive step: choose a maximal subgroup `N ⊇ Hⁱ`, normal of `index p`, fixing an Artin-Schreier extension `u^p − u = Σ_{j≤i} c_j t^{−j} (p ∤ j)`; over it either `E` becomes constant (break `i` by part (d)) or the highest break of `τ` becomes `βp − (p − 1)i` (Herbrand function, ArithmeticGaloisRepresentations §3.5) with a smaller lowest break, so the induction hypothesis gives the break of `f^*E` and part (e) gives `β` for `E; β = i` is excluded because `H` would then be elementary abelian, hence of order `p`.
+2. Induct on `|H|`. Let `i` be the lowest upper break of `H`, an integer by Hasse-Arf for the abelian quotient (ArithmeticGaloisRepresentations §3.2). Base case `|H| = p`: Lemma 5.4.`9 =` part (d) of [§RD.2.44](#rd-2-44) with the break of ArithmeticGaloisRepresentations §3.7.
+3. The quotient `H/H^{i+}` is nonzero elementary abelian. Choose an index-p subgroup `N` containing `H^{i+}`; it is normal and its fixed field is an Artin–Schreier extension of break `i`. Write its reduced equation as `u^p−u=P(t⁻¹)`, with leading term `c_i t^(−i)`. The parameter `v=t(P(t⁻¹)/(c_i t^(−i)))^(−1/i)` makes `P=c_i v^(−i)`; `p∤i` makes this a formal disc automorphism with an analytic lift, preserving breaks. Thus the monomial cover comparison in RD.2.44(e) applies. Restriction has image contained in the strictly smaller group `N`, so the induction hypothesis applies regardless of the size of its new lowest break. If `β>i`, the highest break after restriction is `pβ−(p−1)i`, on the Galois side by Herbrand and on the differential side by part (e) of [§RD.2.44](#rd-2-44), recovering `β`. If `β=i`, then `H` is elementary abelian; faithfulness and irreducibility reduce to a character of order `p`, the base case. The subgroup uses the right-hand limit `H^{i+}` in the left-continuous convention.
 
 *Sources.* Kedlaya, *Local monodromy of p-adic differential equations: an overview*, Theorem 5.4.10 and proof, pp. 35-36, and Remark 5.4.13, p. 36, and Proposition 2.3.6, p. 8.
 
@@ -5661,6 +5668,7 @@ The API:
 - Dwork's module `M_f, f = t^{−n} (p ∤ n)`: its monodromy is the Artin-Schreier character of `u^p − u = t^{−n}`, of upper break `n`, and its highest break is `n`.
 - A tamely ramified character of order `m` prime to `p` (Kummer module `∇v = (a/m) v ⊗ dt/t`): break 0 on both sides.
 - A representation with highest upper break 1/2 (Artin-Schreier over `t^{1/2}, p` odd): the module has highest break 1/2 (part (c) with `n = 2`).
+- For cyclic order `p²` with upper breaks `1,p`, restriction to the first degree-p subfield has break `p²−p+1`; the break increases, but the image order decreases from `p²` to `p`. At the lowest break `H^i=H`, whereas `H^{i+}` is proper.
 
 <a id="rd-2-47"></a>
 
@@ -6861,7 +6869,7 @@ The API:
 
 ### RD.3.35 Dwork's construction: the convergent F-isocrystal `M^an` of an F-crystal
 
-**Construction.** Assume `O` is a complete discrete valuation ring of mixed characteristic with ramification `index e ≤ p − 1` and a Frobenius lift `σ`. Let `X` be a `k`-scheme of finite type and `(M, Φ)` a non-degenerate F-crystal on `X/(O, σ)` (a crystal of finite type with `Φ: F^*M → M` and `V: M → F^*M, V∘Φ = p^n, Φ∘V = p^n` for some `n`). Then there is a convergent F-isocrystal `M^an` on `X/(K, σ)`, functorial in `(M, Φ)` and in `X`, constructed in two steps: `(i)` for a closed immersion `X → P = Spf A` into a smooth formal scheme, the completed divided-power envelope `D̂` of the ideal of `X` maps to the algebra of the affinoid `[X]_{P,|π|}` by `f^{[q]} ↦ π^{|q|} T^q/q!`, which is bounded because `e ≤ p − 1`; this turns `M` into a coherent module `M_P` on `[X]_{P,|π|}` with a Taylor isomorphism on `[X]_{P²,|π|}` (an isocrystal convergent of radius `|π|`); (ii) a Frobenius lift `F` on `P` maps `[X]_{P,λ_{n+1}}` into `[X]_{P,λ_n}` for `λ_n = |π|^{p^{−n}}`, and the isomorphisms `(F_K^*)^n(Φ ⊗ K)` extend `M_P` and its Taylor isomorphism successively to `]X[_P = ⋃ [X]_{P,λ_n}` and `]X[_{P²}`.
+**Construction.** Assume `O` is a complete discrete valuation ring of mixed characteristic with ramification `index e ≤ p − 1` and a lift `σ` of the `q`-power Frobenius, `q=p^a`. Let `X` be a `k`-scheme of finite type and `(M, Φ)` a non-degenerate F-crystal on `X/(O, σ)` (a crystal of finite type with `Φ: F^*M → M` and `V: M → F^*M, V∘Φ = p^n, Φ∘V = p^n` for some `n`). Then there is a convergent F-isocrystal `M^an` on `X/(K, σ)`, functorial in `(M, Φ)` and in `X`, constructed in two steps: `(i)` for a closed immersion `X → P = Spf A` into a smooth formal scheme, the completed divided-power envelope `D̂` of the ideal of `X` maps to the algebra of the affinoid `[X]_{P,|π|}` by `f^{[ν]} ↦ π^{|ν|} T^ν/ν!`, which is bounded because `e ≤ p − 1`; this turns `M` into a coherent module `M_P` on `[X]_{P,|π|}` with a Taylor isomorphism on `[X]_{P²,|π|}` (an isocrystal convergent of radius `|π|`); (ii) a Frobenius lift `F` on `P` maps `[X]_{P,λ_{n+1}}` into `[X]_{P,λ_n}` for `λ_n = |π|^{q^{−n}}`, and the isomorphisms `(F_K^*)^n(Φ ⊗ K)` extend `M_P` and its Taylor isomorphism successively to `]X[_P = ⋃ [X]_{P,λ_n}` and `]X[_{P²}`.
 
 *Hypotheses.*
 
@@ -6874,14 +6882,14 @@ The API:
 - `FCrystal.toConvergent_map`: Functoriality in `(M, Φ)` and compatibility with pullback along morphisms `X′ → X`.
 - `FCrystal.toConvergent_tensor`: `(M ⊗ N)^an ≅ M^an ⊗ N^an` and (unit)`^an =` unit.
 - `FCrystal.toConvergent_isogeny`: The functor sends p-isogenies to isomorphisms, hence factors through F-crystals up to isogeny `(Hom ⊗ ℚ)`.
-- `FCrystal.toConvergent_twist`: `(M, p^m Φ)^an ≅ M^an(−m)`: multiplying `Φ` by `p^m` is the inverse Tate twist.
+- `FCrystal.toConvergent_twist`: `(M, q^m Φ)^an ≅ M^an(−m)` for `m≥0` on crystals and all `m∈ℤ` after passing to isogeny objects: multiplying `Φ` by `q^m` is the inverse Tate twist.
 - `FCrystal.toConvergent_radius`: Before Frobenius extension, a crystal gives only an isocrystal convergent on the tube of radius `|π|` (step `(i)`).
 
 *Proof sketch.*
 
 1. Glue from affine `P` (the construction is functorial); identify `M` with a separated complete `D̂`-module with stratification (Berthelot 96-03 (2.4.1), pp. 78–79).
-2. Step `(i)`: the composite `D → A ⊗ K → (A ⊗ K){T}/(f_i − πT_i)` is continuous for the `π`-adic topology since `π^{q_1+…+q_r}/q_1!⋯q_r! ∈ O` when `e ≤ p − 1`, so it extends to `D̂`; base change gives `M_P` and, from the stratification, its Taylor isomorphism ((2.4.1.1)–(2.4.1.2)).
-3. Step (ii): `F_K` maps `[X]_{λ_{n+1}}` into `[X]_{λ_n}` because `F^*(f_i) = f_i^p + π g_i` ((2.4.1.3)); setting `M_n = (F_K^*)^n M_0` on `[X]_{λ_n}`, the maps `(F_K^*)^n(Φ)` identify `M_n` with the restriction of `M_{n+1}`, and the compatibility of `Φ` with the stratification extends the Taylor isomorphism to `]X[_{P²}`.
+2. Step `(i)`: the composite `D → A ⊗ K → (A ⊗ K){T}/(f_i − πT_i)` is continuous for the `π`-adic topology since `π^{ν_1+…+ν_r}/ν_1!⋯ν_r! ∈ O` when `e ≤ p − 1`, so it extends to `D̂`; base change gives `M_P` and, from the stratification, its Taylor isomorphism ((2.4.1.1)–(2.4.1.2)).
+3. Step (ii): `F_K` maps `[X]_{λ_{n+1}}` into `[X]_{λ_n}` because `F^*(f_i) = f_i^q + π g_i` ((2.4.1.3)); setting `M_n = (F_K^*)^n M_0` on `[X]_{λ_n}`, the maps `(F_K^*)^n(Φ)` identify `M_n` with the restriction of `M_{n+1}`, and the compatibility of `Φ` with the stratification extends the Taylor isomorphism to `]X[_{P²}`.
 
 *Sources.* Berthelot, *Cohomologie rigide et cohomologie rigide `à` supports propres. Première partie (version provisoire 1991)*, (2.4) introduction and (2.4.1), pp. 78–79; Guo–Reinecke, *A prismatic approach to crystalline local systems*, footnote 3, p. 15.
 
@@ -6892,7 +6900,7 @@ The API:
 - `FCrystal.toConvergent_unit`: The unit F-crystal (`O_{X/O}`, id) goes to the unit convergent F-isocrystal.
 - `FCrystal.toConvergent_point_slope`: For `X = Spec k, O = W(k)` and `m ≥ 0: (W(k), p^m σ)` goes to the one-dimensional isocrystal with `Φ = p^m σ`, of slope `m` (Mathlib StandardOneDimIsocrystal `p k m`). For `m < 0` the map `p^m σ` does not preserve `W(k)`, so negative slopes arise only as Tate twists `M^an(n)`.
 - `FCrystal.toConvergent_degenerate_excluded`: The F-crystal `(W(k), Φ = 0)` is degenerate (no `V` with `VΦ = p^n`) and has no associated F-isocrystal, since `Φ ⊗ K` is not an isomorphism.
-- `FCrystal.toConvergent_twist_test`: `(O_{X/W}, pσ)^an ≅ O(−1)`: its fibre at a point has slope 1.
+- `FCrystal.toConvergent_twist_test`: `(O_{X/W}, qσ)^an ≅ O(−1)`: its fibre has q-normalized slope 1. For `q=p²`, multiplication by `p` instead has q-normalized slope `1/2` and is not this twist.
 - The unit crystal `O_{X/O}` with `Φ = id` gives the unit object (`O_{]X[}, d`, id).
 - Point: `X = Spec k` (`k` perfect, `O = W(k)`): an F-crystal is a Dieudonné-type module `(W(k)^r, Φ)` and `M^an` is `(K^r, Φ ⊗ K)`; for `(W(k), p^m σ)` with `m ≥ 0` one gets Mathlib's StandardOneDimIsocrystal of slope `m`.
 
@@ -7116,6 +7124,27 @@ The API:
 - A constant isocrystal has empty jump locus.
 - The jump is upward: the supersingular polygon (1/2, 1/2) lies above the ordinary one (0, 1), with the same endpoints.
 
+<a id="rd-3-43a"></a>
+
+### RD.3.43a Convergent Hartogs extension of a fixed-slope subobject
+
+**Theorem.** Let `X` be smooth over a perfect field, `U⊂X` open with complement of codimension at least two, and `E` a convergent F-isocrystal with finite coefficient field. Restriction induces an isomorphism on morphisms between convergent F-isocrystals on `X`. If `S_U⊂E|_U` has rank `a`, locally free quotient and determinant of constant Frobenius slope, then `S_U` extends uniquely as a convergent sub-F-isocrystal of `E` with locally free quotient.
+
+*Hypotheses.* The slope of the determinant is constant on each connected component. Frobenius, smoothness and codimension at least two are required; no overconvergence along `X∖U` is assumed.
+
+*Proof sketch.* First prove the convergent Hartogs equality for functions on smooth formal lifts after deleting the codimension-two special-fibre locus. Apply it to horizontal Frobenius-equivariant Hom sections and glue to obtain full faithfulness. For rank one, iterate Frobenius and extend coefficients to twist the fixed slope to zero. The Katz–Crew correspondence, extended to finite coefficient fields by retaining the coefficient-field action, gives a p-adic local system on `U`. Extend each of its finite lattice quotients across `X∖U` by purity of branch locus, then recover the local system and the unit-root convergent object on `X`. Undo the twist and descend the coefficient extension by full faithfulness. For rank `a`, apply this to the determinant line in `∧^a E`. Extend its inclusion by Hartogs; the decomposability relations extend as equalities of sections. Horizontal morphisms of convergent isocrystals have locally constant rank on smooth lifts; the extended determinant inclusion therefore remains a line subbundle. The resulting Grassmannian section recovers the saturated rank-a subbundle and locally free quotient. This is the exterior-power argument of Notes Remark 5.2.
+
+*Sources.* Kedlaya, *Notes on isocrystals*, Theorem 5.1(c), Remark 5.2 and the proof of Theorem 4.1, pp. 8, 11–12; Stacks Tag 0BMB.
+
+*Needs:* [§RD.3.33](#rd-3-33) *Convergent isocrystals*; [§RD.3.34](#rd-3-34) *Convergent Frobenius structures*; [§RD.3.48](#rd-3-48) *Katz–Crew correspondence*; [§RD.1.37](#rd-1-37) *Exterior powers and slope twists*; LefschetzPencilsAndVanishingCycles §1.8 *Purity of branch locus*; EtaleCohomologyFoundations §F.0 *Finite étale covers and local systems*.
+
+**Checks.**
+
+- On `A²∖{0}⊂A²`, a constant slope-zero line and its inclusion in a constant rank-two object extend uniquely across the origin.
+- For a common vertex of rank `a`, the determinant slope is the fixed vertical coordinate of that vertex; the hypothesis applies even when the other slopes vary.
+- Codimension one is different: on `G_m⊂A¹`, a nontrivial Kummer unit-root object with tame monodromy at zero need not extend convergently across zero.
+
+
 <a id="rd-3-44"></a>
 
 ### RD.3.44 Common Newton-vertex subisocrystal
@@ -7127,17 +7156,18 @@ The API:
 *Proof sketch.*
 
 1. At the generic point use classical Dieudonné–Manin to select the initial slope block.
-2. Extend the corresponding subobject across the base by the common-vertex theorem; this uses the purity of the Newton stratification ([§RD.3.43](#rd-3-43)) and Katz's argument on curves named in Notes Theorem 4.1, not just generic linear algebra.
+2. Katz's curve argument and Newton-stratification purity ([§RD.3.43](#rd-3-43)) construct the slope subobject on an open whose complement has codimension at least two. Its determinant has the constant slope given by the common vertex. Apply [§RD.3.43a](#rd-3-43a) to extend this convergent subobject across the residual locus.
 3. A connection respects the block because its second fundamental map goes from lower slopes to higher slopes and the relevant Frobenius Hom is zero (Notes Remark 4.5). Uniqueness follows from the same slope separation.
 
 *Sources.* Kedlaya, *Notes on isocrystals*, Theorem 4.1, Corollary 4.2 and Remark 4.5, PDF pp. 8–9.
 
-*Needs:* [§RD.3.37](#rd-3-37) *Restriction from overconvergent to convergent F-isocrystals*; [§RD.1.32](#rd-1-32) *Dieudonné-Manin classification over a complete discretely valued field with algebraically closed residue field*; [§RD.1.37](#rd-1-37) *Calculus of slopes: direct sums, tensor products, exterior powers, restriction of Frobenius, twists, Hom vanishing*; [§RD.3.43](#rd-3-43) *Semicontinuity and purity of Newton polygons in families*.
+*Needs:* [§RD.3.43a](#rd-3-43a) *Convergent Hartogs extension of a fixed-slope subobject*; [§RD.3.37](#rd-3-37) *Restriction from overconvergent to convergent F-isocrystals*; [§RD.1.32](#rd-1-32) *Dieudonné-Manin classification over a complete discretely valued field with algebraically closed residue field*; [§RD.1.37](#rd-1-37) *Calculus of slopes: direct sums, tensor products, exterior powers, restriction of Frobenius, twists, Hom vanishing*; [§RD.3.43](#rd-3-43) *Semicontinuity and purity of Newton polygons in families*.
 
 **Checks.**
 
 - The subobject is connection-stable, not only Frobenius-stable at generic points.
-
+- On a smooth surface, a common-vertex block already constructed off finitely many points extends across those points by RD.3.43a; Newton-polygon purity alone supplies no extension map.
+- For `O⊕O(−1)`, the common vertex of rank one gives `O`; a vertex that occurs only generically does not satisfy the theorem.
 
 <a id="rd-3-45"></a>
 
@@ -8152,7 +8182,7 @@ The API:
 
 *Sources.* Kedlaya, *Finiteness of rigid cohomology with coefficients*, Lemma 8.1.5 and Proposition 8.1.7, Section 8.1, p. 52.
 
-*Needs:* [§RD.4.12](#rd-4-12) *Rigid cohomology with compact supports `Hⁱ_{c,rig}(X/K, E)`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; AdicSpacesPartIV §F1.2 *Dagger algebras over a complete nonarchimedean field*; AdicSpacesPartIV §F1.3 *Fringe (radius-indexed) presentations of a dagger algebra*; AdicSpacesPartIV §F1.3 *The fringe (direct limit) topology on dagger algebras and their finite modules*; AdicSpacesPartIV §F1.9 *The module of (universally finite) differentials `Ω^1_A` of a dagger algebra and the exterior derivative*; AdicSpacesPartIV §F1.4 *The dagger (overconvergent completed) tensor product `A_1 ⊗†_B A_2`*; AdicSpacesPartIV §F1.4 *Rational localisation `A⟨f/g⟩†` of a dagger algebra and its universal property*; AdicSpacesPartIII §R3.2 *Kiehl's theorem: coherent sheaves on a strongly noetherian Tate affinoid are the `M̃`*; AdicSpacesPartIII §R3.4 *Kiehl's Theorem `B` on quasi-Stein spaces*.
+*Needs:* [§RD.4.12](#rd-4-12) *Rigid cohomology with compact supports `Hⁱ_{c,rig}(X/K, E)`*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; AdicSpacesPartIV §F1.2 *Dagger algebras over a complete nonarchimedean field*; AdicSpacesPartIV §F1.3 *Fringe (radius-indexed) presentations of a dagger algebra*; AdicSpacesPartIV §F1.3 *The fringe (direct limit) topology on dagger algebras and their finite modules*; AdicSpacesPartIV §F1.9 *The module of (universally finite) differentials `Ω^1_A` of a dagger algebra and the exterior derivative*; AdicSpacesPartIV §F1.4 *The dagger (overconvergent completed) tensor product `A_1 ⊗†_B A_2`*; AdicSpacesPartIV §F1.4 *Rational localisation `A⟨f/g⟩†` of a dagger algebra and its universal property*; AdicSpacesPartIII §R3.2 *Kiehl's theorem: coherent sheaves on a strongly noetherian Tate affinoid are the `M̃`*; AdicSpacesPartIII §R3.4 *Kiehl's Theorem `B` on quasi-Stein spaces*.
 
 **Checks.**
 
@@ -9299,7 +9329,7 @@ reduction, and the theory of relative convergent cohomology and overconvergent d
 
 ### RD.5.8 Kedlaya's full faithfulness theorem: overconvergent F-isocrystals embed fully faithfully into convergent ones
 
-**Theorem.** Let `k` be a field of characteristic `p, K` a complete discretely valued field of characteristic 0 with residue field `k, X` a smooth separated `k`-scheme of finite type and `a ≥ 1`. Then the restriction functor `j^* : F^a-Isoc†(X/K) → F^a`-`Isoc(X/K)` ([§RD.3.37](#rd-3-37)) is fully faithful. More generally (de Jong, Kedlaya, Shiho; Kedlaya Notes Theorem 5.3), for `X ⊆ Y` and `U ⊆ X` open dense, `U ⊆ W ⊆ Y` open, F-`Isoc(X, Y) →` F-`Isoc(U, W)` is fully faithful. The theorem holds with Frobenius structures; for isocrystals without Frobenius the analogue for F-`Isoc† →` F-Isoc fails (Kedlaya Notes Remark 5.6, citing Abe), and the functor is not essentially surjective (the image is a proper subcategory).
+**Theorem.** Let `k` be a field of characteristic `p, K` a complete discretely valued field of characteristic 0 with residue field `k, X` a smooth separated `k`-scheme of finite type and `a ≥ 1`. Then the restriction functor `j^* : F^a-Isoc†(X/K) → F^a`-`Isoc(X/K)` ([§RD.3.37](#rd-3-37)) is fully faithful. More generally (de Jong, Kedlaya, Shiho; Kedlaya Notes Theorem 5.3), for `X ⊆ Y` and `U ⊆ X` open dense, `U ⊆ W ⊆ Y` open, F-`Isoc(X, Y) →` F-`Isoc(U, W)` is fully faithful. The theorem holds with Frobenius structures; for isocrystals without Frobenius the analogue for F-`Isoc† →` F-Isoc fails (Kedlaya Notes Remark 5.6, citing Abe), and the functor need not be essentially surjective in general. For proper `X` it is an equivalence, including `X=Spec k`.
 
 *Hypotheses.*
 
@@ -9318,8 +9348,9 @@ reduction, and the theory of relative convergent cohomology and overconvergent d
 
 **Checks.**
 
-- Unit-root case: F-`Isoc†` unit-root objects ↔ potentially unramified p-adic local systems ⊂ all p-adic local systems ↔ unit-root convergent objects (Katz-Crew, Tsuzuki; Notes Theorems 3.7, 3.9): the embedding is fully faithful but not essentially surjective.
+- Unit-root case: F-`Isoc†` unit-root objects ↔ potentially unramified p-adic local systems ⊂ all p-adic local systems ↔ unit-root convergent objects (Katz-Crew, Tsuzuki; Notes Theorems 3.7, 3.9): the embedding is fully faithful; on the ordinary modular-curve locus in the next check its essential image is proper.
 - On the ordinary locus `U` of `X(N)`, the unit-root line subobject of `E|_U` exists convergently but not overconvergently (Notes Example 4.6, Remark 5.12): full faithfulness does not give extension of subobjects.
+- For `X=Spec k` or any smooth proper `X`, convergence and overconvergence agree; the essential image is the whole category.
 
 <a id="rd-5-9"></a>
 
@@ -9413,7 +9444,7 @@ The API:
 
 *Sources.* Kedlaya, *Finiteness of rigid cohomology with coefficients*, Definition 2.5.3, p. 16, and Remark 2.5.7, p. 17, and Definition 3.2.3, p. 21, and Definition 5.2.1, p. 30.
 
-*Needs:* [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; AdicSpacesPartIV §F1.2 *Dagger algebras over a complete nonarchimedean field*; AdicSpacesPartIV §F1.3 *Fringe (radius-indexed) presentations of a dagger algebra*; AdicSpacesPartIV §F1.3 *The fringe (direct limit) topology on dagger algebras and their finite modules*; AdicSpacesPartIV §F1.9 *The module of (universally finite) differentials `Ω^1_A` of a dagger algebra and the exterior derivative*; AdicSpacesPartIV §F1.4 *The dagger (overconvergent completed) tensor product `A_1 ⊗†_B A_2`*; AdicSpacesPartIV §F1.4 *Rational localisation `A⟨f/g⟩†` of a dagger algebra and its universal property*; [§RD.5.11](#rd-5-11) *Interpolation of spectral norms between a dagger algebra and its fringe algebras*.
+*Needs:* [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; AdicSpacesPartIV §F1.2 *Dagger algebras over a complete nonarchimedean field*; AdicSpacesPartIV §F1.3 *Fringe (radius-indexed) presentations of a dagger algebra*; AdicSpacesPartIV §F1.3 *The fringe (direct limit) topology on dagger algebras and their finite modules*; AdicSpacesPartIV §F1.9 *The module of (universally finite) differentials `Ω^1_A` of a dagger algebra and the exterior derivative*; AdicSpacesPartIV §F1.4 *The dagger (overconvergent completed) tensor product `A_1 ⊗†_B A_2`*; AdicSpacesPartIV §F1.4 *Rational localisation `A⟨f/g⟩†` of a dagger algebra and its universal property*; [§RD.5.11](#rd-5-11) *Interpolation of spectral norms between a dagger algebra and its fringe algebras*.
 
 **Checks.**
 
@@ -9699,7 +9730,7 @@ The API:
 
 *Sources.* Kedlaya, *Finiteness of rigid cohomology with coefficients*, Definition 6.2.3, p. 37, and Remark 6.2.4, p. 37; Crew, *Finiteness theorems for the cohomology of an overconvergent isocrystal on a curve*, 7.2–7.4, pp. 743–745; AlgebraicCurves Layer 9 (residues at nonrational places).
 
-*Needs:* [§RD.3.28](#rd-3-28) *`(σ,∇)`-modules over a dagger algebra of Monsky–Washnitzer type*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; [§RD.0.42](#rd-0-42) *Existence of Frobenius lifts on the weak completion of a smooth `O_K`-algebra (van der Put; Arabia)*; AlgebraicCurves Layer 9 *Residues at nonrational places and the global residue theorem*; Mathlib `Algebra.trace`; AdicSpacesPartIV §F1.2 *Dagger algebras over a complete nonarchimedean field*; AdicSpacesPartIV §F1.3 *Fringe (radius-indexed) presentations of a dagger algebra*; AdicSpacesPartIV §F1.3 *The fringe (direct limit) topology on dagger algebras and their finite modules*; AdicSpacesPartIV §F1.9 *The module of (universally finite) differentials `Ω^1_A` of a dagger algebra and the exterior derivative*; AdicSpacesPartIV §F1.4 *The dagger (overconvergent completed) tensor product `A_1 ⊗†_B A_2`*; AdicSpacesPartIV §F1.4 *Rational localisation `A⟨f/g⟩†` of a dagger algebra and its universal property*.
+*Needs:* [§RD.3.28](#rd-3-28) *`(σ,∇)`-modules over a dagger algebra of Monsky–Washnitzer type*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; [§RD.0.42](#rd-0-42) *Existence of Frobenius lifts on the weak completion of a smooth `O_K`-algebra (van der Put; Arabia)*; AlgebraicCurves Layer 9 *Residues at nonrational places and the global residue theorem*; Mathlib `Algebra.trace`; AdicSpacesPartIV §F1.2 *Dagger algebras over a complete nonarchimedean field*; AdicSpacesPartIV §F1.3 *Fringe (radius-indexed) presentations of a dagger algebra*; AdicSpacesPartIV §F1.3 *The fringe (direct limit) topology on dagger algebras and their finite modules*; AdicSpacesPartIV §F1.9 *The module of (universally finite) differentials `Ω^1_A` of a dagger algebra and the exterior derivative*; AdicSpacesPartIV §F1.4 *The dagger (overconvergent completed) tensor product `A_1 ⊗†_B A_2`*; AdicSpacesPartIV §F1.4 *Rational localisation `A⟨f/g⟩†` of a dagger algebra and its universal property*.
 
 **Checks.**
 
@@ -9828,7 +9859,7 @@ The API:
 
 ### RD.5.30 Mittag-Leffler for inverse systems of Fréchet spaces with dense transition maps
 
-**Lemma.** Let `(V_n, f_n : V_{n+1} → V_n)` be an inverse system of Fréchet spaces (more generally complete metrisable topological groups) with continuous transition maps of dense image. Then `lim^1 V_n = 0`: for every exact inverse system `0 → (U_n) → (V_n) → (W_n) → 0` of such spaces with continuous maps, `0 → lim U_n → lim V_n → lim W_n → 0` is exact, and `lim V_n → V_m` has dense image for every `m`.
+**Theorem.** Let `(V_n, f_n : V_{n+1} → V_n)` be an inverse system of Fréchet spaces (more generally complete metrisable abelian topological groups) with continuous transition maps of dense image. Then `lim^1 V_n = 0` and `lim V_n → V_m` has dense image for every `m`. For an exact inverse system `0 → (U_n) → (V_n) → (W_n) → 0` of such spaces with continuous maps, `0 → lim U_n → lim V_n → lim W_n → 0` is exact provided `lim^1 U_n=0`, for example when the kernel spaces `U_n` are complete metrisable and their transitions have dense image.
 
 *Hypotheses.* Dense image of the transition maps; surjectivity is not required. Dense image alone does not give the algebraic Mittag-Leffler condition: completeness and metrisability are used.
 
@@ -9841,6 +9872,7 @@ The API:
 - Rings of analytic functions on the closed discs `|t| ≤ 1 − 1/n` with restriction maps: the limit is the ring of functions on the open unit disc and `lim^1 = 0`.
 - Non-example without density: the system `ℤ ← ℤ ← ⋯` of discrete groups with every map multiplication by 2 (images not dense) has `lim^1 = ℤ_2/ℤ ≠ 0`.
 - Surjective transition maps (the algebraic Mittag-Leffler case) are a special case.
+- In the discrete exact system `0→ℤ→ℚ→ℚ/ℤ→0` with transitions multiplication by 2, the middle maps are bijective but `lim ℚ→lim ℚ/ℤ` is not onto: compatible residues from `α∈ℤ₂∖ℤ` have no rational lift. The obstruction is `lim¹ ℤ`, not `lim¹ ℚ`.
 
 <a id="rd-5-31"></a>
 
@@ -9857,17 +9889,18 @@ The API:
 
 1. For `r` close to 1, `{V_r, [D]_r}` with `[D]_r = ∪_i{|t_i| ≤ r'}` (`r < r' < 1`, closed discs) is an admissible affinoid covering of `C^an`, so the Čech complex `Γ(V_r) ⊕ Γ([D]_r) → Γ(V_r ∩ [D]_r)` computes `H^*(C^an, 𝓛^an)` (Tate acyclicity, AdicSpacesPartIII §R3.2; Crew, proof of Theorem 7.5).
 2. `H^*(C^an, 𝓛^an) = H^*(C, 𝓛)` by proper GAGA (AdicSpacesPartIII §R3.7).
-3. Pass first to the inverse limit of sections on increasing closed discs `r′ → 1`. Dense restriction alone is not algebraic Mittag–Leffler: use the nonarchimedean Fréchet inverse-limit exactness of Crew's argument ([§RD.5.30](#rd-5-30)) together with AdicSpacesPartIII §R3.4 (*Dense restriction of coherent sections on a quasi-Stein space*). Then take the exact direct limit over strict neighbourhoods. The intersections give the Robba local algebras (Crew (7.3.3)).
+3. Pass first to the inverse limit of sections on increasing closed discs `r′ → 1`. Dense restriction alone is not algebraic Mittag–Leffler: apply [§RD.5.30](#rd-5-30) to the kernel systems in the Čech cohomology sequences. The degree-zero kernel is `H⁰(C,𝓛)`, constant with identity transitions, hence has zero `lim¹`. Write `B_n` for the degree-zero Čech terms, `C_n` for degree one and `Z_n=im(B_n→C_n)`. The tower `B_n` has dense transitions (a fixed `Γ(V_r,𝓛)` plus coherent sections on increasing discs), hence `lim¹ B_n=0`. From `0→H⁰(C,𝓛)→B_n→Z_n→0` and the countable-tower vanishing `lim²=0`, obtain `lim¹ Z_n=0`. Applying the exactness corollary to `0→Z_n→C_n→H¹(C,𝓛)→0` is therefore justified on its kernel tower. This uses density of coherent restrictions from AdicSpacesPartIII §R3.4 and the derived-limit exact sequence, rather than inferring surjectivity from middle-term density alone. Then take the exact direct limit over strict neighbourhoods. The intersections give the Robba local algebras (Crew (7.3.3)).
 4. For `𝓛 = O` and `𝓛 = Ω^1`, eliminating the disc terms gives the four-term sequences, the kernel of `ρ` being `A ∩ ⊕A(x_i)^+ = H⁰(C, O)`.
 
 *Sources.* Crew, *Finiteness theorems for the cohomology of an overconvergent isocrystal on a curve*, Proof of Theorem 7.5, pp. 745–746, and 7.3, (7.3.1)–(7.3.3), p. 743; Kedlaya, *Finiteness of rigid cohomology with coefficients*, Remark 6.2.4, p. 37.
 
-*Needs:* [§RD.5.29](#rd-5-29) *Lifting a smooth projective curve with its boundary points, and the algebraic generic fibre*; [§RD.5.24](#rd-5-24) *Local Robba algebras at the missing points of an affine curve*; AdicSpacesPartIII §R3.2 *Kiehl's theorem: coherent sheaves on a strongly noetherian Tate affinoid are the `M̃`*; AdicSpacesPartIII §R3.7 *Proper GAGA: comparison of coherent cohomology (Köpf)*; AdicSpacesPartIII §R3.4 *Dense restriction of coherent sections on a quasi-Stein space*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; LocallyAnalyticDistributions Layer 0; [§RD.5.30](#rd-5-30) *Mittag-Leffler for inverse systems of Fréchet spaces with dense transition maps*.
+*Needs:* EnhancedDerivedSheaves §0.3 and Layer E2:towers *Derived inverse limits and the countable-tower exact sequence*; [§RD.5.29](#rd-5-29) *Lifting a smooth projective curve with its boundary points, and the algebraic generic fibre*; [§RD.5.24](#rd-5-24) *Local Robba algebras at the missing points of an affine curve*; AdicSpacesPartIII §R3.2 *Kiehl's theorem: coherent sheaves on a strongly noetherian Tate affinoid are the `M̃`*; AdicSpacesPartIII §R3.7 *Proper GAGA: comparison of coherent cohomology (Köpf)*; AdicSpacesPartIII §R3.4 *Dense restriction of coherent sections on a quasi-Stein space*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; LocallyAnalyticDistributions Layer 0; [§RD.5.30](#rd-5-30) *Mittag-Leffler for inverse systems of Fréchet spaces with dense transition maps*.
 
 **Checks.**
 
 - For `X = A^1` (`C = P^1`, one boundary point): `0 → K → K⟨t⟩† → A(∞)/A(∞)^+ → 0 → 0`, i.e. `ρ` is surjective with kernel the constants.
 - For `X = A^1` and `Ω^1: H⁰(P^1, Ω^1) = 0` and `H¹(P^1, Ω^1) = K`, so `dρ` has one-dimensional cokernel, spanned by the class of `dt/t` at `∞` (the residue).
+- For `𝓛=O_C`, the Čech kernel system is the constant space `H⁰(C,O_C)=K`; restriction is the identity, so the kernel hypothesis of RD.5.30 holds.
 
 <a id="rd-5-32"></a>
 
@@ -9899,7 +9932,7 @@ The API:
 
 ### RD.5.33 The dimension of `H¹_rig` of a smooth affine curve with constant coefficients
 
-**Theorem.** Let `X` be a smooth, geometrically irreducible affine curve over `k` with smooth compactification `X̄` of genus `g` and boundary `X̄ ∖ X` of degree `d` over `k` (`d =` number of geometric points). Then `H⁰_rig(X/K) = K` and `dim_K H¹_rig(X/K) = 2g + d − 1`.
+**Theorem.** Let `X` be a smooth, geometrically irreducible affine curve over `k` with smooth compactification `X̄` of genus `g` and boundary with `d` geometric points. For geometrically reduced boundary this equals its degree over `k`. Then `H⁰_rig(X/K) = K` and `dim_K H¹_rig(X/K) = 2g + d − 1`.
 
 `Suggested.lean` declares `RD5.affineCurveH1Dim`, `RD5.affineCurve_index_identity`.
 
@@ -9908,7 +9941,7 @@ The API:
 *Proof sketch.*
 
 1. `H⁰ = K`: Kedlaya, proof of Lemma 9.3.2 (citing Monsky–Washnitzer, Theorem 7.1) for geometrically connected `X`.
-2. Index computation: in the square of [§RD.5.28](#rd-5-28), `index(d) = index(ρ_A) + index(right map) − index(ρ_Ω)`. The right map has `index −d` (cokernel spanned by the `dt_i/t_i` over the `K_i`, total dimension `d`).
+2. After a finite residue-field extension make the reduced boundary geometrically reduced, as in Kedlaya Proposition 6.2.10; rigid coefficient base change preserves dimensions and the genus. Perform the index computation over this extension, where `d=Σ_i[k_i:k]`. Index computation: in the square of [§RD.5.28](#rd-5-28), `index(d) = index(ρ_A) + index(right map) − index(ρ_Ω)`. The right map has `index −d` (cokernel spanned by the `dt_i/t_i` over the `K_i`, total dimension `d`).
 3. Index transfer from the reduction: the index of `ρ_A` on a suitable lattice equals that of its reduction `R → ⊕ k_i((t_i))/k_i[[t_i]]`, namely `1 − g`, and the index of `ρ_Ω` equals `g − 1` ([§RD.5.25](#rd-5-25)). Kedlaya indicates this argument and van der Put states the resulting formula (Proposition 6.1); the lattice argument is: choose integral lattices of the dagger algebra and its differentials stable under `ρ`, compare kernels and cokernels modulo `π` by Nakayama, and pass to the limit using finiteness of the reductions.
 4. Hence `dim H⁰ − dim H¹ = (1 − g) − d − (g − 1) = 2 − 2g − d`, and `dim H¹ = 2g + d − 1`.
 
@@ -9919,6 +9952,8 @@ The API:
 **Checks.**
 
 - `G_m: g = 0, d = 2, dim H¹ = 1`. `P^1` minus `N` rational points: `dim H¹ = N − 1`. Legendre curve minus `∞: g = 1, d = 1, dim H¹ = 2` (van der Put, Proposition 7.1). Genus-2 curve `y^2 = f(x), deg f = 5`, minus `∞: dim H¹ = 4` (a direct computation gives a degree-4 characteristic polynomial).
+- For `k=𝔽_p(u)` and `X=ℙ¹_k∖V(t^p−u)`, the geometric count is `d=1` and `H¹_rig=0`: adjoining `u^(1/p)` identifies the open with `A¹`. The inseparable boundary degree `p` cannot be substituted for `d`.
+- For a separable closed point of degree two on `ℙ¹`, `d=2` and `dim H¹=1`, even though the boundary has only one closed point over `k`.
 
 <a id="rd-5-34"></a>
 
@@ -9953,7 +9988,7 @@ The API:
 
 *Proof sketch.* Kedlaya's earlier factorisation (math/0110124, Proposition 6.5) applied to `U^{-1} =` W'V' (`W'` over `R_K^+, V'` over `R_K^int[1/p]`) gives `U = V_1W_1` with `V_1 = V'^{-1}` invertible over `R_K^int[1/p]` and `W_1 = W'^{-1}` invertible over `R_K^+` (`Γ_an,u` is the plus part, `Γ_con[1/p]` the bounded Robba ring in the older notation). Shift denominators: for `U` invertible over `R_K^int[1/p]` with integral entries, induct on `v_K(det U)`; if positive, the reduction over `k((t))` has deficient rank, elementary row operations over `k[[t]]` (Euclidean algorithm column by column) produce a zero row; lift them to `O[[t]]` and divide the row by `π`, lowering `v_K(det U)`. (Kedlaya, *Finiteness of rigid cohomology with coefficients*, Lemma 6.3.1, p. 40, and Lemma 6.3.3, p. 40; Kedlaya, *A p-adic local monodromy theorem*, Proposition 6.5, p. 73.)
 
-*Needs:* [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*.
+*Needs:* [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*.
 
 **Checks.**
 
@@ -10187,7 +10222,7 @@ The formal Laurent-series residue and its coefficient duality are supplied by Fo
 
 *Sources.* Crew, *Finiteness theorems for the cohomology of an overconvergent isocrystal on a curve*, 4.1–4.4 and 5.1–5.4, pp. 728–734.
 
-*Needs:* FormalLaurentPuiseux §L3 (formal residue and its coefficient formula); [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*; Mathlib `Algebra.traceForm_nondegenerate`; Layer RD.0; [§RD.5.42](#rd-5-42) *Strictness of a linear map and of its transpose*; [§RD.5.40](#rd-5-40) *Nonarchimedean duality theory used for strictness and residue duality*; LocallyAnalyticDistributions §0.0 *Locally convex limits*; [§RD.5.41](#rd-5-41) *Strict maps and the LF, Fréchet and Montel conditions over a discretely valued field*.
+*Needs:* FormalLaurentPuiseux §L3 (formal residue and its coefficient formula); [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*; Mathlib `Algebra.traceForm_nondegenerate`; Layer RD.0; [§RD.5.42](#rd-5-42) *Strictness of a linear map and of its transpose*; [§RD.5.40](#rd-5-40) *Nonarchimedean duality theory used for strictness and residue duality*; LocallyAnalyticDistributions §0.0 *Locally convex limits*; [§RD.5.41](#rd-5-41) *Strict maps and the LF, Fréchet and Montel conditions over a discretely valued field*.
 
 **Checks.**
 
@@ -10575,7 +10610,7 @@ The API:
 
 ### RD.5.65 Generic pushforwards commute with external products
 
-**Theorem.** Let `A, B` be integral dagger algebras of MW-type, `M` a `(σ,∇)`-module over `A⟨x⟩†` satisfying the conclusion of [§RD.5.52](#rd-5-52) without localisation, `N` a `(σ,∇)`-module over `B`, and `g: A ⊗̂ B → (A ⊗̂ B)⟨x⟩†` the inclusion. With the external product `M ⊠ N = M ⊗_A (A ⊗̂ B) ⊗_B N`, the natural maps `(R^if_*M) ⊠_{A,B} N → R^ig_*(M ⊠_{A⟨x⟩†,B} N)` are isomorphisms (and likewise for `R_loc, R f_!` and `R^1_p`), and the conclusion of the generic pushforward theorem holds for `M ⊠ N` without localisation.
+**Theorem.** Let `A, B` be integral dagger algebras of MW-type, `M` a `(σ,∇)`-module over `A⟨x⟩†` satisfying the conclusion of [§RD.5.52](#rd-5-52) without localisation, `N` a `(σ,∇)`-module over `B`, and `g: A ⊗̂ B → (A ⊗̂ B)⟨x⟩†` the inclusion. With the external product `C=A ⊗̂ B` and `M ⊠ N = M ⊗_{A⟨x⟩†} C⟨x⟩† ⊗_B N`, with its induced connection and Frobenius, the natural maps `(R^if_*M) ⊠_{A,B} N → R^ig_*(M ⊠_{A⟨x⟩†,B} N)` are isomorphisms (and likewise for `R_loc, R f_!` and `R^1_p`), and the conclusion of the generic pushforward theorem holds for `M ⊠ N` without localisation.
 
 *Hypotheses.* `A ⊗̂ B` is flat over A (reductions are smooth; Kedlaya, Lemma 2.2.3 and Remark 2.3.9 with the reducedness hypothesis of the errata).
 
@@ -10586,6 +10621,8 @@ The API:
 **Checks.**
 
 - `M = A⟨x⟩†, N = B` trivial: both sides are `(A ⊗̂ B)` in degree 0 for `R^0f_*`.
+- For `A=K`, `M=K⟨x⟩†`, `B=N=K⟨y⟩†`, the external product is `K⟨x,y⟩†`; it contains `(1−pxy)⁻¹`, whose infinite-rank coefficient matrix prevents membership in the algebraic tensor product of the two one-variable rings.
+- For `N=B^r` trivial, the external product is the direct sum of `r` copies of `M⊗_{A⟨x⟩†}C⟨x⟩†`; the cohomology base change remains `(R^if_*M)⊗_A C`.
 
 <a id="rd-5-66"></a>
 
@@ -10726,29 +10763,30 @@ The API:
 
 <a id="rd-5-71"></a>
 
-### RD.5.71 Modifications are universally of cohomological descent for overconvergent crystals
+### RD.5.71 Modifications are universally of cohomological descent for constructible overconvergent crystals
 
-**Theorem.** Let `p: X → Y` be a modification of `k`-varieties (proper, and an isomorphism over a dense open of `Y`). Then `p`, viewed as a morphism of sheaves on the overconvergent site over any overconvergent base, is universally of cohomological descent with respect to overconvergent crystals: for every base change `Y' → Y` and every crystal `F` on `Y', F → Rp'_{•*}p'^{*}_•F` is an isomorphism for the Čech hypercover of `p'`. The same holds for a locally finite Zariski covering, a covering by closed subschemes, and the map from the disjoint union of the reduced irreducible components.
+**Theorem.** Let `p: X → Y` be a modification of `k`-varieties (proper, and an isomorphism over a dense open of `Y`). Then `p`, viewed as a morphism of sheaves on the overconvergent site over any overconvergent base, is universally of cohomological descent with respect to constructible overconvergent crystals (in particular finitely presented ones): for every base change `Y' → Y` and every such crystal `F` on `Y', F → Rp'_{•*}p'^{*}_•F` is an isomorphism for the Čech hypercover of `p'`. The same holds for a locally finite Zariski covering, a covering by closed subschemes, and the map from the disjoint union of the reduced irreducible components.
 
 *Hypotheses.*
 
 - `k`-varieties in Zureick-Brown's sense (locally of finite type, not necessarily separated or reduced).
-- Descent is with respect to crystals, not all abelian sheaves (Zureick-Brown Remark 1.2 explains why the étale template does not apply).
+- A constructible crystal is coherent on each stratum of a locally finite stratification; a finitely presented crystal is the single-stratum case. Descent is with respect to these coefficients, not all crystals or all abelian sheaves (Zureick-Brown Remark 1.2 explains why the étale template does not apply).
 
 *Proof sketch.*
 
-1. Zariski and closed coverings (Zureick-Brown Theorem 5.9): the coverings by open or closed pieces induce surjections on tubes; reduce to realisations, where descent holds for coverings of analytic spaces (Lemmas 5.4, 5.6), and conclude with the calculus of universal cohomological descent ([§RD.5.70](#rd-5-70); Zureick-Brown Corollary 3.18). Irreducible components: Corollary 5.12.
-2. Blow-up along an ideal generated by two elements `f, g` (Zureick-Brown Lemma 5.14, after Tsuzuki 2004, Lemma 3.4.5): cover the tube by `U_1 = ]Z[` and `U_2 =` {`|f̂| > λ` or `|ĝ| > λ`}; over `U_1` the blow-up tube is `P^1 × U_1` (a map with a section, Theorem 3.16 (ii), and Lemma 5.2 since the map of tubes is surjective), over `U_2` the blow-up is an isomorphism of tubes; glue with Theorem 3.17 (c), (d).
-3. General blow-ups reduce to two-generator ones by a sequence of blow-ups (Lemma 5.15, Tsuzuki's Lemma 3.4.4); a modification is dominated, by Chow's lemma, by a projective one, locally a blow-up (SchemeAndStackFoundations §4.12, SchemeAndStackFoundations §4.12); cancellation (Theorem 3.17 (b)) finishes (Zureick-Brown Proposition 5.16).
+1. Construct the constructible coefficient category and its realization on tubes. Prove open/closed dévissage: a constructible crystal has a dense open with finitely presented restriction and a constructible closed-complement term; the extension-by-zero sequence and its derived realization are exact. Use Le Stum §5.3 and §7.1, including Lemmas 7.4–7.5, for gluing descent across these strata. Zariski and closed coverings give descent on realizations; neither surjectivity of schemes nor a projective ambient embedding identifies the actual tubes.
+2. Establish the simultaneous dimension induction of Le Stum §7.2. Write `A_d` for descent for proper surjections of dimension at most `d`, universally after realization on an analytic overconvergent base. Assuming `A_(d−1)`, prove the birational step (Lemma 7.6): reduce by Chow to a blow-up and embed it in `ℙ^n` over the ambient formal model. Distinguish the strict transform `Y` from the full inverse image `Y′`, with exceptional loci `E⊂E′`. Over the tube of the center, replace the base by that center and use lower dimension. On the complement of its analytic fibre, compare `Y` with `Y′=Y∪E′` by the closed-cover squares and lower-dimensional exceptional terms. Only the cartesian full inverse image has the required tube equality. The birational analytic map off the center then finishes this step.
+3. Still assuming `A_(d−1)`, prove finite-surjective descent by Lemma 7.7: induction on the function-field degree, finite normalization and the birational step reduce to a monogenic map; lift the monic polynomial and flatten its projective closure away from the original affine locus. Finite faithfully flat analytic descent applies (Le Stum Proposition 7.3). Chow and flattening now give `A_d`, as in Corollary 7.9. Dimension zero starts with finite faithfully flat descent and reduction. The constructible dévissage in step 1 carries this induction beyond finitely presented coefficients. Apply the resulting birational assertion to the modification `p` and all its base changes.
 
-*Sources.* Zureick-Brown, *Cohomological descent on the overconvergent site*, Theorem 5.9, Corollaries 5.11–5.12, pp. 19–20, and Lemmas 5.14–5.15 and Proposition 5.16, pp. 20–21, and Theorems 3.16–3.17 and Corollary 3.18, pp. 9–10.
+*Sources.* Le Stum, *Rigid cohomology of locally noetherian schemes, Part 2: Crystals*, §7 introduction, pp. 101–102; §§7.1–7.2, Proposition 7.3, Lemmas 7.4–7.7 and Corollary 7.9, pp. 103–110 (arXiv:2209.07875). Zureick-Brown, Theorem 5.9 and Corollaries 5.11–5.12 supply the covering statements; the modification argument uses Le Stum's dimension induction.
 
-*Needs:* [§RD.5.68](#rd-5-68) *Le Stum's overconvergent site of a variety*; [§RD.5.69](#rd-5-69) *Overconvergent isocrystals are crystals on the overconvergent site, with the same cohomology*; [§RD.5.70](#rd-5-70) *The calculus of universal cohomological descent*; EnhancedDerivedSheaves §E2.6 *Bounded-below hypercover descent*; EnhancedDerivedSheaves §E2.6; SchemeAndStackFoundations §4.12 *Chow's lemma*; SchemeAndStackFoundations §4.12 *Modifications are dominated by admissible blowups*; SchemeAndStackFoundations §4.11 *Modifications*.
+*Needs:* [§RD.5.68](#rd-5-68) *Le Stum's overconvergent site of a variety*; [§RD.5.69](#rd-5-69) *Overconvergent isocrystals are crystals on the overconvergent site, with the same cohomology*; [§RD.5.70](#rd-5-70) *The calculus of universal cohomological descent*; EnhancedDerivedSheaves §E2.6 *Bounded-below hypercover descent*; EnhancedDerivedSheaves §E2.6; SchemeAndStackFoundations §4.12 *Chow's lemma*; SchemeAndStackFoundations §4.12 *Modifications are dominated by admissible blowups*; SchemeAndStackFoundations §4.11 *Modifications*; SchemeAndStackFoundations §4.12 *Flattening by blowing up*; SchemeAndStackFoundations §0.20 *Finite normalization*.
 
 **Checks.**
 
 - The normalisation `p: Ỹ = P^1 → Y` of a nodal cubic is a modification; `Ỹ ×_Y Ỹ` is `Ỹ` together with the two points `(y_1, y_2), (y_2, y_1)` over the target, and the Čech descent spectral sequence of `p` produces from them the extra class of `H¹_rig(Y)`, of dimension 1 while `H¹_rig(Ỹ) = 0`.
 - Degenerate case: an isomorphism is a modification whose Čech hypercovering is constant, and descent is the identity.
+- For `I=(t,t²)=(t)` on `A¹`, the blow-up is the identity and its projective-frame tube is the graph `[1:t]`; over `|t|<1` it omits `[0:1]`. The ambient `ℙ¹` product is not the blow-up tube.
 
 <a id="rd-5-72"></a>
 
@@ -10760,14 +10798,14 @@ The API:
 
 *Proof sketch.*
 
-1. (a) By the Čech criterion it suffices to show `R^q p_{i*}p_i^* F = 0` for `q > 0` and exactness of the Čech complex; on realisations these are vanishing of higher direct images of coherent sheaves along finite maps of analytic spaces and fpqc descent for coherent sheaves in the flat quasi-finite topology (Zureick-Brown Proposition 5.19, using Berkovich 1993, Corollary 4.3.2 and Proposition 4.1.2).
+1. The finite-surjective part of the dimension induction in [§RD.5.71](#rd-5-71) is Le Stum Lemma 7.7, with constructible coefficients. For the finite flat realization in (a), by the Čech criterion it suffices to show `R^q p_{i*}p_i^* F = 0` for `q > 0` and exactness of the Čech complex; on realisations these are vanishing of higher direct images of coherent sheaves along finite maps of analytic spaces and fpqc descent for coherent sheaves in the flat quasi-finite topology (Zureick-Brown Proposition 5.19, using Berkovich 1993, Corollary 4.3.2 and Proposition 4.1.2).
 2. For (b), Stacks 05WN and the calculus of [§RD.5.70](#rd-5-70) reduce to finite locally free surjections and Zariski coverings. A surjective monogenic map `Spec B[t]/(P) → Spec B`, with `P` monic, lifts over a formal affine embedding of the base. Homogenise and flatten away from the affine locus, then apply (a) (Zureick-Brown, proof of Theorem 1.1 (i), Step 1). The modification is essential: homogenisation alone can lose flatness (Remark 5.20).
 3. For a general finite locally free surjection, closed coverings by reduced irreducible components of the base and their finite normalizations are universally of descent by [§RD.5.71](#rd-5-71). Thus work over a normal integral affine base `Spec B`. Choose a reduced irreducible component of the source dominating it, with function field `L`, finite over `Frac B`. Finite normalizations in all intermediate fields exist because finite-type `k`-algebras are Nagata (SchemeAndStackFoundations §0.20).
 4. Write `L` as a tower of simple finite field extensions. At each stage the current normal ring `B_j` has fraction field `L_j`. Scale a field generator to make it integral over `B_j`; its minimal polynomial is monic with coefficients in `B_j`, by normality. The resulting domain `B_j[t]/(P_j)` is finite free and monogenic over `B_j`. Normalize it in `L_(j+1)`; this is a finite birational modification, hence universally of descent. The composite tower ends in the normalization of `B` in `L`, which maps to the chosen source component because that component is finite over `B`. Every stage is universally of descent by step 2 or [§RD.5.71](#rd-5-71); composition and cancellation prove descent for the original covering. This argument permits inseparable field extensions and nonreduced finite flat sources.
 
-*Sources.* Zureick-Brown, *Cohomological descent on the overconvergent site*, Definition 5.18 and Proposition 5.19, p. 22, and Proof of Theorem 1.1 `(i)` and Remark 5.20, pp. 22–24 (the monogenic case); Stacks Tags 05WN, 032F and 0335 for refinement and finite normalization.
+*Sources.* Le Stum, *Rigid cohomology of locally noetherian schemes, Part 2: Crystals*, §7.2, Lemma 7.7; Zureick-Brown, *Cohomological descent on the overconvergent site*, Definition 5.18 and Proposition 5.19, p. 22, and Proof of Theorem 1.1 `(i)` and Remark 5.20, pp. 22–24 (the monogenic case); Stacks Tags 05WN, 032F and 0335 for refinement and finite normalization.
 
-*Needs:* [§RD.5.68](#rd-5-68) *Le Stum's overconvergent site of a variety*; [§RD.5.71](#rd-5-71) *Modifications are universally of cohomological descent for overconvergent crystals*; [§RD.5.70](#rd-5-70) *The calculus of universal cohomological descent*; EnhancedDerivedSheaves §E2.6 *Bounded-below hypercover descent*; SchemeAndStackFoundations §0.20 *Japanese and Nagata rings, finite normalization in finite function-field extensions*; SchemeAndStackFoundations §4.12 *Flattening by blowing up (Raynaud–Gruson)*; AdicSpacesPartIII §R3.2 *Kiehl's theorem: coherent sheaves on a strongly noetherian Tate affinoid are the `M̃`*.
+*Needs:* [§RD.5.68](#rd-5-68) *Le Stum's overconvergent site of a variety*; [§RD.5.71](#rd-5-71) *Modifications are universally of cohomological descent for constructible overconvergent crystals*; [§RD.5.70](#rd-5-70) *The calculus of universal cohomological descent*; EnhancedDerivedSheaves §E2.6 *Bounded-below hypercover descent*; SchemeAndStackFoundations §0.20 *Japanese and Nagata rings, finite normalization in finite function-field extensions*; SchemeAndStackFoundations §4.12 *Flattening by blowing up (Raynaud–Gruson)*; AdicSpacesPartIII §R3.2 *Kiehl's theorem: coherent sheaves on a strongly noetherian Tate affinoid are the `M̃`*.
 
 **Checks.**
 
@@ -10787,17 +10825,18 @@ The API:
 *Proof sketch.*
 
 1. Chow's lemma (SchemeAndStackFoundations §4.12) and cancellation reduce to `p` projective; Zariski-locally on `Y` ([§RD.5.71](#rd-5-71)) assume `Y` affine.
-2. Raynaud–Gruson flattening (SchemeAndStackFoundations §4.12) gives a modification `Y' → Y` whose strict transform `X' → Y'` is flat; `X' → Y'` is an fppf covering, hence of descent ([§RD.5.72](#rd-5-72) (b)), and `Y' → Y` is a modification ([§RD.5.71](#rd-5-71)); compose (Zureick-Brown Theorem 3.17 (c)) and cancel to `X → Y` (3.17 (b)) (Zureick-Brown proof of Theorem 1.1 (ii), p. 24).
+2. Use the proper-surjective conclusion of the simultaneous induction in RD.5.71 (Le Stum Corollary 7.9); its finite step is Lemma 7.7, rather than an identification of a blow-up tube with its projective ambient space. In the classical finitely presented setting, Raynaud–Gruson flattening (SchemeAndStackFoundations §4.12) gives a modification `Y' → Y` whose strict transform `X' → Y'` is flat; `X' → Y'` is an fppf covering, hence of descent ([§RD.5.72](#rd-5-72) (b)), and `Y' → Y` is a modification ([§RD.5.71](#rd-5-71)); compose (Zureick-Brown Theorem 3.17 (c)) and cancel to `X → Y` (3.17 (b)) (Zureick-Brown proof of Theorem 1.1 (ii), p. 24).
 3. Hypercoverings: a `P`-hypercovering, with `P` the class of morphisms universally of cohomological descent, is itself universally of cohomological descent (Zureick-Brown Theorem 3.16 (iv), Conrad Theorem 7.10; [§RD.5.70](#rd-5-70) (iii)).
 
-*Sources.* Zureick-Brown, *Cohomological descent on the overconvergent site*, Theorem 1.1 (ii) and its proof, pp. 2, 24, and Theorem 3.16 (iv), p. 9; Chiarellotto–Tsuzuki, *Cohomological descent of rigid cohomology for étale coverings*, Section 1.2, p. 66; Theorem 7.4.1, p. 150.
+*Sources.* Le Stum, *Rigid cohomology of locally noetherian schemes, Part 2: Crystals*, §7.2, Corollary 7.9; Zureick-Brown, *Cohomological descent on the overconvergent site*, Theorem 1.1 (ii) and its proof, pp. 2, 24, and Theorem 3.16 (iv), p. 9; Chiarellotto–Tsuzuki, *Cohomological descent of rigid cohomology for étale coverings*, Section 1.2, p. 66; Theorem 7.4.1, p. 150.
 
-*Needs:* [§RD.5.72](#rd-5-72) *Finite flat and fppf coverings are universally of cohomological descent for finitely presented crystals*; [§RD.5.71](#rd-5-71) *Modifications are universally of cohomological descent for overconvergent crystals*; SchemeAndStackFoundations §4.12 *Chow's lemma*; SchemeAndStackFoundations §4.12 *Flattening by blowing up (Raynaud–Gruson)*; [§RD.5.70](#rd-5-70) *The calculus of universal cohomological descent*; EnhancedDerivedSheaves §E2.6 *Bounded-below hypercover descent*.
+*Needs:* [§RD.5.72](#rd-5-72) *Finite flat and fppf coverings are universally of cohomological descent for finitely presented crystals*; [§RD.5.71](#rd-5-71) *Modifications are universally of cohomological descent for constructible overconvergent crystals*; SchemeAndStackFoundations §4.12 *Chow's lemma*; SchemeAndStackFoundations §4.12 *Flattening by blowing up (Raynaud–Gruson)*; [§RD.5.70](#rd-5-70) *The calculus of universal cohomological descent*; EnhancedDerivedSheaves §E2.6 *Bounded-below hypercover descent*.
 
 **Checks.**
 
 - The normalisation of the cuspidal cubic is a proper surjection which is a universal homeomorphism; descent gives `H^*_rig`(cusp) `≅ H^*_rig(P^1)` (rigid cohomology does not see the cusp).
 - For the blow-up Bl `→ A^2` at the origin with exceptional curve `E ≅ P^1`, descent along the proper surjection Bl ⊔ {0} `→ A^2` gives the abstract blow-up sequence `… → Hⁱ_rig(A^2) → Hⁱ_rig`(Bl) `⊕ Hⁱ_rig`(pt) `→ Hⁱ_rig(E) → H^{i+1}_rig(A^2) → …`, whence `H²_rig`(Bl) `≅ H²_rig(E) = K(−1)`.
+- The blow-up of `A¹` in the invertible ideal `(t,t²)` is the identity, so proper descent is the identity; no projective-line product is introduced by the chosen generators.
 
 <a id="rd-5-74"></a>
 
@@ -11258,17 +11297,19 @@ The API:
 
 ### RD.5.91 Euler characteristics with and without compact supports agree up to duality
 
-**Lemma.** For `X` smooth of pure dimension `d` and `E ∈` F-`Isoc†(X/K): χ_c(X, E) := Σ_i (−1)^i dim Hⁱ_{c,rig}(X/K, E)` equals `χ(X, E^∨) := Σ_i (−1)^i dim Hⁱ_rig(X/K, E^∨)`. For a smooth geometrically connected affine curve `X` with smooth compactification of genus `g` and `d` boundary points: `χ(X/K) = χ_c(X/K) = 2 − 2g − d`.
+**Lemma.** For `X` smooth of pure dimension `d` and `E ∈` F-`Isoc†(X/K): χ_c(X, E) := Σ_i (−1)^i dim Hⁱ_{c,rig}(X/K, E)` equals `χ(X, E^∨) := Σ_i (−1)^i dim Hⁱ_rig(X/K, E^∨)`. For a smooth geometrically connected affine curve `X` with smooth compactification of genus `g` and `b` geometric boundary points: `χ(X/K) = χ_c(X/K) = 2 − 2g − b`.
 
 *Hypotheses.* `X` smooth of pure dimension `d`; finite dimensionality.
 
-*Proof sketch.* Poincaré duality ([§RD.5.89](#rd-5-89)): `dim Hⁱ_{c,rig}(E) = dim H^{2d−i}_rig(E^∨)`, and `(−1)^{2d−i} = (−1)^i`. For curves: `dim H⁰ = 1, dim H¹ = 2g + d − 1` ([§RD.5.33](#rd-5-33)), `H² = 0`. (Kedlaya, *Fourier transforms and p-adic 'Weil II'*, Theorem 4.4.1, p. 33; Kedlaya, *Notes on isocrystals*, Theorem 8.6, p. 21.)
+*Proof sketch.* Poincaré duality ([§RD.5.89](#rd-5-89)): `dim Hⁱ_{c,rig}(E) = dim H^{2d−i}_rig(E^∨)`, and `(−1)^{2d−i} = (−1)^i`. For curves: `dim H⁰ = 1, dim H¹ = 2g + b − 1` ([§RD.5.33](#rd-5-33)), `H² = 0`. (Kedlaya, *Fourier transforms and p-adic 'Weil II'*, Theorem 4.4.1, p. 33; Kedlaya, *Notes on isocrystals*, Theorem 8.6, p. 21.)
 
 *Needs:* [§RD.5.89](#rd-5-89) *Poincaré duality for rigid cohomology with coefficients (Kedlaya, Theorem 1.2.3)*; [§RD.5.90](#rd-5-90) *Finite dimensionality of compact-support rigid cohomology (Kedlaya, Theorem 1.2.2)*; [§RD.5.33](#rd-5-33) *The dimension of `H¹_rig` of a smooth affine curve with constant coefficients*.
 
 **Checks.**
 
 - `G_m: χ = 0`. `P^1` minus `N` points: `χ = 2 − N`. `E ∖ {O}: χ = −1`.
+- The open `ℙ¹_{𝔽_p(u)}∖V(t^p−u)` has one geometric puncture and Euler characteristic 1, unchanged after adjoining `u^(1/p)`.
+- Removing one separable closed point of degree two from `ℙ¹` gives two geometric punctures and Euler characteristic 0.
 
 <a id="rd-5-92"></a>
 
@@ -11822,6 +11863,27 @@ The API:
 - For `X = A^1, U = G_m` and the unit object, underlying isocrystal endomorphisms are `K` on both opens; endomorphisms respecting `σ`-semilinear Frobenius are the fixed field `K^σ`. Both restriction maps are isomorphisms.
 - On the ordinary locus `U` of the Legendre family `B, R^1f_*O` has a unit-root convergent subcrystal on `U` that is not overconvergent, so the subquotient closure in (ii) fails for the convergent category (Kedlaya, Semistable reduction `I`, Remark 5.3.2).
 
+<a id="rd-5-112a"></a>
+
+### RD.5.112a Solvable connections at type-4 points and zero exponents
+
+**Theorem.** Let `K` be a complete nonarchimedean field of characteristic zero and residue characteristic `p>0`, `x` a type-4 point of a Berkovich disc, and `M` a differential module on a disc containing `x`, and `N` a subquotient of `M_x=M⊗R_x` solvable at `x` (all subsidiary radii tend to the radius of its defining nested discs). Every subquotient of `N` satisfying the Robba condition is trivial and admits the zero tuple as an exponent.
+
+*Hypotheses.* Use the germ and radius conventions of Kedlaya §4.1 and §4.6; type 4 means a decreasing family of closed discs with empty intersection and positive limiting radius. The Robba condition is intrinsic radius one throughout the relevant annular germ, not just solvability at its endpoint.
+
+*Proof sketch.* Build the type-4 germ ring, scalar extension and descent, and the local exponent theory via parallel transport by p-power roots of unity (Kedlaya §§3.4, 4.1–4.3). Prove weak equivalence of exponents, Liouville-partition splitting and the zero-exponent unipotence theorem with the corrected arguments in the Kedlaya–Shiho corrigendum for Theorems 3.4.20 and 3.4.22. Establish the solvable local decomposition and Artin–Schreier disc comparison of Theorem 4.6.4: its nontrivial slope pieces have breaks 1 and become Robba after finite Artin–Schreier pullback. The corrected Tannakian argument uses a neutral fibre functor and the added conditions (g),(h) of Proposition 1.1.2, as verified for Theorems 2.3.17 and 3.8.16 in the corrigendum. Apply Dwork transfer on the disc and descend. For `x` of type 4, Corollary 4.6.5 then gives triviality of the Robba subquotients and zero exponents.
+
+*Sources.* Kedlaya, *Local and global structure of connections on nonarchimedean curves*, §§3.4, 4.1–4.3, Theorem 4.6.4, Corollary 4.6.5 and Remark 4.6.7, pp. 67–70; Kedlaya–Shiho, *Corrigendum*, Compositio Math. 153 (2017), 2658–2665, corrections to Proposition 1.1.2 and Theorems 2.3.17, 3.4.20, 3.4.22 and 3.8.16.
+
+*Needs:* [§RD.1.13](#rd-1-13) *Dwork transfer*; [§RD.1.48](#rd-1-48) *Rational-type fields*; [§RD.1.49](#rd-1-49) *Frobenius antecedents and descendants*; [§RD.1.51](#rd-1-51) *Subsidiary-radius variation*; [§RD.1.18](#rd-1-18) *Solvable break decomposition*; [§RD.2.11](#rd-2-11) *Finite étale Robba extensions*; AdicSpacesPartII §R0 *Analytic discs and complete residue fields*.
+
+**Checks.**
+
+- A trivial germ has intrinsic radii one and the zero exponent tuple at every type-4 point.
+- A solvable Robba subquotient at type 4 cannot have a nonzero tame exponent; this excludes a prime-to-p quotient of the local inertia image in the nonmonomial induction.
+- For a terminally presented module a tame map `t↦t^m` can create a slope change where a branch leaves the segment from zero to the Gauss point; terminal presentation is not invariant under that alteration. Zero exponents supply the needed inertia conclusion before altering.
+
+
 <a id="rd-5-113"></a>
 
 ### RD.5.113 Kedlaya's semistable reduction theorem for overconvergent F-isocrystals
@@ -11835,18 +11897,19 @@ The API:
 
 *Proof sketch.*
 
-1. Local semistable reduction at every valuation `v` of `k(X)` centred on `Z` (Kedlaya, Semistable reduction IV, Theorem 2.4.3): reduce to `k` algebraically closed and `v` minimal (Semistable reduction III); for transcendence defect 0 (monomial valuations) this is Semistable reduction III, Theorem 6.3.1, built on the p-adic local monodromy theorem over polyannuli ([§RD.2.31](#rd-2-31) in relative form); induction on transcendence defect is Semistable reduction IV, Theorem 5.0.1.
+1. Local semistable reduction at every valuation `v` of `k(X)` centred on `Z` (Kedlaya, Semistable reduction IV, Theorem 2.4.3): reduce to `k` algebraically closed and `v` minimal (Semistable reduction III); for transcendence defect 0 (monomial valuations) this is Semistable reduction III, Theorem 6.3.1, built on the p-adic local monodromy theorem over polyannuli ([§RD.2.31](#rd-2-31) in relative form); induction on transcendence defect uses Semistable reduction IV, Theorem 5.0.1 with the correction in [§RD.5.112a](#rd-5-112a). At the type-4 cross-section its Robba subquotients have zero exponents, giving `τ(I₁)=τ(W′₁)` before any tame alteration (Kedlaya, Local and global structure, Remark 4.6.7). Then the corrected nonmonomial induction applies; terminal presentation is not assumed to survive tame alterations.
 2. Global from local: the locus of valuations where a given alteration achieves semistable reduction is open in the Riemann–Zariski space, which is quasi-compact; finitely many local alterations are combined into one via de Jong's theorem and Galois closures (Semistable reduction II, Propositions 3.3.4 and 3.4.5; Semistable reduction IV, Definition 2.3.10 and Theorem 2.4.4).
 3. Equivalence with unipotent monodromy: [§RD.5.103](#rd-5-103).
 
-*Sources.* Kedlaya, *Semistable reduction for overconvergent F-isocrystals, IV: Local semistable reduction at nonmonomial valuations*, Definition 2.4.1, Theorems 2.4.3–2.4.4, pp. 16–17, and Theorem 2.3.9 and Definition 2.3.10, p. 15; D'Addezio, *Parabolicity conjecture of F-isocrystals*, §4.4.11, p. 23.
+*Sources.* Kedlaya, *Local and global structure of connections on nonarchimedean curves*, Corollary 4.6.5 and Remark 4.6.7, pp. 69–70, with the Kedlaya–Shiho 2017 corrigendum; Kedlaya, *Semistable reduction for overconvergent F-isocrystals, IV: Local semistable reduction at nonmonomial valuations*, Definition 2.4.1, Theorems 2.4.3–2.4.4, pp. 16–17, and Theorem 2.3.9 and Definition 2.3.10, p. 15; D'Addezio, *Parabolicity conjecture of F-isocrystals*, §4.4.11, p. 23.
 
-*Needs:* [§RD.5.103](#rd-5-103) *Logarithmic extension of isocrystals with unipotent monodromy*; [§RD.5.100](#rd-5-100) *Constant and unipotent monodromy along a boundary divisor; docile isocrystals*; [§RD.5.101](#rd-5-101) *Convergent log-isocrystals on a smooth pair*; [§RD.2.31](#rd-2-31) *The p-adic local monodromy theorem (Crew's conjecture): `(φ,∇)`-modules over the Robba ring are quasi-unipotent*; [§RD.2.32](#rd-2-32) *Local monodromy theorem in finite étale form (the form used for finiteness of rigid cohomology)*; SchemeAndStackFoundations §4.19 *de Jong's alteration theorem*; SchemeAndStackFoundations §4.16 *Alterations*.
+*Needs:* [§RD.5.112a](#rd-5-112a) *Type-4 triviality and zero exponents*; [§RD.5.103](#rd-5-103) *Logarithmic extension of isocrystals with unipotent monodromy*; [§RD.5.100](#rd-5-100) *Constant and unipotent monodromy along a boundary divisor; docile isocrystals*; [§RD.5.101](#rd-5-101) *Convergent log-isocrystals on a smooth pair*; [§RD.2.31](#rd-2-31) *The p-adic local monodromy theorem (Crew's conjecture): `(φ,∇)`-modules over the Robba ring are quasi-unipotent*; [§RD.2.32](#rd-2-32) *Local monodromy theorem in finite étale form (the form used for finiteness of rigid cohomology)*; SchemeAndStackFoundations §4.19 *de Jong's alteration theorem*; SchemeAndStackFoundations §4.16 *Alterations*.
 
 **Checks.**
 
 - For `X = P^1, Z = {∞}` and `E` the Dwork isocrystal on `A^1`, the Artin–Schreier alteration `P^1 → P^1, t = y^p − y`, makes `E` constant ([§RD.2.42](#rd-2-42)), hence docile.
 - For the Kummer isocrystal `(O, d + a dt/t)` on `G_m` with `a ∈ (q − 1)^{−1}ℤ`, the Kummer alteration `t = s^{q−1}` makes it docile.
+- At a nonmonomial valuation, the type-4 Robba subquotients have zero exponents before the alteration; the tame slope-change example of RD.5.112a cannot be used to preserve terminal presentation.
 
 <a id="rd-5-114"></a>
 
@@ -12802,7 +12865,7 @@ The API:
 
 *Sources.* Kedlaya, *Fourier transforms and p-adic 'Weil II'*, Lemma 3.4.1, p. 23; Kedlaya, *A p-adic local monodromy theorem*, Proposition 6.5, p. 73.
 
-*Needs:* [§RD.5.35](#rd-5-35) *Factorisation of invertible matrices over the Robba ring*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true partial valuations agree*.
+*Needs:* [§RD.5.35](#rd-5-35) *Factorisation of invertible matrices over the Robba ring*; [§RD.0.25](#rd-0-25) *The Robba ring `R_K` is Kedlaya's analytic ring `Γ^{k((t))}_an,con`: naive and true truncated weighted minima agree*.
 
 **Checks.**
 
@@ -13153,7 +13216,7 @@ The API:
 *Proof sketch.*
 
 1. The relations of `D†⟨F⟩` express semilinearity and horizontality on `M`; invertibility of the linearisation is a condition on its modules.
-2. On `N`, apply `F_M` and the Dwork multiplier `exp(π((sx)^σ − sx))`, then pull back the relative one-form `dx`. Horizontality makes this a chain map. The overconvergence estimates of [§RD.6.39](#rd-6-39) and the comparison of [§RD.6.44](#rd-6-44) transport it to `M̂` and prove functoriality.
+2. For the transform of the unit, identify the delta module with the supported residue module `K⟨s,s⁻¹⟩†/K⟨s⟩†`, using principal parts at zero and the induced overconvergent differential-operator action; `δ` maps to `[s⁻¹]`. Pullback sends it to `[s^(−q)]`. Since `∂^(q−1)[s⁻¹]=(-1)^(q−1)(q−1)!π^(−q+1)[s^(−q)]`, this computes the full transported action. On all sections it obeys `Fs=s^qF` and `∂F=q s^(q−1)F∂`, rather than extending a scalar on the cyclic generator by D-linearity. On `N`, apply `F_M` and the Dwork multiplier `exp(π((sx)^σ − sx))`, then pull back the relative one-form `dx`. Horizontality makes this a chain map. The overconvergence estimates of [§RD.6.39](#rd-6-39) and the comparison of [§RD.6.44](#rd-6-44) transport it to `M̂` and prove functoriality.
 3. Compare different lifts by the convergent Taylor stratification, using its cocycle identity for compatibility with composition. At `p = 2`, reflection changes the standard lift `x ↦ x^q` to `x ↦ −x^q`; their difference is divisible by 2, so this comparison is essential.
 4. Compose the two geometric Fourier kernels. The kernel phase is `s(x + z)`; relative integration identifies the composite with the module on `z = −x`, giving the reflection isomorphism. Its Frobenius includes the trace factor from `H²_c(A¹) = K(−1)`. The Taylor comparison from step 3 identifies the Frobenius lift on this reflected diagonal with that used for `a^*M`. This gives the square isomorphism including its Tate twist, also at `p = 2`.
 
@@ -13163,12 +13226,13 @@ The API:
 
 **Checks.**
 
-- On the trivial object `A`, `F(f) = f(x^q)` has invertible linearisation, but `x ∉ F(A)` for `q > 1`. Its Fourier transform is the delta module at 0, with `F̂(δ) = qδ`, from the pullback of the relative one-form.
+- On the trivial object `A`, `F(f) = f(x^q)` has invertible linearisation, but `x ∉ F(A)` for `q > 1`. Its Fourier transform is the delta module at 0. In the residue model `δ↔[s⁻¹]`, transported Frobenius is `[f(s)]↦[f(s^q)]`; thus `F̂(δ)=(-π)^(q−1)∂^(q−1)δ/(q−1)!`. It is not scalar on `δ`.
 - At `p = 2`, a literal extension of `ρ` to this fixed Ore algebra with `ρ²(F) = qF` would send `Fx = x^qF` to `−qFx = qx^qF`, forcing `2qx^qF = 0`. On `A`, `x^qF(1) = x^q ≠ 0`. The Taylor comparison between the reflected lifts supplies the functorial square instead.
 - For odd `q`, reflection commutes with the standard lift, so the square comparison has no change-of-lift correction and gives the Frobenius on `a^*M` multiplied by `q` whenever iteration is defined.
 - For `p = 2` and `μ ∈ O_{K′}` over any finite coefficient extension, the twists `L_{x³ + μx}` and their duals have no `H⁰` and have `dim H¹ = 2`: their Swan conductor at infinity is three. Thus [§RD.6.50](#rd-6-50) gives a finite free rank-two first transform of `L_{x³}`, and its second transform is `a^*L_{x³}(−1)`, with the reflected Frobenius compared by Taylor transport.
 - For `M = 0`, its transform and Frobenius are zero, and the square isomorphism is the identity of zero.
 - The modules `O` and `O(−1)` have the same connection and the same underlying delta-module transform; their transformed Frobenius maps differ by `q`. Thus forgetting Frobenius loses information about the transform.
+- For `E=s∂`, `Eδ=−π⁻¹δ` and `E F̂δ=−qπ⁻¹F̂δ=qF̂Eδ`; at `q=2`, `F̂δ=−π∂δ`. This excludes the scalar formula `F̂δ=qδ`.
 
 <a id="rd-6-46"></a>
 
@@ -13304,7 +13368,7 @@ The API:
 
 **Checks.**
 
-- `M = K⟨x⟩†`: both sides are the delta module at 0 with Frobenius `q` on its generator.
+- `M = K⟨x⟩†`: both sides are the delta module at 0 with `F̂(δ)=(-π)^(q−1)∂^(q−1)δ/(q−1)!`. In its de Rham cokernel, pullback of the relative one-form gives `q s^(q−1)F̂(δ)=qδ`; this cohomological scalar is distinct from the module action.
 - `M = L_{ax}, a ∈ O_K`: both sides are the delta module at `−a` with matching Frobenius.
 - Replacing `M` by `M(n)` multiplies both Frobenius maps by `q^(−n)`, and the same comparison intertwines them.
 
@@ -13394,6 +13458,27 @@ The API:
 - `E = K_a` on `G_m` ([§RD.6.47](#rd-6-47)): tame at 0 and `∞`, so both sides vanish.
 - Additivity check: for `0 → E' → E → E'`' `→ 0` both sides are additive ([§RD.1.19](#rd-1-19) and ArithmeticGaloisRepresentations §3.4).
 
+<a id="rd-6-52a"></a>
+
+### RD.6.52a Formal irregularity and good lattice pairs on algebraic curves
+
+**Theorem.** Over any characteristic-zero field `F`, develop the formal slope decomposition of a differential module over `F((t))`, its irregularity `Irr=Σ slope·multiplicity`, and invariance under finite constant extension and change of parameter. For a meromorphic connection on a smooth proper curve `C` with poles in a reduced finite divisor `Z`, there exist vector-bundle lattices `L⊂L′⊂j_*V` with `∇L⊂L′⊗Ω¹_C(log Z)` such that `[L→L′⊗Ω¹_C(log Z)]→j_*[V→V⊗Ω¹_U]` is a quasi-isomorphism. Their local lengths satisfy `length_{O_{C,z}}(L′/L)=Irr_z(V)`; in particular the length is independent of the chosen good pair.
+
+*Hypotheses.* `U=C∖Z`, `j:U→C`, `F` of characteristic zero. A good pair means that its de Rham complex is unchanged up to quasi-isomorphism after simultaneously allowing any further poles along `Z`. Formal slopes are obtained after finite ramification and constant extension by exponential factors tensored with regular-singular modules; descent defines their multiset over `F((t))`.
+
+*Proof sketch.* Prove formal slope decomposition and descent, then choose logarithmic lattices on the regular-singular factors and compatible lattices on the irregular factors. The quotient lengths descend and equal the sum of the pole orders of the exponential factors divided by the ramification degree. Good formal pairs glue to algebraic lattices; the quotient complexes for adding poles are acyclic. Thus their coherent complex computes algebraic de Rham cohomology. The invariant here is a lattice length, rather than the Euler characteristic of the full formal Laurent-series complex.
+
+*Sources.* Deligne, *Équations différentielles à points singuliers réguliers*, pp. 110–112; Malgrange, *Sur les points singuliers des équations différentielles*, §§2–3; Beilinson–Bloch–Deligne–Esnault, *Periods for irregular connections on curves*, §3.1, Definitions 3.1 and 3.3, Remarks 3.2 and 3.4, pp. 24–26.
+
+*Needs:* [§RD.1.1](#rd-1-1) *Connections and their differential-module API*; AlgebraicCurves Layers 3–4 and 9 *Divisors, Riemann–Roch and differentials*; Tau Ceti `TauCeti.genus` and Riemann–Roch spaces; SchemeAndStackFoundations §§0.1, 4.10 *Coherent sheaves and formal completion*.
+
+**Checks.**
+
+- For `d−t⁻²dt`, `Irr=1` and the pair `L=F[[t]], L′=t⁻¹F[[t]]` has length one. On the full Laurent-series field, `∂−t⁻²=−t⁻²(1−t²∂)` is bijective by its t-adically convergent inverse, so its formal index is zero.
+- A regular-singular connection admits a good pair with `L=L′`, hence length and irregularity zero; residues are chosen so that adding poles creates no cohomology.
+- Direct sums add the local lengths and irregularities; at a closed point the contribution to degree over `F` is `[κ(z):F]·Irr_z`.
+
+
 <a id="rd-6-53"></a>
 
 ### RD.6.53 The algebraic Euler–Poincaré formula for meromorphic connections on curves
@@ -13402,9 +13487,9 @@ The API:
 
 *Hypotheses.* Characteristic 0; the irregularity is the formal invariant of the completed connection at each point of `Z`.
 
-*Proof sketch.* Compare de Rham cohomology with the cohomology of a lattice twisted by a large multiple of `Z` (Deligne's comparison), and compute the Euler characteristic of the resulting coherent complex by Riemann–Roch; the correction at each `z` is the index of `∇` on the formal completion, which is `−Irr_z` (Malgrange's index theorem). (Deligne, *Équations différentielles `à` points singuliers réguliers*, LNM 163 (1970), Chapitre II, §6; Malgrange, *Sur les points singuliers des équations différentielles*, Enseign. Math. 20 (1974), §§2–3 (index theorem); Kedlaya, *Fourier transforms and p-adic 'Weil II'*, Compositio Math. 142 (2006), arXiv:math/0210149v3, p. 35.)
+*Proof sketch.* Compare de Rham cohomology with the cohomology of a lattice twisted by a large multiple of `Z` (Deligne's comparison), and compute the Euler characteristic of the resulting coherent complex by Riemann–Roch; use the good pair of [§RD.6.52a](#rd-6-52a). Its coherent Euler characteristic is `χ(L)−χ(L′⊗Ω¹_C(log Z))`. Riemann–Roch gives `r(2−2g−deg Z)−deg(L′/L)`, and the length identity gives `deg(L′/L)=Σ_z[κ(z):F]Irr_z`. The ordinary de Rham index on `F((t))` is not this correction. (Deligne, *Équations différentielles `à` points singuliers réguliers*, LNM 163 (1970), Chapitre II, §6; Malgrange, *Sur les points singuliers des équations différentielles*, Enseign. Math. 20 (1974), §§2–3 (index theorem); Kedlaya, *Fourier transforms and p-adic 'Weil II'*, Compositio Math. 142 (2006), arXiv:math/0210149v3, p. 35.)
 
-*Needs:* Tau Ceti `TauCeti.genus`.
+*Needs:* [§RD.6.52a](#rd-6-52a) *Formal irregularity and good lattice pairs*; [§RD.1.1](#rd-1-1) *Connections*; AlgebraicCurves Layers 3–4 and 9 *Divisors, Riemann–Roch and differentials*; Tau Ceti `TauCeti.genus` and Riemann–Roch spaces.
 
 **Checks.**
 
@@ -13513,11 +13598,12 @@ The API:
 
 - `isIotaReal_const`: `O_X` is `ι`-real for every `ι` (all traces equal `deg(x)^0 = 1`).
 - `isIotaReal_zero`: The zero object is `ι`-real.
-- `dwork_not_iotaReal`: For `p ≥ 3` the Dwork isocrystal `L_π` on `A^1` is not `ι`-real: `Tr(F_x) = ψ(x)^{−1}` is a non-real root of unity at `x = 1`.
+- `dwork_not_iotaReal`: For `p ≥ 3` the Dwork isocrystal `L_π` on `A^1` is not `ι`-real: `Tr(F_x) = ψ(x)^{−1}` is a non-real root of unity at a rational point `x∈𝔽_q` with absolute trace `Tr_{𝔽_q/𝔽_p}(x)=1`, which exists by surjectivity of the finite separable field trace. The eigenvalue is then `ζ_p⁻¹`.
 - `dwork_iotaRealizable`: `L_π ⊕ L_π^∨` is `ι`-real, so `L_π` is `ι`-realizable (it is `ι`-pure of weight 0).
 - `isIotaReal_conj_pairing`: For `E ι`-pure of integer weight `w, ι(Tr F_x(E^∨(−w)))` is the complex conjugate of `ι(Tr F_x(E))`.
 - `IotaRealizable_purity_required`: On `Spec 𝔽_q`, let `E` have scalar Frobenius `α` with `ι(α) = 2i`. With `w = 0, E ⊕ E^∨` has eigenvalues `2i` and `−i`/2 and nonreal trace `3i`/2. One must use the actual weight and a scalar of complex value `|ι(α)|²`.
 - The Dwork isocrystal `L_π` is not `ι`-real for `p ≥ 3` but `L_π ⊕ L_π^∨` is (traces `ψ(x) + ψ(x)^{−1} = 2` Re `ψ(x)`).
+- For `q=p^p`, the absolute trace of 1 is zero and the Dwork trace at `x=1` is 1; the trace-one witness still gives a nonreal primitive p-th root for odd `p`.
 
 <a id="rd-6-58"></a>
 
@@ -13962,7 +14048,7 @@ The API:
 
 1. The trace formula ([§RD.6.23](#rd-6-23)) for `E^{⊗2i}, i ≥ 1`, gives `ι det(1 − tF | H¹_c(E^{⊗2i})) / ι det(1 − tF | H²_c(E^{⊗2i})) = ∏_x ι det(1 − t^{deg x}F_x | E_x^{⊗2i})^{−1}; H⁰_c = 0` on an affine curve.
 2. Each local factor has nonnegative real coefficients since `Tr(F_x^n | E_x^{⊗2i}) = Tr(F_x^n | E_x^{⊗i})^2 ≥ 0` (`ι`-reality); so the radius of convergence of the left side is `≤ |ι(α)|^{−2i/deg x}` for every eigenvalue `α` of `F_x` (positive-coefficient series lemma, DeligneWeightsAndPurity §2.7).
-3. The radius is `≥` the smallest `|ι|`-norm of eigenvalues of `F^{−1}` on `H²_c(E^{⊗2i})`; by Poincaré duality ([§RD.5.89](#rd-5-89)) these are eigenvalues of `F` on `H⁰_rig(E^{⊗−2i})(1)`, which is weakly `ι`-mixed of weight `≥ −2ir` by [§RD.6.75](#rd-6-75)(ii) and `H⁰ ↪` fibre.
+3. The radius is `≥` the smallest `|ι|`-norm of eigenvalues of `F^{−1}` on `H²_c(E^{⊗2i})`; by Poincaré duality ([§RD.5.89](#rd-5-89)) these are eigenvalues of `F` on `H⁰_rig(E^{⊗−2i})(1)`, which is weakly `ι`-mixed of weight `≥ −2ir−2` (the twist `(1)` lowers weight by 2) by [§RD.6.75](#rd-6-75)(ii) and `H⁰ ↪` fibre.
 4. Hence `|ι(α)| ≤ q^{deg(x)(ir+1)/(2i)}`; let `i → ∞`.
 
 *Sources.* Kedlaya, *Fourier transforms and p-adic 'Weil II'*, Lemma 6.3.2, p. 45, and Proof of Lemma 6.3.2, p. 46.
@@ -13972,6 +14058,8 @@ The API:
 **Checks.**
 
 - `E = O` on `A^1: r = 0` and all fibres have `F_x = 1` (weight `0 ≤ 0`).
+- For `E=O` and `r=0`, `H⁰(E^{⊗−2i})(1)=K(1)` has weight `−2`, giving the `+1` in the exponent `(ir+1)/(2i)`.
+- For a constant real line of weight `r`, the dual tensor power followed by `(1)` has weight exactly `−2ir−2`; the limiting fibre bound is `r`.
 
 <a id="rd-6-77"></a>
 
@@ -14464,11 +14552,11 @@ For `k` factors, relative Künneth identifies the `k`-fold tensor power with deg
 1. (a) Near 0 the hypergeometric connection is equivalent to (1.2.1) of Crew 1994, a unipotent connection with a single nilpotent block (Crew 1994 proof of Proposition 1.2).
 2. (b) After pullback along `z ↦ z^{n+1}` the connection at `∞` splits into Dwork-type rank-one pieces of break 1 (Crew 1994 proof of Proposition 1.2), so the breaks before pullback are 1/`(n + 1)` ([§RD.1.19](#rd-1-19), behaviour under tame pullback); `Irr_∞ = 1` and `Swan_∞ = 1` by [§RD.6.52](#rd-6-52).
 3. (c) By [§RD.6.54](#rd-6-54), `χ(G_m, Kl_{n+1}) = (n + 1)·0 − 0 − 1 = −1; H⁰ = 0` because the monodromy at `∞` has no invariants.
-4. (d) The characteristic polynomial of `F_{z_0}` is determined by the traces of its powers (DeligneWeightsAndPurity §0.10), which are Kloosterman sums over all extensions of `𝔽_{q^{deg z_0}}`. The sources deduce purity from Deligne's `ℓ`-adic theorem (SGA 4½, Sommes trigonométriques 7.4 and 7.8, as used by Crew 1994 §1.5 and Fresán–Sabbah–Yu §3.2.1) through equality of these traces. The relative-integral comparison of [§RD.6.96](#rd-6-96) respects Frobenius; the singular direct image along `g` is outside the finite-free hypotheses of [§RD.6.83](#rd-6-83). The trace comparison here transfers the characteristic polynomial and its pure reciprocal roots, rather than asserting an isocrystal isomorphism from traces.
+4. (d) Each fibre in [§RD.6.94](#rd-6-94) is the degree-n cohomology of the smooth n-dimensional torus `pr⁻¹(z)`, and its forget-supports map is an isomorphism. The coefficient `f^*L_π` is pure of weight zero and realizable by [§RD.6.42](#rd-6-42) and [§RD.6.57](#rd-6-57). Apply [§RD.6.93](#rd-6-93) to obtain purity of weight `n` for every embedding. The Frobenius-equivariant identification of [§RD.6.96](#rd-6-96) transfers this to the stated Kloosterman object. Algebraicity follows independently from the additive-character sums for all power traces and Newton identities.
 
 *Sources.* Crew, *Kloosterman sums and monodromy of a p-adic hypergeometric equation*, Proposition 1.2 and its proof, pp. 5-8, and Section 1.5, p. 11; Fresán–Sabbah–Yu, *Hodge theory of Kloosterman connections*, Sections 3.2.1-3.2.2, pp. 23-25.
 
-*Needs:* [§RD.6.95](#rd-6-95) *The Kloosterman F-isocrystal `Kl_{n+1}`*; [§RD.6.52](#rd-6-52) *Irregularity equals Swan conductor for overconvergent F-isocrystals*; [§RD.6.54](#rd-6-54) *Christol–Mebkhout global p-adic Euler–Poincaré formula with irregularities*; [§RD.6.83](#rd-6-83) *Purity of `H¹` on the affine line via the Fourier transform*; [§RD.6.28](#rd-6-28) *Pointwise `ι`-weights of overconvergent F-isocrystals*; [§RD.1.19](#rd-1-19) *Break multiset and differential Swan conductor of a solvable `∇`-module*; [§RD.2.16](#rd-2-16) *Unipotent `∇`-modules are the modules `V ⊗ R` with nilpotent residue*; DeligneWeightsAndPurity §0.10 *The characteristic power series `det(1 − tF)` and traces of powers*; DeligneWeightsAndPurity §0.1 *Weil `q`-numbers of integer weight*; [§RD.6.96](#rd-6-96) *The Kloosterman F-isocrystal as a localized Fourier transform*.
+*Needs:* [§RD.6.93](#rd-6-93) *Purity of middle rigid cohomology*; [§RD.6.94](#rd-6-94) *Kloosterman fibres and the forget-supports isomorphism*; [§RD.6.57](#rd-6-57) *Realizability of a pure weight-zero coefficient*; [§RD.6.95](#rd-6-95) *The Kloosterman F-isocrystal `Kl_{n+1}`*; [§RD.6.52](#rd-6-52) *Irregularity equals Swan conductor for overconvergent F-isocrystals*; [§RD.6.54](#rd-6-54) *Christol–Mebkhout global p-adic Euler–Poincaré formula with irregularities*; [§RD.6.83](#rd-6-83) *Purity of `H¹` on the affine line via the Fourier transform*; [§RD.6.28](#rd-6-28) *Pointwise `ι`-weights of overconvergent F-isocrystals*; [§RD.1.19](#rd-1-19) *Break multiset and differential Swan conductor of a solvable `∇`-module*; [§RD.2.16](#rd-2-16) *Unipotent `∇`-modules are the modules `V ⊗ R` with nilpotent residue*; DeligneWeightsAndPurity §0.10 *The characteristic power series `det(1 − tF)` and traces of powers*; DeligneWeightsAndPurity §0.1 *Weil `q`-numbers of integer weight*; [§RD.6.96](#rd-6-96) *The Kloosterman F-isocrystal as a localized Fourier transform*.
 
 **Checks.**
 
@@ -14611,7 +14699,7 @@ The API:
 
 ### RD.7.4 Rational power series descend to `Q` and have integral normalised numerator and denominator (Fatou)
 
-**Supplier contract.** DeligneWeightsAndPurity §4.4 owns the rational-series and Fatou results in (a)–(c). Their local specializations provide the power-series compatibility used by the rigid trace formula. The supplied interface is: (a) Descent of rationality. Let `k ⊂ L` be fields and `f ∈ k[[t]]`. If there are `A, B ∈ L[t]` with `B(0) ≠ 0` and Bf `= A` in `L[[t]]`, then there are such `A, B` in `k[t]`; that is, `k[[t]] ∩ L(t) = k(t)` inside `L((t))`. (b) Local Fatou. Let `ℓ` be a prime (`ℓ = p` allowed), `f ∈ 1 + tZ_ℓ[[t]]`, and `G, H ∈ Q_ℓ[t]` coprime with `G(0) = H(0) = 1` and Hf `= G`. Then `G, H ∈ Z_ℓ[t]`. (c) Global Fatou. If `f ∈ 1 + tZ[[t]]` lies in `Q(t)`, there are unique coprime `A, B ∈ 1 + tZ[t]` with `f = A/B`; the reciprocal roots of `A` and of `B` are algebraic integers. The equality is in `Q[[t]]`, and `A, B` do not depend on any auxiliary field in which `f` was first shown to be rational.
+**Supplier contract.** DeligneWeightsAndPurity §4.4 supplies the normalized integral numerator/denominator theorem and Gauss factor extraction. For rigid trace series, the coefficient descent adapter is (a), and the local/global Fatou specializations are (b)–(c). (a) Descent of rationality. Let `k ⊂ L` be fields and `f ∈ k[[t]]`. If there are `A, B ∈ L[t]` with `B(0) ≠ 0` and Bf `= A` in `L[[t]]`, then there are such `A, B` in `k[t]`; that is, `k[[t]] ∩ L(t) = k(t)` inside `L((t))`. (b) Local Fatou. Let `ℓ` be a prime (`ℓ = p` allowed), `f ∈ 1 + tZ_ℓ[[t]]`, and `G, H ∈ Q_ℓ[t]` coprime with `G(0) = H(0) = 1` and Hf `= G`. Then `G, H ∈ Z_ℓ[t]`. (c) Global Fatou. If `f ∈ 1 + tZ[[t]]` lies in `Q(t)`, there are unique coprime `A, B ∈ 1 + tZ[t]` with `f = A/B`; the reciprocal roots of `A` and of `B` are algebraic integers. The equality is in `Q[[t]]`, and `A, B` do not depend on any auxiliary field in which `f` was first shown to be rational.
 
 `Suggested.lean` declares the compatibility specializations `RD7.fatou_local` and `RD7.fatou` of this supplier interface; these names carry no separate ownership of the abstract results.
 
@@ -14629,7 +14717,7 @@ The API:
 
 *Sources.* Deligne, *La conjecture de Weil. `I`*, §1, proof of (1.7) ⇒ (1.6), pp. 276–277; Milne, *Lectures on étale cohomology*, Lemma 27.9 and proof, pp. 156–157; Lemma 27.10 and proof, p. 158 (v2.21).
 
-*Needs:* DeligneWeightsAndPurity §4.4 *Degree-factor extraction and its rational-series/Fatou helpers*; Mathlib `PowerSeries.ext`; Mathlib `IsIntegrallyClosed.eq_map_mul_C_of_dvd`.
+*Needs:* ClassicalArithmeticCompletion §6.44 *Hankel criterion for rational series*; DeligneWeightsAndPurity §4.4 *Degree-factor extraction and its rational-series/Fatou helpers*; Mathlib `PowerSeries.ext`; Mathlib `IsIntegrallyClosed.eq_map_mul_C_of_dvd`.
 
 **Checks.**
 
@@ -14642,9 +14730,9 @@ The API:
 
 ### RD.7.5 Weight separation: pure factors of a rational zeta function are unique, rational and integral
 
-**Compatibility theorem.** Apply the coefficient-field/factor-family form of DeligneWeightsAndPurity §4.4 to the rigid factor family. Its required supplier generality is the following algebraic statement, independent of the source of the factors. Let `q > 1` be an integer and `R ∈ 1 + tZ[[t]] ∩ Q(t)`, written `R = A/B` with `A, B ∈ 1 + tZ[t]` coprime ([§RD.7.4](#rd-7-4)). Let `L` be a field of characteristic 0 with algebraic closure `L̄` and `P_0`, …, `P_N ∈ 1 + tL[t]` with `∏_{i=0}^{N} P_i^{(−1)^{i+1}} = R` in `L[[t]]`, such that every reciprocal root of `P_i` in `L̄` is algebraic over `Q` and a Weil `q`-number of weight `i` (DeligneWeightsAndPurity §0.1). Then: (1) the `P_i` are pairwise coprime, and `A = ∏_{i odd} P_i, B = ∏_{i even} P_i` in `L[t]`; (2) for each `i` there is a unique `Π_i ∈ 1 + tZ[t]` whose image in `L[t]` is `P_i`, namely `Π_i = ∏(1 − αt)^{m(α)}`, the product over the reciprocal roots `α` of A (`i` odd) or `B` (`i` even) that are Weil `q`-numbers of weight `i`, with their multiplicities `m(α)` as roots; (3) the reciprocal roots of `Π_i` are algebraic integers and `deg Π_i = deg P_i`; (4) if `(P'_i)` is a second family over another field `L'` of characteristic 0 with the same `R` and the same purity property, then `P_i` and `P'_i` are images of the same `Π_i`. The integrality in (2)–(3) comes from Fatou's lemma and the separation of weights, not from the alternating product alone; without purity, cancellation between degrees can occur and the factors are not determined by `R`.
+**Compatibility theorem.** For the rigid factor family, construct rational companion-matrix models and apply the ℚ_ℓ-Frobenius-module interface of DeligneWeightsAndPurity §4.4. The coefficient descent adapter gives the following conclusion. Let `q > 1` be an integer and `R ∈ 1 + tZ[[t]] ∩ Q(t)`, written `R = A/B` with `A, B ∈ 1 + tZ[t]` coprime ([§RD.7.4](#rd-7-4)). Let `L` be a field of characteristic 0 with algebraic closure `L̄` and `P_0`, …, `P_N ∈ 1 + tL[t]` with `∏_{i=0}^{N} P_i^{(−1)^{i+1}} = R` in `L[[t]]`, such that every reciprocal root of `P_i` in `L̄` is algebraic over `Q` and a Weil `q`-number of weight `i` (DeligneWeightsAndPurity §0.1). Then: (1) the `P_i` are pairwise coprime, and `A = ∏_{i odd} P_i, B = ∏_{i even} P_i` in `L[t]`; (2) for each `i` there is a unique `Π_i ∈ 1 + tZ[t]` whose image in `L[t]` is `P_i`, namely `Π_i = ∏(1 − αt)^{m(α)}`, the product over the reciprocal roots `α` of A (`i` odd) or `B` (`i` even) that are Weil `q`-numbers of weight `i`, with their multiplicities `m(α)` as roots; (3) the reciprocal roots of `Π_i` are algebraic integers and `deg Π_i = deg P_i`; (4) if `(P'_i)` is a second family over another field `L'` of characteristic 0 with the same `R` and the same purity property, then `P_i` and `P'_i` are images of the same `Π_i`. The integrality in (2)–(3) comes from Fatou's lemma and the separation of weights, not from the alternating product alone; without purity, cancellation between degrees can occur and the factors are not determined by `R`.
 
-`Suggested.lean` declares `pure_charpolys_coprime`, the complex-coefficient compatibility specialization `RD7.weightSeparated_factor_extraction` of the supplier theorem, and `RD7.p1_factor_purity`. The canonical extraction API is `degreeFactorExtraction` in DeligneWeightsAndPurity §4.4, including the local and global Fatou helpers; this roadmap owns its rigid/crystalline/étale applications.
+`Suggested.lean` declares `pure_charpolys_coprime`, the complex-coefficient adapter `RD7.weightSeparated_factor_extraction` to the supplier theorem, and `RD7.p1_factor_purity`. The canonical extraction API is `degreeFactorExtraction` in DeligneWeightsAndPurity §4.4, including the local and global Fatou helpers; this roadmap owns its rigid/crystalline/étale applications.
 
 *Hypotheses.*
 
@@ -14656,12 +14744,12 @@ The API:
 
 1. Weights separate: a Weil `q`-number has a unique weight (DeligneWeightsAndPurity §0.1), so `P_i` and `P_j` have no common root for `i ≠ j`; hence `∏_{i odd} P_i` and `∏_{i even} P_i` are coprime and their quotient is a reduced presentation of `R` over `L`. Comparing with the reduced presentation A/`B` over `Q` (both normalised by constant term 1) gives (1).
 2. Let `K ⊂ L̄` be the splitting field over `Q` of AB. The set of reciprocal roots of AB of weight `i`, with multiplicities, is stable under `Gal(K/Q)`, because being a Weil `q`-number of weight `i` depends only on the minimal polynomial over `Q` (DeligneWeightsAndPurity §0.1). So the coefficients of `Π_i` are fixed by `Gal(K/Q)` and lie in `Q` (Mathlib `IsGalois.mem_range_algebraMap_iff_fixed`).
-3. The reverse of `Π_i` is a monic factor in `Q[T]` of the monic integral reverse of A or `B`, so by Gauss's lemma it has integer coefficients (Mathlib `IsIntegrallyClosed.eq_map_mul_C_of_dvd`); equivalently its roots are algebraic integers by [§RD.7.4](#rd-7-4) (c).
+3. To instantiate exactly the supplied interface, choose one prime `ℓ` and, for each rational polynomial `Π_i`, take over `ℚ_ℓ` a companion matrix of its monic reverse (the zero-dimensional module when `Π_i=1`). Its constant coefficient is nonzero, so Frobenius is invertible, and `det(1−tF)=Π_i`. The root partition in step 2 gives algebraic Weil eigenvalues of weight `i` and the same alternating rational function `R`. Apply DeligneWeightsAndPurity §4.4 with the singleton prime set `{ℓ}` and integral series `R`. Its integer factors map to these companion factors and therefore, by injectivity of coefficient extension, to the original `P_i`. Gauss's lemma supplies the identical integrality conclusion directly from the rational monic factors. This adapter uses no ℓ-adic geometric purity theorem.
 4. Uniqueness and (4): `Π_i` is described by `R` alone, so any second pure family gives the same polynomials (Deligne, Weil `I`, end of the proof of (1.7) ⇒ (1.6), p. 277).
 
 *Sources.* Deligne, *La conjecture de Weil. `I`*, §1, proof of (1.7) ⇒ (1.6), pp. 276–277; Milne, *Lectures on étale cohomology*, 27.14(c)–(d), p. 159 (v2.21); Kedlaya, *Fourier transforms and p-adic 'Weil II'*, §6.6, statement (c) and its proof, pp. 51–52.
 
-*Needs:* DeligneWeightsAndPurity §4.4 *Degree-factor extraction over characteristic-zero coefficient fields*; [§RD.7.4](#rd-7-4) *Rational power series descend to `Q` and have integral normalised numerator and denominator (Fatou)*; DeligneWeightsAndPurity §0.1 *Weil `q`-numbers of integer weight*; DeligneWeightsAndPurity §0.2 *Products, inverses, conjugation and integrality of Weil `q`-numbers*; Mathlib `IsGalois.mem_range_algebraMap_iff_fixed`; Mathlib `IsIntegrallyClosed.eq_map_mul_C_of_dvd`.
+*Needs:* DeligneWeightsAndPurity §4.4 *Degree-factor extraction for ℚ_ℓ-Frobenius modules*; [§RD.7.4](#rd-7-4) *Rational power series descend to `Q` and have integral normalised numerator and denominator (Fatou)*; DeligneWeightsAndPurity §0.1 *Weil `q`-numbers of integer weight*; DeligneWeightsAndPurity §0.2 *Products, inverses, conjugation and integrality of Weil `q`-numbers*; Mathlib `IsGalois.mem_range_algebraMap_iff_fixed`; Mathlib `IsIntegrallyClosed.eq_map_mul_C_of_dvd`.
 
 **Checks.**
 
@@ -14669,6 +14757,7 @@ The API:
 - Elliptic curve `E/𝔽_7, y^2 = x^3 + x + 1: R = (1 − 3t + 7t^2)/((1 − t)(1 − 7t))` and `Π_1 = 1 − 3t + 7t^2`, whose roots have absolute value `7^{−1/2}`.
 - Purity is needed: `P_0 = 1, P_1 = P_2 = 1 − 2t` give the alternating product `R = 1`, as do `P_0 = P_1 = P_2 = 1`, so `R` does not determine the factors; the hypothesis excludes this because 2 cannot be a Weil `q`-number of weight 1 and of weight 2. The arithmetic example in `Suggested.lean` takes `q=4` and rejects weight 2 for the reciprocal root 2.
 - Genus-two curve `y^2 = x^5 + x + 3` over `𝔽_7: Π_1 = 1 + 3t + 7t^2 + 21t^3 + 49t^4` (by direct computation), with all roots of absolute value `7^{−1/2}`.
+- For the factor family of `P¹` viewed over a characteristic-zero field with no chosen ℚ_ℓ embedding, the rational root partition first gives `1−t,1,1−qt`. Their companion matrices over any one ℚ_ℓ satisfy the actual supplier interface, independently of that field.
 
 <a id="rd-7-6"></a>
 
@@ -15112,6 +15201,27 @@ The API:
 - The twist is fixed by `V_{k,p}(1) = im(α)^χ` on the characteristic-zero model: the rigid hypersurface cohomology uses `(−1)` to reach weight `k+1`.
 - Small `k`: dimension 0 for `k = 2` and `k = 4` (so (3) is an equality of zero spaces) and 1 for `k = 3` with `p > 3`.
 
+<a id="rd-7-21a"></a>
+
+### RD.7.21a Boundary Frobenius factors of Kloosterman moments at odd primes
+
+**Theorem.** For `k≥1`, an odd prime `p` and the rank-two Kloosterman F-isocrystal over `𝔽_p`, put `Z_k=det(1−TF|H¹_c(Sym^k Kl₂))` and `M_k=det(1−TF|H¹_mid(Sym^k Kl₂))`. If `k` is odd, `Z_k=(1−T)M_k`. If `k` is even, put `f=⌊k/(2p)⌋`, `m=f+δ_{4ℤ}(k)` and `n=⌊k/(4p)+1/2⌋`. Then `Z_k=(1−T)(1−(−1)^((p−1)/2)p^(k/2)T)^n(1−p^(k/2)T)^(m−n) M_k`. Thus the boundary slopes are one zero and `m` copies of `k/2`. The middle Frobenius slopes are symmetric about `(k+1)/2`; in the even case its dimension is `d₀−2f`, where `d₀=(k−2)/2−δ_{4ℤ}(k)` is the characteristic-zero middle dimension.
+
+*Hypotheses.* Compact and middle rigid cohomology, the trace convention of RD.6.48 and the rank-two Kloosterman object of RD.6.95. All odd primes are included; the extra boundary factors occur when `2p≤k`.
+
+*Proof sketch.* Compute the invariant spaces at zero and infinity in the symmetric power of the explicit local Kloosterman module. At infinity pass to the quadratic cover and use the two opposite Artin–Schreier characters; retain the monomials whose character vanishes modulo `p`, with the involution and its sign. Their invariant count and Frobenius give `m,n` and the displayed factors. Apply the rigid localization sequence to identify the boundary kernel of `H¹_c→H¹`. The Kloosterman pairing induces, by Poincaré duality, a perfect pairing on middle cohomology with values in `K(−k−1)`, giving slope symmetry. Rank follows from the local Swan calculation and the Euler characteristic. This is the rigid local-invariant calculation of the factors recorded by FSY, rather than a transfer of an undeclared ℓ-adic purity theorem.
+
+*Sources.* Fresán–Sabbah–Yu, *Hodge theory of Kloosterman connections*, §5.1.1, equations (5.1)–(5.3), pp. 39–40, and §3.2.2; Crew, *Kloosterman sums and monodromy of a p-adic hypergeometric equation*, §§1.5–1.6 (local monodromy and pairing).
+
+*Needs:* [§RD.6.95](#rd-6-95) *Kloosterman F-isocrystal*; [§RD.6.98](#rd-6-98) *Middle rigid Kloosterman cohomology*; [§RD.6.88](#rd-6-88) *Rigid localization on curves*; [§RD.5.89](#rd-5-89) *Poincaré duality*; [§RD.6.55](#rd-6-55) *Euler characteristic with Swan conductors*; [§RD.2.44](#rd-2-44) *Artin–Schreier local modules and breaks*.
+
+**Checks.**
+
+- For `k=6,p=3`, `f=m=n=1`, `M₆=1` and `Z₆=(1−T)(1+27T)`. Compact-support slopes are `0,3`; both factors are required.
+- If `2p>k` and `k` is even, `f=n=0` and `m=δ_{4ℤ}(k)`; the boundary reduces to the zero slope and the single `k/2` slope exactly when `4|k`.
+- For `k=12,p=3`, `m=3,n=1`: the boundary polynomial is `(1−T)(1+3⁶T)(1−3⁶T)²`, and middle cohomology has dimension zero. All three slope-six boundary terms remain.
+
+
 <a id="rd-7-22"></a>
 
 ### RD.7.22 Newton above Hodge for Kloosterman moments and the valuation of their coefficients (Fresán–Sabbah–Yu, Corollary 5.27)
@@ -15128,12 +15238,12 @@ The API:
 
 1. The filtered `(φ, N)`-module `(V_{k,p} ⊗ B_st)^{Gal(Q̄_p/ℚ_p(√−p))}` of the semistable representation `V_{k,p}` is weakly admissible (FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.2–R07.3.3, weak admissibility of `D_st(V)`): its Newton polygon lies above its Hodge polygon with the same endpoints.
 2. Newton and Hodge polygons are additive for direct sums (Minkowski sums of the regions above them); the middle rigid cohomology injects into the Frobenius module of `V_{k,p}` ([§RD.7.21](#rd-7-21) (2)), so its Newton polygon lies above that of `V_{k,p}`, which lies above the Hodge polygon of the middle de Rham cohomology; under the bounds on `p` the two modules are equal and the endpoints agree.
-3. Add back the trivial factor: one-dimensional with slopes 0 if `k` ≢ 0 mod 4, two-dimensional with slopes 0 and `k`/2 otherwise.
+3. Add the full boundary factor of [§RD.7.21a](#rd-7-21a). For odd `k` this adds only slope zero, so the injection bound in step 2 suffices on the available horizontal interval. For even `k`, put `f=⌊k/(2p)⌋`. The middle slopes are symmetric about `(k+1)/2` and number `d=d₀−2f`. For `j≤d/2`, the injection and weak admissibility give a lower bound by the first `j` middle Hodge slopes; reflection gives the corresponding bound for `j>d/2`. Equivalently, a lower polygon is obtained from the symmetric characteristic-zero middle Hodge list by deleting its `f` central pairs. Add `f` slopes `k/2`, as well as the common characteristic-zero boundary slopes `0` and, if `4|k`, `k/2`. The lower half of the middle Hodge list is integral and at most `k/2`; replacing the deleted lower central slopes by `k/2` raises each of them, and deleting the upper central slopes moves the remaining upper slopes to the left. Thus this new polygon dominates the original compact-support Hodge polygon on its whole available interval. For `f=0` the endpoints agree as stated. This proves the comparison also when the small-prime boundary has larger dimension than the characteristic-zero boundary.
 4. The valuation bound: `c_n` is, up to sign, the `n`-th elementary symmetric function of the Frobenius eigenvalues, so its valuation is at least the sum of the `n` smallest Newton slopes, hence at least the sum of the `n` smallest Hodge slopes; Fresán–Sabbah–Yu read off `v_p(c_n) ≥ n(n − 1)` from the assumed Hodge-number calculation of their Theorem 1.8 and §4, used in Remark 5.28. [§RD.6.91](#rd-6-91) gives the coarser consistency check that all slopes lie in `[0, k + 1]`.
 
 *Sources.* Fresán–Sabbah–Yu, *Hodge theory of Kloosterman connections*, Corollary 5.27 and its proof, Remark 5.28 with (5.29), p. 51 (arXiv v5).
 
-*Needs:* [§RD.7.21](#rd-7-21) *The p-adic realisation of the Kloosterman moments and middle rigid cohomology (Fresán–Sabbah–Yu, Proposition 5.23)*; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.2–R07.3.3; [§RD.6.91](#rd-6-91) *Slope bounds for rigid cohomology (p-adic weights)*; Layer RD.6.
+*Needs:* [§RD.7.21a](#rd-7-21a) *Full odd-prime boundary factors and middle slope symmetry*; [§RD.7.21](#rd-7-21) *The p-adic realisation of the Kloosterman moments and middle rigid cohomology (Fresán–Sabbah–Yu, Proposition 5.23)*; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.2–R07.3.3; [§RD.6.91](#rd-6-91) *Slope bounds for rigid cohomology (p-adic weights)*; Layer RD.6.
 
 **Checks.**
 
@@ -15322,7 +15432,18 @@ The following corrections to statements or proofs in the sources are used above.
 - **Kedlaya, *Fourier transforms and p-adic 'Weil II'*, Proposition 6.4.4, proof, pp.47–48, arXiv v3.** Use a justified tensor-invariant or weight-monodromy argument; this false inclusion is not a proof of the theorem. *Why:* Let `Ne₂=e₁` and `Ne₁=0` in a size-two Jordan block. Then `e₁` is horizontal but `N(e₁⊗e₂)=e₁⊗e₁≠0`.
 - **Kedlaya, *Fourier transforms and p-adic 'Weil II'*, Lemma 6.7.2, proof, p.53, arXiv v3.** The constant coefficient has nonzero `H¹_c` in general. A proper-curve crystalline lattice plus localisation supplies the nonnegative-slope input, as in [§RD.6.89](#rd-6-89) and [§RD.6.90](#rd-6-90). *Why:* For `G_m, H¹_c(K)=K` is nonzero and has slope zero. The lemma’s conclusion survives this example; its stated vanishing proof does not.
 
+- **Kedlaya, overview, proof of Theorem 5.4.10, p. 35.** In the left-continuous upper numbering use an index-p subgroup containing `H^{i+}`, not `H^i=H`. Use its full fixed Artin–Schreier field, a parameter change reducing its equation to a leading monomial, and induction on image order as in RD.2.46; its lowest break need not decrease.
+- **Kedlaya–Xiao, Theorems 1.4.21 and 1.5.6.** The visible value-group conclusion includes `ω`; after `h` antecedents use `(r/ω^(1/p^h))^dim∈|K×|^(1/p^h)`. The rank-one module with `D(e)=e/3` over the 1-Gauss completion of `ℚ₃(u)` has radius `3^(−3/2)`, outside `3^ℤ`.
+- **Zureick-Brown, Lemma 5.14 and Remark 5.3.** Scheme surjectivity does not imply equality of tubes. RD.5.71 uses Le Stum's constructible-crystal dimension induction (§7.2), keeping the strict transform distinct from the full inverse image. The principal ideal `(t,t²)` already excludes the projective-product tube assertion.
+- **Kedlaya, Semistable reduction IV, Lemma 5.6.2.** Terminal presentation need not survive tame alteration. Use the type-4 zero-exponent result and the correction in *Local and global structure*, Remark 4.6.7, with its 2017 corrigendum, as in RD.5.112a–RD.5.113.
+- **Fresán–Sabbah–Yu, proof of Corollary 5.27.** At small odd primes retain the additional slope-`k/2` terms of (5.3); the central-pair comparison in RD.7.22 gives the polygon bound. For `k=6,p=3`, the boundary has slopes `0,3` despite `4∤k`.
+
 ## References
+
+- A. Beilinson, S. Bloch, P. Deligne and H. Esnault, *Periods for irregular connections on curves*, §3.1. <https://www.mi.fu-berlin.de/users/esnault/preprints/helene/69-preprint-per051206.pdf>
+- K. S. Kedlaya, *Local and global structure of connections on nonarchimedean curves*, Compositio Math. 151 (2015), 1096–1156; arXiv:1301.6309. <https://arxiv.org/abs/1301.6309>
+- K. S. Kedlaya and A. Shiho, *Corrigendum: Local and global structure of connections on nonarchimedean curves*, Compositio Math. 153 (2017), 2658–2665. <https://doi.org/10.1112/S0010437X17007461>
+- B. Le Stum, *Rigid cohomology of locally noetherian schemes, Part 2: Crystals*, §7. <https://arxiv.org/abs/2209.07875>
 
 - `T`. Abe and A. Marmora, *Product formula for p-adic epsilon factors*, `J`. Inst. Math. Jussieu 14 (2015); arXiv:1104.1563. <https://arxiv.org/abs/1104.1563v3>
 - `T`. Abe, *Langlands program for p-adic coefficients and the petites camarades conjecture*, `J`. reine angew. Math. 734 (2018); arXiv:1111.2479. <https://arxiv.org/abs/1111.2479v1>
@@ -15428,3 +15549,4 @@ The following corrections to statements or proofs in the sources are used above.
 - `D`. Xu, *On higher direct images of convergent isocrystals*, Compositio Math. 155 (2019), 2180–2213; arXiv:1802.09060v1. <https://arxiv.org/abs/1802.09060v1>
 - Yu. `G`. Zarhin, *A remark on endomorphisms of abelian varieties over function fields of finite characteristic*, Izv. Akad. Nauk SSSR Ser. Mat. 38 (1974), 471–474.
 - David Zureick-Brown, *Cohomological descent on the overconvergent site*, arXiv:1204.5246v4 (14 Feb 2014); published Res. Math. Sci. 1 (2014). <https://arxiv.org/abs/1204.5246v4>
+- For `k=6,p=3`, the Newton slopes `0,3` lie above the first two characteristic-zero compact-support Hodge slopes `0,2`; `Z₆=1+26T−27T²` has `v₃(c₂)=3≥2`. The missing slope is not removed by assuming filtered comparison data.

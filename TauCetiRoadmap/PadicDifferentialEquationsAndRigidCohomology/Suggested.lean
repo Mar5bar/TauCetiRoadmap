@@ -722,7 +722,8 @@ theorem finiteEtale_averaging (d : ℕ) (hd : 0 < d)
 end Averaging
 
 /-- `dim H¹_rig` of a smooth geometrically irreducible affine curve whose smooth
-compactification has genus `g` and whose boundary has degree `d ≥ 1`. -/
+compactification has genus `g` and whose boundary has `d ≥ 1` geometric points.
+For geometrically reduced boundary, this count equals its degree over the base field. -/
 def affineCurveH1Dim (g d : ℕ) : ℕ := 2 * g + d - 1
 
 /-- The affine line. -/
@@ -734,8 +735,9 @@ example : affineCurveH1Dim 0 2 = 1 := rfl
 /-- An elliptic curve minus its origin. -/
 example : affineCurveH1Dim 1 1 = 2 := rfl
 
-/-- The index bookkeeping: `ind ρ = 1 − g`, `ind d_loc = −d`, `ind dρ = g − 1` and
-`H⁰ = K` give `1 − dim H¹ = (1 − g) + (−d) − (g − 1)`. -/
+/-- The index bookkeeping after a finite residue-field extension making the reduced boundary
+geometrically reduced: `d` counts geometric punctures. The identities `ind ρ = 1 − g`,
+`ind d_loc = −d`, `ind dρ = g − 1` and `H⁰ = K` give `1 − dim H¹ = (1 − g) + (−d) − (g − 1)`. -/
 theorem affineCurve_index_identity (g d : ℕ) (hd : 1 ≤ d) :
     (1 : ℤ) - affineCurveH1Dim g d = (1 - g) + (-(d : ℤ)) - ((g : ℤ) - 1) := by
   sorry
@@ -1122,8 +1124,9 @@ example (ℓ : ℕ) [Fact ℓ.Prime] :
     rw [hcoeff, norm_neg, norm_inv, Padic.norm_p, inv_inv]
     exact_mod_cast (Fact.out : ℓ.Prime).one_lt
 
-/-- The complex-coefficient specialization of the coefficient-field/factor-family interface
-of DeligneWeightsAndPurity §4.4 provides integral factors (README RD.7.5): if
+/-- The complex-coefficient adapter constructs rational root partitions and their invertible
+companion matrices over one `ℚ_ℓ`, then applies the Frobenius-module interface of
+DeligneWeightsAndPurity §4.4 to provide integral factors (README RD.7.5): if
 `∏ P_i^{(−1)^{i+1}} = A/B` with `A, B ∈ 1 + tℤ[t]` coprime, and every reciprocal
 root of `P_i` (a root of its reverse) is a Weil `q`-number of weight `i` (all conjugates of
 absolute value `q^{i/2}`; the inline condition is the Weil `q`-number of
