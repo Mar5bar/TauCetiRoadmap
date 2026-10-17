@@ -185,9 +185,12 @@ data, semistable strongly divisible modules in higher weights, and the weights `
 R07.1 and R07.4. Quotients of `p`-divisible groups in families beyond the complete-DVR finite-subgroup
 quotient of §R07.1.20a, Faltings' integral Hodge–Tate
 complex, Fargues' degree function and canonical subgroups belong to HodgeTateAndCanonicalSubgroups
-and IgusaVarietiesAndTorsionConcentration. The `E`-linear Fontaine–Laffaille theory with embedded
-coefficients and labelled weights belongs to AutomorphicGaloisRepresentations and
-PotentialAutomorphyInfrastructure; Serre's computation of the characters on `E[p]` for ramified
+and IgusaVarietiesAndTorsionConcentration. LocalGaloisDeformationRings consumes the scalar
+Fontaine–Laffaille theory of R07.3 and owns its common coefficient extension in §1.6: the shared
+coefficient category, labelled factors and their Frobenius permutation, and the covariant
+realization by lattice and Pontryagin duals. AutomorphicGaloisRepresentations and
+PotentialAutomorphyInfrastructure consume these specializations for labelled weights and
+automorphic applications; Serre's computation of the characters on `E[p]` for ramified
 bases `e > 1` belongs to SerreWeightAndLevelOptimisation. The general `p`-adic comparison theorems
 for varieties belong to PadicHodgeTheory, which imports the filtered modules, weak admissibility and
 the Colmez–Fontaine theorem from here.
