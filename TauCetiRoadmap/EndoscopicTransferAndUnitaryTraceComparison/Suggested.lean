@@ -67,7 +67,9 @@ example : ¬ IsConj (1 : Matrix.GeneralLinearGroup (Fin 2) ℚ)
   sorry
 end GLn
 
-/-! ## Layer 2: orbital integrals and transfer factors -/
+/-! ## Layer 2: orbital integrals and transfer factors
+Section 2.6's rational nilpotent germs are locally constant on the regular semisimple locus.
+Their square-dilation homogeneity does not imply constancy on a Cartan's regular locus. -/
 
 section KappaSum
 variable {D : Type*} [CommGroup D] [Fintype D]
@@ -99,7 +101,17 @@ example (O : Unit → ℂ) : kappaSum (1 : Unit →* ℂˣ) O = O () := by
   simp [kappaSum]
 end KappaSum
 
-/-! ## Layer 3: Hitchin geometry and support -/
+/-! ## Layer 3: Hitchin geometry and support
+Section 3.4's kostantHitchinSection takes a square root D′ of D and gives a section into
+[𝔤_D^reg/G], represented by the Kostant torsor E_{D′} and its regular D-valued Higgs field.
+Section 3.6's kostantHitchinSection_hitchin sends a to that torsor/Higgs-field pair in M^reg.
+The companion matrices below state only the untwisted GL_n formulas.
+Section 3.7 uses constructible locally closed strata for geometric indecomposables and
+moment-map charts for Higgs objects over bounded strongly generated sheaf charts.
+Sections 3.11 and 3.16 permit auxiliary level at regular places and retain every local volume.
+EtaleDualityAndPerverseSheaves §§5.6, 5.8 supplies pureComplexGeometricSplitting,
+decompositionTheorem and relativeHardLefschetzTheorem; §3.15 extends their scheme statements
+to the specified smooth separated Deligne–Mumford source. -/
 
 section ChevalleyGL
 variable {K : Type*} [Field K] {n : ℕ}
@@ -162,7 +174,9 @@ example : kostantSectionGL (0 : Fin 2 → K) = !![0, 0; 1, 0] := by
 end ChevalleyGL
 
 /-! ## Layer 4: the fundamental lemma and smooth transfer
-The reductive and harmonic carriers required for these statements are described in README.md. -/
+The reductive and harmonic carriers required for these statements are described in README.md.
+Section 4.2 requires j_* and its inverse to identify the cocharacter lattices over ℤ_(p),
+in addition to p being prime to the Weyl order, and uses compatible centralizer Haar measures. -/
 
 /-! ## Layer 5: number-field discrete general linear input and normalization
 AutomorphicSpectralTheory §4.14a supplies the residual index and representations.
@@ -171,6 +185,8 @@ The endoscopic labels use those same objects; the GL intertwiner normalization i
 /-! ## Layer 6: stable and twisted unitary trace comparison
 Section 6.2 supplies Tamagawa number one for every simply connected semisimple group
 over a number field, including type-C derived covers and inner centralizers.
+Its proof uses strong induction on dimension for the simply connected derived covers of
+proper semisimple centralizers, with central elements treated separately.
 Section 6.5 uses this theorem for the absolute Tamagawa formulas. -/
 
 /-- The numerical component count for d=[F⁺:ℚ] and the block sizes.
@@ -211,7 +227,11 @@ example : endoscopicCoefficient 2 0 2 = 0 := by
   norm_num [endoscopicCoefficient]
 
 /-! ## Layer 7: algebraic isocrystals and rational Igusa geometry
-The structured isocrystal and moduli targets are stated in README.md. -/
+The structured isocrystal and moduli targets are stated in README.md.
+Section 7.10a uses TauCeti.EtaleDuality.CohCorr and its rgammac, comp, pushforward, traceMap
+and localTerm from EtaleDualityAndPerverseSheaves §§6.1–6.3, with traceAdditivity and
+fujiwaraVarshavskyTraceFormula from §§6.4–6.5, for finite Igusa coefficient correspondences.
+The Frobenius-twisted trace requires proper first leg, quasi-finite second leg and Weil descent. -/
 
 /-! ## Layer 8: Igusa counting and stabilization -/
 
@@ -317,6 +337,10 @@ Their packet carriers and weighted stabilization identities are specified in REA
 
 /-! ## Layer 12: local towers and their cohomology
 The marked relative chart and the actual cohomological realizations are README targets.
+Section 12.1's TowerUntiltChart.unramifiedComparison identifies the ℚ_p and unramified
+specializations of the finite-E rings, annuli, curve and divisor with PadicHodgeTheory §7.5,
+commuting with pullback, radius restriction and the stated power of Frobenius.
+The ramified coefficients, translated mark, Lie quotient and Tate framing belong to §12.1.
 Section 12.16's TowerLocallyAnalytic.orbitMapEquiv identifies the tower analytic vectors
 with the generic invariant orbit-map carrier on LocallyAnalyticDistributions' stages.
 Evaluation at the identity and the orbit map give inverse topological linear maps,
@@ -392,8 +416,7 @@ endoscopicCoefficient_self_test. Section 15.1 specifies comparisonTrace_addMulti
 comparisonTrace_merge and comparisonTrace_zeroLocal. The classical-llc-normalization
 contract is supplied by SmoothRepresentationsOfLocalGroups §SR.5.2.
 
-pureSchemeDecomposition, relativePerverseLefschetz, CohomologicalCorrespondence,
-frobeniusTwistedTrace, NonabelianH1, CrossedModuleCohomology, AbelianizedCohomology, InnerTwist,
+NonabelianH1, CrossedModuleCohomology, AbelianizedCohomology, InnerTwist,
 IntegralZExtension, IsStronglyRegular, stableCentralizer, StablyConj, EndoscopicDatum and its ZPair/classMap,
 kappaOrbitalIntegral, stableOrbitalIntegral, globalStableObstruction, UnitaryLieCentralizer,
 AData, ChiData, TransferFactor, TwistedTransferFactor, LieTransferFactor, IsTransfer,
