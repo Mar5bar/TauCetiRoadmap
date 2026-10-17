@@ -2091,9 +2091,10 @@ affine groups these maps agree with `frobeniusHom` and `verschiebungHom`, includ
 change and both identities. The new construction covers nonaffine groups. If `G` is smooth of
 relative dimension `g`, `F` is finite locally free of degree `p^g`, `ker F` is finite locally free
 of height one, and `V` is the unique homomorphism with `V ∘ F = [p]` (fppf descent of `[p]` along
-the epimorphism `F`). On invariant differentials `F^* = 0` and `V^* : e^*Ω¹_G → e^*Ω¹_{G^{(p)}} =
-Frob_S^* e^*Ω¹_G`. For `G_m`, `F` is `z ↦ z^p` onto `G_m^{(p)} = G_m` and `V = id`; for `G_a`, `V =
-0`. (SGA 3, Exposé VII_A, §§4.1–4.3, especially 4.2.1, 4.3.1 and 4.3.2, re-edition pp. 464–472; for
+the epimorphism `F`). On invariant differentials `F^* = 0` and
+`V^* : e^*Ω¹_G → e^*Ω¹_{G^{(p)}} = Frob_S^* e^*Ω¹_G`. For `G_m`, `F` is `z ↦ z^p` onto
+`G_m^{(p)} = G_m` and `V = id`; for `G_a`, `V = 0`.
+(SGA 3, Exposé VII_A, §§4.1–4.3, especially 4.2.1, 4.3.1 and 4.3.2, re-edition pp. 464–472; for
 the smooth Frobenius, Stacks, Lemma 50.19.5, Tag 0FW2: étale locally its basis is the monomials with
 each exponent less than `p`.) *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.1;
 AbelianSchemesAndArithmeticModuli A1.3 (invariant differentials); SchemeAndStackFoundations Layer 0,
@@ -2473,10 +2474,10 @@ C5.4; SchemeAndStackFoundations Layer 1, Layer 2.
 
 ### C5.16 The integral minimal compactification
 
-Construct `IntegralMinimalModel` (suggested home `TauCeti/Geometry/Shimura/PEL/Minimal`): `M^min_H =
-Proj_B S` with the proper map `π : M^tor_{H,Σ} → M^min_H` and the open immersion of the PEL moduli
-space. It is projective, normal and flat over `B`, independent of `Σ`, with `O_{M^min} =
-π_*O_{M^tor}`, its boundary strata are identified with the coarse boundary moduli spaces through the
+Construct `IntegralMinimalModel` (suggested home `TauCeti/Geometry/Shimura/PEL/Minimal`):
+`M^min_H = Proj_B S` with the proper map `π : M^tor_{H,Σ} → M^min_H` and the open immersion of the PEL
+moduli space. It is projective, normal and flat over `B`, independent of `Σ`, with
+`O_{M^min} = π_*O_{M^tor}`, its boundary strata are identified with the coarse boundary moduli spaces through the
 constant terms of C5.15, and its generic fibre is the minimal compactification of ShimuraVarieties
 2.5–2.7 for the same datum. The map contracts the toroidal boundary directions. Completions and
 special fibres are compared separately. Construct `M^min` as the Stein factor of C5.14 and identify
@@ -2566,8 +2567,8 @@ SchemeAndStackFoundations Layer 1, Layer 4.
 Prove `NormalizedToroidalModel.chart_compare`: (a) the completion of the finite normalization of
 C5.19 along a boundary stratum is computed as follows. On a normal excellent integral affine chart
 `A`, let `L` be the finite generic level algebra over `Frac(A)` and `A′` the finite normalization of
-`A` in `L`, componentwise. For its boundary completion `Â`, the completed normalization is `A′ ⊗_A
-Â`. Identify it with the normalization of `Â` in `L ⊗_{Frac(A)} Q(Â)`, using the total quotient ring
+`A` in `L`, componentwise. For its boundary completion `Â`, the completed normalization is
+`A′ ⊗_A Â`. Identify it with the normalization of `Â` in `L ⊗_{Frac(A)} Q(Â)`, using the total quotient ring
 componentwise; on torus-torsor charts this is the changed-lattice chart of C0.20 over the normalized
 boundary base; (b) for the normalized blow-up model of C5.31 the completed charts are those of Lan's
 Theorem 6.1(3)–(4), with their torus-torsor bases and changed lattices; (c) the normalized blow-up
@@ -3308,8 +3309,8 @@ Layer 1.
 ### C6.22 Polarization quotients of toroidal models
 
 Prove `HilbertModular.toroidal_polarizationQuotient`: for a fan system invariant under the finite
-tame polarization group (C6.12a; HilbertModularVarietiesAndShimuraCurves H3 at scalar level, `Δ(N) =
-o^{×,+}/((1+No)^×)²` in the scalar case), its action extends to `M̄¹_Σ` and the quotient `M̄_Σ`
+tame polarization group (C6.12a; HilbertModularVarietiesAndShimuraCurves H3 at scalar level,
+`Δ(N) = o^{×,+}/((1+No)^×)²` in the scalar case), its action extends to `M̄¹_Σ` and the quotient `M̄_Σ`
 compactifies the coarse model `M`; in Dimitrov's torsion-free tame case `M̄¹_Σ → M̄_Σ` is finite
 étale. The chart maps are equivariant (Dimitrov, Proposition 4.1(iii)) and the action on the
 toroidal model is free ([Dimitrov], Théorème 7.2(ii), pp. 542–543; [BHW], Proposition 8.4, p. 1766,
@@ -3523,8 +3524,8 @@ C6.23, C6.35, C6.54; AdicSpacesPartIII §F0.6 (theorem-on-formal-functions), §F
 
 Prove `HilbertModular.minimal_weightExtends_iff`: for `g > 1` and an integral weight `κ` over
 `o′[1/Δ]`, the weight line extends invertibly to the minimal model if and only if `κ` is parallel
-and every residual cusp character is trivial. On the fine model this requires `u^κ = 1` for all `u ∈
-o_{C,1}^×` at every cusp; on the coarse model also require trivial residual inertia on the fibre.
+and every residual cusp character is trivial. On the fine model this requires `u^κ = 1` for all
+`u ∈ o_{C,1}^×` at every cusp; on the coarse model also require trivial residual inertia on the fibre.
 Here extension is over the characteristic-zero weight base, and `π_*ω^κ` is coherent for every `κ`.
 For nonparallel `κ`, the logarithmic unit lattice makes the weight character nontrivial. For
 parallel `κ`, the norm character has finite image: specify a common positive exponent annihilating
@@ -3764,8 +3765,8 @@ ModularCurvesPartII 5.2, 5.13; SchemeAndStackFoundations Layer 0.
 ### C6.51 Cusp parameters of modular curves
 
 Prove `HilbertModular.degreeOne_cuspParameter`: under C6.50, the Tate family (C4.12), cusp fields
-and formal parameter agree with ModularCurvesPartII 3.6 and 4.8: at a cusp of width `w`, `j =
-q_Tate⁻¹ + 744 + ⋯` and `q_Tate = t^w` in the cusp parameter `t`; analytification and the level and
+and formal parameter agree with ModularCurvesPartII 3.6 and 4.8: at a cusp of width `w`,
+`j = q_Tate⁻¹ + 744 + ⋯` and `q_Tate = t^w` in the cusp parameter `t`; analytification and the level and
 degeneracy maps of ModularCurvesPartII 9.1 commute with this. The character inclusion at the cusp
 has index `w`, computed from C6.20 and the finite lattice map C0.20. At the level of stacks inertia
 is kept; on coarse spaces the width is kept. *Needs:* C0.20, C4.12, C6.20, C6.50;
@@ -3858,11 +3859,12 @@ residue `K`, and `R^{(0)}` is a Noetherian subring surjecting onto `V` with gene
 `R^{(i)} = R^{(0)}[J/π̃^i]`. A permitted `Spec R → Y°` extends to the boundary completion of `Y*`
 over `Spf R^{(i)}` for some `i`, as in Remarque 5.7; permitted maps to the affine charts are defined
 in the same way using `Spf A_j`. Require that `f°` is permitted (it sends the boundary to the
-boundary: for every permitted point `Spec K → (Spec A_1)°` coming from a formal map `Spf V → Spf
-A_1` of finite type, the extension to `Spec V` of the composite to a proper compactification sends
+boundary: for every permitted point `Spec K → (Spec A_1)°` coming from a formal map
+`Spf V → Spf A_1` of finite type, the extension to `Spec V` of the composite to a proper compactification sends
 the closed point outside `Y°`); and for every complete discrete valuation ring `V` with fraction
-field `K`: (i) the sequence of permitted `K`-points `(Spec A_2)°(K)_permis ⇒ (Spec A_1)°(K)_permis →
-Y°(K)_permis` is exact, and (ii) for every thickening `(R, R^{(0)})` of `(K, V)`, every permitted
+field `K`: (i) the sequence of permitted `K`-points
+`(Spec A_2)°(K)_permis ⇒ (Spec A_1)°(K)_permis → Y°(K)_permis` is exact, and (ii) for every thickening
+`(R, R^{(0)})` of `(K, V)`, every permitted
 `Spec K → (Spec A_1)°` with a permitted map `Spec R → Y°` extending its composite lifts uniquely to
 a permitted `Spec R → (Spec A_1)°`. Then there are an algebraic space `Y` of finite type over `S`,
 an open immersion `Y° ⊆ Y` and an isomorphism of `X` with the completion of `Y` along `Y ∖ Y°`
