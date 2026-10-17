@@ -456,7 +456,7 @@ is independent of the universal-cover/asphericity and complexification construct
   projection. Before applying it to `H=T` or each `H_α`, establish that the chosen subgroup
   is closed; the concrete manifold, tangent-space and projection identifications remain
   explicit Layer 6 applications. SBC B1.1's principal-bundle construction consumes the
-  independent regular-fibre-product floor LieGroupoidsPoisson G0.1; B1.4 uses that earlier
+  independent regular-fibre-product floor [LieGroupoidsPoisson G0.1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1050); B1.4 uses that earlier
   principal-bundle interface together with the closed-subgroup structure from Layer 2.
   Neither prerequisite depends on Layer 6.
 
@@ -543,7 +543,7 @@ is independent of the universal-cover/asphericity and complexification construct
   and complex translations have complex-linear derivatives. Hence exp_H has
   complex-linear real derivative everywhere; finite-dimensional complex calculus
   gives holomorphy. Its derivative at0 is identity; consume
-  [ComplexKahlerGeometry K1](../../ComplexKahlerGeometry/README.md)
+  [ComplexKahlerGeometry K1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/953)
   for complex-manifold transport of the holomorphic inverse/implicit theorem,
   using the native strict-derivative inverse over ℂ, to obtain charts near0 and1. Naturality supplies included-real-subgroup
   compatibility. Compare holomorphic matrix groups with the unit exponential
@@ -587,7 +587,7 @@ is independent of the universal-cover/asphericity and complexification construct
   cover for connected compact semisimple groups through Layer5's central kernel.
   These precede compact complexification and algebraic compact-form descent.
 - **Finite faithful representations and compact-case polar geometry.** For every
-  compact Lie group G, including all its components, consume CompactGroups Layer5's
+  compact Lie group G, including all its components, consume [CompactGroups Layer5](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1047)'s
   independent Peter–Weyl point separation and unitarization. Own the finite Lie-group
   consequence: intersect finitely many derivative kernels to get an injective
   differential, giving a discrete compact and therefore finite residual kernel;
@@ -598,7 +598,7 @@ is independent of the universal-cover/asphericity and complexification construct
   injective; compactness gives its topological embedding. The differential is
   injective after complexification because dρ(g)⊂u(V) is totally real, and the
   universal Lie-algebra quotient formula then makes dη_C an isomorphism.
-  For K=ρ(G) construct P=K exp(i k)⊂GL(V). Consume CotangentLagrangian C2.0's ambient complex
+  For K=ρ(G) construct P=K exp(i k)⊂GL(V). Consume [CotangentLagrangian C2.0](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1049)'s ambient complex
   unitary/positive polar decomposition and logarithm, and prove that this is a closed embedded
   submanifold with unique smooth polar coordinates K×k. Its left-trivialized
   tangents equal k_C by the entire dexp formula. Construct its complex subgroup
@@ -650,7 +650,7 @@ is independent of the universal-cover/asphericity and complexification construct
   For a connected complex Lie group H with a specified biholomorphic group
   isomorphism `H≃G(ℂ)`, take G smooth connected affine reductive over ℂ as in RG6,
   with RG1's faithful closed algebraic immersion `G→GL(V)`. Consume the explicit
-  lower [FormalConnectionsOpers F2.4/F4.3](../../FormalConnectionsOpers/README.md)
+  lower [FormalConnectionsOpers F2.4/F4.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c9f4ac867e9f22bbf6f71d6f5c4a361ab9f0e622/TauCetiRoadmap/FormalConnectionsOpers/README.md)
   dictionary: native Hopf points with matrix-subspace topology/complex atlas,
   algebraic tangent↔complex GroupLieAlgebra with brackets, Z(G)⁰ as an RG4 torus,
   and G_der(ℂ) as its closed connected complex subgroup, including the central
@@ -735,7 +735,7 @@ is independent of the universal-cover/asphericity and complexification construct
   reductivity of Lie(G). Construct such a model for connected semisimple G with
   finite center and a positive integrated Lie Cartan involution: the faithful
   adjoint image with its Cartan metric supplies H, and G→Ad(G) is the finite
-  central cover. Consume only the pre-polar part of NoncompactQuantumSymmetry M0: its compatible compact real form, positive Cartan involution, adjoint-image comparison, and finite-cover construction that precede its instruction to consume Layer9 polar decomposition. Layer9 owns the global matrix-cover model and polar application, including nonlinear finite covers. M0's later polar/lift application consumes Layer9 and is downstream. Construct
+  central cover. Consume only the pre-polar part of [NoncompactQuantumSymmetry M0](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1015): its compatible compact real form, positive Cartan involution, adjoint-image comparison, and finite-cover construction that precede its instruction to consume Layer9 polar decomposition. Layer9 owns the global matrix-cover model and polar application, including nonlinear finite covers. M0's later polar/lift application consumes Layer9 and is downstream. Construct
   compatible models for the finite central products with compact central tori
   and split vector groups, and for finite extensions with compatible component
   data. Identify the central period lattice: θ fixes the compact central torus,
