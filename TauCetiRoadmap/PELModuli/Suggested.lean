@@ -13,7 +13,8 @@ arithmetic interface need carriers (abelian schemes over a base, algebraic stack
 Shimura varieties) that are not at the pins; they are README targets only and are listed at the end.
 
 Design choices made explicit here:
-* Pairings with values in `ℤ(1)` are written `ℤ`-valued after choosing `√−1`; the principal Siegel Gram
+* The Tate-valued pairing is `φ = 2πi ψ`; the scalar pairing `ψ` is used after choosing the generator
+  `2πi` of `ℤ(1)`. Its positivity test is `ψ(x,Jx) > 0` (M0.11); the principal Siegel Gram
   matrix is `−Matrix.J`, so `ψ(e_i, f_i) = 1`, and the complex structure satisfies `J e_i = f_i`,
   `J f_i = −e_i`, making `ψ(x, J x) > 0` for `x ≠ 0`.
 * Positivity of an involution is stated with the unreduced trace `Algebra.trace ℚ B`; the README proves
@@ -412,9 +413,10 @@ section Unitary
 
 variable (K : Type*) [Field K] [NumberField K] [NumberField.IsCMField K]
 
-/-- The **unitary trace form** (M5.5): `⟨x, y⟩ = Tr_{K/ℚ}(δ H(x, y))` for a hermitian form `H` on `K`
-and an anti-invariant `δ`; it is alternating and `⟨a x, y⟩ = ⟨x, ā y⟩`. This signature is the rank-one
-specialization; the full finite-dimensional version is in the README. -/
+/-- The **scalar unitary trace form** (M5.5) is `ψ(x, y) = Tr_{K/ℚ}(δ H(x, y))`, with values in `ℚ`.
+For hermitian `H` and anti-invariant `δ` it is alternating and `ψ(a x, y) = ψ(x, ā y)`.
+The Tate-valued polarization is `φ = 2πi ψ`, and positivity tests `ψ(x,Jx)` (M0.11).
+This signature is the rank-one specialization; the full finite-dimensional version is in the README. -/
 noncomputable def unitaryTraceForm (H : K → K → K) (δ : K) (x y : K) : ℚ :=
   Algebra.trace ℚ K (δ * H x y)
 
@@ -670,7 +672,7 @@ skew-hermitian spaces, `cmTorus`, `rankOneSkewHermitian_classification`; `CMFiel
 `heckeCorrespondence`, `mapOfDatumFunctor`, `toSiegelFunctor`; `QuasiIsogeny`, `BoxPolarization`, `PELTriple`, unitary `O_F`-abelian schemes,
 `symplecticIsomSheaf`, `PrincipalLevel`, `IntegralLevel`, `RelativeRationalLevel`, `moduliProblem`,
 `ratModuliProblem`, `adelicModuli`, `primeToLatticeRealization`, `localizedHom_integral_of_tate`,
-`isoIsogenyComparison`, `changeOfLatticeAndPrimes`,
+`isoIsogenyComparison`, `changeOfLatticeAndPrimes`, `changeOfPrimes_openClosed`,
 `effectiveDescent`, `heckeTranslate`, `toSiegel_finite`. Layer M2: `rigidity`, `IsPinkNeatElement`, `IsNeat`,
 `noAutomorphisms_of_neat`, `isomScheme_finite`, `deformation_prorepresentable`, `formalSmoothness`,
 `effectivity`, `representability`, `universal`, `kodairaSpencer`, `properOfDivision`,
@@ -707,6 +709,9 @@ The following APIs and discriminating Checks are also specified in the README:
   `alternating_elementaryDivisors` on the underlying integral lattice.
 * M0.10: `PELDatum.IsGoodPrime.not_dvd_dualIndex`,
   `PELDatum.IsGoodPrime.not_two_of_typeD`.
+* M0.11: `hodgeStructureOfDatum` uses the scalar alternating `ψ : V × V → ℚ`, with
+  `ψ(x,Jy)` symmetric positive definite, and the Tate-valued polarization `φ = 2πi ψ`.
+  Its homological Weil operator is `−J` with `Q = ψ`; the Riemann input is `E = −ψ`.
 * M0.13: `RationalPELDatum.signature_unitary` assumes `ψ = Tr_{K/ℚ}(δH)`,
   `δ ∈ K^×`, `δ̄ = −δ` and a CM type `Φ` with `Im τ(δ) > 0` for `τ ∈ Φ`.
   For nondegenerate `H` on `K^n`, its inertia `(r_τ,s_τ)` at `τ ∈ Φ` equals the
@@ -717,6 +722,8 @@ The following APIs and discriminating Checks are also specified in the README:
   `detPoly_eq_polyCharpoly`.
 * M0.15: `detPoly_classifies_charZero`.
 * M0.18: `SatisfiesDetCondition.iff_eval`.
+* M0.21: `bpsSignatureConstancy` orders `σ, σ̄` above `τ` and selects `π_i^+` only in type A.
+  Type C has `F = F₀`, one extension of `τ`, and constant multiplicity `dim_ℚ U_ℚ / (2nd)`.
 * M1.4: `symplecticIsomSheaf` is a pro-object in finite étale schemes, with the pro-constant
   source coefficients `(L/nL)_S` and `((ℤ/n)(1))_S`. Its geometric fibre is the profinite limit
   of the finite fibres. `symplecticIsomSheaf.reduce` projects to the liftable finite pairs;
@@ -730,10 +737,19 @@ The following APIs and discriminating Checks are also specified in the README:
   and its inverse gives the isomorphism in the full-faithfulness of `isoIsogenyComparison`.
   Over `ℂ`, for `□ = {2}`, the lattice `3T^□A` is realized by `id_A/3`; no actual isogeny
   in the same direction maps its `3`-adic part onto the target integral Tate module.
+* M1.11: `changeOfPrimes_openClosed` is the representable clopen immersion
+  `M_H → M_{H′} ×_{S₀′} S₀` for good sets `□ ⊆ □′` and
+  `H = H′ × ∏_{p∈□′∖□} G(ℤ_p)`. Self-dual-lattice uniqueness makes it an equivalence;
+  the immersion itself also applies in type D and supplies M2.8's liftability locus.
 * M1.14: `toSiegel_g1` counts distinct underlying CM `j`-invariants by `h(O_K)` over an
   algebraically closed field of characteristic zero. Good positive-characteristic geometric
   fibres retain finiteness, allowing collisions: for `K = ℚ(√−23)` over `𝔽̄₅` the set is `{0}`,
   although `h(O_K) = 3`. The finite unramified assertion `toSiegel_finite` holds on the good base.
+* M2.5–M2.6: `deformation_prorepresentable` and `formalSmoothness` use a fixed compatible
+  complete Noetherian local coefficient ring `Λ` with residue `k`, and local `Λ`-linear maps
+  inducing the identity on `k`. The standard choices are `Λ = k` in characteristic zero and
+  `Λ = W(k)` for perfect `k` at a good prime. Power-series rings and completed-chart comparisons
+  retain these coefficient and residue maps, with a specified base change for larger residue fields.
 * M2.16: `covariantHodgeCocharacter` complements the weights of M0.12's Shimura cocharacter
   embedding by embedding, has multiplier `z`, and preserves its reflex field.
   `averagedHodgeCocharacter` averages the dominant representative of this covariant cocharacter
@@ -747,6 +763,10 @@ The following APIs and discriminating Checks are also specified in the README:
   the maps and their structure-sheaf pullbacks. M3.4 gives bijectivity and M2.10 identifies its
   differential with an isomorphism, so the analytic inverse theorem gives `uniformization`.
   M3.7 extends this construction using its full-group point classification in type D.
+* M4.3: `canonicalModel` includes semisimple type-A/C data with a common multiplier. It uses
+  `cmReciprocity` on each inner datum, dense Hecke orbits and disjoint special reflex fields for
+  descent, and canonical-model uniqueness. `twist` and `adelicTwist` give the additional
+  piece transport for simple type-A algebras of odd hermitian rank.
 * M4.5: `normalizedModel` uses relative normalization and its integral-factorization property
   `Scheme.Hom.normalizationDesc`, with quasi-compactness and quasi-separatedness of the cover
   map; `Scheme.Hom.normalization.hom_ext` gives uniqueness and
