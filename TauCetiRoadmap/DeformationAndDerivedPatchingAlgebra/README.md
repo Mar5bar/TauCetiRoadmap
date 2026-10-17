@@ -928,6 +928,7 @@ The target `genericSeriesRegular` gives the regularity input for §5.7. If `B` i
 - For `B=O` and `r=0`, the generic ring is the field `E`; for `r=1`, the conclusion concerns `O[[X]][1/π]`, with no asserted equality to `E[[X]]`.
 - For `B=O[ε]/ε²`, the generic local ring still contains nonzero nilpotent `ε` and is not regular. It fails the pointwise lifting condition.
 - In characteristic `p`, a purely inseparable field extension can be a regular ring without being geometrically regular over the coefficient field. The characteristic-zero hypothesis is needed for the stated equivalence with formal smoothness.
+- For a characteristic-zero field `E`, `E⟦X⟧` is formally smooth over `E` for the `X`-adic topology (Stacks tag 07EL). When `Ω_(E/ℚ)` is infinite-dimensional, it fails formal smoothness for the discrete topology, the notion used by Mathlib's `Algebra.FormallySmooth`. This applies to `E=ℚ_p`, whose transcendence degree over `ℚ` is uncountable. Thus the topology specified in `GenericFormallySmooth E B π` is essential.
 
 ### 4.5 Separable coefficient diagonals
 
