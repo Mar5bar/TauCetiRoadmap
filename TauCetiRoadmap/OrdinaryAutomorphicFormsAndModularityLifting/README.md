@@ -22,6 +22,8 @@ The distinct-prime abelian cyclotomic class-group bound needed in Theorem A is s
 
 The higher roadmaps GL2ModularityLifting and PotentialAutomorphyInfrastructure, which plan the unitary-group automorphy lifting these rest on, import Layer 6 and so cannot supply them here.
 
+ClassicalSerreModularity §I.1 owns the classical ℚ ordinary lifting theorems, their full-scope imaginary-quadratic correction and general exact-level export. SmallRamificationAndAbelianVarietyBaseCases §5.0e owns the small terminal ordinary and level-one cases. Sections 5.4, 5.7 and 6.1 identify the specializations of the totally real arithmetic comparisons with those contracts; they do not duplicate their proof targets.
+
 ## Conventions
 
 For the Skinner–Wiles constructions, `p` is an odd prime, `F` is totally real, `d = [F:ℚ], 𝒫 = {v₁,…,v_t}` is the set of places over `p`, and `d_i = [F_{v_i}:ℚ_p]`. Fix an identification of algebraic closures `Q̄_p` and `ℂ` when comparing algebraic eigenforms and p-adic Hecke eigenvalues. The quaternionic realization additionally requires `d` even and uses the algebra `D/F` ramified exactly at infinity and split at every finite place. Let `𝒪` be the ring of integers of a finite extension of `ℚ_p`, with uniformizer `ϖ`, fraction field `K` and finite residue field `k`. Complete local coefficient rings are Noetherian 𝒪-algebras with specified residue field. Equal-characteristic `k[[λ]]` enters only after reduction at a characteristic-p prime and in the patching argument, not as a replacement for `𝒪` in the arithmetic lifting hypotheses.
@@ -114,6 +116,8 @@ SerreWeightAndLevelOptimisation §§3.1–3.6 and 4.7–4.8 supply the residual 
 
 The first layer compares ordinary projectors and the definite Hecke realization. The second isolates the permissible localizations and their duality and level maps. The third supplies the reducible and irreducible deformation–Hecke interfaces, keeping their different integral representation hypotheses, and Waldschmidt's unit-rank bound that the dihedral and Theorem `A/B` dimension counts use (§3.38). The fourth applies characteristic-p patching and connectedness to pro-modularity and localized `R = T`. The fifth gives the lifting conclusions, separating the abelian and conditional class-group routes and the totally real dihedral case and the conditional complex-place case. The sixth records classical interpolation and the ordinary lift constructions used in later automorphy arguments. A source statement is a target for proof; the additional CM argument and the rank-two tensor/component automorphy inputs expressly identified below remain mathematical prerequisites, rather than consequences of the ordinary projector.
 
+The internal construction order is independent of section numbering. Build §1.6 before §§1.2–1.5. Build §2.12(a),(d) before §§2.4,2.8, and §2.12(b) before §2.11; §2.12(c) records the export of §6.3. Build §3.39(a),(b), taking residual representations and selected local flags as input, before §§3.2,3.28. Build §4.3 from its connectedness theorem, then §4.20 before §§4.8–4.9, and the all-level comparison §4.15 before §4.6.
+
 ## Layer 1: Ordinary projectors and definite Hecke comparison
 
 ### 1.1 Skinner–Wiles' exponent gives the factorial projector
@@ -185,9 +189,9 @@ Compatibility with transition maps follows from that of pullback and of the Heck
 
 For open compact `U` put Ū `= U/(U ∩ F^×)` and, for `x ∈ G^D(A_f), c_U(x) = #{u ∈` Ū : xu `= x}` in `D^×\G^D(A_f)`. For an 𝒪-algebra `R` in which every `c_U(x)` is invertible, ⟨f, `g⟩_U = Σ_{x ∈ X(U)} c_U(x)^{−1} f(x)g(x)` is a perfect R-bilinear pairing on `H⁰(X(U), R)`, and `f ↦` ⟨f, `·⟩_U` is an isomorphism `H⁰(X(U), R) ≅ Hom_R(H⁰(X(U), R), R)` functorial in `R`. It satisfies ⟨[UgU]f, `h⟩_U =` ⟨f, `[Ug^{−1}U]h⟩_U` for `g ∈ G^D(A_f)`, so every `t ∈ T(U_a, 𝒪)` has an adjoint `t⁺`, and `t ↦ t⁺` is an 𝒪-algebra isomorphism `T(U_a, 𝒪) ≅ T⁺(U_a, 𝒪)`. Writing `H⁰(X(U_a), R)⁺` for `H⁰` with `t` acting by `t⁺`, the pairing induces a perfect pairing of `T₂(U_a`, 𝒪)-modules `eH⁰(X(U_a), R) × eH⁰(X(U_a), R)⁺ → R`.
 
-Every `c_U(x)` invertible in `R` (automatic for `R` an 𝒪-algebra once a is large, `R18.3`). The weighted pairing, its perfection and the adjoint formula for [UgU] are the weight-two, trivial-coefficient, trivial-central-character case of HilbertModularVarietiesAndShimuraCurves Layer R18.3/integral-pairing (Taylor’s pairing); this target adds the twisted Hecke action `t ↦ t⁺` and the perfect pairing of ordinary parts that the Skinner–Wiles towers use.
+Every `c_U(x)` invertible in `R` (automatic for `R` an 𝒪-algebra once a is large, `R18.3`). Define the Skinner–Wiles pairing directly on the central-unquotiented `X(U)`. To compare with HilbertModularVarietiesAndShimuraCurves §R18.3.5, first restrict to matching central-character submodules and identify the central quotient. For trivial central character and trivial coefficients, write `C=A_f×/(F×(U∩A_f×))`, a finite group acting on `X(U)`, and `q:X(U)→X(U)/C`. For its stabilizer `C_x`, prove the exact sequence `1→Γ_X(x)→Γ_central(qx)→C_x→1`. Thus `c_central(qx)=c_U(x)·#C_x` and the fibre has size `#C/#C_x`. When both stabilizer orders are units in `R`, the pairings satisfy `B_X(q* f,q* g)=#C·B_central(f,g)`. No division by `#C` is made integrally.
 
-Perfection and ⟨[UgU]f, `h⟩_U =` ⟨f, `[Ug^{−1}U]h⟩_U`: R18.3/integral-pairing, with `c_U(x)` the order of the effective stabiliser `Γ_t` of the class of `x (D^×` discrete, Ū compact modulo the centre).
+Perfection on `X(U)` follows by the point-indicator basis with diagonal Gram entries `c_U(x)⁻¹`; reversing the finite double-coset correspondence gives the adjoint identity. The central-quotient comparison follows by the stabilizer exact sequence and orbit–stabilizer counting, rather than a literal identification of the two carriers.
 
 `t ↦ t⁺` is the transpose for this pairing; it is an 𝒪-algebra isomorphism `T(U_a, 𝒪) ≅ T⁺(U_a, 𝒪)` because the generators are double cosets.
 
@@ -201,7 +205,7 @@ Provide the following operations and compatibility statements.
 - `quaternionicPairing_hecke_adjoint`: ⟨[UgU]f, h⟩ `=` ⟨f, `[Ug^{−1}U]h⟩`.
 - `heckeAdjoint`: `t ↦ t⁺`, an isomorphism `T(U_a, 𝒪) ≅ T⁺(U_a, 𝒪)`.
 - `ordinaryPairing_perfect`: `eH⁰ × eH⁰⁺ → R` is perfect.
-- `quaternionicPairing_eq_integralPairing`: For parallel weight 2, trivial coefficient action and trivial central character, `⟨·,·⟩_U` is the integral pairing of HilbertModularVarietiesAndShimuraCurves Layer R18.3/integral-pairing.
+- `quaternionicPairing_central_scaling`: For parallel weight 2, trivial coefficients and trivial central character, with both effective stabilizer orders units, `B_X(q* f,q* g)=#C·IntegralPairing(f,g)` on the central quotient.
 - `quaternionicPairing_nondegenerate`: For any finite `X` and field `R`, the coefficient pairing is nondegenerate if every cast count `c(x)` is nonzero. Testing against the point indicator at `x` recovers `f(x)`. This is the precise field-valued signature in Suggested.lean; the arithmetic integral assertion requires unit counts.
 
 **Checks.**
@@ -210,6 +214,7 @@ Provide the following operations and compatibility statements.
 - `quaternionicPairing_one_point`: `X(U)` one point with stabiliser order `c`: ⟨f, g⟩ `= c^{−1}fg`, perfect `iff c` is a unit in `R`; over `𝒪` with `p | c` the pairing is not defined.
 - `heckeAdjoint_central`: For central `g = z ∈ A_f^×`, [UzU] is translation by `z` and its adjoint is translation by `z^{−1}`.
 - The pairing is not Hecke-equivariant; only the twisted module `H⁰(·)⁺` is paired.
+- For a free central orbit of two points with unit stabilizers and pulled-back values `f=2,g=3`, `B_X=12=2·6`, whereas the central pairing is 6. If `p` divides `#C`, the scaling identity remains valid but does not permit integral division by `#C`.
 
 ([SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §3.2, p. 34 (Numdam PDF page 31; printed page `=` PDF page `+ 3).`)
 
@@ -315,15 +320,17 @@ Parallel weight for the comparison with `e`; general weights through Hida's cont
 
 The Hecke generators act by a scalar eigensystem on each nearly ordinary automorphic summand. Choosing one nonzero tensor at every `π` therefore detects the same algebra as the whole ordinary summand, even when tame-level invariant factors have dimension greater than one. The faithful eigenvalue embedding proves reducedness.
 
-A weight-two `λ` with finite-order restrictions factors through a finite level by the definition of `T_∞` and corresponds to the unique `π` whose v-good vector has those eigenvalues.
+The finite-order weight characters kill an open weight subgroup. Apply PadicFamilies §5.8, at `μ=0`, to its finite-character ordinary control quotient: `λ` factors through `T₂(U_a,𝒪)` at the actual conductor. Section 2.1 then identifies the selected nearly ordinary automorphic eigensystem.
 
 **Checks.**
 
 - The comparison is between the same classical newform on `GL₂` and on `D` (through Layer 1's Jacquet–Langlands step); the Galois family is compared in Layer 3.
+- A character of conductor `p²` requires its conductor-level quotient, not merely the first p-level.
+- A map out of an inverse limit need not factor through a finite stage; finite-character ordinary control supplies that conclusion here.
 
 ([SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §3.2, p. 31 (Numdam PDF page 28; printed page `=` PDF page `+ 3`); [SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §3.2, p. 32 (Numdam PDF page 29; printed page `=` PDF page `+ 3`); [SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §3.2, p. 37 (Numdam PDF page 34; printed page `=` PDF page `+ 3).`)
 
-*Needs:* §2.1; §1.3; PadicFamilies:§5.2; GL2AutomorphicRepresentationsAndTransfer:§§R16.6.1–R16.6.5; §1.6; PadicFamilies:Layer 5.
+*Needs:* PadicFamilies:§5.8; §2.1; §1.3; PadicFamilies:§5.2; GL2AutomorphicRepresentationsAndTransfer:§§R16.6.1–R16.6.5; §1.6; PadicFamilies:Layer 5.
 
 ### 2.3 Permissible (Eisenstein) maximal ideals
 
@@ -359,7 +366,7 @@ Let `n` be the prime-to-p part of the conductor of `χω^{−1}`; for `ℓ | n` 
 
 Put `ψ = χω^{−1}`. The Eisenstein series `E_n(φ₁, φ₂) ∈ M_n(pn, ψ)` with Dirichlet series `L(F, s, φ₁)L(F, s − n + 1, φ₂)` span a complement of `S_n(n, ψ)`, and `a_i(E_n(1, ψ), 0) = 2^{−d}L(F, 1 − n, ψ)Nm(t_i)^{n/2} (3.10)` (PadicFamilies Layer 5, Deligne–Ribet p-adic L-functions and Hilbert Eisenstein series).
 
-With `f = ord_p(ε(γ) − 1)`, choose `n = 2 + p^f(p − 1)m` so large that Chai's form `g ∈ M_n(np, ψ) ∩ M_n(np, 𝒪)` with `a_i(g, 0) = 2^{−d}Nm(t_i)^{n/2} (3.11)` exists; the p-adic L-function gives `ord_π(L(F, 1 − n, ψ)) > 0`, so `E₀ = E_n(1, ψ)` is integral and `f₀ = L(F, 1 − n, ψ)g − E₀` has all constant terms 0.
+With `f = ord_p(ε(γ) − 1)`, choose `n = 2 + p^f(p − 1)m` so large that Chai's form `g ∈ M_n(np, ψ) ∩ M_n(np, 𝒪)` with `a_i(g, 0) = 2^{−d}Nm(t_i)^{n/2} (3.11)` exists; the p-adic L-function gives `ord_π(L(F, 1 − n, ψ)) > 0`, so `E₀ = E_n(1, ψ)` is integral and `f₀ = E₀ − L(F, 1 − n, ψ)g` has all constant terms 0.
 
 `E₁ = eE₀` is the eigenform with Dirichlet series `ζ_F(s)L^{(p)}(s − n + 1, ψ)`; for its idempotent `ε₀`, the Eisenstein part of `ε₀f₀` is a combination of `E_n(λ, λ^{−1}ψ)` with zero constant terms, hence 0 (Wiles [W3, Prop. 1.6]).
 
@@ -372,6 +379,7 @@ Local–global compatibility at `ℓ | n`([W2, Theorem 2.1.3] or (3.3); Automorp
 **Checks.**
 
 - The hypothesis is on the p-adic L-value at `s = −1`; the congruence is built in weight `n ≡ 2 mod (p − 1)p^f` and moved to weight 2 by Hida theory, not by a weight-two construction.
+- Since the L-value vanishes modulo `π`, `f₀≡E₀` and `F₁≡E₁`; the opposite definition of `f₀` gives `−E₁`, distinct from `E₁` for odd `p` and nonzero reduction.
 - The maximal ideal lives at level `U^χ` (Γ₀-type at `n` with Δ-reduced diagonal), not at `U₁(n)`.
 
 ([SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §3.4, p. 46 (Numdam PDF page 43; printed page `=` PDF page `+ 3`); [SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §3.4, proof of Proposition 3.18, p. 47 (Numdam PDF page 44; printed page `=` PDF page `+ 3`); [SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §3.4, proof of Proposition 3.18, p. 48 (Numdam PDF page 45; printed page `=` PDF page `+ 3).`)
@@ -535,7 +543,7 @@ Use the ordinary family’s Galois representation to read off the local lifts, t
 
 (a) The Deligne–Ribet p-adic L-function `L_p(F, s, χω)` with its interpolation of `L^{(p)}(F, 1 − n, χω^{1−n})`; Hilbert Eisenstein series `E_n(φ₁, φ₂)` of parallel weight `n`, spanning a complement of the cusp forms, with constant terms `a_i(E_n(1, ψ), 0) = 2^{−d}L(F, 1 − n, ψ)Nm(t_i)^{n/2}` (Skinner–Wiles (3.10)); Chai's integral form `g` with `a_i(g, 0) = 2^{−d}Nm(t_i)^{n/2}` for large `n ≡ 2 mod (p − 1)p^f`([Ch, §4.5], (3.11)); Wiles' vanishing of Eisenstein combinations with zero constant terms ([W3, Proposition 1.6]); Wiles' Λ-adic forms ([W2, Theorem 1.4.1]); and the congruences for the Deligne–Ribet p-adic L-function under abelian p-extensions (Skinner–Wiles (4.17), citing `[Co], [D-R], [Se]`). Prove these totally real abelian p-adic L-function and Eisenstein comparisons here using the supplied Hilbert-family carriers. (b) For the Newton–Thorne Hilbert weight change: the Hilbert Hida family and its arithmetic specializations over an arbitrary totally real field (not only the even-degree definite-quaternion realization), with the tame branch giving determinant `ε⁻²ω`, residual constancy and ordinary local Galois shape; the residue-indistinguishable case handled without an unsupported p-distinguishedness assumption; arithmetic specializations covering the ordinary weight-zero seed and the weight-two/trivial-nebentypus refinements with their exact determinants, local ordinary characters and compatible residual representations. (c) The new quotient `T^new_N` of Hida's ordinary Hecke algebra over `ℚ` (EPW Definition 2.2.1, Theorem 2.2.2: finite, reduced and torsion-free over `Λ`, classical primes corresponding to forms of tame conductor `N`, étale over `Λ_℘` at classical `℘`), and the correspondence between classical height-one primes of `T_N` and Galois-conjugacy classes of ordinary eigenforms (EPW Theorem 2.1.2 and after). (d) For the ordinary tower duality: (i) in Skinner–Wiles §3.2 the superscript `⁺` is the module `eH⁰(X(U_a), R)⁺` on which a Hecke operator `t` acts through its adjoint `t⁺` for the stabiliser-weighted pairing (§1.4), not a subspace cut out by a central-character or norm-form condition; `(ii)` the complete-DVR compact/discrete duality: for `L` finite free over `𝒪, Hom_𝒪(L, 𝒪) ≅ Hom_𝒪(L ⊗ K/𝒪, K/𝒪)`, and the continuous dual of a discrete direct limit is the inverse limit of the finite-level duals, compatibly with trace, restriction and the Hecke adjoints.
 
-Prove the Deligne–Ribet interpolation, Hilbert Eisenstein constant-term formulas, Chai form and congruence statements used in §2.4 and §5.2 as arithmetic targets here. The Hilbert expansion and ordinary-family carriers and their integral coefficient API are those of PadicFamilies §§5.9a–5.10. The specialization at the determinant and labelled weights of §2.11 is an arithmetic comparison here; it retains the full totally real generality stated above. The EPW new quotient and its arithmetic-prime properties are constructed in §6.3. For the duality in clause (d), use DeformationAndDerivedPatchingAlgebra §7.6 for the complete-DVR fraction-quotient dual. Prove in §2.8 that its continuous dual sends these discrete direct limits to compact inverse limits, compatibly with the actual trace, restriction and adjoint action: a map out of the direct limit is exactly a compatible family of finite-level maps, and the finite-level duals carry their inverse-limit topology.
+Prove the Deligne–Ribet interpolation, Hilbert Eisenstein constant-term formulas, Chai form and congruence statements used in §2.4 and §5.2 as arithmetic targets here. The Hilbert expansion and ordinary-family carriers and their integral coefficient API are those of PadicFamilies §§5.9a–5.10. The specialization at the determinant and labelled weights of §2.11 is an arithmetic comparison here; it retains the full totally real generality stated above. The EPW new quotient and its arithmetic-prime properties are constructed in §6.3. For the duality in clause (d), use DeformationAndDerivedPatchingAlgebra §7.6 for the complete-DVR fraction-quotient dual. Prove in clause (d) that its continuous dual sends these discrete direct limits to compact inverse limits, compatibly with the actual trace, restriction and adjoint action: a map out of the direct limit is exactly a compatible family of finite-level maps, and the finite-level duals carry their inverse-limit topology. Section 2.8 applies this duality to the ordinary tower.
 
 **Checks.**
 
@@ -545,7 +553,7 @@ Prove the Deligne–Ribet interpolation, Hilbert Eisenstein constant-term formul
 
 (Source: SW99 `(3.10)–(3.11)`, §3.4, pp. 46–48, and (4.17), §4.5; Newton–Thorne Lemma 3.1, pp. 13–14; EPW Definition 2.2.1 and Theorems 2.1.2, 2.2.2.)
 
-*Needs:* PadicFamilies §§0.11–0.15, 5.9a–5.10; DeformationAndDerivedPatchingAlgebra §7.6; §§2.4, 2.8, 2.11, 6.3.
+*Needs:* PadicFamilies §§0.11–0.15, 5.9a–5.10; DeformationAndDerivedPatchingAlgebra §7.6. Clause (c) is the export of §6.3, rather than a prerequisite of clauses (a),(b),(d).
 
 ### Examples
 
@@ -724,13 +732,15 @@ Provide the following operations and compatibility statements.
 - `PseudoRep`: `{a, d, x}` with the seven identities.
 - `PseudoRep.trace`: a `+ d`.
 - `PseudoRep.det`: `a(σ)d(σ) − x(σ, σ)`.
-- `PseudoRep.ofRep`: `{a_σ, d_σ, b_σc_τ}` for `ρ` with `ρ(z_1) = diag(1, −1)`.
+- `PseudoRep.ofRep`: `{a_σ, d_σ, b_σc_τ}` for a continuous matrix representation `ρ` with `ρ(z_1) = diag(1, −1)`, over a commutative topological ring with 2 invertible.
+- `PseudoRep.residual`: The actual continuous ordered triple `{1,χ,0}` for a character `χ` with `χ(z_1)=−1`.
 - `PseudoRep.ofRep_conj_diagonal`: Diagonal conjugation does not change ofRep.
 - `PseudoRep.trace_isPseudocharacter`: The trace is an IHG.0 pseudocharacter of dimension 2.
 
 **Checks.**
 
 - `pseudoRep_ofRep_identity`: For 2×2 matrices, `b_{στ}c_{αβ} = (a_σb_τ + b_σd_τ)(c_αa_β + d_αc_β)` expands to the fourth identity.
+- Directly evaluate `PseudoRep.trace` and `PseudoRep.det` at 1 to obtain `(2,1)`, and on `PseudoRep.residual` at `σ` to obtain `(1+χ(σ),χ(σ))`. On `PseudoRep.ofRep` with matrix `[[2,1],[1,1]]` obtain trace 3, determinant 1 and `x(σ,σ)=1`; neither a negated trace nor a constant determinant passes these tests.
 - `pseudoRep_residual`: `ρ_c` and `ρ_{c′}` have the same pseudo-representation `ρ_0 = {1, χ, 0}`, since `x =` bc vanishes when c-entries are 0.
 - `pseudoRep_det_of_rep`: For `ρ = (a b`; `c d`), det of ofRep `ρ` is `a_σd_σ − b_σc_σ =` det `ρ(σ)`.
 - `pseudoRep_diagonal_conj`: Conjugating by `diag(u, 1)` scales `b` by `u` and `c` by `u^{−1}`, leaving `b_σc_τ` fixed.
@@ -749,13 +759,15 @@ The functor `F_{𝒟^ps}` of pseudo-deformations of type `𝒟^ps` on complete l
 
 Check fibre products coefficientwise in the ordered functions a,d,x: their identities and the residual conditions glue uniquely, giving Schlessinger H1, H2 and H4. Finiteness of the tangent space supplies H3. H1–H3 alone would give a hull, so unique gluing is needed for the universal ring.
 
-Over `k[ε]`, a `= 1 + εa_1, d = χ + εd_1, x = εx_1`; restrictions to `G_χ = Gal(F_Σ/F(χ))` give `a_1|, d_1| ∈ Hom(G_χ, k)` and `x_1|_{G_χ×G_χ} ∈ Hom(G_χ, Hom(G_χ, k))`, bounded by `(#k)^{s² + 2s}`.
+Over `k[ε]`, write `a=1+εa₁, d=χ+εd₁, x=εx₁` and `G_χ=Gal(F_Σ/F(χ))`, and set `s=dim_k H¹(G_χ,k)`. First map the tangent space linearly to `Hom(G_χ,Hom(G_χ,k))` by restricting `x₁`; its image has dimension at most `s²`. On the kernel of this map, and only there, `a₁|G_χ` and `d₁|G_χ` are homomorphisms, contributing at most `2s` further dimensions. Bound the image and this kernel separately.
 
 The remaining data are cocycles vanishing on `G_χ` or constants on cosets of `G_χ`, giving the bound `(#k)^{s² +` 4s `+ 4·#Gal(F(χ)/F)} ≤ (#k)^{4·#Gal(F(χ)/F) +` 2s² `+ 4}`, since `s² +` 4s `≤` 2s² `+ 4`.
 
 **Checks.**
 
 - The stated bound is weaker than the one the proof gives; both suffice.
+- On `G_χ`, `a₁(στ)=a₁(σ)+a₁(τ)+x₁(σ,τ)`. A nonzero `x₁` prevents the unrestricted homomorphism assertion.
+- For the matrix `[[1,t],[t,1]]` over `k[t]/(t³)`, its square has diagonal `1+t²`; with `ε=t²`, the ordered data have `x₁(σ,σ)=1` and `a₁(σ²)=1` although `a₁(σ)=0`. The kernel condition removes this contribution.
 
 ([SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §2.4, Lemma 2.10, p. 20 (Numdam PDF page 17; printed page `=` PDF page `+ 3).`)
 
@@ -1234,7 +1246,7 @@ The only change is the universal nearly ordinary ring of `ρ₀|_{D_i}` when it 
 
 ### 3.30 Dihedral deformations and the dimension of the dihedral locus (Lemma 2.2)
 
-A deformation `ρ` of `ρ₀` is dihedral if `ρ|_{Gal(F̄/F′)}` factors through an abelian quotient for some quadratic `F′/F`; equivalently for some abelian `L/F (2.3)(i)`, and only if `ρ₀` is dihedral `(2.3)(ii)`, which determines `F′`. If `ρ₀ = Ind_{F′}^F ψ₀ (2.4)`, with `ψ₀` distinct from its conjugate `ψ₀′`, every dihedral deformation is `Ind_{F′}^F Ψ` with `Ψ ≡ ψ₀`. With `Γ_Σ = Gal(L′_Σ/F′) (L′_Σ` the maximal abelian pro-p extension of `F′` unramified outside `Σ), ψ` the projection onto `Γ_Σ` and `Ψ_Σ = ψ̃₀ψ` : `Gal(F_Σ/F′) → 𝒪[[Γ_Σ]]^×, Ind_{F′}^F Ψ_Σ` is the universal dihedral deformation of type `(𝒪, Σ, ℳ)` when every place above `p` splits in `F′` and `ℳ = ∅`, and surjects onto it otherwise. Let `δ⁻_{F′}` be the ℤ_p-rank of the summand of `Γ_Σ` on which `Gal(F′/F)` acts by `−1`. (Lemma 2.2, first inequality.) If `q ⊆ R_𝒟` is a prime containing `p` with `ρ_𝒟 mod q` dihedral of finite-order determinant, then dim `R_𝒟/q ≤ δ⁻_{F′}`. (Second inequality.) If `F′` is totally real, `δ⁻_{F′} ≤ d/2`. If `F′` is CM, `δ⁻_{F′} = d`, and the bound dim `R_𝒟/q ≤ d/2` printed in Lemma 2.2 fails when every place above `p` splits in `F′` and `ℳ = ∅`.
+A deformation `ρ` of `ρ₀` is dihedral if `ρ|_{Gal(F̄/F′)}` factors through an abelian quotient for some quadratic `F′/F`; equivalently for some abelian `L/F (2.3)(i)`, and only if `ρ₀` is dihedral `(2.3)(ii)`, with a chosen inducing field `F′`. The inducing field is unique if the projective dihedral image has order at least 6; a projective Klein four image has three choices (ArithmeticGaloisRepresentations §4.6). Fix one such `F′` and `ρ₀=Ind_{F′}^F ψ₀`, with `ψ₀≠ψ₀′`. Deformations induced through this field are `Ind_{F′}^F Ψ` with `Ψ≡ψ₀`. The full dihedral locus is the finite union over all residual inducing fields, and the dimension estimate is applied to each constituent. With `Γ_Σ = Gal(L′_Σ/F′) (L′_Σ` the maximal abelian pro-p extension of `F′` unramified outside `Σ), ψ` the projection onto `Γ_Σ` and `Ψ_Σ = ψ̃₀ψ` : `Gal(F_Σ/F′) → 𝒪[[Γ_Σ]]^×, Ind_{F′}^F Ψ_Σ` is the universal dihedral deformation of type `(𝒪, Σ, ℳ)` when every place above `p` splits in `F′` and `ℳ = ∅`, and surjects onto it otherwise. Let `δ⁻_{F′}` be the ℤ_p-rank of the summand of `Γ_Σ` on which `Gal(F′/F)` acts by `−1`. (Lemma 2.2, first inequality.) If `q ⊆ R_𝒟` contains `p` and `ρ_𝒟 mod q` is induced through this `F′` with finite-order determinant, then `dim(R_𝒟/q)≤δ⁻_{F′}`. For the union over inducing fields take the maximum of these bounds. (Second inequality.) If `F′` is totally real, `δ⁻_{F′} ≤ d/2`. If `F′` is CM, `δ⁻_{F′} = d`, and the bound dim `R_𝒟/q ≤ d/2` printed in Lemma 2.2 fails when every place above `p` splits in `F′` and `ℳ = ∅`.
 
 The unit-rank input is Waldschmidt’s p-adic rank theorem, as cited by SW99 [Wal], in the relative minus-unit form of §3.38. The universal `d/2` assertion requires the inducing quadratic field to be totally real. For `F′` totally real the minus part of the units of `F′` has ℤ-rank `d`, and Waldschmidt's bound (p-adic rank at least half the rank) gives `δ⁻_{F′} ≤ d/2`. For `F′` CM the minus part of the units is finite, while the minus part of the local units at the places above `p` has ℤ_p-rank `d`, so `δ⁻_{F′} = d`.
 
@@ -1248,13 +1260,14 @@ Counterexample to the printed `d/2` for CM `F′`, all `v | p` split, `ℳ = ∅
 
 **Checks.**
 
+- The matrices `diag(1,−1)` and `[[0,1],[1,0]]` generate the irreducible dihedral group of order 8 in odd characteristic; its projective image is Klein four and has three index-two inducing subgroups. A single chosen field does not cover all constituents.
 - The totally real case is the one Skinner–Wiles' citation covers; do not use the `d/2` bound for CM `F′`.
 - For an induced representation with two distinct inducing characters, restriction to the inducing quadratic field is a sum of characters; a representation whose restriction remains absolutely irreducible cannot be dihedral through that field.
 - Check the CM rank count on a small case: `F = ℚ, F′` imaginary quadratic, `δ⁻ = 1 > 1/2`.
 
 ([SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §2, `(2.3)–(2.4)`, p. 190 (Numdam PDF page 7; printed page `=` PDF page `+ 183`); [SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §2, before Lemma 2.2, p. 191 (Numdam PDF page 8; printed page `=` PDF page `+ 183`); [SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §2, Lemma 2.2, p. 191 (Numdam PDF page 8; printed page `=` PDF page `+ 183).`)
 
-*Needs:* §3.28; §3.31; §3.38.
+*Needs:* §3.28; §3.31; §3.38; ArithmeticGaloisRepresentations:§4.6.
 
 ### 3.31 `R_{𝒟_Q}` is generated over `Λ_𝒪` by traces of Frobenius (Lemma 2.3)
 
@@ -1466,7 +1479,7 @@ Construct the nearly ordinary ordered-flag deformation condition under distinct 
 
 (Source: SW99 §2.1, Lemma 2.2, Corollary 2.3 and Proposition 2.4, pp. 11–14; SW01 Proposition 2.1, p. 189; Mazur `[M]`, Proposition 2, as cited in SW99; SW99 `(8.8)–(8.10).`)
 
-*Needs:* LocalGaloisDeformationRings §§F.2.1–F.2.6, 6.2–6.3, Layers 7–8; GlobalGaloisDeformations §§3.4–3.8; ArithmeticGaloisDuality §§D8.1, R02.5.1; §§3.2, 3.28.
+*Needs:* LocalGaloisDeformationRings §§F.2.1–F.2.6, 6.2–6.3, Layers 7–8; GlobalGaloisDeformations §§3.4–3.8; ArithmeticGaloisDuality §§D8.1, R02.5.1. Clauses (a),(b) take the residual representation and ordered local flags as input and supply §§3.2,3.28.
 
 ### Examples
 
@@ -1545,10 +1558,12 @@ Induction on `d − r`: for `d − r = 2` this is the proposition; otherwise pic
 **Checks.**
 
 - The linchpin of the Main Theorem: it produces pro-modular and non-pro-modular components meeting in large dimension.
+- At `d−r=2` the intersection contains a one-dimensional prime, the punctured-spectrum connectedness case.
+- A partition with an empty side is excluded; connectedness alone gives no chosen pair in that case.
 
 ([SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) Appendix A, Corollary A.2, p. 123 (Numdam PDF page 120; printed page `=` PDF page `+ 3`); [SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) Appendix A, proof of Corollary A.2, pp. 123–124 (Numdam PDF pages 120–121; printed page `=` PDF page `+ 3).`)
 
-*Needs:* mathlib:IsLocalRing; DeformationAndDerivedPatchingAlgebra:§6.6; §4.3 (the Cohen–Macaulay intersection bound).
+*Needs:* mathlib:IsLocalRing; DeformationAndDerivedPatchingAlgebra:§6.6. The punctured-spectrum connectedness assertion of SW99 Appendix A.1 is proved here before its intersection consequence.
 
 ### 4.4 The key proposition: every prime of `R_𝒟` is pro-modular
 
@@ -1762,7 +1777,7 @@ Proposition 5.9 gives `R^{(0)} ⊗ K` a complete intersection and Proposition 5.
 
 ### 4.14 Congruence maps between levels
 
-(Skinner–Wiles §8.2, Lemma 8.2 and (8.1).) For deformation data `𝒟_c = 𝒟_0 ≤ 𝒟_1 ≤ ⋯ ≤ 𝒟_n = 𝒟` (strict steps adding one place `w_i`, either to `Σ` or removing it from `ℳ`) and `𝔭` nice: `R_i = (R̃^min_{𝒟_i})_{𝔭̃}, T_i, M_i` and `M⁺_i` are free over `Λ̃_{𝒪,P}` with `M_i^{2^s} ≅ Hom(M⁺_i, Λ̃_{𝒪,P})^{2^s}` (Lemma 8.2); and there are T_i-maps `Φ_i` : `M_{i−1}^{2^s r_i} → M_i^{2^s}, Φ̂_i, Ψ_i, Θ_i (r_i = 2` or 3) with `Φ_i` injective with Λ̃-free cokernel, `Φ̂_i` surjective, `Θ_i∘Φ̂_i∘Φ_i∘Ψ_i =` (unit·η_i `*`; `0 A_i`) with det `A_i` not a zero divisor in `T_0`, and `η_i = (q_i − 1)(T(ℓ_i)² − S(ℓ_i)(q_i + 1)²), (q_i − 1)(q_i + 1)` or `(q_i − 1)` according as `w_i ∈ Σ_i ∖ Σ_{i−1}, w_i ∈ ℳ_{i−1}` with `χ|_{I_{w_i}} = 1`, or with `χ|_{I_{w_i}} ≠ 1 (q_i = Nm(ℓ_i))`.
+(Skinner–Wiles §8.2, Lemma 8.2 and (8.1).) For deformation data `𝒟_c = 𝒟_0 ≤ 𝒟_1 ≤ ⋯ ≤ 𝒟_n = 𝒟` (strict steps adding one place `w_i`, either to `Σ` or removing it from `ℳ`) and `𝔭` nice: `R_i = (R̃^min_{𝒟_i})_{𝔭̃}` and `T_i = (T̃^min_{𝒟_i})_{𝔭̃}`. The modules `M_i` and `M⁺_i` are finite free over `Λ̃_{𝒪,P}`, with `M_i^{2^s} ≅ Hom(M⁺_i, Λ̃_{𝒪,P})^{2^s}` (Lemma 8.2); and there are T_i-maps `Φ_i` : `M_{i−1}^{2^s r_i} → M_i^{2^s}, Φ̂_i, Ψ_i, Θ_i (r_i = 2` or 3) with `Φ_i` injective with Λ̃-free cokernel, `Φ̂_i` surjective, `Θ_i∘Φ̂_i∘Φ_i∘Ψ_i =` (unit·η_i `*`; `0 A_i`) with det `A_i` not a zero divisor in `T_0`, and `η_i = (q_i − 1)(T(ℓ_i)² − S(ℓ_i)(q_i + 1)²), (q_i − 1)(q_i + 1)` or `(q_i − 1)` according as `w_i ∈ Σ_i ∖ Σ_{i−1}, w_i ∈ ℳ_{i−1}` with `χ|_{I_{w_i}} = 1`, or with `χ|_{I_{w_i}} ≠ 1 (q_i = Nm(ℓ_i))`.
 
 `𝔭` nice for `𝒟`.
 
@@ -1775,6 +1790,8 @@ Explicit `Ψ_i, Θ_i` and the 3×3 matrix give the determinant `(q_iS(ℓ_i)^{�
 **Checks.**
 
 - `η_i` is the level-raising congruence factor at `w_i`.
+- Lemma 8.2 gives weight-space freeness of `M_i,M_i⁺`; no freeness of `R_i` or `T_i` is used in this congruence-map input.
+- Identifying the all-level rings is the conclusion of §4.15, and cannot be used as an input to these maps.
 
 ([SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §8.2, Lemma 8.2, p. 113 (Numdam PDF page 110; printed page `=` PDF page `+ 3).`)
 
@@ -1831,7 +1848,7 @@ Provide the following operations and compatibility statements.
 
 ### 4.17 Every prime of `R_𝒟` is pro-modular (Proposition 4.1, irreducible `ρ₀`)
 
-Let `(F,ρ₀)` be a good pair and `𝒟=(𝒪,Σ,ℳ)` a deformation datum. Assume `d/2>2+2t+7#(Σ∖𝒫)`, and, if `ρ₀` is dihedral, assume that every finite-determinant dihedral locus encountered for the auxiliary data `𝒟′` has dimension at most `d/2`. The latter holds for a totally real quadratic inducing field, not universally for a CM one. If property `(P)` holds for each `(𝒪,Σ′,ℳ′)` with `ℳ⊆ℳ′` and `Σ′⊆Σ`, then every prime of `R_𝒟` is pro-modular. For `Σ=Σ₀` the displayed numerical bound specializes to the minimal good-pair bound.
+Let `(F,ρ₀)` be a good pair and `𝒟=(𝒪,Σ,ℳ)` a deformation datum. Assume `d/2>2+2t+7#(Σ∖𝒫)`, and, if `ρ₀` is dihedral, assume that every finite-determinant dihedral locus encountered for the auxiliary data `𝒟′` has dimension at most `d/2`. For projective image of order at least 6 there is one residual inducing field; for projective Klein four image take the union over its three fields. Require the bound for every constituent: it holds when all inducing fields are totally real, not universally for a CM constituent. If property `(P)` holds for each `(𝒪,Σ′,ℳ′)` with `ℳ⊆ℳ′` and `Σ′⊆Σ`, then every prime of `R_𝒟` is pro-modular. For `Σ=Σ₀` the displayed numerical bound specializes to the minimal good-pair bound.
 
 The component proof requires both the displayed bound on `Σ∖𝒫` and the bound on every dihedral locus that it encounters. In §5.6 the chosen extension has `d_L/2>2+7#Σ_L`, which implies the required bound since `#𝒫_L=t_L`.
 
@@ -1847,6 +1864,7 @@ General `𝒟`: a nice prime of `R_𝒟` comes from a nice prime of `R_{𝒟₀}
 
 - Check each inequality in the arithmetic examples: step three's bound from `(4.1)(i)`, the contradiction with `(4.1)(ii)`, and that (4.1) alone does not give the bound of the general step, which is why the statement adds the general-level inequality.
 - No `R = T` isomorphism is claimed here; that is property `(P)`.
+- With projective Klein four residual image, the dimension of the full dihedral locus is the maximum of the dimensions of its three constituents; bounding one chosen inducing field does not suffice.
 
 ([SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §4, Proposition 4.1, p. 199 (Numdam PDF page 16; printed page `=` PDF page `+ 183`); [SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §4, proof of Proposition 4.1, step three, p. 200 (Numdam PDF page 17; printed page `=` PDF page `+ 183`); [SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §4, proof of Proposition 4.1, step three, p. 201 (Numdam PDF page 18; printed page `=` PDF page `+ 183`); [SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §4, proof of Proposition 4.1, general `𝒟`, p. 202 (Numdam PDF page 19; printed page `=` PDF page `+ 183).`)
 
@@ -1956,7 +1974,7 @@ Let `F` be a totally real abelian extension of `ℚ, p` an odd prime and `ρ` : 
 
 `ρ_1 = ρ ⊗ χ̃_2^{−1}` with `χ = χ_1/χ_2` is, in a suitable lattice, a deformation of type `𝒟 = (𝒪, Σ, c, ∅)` for an admissible `c` (Lemma 2.13 and the local hypotheses); it remains to build `L` as in the Main Theorem.
 
-Take `E/F` even, abelian over `ℚ` and permissible (`E =` F·E′ with `E′` a real cyclic field where `p` splits and the primes of `Σ` are inert), `ℓ ∤ p·#k^×` odd, `E_n` the ℤ/ℓ^n-layer of the cyclotomic ℤ_ℓ-extension; `#Σ_n, #𝒫_n` stabilise (4.12), and by Washington's theorem the p-parts of the class groups of `E_n(χ)` and `E_n` stabilise (4.13).
+Take `E/F` even, abelian over `ℚ` and permissible (`E =` F·E′ with `E′/ℚ` real cyclic of sufficiently divisible degree, with `p` split completely and each rational prime `q≠p` below a place of `Σ` inert in `E′`), `ℓ ∤ p·#k^×` odd, `E_n` the ℤ/ℓ^n-layer of the cyclotomic ℤ_ℓ-extension; `#Σ_n, #𝒫_n` stabilise (4.12), and by Washington's theorem the p-parts of the class groups of `E_n(χ)` and `E_n` stabilise (4.13).
 
 Adjoin abelian p-extensions `L_n/E_n` ramified at a set `S_n` of `e_n + c_n + 1` places with `χ(Frob_w) = 1` and `p^{e_n + c_n + 1} | Nm(w) − 1 (4.16)`; congruences of p-adic L-functions give `L_p(L_n, −1, χω) ∈ 𝒪 ∖ 𝒪^× (4.17)`, and dim `H_{Σ_0}(L_n, k) ≤ p^{e_n+2c_n+1}(r_n + e_n + c_n + 1) (4.18)`.
 
@@ -1965,6 +1983,8 @@ For `n_0` large (4.19) and Waldschmidt's `δ_L ≤ d_L/2, L = L_{n_0}` satisfies
 **Checks.**
 
 - The abelian hypotheses are exactly what Washington's theorem needs; for non-abelian `F` one uses Theorem `B`.
+- Since `Σ` contains every p-place, imposing inertness on all its rational primes would contradict complete splitting of `p` in a nontrivial `E′`.
+- Inertness is prescribed in `E′/ℚ` only at `q≠p`; the compositum `E=FE′` retains the separate permissible-extension conditions.
 
 ([SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §4.5, Theorem A, p. 74 (Numdam PDF page 71; printed page `=` PDF page `+ 3`); [SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §4.6, proof of Theorem A, p. 75 (Numdam PDF page 72; printed page `=` PDF page `+ 3`); [SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §4.6, proof of Theorem A, p. 77 (Numdam PDF page 74; printed page `=` PDF page `+ 3).`)
 
@@ -1992,24 +2012,21 @@ For `n_0` as in `(4.23), L = L_{n_0}` satisfies (4.24) and (4.25) (with Waldschm
 
 *Needs:* §4.7; §5.1; §5.2; GL2AutomorphicRepresentationsAndTransfer:§§R17.4.8–R17.4.11; §6.14; GL2AutomorphicRepresentationsAndTransfer:§R17.6.19; §3.38.
 
-### 5.4 Skinner–Wiles over `ℚ`
+### 5.4 The reducible-residual comparison over `ℚ`
 
-Let `p` be an odd prime and `ρ` : `G_ℚ → GL₂(ℚ̄_p)` continuous, irreducible and unramified outside finitely many primes, with `ρ̄^{ss} ≅ 1 ⊕ χ`. If (i) `χ|_{D_p} ≠ 1, (ii) ρ|_{I_p} ≅ (∗ ∗`; 0 1), and (iii) det `ρ = ψε^{k−1}` for some `k ≥ 2` and `ψ` of finite order, with det `ρ` odd, then `ρ ≅ ρ_{f,λ}` for a newform `f` of weight `k`. This is the theorem of Skinner–Wiles' introduction, and Theorem A with `F = ℚ: ℚ` is abelian, the splitting field of the character `χ` is abelian over `ℚ, χ` is odd because det `ρ` is, and `(ii)` gives the nearly ordinary shape with `ψ₂^{(p)}` trivial on `I_p` (its reduction is 1, so it factors through a pro-p group).
+ClassicalSerreModularity §I.1 owns the classical ordinary lifting theorem: for odd `p`, a continuous odd irreducible finitely ramified `ρ:G_ℚ→GL₂(E)`, with `E/ℚ_p` finite, residual semisimplification `1⊕χ`, `χ|D_p≠1`, unramified ordinary quotient and determinant `ψε^{k−1}` (`k≥2`, `ψ` finite order), comes from a classical newform of weight `k`. This section supplies the specialization of §5.2 to that contract, retaining the chosen quotient and determinant.
 
-Over `ℚ` both abelian hypotheses of Theorem A are automatic, so no appeal to Washington's theorem beyond its abelian case, and no Hypothesis `H`, is needed. (i) is p-distinguishedness; it is a hypothesis on the residual character, not on `ρ`. Khare's level-one argument invokes this for residually reducible ordinary lifts; its residually irreducible degenerate case uses §5.7 (Skinner–Wiles 2001). Hilbert newforms over `F = ℚ` are classical newforms (AutomorphicGaloisRepresentations §1.5).
-
-Label `χ₂` the residual character (1 or `χ`) to which the unramified quotient of `ρ|_{D_p}` reduces, which is well defined because `χ|_{D_p} ≠ 1`, and `χ₁` the other; check Theorem A’s five hypotheses with `F = ℚ: χ₁/χ₂ = χ^{±1}` is odd, nontrivial on `D_p` and cuts out an abelian field, and `ψ₂^{(p)} = (quotient)·χ̃₂^{−1}` reduces to 1 and has finite order on `I_p`.
-
-Apply §5.2 and identify the Hilbert newform over `ℚ` with a classical newform.
+Label the residual character of the unramified quotient `χ₂` and the other character `χ₁`. Then `χ₁/χ₂=χ^{±1}` is odd, nontrivial on `D_p` and cuts out an abelian extension of `ℚ`. The quotient divided by its Teichmüller residual lift reduces to 1, factors through a pro-p group and has finite-order inertia. Thus all hypotheses of §5.2 hold for `F=ℚ`. Identify its Hilbert automorphic realization with the classical one through AutomorphicGaloisRepresentations §1.5. This compatibility supplies the totally real comparison to the classical owner; the classical theorem is not a second proof target here.
 
 **Checks.**
 
-- Check that "det `ρ` odd" gives `χ(c) = −1` for complex conjugation `c`, as Theorem A requires.
-- Check that `(ii)` implies Theorem A's condition that `ψ₂^{(p)}` factor through a pro-p group.
+- Odd determinant gives `χ(c)=−1`, the total oddness required by §5.2.
+- An unramified quotient stays unramified after division by its unramified Teichmüller lift.
+- Coincident residual characters violate distinguishedness; a reducible characteristic-zero representation violates irreducibility.
 
-([SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) Introduction, p. 6 (Numdam PDF page 3); [SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) Introduction, p. 6 (Numdam PDF page 3); [Khare](<https://arxiv.org/pdf/math/0504080v1>) Introduction, p. 3 of arXiv:math/0504080v1.)
+(Source: SW99 Introduction, p. 6, and Theorem A, pp. 74–75; Khare Introduction, p. 3.)
 
-*Needs:* §5.2; AutomorphicGaloisRepresentations:§1.5.
+*Needs:* §5.2; AutomorphicGaloisRepresentations:§1.5; ClassicalSerreModularity:§I.1 (classical export).
 
 ### 5.5 The residually reducible `p = 3` branch (Dieulefait–Pacetti Theorem 1.7)
 
@@ -2039,7 +2056,7 @@ Let `F` be totally real, `p` odd, and `ρ` : `Gal(F̄/F) → GL₂(Q̄_p)` satis
 
 Skinner–Wiles state the theorem without (iii); their proof, through Lemma 2.2, covers a dihedral `ρ̄^{ss}` only when the dihedral locus has dimension at most `d_L/2`, which holds for `F′` totally real and fails for CM `F′` in which the places above `p` split (§3.30). `ρ̄^{ss}` is allowed to be reducible on `Gal(F̄/F(ζ_p))`: these are the cases Wiles, Diamond and Fujiwara exclude. The base change input, Skinner–Wiles, Base change and a problem of Serre (Duke Math. `J`. 107 (2001)), is required of GL2AutomorphicRepresentationsAndTransfer §§R17.4.8–R17.4.11 (Exact supplier contracts).
 
-Choose `𝒪, λ, k` with `ρ` valued in `GL₂(𝒪)`, and `ρ̄^{ss} = Ind_{F′}^F ψ₀` if dihedral. By the main result of Skinner–Wiles, Base change and a problem of Serre, and hypothesis `(ii)`, there is a totally real `L/F` with solvable Galois closure over `F` such that `ρ₀ = ρ̄^{ss}|_{Gal(F̄/L)}` satisfies (2.1) and (H_even), `(H_def)` hold for `L` and `ρ₀`.
+Choose `𝒪, λ, k` with `ρ` valued in `GL₂(𝒪)`, and list every quadratic inducing field of `ρ̄^{ss}` if dihedral: one for projective image of order at least 6, three in the Klein four case. Condition (iii) requires every field in this list to be totally real; after base change apply §3.30 to every remaining constituent. By the main result of Skinner–Wiles, Base change and a problem of Serre, and hypothesis `(ii)`, there is a totally real `L/F` with solvable Galois closure over `F` such that `ρ₀ = ρ̄^{ss}|_{Gal(F̄/L)}` satisfies (2.1) and (H_even), `(H_def)` hold for `L` and `ρ₀`.
 
 Enlarge `L` by a large real subfield of a cyclotomic extension so that `d_L/2 > 2 + 7·#Σ_L` and `d_v > 2 + 7·#Σ_L` for `v | p`; then `(L, ρ₀)` is a good pair and the extra general-level bound of §4.17 holds (checked by an `example` in Suggested.lean).
 
@@ -2051,35 +2068,33 @@ Proposition 3.2 (PadicFamilies Layer 5/hida-control-nearly-ordinary) gives `ρ_1
 
 - Record the hypotheses individually: `p` odd, `(5.1)(i)–(v)`, D_i-distinguishedness, the χ₂-good nearly ordinary `π₀`, and (iii).
 - D_i-distinguishedness stays an explicit hypothesis of the exported lifting theorem; it is not implied by (5.1).
+- A projective Klein four residual representation requires all three inducing fields in the dihedral bound; a complex-place constituent is excluded by (iii).
 
 ([SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §5, (5.1), p. 202 (Numdam PDF page 19; printed page `=` PDF page `+ 183`); [SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §5, proof of Theorem 5.1, p. 203 (Numdam PDF page 20; printed page `=` PDF page `+ 183`); [SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §5, proof of Theorem 5.1, p. 204 (Numdam PDF page 21; printed page `=` PDF page `+ 183`); [SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §5, end of the proof of Theorem 5.1, p. 204 (Numdam PDF page 21; printed page `=` PDF page `+ 183).`)
 
 *Needs:* §4.17; §4.19; §3.28; PadicFamilies:§5.8; GL2AutomorphicRepresentationsAndTransfer:§§R17.4.8–R17.4.11; §6.14; GL2AutomorphicRepresentationsAndTransfer:§R17.6.19; AutomorphicGaloisRepresentations:§§3.11–3.14, 4.10–4.11, 5.1.
 
-### 5.7 Skinner–Wiles over `ℚ` for irreducible residual representations (Theorem 5.2 and the introduction)
+### 5.7 The irreducible-residual comparison over `ℚ`
 
-Let `p` be odd and `ρ` : `G_ℚ → GL₂(E) (E/ℚ_p` finite) continuous, irreducible and unramified outside finitely many primes, with (i) `ρ̄^{ss}` irreducible, (`ii) ρ̄^{ss}|_{D_p} ≅ (χ_1 *`; `0 χ_2`) with `(χ_1/χ_2)|_{D_p} ≠ 1`, (iii) `ρ̄^{ss}` modular, (`iv) ρ|_{I_p} ≅ (* *`; `0 1), (v`) det `ρ = ψε^{k−1}` with `k ≥ 2` and `ψ` of finite order, det `ρ` odd. If moreover `ρ̄^{ss}` is not induced from an imaginary quadratic field (the hypothesis (iii) of §5.6), then `ρ` comes from a modular form. This is the theorem of the introduction, and Theorem `5.2 (F = ℚ, (5.1), ρ̄^{ss}` irreducible and D_p-distinguished, `ρ̄^{ss} ≅ ρ̄^{ss}_{π₀}` for some `π₀`). It includes the cases where `ρ̄^{ss}` is reducible over `ℚ(ζ_p)`, precisely those not covered by Wiles and Diamond.
+ClassicalSerreModularity §I.1 owns ordinary lifting over `ℚ` for absolutely irreducible modular residual representations, including the imaginary-quadratic correction. Here identify the specialization of §5.6 with that contract on its proved scope. Let `p` be odd and `ρ:G_ℚ→GL₂(E)` continuous, odd, irreducible and finitely ramified, with unramified ordinary quotient and determinant `ψε^{k−1}` (`k≥2`, `ψ` finite order). Require the absolutely irreducible modular residual representation to be p-distinguished, with selected quotient matching `ρ`, and not induced from any imaginary quadratic field for this use of §5.6.
 
-Skinner–Wiles state it without the extra hypothesis; see §3.30 and §5.8 for what the printed dimension argument covers. Khare's level-one argument uses this theorem for residually irreducible `ρ̄` with `ρ̄|_{ℚ(ζ_p)}` reducible; there `ρ̄` is induced from `ℚ(√p*)`, which is imaginary when `p ≡ 3 mod 4`, so that branch needs the full-scope proof requirement of §5.8 resolved.
-
-Hypothesis `(ii)` of Theorem 5.1 from modularity of `ρ̄^{ss}`: if `p ≠ 3` or `ρ̄^{ss}|_{G_{ℚ(√−3)}}` is irreducible, Diamond, The refined conjecture of Serre, Theorem 6.4, gives a nearly ordinary `π_1` with `ρ_{π_1}` a χ₂-good lift (SerreWeightAndLevelOptimisation `R20.6`); Skinner–Wiles call the remaining cases obvious.
-
-Apply §5.6 with `F = ℚ`; a cuspidal `π` of `GL₂/ℚ` of weight `k` is a newform (AutomorphicGaloisRepresentations §1.5).
+SerreWeightAndLevelOptimisation §§3.1–3.6, 4.7–4.8 and the refinement of §5.10 give the χ₂-good nearly ordinary seed in Diamond Theorem 6.4's range (`p≠3` or irreducibility on `G_{ℚ(√−3)}`). The remaining seed cases require the χ₂-good seed as input, as in §5.6. Apply §5.6 with `F=ℚ`, then use AutomorphicGaloisRepresentations §1.5. The full imaginary-quadratic branch, including induction from `ℚ(√−p)` when `p≡3 mod 4`, is supplied by ClassicalSerreModularity §I.1; it is not deduced from the restricted dihedral estimate here.
 
 **Checks.**
 
-- Check that the introduction's `(ii)–(v)` give (5.1) and D_p-distinguishedness with `χ_2` the reduction of the unramified quotient.
-- The characteristic-zero `ρ` is assumed irreducible, as in the residually reducible theorems.
+- The unramified quotient fixes `χ₂`, and p-distinguishedness must hold on `D_p`.
+- The characteristic-zero representation is required to be irreducible.
+- A projective Klein four image has three inducing fields; the restricted specialization requires all three to be totally real. The full classical contract retains imaginary-quadratic cases.
 
-([SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) Introduction, Theorem, p. 186 (Numdam PDF page 3; printed page `=` PDF page `+ 183`); [SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) Introduction, p. 187 (Numdam PDF page 4; printed page `=` PDF page `+ 183`); [SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §5, Theorem 5.2, p. 204 (Numdam PDF page 21; printed page `=` PDF page `+ 183`); [SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §5, proof of Theorem 5.2, p. 204 (Numdam PDF page 21; printed page `=` PDF page `+ 183).`)
+(Source: SW01 Introduction, pp. 186–187, and Theorem 5.2 and proof, p. 204, PDF p. 21.)
 
-*Needs:* §5.6; SerreWeightAndLevelOptimisation:§§3.1–3.6, 4.7–4.8; §5.10; AutomorphicGaloisRepresentations:§1.5.
+*Needs:* §5.6; §5.10; SerreWeightAndLevelOptimisation:§§3.1–3.6, 4.7–4.8; AutomorphicGaloisRepresentations:§1.5; ClassicalSerreModularity:§I.1 (full classical export).
 
-### 5.8 Skinner–Wiles irreducible lifting at its original scope
+### 5.8 Full-scope irreducible lifting over totally real fields other than `ℚ`
 
-Under the hypotheses of §5.6 preceding its added condition (iii), the intended target is the ordinary modularity conclusion also for residual representations induced from a quadratic extension with a complex place. That is: for odd `p` and totally real `F`, a continuous irreducible odd finitely ramified `ρ` with det `ρ = ψε^μ (μ ≥ 1, ψ` finite order), nearly ordinary at every `v | p` with finite-order inertial quotient, absolutely irreducible p-distinguished residual representation, and a χ₂-good nearly ordinary modular residual lift, `ρ` is modular, without the added exclusion of the CM/mixed-signature dihedral case. A corrected CM/mixed-signature dihedral deformation argument remains required to prove this target; the restricted theorem does not establish it.
+For totally real `F≠ℚ`, under the hypotheses of §5.6 preceding its added condition (iii), the target is the ordinary modularity conclusion also for residual representations induced from a quadratic extension with a complex place. That is: for odd `p` and totally real `F`, a continuous irreducible odd finitely ramified `ρ` with det `ρ = ψε^μ (μ ≥ 1, ψ` finite order), nearly ordinary at every `v | p` with finite-order inertial quotient, absolutely irreducible p-distinguished residual representation, and a χ₂-good nearly ordinary modular residual lift, `ρ` is modular, without the added exclusion of the CM/mixed-signature dihedral case. A corrected CM/mixed-signature dihedral deformation argument remains required to prove this target; the restricted theorem does not establish it.
 
-Keep the distinguished quotient labels and the χ₂-good residual automorphic seed of the restricted target. SW01 Theorem 5.1 states this scope. The CM unit-rank calculation in §3.30 shows why its displayed dimension argument does not suffice.
+For `F=ℚ`, ClassicalSerreModularity §I.1 owns this full-scope conclusion and its imaginary-quadratic correction; it is consumed through §5.7. For `F≠ℚ`, keep the distinguished quotient labels and the χ₂-good residual automorphic seed of the restricted target. SW01 Theorem 5.1 states this scope. The CM unit-rank calculation in §3.30 shows why its displayed dimension argument does not suffice.
 
 Use the existing restricted theorem for the non-CM/mixed dihedral cases.
 
@@ -2091,6 +2106,7 @@ Only a corrected bound and the consequent pro-modularity argument would justify 
 
 - Never present the restricted theorem as the full printed result.
 - The CM counterexample to the dimension estimate is not a counterexample to the lifting theorem.
+- The classical imaginary-quadratic case belongs to ClassicalSerreModularity §I.1; the corrected totally real comparison here has `F≠ℚ`.
 
 ([SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) Theorem 5.1, pp. 202–204; Lemma 2.2, pp. `190–191.`)
 
@@ -2116,19 +2132,20 @@ Since `[K_{n+1}` : `K_n] = ℓ` is prime to `p`, extension of ideal classes foll
 
 *Needs:* TauCetiRoadmap.ClassFieldTheory Layers 11–13 (class groups through the global Artin map); DirichletPadicLFunctions §§0.4–0.6, Layers 2–3 (abelian character values and cyclotomic arithmetic). The nonvanishing of the distinct-prime character sums is proved within this target; neither an unspecified class-group theorem nor a higher ordinary modularity statement supplies it.
 
-### 5.10 The distinguished ordinary residual seed over `ℚ`
+### 5.10 The distinguished nearly ordinary residual seed over `ℚ`
 
-Diamond, The refined conjecture of Serre (1995), Theorem 6.4, in the form Skinner–Wiles 2001 use for their Theorem 5.2: for `p` odd and `ρ̄` : `G_ℚ → GL₂(F̄_p)` irreducible, modular and p-distinguished (`ρ̄|_{D_p} ≅ (χ_1 *`; `0 χ_2), χ_1 ≠ χ_2`), with `p ≠ 3` or `ρ̄|_{G_{ℚ(√−3)}}` irreducible, there is a nearly ordinary cuspidal `π_1` of `GL₂/ℚ` whose p-adic representation is ordinary at `p` with unramified quotient reducing to `χ_2 (a` χ₂-good lift).
+Diamond, The refined conjecture of Serre (1995), Theorem 6.4, in the form Skinner–Wiles 2001 use for their Theorem 5.2: for `p` odd and `ρ̄` : `G_ℚ → GL₂(F̄_p)` irreducible, modular and p-distinguished (`ρ̄|_{D_p} ≅ (χ_1 *`; `0 χ_2), χ_1 ≠ χ_2`), with `p ≠ 3` or `ρ̄|_{G_{ℚ(√−3)}}` irreducible, there is a nearly ordinary cuspidal `π_1` of `GL₂/ℚ` whose p-adic representation is nearly ordinary at `p`, with quotient of finite-order inertia reducing to `χ₂` (a χ₂-good lift). An ordinary lift with unramified quotient is asserted only when `χ₂` is unramified.
 
-Prove this ordinary seed refinement here with the indicated residual modularity hypothesis; it supplies §5.7. It does not turn the residually reducible route into an application of Serre's conjecture.
+Prove this nearly ordinary seed refinement here with the indicated residual modularity hypothesis; it supplies §5.7. It does not turn the residually reducible route into an application of Serre's conjecture.
 
 **Checks.**
 
 - When the residual local characters coincide the stated distinguished seed theorem does not apply.
 - At `p=3` the extra irreducibility on `G_{ℚ(√−3)}` is retained; oddness alone does not imply it.
 - The chosen quotient reduces to `χ₂`; reversing the chosen flag gives a different seed problem even for a split local representation.
+- For `E=X₀(11)` at `p=7`, `a₂=−2` gives Frobenius discriminant `3` modulo 7 (nonsquare), while `a₇=−2` is a unit. Twisting `E[7]` by `ω₇` gives distinguished inertia characters `ω₇²,ω₇`; the selected quotient `ω₇` is ramified and cannot be the reduction of an unramified character.
 
-(Source: Diamond, The refined conjecture of Serre, Theorem 6.4, as used in SW01 Theorem 5.2, p. 201.)
+(Source: Diamond, The refined conjecture of Serre, Theorem 6.4, as used in SW01 Theorem 5.2, p. 204 (PDF p. 21).)
 
 *Needs:* SerreWeightAndLevelOptimisation §§3.1–3.6, 4.7–4.8; GL2AutomorphicRepresentationsAndTransfer §§R16.6.1–R16.6.5.
 
@@ -2142,26 +2159,21 @@ AutomorphicGaloisRepresentations:§1.5; AutomorphicGaloisRepresentations:§§3.1
 
 ## Layer 6: Classical interpolation and ordinary lift constructions
 
-### 6.1 Ordinary modularity over `ℚ` with its level
+### 6.1 Compatibility with the classical exact-level exports
 
-Under the hypotheses of §5.4 (`ρ̄` reducible) or of §5.7 (`ρ̄^{ss}` irreducible, Skinner–Wiles 2001) there are a newform `f` of weight `k` and a prime `λ | p` of its coefficient field with `ρ ≅ ρ_{f,λ}`. Its level `N` satisfies: for `ℓ ≠ p, v_ℓ(N)` is the Artin conductor exponent of `ρ|_{G_{ℚ_ℓ}}` (local-global compatibility away from `p`); and `p ∤ N` exactly when `ρ|_{G_{ℚ_p}}` is crystalline (compatibility at the coefficient prime). In particular, if `ρ` is unramified outside `p` and crystalline at `p` then `f ∈ S_k(SL₂(ℤ))`.
+ClassicalSerreModularity §I.1 owns the general exact-level ordinary export, and SmallRamificationAndAbelianVarietyBaseCases §5.0e owns its small terminal and level-one instances. For a classical newform `f` of weight `k≥2` attached to `ρ` under those contracts, compare the representation and chosen ordinary flag with the `F=ℚ` specializations of §§5.4,5.7. Preserve the actual finite determinant character and the full p-power conductor.
 
-The level statement at `ℓ ≠ p` is Carayol's local-global compatibility; at `p` it is compatibility at the coefficient prime (crystalline `⇔ p ∤ N` for `k ≥ 2`). The newform is unique up to Galois conjugacy of its coefficients, by strong multiplicity one.
-
-Existence from §5.4 or §5.7.
-
-Level away from `p`: AutomorphicGaloisRepresentations §§4.4, 4.12 and 6.4.
-
-At `p`: AutomorphicGaloisRepresentations §§4.5–4.9.
+The supplied local–global compatibility identifies `v_ℓ(level(f))` with the Artin conductor exponent for `ℓ≠p`, and identifies `p∤level(f)` with crystallinity at `p`. These exact-level conclusions are used at their owners' scope, including the full imaginary-quadratic classical branch. The comparison here respects the same newform attachment, Hecke eigenvalues and determinant; uniqueness up to coefficient conjugacy follows from strong multiplicity one.
 
 **Checks.**
 
-- Check the level-one case: unramified outside `p` and crystalline at `p` give `N = 1`.
-- Check that the character of `f` is `ψ` times the Teichmüller normalisation fixed by det `ρ`.
+- The small terminal case unramified outside `p` and crystalline at `p` is the level-one export of SmallRamificationAndAbelianVarietyBaseCases §5.0e.
+- A finite determinant character of conductor `p²` cannot be discarded when passing to Hida control in §6.4.
+- An imaginary-quadratic inducing field requires the full classical contract, rather than §5.6's restricted dimension argument.
 
-([SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §4.5, Theorem A, p. 74 (Numdam PDF page 71).)
+(Source: SW99 Theorem A, p. 74; SW01 Theorem 5.2, p. 204; Khare Lemma 5.4 and proof, p. 22.)
 
-*Needs:* §5.4; §5.7; AutomorphicGaloisRepresentations:§6.4; AutomorphicGaloisRepresentations:§§4.5–4.9; AutomorphicGaloisRepresentations:§1.5.
+*Needs:* §§5.4,5.7; ClassicalSerreModularity:§I.1; SmallRamificationAndAbelianVarietyBaseCases:§5.0e; AutomorphicGaloisRepresentations:§§4.4–4.9, 4.12, 6.4; AutomorphicGaloisRepresentations:§1.5.
 
 ### 6.2 The ordinary theorems do not use Serre's conjecture
 
@@ -2228,7 +2240,7 @@ Provide the following operations and compatibility statements.
 
 ### 6.4 The exported ordinary newform lies in a Hida family
 
-Let `p ≥ 5` and let `f` be a newform of weight `k ≥ 2` and level `N₀` or `N₀p (p ∤ N₀)` that is ordinary at `p (a` unit `U_p-` or T_p-eigenvalue root). Then `f`, or its unique ordinary p-stabilisation `f_α`, is the specialisation at a classical height-one prime of a unique primitive component `𝒦` of Hida's ordinary Hecke algebra of tame level `N₀` (Hida, Corollary 3.7), and the Galois representation of §6.3 specialises there to `ρ_{f,λ}`. In particular, if `ρ` is exported by §6.1 (under (`ii) ρ|_{I_p} ≅ (∗ ∗`; 0 1)), the newform `f` with `ρ ≅ ρ_{f,λ}` is ordinary at `p` and lies in a Hida family whose representation interpolates `ρ`.
+Let `p ≥ 5` and let `f` be a newform of weight `k ≥ 2` and level `N₀pᵃ`, with `p∤N₀` and `a≥0`, that is ordinary at `p (a` unit `U_p-` or T_p-eigenvalue root). Retain its actual finite p-power nebentypus and conductor in PadicFamilies §§0.11,0.13's finite-character control. Use its ordinary p-stabilisation `f_α` when `a=0`. Then this ordinary eigensystem is the specialisation at a classical height-one prime of a unique primitive component `𝒦` of Hida's ordinary Hecke algebra of tame level `N₀` (Hida, Corollary 3.7), and the Galois representation of §6.3 specialises there to `ρ_{f,λ}`. In particular, if `ρ` is exported by §6.1 (under (`ii) ρ|_{I_p} ≅ (∗ ∗`; 0 1)), the newform `f` with `ρ ≅ ρ_{f,λ}` is ordinary at `p` and lies in a Hida family whose representation interpolates `ρ`.
 
 We take `p ≥ 5`, the range of PadicFamilies Layer 0's control theorem. Ordinarity of `f` from that of `ρ`: an unramified quotient of `ρ|_{G_{ℚ_p}}` forces a unit root (PadicHodgeTheory §6.4). Uniqueness of `𝒦` is Hida's Corollary 3.7 (constructed here with the EPW properties below, which owns Hida families).
 
@@ -2244,6 +2256,7 @@ For the export: `ρ|_{I_p} ≅ (∗ ∗`; 0 1) gives an unramified quotient, so 
 
 - Record multiplicity: a p-old `f` of level `N₀` has two p-stabilisations and only one is ordinary.
 - `k = 2` is allowed for cusp forms (PadicFamilies Layer 0/hida-control-theorem uses `k ≥ 2` for cusp forms).
+- A primitive wild nebentypus of conductor `p²` forces the primitive level to contain `p²`, even when the ordinary quotient is unramified. Its finite-character control quotient retains that conductor.
 
 ([EPW](<https://arxiv.org/pdf/math/0404484v1>) §2.1, after Theorem 2.1.2, p. 8 (arXiv v1; printed page `=` PDF page); [Hida](<https://www.numdam.org/item/10.24033/asens.1507.pdf>) §3, Corollary 3.7, p. 253 (Numdam PDF page 24; printed page `=` PDF page `+ 229).`)
 
@@ -2381,11 +2394,11 @@ If the cyclotomic restriction is reducible, use Allen’s ordinary lifting argum
 
 Let `E` be totally real, let `p ∈ {3,5}` be unramified in `E`, and let `r̄:G_E → GL₂(F̄_p)` be continuous and modular with det `r̄ = ε̄⁻¹`. Assume `r̄|G_{E(ζ_p)}` is absolutely irreducible and, at every `w | p, r̄|I_w` is an extension of `ε̄⁻¹` by `1 (a` stable line with character 1 and quotient `ε̄⁻¹`, in the literal extension convention). Then `r̄` is the reduction of an ordinary Hilbert modular eigenform over `E` of parallel weight 2 and trivial nebentypus; equivalently in the dual normalization the determinant of its p-adic representation is `ε⁻¹`. This is the refined local-weight/determinant consequence used in BCGP, rather than the unrefined statement of BLGG13 Theorem A.
 
-Fix the local ordinary filtration compatible with the weight-two local lift. The phrase extension of `ε̄⁻¹` by 1 uses `0 → 1 → V → ε̄⁻¹ → 0`; if the source uses matrix order instead, translate the filtration together with its dual convention. No residual modularity theorem is included: BCGP proves residual modularity by other inputs before using this result. BCGP Proposition 10.1.3 states its `p = 5` case with `GL₂(𝔽₅)` coefficients. The `𝔽̄₅` refinement requires the separate finite-image argument below, including the determinant-one subgroup; it is a required theorem of ArithmeticGaloisRepresentations R01.4, not an additional assertion of BCGP.
+Fix the local ordinary filtration compatible with the weight-two local lift. The phrase extension of `ε̄⁻¹` by 1 uses `0 → 1 → V → ε̄⁻¹ → 0`; if the source uses matrix order instead, translate the filtration together with its dual convention. No residual modularity theorem is included: BCGP proves residual modularity by other inputs before using this result. BCGP Proposition 10.1.3 states its `p = 5` case with `GL₂(𝔽₅)` coefficients. The `𝔽̄₅` refinement requires the separate finite-image argument below, including the determinant-one subgroup; it is proved here from ArithmeticGaloisRepresentations §4.4, rather than asserted as a consequence of BCGP alone.
 
 Since `p` is unramified in `E, ε̄` on inertia has order `p−1`; the inertia characters are distinct, so the one-dimensional subspace on which inertia acts trivially is preserved by the decomposition group, giving local reducibility. Choose the weight-two ordinary local lift in the matching dual convention.
 
-At `p = 5` the inertia characters give a projective element of order 4, so the full projective image is not `A₅`. If the cyclotomic projective image is nevertheless `A₅`, use the rank-two image classification: after conjugation its derived subgroup is `SL₂(F₅)`, and the full projective image is in PGL₂(F₅). A tame inertia element with eigenvalues 1 and a primitive fourth root has nonzero trace in `F₅`, so its scalar factor in a projectively F₅-rational matrix is in `F₅`; this element and `SL₂(F₅)` generate `GL₂(F₅)`. Any additional scalar `λ` must have `λ² ∈ F₅×` by the determinant condition. If `λ` is not in `F₅` then `λ²` is nonsquare; multiply `λ` by an F₅-matrix of determinant `λ⁻²` to produce a determinant-one element with projective image outside `PSL₂(F₅)`, contradicting the cyclotomic image. Thus the representation is already GL₂(F₅)-valued, and the exceptional realizability condition holds with `F′ = E`. This image argument is part of the required R01.4 finite-group contract.
+At `p = 5` the inertia characters give a projective element of order 4, so the full projective image is not `A₅`. If the cyclotomic projective image is nevertheless `A₅`, use the rank-two image classification: after conjugation its derived subgroup is `SL₂(F₅)`, and the full projective image is in PGL₂(F₅). A tame inertia element with eigenvalues 1 and a primitive fourth root has nonzero trace in `F₅`, so its scalar factor in a projectively F₅-rational matrix is in `F₅`; this element and `SL₂(F₅)` generate `GL₂(F₅)`. Any additional scalar `λ` must have `λ² ∈ F₅×` by the determinant condition. If `λ` is not in `F₅` then `λ²` is nonsquare; multiply `λ` by an F₅-matrix of determinant `λ⁻²` to produce a determinant-one element with projective image outside `PSL₂(F₅)`, contradicting the cyclotomic image. Thus the representation is already GL₂(F₅)-valued, and the exceptional realizability condition holds with `F′ = E`. Prove this scalar-descent argument here using the Dickson classification of ArithmeticGaloisRepresentations §4.4.
 
 Use BLGG13 for the ordinary automorphic seed, then the fixed-determinant/local-component refinement and Hida control to obtain weight 2 and det `ε⁻¹` with the specified ordinary local components. BCGP Proposition 10.1.3 supplies this refined application.
 
@@ -2447,7 +2460,7 @@ The 2-big condition of BLGG12 §4.1 and the case division of BLGG12 Lemma 4.4.2 
 
 Skinner–Wiles, Base change and a problem of Serre, Duke Math. `J`. 107 (2001), 15–25, unnumbered theorem on p. 17 and the weight-conversion paragraph there, with the local preparation on pp. 18–19. For an odd `p` and an absolutely irreducible modular residual representation over a totally real `F` arising from a weight-two Hilbert newform `f`, there is a solvable totally real `F′/F` in which all p-places split completely, the residual representation remains irreducible, and a weight-two form `g` realizes its restriction with level dividing the p-power part of level(f) times the product of residually ramified primes away from p. Ordinary or nearly ordinary, distinguishedness, and the chosen good quotient are preserved. Starting at weight `≥2` first use the Hida/Wiles family conversion to weight two on p. 17. Auxiliary prescribed splitting/ramification there is for a finite set outside level(f), not unrestricted level primes. The even-degree and large-local-degree preparation in §5.6 is a further step, rather than a conclusion of this theorem alone. Also the specified solvable totally real base changes, local splitting/unramifiedness conditions and disjointness from residual/cyclotomic avoidance fields in BLGG12 §6.1 and BLGG13 Theorem 2.1.2.
 
-For BLGG12 Proposition 6.1.4: the automorphic induction of an algebraic character `θ` of a CM extension `M/L⁺` that does not extend to `L⁺` is regular algebraic of weight 0 and level prime to `l` when `θ` is crystalline at `l` and unramified elsewhere, with `r_{l,ι}` equal to the induced Galois representation, and it is ι-ordinary when `θ` has the Hodge type chosen there (Geraghty Lemma 5.2.1).
+For BLGG12 Proposition 6.1.4, use the character `θ` constructed in its proof after solvable totally real base change, with the stated residual/cyclotomic disjointness. Require every place above `l` to split in `M/L⁺`; assign labelled Hodge–Tate weight 0 at one chosen place and 1 at its conjugate for every CM embedding pair, with `HT(ε)=−1`. Require `θ` crystalline at `l`, unramified away from `l`, and not extending to `L⁺`. Require `M/L⁺` unramified at every finite place for the everywhere-unramified conclusion; unramifiedness above `l` is necessary for the prime-to-`l` level conclusion, and follows here from splitting. With these hypotheses, automorphic induction is regular algebraic of weight 0, of level prime to `l`, everywhere unramified, and ι-ordinary, with `r_{l,ι}` the induced Galois representation (Geraghty Lemma 5.2.1). The allowed solvable base change supplies the crystallinity and extension-unramifiedness conditions as in BLGG12, p. 40.
 
 Preservation of the residual image and of the avoidance fields under the auxiliary constructions used for ordinary component lifting (§6.7–§6.13). The odd Taylor–Wiles hypotheses (absolute irreducibility on `G_{F(ζ_p)}, SL₂(F_p) ⊆ ρ̄(G_F)`) are not interchangeable with 2-big or adequate image.
 
@@ -2456,7 +2469,9 @@ The image dichotomy, scalar descent, solvable preparation and the ordinary chara
 **Checks.**
 
 - Adequacy and 2-big image are different conditions; the `l=3` and `l=5` projective exceptions cannot be absorbed into the generic adequate case.
-- Ordinary induction of a CM character must carry the specified Hodge type; crystallinity alone does not specify the chosen ordinary line.
+- Ordinary induction of a CM character must carry the specified Hodge type; crystallinity alone does not specify the chosen ordinary line. A nonzero cyclotomic twist preserves crystallinity and the ramification set but shifts both induced weights away from `{0,1}`.
+- At a ramified quadratic local extension, induction of the trivial unramified character has nontrivial permutation inertia. Unramifiedness of `θ` cannot replace unramifiedness of `M/L⁺`.
+- Splitting above `l` supplies the two local character lines with weights 0 and 1; it is retained from the construction of Proposition 6.1.4.
 - Preserving a local component retains more choices than merely fixing a determinant, and less than fixing the entire local representation.
 
 (Source: BLGG12 §4.1, Lemma 4.4.2, Proposition 6.1.4 and Theorems 6.1.5, 6.1.9; BLGG13 Proposition A.2.1 and Theorem 2.1.2; SW base change, p. 17 and pp. 18–19; BCGP's ordinary weight-two construction; Newton–Thorne Lemma 3.1.)
@@ -2473,7 +2488,7 @@ ArithmeticGaloisRepresentations:§§4.1–4.7, 7.9; §6.14; AutomorphicGaloisRep
 
 ## Downstream consumers
 
-ClassicalSerreModularity (its R26, R27.1 and `R33.1`) uses the residually reducible theorem over `ℚ` (§5.4, §6.1) and its small-prime branch as initial cases. SmallRamificationAndAbelianVarietyBaseCases R25.5 uses the level-one case of §6.1: an ordinary crystalline representation unramified outside `p` comes from `S_k(SL₂(ℤ))`, which vanishes for its weights. GL2ModularityLifting uses §5.6 for ordinary lifting over totally real fields (its `R22.1`), §6.1 (its `R32.1`) and the `p = 3` branch §5.5 (its `R32.5`), and PotentialModularityAndCompatibleSystems uses §5.6 for Taylor's ordinary case (its `R23.3`) and §6.1 (its `R23.4`). Both also use the ordinary localized deformation–Hecke comparisons. PotentialAutomorphyInfrastructure uses the ordinary seed and component interfaces once their explicitly required tensor and component automorphy inputs are proved. None of these downstream applications changes the residual modularity hypotheses of the BLGG block. The symmetric-power argument using the Newton–Thorne Steinberg construction is a downstream application, rather than another target here.
+ClassicalSerreModularity §I.1 owns the two classical ordinary lifting theorems, the full-scope imaginary-quadratic correction and general exact-level specialization. SmallRamificationAndAbelianVarietyBaseCases §5.0e owns the terminal ordinary and level-one cases. The totally real deformation–Hecke comparisons here specialize to those contracts through §§5.4,5.7,6.1; their classical proof targets and terminal applications stay with those owners. GL2ModularityLifting uses §5.6 for ordinary lifting over totally real fields (its `R22.1`), §6.1 (its `R32.1`) and the `p = 3` branch §5.5 (its `R32.5`), and PotentialModularityAndCompatibleSystems uses §5.6 for Taylor's ordinary case (its `R23.3`) and §6.1 (its `R23.4`). Both also use the ordinary localized deformation–Hecke comparisons. PotentialAutomorphyInfrastructure uses the ordinary seed and component interfaces once their explicitly required tensor and component automorphy inputs are proved. None of these downstream applications changes the residual modularity hypotheses of the BLGG block. The symmetric-power argument using the Newton–Thorne Steinberg construction is a downstream application, rather than another target here.
 
 ## References
 

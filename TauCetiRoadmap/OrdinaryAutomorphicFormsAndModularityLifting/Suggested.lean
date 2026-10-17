@@ -83,6 +83,32 @@ example : traceAlong (X := Unit) (Y := Fin 0) (fun _ => ())
     (R := ℚ) (fun _ => 7) () = 0 := by
   simp [traceAlong]
 
+/-- Identity fibres recover the original finite function (`trace_identity`). -/
+example [DecidableEq X] [AddCommMonoid R] (g : X → R) :
+    traceAlong (id : X → X) g = g := by
+  ext x
+  simp [traceAlong, Finset.sum_filter]
+
+/-- Unit stabilizers give the unweighted function pairing (`quaternionicPairing_free`). -/
+example [Field R] (f g : X → R) :
+    quaternionicPairing (fun _ => 1) f g = ∑ x, f x * g x := by
+  simp [quaternionicPairing]
+
+/-- Two free classes give the value 23. -/
+example : quaternionicPairing (X := Fin 2) (R := ℚ) (fun _ => 1)
+    ![2, 3] ![4, 5] = 23 := by
+  norm_num [quaternionicPairing, Fin.sum_univ_two]
+
+/-- A stabilizer ratio two gives arithmetic trace six and weighted contribution three. -/
+example : (2 / 1 : ℚ) * 3 = 6 ∧ (2 : ℚ)⁻¹ * ((2 / 1) * 3) = 3 := by
+  norm_num
+
+/-- A central fibre of size two scales the central pairing by two. -/
+example : quaternionicPairing (X := Fin 2) (R := ℚ) (fun _ => 1)
+    (fun _ => 2) (fun _ => 3) = 2 * quaternionicPairing (X := Unit)
+      (fun _ => 1) (fun _ => 2) (fun _ => 3) := by
+  norm_num [quaternionicPairing, Fin.sum_univ_two]
+
 end FiniteFunctions
 
 /-- The unit and nilpotent parts have different ordinary limiting behaviour. -/
@@ -155,11 +181,36 @@ def trace (ρ : PseudoRep G A z) (σ : G) : A := ρ.a σ + ρ.d σ
 /-- The determinant `a(σ)d(σ) − x(σ, σ)` of a pseudo-representation. -/
 def det (ρ : PseudoRep G A z) (σ : G) : A := ρ.a σ * ρ.d σ - ρ.x σ σ
 
+/-- A continuous matrix representation normalized at `z` supplies Wiles' ordered data. -/
+def ofRep [IsTopologicalRing A] (z : G)
+    (ρ : G →* Matrix (Fin 2) (Fin 2) A) (hρ : Continuous ρ)
+    (hz : ρ z = !![1, 0; 0, -1]) : PseudoRep G A z where
+  a σ := ρ σ 0 0
+  d σ := ρ σ 1 1
+  x σ τ := ρ σ 0 1 * ρ τ 1 0
+  continuous_a := by fun_prop
+  continuous_d := by fun_prop
+  continuous_x := by fun_prop
+  a_mul σ τ := by simp [Matrix.mul_apply, Fin.sum_univ_two]
+  d_mul σ τ := by simp [Matrix.mul_apply, Fin.sum_univ_two, mul_comm, add_comm]
+  x_mul_x σ τ α β := by ring
+  x_mul_mul σ τ α β := by
+    simp only [map_mul, Matrix.mul_apply, Fin.sum_univ_two]
+    ring
+  a_one := by simp
+  d_one := by simp
+  a_z := by simp [hz]
+  d_z := by simp [hz]
+  x_one_left σ := by simp
+  x_one_right σ := by simp
+  x_z_left σ := by simp [hz]
+  x_z_right σ := by simp [hz]
+
 end PseudoRep
 
 /-- The residual pseudo-representation `{1, χ, 0}` of `1 ⊕ χ`; every nonsplit `ρ_c` has it,
 so the pseudo-deformation ring forgets the extension class (§3.7, `pseudoRep_residual`). -/
-example {G A : Type*} [Group G] [TopologicalSpace G] [CommRing A] [TopologicalSpace A]
+def PseudoRep.residual {G A : Type*} [Group G] [TopologicalSpace G] [CommRing A] [TopologicalSpace A]
     [Invertible (2 : A)] (z : G) (χ : G →* A) (hχ : Continuous χ) (hz : χ z = -1) :
     PseudoRep G A z where
   a _ := 1
@@ -187,6 +238,44 @@ example {G A : Type*} [Group G] [TopologicalSpace G] [CommRing A] [TopologicalSp
     [Invertible (2 : A)] (z : G) (ρ : PseudoRep G A z) :
     ρ.trace z = 0 ∧ ρ.det z = -1 := by
   simp [PseudoRep.trace, PseudoRep.det, ρ.a_z, ρ.d_z, ρ.x_z_left]
+
+/-- The identity has trace two and determinant one for every ordered pseudo-representation. -/
+example {G A : Type*} [Group G] [TopologicalSpace G] [CommRing A] [TopologicalSpace A]
+    [Invertible (2 : A)] (z : G) (ρ : PseudoRep G A z) :
+    ρ.trace 1 = 2 ∧ ρ.det 1 = 1 := by
+  norm_num [PseudoRep.trace, PseudoRep.det, ρ.a_one, ρ.d_one, ρ.x_one_left]
+
+/-- The diagonal residual value retains both the trace and the character determinant. -/
+example {G A : Type*} [Group G] [TopologicalSpace G] [CommRing A] [TopologicalSpace A]
+    [Invertible (2 : A)] (z : G) (χ : G →* A) (hχ : Continuous χ)
+    (hz : χ z = -1) (σ : G) :
+    (PseudoRep.residual z χ hχ hz).trace σ = 1 + χ σ ∧
+      (PseudoRep.residual z χ hχ hz).det σ = χ σ := by
+  simp [PseudoRep.residual, PseudoRep.trace, PseudoRep.det]
+
+/-- The matrix construction gives the actual matrix trace and determinant. -/
+example {G A : Type*} [Group G] [TopologicalSpace G] [CommRing A] [TopologicalSpace A]
+    [IsTopologicalRing A] [Invertible (2 : A)] (z : G)
+    (ρ : G →* Matrix (Fin 2) (Fin 2) A) (hρ : Continuous ρ)
+    (hz : ρ z = !![1, 0; 0, -1]) (σ : G) :
+    (PseudoRep.ofRep z ρ hρ hz).trace σ = Matrix.trace (ρ σ) ∧
+      (PseudoRep.ofRep z ρ hρ hz).det σ = Matrix.det (ρ σ) := by
+  simp [PseudoRep.ofRep, PseudoRep.trace, PseudoRep.det, Matrix.trace,
+    Matrix.diag, Fin.sum_univ_two, Matrix.det_fin_two]
+
+/-- An invertible matrix with nonzero off-diagonal product gives trace three and determinant one. -/
+example :
+    let G := (Matrix (Fin 2) (Fin 2) ℚ)ˣ
+    letI : TopologicalSpace G := ⊥
+    let z : G := ⟨!![1, 0; 0, -1], !![1, 0; 0, -1],
+      by ext i j; fin_cases i <;> fin_cases j <;> norm_num [Matrix.mul_apply, Fin.sum_univ_two],
+      by ext i j; fin_cases i <;> fin_cases j <;> norm_num [Matrix.mul_apply, Fin.sum_univ_two]⟩
+    let σ : G := ⟨!![2, 1; 1, 1], !![1, -1; -1, 2],
+      by ext i j; fin_cases i <;> fin_cases j <;> norm_num [Matrix.mul_apply, Fin.sum_univ_two],
+      by ext i j; fin_cases i <;> fin_cases j <;> norm_num [Matrix.mul_apply, Fin.sum_univ_two]⟩
+    let P := PseudoRep.ofRep z (Units.coeHom _) (by fun_prop) rfl
+    P.trace σ = 3 ∧ P.det σ = 1 ∧ P.x σ σ = 1 := by
+  norm_num [PseudoRep.ofRep, PseudoRep.trace, PseudoRep.det]
 
 end PseudoRep
 
@@ -218,6 +307,28 @@ example {R : Type*} [CommRing R] (aσ bσ bτ dτ cα dα aβ cβ : R) :
         aσ * dα * (bτ * cβ) + dτ * dα * (bσ * cβ) := by
   ring
 
+/-- `pseudoRep_det_of_rep`: the ordered determinant agrees with the matrix determinant. -/
+example {R : Type*} [CommRing R] (a b c d : R) :
+    a * d - b * c = Matrix.det (!![a, b; c, d] : Matrix (Fin 2) (Fin 2) R) := by
+  simp [Matrix.det_fin_two]
+
+/-- `pseudoRep_diagonal_conj`: a unit diagonal conjugation fixes both diagonal entries and `x`. -/
+example {R : Type*} [CommRing R] (a b c d bτ cτ : R) (u : Rˣ) :
+    (!![(u : R), 0; 0, 1] * !![a, b; c, d] * !![(↑(u⁻¹) : R), 0; 0, 1] :
+      Matrix (Fin 2) (Fin 2) R) = !![a, ↑u * b; ↑(u⁻¹) * c, d] ∧
+    (↑u * b) * (↑(u⁻¹) * cτ) = b * cτ ∧
+    (↑u * bτ) * (↑(u⁻¹) * c) = bτ * c := by
+  constructor
+  · ext i j
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, mul_assoc, mul_comm]
+  · constructor
+    · calc
+        (↑u * b) * (↑(u⁻¹) * cτ) = ((u : R) * ↑(u⁻¹)) * (b * cτ) := by ring
+        _ = b * cτ := by simp
+    · calc
+        (↑u * bτ) * (↑(u⁻¹) * c) = ((u : R) * ↑(u⁻¹)) * (bτ * c) := by ring
+        _ = bτ * c := by simp
+
 /-- A scalar twist multiplies determinant by the square of the character value. -/
 example {K : Type*} [Field K] (a b c d ψ : K) :
     Matrix.det (!![ψ * a, ψ * b; ψ * c, ψ * d] : Matrix (Fin 2) (Fin 2) K) =
@@ -242,6 +353,17 @@ example {K : Type*} [Field K] (s : K) (h : 1 + s ≠ 0) :
     (1 + s) + (1 + s)⁻¹ - 2 = s ^ 2 / (1 + s) := by
   rw [eq_div_iff h, sub_mul, add_mul, inv_mul_cancel₀ h]
   ring
+
+/-- The identity augmentation has zero cotangent and congruence lengths. -/
+example {C : Type*} [CommRing C] :
+    let H := RingHom.ker (RingHom.id C)
+    let η := ((RingHom.ker (RingHom.id C)).annihilator).map (RingHom.id C)
+    Module.length C (H ⧸ (H • (⊤ : Submodule C H))) = 0 ∧
+      Module.length C (C ⧸ η) = 0 := by
+  have hid : RingHom.ker (RingHom.id C) = ⊥ := by ext x; simp
+  dsimp only
+  rw [hid, Submodule.annihilator_bot, Ideal.map_id]
+  constructor <;> exact Module.length_eq_zero
 
 /-- At s=−1 the inverse-of-zero convention destroys the rational identity. -/
 example : ((1 + (-1 : ℚ)) + (1 + (-1 : ℚ))⁻¹ - 2) ≠
@@ -317,21 +439,22 @@ The heavier API names include `stabiliserCount`, `heckeAdjoint`, `IsVGoodLine`,
 `IsNearlyOrdinary`, `IsOrdinary`, `IsPermissible`, `centralDeterminant`,
 `permissibleLambdaAlgebra`, `admissibleClasses`, `residualExtension`, `IsOfType`,
 `universalRing`, `IsPermissibleExtension`, `DeformationDatum.baseChange`,
-`RamificationType`, `PseudoRep.ofRep`, `pseudoToDeformation`, `deformationLambdaAlgebra`,
+`RamificationType`, `pseudoToDeformation`, `deformationLambdaAlgebra`,
 `pseudoLambdaAlgebra`, `hidaGaloisRep`, `heckePseudoRep`, `pseudoToHecke`,
 `deformationLevel`, `deformationHeckeRing`, `minimalHeckeRing`, `deformationHeckeModule`,
 `IsProModular`, `IsProModularComponent`, `IsGoodPair`, `IsNiceDeformation`, `IsNiceFor`,
 `PropertyP1`, `PropertyP2`, `HypothesisH`, `IsOfIrreducibleType`, `irreducibleUniversalRing`,
 `heckeGaloisRep`, `IsPermissibleIrr`, `levelOfDatum`, `heckeOfDatum`, `heckeModuleOfDatum`,
 `heckeMinOfDatum`, `IsGoodPairIrr`, `IsNiceIrr`, `PropertyP`, and `hidaFamilyRep`.
-Section 1.4 also specifies `quaternionicPairing_eq_integralPairing`,
+Section 1.4 also specifies `quaternionicPairing_central_scaling`,
 `quaternionicPairing_free`, `quaternionicPairing_hecke_adjoint` and
 `quaternionicPairing_perfect` on the arithmetic class sets. Section 1.5 specifies
-`traceAlong_id` and its arithmetic check `trace_identity`. Section 3.7 specifies
+`traceAlong_id`, mirrored by the identity-fibre example `trace_identity`. Section 3.7 specifies
 `PseudoRep.ofRep_conj_diagonal`, `PseudoRep.trace_isPseudocharacter`,
 `pseudoRep_det_of_rep` and `pseudoRep_diagonal_conj` for the representation and
-pseudocharacter comparisons. Their intended operations, hypotheses and tests remain in
-the README. Local tangent
+pseudocharacter comparisons. The identity, free-pairing, two-point, stabilizer-ratio,
+determinant, diagonal-conjugation and identity-augmentation Checks have coefficient-level examples above. The arithmetic
+central-character and pseudocharacter comparisons remain README targets. Local tangent
 conditions, the determinant–flag spectrum comparison, arithmetic patching, localized R=T,
 Skinner–Wiles lifting and the rank-two BLGG/BCGP/Newton–Thorne targets likewise require
 arithmetic carriers beyond these finite-function definitions.
