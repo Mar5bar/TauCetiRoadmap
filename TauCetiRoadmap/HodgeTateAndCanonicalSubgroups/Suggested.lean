@@ -7,7 +7,10 @@ The roadmap is README.md. This file records light definitions and theorem signat
 statable against the pinned APIs and is not exhaustive. It fixes the compact-open
 level order, distinguishes the weak, strong and geometric canonical-subgroup ranges,
 and records the left coordinate action and its automorphy factor. The log-adic carriers and Kummer site come from PrismaticCohomologyPartIV §8.60;
-their additional API and logarithmic comparisons are README targets in Layers 6–7.
+the Kummer-condition aliases are local API compatible with that site. AutomorphicBundles
+B3.log.1–3 supplies the smooth proper strict-normal-crossings sites, periods and de Rham
+unipotent tensor comparison over finite p-adic fields; Layers 6–7 extend them with
+explicit common-range identifications.
 Quantitative guards below use rational heights for exact numerical examples; the
 geometric statements use real rank-one valuations with v(p) = 1 and positive levels.
 -/
@@ -244,6 +247,28 @@ example (c c' z : K) (hδ : c' * z + 1 ≠ 0) (hγδ : (c + c') * z + 1 ≠ 0) :
   · exact div_ne_zero hγδ hδ
   · rw [div_div_div_cancel_right₀ hδ]
 
+/-- Upper and lower unipotents distinguish the order of the matrix action. -/
+example :
+    (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) ℚ) * !![1, 0; 1, 1] ≠
+      !![1, 0; 1, 1] * !![1, 1; 0, 1] := by
+  intro h
+  have h00 := congrArg (fun A : Matrix (Fin 2) (Fin 2) ℚ => A 0 0) h
+  norm_num [Matrix.mul_apply, Fin.sum_univ_two] at h00
+
+/-- The odd-prime position estimate has a uniform lower bound at p = 5. -/
+example (p : ℚ) (hp : 5 ≤ p) : 27 / 16 ≤ 2 - p / (4 * (p - 1)) := by
+  have hd : 0 < 4 * (p - 1) := by linarith
+  have hb : p / (4 * (p - 1)) ≤ 5 / 16 := by
+    apply (div_le_iff₀ hd).2
+    nlinarith
+  linarith
+
+/-- The logarithm matrix of a rank-two unipotent Jordan block has square zero. -/
+example : (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℚ) ^ 2 = 0 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    norm_num [pow_two, Matrix.mul_apply, Fin.sum_univ_two]
+
 /-- Translation fixes the factor and adds 3 to the coordinate. -/
 example :
     let γ : GL (Fin 2) ℚ := Matrix.GeneralLinearGroup.mkOfDetNeZero !![1, 3; 0, 1] (by norm_num)
@@ -296,9 +321,10 @@ Layer 5: `TauCeti.HodgeTate.igusaTorsor`, `TauCeti.HodgeTate.integralDifferentia
 `TauCeti.HodgeTate.modifiedHodgeBundle`, `TauCeti.HodgeTate.modifiedMinimalModel`,
 `TauCeti.HodgeTate.modifiedPlusSheaf`, `TauCeti.HodgeTate.aipTorsor`.
 Layer 6 imports `TauCeti.LogAdic.LogStructure`, `TauCeti.LogAdic.logification`,
-`TauCeti.LogAdic.logPullback`, `TauCeti.LogAdic.IntegralChart`,
-`TauCeti.LogAdic.IsKummer`, `TauCeti.LogAdic.IsKummerEtale` and
-`TauCeti.LogAdic.KummerEtaleSite` from PrismaticCohomologyPartIV §8.60.
+`TauCeti.LogAdic.logPullback`, `TauCeti.LogAdic.IntegralChart` and `TauCeti.LogAdic.KummerEtaleSite`
+from PrismaticCohomologyPartIV §8.60. The local aliases
+`TauCeti.LogAdic.IsKummer` and `TauCeti.LogAdic.IsKummerEtale` name its underlying
+conditions, definitionally compatible with the site objects.
 The additional log-adic targets are:
 `TauCeti.LogAdic.KummerLocalSystem` (the finite torsion-stalk extension of the
 supplied finite-free local systems),
@@ -307,14 +333,21 @@ supplied finite-free local systems),
 `TauCeti.LogAdic.ContinuousLogDifferentials`, `TauCeti.LogAdic.AnalyticLogDR`,
 `TauCeti.LogAdic.RootCover`, `TauCeti.LogAdic.RamificationIndex`,
 `TauCeti.LogAdic.ProKummerPresentation`, `TauCeti.LogAdic.CorrectedProKummerCover`,
-`TauCeti.LogAdic.ProKummerEtaleSite`, `TauCeti.LogAdic.AllRootTower`,
+`TauCeti.LogAdic.ProKummerEtaleSite`,
+`TauCeti.LogAdic.ProKummerEtaleSite.horizontal_agreement`, `TauCeti.LogAdic.AllRootTower`,
 `TauCeti.LogAdic.LogAffinoidPerfectoid`, `TauCeti.LogAdic.CompletedLogStructure`,
 `TauCeti.LogAdic.KummerLisse`, `TauCeti.LogAdic.CompletedKummerLisse`,
 `TauCeti.LogAdic.BoundaryMonodromy`.
-Layer 7: `TauCeti.LogAdic.LogConstantPeriods`, `TauCeti.LogAdic.StructuralLogPeriodPlus`,
+Layer 7 extends the supplied smooth-pair constructions with
+`TauCeti.LogAdic.LogConstantPeriods.horizontal_agreement`,
+`TauCeti.LogAdic.StructuralLogPeriodPlus.horizontal_agreement` and
+`TauCeti.LogAdic.unipotent_log_tensor.horizontal_agreement`. Its period and
+comparison interfaces are `TauCeti.LogAdic.LogConstantPeriods`, `TauCeti.LogAdic.StructuralLogPeriodPlus`,
 `TauCeti.LogAdic.StructuralLogPeriod`, `TauCeti.LogAdic.StructuralLogConnection`,
 `TauCeti.LogAdic.BdRCoefficientSheaf`, `TauCeti.LogAdic.FilteredLogConnection`,
-`TauCeti.LogAdic.LogRH`, `TauCeti.LogAdic.LogHiggs`, `TauCeti.LogAdic.ArithmeticLogDR`,
+`TauCeti.LogAdic.LogRH`, `TauCeti.LogAdic.LogHiggs`,
+`TauCeti.LogAdic.ArithmeticLogDR` (underived arithmetic pushforward, with no
+higher-arithmetic-vanishing assertion),
 `TauCeti.LogAdic.CanonicalLogRealizations` (agreement with the supplied canonical coefficients), `TauCeti.LogAdic.TwoDeRhamLattices`,
 `TauCeti.LogAdic.LatticeHTFiltration`, `TauCeti.LogAdic.HodgeTateReduction`,
 `TauCeti.LogAdic.FiniteLeviComparison` (agreement with the supplied rational Levi comparison). -/
