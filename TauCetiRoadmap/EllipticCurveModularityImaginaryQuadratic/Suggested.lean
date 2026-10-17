@@ -22,7 +22,8 @@ attribute [local instance] Classical.decEq
 
 /- Layers 0–2 use the automorphic and moduli carriers specified in README.md.
 Their targets are stated there, including fixed_pairing_twist,
-fixed_pairing_twist_rational, even_trace_comparison and quadratic_rank_decomposition.
+fixed_pairing_twist_rational, mixed_fixed_pairing_twist_six,
+even_trace_comparison and quadratic_rank_decomposition.
 The Modular predicate and its transport statements require totally real or CM
 base fields; the real branches of genus_one_points_modular and
 genus_two_points_modular carry RealQuadraticCurveData. -/
@@ -46,14 +47,15 @@ theorem discriminant (F : Type*) [Field F] [NumberField F]
     ((a, b) ∈ shortEquationFamily F ↔
       (⟨0, 0, 0, (a : F), (b : F)⟩ : WeierstrassCurve F).IsElliptic) := by sorry
 
-/-- A norm on the real coefficient space gives finite bounded lattice counts.
+/-- A norm compatible with the canonical additive group and real scalar action
+on the coefficient tensor gives finite bounded lattice counts.
 The subtype count equals the finite set cardinal, without stabilizer weights
 (Zywina §1.1, pp.1–2). -/
 theorem height_count (F : Type*) [Field F] [NumberField F]
-    [NormedAddCommGroup
+    [Norm
       (TensorProduct ℤ ℝ (NumberField.RingOfIntegers F × NumberField.RingOfIntegers F))]
-    [NormedSpace ℝ
-      (TensorProduct ℤ ℝ (NumberField.RingOfIntegers F × NumberField.RingOfIntegers F))]
+    (hNorm : NormedSpace.Core ℝ
+      (TensorProduct ℤ ℝ (NumberField.RingOfIntegers F × NumberField.RingOfIntegers F)))
     (X : ℝ) :
     {ab : NumberField.RingOfIntegers F × NumberField.RingOfIntegers F |
       ab ∈ shortEquationFamily F ∧ ‖TensorProduct.tmul ℤ (1 : ℝ) ab‖ ≤ X}.Finite ∧
@@ -61,17 +63,22 @@ theorem height_count (F : Type*) [Field F] [NumberField F]
       ‖TensorProduct.tmul ℤ (1 : ℝ) ab.val‖ ≤ X} =
       {ab : NumberField.RingOfIntegers F × NumberField.RingOfIntegers F |
         ab ∈ shortEquationFamily F ∧ ‖TensorProduct.tmul ℤ (1 : ℝ) ab‖ ≤ X}.ncard := by
+  let := NormedAddCommGroup.ofCore hNorm
+  let := NormedSpace.ofCore hNorm
   sorry
 
 /-- At nonpositive height the only possible coefficient pair is singular. -/
 example (F : Type*) [Field F] [NumberField F]
-    [NormedAddCommGroup
+    [Norm
       (TensorProduct ℤ ℝ (NumberField.RingOfIntegers F × NumberField.RingOfIntegers F))]
-    [NormedSpace ℝ
-      (TensorProduct ℤ ℝ (NumberField.RingOfIntegers F × NumberField.RingOfIntegers F))]
+    (hNorm : NormedSpace.Core ℝ
+      (TensorProduct ℤ ℝ (NumberField.RingOfIntegers F × NumberField.RingOfIntegers F)))
     (X : ℝ) (hX : X ≤ 0) :
     Nat.card {ab : shortEquationFamily F |
-      ‖TensorProduct.tmul ℤ (1 : ℝ) ab.val‖ ≤ X} = 0 := by sorry
+      ‖TensorProduct.tmul ℤ (1 : ℝ) ab.val‖ ≤ X} = 0 := by
+  let := NormedAddCommGroup.ofCore hNorm
+  let := NormedSpace.ofCore hNorm
+  sorry
 
 /-- Two nonsingular coefficient pairs count separately although scaling by 2
 identifies their Weierstrass models. -/
@@ -273,6 +280,9 @@ example : ∃ h : Es35.toAffine.Equation 0 0, WeierstrassCurve.Affine.Point.mk h
 
 /-- The three rational two-torsion x-coordinates are 0, −1 and −16. -/
 example : Es35.toAffine.Equation (0) 0 ∧ Es35.toAffine.Equation (-1) 0 ∧ Es35.toAffine.Equation (-16) 0 := by sorry
+
+/-- The second model has discriminant 921600, distinct from that of E15. -/
+example : Es35.Δ = 921600 ∧ Es35.Δ ≠ E15.Δ := by sorry
 
 /-- The assumed quadratic torsion table on actual point groups (CN Corollary
 7.1.2 proof, p.93; Kwon Theorem 1(iii), pp.144–145). The structure records

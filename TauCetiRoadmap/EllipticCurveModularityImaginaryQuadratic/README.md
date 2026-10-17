@@ -66,7 +66,7 @@ geometric isogeny; they do not construct a second GL₂-type theory. The same mo
 
 The underlying affine coarse modular curves and rational-base fixed-pairing twists belong to
 `TauCetiRoadmap.ModularCurves`, Layers 5C and 9. The rational-base compactified twists, Cartan curves and their point dictionary belong to
-ModularCurvesPartII §§5.14, 6.4–6.5 and 9.6–9.7. Layer 0 constructs the fixed-pairing twists for arbitrary number-field representations and proves their rationality at p=3,5. Use the supplied coarse objects directly, with the mixed-level normalization supplied by ModularCurvesPartII §§3.12 and 5.2.
+ModularCurvesPartII §§5.14, 6.4–6.5 and 9.6–9.7. Layer 0 constructs the fixed-pairing twists for arbitrary number-field representations, proves their rationality at p=3,5, and constructs the mixed level-six twists used in discriminant coupling. Use the supplied coarse objects directly, with the mixed-level normalization supplied by ModularCurvesPartII §§3.12 and 5.2.
 Their normalized coordinates and mixed-level identifications below are explicit
 arithmetic hypotheses. The discriminant coupling and independent CM lifting
 arguments are the targets of Layer 0.
@@ -333,8 +333,11 @@ conjugation and quadratic twist. Also supply a prime ℓ, an isomorphism
 rπ,ι, a weight-zero cuspidal automorphic representation π over ℚ(i), invariant lattices for rπ,ι and the dual Tate representation of
 `gaussianExceptional`, and the finite comparison data meeting the
 Layer 0 `finite_frobenius_comparison` Faltings–Serre criterion. In particular the two continuous semisimple
-representations have the required common determinant and residual comparison,
-are unramified outside the specified finite set S, and have equal Frobenius
+representations have the required common determinant and residual comparison.
+In the cyclic-order-three residual branch at ℓ=2, both restrictions to the
+common cubic residual kernel are absolutely irreducible after coefficient
+extension. The representations are unramified outside the specified finite
+set S, and have equal Frobenius
 characteristic polynomials at every prime of the criterion's exhaustive test
 set T disjoint from S. Exhaustiveness is the criterion's condition on T;
 an arbitrary finite matching list does not meet this hypothesis. The input
@@ -381,7 +384,11 @@ specified in their cited sections of this roadmap:
   good prime 43, and eight pullback divisors L. Assume `red₄₃(G)` is
   cyclic of order seven, `ι₄₃⁻¹(red₄₃(G))` has seven elements, and L
   covers all seven residue classes with the relative local differential
-  criterion of EffectiveDiophantineMethods §4.22. For C2 take
+  criterion of EffectiveDiophantineMethods §4.22. Put Dbase=π₁*(0_B), use
+  the full known list L′=L∪{Dbase}, and supply its exact good subset
+  L_43^good, containing L, for that criterion. The bad set is
+  ι₄₃⁻¹(red₄₃(G))∖red₄₃(L_43^good), with ι(D)=4([D]−Dbase).
+  For C2 take
   `G=⟨5π₂*D,D₂,5D₁₀⟩`, `I=10`, good primes 11 and 43 and the sixteen
   nonpullback effective divisors L16 of s3ns5.m. Set Dbase=π₂*(0_B) and
   supply the full finite known set L=L16∪Lpb, with Dbase∈Lpb⊂π₂*B(ℚ).
@@ -574,6 +581,36 @@ in this target.
 - A general genus-zero curve, such as x²+y²+z²=0 over ℚ, need not have a
   rational point. The specified determinant-compatible lift is essential.
 
+**`mixed_fixed_pairing_twist_six`** — For elliptic curves A,E over any
+number field K, construct the fine K-curve Y classifying elliptic curves C
+with symplectic isomorphisms C[2]≅A[2] and C[3]≅E[3], and its smooth
+proper geometrically connected genus-one completion X. Descend the paired
+full-level-six curve using the module A[2]×E[3] and its Weil pairings.
+Prove the point dictionary over every extension of K and base-change laws
+for identity and composition. Write X_A and X_E for the corresponding
+pure twists using A[6] and E[6]. Let V_A,V_E be the normal Klein four
+K-subgroups in PSp(A[3]), PSp(E[3]), and C_A,C_E the normal order-three
+K-subgroups in PSp(A[2]), PSp(E[2]). If ΔA/ΔE is a cube, prove
+X_A/V_A≅X/V_E; if it is a square, prove X/C_A≅X_E/C_E, with the quotient
+maps extended to the completions. (AKT, Lemmas 9.5–9.6, pp.74–75.)
+
+*Needs:* ModularCurves §0E and §5C for descent and the paired frame
+construction; ModularCurvesPartII §5.13 for the compactified full-level-six
+carrier; EC torsion; the genus-one calculation and quotient comparisons
+of AKT Lemmas 9.5–9.6, included in this target.
+
+**Checks.**
+
+- For A=E the curve is the twist by E[6], and (E,id,id) is a K-point
+  of its elliptic open.
+- Over a field with symplectic frames the completion is the connected
+  fixed-pairing X(6), of genus one; the unpaired full-level curve has two
+  geometric components and cannot replace it.
+- Under both square and cube conditions, the images of the points on
+  X_A and X_E give rational divisors on X of degrees four and three.
+  Their difference gives degree one; geometric genus one alone does not
+  imply that a twist has a K-point.
+
 **`discriminant_coupling`** — For any number field K and elliptic A,E/K,
 if `ΔA/ΔE ∈ (Kˣ)^6` and E[3] is irreducible, there is an elliptic C/K
 with `ΔC/ΔA ∈ (Kˣ)^6` and symplectic isomorphisms `C[2] ≅ A[2]`,
@@ -589,8 +626,18 @@ the avoidance field and every place over the generic witness. A sixth-power
 discriminant class retains the square and cube conditions simultaneously;
 replacing it by a twelfth-power class is not the specified coupling.
 
-*Needs:* ModularCurves §5C; ModularCurvesPartII §5.14; JacobianChallenge
-Layers B and D; Mathlib `groupCohomology.H1ofAutOnUnitsUnique`.
+*Needs:* Layer 0 `mixed_fixed_pairing_twist_six`; ModularCurves §5C;
+ModularCurvesPartII §5.14; JacobianChallenge Layers B and D;
+Mathlib `groupCohomology.H1ofAutOnUnitsUnique`.
+
+**Checks for `discriminant_coupling`.**
+
+- The sixth-power condition supplies both the square and cube conditions
+  needed for the two quotient comparisons.
+- The rational degree-four and degree-three divisors give degree one by
+  subtraction; Riemann–Roch on the genus-one completion gives a K-point.
+- Irreducibility of E[3] excludes rational cusps. Without it, the
+  degree-one argument alone need not supply a point of the elliptic open.
 
 ### 0.3 Residual genericity comparisons
 
@@ -649,19 +696,33 @@ of semisimplifications. This is a mathematical exhaustion condition on T,
 not a procedure for finding T.
 
 The even-trace branch uses the general-number-field `even_trace_comparison`
-below. For common cyclic residual image of order three, take ℓ=2 with residual
-coefficient field F₂ and apply that general criterion after restriction to
-the common cubic kernel field, with S pulled back to that field. Retain the
-character-twist comparison needed to descend (DGP, §4.3 and §5.3, pp.10,17).
+above. For common cyclic residual image of order three, take ℓ=2 with residual
+coefficient field F₂ and assume that both restrictions to the common cubic
+kernel field are absolutely irreducible after coefficient extension. Apply
+the even-trace criterion over that field, with S pulled back, then
+GL2Transfer.compatible_descent_twist to the restricted isomorphism. The two
+representations differ by a character of the cubic quotient. The common
+residual trace is 1 outside the kernel; each nontrivial cubic character has
+nontrivial reduction there, excluding both nontrivial twists. Thus the
+representations are isomorphic. (DGP, §4.3 and §5.3, pp.10,17;
+GL2AutomorphicRepresentationsAndTransfer R17.6.18.)
 
 *Needs:* ArithmeticGaloisRepresentations §§1.1, 4.6 and 5.1–5.4;
 NumberFieldArithmetic §“What Mathlib supplies” (`NumberField.finite_of_discr_bdd`) and LocalFieldsRamification Layer 2 (local ramification bounds);
-ClassFieldTheory §5.4 (quadratic extensions).
+ClassFieldTheory §5.4 (quadratic extensions);
+GL2AutomorphicRepresentationsAndTransfer R17.6.18, the finite-quotient
+character comparison from an absolutely irreducible restricted representation.
 
 **Checks.** Equal trace and determinant compare semisimplifications, not
 arbitrary nonsplit extensions. A single matching Euler factor does not
 meet the exhaustion condition. In the even-trace branch a mere spanning
 set need not detect cubic functions; the full vector space does.
+On a quotient C₃×ℤ₂ of Gℚ(i), put C=[[0,−1],[1,−1]] and U=1+2C.
+The continuous representations C^gU^t and C^(−g)U^t agree on the common
+residual kernel, have isomorphic reductions and equal determinants, yet
+have traces −3 and 3 at (1,1). Here U²=−3I and both kernel restrictions
+split after coefficient extension; this example fails the absolute
+irreducibility hypothesis and cannot be descended by the character argument.
 
 ### 0.5 Rank-equal double covers and real quadratic fields
 
@@ -756,7 +817,10 @@ their stronger CM hypothesis. The defining interface consists of these named sta
 
 **Checks.**
 
-- The smooth curve y²=x³+1 over ℚ(√−3) is Modular through its geometric CM, even though its Tate module splits over the CM field.
+- The smooth curve y²=x³+1 over ℚ(√−3) is Modular through its geometric CM.
+  At p=7 its rational Tate representation splits into characters because
+  7 splits in ℚ(√−3). At inert p=5 it is irreducible over ℚ₅ and splits
+  over ℚ₂₅; splitting there requires coefficient extension.
 - Every elliptic curve E/ℚ satisfies Modular(E), by EllipticCurveModularity R29.6 with the same dual normalization.
 - The signature-(1,1) field ℚ(∛2) is neither totally real nor CM and is
   outside this predicate and its attachment contract.
@@ -961,7 +1025,10 @@ The defining interface consists of these named statements.
 - `shortEquationFamily.height_count`: The family’s count at X equals the the integral-lattice unweighted count of its coefficient lattice points of norm ≤X; no curve-isomorphism quotient enters.
 
 Use the canonical coefficient embedding (a,b) ↦ 1⊗(a,b) in
-ℝ⊗ℤ𝒪F². For any fixed real-vector-space norm and any real bound X,
+ℝ⊗ℤ𝒪F², with its canonical additive group and real scalar action.
+The norm satisfies Mathlib `NormedSpace.Core` for these fixed structures;
+`shortEquationFamily.height_count` takes that compatibility as a hypothesis.
+For any such norm and any real bound X,
 the bounded nonsingular coefficient set is finite. Its cardinality equals
 the cardinality of the bounded subtype of `shortEquationFamily F`. At X≤0
 the count is zero. Once the bound contains (0,1), the count is at least one;
@@ -974,6 +1041,9 @@ ZYW §1.1, pp.1–2; the lattice finiteness and counting API come from Mathlib `
 
 - (0,0) is excluded because its discriminant is zero.
 - (0,1) is included and its discriminant is −432.
+- At X≤0 the count is zero. Moving the group origin to (0,1), or changing
+  the real scalar action to make independent lattice vectors collinear,
+  violates the fixed-structure norm hypothesis.
 - The pairs (0,1) and (0,64) are distinct family elements, although their curves are F-isomorphic by scaling x by 4 and y by 8; a count of isomorphism classes would identify them.
 
 ### Examples
@@ -1538,9 +1608,19 @@ The torsion-input projections have the following exact meanings; the order and i
 
 Use EffectiveDiophantineMethods §§4.20–4.22 and 5.24 with `QuarticSieveData`. The input specifies the subgroup, annihilating index, base divisor, primes, reduction groups, known divisors and local differential conditions. The proof of completeness is emptiness of the lifted bad-coset intersection; enumerating points up to a height bound is not a substitute.
 
-**`first_quartic_quadratic_divisors`** — Assume `ExceptionalCurveData` and `GenusOneModel`. For C1 and its modular quotient π1:C1→B, Sym²(C1)(ℚ)=π1*B(ℚ). Apply the imported relative symmetric sieve with G=⟨2π1*D⟩, I=4, a rational degree-two base divisor pulled back from the origin of B, good prime 43, and L of eight pullback divisors. The reduced group red43(G) is cyclic of order 7, and iota43⁻¹(red43(G)) has exactly seven degree-two divisor classes. L covers all seven, each satisfying the relative Chabauty criterion; hence the bad set is empty. (CN, Proposition 7.4.5(1), p.101; ns3ons5.m sieve block.)
+**`first_quartic_quadratic_divisors`** — Assume `ExceptionalCurveData` and `GenusOneModel`. For C1 and its modular quotient π1:C1→B, Sym²(C1)(ℚ)=π1*B(ℚ). Apply the imported relative symmetric sieve with G=⟨2π1*D⟩, I=4, a rational degree-two base divisor pulled back from the origin of B, good prime 43, and the full known list L′=L∪{Dbase}, where Dbase=π₁*(0_B) and L consists of eight pullback divisors. Use the exact good subset L_43^good⊂L′ containing L. The reduced group red43(G) is cyclic of order 7, and iota43⁻¹(red43(G)) has exactly seven degree-two divisor classes. L covers all seven, each satisfying the relative Chabauty criterion; hence the bad set is empty. Since Dbase is pulled back, L′∪π₁*B(ℚ)=π₁*B(ℚ). (CN, Proposition 7.4.5(1), p.101; ns3ons5.m sieve block.)
 
 *Needs:* Layer 7 `quartic_models`, Layer 7 `quartic_pullback_indices`, EffectiveDiophantineMethods §4.22, EffectiveDiophantineMethods §5.24, the explicit arithmetic hypotheses of this section.
+
+**Checks for `first_quartic_quadratic_divisors` and its sieve input.**
+
+- Dbase∈L′ as required by §5.24, even if Dbase∉L. Eight nonzero
+  multiples can cover a cyclic quotient of order seven while omitting zero,
+  so seven-class coverage alone does not establish base-divisor membership.
+- The exact good subset contains the eight original divisors; adjoining
+  Dbase cannot enlarge the bad set, which is already empty.
+- Every divisor in L′ is pulled back, so the supplier's conclusion
+  L′∪π₁*B(ℚ) introduces no additional quadratic divisors.
 
 **`second_quartic_quadratic_divisors`** — Assume `ExceptionalCurveData` and `GenusOneModel`. For C2 and π2:C2→B, Sym²(C2)(ℚ)=π2*B(ℚ)∪L16, with L16 sixteen rational effective degree-two divisors not pulled back. Eight are sums of rational points not interchanged by w2; eight are conjugate pairs of quadratic points. Precisely two quadratic pairs are imaginary, the pairs of quarticImaginaryPoints over ℚ(√−55); six are real. Use G=⟨5π2*D,D2,5D10⟩, I=10 and good primes 11,43, with Dbase=π2*(0_B), the full known list L=L16∪Lpb containing Dbase, and the exact subsets L_11^good,L_43^good from `QuarticSieveData`. Form both bad sets by removing the reductions of these good subsets, as in EffectiveDiophantineMethods §5.24. The intersection of the two lifted bad-coset sets is empty after the imported symmetric/relative local criteria. A search bound alone is not the completeness proof. (CN, Proposition 7.4.5(2), p.101; s3ns5.m sieve block.)
 
