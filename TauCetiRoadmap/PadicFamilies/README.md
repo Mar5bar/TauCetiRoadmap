@@ -1097,11 +1097,11 @@ The Hecke-module instances in automorphic congruences, level optimisation and in
 
 **Checks.**
 
-- For `A = {(a, b) ∈ ℤ_p × ℤ_p : a ≡ b mod pⁿ}` and `λ` the first projection, `𝔭_λ = 0 × pⁿℤ_p`, `I_λ = pⁿℤ_p × 0` and `Ψ_λ(A) ≅ ℤ/pⁿ`.
+- For `A = {(a, b) ∈ ℤ_p × ℤ_p : a ≡ b mod pⁿ}` and `λ` the first projection, `𝔭_λ = 0 × pⁿℤ_p`, `I_λ = pⁿℤ_p × 0` and `Ψ_λ(A) ≅ ℤ/pⁿ`. At `p=5`, `n=1`, this is the `ZMod 5` quotient of the equalizer of the two residue maps.
 - For `A = O` and `λ = id`, `𝔭_λ = 0`, `I_λ = A` and `Ψ_λ(M) = 0` for every `M`.
 - For reduction `λ:ℤ/4→ℤ/2`, `Ann(ker λ)=(2)`, `η_λ=0` and `Ψ_λ(ℤ/4)` has two elements. This uses the general commutative-ring definition; the domain hypothesis is unnecessary for this computation.
 - For `A = O[t]/(t²)` and `λ(t) = 0`, `I_λ = 𝔭_λ = (t)` and `Ψ_λ(A) ≅ O` is not torsion: `A` is not reduced at `𝔭_λ`, so the finite-length statement needs its hypothesis.
-- For `A = O[[t]]/(ϖ²t)` and `M = A/(ϖ³)`, `M/(M[𝔭] + M[I]) ≅ O/(ϖ)` while Iyengar–Khare–Manning's `Ψ_A(M) = 0` (Example 2.11).
+- For `A = O[[t]]/(ϖ²t)` and `M = A/(ϖ³)`, `M/(M[𝔭] + M[I]) ≅ O/(ϖ)` while Iyengar–Khare–Manning's `Ψ_A(M) = 0` (Example 2.11). At `O=ℤ₅`, the ideals are `(25t)` and `(125)` and the raw quotient is additively `ZMod 5`.
 
 See [IKM](#ref-ikm), §2.2 (congruence modules), pp. 13–14; Proposition 2.10 and Example 2.11, pp. 16–17.
 
@@ -1290,7 +1290,7 @@ For `r ∈ √|K×|`, construct the weighted relative Tate algebra `R⟨T/r⟩` 
 
 - At radius 1 it is the supplied ordinary relative Tate algebra.
 - After an extension with `|a| = r`, the substitution `T = aS` identifies its norm with the radius-one Gauss norm.
-- For `F = (T − a)U` with `U` a unit on the chosen disc, the distinguished block has degree one. For a unit `F` the degree is zero and the spectral block is empty.
+- For `F=(T−a)U` on the radius-`r` disc, with `|a|≤r` and `U` a unit, the distinguished block has degree one. If `|a|>r`, `F` is a unit and the block has degree zero. On the unit disc over `ℚ₅`, `a=1/5` and `U=−5` give `F=1−5T`, whose inverse is `∑(5T)ⁿ` and whose spectral block is empty.
 
 ### 2a.3 Constant fiber rank gives finite charts
 
@@ -1867,11 +1867,11 @@ Layer 2a supplies the general finite-slope machine. `LocallyAnalyticDistribution
 
 ## Layer 3: Critical refinements and critical `p`-adic L-functions
 
-**Standing conventions.** Signs use the supplier’s `ι=diag(−1,1)`. At polynomial degree `k`, a sign `s` here corresponds to Bellaïche’s sign `s_B=s(−1)^k`; write `ε(f_β)=(−1)^k ε_B(f_β)` in every Eisenstein sign and period formula below. At a family weight `κ`, the conversion is `s_B=sκ(−1)`, constant on its weight component. Every statement of this layer keeps the standing conventions of Layer 2: the analytic chart construction of §2.1, the Banach and descent targets of §2.2 and the global-image fibre convention of §2.3. At decent classical refined points the `E₂` exception is excluded by the refinement hypotheses.
+**Standing conventions.** Signs use the supplier’s `ι=diag(−1,1)`. At polynomial degree `k`, a sign `s` here corresponds to Bellaïche’s sign `s_B=s(−1)^k`; write `ε(f_β)=(−1)^k ε_B(f_β)` in every Eisenstein sign and period formula below. At a family weight `κ`, the conversion is `s_B=sκ(−1)`, constant on its weight component. Every statement of this layer keeps the standing conventions of Layer 2: the analytic chart construction of §2.1, the Banach and descent targets of §2.2 and the global-image fibre convention of §2.3. Throughout Layer 3, the Eisenstein assertions require, in weight two, `χ₁χ₂⁻¹ ≠ χ_cyc`, where `χ_cyc` has Hodge–Tate weight −1 and `χ₁,χ₂` are ordered as in §3.0. This excludes primitive `E₂(χ,χ)` and the exceptional `E₂`-derived forms; it is retained in every dependent preferred-representation, criticality, decency and smoothness assertion.
 
 ### 3.0 Preferred Eisenstein representations
 
-For a genuine primitive Eisenstein newform `f` of weight `k+2≥2`, tame level `N` prime to `p`, and distinct roots `α,β`, take its two classical Galois characters `χ₁,χ₂`, ordered with Hodge–Tate weights 0 and `k+1` in Bellaïche’s convention. Construct `eisensteinCharacterSelmer`: the global Bloch–Kato extension spaces, unramified outside `Np`, crystalline at `p` and with finite local condition at every `ℓ≠p`, satisfy `dim Ext¹_f(χ₂,χ₁)=1` and `Ext¹_f(χ₁,χ₂)=0`. Prove this character-Selmer calculation using the Dirichlet-character Bloch–Kato calculation in the proof of [Bellaïche09](#ref-bellaiche09), Lemma 2.11, pp. 17–18 (the Soulé character calculation); it is a target here over the cochains and finite local conditions of `SelmerIwasawaCohomology`, §§2.2 and 4.9–4.12. The primitive Eisenstein hypotheses include the exclusion of the nonexistent level-one weight-two `E₂`; no dimension formula is asserted for arbitrary character pairs.
+For a genuine primitive Eisenstein newform `f` of weight `k+2≥2`, tame level `N` prime to `p`, and distinct roots `α,β`, subject to the noncyclotomic-ratio hypothesis of the Layer 3 standing conventions, take its two classical Galois characters `χ₁,χ₂`, ordered with Hodge–Tate weights 0 and `k+1` in Bellaïche’s convention. Construct `eisensteinCharacterSelmer`: the global Bloch–Kato extension spaces, unramified outside `Np`, crystalline at `p` and with finite local condition at every `ℓ≠p`, satisfy `dim Ext¹_f(χ₂,χ₁)=1` and `Ext¹_f(χ₁,χ₂)=0`. Prove this character-Selmer calculation using the Dirichlet-character Bloch–Kato calculation in the proof of [Bellaïche09](#ref-bellaiche09), Lemma 2.11, pp. 17–18 (the Soulé character calculation); it is a target here over the cochains and finite local conditions of `SelmerIwasawaCohomology`, §§2.2 and 4.9–4.12. In weight two the finite-everywhere dimension calculation requires `χ₁χ₂⁻¹ ≠ χ_cyc`; primitive level alone does not imply this condition. No dimension formula is asserted for arbitrary character pairs.
 
 Construct `preferredEisensteinRepresentation` as the extension `0→χ₁→ρ_f→χ₂→0` associated to a nonzero class. Prove existence, global nonsplitting and uniqueness up to isomorphism, since all nonzero classes in the one-dimensional extension space differ by rescaling the subcharacter. Identify its good-prime traces, determinant, ramification, crystalline realization and its two Frobenius eigenlines. Local splitting at `p` is a separate property. Use this representation in §§3.1–3.5, while the semisimple classical attachment remains the sum `χ₁⊕χ₂`. Both targets have source [Bellaïche09](#ref-bellaiche09), Lemma 2.11 and proof, pp. 17–18.
 
@@ -1879,7 +1879,7 @@ Construct `preferredEisensteinRepresentation` as the extension `0→χ₁→ρ_f
 
 - Reversing `χ₁` and `χ₂` reverses the dimensions 1 and 0; it cannot give two independent nonsplit crystalline extensions.
 - A nonzero scalar multiple of the extension class gives an isomorphic middle representation, although it changes an extension with fixed end identifications.
-- The pair underlying the formal level-one `E₂` is excluded; the stated primitive Eisenstein hypothesis cannot be replaced by an arbitrary pair of crystalline characters.
+- Let `χ` be the primitive quadratic character modulo 3. The primitive `E₂(χ,χ)` of level 9 at `p=5` has roots −1 and −5 and ratio `χ₁χ₂⁻¹=χ_cyc`. Its finite extension group twists to `H¹_f(ℚ,ℚ₅(1))=ℤ^×⊗ℚ₅=0` by Kummer theory; it is excluded despite being primitive. The formal level-one `E₂` and the weight-two `E₂`-derived forms are excluded as well.
 
 **Checks for the preferred representation.**
 
@@ -1893,7 +1893,7 @@ This uses `AlgebraicModularFormsAndSerreWeights`, §R15.5A.2; `SelmerIwasawaCoho
 
 Let `f` be a newform (cuspidal or Eisenstein) of weight `k + 2` and level `Γ₁(N)`, `p ∤ N`, with Hecke polynomial `X² − a_pX + ε(p)p^{k+1}` having distinct roots `α`, `β`. The refinement `f_β` (the `p`-stabilisation with `U_p`-eigenvalue `β`) has critical slope if `v_p(β) = k + 1`; it is critical if the equivalent conditions of §3.2 hold (non-classical overconvergent generalised eigenforms, equivalently the eigencurve is not étale over weight space at `f_β`, equivalently `ρ_f|_{D_p}` is split with `β` on the weight-filtration line); it is `θ`-critical if `f_β` lies in the image of `θ^{k+1} : M†_{−k} → M†_{k+2}`. Critical implies critical slope; for cuspidal `f`, critical `⇔ θ`-critical.
 
-`k≥0`; `p∤N`; `α≠β`. The preferred representation is crystalline at `p`, supplied by the classical attachment for cuspidal forms and by `preferredEisensteinRepresentation` of §3.0 for Eisenstein forms, and is globally indecomposable in the Eisenstein case; its restriction to `D_p` may split.
+`k≥0`; `p∤N`; `α≠β`; for Eisenstein forms in weight two, `χ₁χ₂⁻¹ ≠ χ_cyc`. The preferred representation is crystalline at `p`, supplied by the classical attachment for cuspidal forms and by `preferredEisensteinRepresentation` of §3.0 for Eisenstein forms, and is globally indecomposable in the Eisenstein case; its restriction to `D_p` may split.
 
 Record the three notions separately: slope (valuation), criticality (local Galois/eigencurve geometry), `θ`-criticality (image of `θ^{k+1}` on overconvergent forms).
 
@@ -1916,22 +1916,22 @@ This uses §3.0; `ModularSymbolsPadicLFunctions`, §2.1; `ModularSymbolsPadicLFu
 
 ### 3.2 Equivalent forms of criticality
 
-For a refined form `f_β` the following are equivalent: `(i) M_{k+2}(Γ)(f_β) ⊊ M†_{k+2}(Γ)(f_β)` (non-classical generalised eigenforms); `(i′) dim M†_{k+2}(Γ)(f_β) ≥ 2`; (ii) `v_p(β) > 0` and the eigencurve `C` is not étale over weight space at `x = f_β`; (iii) `v_p(β) > 0` and `ρ_f|_{D_p}` is a direct sum of two characters; (iv) the `β`-line of `D_cris(ρ_f|_{D_p})` equals the weight-filtration line. Then `v_p(β) = k + 1`. For cuspidal `f` these are equivalent to `(v) θ`-criticality; for Eisenstein `f`, `(v)` always holds.
+For a refined form `f_β` the following are equivalent: `(i) M_{k+2}(Γ)(f_β) ⊊ M†_{k+2}(Γ)(f_β)` (non-classical generalised eigenforms); `(i′) dim M†_{k+2}(Γ)(f_β) ≥ 2`; (ii) `v_p(β) > 0` and the eigencurve `C` is not étale over weight space at `x = f_β`; (iii) `v_p(β) > 0` and `ρ_f|_{D_p}` is a direct sum of two characters; (iv) the `β`-line of `D_cris(ρ_f|_{D_p})` equals the weight-filtration line. Then `v_p(β) = k + 1`. For cuspidal `f` these are equivalent to `(v) θ`-criticality; for Eisenstein `f` with `v_p(β)>0`, `(v)` holds. The ordinary Eisenstein refinement is not theta-critical.
 
-`f` is a cuspidal or Eisenstein newform of weight `k+2≥2` and tame level `N` prime to `p`, with distinct Hecke roots `α`,`β`; use the preferred representation of §3.1. The equivalence with a split `D_p`-restriction includes the condition `v_p(β)>0`. The three boundary theorems below are prerequisite targets of this section and are proved before assembling these equivalences.
+`f` is a cuspidal or Eisenstein newform of weight `k+2≥2` and tame level `N` prime to `p`, with distinct Hecke roots `α`,`β`; use the preferred representation of §3.1, retaining the weight-two noncyclotomic-ratio hypothesis for Eisenstein forms. The equivalence with a split `D_p`-restriction includes the condition `v_p(β)>0`. The three boundary theorems below are prerequisite targets of this section and are proved before assembling these equivalences.
 
-`(i) ⇔ (i′) ⇔` (ii): Bellaïche Lemma 2.9 (étaleness of the weight map at `x` versus the dimension of the generalised eigenspace of overconvergent forms). (iii) `⇔` (iv): weak admissibility of `D_cris`. `(v)`: Coleman's limit control theorem makes `coker θ^{k+1}` on the generalised eigenspace equal to `S_{k+2}(Γ)(x)`.
+`(i) ⇔ (i′) ⇔` (ii): Bellaïche Lemma 2.9 (étaleness of the weight map at `x` versus the dimension of the generalised eigenspace of overconvergent forms). (iii) `⇔` (iv): weak admissibility of `D_cris`. `(v)`: at `v_p(β)=k+1`, Coleman's boundary control theorem identifies `coker θ^{k+1}` on the generalised eigenspace with `S_{k+2}(Γ)(x)`. At smaller cuspidal slopes use the small-slope control of §2.8.
 
 Construct the following inputs with `k≥0`, `p∤N`, a genuine primitive newform and distinct crystalline Hecke roots, as above.
 
-- `criticalBoundary_coleman`: on the generalized `f_β` eigenspace, the cokernel of `θ^{k+1}:M†_{−k}→M†_{k+2}` is the classical cuspidal generalized eigenspace. Retain the Hecke covariance, including the `ℓ^{k+1}` and `p^{k+1}` twists. Source: Coleman, *Classical and overconvergent modular forms*, Invent. Math. 124 (1996), Theorem 7.2 and Corollary 7.2.2, pp. 233–234 ([author copy](https://www.wstein.org/people/coleman/papers/classical_and_overconvergent_forms.pdf)); the tame-level application is [Bellaïche09](#ref-bellaiche09), Proposition 2.12, pp. 18–19.
+- `criticalBoundary_coleman`: assuming `v_p(β)=k+1`, on the generalized `f_β` eigenspace, the cokernel of `θ^{k+1}:M†_{−k}→M†_{k+2}` is the classical cuspidal generalized eigenspace. Retain the Hecke covariance, including the `ℓ^{k+1}` and `p^{k+1}` twists. Source: Coleman, *Classical and overconvergent modular forms*, Invent. Math. 124 (1996), Theorem 7.2 and Corollary 7.2.2, pp. 233–234 ([author copy](https://www.wstein.org/people/coleman/papers/classical_and_overconvergent_forms.pdf)); the tame-level application is [Bellaïche09](#ref-bellaiche09), Proposition 2.12, pp. 18–19.
 - `criticalSplit_breuilEmerton`: for cuspidal ordinary `f`, its unique critical-slope refinement is in the image of `θ^{k+1}` exactly when the crystalline `ρ_f|_{D_p}` splits. Source: Breuil–Emerton, *Représentations p-adiques ordinaires de GL₂(ℚ_p) et compatibilité local-global*, [author copy](https://www.math.uchicago.edu/~emerton/pdffiles/ordinary.pdf), Theorem 1.1.3, p. 4, §§4–5 (the result cited as Theorem 2 in Bellaïche’s version). The construction includes the companion overconvergent form of weight `−k` and the local-global comparison yielding it; transport the source’s dual Galois convention before comparing splitness.
-- `criticalEisenstein_bellaicheChenevier`: for a primitive Eisenstein `f` and `v_p(β)>0`, the generalized overconvergent eigenspace has dimension greater than one exactly when the preferred representation of §3.0 splits at `p`. Source: Bellaïche–Chenevier, *Lissité de la courbe de Hecke de GL₂ aux points Eisenstein critiques*, [arXiv:math/0405415v2](https://arxiv.org/pdf/math/0405415v2), Theorem 3, §6.2, p. 13, with the reducibility-ideal calculation of Theorems 1–2; the primitive tame-level extension uses Lemma 2.9 in place of their Proposition 1(b), as explained in [Bellaïche09](#ref-bellaiche09), Remark 2.10, p. 17. Construct that extension with the finite character, not just the tame-level-one case.
+- `criticalEisenstein_bellaicheChenevier`: for a primitive Eisenstein `f` satisfying the weight-two noncyclotomic-ratio hypothesis and `v_p(β)>0`, the generalized overconvergent eigenspace has dimension greater than one exactly when the preferred representation of §3.0 splits at `p`. Source: Bellaïche–Chenevier, *Lissité de la courbe de Hecke de GL₂ aux points Eisenstein critiques*, [arXiv:math/0405415v2](https://arxiv.org/pdf/math/0405415v2), Theorem 3, §6.2, p. 13, with the reducibility-ideal calculation of Theorems 1–2; the primitive tame-level extension uses Lemma 2.9 in place of their Proposition 1(b), as explained in [Bellaïche09](#ref-bellaiche09), Remark 2.10, p. 17. Construct that extension with the finite character, not just the tame-level-one case.
 
 **Checks for Coleman’s boundary theorem.**
 
-- At a cuspidal primitive eigensystem the classical quotient has dimension one; the theta image has codimension one, including at slope `k+1`.
-- At an Eisenstein eigensystem the classical cuspidal quotient is zero, so theta is surjective on the generalized eigenspace.
+- At a cuspidal primitive eigensystem of slope `k+1`, the classical quotient has dimension one and the theta image has codimension one. At smaller cuspidal slopes the small-slope comparison applies.
+- At an Eisenstein eigensystem of slope `k+1`, the classical cuspidal quotient is zero, so theta is surjective on the generalized eigenspace. At `p=5`, the ordinary weight-four Eisenstein refinement instead has eigenvalue 1 and constant term −31/60; every theta-cube image has zero constant term, so this refinement is not theta-critical.
 - In degree `k=0`, theta is first differentiation and multiplies `U_p` eigenvalues by `p`; forgetting the twist would leave the slope unchanged.
 
 **Checks for the split/companion theorem.**
@@ -1958,7 +1958,7 @@ A newform `f` has a refinement of critical slope iff `(a) f` is cuspidal, not CM
 
 `v_p(β) = k + 1` forces `v_p(α) = 0`, i.e. `f` ordinary; for CM forms this means `p` split. CM: `ρ_f|_{D_p}` is a sum of two characters, so (iii) holds.
 
-Test on `X₀(32)` (CM, `p ≡ 1 mod 4`) and on an Eisenstein series of level `Γ₀(11)`, `p = 3`.
+Test on `X₀(32)` (CM, `p ≡ 1 mod 4`) and on the weight-four level-one Eisenstein series at `p=5`, whose roots 1 and 125 select a unique critical-slope refinement. In weight two retain `χ₁χ₂⁻¹ ≠ χ_cyc`; the level-11 `E₂`-derived form is excluded.
 
 See [Bellaïche09](#ref-bellaiche09), §2.2.3, Proposition 2.14, p. 19 (arXiv v1 PDF; printed page = PDF page).
 
@@ -1966,7 +1966,7 @@ This uses §3.2.
 
 ### 3.4 Decent refinements
 
-`f_β` is decent if `(i) f` is Eisenstein, or (ii) `f_β` is non-critical, or (iii) `f` is cuspidal and `H¹_f(G_ℚ, ad ρ_f) = 0`. Sufficient conditions for (iii) (Proposition 2.15): `ρ̄_f|_{G_L}` absolutely irreducible for every quadratic extension `L/ℚ` contained in `ℚ(ζ_{p³})`; or `ρ̄_f` reducible with characters distinct on `G_{ℚ(ζ_{p^∞})}`; or `f` non-CM and cuspidal/special at all primes dividing `N`; or `f` CM.
+`f_β` is decent, under the Layer 3 standing hypotheses (including the weight-two noncyclotomic-ratio condition), if `(i) f` is Eisenstein, or (ii) `f_β` is non-critical, or (iii) `f` is cuspidal and `H¹_f(G_ℚ, ad ρ_f) = 0`. Sufficient conditions for (iii) (Proposition 2.15): `ρ̄_f|_{G_L}` absolutely irreducible for every quadratic extension `L/ℚ` contained in `ℚ(ζ_{p³})`; or `ρ̄_f` reducible with characters distinct on `G_{ℚ(ζ_{p^∞})}`; or `f` non-CM and cuspidal/special at all primes dividing `N`; or `f` CM.
 
 `H¹_f` is the Bloch–Kato finite Selmer group of the adjoint representation, as used in Bellaïche Proposition 2.15 and Theorem 2.16, pp. 20–21. The introduction has inconsistent notation for this group; the criterion and tangent argument fix the intended input.
 
@@ -1982,7 +1982,7 @@ Every CM form is decent; cuspidal non-CM forms are conjecturally doubly decent.
 **Checks.**
 
 - The CM form of `X₀(32)` is decent.
-- Every Eisenstein refinement is decent (condition `(i)`).
+- Every Eisenstein refinement satisfying the standing noncyclotomic-ratio hypothesis is decent (condition `(i)`).
 - The form of 11a1 is decent at every `p ∤ 11` (squarefree level, trivial character).
 
 See [Bellaïche09](#ref-bellaiche09), §1.4.1, Definition 1, p. 5 (arXiv v1 PDF; printed page = PDF page); [Bellaïche09](#ref-bellaiche09), §2.2.4, Proposition 2.15, p. 20 (arXiv v1 PDF; printed page = PDF page).
@@ -2019,7 +2019,7 @@ This uses §§2.10 and 3.4; `IntegralHeckeAndGaloisDeterminants`, §§1.3 and 4.
 
 ### 3.5 The eigencurve is smooth at decent points
 
-If `f` is decent (and `v_p(β) ≠ 0` when `f` is Eisenstein), the eigencurve `C` is smooth at the point `x` of `f_β`; when `f` is cuspidal its cuspidal part `C₀` has the same smooth germ; its weight map has some ramification index `e ≥ 1` at `x`, with `e > 1` iff `f_β` is critical.
+If `f` is decent (and `v_p(β) ≠ 0` when `f` is Eisenstein, retaining `χ₁χ₂⁻¹ ≠ χ_cyc` in weight two), the eigencurve `C` is smooth at the point `x` of `f_β`; when `f` is cuspidal its cuspidal part `C₀` has the same smooth germ; its weight map has some ramification index `e ≥ 1` at `x`, with `e > 1` iff `f_β` is critical.
 
 Use the characteristic-zero refined deformation ring, its period theorem and tangent adapter constructed in §3.4a.
 
@@ -2202,7 +2202,7 @@ If `e=1`, the eigenspace already equals the generalized space and there are no s
 
 ### Dependencies
 
-Layer 2 supplies family symbol charts, coherent eigensymbols and classical control, including the `E₂` correction. `ModularSymbolsPadicLFunctions` supplies the single-form refinement and `θ` machinery; the dagger-radius exactness and decent-point local freeness/smoothness comparisons are stated here. `GlobalGaloisDeformations`, §3.6 (The relative tangent space is an adjoint Selmer group), supplies the tangent comparison used in the cuspidal smoothness proof. The local algebra uses finite-flat `DVR`, different and diagonal-annihilator calculations; any tame normal form is used only after the stated henselian coefficient extension and descent.
+Layer 2 supplies family symbol charts, coherent eigensymbols and classical control, including the `E₂` correction. `ModularSymbolsPadicLFunctions` supplies the single-form refinement and `θ` machinery; the dagger-radius exactness and decent-point local freeness/smoothness comparisons are stated here. Section 3.4a constructs the characteristic-zero refined deformation problem and `refinedTangent_selmer` used in the cuspidal smoothness proof. `GlobalGaloisDeformations`, §3.6, supplies only its separately stated residual fixed-determinant comparison. The local algebra uses finite-flat `DVR`, different and diagonal-annihilator calculations; any tame normal form is used only after the stated henselian coefficient extension and descent.
 
 ## Layer 4: Galois representations, Selmer conditions and family reciprocity
 
@@ -2452,9 +2452,9 @@ This uses §4.5; §4.3; §4.7; §4.0.3; `PadicMeasuresIwasawaAlgebras`, §4.6 (C
 
 ### 4.9 Triangulations and the regulator over Coleman families
 
-Let `f_α` be a noble refined eigenform (`p`-regular and a noncritical refinement) of weight `k + 2` and `F` the Coleman family through it over an affinoid `disc V` of weight space (PadicFamilies L2), with Galois representation `M_V(F)*` over `O(V)`. After shrinking `V: (1)` the `(φ, Γ)`-module `D†_rig(M_V(F)*)` over the Robba ring over `O(V)` admits a canonical triangulation `0 → F⁺D → D → F⁻D → 0` with `F⁻D ≅ R_{O(V)}(α_F⁻¹)` and `F⁺D` a rank-one module given by `α_F·ε_F(p)⁻¹` twisted by `1 + κ_V`; (2) there is the Eichler–Shimura basis vector `ω_F` in `(F⁻D_V(F)(1+κ_V+ε_F^(p)))^{Γ=1}`, using `D_V(F)` rather than `D_V(F)*` as in LZ Theorem 6.4.1 specialising at each classical weight `t` to the differential of `f_t` (Eichler–Shimura in families); (3) for `A=O(V)` reduced and `α=α_F` a unit with `‖α‖≤1` and `α−1` a nonzerodivisor, LZ Lemma 6.2.2 and map (6.2.1) gives the injective single-family rank-one regulator `L_{A,α}:H¹_Iw(ℚ_{p,∞},R_A(α⁻¹))→A ⊗̂ O(𝒲)`, with its stated classical interpolation. The Rankin two-family quotient regulator and reciprocity of §7.1 require their additional second-family and tensor-quotient inputs. No constant-dimension crystalline module over the whole eigencurve neighbourhood is asserted: the triangulation exists only after shrinking around a noble point.
+Let `f_α` be the normalized `p`-stabilization of a cuspidal newform `f` of weight `k+2≥2` and tame level `N` prime to `p`, with distinct Hecke roots and noncritical refinement (the noble hypotheses of LZ Definition 4.6.3) and `F` the Coleman family through it over an affinoid `disc V` of weight space (PadicFamilies L2), with Galois representation `M_V(F)*` over `O(V)`. After shrinking `V: (1)` the `(φ, Γ)`-module `D†_rig(M_V(F)*)` over the Robba ring over `O(V)` admits a canonical triangulation `0 → F⁺D → D → F⁻D → 0` with `F⁻D ≅ R_{O(V)}(α_F⁻¹)` and `F⁺D` a rank-one module given by `α_F·ε_F(p)⁻¹` twisted by `1 + κ_V`; (2) there is the Eichler–Shimura basis vector `ω_F` in `(F⁻D_V(F)(1+κ_V+ε_F^(p)))^{Γ=1}`, using `D_V(F)` rather than `D_V(F)*` as in LZ Theorem 6.4.1 specialising at each classical weight `t` to the differential of `f_t` (Eichler–Shimura in families); (3) for `A=O(V)` reduced and `α=α_F` a unit with `‖α‖≤1` and `α−1` a nonzerodivisor, LZ Lemma 6.2.2 and map (6.2.1) gives the injective single-family rank-one regulator `L_{A,α}:H¹_Iw(ℚ_{p,∞},R_A(α⁻¹))→A ⊗̂ O(𝒲)`, with its stated classical interpolation. The Rankin two-family quotient regulator and reciprocity of §7.1 require their additional second-family and tensor-quotient inputs. No constant-dimension crystalline module over the whole eigencurve neighbourhood is asserted: the triangulation exists only after shrinking around a noble point.
 
-`f_α` noble; `V` a sufficiently small affinoid disc around its weight. Noble means `p`-regular and noncritical refinement (LZ Definition 4.6.3); a critical-slope nonsplit refinement can be noble. For the single-family regulator impose `A` reduced, `α` a unit of norm`≤1`, and `α−1` a nonzerodivisor as in Definition 6.2.1 and Lemma 6.2.2. Keep the dual/twist conventions of Theorems 6.3.2 and 6.4.1 when pairing with `ω_F`.
+`f_α` is the normalized `p`-stabilization of a cuspidal newform of weight `k+2≥2` and tame level prime to `p`, with distinct Hecke roots and noncritical refinement; `V` is a sufficiently small affinoid disc around its weight. These noble hypotheses apply to all five constructions below (LZ Definition 4.6.3); a critical-slope nonsplit refinement can be noble. For the single-family regulator impose `A` reduced, `α` a unit of norm`≤1`, and `α−1` a nonzerodivisor as in Definition 6.2.1 and Lemma 6.2.2. Keep the dual/twist conventions of Theorems 6.3.2 and 6.4.1 when pairing with `ω_F`.
 
 Liu's triangulation theorem for families of refined trianguline representations gives (1) at a non-critical point, after shrinking `V`. (2) is Andreatta–Iovita–Stevens's overconvergent Eichler–Shimura comparison composed with projection to `F⁻` (Sen theory in families). Apply LZ Lemma 6.2.2 and map (6.2.1), p. 29, to the stated single rank-one `R_A(α⁻¹)`, checking `α−1` is a nonzerodivisor. LZ Theorem 7.1.4 instead constructs a regulator for the `F⁻⁺` quotient of a Rankin pair of Coleman families; it is not a proof of the single-family assertion without those extra inputs. Its domain is `H¹_Iw(ℚ_{p,∞},R_A(α⁻¹))=R_A(α⁻¹)^{ψ=1}`, not ordinary `H¹` at a single local field.
 
@@ -2468,7 +2468,8 @@ Construct the nonordinary inputs in this layer: `colemanFamilyGaloisModule`, the
 
 **Checks for the nonordinary family constructions.**
 
-- At a noble classical point, the rank-two Galois specialization has the characteristic polynomial of the original refined eigenform, and the quotient `φ`-character is `α_F⁻¹`.
+- The ordinary 5-refinement of `E₄` has distinct roots 1 and 125 and is noncritical, but it is Eisenstein and `S₄(SL₂(ℤ))=0`; it does not satisfy the cuspidal hypothesis for these constructions.
+- At a noble cuspidal classical point, the rank-two Galois specialization has the characteristic polynomial of the original refined eigenform, and the quotient `φ`-character is `α_F⁻¹`.
 - If `v_p(α_F)>0` then `‖α_F‖<1` and `‖α_F⁻¹‖>1`; using the inverse as the norm-bounded regulator parameter is rejected.
 - If `α=1` on a component, `α−1` is a zero divisor and the asserted injective regulator theorem does not apply.
 - For a critical-slope nonsplit refinement, nobility can still hold; a critical split point cannot be included by replacing noncritical refinement with a numerical slope bound.
@@ -2800,7 +2801,7 @@ This uses §5.12; §5.11; §5.10; Mathlib `IsReduced`; Mathlib `FractionRing`.
 
 ### 5.14 Period modules of totally real Hida families
 
-In the setting of §5.5, let `𝔪` be a maximal ideal of `T_∞(U, 𝒪)` and `T_𝔪` the localisation. The period module of the family at `𝔪` is the `T_𝔪`-module `P_𝔪 := M_∞(U)_𝔪` (and `P⁺_𝔪 := M⁺_∞(U)_𝔪`). It is faithful and finite over `T_𝔪`, and free over `Λ′_𝒪` when `U` acts freely and the corrected §5.6 input is supplied. It is exported as an invertible `T_𝔪`-module, with trivialisations `P_𝔪 ≅ T_𝔪` unique up to `T_𝔪^×`, only under the explicit hypothesis that `P_𝔪` is free of rank one over `T_𝔪` (an additional integral multiplicity-one hypothesis); without it `P_𝔪` has generic rank one at each minimal prime of `T_𝔪` whose classical specialisations are newforms of level exactly `U`, by multiplicity one for the definite quaternion algebra and strong multiplicity one, but need not be invertible. For `F = ℚ` (degree one, with the indefinite modular curve in place of the definite quaternion algebra) the corresponding object is Layer 1's family period line, and the change-of-trivialisation formula is §1.11.
+In the setting of §5.5, let `𝔪` be a maximal ideal of `T_∞(U, 𝒪)` and `T_𝔪` the localisation. The period module of the family at `𝔪` is the `T_𝔪`-module `P_𝔪 := M_∞(U)_𝔪` (and `P⁺_𝔪 := M⁺_∞(U)_𝔪`). It is faithful and finite over `T_𝔪`, and free over `Λ′_𝒪` when `U` acts freely and the twisted level-control and projective-descent theorems of §5.6 hold. It is exported as an invertible `T_𝔪`-module, with trivialisations `P_𝔪 ≅ T_𝔪` unique up to `T_𝔪^×`, only under the explicit hypothesis that `P_𝔪` is free of rank one over `T_𝔪` (an additional integral multiplicity-one hypothesis); without it `P_𝔪` has generic rank one at each minimal prime of `T_𝔪` whose classical specialisations are newforms of level exactly `U`, by multiplicity one for the definite quaternion algebra and strong multiplicity one, but need not be invertible. For `F = ℚ` (degree one, with the indefinite modular curve in place of the definite quaternion algebra) the corresponding object is Layer 1's family period line, and the change-of-trivialisation formula is §1.11.
 
 `F` of even degree; `U` acting freely for the `Λ′`-freeness; for invertibility, the hypothesis that `P_𝔪` is free of rank one over `T_𝔪`. Use the twisted level-control and compatible projective-descent theorems of §5.6 on every torsion-character factor.
 

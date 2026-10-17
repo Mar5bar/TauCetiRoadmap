@@ -154,6 +154,36 @@ example :
       (TrivSqZeroExt.fstHom ℤ ℤ ℤ).toRingHom (DualNumber ℤ) ≃+ ℤ) ∧
     ¬ Module.IsTorsion ℤ (congruenceModule
       (TrivSqZeroExt.fstHom ℤ ℤ ℤ).toRingHom (DualNumber ℤ)) := sorry
+
+/-- The two copies of the 5-adic integers glued over their residue field
+have raw congruence quotient equal to that residue field. -/
+example :
+    letI : Fact (Nat.Prime 5) := ⟨by decide⟩
+    let O := ℤ_[5]
+    let red : O →+* ZMod 5 := PadicInt.toZMod
+    let A := RingHom.eqLocus (red.comp (RingHom.fst O O))
+      (red.comp (RingHom.snd O O))
+    let lam := (RingHom.fst O O).comp A.subtype
+    Nonempty (congruenceModule lam A ≃+ ZMod 5) := sorry
+
+/-- For the depth-zero module over the power-series quotient by `25X`,
+the raw congruence quotient is the residue field. -/
+example : (by
+    letI : Fact (Nat.Prime 5) := ⟨by decide⟩
+    let O := ℤ_[5]
+    let B := PowerSeries O
+    let I : Ideal B := Ideal.span {(25 : B) * PowerSeries.X}
+    let c : B →+* O := PowerSeries.constantCoeff
+    have hc : I ≤ RingHom.ker c := Ideal.span_le.mpr (by
+      intro f hf
+      rcases Set.mem_singleton_iff.mp hf with rfl
+      change PowerSeries.constantCoeff
+        ((25 : PowerSeries O) * PowerSeries.X) = 0
+      rw [map_mul, PowerSeries.constantCoeff_X, mul_zero])
+    let A := B ⧸ I
+    let lam : A →+* O := Ideal.Quotient.lift I c (fun f hf => hc hf)
+    let M := A ⧸ (Ideal.span {(125 : A)} : Ideal A)
+    exact Nonempty (congruenceModule lam M ≃+ ZMod 5)) := sorry
 end Congruence
 
 /-! ## Layer 2a: The eigenvariety construction
@@ -203,6 +233,9 @@ preferredEisensteinRepresentation, criticalBoundary_coleman,
 criticalSplit_breuilEmerton, criticalEisenstein_bellaicheChenevier,
 eigencurvePseudocharacter, refinedCrystallinePeriod,
 refinedDeformationRepresentable and refinedTangent_selmer.
+The Coleman boundary cokernel is asserted at slope k+1; smaller cuspidal
+slopes use small-slope control. The Eisenstein inputs and all their Layer 3
+consumers exclude the cyclotomic character ratio in weight two.
 The classical Hilbert coefficient inputs are classicalHilbertQExpansion,
 classicalHilbertQExpansion_injective, classicalHilbertQExpansion_baseChange
 and classicalHilbertQExpansion_idealCoefficients.
@@ -213,6 +246,9 @@ colemanFamilyGaloisModule, colemanFamilyRobbaModule, colemanFamilyTriangulation,
 colemanFamilyEichlerShimura, colemanFamilyRegulator, nearlyOrdinaryWeightAlgebra,
 quaternionicOrdinaryProjector, hidaHeckeAlgebra, LambdaAdicHilbertForm and
 quaternionicPeriodModule, together with the integral control and comparison maps.
+All five colemanFamily constructions retain a normalized p-stabilization of a
+cuspidal newform of weight at least two, distinct Hecke roots and a noncritical
+refinement, on a sufficiently small noble neighbourhood.
 -/
 
 end TauCetiRoadmap.PadicFamilies
