@@ -626,7 +626,8 @@ example (𝔇 : FrobeniusDatum K A Ω 1) (hM : 𝔇.M = 1) : ¬ 𝔇.Hw := by
 
 end FrobeniusDatum
 
-/-- L1.8: a product of Weil numbers of positive weight is not a root of unity. -/
+/-- L1.8: for `q > 1`, a nonempty product of numbers of positive Weil weight is not a root
+of unity. -/
 theorem weil_weight_product_ne_one {q : ℕ} (hq : 1 < q) {n m : ℕ} (hm : 0 < m) (hn : 0 < n)
     (ev : Fin n → ℂ) (w : Fin n → ℕ) (hw : ∀ i, 1 ≤ w i)
     (habs : ∀ i, ‖ev i‖ = (q : ℝ) ^ ((w i : ℝ) / 2)) : (∏ i, ev i) ^ m ≠ 1 := by
@@ -717,9 +718,9 @@ theorem complexPolylog_eq_expZeta {k : ℕ} (hk : 2 ≤ k) (x : ℝ) :
     complexPolylog k (Complex.exp (2 * Real.pi * Complex.I * x)) = HurwitzZeta.expZeta x k := by
   sorry
 
-/-- L2.Fa and L2.30: the complex inversion relation at roots of unity, unlike the p-adic one
-(L2.25), has a Bernoulli term. -/
-theorem complexPolylog_inversion_rootOfUnity {k : ℕ} (hk : 2 ≤ k) {x : ℝ} (hx0 : 0 < x)
+/-- L2.Fa and L2.30: complex inversion on the unit circle has a Bernoulli term for every
+positive weight, including the principal-logarithm identity at weight one. -/
+theorem complexPolylog_inversion_rootOfUnity {k : ℕ} (hk : 1 ≤ k) {x : ℝ} (hx0 : 0 < x)
     (hx1 : x < 1) :
     complexPolylog k (Complex.exp (2 * Real.pi * Complex.I * x)) +
         (-1) ^ k * complexPolylog k (Complex.exp (-(2 * Real.pi * Complex.I * x))) =
@@ -734,6 +735,11 @@ example : complexPolylog 2 (-1) = -(Real.pi : ℂ) ^ 2 / 12 := by sorry
 example : complexPolylog 1 (-1) = -Complex.log 2 := by sorry
 
 example (k : ℕ) : complexPolylog k 0 = 0 := by sorry
+
+/-- At a primitive cube root, weight-one inversion gives the principal-logarithm value. -/
+example : complexPolylog 1 (Complex.exp (2 * Real.pi * Complex.I / 3)) -
+    complexPolylog 1 (Complex.exp (-(2 * Real.pi * Complex.I / 3))) =
+      (Real.pi : ℂ) * Complex.I / 3 := by sorry
 
 /-- The complex weight-one inversion law has a nonzero Bernoulli term. -/
 example : complexPolylog 1 Complex.I - complexPolylog 1 (-Complex.I) =
@@ -1008,7 +1014,7 @@ end PositiveIntegerValues
 * L3: geometric and smoothed measures, Taylor primitives and polylogarithmic moments,
   character transforms and the p-adic L-function forms of Coleman's formula
   (L3.1–L3.12, L3.17–L3.35); the modified regulator polylogarithm (L3.14), rational
-  K-theory and symbols, modified syntomic cohomology, Chern characters, regulator
+  K-theory scheme adapters and symbols, modified syntomic cohomology, Chern characters, regulator
   pairings and Artin L-functions with coefficients (L3.Fa.1–L3.Fd.2); cyclotomic
   regulators and the p-adic Beilinson conjecture, including the dyadic formulas
   (L3.15–L3.16, L3.36–L3.37).
@@ -1040,6 +1046,12 @@ Lean declarations to the representative signatures above:
   `rotatedSmoothedTransform_eval`, `rotatedSmoothedTransform_map`, `rotatedSmoothedTransform_mem_openDisc`,
   `rotatedSmoothedTransform_mul_denominator`, `rotatedSmoothedTransform_one`,
   `rotatedSmoothedTransform_parameter_one`, `rotatedSmoothedTransform_unique`.
+
+L3.Fa.1 specializes GeometryOfNumbersAndQuadraticArithmetic §§6.1.1–6.1.3's `quillenQ`,
+`exactKGroup`, `exactKGroup_zero_iso`, `exactKGroup_map`, `nerveRealization_homotopy`,
+`quillenTheoremA` and `quillenTheoremB`. Its `QuillenQ`, `higherKGroup` and `higherKGroup.map`
+are scheme adapters. The proof of `noLowWeightKTheory_of_algebraic_over_Fp` uses that supplier's
+§6.10 `finiteFieldKGroups` and the finite-subfield filtered-colimit comparison constructed here.
 
 The README uses the pinned power-series operations `PowerSeries.coeff_derivative`, `PowerSeries.coeff_inv`,
 `PowerSeries.coeff_map`, `PowerSeries.coeff_mul`, `PowerSeries.constantCoeff_inv`,
