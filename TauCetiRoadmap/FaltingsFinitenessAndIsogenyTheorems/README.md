@@ -312,7 +312,11 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   §1.1 supplies descent of sheaf morphisms for R28.5.14.
 - *AlgebraicModuliForArithmeticGeometry*: §5.4 `DMSchematicClosure.stack`, `DMNormalization.stack`,
   `DMNormalization.finite`.
-- *ComplexComparisonPartII*: C0.3 `holomorphicBundleDictionary`, C0.4 `CoherentAnalytification`.
+- *ComplexComparisonPartII*: C0.3 `holomorphicBundleDictionary` and C0.4 `CoherentAnalytification`
+  are direct prerequisites of Layer R28.1. They identify holomorphic bundles with finite locally free
+  analytic sheaves on complex manifolds and analytify coherent sheaves on schemes locally of finite
+  type over `ℂ`, compatibly with tensor products. ArakelovGeometryAndAbelianHeights also uses coherent
+  analytification in supplying the height and metric comparisons.
 - *AbelianSchemesAndArithmeticModuli*: A0.2 `fieldAndEllipticBoundary`; A1.3 `relativeInvariantForms`; A1.6
   `relativeEllipticEquivalence`; A2.2 `AbelianScheme.dual` (with `dual_prod`); A2.5 `Polarization`
   (`Polarization.degree`: the kernel has rank `d²` for a polarization of their degree `d`); A3.3
@@ -1032,7 +1036,7 @@ Mathlib (schemes, valuative criterion, normalisation, Zariski's main theorem in 
 locally quasi-finite is finite", number fields, heights, the different and discriminants); Tau Ceti
 (`AbelianVariety`); TauCetiRoadmap NumberFieldArithmetic (Layer 6.4) and LocalFieldsRamification
 (Layer 3); SchemeAndStackFoundations §§2.20, 3.8, 4.15, 4.17; AlgebraicVectorBundles Layers L0B–L0C; AlgebraicModuliForArithmeticGeometry §5.4;
-ComplexComparisonPartII C0; AbelianSchemesAndArithmeticModuli A1, A3, A6;
+ComplexComparisonPartII C0.3–C0.4; AbelianSchemesAndArithmeticModuli A1, A3, A6;
 NeronModelsAndSemistableAbelianVarieties Layers 3–5; HeightsAndUnits §1.1;
 PELModuli M2, M6; ShimuraVarieties Layers 2 and 8; ArakelovGeometryAndAbelianHeights §§2.0, 5.0a–5.0b;
 ArakelovGeometryAndAbelianHeights Layers 1–3 and §§5.1–5.4. R28.1.12 concerns abelian
