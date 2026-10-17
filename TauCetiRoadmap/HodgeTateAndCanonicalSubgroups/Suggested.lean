@@ -81,8 +81,13 @@ With v(p) = 1, the Hasse height of a point is w = min(v(Ha), 1). The weak and st
 canonical conditions at level n are S_n·w < 1/2 and p^n·w < 1/2, with
 S_n = (p^n − 1)/(p − 1); the BHW position range is w < 1/(c_p p^{n−1}) with
 c_p = 2 for p ≥ 5 and c_p = 3 for p = 3 (strict, as in Fargues's theorem), and
-w ≤ 1/(4·2^{n−1}) for p = 2 (inclusive, the all-prime range). These are the ranges on
-which the Layers 3 and 4 theorems are stated; they are kept distinct. -/
+w ≤ 1/(4·2^{n−1}) for p = 2 (inclusive, the all-prime range). The weak and strong inequalities are those of AutomorphicBundles B3.HT.1's shared
+cyclotomic-base abelian-family subgroup, used as `TauCeti.HodgeTate.canonicalSubgroup`
+in README §§3.4, 3.6–3.8. Its point criterion is inclusion for complete flat test
+algebras and equality for those integrally closed in their localization at p.
+The additional pointwise HN subgroup agrees on the overlap by Frobenius-congruent
+uniqueness. These numerical guards also retain the wider pointwise ranges of Layers 3
+and 4; the degree formula and integral Hodge–Tate estimates are README targets. -/
 
 /-- The truncated Hasse valuation min(v(Ha), 1) (Layer 3). -/
 def hasseValuation {O : Type u} [CommRing O] (v : AddValuation O (WithTop ℝ)) (Ha : O) : ℝ :=
@@ -107,10 +112,10 @@ example {O : Type u} [CommRing O] (v : AddValuation O (WithTop ℝ)) (Ha : O)
 /-- For p ≥ 2, S_n = 1 + p + ⋯ + p^{n−1} = (p^n − 1)/(p − 1). -/
 def canonicalSum (p n : ℕ) : ℚ := ((p : ℚ) ^ n - 1) / ((p : ℚ) - 1)
 
-/-- The weak formal condition S_n·w < 1/2 for a level-n canonical subgroup. -/
+/-- The weak inequality S_n·w < 1/2 of the shared family subgroup (AutomorphicBundles B3.HT.1). -/
 def WeakCanonicalRange (p n : ℕ) (w : ℚ) : Prop := canonicalSum p n * w < 1 / 2
 
-/-- The strong sufficient condition p^n·w < 1/2. -/
+/-- The strong sufficient inequality p^n·w < 1/2 of the same family subgroup. -/
 def StrongCanonicalRange (p n : ℕ) (w : ℚ) : Prop := (p : ℚ) ^ n * w < 1 / 2
 
 /-- The BHW constant c_p: 4 for p = 2, 3 for p = 3, 2 for p ≥ 5. -/
@@ -314,7 +319,10 @@ Layer 2: `ShimuraTower.pLevel`, `ShimuraTower.translate`, `ShimuraTower.infinite
 `TauCeti.HodgeTate.ExactTensorFiltration`, `TauCeti.HodgeTate.hodgeTateFlagDescent`,
 `TauCeti.HodgeTate.openTowerHodgeTateMap` (for neat Hodge-type data with a fixed
 symplectic embedding and induced universal abelian family).
-Layer 3: `TauCeti.HodgeTate.hasseNeighbourhood`, `TauCeti.HodgeTate.canonicalSubgroup`.
+Layer 3: `TauCeti.HodgeTate.hasseNeighbourhood`; `TauCeti.HodgeTate.canonicalSubgroup`
+is AutomorphicBundles B3.HT.1's shared subgroup on the cyclotomic-base abelian-family
+range. The pointwise HN extension, degree formula and integral Hodge–Tate estimates
+are the additional targets of README §§3.6–3.9.
 Layer 4: `TauCeti.HodgeTate.canonicalLocus`, `TauCeti.HodgeTate.hodgeTateCoordinate`,
 `TauCeti.HodgeTate.flagBall`.
 Layer 5: `TauCeti.HodgeTate.igusaTorsor`, `TauCeti.HodgeTate.integralDifferentialLattice`,
