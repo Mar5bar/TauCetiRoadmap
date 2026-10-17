@@ -152,7 +152,7 @@ These are section-level mathematical suppliers. The Lean imports in [Suggested.l
 | `DerivedModuleAlgebra` §0.I.1, §§0.2, 0.4–0.17, §1.T.1, §§1.1–1.5 (including §1.1.1) | Module K-injective replacements and K-flat tensor models, ordinary cotangent and power functors with their functorial laws, elementary towers and `ML`/Milnor, module derived limits and Hom, completeness, Koszul completion towers and regular-quotient models | §§0.1–0.3, E1.2, E1.F3.H1, E1.8.DMA.1, E2:towers, E4, E5:cotangent-export |
 | `DerivedModuleAlgebra` §0.K.1 | Linear-functional Koszul complexes, maps, signed tensor formulas, multiplication null-homotopies and finite weakly regular resolutions | E1.5–E1.6 and E4 |
 | `SchemeAndStackFoundations` §0.9, Layers 1–2 and §2.18; `JacobianChallenge` Layer C; `StableReduction` Layer 2 | Scheme approximation, algebraic-space sites and module descent, and scheme coherent cohomology with base change; E1.9 constructs the space pushforward and approximation extensions | E1.9 |
-| `PerfectoidSpaces` P0.1–P0.2, P0.5–P0.15, P7.16 | Basic and compatible-root setups, almost modules and algebras, almost projectivity and finite étale algebra; regularity of finite-variable power-series rings over fields | E1.6–E1.7 |
+| `PerfectoidSpaces` P0.1–P0.2, P0.5–P0.15, P7.16a | Basic and compatible-root setups, almost modules and algebras, almost projectivity and finite étale algebra; regularity of finite-variable power-series rings over fields | E1.6–E1.7 |
 
 PerfectoidSpaces' algebra contracts in this table are direct inputs here.
 
@@ -773,7 +773,7 @@ Provide `frobeniusRootIdeal`, `frobeniusRootIdeal_radical` `(J_f = √(f))`, `fr
 - For a field `k, e = 0` gives the identity presentation.
 - For `A = 𝔽_p[t]_(t)`, completion gives `𝔽_p⟦t⟧`, flat Frobenius persists, and regularity descends along the faithfully flat completion map.
 
-*Needs:* Mathlib `IsAdicComplete`, `MvPowerSeries`, `RingHom.Flat`, `IsRegularLocalRing`, `AdicCompletion.flat_of_isNoetherian`; PerfectoidSpaces P7.16 `powerSeries_regular_field` for regularity of the source power-series ring; localization of regularity and flatness.
+*Needs:* Mathlib `IsAdicComplete`, `MvPowerSeries`, `RingHom.Flat`, `IsRegularLocalRing`, `AdicCompletion.flat_of_isNoetherian`; PerfectoidSpaces P7.16a `powerSeries_regular_field` for regularity of the source power-series ring; localization of regularity and flatness.
 
 **Almost étale normalization and the diagonal retraction** (`perfectTorBound_completeLocalReduction`, `perfectNoetherNormalization_almostEtale`, `almostDiagonalRetract`). For the finite-dimensional perfect presentations of `perfect_projectiveDimension_le`, reduce the bound on Tor dimension to perfections of complete Noetherian local `𝔽_p`-algebras, with dimension controlled by that of R. Construct the adjusted finite injective normalization `P₀ → R₀` with `P₀` regular and a nonzero `f ∈ P₀` such that the map is finite étale after inverting f, allowing the purely inseparable adjustments before perfection of BS17 footnote 25. For `P = (P₀)_perf` and `R = (R₀)_perf`, prove `Pᵃ → Rᵃ` almost finite étale for `I_f = (f^{1/p^∞})`. Its diagonal idempotent makes R an almost direct summand of `R ⊗ᴸ_P R` as a module over that tensor algebra. Consequently every R-module M is an almost retract of `M ⊗ᴸ_P R`; applying `I_f ⊗ᴸ_P −` gives an actual retraction and the Tor bound for `I_f ⊗_P M`. (BS17 Remark 11.33 and footnote 25, p. 49.)
 
