@@ -113,8 +113,11 @@ explicit nonempty examples.
   (reductive and semisimple groups, centre, derived group, simply connected groups).
 - *TauCetiRoadmap.ReductiveGroupsPartII.* RG2.3.7 `Lang.lang_surjective` and finite-field
   torsor triviality; RG2.5.1 `AbsoluteRootData` with based Galois action and cocharacter lattice.
-- *ArithmeticGaloisDuality.* R02.4.6, “Local torus evaluation and modified adelic points”,
-  “The completed all-place torus sequence”, and “Torus Sha duality and adelic annihilators”.
+- *ArithmeticGaloisDuality.* R02.4.6, “All-place Sha duality and transfer adjunction”:
+  for the finite Galois module `M = Z(G^der)(ℚ̄)`, its Cartier dual is
+  `M^D = X^*(Z(G^der))`, and `Ш²(ℚ,M)` is perfectly paired with `Ш¹(ℚ,M^D)`,
+  retaining the supplier's complete Tate terms at real places. M3.2 owns the
+  type-A centre identification and the vanishing application.
 - *TauCetiRoadmap.ClassFieldTheory, Layer 13.* The cyclic Hasse norm theorem `cyclicHasseNorm`.
 - *Further Tau Ceti inputs.* `TauCeti.FieldTheory.GaloisCohomology.Hilbert90`:
   `TauCeti.hilbert90` and `TauCeti.subsingleton_H1_unitsCoeff` for continuous Hilbert 90;
@@ -1714,8 +1717,12 @@ identified); `IntegralLevel.ofPrincipal` (for `H = U^□(n)` this is `PrincipalL
 - `level_full_unique`: for `H = G(Ẑ^□)` and a liftable triple the level-`H` structure exists and is
   unique.
 - `level_principal_eq`: for `H = U^□(n)`, `IntegralLevel H` is equivalent to `PrincipalLevel n`.
-- `rationalLevel_not_integral`: for the Siegel datum, `H = GSp_{2g}(Ẑ^□)` and `A` with a polarization
-  of degree `ℓ²` (`ℓ ∉ □`), a rational structure exists but no member maps `L ⊗ Ẑ^□` onto `T^□A`.
+- `rationalLevel_not_integral`: take the principal genus-one datum, `S = Spec ℂ`, `□ = {2}`,
+  `H = GSp₂(Ẑ^□) = GL₂(Ẑ^□)`, and an elliptic curve with `λ = 3λ_can`, of degree `9`.
+  An integral marking `(α₀,ν₀)` for `λ_can` gives the rational marking `(α₀,3ν₀)` for `λ`.
+  Every representative `(α₀h,3ν₀ det(h))`, `h ∈ H`, maps `L ⊗ Ẑ^□` onto `T^□E`.
+  Its multiplier at `3` has valuation `1` and maps `ℤ₃(1)` onto `3T₃G_m`, so no
+  representative preserves both integral lattices, as required by `integral_iff`.
 - `rationalLevel_change_compose`: `changeLevel` along `H″ ⊆ H′ ⊆ H` is `changeLevel` along `H″ ⊆ H`.
 
 ### M1.7 The PEL moduli problem `M_H`
@@ -2683,6 +2690,44 @@ realized as torsors (TauCetiRoadmap.AdelicAlgebraicGroups §4.1 through M0.9(1))
 
 ### M3.2 When the Hasse principle holds
 
+**Finite unitary centre and its all-place obstruction.** For a rational datum with `B` simple
+of Case A, CM centre `F/F₀` and hermitian dimension `n ≥ 1`, put `Z = Z(G)`,
+`Z₀ = Z(G^der)` and `D₁ = Res_{F₀/ℚ} ker(N_{F/F₀} : Res_{F/F₀} G_m → G_m)`.
+Identify `Z₀ = D₁[n]`, a finite group scheme, and its character module with
+`Ind_{Γ_{F₀}}^{Γ_ℚ}(ℤ/n(χ_{F/F₀}))`, where the nontrivial quadratic automorphism acts by
+`−1`. The inclusions of norm-one scalars give a commutative diagram from
+`1 → Z₀ → D₁ →[n] D₁ → 1` to `1 → Z₀ → Z → D → 1`, with identity on `Z₀`
+and `D = G/G^der` (Kottwitz, §7, p. 394).
+
+Prove `unitaryCentre_sha_vanishing`: `Ш¹(ℚ,X^*(Z₀)) = 0` and `Ш²(ℚ,Z₀) = 0`,
+where `Ш` denotes the kernel of localisation at all places. Shapiro reduces the first
+claim to the sign module `A = ℤ/n(χ_{F/F₀})` over `F₀`. Restriction to `F` makes `A`
+constant; a locally trivial continuous character into this finite group is zero by
+Chebotarev. Inflation–restriction therefore places the original class in
+`H¹(Gal(F/F₀),A)`. At a finite place of `F₀` inert in `F`, local inflation is injective
+and the decomposition group maps onto `Gal(F/F₀)`, so local triviality kills this class.
+This argument applies to every `n ≥ 1`.
+
+For the second claim, apply ArithmeticGaloisDuality R02.4.6, “All-place Sha duality and
+transfer adjunction”, to the finite module `M = Z₀(ℚ̄)` of exponent dividing `n`, whose
+Cartier dual `Hom(M, μ_n)` is `X^*(Z₀)`. It gives the perfect pairing
+`Ш²(ℚ,Z₀) × Ш¹(ℚ,X^*(Z₀)) → ℚ/ℤ`, including the real Tate terms, hence the vanishing.
+In particular every `d ∈ Ш¹(ℚ,D)` lifts to `H¹(ℚ,Z)`: its connecting obstruction lies
+in `Ш²(ℚ,Z₀)` (Kottwitz, §7, p. 394).
+*Needs:* M0.8, M0.9; ArithmeticGaloisDuality R02.4.6 (the finite-coefficient target named above);
+ProfiniteCohomology Layers 5, 7 and 10 (inflation–restriction, Shapiro and exact sequences);
+Chebotarev Layer 10.
+
+**Checks.**
+
+- For an imaginary-quadratic rank-three unitary datum, `G^der_ℚ̄ ≅ SL₃`,
+  `Z₀,ℚ̄ ≅ μ₃` and `X^*(Z₀) ≅ ℤ/3` geometrically, with quadratic sign action.
+  Thus `Z₀` is finite and its character module is torsion, rather than a torus lattice.
+- For `n = 1`, `Z₀` is trivial and both obstruction groups vanish.
+- For an imaginary-quadratic rank-two datum, the sign action on `ℤ/2` is trivial and
+  `H¹(Gal(F/ℚ),ℤ/2) ≅ ℤ/2`. Its nonzero class is detected at an inert finite place;
+  the all-place kernel still vanishes without assuming that this global `H¹` vanishes.
+
 Prove `hasseCases`: let the datum have `B` simple. (C) In Case C, `G/G^der = G_m` and `ker¹(ℚ, G) = 1`.
 (A) In Case A with hermitian dimension `n` even, `ker¹(ℚ, G) = 1`; with `n` odd, `G` may fail the Hasse
 principle and `ker¹(ℚ, Z) → ker¹(ℚ, G)` is a bijection for the centre `Z` of `G` (Kottwitz, §7,
@@ -2692,18 +2737,18 @@ Cases C and A with `n` even the characteristic-zero moduli at level `K` is one S
 `G^der` is simply connected (M0.8), so by M0.9(4) a class trivial at all places, including `∞`, is trivial
 whenever `H¹(ℚ, D) → ∏_{v≤∞} H¹(ℚ_v, D)` is injective for `D = G/G^der` (Milne, Lemma 8.20, p. 89); in Case C
 `D = G_m` (Hilbert 90); in Case A with `n` even `D ≅ D₁ × G_m` with `D₁` the norm-one torus of the cyclic
-`F/F₀`, and the Hasse norm theorem gives injectivity (Milne, Lemma 8.21, p. 89; M0.9(5)). For `n` odd,
-Kottwitz's diagram chase uses that `H¹(ℚ_v, D₁)` is killed by `2` and `n` is odd, together with
-Tate–Nakayama duality for the torus `Z₀` (Kottwitz, §7, p. 394).
-Specialize ArithmeticGaloisDuality R02.4.6's “Local torus evaluation and modified adelic
-points”, “The completed all-place torus sequence”, and “Torus Sha duality and adelic
-annihilators” to this PEL centre torus over `ℚ`: `ker¹(ℚ,Z₀)` is perfectly paired
-with `Ш²(ℚ,X^*(Z₀))`, and the adelic evaluation image is its annihilator in
-`H²(ℚ,X^*(Z₀))^D`, with Tate-modified real terms and completion as in that supplier.
-Retain this all-place pairing in the diagram chase; cyclic Hasse norms supply only the
-norm-one vanishing above. *Needs:* M0.2, M0.8, M0.9, M3.1;
-TauCetiRoadmap.ClassFieldTheory Layer 13; TauCetiRoadmap.AdelicAlgebraicGroups §4.1;
-ArithmeticGaloisDuality R02.4.6 (the three torus targets named above).
+`F/F₀`, and the Hasse norm theorem gives injectivity (Milne, Lemma 8.21, p. 89; M0.9(5)).
+For `n` odd, `H¹(k,D₁)` is killed by `2` for `k = ℚ` and every `ℚ_v`. Multiplication by
+`n` is therefore bijective on these groups. The norm-one row of the diagram shows that
+`H¹(k,Z₀) → H¹(k,D₁) → H¹(k,Z)` is zero, so `H¹(k,Z) → H¹(k,D)` is injective.
+The lift supplied by `unitaryCentre_sha_vanishing` is consequently locally trivial,
+giving a bijection `ker¹(ℚ,Z) → ker¹(ℚ,D)`. For a class in `ker¹(ℚ,G)`, lift its
+image in `ker¹(ℚ,D)` to `z ∈ ker¹(ℚ,Z)` and twist by `z⁻¹`. The resulting class
+has trivial image in `H¹(ℚ,D)`; the simply connected Hasse and real-approximation
+argument of M0.9(4) makes it trivial. Injectivity follows from
+`H¹(ℚ,Z) → H¹(ℚ,D)`. This proves the central bijection (Kottwitz, §7, p. 394).
+*Needs:* M0.2, M0.8, M0.9, M3.1; `unitaryCentre_sha_vanishing`;
+TauCetiRoadmap.ClassFieldTheory Layer 13; TauCetiRoadmap.AdelicAlgebraicGroups §4.1.
 
 **Checks.**
 
@@ -3446,6 +3491,16 @@ polarization module, and their models at primes dividing `disc(F)`, are not targ
 `Algebra.trace`. The pairing API includes `hilbertPairing_self`
 (`ψ(x,x) = 0`) and `hilbertPairing_smul` (`ψ(bx,y) = ψ(x,by)`).
 
+Define the convention adapter `hilbertConventionMap : F² ≃ₗ[F] F²` by
+`f(a,b) = (a,−b)`. It preserves `O_F ⊕ 𝔡⁻¹`, and its real extension satisfies
+`f J f⁻¹ = −J` and `(-ψ)(fx,fy) = ψ(x,y)` for `J(a,b) = (−b,a)`.
+Thus it transports the datum with positive pair `(J,ψ)` to the convention `(-J,-ψ)`
+and conjugates the trace embedding with the same rational multiplier. The API is
+`hilbertConventionMap_pairing`, `hilbertConventionMap_complexStructure` and
+`hilbertConventionMap_mem_prod` (it preserves any product of two `ℤ`-submodules of `F`,
+in particular the principal inverse-different lattice). These are direct substitutions in
+the displayed trace and complex-structure formulas; positivity is Lan's Condition 1.2.1.2.
+
 **Checks.**
 
 - For `F = ℚ`, `hilbertPairing (1,0) (0,1) = 1`, while reversing the
@@ -3456,6 +3511,12 @@ polarization module, and their models at primes dividing `disc(F)`, are not targ
   with reflex field `ℚ`.
 - `hilbert_not_selfdual_without_different`: `O_F ⊕ O_F` with the same pairing has dual `𝔡⁻¹ ⊕ 𝔡⁻¹` and
   index `disc(F)²`, so it is not self-dual when `disc(F) ≠ 1`.
+- For `F = ℚ`, `f(e₁) = e₁`, `f(e₂) = −e₂` and
+  `(-ψ)(f(e₁),(-J)f(e₁)) = 1`; transporting only `J` would give `−1`.
+- For `F = ℚ(√5)`, negation preserves `(1/√5)O_F`, so `f` stabilizes the self-dual
+  lattice without changing the different or the good primes.
+- Conjugation by `f` is involutive and preserves the common determinant. Passing from
+  columns to rows transposes the transported action; the alternating determinant formula agrees.
 
 ### M5.5 Unitary PEL data with prescribed signatures
 
@@ -3945,8 +4006,11 @@ TauCetiRoadmap.ModularCurves §9E; Tau Ceti `WeierstrassCurve.j_quadraticTwist`,
 
 ShimuraCompactifications builds the
 toroidal and minimal compactifications of `M_H`, proves integral quasi-projectivity and the ampleness of
-the Hodge line on the minimal compactification. HilbertModularVarietiesAndShimuraCurves specializes M5.4
-to polarization modules and builds models at ramified primes. IgusaVarietiesAndTorsionConcentration and
+the Hodge line on the minimal compactification. HilbertModularVarietiesAndShimuraCurves consumes
+M5.4's `hilbertIntegralDatum`, `hilbertRationalDatum`, principal inverse-different lattice and
+`hilbertTraceEmbedding`, combining `hilbertConventionMap` with its row/column transpose comparison.
+It owns the full `Res_{F/ℚ} GL₂` datum with independent real signs, general polarization modules,
+nonprincipal lattices and models at ramified primes. IgusaVarietiesAndTorsionConcentration and
 PerfectoidShimuraVarieties use the good models, the universal family and the Hecke action at
 `p`-power level. AutomorphicGaloisRepresentationsPartII and AutomorphicPadicLFunctions use the unitary
 data, the CM moduli schemes and the torus trace. FaltingsFinitenessAndIsogenyTheorems and

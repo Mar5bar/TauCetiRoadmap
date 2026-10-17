@@ -396,6 +396,27 @@ theorem hilbertPairing_smul (b : F) (x y : F × F) :
     hilbertPairing F (b • x) y = hilbertPairing F x (b • y) := by
   sorry
 
+/-- The Hilbert convention adapter `f(a,b) = (a,−b)` transports `(J,ψ)` to `(-J,-ψ)` (M5.4). -/
+def hilbertConventionMap : (F × F) ≃ₗ[F] (F × F) :=
+  (LinearEquiv.refl F F).prodCongr (LinearEquiv.neg F)
+
+/-- Changing the second coordinate's sign transports the positive Hilbert pairing. -/
+theorem hilbertConventionMap_pairing (x y : F × F) :
+    -hilbertPairing F (hilbertConventionMap F x) (hilbertConventionMap F y) =
+      hilbertPairing F x y := by
+  sorry
+
+/-- The convention adapter intertwines `J(a,b) = (−b,a)` with `−J`. -/
+theorem hilbertConventionMap_complexStructure (x : F × F) :
+    hilbertConventionMap F (-x.2, x.1) =
+      ((hilbertConventionMap F x).2, -(hilbertConventionMap F x).1) := by
+  sorry
+
+/-- The sign adapter preserves product lattices, including `O_F ⊕ 𝔡⁻¹`. -/
+theorem hilbertConventionMap_mem_prod (I J : Submodule ℤ F) (x : F × F) :
+    hilbertConventionMap F x ∈ I.prod J ↔ x ∈ I.prod J := by
+  sorry
+
 /-- **Self-duality of the principal Hilbert lattice** (`hilbertExample`): the trace dual of the inverse
 different `𝔡⁻¹ = dual(O_F)` is `O_F`, which makes `O_F ⊕ 𝔡⁻¹` self-dual for the trace pairing. -/
 example :
@@ -729,6 +750,10 @@ The following APIs and discriminating Checks are also specified in the README:
   of the finite fibres. `symplecticIsomSheaf.reduce` projects to the liftable finite pairs;
   `symplecticIsomSheaf.baseChange` is termwise pullback, with monodromy supplied by
   EtaleCohomologyFoundations §F.0.2 `VanishingCycles.finiteEtaleGaloisCategory`.
+* M1.6: `rationalLevel_not_integral` uses the principal genus-one datum over `ℂ`, `□ = {2}`,
+  `H = GL₂(Ẑ^□)` and `λ = 3λ_can`. Every marking `(α₀h,3ν₀ det(h))` in the rational
+  orbit preserves the linear Tate lattice; its multiplier sends `ℤ₃(1)` onto `3T₃G_m`.
+  Thus it fails the two-lattice criterion `RelativeRationalLevel.integral_iff`.
 * M1.10: `primeToLatticeRealization` realizes a monodromy-stable, `O`-stable open compact
   prime-to-`□` Tate lattice by an abelian scheme and a unit of `RelativeLocalizedHom ℤ_(□)`.
   The base is connected and locally noetherian, with residue characteristics zero or in `□`.
@@ -757,6 +782,16 @@ The following APIs and discriminating Checks are also specified in the README:
   in `[0,1]`, and `IsMuOrdinary` equates it with that average. For split Gaussian CM at `5`,
   with `τ` in `Lie A`, the labelled Hodge weights are `(1,0)` and the covariant Hodge and Newton
   weights are `(0,1)`; the torus Weyl group cannot exchange them.
+* M3.2: `unitaryCentre_sha_vanishing` applies to a simple type-A datum of hermitian rank
+  `n ≥ 1`, with CM centre `F/F₀`. For the norm-one torus `D₁`, the finite centre is
+  `Z₀ = Z(G^der) = D₁[n]`; its character module is induced from `ℤ/n` with quadratic sign
+  action. Shapiro, inflation–restriction and an inert place give `Ш¹(ℚ,X^*(Z₀)) = 0`.
+  ArithmeticGaloisDuality R02.4.6's finite all-place Sha duality gives `Ш²(ℚ,Z₀) = 0`.
+  In `hasseCases` with `n` odd, the resulting lift through `Z → D` is locally trivial
+  because multiplication by `n` is invertible on the local `2`-torsion `H¹(ℚ_v,D₁)`.
+  The rank-three imaginary-quadratic Check has `Z₀,ℚ̄ ≅ μ₃` and geometric character
+  module `ℤ/3`; rank one is trivial, and an inert place detects the possible rank-two
+  class in `H¹(Gal(F/ℚ),ℤ/2)`.
 * M3.5: `PELModuli.periodMap` constructs holomorphic maps from locally marked Betti homology
   and the universal family's Hodge filtration on an analytified étale atlas. The pairing, order
   action and locally constant level are retained. Changing markings and atlas overlaps descends
