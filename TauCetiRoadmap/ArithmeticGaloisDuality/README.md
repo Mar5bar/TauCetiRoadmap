@@ -51,9 +51,9 @@ maps with the modified archimedean groups, `S`-ideles, S-unit cardinality and re
 `S`-units and `S`-idele classes, finite Galois localization and Sha kernels, `P`-class
 formations, the `S`-class formation with its reciprocity and the `S`-unit Kummer sequence; the
 class-field inputs for global function fields (ideles and `S`-units, restricted ramification, the
-equal-characteristic local duality and Euler characteristic prime to the characteristic, the
-global class formation); absolute and relative `Шⁱ` and the cyclotomic power
-kernel; exponent-two ramification fields, quadratic fields with one new ramified prime, the
+equal-characteristic specialization and comparisons for the supplied finite local duality,
+the Euler characteristic prime to the characteristic, the global class formation); absolute and
+relative `Шⁱ` and the cyclotomic power kernel; exponent-two ramification fields, quadratic fields with one new ramified prime, the
 antiunit class-field rank and the absence of `ℤ_p`-extensions unramified at `p`. Ext of discrete
 modules, Tate's duality for a `P`-class formation and for the `S`-idele classes, archimedean local
 duality, the restricted products `Pʳ_S` and their self-duality, Poitou–Tate duality, global
@@ -104,7 +104,8 @@ and Khare–Wintenberger numerics of Layer R02.6.
   existence and the norm index (Layer 12) and the class fields of Layer 13, all for number fields.
   ClassFieldTheory leaves out global class field theory of function fields and the Grunwald–Wang
   theorem; Layers R02.3 and R02.4 here supply exactly what this roadmap needs of them.
-- *GlobalNumberFields* (ideles and idele class groups, Layer 6; the connected component and ray
+- *GlobalNumberFields* (mixed finite/real weak approximation, Layer 1; ideles and idele class
+  groups, Layer 6; the connected component and ray
   classes, Layer 7; norms of ideles, Layer 8), *NumberFieldArithmetic* (unramified sets of primes,
   Layer 1; relative discriminants, Layer 4; different exponents, Layer 6), *Chebotarev* (Layer 10),
   *ProfiniteProPGroups* (supernatural orders, Layer 1), *RepresentationTheory/InductionRestriction*
@@ -246,7 +247,10 @@ as inputs; and Galois representations attached to automorphic forms.
   ordinary invariants, whereas `H⁰(K_v, X)` follows the modified convention. The Euler
   characteristic and the ordinary deformation fibre use ordinary invariants. At a finite place
   where inertia acts trivially on `M`,
-  `Hʳ_un(K_v, M)` is the image of inflation from the residue-field Galois group.
+  `Hʳ_un(K_v, M)` is the image of inflation from the residue-field Galois group. For
+  finite-dimensional cohomology over a field `k`, write `hⁱ(G, M) = dim_k Hⁱ(G, M)` and
+  `hⁱ(F, M) = hⁱ(G_F, M)` for a global field `F`. Ordinary local dimensions use `hⁱ(G_v, M)`;
+  unramified dimensions use `dim_k Hⁱ_un(F_v, M)`.
 - **Duals.** For a finite discrete `G_S`-module `M` of exponent `m` with `#M` a unit in `R_{K,S}`,
   the dual is `M^D = Hom(M, μ_m)` with the contragredient cyclotomic action `(σf)(x) = σ(f(σ⁻¹x))`
   and the evaluation pairing into `μ_m`. The Pontryagin dual `M^* = Hom_cts(M, ℚ/ℤ)` and the
@@ -357,6 +361,15 @@ as inputs; and Galois representations attached to automorphic forms.
   ClassFieldTheory Layer 2, from which the `P`-class formations of Layer R02.3 are built.
 - `TauCeti.KummerCoeff`, `TauCeti.kummerShortExact`: `μ_n` as a discrete Galois module and the
   Kummer sequence.
+- `TauCeti.ClassFieldTheory.dualityMap0_kummerCoeff_bijective`,
+  `TauCeti.ClassFieldTheory.dualityMap1_kummerCoeff_bijective` and
+  `TauCeti.ClassFieldTheory.dualityMap2_kummerCoeff_bijective`, from
+  `TauCeti.NumberTheory.ClassFieldTheory.Local.Duality.FiniteModule`: finite local Tate duality
+  in degrees `0`, `1`, `2` for every `IsNonarchimedeanLocalField K`, finite discrete continuous
+  `G_K`-module killed by `n`, and `IsUnit (n : K)`, including equal characteristic. These use
+  explicit low-degree cohomology. Section R02.3.2 transports their coefficient dual, cup products
+  and invariant to the canonical cohomology and `ℚ/ℤ` pairing, using
+  `TauCeti.ClassFieldTheory.muNRepH2Equiv` and `TauCeti.ClassFieldTheory.h2MuEquivZMod`.
 - `Rep.FiniteCyclicGroup.tateCohomologyIsoEven`, `tateCohomologyIsoOdd` and
   `TauCeti.TateCohomology.herbrandQuotient_eq_one_of_finite`: Tate cohomology of cyclic groups.
 - `TauCeti.ClassFunction.natCard_nsmul_mem_indVirtualCharacters_isCyclic`: Artin's induction
@@ -386,7 +399,7 @@ as inputs; and Galois representations attached to automorphic forms.
   isomorphisms, the abstract Artin map, the local invariant, `tateDualityPairing_perfect_mixed`,
   `finite_H`, `eulerCharacteristic_mixed`, `cd_p_absoluteGaloisGroup_eq_two`, the local Artin map,
   the global Brauer sequence and the global class formation for number fields.
-- `GlobalNumberFields` Layers 6–8, `NumberFieldArithmetic` Layers 1, 4 and 6, `Chebotarev`
+- `GlobalNumberFields` Layers 1 and 6–8, `NumberFieldArithmetic` Layers 1, 4 and 6, `Chebotarev`
   Layer 10, `ProfiniteProPGroups` Layer 1, `RepresentationTheory/InductionRestriction` Layer 6 and
   `AlgebraicCurves` Layers 3 and 5, and the tori of `ReductiveGroups`, as listed under *Scope and
   ownership*.
@@ -1889,7 +1902,9 @@ quotient of the divisor group by principal divisors and divisors supported on `S
   `x ↦ (ord_v x)_{v ∉ S}`.
 - `finite_sClassGroup`: `Cl_S(F)` is finite when `S` is nonempty.
 - `sIdeleClasses_exact`: `0 → C_{F,S} → C_S(F) → Cl_S(F) → 0`, where `C_{F,S}` is the image of
-  `∏_{v∈S} F_vˣ × ∏_{v∉S} O_vˣ`.
+  `J_{F,S} = {a ∈ ideles F : ord_v(a_v) = 0 for v ∉ S}`. Equivalently,
+  `J_{F,S} = (∏′_{v∈S} (F_vˣ, O_vˣ)) × ∏_{v∉S} O_vˣ`; the first factor is restricted
+  even when `S` is infinite.
 
 *Proof sketch.* The product formula and the finiteness of the degree-zero divisor class group
 over a finite constant field are TauCetiRoadmap AlgebraicCurves Layers 3 and 5; finiteness of
@@ -1899,7 +1914,9 @@ degree is F. K. Schmidt's theorem; compactness of the degree-zero classes is the
 case of the compactness of norm-one idele classes (Neukirch–Schmidt–Wingberg, *Cohomology of
 Number Fields*, VIII §1, (8.1.26), p. 443, which records the degree sequence and its profinite
 completion; VIII §3, pp. 452–455, for `C_S`, `Cl_S` and the finiteness of `Cl_S` for nonempty `S`;
-(8.3.5), p. 455). *Needs:* Tau Ceti `TauCeti.Place`, `TauCeti.Place.degree`; Mathlib
+(8.3.5), p. 455; [Milne, *Arithmetic Duality Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf),
+I §4, pp. 49–50, Lemma 4.1, for the restricted product and exact sequence). *Needs:* Tau Ceti
+`TauCeti.Place`, `TauCeti.Place.degree`; Mathlib
 `FunctionField`, `RestrictedProduct`; TauCetiRoadmap AlgebraicCurves Layers 3 and 5 (divisors,
 the product formula, finiteness of `Cl⁰`).
 
@@ -1908,6 +1925,9 @@ the product formula, finiteness of `Cl⁰`).
 - `ff_sUnits_rat_infty`: for `F = 𝔽_q(t)` and `S = {∞}`, the `S`-integers are `𝔽_q[t]`, the
   `S`-units are `𝔽_qˣ` and `Cl_S(F) = 0` (a principal ideal domain); a definition that also
   inverted `t` would give more units.
+- For `F = 𝔽₂(t)` and `S` all places, the family of one uniformizer at every place is not
+  an idele: it has infinitely many nonunit coordinates. Here `J_{F,S} = ideles F`,
+  `C_{F,S} = C_S(F) = ideleClassGroup F` and `Cl_S(F) = 0`.
 - `ff_sClassGroup_empty`: for `S = ∅` the quotient of the divisor group by principal divisors
   surjects onto `ℤ` by the degree, so it is infinite; finiteness genuinely needs `S ≠ ∅`.
 - `ff_ideleDegree_place`: for the place `v` of `𝔽_q(t)` given by a monic irreducible `π` of
@@ -1964,21 +1984,40 @@ function field at a place `v`, a local field of characteristic `ℓ` (isomorphic
    because `#M` is prime to `ℓ`).
 
 ClassFieldTheory Layers 5 and 6 supply the local invariant and the local class formation of every
-nonarchimedean local field, and state local duality and the Euler characteristic in mixed
-characteristic; this target is the equal-characteristic, prime-to-`ℓ` case. *Proof sketch.* The prime-to-`ℓ` part of `G_v` is
-controlled by the tame quotient `Ẑ^{(ℓ′)}(1) ⋊ Ẑ`, which gives (1); (2) follows from the local
-invariant and Kummer theory; (3) is Tate's duality argument, which uses only (1), (2) and the
-Kummer sequence, all valid for coefficients prime to `ℓ`; (4) is Tate's local Euler
-characteristic formula for `#M` prime to the characteristic, where the right side `‖#M‖_v` is `1`
+nonarchimedean local field. The finite perfect pairing in (3) specializes the imported theorems
+`TauCeti.ClassFieldTheory.dualityMap0_kummerCoeff_bijective`,
+`TauCeti.ClassFieldTheory.dualityMap1_kummerCoeff_bijective` and
+`TauCeti.ClassFieldTheory.dualityMap2_kummerCoeff_bijective` with `n = m` and `K = F_v`;
+`IsUnit (m : F_v)` follows from `ℓ ∤ m`. Identify the supplied
+`TauCeti.AbsoluteGaloisGroup F_v` with `G_v` and `M^D` with
+`TauCeti.InternalHom G_v M (TauCeti.KummerCoeff F_v m)`, compare explicit cohomology with
+Mathlib's `continuousCohomology` through ProfiniteCohomology Layer 3, and prove that these
+comparisons carry the evaluation cup products to each other. Transport the target invariant
+through `TauCeti.ClassFieldTheory.muNRepH2Equiv` and `TauCeti.ClassFieldTheory.h2MuEquivZMod`,
+followed by `a mod m ↦ a/m mod ℤ`. This identifies the supplied bijections with the displayed
+pairing. The unramified-annihilator comparison and the equal-characteristic Euler formula are
+arithmetic targets here.
+
+*Proof sketch.* The prime-to-`ℓ` part of `G_v` is controlled by the tame quotient
+`Ẑ^{(ℓ′)}(1) ⋊ Ẑ`, which gives (1); (2) follows from the local invariant and Kummer theory.
+For (3), use the supplied finite duality with the coefficient, cohomology and invariant
+comparisons above. Two unramified classes cup to zero because the residue-field `H²` vanishes;
+(4) and finite duality give the complementary subgroup orders and hence exact annihilators.
+For (4), use Tate's local Euler characteristic formula for `#M` prime
+to the characteristic, where the right side `‖#M‖_v` is `1`
 (Neukirch–Schmidt–Wingberg, (7.1.8), p. 376; (7.2.6), whose statement covers local fields of positive characteristic and modules of order prime to it, p. 380; (7.2.9),
 p. 383; (7.2.15), p. 387; (7.3.1), p. 392; Milne, *Arithmetic Duality Theorems*, I, Corollary 2.3,
 p. 28, and Theorem 2.8, p. 31). *Needs:* TauCetiRoadmap ClassFieldTheory Layers 5 and 6 (the local
-invariant and class formation), ProfiniteCohomology Layers 9 and 11 (Kummer theory, cohomological dimension).
+invariant and class formation); Tau Ceti
+`TauCeti.NumberTheory.ClassFieldTheory.Local.Duality.FiniteModule`; ProfiniteCohomology Layers
+3, 8, 9 and 11 (cohomology and cup-product comparisons, Kummer theory, cohomological dimension).
 
 **Checks.**
 
 - For `F_v = 𝔽_q((t))` and `M = ℤ/n` with `ℓ ∤ n` and `μ_n ⊆ 𝔽_q`, `#H¹(G_v, ℤ/n) = n²`
   (unramified and tame characters), `#H⁰ = #H² = n`, and the Euler characteristic is `1`.
+  The supplied degree-one duality pairs each unramified cyclic subgroup perfectly with the
+  opposite tame quotient; the two unramified subgroups are exact annihilators.
 - For `M = ℤ/ℓ` the formula fails: `H¹(G_v, ℤ/ℓ) = F_v/℘(F_v)` (Artin–Schreier) is infinite, so
   the hypothesis `ℓ ∤ #M` cannot be dropped.
 - `cd_ℓ(G_v) = 1`, not `2`: the `ℓ`-primary part behaves differently.
@@ -1990,9 +2029,11 @@ for a global function field `F`,
    is exact;
 2. `(G_F, C)`, with `C = colim_L C_L` the idele classes of the finite separable extensions, is a
    class formation with invariant `inv : H²(G_F, C) ≅ ℚ/ℤ` induced by the sum of the local
-   invariants; its reciprocity map `C_F/N_{L/F}C_L ≅ Gal(L/F)^ab` is compatible with the local
-   reciprocity maps of ClassFieldTheory Layer 7, and the norm groups are exactly the open subgroups
-   of finite index of `C_F`;
+   invariants. For every finite Galois extension `L/F`, its reciprocity map
+   `C_F/N_{L/F}C_L ≅ Gal(L/F)^ab` is compatible with the local reciprocity maps of
+   ClassFieldTheory Layer 7; the finite-extension hypotheses are `[FiniteDimensional F L]`
+   and `[IsGalois F L]`. The norm groups of finite abelian extensions are exactly the open
+   subgroups of finite index of `C_F`;
 3. for a nonempty set `S` of places, `(G_{F,S}, C_S)` with `C_S = colim C_S(L)` over the finite
    subextensions of `F_S` is a class formation, `H¹(G_{F,S}, C_S) = 0`, `H²(G_{F,S}, C_S) ≅ ℚ/ℤ`
    (the supernatural order of `G_{F,S}` is divisible by every prime, because `F_S` contains the
@@ -2007,7 +2048,9 @@ inequalities, which for function fields use the degree map in place of the archi
 the Brauer sequence and the invariant then follow as for number fields, and the `S`-version is
 obtained by passing to the quotient by the units outside `S` (Neukirch–Schmidt–Wingberg, VIII §1,
 (8.1.1), p. 426, (8.1.17), p. 437, (8.1.21), p. 440, (8.1.23), (8.1.24) and (8.1.26),
-pp. 441–443; VIII §3, (8.3.9), p. 457, (8.3.10), p. 458, and (8.3.15), p. 461). *Needs:*
+pp. 441–443; VIII §3, (8.3.9), p. 457, (8.3.10), p. 458, and (8.3.15), p. 461;
+[Poonen, *A brief summary of the statements of class field theory*](https://math.mit.edu/~poonen/papers/cft.pdf),
+§§2.4–2.6, p. 4, for the Artin image, norm functoriality and abelian norm groups). *Needs:*
 *Function-field places, ideles and `S`-units*, *Restricted ramification over a global function
 field*, *Local inputs at places of a global function field*; TauCetiRoadmap ClassFieldTheory
 Layers 2–4 (class formations, Tate's theorem and the abstract Artin map), Layer 5 (local
@@ -2018,6 +2061,12 @@ invariants) and Layer 7 (local reciprocity); ProfiniteCohomology Layer 7 (Shapir
 - For `F = 𝔽_q(t)`, `Br(F) → ⊕_v Br(F_v)` is injective and the quaternion algebra `(t, c)` with
   `c ∈ 𝔽_qˣ` a nonsquare and `q` odd is ramified exactly at `t = 0` and `t = ∞`, with invariants
   `½, ½` summing to `0`.
+- Let `E = 𝔽₃(t)`, `G = PGL₂(𝔽₃) ≅ S₄`, `H = ⟨t ↦ −t⟩`, `F = E^G` and `L = E^H`.
+  The involution is a transposition on `ℙ¹(𝔽₃)`, so `Aut_F(L) = N_G(H)/H ≅ C₂`, while
+  `L ∩ F^ab = F` since `⟨H, A₄⟩ = S₄`. Restriction on abelianized absolute Galois groups
+  is onto and preserves the integral constant-field Frobenius coordinate; Artin injectivity
+  and norm functoriality give `N_{L/F}C_L = C_F`. Thus the finite reciprocity formula needs
+  the Galois hypothesis.
 - The reciprocity sequence has `Ẑ/ℤ`, not `0`, as its cokernel: the constant field extensions
   give a quotient `Ẑ` of `G_{F,S}^ab` that the degree only hits on `ℤ`.
 - The class formation is stated for `G_F`, not for `G_{F,∅}`: with `S` empty the `S`-idele class
@@ -3430,9 +3479,9 @@ exact sequence*; *The dual `M^D = Hom(M, E_S)`*; ProfiniteCohomology Layers 7 an
 - Milne's footnote 13: `M = ℤ/2` and `S` the places above `2` and `∞` give `χ(G_S, M) = 2^{−s}`, `s`
   the number of complex places (each real factor is `2/2`, each complex factor `2/4`).
 - `K = ℚ`, `S = {3, ∞}`, `M = ℤ/3`: `H⁰ = ℤ/3`, `H¹ = ℤ/3` (the cubic subfield of `ℚ(ζ₉)`),
-  `H² = 0`, so `χ = 1 = #H⁰(ℝ, ℤ/3)/|3|_∞`; with Tate `Ĥ⁰(ℝ, ℤ/3) = 0` the formula would give
-  `1/3`. Here `M^D = μ₃` has `Ĥ⁰(ℝ, μ₃)` and `H⁰(ℝ, μ₃)` both trivial, matching the equivalent form,
-  whereas `#Ĥ⁰(ℝ, μ₃)/#H⁰(ℝ, ℤ/3) = 1/3` would not.
+  `H² = 0`, so `χ = 1 = #H⁰(G_ℝ, ℤ/3)/|3|_∞`; with Tate `Ĥ⁰(ℝ, ℤ/3) = 0` the formula would give
+  `1/3`. Here `M^D = μ₃` has `Ĥ⁰(ℝ, μ₃)` and `H⁰(G_ℝ, μ₃)` both trivial, matching the equivalent form,
+  whereas `#Ĥ⁰(ℝ, μ₃)/#H⁰(G_ℝ, ℤ/3) = 1/3` would not.
 - `χ(G_S, M) · χ(G_S, M^D) = ∏_{v∈S} χ(K_v, M)` for `K = ℚ`, `S = {3, ∞}`, `M = ℤ/3`: the left side
   is `1 · 1/3`, and the right side is `χ(ℚ₃, ℤ/3) · χ(ℝ, ℤ/3) = 1/3 · 1` with Tate groups at `∞`
   (ordinary groups at `∞` would give `1/3 · 3`).
@@ -3832,8 +3881,10 @@ real quadratic extension `F′/F` can be used instead: `F′_w ≠ F_v` at the p
 *Proof sketch.* (a) The field construction is the one used in the proof of BCGN Lemma 5.3.3:
 weak approximation together with Krasner's lemma realises finitely many prescribed local
 extensions by one global extension, and an auxiliary place makes it linearly disjoint from the
-avoidance field. In detail: for each prime `p` below `Σ` fix a finite extension `E_p/ℚ_p` of degree
-divisible by `d_v[F_v : ℚ_p]` for every `v ∈ Σ` above `p` (an unramified one will do). Choose `n ≥ 5`,
+avoidance field. Put `Σ₊ = {v ∈ Σ : d_v > 1}`; every requirement outside `Σ₊` is automatic,
+and no prime below `Σ₊` belongs to `T`. For each prime `p` below `Σ₊` fix a finite extension
+`E_p/ℚ_p` of degree divisible by `d_v[F_v : ℚ_p]` for every `v ∈ Σ₊` above `p`
+(an unramified one will do). Choose `n ≥ 5`,
 at least every `[E_p : ℚ_p]`, and local monic separable polynomials of degree `n`: over `ℚ_p` one
 with a root generating `E_p`; over `ℝ` one with `n` distinct real roots;
 over `ℚ_q` for `q ∈ T` one with `n` distinct roots in
@@ -3843,8 +3894,13 @@ Galois closure `L̃` of `L`, one of the form `(x² − q₀)·(n − 2 distinct 
 approximation choose a monic `g ∈ ℚ[x]` close to all of them; by Krasner's lemma `g` has the same
 local root fields. Let `M` be the splitting field of `g`. It is totally real (all roots of `g` are
 real), every prime of `T` splits completely in it, and each completion of `M` above `p` contains
-`E_p`, so `[(FM)_w : F_v]` is a multiple of `[F_v E_p : F_v]`, which is divisible by `d_v`. The
-cycle types at the auxiliary primes force `Gal(M/ℚ) = S_n`, and the inertia group at `q₀` is
+`E_p`, so `[(FM)_w : F_v]` is a multiple of `[F_v E_p : F_v]`, which is divisible by `d_v`
+for `v ∈ Σ₊`. For `v ∈ Σ ∖ Σ₊`, divisibility by `d_v = 1` holds without a local prescription.
+The irreducible auxiliary polynomial makes the root action transitive; the `(n − 1)`-cycle
+makes a point stabilizer transitive on the other roots, so the action is doubly transitive and
+hence primitive. A primitive permutation group containing a transposition is `S_n`
+(Mathlib `Equiv.Perm.subgroup_eq_top_of_isPreprimitive_of_isSwap_mem`, as inventoried in
+PolynomialGaloisGroups). Thus `Gal(M/ℚ) = S_n`, and the inertia group at `q₀` is
 generated by a transposition; so every nontrivial Galois subextension of `M` (namely `ℚ(√disc g)`
 and `M`) is ramified at `q₀`, whereas every subfield of `L̃` is unramified there. Hence
 `M ∩ L̃ = ℚ`, and `M` is linearly disjoint from `L`. (b) Follow the soluble construction in the proof
@@ -3861,12 +3917,18 @@ Hung–Newton–Scholze–Taylor–Thorne, *Potential automorphy over CM
 fields*](https://annals.math.princeton.edu/2023/197-3/p02), Proof of Theorem 7.1.11, pp. 1103–1104;
 [Boxer–Calegari–Gee–Pilloni, *Abelian surfaces over totally real fields are potentially
 modular*](https://arxiv.org/pdf/1812.09269), §8.5, proof of Theorem 8.5.2; §9.2, proof of Lemma
-9.2.7, author pp. 249, 257.) *Needs:* GlobalNumberFields Layer 6.
+9.2.7, author pp. 249, 257.) *Needs:* GlobalNumberFields Layer 1
+(`GlobalNumberFields.weakApproximation_denseRange`); Mathlib
+`Mathlib.Analysis.Normed.Field.Krasner` (`IsKrasner.krasner`); Mathlib's primitive-group
+recognition theorem `Equiv.Perm.subgroup_eq_top_of_isPreprimitive_of_isSwap_mem` and the
+permutation-action API inventoried in PolynomialGaloisGroups, *What Mathlib provides*.
 
 **Checks.**
 
 - A prime `p ∈ T` below `v ∈ Σ` splits completely in `M`, so `(FM)_w = F_v` and `[(FM)_w : F_v] = 1`:
   the hypothesis `d_v = 1` there is necessary.
+- For `F = ℚ(√2)`, `L = ℚ`, `Σ = {v | 3}`, `d_v = 1` and `T = {3}`, the prime `3` is inert,
+  so `[F_v : ℚ₃] = 2`. Here `Σ₊ = ∅`, no `E₃` is prescribed, and `M = ℚ` satisfies (a).
 - `Σ = T = ∅`: `M = ℚ` satisfies (a) for every `L`.
 - `F = ℚ`, `Σ = {2}` with `d₂ = 2`, `T = {13}`, `L = ℚ(i)`: `M = ℚ(√3)` satisfies (a): it is real,
   ramified at `2`, `3 ≡ 4² (mod 13)`, and `ℚ(√3) ∩ ℚ(i) = ℚ`; for `L = ℚ(√3)` it fails, and
@@ -4138,7 +4200,7 @@ R02.3); ArithmeticGaloisRepresentations §5.13 / **Chebotarev for function field
 - For `K = ℚ`, `S = {p, ∞}` with `p` odd and `M = μ_p`: `H⁰(G_S, μ_p) = 0`; by the `S`-unit Kummer
   sequence `H¹(G_S, μ_p) = ℤ[1/p]^×/(ℤ[1/p]^×)^p ≅ ℤ/p` (generated by `p`; `−1` is a `p`-th power)
   since `Cl(ℤ[1/p]) = 0`; the Euler characteristic formula gives
-  `χ(G_S, μ_p) = #H⁰(ℝ, μ_p)/|p|_∞ = 1/p`, hence `#H²(G_S, μ_p) = 1`, consistent with the Brauer
+  `χ(G_S, μ_p) = #H⁰(G_ℝ, μ_p)/|p|_∞ = 1/p`, hence `#H²(G_S, μ_p) = 1`, consistent with the Brauer
   sequence: an element of `Br(ℤ[1/p])[p]` has invariants at `p` and `∞` summing to `0`, and the
   real invariant has order at most `2`.
 - At a real place, `Ĥ⁰(ℝ, ℤ/2) × Ĥ²(ℝ, ℤ/2) → H²(ℝ, μ₂) = ½ℤ/ℤ` is perfect: the archimedean terms
@@ -4158,7 +4220,9 @@ R02.3); ArithmeticGaloisRepresentations §5.13 / **Chebotarev for function field
   *Grunwald–Wang and its exceptional class*.
 - ArithmeticGaloisRepresentations: §5.13 / **Chebotarev for function fields**;
   §7.6 / **Projective lifting**.
-- TauCetiRoadmap GlobalNumberFields: Layers 6, 7.
+- TauCetiRoadmap GlobalNumberFields: Layers 1, 6, 7.
+- PolynomialGaloisGroups, *What Mathlib provides*: the Mathlib primitive-group recognition API.
+- Mathlib `IsKrasner.krasner`, `Equiv.Perm.subgroup_eq_top_of_isPreprimitive_of_isSwap_mem`.
 - TauCetiRoadmap ReductiveGroups: tori and their character lattices.
 - Libraries: Tau Ceti `TauCeti.DiscreteRep`,
   Mathlib `CategoryTheory.IsGrothendieckAbelian.enoughInjectives`,
@@ -5905,7 +5969,7 @@ ramification* (Layer R02.4); *The Galois group `G_{K,S}` of the maximal extensio
   `L_∞ = 0`: `H¹_L(ℚ, 𝔽_p) = 0`, since no cyclic `p`-extension of `ℚ` is unramified everywhere, and
   `H¹_{L^⊥}(ℚ, μ_p)` consists of the classes in `ℚ^×/ℚ^{×p}` with every valuation divisible by
   `p`, that is `±1`, so it is `0`. The right side is `(p/1) · (1/p) = 1`, the factor `1/p` coming
-  from the real place, `#L_∞/#H⁰(ℝ, 𝔽_p)`. With Tate's `Ĥ⁰(ℝ, 𝔽_p) = 0` in place of ordinary `H⁰`
+  from the real place, `#L_∞/#H⁰(G_ℝ, 𝔽_p)`. With Tate's `Ĥ⁰(ℝ, 𝔽_p) = 0` in place of ordinary `H⁰`
   the right side would be `p`.
 - `F = ℚ`, `M = ℤ/2`, `L_v = H¹_un` at every finite `v` and `L_∞ = H¹(ℝ, ℤ/2)`: `H¹_L(ℚ, ℤ/2) = 0`;
   `L_2^⊥` is the classes of even valuation and `L_∞^⊥ = 0`, so `H¹_{L^⊥}(ℚ, μ₂)` consists of
@@ -5964,8 +6028,8 @@ archimedean places. If `ζ_p ∈ F` (so `r₁ = 0`), the term `h⁰(F, μ_p) = 1
 to `−(r₁ + r₂) = −r₂`.
 
 *Proof sketch.* Apply *The Greenberg–Wiles formula*: `h⁰(F, 𝔽_p) = 1` and `h⁰(F, μ_p) = 0`; each
-finite place contributes `dim H¹_un(F_v, 𝔽_p) − h⁰(F_v, 𝔽_p) = 1 − 1 = 0`, and each archimedean
-place contributes `0 − h⁰(F_v, 𝔽_p) = −1`. The descriptions of the two Selmer groups come from the
+finite place contributes `dim H¹_un(F_v, 𝔽_p) − h⁰(G_v, 𝔽_p) = 1 − 1 = 0`, and each archimedean
+place contributes `0 − h⁰(G_v, 𝔽_p) = −1`. The descriptions of the two Selmer groups come from the
 class-field dictionary (unramified characters are characters of the class group) and from Kummer
 theory with Dirichlet's unit theorem, as in *The Kummer sequence for S-units*; at `v | p`, `L_v^⊥`
 is the subgroup of unit classes, the annihilator of the unramified characters.
@@ -5990,7 +6054,7 @@ ClassFieldTheory Layer 13.
   `M = 𝔽_p` with the condition `L_v = 0` at every `v ∈ S`, the formula computes the difference
   between the strict Selmer group of `𝔽_p` and the relaxed Selmer group of `μ_p`.
 - With no invariants on either global module, the difference of Selmer dimensions is the sum of
-  the local excesses `dim L_v − h⁰(F_v, M)` over `S`, including the archimedean places.
+  the local excesses `dim L_v − h⁰(G_v, M)` over `S`, including the archimedean places.
 - For `F = ℚ(√2)` and `p = 3`, with unramified conditions at the finite places and `0` at the two
   real places, `Sel_L(F, 𝔽₃) = 0` and `Sel_{L^⊥}(F, μ₃)` is the line spanned by the fundamental
   unit `1 + √2`, matching `−(r₁ + r₂ − 1) = −1`.
@@ -6125,11 +6189,11 @@ the characteristic is assumed different from `2`.
 **Local cohomology at a Taylor–Wiles prime.** Let `ℓ` be odd, `k` a finite field of characteristic
 `ℓ`, `ρ̄ : G_ℚ → GL₂(k)` continuous, and `q ≡ 1 (mod ℓ)` a prime at which `ρ̄` is unramified and
 `ρ̄(Frob_q)` has distinct eigenvalues in an algebraic closure `k̄` of `k`, that is, `ρ̄(Frob_q)` is
-regular semisimple; the eigenvalues need not lie in `k`. Write `Hⁱ(F_q, −)` for the cohomology of
-`Gal(ℚ_q^ur/ℚ_q)` (unramified classes). Then
+regular semisimple; the eigenvalues need not lie in `k`. Inflation identifies the cohomology of
+`Gal(ℚ_q^ur/ℚ_q)` with the unramified groups `Hⁱ_un(ℚ_q, −)` for `i = 0, 1`. Then
 
 ```text
-H⁰(F_q, ad⁰ρ̄) = H⁰(F_q, ad⁰ρ̄(1)) = k,   H¹(F_q, ad⁰ρ̄) = H¹(F_q, ad⁰ρ̄(1)) = k.
+H⁰_un(ℚ_q, ad⁰ρ̄) = H⁰_un(ℚ_q, ad⁰ρ̄(1)) = k,   H¹_un(ℚ_q, ad⁰ρ̄) = H¹_un(ℚ_q, ad⁰ρ̄(1)) = k.
 ```
 
 This is the hypothesis that *The group-theoretic input to Taylor–Wiles primes* produces. The
@@ -6142,7 +6206,7 @@ where `x ≠ 1` is the ratio of the eigenvalues of `ρ̄(Frob_q)`; since `q ≡ 
 does not change them. For the procyclic group `Gal(ℚ_q^ur/ℚ_q)`, `H⁰` and `H¹` of a finite module
 `N` are the kernel and cokernel of `Frob − 1` on `N` (PadicPeriodRings §0.1, *`H¹` of a procyclic
 group*). Their `k`-dimensions are unchanged by extending scalars to `k̄`, so both are
-one-dimensional. Over `k` itself, `H⁰(F_q, ad⁰ρ̄)` is the trace-zero part of the centraliser
+one-dimensional. Over `k` itself, `H⁰_un(ℚ_q, ad⁰ρ̄)` is the trace-zero part of the centraliser
 `k[ρ̄(Frob_q)]`, a two-dimensional algebra (`k × k` or a quadratic field) on which the trace is onto
 because `tr(1) = 2 ≠ 0`. ([Darmon–Diamond–Taylor, *Fermat's Last
 Theorem*](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §2.8, Lemma
@@ -6153,12 +6217,12 @@ PadicPeriodRings §0.1 (*`H¹` of a procyclic group*).
 
 - The twist matters only through `q mod ℓ`: if `q ≢ 1 (mod ℓ)` and `q ∉ {x, x^{−1}}` in `k̄`, then
   `Frob_q` has eigenvalues `qx, q, qx^{−1}` on `ad⁰ρ̄(1)`, none equal to `1`, so
-  `H⁰(F_q, ad⁰ρ̄(1)) = 0` while `H⁰(F_q, ad⁰ρ̄) = k`.
+  `H⁰_un(ℚ_q, ad⁰ρ̄(1)) = 0` while `H⁰_un(ℚ_q, ad⁰ρ̄) = k`.
 - The distinct-eigenvalue hypothesis is needed: if `ρ̄(Frob_q)` is scalar, `Frob_q` acts trivially
-  on `ad⁰ρ̄` and `H⁰(F_q, ad⁰ρ̄)` has dimension `3`.
+  on `ad⁰ρ̄` and `H⁰_un(ℚ_q, ad⁰ρ̄)` has dimension `3`.
 - Rationality of the eigenvalues is not needed: for `k = 𝔽₇` and `ρ̄(Frob_q) = [[0, −1], [1, 0]]`,
   the eigenvalues `±√−1` do not lie in `𝔽₇`, the centraliser is `𝔽₇[ρ̄(Frob_q)] ≅ 𝔽₄₉`, and its
-  trace-zero part is the line spanned by `ρ̄(Frob_q)`, so `H⁰(F_q, ad⁰ρ̄) = H¹(F_q, ad⁰ρ̄) = k`.
+  trace-zero part is the line spanned by `ρ̄(Frob_q)`, so `H⁰_un(ℚ_q, ad⁰ρ̄) = H¹_un(ℚ_q, ad⁰ρ̄) = k`.
 
 **The group-theoretic input to Taylor–Wiles primes.** Let `ℓ` be odd, `ρ̄ : G_ℚ → GL₂(k)` with
 `ρ̄|_{G_L}` absolutely irreducible for `L = ℚ(√((−1)^{(ℓ−1)/2} ℓ))`, and for `m ≥ 0` let `F_m` be the
@@ -6196,12 +6260,13 @@ ArithmeticGaloisRepresentations Layer 4, §4.4 (`GL2Subgroup.dickson_projectiveI
 
 **Archimedean adjoint dimensions.** Let `k` be a field of characteristic different from `2` and
 `n ≥ 1`. For a rank-`n` representation at a real place whose complex conjugation has eigenspaces of
-dimensions `a` and `b` (`a + b = n`), `h⁰(ad⁰) = a² + b² − 1`; at a complex place `h⁰(ad⁰) = n² − 1`
+dimensions `a` and `b` (`a + b = n`), `h⁰(G_v, ad⁰) = a² + b² − 1`; at a complex place
+`h⁰(G_v, ad⁰) = n² − 1`
 (`Adjoint.finrank_slIdeal_centralizer_involution`, for the real case). If every real conjugation is
 balanced, `|a − b| ≤ 1`, then
 
 ```text
-Σ_{v|∞} h⁰(F_v, ad⁰) = [F : ℚ] n(n − 1)/2 + l₀,   l₀ = r₁⌊(n − 1)/2⌋ + r₂(n − 1).
+Σ_{v|∞} h⁰(G_v, ad⁰) = [F : ℚ] n(n − 1)/2 + l₀,   l₀ = r₁⌊(n − 1)/2⌋ + r₂(n − 1).
 ```
 
 This is the archimedean contribution in the numerical coincidence of Calegari–Geraghty. Balancedness
@@ -6217,7 +6282,9 @@ Greenberg–Wiles formula* (Layer R02.5).
 
 **Checks.**
 
-- For `n = 2` and a balanced real conjugation (`a = b = 1`), `h⁰(ad⁰) = 1`.
+- For `F = ℚ`, `k = 𝔽₃`, `n = 2` and `c = diag(1, −1)`, the trace-zero matrices commuting
+  with `c` are `diag(x, −x)`, so `h⁰(G_∞, ad⁰) = 1`. The norm `1 + c` acts as multiplication
+  by `2` on these invariants, so `Ĥ⁰(G_∞, ad⁰) = 0`; its dimension cannot replace the ordinary one.
 - A scalar conjugation (`a = n`, `b = 0`) has `h⁰(ad⁰) = n² − 1`, larger than the balanced value
   for `n ≥ 2`; for `n = 1` both are `0`.
 - In characteristic `3` with `n = 5`, `(a, b) = (3, 2)` and `(0, 5)` both have trace `1` in `k`, but
@@ -6232,14 +6299,14 @@ Taylor–Wiles prime*, `Q` a finite set of Taylor–Wiles primes for `ρ̄` (eac
 at the primes of `Q`; its dual structure `Q*` is strict at `Q`. If the restriction map
 
 ```text
-H¹_{∅*}(ℚ, ad⁰ρ̄(1)) → ⊕_{q∈Q} H¹(F_q, ad⁰ρ̄(1))
+H¹_{∅*}(ℚ, ad⁰ρ̄(1)) → ⊕_{q∈Q} H¹_un(ℚ_q, ad⁰ρ̄(1))
 ```
 
 is an isomorphism, then `#Q = dim_k H¹_{∅*}(ℚ, ad⁰ρ̄(1))` and `H¹_{Q*}(ℚ, ad⁰ρ̄(1)) = 0`. It is an
 isomorphism as soon as it is injective and `#Q = dim_k H¹_{∅*}(ℚ, ad⁰ρ̄(1))`; it is injective if
 every nonzero class has nonzero restriction at some `q ∈ Q`.
 
-*Proof sketch.* Each `H¹(F_q, ad⁰ρ̄(1))` is one-dimensional (*Local cohomology at a Taylor–Wiles
+*Proof sketch.* Each `H¹_un(ℚ_q, ad⁰ρ̄(1))` is one-dimensional (*Local cohomology at a Taylor–Wiles
 prime*), so injectivity and the count give the isomorphism. Relaxing at `q` makes the dual condition
 strict (*Changing one local condition*, Layer R02.5), and the restriction at `q ∈ Q` of a class in
 `H¹_{∅*}` lies in the unramified part; so `H¹_{Q*}` is the kernel of the displayed map.
@@ -6268,7 +6335,7 @@ compared with `ad` through the exact trace sequence `0 → ad⁰ → ad → k �
 framed tangent count is
 
 ```text
-g = h¹_L(ad⁰) − δ_p + Σ_{v∈S} h⁰(F_v, ad) − h⁰(F, ad),
+g = h¹_L(ad⁰) − δ_p + Σ_{v∈S} h⁰(G_v, ad) − h⁰(F, ad),
 ```
 
 and Wiles' formula and the local exact sequences give `g = h¹_{L⊥}((ad⁰)*(1)) + |S| − 1` for this
@@ -6294,6 +6361,9 @@ D8).
   `p` odd they agree.
 - For `p = 2`, `H⁰(F, ad) = k·Id` and `tr(Id) = 2 = 0`, so `H⁰(F, ad) → k` is zero and the count
   changes by `δ_2 = 1`; for `p` odd the trace is surjective on scalars and `δ_p = 0`.
+- At a real place over `𝔽₂` with `c = [[1, 1], [0, 1]]`, the ordinary invariant dimensions
+  on `ad` and `ad⁰` are both `2` and their trace map is zero. Thus `dim L_v = 1` and
+  `h⁰(G_v, ad) + dim L_v − h⁰(G_v, ad⁰) = 2 + 1 − 2 = 1`, the local contribution in KW's count.
 
 **Odd-prime Taylor–Wiles auxiliary sets.** Let `p` be odd, `F` totally real and unramified above `p`,
 `k` a finite field of characteristic `p`, and `ρ : G_F → GL₂(k)` totally odd and absolutely
@@ -6330,7 +6400,7 @@ bounds*; Chebotarev Layer 10; ClassFieldTheory Layer 5.
 **Checks.**
 
 - At `q ∈ Q_n` the local Euler characteristic (zero for `q ∤ p`) gives
-  `h¹(F_q, ad⁰) = h⁰(ad⁰) + h⁰(ad⁰(1)) = 1 + 1 = 2`, while the unramified `H¹` has dimension `1`.
+  `h¹(G_q, ad⁰) = h⁰(ad⁰) + h⁰(ad⁰(1)) = 1 + 1 = 2`, while the unramified `H¹` has dimension `1`.
 - For `p` odd the trace pairing on `ad⁰ρ` is perfect (*Trace-zero adjoint duality without division
   by `n`*), so `(ad⁰ρ)*(1) ≅ ad⁰ρ(1)` and the dual Selmer group is that of `ad⁰ρ(1)`.
 - The construction fails for `p = 2`: there `(ad⁰)*(1) ≅ ad/k·1`, whose only irreducible
@@ -6349,7 +6419,7 @@ cut out by the dual classes; both are hypotheses of the construction. Then there
 primes of cardinality `h¹(S, ad ρ) − 2` with `Nq ≡ 1 (mod 2ⁿ)`, distinct Frobenius eigenvalues and
 `q` split in `F̃_n`. The strict full-adjoint `H¹` is the inflated cyclotomic scalar group
 `H¹(Gal(F_n/F), k)`, of dimension two; this residual does not vanish. The `S`-split local condition
-gives `h¹ = 2 − Σ_{v∈S} h⁰(F_v, ad ρ) + 2|Q_n|`. For `t = 2 − |S| + |Q_n|`, the Galois group of the
+gives `h¹ = 2 − Σ_{v∈S} h⁰(G_v, ad ρ) + 2|Q_n|`. For `t = 2 − |S| + |Q_n|`, the Galois group of the
 maximal abelian `2`-extension of `F` unramified outside `Q_n` and split at `S`, modulo `2^{n−2}`, is
 isomorphic to `(ℤ/2^{n−2})^t`.
 
@@ -6375,6 +6445,9 @@ Chebotarev Layer 10; ArithmeticGaloisRepresentations Layer 4, §4.4 (`GL2Subgrou
 - For `F = ℚ` and `n ≥ 3`, `Gal(F_n/F) = (ℤ/2ⁿ)^× ≅ ℤ/2 × ℤ/2^{n−2}`: its `𝔽₂`-dual is
   two-dimensional, matching the residual, and its exponent is `2^{n−2}`, the exponent in the
   abelian quotient.
+- At a real place with `k = 𝔽₂` and `c = [[1, 1], [0, 1]]`, `h⁰(G_v, ad) = 2`, while
+  `Ĥ⁰(G_v, ad) = 0`: both the invariant group and the norm image have order `4`. Substituting
+  the Tate dimension would increase the `S`-split dimension formula by `2`.
 
 **Finite-order determinant twists.** Let `F` be totally real, `v` a finite place of `F`, and `ψ, ψ′`
 continuous `p`-adic characters of `G_F`, with values in `O^×` for the ring of integers `O` of a
@@ -6423,7 +6496,7 @@ Brauer obstructions* (Layer R02.4); ClassFieldTheory Layers 7 and 12; Chebotarev
 - At a real place with `ρ̄(c)` having eigenvalues `+1, −1` (`n = 2`, `a = b = 1`),
   `h⁰(ad⁰) = a² + b² − 1 = 1`; for `ρ̄(c) = 1` (`a = 2`, `b = 0`) it is `3`; an odd `ρ̄` is in the
   first case.
-- For `q ≡ 1 (mod ℓ)` and `ρ̄(Frob_q)` with distinct eigenvalues, `H¹(F_q, ad⁰) ≅ k`, spanned by the
+- For `q ≡ 1 (mod ℓ)` and `ρ̄(Frob_q)` with distinct eigenvalues, `H¹_un(ℚ_q, ad⁰) ≅ k`, spanned by the
   unramified class of a nonzero trace-zero element commuting with `ρ̄(Frob_q)` (the diagonal
   direction when the eigenvalues lie in `k`).
 

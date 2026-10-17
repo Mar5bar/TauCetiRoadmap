@@ -3,6 +3,7 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Ba
 import TauCeti.Algebra.Lie.GeneralLinear.Basic
 import TauCeti.Algebra.Lie.GeneralLinear.TraceForm
 import TauCeti.FieldTheory.GaloisCohomology.Coefficients
+import TauCeti.NumberTheory.ClassFieldTheory.Local.Duality.FiniteModule
 import TauCeti.RingTheory.DedekindDomain.SInteger.Unit
 
 /-!
@@ -61,6 +62,10 @@ Design choices made explicit here:
   R02.3 and D7 supply arithmetic local complexes, ordinary-to-Tate maps and duality.
   D7.7 constructs dual conditions and parametric mapping-fibre duality on the modified diagram.
   Finite Selmer numerics use EllipticCurves Layer 7 for the discrete Selmer carrier.
+* Finite local Tate duality uses the three bijections imported from
+  `TauCeti.NumberTheory.ClassFieldTheory.Local.Duality.FiniteModule`, valid for every
+  nonarchimedean local field and finite discrete module killed by an invertible `n`.
+  R02.3.2 supplies their equal-characteristic coefficient, cohomology and invariant comparisons.
 * Localization kernels and restricted products are stated generically, for given localization
   maps; the arithmetic local Galois groups are supplied by the caller.
 * The adjoint coefficients of the first-order calculations are Tau Ceti's trace pairing
@@ -171,6 +176,23 @@ end ContinuousHom
 end CompactCoefficients
 
 /-! ## Layer R02.3: completions, S-units and restricted ramification -/
+
+/-- Finite local Tate duality supplies all three bijections for finite discrete coefficients
+killed by an invertible `n`, in mixed and equal characteristic. -/
+example {K : Type} [Field K] [ValuativeRel K] [TopologicalSpace K]
+    [IsNonarchimedeanLocalField K] {n : ℕ} (hn : IsUnit (n : K))
+    (A : Type) [AddCommGroup A] [TopologicalSpace A] [DiscreteTopology A]
+    [DistribMulAction (TauCeti.AbsoluteGaloisGroup K) A] [ContinuousSMul (TauCeti.AbsoluteGaloisGroup K) A]
+    [Finite A] (hA : ∀ a : A, n • a = 0) :
+    Function.Bijective (TauCeti.ContCohomology.dualityMap0
+      (TauCeti.AbsoluteGaloisGroup K) A (TauCeti.KummerCoeff K n)) ∧
+    Function.Bijective (TauCeti.ContCohomology.dualityMap1
+      (TauCeti.AbsoluteGaloisGroup K) A (TauCeti.KummerCoeff K n)) ∧
+    Function.Bijective (TauCeti.ContCohomology.dualityMap2
+      (TauCeti.AbsoluteGaloisGroup K) A (TauCeti.KummerCoeff K n)) :=
+  ⟨TauCeti.ClassFieldTheory.dualityMap0_kummerCoeff_bijective hn A hA,
+    TauCeti.ClassFieldTheory.dualityMap1_kummerCoeff_bijective hn A hA,
+    TauCeti.ClassFieldTheory.dualityMap2_kummerCoeff_bijective hn A hA⟩
 
 open scoped NumberField
 
@@ -825,13 +847,24 @@ variable (k n)
 
 /-- **Archimedean adjoint dimensions**: for an involution `c` with eigenspace dimensions `a`
 (for `+1`) and `b` (for `-1`), in characteristic not two, the trace-zero matrices commuting with
-`c` have dimension `a² + b² - 1`. -/
+`c` have dimension `a² + b² - 1`. This is the ordinary invariant dimension
+`h⁰(G_v, ad⁰)`, not the dimension of Tate-modified local `H⁰`. -/
 theorem finrank_slIdeal_centralizer_involution [Nonempty n] (hk : ringChar k ≠ 2)
     (c : Matrix n n k) (hc : c * c = 1) (a b : ℕ)
     (ha : Module.finrank k (LinearMap.ker (Matrix.toLin' c - 1)) = a)
     (hb : Module.finrank k (LinearMap.ker (Matrix.toLin' c + 1)) = b) :
     Module.finrank k ↥((TauCeti.slIdeal k n).toSubmodule ⊓
       LinearMap.ker (LinearMap.mulLeft k c - LinearMap.mulRight k c)) = a ^ 2 + b ^ 2 - 1 := sorry
+
+/-- Over `𝔽₃`, conjugation by `diag(1, -1)` has three trace-zero invariants and three
+trace-zero norms. Thus ordinary `H⁰` has dimension one, while Tate `H⁰` is zero. -/
+example :
+    let c : Matrix (Fin 2) (Fin 2) (ZMod 3) := !![1, 0; 0, -1]
+    (Fintype.card {X : Matrix (Fin 2) (Fin 2) (ZMod 3) //
+        X.trace = 0 ∧ c * X * c = X},
+      Fintype.card {Y : Matrix (Fin 2) (Fin 2) (ZMod 3) //
+        ∃ X : Matrix (Fin 2) (Fin 2) (ZMod 3), X.trace = 0 ∧ Y = X + c * X * c}) = (3, 3) := by
+  decide
 
 end Adjoint
 
@@ -850,7 +883,10 @@ formula, finite-index descent, the compact Hochschild–Serre and five-term sequ
 residue sequence and the cyclotomic power kernel; the localization maps with their modified
 archimedean groups; the `S`-ideles, `S`-units and `S`-idele classes, `P`-class formations, the
 `S`-class formation, its reciprocity and the `S`-unit Kummer sequence; the global function-field
-class-field inputs (Chebotarev density for global function fields is cited from
+class-field inputs, with the finite reciprocity quotient restricted to finite Galois extensions
+(`[FiniteDimensional F L] [IsGalois F L]`) and the `S`-idele subgroup restricted even for infinite
+`S`; the specialization and comparisons for the imported finite local duality (Chebotarev
+density for global function fields is cited from
 ArithmeticGaloisRepresentations §5.13 / **Chebotarev for function fields**); the one-new-prime
 Kummer fields, the antiunit class-field rank with its lower-field tower and all-primes splitting
 sets, and the absence of `ℤ_p`-extensions unramified at `p`;
