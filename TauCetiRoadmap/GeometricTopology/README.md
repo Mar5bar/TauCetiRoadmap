@@ -378,13 +378,21 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   the embedding into Hausdorff M and second-countability plus local
   compactness of S. Prove radial
   fibre rescaling identifies the whole normal bundle with a neighbourhood.
-  Own the general-bundle smooth radial rescaling: in each fibre use
-  v↦δ(x)•v/√(1+‖v‖²), with inverse w↦w/√(δ(x)²−‖w‖²) on the
-  open tube. Prove both formulas and smoothness in bundle charts. In the
-  Euclidean case compare with WholeBundle's topological compression; that
-  existing theorem is not a general-ambient supplier. Pin the vertical derivative:
-  inclusion into the total tangent space, derivative of the tubular map and
-  `normalClassL` compose to the identity on the quotient normal fibre. Prove
+  Own the general-bundle smooth radial rescaling, normalized at the zero
+  section: in each fibre put
+  r_δ(v)=δ(x)•v/√(δ(x)²+‖v‖²), with inverse
+  r_δ⁻¹(w)=δ(x)•w/√(δ(x)²−‖w‖²) on ‖w‖<δ(x).
+  Prove the two inverse equations, positivity of their denominators and
+  joint smoothness in bundle charts for the smooth positive δ. Its vertical
+  derivative at0 is id. The uncompressed normal-exponential restriction
+  also has normal-class derivative id; its composite with this normalized
+  rescaling therefore has that same derivative on the whole normal bundle.
+  In each case state the actual map: inclusion into the total tangent space,
+  its derivative at the zero section and `normalClassL` compose to id on
+  the quotient normal fibre. Compare with WholeBundle's Euclidean
+  topological compression δ(x)•v/√(1+‖v‖²), whose vertical derivative is
+  δ(x)•id; that compression supplies neither this normalization nor a
+  general-ambient smooth theorem. Prove
   restriction along ambient open inclusions and naturality under ambient
   diffeomorphisms with transported metrics. The normal-exponential route is
   Lee, [*Introduction to Riemannian Manifolds*, 2nd ed.](https://sites.math.washington.edu/~lee/Books/RM/),
@@ -654,8 +662,18 @@ topological-manifold structure group `continuousGroupoid` (layer 1).
   bicollared (Brown, *Locally flat imbeddings of topological manifolds*, Ann. of Math. 75
   (1962) 331–341). This is the structural theorem the Annulus Conjecture rests on, and the
   place local flatness does real work: it is false for the wild Alexander horned sphere.
-- **Smooth and PL embeddings are locally flat**, stated against layer 1's structure groups,
-  so the low-codimension subtleties are isolated in this one predicate.
+- **Smooth embeddings and locally standard PL embeddings.** Prove local
+  flatness of smooth embeddings by the constant-rank slice charts; for neat
+  boundary embeddings retain the corresponding half-space pair charts.
+  In the PL category construct the forgetful comparison from embeddings
+  supplied with PL local standard-pair charts to `IsLocallyFlat`.
+  Keep ordinary PL embeddings as their general embedding carrier, with a
+  separate local-flatness hypothesis for normal-neighborhood and collar
+  theorems. A PL embedding alone supplies no standard-pair chart: the cone
+  on a PL trefoil is a PL disc in a PL4-ball whose cone-point complement
+  has the trefoil group, unlike the infinite cyclic group of the standard
+  locally flat codimension2 pair. Construct this link/complement test and
+  the link-pair criterion for the locally standard PL comparison.
 - **Generalized Schoenflies.** Own `brownGeneralizedSchoenflies`: for n≥1
   and a specified bicollar of S^(n−1) in S^n, construct homeomorphisms from
   the two closures of the complementary domains to D^n, with their actual
@@ -745,6 +763,41 @@ topological-group and uniform-space API from Mathlib's algebra-and-topology libr
   "map into the group", what homotopy-type statements need). ⚠ The converse is *not* an
   equivalence for arbitrary `P`; state it only as the forward map, with the reverse direction a
   separate target under explicit hypotheses on `P`.
+- **Continuous-parameter isotopy extension and disc restriction.** Give
+  smooth embeddings of a compact smooth manifold K into int M the subspace
+  C∞ topology from smooth maps, with boundary smoothness interpreted by
+  local extensions across its boundary charts. For compact boundaryless M
+  and an embedding e:K→int M, construct continuous local sections near e
+  of res_e:Diff(M)→Emb(K,int M), g↦g∘e, onto its Diff(M)-orbit.
+  Require the section at e to be id and the correcting diffeomorphisms to
+  be supported in a prescribed neighborhood of e(K). Prove the orbit is
+  open and identify res_e as a locally trivial principal bundle with fiber
+  {g | g∘e=e}, using the actual composition/inverse operations and topology.
+  Construct the sections by extension of small embedding displacements
+  through a collar/tubular neighborhood, cutoffs and the inverse function
+  theorem; prove their dependence is continuous in every finite derivative
+  seminorm. This is a function-space construction, including continuous
+  parameter families, rather than only a theorem about individual smooth
+  paths. Derive the homotopy lifting property for finite CW parameter pairs:
+  an embedding homotopy with an initial lift and compatible prescribed lift
+  on the parameter subcomplex admits a continuous relative lift. Construct
+  support-relative sections and lifts when the embeddings agree on a
+  specified neighborhood of a closed subset of K, retaining that agreement
+  on a smaller neighborhood. For boundary ambient manifolds use specified
+  collars and the boundary-preserving embedding/diffeomorphism carriers.
+
+  Specialize to a marked smooth e:D³→S³. The restriction bundle is onto
+  its actual orbit; the disc theorem and the orientation-component
+  comparison identify the required component(s) of Emb(D³,S³).
+  Its literal fiber fixes the whole embedded disc, including the smooth
+  boundary jets on the complementary closed disc. Construct the parametric
+  collar-straightening homotopy comparison with diffeomorphisms of that
+  complement fixed on a boundary collar. These are maps of spaces with
+  homotopies, not a literal identification of the two fixing conditions.
+  Comparison3g consumes these sections, lifts and fiber comparisons in its
+  Cerf/Hatcher applications. Use Palais' restriction/isotopy-extension
+  construction and Hirsch's compact-source extension proof; prove the
+  continuous function-space version on these pinned carriers.
 - The reference inclusion `O(n+1) → Diff(Sⁿ)` (consume `Matrix.orthogonalGroup`, layer 7's
   isometry action, and the sphere instance) as a continuous group homomorphism.
 
@@ -828,8 +881,18 @@ manifolds for complements (handed on to layer 5).
   embedded oriented Seifert surface with its marked boundary and positive
   normal push-off. Export `seifertMatrix` on a chosen integral H₁ basis,
   V_ij=lk(x_i,x_j^+), its coordinate-change and stabilization laws, and
-  V−Vᵀ equal to the oriented intersection matrix. Prove the geometric and
-  diagram Seifert algorithms agree through the presentation correspondences.
+  Vᵀ−V=J, where J_ij=x_i·x_j uses the ordered tangent pair (x_i,x_j)
+  and the surface orientation. Choose the positive normal so that this
+  oriented tangent pair followed by the normal gives the ambient orientation.
+  Prove the signed sweep identity
+  α·β=lk(β,α^+)−lk(β,α^-)=lk(β,α^+)−lk(α,β^+).
+  Derive it by the oriented annulus swept from α^- to α^+ and the local
+  crossing number; pin a positive symplectic pair by a·b=+1 and
+  V_ba−V_ab=+1. Compare any alternative push-first convention by transpose
+  before using its integral intersection or cup-product formula. Prove the
+  geometric and diagram Seifert algorithms agree through the presentation
+  correspondences. The mod2 polar form and Arf tests use the reduction of
+  this signed dictionary, alongside the integral symplectic-pair check.
   Define the mod2 quadratic refinement q(x)=lk(x,x^+) mod2 on H₁(surface;F2)
   and prove q(x+y)=q(x)+q(y)+x·y. Consume TangentialBordism B3.2's early
   `finiteQuadraticArf` constructor, basis independence, orthogonal-sum and
@@ -1535,12 +1598,39 @@ following sequence of targets:
    Construct BO→BPL at the bundle/classifier level using the parametric
    smooth-to-PL bundle comparison of
    [Lashof–Rothenberg, *Microbundles and smoothing*, §§1–3](https://www.maths.gla.ac.uk/~mpowell/Lashof-Rothenberg-smoothing-microbundles.pdf).
-   Construct the parametrized piecewise-differentiable bundle/germ model BPD
-   and the maps BO(n)→BPD(n)←BPL(n), comparing BO(n) with TopK T1.6's
-   same fixed-rank classifier. Prove BPL(n)→BPD(n) is a weak equivalence
-   by relative bundle triangulation, then construct its based CW-model
-   homotopy inverse by AT Whitehead. Retain the universal bundles and
-   stabilization homotopies; this gives the actual BO→BPL map.
+   Use the commuting-action construction of Lashof–Rothenberg §3,
+   Theorem3.2 and Lemma3.3. Construct their semisimplicial
+   piecewise-differentiable germ complex PD_n from actual parametrizations
+   near the zero section of Δ^q×ℝ^n, with its subdivision, differentiability
+   and nondegeneracy data and restriction face maps. Construct its commuting
+   left linear-orthogonal O_n and right jointly PL germ PL_n actions.
+   Specify the source's linear parameter carrier O_n and prove its realization
+   comparison with the ordinary topological O(n); continuous linear families
+   are compared through this carrier, not declared jointly PL.
+   PD_n is an action complex, with no asserted multiplication or group
+   delooping. For a universal free PL_n-space U_n construct the diagonal
+   right-action quotient E_n=(PD_n×U_n)/PL_n, its residual O_n action and
+   the invariant projection E_n→U_n/PL_n. Prove freeness and construct
+   the local trivializations and a numerable principal O_n-bundle structure
+   on E_n→O_n\E_n, with its action/quotient realization comparisons.
+   Prove E_n weakly contractible by the relative piecewise-differentiable
+   triangulation and linear comparison lemmas of that construction; prove
+   its CW type and construct a contraction by CW Whitehead. Thus E_n
+   is a universal free O_n-space with actual numerable pullback classification.
+   Freeness alone is not classification.
+   The projection induces O_n\E_n→U_n/PL_n, a genuine BO(n)→BPL(n)
+   model map. Compare O_n\E_n and its associated universal real n-bundle
+   with TopK T1.6's fixed-rank Grassmannian classifier and tautological bundle,
+   and compare U_n/PL_n with the chosen PL germ classifier above. Construct
+   the based comparison maps and homotopies on CW models, using AT Whitehead
+   only after proving the required weak equivalences and CW type. Own the
+   pullback identification of the universal PL microbundle with the linear
+   bundle's PL reduction; compare its underlying TOP microbundle with that
+   linear bundle. Construct compatible trivial-line stabilization on PD_n,
+   U_n and E_n, its quotient maps and the bundle comparison homotopies;
+   use the same mapping telescope to obtain BO→BPL. These are constructions
+   of a classifier map and its universal-bundle diagrams, rather than a
+   classifier assigned to a group structure on PD_n.
    Own its relative, pullback and stabilization comparisons, then prove its
    composite to BTOP agrees with forgetting the actual linear bundle.
    A family of linear fiber maps has bilinear dependence on parameter and
@@ -1744,6 +1834,143 @@ following sequence of targets:
    normal-bordism preimage case; Four owns the exceptional preimage4 map
    theorem, with no return dependency in this construction.
 
+   **3e.0. Relative geometric inputs to stable transversality.** Before
+   the stable-germ construction, own the following local geometric interfaces.
+   Use TOP manifolds with their fixed metric, locally flat submanifolds,
+   actual neighborhood germs and normal retractions; retain the PL charts
+   where specified. A relative statement fixes a neighborhood of its closed
+   relative subset, with smaller neighborhoods used for compatible gluings.
+
+   * `marinRelativeTriangulation` is the codimension≥3 Miller
+     triangulation interface used in Marin AppendixB LemmaB.1. On the
+     local flat-chart configuration P⊂M,N⊂W with both codimensions≥3,
+     and a stabilized transverse germ M in W×ℝ^v already lying in W
+     near closed C, construct a PL structure ω on the ambient chart W
+     in which N is PL and the prescribed already-PL subpolyhedron is
+     unchanged. Construct an ambient isotopy of W×ℝ^v fixing N×ℝ^v,
+     relative to C and the complement of the chosen neighborhood V of D,
+     making the germ M PL locally transverse to N×ℝ^v near C∪D.
+     The input embeddings M∪N→W and M∪(N×ℝ^v)→W×ℝ^v carry
+     the actual locally unknotted pair/link charts and the already-PL
+     restriction near C; construct these data from the transverse local
+     models. Prove the relative compatibility of the two triangulations.
+     Use Miller's codimension≥3 triangulation of embeddings, as applied
+     in Kirby–Siebenmann EssayIII AppendixB and Marin LemmaB.1. This
+     is a local embedding-triangulation theorem, not a PL structure on an
+     arbitrary TOP manifold or a general locally flat conclusion for PL maps.
+
+   * `marinRelativeBlockEmbedding` owns the Casson–Sullivan step in
+     Marin AppendixB's proof of Theorem2.3. Subdivide the just-triangulated
+     local configuration simultaneously in W×ℝ^v, W, N×ℝ^v, N, M
+     and P, and construct their actual dual normal blocks over the simplices
+     of P, with all face and transverse-sum identifications. In the induction
+     over a (k+1)-simplex, construct the relative embedding replacement of
+     the displayed homotopy equivalence
+     g:Ê_M×I→(Ê_(W×ℝ^v)−Ê_(N×ℝ^v))×I,
+     agreeing with the already embedded k-skeleton and the time-zero
+     inclusion. Here Ê denotes the fibre-sphere boundary of the corresponding
+     normal block over that simplex; its base-face boundaries remain
+     separate relative data. Retain the boundary/collar pair,
+     normal and Poincaré-embedding data of that configuration, and verify
+     the codimension≥3 hypotheses of the Casson–Sullivan embedding
+     argument in Wall, Chapter11. Construct those data and their required
+     relative comparisons from the dual blocks, as part of this target.
+     Cone the replacement successively over the terminal face and the
+     block interior as in Marin's induction, and prove agreement on faces
+     and on the fixed data. This proves the relative stable-germ
+     destabilization/concordance theorem2.3 when w−m≥3 and w−n≥3.
+     Own the same relative Poincaré-embedding argument for Marin B.3
+     when it is used for transverse-germ spaces. A bare map or an arbitrary
+     homotopy equivalence in codimension≥3 is not this input datum.
+
+   * `topologicalNeighborhoodConcordanceExtension` is Marin's TOP
+     Lickorish–Siebenmann Theorem2.4. Let Q be a TOP manifold with
+     boundary and K a closed locally unknotted topological polyhedron in
+     ∂Q. Use the local pair condition of Marin p.276: the pair is locally
+     Euclidean/polyhedral and the link complements have free fundamental
+     group. This includes a manifold and the union of a manifold with its
+     transverse germ after verifying that condition. A concordance
+     f:K×I→Q is an embedding locally unknotted along I: every (x,t)
+     has a neighborhood U_x×V_t and an extension to an open embedding
+     P_x×V_t→Q, for a manifold P_x containing U_x. With the initial-end
+     marking f(k,0)=k, retain f⁻¹(∂Q)=K×{0,1}∪L×I for its specified
+     closed side subset L⊂K and the corresponding boundary collars.
+     An arbitrary levelwise family is not this concordance carrier. For closed
+     C⊂K and a neighborhood U of C in ∂Q, take a concordance F:U×I→Q
+     extending f near C×I. If dim Q≥7, or dim Q=6 and either
+     codim(K,∂Q)≥3 or K is a manifold, construct a neighborhood U₁ of K
+     in ∂Q and a concordance F₁:U₁×I→Q extending f and equal to F
+     near C×I. Retain the actual end/side restrictions and shrinking maps.
+     Prove the local-to-global strongly relative form and the compact-support
+     localization used by the transversality proof.
+
+     In the codimension≥3 case construct the proof through local
+     triangulation, the earlier product-structure comparison and the
+     PL Lickorish–Siebenmann regular-neighborhood concordance extension.
+     Construct the PL neighborhood inputs here from Layer11's simplicial,
+     locally finite subdivision, link and collapse machinery. For a closed
+     subpolyhedron K of a triangulated PL manifold, choose controlled
+     subdivisions and the derived closed-star neighborhood, prove it is a
+     codimension0 PL manifold neighborhood with its actual frontier and
+     frontier collar, and construct its collapse/mapping-cylinder comparison
+     to K. For noncompact K use locally finite subdivisions and compatible
+     compact exhaustions; do not assert a finite global collapse. Include
+     collared boundary pairs, the actual side subpolyhedron, and prescribed
+     neighborhood data near closed C, unchanged near C after shrinking.
+     Prove relative uniqueness of these neighborhoods by PL ambient
+     isotopy, fixed near C and outside a prescribed neighborhood of K,
+     with the frontier/collar and restriction comparisons. Construct the
+     cylinder comparison for a regular neighborhood of the actual locally
+     unknotted PL concordance K×I in Q, product on its prescribed end/side
+     and near-C data. Deduce the PL neighborhood-concordance extension
+     with its actual neighborhood maps and these same relative controls,
+     following the Lickorish–Siebenmann/Rourke–Sanderson neighborhood
+     construction. K is a general subpolyhedron, not assumed a locally flat
+     manifold or the zero section of a normal bundle; only the concordance
+     and pair hypotheses stated for this application are used. This local
+     neighborhood construction precedes its TOP application.
+
+     For K a manifold in the remaining cases with dim Q≥6, own the
+     TOP neighborhood-concordance construction of Rourke–Sanderson,
+     *On topological neighbourhoods*, Compositio Math.22 (1970),387–424,
+     as used for the manifold case in Marin's discussion of Theorem2.4.
+     On the actual locally unknotted concordance K×I→Q, construct
+     the neighborhood germ extension and its cylinder/restriction maps,
+     with the prescribed end and side collars, agreement with F near C×I
+     after shrinking, and the relative gluing/compact-support localization
+     used below. Establish this TOP construction and its relative controls
+     before applying the extension theorem in the manifold case. K remains
+     a TOP manifold with its given charts: no compatible PL structure on K,
+     including a dimension4 K, or ordinary normal bundle is inferred.
+     The general polyhedral version in dim Q=6 remains restricted to
+     codimension≥3, as in the preceding local-triangulation branch.
+
+     For the general locally unknotted polyhedron case in dim Q≥7, construct
+     the required TOP regular neighborhoods with proper cone-like
+     retractions, formal boundary and relative mapping-cylinder comparison
+     of Edwards, and apply Marin AppendixA. Retain the collared side
+     polyhedron when boundary faces are present. Prove the relative tube
+     restriction and the cylinder identification fixing the spine and formal
+     boundary, then the neighborhood extension. These are the particular
+     TOP neighborhood targets consumed here, separate from PL block bundles.
+
+   In Marin's proof of Theorem1.2 identify each use: Theorem2.4 localizes
+   the normal-germ concordance to compact support, thickens the concordance
+   on I×M to a neighborhood, and extends the concordance on I×(M∪N)
+   while fixing I×N. Display Q, K, C and their end/side collars in each
+   application, including each added interval and stabilization coordinate.
+   Verify dim Q and codim K on those total spaces before invoking the
+   extension theorem. In the main m≥5, both-codimension≥3 branch the
+   relevant ambient concordance dimensions are at least7; handle m=3,4
+   by the local triangulation cases of Marin §3 and AppendixD, retaining
+   the preimage-dimension exceptions. Prove the locally finite patching
+   with supports in V and displacement bounded by the given positive
+   continuous control, fixed near C and outside V. Parameter/relative-face
+   versions use compatible total-space charts and their total dimensions.
+   These constructions consume the earlier ordinary PL engine, TOP product
+   structure and the specified local embedding/neighborhood inputs. They
+   use no FourManifolds exceptional transversality or classification output.
+
    Also own Marin's stable version on the actual stabilized microbundle
    germs, not arbitrary block bundles or open regular neighborhoods. For a
    locally flat M⊂W, a stable normal germ is a normal microbundle retraction
@@ -1753,7 +1980,10 @@ following sequence of targets:
    P=f⁻¹(M) and a homotopy F_t of f×id_(ℝ^v) with
    F_t⁻¹(M×0)=P×0 at every time, to an actual morphism of stable normal microbundle germs over f|P. Construct
    stable-germ existence/uniqueness, relative symmetry and the ambient normal
-   comparison, then `marinStableMapTransversality` with support/control
+   comparison using3e.0's relative triangulation, block-embedding and TOP
+   neighborhood-concordance extension, together with the earlier ordinary
+   normal-microbundle homotopy/uniqueness. Then construct
+   `marinStableMapTransversality` with support/control
    and already-transverse relative data. For target codimension q≥3 use
    Marin Theorem1.7 with expected preimage dimension n−q≠4; the domain
    dimension n may equal4. For q=1,2 use the preceding ordinary KS range
