@@ -326,8 +326,20 @@ compatible finite torsors, minimal compatible isogenies and invariant Brauer; co
 enlargement and nonabelian H2 links; galoisStableSmoothProjectiveFan_exists,
 torusCompactification_splitField and
 torusCompactification_galoisDescent; UniversalTorsor, relativeBrauerOne and residual Sha
-functional; CasselsTate, KummerLocal, BrauerPic0 and BrauerPic0_n; PencilSelmerOrbit,
+functional; CasselsTate.biextension_comparison (torsor/divisor and Poincaré realizations
+of the supplied cohomological pairing), BrauerPic0 and BrauerPic0_n; PencilSelmerOrbit,
 oriented ideals, the isogeny Q invariant and realEffectiveFraction.
+
+SelmerIwasawaCohomology §2.12a supplies the abelian Kummer/Sha comparisons, finite Selmer
+and reduced primary carriers, finiteCotype_primaryDecomposition, KummerLocal.dual_annihilator
+and KummerLocal.globalPlusLocal. Its §4.29 supplies CasselsTate and
+CasselsTate.finiteCoefficient_formula, CasselsTate.isogeny_adjoint,
+CasselsTate.annihilator_nTorsion, CasselsTate.left_radical, CasselsTate.right_radical and
+CasselsTate.reduced_primary_perfect, without finite Sha or a polarization. The elliptic
+pullback uses the supplied positive-(O) polarization and sign comparison. Sections 3.17b–d
+apply those interfaces to torsor detection, Brauer evaluation and multiplication covers;
+§6.3's genus-one sufficiency assumes the divisible Sha subgroup is zero, in particular when
+Sha is finite.
 
 Layer 4: good reduction outside S, shafarevichSet and ShafarevichFiniteness;
 KodairaParshin covers, S-integral points and section jets.
