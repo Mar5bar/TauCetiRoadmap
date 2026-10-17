@@ -174,6 +174,12 @@ example (a b : ℚ) (hb : b ≠ 0) :
   simp [hb, div_eq_mul_inv, mul_comm]
   ring
 
+/-- The weight-three CM newform at 3 retains its quadratic nebentypus value `-1`. -/
+example :
+    (Polynomial.X ^ 2 - Polynomial.C (0 : ℚ) * Polynomial.X +
+      Polynomial.C ((-1 : ℚ) * 3 ^ 2)) = Polynomial.X ^ 2 - Polynomial.C (9 : ℚ) := by
+  norm_num [sub_eq_add_neg]
+
 end Factors
 
 namespace HodgeChecks
@@ -250,6 +256,27 @@ example : (![2, 0] : Fin 2 → ℤ) - ![1, -1] = ![1, 1] := by
 end RepRing
 
 /-! ## Layer 2: Integral points and controlled fields -/
+
+/-- A finite partition into splitting, unramified-extension and arbitrary-extension conditions.
+Class `1` contains only nonarchimedean places (Qian Proposition 4.2, p.23). -/
+structure LocalConditionPartition (Place : Type*) (nonarchimedean : Set Place) where
+  places : Finset Place
+  kind : ↥places → Fin 3
+  unramified_nonarchimedean : ∀ v, kind v = 1 → v.1 ∈ nonarchimedean
+
+/-- A place cannot carry both the splitting and unramified-extension prescriptions. -/
+example {Place : Type*} {nonarchimedean : Set Place}
+    (S : LocalConditionPartition Place nonarchimedean) (v : ↥S.places) :
+    ¬ (S.kind v = 0 ∧ S.kind v = 1) := by
+  rintro ⟨h0, h1⟩
+  have h : (0 : Fin 3) = 1 := h0.symm.trans h1
+  norm_num at h
+
+/-- An archimedean place cannot carry an unramified-extension prescription. -/
+example {Place : Type*} {nonarchimedean : Set Place}
+    (S : LocalConditionPartition Place nonarchimedean) (v : ↥S.places)
+    (hv : v.1 ∉ nonarchimedean) : S.kind v ≠ 1 :=
+  fun h => hv (S.unramified_nonarchimedean v h)
 
 namespace PicardChecks
 
@@ -354,6 +381,15 @@ theorem half_order_gt_one {p : ℕ} (hp : 3 < p) (hodd : Odd p) : 1 < (p - 1) / 
 example : (3 - 1) / 2 = 1 := by decide
 
 end Auxiliary
+
+/-! ## Layer 4: Nonminimal local deformation obstruction -/
+
+/-- The tame obstruction in §4.5 is nonzero in characteristic five. -/
+example :
+    let A : Matrix (Fin 2) (Fin 2) (ZMod 5) := !![1, 0; 0, -1]
+    let B : Matrix (Fin 2) (Fin 2) (ZMod 5) := !![0, 1; 0, 0]
+    A * B - B * A = 2 • B ∧ A * B - B * A ≠ 0 := by
+  decide
 
 /-! ## Layer 8: Finiteness of global rings -/
 
@@ -532,8 +568,8 @@ end ResidualMembers
 automorphic carriers require the supplier theories described there.
 Layer 1: `conjugationExtendsIntegralModel`, `weakCompatibility_ofKW`, `CompatibleSystem`, `induce`, `PolarizedSystem`, `WeaklyCompatibleSystem.IsRegular`, `symmetricPower`, `rankZeroSystem`, `PolarizedSystem.tensor`, `characterSystem`, `rank_one_purity`, `induced_character_purity`, `artinSystem`, `artin_twist_purity`, `rank_two_reducibility_independent_of_lambda`, `partialLFunction`, `RepRing`, `RepRing.brauer_transport`, `RepRing.eq_irreducible_of_pairing_eq_one`, `monodromy_component_field`, `hodgeTateCocharacterInMonodromy`, `LarsenData.G`, `serre_theta_uniform_bounds`, `larsen_good_primes`, `residual_irreducibility_density_one`, `constituents_essentially_self_dual`.
 Layer 2: `SkolemDatum`, `density_of_algebraic_local_points`, `elementary_reductions`, `reduction_to_curves`, `Picard.generalizedPicard`, `local_picard_opens_and_approximation`, `compact_generalized_jacobian_quotient`, `moret_bailly_integral_point`, `splitField_density_of_integralPoints`, `splitField_points_dense`, `function_field_chebotarev`, `frobenius_primes_generate`, `disjointness_by_extra_split_places`, `Fields.inf_sup_eq_of_linearDisjoint`, `cht_character_extension`, `cht_soluble_prescribed_completions`, `moret_bailly_three_local_conditions`, `moret_bailly_above_preliminary_field`, `snowden_soluble_preliminary_field`, `surjectiveSpecialisation`, `schemeChebotarevPoints`, `function_field_isom_torsor`, `fixed_constant_field`, `potential_global_galois_local_data`.
-Layer 3: `exists_cm_character_with_local_reductions`, `TaylorAuxiliaryData`, `local_points_twisted_hilbert_moduli`, `restricted_auxiliary_moduli`.
-Layer 4: `dyadicAuxiliaryModuli`, `auxiliary_tateModule_ordinary_shape`, `quaternionic_hecke_galois_realisation`, `local_residual_inertial_shape`, `skinner_wiles_level_adjustment`, `taylor_crystalline_lifting`, `auxiliary_modularity_transfer`, `taylor_ordinary_potential_residual`, `taylor_niveau_two_potential_residual`, `weight_reduction_hecke_surjection`, `weightShift`, `weight_and_level_potential_residual`, `taylor_serre_weight_potential_residual`, `kw_potential_residual`, `kw_ordinary_potential_residual`, `snowden_potential_residual`, `bcgp_potential_residual`.
+Layer 3: `exists_cm_character_with_local_reductions`, `TaylorAuxiliaryData`, `local_points_twisted_hilbert_moduli`, `restricted_auxiliary_moduli`, `jointPairedTorsionModuli`, `hilbertGoodReductionOpen`, `snowdenTwoPrimeRealization`.
+Layer 4: `dyadicAuxiliaryModuli`, `auxiliary_tateModule_ordinary_shape`, `quaternionic_hecke_galois_realisation`, `local_residual_inertial_shape`, `skinner_wiles_level_adjustment`, `taylor_crystalline_lifting`, `taylorMinimalREqualsT`, `taylorNonminimalREqualsT`, `auxiliary_modularity_transfer`, `taylor_ordinary_potential_residual`, `taylor_niveau_two_potential_residual`, `weight_reduction_hecke_surjection`, `weightShift`, `weight_and_level_potential_residual`, `taylor_serre_weight_potential_residual`, `kw_potential_residual`, `kw_ordinary_potential_residual`, `snowdenCMSeed`, `snowdenWeightTwoLifting`, `snowdenWeightTwoRingFiniteness`, `snowdenPrescribedWeightTwoLift`, `snowdenResidualSolubleDescent`, `snowden_potential_residual`, `bcgp_potential_residual`.
 Layer 5: `potential_modularity_given_lift`.
 Layer 6: `controlled_extension`, `bcgp_local_data`.
 Layer 8: `AuxiliaryField`, `kwGlobalFiniteness`, `DefiniteUnitaryTwo.ordinaryHeckeAlgebra`, `DefiniteUnitaryTwo.heckeGaloisRepresentation`, `rank_two_ordinary_patching`, `rank_two_ordinary_automorphy_and_finiteness`, `ordinary_global_finiteness`, `cgRingFiniteness`.
@@ -544,6 +580,10 @@ Layer 12: `brauerSystem`, `brauerOverlapHomCharacters`, `almost_strict_compatibi
 Layer 13: `residual_members`, `local_compatibility_at_the_coefficient_prime`, `linked_systems_modularity_transfer`.
 Taylor/HBAV branches carry the ordered polarization norm witnesses of §§3.2–3.3;
 dyadic local constructions consume `dyadicAuxiliaryModuli` with its polarization hypotheses.
+The niveau-two construction uses joint prime levels and polarization descent from §3.5;
+`auxiliary_modularity_transfer` permits ramified coefficient primes and proves its crystalline
+rank-two Hodge assertion via rational coefficient summands. Its lifting step uses the nonminimal
+comparison of §4.5. Snowden's residual construction uses §3.6 and `snowdenCMSeed` before finiteness.
 The family predicates and operations use the shared `AutomorphicSystemData` and its supplied
 `Weak`, `Strict`, `VeryWeak` and `ExtremelyWeak` predicates. The additional KW, polarized,
 regularity, purity, away-coefficient strictness and automorphy conditions are specified in §§1.2–1.8.
