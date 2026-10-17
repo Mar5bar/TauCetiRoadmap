@@ -789,9 +789,9 @@ Layers 3 and 6 (identity components, derived groups, simple connectivity).
 
 ### M0.9 Galois cohomology of the similitude group and ker¹
 
-This supplies the continuous-cocycle comparison and finite, all-place kernel for
-possibly disconnected PEL groups, beyond the coordinate torsors and simply connected
-Hasse statements of AdelicAlgebraicGroups §4.1.
+This identifies PEL continuous cocycles with the common torsor classes and supplies the finite,
+all-place kernel for possibly disconnected PEL groups, using the coordinate comparison and simply
+connected Hasse statements of AdelicAlgebraicGroups §4.1.
 
 Define, for a linear algebraic group `G` over a field `k` of characteristic zero (smooth and affine,
 possibly disconnected), the pointed set `galoisH1 k G = H¹(k, G)` of continuous cocycles
@@ -799,10 +799,19 @@ possibly disconnected), the pointed set `galoisH1 k G = H¹(k, G)` of continuous
 and in `k`; for an abelian `G` it is the continuous cohomology of TauCetiRoadmap.ProfiniteCohomology.
 Define the localization maps `H¹(ℚ, G) → H¹(ℚ_v, G)` at every place `v ≤ ∞` and
 `ker1 G = ker¹(ℚ, G)`, the classes that are trivial at every place (Kottwitz, §7, p. 393). Prove:
-(1) `galoisH1_equiv_torsorClasses`: `H¹(k, G)` is in natural bijection with the class set
-`torsorClasses G` of fppf torsors of TauCetiRoadmap.AdelicAlgebraicGroups §4.1, compatibly with base
-change of fields (a torsor under a smooth group is trivialized over a finite Galois extension, and its
-descent datum is a cocycle); (2) `twist_bijection`: forms of a structure on a vector space whose
+(1) `galoisH1_equiv_torsorClasses`: identify `galoisH1 k G` with the continuous-cocycle target of
+ReductiveGroups Layer 1's `smoothAffineTorsor_galoisH1` through `galoisH1_smoothAffineEquiv`, and
+take the inverse of that lower comparison. The lower comparison has source the common class set
+`torsorClasses G = NonabelianH1 (fppfTopology.over (Spec k)) h_G` of
+SchemeAndStackFoundations §§1.15 and 2.3, with the coordinate comparison of
+AdelicAlgebraicGroups §4.1. The identification preserves the base point, field extension and
+homomorphisms of groups (Milne, *Algebraic Groups* (2017), Proposition 3.50).
+For a right torsor use `σ(s) = s·c_σ`, so `c_{στ} = c_σ σ(c_τ)` and replacing `s` by `s·g`
+gives `g⁻¹c_σ σ(g)`; the common left action is `g·s = s·g⁻¹`.
+The consumer interface agrees with PadicHodgeTheory, “From ReductiveGroups” and “Downstream
+consumers”: it uses the same characteristic-zero comparison, including disconnected groups;
+localization maps and all-place kernels belong here.
+(2) `twist_bijection`: forms of a structure on a vector space whose
 automorphism group scheme is `G` are classified by `H¹(k, G)`, and for a class `c` the twist `G_c` is
 an inner form with `H¹(k, G_c) ≅ H¹(k, G)` carrying the base point to `c` (Borel–Serre, §§1.6–1.10 and §2.2, pp. 116–118 and 127–128); (3) `ker1_finite`: `ker¹(ℚ, G)` is finite for every linear
 algebraic group over `ℚ`, connected or not (Borel–Serre, *Théorèmes de finitude en cohomologie
@@ -821,7 +830,8 @@ for a cyclic extension `F/F₀` the norm-one torus has trivial `ker¹`, and for 
 `cyclicHasseNorm` and Hilbert 90 for `G_m`, `TauCeti.hilbert90`). *Needs:* M0.7, M0.8;
 TauCetiRoadmap.AdelicAlgebraicGroups §4.1 (`torsorClasses`, local triviality and the real Hasse
 principle for semisimple simply connected groups); the continuous Hilbert-90 library supplier;
-TauCetiRoadmap.ClassFieldTheory Layer 13; TauCetiRoadmap.ReductiveGroups Layer 6;
+TauCetiRoadmap.ClassFieldTheory Layer 13; TauCetiRoadmap.ReductiveGroups Layers 1 and 6;
+SchemeAndStackFoundations §§1.15 and 2.3;
 ShimuraVarieties §P.5 `TauCeti.Shimura.real_approximation_tori`.
 
 **Checks.**

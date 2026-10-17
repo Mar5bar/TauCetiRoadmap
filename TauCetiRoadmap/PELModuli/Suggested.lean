@@ -680,8 +680,11 @@ the full `PositiveInvolution`, `IntegralPELDatum`, `RationalPELDatum`, and `PInt
 `tauField`, `diamondField`, `psiField`, `tauPart`, `tauSubmodule`, `frobeniusOnEmbeddings`;
 the Albert classification `albertTypes`; `StarOrder.orderEquiv`; `Order.disc` and its
 reduced-trace maximality criterion; the similitude group
-scheme and its structure `similitudeGroupStructure`; Galois cohomology `galoisH1`, `ker1` and their
-finiteness and Hasse statements; `hodgeStructureOfDatum`; the Shimura datum `toShimuraDatum`;
+scheme and its structure `similitudeGroupStructure`; Galois cohomology `galoisH1`, `ker1`, the
+characteristic-zero identification `galoisH1_smoothAffineEquiv` with ReductiveGroups Layer 1's
+continuous-cocycle target, the inverse lower comparison `galoisH1_equiv_torsorClasses` to common
+torsor classes, and the PEL all-place finiteness and Hasse statements (M0.9); `hodgeStructureOfDatum`;
+the Shimura datum `toShimuraDatum`;
 signatures; `detPoly_classifies`; the reflex field and `reflexField_eq_shimura`;
 `detCondition_splitting`;
 `selfDualLattice_unique` (for `D : PIntegralPELDatum p`, comparing its self-dual `D.Λ₀` in
