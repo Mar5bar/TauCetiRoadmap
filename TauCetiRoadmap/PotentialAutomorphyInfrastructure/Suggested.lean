@@ -14,7 +14,8 @@ Design choices made explicit by the declarations below.
 * A Hecke-equivariant direct summand is a Mathlib `Retract` together with equations for an
   indexed family of actual endomorphisms on both objects.
 * The unitary weight of a pair of `GLₙ` rows concatenates the negated reversed conjugate row with
-  the row itself; rows are descending and indexed from zero.
+  the row itself; rows are descending and indexed from zero. Coefficient splittings also require
+  this concatenated row to be dominant.
 * Siegel Kostant representatives are permutations of `Fin (n + n)` whose inverse is increasing on
   each block, the minimal representatives of cosets `W_P w` with the Levi group on the left.
 * Chosen local uniformizers give unit/valuation coordinates `Oˣ × ℤ` on a diagonal torus entry.
@@ -106,6 +107,11 @@ example : UnitaryLeviWeight ![(2 : ℤ)] ![(-3 : ℤ)] = ![(3 : ℤ), 2] := by s
 /-- `UnitaryLeviWeight.rank_two`: `λ_τ = (2, 1)`, `λ_{τc} = (-3, -4)` give `(4, 3, 2, 1)`;
 omitting the reversal would give `(3, 4, 2, 1)`. -/
 example : UnitaryLeviWeight ![(2 : ℤ), 1] ![(-3 : ℤ), -4] = ![(4 : ℤ), 3, 2, 1] := by sorry
+
+/-- `UnitaryLeviWeight.non_dominant`: both rank-one Levi rows are dominant, but their unitary
+row `(-1, 1)` is not dominant. The Siegel coefficient splitting requires unitary dominance. -/
+example : UnitaryLeviWeight ![(1 : ℤ)] ![(1 : ℤ)] = ![(-1 : ℤ), 1] ∧
+    ¬ Antitone (UnitaryLeviWeight ![(1 : ℤ)] ![(1 : ℤ)]) := by decide
 end UnitaryLeviWeight
 
 /-! ## Layer 1: Fontaine–Laffaille compatibility -/
@@ -627,7 +633,8 @@ example : (3 : ℚ) ^ (-1 : ℤ) * 2 * 5 = 10 / 3 ∧ (2 : ℚ) * 5 = 10 := by s
 Stated in README.md and absent here, because their carriers are not available at the pins:
 the integral cohomology models and Siegel boundary comparisons of Layer 0, its torsion attachments
 (`residual_unitary_galois_inputs`, `finite_coefficient_gln_galois_inputs`) and geometric vanishing
-(`integral_caraiani_scholze_vanishing`), the integral dual Weyl
+(`integral_caraiani_scholze_vanishing`), the unitary perfectoid towers, compactified period maps
+and finite-level Hodge–Tate sections (`unitary_torsion_tower_geometry`), the integral dual Weyl
 modules with their Levi splitting and bottom-alcove duality (`IntegralDualWeylModule`), the Hecke
 algebras of positive monoids, the image of a residually multiplicity-free pair, the forms of
 products of `PGL₂`, the density-one comparison of semisimple Galois representations, the
@@ -651,6 +658,8 @@ patching verifications and lifting theorems of Layer 5 (`TaylorWilesSelectedIdea
 `ordinary_automorphy_lifting`).
 
 Further API statements and Checks specified in the README, without additional Lean declarations:
+CompletedArithmeticCohomology.level_colimit, UnitaryCompletedBoundary.level_colimit,
+UnitaryCompletedBoundary.nonempty_rank_one,
 BruhatOrientationCharacter.uniformizer_part, BruhatOrientationCharacter.unit_part,
 CTGWeight.iff_witness, CTGWeight.no_cuspidal_levi_weight, CTGWeight.not_parallel,
 KostantShuffle.mem_iff, LowestWeightCharacter.uniformizer_eval,
