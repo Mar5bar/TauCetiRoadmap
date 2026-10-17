@@ -54,17 +54,20 @@ def IsPositiveInvolution : Prop :=
   (∀ (q : ℚ) (x : B), star (q • x) = q • star x) ∧
     ∀ x : B, x ≠ 0 → 0 < LinearMap.trace ℚ B (LinearMap.mulLeft ℚ (x * star x))
 
-/-- **Star-order** (M0.1). A subring of `B` that is stable under the involution, finitely generated
-as an abelian group and spans `B` over `ℚ`. -/
+/-- **Star-order** (M0.1). A star-stable `ℤ`-subalgebra with a full lattice as its underlying
+module. The lattice proof is the defining condition of ClassicalArithmeticCompletion §7.4's
+`IntegralOrder.IsOrder`; `StarOrder.orderEquiv` identifies this carrier with that supplier's
+star-stable orders. Lan, Definitions 1.1.1.2–1.1.1.4 and §1.2.1. -/
 structure StarOrder where
-  /-- The underlying subring. -/
-  toSubring : Subring B
+  /-- The underlying arithmetic-order carrier. -/
+  toSubalgebra : Subalgebra ℤ B
+  /-- The underlying module is a full lattice, as in `IntegralOrder.IsOrder`. -/
+  isLattice : Submodule.IsLattice ℚ toSubalgebra.toSubmodule
   /-- Stability under the involution. -/
-  star_mem : ∀ x ∈ toSubring, star x ∈ toSubring
-  /-- Finite generation over `ℤ`. -/
-  fg : (Submodule.span ℤ (toSubring : Set B)).FG
-  /-- The order spans `B` over `ℚ`. -/
-  span_eq_top : Submodule.span ℚ (toSubring : Set B) = ⊤
+  star_mem : ∀ x ∈ toSubalgebra, star x ∈ toSubalgebra
+
+/-- Forgetting the lattice and star-stability proofs retains the arithmetic order's subring. -/
+def StarOrder.toSubring (O : StarOrder B) : Subring B := O.toSubalgebra.toSubring
 
 /-- The integer order contains `2` and excludes `1/2`; spanning over `ℚ` is not equality with `ℚ`
 (Check `starOrder_integer`). -/
@@ -652,7 +655,8 @@ the full `PositiveInvolution`, `IntegralPELDatum`, `RationalPELDatum`, and `PInt
 `reflexField`, `positiveImaginaryCone`; `HermitianSpace`, `HermitianSpace.unitaryGroup`,
 `HermitianSpace.sharp`, `HermitianSpace.toSkewHermitian`; `SkewHermitianSpace`, `Similitude`, `Similar`, `GU`, `HasCMType`;
 `tauField`, `diamondField`, `psiField`, `tauPart`, `tauSubmodule`, `frobeniusOnEmbeddings`;
-the Albert classification `albertTypes`; `Order.disc` and its maximality theorems; the similitude group
+the Albert classification `albertTypes`; `StarOrder.orderEquiv`; `Order.disc` and its
+reduced-trace maximality criterion; the similitude group
 scheme and its structure `similitudeGroupStructure`; Galois cohomology `galoisH1`, `ker1` and their
 finiteness and Hasse statements; `hodgeStructureOfDatum`; the Shimura datum `toShimuraDatum`;
 signatures; `detPoly_classifies`; the reflex field and `reflexField_eq_shimura`;
@@ -687,9 +691,17 @@ the residual gerbe `𝒢_x`, `descentObstruction`, `boundedFieldOfDefinition`, `
 `finiteFieldFiniteness`, `nonemptyExamples`.
 
 The following APIs and discriminating Checks are also specified in the README:
+* M0.1: `StarOrder.orderEquiv` retains the underlying `StarOrder.toSubalgebra` and identifies
+  `StarOrder.isLattice` with the supplier's `IntegralOrder.IsOrder` proof. Inclusions and
+  localized carriers agree under this equivalence (Check `starOrder_matrix_adapter`).
 * M0.2: `albertTypes` applies AbelianSchemesAndArithmeticModuli A6.15
   `realRosatiDecomposition` to the real extension with its positive regular trace; the PEL
   rational-centre consequences, A/C/D labels and group comparisons are derived here.
+* M0.3: `Order.disc_regularTrace_matrix` distinguishes the regular and reduced traces on
+  `M₂(ℚ)`: the integral matrix-unit Gram determinants are `−16` and `−1`, and the trace-duals
+  are `(1/2)M₂(ℤ)` and `M₂(ℤ)`. Generic `IntegralOrder.IsMaximalOrder` and containment in a
+  maximal order are ClassicalArithmeticCompletion §§7.21 and 7.56's interfaces, used in M1.11;
+  the containing maximal order need not be star-stable.
 * M0.4: `SymplecticOLattice.le_dual` and double duality using the Tau Ceti supplier
   recorded in the README; `polarizationType` exposes A5.4(1)
   `alternating_elementaryDivisors` on the underlying integral lattice.

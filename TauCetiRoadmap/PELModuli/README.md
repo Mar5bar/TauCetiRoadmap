@@ -49,8 +49,8 @@ groups; a Shimura-variety name is used only when the axiom SV3 holds.
 
 **Owned here.** Positive involutions on finite-dimensional semisimple `ℚ`-algebras and their PEL Albert
 types, using AbelianSchemesAndArithmeticModuli A6.15 for the general real positive-involution normal
-form; orders, their reduced-trace discriminant and inverse different; symplectic `O`-lattices, their
-dual lattice and multi-rank, with polarization type exposed from AbelianSchemesAndArithmeticModuli
+form; star-stable enrichment of arithmetic orders, their reduced-trace discriminant and inverse
+different; symplectic `O`-lattices, their dual lattice and multi-rank, with polarization type exposed from AbelianSchemesAndArithmeticModuli
 A5.4(1); integral, rational and `p`-integral PEL data, their
 rationalization and restriction; the similitude group `G` of a PEL datum with its multiplier, over
 arbitrary base rings, its coordinate Hopf algebra and its structure over `ℚ`; bad and good primes and
@@ -143,6 +143,13 @@ of `GL(L) × G_m` and these theories are applied to it.
 
 **Built in other roadmaps and cited.**
 
+- *ClassicalArithmeticCompletion.* §7.4 `IntegralOrder.IsOrder` and `IntegralOrder.isOrder_iff`
+  for orders in finite-dimensional, possibly noncommutative algebras; §7.21
+  `IntegralOrder.IsMaximalOrder` and overorder inclusions; §7.49 (a common regular-trace-dual
+  bound for overorders); §7.56 (containment in a maximal order when the regular-trace pairing
+  is nondegenerate). Specialize to `ℤ ⊆ ℚ` for PEL orders. Generic orders and maximality
+  belong to this supplier; M0.1 supplies the star-stable adapter, and M0.3 supplies the
+  reduced-trace invariants and their consequences for good primes.
 - *AbelianSchemesAndArithmeticModuli.* A1 (abelian schemes over arbitrary bases, rigidity,
   products, base change, relative dimension, one-dimensional abelian schemes as elliptic curves);
   A2 (the dual abelian scheme and Poincaré bundle, polarizations `Polarization` and their local
@@ -411,8 +418,20 @@ Define `PositiveInvolution B` for a finite-dimensional semisimple `ℚ`-algebra 
 every nonzero `x ∈ B`, where `Trd_{B/ℚ}` is the sum over the simple factors `B_i` with centre `F_i`
 of `Tr_{F_i/ℚ}` composed with the reduced trace of `B_i` over `F_i` (computed through
 `IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing`, retaining each factor's degree). Define
-`StarOrder`: an order `O ⊆ B` (a subring, finitely generated over `ℤ`, spanning `B`) with `O* = O`;
-it inherits the involution. The API is `PositiveInvolution.trd_mul_star_pos` (the defining
+`StarOrder`: an `O : Subalgebra ℤ B` with ClassicalArithmeticCompletion §7.4's
+`IntegralOrder.IsOrder O` and `O* = O`; it inherits the involution. The forgetful carrier
+`StarOrder.toSubalgebra` retains `O`, and `StarOrder.toSubring` is its underlying subring.
+The pinned prototype expresses the order proof as `StarOrder.isLattice`, of type
+`Submodule.IsLattice ℚ O.toSubmodule`, exactly the supplier's defining condition.
+Prove `StarOrder.orderEquiv`, the canonical equivalence with the subtype of pairs consisting
+of a `ℤ`-subalgebra and proofs that it is an `IntegralOrder.IsOrder` and is star-stable.
+Both directions retain the same carrier; proof irrelevance gives the inverse identities.
+Thus inclusions are inclusions of the underlying subalgebras, and extension to `ℤ_(p)` or `ℤ_p`
+uses their scalar-extension images. These identifications commute with forgetting the star
+structure. Every use of an overorder or maximality uses the supplier's `IntegralOrder.IsOrder`
+and `IntegralOrder.IsMaximalOrder`, including for overorders without an involution
+(Lan, Definitions 1.1.1.2–1.1.1.4, pp. 2–3, and §1.2.1, p. 45).
+The API is `PositiveInvolution.trd_mul_star_pos` (the defining
 inequality); `PositiveInvolution.iff_trace_pos` (positivity for `Trd` is equivalent to positivity
 for the unreduced trace `Tr_{B/ℚ}` of left multiplication, which is a positive multiple of `Trd` on
 each simple factor); `PositiveInvolution.iff_real` (equivalently the `ℝ`-linear extension is
@@ -433,7 +452,7 @@ of PEL-type Shimura varieties*, thesis, §1.2.1, p. 45; Kottwitz, *Points on som
 over finite fields*, §5, p. 389). Positivity fixes central idempotents, and on each simple centre it
 induces the identity of a totally real field or the conjugation of a CM field. *Needs:* Mathlib
 `StarRing`, `IsSemisimpleRing`, `IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing`,
-`Algebra.trace`.
+`Algebra.trace`, `Submodule.IsLattice`; ClassicalArithmeticCompletion §7.4.
 
 **Checks.**
 
@@ -443,11 +462,16 @@ induces the identity of a totally real field or the conjugation of a CM field. *
 - `not_positiveInvolution_adjugate`: on `M_2(ℚ)` with `x* = adj(x)`, `x x* = det(x)·1`, so
   `Trd(x x*) = 2 det x = −2` at `x = diag(1, −1)`, and the unreduced
   trace of left multiplication is `−4`; the canonical involution is not positive.
-- `starOrder_integer`: the integer order in `ℚ` contains `2` and excludes `1/2`.
+- `starOrder_integer`: the integer order in `ℚ` contains `2` and excludes `1/2`;
+  `StarOrder.orderEquiv` gives the supplier's scalar order with the identity involution.
 - `starOrder_nonmaximal`: `ℤ[2i] ⊆ ℚ(i)` is conjugation-stable and spans the field;
-  maximality is not a defining condition.
+  its forgetful image is an `IntegralOrder.IsOrder` but not an `IntegralOrder.IsMaximalOrder`.
 - `starOrder_not_field`: the whole subring `ℚ ⊆ ℚ` spans and is star-stable but
   is not finitely generated over `ℤ`, so it is not a star-order.
+- `starOrder_matrix_adapter`: transposition makes `M₂(ℤ) ⊆ M₂(ℚ)` a star-order;
+  `StarOrder.orderEquiv` retains its noncommutative carrier and the standard matrix units.
+  The inclusion `ℤ[2i] ⊆ ℤ[i]` likewise retains index `2`, and becomes equality over `ℤ_(p)`
+  for odd `p` after forgetting either star-order.
 - `not_positiveInvolution_id_imaginary`: on `ℚ(i)` the identity is not positive (`Trd(i·i) = −2`),
   while complex conjugation is (`Trd(x x̄) = 2|x|²`).
 
@@ -489,9 +513,10 @@ Mathlib `IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing`,
 
 ### M0.3 Orders, discriminant and unramified primes
 
-The order here can be noncommutative and lie in a semisimple algebra; number-field
-orders are the GlobalNumberFields Layer 11 supplier `NumberFieldOrder`; their
-completions and discriminants are the NumberFieldArithmetic and Mathlib suppliers.
+Use ClassicalArithmeticCompletion §§7.4 and 7.21 for orders, overorders and maximality,
+through M0.1's forgetful interface. No star-stability is imposed on a generic overorder.
+Number-field orders agree with the GlobalNumberFields Layer 11 supplier `NumberFieldOrder`;
+their completions and discriminants are the NumberFieldArithmetic and Mathlib suppliers.
 
 Define `Order.disc` for a full order `O` in a finite-dimensional semisimple `ℚ`-algebra `B` with an
 indexed `ℤ`-basis `(e_i)`: the signed determinant `det(Trd(e_i e_j))` in `ℚ`. The discriminant ideal
@@ -502,7 +527,8 @@ API is `Order.disc_eq_det_basis` (the ideal is generated by the Gram determinant
 basis); `Order.disc_eq_index_diffInv` (the positive generator is the index `[Diff⁻¹ : O]`, computed
 with `LinearMap.BilinForm.dualSubmodule` and Smith normal form);
 `Order.maximality_of_not_dvd_disc` (if `p ∤ Disc` then `p` does not divide `[O′ : O]` for any full
-overorder `O′`, not necessarily star-stable, so `O ⊗ ℤ_(p)` is maximal);
+overorder `O′`, not necessarily star-stable, so `O ⊗ ℤ_(p)` satisfies
+`IntegralOrder.IsMaximalOrder`);
 `Order.matrixOrder_of_not_dvd_disc` (if `p ∤ Disc`, `O ⊗ ℤ_p` is a product of matrix algebras over the
 integer rings of finite unramified extensions of `ℚ_p`, and `B ⊗ ℚ_p` the corresponding product of
 matrix algebras; in particular `p` is unramified in `B` and in its centre);
@@ -512,7 +538,13 @@ matrix algebras; in particular `p` is unramified in `B` and in its centre);
 uses reduced traces (Lan, Definition 1.1.1.6, p. 4); the consequences of `p ∤ Disc` are Lan,
 Proposition 1.1.1.17 and its proof, pp. 7–8: the trace pairing is perfect at `p`, which forces
 maximality, and a maximal order in a product of matrix algebras over unramified local fields is a
-product of matrix orders. *Needs:* M0.1; Mathlib `Algebra.discr`, `NumberField.discr`,
+product of matrix orders. The supplier's maximal-overorder existence theorem applies because
+the regular-trace pairing of a semisimple `ℚ`-algebra is nondegenerate: on each simple factor
+of degree `n_i` over its centre it is `n_i` times the reduced-trace pairing, followed by the
+field trace to `ℚ`. All `n_i` are nonzero in `ℚ`. This comparison supplies that hypothesis,
+but does not identify the two integral trace-duals or discriminants.
+*Needs:* M0.1; ClassicalArithmeticCompletion §§7.4, 7.21, 7.49 and 7.56;
+Mathlib `Algebra.discr`, `NumberField.discr`,
 `IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing`, `LinearMap.BilinForm.dualSubmodule`; Tau
 Ceti `Matrix.exists_smith_normal_form_of_det_ne_zero`; LocalFieldsRamification Layer 2 (unramified
 extensions, integer rings, residue fields); NumberFieldArithmetic (completions).
@@ -524,6 +556,10 @@ extensions, integer rings, residue fields); NumberFieldArithmetic (completions).
 - `Order.disc_matrix`: for the matrix-unit basis of `M_n(ℤ)`, `Trd(E_{ij}E_{kl}) = δ_{jk}δ_{il}`, the
   Gram matrix is the permutation matrix of `(ij) ↦ (ji)`, and its determinant is
   `(−1)^{n(n−1)/2}`; the ideal is `ℤ` and every prime is unramified.
+- `Order.disc_regularTrace_matrix`: on `M₂(ℚ)`, the regular trace is twice the reduced trace.
+  On the matrix-unit basis of `M₂(ℤ)` their Gram determinants are `−16` and `−1`, respectively;
+  their trace-duals are `(1/2)M₂(ℤ)` and `M₂(ℤ)`. The prime `2` remains a good order prime,
+  although it divides the regular-trace discriminant.
 - `Order.disc_nonmaximal`: for the basis `(1, 2i)` of `ℤ[2i]` the Gram determinant is `−16`; the order
   is not maximal at `2`.
 - `Order.disc_quaternion`: a maximal order in the definite quaternion algebra of discriminant `2` has
@@ -1845,8 +1881,12 @@ Prove `changeOfLatticeAndPrimes`. (1) If star-orders `O, O′` and lattices `L, 
 `O ⊗ ℤ_(□) ≅ O′ ⊗ ℤ_(□)` and `(L ⊗ ℤ_(□), ⟨·,·⟩) ≅ (L′ ⊗ ℤ_(□), ⟨·,·⟩′)` compatibly, with `□` good for
 both, then `M_H ≅ M′_H` over `S₀` (Lan, Corollary 1.4.3.7, p. 163); in particular one may keep `O` and
 enlarge `L` to its span under a containing maximal order while the localized lattice and form stay
-isomorphic (Lan's thesis errata, p. 11, correcting Remark 1.4.3.8: the order is kept and only the
-lattice is enlarged). (2) For good sets `□₁, □₂` with `□ = □₁ ∩ □₂` and
+isomorphic. This containing order is supplied by ClassicalArithmeticCompletion §7.56 applied
+to `StarOrder.toSubalgebra`, using M0.3's nondegenerate regular-trace pairing; its maximality
+means `IntegralOrder.IsMaximalOrder`. It need not be star-stable. At good primes M0.3 makes
+its localization equal to that of `O`; the PEL action remains the original `O`-action
+(Lan's thesis errata, p. 11, correcting Remark 1.4.3.8).
+(2) For good sets `□₁, □₂` with `□ = □₁ ∩ □₂` and
 `H = H_i × ∏_{p ∈ □_i ∖ □} G(ℤ_p)`, if at every `p ∈ □₁ ∪ □₂` the self-dual `O ⊗ ℤ_p`-modules of each
 multi-rank form a single isomorphism class, then `M_H ≅ M_{H_i} ×_{S_i} S₀` (Lan, Proposition 1.4.4.1,
 p. 166): at `p ∈ □_i ∖ □` the `λ`-Weil pairing on `T_pA` is a self-dual lattice of the multi-rank of
@@ -1855,7 +1895,7 @@ D no unrestricted conclusion is made (Lan's thesis errata, p. 11, retracts the u
 assertion of Remark 1.4.4.3). (3) For finite `□` and the same uniqueness hypothesis, the generic fibre
 of `M_H^rat` is `M_K^ad` with `K = H × ∏_{p ∈ □} Stab(L ⊗ ℤ_p)` (Kottwitz, §8, via Lemma 7.2; the
 finiteness of `□` is required by the errata to Remark 1.4.3.11, p. 11). *Needs:* M0.10, M0.20, M1.9,
-M1.10.
+M1.10; M0.1, M0.3; ClassicalArithmeticCompletion §§7.4, 7.21 and 7.56.
 
 **Checks.**
 
