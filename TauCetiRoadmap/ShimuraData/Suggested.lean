@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.Coordinate.HopfAlgebra
 import TauCeti.Algebra.HopfAlgebra.HopfIdeal.Basic
+import TauCeti.GroupTheory.Coxeter.Parabolic
 
 /-!
 # ShimuraData: representative target signatures
@@ -15,7 +16,8 @@ its Hermitian datum, lattice/root/chamber API and Siegel Kostant indices are exp
 CG basis obtained by swapping its last two symplectic basis vectors. The matrix comparisons
 identify the supplied stabilizer, compact quotient and Hodge summands with the CG centralizer,
 compact Cartan and Cayley basis. Kostant's Lie-cohomology theorem is supplied by
-ArithmeticLocallySymmetricSpaces ALS.4.5; the Coxeter statements compare its index conventions.
+ArithmeticLocallySymmetricSpaces ALS.4.5; the native Coxeter parabolic API supplies factorization
+and length additivity, and the local comparison identifies its index conventions.
 -/
 
 noncomputable section
@@ -121,20 +123,33 @@ variable {B W : Type*} [Group W] {M : CoxeterMatrix B} (cs : CoxeterSystem M W)
 /-- The native Coxeter-system form of the minimal LEFT representatives, to compare with
 ALS.4.5's root-theoretic representatives. -/
 def kostantRepresentatives (J : Set B) : Set W :=
-  {w | ∀ u ∈ Subgroup.closure (cs.simple '' J), cs.length w ≤ cs.length (u * w)}
+  {w | cs.IsMinimalCosetRep J w⁻¹}
 
-/-- Every left parabolic coset has one shortest representative and length is additive. -/
+/-- The native parabolic factorization and length additivity in the left-minimal convention. -/
 theorem kostantFactorization (J : Set B) :
     (∀ w : W, ∃! v, v ∈ kostantRepresentatives cs J ∧
-      ∃ u ∈ Subgroup.closure (cs.simple '' J), w = u * v) ∧
-    (∀ u w : W, u ∈ Subgroup.closure (cs.simple '' J) →
+      ∃ u ∈ cs.parabolic J, w = u * v) ∧
+    (∀ u w : W, u ∈ cs.parabolic J →
       w ∈ kostantRepresentatives cs J → cs.length (u * w) = cs.length u + cs.length w) := by
-  sorry
+  constructor
+  · intro w
+    obtain ⟨⟨u, v⟩, ⟨hu, hv, hw⟩, huniq⟩ := cs.existsUnique_mem_parabolic_mul J w
+    have hmin : v ∈ kostantRepresentatives cs J :=
+      cs.isMinimalCosetRep_iff.mpr fun i hi hd => hv i hi (cs.isRightDescent_inv_iff.mp hd)
+    refine ⟨v, ⟨hmin, u, hu, hw⟩, ?_⟩
+    rintro v' ⟨hv', u', hu', hw'⟩
+    have hdesc : ∀ i ∈ J, ¬ cs.IsLeftDescent v' i :=
+      fun i hi hd => cs.isMinimalCosetRep_iff.mp hv' i hi
+        (cs.isRightDescent_inv_iff.mpr hd)
+    exact congrArg Prod.snd (huniq (u', v') ⟨hu', hdesc, hw'⟩)
+  · intro u w hu hw
+    exact cs.length_mul_of_forall_not_isLeftDescent hu fun i hi hd =>
+      cs.isMinimalCosetRep_iff.mp hw i hi (cs.isRightDescent_inv_iff.mpr hd)
 
 /-- Longest Levi/full elements give opposition and complementary lengths. -/
 theorem kostantInvolution (J : Set B) (w₀ w₀J : W) (h₀ : ∀ v, cs.length v ≤ cs.length w₀)
-    (hJ : w₀J ∈ Subgroup.closure (cs.simple '' J))
-    (h₀J : ∀ v ∈ Subgroup.closure (cs.simple '' J), cs.length v ≤ cs.length w₀J)
+    (hJ : w₀J ∈ cs.parabolic J)
+    (h₀J : ∀ v ∈ cs.parabolic J, cs.length v ≤ cs.length w₀J)
     (w : W) (hw : w ∈ kostantRepresentatives cs J) :
     w₀J * w * w₀ ∈ kostantRepresentatives cs J ∧ w₀J * (w₀J * w * w₀) * w₀ = w ∧
       cs.length (w₀J * w * w₀) + cs.length w + cs.length w₀J = cs.length w₀ := by
@@ -202,6 +217,10 @@ abbrev cgToPilloni (χ : CGWeight) : CGWeight := (χ.1, χ.2.1, χ.1 + χ.2.1 + 
 example : cgToPilloni (0, 0, 1) = (0, 0, 2) := by
   sorry
 
+example : cgToPilloni (1, 0, 0) = (1, 0, 1) ∧
+    cgToPilloni (0, 0, 0) = (0, 0, 0) := by
+  sorry
+
 example : ¬ ∃ χ : CGWeight, cgToPilloni χ = (1, 0, 0) := by
   sorry
 
@@ -240,6 +259,9 @@ example : (2, 1, 7) ∈ gsp4Chamber 0 ∧ (2, 1, 7) ∉ gsp4Chamber 3 := by
 example : (-1, -2, 7) ∈ gsp4Chamber 3 := by
   sorry
 
+example : (2, 1, -17) ∈ gsp4Chamber 0 ∧ (2, 1, 23) ∈ gsp4Chamber 0 := by
+  sorry
+
 example : ∀ c : ℝ, (1, 0, c) ∈ gsp4Chamber 0 ∩ gsp4Chamber 1 := by
   sorry
 
@@ -248,6 +270,12 @@ the Levi longest element, indexed by §6.7's genus-two representatives as in REA
 theorem gsp4ConeReversal (i : Fin 4) :
     (fun x : ℝ × ℝ × ℝ ↦ (-x.2.1, -x.1, -x.2.2)) '' gsp4Chamber i =
       gsp4Chamber (Fin.rev i) := by
+  sorry
+
+/-- Minus the full longest element preserves each chamber. -/
+example (i : Fin 4) :
+    (fun x : ℝ × ℝ × ℝ ↦ (x.1, x.2.1, -x.1 - x.2.1 - x.2.2)) ''
+      gsp4Chamber i = gsp4Chamber i := by
   sorry
 
 /-- The anti-diagonal two-by-two block in the CG symplectic form. -/
@@ -289,6 +317,11 @@ example : cgJ ∈ kInfinityOne := by
 
 /-- An orthogonal negative similitude is excluded. -/
 example : Matrix.fromBlocks (1 : Matrix (Fin 2) (Fin 2) ℝ) 0 0 (-1) ∉ kInfinityOne := by
+  sorry
+
+example :
+    let D := Matrix.fromBlocks (1 : Matrix (Fin 2) (Fin 2) ℝ) 0 0 (-1)
+    D.transpose * D = 1 ∧ D.transpose * cgJ * D = -cgJ := by
   sorry
 
 /-- The CG matrix model of the supplied Siegel compact quotient is in bijection with U(2).
@@ -438,6 +471,10 @@ theorem localEigenvalueBound (ℓ : ℕ) (hℓ : v (ℓ : K) = 1) (f : Polynomia
     (hdeg : f.natDegree = 4) (hint : ∀ i, 0 ≤ v (f.coeff i))
     (hcong : ∀ i, 1 ≤ v ((f - (Polynomial.X - 1) ^ 4).coeff i)) (lam : K) (hlam : f.eval lam = 0) :
     ((1 / 4 : ℚ) : WithTop ℚ) ≤ v (lam - 1) := by
+  sorry
+
+/-- At odd residue characteristic, `−1` lies outside the positive-distance ball. -/
+example (h₂ : v (2 : K) = 0) : v ((-1 : K) - 1) = 0 := by
   sorry
 
 /-- At residue characteristic two, the distance bound permits the torsion eigenvalue `−1`. -/
