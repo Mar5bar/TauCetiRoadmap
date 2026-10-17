@@ -20,7 +20,9 @@ Design choices made explicit here:
 - `θ̃ = θ ∘ φ⁻¹` is defined for any ring map and any automorphism, so that its kernel statement
   transports an existing principal kernel and assumes nothing else.
 - The divisibility submodule of décalage lives inside a term of Mathlib's
-  `CochainComplex (ModuleCat R) ℤ`; all integer degrees are allowed.
+  `CochainComplex (ModuleCat R) ℤ`; all integer degrees are allowed. The principal-`p`
+  specialization uses the normalized module core owned by CrystallineCohomology CR.4;
+  AI.1 extends it to general regular scalars and ringed topoi.
 - The Breuil–Kisin Frobenius on `𝔖 = W(k)[[u]]` is coefficientwise `F` followed by Mathlib's
   substitution `u ↦ u^p`; the crystalline coefficient map is `F ∘ constantCoeff`.
 - Arithmetic period-ring inputs come from PadicPeriodRings. AI.7 defines Breuil–Kisin cohomology
@@ -231,7 +233,9 @@ variable {R : Type u} [CommRing R]
 
 /-- The divisibility submodule `E_f(C)^i = {x ∈ C^i : d x ∈ f · C^{i+1}}` of a cochain complex of
 `R`-modules indexed by `ℤ` (BMS1, §6.1). Multiplication by `f^i` identifies it with `(η_f C)^i`
-when `f` is a nonzerodivisor on every term; no torsion-freeness is needed to define it. -/
+when `f` is a nonzerodivisor on every term; no torsion-freeness is needed to define it. For
+`R = ℤ`, `f = p` prime, this submodule is the kernel defining the normalized principal-`p`
+core of CrystallineCohomology CR.4; its torsion-free complex and derived interfaces use that core. -/
 def etaTerm (C : CochainComplex (ModuleCat.{u} R) ℤ) (f : R) (i : ℤ) : Submodule R (C.X i) :=
   Submodule.comap (C.d i (i + 1)).hom (LinearMap.range (LinearMap.lsmul R (C.X (i + 1)) f))
 
@@ -460,8 +464,10 @@ Layer AI.1: `Decalage.etaDifferential`, `Decalage.etaComplex`, `Decalage.etaMap`
 `Decalage.bockstein`, `Decalage.bocksteinMap`, `Decalage.completedTensor`, `Decalage.pCompletion`,
 `Decalage.koszulComplex`, `Decalage.contCochains`.
 
-Layer AI.2: `BKF.Module`, `BKF.LatticePair`, `BKF.etale`, `AInf.Yan`, `BKF.reconstruct`,
-`AInf.MinusculeBKF`.
+Layer AI.2: `BKF.Module`, `BKF.Rigidified`, `BKF.LatticePair`, `BKF.etale`, `AInf.Yan`, `BKF.reconstruct`,
+`AInf.MinusculeBKF`. The period criterion `AInf.p_local_freeness_from_periods` is in AI.2.1,
+before closure of crystalline-rigidified BKF modules; `BKF.Rigidified` includes the Frobenius-compatible
+crystalline isomorphism, identity residue reduction and comparison-preserving morphisms.
 
 Layer AI.3: `AInfSheaf.completedIntegral`, `AInfSheaf.tilt`, `AInf.classical_ainf_sheaf`,
 `AInfSheaf.ainf`, `AInfSheaf.deRhamPeriods`, `AInfSheaf.structuralDeRhamPeriods`,
@@ -480,7 +486,8 @@ Layer AI.6: `Semistable.chartRing`, `Semistable.divisorialLog`, `Semistable.mono
 `Semistable.allCoordinatesLogCrystalline`, `Semistable.allCoordinatesComparisonMap`,
 `AInf.bdr_infinitesimal_envelope`, `AInf.canonical_bdr_deformation`, `AInf.canonical_bdr_etale_map`,
 `Semistable.bdrComparisonMap`, `AInf.normalized_valuation_length`,
-`Semistable.deRhamLatticeFunctor`.
+`Semistable.deRhamLatticeFunctor`, `AInf.pure_integral_model_freeness`. The latter supplies
+purity/projectivity and local-ring freeness of algebraic integral models before completion.
 
 Layer AI.7: `CohomologicalBK.coefficientNormalization`, `AInf.Trace.tate`,
 `AInf.Trace.tateDiagonal`, `AInf.Trace.THH`,
