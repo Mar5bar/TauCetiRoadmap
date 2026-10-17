@@ -3768,7 +3768,7 @@ Mathlib's units of number fields and trace duals; Tau Ceti's total positivity.
   https://www.imo.universite-paris-saclay.fr/~pilloni/higherhidaSiegel.pdf.
 - [Pilloni20] V. Pilloni, *Higher coherent cohomology and p-adic modular forms of singular weights*, Duke
   Math. J. 169 (2020); author copy https://www.imo.universite-paris-saclay.fr/~pilloni/complexhidatheorygsp4.pdf.
-- [Pilloni12] V. Pilloni, *Sur la théorie de Hida pour le groupe GSp_{2g}*, Bull. Soc. Math. France 140
+- [Pilloni12] V. Pilloni, *Sur la théorie de Hida pour le groupe `GSp_{2g}`*, Bull. Soc. Math. France 140
   (2012), 335–400.
 - [CG] F. Calegari and D. Geraghty, *Minimal modularity lifting for non-regular symplectic
   representations*, Duke Math. J. 169 (2020), 801–896; author copy https://math.uchicago.edu/~fcale/papers/Siegel.pdf.
