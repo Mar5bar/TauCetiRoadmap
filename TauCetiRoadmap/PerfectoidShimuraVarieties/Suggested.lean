@@ -178,6 +178,56 @@ has distinct first rows. This witnesses why the pinned lower parabolic is essent
 example : let u : Matrix (Fin 2) (Fin 2) ℚ := !![1, 1; 0, 1]
     u 0 1 = 1 ∧ (1 : Matrix (Fin 2) (Fin 2) ℚ) 0 1 = 0 ∧ u 1 0 = 0 := by decide
 
+/-- Conjugating a lower unipotent by the self-inverse Weyl matrix gives an upper
+unipotent outside the lower parabolic, as in FL_left_right_inverse. -/
+example : let u : Matrix (Fin 2) (Fin 2) ℚ := !![1, 0; 1, 1]
+    let w : Matrix (Fin 2) (Fin 2) ℚ := !![0, 1; 1, 0]
+    w * u * w⁻¹ = !![1, 1; 0, 1] ∧ (w * u * w⁻¹) 0 1 ≠ 0 := by
+  dsimp
+  have hw : (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) ℚ) * !![0, 1; 1, 0] = 1 := by
+    ext i j
+    fin_cases i <;> fin_cases j <;> norm_num [Matrix.mul_apply, Fin.sum_univ_succ]
+  rw [Matrix.inv_eq_left_inv hw]
+  constructor
+  · ext i j
+    fin_cases i <;> fin_cases j <;> norm_num [Matrix.mul_apply, Fin.sum_univ_succ]
+  · norm_num [Matrix.mul_apply, Fin.sum_univ_succ]
+
+/-- The zero-chart quotient frame sends the first basis vector to 1. -/
+example : hodgeFrame (0 : Matrix (Fin 1) (Fin 1) ℚ)
+    (Sum.elim ![1] ![0]) = ![1] := by
+  ext i
+  fin_cases i
+  simp [hodgeFrame, Matrix.mulVec, dotProduct]
+
+/-- The quotient frame at Z=2 has exactly the negative-graph kernel. -/
+example (v : (Fin 1 ⊕ Fin 1) → ℚ) :
+    v ∈ LinearMap.ker (hodgeFrame !![(2 : ℚ)]) ↔
+      ∃ t : ℚ, v = Sum.elim ![-2 * t] ![t] := by
+  rw [LinearMap.mem_ker]
+  constructor
+  · intro h
+    have h0 := congrFun h 0
+    simp [hodgeFrame, Matrix.mulVec, dotProduct] at h0
+    refine ⟨v (Sum.inr 0), ?_⟩
+    funext i
+    rcases i with i | i
+    · fin_cases i
+      change v (Sum.inl 0) = -2 * v (Sum.inr 0)
+      linarith
+    · fin_cases i
+      rfl
+  · rintro ⟨t, rfl⟩
+    ext i
+    fin_cases i
+    simp [hodgeFrame, Matrix.mulVec, dotProduct]
+
+/-- The quotient frame at Z=2 sends (3,5) to 13 in the sum-indexed carrier. -/
+example : hodgeFrame !![(2 : ℚ)] (Sum.elim ![3] ![5]) = ![13] := by
+  ext i
+  fin_cases i
+  norm_num [hodgeFrame, Matrix.mulVec, dotProduct]
+
 /-- Test hodge_frame_similitude, genus-one coefficient: the dual `W` factor is `a/c=1/d`.
 This tests the additional multiplier, not a natural untwisted Tate linearization. -/
 example {K : Type*} [Field K] (a d : K) (ha : a ≠ 0) (hd : d ≠ 0) :
@@ -222,6 +272,12 @@ theorem siegelGraphChart_stable [Nonempty g] [IsUltrametricDist K]
 /-- The zero graph belongs to every nonnegative radius domain. -/
 example (r : ℝ) (hr : 0 ≤ r) : (0 : Matrix g g K) ∈ graphDistanceDomain p K r := sorry
 
+/-- A negative radius excludes the zero graph when the matrix index is nonempty. -/
+example (r : ℝ) (hr : r < 0) :
+    (0 : Matrix (Fin 1) (Fin 1) ℚ_[p]) ∉ graphDistanceDomain p ℚ_[p] r := by
+  intro h
+  exact (not_le_of_gt hr) (Metric.infDist_nonneg.trans (h.2 0 0))
+
 /-- Integral unit translations in genus one stay in the zero-radius domain. A disc
 centered only at zero fails this test for a unit translation at radius less than one. -/
 example (a : ℤ_[p]) :
@@ -244,6 +300,20 @@ end PadicDistance
 end HodgeTate.MatrixChart
 
 /-! ## Layer 5: modular and Hilbert towers -/
+
+/-- At odd primes at least 5, the modular test radius lies strictly below the bound. -/
+example (p : ℕ) (hp : 5 ≤ p) : (1 : ℚ) / (4 * p) < 1 / (2 * p) := by
+  have hp' : (0 : ℚ) < p := by exact_mod_cast (by omega : 0 < p)
+  apply (div_lt_div_iff₀ (by positivity) (by positivity)).2
+  nlinarith
+
+/-- At p=3 the interior value is allowed and the odd-prime endpoint is excluded. -/
+example : (0 : ℚ) ≤ 1 / 18 ∧ (1 : ℚ) / 18 < 1 / (3 * 3 ^ 1) ∧
+    ¬ (1 : ℚ) / 9 < 1 / (3 * 3 ^ 1) := by norm_num
+
+/-- At p=2 the inclusive endpoint equals 1/8. -/
+example : (0 : ℚ) ≤ 1 / 8 ∧ (1 : ℚ) / 8 = 1 / (4 * 2 ^ 1) ∧
+    (1 : ℚ) / 8 ≤ 1 / (4 * 2 ^ 1) := by norm_num
 
 namespace HilbertTower.Coefficients
 open Matrix
@@ -428,7 +498,7 @@ neutralComponent.toFull, neutralSymmetry, connectedDatumTower, Rigidified
 (quotientIso, infiniteLevel, trivial).
 Layer 0.general: ShimuraTower.generalInfiniteLevel, toroidal,
 toroidalInfiniteLevel (openEmbedding, toMin, refine).
-Layer 1: SiegelTorsion.strictIwahori (§1.11), SiegelTorsion.integralMin, hasseDomain, finiteLevel, finiteLevel_hasse,
+Layer 1: SiegelTorsion.strictIwahori (§1.30), SiegelTorsion.integralMin, hasseDomain, finiteLevel, finiteLevel_hasse,
 GoodTriple (of_hasse_chart), SiegelTorsion.anticanonical,
 anticanonical_integralModel, normalizedTrace and normalizedTrace_linear on completed tower rings,
 htMapTop, htMap, openTower. The completed trace Checks
