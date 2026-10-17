@@ -10,6 +10,10 @@ statable against the pinned APIs and is not exhaustive. It fixes common determin
 left Kostant cosets, the central character in genus-two coordinates, and normalized valuations.
 The matrix, character-lattice and local-family statements below are the explicitly indicated
 parts of the geometric targets; the README states their full geometric conclusions.
+The genus-two lattice, root and chamber abbreviations give coordinate presentations of
+AutomorphicFormsOnReductiveGroups §6.3's supplied API, in the CG basis obtained by swapping
+its last two symplectic basis vectors. Their geometric comparisons use the Shimura filtration,
+compact Cartan and Cayley basis specified in the README.
 -/
 
 noncomputable section
@@ -92,6 +96,9 @@ end MumfordTate
 /-! ## Layer 2: uniqueness of the complex structure
 
 `uniqueComplexStructure` uses the supplied Hermitian component and its holomorphic variation.
+`PureDatum.toHermitianGroupDatum` constructs the actual `h`, centralizer, full positive real
+split centre, compact quotient and adjoint Hodge summands of the supplied Hermitian interface,
+with tangent signs and product/restriction-of-scalars comparisons as in README §2.2.
 -/
 
 /-! ## Layer 3: variations, compact duals and integral flags -/
@@ -142,20 +149,24 @@ end Kostant
 
 The data, type predicates and distinguished fibre-product datum require the supplied group
 and Shimura carriers. Their statements, including the prescribed-cover lift, are in README.md.
+`distinguishedDatum_levi` forms its centralizers over a chosen common splitting field `L`
+containing the reflex fields, with compatible cocharacter representatives over `L`.
+Its central quotients use the base changes of the rational subtori `Z_s`.
 -/
 
 /-! ## Layer 5: Hilbert and Siegel coordinates and neat levels -/
 
 section GenusTwo
 
-/-- Split CG character coordinates: the third coordinate is the similitude exponent. -/
+/-- Coordinate presentation of the supplied split character lattice; the third coordinate
+is the similitude exponent. -/
 abbrev CGWeight : Type := ℤ × ℤ × ℤ
 
 example : ((0, 0, 1) : CGWeight).2.2 = 1 := by
   sorry
 
-/-- Positive roots in the CG upper-triangular convention. -/
-def cgRoots : Fin 4 → CGWeight := ![(1, -1, 0), (0, 2, -1), (1, 1, -1), (2, 0, -1)]
+/-- The supplied positive-root table transported to the CG upper-triangular convention. -/
+abbrev cgRoots : Fin 4 → CGWeight := ![(1, -1, 0), (0, 2, -1), (1, 1, -1), (2, 0, -1)]
 
 example : cgRoots 1 = (0, 2, -1) := by
   sorry
@@ -176,16 +187,20 @@ example : ∀ i, cgPair (0, 0, 1) (cgCoroots i) = 0 := by
 example : cgPair (0, 0, 1) (0, 0, 1) = 1 := by
   sorry
 
-/-- The C₂ Cartan matrix and twice the half-sum, retaining its central coordinate. -/
+/-- The supplied root table has the C₂ pairings and half-sum in the CG presentation.
+The comparison with the Shimura filtration uses the transported root matrices of README §5.9. -/
 theorem gsp4CgRoots :
     (∀ i, cgPair (cgRoots i) (cgCoroots i) = 2) ∧ cgPair (cgRoots 0) (cgCoroots 1) = -1 ∧
       cgPair (cgRoots 1) (cgCoroots 0) = -2 ∧ (∑ i, cgRoots i) = (4, 2, -3) := by
   sorry
 
-/-- The CG-to-Pilloni parity-coordinate change. -/
-def cgToPilloni (χ : CGWeight) : CGWeight := (χ.1, χ.2.1, χ.1 + χ.2.1 + 2 * χ.2.2)
+/-- Coordinate presentation of the supplied split-to-compact parity conversion. -/
+abbrev cgToPilloni (χ : CGWeight) : CGWeight := (χ.1, χ.2.1, χ.1 + χ.2.1 + 2 * χ.2.2)
 
 example : cgToPilloni (0, 0, 1) = (0, 0, 2) := by
+  sorry
+
+example : ¬ ∃ χ : CGWeight, cgToPilloni χ = (1, 0, 0) := by
   sorry
 
 /-- The four minimal left representatives, including their central-coordinate actions. -/
@@ -209,9 +224,9 @@ theorem gsp4Kostant :
       (fun χ : CGWeight ↦ (-χ.1, -χ.2.1, χ.1 + χ.2.1 + χ.2.2)) := by
   sorry
 
-/-- The four closed real chambers, equivalently the images of the dominant chamber under
-these representatives. Their common central coordinate is unrestricted. -/
-def gsp4Chamber : Fin 4 → Set (ℝ × ℝ × ℝ) :=
+/-- Coordinate presentation of the supplied four closed chambers; their central coordinate
+is unrestricted. README §5.11 compares them with the Shimura-filtration representatives. -/
+abbrev gsp4Chamber : Fin 4 → Set (ℝ × ℝ × ℝ) :=
   ![{x | x.1 ≥ x.2.1 ∧ x.2.1 ≥ 0}, {x | x.1 ≥ -x.2.1 ∧ -x.2.1 ≥ 0},
     {x | -x.2.1 ≥ x.1 ∧ x.1 ≥ 0}, {x | -x.2.1 ≥ -x.1 ∧ -x.1 ≥ 0}]
 
@@ -221,7 +236,11 @@ example : (2, 1, 7) ∈ gsp4Chamber 0 ∧ (2, 1, 7) ∉ gsp4Chamber 3 := by
 example : (-1, -2, 7) ∈ gsp4Chamber 3 := by
   sorry
 
-/-- Minus the LEVI longest element reverses the chambers. -/
+example : ∀ c : ℝ, (1, 0, c) ∈ gsp4Chamber 0 ∩ gsp4Chamber 1 := by
+  sorry
+
+/-- Coordinate specialization of the supplied chamber duality by minus the Levi longest
+element, compared with Kostant opposition in README §5.11. -/
 theorem gsp4ConeReversal (i : Fin 4) :
     (fun x : ℝ × ℝ × ℝ ↦ (-x.2.1, -x.1, -x.2.2)) '' gsp4Chamber i =
       gsp4Chamber (Fin.rev i) := by
@@ -233,10 +252,19 @@ def cgS : Matrix (Fin 2) (Fin 2) ℝ := !![0, 1; 1, 0]
 example : cgS * cgS = 1 := by
   sorry
 
+example : cgS.det = -1 := by
+  sorry
+
+example : cgS.mulVec ![1, 0] = ![0, 1] := by
+  sorry
+
 /-- The symplectic matrix `J=h(i)` in the CG basis. -/
 def cgJ : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) ℝ := Matrix.fromBlocks 0 cgS (-cgS) 0
 
 example : cgJ * cgJ = -1 := by
+  sorry
+
+example : cgJ.transpose = -cgJ := by
   sorry
 
 /-- The matrix characterization of the real centralizer, including positive similitude. -/
@@ -264,8 +292,16 @@ theorem gsp4Unitary :
           Complex.I • (cgS * k.1.toBlocks₁₂).map (algebraMap ℝ ℂ) := by
   sorry
 
-/-- The parity SUBSET of characters, not the Cartan torus itself. -/
-def compactCartanCharacter : Set CGWeight := {χ | (χ.1 + χ.2.1 - χ.2.2) % 2 = 0}
+/-- The centralizer block parametrization respects matrix multiplication. -/
+example (A B A' B' : Matrix (Fin 2) (Fin 2) ℝ) :
+    Matrix.fromBlocks (cgS * A * cgS) (cgS * B) (-(B * cgS)) A *
+        Matrix.fromBlocks (cgS * A' * cgS) (cgS * B') (-(B' * cgS)) A' =
+      Matrix.fromBlocks (cgS * (A * A' - B * B') * cgS) (cgS * (A * B' + B * A'))
+        (-((A * B' + B * A') * cgS)) (A * A' - B * B') := by
+  sorry
+
+/-- Coordinate presentation of the supplied compact character lattice as a parity subset. -/
+abbrev compactCartanCharacter : Set CGWeight := {χ | (χ.1 + χ.2.1 - χ.2.2) % 2 = 0}
 
 example : (1, 0, 1) ∈ compactCartanCharacter := by
   sorry
@@ -273,9 +309,14 @@ example : (1, 0, 1) ∈ compactCartanCharacter := by
 example : (1, 0, 0) ∉ compactCartanCharacter := by
   sorry
 
-/-- The integral parity lattice is parametrized by one unrestricted third integer. -/
-theorem compactCartanLattice (χ : CGWeight) :
-    χ ∈ compactCartanCharacter ↔ ∃! k : ℤ, χ.2.2 = χ.1 + χ.2.1 + 2 * k := by
+example : (0, 1, 1) ∈ compactCartanCharacter ∧ (0, 0, 2) ∈ compactCartanCharacter := by
+  sorry
+
+/-- The coordinate conversion presents the supplied split/compact lattice equivalence.
+README §5.14 identifies this lattice with the characters of the actual compact Cartan. -/
+theorem compactCartanLattice :
+    Function.Injective cgToPilloni ∧
+      ∀ χ : CGWeight, χ ∈ compactCartanCharacter ↔ ∃ ψ : CGWeight, cgToPilloni ψ = χ := by
   sorry
 
 /-- A character descends exactly when it is trivial on the simultaneous-sign kernel. -/
@@ -296,6 +337,13 @@ theorem gsp4ExpKernel (t₁ t₂ z : ℂ) :
 /-- The simultaneous odd half-period maps to the sign kernel and is not an even period. -/
 example : Complex.exp ((Real.pi : ℂ) * Complex.I) = -1 ∧
     ¬ ∃ m : ℤ, (Real.pi : ℂ) = 2 * Real.pi * m := by
+  sorry
+
+/-- One odd angle and one even angle do not give the simultaneous-sign kernel. -/
+example : ¬ ((Complex.exp ((Real.pi : ℂ) * Complex.I) = 1 ∧
+      Complex.exp ((0 : ℂ) * Complex.I) = 1 ∧ Complex.exp (Real.pi * Complex.I) = 1) ∨
+    (Complex.exp ((Real.pi : ℂ) * Complex.I) = -1 ∧
+      Complex.exp ((0 : ℂ) * Complex.I) = -1 ∧ Complex.exp (Real.pi * Complex.I) = -1)) := by
   sorry
 
 /-- The Cayley matrix `C = [[I, −iS], [−iS, I]]`. -/
@@ -390,6 +438,14 @@ theorem localProductsBound (S : Set Kˣ) (hS : ∀ u ∈ S, ((1 / 4 : ℚ) : Wit
     ∀ x ∈ Subgroup.closure S, ((1 / 4 : ℚ) : WithTop ℚ) ≤ v ((x : K) - 1) := by
   sorry
 
+example [CharZero K] (h₇ : v (7 : K) = 1) (h₂ : v (2 : K) = 0) (h₃ : v (3 : K) = 0) :
+    v ((8 : K) * (-6) - 1) = 2 := by
+  sorry
+
+example [CharZero K] (h₇ : v (7 : K) = 1) (h₂ : v (2 : K) = 0) (h₃ : v (3 : K) = 0) :
+    v ((8 : K) / (-6) - 1) = 1 := by
+  sorry
+
 /-- The local torsion-free conclusion for a family of quartic eigenvalues. The all-places
 restriction-of-scalars assembly is stated in the README. -/
 theorem iwahoriNeat (ℓ : ℕ) (hℓ5 : 5 < ℓ) (hℓprime : ℓ.Prime) (hℓ : v (ℓ : K) = 1)
@@ -404,6 +460,12 @@ def eigenvalueGroup {n : Type*} [Fintype n] [DecidableEq n] (g : GL n K) : Subgr
   Subgroup.closure {u | g.val.charpoly.eval (u : K) = 0}
 
 example : eigenvalueGroup (1 : GL (Fin 2) ℚ) = ⊥ := by
+  sorry
+
+example : eigenvalueGroup (1 : GL (Fin 0) ℚ) = ⊥ := by
+  sorry
+
+example : (eigenvalueGroup (-1 : GL (Fin 2) ℚ) : Set ℚˣ) = {1, -1} := by
   sorry
 
 /-- Both diagonal eigenvalues have infinite order, but their product is torsion. -/
