@@ -9,8 +9,9 @@ characteristics, Serre witnesses, the predicate that a newform is attached to an
 elliptic curve, its unique newform, and a modular parametrisation with a chosen quotient
 isogeny.
 
-The existence theorem consumes ClassicalSerreModularity §R27.6, including its
-finite-flat weight-two export, and applies to every elliptic curve over ℚ. For infinitely many
+The existence theorem uses the unconditional classical Serre modularity theorem supplied by
+ClassicalSerreModularity §R27.6, including its finite-flat weight-two export, and applies
+to every elliptic curve over ℚ without a residual-modularity hypothesis. For infinitely many
 primes `p`, the representation on `E[p]` has the conductor of `E`, weight two, and
 trivial residual character. Serre modularity produces forms whose good coefficients
 agree with the traces of `E` modulo primes above `p`. Finiteness of the forms and an
@@ -19,7 +20,7 @@ conjugation gives rational integral coefficients, local compatibility supplies t
 conductor and bad factors, and Faltings's isogeny theorem produces the geometric
 quotient and parametrisation.
 
-There is also a conditional comparison theory that starts with an attached newform or a
+The reusable comparison theory takes an attached newform or a
 quotient of a modular Jacobian. It proves the equivalence of the newform, quotient, and
 parametrisation formulations without using the existence theorem. Separating this theory
 makes it usable when modularity is already known from a geometric construction.

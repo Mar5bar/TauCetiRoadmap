@@ -332,9 +332,10 @@ a rational integer. -/
 theorem IsNewformOf.coeff_int {M : ℕ} [NeZero M] {F : Newform M 2} (h : IsNewformOf E F) (n : ℕ) :
     ∃ m : ℤ, coeff F n = m := sorry
 
-/-- Every elliptic curve over ℚ has an attached weight-two newform with all Fourier
-coefficients equal to its L-function coefficients. ClassicalSerreModularity R27.6
-supplies residual modularity and its finite-flat weight-two export. The README's
+/-- Every elliptic curve over ℚ unconditionally has an attached weight-two newform with
+all Fourier coefficients equal to its L-function coefficients. ClassicalSerreModularity
+R27.6 supplies the classical Serre modularity theorem and its finite-flat weight-two export.
+There is no residual-modularity hypothesis on the curve. The README's
 exact-conductor comparison identifies the positive level with the elliptic conductor. -/
 theorem modularity :
     ∃ (N : ℕ) (hN : NeZero N) (F : Newform N 2),
