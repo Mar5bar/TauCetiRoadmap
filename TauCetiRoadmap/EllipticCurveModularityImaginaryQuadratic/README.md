@@ -64,9 +64,9 @@ their conjugates, by the GL₂-type abelian-variety construction over ℚ and
 automorphic descent/base change. Layer 5 and Layer 6 only identify the required
 geometric isogeny; they do not construct a second GL₂-type theory. The same modular-curve comparisons also support effective modularity applications.
 
-The underlying affine coarse modular curves and fixed-pairing twists belong to
-`TauCetiRoadmap.ModularCurves`, Layers 5C and 9. The compactified twists, Cartan curves and their point dictionary belong to
-ModularCurvesPartII §§5.14, 6.4–6.5 and 9.6–9.7. Use those objects directly, with the mixed-level normalization supplied by ModularCurvesPartII §§3.12 and 5.2.
+The underlying affine coarse modular curves and rational-base fixed-pairing twists belong to
+`TauCetiRoadmap.ModularCurves`, Layers 5C and 9. The rational-base compactified twists, Cartan curves and their point dictionary belong to
+ModularCurvesPartII §§5.14, 6.4–6.5 and 9.6–9.7. Layer 0 constructs the fixed-pairing twists for arbitrary number-field representations and proves their rationality at p=3,5. Use the supplied coarse objects directly, with the mixed-level normalization supplied by ModularCurvesPartII §§3.12 and 5.2.
 Their normalized coordinates and mixed-level identifications below are explicit
 arithmetic hypotheses. The discriminant coupling and independent CM lifting
 arguments are the targets of Layer 0.
@@ -179,15 +179,17 @@ these interfaces always mean their stated hypotheses, with no stronger theorem i
 | EllipticCurveModularity R29.6, “The three equivalent modularity formulations” | Modularity over ℚ, transported to the dual-Tate normalization, for rational-j models. |
 | ArithmeticGaloisRepresentations §§4.2–4.7 | Borel/Cartan subgroups, Dickson classification, Goursat and cyclotomic restriction; the p=5 projective-field exclusion in §4.7. The two source-specific genericity implications are targets of Layer 0. |
 | ArithmeticGaloisRepresentations §§5.1–5.5 | Semisimple recognition from Frobenius polynomials and coefficient descent. The finite Faltings–Serre comparison used here is the additional target of §0.4. |
-| ArithmeticGaloisRepresentations Layer 6; EllipticCurves Layers 1–4 and 6 | Torsion, Weil pairing, covariant/dual Tate modules, determinant, semisimplicity, isogeny functoriality, reduction and finite generation. |
+| ArithmeticGaloisRepresentations Layer 6; EllipticCurves Layers 1–4 and 6 | Torsion, Weil pairing, covariant/dual Tate modules, determinant, isogeny functoriality, reduction and finite generation. |
+| FaltingsFinitenessAndIsogenyTheorems §§R28.6.2–R28.6.3 | Elliptic Tate semisimplicity and the Tate Hom comparison over every number field. For non-CM E and finite L/F, semisimplicity and End_GL(VpE)=End_L(E)⊗ℚp=ℚp give absolute irreducibility, also after restriction to any open subgroup. |
+| ShimuraVarieties §5.6, `TauCeti.Shimura.cm_potential_good_reduction` | Potential good reduction everywhere for full-CM abelian varieties; for geometric CM elliptic curves first extend the number field to define the CM endomorphisms. |
 | GL2AutomorphicRepresentationsAndTransfer R16.0, R16.3–R16.4, R16.6 and R17.4 | Tate-normalized LLC, regular algebraic cuspidal GL₂ representations, classical/Hilbert weights, strong multiplicity one and soluble base change/descent. The CM weight convention is fixed here by CN §2. |
-| AutomorphicGaloisRepresentationsPartII AG2.P and AG2.5–AG2.7 | Attached representations, coefficient fields, residual lattices, semisimplified local comparison, the monodromy bound, existential decomposed genericity and infinitely many witnesses. Full elliptic monodromy comparison is the target `automorphic_wd`, using elliptic purity. |
+| AutomorphicGaloisRepresentationsPartII AG2.P and AG2.5–AG2.7 | Attached representations over CM or totally real fields, coefficient fields, residual lattices, semisimplified local comparison, the monodromy bound, existential decomposed genericity and infinitely many witnesses. Full elliptic monodromy comparison is the target `automorphic_wd`, using elliptic purity. |
 | FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.4.19, R07.5 and R07.6.1; AutomorphicGaloisRepresentationsPartII AG2.P | Integral/crystalline and potentially semistable comparison carriers, finite-flat elliptic torsion, and the weight conventions needed by §3.1. |
 | GlobalGaloisDeformations R04.3–R04.6; LocalGaloisDeformationRings Layers 1–6 and 8; DeformationAndDerivedPatchingAlgebra Layers 5–9 | Local/global deformation problems, ordinary and Barsotti–Tate components, and ring/module/complex patching for the independent lifting targets. |
 | AutomorphicGaloisRepresentations Layers 3–7 | Hilbert attachment, local compatibility, ordinary families and residual representations for the real-quadratic branch. |
 | NumberFieldArithmetic, “What Mathlib supplies”; LocalFieldsRamification Layer 2; ClassFieldTheory §5.4 | Hermite finiteness, local ramification bounds and quadratic-extension theory for the finite comparison. |
 | InverseGaloisAndArithmeticFundamentalGroups IG.2.4 and IG.2.7 | Hilbert irreducibility with finitely many local open conditions and disjoint specialization; §2.1 owns its CM solvable-globalization application with avoidance. |
-| ModularCurvesPartII §§3.12, 5.14, 6.4–6.5, 9.5–9.7 and 13.1 | Compactified full-level twists over characteristic-zero fields, coarse Cartan curves and the image/point dictionary, split-Cartan comparisons and Jacobian functoriality. The AKT discriminant coupling is §0.2 here. |
+| ModularCurvesPartII §§3.12, 5.14, 6.4–6.5, 9.5–9.7 and 13.1 | Compactified full-level twists from representations over ℚ and their base changes, coarse Cartan curves and the image/point dictionary, split-Cartan comparisons and Jacobian functoriality. The AKT discriminant coupling is §0.2 here. |
 | EffectiveDiophantineMethods Layer 3, §§4.20–4.22 and 5.24 | Descent and Mordell–Weil subgroup theory, symmetric and relative symmetric Chabauty, and the relative symmetric Mordell–Weil sieve. The concrete rank, torsion and finite local-image data are hypotheses here. |
 | EllipticCurveModularityPartIIGL2TypeAbelianVarieties GT.6 | Modularity of non-CM quadratic Q-curves from geometric conjugate isogenies, without requiring those isogenies to be defined over the quadratic field. |
 
@@ -206,10 +208,10 @@ prerequisites.
 | EC isogenies | EllipticCurves Layer 1: geometric endomorphisms, CM and isogenies. |
 | EC torsion | EllipticCurves Layer 2: torsion bases, Weil pairing and Tate modules. |
 | EC finite fields | EllipticCurves Layer 3: Hasse bounds and elliptic Frobenius purity. |
-| EC local reduction | EllipticCurves Layer 4: good, ordinary, supersingular and multiplicative reduction, Tate uniformization, and potentially good reduction for CM curves. |
-| EC Mordell–Weil | EllipticCurves Layer 6: finite generation and quadratic rank decomposition. |
+| EC local reduction | EllipticCurves Layer 4: good, ordinary, supersingular and multiplicative reduction, Tate uniformization, potential good reduction and its j-integrality criterion. |
+| EC Mordell–Weil | EllipticCurves Layer 6: finite generation. Quadratic rank decomposition is the target of §0.6 here, using its Layer 5 twist comparison. |
 | Weak approximation | GlobalNumberFields Layer 1: simultaneous local approximation, including its projective-line application. |
-| Modular twists | ModularCurves §5C and ModularCurvesPartII §5.14: the fixed-pairing twist and its smooth proper compactification over a characteristic-zero field. |
+| Modular twists | ModularCurves §5C and ModularCurvesPartII §5.14: fixed-pairing twists for representations over ℚ and their base changes. The arbitrary-number-field construction is §0.2 here. |
 | Coarse quotient | ModularCurves Layer 9 and ModularCurvesPartII §§5.2, 9.6–9.7: affine coarse quotients, compactified Cartan curves and their point dictionary. |
 | Jacobian A | JacobianChallenge Layer A: divisors, rational linear equivalence, degree and Picard groups. |
 | Jacobian B | JacobianChallenge Layer B: genus, canonical classes, Riemann–Roch and complete linear systems. |
@@ -222,11 +224,11 @@ references give `Layer n` or a section number and the target name.
 
 ### Adopted modular-curve interfaces
 
-The adopted ModularCurvesPartII §5.14 twist has the following contract. For p∈{3,5}, a number field F and continuous ρ̄:GF→GL₂(𝔽p) with det ρ̄=ε̄p, use the smooth affine twist Yρ̄/F of the fixed-pairing full-level curve. For every extension K/F its K-points classify pairs (A/K,α), up to isomorphism, where A is elliptic and α:𝔽p²≅A[p](K̄) is a GK-equivariant symplectic identification with the restriction of the given ρ̄, with the standard determinant pairing on ρ̄ matched to the Weil pairing. For p=3 the simultaneous sign automorphism and the actual rigidified moduli problem must be treated through the upstream level-structure construction; no coarse universal curve is assumed. Its smooth proper completion has geometric genus zero. (CN, Proof of Proposition 6.1.5, p.89; AKT §9, twists in Lemmas 9.6–9.7, pp.74–76.)
+The Layer 0 `fixed_pairing_twist` construction has the following contract, extending ModularCurvesPartII §5.14 beyond base changes of representations over ℚ. For p∈{3,5}, a number field F and continuous ρ̄:GF→GL₂(𝔽p) with det ρ̄=ε̄p, use the smooth affine twist Yρ̄/F of the fixed-pairing full-level curve. For every extension K/F its K-points classify pairs (A/K,α), up to isomorphism, where A is elliptic and α:𝔽p²≅A[p](K̄) is a GK-equivariant symplectic identification with the restriction of the given ρ̄, with the standard determinant pairing on ρ̄ matched to the Weil pairing. For p=3 the simultaneous sign automorphism and the actual rigidified moduli problem must be treated through the upstream level-structure construction; no coarse universal curve is assumed. Its smooth proper completion has geometric genus zero. (CN, Proof of Proposition 6.1.5, p.89; AKT §9, twists in Lemmas 9.6–9.7, pp.74–76.)
 
-*Needs:* Modular twists, ModularCurvesPartII §5.14 and Layer 0 `discriminant_coupling`, EC torsion, ArithmeticGaloisRepresentations §6.1.
+*Needs:* Layer 0 `fixed_pairing_twist`, EC torsion, ArithmeticGaloisRepresentations §6.1.
 
-Its supplied point, base-change and genus-zero interfaces are used as follows.
+Its point, base-change and genus-zero interfaces are used as follows.
 
 - The stated K-point classification holds naturally in K/F, with symplectic isomorphisms and the correct isomorphism relation.
 - For an extension K/F the base change of Yρ̄ is canonically the twist associated to ρ̄\|GK; these identifications satisfy identity and composition.
@@ -381,11 +383,15 @@ specified in their cited sections of this roadmap:
   covers all seven residue classes with the relative local differential
   criterion of EffectiveDiophantineMethods §4.22. For C2 take
   `G=⟨5π₂*D,D₂,5D₁₀⟩`, `I=10`, good primes 11 and 43 and the sixteen
-  nonpullback effective divisors L16 of s3ns5.m. Eight are rational sums,
+  nonpullback effective divisors L16 of s3ns5.m. Set Dbase=π₂*(0_B) and
+  supply the full finite known set L=L16∪Lpb, with Dbase∈Lpb⊂π₂*B(ℚ).
+  Supply the exact good subsets L_11^good,L_43^good⊂L and the applicable
+  symmetric or relative differential criterion for each listed good divisor.
+  Of the sixteen nonpullback divisors, eight are rational sums,
   and eight are quadratic conjugate pairs, exactly two imaginary and six
   real. The imaginary pairs are `quarticImaginaryPoints` and conjugates.
-  Require the symmetric/relative local differential criteria for each
-  declared good residue class and emptiness of the intersection of the
+  Form each bad set by removing precisely the reductions of L_p^good
+  from ι_p⁻¹(red_p(G)). Require emptiness of the intersection of the
   two lifted bad-coset sets, with `ι(D)=I([D]−Dbase)` as in
   EffectiveDiophantineMethods §5.24. These hypotheses are identities of
   finite sets, groups and reduction maps. (CN, Proposition 7.4.5, p.101;
@@ -400,7 +406,7 @@ are not roadmap targets.
 
 **Hypothesis `SmallFieldRanks`.** The rational elliptic curve E15 and each
 quadratic twist `E15^(−d)`, `d∈{1,2,3,5}`, have algebraic Mordell–Weil
-rank zero over ℚ. Equivalently, by quadratic rank decomposition, the
+rank zero over ℚ. Equivalently, by Layer 0 `quadratic_rank_decomposition`, the
 rationalized group `ℚ ⊗_ℤ E15(ℚ(√−d))` has dimension zero for those four
 d. This input concerns algebraic rank, with no numerical L-value or point
 search substituted for it. (CN, §1 after Theorem 1.1, p.2.)
@@ -518,7 +524,55 @@ CM ordinary/dihedral and potentially Barsotti–Tate proofs, with no appeal to
 let L be the splitting field of `T^n − a/aᶜ`. Then L/K is soluble CM and
 there is `z ∈ L⁺ˣ` with `a/z ∈ (Lˣ)^n`. The nonzero hypothesis permits
 `a/aᶜ` and the multiplicative power class. Specialize to n=6 for the
-Weierstrass discriminant. (AKT, Corollary 9.4, p.73.)
+Weierstrass discriminant. (AKT, Corollary 9.4, p.74.)
+
+**`fixed_pairing_twist`** — For every number field F, p∈{3,5}, continuous
+ρ̄:GF→GL₂(𝔽p) with cyclotomic determinant, and specified equivariant
+pairing ∧²ρ̄≅μp, construct the fine fixed-pairing twist Yρ̄/F and its
+smooth proper completion Xρ̄/F by carrying out ModularCurves §5C's descent
+over F. Prove the extension-field point dictionary of the adopted interface,
+naturality of field base change with identity and composition laws, and
+geometric genus zero. Identify these objects with ModularCurvesPartII §5.14
+when ρ̄ is the restriction of a representation over ℚ. Normalize the j-line
+in Yρ̄ to form the completion; finite separable frame extensions are smooth,
+so normalization commutes with this base change. (AKT §9, paragraph preceding
+Lemma 9.7 and its proof, p.75; Stacks Tag 03GV.)
+
+*Needs:* Modular twists, EC torsion; Mathlib
+`AlgebraicGeometry.Scheme.Hom.normalizationPullback` and its smooth-base-change
+isomorphism; ModularCurves §0E and ModularCurvesPartII §5.13.
+
+**Checks.**
+
+- A symplectic frame over a splitting extension identifies this construction
+  with the fixed-pairing full-level curve, rather than the disconnected
+  unpaired full-level curve.
+- For ρ̄=E[p], the pair (E,id) is an F-point and base change transports it
+  to (E_K,id) over each extension K/F.
+- A representation of GF need not descend to Gℚ; its twist is still defined
+  over F, while the comparison with §5.14 requires that descent hypothesis.
+
+**`fixed_pairing_twist_rational`** — Under the hypotheses of
+`fixed_pairing_twist`, Xρ̄ is F-isomorphic to ℙ¹ and Yρ̄ is its cusp
+complement. Prove that the projective twisting cocycle lifts to an SL₂-cocycle
+and hence is trivial by Hilbert 90, with the determinant/pairing compatibility
+needed for the lift. Apply Shepherd-Barron–Taylor's level-five argument and
+its level-three analogue. This supplies rationality without assuming a global
+point or deducing one from geometric genus zero. (AKT, proof of Lemma 9.7,
+p.75; Shepherd-Barron–Taylor, Lemma 1.1 and proof, author p.3.)
+
+*Needs:* Layer 0 `fixed_pairing_twist`; ModularCurves §0E (effective descent);
+the SL₂ lift and cocycle-trivialization argument of the cited proof, included
+in this target.
+
+**Checks.**
+
+- For ρ̄=E[p], the completion's rationality agrees with the rational point
+  (E,id) and geometric genus zero.
+- Removing the finite cusp divisor from ℙ¹ over a number field leaves
+  infinitely many F-points, even without a chosen elliptic realization of ρ̄.
+- A general genus-zero curve, such as x²+y²+z²=0 over ℚ, need not have a
+  rational point. The specified determinant-compatible lift is essential.
 
 **`discriminant_coupling`** — For any number field K and elliptic A,E/K,
 if `ΔA/ΔE ∈ (Kˣ)^6` and E[3] is irreducible, there is an elliptic C/K
@@ -556,6 +610,31 @@ projective-field exclusion at p=5. These are the residual-image implications use
 
 ### 0.4 Finite comparison of two representations
 
+**`even_trace_comparison`** — For any number field K and finite L/ℚ₂,
+let ρ₁,ρ₂:GK→GL₂(O_L) be continuous, unramified outside a finite set S
+containing all archimedean places and all places above 2. Assume both residual
+traces vanish and residual determinants agree. Let K_S be the compositum of
+all quadratic extensions unramified outside S, allowing ramification at the
+real places in S. For a finite set T of finite primes outside S require its
+Frobenius images in Gal(K_S/K) to be noncubic: every homogeneous cubic over
+F₂ vanishing on those images vanishes on the whole F₂-vector space. Equal
+traces and determinants on T imply isomorphic semisimplifications. Prove the
+Livné trace-discrepancy argument over this general base field; the only
+field-dependent input is finiteness of the quadratic extensions with the
+specified ramification. (DGP, Theorem 4.2 and §4.3, p.10; §5.2, pp.16–17.)
+
+*Needs:* ArithmeticGaloisRepresentations §§5.1–5.4; ClassFieldTheory §5.4
+with real places in the modulus; NumberFieldArithmetic Hermite finiteness.
+
+**Checks.**
+
+- The cubic residual kernel field over an imaginary quadratic K has degree
+  six over ℚ; this criterion applies there without a quadratic-field hypothesis.
+- Over ℚ with S containing ∞ and 2, ℚ(i) occurs in K_S: omitting the
+  permitted real ramification would discard a quadratic character.
+- In F₂³ the three basis vectors span but are not noncubic: x₁x₂x₃ vanishes
+  on them and not on (1,1,1). The full vector space is noncubic.
+
 **`finite_frobenius_comparison`** — Let K be imaginary quadratic, L/ℚℓ
 finite and `ρ₁,ρ₂ : G_K → GL₂(O_L)` continuous, unramified outside a finite
 S containing the places above ℓ. Prove the finite Faltings–Serre comparison
@@ -569,15 +648,11 @@ ramification. Equality of Frobenius traces at these primes implies equality
 of semisimplifications. This is a mathematical exhaustion condition on T,
 not a procedure for finding T.
 
-For the even-trace branch take ℓ=2, assume both residual traces vanish and
-the residual determinants agree. Let K_S be the compositum of all quadratic
-extensions unramified outside S. Require that the Frobenius images of T in
-`Gal(K_S/K)` are noncubic: every homogeneous cubic polynomial vanishing
-there vanishes on the entire F₂-vector space. Equal traces and determinants
-on T imply isomorphic semisimplifications (DGP, Theorem 4.2, p.10).
-For common cyclic residual image of order three, apply this after restriction
-to the common cubic kernel field and retain the character-twist comparison
-needed to descend (DGP, §4.3 and §5.3, pp.10,17).
+The even-trace branch uses the general-number-field `even_trace_comparison`
+below. For common cyclic residual image of order three, take ℓ=2 with residual
+coefficient field F₂ and apply that general criterion after restriction to
+the common cubic kernel field, with S pulled back to that field. Retain the
+character-twist comparison needed to descend (DGP, §4.3 and §5.3, pp.10,17).
 
 *Needs:* ArithmeticGaloisRepresentations §§1.1, 4.6 and 5.1–5.4;
 NumberFieldArithmetic §“What Mathlib supplies” (`NumberField.finite_of_discr_bdd`) and LocalFieldsRamification Layer 2 (local ramification bounds);
@@ -622,6 +697,31 @@ AutomorphicGaloisRepresentations Layers 3–7; GL2AutomorphicRepresentationsAndT
 R16.6; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5;
 EllipticCurveModularityPartIIGL2TypeAbelianVarieties GT.6.
 
+### 0.6 Quadratic rank decomposition
+
+**`quadratic_rank_decomposition`** — For a number field K, nonsquare d∈Kˣ,
+L=K(√d) and elliptic E/K, identify the + and − eigenspaces of σ∈Gal(L/K)
+on ℚ⊗ℤE(L) with ℚ⊗ℤE(K) and ℚ⊗ℤE^(d)(K), respectively. These give a
+ℚ-linear isomorphism ℚ⊗ℤE(L)≅(ℚ⊗ℤE(K))⊕(ℚ⊗ℤE^(d)(K)) and hence
+rk E(L)=rk E(K)+rk E^(d)(K). Use the projectors (1±σ)/2, fixed-point
+descent and the quadratic-twist anti-equivariance; finite generation makes
+the dimensions finite. (EllipticCurves Layer 5, quadratic-twist point/Galois
+comparison, and Layer 6, Mordell–Weil; CN §1 after Theorem 1.1, p.2.)
+
+*Needs:* EllipticCurves Layers 5–6; pinned Tau Ceti
+`WeierstrassCurve.quadraticTwistPointEquiv` and
+`WeierstrassCurve.quadraticTwistPointEquiv_map_eq_neg_map_of_not_fixed` in
+`TauCeti/AlgebraicGeometry/EllipticCurve/QuadraticTwist/Basic.lean`.
+
+**Checks.**
+
+- If both K-ranks vanish, E(L) is finite by Mordell–Weil; extra torsion
+  does not change the rationalized eigenspaces.
+- For K=ℚ and d=−1 the rank sum concerns E and its −1 twist over ℚ,
+  even when E(ℚ(i)) has more torsion than E(ℚ).
+- The E15 point (−1,6√−10), with the stated torsion comparison, forces a
+  positive rank sum for d=−10; rank zero cannot extend to every quadratic field.
+
 ### Examples
 
 For p=3 or 5, `[F(ζ_p):F]` divides p−1, so cannot equal three.
@@ -642,11 +742,13 @@ comparison and double-cover results of this layer precede every application.
 
 Keep the geometric CM branch in the predicate even when the Tate module splits over the base field. The non-CM branch uses the actual automorphic and Tate-module carriers from the suppliers. Its isogeny API is obtained from the transport theorem in this layer.
 
-**`Modular`** — For a number field F and a Weierstrass curve E/F with Δ(E) ≠ 0, Modular(E) means: either End(E over F̄) is larger than ℤ (geometric CM), or there exist a rational prime p, an isomorphism ι:Q̄p≅ℂ and a cuspidal regular algebraic automorphic representation π of GL₂(𝔸F), cohomological of weight 0, such that rπ,ι≅rE,p∨ as continuous representations of GF. Weight 0 and the Tate-normalized local Langlands convention are those of CN §2. The CM branch does not impose cuspidality. (CN, §6.1, definition before Theorem 6.1, p.87.)
+**`Modular`** — For a totally real or CM number field F and a Weierstrass curve E/F with Δ(E) ≠ 0, Modular(E) means: either End(E over F̄) is larger than ℤ (geometric CM), or there exist a rational prime p, an isomorphism ι:Q̄p≅ℂ and a cuspidal regular algebraic automorphic representation π of GL₂(𝔸F), cohomological of weight 0, such that rπ,ι≅rE,p∨ as continuous representations of GF. Weight 0 and the Tate-normalized local Langlands convention are those of CN §2. The CM branch does not impose cuspidality. (CN, §6.1, definition before Theorem 6.1, p.87.)
 
 *Needs:* Mathlib `WeierstrassCurve`, Mathlib `WeierstrassCurve.IsElliptic`, GL2AutomorphicRepresentationsAndTransfer R16.4, AutomorphicGaloisRepresentationsPartII AG2.7, ArithmeticGaloisRepresentations §6.1, GL2AutomorphicRepresentationsAndTransfer R16.3, GL2AutomorphicRepresentationsAndTransfer R16.6.
 
-The defining interface consists of these named statements.
+All statements in Layer 1 carry the totally real or CM hypothesis wherever
+`Modular` or an attached representation occurs; CM-specific statements retain
+their stronger CM hypothesis. The defining interface consists of these named statements.
 
 - `Modular.of_cm`: Geometric CM implies Modular(E), including when the CM field is contained in F.
 - `Modular.non_cm_iff`: For a non-CM E/F, Modular(E) iff the displayed existence of p, ι, π and the dual Tate-module isomorphism holds.
@@ -656,7 +758,9 @@ The defining interface consists of these named statements.
 
 - The smooth curve y²=x³+1 over ℚ(√−3) is Modular through its geometric CM, even though its Tate module splits over the CM field.
 - Every elliptic curve E/ℚ satisfies Modular(E), by EllipticCurveModularity R29.6 with the same dual normalization.
-- For p=5 over a number field, det(rE,p)=εp and det(rE,p∨)=εp⁻¹ are distinct characters; an isomorphism to rE,p cannot replace the isomorphism to its dual.
+- The signature-(1,1) field ℚ(∛2) is neither totally real nor CM and is
+  outside this predicate and its attachment contract.
+- For p=5 over a totally real or CM number field, det(rE,p)=εp and det(rE,p∨)=εp⁻¹ are distinct characters; an isomorphism to rE,p cannot replace the isomorphism to its dual.
 
 ### 1.2 One representation, all primes and local monodromy
 
@@ -668,7 +772,18 @@ Compare good-place polynomials over common coefficient fields before applying se
 
 **`automorphic_all_primes`** — With E/F and π as in automorphic_unique, for every rational prime p and every ι:Q̄p≅ℂ, rπ,ι≅rE,p∨ as continuous GF-representations. A common coefficient field and semisimple comparison are supplied before concluding an isomorphism. (CN, Lemma 6.1.3(2), p.88.)
 
-*Needs:* Layer 1 `automorphic_unique`, AutomorphicGaloisRepresentationsPartII AG2.7, ArithmeticGaloisRepresentations §6.1, ArithmeticGaloisRepresentations §§5.1–5.5.
+*Needs:* Layer 1 `automorphic_unique`, AutomorphicGaloisRepresentationsPartII AG2.7, ArithmeticGaloisRepresentations §6.1, ArithmeticGaloisRepresentations §§5.1–5.5, FaltingsFinitenessAndIsogenyTheorems §§R28.6.2–R28.6.3.
+
+**Checks for `automorphic_all_primes`.**
+
+- At a good place v∤p the isomorphism gives the dual elliptic Frobenius
+  polynomial, with determinant εp⁻¹ rather than εp.
+- At a prime p of reducible residual representation the rational Tate module
+  is still absolutely irreducible for non-CM E; residual irreducibility is
+  not a hypothesis of this all-prime comparison.
+- A nonsplit extension of two characters has the same Frobenius polynomials
+  as its semisimplification. Faltings semisimplicity prevents that ambiguity
+  on the elliptic side.
 
 **`automorphic_wd`** — For E/F and π as above, every p, every ι and every finite place v∤p satisfy WD(rE,p∨|GFv)F-ss≅recᵀFv(πv). Frobenius semisimplification retains the monodromy N. This is an isomorphism of Weil–Deligne representations, not just an equality of their semisimplified Weil representations. (CN, Lemma 6.1.3(3) and proof, p.88.)
 
@@ -684,9 +799,18 @@ At a good place N=0; at a potentially multiplicative place the Steinberg monodro
 
 Transport the geometric CM branch directly. In the cuspidal branch transfer the rational Tate-module isomorphism, twist the automorphic representation by the matching quadratic character, and check irreducibility before soluble descent. This is the interface used for the Gaussian orbit and the Fricke-related quadratic pairs.
 
-**`modularity_transport`** — For elliptic curves over any number field, modularity is invariant under isogeny and quadratic twist, and is preserved under conjugating the number field. If L/F is a finite Galois solvable CM extension and E/L is the base change of E/F, modularity of E/L implies modularity of E/F. In the non-CM branch use irreducibility of the Tate representation over GL; CM is handled separately. Base change along a finite solvable number-field extension preserves modularity, allowing the CM branch when cuspidality fails. (CN, §6.1, proof of Theorem 6.1, p.90; §7, proofs of Corollaries 7.1.2, 7.2.5 and 7.3.4, pp.93,97–98.)
+**`modularity_transport`** — For elliptic curves over a totally real or CM number field, modularity is invariant under isogeny and quadratic twist, and is preserved under conjugating the number field. If L/F is a finite Galois solvable extension with L CM and F totally real or CM, and E/L is the base change of E/F, modularity of E/L implies modularity of E/F. In the non-CM branch use absolute irreducibility of the Tate representation over GL, deduced from Faltings semisimplicity and End_GL(VpE)=End_L(E)⊗ℚp=ℚp; CM is handled separately. Base change along a finite solvable extension L/F with both F and L totally real or CM preserves modularity, allowing the CM branch when cuspidality fails. (CN, §6.1, proof of Theorem 6.1, p.90; §7, proofs of Corollaries 7.1.2, 7.2.5 and 7.3.4, pp.93,97–98.)
 
-*Needs:* Layer 1 `Modular`, GL2AutomorphicRepresentationsAndTransfer R17.4, EC isogenies, ArithmeticGaloisRepresentations §6.1, ArithmeticGaloisRepresentations §§6.1–6.2.
+*Needs:* Layer 1 `Modular`, GL2AutomorphicRepresentationsAndTransfer R17.4, EC isogenies, ArithmeticGaloisRepresentations §6.1, ArithmeticGaloisRepresentations §§6.1–6.2, FaltingsFinitenessAndIsogenyTheorems §§R28.6.2–R28.6.3.
+
+**Checks for `modularity_transport`.**
+
+- A non-CM curve remains non-CM after every finite extension, and its Tate
+  representation stays absolutely irreducible over that extension.
+- A quadratic twist tensors the covariant and dual Tate representations
+  with the same order-two character; its square is trivial.
+- Over ℚ(i), the CM curve y²=x³−x has a split Tate representation at primes
+  split in ℚ(i). Its transport uses the CM branch, not non-CM irreducibility.
 
 The 4050.1-c3 calculation can be transported by ℚ(i)-isogeny, field conjugation and quadratic twisting. The local monodromy and determinant normalizations are preserved.
 
@@ -702,7 +826,7 @@ The rational modularity endpoint, elliptic Tate and local-reduction interfaces, 
 
 ### 2.1 The fixed-pairing parameter curve and local preparation
 
-Geometric genus zero does not give a rational point. The number-field twist uses the upstream fixed-pairing moduli construction, including its actual rigidification at level 3. Local preparation supplies the points and prototypes that turn the completion into a projective line. Its globalization contract simultaneously controls the CM real subfield, the avoidance field and every place over the chosen generic q.
+Geometric genus zero does not give a rational point. Layer 0 `fixed_pairing_twist` constructs the number-field twist, including its actual rigidification at level 3, and `fixed_pairing_twist_rational` identifies the completion with a projective line. Local preparation supplies the local prototypes and open conditions. Its globalization contract simultaneously controls the CM real subfield, the avoidance field and every place over the chosen generic q.
 
 **`solvable_preparation`** — Let F be imaginary CM, p∈{3,5}, ρ̄:GF→GL₂(𝔽p) continuous, cyclotomic determinant and decomposed generic, and Favoid/F finite Galois. There is a finite Galois solvable CM extension L/F disjoint from Favoid such that each w|2,3,p is split over L⁺ and ρ̄|GLw is trivial; for every w|p there are local elliptic curves with good ordinary and good supersingular reduction and rational p-torsion; Lw(√−1)/Lw is unramified at w|2; a rational prime q>5 witnessing decomposed genericity splits completely in L. Local degrees and the chosen witness are part of the output. Where ζ5 must be excluded, enlarge the avoidance field by F(ζ5) before constructing L. (CN, Proof of Proposition 6.1.5, p.89; proof of Proposition 6.1.6, p.90, compared with AKT 9.13–9.15; AKT §9, Propositions 9.13 and 9.15, pp.79–81.)
 
@@ -714,37 +838,59 @@ The witness q is one rational prime and every place above it is retained, not on
 
 The general CM dihedral 2-adic and ordinary odd-prime lifting theorems are imported from the CM extension of §0.1. AKT discriminant descent and the mod-2/mod-3 coupling belong to §0.2. Here their hypotheses are assembled for the auxiliary curve, with locally open discriminant conditions and thin-set avoidance. The p-adic reduction partition is prescribed separately.
 
-**`seed_modular`** — Let K be imaginary CM and A/K elliptic with discriminant Δ from a chosen Weierstrass equation. Suppose: at each v|2, A is a Tate curve, Kv(√−1)/Kv is unramified, ordv Δ≡3 mod 6, and Δ/Δc is a square in Kv; at each v|3, A is a Tate curve, ordv Δ≡2 or 4 mod 6, and Δ/Δc is a cube in Kv; for M=K(ζ12,(Δ/Δc)^(1/6)), r̄A,3|GM is decomposed generic and its image on GM(ζ3) is conjugate to SL₂(𝔽3). Then A is modular. Here c is the CM involution; the choices of sixth root do not affect the field M. (AKT, §9, Proposition 9.12, p.79; Lemma 9.11, pp.78–79, and Corollary 9.4, p.73.)
+**`seed_modular`** — Let K be imaginary CM and A/K elliptic with discriminant Δ from a chosen Weierstrass equation. Suppose: at each v|2, A is a Tate curve, Kv(√−1)/Kv is unramified, ordv Δ≡3 mod 6, and Δ/Δc is a square in Kv; at each v|3, A is a Tate curve, ordv Δ≡2 or 4 mod 6, and Δ/Δc is a cube in Kv; for M=K(ζ12,(Δ/Δc)^(1/6)), r̄A,3|GM is decomposed generic and its image on GM(ζ3) is conjugate to SL₂(𝔽3). Then A is modular. Here c is the CM involution; the choices of sixth root do not affect the field M. (AKT, §9, Proposition 9.12, p.79; Lemma 9.11, pp.78–79, and Corollary 9.4, p.74.)
 
 *Needs:* Layer 1 `Modular`, Layer 1 `modularity_transport`, ModularCurvesPartII §5.14, ArithmeticGaloisRepresentations §§4.2–4.7, EC local reduction, ModularCurvesPartII §5.14 and Layer 0 `discriminant_coupling`, Layer 0 `cm_dihedral_lifting` and `cm_ordinary_lifting` with the independent AKT CM lifting contracts stated above.
 
 No condition at places above 5 occurs; changing the 5-adic reduction does not affect this seed. The residue characteristic two hypothesis is dihedral, not nonsolvable; a nonsolvable dyadic lifting theorem does not supply it.
 
-**`hilbert_local_selection`** — After solvable_preparation has made Yρ̄ an open subcurve of ℙ¹L, given nonempty open subsets Ωw⊂Yρ̄(Lw) at all the finitely many selected places and the finite covers encoding auxiliary large mod-3 or mod-5 image, there is an L-point in every Ωw outside the relevant thin exceptional sets. In the p=5 construction impose the AKT 9.7 discriminant-conjugacy, Tate valuation and large mod-3 conditions for seed_modular; independently choose at every w|5 ordinary, supersingular or split multiplicative local prototypes according to the prescribed partition. In the p=3 construction impose Tate reduction at every place above 5 for the ordinary mod-5 seed without constraining the prescribed 3-adic ordinary/supersingular/multiplicative choices. (CN, §6.1, proofs of Propositions 6.1.5–6.1.6, pp.89–90; AKT §9, Lemma 9.7, pp.75–76, Propositions 9.13 and 9.15 and Corollary 9.14, pp.79–81.)
+**`hilbert_local_selection`** — For the twist over L constructed by Layer 0 `fixed_pairing_twist`, use `fixed_pairing_twist_rational` to identify Yρ̄ with an open subcurve of ℙ¹L after `solvable_preparation`. Then, given nonempty open subsets Ωw⊂Yρ̄(Lw) at all the finitely many selected places and the finite covers encoding auxiliary large mod-3 or mod-5 image, there is an L-point in every Ωw outside the relevant thin exceptional sets. In the p=5 construction impose the AKT 9.7 discriminant-conjugacy, Tate valuation and large mod-3 conditions for seed_modular; independently choose at every w|5 ordinary, supersingular or split multiplicative local prototypes according to the prescribed partition. In the p=3 construction impose Tate reduction at every place above 5 for the ordinary mod-5 seed without constraining the prescribed 3-adic ordinary/supersingular/multiplicative choices. (CN, §6.1, proofs of Propositions 6.1.5–6.1.6, pp.89–90; AKT §9, Lemma 9.7, pp.75–76, Propositions 9.13 and 9.15 and Corollary 9.14, pp.79–81.)
 
-*Needs:* ModularCurvesPartII §5.14, Layer 2 `solvable_preparation`, Weak approximation, InverseGaloisAndArithmeticFundamentalGroups IG.2.4 and IG.2.7, EC local reduction.
+*Needs:* Layer 0 `fixed_pairing_twist`, Layer 0 `fixed_pairing_twist_rational`, Layer 2 `solvable_preparation`, Weak approximation, InverseGaloisAndArithmeticFundamentalGroups IG.2.4 and IG.2.7, EC local reduction.
+
+**Checks for `hilbert_local_selection`.**
+
+- Empty Ωw cannot yield a point satisfying all local conditions; nonemptiness
+  is required at each selected place.
+- For a trivial residual representation after local preparation, a local
+  ordinary prototype and a local supersingular prototype give different open
+  conditions on the same rational parameter curve.
+- An anisotropic genus-zero curve has no rational point; this target
+  uses `fixed_pairing_twist_rational`, not local nonemptiness alone, to invoke
+  Hilbert irreducibility on ℙ¹.
 
 Every place over the prescribed prime is constrained, not just the chosen lift of a place. A point found by finite search is not a substitute for avoiding the thin set.
 
 ### 2.3 Switching outputs and their automorphic local types
 
-The retained Tate places give the auxiliary curve a non-CM witness independently of its prescribed ordinary/supersingular partition. Use CM potentially good reduction everywhere and nonintegral j at a Tate place before choosing its cuspidal modular representation. The good-reduction comparison then gives an unramified local factor, while the multiplicative comparison gives ordinarity.
+The retained Tate places give the auxiliary curve a non-CM witness independently of its prescribed ordinary/supersingular partition. Use ShimuraVarieties §5.6 after a finite extension defining all geometric CM endomorphisms to obtain potential good reduction everywhere; combine this with nonintegral j at a Tate place before choosing its cuspidal modular representation. The good-reduction comparison then gives an unramified local factor, while the multiplicative comparison gives ordinarity.
 
 **`switch_five`** — Let F be imaginary CM, ρ̄:GF→GL₂(𝔽5) continuous with det=ε̄5 and decomposed generic, and partition the places v|5 as S5st⊔S5ord⊔S5ss. For every finite Galois Favoid/F there exist a finite Galois solvable CM extension L/F and a non-CM modular elliptic curve A/L such that L∩Favoid=F, A/Lw has respectively split multiplicative, good ordinary or good supersingular reduction for every w|v in the corresponding part, r̄A,5≅ρ̄|GL, and ρ̄|GL remains decomposed generic. ζ5∉F is not a hypothesis of this proposition. The construction also retains Tate reduction at every place above 2 and 3, independently of the prescribed 5-adic partition. These Tate places force A to be non-CM because a CM elliptic curve has potentially good reduction everywhere. (CN, Proposition 6.1.5, pp.88–89.)
 
-*Needs:* Layer 2 `solvable_preparation`, Layer 2 `hilbert_local_selection`, Layer 2 `seed_modular`, EC isogenies, EC local reduction.
+*Needs:* Layer 2 `solvable_preparation`, Layer 2 `hilbert_local_selection`, Layer 2 `seed_modular`, EC isogenies, EC local reduction, ShimuraVarieties §5.6 `TauCeti.Shimura.cm_potential_good_reduction`.
 
 Taking S5ss to be all 5-adic places yields an auxiliary curve with good supersingular reduction everywhere above 5. The modularity argument never invokes the target CN Theorem 6.1, avoiding a cycle. The auxiliary curve is non-CM even when every prescribed 5-adic place is supersingular: retain its Tate places above 2 and 3.
 
 **`switch_three`** — Let F be imaginary CM with ζ5∉F, ρ̄:GF→GL₂(𝔽3) continuous with det=ε̄3 and decomposed generic, and partition all places v|3 as S3st⊔S3ord⊔S3ss. For every finite Galois Favoid/F there exist a finite Galois solvable CM extension L/F and a non-CM modular elliptic curve A/L such that L∩Favoid=F, A/Lw has respectively split multiplicative, good ordinary or good supersingular reduction for every w|v in the corresponding part, r̄A,3≅ρ̄|GL, and ρ̄|GL remains decomposed generic. The construction also retains Tate reduction at every place above 5, independently of the prescribed 3-adic partition. These Tate places force A to be non-CM because a CM elliptic curve has potentially good reduction everywhere. (CN, Proposition 6.1.6, pp.89–90; AKT §9, Corollary 9.14 and Proposition 9.15, pp.80–81.)
 
-*Needs:* Layer 2 `solvable_preparation`, Layer 2 `hilbert_local_selection`, Layer 2 `switch_five`, Layer 2 `seed_modular`, ArithmeticGaloisRepresentations §§4.2–4.7, EC isogenies, EC local reduction.
+*Needs:* Layer 2 `solvable_preparation`, Layer 2 `hilbert_local_selection`, Layer 2 `switch_five`, Layer 2 `seed_modular`, ArithmeticGaloisRepresentations §§4.2–4.7, EC isogenies, EC local reduction, ShimuraVarieties §5.6 `TauCeti.Shimura.cm_potential_good_reduction`.
 
 The ζ5 condition belongs here and is kept when invoking the ordinary mod-5 seed. Supersingular at 3 is allowed; ordinary modularity lifting is used at 5, not incorrectly at 3. The auxiliary curve is non-CM even when every prescribed 3-adic place is supersingular: retain its Tate places above 5.
 
 **`auxiliary_local_types`** — For A/L supplied by switch_five (p=5) or switch_three (p=3), A is non-CM by its retained Tate places; let π be its weight-zero cuspidal modular representation with rπ,ι≅rA,p∨. For every w|p above v of F, π is ι-ordinary if v∈Spst; πw is unramified if v∈Spord∪Spss. In the latter case the associated p-adic representation is crystalline with N=0 and is potentially ordinary precisely in the ordinary case. Use p=5 for switch_five and p=3 for switch_three when applying CN Lemma 6.1.7. (CN, Lemma 6.1.7, p.90, and Theorem 6.1 proof.)
 
-*Needs:* Layer 2 `switch_five`, Layer 2 `switch_three`, Layer 1 `automorphic_wd`, Layer 1 `automorphic_potentially_multiplicative_ordinary`, EC local reduction, EC isogenies.
+*Needs:* Layer 2 `switch_five`, Layer 2 `switch_three`, Layer 1 `automorphic_wd`, Layer 1 `automorphic_potentially_multiplicative_ordinary`, EC local reduction, EC isogenies, ShimuraVarieties §5.6 `TauCeti.Shimura.cm_potential_good_reduction`.
+
+**Checks for the switching outputs and `auxiliary_local_types`.**
+
+- Prescribing supersingular reduction at all 5-adic places leaves the Tate
+  places above 2 and 3 in `switch_five`, and hence its non-CM witness.
+- Prescribing supersingular reduction at all 3-adic places leaves the Tate
+  places above 5 in `switch_three`, and hence its non-CM witness.
+- A negative valuation of j at a retained Tate place remains negative after
+  every finite extension; it contradicts potential good reduction from CM.
+- At a good ordinary or supersingular place N=0; at a split multiplicative
+  place N≠0 and the automorphic factor is ordinary Steinberg-type.
 
 A Tate place excludes CM of A; no inference from CM of A to modularity of the target E is used.
 
@@ -1107,7 +1253,8 @@ The defining interface consists of these named statements.
 - Removing −3 makes the infinity triple (1:1:0)
   rational; with −3 its Y-coordinate would have to square to −3.
 - The first two triples have Z=0 and opposite nonzero Y=±s; the weighted equation is Y²=−3X⁴, not the ordinary cubic equation.
-- For 0+, (5s)²=−75=ns3b5Quartic(0).
+- The third entry of genusOneSpecialPoints is 0+=(0:5s:1), with
+  (5s)²=−75=ns3b5Quartic(0).
 - For P₂, (5s/4)²=−75/16=ns3b5Quartic(−5/2).
 
 ### 5.4 Jacobian points versus rational divisor classes
@@ -1142,9 +1289,18 @@ Use `GenusOneQuadraticPoints`, whose rational-x or norm-five classification excl
 
 P=(1+2i,3+6i) on C/ℚ(i) is the nonrational-x case with xσ(x)=5.
 
-**`genus_one_points_modular`** — Assume `GenusOneModel` and `GenusOneQuadraticPoints`. For every quadratic number field F, every elliptic E/F giving a noncuspidal point P of X(ns3°,b5) is modular. In the imaginary case rational x gives rational j through the degree-two quotient. For a nonrational affine x the classification gives x(P)x(σP)=5, so the images of P and σP in X(ns3,b5) are related by its specified Fricke w5. The quotient moduli dictionary gives a geometric degree-5 isogeny between E and its conjugate and hence a Q-curve; the Q-curve modularity supplier applies. This does not assert σP=w5P for a chosen lift on the genus-one double cover. Infinite-coordinate points use the quotient/cusp dictionary. For real quadratic F use the imported FLHS modularity theorem. (CN, Corollary 7.2.5, p.97.)
+**`genus_one_points_modular`** — Assume `GenusOneModel` and `GenusOneQuadraticPoints`, and additionally `RealQuadraticCurveData` when F is real quadratic. For every quadratic number field F, every elliptic E/F giving a noncuspidal point P of X(ns3°,b5) is modular. In the imaginary case rational x gives rational j through the degree-two quotient. For a nonrational affine x the classification gives x(P)x(σP)=5, so the images of P and σP in X(ns3,b5) are related by its specified Fricke w5. The quotient moduli dictionary gives a geometric degree-5 isogeny between E and its conjugate and hence a Q-curve; the Q-curve modularity supplier applies. This does not assert σP=w5P for a chosen lift on the genus-one double cover. Infinite-coordinate points use the quotient/cusp dictionary. For real quadratic F use `real_quadratic_modularity` with `RealQuadraticCurveData`. The imaginary-quadratic specialization requires no `RealQuadraticCurveData`. (CN, Corollary 7.2.5, p.97.)
 
-*Needs:* `GenusOneQuadraticPoints`, `GenusOneModel`, ModularCurvesPartII §§9.6–9.7, Layer 1 `modularity_transport`, EllipticCurveModularity R29.6, EllipticCurveModularityPartIIGL2TypeAbelianVarieties GT.6, Layer 0 `real_quadratic_modularity`.
+*Needs:* `GenusOneQuadraticPoints`, `GenusOneModel`, ModularCurvesPartII §§9.6–9.7, Layer 1 `modularity_transport`, EllipticCurveModularity R29.6, EllipticCurveModularityPartIIGL2TypeAbelianVarieties GT.6, Layer 0 `real_quadratic_modularity` with `RealQuadraticCurveData` for the real branch.
+
+**Checks for `genus_one_points_modular`.**
+
+- For imaginary quadratic F a rational quotient coordinate gives rational j
+  and requires no `RealQuadraticCurveData`.
+- The point (1+2i,3+6i) has nonrational x and xσ(x)=5, so it uses the
+  geometric degree-5 Q-curve branch rather than rational x.
+- The all-real-quadratic branch carries `RealQuadraticCurveData`; the
+  imaginary-quadratic specialization does not acquire that hypothesis.
 
 On the quartic h(x)=−3(x⁴+2x³−x²+10x+25), both (x,y)↦(5/x,±5y/x²) induce the same quotient action. The norm-five equation alone does not choose a sign. For P=(1+2i,3+6i), σP equals the plus lift and differs from the minus lift; this is a regression against an inference from x alone, not identification of the actual modular lift.
 
@@ -1220,9 +1376,18 @@ First compute the exceptional long Weierstrass equation and its invariant polyno
 
 Containment in the nonsplit normalizer alone does not imply cyclotomic absolute irreducibility. No Faltings–Serre calculation is necessary here once the full-image hypothesis is available.
 
-**`genus_two_points_modular`** — Assume `ExceptionalCurveData`. For every quadratic number field F, every elliptic E/F giving a noncuspidal point P of X(b3,ns5) is modular. For imaginary F first handle rational P, including both infinity points, by the rational j-map and rational modularity, base change and twisting. A nonrational affine P of exact degree two with rational x satisfies σP=w3P and gives a geometric degree-3 Q-curve. The ℚ(√−11) exceptions are covered by eleven_exceptional_modular. The real-quadratic branch uses the imported FLHS endpoint, not Proposition 7.3.3 outside its imaginary hypothesis. (CN, Corollary 7.3.4, p.98.)
+**`genus_two_points_modular`** — Assume `ExceptionalCurveData`, and additionally `RealQuadraticCurveData` when F is real quadratic. For every quadratic number field F, every elliptic E/F giving a noncuspidal point P of X(b3,ns5) is modular. For imaginary F first handle rational P, including both infinity points, by the rational j-map and rational modularity, base change and twisting. A nonrational affine P of exact degree two with rational x satisfies σP=w3P and gives a geometric degree-3 Q-curve. The ℚ(√−11) exceptions are covered by eleven_exceptional_modular. The real-quadratic branch uses `real_quadratic_modularity` with `RealQuadraticCurveData`, not Proposition 7.3.3 outside its imaginary hypothesis. The imaginary-quadratic specialization requires no `RealQuadraticCurveData`. (CN, Corollary 7.3.4, p.98.)
 
-*Needs:* Layer 6 `genus_two_quadratic_points`, Layer 6 `genus_two_model`, Layer 6 `eleven_exceptional_modular`, ModularCurvesPartII §§9.6–9.7, Layer 1 `modularity_transport`, EllipticCurveModularity R29.6, EllipticCurveModularityPartIIGL2TypeAbelianVarieties GT.6, Layer 0 `real_quadratic_modularity`.
+*Needs:* Layer 6 `genus_two_quadratic_points`, Layer 6 `genus_two_model`, Layer 6 `eleven_exceptional_modular`, ModularCurvesPartII §§9.6–9.7, Layer 1 `modularity_transport`, EllipticCurveModularity R29.6, EllipticCurveModularityPartIIGL2TypeAbelianVarieties GT.6, Layer 0 `real_quadratic_modularity` with `RealQuadraticCurveData` for the real branch.
+
+**Checks for `genus_two_points_modular`.**
+
+- Each of the two rational infinity points uses rational j; being exchanged
+  by w3 does not identify either point with its Galois conjugate.
+- A nonrational affine point with rational x has σ(y)=−y and uses the
+  geometric degree-3 Q-curve branch.
+- The real-quadratic branch requires `RealQuadraticCurveData`; the
+  ℚ(√−11) branch uses `ElevenExceptionalData` without that real input.
 
 At infinity t=1/x,v=y/x³ gives v=±3 at t=0. Each point is rational and Galois-fixed, while w3 exchanges them. The proof must use rational j there. For nonrational affine P with x∈ℚ, σ sends y to −y; do not apply this assertion to an arbitrary rational P in C(F).
 
@@ -1377,9 +1542,20 @@ Use EffectiveDiophantineMethods §§4.20–4.22 and 5.24 with `QuarticSieveData`
 
 *Needs:* Layer 7 `quartic_models`, Layer 7 `quartic_pullback_indices`, EffectiveDiophantineMethods §4.22, EffectiveDiophantineMethods §5.24, the explicit arithmetic hypotheses of this section.
 
-**`second_quartic_quadratic_divisors`** — Assume `ExceptionalCurveData` and `GenusOneModel`. For C2 and π2:C2→B, Sym²(C2)(ℚ)=π2*B(ℚ)∪L16, with L16 sixteen rational effective degree-two divisors not pulled back. Eight are sums of rational points not interchanged by w2; eight are conjugate pairs of quadratic points. Precisely two quadratic pairs are imaginary, the pairs of quarticImaginaryPoints over ℚ(√−55); six are real. Use G=⟨5π2*D,D2,5D10⟩, I=10 and good primes 11,43. The intersection of the two lifted bad-coset sets is empty after the imported symmetric/relative local criteria. A search bound alone is not the completeness proof. (CN, Proposition 7.4.5(2), p.101; s3ns5.m sieve block.)
+**`second_quartic_quadratic_divisors`** — Assume `ExceptionalCurveData` and `GenusOneModel`. For C2 and π2:C2→B, Sym²(C2)(ℚ)=π2*B(ℚ)∪L16, with L16 sixteen rational effective degree-two divisors not pulled back. Eight are sums of rational points not interchanged by w2; eight are conjugate pairs of quadratic points. Precisely two quadratic pairs are imaginary, the pairs of quarticImaginaryPoints over ℚ(√−55); six are real. Use G=⟨5π2*D,D2,5D10⟩, I=10 and good primes 11,43, with Dbase=π2*(0_B), the full known list L=L16∪Lpb containing Dbase, and the exact subsets L_11^good,L_43^good from `QuarticSieveData`. Form both bad sets by removing the reductions of these good subsets, as in EffectiveDiophantineMethods §5.24. The intersection of the two lifted bad-coset sets is empty after the imported symmetric/relative local criteria. A search bound alone is not the completeness proof. (CN, Proposition 7.4.5(2), p.101; s3ns5.m sieve block.)
 
 *Needs:* Layer 7 `quartic_models`, Layer 7 `quarticImaginaryPoints`, Layer 7 `quarticTorsionClasses`, Layer 7 `quartic_pullback_indices`, EffectiveDiophantineMethods §4.21, EffectiveDiophantineMethods §4.22, EffectiveDiophantineMethods §5.24, the explicit arithmetic hypotheses of this section.
+
+**Checks for `second_quartic_quadratic_divisors` and its sieve input.**
+
+- Dbase is pulled back, so Dbase∉L16. The sixteen nonpullback divisors alone
+  cannot serve as the full known list L required by §5.24.
+- A known divisor whose differential criterion fails at 11 remains in the
+  bad set there unless its reduction coincides with one in L_11^good;
+  membership in L alone does not remove a residue class.
+- If the two lifted bad-coset sets have a common element, the stated sieve
+  criterion gives no completeness conclusion; the empty intersection is an
+  explicit input, separate from the sixteen-divisor output.
 
 ### 7.5 Modularity of the quartic points
 
@@ -1409,7 +1585,7 @@ If the cyclotomic restriction is absolutely irreducible, apply Layer 3. Otherwis
 
 **`imaginary_quadratic_residual_modularity`** — Assume `ExceptionalCurveData` as well as `GenusOneModel` and `GenusOneQuadraticPoints` for the exceptional genus-one case and the quartic model comparison. Let F be an imaginary quadratic number field and E/F an elliptic curve. If GF acts irreducibly on E[5] over 𝔽5 (absolute irreducibility is not required), or GF acts irreducibly on E[3] over 𝔽3 and its image is not conjugate to the whole normalizer of a split Cartan, then E is modular. The mod-3 exclusion is equality up to conjugacy with the whole normalizer, not containment in some split normalizer. (CN, Theorem 7.1, p.91; Lemma 7.1.1, pp.92–93; conclusion p.102.)
 
-*Needs:* Layer 3 `quadratic_modularity`, ModularCurvesPartII §§9.6–9.7, Layer 5 `genus_one_points_modular`, Layer 6 `genus_two_points_modular`, Layer 7 `first_quartic_points_modular`, Layer 7 `second_quartic_points_modular`, ArithmeticGaloisRepresentations §4.7.
+*Needs:* Layer 3 `quadratic_modularity`, ModularCurvesPartII §§9.6–9.7, the imaginary-quadratic specializations of Layer 5 `genus_one_points_modular` and Layer 6 `genus_two_points_modular` (requiring no `RealQuadraticCurveData`), Layer 7 `first_quartic_points_modular`, Layer 7 `second_quartic_points_modular`, ArithmeticGaloisRepresentations §4.7.
 
 Ordinary irreducibility over 𝔽p is distinguished from absolute irreducibility after coefficient extension and from absolute irreducibility of GF(ζp). The p=3 image excluded by equality may have irreducible proper subgroups; these are not excluded by this theorem.
 
@@ -1423,13 +1599,22 @@ The residual-image theorem leaves X(b3,b5) and X(s3,b5). Their rational isogeny 
 
 Cusps are discarded when associating an elliptic curve but remain in the finite point set. The Gaussian exception is tied to the full eight-point orbit arithmetic input and Faltings–Serre comparison, not an unsupported database label.
 
-**`small_imaginary_quadratic_modularity`** — Assume the eight arithmetic hypotheses of `finite_level_fifteen_modularity` and `SmallFieldRanks`. For F=ℚ(√−d) with d∈{1,2,3,5}, X₀(15)(F) is finite and hence every elliptic curve over F is modular. Each application assumes algebraic rank zero for the rational elliptic model E15 and its quadratic twist by −d: rk E15(F)=rk E15(ℚ)+rk E15^(−d)(ℚ)=0. The Gaussian field retains its extra torsion without acquiring positive rank. The representative
+**`small_imaginary_quadratic_modularity`** — Assume the eight arithmetic hypotheses of `finite_level_fifteen_modularity` and `SmallFieldRanks`. For F=ℚ(√−d) with d∈{1,2,3,5}, X₀(15)(F) is finite and hence every elliptic curve over F is modular. Each application assumes algebraic rank zero for the rational elliptic model E15 and its quadratic twist by −d: Layer 0 `quadratic_rank_decomposition` gives rk E15(F)=rk E15(ℚ)+rk E15^(−d)(ℚ)=0. The Gaussian field retains its extra torsion without acquiring positive rank. The representative
 `small_imaginary_quadratic_level_fifteen_finite` states this finiteness on the
 actual Mathlib point group of E15 after base change; it quantifies over a
 number field of ℚ-dimension 2, d∈{1,2,3,5}, and s with s²=−d, finite generation, and dimension zero of the rationalized E15 point group. It derives finiteness from that rank input. The modular-curve
 comparison is supplied by `LevelFifteenModels`. (CN, §1 after Theorem 1.1, p.2.)
 
-*Needs:* Layer 8 `finite_level_fifteen_modularity`, `LevelFifteenModels`, `QuadraticLevelFifteenTorsion`, EC Mordell–Weil, EffectiveDiophantineMethods Layer 3, the explicit arithmetic hypotheses of this section.
+*Needs:* Layer 8 `finite_level_fifteen_modularity`, Layer 0 `quadratic_rank_decomposition`, `SmallFieldRanks`, `LevelFifteenModels`, `QuadraticLevelFifteenTorsion`, EC Mordell–Weil, EffectiveDiophantineMethods Layer 3, the explicit arithmetic hypotheses of this section.
+
+**Checks for `small_imaginary_quadratic_modularity`.**
+
+- At d=1 both assumed rational ranks vanish; additional Gaussian torsion
+  does not alter the conclusion that E15(ℚ(i)) is finite.
+- At d=2,3,5 the same rank decomposition uses the respective −d twist,
+  rather than the rational rank of E15 alone.
+- At d=10 the nontorsion point (−1,6√−10) excludes the rank-zero conclusion;
+  this d is outside `SmallFieldRanks`.
 
 Rank computations use algebraic rank bounds; a finite search or numerical L-value is insufficient.
 
@@ -1460,6 +1645,8 @@ Page locators for CN, AKT, FLHS, BOX and ZYW refer to the fixed PDFs linked here
 - **CN**: Ana Caraiani and James Newton, [On the modularity of elliptic curves over imaginary quadratic fields](https://arxiv.org/pdf/2301.10509v3). arXiv:2301.10509v3, 27 March 2025.
 
 - **AKT**: Patrick B. Allen, Chandrashekhar Khare and Jack A. Thorne, [Modularity of GL₂(Fp)-representations over CM fields](https://arxiv.org/pdf/1910.12986v2). arXiv:1910.12986v2, 2 September 2022; Cambridge Journal of Mathematics 11 (2023), 1–158; cited pagination is that of the preprint.
+
+- **SBT**: Nicholas I. Shepherd-Barron and Richard Taylor, [Mod 2 and mod 5 icosahedral representations](https://math.stanford.edu/~rltaylor/klein.pdf), author copy, Lemma 1.1 and proof, p.3.
 
 - **FLHS**: Nuno Freitas, Bao V. Le Hung and Samir Siksek, [Elliptic Curves over Real Quadratic Fields are Modular](https://arxiv.org/pdf/1310.7088v4). arXiv:1310.7088v4, 18 July 2014.
 

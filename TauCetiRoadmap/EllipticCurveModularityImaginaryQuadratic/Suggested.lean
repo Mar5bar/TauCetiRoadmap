@@ -21,7 +21,11 @@ noncomputable section
 attribute [local instance] Classical.decEq
 
 /- Layers 0–2 use the automorphic and moduli carriers specified in README.md.
-Their targets are stated there. -/
+Their targets are stated there, including fixed_pairing_twist,
+fixed_pairing_twist_rational, even_trace_comparison and quadratic_rank_decomposition.
+The Modular predicate and its transport statements require totally real or CM
+base fields; the real branches of genus_one_points_modular and
+genus_two_points_modular carry RealQuadraticCurveData. -/
 
 /-! ## Layer 3: CM modularity and equation density -/
 
@@ -81,6 +85,18 @@ example (F : Type*) [Field F] [NumberField F] :
       (⟨0, 0, 0, 0, 64⟩ : WeierstrassCurve F) =
       (⟨0, 0, 0, 0, 1⟩ : WeierstrassCurve F) := by sorry
 
+/-- The zero pair is singular and excluded from the coefficient family. -/
+example (F : Type*) [Field F] [NumberField F] :
+    ((0, 0) : NumberField.RingOfIntegers F × NumberField.RingOfIntegers F) ∉
+      shortEquationFamily F ∧
+    (⟨0, 0, 0, 0, 0⟩ : WeierstrassCurve F).Δ = 0 := by sorry
+
+/-- The integral pair (0,1) has discriminant −432. -/
+example (F : Type*) [Field F] [NumberField F] :
+    ((0, 1) : NumberField.RingOfIntegers F × NumberField.RingOfIntegers F) ∈
+      shortEquationFamily F ∧
+    (⟨0, 0, 0, 0, 1⟩ : WeierstrassCurve F).Δ = -432 := by sorry
+
 end shortEquationFamily
 
 /-! ## Layer 4: Cartan modular curves and explicit j-maps -/
@@ -99,6 +115,9 @@ theorem b3J_functionFieldDegree :
 /-- The value at 1 distinguishes the Borel-3 normalization. -/
 example : RatFunc.eval (RingHom.id ℚ) 1 b3J = 1792 := by sorry
 
+/-- The value at (-3) fixes the source normalization of b3J. -/
+example : RatFunc.eval (RingHom.id ℚ) (-3) b3J = 0 := by sorry
+
 /-- Totalized field evaluation at the pole 0 is zero; the proper map has a cusp. -/
 example : (RatFunc.denom b3J).eval 0 = 0 ∧ RatFunc.eval (RingHom.id ℚ) 0 b3J = 0 := by sorry
 
@@ -114,6 +133,9 @@ theorem b5J_functionFieldDegree :
 
 /-- The value at 1 fixes the Borel-5 scaling. -/
 example : RatFunc.eval (RingHom.id ℚ) 1 b5J = 38477541376 := by sorry
+
+/-- The value at (-5) fixes the source normalization of b5J. -/
+example : RatFunc.eval (RingHom.id ℚ) (-5) b5J = -2194880 := by sorry
 
 /-- The reduced Borel-5 denominator vanishes at the cusp 0. -/
 example : (RatFunc.denom b5J).eval 0 = 0 := by sorry
@@ -132,6 +154,9 @@ theorem ns3J_functionFieldDegree :
 /-- The value at 2 distinguishes x³ from x. -/
 example : RatFunc.eval (RingHom.id ℚ) 2 ns3J = 8 := by sorry
 
+/-- The value at 0 fixes the source normalization of ns3J. -/
+example : RatFunc.eval (RingHom.id ℚ) 0 ns3J = 0 := by sorry
+
 /-- The normalizer expression is polynomial with integer degree 3. -/
 example : RatFunc.denom ns3J = 1 ∧ RatFunc.intDegree ns3J = 3 := by sorry
 
@@ -149,6 +174,9 @@ theorem ns5J_functionFieldDegree :
 /-- At 0 the nonsplit-5 value is zero and its denominator is nonzero. -/
 example : RatFunc.eval (RingHom.id ℚ) 0 ns5J = 0 ∧ (RatFunc.denom ns5J).eval 0 ≠ 0 := by sorry
 
+/-- The value at (-1/2) fixes the source normalization of ns5J. -/
+example : RatFunc.eval (RingHom.id ℚ) (-1/2) ns5J = 0 := by sorry
+
 /-- Equal numerator and denominator degrees give integer degree zero and
 value 8000 at infinity, while the function-field extension has degree 10. -/
 example : RatFunc.intDegree ns5J = 0 ∧ (RatFunc.num ns5J).leadingCoeff / (RatFunc.denom ns5J).leadingCoeff = 8000 := by sorry
@@ -165,6 +193,9 @@ theorem s3J_functionFieldDegree :
 
 /-- The value −1728 at 1 distinguishes the split-3 formula. -/
 example : RatFunc.eval (RingHom.id ℚ) 1 s3J = -1728 := by sorry
+
+/-- The value at (-1) fixes the source normalization of s3J. -/
+example : RatFunc.eval (RingHom.id ℚ) (-1) s3J = 0 := by sorry
 
 /-- The split-3 expression has a pole at 0 and integer degree 3. -/
 example : (RatFunc.denom s3J).eval 0 = 0 ∧ RatFunc.intDegree s3J = 3 := by sorry
@@ -185,6 +216,9 @@ example (D : B.toAffine.Point) (hD : Function.Bijective (fun n : ℤ => n • D)
 
 /-- The j-invariant of the fixed quotient model is zero. -/
 example : B.j = 0 := by sorry
+
+/-- The point (1,2) satisfies the actual quotient model. -/
+example : B.toAffine.Equation 1 2 := by sorry
 
 /-- The sign of a₃ matters for the point (1,2). -/
 example : B.a₃ = -1 ∧ ¬ (⟨0,0,1,0,1⟩ : WeierstrassCurve ℚ).toAffine.Equation 1 2 := by sorry
@@ -225,6 +259,11 @@ local instance Es35_baseChange_elliptic (F : Type*) [Field F] [Algebra ℚ F] :
 
 /-- The affine point (0,0) is a nonidentity point of order two. -/
 example : ∃ h : E15.toAffine.Equation 0 0, WeierstrassCurve.Affine.Point.mk h ≠ 0 ∧ 2 • WeierstrassCurve.Affine.Point.mk h = 0 := by sorry
+
+/-- The three distinct rational two-torsion x-coordinates of E15 are 0, −16, −25. -/
+example : E15.toAffine.Equation 0 0 ∧ E15.toAffine.Equation (-16) 0 ∧
+    E15.toAffine.Equation (-25) 0 ∧
+    (0 : ℚ) ≠ -16 ∧ (0 : ℚ) ≠ -25 ∧ (-16 : ℚ) ≠ -25 := by sorry
 
 /-- The two level-fifteen equations are distinct and have different discriminants. -/
 example : E15.Δ = 207360000 ∧ E15 ≠ Es35 := by sorry
@@ -301,6 +340,10 @@ example (F : Type*) [Field F] [NumberField F]
 in the arithmetic comparisons (CN Corollary 7.1.2 proof, p.93; LMFDB 4050.1-c3). -/
 def gaussianExceptional (K : Type*) [Field K] (i : K) : WeierstrassCurve K := ⟨i, 1, 1, 6+i, 10-15*i⟩
 
+/-- The Gaussian model retains the long coefficient a₁=i. -/
+example (K : Type*) [Field K] (i : K) :
+    (gaussianExceptional K i).a₁ = i := by sorry
+
 /-- Reduction using i²=−1 gives the stated nonzero discriminant in
 characteristic zero; this does not certify modularity. -/
 theorem gaussianExceptional_discriminant (K : Type*) [Field K] [CharZero K] (i : K) (h : i^2 = -1) : (gaussianExceptional K i).Δ = 58752+107136*i ∧ (gaussianExceptional K i).Δ ≠ 0 := by sorry
@@ -327,11 +370,15 @@ theorem ns3b5Quartic_fricke (K : Type*) [Field K] [CharZero K] (x : K) (h : x �
 /-- The value −75 at zero fixes the quadratic twist. -/
 example : ns3b5Quartic.eval (0) = -75 := by sorry
 
+/-- The quartic at −2 gives the y-coordinate −√−3. -/
+example : ns3b5Quartic.eval (-2) = -3 := by sorry
+
 /-- The value at −5/2 agrees with the special point y=5√−3/4. -/
 example : ns3b5Quartic.eval (-5/2) = -75/16 := by sorry
 
 /-- The scalar-one infinity coordinate fails the genuine −3-twisted equation. -/
-example : (1 : ℚ) ^ 2 = 1 ∧ (1 : ℚ) ^ 2 ≠ -3 := by norm_num
+example : ns3b5Quartic.leadingCoeff = -3 ∧
+    (1 : ℚ) ^ 2 ≠ ns3b5Quartic.leadingCoeff := by sorry
 
 /-- The five ordered weighted coordinate triples over a square root of −3.
 Their lifts to the smooth proper curve need GenusOneModel (CN p.95). -/
@@ -355,6 +402,11 @@ example (K : Type*) [Field K] [CharZero K] (s : K) (hs : s ^ 2 = -3) :
 example (K : Type*) [Field K] [CharZero K] (s : K) (hs : s ^ 2 = -3) :
     (genusOneSpecialPoints K s)[4]? = some ![-5/2, 5*s/4, 1] ∧
     (5*s/4)^2 = ns3b5Quartic.eval₂ (Rat.castHom K) (-5/2) := by sorry
+
+/-- The third listed triple is 0+, whose y-coordinate squares to the quartic at zero. -/
+example (K : Type*) [Field K] [CharZero K] (s : K) (hs : s ^ 2 = -3) :
+    (genusOneSpecialPoints K s)[2]? = some ![0, 5*s, 1] ∧
+    (5*s)^2 = ns3b5Quartic.eval₂ (Rat.castHom K) 0 := by sorry
 
 /-- At x=1+2i the norm-five relation agrees with the plus Fricke lift;
 the minus lift has the same x-coordinate and the wrong y-coordinate. -/
@@ -381,9 +433,15 @@ example : b3ns5Sextic.eval 0 = -8 := by sorry
 /-- The three rational roots are −1, 1/3 and 2. -/
 example : b3ns5Sextic.eval (-1) = 0 ∧ b3ns5Sextic.eval (1/3) = 0 ∧ b3ns5Sextic.eval 2 = 0 := by sorry
 
+/-- The sextic has degree six and square leading coefficient nine. -/
+example : b3ns5Sextic.natDegree = 6 ∧ b3ns5Sextic.leadingCoeff = 9 := by sorry
+
 /-- The long Weierstrass model over a²−a+3=0, including the coefficient
 a₂=0 (CN Corollary 7.3.4 proof, p.98; b3ns5.m exceptional-curve block). -/
 def elevenExceptional (K : Type*) [Field K] (a : K) : WeierstrassCurve K := ⟨a, 0, 1+a, -24-6*a, 56+13*a⟩
+
+/-- The exceptional eleven model has a₂=0. -/
+example (K : Type*) [Field K] (a : K) : (elevenExceptional K a).a₂ = 0 := by sorry
 
 /-- Reduction by a²−a+3 gives the nonzero discriminant of the exceptional
 model in characteristic zero. -/
@@ -416,6 +474,9 @@ example : MvPolynomial.eval₂ (RingHom.id ℚ) ![0,0,1] quartic1 = 11 := by sor
 /-- Evaluation on the displayed coordinates fixes the source normalization. -/
 example : MvPolynomial.eval₂ (RingHom.id ℚ) ![1,0,0] quartic1 = 9 := by sorry
 
+/-- The first quartic has value one on the Y-coordinate basis vector. -/
+example : MvPolynomial.eval₂ (RingHom.id ℚ) ![0,1,0] quartic1 = 1 := by sorry
+
 /-- The homogeneous coordinate map (X,−Y−Z,Z). Projective
 automorphism and modular quotient comparisons need quartic_models. -/
 def quartic1Coordinates {K : Type*} [CommRing K] (v : Fin 3 → K) : Fin 3 → K := ![v 0,-v 1-v 2,v 2]
@@ -425,6 +486,9 @@ example : quartic1Coordinates (![0,1,0] : Fin 3 → ℚ) = ![0,-1,0] := by sorry
 
 /-- Evaluation on the displayed coordinates fixes the source normalization. -/
 example : quartic1Coordinates (![0,0,1] : Fin 3 → ℚ) = ![0,-1,1] := by sorry
+
+/-- The first coordinate involution fixes the X-coordinate basis vector. -/
+example : quartic1Coordinates (![1,0,0] : Fin 3 → ℚ) = ![1,0,0] := by sorry
 
 /-- The second homogeneous quartic over ℚ (CN Proposition 7.4.3(2),
 p.100); its smooth plane curve is specified by quartic_models. -/
@@ -440,6 +504,9 @@ example : MvPolynomial.eval₂ (RingHom.id ℚ) ![0,0,1] quartic2 = 1 := by sorr
 /-- Evaluation on the displayed coordinates fixes the source normalization. -/
 example : MvPolynomial.eval₂ (RingHom.id ℚ) ![-3,7,1] quartic2 = 0 := by sorry
 
+/-- The second quartic vanishes at the rational triple (0,1,1). -/
+example : MvPolynomial.eval₂ (RingHom.id ℚ) ![0,1,1] quartic2 = 0 := by sorry
+
 /-- The homogeneous transformation (3X+Y+2Z,8X+Y−8Z,4X−2Y+Z).
 Its square is 25 times the identity, not the identity on vectors. -/
 def quartic2Coordinates {K : Type*} [CommRing K] (v : Fin 3 → K) : Fin 3 → K := ![3*v 0+v 1+2*v 2,8*v 0+v 1-8*v 2,4*v 0-2*v 1+v 2]
@@ -449,6 +516,9 @@ example : quartic2Coordinates (![0,1,0] : Fin 3 → ℚ) = ![1,1,-2] := by sorry
 
 /-- Evaluation on the displayed coordinates fixes the source normalization. -/
 example : quartic2Coordinates (![0,0,1] : Fin 3 → ℚ) = ![2,-8,1] := by sorry
+
+/-- The second transformation sends the X-coordinate basis vector to (3,8,4). -/
+example : quartic2Coordinates (![1,0,0] : Fin 3 → ℚ) = ![3,8,4] := by sorry
 
 /-- The two coordinate involutions preserve their homogeneous zero loci. The
 second scales vectors by 25 on squaring and its quartic by 625 (CN Proposition
@@ -472,6 +542,10 @@ theorem quarticImaginaryPoints_on_curve (K : Type*) [Field K] [CharZero K] (s : 
 
 /-- The first exceptional triple satisfies the quartic after reducing s²=−55. -/
 example (K : Type*) [Field K] [CharZero K] (s : K) (h : s^2 = -55) : MvPolynomial.eval₂ (Rat.castHom K) (quarticImaginaryPoints K s).1 quartic2 = 0 := by sorry
+
+/-- The second exceptional triple satisfies the quartic after reducing s²=−55. -/
+example (K : Type*) [Field K] [CharZero K] (s : K) (h : s^2 = -55) :
+    MvPolynomial.eval₂ (Rat.castHom K) (quarticImaginaryPoints K s).2 quartic2 = 0 := by sorry
 
 /-- Both triples are distinct, nonrational and have Z=1 in characteristic zero. -/
 example (K : Type*) [Field K] [CharZero K] (s : K) (h : s^2 = -55) : (quarticImaginaryPoints K s).1 ≠ (quarticImaginaryPoints K s).2 ∧ (quarticImaginaryPoints K s).1 2 = 1 ∧ (quarticImaginaryPoints K s).2 2 = 1 ∧ (∀ q : ℚ, (quarticImaginaryPoints K s).1 0 ≠ (q : K)) ∧ (∀ q : ℚ, (quarticImaginaryPoints K s).2 0 ≠ (q : K)) := by sorry
