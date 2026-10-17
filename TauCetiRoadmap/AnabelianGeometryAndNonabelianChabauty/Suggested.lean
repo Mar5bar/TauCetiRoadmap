@@ -618,6 +618,59 @@ example : Subsingleton (GaloisSection (ContinuousMonoidHom.id G)) := by
 example : Nonempty (GaloisSection (ContinuousMonoidHom.id G)) := by
   sorry
 
+/-- Bijectivity of a supplied map from rational points to section classes.
+The geometric instance uses classes modulo conjugation by the geometric kernel. -/
+def SectionConjectureFor {P : Type u} {S : Type w} (κ : P → S) : Prop :=
+  Function.Bijective κ
+
+/-- Bijectivity of the interior-point and cuspidal-packet decomposition of a supplied
+section-class set. The sigma type retains every class in each packet. -/
+def CuspidalSectionConjecture {P : Type u} {D : Type v} {S : Type w}
+    (κ : P → S) (packet : D → Set S) : Prop :=
+  Function.Bijective (fun t : P ⊕ (Σ y : D, packet y) =>
+    match t with
+    | .inl x => κ x
+    | .inr c => c.2.1)
+
+/-- The decomposition asserts distinct interior classes, separation of all components,
+and exhaustion by the interior image and the cuspidal packets. -/
+theorem cuspidalSectionConjecture_iff {P : Type u} {D : Type v} {S : Type w}
+    (κ : P → S) (packet : D → Set S) :
+    CuspidalSectionConjecture κ packet ↔
+      Function.Injective κ ∧
+      (∀ x y, κ x ∉ packet y) ∧
+      (∀ y z, y ≠ z → Disjoint (packet y) (packet z)) ∧
+      (∀ s, (∃ x, κ x = s) ∨ ∃ y, s ∈ packet y) := by
+  sorry
+
+/-- A class in two cuspidal packets determines the same cusp under the decomposition. -/
+theorem cuspidalSectionConjecture_cusp_unique {P : Type u} {D : Type v} {S : Type w}
+    {κ : P → S} {packet : D → Set S} (h : CuspidalSectionConjecture κ packet)
+    {s : S} {y z : D} (hy : s ∈ packet y) (hz : s ∈ packet z) : y = z := by
+  sorry
+
+/-- An empty boundary reduces the packet decomposition to the proper section proposition. -/
+theorem cuspidalSectionConjecture_empty_boundary {P : Type u} {D : Type v} {S : Type w}
+    [IsEmpty D] (κ : P → S) (packet : D → Set S) :
+    CuspidalSectionConjecture κ packet ↔ SectionConjectureFor κ := by
+  sorry
+
+/-- A model decomposition with three cusps retains an integer-indexed family at each cusp. -/
+example {P : Type u} :
+    CuspidalSectionConjecture (S := P ⊕ (Fin 3 × ℤ)) Sum.inl
+      (fun y : Fin 3 => {s | ∃ n : ℤ, s = Sum.inr (y, n)}) := by
+  sorry
+
+/-- Overlapping packets at distinct cusp indices prevent a decomposition. -/
+example : ¬ CuspidalSectionConjecture (S := Unit) (Empty.elim : Empty → Unit)
+    (fun _ : Bool => Set.univ) := by
+  sorry
+
+/-- An interior class lying in a packet also prevents a decomposition. -/
+example : ¬ CuspidalSectionConjecture (id : Unit → Unit)
+    (fun _ : Unit => Set.univ) := by
+  sorry
+
 /-- The numeric part of Kim's dimension condition asserts a strict inequality at some positive
 depth. In its geometric application the two functions are dimensions of the stated schemes. -/
 def KimDimensionCondition (selmerDimension deRhamDimension : ℕ → ℕ) : Prop :=

@@ -7796,19 +7796,20 @@ Use [The section map of rational points](#nc-6-section-class-map); [Sections of 
 
 <a id="nc-6-section-conjecture"></a>
 
-**Grothendieck's section conjecture.** For a field k and a quasi-compact geometrically connected k-scheme X, the proposition SectionConjecture(X/k) states that the section map `κ_X: X(k) →` Sect(X/k) is a bijection. Grothendieck's section conjecture is the proposition that SectionConjecture(X/k) holds for every number field k and every smooth projective geometrically connected curve `X/k` of genus at least 2. It is an open problem: it is stated as a named proposition, and any result that uses it lists it among its hypotheses. By [Injectivity of the section map](#nc-6-section-map-injective), for such X it is equivalent to surjectivity of `κ_X`; in particular it predicts that a curve without rational points has no sections. The cuspidal form for affine hyperbolic curves, the birational form and the p-adic forms are different statements and are not this definition.
+**Grothendieck's section conjecture.** For a field k and a quasi-compact geometrically connected k-scheme X, the proposition SectionConjecture(X/k) states that the section map `κ_X: X(k) →` Sect(X/k) is a bijection. `GrothendieckSectionConjecture` quantifies over every number field k and every smooth projective geometrically connected curve `X/k` of genus at least 2. This is the number-field restriction of the printed statement over fields finitely generated over `ℚ`. Define `GrothendieckSectionConjectureFinitelyGenerated` by the same curve hypotheses and bijectivity, quantifying instead over every field k finitely generated as a field over `ℚ`. Both are open propositions; any result that uses either lists it among its hypotheses. By [Injectivity of the section map](#nc-6-section-map-injective), the number-field instance is equivalent to surjectivity of `κ_X`; in particular it predicts that a curve without rational points has no sections. The cuspidal form for affine hyperbolic curves is specified below; the birational and p-adic forms are different statements.
 
-The proposition is about rational points and conjugacy classes of continuous sections; it is not asserted. The genus bound and the number-field hypothesis are part of the conjecture, not of the proposition SectionConjecture(X/k).
+The propositions concern rational points and geometric-kernel conjugacy classes of continuous sections; none is asserted. The genus bound and the respective base-field hypotheses belong to the global conjectures, not to SectionConjecture(X/k). Finite generation is as a field: `ℚ(t)` is included in the finitely-generated version. In Mathlib this hypothesis is `Algebra.EssFiniteType ℚ k`, not `Algebra.FiniteType ℚ k`, which would exclude `ℚ(t)`.
 
-Define SectionConjecture(X/k) as bijectivity of `κ_X` ([The section map of rational points](#nc-6-section-class-map)). Define the global conjecture by quantifying over number fields and smooth projective geometrically connected curves of genus `≥ 2`. Derive the equivalence with surjectivity from [Injectivity of the section map](#nc-6-section-map-injective).
+Define SectionConjecture(X/k) as bijectivity of `κ_X` ([The section map of rational points](#nc-6-section-class-map)). Define the two global propositions with their respective field quantifiers and smooth projective geometrically connected curves of genus `≥ 2`. The finitely-generated proposition implies the number-field proposition because a finite extension of `ℚ` is finitely generated as a field. Derive the number-field equivalence with surjectivity from [Injectivity of the section map](#nc-6-section-map-injective).
 
 The interface consists of the following named results.
 
 - `sectionConjecture_iff_surjective`: For a number field k and a smooth projective geometrically connected curve `X/k` of genus `≥ 1`, SectionConjecture(X/k) holds if and only if `κ_X` is surjective.
 - `sectionConjecture_isEmpty_iff`: If `X(k) = ∅`, SectionConjecture(X/k) holds if and only if Sect(X/k) `= ∅`, that is, the arithmetic sequence has no continuous section.
 - `GrothendieckSectionConjecture`: The proposition: for every number field k and every smooth projective geometrically connected curve `X/k` of genus `≥ 2`, SectionConjecture(X/k).
+- `GrothendieckSectionConjectureFinitelyGenerated`: The proposition: for every field k finitely generated over `ℚ` and every smooth projective geometrically connected curve `X/k` of genus `≥ 2`, SectionConjecture(X/k).
 - `sectionConjecture_of_equiv`: SectionConjecture is invariant under isomorphism of k-schemes, via SectionClasses.map and `sectionClassMap_natural`.
-- `SectionConjectureFor`: The abstract form for an extension datum `q: E → Γ` with a family of sections indexed by a point set P: bijectivity of `P →` Sect; SectionConjecture(X/k) is the instance `q =` pr, `P = X(k)`, `x ↦ s_x`.
+- `SectionConjectureFor`: Bijectivity of a supplied class map `κ: P → S`. For an extension datum `q: E → Γ`, take S to be its geometric-kernel conjugacy classes of sections; SectionConjecture(X/k) uses `q =` pr, `P = X(k)` and `κ = κ_X`. The Lean prototypes for this and the cuspidal proposition use supplied class sets and maps; the global geometric propositions use the curve and section constructions of this layer.
 
 **Checks.**
 
@@ -7817,11 +7818,42 @@ The interface consists of the following named results.
 - `not_sectionConjecture_gm`: `SectionConjecture(G_{m,Q}/Q)` fails because the Kummer map `Q^× → lim_n Q^×/Q^{×n}` is injective but not surjective; injectivity alone is not the conjecture.
 - `sectionConjecture_iff_bijective`: SectionConjecture(X/k) is exactly bijectivity of `κ_X`; for an abstract section datum with a non-injective point map (two points with equal sections) it fails.
 - SectionConjecture(Spec `k/k`) holds for every field k.
-`- SectionConjecture(P¹_Q/Q)` and `SectionConjecture(G_{m,Q}/Q)` both fail, for different reasons (non-injective, non-surjective).
+- `SectionConjecture(P¹_Q/Q)` and `SectionConjecture(G_{m,Q}/Q)` both fail, for different reasons (non-injective, non-surjective).
+- A genus-two curve over `ℚ(t)` is quantified over by `GrothendieckSectionConjectureFinitelyGenerated`, but not by `GrothendieckSectionConjecture`; every genus-two curve over a number field occurs in both.
+- `ℚ̄` and `ℚ_p` are outside both global quantifiers: neither is finitely generated as a field over `ℚ`.
 
-The construction and its conventions follow [Minhyong Kim](#reference-kim2009), Introduction, p. 90; [Jakob Stix](#reference-stix-2008v1), §1.1, Conjecture 1, p. 1; [Jennifer S. Balakrishnan, Ishai Dan-Cohen, Minhyong Kim and Stefan Wewers](#reference-bdckw-2018v4), §1.2, p. 2 and §3.4, p. 13.
+The construction and its conventions follow [Alexander Grothendieck](#reference-grothendieck-faltings-1983), letter to Faltings, formulation (7) and its proper-curve qualification; [Jakob Stix](#reference-stix-2013), Introduction, Conjecture 2, p. xiv, and Remark 3, p. xv; [Minhyong Kim](#reference-kim2009), Introduction, p. 90; [Jakob Stix](#reference-stix-2008v1), §1.1, Conjecture 1, p. 1; [Jennifer S. Balakrishnan, Ishai Dan-Cohen, Minhyong Kim and Stefan Wewers](#reference-bdckw-2018v4), §1.2, p. 2 and §3.4, p. 13.
 
 Use [The section map of rational points](#nc-6-section-class-map); [Injectivity of the section map](#nc-6-section-map-injective); `Function.Bijective`.
+
+<a id="nc-6-cuspidal-section-conjecture"></a>
+
+**Cuspidal packets and the affine section conjecture.** Let k be a characteristic-zero field and `U = X ∖ D` a smooth geometrically connected affine curve, with X its smooth projective compactification and D a nonempty reduced finite étale divisor. Assume hyperbolicity, `2g(X) − 2 + deg(D) > 0`. For `d ∈ D(k)`, put `U_d = U ×_X Spec(O^h_{X,d})`, the punctured henselian neighbourhood at d. Its arithmetic group fits into `1 → Ẑ(1) → π₁(U_d) → Γ_k → 1`. Define `CuspidalPacket(U/k,d)` as the image of `Sect(U_d/k) → Sect(U/k)`. A class is cuspidal at d precisely when a representative factors through this local group, equivalently through the corresponding decomposition subgroup after a geometric conjugation. A rational nonzero tangent vector supplies a local section and hence an element of the packet.
+
+For k finitely generated as a field over `ℚ`, define `CuspidalSectionConjecture(U/k) : Prop` to say that the natural map from the disjoint union `U(k) ⊔ (⨿_(d ∈ D(k)) CuspidalPacket(U/k,d))` to `Sect(U/k)` is bijective. Thus each class comes either from a unique rational point of U or from a unique rational cusp d and a class in its packet; interior-point classes and the packets are pairwise distinct. This is a conjectural exhaustion statement, not a theorem asserting that every section is geometric. Its number-field restriction uses the same definition.
+
+The packet question concerns a family of conjugacy classes per cusp, not one chosen class. After choosing a local section, `Sect(U_d/k)` is a torsor identified with `H¹(k, Ẑ(1)) = lim_n k×/(k×)^n`; no canonical origin is required for the packet definition. Over number fields the local-to-global map on section classes is injective, different packets are disjoint and no packet meets the interior-point image. Each packet is uncountable there. These assertions use the hypotheses in Stix's Theorem 17 and Corollary 19; no singleton or cardinality assertion is made over arbitrary characteristic-zero fields. Rational tangent vectors provide classes but are not asserted to exhaust a packet.
+
+Construct the local sequence from the tame punctured branch of IG.1.2 and the characteristic-zero Kummer tower. Apply SectionClasses.map and take its range, with geometric-kernel conjugacy on both sides. Under injectivity of section maps for all smooth projective curves of genus `≥ 2` over finite extensions of k, Stix's finite étale neighbourhood argument proves packet injectivity and separation from each other and from interior points; [Injectivity of the section map](#nc-6-section-map-injective) supplies this hypothesis for number fields. The bijectivity proposition itself makes sense for every such hyperbolic pair over a characteristic-zero field; the affine conjecture quantifies over fields finitely generated over `ℚ`.
+
+The interface consists of the following named results.
+
+- `CuspidalPacket`: The subset of section classes obtained from the local section classes at the specified rational cusp.
+- `CuspidalSectionConjecture`: Bijectivity of the interior-point and packet map, with every member of a packet retained. In the Lean prototype, `κ: P → S` and `packet: D → Set S` are the supplied interior map and packets.
+- `cuspidalSectionConjecture_iff`: The abstract proposition is equivalent to injectivity of κ, disjointness of its image from every packet, disjointness of packets at distinct cusps, and exhaustion of S by the interior image and the packets.
+- `cuspidalSectionConjecture_cusp_unique`: Under this proposition, a section class belonging to two packets has equal cusp indices.
+- `cuspidalSectionConjecture_empty_boundary`: With an empty cusp index set, the abstract proposition reduces to SectionConjectureFor κ, the proper-curve statement.
+
+**Checks.**
+
+- For `U = ℙ¹_ℚ ∖ {0,1,∞}`, the inequality is `−2 + 3 > 0`. The points 2 and 3 give distinct interior section classes, and the three rational cusps give disjoint uncountable packets, each disjoint from those point classes. The assertion that these interior classes and three packets exhaust `Sect(U/ℚ)` is the conjecture, not a consequence of their construction.
+- A model section-class set `P ⊔ (D × ℤ)` with interior inclusion and packets `{(d,n) | n ∈ ℤ}` satisfies the abstract proposition: even three cusps can each retain many classes. Collapsing each packet to one class changes the assertion.
+- If two different cusp indices have overlapping packets, or an interior class lies in a packet, the abstract bijectivity proposition fails. For an empty cusp index set it is exactly bijectivity of the interior map.
+- The nonhyperbolic example `U = G_m` has identical packets at 0 and `∞`, both equal to all of `Sect(G_m/k)`. It therefore fails the pairwise separation requirement; the hyperbolicity hypothesis cannot be discarded.
+
+The construction and its conventions follow [Jakob Stix](#reference-stix-cuspidal-2012), §1.2, Definition 1 and the affine-conjecture discussion, and §4.1, Theorem 17, Remark 18(3) and Corollary 19; [Jakob Stix](#reference-stix-2013), Introduction, Conjecture 6, p. xvi, with the accompanying cuspidal interpretation; [Alexander Grothendieck](#reference-grothendieck-faltings-1983), the third formulation and its discussion of packets at infinity.
+
+Use [Conjugacy classes of Galois sections](#nc-6-section-classes); [The section map of rational points](#nc-6-section-class-map); [Injectivity of the section map](#nc-6-section-map-injective); [InverseGaloisAndArithmeticFundamentalGroups](../InverseGaloisAndArithmeticFundamentalGroups/README.md) §IG.1.2 (tame tangential fibres and their rational sections); `Function.Bijective`.
 
 ### 7.2 Kim's dimension conjecture
 
@@ -8308,6 +8340,18 @@ A theorem identifying all rational points from these equations assumes the state
 <a id="reference-stix-2008v1"></a>
 
 **Jakob Stix.** On cuspidal sections of algebraic fundamental groups. arXiv:0809.0017v1 (2008); published in Galois–Teichmüller Theory and Arithmetic Geometry, Adv. Stud. Pure Math. 63 (2012), 519–563. Locators use the arXiv v1 pagination. [Source](https://arxiv.org/pdf/0809.0017v1).
+
+<a id="reference-grothendieck-faltings-1983"></a>
+
+**Alexander Grothendieck.** Letter to G. Faltings, 27 June 1983. In L. Schneps and P. Lochak (eds.), Geometric Galois Actions 1, London Mathematical Society Lecture Note Series 242, Cambridge University Press, 1997, pp. 49–58; English translation pp. 285–293. Locators use the numbered formulations and their accompanying paragraphs. [Printed translation](https://doi.org/10.1017/CBO9780511758874.018); [editor-hosted text](https://webusers.imj-prg.fr/~leila.schneps/grothendieckcircle/Letters/GtoF) (different pagination).
+
+<a id="reference-stix-2013"></a>
+
+**Jakob Stix.** Rational Points and Arithmetic of Fundamental Groups: Evidence for the Section Conjecture. Lecture Notes in Mathematics 2054, Springer, 2013. Introduction, Conjecture 2, p. xiv, Remark 3, p. xv, and Conjecture 6, p. xvi. [Source](https://doi.org/10.1007/978-3-642-30674-7); [Introduction](https://link.springer.com/content/pdf/bfm:978-3-642-30674-7/1).
+
+<a id="reference-stix-cuspidal-2012"></a>
+
+**Jakob Stix.** On cuspidal sections of algebraic fundamental groups. In Galois–Teichmüller Theory and Arithmetic Geometry, Advanced Studies in Pure Mathematics 63 (2012), 519–563. The §1.2 and §4.1 locators use the author version dated 24 February 2012, pp. 3 and 8–9, with Definition 1, Theorem 17 and Corollary 19. [Published source](https://doi.org/10.2969/aspm/06310519); [author version](https://www.math.uni-frankfurt.de/~stix/research/preprints/STIXcuspsec20120802homepage.pdf).
 
 <a id="reference-sga1"></a>
 
