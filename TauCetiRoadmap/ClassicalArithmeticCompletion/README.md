@@ -2328,7 +2328,7 @@ Let π₁, π₂ be primary primes of ℤ[ω] of norms p₁ ≠ p₂, both ≡ 1
 
 p₁ ≠ p₂, so π₁ and π₂ are coprime and neither divides the other's norm.
 
-(Nancy Xu, [Reciprocity Laws](#reference-xu-reciprocity-2021), §4, proof of Theorem 4.6, Case 3, pp. 13–14.) Derives the two congruences and combines them with `χ_π(ᾱ) = conj(χ_π(α))`.
+(Nancy Xu, [Reciprocity Laws](#reference-xu-reciprocity-2021), §4, proof of Theorem 4.6, Case 3, pp. 13–14.) Derives the two congruences and combines them with `χ_(π̄)(ᾱ) = conj(χ_π(α))`.
 
 (Sukumar Das Adhikari, [The Early Reciprocity Laws: From Gauss to Eisenstein](#reference-adhikari-reciprocity-2000), §3, proof of Theorem 3.1, third case, pp. 65–66.) The same argument.
 
@@ -2341,6 +2341,8 @@ Multiplying them gives uv = 1; substituting v = u⁻¹ in the first gives x² u�
 **Checks.**
 
 - π₁ = −1 − 3ω (norm 7) and π₂ = −1 + 3ω (norm 13): modulo π₁, ω ≡ 2 and π₂ ≡ 5 with 5² ≡ 4 ≡ ω²; modulo π₂, ω ≡ 9 and π₁ ≡ 11 with 11⁴ ≡ 3 ≡ ω²; both symbols are ω².
+- For the primary prime `π = 2 + 3ω` of norm 7, `ω ≡ 4 (mod π)` and `χ_π(2) = ω`. Since 2 is fixed by conjugation and `conj(ω) = ω² ≠ ω`, conjugating the numerator alone does not conjugate the symbol value.
+- For its conjugate prime `π̄ = −1 − 3ω`, `ω ≡ 2 (mod π̄)` and `χ_(π̄)(2) = ω² = conj(χ_π(2))`: conjugation transports the denominator prime as well as the numerator.
 
 *Needs:* [The cube of the cubic Gauss sum](#layer-1-topic-60); [Cubic reciprocity between a rational prime and a complex primary prime](#layer-1-topic-67); [Galois equivariance of the power residue symbol](#layer-1-topic-42); [The n-th power residue symbol at an ideal prime to n](#layer-1-topic-33); [The n-th power residue symbol at a prime not dividing n](#layer-1-topic-23); [The norm of a prime not dividing n is one modulo n](#layer-1-topic-11); Mathlib `gaussSum_frob`; Mathlib `gaussSum_mulShift_eq`.
 
