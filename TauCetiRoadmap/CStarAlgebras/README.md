@@ -29,16 +29,16 @@ the rightmost operator acting first. Matrix levels use
 including its rectangular operator norms and square matrix order. An entrywise
 sup norm on ordinary `Matrix` is not the norm in complete boundedness.
 
-Use [BanachSpaceTheory](../BanachSpaceTheory/README.md) B1–B2 for duality,
+Use [BanachSpaceTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/8ec510e27a71a361532c18ad8b42b512958199ca/TauCetiRoadmap/BanachSpaceTheory/README.md#b1-duality-and-weak-topologies) B1–B2 for duality,
 weak compactness and separation, B4 for completed Banach tensors, and
-[BanachAlgebras](../BanachAlgebras/README.md) A1–A2 for quotients and holomorphic
+[BanachAlgebras](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4ca3e99e0e27255fdcf8aea71e4e9aef052a3d77/TauCetiRoadmap/BanachAlgebras/README.md#a1-constructions-ideals-and-the-radical) A1–A2 for quotients and holomorphic
 calculus, A4 for factorization and Arens products, and A6 for Banach amenability
 and virtual diagonals. Prove compatibility with these constructions, including
 the equality of the holomorphic and continuous calculi on their common domain.
 Identify the Banach and C*-unitizations by a bounded algebra isomorphism,
 proving equivalence of their norms for the amenability transfer.
 
-[VonNeumannAlgebras](../VonNeumannAlgebras/README.md) owns positive functionals,
+[VonNeumannAlgebras](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a94eaf89e2d9d74266066a5c929bd7f1afb61198/TauCetiRoadmap/VonNeumannAlgebras/README.md#v0-c-algebra-and-state-prerequisites) owns positive functionals,
 GNS, state separation and faithful representations (V0), operator topologies,
 bicommutants and Kaplansky density (V1), support projections and Hilbert/spatial
 tensors (V2), and preduals and normal representations (V4). Its V13a owns the
@@ -67,6 +67,15 @@ for exactness; classification by dimension groups or K-theory has separate
 ownership.
 Free products with prescribed states or expectations belong to FreeProbability.
 
+**CStar.WStarJordanBoundary.** V12.J of VonNeumannAlgebras owns normal
+Jordan/projection-logic and full-normal-state
+reconstruction for W*-algebras, including the typeI₂ exception for extending
+a bare projection map and the enriched theorem retaining that part. Use
+V12.J.Maps' native-linear-map API only in that later W*-algebra application;
+projection logic alone does not choose associative orientation. C2's
+pure-state/irreducible-GNS theorem remains an earlier input to QF2, has no
+V12.J dependency, and does not classify arbitrary C*-algebra operational models.
+
 All new objects need extensionality, coercion, equality and transport lemmas;
 maps need identity, composition, restriction, range and factorization APIs.
 Topological wrappers must preserve the existing norm topology on underlying
@@ -74,6 +83,40 @@ algebras. The README is definitive; [Suggested.lean](Suggested.lean) records
 representative interfaces rather than an exhaustive list.
 
 ## C1. Ideals, hereditary subalgebras, and multipliers
+
+On C[0,1], prove the maximal ideal at0 is `{f:f(0)=0}` and is the
+closure of xC[0,1], where x(t)=t. Prove sqrt(x) belongs to the maximal
+ideal but not to xC[0,1], using the unbounded quotient1/sqrt(t).
+Compare with multiplication by x and its C*-functional calculus;
+the character's kernel is the closed principal ideal, not necessarily
+the algebraic principal ideal. For a genuinely nonunital C*-algebra A,
+identify its C*-unitization isometrically with `{λI+L_a:λ∈ℂ,a∈A}`
+inside the native Banach operators `A →L[ℂ] A`. Use
+`ContinuousLinearMap.mul` and the native `Unitization` C*-norm for the
+isometry. First consume native `ContinuousLinearMap.opNorm_mul_apply`
+and `CStarRing.instRegularNormedAlgebra` for ‖L_a‖=‖a‖,
+including a=0. Consume native `ContinuousLinearMap.opNorm_mul_flip_apply`
+for the equal right-multiplication norm. The native proofs use the C*-identity and testing at scalar
+multiples of a*. Prove |λ|≤‖λI+L_a‖ for nonunital A:
+otherwise I−(λI+L_a)/λ=−L_a/λ is invertible by Neumann series.
+An invertible L_a gives e=L_a⁻¹(a) with ex=x for all x; a left
+unit and its adjoint force a two-sided unit, a contradiction. The native
+splitMul norm max(|λ|,‖λI+L_a‖) then equals the displayed operator
+norm. Prove the image is closed by this isometry and completeness,
+with transported star algebra. Consume native `Unitization.starLift`
+for the universal extension of a nonunital *-homomorphism to a unital
+C*-algebra, (λ,a)↦λ1+f(a). For a↦L_a into the transported
+star algebra above, prove its starLift is precisely
+(λ,a)↦λI+L_a by the native uniqueness property. This construction uses no Hilbert-module supplier.
+For already-unital A, the image is L(A) and the external unitization map
+has kernel {(λ,−λ1_A)}; state its quotient comparison separately.
+For the zero algebra the external unitization is ℂ while the left-action
+image is zero, so this representation is not faithful. Give these branch
+maps, closedness and universal properties on their actual carriers.
+
+For a complete commutative complex C*-algebra with a chosen unit, consume the native `gelfandTransform_isometry`, `gelfandTransform_bijective` and `gelfandStarTransform` under `[CommCStarAlgebra A]`, giving the isometric star-algebra isomorphism `A≃C(characterSpace ℂ A,ℂ)`. No separability or nonzero-algebra hypothesis is required for that equivalence. Own the nonunital restriction adapter on `[NonUnitalCommCStarAlgebra A]`: use the native C*-norm on `U=Unitization ℂ A`, its scalar augmentation `ε=Unitization.fstHom`, viewed as a nonzero continuous character, and compact Hausdorff character space `K=characterSpace ℂ U`. Prove that the isometric inclusion identifies A with `ker ε`, and that U's unital Gelfand transform identifies this ideal with `{F∈C(K,ℂ):F(ε)=0}`. For the open locally compact Hausdorff subspace `X=K∖{ε}`, prove restriction is an isometric star-algebra isomorphism from that vanishing-at-ε ideal onto `C₀(X,ℂ)`, with inverse extension by zero at ε. Own the vanishing-at-infinity, continuity-at-ε, inverse and norm equalities, so the result is onto C₀, not merely an embedding into bounded functions.
+
+Include A=0, when K is the singleton augmentation and X is empty. If A already has a unit but is treated through its nonunital carrier, the external unitization adds an isolated augmentation; X is compact and the result agrees with its native unital Gelfand model, using `C₀(X)=C(X)` for compact X. This adapter uses the native unital theorem, C*-unitization and compact-Hausdorff restriction/zero-extension. BanachAlgebras A3's extension/restriction character comparison can then identify X with A's nonzero continuous character space; its later isolated-augmentation criterion is not an input to this adapter. General Gelfand–Naimark faithful representations remain in VonNeumannAlgebras V0.
 
 Develop closed ideal lattices, closure, sums and intersections, annihilators,
 ideal generation and quotient C*-algebras. Prove closed two-sided ideals are
@@ -154,12 +197,26 @@ strong-star convergence, respectively).
 
 ## C2. Irreducible representations, primitive ideals, and the bidual
 
+Consume VonNeumannAlgebras V0’s separable faithful representation on ℓ²
+and its unital/nonunital/zero-algebra cases; it owns that construction.
+
+For a unital closed star subalgebra B⊆A with the same unit, prove every
+state on B extends to a state on A, with exact restriction and norm one.
+Construct a norm-preserving Hahn–Banach extension and prove positivity
+from its value at the unit. An arbitrary extension need not be pure or
+multiplicative; for B⊆B(H), it need not be normal. Prove every pure state has a pure extension:
+its extensions form a nonempty weak-* compact face, whose extreme
+points are extreme in the state space of A. Include functorial restriction and existence
+for concrete inclusions B⊆B(H).
+
 Extend V0's representation API with cyclic/irreducible representations,
 intertwiners, unitary equivalence, direct sums, restriction to ideals and
 nondegenerate extension from ideals. A pure state is an extreme point of the
 state space. An irreducible representation is nonzero and has no closed
-invariant subspaces other than 0 and H. Prove it is nondegenerate, and
-for nondegenerate representations prove equivalence with scalar commutant.
+invariant subspaces other than 0 and H. Prove it is nondegenerate. For a nonzero nondegenerate representation,
+prove equivalence of irreducibility with scalar commutant. Keep the zero
+Hilbert-space case separate: its zero representation is nondegenerate and
+has scalar commutant, but is not irreducible under the stated nonzero convention.
 Prove pure state iff irreducible GNS representation and norm detection
 by irreducible representations. Establish
 Kadison transitivity: for an irreducible π on H, T∈B(H), and a
@@ -333,10 +390,17 @@ maximal tensors preserve quotient exact sequences. State their different
 inclusion/exactness properties separately.
 
 Prove CP maps tensor to CP maps on both completions, with the product norm
-bound. Construct slice maps, their separation and bimodule formulas, and
+bound. For arbitrary bounded complex linear functionals φ,ψ construct
+φ⊗ψ on the minimal completion and prove `‖φ⊗ψ‖=‖φ‖‖ψ‖`, using
+the bidual polar decomposition/spatial representation and simple tensors
+for the matching lower bound. Include zero functionals and naturality.
+Construct slice maps, their separation and bimodule formulas, and
 matrix identifications `M_n⊗A≅M_n(A)`. Identify `C₀(X)⊗min A` with C₀(X,A)
 for locally compact Hausdorff X, supplying the vector-valued continuous-function
-and density bridge. Identify the spatial completion of K(H)⊙K(K) with
+and density bridge. In particular for compact Hausdorff X,Y construct
+`C(X)⊗min C(Y)≅C(X×Y)`, sending f⊗g to ((x,y)↦f(x)g(y)),
+with star, norm, unit and pullback naturality, by the vector-valued
+comparison and Stone–Weierstrass density. Identify the spatial completion of K(H)⊙K(K) with
 K(H⊗₂K). Relate the C*-tensor inclusion in representations to the spatial
 von Neumann tensor product in V2.
 

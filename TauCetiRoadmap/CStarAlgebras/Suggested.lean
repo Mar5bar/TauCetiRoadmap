@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Mathlib.Analysis.CStarAlgebra.ApproximateUnit
 import Mathlib.Analysis.CStarAlgebra.CompletelyPositiveMap
 import Mathlib.Analysis.CStarAlgebra.ContinuousLinearMap
+import Mathlib.Analysis.CStarAlgebra.Unitization
 import Mathlib.Analysis.InnerProductSpace.StarOrder
 import Mathlib.Analysis.Normed.Operator.Basic
 import Mathlib.RingTheory.TwoSidedIdeal.Basic
@@ -23,7 +24,33 @@ open scoped CStarAlgebra ComplexOrder
 namespace CStarAlgebras
 
 variable {A B : Type*} [NonUnitalCStarAlgebra A] [NonUnitalCStarAlgebra B]
-  [PartialOrder A] [StarOrderedRing A] [PartialOrder B] [StarOrderedRing B]
+
+/-- C1 consumes the native C*-algebra left-regular norm theorem. -/
+theorem norm_leftMultiplication (a : A) :
+    ‖ContinuousLinearMap.mul ℂ A a‖ = ‖a‖ :=
+  ContinuousLinearMap.opNorm_mul_apply ℂ A a
+
+/-- C1 also consumes the native right-regular norm theorem. -/
+theorem norm_rightMultiplication (a : A) :
+    ‖(ContinuousLinearMap.mul ℂ A).flip a‖ = ‖a‖ :=
+  ContinuousLinearMap.opNorm_mul_flip_apply ℂ a
+
+/-- C1: nonunitality is actual absence of a two-sided identity. -/
+theorem scalar_norm_le_unitizationLeftAction
+    (hA : ¬ ∃ e : A, ∀ b : A, e * b = b ∧ b * e = b)
+    (c : ℂ) (a : A) :
+    ‖c‖ ≤ ‖c • ContinuousLinearMap.id ℂ A + ContinuousLinearMap.mul ℂ A a‖ := by
+  sorry
+
+/-- C1: compare the native C*-unitization norm with the left-action norm. -/
+theorem unitization_norm_eq_leftAction
+    (hA : ¬ ∃ e : A, ∀ b : A, e * b = b ∧ b * e = b)
+    (x : Unitization ℂ A) :
+    ‖x‖ = ‖x.fst • ContinuousLinearMap.id ℂ A +
+      ContinuousLinearMap.mul ℂ A x.snd‖ := by
+  sorry
+
+variable [PartialOrder A] [StarOrderedRing A] [PartialOrder B] [StarOrderedRing B]
 
 /-- The order condition for a hereditary C*-subalgebra; closedness is separate. -/
 def IsHereditary (S : NonUnitalStarSubalgebra ℂ A) : Prop :=
