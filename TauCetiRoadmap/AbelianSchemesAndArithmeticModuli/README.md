@@ -965,15 +965,29 @@ change and has fibre rank `h⁰(L_s)`, and the higher direct images vanish. For 
 trivializes the tangent bundle by translation (A1.3), so the Todd class is one and
 Hirzebruch–Riemann–Roch gives `χ(L) = c₁(L)^g/g!`; ample vanishing uses multiplication pullback
 with a multiplier prime to the characteristic, its trace, and Serre vanishing; the degree formula
-`deg φ_L = χ(L)²` computes the Euler characteristic of the Mumford bundle `(id × φ_L)^*P` in two
-ways, by the projection formula for the finite map `id × φ_L` (counting inseparable kernel length)
-and `χ(P) = (−1)^g`, and by Künneth after the shear `(x, y) ↦ (x, x + y)`; the family statements use coherent base change and the projection formula
+`deg φ_L = χ(L)²` uses the Mumford bundle `Q = (id × φ_L)^*P` on `A × A`.
+Rigidify `L` at zero and put `M = L ⊗ [−1]^*L` and `t(x, y) = (x + y, x − y)`.
+The cube and symmetric biextension identities (A1.5, A2.3) give
+`t^*Q ≅ M ⊠ M^{-1}`; the numerical identity `[−1]^*L ≡ L` and HRR give
+`χ(M) = 2^g χ(L)` and `χ(M^{-1}) = (−1)^g χ(M)`.
+The field multiplication theorem of JacobianChallenge Layer E gives
+`deg t = deg [2]_A = 2^{2g}`, including characteristic `2` (Milne 2022, Theorem 8.2, pp. 13–14).
+HRR and the intersection projection formula give `χ(t^*Q) = 2^{2g} χ(Q)`, while Künneth gives
+`χ(t^*Q) = (−1)^g 2^{2g} χ(L)²`; hence `χ(Q) = (−1)^g χ(L)²`.
+For the other computation use proper Chow pushforward for `f = id × φ_L` and HRR:
+`f_*[A × A] = deg(φ_L) [A × A^∨]` if `φ_L` is an isogeny, counting inseparable length,
+and it is zero otherwise because the image has dimension less than `2g`.
+The intersection projection formula and `χ(P) = (−1)^g` thus give
+`χ(Q) = (−1)^g deg φ_L` with the extended degree convention in both cases.
+The family statements use coherent base change and the projection formula
 (Milne 2022, Theorem 13.3 and Exercise 13.4, p. 25; Faltings–Chai I.1.6, p. 4; Conrad–Feng, Theorem 7.2.1, p. 63, for
-`χ(P) = (−1)^g`, and §7.5, pp. 71–72). For every integer `d`, `O(d·0)` on an elliptic curve has
+`χ(P) = (−1)^g`, and Lemma 7.5.2, pp. 71–72, for the numerical identity;
+§7.6, pp. 76–77, refers to Mumford §16 for the degree formula). For every integer `d`, `O(d·0)` on an elliptic curve has
 `χ = d` and `deg φ = d²`; for `d > 0`, it has `h⁰ = d`.
 On `E²` with the product of degrees `1` and `2`, `h⁰ = 2`, the top self-intersection is `4`, and
-`deg φ_L = 4`: `φ_L` is a polarization of degree `d = 2` in the sense of A2.5. *Needs:* A1.3,
-A2.3; SchemeAndStackFoundations Layer 5 §5.8 (`grothendieck_riemann_roch`), §5.3 (`Chow.c1`);
+`deg φ_L = 4`: `φ_L` is a polarization of degree `d = 2` in the sense of A2.5. *Needs:* A1.3, A1.5,
+A2.3; JacobianChallenge Layer E; SchemeAndStackFoundations Layer 5 §5.8 (`grothendieck_riemann_roch`),
+§5.2 (proper Chow pushforward and projection formula), §5.3 (`Chow.c1`);
 AlgebraicModuli Layer 1; EnhancedDerivedSheaves E1.9 (`perfect_proper_pushforward`).
 
 **Checks.**
@@ -982,6 +996,13 @@ AlgebraicModuli Layer 1; EnhancedDerivedSheaves E1.9 (`perfect_proper_pushforwar
 - At `d = 0`, `O(d·0) = O_E` has `H⁰(E, O_E) = k`, hence `h⁰ = 1`, while `χ = 0` and
   the zero Mumford map has extended degree zero.
 - For `d < 0`, `O(d·0)` has no nonzero section, so `h⁰ = 0`, while `χ = d` and `deg φ = d²`.
+- For `L = O_E(0)`, the shear `s(x, y) = (x, x + y)` gives
+  `s^*Q ≅ p₁^*O_E(2·0) ⊗ Q`, with nontrivial mixed factor `Q`; the sum–difference map instead gives
+  `t^*Q ≅ O_E(2·0) ⊠ O_E(−2·0)`, so `χ(t^*Q) = −4` and `χ(Q) = −1`.
+- For `L = O_A` with `g > 0`, `φ_L = 0` and `id × φ_L` has positive-dimensional fibres;
+  its top-cycle pushforward and `χ(Q) = χ(O_{A × A})` are both zero.
+- In characteristic `2`, `t` still has degree `2^{2g}` as a finite flat map, even when its
+  geometric kernel has fewer points; the calculation uses length and rational Chow classes.
 
 ### A2.5 Polarizations
 
@@ -1800,12 +1821,18 @@ The locally constant height `h = TruncatedBT.height G` is determined by `rk G[p]
 `1 ≤ m ≤ n`, preserving height. Upgrade `BarsottiTate.truncation` of A4.5 to this carrier,
 compatibly with base change, restriction and Cartier duality (Anschütz–Le Bras, §4.6,
 paragraph after Proposition 4.6.2 and facts (1)–(3), pp. 58–59, recalling Illusie's
-Definition 1.1 and §§1.3(e)–(f), 1.6).
+Definition 1.1 and §§1.3(e)–(f), 1.6; Stix, §8.5.2, pp. 45–47, especially Proposition 51,
+for the finite-group Frobenius and Verschiebung and their agreement with the flat-affine construction).
 
 This is the shared input carrier for A4.12 and for
-FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.10. That roadmap adds exact-sequence and
-coLie recognition results in R07.1.10–R07.1.11 and generic stack and truncation smoothness in
-R07.2.23. A4.12 owns compatible mixed-characteristic polarized tower lifting with a prescribed
+FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.10. A4.5a owns the carrier, height, base change,
+descent, Cartier duality, restriction and full-tower truncation, together with the canonical
+Frobenius and Verschiebung of finite locally free commutative groups in characteristic `p`.
+That roadmap extends this API by exact-sequence recognition in R07.1.10, coLie recognition in
+R07.1.11, classification in R07.2, and generic stack and truncation smoothness in R07.2.23.
+Its broader flat-affine Frobenius and Verschiebung of R07.1.1 agree with these canonical maps
+on finite locally free groups, including naturality, base change and `VF = [p] = FV`.
+A4.12 owns compatible mixed-characteristic polarized tower lifting with a prescribed
 level-one group; its construction uses A4.CR.7.2's deformation theory.
 *Needs:* A4.5; ModularCurves 0B, 0E; SchemeAndStackFoundations §0.29
 (`SchemeFrobenius.relativeFrobenius`, `SchemeFrobenius.schemeFrobeniusTwist`).
@@ -1815,6 +1842,8 @@ level-one group; its construction uses A4.CR.7.2's deformation theory.
 - `μ_{p^n}` and `(ℤ/p^n)_S` have height one and are Cartier dual; restriction to level `m`
   gives `μ_{p^m}` and `(ℤ/p^m)_S`.
 - Over `𝔽_p`, `α_p` has `F = V = 0`, so `im F = 0` and `ker V = α_p`; it is excluded at level one.
+- On `μ_p` over `𝔽_p`, `F = 0` and `V` is an isomorphism; on `ℤ/p`, `F` is an isomorphism and
+  `V = 0`. Cartier duality exchanges these finite-group maps.
 - `(ℤ/p ⊕ ℤ/p²)_S` over a field is killed by `p²` but fails the level-two flatness condition:
   `ker[p]` has order `p²` and `im[p]` has order `p`.
 - For an elliptic curve `E/S`, `E[p^n]` has height two and rank `p^{2n}` and is the truncation
@@ -3168,8 +3197,10 @@ inverse scalar multiplication; the companion Lean example pins this coefficient 
 
 Define `WeakPolarization D A`: a `D`-polarization of `A` is a symmetric `D`-isogeny `A → A^∨` some positive
 integer multiple of which is a polarization; a weak `D`-polarization is its class under multiplication by
-positive units of `D`. It records a positive ray, not a class up to all signed units, and pullbacks and
-twists preserve positivity (Kisin–Pappas, §4.4.7, p. 193). Clearing denominators and the positive cone of
+positive units of `D`. It records a positive ray, not a class up to all signed units. Pullback along
+`D`-isogenies preserves positivity; coefficient-torsor twists preserve it under A6.29's real-triviality
+and oriented coefficient-line hypotheses (Kisin–Pappas, §4.4.7, p. 193;
+Kisin–Shin–Zhu, §5.12.4, p. 174). Clearing denominators and the positive cone of
 A6.15 make the definition independent of the chosen multiple. The API is `WeakPolarization.mk`,
 `WeakPolarization.eq_iff` (equal iff the ratio is a positive unit of `D`), `WeakPolarization.pullback`
 (along `D`-isogenies) and `WeakPolarization.integral`. *Needs:* A2.5, A6.15, A6.26.
@@ -3243,13 +3274,32 @@ A6.28. Each listed realization has its source, coefficients and target.
 `ℤ_ℓ`-sheaves on `S`. (b) When every prime inverted in `D` is invertible on `S`, equivalently `S → Spec ℤ`
 factors through `Spec D`, `H¹_dR` (A4.3) goes contravariantly from the `D`-isogeny category to locally
 free `O_S`-modules with Hodge filtration and, over smooth `S/k`, Gauss–Manin connection. Without the
-hypothesis of (b) the unmodified de Rham bundle is not a realization of the `D`-isogeny category. A weak
-`D`-polarization (A6.27) on which `Z` acts through a positive character descends to a weak polarization of
-the twist. A twisted adelic level is the transported orbit: under a trivialization `g` both the level
+hypothesis of (b) the unmodified de Rham bundle is not a realization of the `D`-isogeny category.
+
+For polarization descent require additionally `P(ℝ) ≠ ∅`, equivalently that `P_ℝ` is a trivial
+`Z_ℝ`-torsor. Let `λ` represent a weak `D`-polarization (A6.27), with
+`z^∨ λ z = c(z) λ` for a character `c : Z → 𝔾_m` positive on `Z(ℝ)`.
+Write `D(c)` for the rank-one coefficient representation with action by `c` and
+`L_c = (D(c) ⊗_D O_P)^Z` for its descended invertible `D`-module.
+The equivariant map `λ : A → A^∨(c)` descends, using contragredient duality, to an
+`L_c`-valued symmetric `D`-isogeny on `A^P`. Choose a trivialization `L_c ≅ D` whose scalar
+extension to `ℝ` sends the positive ray defined by evaluation at a point `x ∈ P(ℝ)` to `ℝ_{>0}`.
+Such a trivialization exists since `D` is a localization of `ℤ`, so `L_c` is free of rank one.
+The resulting symmetric `D`-isogeny represents a weak `D`-polarization of `A^P`.
+Evaluation at `x` identifies it, over real coefficient Hom spaces on each geometric fibre, with
+a positive scalar times the pullback of `λ`; the real ample cone of A6.15 detects positivity after
+clearing denominators. Replacing `x` multiplies its orientation by a value of `c` on `Z(ℝ)`, hence
+does not change it. Two positive trivializations differ by a positive unit of `D`, so the weak
+class is independent of both choices and of the representative `λ`, compatibly with base change.
+The unpolarized construction and the realization comparisons retain the scope of A6.28.
+
+A twisted adelic level is the transported orbit: under a trivialization `g` both the level
 subgroup and the `Z`-action change by conjugation. The proof applies `F` to the idempotent presentation
-and the torsor cocycle, checking exactness for each listed realization; positivity is detected on
-geometric fibres (Kisin–Pappas, §4.4.7 and Lemma 4.4.8, p. 193; Kisin, *Mod p points on Shimura varieties
-of abelian type*, §§4.1.6–4.1.8 and Lemma 4.1.7, author PDF pp. 69–70). The de Rham comparison
+and the torsor cocycle, checking exactness for each listed realization
+(Kisin–Pappas, §4.4.7 and Lemma 4.4.8, p. 193; Kisin, *Mod p points on Shimura varieties
+of abelian type*, §§4.1.6–4.1.8 and Lemma 4.1.7, author PDF pp. 69–70;
+Kisin–Shin–Zhu, §5.12.4, p. 174, supplies the real-triviality correction and real-cone argument;
+the oriented coefficient line gives the positive-ray convention of A6.27). The de Rham comparison
 transports the filtration and connection, not only the rank. *Needs:* A4.1, A4.3, A6.15, A6.27, A6.28.
 
 **Checks.**
@@ -3262,6 +3312,16 @@ transports the filtration and connection, not only the rank. *Needs:* A4.1, A4.3
   on `S`, and `H¹_dR` is a realization of the prime-to-`p` isogeny category.
 - `twistRealizations.tate_denominator`: for `D = ℤ[1/ℓ]`, `T_ℓ([ℓ]) = ℓ` is not invertible on `T_ℓ A`
   for positive-dimensional `A`, so `T_ℓ` is listed only for `ℓ` not inverted in `D`.
+- For `D = ℚ`, `S = Spec ℂ`, `A = E²` with `End E = ℤ` and product principal polarization,
+  let `μ₂` act by `diag(1, −1)` and `P = Spec ℚ(i)`, with conjugation on coefficients.
+  The multiplier is `1` and `P` is trivialized by `ℚ(i)`, but `P(ℝ) = ∅`.
+  The invariant multiplicity module has basis `e₁ ⊗ 1, e₂ ⊗ i`; its descended pairing is
+  `diag(1, i)^t I₂ diag(1, i) = diag(1, −1)`. The unpolarized twist is rationally isogenous to
+  `E²`, but no nonzero scalar makes this indefinite form a polarization.
+- For the trivial torsor and `c = 1`, evaluation gives `L_c = D` and recovers the weak class of
+  `λ`; a negative trivialization gives `−λ`, outside the positive cone when `dim A > 0`.
+- Replacing a positive trivialization of `L_c` by twice itself preserves the weak class for
+  `D = ℚ`; for `D = ℤ` two positive trivializations coincide, since its only positive unit is `1`.
 
 ### A6.30 Weil restriction
 
@@ -3544,6 +3604,9 @@ semisimplicity and `p`-adic libraries.
 - [Maculan] M. Maculan, *The universal vector extension of an abeloid variety*, arXiv:2212.05848v2.
 - [Illusie] L. Illusie, *Grothendieck at Pisa: crystals and Barsotti–Tate groups*,
   <https://www.imo.universite-paris-saclay.fr/~luc.illusie/Illusie-Pisa5.pdf>.
+- [Stix] J. Stix, *A course on finite flat group schemes and p-divisible groups*, revised
+  18 September 2012, §8.5.2, pp. 45–47,
+  <https://www.math.uni-frankfurt.de/~stix/skripte/STIXfinflatGrpschemes20120918.pdf>.
 - [Anschütz–Le Bras] J. Anschütz and A.-C. Le Bras, *Prismatic Dieudonné theory*, arXiv:1907.10525v4.
 - [Farb–Kisin–Wolfson] B. Farb, M. Kisin and J. Wolfson, *Essential dimension via prismatic cohomology*,
   Duke Math. J. 173 (2024), arXiv:2110.05534v2.
@@ -3559,6 +3622,8 @@ semisimplicity and `p`-adic libraries.
   structure*, Publ. Math. IHÉS 128 (2018), 121–218.
 - [Kisin] M. Kisin, *Mod p points on Shimura varieties of abelian type*, J. Amer. Math. Soc. 30 (2017),
   819–914; author preprint, <https://people.math.harvard.edu/~kisin/dvifiles/lr.pdf>.
+- [Kisin–Shin–Zhu] M. Kisin, S. W. Shin and Y. Zhu, *The stable trace formula for Shimura varieties
+  of abelian type*, §5.12.4, printed p. 174, <https://math.berkeley.edu/~swshin/KSZ.pdf>.
 - [Kisin–Madapusi Pera–Shin] M. Kisin, K. Madapusi Pera and S. W. Shin, *Honda–Tate theory for Shimura
   varieties*, Duke Math. J. 171 (2022), 1559–1614, <https://math.berkeley.edu/~swshin/HT.pdf>.
 - [Tsimerman] J. Tsimerman, *The André–Oort conjecture for `A_g`*, Ann. of Math. 187 (2018), 379–390.

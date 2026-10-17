@@ -798,6 +798,16 @@ union for the trivial torsor over `ℤ[1/2]`: points of exact order `2^n` give a
 section with zero restriction to each component. A6.29's `twistRealizations` applies the realization
 to the representing scheme and global descent arrows. In sheaf-valued realization targets it
 uses the sheaf tensor product and invariant subobject, rather than a sectionwise formula.
+Its polarization descent additionally requires `P(ℝ) ≠ ∅` and a character
+`c : Z → 𝔾_m` positive on `Z(ℝ)` with `z^∨ λ z = c(z) λ`. The coefficient line
+`L_c = (D(c) ⊗_D O_P)^Z` uses the rank-one representation with action by `c`.
+A trivialization `L_c ≅ D` must be positive relative to evaluation at a real point of `P`.
+Contragredient duality descends `λ` first as an `L_c`-valued symmetric isogeny; the oriented
+trivialization makes it a `D`-polarization. Its weak class is independent of the real point and
+positive trivialization modulo positive units of `D` (README A6.27–A6.29;
+Kisin–Shin–Zhu §5.12.4, printed p. 174). With `D = ℚ`, `A = E²`, the action
+`diag(1, −1)` and coefficient torsor `Spec ℚ(i)`, the multiplier is `1` but the descended form
+is `diag(1, −1)` in the basis `e₁ ⊗ 1, e₂ ⊗ i`; real triviality fails and the form is indefinite.
 
 A6.15 specifies `rosatiRegularRepresentation`: the scalar-extended Rosati trace gives a real
 inner product, and faithful left multiplication carries Rosati to the operator adjoint. The generic
@@ -843,6 +853,15 @@ choice of representative, with restriction and arbitrary-base-change compatibili
   In A2.4, on an elliptic curve, `h⁰(O(d·0)) = d` assumes `d > 0`; it is `1` at `d = 0`
   and `0` for `d < 0`. The formulas `χ(O(d·0)) = d` and `deg φ = d²` hold for every integer
   `d`, with degree zero for a non-isogeny.
+  For any `L`, write `Q = (id × φ_L)^*P`, `M = L ⊗ [−1]^*L` and
+  `t(x, y) = (x + y, x − y)`. Then `t^*Q ≅ M ⊠ M^{-1}` and `χ(M) = 2^g χ(L)`.
+  HRR, the intersection projection formula and Künneth, with `deg t = 2^{2g}` from
+  JacobianChallenge Layer E's field multiplication theorem, give `χ(Q) = (−1)^g χ(L)²`
+  in every characteristic. For `f = id × φ_L`, proper Chow pushforward of the fundamental
+  cycle is `deg(φ_L)` times the target cycle when `φ_L` is an isogeny, and zero otherwise;
+  HRR and `χ(P) = (−1)^g` give the second computation. For `L = O_A`, `g > 0`, the latter
+  case is essential. For `L = O_E(0)`, the shear `(x, y) ↦ (x, x + y)` retains the mixed
+  factor `Q`, whereas `t` gives `O_E(2·0) ⊠ O_E(−2·0)` and Euler characteristic `−4`.
 * **Finite flat quotients and level structures**: `AbelianQuotient`, `torsionDivisibility`,
   `FullLevel`, `genusTwoTwoTorsion`, `homDescentFullLevel`.
 * **Abelian torsion, Tate modules and algebraic trace** (A3.2, A4.1, A6.10–A6.11): `AbelianTate`,
@@ -870,8 +889,12 @@ choice of representative, with restriction and arbitrary-base-change compatibili
   Verschiebung exactness on `V(p)` at level one. Its API is `TruncatedBT.height`,
   `TruncatedBT.baseChange`, `TruncatedBT.cartierDual`, `TruncatedBT.restrict` and
   `BarsottiTate.truncation` with values in this carrier. This is also the carrier used by
-  FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.10; its coLie recognition and generic
-  stack and truncation smoothness are downstream extensions.
+  FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.10; exact-sequence and coLie recognition,
+  classification, and generic stack and truncation smoothness are downstream extensions.
+  A4.5a also owns the canonical finite locally free group Frobenius and Cartier-dual
+  Verschiebung in characteristic `p`, their naturality, base change and `VF = [p] = FV`.
+  The broader flat-affine construction in that roadmap's R07.1.1 extends these maps and
+  agrees with them on finite locally free groups.
   In A4.12, `p > 2`, `O` is the ring of integers of a finite extension of `ℚ_p` with residue
   field `k`, `A₀/k` is a principally polarized abelian surface, and `G₁` is a principally
   quasi-polarized `TruncatedBT (Spec O) p 1` of height four with compatible
