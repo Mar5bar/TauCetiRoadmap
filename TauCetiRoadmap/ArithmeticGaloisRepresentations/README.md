@@ -510,7 +510,7 @@ Section 2.7 consumes this comparison on dual representations. It proves the comp
 equation by Brauer induction and identifies its epsilon factors; it constructs the adelic
 Schwartz–Bruhat, Fourier, Poisson and globalization inputs used by local constants.
 
-[CFSGBasicProperties](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2ac39458eaba8c50e0b1acf1c56401986ea10ca6/TauCetiRoadmap/CFSGBasicProperties/README.md)
+CFSGBasicProperties
 T1–T2 supplies the finite fixed-point root calculus and simplicity on CFSGStatement's exact
 derived central quotient. Section 7.12 constructs the Hermitian matrix comparison by a proved
 `MulEquiv` for `m ≥ 3` in the valid twisted `A_{m−1}` range, at fixed-field parameter `q`.
