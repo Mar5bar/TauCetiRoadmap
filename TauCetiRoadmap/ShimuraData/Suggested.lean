@@ -10,10 +10,12 @@ statable against the pinned APIs and is not exhaustive. It fixes common determin
 left Kostant cosets, the central character in genus-two coordinates, and normalized valuations.
 The matrix, character-lattice and local-family statements below are the explicitly indicated
 parts of the geometric targets; the README states their full geometric conclusions.
-The genus-two lattice, root and chamber abbreviations give coordinate presentations of
-AutomorphicFormsOnReductiveGroups §6.3's supplied API, in the CG basis obtained by swapping
-its last two symplectic basis vectors. Their geometric comparisons use the Shimura filtration,
-compact Cartan and Cayley basis specified in the README.
+The genus-two statements specialize AutomorphicFormsOnReductiveGroups §§6.1, 6.3 and 6.7:
+its Hermitian datum, lattice/root/chamber API and Siegel Kostant indices are expressed in the
+CG basis obtained by swapping its last two symplectic basis vectors. The matrix comparisons
+identify the supplied stabilizer, compact quotient and Hodge summands with the CG centralizer,
+compact Cartan and Cayley basis. Kostant's Lie-cohomology theorem is supplied by
+ArithmeticLocallySymmetricSpaces ALS.4.5; the Coxeter statements compare its index conventions.
 -/
 
 noncomputable section
@@ -203,7 +205,8 @@ example : cgToPilloni (0, 0, 1) = (0, 0, 2) := by
 example : ¬ ∃ χ : CGWeight, cgToPilloni χ = (1, 0, 0) := by
   sorry
 
-/-- The four minimal left representatives, including their central-coordinate actions. -/
+/-- CG coordinate actions of the four `GSp₄` minimal left representatives supplied by
+AutomorphicFormsOnReductiveGroups §6.7, including the similitude exponent. -/
 def gsp4KostantAction : Fin 4 → CGWeight → CGWeight :=
   ![fun χ ↦ χ, fun χ ↦ (χ.1, -χ.2.1, χ.2.1 + χ.2.2), fun χ ↦ (χ.2.1, -χ.1, χ.1 + χ.2.2),
     fun χ ↦ (-χ.2.1, -χ.1, χ.1 + χ.2.1 + χ.2.2)]
@@ -214,7 +217,8 @@ example : gsp4KostantAction 1 (2, 1, 0) = (2, -1, 1) := by
 example : gsp4KostantAction 2 (3, 2, 1) = (2, -3, 4) := by
   sorry
 
-/-- Coordinate form of opposition. The Levi swap and full longest action are distinguished. -/
+/-- The `g = 2` specialization of the supplied Siegel indices has CG opposition `i ↦ 3-i`.
+The Levi swap and full longest action are distinguished. -/
 theorem gsp4Kostant :
     (∀ i : Fin 4,
       (fun χ : CGWeight ↦ (χ.2.1, χ.1, χ.2.2)) ∘ gsp4KostantAction i ∘
@@ -239,8 +243,8 @@ example : (-1, -2, 7) ∈ gsp4Chamber 3 := by
 example : ∀ c : ℝ, (1, 0, c) ∈ gsp4Chamber 0 ∩ gsp4Chamber 1 := by
   sorry
 
-/-- Coordinate specialization of the supplied chamber duality by minus the Levi longest
-element, compared with Kostant opposition in README §5.11. -/
+/-- CG specialization of AutomorphicFormsOnReductiveGroups §6.3's chamber duality by minus
+the Levi longest element, indexed by §6.7's genus-two representatives as in README §5.11. -/
 theorem gsp4ConeReversal (i : Fin 4) :
     (fun x : ℝ × ℝ × ℝ ↦ (-x.2.1, -x.1, -x.2.2)) '' gsp4Chamber i =
       gsp4Chamber (Fin.rev i) := by
@@ -258,7 +262,8 @@ example : cgS.det = -1 := by
 example : cgS.mulVec ![1, 0] = ![0, 1] := by
   sorry
 
-/-- The symplectic matrix `J=h(i)` in the CG basis. -/
+/-- The matrix `J=h(i)` for the Siegel specialization of the supplied Hermitian datum
+in the CG basis. -/
 def cgJ : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) ℝ := Matrix.fromBlocks 0 cgS (-cgS) 0
 
 example : cgJ * cgJ = -1 := by
@@ -267,13 +272,15 @@ example : cgJ * cgJ = -1 := by
 example : cgJ.transpose = -cgJ := by
   sorry
 
-/-- The matrix characterization of the real centralizer, including positive similitude. -/
+/-- The CG matrix characterization of the Siegel `hodgeStabilizer` supplied by
+AutomorphicFormsOnReductiveGroups §6.1, including positive similitude. -/
 theorem gsp4Centralizer (g : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) ℝ) (ν : ℝ)
     (hg : g.transpose * cgJ * g = ν • cgJ) (hdet : IsUnit g.det) :
     g * cgJ = cgJ * g ↔ 0 < ν ∧ g.transpose * g = ν • 1 := by
   sorry
 
-/-- The orthogonal centralizer as a matrix subset; the README gives its Lie group structure. -/
+/-- The CG matrix presentation of the supplied Siegel compact quotient after normalization
+by its positive split centre, as identified in README §5.12. -/
 def kInfinityOne : Set (Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) ℝ) :=
   {k | k.transpose * k = 1 ∧ k * cgJ = cgJ * k}
 
@@ -284,7 +291,8 @@ example : cgJ ∈ kInfinityOne := by
 example : Matrix.fromBlocks (1 : Matrix (Fin 2) (Fin 2) ℝ) 0 0 (-1) ∉ kInfinityOne := by
   sorry
 
-/-- The underlying bijection to U(2). Its Lie-group refinement is the README target. -/
+/-- The CG matrix model of the supplied Siegel compact quotient is in bijection with U(2).
+README §5.13 identifies the quotient and refines this bijection to a Lie-group isomorphism. -/
 theorem gsp4Unitary :
     ∃ e : kInfinityOne ≃ Matrix.unitaryGroup (Fin 2) ℂ,
       ∀ k : kInfinityOne, (e k : Matrix (Fin 2) (Fin 2) ℂ) =
@@ -346,7 +354,8 @@ example : ¬ ((Complex.exp ((Real.pi : ℂ) * Complex.I) = 1 ∧
       Complex.exp ((0 : ℂ) * Complex.I) = -1 ∧ Complex.exp (Real.pi * Complex.I) = -1)) := by
   sorry
 
-/-- The Cayley matrix `C = [[I, −iS], [−iS, I]]`. -/
+/-- The CG Cayley matrix `C = [[I, −iS], [−iS, I]]` realizing the eigenspaces of the
+Siegel `h` underlying AutomorphicFormsOnReductiveGroups §6.1's Hermitian datum. -/
 def gsp4CayleyBasis : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) ℂ :=
   Matrix.fromBlocks 1 (-Complex.I • cgS.map (algebraMap ℝ ℂ)) (-Complex.I • cgS.map (algebraMap ℝ ℂ)) 1
 
@@ -364,7 +373,8 @@ theorem cayleyInverse :
       (Complex.I • cgS.map (algebraMap ℝ ℂ)) 1) = 1 := by
   sorry
 
-/-- The two block columns span the negative and positive `i` eigenspaces of `J`. -/
+/-- The two block columns span the negative and positive `i` eigenspaces of the Siegel `h(i)`.
+Their adjoint Hom blocks realize the supplied `pPlus` and `pMinus` as in README §5.16. -/
 theorem cayleyHodgeLines (j : Fin 2) :
     Matrix.mulVec (cgJ.map (algebraMap ℝ ℂ)) (fun i ↦ gsp4CayleyBasis i (Sum.inl j)) =
         (-Complex.I) • (fun i ↦ gsp4CayleyBasis i (Sum.inl j)) ∧
@@ -377,7 +387,8 @@ theorem cayleyConjugation (j : Fin 2) :
     (fun i ↦ star (gsp4CayleyBasis i (Sum.inl j))) = Complex.I • fun i ↦ gsp4CayleyBasis i (Sum.inr (Fin.rev j)) := by
   sorry
 
-/-- `C⁻¹ k C = diag(SAS − iSBS, A + iB)` for `k = [[SAS, SB], [−BS, A]]`. -/
+/-- In the CG realization of the supplied Siegel stabilizer,
+`C⁻¹ k C = diag(SAS − iSBS, A + iB)` for `k = [[SAS, SB], [−BS, A]]`. -/
 theorem gsp4CayleyAction (A B : Matrix (Fin 2) (Fin 2) ℝ) :
     let Sc := cgS.map (algebraMap ℝ ℂ)
     let Ac := A.map (algebraMap ℝ ℂ)
@@ -518,9 +529,9 @@ and connectedness/reductivity, Hodge genericity, uniqueness of the domain comple
 variations and their polarizations, filtration parabolics, compact duals and reflex-field
 forms, integral Schubert geometry, type predicates and additional axioms, connected-datum lifts,
 product reflex fields, distinguished data and their Levi quotients, Hilbert datum comparisons,
-Siegel root/permutation and Kostant-sequence geometry, the Cartan torus and its Lie group
-structure, and the global all-places Iwahori criterion. These use the group, analytic or flag
-carriers specified in README.md.
+Siegel root/permutation and Kostant-sequence geometry, identification of the supplied compact
+Cartan and its Lie group structure, and the global all-places Iwahori criterion. These use the
+group, analytic or flag carriers specified in README.md.
 
 In particular, the geometric definitions `mumfordTateGroup`, `hodgeGeneric`, `Variation`,
 `VariationHom`, `RationalPolarizedVariation`, `polarizedIntegralVariation`, `filtrationParabolic`,

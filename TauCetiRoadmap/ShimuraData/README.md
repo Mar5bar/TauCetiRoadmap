@@ -10,6 +10,8 @@ ShimuraVarieties owns pure data and morphisms, connected and adjoint data, Hodge
 
 PELModuli owns rational PEL data, their Shimura datum and Siegel morphism (§M0.12), and the scalar-determinant Hilbert datum with its trace form and embedding (§M5.4). Layer 5 compares its domain with that of the full restriction-of-scalars group. ReductiveGroups owns algebraic groups, representations, roots, field Bruhat theory and split pinned integral groups; ReductiveGroupsPartII owns affine Weil restriction, the Deligne torus, Iwahori subgroups and Pilloni's self-dual genus-two lattices. The nonaffine parabolic-type varieties and integral Schubert comparisons needed below are stated explicitly as extensions of those inputs, with no appeal to affine Weil restriction for a projective line.
 
+AutomorphicFormsOnReductiveGroups §§6.1, 6.3 and 6.7 supply the Hermitian group interface, genus-two character lattices, roots and chambers, and higher-rank Siegel Kostant indices. Section 2.2 realizes that interface for a pure datum; §§5.9–5.17 transport the supplied objects to the CG basis and identify their matrix actions, centralizer and Hodge summands. ArithmeticLocallySymmetricSpaces §ALS.4.5 owns Kostant’s Lie-cohomology theorem.
+
 AdelicAlgebraicGroups owns adelic points, ordinary rational neatness and neat levels. Layer 5 defines the different, simultaneous-prime adelic condition of Boxer–Calegari–Gee–Pilloni and compares it with those notions. HodgeStructures owns pure Hodge structures and fibrewise polarization and semisimplicity. ComplexManifolds and ComplexKahlerGeometry own holomorphic bundles and their flat-connection/local-system correspondence; a general variation adds a holomorphic filtration, opposedness and transversality to those objects.
 
 Native [`TauCeti.Cocharacter.parabolic`, `levi` and `limit`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/AlgebraicGroup/Dynamic/Parabolic.lean) supply the cocharacter-limit construction; §3.7 adds its intrinsic Hodge-filtration comparison and fixes the inverse-cocharacter sign. Native [`TauCeti.Hodge.PeriodDomain.Point`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Geometry/Hodge/PeriodDomain.lean) supplies a polarized filtration on a fixed lattice and form; the varying analytic objects are specified here. Tau Ceti's [`TauCeti.CommHopfAlgCat.commonKernelHopfIdeal`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/AlgebraicGroup/HopfIdeal/CommonKernel/Basic.lean) handles families of Hopf morphisms over one base. The Mumford–Tate construction instead takes the kernel of a rational algebra map obtained from an `S`-map after real base change, so §1.2 retains that additional case using the native Hopf-ideal join.
@@ -69,8 +71,8 @@ The library baseline is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and T
 - PELModuli §§M0.12, M5.1, M5.4–M5.5: `RationalPELDatum.toShimuraDatum` and `siegelMorphism` with connected group and `SV3`; Siegel, scalar-determinant Hilbert and unitary PEL data. The Hilbert trace pairing is positive with its supplied `h`. Unitary signature `(r_τ,s_τ)` has dimension `Σ_τr_τs_τ`.
 - ReductiveGroupsPartII `§§RG2.0a`, RG2.1.5, RG2.3, RG2.5: Affine Weil restriction with its natural points equivalence; `DeligneTorus` with real and complex comparisons, conjugation, inverse diagonal, norm and `μ`; torus norms; z-extensions in the simply connected case; pro-unipotent Iwahori reduction; Pilloni coordinates, corrected simple roots and duality. The general prescribed-derived-cover extension is proved in Layer 4.6, not assumed from the `z`-extension theorem.
 - AdelicAlgebraicGroups §§1.3–1.4, 3.4, 4.3: Topological functoriality on finite adelic points, restriction of scalars and its local factors; compactness of anisotropic arithmetic quotients; `Neat.IsNeatAut`, representation independence and rational neat levels; the cyclotomic distance `v(ζ−1)=1/(ℓ^{r−1}(ℓ−1))` for a primitive `ℓʳ`-th root and zero for nontrivial prime-to-`ℓ` torsion. No discreteness of all rational points in finite adeles is inferred.
-- ArithmeticLocallySymmetricSpaces `§§ALS.F.1`, ALS.0.1–ALS.0.2: `realPoints_lieGroup` with Lie algebra `Lie(H)`, independence of faithful embedding, and finitely many components; Cartan involutions via compact twisted real form, with the central-torus condition separate from the Killing-form criterion on the derived algebra.
-- AutomorphicFormsOnReductiveGroups §§6.1, 6.3: `HermitianGroupDatum` with the actual adjoint `h`-summands and full positive real split centre; split and compact character lattices, parity conversion, positive roots, half-sums and four chambers (`splitCharacter`, `compactCharacter`, `toCompact`, `toSplit`, `rho`, `chamber`) with chamber duality. Its symplectic basis becomes the CG basis by swapping the last two basis vectors. Section 2.2 constructs the geometric datum adapter; §§5.9, 5.11 and 5.14 compare these supplied coordinates with the Shimura filtration and actual Cartan.
+- ArithmeticLocallySymmetricSpaces `§§ALS.F.1`, ALS.0.1–ALS.0.2: `realPoints_lieGroup` with Lie algebra `Lie(H)`, independence of faithful embedding, and finitely many components; Cartan involutions via compact twisted real form, with the central-torus condition separate from the Killing-form criterion on the derived algebra. Section ALS.4.5 supplies the root-theoretic Kostant index set and the characteristic-zero splitting-field Lie-cohomology theorem, retaining the full Levi central weight; §3.10 compares its index set with Coxeter length.
+- AutomorphicFormsOnReductiveGroups §6.1: `HermitianGroupDatum`, `hodgeStabilizer`, `positiveSplitCentre`, `compactQuotient`, `pPlus`, `pMinus` and `parabolicLie`, with the actual adjoint `h`-summands and full positive real split centre. Section 6.3 supplies split and compact character lattices, parity conversion, positive roots, half-sums and four chambers (`splitCharacter`, `compactCharacter`, `toCompact`, `toSplit`, `rho`, `chamber`) with chamber duality. Section 6.7 supplies the Siegel Levi and minimal left-coset Kostant indices for `GSp₂g`, `g≥1`; §5.10 identifies its `g=2` indices and lengths with the CG action table. Its symplectic basis becomes the CG basis by swapping the last two basis vectors. Section 2.2 constructs the geometric datum adapter; §§5.9–5.17 identify these supplied objects with the Shimura filtration, CG centralizer, actual Cartan and Cayley eigenspaces.
 - AbelianSchemesAndArithmeticModuli §§A5.2, A5.5: The rational polarized Hodge structure `H¹(A,ℚ)`, its Riemann form and isogeny compatibility. Layer 1 uses its rational symplectic similitude group without a Siegel Shimura datum.
 - StableReduction Layer 2: Effective étale descent of schemes equipped with a compatible relatively ample invertible sheaf, by descent of the graded section algebra and relative Proj; including morphisms, the polarization and base-change coherence. A finite separable splitting extension is an étale cover, and the canonical parabolic polarization or the Segre bundle supplies the compatible invertible sheaf. Descent of a variety does not assert a rational point.
 - ComplexManifolds Milestone 7: Holomorphic vector bundles and bundle morphisms on the native vector-bundle carrier, cocycle gluing, pullback, direct sums, tensor products and duals. Layer 3.1 specifies the holomorphic subbundle condition for its filtration on those carriers.
@@ -1353,15 +1355,15 @@ Evaluate each root on the torus and check coroot pairings; sum roots for `ρ`. P
 
 ### 5.10 Genus-two Kostant actions
 
-`gsp4KostantAction : Fin 4 → CGWeight → CGWeight` is the four-entry action table below, including the similitude exponent.
+Specialize AutomorphicFormsOnReductiveGroups §6.7’s Siegel Levi and minimal left-coset indices to `GSp₄`, and transport them through §5.9’s CG based-root comparison. The coordinate abbreviation `gsp4KostantAction : Fin 4 → CGWeight → CGWeight` records their four actions, including the similitude exponent.
 
 Prove `TauCetiRoadmap.ShimuraData.gsp4Kostant`. In CG coordinates `^MW` has four elements with actions `(a,b;c)`, `(a,−b;b+c)`, `(b,−a;a+c)`, `(−b,−a;a+b+c)`, of lengths `0,1,2,3`. The element called `w₀` in CG acts `(a,b;c)↦(b,a;c)` and is the longest Levi element. The full longest Weyl element acts `(−a,−b;a+b+c)`. The duality involution `w↦w₀,Mww₀,G` reverses these four lengths.
 
-`G` is split reductive with `T⊂B⊂P`, standard Levi `M` and its Weyl subgroup `WM`. Length/Bruhat order use this based root datum; representatives are for left cosets `WM\W`. For integral assertions use the split pinned reductive `ℤ`-model of ReductiveGroups Layer 9 and the cells and base-change-compatible closures constructed in §§3.14–3.15.
+`G=GSp₄` has the CG upper-triangular Borel `B⊂P`, Siegel Levi `M≅GL₂×G_m` and the supplied based Weyl group. The representatives are the supplier’s minimal elements of the left cosets `WM\W`, with its length function.
 
-The four representatives are actual elements of the imported Weyl group with its length function, indexed by a bijection Fin `4→^MW`. Their coordinate actions are required for every rational weight. The involution sends index `i` to `3−i`; the longest Levi and full elements have lengths `1` and `4`.
+The comparison gives a bijection `Fin 4→^MW` to those supplied elements. Their coordinate actions are required for every rational weight. The involution sends index `i` to `3−i`; the longest Levi and full elements have lengths `1` and `4`.
 
-Generate signed permutations, pair with the single positive Levi root, and compute the four minimal representatives and actions. Check the longest elements separately.
+Evaluate the supplied representatives on the CG torus characters. Section 3.10 identifies the left-coset conventions, and §3.13’s opposition gives the index reversal. The general indices and representation-theoretic parametrization are supplied by AutomorphicFormsOnReductiveGroups §6.7; Kostant’s Lie-cohomology theorem is ArithmeticLocallySymmetricSpaces §ALS.4.5.
 
 **Checks.**
 
@@ -1371,7 +1373,7 @@ Generate signed permutations, pair with the single positive Levi root, and compu
 
 (Frank Calegari; David Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), §2.1, PDF p.8.)
 
-*Needs:* [§5.9](#d5-gsp4-cg-roots); [§3.13](#d3-kostant-involution); [§3.10](#d3-kostant-representatives); ReductiveGroups, Layer 7 (structure theory); `RootPairing.weylGroup`.
+*Needs:* AutomorphicFormsOnReductiveGroups §§6.3, 6.7; [§5.9](#d5-gsp4-cg-roots); [§3.13](#d3-kostant-involution); [§3.10](#d3-kostant-representatives); ReductiveGroups, Layer 7 (structure theory); `RootPairing.weylGroup`.
 
 <a id="d5-gsp4-cone-reversal"></a>
 
@@ -1379,7 +1381,7 @@ Generate signed permutations, pair with the single positive Levi root, and compu
 
 `gsp4Chamber` abbreviates the coordinate presentation of AutomorphicFormsOnReductiveGroups §6.3's `chamber`: `C₀={a≥b≥0}`, `C₁={a≥−b≥0}`, `C₂={−b≥a≥0}`, `C₃={−b≥−a≥0}`, with unrestricted central coordinate.
 
-Prove `TauCetiRoadmap.ShimuraData.gsp4ConeReversal`, comparing the supplied chambers and chamber duality with the Shimura-filtration Kostant representatives: `C_i=ŵ_i C_G⁺` for the four actions of §5.10. Under this identification, `−w₀,M` sends `C_i` to `C_{3−i}`. Here the minus negates all three coordinates and `w₀,M` swaps `a,b`; the central coordinate is unrestricted. This distinguishes the Levi longest element from the full longest element. The Lean coordinate equality is the corresponding specialization of the supplied duality.
+Prove `TauCetiRoadmap.ShimuraData.gsp4ConeReversal`, comparing the supplied chambers and chamber duality with the Shimura-filtration Kostant representatives: `C_i=ŵ_i C_G⁺` for the four actions of §5.10. Under this identification, `−w₀,M` sends `C_i` to `C_{3−i}`. Here the minus negates all three coordinates and `w₀,M` swaps `a,b`; the central coordinate is unrestricted. This distinguishes the Levi longest element from the full longest element. The indexing is the `g=2` specialization of AutomorphicFormsOnReductiveGroups §6.7, transported to CG coordinates by §5.10. The Lean coordinate equality is the corresponding specialization of §6.3’s supplied duality.
 
 Apply `(a,b;c)↦(−b,−a;−c)` to the inequalities defining each chamber. This is the chamber-level form of the Kostant involution.
 
@@ -1392,17 +1394,17 @@ Apply `(a,b;c)↦(−b,−a;−c)` to the inequalities defining each chamber. Th
 
 (Frank Calegari; David Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), §2.1, PDF p.8; Theorem 5.5 proof, PDF pp.28–29.)
 
-*Needs:* AutomorphicFormsOnReductiveGroups §6.3; [§5.10](#d5-gsp4-kostant); [§3.12](#d3-kostant-cones).
+*Needs:* AutomorphicFormsOnReductiveGroups §§6.3, 6.7; [§5.10](#d5-gsp4-kostant); [§3.12](#d3-kostant-cones).
 
 <a id="d5-gsp4-centralizer"></a>
 
 ### 5.12 Genus-two real centralizer
 
-For the matrix signatures, `cgS=[[0,1],[1,0]]`, `cgJ=[[0,cgS],[−cgS,0]]`, and `kInfinityOne` is the set of orthogonal matrices commuting with `cgJ`. The theorem compares this set with the actual symplectic centralizer; the Lie-group structure is the full target below.
+Specialize AutomorphicFormsOnReductiveGroups §6.1’s `hodgeStabilizer` and `positiveSplitCentre` through §2.2 to the Siegel datum on `GSp₄(ℝ)` with `h(x+iy)=xI₄+yJ` in the CG basis. Here `cgS=[[0,1],[1,0]]`, `cgJ=J=[[0,cgS],[−cgS,0]]`, and `kInfinityOne` is the coordinate set of orthogonal matrices commuting with `J`. The theorem identifies the supplied stabilizer with this matrix presentation.
 
 Prove `TauCetiRoadmap.ShimuraData.gsp4Centralizer`. For CG `J=h(i)`, `K^h={g∈GSp₄(ℝ):gᵀg=ν(g)I₄}=ℝ_{>0}K∞,1=ℝˣK∞,1`, with `K∞,1=Sp₄(ℝ)∩O(4)`. Every element has positive similitude. The full `K∞=GSp₄(ℝ)∩O(4)` also has negative similitudes and does not centralize `h`.
 
-Use the symplectic equation together with `gJ=Jg` to derive `gᵀg=ν(g)I`. Positivity gives the positive scalar normalization. A negative-similitude orthogonal element sends `J` to `−J`.
+Use the symplectic equation together with `gJ=Jg` to derive `gᵀg=ν(g)I`. Positivity gives the normalization `g↦ν(g)^(−1/2)g`, identifying the supplied `compactQuotient=K^h/A_h`, with `A_h=ℝ_{>0}I₄`, with `kInfinityOne`. A negative-similitude orthogonal element sends `J` to `−J`.
 
 **Checks.**
 
@@ -1415,13 +1417,13 @@ Use the symplectic equation together with `gJ=Jg` to derive `gᵀg=ν(g)I`. Posi
 
 (Frank Calegari; David Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), §2.2, PDF pp.8–9.)
 
-*Needs:* ShimuraVarieties §§P.1–P.5; [§5.9](#d5-gsp4-cg-roots).
+*Needs:* AutomorphicFormsOnReductiveGroups §6.1; [§2.2](#d2-hermitian-group-adapter); ShimuraVarieties §§P.1–P.5; [§5.9](#d5-gsp4-cg-roots).
 
 <a id="d5-gsp4-unitary"></a>
 
 ### 5.13 Unitary identification of the centralizer
 
-Prove `TauCetiRoadmap.ShimuraData.gsp4Unitary`. Put `S=[[0,1],[1,0]]`. Elements of `K∞,1` are `[[SAS,SB],[−BS,A]]` with `AᵀA+BᵀB=I` and `AᵀB=BᵀA`. The map `k↦A+iB` is a real Lie-group isomorphism `K∞,1≅U(2)`.
+Prove `TauCetiRoadmap.ShimuraData.gsp4Unitary`, identifying the `GSp₄` compact quotient of AutomorphicFormsOnReductiveGroups §6.1 with its CG matrix model and `U(2)`. Use §5.12’s normalization of the supplied stabilizer. Put `S=[[0,1],[1,0]]`. Elements of `K∞,1` are `[[SAS,SB],[−BS,A]]` with `AᵀA+BᵀB=I` and `AᵀB=BᵀA`. The map `k↦A+iB` is a real Lie-group isomorphism `K∞,1≅U(2)`.
 
 `K∞,1` is the subgroup of `GL₄(ℝ)` satisfying `kᵀk=I` and `kJ=Jk` for the CG symplectic matrix `J`. `U(2)` is Mathlib's `Matrix.unitaryGroup` (Fin `2`) `ℂ`. A and `B` are recovered from the lower-right block and from `S` times the upper-right block, so the isomorphism has the displayed inverse on every unitary matrix; ArithmeticLocallySymmetricSpaces §ALS.F.1 supplies the Lie group structures, for which a continuous isomorphism of closed matrix groups is an isomorphism of Lie groups.
 
@@ -1435,17 +1437,17 @@ Expand `kᵀk=I` and the `J` centralizer relation, then compare with (A+iB)* `(A
 
 (Frank Calegari; David Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), §2.2, PDF p.9.)
 
-*Needs:* [§5.12](#d5-gsp4-centralizer); ArithmeticLocallySymmetricSpaces `§§ALS.F.1`, ALS.0.1–0.2; `Matrix.unitaryGroup`.
+*Needs:* AutomorphicFormsOnReductiveGroups §6.1; [§5.12](#d5-gsp4-centralizer); ArithmeticLocallySymmetricSpaces `§§ALS.F.1`, ALS.0.1–0.2; `Matrix.unitaryGroup`.
 
 <a id="d5-gsp4-compact-cartan"></a>
 
 ### 5.14 Genus-two compact Cartan
 
-Import AutomorphicFormsOnReductiveGroups §6.3's `compactCharacter`, `toCompact` and `toSplit`. The coordinate abbreviation `compactCartanCharacter` presents its parity subset. The comparison `compactCartanLattice` identifies `cgToPilloni` with the supplied lattice equivalence: it is injective and its image is exactly this subset. The parametrization `c=a+b+2k` and the rank-three lattice are supplier inputs; the actual Cartan group is constructed here.
+Import AutomorphicFormsOnReductiveGroups §6.3's `compactCharacter`, `toCompact` and `toSplit`. The coordinate abbreviation `compactCartanCharacter` presents its parity subset. The comparison `compactCartanLattice` identifies `cgToPilloni` with the supplied lattice equivalence: it is injective and its image is exactly this subset. The parametrization `c=a+b+2k` and the rank-three lattice are supplier inputs. The group comparison identifies §6.1’s compact Cartan, with the diagonal choice in §5.13’s `U(2)` model, with the actual rotation/scalar subgroup below.
 
 Construct `TauCetiRoadmap.ShimuraData.gsp4CompactCartan`. Let `H=ℝ_{>0}H₁` in `K^h` with `H₁` the diagonal `U(1)²` under `K∞,1≅U(2)`. Its complex algebraic torus is `(Gm³)/⟨(−1,−1,−1)⟩` in angular/scalar coordinates; its character lattice is `{(a,b;c)∈ℤ³:a+b≡c mod 2}`. Characters evaluate as the corresponding exponential on `h_C`. Compact Cartan coordinates differ from split CG coordinates.
 
-Take the inverse image of the diagonal unitary subgroup and multiply by positive scalars. The simultaneous sign identifies the complexified parametrization; compare its characters with the supplied parity lattice. Section 5.17 compares them with the split lattice through the Cayley basis: the central conversion preserves the two angular labels, whereas the actual Cayley comparison additionally negates them.
+Realize the supplied compact Cartan by taking the inverse image of the diagonal unitary subgroup and multiplying by positive scalars. The simultaneous sign identifies the complexified parametrization; compare its characters with the supplied parity lattice. Section 5.17 compares them with the split lattice through the Cayley basis: the central conversion preserves the two angular labels, whereas the actual Cayley comparison additionally negates them.
 
 - `TauCetiRoadmap.ShimuraData.compactCartanRank`: The actual real rotation/scalar subgroup is isomorphic to `ℝ_{>0}×U(1)²`; identify its complexified character lattice with the supplied rank-three lattice.
 - `TauCetiRoadmap.ShimuraData.compactCartanParity`: Under this identification, the actual angular/scalar characters are exactly the supplied triples with `a+b≡c` modulo two.
@@ -1459,7 +1461,7 @@ Take the inverse image of the diagonal unitary subgroup and multiply by positive
 
 (Frank Calegari; David Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), §2.2, PDF pp.9–10; Theorem 5.5 proof, PDF p.28.)
 
-*Needs:* AutomorphicFormsOnReductiveGroups §6.3; [§5.13](#d5-gsp4-unitary); ReductiveGroups, Layer 7 (structure theory).
+*Needs:* AutomorphicFormsOnReductiveGroups §§6.1, 6.3; [§5.13](#d5-gsp4-unitary); ReductiveGroups, Layer 7 (structure theory).
 
 <a id="d5-gsp4-exp-kernel"></a>
 
@@ -1483,9 +1485,9 @@ Exponentiate the two commuting angular blocks and scalar block. The image is ide
 
 ### 5.16 Genus-two Cayley basis
 
-Construct `TauCetiRoadmap.ShimuraData.gsp4CayleyBasis`. For the CG `J` and real basis `e₁,…,e₄`, take `f₁=e₁−ie₄,f₂=e₂−ie₃,f₃=e₃−ie₂,f₄=e₄−ie₁`. They are the columns of `C=[[I₂,−iS],[−iS,I₂]]` and give bases of the two `±i-eigenspaces` of `J`. `C` is invertible, with inverse `1/2 [[I₂,iS],[iS,I₂]]`.
+Construct `TauCetiRoadmap.ShimuraData.gsp4CayleyBasis`, the CG matrix realization of the Siegel `h`-eigenspaces underlying AutomorphicFormsOnReductiveGroups §6.1’s Hermitian datum. Use the actual `h` and adjoint Hodge summands supplied through §2.2. For the CG `J` and real basis `e₁,…,e₄`, take `f₁=e₁−ie₄,f₂=e₂−ie₃,f₃=e₃−ie₂,f₄=e₄−ie₁`. They are the columns of `C=[[I₂,−iS],[−iS,I₂]]` and give bases of the two `±i-eigenspaces` of `J`. `C` is invertible, with inverse `1/2 [[I₂,iS],[iS,I₂]]`.
 
-Multiply `C` by the proposed inverse and use `S²=I`. Apply `J` to each column to identify the eigenspaces.
+Multiply `C` by the proposed inverse and use `S²=I`. Apply `J` to each column to identify `V⁻` and `V⁺`. In this basis the supplied `pPlus=g^{−1,1}` and `pMinus=g^{1,−1}` are respectively the lower-left and upper-right symplectic Hom blocks, of dimension three; `parabolicLie=k^h_ℂ⊕pMinus` stabilizes `V⁻`. These identifications use the adjoint action of this `h`.
 
 - `TauCetiRoadmap.ShimuraData.cayleyInverse`: `C⁻¹=1/2 [[I₂,iS],[iS,I₂]]`.
 - `TauCetiRoadmap.ShimuraData.cayleyHodgeLines`: The first and last two columns span the two complex Hodge summands.
@@ -1502,13 +1504,13 @@ Multiply `C` by the proposed inverse and use `S²=I`. Apply `J` to each column t
 
 (Frank Calegari; David Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), §2.2, PDF p.10.)
 
-*Needs:* [§5.12](#d5-gsp4-centralizer); ShimuraVarieties §§P.1–P.5.
+*Needs:* AutomorphicFormsOnReductiveGroups §6.1; [§2.2](#d2-hermitian-group-adapter); [§5.12](#d5-gsp4-centralizer); ShimuraVarieties §§P.1–P.5.
 
 <a id="d5-gsp4-cayley-action"></a>
 
 ### 5.17 Centralizer action in the Cayley basis
 
-`cgToCompact(a,b,c)=(−a,−b,a+b+2c)` records the Cayley change of coordinates. `gsp4CayleyCompactCoordinates` checks it on all four roots and their sum; the actual conjugation and Borel comparisons are the full statement below.
+Compare AutomorphicFormsOnReductiveGroups §6.1’s compact and noncompact root spaces and §6.3’s character lattices with the CG Cayley basis. The coordinate map `cgToCompact(a,b,c)=(−a,−b,a+b+2c)` records this change of coordinates. `gsp4CayleyCompactCoordinates` checks it on all four roots and their sum; the actual conjugation and Borel comparisons are the full statement below.
 
 Prove `TauCetiRoadmap.ShimuraData.gsp4CayleyAction`. For `k=[[SAS,SB],[−BS,A]]`, `C⁻¹kC=diag(SAS−iSBS,A+iB)`. In compact coordinates the positive compact root is `(1,−1;0)` and the three positive noncompact roots are `(0,2;0),(1,1;0),(2,0;0)`, according to CG convention. On Lie algebras, `C⁻¹h(t₁,t₂;z)C=diag(z−it₁,z−it₂,z+it₂,z+it₁)` (CG p.10 for `z=0`; `z` is central). Hence the Cayley transform identifies the CG split character `(a,b;c)` of `diag(t₁,t₂,νt₂⁻¹,νt₁⁻¹)` with the compact character `(−a,−b;a+b+2c)`, and CG's positive system on `H_ℂ` is the image of the roots of the lower-triangular Borel. Composing with the longest Weyl element, which is `−1` on the angular coordinates, gives the conversion `(a,b;c)↦(a,b;a+b+2c)`. It carries the upper-triangular positive roots onto those positive roots and `ρ_T=(2,1;−3/2)` to `ρ_H=(2,1;0)`.
 
@@ -1522,7 +1524,7 @@ Multiply the three block matrices; the off-diagonal blocks vanish and the diagon
 
 (Frank Calegari; David Geraghty, [Minimal modularity lifting for nonregular symplectic representations](https://www.math.uchicago.edu/~fcale/papers/Siegel.pdf), §2.2, PDF p.10.)
 
-*Needs:* [§5.16](#d5-gsp4-cayley-basis); [§5.13](#d5-gsp4-unitary); [§5.14](#d5-gsp4-compact-cartan); ReductiveGroups, Layer 7 (structure theory).
+*Needs:* AutomorphicFormsOnReductiveGroups §§6.1, 6.3; [§5.16](#d5-gsp4-cayley-basis); [§5.13](#d5-gsp4-unitary); [§5.14](#d5-gsp4-compact-cartan); ReductiveGroups, Layer 7 (structure theory).
 
 <a id="d5-gsp4-pilloni-convention"></a>
 
@@ -1617,11 +1619,11 @@ Genus two has four Siegel Kostant representatives and sequences `(0,0,0)`, `(0,0
 
 ### Dependencies
 
-AdelicAlgebraicGroups §§1.3–1.4; AdelicAlgebraicGroups §4.3; ArithmeticLocallySymmetricSpaces `§§ALS.F.1`, ALS.0.1–0.2; PELModuli §M0.12; PELModuli §§M5.1, M5.4–M5.5; ReductiveGroupsPartII `§RG2.0a`; ReductiveGroupsPartII §RG2.3; ReductiveGroupsPartII §RG2.5; [§0.1](#d0-hilbert-real-points); [§3.14](#d3-bruhat-integral); [§3.8](#d3-compact-dual); [§3.7](#d3-filtration-parabolic); [§3.11](#d3-kostant-cone-criterion); [§3.12](#d3-kostant-cones); [§3.13](#d3-kostant-involution); [§3.10](#d3-kostant-representatives); [§3.9](#d3-reflex-flag-descent); ShimuraVarieties §§P.1–P.5; `AddValuation`; `AddValuation.map_inv`; `AddValuation.map_le_add`; `AddValuation.map_mul`; `AddValuation.map_zero`; `IsDedekindDomain.FiniteAdeleRing`; `Matrix.GeneralLinearGroup.toLin`; `Matrix.unitaryGroup`; `NumberField.RingOfIntegers`; `RootPairing`; `RootPairing.Base`; `RootPairing.Base.IsPos`; `RootPairing.weylGroup`; LocalFieldsRamification, Layer 0 (local fields and their finite extensions); ReductiveGroups, Layer 1 (representations and comodules); ReductiveGroups, Layer 6 (reductive and semisimple groups); ReductiveGroups, Layer 7 (structure theory); ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes); RepresentationTheory/LieGroups, Layer 7 (complexification and real forms).
+AutomorphicFormsOnReductiveGroups §§6.1, 6.3, 6.7; AdelicAlgebraicGroups §§1.3–1.4; AdelicAlgebraicGroups §4.3; ArithmeticLocallySymmetricSpaces `§§ALS.F.1`, ALS.0.1–0.2; PELModuli §M0.12; PELModuli §§M5.1, M5.4–M5.5; ReductiveGroupsPartII `§RG2.0a`; ReductiveGroupsPartII §RG2.3; ReductiveGroupsPartII §RG2.5; [§0.1](#d0-hilbert-real-points); [§3.14](#d3-bruhat-integral); [§3.8](#d3-compact-dual); [§3.7](#d3-filtration-parabolic); [§3.11](#d3-kostant-cone-criterion); [§3.12](#d3-kostant-cones); [§3.13](#d3-kostant-involution); [§3.10](#d3-kostant-representatives); [§3.9](#d3-reflex-flag-descent); ShimuraVarieties §§P.1–P.5; `AddValuation`; `AddValuation.map_inv`; `AddValuation.map_le_add`; `AddValuation.map_mul`; `AddValuation.map_zero`; `IsDedekindDomain.FiniteAdeleRing`; `Matrix.GeneralLinearGroup.toLin`; `Matrix.unitaryGroup`; `NumberField.RingOfIntegers`; `RootPairing`; `RootPairing.Base`; `RootPairing.Base.IsPos`; `RootPairing.weylGroup`; LocalFieldsRamification, Layer 0 (local fields and their finite extensions); ReductiveGroups, Layer 1 (representations and comodules); ReductiveGroups, Layer 6 (reductive and semisimple groups); ReductiveGroups, Layer 7 (structure theory); ReductiveGroups, Layer 9 (pinned Chevalley–Demazure group schemes); RepresentationTheory/LieGroups, Layer 7 (complexification and real forms).
 
 ## Downstream consumers
 
-AutomorphicBundles uses rational weight summands, the intrinsic filtration parabolic, the compact-dual map and tangent transversality. HigherHidaAndColemanTheory uses left Kostant representatives, integral ordinary/opposite cells and the explicit `C₂` coordinate dictionaries. The geometric adapter `PureDatum.toHermitianGroupDatum` realizes AutomorphicFormsOnReductiveGroups §6.1's interface; that roadmap supplies the lattices, half-sums and chambers compared here with the actual compact Cartan and Cayley basis. HodgeStructuresPartII uses general variations, their filtered flat bundles, real-analytic Hodge projections, kernels and polarized orthogonal splittings. HilbertModularVarietiesAndShimuraCurves uses the full/star domain comparison and product reflex fields; its PEL trace pairing comes directly from PELModuli. PerfectoidShimuraVarieties uses preabelian type and the distinguished `B₁→B` diagram with its common adjoint datum, compact dual and Levi fibre products. ShimuraCompactifications uses the integral polarized variation interface. CM reflex comparisons and canonical models use ShimuraVarieties directly.
+AutomorphicBundles uses rational weight summands, the intrinsic filtration parabolic, the compact-dual map and tangent transversality. HigherHidaAndColemanTheory uses the left-coset comparison, integral ordinary/opposite cells and the explicit `C₂` coordinate dictionaries. Its Hermitian interface, root/chamber data and general Siegel Kostant indices come from AutomorphicFormsOnReductiveGroups §§6.1, 6.3 and 6.7; Kostant’s Lie-cohomology theorem comes from ArithmeticLocallySymmetricSpaces §ALS.4.5. The geometric adapter `PureDatum.toHermitianGroupDatum` realizes the supplied interface, and §§5.9–5.17 identify its objects with the CG torus, centralizer, compact Cartan and Cayley basis. HodgeStructuresPartII uses general variations, their filtered flat bundles, real-analytic Hodge projections, kernels and polarized orthogonal splittings. HilbertModularVarietiesAndShimuraCurves uses the full/star domain comparison and product reflex fields; its PEL trace pairing comes directly from PELModuli. PerfectoidShimuraVarieties uses preabelian type and the distinguished `B₁→B` diagram with its common adjoint datum, compact dual and Levi fibre products. ShimuraCompactifications uses the integral polarized variation interface. CM reflex comparisons and canonical models use ShimuraVarieties directly.
 
 ## References
 
