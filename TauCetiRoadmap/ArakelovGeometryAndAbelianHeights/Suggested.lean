@@ -112,7 +112,9 @@ def ofTuple (x : ι → K) (hx : x ≠ 0) : ArakelovDivisor K :=
         exact inv_ne_zero (FractionalIdeal.spanFinset_ne_zero.mpr ⟨i, Finset.mem_univ i, hi⟩))),
     fun v => ((v.mult : ℕ) : ℝ) * Real.log (⨆ i, v (x i)))
 
-/-- The layer milestone identifies the metrized degree with Mathlib's relative tuple height. -/
+/-- The sup-metrized degree equals Mathlib's relative logarithmic tuple height (README §1.14).
+Dividing either side by `[K:ℚ]` gives the absolute logarithmic height, invariant under finite
+extension of the containing number field. -/
 theorem degree_ofTuple (x : ι → K) (hx : x ≠ 0) : degree (ofTuple x hx) = Height.logHeight x :=
   sorry
 

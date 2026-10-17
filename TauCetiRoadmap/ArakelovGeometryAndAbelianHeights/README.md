@@ -68,7 +68,18 @@ SchemeAndStackFoundations §5.1 supplies `cyclesOfDimension` and `ChowGroup` onl
 
 **HeightsAndUnits** §1.1 supplies `instNorthcottProjectivizationMulHeight` and `instNorthcottProjectivizationLogHeight` over a field whose scalar height satisfies `Northcott`. Section 1.13 uses the bounded-degree absolute-height variant, rather than specifying another fixed-field instance.
 
-**DiophantineApproximationAndTranscendence** §0.2 supplies `absoluteProjectiveTupleHeight`, `absoluteProjectiveTupleHeight_eq` and `mulHeight_algebraMap`; §0.3 supplies `finite_setOf_absMulHeight₁_le` over arbitrary characteristic-zero ambient fields. These give the absolute degree normalization and scalar bounded-degree finiteness used in §§1.13–1.14 and §5.9. The general projective line-bundle height class, its ample lower bound and its Northcott comparison are targets of §1.13.
+**DiophantineApproximationAndTranscendence** §0.2 supplies the following separate field-comparison statements.
+
+- `mulHeight_algebraMap`: for a finite extension `L/K` of number fields and any finite tuple `x` over `K`, `H_rel,L(x) = H_rel,K(x)^[L:K]`, with the coordinates mapped to `L`. This includes the zero tuple, whose multiplicative height is 1. Applying this to `(x,1)` gives the scalar comparison.
+- `absoluteProjectiveTupleHeight` and `absoluteProjectiveTupleHeight_eq`: for a tuple over a number field `K`, `H_abs(x) = H_rel,K(x)^(1/[K:ℚ])`; this absolute height is invariant under extension of the containing number field. The degree identity `[L:ℚ] = [L:K][K:ℚ]` cancels the relative-height power.
+
+These contracts use relative-height scaling and absolute-height invariance as distinct assertions ([Wu, Arithmetic Heights](https://www.math.columbia.edu/~xiaorunw/diop/08.pdf), §2, Lemma 2.5 and Definition 2.7, p. 4). Section 0.3 supplies `finite_setOf_absMulHeight₁_le` over arbitrary characteristic-zero ambient fields. These give the absolute degree normalization and scalar bounded-degree finiteness used in §§1.13–1.14 and §5.9. The general projective line-bundle height class, its ample lower bound and its Northcott comparison are targets of §1.13.
+
+**Checks.**
+
+- The tuple `(1,2)` has relative multiplicative height 2 over `ℚ` and 4 over `ℚ(i)`, while its absolute multiplicative height is 2 in both fields.
+- The tuple `(√2,1)` has relative multiplicative height 2 over `ℚ(√2)` and 4 over `ℚ(√2,i)`; both degree roots give absolute height `√2`.
+- The zero tuple has relative and absolute multiplicative height 1 over every number field; it does not define a projective point or an `ArakelovDivisor.ofTuple`.
 
 ### From abelian schemes and Néron models
 
