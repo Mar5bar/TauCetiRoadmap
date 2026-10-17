@@ -122,6 +122,10 @@ theorem two_le_normalizedWeight {a b : ℤ} (h : a < b) : 2 ≤ normalizedWeight
   sorry
 
 example : normalizedWeight 3 7 = 5 := by norm_num [normalizedWeight]
+/-- The weights `{3+n, 7+n}` normalize to weight five for every common shift. -/
+example (n : ℤ) : normalizedWeight (3 + n) (7 + n) = 5 := by
+  rw [normalizedWeight_shift]
+  norm_num [normalizedWeight]
 example : normalizedWeight 0 1 = 2 := by norm_num [normalizedWeight]
 /-- Equal weights (a weight-one form) give `k = 1`, outside the lifting theorems. -/
 example : normalizedWeight 4 4 = 1 := by norm_num [normalizedWeight]
@@ -154,6 +158,28 @@ example {R : Type*} [CommRing R] (a : R) (M : Matrix (Fin 2) (Fin 2) R) :
 #check @TauCeti.UpperTriangularGroup.instIsSolvable
 
 /-! ## Layer 10: Pan's residually reducible theorem -/
+
+/-- Over `𝔽₃[[X]]`, a nonconstant unipotent has order three and identity reduction
+(§10.1); finite image does not force the constant residual lift. -/
+example :
+    let U : Matrix (Fin 2) (Fin 2) (PowerSeries (ZMod 3)) :=
+      !![1, PowerSeries.X; 0, 1]
+    U ^ 3 = 1 ∧ U ≠ 1 ∧ U.map PowerSeries.constantCoeff = 1 := by
+  dsimp
+  refine ⟨?_, ?_, ?_⟩
+  · have h3 : (3 : ZMod 3) = 0 := by decide
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [pow_succ, Matrix.mul_apply, Fin.sum_univ_two]
+    ring_nf
+    simp [h3]
+  · intro h
+    have hx : (PowerSeries.X : PowerSeries (ZMod 3)) = 0 := by
+      simpa using congrArg (fun M : Matrix (Fin 2) (Fin 2) (PowerSeries (ZMod 3)) =>
+        M 0 1) h
+    exact PowerSeries.X_ne_zero hx
+  · ext i j
+    fin_cases i <;> fin_cases j <;> simp [Matrix.map_apply]
 
 section GoodComponents
 
@@ -288,12 +314,12 @@ their intended signatures.
 
 * Layer 1: `MinimalLevelData`, `ResidualModularAlpha`, `ResidualModularBeta`, `defToHecke`,
   `framedHecke`, `framedHeckeModule`, `defToHeckeFramed`; allowable base changes with prescribed
-  completions; surjectivity and faithfulness after framing.
+  completions (`cht_soluble_prescribed_completions`); surjectivity and faithfulness after framing.
 * Layer 2: `auxLevel`, `auxDelta`, `auxHecke`, `auxMaxIdeal`, `defToAuxHecke`, `twModule`;
   freeness and control at Taylor–Wiles levels.
 * Layers 3–4: `PatchingDatum` (with `patchingRadius` above), the patched ring and module,
   their support, finiteness of the minimal deformation ring, `avoidancePair`, integral and
-  generic-fibre `R = T`.
+  generic-fibre `R = T`. The avoidance pair and its API require `p > 2`.
 * Layers 5–6: `StronglyResiduallyModular`, `bcdtHeckeModule`, `DyadicPatchingDatum`,
   `dyadicPatchedRing`, `dyadicPatchedModule`, `dyadicTorusAction`; the Khare–Wintenberger,
   Kisin, Fontaine–Laffaille, BCDT and crystalline lifting theorems, KW I Theorem 4.1 and
@@ -303,7 +329,8 @@ their intended signatures.
   Kisin's multiplicity criterion and the de Rham lifting theorems at odd primes and at `2`.
 * Layers 10–12: `PanNicePrime`, `PanPotentiallyNicePrime` (with `panGoodComponent` and
   `panExtensionComponents` above), Pan's residually reducible theorem, the ordinary `3`-adic
-  completion and the transfer statements along congruences. The Pan branch carries the
+  completion and the transfer statements along congruences. Sections 12.2–12.3 use normalized
+  weights `{0,k−1}` with `k≥2` for exact modularity. The Pan branch carries the
   twist-two rational dual vanishing hypothesis LC, as specified in the README.
 * Layer 0: continuous rank-two determinants and pseudocharacters at odd primes, field
   reconstruction, two-block generalized matrix algebras, reducibility ideals and nonsplit
