@@ -474,13 +474,16 @@ Crystalline.satDRW_degree0_F; Crystalline.satDRW_unit; Crystalline.satDRW_residu
 Crystalline.satDRW_red; Crystalline.satDRW_ofLift.
 
 CR.4.6 The classical and the relative de Rham–Witt complex:
-The carrier W_rX is SchemeAndStackFoundations §0.26's shared wittScheme r X,
-for r ≥ 1 and p locally nilpotent on X, with wittScheme_affine and wittScheme_one.
+The carrier W_rX is the shared wittScheme r X from the required extension of
+SchemeAndStackFoundations §0.26 to r ≥ 1 and p locally nilpotent on X,
+with wittScheme_affine and wittScheme_one.
 Its perfect-scheme specialization is the same constructor. Witt nilpotence and Teichmüller
 localization belong to this foundational contract; CR.4.6 supplies the differential module
 sheaves and descent on that carrier. CR.3:duality uses the same W_nX. At X=Spec F_p,
 r=2 it is Spec Z/p²; at r=1 it is X; at X=Spec F_p[t] its principal open t≠0 has ring
-W_r(F_p[t])[[t]⁻¹]=W_r(F_p[t,t⁻¹]).
+W_r(F_p[t])[[t]⁻¹]=W_r(F_p[t,t⁻¹]). The polynomial ring F_p[t] is smooth but not perfect.
+For X=Spec(Z/p²), which is not an F_p-scheme, the same constructor has W₁X=X;
+W_r(Z/p²) satisfies p^(2r)=0 and has nilpotent projection kernel to Z/p².
 Relative Frobenius–Verschiebung procomplexes for a specified A → R have W_r(A)-algebra maps
 λ_r : W_r(R) → P_r⁰: λ_r composed with W_r(A → R) equals the specified coefficient map.
 Restriction and F are over Witt restriction and Frobenius on A; V satisfies
@@ -566,9 +569,20 @@ this constant-coefficient core for TubeProperSupport and SupportedLogComplex.
 CR.6.4 Sato’s homological de Rham–Witt complex:
 Crystalline.SatoWitt.residue; Crystalline.SatoWitt.ordered_gr;
 Crystalline.SatoWitt.absolute_map; Crystalline.SatoWitt.rational_compare.
+The residue quotient is logarithmic absolute Witt forms modulo ordinary absolute Witt forms:
+i_*W_rΞ^q_X ≃ W_rΩ^(q+1)_P(log X) / W_rΩ^(q+1)_P.
 Rigid cohomology of smooth strata:
 Crystalline.smoothStratumRigid.frame_independence; Crystalline.smoothStratumRigid.finiteDimensional;
 Crystalline.smoothStratumRigid.frobenius; Crystalline.smoothStratumRigid.proper_comparison.
+
+CR.6.5 Log rigid Hyodo–Kato cohomology:
+logRigidHK_cycle uses k=F_q, A₀=W(k), the linear q-power Frobenius, and two copies of P¹_k
+meeting transversely at two distinct k-rational nodes. H¹ has eigenvalues 1 and q;
+N maps the q-eigenline isomorphically onto the 1-eigenline, so Nφ=qφN.
+Over F₃, gluing instead along the degree-two points t²+1 and t²+t+2 gives four geometric
+nodes, b₁=3 and two three-dimensional weight pieces, hence dim H¹=6.
+For a split Tate curve with v_K(q)=2, the minimal regular model has two k-rational nodes;
+the semilinear p-power Frobenius has φ(e₀)=e₀, φ(e₁)=pe₁ and N(e₁)=2e₀, N(e₀)=0.
 
 CR.3:duality.1 The trace, duality and Gysin maps:
 For n ≥ 1, write σ_*^r M for restriction of scalars with a • m = σ^r(a)m.

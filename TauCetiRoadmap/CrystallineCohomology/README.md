@@ -475,19 +475,21 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
   finite cover); §E2.2 (`IsReplete.derived_limits` and `IsReplete.milnor`, only on replete topoi,
   including the point topos for module towers); Layer E3
   (Beck–Chevalley comparisons).
-- **SchemeAndStackFoundations**: §0.26 supplies the shared `wittScheme n X`, for n≥1 and
-  schemes X on which p is locally nilpotent, extending its perfect F_p-scheme domain with
-  canonical agreement on that domain. Its carrier is (|X|,W_n(O_X)); `wittScheme_affine`
+- **SchemeAndStackFoundations**: §0.26, with the required extension from perfect `𝔽_p`-schemes
+  to schemes on which `p` is locally nilpotent, supplies the shared `wittScheme n X`, for `n≥1`,
+  with canonical agreement on its perfect-scheme domain. Its carrier is `(|X|,W_n(O_X))`;
+  `wittScheme_affine`
   identifies it with Spec W_n(R) on affine opens, and `wittScheme_one` identifies length one
   with X, naturally for morphisms and restrictions. The same foundational contract supplies
   the elementary construction inputs: if p^N=0 in R then p^(Nn)=0 in W_n(R), the kernel of
   W_n(R)→R is nilpotent, and W_n(R)[[f]⁻¹]≅W_n(R_f). These follow from the V-filtration,
   V(x)V(y)=pV(xy), and induction on n for localization; hence the affine schemes glue with
-  exactly the stated carrier, without de Rham–Witt inputs (Langer–Zink §1.4, after (1.36),
-  printed pp.26–27). CR.4.6 supplies the differential module sheaves on this carrier;
+  exactly the stated carrier, without de Rham–Witt inputs (Langer–Zink Appendix A.1,
+  printed pp.92–93; §1.4, after (1.36), pp.26–27). CR.4.6 supplies the differential module sheaves on this carrier;
   CR.3:duality uses the same scheme. The specialization checks are X=Spec F_p, n=2 giving
   Spec Z/p²; n=1 giving X for every locally p-nilpotent X; and X=Spec F_p[t], whose
-  principal open t≠0 has ring W_n(F_p[t])[[t]⁻¹]=W_n(F_p[t,t⁻¹]).
+  principal open t≠0 has ring W_n(F_p[t])[[t]⁻¹]=W_n(F_p[t,t⁻¹]). The extension also includes
+  `X=Spec(ℤ/p²)`, on which `p` is nilpotent, but which is not an `𝔽_p`-scheme.
 - **SchemeAndStackFoundations**: §0.15 (Néron–Popescu desingularization);
   §§2.1–2.2 (`cech_to_cohomology` and `leray_spectral_sequence`
   for general sites); Layer 2 (coherent cohomology, Tor-independent base change,
@@ -5741,8 +5743,9 @@ W_r(A)[s̄⁻¹]→W_r(A[s⁻¹]) is an isomorphism of differential graded algeb
 R and s∈R, W_r(WsatΩ_R)[[s]⁻¹]≅W_r(WsatΩ_(R[1/s])), and WsatΩ_(R[1/s]) is the strict completion
 W(WsatΩ_R[[s]⁻¹]); the localisation WsatΩ_R[[s]⁻¹] itself is in general not strict. For an étale map
 R→S of F_p-algebras, W_r(WsatΩ_R)⊗_(W_r(R))W_r(S)≅W_r(WsatΩ_S) for every r. (4) Let X be a scheme
-over a Z_(p)-algebra A, with p locally nilpotent on X. Use W_rX=`wittScheme r X` from
-SchemeAndStackFoundations §0.26, with carrier (|X|,W_r(O_X)), its affine identifications
+over a Z_(p)-algebra A, with p locally nilpotent on X. Use W_rX=`wittScheme r X` from the
+required extension of SchemeAndStackFoundations §0.26 to this domain, with carrier
+`(|X|,W_r(O_X))`, its affine identifications
 `wittScheme_affine` and its length-one law `wittScheme_one`. On its affine opens Spec W_r(R),
 U↦W_rΩ^q_(O(U)/A) is a quasi-coherent sheaf on W_rX and a sheaf for the étale topology. For an F_p-scheme X,
 U↦W_r(WsatΩ^q_(O(U))) and U↦WsatΩ^q_(O(U)) are sheaves for the Zariski and the étale topology on
@@ -5850,6 +5853,10 @@ Mathlib `Algebra.Etale`.
 - For X=Spec F_p, W_rX=`wittScheme r X`=Spec Z/p^r: one point with local ring
   W_r(F_p)=Z/p^r; at r=2 this is the same Spec Z/p² as the perfect-scheme constructor of
   SchemeAndStackFoundations §0.26. At r=1 its module sheaves are the ordinary relative forms.
+- For `X=Spec 𝔽_p[t]`, which is smooth over `𝔽_p` but not perfect, the shared carrier has
+  `W_r(𝔽_p[t])[[t]⁻¹]≅W_r(𝔽_p[t,t⁻¹])` on `t≠0`. For `X=Spec(ℤ/p²)`, which is not an
+  `𝔽_p`-scheme, the same constructor applies and `W₁X=X`; the structure ring of `W_rX` is
+  `W_r(ℤ/p²)`, with `p^(2r)=0` and nilpotent kernel of its projection to `ℤ/p²`.
 - For A=Q and X=Spec Q, where p is invertible, the ghost map gives W₂(Q)≅Q×Q: the ringed space
   (|X|,W₂(O_X)) has one point and ring Q×Q, which is not local, so it is not a scheme, while
   Spec W₂(Q) has two points. Item (4) does not apply to X.
@@ -10571,8 +10578,8 @@ The API:
   of absolute log forms to ∂, and respects the WΛ-module action and ordered residues.
 
 *Proof sketch.* Construct the generic logarithmic residue kernel ν and its W_rO_X-span.
-Étale locally embed the crossing in a smooth scheme and identify this span with the quotient
-of ordinary by logarithmic absolute Witt forms through Poincaré residues. The resulting
+Étale locally embed the crossing in a smooth scheme and identify this span with logarithmic
+absolute Witt forms modulo ordinary absolute Witt forms through Poincaré residues. The resulting
 stratum filtration proves independence, stability under the operators and the WΛ-module law.
 Project the absolute Witt complex on the smooth locus to the dlog t coefficient; its image
 and kernel are identified by the residue sequence, giving ∂ and its p-scaled Frobenius.
@@ -10847,8 +10854,8 @@ gives φ(θ) = qθ. The convergent comparison completes the weak formal lifts an
 Ŝ, uses their rigid generic fibres, and compares the E₁ terms for proper strata ([Grosse-Klönne,
 *Frobenius and monodromy
 operators in rigid analysis, and Drinfel’d’s symmetric space*](https://arxiv.org/abs/1408.3346v1),
-Notations, p.6; §1.1, p.7; §§5.1–5.2, pp. 26–27; Theorem 5.3, p. 28; §5.4 and Proposition 5.5,
-pp. 28–29; §3.11, p. 18).
+Notations, p.6; §1.1, p.7; §§5.1–5.2, pp.26–28, spectral sequence (4); Theorem 5.3, p.28;
+§5.4 and Proposition 5.5, pp.28–29; §3.11, p.18).
 *Needs:* *Rigid cohomology of smooth strata*;
 AdicSpacesPartIV F1.7 (*Dagger spaces*) and F1.5 (*The Monsky–Washnitzer weak
 completion*); AdicSpacesPartIII Layer R2 (*Specialisation, tubes and rig-points*); *Log de Rham
@@ -10867,10 +10874,16 @@ complexes* (Layer CR.5); *Integral Hyodo–Kato complexes*; *Hyodo–Kato monodr
   sequence gives H⁰_rig(Y/S₀) = K₀ and H¹_rig(Y/S₀) = K₀, spanned by the class of dlog x with φ = q
   and N = 0; this matches the de Rham cohomology of the annulus |t| ≤ |x| ≤ 1. A definition that
   drops the log structure would give H¹ = 0 here.
-- `logRigidHK_cycle`: for Y two copies of ℙ¹_k glued at two points, H¹_rig(Y/S₀) is two-dimensional,
-  with Frobenius eigenvalues 1 (from the cycle of the dual graph) and q (from the residues at the
-  double points), and N maps the q-eigenline isomorphically onto the 1-eigenline. Then Nφ = qφN
-  holds and φN = qNφ fails, which fixes the direction of the relation.
+- `logRigidHK_cycle`: let `k=𝔽_q`, `A₀=W(k)` and `φ` be the linear `q`-power Frobenius. For `Y`
+  consisting of two copies of `ℙ¹_k` glued transversely at two distinct `k`-rational nodes,
+  `H¹_rig(Y/S₀)` is two-dimensional, with Frobenius eigenvalues `1` (from the cycle of the dual
+  graph) and `q` (from the residues at the nodes). Monodromy `N` maps the `q`-eigenline
+  isomorphically onto the 1-eigenline. Then `Nφ=qφN` holds and `φN=qNφ` fails.
+- Over `k=𝔽₃`, glue two copies of `ℙ¹_k` transversely along the degree-two closed points
+  defined by `t²+1` and `t²+t+2`, with the log structure of a strictly semistable smoothing.
+  Over `𝔽₉` there are four nodes, so the dual graph has `b₁=4−2+1=3`. The normalization
+  sequence gives `χ(O_Y)=2−4=−2` and arithmetic genus three; the weight spectral sequence (4)
+  gives two three-dimensional weight pieces in `H¹_rig(Y/S₀)`, hence dimension six.
 
 **Proper log rigid and crystalline Hyodo–Kato cohomology.** For a proper strictly semistable special
 log fiber Y over a perfect field, the log rigid Hyodo–Kato complex RΓ_rig(Y/S₀) of *Log rigid
@@ -10914,9 +10927,10 @@ CR.5:log-algebra); *Log rigid Hyodo–Kato cohomology*.
 
 ### Examples
 
-- For a proper semistable curve over `O_K` whose special fibre is two copies of `ℙ¹` meeting in two
-  points (a Tate curve with `v_K(q) = 2`), `H¹_HK` has a basis `e₀, e₁` with `φ(e₀) = e₀`, `φ(e₁) =
-  pe₁`, `N(e₀) = 0` and `N(e₁) = 2e₀`, so `Nφ = pφN`.
+- For a split Tate curve over `K` with `v_K(q)=2`, its minimal regular proper model over `O_K` has
+  special fibre two copies of `ℙ¹_k` meeting transversely at two distinct `k`-rational nodes.
+  With the semilinear `p`-power Frobenius, `H¹_HK` has a basis `e₀, e₁` with `φ(e₀)=e₀`,
+  `φ(e₁)=pe₁`, `N(e₀)=0` and `N(e₁)=2e₀`, so `Nφ=pφN`.
 
 ### Dependencies
 
