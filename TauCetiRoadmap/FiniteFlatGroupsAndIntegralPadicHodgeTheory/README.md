@@ -91,11 +91,6 @@ coherent iterates. These maps are independent of group structure, étale cohomol
 Galois actions. Its §0.23 supplies universal-homeomorphism criteria and §§0.24–0.26
 supply perfection. EtaleCohomologyFoundations §§F.10.1–F.10.2 and `F`.10.2b supply the
 Galois and cohomological Frobenius conventions and their bridge to scheme pullback.
-CohomologicalPointCounting/FrobeniusGeometry uses this supplier contract: its Layers 0–3
-import SchemeAndStackFoundations §0.29, preserving the scheme carriers, projections,
-naturality and base-change maps; its Layer 7 imports the convention bridge of
-EtaleCohomologyFoundations §§F.10.2 and `F`.10.2b. Its finite-field descent and
-point-counting applications consume these shared maps and comparisons.
 
 **Imported from Tau Ceti and its roadmaps, never planned here.**
 
