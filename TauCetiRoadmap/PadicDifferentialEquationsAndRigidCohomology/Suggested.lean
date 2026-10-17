@@ -22,8 +22,10 @@ overconvergent coefficients; the Taylor convergence condition on an operator; in
 maps; ι-weights of complex numbers and matrices; Kummer trace functions and Kloosterman sums;
 and the rational and integral descent of power series used for Weil factors.
 
-Design choices made explicit here. Frobenius is semilinear until the coefficient automorphism
-is trivial, and invertibility means invertibility of the linearisation. Tate twists multiply the
+Design choices made explicit here. Frobenius is semilinear for a coefficient endomorphism,
+and invertibility means invertibility of the linearisation. Bijectivity of the semilinear operator follows when the coefficient map
+is an automorphism. Integral Frobenius isogenies have horizontal sections over the integral
+constant ring; rigid tensor operations are rational or integral étale operations. Tate twists multiply the
 linear q-Frobenius by q^(-n) and lower weights by 2n. Weil factors use `Matrix.charpolyRev`,
 i.e. det(1 - T F). The monodromy convention is N φ = q φ N.
 Uniformiser slopes convert to q-slopes by division by e · a, where e = v_π(p) and q = p^a.
@@ -428,7 +430,7 @@ end RD2
 
 /-! ## Layer RD.3: Frames, convergent and overconvergent coefficients -/
 
--- Isocrystals over a perfect field: the fibres of F-isocrystals at perfect points.
+-- With Witt-vector coefficients and p-Frobenius, perfect-point fibres use this carrier.
 #check WittVector.Isocrystal
 
 
@@ -549,7 +551,8 @@ open WittVector
 
 variable (p : ℕ) [Fact p.Prime] (k : Type*) [CommRing k] [IsDomain k] [CharP k p] [PerfectRing k p]
 
-/-- An isocrystal over a perfect field `k` (the fibre of an F-isocrystal at a perfect point) is
+/-- An isocrystal over a perfect field `k` (a perfect-point fibre with Witt-vector coefficients
+and p-Frobenius) is
 unit-root when, in some basis, the matrix of Frobenius has Witt-vector entries and invertible
 determinant: Frobenius preserves a `W(k)`-lattice and is bijective on it. Over an algebraically
 closed field this means that all slopes are zero (Étesse 2002, §5.1; Kedlaya, Notes, Definition 3.3). -/
@@ -1384,7 +1387,7 @@ targets with their intended signatures and are not declared here:
   1.55, 1.73.
 * Layer RD.2: §§2.11, 2.12, 2.13, 2.14, 2.18, 2.24, 2.28, 2.34, 2.45, 2.49.
 * Layer RD.3: §§3.1, 3.2, 3.3, 3.4, 3.13, 3.19, 3.22, 3.24, 3.25, 3.28, 3.34, 3.35, 3.37, 3.41,
-  3.46, 3.51.
+  3.46, 3.51; §3.34a uses the general crystal carrier of CrystallineCohomology CR.1.2.
 * Layer RD.4: §§4.1, 4.2, 4.5, 4.10, 4.11, 4.12, 4.15, 4.16, 4.17, 4.18, 4.36, 4.41, 4.42, 4.43,
   4.44, 4.45, 4.47, 4.49, 4.51, 4.58.
 * Layer RD.5: §§5.12, 5.13, 5.14, 5.24, 5.50, 5.67, 5.68, 5.81, 5.82, 5.86, 5.87, 5.92, 5.93, 5.101,

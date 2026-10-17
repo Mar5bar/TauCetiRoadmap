@@ -106,7 +106,7 @@ last is the only `ℓ`-adic geometric input, and it enters only the comparison o
  crystalline cohomology and its Frobenius, perfectness, Künneth, duality and the trace, logarithmic
  structures, log crystalline cohomology, Hyodo–Kato cohomology and log rigid Hyodo–Kato cohomology
  (§CR.6.5). The analytic convergent coefficient category and its convergence condition are [§RD.3.34](#rd-3-34):
- a topologically quasi-nilpotent connection is not automatically a convergent isocrystal.
+ a topologically quasi-nilpotent connection is not automatically a convergent isocrystal. CR.1.2 supplies the general quasi-coherent crystal carrier and pullback; its named `FCrystal` contract is finite locally free with p-Frobenius. The coherent finite-type, ramified-base `F^a` adapter and two-sided isogeny condition used here are [§RD.3.34a](#rd-3-34a), as full subcategories and additional structure on that same crystal carrier.
 - LocallyAnalyticDistributions: nonarchimedean locally convex spaces, inductive and projective
  limits (Layer 0) and the Hahn–Banach theorem (§0.2). CompactOperators §§1.2–1.5
  supplies Fredholm determinants on Banach and (Pr) spaces. The duality theory used for strict maps (Banach–Steinhaus, the bipolar theorem, Mackey,
@@ -130,6 +130,8 @@ last is the only `ℓ`-adic geometric input, and it enters only the comparison o
  Hankel criterion, §6.44), AdicCoefficientsAndComparisons (Nagata compactification, §L2),
  ClassicalAdicEtaleCohomology (quasi-étale specialisation, §§4.1–4.2), AdicEtaleGeometry (Elkik's
  approximation theorem, §A1.0.4) and ReductiveGroupsPartII (Lang's theorem, §RG2.3.7).
+
+**Shared formal differential theory.** This roadmap owns the cyclic-vector theorem over characteristic-zero differential fields with nonzero derivation ([§RD.1.2](#rd-1-2)–[§RD.1.6](#rd-1-6)) and finite-ramification formal normal forms, slopes and descent over `F((t))` ([§RD.6.52a](#rd-6-52a)). FormalLaurentPuiseux owns the scalar Laurent/Puiseux fields and formal calculus. FormalConnectionsOpers F6 consumes the `F=ℂ` specialization of these differential-module results; its flag/oper equivalence and oper-specific lattice consequences belong there. There is no prerequisite from the oper development here.
 
 **What builds on it.** Coleman integration uses the dagger Frobenius, the Monsky–Washnitzer
 comparison for affine curves, finiteness and the weights of `H¹` (Layers RD.0, RD.4–RD.6). The
@@ -3252,7 +3254,7 @@ The API:
 
 ### RD.1.36 Pure (isoclinic) and unit-root `σ`-modules over `R, R^bd` and `E`
 
-**Definition.** A `σ`-module `M` over `Γ_an,con` (e.g. `R`) is pure or isoclinic of slope `s` if all its absolute HN slopes equal `s`; equivalently `M ⊗ R^alg` is semistable, equivalently `M ⊗ R^alg ≅ M_{c,d}^{⊕n}` with `c/d = s`. A `σ`-module `M` over `Γ_con[π^{-1}] (R^bd)` or `Γ[π^{-1}] (E)` is isoclinic of slope `s` if `M ⊗ Γ^alg[π^{-1}]` is isoclinic of slope `s` (all generic slopes equal `s`); then `M ⊗ R^alg` is isoclinic of the same slope. Unit-root means isoclinic of slope 0. Isoclinic modules of a fixed slope are closed under subquotients and extensions within that slope, tensor products add slopes, duals negate them; there are no nonzero morphisms from an isoclinic module of slope `s` to one of slope `s' > s` over `R`.
+**Definition.** A `σ`-module `M` over `Γ_an,con` (e.g. `R`) is pure or isoclinic of slope `s` if all its absolute HN slopes equal `s`; equivalently `M ⊗ R^alg` is semistable, equivalently `M ⊗ R^alg ≅ M_{c,d}^{⊕n}` with `c/d = s`. A `σ`-module `M` over `Γ_con[π^{-1}] (R^bd)` or `Γ[π^{-1}] (E)` is isoclinic of slope `s` if `M ⊗ Γ^alg[π^{-1}]` is isoclinic of slope `s` (all generic slopes equal `s`). For `M` over `R^bd`, its analytic base change `M ⊗ R^alg` is then isoclinic of the same slope. For `M` over `E` this analytic conclusion requires a specified overconvergent `R^bd`-model, and applies to that model; generic slopes over `E` are defined without such a model. Unit-root means isoclinic of slope 0. Isoclinic modules of a fixed slope are closed under subquotients and extensions within that slope, tensor products add slopes, duals negate them; there are no nonzero morphisms from an isoclinic module of slope `s` to one of slope `s' > s` over `R`.
 
 *Hypotheses.* Absolute slopes as in the Frobenius-slopes target; for `R^bd` the implication 'generically isoclinic ⇒ specially isoclinic' uses the comparison of polygons (Proposition 5.5.1, proved in Layer RD.2).
 
@@ -3277,6 +3279,7 @@ The API:
 - `isUnitRoot_compat_isocrystal`: An isocrystal over `W(k)[1/p]` is unit-root iff it has an F-stable `W(k)`-lattice on which `F` is bijective (étale), matching Notes on isocrystals Definition 3.3.
 - `R(c)` is isoclinic of slope `c; M_{1,2} ⊗ R` is isoclinic of slope 1/2; `R(0) ⊕ R(1)` is not isoclinic.
 - In the special case of a perfect residue field `k, K=W(k)[1/p], q=p` and the standard lift `σ(t)=t^p`, this target agrees with FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.7–R07.4.8: the same coefficient carriers, degree convention, standard blocks and increasing slope filtration. This roadmap adds the general coefficients and Frobenius lifts.
+- The completed coefficient `Σ_{n≥0}pⁿt^(−pⁿ) ∈ O_E` has term norms `p⁻ⁿρ^(−pⁿ)` that do not tend to zero at any `ρ<1`. Thus the ring diagram supplies no analytic base change from arbitrary `E`-modules to `R^alg`.
 
 <a id="rd-1-37"></a>
 
@@ -3414,7 +3417,7 @@ The API:
 
 ### RD.1.43 `(σ,∇)`-modules `(φ,∇)`-modules over `R, R^bd, R^int, E` and dagger algebras; Frobenius structures
 
-**Definition.** Let `A ∈` {`R, R^bd, R^int` (`O_K`-linear), `E, O_E, R_L`} with a Frobenius lift `σ` and the derivation `d/dt`. A `(σ,∇)`-module over `A` is a finite free A-module `M` with a `σ`-module structure `F` and a `∇`-module structure `D = ∇_{d/dt}` such that `∇∘F = (F ⊗ dσ)∘∇`, i.e. `D(F v) = (dσ(t)/dt)·F(D v)` for all `v ∈ M`; equivalently the linearisation `σ^*M → M` of `F` is a horizontal isomorphism (after inverting `π`) for the pulled-back connection `σ^*∇`. Morphisms respect `F` and `D`. For a `∇`-module `E` over `R` (or on `A[r`,1)), a Frobenius structure of order a relative to a Frobenius lift `σ` of order a is a horizontal isomorphism `σ^*E ≅ E`. The same definition applies over a dagger algebra of MW-type with a Frobenius lift (integrable connection, `σ^*M ≅ M` horizontal). Tensor products, duals and internal Homs of `(σ,∇)`-modules are `(σ,∇)`-modules; `H⁰(M) = ker D` is a K-vector space with `σ_K`-semilinear Frobenius; when finite-dimensional and the linearisation is invertible it is a Frobenius module over `K`.
+**Definition.** Let `A ∈` {`R, R^bd, R^int` (`O_K`-linear), `E, O_E, R_L`} with a Frobenius lift `σ` and the derivation `d/dt`. A `(σ,∇)`-module over `A` is a finite free A-module `M` with a `σ`-module structure `F` and a `∇`-module structure `D = ∇_{d/dt}` such that `∇∘F = (F ⊗ dσ)∘∇`, i.e. `D(F v) = (dσ(t)/dt)·F(D v)` for all `v ∈ M`; equivalently the linearisation `σ^*M → M` of `F` is a horizontal isomorphism (after inverting `π`) for the pulled-back connection `σ^*∇`. Morphisms respect `F` and `D`. For a `∇`-module `E` over `R` (or on `A[r`,1)), a Frobenius structure of order a relative to a Frobenius lift `σ` of order a is a horizontal isomorphism `σ^*E ≅ E`. The same definition applies over a dagger algebra of MW-type with a Frobenius lift (integrable connection, `σ^*M ≅ M` horizontal). Tensor products preserve the integral category with Frobenius isogenies. After rationalization it is rigid, with duals and internal Homs, and `H⁰(M) = ker D` is a K-vector space with `σ_K`-semilinear Frobenius; when finite-dimensional and the linearisation is invertible it is a Frobenius module over `K`. For integral `A`, horizontal sections are `O_K`-modules. Integral duals and internal Homs belong to the étale subcategory, where the Frobenius linearisation is already an isomorphism.
 
 *Hypotheses.*
 
@@ -3426,17 +3429,17 @@ The API:
 - `FrobeniusDifferentialModule`: A finite free A-module with `σ`-semilinear `F` (invertible matrix after inverting `π`) and connection `D` with `D(F v) = (dσ(t)/dt)·F(D v)`.
 - `FrobeniusDifferentialModule.toFrobeniusModule`: The underlying `σ`-module.
 - `FrobeniusDifferentialModule.toDifferentialModule`: The underlying `∇`-module.
-- `FrobeniusDifferentialModule.frobeniusStructure`: The linearisation `σ^*M → M` is a horizontal isomorphism (Frobenius structure on the `∇`-module).
-- `FrobeniusDifferentialModule.tensor`: Tensor product, dual and internal Hom of `(σ,∇)`-modules.
+- `FrobeniusDifferentialModule.frobeniusStructure`: After inverting `π`, the linearisation `σ^*M → M` is a horizontal isomorphism. Over integral `A` it is a horizontal isogeny; it is an integral isomorphism for étale objects.
+- `FrobeniusDifferentialModule.tensor`: Tensor product of integral or rational objects; duals and internal Homs for rational objects and for integral étale objects.
 - `FrobeniusDifferentialModule.baseChange`: Base change along maps of rings that commute with the Frobenius lifts and the derivations: `R^bd → R, R^int → R^bd`, and `R → R_L` for `L/k((t))` finite separable (with the extended `σ` and `d/dt`).
-- `FrobeniusDifferentialModule.H0_isocrystal`: `H⁰(M) = ker D` is a K-vector space with `σ_K`-semilinear `F`; its invertible linearisation is a separate property to establish.
-- `FrobeniusDifferentialModule.trivial`: `(A, σ, d/dt)` and its twists `A(n)` with `D = d/dt`.
+- `FrobeniusDifferentialModule.H0_isocrystal`: For rational `A`, `H⁰(M) = ker D` is a K-vector space with `σ_K`-semilinear `F`; its invertible linearisation is a separate property to establish. Over integral `A` it is an `O_K`-module, also in the étale case.
+- `FrobeniusDifferentialModule.trivial`: `(A, σ, d/dt)` and its twists `A(n)` with `D = d/dt`: all integer twists for rational `A`, and `n≥0` for integral `A`; only the zero twist is étale.
 
 *Proof sketch.*
 
 1. Definitions: monodromy paper Section 2.5; slope filtrations revisited Definition 7.1.5; overview Definitions 6.1.1-6.1.2; Weil II Section 2.3 (dagger algebras).
 2. Reformulation `D`(Fv) `= (dσ(t)/dt) F`(Dv): expand `∇`(Fv) and `(F ⊗ dσ)(∇v) = F`(Dv) `⊗ d(σ(t))`.
-3. Tensor operations: `F` and `D` act by the product rules; compatibility is checked on pure tensors.
+3. Tensor compatibility follows from the product rules. Dual Frobenius uses the inverse linearisation, which exists rationally, or integrally for étale objects.
 
 *Sources.* Kedlaya, *Slope filtrations revisited*, Definition 7.1.5, p. 67; Kedlaya, *A p-adic local monodromy theorem*, Section 2.5, p. 17; Kedlaya, *Local monodromy of p-adic differential equations: an overview*, Definition 6.1.2, p. 37; Kedlaya, *Fourier transforms and p-adic 'Weil II'*, Section 2.3, pp. 14-15.
 
@@ -3448,10 +3451,11 @@ The API:
 - `frobeniusDifferentialModule_trivial`: `R` with `F = σ` and `D = d/dt` satisfies the compatibility by the chain rule `d(σ f)/dt = (dσ(t)/dt) σ(df/dt)`.
 - `frobeniusDifferentialModule_dwork`: `E_π = R·w` with `D w = −π t^{-2} w` and `F w = exp(π(t^{-p} − t^{-1})) w` (`σ(t) = t^p, σ_K = id, p` odd) satisfies `D`(Fw) `= (d t^p/dt)·F`(Dw).
 - `frobeniusDifferentialModule_wrong_sign`: With `D w = −π t^{-2} w`, the choice `F w = exp(π(t^{-1} − t^{-p})) w` violates the compatibility (it is the inverse of the correct Frobenius); compare the sign issue in Weil II Section 4.3.
-- `frobeniusDifferentialModule_compat_isocrystal`: For a `(σ,∇)`-module with a basis of horizontal sections, `H⁰(M)` has K-dimension `rank(M)` and `σ_K`-semilinear Frobenius with invertible linearisation; when `K = W(k)[1/p]` with perfect `k` this is an isocrystal over `k`. Viewing it over `K^{σ_K}` need not preserve its dimension.
+- `frobeniusDifferentialModule_compat_isocrystal`: For a rational `(σ,∇)`-module with a basis of horizontal sections, `H⁰(M)` has K-dimension `rank(M)` and `σ_K`-semilinear Frobenius with invertible linearisation; when `K = W(k)[1/p]` with perfect `k` this is an isocrystal over `k`. Viewing it over `K^{σ_K}` need not preserve its dimension.
 - Trivial `(σ,∇)`-module `R` with `F = σ` and `D = d/dt; R(1)` with `F e = π e, D e = 0` (a nonzero-slope Frobenius module with trivial connection).
 - The Dwork exponential module `E_π` (the next targets) with its Frobenius structure `θ = exp(π(t^{-p} − t^{-1}))` for `σ(t) = t^p`.
 - Kedlaya's Example 7.2.6 (with the printed `u^σ = qu` read as `u^σ = u^q`, *Corrections to the sources*): `F e_1 = e_1, F e_2 = q e_2, ∇e_1 = 0, ∇e_2 = e_1 ⊗ du/u` is a `(σ,∇)`-module that is unipotent but not quasi-constant.
+- For `A=R^int` over `ℚ_p`, `M=Ae`, `D(e)=0`, `F(e)=pe` is integral but not étale: its linearisation is not an integral isomorphism, the compatible dual needs `p⁻¹e∨`, and `H⁰(M)=ℤ_p e`. Rationalization gives a Frobenius line over `ℚ_p`; the integral negative twist is unavailable.
 
 <a id="rd-1-44"></a>
 
@@ -3603,7 +3607,7 @@ The API:
 
 1. KX Lemmas 1.4.8–1.4.9 compute `|∂′|=|u|^(−p)` and show `∂′` is of rational type with parameter `u^p`; their proofs are in KX.
 2. The antecedent (KX Proposition 1.4.17) is proved as in Kedlaya, *p-adic Differential Equations*, Theorem 10.4.2, p. 173; the descendant radii (KX Theorem 1.4.19) as in Theorem 10.5.1, p. 174, of the same book.
-3. Corollary 1.4.20 follows from Theorem 1.4.19 and the decomposition `ϕ^(∂)*ϕ^(∂)_*V′≅⊕_(n<p)V′⊗W_n` of KX Lemma 1.4.15(d), where `W_n` is the line with `∂′v=(n/p)u^(−p)v` and `IR_∂′(W_n)=p^(−p/(p−1))` for `n≠0`.
+3. Corollary 1.4.20 follows from Theorem 1.4.19 and the decomposition `ϕ^(∂)_*ϕ^(∂)*V′≅⊕_(n<p)V′⊗W_n` of KX Lemma 1.4.15(d), where `W_n` is the line with `∂′v=(n/p)u^(−p)v` and `IR_∂′(W_n)=p^(−p/(p−1))` for `n≠0`.
 4. For `∂=d/dt` in the coordinate `t` this is the Christol–Dwork antecedent (RD.1.15); the coefficient derivations need the rational-type version, since `K^(∂ⱼ)` is the fixed field of a `Z`/pZ-action on a general rational-type field.
 
 *Sources.* Kedlaya–Xiao, *Differential modules on p-adic polyannuli*, Construction 1.4.7 to Corollary 1.4.20, pp. 11–15; Remark 1.5.5, p. 16.
@@ -3614,6 +3618,7 @@ The API:
 
 - For the trivial line `(r=1)` the descendant is `⊕_(n<p)W_n`, with intrinsic radii 1 and `p^(−p/(p−1))` (`p−1` times).
 - A line of intrinsic radius `r≤p^(−1/(p−1))` descends to `p` constituents of radius `r/p`.
+- For `p=2` and the trivial antecedent line over `K^(∂)`, restriction after pullback has rank two and decomposes as `W_0⊕W_1`, of intrinsic radii `1` and `1/4`. The starting and ending coefficient field is `K^(∂)`.
 
 <a id="rd-1-50"></a>
 
@@ -4871,7 +4876,7 @@ The API:
 
 ### RD.2.20 Unit-root Frobenius modules are trivialised over `Ẽ`, and become `c`-constant over a finite separable extension
 
-**Lemma.** Setting of [§RD.0.5](#rd-0-5): `K` is complete for a discrete valuation, of characteristic 0, with ring of integers `O_K`, uniformiser `π` and residue field `k` of characteristic `p; σ` is a Frobenius lift on `R^int` (a ring endomorphism extending a `q`-power Frobenius lift `σ_K` of `K` and reducing to the absolute `q`-power map `x ↦ x^q` of `k((t))`), `q = p^a; E = O_E[1/π]` is the Amice ring and `E† = R^bd` the bounded Robba ring, both with `d = d/dt`. Let `M_0` be a finite free `R^int`-module (or `O_E`-module) of `rank n` with a `σ`-semilinear `F` whose linearisation `σ^*M_0 → M_0` is an isomorphism (an étale lattice of a unit-root `σ`-module). Then: (a) `M_0 ⊗ O_Ẽ` has a basis of F-fixed vectors, and `(M_0 ⊗ O_Ẽ)^{F=1}` is a free module of `rank n` over `O_Ẽ^{σ=1}`; (b) for each `m ≥ 1` the set of F-fixed vectors of `M_0 ⊗ O_Ẽ/π^m` is finite, and each of them is fixed by an open subgroup of `G`; (c) consequently, for each `m ≥ 1` there is a finite Galois extension `L` of `k((t))` such that `M_0 ⊗ R^int_L` has a basis on which `F` acts by a matrix `A ≡ I (mod π^m)`. In particular every unit-root `(σ,∇)`-module `M` over `E†` becomes `c`-constant ([§RD.2.19](#rd-2-19)) over `E†_L` for any prescribed `c ∈ (0,1)` and a suitable finite separable `L/k((t))` depending on `c`.
+**Lemma.** Setting of [§RD.0.5](#rd-0-5): `K` is complete for a discrete valuation, of characteristic 0, with ring of integers `O_K`, uniformiser `π` and residue field `k` of characteristic `p; σ` is a Frobenius lift on `R^int` (a ring endomorphism extending a `q`-power Frobenius lift `σ_K` of `K` and reducing to the absolute `q`-power map `x ↦ x^q` of `k((t))`), `q = p^a; E = O_E[1/π]` is the Amice ring and `E† = R^bd` the bounded Robba ring, both with `d = d/dt`. Let `M_0` be a finite free `R^int`-module (or `O_E`-module) of `rank n` with a `σ`-semilinear `F` whose linearisation `σ^*M_0 → M_0` is an isomorphism (an étale lattice of a unit-root `σ`-module). Then: (a) `M_0 ⊗ O_Ẽ` has a basis of F-fixed vectors, and `(M_0 ⊗ O_Ẽ)^{F=1}` is a free module of `rank n` over `O_Ẽ^{σ=1}`; (b) for each `m ≥ 1` the set of F-fixed vectors of `M_0 ⊗ O_Ẽ/π^m` is finite, and each of them is fixed by an open subgroup of `G`; (c) consequently, for each `m ≥ 1` there is a finite Galois extension `L` of `k((t))` such that `M_0 ⊗ R^int_L` (for `R^int` input), respectively `M_0 ⊗ O_{E_L}` (for `O_E` input), has a basis on which `F` acts by a matrix `A ≡ I (mod π^m)`. In particular every unit-root `(σ,∇)`-module `M` over `E†` becomes `c`-constant ([§RD.2.19](#rd-2-19)) over `E†_L` for any prescribed `c ∈ (0,1)` and a suitable finite separable `L/k((t))` depending on `c`.
 
 *Hypotheses.*
 
@@ -4883,7 +4888,7 @@ The API:
 1. Modulo `π: M_0/π` is an étale `q`-power Frobenius module over `k((t))`; over `k((t))^sep` its F-fixed vectors span and form an `𝔽_q`-space of dimension `n` (Lang's theorem; the p-power, `ℤ_p`-coefficient case is FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.4 `(i)`, and the `q`-power case is the same argument applied to `F`, whose fixed-point equations `X^{(q)} = A^{−1}X` are étale of degree `q^n`).
 2. Lifting: if `v` is F-fixed modulo `π^j`, write `F v − v = π^j w`; a correction `v + π^j y` is F-fixed modulo `π^{j+1}` iff `ȳ − ū^j·F̄(ȳ) = w̄` modulo `π`, where `σ(π) = uπ` (indeed `F(v + π^j y) − v − π^j y = π^j(w + u^j F(y) − y)`); in coordinates this is a system `x − c·x^{(q)} = b` over `k((t))^sep`, separable (derivative 1) and solvable with finitely many solutions. Completeness of `O_Ẽ` gives F-fixed lifts and Nakayama's lemma gives a basis (a); this is Kedlaya, p-adic Differential Equations, proof of Proposition 19.1.5 (via the first part of Theorem 14.6.3, the residue field of `Ẽ` being separably closed).
 3. (b) Each level is cut out by finitely many étale polynomial equations, so the solutions are finite in number and algebraic and separable over `k((t))`; hence each is fixed by an open subgroup of `G`.
-4. (c) Let `L` be the Galois closure of the field generated by the coordinates of an F-fixed basis modulo `π^m`. Since `R^int_L/π^m = O_{E_L}/π^m` ([§RD.2.18](#rd-2-18) (a)), the basis lifts to a basis of `M_0 ⊗ R^int_L`, on which `F` acts by `A ≡ I (mod π^m)`. Choose `m` with `|π|^m ≤ c` (Kedlaya, proof of Theorem 19.3.1, p. 321, where `L` is chosen to make `M c`-constant).
+4. (c) Let `L` be the Galois closure of the field generated by the coordinates of an F-fixed basis modulo `π^m`. Since `R^int_L/π^m = O_{E_L}/π^m` ([§RD.2.18](#rd-2-18) (a)), the fixed basis modulo `π^m` lifts to a basis over `R^int_L` for `R^int` input and over `O_{E_L}` for `O_E` input, on which `F` acts by `A ≡ I (mod π^m)`. The equality of the quotients does not give an analytic model for a completed module. For the overconvergent input choose `m` with `|π|^m ≤ c` (Kedlaya, proof of Theorem 19.3.1, p. 321, where `L` is chosen to make `M c`-constant).
 
 *Sources.* Kedlaya, *p-adic Differential Equations*, Proposition 19.1.5 and its proof, pp. 315-316; Theorem 14.6.3 (first part of the proof), p. 256, and Proof of Theorem 19.3.1, p. 321; Kedlaya, *A p-adic local monodromy theorem*, Proposition 6.11, statement, p. 79 (arXiv v4).
 
@@ -4893,6 +4898,7 @@ The API:
 
 - Rank one: for `M_0 = R^int e` with `F(e) = a e, a ∈ (R^int)^×`, a fixed vector `b e` needs `b^{−1}σ(b) = a^{−1}`; modulo `π` this is `b̄^{q−1} = ā^{−1}`, solvable over the finite separable extension `k((t))(b̄)` (the polynomial `x^{q−1} − ā^{−1}` is separable).
 - Dwork's module `M_f (f = t^{−1}, K = ℚ_p(π_0), π_0^{p−1} = −p)` is `p^{−1/(p−1)}`-constant over `E†` itself and becomes trivial, hence `c`-constant for every `c`, over `E†_L` for the Artin-Schreier extension `L` of `z^p − z = t^{−1}` ([§RD.2.42](#rd-2-42)).
+- For completed `O_E` input the conclusion is over `O_{E_L}`: the coefficient `Σ_{n≥0}pⁿt^(−pⁿ)` has no annulus of convergence and cannot be transported to `R^int_L` by the equality modulo `π^m`.
 
 <a id="rd-2-21"></a>
 
@@ -5113,7 +5119,7 @@ The API:
 
 ### RD.2.27 Tsuzuki's theorem: unit-root `(σ,∇)`-modules have finite local monodromy
 
-**Theorem.** Let `M` be a unit-root `(σ,∇)`-module over `Γ_con[π^{-1}] = R^bd` (isoclinic of slope 0, [§RD.1.36](#rd-1-36)). Then for some finite separable extension `L` of `k((t))` (`k` perfect; nearly finite separable in general), `M ⊗ R^bd_L` admits a basis of horizontal sections; in particular `M ⊗ R_K` is quasi-constant. Precise form (arXiv:math/0110124, Annals version, Proposition 6.11): for a unit-root `(σ,∇)`-module `M` of `rank n` over `Γ_con` and any nearly finite extension `K'/k((t))` such that `M ⊗ Γ^{K'}_con` has a basis on which `F` acts by a matrix A with `v_p(A − I) > 1/(p−1)`, the kernel of `∇` on `M ⊗ Γ^{K'}_con` has `rank n` over `O` and is F-stable; such a `K'` can be chosen separable (`k` perfect) or nearly separable (`k` imperfect).
+**Theorem.** Let `M` be a unit-root `(σ,∇)`-module over `Γ_con[π^{-1}] = R^bd` (isoclinic of slope 0, [§RD.1.36](#rd-1-36)). Then for some finite separable extension `L` of `k((t))` (`k` perfect; nearly finite separable in general), `M ⊗ R^bd_L` admits a basis of horizontal sections; in particular `M ⊗ R_K` is quasi-constant. Precise form (arXiv:math/0110124, Annals version, Proposition 6.11): for a unit-root `(σ,∇)`-module `M` of `rank n` over `Γ_con` and any nearly finite extension `K'/k((t))` such that `M ⊗ Γ^{K'}_con` has a basis on which `F` acts by a matrix A with `v_p(A − I) > 1/(p−1)`, the kernel of `∇` on `M ⊗ Γ^{K'}_con` is free of `rank n` over the enlarged constant ring `O_{K'} = ker(d: Γ_con^{K'} → Ω¹)` and is F-stable; its scalar extension spans the module. Rank `n` over the old `O` requires unchanged constants. Such a `K'` can be chosen separable (`k` perfect) or nearly separable (`k` imperfect).
 
 *Hypotheses.*
 
@@ -5128,6 +5134,7 @@ The API:
 
 - Unit-root rank one example: `M = Γ_con e` with `F e = e, ∇ = d`: trivial already over `Γ_con (L = k((t)))`.
 - Artin-Schreier: the rank one unit-root module attached to the character of `Gal(k((t))^sep/k((t)))` cut out by `y^p − y = t^{-1}` becomes trivial over `L = k((t))(y)` (a wild extension), compare [§RD.2.42](#rd-2-42).
+- With `k=𝔽_p`, `O=ℤ_p`, the trivial line and `K′=𝔽_{p²}((t))`, the matrix `A=1` meets the strict threshold even for `p=2`. Its horizontal kernel is `W(𝔽_{p²})e`, of rank one over the new constants and rank two over `ℤ_p`.
 
 <a id="rd-2-28"></a>
 
@@ -6100,7 +6107,7 @@ The API:
 
 *Proof sketch.*
 
-1. Identify the tube `]X̄[` with `𝔛_K^an ∩ P^{n,an}_K` and `]Z[_λ` with the complement of the ball of radius 1/`λ` by an exercise in projective coordinates (Berthelot 2.1).
+1. Writing `𝔛̄` for the projective closure of `𝔛`, identify `]X̄[_P=P_K` with `𝔛̄_K^an` and `]Z[_λ` with the complement of the ball of radius 1/`λ` by an exercise in projective coordinates (Berthelot 2.1).
 2. `Γ(U_λ, O)` is the ring of functions on the affinoid `𝔛_K^an ∩ B(0, 1/λ)`; their union is `A† ⊗ K` by the definition of weak completion (AdicSpacesPartIV §F1.5, weak completions, and §F1.3, radius-indexed presentations; Kedlaya, Finiteness, §2.2 and Remark 4.2.5).
 3. The identity `Γ = A† ⊗ K` is Berthelot 96-03 (2.1.2.4), p. 50; the module-level statement (coherent `j†O`-modules and overconvergent isocrystals on the Monsky–Washnitzer frame are determined by their global sections over `A†_K`) is [§RD.3.29](#rd-3-29), proved in (2.5.2) without Theorem `B` for the frame.
 
@@ -6112,6 +6119,7 @@ The API:
 
 - `X = A^1_k, A = O[t]: Γ`(`]P^1[, j†O`) `= K⟨t⟩†` ([§RD.3.4](#rd-3-4) test).
 - `X = G_m: A† ⊗ K = K⟨t, t^{-1}⟩†`, the functions overconverging near `|t| = 1` on both sides.
+- For `𝔛=𝔸¹_O`, the whole projective tube is `ℙ¹_K^an`, whereas `U_λ` is the bounded disc inside `𝔸¹_K^an`; the affine analytification omits infinity.
 
 <a id="rd-3-9"></a>
 
@@ -6345,7 +6353,7 @@ The API:
 
 **Lemma.** For a frame `(X, Y, P)`, the functor `(E, ε) ↦ (E|_V, ∇)` is an equivalence between overconvergent isocrystals in the stratification form ([§RD.3.13](#rd-3-13)) and locally free modules with integrable connection on strict neighbourhoods `V` of `]X[_P` in `]Y[_P` whose formal Taylor isomorphism `ε(1 ⊗ m) = Σ_q (1/q!) ∇(D)^q(m) ⊗ τ^q` (`τ_i = 1 ⊗ t_i − t_i ⊗ 1` for local coordinates `t_i` on `P` near `X`) is induced by an analytic isomorphism `p_2^*M ≅ p_1^*M` on a strict neighbourhood of `]X[_{P²}` in `]Y[_{P²}`.
 
-*Hypotheses.* `P` smooth near `X` with local coordinates `t_1`..`t_n`; the diagonal `P → P × P` is then a closed immersion with `]X[_P → ]X[_{P²}` a fibration in open unit polydiscs ([§RD.3.10](#rd-3-10)).
+*Hypotheses.* `P` smooth near `X` with local coordinates `t_1`..`t_n`; the projection `]X[_{P²} → ]X[_P` is locally a fibration in open unit polydiscs, and the diagonal closed immersion `]X[_P → ]X[_{P²}` is its centre section ([§RD.3.10](#rd-3-10)).
 
 *Proof sketch.*
 
@@ -6360,6 +6368,8 @@ The API:
 **Checks.**
 
 - Dwork: `∇(1) = π dt` gives `Σ_q (1/q!) π^q (t' − t)^q = exp π(t' − t)` (Berthelot 4.2.3).
+- For `X=𝔸¹_k` and `P=Spf O⟨t⟩`, the diagonal section has `t₂−t₁=0`; the projection has open-disc coordinate `t₂−t₁`.
+- The trivial connection has the identity Taylor isomorphism and satisfies the cocycle condition on the triple product.
 
 <a id="rd-3-19"></a>
 
@@ -6575,20 +6585,20 @@ The API:
 - `FIsocDagger.unit`: (`O^†_X`, id) is the unit object; `End(O^†_X) = K^{σ_K}` for `X` geometrically connected.
 - `FIsocDagger.point_compat`: For `X = Spec k` with `k` algebraically closed, `O = W(k), q = p`: F-`Isoc†(X/K) ≃` WittVector.Isocrystal `p k` (Mathlib), and rank one objects are classified by Mathlib's `isocrystal_classification`.
 - `FIsocDagger.twist`: The Tate twist `K(n)` on `Spec 𝔽_q` has Frobenius `q^{-n}`; it is not isomorphic to `K(0)` for `n ≠ 0` (slopes `−n` vs 0).
-- `FIsocDagger.no_frobenius_example`: The isocrystal `O·e` on `A^1` with `∇e = e dt` admits no Frobenius structure: its restriction to the boundary annulus at `∞` is not solvable ([§RD.2.41](#rd-2-41), in the local parameter 1/`t`).
+- `FIsocDagger.no_frobenius_example`: The module with integrable connection `O·e` on `A^1` with `∇e = e dt` is outside the convergent and overconvergent isocrystal categories (its Taylor exponential has radius `p^(−1/(p−1))<1`) and admits no Frobenius structure: its restriction to the boundary annulus at `∞` is not solvable ([§RD.2.41](#rd-2-41), in the local parameter 1/`t`).
 - The unit F-isocrystal `O_X^†` with `Φ = id`; the Dwork F-isocrystal `L_π` on `A^1_{𝔽_p}` over `K = ℚ_p(π)` with `σ_K = id, Φ(1) = exp π(t^p − t)` (Berthelot 4.2.3 `c`).
 
 <a id="rd-3-26"></a>
 
 ### RD.3.26 Distinguished coordinates and Noether normalisation over a rank-one valued field
 
-**Lemma.** Let `K` be a complete field with a nontrivial nonarchimedean absolute value and `T_n = K⟨t_1`, …, `t_n⟩`. (a) For finitely many nonzero `f_1`, …, `f_r ∈ T_n` there is a K-algebra automorphism of `T_n` of the form `t_i ↦ t_i + t_n^{e_i} (i < n), t_n ↦ t_n`, after which every `f_j` is `t_n`-distinguished (Weierstrass), so that `T_n/(f_j)` is finite over `T_{n−1}`. (b) For every proper ideal `a ⊂ T_n` there is a finite injective map `T_d → T_n`/a. (c) The same holds for the dagger algebras `K⟨t_1`, …, `t_n⟩†`.
+**Lemma.** Let `K` be a complete field with a nontrivial nonarchimedean absolute value and `T_n = K⟨t_1`, …, `t_n⟩`. (a) For finitely many nonzero `f_1`, …, `f_r ∈ T_n` there is a K-algebra automorphism of `T_n` of the form `t_i ↦ t_i + t_n^{e_i} (i < n), t_n ↦ t_n`, after which every `f_j` is `t_n`-distinguished (Weierstrass), so that `T_n/(f_j)` is finite over `T_{n−1}`. (b) For every proper ideal `a ⊂ T_n` there is a finite injective map `T_d → T_n`/a. (c) For dagger algebras use AdicSpacesPartIV F1.1's distinguishedness theorem and F1.2's Noether normalisation. The adapter here chooses one triangular coordinate change that distinguishes a finite list of nonzero elements, with compatible changes in both dagger and Tate algebras.
 
 *Hypotheses.* Only completeness and nontriviality of the absolute value are used; `K` need not be discretely valued or spherically complete.
 
-*Proof sketch.* (a) and (b) are Bosch's Lemma 2.2/7 and Corollary 2.2/11, proved by Weierstrass division in `T_n`, which is valid over any complete nonarchimedean field. (c) The same coordinate change preserves overconvergence, and Weierstrass division by a distinguished element preserves overconvergent radii (Grosse-Klönne 2000, §1). (Bosch, *Lectures on Formal and Rigid Geometry*, LNM 2105, §2.2, Lemma 7, p. 16, and Corollary 11 (Noether normalization), p. 19; Grosse-Klönne, *Rigid analytic spaces with overconvergent structure sheaf*, `J`. reine angew. Math. 519 (2000), §1.)
+*Proof sketch.* (a) and (b) are Bosch's Lemma 2.2/7 and Corollary 2.2/11, proved by Weierstrass division in `T_n`, which is valid over any complete nonarchimedean field. (c) Apply the distinguishedness construction to the product `∏_j f_j`; its nonzero reduction has a unique highest term after a suitable triangular change. Multiplicativity of Gauss reductions makes every factor distinguished. The triangular maps and their inverses preserve overconvergence. Consume division and preparation from AdicSpacesPartIV F1.1, using its unequal-radius selection, and dagger Noether normalisation from F1.2 (Grosse-Klönne 2000, §1, 1.3–1.4). (Bosch, *Lectures on Formal and Rigid Geometry*, LNM 2105, §2.2, Lemma 7, p. 16, and Corollary 11 (Noether normalization), p. 19; Grosse-Klönne, *Rigid analytic spaces with overconvergent structure sheaf*, `J`. reine angew. Math. 519 (2000), §1.)
 
-*Needs:* AdicSpacesPartIV §F1.2 *Dagger algebras over a complete nonarchimedean field*.
+*Needs:* AdicSpacesPartIV §F1.1 *Weierstrass division and preparation in `W_n`, and distinguishedness after an automorphism*; AdicSpacesPartIV §F1.2 *Noether normalisation for dagger algebras and finiteness of residue fields*.
 
 **Checks.**
 
@@ -6760,7 +6770,7 @@ The API:
 
 1. Existence and uniqueness of `A`: van der Put, Theorem 2.4.4 `(i)`, via Elkik's smooth lift and Artin approximation.
 2. Identification of A with overconvergent functions: Berthelot (2.1) (the ring `A† ⊗ K` is the colimit of `Γ(U_λ, O)` over the affinoid neighbourhoods `U_λ` of the tube, which are strict neighbourhoods by (2.5) `b`)); with frames via [§RD.3.1](#rd-3-1) and [§RD.3.3](#rd-3-3).
-3. Coherent sheaves on the affinoids `U_λ` correspond to finite `Γ(U_λ)`-modules (AdicSpacesPartIII §R3.7), so a `j†O`-module locally free of finite rank gives a finite projective A-module `M_E`, and the connection gives `∇` on `M_E`.
+3. Coherent sheaves on the affinoids `U_λ` correspond to finite `Γ(U_λ)`-modules (AdicSpacesPartIII §R3.2), so a `j†O`-module locally free of finite rank gives a finite projective A-module `M_E`, and the connection gives `∇` on `M_E`.
 4. The Frobenius structure `F: σ^*E ≅ E` gives the `σ`-semilinear `F` on `M_E`.
 5. Essential surjectivity follows from [§RD.3.31](#rd-3-31), using the finite-module Taylor criterion of Berthelot 96-03 Théorème 2.5.7. The horizontal invertible Frobenius and smooth weak-lift hypotheses are essential.
 6. Full faithfulness: horizontal maps between overconvergent modules on `V` extend uniquely across the colimit.
@@ -6804,7 +6814,7 @@ The API:
 - `ConvIsoc.ofOverconvergent`: The restriction functor `Isoc†(X/K) → Isoc(X/K)`, restriction from a strict neighbourhood to the tube, exact and faithful.
 - `ConvIsoc.proper_eq`: For `X` proper over `k` the restriction functor `Isoc†(X/K) → Isoc(X/K)` is the identity.
 
-*Proof sketch.* Independence of `P` is [§RD.3.21](#rd-3-21) with `Y = X` (Berthelot 96-03 (2.3.1)–(2.3.2), pp. 68–70); the gluing and the Zariski stack property are [§RD.3.22](#rd-3-22) and [§RD.3.20a](#rd-3-20a). The coordinate description is [§RD.3.17](#rd-3-17) with `Z = ∅` ((2.2.14), p. 66); it agrees with Guo–Reinecke's Definition 2.12 on affine smooth formal lifts, and with Ogus's convergent isocrystals by Berthelot (2.3.4) (the tubes `[X]_{P, p^{1/n}}` are the generic fibres of Ogus's formal models `T_{P,n}(X)`). (Berthelot, *Cohomologie rigide et cohomologie rigide `à` supports propres. Première partie (version provisoire 1991)*, (2.2.5), (2.2.14), (2.3.2), (2.3.4), (2.3.9), pp. 61, 66, 69–73, 77; Guo–Reinecke, *A prismatic approach to crystalline local systems*, Construction 2.11, Definition 2.12, Remark 2.13, p. 15; Kedlaya, *Notes on isocrystals*, Definition 2.1, Remarks 2.3 and 2.12, pp. 2–5.)
+*Proof sketch.* Independence of `P` is [§RD.3.21](#rd-3-21) with `Y = X` (Berthelot 96-03 (2.3.1)–(2.3.2), pp. 68–70); the gluing and the Zariski stack property are [§RD.3.22](#rd-3-22) and [§RD.3.20a](#rd-3-20a). The coordinate description is [§RD.3.17](#rd-3-17) with `Z = ∅` ((2.2.14), p. 66); it agrees with Guo–Reinecke's Definition 2.12 on affine smooth formal lifts, and with Ogus's convergent isocrystals by Berthelot (2.3.4) (the tubes `[X]_{P, p^(−1/n)}` are the generic fibres of Ogus's formal models `T_{P,n}(X)`). (Berthelot, *Cohomologie rigide et cohomologie rigide `à` supports propres. Première partie (version provisoire 1991)*, (2.2.5), (2.2.14), (2.3.2), (2.3.4), (2.3.9), pp. 61, 66, 69–73, 77; Guo–Reinecke, *A prismatic approach to crystalline local systems*, Construction 2.11, Definition 2.12, Remark 2.13, p. 15; Kedlaya, *Notes on isocrystals*, Definition 2.1, Remarks 2.3 and 2.12, pp. 2–5.)
 
 *Needs:* [§RD.3.13](#rd-3-13) *Overconvergent isocrystals on a frame*; [§RD.3.16](#rd-3-16) *Overconvergence of a connection is a property, local on `P` and on `X`, stable under subquotients*; [§RD.3.17](#rd-3-17) *The coordinate criterion for convergence and overconvergence of a connection*; [§RD.3.22](#rd-3-22) *Overconvergent isocrystals without a global frame: gluing, realisations and pullback*; [§RD.3.21](#rd-3-21) *Independence of the frame: canonical equivalences between categories of overconvergent isocrystals*; [§RD.3.2](#rd-3-2) *The tube `]T[_P` of a locally closed subscheme*; AdicSpacesPartIII §R2.4 *Tubes `]T[` of locally closed subsets of the special fibre, adic and rigid*; [§RD.3.20a](#rd-3-20a) *Zariski gluing of local frame coefficients without Frobenius*.
 
@@ -6822,7 +6832,7 @@ The API:
 
 ### RD.3.34 Convergent F-isocrystals `F^a`-`Isoc(X/K)`
 
-**Definition.** Fix an automorphism `σ` of `K` lifting the `p^a`-power Frobenius of `k (a ≥ 1, q = p^a)`. For `E ∈ Isoc(X/K)` let `F_σ^*E` be the pullback along `σ` followed by the pullback along the `q`-power Frobenius of `X` (Berthelot (2.3.7)). A convergent `F^a`-isocrystal on `X` is a pair `(E, Φ)` with `E ∈ Isoc(X/K)` and `Φ: F_σ^*E ≅ E` an isomorphism in `Isoc(X/K)`; morphisms are morphisms of isocrystals commuting with `Φ`. The category `F^a`-`Isoc(X/K)` is abelian with ⊗ and internal `Hom (Φ_{Hom}(F^*f) = Φ_F ∘ F^*(f) ∘ Φ_E^{−1})`, linear over the fixed field `K^{σ}`. The Tate twist `E(n)` multiplies `Φ` by `q^{−n}`. For `X` smooth affine with a smooth formal lift `P = Spf R` and a Frobenius lift `σ_P` over `σ, F^a`-`Isoc(X/K)` is equivalent to the category of vector bundles `E` on `P_K` with integrable connection and a horizontal isomorphism `σ_P^*E ≅ E`; the convergence of `∇` is then automatic. For a perfect point `η: Spec Ω → X`, the fibre functor `η^*` takes values in `F^a`-isocrystals over `Ω`: finite-dimensional `K(Ω)`-vector spaces with a `σ_Ω`-semilinear bijection, where `σ_Ω` is the induced `q`-power coefficient Frobenius (the a-th iterate of the p-power Witt Frobenius in the Witt-vector case); here `K(Ω) = W(Ω)[1/p] ⊗ K` over the Witt vectors of the residue field; for `a = 1` and `K = W(k)[1/p]` these are the isocrystals of Mathlib's WittVector.Isocrystal over the perfect field `Ω`.
+**Definition.** Fix an isometric field endomorphism `σ` of `K` lifting the `p^a`-power Frobenius of `k (a ≥ 1, q = p^a)`. For `E ∈ Isoc(X/K)` let `F_σ^*E` be the pullback along `σ` followed by the pullback along the `q`-power Frobenius of `X` (Berthelot (2.3.7)). A convergent `F^a`-isocrystal on `X` is a pair `(E, Φ)` with `E ∈ Isoc(X/K)` and `Φ: F_σ^*E ≅ E` an isomorphism in `Isoc(X/K)`; morphisms are morphisms of isocrystals commuting with `Φ`. The category `F^a`-`Isoc(X/K)` is abelian with ⊗ and internal `Hom (Φ_{Hom}(F^*f) = Φ_F ∘ F^*(f) ∘ Φ_E^{−1})`, linear over the fixed field `K^{σ}`. The Tate twist `E(n)` multiplies `Φ` by `q^{−n}`. For `X` smooth affine with a smooth formal lift `P = Spf R` and a Frobenius lift `σ_P` over `σ, F^a`-`Isoc(X/K)` is equivalent to the category of vector bundles `E` on `P_K` with integrable connection and a horizontal isomorphism `σ_P^*E ≅ E`; the convergence of `∇` is then automatic. For a perfect point `η: Spec Ω → X`, the fibre functor `η^*` takes values in `F^a`-isocrystals over `Ω`: finite-dimensional vector spaces over a chosen compatible complete coefficient extension `K(Ω)` with residue field `Ω` and endomorphism `σ_Ω`, equipped with invertible Frobenius linearisation. The underlying semilinear map is bijective when `σ_Ω` is an automorphism. For `k` perfect and `K=W(k)[1/p]`, take `K(Ω)=W(Ω)[1/p]` and `σ_Ω` the a-th Witt Frobenius iterate; for `a=1` these are Mathlib's WittVector.Isocrystal objects.
 
 *Hypotheses.*
 
@@ -6837,9 +6847,9 @@ The API:
 - `ConvFIsoc.monoidal`: Abelian rigid ⊗-category with internal Hom; Hom-spaces are vector spaces over `K^{σ}`.
 - `ConvFIsoc.tate`: The Tate objects `O(n)`: the unit with `Φ` multiplied by `q^{−n}; E(n) = E ⊗ O(n)`.
 - `ConvFIsoc.pullback`: Pullback along morphisms of `k`-schemes of finite type, commuting with `F_σ^*`.
-- `ConvFIsoc.fibre`: The fibre functor at a perfect point `η: Spec Ω → X`, to `F^a`-isocrystals over `K(Ω)`.
+- `ConvFIsoc.fibre`: The fibre functor at a perfect point `η: Spec Ω → X` with a compatible coefficient extension, to Frobenius modules over `K(Ω)` with invertible linearisation.
 - `ConvFIsoc.fibre_isocrystal`: For `a = 1, K = W(k)[1/p]`, the fibre at a perfect point `Ω ⊇ k` is an object of Mathlib's WittVector.Isocrystal `p Ω` (with Frobenius the given semilinear bijection).
-- `ConvFIsoc.slopes`: The slope multiset at each point, defined through the fibre at a perfect point and the Dieudonné–Manin decomposition.
+- `ConvFIsoc.slopes`: The slope multiset at each point, after compatible extension to perfect residue coefficients with automorphic Frobenius, defined by Dieudonné–Manin.
 - `ConvFIsoc.ofFrobeniusLift`: On a smooth affine with formal lift and Frobenius lift `σ_P`: vector bundles with integrable connection and horizontal `σ_P^*E ≅ E`; convergence is automatic.
 - `ConvFIsoc.restrictFromOverconvergent`: Restriction from `F^a-Isoc†(X/K)`, compatible with `Φ` ([§RD.3.37](#rd-3-37)).
 
@@ -6847,7 +6857,7 @@ The API:
 
 1. `F_σ^*` is the composite of the base change along `σ` (a functor `Isoc(X, Y/K) → Isoc(X^{(σ)}, Y^{(σ)}/K)`) and the pullback along the relative Frobenius `(X, Y) → (X^{(σ)}, Y^{(σ)})`, using [§RD.3.22](#rd-3-22) (c) (Berthelot 96-03 (2.3.7), pp. 75–76).
 2. The local description with a Frobenius lift is Kedlaya, Notes, Definition 2.1, and Guo–Reinecke's Remark 2.16; the convergence of the connection follows from the Frobenius structure by Dwork's trick (the convergent analogue of [§RD.3.31](#rd-3-31); Kedlaya, Notes, Remark 2.12; Guo–Reinecke, Construction 2.11 and the paragraph before Definition 2.12).
-3. Fibres at perfect points: pull back along `η` and use that `Isoc(Spec Ω/K(Ω))` is the category of `K(Ω)`-vector spaces; the Frobenius becomes a `σ_Ω`-semilinear bijection, where `σ_Ω` is the induced `q`-power coefficient Frobenius (the a-th iterate of the p-power Witt Frobenius in the Witt-vector case) (Kedlaya, Notes, Remark 2.10; D’Addezio §2.2).
+3. Fibres at perfect points: pull back along `η` and use that `Isoc(Spec Ω/K(Ω))` is the category of `K(Ω)`-vector spaces; the Frobenius has invertible linearisation. Bijectivity of the semilinear operator follows when `σ_Ω` is an automorphism, in particular for the indicated Witt-vector coefficients (Kedlaya, Notes, Remark 2.10; D’Addezio §2.2).
 
 *Sources.* Berthelot, *Cohomologie rigide et cohomologie rigide `à` supports propres. Première partie (version provisoire 1991)*, (2.3.7)–(2.3.8), pp. 75–77; Kedlaya, *Notes on isocrystals*, Definition 2.1, Remark 2.10, Remark 2.12, pp. 2–5; D'Addezio, *Parabolicity conjecture of F-isocrystals*, §2.2, p. 6.
 
@@ -6864,12 +6874,33 @@ The API:
 - Dwork: `(K⟨t⟩, ∇(1) = −π dt, Φ = exp π(t − t^p))` on `A^1` with `σ_P(t) = t^p` is a convergent F-isocrystal (it is even overconvergent).
 
 - For `k=𝔽_p, a=2` and `Ω=𝔽̄_p, σ_Ω` is the square of Witt Frobenius and reduces to `x↦x^{p²}`; applying a second exponent a would incorrectly give `x↦x^{p⁴}`.
+- For `O` the p-adic completion of `ℤ_p[u]_(p)`, `k=𝔽_p(u)` and `σ(u)=u^p`, the unit is an F-isocrystal although `σ` is not surjective. Its linearisation is the identity; its semilinear operator on `K` is not bijective.
+
+<a id="rd-3-34a"></a>
+
+### RD.3.34a Coherent crystalline Frobenius coefficients on general finite-type schemes
+
+**Construction.** Let `O` be a complete mixed-characteristic DVR, `e≤p−1`, with residue field `k`, and let `σ:O→O` lift the `q=p^a` power map, `a≥1`. Give `(π)` its canonical divided powers `γ_n(x)=x^n/n!`, preserved by `σ`. For finite-type `X/k`, use the quasi-coherent crystals of CrystallineCohomology CR.1.2 on `Cris(X/O)` and their p-adic evaluations. The full subcategory of crystals of finite type, without a local-freeness condition, is `Crys(X/O)`; its ℚ-linearization has the same objects and rationalized Hom groups. Pullback along `(F_X^a,σ)` defines `F_σ^*`. A coherent `F^a`-crystal is such an `M` with a map `Φ:F_σ^*M→M`; it is nondegenerate when some `n≥0` and `V:M→F_σ^*M` satisfy both `VΦ=p^n id` and `ΦV=p^n id`. Rationalization makes `Φ` invertible. Establish tensor and pullback compatibility, composition of isogenies, and the agreement with CR.1.2's finite locally free p-Frobenius objects when `a=1` and its base hypotheses hold. This uses the supplier's crystal carrier and morphisms of crystalline sites throughout.
+
+*Hypotheses.* No smoothness of `X`, perfectness of `k`, or surjectivity of `σ` is imposed. At finite p-power levels use the induced compatible base divided powers. The two-sided condition is imposed on finite-type crystals; the finite locally free adjugate argument is used only in that subcategory.
+
+*Proof sketch.* Restrict CR.1.2's general quasi-coherent crystal category to finite-type objects. Its pullback preserves finite type and tensor products, so the crystalline-site morphism for the Frobenius square gives `F_σ^*` for any `a`. The canonical divided powers are integral by `e≤p−1`; `σ(x^n/n!)=σ(x)^n/n!`. The two identities give inverse `p^(−n)V` after rationalization. For finite locally free objects of bounded rank, the one-sided supplier predicate implies the two-sided one by CR.1.2's adjugate theorem.
+
+*Sources.* Berthelot 96-03, §2.4 introduction and (2.4.1), p. 78 (finite-type crystals and two-sided nondegeneracy); Stacks, §§60.9, 60.11 and 60.26, tags [07IK](https://stacks.math.columbia.edu/tag/07IK), [07N3](https://stacks.math.columbia.edu/tag/07N3), [07N4](https://stacks.math.columbia.edu/tag/07N4) (site pullback and the finite locally free specialization).
+
+*Needs:* CrystallineCohomology §CR.1.2 *Quasi-coherent and finite locally free crystals*, *Morphisms and comparisons of crystalline sites*, *Rational crystals and nondegenerate F-crystals*; CrystallineCohomology §CR.1.3 *Crystals, stratifications and quasi-nilpotent connections*; DerivedDeRhamCohomology §PD.6 *Relative PD envelopes*; SchemeAndStackFoundations §0.29 *Absolute and relative Frobenius*.
+
+**Checks.**
+
+- On `Spec 𝔽_p/ℤ_p`, `O_crys/p` with the canonical Frobenius pullback map is of finite type; evaluation on `ℤ/p²` is not free. It belongs to this category, and its rationalization is zero.
+- For `O=W(k)`, perfect `k` and `a=1`, a finite locally free nondegenerate F-crystal of CR.1.2 gives this same object, with two-sided inverse up to a power of `p`.
+- For `q=p²`, the unit uses pullback by `(F_X²,σ)` directly; no chosen p-Frobenius root is required. For a ramified `O` with `e=p−1`, the canonical divided powers remain integral.
 
 <a id="rd-3-35"></a>
 
 ### RD.3.35 Dwork's construction: the convergent F-isocrystal `M^an` of an F-crystal
 
-**Construction.** Assume `O` is a complete discrete valuation ring of mixed characteristic with ramification `index e ≤ p − 1` and a lift `σ` of the `q`-power Frobenius, `q=p^a`. Let `X` be a `k`-scheme of finite type and `(M, Φ)` a non-degenerate F-crystal on `X/(O, σ)` (a crystal of finite type with `Φ: F^*M → M` and `V: M → F^*M, V∘Φ = p^n, Φ∘V = p^n` for some `n`). Then there is a convergent F-isocrystal `M^an` on `X/(K, σ)`, functorial in `(M, Φ)` and in `X`, constructed in two steps: `(i)` for a closed immersion `X → P = Spf A` into a smooth formal scheme, the completed divided-power envelope `D̂` of the ideal of `X` maps to the algebra of the affinoid `[X]_{P,|π|}` by `f^{[ν]} ↦ π^{|ν|} T^ν/ν!`, which is bounded because `e ≤ p − 1`; this turns `M` into a coherent module `M_P` on `[X]_{P,|π|}` with a Taylor isomorphism on `[X]_{P²,|π|}` (an isocrystal convergent of radius `|π|`); (ii) a Frobenius lift `F` on `P` maps `[X]_{P,λ_{n+1}}` into `[X]_{P,λ_n}` for `λ_n = |π|^{q^{−n}}`, and the isomorphisms `(F_K^*)^n(Φ ⊗ K)` extend `M_P` and its Taylor isomorphism successively to `]X[_P = ⋃ [X]_{P,λ_n}` and `]X[_{P²}`.
+**Construction.** Assume `O` is a complete discrete valuation ring of mixed characteristic with ramification `index e ≤ p − 1` and a lift `σ` of the `q`-power Frobenius, `q=p^a`. Let `X` be a `k`-scheme of finite type and `(M, Φ)` a non-degenerate coherent `F^a`-crystal of [§RD.3.34a](#rd-3-34a) on `X/(O, σ)` (a crystal of finite type with `Φ: F^*M → M` and `V: M → F^*M, V∘Φ = p^n, Φ∘V = p^n` for some `n`). Then there is a convergent F-isocrystal `M^an` on `X/(K, σ)`, functorial in `(M, Φ)` and in `X`, constructed in two steps: `(i)` for a closed immersion `X → P = Spf A` into a smooth formal scheme, the completed divided-power envelope `D̂` of the ideal of `X` maps to the algebra of the affinoid `[X]_{P,|π|}` by `f^{[ν]} ↦ π^{|ν|} T^ν/ν!`, which is bounded because `e ≤ p − 1`; this turns `M` into a coherent module `M_P` on `[X]_{P,|π|}` with a Taylor isomorphism on `[X]_{P²,|π|}` (an isocrystal convergent of radius `|π|`); (ii) a Frobenius lift `F` on `P` maps `[X]_{P,λ_{n+1}}` into `[X]_{P,λ_n}` for `λ_n = |π|^{q^{−n}}`, and the isomorphisms `(F_K^*)^n(Φ ⊗ K)` extend `M_P` and its Taylor isomorphism successively to `]X[_P = ⋃ [X]_{P,λ_n}` and `]X[_{P²}`.
 
 *Hypotheses.*
 
@@ -6893,7 +6924,7 @@ The API:
 
 *Sources.* Berthelot, *Cohomologie rigide et cohomologie rigide `à` supports propres. Première partie (version provisoire 1991)*, (2.4) introduction and (2.4.1), pp. 78–79; Guo–Reinecke, *A prismatic approach to crystalline local systems*, footnote 3, p. 15.
 
-*Needs:* CrystallineCohomology §CR.1.2 *Rational crystals and nondegenerate F-crystals*; CrystallineCohomology §CR.1.2 *Quasi-coherent and finite locally free crystals*; CrystallineCohomology §CR.1.3 *Crystals, stratifications and quasi-nilpotent connections*; DerivedDeRhamCohomology §PD.6 *Completed PD envelopes and the derived-completion comparison*; [§RD.3.34](#rd-3-34) *Convergent F-isocrystals `F^a`-`Isoc(X/K)`*; [§RD.3.33](#rd-3-33) *Convergent isocrystals `Isoc(X/K)`*; [§RD.3.2](#rd-3-2) *The tube `]T[_P` of a locally closed subscheme*.
+*Needs:* [§RD.3.34a](#rd-3-34a) *Coherent crystalline Frobenius coefficients on general finite-type schemes*; CrystallineCohomology §CR.1.2 *Quasi-coherent and finite locally free crystals*; CrystallineCohomology §CR.1.3 *Crystals, stratifications and quasi-nilpotent connections*; DerivedDeRhamCohomology §PD.6 *Completed PD envelopes and the derived-completion comparison*; [§RD.3.34](#rd-3-34) *Convergent F-isocrystals `F^a`-`Isoc(X/K)`*; [§RD.3.33](#rd-3-33) *Convergent isocrystals `Isoc(X/K)`*; [§RD.3.2](#rd-3-2) *The tube `]T[_P` of a locally closed subscheme*.
 
 **Checks.**
 
@@ -6908,7 +6939,7 @@ The API:
 
 ### RD.3.36 Convergent F-isocrystals are F-crystals up to isogeny and twist (Berthelot, Ogus)
 
-**Theorem.** Let `O` be a complete discrete valuation ring of mixed characteristic with `e ≤ p − 1` and Frobenius lift `σ`, and `X` a `k`-scheme of finite type. (a) The functor `M ↦ M^an` of [§RD.3.35](#rd-3-35) is fully faithful on non-degenerate F-crystals up to isogeny: `Hom(M, N) ⊗ ℚ ≅ Hom(M^an, N^an)`. (b) If `X` is smooth over `k`, every convergent F-isocrystal `N` is isomorphic to `M^an(n)` for a non-degenerate F-crystal `M` (which may be taken p-torsion free) and an integer `n ≥ 0`. (c) Hence, for `k` perfect, `O = W(k)` and `X` smooth, the category `F^a`-`Isoc(X/K)` is equivalent to the category of pairs `(E, Φ)` with `E` an object of `Isoc(X/W) =` Crys`(X/W) ⊗ ℚ` (crystals of finite type up to isogeny) and `Φ: (F^a)^*E ≅ E`. (d) Locally, for `𝔛 = Spf R` affine smooth over `W(k)` with special fibre `𝔛_s` and a Frobenius lift `F`, the functor `E ↦ E(𝔛)[1/p] = lim_r E(𝔛_s, 𝔛 ⊗ W_r)[1/p]` is an equivalence from F-isocrystals on `𝔛_s/W(k)` (crystalline) to vector bundles on `𝔛_η` with flat convergent connection and horizontal Frobenius `F^*E ≅ E`. (e) The F-isocrystals on `𝔛_s` for the crystalline site, on the crystalline site of `𝔛 ⊗ O_K/p`, and on Ogus's convergent site of `𝔛 ⊗ O_K/p` over `W(k)` are equivalent for a smooth formal `O_K`-scheme `𝔛` (any ramification), the inverses being restrictions.
+**Theorem.** Let `O` be a complete discrete valuation ring of mixed characteristic with `e ≤ p − 1` and Frobenius lift `σ`, and `X` a `k`-scheme of finite type. (a) The functor `M ↦ M^an` of [§RD.3.35](#rd-3-35) is fully faithful on non-degenerate F-crystals up to isogeny: `Hom(M, N) ⊗ ℚ ≅ Hom(M^an, N^an)`. (b) If `X` is smooth over `k`, every convergent F-isocrystal `N` is isomorphic to `M^an(n)` for a non-degenerate F-crystal `M` (which may be taken p-torsion free) and an integer `n ≥ 0`. (c) Hence, for `k` perfect, `O = W(k)` and `X` smooth, the category `F^a`-`Isoc(X/K)` is equivalent to the category of pairs `(E, Φ)` with `E` an object of `Isoc(X/W) =` Crys`(X/W) ⊗ ℚ` (crystals of finite type up to isogeny) and `Φ: (F^a)^*E ≅ E`. (d) Locally, for `𝔛 = Spf R` affine smooth over `W(k)` with special fibre `𝔛_s` and a Frobenius lift `F`, choose a finite-type integral crystal representative `M` of `E`, form `M(𝔛)=lim_r M(𝔛_s,𝔛⊗W_r)` integrally, and then rationalize. The resulting functor `E ↦ M(𝔛)[1/p]=(lim_r M(𝔛_s,𝔛⊗W_r))[1/p]`, independent of the representative up to isogeny, is an equivalence from F-isocrystals on `𝔛_s/W(k)` (crystalline) to vector bundles on `𝔛_η` with flat convergent connection and horizontal Frobenius `F^*E ≅ E`. (e) The F-isocrystals on `𝔛_s` for the crystalline site, on the crystalline site of `𝔛 ⊗ O_K/p`, and on Ogus's convergent site of `𝔛 ⊗ O_K/p` over `W(k)` are equivalent for a smooth formal `O_K`-scheme `𝔛` (any ramification), the inverses being restrictions.
 
 *Hypotheses.*
 
@@ -6918,20 +6949,22 @@ The API:
 
 *Proof sketch.*
 
-1. (a): by internal Hom, compare Frobenius-invariant horizontal sections; locally with a Frobenius lift, sections of `M^an` on `]X[` are compatible families over the tubes `[X]_{λ_n}`, and the map `B_1 → D̂ ⊗ ℚ` sending `T_i` to `(π^{−1} p!) f_i^{[p]}` produces an inverse to the natural map from `(M ⊗ ℚ)^{∇=0, Φ=1}` (Berthelot 96-03 (2.4.2), first part, pp. 79–81).
+1. (a): by internal Hom, compare Frobenius-invariant horizontal sections; locally with a Frobenius lift, sections of `M^an` on `]X[` are compatible families over the tubes `[X]_{λ_n}`, with `B_n=(A⊗K){T_i}/(f_i^(q^n)−πT_i)` and `λ_n=|π|^(q^(−n))`. Write `α:D̂⊗ℚ→B_0` for the PD-to-tube map. The map `β:B_1→D̂⊗ℚ` sends `T_i↦π⁻¹q!f_i^[q]`; the relation maps to `f_i^q−q!f_i^[q]=0`. Since `π⁻¹q!` is integral, this map is π-adically continuous and extends to the completions before rationalization. The composites `β∘F∘α` and `α∘β` are respectively the chosen q-Frobenius on `D̂⊗ℚ` and restriction `B_1→B_0`, as checked on `A` and the `T_i`. Applying `Φ` gives an inverse to the natural map from `(M ⊗ ℚ)^{∇=0, Φ=1}`; the other composite is the identity first on `[X]_{λ_0}` and then on the whole tube by Frobenius compatibility (Berthelot 96-03 (2.4.2), first part, pp. 79–81).
 2. (b): by (a) the statement is local, so assume `X` affine with a smooth lift; Ogus's Proposition 7.3 in *The convergent topos in characteristic `p`* gives a p-torsion-free crystal `M` with `N ≅ M ⊗ ℚ` compatibly with the Taylor isomorphisms, and `p^n Φ` is then an F-crystal structure (Berthelot 96-03, (2.4.2), second part, p. 81).
 3. (c) is (a) and (b) together, as stated by Kedlaya (Notes, Theorem 2.2, attributing full faithfulness to Ogus 1984 and essential surjectivity to Berthelot's (2.4.2)) and used by D’Addezio (§2.2, footnote 2).
 4. (d) is the local form (Guo–Reinecke, Theorem 2.14, citing Berthelot's (2.4.2); Construction 2.11 identifies crystals with modules with quasi-nilpotent connection, CrystallineCohomology §CR.1.3); (e) is Guo–Reinecke's Remark 2.15, citing Ogus 1984 (Example 2.7.3, Proposition 2.18) for the extension along the convergent site by Dwork's trick.
 
 *Sources.* Berthelot, *Cohomologie rigide et cohomologie rigide `à` supports propres. Première partie (version provisoire 1991)*, (2.4.2) Théorème and its proof, pp. 79–81; Kedlaya, *Notes on isocrystals*, Theorem 2.2 with its proof, p. 2; Guo–Reinecke, *A prismatic approach to crystalline local systems*, Construction 2.11, Theorem 2.14, Remarks 2.15–2.16, pp. 15–16; D'Addezio, *Parabolicity conjecture of F-isocrystals*, §2.2 and footnote 2, p. 6.
 
-*Needs:* [§RD.3.35](#rd-3-35) *Dwork's construction: the convergent F-isocrystal `M^an` of an F-crystal*; [§RD.3.34](#rd-3-34) *Convergent F-isocrystals `F^a`-`Isoc(X/K)`*; [§RD.3.33](#rd-3-33) *Convergent isocrystals `Isoc(X/K)`*; [§RD.3.17](#rd-3-17) *The coordinate criterion for convergence and overconvergence of a connection*; CrystallineCohomology §CR.1.2 *Rational crystals and nondegenerate F-crystals*; CrystallineCohomology §CR.1.3 *Crystals, stratifications and quasi-nilpotent connections*; CrystallineCohomology §CR.1.2 *Quasi-coherent and finite locally free crystals*; Mathlib `WittVector.Isocrystal`.
+*Needs:* [§RD.3.35](#rd-3-35) *Dwork's construction: the convergent F-isocrystal `M^an` of an F-crystal*; [§RD.3.34](#rd-3-34) *Convergent F-isocrystals `F^a`-`Isoc(X/K)`*; [§RD.3.33](#rd-3-33) *Convergent isocrystals `Isoc(X/K)`*; [§RD.3.17](#rd-3-17) *The coordinate criterion for convergence and overconvergence of a connection*; [§RD.3.34a](#rd-3-34a) *Coherent crystalline Frobenius coefficients on general finite-type schemes*; CrystallineCohomology §CR.1.3 *Crystals, stratifications and quasi-nilpotent connections*; CrystallineCohomology §CR.1.2 *Quasi-coherent and finite locally free crystals*; Mathlib `WittVector.Isocrystal`.
 
 **Checks.**
 
 - Point: for `X = Spec k` with `k` perfect, (c) says that F-isocrystals are Dieudonné modules up to isogeny, i.e. Mathlib's isocrystals over `k`.
 - Twist needed: `O(1) (Φ = p^{−1})` is not `M^an` for any F-crystal `M`, because `Φ` would have to map a lattice into itself; it is `M^an(1)` for `M` the unit F-crystal.
 - Without Frobenius a crystal yields only an isocrystal convergent on the tube of radius `|π|` (Berthelot (2.4.1)`(i)`); the full convergence in (d) uses Frobenius.
+- For `q=p²`, `A=ℤ_p⟨t⟩` and `X` cut out by `(p,t)`, the relation in `B_1` is `t^(p²)−pT=0`. Sending `T` to `p⁻¹(p²)!t^[p²]` kills it; the p-indexed assignment leaves `t^(p²)−t^p≠0`.
+- For the unit on `Spf W(k)`, integral completion followed by rationalization gives `W(k)[1/p]`; rationalizing each `W_r(k)` first gives zero and is a different construction.
 
 <a id="rd-3-37"></a>
 
@@ -7438,7 +7471,7 @@ The API:
 
 *Proof sketch.*
 
-1. Overconvergence of `M`: on the chart at 0, `∂^{[k]}e_2 = binom(λ, k) t^{−k} e_2` and `∂^{[k]}e_1 = a_k e_2` with `a_k = (1/k) Σ_{n≥1} p^n binom(n + λ − 1, k − 1) t^{n−k}`, whose sup norm on `{η ≤ |t| ≤ 1}` is `≤ k η^{−k}` because `binom(n + λ − 1, k − 1) ∈ ℤ_p`; so `‖∂^{[k]}e‖ λ_0^k → 0` for `η > λ_0` and [§RD.3.17](#rd-3-17) applies; the chart at `∞` (`s = 1/t`, where `h(1/s) = Σ p^n s^{−n}` is bounded by 1 on `|s| ≥ 1/p`) is the same, and overconvergence is local on `P` ([§RD.3.16](#rd-3-16) (d)). The connection is defined on the strict neighbourhood `{1/p < |t| < p}`.
+1. Overconvergence of `M`: on the chart at 0, `∂^{[k]}e_2 = binom(λ, k) t^{−k} e_2` and `∂^{[k]}e_1 = a_k e_2` with `a_k = (1/k) Σ_{n≥1} p^n binom(n + λ − 1, k − 1) t^{n−k}`, whose sup norm on `{η ≤ |t| ≤ 1}` is `≤ k η^{−k}` because `binom(n + λ − 1, k − 1) ∈ ℤ_p`; so `‖∂^{[k]}e‖ λ_0^k → 0` for `η > λ_0` and [§RD.3.17](#rd-3-17) applies; the chart at `∞` (`s = 1/t`, where `h(1/s) = Σ p^n s^{−n}` is bounded by 1 on `|s| > 1/p`) is the same, and overconvergence is local on `P` ([§RD.3.16](#rd-3-16) (d)). The connection is defined on the strict neighbourhood `{1/p < |t| < p}`.
 2. Horizontal sections: `s = c e_1 + g e_2` is horizontal iff `c` is constant and `t g′ + λ g = −c h`, i.e. `(n + λ) g_n = −c h_n` for all `n ∈ ℤ`; as `λ ∉ ℤ` this forces `g = c f`.
 3. Over the tube `{|t| = 1}` sections are Laurent series with coefficients tending to 0, and `f` qualifies ([§RD.3.52](#rd-3-52)), so `Hom_{Isoc}(O, M) = K(e_1 + f e_2)`; over strict neighbourhoods sections are overconvergent Laurent series and `f` does not qualify, so `c = 0` and `Hom_{Isoc†}(O, M) = 0`. Faithfulness of restriction is [§RD.3.14](#rd-3-14) (c).
 4. A Frobenius structure on `M` would induce one on the sub-object `K_λ`, which needs `(p − 1)λ ∈ ℤ` (kummer-isocrystal), impossible since `λ ∉ ℚ` ([§RD.3.52](#rd-3-52)); the counterexample is constructed here, Abe's published counterexample (IMRN 2011) not being publicly accessible.
@@ -7452,6 +7485,7 @@ The API:
 - The map `Hom_{Isoc†}(O, M) = 0 → Hom_{Isoc}(O, M) = K` is injective (faithfulness) but not surjective.
 - Replacing `λ` by an exponent with `v_p(n + λ) = O(log n)` (for instance `λ = −1`/2 with `p` odd, or any `λ ∈ (ℚ ∩ ℤ_p) ∖ ℤ`) makes `f` overconvergent and the two Hom-spaces agree; for the Liouville exponent of [§RD.3.52](#rd-3-52) one has `limsup_n v_p(n + λ)/n = 1`, so the failure is a Liouville phenomenon. No `λ ∈ ℤ_p ∖ ℤ` keeps `|n + λ|` bounded below, so the relevant condition is the growth of `v_p(n + λ)`, not a lower bound.
 - In the convergent category `M ≅ O ⊕ K_λ`, while in the overconvergent category the extension class of `M` is non-zero.
+- At `s=p`, every term of `Σ_{n≥1}pⁿs^(−n)` is one, so it diverges; the rational function `p/(s−p)` has a pole. The strict inequality in the neighbourhood is necessary.
 
 ### Examples
 
@@ -7699,7 +7733,7 @@ The API:
 *Proof sketch.*
 
 1. Weak fibration (Berthelot, Lemme 1): if `u` is smooth near `X`, then `u^{an}` makes `]X[_{P'}` locally (over an affine cover of `P`) isomorphic to `]X[_P × D(0,1^-)^d`, a fibration in open unit polydiscs; this is the geometric input of [§RD.3.21](#rd-3-21).
-2. Relative Poincaré lemma (Berthelot, Proposition 1): on an open polydisc fibration, `Ω^•_{]X[_P} →` Ru'`_*Ω^•_{]X[_{P'}}` is a quasi-isomorphism and `R^q u'_*` of the relative forms vanish for `q ≥ 1`, using global primitives on open discs and Theorem `B` (AdicSpacesPartIII §R3.7).
+2. Relative Poincaré lemma (Berthelot, Proposition 1): on an open polydisc fibration, `Ω^•_{]X[_P} →` Ru'`_*Ω^•_{]X[_{P'}}` is a quasi-isomorphism and `R^q u'_*` of the relative forms vanish for `q ≥ 1`, using global primitives on open discs and Theorem `B` (AdicSpacesPartIII §R3.4).
 3. Strong fibration theorem: the polydisc fibration extends over a cofinal system of strict neighbourhoods of `]X[`, giving the statement for `DR†` ([§RD.3.12](#rd-3-12); Berthelot, *Cohomologie rigide et cohomologie rigide `à` supports propres, Première partie* (preprint 96-03), Théorème 1.3.7 and Remarque 1.3.8, pp. 41–45, which supplies the analysis near the boundary sketched in Berthelot 1986, §2.3, p. 18).
 4. Compatibility of the isomorphisms for three embeddings follows from functoriality of (2.2.1) in the triple product.
 5. Compare two compactifications via the closure of the diagonal, and two formal embeddings via their product. Apply the relative Poincaré comparison on a common frame. The diagram-resolution homotopy comparison makes the induced equivalence independent of further refinement.
@@ -7711,6 +7745,8 @@ The API:
 **Checks.**
 
 - For `X = A^1` embedded in `P̂^1` and in `P̂^2` (via the diagonal of `P^1 × P^1` composed with a linear embedding), both frame cohomologies are `K` in degree 0 and 0 otherwise.
+- For the identity morphism of a frame, the comparison is the identity in every degree.
+- For the point embedded as zero in a formal affine line, its tube is an open unit disc; its de Rham cohomology is `K` in degree zero and zero in higher degrees, agreeing with the point frame.
 
 <a id="rd-4-9"></a>
 
@@ -8176,7 +8212,7 @@ The API:
 
 *Proof sketch.*
 
-1. `W_T` is quasi-Stein: it is the increasing union of the affinoids `X_η = {η ≤ |x_i| ≤ ρ, i ∈ T}, η → 1^+`, and Laurent polynomials are dense in each `Γ(X_η)` (Kedlaya, Lemma 8.1.5); Theorem `B` for quasi-Stein spaces (AdicSpacesPartIII §R3.7).
+1. `W_T` is quasi-Stein: it is the increasing union of the affinoids `X_η = {η ≤ |x_i| ≤ ρ, i ∈ T}, η → 1^+`, and Laurent polynomials are dense in each `Γ(X_η)` (Kedlaya, Lemma 8.1.5); Theorem `B` for quasi-Stein spaces (AdicSpacesPartIII §R3.4).
 2. Resolve both terms of `[F → ι_*ι^*F]` by Čech complexes for the admissible cover `U_0, U_1 ∩ V_ρ`, …, `U_n ∩ V_ρ (U_i = {|z_i| = 1})`; the intersections are affinoid or equal to `W_T`, hence acyclic, so the complex is the total complex of global sections.
 3. Compute with the Leray (row) spectral sequence: the Čech complex of the `S^{(n),T}_r` has cohomology `T_{n,ρ}` in degree 0 and `S^{(n)}_r/Σ_i S^{(n),i'}_r` in degree `n − 1` (induction on `n`); the degree-0 row cancels against `E`, and the sequence degenerates at `E_2`.
 
@@ -8187,6 +8223,8 @@ The API:
 **Checks.**
 
 - `n = 1`: the cohomology is `E ⊗ R_{K,r}/E ⊗ T_{1,ρ}`, i.e. series `Σ_{m ≥ 1} a_m t^m` converging on `|t| < 1` (Berthelot's `M`), in degree 1.
+- For the zero coefficient module the supported complex and its quotient in degree `n` are zero.
+- For `E=T_{n,ρ}²`, the degree-`n` supported quotient is the direct sum of two copies of the quotient for `E=T_{n,ρ}`; no other cohomological degree occurs.
 
 <a id="rd-4-26"></a>
 
@@ -9286,7 +9324,7 @@ reduction, and the theory of relative convergent cohomology and overconvergent d
 1. Lemma 3: `n + 1` sections of an ample bundle without common zero define a finite map to `P^n` (fibres are both affine and proper).
 2. Lemma 4: for `l` sufficiently divisible there is a section of `L^l` vanishing on `D` but not at any point of a given finite subscheme `Z` (complement of a section is affine).
 3. Lemma 5: inductively choose sections `s_1`, …, `s_n` vanishing on `S` (and along `D_i`) whose zero loci cut `D` in the expected codimension, so that they have no common zero on `D`.
-4. Lemma 6: if `f_i = β_i/α^{j_i}, β_i ∈ Γ(L^{j_i})` and `γ_i ∈ Γ(L^l)` vanishes on `S`, take `δ_i = β_i α^{2l−j_i} + γ_i^2 ∈ Γ(L^{2l})`, for `l` sufficiently divisible and `2l ≥ j_i`. Then `δ_i/α^{2l} = f_i + (γ_i/α^l)^2` has the same differential as `f_i` on `S`, in every characteristic; this produces a finite map unramified at `S`. See see *Corrections to the sources*.
+4. Lemma 6: if `f_i = β_i/α^{j_i}, β_i ∈ Γ(L^{j_i})` and `γ_i ∈ Γ(L^l)` vanishes on `S`, take `δ_i = β_i α^{2l−j_i} + γ_i^2 ∈ Γ(L^{2l})`, for `l` sufficiently divisible and `2l ≥ j_i`. Then `δ_i/α^{2l} = f_i + (γ_i/α^l)^2` has the same differential as `f_i` on `S`, in every characteristic; this produces a finite map unramified at `S`. See *Corrections to the sources*.
 5. Theorem 1: let `g` be the finite map from `s^m, s_1`, …, `s_n` given by Lemma 6, unramified at `S`, and `E` the closed locus of `X ∖ D` where `g` ramifies; choose `t` vanishing on `E` but not on `S` (Lemma 4) and `t_1`, …, `t_n` without common zero on the zero locus `Z` of `t` (Lemma 5), and put `u_0 = t^{pl}, u_i = s_i s^{m(pr−1)} t^{p(l−1)} + t_i^p`. In characteristic `p` the p-th powers `t_i^p` have zero differential, so off `Z` the differentials of `u_i/u_0` are those of `s_i/s^m` times the unit `(s^{rm}/t)^p`; hence the finite map `f = (u_0 : … : u_n)` (Lemma 3) is étale off the hyperplane `u_0 = 0`, which contains `f(D)` and misses `f(S)`.
 6. Theorem 2: replace `X` by a projective compactification of an affine neighbourhood of `x`, blow up away from `x` so that all intersections of the `D_i` are irreducible, and run the proof of Theorem 1 with `S = {x}` and `s_i, t_i` vanishing along `D_i`; restrict to the preimage of `A^n = P^n ∖ H`.
 
@@ -10074,17 +10112,17 @@ The API:
 
 ### RD.5.40 Nonarchimedean duality theory used for strictness and residue duality
 
-**Theorem.** Let `K` be a spherically complete discretely valued field. For locally convex K-vector spaces (in the nonarchimedean sense of LocallyAnalyticDistributions Layer 0): (a) (Banach–Steinhaus) a pointwise bounded family of continuous linear maps from a barrelled space is equicontinuous; Fréchet spaces and LF spaces are barrelled. (b) (Bipolar theorem) for a closed lattice `M`, the pseudo-polar of the pseudo-polar of `M` is `M`. (c) (Strong dual) the strong dual `V′_b` carries the topology of uniform convergence on bounded sets; a subset of `V′` is bounded for it iff it is bounded on every bounded subset of `V`. (d) (Mackey) a semi-complete space `V` is the dual of its dual `V′_c` with the topology of convergence on compactoid sets, and the equicontinuous convex subsets of `V′` are the relatively linearly compact ones. (e) In a Fréchet space every bounded, closed, convex, linearly compact set lies in the closed convex hull of a null sequence. (f) An infinite-dimensional K-Banach space is not reflexive. `(g)` For a Fréchet–Montel space the strong dual and the linearly compact dual coincide. `(h)` (Compact type and nuclear Fréchet duality) `V ↦ V′_b` is an anti-equivalence between spaces of compact type and nuclear Fréchet spaces, with `V ≅ (V′_b)′_b`.
+**Theorem.** Let `K` be a spherically complete discretely valued field. For locally convex K-vector spaces (in the nonarchimedean sense of LocallyAnalyticDistributions Layer 0): (a) (Banach–Steinhaus) a pointwise bounded family of continuous linear maps from a barrelled space is equicontinuous; Fréchet spaces and LF spaces are barrelled. (b) (Bipolar theorem) for a closed lattice `M`, the pseudo-polar of the pseudo-polar of `M` is `M`. (c) (Strong dual) the strong dual `V′_b` carries the topology of uniform convergence on bounded sets; a subset of `V′` is bounded for it iff it is bounded on every bounded subset of `V`. (d) (Mackey polarity) for separated semi-complete `V`, give `V′_c` the topology of uniform convergence on bounded compactoid subsets of `V`. Evaluation identifies its continuous dual `(V′_c)′` algebraically with `V`. Under this pairing `(V′_c,V)`, an `O_K`-submodule `C⊂V` is equicontinuous as a family of functionals on `V′_c` iff its closure in `V` is bounded and linearly compact (equivalently complete and compactoid). The polar `C°={ℓ∈V′:ℓ(C)⊆O_K}` is then a neighbourhood of zero in `V′_c`. This assertion concerns subsets of `V`, and retains boundedness. (e) In a Fréchet space every bounded, closed, convex, linearly compact set lies in the closed convex hull of a null sequence. (f) An infinite-dimensional K-Banach space is not reflexive. `(g)` For a Fréchet–Montel space the strong dual and the linearly compact dual coincide. `(h)` (Compact type and nuclear Fréchet duality) `V ↦ V′_b` is an anti-equivalence between spaces of compact type and nuclear Fréchet spaces, with `V ≅ (V′_b)′_b`.
 
 *Hypotheses.* `K` spherically complete for (b), (d) and `(h)`, as in the sources; discretely valued fields are spherically complete.
 
 *Proof sketch.*
 
 1. (a)–(c) are the nonarchimedean forms of the classical results, proved with lattices and the nonarchimedean Hahn–Banach theorem (LocallyAnalyticDistributions §0.2).
-2. (d)–`(g)` are the facts Crew collects in his §2 for the strictness criteria, with proofs or references.
+2. (d) follows from polar neighbourhoods for bounded compactoid subsets and the bipolar theorem: an equicontinuous `C⊂V` is contained in the closed `O_K`-hull of a bounded compactoid test set. Semi-completeness makes that hull complete, hence linearly compact. The converse is the defining polar neighbourhood. Use Crew §§1–3 and Schneider §§12–14; (e)–`(g)` are Crew's duality facts.
 3. `(h)` is Schneider–Teitelbaum's duality theorem.
 
-*Sources.* Crew, *Finiteness theorems for the cohomology of an overconvergent isocrystal on a curve*, Ann. Sci. ÉNS (4) 31 (1998), §2 (in particular (2.9)) and §3, pp. 719–728; Schneider, *Nonarchimedean Functional Analysis*, Springer (2002), §6 (Banach–Steinhaus), §13 (pseudo-polars and the bipolar theorem), §§15–16 (reflexivity, compactoid sets and Montel spaces); Schneider–Teitelbaum, *Locally analytic distributions and p-adic representation theory, with applications to `GL₂`*, `J`. Amer. Math. Soc. 15 (2002), §1, Theorem 1.1, Theorem 1.3 and Corollary 1.4 (spaces of compact type and their duals), pp. 3–4 of arXiv:math/9912073v1.
+*Sources.* Crew, *Finiteness theorems for the cohomology of an overconvergent isocrystal on a curve*, Ann. Sci. ÉNS (4) 31 (1998), §2 (in particular (2.9)) and §3, pp. 719–728; Schneider, *Nonarchimedean Functional Analysis*, Springer (2002), §6 (Banach–Steinhaus), §12, Proposition 12.7 and Lemma 12.10, §13 (pseudo-polars and the bipolar theorem), §14, Lemma 14.1 (bounded c-compact sets in Mackey topology), and §§15–16 (reflexivity and Montel spaces); Schneider–Teitelbaum, *Locally analytic distributions and p-adic representation theory, with applications to `GL₂`*, `J`. Amer. Math. Soc. 15 (2002), §1, Theorem 1.1, Theorem 1.3 and Corollary 1.4 (spaces of compact type and their duals), pp. 3–4 of arXiv:math/9912073v1.
 
 *Needs:* LocallyAnalyticDistributions §0.0 *Locally convex spaces and separation*; LocallyAnalyticDistributions §0.0 *Locally convex limits*; LocallyAnalyticDistributions §0.2 *The nonarchimedean Hahn–Banach theorem*; Mathlib `WithSeminorms`.
 
@@ -10093,6 +10131,7 @@ The API:
 - `c_0(ℕ)` over `ℚ_p`: its dual is `ℓ^∞`. The quotient `ℓ^∞/c_0` is a nonzero Banach space, so by Hahn–Banach there is a nonzero continuous functional on `ℓ^∞` vanishing on `c_0`; it is not evaluation at any element of `c_0` (such an evaluation vanishing on every unit vector `e_n` is zero), so the canonical map from `c_0` to its bidual `(ℓ^∞)`' is not surjective and `c_0` is not reflexive, as (f) requires.
 - For the compact-type space `V = colim_n K⟨p^{-n}t⟩` (analytic functions near 0) the strong dual is a nuclear Fréchet space, as in `(h)`.
 - Finite-dimensional `V`: every statement reduces to linear algebra, and `V′_b ≅ Hom(V, K)` with `V ≅ V″`.
+- For `V=ℚ_p`, `V′_c=ℚ_p`: the unbounded family `{x↦ax:a∈ℚ_p}` is not equicontinuous, although `ℚ_p` is linearly compact in Crew's sense. A common source neighbourhood would have to be `{0}`. The bounded family with `a∈ℤ_p` is equicontinuous.
 
 <a id="rd-5-41"></a>
 
@@ -10142,7 +10181,7 @@ The API:
 
 1. (a) The nonarchimedean form of Bourbaki EVT IV §4 no. 1 Prop. 2: the bipolar theorem ([§RD.5.40](#rd-5-40) (b)) identifies closures with bipolars, and Hahn–Banach (LocallyAnalyticDistributions §0.2 (b)) extends forms from closed subspaces (Crew 3.8).
 2. (b) A strict exact sequence stays strict exact for the weak topologies; its transpose is exact, the injective case being Hahn–Banach (Crew 3.9).
-3. (c) Mackey: `V = (V'_c)`' for semi-complete `V`, and convex equicontinuous subsets of the dual are the relatively linearly compact convex sets (Crew 3.10). The bounded-set lifting condition tests subsets of `f(V)`, not all subsets of `W`; this is also the image in which Crew 3.11 lifts null sequences. See see *Corrections to the sources*.
+3. (c) Use the pairing `(V′_c,V)` of [§RD.5.40](#rd-5-40) (d): evaluation identifies `V=(V′_c)′`, and equicontinuous `O_K`-submodules of this continuous dual are precisely the bounded relatively compactoid subsets of `V`. Their closures are bounded linearly compact; the same holds for `W`. Thus the equicontinuous-set criterion of (a) for the transpose becomes the bounded linearly compact lifting condition (Crew 3.10). The bounded-set lifting condition tests subsets of `f(V)`, not all subsets of `W`; this is also the image in which Crew 3.11 lifts null sequences. See *Corrections to the sources*.
 4. (d) In a Fréchet space every balanced convex closed bounded linearly compact set lies in the closed convex hull of a null sequence (Crew 2.9); lift null sequences along a strict map of metrisable spaces (Crew 3.11); for Montel spaces linearly compact and strong duals agree (Crew 3.12).
 
 *Sources.* Crew, *Finiteness theorems for the cohomology of an overconvergent isocrystal on a curve*, Propositions 2.9, 3.8–3.11 and Corollary 3.12, pp. 724–727; Kedlaya, *Finiteness of rigid cohomology with coefficients*, Proposition 8.3.5, p. 55.
@@ -10622,7 +10661,7 @@ The API:
 
 - `M = A⟨x⟩†, N = B` trivial: both sides are `(A ⊗̂ B)` in degree 0 for `R^0f_*`.
 - For `A=K`, `M=K⟨x⟩†`, `B=N=K⟨y⟩†`, the external product is `K⟨x,y⟩†`; it contains `(1−pxy)⁻¹`, whose infinite-rank coefficient matrix prevents membership in the algebraic tensor product of the two one-variable rings.
-- For `N=B^r` trivial, the external product is the direct sum of `r` copies of `M⊗_{A⟨x⟩†}C⟨x⟩†`; the cohomology base change remains `(R^if_*M)⊗_A C`.
+- For `N=B^r` trivial, the external product is the direct sum of `r` copies of `M⊗_{A⟨x⟩†}C⟨x⟩†`; the cohomology is `((R^if_*M)⊗_A C)^⊕r`. For `A=B=K`, `M=K⟨x⟩†`, `i=0`, `r=2` it is `K²`; at `r=0` it is zero.
 
 <a id="rd-5-66"></a>
 
@@ -11766,11 +11805,11 @@ The API:
 
 ### RD.5.108 Perfectness of relative log crystalline cohomology with isocrystal coefficients
 
-**Theorem.** Let `(S, M_S)` be a Noetherian p-adic fine log formal scheme over `W, f : (X, M_X) → (S_1, M_{S_1})` proper and log smooth, and `E` a locally free log crystalline isocrystal on `X` over `S`. If `f` is integral, or `S` is regular, then `Rf_{crys,*}E` is a perfect complex of `ℚ ⊗ O_S`-modules, compatible with base change along morphisms of such bases.
+**Theorem.** Let `(S, M_S)` be a Noetherian p-adic fine log formal scheme over `W, f : (X, M_X) → (S_1, M_{S_1})` proper and log smooth, and `E` a locally free log crystalline isocrystal on `X` over `S`. If `f` is integral, or `S` is regular, then `Rf_{crys,*}E` is a perfect complex of `ℚ ⊗ O_S`-modules. If `f` is integral, it also satisfies arbitrary derived base change: for a morphism `g:S′→S` of such fine log bases and the cartesian special-fibre diagram, `Lg^*Rf_{crys,*}E ≅ Rf′_{crys,*}g^*E`. The special-fibre immersion is exact, defined by `p`, with its canonical PD structure.
 
-*Hypotheses.* Either `f` integral or `S` regular; `E` a locally free isocrystal, not assumed to come from a locally free crystal.
+*Hypotheses.* Either `f` integral or `S` regular for perfectness; integral `f` for arbitrary derived base change. The bases and cartesian diagrams are those of Shiho Theorem 1.19. `E` is a locally free isocrystal, not assumed to come from a locally free crystal.
 
-*Proof sketch.* Reduce to the integral case after twisting by a power of `p` on a coherent model, use the log Poincaré lemma to compute locally by log de Rham complexes of log smooth lifts, and apply perfectness for coherent cohomology of proper morphisms (Shiho, Theorem 1.16, pp. 9–11). (Shiho, *Relative log convergent cohomology and relative rigid cohomology `I`*, arXiv:0707.1742v2, Theorem 1.16, p. 9, proof pp. 9–11, and Corollary 2.37.)
+*Proof sketch.* Choose a coherent crystal model for the isocrystal and compute by log de Rham complexes on an embedding system. For integral `f`, log smooth lifts are flat over the base, giving finite Tor amplitude; for regular `S`, coherent bounded cohomology has finite locally free resolutions. These are the two perfectness arguments in Shiho Theorem 1.16. For integral `f`, apply the flat complexes in the cartesian embedding systems to obtain Theorem 1.19's derived base change. Rescaling a coefficient model changes neither the morphism nor its integrality. (Shiho, *Relative log convergent cohomology and relative rigid cohomology `I`*, arXiv:0707.1742v2, Theorem 1.16 and proof, pp. 9–11, Theorem 1.19 and proof, pp. 11–14, and Corollary 2.37.)
 
 *Needs:* CrystallineCohomology §CR.5.4 *Derived p-adic log crystalline cohomology*; CrystallineCohomology §CR.3.2 *Proper smooth crystalline perfectness and reductions*; [§RD.5.107](#rd-5-107) *Relative log convergent sites and the realisation functor to log crystalline isocrystals*.
 
@@ -11778,7 +11817,8 @@ The API:
 
 - Trivial log structures and `E = O`: this is crystalline perfectness for proper smooth morphisms (CrystallineCohomology §CR.3.2).
 - `X = S_1` (`f` the identity): `Rf_*E = E`, a locally free module.
-- The Euler characteristic of the fibre of `Rf_*O` at a point of `S` equals that of the log crystalline cohomology of the fibre, by base change.
+- For integral `f`, the Euler characteristic of the derived fibre of `Rf_*O` equals that of the log crystalline cohomology of the fibre, by base change.
+- For the log blow-up of `(x,y)` on `Spf ℤ_p⟨x,y⟩` with coordinate-axis log structure, `f` is proper log étale but not integral. With exceptional divisor `D` and coefficient `O(−D)`, the direct image is `(x,y)[0]` over `A=ℚ_p⟨x,y⟩`, a perfect complex. At the strict origin, the resolution `A→A²`, `a↦(−ya,xa)`, gives `H^(−1)(Li^*(x,y))=ℚ_p`, whereas the actual fibre has `O(1)` on `ℙ¹` and cohomology `ℚ_p²[0]`. Regular bases alone do not give derived base change.
 
 <a id="rd-5-109"></a>
 
@@ -11875,7 +11915,7 @@ The API:
 
 *Sources.* Kedlaya, *Local and global structure of connections on nonarchimedean curves*, §§3.4, 4.1–4.3, Theorem 4.6.4, Corollary 4.6.5 and Remark 4.6.7, pp. 67–70; Kedlaya–Shiho, *Corrigendum*, Compositio Math. 153 (2017), 2658–2665, corrections to Proposition 1.1.2 and Theorems 2.3.17, 3.4.20, 3.4.22 and 3.8.16.
 
-*Needs:* [§RD.1.13](#rd-1-13) *Dwork transfer*; [§RD.1.48](#rd-1-48) *Rational-type fields*; [§RD.1.49](#rd-1-49) *Frobenius antecedents and descendants*; [§RD.1.51](#rd-1-51) *Subsidiary-radius variation*; [§RD.1.18](#rd-1-18) *Solvable break decomposition*; [§RD.2.11](#rd-2-11) *Finite étale Robba extensions*; AdicSpacesPartII §R0 *Analytic discs and complete residue fields*.
+*Needs:* [§RD.6.64](#rd-6-64) *Neutral Tannakian recognition*; [§RD.1.13](#rd-1-13) *Dwork transfer*; [§RD.1.48](#rd-1-48) *Rational-type fields*; [§RD.1.49](#rd-1-49) *Frobenius antecedents and descendants*; [§RD.1.51](#rd-1-51) *Subsidiary-radius variation*; [§RD.1.18](#rd-1-18) *Solvable break decomposition*; [§RD.2.11](#rd-2-11) *Finite étale Robba extensions*; AdicSpacesPartII §R0 *Analytic discs and complete residue fields*.
 
 **Checks.**
 
@@ -13462,21 +13502,22 @@ The API:
 
 ### RD.6.52a Formal irregularity and good lattice pairs on algebraic curves
 
-**Theorem.** Over any characteristic-zero field `F`, develop the formal slope decomposition of a differential module over `F((t))`, its irregularity `Irr=Σ slope·multiplicity`, and invariance under finite constant extension and change of parameter. For a meromorphic connection on a smooth proper curve `C` with poles in a reduced finite divisor `Z`, there exist vector-bundle lattices `L⊂L′⊂j_*V` with `∇L⊂L′⊗Ω¹_C(log Z)` such that `[L→L′⊗Ω¹_C(log Z)]→j_*[V→V⊗Ω¹_U]` is a quasi-isomorphism. Their local lengths satisfy `length_{O_{C,z}}(L′/L)=Irr_z(V)`; in particular the length is independent of the chosen good pair.
+**Theorem.** Over any characteristic-zero field `F`, develop finite-ramification formal normal forms of differential modules over `F((t))`: after finite constant extension and ramification they split as exponential factors tensored with regular-singular modules. In a compatible formal basis the irregular terms are commuting semisimple operators, commuting with the regular-singular residue. Prove ramified descent of the classification and slope decomposition. Define irregularity `Irr=Σ slope·multiplicity` and prove its invariance under finite constant extension and change of parameter. For a meromorphic connection on a smooth proper curve `C` with poles in a reduced finite divisor `Z`, there exist vector-bundle lattices `L⊂L′⊂j_*V` with `∇L⊂L′⊗Ω¹_C(log Z)` such that `[L→L′⊗Ω¹_C(log Z)]→j_*[V→V⊗Ω¹_U]` is a quasi-isomorphism. Their local lengths satisfy `length_{O_{C,z}}(L′/L)=Irr_z(V)`; in particular the length is independent of the chosen good pair.
 
 *Hypotheses.* `U=C∖Z`, `j:U→C`, `F` of characteristic zero. A good pair means that its de Rham complex is unchanged up to quasi-isomorphism after simultaneously allowing any further poles along `Z`. Formal slopes are obtained after finite ramification and constant extension by exponential factors tensored with regular-singular modules; descent defines their multiset over `F((t))`.
 
-*Proof sketch.* Prove formal slope decomposition and descent, then choose logarithmic lattices on the regular-singular factors and compatible lattices on the irregular factors. The quotient lengths descend and equal the sum of the pole orders of the exponential factors divided by the ramification degree. Good formal pairs glue to algebraic lattices; the quotient complexes for adding poles are acyclic. Thus their coherent complex computes algebraic de Rham cohomology. The invariant here is a lattice length, rather than the Euler characteristic of the full formal Laurent-series complex.
+*Proof sketch.* Use the cyclic-vector theorem of RD.1.5–RD.1.6 to prove the formal normal-form theorem and ramified descent, then choose logarithmic lattices on the regular-singular factors and compatible lattices on the irregular factors. The quotient lengths descend and equal the sum of the pole orders of the exponential factors divided by the ramification degree. Good formal pairs glue to algebraic lattices; the quotient complexes for adding poles are acyclic. Thus their coherent complex computes algebraic de Rham cohomology. The invariant here is a lattice length, rather than the Euler characteristic of the full formal Laurent-series complex.
 
 *Sources.* Deligne, *Équations différentielles à points singuliers réguliers*, pp. 110–112; Malgrange, *Sur les points singuliers des équations différentielles*, §§2–3; Beilinson–Bloch–Deligne–Esnault, *Periods for irregular connections on curves*, §3.1, Definitions 3.1 and 3.3, Remarks 3.2 and 3.4, pp. 24–26.
 
-*Needs:* [§RD.1.1](#rd-1-1) *Connections and their differential-module API*; AlgebraicCurves Layers 3–4 and 9 *Divisors, Riemann–Roch and differentials*; Tau Ceti `TauCeti.genus` and Riemann–Roch spaces; SchemeAndStackFoundations §§0.1, 4.10 *Coherent sheaves and formal completion*.
+*Needs:* [§RD.1.5](#rd-1-5) *Katz cyclic-vector theorem*; [§RD.1.6](#rd-1-6) *Rescaling a nonzero derivation*; FormalLaurentPuiseux Layers L1–L6 *Scalar Laurent/Puiseux fields and formal calculus*; [§RD.1.1](#rd-1-1) *Connections and their differential-module API*; AlgebraicCurves Layers 3–4 and 9 *Divisors, Riemann–Roch and differentials*; Tau Ceti `TauCeti.genus` and Riemann–Roch spaces; SchemeAndStackFoundations §§0.1, 4.10 *Coherent sheaves and formal completion*.
 
 **Checks.**
 
 - For `d−t⁻²dt`, `Irr=1` and the pair `L=F[[t]], L′=t⁻¹F[[t]]` has length one. On the full Laurent-series field, `∂−t⁻²=−t⁻²(1−t²∂)` is bijective by its t-adically convergent inverse, so its formal index is zero.
 - A regular-singular connection admits a good pair with `L=L′`, hence length and irregularity zero; residues are chosen so that adding poles creates no cohomology.
 - Direct sums add the local lengths and irregularities; at a closed point the contribution to degree over `F` is `[κ(z):F]·Irr_z`.
+- Restricting the line with exponential factor `u⁻¹` along `t=u²` gives a rank-two module of slope `1/2`. After ramification it splits into the factors `u⁻¹` and `−u⁻¹`, exchanged by `u↦−u`; descent retains irregularity one.
 
 
 <a id="rd-6-53"></a>
@@ -13757,6 +13798,8 @@ The API:
 **Theorem.** Let `K` be a field in a fixed universe, `(C, ⊗)` an essentially small K-linear rigid abelian symmetric monoidal category in that universe with `End(1) = K`, and `ω : C → Vec_K` an exact faithful K-linear symmetric monoidal functor (a fibre functor; `(C, ω)` is a neutral Tannakian category). Then (a) the functor on commutative K-algebras `S ↦ Aut^⊗(ω ⊗ S)` is represented by an affine group scheme `G = Spec(B)` over `K`; (b) `ω` lifts to an equivalence of symmetric monoidal categories `C ≃ Rep_K(G)` compatible with the fibre functors, where `Rep_K(G)` is the category of finite-dimensional comodules over `B` (Tau Ceti's FGComoduleCat `K B`); (c) if `C` has a tensor generator `X` (every object is a subquotient of a finite sum of `X^{⊗a} ⊗ (X^∨)^{⊗b}`), then `G` is of finite type and `ω(X)` is a faithful representation, so `G` is a closed subgroup of `GL(ω(X))`.
 
 `Suggested.lean` declares `RD6.neutralTannakian_recognition`.
+
+This recognition theorem is a foundational input to [§RD.5.112a](#rd-5-112a); its construction uses only the library inputs below and precedes that application independently of the layer numbering.
 
 *Hypotheses.*
 
