@@ -172,6 +172,20 @@ map preserves units and induces the inverse on the quotient. -/
 theorem perfectRing_associates [PerfectRing M p] : PerfectRing (Associates M) p := by
   sorry
 
+/-- Quotienting a commutative group by its units leaves a single associate class. -/
+example (G : Type*) [CommGroup G] : Subsingleton (Associates G) := by
+  sorry
+
+/-- With no nontrivial units, the associates quotient identifies no distinct elements. -/
+example (M : Type*) [CommMonoid M] (hM : ∀ u : Mˣ, (u : M) = 1) :
+    Function.Injective (Associates.mk : M → Associates M) := by
+  sorry
+
+/-- The associates quotient of a product with a group removes exactly the group factor. -/
+example (G M : Type*) [CommGroup G] [CommMonoid M] :
+    Nonempty (Associates (G × M) ≃* Associates M) := by
+  sorry
+
 /-- Perfectoid monoids are pseudo-perfectoid. -/
 theorem IsPerfectoid.perfectRing_associates (h : IsPerfectoid M p) : PerfectRing (Associates M) p := by
   sorry
@@ -288,7 +302,15 @@ diamonds and condensed coefficients) are not at the pins.
   prisms; log cotangent complexes of perfectoid pre-log rings.
 * §§8.18–8.35: the relative and absolute log prismatic sites, log prismatic cohomology,
   Čech–Alexander complexes, the log Hodge–Tate comparison, base change, the δ_log-crystalline
-  site and the log crystalline comparison.
+  site and the log crystalline comparison. In §8.24a,
+  `LogPrismaticSite.hodgeTateMap_degree0`, `LogPrismaticSite.hodgeTateMap_degree1`,
+  `LogPrismaticSite.hodgeTateMap_cotangent` and
+  `LogPrismaticSite.hodgeTateMap_degree01_natural` construct the low-degree maps before
+  the log-line calculation. `LogPrismaticSite.hodgeTate_logLine` identifies these maps
+  with `H⁰ = R` and `H¹{1} = R·dlog X₀` and gives vanishing in degrees at least two;
+  §8.27 extends them to a cdga map using that calculation. The crystalline comparison
+  over `(W(k), (p), N → 0)` takes qcqs smooth Cartier-type log schemes over `(k, N → 0)`,
+  for a perfect characteristic-p field k.
 * §§8.36–8.42: log q-PD triples and envelopes, the log q-crystalline site, the log q-de Rham
   complexes, and the comparisons with semistable `AΩ` and the `C_st` diagram.
 * §§8.43–8.58: log quasisyntomic sites and log quasiregular semiperfectoid rings (supplied by
@@ -300,7 +322,11 @@ diamonds and condensed coefficients) are not at the pins.
   and profinite coefficients, log diamonds, the quasi-pro-Kummer-étale site, the Kummer-étale
   comparison, Kummer-étale and p-Kummer local systems, Laurent F-crystals and the corrected
   Laurent realization, and proper smooth saturated pushforward with the Cartier-type mod-p
-  hypothesis in applications of the global comparison.
+  hypothesis in applications of the global comparison. The scheme Kummer-étale site is
+  small. Section 8.60 supplies the shared `TauCeti.LogAdic.LogStructure`,
+  `TauCeti.LogAdic.logification`, `TauCeti.LogAdic.logPullback`,
+  `TauCeti.LogAdic.IntegralChart` and `TauCeti.LogAdic.KummerEtaleSite`, with finite-free
+  local systems `NoetherianFsLogAdicSpace.LocalSystem`.
 * §§8.76–8.79: the étale comparison over `A_inf[1/φ⁻¹(μ)]`, the log PD deformation base and
   Frobenius rigidity, the Hyodo–Kato isomorphism over `A_crys`, Breuil–Kisin–Fargues modules,
   and the standard semistable chart.
