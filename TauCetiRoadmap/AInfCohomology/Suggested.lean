@@ -26,7 +26,9 @@ Design choices made explicit here:
   specialization uses the normalized module core owned by CrystallineCohomology CR.4;
   AI.1 extends it to general regular scalars and ringed topoi.
 - The Breuil–Kisin Frobenius on `𝔖 = W(k)[[u]]` is coefficientwise `F` followed by Mathlib's
-  substitution `u ↦ u^p`; the crystalline coefficient map is `F ∘ constantCoeff`.
+  substitution `u ↦ u^p`; the crystalline coefficient map is `F ∘ constantCoeff`. These generic
+  formulas model the coefficient objects supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory
+  R07.4.1 and R07.4.16; the arithmetic maps are transported aliases of that interface.
 - Arithmetic period-ring inputs come from PadicPeriodRings. AI.7 defines Breuil–Kisin cohomology
   by Bott-inverted relative trace descent; its comparison with prismatic cohomology is a
   downstream target, not an input to these coefficient formulas.
@@ -415,12 +417,15 @@ section BreuilKisinCoefficient
 
 variable {R : Type*} [CommRing R]
 
-/-- The Breuil–Kisin Frobenius on `R[[u]]`: `F` on coefficients and `u ↦ u^p`. -/
+/-- The generic power-series formula for the supplied Breuil–Kisin Frobenius:
+`F` on coefficients and `u ↦ u^p`. Its arithmetic specialization uses R07.4.1's map. -/
 def coefficientFrobenius (p : ℕ) (hp : p ≠ 0) (F : R →+* R) : PowerSeries R →+* PowerSeries R :=
   (PowerSeries.substAlgHom (PowerSeries.HasSubst.X_pow hp)).toRingHom.comp (PowerSeries.map F)
 
-/-- The crystalline coefficient map `c = F ∘ constantCoeff : R[[u]] → R`. -/
-def crystallineCoefficient (F : R →+* R) : PowerSeries R →+* R :=
+/-- The generic power-series expression `F ∘ constantCoeff : R[[u]] → R`.
+For `R = W(k₀)` and `F = φ_W`, this models the transported alias `c = ε₁` of
+FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.4.16's `kisinPeriodScalarMaps`. -/
+abbrev crystallineCoefficient (F : R →+* R) : PowerSeries R →+* R :=
   F.comp (PowerSeries.constantCoeff (R := R))
 
 /-- The coefficient formula of the Breuil–Kisin Frobenius. -/
@@ -431,7 +436,8 @@ theorem coefficientFrobenius_formula (p : ℕ) (hp : p ≠ 0) (F : R →+* R)
     PowerSeries.coeff n (coefficientFrobenius p hp F f) =
       if p ∣ n then F (PowerSeries.coeff (n / p) f) else 0 := by sorry
 
-/-- The crystalline map intertwines the Breuil–Kisin Frobenius with `F`. -/
+/-- The generic residue formula intertwines the supplied Breuil–Kisin Frobenius with `F`;
+at `R = W(k₀)` this gives the cohomological compatibility of the imported `ε₁`. -/
 theorem crystallineCoefficient_comp (p : ℕ) (hp : p ≠ 0) (F : R →+* R) :
     (crystallineCoefficient F).comp (coefficientFrobenius p hp F) =
       F.comp (crystallineCoefficient F) := by sorry
@@ -474,6 +480,17 @@ example (p : ℕ) [Fact p.Prime] :
     -(p : PadicInt p) * (-1) = p ∧ (2 : PadicInt p) * p ≠ 0 := by sorry
 
 end BreuilKisinCoefficient
+
+-- Precomposing the loop z ↦ s zⁿ with z ↦ zᵖ preserves s and multiplies its weight by p.
+example (p n : ℕ) (s z : Circle) :
+    (fun w : Circle => s * w ^ n) (z ^ p) = s * z ^ (p * n) := by sorry
+
+-- On weight pn, residual rotation by [λ] becomes weight n through [λ] ↦ λᵖ.
+example (p n : ℕ) (s t : Circle) :
+    t ^ (p * n) * s = (t ^ p) ^ n * s := by sorry
+
+-- At weight one, p = 2 and t = −1, raising the circle coordinate to p fails equivariance.
+example : ((-1 : Circle) * 1) ^ 2 ≠ (-1 : Circle) * (1 : Circle) ^ 2 := by sorry
 
 /-! ## Targets stated in README.md only
 
@@ -519,7 +536,9 @@ the canonical multiplicative differential-form identification deduced from these
 `AOmega.wittPre`, `AOmega.wittImproved`, `AInf.boundedPD`
 (`AInf.bounded_pd_coefficients`).
 
-Layer AI.5: `AOmega.proper`.
+Layer AI.5: `AOmega.proper`. In `AInf.crystalline_frobenius_bijective`, the ordinary
+Frobenius base-change formula has `Y = 𝔛_(O_C/p)` for a proper smooth p-adic formal
+`O_C`-scheme. The rational Frobenius-isogeny clause retains arbitrary qcqs smooth `Z`.
 
 Layer AI.6: `Semistable.chartRing`, `Semistable.divisorialLog`, `Semistable.monomialExponents`,
 `Semistable.rootTower`, `Semistable.ainfChartLift`, `Semistable.aOmega`,
@@ -543,6 +562,16 @@ Layer AI.7: `CohomologicalBK.coefficientNormalization`, `AInf.Trace.tate`,
 `AInf.qrsp_trace_unfolding`, `CohomologicalBK.cohomology`, `CohomologicalBK.twistedTrace`,
 `CohomologicalBK.traceDescent`, `CohomologicalBK.twistCompatibility`,
 `CohomologicalBK.choiceTransport`.
+`CohomologicalBK.coefficientNormalization` uses transported aliases of R07.4.16's
+`kisinPeriodScalarMaps`: `g = ι₀`, `f = ι₁`, `constantCoeff = ε₀`, `c = ε₁`, including
+the supplied Eisenstein-kernel identities. `CohomologicalBK.twistCompatibility` extends
+R07.4.15's imported `𝔖{1}` and conormal/Frobenius data to the intrinsic `A_inf{1}`.
+`AInf.relative_cyclotomic_traces` uses loop precomposition: `(s,n) ↦ (s,pn)` with the
+target action transported through `𝕋/C_p ≃ 𝕋`, `[λ] ↦ λ^p`; weight zero stays a point.
+`AInf.Trace.bokstedtSpectralSequence` imports DGAInfinity Layer 8's normalized chains.
+Internal homological degree `t` corresponds to cohomological degree `−t`, and
+Hochschild length `s` contributes `−s`, so total degree is `−(s+t)`; its boundary
+lowers length and preserves `t`. AI.7 supplies the skeletal identification and spectral structures.
 `AInf.Trace.tateFinite` is BordismFormalGroups F6.5's finite-group Tate functor transported
 through EnhancedDerivedSheaves E5:spectra-comparison. `AInf.Trace.tateOrbit` and
 `AInf.Trace.completedTateComparison` give the bounded-below Tate-orbit vanishing and the
