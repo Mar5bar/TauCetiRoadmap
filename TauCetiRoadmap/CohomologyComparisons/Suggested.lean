@@ -12,8 +12,10 @@ the statements whose carriers exist at the pins, proved by `sorry` unless a shor
 The comparison theorems of the roadmap concern A_inf, crystalline, prismatic, infinitesimal,
 Hyodo–Kato and pro-étale cohomology of formal schemes and rigid spaces, none of which exists at the
 pins. AInfCohomology §AI.6.5 supplies canonical `B_dR⁺` cohomology and its envelope maps.
-The remaining heavy objects (the relative infinitesimal site, the graded Beilinson square, the
-logarithmic period sheaf on modular curves and the affinoid-perfectoid flag basis) are README targets with their intended signatures; the closing
+PrismaticCohomologyPartIII §7.0 supplies the graded Beilinson square.
+The remaining heavy objects (the relative infinitesimal site, analytic-to-perfect coefficient
+extension, logarithmic period sheaf on modular curves and affinoid-perfectoid flag basis) are
+README targets with their intended signatures; the closing
 comment lists them.
 
 Design choices made explicit here:
@@ -31,7 +33,8 @@ Design choices made explicit here:
 - The algebraic interface to AInfCohomology §AI.6.5’s presented envelope completes along the
   whole presentation kernel (`AdicCompletion (RingHom.ker e) P`).
 - Monodromy transport under a change of uniformizer is `exp(-c N)` (`IsNilpotent.exp`), for the
-  evaluation convention `T_{πu} = T_π + log_K u` and period monodromy `N = -d/dT`.
+  negative evaluation convention and period monodromy `N_Bst = -d/dT`: raw arithmetic
+  `N_raw` and normalized `N_norm = N_raw / e` use `c = log_K u` and `c = e log_K u` respectively.
 - Truncated torsion length is the `ℕ∞`-valued `Module.length` of `M_tor / π^n M_tor`.
 - Projective bundles use quotient lines: `hⁿ - c₁ hⁿ⁻¹ + ⋯ + (-1)ⁿ cₙ = 0`.
 -/
@@ -165,12 +168,17 @@ theorem fontaineTheta_xiOf [IsDomain O] {ε : PreTilt O p} (hε : IsPrimitiveRoo
     WittVector.fontaineTheta O p (xiOf O p ε) = 0 := by
   sorry
 
-/-- A delayed primitive root system fails the first-root test, while its inverse Frobenius
-is primitive. -/
-example (ε : PreTilt O p) (hfirst : PreTilt.untilt (epsRoot O p ε) = 1)
-    (hsecond : PreTilt.untilt (epsRoot O p (epsRoot O p ε)) ≠ 1) :
-    ¬ IsPrimitiveRootSystem O p ε ∧ IsPrimitiveRootSystem O p (epsRoot O p ε) := by
-  exact ⟨fun h => h.2 hfirst, hfirst, hsecond⟩
+/-- Raising a primitive system to `p` constructs a delayed system whose first root is the
+original system, whose first-root test fails, and whose second root has nontrivial untilt. -/
+example {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε) :
+    let ε' := ε ^ p
+    epsRoot O p ε' = ε ∧ ¬ IsPrimitiveRootSystem O p ε' ∧
+      PreTilt.untilt (epsRoot O p (epsRoot O p ε')) ≠ 1 := by
+  have hroot : epsRoot O p (ε ^ p) = ε := by
+    exact (_root_.frobeniusEquiv (PreTilt O p) p).symm_apply_apply ε
+  dsimp only
+  rw [hroot]
+  exact ⟨rfl, fun h => h.2 (hroot.symm ▸ hε.1), hε.2⟩
 
 /-- A primitive system gives a nontrivial first root and zero `θ`-image of `μ`. -/
 example {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε) :
@@ -255,6 +263,11 @@ section IntegersOfC
 
 variable [IsDomain O] [ValuationRing O] [Ring.KrullDimLE 1 O] [CharZero O]
   [IsAlgClosed (FractionRing O)]
+
+/-- The ring of integers of an algebraically closed complete mixed-characteristic field
+admits a primitive compatible system of `p`-power roots of unity. -/
+example : ∃ ε : PreTilt O p, IsPrimitiveRootSystem O p ε := by
+  sorry
 
 /-- For `O = O_C`, `ker θ = (ξ)` (BMS1, Example 3.16, p.25). -/
 theorem ker_fontaineTheta {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε) :
@@ -460,8 +473,10 @@ section Monodromy
 variable {K A : Type*} [Field K] [Ring A] [Algebra K A] [Module ℚ A]
 
 /-- The transport `exp(-c N)` of horizontal sections under the change of coordinate
-`T' = T + c`, for a nilpotent monodromy `N`; with `c = log_K u` it relates the Hyodo–Kato
-isomorphisms of the uniformizers `π` and `πu` (Česnavičius–Koshikawa, §9.1, p.75). -/
+`T' = T + c`, for a nilpotent monodromy `N`. For uniformizers `π` and `πu`, the negative
+evaluation convention uses `c = log_K u` with raw arithmetic monodromy, or `c = e log_K u`
+with `N_norm = N_raw / e`, where `e = v_π(p)` (Česnavičius–Koshikawa, §9.1, p.75;
+PadicHodgeTheory §8.1). -/
 noncomputable def monodromyTransport (c : K) (N : A) : A :=
   IsNilpotent.exp (-(c • N))
 
@@ -488,6 +503,15 @@ example (c : ℚ) :
     ext i j; fin_cases i <;> fin_cases j <;> simp [sq, Matrix.mul_apply, Fin.sum_univ_two]
   rw [monodromyTransport, IsNilpotent.exp_eq_sum hN]
   ext i; fin_cases i <;> simp [Finset.sum_range_succ, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+
+/-- At ramification index two, transport of normalized monodromy uses twice the logarithm
+and agrees with transport of the raw operator. -/
+example (c : ℚ) :
+    monodromyTransport (2 * c) ((1 / 2 : ℚ) • !![(0 : ℚ), 1; 0, 0]) =
+      monodromyTransport c !![(0 : ℚ), 1; 0, 0] ∧
+    (monodromyTransport (2 * c) ((1 / 2 : ℚ) • !![(0 : ℚ), 1; 0, 0])).mulVec ![0, 1] =
+      ![-c, 1] := by
+  sorry
 
 /-- The Tate-curve `(φ, N)` witness: `φ = diag(1, p)` and `N e₁ = e₀` satisfy `Nφ = pφN` with
 `N ≠ 0`; the opposite relation `φN = pNφ` fails. -/
@@ -573,16 +597,19 @@ theta_xi, witt_xi, witt_mu, ker_theta, witt_frobenius and thetaTilde_xiTilde. Th
 and zero-truncation checks monodromyTransport_zero_left, monodromyTransport_zero_right and
 truncatedTorsionLength_zero are examples above.
 
-README targets not declared here, because their carriers do not exist at the pins or because they
-are constructions rather than light definitions: the formal, analytic and crystalline dictionaries
-and site compatibilities of Layer 0; the A_inf input package and its de Rham, Hodge–Tate, Witt,
+README constructions and supplier interfaces not declared here, because their carriers do not
+exist at the pins or because they are not light definitions: the formal, analytic and crystalline dictionaries
+and site compatibilities of Layer 0; `F_GR`, the Frobenius transport of GR’s coefficient
+diagram to the canonical one; the A_inf input package and its de Rham, Hodge–Tate, Witt,
 A_cris, étale and prismatic specializations of Layer 1;
 `RelativeInfinitesimalSite` with `RelativeInfinitesimalSite.envelope`, `envelope_selfProduct`,
-`envelope_cech` and `envelope_framing`, and the relative comparisons of Layer 2 (the canonical
+`envelope_cech` and `envelope_framing`, `PerfectPrismaticFCrystal`, `analyticToPerfect`,
+`perfectCrystallineRealization`, `perfectRelativeCohomology` and the relative comparisons of Layer 2 (the canonical
 deformation and envelope maps come from AInfCohomology §AI.6.5); the rational crystalline
-comparisons, `gradedBeilinsonSquare` with `gradedBeilinsonSquare_map`, `gradedBeilinsonSquare_zero`,
+comparisons; the supplied PrismaticCohomologyPartIII §7.0 interface `gradedBeilinsonSquare`
+with `gradedBeilinsonSquare_map`, `gradedBeilinsonSquare_zero`,
 `gradedBeilinsonSquare_cartesian`, `gradedBeilinsonSquare_integral` and
-`gradedBeilinsonSquare_local`, and the nearby-cycle square of Layer 3; the semistable and Beilinson
+`gradedBeilinsonSquare_local`, and the locally constructed nearby-cycle square of Layer 3; the semistable and Beilinson
 comparisons, `RigidHyodoKatoCohomology` and proper rigid comparisons of Layer 4; the torsion
 inequalities, lattice recovery and counterexamples of Layer 5; `panModularTower` and
 `panAlmostIntegralComparison`; `panLogPeriod` with `panLogPeriod_restrict`, `panLogPeriod_theta`,
@@ -591,6 +618,6 @@ inequalities, lattice recovery and counterexamples of Layer 5; `panModularTower`
 `panBasis_perfectoid`, `panBasis_finiteLevel` and `panBasis_inter`; `relativeFilteredComparison`
 with its `_functorial` and `_canonical` forms; the trace period with `tracePeriod_spec`,
 `tracePeriod_unique` and `tracePeriod_pow_zero`; `algebraicDeRhamTrace`, the de Rham Gysin and
-cycle maps and the higher crystalline/de Rham Chern class constructions and comparisons; and the
+cycle maps and the higher crystalline/de Rham/prismatic Chern class constructions and comparisons; and the
 truncated period comparisons of Layer 6.
 -/
