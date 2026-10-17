@@ -651,6 +651,13 @@ VanishingCycles.etaleKunneth, VanishingCycles.etaleKunnethCompactSupport,
 VanishingCycles.etaleCohomologicalDimension, VanishingCycles.affineArtinVanishing,
 VanishingCycles.etaleFiniteness, VanishingCycles.lisseDirectImageTransport,
 VanishingCycles.compactSupportFiniteness, VanishingCycles.genericLocalAcyclicity.
+VanishingCycles.localAcyclicity includes tensor stability for ULA K and a locally constant
+perfect Λ-complex L on X with global Tor amplitude [c,d]. Cohomological or Tor amplitude
+[a,b] for K gives the corresponding bound [a+c,b+d] for the tensor.
+VanishingCycles.lisseDirectImageTransport requires proper f:X→S. On a connected locally
+closed Noetherian stratum T, write f_T:X×_S T→T and K_T for the restriction of a bounded
+constructible K with finite invertible coefficients. Constructibility of R(f_T)_*K_T and
+ULA of (f_T,K_T) give lisse Rⁱ(f_T)_*K_T, identified with (Rⁱf_*K)|_T by proper base change.
 
 F.3a: VanishingCycles.HenselianTrait, VanishingCycles.HenselianTrait.inertia,
 VanishingCycles.HenselianTrait.inertia_exact, VanishingCycles.HenselianTrait.genericFiber,
