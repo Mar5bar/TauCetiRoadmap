@@ -6,8 +6,10 @@ import TauCeti.RingTheory.Huber.Restricted.TwoSidedSeries.Convolution
 
 **This file is not the roadmap and it is not exhaustive.** The definitive
 specification is `README.md`. These are suggested forms: definitions and theorem
-signatures statable against the pinned Mathlib and Tau Ceti APIs. Laurent coefficients
-use genuine discrete convolution. Field periods and their geometric structures
+signatures statable against the pinned Mathlib and Tau Ceti APIs.
+The analytic coefficient definitions and norm signatures sketch the supplied
+PadicDifferentialEquationsAndRigidCohomology interface; Laurent multiplication
+uses genuine discrete convolution. Field periods and their geometric structures
 are imported from the lower owners named in the README.
 Coordinate matrices fix covariant Tate periods, negative-derivative monodromy
 and arithmetic Weil Frobenius. Rational supremum estimates carry convergence
@@ -86,26 +88,31 @@ example : Polynomial.derivative
     Polynomial.C (1/2 : ℚ) - Polynomial.C (1/4 : ℚ) * Polynomial.X := by
   sorry
 
-/-! ## Layer 1: Analytic annuli -/
+/-! ## Layer 1: Analytic annuli
+
+These coefficient formulas present the supplier interface of
+PadicDifferentialEquationsAndRigidCohomology §§RD.0.1–RD.0.3 and RD.0.18.
+They specify the imported analytic carriers and their norm conventions.
+-/
 
 section AnalyticCoefficients
 
 variable {K : Type*} [NormedField K]
 
-/-- The coefficient convergence condition for analytic Laurent series on I. -/
+/-- Coefficient presentation of the supplied analytic Laurent convergence condition on I. -/
 def laurentConvergesOn (I : Set ℝ) (a : ℤ → K) : Prop :=
   ∀ ρ ∈ I, Tendsto (fun n : ℤ => ‖a n‖ * ρ ^ n) cofinite (𝓝 0)
 
-/-- The real Gauss supremum; its norm properties require convergence and ρ > 0. -/
+/-- Coefficient presentation of the supplied Gauss norm at a positive radius of convergence. -/
 def gaussNorm (ρ : ℝ) (a : ℤ → K) : ℝ := ⨆ n : ℤ, ‖a n‖ * ρ ^ n
 
-/-- Cauchy's coefficient bound. -/
+/-- The supplied Gauss norm bounds every weighted coefficient. -/
 theorem norm_coeff_mul_le_gaussNorm {I : Set ℝ} {a : ℤ → K}
     (ha : laurentConvergesOn I a) {ρ : ℝ} (hρ : 0 < ρ) (hρI : ρ ∈ I) (n : ℤ) :
     ‖a n‖ * ρ ^ n ≤ gaussNorm ρ a := by
   sorry
 
-/-- definiteness on convergent coefficients. -/
+/-- The supplied Gauss norm is definite on convergent coefficients. -/
 theorem gaussNorm_eq_zero_iff {I : Set ℝ} {a : ℤ → K}
     (ha : laurentConvergesOn I a) {ρ : ℝ} (hρ : 0 < ρ) (hρI : ρ ∈ I) :
     gaussNorm ρ a = 0 ↔ a = 0 := by
@@ -145,9 +152,24 @@ example (c : K) (hc : c ≠ 0) :
     gaussNorm ‖c‖ (fun n : ℤ => if n = 0 then c else if n = 1 then -1 else 0) = ‖c‖ := by
   sorry
 
+/-- The two opposite Laurent monomials have the maximum of their radius norms. -/
+example {ρ : ℝ} (hρ : 0 < ρ) :
+    gaussNorm ρ (fun n : ℤ => if n = -1 ∨ n = 1 then (1 : K) else 0) =
+      max ρ ρ⁻¹ := by
+  sorry
+
 variable [CompleteSpace K] [IsUltrametricDist K]
 
-/-- convergence of the genuine discrete convolution. -/
+/-- The quadratic convolution product has nonzero Gauss norm on its root circle,
+including residue characteristic two. -/
+example (c : K) (hc : c ≠ 0) :
+    gaussNorm ‖c‖
+      ((fun n : ℤ => if n = 0 then -c else if n = 1 then (1 : K) else 0) ⋆ᵣ₊
+       (fun n : ℤ => if n = 0 then c else if n = 1 then (1 : K) else 0)) =
+      ‖c‖ ^ 2 := by
+  sorry
+
+/-- The supplied Laurent convergence condition is closed under discrete convolution. -/
 theorem laurentConvergesOn_convolution {I : Set ℝ} (hI : ∀ ρ ∈ I, 0 < ρ)
     {a b : ℤ → K} (ha : laurentConvergesOn I a) (hb : laurentConvergesOn I b) :
     laurentConvergesOn I (a ⋆ᵣ₊ b) := by
@@ -293,6 +315,26 @@ arithmetic Weil Frobenius inverts again. These are coefficient computations. -/
 example : (1/3 : ℚ)⁻¹ = 3 ∧ (-1/3 : ℚ) / (1/3) = -1 := by
   norm_num
 
+/-- Over F_5 the ordinary example has three affine points and one point at infinity. -/
+example :
+    (Finset.univ.filter (fun P : ZMod 5 × ZMod 5 => P.2 ^ 2 = P.1 ^ 3 + P.1)).card = 3 ∧
+    (Finset.univ.filter (fun P : ZMod 5 × ZMod 5 => P.2 ^ 2 = P.1 ^ 3 + P.1)).card + 1 = 4 := by
+  decide
+
+/-- Over F_3 the supersingular example has three affine points and one point at infinity. -/
+example :
+    (Finset.univ.filter (fun P : ZMod 3 × ZMod 3 => P.2 ^ 2 = P.1 ^ 3 - P.1)).card = 3 ∧
+    (Finset.univ.filter (fun P : ZMod 3 × ZMod 3 => P.2 ^ 2 = P.1 ^ 3 - P.1)).card + 1 = 4 := by
+  decide
+
+/-- The good reduction of 11a1 at three has four affine points and one point at infinity. -/
+example :
+    (Finset.univ.filter (fun P : ZMod 3 × ZMod 3 =>
+      P.2 ^ 2 + P.2 = P.1 ^ 3 - P.1 ^ 2 - 10 * P.1 - 20)).card = 4 ∧
+    (Finset.univ.filter (fun P : ZMod 3 × ZMod 3 =>
+      P.2 ^ 2 + P.2 = P.1 ^ 3 - P.1 ^ 2 - 10 * P.1 - 20)).card + 1 = 5 := by
+  decide
+
 /-! ## Layer 9: Kummer and Tate coordinates -/
 
 /-- Coordinates of an extension action with character `a` and cocycle value `c`. -/
@@ -377,7 +419,7 @@ theorem tateMonodromy_frobenius {R : Type*} [Field R] (r v : R) (hr : r ≠ 0) :
       r • (tatePhiMatrix r * tateMonodromyMatrix v) := by
   sorry
 
-/-- Arithmetic Weil–Deligne Frobenius is the inverse of period Frobenius. -/
+/-- In the semistable Tate normal form, arithmetic Frobenius is inverse to period Frobenius. -/
 theorem tateMonodromy_arithmeticFrobenius {R : Type*} [Field R] (r v : R)
     (hr : r ≠ 0) :
     !![r, 0; 0, 1] * tateMonodromyMatrix v =
@@ -465,13 +507,13 @@ example : (!![(-1/2 : ℚ), 0; 0, -1]) * !![-2, 0; 0, -1] = 1 := by
   fin_cases i <;> fin_cases j <;>
     norm_num [Matrix.mul_apply, Fin.sum_univ_two]
 
-/-- Inverting period Frobenius gives arithmetic Weil Frobenius. -/
+/-- Inverting period Frobenius gives arithmetic Frobenius in the semistable Tate normal form. -/
 example : tatePhiMatrix (3 : ℚ) * !![3, 0; 0, 1] = 1 := by
   sorry
 
 
 /-! The annulus-carrier APIs `gaussNorm_eq_powerSeries_gaussNorm` (§1.1) and
-`gaussNorm_res` (§1.2) are README targets. Their statements use the annulus,
-power-series comparison and restriction maps constructed there. -/
+`gaussNorm_res` (§1.2) are supplied interfaces described in the README. Their statements use the
+supplier’s annulus, power-series comparison and restriction maps. -/
 
 end TauCetiRoadmap.PadicHodgeTheory
