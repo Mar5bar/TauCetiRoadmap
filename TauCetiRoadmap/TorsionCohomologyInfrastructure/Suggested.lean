@@ -28,6 +28,18 @@ namespace TauCetiRoadmap.TorsionCohomologyInfrastructure
 
 open Polynomial
 
+/-! ## Layer 1: period-lattice chart validation -/
+
+/-- The displayed integral plane is isotropic and has both Plücker minors equal to one. -/
+example :
+    let v : Fin 4 → ℤ := ![1, 0, 0, 1]
+    let w : Fin 4 → ℤ := ![0, 1, 1, 0]
+    let A : Matrix (Fin 2) (Fin 4) ℤ := ![v, w]
+    v 0 * w 2 + v 1 * w 3 - v 2 * w 0 - v 3 * w 1 = 0 ∧
+      Matrix.det (A.submatrix id ![0, 2]) = 1 ∧
+      Matrix.det (A.submatrix id ![0, 1]) = 1 := by
+  sorry
+
 /-! ## Layer 2: coherent, completed and torsion cohomology -/
 
 section HeckeTopology
@@ -46,6 +58,16 @@ theorem continuous_heckeInitialTopology_iff {T ι : Type*} [Ring T] {E : ι → 
     [∀ i, Ring (E i)] [∀ i, TopologicalSpace (E i)] (ρ : ∀ i, T →+* E i) {B : Type*}
     [TopologicalSpace B] (f : B → T) :
     @Continuous B T _ (heckeInitialTopology ρ) f ↔ ∀ i, Continuous fun b => ρ i (f b) := by
+  sorry
+
+/-- Restriction of the defining ring actions gives a continuous map from their restricted initial
+topology to the full initial topology. This restricts classical Hecke continuity to the
+commutative unramified algebra used for ambient determinants. -/
+theorem continuous_heckeInitialTopology_restrict {T T' ι : Type*} [Ring T] [Ring T']
+    {E : ι → Type*} [∀ i, Ring (E i)] [∀ i, TopologicalSpace (E i)]
+    (ρ : ∀ i, T →+* E i) (f : T' →+* T) :
+    @Continuous T' T (heckeInitialTopology (fun i => (ρ i).comp f))
+      (heckeInitialTopology ρ) f := by
   sorry
 
 /-- An element killed by every defining action lies in every neighbourhood of `0`, so `T_cl` need
@@ -69,6 +91,15 @@ example (p : ℕ) [Fact p.Prime] :
     let ρ : ∀ _ : Unit, ℤ →+* ℤ_[p] := fun _ => Int.castRingHom ℤ_[p]
     Filter.Tendsto (fun r : ℕ => (p : ℤ) ^ r) Filter.atTop
       (@nhds ℤ (heckeInitialTopology ρ) 0) := by
+  sorry
+
+/-- The second projection prevents powers of `(p, 1)` from converging to zero in the initial
+topology defined by both projections. -/
+example (p : ℕ) [Fact p.Prime] :
+    let ρ : Bool → (ℤ_[p] × ℤ_[p] →+* ℤ_[p]) := fun b =>
+      if b then RingHom.fst _ _ else RingHom.snd _ _
+    ¬ Filter.Tendsto (fun r : ℕ => ((p, 1) : ℤ_[p] × ℤ_[p]) ^ r) Filter.atTop
+      (@nhds (ℤ_[p] × ℤ_[p]) (heckeInitialTopology ρ) 0) := by
   sorry
 
 end HeckeTopology
@@ -124,6 +155,15 @@ example : weightedProduct (C (2 : ℤ)) (C 3) (-1) = C 6 := by
 /-- Opposite scaling: `(1 - 2X)` and `(1 - 3X)` at `u = 2` give `(1 - X)(1 - 6X)`. -/
 example : weightedProduct (1 - C (2 : ℚ) * X) (1 - C 3 * X) (Units.mk0 (2 : ℚ) (by norm_num)) =
     1 - C 7 * X + C 6 * X ^ 2 := by
+  sorry
+
+/-- Swapping the two factors at the same nontrivial twist changes the linear coefficient. -/
+example :
+    let u : ℚˣ := Units.mk0 2 (by norm_num)
+    weightedProduct (1 - C (3 : ℚ) * X) (1 - C 2 * X) u =
+        1 - C (11 / 2 : ℚ) * X + C 6 * X ^ 2 ∧
+      weightedProduct (1 - C (3 : ℚ) * X) (1 - C 2 * X) u ≠
+        (1 - C (7 : ℚ) * X + C 6 * X ^ 2) := by
   sorry
 
 /-- Collision at the trivial twist: the factors can be interchanged. -/
@@ -371,6 +411,23 @@ example (q a b : R) :
     (1 - C a * X) * (1 - C b * X).comp (C q * X) = 1 - C (a + q * b) * X + C (q * a * b) * X ^ 2 := by
   sorry
 
+/-- The real rank-one ambient polynomial has degree three, while its extracted Levi factor
+has degree one. -/
+example :
+    let P : ℚ[X] := 1 - C 2 * X
+    let A : ℚ[X] := (1 - X) * P * normalizedReciprocal 1 P (Units.mk0 (-2) (by norm_num))
+    A.natDegree = 3 ∧ P.natDegree = 1 ∧ A ≠ P := by
+  sorry
+
+/-- In the trivial CM rank-one system, conjugate reciprocity includes substitution by `qX`. -/
+example :
+    let P : ℚ[X] := 1 - C 7 * X
+    let Q : ℚ[X] := normalizedReciprocal 1 P (Units.mk0 (-7) (by norm_num))
+    Q.comp (C 7 * X) = 1 - X ∧
+      P * Q.comp (C 7 * X) = (1 - C 7 * X) * (1 - X) ∧
+      P * Q.comp (C 7 * X) ≠ P * Q := by
+  sorry
+
 end LeviPolynomial
 
 /-! ## Layer 4: assembly, compatibility and validation -/
@@ -402,7 +459,7 @@ over non-vanishing loci, Serre vanishing over an arbitrary base, integral cuspid
 section approximation), the constructible primitive comparison (`constructiblePrimitiveComparison`), amplitude, Iwasawa,
 continuity and descent targets of
 Layer 2 (including the classical cusp action over a finite extension), the homogeneous decomposition, weighted unit law and weighted determinant factors of
-Layer 3a, the cohomological trace input and unitary-similitude base change (`unitarySimilitudeBaseChange`), finite-coefficient descent for each character pair, and determinant targets of Layer 3b, and the boundary filtration, finite torsion,
+Layer 3a, the cohomological trace input and unitary-similitude base change (`unitarySimilitudeBaseChange`), finite-coefficient descent for each character pair, and determinant targets of Layer 3b, and the compact-support product comparison (`compactSupportProductComparison`), boundary filtration, finite torsion,
 integral, four-route, residual and normalisation targets of Layer 4.
 -/
 
