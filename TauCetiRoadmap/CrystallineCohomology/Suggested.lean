@@ -468,6 +468,18 @@ Crystalline.satDRW_degree0_F; Crystalline.satDRW_unit; Crystalline.satDRW_residu
 Crystalline.satDRW_red; Crystalline.satDRW_ofLift.
 
 CR.4.6 The classical and the relative de Rham–Witt complex:
+Relative Frobenius–Verschiebung procomplexes for a specified A → R have W_r(A)-algebra maps
+λ_r : W_r(R) → P_r⁰: λ_r composed with W_r(A → R) equals the specified coefficient map.
+Restriction and F are over Witt restriction and Frobenius on A; V satisfies
+V(F_A(a)·y) = a·V(y). Thus d composed with λ_r is a PD derivation over the specified W_r(A).
+Crystalline.relativeDRW_lift and Crystalline.relativeDRW_lift_noRestriction both use this
+algebra-map condition; the latter omits only restriction and its axioms, and its unique maps
+are maps of differential graded W_r(A)-algebras.
+The Check test_relativeWitt_base_compatibility takes A = R = F_p[t] and the usual
+W_rΩ^*_(F_p[t]/F_p), with coefficients acting by evaluation t ↦ 0 and constant inclusion.
+Its usual λ is not a W_r(A)-algebra map, so this tower is excluded from the relative category.
+At length one a map from the degree-zero W_r(A) tower preserving λ and d would force dt = 0,
+whereas Ω¹_(F_p[t]/F_p) is free on dt for every prime, including 2.
 DiamondsAndVStacks D6.9 supplies the ring-level interface, in namespace DiamondsAndVStacks:
 IsSeminormalRing (unique square/cube roots, Stacks 0EUL), IsSubintegral (ring maps),
 subintegral_lift, subintegral_bijective_of_seminormal, snRing, snMap : R →+* snRing R,

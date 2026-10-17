@@ -5298,7 +5298,10 @@ Mathlib `WittVector.verschiebung_frobenius`.
 for R/A consists of: for each r≥1 a commutative differential graded W_r(A)-algebra P_r=⊕_(n≥0)P_r^n
 (strictly commutative: x²=0 for x of odd degree); restriction maps R:P_(r+1)→P_r of differential
 graded algebras; maps F:P_(r+1)→P_r of graded rings; additive maps V:P_r→P_(r+1) of graded groups;
-and ring maps λ_r:W_r(R)→P_r⁰ compatible with R, F and V on Witt vectors. R commutes with F and V,
+and `W_r(A)`-algebra maps `λ_r : W_r(R) → P_r⁰` compatible with R, F and V on Witt vectors.
+Thus, for the specified base map `α : A → R`,
+`λ_r ∘ W_r(α) = algebraMap(W_r(A), P_r⁰)`.
+R commutes with F and V,
 and the relations are FV=p, FdV=d, Fdλ_(r+1)([x])=λ_r([x])^(p−1)·dλ_r([x]) for x∈R, and
 V(x·F(y))=V(x)·y. Morphisms are families of maps of differential graded W_r(A)-algebras commuting
 with R, F, V and λ. Consequently dF=pFd, Vd=p·dV, V(x·dy_1⋯dy_n)=V(x)·dV(y_1)⋯dV(y_n), VF=V(1)·
@@ -5314,7 +5317,13 @@ TruncatedWittVector.truncate, and F:W_(r+1)(R)→W_r(R), V:W_r(R)→W_(r+1)(R) a
 WittVector.teichmuller through WittVector.truncate. The differential of P_r is W_r(A)-linear.
 Commutative differential graded algebras are strictly commutative (BMS1); for p odd this is
 automatic from graded commutativity, for p=2 it is an axiom. The divided-power property of d is a
-consequence, not an axiom.
+consequence, not an axiom. Write `Res_A` and `F_A` for Witt restriction and Frobenius on the
+base. Restriction and F are over these base maps:
+`R(a·x) = Res_A(a)·R(x)` and `F(a·x) = F_A(a)·F(x)` for `a ∈ W_(r+1)(A)` and `x ∈ P_(r+1)`.
+V is linear after restriction of scalars along `F_A`:
+`V(F_A(a)·y) = a·V(y)` for `a ∈ W_(r+1)(A)` and `y ∈ P_r`.
+These scalar identities follow from the algebra-map condition on λ, its compatibility with
+R and F, and the projection formula for V.
 
 The API:
 
@@ -5339,7 +5348,9 @@ The API:
   d∘λ_(r+1):W_(r+1)(R)→P_(r+1)¹ is a PD derivation over W_(r+1)(A) for the canonical divided powers
   on V W_r(R) (*Canonical divided powers on the Verschiebung ideal of W_r(R)*).
 
-*Proof sketch.* The data and relations are those of BMS1 Definition 10.5 for a Z_(p)-algebra A;
+*Proof sketch.* Each λ is the structure map of a differential graded
+`W_r(R)/W_r(A)`-algebra, so `d ∘ λ_r` vanishes on the specified base `W_r(A)`.
+The data and relations are those of BMS1 Definition 10.5 for a Z_(p)-algebra A;
 Langer–Zink Definition 1.4 is the same with graded commutativity in place of strict commutativity
 and with the restriction maps as the transition maps of a projective system. Consequences:
 V(x·dy)=V(x·FdV(y))=V(x)·dV(y) by FdV=d and the projection formula; V(dx)=V(1)·dV(x)=p·dV(x) since d
@@ -5369,6 +5380,14 @@ Rham complex*); Mathlib `TruncatedWittVector`; Mathlib `TruncatedWittVector.trun
 - `test_relativeWitt_constant`: For every Z_(p)-algebra A, the tower {W_r(A)}_r placed in degree 0,
   with d=0, λ=id and the Witt vector F, V and restriction, is an F–V procomplex for A/A; if A is an
   F_p-algebra then VF=FV=p on it.
+- `test_relativeWitt_base_compatibility`: For `A = R = F_p[t]` with identity base map, take
+  `P_r = W_rΩ^*_(F_p[t]/F_p)` with its usual λ and operators, but let `W_r(A)` act through
+  evaluation `t ↦ 0` and the constant `W_r(F_p)` action. This has a base-linear differential
+  and satisfies the displayed operator relations, but λ is not a `W_r(A)`-algebra map:
+  at length one λ sends `t` to `t`, whereas the specified coefficient map sends it to `0`.
+  It is excluded from the relative category. A map from the degree-zero tower `W_r(A)`
+  preserving λ and d would force `0 = dt` in `Ω¹_(F_p[t]/F_p)`, where `dt ≠ 0` for every prime,
+  including `p = 2`.
 - In every F–V procomplex dF=pFd, Vd=p·dV and VF=V(1)·; over A=Z/p², V(1)≠p in W_2(A): their Witt
   coordinates of index 0 are 0 and p.
 - For a unit u of R and dlog[u]=[u]⁻¹·d[u]: F(dlog[u])=dlog[u] and d(dlog[u])=0; on the torus
@@ -5393,7 +5412,8 @@ W_(r−1)(R) are those of *Canonical divided powers on the Verschiebung ideal of
 
 The API:
 
-- `Crystalline.relativeDRW_lift`: Every F–V procomplex P for R/A receives a unique morphism of F–V
+- `Crystalline.relativeDRW_lift`: Every F–V procomplex P for R/A, with
+  `λ_r ∘ W_r(A → R) = algebraMap(W_r(A), P_r⁰)`, receives a unique morphism of F–V
   procomplexes from {W_rΩ^*_(R/A)}_r (maps of differential graded W_r(A)-algebras commuting with R,
   F, V and λ).
 - `Crystalline.relativeDRW_zero`: W_rΩ⁰_(R/A)=W_r(R) and W₁Ω^*_(R/A)=Ω^*_(R/A).
@@ -5408,9 +5428,12 @@ The API:
   A′-algebra, then W_rΩ^*_(R/A)=W_rΩ^*_(R/A′), because W_r(A)→W_r(A′) is surjective and the two
   categories of F–V procomplexes coincide.
 - `Crystalline.relativeDRW_lift_noRestriction`: Let Q be a family of commutative differential graded
-  W_r(A)-algebras Q_r (r≥1) with maps F:Q_(r+1)→Q_r, V:Q_r→Q_(r+1) and λ_r:W_r(R)→Q_r⁰ satisfying
-  all axioms of an F–V procomplex except those involving restriction maps. Then there is a unique
-  family of maps of differential graded algebras W_rΩ^*_(R/A)→Q_r commuting with F, V and λ.
+  W_r(A)-algebras Q_r (r≥1) with maps F:Q_(r+1)→Q_r, V:Q_r→Q_(r+1) and
+  `W_r(A)`-algebra maps `λ_r : W_r(R) → Q_r⁰`, so
+  `λ_r ∘ W_r(A → R) = algebraMap(W_r(A), Q_r⁰)`, satisfying all axioms of an F–V procomplex
+  except those involving restriction maps. In particular F is over `F_A` and
+  `V(F_A(a)·y) = a·V(y)`. Then there is a unique family of maps of differential graded
+  `W_r(A)`-algebras `W_rΩ^*_(R/A) → Q_r` commuting with F, V and λ.
 
 *Proof sketch.* Frobenius on PD forms: for a W_r(A)-linear PD derivation ν:W_r(R)→M, the map
 ξ=[x]+V(ρ)↦[x]^(p−1)·ν([x])+ν(ρ) is a W_(r+1)(A)-linear PD derivation W_(r+1)(R)→M_[F]. Its
@@ -5424,7 +5447,8 @@ surjections from the PD forms compatible with restriction and F, let I be the id
 W_rΩ^i; F maps I to zero in W_rΩ^* because FV=p on W_r(R) and FdV=d. On the quotient,
 V(ξ·dη_1⋯dη_i)=V(ξ)·dV(η_1)⋯dV(η_i) is well defined; divide further by the differential graded ideal
 generated by V(ω·F(η))−V(ω)·η, which F also kills (Langer–Zink §1.3). Initiality: for an F–V
-procomplex P the map Ω̆^*_(W_r(R)/W_r(A))→P_r exists because d of P is a PD derivation (*Relative
+procomplex P the map Ω̆^*_(W_r(R)/W_r(A))→P_r exists because λ is a `W_r(A)`-algebra map
+and `d ∘ λ` is a PD derivation over that base (*Relative
 Frobenius–Verschiebung procomplexes*, d_pd) and it commutes with F; by induction on r it kills both
 ideals, by V(x·dy_1⋯dy_n)=V(x)·dV(y_1)⋯dV(y_n) and the projection formula in P. Uniqueness holds
 because W_rΩ^* is generated by W_r(R) and dW_r(R). The argument uses F, V and λ of P at levels r and
