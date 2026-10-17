@@ -213,6 +213,18 @@ example (n : ℕ) :
     hilbertSamuelFunction ℤ ℤ (Ideal.span {(2 : ℤ)}) n = (n + 1 : ℕ∞) := by
   sorry
 
+/-- Monomials of total degree at most n compute the two-variable cumulative length. -/
+example (K : Type u) [Field K] (n : ℕ) :
+    let R := MvPowerSeries (Fin 2) K
+    hilbertSamuelFunction R R (maximalIdeal R) n = (Nat.choose (n + 2) 2 : ℕ∞) := by
+  sorry
+
+/-- Powers of (2) scale cumulative length, including the zero quotient at exponent zero. -/
+example (r n : ℕ) :
+    hilbertSamuelFunction ℤ ℤ (Ideal.span {(2 : ℤ) ^ r}) n =
+      (r * (n + 1) : ℕ∞) := by
+  sorry
+
 example : traceIdeal A A = ⊤ := by
   sorry
 
@@ -582,7 +594,7 @@ principal-unit orbit functor and its hull.
 
 Layer 3: regular-sequence ideal and local complete-intersection presentation adapter and conormal comparisons,
 bounded Hom subcomplex and stable quotient, residue acyclic closure with graded Lie square
-operations and its PBW/Yoneda comparison, stable residue injection, finite resolution/depth comparison, top local-cohomology tensor comparison, explicit Cohen-presentation and noncomplete bounded-complex duality comparisons and canonical CM dual, canonical module, Gorenstein predicate,
+operations and its PBW/Yoneda comparison, stable residue injection, depth_shortExact from residue Ext, finite resolution/depth comparison, top local-cohomology tensor comparison, explicit Cohen-presentation and noncomplete bounded-complex duality comparisons and canonical CM dual, canonical module, Gorenstein predicate,
 type, graded Hilbert
 polynomial and intrinsic/ambient multiplicities, Koszul parameter Euler comparison, superficial reductions and normalization descent for multiplicity one,
 F-finiteness and local-locus adapters, total jets, shifted jet multiplication,
