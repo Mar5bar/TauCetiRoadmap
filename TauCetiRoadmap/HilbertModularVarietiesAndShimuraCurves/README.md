@@ -2804,7 +2804,7 @@ Its API:
 
 - Empty `Σ′` gives one extension.
 - One factor gives two distinct integral actions with equal dyadic reduction.
-- For `ψ_v(Nrd Π_v)=4`, roots ±1/2 work and ±1 fail the scalar compatibility.
+- Over `ℤ₂`, take `ψ_v(Nrd Π_v)=9`: the roots `r=±1/3` are units, are distinct integrally and have equal reduction. Their right-translation eigenvalues are `±3`, whose squares are 9; `r=±1` fails scalar compatibility.
 
 (Source: [KW09](#references) §7 (opening), pp.58–59.)
 
@@ -3084,21 +3084,22 @@ Its API:
 
 ### R18.4.3 Integral torsion and reduction criteria
 
-**Theorem** (`IntegralCohomologyControl`). For a maximal ideal m of the good-place Hecke algebra, if `H⁰(X, L_k)_m` and `H⁰(X, L_k∨(1))_m` vanish, then the localized `H¹(X, L_O)_m` is finite free over O, `H²(X, L_O)_m` has no O-torsion, and `H¹(X, L_O)_m⊗k→H¹(X, L_k)_m` is an isomorphism. Proving these vanishings for the intended non-Eisenstein systems is an explicit quaternionic coefficient-system obligation; arbitrary non-Eisenstein language alone is not substituted for them.
+**Theorem** (`IntegralCohomologyControl`). For a maximal ideal m of the good-place Hecke algebra, write `m*=ι(m)` for its corresponding ideal on the Tate-dual coefficients, where `ι(T_v)=S_v⁻¹T_v` and `ι(S_v)=S_v⁻¹`. If `H⁰(X, L_k)_m` and `H⁰(X, L_k∨(1))_{m*}` vanish, then the localized `H¹(X, L_O)_m` is finite free over O, `H²(X, L_O)_m` has no O-torsion, and `H¹(X, L_O)_m⊗k→H¹(X, L_k)_m` is an isomorphism. No equality `m=m*` is assumed. Proving these vanishings for the intended non-Eisenstein systems is an explicit quaternionic coefficient-system obligation; arbitrary non-Eisenstein language alone is not substituted for them.
 
 O is the ring of integers of a finite extension of `ℚ_l`, and the algebraic coefficient lattice is U-stable with a specified central character, trivial on each rational scalar stabilizer, and has finite reductions descending through the effective central kernel as in §R18.4.1; an integral coefficient pairing is required where duality is used. Generic integral coefficient long exact sequences, Poincaré duality, and compatible Hecke localization.
 
-*Proof route.* Use the `O→O→k` coefficient exact sequence to identify `H¹[λ]` from `H⁰(L_k)`. Apply duality to control H² torsion using the residual dual `H⁰`. Use finiteness over the DVR for freeness and the coefficient exact sequence for reduction.
+*Proof route.* For a uniformizer λ and residue field k, localize the coefficient sequence `0→L_O→L_O→L_k→0`, with first map multiplication by λ, at m. The first vanishing kills `H¹(X,L_O)_m[λ]`. Residual Poincaré duality pairs `H²(X,L_k)_m` with `H⁰(X,L_k∨(1))_{m*}`, so the second vanishing kills `H²(X,L_k)_m`. The coefficient sequence and Nakayama then give `H²(X,L_O)_m=0`. Finiteness over the DVR gives freeness of H¹, and the same sequence gives the reduction isomorphism, retaining m on the original coefficients and m* on the dual throughout.
 
 **Checks.**
 
 - For constant coefficients on a connected proper curve, unlocalized H⁰ is k, so the criterion needs a localization killing this term.
 - The zero localized coefficient module gives the zero free H¹ and its reduction isomorphism.
 - At `l=2` a rank-one sign monodromy becomes trivial modulo two; characteristic-zero H⁰ vanishing alone does not supply the residual criterion.
+- A good-place eigensystem `(T_v,S_v)=(1,2)` over `F₇` has adjoint `(4,4)`. These maximal ideals differ, so vanishing of the dual group at m cannot replace its vanishing at m*.
 
-(Source: [CDN20](#references) §5.2.1, p.41.)
+(Source: [CDN20](#references) §5.2.1, p.41; Newton–Thorne, [Proposition 3.7(3), p.32](https://arxiv.org/pdf/1511.04913#page=32), for inverse-double-coset adjoints.)
 
-*Needs:* [R18.4.2 Quaternionic finite-level cohomology](#r1842-quaternionic-finite-level-cohomology); [EtaleCohomologyFoundations, §§F.0–F.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/EtaleCohomologyFoundations/README.md); [ClassicalAdicEtaleCohomology, §§1.1–1.5, 9.2–9.7, 11.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassicalAdicEtaleCohomology/README.md); [ComplexComparisonPartII, §§C6.3–C6.6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ComplexComparisonPartII/README.md).
+*Needs:* [R18.4.2 Quaternionic finite-level cohomology](#r1842-quaternionic-finite-level-cohomology); [ArithmeticLocallySymmetricSpaces, ALS.5a.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md#hecke-adjoint-duality); [EtaleCohomologyFoundations, §§F.0–F.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/EtaleCohomologyFoundations/README.md); [ClassicalAdicEtaleCohomology, §§1.1–1.5, 9.2–9.7, 11.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassicalAdicEtaleCohomology/README.md); [ComplexComparisonPartII, §§C6.3–C6.6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ComplexComparisonPartII/README.md).
 
 ### R18.4.4 Quaternionic cohomological duality
 
@@ -4036,7 +4037,7 @@ For odd p and v∤p require either `1+q_v` nonzero in k or the common residual l
 - Fixing `U_v=D_v×` and its coefficient character fixes the local lift even at `p=2`.
 - The upper-right extension class may vary while `γ_v` is fixed.
 - At `p=3, q_v≡−1, γ(Frob_v)=1` or `−1` gives the same unordered local residual pair `{1,−1}`; an unramified residual representation does not identify the sign.
-- For `ψ_v(Nrd Π)=4` and coefficient root `r=1/2, R_Π` has eigenvalue 2 and `γ(Frob_v)=2`, whose square is 4. Taking the inverse right-action eigenvalue would give 1/2 and square 1/4, contradicting `γ²=ψ`.
+- Over `ℤ₂`, for `ψ_v(Nrd Π)=9` and coefficient root `r=±1/3`, the two roots are distinct units with equal reduction. The corresponding `R_Π` eigenvalue and `γ(Frob_v)` are `±3`, whose squares are 9. Taking the inverse right-action eigenvalue would give `±1/3` and square `1/9`, contradicting `γ²=ψ`.
 
 (Source: [KW09](#references) Lemma 7.2 and remark, pp.60–61 (Gives the level hypotheses and separates the odd-prime residual argument from the dyadic full-level argument. The uniformizer value is computed from the declared right-translation action; the residual sign inference is restricted by the hypotheses above); [Tay06](#references) Lemma 1.7(1), pp.744–745; arithmetic reciprocity convention, p.733 (For the corresponding Steinberg quotient character away from p, its arithmetic uniformizer value equals the U eigenvalue, consistent with the direct right-translation value after local transfer))
 

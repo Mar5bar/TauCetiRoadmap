@@ -564,6 +564,18 @@ example (n : ℤ) :
       ((divisionCharacterValue (-1 : ℤˣ) n : ℤ) : ZMod 2) := by
   sorry
 
+-- `DyadicSignExtension` and `ramifiedSign_independentOfEigenform`: central value nine gives
+-- distinct unit roots ±1/3 with equal reduction and right-translation eigenvalues ±3.
+example : ∃ r : ℤ_[2]ˣ,
+    (↑(r⁻¹) : ℤ_[2]) = 3 ∧ (↑((-r)⁻¹) : ℤ_[2]) = -3 ∧
+    (divisionCharacterValue r 2 : ℤ_[2]) * 9 = 1 ∧
+    (divisionCharacterValue (-r) 2 : ℤ_[2]) * 9 = 1 ∧
+    r ≠ -r ∧
+    (∀ n : ℤ, PadicInt.toZMod (divisionCharacterValue r n : ℤ_[2]) =
+      PadicInt.toZMod (divisionCharacterValue (-r) n : ℤ_[2])) ∧
+    (↑(r⁻¹) : ℤ_[2]) ^ 2 = 9 ∧ (↑((-r)⁻¹) : ℤ_[2]) ^ 2 = 9 := by
+  sorry
+
 /-- The `N`-torsion subgroup of a finite abelian diamond factor `Δ′`. -/
 def QuaternionTWLevel.torsionSubgroup (Δ' : Type*) [CommGroup Δ'] (N : ℕ) : Subgroup Δ' :=
   (powMonoidHom N : Δ' →* Δ').ker
