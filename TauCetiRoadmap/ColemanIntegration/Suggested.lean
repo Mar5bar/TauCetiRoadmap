@@ -1004,6 +1004,12 @@ theorem LFunction_nat_eq_gaussSum_inv_mul_sum_complexPolylog {N : ℕ} [NeZero N
 
 end PositiveIntegerValues
 
+/-- L3.Fc.3 and L3.15: a primitive cube root at `p = 3` is a unit but not a special
+unit, so its syntomic regulator uses distribution and finite base change. -/
+example {ζ : ℂ_[3]} (hζ : IsPrimitiveRoot ζ 3) :
+    ‖ζ‖ = 1 ∧ ‖1 - ζ‖ = (3 : ℝ) ^ (-(1 / 2 : ℝ)) ∧ ‖1 - ζ‖ < 1 := by
+  sorry
+
 /-- L3.Fa.4: a functional taking value `1` on a vector detects its nonzero diagonal tensor,
 whereas alternating projection kills it. For `O = ℤ_(2)`, take the vector `[3]` in
 `Oˣ ⊗ ℚ` and the functional `v₃`. -/
@@ -1055,6 +1061,34 @@ residue field. Number fields give unconditional comparisons; when the residue fi
 the actual reduced quotient equals the unreduced complex. The cup-product denominator in
 symbol weight `k` uses `Symb_(k-1)`. In L3.Fb.5 the square includes localization from the
 unlocalized relative cube, and reads `ℛ ∘ loc = ε_n · (reg ∘ relativityIso)`.
+
+In L3.Fa.2, `cubeRelK.injective_to_generic` uses `NoLowWeightKTheory κ_O` for the
+residue field of a discrete valuation ring `O` with fraction field `F`, and keeps the same
+finite removed-section set `U ⊆ O^♭` over `O` and `F`. The separate
+`cubeRelK.furtherLocalization_injective` over `F` uses `NoLowWeightKTheory F` and an
+inclusion `U ⊆ V ⊆ F ∖ {0, 1}` of finite localization sets. Both maps act on
+`K_n^(n)` of the `(n-1)`-cube for `n ≥ 1`. Their composition requires both vanishing
+hypotheses. L3.Fa.1 supplies them for number fields; at `n = 2` and `O` of characteristic
+zero, BDJ Remark 3.26 gives both injections without Beilinson–Soulé assumptions.
+
+In L3.Fa.5 construction and distribution use L3.Fa.4; spanning and the basis theorem use
+only the complex calculation of L3.Fc.3 with L3.Fc.1. The complex components of
+`cyclotomicDiscriminantDet` and `cyclotomicRegulatorDet` use those constructed classes
+and L3.13. The p-adic components of `cyclotomicRegulatorDet` consume L3.15, whose
+cyclotomic regulator formula uses only construction and distribution, not the basis theorem.
+L3.Fb.5 applies directly to special units; L3.15 supplies the formula at pure p-power roots
+by distribution and finite base change (BDJ proof of Theorem 1.12, p. 910).
+
+In L3.Fd.2, `padicArtinL_brauer_indep` compares Brauer decompositions inside a finite
+totally real quotient `Gal(L/k)` through which the Artin character factors. Each inducing
+character is one-dimensional on a subgroup `H`, its base field is `L^H`, and its kernel
+field is a subfield of `L`, hence totally real. Nonzero interpolation values prove that the
+factors are nonzero meromorphic functions before negative powers are taken. Equality is
+in the field of meromorphic functions on `B` and is independent of the chosen finite
+totally real quotient (BBdJR Theorem 2.9 and (2.10)–(2.11), pp. 6–7). The cancellation
+`1 = 1 + χ_(−4) - χ_(−4)` over `ℚ` is excluded: that inducing character has kernel
+field `ℚ(i)` and identically zero p-adic L-function. At `p = 3, s = -1` totalized
+inversion would give zero instead of `L₃(-1, 1, ℚ) = 1/6`.
 
 The following README APIs specify further targets in these subsections; they do not add
 Lean declarations to the representative signatures above:
