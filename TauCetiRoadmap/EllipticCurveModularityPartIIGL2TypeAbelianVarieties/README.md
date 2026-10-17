@@ -62,8 +62,8 @@ These interfaces describe the inputs to the targets. Each is attached to its own
 | AbelianSchemesAndArithmeticModuli §§A3.3–A3.4 and A6.3 | Image abelian subvarieties and finite-subgroup quotients, including the effect on Tate lattices needed to saturate the endomorphism order. |
 | AbelianSchemesAndArithmeticModuli §§A6.4–A6.8, A6.12, A6.22, A6.26 and A6.30–A6.34 | `End⁰` and `Hom⁰`, rational inverses of isogenies, compatible field structures, matrix-product actions, derivative action, faithful geometric base change, non-CM scalar endomorphisms, and finite étale Weil restriction with its product decomposition. Base change of native Hom and End is already available; the rationalized functoriality and elliptic comparison must respect those maps. |
 | AbelianSchemesAndArithmeticModuli §§A5.1–A5.7 | Complex uniformization and Betti–Tate comparison equivariant for endomorphisms and complex conjugation. Real Frobenius interchanges the two Hodge summands; this is the input for oddness. |
-| ArithmeticGaloisRepresentations Layers 1–6; SmallRamificationAndAbelianVarietyBaseCases §5.1 | Continuous representations, characters, conductors, oddness, recognition by Frobenius polynomials, and the actual Tate components and λ-torsion with coefficient embeddings and isogeny transport. |
-| NeronModelsAndSemistableAbelianVarieties §§5.1, 5.4–5.7 and 6.10 | Good reduction, the integral conductor and local Euler polynomials, and their independence of the auxiliary coefficient prime. |
+| ArithmeticGaloisRepresentations Layers 1–6; SmallRamificationAndAbelianVarietyBaseCases §5.1 | Continuous representations, characters, conductors, oddness, recognition by Frobenius polynomials, and the actual Tate components `TateModule.lambdaTateModule` and λ-torsion with coefficient embeddings and isogeny transport. |
+| NeronModelsAndSemistableAbelianVarieties §§5.0b–5.1, 5.4–5.7 and 6.10 | Good reduction, the integral conductor and local Euler polynomials, and their independence of the auxiliary coefficient prime. |
 | FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.1.19, R07.4.19 and R07.6.1; AlgebraicModularFormsAndSerreWeights R15.4 | The crystalline comparison, Hodge–Tate weights and finite-flat weight-two recipe. |
 | ModularCurvesPartII Layers 3–6, 13, 16 and §17.3; JacobianChallenge Layer F | Native `X₁(N)`, `X₀(N)`, `J₁(N)`, `J₀(N)`, degeneracy maps, `A_f`, coefficient-field and Hecke actions, rational cusps and the generating pointed Abel–Jacobi map. Include all positive low levels used in the zero-Jacobian tests. |
 | ModularCurvesPartII §§13.2–13.3 and 16.1–16.4 | The actual Hecke operator and coefficient-field actions. The `J₀(23)` worked checks below take the explicit data `dim J₀(23) = 2`, `T₂²+T₂−1 = 0`, and `End⁰ = ℚ[T₂] ≃ ℚ(√5)` as hypotheses. |
@@ -193,9 +193,14 @@ AbelianSchemesAndArithmeticModuli §§A6.4, A6.22 and A6.26.)
 
 ### GT.1/lie-algebra-divisibility — The degree of an acting division algebra divides the dimension
 
-Prove that if a finite-dimensional division ℚ-algebra D acts unitally on `End⁰_ℚ(A)`, then `dim_ℚ D` divides dim A. Consequently an E-stable, nonzero abelian subvariety B of a `GL₂(E)`-type A equals A. Stability here is up to isogeny: integer multiples of every element of E act on B.
+Prove that if a finite-dimensional division ℚ-algebra D acts unitally on `End⁰_ℚ(A)`, then `dim_ℚ D` divides dim A. Consequently an E-stable, nonzero abelian subvariety B of a `GL₂(E)`-type A equals A. Stability here is up to isogeny: nonzero integer multiples of every element of E act on B.
 
-the map `D → End⁰_ℚ(A)` sends 1 to the identity; B is stable under E up to isogeny: every `e ∈ E` has a multiple `n·e ∈ End_ℚ(A)` mapping B into B.
+the map `D → End⁰_ℚ(A)` sends 1 to the identity; B is stable under E up to isogeny: every `e ∈ E` has a nonzero integer multiple `n·e ∈ End_ℚ(A)` mapping B into B.
+For a closed-immersion homomorphism `f : B → A`, `GL2Type.IsStable ι f`
+requires, for each `e`, integral endomorphisms `a` of A and `b` of B and
+`n ∈ ℤ`, `n ≠ 0`, with `a = n·ι(e)` in `End0 A` and `a ∘ f = f ∘ b`.
+The conclusion `GL2Type.stable_subvariety_surjective` says that f is surjective
+when B has positive dimension and `[E:ℚ] = dim A`.
 
 The proof uses the following steps.
 
@@ -207,6 +212,9 @@ The proof uses the following steps.
 
 - For `E × E` with E an elliptic curve over ℚ, every quadratic field acting has degree `2 = dim`; no cubic field acts.
 - Over `𝔽_p` the tangent-space argument fails: the Frobenius endomorphism acts by zero on Lie.
+- On `B₀ × B₀` with `dim B₀ = 1` and the regular `ℚ(√2)`-action, the first
+  factor is not stable: the matrix of `√2` sends it to the second factor. Allowing
+  `n = 0` would incorrectly declare it stable and contradict the conclusion.
 
 *Needs:* `TauCeti.AlgebraicGeometry.AbelianVariety.TangentSpace`; `AbelianSchemesAndArithmeticModuli A6`; `TauCeti.AlgebraicGeometry.AbelianVariety`; `SmallRamificationAndAbelianVarietyBaseCases §5.1`; `TauCeti.AlgebraicGeometry.AbelianVariety.finrank_tangentSpace_eq_dim`.
 
@@ -343,16 +351,20 @@ f is a newform: an eigenform for all `T_n` and diamond operators, new at level N
 The proof uses the following steps.
 
 1. `dim A_f = [K_f : ℚ]` and the `K_f`-action are ModularCurvesPartII §§16.1–16.7; so `A_f` is of `GL₂(K_f)`-type.
-2. `V_ℓ(A_f) ≅ ⊕_{λ|ℓ} ρ_{f,λ}` (AutomorphicGaloisRepresentations §§6.1–6.4), with the `ρ_{f,λ} ⊗ ℚ̄_ℓ` for the different embeddings `σ : K_f → ℚ̄_ℓ` absolutely irreducible (AutomorphicGaloisRepresentations §1.5) and pairwise non-isomorphic: their traces `σ(a_p(f))` at `Frob_p` differ for distinct σ because `K_f` is generated by the `a_p(f)`, `p ∤ N` (ModularCurvesPartII §§16.1–16.7). Faltings (FaltingsFinitenessAndIsogenyTheorems §§R28.4.5–R28.4.6) gives `End⁰_ℚ(A_f) ⊗ ℚ_ℓ = End_{G_ℚ} V_ℓ(A_f) = K_f ⊗ ℚ_ℓ`, so `End⁰_ℚ(A_f) = K_f` (Ribet 1980, Cor. 4.2, by a different argument).
-3. A field endomorphism algebra forces ℚ-simplicity (GT.1/ribet-theorem-2-1). The isogeny decomposition of `J₁(N)` follows from the old/new decomposition of `S₂(Γ₁(N))` (Tau Ceti ModularForms layer 3) and the Hecke-equivariant identification of the cotangent space of `J₁(N)` with `S₂(Γ₁(N))`.
+2. `V_ℓ(A_f) ≅ ⊕_{λ|ℓ} ρ_{f,λ}` (AutomorphicGaloisRepresentations §§6.1–6.4), with the `ρ_{f,λ} ⊗ ℚ̄_ℓ` for the different embeddings `σ : K_f → ℚ̄_ℓ` absolutely irreducible (AutomorphicGaloisRepresentations §4.8). Let L be generated by the good-prime eigenvalues outside any chosen finite exceptional set containing the primes dividing Nℓ. ModularForms Layer 8G supplies the conjugate newform for each embedding of `K_f`. If two embeddings agree on L, cross-level strong multiplicity one (ModularForms Layer 5) identifies their conjugate newforms, hence all their coefficients. Since `K_f = ℚ(a_n(f) : n ≥ 1)`, the embeddings agree on `K_f`, proving `L = K_f`. Thus the constituents are pairwise non-isomorphic: distinct embeddings have different good Frobenius traces. Faltings (FaltingsFinitenessAndIsogenyTheorems §§R28.4.5–R28.4.6) gives `End⁰_ℚ(A_f) ⊗ ℚ_ℓ = End_{G_ℚ} V_ℓ(A_f) = K_f ⊗ ℚ_ℓ`, so `End⁰_ℚ(A_f) = K_f` (Ribet 1980, Cor. 4.2, by a different argument).
+3. A field endomorphism algebra forces ℚ-simplicity (GT.1/ribet-theorem-2-1). The isogeny decomposition of `J₁(N)` follows from the old/new decomposition of `S₂(Γ₁(N))` (ModularForms Layer 4 and ModularCurvesPartII §16.7) and the Hecke-equivariant identification of the cotangent space of `J₁(N)` with `S₂(Γ₁(N))`.
 
 **Checks.**
 
-- `N = 11`: `A_f = J₀(11) = X₀(11)`, `K_f = ℚ`.
-- `N = 23`: `A_f = J₀(23)`, `K_f = ℚ(√5)`.
+- `N = 11`: `A_f = J₁(11)` is ℚ-isogenous to `J₀(11) ≃ X₀(11)`, and
+  `K_f = ℚ`, through ModularCurvesPartII §16.6. These curves are not isomorphic:
+  the model `y² + y = x³ − x²` of `X₁(11)` has `j = −4096/11`, whereas
+  `X0_11_model` has `j = −122023936/161051`.
+- `N = 23`: `A_f` is ℚ-isogenous to `J₀(23)` by ModularCurvesPartII §16.6,
+  and `K_f = ℚ(√5)`.
 - `N = 13` on Γ₁: `J₁(13)` is `A_f` for the newform with character of order 6; `K_f = ℚ(√−3)` is CM.
 
-*Needs:* `ModularCurvesPartII §§16.1–16.7`; `AutomorphicGaloisRepresentations §§6.1–6.4`; `AutomorphicGaloisRepresentations §1.5`; `FaltingsFinitenessAndIsogenyTheorems R28.4`; `GT.1/ribet-theorem-2-1`; `ModularForms Layer 3`; `Chebotarev Layer 10`; `ModularForms Layer 8`.
+*Needs:* `ModularCurvesPartII §§16.1–16.7`; `AutomorphicGaloisRepresentations §§6.1–6.4`; `AutomorphicGaloisRepresentations §§1.5 and 4.8`; `FaltingsFinitenessAndIsogenyTheorems R28.4`; `GT.1/ribet-theorem-2-1`; `ModularForms Layers 4–5 and 8G`; `Chebotarev Layer 10`; `ModularForms Layer 8`.
 
 Sources: [Ribet92](#references), §3, p. 4.
 
@@ -369,11 +381,17 @@ The degree-one power returns the original action; the quadratic regular action o
 
 Throughout this layer A is ℚ-simple of GL₂-type, `E = End⁰_ℚ(A)`, S is its set of bad primes, and `ρ_λ` acts on the native `V_λ(A)`. This common hypothesis applies to every target below. The integral model is used whenever residual torsion is mentioned. The layer proves precisely the hypotheses needed to apply the weight-two Serre theorem.
 
+Build the targets in this order: integral-model, frobenius-polynomial,
+crystalline-at-good-primes, determinant-character, odd, absolute-irreducibility,
+coefficient-conjugation, coefficients-generate, inner-twist-field,
+residual-irreducibility, conductor-bound. The crystalline target uses GT.1 and
+the integral model, independently of the determinant character.
+
 ### GT.2/integral-model — The integral model with endomorphism ring `𝒪_E`
 
 Construct the following data. Choose an E-equivariant ℚ-isogeny `A → A′` such that `End_ℚ(A′)` identifies with `𝒪_E`. Such an A′ exists. For every maximal ideal λ of `𝒪_E` the actual group `A′[λ]` is a two-dimensional vector space over `𝔽_λ` with continuous `G_ℚ`-action. Its semisimplification is the semisimplified reduction of `ρ_λ` and is independent of the integral model.
 
-the residual representation of ArithmeticGaloisRepresentations §6.4 (d) requires `𝒪_E ⊆ End_ℚ(A′)`; this node supplies such an A′.
+the residual representation of ArithmeticGaloisRepresentations §6.4, Endomorphism coefficients, requires `𝒪_E ⊆ End_ℚ(A′)`; this node supplies such an A′.
 
 The light bundle `GL2Type.IntegralModel A ι` records the native `variety = A′`,
 a native isogeny `A → A′`, its isogeny proof, an intertwining rational `E`-action,
@@ -388,7 +406,7 @@ The API consists of the following maps and laws.
 
 - `GL2Type.integralModel`: An E-equivariantly isogenous A′ with `End_ℚ(A′) = 𝒪_E`.
 - `GL2Type.integralModel_end`: `End_ℚ(integralModel A) = 𝒪_E` as subrings of E.
-- `GL2Type.residualRep`: `ρ̄_λ : G_ℚ → GL(A′[λ]) ≅ GL₂(𝔽_λ)`, from ArithmeticGaloisRepresentations §6.4 lambdaTorsion.
+- `GL2Type.residualRep`: `ρ̄_λ : G_ℚ → GL(A′[λ]) ≅ GL₂(𝔽_λ)`, from the `A′[λ] = {x ∈ A′[ℓ] : λx = 0}` interface of ArithmeticGaloisRepresentations §6.4, Endomorphism coefficients.
 - `GL2Type.residualRep_finrank`: `dim_{𝔽_λ} A′[λ] = 2`.
 - `GL2Type.residualRep_charpoly`: For `p ∉ S`, `p ∉ λ`: the characteristic polynomial of `ρ̄_λ(Frob_p)` is `X² − ā_p X + ε̄(p)p`, the reduction of GT.2/frobenius-polynomial.
 - `GL2Type.residualRep_ss_indep`: `ρ̄_λ^{ss}` is independent of the integral model and of the lattice.
@@ -397,14 +415,18 @@ The API consists of the following maps and laws.
 
 - `GL2Type.residualRep_elliptic`: For an elliptic curve E₀ over ℚ, `ρ̄_ℓ` is the action on `E₀[ℓ]` of ArithmeticGaloisRepresentations §§6.1–6.4.
 - `GL2Type.residualRep_det` (computation): `det ρ̄_λ = ε̄ · χ̄_ℓ`, the reduction of GT.2/determinant-character.
-- If the rational action fails to carry an algebraic integer into `End A′`, that choice of `A′` and action is not an `IntegralModel`, even if `A′` is isogenous to `A`.
+- Let `B = X₀(11)`, `A = B × B`, and let `E = ℚ(√2)` act by regular matrices.
+  Although `𝒪_E = ℤ[√2]` acts integrally, `End_ℚ(A) = M₂(ℤ)` is noncommutative,
+  so the identity model cannot have `𝒪_E ≃ End_ℚ(A)`. Every isogenous model
+  still has noncommutative rational endomorphisms; `IntegralModel A ι` is empty.
+  This tests both the full-endomorphism equivalence and the simplicity hypothesis.
 - `GL2Type.integralModel_trivial` (degenerate): If `End_ℚ(A) = 𝒪_E` already (for example `A_f` with `𝒪_{K_f}` acting), `A′ = A` is an integral model.
 - `GL2Type.residualRep_not_A_l` (non-example): `A′[ℓ]` is not `A′[λ]` unless `λ = ℓ𝒪_E`: `A′[ℓ] = ⊕_{λ|ℓ} A′[λ^{e_λ}]` has `𝔽_ℓ`-dimension `2[E : ℚ]`.
 
 The proof uses the following steps.
 
 1. For each ℓ put `L_ℓ = 𝒪_E·T_ℓ(A) ⊆ V_ℓ(A)`: a `G_ℚ`-stable, `𝒪_E`-stable lattice containing `T_ℓ(A)`, equal to it for `ℓ ∤ [𝒪_E : End_ℚ(A) ∩ E]`. Then `K = ⊕_ℓ L_ℓ/T_ℓ(A)` is a finite Galois-stable subgroup of `A(ℚ̄)`, `A′ = A/K` (A3, quotients by finite subgroup schemes) has `T_ℓ(A′) = L_ℓ`, and every element of `𝒪_E` preserves every `T_ℓ(A′)`, hence lies in `End_ℚ(A′)` (AbelianSchemesAndArithmeticModuli §§A6.2 and A3.4, saturation of End in `End ⊗ ℤ_ℓ`); so `End_ℚ(A′) = 𝒪_E`.
-2. `T_ℓ(A′)` is free of rank two over `𝒪_E ⊗ ℤ_ℓ` (AbelianSchemesAndArithmeticModuli §A6.12 with ArithmeticGaloisRepresentations §6.4 (d)), so `A′[λ] = T_λ(A′)/λT_λ(A′)` is two-dimensional over `𝔽_λ`, and Brauer–Nesbitt gives the independence of the semisimplification from the lattice, hence from A′.
+2. `T_ℓ(A′)` is free of rank two over `𝒪_E ⊗ ℤ_ℓ` (AbelianSchemesAndArithmeticModuli §A6.12 with ArithmeticGaloisRepresentations §6.4, Endomorphism coefficients), so `A′[λ] = T_λ(A′)/λT_λ(A′)` is two-dimensional over `𝔽_λ`, and Brauer–Nesbitt gives the independence of the semisimplification from the lattice, hence from A′.
 
 **Checks.**
 
@@ -421,7 +443,7 @@ Prove the following. For each good prime p there are `a_p,d_p ∈ 𝒪_E` such t
 
 The proof uses the following steps.
 
-1. Néron–Ogg–Shafarevich: `ρ_λ` is unramified at `p ∉ S`, `p ≠ ℓ`, and `ρ_λ(Frob_p)` is induced by the Frobenius endomorphism `π_p` of the reduction `A_p`, which commutes with E acting by reduction (ArithmeticGaloisRepresentations §6.4 (f), NeronModelsAndSemistableAbelianVarieties §5.0b).
+1. Néron–Ogg–Shafarevich: `ρ_λ` is unramified at `p ∉ S`, `p ≠ ℓ`, and `ρ_λ(Frob_p)` is induced by the Frobenius endomorphism `π_p` of the reduction `A_p`, which commutes with E acting by reduction (NeronModelsAndSemistableAbelianVarieties §5.0b, Good reduction).
 2. For α in the commutant of E in `End⁰(A_p)`, the `E ⊗ ℚ_ℓ`-linear trace `t_ℓ(α)` of α on the free module `V_ℓ(A_p)` (AbelianSchemesAndArithmeticModuli §A6.12) satisfies `Tr_{E⊗ℚ_ℓ/ℚ_ℓ}(e·t_ℓ(α)) = Tr(eα | V_ℓ)` for all `e ∈ E`; the right side is the rational trace of `eα ∈ End⁰(A_p)`, independent of ℓ (AbelianSchemesAndArithmeticModuli §A6.11). Nondegeneracy of the trace form of E (`traceForm_nondegenerate`) gives `t_ℓ(α) ∈ E`, independent of ℓ.
 3. Take `a_p = t(π_p)` and `d_p = (t(π_p)² − t(π_p²))/2`; integrality because `π_p` is integral over ℤ.
 
@@ -429,8 +451,10 @@ The proof uses the following steps.
 
 - For `E = ℚ`: `a_p = p + 1 − #A_p(𝔽_p)` and `d_p = p`.
 - For `J₀(23)`, `p = 2`: `X² − a₂X + 2` with `a₂ = (−1 + √5)/2`.
+- At the bad prime 11 of `X₀(11)`, the local Euler polynomial is linear
+  (`1 − T`); it is excluded from this good-prime quadratic formula.
 
-*Needs:* `ArithmeticGaloisRepresentations §§6.1–6.4`; `NeronModelsAndSemistableAbelianVarieties §§5.4–5.7`; `AbelianSchemesAndArithmeticModuli A6`; `traceForm_nondegenerate`.
+*Needs:* `ArithmeticGaloisRepresentations §§6.1–6.4`; `NeronModelsAndSemistableAbelianVarieties §§5.0b and 5.4–5.7`; `AbelianSchemesAndArithmeticModuli A6`; `traceForm_nondegenerate`.
 
 Sources: [Ribet92](#references), §3, p. 4.
 
@@ -440,22 +464,26 @@ Prove the following. One finite-order E-valued character ε works for all λ: `d
 
 The proof uses the following steps.
 
-1. Choose `ℓ₀ ∉ S` split completely in E (Chebotarev) and `λ₀ | ℓ₀`, so `δ = det ρ_{λ₀} : G_ℚ → ℤ_{ℓ₀}^×`. The good-prime crystalline property below makes δ de Rham. FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.3 and GlobalNumberFields Layers 9–10 identify such a global character over ℚ with an algebraic Hecke character, hence `δ = χ_{ℓ₀}^a·ε₀` with integer `a` and finite-order `ε₀`.
+1. Choose `ℓ₀ ∉ S` split completely in E (Chebotarev) and `λ₀ | ℓ₀`, so `δ = det ρ_{λ₀} : G_ℚ → ℤ_{ℓ₀}^×`. GT.2/crystalline-at-good-primes makes δ de Rham. FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.3 and GlobalNumberFields Layers 9–10 identify such a global character over ℚ with an algebraic Hecke character, hence `δ = χ_{ℓ₀}^a·ε₀` with integer `a` and finite-order `ε₀`.
 2. The determinant has Hodge–Tate weight `1` by GT.2/crystalline-at-good-primes,
-   so `a = 1`. Repeat the character classification for every λ, obtaining
-   `det ρ_λ = ε_λ χ_ℓ` with finite-order `ε_λ`. At good primes away from the
-   coefficient characteristics the common polynomial gives `ε_λ(Frob_p) = d_p/p`.
-   These algebraic finite-order values identify all `ε_λ` through a common algebraic
-   coefficient field, by Chebotarev. The resulting ε is E-valued because these
-   Frobenius values lie in E. For any good p choose λ not over p; that member is
-   unramified at p, proving that the common ε is unramified there as well.
-
-3. `ε(Frob_p) = d_p/p ∈ E` for `p ∉ S ∪ {ℓ₀}`, so ε is E-valued; for every λ, `det ρ_λ` and `εχ_ℓ` agree on `Frob_p` for almost all p, hence are equal (Chebotarev). Comparing `det_{ℚ_ℓ} V_ℓ(A) = χ_ℓ^{dim A}` (ArithmeticGaloisRepresentations §§6.2 and 6.4) with `∏_λ N_{E_λ/ℚ_ℓ}(εχ_ℓ)` gives `N_{E/ℚ}(ε) = 1`. (Ribet argues instead through locally algebraic characters and Grössencharacters of type A₀.)
+   so `a = 1`. At every good prime `p ≠ ℓ₀`, the finite-order factor has value
+   `ε₀(Frob_p) = d_p/p ∈ E`, through the chosen embedding into `ℚ_{ℓ₀}`.
+   Every value in its finite image occurs at such a Frobenius element by
+   Chebotarev. Thus ε₀ is the realization of one finite-order E-valued character ε.
+3. For every λ, compare `det ρ_λ` with `εχ_ℓ` on good Frobenius elements away
+   from ℓ and ℓ₀, using their common coefficients `d_p`. Chebotarev identifies
+   the characters, without a de Rham hypothesis at bad coefficient primes.
+   For any good p choose λ not over p; both `det ρ_λ` and `χ_ℓ` are unramified
+   there, so ε is unramified at p. Comparing
+   `det_{ℚ_ℓ} V_ℓ(A) = χ_ℓ^{dim A}` with
+   `∏_λ N_{E_λ/ℚ_ℓ}(εχ_ℓ)` gives `N_{E/ℚ}(ε) = 1`.
 
 **Checks.**
 
-- For E totally real, `ε = 1` and `det ρ_λ = χ_ℓ`, as in ArithmeticGaloisRepresentations §6.4 (e).
+- For E totally real, `ε = 1` and `det ρ_λ = χ_ℓ`, as in ArithmeticGaloisRepresentations §6.4, Endomorphism coefficients.
 - For `J₁(13)`, ε is the character of order 6 of the newform of level 13, with values in `ℚ(√−3)`.
+- For `X₀(11)` at `λ = 11`, good-prime crystallinity does not apply, but the
+  Frobenius comparison still proves `det ρ₁₁ = χ₁₁`.
 
 *Needs:* `GT.2/frobenius-polynomial`; `GT.2/crystalline-at-good-primes`; GlobalNumberFields Layers 9–10; `FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.3`; `NeronModelsAndSemistableAbelianVarieties §§5.4–5.7`; `ArithmeticGaloisRepresentations §§6.1–6.4`; `Chebotarev Layer 10`; `ArithmeticGaloisRepresentations Layer 2`; `DirichletCharacter`; `cyclotomicCharacter`.
 
@@ -469,12 +497,14 @@ The proof uses the following steps.
 
 1. Fix `ℚ̄ ⊂ ℂ`. The comparison `V_ℓ(A) ≅ H₁(A(ℂ), ℚ) ⊗ ℚ_ℓ` is E-equivariant and identifies complex conjugation c with `F_∞ ⊗ 1`, `F_∞` the real Frobenius on `H₁(A(ℂ), ℚ)`, an E-linear involution of a two-dimensional E-vector space; hence `V_λ ≅ H₁(A(ℂ), ℚ) ⊗_E E_λ` with c acting as `F_∞ ⊗ 1`.
 2. `det_E F_∞ = +1` would force `F_∞ = ±1`, but `F_∞ ⊗ 1` interchanges `H^{-1,0}` and `H^{0,-1}` in `H₁(A(ℂ), ℚ) ⊗ ℂ`, so `F_∞` is not a scalar. Hence `det ρ_λ(c) = −1` and `ε(c) = 1` since `χ_ℓ(c) = −1`.
-3. For E totally real this is also ArithmeticGaloisRepresentations §§6.2 and 6.4 (c) with ArithmeticGaloisRepresentations §6.4 (e); the CM case needs the Hodge decomposition.
+3. For E totally real this is also ArithmeticGaloisRepresentations §6.2 and §6.4, Endomorphism coefficients with ArithmeticGaloisRepresentations §6.4, Endomorphism coefficients; the CM case needs the Hodge decomposition.
 
 **Checks.**
 
 - For an elliptic curve over ℚ, `det ρ_ℓ(c) = −1`.
 - Consequence: the newform attached in GT.3 has even character `ε(−1) = 1`, as weight-two forms must.
+- A scalar action `ρ_λ(c) = ±1` would have determinant `+1` and cannot
+  interchange the two nonzero Hodge summands; it fails the conclusion.
 
 *Needs:* `GT.2/determinant-character`; `AbelianSchemesAndArithmeticModuli A6`; `ArithmeticGaloisRepresentations §§6.1–6.4`; `ArithmeticGaloisRepresentations §4.1`; `Field.absoluteGaloisGroup`.
 
@@ -604,6 +634,9 @@ The proof uses the following steps.
 
 - For `E = ℚ`: an elliptic curve with good reduction at ℓ has crystalline `V_ℓ` with weights {0, 1}.
 - The weights give Serre weight `k = 2` for `ρ̄_λ` (GT.3/serre-witnesses).
+- `X₀(11)` has multiplicative reduction at 11; its 11-adic Tate module is
+  semistable with nonzero monodromy and is not crystalline. The good-reduction
+  hypothesis excludes this case.
 
 *Needs:* `ArithmeticGaloisRepresentations §§6.1–6.4`; `FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.19`; `FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.19`; `TauCeti.AlgebraicGeometry.AbelianVariety.TangentSpace`; `GT.1/lie-algebra-divisibility`; `GT.2/integral-model`; `NeronModelsAndSemistableAbelianVarieties §5.1`.
 
@@ -667,14 +700,16 @@ The proof uses the following steps.
 
 1. Λ is infinite: infinitely many primes split completely in E (Chebotarev), and only finitely many λ are excluded by GT.2/residual-irreducibility.
 2. For `λ ∈ Λ`, `ρ̄_λ : G_ℚ → GL₂(𝔽_ℓ)` is odd (GT.2/odd), absolutely irreducible, finite at ℓ with `det ρ̄_λ|_{I_ℓ} = χ̄_ℓ` (GT.2/crystalline-at-good-primes; ε is unramified at `ℓ ∉ S`), so Serre's weight is `k(ρ̄_λ) = 2` (AlgebraicModularFormsAndSerreWeights R15.4) and its level `N(ρ̄_λ)` divides `cond(A)` (GT.2/conductor-bound).
-3. The strong form of Serre's conjecture (ClassicalSerreModularity R27.6) gives `g_λ` of weight `k(ρ̄_λ) = 2` and level `N(ρ̄_λ)`; compare traces of Frobenius (ArithmeticGaloisRepresentations §6.4 (f), AutomorphicGaloisRepresentations §1.5). The comparison is over a common algebraic closure `𝔽̄_ℓ`; Serre does not assert that the newform’s residue field is already `𝔽_ℓ`.
+3. The strong form of Serre's conjecture (ClassicalSerreModularity R27.6) gives `g_λ` of weight `k(ρ̄_λ) = 2` and level `N(ρ̄_λ)`; compare traces of Frobenius (NeronModelsAndSemistableAbelianVarieties §5.0b, Good reduction, AutomorphicGaloisRepresentations §1.5). The comparison is over a common algebraic closure `𝔽̄_ℓ`; Serre does not assert that the newform’s residue field is already `𝔽_ℓ`.
 
 **Checks.**
 
 - For `dim A = 1` the witnesses have trivial character, as in the parent `(ε = 1)`.
 - For `J₀(23)` and λ above ℓ ≡ `±1` mod 5, `g_λ` can be taken to be the newform of level 23.
+- The prime `λ = 5` for `X₀(11)` is excluded: its rational point of order 5
+  makes the residual representation reducible, despite good reduction at 5.
 
-*Needs:* `GT.2/residual-irreducibility`; `GT.2/odd`; `GT.2/crystalline-at-good-primes`; `GT.2/conductor-bound`; `GT.2/frobenius-polynomial`; `ClassicalSerreModularity R27.6`; `AlgebraicModularFormsAndSerreWeights R15.4`; `Chebotarev Layer 10`; `AutomorphicGaloisRepresentations §1.5`; `GT.2/integral-model`; `GT.2/determinant-character`.
+*Needs:* `GT.2/residual-irreducibility`; `GT.2/odd`; `GT.2/crystalline-at-good-primes`; `GT.2/conductor-bound`; `GT.2/frobenius-polynomial`; `ClassicalSerreModularity R27.6`; `AlgebraicModularFormsAndSerreWeights R15.4`; `Chebotarev Layer 10`; `AutomorphicGaloisRepresentations §1.5`; `GT.2/integral-model`; `GT.2/determinant-character`; `NeronModelsAndSemistableAbelianVarieties §5.0b`.
 
 Sources: [Ribet92](#references), Lemma 4.1 and Lemma 4.2, p. 8; [Ribet92](#references), proof of Theorem 4.4, p. 8.
 
@@ -703,7 +738,14 @@ Prove the following. The infinitely many reductions determine a field isomorphis
 
 The proof uses the following steps.
 
-1. For `λ ∈ Λ_f` the pair `(φ_λ, 𝒪_E → 𝔽_λ)` is a ring map `𝒪_{K_f} ⊗_ℤ 𝒪_E → 𝔽_ℓ`; its kernel `m_λ` lies over a prime of exactly one factor `L_i` of the étale algebra `K_f ⊗_ℚ E = ∏ L_i`, so infinitely many `m_λ` lie over one factor L with embeddings `u : K_f → L`, `v : E → L` (EllipticCurveModularity R29.3).
+1. Put `R = 𝒪_{K_f} ⊗_ℤ 𝒪_E` and let `B = ∏_i 𝒪_{L_i}` be its integral
+   closure in `K_f ⊗_ℚ E = ∏_i L_i`. Both are full finite ℤ-lattices in the same rational algebra, so
+   `R ⊆ B` has finite index D.
+   Discard residue characteristics dividing D, leaving infinitely many λ.
+   The pair `(φ_λ, 𝒪_E → 𝔽_λ)` defines `R → 𝔽_ℓ`, which extends uniquely
+   through `R[1/D] = B[1/D]`. Its kernel therefore selects a unique factor.
+   Infinitely many select one L, with embeddings `u : K_f → L`, `v : E → L`
+   (the finite pigeonhole argument of EllipticCurveModularity R29.3).
 2. For `p ∉ S`, `p ∤ N_f`, the element `u(a_p(f)) − v(a_p(A)) ∈ 𝒪_L` lies in primes above infinitely many ℓ, hence vanishes (EllipticCurveModularity R29.3).
 3. `K_f` is generated by these `a_p(f)` (ModularCurvesPartII §§16.1–16.7 with GT.2/coefficients-generate applied to `A_f`, GT.1/modular-quotient-is-gl2-type) and E by these `a_p(A)` (GT.2/coefficients-generate), so `u(K_f) = v(E)` and `j = v⁻¹ ∘ u`. To identify characters, first use the resulting equality of good traces and Chebotarev–Brauer–Nesbitt (ArithmeticGaloisRepresentations §5.3) to identify the characteristic-zero representations. Their determinants then identify `j(ε_f)` with ε. Trace congruences alone do not give determinant congruences.
 
@@ -711,6 +753,9 @@ The proof uses the following steps.
 
 - For `dim A = 1`, `K_f = ℚ` and `a_p(f) = a_p(A)`: the parent's exact equality.
 - For `J₀(23)` and its newform f, j is the identity of `ℚ(√5)` once E is identified with the Hecke field through the Hecke action; j is unique, as the `a_p` generate.
+- For `K_f = E = ℚ(√5)` at characteristic 5, the rational factors
+  `√5 ↦ ±√5` give the same residual map `√5 ↦ 0`; this characteristic
+  divides D and must be removed before asserting uniqueness of the factor.
 
 *Needs:* `GT.3/fixed-newform`; `EllipticCurveModularity R29.3`; `GT.2/coefficients-generate`; `GT.1/modular-quotient-is-gl2-type`; `ModularCurvesPartII §§16.1–16.7`; `GT.2/determinant-character`; `ArithmeticGaloisRepresentations §5.3`; `ModularForms Layer 8`.
 
@@ -799,7 +844,7 @@ Prove the following. For ℚ-simple GL₂-type A, total reality of E, triviality
 
 The proof uses the following steps.
 
-1. (a) ⇒ (b): with Rosati trivial on E the Weil pairing makes `∧²_{E_λ} V_λ ≅ E_λ(1)` (ArithmeticGaloisRepresentations §6.4 (e)), so `det ρ_λ = χ_ℓ`.
+1. (a) ⇒ (b): with Rosati trivial on E the Weil pairing makes `∧²_{E_λ} V_λ ≅ E_λ(1)` (ArithmeticGaloisRepresentations §6.4, Endomorphism coefficients), so `det ρ_λ = χ_ℓ`.
 2. (b) ⇒ (a): `ε = 1` gives `a_p = ā_p` (GT.2/coefficient-conjugation), so the canonical involution fixes `E = ℚ(a_p)` (GT.2/coefficients-generate) and E is totally real (GT.1/totally-real-or-cm).
 3. (b) ⇔ (c): `A ~ A_f` with `ε_f = ε` via j (GT.3/coefficient-identification); for trivial `ε_f`, `A_f` is isogenous to the quotient of `J₀(N_f)` (ModularCurvesPartII §§16.1–16.7); conversely a simple quotient of `J₀(N)` is isogenous to some `A_g` with g of trivial character.
 
@@ -807,6 +852,9 @@ The proof uses the following steps.
 
 - `J₀(23)`: `E = ℚ(√5)` totally real, `ε = 1`, a quotient of `J₀(23)`.
 - `J₁(13)`: `E = ℚ(√−3)`, ε of order 6, not a quotient of any `J₀(N)`.
+- For `X₀(11)`, the field is ℚ and the character is trivial. The Γ₁ quotient
+  `A_f = J₁(11)` gives the Γ₀ parametrisation through its isogeny to
+  `J₀(11)`, rather than through an identification of the two elliptic curves.
 
 *Needs:* `GT.3/modularity-theorem`; `GT.3/coefficient-identification`; `GT.2/coefficient-conjugation`; `GT.2/coefficients-generate`; `GT.1/totally-real-or-cm`; `ModularCurvesPartII §§16.1–16.7`; `ArithmeticGaloisRepresentations §§6.1–6.4`.
 
@@ -893,15 +941,18 @@ Prove the following. The good-prime polynomials of A lie in E. After some finite
 
 The proof uses the following steps.
 
-1. Choose f and `j : K_f ≅ E` by GT.3/modularity-theorem. AutomorphicGaloisRepresentations §7.3 supplies a full strictly compatible family over a sufficiently large number field containing `K_f`; its statement does not require that field to be `K_f`. Transport `K_f` through j, obtaining a finite extension E′/E, and reindex the members by `τ′ : E′ → ℚ̄_ℓ` using AutomorphicGaloisRepresentationsPartII AG2.P’s coefficient-extension API and GT.3/tate-module-comparison. Carayol §0.6 distinguishes being defined over a rationality field from being realised there; full comparison at `q = ℓ` is supplied by AutomorphicGaloisRepresentations §§4.9 and 7.3’s coefficient-prime theorem, not by Carayol 1986 alone.
+1. Choose f and `j : K_f ≅ E` by GT.3/modularity-theorem. AutomorphicGaloisRepresentations §7.3 supplies a full strictly compatible family over a sufficiently large number field containing `K_f`; its statement does not require that field to be `K_f`. First dualize `fixedEigenformFamily` using the dual operation of AutomorphicGaloisRepresentationsPartII AG2.P and the dictionary of AutomorphicGaloisRepresentations §3.11. Its members are then the arithmetic `ρ_{f,λ}` of §1.5. Transport `K_f` through j, obtaining a finite extension E′/E, and reindex these dual members by `τ′ : E′ → ℚ̄_ℓ` using AutomorphicGaloisRepresentationsPartII AG2.P’s coefficient-extension API and GT.3/tate-module-comparison. Carayol §0.6 distinguishes being defined over a rationality field from being realised there; full comparison at `q = ℓ` is supplied by AutomorphicGaloisRepresentations §§4.9 and 7.3’s coefficient-prime theorem, not by Carayol 1986 alone.
 2. Regular, odd and irreducible: GT.2/crystalline-at-good-primes, GT.2/odd, GT.2/absolute-irreducibility.
 
 **Checks.**
 
 - For an elliptic curve over ℚ the good-prime polynomials lie in ℚ; the theorem permits enlarging ℚ to realise all local WD parameters. This is stronger local data than the good-prime strict compatibility of NeronModelsAndSemistableAbelianVarieties §6.10, whose convention must be compared explicitly.
 - At `p ∥ cond(A)^{1/n}` with p not dividing the conductor of ε, `r_p` has nonzero monodromy (Steinberg type, AutomorphicGaloisRepresentations §§4.4 and 6.4).
+- For `X₀(11)` at 3, the arithmetic Frobenius polynomial of the cohomological
+  member is `X² + X/3 + 1/3`. Its dual has `X² + X + 3`, as required for
+  the covariant Tate module; coefficient extension alone cannot change these roots.
 
-*Needs:* `GT.3/tate-module-comparison`; `GT.3/coefficient-identification`; `AutomorphicGaloisRepresentations §§4.9 and 7.3`; `AutomorphicGaloisRepresentationsPartII AG2.P`; `GT.2/crystalline-at-good-primes`; `GT.2/odd`; `GT.2/absolute-irreducibility`; `GT.3/modularity-theorem`.
+*Needs:* `GT.3/tate-module-comparison`; `GT.3/coefficient-identification`; `AutomorphicGaloisRepresentations §§3.11, 4.9 and 7.3`; `AutomorphicGaloisRepresentationsPartII AG2.P`; `GT.2/crystalline-at-good-primes`; `GT.2/odd`; `GT.2/absolute-irreducibility`; `GT.3/modularity-theorem`.
 
 Sources: [KW-I](#references), §5, pp. 7–8; [Ribet92](#references), §3, p. 4; [Carayol86](#references), §0.6 and Théorème (A) (§0.7), p. 410.
 
@@ -919,10 +970,13 @@ The proof uses the following steps.
 
 - For `J₀(23)`: `L(J₀(23), s) = L(f, s)L(f^σ, s)` for the two embeddings of `ℚ(√5)`.
 - For `dim A = 1` this is EllipticCurveModularity Layer R29.6.
+- For `J₁(13)`, the two coefficient embeddings of `ℚ(√−3)` exchange the
+  Fricke companion equations. Their product has conductor `13²` and a sign
+  root number, even though the individual equations have conjugate companions.
 
 *Needs:* `GT.3/tate-module-comparison`; `GT.4/conductor-of-gl2-type`; `AutomorphicGaloisRepresentations §§4.4–4.9 and 6.4`; `NeronModelsAndSemistableAbelianVarieties §§5.4–5.7`; `ModularForms Layer 7`; `ModularForms Layer 6`; `ModularForms Layer 8`; `CuspForm.hasEntireExtension_qExpansion_coeff`.
 
-Sources: [Carayol86](#references), Corollaire (0.8), p. 411.
+Sources: [Carayol86](#references), Théorème (A), §§0.6–0.7, pp. 410–411, for local comparison followed by the finite product over embeddings; Diamond–Shurman, *A First Course in Modular Forms*, §5.10, for the two-form Hecke functional equation with the weight-two Fricke normalization of ModularForms Layers 6–7. Carayol §0.8, p. 411, gives the dimension-one specialization.
 
 ### GT.4/parent-compatibility — Compatibility with the parent in dimension one
 
@@ -1052,7 +1106,7 @@ ProfiniteCohomology Layer 10 and the library contracts above.)
 
 ### GT.5/ribet-cocycle — The cocycle of a non-CM ℚ-curve
 
-Construct the following data. For non-CM C₀/K, choose K-isogenies `μ_g : ᵍC₀ → C₀` over a finite Galois K/ℚ. Form `c(g,h) = μ_g ∘ ᵍμ_h ∘ μ_{gh}⁻¹` in `Hom⁰`. Its value is a nonzero rational scalar, and c is a 2-cocycle for the trivial action on ℚˣ. Inflate its class to continuous `H²(G_ℚ,ℚˣ)`. This class depends only on the geometric isogeny class, independently of the field, model and chosen isogenies. Its degree relation is `c(g,h)² = deg μ_g deg μ_h / deg μ_{gh}`.
+Construct the following data. For non-CM C₀/K, choose K-isogenies `μ_g : ᵍC₀ → C₀` over a finite Galois K/ℚ, normalized by `μ₁ = id`. Form `c(g,h) = μ_g ∘ ᵍμ_h ∘ μ_{gh}⁻¹` in `Hom⁰`. Its value is a nonzero rational scalar, and c is a 2-cocycle for the trivial action on ℚˣ. Inflate its class to continuous `H²(G_ℚ,ℚˣ)`. This class depends only on the geometric isogeny class, independently of the field, model and chosen isogenies. Its degree relation is `c(g,h)² = deg μ_g deg μ_h / deg μ_{gh}`.
 
 C₀ non-CM, so `End⁰_K(C₀) = ℚ` and every element of `Hom⁰_K(ᵍC₀, C₀)` is a rational multiple of `μ_g`; `μ_{gh}⁻¹` is the inverse in `Hom⁰` (isogenies are invertible up to isogeny).
 
@@ -1068,8 +1122,11 @@ The API consists of the following maps and laws.
 **Checks.**
 
 - `QCurve.cocycle_rational` (degenerate): For a curve over ℚ with `μ_g = id`, `c ≡ 1`.
-- `QCurve.cocycle_quadratic` (computation): For K quadratic and `μ ∘ σμ = [m]`: `c(σ, σ) = m`, `c(1, ·) = c(·, 1) = 1`.
+- `QCurve.cocycle_quadratic` (computation): For K quadratic, with `μ₁ = id`, `μ_σ = μ` and `μ ∘ σμ = [m]`: `c(σ, σ) = m`, `c(1, ·) = c(·, 1) = 1`.
 - `QCurve.cocycle_twist_after_extension`: For a non-CM quadratic twist C₀/K of an elliptic curve E₀/ℚ, enlarge K to a finite Galois L/ℚ where a twisting isomorphism `φ : C₀,L ≅ E₀,L` is defined. Taking `μ_g = φ⁻¹ ∘ ᵍφ` gives an L-defined family of isomorphisms with `c ≡ 1` and `[c_C] = 0`. The geometric twist hypothesis does not supply K-defined conjugate isogenies.
+- On a rational non-CM curve over quadratic K, the unnormalized choices
+  `μ₁ = [2]`, `μ_σ = id` give `c(σ,σ) = 1/2` and `c(1,σ) = 2`; these
+  choices are excluded by `μ₁ = id`.
 - `QCurve.cocycle_cm_excluded` (non-example): For a CM curve, `End⁰` is an imaginary quadratic field, the values `μ_g ∘ ᵍμ_h ∘ μ_{gh}⁻¹` need not be rational, and the construction does not apply.
 
 The proof uses the following steps.
@@ -1080,7 +1137,7 @@ The proof uses the following steps.
 **Checks.**
 
 - For C₀ defined over ℚ take `μ_g = id`: `c = 1`.
-- For K quadratic and `μ = μ_σ` with `μ ∘ σμ = [m]`, `c(σ, σ) = m` and `c = 1` elsewhere (GT.5/quadratic-q-curves).
+- For K quadratic with `μ₁ = id` and `μ = μ_σ` satisfying `μ ∘ σμ = [m]`, `c(σ, σ) = m` and `c = 1` elsewhere (GT.5/quadratic-q-curves).
 
 *Needs:* `GT.5/q-curve`; `AbelianSchemesAndArithmeticModuli A6`; `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny`; `TauCeti.ContCohomology.explicitH2IsoContinuousCohomology`; `TauCeti.ContCohomology.explicitIso_coeffMap2`; `TauCeti.ContCohomology.explicitIso_infl2`; `continuousCohomology`; `TauCeti.ofDiscreteModule`; `TauCeti.ContCohomology.Z2`; `TauCeti.ContCohomology.explicitInfl2`.
 
@@ -1098,8 +1155,12 @@ The proof uses the following steps.
 
 **Checks.**
 
-- For K quadratic and `μ ∘ σμ = [m]`, `α(σ) = √m` and `ε_C` is trivial or the character of K/ℚ according to the sign of m (GT.5/quadratic-q-curves).
+- For K quadratic with `μ₁ = id`, `μ_σ = μ` and `μ ∘ σμ = [m]`, choose
+  `α(1) = 1`, `α(σ) = √m`. Then `ε_C` is trivial or the character of K/ℚ
+  according to the sign of m (GT.5/quadratic-q-curves).
 - The statement fails for nontrivial action: `H²(G_ℚ, ℚ̄^×)` with the Galois action is not zero (it contains the Brauer group of ℚ).
+- Normalization gives `c(1,g) = 1`, so every splitting satisfies `α(1) = 1`;
+  multiplying α by a nontrivial finite character can still change `E_α`.
 
 *Needs:* `ArithmeticGaloisRepresentations §7.6, “Projective lifting”`; `GT.5/ribet-cocycle`; `TauCeti.ContinuousCohomology.subsingleton_continuousCohomology_of_module_rat`; `TauCeti.ContCohomology.explicitH2IsoContinuousCohomology`; `TauCeti.ContCohomology.explicitIso_coeffMap2`; `TauCeti.ContCohomology.explicitIso_infl2`; `ArithmeticGaloisRepresentations Layer 2`; `DirichletCharacter`; `cyclotomicCharacter`; `continuousCohomology`; `TauCeti.ofDiscreteModule`.
 
@@ -1154,7 +1215,11 @@ The proof uses the following steps.
 
 **Checks.**
 
-- For C defined over ℚ: `A = C`, `E_α = ℚ`.
+- For a rational model choose `K = ℚ`, `μ₁ = id` and `α = 1`. Then
+  `E_α = ℚ` and the projector image is the rational curve itself.
+- For a rational non-CM model over cyclic cubic K, take `μ_g = id` and α a
+  nontrivial cubic character. Then `c = 1`, but `E_α = ℚ(ζ₃)` and the
+  projector image has dimension two. The splitting choice affects the factor.
 - For the `ℚ(√13)`-curve of Ribet §7 (from the level-169 newform with `E = ℚ(√3)`), `A = A_f` of dimension two.
 
 *Needs:* `GT.5/lie-free-rank-one`; `GT.5/restriction-of-scalars-endomorphisms`; `GT.5/tate-vanishing-qbar`; `GT.1/ribet-theorem-2-1`; `SmallRamificationAndAbelianVarietyBaseCases §5.1`; `AbelianSchemesAndArithmeticModuli A6`.
@@ -1185,7 +1250,7 @@ Prove the following. Let K/ℚ be quadratic, σ its nontrivial automorphism, and
 
 The proof uses the following steps.
 
-1. c takes the value m on (σ, σ) and 1 elsewhere (GT.5/ribet-cocycle); `R = ℚ[X]/(X² − m)` by GT.5/restriction-of-scalars-endomorphisms, split by `α(σ) = √m`.
+1. Normalize `μ₁ = id`, `μ_σ = μ`, and choose `α(1) = 1`, `α(σ) = √m`. Then c takes the value m on (σ, σ) and 1 elsewhere (GT.5/ribet-cocycle); `R = ℚ[X]/(X² − m)` by GT.5/restriction-of-scalars-endomorphisms, split by `α(σ) = √m`.
 2. (a) m a square: `R ≅ ℚ × ℚ`, `E_α = ℚ`, and GT.5/ribet-theorem-6-1 gives an elliptic curve A over ℚ with `A_K ~ C₀`. (b) `R = E` is a field and `B = A` is primitive; `B_K ~ C₀ × C₀` with E acting through its regular representation, so `det ρ_λ|_{G_K} = χ_ℓ`, ε is a character of `Gal(K/ℚ)`, nontrivial exactly when E is imaginary (GT.2/coefficient-conjugation, GT.3/trivial-character), hence `ε = θ`.
 3. (c) If K is imaginary, σ is complex conjugation, `C₀(ℂ) = ℂ/L` and `σC₀(ℂ) = ℂ/L̄`, μ is multiplication by some `γ ∈ ℂ^×`, and `m = γγ̄ > 0`. Alternatively: if E is imaginary, `ε = θ` is nontrivial and even (GT.2/odd), so K is real.
 
@@ -1202,7 +1267,9 @@ Sources: [Ribet92](#references), §7, p. 15; [Ribet92](#references), Lemma 7.1, 
 
 ### Examples
 
-For a rational model the cocycle is `1`, `E_α = ℚ`, and the factor is the curve itself. Over a quadratic field, `m` square gives a split algebra, whereas nonsquare `m` gives a quadratic coefficient field; imaginary base fields force `m > 0`.
+For a rational model choose `K = ℚ`, `μ₁ = id` and `α = 1`: the cocycle is `1`,
+`E_α = ℚ`, and the factor is the curve itself. Other splittings over larger
+fields can select rational factors of higher dimension. Over a quadratic field, `m` square gives a split algebra, whereas nonsquare `m` gives a quadratic coefficient field; imaginary base fields force `m > 0`.
 
 ### Dependencies
 
@@ -1258,7 +1325,7 @@ The proof uses the following steps.
 
 1. Base change: K/ℚ is Galois solvable, so `BC_{K/ℚ}` is defined along a prime-cyclic tower (GL2AutomorphicRepresentationsAndTransfer §§R17.4.3–R17.4.9); at each step the image stays cuspidal because `ρ_f` restricted to every open subgroup is absolutely irreducible (GT.6/q-curve-galois-modularity), so `π_f` is never dihedral relative to a step.
 2. Fix the one-ℓ isomorphism (f,ι,ψ) from GT.6/q-curve-galois-modularity. The finite image of ψ consists of roots of unity; choose their algebraic lifts compatibly with ι in a finite number field containing `K_f`, and use global Artin reciprocity to form its finite-order Hecke character. At good v the one-ℓ isomorphism identifies the algebraic trace and determinant of the twisted restricted newform with the rational polynomial of C. Injectivity of the coefficient embedding makes these identities algebraic, so they transport to every auxiliary coefficient prime. GL2AutomorphicRepresentationsAndTransfer §R17.6.17 then matches the twisted base change Π with this family at good v; ArithmeticGaloisRepresentations §5.3 recognition identifies it with `V_ℓ′(C)` for every auxiliary ℓ′, using continuity, semisimplicity and the corresponding embeddings and twists.
-3. For any finite v over p, now choose an auxiliary `ℓ′ ≠ p` using the preceding transport, rather than changing the original fixed ℓ without justification. GL2AutomorphicRepresentationsAndTransfer §R17.4.3 identifies `rec(Π_v)` with the restriction of `rec(π_{f,p})` to `W_{K_v}` twisted by the algebraic character at v; Carayol (AutomorphicGaloisRepresentations §§4.4–4.9 and 6.4) compares this with the WD parameter of the corresponding ℓ′-adic member. Its identification with `V_ℓ′(C)` gives equality of the local factors even at bad v (NeronModelsAndSemistableAbelianVarieties §5.6).
+3. For any finite v over p, now choose an auxiliary `ℓ′ ≠ p` using the preceding transport, rather than changing the original fixed ℓ without justification. GL2AutomorphicRepresentationsAndTransfer §R17.4.3 identifies `rec(Π_v)` with the restriction of `rec(π_{f,p})` to `W_{K_v}` twisted by the algebraic character at v; Carayol (AutomorphicGaloisRepresentations §§4.4–4.9 and 6.4) compares this with the WD parameter of the corresponding ℓ′-adic member. Apply the arithmetic/cohomological dual dictionary of AutomorphicGaloisRepresentations §3.11 to these local parameters before comparison with the covariant `V_ℓ′(C)`. The resulting identification gives equality of the local factors even at bad v (NeronModelsAndSemistableAbelianVarieties §5.6).
 4. At archimedean places the base change of the weight-two discrete series is cohomological of parallel weight two.
 
 **Checks.**
@@ -1267,7 +1334,7 @@ The proof uses the following steps.
 - `K = ℚ(√−11)` and the ℚ-curves with `x(P) ∈ ℚ` of Caraiani–Newton Corollary 7.3.4: Π is a twisted base change from ℚ of a weight-two newform.
 - Non-example: for K/ℚ not solvable the base-change step is unavailable and the theorem makes no claim.
 
-*Needs:* `GT.6/q-curve-galois-modularity`; `GL2AutomorphicRepresentationsAndTransfer §§R17.4.3–R17.4.9`; `GL2AutomorphicRepresentationsAndTransfer §§R17.6.17–R17.6.18`; `AutomorphicGaloisRepresentations §§4.4–4.9 and 6.4`; `NeronModelsAndSemistableAbelianVarieties §§5.4–5.7`; `ClassFieldTheory Layer 11`; `AutomorphicGaloisRepresentations §1.5`; `ArithmeticGaloisRepresentations §5.3`.
+*Needs:* `GT.6/q-curve-galois-modularity`; `GL2AutomorphicRepresentationsAndTransfer §§R17.4.3–R17.4.9`; `GL2AutomorphicRepresentationsAndTransfer §§R17.6.17–R17.6.18`; `AutomorphicGaloisRepresentations §§3.11, 4.4–4.9 and 6.4`; `NeronModelsAndSemistableAbelianVarieties §§5.4–5.7`; `ClassFieldTheory Layer 11`; `AutomorphicGaloisRepresentations §1.5`; `ArithmeticGaloisRepresentations §5.3`.
 
 Sources: [FLHS15](#references), §12, p. 18; [CN23](#references), §1, p. 2; [FLHS15](#references), §1, pp. 2–3.
 
@@ -1289,7 +1356,7 @@ The proof uses the following steps.
 
 *Needs:* `GT.6/q-curve-automorphy`; `GT.5/quadratic-q-curves`; `GT.5/q-curve`.
 
-Sources: [CN23](#references), Corollary 7.2.5, p. 97; [CN23](#references), Corollary 7.3.4, p. 98; [FLHS15](#references), §11, p. 17.
+Sources: [CN23](#references), Corollary 7.2.5, p. 97; [CN23](#references), Corollary 7.3.4, p. 98; [FLHS15](#references), §12, pp. 18–19, especially Lemma 12.1, p. 19.
 
 ### Examples
 

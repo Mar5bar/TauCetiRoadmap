@@ -75,9 +75,51 @@ def EEquivariant {A B : AVQ} {E : Type} [Field E] [Algebra ℚ E]
     TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom a ≫ f =
       f ≫ TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom b
 
+/-- Stability of a subgroup under a rational field action, with nonzero denominators. -/
+def IsStable {A B : AVQ} {E : Type} [Field E] [Algebra ℚ E]
+    (ι : E →ₐ[ℚ] End0 A) (f : B ⟶ A) : Prop :=
+  ∀ x : E, ∃ (n : ℤ) (_hn : n ≠ 0)
+    (a : TauCeti.AlgebraicGeometry.AbelianVariety.End A)
+    (b : TauCeti.AlgebraicGeometry.AbelianVariety.End B),
+    integralEnd A a = (n : ℚ) • ι x ∧
+    f ≫ TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom a =
+      TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom b ≫ f
+
+/-- A nonzero stable abelian subvariety of a GL₂-type variety is the whole variety. -/
+theorem stable_subvariety_surjective {A B : AVQ} {E : Type} [Field E] [NumberField E]
+    (ι : E →ₐ[ℚ] End0 A) (hd : (Module.finrank ℚ E : WithBot ℕ∞) = A.dim)
+    (f : B ⟶ A)
+    (hf : _root_.AlgebraicGeometry.IsClosedImmersion
+      (TauCeti.AlgebraicGeometry.AbelianVariety.Hom.toSchemeHom f))
+    (hB : B.dim ≠ 0) (hst : IsStable ι f) :
+    _root_.AlgebraicGeometry.Surjective
+      (TauCeti.AlgebraicGeometry.AbelianVariety.Hom.toSchemeHom f) := sorry
+
 /-- Rational scalars use the native integral multiplication map. -/
 example (A : AVQ) : integralEnd A (2 : TauCeti.AlgebraicGeometry.AbelianVariety.End A) =
     (2 : ℚ) • (1 : End0 A) := sorry
+
+example (A : AVQ) : integralEnd A 0 = 0 := sorry
+
+example (A : AVQ) :
+    integralEnd A ((2 : TauCeti.AlgebraicGeometry.AbelianVariety.End A) * 3) =
+      (6 : ℚ) • (1 : End0 A) := sorry
+
+example (A : AVQ) :
+    IsUnit (integralEnd A (2 : TauCeti.AlgebraicGeometry.AbelianVariety.End A)) := sorry
+
+example (A : AVQ) (h : A.dim = 1) : IsSimpleOverQ A := sorry
+
+example (B : AVQ) (h : B.dim = 1) :
+    ¬ IsSimpleOverQ (TauCeti.AlgebraicGeometry.AbelianVariety.prod B B) := sorry
+
+example (B : AVQ) (h : B.dim = 1) :
+    Module.finrank ℚ
+      (TauCeti.AlgebraicGeometry.AbelianVariety.prod B B).TangentSpace = 2 := sorry
+
+example (A : AVQ) (h : A.dim = 1) : Module.finrank ℚ A.TangentSpace = 1 := sorry
+
+example (A : AVQ) (h : A.dim = 0) : Module.finrank ℚ A.TangentSpace = 0 := sorry
 
 /-- Zero-dimensional varieties fail simplicity. -/
 example (A : AVQ) (h : A.dim = 0) : ¬ IsSimpleOverQ A := sorry
@@ -85,6 +127,28 @@ example (A : AVQ) (h : A.dim = 0) : ¬ IsSimpleOverQ A := sorry
 /-- The same rational action intertwines the identity morphism. -/
 example (A : AVQ) {E : Type} [Field E] [Algebra ℚ E]
     (ι : E →ₐ[ℚ] End0 A) : EEquivariant ι ι (𝟙 A) := sorry
+
+/-- Distinct conjugate actions cannot intertwine the identity. -/
+example (A : AVQ) {E : Type} [Field E] [Algebra ℚ E]
+    (ι : E →ₐ[ℚ] End0 A) (hι : Function.Injective ι)
+    (θ : E ≃ₐ[ℚ] E) (hθ : θ ≠ AlgEquiv.refl) :
+    ¬ EEquivariant ι (ι.comp θ.toAlgHom) (𝟙 A) := sorry
+
+/-- Doubling a nonzero denominator preserves the same integral intertwining equation. -/
+example {A B : AVQ} {E : Type} [Field E] [Algebra ℚ E]
+    (ιA : E →ₐ[ℚ] End0 A) (ιB : E →ₐ[ℚ] End0 B) (f : A ⟶ B)
+    (x : E) (n : ℤ) (hn : n ≠ 0)
+    (a : TauCeti.AlgebraicGeometry.AbelianVariety.End A)
+    (b : TauCeti.AlgebraicGeometry.AbelianVariety.End B)
+    (ha : integralEnd A a = (n : ℚ) • ιA x)
+    (hb : integralEnd B b = (n : ℚ) • ιB x)
+    (hf : TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom a ≫ f =
+      f ≫ TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom b) :
+    (2 * n : ℤ) ≠ 0 ∧
+      integralEnd A (2 * a) = ((2 * n : ℤ) : ℚ) • ιA x ∧
+      integralEnd B (2 * b) = ((2 * n : ℤ) : ℚ) • ιB x ∧
+      TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom (2 * a) ≫ f =
+        f ≫ TauCeti.AlgebraicGeometry.AbelianVariety.End.toHom (2 * b) := sorry
 
 /-! ## Layer GT.1: endomorphism algebras -/
 
@@ -184,6 +248,11 @@ example (A : AVQ) {E : Type} [Field E] [NumberField E] (ι : E →ₐ[ℚ] End0 
     (he : ∀ x : 𝓞 E, integralEnd A (e x) = ι (x : E)) :
     ∃ M : IntegralModel A ι, M.variety = A := sorry
 
+/-- A square of an elliptic variety cannot have a full commutative maximal-order model. -/
+example (B : AVQ) (h : B.dim = 1) {E : Type} [Field E] [NumberField E]
+    (ι : E →ₐ[ℚ] End0 (TauCeti.AlgebraicGeometry.AbelianVariety.prod B B)) :
+    IsEmpty (IntegralModel (TauCeti.AlgebraicGeometry.AbelianVariety.prod B B) ι) := sorry
+
 end TauCeti.GL2Type
 
 namespace TauCeti.EllipticCurve
@@ -234,6 +303,10 @@ example : X0_11_model.Δ = -161051 := by
   norm_num [X0_11_model, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
     WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
 
+example : X0_11_model.c₄ = 496 := sorry
+
+example : X0_11_model.j = (-122023936 / 161051 : ℚ) := sorry
+
 -- test: IsQCurve.rational
 example : IsQCurve (X0_11_model.map (algebraMap ℚ Qbar)) := sorry
 
@@ -248,6 +321,8 @@ instance : Gaussian_model.IsElliptic := by
 example : Gaussian_model.Δ = 64 := by
   norm_num [Gaussian_model, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
     WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈]
+
+example : Gaussian_model.j = (1728 : ℚ) := sorry
 
 -- test: IsQCurve.cm (concrete curve)
 example : IsQCurve (Gaussian_model.map (algebraMap ℚ Qbar)) := sorry
@@ -282,6 +357,19 @@ example {A : TauCeti.AlgebraicGeometry.AbelianVariety Qbar}
     (nonCM : ℚ ≃ₐ[ℚ] End0 A) (u v : (End0 A)ˣ) :
     rationalScalar nonCM (u * v) = rationalScalar nonCM u * rationalScalar nonCM v := sorry
 
+example {A : TauCeti.AlgebraicGeometry.AbelianVariety Qbar}
+    (e : ℚ ≃ₐ[ℚ] End0 A) : rationalScalar e 1 = 1 := sorry
+
+example {A : TauCeti.AlgebraicGeometry.AbelianVariety Qbar}
+    (e : ℚ ≃ₐ[ℚ] End0 A) :
+    rationalScalar e
+      (Units.map e.toMonoidHom (Units.mk0 (2 / 3 : ℚ) (by norm_num))) =
+        Units.mk0 (2 / 3 : ℚ) (by norm_num) := sorry
+
+example {A : TauCeti.AlgebraicGeometry.AbelianVariety Qbar}
+    (e : ℚ ≃ₐ[ℚ] End0 A) (u : (End0 A)ˣ) :
+    rationalScalar e u⁻¹ = (rationalScalar e u)⁻¹ := sorry
+
 /-! The coefficient action here is TRIVIAL, including on algebraic units.
 It is distinct from the natural Galois action on ℚ̄. These local instances are
 fixed inside the resulting TopRep. Their topology is discrete. -/
@@ -311,6 +399,11 @@ example : (0 : Additive Fˣ) = Additive.ofMul (1 : Fˣ) := rfl
 
 /-- The coefficient action fixes each unit, even for nontrivial Galois elements. -/
 example (g : GQ) (u : Additive Fˣ) : g • u = u := rfl
+
+example :
+    Additive.ofMul (Units.mk0 (2 : ℚ) (by norm_num)) +
+      Additive.ofMul (Units.mk0 (3 : ℚ) (by norm_num)) =
+        Additive.ofMul (Units.mk0 (6 : ℚ) (by norm_num)) := sorry
 
 end UnitCoefficients
 end TauCeti.QCurve
@@ -348,7 +441,8 @@ end TauCeti.GL2Type
 README targets whose full carriers or constructions require the stated supplier interfaces:
 GT.1: powerAction, power_basis_indep, IsPrimitive, IsPrimitive.of_isogeny,
 isPrimitive_iff_isSimple, endField_equiv, endField_isGL2Type, endField_involution,
-modularQuotientIsGl2Type; the derivative action and stable-subvariety conclusion.
+modularQuotientIsGl2Type; the derivative action. IsStable and
+stable_subvariety_surjective use nonzero denominators above.
 GT.2: integralModel_end, residualRep, residualRep_finrank, residualRep_charpoly,
 residualRep_ss_indep, frobeniusPolynomial, determinantCharacter, odd,
 absoluteIrreducibility, coefficientConjugation, coefficientsGenerate, innerTwistField,
