@@ -31,11 +31,11 @@ B_k and its pulled-back bundle are continuous, as B5 requires.
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Stages2–4,6,8 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, EM carriers and representability | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT |
 | [GeneralizedCohomology](../GeneralizedCohomology/README.md), G1–G5 | actual spectral homology on pairs, stable category/HA, arbitrary-CW comparison, finite duality, compatible universal bundle diagrams, MO/MSO/MSpin and quaternionic smooth carriers | geometric cycles/PT, coefficient rings and transfer/kernel calculations are here |
 | [TopologicalKTheory](../TopologicalKTheory/README.md), T1/T2.5/T3–5/T7; [CharacteristicClasses](../CharacteristicClasses/README.md), C1–C4/C6 | fixed-rank classifiers, chosen ordinary Thom quotient, w/c/p/Euler classes, character/Thom corrections and algebraic ABS conventions | B3.0 owns the Spin ABS genus comparison; B4 compares Sq with these same w classes; B6 supplies bordism calculations |
-| [SpinGeometry](../SpinGeometry/README.md), G4/G6 | actual Spin lifts, their H1 torsors, circle and surface quadratic refinements and Lichnerowicz | B3 proves Spin bordism classifications; an arbitrary oriented manifold is not assumed Spin |
+| [SpinGeometry](../SpinGeometry/README.md), G4/G5.0/G6.0/G6.7 ([specification](https://github.com/TauCetiProject/TauCetiRoadmap/pull/902)) | Spin lifts and H1 torsors, circle/surface refinements, real Clifford-graded spinor bundles, closed real Dirac realization and its KO-valued index, Lichnerowicz and untwisted four-dimensional quaternionic symmetry | B3.0 compares that analytic class with the geometric ABS/PT genus; B3 proves Spin bordism classifications |
 | [HomotopySpheres PR284](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284) | convenient pointed spaces, stable framed PT and framing-change/product laws | B5 builds general normal structures and finite-codimension comparisons, agreeing with the framed case |
 | [FourManifolds](../FourManifolds/README.md), early example constructions | F7.0 quarticKThree carrier/characteristic calculation and ellipticEOneFiberComplement, E(1) minus a regular elliptic fibre with its actual Lie-spin T3 boundary | these examples precede bordism consequences; later Four Wu/Rokhlin applications consume B3/B4 |
 | [IntegralLattices](../IntegralLattices/README.md) | integral lattice and real intersection-form algebra | B3.2 constructs the finite-F2 Arf invariant used by surface and Seifert refinements |
-| [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md), Layer8 compact algebra sublane; [LieGroups](../RepresentationTheory/LieGroups/README.md), Layers2,4 | division octonions/formally real compact Albert algebra, generic closed subgroup smooth charts | B3 owns their idempotent/F4–Spin9 geometry, distinct from native split Zorn/Albert forms |
+| [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md), Layer8 compact algebra sublane ([specification](https://github.com/TauCetiProject/TauCetiRoadmap/pull/949)); [LieGroups](../RepresentationTheory/LieGroups/README.md), Layers2,4 | division octonions/formally real compact Albert algebra, generic closed subgroup smooth charts | B3 owns their idempotent/F4–Spin9 geometry, distinct from native split Zorn/Albert forms |
 | [IndexTheory](../IndexTheory/README.md), I1/I2/I3/I5/I7; [PseudodifferentialOperators](../PseudodifferentialOperators/README.md); G5 graded operator comparison | compact elliptic/Dirac symbol-index and local regularity, Hilbert/Clifford configuration index | B3.0 owns the closed Spin ABS/real-Dirac comparison; B6 constructs the homogeneous HP2 associated-family comparison and global transfer nullhomotopy |
 
 O/SO/Spin mean stable unoriented, oriented and Spin structures, with explicit
@@ -312,9 +312,15 @@ and KO kernel interfaces below.
    a stable equivalence in every degree. Hence
    signature/16 sends complex K3 to −1; orientation reversal gives the
    displayed positive ΩSpin_4 generator for σ/16; its ABS value is −a.
-   Pin α=−(σ/16)a in degree4. Consume Index I7.5's
-   `rokhlin_signature_dvd_sixteen` for integrality, and prove both
-   directions of this classification.
+   For a closed Spin four-manifold M write α(M)=k·a using KO4=Z·a.
+   Use B6.1–2's independent oriented degree-four coefficient calculation:
+   CP2 generates ΩSO_4, its Pontryagin number is3 and its signature is1.
+   Bordism invariance therefore gives ⟨p1(TM),[M]⟩=3σ(M).
+   Since Â₄=−p1/24, B3.0's complexification genus and c(a)=2u² give
+   `2k=⟨Â(TM),[M]⟩=−σ(M)/8` in Q. Hence σ(M)=−16k in Z,
+   proving divisibility by16 and pinning α(M)=−(σ(M)/16)a.
+   Use the below8 ABS isomorphism and the chosen K3 orientation to prove
+   both directions of the degree-four classification.
 5. Construct explicit projective bounding manifolds for every positive n:
    the disk bundle of γ_C^⊗2 on CP^(n−1) has boundary RP^(2n−1),
    through the actual lens-space quotient ±1. The oriented rank3 disk
