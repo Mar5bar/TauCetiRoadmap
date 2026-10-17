@@ -10,7 +10,7 @@ The generic theory of nonarchimedean measures, completed group algebras, Mahler 
 
 Classical modular forms and character spaces use **ModularForms**, Layer 0 and “What Mathlib already has (consume)”, and Tau Ceti’s character Eisenstein series. Classical Dirichlet continuation, character conductors, Euler products and generalized Bernoulli numbers are used through the libraries. Tau Ceti supplies the Dedekind continuation near 1; the global Tate comparison uses **AutomorphicLFunctionsAndLocalFactors**, Layer AL.1, “Global distributions and completed Euler products” and “Poisson continuation and the global functional equation”. Arithmetic-series normalization uses **ArithmeticDirichletSeries**, Layers 1 and 3, archived under `Completed/ArithmeticDirichletSeries/`. The number-field invariants in the residue are Mathlib’s class number, regulator, torsion order and discriminant; the global-character carrier is **GlobalNumberFields**, Layer 9. The universal distribution presentations below concern quotients of free abelian groups; they do not reconstruct profinite completion, Witt vectors, finite fields or general group cohomology.
 
-PadicFamilies §0.12 is a downstream consumer of `kubotaLeopoldtPseudomeasure`, `integralTwistedPositiveEisensteinMeasure`, `fullEisensteinAwaySeries` and the character interpolation of §5.9; it owns the ordinary Hecke-family comparison. For its angular coefficient `Σ ψ(d)d⁻¹[⟨d⟩]`, take the ordered divisor measure of §5.6 with left character 1 and right character ψ, weight by the continuous inverse coordinate x⁻¹, and push forward along the angular projection. Apply the same inverse-coordinate weighting and angular pushforward to the full character families of §§5.7–5.9 after clearing their constant denominators. For ψ=1 this transports `A₀=Tw_x(ζ_p)/2` to the angular image of ζ_p/2; at an arithmetic test ⟨x⟩^k the inducing finite character is ψω^(−k). The tame weights ψ(d) belong to the finite divisor sum, not to a presumed continuous function ψ on U. These arithmetic measures, smoothing relations and moments are constructed here.
+PadicFamilies §0.12 is a downstream consumer of `kubotaLeopoldtPseudomeasure`, `integralTwistedPositiveEisensteinMeasure`, `fullEisensteinAwaySeries` and the character interpolation of §5.9; it owns the ordinary Hecke-family comparison. Its constant and positive-coefficient objects are adapters: §§1.6 and 5.6–5.9 here supply their arithmetic construction, bounded smoothing, cross-multiplication and moments. The normalization has first positive coefficient 1 and constant factor 1/2. For its angular coefficient `Σ ψ(d)d⁻¹[⟨d⟩]`, take the ordered divisor measure of §5.6 with left character 1 and right character ψ, weight by the continuous inverse coordinate x⁻¹, and push forward along the angular projection. Apply the same inverse-coordinate weighting and angular pushforward to the full character families of §§5.7–5.9 after clearing their constant denominators. For ψ=1 this transports `A₀=Tw_x(ζ_p)/2` to the angular image of ζ_p/2; at an arithmetic test ⟨x⟩^k the inducing finite character is ψω^(−k). The tame weights ψ(d) belong to the finite divisor sum, not to a presumed continuous function ψ on U. These arithmetic measures, smoothing relations and moments are constructed here.
 
 The following existing objects are inputs, rather than constructions of this roadmap:
 
@@ -743,6 +743,8 @@ Name the formal objects `normalizedTameLogPrimitive`, `cyclotomicLogConstant`, `
 **Checks.**
 
 * At p=3, for the even quadratic character η modulo 5, `cyclotomicPoweredLogConstant` at m=1 equals C and at m=2 equals −C, since η(2)=−1. At m=5 every argument is zero, so the nonzero-argument domain excludes this powered constant.
+* For the finite adapters over Q, take η modulo 3 with η(1)=1, η(2)=−1 and ε=2. With L(x)=x, `cyclotomicPoweredLogConstant` at m=1,2,3 gives −1,−6,−28. For these m the exponents on units are m and 2m, so every argument is nonzero.
+* With the same η and ε, `cyclotomicLogConstant` gives −1,−4,−13 for L(x)=x,x²,x³ respectively. These rational tests fix the finite-adapter normalization; arithmetic comparisons still require a primitive root and the Iwasawa logarithm.
 * H has zero constant while V has C. A formal primitive equation alone leaves this constant undetermined.
 * The nth coefficient costs `v_p(n)` in valuation, with no uniform bound asserted. At n prime to p it has bound `‖G⁻¹‖`.
 * At t=0 the trace is `η(p)C/p`, not `η(p)C`; the complement has the reciprocal Euler factor.
@@ -1208,17 +1210,23 @@ a_n=A/n^k       (n>0),
 a_(−n)=B/n^k    (n>0).
 ```
 
-The distribution space is two-dimensional over C before imposing parity; A and B are independent. For k>1 construct `G_k(t)=Σ_(n≥1)exp(2πint)/n^k` with uniform absolute convergence. For k=1 use the actual convergent/logarithmic representative away from integers and a compatible endpoint or modified difference before descending. Give the positive/negative Fourier parameters, parity projections over C, the exact weighted law and the corresponding Cartan realization. (Kubert, Proposition 3.3 and Lemma 3.4, pp.189–191.)
+The L² distribution space is two-dimensional over C before imposing parity; A and B are independent, and its classification is up to almost-everywhere equality. For k>1 construct `positiveFourierDistribution k` from `G_k(t)=Σ_(n≥1)exp(2πint)/n^k` with uniform absolute convergence. Give the positive/negative Fourier parameters, parity projections over C, the exact weighted law and the corresponding Cartan realization. (Kubert, Proposition 3.3 and Lemma 3.4, pp.189–191.)
+
+For k=1 retain `G₁(t)=−Log(1−exp(2πit))` only away from integer classes. For each N>1 its defect at zero is `Σ_(1≤j<N)G₁(j/N)=−log N`, so no choice of G₁(0) makes it an ordinary distribution. Fix a profinite unit τ∈Ẑˣ, acting on each rational-circle point through its residue at that point's order. Define `regularizedLogDistribution τ(0)=0` and `regularizedLogDistribution τ(t)=G₁(τt)−G₁(t)` for t≠0. Prove periodicity, the ordinary distribution law on the rational circle, descent to the quotient of §4.7, and compatibility with the profinite-unit action. The unit action permutes every full division fiber; at zero the two logarithmic defects cancel. (Kubert, equations (3.8)–(3.9), pp.191–192.)
 
 The injectivity target for the Cartan realization must prove that its primitive-character projections are nonzero. Compute those projections by Gauss sums, the nonzero Dirichlet value and the exact Euler factors at deleted primes, and then use character separation and the primary basis. This is the arithmetic content of the character criterion, not a blanket assertion that every nonzero distribution gives an injective realization. For k>1, state the resulting injective Cartan map for the constructed G_k and its full complex linear span. (Kubert, Theorem 3.10 and proof, pp.192–193.)
 
-Name the scalar functions `periodicBernoulliDistribution` and `positiveFourierDistribution`. Use `_endpoint`, `_parity`, `_weightedLaw`, `_fourier`, `smoothWeightedDistribution_classification_with_bounds`, `l2WeightedDistribution_twoParameters` and `positiveFourierDistribution_cartan_injective` for the analytic and arithmetic APIs.
+Name the scalar functions `periodicBernoulliDistribution`, `positiveFourierDistribution` (k>1) and `regularizedLogDistribution`. Use `_endpoint`, `_parity`, `_weightedLaw`, `_fourier`, `smoothWeightedDistribution_classification_with_bounds`, `l2WeightedDistribution_twoParameters` and `positiveFourierDistribution_cartan_injective` for the analytic and arithmetic APIs, with the k>1 hypothesis on the positive Fourier construction and its injective Cartan map.
 
 **Checks.**
 
 * `b_2(0)=1/6` and `2(b_2(0)+b_2(1/2))=1/6`; omitting the weight N changes the relation.
 * The positive-frequency G_k and its negative-frequency conjugate have separate Fourier supports. A one-dimensional complex classification would identify two independent distributions.
 * For k=1 the sine/odd Fourier representative is zero at integers, while B₁(0)=−1/2. Equality in L² cannot determine that point value.
+* The raw G₁ has G₁(1/2)=−log 2. At N=2,t=0 the ordinary law would require G₁(0)+G₁(1/2)=G₁(0), independently of the assigned endpoint.
+* `regularizedLogDistribution` at τ=1 is identically zero, so a fixed regularization need not give an injective realization.
+* At τ=−1 the regularized values at 0 and 1/2 are zero; these points are fixed by negation.
+* At τ=−1 the regularized value at 1/3 is −πi/3. This fixes the orientation of the logarithm difference.
 * The imaginary part of `Li_2(exp(2πit))` is smooth on (0,1) and satisfies the weight-one relation, but is not a scalar multiple of B₂. Its unbounded endpoint derivatives show why the extra hypothesis is needed.
 * A primitive-character projection with a zero Euler factor cannot establish injectivity; the actual nonzero-factor argument is required for the stated realization.
 * The right-continuous B₁ distribution has values −1/2,0,−1/6 at t=0,1/2,1/3; the symmetric odd version changes only the integer value to 0. The B₂ values at those three points are 1/6,−1/12,−1/18.
@@ -1409,6 +1417,7 @@ The native continuous test is `unitPowerTest`, with its zero, unit and power equ
 * At p=2,n=6,r=0,s=3 it is `2[1]`, whereas s=0 gives zero at every group level.
 * At p=2,n=3, exponents 1 and 5 give moments 4 and 244, whose difference is 240∈8Z₂.
 * At p=2, k=0, the first two sequence exponents are 1 and 2. The test u=−1 gives differences −2 and 0, respecting the bounds 1/2 and 1/4; the first test is not identically zero. At p=3,r=0,u=2, `2²−1=3` has norm 1/3. A putative prime-power measure would have mass 1 but its values along the converging sequence tend to 0.
+* For the infinite-order unit u∈Z₃ˣ with underlying value 2, `unitPowerTest 3` at exponents 0,1,2 has values 1,2,4. The difference of the exponent-two and exponent-zero tests at this u has norm 1/3.
 * At p=5,n=2, exponents 3 and 7 give 9 and 129. Their difference 120 lies in 5Z₅ and not in 25Z₅; congruence only modulo p−1 gives one digit, not arbitrarily many.
 
 ### 5.2 The positive-series-valued measure

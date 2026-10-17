@@ -475,6 +475,30 @@ def cyclotomicLogConstant {K : Type*} [Field K] {D : ℕ} [NeZero D]
     (hdom : ∀ a : (ZMod D)ˣ, ε ^ (a : ZMod D).val ≠ 1) : K :=
   cyclotomicPoweredLogConstant η ε L 1 (by simpa using hdom)
 
+example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
+    cyclotomicPoweredLogConstant η 2 (fun x => x) 1 (by decide) = -1 := by
+  sorry
+
+example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
+    cyclotomicPoweredLogConstant η 2 (fun x => x) 2 (by decide) = -6 := by
+  sorry
+
+example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
+    cyclotomicPoweredLogConstant η 2 (fun x => x) 3 (by decide) = -28 := by
+  sorry
+
+example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
+    cyclotomicLogConstant η 2 (fun x => x) (by decide) = -1 := by
+  sorry
+
+example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
+    cyclotomicLogConstant η 2 (fun x => x ^ 2) (by decide) = -4 := by
+  sorry
+
+example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
+    cyclotomicLogConstant η 2 (fun x => x ^ 3) (by decide) = -13 := by
+  sorry
+
 example {K : Type*} [NormedField K] [NormedAlgebra ℚ_[3] K] [CharZero K]
     (η : DirichletCharacter K 5) (ε : K) (L : K → K)
     (hdom : ∀ a : (ZMod 5)ˣ, ε ^ (a : ZMod 5).val ≠ 1) :
@@ -702,6 +726,22 @@ example : bernoulli 5 = 0 ∧ eisensteinPositiveMoment 2 1 4 = 1 := by
 example : unitPowerTest 2 0 (-1) = 1 := by simp [unitPowerTest]
 example : unitPowerTest 2 1 (-1) = -1 := by simp [unitPowerTest]
 example : unitPowerTest 2 2 (-1) = 1 := by simp [unitPowerTest]
+example (u : (ℤ_[3])ˣ) : unitPowerTest 3 0 u = 1 := by
+  simp [unitPowerTest]
+example (u : (ℤ_[3])ˣ) (hu : (u : ℤ_[3]) = 2) : unitPowerTest 3 1 u = 2 := by
+  have hcast : ((2 : ℤ_[3]) : ℚ_[3]) = 2 := rfl
+  simp [unitPowerTest, hu, hcast]
+example (u : (ℤ_[3])ˣ) (hu : (u : ℤ_[3]) = 2) : unitPowerTest 3 2 u = 4 := by
+  have hcast : ((2 : ℤ_[3]) : ℚ_[3]) = 2 := rfl
+  norm_num [unitPowerTest, hu, hcast]
+example (u : (ℤ_[3])ˣ) (hu : (u : ℤ_[3]) = 2) :
+    ‖(unitPowerTest 3 2 - unitPowerTest 3 0) u‖ = 1 / 3 := by
+  have hcast : ((2 : ℤ_[3]) : ℚ_[3]) = 2 := rfl
+  have h : (unitPowerTest 3 2 - unitPowerTest 3 0) u = (3 : ℚ_[3]) := by
+    norm_num [unitPowerTest, hu, hcast]
+  have hp : ‖(3 : ℚ_[3])‖ = (3 : ℝ)⁻¹ := Padic.norm_p
+  rw [h, hp]
+  norm_num
 example : ‖(1 / 6 : ℚ_[2])‖ = 2 := by
   sorry
 example : (-1 / 3 : ℚ) - 2 / 3 = -1 := by norm_num
@@ -751,7 +791,8 @@ universalWeightedDistribution and its normalized, parity and orbit quotients,
 distributionPrimitivePoints, distributionDistinguishedPoint, distributionAdmissibleDivisors,
 ordinaryDistributionBasisSet, primitiveTransfer, finiteCartanGroup, globalCartanGroup,
 cartanFullNorm, cartanNormLimit, finiteCartanValue, globalCartanValue,
-periodicBernoulliDistribution, positiveFourierDistribution, rationalCartanValue,
+periodicBernoulliDistribution, positiveFourierDistribution (k > 1), regularizedLogDistribution,
+rationalCartanValue,
 its primitive sums, cosets, correction factors and integral lattices;
 distributionNegation, distributionParityOperator, distributionSignRepresentation,
 distributionTateZeroParityEmbedding, distributionTateNegOneParityEmbedding,
