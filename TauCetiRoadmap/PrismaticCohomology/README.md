@@ -1887,7 +1887,7 @@ The construction only needs p-adic formal `X`, though comparisons assume smoothn
 <a id="s1-4"></a>
 <a id="layer-1-relative-prismatic-cohomology"></a>
 
-### 1.4 Relative prismatic cohomology Δ_{X/A}
+### 1.4 Relative prismatic cohomology `Δ_{X/A}`
 
 For smooth formal `X/A/I` set `Δ_(X/A)=Rν_*O_Δ` and `RΓ_Δ(X/A)=RΓ(X_ét,Δ_(X/A))`; for p-completely smooth `R` use its affine value. These are `(p,I)-complete E∞-A-algebras`. Their evaluation, cup product, variance, negative-degree vanishing and prism base change are specified below; the Čech model is §1.8 and Frobenius §1.9.
 
@@ -1918,7 +1918,7 @@ For smooth formal `X/A/I` set `Δ_(X/A)=Rν_*O_Δ` and `RΓ_Δ(X/A)=RΓ(X_ét,Δ
 <a id="s1-5"></a>
 <a id="layer-1-hodge-tate-cohomology"></a>
 
-### 1.5 Hodge–Tate cohomology Δ̄_{X/A} and Breuil–Kisin twists of A/I-modules
+### 1.5 Hodge–Tate cohomology `Δ̄_{X/A}` and Breuil–Kisin twists of `A/I`-modules
 
 For smooth `X/A/I` define `Δ̄_(X/A)=Rν_*Ō_Δ≃Δ_(X/A)⊗^L_A A/I`, with its `O_X-algebra` structure; use the same reduction on affines. With the twists below, the coefficient extension gives the triangle `Δ̄{i+1}→Δ⊗^L_A I^i/I^(i+2)→Δ̄{i}`, `i≥0`.
 
@@ -2111,7 +2111,7 @@ The tensor is termwise. BS22’s monoid partition uses residues `{0,…,p−1}^r
 
 For a crystalline prism (A,(p)), a PD ideal `I` containing `p` and smooth `R/(A/I)`, put `R^(1)=R⊗_(A/I,ψ)A/p`, where `ψ:A/I→A/p` is induced by Frobenius, which kills `I/p`. Then `Δ_(R^(1)/A)≃RΓ_crys(R/A)`, canonically as `E∞-A-algebras` with Frobenius. Crystalline cohomology is the derived limit over the PD thickenings `A/p^n`. For `I=(p)`, the comparison is induced by `φ_A`* C^•→D^•, where C^• is the prismatic Čech–Alexander object and D^• the p-completed PD envelope object of the same presentation; φ_A* `C^•` computes `Δ_(R^(1)/A)`.
 
-(A,(p)) is a crystalline prism, hence bounded; `I` is a PD ideal containing `p` (its divided powers are unique since A is p-torsion-free, and they are compatible with the canonical ones on `(p)`). `R` is a smooth `A/I-algebra` in the usual sense (`A/I` has characteristic `p`). The Frobenius twist is on the prismatic side: it is `R^{(1)}`, not `R`, whose prismatic cohomology is the crystalline cohomology of `R`. For `I = (p)` and with base change (§1.21) this reads `φ_A^`*Δ_{R/A} ≃ RΓ_crys(R/A); the untwisted statement Δ_{R/A} ≃ RΓ_crys(R/A) is false in general. The statement φ_A^*`C^•` computes `Δ_{R^{(1)}/A}` is termwise; it is not claimed here that `φ_A^*` commutes with the totalisation of `C^•`.
+(A,(p)) is a crystalline prism, hence bounded; `I` is a PD ideal containing `p` (its divided powers are unique since A is p-torsion-free, and they are compatible with the canonical ones on `(p)`). `R` is a smooth `A/I-algebra` in the usual sense (`A/I` has characteristic `p`). The Frobenius twist is on the prismatic side: it is `R^{(1)}`, not `R`, whose prismatic cohomology is the crystalline cohomology of `R`. For `I = (p)` and with base change (§1.21) this reads `φ_A^*Δ_{R/A} ≃ RΓ_crys(R/A)`; the untwisted statement `Δ_{R/A} ≃ RΓ_crys(R/A)` is false in general. The statement `φ_A^*C^•` computes `Δ_{R^{(1)}/A}` is termwise; it is not claimed here that `φ_A^*` commutes with the totalisation of `C^•`.
 
 (BS22, Notation 5.1, Theorem 5.2 and its proof; p. 45; BS22, Theorem 1.8 (1) and Example 1.9 (1); pp. 4, 5; ALB23, Theorem 3.1.7 and the paragraph before it; p. 17.)
 
@@ -2383,7 +2383,7 @@ For `R=A/I` the relative site has final object (A,I,id), `Δ=A` and `Δ̄=A/I`. 
 
 **§1.21.** Crystalline base: for `(Z_p,(p)) → (W(k),(p))`, `Δ_{F_p[X]/Z_p} ⊗̂ W(k) ≃ Δ_{k[X]/W(k)}`. For the map of prisms α `= can∘φ` : `(A_inf, ker θ) → (A_crys,(p))` (Construction 6.1 with `d = ξ`) and `X` smooth, quasi-compact and quasi-separated over `O_C`: `RΓ_Δ(X/A_inf) ⊗̂^L_{A_inf,α} A_crys ≃ RΓ_Δ(Y/A_crys)` with `Y = X ×_{Spf O_C} Spf(A_crys/p) = (X_{O_C/p})^{(1)}`; by §1.14 for the PD ideal `ker(A_crys → O_C/p)` the right side is `RΓ_crys(X_{O_C/p}/A_crys)`, the `A_crys-comparison` of BMS1. Non-example: for `X` an infinite disjoint union of copies of `Spf(F_p)` over `(Z_p,(p))` and `B = Z_p⟨x⟩`, the map `(∏ Z_p) ⊗̂ Z_p⟨x⟩ → ∏ Z_p⟨x⟩` is not surjective.
 
-**§1.22.** `A = Z_p[[u]]`, `I = (E(u))`, `A/I = O_K` p-torsion-free: `Δ_{X/A} ⊗^L_{A,φ} O_K ≃ Ω^`*_{X/O_K}. A = W(k), I = (p), k perfect: Δ_{R/W(k)} ⊗^L_{W(k),φ} k ≃ Ω^*`_{R/k}`; with the Cartier isomorphism this is consistent with `Δ̄_{R/W(k)}` having cohomology `Ω^i_{R/k}`. A hypothesis check: `W(F_p[x]/(x²))` has p-torsion, and for A a p-torsion-free δ-lift of `F_p[x]/(x²)` the theorem does not apply; the general comparison is PrismaticCohomologyPartII §3.17.
+**§1.22.** `A = Z_p[[u]]`, `I = (E(u))`, `A/I = O_K` p-torsion-free: `Δ_{X/A} ⊗^L_{A,φ} O_K ≃ Ω^*_{X/O_K}`. `A = W(k)`, `I = (p)`, `k` perfect: `Δ_{R/W(k)} ⊗^L_{W(k),φ} k ≃ Ω^*_{R/k}`; with the Cartier isomorphism this is consistent with `Δ̄_{R/W(k)}` having cohomology `Ω^i_{R/k}`. A hypothesis check: `W(F_p[x]/(x²))` has p-torsion, and for A a p-torsion-free δ-lift of `F_p[x]/(x²)` the theorem does not apply; the general comparison is PrismaticCohomologyPartII §3.17.
 
 **§1.23.** For `X=P¹` over `A/I`, `RΓ_Δ` is `A⊕A{−1}[−2]`, a perfect complex of rank two. A proper abelian formal scheme of relative dimension `g` has amplitude [0,2g], with `H¹` of rank 2g after field base change. Properness matters: over `(Z_p,(p))`, the affine line has `H⁰(Δ̄)=F_p[x]`, which is not finite over `F_p`, so its global `Δ` is not perfect.
 
