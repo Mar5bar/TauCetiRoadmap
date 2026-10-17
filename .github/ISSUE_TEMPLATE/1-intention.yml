@@ -19,17 +19,20 @@ body:
       description: Which roadmap does this intention sit in?
       options:
         - AdicSpaces
+        - AdicSpacesPartII
+        - AffineMorseLefschetz
         - AlgebraicCurves
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AnalyticToricGeometry
-        - ArithmeticDirichletSeries
+        - BanachSpaceTheory
         - BelyiMaps
         - CFSGStatement
         - Chebotarev
         - ClassFieldTheory
         - ClassifyingSpaces
         - CombinatorialHeegaardFloer
+        - CompactOperators
         - ConformalMapping
         - DGAInfinity
         - DGFloer
@@ -38,27 +41,37 @@ body:
         - DiophantineApproximationAndTranscendence
         - EllipticCurves
         - Exchangeability
+        - FormalLaurentPuiseux
         - FuchsianOrbifolds
+        - GeneralizedCohomology
         - GeometricMeasureTheory
         - GeometricTopology
         - GlobalNumberFields
         - GlobalQuadraticForms
         - GrothendieckEulerForms
         - HeegaardFloer
+        - HeightsAndUnits
         - HopfRinow
+        - InfinitaryLogic
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
         - LocalFieldsRamification
         - LocalGaloisGroups
+        - MassFormula
         - ModularCurves
         - ModularForms
+        - MorseTheory
+        - NewtonPolygons
+        - NoncommutativeGeometry
         - NumberFieldArithmetic
         - OneParameterSemigroups
+        - OperatorAlgebraDynamics
         - OperatorTheory
         - OptimalTransport
         - OrthogonalSpinGroups
         - PDE
+        - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
         - PeripheralActions
         - PivotalSpherical
@@ -67,13 +80,18 @@ body:
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - QuadraticFormInvariants
+        - QuantumGroups
         - RealAlgebraicGeometry
         - ReductiveGroups
+        - Regularity
         - RepresentationTheory
+        - RestrictedPowerSeries
+        - RigidAnalyticGeometry
         - SchemeAndStackFoundations
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - Yamabe
         - ZigzagPreprojective
     validations:
       required: true
