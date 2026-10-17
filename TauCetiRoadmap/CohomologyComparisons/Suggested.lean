@@ -13,8 +13,13 @@ The comparison theorems of the roadmap concern A_inf, crystalline, prismatic, in
 Hyodo–Kato and pro-étale cohomology of formal schemes and rigid spaces, none of which exists at the
 pins. AInfCohomology §AI.6.5 supplies canonical `B_dR⁺` cohomology and its envelope maps.
 PrismaticCohomologyPartIII §7.0 supplies the graded Beilinson square.
+PrismaticCohomologyPartIV §§8.1–8.29, 8.35, 8.41–8.42, 8.56 and 8.69 supplies the generic
+logarithmic prismatic constructions and comparisons, with each comparison's hypotheses;
+§8.60 supplies the shared log adic structures, logification, pullback, integral fs charts and
+Kummer-étale site. Layer 4.6 constructs the additional period and Hyodo–Kato agreement diagrams.
 The remaining heavy objects (the relative infinitesimal site, analytic-to-perfect coefficient
-extension, logarithmic period sheaf on modular curves and affinoid-perfectoid flag basis) are
+extension, pro-Kummer tower and logarithmic period sheaf on modular curves, and
+affinoid-perfectoid flag basis) are
 README targets with their intended signatures; the closing
 comment lists them.
 
@@ -610,9 +615,12 @@ comparisons; the supplied PrismaticCohomologyPartIII §7.0 interface `gradedBeil
 with `gradedBeilinsonSquare_map`, `gradedBeilinsonSquare_zero`,
 `gradedBeilinsonSquare_cartesian`, `gradedBeilinsonSquare_integral` and
 `gradedBeilinsonSquare_local`, and the locally constructed nearby-cycle square of Layer 3; the semistable and Beilinson
-comparisons, `RigidHyodoKatoCohomology` and proper rigid comparisons of Layer 4; the torsion
+comparisons, `RigidHyodoKatoCohomology` and proper rigid comparisons of Layer 4, including
+§4.6's period and Hyodo–Kato agreements for PrismaticCohomologyPartIV's supplied logarithmic
+comparisons; the torsion
 inequalities, lattice recovery and counterexamples of Layer 5; `panModularTower` and
-`panAlmostIntegralComparison`; `panLogPeriod` with `panLogPeriod_restrict`, `panLogPeriod_theta`,
+`panAlmostIntegralComparison`; the pro-Kummer tower over PrismaticCohomologyPartIV §8.60's
+shared log structures and Kummer-étale site; `panLogPeriod` with `panLogPeriod_restrict`, `panLogPeriod_theta`,
 `panLogPeriod_local`,
 `panLogPeriod_connection` and `panLogPeriod_faltings`; `panBasis` with `panBasis_isBasis`,
 `panBasis_perfectoid`, `panBasis_finiteLevel` and `panBasis_inter`; `relativeFilteredComparison`
