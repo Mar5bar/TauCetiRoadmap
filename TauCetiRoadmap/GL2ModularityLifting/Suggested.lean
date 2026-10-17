@@ -27,6 +27,11 @@ Design choices.
   proves `p* ≡ 1 (mod 4)` and that a primitive `p`-th root of unity yields a square root of `p*`.
 * Hodge–Tate weights are normalised by `HT(ε) = 1`; distinct weights `a < b` normalise to
   `{0, k − 1}` with `k = b − a + 1` (`normalizedWeight`).
+* The avoidance variant (§3.4a) patches modules over the fixed ambient rings A and A′
+  without a domain hypothesis; component geometry is used there, before any action quotient.
+* `RankTwoFamily` is the Hodge-forgetting rank-two view of the supplied
+  `AutomorphicSystemData`, with a common-good-Frobenius predicate and separate de Rham and
+  Weil–Deligne conditions.
 * Pan's good components (Layer 10) are stated on concrete data: a family of subsets of a point
   space, the potentially nice points and the seed points. Pan's extension components are the
   minimal primes of the source of a ring map that lie in the image of the target spectrum, for
@@ -127,6 +132,9 @@ example (n : ℤ) : normalizedWeight (3 + n) (7 + n) = 5 := by
   rw [normalizedWeight_shift]
   norm_num [normalizedWeight]
 example : normalizedWeight 0 1 = 2 := by norm_num [normalizedWeight]
+/-- The crystalline twist with weights `{6,7}` in §8.6 normalizes to weight two;
+its unnormalized weights do not give an exact classical newform attachment. -/
+example : normalizedWeight 6 7 = 2 := by norm_num [normalizedWeight]
 /-- Equal weights (a weight-one form) give `k = 1`, outside the lifting theorems. -/
 example : normalizedWeight 4 4 = 1 := by norm_num [normalizedWeight]
 
@@ -309,7 +317,7 @@ README §§10.3–10.4.
 
 The higher arithmetic targets use carriers (Galois representations of number fields with local conditions, Hilbert and
 quaternionic eigenforms, global and local deformation rings, patched modules, completed
-cohomology, and `RankTwoFamily`) absent from the pinned libraries; the README states those targets with
+cohomology, and the shared `AutomorphicSystemData` view `RankTwoFamily`) absent from the pinned libraries; the README states those targets with
 their intended signatures.
 
 * Layer 1: `MinimalLevelData`, `ResidualModularAlpha`, `ResidualModularBeta`, `defToHecke`,
@@ -319,7 +327,9 @@ their intended signatures.
   freeness and control at Taylor–Wiles levels.
 * Layers 3–4: `PatchingDatum` (with `patchingRadius` above), the patched ring and module,
   their support, finiteness of the minimal deformation ring, `avoidancePair`, integral and
-  generic-fibre `R = T`. The avoidance pair and its API require `p > 2`.
+  generic-fibre `R = T`. The avoidance pair and its API require `p > 2`; §3.4a constructs
+  the simultaneous ambient modules over A and A′, with common special-fibre actions and
+  augmentations, without using the domain-case ring-module criterion.
 * Layers 5–6: `StronglyResiduallyModular`, `bcdtHeckeModule`, `DyadicPatchingDatum`,
   `dyadicPatchedRing`, `dyadicPatchedModule`, `dyadicTorusAction`; the Khare–Wintenberger,
   Kisin, Fontaine–Laffaille, BCDT and crystalline lifting theorems, KW I Theorem 4.1 and
@@ -327,15 +337,24 @@ their intended signatures.
 * Layers 7–9: `OddPrimeLifting`, `DyadicLifting`, `ResiduallyReducibleLifting`,
   `OrdinaryThreeLifting`, the classification of geometric twists, `patchedWeightFiltration`,
   Kisin's multiplicity criterion and the de Rham lifting theorems at odd primes and at `2`.
+  Section 8.6 concludes modularity up to a global character twist for arbitrary distinct
+  weights, with the labelled Hilbert weight and central-character convention of the README;
+  normalized weights `{0,k−1}` over ℚ give exact weight-k modularity through §§7.9 and 7.11.
 * Layers 10–12: `PanNicePrime`, `PanPotentiallyNicePrime` (with `panGoodComponent` and
   `panExtensionComponents` above), Pan's residually reducible theorem, the ordinary `3`-adic
   completion and the transfer statements along congruences. Sections 12.2–12.3 use normalized
   weights `{0,k−1}` with `k≥2` for exact modularity. The Pan branch carries the
-  twist-two rational dual vanishing hypothesis LC, as specified in the README.
-* Layer 0: continuous rank-two determinants and pseudocharacters at odd primes, field
-  reconstruction, two-block generalized matrix algebras, reducibility ideals and nonsplit
-  stable lattices. Section 10.7a supplies Baker–Brumer, `abelian_leopoldt` and its Galois-rank
-  and reducible-locus dimension consequences.
+  twist-two rational dual vanishing hypothesis LC and CC1–CC5. The odd irreducible branch
+  carries LL1–LL3 and CC4–CC5, the dyadic branch CC1 and CC4–CC5, and the ordinary branch
+  imports ClassicalSerreModularity §I.1 through OrdinaryAutomorphicFormsAndModularityLifting.
+* Layer 0: odd-involution descent and Pan’s one-dimensional completion and bounded-denominator
+  trace/deformation comparisons, using the native determinants, Cayley–Hamilton algebras, GMAs,
+  reducibility ideals and Ribet lattices of IntegralHeckeAndGaloisDeterminants §§0.5, 1.2–1.4.
+  Section 10.7a imports `PadicBaker.eq_zero_of_add_sum_mul_eq_zero` from
+  LinearFormsInLogarithms §8.10; its common-power logarithm adapter gives `abelian_leopoldt`
+  and the Galois-rank and reducible-locus dimension consequences. Section 5.8 imports the
+  general unramified Fontaine–Laffaille smoothness theorem of LocalGaloisDeformationRings §3.10
+  with its residual Fontaine–Laffaille, regular-width and nonempty fixed-determinant hypotheses.
 -/
 
 end TauCetiRoadmap.GL2ModularityLifting
