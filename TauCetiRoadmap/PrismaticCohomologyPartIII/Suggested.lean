@@ -6,7 +6,7 @@ import Mathlib
 The roadmap is README.md. This file records suggested forms statable against the pinned
 Mathlib and Tau Ceti APIs, not an exhaustive checklist.
 
-These elementary fixed-point and lattice witnesses pin the conventions of Layers 6–7.
+These elementary fixed-point, base-change and lattice witnesses pin the conventions of Layers 6–7.
 Frobenius fixed points in README.md are derived fibres; taking an ordinary kernel records
 only their degree-zero part. The comparison and crystal targets retain their full sites,
 period coefficients and cohomological shifts there.
@@ -31,6 +31,60 @@ example (p : ℕ) [Fact p.Prime] (x : ZMod p) : x ^ p - x = 0 := by
 
 /-- The dyadic Artin–Schreier map on the prime field is zero, not surjective. -/
 example : ¬ ∃ x : ZMod 2, x ^ 2 - x = 1 := by decide
+
+/-- The polynomial coordinate survives in the Artin–Schreier cokernel over every prime field. -/
+theorem pr4_fixed_points_not_fixed_vectors (p : ℕ) [Fact p.Prime] :
+    ¬ ∃ f : Polynomial (ZMod p), f ^ p - f = Polynomial.X := by
+  sorry
+
+/-- The identity transition satisfies the base-change condition along the identity ring map. -/
+theorem pr7_crystal_base_change_id (R : Type*) [CommRing R]
+    (M : Type*) [AddCommGroup M] [Module R M] :
+    IsBaseChange R (LinearMap.id : M →ₗ[R] M) := by
+  sorry
+
+/-- The diagonal transition extends the unit module to both factors of a product ring. -/
+theorem pr7_crystal_unit_eval (R : Type*) [CommRing R] :
+    IsBaseChange (R × R) (Algebra.linearMap R (R × R)) := by
+  sorry
+
+/-- A zero transition on the unit module over a nonzero ring fails the base-change condition. -/
+theorem pr7_crystal_zero_transition (R : Type*) [CommRing R] [Nontrivial R] :
+    ¬ IsBaseChange R (0 : R →ₗ[R] R) := by
+  sorry
+
+/-- The Hodge–Tate quotient of the crystalline prism is not projective over its base ring. -/
+theorem pr7_crystal_hodge_tate_quotient_not_projective (p : ℕ) [Fact p.Prime] :
+    ¬ Module.Projective ℤ_[p] (ℤ_[p] ⧸ Ideal.span {(p : ℤ_[p])}) := by
+  sorry
+
+/-- Rank-two Frobenius with multipliers 1 and p preserves the standard p-adic lattice;
+replacing p by its inverse fails to preserve that lattice. -/
+theorem pr7_fcrystal_eval_effective (p : ℕ) [Fact p.Prime] :
+    (∀ x : ℤ_[p] × ℤ_[p], ∃ y : ℤ_[p] × ℤ_[p],
+      ((x.1 : ℚ_[p]), (p : ℚ_[p]) * (x.2 : ℚ_[p])) =
+        ((y.1 : ℚ_[p]), (y.2 : ℚ_[p]))) ∧
+    ¬ (∀ x : ℤ_[p] × ℤ_[p], ∃ y : ℤ_[p] × ℤ_[p],
+      ((x.1 : ℚ_[p]), (p : ℚ_[p])⁻¹ * (x.2 : ℚ_[p])) =
+        ((y.1 : ℚ_[p]), (y.2 : ℚ_[p]))) := by
+  sorry
+
+/-- Unit Frobenius on the source and multipliers (1,2) on the target do not commute
+with the diagonal transition over the crystalline 3-adic prism. -/
+theorem pr7_fcrystal_frobenius_transition :
+    (fun x : ℤ_[3] => (x, (2 : ℤ_[3]) * x)) ≠ (fun x : ℤ_[3] => (x, x)) := by
+  sorry
+
+/-- The dual multiplier p inverse fails to preserve the rank-one p-adic lattice. -/
+theorem pr7_fcrystal_dual_not_effective (p : ℕ) [Fact p.Prime] :
+    ¬ ∃ x : ℤ_[p], (x : ℚ_[p]) = (p : ℚ_[p])⁻¹ := by
+  sorry
+
+/-- A line over the prime field and the product of two such lines have distinct dimensions. -/
+theorem pr4_syntomic_scheme_not_product (p : ℕ) [Fact p.Prime] :
+    Module.finrank (ZMod p) (ZMod p) = 1 ∧
+      Module.finrank (ZMod p) (ZMod p × ZMod p) = 2 := by
+  sorry
 
 /-- Multiplication by p preserves the integral rank-one lattice. -/
 example (p : ℕ) : ∀ x : ℤ, ∃ y : ℤ, (p : ℚ) * (x : ℚ) = (y : ℚ) := by
