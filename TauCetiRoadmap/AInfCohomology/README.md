@@ -275,8 +275,8 @@ The witness for the two normalizations is the point `Spf O_C`: `θ(μ) = 0` and 
   `Module.FaithfullyFlat.zero_iff_lTensor_zero` and
   `Module.FaithfullyFlat.lTensor_bijective_iff_bijective`; `Module.equiv_free_prod_directSum` and
   `Module.equiv_directSum_of_isTorsion` (finitely generated modules over a principal ideal domain,
-  applied to `ℤ_p` and `O_K`); `ValuationRing` (no rank-one or elementary-divisor theory, which is
-  Layer AI.2); `Finsupp`, `Finset.max'` and its dual `Finset.min'`; `WeierstrassCurve.j`; `ExteriorAlgebra`; `Module.Invertible`.
+  applied to `ℤ_p` and `O_K`); `ValuationRing` (no rank-one or elementary-divisor theory; general cyclic decomposition is
+  in §AI.1.3 and the `A_inf` applications are in Layer AI.2); `Finsupp`, `Finset.max'` and its dual `Finset.min'`; `WeierstrassCurve.j`; `ExteriorAlgebra`; `Module.Invertible`.
 
 ### From Tau Ceti (pinned at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`)
 
@@ -715,17 +715,29 @@ Construct the conormal transition maps and divide their `p` factors, proving int
 - `AInf.bkTwist_test_one`: `dlog(ε)` spans `μ*A_inf{1}`; after `θ̃` its image is `(ζ_p-1)O_C{1}`.
 - `AInf.bkTwist_test_negative`: `A_inf{1}⊗A_inf{-1}≅A_inf`, whereas a rule omitting duals fails for negative powers.
 
-**Fontaine dlog theorem** (`AInf.fontaine_dlog`). `O_C{1}=T_p(Ω^1_(O_C/ℤ_p))` is free of rank one; `dlog:O_C(1)→O_C{1}` is injective with image `(ζ_p−1)O_C{1}`. There is no canonical trivialization of the Galois Tate line.
-
-`C` complete algebraically closed over `ℚ_p`; `ζ_p` primitive; continuous Galois action when `C` is a completed algebraic closure.
-
-Use the completed cotangent calculation and the exact sequence of roots of unity. For general `C` reduce from `C_p` via the vanishing of the relative completed cotangent complex. (Zav (arXiv v3), Theorem 3.3.3 and proof, printed pp.35–36; twist conventions in §1, pp.9–10; dlog is not an integral unit isomorphism). *Needs:* *Intrinsic Breuil–Kisin twist* (§AI.0:integral.1); DerivedModuleAlgebra, §0.4 (*The full cotangent complex*).
-
 **Completed cotangent description of the twist** (`AInf.completed_cotangent_twist`). The derived p-completed cotangent complex of `O_C/ℤ_p` is `O_C{1}[1]`, and for an integral perfectoid `O_C-algebra S` the derived p-completed relative cotangent complex of `S/O_C` vanishes. These use cohomological degree −1, so the twist is the shift by −1 of the completed complex.
 
 Integral perfectoid `S` over `O_C`, with p-adic completion; do not replace the derived completion by ordinary differentials.
 
 Use the perfectoid cotangent theorem of PerfectoidQuotients §0.3 together with DerivedModuleAlgebra §0.8 transitivity. Identify the surviving degree with the Tate module of differentials. (Zav (arXiv v3), §1 twist conventions, printed pp.9–10; Theorem 3.3.3 proof, pp.35–36). *Needs:* *Intrinsic Breuil–Kisin twist* (§AI.0:integral.1); DerivedModuleAlgebra, §0.8 (*The cotangent transitivity triangle*); DerivedModuleAlgebra, §1.3 (*The derived completion reflector*); PerfectoidQuotients, §0.3 (`perfectoid_cotangent_mod_p_vanishes`, `perfectoid_absolute_cotangent`).
+
+**Checks.**
+
+- For `S=O_C`, the relative completed cotangent complex is zero.
+- The absolute completed cotangent complex has its single nonzero cohomology `O_C{1}` in degree −1.
+- For `S=O_C⟨T^{±1/p^∞}⟩`, the relative completed cotangent complex vanishes despite the presence of torus coordinates.
+
+**Fontaine dlog theorem** (`AInf.fontaine_dlog`). `O_C{1}=T_p(Ω^1_(O_C/ℤ_p))` is free of rank one; `dlog:O_C(1)→O_C{1}` is injective with image `(ζ_p−1)O_C{1}`. There is no canonical trivialization of the Galois Tate line.
+
+`C` complete algebraically closed over `ℚ_p`; `ζ_p` primitive; continuous Galois action when `C` is a completed algebraic closure.
+
+Use the completed cotangent calculation and the exact sequence of roots of unity. For general `C` reduce from `C_p` via the vanishing of the relative completed cotangent complex. (Zav (arXiv v3), Theorem 3.3.3 and proof, printed pp.35–36; twist conventions in §1, pp.9–10; dlog is not an integral unit isomorphism). *Needs:* *Intrinsic Breuil–Kisin twist* (§AI.0:integral.1); *Completed cotangent description of the twist* (§AI.0:integral.1); DerivedModuleAlgebra, §0.4 (*The full cotangent complex*).
+
+**Checks.**
+
+- At `p=2`, `ζ₂−1=−2`, so the dlog image is `2O_C{1}`.
+- For odd `p`, the cokernel is a rank-one module over `O_C/(ζ_p−1)` and is nonzero.
+- After tensoring with `C`, dlog is an isomorphism of the two lines.
 
 ### AI.0:integral.2 Integral crystalline coefficients and perfectoid regularity
 
@@ -1086,11 +1098,41 @@ Choose strongly K-flat models C,D. Locally send `x` tensor `y` in normalized deg
 - No universal tensor equivalence is asserted.
 - Do not silently identify the derived source with its ordinary tensor product.
 
+**Finitely generated torsion-free modules over a valuation ring**. Over a valuation ring `V`, every finitely generated torsion-free V-module is free, and every finitely generated submodule of a finite free V-module is free.
+
+`V` a valuation ring (no rank or noetherian hypothesis).
+
+A finitely generated torsion-free V-module `M` embeds into `M ⊗_V` Frac(V) `≅ Frac(V)^r`; clearing the denominators of a finite generating set places `M` inside a finite free module. A valuation ring is a Bézout domain, so a finite submodule of a free module is finite free. (Stacks, Stacks Project, Tags 0539 (torsion-free modules over a valuation ring are flat) and 0ASU (over a Bézout domain, finite submodules of free modules are finite free)). *Needs:* Mathlib `ValuationRing`; PerfectoidSpaces, P0 (*The basic setup (K°, K°°) of a valuation ring with non-principal maximal ideal*).
+
+**Checks.**
+
+- For nonzero `a∈V`, the submodule `aV⊂V` is free of rank one, even when `a` is a nonunit.
+- For a field `V`, a finite torsion-free module is a finite-dimensional vector space.
+- For a nonzero nonunit `a`, `V/aV` is finitely generated but has torsion and is not free.
+
+**Finitely presented modules over a valuation ring and their Fitting ideals**. Over a valuation ring `V`, every finitely presented V-module is isomorphic to `V^r ⊕ ⊕_{i=1}^{s} V/a_iV` with `a_i` nonzero nonunits; the zeroth Fitting ideal of a finitely presented torsion module `⊕ V/a_iV` is `(a_1 ⋯ a_s)`, and, for `V` of rank one, `Fitt_0(M) = Fitt_0(M′)·Fitt_0(M″)` for every short exact sequence 0 `→ M′ → M → M″ →` 0 of finitely presented torsion V-modules, so that the length val(M) `= v(Fitt_0 M)` for a real valuation `v` is additive.
+
+`V` a valuation ring; for the length statement `V` has rank one and `v` is a fixed real-valued valuation.
+
+Diagonalize a presentation matrix: over a valuation ring an entry of minimal valuation divides all others, so row and column operations reduce to diagonal form. Compute `Fitt_0` of a diagonal presentation; multiplicativity in exact sequences of torsion modules follows from the diagonal forms and the multiplicativity of determinants. Additivity of val follows. (Stacks, Stacks Project, Tag 0ASP (over a valuation ring every finitely presented module is a finite direct sum of cyclic modules V/fV); ČK (arXiv v3), §7.10, printed pp.70–71). *Needs:* Mathlib `ValuationRing`; Tau Ceti `TauCeti.RingTheory.FittingIdeal.Basic` (`TauCeti.fittingIdeal`, `TauCeti.fittingIdeal_eq_minorsIdeal_ker`) and `TauCeti.RingTheory.FittingIdeal.BaseChange` (`TauCeti.fittingIdeal_baseChange`); *Finitely generated torsion-free modules over a valuation ring* (§AI.1.3).
+
+**Checks.**
+
+- For `V/a⊕V/b`, `Fitt₀=(ab)`, giving valuation length `v(a)+v(b)`.
+- For the zero module the zeroth Fitting ideal is `V` and its valuation is zero.
+- Over a DVR, `0→V/π→V/π²→V/π→0` gives `(π²)=(π)(π)` and length two.
+
 **Monoidality over a valuation ring** (`AInf.valuation_monoidality`). For a valuation ring `R` and nonzero `f`, the lax product map `Lη_f(C) ⊗^L Lη_f(D)→Lη_f(C ⊗^L D)` is an equivalence. For a general ring only the lax map is constructed.
 
 `R` valuation ring; `f` nonzero; derived tensor computed with eligible replacements.
 
-Reduce by filtered colimits and flat pullback to finitely presented modules over a valuation ring. Compute the cyclic torsion summands using the relative divisibility of f,g,h. (BMS1 (arXiv v3), Proposition 6.8; printed p.50). *Needs:* *Lax symmetric monoidal structure* (§AI.1.3); *Principal cohomology quotient* (§AI.1.1).
+Reduce by filtered colimits and flat pullback to finitely presented modules over a valuation ring. Compute the cyclic torsion summands using the relative divisibility of f,g,h. (BMS1 (arXiv v3), Proposition 6.8; printed p.50). *Needs:* *Lax symmetric monoidal structure* (§AI.1.3); *Principal cohomology quotient* (§AI.1.1); *Finitely generated torsion-free modules over a valuation ring* (§AI.1.3); *Finitely presented modules over a valuation ring and their Fitting ideals* (§AI.1.3).
+
+**Checks.**
+
+- For `C=D=R[0]`, the product is the identity on `R[0]`.
+- Over a DVR with uniformizer `π`, `f=π` and `C=R/π`, both sides vanish for every `D`.
+- Over the same DVR, for `C=D=R/π²` and `f=π`, each side has `R/π` in cohomological degrees −1 and 0 and vanishes in all other degrees.
 
 ### AI.1.4 The Bockstein complex and the Beilinson filtration
 
@@ -1331,7 +1373,7 @@ Write the differential with the exterior-algebra sign `e_i` ∧ `e_J`; `d` ∘ `
 - `koszul_two_sign`: For multiplication by x,y, `d¹(1,0)=−y` and `d¹(0,1)=x`; `d¹d⁰(m)=xym−yxm=0`, including in characteristic 2.
 - `koszul_identity`: If some `g_i` is the identity of `M`, the complex is acyclic.
 - `koszul_sequence`: For A `= M = ℤ[x`, `y`] and `g = (x, y)` multiplications, `H^2 = ℤ` and `H^0 = H^1 =` 0.
-- `koszul_noncommuting`: For `M = A^2` with `g_1`, `g_2` the elementary matrices `E_12` and `E_21`, the formula gives `d` ∘ `d ≠` 0; commutation is required.
+- `koszul_noncommuting`: For a nonzero commutative ring `A`, take `M=A²`, `g₁=E₁₂` and `g₂=E₂₁`. The commutator is `diag(1,−1)≠0`, so the displayed differential has `d²≠0`; on `(1,0)` it gives `(1,0)`. Over the zero ring the commutator and `d²` are zero. These matrix computations are mirrored in `Suggested.lean`.
 
 **Dé­calage of commuting Koszul operators** (`AInf.koszul_decalage_calculation`). For `f` regular and a complex `M` of f-torsion-free modules, let regular scalars `g_i` each divide `f` or be divisible by `f`. If some `g_i` divides `f`, `η_f(M tensor K(g_i))` is acyclic. If `f` divides every `g_i`, `η_f(M tensor K(g_i))≅η_f M` tensor `K(g_i/f)`. The toric `γ_i−1` calculation is obtained weightwise from these scalar statements; the general Koszul complex of commuting endomorphisms is *Koszul complex of commuting endomorphisms* (§AI.1.7).
 
@@ -1407,7 +1449,7 @@ divisibility submodule is everything for `f = 1` and the cocycles for `f = 0`.
 
 ### Dependencies
 
-Earlier layers: AI.0, AI.0:integral. Other roadmaps: ArithmeticGaloisDuality §D7.3, ClassicalAdicEtaleCohomology §1.3, CrystallineCohomology CR.4, DerivedModuleAlgebra §§1.1–1.9, DerivedDeRhamCohomology §§1.14–1.22, EnhancedDerivedSheaves E1, EnhancedDerivedSheaves E2, EnhancedDerivedSheaves E4, DerivedModuleAlgebra, §0.K.1. Mathlib: `CochainComplex`, `CochainComplex.of`, `CochainComplex.ofHom`, `DerivedCategory`, `DerivedCategory.Q`, `ExteriorAlgebra`, `Finsupp`, `HomologicalComplex.d_comp_d`, `Module.Invertible`, `ModuleCat`, `PowerSeries`, `PowerSeries.coeff`, `continuousCohomology`.
+Earlier layers: AI.0, AI.0:integral. Other roadmaps: ArithmeticGaloisDuality §D7.3, ClassicalAdicEtaleCohomology §1.3, CrystallineCohomology CR.4, DerivedModuleAlgebra §§1.1–1.9, DerivedDeRhamCohomology §§1.14–1.22, EnhancedDerivedSheaves E1, EnhancedDerivedSheaves E2, EnhancedDerivedSheaves E4, DerivedModuleAlgebra, §0.K.1, PerfectoidSpaces P0. Tau Ceti: `TauCeti.RingTheory.FittingIdeal.Basic`, `TauCeti.RingTheory.FittingIdeal.BaseChange`. Mathlib: `CochainComplex`, `CochainComplex.of`, `CochainComplex.ofHom`, `DerivedCategory`, `DerivedCategory.Q`, `ExteriorAlgebra`, `Finsupp`, `HomologicalComplex.d_comp_d`, `Module.Invertible`, `ModuleCat`, `PowerSeries`, `PowerSeries.coeff`, `ValuationRing`, `continuousCohomology`.
 
 ## Layer AI.2: Breuil–Kisin–Fargues modules, lattices and modifications
 
@@ -1419,23 +1461,17 @@ bundles on the punctured spectrum.
 
 ### AI.2.1 Finitely presented modules over `A_inf`
 
-**Finitely generated torsion-free modules over a valuation ring**. Over a valuation ring `V`, every finitely generated torsion-free V-module is free, and every finitely generated submodule of a finite free V-module is free.
-
-`V` a valuation ring (no rank or noetherian hypothesis).
-
-A finitely generated torsion-free V-module `M` embeds into `M ⊗_V` Frac(V) `≅ Frac(V)^r`; clearing the denominators of a finite generating set places `M` inside a finite free module. A valuation ring is a Bézout domain, so a finite submodule of a free module is finite free. (Stacks, Stacks Project, Tags 0539 (torsion-free modules over a valuation ring are flat) and 0ASU (over a Bézout domain, finite submodules of free modules are finite free)). *Needs:* Mathlib `ValuationRing`; PerfectoidSpaces, P0 (*The basic setup (K°, K°°) of a valuation ring with non-principal maximal ideal*).
-
 **Valuation submodule dimension bound** (`AInf.valuation_special_fiber_bound`). For `E⊂(C^♭)^d` an `O_C^♭-submodule`, `dim_k(E⊗k)≤d`.
 
 No finite generation assumed for `E`.
 
-Every finitely generated torsion-free submodule is finite free of `rank≤d`. A hypothetical larger independent residue family would lift to such a submodule. (BMS1 (arXiv v3), Lemma 4.7, printed pp.35–36). *Needs:* PerfectoidSpaces, P1; Mathlib `ModuleCat`; *Finitely generated torsion-free modules over a valuation ring* (§AI.2.1); PerfectoidSpaces, P1 (tilt, valuation and compatible roots).
+Every finitely generated torsion-free submodule is finite free of `rank≤d`. A hypothetical larger independent residue family would lift to such a submodule. (BMS1 (arXiv v3), Lemma 4.7, printed pp.35–36). *Needs:* PerfectoidSpaces, P1; Mathlib `ModuleCat`; *Finitely generated torsion-free modules over a valuation ring* (§AI.1.3); PerfectoidSpaces, P1 (tilt, valuation and compatible roots).
 
 **Residue-dimension criterion for a lattice** (`AInf.valuation_lattice_criterion`). If `D⊂(C^♭)^d` and `dim_k(D⊗k)=d`, then `D` is finite free of rank `d`.
 
 `D` an `O_C^♭-submodule`; `C^♭` algebraically closed valuation field.
 
-In rank one distinguish a principal fractional ideal, `m` times a principal fractional ideal, and the field. Induct by a saturated rank-one submodule and its torsion-free quotient. (BMS1 (arXiv v3), Lemma 4.8, printed pp.35–36; the rank-one alternatives are fractional ideals). *Needs:* *Valuation submodule dimension bound* (§AI.2.1); *Finitely generated torsion-free modules over a valuation ring* (§AI.2.1).
+In rank one distinguish a principal fractional ideal, `m` times a principal fractional ideal, and the field. Induct by a saturated rank-one submodule and its torsion-free quotient. (BMS1 (arXiv v3), Lemma 4.8, printed pp.35–36; the rank-one alternatives are fractional ideals). *Needs:* *Valuation submodule dimension bound* (§AI.2.1); *Finitely generated torsion-free modules over a valuation ring* (§AI.1.3).
 
 **Linear module patching across a principal divisor** (`AInf.linear_module_patching`). For any commutative ring `R` and non-zero-divisor `f`, let R̂ be its f-adic completion. Base extension is an equivalence from f-torsion-free R-modules to triples `(N,P,β)`, with `N` an f-torsion-free R̂-module, `P` an R[1/f]-module and `β:N[1/f]≅P ⊗_R` R̂. The inverse is the fiber product in the common overlap. A module is finite projective exactly when both members of its triple are finite projective; morphisms are pairs commuting with `β`.
 
@@ -1482,18 +1518,6 @@ On D(p), use the assumed projectivity. The only remaining prime of `U` containin
 Source hypotheses on `M`; ordinary scalar extensions in the last criterion.
 
 Extend `M/M_tor` from `U` by global sections. Its finite closed-point-supported cokernel yields the four-term exact sequence. Compare generic and residue rank by Fitting ideals for the freeness criterion. (BMS1 (arXiv v3), Proposition 4.13, printed pp.37–38). *Needs:* *Perfectness of finitely presented A_inf modules* (§AI.2.1); *Bounded and finitely presented A_inf torsion* (§AI.2.1); *Vector-bundle criterion and p-local freeness* (§AI.2.1).
-
-**Finitely presented modules over a valuation ring and their Fitting ideals**. Over a valuation ring `V`, every finitely presented V-module is isomorphic to `V^r ⊕ ⊕_{i=1}^{s} V/a_iV` with `a_i` nonzero nonunits; the zeroth Fitting ideal of a finitely presented torsion module `⊕ V/a_iV` is `(a_1 ⋯ a_s)`, and, for `V` of rank one, `Fitt_0(M) = Fitt_0(M′)·Fitt_0(M″)` for every short exact sequence 0 `→ M′ → M → M″ →` 0 of finitely presented torsion V-modules, so that the length val(M) `= v(Fitt_0 M)` for a real valuation `v` is additive.
-
-`V` a valuation ring; for the length statement `V` has rank one and `v` is a fixed real-valued valuation.
-
-Diagonalize a presentation matrix: over a valuation ring an entry of minimal valuation divides all others, so row and column operations reduce to diagonal form. Compute `Fitt_0` of a diagonal presentation; multiplicativity in exact sequences of torsion modules follows from the diagonal forms and the multiplicativity of determinants. Additivity of val follows. (Stacks, Stacks Project, Tag 0ASP (over a valuation ring every finitely presented module is a finite direct sum of cyclic modules V/fV); ČK (arXiv v3), §7.10, printed pp.70–71). *Needs:* Mathlib `ValuationRing`; Tau Ceti `TauCeti.RingTheory.FittingIdeal.Basic` (`TauCeti.fittingIdeal`, `TauCeti.fittingIdeal_eq_minorsIdeal_ker`) and `TauCeti.RingTheory.FittingIdeal.BaseChange` (`TauCeti.fittingIdeal_baseChange`); *Finitely generated torsion-free modules over a valuation ring* (§AI.2.1).
-
-**Checks.**
-
-- For `V/a⊕V/b`, `Fitt₀=(ab)`, giving valuation length `v(a)+v(b)`.
-- For the zero module the zeroth Fitting ideal is `V` and its valuation is zero.
-- Over a DVR, `0→V/π→V/π²→V/π→0` gives `(π²)=(π)(π)` and length two.
 
 ### AI.2.2 Breuil–Kisin–Fargues modules and lattice pairs
 
@@ -1823,8 +1847,11 @@ Take the derived-completion unit on the ordinary Witt sheaf. Use perfectoid basi
 
 **Checks.**
 
-- The point computation is the usual `A_inf` coefficient ring.
-- An almost vanishing cone does not become an integral equivalence without the specific no-almost-zero hypotheses of the décalage comparison.
+- On `R_∞=O_C⟨T^{±1/p^∞}⟩`, the degree-zero comparison sends each `[T^{1/p^m,♭}]` to that same Teichmüller coordinate.
+- On the point, derived reduction modulo `p²` is the identity of `W₂(O_C^♭)`.
+- On a profinite product, the map on `H⁰` preserves continuous functions with the Witt inverse-limit topology.
+
+Perform these computations on the period-sheaf carriers when constructing the comparison.
 
 **The projection from the pro-étale site of the generic fibre** (`AInf.nu`). For a p-adic formal scheme `𝔛` locally of finite type over `O_C` (smooth, or as in (SS)) with adic generic fibre `X`, the functor sending an étale 𝔘 `→ 𝔛` to its adic generic fibre `𝔘_η → X`, viewed in `X_proét`, defines a morphism of sites `ν` : `X_proét → 𝔛_ét`, and composing with `𝔛_ét → 𝔛_Zar` gives `ν_Zar`. There is a natural map `ν^{−1}O_𝔛 → Ô⁺_X`, so `ν` is a morphism of ringed topoi to `(𝔛_ét, O_𝔛)`, and `Rν_*` sends `Ô⁺_X`-modules to `O_𝔛`-modules.
 
@@ -2089,17 +2116,29 @@ Smooth p-adic formal `O_C-scheme`; continuous differentials; `θ̃` scalar exten
 
 Check the `θ̃` reduction of the q-Koszul calculation. Use the *Almost-to-honest décalage criterion* (§AI.3.2) criterion and coordinate-free cotangent map to identify the degree-one generator. Use exterior products and descent for all degrees. (BMS1 (arXiv v3), Theorems 8.3,8.7 and 9.2(i); printed pp.61–69). *Needs:* *The AΩ complex* (§AI.3.2); *Integral toric cohomology computation* (§AI.3.2); *Almost-to-honest décalage criterion* (§AI.3.2); *Intrinsic Breuil–Kisin twist* (§AI.0:integral.1).
 
-**Cotangent description of the first Hodge–Tate truncation** (`AInf.hodge_tate_cotangent`). For small smooth `R`, the canonical transitivity map induces `L̂_(R/ℤ_p)[−1]{−1}≃τ≤1 Ω̃_R`. In degree zero it is `R` and in degree one `Ω^1_(R/O_C),cont{−1}`.
-
-Small formally smooth `R`; p-completed cotangent complex; source cohomological shifts.
-
-Construct the transitivity map on the perfectoid cover. Use the unique-factorization lemma and the Fontaine dlog normalization to factor it through `η`. (BMS1 (arXiv v3), Remark 8.4, printed pp.61–62; Proposition 8.15, pp.66–67). *Needs:* *Hodge–Tate specialization* (§AI.4.1); *Completed cotangent description of the twist* (§AI.0:integral.1); DerivedModuleAlgebra, §0.8 (*The cotangent transitivity triangle*).
-
 **Factorization criterion through connective décalage** (`AInf.eta_factorization_criterion`). If `C∈D≤1(A)`, `D∈D≥0(A)`, `H^0(D)` is f-torsion-free and `f` is regular, a map `C→D` factors through `Lη_f D` in at most one way. It factors exactly when `H^1(C ⊗^L A/f)→H^1(D ⊗^L A/f)` is zero, equivalently `H^1(C)→H^1(D)` factors through `fH^1(D)`.
 
 The stated t-structure bounds and `H^0` regularity are essential.
 
 Compute the distinguished triangle `Lη_f D→D→H^1(D/f)[−1]` after truncating `D`. Apply Hom(C,−); the preceding Hom vanishes by the t-structure bounds. (BMS1 (arXiv v3), Lemma 8.16, printed pp.66–68). *Needs:* *Connective comparison and localization* (§AI.1.2); *Cohomology of ideal décalage* (§AI.1.2); Mathlib `DerivedCategory`.
+
+**Checks.**
+
+- For `C=D=A[0]`, every scalar map factors through `Lη_f A=A`.
+- For `A=ℤ`, `f=2`, `C=D=ℤ[−1]`, multiplication by two factors uniquely through the degree-one submodule `2ℤ`.
+- With those same complexes the identity does not factor: its map on `H¹` modulo two is nonzero.
+
+**Cotangent description of the first Hodge–Tate truncation** (`AInf.hodge_tate_cotangent`). For small smooth `R`, the canonical transitivity map induces `L̂_(R/ℤ_p)[−1]{−1}≃τ≤1 Ω̃_R`. In degree zero it is `R` and in degree one `Ω^1_(R/O_C),cont{−1}`.
+
+Small formally smooth `R`; p-completed cotangent complex; source cohomological shifts.
+
+Construct the transitivity map on the perfectoid cover. Use the unique-factorization lemma and the Fontaine dlog normalization to factor it through `η`. (BMS1 (arXiv v3), Remark 8.4, printed pp.61–62; Proposition 8.15, pp.66–67). *Needs:* *Hodge–Tate specialization* (§AI.4.1); *Factorization criterion through connective décalage* (§AI.4.1); *Fontaine dlog theorem* (§AI.0:integral.1); *Completed cotangent description of the twist* (§AI.0:integral.1); DerivedModuleAlgebra, §0.8 (*The cotangent transitivity triangle*).
+
+**Checks.**
+
+- At `R=O_C`, the shifted twisted completed cotangent complex is `O_C[0]`.
+- At `R=O_C⟨T^{±1}⟩`, its `H¹` is the free line `R·dlog T{−1}`.
+- At `R=O_C⟨T₁^{±1},T₂^{±1}⟩`, the first truncation has `H⁰=R` and `H¹=R²{−1}`, with no degree-two cohomology.
 
 **Hodge–Tate extension and lifting obstruction** (`AInf.hodge_tate_lifting_obstruction`). Under the cotangent identification, the extension class of `τ≤1 Ω̃_R` is the obstruction to lifting `R` to `A_inf/(ξ̃²)`, with the source twist and normalization. A chosen lift gives the corresponding splitting; existence of a canonical splitting is not asserted for every `R`.
 
@@ -2136,9 +2175,11 @@ Define finite coefficient cohomology and its Bockstein. Transport F,V,R through 
 
 **Checks.**
 
-- `AOmega.wittPre_test_degree_zero`: `W_r^0(D)_pre=H^0(D/ξ̃_r)`.
-- `AOmega.wittPre_test_point`: For `D=A_inf`, it is `W_r(S)` in degree zero.
-- `AOmega.wittPre_test_torsion`: On the toric nonintegral weight summands the precomplex has torsion that the improved construction removes.
+- `AOmega.wittPre_test_point`: For `D=A_inf` with Witt Frobenius, it is `W_r(S)` in degree zero.
+- For `S=O_C` and `D=A_inf/p` with the induced Frobenius, `ξ̃_r` is regular modulo `p`, so the precomplex is `W_r(O_C)/p` in degree zero and zero elsewhere.
+- For `S=O_C` and the square-zero algebra `D=A_inf⊕A_inf[−1]`, give both summands coefficientwise Witt Frobenius, `φ(a,b)=(φ(a),φ(b))`. The precomplex has `W_r(O_C)` in degrees zero and one, with zero Bockstein and square-zero degree-one product.
+
+Perform these computations on the derived algebra and Bockstein carriers when constructing the precomplex.
 
 **Improved Witt Bockstein complex** (`AOmega.wittImproved`). Set `W_r^n(D)=H^n((Lη_μ D) ⊗^L A_inf/(ξ̃_r))`. Under Assumption 11.4 (p-torsion-free `W_r^n(D)` for every `r≥1,n≥0`; at `p=2` this forces the odd squares to vanish), this is a relative F-V-procomplex with d,F,R,V and multiplication. The injection into the precomplex has the source scaled image; `R` is constructed using `η_(φ(μ))` and inverse Frobenius.
 
@@ -2528,8 +2569,12 @@ CK (3.2.1)–(3.2.2): `R□_∞` is the p-adically completed direct sum of `O_C�
 
 **Checks.**
 
-- The product of two nonintegral monomials can be integral, so `N_∞` is not asserted to be an ideal.
+- At `R=O_C` with the dimension-zero chart, both nonintegral complements `M_∞` and `N_∞` are zero.
+- On the torus, integral exponents belong to `A(R)`, while `X^{1/p}` belongs to `N_∞`.
+- The product `X^{1/p}X^{(p−1)/p}=X` leaves `N_∞`, so `N_∞` is not an ideal.
 - Under the embedding of A(R□) into `A_inf(R□_∞)`, `Xᵢ=[xᵢ]` with `xᵢ=(…,tᵢ^{1/p},tᵢ)`; on the nonintegral monomial `X₁^{1/p}` of the node chart, `δ₁−1` is multiplication by `[ε^{1/p}]−1=φ⁻¹(μ)`, which is not divisible by `μ`, whereas on the integral summand A(R□) every `δ−1` is divisible by `μ`.
+
+Perform these computations on the completed monomial modules when constructing the splitting.
 
 **All-coordinates presentation indices** (`Semistable.allCoordinates`). Let Spf `R` be an affine nonempty étale open of `𝔛` such that every two irreducible components of `Spec(R⊗_{O_C}k̄)` meet. An index `(Σ,Λ)` consists of a finite set `Σ`, a nonempty finite set `Λ`, for each `λ∈Λ` a chart ring `R□_λ=O_C{t_{λ,0},…,t_{λ,r_λ},t_{λ,r_λ+1}^{±1},…,t_{λ,d}^{±1}}/(t_{λ,0}⋯t_{λ,r_λ}−p^{q_λ})` with `q_λ∈Q_{>0}` (the same `d` for all `λ`; `r_λ` and `q_λ` may vary), and a closed immersion Spf `R→Spf O_C{t_σ^{±1}:σ∈Σ}×∏_{λ∈Λ}Spf R□_λ` over Spf `O_C` such that already Spf `R→Spf O_C{t_σ^{±1}:σ∈Σ}` is a closed immersion and each Spf `R→Spf R□_λ` is étale (CK §5.17). Indices are refined by enlarging `Σ` and `Λ` and form a filtered system. Each irreducible component of `Spec(R⊗k̄)` is cut out by a unique `t_{λ,i}` with `0≤i≤r_λ`. If `R⊗k̄` is not k̄-smooth, then `R` determines `q_λ`, so `q_λ` does not depend on `λ`; if `R⊗k̄` is smooth, `q_λ` may depend on `λ` and `r_λ>0` is allowed.
 
@@ -2549,17 +2594,18 @@ Construct the indices on an étale basis using the chart maps and small Zariski 
 - `Semistable.allCoordinates.no_chart`: `Λ=∅` is excluded; torus coordinates alone do not constitute the logarithmic semistable presentation.
 - `Semistable.allCoordinates.smooth_valuations`: For `R=O_C{t^{±1}}` and any `q∈Q_{>0}`, the map `t₀↦p^q·t`, `t₁↦t^{-1}` from `O_C{t₀,t₁}/(t₀t₁−p^q)` is an étale chart with `r_λ=1` (the completed localisation at t₁). Two such charts with different `q`, together with `Σ={t}`, form an index; so `q_λ` is not constant on `Λ` when `R⊗k̄` is smooth.
 
-**Perfectoidness of products of root towers** (`Semistable.root_tower_products`). For a finite set `Λ` of semistable charts of `R` and a finite set `Σ` of units, the p-adically completed base change `R_{Σ,Λ,∞}` of the product of the corresponding root towers to `R` is a perfectoid `O_C`-algebra and is integrally closed in `R_{Σ,Λ,∞}[1/p]`.
+**Perfectoidness of products of root towers** (`Semistable.root_tower_products`). For a finite set `Λ` of semistable charts of `R` and a finite set `Σ` of units, form the product of the corresponding root covers and its pullback to the generic fibre of `R` in adic spaces. Define its integral ring `R_{Σ,Λ,∞}` as the p-adic completion of the integral closure of the image of the integral tensor/base-change algebra inside the generic-fibre algebra. This ring is a perfectoid `O_C`-algebra, integrally closed in `R_{Σ,Λ,∞}[1/p]`. Use this integral ring in all all-coordinate root-cover and period-ring constructions.
 
 Standing hypotheses (SS); `R` as in (SS) with the *All-coordinates presentation indices* (§AI.6.1) data `(Σ, Λ)` of Layer AI.6.
 
-Each chart tower is perfectoid. At each finite root level the additional coordinates give a finite étale cover after inverting `p`; the completed inverse limit of these covers is affinoid perfectoid by Scholze, Perfectoid spaces, Theorem 7.9(iii). The full infinite product tower is pro-finite-étale, and is not asserted to be finite étale: adjoining all p-power roots of a new torus coordinate has unbounded finite-level degree. Integral closedness in `R_{Σ,Λ,∞}[1/p]` follows from the construction as a p-integral closure. (ČK (arXiv v3), §5.18, (5.18.1), printed p.41; ČK (arXiv v3), Lemma 5.37 and its proof, printed p.53). *Needs:* *All-coordinates presentation indices* (§AI.6.1); *Semistable perfectoid root tower* (§AI.6.1); PerfectoidSpaces, P3 (*The almost purity theorem for perfectoid Tate rings (ECD Theorem 6.1)*); PerfectoidQuotients, §0.5 (p-integral closure and perfectoid completion).
+Each chart tower is perfectoid. At each finite root level the additional coordinates give a finite étale cover after inverting `p`; the completed inverse limit of these covers is affinoid perfectoid by Scholze, Perfectoid spaces, Theorem 7.9(iii). The full infinite product tower is pro-finite-étale, and is not asserted to be finite étale: adjoining all p-power roots of a new torus coordinate has unbounded finite-level degree. The integral closure defines the plus ring of the adic pullback; its completion gives the integral ring of the affinoid perfectoid cover. Apply the ordinary integral-closure completion criterion with the compatible root of `p` and Frobenius-surjectivity hypotheses, rather than identifying the raw completed tensor algebra with its closure. (ČK (arXiv v3), §5.18, (5.18.1), printed p.41; ČK (arXiv v3), Lemma 5.37 and its proof, printed p.53). *Needs:* *All-coordinates presentation indices* (§AI.6.1); *Semistable perfectoid root tower* (§AI.6.1); PerfectoidSpaces, P3 (*The almost purity theorem for perfectoid Tate rings (ECD Theorem 6.1)*); PerfectoidQuotients, §0.5 (ordinary integral-closure completion criterion).
 
 **Checks.**
 
 - With one chart and no additional torus coordinates, the product is its original root tower.
 - With a second copy of a torus chart, the extra roots form an infinite pro-finite-étale tower, not a single finite étale extension.
-- For two eligible node charts, the product cover maps to each single-chart cover and remains perfectoid after p-integral closure and completion.
+- For two eligible node charts, the product cover maps to each single-chart cover and remains perfectoid after integral closure and completion.
+- For `R=O_C`, `Σ={1}` and a dimension-zero chart, the integral ring contains the characteristic function of the clopen set where the first root `T₁` equals 1. In the generic-fibre algebra it is `e=(1/p)Σ_{j<p}T₁^j`, with `e²=e`. The raw integral root algebra and its p-completion omit `e`: evaluation at compatible roots starting with 1 or a primitive p-th root has equal residue for every raw integral element, but `e` has values 1 and 0.
 
 ### AI.6.2 The local edge map and semistable `AΩ`
 
@@ -2811,7 +2857,7 @@ Use *Finite-level crystalline period rings A_cris^(m)* (§AI.6.4) (CK §§3.26�
 - The scaling in degree `j` is part of the map; an unscaled differential comparison fails Frobenius compatibility.
 - For `R=R□` both sides of `δ_i=exp(log([ε])·D_i)` send `X_i` to `[ε]X_i`, fix `X_j` for `0<j≠i`, and send X₀ to `[ε]^{-1}X₀` if `i≤r` and to X₀ if `i>r`.
 
-**All-coordinates root covers** (`Semistable.allCoordinates.rootCovers`). For the indices of *All-coordinates presentation indices* (§AI.6.1), form `A□_{Σ,Λ}=A(R□_Σ)⊗̂_{A_inf}⊗̂_{λ∈Λ}A(R□_λ)`, completed `(p,μ)`-adically, and the p-completed base change `R_{Σ,Λ,∞}` to `R` of the product of the corresponding root towers. The latter is a perfectoid pro-(finite étale) cover of the generic fibre with group `Δ_{Σ,Λ}=Δ_Σ×∏_{λ∈Λ}Δ_λ`. Its topological generators are `δ_σ` for `σ∈Σ` and `δ_{λ,i}` for `λ∈Λ`, `1≤i≤d`. Each chart tower is a subcover.
+**All-coordinates root covers** (`Semistable.allCoordinates.rootCovers`). For the indices of *All-coordinates presentation indices* (§AI.6.1), form `A□_{Σ,Λ}=A(R□_Σ)⊗̂_{A_inf}⊗̂_{λ∈Λ}A(R□_λ)`, completed `(p,μ)`-adically, and form the adic product and pullback of the corresponding root covers to the generic fibre of `R`. Its integral ring `R_{Σ,Λ,∞}` is the p-completed integral closure of the image of the integral tensor/base-change algebra in the generic-fibre algebra, as in *Perfectoidness of products of root towers* (§AI.6.1). The latter is a perfectoid pro-(finite étale) cover of the generic fibre with group `Δ_{Σ,Λ}=Δ_Σ×∏_{λ∈Λ}Δ_λ`. Its topological generators are `δ_σ` for `σ∈Σ` and `δ_{λ,i}` for `λ∈Λ`, `1≤i≤d`. Each chart tower is a subcover.
 
 Standing hypotheses (SS), with an eligible index `(Σ,Λ)` and its specified chart maps.
 
@@ -3335,7 +3381,7 @@ The API:
 - `AInf.normalized_valuation_length.base_change`: For a valuation-preserving extension `V→V′`, `val_V′(M⊗V′)=val_V(M)`.
 - `AInf.normalized_valuation_length.fitting`: If `Fitt_0(M)=(a)`, then `val_V(M)=val(a)`, so the definition is intrinsic.
 
-Apply the elementary-divisor structure theorem over a valuation ring. Relate the product of the `a_i` to `Fitt_0(M)`. The Fitting-ideal multiplicativity theorem for these torsion presentations proves additivity; extending the diagonal presentation proves scalar-extension invariance. Both algebraic results are *Finitely presented modules over a valuation ring and their Fitting ideals* (§AI.2.1). (ČK (arXiv v3), §7.10 and (7.10.1)–(7.10.2), printed p.71). *Needs:* PerfectoidSpaces, P1; Mathlib `ValuationRing`; *Finitely presented modules over a valuation ring and their Fitting ideals* (§AI.2.1).
+Apply the elementary-divisor structure theorem over a valuation ring. Relate the product of the `a_i` to `Fitt_0(M)`. The Fitting-ideal multiplicativity theorem for these torsion presentations proves additivity; extending the diagonal presentation proves scalar-extension invariance. Both algebraic results are *Finitely presented modules over a valuation ring and their Fitting ideals* (§AI.1.3). (ČK (arXiv v3), §7.10 and (7.10.1)–(7.10.2), printed p.71). *Needs:* PerfectoidSpaces, P1; Mathlib `ValuationRing`; *Finitely presented modules over a valuation ring and their Fitting ideals* (§AI.1.3).
 
 **Checks.**
 
@@ -3350,7 +3396,7 @@ Apply the elementary-divisor structure theorem over a valuation ring. Relate the
 
 Standing hypotheses (C). `M` finitely presented over the indicated finite Witt ring; all valuation lengths use *Normalized length over a rank-one valuation ring* (§AI.6.7).
 
-Coherence gives finite presentation of the `ξ`-torsion. Both expressions are additive on finite-p-level short exact sequences by the snake lemma and normalized length. Reduce to `n=1` and a cyclic valuation-ring module. For the free cyclic module both sides are one; for a nonzero relation the localization vanishes and the Tor exact sequence cancels the two `O_C` lengths. (ČK (arXiv v3), Lemma 7.11 and proof, printed p.71). *Needs:* *Normalized length over a rank-one valuation ring* (§AI.6.7); *Coherence of Witt vectors of perfectoid integers* (§AI.0.3); *Finite-presentation devissage over Witt rings* (§AI.0.3); *Regularity of integral periods* (§AI.0.2); *Finitely presented modules over a valuation ring and their Fitting ideals* (§AI.2.1).
+Coherence gives finite presentation of the `ξ`-torsion. Both expressions are additive on finite-p-level short exact sequences by the snake lemma and normalized length. Reduce to `n=1` and a cyclic valuation-ring module. For the free cyclic module both sides are one; for a nonzero relation the localization vanishes and the Tor exact sequence cancels the two `O_C` lengths. (ČK (arXiv v3), Lemma 7.11 and proof, printed p.71). *Needs:* *Normalized length over a rank-one valuation ring* (§AI.6.7); *Coherence of Witt vectors of perfectoid integers* (§AI.0.3); *Finite-presentation devissage over Witt rings* (§AI.0.3); *Regularity of integral periods* (§AI.0.2); *Finitely presented modules over a valuation ring and their Fitting ideals* (§AI.1.3).
 
 **Checks.**
 
@@ -3523,13 +3569,15 @@ Homotopy orbits and fixed points are colimits and limits over `B𝕋`; the norm 
 
 **Spectral Tate diagonal** (`AInf.Trace.tateDiagonal`). For a prime `p`, construct the natural lax symmetric monoidal transformation `X→(X^⊗p)^{tC_p}` on spectra, with cyclic permutation action on the tensor power, and its coherent compatibility with finite tensor products and cyclic realization.
 
-Prove exactness of the Tate tensor-power functor by its filtration whose mixed terms are induced and have zero Tate construction. Determine the transformation by its sphere value, and equip it with the unique lax symmetric monoidal refinement. Use the equivariant finite-set construction in §III.3 for the cyclic realization maps. (Nikolaus–Scholze, Definition III.1.4, Proposition III.3.1 and §III.3, pp.67–68, 76–79). *Needs:* *Circle actions, homotopy fixed points and Tate constructions* (§AI.7.2); EnhancedDerivedSheaves, E5:abstract (operadic algebras), E5:presentability.2 (`spectra`) and E5:spectra-comparison (`eilenbergMacLane`, `moduleSpectra_equiv_derived`).
+Prove exactness of the Tate tensor-power functor by its filtration whose mixed terms are induced and have zero Tate construction. Determine the transformation by its sphere value, and equip it with the unique lax symmetric monoidal refinement. Use the equivariant finite-set construction in §III.3 for the cyclic realization maps. (Nikolaus–Scholze, Definition III.1.4, p.68; Proposition III.3.1, p.75; §III.3, pp.75–79). *Needs:* *Circle actions, homotopy fixed points and Tate constructions* (§AI.7.2); EnhancedDerivedSheaves, E5:abstract (operadic algebras), E5:presentability.2 (`spectra`) and E5:spectra-comparison (`eilenbergMacLane`, `moduleSpectra_equiv_derived`).
 
 **Checks.**
 
 - At the sphere, the transformation is `𝕊→𝕊^{hC_p}→𝕊^{tC_p}`.
 - In the tensor power of `X⊕Y`, every mixed orbit is induced from the trivial subgroup; its Tate construction vanishes.
-- A map `X→Y` gives a commuting naturality square, and tensoring two such squares agrees with the lax monoidal structure, as required for cyclic face maps.
+- For `X=Hℚ`, `(X^⊗p)^{tC_p}=0`: the norm for the finite group is invertible rationally. The uncompleted Tate diagonal is therefore zero.
+
+Perform these computations on the spectral carriers when constructing the Tate diagonal.
 
 **Topological Hochschild homology as a cyclotomic spectrum** (`AInf.Trace.THH`). For a connective `E∞`-ring A, THH(A) is the cyclic bar construction, an `E∞`-ring with a `𝕋-action`, together with the cyclotomic Frobenius `φ_p` : THH(A) `→ THH(A)^{tC_p}`, which is `𝕋 ≅ 𝕋/C_p`-equivariant and `E∞`; then `TC⁻(A) = THH(A)^{h𝕋}`, TP(A) `= THH(A)^{t𝕋}` and the two maps can, `φ` : `TC⁻(A; ℤ_p) →` TP(A; `ℤ_p`) after p-completion. For a discrete commutative ring A, `π_0` THH(A) `=` A and `π_*` THH(A) agrees with Hochschild homology rationally; the HKR filtration on HH(A/k) for smooth A has graded pieces `Ω^i_{A/k}[i]`.
 
@@ -3575,7 +3623,7 @@ Realize the cyclic bar of an `E∞`-algebra in spectra to obtain THH and its cir
 - The spectral base has `π_*𝕊[z]=π_*𝕊[z]`; a free `E∞` generator would have symmetric-group homotopy and fail this description.
 - Relative traces remain circle-equivariant and Frobenius-semilinear for `z^p` throughout base change.
 
-**Bökstedt spectral sequence** (`AInf.Trace.bokstedtSpectralSequence`). For a connective associative ring spectrum `A` and prime `p`, construct the spectral sequence of the skeletal filtration of its cyclic bar, `E²_{s,t}=HH_s(H_*(A;𝔽_p))_t⇒H_{s+t}(THH(A);𝔽_p)`. Prove strong convergence in this first-quadrant setting, naturality and compatibility with the dual Steenrod coaction. For commutative `A`, construct the multiplicative structure and the Hochschild suspension `σ`; under the flatness hypothesis on `E²` over `H_*A`, construct the compatible Hopf structure.
+**Bökstedt spectral sequence** (`AInf.Trace.bokstedtSpectralSequence`). For a connective associative ring spectrum `A` and prime `p`, construct the spectral sequence of the skeletal filtration of its cyclic bar, `E²_{s,t}=HH_s(H_*(A;𝔽_p))_t⇒H_{s+t}(THH(A);𝔽_p)`. Prove strong convergence in this first-quadrant setting, naturality and compatibility with the dual Steenrod coaction. For commutative `A`, construct the multiplicative structure and the Hochschild suspension `σ`. Flatness of `E²` over `H_*(A;𝔽_p)` supplies the initial-page coproduct compatible with `d²`. If every `Eʳ` for `r≥2` is flat over `H_*(A;𝔽_p)`, construct the Hopf spectral-sequence structure. If `H_*(THH(A);𝔽_p)` is flat over `H_*(A;𝔽_p)`, construct the abutment Hopf coproduct of AR05 Theorem 4.5(a). Verify these flatness hypotheses in the `H𝔽_p` calculation.
 
 The `E¹` page is the normalized Hochschild chain complex by the field Künneth formula. Filter cyclic realization, and use subdivision to construct the product and coproduct. (Angeltveit–Rognes, *Hopf algebra structure on topological Hochschild homology*, §4, (4.1), Propositions 4.2–4.3, Theorem 4.5 and Proposition 4.9, pp.1238–1244). *Needs:* *Topological Hochschild homology as a cyclotomic spectrum* (§AI.7.2); EnhancedDerivedSheaves, E5:presentability.2 (`spectra`) and E5:spectra-comparison (`eilenbergMacLane`, `moduleSpectra_equiv_derived`).
 
@@ -3583,7 +3631,7 @@ The `E¹` page is the normalized Hochschild chain complex by the field Künneth 
 
 - For `A=𝕊`, normalized Hochschild chains of `𝔽_p` have only filtration zero, giving `H_*THH(𝕊)=𝔽_p`.
 - For `A=H𝔽₂`, `H_*A=𝔽₂[ξ₁,ξ₂,…]`, and `E²=H_*A⊗Λ(σξ₁,σξ₂,…)`; collapse of this page does not determine multiplicative extensions.
-- For odd `p` and `A=H𝔽_p`, `E²=H_*A⊗Λ(σξ_i:i≥1)⊗Γ(στ_i:i≥0)`; divided powers cannot be replaced by polynomial generators.
+- For odd `p` and `A=H𝔽_p`, `E²=H_*A⊗Λ(σξ_i:i≥1)⊗Γ(στ_i:i≥0)`; divided powers cannot be replaced by polynomial generators. The successive pages after the Bökstedt differential are free over `H_*A`, as is the abutment `H_*A⊗𝔽_p[u]`; at `p=2` the exterior initial page collapses and the abutment is again free. Thus the pagewise and abutment flatness hypotheses hold here.
 
 **Dyer–Lashof operations and the dual Steenrod input** (`AInf.Trace.dyerLashofInput`). Construct mod-p homology operations on commutative ring spectra from extended powers, including naturality, Cartan and Adem relations, instability and top-power identities. Compute `H_*(H𝔽_p;𝔽_p)` with its dual Steenrod coaction: at `p=2` it is polynomial on generators `ξ_i` of degree `2^i−1`; at odd `p` it is polynomial on `ξ_i` of degree `2p^i−2` tensor exterior on `τ_i` of degree `2p^i−1`. For conjugate generators prove `Q^{2^i}(ξ̄_i)=ξ̄_{i+1}` at `p=2` and `Q^{p^i}(τ̄_i)=τ̄_{i+1}` at odd `p`. Prove `Q^k(σx)=σQ^k(x)` and the odd-primary Bökstedt differential `d^{p−1}(γ_p(σx))=σ(βQ^i(x))` up to a nonzero scalar for `|x|=2i−1`.
 
@@ -3779,11 +3827,12 @@ Follow BMS2 Remark 11.17 (pp.307–308). Multiplication by `v^i` gives the Nygaa
 
 Standing hypotheses (BK). The negative statement is about functorial descent of the filtration/projection; it does not prohibit accidental descents for individual objects. The elliptic-curve argument of BMS2 Remark 11.16 is complete in case (ii) only; `K=ℚ_p(p^{1/p})` with `π=p^{1/p}`, `E=u^p−p`, `k₀=𝔽_p` is the worked instance.
 
-Use BMS2 Remark 11.16’s degree-zero Nygaard projection and its implied canonical scheme descent: a descent R₀ of the `𝔖^(−1)-algebra R` along `φ_𝔖` satisfies `R≅R₀⊗_{𝔖,φ_𝔖}𝔖` and is killed by ker `θ_𝔖=φ_𝔖^{-1}(E𝔖)`, because `R` is killed by `E` and `φ_𝔖` is faithfully flat. The dichotomy is not in the source. BMS2 Remark 11.16 argues uniformly in `K`: a functorial descent would descend every smooth formal `O_K-scheme` to `W(k₀)[π^p]`, the image of `θ_𝔖`, and an elliptic curve with good reduction and `j∈O_K∖W(k₀)[π^p]` contradicts this. That argument is complete only in case (ii). In case (i) no quotient O₀ of `𝔖` has `O₀⊗_{𝔖,φ_𝔖}𝔖≅O_K`, so there is no ring to which the schemes would descend, and for `K` unramified `W(k₀)[π^p]=O_K`, so that no such elliptic curve exists; there the non-descent is the statement that (E) is not extended along `φ_𝔖`. For `R=O_K` a descent of the surjection `𝔖^(−1)→O_K` is a surjection `𝔖→𝔖/J` with `φ_𝔖(J)𝔖=(E)`, by faithful flatness of `φ_𝔖`. Modulo `p` the ideal `φ_𝔖(J)𝔖` of k₀[[u]] is generated by a power `u^{pm}`, while `E≡u^e`, so `p` divides `e` in case (ii). There `J⊂ker θ_𝔖` and both ideals have the same extension along `φ_𝔖`, so `J=ker θ_𝔖`; and `O_K=𝔖/E=O₀⊗_{𝔖,φ_𝔖}𝔖` is free of rank `p` over O₀ because `φ_𝔖` is finite free of rank p. In particular `O₀≠O_K`. Worked instance of case (ii): `K=ℚ_p(p^{1/p})`, `π=p^{1/p}`, `E=u^p−p`, `θ_𝔖(u)=p`, `J=(u−p)`, `φ_𝔖(u−p)=E`, `O₀=ℤ_p`. Choose `c∈ℤ_p` with c and c−1728 units (any unit c if `p≤3`) and put `j=c+π`; then `j∉ℤ_p` because `[K:ℚ_p]=p>1`. The curve `y²+xy=x³−36x/(j−1728)−1/(j−1728)` over `O_K` has `c₄=j/(j−1728)`, discriminant `j²/(j−1728)³`, which is a unit, and j-invariant `j`; it has good reduction. A descent of its p-adic completion to `ℤ_p` would be a smooth proper formal curve of genus one over `ℤ_p`; it has a section, by Lang’s theorem on the special fibre and smoothness, hence algebraizes to an elliptic curve over `ℤ_p` with the same j-invariant, which forces `j∈ℤ_p`. (BMS2 (Publ. IHÉS), Remark 11.16, p.307; BMS2 (Publ. IHÉS), Remark 11.14, p.305). *Needs:* *Frobenius-twisted relative trace complex* (§AI.7.3); *Bott-inverted Breuil–Kisin descent* (§AI.7.3); *Cohomological Breuil–Kisin coefficient maps* (§AI.7.1); *Relative cyclotomic traces over the sphere polynomial ring* (§AI.7.2); *Perfectoid trace coefficient calculation* (§AI.7.2); *Quasisyntomic unfolding of the trace coefficient sheaf* (§AI.7.2); *Absolute trace comparison with AΩ* (§AI.7.2); *Characteristic-p trace and crystalline comparison* (§AI.7.2); *Relative trace specializations of the sphere polynomial base* (§AI.7.2); *Relative Breuil–Kisin trace coefficients* (§AI.7.2); *Relative quasiregular evenness and descent* (§AI.7.2); *Bott inversion and Frobenius descent input* (§AI.7.2); FiniteFlatGroupsAndIntegralPadicHodgeTheory, R07.4 (*The Breuil–Kisin coefficient rings 𝔖, 𝒪_ℰ, 𝔖^ur, 𝒪 and S*); AdicSpacesPartIII, F0 (*Grothendieck’s algebraization theorem (formal GAGA)*); Mathlib `WeierstrassCurve.j`.
+Use BMS2 Remark 11.16’s degree-zero Nygaard projection and its implied canonical scheme descent: a descent R₀ of the `𝔖^(−1)-algebra R` along `φ_𝔖` satisfies `R≅R₀⊗_{𝔖,φ_𝔖}𝔖` and is killed by ker `θ_𝔖=φ_𝔖^{-1}(E𝔖)`, because `R` is killed by `E` and `φ_𝔖` is faithfully flat. The dichotomy is not in the source. BMS2 Remark 11.16 argues uniformly in `K`: a functorial descent would descend every smooth formal `O_K-scheme` to `W(k₀)[π^p]`, the image of `θ_𝔖`, and an elliptic curve with good reduction and `j∈O_K∖W(k₀)[π^p]` contradicts this. That argument is complete only in case (ii). In case (i) no quotient O₀ of `𝔖` has `O₀⊗_{𝔖,φ_𝔖}𝔖≅O_K`, so there is no ring to which the schemes would descend, and for `K` unramified `W(k₀)[π^p]=O_K`, so that no such elliptic curve exists; there the non-descent is the statement that (E) is not extended along `φ_𝔖`. For `R=O_K` a descent of the surjection `𝔖^(−1)→O_K` is a surjection `𝔖→𝔖/J` with `φ_𝔖(J)𝔖=(E)`, by faithful flatness of `φ_𝔖`. Modulo `p` the ideal `φ_𝔖(J)𝔖` of k₀[[u]] is generated by a power `u^{pm}`, while `E≡u^e`, so `p` divides `e` in case (ii). There `J⊂ker θ_𝔖` and both ideals have the same extension along `φ_𝔖`, so `J=ker θ_𝔖`; and `O_K=𝔖/E=O₀⊗_{𝔖,φ_𝔖}𝔖` is free of rank `p` over O₀ because `φ_𝔖` is finite free of rank p. In particular `O₀≠O_K`. Worked instance of case (ii): `K=ℚ_p(p^{1/p})`, `π=p^{1/p}`, `E=u^p−p`, `θ_𝔖(u)=p`, `J=(u−p)`, `φ_𝔖(u−p)=E`, `O₀=ℤ_p`. Choose `c∈ℤ_p` with c and c−1728 units (any unit c if `p≤3`) and put `j=c+π`; then `j∉ℤ_p` because `[K:ℚ_p]=p>1`. The curve `y²+xy=x³−36x/(j−1728)−1/(j−1728)` over `O_K` has `c₄=j/(j−1728)`, discriminant `j²/(j−1728)³`, which is a unit, and j-invariant `j`; it has good reduction. Functorial scheme descent also descends the origin: apply the descended functor to the section `Spf O_K→𝔈`, where `𝔈` is the p-adic completion of this elliptic curve. The base object descends to `Spf ℤ_p`, and preservation of identity and composition makes the descended morphism a section. The resulting pointed smooth proper genus-one formal curve over `ℤ_p` has the relatively ample line bundle of its origin divisor. Formal GAGA algebraizes it, together with its section, to an elliptic curve over `ℤ_p` with the same j-invariant, forcing `j∈ℤ_p`. (BMS2 (Publ. IHÉS), Remark 11.16, p.307; BMS2 (Publ. IHÉS), Remark 11.14, p.305). *Needs:* *Frobenius-twisted relative trace complex* (§AI.7.3); *Bott-inverted Breuil–Kisin descent* (§AI.7.3); *Cohomological Breuil–Kisin coefficient maps* (§AI.7.1); *Relative cyclotomic traces over the sphere polynomial ring* (§AI.7.2); *Perfectoid trace coefficient calculation* (§AI.7.2); *Quasisyntomic unfolding of the trace coefficient sheaf* (§AI.7.2); *Absolute trace comparison with AΩ* (§AI.7.2); *Characteristic-p trace and crystalline comparison* (§AI.7.2); *Relative trace specializations of the sphere polynomial base* (§AI.7.2); *Relative Breuil–Kisin trace coefficients* (§AI.7.2); *Relative quasiregular evenness and descent* (§AI.7.2); *Bott inversion and Frobenius descent input* (§AI.7.2); FiniteFlatGroupsAndIntegralPadicHodgeTheory, R07.4 (*The Breuil–Kisin coefficient rings 𝔖, 𝒪_ℰ, 𝔖^ur, 𝒪 and S*); AdicSpacesPartIII, F0 (*Grothendieck’s algebraization theorem (formal GAGA)*); Mathlib `WeierstrassCurve.j`.
 
 **Checks.**
 
 - For `K=ℚ_p(p^{1/p})`, `π=p^{1/p}`: `O₀=ℤ_p`, `O_K` is free over `ℤ_p` on `1,π,…,π^{p−1}`, and the elliptic curve of the proof has `j=c+π`, which is not in `ℤ_p`.
+- Functorial descent carries the composite of the origin with the structure morphism to the identity of `Spf ℤ_p`; a descent of only the unpointed object would not supply this section.
 - For `K=ℚ_p` with `π=p (E=u−p)` case (i) applies: `W(k₀)[π^p]=ℤ_p=O_K`, so no elliptic curve with `j∈O_K∖W(k₀)[π^p]` exists, and the non-descent comes from the fact that (u−p) is not generated by a power series in `u^p`.
 
 ### AI.7.4 Specializations of Breuil–Kisin cohomology

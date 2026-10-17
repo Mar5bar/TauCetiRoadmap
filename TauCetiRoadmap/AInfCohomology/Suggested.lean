@@ -282,6 +282,21 @@ example (x y m : R) : x * (y * m) - y * (x * m) = 0 := by sorry
 -- In the ordered dual basis, d¹(e₁) = −y and d¹(e₂) = x, including characteristic two.
 example (x y : R) : x * 0 - y * 1 = -y ∧ x * 1 - y * 0 = x := by sorry
 
+-- Noncommuting operators give a nonzero square over every nonzero coefficient ring.
+example [Nontrivial R] :
+    let g₁ : Matrix (Fin 2) (Fin 2) R := !![0, 1; 0, 0]
+    let g₂ : Matrix (Fin 2) (Fin 2) R := !![0, 0; 1, 0]
+    g₁ * g₂ - g₂ * g₁ = !![1, 0; 0, -1] ∧
+    (g₁ * g₂ - g₂ * g₁).mulVec ![1, 0] = ![1, 0] ∧
+    g₁ * g₂ - g₂ * g₁ ≠ 0 := by sorry
+
+-- Over the zero ring the same commutator vanishes.
+example :
+    let g₁ : Matrix (Fin 2) (Fin 2) (ZMod 1) := !![0, 1; 0, 0]
+    let g₂ : Matrix (Fin 2) (Fin 2) (ZMod 1) := !![0, 0; 1, 0]
+    g₁ * g₂ - g₂ * g₁ = 0 ∧
+    (g₁ * g₂ - g₂ * g₁).mulVec ![1, 0] = 0 := by sorry
+
 end Decalage
 
 /-! ## Layer AI.3: Integral pro-étale period sheaves and AΩ -/
