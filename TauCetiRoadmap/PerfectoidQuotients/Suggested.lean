@@ -147,6 +147,9 @@ theorem theta_natural (x : WittVector p (PreTilt R p)) :
       WittVector.fontaineTheta S p (WittVector.map (Perfection.map p g) x) := by sorry
 end Naturality
 
+/-- The length-zero Witt ring has only the zero element. -/
+example (x : TruncatedWittVector 2 0 ℤ) : x = 0 := by sorry
+
 /-- The length-two Frobenius convention uses x₀^p + p x₁, whose value is 3 on (1,1) over ℤ at p=2. -/
 example :
     (WittVector.frobenius (WittVector.mk 2 (fun n => if n < 2 then (1 : ℤ) else 0))).coeff 0 = 3 := by sorry
@@ -281,6 +284,10 @@ example :
 example {K : Type*} [NormedField K] (t : K) (hpos : 0 < ‖t‖) (hlt : ‖t‖ < 1) :
     0 < ‖t‖ ^ 2 ∧ ‖t‖ ^ 2 < ‖t‖ := by sorry
 
+/-- At g=1, the point T=0 lies outside the radius-‖t‖ neighborhood. -/
+example {K : Type*} [NormedField K] (t : K) (hlt : ‖t‖ < 1) :
+    ¬ ‖(0 : K) - 1‖ ≤ ‖t‖ := by sorry
+
 /-- A monic-root assertion excludes the degree-zero monic polynomial 1. -/
 example : ¬ ∃ x : ZMod 3, Polynomial.eval x (1 : Polynomial (ZMod 3)) = 0 := by sorry
 
@@ -355,7 +362,8 @@ end CharacteristicPQuotients
 
 /- The further README targets are:
 §0.0 perfectoid_tor_independence, fontaine_tor_independence,
-delta_etale_extension, delta_derivedCompletion, completeEtale_algebraization,
+delta_etale_extension, delta_derivedCompletion for discrete derived completion,
+completeEtale_algebraization,
 delta_witt2_etale,
 perfectPrism_completeEtale_lift, with their hypotheses, proof routes and Checks;
 §0.2 finiteFontaineTheta with its API and Checks, using
@@ -375,7 +383,8 @@ formula and Checks, completion_pIntegralClosure_perfectoid, and the ordinary
 integral-closure completion criterion completion_integrally_closed_perfectoid;
 §0.6 perfectoid_completely_etale_henselization,
 perfectoid_completed_root_polynomial, perfectoid_completed_tensor,
-perfectoid_completed_root_quotient, integralPerfectoid_pi_iff,
+perfectoid_completed_root_quotient with the tilt ideal lim_F J₁ for the generated
+ideal J₁ in A/(ϖ), integralPerfectoid_pi_iff,
 perfectoid_sharp_ideal_completion, including their tilt comparisons;
 §0.7 bhatt_integral_model_comparison;
 §1.1 relative_perfectoid_cover_smooth_site, frobenius_flat_prism_perfection_cover;
