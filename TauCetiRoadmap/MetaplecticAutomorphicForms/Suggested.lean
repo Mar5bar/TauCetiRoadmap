@@ -66,6 +66,26 @@ theorem bilinearFactorSet_mul_left (B : LinearMap.BilinMap R W C)
     (p * q).left.toAdd = p.left.toAdd + q.left.toAdd + B p.right.toAdd q.right.toAdd := by
   sorry
 
+/-- For the zero cocycle on `ℤ`, multiplication adds the coefficient coordinates (0.1). -/
+example (t u x y : ℤ) :
+    let B : BilinForm ℤ ℤ := 0
+    let p : (bilinearFactorSet B).Extension := ⟨ofAdd t, ofAdd x⟩
+    let q : (bilinearFactorSet B).Extension := ⟨ofAdd u, ofAdd y⟩
+    (p * q).left.toAdd = t + u := by
+  sorry
+
+/-- The upper-triangular cocycle takes value one at `(e₀,e₁)` (0.1). -/
+example :
+    let B := Matrix.toBilin' (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℤ)
+    (bilinearFactorSet B (ofAdd ![1, 0], ofAdd ![0, 1])).toAdd = 1 := by
+  sorry
+
+/-- Reversing the basis vectors gives value zero for that cocycle (0.1). -/
+example :
+    let B := Matrix.toBilin' (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℤ)
+    (bilinearFactorSet B (ofAdd ![0, 1], ofAdd ![1, 0])).toAdd = 0 := by
+  sorry
+
 /-- The commutator of `p` and `q` is central, with coefficient `B(w, v) − B(v, w)` (0.3). -/
 theorem bilinearFactorSet_commutator (B : LinearMap.BilinMap R W C)
     (p q : (bilinearFactorSet B).Extension) :
@@ -126,6 +146,24 @@ def extensionIsometry {B : BilinForm R W} {B' : BilinForm R W'} (e : B.IsometryE
         bilinearFactorSet_apply, toAdd_ofAdd, e.map_app]
     · simp only [TauCeti.FactorSet.Extension.mul_right, toAdd_mul, toAdd_ofAdd, map_add]
 
+/-- Extension of the identity fixes `(3,4)` for the zero form (0.7). -/
+example : extensionIsometry (BilinForm.IsometryEquiv.refl (0 : BilinForm ℤ ℤ))
+    ⟨ofAdd 3, ofAdd 4⟩ = ⟨ofAdd 3, ofAdd 4⟩ := by
+  sorry
+
+/-- Extension of negation fixes the coefficient and negates the vector (0.7). -/
+example :
+    let e : (0 : BilinForm ℤ ℤ).IsometryEquiv 0 :=
+      { (LinearEquiv.neg ℤ : ℤ ≃ₗ[ℤ] ℤ) with map_app' := by intros; simp }
+    extensionIsometry e ⟨ofAdd 3, ofAdd 4⟩ = ⟨ofAdd 3, ofAdd (-4)⟩ := by
+  sorry
+
+/-- Inverse isometries induce inverse extension maps, also between different modules (0.7). -/
+example {B : BilinForm R W} {B' : BilinForm R W'} (e : B.IsometryEquiv B')
+    (p : (bilinearFactorSet B).Extension) :
+    extensionIsometry e.symm (extensionIsometry e p) = p := by
+  sorry
+
 /-- The isometry group of `B` acts on the extension through the vector coordinate (0.8). -/
 def extensionIsometryAction (B : BilinForm R W) :
     TauCeti.BilinForm.isometryGroup B →* MulAut (bilinearFactorSet B).Extension where
@@ -134,6 +172,24 @@ def extensionIsometryAction (B : BilinForm R W) :
       map_app' := fun x y => (TauCeti.BilinForm.mem_isometryGroup_iff.mp e.2) x y }
   map_one' := rfl
   map_mul' _ _ := rfl
+
+/-- The identity isometry acts identically on `(3,4)` (0.8). -/
+example : extensionIsometryAction (0 : BilinForm ℤ ℤ) 1
+    ⟨ofAdd 3, ofAdd 4⟩ = ⟨ofAdd 3, ofAdd 4⟩ := by
+  sorry
+
+/-- Negation in the native isometry group negates only the vector coordinate (0.8). -/
+example :
+    let e : TauCeti.BilinForm.isometryGroup (0 : BilinForm ℤ ℤ) :=
+      ⟨LinearEquiv.neg ℤ, by intro x y; simp⟩
+    extensionIsometryAction 0 e ⟨ofAdd 3, ofAdd 4⟩ = ⟨ofAdd 3, ofAdd (-4)⟩ := by
+  sorry
+
+/-- Every isometry fixes the entire coefficient subgroup (0.8). -/
+example (B : BilinForm R W) (e : TauCeti.BilinForm.isometryGroup B) (t : R) :
+    extensionIsometryAction B e ((bilinearFactorSet B).inl (ofAdd t)) =
+      (bilinearFactorSet B).inl (ofAdd t) := by
+  sorry
 
 /-- The product `f * e` in the isometry group applies `e` first: on the zero form on `ℚ²`, with
 `e = diag(2, 1)` and `f` the coordinate swap, `(1, 1)` goes to `(1, 2)`, whereas `e * f` sends it
@@ -164,6 +220,27 @@ theorem centralCharacter_unique {A : Type*} [Group A] (B : LinearMap.BilinMap R 
     (hc : ∀ t : C, ρ ((bilinearFactorSet B).inl (ofAdd t)) = χ (ofAdd t))
     (hs : ∀ x : W, ρ ⟨1, ofAdd x⟩ = 1) :
     ρ = centralCharacter B χ hχ := by
+  sorry
+
+/-- On the zero cocycle, the identity character reads the coefficient coordinate (0.12). -/
+example : centralCharacter (0 : BilinForm ℤ ℤ) (MonoidHom.id (Multiplicative ℤ))
+    (by intros; rfl) ⟨ofAdd 3, ofAdd 4⟩ = ofAdd 3 := by
+  sorry
+
+/-- The trivial character extends trivially for every bilinear cocycle (0.12). -/
+example (B : LinearMap.BilinMap R W C) (p : (bilinearFactorSet B).Extension) :
+    centralCharacter B (1 : Multiplicative C →* ℂˣ) (by intros; rfl) p = 1 := by
+  sorry
+
+/-- Parity kills the nonzero cocycle `2xy` and evaluates to `−1` at `(3,4)` (0.12). -/
+example :
+    let B : BilinForm ℤ ℤ := 2 • LinearMap.mul ℤ ℤ
+    let χ : Multiplicative ℤ →* ℂˣ :=
+      { toFun := fun n => (-1) ^ n.toAdd
+        map_one' := by simp
+        map_mul' := by intro a b; simp only [toAdd_mul, zpow_add] }
+    ∃ hχ : ∀ x y : ℤ, χ (ofAdd (B x y)) = 1,
+      centralCharacter B χ hχ ⟨ofAdd 3, ofAdd 4⟩ = -1 := by
   sorry
 
 /-- The criterion is necessary: for the identity character of `ℤ` and the upper-triangular form,
@@ -322,6 +399,16 @@ theorem firstOccurrence_eq_top_iff (Θ : ℕ → Type*) [∀ r, Zero (Θ r)] :
 example (Θ : ℕ → Type*) [∀ r, Zero (Θ r)] (x : Θ 0) (hx : x ≠ 0) : firstOccurrence Θ = 0 := by
   sorry
 
+/-- The tower of zero modules has first occurrence `⊤` (3.10). -/
+example : firstOccurrence (fun _ => Fin 1) = ⊤ := by
+  sorry
+
+/-- Equal occurrence ranks can give different dimension indices (3.10). -/
+example : firstOccurrence (fun _ => ℤ) = firstOccurrence (fun _ => ℚ) ∧
+    (0 : WithTop ℕ) + 2 * firstOccurrence (fun _ => ℤ) ≠
+      1 + 2 * firstOccurrence (fun _ => ℚ) := by
+  sorry
+
 end DualPair
 
 /-! ## Layer 4: Adelic metaplectic covers and finite Weil representations -/
@@ -352,9 +439,24 @@ theorem finiteWeil_SOperator_sq (pair : D →+ D →+ AddCircle (1 : ℝ)) (c : 
     finiteWeil_SOperator pair c (finiteWeil_SOperator pair c φ) ν = c ^ 2 * φ (-ν) := by
   sorry
 
+/-- The singleton zero quadratic module has trivial T action (4.7). -/
+example : finiteWeil_TOperator (0 : Unit → AddCircle (1 : ℝ)) = LinearMap.id := by
+  sorry
+
+/-- The Fourier phase survives even on the singleton discriminant module (4.7). -/
+example (c : ℂ) : finiteWeil_SOperator (0 : Unit →+ Unit →+ AddCircle (1 : ℝ)) c =
+    c • LinearMap.id := by
+  sorry
+
 /-- The sign of the `ω_L` convention: `q(μ) = 1/4` gives `T e_μ = −i e_μ`. -/
 example (q : D → AddCircle (1 : ℝ)) (μ : D) (hq : q μ = ((1 / 4 : ℝ) : AddCircle (1 : ℝ))) :
     finiteWeil_TOperator q (Pi.single μ 1) μ = -Complex.I := by
+  sorry
+
+/-- Conjugation reverses the quarter-norm T phase (4.7). -/
+example (q : D → AddCircle (1 : ℝ)) (μ : D)
+    (hq : q μ = ((1 / 4 : ℝ) : AddCircle (1 : ℝ))) :
+    star (finiteWeil_TOperator q (Pi.single μ 1) μ) = Complex.I := by
   sorry
 
 /-- On a singleton with the zero pairing and phase `1`, `S` is the identity. -/
@@ -427,6 +529,22 @@ def fourierShift (a c : ℤ) (l : V) (p : FData) : FData :=
       QuadraticMap.linMulLin (dotProductBilin ℤ ℤ p.2) (dotProductBilin ℤ ℤ l)),
     p.2 - (2 * a) • l)
 
+/-- The cusp-zero shift at `a=1,c=8` retains the factor eight (8.1). -/
+example : fourierShift 1 8 ![1, 0] (0, 0) =
+    (8 • QuadraticMap.proj (R := ℤ) (0 : Fin 2) 0, ![-2, 0]) := by
+  sorry
+
+/-- The cusp-one shift has `c=1` (8.1). -/
+example : fourierShift 1 1 ![1, 0] (0, 0) =
+    (QuadraticMap.proj (R := ℤ) (0 : Fin 2) 0, ![-2, 0]) := by
+  sorry
+
+/-- Shifting the mixed index cancels its cross term (8.1). -/
+example : fourierShift 1 1 ![0, 1]
+    (QuadraticMap.proj (R := ℤ) (0 : Fin 2) 1, ![1, 0]) =
+      (QuadraticMap.proj (R := ℤ) (1 : Fin 2) 1, ![1, -2]) := by
+  sorry
+
 /-- The discriminant form `4aT − c RRᵀ` of a Fourier index (8.2). -/
 def fourierDiscriminant (a c : ℤ) (p : FData) : QuadraticForm ℤ V :=
   (4 * a) • p.1 - c • QuadraticMap.linMulLin (dotProductBilin ℤ ℤ p.2) (dotProductBilin ℤ ℤ p.2)
@@ -449,6 +567,11 @@ theorem exists_fourierShift_iff (a c : ℤ) (ha : a ≠ 0) (p q : FData) :
 theorem existsUnique_fourierRepresentative (a c : ℤ) (ha : a ≠ 0) (p : FData) (ν : V)
     (hν : ∀ i, Int.ModEq (2 * a) (p.2 i) (ν i)) :
     ∃! Q : QuadraticForm ℤ V, fourierDiscriminant a c (Q, ν) = fourierDiscriminant a c p := by
+  sorry
+
+/-- The mixed quadratic index with zero vector has discriminant four at `(1,1)` (8.2). -/
+example : fourierDiscriminant 1 1
+    (QuadraticMap.proj (R := ℤ) (0 : Fin 2) 1, 0) ![1, 1] = 4 := by
   sorry
 
 /-- At `a = 1, c = 8` the vector `R = e₀` gives discriminant `−8` at `e₀`. -/
@@ -480,6 +603,18 @@ def quad (Z : Matrix (Fin 2) (Fin 2) ℂ) (w : Fin 2 → ℂ) : ℂ := w ⬝ᵥ 
 imaginary part. -/
 abbrev SiegelSpace : Type :=
   {Z : Matrix (Fin 2) (Fin 2) ℂ // Zᵀ = Z ∧ (Z.map Complex.im).PosDef}
+
+/-- The strictly positive diagonal matrix `diag(i,2i)` is a Siegel point (8.10). -/
+example : ∃ Z : SiegelSpace, Z.1 = !![Complex.I, 0; 0, 2 * Complex.I] := by
+  sorry
+
+/-- A real identity matrix has zero imaginary part and is excluded (8.10). -/
+example : ¬ ∃ Z : SiegelSpace, Z.1 = 1 := by
+  sorry
+
+/-- Positive diagonal imaginary part does not replace symmetry (8.10). -/
+example : ¬ ∃ Z : SiegelSpace, Z.1 = !![Complex.I, 1; 0, Complex.I] := by
+  sorry
 
 /-- The imaginary part `Y` of a point of the Siegel space. -/
 def SiegelSpace.im (Z : SiegelSpace) : Matrix (Fin 2) (Fin 2) ℝ := Z.1.map Complex.im
@@ -540,6 +675,30 @@ theorem theta_pairing (a : ℕ) (ha : 0 < a) (Z : SiegelSpace) (μ ν : Fin 2 �
           (Z.im.det : ℂ)) =
       if ∀ i, Int.ModEq (2 * (a : ℤ)) (μ i) (ν i) then
         (Real.sqrt Z.im.det : ℂ) / (4 * a) else 0 := by
+  sorry
+
+/-- At `a=2,Z=iI₂`, the actual diagonal theta pairing is `1/8` (8.21). -/
+example :
+    (∫ l : Fin 2 → ℝ in Set.pi Set.univ (fun _ => Set.Ico 0 1),
+      ∫ r : Fin 2 → ℝ in Set.pi Set.univ (fun _ => Set.Ico 0 1),
+        let Z := SiegelSpace.base
+        let W := Z.1 *ᵥ (fun i => (l i : ℂ)) + (fun i => (r i : ℂ))
+        genusTwoTheta 2 0 Z.1 W * conj (genusTwoTheta 2 0 Z.1 W) *
+          Complex.exp (-4 * Real.pi * 2 *
+            quad ((Z.im)⁻¹.map (fun x : ℝ => (x : ℂ))) (fun i => ((W i).im : ℂ))) *
+          (Z.im.det : ℂ)) = 1 / 8 := by
+  sorry
+
+/-- At `a=1,Z=iI₂`, distinct residues have zero actual theta pairing (8.21). -/
+example :
+    (∫ l : Fin 2 → ℝ in Set.pi Set.univ (fun _ => Set.Ico 0 1),
+      ∫ r : Fin 2 → ℝ in Set.pi Set.univ (fun _ => Set.Ico 0 1),
+        let Z := SiegelSpace.base
+        let W := Z.1 *ᵥ (fun i => (l i : ℂ)) + (fun i => (r i : ℂ))
+        genusTwoTheta 1 0 Z.1 W * conj (genusTwoTheta 1 ![1, 0] Z.1 W) *
+          Complex.exp (-4 * Real.pi *
+            quad ((Z.im)⁻¹.map (fun x : ℝ => (x : ℂ))) (fun i => ((W i).im : ℂ))) *
+          (Z.im.det : ℂ)) = 0 := by
   sorry
 
 /-- **Real Gaussian Fourier integral in `W`** (8.62): for `Z` in the Siegel space and `m > 0`,
