@@ -23,6 +23,27 @@ The pointed tensor comparison uses §4.6 with flat domain factors, coefficient-r
 and regular generic fibres over a finite extension of Q_p. Arithmetic tangent and
 obstruction assignments and local conditions retain the hypotheses in the README.
 
+README 1.7 owns the common ordinary flag predicate and elementary API. Its definitions
+precede 0.3 and use geometric reciprocity, direct-summand full flags and the ordered
+characters on open units; the exact-inertia condition uses all units. PadicHodgeTheory
+uses the field-valued specialization as `RegularOrdinary`. The period comparisons of 0.3
+and 1.7 consume these predicates. In the potentially Barsotti–Tate branch,
+`RankTwoOrdinaryEndpoints` retains the unramified base field K, stable lattice T,
+identified reduction, chosen residual unramified quotient and prescribed determinant.
+For finite unramified F₀/K and L=F₀(μ_p), crystallinity over L, trivial residual diagonal
+characters on G_L and det(T)|I_L=ε allow the supplied connected–étale adapter. The
+unramified quotient over K additionally uses identification of the descended étale
+quotient's reduction with the chosen residual quotient. Prime-to-p tame inertia and
+injectivity of reduction then give trivial inertia; residual ordinarity alone gives
+only the weaker potential conclusion in this branch.
+
+README 1.6 owns `FLDeformation.coefficientRealization` and its common labelled coefficient
+category, with the scalar Frobenius permutation. Free-lattice realization uses the linear
+dual, finite torsion uses the Pontryagin dual, and coefficient extension, reduction,
+kernels and lattice quotients preserve the actions. AutomorphicGaloisRepresentations
+uses these specializations as `coefficientFontaineLaffaille`. Multiplicity one is a
+hypothesis of deformation liftability, rather than of the common realization.
+
 README 2.26.1 provides the canonical characteristic-zero Jacquet–Langlands equivalence from
 irreducible admissible smooth division-algebra classes to essentially square-integrable general
 linear classes over the algebraic closure of the coefficient field. It specifies coefficient

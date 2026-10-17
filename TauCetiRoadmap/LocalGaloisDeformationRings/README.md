@@ -10,7 +10,7 @@ A framed ring, an unframed ring, a flag-incidence scheme and its flag-forgetting
 
 `DeformationAndDerivedPatchingAlgebra` owns the common complete-local coproduct (§1.12), relative presentation and relation algebra (§§2.1–2.5), continuous framed matrix ring (§§2.6–2.7), ungraded canonical-module/type interface (§3.9) and pointed tensor comparison (§4.6). Sections F.0.1–F.0.2, F.2.3–F.2.4 and 0.1 specialize these carriers and maps to `C_𝒪`. The arithmetic tangent and obstruction assignments, local conditions, graded canonical-module comparison and `Φ_p`/Schlessinger representability argument belong here; the latter identifies its representing pair with the common framed pair.
 
-Period rings and field-valued admissibility use `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.0–R07.3.3 and R07.4.13. Targets [0.2](#t0-2)–[0.4](#t0-4) construct the coefficient, ordinary and `(φ,Γ)` interfaces used here. `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1,R07.3,R07.4` owns finite-flat, Fontaine–Laffaille and Breuil–Kisin categories and realizations. Their deformation applications and model spaces belong here. Completed coefficient products and presentations use [F.0.1](#completed-coefficient-products) and [F.0.2](#minimal-relative-presentations); canonical-module tests are target [0.1](#t0-1), and excellence uses `SchemeAndStackFoundations`, §0.21; flags and lattice representability belong to `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and §1.7, and formal functions and algebraization to `SchemeAndStackFoundations`, §§4.9–4.10, and `AdicSpacesPartIII`, `F0`.8.
+Period rings and field-valued admissibility use `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.0–R07.3.3 and R07.4.13. Targets [0.2](#t0-2)–[0.4](#t0-4) construct the coefficient, ordinary and `(φ,Γ)` interfaces used here. `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1,R07.3,R07.4` owns finite-flat, scalar Fontaine–Laffaille and Breuil–Kisin categories and realizations. Target [1.6](#t1-6) owns the common coefficient Fontaine–Laffaille category, labelled decomposition, covariant realization and coefficient-change comparisons, including free-lattice and finite-torsion specializations. `AutomorphicGaloisRepresentations`, §1.5a consumes those specializations for its labelled tame-inertia formulas, interval twists and automorphic applications. The deformation applications and model spaces belong here. Target [1.7](#t1-7) owns the ordinary flag predicate and elementary flag API, with its definitions preceding [0.3](#t0-3); `PadicHodgeTheory`, §3.6 consumes its field-valued specialization for crystalline slope, monodromy and descent comparisons. Completed coefficient products and presentations use [F.0.1](#completed-coefficient-products) and [F.0.2](#minimal-relative-presentations); canonical-module tests are target [0.1](#t0-1), and excellence uses `SchemeAndStackFoundations`, §0.21; flags and lattice representability belong to `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and §1.7, and formal functions and algebraization to `SchemeAndStackFoundations`, §§4.9–4.10, and `AdicSpacesPartIII`, `F0`.8.
 
 Tau Ceti's `LocalGaloisGroups`, Layers 3 and 7, supplies finite generation of the maximal pro-`p` Galois group over each finite local extension, hence the `p`-finiteness used here. `LocalFieldsRamification` supplies the full tame quotient, whose inertia is the whole prime-to-`ℓ` tame inertia. Target 2.6 instead removes the kernel of inertia's projection to its coefficient-`p` factor `ℤ_p`. The Tau Ceti module `NumberTheory/LocalField/Tame/PadicCharacter` already supplies `inertiaPadicTameCharacter`, its surjectivity, kernel criterion and arithmetic Frobenius conjugation. Target 2.6 consumes that character to construct the coefficient-`p` quotient and its matrix-pair universal property. The local Galois group, tame character and full tame quotient are not targets here.
 
@@ -1099,13 +1099,43 @@ The API `CoefficientPeriodComparison` supplies exact tensor and dual comparisons
 
 (Sources: [KisinPST], Proposition (2.7.2), Lemma (3.2.1) and Proposition (3.3.1), author DVI pp. 22–23, 27–29; [BellovinGee], §3.2 and Proposition 3.3.2, arXiv v3 pp. 29–30.)
 
+<a id="ordinary-flag-definitions"></a>
+
+### Ordinary flag definitions for 1.7
+
+Target [1.7](#t1-7) owns the following common predicate and elementary flag API. Let `K/ℚ_p` be finite, let `E` contain its embeddings, and let `A` be a finite local `E`-algebra or an integral coefficient algebra over `𝒪`. For dominant `λ=(λ_{τ,1}≥⋯≥λ_{τ,d})`, a continuous rank-`d` representation is `IsOrdinaryOfWeight` if it has an increasing stable full flag by direct summands, with rank-one graded characters satisfying `χ_i(Art_K^geom(u))=∏_τ τ(u)^{−(λ_{τ,d−i+1}+i−1)}` on an open subgroup of `𝒪_K^×`. The algebraic unit characters use the structure map to `A`. Equivalently their ratios with the prescribed characters have finite order on inertia. `IsSemistableOrdinaryOfWeight` requires equality on all units, equivalently on all inertia. These are flag-and-character definitions; their period consequences are target 0.3 and the comparison part of 1.7.
+
+The elementary API is as follows.
+
+- `IsSemistableOrdinaryOfWeight.isOrdinary`: The exact-inertia condition implies the open-inertia condition.
+- `IsOrdinaryOfWeight.flag_unique`: For the prescribed ordering over a field, pairwise distinct restrictions to `I_K` make the flag unique. Over local integral or Artinian coefficients require pairwise distinct residual inertial characters, or vanishing of all inertia-equivariant `Hom` modules between distinct graded characters. Reordering the characters is a different condition.
+- `IsOrdinaryOfWeight.restrict`: Restriction to `G_{K′}` preserves the flag condition, pulling each label back along embeddings of `K′` extending it; the exact-inertia condition is also preserved.
+- `IsOrdinaryOfWeight.baseChange`: Coefficient maps preserve direct-summand flags and ordered inertia characters, including the exact-inertia condition.
+
+Duality reverses the flag and inverts the ordered characters. In rank two at `λ=(k−2,0)`, the prescribed ordered inertia characters are 1,`ε^{1−k}`; the dual flag has `ε^{k−1}` on its subline. This elementary dictionary and the field specialization used by `PadicHodgeTheory` are part of the same API.
+
+**Checks.**
+
+- In rank one, the prescribed algebraic character times an unramified character satisfies the exact condition; multiplication by a nontrivial ramified finite-order character satisfies only the open-inertia condition.
+- For `d=2` and `λ=(0,0)`, the ordered inertia characters are 1 and `ε⁻¹`, rather than two unramified characters.
+- At `λ=(0,0)`, a nonsplit extension of 1 by `ε⁻¹` has the determinant polynomials but lacks the required stable subline of character 1.
+- Over `A=ℤ₂[e]/(2e,e²)`, `ρ=1⊕ε⁻¹` has stable direct-summand lines `A·e₁` and `A·(e₁+e·e₂)`, both of character 1 with quotient `ε⁻¹`. The characters are distinct but their residual inertia characters coincide; mere inequality does not give uniqueness.
+
+*Needs:* `ClassFieldTheory`, Layer 7, local reciprocity and its normalization; the coefficient categories fixed in the conventions.
+
+(Sources: [NT26], Definition 2.5(2), arXiv v2 p. 12; [BCGP25], Definition 5.6.8, arXiv v1 pp. 129–130; [CN23], Definition 3.3.1, arXiv v3 pp. 50–51.)
+
 <a id="t0-3"></a>
 
 ### 0.3 Ordinary period comparisons and rank-two endpoints
 
-For the dominant ordered algebraic characters of 1.7, construct the stable-flag period comparison: equality on inertia gives semistability, equality on an open subgroup gives potential semistability, with the specified labelled weights. This uses regular ordering of the weights and retains the flags under coefficient change; apply the comparison to finite local `E`-algebras via 0.2. For split reductive `G` use a faithful representation and its root and torus character equations as in 6.5.
+For the dominant ordered algebraic characters in the elementary definitions of 1.7 above, construct the stable-flag period comparison: equality on inertia gives semistability, equality on an open subgroup gives potential semistability, with labelled weights `−(λ_{τ,d−i+1}+i−1)` in the convention `HT(ε)=+1`. This uses regular ordering of the weights and retains the flags under coefficient change; apply the comparison to finite local `E`-algebras via 0.2. For split reductive `G` use a faithful representation and its root and torus character equations as in 6.5.
 
-For rank two over unramified `K`, construct the full ordinary classification of KW II Lemma 3.5: crystalline lifts of residually ordinary data of weights `{0,k−1}`, `2≤k≤p`, are ordinary; the `k=p+1` crystalline branch is over `ℚ_p`. Semistable noncrystalline weight two is ordinary, and residually ordinary weight-two lifts crystalline over `ℚ_p^nr(μ_p)` have the stated ordinary shape. Include the Berger–Li–Zhu residual Serre-weight-`p+1` branch over `ℚ_p` with its irreducible/reducible qualifications as used in 5.5 and 5.14. The APIs `OrdinaryPeriodComparison` and `RankTwoOrdinaryEndpoints` provide the stable line, quotient character and branch-specific hypotheses. Construct the low-weight comparison using the supplied Fontaine–Laffaille realization; use the endpoint strongly divisible modules and Berger–Li–Zhu calculation at `p+1`, rather than applying safe-interval full faithfulness there.
+For rank two over unramified `K`, construct the crystalline and semistable ordinary branches of KW II Lemma 3.5: crystalline lifts of residually ordinary data of weights `{0,k−1}`, `2≤k≤p`, are ordinary; the `k=p+1` crystalline branch is over `ℚ_p`. Semistable noncrystalline weight two is ordinary. Include the Berger–Li–Zhu residual Serre-weight-`p+1` branch over `ℚ_p` with its irreducible/reducible qualifications as used in 5.5 and 5.14. Construct the low-weight comparison using the supplied Fontaine–Laffaille realization; use the endpoint strongly divisible modules and Berger–Li–Zhu calculation at `p+1`, rather than applying safe-interval full faithfulness there.
+
+For the potentially Barsotti–Tate branch, retain a rank-two `G_K`-stable `𝒪`-lattice `T⊂V`, its identified reduction `ρ̄`, a chosen unramified quotient `q̄:ρ̄↠k(η̄₀)`, and its prescribed determinant `δ=det T`. Suppose `V` has labelled weights `{0,1}` and is crystalline over `ℚ_p^nr(μ_p)`. Choose finite unramified `F₀/K` such that `V|G_L` is crystalline and the residual diagonal characters are trivial on `G_L`, where `L=F₀(μ_p)`, and require `δ|I_L=ε`. Use FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.3.19 and its height-one lattice realization to obtain the canonical connected–étale sequence. Its connected line descends to `G_K`; the descended quotient `T^{et}` has character `η` with `η|I_L=1`, hence tame inertia of order dividing `p−1`. This supplies potential ordinarity and a weight-one subline over `K`.
+
+The stronger KW shape over `K` additionally requires that the reduction of `T↠T^{et}` agree with `q̄`, up to an isomorphism of the rank-one residual quotients. Then `η mod ϖ` is unramified. Injectivity of reduction on roots of unity of order prime to `p` gives `η|I_K=1`; the subline has character `δη⁻¹`. Nonsplit residual data with a unique rank-one quotient imply this compatibility; merely having a unique unramified quotient does not. The APIs `OrdinaryPeriodComparison` and `RankTwoOrdinaryEndpoints` retain these fields, lattice, determinant and quotient maps, distinguishing potential ordinarity from the unramified-quotient conclusion. The dual and reversed flag uses the ordinary convention of 1.7.
 
 For odd `p`, construct `RankTwoNonordinaryEndpoint.exists`: given an irreducible residual `G_ℚ_p`-representation of Serre weight two and a compatible crystalline determinant of weight `p`, produce after coefficient extension a nonordinary crystalline lift of weights `{0,p}`. Over the unramified quadratic field choose a crystalline character of labelled weights `(0,p)`. Local reciprocity and induction give residual inertia `ω₂^p⊕ω₂^{p²}=ω₂^p⊕ω₂`, the Serre-weight-two pair. Match the residual unramified part first, then correct the determinant by the unramified square root of their residue-one ratio, using odd `p`. Construct the induction/period comparison from 0.2 and unramified descent; both induction and twisting retain the residual identification. (Sources: [KW109], Theorem 4.`1(2)(i)`, p. 7, for the required branch; [KW209], §3.2.7, pp. 31–32, for the weight-`p+1` boundary; the local construction uses the rank-one period dictionary and local reciprocity.)
 
@@ -1117,10 +1147,13 @@ For odd `p`, construct `RankTwoNonordinaryEndpoint.exists`: given an irreducible
 - Unramified `K` and `2≤k≤p` give the residually ordinary crystalline branch.
 - An unramified quadratic `K` is outside the `ℚ_p`-only crystalline `p+1` endpoint.
 - The weight-two Tate curve is ordinary with `N≠0`; an ordinary condition alone does not give crystallinity.
+- At `p=5`, `K=E=ℚ₅`, let `ω̃` be the Teichmüller lift of the residual cyclotomic character `ω`. The split lattice in `V=(εω̃⁻¹)⊕ω̃` has determinant `ε`, weights `{1,0}` and reduction `1⊕ω`. Over `ℚ₅(μ₅)` it becomes `ε⊕1`. Its connected–étale quotient is `ω̃`, reducing to `ω`, whereas the chosen residual unramified quotient is 1. Neither characteristic-zero quotient is unramified: `ω̃` has tame inertia and `εω̃⁻¹` has wild inertia.
+- If `ρ̄` is a nonsplit extension with its unique rank-one quotient unramified, the reduction of the descended étale quotient is necessarily that quotient; the stronger endpoint applies.
+- At `p=2`, the descended quotient has tame inertia of order dividing `p−1=1`, so the potential branch already has an unramified quotient under the same lattice and determinant hypotheses.
 
-*Needs:* [0.2](#t0-2); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.12–R07.3.17 and R07.4.29–R07.4.30; local reciprocity, `ClassFieldTheory`, Layer 7; [F.2.9](#fixed-determinant-rings).
+*Needs:* the [ordinary flag definitions of 1.7](#ordinary-flag-definitions); [0.2](#t0-2); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.12–R07.3.17, R07.3.19, R07.4.20 and R07.4.29–R07.4.30; local reciprocity, `ClassFieldTheory`, Layer 7; [F.2.9](#fixed-determinant-rings).
 
-(Sources: [CN23], Definition 3.3.1 and Lemma 3.3.2, arXiv v3 pp. 50–51; [FKP22], Lemmas `B`.3–`B`.4, arXiv v5 pp. 53–54; [KW209], Lemma 3.5, §3.2.7 and its Remark, author pp. 22, 31–32.)
+(Sources: [CN23], Definition 3.3.1 and Lemma 3.3.2, arXiv v3 pp. 50–51; [FKP22], Lemmas `B`.3–`B`.4, arXiv v5 pp. 53–54; [KW209], Definition 3.4 and Lemma 3.5, §3.2.7 and its Remark, author pp. 22, 31–32; [Conrad–Diamond–Taylor](https://virtualmath1.stanford.edu/~conrad/papers/cdtmaster.pdf), §2.1 and Lemma 2.1.2, author pp. 8–9, with the residual-quotient identification for the downstairs unramified conclusion.)
 
 <a id="t0-4"></a>
 
@@ -1232,11 +1265,15 @@ If `End_Γ(ρ̄)=k`, strict-equivalence deformations have universal ring `R` and
 
 ### 1.6 The Fontaine–Laffaille deformation condition
 
-Over unramified `K/ℚ_p`, use the coefficient Fontaine–Laffaille category with filtration in `[0,p−2]` and its exact fully faithful covariant realization `𝐆`, closed under subquotients. Require the residual object to be in its essential image with every labelled graded multiplicity at most one. Define the lifting condition by membership of all Artinian quotients in that image. It is a local deformation problem, liftable, with tangent the image of `Ext¹_{MF}(𝐆⁻¹ρ̄,𝐆⁻¹ρ̄)` in `H¹(G_K,ad ρ̄)`. Starting from the scalar category and contravariant realization of FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.4, R07.3.7 and R07.3.10–R07.3.12, construct the coefficient category by commuting `𝒪`-actions and `A`-actions. When the coefficient field contains every embedding of `K`, the factors of `W(k_K)⊗𝒪` label the filtration summands; retain this decomposition and finite `A`-projectivity. Define `𝐆` by dualizing the supplied realization and transport the coefficient actions through it. Prove its exactness, full faithfulness, subquotient stability, `Ext` comparison and compatibility with coefficient maps. This layer owns this coefficient extension and its deformation application. In this normalization a labelled jump `i` corresponds to Hodge–Tate weight `−i`. For a rank-one object over `ℚ_p` this gives inertia `ε^{−i}`; higher-rank jumps do not assert a decomposition of the inertia representation into cyclotomic characters.
+Over unramified `K/ℚ_p`, construct the common coefficient Fontaine–Laffaille category with filtration in `[0,p−2]` from the scalar category and contravariant realization of FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.4, R07.3.7 and R07.3.10–R07.3.17. Its objects carry commuting coefficient actions, preserving the filtration and commuting with the divided Frobenius maps. For `E` containing every embedding of `K`, retain the labelled factors `W(k_K)⊗𝒪≅∏_τ𝒪` and their permutation by scalar Frobenius. Include finite free `𝒪`-lattices, finite torsion objects and the objects with a commuting finite coefficient-algebra `A`-action; deformation objects require projective labelled `A`-modules and direct-summand filtrations. Subquotient closure concerns the full finite torsion category, without asserting that arbitrary subquotients remain `A`-projective.
+
+Define the covariant realization `𝐆` using the `ℤ_p`-linear dual of the scalar contravariant lattice realization on free lattices, and `Hom_{ℤ_p}(U_S(M),ℚ_p/ℤ_p)` on finite torsion objects. Transport coefficient actions through these duals. Prove exactness, full faithfulness, subquotient stability, the injective `Ext¹` comparison, and coefficient extension and reduction comparisons, including lattice quotients. Kernels of coefficient-linear filtration-preserving maps commuting with divided Frobenius correspond to representation kernels, with induced strict filtrations. This target owns this common category and realization; `coefficientFontaineLaffaille` in AutomorphicGaloisRepresentations §1.5a is its free-lattice and finite-torsion specialization. That consumer owns the labelled tame-inertia formulas, interval twists and automorphic applications. In this normalization a labelled jump `i` corresponds to Hodge–Tate weight `−i`. For a rank-one object over `ℚ_p` this gives inertia `ε^{−i}`; higher-rank jumps do not assert a decomposition of inertia into cyclotomic characters.
+
+For the deformation application require `ρ̄` to lie in the essential image with every labelled graded multiplicity at most one. Membership of all Artinian quotients in that image defines a liftable local deformation problem, with tangent the image of `Ext¹_{MF}(𝐆⁻¹ρ̄,𝐆⁻¹ρ̄)` in `H¹(G_K,ad ρ̄)`. The common category and realization do not require multiplicity one.
 
 The construction provides the following API.
 
-- `FLDeformation.coefficientRealization`: The exact fully faithful covariant functor `𝐆_ṽ` from the labelled coefficient Fontaine–Laffaille category, agreeing after forgetting the extra coefficient actions with the dual scalar realization; its `Ext` map, subquotient stability and coefficient base change carry the same actions.
+- `FLDeformation.coefficientRealization`: The common exact fully faithful covariant functor `𝐆_ṽ` from the labelled coefficient Fontaine–Laffaille category, using the linear lattice dual and Pontryagin torsion dual just specified. Its injective `Ext¹` map, subquotient and kernel comparisons, coefficient extension, reduction and lattice-quotient comparisons retain the labelled factors, Frobenius permutation and coefficient actions.
 - `FLDeformation`: The condition `𝒟_ṽ` on lifts of `r̄|_{G_{F_ṽ}}`: every Artinian quotient lies in the essential image of the covariant coefficient realization `𝐆_ṽ` constructed here.
 - `FLDeformation.isLocalDeformationProblem`: Closure of the realization image under subquotients and sums yields strict-conjugacy, fibre-product and inverse-limit stability.
 - `FLDeformation.mem_iff`: For `R` Artinian, `r ∈ 𝒟_ṽ(R)` iff `r ≅ 𝐆_ṽ(M)` for some object `M` of the coefficient category `𝓜𝓕_{𝒪,ṽ}` with `R`-action; for general `R ∈ C_𝒪`, iff this holds for every Artinian quotient.
@@ -1250,38 +1287,32 @@ The construction provides the following API.
 - Over `ℚ_p`, `p≥3`, the split representation `𝒪⊕𝒪(ε⁻¹)` has jumps `{0,1}`, weights `{0,−1}` and inertia characters 1,`ε⁻¹`. Its dual has weights `{0,1}` and requires jumps `{−1,0}`, outside the chosen interval.
 - The crystalline character `ε^{−(l−1)}` has filtration jump `l−1` and lies outside `𝒟_ṽ`: the selected objects satisfy `Fil^{l−1}M=0`. Its Hodge–Tate weight is `−(l−1)` in the stated convention.
 - For `l≥3`, `r̄=ε⁻¹⊕ε⁻¹` comes from two Fontaine–Laffaille lines of jump one but violates multiplicity-one for `n=2`. Category membership alone therefore does not give Lemma 2.4.1.
+- For unramified quadratic `K` and splitting `E`, the two factors of `W(k_K)⊗𝒪` are interchanged by Frobenius. Distinct labelled jumps retain both factors in the common category and in every specialization.
+- For a free coefficient Fontaine–Laffaille lattice `M`, reduction gives `𝐆(M)/ϖ^m≅𝐆(M/ϖ^mM)`. The torsion side uses the Pontryagin dual; its `ℤ_p`-linear dual into `ℤ_p` would vanish.
 
 *Needs:* [1.1](#t1-1); [F.3.1](#local-deformation-problem); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.3.4; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.7 and R07.3.10; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.3.11; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.3.12; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.12–R07.3.17; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.12–R07.3.17.
 
-(Sources: [CHT08], §2.4.1, p. 33; [CHT08], §2.4.1, `𝒟_ṽ` and Lemma 2.4.1, p. 35.)
+(Sources: [CHT08], §2.4.1, pp. 33–35, the coefficient category, realization and `𝒟_ṽ`, and Lemma 2.4.1; [Diamond–Flach–Guo](https://arxiv.org/pdf/2512.02348v2), §1.1, pp. 6–7, coefficient actions, covariant realization and integral comparison.)
 
 <a id="t1-7"></a>
 
 ### 1.7 Ordinary representations of weight `λ`
 
-For dominant `λ=(λ_{τ,1}≥⋯≥λ_{τ,d})`, require an increasing stable full flag whose ordered characters `χ_i` satisfy `χ_i(Art_K(u))=∏_τ τ(u)^{−λ_{τ,d−i+1}−i+1}` on an open unit subgroup. Ordinary permits a finite-order factor; semistable-ordinary requires equality on all inertia. Its labelled `HT` weights are `−λ_{τ,d−i+1}−i+1` in `HT(ε)=+1` convention. Supply coefficient change, restriction, uniqueness under the separation hypotheses below and potentially semistable comparison; exact characters give semistability. Weight `λ=(k−2,0)` in rank two has ordered characters 1,`ε^{1−k}`; duality and flag reversal give KW's ordinary shape with `ε^{k−1}` on the subline. The original ordered representations are not identified.
+Use the common predicates and elementary flag API in the [ordinary flag definitions](#ordinary-flag-definitions). Target 0.3 supplies `IsOrdinaryOfWeight.potentiallySemistable`: over finite local `E`-algebras ordinary representations of weight `λ` are potentially semistable of Hodge type `v_λ`; the exact-inertia predicate `IsSemistableOrdinaryOfWeight` implies semistability of that type. For integral coefficient families apply this comparison to their characteristic-zero specializations. These period consequences use the predicates already defined before 0.3.
 
-The construction provides the following API.
+Weight `λ=(k−2,0)` in rank two has ordered characters 1,`ε^{1−k}`. Duality and flag reversal give KW's ordinary shape with `ε^{k−1}` on the subline and a weight-zero quotient. KW's quotient is unramified only when its character has trivial inertia; finite-order inertia in the common ordinary predicate remains visible. The original ordered representation and its dual have different weights.
 
-- `IsOrdinaryOfWeight`: The predicate: `ρ` has a `G_K`-stable full flag whose graded characters `χ_i` satisfy `χ_i∘Art_K ≡ Π_τ τ^{−(λ_{τ,n−i+1}+i−1)}` up to finite order on `𝒪_K^×`.
-- `IsSemistableOrdinaryOfWeight`: The same with equality on `I_K`.
-- `IsSemistableOrdinaryOfWeight.isOrdinary`: Semistable-ordinary of weight `λ` implies ordinary of weight `λ`.
-- `IsOrdinaryOfWeight.potentiallySemistable`: Ordinary of weight `λ` implies potentially semistable of Hodge type `v_λ`; semistable-ordinary implies semistable of type `v_λ`.
-- `IsOrdinaryOfWeight.flag_unique`: For the prescribed ordering over a field, pairwise distinct restrictions to `I_K` make the flag unique. Over local integral or Artinian coefficients require pairwise distinct residual inertial characters, or vanishing of all inertia-equivariant `Hom` modules between distinct graded characters. Reordering the characters is a different condition.
-- `IsOrdinaryOfWeight.restrict`: Ordinary of weight `λ` is preserved by restriction to `G_{K′}` (with the restricted weight).
-- `IsOrdinaryOfWeight.baseChange`: Coefficient maps preserve direct-summand flags and ordered inertia characters, including the exact semistable-ordinary condition.
+`PadicHodgeTheory`, §3.6 uses the field-valued specialization of `IsOrdinaryOfWeight` as `RegularOrdinary`, with the same geometric reciprocity, ordered flags and dual/restriction API. Dominance and the `i−1` shift make the labelled weights strictly ordered; no additional regularity predicate is needed. Its crystalline slope, monodromy and descent theorems belong to that consumer.
 
 **Checks.**
 
-- `n = 1`, `λ = (λ_τ)`: `χ_p^{-1}`-normalised, `ρ = χ_λ·`(unramified) is ordinary of weight `λ`; `ρ = χ_λ·ω` (`ω` ramified of order `p`) is ordinary but not semistable-ordinary.
-- For `n=2` and `λ=(0,0)`, the ordered inertia characters are 1 and `ε_p⁻¹`. Weight zero is not the condition that both diagonal characters are unramified.
-- At `λ=(0,0)`, a nonsplit extension of 1 by `ε⁻¹` has the determinant polynomials but lacks the required stable subline of character 1.
-- Over `A=ℤ₂[e]/(2e,e²)`, `ρ=1⊕ε⁻¹` has stable direct-summand lines `A·e₁` and `A·(e₁+e·e₂)`, both of character 1 with quotient `ε⁻¹`. The characters are distinct but their residual inertia characters coincide; mere inequality does not give uniqueness.
 - At `λ=(k−2,0)`, ordered characters are 1,`ε^{−(k−1)}`; duality and flag reversal produce KW's subline `ε^{k−1}` and weight-zero quotient.
+- The dual of a Tate-curve representation is semistable-ordinary of weight `(0,0)` and has nonzero monodromy. The exact-inertia predicate does not imply crystallinity.
+- A ramified finite-order rank-one character has ordinary weight zero and is potentially crystalline; it fails the exact-inertia predicate and is not semistable over the original field.
 
-*Needs:* [1.1](#t1-1); [0.3](#t0-3); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
+*Needs:* the [ordinary flag definitions](#ordinary-flag-definitions); [0.3](#t0-3).
 
-(Sources: [NT26], Definition 2.5(2), arXiv v2 p. 12; [BCGP25], Definition 5.6.8, arXiv v1 pp. 129–130; [CN23], Definition 3.3.1, arXiv v3 pp. 50–51.)
+(Sources: [NT26], Definition 2.5(2), arXiv v2 p. 12; [BCGP25], Definition 5.6.8, arXiv v1 pp. 129–130; [CN23], Definition 3.3.1 and Lemma 3.3.2, arXiv v3 pp. 50–51.)
 
 <a id="t1-8"></a>
 
