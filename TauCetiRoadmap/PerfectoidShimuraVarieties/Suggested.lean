@@ -12,7 +12,12 @@ by the actual nonzero degree, the row-graph quotient frame, the determinant-scal
 inverse in the Hilbert level action, and the hypotheses of parabolic double-coset
 cancellation. FiniteLevel, MatrixChart and Coefficients name the algebraic portions of
 the corresponding geometric statements, with their coefficient hypotheses recorded
-in README.md.
+in README.md. The geometric Hasse charts, good triples, trace operators and Siegel
+period towers use the shared objects of AutomorphicBundles B3.HT.2–5; the closed
+toroidal Hodge-type tower uses B3.HT.6. Their identifications preserve finite-level
+moduli, completed rings, boundary ideals, period maps and semilinear actions.
+The rational Levi comparison uses B3.HT.7 with B0.3's opposite/dual identification
+and the central-cocharacter Tate twist.
 -/
 
 /-! ## Layer 0: the genus-one similitude identity -/
@@ -74,8 +79,9 @@ namespace SiegelTorsion.FiniteLevel
 variable (K A : Type*) [Field K] [CharZero K] [CommRing A] [Algebra K A]
     [Module.Free K A] [Module.Finite K A] [Nontrivial A]
 
-/-- Normalized trace at a finite free algebra level: degree inverse times the ordinary trace.
-Characteristic zero and nontriviality make the finite degree nonzero. -/
+/-- Finite-algebra specialization of the normalized traces supplied by AutomorphicBundles
+B3.HT.3 on the shared anticanonical tower: degree inverse times the ordinary trace.
+Characteristic zero and nontriviality make this finite degree nonzero. -/
 noncomputable def normalizedTrace : A →ₗ[K] K :=
   (Module.finrank K A : K)⁻¹ • Algebra.trace K A
 
@@ -499,9 +505,10 @@ neutralComponent.toFull, neutralSymmetry, connectedDatumTower, Rigidified
 Layer 0.general: ShimuraTower.generalInfiniteLevel, toroidal,
 toroidalInfiniteLevel (openEmbedding, toMin, refine).
 Layer 1: SiegelTorsion.strictIwahori (§1.30), SiegelTorsion.integralMin, hasseDomain, finiteLevel, finiteLevel_hasse,
-GoodTriple (of_hasse_chart), SiegelTorsion.anticanonical,
+GoodTriple (of_hasse_chart, the shared predicate of AutomorphicBundles B3.HT.3),
+SiegelTorsion.anticanonical,
 anticanonical_integralModel, normalizedTrace and normalizedTrace_linear on completed tower rings,
-htMapTop, htMap, openTower. The completed trace Checks
+htMapTop, htMap (the shared maps of AutomorphicBundles B3.HT.4), openTower. The completed trace Checks
 normalizedTrace_g1_monomial and normalizedTrace_traceCompatibility are in §1.16.
 Layer 2: HodgeTower.embedding, toSiegel, imageCompactification, minToImage.
 Layer 3: HodgeTate.FL, leviTorsor, associatedBundle, associatedBundle_tensor,

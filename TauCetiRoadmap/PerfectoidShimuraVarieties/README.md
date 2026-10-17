@@ -8,9 +8,9 @@ This roadmap owns the perfectoid representability arguments and their applicatio
 
 General Huber-pair spectra and adic gluing are supplied by AdicSpaces Layers 0–5; regular-cone analytic charts, fan gluing and boundary strata to AnalyticToricGeometry Layers 2–5; finite locally free sheaves, polynomial operations and total-space equivalences to AlgebraicVectorBundles L0B–L2B; and the generic profinite completion, powers and continuous automorphisms to ProfiniteArithmetic Layers 0–2. The matrix adjugate and its anti-multiplicativity are supplied by `TauCeti.adjugateGL` and `TauCeti.adjugateGL_mul` in `TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Adjugate.lean`, at the pins. The Hilbert constructions here add the moduli interpretation, polarization action, target-generator dependence and descent across the three towers.
 
-HodgeTateAndCanonicalSubgroups §§2.1–2.3 owns the finite p-level towers, their right and prime-to-p translations, and the infinite open/minimal limit v-sheaves. Its §§2.12–2.13 supplies the open period map and Levi/bundle pullback. Layer 3 identifies their analytic incarnation on the perfectoid representative and extends them to the stated compactifications. ReductiveGroups Layers 7–8, ShimuraData §§3.7–3.9 and AutomorphicBundles §§B0.3–B0.5 supply the representable flags and universal parabolic/Levi torsors. HodgeTateAndCanonicalSubgroups §§3.3–3.8, 4.1–4.7 supplies canonical subgroups, quotient radii and canonical–anticanonical comparison; its Layers 6–8 supplies log foundations and the Hodge-type finite-level logarithmic comparison with the central-cocharacter Tate twist; §6.1a here owns the arbitrary-data canonical association. Layers 1 and 6 own the specialized Siegel perfectoid construction and tower triviality/log-to-v bridge, respectively.
+HodgeTateAndCanonicalSubgroups §§2.1–2.3 owns the finite p-level towers, their right and prime-to-p translations, and the infinite open/minimal limit v-sheaves. Its §§2.12–2.13 supplies the open period map and Levi/bundle pullback. Layer 3 identifies their analytic incarnation on the perfectoid representative and extends them to the stated compactifications. ReductiveGroups Layers 7–8, ShimuraData §§3.7–3.9 and AutomorphicBundles §§B0.3–B0.5 supply the representable flags and universal parabolic/Levi torsors. HodgeTateAndCanonicalSubgroups §§3.3–3.8, 4.1–4.7 supplies canonical subgroups, quotient radii and canonical–anticanonical comparison; its Layers 6–8 supplies log foundations and the Hodge-type finite-level logarithmic comparison with the central-cocharacter Tate twist; §6.1a here owns the arbitrary-data canonical association. Layer 1 identifies AutomorphicBundles B3.HT’s shared Siegel construction with the finite-level towers and cyclotomic conventions here; Layer 6 owns the tower triviality/log-to-v bridge.
 
-Layer 1 owns the characteristic-p Hebbarkeitssatz (§§1.3–1.4), good triples and their stability (§§1.5–1.6), and the Hasse-chart Hartogs argument (§1.7), which the Siegel construction uses. Those targets record their exact prerequisites and proof outlines. Pre-abelian representability in Layer 4 supplies no period map for arbitrary pre-abelian data. The minimal period map in Layer 6 is for abelian type. General toroidal towers are diamonds; perfectoid toroidal representability is asserted only in the Siegel case and for the specified Hodge-type cone decompositions.
+AutomorphicBundles §§B3.HT.2–B3.HT.3 supplies the Hasse charts, characteristic-p Hebbarkeitssatz, good triples, finite-cover stability and normalized traces used in §§1.3–1.22. Its §§B3.HT.4–B3.HT.6 supplies the Siegel minimal and toroidal towers and the closed Hodge-type toroidal towers. The identifications here preserve their finite-level moduli spaces, completed rings, boundary ideals and period maps. Pre-abelian representability in Layer 4 supplies no period map for arbitrary pre-abelian data. The minimal period map in Layer 6 is for abelian type. General toroidal towers are diamonds; perfectoid toroidal representability is asserted only in the Siegel case and for the specified Hodge-type cone decompositions.
 
 ## Conventions
 
@@ -90,6 +90,18 @@ Its §§0.5, 0.14–0.16, 0.18 supplies Fargues's cokernel bound, semi-abelian H
 
 ReductiveGroups Layers 7–8 supplies representable parabolic quotients, Levi subgroups and homogeneous torsors; ShimuraData §§3.7–3.9 and AutomorphicBundles §§B0.3–B0.5 identifies them with the reflex-field Hodge flag and its opposite/right-coset convention. This is the geometric supplier of the flag. AutomorphicBundles §§B0.1–B0.2 supplies the central split quotient and ineffective-fibre descent; §§B1.2–B1.7, B1.9 supplies absolute Hodge tensors, their descended frames, filtration reductions, Hodge and abelian canonical principal bundles and embedding independence; §B1.general.4 supplies general principal models. Its §§B2.1–B2.2, B2.6, B2.9 supplies automorphic coefficients, filtered de Rham coefficients and the Siegel tautological sequence. Canonical/subcanonical extensions and general boundary functoriality are §§B3.2–B3.4, B3.general.1, B3.general.3. The classical Tate normalization, `GL₂` Hodge line, split and unsplit Hilbert coefficients are §§B4.21, B4.10, B4.12, B4.14. Ramified-boundary torsor descent retains the separate contract below.
 
+The shared Hodge–Tate contracts are consumed as follows.
+
+| AutomorphicBundles supplier | Interface in this roadmap |
+| --- | --- |
+| §§B3.HT.2–B3.HT.3 | §§1.3–1.22: the same Hasse blow-up rings, anticanonical Frobenius charts, good triples, boundary ideals and normalized traces. |
+| §B3.HT.4 | §§1.23–1.28: the same represented minimal Siegel tower, affinoid charts and period map. |
+| §B3.HT.5 | §1.29: the same modified toroidal charts and induced-fan Siegel tower. |
+| §B3.HT.6 | §3.8(c): the same closed Hodge-type toroidal tower and tensor-defined flag map. |
+| §B3.HT.7 with §B0.3 | §§3.6, 3.8(c): the rational Levi comparison with the opposite/dual identification and central-cocharacter Tate twist. |
+
+Each identification is the identity on the supplied finite-level moduli system. On affine charts it identifies the completed integral rings and their boundary ideals, commutes with restriction and level maps, and induces the identity on the represented limit functor. The cyclotomic presentation retains its fixed Weil-pairing system; §1.2 restores every similitude component of the full tower over `C`. Group and Galois maps retain the resulting semilinear action. Genuine-minimal, pre-abelian and general-data extensions belong to Layers 2, 4 and 6 here.
+
 ReductiveGroupsPartII §§RG2.1.2–RG2.1.3 supplies rational root data and valued commutator estimates. Layer 6 constructs the specialized analytic-depth groups and tubes. Rational nonsplit compact subgroups cannot be factored for an arbitrary splitting-field parabolic merely by regrouping split roots.
 
 ### From finite moduli and general foundations
@@ -104,7 +116,7 @@ Using ShimuraCompactifications §§C5.16–C5.20, prove in §1.22: At level `K^p
 
 This is consumed by §1.22.
 
-Using ShimuraCompactifications §C3.general.1, prove in §3.8: For a Hodge-type datum with a Siegel embedding `(G, X) ↪ (G̃, X̃)`: for a cofinal set of admissible cone decompositions `Σ` there are `Σ̃` and closed immersions `S^tor_{K^pK_p,Σ} ↪ S̃^tor_{K̃^pK̃_p,Σ̃}` for all small `K_p`, compatible with the level transition maps, the closed immersion of the open Shimura varieties and the maps to the minimal compactifications (Lan, Closed immersions of toroidal compactifications of Shimura varieties, Math. `Res`. Lett. 29 (2022), Theorem 2.2, author PDF p. 4, and §6, Proposition 6.1, pp. 18–20, as used in Boxer–Pilloni §4.4.25 of the revised manuscript). The interface ShimuraCompactifications §C3.2 and ShimuraCompactifications §C3.general.1 give the maps; the additional contract is the closed-immersion property.
+AutomorphicBundles §B3.HT.6 supplies the closed Hodge-type toroidal embeddings over the finite models of ShimuraCompactifications §C3.general.1. Use a strictly compatible smooth projective Hodge/Siegel fan pair at an initial principal level, with trivial effective cone stabilizers, and induce both fans at deeper levels. The embeddings identify the reduced boundary ideals and commute with level maps and the maps to the minimal models. Their perfectoid closed limits and tensor-defined period maps are the objects compared in §3.8(c) (Lan, Closed immersions of toroidal compactifications of Shimura varieties, Propositions 4.9–4.10 and 6.1, author PDF pp. 14, 18–20).
 
 This is consumed by §3.8.
 
@@ -154,7 +166,7 @@ This is consumed by §3.1.
 
 ## How to read the build
 
-Layer 0 fixes finite towers, right actions, central kernels and infinite diamonds. Layer 0.general adds arbitrary-data and toroidal diamonds. Layer 1 constructs the perfectoid Siegel tower through the anticanonical Frobenius tower, boundary extension and flag charts. Layer 2 separates the Hodge-type open, image and genuine minimal constructions. Layer 3 gives the analytic period map, coefficient comparisons and compactified extensions. Layer 4 proves pre-abelian representability through connected and adjoint descent. Layer 5 identifies the modular and three Hilbert towers and their pairing and level actions. Layer 6 constructs the general toroidal map and abelian-type descent, and the analytic Bruhat domains used for Levi reductions and Hecke correspondences. `Suggested.lean` records the genus-one similitude identity, finite-algebra trace normalization, pointwise matrix chart formulas, the Hilbert level-action coefficient calculation, and the conditional double-coset identity. The finite trace statements are in `SiegelTorsion.FiniteLevel`; the matrix chart statements are in `HodgeTate.MatrixChart`; the Hilbert coefficient statements are in `HilbertTower.Coefficients`. The finite component, quotient, induction and torsor examples also mirror §§5.5, 6.5, 6.7 and 6.8. These are the explicitly stated algebraic portions of §§1.16, 3.4 and 5.4–5.6, with the same coefficient-ring hypotheses; completed traces, analytic charts, geometric Weil pairings and all other geometric targets retain their full statements and checks here.
+Layer 0 fixes finite towers, right actions, central kernels and infinite diamonds. Layer 0.general adds arbitrary-data and toroidal diamonds. Layer 1 identifies the supplied perfectoid Siegel tower, anticanonical Frobenius tower, boundary extension and flag charts with the tower conventions here. Layer 2 separates the Hodge-type open, image and genuine minimal constructions. Layer 3 gives the analytic period map, coefficient comparisons and compactified extensions. Layer 4 proves pre-abelian representability through connected and adjoint descent. Layer 5 identifies the modular and three Hilbert towers and their pairing and level actions. Layer 6 constructs the general toroidal map and abelian-type descent, and the analytic Bruhat domains used for Levi reductions and Hecke correspondences. `Suggested.lean` records the genus-one similitude identity, finite-algebra trace normalization, pointwise matrix chart formulas, the Hilbert level-action coefficient calculation, and the conditional double-coset identity. The finite trace statements are in `SiegelTorsion.FiniteLevel`; the matrix chart statements are in `HodgeTate.MatrixChart`; the Hilbert coefficient statements are in `HilbertTower.Coefficients`. The finite component, quotient, induction and torsor examples also mirror §§5.5, 6.5, 6.7 and 6.8. These are the explicitly stated algebraic portions of §§1.16, 3.4 and 5.4–5.6, with the same coefficient-ring hypotheses; completed traces, analytic charts, geometric Weil pairings and all other geometric targets retain their full statements and checks here.
 
 ## Layer 0: finite and infinite towers
 
@@ -435,9 +447,7 @@ Let `K` be a perfectoid field of characteristic `p, t ∈ 𝔪_K` nonzero, `X = 
 
 `K` perfectoid of characteristic `p`; almost mathematics with respect to `𝔪_K`.
 
-The stalk of `𝒪⁺_X/t` at `x` is `k(x)⁺/t` (Scholze Lemma 2.3.1), so a section of `(𝒪⁺_X/t)^a` is determined by its values at points; this pins the isomorphism of (i) down uniquely (Remark 2.3.3).
-
-Principal case `I = (f), f ∈ R⁺: I^{+1/p^∞}` is almost equal to `f^{1/p^∞}R⁺ = ⋃_n f^{1/p^n}R⁺`. Cover `X ∖ V(f)` by the rational subsets `U_n = {|f| ≥ |t|^n}`; their rings modulo `t` are almost the explicit algebras `(R⁺/t)[u_n^{1/p^∞}]/(u_n^{1/p^m}f^{1/p^m} − t^{n/p^m})` (PerfectoidSpaces §P2.3, PerfectoidSpaces §P2.6). Compare the inverse system of these algebras with `R⁺/t` along multiplication by `f^{1/p^k − 1/p^{k′}}`: kernels and cokernels are killed by `f^{1/p^k}`, the kernel system is Mittag-Leffler zero, so the inverse limits agree almost. Identify `lim_k R⁺/t` with `Hom_{R⁺}(M, R⁺/t)` for `M` the colimit of `R⁺` along multiplication by `f^{1/p^k − 1/p^{k+1}}; M → f^{1/p^∞}R⁺` is an isomorphism because `R⁺` is perfect (if `f^{1/p^k}a = 0` then `f^{1/p^{k+1}}a = 0`). General `I`: reduce to finitely generated `I` by filtered colimits; for `I = I₁ + I₂` use the sheaf property on `X ∖ V(I) = (X ∖ V(I₁)) ∪ (X ∖ V(I₂))` with intersection `X ∖ V(I₁I₂)` and the almost exact sequence `0 → (I₁I₂)^{+1/p^∞} → I₁^{+1/p^∞} ⊕ I₂^{+1/p^∞} → (I₁ + I₂)^{+1/p^∞} → 0` (Scholze, proof of Proposition 2.3.2), and induct on the number of generators. (ii): by the same reductions to a principal ideal `f`, where both sides are the colimit of `R⁺` (resp. `R′⁺`) along `f^{1/p^k − 1/p^{k+1}}`, which commutes with base change (PerfectoidSpaces §P0.7).
+Use AutomorphicBundles §B3.HT.3’s root-ideal extension interface, with its evaluation at completed residue fields. The displayed `Hom` and base-change maps are those underlying that interface, in the characteristic-p notation here.
 
 ([Scholze], §2.3.1, Lemma 2.3.1, Proposition 2.3.2 and Remark 2.3.3, pp. 958–961.) Statement and proof of the almost isomorphism between `Hom` out of the p-root closure of `I⁺` and sections modulo `t` off `V(I)`, with the stalk computation and the evaluation compatibility.
 
@@ -447,7 +457,7 @@ For `Z = ∅ (I = R)` both sides of (i) are `(R⁺/t)^a`.
 
 In the setting of §1.4, (i) gives the usual extension statement `H⁰(X, 𝒪⁺/t)^a ≅ H⁰(X ∖ Z, 𝒪⁺/t)^a`.
 
-*Needs:* PerfectoidSpaces §§P0.5, P0.7, P2.3, P2.7, P2.9–P2.10.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; PerfectoidSpaces §§P0.5, P0.7, P2.3, P2.7, P2.9–P2.10.
 
 ### 1.4 The Hebbarkeitssatz on the perfected Hasse locus of a normal variety with a resolution
 
@@ -457,7 +467,7 @@ Let `A₀` be a normal integral finitely generated `𝔽_p`-algebra such that `S
 
 No codimension condition on `V(I₀)` is needed here; codimension at least two enters only in the §1.5 injectivity of §1.6.
 
-Reduce to `I₀ = (g)` principal as in §1.3, and rewrite `R⁺^a/t ≅ A₀^{1/p^∞}[u^{1/p^∞}]/(uf)^a`; using the basis given by the powers `u^i`, the claim becomes the two almost isomorphisms of the statement (Scholze Lemma 2.3.6). First map: `A₀^{1/p^∞}` is a domain, so the map is injective with target inside `A₀^{1/p^∞}[g⁻¹]`; an element `x` with `g^{1/p^n}x ∈ A₀^{1/p^∞}` for all `n` is integral because `A₀` is normal noetherian and integrality is tested by rank-one valuations. Second map, smooth case: an explicit computation with the elements `f^{1/p^n}`. General case: pull back along the resolution `π: T → Spec A₀; π_*𝒪_T = 𝒪` by normality and Zariski's connectedness theorem, and `R¹π_*𝒪_T` is coherent (SchemeAndStackFoundations §2.1), so a power `f^n` kills its f-power torsion; passing to perfections this makes `𝒪/f → π_*(𝒪_{T^{1/p^∞}}/f)` injective with almost zero cokernel, and adjunction transports the smooth-case almost isomorphism down.
+This is the perfected Hasse-chart extension input of AutomorphicBundles §B3.HT.3. Identify `A₀`, its resolution, `f`, the boundary ideal and the completed Huber pair with the supplied chart; its root-ideal comparison gives the displayed restriction map.
 
 ([Scholze], §2.3.2, Corollary 2.3.5 and its proof, pp. 962–963.) The extension isomorphism on the locus `|f| ≥ |t|` of the perfected variety, assuming a resolution of singularities.
 
@@ -467,7 +477,7 @@ For `I₀ = A₀ (Z = ∅)` the statement is the identity.
 
 For `A₀ = 𝔽_p[x, y], f = 1` and `I₀ = (x, y)`, it says that bounded functions modulo `t` on the perfectoid punctured affinoid plane extend across the origin.
 
-*Needs:* §1.3; SchemeAndStackFoundations §§4.13, 2.1; PerfectoidSpaces §P0.5.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.3; SchemeAndStackFoundations §§4.13, 2.1; PerfectoidSpaces §P0.5.
 
 ### 1.5 Good triples: affinoid perfectoid spaces with a Hebbarkeitssatz relative to a boundary and a good-reduction locus
 
@@ -475,7 +485,7 @@ Let `K` be a perfectoid field (of any characteristic) and `t ∈ K` with `|p| �
 
 In the Siegel application `X` is an affinoid open of a perfectoid minimal compactification, `Z` its boundary and `U` its good-reduction locus.
 
-Independence of `t`: use the exact sequences for successive powers of a nonzero topologically nilpotent scalar and the resulting almost exact section sequences. For an arbitrary second scalar `t′`, choose powers with `|t|^a ≤ |t′| ≤ |t|^b` and conversely; divisibility in the valuation ring sandwiches the two reductions and transfers the isomorphism and injectivity. This handles arbitrary admissible valuations, rather than only powers or unit multiples (Scholze, after Definition 2.3.8). Tilting: `𝒪⁺_X/t ≅ 𝒪⁺_{X♭}/t♭` for `t♭` with `|t♭| = |t|` and the tilting homeomorphism identifies `Z, U` and `X ∖ Z` with their tilts (PerfectoidSpaces §P2.2). `t = 0`: the sheaf `𝒪⁺` on a perfectoid space is complete for the powers of a nonzero topologically nilpotent scalar. Take its inverse limit of quotient sheaves and then sections; sections preserve inverse limits on every open, including the possibly non-quasi-compact `X ∖ Z`. Almost zero kernels and cokernels are controlled by the same scalar roots throughout, so the almost extension and injectivity statements pass to this limit. No quasi-compactness of `X ∖ Z` is assumed.
+Use the good-triple predicate and scalar-independence, tilting and bounded-extension theorems of AutomorphicBundles §B3.HT.3. `GoodTriple` and its API below denote that same predicate and those theorems. Restriction to `U` and the boundary complement uses the same opens under the chart identification; the `t=0` assertion retains the supplied passage through all scalar reductions.
 
 ([Scholze], §2.3.3, Definition 2.3.8 and the paragraph after it, pp. 966–967.) The definition of good triples, independence of `t`, compatibility with tilting and the `t = 0` consequence for bounded functions.
 
@@ -490,7 +500,7 @@ The API is `GoodTriple`, `GoodTriple.indep_t`, .`tilt_iff, .extend_bounded, .of_
 
 A good triple with `U = X ∖ Z` gives Riemann's extension for bounded functions across `Z`.
 
-*Needs:* PerfectoidSpaces §§P2.9–P2.10, P2.2, P2.7, P0.5.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; PerfectoidSpaces §§P2.9–P2.10, P2.2, P2.7, P0.5.
 
 ### 1.6 Good triples: the base case and stability under finite normal covers, limits and field extension
 
@@ -500,7 +510,7 @@ Let `K` be a perfectoid field of characteristic `p, R₀` a reduced topologicall
 
 (b), (c): `K` of characteristic `p`; transfer to characteristic 0 is by tilting (§1.5).
 
-For (a), §1.4 gives extension. In the `u^i`-basis of `A₀^{1/p^∞}[u^{1/p^∞}]/(uf)`, injectivity to `U` reduces to Hartogs for `A₀` and injectivity for `A₀/f` along `V(J)`: normality gives depths `≥2` and `≥1`, respectively. For an algebraic K-extension use finite extensions by (b), then completed union by (c). For (b), finite étale trace self-duality extends over the boundary by normal Hartogs. Banach open mapping kills its integral cokernel by `t^N`; completed perfection makes this almost zero. Reduce `mod t` and use affinoid fibre products to obtain the `Hom` description, goodness and the trace intersection formula, checked on `U`. Globally finite étale algebras already have global projective trace duality and need no Hartogs/codimension assumption. For (c), take filtered colimits on the qcqs inverse-limit spaces: surjective transitions preserve injectivity of sections, and (b)(v)'s intersection formula descends a punctured section to a finite stage where it extends. Sources for these inputs are SchemeAndStackFoundations §§0.6, 4.13; AdicSpacesPartIII §R3.8; PerfectoidSpaces §P7.14; and Scholze Corollary 2.3.12.
+Use AutomorphicBundles §B3.HT.3’s stability package on these identical Hasse charts and normal finite covers. The chart, trace-duality and limit assertions below are its interfaces, with the codimension, no-boundary-component and surjectivity hypotheses retained. The genus-one globally finite étale case uses global projective trace duality, without a codimension-two assumption.
 
 ([Scholze], §2.3.3, Lemma 2.3.9 and its proof, pp. 967–968.) Goodness of the perfected Hasse chart triple when the boundary has codimension at least two, using depth of `A₀` and `A₀/f`.
 
@@ -514,7 +524,7 @@ For `A₀ = 𝔽_p[x, y], f = y` and `J = (x, y)`, (a) recovers the elementary H
 
 For a globally finite étale cover of a good triple with empty boundary, goodness is preserved even in dimension one; trace self-duality does not require removing a codimension-two subset in this case.
 
-*Needs:* §1.5; §1.4; SchemeAndStackFoundations §§4.13, 0.6; AdicSpacesPartIII §R3.8; PerfectoidSpaces §§P3.13, P7.14.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.5; §1.4; SchemeAndStackFoundations §§4.13, 0.6; AdicSpacesPartIII §R3.8; PerfectoidSpaces §§P3.13, P7.14.
 
 ### 1.7 Hartogs extension on the Hasse blow-up `Spf((R ⊗̂ ℤ_p^cycl)⟨u⟩/(fu − p^ε))`
 
@@ -524,9 +534,7 @@ For a globally finite étale cover of a good triple with empty boundary, goodnes
 
 In the Siegel application `R` is an affine chart of the integral minimal compactification, `f` a lift of the Hasse invariant and `Y` the boundary, of codimension `≥ 2` in the special fibre when `g ≥ 2`.
 
-Part (i) uses SchemeAndStackFoundations' coherent Hartogs theorem for the structure sheaf of a normal scheme.
-
-Normal noetherian rings satisfy `S₂`, so depth`≥2` along `Y` gives coherent Hartogs. For `ε=0, fu=1`; apply Hartogs after localization at `f`, flat scalar extension and successive p-adic quotients, then take the complete inverse limit. The u-adic completion is zero in this case and gives no proof. For `ε>0`, reduction `mod p^ε` is the scheme-theoretic union `u=0` and `f=0`. Hartogs extends on the first; depth`≥1` of `R̄/f̄` gives injectivity on the second. Successive `p^ε`-reductions give injectivity on `S`. To prove surjectivity, complete in `u`, equivalently `(p,u)` since `p^ε=fu`. Hartogs lifts into this completion; comparison of u-coefficients `mod p^ε` on `f=0`, using its injectivity, puts every coefficient in the unpunctured ring. Successive `p^ε`-adic approximation puts the section in `S`. This second argument requires `ε>0` (Scholze Lemma 3.2.10; SchemeAndStackFoundations §§0.6, 4.13).
+The finite-level Hartogs input is supplied by AutomorphicBundles §B3.HT.2, using SchemeAndStackFoundations §§0.6, 4.13. Identify its local blow-up ring with this `S`, including the completed cyclotomic base, chosen `p^ε`, Hodge trivialization and removed boundary.
 
 ([Scholze], §3.2.2, Proposition 3.2.9, p. 980.)
 
@@ -536,7 +544,7 @@ For `R = ℤ_p⟨T₁, T₂⟩, f = T₂, ε = 1` and `Y = {T₁ = T₂ = 0}` th
 
 At `ε = 0` and `f = 1, u = 1, S` is the original scalar-extended p-adic ring, whereas the u-adic completion is zero. Hartogs still holds by the ordinary localization argument; this rules out using that completion uniformly in `ε`.
 
-*Needs:* SchemeAndStackFoundations §§4.13, 0.6.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; SchemeAndStackFoundations §§4.13, 0.6.
 
 ### 1.8 The Frobenius diagram modulo `p` on Hasse domains
 
@@ -544,13 +552,13 @@ Let `0 ≤ ε < 1`. The relative Frobenius maps of `𝔄(p⁻¹ε)/p, 𝔛(p⁻�
 
 `0 ≤ ε < 1`.
 
-The Frobenius twist of the Hasse domain of radius `p⁻¹ε` is the Hasse domain of radius `ε` modulo `p`: under Frobenius twist `u ↦ u^p` and `Ha ↦ Ha^p`, and `(p^{p⁻¹ε})^p = p^ε` (Scholze's proof via the moduli description of Definition 3.2.12). Relative Frobenius commutes with all maps of `𝔽_p`-schemes, giving commutativity.
+Use AutomorphicBundles §B3.HT.2’s Frobenius-chart transition, with the same Hasse domain and fractional-power relation. The relative Frobenius diagram is transported along the identity on the finite-level moduli and universal family.
 
 ([Scholze], §3.2.2, Lemma 3.2.14, pp. 984–985.)
 
 For `ε = 0` it is the relative Frobenius of the ordinary locus modulo p.
 
-*Needs:* §1.1; `mathlib:frobenius`; AdicSpacesPartIII §R2.10.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.1; `mathlib:frobenius`; AdicSpacesPartIII §R2.10.
 
 ### 1.9 Trace estimates for Frobenius-type extensions on Hasse domains
 
@@ -560,7 +568,7 @@ As stated; the trace is the trace of a finite locally free algebra (AdicSpacesPa
 
 `ε < 1/2` in (ii).
 
-(i) Finite freeness: Weierstrass-type division by the monic relations; the trace of a monomial `X^i` with some `i_j ≠ 0` lies in `Iⁿ` by a change of variables making `X_1^{i_1}⋯X_n^{i_n}` the first coordinate over an invertible matrix over `𝔽_p` (the monomial is `X_1^{i_1}⋯X_n^{i_n}`). (ii) Locally `Spf R` is étale over `Spf ℤ_p⟨Y_1, …, Y_n⟩`, so `R/p` is locally free over itself via Frobenius with basis `Y^i (0 ≤ i_j ≤ p − 1)`. Put `R′_{ε/p} = (R ⊗̂ ℤ_p^cycl)⟨v_ε⟩/(f^p v_ε − p^ε)` and `τ: R′_{ε/p} → R_{ε/p}, v_ε ↦ u_{ε/p}^p: τ[1/p]` is an isomorphism, `τ` is injective because `R′_{ε/p}` is p-torsion free (Lemma 3.2.10; §1.7), and its cokernel is killed by `p^{(p−1)ε/p}`, hence by `p^ε`. Since `ε < 1 − ε, φ` factors through `ψ: R_ε → R′_{ε/p}`, and `ψ` agrees modulo `p^{1−2ε}` with the Frobenius map, so `ψ` is finite free with basis `Y^i` (this gives finite flatness and the `rank p^n` after inverting `p`). One can write `R′_{ε/p} = R_ε⟨X_1, …, X_n⟩/(X_i^p − Y_i − P_i)` with `P_i ∈ p^{1−2ε}R_ε⟨X⟩` (p. 994), so (i) with `I = (p^{1−2ε})` gives `tr(R′_{ε/p}) ⊆ p^{n−2nε}R_ε`; as `p^ε R_{ε/p} ⊆ τ(R′_{ε/p}), tr(R_{ε/p}) ⊆ p^{−ε}·p^{n−2nε}R_ε = p^{n−(2n+1)ε}R_ε`.
+Use the Frobenius-type trace estimate of AutomorphicBundles §B3.HT.3 on §B3.HT.2’s rings. The trace is the supplied finite locally free trace, with `n` the relative dimension. Its coefficient error in (ii) is `p^{1−2ε}`, giving exactly the displayed integral loss; the ring presentation and radius are unchanged.
 
 ([Scholze], §3.2.4, Lemma 3.2.21 and Corollary 3.2.22 with proofs, pp. 991–994.)
 
@@ -568,7 +576,7 @@ As stated; the trace is the trace of a finite locally free algebra (AdicSpacesPa
 
 For `n = 1, R = ℤ_p⟨Y⟩` and `S = R⟨X⟩/(X^p − Y), tr(X^i) = 0` for `0 < i < p` and `tr(1) = p`, so `tr(S) ⊆ (p) = I`.
 
-*Needs:* §1.7; AdicSpacesPartIII §R3.8.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.7; AdicSpacesPartIII §R3.8.
 
 ### 1.10 Canonical Frobenius lifts on Hasse domains
 
@@ -576,7 +584,7 @@ Let `0 ≤ ε < 1/2`. There is a unique diagram of p-adic formal schemes `F̃: �
 
 `0 ≤ ε < 1/2` (needed for the strong canonical subgroup of level 1 on `𝔄(p⁻¹ε)`, whose uniqueness gives the uniqueness of the diagram).
 
-Use HodgeTateAndCanonicalSubgroups §§3.3–3.8, 4.3. On `𝔛(p⁻¹ε)` the unique canonical `C` reduces to `ker F mod p^{1−ε}`; isotropy gives a principally polarized `A/C` with tame level and the formal Frobenius diagram. Its Hasse estimate gives the target radius `ε`. For `g≥2`, §1.7 extends uniquely across the codimension`≥2` minimal boundary; for `g=1` the Tate cusp chart has `C=μ_p` and supplies the extension. A diagram as stated has kernel reducing to `ker F` at that precision, hence the same `C` and quotient; a bare Frobenius lift need not be unique (Scholze Lemma 3.2.4 requires a differential bound). Locally its base map has §1.9(ii)'s Frobenius form, so generic degree `p^{g(g+1)/2}`; it is étale as the canonical-subgroup section of the étale level cover followed by the étale quotient map. The abelian-scheme map adds degree `p^g`. These are the two generic degrees; neither the printed common degree nor integral nonflatness at every positive `ε` follows.
+Use AutomorphicBundles §B3.HT.2’s canonical quotient/Frobenius diagram. Its subgroup is the shared subgroup of §B3.HT.1, also denoted `TauCeti.HodgeTate.canonicalSubgroup` by HodgeTateAndCanonicalSubgroups. The identification preserves the polarization, tame level and Frobenius congruence. Finite-level Hartogs for `g≥2` and the genus-one Tate cusp charts are part of that supplied extension. The two generic degrees remain those displayed above.
 
 ([Scholze], §3.2.2, Theorem `3.2.15(i)` and its proof, pp. 985–987.)
 
@@ -586,7 +594,7 @@ For `g = 1` and `ε = 0, F̃` is the classical canonical lift of Frobenius on th
 
 `F̃ ∘` (inclusion `𝔛(p⁻²ε) ⊆ 𝔛(p⁻¹ε)`) = (inclusion) `∘ F̃` (compatibility with shrinking `ε`).
 
-*Needs:* §1.1; §1.8; §1.9; §1.7; HodgeTateAndCanonicalSubgroups §§3.4, 3.6, 3.7, 3.8, 3.3, 4.1, 4.3; AdicSpacesPartIII §R2.10; ShimuraVarieties §8.20.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.1; §1.8; §1.9; §1.7; HodgeTateAndCanonicalSubgroups §§3.4, 3.6, 3.7, 3.8, 3.3, 4.1, 4.3; AdicSpacesPartIII §R2.10; ShimuraVarieties §8.20.
 
 ### 1.11 Anticanonical open immersions into `Γ₀(pᵐ)`-level
 
@@ -594,7 +602,7 @@ Let `0 ≤ ε < 1/2` and `m ≥ 0`. Then `𝔄(p⁻ᵐε) → 𝔛(p⁻ᵐε)` h
 
 `0 ≤ ε < 1/2`; the left arrow of the square is the extension of `F̃` to the minimal compactification (the published label omits the star).
 
-Iterating the canonical quotient gives `C_m` on `𝔄(p⁻ᵐε)`. Uniqueness makes it isotropic, and Scholze Proposition 3.2.8(iv) gives `A[pᵐ]/C_m≅(ℤ/pᵐ)^g` geometrically; isotropic order `p^{mg}` alone would not suffice. The quotient map composed with `(A′,D)↦A′/D` is the inclusion, since `(A/C_m)/(A[pᵐ]/C_m)≅A`, so it is an open immersion. For `g≥2`, extend its section through finite normal affine normalization charts using §1.7's Hartogs theorem; the same theorem gives cartesianness on minimal compactifications. For `g=1` use the Tate chart: `(T(q),μ_{pᵐ})↦(T(q^{pᵐ}),⟨q⟩)` identifies the q-disc with the anticanonical chart of coordinate `(q^{pᵐ})^{1/pᵐ}=q`, including `q=0` (Heuer Proposition 2.22). For `m≥1` both vertical generic maps have degree `p^{g(g+1)/2}`; the open immersion and degree comparison give the cartesian square.
+Use AutomorphicBundles §B3.HT.2’s finite-level anticanonical identification, with the same quotient `A/C_m`, residual level subgroup `A[pᵐ]/C_m`, polarization and minimal boundary. Its transition compatibility identifies the displayed square with the supplied Frobenius/forgetful square, including the genus-one Tate cusp chart.
 
 ([Scholze], §3.2.2, Theorem 3.2.15(ii) and its proof, pp. 985–987.)
 
@@ -604,7 +612,7 @@ Iterating the canonical quotient gives `C_m` on `𝔄(p⁻ᵐε)`. Uniqueness ma
 
 For `g = 1`, the image of `𝒳(p⁻ᵐε)` is the locus of `(E', D)` with `E' = E/C_m` and `D ∩` (canonical subgroup of `E'`) = 0, i.e. the anticanonical component of the `Γ₀(pᵐ)`-curve over the `ε`-ordinary locus.
 
-*Needs:* §1.1; §1.10; §1.7; §0.1; HodgeTateAndCanonicalSubgroups §§3.4, 3.6, 3.7, 3.8, 3.3, 4.1, 4.3; ShimuraVarieties §8.20.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.1; §1.10; §1.7; §0.1; HodgeTateAndCanonicalSubgroups §§3.4, 3.6, 3.7, 3.8, 3.3, 4.1, 4.3; ShimuraVarieties §8.20.
 
 ### 1.12 The anticanonical locus at `Γ₀(p)`-level
 
@@ -612,7 +620,7 @@ Let `0 ≤ ε < 1/2`. There is a weak canonical subgroup `C ⊆ 𝔄(ε)[p]` of 
 
 `0 ≤ ε < 1/2`.
 
-The canonical subgroup's finite étale generic fibre makes the disjointness locus `D∩C=0` clopen. The open immersion `j` of §1.11 at `m=1` commutes with Frobenius quotient by Scholze Proposition 3.2.8(iii). To see its image is anticanonical, a section of `A[p]` mapping into the weak canonical subgroup of `A/C₀` vanishes in `A/C₀` modulo `p^{(1−ε)/p}`. Its image `t` in `H=A[p]/C₀` has that precision, while `Ha(A)` kills `Ω¹_H` and divides `p^{ε/p}`. Lemma 3.2.4 with `δ=(1−ε)/p, ε′=ε/p` forces `t=0`. Both the Frobenius cover and the complement cover have degree `p^{g(g+1)/2}`: Lagrangian complements form a torsor under symmetric g×g matrices. Thus `j` is an isomorphism onto that clopen locus, with inverse `(A′,D)↦A′/D`. Generic subgroup, rigidity and quotient inputs are HodgeTateAndCanonicalSubgroups §§3.3–3.8, 4.3.
+Use AutomorphicBundles §B3.HT.2’s anticanonical finite-level chart. Its moduli identification is the displayed disjointness condition with the shared weak canonical subgroup of §B3.HT.1, and its map to the base is the same canonical Frobenius quotient. Preserve the clopen decomposition and the complement degree `p^{g(g+1)/2}`.
 
 ([Scholze], §3.2.2, Theorem 3.2.15(iii) and Remark 3.2.16, p. 986.)
 
@@ -620,7 +628,7 @@ The canonical subgroup's finite étale generic fibre makes the disjointness locu
 
 For `g = 1, 𝒳_{Γ₀(p)}(ε) → 𝒳(ε)` has degree `p + 1`: the canonical locus `(D = C)` maps isomorphically onto `𝒳(ε)`, and the anticanonical locus `𝒳_{Γ₀(p)}(ε)_a` has degree `p` over `𝒳(ε)` and is isomorphic to `𝒳(p⁻¹ε)` via `(E, D) ↦ E/D`.
 
-*Needs:* §1.11; §1.10; HodgeTateAndCanonicalSubgroups §§3.4, 3.6, 3.7, 3.8, 3.3, 4.1, 4.3.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.11; §1.10; HodgeTateAndCanonicalSubgroups §§3.4, 3.6, 3.7, 3.8, 3.3, 4.1, 4.3.
 
 ### 1.13 The anticanonical `Γ₀(pᵐ)`-tower and its affinoidness at deep level
 
@@ -630,7 +638,7 @@ Let `0 ≤ ε < 1/2`. For `m ≥ 1` define `𝒳_{Γ₀(pᵐ)}(ε)_a ⊆ 𝒳_{�
 
 `Γ₀(pᵐ)` with the corrected similitude condition (Layer 0 §0.1).
 
-Openness and identification with `𝒳*(p⁻ᵐε)`: §1.11; closedness: `𝒳*(p⁻ᵐε) → 𝒳*(ε)` is finite, hence proper, so its image is closed. The cartesian squares of §1.11 show the anticanonical loci form a subtower and that the integral models with Frobenius-lift transition maps reduce to relative Frobenius modulo `p^{1−ε}`. Affinoidness: choose `m` with `H^i(X*, ω^{⊗p^m(p−1)}) = 0` for `i > 0` (ampleness), lift `Ha^{p^m}` globally; `𝒳*(p⁻ᵐε)` is then the locus `|H̃a^{p^m}| ≥ |p|^ε` in the projective `X*` with `H̃a^{p^m}` a section of an ample bundle, the complement of a neighbourhood of an ample divisor, hence affinoid.
+Identify this tower and its integral models with AutomorphicBundles §B3.HT.2’s anticanonical tower. The identification is the identity on each finite-level moduli space, intertwines the Frobenius and forgetful transitions, and carries the Hasse-line trivializations and boundary ideals to the supplied ones. Deep-level affinoidness is the supplied ample-Hodge-line assertion.
 
 ([Scholze], §3.2.2, the paragraphs after Theorem 3.2.15 and Lemma 3.2.17, p. 988.)
 
@@ -645,7 +653,7 @@ The API is `SiegelTorsion.anticanonical`, .`anticanonical_iso_hasse, .anticanoni
 
 For `g = 1` and `ε = 0` every level `𝒳*_{Γ₀(pᵐ)}(0)_a` is identified with `𝒳*(0)` (the ordinary locus with its cusps), and the tower is `𝒳*(0) ← 𝒳*(0) ← ⋯` with transition maps the canonical Frobenius lift `E ↦ E/C` of degree `p`; it is not an Igusa tower, whose levels have growing degree over `𝒳(0)`.
 
-*Needs:* §1.11; §1.12; §1.10; §1.1; §0.1; PerfectoidSpaces §P7.5–P7.6.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.11; §1.12; §1.10; §1.1; §0.1; PerfectoidSpaces §P7.5–P7.6.
 
 ### 1.14 The anticanonical tower at `Γ₀(p^∞)`-level is perfectoid and its tilt is a perfection
 
@@ -653,7 +661,7 @@ Let `0 ≤ ε < 1/2`. There are unique perfectoid spaces `𝒳_{Γ₀(p^∞)}(ε
 
 `0 ≤ ε < 1/2`; the limit runs over the anticanonical tower, which is not a cofinal level system (`Γ₀(p^∞)` is not open).
 
-The integral models `𝔛*(p⁻ᵐε)` with the Frobenius lifts `F̃` form a Frobenius-controlled integral tower (§1.13; PerfectoidSpaces §P7.5–P7.6) with `ϖ = p^{1/p}` up to the bound `p^{1−ε}, ε < 1/2`. Apply PerfectoidSpaces §P7.13 chartwise to affine opens `Spf R_{m₀} ⊆ 𝔛*(p^{−m₀}ε)` and their preimages (the initial index is `m₀`), and glue with PerfectoidSpaces §P7.12. The tilt: the characteristic-p Siegel spaces over `𝔽_p[[t^{1/(p−1)p^∞}]]` have Hasse domains whose relative Frobenius towers are identified modulo `p^{1−ε} ↔ t^{1−ε}` with the anticanonical tower (the two reductions agree with `𝔛*(ε)/p`); PerfectoidSpaces §P7.5–P7.6 identifies the tilt with the perfection. Uniqueness: PerfectoidSpaces §P7.10.
+Use AutomorphicBundles §B3.HT.2’s represented anticanonical tilde-limit. On every compatible affine sequence, identify its integral ring with the completed direct limit of §1.13’s same finite-level rings. The Frobenius congruence identifies the tilted chart with the displayed characteristic-p perfection; uniqueness and gluing use PerfectoidSpaces §§P7.10–P7.12.
 
 ([Scholze], §3.2.3, Definition 3.2.18 and Corollary 3.2.19 with proof, pp. 989–990.)
 
@@ -661,7 +669,7 @@ The integral models `𝔛*(p⁻ᵐε)` with the Frobenius lifts `F̃` form a Fro
 
 For `g = 1` and `ε = 0` this is the perfectoid ordinary locus of the modular curve at `Γ₀(p^∞)`-level, whose tilt is the perfection of the ordinary locus in characteristic p.
 
-*Needs:* §1.13; PerfectoidSpaces §§P7.13, P7.5–P7.6, P7.12, P7.10.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.13; PerfectoidSpaces §§P7.13, P7.5–P7.6, P7.12, P7.10.
 
 ### 1.15 At `Γ₀(p^∞)`-level the anticanonical piece is affinoid perfectoid with strongly Zariski closed boundary
 
@@ -669,13 +677,13 @@ For `0 ≤ ε < 1/2, 𝒳*_{Γ₀(p^∞)}(ε)_a` is affinoid perfectoid, and its
 
 `0 ≤ ε < 1/2`; strongly Zariski closed with `S⁺` the integral closure of the image of `R⁺`.
 
-By PerfectoidSpaces §P4.21 it suffices to check both assertions for the tilts in characteristic `p` (Scholze Lemma 2.2.7). In characteristic `p, 𝒳′*(ε) = {|Ha| ≥ |t|^ε}` is affinoid (§1.13, Lemma 3.2.17 argument) and the boundary `𝒵′(ε)` is Zariski closed; perfection preserves affinoidness. In characteristic `p` a Zariski closed subset of an affinoid perfectoid is strongly Zariski closed (Scholze Lemma 2.2.5; PerfectoidSpaces §P4.15 and PerfectoidSpaces §P4.13–P4.15).
+Use AutomorphicBundles §B3.HT.2’s affinoid limit and strongly closed boundary. Under §1.14’s completed-ring comparison the boundary ideal is the one from the finite-level system, and the induced plus ring is its supplied integral closure. Tilting and restriction preserve this identification.
 
 ([Scholze], §3.2.3, Corollary 3.2.20 with proof, p. 990.)
 
 For `g = 1` the boundary is the finite set of cusps of the perfectoid anticanonical neighbourhood; strong Zariski closedness says the restriction to cusps is almost surjective on plus rings.
 
-*Needs:* §1.14; PerfectoidSpaces §§P4.13, P4.21, P4.13–P4.15; PerfectoidQuotients §2.1.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.14; PerfectoidSpaces §§P4.13, P4.21, P4.13–P4.15; PerfectoidQuotients §2.1.
 
 ### 1.16 Tate's normalized traces on the anticanonical tower
 
@@ -685,7 +693,7 @@ Fix `0 ≤ ε < 1/2` and let `𝔛_{Γ₀(p^∞)}(ε)_a = lim_m 𝔛(p⁻ᵐε)`
 
 `0 ≤ ε < 1/2; g(g+1)/2 = dim` of the Siegel space, so `p^{(m′−m)g(g+1)/2}` is the degree of the transition map on generic fibres.
 
-Compatibility of the normalized traces follows from transitivity of traces (AdicSpacesPartIII §R3.8) and the degree `p^{g(g+1)/2}` of each step (§1.10). The bound: apply §1.9 (ii) with `n = g(g+1)/2` at each step; the exponents `n − (2n+1)ε/p^k` sum, after normalization by `p^{−n}`, to a convergent series of losses, giving `C_m → 0`. Continuity extension and `x = lim tr̄_m(x)`: density of the colimit in the completed ring and the uniform bounds.
+Use AutomorphicBundles §B3.HT.3’s normalized traces on the same Frobenius tower rings. Their normalization is by the generic degree `p^{g(g+1)/2}` per step; the finite-algebra formula above specifies its algebraic specialization. The completed-ring identification intertwines the trace retractions, their integral bounds `C_m→0` and convergence, so these are the supplied operators themselves.
 
 ([Scholze], §3.2.4, Corollary 3.2.23, p. 994.)
 
@@ -700,7 +708,7 @@ The API is `SiegelTorsion.normalizedTrace` with .`normalizedTrace_of_finiteLevel
 
 For `g = 1` and `ε = 0` every level is `𝔛(0)` (the ordinary locus) and every transition map is the canonical Frobenius lift `φ` of degree `p`, so `tr̄_m(x) = lim_{m′} p^{−(m′−m)} tr_{φ^{m′−m}}(x)`: the normalized trace along the Frobenius tower of `𝔛(0)`, not along an Igusa tower.
 
-*Needs:* §1.13; §1.9; §1.10; AdicSpacesPartIII §R3.8.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.13; §1.9; §1.10; AdicSpacesPartIII §R3.8.
 
 ### 1.17 Hartogs extension for finite covers of the anticanonical tower
 
@@ -708,13 +716,13 @@ Assume `g ≥ 2` and `0 ≤ ε < 1/2`. Let `𝒴*_m → 𝒳*_{Γ₀(pᵐ)}(ε)_
 
 `g ≥ 2` (boundary of codimension `≥ 2`); `0 ≤ ε < 1/2`.
 
-(i) Finite-level Hartogs: normality of `𝒴*_{m′}` and codimension `≥ 2` of the boundary in the integral model (Scholze Proposition 3.2.9 and Lemma 3.2.10; §1.7), applied on the Hasse blow-up charts. (ii) Use the retractions given by §1.16, base-changed along the finite étale `𝒴_m → 𝒳_{Γ₀(pᵐ)}(ε)_a`, and (i) at every level. (iii) Combine (ii) with the definition of tilde-limits (PerfectoidSpaces §P7.4).
+Apply AutomorphicBundles §B3.HT.3’s boundary-extension and density contracts to these finite normalizations. The comparison preserves the open finite étale covers, their finite-level integral rings and normalized-trace retractions; it identifies the completed ring and boundary ideal in (iii). Normality, no component over the boundary and the stated codimension bound are retained.
 
 ([Scholze], §3.2.5, introduction and Lemma 3.2.24 with proof, pp. 995–997.)
 
 Applied to `𝒴*_m = 𝒳*_{Γ₀(pᵐ)}(ε)_a` itself it recovers that `H⁰` of the open good-reduction part computes the affinoid ring of the compactified anticanonical piece.
 
-*Needs:* §1.16; §1.13; §1.14; §1.7; §1.5; AdicSpacesPartIII §R2.10; PerfectoidSpaces §P7.4.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.16; §1.13; §1.14; §1.7; §1.5; AdicSpacesPartIII §R2.10; PerfectoidSpaces §P7.4.
 
 ### 1.18 The `p^m`-torsion of the anticanonical abelian variety at `Γ₀(p^∞)`-level and its tilt
 
@@ -722,13 +730,13 @@ Assume `g ≥ 2` and `0 ≤ ε < 1/2`. Over `𝒳_{Γ₀(pᵐ)}(ε)_a, 𝒜_{Γ�
 
 `g ≥ 2` is the standing assumption of §3.2.5; `0 ≤ ε < 1/2`.
 
-At `Γ₀(p^∞)`-level the canonical subgroup `C_m` is killed by the inverse limit of Frobenius lifts: the composite `A_{m′} → A_m` of quotients by canonical subgroups identifies `A[pᵐ]` at infinite level with its image modulo `C_m` (Lemma 3.2.25). Tilt: the identifications of §1.14 for `𝒜` restrict to the finite étale `D_m` (PerfectoidSpaces §P7.12), so the tilt of `D_{m,Γ₀(p^∞)}` is `(D′_m)^{perf}`; moreover `(D′_m)^{perf} = 𝒜′(ε)[pᵐ]^{perf}`, since perfection kills the infinitesimal `C′_m = ker Fᵐ` (the characteristic-p analogue of Lemma 3.2.25).
+Use the torsion-cover identification underlying AutomorphicBundles §§B3.HT.2–B3.HT.3’s anticanonical and normal-cover comparison. It uses the same universal abelian family and the quotient by the shared `C_m`. Hence its tilted finite étale algebra is the displayed perfection of `D′_m`, with the same level maps; it does not supply a full torsion basis.
 
 ([Scholze], §3.2.5, the paragraphs before Lemma 3.2.25 and Lemmas 3.2.25–3.2.26, pp. 997–998.)
 
 For `g = 1` and `ε = 0, D_m` is the étale quotient `E[pᵐ]/C_m` on the ordinary locus. The inverse Frobenius tower removes the connected canonical torsion and identifies the surviving torsion with this quotient; it does not choose a basis of `C_m` or trivialise all of `E[pᵐ]`.
 
-*Needs:* §1.14; §1.11; HodgeTateAndCanonicalSubgroups §§3.4, 3.6, 3.7, 3.8, 3.3; PerfectoidSpaces §P7.12.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.14; §1.11; HodgeTateAndCanonicalSubgroups §§3.4, 3.6, 3.7, 3.8, 3.3; PerfectoidSpaces §P7.12.
 
 ### 1.19 The characteristic-p Hasse-locus triples are good
 
@@ -738,7 +746,7 @@ Assume `g ≥ 2, 0 ≤ ε < 1/2` and `m ≥ 1`. Let `X^{ord*} ⊆ X* ⊗ 𝔽_p`
 
 Resolution of singularities of `X* ⊗ 𝔽_p`, required by the Hebbarkeitssatz in characteristic `p` (Scholze Lemma 2.3.9), is supplied by a smooth toroidal compactification (Faltings–Chai).
 
-Apply the base good triple lemma (Scholze Lemma 2.3.9; §1.6 (a), resting on §1.4) on affine charts of the characteristic-p Hasse blow-up, with `Spec A₀` an open of `X* ⊗ 𝔽_p, f = Ha` and `I₀` the boundary ideal, using the toroidal resolution (ShimuraCompactifications C5). For `ε > 0` rescale the parameter to `t^ε` and use independence of the scalar in goodness. At `ε = 0`, invert `Ha` instead: the parameter `t` remains topologically nilpotent, and the normal ordinary-locus ring with its codimension-two boundary gives the good triple directly. Do not substitute the unit `t⁰` into a theorem requiring a topologically nilpotent parameter. Pass to the finite normal covers `X^{ord*}_{Γ₁(pᵐ)}` étale away from the boundary by Scholze Lemma 2.3.10 (§1.6 (b)).
+Use AutomorphicBundles §B3.HT.3’s good-triple theorem with the same normal characteristic-p charts, toroidal resolution, Hasse section and boundary ideal, and then its normal finite-cover stability. For `ε>0` this uses the scalar `t^ε`. At `ε=0` use the ordinary localization and a nonzero topologically nilpotent scalar `t`; `t⁰` is not such a scalar.
 
 ([Scholze], §3.2.5, proof of Lemma 3.2.27, p. 999.)
 
@@ -746,7 +754,7 @@ Apply the base good triple lemma (Scholze Lemma 2.3.9; §1.6 (a), resting on §1
 
 The statement says that bounded functions on the perfected `ε`-Hasse locus extend uniquely across the boundary: the characteristic-p Hebbarkeitssatz in the Siegel instance.
 
-*Needs:* §1.1; §1.5; §1.6; §1.4; ShimuraCompactifications §§C5.16, C5.3, C5.5; PerfectoidSpaces §P7.5–P7.6.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.1; §1.5; §1.6; §1.4; ShimuraCompactifications §§C5.16, C5.3, C5.5; PerfectoidSpaces §P7.5–P7.6.
 
 ### 1.20 Tilting the `Γ₁(pᵐ)`-cover of the anticanonical tower
 
@@ -754,13 +762,13 @@ Assume `g ≥ 2, 0 ≤ ε < 1/2, m ≥ 1`, and apply §1.17 to `𝒴*_m = 𝒳*_
 
 `g ≥ 2; 0 ≤ ε < 1/2; m ≥ 1`.
 
-Lemma `3.2.29: 𝒴_∞` is the finite étale cover of `𝒳_{Γ₀(p^∞)}(ε)_a` parametrising trivialisations of `D_m`, whose tilt is the trivialisations of `D′_m^{perf}` by §1.18; finite étale covers tilt (PerfectoidSpaces P3). Lemma 3.2.30: glue the identification over the complement of the boundary, using the goodness of §1.19 to extend functions. Lemma 3.2.31: the finite étale algebras are determined by their restriction to `𝒰` because `H⁰` injects (an idempotent argument). Lemma `3.2.32: H⁰` of the candidate tilt is perfectoid (a perfection), and its untilt computes `S_∞` by §1.17 (ii) and goodness.
+Use AutomorphicBundles §B3.HT.3’s tilted normal-cover and density comparison on the same `Γ₁(pᵐ)` finite-level cover. Under §1.18 the level trivializations give the same tilted finite étale algebra; goodness detects the idempotents and extends bounded sections. Consequently the untilt computes the actual completed level ring `S_∞`, with its boundary ideal, rather than a ring determined only on geometric points.
 
 ([Scholze], §3.2.5, Lemmas 3.2.29–3.2.32 with proofs, pp. 999–1000.)
 
 For `g = 1` the `Γ₁`-cover of the ordinary locus is the Igusa tower, whose tilt is the perfection of the characteristic-p Igusa tower.
 
-*Needs:* §1.17; §1.18; §1.19; PerfectoidSpaces §§P3.10, P3.9.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.17; §1.18; §1.19; PerfectoidSpaces §§P3.10, P3.9.
 
 ### 1.21 The anticanonical tower at `Γ₁(pᵐ) ∩ Γ₀(p^∞)` and `Γ₁(p^∞)` levels
 
@@ -768,7 +776,7 @@ Let `0 ≤ ε < 1/2`. For every `m ≥ 1` there is a unique perfectoid space `�
 
 `0 ≤ ε < 1/2`; the `g ≥ 2` argument uses Hartogs; for `g = 1` the source gives only a sketch, completed with finite-level inputs only: Heuer's Lemma 2.23 (on the Tate-curve charts of ShimuraVarieties §8.20) shows that `𝒳*_{Γ₁(pᵐ)}(ε)_a → 𝒳*_{Γ₀(pᵐ)}(ε)_a` is a finite étale `(ℤ/pᵐ)^×`-torsor also over the cusps, split over each anticanonical cusp disc (Heuer's `Γ₀` and `Γ₁` spaces are the base changes of Layer 1's, the determinant condition of Layer 0 §0.1 being absorbed by the fixed `ζ_{pᵐ}`); no infinite-level result of Heuer is used.
 
-Combine §1.20 (the untilting argument) with §1.17 (iii) at level `Γ₁(pᵐ) ∩ Γ₀(p^{m′})`. Goodness transfers from characteristic `p` (§1.19) by tilting; pass to the limit over `m` by the stability of good triples under inverse limits (Scholze Lemma 2.3.11; §1.6 (c)) and PerfectoidSpaces §P7.14. `g = 1`: pull the finite étale `(ℤ/pᵐ)^×`-torsor `𝒳*_{Γ₁(pᵐ)}(ε)_a → 𝒳*_{Γ₀(pᵐ)}(ε)_a` (Heuer Lemma 2.23) back to §1.14; the result is perfectoid with the tilde-limit property by almost purity (PerfectoidSpaces §P3.10, PerfectoidSpaces §P7.12), and goodness passes along finite étale maps (Scholze Lemma 2.3.10; §1.6 (b)); the base goodness uses only the injectivity half of Lemma 2.3.9, valid in codimension 1 because the cusps are ordinary `(V(J) ∩ V(f) = ∅)`.
+Identify these charts with the normal finite-cover limits in AutomorphicBundles §§B3.HT.2–B3.HT.3, on the same mixed `Γ₁`/`Γ₀` finite-level moduli system. Their good triples and integral density are the supplied ones. The full-level carrier is supplied by §B3.HT.4; for genus one retain Heuer’s finite étale cusp comparison, with the fixed pairing component selected as above.
 
 ([Scholze], §3.2.5, Propositions 3.2.33–3.2.34 with proofs, pp. 1000–1001.)
 
@@ -776,7 +784,7 @@ Combine §1.20 (the untilting argument) with §1.17 (iii) at level `Γ₁(pᵐ) 
 
 For `g = 1` and `ε = 0` this is the perfectoid ordinary Igusa tower over the ordinary locus with its cusps.
 
-*Needs:* §1.20; §1.17; §1.19; §1.14; §1.5; §1.6; §0.1; PerfectoidSpaces §§P7.14, P7.12, P3.10; ShimuraVarieties §8.20.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.20; §1.17; §1.19; §1.14; §1.5; §1.6; §0.1; PerfectoidSpaces §§P7.14, P7.12, P3.10; ShimuraVarieties §8.20.
 
 ### 1.22 Full `Γ(p^∞)`-level: the anticanonical neighbourhood is affinoid perfectoid with a good boundary triple
 
@@ -784,7 +792,7 @@ Let `0 ≤ ε < 1/2`. (Lemma 3.2.35) For `m ≥ 1, 𝒳*_{Γ(pᵐ)}(ε)_a → �
 
 `0 ≤ ε < 1/2`.
 
-At `ε=0` a Lagrangian complement is the extra full-level datum, a torsor under `Γ₁(pᵐ)/Γ(pᵐ)`; Hartogs gives Scholze Lemma 3.2.35's disjoint-union comparison. For general `ε` the lower-genus boundary description needs constancy of inertia and ordinary density on each stratum, not merely generic étaleness. Keep the explicit ShimuraCompactifications C5 boundary-inertia input. In genus one Heuer Lemma 2.25 and Proposition 2.26 give Cartesian Tate-chart squares `Γ₀(pᵐ,ℤ/pᵐ)×D_{m,x}→(ℤ/pᵐ)^××D_{m,x}` for the full-to-`Γ₁` cover. Restricting to labels `ad≡1` gives the fixed-pairing piece, still finite étale over the cusps. For Theorem 3.2.36, base change the finite étale `Γ(pᵐ)`-covers over the perfectoid `Γ₁(p^∞)` base, descend the tilted algebras to finite stage and complete their directed limit. The trace/Hartogs comparisons of §§1.6, 1.17 make finite-level bounded sections p-adically dense in the limit plus ring, giving the good tilde-limit chart. Almost purity alone does not identify that plus ring. Goodness passes to the covers, with §1.6's globally finite étale argument for genus one.
+Use AutomorphicBundles §§B3.HT.2–B3.HT.3’s chart, boundary-extension and normalized-trace density interfaces for these actual finite-level rings. The represented full-level anticanonical chart is the one in §B3.HT.4. The comparison identifies its plus ring with the displayed p-adic completion and identifies the boundary ideals and good triples. Retain the full-to-`Γ₁` boundary-inertia input for general `ε`; in genus one the Tate-chart comparison selects the labels `ad≡1` for the fixed-pairing piece.
 
 ([Scholze], §3.2.5, after Theorem 3.2.36, p. 1002.)
 
@@ -792,7 +800,7 @@ At `ε=0` a Lagrangian complement is the extra full-level datum, a torsor under 
 
 A strict and explicit neighbourhood of the ordinary locus in the minimal compactification becomes affinoid perfectoid at infinite level and satisfies the Hebbarkeitssatz with respect to the boundary.
 
-*Needs:* §1.21; §1.5; §1.6; ShimuraCompactifications C5; PerfectoidSpaces §§P3.10, P3.13, P7.12, P5.9; ShimuraVarieties §8.20.
+*Needs:* AutomorphicBundles §§B3.HT.2–B3.HT.3; §1.21; §1.5; §1.6; ShimuraCompactifications C5; PerfectoidSpaces §§P3.10, P3.13, P7.12, P5.9; ShimuraVarieties §8.20.
 
 ### 1.23 The continuous Hodge–Tate map on the open infinite-level Siegel tower
 
@@ -800,7 +808,7 @@ Put `|𝒳*_{Γ(p^∞)}| := lim_m |𝒳*_{Γ(pᵐ)}|, |𝒵_{Γ(p^∞)}| := lim_
 
 Points outside the boundary have good reduction after a finite extension only on the good-reduction locus; on `|𝒳*| ∖ |𝒵|` the abelian variety may have bad reduction, and the Hodge–Tate filtration is that of the abelian variety over `K` (HodgeTateAndCanonicalSubgroups §§0.18, 2.5–2.6: Scholze Proposition 3.3.1 and the K-rationality of the filtration).
 
-Remark 3.3.3: points of the inverse limit of spaces of points, and `|𝒳*_{Γ(p^∞)}|` as a colimit over `(K, K⁺)` with unique minimal representatives (HodgeTateAndCanonicalSubgroups §2.3 (iii) for the diamond version). For an abelian variety A over a complete algebraically closed `C/ℚ_p` the Hodge–Tate filtration `Lie A(1) ⊆ T_pA ⊗ C` is a totally isotropic subspace for the Weil pairing (HodgeTateAndCanonicalSubgroups T2, finite-level Hodge–Tate sequence); it is defined over `K` when A is (Fargues–Genestier–Lafforgue; T0/T2 supplier contract). Continuity: locally on the pro-étale site of the open Siegel variety, the relative Hodge–Tate filtration of the universal abelian variety over the tower is a totally isotropic subbundle of `𝒪^{2g}` (the relative Hodge–Tate sequence on the pro-étale site, HodgeTateAndCanonicalSubgroups T2), defining a map of adic spaces from a pro-étale cover and hence continuity. Equivariance: `x·γ` replaces `α` by `γ⁻¹ ∘ α` on rational Tate modules and does not change the rational Hodge–Tate filtration `Lie A ⊗ K(1) ⊆ V_pA ⊗ K` (an isogeny induces an isomorphism of Hodge–Tate sequences after inverting `p`), so `|π_HT|(x·γ) = γ⁻¹·|π_HT|(x)`; the identification of this action with Layer 0's right translations is §1.2 (iii).
+Use AutomorphicBundles §B3.HT.4’s continuous Hodge–Tate map and identify its finite-level point system with the one here. On the open tower it agrees with HodgeTateAndCanonicalSubgroups §2.12’s relative filtration on perfectoid tests. Transport the right action through §1.2, so the same map has the displayed inverse action on flags and the cyclotomic semilinearity.
 
 ([Scholze], §3.3.1, Remark 3.3.3 and Lemma 3.3.4 with proof, pp. 1004–1006.)
 
@@ -819,7 +827,7 @@ For `g = 1` and an ordinary elliptic curve `E` with `α` carrying `T_p(E[p^∞]^
 
 For `g = 1` and `E` with supersingular reduction, `|π_HT|(E, α)` is a point of Drinfeld's `Ω = ℙ¹ ∖ ℙ¹(ℚ_p)`.
 
-*Needs:* §1.22; §1.2; `mathlib:Module.Grassmannian`; HodgeTateAndCanonicalSubgroups §§2.3, 2.2, 0.14, 0.15, 0.16, 0.18, 0.5, 2.5, 2.6, 2.7; ShimuraData §3.8–3.9.
+*Needs:* AutomorphicBundles §B3.HT.4; §1.22; §1.2; `mathlib:Module.Grassmannian`; HodgeTateAndCanonicalSubgroups §§2.3, 2.2, 0.14, 0.15, 0.16, 0.18, 0.5, 2.5, 2.6, 2.7; ShimuraData §3.8–3.9.
 
 ### 1.24 The closure of the ordinary locus is the preimage of the `ℚ_p`-rational flags
 
@@ -827,7 +835,7 @@ In `|𝒳*_{Γ(p^∞)}| ∖ |𝒵_{Γ(p^∞)}|`: the preimage of `Fl(ℚ_p)` und
 
 The ordinary/rational correspondence is for the abelian part: at a point of bad reduction the argument applies to the abelian part `B` of the Raynaud extension, with `g` replaced by `g′ = dim B`.
 
-An abelian variety over `𝒪_C` with good reduction is ordinary iff its p-divisible group is `(ℚ_p/ℤ_p)^g × μ_{p^∞}^g`, iff its Hodge–Tate filtration is `ℚ_p`-rational; the kernel of `α_G: T_pG → (Lie G*)*` is `T_p(G^{mult})` (Remark 3.3.7, with target `(Lie G*)*`), giving the direct argument without the Scholze–Weinstein classification. For bad reduction use the Raynaud extension (Scholze Proposition 3.3.1; HodgeTateAndCanonicalSubgroups T0) and the Hasse invariant at boundary points (Lemma 3.3.2; T0). Specialisations: the preimage of the closed set `Fl(ℚ_p)` is closed; it contains the ordinary locus and is contained in its closure by the above. Lemma 3.3.14: at a point of `𝒳_{Γ(p^∞)}(0)` the abelian variety over `𝒪_K` is ordinary with canonical subgroup `C ⊆ T_pA`, the Hodge–Tate filtration is `α(C) ⊗ K`, and the point lies in `(0)_a` iff `α(C) ⊕ (ℤ_p^g ⊕ 0) = ℤ_p^{2g}`, which is the description of `Fl_{g+1,…,2g}(ℚ_p)`; over `𝒳*(0) ∖ 𝒵(0)`, open and closed subsets extend across the boundary by goodness of the triple of §1.22 (Theorem 3.2.36), and a `GSp_2g(ℤ_p)`-translation argument handles the points of `(0) ∖ (0)_a`.
+Use AutomorphicBundles §B3.HT.4’s rational-flag/ordinary-locus identification for this same point system and Hasse region. The Raynaud abelian part and toric contribution are retained at bad reduction. The anticanonical component is selected by the stated transversality condition, using the same good triple from §1.22.
 
 ([Scholze], §3.3.2, Lemma 3.3.14 with proof, pp. 1010–1011.)
 
@@ -835,7 +843,7 @@ An abelian variety over `𝒪_C` with good reduction is ordinary iff its p-divis
 
 For `g = 1: π_HT^{-1}(ℙ¹(ℚ_p))` is the closure of the ordinary locus and `π_HT^{-1}(Ω)` is the supersingular locus.
 
-*Needs:* §1.23; §1.22; §0.1; HodgeTateAndCanonicalSubgroups §§0.18, 0.16.
+*Needs:* AutomorphicBundles §B3.HT.4; §1.23; §1.22; §0.1; HodgeTateAndCanonicalSubgroups §§0.18, 0.16.
 
 ### 1.25 Finitely many `GSp_2g(ℚ_p)`-translates of a Hasse neighbourhood cover the tower
 
@@ -843,7 +851,7 @@ For `g = 1: π_HT^{-1}(ℙ¹(ℚ_p))` is the closure of the ordinary locus and `
 
 `0 < ε < 1`.
 
-For Lemma 3.3.8 induct on genus (`g=0` is empty): at bad reduction, the Raynaud extension expresses periods and Hasse invariant through a smaller-dimensional abelian `B`; a `GSp_2g(ℤ_p)`-invariant `U` gives a uniform bound. At good reduction, continuity and §1.24 show that the intersection of `π_HT⁻¹(U)` over neighbourhoods of `Fl(ℚ_p)` lies in every positive-`ε` Hasse domain. The constructibly compact complement of that domain in the good-reduction locus gives one `U`. The whole boundary-complement tower is not quasi-compact. Lemma 3.3.9 contracts a flag by a torus element to a rational flag (Iwasawa dynamics); compactness of Fl gives finitely many translated `U`, and equivariance gives Lemma 3.3.10. Their Hasse translates form a quasi-compact open `V` containing the interior. Descend `V` to `V_m` at a finite compactified level. A classical point outside `V_m` has intersection of neighbourhoods `{x}`; constructible compactness gives an open neighbourhood disjoint from `V_m`. It would lie in the lower-dimensional boundary, which has no interior. Thus `V_m` is the whole space, proving Lemma 3.3.11. This uses finite-level compactness, without claiming that arbitrary unions of opens have open complement.
+Use AutomorphicBundles §B3.HT.4’s finite translated-chart covering of this same inverse limit, transported through §1.2’s action comparison. Its boundary-inclusive covering and flag contraction supply the displayed statements. The compactness argument applies to the finite compactified levels and the stated good-reduction domains; it requires no quasi-compactness of the entire boundary complement.
 
 ([Scholze], §3.3.1, proof of Lemma 3.3.8, p. 1008.)
 
@@ -851,13 +859,13 @@ For Lemma 3.3.8 induct on genus (`g=0` is empty): at bad reduction, the Raynaud 
 
 For `g = 1`, finitely many translates of the `ε`-ordinary locus at infinite level cover the whole perfectoid modular curve, the supersingular disc being moved into the ordinary neighbourhood by elements of `GL_2(ℚ_p)`.
 
-*Needs:* §1.24; §1.23; HodgeTateAndCanonicalSubgroups §§2.2, 0.14, 0.15, 0.16, 0.18, 0.5, 2.5, 2.6, 2.7.
+*Needs:* AutomorphicBundles §B3.HT.4; §1.24; §1.23; HodgeTateAndCanonicalSubgroups §§2.2, 0.14, 0.15, 0.16, 0.18, 0.5, 2.5, 2.6, 2.7.
 
 ### 1.26 The minimally compactified Siegel tower at `Γ(p^∞)`-level is perfectoid
 
 There is a perfectoid space `𝒳*_{Γ(p^∞)}` over `ℚ_p^cycl` with `𝒳*_{Γ(p^∞)} ~ lim_m 𝒳*_{Γ(pᵐ)}`, unique up to unique isomorphism; for every `0 < ε < 1/2, 𝒳*_{Γ(p^∞)}(ε) = GSp_2g(ℤ_p)·𝒳*_{Γ(p^∞)}(ε)_a` and `𝒳*_{Γ(p^∞)}` is covered by finitely many `GSp_2g(ℚ_p)`-translates of the affinoid perfectoid `𝒳*_{Γ(p^∞)}(ε)_a`. Its boundary `𝒵_{Γ(p^∞)}` carries the induced perfectoid structure. Over `C` (§1.2): `𝒳*_{Γ(p^∞)} ×_{Spa ℚ_p} Spa C = 𝒳*_{Γ(p^∞)} ×_{Spa ℚ_p^cycl} Spa C⁰(ℤ_p^×, C)` is a perfectoid representative (Layer 0 §0.2) of the Siegel tower `(S*_{K^pK′_p})_{K′_p ⊆ GSp_2g(ℚ_p)}` of Layer 0 over `C`, all similitude components included (`Γ(pᵐ)` cofinal by Layer 0 §0.1), and `𝒳*_{Γ(p^∞)} ⊗̂_{ℚ_p^cycl} C` is only its closed fixed-similitude fibre, generally not open.
 
-`𝒳*_{Γ(p^∞)}(ε) = GSp_2g(ℤ_p)·𝒳*_{Γ(p^∞)}(ε)_a` (stated without proof in Scholze's proof of Corollary 3.3.12), checked at level `Γ(p)`: at a point of the good-reduction part, the weak canonical subgroup `C ⊆ A[p]` is Lagrangian `(T3), Sp_2g(𝔽_p)` acts transitively on Lagrangians and some Lagrangian is transversal to `C`, so some `γ ∈ Sp_2g(ℤ_p)` moves the point into `{D ∩ C = 0} = 𝒳*_{Γ(p)}(ε)_a` (§1.12, §1.13); the translates of `𝒳*_{Γ(p)}(ε)_a` are open and closed in `𝒳*_{Γ(p)}(ε)`, so the complement of their union is open and contained in the boundary, which has no interior; hence it is empty. A subset of `|𝒳*_{Γ(p^∞)}|` is affinoid perfectoid if it is the preimage of an affinoid at all large finite levels with perfectoid completed colimit (Scholze Definition 3.3.5; PerfectoidSpaces §P7.4); `𝒳*_{Γ(p^∞)}(ε)_a` is such by §1.22, and the condition is `GSp_2g(ℚ_p)`-stable. By §1.25 (Lemma 3.3.11) finitely many translates cover; glue by PerfectoidSpaces §P7.12 (iii), the torsion-paper form. Uniqueness: PerfectoidSpaces §P7.10. Over `C`: §1.2 (ii), applied to this tilde-limit, with the `Γ(pᵐ)` cofinality witness (PerfectoidSpaces §P7.9).
+Identify this space with AutomorphicBundles §B3.HT.4’s minimal Siegel representative by the identity on the finite-level moduli tower. Its anticanonical chart cocycle, completed rings and boundary ideals are those of §§1.13–1.22. The comparison over `C` is §1.2(ii), with principal-level cofinality, and restores the whole profinite family of similitude fibres.
 
 ([Scholze], §3.3.2, Corollary 3.3.12 with proof, p. 1009.)
 
@@ -865,7 +873,7 @@ There is a perfectoid space `𝒳*_{Γ(p^∞)}` over `ℚ_p^cycl` with `𝒳*_{�
 
 For `g = 1` and `K^p = K(N)^p` this is the part of the perfectoid modular curve of tame level `K(N)^p` on which the Weil pairing of `α` is the fixed `ζ_{p^∞}: π₀` of its base change to `C` is `(ℤ/N)^×`, while the Layer 0 tower has `π₀ = ℤ_p^× × (ℤ/N)^×` (§1.2).
 
-*Needs:* §1.25; §1.22; §1.12; §1.13; §1.2; §0.2; §0.1; HodgeTateAndCanonicalSubgroups §§3.4, 3.6, 3.7, 3.8, 3.3; PerfectoidSpaces §§P7.4, P7.12, P7.9, P7.10.
+*Needs:* AutomorphicBundles §B3.HT.4; §1.25; §1.22; §1.12; §1.13; §1.2; §0.2; §0.1; HodgeTateAndCanonicalSubgroups §§3.4, 3.6, 3.7, 3.8, 3.3; PerfectoidSpaces §§P7.4, P7.12, P7.9, P7.10.
 
 ### 1.27 The Siegel Hodge–Tate period map as a map of adic spaces, extended over the boundary
 
@@ -873,7 +881,7 @@ There is a unique map of adic spaces `π_HT: 𝒳*_{Γ(p^∞)} ∖ 𝒵_{Γ(p^�
 
 The extension over the boundary rests on the goodness of the boundary triple (§1.22) and on boundedness of the Plücker coordinates on the anticanonical neighbourhood.
 
-Corollary 3.3.13: uniqueness from the functorial Hodge–Tate filtration and descent, rather than from the underlying topological map alone; existence as in Lemma 3.3.4 from the pro-étale local filtration, which is a map of adic spaces on a perfectoid cover and descends. Lemmas 3.3.15–3.3.16: from §1.24 by compactness, as in §1.25. Corollary 3.3.17: on `𝒳*_{Γ(p^∞)}(ε)_a` the Plücker coordinates `s_{J'}/s_{g+1,…,2g}` are bounded functions on the complement of the boundary (Lemma 3.3.16), hence extend uniquely across the boundary by goodness of the triple; translate by `GSp_2g(ℚ_p)` and glue using §1.25.
+Use AutomorphicBundles §B3.HT.4’s analytic period map and its boundary extension, under §1.26’s representing identification. Equality is equality of the relative filtration maps on perfectoid tests. The supplied extension uses §B3.HT.3’s bounded Plücker coordinates and good triples, and preserves the same flag chart and semilinear right-action convention.
 
 ([Scholze], §3.3.2, Corollary 3.3.13, Lemmas 3.3.14–3.3.16 and Corollary 3.3.17 with proofs, pp. 1009–1012.) The boundedness-plus-goodness step extending `π_HT`.
 
@@ -890,7 +898,7 @@ The API is `SiegelTorsion.htMap`, .`htMap_top, .htMap_unique, .htMap_equivariant
 
 For `g = 1, π_HT: 𝒳*_{Γ(p^∞)} → ℙ¹` sends cusps to `ℙ¹(ℚ_p)` and the anticanonical neighbourhood into the affinoid where the coordinate `x` is bounded `(Fl_{2})`.
 
-*Needs:* §1.23; §1.24; §1.25; §1.26; §1.22; §1.2; HodgeTateAndCanonicalSubgroups §§2.5, 2.6, 2.7.
+*Needs:* AutomorphicBundles §B3.HT.4; §1.23; §1.24; §1.25; §1.26; §1.22; §1.2; HodgeTateAndCanonicalSubgroups §§2.5, 2.6, 2.7.
 
 ### 1.28 Scholze's theorem for Siegel varieties: affinoid perfectoid flag charts and strongly Zariski closed boundary
 
@@ -898,7 +906,7 @@ For every tame level `K^p ⊆ GSp_2g(𝔸_f^p)` contained in `{γ ∈ GSp_2g(Ẑ
 
 The `J` in (i) are the `2^g` Lagrangian coordinate subsets.
 
-Existence/equivariance comes from §§1.26–1.27 and uniqueness from PerfectoidSpaces §P7.10. Quasi-compact open neighbourhoods of the compact `Fl(ℚ_p)` are cofinal. Their preimages contain a positive-`ε` Hasse neighbourhood off the boundary by Lemma 3.3.15, hence everywhere because the boundary has no interior. Continuity gives the reverse inclusion in (iii); Lemma 3.3.20 follows as in §1.24. For (i), at `x=0^g⊕ℚ_p^g`, (iii) puts its fibre in every anticanonical `ε`-chart. Choose `U∋x` whose inverse image lies there and choose `ε` with that chart mapping to `Fl_{g+1,…,2g}`. For `γ=diag(pI_g,I_g), γⁿ` contracts the flag affinoid rationally into `U`. Its preimage is therefore a rational subset of §1.22's good affinoid perfectoid. Rational stability and equivariance transport the full plus-ring claim to `Fl_{g+1,…,2g}`; integral Weyl elements give the other Lagrangian `J`. Merely covering by anticanonical translates would not prove affinoidness. Part (ii) is §1.15 and strong-Zariski-closed base change.
+Use AutomorphicBundles §B3.HT.4’s period-tower and completed-chart contracts under the finite-level identity of §1.26. For the specified Lagrangian `J`, identify the actual affinoids `𝒱_{J,m}`, their completed integral rings `R_{J,∞}⁺` and boundary ideals. The same period map identifies the ordinary and anticanonical closures in (iii); group, Galois and Hecke compatibility are transported through §1.2, retaining cyclotomic semilinearity.
 
 ([Scholze], §3.3.3, proof of Theorem `3.3.18(i)`, p. 1014.)
 
@@ -912,17 +920,17 @@ Existence/equivariance comes from §§1.26–1.27 and uniqueness from Perfectoid
 
 The statement agrees with Theorem 3.1.2 of the source with the `J` restricted to Lagrangian subsets.
 
-*Needs:* §1.26; §1.27; §1.15; §1.24; §1.22; §1.25; §1.2; §0.2; PerfectoidSpaces §§P7.10, P7.4, P4.12–P4.15.
+*Needs:* AutomorphicBundles §B3.HT.4; §1.26; §1.27; §1.15; §1.24; §1.22; §1.25; §1.2; §0.2; PerfectoidSpaces §§P7.10, P7.4, P4.12–P4.15.
 
 ### 1.29 The toroidally compactified Siegel tower with fixed cone decomposition is perfectoid
 
-Let `K^p` be neat (contained in a level-N subgroup, `N ≥ 3` prime to `p`), `K_p ⊆ GSp_2g(ℚ_p)` compact open and `Σ` a `K^pK_p`-admissible smooth projective cone decomposition. Then the toroidal tower `(S^tor_{K^pK'_p,Σ})_{K'_p ⊆ K_p}`, formed with the same `Σ` at every level (Layer 0.general §0.general.1), has a perfectoid representative `S^tor_{K^p,Σ} ~ lim_{K'_p} S^tor_{K^pK'_p,Σ}` (Pilloni–Stroh, Théorème 0.4 and Corollaire A.19, for `K_p = Γ(p^{n₀})` and principal levels `Γ(pⁿ)`; cofinality gives all `K'_p`), and `S_{K^p} = S^tor_{K^p,Σ}` minus its boundary is the open perfectoid Siegel tower. The perfectoid space is constructed as the generic fibre `X(p^∞)^{tor−mod}` of the limit of modified formal toroidal models; its comparison with the generic fibre of the limit of the unmodified formal toroidal models is not asserted (Pilloni–Stroh, Remarque A.13).
+Let `K^p` be neat (contained in a level-N subgroup, `N≥3` prime to `p`). At an initial principal level `K_p=Γ(p^{n₀})`, choose a complete smooth projective admissible cone decomposition `Σ` with its polarization and trivial effective cone stabilizers. At deeper principal levels induce `Σ` under the cusp-lattice maps, keeping the real cones fixed and inserting no subdivisions. Use the same induced-fan system for the toroidal tower of Layer 0.general §0.general.1. It has a perfectoid representative `S^tor_{K^p,Σ} ~ lim_n S^tor_{K^pΓ(pⁿ),Σ}`, canonically representing the limit over all smaller compact open levels by principal-level cofinality. Its boundary complement is the open perfectoid Siegel tower. The representative is the generic fibre of the limit of the modified formal toroidal models, as in AutomorphicBundles §B3.HT.5; no comparison with the generic fibre of the unmodified formal limit is asserted.
 
-`Σ` fixed at all levels; Pilloni–Stroh work over `ℂ_p` with principal levels `pⁿ, n ≥ n₀`.
+The induced fans use the actual cusp lattices. Their p-power rescalings preserve smoothness and projectivity, and their level transitions are finite flat. A common fan refinement is chosen at the initial level and then induced through a separate tower; the maps between such towers are proper and need not be finite. These are the fan and transition hypotheses of AutomorphicBundles §B3.HT.5. Pilloni–Stroh’s construction is over `ℂ_p`; scalar extension gives the chosen `C`.
 
 Tame level: Pilloni–Stroh's Appendix A is written as if the tame level were `K^p = GSp_2g(∏_{q≠p} ℤ_q)` (to simplify the presentation); for the neat `K^p ⊆ K(N)^p` used here the same local argument is applied to the boundary charts at level `K^p` (ShimuraCompactifications C3, C5), an extension the source leaves to the reader.
 
-Pilloni–Stroh construct the modified toroidal formal models `X(pⁿ)^{tor−mod}` by normalisation and compare them with Scholze's strange models of the minimal compactification (their Proposition 1.15, Corollaire 1.16, Théorème 1.18, which recovers Scholze's perfectoid minimal compactification). Over boundary strata the local structure is a torus torsor over a lower-genus Siegel tower; the perfectoidization of an affine toric embedding is perfectoid (their Lemme A.16–Proposition A.18), and Frobenius is surjective modulo `p` on the completed limit (Corollaire A.19). Compatibility with Layer 0's toroidal tower diamond: a tilde-limit gives a diamond isomorphism with the limit (PerfectoidSpaces §P7.11).
+Use AutomorphicBundles §B3.HT.5’s modified toroidal charts and represented tilde-limit, with identity on these finite-level toroidal moduli spaces. This identifies the completed chart rings, power-bounded subrings, boundary ideals and gluing maps, including both the lower-genus abelian-base tower and the root-monoid algebra. The map to the minimal tower and its period map are the supplied maps, under §§1.26–1.28; the identification with Layer 0’s diamond is PerfectoidSpaces §P7.11.
 
 ([PS], Introduction, Théorème 0.4, PDF p. 2.)
 
@@ -930,13 +938,21 @@ Pilloni–Stroh construct the modified toroidal formal models `X(pⁿ)^{tor−mo
 
 ([PS], Appendice A, opening paragraph, PDF p. 21.)
 
+([Lan], §6, pp. 18–20, including Proposition 6.1.) Induced-fan level transitions and the toroidal perfectoid limit.
+
 ([BPS], §3.3, p. 34.)
 
 For `g = 1` the toroidal and minimal compactifications coincide and the statement is the perfectoid compactified modular curve.
 
 Boxer–Pilloni 2026, §3.3, use this space as `S^tor_{K^p,Σ}` with `S_{K^p}` the open complement of its boundary.
 
-*Needs:* §1.28; §0.general.1; §0.2; ShimuraCompactifications §§C3.1, C3.2, C5.3, C5.19–C5.20, C5.16; PerfectoidSpaces §§P7.11, P7.9.
+**Checks.**
+
+- At a rank-one cusp the compared completed rings contain every `q^{1/pⁿ}`, with the same boundary ideal; a ring containing only `q` fails the Frobenius comparison.
+- At a positive-dimensional boundary stratum both the abelian-base tower and the root-monoid algebra agree with the supplied chart. Perfecting only the torus omits the abelian directions.
+- Subdividing the quadrant at `(1,1)` gives a blow-up with exceptional fibre `ℙ¹`. It is a proper refinement map, not a finite level transition in this induced-fan tower.
+
+*Needs:* AutomorphicBundles §B3.HT.5; §1.28; §0.general.1; §0.2; ShimuraCompactifications §§C3.1, C3.2, C5.3, C5.19–C5.20, C5.16; PerfectoidSpaces §§P7.11, P7.9.
 
 ### 1.30 The open perfectoid Siegel tower, its right action and its finite-level quotients
 
@@ -1301,7 +1317,7 @@ On Layer 2’s open Hodge-type perfectoid representative, import HodgeTateAndCan
 
 Representations of `P_μ` are inflated from `M_μ` (the opposite parabolic forces this; Caraiani–Scholze Remark 2.1.5).
 
-Pull HodgeTateAndCanonicalSubgroups §2.13 through the Layer 2 representing isomorphism and identify its flag map with §3.5. Its universal parabolic/Levi pullback and associated tensor functor commute with that pullback. Retain HodgeTateAndCanonicalSubgroups §2.10’s central-cocharacter Tate twist. Extend to compactifications only in §3.8 with its exact hypotheses.
+Pull HodgeTateAndCanonicalSubgroups §2.13 through the Layer 2 representing isomorphism and identify its flag map with §3.5. Its universal parabolic/Levi pullback and associated tensor functor commute with that pullback. Retain HodgeTateAndCanonicalSubgroups §2.10’s central-cocharacter Tate twist. On the toroidal overlap this is AutomorphicBundles §B3.HT.7’s rational comparison: a Hodge `μ`-degree `a` has twist `−a`, while §B0.3’s opposite/dual coefficient identification gives the displayed `⟨μ,κ⟩` convention. The identification includes the dual coefficient, rather than only replacing `μ` by its inverse. Extend to compactifications only in §3.8 with its exact hypotheses.
 
 ([CS], §2.1, Theorem 2.1.3(2), p. 12.)
 
@@ -1313,7 +1329,7 @@ For the modular curve and `V` the standard character of `M_μ = T` giving `ω, f
 
 For the Siegel datum and `V = ∧^g` of the standard representation of `GL_g ⊆ M_μ`, it recovers §3.3 (vi).
 
-*Needs:* §3.5; §3.1; AutomorphicBundles §§B2.1–B2.2, B1.5, B4.21, B1.7; HodgeTateAndCanonicalSubgroups §§2.13, 2.10.
+*Needs:* AutomorphicBundles §§B3.HT.7, B0.3; §3.5; §3.1; AutomorphicBundles §§B2.1–B2.2, B1.5, B4.21, B1.7; HodgeTateAndCanonicalSubgroups §§2.13, 2.10.
 
 ### 3.7 Functoriality of the Hodge-type period map in morphisms of Shimura data
 
@@ -1337,23 +1353,34 @@ For the trace embedding of a Hilbert datum into a Siegel datum it gives the comp
 
 ### 3.8 The Hodge-type period map on the image and genuine minimal compactifications and on perfect toroidal towers
 
-Let `(G, X)` be of Hodge type. (a) On Scholze's image-compactified tower `𝒳^{*̲}_{K^p}` (Layer 2 §2.3) there is a `G(ℚ_p)`-equivariant map `π_HT: 𝒳^{*̲}_{K^p} → FL_{G,μ}`, pulled back from the Siegel period map through `FL_{G,μ} ↪ FL_{GSp,μ̃}` (Zariski closed); it is affinoid (`FL_{G,μ}` has a cover by affinoids whose preimages are good affinoid perfectoid), compatible with tame level and prime-to-p Hecke operators, and `π_HT^*ω_Fl ≅ ω(−g)` for the fixed Siegel embedding of genus `g` (untwisted after a chosen Tate trivialization with transported linearization) (Scholze Theorem 4.1.1(iii)–(v)). (b) On the genuine minimally compactified tower `𝒳*_{K^p}` (Layer 2 §2.5), `π_HT` is the composite `𝒳*_{K^p} → 𝒳^{*̲}_{K^p} → FL_{G,μ}`. (c) For a perfect cone decomposition `Σ` (a cofinal class: those for which Lan's theorem gives `Σ̃` and closed immersions of the Hodge-type toroidal compactifications into Siegel ones at all levels), `𝒳^{tor}_{K^p,Σ} ~ lim 𝒳^{tor}_{K^pK_p,Σ}` is perfectoid with a closed immersion into the Siegel toroidal tower for `Σ̃, π_HT^{tor}` is the composite with the map to the minimal compactification, the pullback of the Levi torsor is `M_dR^{can} ×^{μ,ℤ_p^×} ℤ_p(1)` for the canonical extension `M_dR^{can}` of the Hodge-type de Rham Levi torsor, pulled back from finite level (Boxer–Pilloni Proposition 4.4.29, after Esnault–Harris), and these isomorphisms are compatible with the `G(𝔸_f)`-action on the limit over `K^p` and `Σ`. The three compactified towers are distinct: the auxiliary normalised models of §3.9 are a fourth object, only their generic fibres being minimal compactifications.
+Let `(G, X)` be of Hodge type. (a) On Scholze's image-compactified tower `𝒳^{*̲}_{K^p}` (Layer 2 §2.3) there is a `G(ℚ_p)`-equivariant map `π_HT: 𝒳^{*̲}_{K^p} → FL_{G,μ}`, pulled back from the Siegel period map through `FL_{G,μ} ↪ FL_{GSp,μ̃}` (Zariski closed); it is affinoid (`FL_{G,μ}` has a cover by affinoids whose preimages are good affinoid perfectoid), compatible with tame level and prime-to-p Hecke operators, and `π_HT^*ω_Fl ≅ ω(−g)` for the fixed Siegel embedding of genus `g` (untwisted after a chosen Tate trivialization with transported linearization) (Scholze Theorem 4.1.1(iii)–(v)). (b) On the genuine minimally compactified tower `𝒳*_{K^p}` (Layer 2 §2.5), `π_HT` is the composite `𝒳*_{K^p} → 𝒳^{*̲}_{K^p} → FL_{G,μ}`. (c) Use AutomorphicBundles §B3.HT.6’s strictly compatible complete smooth projective Hodge/Siegel fan pair `(Σ,Σ̃)` at an initial principal level, with polarization functions and trivial effective cone stabilizers, and induce both fans at every deeper level without inserting subdivisions. Such pairs refine any prescribed finite list at the initial level. Then `𝒳^{tor}_{K^p,Σ} ~ lim 𝒳^{tor}_{K^pK_p,Σ}` is perfectoid with a closed immersion into the Siegel toroidal tower for `Σ̃, π_HT^{tor}` is the composite with the map to the minimal compactification, the pullback of the Levi torsor is `M_dR^{can} ×^{μ,ℤ_p^×} ℤ_p(1)` for the canonical extension `M_dR^{can}` of the Hodge-type de Rham Levi torsor, pulled back from finite level (Boxer–Pilloni Proposition 4.4.29, after Esnault–Harris), and these isomorphisms are compatible with the `G(𝔸_f)`-action on the limit over `K^p` and `Σ`. The three compactified towers are distinct: the auxiliary normalised models of §3.9 are a fourth object, only their generic fibres being minimal compactifications.
 
-(c) needs perfect `Σ`; for general `Σ` it is not known (Boxer–Pilloni Remark 4.4.28).
+(c) uses precisely AutomorphicBundles §B3.HT.6’s induced-fan range. Common refinements are made at the initial level and induced through their own towers. The closed immersion, boundary ideals and finite flat level transitions are part of that supplier contract; a compatible fan map alone does not give them.
 
 Through (b), the genuine tower uses the perfectoidization gap of Layer 2.
 
-(a) The Siegel `π_HT` pulled back to `𝒳^{*̲}_{K^p}` lands in `FL_{G,μ}` over the dense open tower (§3.5); `FL_{G,μ}` is Zariski closed and the perfectoid space is reduced with nowhere dense boundary, so it lands there everywhere (argument as in Scholze Corollary 3.3.17's uniqueness); the remaining properties pull back from the Siegel case. (b) Compose with Layer 2 §2.8. (c) Lan's closed immersions `S^tor_{K^pK_p,Σ} ↪ S̃^tor_{K̃^pK̃_p,Σ̃}`, compatible with the level maps and the maps to the minimal compactifications (Lan, Closed immersions of toroidal compactifications of Shimura varieties, Theorem 2.2, as used by Boxer–Pilloni; ShimuraCompactifications `C3.general`), exhibit the Hodge-type toroidal tower as Zariski closed in the perfectoid Siegel toroidal tower (Layer 1 §1.29), hence perfectoid. Torsor comparison: the Hodge-type canonical extension of `M_dR` (AutomorphicBundles §B3.2–B3.4) is an `M_μ`-reduction of the restriction of the Siegel canonical extension by the datum-functoriality of canonical extensions (AutomorphicBundles §B3.general.3); both `M_HT` and `M_dR^{can} ×^{μ} ℤ_p(1)` are `M_μ`-reductions of the restriction of the Siegel torsor, agree over the open part (§3.6) and equal the Zariski closures of their restrictions.
+(a) The Siegel `π_HT` pulled back to `𝒳^{*̲}_{K^p}` lands in `FL_{G,μ}` over the dense open tower (§3.5); `FL_{G,μ}` is Zariski closed and the perfectoid space is reduced with nowhere dense boundary, so it lands there everywhere (argument as in Scholze Corollary 3.3.17’s uniqueness); the remaining properties pull back from the Siegel case. (b) Compose with Layer 2 §2.8. (c) Identify AutomorphicBundles §B3.HT.6’s represented toroidal limit with this tower by the identity on the same finite-level Hodge-type moduli spaces. On each Siegel chart its completed quotient system, perfectoidization and reduced boundary ideal are the supplied ones. The period map is the same tensor-defined restriction of the Siegel map, agrees with §3.5 on the open and with (b) after passage to the minimal tower, and respects common fan refinements.
+
+The rational Levi comparison here is the pullback of AutomorphicBundles §B3.HT.7’s torsor isomorphism on that same tower, transported through §B0.3’s opposite/dual coefficient identification. Its ringed pro-Kummer realization and descent agree with HodgeTateAndCanonicalSubgroups §7.36 and §3.6 on the open. In Hodge `μ`-degree `a` the twist is `−a`; in the opposite/dual convention used here it is `⟨μ,κ⟩` on `V_κ`. Thus the displayed central-cocharacter Tate torsor and all Galois, level and Hecke linearizations are retained. This comparison is rational, including at `p=2`.
 
 ([BP21], §4.4.27, p. 74.)
 
 ([BP25], §4.4.25, p. 75.)
 
+([Lan], Propositions 4.9–4.10, p. 14, and §6, Proposition 6.1, pp. 18–20.) Strictly compatible fans and their induced towers.
+
 ([Scholze], §4.1, footnote 16, p. 1018.) Scholze leaves the factorisation through the Hodge-type flag variety open; it is supplied by the Zariski-closure argument.
 
 For the Siegel datum, (a) and (b) are Layer 1 §1.27 and (c) is the toroidal Siegel map.
 
-*Needs:* §3.5; §3.6; §3.3; §2.3; §2.5; §2.8; §1.29; §1.27; ShimuraCompactifications `C3.general`; ShimuraCompactifications §§C3.2, C3.1, C3.general.1; AutomorphicBundles §§B3.2–B3.4, B3.general.3; PerfectoidTowers §P8.21; HodgeTateAndCanonicalSubgroups §7.36.
+**Checks.**
+
+- For the identity Siegel embedding the finite-level maps, completed chart rings, boundary ideals and period maps are exactly §1.29’s and AutomorphicBundles §B3.HT.5’s.
+- A strictly compatible fan pair at each level can still insert the quadrant blow-up between levels. Its exceptional `ℙ¹` shows that strict compatibility alone does not ensure finite transitions; the fans must be induced from the initial pair.
+- In Hodge `μ`-degree `a`, tensoring adds `−a` and dualizing reverses its sign. The tensor unit has twist zero; the polarization pairing retains its Tate line under the opposite/dual identification.
+- The full tower over `C` includes every similitude fibre. Restriction to the fixed-pairing fibre commutes with the comparison, but that closed fibre is generally not open and its stabilizer acts with the cyclotomic/Tate linearization.
+
+*Needs:* AutomorphicBundles §§B3.HT.6–B3.HT.7, B0.3; §3.5; §3.6; §3.3; §2.3; §2.5; §2.8; §1.29; §1.27; ShimuraCompactifications `C3.general`; ShimuraCompactifications §§C3.2, C3.1, C3.general.1; AutomorphicBundles §§B3.2–B3.4, B3.general.3; PerfectoidTowers §P8.21; HodgeTateAndCanonicalSubgroups §7.36.
 
 ### 3.9 Auxiliary normalised formal models with ample Hodge line and Hodge–Tate sections
 
@@ -1948,7 +1975,7 @@ Pull §6.2's flag map and Levi torsor to the tower, using the effective-deck tri
 
 ([BP25], §4.4.40, Theorem 4.4.40, p. 80.) The twisted torsor identification in the authors' manuscript.
 
-For the Siegel datum and any `Σ, π^tor_HT` is the map of Layer 1 §1.29 composed with the minimal `π_HT`.
+For the Siegel datum and `Σ` in §1.29’s induced-fan range, `π^tor_HT` is that toroidal representative’s map to the minimal tower composed with the minimal `π_HT`.
 
 For a datum of non-abelian type (e.g. with an `E₇` factor) the map exists although no perfectoid representative of the toroidal tower is known.
 
