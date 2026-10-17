@@ -123,9 +123,11 @@ It leaves to other roadmaps, and consumes from them:
   (modifications and one-dimensional resolution), and §4.15 (moduli of stable curves). Zariski's main
   theorem is Mathlib's `Scheme.Hom.exists_isIso_morphismRestrict_toNormalization`.
 - **AlgebraicModuliForArithmeticGeometry**, §6.1 (`artinApproximationClassical`),
-  §7.6.1 (relative Picard sheaf and base change), §7.3 (Picard representability),
-  §7.9 (`picardZeroSheaf`, `picardZeroCriterion`, identity components).
-- **ComplexComparisonPartII**, §§C4.3a–C4.3c: scheme compactifications, Nagata existence
+  §7.3 (Picard-stack and representability inputs), §7.6.1 (relative Picard sheaf and base change),
+  §7.9 (`spaceSectionComponentCriterion`, general group-space identity components).
+- **ComplexComparisonPartII**, §C3.2d.2 (`relative_picard_algebraicSpace`),
+  §C3.2f.1 (`picardZeroSheaf`), §C3.2f.2 (`picardZeroCriterion`), and
+  §§C4.3a–C4.3c: scheme compactifications, Nagata existence
   and common refinements for separated finite-type morphisms over qcqs bases.
 - **RigidAnalyticGeometry**, §§6.1–6.2 (`RigidSpace K` and its G-site),
   §8.1 (rigid analytification), §§8.2–8.3 (classical points and rigid–adic comparison),
@@ -151,7 +153,7 @@ It leaves to other roadmaps, and consumes from them:
   §§3.1–3.7 (Artin, Swan, global and residual conductor theory), §§6.1–6.2 (continuous
   Tate-module representations, elliptic comparison, isogeny maps and Weil pairing),
   §6.3 **The Tate curve** and **Local Euler factors** (uniformisation representation and
-  generic Euler definition), §5.1 (Zariski closures), §6.4 (finite compact Frattini quotient)
+  generic Euler definition), §5.1 (Zariski closures), §6.4a **Finite Frattini quotient of a compact matrix group**
   and §6.6 **Serre's wild bound**. Good-reduction Frobenius, elliptic conductor and
   local-polynomial comparisons are the targets of §§5.0a–5.3i here.
 - **EtaleCohomologyFoundations**, §§F.0–F.1, F.3–F.4: finite-coefficient cohomology,
@@ -461,13 +463,16 @@ formal generic fibre supply the comparison between completed identity models and
 analytic groups over a complete discrete valuation field. The quotient by the Raynaud
 period lattice is the target `RigidUniformisation` in 3.14 here.
 
-### From `AlgebraicModuliForArithmeticGeometry`, `AbelianSchemesAndArithmeticModuli` and `ArithmeticGaloisRepresentations`
+### From `AlgebraicModuliForArithmeticGeometry`, `ComplexComparisonPartII`, `AbelianSchemesAndArithmeticModuli` and `ArithmeticGaloisRepresentations`
 
 AlgebraicModuliForArithmeticGeometry §6.1 gives `artinApproximationClassical` over
 henselisations of finite-type algebras over excellent DVRs; §7.6.1 gives the relative
-Picard fppf sheaf and base change; §7.3 gives its algebraic-space representability under
-proper, flat, finitely presented and universal-global-functions hypotheses; §7.9 gives
-`picardZeroSheaf` and `picardZeroCriterion` for fibrewise identity components. Sections 3.8–3.9 here
+Picard fppf sheaf and base change; §7.3 supplies Picard-stack and representability inputs;
+§7.9 gives `spaceSectionComponentCriterion` for general
+group-space identity components, including the field-level neutral-component construction.
+ComplexComparisonPartII §C3.2d.2 gives `relative_picard_algebraicSpace` under proper, flat,
+finitely presented and universal-global-functions hypotheses; §§C3.2f.1–C3.2f.2 give
+`picardZeroSheaf` and `picardZeroCriterion` for fibrewise Picard identity components. Sections 3.8–3.9 here
 establish the stronger separated semi-abelian curve case and its Néron comparison.
 AbelianSchemesAndArithmeticModuli A0.1 supplies abelian schemes over bases, A1 supplies
 products and rigidity, A2 supplies dual abelian schemes and Poincaré biextensions,
@@ -951,7 +956,9 @@ used.
 
 ### 2.1 The identity component
 
-Construct `IdentityComponent`: the open and closed subgroup `M_k⁰ ⊂ M_k` whose geometric fibre is
+Specialize the field-level neutral-component construction of AlgebraicModuliForArithmeticGeometry
+§7.9 `spaceSectionComponentCriterion` to construct `IdentityComponent`: the open and closed
+subgroup `M_k⁰ ⊂ M_k` whose geometric fibre is
 the connected component of the identity, descended to `k`, and the open subgroup `M⁰ ⊂ M` with
 generic fibre `A` and special fibre `M_k⁰` (SGA 7 I, Exposé IX, §1.1, pp. 321–322). Neither group
 is affine in general: for good reduction `M_k⁰ = M_k` is an abelian variety. Prove
@@ -960,11 +967,13 @@ commutative since `A` is), `contains_zero` (the identity section of `M` factors 
 `geometrically_connected` (`M_k⁰ ×_k k̄` is connected), `generic_iso` (the generic fibre of `M⁰`
 is `A`), `basechange_field` (formation of `M_k⁰` commutes with extension of `k`), `map`,
 `map_id`, `map_comp` (a homomorphism of models sends identity components to identity components,
-functorially) and `good` (for an abelian-scheme model, `M⁰ = M`). The representability of the
-identity component of a smooth finite-type group scheme over `k` and its descent are part of this
-target; Tau Ceti's `TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpec` covers affine groups
-over an algebraically closed field only, and 2.1 must agree with it in that case. *Needs:* 1.5;
-Mathlib `AlgebraicGeometry.Scheme.Hom.fiber`, connected components of a scheme.
+functorially) and `good` (for an abelian-scheme model, `M⁰ = M`). The Néron specialization,
+relative open subgroup `M⁰ ⊂ M` and marked-model API belong here; the field-level
+representability and descent are supplied by AlgebraicModuliForArithmeticGeometry §7.9.
+The construction agrees with Tau Ceti's `TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpec`
+for affine groups over an algebraically closed field. *Needs:* 1.5;
+AlgebraicModuliForArithmeticGeometry §7.9; Mathlib `AlgebraicGeometry.Scheme.Hom.fiber`,
+connected components of a scheme.
 
 **Checks.**
 
@@ -1481,8 +1490,8 @@ inertia and unramified twist, and for the surjective tame character in the Tate-
 - For good reduction `σ − 1 = 0`.
 - The image of `σ − 1` lies in `T_t`, not merely in `T_f`.
 - Over `R = ℂ[[t]]`, the split Tate curve with parameter `t` has valuation pairing `[1]`.
-  The character of §0.1 is surjective for every coefficient prime, so 4.3 gives a nonzero
-  inertia operator, also at `ℓ = 2`; no finite-residue hypothesis applies.
+  EtaleCohomologyFoundations §F.3a's `tameCharacter_surjective` applies for every coefficient prime,
+  so 4.3 gives a nonzero inertia operator, also at `ℓ = 2`; no finite-residue hypothesis applies.
 
 ### 3.8 The degree-zero Picard scheme of a semistable curve
 
@@ -1492,9 +1501,10 @@ special fibre `X_k` that is geometrically reduced with at worst ordinary double 
 `k̄`; write `g` for the genus of `X_K`. Raynaud's separatedness theorem and the semi-abelian structure of `Pic⁰` of such a
 curve hold over an arbitrary discrete valuation ring and an arbitrary residue field (Conrad,
 Theorem 7.13 and Proposition 7.14, pp. 34–35), so nothing below enlarges `k`; geometric
-statements about components are made after base change to `k̄`. Starting from the relative Picard fppf sheaf `Pic_{X/R}` of `AlgebraicModuliForArithmeticGeometry`
-(§7.6.1 relative Picard sheaf, §7.3 representability by an algebraic space when
-`𝒪_R ≅ f_*𝒪_X` universally, §7.9 `picardZeroSheaf` and `picardZeroCriterion`), construct
+statements about components are made after base change to `k̄`. Starting from the relative Picard
+fppf sheaf `Pic_{X/R}` of AlgebraicModuliForArithmeticGeometry §7.6.1, its algebraic-space
+representability from ComplexComparisonPartII §C3.2d.2 `relative_picard_algebraicSpace` when
+`𝒪_R ≅ f_*𝒪_X` universally, and §§C3.2f.1–C3.2f.2's `picardZeroSheaf` and `picardZeroCriterion`, construct
 `PicardZero`, written `Pic⁰_{X/R}`: the open subgroup of `Pic_{X/R}` whose
 fibres are the identity components, so that its special fibre parametrises line-bundle classes of
 degree zero on every irreducible component of `X_k̄`. Prove `SemistablePicard.generic` (the generic
@@ -1513,7 +1523,8 @@ extension of the product of the normalization Jacobians by the graph torus, henc
 dimension `Σ_v g_v + b₁(Γ) = g`. Flatness makes the arithmetic genus `g` constant, and the
 reduced base `Spec R` then gives smoothness of the open identity subgroup. This calculation
 applies to reducible fibres and uses no torsion-component theorem for geometrically integral
-fibres. *Needs:* AlgebraicModuliForArithmeticGeometry §§7.3, 7.6.1 and 7.9;
+fibres. *Needs:* AlgebraicModuliForArithmeticGeometry §§7.6.1 and 7.9;
+ComplexComparisonPartII §C3.2d.2 and §§C3.2f.1–C3.2f.2;
 JacobianChallenge Layer D; `AbelianSchemesAndArithmeticModuli:A2`.
 
 **Checks.**
@@ -1792,7 +1803,8 @@ excellence and formal geometry; Mathlib's Zariski main theorem;
 RigidAnalyticGeometry §§6.1–6.2 and §§8.1–8.3
 and AdicSpacesPartIII F0 and R2.3 for analytic and formal carriers; EllipticCurves Layer 4 for the Tate curve; StableReduction Layers
 4 and 7 for curve existence and regular resolution; JacobianChallenge Layers D–F for Jacobians;
-AlgebraicModuliForArithmeticGeometry §§7.3, 7.6.1 and 7.9 for the Picard functor.
+AlgebraicModuliForArithmeticGeometry §§7.6.1 and 7.9 for the Picard sheaf and group-space components;
+ComplexComparisonPartII §C3.2d.2 and §§C3.2f.1–C3.2f.2 for Picard representability and identity components.
 
 ## Layer 4: Picard schemes of semistable curves and the monodromy pairing
 
@@ -1826,7 +1838,7 @@ pp. 469–473). The proof takes cohomology of the units sequence of the normalis
 constant functions from the gluing scalars at the nodes, and identifies the quotient of the node
 scalars by the vertex rescalings with `T_Γ`; the fppf cohomology of the units sequence and the
 representability of the torus are part of this target. *Needs:*
-AlgebraicModuliForArithmeticGeometry §7.3 (relative Picard representability);
+ComplexComparisonPartII §C3.2d.2 (relative Picard representability);
 JacobianChallenge Layer D; StableReduction Layer 1.
 
 **Checks.**
@@ -2266,6 +2278,7 @@ nonreduced case. The multiplicity relation `I·m = 0` and connectedness give
 finiteness, which is not a formal consequence of the quotient syntax. Fibres whose multiplicities
 have greatest common divisor greater than one are not treated here. *Needs:* 2.2;
 AlgebraicModuliForArithmeticGeometry §§7.3, 7.6.1 and 7.9;
+ComplexComparisonPartII §C3.2d.2 (relative Picard representability);
 StableReduction Layer 6; Tau Ceti `NumericalType.Pic`, `NumericalType.degree`.
 
 **Checks.**
@@ -2409,10 +2422,12 @@ Let `S` be an integral Noetherian scheme and `X → S` a stable curve of genus `
 `StableFamilyPicard`: the fibrewise identity component `Pic⁰_{X/S}` is a smooth separated
 semi-abelian group scheme over `S` (Yuan, §3.1.3 and Lemma 3.4, pp. 43–44, citing
 Bosch–Lütkebohmert–Raynaud, §9.4, Theorem 1, p. 259). The total space need not be regular, unlike in 3.9,
-and the base is not Dedekind: representability is AlgebraicModuliForArithmeticGeometry §7.3, and
+and the base is not Dedekind: Picard representability and the identity-component criterion are
+ComplexComparisonPartII §C3.2d.2 and §§C3.2f.1–C3.2f.2, and
 the semi-abelian structure of the geometric fibres follows from 4.1. Here semi-abelian means
 fibrewise: the toric rank can jump, so a single global extension by an `S`-torus of constant
-rank is not required. *Needs:* 4.1; AlgebraicModuliForArithmeticGeometry §7.3; StableReduction Layer 3.
+rank is not required. *Needs:* 4.1; AlgebraicModuliForArithmeticGeometry §7.6.1;
+ComplexComparisonPartII §C3.2d.2 and §§C3.2f.1–C3.2f.2; StableReduction Layer 3.
 
 **Checks.**
 
@@ -2437,7 +2452,8 @@ rank is not required. *Needs:* 4.1; AlgebraicModuliForArithmeticGeometry §7.3; 
 ### Dependencies
 
 Layers 1–3; StableReduction Layers 1, 3, 4 and 6; AlgebraicModuliForArithmeticGeometry
-§§7.3, 7.6.1 and 7.9; JacobianChallenge Layer D; `AbelianSchemesAndArithmeticModuli:A2–A3`;
+§§7.3, 7.6.1 and 7.9; ComplexComparisonPartII §C3.2d.2 and §§C3.2f.1–C3.2f.2;
+JacobianChallenge Layer D; `AbelianSchemesAndArithmeticModuli:A2–A3`;
 ReductiveGroupsPartII RG2.0a; SchemeAndStackFoundations §3.6 and §4.15;
 AlgebraicCurves Layer 10; ProfiniteCohomology Layer 8; Mathlib `BrauerGroup`.
 
@@ -3242,7 +3258,7 @@ detection gives full compact image. This closed-point argument carries the const
 of the torsor and does not require an `F`-rational point on `S`
 (Serre, *Topics in Galois Theory*, §3.2; Noot, §§1.2–1.3).
 *Needs:* 5.0a; ArithmeticGaloisRepresentations §6.1 (torsion and Tate representation),
-§5.1 (Zariski closures), §6.4 (finite Frattini quotient of a compact matrix group);
+§5.1 (Zariski closures), §6.4a **Finite Frattini quotient of a compact matrix group**;
 InverseGaloisAndArithmeticFundamentalGroups IG.2.4 (Hilbertian fields and Hilbert
 irreducibility), IG.2.6 **Full-group specialization** and its specialization
 application of Frattini detection; SchemeAndStackFoundations finite normalization.

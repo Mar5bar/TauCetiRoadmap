@@ -781,6 +781,13 @@ the geometric `ComponentGroup`, `Chevalley`, `ToricCharacter`,
 `AbelianVariety.deRham`, and `SemistableOrdinaryAdapter`.
 Their geometric Checks are likewise in README.md.
 
+`IdentityComponent` in README 2.1 specializes the field-level neutral-component construction
+of AlgebraicModuliForArithmeticGeometry §7.9 `spaceSectionComponentCriterion`; its relative open
+subgroup and marked-model API are targets here. `PicardZero` and `StableFamilyPicard` use
+AlgebraicModuliForArithmeticGeometry §7.6.1's relative Picard sheaf and base change,
+ComplexComparisonPartII §C3.2d.2's `relative_picard_algebraicSpace`, §C3.2f.1's `picardZeroSheaf`
+and §C3.2f.2's `picardZeroCriterion`.
+
 EtaleCohomologyFoundations F.3a supplies `VanishingCycles.HenselianTrait`,
 `VanishingCycles.HenselianTrait.inertia_exact`, `VanishingCycles.inertia_eq_valuation_inertia`
 and `VanishingCycles.tameCharacter_kummer`, `tameCharacter_surjective`, `tameCharacter_conj`,
