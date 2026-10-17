@@ -47,7 +47,7 @@ Use CrystallineCohomology §§CR.DDR.6.15–CR.DDR.6.17: KY Lemma 3.5 for a quas
 
 **§8.44 Quasiregular semiperfectoid pre-log rings.**
 
-Use CrystallineCohomology §CR.DDR.6.16 (`DerivedDeRham.logQuasiregularSemiperfectoid`) with the following hypotheses and laws. A p-complete pre-log ring `S = (S, M)` is semiperfectoid if (1) there is a ring map `R → S` from a perfectoid ring; (2) `S/p` is semiperfect; (3) the natural map `M♭ → M/M^×` is surjective. It is quasiregular semiperfectoid if moreover (4) `S` is quasisyntomic. `QRSPerfd^prelog` denotes the category of quasiregular semiperfectoid pre-log rings. Conditions (2)–(3) (log-semiperfect) imply `L_{(S,M)/R} ⊗^L S/p ∈ D^{≤−1}(S/p)` for any `R → S`; for `S` quasiregular semiperfectoid, `L̂_{(S,M)/ℤ_p}[−1]` is p-completely flat. Equivalently (when `S/p` is log-semiperfect, `S p`-complete with bounded `p^∞`-torsion), `S ∈ QRSPerfd^prelog` iff for some (equivalently every) perfectoid `R → S, L_{(S,M)/R} ⊗^L S/p` has Tor amplitude in degree `−1`.
+Use CrystallineCohomology §CR.DDR.6.16 (`DerivedDeRham.logQuasiregularSemiperfectoid`) with the following hypotheses and laws. A p-complete pre-log ring `S = (S, M)` is semiperfectoid if (1) there is a ring map `R → S` from a perfectoid ring; (2) `S/p` is semiperfect; (3) the natural map `M♭ → M/M^×` is surjective. It is quasiregular semiperfectoid if moreover (4) `S` is quasisyntomic. `QRSPerfd^prelog` denotes the category of quasiregular semiperfectoid pre-log rings. Conditions (2)–(3) (log-semiperfect) imply `L_{(S,M)/R} ⊗^L S/p ∈ D^{≤−1}(S/p)` for any `R → S`; for `S` quasiregular semiperfectoid, `L̂_{(S,M)/ℤ_p}[−1]` is p-completely flat. Equivalently (when `S/p` is log-semiperfect, `S p`-complete with bounded `p^∞`-torsion), `S ∈ QRSPerfd^prelog` iff there exists a perfectoid ring map `R → S` with trivial source prelog structure such that `L_{(S,M)/R} ⊗^L S/p` has Tor amplitude in degree `−1`. Once such a map exists, the cotangent condition holds for every perfectoid ring map `R → S`.
 
 p-complete pre-log rings; perfectoid in the sense of BMS1.
 
@@ -56,7 +56,7 @@ p-complete pre-log rings; perfectoid in the sense of BMS1.
 - **Semiperfectoid objects.** Conditions (1)–(3).
 - **QRSP objects.** Conditions (1)–(4).
 - **Cotangent flatness.** For `S ∈ QRSPerfd^prelog, L̂_{(S,M)/ℤ_p}[−1]` is p-completely flat.
-- **`R`elative cotangent criterion.** Lemma 3.16: with `S/p` log-semiperfect and `S p`-complete with bounded `p^∞`-torsion, `S` is quasiregular semiperfectoid iff the log cotangent complex `L_{(S,M)/R} ⊗^L S/p` has Tor amplitude in degree −1 for some/any perfectoid `R → S` (`R` with trivial prelog structure).
+- **`R`elative cotangent criterion.** Lemma 3.16: with `S/p` log-semiperfect and `S p`-complete with bounded `p^∞`-torsion, `S` is quasiregular semiperfectoid iff there exists a perfectoid ring map `R → S` with trivial source prelog structure for which `L_{(S,M)/R} ⊗^L S/p` has Tor amplitude in degree `−1`. If such a map exists, this condition holds for every perfectoid ring map `R → S`.
 - **Perfectoid source.** The map `(R ⊗̂ W(S♭) ⊗̂ ℤ_p⟨M♭⟩, M♭) → (S, M)` of Remark 3.13.
 - **Quotient monoids.** Condition (3) passes to quotient monoids and pushouts (Remark 3.14).
 
@@ -67,6 +67,7 @@ Use CrystallineCohomology §CR.DDR.6.16’s four defining conditions and the var
 - **Divisible coordinate.** `(O_C⟨T^{1/p^∞}⟩, N[1/p] → T^{N[1/p]})` is quasiregular semiperfectoid.
 - **Strict agreement.** `(S, S^×)` is in `QRSPerfd^prelog` iff `S` is in BMS2's QRSPerfd (PrismaticCohomology Layer 2/DerivedDeRhamCohomology §§5.1–5.7).
 - **Nondivisible chart.** `(ℤ_p⟨T⟩, T^N)` is quasisyntomic but not semiperfectoid: `N♭ = 0` does not surject onto `N`.
+- **Missing perfectoid source.** `(ℤ_p,{1})` has semiperfect reduction and the monoid tilt condition, but receives no perfectoid ring map. A universal cotangent test over the empty collection of such maps cannot make it QRSP (CrystallineCohomology §CR.DDR.6.16).
 - **Zero ring.** The zero ring with the trivial monoid is quasiregular semiperfectoid. With the chart `N → 0` it is not semiperfectoid: `N♭` is trivial and does not surject onto `N`.
 
 <a id="s8-45"></a>
@@ -179,9 +180,9 @@ For an `𝔽_p`-algebra `R` and `n≥1`, define `LogRH.AlgebraicFrobeniusModule 
 
 In the special valuation case `R=O_(C^♭), t` a nonzero topologically nilpotent element and `j:Spec C^♭→Spec R`, the constant sheaf on the generic point extended by zero corresponds to `W_n(m_(C^♭))`, the p-power radical Witt ideal, with its Frobenius; this is the non-lisse input to §8.69.
 
-**Proof route.** Modulo `p` this is the union of `t^(1/p^r)R`, whose tensor square is itself and whose residue-field tensor vanishes. Witt induction gives the length-n assertion, so tensoring by the ideal realizes KY Lemma 8.5’s extension by zero. The `cone` from its generic extension is supported at the closed point and almost zero.
+**Proof route.** Modulo `p` this is the union of `t^(1/p^r)R`, whose tensor square is itself and whose residue-field tensor vanishes. Witt induction gives the length-n assertion, so tensoring by the ideal realizes KY Lemma 8.5’s extension by zero. The cone of the integral inclusion `W_n(m_(C^♭)) → W_n(O_(C^♭))`, corresponding to extension by zero followed by the constant extension, is supported at the closed point and killed by the Teichmüller ideal `[m_(C^♭)]`. This is the integral constant extension in KY Lemma 8.5, not generic localization to `W_n(C^♭)`.
 
-**Checks.** For `R=𝔽_p, W_n(R)` with its identity Frobenius has solutions the constant `ℤ/p^n` sheaf. Over algebraically closed `R=k`, arbitrary direct sums of this object give arbitrary constant sheaves and are usually not perfect ring-modules. For `R=O_(C^♭), W_n(m_(C^♭))` has zero geometric stalk at the closed point and a rank-one stalk on `Spec C^♭`, so it is algebraic and fails the lisse condition on `Spec R`. At `n=1`, perfection of a nilpotent Frobenius module is zero, so forgetting the perfection would give the wrong category. For `t=0` the open is empty and extension by zero is zero; for `t=1` it is the identity. These include the two excluded localization extremes. At `n=1`, on complexes whose solutions are lisse, the solution equivalence restricts to the lisse Riemann–Hilbert correspondence of PrismaticCohomologyPartIII §7.7(1); the algebraic, non-lisse objects such as `W_n(m_(C^♭))` are what this subsection adds.
+**Checks.** For `R=𝔽_p, W_n(R)` with its identity Frobenius has solutions the constant `ℤ/p^n` sheaf. Over algebraically closed `R=k`, direct sums of `W_n(k)` with Witt Frobenius give constant free `ℤ/p^n`-module sheaves; infinite sums are usually not perfect ring-modules. General constant modules require nonfree algebraic Frobenius modules: at `n=2`, the constant `ℤ/p` sheaf corresponds to `W_2(k)/p` with Witt Frobenius, and is not a nonzero sum of the unit. For `R=O_(C^♭), W_n(m_(C^♭))` has zero geometric stalk at the closed point and a rank-one stalk on `Spec C^♭`, so it is algebraic and fails the lisse condition on `Spec R`. At `n=1`, perfection of a nilpotent Frobenius module is zero, so forgetting the perfection would give the wrong category. For `t=0` the open is empty and extension by zero is zero; for `t=1` it is the identity. These include the two excluded localization extremes. At `n=1` the integral inclusion `m_(C^♭) → O_(C^♭)` has residue-field cokernel killed by `m_(C^♭)`. In contrast, `C^♭/m_(C^♭)` is not almost zero: for nonzero `t∈m_(C^♭)`, multiplying the class of `t⁻²` by `t` gives a nonzero class. At `n=1`, on complexes whose solutions are lisse, the solution equivalence restricts to the lisse Riemann–Hilbert correspondence of PrismaticCohomologyPartIII §7.7(1); the algebraic, non-lisse objects such as `W_n(m_(C^♭))` are what this subsection adds.
 
 <a id="s8-0a"></a>
 <a id="layer-8-formal-log-charts"></a>
@@ -219,14 +220,14 @@ Use CrystallineCohomology Layer CR.5's integral monoid pushouts, groupifications
 
 Define `FormalLog.IsSmooth` over `(A,M)` by the following local chart criterion. There is a relatively coherent integral chart `M→P` which is integral and injective on groupifications; the torsion subgroup of `P^gp/M^gp` is finite of order invertible on `X/J`; and `X→Spf(A⟨P⟩)×_{Spf(A⟨M⟩)}Spf(A)` is étale. For `FormalLog.IsEtale` require the whole group quotient to be finite of invertible order. Dropping integrality of `M→P` defines the corresponding Kato variants. Smoothness includes integrality; the Kato variant need not give flat underlying geometry. All formal fibre products and monoid algebras here are `J`-completed.
 
-Prove stability under completed base change between integral prelog bases, using integral log fibre products for the Kato variant. Integral smoothness implies `J`-complete flatness of the underlying ring. Its completed log differentials are finite locally free. At each finite level, maps from affine integral exact nilpotent thickenings lift to a smooth affine target. If that target is also of finite presentation over `A`, a log-affine nilideal thickening is allowed; the ideal need not have one uniform nilpotence exponent. An exact closed immersion `X→Y` of smooth log schemes over `A/J` is quasi-regular; it is regular if `Y` is locally of finite presentation over `A/J`.
+Prove stability under completed base change between integral prelog bases, using integral log fibre products for the Kato variant. Integral smoothness gives flat maps on ordinary reductions modulo `J^n`. To conclude derived `J`-complete flatness in the sense of DerivedModuleAlgebra §1.7, also assume the comparison between classical and derived completion for the chart algebra and its étale localizations. For `J=(p)`, bounded `p^∞`-torsion in `A` gives this comparison for the smooth chart models; bounded-prism applications use the corresponding `(p,I)` comparison before asserting derived complete flatness (DerivedModuleAlgebra §§1.7–1.9; BMS2 Lemma 4.7, pp.221–222). Its completed log differentials are finite locally free. At each finite level, maps from affine integral exact nilpotent thickenings lift to a smooth affine target. If that target is also of finite presentation over `A`, a log-affine nilideal thickening is allowed; the ideal need not have one uniform nilpotence exponent. An exact closed immersion `X→Y` of smooth log schemes over `A/J` is quasi-regular; it is regular if `Y` is locally of finite presentation over `A/J`.
 
 (K1, Definition A.11 and Remarks A.12–A.14, pp.54–55; Proposition A.15, pp.55–56; Remark A.16 and Proposition A.17, pp.57–58; Remarks A.18–A.19 and Proposition A.20, pp.58–59.)
 
 *Needs:* [§8.0a](#s8-0a), CrystallineCohomology §CR.5:log-algebra.3, CrystallineCohomology §CR.5:log-algebra.2, CrystallineCohomology §CR.5:log-algebra.5, CrystallineCohomology §CR.5.1, DerivedModuleAlgebra §0.13, DerivedModuleAlgebra §§1.7–1.9, SchemeAndStackFoundations Layer 4.
 
 - `FormalLog.IsSmooth.base_change`: The completed base-change theorem, retaining integrality of the chart and the invertible torsion condition.
-- `FormalLog.IsSmooth.completeFlat`: `J`-complete flatness, obtained from the flat integral monoid algebra map and étale localization.
+- `FormalLog.IsSmooth.completeFlat`: Under the classical-to-derived completion comparison just specified, the underlying ring is derived `J`-completely flat. In the p-adic case retain bounded `p^∞`-torsion in `A`; in the bounded-prism case retain the `(p,I)` completion comparison.
 - `FormalLog.IsSmooth.fine_model`: `A` Kato-smooth chart is an integral base change of a fine chart whose reductions are formally smooth. If `X/A` is locally of finite presentation, the fine model is log smooth. A finitely presented original chart permits such a log-smooth fine model after enlarging the fine base monoid. Compare with CrystallineCohomology Layer CR.5's finite-model notion exactly in this range.
 - `FormalLog.IsSmooth.nilpotent_lift`: The affine exact nilpotent lifting property and finite locally free completed `Ω^i_log`.
 - `FormalLog.IsSmooth.nilideal_lift`: The stronger log-affine lifting theorem with finite presentation of the affine smooth target as an explicit hypothesis.
@@ -236,12 +237,13 @@ Prove stability under completed base change between integral prelog bases, using
 **Checks.**
 
 - `FormalLog.IsSmooth.trivial_log`: With trivial charts the étale polynomial model gives ordinary smooth formal geometry and its completed differentials.
-- `FormalLog.IsSmooth.semistable`: The diagonal `N→N^r` yields the completed chart `A⟨x_1,…,x_r⟩/(x_1⋯x_r−a)`, finite free log differentials modulo `Σ dlog x_i`, and complete flatness over `A`.
+- `FormalLog.IsSmooth.semistable`: The diagonal `N→N^r` yields the completed chart `A⟨x_1,…,x_r⟩/(x_1⋯x_r−a)`, finite free log differentials modulo `Σ dlog x_i`, and flat ordinary reductions over `A/J^n`. Derived complete flatness uses the completion comparison of `completeFlat`, in particular bounded base p-power torsion when `J=(p)`.
 - `FormalLog.IsSmooth.torsion_order`: `N→N, 1↦m`, meets the étale group condition only when `m` is invertible on `X/J`; `m=p` over a characteristic-p reduction is excluded.
 - `FormalLog.IsSmooth.finite_model_range`: A fine model that is merely formally smooth at each reduction is not called a fine log-smooth finite-presentation model without the additional hypothesis in `fine_model`.
+- For `A=∏_{n≥1}ℤ/p^n` and `B=A⟨T⟩`, the free integral chart `0→N` is smooth and both rings are classically p-complete. Let `e_n` be the nth coordinate idempotent. The restricted series `f=Σ_{n≥1}e_n p^(n−1)T^n` lies in `B[p]` but not in `Ann_A(p)B`: that ideal contains only polynomials, since `Ann_A(p)` kills every sufficiently p-divisible coefficient tail. Thus `Tor₁^A(A/p,B)=B[p]/Ann_A(p)B≠0`, excluding derived complete flatness without the comparison hypotheses.
 - `FormalLog.IsSmooth.nilideal_range`: The nilpotent theorem and the finite-presentation nilideal theorem have different hypotheses; neither is obtained from formal smoothness by dropping those hypotheses.
 
-**Proof route.** Integral injective monoid maps give flat monoid algebra maps; completion and ordinary étale localization give complete flatness. The group quotient computes logarithmic differentials, and its torsion vanishes after tensoring with `O_X`, leaving finite free modules.
+**Proof route.** Integral injective monoid maps give flat monoid algebra maps and flat ordinary reductions after completion and étale localization. Use DerivedModuleAlgebra §§1.7–1.9 and the stated completion comparison to pass to derived complete flatness. The group quotient computes logarithmic differentials, and its torsion vanishes after tensoring with `O_X`, leaving finite free modules.
 
 <a id="s8-0c"></a>
 <a id="layer-8-formal-log-cotangent"></a>
@@ -277,7 +279,7 @@ Also prove the following discrete deformation statement without a finite-present
 
 Construct `FormalLog.CompletedPDEnvelope` for an exactified closed embedding `Spf(R,P)^a→Spf(B,N)^a` over a p-adic log PD base: first use CrystallineCohomology Layer CR.5's integral log exactification and DerivedDeRhamCohomology §PD.6's ordinary compatible PD envelope, then p-complete its ring and logify the chart. Its universal property is among classically p-complete log PD thickenings with continuous maps and compatible base divided powers. The embedding ideal is p-closed, the quotient is `R` when `R` is already classically p-complete, and each divided-power operation is continuous. Require the divided powers on the embedding ideal and on the base ideal to extend jointly; the image of the base ideal is not required to lie in the embedding ideal for a general mixed-characteristic object. No assertion of p-torsion-freeness is made for an arbitrary PD envelope.
 
-Construct `FormalLog.BigCrystallineSite` with objects `(B,J,M_B)^a, B` and `B/J` classically p-complete, integral quasi-coherent log structure, a map `Spf(B/J)→X` and an exact closed immersion into `Spf B` over the base. Take ordinary étale coverings and the sheaf `B`. There is no delta structure and no p-torsion-freeness condition on `B`. For a p-torsion-free base `A` with a compatible PD ideal `I` and `X` smooth over `(A/I,M_A)`, prove the local completed log PD-envelope Čech computation and independence of presentations. If `p∈I`, comparison with the small characteristic-p sites modulo `p^m` and their derived inverse limit gives the usual p-adic log crystalline cohomology. For general formal `X` the corresponding reductions are `X_m`; one does not identify a mixed-characteristic `X` with a fixed characteristic-p scheme.
+Construct `FormalLog.BigCrystallineSite` with objects `(B,J,M_B)^a, B` and `B/J` classically p-complete, integral quasi-coherent log structure, a map `Spf(B/J)→X` and an exact closed immersion into `Spf B` over the base. Each object also carries continuous divided powers on the p-closed ideal `J`, extending jointly with the prescribed base divided powers; the base PD ideal need not map into `J`. Morphisms preserve the divided powers as well as the ring and log data. Take ordinary étale coverings and the sheaf `B`. There is no delta structure and no p-torsion-freeness condition on `B`. For a p-torsion-free base `A` with a compatible PD ideal `I` and `X` smooth over `(A/I,M_A)`, prove the local completed log PD-envelope Čech computation and independence of presentations. If `p∈I`, comparison with the small characteristic-p sites modulo `p^m` and their derived inverse limit gives the usual p-adic log crystalline cohomology. For general formal `X` the corresponding reductions are `X_m`; one does not identify a mixed-characteristic `X` with a fixed characteristic-p scheme.
 
 (K1, Remark 6.6, pp.32–33, Remark 6.7 and Proposition 6.8 with its proof, pp.33–34; Remark 6.9, p.34. The ordinary finite-level PD envelopes and log PD de Rham computation are CrystallineCohomology §CR.5.2, CrystallineCohomology §CR.5.4, CrystallineCohomology §CR.5.4 and CrystallineCohomology §CR.5.4; the completion and big-site adapters are the targets here.)
 
@@ -301,6 +303,7 @@ Construct `FormalLog.BigCrystallineSite` with objects `(B,J,M_B)^a, B` and `B/J`
 - `FormalLog.CompletedPDEnvelope.torsion_warning`: An arbitrary PD envelope is allowed to have p-torsion. Complete-flatness hypotheses are required before using derived reduction as ordinary reduction.
 - `FormalLog.BigCrystallineSite.torsion_object`: A finite-level PD thickening with p-torsion is an object of the ordinary big site but need not be an object of the delta-log crystalline site.
 - `FormalLog.BigCrystallineSite.characteristic_p`: When `p∈I`, reduction modulo `p^m` and the limit use the same `X`; otherwise the system is `X_m`, so the two statements cannot be interchanged.
+- With trivial logs, `(ℤ_p[[t]],(t))` without PD data is not an object: `γ_p(t)=t^p/p` does not belong to this ring. The completed compatible PD envelope supplies the required object instead.
 - `FormalLog.BigCrystallineSite.ambient_finiteness`: The PD de Rham theorem uses a topologically finitely presented smooth ambient and its nilideal lifting property. A weakly finitely generated target chart is not itself declared to have that stronger lifting property.
 
 <a id="s8-1"></a>
@@ -400,6 +403,8 @@ The category of `δ_log`-rings has all limits and colimits, computed on underlyi
 - `Log.DeltaLogStructure.freeOneGenerator_not_monoidAlgebra`: `ℤ_(p){x}_δlog` is not `ℤ_(p)[x]`: the element `δ_log(x)` is algebraically independent of `x`, so the rank-1 algebra `ℤ_(p)[x]` is a proper quotient.
 - `Log.DeltaLogStructure.pdivisible_rankOne`: For `M = N[1/p]` and a classically p-complete `δ_log`-ring `(A, M), δ(α(m)) = 0` for all `m` (K1 Example 2.10).
 
+*Needs:* §8.1; PrismaticCohomology §0.6 and Layer 0 (free delta rings and Witt adjoints); Mathlib `MvPolynomial`.
+
 <a id="s8-4"></a>
 <a id="layer-8-delta-log-completion-etale"></a>
 
@@ -411,6 +416,8 @@ Prove `Log.DeltaLogStructure.completion` (1) and `Log.DeltaLogStructure.complete
 
 (K1, §2, Lemma 2.9 (p. 8–9); K1, §2, Lemma 2.13 (p. 10).)
 
+*Needs:* §8.1; PrismaticCohomology §0.39 (completion) and §0.28 (completely étale extension).
+
 <a id="s8-5"></a>
 <a id="layer-8-delta-log-associated-log"></a>
 
@@ -421,6 +428,8 @@ Prove `Log.DeltaLogStructure.associatedLog` (1) and `Log.DeltaLogStructure.etale
 (2): `A` classically `I`-complete, `I` finitely generated, `p ∈ I`.
 
 (K1, §2, Proposition 2.14 (p. 10); K1, §2, Corollary 2.15 (p. 10).)
+
+*Needs:* §§8.1, 8.4, 8.0a; CrystallineCohomology Layer CR.5:log-algebra (logification and sheaf descent).
 
 <a id="s8-6"></a>
 <a id="layer-8-delta-log-groupification"></a>
@@ -435,7 +444,7 @@ Prove `Log.DeltaLogStructure.groupification` (1), `Log.DeltaLogStructure.extend`
 
 **Proof route.** (1): define `δ_log` on fractions by the displayed formula; check independence of representatives and the cocycle identity using integrality of `M` and invertibility of `1 + pδ_log(m)`.
 
-*Needs:* [§8.1](#s8-1), [PrismaticCohomology §0.6](../PrismaticCohomology/README.md#s0-6), Mathlib `MvPolynomial`, PrismaticCohomology Layer 0, [PrismaticCohomology §0.39](../PrismaticCohomology/README.md#s0-39), [§8.0a](#s8-0a), CrystallineCohomology Layer CR.5:log-algebra, [PrismaticCohomology §0.28](../PrismaticCohomology/README.md#s0-28), Mathlib `Algebra.GrothendieckGroup`, Mathlib `TensorProduct`, CrystallineCohomology §CR.5:log-algebra.1.
+*Needs:* §§8.1–8.3; CrystallineCohomology §CR.5:log-algebra.1; Mathlib `Algebra.GrothendieckGroup`, `TensorProduct`; PrismaticCohomology Layer 0 (delta localization).
 
 <a id="s8-7"></a>
 <a id="layer-8-delta-log-exactification"></a>
@@ -577,6 +586,8 @@ Fix an orientable prelog prism `(A, I, M_A)` with `M_A` integral. Let `(B, J, M_
 - `PrelogPrism.envelope_log_line_diagonal`: For `(A⟨X_0, X_1⟩, X_0^N X_1^N) → (A/I⟨X_0⟩, X_0^N)` the envelope is the completion of `A⟨X_0, X_1⟩{(I, X_1/X_0 − 1)/I}_δ` with monoid `X_0^N(X_1/X_0)^Z` (K1 §5.4).
 - `PrelogPrism.envelope_not_without_exactification`: Without exactification the non-log prismatic envelope of `(A⟨X_0, X_1⟩, (I, X_1 − X_0))` gives the non-log Čech nerve, whose Hodge–Tate cohomology is ordinary `Ω`, not log `Ω`.
 
+*Needs:* §§8.7–8.8; PrismaticCohomology Layer 0 (prismatic envelopes).
+
 <a id="s8-12"></a>
 <a id="layer-8-log-prismatic-envelope"></a>
 
@@ -587,6 +598,8 @@ Prove `LogPrism.envelope_final` and its key lemma `LogPrism.exactSurjective_tors
 `(A, I, M_A)` orientable with integral `M_A`; the prelog prismatic envelope is bounded.
 
 (K1, §3, Proposition 3.7 (p. 15); K1, §3, Lemma 3.8 (p. 15–16).)
+
+*Needs:* §§8.11, 8.9; CrystallineCohomology Layer CR.5:log-algebra (exact log immersions and unit torsors).
 
 <a id="s8-13"></a>
 <a id="layer-8-envelope-flatness-smooth"></a>
@@ -601,22 +614,23 @@ smoothness in the sense of Koshikawa Appendix A (CR.5); hypotheses (∗) and wea
 
 **Proof route.** Replace `M_A` by `M_A′ =` inverse image of `N` in `M_A^gp` (flat base change, Proposition 2.16) so `M_A → N` is exact; the envelope does not change by universality.
 
-*Needs:* [§8.7](#s8-7), [§8.8](#s8-8), PrismaticCohomology Layer 0, [§8.9](#s8-9), CrystallineCohomology Layer CR.5:log-algebra, [§8.0b](#s8-0b), [§8.3](#s8-3).
-
 ### 8.14–8.17 Perfectoid monoids and perfect log prisms
+
+*Needs:* §§8.11–8.12, 8.0b, 8.3; PrismaticCohomology Layer 0 (regular-envelope flatness and completion comparisons); CrystallineCohomology Layer CR.5:log-algebra.
 
 <a id="s8-14"></a>
 <a id="layer-8-perfectoid-monoid"></a>
 
 **§8.14 Perfectoid monoids and perfectoid log rings.**
 
-For a commutative monoid `M`, use Mathlib `Perfection M p` for its tilt `M♭`, with the projections and root maps in the exact supplier contracts. Define `Monoid.IsPerfectoid` by bijectivity of the induced map `M♭/(M♭)^× → M/M^×`. Perfectness and pseudo-perfectoidness use the supplied predicates `PerfectRing M p` and `PerfectRing (Associates M) p`; Mathlib already makes `M♭` and `M♭/(M♭)^×` uniquely p-divisible. A pre-log ring `(R, M)` is perfectoid if `R` is a perfectoid ring (in the sense of BMS1) and `M` is perfectoid; then `(R, M♭) → (R, M)` induces an isomorphism of associated log rings, and the tilt `(R♭, M♭)` with `α♭(m_0, m_1, …) = (α(m_0), α(m_1), …)` and `A_inf(R) := (W(R♭), M♭ → W(R♭), m ↦ [α♭(m)])` are defined. An integral log ring `(R, M)` is a perfectoid log ring if it is perfectoid as a pre-log ring, equivalently `R` is perfectoid and `M/M^×` is uniquely p-divisible.
+For a commutative monoid `M`, use Mathlib `Perfection M p` for its tilt `M♭`, with the projections and root maps in the exact supplier contracts. Define `Monoid.IsPerfectoid` by bijectivity of the induced map `M♭/(M♭)^× → M/M^×`. Perfectness and pseudo-perfectoidness use the supplied predicates `PerfectRing M p` and `PerfectRing (Associates M) p`; Mathlib supplies unique p-divisibility of `M♭`. Prove `Monoid.perfectRing_associates`: for `[PerfectRing M p]`, the quotient `Associates M` is perfect. The inverse power automorphism preserves units and descends to associates, giving the inverse to the quotient power map. Apply this result to `M♭` to obtain unique p-divisibility of `M♭/(M♭)^×` (KY §2.3, p.16, and Definition 2.18, p.17). A pre-log ring `(R, M)` is perfectoid if `R` is a perfectoid ring (in the sense of BMS1) and `M` is perfectoid; then `(R, M♭) → (R, M)` induces an isomorphism of associated log rings, and the tilt `(R♭, M♭)` with `α♭(m_0, m_1, …) = (α(m_0), α(m_1), …)` and `A_inf(R) := (W(R♭), M♭ → W(R♭), m ↦ [α♭(m)])` are defined. An integral log ring `(R, M)` is a perfectoid log ring if it is perfectoid as a pre-log ring, equivalently `R` is perfectoid and `M/M^×` is uniquely p-divisible.
 
 `p` fixed; `R` perfectoid in the sense of BMS1 (as used by PrismaticCohomology Layer 0).
 
 (KY, §2.3, Definition 2.18 (p. 17); KY, §2.3, Definition 2.25 (p. 18); KY, §2.3, Construction 2.22 (p. 17).)
 
 - `Monoid.IsPerfectoid`: `M♭/(M♭)^× → M/M^×` is bijective.
+- `Monoid.perfectRing_associates`: Unique p-divisibility descends from a commutative monoid to its associates quotient.
 - `Monoid.perfectRing_isPerfectoid`: Perfect monoids are perfectoid.
 - `Monoid.IsPerfectoid.perfectRing_associates`: Perfectoid monoids are pseudo-perfectoid.
 - `PrelogRing.tilt`: For a perfectoid pre-log ring `(R, M)`, the pre-log ring `(R♭, M♭, α♭)`.
@@ -630,7 +644,10 @@ For a commutative monoid `M`, use Mathlib `Perfection M p` for its tilt `M♭`, 
 - `Monoid.valuationMonoid_perfectoid_not_perfect`: `O_C∖{0}` for `C` algebraically closed perfectoid is perfectoid but not perfect, since 1 `+ p` has many p-th roots.
 - `Monoid.pseudoPerfectoid_not_perfectoid`: The monoid generated by `x_0, x_1, …, y_1^{±1}, …` with `x_j^p = x_{j−1}y_j` is pseudo-perfectoid with `M/M^× ≅ N[1/p]` but `M♭` the trivial monoid.
 - `Monoid.nat_not_perfect`: The additive monoid `N` is not perfect at `p = 2`, since 1 has no half. Its tilt is trivial while `N/N^× = N`, so `N` is not perfectoid either.
+- For the quotient-perfectness theorem, a perfect group has one-element associates, the sharp perfect monoid `N[1/p]` is its own associates quotient, and `G×N[1/p]` for a perfect group `G` has associates `N[1/p]`. These test removal of all, none and only some unit directions.
 - **Agreement with the pre-tilt**: For an integral perfectoid ring `R`, the multiplicative monoid of Mathlib `PreTilt` agrees with Mathlib `Perfection R p` under the multiplicative bijection `R♭ ≅ lim_{x ↦ x^p} R`.
+
+*Needs:* Mathlib `Perfection`, `PreTilt`, `WittVector.teichmuller`; PrismaticCohomology Layer 0 (perfectoid rings and Fontaine prisms); CrystallineCohomology §CR.5:log-algebra.1.
 
 <a id="s8-15"></a>
 <a id="layer-8-perfect-log-prism"></a>
@@ -657,6 +674,8 @@ Integral monoid; `(A, M_A)` a log ring; boundedness as for log prisms.
 - `LogPrism.breuilKisin_not_perfect`: The Breuil–Kisin log prism `(W(k)[[u]], (E), N)` is not perfect: `u` is not a p-th power and `φ` is not surjective.
 - `LogPrism.zeroLog_perfect`: `(W(k), (p), N → 0)^a` is not perfect (`N` is not p-divisible), while its perfection has monoid `N[1/p]` modulo units.
 
+*Needs:* §§8.14, 8.9, 8.2; PrismaticCohomology Layer 0 (completed prism perfection).
+
 <a id="s8-16"></a>
 <a id="layer-8-perfectoid-prelog-cotangent"></a>
 
@@ -667,6 +686,8 @@ Prove `PrelogRing.perfectoid_cotangent` and `PrelogRing.perfectoid_relativeCotan
 Perfectoid or pseudo-perfectoid pre-log rings; p-completed Gabber log cotangent complex as supplied by DerivedDeRhamCohomology §6.20 and CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18.
 
 (KY, §2.3, Lemma 2.28 (p. 18); KY, §2.3, Corollary 2.29 (p. 19).)
+
+*Needs:* §8.14; DerivedDeRhamCohomology §6.20 (`gabberLogCotangent`, `logCotangentFunctoriality`); CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18.
 
 <a id="s8-17"></a>
 <a id="layer-8-perfect-log-prisms-perfectoid"></a>
@@ -681,7 +702,7 @@ Perfect ''log prisms'' are integral and bounded; the lifting statement assumes `
 
 **Proof route.** Lifting (Lemma 2.40): `L_{(A_inf(R)/p^m)^a/(ℤ/p^m)} = 0`, so `(ℤ/p^m, (ℤ/p^m)^×) → (A_inf(R)/p^m)^a` is formally log-étale (Sagave–Schürg–Vezzosi Theorem 5.6, imported through DerivedDeRhamCohomology §6.20 and CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18); lift through `(A, M_A)` by classical p-completeness.
 
-*Needs:* Mathlib `Perfection`, Mathlib `PreTilt`, Mathlib `WittVector.teichmuller`, PrismaticCohomology Layer 0, CrystallineCohomology §CR.5:log-algebra.1, [§8.9](#s8-9), [§8.2](#s8-2), DerivedDeRhamCohomology §6.20 (`gabberLogCotangent`), DerivedDeRhamCohomology §6.20 (`logCotangentFunctoriality`), [§8.0c](#s8-0c), DerivedDeRhamCohomology §6.20; CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18.
+*Needs:* §§8.14–8.16, 8.0c; PrismaticCohomology Layer 0; DerivedDeRhamCohomology §6.20 and CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18 (completed cotangent and lifting inputs).
 
 <a id="s8-18"></a>
 <a id="layer-8-log-prismatic-site"></a>
@@ -798,6 +819,8 @@ Let `X = Spf(R)` be affine with an integral chart `P` over `M_A` that is integra
 - `LogPrismaticSite.cechAlexander_trivialLog`: With trivial log structures, `C^•` is BS22's Čech–Alexander complex (PrismaticCohomology Layer 1).
 - `LogPrismaticSite.cechAlexander_needs_exactification`: Using the non-exactified `δ-pair (B^1, (I, X_1 − X_0))` for the log affine line gives the non-log Čech nerve, whose cohomology has `H¹(Δ̄) ≅ R·dX` rather than `R·dlog X`.
 
+*Needs:* §§8.13, 8.3, 8.12, 8.19; Mathlib `CategoryTheory.CosimplicialObject`; PrismaticCohomology Layer 1 (Čech descent).
+
 <a id="s8-22"></a>
 <a id="layer-8-log-prismatic-weak-base-change"></a>
 
@@ -808,6 +831,8 @@ Prove `LogPrismaticSite.affineBaseChange`. Let `(R, P)` be as in the Čech–Ale
 Finite `(p, I)`-complete Tor amplitude of `A → A′`; `M_{A′}` integral.
 
 (K1, §4.2, Lemma 4.11 (p. 22).)
+
+*Needs:* §8.21; PrismaticCohomology Layer 1 (finite complete Tor-amplitude base change).
 
 <a id="s8-23"></a>
 <a id="layer-8-log-prismatic-etale-localization"></a>
@@ -820,6 +845,8 @@ Bounded base prism with integral `M_A`; `(R, P) p`-completely smooth over `(A/I,
 
 (K1, §4.2, Lemma 4.12 (p. 22).)
 
+*Needs:* §§8.21–8.22, 8.18; PrismaticCohomology Layer 1 (strict étale localization).
+
 <a id="s8-24"></a>
 <a id="layer-8-smooth-chart-covers"></a>
 
@@ -831,6 +858,8 @@ Flat topology; smooth charts in Koshikawa's sense; `(A, I)` may be assumed orien
 
 (K1, §4.3, Proposition 4.13 (p. 23); K1, §4.3, Lemma 4.14 (p. 23).)
 
+*Needs:* §§8.13, 8.12, 8.18, 8.7, 8.20, 8.0b; PrismaticCohomology Layers 0–1 (flat prism products and the Breuil–Kisin cover).
+
 <a id="s8-25"></a>
 <a id="layer-8-hodge-tate-group-lemma"></a>
 
@@ -841,6 +870,8 @@ Prove `LogPrismaticSite.groupRing_hodgeTate`. Let `(A, I)` be a bounded prism an
 `G, G′` finitely generated abelian with trivial p-torsion; `(A, I)` bounded.
 
 (K1, §5.3, Lemma 5.7 (p. 29); K1, §5.3 (p. 28).)
+
+*Needs:* PrismaticCohomology Layers 0–1 (group-ring prismatic envelopes and their Hodge–Tate calculation); Mathlib `CategoryTheory.CosimplicialObject`.
 
 <a id="s8-26"></a>
 <a id="layer-8-hodge-tate-log-affine-line"></a>
@@ -855,7 +886,7 @@ Prove `LogPrismaticSite.hodgeTate_logLine`. Let `(A, I, M_A)` be a bounded prelo
 
 **Proof route.** The lift `(A⟨N⟩, M_A ⊕ N)` with `δ_log(N) = 0` is an object; its Čech nerve computes `Δ` (Envelopes of smooth charts cover the final object), with `B^n` the completion of `A⟨X_0, …, X_n⟩{(I, X_1/X_0 − 1, …, X_n/X_0 − 1)/I}_δ`.
 
-*Needs:* [§8.13](#s8-13), [§8.3](#s8-3), [§8.12](#s8-12), [§8.19](#s8-19), Mathlib `CategoryTheory.CosimplicialObject`, [§8.18](#s8-18), PrismaticCohomology Layer 1, [§8.7](#s8-7), [§8.20](#s8-20), PrismaticCohomology Layer 0.
+*Needs:* §§8.24–8.25, 8.21, 8.19; PrismaticCohomology Layer 0 (rank-one lifts).
 
 ### 8.27–8.29 Log crystalline structures
 
@@ -884,6 +915,8 @@ Bounded prelog prism with integral monoid; smoothness in Koshikawa's sense; the 
 - `LogPrismaticSite.hodgeTateMap_trivialLog`: With trivial log structures `η^*` equals PrismaticCohomology Layer 1's Hodge–Tate comparison map.
 - `LogPrismaticSite.hodgeTateMap_dlog_not_dx`: `η^1(dlog X_0)` is not `η^1(dX_0)`: they differ by the factor `X_0`, which is not a unit on `A/I⟨X_0⟩`.
 
+*Needs:* §§8.0c, 8.19, 8.26; DerivedDeRhamCohomology §6.20 and CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18 (log cotangent maps); PrismaticCohomology Layer 1 (Bockstein and non-log comparison); Mathlib `KaehlerDifferential`.
+
 <a id="s8-28"></a>
 <a id="layer-8-log-hodge-tate-comparison"></a>
 
@@ -894,6 +927,8 @@ Prove `LogPrismaticSite.hodgeTate_iso` and `LogPrismaticSite.cotangent_truncatio
 `(X, M_X)` smooth over `(A/I, M_A)` in the sense of Koshikawa Appendix A (integral, relatively coherent charts).
 
 (K1, §5.2, Theorem 5.3 (p. 27); KY, §1, Theorem 2(1) (p. 2).)
+
+*Needs:* §§8.27, 8.25–8.26, 8.24, 8.22; CrystallineCohomology Layer CR.5:log-algebra (smooth charts and log differentials).
 
 <a id="s8-29"></a>
 <a id="layer-8-log-prismatic-base-change"></a>
@@ -908,7 +943,7 @@ Bounded prelog prisms with integral monoids; base change in the category of inte
 
 **Proof route.** Reduce to `Δ̄` by derived Nakayama (`(p, I)`-completeness). `Δ̄` is computed by the Hodge–Tate comparison, and `Ω^*_log` commutes with base change (Koshikawa smoothness is stable under base change, Remark A.12(3)).
 
-*Needs:* [§8.0c](#s8-0c), [§8.19](#s8-19), [§8.26](#s8-26), DerivedDeRhamCohomology §6.20; CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18, CrystallineCohomology Layer CR.5:log-algebra, PrismaticCohomology Layer 1, Mathlib `KaehlerDifferential`, [§8.25](#s8-25), [§8.24](#s8-24), [§8.22](#s8-22).
+*Needs:* §§8.28, 8.22, 8.0b; CrystallineCohomology Layer CR.5:log-algebra (log base change); PrismaticCohomology Layer 1 (derived Nakayama and completed descent).
 
 ### 8.30–8.35 Log crystalline comparisons
 
@@ -936,6 +971,8 @@ Let `(A, (p), M_A)` be a bounded prelog prism with `M_A` integral and `(X, M_X)`
 - `DeltaLogCrystallineSite.not_all_pd_thickenings`: A PD thickening `(B, J)` with `B` having p-torsion is not an object: objects are bounded prelog prisms with `I = (p)`, so `B` is p-torsion free.
 - `DeltaLogCrystallineSite.affineLine`: For `(A/p⟨X⟩, M_A ⊕ N)`, the rank-one triple `(A⟨X⟩, (p), M_A ⊕ N)^a` is an object, but it is not asserted weakly final: an arbitrary target log generator can have nonzero `δ_log`. A weakly final object for the Čech computation is obtained from the free `δ_log` ring and its log PD envelope (K1 Remark 6.9, p.34).
 
+*Needs:* §§8.0d, 8.8–8.9; CrystallineCohomology Layer CR.5; Mathlib `DividedPowers`.
+
 <a id="s8-31"></a>
 <a id="layer-8-delta-log-crystalline-vs-log-crystalline"></a>
 
@@ -947,6 +984,8 @@ Prove `DeltaLogCrystallineSite.comparison`. Let `I ⊂ A` be a p-completed PD id
 
 (K1, §6.1, Proposition 6.8 (p. 33); K1, §6.1, Remark 6.7 (p. 33); K1, §6.1, Remark 6.9 (p. 34).)
 
+*Needs:* §§8.30, 8.0d, 8.3, 8.13; CrystallineCohomology Layer CR.5 (log PD Poincaré and embedding descent); PrismaticCohomology Layer 0 (regular-envelope flatness).
+
 <a id="s8-32"></a>
 <a id="layer-8-cartier-type-cosimplicial-frobenius"></a>
 
@@ -957,6 +996,8 @@ Prove `LogCartier.cosimplicialFrobenius`. Let `k` be a ring with a prelog struct
 `M → Q` injective and integral of integral monoids; `Q^(1) → Q` exact and injective (Cartier type); `G` free abelian for the last assertion.
 
 (K1, Appendix B, Proposition B.1 (p. 61); K1, Appendix B, Proposition B.3 (p. 61); K1, Appendix B, Lemma B.4 (pp. 61–62).)
+
+*Needs:* CrystallineCohomology Layer CR.5:log-algebra (integral monoids and Cartier type); Mathlib `CategoryTheory.CosimplicialObject`, `MonoidAlgebra`.
 
 <a id="s8-33"></a>
 <a id="layer-8-crystalline-comparison-map"></a>
@@ -982,6 +1023,8 @@ The prism ideal is `(p)`; `I` denotes a separate auxiliary PD ideal containing `
 - `LogPrismaticSite.crystallineFunctor_logPoint`: For the log point `(k, N → 0)` over `(W(k), (p), N → 0)`, the functor sends the object `(W(k), (p), N)` to (`φ_*W(k), (p), N^(1)`) with `N^(1) = N ⊔_{N, ·p} N`.
 - `LogPrismaticSite.crystallineFunctor_untwisted_fails`: Without the Frobenius twist (sending `(B, J, M_B)` to `(B, (p), M_B)`) one does not get an object over `X: Spf(B/p)` need not map to `X` since only `B/J` does.
 
+*Needs:* §§8.30, 8.18, 8.2; PrismaticCohomology Layer 1 (comparison maps of ringed topoi); CrystallineCohomology Layer CR.5 (PD Frobenius factorization).
+
 <a id="s8-34"></a>
 <a id="layer-8-local-crystalline-comparison"></a>
 
@@ -992,6 +1035,8 @@ Prove `LogPrismaticSite.crystallineComparison_local`. In the setting of the comp
 As in the comparison map; Cartier type of `M_A → P`; existence of the exact surjection from a smooth lift.
 
 (K1, §6, Theorem 6.1 (p. 31); K1, §6.2 (p. 36).)
+
+*Needs:* §§8.33, 8.31–8.32, 8.21, 8.13, 8.29; PrismaticCohomology Layers 0–1; CrystallineCohomology Layer CR.5:log-algebra (Cartier charts).
 
 <a id="s8-35"></a>
 <a id="layer-8-log-crystalline-comparison"></a>
@@ -1006,7 +1051,7 @@ The prism ideal is `(p)`; the auxiliary PD ideal `I` contains `p`. The smooth lo
 
 **Proof route.** Étale locally on `X` there is a smooth chart of Cartier type and a smooth lift (Remark 6.2, Remark A.19 of CR.5). Apply Local log crystalline comparison and glue: the comparison map is defined globally by The log crystalline comparison map.
 
-*Needs:* [§8.0d](#s8-0d), [§8.8](#s8-8), [§8.9](#s8-9), CrystallineCohomology Layer CR.5, Mathlib `DividedPowers`, [§8.3](#s8-3), [§8.13](#s8-13), PrismaticCohomology Layer 0, CrystallineCohomology Layer CR.5:log-algebra, PrismaticCohomology Layer 1, Mathlib `CategoryTheory.CosimplicialObject`, Mathlib `MonoidAlgebra`, [§8.18](#s8-18), [§8.2](#s8-2), [§8.21](#s8-21), [§8.29](#s8-29).
+*Needs:* §§8.34, 8.33, 8.29; CrystallineCohomology Layer CR.5 and Layer CR.5:log-algebra (local smooth Cartier lifts and crystalline descent).
 
 <a id="s8-36"></a>
 <a id="layer-8-log-q-pd-triple"></a>
@@ -1063,6 +1108,8 @@ Fix a prelog q-PD triple `(D, I, M_D)` with `M_D` integral and `(X, M_X)` smooth
 - `LogQCrystallineSite.affineLine_complex`: For (`D/I⟨X⟩, M_D ⊕ N`) with `D` flat over `A, qΩ` is computed by the two-term complex `D⟨X⟩ → D⟨X⟩·dlog X, f ↦ (γ(f) − f)/(q − 1)·dlog X` with `γ(X) =` qX (Construction 7.15 with `S` a point).
 - `LogQCrystallineSite.not_prismatic`: The log q-crystalline site is not the log prismatic site over `(D, ([p]_q))`: its objects carry a q-PD ideal `J` containing the image of the base q-PD ideal `I`, with `γ(J) ⊂ J` and `φ(J) ⊂ [p]_qE`. `J` need not contain `[p]_q` (for example `J = (ξ)` in `A_inf`). The comparison of Theorem 7.13 uses a Frobenius twist.
 
+*Needs:* §§8.36, 8.30; PrismaticCohomologyPartII Layer 5 (q-PD envelopes and Čech descent).
+
 <a id="s8-38"></a>
 <a id="layer-8-log-q-crystalline-vs-crystalline"></a>
 
@@ -1073,6 +1120,8 @@ Prove `LogQCrystallineSite.mod_q_sub_one`. The canonical map induces an isomorph
 As in the log q-crystalline site. The reduced PD ideal is the image of the arbitrary base q-PD ideal `I`, not necessarily `(p)`; use the arbitrary PD-base version of CR.5.
 
 (K1, §7.2, Theorem 7.10 (p. 41).)
+
+*Needs:* §§8.37, 8.31, 8.0d; CrystallineCohomology Layer CR.5 (arbitrary PD bases); PrismaticCohomologyPartII Layer 5 (q-PD specialization).
 
 <a id="s8-39"></a>
 <a id="layer-8-log-q-crystalline-vs-prismatic"></a>
@@ -1087,7 +1136,7 @@ Cartier type of the mod `p` fibre; rank 1 or log ring base. `M_D` is integral, a
 
 **Proof route.** Construct a functor `((X, M_X)/(D, M_D))_qCRYS → ((X^(1), M^(1))/(D, M_D))_Δ` by Frobenius twisting as in The log crystalline comparison map. Show the induced map is an isomorphism by reducing modulo `(q − 1)` (both sides `(p, [p]_q)`-complete) to the log crystalline comparison (The log crystalline comparison) via Log q-crystalline cohomology modulo `q − 1`.
 
-*Needs:* [§8.36](#s8-36), [§8.30](#s8-30), PrismaticCohomologyPartII Layer 5, [§8.31](#s8-31), CrystallineCohomology Layer CR.5, [§8.35](#s8-35), [§8.33](#s8-33), [§8.29](#s8-29).
+*Needs:* §§8.38, 8.35, 8.33, 8.29, 8.36; PrismaticCohomologyPartII Layer 5 (Frobenius-twisted q-crystalline comparison).
 
 <a id="s8-40"></a>
 <a id="layer-8-log-q-de-rham-complex"></a>
@@ -1195,6 +1244,8 @@ Animated pre-log rings as supplied by DerivedDeRhamCohomology §6.20 and Crystal
 - `DerivedLogPrismatic.trivialLog`: For `P = M_A` pulled back from the base, `Δ^L_{(R,M_A)/(A,M_A)} ≅` BS22's `Δ_{R/A}` (PrismaticCohomology Layer 2).
 - `DerivedLogPrismatic.zeroLog_cotangent`: For `(R, P) = (A/I, N → 0)` over trivial `M_A`, the log cotangent complex is the two-term complex `(A/I → A/I)` with zero differential, in degrees `−1` and 0 (KY Example 2.30, p.19). Thus the first conjugate graded piece has both degree-zero and degree-one cohomology. This does not infer the cohomology of the whole filtered object from a single graded piece.
 
+*Needs:* §§8.19, 8.28; EnhancedDerivedSheaves Layer E5:animation; DerivedDeRhamCohomology §6.20 (`freePrelogResolutions`); PrismaticCohomology Layer 2 (ordinary animation).
+
 <a id="s8-47"></a>
 <a id="layer-8-derived-log-hodge-tate"></a>
 
@@ -1204,6 +1255,24 @@ Prove `DerivedLogPrismatic.conjugateFiltration`. For a simplicial pre-log ring `
 
 (KY, §4.1, Proposition 4.5 (p. 34); KY, §4.2, Remark 4.10 (p. 36).)
 
+*Needs:* §§8.46, 8.28; DerivedDeRhamCohomology §6.20 (log cotangent complexes and derived exterior powers).
+
+<a id="s8-47a"></a>
+
+**§8.47a Cotangent invariance under unrestricted logification.**
+
+Prove `DerivedLogPrismatic.logificationCotangent`: for a map `(R,P)→(R,Q)` of discrete prelog rings inducing an isomorphism of associated log rings, the relative Gabber complex `L_log((R,Q)/(R,P))` vanishes, without an integrality assumption on either monoid. Transitivity gives the cotangent comparison over any fixed prelog base and hence its completed exterior-power comparison. Extend these natural comparisons through the free prelog resolutions of §8.46 to the animated logification construction. On integral inputs this agrees with DerivedDeRhamCohomology §6.20's logification comparison.
+
+(KY, Lemma 2.10, p.14; Proposition 4.7(2) and proof, pp.34–35.)
+
+*Needs:* DerivedDeRhamCohomology §6.20 (`gabberLogCotangent`, `logCotangentFunctoriality`, `freePrelogResolutions`), EnhancedDerivedSheaves Layer E5:animation, DerivedModuleAlgebra §§1.2–1.5.
+
+**Checks.**
+
+- For a unit-valued chart `N→R, 1↦u∈R^×`, logification gives the trivial log structure and the relative complex vanishes, retaining the specified unit `u`.
+- For the nonintegral monoid `{1,e}` with `e²=e` and `e↦1` over `𝔽_p`, logification again gives the trivial log structure and the relative complex is zero. Cancellation in the input monoid is unavailable.
+- For the hollow chart `N→k, 1↦0`, logification keeps characteristic `N`. Its relative logification complex is zero, while its cotangent complex over `(k,0)` retains the two terms of §8.46's zero-chart Check.
+
 <a id="s8-48"></a>
 <a id="layer-8-derived-log-properties"></a>
 
@@ -1211,9 +1280,13 @@ Prove `DerivedLogPrismatic.conjugateFiltration`. For a simplicial pre-log ring `
 
 Prove `DerivedLogPrismatic.strict_eq` (1), `DerivedLogPrismatic.associatedLog_eq` (2), `DerivedLogPrismatic.baseChange` (3), `DerivedLogPrismatic.pushout` (4) and `DerivedLogPrismatic.perfectoidBase` (5). Let `(A, I, M_A)` be a bounded prelog prism with `M_A` integral. (1) For derived p-complete simplicial ring `R` over `A/I, Δ_{R/A} ≅ Δ^L_{(R,M_A)/(A,M_A)}` (strict pull-back of the base log structure). (2) `Δ^L` is invariant under passing to the associated log ring: `Δ^L_{(R,P)/(A,M_A)} ≅ Δ^L_{(R,P)^a/(A,M_A)}`. (3) Base change: for a map of bounded prelog prisms `(A, I, M_A) → (A′, IA′, M_{A′})` and `(R′, P′)` the homotopy base change, `Δ^L_{(R,P)/(A,M_A)} ⊗̂^L_A A′ ≅ Δ^L_{(R′,P′)/(A′,M_{A′})}`. (4) Multiplicativity: for the homotopy cofibre product `(R_3, P_3)` of `(R_1, P_1), (R_2, P_2)` over `(A/I, M_A), Δ_1 ⊗̂^L_A Δ_2 ≅ Δ_3`, compatibly with conjugate filtrations (Day convolution); `Δ^L_{−/(A,M_A)}` commutes with all colimits into the infinity category of derived `(p,I)`-complete commutative A-algebras. This is an algebra-valued assertion: the coproduct of two unit A-algebras is `A`, whereas their coproduct as A-modules is `A⊕A`. (5) For `(A/I, M_A)` perfectoid or pseudo-perfectoid, `Δ^L_{(R,P)/A} ≅ Δ^L_{(R,P)/(A,M_A)}`.
 
-As in Derived log prismatic cohomology.
+As in Derived log prismatic cohomology. Clause (2) uses §8.47a without restricting the input chart to integral monoids.
+
+**Proof route.** For (2), apply §8.47a to the cotangent complexes and their completed exterior powers, then §8.47 to the conjugate graded pieces and derived Nakayama. The comparison is natural through the free resolutions defining the animated functor.
 
 (KY, §4.1, Proposition 4.7 (p. 34); KY, §4.1, Proposition 4.7(3) (p. 34); KY, §6, Remark 6.2 (p. 59).)
+
+*Needs:* §§8.47, 8.16, 8.47a; DerivedDeRhamCohomology §6.20 (`logCotangentFunctoriality`, including homotopy base change); CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18.
 
 <a id="s8-49"></a>
 <a id="layer-8-derived-vs-site"></a>
@@ -1225,6 +1298,8 @@ Prove `DerivedLogPrismatic.eq_site`. Let `(A, I, M_A)` be bounded with `M_A` int
 `(X, M_X)` smooth in Koshikawa's sense over a bounded prelog prism with integral monoid.
 
 (KY, §4.2, Proposition 4.12 (p. 36); KY, §4.1, Corollary 4.6 (p. 34).)
+
+*Needs:* §§8.46–8.47, 8.28, 8.48; the natural derived-to-site comparison obtained by augmenting the free prelog resolutions of §8.46 and étale sheafifying their maps to site-theoretic cohomology.
 
 <a id="s8-50"></a>
 <a id="layer-8-log-quasisyntomic-descent"></a>
@@ -1239,7 +1314,7 @@ for the big site, `(A/I, M_A)` perfectoid.
 
 **Proof route.** In both cases the p-completion of `∧^i L_{(R,P)/(A/I,M_A)}[−i]` lies in `D^{≥0}(R)` (The log quasisyntomic site). By derived Nakayama and the derived Hodge–Tate comparison, reduce to descent for `(∧^i L)^∧[−i]`.
 
-*Needs:* [§8.19](#s8-19), [§8.28](#s8-28), EnhancedDerivedSheaves Layer E5:animation, PrismaticCohomology Layer 2, DerivedDeRhamCohomology §6.20 (`freePrelogResolutions`), DerivedDeRhamCohomology §6.20 (`gabberLogCotangent`), DerivedDeRhamCohomology §6.20 (`logCartier`), [§8.16](#s8-16), DerivedDeRhamCohomology §6.20; CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18, [§8.43](#s8-43), CrystallineCohomology §CR.DDR.6.18, CrystallineCohomology §CR.DDR.6.15.
+*Needs:* §8.47 and §§8.43–8.45; CrystallineCohomology §§CR.DDR.6.15, CR.DDR.6.18 (log quasisyntomic sites and cotangent-power descent).
 
 <a id="s8-51"></a>
 <a id="layer-8-initial-log-prism-qrsp"></a>
@@ -1286,6 +1361,8 @@ Let `(A, I, M_A)` be an integral bounded prelog prism and write `Δ^(1)_{(R,P)/(
 - `LogNygaard.naive_fails`: For KY's toy example over `(A_inf, (ξ))` the naive filtration `{x : φ(x) ∈ ξ^iΔ}` on `Δ^(1)_{(S,M)/(A,M_A)}` differs from `Fil^•_N` (KY §5.1).
 - `LogNygaard.frobenius_fil1`: `φ(Fil^1_N) ⊂ IΔ` and the induced map `gr^0_N → Δ̄` is the inclusion of `Fil_0 Δ̄ =` (derived) `R`.
 
+*Needs:* §§8.46–8.47, 8.7, 8.21; PrismaticCohomologyPartII Layer 3 (non-log Nygaard and filtered tensor products).
+
 <a id="s8-53"></a>
 <a id="layer-8-log-nygaard-graded"></a>
 
@@ -1296,6 +1373,8 @@ Prove `LogNygaard.gr_iso`. Let `(A, I, M_A)` be an integral bounded prelog prism
 As in The log Nygaard filtration; smoothness for the last assertion.
 
 (KY, §5, Theorem 5.1 (p. 42); KY, §5.7, Corollary 5.27 (p. 54).)
+
+*Needs:* §§8.52, 8.47, 8.49; PrismaticCohomologyPartII Layer 3 (non-log graded pieces).
 
 <a id="s8-54"></a>
 <a id="layer-8-nygaard-hodge-fiber-sequence"></a>
@@ -1308,6 +1387,8 @@ Derived log de Rham with Hodge filtration from DerivedDeRhamCohomology §6.20 an
 
 (KY, §5.6, Proposition 5.24 (pp.53–54); KY, §5.7, Corollary 5.35 (p. 58).)
 
+*Needs:* §§8.52–8.53, 8.49; DerivedDeRhamCohomology §6.20 (Hodge-filtered log derived de Rham); CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18, especially §CR.DDR.6.11 (`logCartier`); PrismaticCohomologyPartII Layer 4 (filtered de Rham specialization).
+
 <a id="s8-55"></a>
 <a id="layer-8-log-l-eta-factorization"></a>
 
@@ -1319,6 +1400,8 @@ Smooth log formal algebras in (1), with the stated chart; Cartier type of the ch
 
 (KY, §5.5, Corollary 5.17 (p. 51); KY, §5.7, Proposition 5.29 (p. 55).)
 
+*Needs:* §§8.53–8.54, 8.49, 8.28; PrismaticCohomologyPartII Layer 3 (`Lη` and the Beilinson filtration).
+
 <a id="s8-56"></a>
 <a id="layer-8-log-de-rham-comparison"></a>
 
@@ -1329,6 +1412,8 @@ Prove `LogPrismaticSite.deRhamComparison`. (1) If `P → R` is a smooth chart of
 `(A, I, M_A)` is bounded with `M_A` integral. Cartier type is required for the smooth-chart clause (1) and the mod-p fibre in the global smooth clause (3); clause (2) applies to every animated pre-log algebra without a Cartier-type assumption.
 
 (KY, §5.5, Corollary 5.18 (p. 51); KY, §1, Theorem 2(4) (p. 3).)
+
+*Needs:* §§8.54–8.55, 8.49, 8.35; DerivedDeRhamCohomology §6.20 (`logDerivedDeRham`); CrystallineCohomology §CR.DDR.6.11 (Cartier comparison).
 
 <a id="s8-57"></a>
 <a id="layer-8-log-frobenius-isogeny"></a>
@@ -1343,7 +1428,7 @@ Mod `p` fibre of Cartier type; qcqs for the global maps; finite rank `D` for the
 
 **Proof route.** From Proposition 5.29 apply BMS1 Lemma 6.9 (`Lη_I` has an inverse up to `I^i` on `τ_{≤i}`, via AI.1) as in BS22 Corollary 15.5 (PrismaticCohomologyPartII Layer 3). Take cohomology for the global maps (Corollary 5.31); uniform bound by Remark 5.32.
 
-*Needs:* [§8.46](#s8-46), [§8.47](#s8-47), [§8.7](#s8-7), [§8.21](#s8-21), PrismaticCohomologyPartII Layer 3, [§8.49](#s8-49), DerivedDeRhamCohomology §6.20; CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18, PrismaticCohomologyPartII Layer 4, [§8.35](#s8-35), [§8.28](#s8-28), DerivedDeRhamCohomology §6.20 (`logDerivedDeRham`), CrystallineCohomology §CR.DDR.6.11.
+*Needs:* §§8.55, 8.28; PrismaticCohomologyPartII Layer 3 (bounded inverse for `Lη`).
 
 <a id="s8-58"></a>
 <a id="layer-8-breuil-kisin-log-cohomology"></a>
@@ -1428,6 +1513,8 @@ Basic log definitions require an étale-sheafy adic space; both locally noetheri
 - `NoetherianFsLogAdicSpace.rankOneH1`: At a geometric rank-one log point over an algebraically closed complete characteristic-zero field, `H¹` of constant `ℤ/n` is noncanonically `ℤ/n, n>1`.
 - `NoetherianFsLogAdicSpace.rankZeroH1`: The same underlying geometric point with trivial log has zero `H¹` of constant `ℤ/n, n>0`.
 
+*Needs:* AdicEtaleGeometry §§A1.6, A1.9 (étale sites and structure sheaves); CrystallineCohomology Layer CR.5:log-algebra; Mathlib `CategoryTheory.GrothendieckTopology`; ClassicalAdicEtaleCohomology §§1.2–1.4 (geometric stalks, Cartan–Leray and twists).
+
 <a id="s8-61"></a>
 <a id="layer-8-log-scheme-vs-log-adic-kummer"></a>
 
@@ -1441,7 +1528,7 @@ Fs pre-log ring; `R` topologically of finite type over a noetherian base; `Spa(R
 
 **Proof route.** With `ε: X → X̊` and `ε^ad: X^ad → X̊^ad` the maps to underlying (adic) spaces, by Huber Corollary 3.2.3 and Grothendieck–Serre it suffices that `R^iε^ad_*Λ ≅ f^*R^iε_*Λ` for `f: X̊^ad → X̊`.
 
-*Needs:* AdicEtaleGeometry §§A1.6, A1.9 (étale sites and structure sheaves), CrystallineCohomology Layer CR.5:log-algebra, Mathlib `CategoryTheory.GrothendieckTopology`, ClassicalAdicEtaleCohomology §1.4, ClassicalAdicEtaleCohomology §1.2, ClassicalAdicEtaleCohomology §1.3, [§8.59](#s8-59).
+*Needs:* §§8.60, 8.59; ClassicalAdicEtaleCohomology §§1.2–1.4 (adic comparison and stalks); CrystallineCohomology Layer CR.5:log-algebra.
 
 <a id="s8-62"></a>
 <a id="layer-8-affine-kummer-etale-comparison"></a>
@@ -1606,6 +1693,8 @@ Saturated quasi-coherent log diamonds; locally separated maps (as in Scholze).
 - `QProKummerEtale.id`: Identity maps are quasi-pro-Kummer-étale coverings.
 - `QProKummerEtale.not_strict_etale`: For `n > 1`, the Kummer map `T ↦ T^n` of log discs is Kummer-étale but its underlying map of diamonds is not étale at `T = 0`.
 
+*Needs:* §§8.63, 8.65; DiamondEtaleCohomology Layer C0; DiamondsAndVStacks Layers D4–D5 (quasi-pro-étale sites and pullbacks).
+
 <a id="s8-67"></a>
 <a id="layer-8-kummer-tower-covers"></a>
 
@@ -1616,6 +1705,8 @@ Prove `QProKummerEtale.kummerTower_cover` (1)–(2) and `QProKummerEtale.siteMor
 For (1)–(2), `P` is fs and `P^gp` is torsion free. Without this hypothesis the power construction can fail surjectivity, as the torsion-unit example below shows. For (3)–(4), fs charts and Huber pairs over `(ℚ_p,ℤ_p)`; work locally with sharp charts and treat unit charts separately.
 
 (KY, §7.3, Proposition 7.22 (p. 75); KY, §7.3, Corollary 7.23 (p. 76).)
+
+*Needs:* §§8.66, 8.63, 8.65, 8.59; DiamondsAndVStacks Layers D4–D5; DiamondEtaleCohomology Layer C0 (site morphisms and root-tower descent).
 
 <a id="s8-68"></a>
 <a id="layer-8-kummer-etale-vs-qpket"></a>
@@ -1630,14 +1721,14 @@ Prove `QProKummerEtale.comparison_logScheme`. Let `Λ` be a torsion abelian grou
 
 **Proof route.** Take `N^J → P` and `P → P_∞` divisible as in Proposition 6.13; `(S, P_∞)` the completed saturated base change. Kummer-étale descent holds for `(Spec S[1/p], P_∞)^a → (Spec R[1/p], P)^a` (Proposition 6.13) and quasi-pro-Kummer-étale descent for the log diamonds.
 
-*Needs:* [§8.63](#s8-63), [§8.65](#s8-65), DiamondEtaleCohomology Layer C0, DiamondsAndVStacks Layer D4, DiamondsAndVStacks Layer D5, [§8.59](#s8-59), [§8.62](#s8-62), [§8.61](#s8-61).
+*Needs:* §§8.67, 8.62, 8.61, 8.59; DiamondEtaleCohomology Layer C0 (quasi-pro-étale descent).
 
 <a id="s8-69"></a>
 <a id="layer-8-global-etale-comparison"></a>
 
 ### 8.69 The Kummer-étale comparison
 
-Prove `LogPrismaticSite.kummerEtaleComparison`. Let `(A, I = (d), M_0)` be a bounded pre-log prism with `(A, I)` perfect and `M_0` an fs monoid; `(X_0, M_{X_0})` a smooth fs log p-adic formal scheme over `(A/I, M_0)` with `X_0` qcqs and mod `p` fibre of `(X_0, M_{X_0}) → (Spf A/I, M_0)^a` of Cartier type (equivalently, saturated in Tsuji's sense); `(A, I, M_A)` a saturated pre-log prism whose associated log prism is perfect, with `(A, M_0) → (A, Γ(Spf A, M_{Spf A}))`; and `(X, M_X)` the base change of `(X_0, M_{X_0})` to `(A/I, M_A)` (also `(X_i, M_{X_i})` to fs submonoids `M_i ⊂ M_A` containing the image of `M_0`; underlying formal schemes unchanged). Define `RΓ_qpkét((X, M_X)^♦_η, ℤ/p^m) := colim_i RΓ((X_i, M_{X_i})^♦_{η,qpkét}, ℤ/p^m)`. Then there are functorial isomorphisms `RΓ_qpkét((X, M_X)^♦_η, ℤ/p^m) ≅ (RΓ_Δ((X, M_X)/(A, M_A))[1/d]/p^m)^{φ=1} ≅ (RΓ_Δ((X_0, M_{X_0})/(A, M_0))[1/d]/p^m)^{φ=1}`. If moreover `A/I = O_C` (C algebraically closed, `A = A_inf`) and `X` is proper, `RΓ_qpkét((X, M_X)^♦_η, ℤ_p) := lim_m RΓ_qpkét(−, ℤ/p^m)` is a perfect `ℤ_p`-complex with `RΓ_qpkét ⊗^L_{ℤ_p} W(C♭) ≅ RΓ_Δ((X, M_X)/(A, M_A)) ⊗^L_{A_inf} W(C♭)`, and similarly mod `p^m`. Kummer-étale cohomology is not replaced by étale cohomology of the generic fibre unless the log structure is trivial there.
+Prove `LogPrismaticSite.kummerEtaleComparison`. Let `(A, I = (d), M_0)` be a bounded pre-log prism with `(A, I)` perfect and `M_0` an fs monoid; `(X_0, M_{X_0})` a smooth fs log p-adic formal scheme over `(A/I, M_0)` with `X_0` qcqs and mod `p` fibre of `(X_0, M_{X_0}) → (Spf A/I, M_0)^a` of Cartier type (equivalently, saturated in Tsuji's sense); `(A, I, M_A)` a saturated pre-log prism whose associated log prism is perfect, with `(A, M_0) → (A, Γ(Spf A, M_{Spf A}))`; and `(X, M_X)` the base change of `(X_0, M_{X_0})` to `(A/I, M_A)` (also `(X_i, M_{X_i})` to fs submonoids `M_i ⊂ M_A` for which `Γ(Spf A,M_i^a)` contains the image of `M_0` in `Γ(Spf A,M_A^a)`; take the finite-stage base changes through these associated log structures, retaining unit-valued base-chart maps; underlying formal schemes unchanged). Define `RΓ_qpkét((X, M_X)^♦_η, ℤ/p^m) := colim_i RΓ((X_i, M_{X_i})^♦_{η,qpkét}, ℤ/p^m)`. Then there are functorial isomorphisms `RΓ_qpkét((X, M_X)^♦_η, ℤ/p^m) ≅ (RΓ_Δ((X, M_X)/(A, M_A))[1/d]/p^m)^{φ=1} ≅ (RΓ_Δ((X_0, M_{X_0})/(A, M_0))[1/d]/p^m)^{φ=1}`. If moreover `A/I = O_C` (C algebraically closed, `A = A_inf`) and `X` is proper, `RΓ_qpkét((X, M_X)^♦_η, ℤ_p) := lim_m RΓ_qpkét(−, ℤ/p^m)` is a perfect `ℤ_p`-complex with `RΓ_qpkét ⊗^L_{ℤ_p} W(C♭) ≅ RΓ_Δ((X, M_X)/(A, M_A)) ⊗^L_{A_inf} W(C♭)`, and similarly mod `p^m`. Kummer-étale cohomology is not replaced by étale cohomology of the generic fibre unless the log structure is trivial there.
 
 Exactly the setup of KY §7.4 (perfect log prism, fs `M_0`, Cartier-type mod `p` fibre, qcqs `X_0`); properness and `A/I = O_C` for the second part.
 
@@ -1703,6 +1794,8 @@ Fix a prime `p` and an fs log diamond `(X,M_X)`. A quasi-pro-Kummer-étale `ℤ_
 - `PKummerLocalSystem.primeToP_root`: For the `n`-root cover of that log disc, `n>1` and coprime to `p, π_*ℤ_p` is a Kummer local system of rank `n` but not p-Kummer; its inertia image is cyclic of order `n`.
 - `PKummerLocalSystem.trivialLog_eq`: For a diamond with trivial log structure, the p-Kummer full subcategory is the whole ordinary quasi-pro-étale `ℤ_p`-local-system category.
 
+*Needs:* §§8.70, 8.67, 8.65; Mathlib `CategoryTheory.ObjectProperty.FullSubcategory`.
+
 <a id="s8-72"></a>
 <a id="layer-8-p-kummer-monodromy-criterion"></a>
 
@@ -1716,7 +1809,7 @@ Locally noetherian fs log adic space over `ℚ_p`; geometric log points and fini
 
 **Proof route.** Use §8.60 and Inoue Proposition B.4 (pp. 67–68) to compare all finite-level adic Kummer local systems with their diamond counterparts; form the compatible positive-level system.
 
-*Needs:* [§8.70](#s8-70), [§8.67](#s8-67), [§8.65](#s8-65), Mathlib `CategoryTheory.ObjectProperty.FullSubcategory`, [§8.61](#s8-61), [§8.60](#s8-60), Tau Ceti `TauCeti.IsProP`, Mathlib `PadicInt.toZModPow`, Mathlib `Matrix.GeneralLinearGroup.map`, Mathlib `IsPGroup`.
+*Needs:* §§8.71, 8.60–8.61; Tau Ceti `TauCeti.IsProP`; Mathlib `PadicInt.toZModPow`, `Matrix.GeneralLinearGroup.map`, `IsPGroup`.
 
 ### 8.73–8.75 Laurent realizations and proper pushforward
 
@@ -1745,6 +1838,8 @@ Bounded fs log p-adic formal schemes; absolute saturated site with the strict fl
 - `LaurentFCrystal.zero`: The zero crystal is a Laurent F-crystal of rank 0.
 - `LaurentFCrystal.not_F_crystal`: Laurent coefficients are obtained by inverting the `p`rism ideal before `p`-com`p`letion. The elementary inversion test at `I=(p)` over `ℤ_p` makes `p` a unit, whereas `p` is not a unit in `ℤ_p`. This is a test of the inversion ste`p` only: its subsequent `p`-com`p`letion is zero. Integral F-crystals and Laurent F-crystals have different coefficient definitions; no claim that every integral F-crystal fails to induce a Laurent object is made.
 
+*Needs:* §8.20; PrismaticCohomologyPartIII Layer 7 (crystal descent and Laurent coefficients).
+
 <a id="s8-74"></a>
 <a id="layer-8-laurent-f-crystals-local-systems"></a>
 
@@ -1756,20 +1851,22 @@ Bounded fs log p-adic formal scheme, with its log diamond generic fibre. The rea
 
 (KYcorr, Theorem 7 and proof, `p`. 4; Lemma 1/Definition 2, pp. 1–2; KY, §7.5, original Theorems 7.36–7.37 and proofs, pp. 81–82.)
 
+*Needs:* §§8.73, 8.71, 8.70, 8.17, 8.67, 8.64; PrismaticCohomologyPartIII §7.8 (ordinary Laurent realization).
+
 <a id="s8-75"></a>
 <a id="layer-8-smooth-proper-pushforward"></a>
 
 **§8.75 Smooth proper pushforward of Kummer-étale local systems.**
 
-Prove `LogPrismaticSite.smoothProperPushforward`. Let `f: (X, M_X) → (Y, M_Y)` be a smooth (Koshikawa's sense) proper map of bounded fs log p-adic formal schemes. Then `Rf_*O_Δ` is an F-crystal of perfect complexes on `(Y, M_Y)_Δ` and there is a natural isomorphism `(Rf_*O_Δ)_ét ≅ Rf_{η*}ℤ_p` for `f_η: (X, M_X)^♦_η → (Y, M_Y)^♦_η`; in particular `Rf_{η*}ℤ_p` is locally constant with perfect fibres and commutes with base change `(Z, M_Z) → (Y, M_Y)`. Via the corrected Laurent realization, the resulting locally perfect complex is p-Kummer.
+Prove `LogPrismaticSite.smoothProperPushforward`. Let `f: (X, M_X) → (Y, M_Y)` be a proper smooth saturated morphism of bounded fs log p-adic formal schemes, with smoothness as in §8.0b and mod-p fibre of Cartier type. Retain this Cartier-type hypothesis after the base changes used in §8.69. Then `Rf_*O_Δ` is an F-crystal of perfect complexes on `(Y, M_Y)_Δ` and there is a natural isomorphism `(Rf_*O_Δ)_ét ≅ Rf_{η*}ℤ_p` for `f_η: (X, M_X)^♦_η → (Y, M_Y)^♦_η`; in particular `Rf_{η*}ℤ_p` is locally constant with perfect fibres and commutes with base change `(Z, M_Z) → (Y, M_Y)`. Via the corrected Laurent realization, the resulting locally perfect complex is p-Kummer.
 
-`f` smooth and proper; bounded fs.
+`f` proper, smooth and saturated with Cartier-type mod-p fibre; bounded fs. These hypotheses are carried into each application of §8.69.
 
 (KY, §7.5, Proposition 7.38 and Remark 7.39, pp. 82–84 (published Proposition 7.37); KYcorr, Introduction `p`. 1 and Theorem 7 `p`. 4.)
 
-**Proof route.** KYcorr introduction `p`. 1 explicitly preserves published Proposition 7.37, which is preprint Proposition 7.38, and says its proof remains applicable. Use its unchanged smooth proper statement with the corrected p-Kummer realization.
+**Proof route.** Proper Hodge–Tate finiteness and §8.29 give a perfect prismatic crystal. Use §8.57 for its Laurent Frobenius isomorphism, retaining Cartier type on the mod-p fibres. Apply §8.69 after the saturated perfect-log-prism base changes in the proof of KY Proposition 7.38; then §8.74 identifies the realization with `Rf_{η*}ℤ_p` and makes it p-Kummer. Saturation excludes prime-to-p root maps, which meet §8.0b but have forbidden tame inertia.
 
-*Needs:* [§8.20](#s8-20), PrismaticCohomologyPartIII Layer 7, [§8.71](#s8-71), [§8.70](#s8-70), [§8.17](#s8-17), [§8.67](#s8-67), [§8.64](#s8-64), [PrismaticCohomologyPartIII §7.8](../PrismaticCohomologyPartIII/README.md#s7-8), [PrismaticCohomologyPartIII §7.2](../PrismaticCohomologyPartIII/README.md#s7-2), [§8.69](#s8-69), [§8.28](#s8-28), [§8.29](#s8-29).
+*Needs:* §§8.74, 8.69, 8.28–8.29, 8.57, 8.20; PrismaticCohomologyPartIII §7.2 (perfect crystal descent).
 
 <a id="s8-76"></a>
 <a id="layer-8-etale-comparison-over-ainf"></a>
@@ -1873,7 +1970,7 @@ The chosen section `k→O_C/p` lifts perfectly to `O_C^♭`, yielding `W(k)→A_
 
 - `LogHyodoKato.trivial_chart`: For `P=0` the common base is `W(k)`, and the argument recovers the trivial-log comparison of BMS1 Proposition 13.21, p.116.
 - `LogHyodoKato.nonzero_parameter`: For `1↦[π^♭]`, there is no direct map `(W(k),N→0)→(A_crys,N→[π^♭]^(p^n))` with the indicated chart map: `θ` sends the target parameter to `π^(p^n)≠0`. The evaluation from `D` is nevertheless defined once `π^(p^n)∈pO_C`, because its positive parameter is in the PD ideal modulo `p`.
-- `LogHyodoKato.pd_contraction`: For `t` in the PD augmentation, `φ^n(t)=(p^n)!γ_(p^n)(t)`, with valuation `(p^n−1)/(p−1)`. At `p=2` the first two valuations are 1 and 3. This exceeds every fixed linear Frobenius-isogeny denominator and supplies the convergence and effectivity estimates in §8.76a.
+- `LogHyodoKato.pd_contraction`: For a positive chart monomial `t=[m]`, `m∈P∖{0}`, in the PD augmentation, `φ^n(t)=(p^n)!γ_(p^n)(t)`, with valuation `(p^n−1)/(p−1)`. At `p=2` the first two valuations are 1 and 3. The monomial estimate extends to the ideal-wide divisibility of §8.76a, exceeding every fixed linear Frobenius-isogeny denominator. The equality itself does not extend to arbitrary elements: at `p=2`, `φ(2T)=2T²` but `2!γ₂(2T)=4T²` in the p-torsion-free PD algebra for `P=N`.
 - `LogHyodoKato.point`: For `X₀=Spf O_C` with the base log structure pulled back unchanged, both relative complexes consist of their base ring in degree zero. The scalar comparison sends 1 to 1, and there are no relative logarithmic forms.
 - `LogHyodoKato.nonfree_characteristic`: The relation `2(1,1)=(1,0)+(1,2)` in the saturated `cone` of §8.76a is respected by the PD evaluation. A proof using independent coordinates without that relation would not give this comparison.
 
@@ -1890,7 +1987,7 @@ As in KY §8: `X` proper; Cartier type; `C` algebraically closed.
 
 *Needs:* [Étale comparison over `A_inf[1/φ^{-1}(μ)]`](#layer-8-etale-comparison-over-ainf), [§8.77](#s8-77), [§8.15](#s8-15), AInfCohomology §AI.2.2, AInfCohomology §AI.5.1, AInfCohomology §AI.5.2.
 
-**Proof route.** Apply BMS1 Corollary 4.20 (criterion for BKF modules from a perfect complex with Frobenius, supplied by AInfCohomology §AI.2.2) to `M = RΓ_Δ`. Its two inputs are Étale comparison over `A_inf[1/φ^{-1}(μ)]` (Proposition 8.3) and the finite freeness of `H^i(M ⊗_{A_inf,φ} A_crys[1/p])` (Hyodo–Kato isomorphism for log prismatic cohomology over `A_crys`, KY Propositions 8.8–8.9 with the log PD argument of §8.76a).
+**Proof route.** Apply the perfect-complex criterion `AInf.cohomology_finiteness_from_periods`, supplied by AInfCohomology §AI.5.2 (BMS1 Corollary 4.20), to the Frobenius twist of the perfect complex `M = RΓ_Δ`; use §AI.2.2 for the BKF definition. For every degree retain both freeness hypotheses, after inverting `pμ` and after scalar extension to `B_crys^+`. Its two inputs are Étale comparison over `A_inf[1/φ^{-1}(μ)]` (Proposition 8.3) and the finite freeness of `H^i(M ⊗_{A_inf,φ} A_crys[1/p])` (Hyodo–Kato isomorphism for log prismatic cohomology over `A_crys`, KY Propositions 8.8–8.9 with the log PD argument of §8.76a). After obtaining finite presentation and freeness after p-inversion, use §8.57 to invert the prism ideal in the linearized Frobenius and obtain the BKF Frobenius localization isomorphism.
 
 <a id="s8-79"></a>
 <a id="layer-8-semistable-chart-application"></a>
@@ -1909,15 +2006,17 @@ Prove `LogPrismaticSite.semistableChart`. Let `O_K` be totally ramified over `W(
 
 ### Examples
 
-For the semistable node `xy=π`, the relative log differential module has rank one, generated by `dlog x` with `dlog y=−dlog x`. The diagonal chart, rather than two independent base generators, forces that relation. With the trivial monoid the logarithmic targets recover the ordinary ones; the identity section has `δ_log=0` and factor 1. A chart element mapping to zero does not permit cancellation of `α(m)^p`, and its logarithmic delta is not forced to vanish by the compatibility axiom alone. At `p=3` a boundary inertia character of order two acts by −1 on `Z₃`; p-power root covers do not remove it, so it is Kummer but not p-Kummer. At `p=2` an order-three integral matrix action on `Z₂²` gives the same negative control. These examples distinguish the corrected Laurent essential image from all Kummer local systems.
+For the semistable node `xy=π`, the relative log differential module has rank one, generated by `dlog x` with `dlog y=−dlog x`. The diagonal chart, rather than two independent base generators, forces that relation. With the trivial monoid the logarithmic targets recover the ordinary ones; the identity section has `δ_log=0` and factor 1. A chart element mapping to zero does not permit cancellation of `α(m)^p`, and its logarithmic delta is not forced to vanish by the compatibility axiom alone. At `p=3` a boundary inertia character of order two acts by −1 on `Z₃`; p-power root covers do not remove it, so it is Kummer but not p-Kummer. At `p=2`, the integer matrix `a=!![0,−1;1,−1]` has determinant one, `a³=1` and `a≠1`. Scalar extension gives an integral order-three action on `ℤ₂²`; its reduction modulo 2 still has order three. At `p=3`, `−1` modulo 3 has order two. Thus these obstructions already occur in the finite-level inertia images. These examples distinguish the corrected Laurent essential image from all Kummer local systems.
 
 **§8.3.** For p-divisible `M, ((ℤ_p{M}_δlog)^∧,M)≅(ℤ_p⟨M⟩,M)` with rank-one chart sections (K1 Example 2.10, p.9).
 
-**§8.4.** The p-adic completion of `(ℤ_(p)[x], x^N)` with `δ_log = 0` is `(ℤ_p⟨x⟩, x^N)` of rank 1. Uniqueness fails without finite generation in general: the hypothesis `I` f.g. is retained.
+**§8.4.** The p-adic completion of `(ℤ_(p)[x], x^N)` with `δ_log = 0` is `(ℤ_p⟨x⟩, x^N)` of rank 1. Completion of `(ℤ_p[x],x^N)` at `(p,x)` gives `(ℤ_p[[x]],x^N)`, whereas its p-adic completion is `(ℤ_p⟨x⟩,x^N)`: `Σx^n` lies only in the former. The completely étale map `ℤ_p→W(𝔽_(p²))` extends the zero rank-one `N` chart with Witt Frobenius. The ideal in the completion theorem is finitely generated.
 
-**§8.5.** For a log ring `(A, M)` the construction returns `(A, M)` itself. For `(ℤ_p[[u]], N → u^n)`, the associated log structure is generated by `u` and units, with `δ_log(u·v) = δ_log(v)` for `v` a unit, `δ_log(u) = 0`.
+**§8.5.** For a log ring `(A, M)` the construction returns `(A, M)` itself. For `(ℤ_p[[u]], N → u^n)`, the associated log structure is generated by `u` and units, with `δ_log(u·v) = δ_log(v)` for `v` a unit, `δ_log(u) = 0`. For the rank-one zero chart `N→ℤ_p`, logification is `N⊕ℤ_p^×`, with `δ_log(n,v)=δ(v)/v^p`. Unit directions need not have zero logarithmic delta.
 
 **§8.6.** For `(A, M) = (ℤ_p⟨x⟩, x^N)` of rank 1 and `N = x^Z`, the result is `(ℤ_p⟨x⟩[1/x], x^Z)` with `δ_log(x^{-1}) = 0`. Its separate p-completion is `(ℤ_p⟨x^{±1}⟩, x^Z)`. The algebraic localisation itself is not complete: `Σ_{n≥0}p^n x^{-n}` belongs to the completed Laurent ring but not to `ℤ_p⟨x⟩[1/x]`, whose negative exponents are bounded. For `M = N^2` with generators `x, y` and `N` generated by `M` and `t = x/y, A ⊗_{ℤ_(p)[x,y]} ℤ_(p)[y, t] = A[t]/(ty − x)`, with `δ(t) = t^p·δ_log(t)` and `δ_log(t) = (δ_log(x) − δ_log(y))/(1 + p·δ_log(y))`.
+
+For the p-completed free chart with `δ_log(x)=y₀`, extension to `x^Z` gives `δ_log(x⁻¹)=−y₀/(1+py₀)`, which is not `−y₀`.
 
 **§8.11.** For an exact surjection with `J` generated by `I` and a `(p, I)`-completely regular sequence relative to `A`, the envelope is the PrismaticCohomology Layer 0 prismatic envelope with monoid unchanged. Universality is used only for maps to bounded prisms (K1 footnote 8).
 
@@ -1977,7 +2076,7 @@ For the semistable node `xy=π`, the relative log differential module has rank o
 
 **§8.50.** For trivial log structures this is BMS2/BS22 quasisyntomic descent of derived prismatic cohomology (PrismaticCohomology Layer 2). The descent is not an ordinary flat descent on underlying rings: homologically log flat covers are required (Remark 2.46).
 
-**§8.51.** `S = O_C/p` with trivial monoid: `Δ^init = A_crys`-type envelope; trivial-log case is BS22 §7. (4) is the key input of the Kummer-étale comparison: the `φ-fixed` points do not see p-saturation.
+**§8.51.** `S = O_C/p` with trivial monoid: `Δ^init = A_crys`-type envelope; trivial-log case is BS22 §7. For `S=O_C` with trivial log structure, the initial prism is `A_inf`. For `(O_C,N[1/p]→0)`, it is the associated Fontaine log prism with zero `N[1/p]` chart; its characteristic monoid is `N[1/p]`, whereas the trivial-log case has zero characteristic. (4) is the key input of the Kummer-étale comparison: the `φ-fixed` points do not see p-saturation.
 
 **§8.53.** `i = 0: gr^0_N ≅ Fil_0 Δ̄ = R`. Trivial log structures: BS22 Theorem 15.2 (PrismaticCohomologyPartII Layer 3).
 
@@ -1999,13 +2098,13 @@ For the semistable node `xy=π`, the relative log differential module has rank o
 
 **§8.67.** `P = N: T^{1/n}` covers (Lemma 7.21). `P` trivial: the statements reduce to quasi-pro-étale covers. Excluded generality: for `P = ℤ/2Z` and `n = 2, ℚ_p⟨P⟩ = ℚ_p[t]/(t^2−1) ≅ ℚ_p × ℚ_p`. The power-map ring endomorphism `t ↦ t^2 = 1` misses the `t = −1` component on `Spd`, so it is not a surjective Log diamonds cover; the associated log structures are trivial because `P` is a group.
 
-**§8.69.** For trivial log structures and smooth `X` this is BS22 Theorem 1.8(4) (PrismaticCohomologyPartIII Layer 6). For a proper semistable formal scheme over `O_C` with canonical log structure, `H^i_qpkét` of the generic fibre (Kummer-étale `=` étale cohomology of the smooth rigid generic fibre since the log structure is trivial there) is computed by the `A_inf` log prismatic cohomology after `⊗ W(C♭)`.
+**§8.69.** For `M_A={1}` and `M_0=N→A_inf, 1↦[a]≠1` a unit, the finite stage `M_i={1}` is allowed because its associated log structure contains `[a]`. For `X₀=Spf O_C`, the comparison has `H⁰=ℤ/p^m`. Requiring the unit to lie in the raw monoid would leave no indexing stages. For trivial log structures and smooth `X` this is BS22 Theorem 1.8(4) (PrismaticCohomologyPartIII Layer 6). For a proper semistable formal scheme over `O_C` with canonical log structure, `H^i_qpkét` of the generic fibre (Kummer-étale `=` étale cohomology of the smooth rigid generic fibre since the log structure is trivial there) is computed by the `A_inf` log prismatic cohomology after `⊗ W(C♭)`.
 
 **§8.72.** The `p^a`-root permutation representation has p-group inertia image, while the nontrivial prime-to-p `n`-root permutation representation has image cyclic of order `n` and fails. At each finite coefficient level the trivial representation has trivial (hence p-group) image. A nontrivial arithmetic unramified action with trivial local boundary inertia is allowed: only local log inertia is tested.
 
 **§8.74.** Trivial generic log structure: every ordinary `ℤ_p`-local system is p-Kummer, recovering the ordinary PrismaticCohomologyPartIII Layer 7 equivalences. The permutation local system `π_*ℤ_p` for a `p^a`-root cover of a geometric log disc `(a≥1)` has rank `p^a` and is p-Kummer, so it lies in the essential image. For an `n`-root cover with `n>1` and `gcd(n,p)=1`, the rank-n permutation local system has nontrivial prime-to-p inertia and is not p-Kummer. It is outside the essential image; the unrestricted preprint theorem would incorrectly include it.
 
-**§8.75.** For `f` the identity, `(O_Δ)_ét = ℤ_p`. Trivial log structures: the relative form of BS F-crystals Corollary 3.8 with smooth proper pushforward (PrismaticCohomologyPartIII Layer 7).
+**§8.75.** The finite prime-to-p root map of formal log discs, `T↦U^n` with `n>1` and `(n,p)=1`, is proper, integral and log étale, but is not saturated: its characteristic chart is `N→N, 1↦n`. Its rank-n permutation pushforward has prime-to-p inertia and fails the p-Kummer criterion. For `f` the identity, `(O_Δ)_ét = ℤ_p`. Trivial log structures: the relative form of BS F-crystals Corollary 3.8 with smooth proper pushforward (PrismaticCohomologyPartIII Layer 7).
 
 **§8.76.** Trivial log structures: the analogous statement of BMS1 Theorem 1.8(iii) via BS22 Theorem 17.2 (PrismaticCohomologyPartII Layer 5 and AInfCohomology Layer AI.5). For `X = Spf O_C`: both sides are `A_inf[1/φ^{-1}(μ)]` in degree 0.
 

@@ -86,6 +86,15 @@ example (h : ∀ m, δ (α m) = 0) :
     (rankOne (p := p) h).IsRankOne ∧ ∀ m, (rankOne (p := p) h).deltaLog m = 0 := by
   exact ⟨rfl, fun _ => rfl⟩
 
+/-- `Log.DeltaLogStructure.nonzero_logDelta_witness` provides a zero chart on `ℤ`
+with a nonzero logarithmic delta at `p = 2`:
+`δ_log(ofAdd n) = (3^n - 1)/2` has values one and four on the first two powers. -/
+example : ∃ s : DeltaLogStructure 2
+    (fun z : ℤ ↦ (z - z ^ 2) / 2) (powersHom ℤ 0),
+    s.deltaLog (Multiplicative.ofAdd 1) = 1 ∧
+    s.deltaLog (Multiplicative.ofAdd 2) = 4 := by
+  sorry
+
 end DeltaLogStructure
 
 /-- The correction factor is multiplicative: the cross term `p·δ_log(m)·δ_log(n)` is what makes
@@ -158,6 +167,11 @@ variable {M p}
 theorem perfectRing_isPerfectoid [PerfectRing M p] : IsPerfectoid M p := by
   sorry
 
+/-- Unique p-divisibility descends to the associates quotient: the inverse power
+map preserves units and induces the inverse on the quotient. -/
+theorem perfectRing_associates [PerfectRing M p] : PerfectRing (Associates M) p := by
+  sorry
+
 /-- Perfectoid monoids are pseudo-perfectoid. -/
 theorem IsPerfectoid.perfectRing_associates (h : IsPerfectoid M p) : PerfectRing (Associates M) p := by
   sorry
@@ -220,6 +234,23 @@ example : (2 : ℤ) ∈ AddSubgroup.zmultiples (2 : ℤ) ∧
 
 end LogQDeRham
 
+/-! ### §§8.71–8.72 Small-prime inertia controls -/
+
+/-- At `p = 3`, the sign character retains order two modulo `p`. -/
+example : (-1 : ZMod 3) ^ 2 = 1 ∧ (-1 : ZMod 3) ≠ 1 := by
+  decide
+
+/-- A determinant-one integer matrix has order three; scalar extension gives an
+integral order-three action on `ℤ₂²`. -/
+example : let a : Matrix (Fin 2) (Fin 2) ℤ := !![0, -1; 1, -1]
+    a.det = 1 ∧ a ^ 3 = 1 ∧ a ≠ 1 := by
+  sorry
+
+/-- Reduction modulo two retains order three, so its image is not a two-group. -/
+example : let a : Matrix (Fin 2) (Fin 2) (ZMod 2) := !![0, -1; 1, -1]
+    a.det = 1 ∧ a ^ 3 = 1 ∧ a ≠ 1 := by
+  sorry
+
 /-! ### §8.76a The divided-power contraction exponent -/
 
 namespace LogPDDeformation
@@ -228,7 +259,8 @@ namespace LogPDDeformation
 -- `Nat.Prime.emultiplicity_factorial_mul` this gives `v_p((r p^n)!/r!) = r·e(n)`.
 #check @Nat.Prime.multiplicity_factorial_pow
 
-/-- At `p = 2` the first two contraction exponents are one and three: `φ(t) = 2γ₂(t)` and
+/-- For a positive chart monomial `t`, at `p = 2` the first two contraction exponents are
+one and three: `φ(t) = 2γ₂(t)` and
 `φ²(t) = 24γ₄(t)`. The exponent grows like `2^n - 1`, not like `n`. -/
 example : 2 ∣ Nat.factorial 2 ∧ ¬ 4 ∣ Nat.factorial 2 ∧
     8 ∣ Nat.factorial 4 ∧ ¬ 16 ∣ Nat.factorial 4 := by decide
@@ -246,7 +278,9 @@ diamonds and condensed coefficients) are not at the pins.
 
 * §§8.0–8.0d: algebraic Witt–Frobenius modules and the solution functor, formal integral
   logarithmic charts, `FormalLog.IsSmooth`, the completed log cotangent complex, completed log PD
-  envelopes and the big formal log crystalline site.
+  envelopes and the big formal log crystalline site, including its continuous compatible PD
+  data. Derived complete flatness of smooth charts uses the stated completion comparison
+  (bounded base p-power torsion in the p-adic case).
 * §§8.3–8.13: free δ_log-rings, completions, associated log structures, extension to `M^gp`,
   exactification of δ_log-triples, prelog and log prisms, the standard prelog prisms, prelog and
   log prismatic envelopes and their flatness.
@@ -260,10 +294,13 @@ diamonds and condensed coefficients) are not at the pins.
 * §§8.43–8.58: log quasisyntomic sites and log quasiregular semiperfectoid rings (supplied by
   CrystallineCohomology §§CR.DDR.6.15–CR.DDR.6.17), derived log prismatic cohomology, initial log prisms, the log
   Nygaard filtration and its comparisons, and Breuil–Kisin log cohomology.
+  `DerivedLogPrismatic.logificationCotangent` supplies unrestricted cotangent logification
+  through the free resolutions.
 * §§8.59–8.75: Kummer-étale sites of fs log schemes and log adic spaces, completed untilt sheaves
   and profinite coefficients, log diamonds, the quasi-pro-Kummer-étale site, the Kummer-étale
   comparison, Kummer-étale and p-Kummer local systems, Laurent F-crystals and the corrected
-  Laurent realization, and smooth proper pushforward.
+  Laurent realization, and proper smooth saturated pushforward with the Cartier-type mod-p
+  hypothesis in applications of the global comparison.
 * §§8.76–8.79: the étale comparison over `A_inf[1/φ⁻¹(μ)]`, the log PD deformation base and
   Frobenius rigidity, the Hyodo–Kato isomorphism over `A_crys`, Breuil–Kisin–Fargues modules,
   and the standard semistable chart.
@@ -288,7 +325,6 @@ Named README targets and Checks whose carriers require the constructions above:
   `Log.DeltaLogStructure.frobenius_iterate_alpha`
   `Log.DeltaLogStructure.invertGenerator_completion`
   `Log.DeltaLogStructure.monoidAlgebra_rankOne`
-  `Log.DeltaLogStructure.nonzero_logDelta_witness`
   `Log.DeltaLogStructure.not_any_map`
   `Log.DeltaLogStructure.pdivisible_rankOne`
   `Log.DeltaLogStructure.trivialLog_deltaLog`
