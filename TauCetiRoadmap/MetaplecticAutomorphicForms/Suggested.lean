@@ -636,6 +636,12 @@ noncomputable def genusTwoTheta (a : ℕ) (ν : Fin 2 → ℤ) (Z : Matrix (Fin 
   ∑' R : Fin 2 → ℤ, if ∀ i, Int.ModEq (2 * (a : ℤ)) (R i) (ν i) then
     expTwoPi (quad Z (fun i => (R i : ℂ)) / (4 * a) + (fun i => (R i : ℂ)) ⬝ᵥ W) else 0
 
+/-- Reflection of both the residue and elliptic variables preserves the actual theta series
+(8.18). -/
+example (a : ℕ) (ha : 0 < a) (ν : Fin 2 → ℤ) (Z : SiegelSpace) (W : Fin 2 → ℂ) :
+    genusTwoTheta a (-ν) Z.1 (-W) = genusTwoTheta a ν Z.1 W := by
+  sorry
+
 /-- **Quasi-periodicity** (8.18): `θ(Z, W) = e(a(Z[λ] + 2Wᵀλ)) θ(Z, W + Zλ + ρ)` for integral
 `λ, ρ`. -/
 theorem genusTwoTheta_elliptic (a : ℕ) (ha : 0 < a) (ν l r : Fin 2 → ℤ) (Z : SiegelSpace)
@@ -657,9 +663,33 @@ theorem theta_fourier_transform (a : ℕ) (ha : 0 < a) (Z : SiegelSpace) (W : Fi
             genusTwoTheta a (fun i => ((μ i : ℕ) : ℤ)) Z.1 W := by
   sorry
 
-/-- At `Z = iI₂`, `a = 1`, `W = 0`, `ν = 0` the left side of the inversion is `θ(2i)²` for
-Mathlib's `jacobiTheta`, since `−(iI₂)⁻¹ = iI₂` and only even vectors contribute. -/
-example : genusTwoTheta 1 0 (-(SiegelSpace.base.1)⁻¹) 0 = jacobiTheta (2 * Complex.I) ^ 2 := by
+/-- At the base point, theta inversion identifies the actual series, its finite residue sum,
+and one half of `jacobiTheta (i/2)²` (8.24). -/
+example :
+    genusTwoTheta 1 0 (-(SiegelSpace.base.1)⁻¹) 0 = jacobiTheta (2 * Complex.I) ^ 2 ∧
+    genusTwoTheta 1 0 (-(SiegelSpace.base.1)⁻¹) 0 =
+      (1 / 2 : ℂ) * (∑ μ : Fin 2 → Fin 2,
+        genusTwoTheta 1 (fun i => ((μ i : ℕ) : ℤ)) SiegelSpace.base.1 0) ∧
+    (1 / 2 : ℂ) * (∑ μ : Fin 2 → Fin 2,
+        genusTwoTheta 1 (fun i => ((μ i : ℕ) : ℤ)) SiegelSpace.base.1 0) =
+      (1 / 2 : ℂ) * jacobiTheta (Complex.I / 2) ^ 2 := by
+  sorry
+
+/-- The normalized finite Fourier matrix at `a=1` squares to the identity on the four actual
+residue vectors, since residue negation is trivial modulo two (8.24). -/
+example (ν κ : Fin 2 → Fin 2) :
+    (∑ μ : Fin 2 → Fin 2,
+      (expTwoPi (-(∑ i, ((ν i : ℕ) : ℂ) * ((μ i : ℕ) : ℂ)) / 2) / 2) *
+      (expTwoPi (-(∑ i, ((μ i : ℕ) : ℂ) * ((κ i : ℕ) : ℂ)) / 2) / 2)) =
+      if ν = κ then (1 : ℂ) else 0 := by
+  sorry
+
+/-- For `W=(1,0)` at the base point the inversion phase is `exp(2π)`, different from one
+(8.24). -/
+example :
+    quad SiegelSpace.base.1⁻¹ ![1, 0] = -Complex.I ∧
+    expTwoPi (-Complex.I) = Complex.exp (2 * (Real.pi : ℂ)) ∧
+    expTwoPi (-Complex.I) ≠ 1 := by
   sorry
 
 /-- **Gaussian orthogonality** (8.21): with ordinary Lebesgue measure on `ℂ²`, written as
