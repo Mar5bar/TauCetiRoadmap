@@ -41,6 +41,27 @@ example : Nonempty (torsionColimit
     ((Functor.const ℕ).obj (ModuleCat.of R R)) ≃ₗ[R] R) := by
   sorry
 
+/-- README 1.1, circle_killed: the actual constant-module diagram has transition
+from i to j given by multiplication by p^(j-i), so its fixed-exponent colimit vanishes. -/
+example (p s : ℕ) : Subsingleton (Module.DirectLimit
+    (fun _ : ℕ => ZMod (p ^ s))
+    (fun i j _ => LinearMap.mulLeft (ZMod (p ^ s)) ((p : ZMod (p ^ s)) ^ (j - i)))) := by
+  sorry
+
+/-- README 1.1, locally_constant_not_all: pullback along the quotient reductions gives
+precisely locally constant functions; the singleton indicator is excluded. -/
+example :
+    let f := fun i j (h : i ≤ j) => LinearMap.funLeft (ZMod 2) (ZMod 2)
+      (ZMod.castHom (pow_dvd_pow 2 h) (ZMod (2 ^ i)) : ZMod (2 ^ j) → ZMod (2 ^ i))
+    (∃ e : Module.DirectLimit (fun n : ℕ => ZMod (2 ^ n) → ZMod 2) f ≃ₗ[ZMod 2]
+        LocallyConstant ℤ_[2] (ZMod 2),
+      ∀ n v x, e (Module.DirectLimit.of (ZMod 2) ℕ
+        (fun n => ZMod (2 ^ n) → ZMod 2) f n v) x = v (PadicInt.toZModPow n x)) ∧
+    ¬ IsLocallyConstant (by
+      classical
+      exact fun x : ℤ_[2] => if x = 0 then (1 : ZMod 2) else 0) := by
+  sorry
+
 -- The exact-colimit input is already provided by Tau Ceti.
 #check TauCeti.moduleCat_ab5OfSize
 
@@ -72,6 +93,12 @@ example : Subsingleton (coefficientLimit
     ((Functor.const ℕᵒᵖ).obj (TopModuleCat.of R (Fin 0 → R)))) := by
   sorry
 
+/-- README 2.1, point_completion: a constant scalar topological diagram has the
+scalar topological module as its limit. -/
+example : Nonempty (coefficientLimit
+    ((Functor.const ℕᵒᵖ).obj (TopModuleCat.of ℤ_[2] ℤ_[2])) ≃L[ℤ_[2]] ℤ_[2]) := by
+  sorry
+
 end CoefficientLimit
 
 /-- Clause (1) of roadmap 2.5 (Pan 2022, Lemma 4.4.4 and its proof). For a bounded-above cochain
@@ -88,11 +115,49 @@ theorem homology_hom_away_eq_zero {O : Type} [CommRing O] (ϖ : O)
     (f : Localization.Away ϖ →ₗ[O] M.homology i) : f = 0 := by
   sorry
 
-/-- Check of roadmap 2.5 for `[O → O]` with differential `p`: the image of `p ^ n` in
-`ZMod (p ^ n)` is zero, so the transitions of `H^0(M / p^(n+1)) = p^n O / p^(n+1)` vanish and
-their limit is `0 = H^0(M)`. -/
-example (p n : ℕ) : ((p : ZMod (p ^ n)) ^ n) = 0 := by
-  rw [← Nat.cast_pow, ZMod.natCast_self]
+/-- README 2.5: reduction from exponent n+1 to n kills the source kernel of
+multiplication by p; this is the actual induced transition on degree-zero cohomology. -/
+example (p n : ℕ) (hp : p.Prime) (_hn : 1 ≤ n) :
+    let r : ZMod (p ^ (n + 1)) →+* ZMod (p ^ n) :=
+      ZMod.castHom (pow_dvd_pow p (Nat.le_succ n)) _
+    let K := (LinearMap.mulLeft (ZMod (p ^ (n + 1)))
+      (p : ZMod (p ^ (n + 1)))).ker
+    r.toAddMonoidHom.comp K.subtype.toAddMonoidHom = 0 := by
+  dsimp only
+  ext x
+  let a : ZMod (p ^ (n + 1)) := x
+  have : NeZero (p ^ (n + 1)) := ⟨pow_ne_zero _ hp.ne_zero⟩
+  have hx : (p : ZMod (p ^ (n + 1))) * a = 0 := x.property
+  have hd : p ^ (n + 1) ∣ p * a.val := by
+    apply (ZMod.natCast_eq_zero_iff _ _).mp
+    simpa only [Nat.cast_mul, ZMod.natCast_zmod_val] using hx
+  have hv : p ^ n ∣ a.val := by
+    have he : p * p ^ n = p ^ (n + 1) :=
+      (mul_comm p (p ^ n)).trans (pow_succ p n).symm
+    exact (Nat.mul_dvd_mul_iff_left hp.pos).mp ((dvd_of_eq he).trans hd)
+  change ZMod.castHom (pow_dvd_pow p (Nat.le_succ n)) (ZMod (p ^ n)) a = 0
+  rw [← ZMod.natCast_zmod_val a, map_natCast]
+  exact (ZMod.natCast_eq_zero_iff _ _).mpr hv
+
+/-- README 2.5: compatible sections of these multiplication kernels form the zero
+inverse limit, since every consecutive restricted reduction is zero. -/
+example (p : ℕ) (hp : p.Prime)
+    (x : ∀ n : ℕ, ZMod (p ^ (n + 1)))
+    (hx : ∀ n, (p : ZMod (p ^ (n + 1))) * x n = 0)
+    (hcompat : ∀ n, ZMod.castHom
+      (pow_dvd_pow p (Nat.le_succ (n + 1))) (ZMod (p ^ (n + 1))) (x (n + 1)) = x n) :
+    x = 0 := by
+  funext n
+  have : NeZero (p ^ (n + 1 + 1)) := ⟨pow_ne_zero _ hp.ne_zero⟩
+  have hd : p ^ (n + 1 + 1) ∣ p * (x (n + 1)).val := by
+    apply (ZMod.natCast_eq_zero_iff _ _).mp
+    simpa only [Nat.cast_mul, ZMod.natCast_zmod_val] using hx (n + 1)
+  have he : p * p ^ (n + 1) = p ^ (n + 1 + 1) :=
+    (mul_comm p (p ^ (n + 1))).trans (pow_succ p (n + 1)).symm
+  have hv : p ^ (n + 1) ∣ (x (n + 1)).val :=
+    (Nat.mul_dvd_mul_iff_left hp.pos).mp ((dvd_of_eq he).trans hd)
+  rw [← hcompat n, ← ZMod.natCast_zmod_val (x (n + 1)), map_natCast]
+  exact (ZMod.natCast_eq_zero_iff _ _).mpr hv
 
 /-! ## Layer 3: continuous duals and contragredients -/
 
@@ -147,7 +212,8 @@ example :
 
 /-! ## Layer 4: completed finite-cell models
 
-The arithmetic finite-cell milestones require carriers supplied by the README. -/
+The arithmetic finite-cell milestones require carriers supplied by the README. Cochains with
+W₀ are the continuous dual of the chain model with W₀∨, with inverse-precomposition action. -/
 
 /-- README 4.4 and 6.3: a coefficient twist starts with the scalar model. Twisting an already
 rank-two coefficient space again gives the wrong rank. -/
@@ -262,12 +328,42 @@ example : (-1 : ℤ_[2]) ≠ 1 ∧ (-1 : ZMod 2) = 1 := by
 /- Layer 8. The algebraic inverse-limit and residual factor milestones.
 The topology and the arithmetic derived-image diagram remain README targets. -/
 
+/-- The coefficient-reduction diagram with object ZMod(p^(n+1)), used in
+completedHecke_scalar (README 8.10). Its maps are the actual quotient ring homomorphisms. -/
+def coefficientRingDiagram (p : ℕ) : ℕᵒᵖ ⥤ CommRingCat where
+  obj n := CommRingCat.of (ZMod (p ^ (unop n + 1)))
+  map {i j} f := CommRingCat.ofHom (ZMod.castHom
+    (pow_dvd_pow p (Nat.succ_le_succ (leOfHom f.unop))) (ZMod (p ^ (unop j + 1))))
+  map_id _ := by apply CommRingCat.hom_ext; exact Subsingleton.elim _ _
+  map_comp _ _ := by apply CommRingCat.hom_ext; exact Subsingleton.elim _ _
+
+/-- README 8.8, derivedHeckeDiagram_intertwiner_insufficient: the two evaluation
+images admit a zero module intertwiner, but no image-ring map preserves every abstract
+polynomial class. Evaluating X distinguishes the quotient kernels. -/
+example (k : Type) [Field k] :
+    ¬ ∃ φ : k →+* k, φ.comp (Polynomial.evalRingHom (0 : k)) =
+      Polynomial.evalRingHom (1 : k) := by
+  rintro ⟨φ, hφ⟩
+  have h := DFunLike.congr_fun hφ (Polynomial.X : Polynomial k)
+  simp only [RingHom.comp_apply, Polynomial.coe_evalRingHom,
+    Polynomial.eval_X, map_zero] at h
+  exact zero_ne_one h
+
 /-- The native commutative-ring limit of supplied finite Hecke images (README 8.10). -/
 abbrev completedHecke (F : ℕᵒᵖ ⥤ CommRingCat) : CommRingCat := limit F
 
 /-- Evaluation is the existing ring-limit projection. -/
 abbrev completedHecke_eval (F : ℕᵒᵖ ⥤ CommRingCat) (j : ℕᵒᵖ) :
     completedHecke F →+* F.obj j := (limit.π F j).hom
+
+/-- README 8.10, completedHecke_scalar: the coefficient ring limit is the existing
+p-adic integers, and each evaluation is its usual residue map. -/
+example (p : ℕ) [Fact p.Prime] :
+    ∃ e : completedHecke (coefficientRingDiagram p) ≃+* ℤ_[p],
+      ∀ (x : completedHecke (coefficientRingDiagram p)) (n : ℕ),
+        PadicInt.toZModPow (n + 1) (e x) =
+          completedHecke_eval (coefficientRingDiagram p) (op n) x := by
+  sorry
 
 /-- The constant scalar diagram recovers its scalar ring, including its ring structure. -/
 example (O : Type) [CommRing O] :
@@ -402,6 +498,42 @@ theorem completedLocalization_algebraic {T M : Type} [CommRing T]
       LinearMap.range (e • LinearMap.id : M →ₗ[T] M)) := by
   sorry
 
+/-- README 8.12, residualProjector_product: the two nonzero orthogonal projectors
+sum to one; the full list of idempotents shows that both are primitive. -/
+example :
+    let e₁ : ℤ_[2] × ℤ_[2] := (1, 0)
+    let e₂ : ℤ_[2] × ℤ_[2] := (0, 1)
+    IsIdempotentElem e₁ ∧ IsIdempotentElem e₂ ∧ e₁ ≠ 0 ∧ e₂ ≠ 0 ∧
+      e₁ * e₂ = 0 ∧ e₁ + e₂ = 1 ∧
+      (∀ e : ℤ_[2] × ℤ_[2], IsIdempotentElem e ↔
+        e = 0 ∨ e = e₁ ∨ e = e₂ ∨ e = 1) := by
+  sorry
+
+/-- README 8.12, residualProjector_local: the unique maximal ideal of Z₂ supports
+projector one, and no other nonzero idempotent exists. -/
+example :
+    (∀ m : MaximalSpectrum ℤ_[2], m.asIdeal = IsLocalRing.maximalIdeal ℤ_[2]) ∧
+    (∀ m n : MaximalSpectrum ℤ_[2], (1 : ℤ_[2]) ∈ n.asIdeal ↔ n ≠ m) ∧
+    (∀ e : ℤ_[2], IsIdempotentElem e → e = 0 ∨ e = 1) := by
+  sorry
+
+/-- README 8.12, residualProjector_congruent_characters: the congruent-character
+subring excludes the rational first-coordinate projector. -/
+example : ((1, 0) : ℤ_[2] × ℤ_[2]) ∉ RingHom.eqLocus
+    ((PadicInt.toZMod : ℤ_[2] →+* ZMod 2).comp (RingHom.fst ℤ_[2] ℤ_[2]))
+    ((PadicInt.toZMod : ℤ_[2] →+* ZMod 2).comp (RingHom.snd ℤ_[2] ℤ_[2])) := by
+  simp [RingHom.eqLocus]
+
+/-- README 8.13, completedLocalization_product: the first continuous coordinate
+projector has precisely Z₂ × {0} as its range and excludes (0,1). -/
+example :
+    let P : (ℤ_[2] × ℤ_[2]) →L[ℤ_[2]] (ℤ_[2] × ℤ_[2]) :=
+      (ContinuousLinearMap.inl ℤ_[2] ℤ_[2] ℤ_[2]).comp
+        (ContinuousLinearMap.fst ℤ_[2] ℤ_[2] ℤ_[2])
+    IsIdempotentElem P ∧ (∀ x, x ∈ P.range ↔ x.2 = 0) ∧
+      ((0, 1) : ℤ_[2] × ℤ_[2]) ∉ P.range := by
+  sorry
+
 /- README-only definitions and milestones, in layer order.
 
 Native colimit specialization, README 1.1: torsionColimit_of, torsionColimit_eq,
@@ -448,9 +580,9 @@ algebraic coefficient untwisting; classical evaluation; lowest-degree edge compa
 derived analytic comparison.
 Layer 7: derived completed support triangle; ordinary and compact-support sequence;
 homological support sequence; arithmetic interior cohomology and image-limit obstruction;
-completed Iwasawa–Poincaré duality; boundary Levi induction; boundary-vanishing comparison.
-Layer 8: effective central quotient; canonical selected-family towers; Hilbert/quaternionic
-local-system input; modularCompletedComparison, siegelCompletedComparison,
+completed Iwasawa–Poincaré duality; completedParabolicInduction on complete lattices and boundary Levi induction; boundary-vanishing comparison.
+Layer 8: effective central quotient; specialization of supplied canonical towers; assembly of supplied Hilbert/quaternionic
+coefficient comparisons; modularCompletedComparison, siegelCompletedComparison,
 unitaryCompletedComparison, hilbertCompletedComparison; definiteUnitaryDegreeZeroComparison;
 scholzeFixedExponentComparison; arithmetic transportedAction; derivedHeckeDiagram;
 residual support stability over noncommutative finite p-group rings; the topology, density and
