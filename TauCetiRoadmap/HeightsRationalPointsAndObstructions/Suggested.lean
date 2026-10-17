@@ -169,7 +169,8 @@ example : logHeight ![(2 : ℚ), 1] = Real.log 2 := by sorry
 
 /-! ## Layer 1: Mordell–Weil on native abelian-variety points -/
 
-/-- The additive form of the native group of L-points of an abelian variety over K. -/
+/-- The native additive group of L-points over K, with its number-field interface supplied by
+SelmerIwasawaCohomology §2.12a. -/
 abbrev AbelianVariety.Points {K : Type u} [Field K]
     (A : TauCeti.AlgebraicGeometry.AbelianVariety K)
     (L : Type u) [Field L] [Algebra K L] : Type u :=
@@ -182,7 +183,8 @@ example (P : Points A K) : (-P) + P = 0 := by simp
 example (P : Points A K) : 2 • P = P + P := by simp [two_nsmul]
 example (P : Points A K) : (0 : Points A K) + P = P := by simp
 
-/-- The point-level kernel of multiplication by n; no geometric torsion scheme is replaced. -/
+/-- The native point-level multiplication kernel, with its number-field interface supplied by
+SelmerIwasawaCohomology §2.12a. -/
 def torsion (n : ℕ) (L : Type u) [Field L] [Algebra K L] : AddSubgroup (Points A L) :=
   (nsmulAddMonoidHom n : Points A L →+ Points A L).ker
 
@@ -332,9 +334,14 @@ functional; CasselsTate.biextension_comparison (torsor/divisor and Poincaré rea
 of the supplied cohomological pairing), BrauerPic0 and BrauerPic0_n; PencilSelmerOrbit,
 oriented ideals, the isogeny Q invariant and realEffectiveFraction.
 
-SelmerIwasawaCohomology §2.12a supplies the number-field abelianKummer,
+SelmerIwasawaCohomology §2.12a supplies the number-field interfaces for the native
+AbelianVariety.Points and AbelianVariety.torsion specializations above, together with abelianKummer,
 kummerSelmerStructure, abelianSelmerGroup, abelianSha, abelian_localH1_comparison,
 abelianDescent_exact and abelianSelmerGroup_finite, with all local Kummer conditions.
+It supplies the antilinear real-conjugation adapter for complex uniformization: compatibility
+with the exponential and its kernel lattice, Galois-equivariance on lattice torsion and
+compatibility with Poincaré duality and conjugation on roots of unity. Sections 1.0a and 1.3–1.5
+consume these interfaces on the native points, retaining all real two-primary conditions.
 The arbitrary-field fppf map specializes to these carriers. It also supplies finite Selmer
 and reduced primary carriers, finiteCotype_primaryDecomposition, KummerLocal.dual_annihilator
 and KummerLocal.globalPlusLocal. Its §4.29 supplies CasselsTate and
