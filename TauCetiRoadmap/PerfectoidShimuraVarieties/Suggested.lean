@@ -119,7 +119,7 @@ variable {g : Type*} [Fintype g] [DecidableEq g] {R : Type*} [CommRing R]
 /-- Symmetric-matrix portion of the Siegel chart; graphDistanceDomain supplies its pointwise distance subset, before its analytic affinoid realization. -/
 def siegelGraphChart := {Z : Matrix g g R // Zᵀ = Z}
 
-/-- The quotient frame represented by the row matrix (1,Z), before analytic pullback. -/
+/-- The quotient frame represented by the row matrix `(1,Z)`, before analytic pullback. -/
 def hodgeFrame (Z : Matrix g g R) : ((g ⊕ g) → R) →ₗ[R] (g → R) :=
   (fromCols 1 Z).mulVecLin
 
@@ -139,7 +139,7 @@ has distinct first rows. This witnesses why the pinned lower parabolic is essent
 example : let u : Matrix (Fin 2) (Fin 2) ℚ := !![1, 1; 0, 1]
     u 0 1 = 1 ∧ (1 : Matrix (Fin 2) (Fin 2) ℚ) 0 1 = 0 ∧ u 1 0 = 0 := by decide
 
-/-- Test hodge_frame_similitude, genus-one coefficient: the dual W factor is a/c=1/d.
+/-- Test hodge_frame_similitude, genus-one coefficient: the dual `W` factor is `a/c=1/d`.
 This tests the additional multiplier, not a natural untwisted Tate linearization. -/
 example {K : Type*} [Field K] (a d : K) (ha : a ≠ 0) (hd : d ≠ 0) :
     (a * d)⁻¹ * a = d⁻¹ := sorry
@@ -153,13 +153,13 @@ variable {g : Type*} [Fintype g] [DecidableEq g] (p : ℕ) [Fact p.Prime]
 variable (K : Type*) [NormedField K] [NormedAlgebra ℚ_[p] K]
 
 /-- Pointwise distance-to-integral domain over a normed p-adic extension. This is an actual
-subset of matrices, not an analytic affinoid carrier. Distance is from all of ℤ_p. -/
+subset of matrices, not an analytic affinoid carrier. Distance is from all of `ℤ_p`. -/
 def graphDistanceDomain (r : ℝ) : Set (Matrix g g K) :=
   {Z | Zᵀ = Z ∧ ∀ i j, Metric.infDist (Z i j)
     (Set.range (fun x : ℤ_[p] => algebraMap ℚ_[p] K (x : ℚ_[p]))) ≤ r}
 
 /-- At radius zero, the compact embedded integral subset is recovered. Over an extension,
-a norm-at-most-one element need not lie in the image of ℤ_p. -/
+a norm-at-most-one element need not lie in the image of `ℤ_p`. -/
 theorem graphDistanceDomain_zero (Z : Matrix g g K) :
     Z ∈ graphDistanceDomain p K 0 ↔ Zᵀ = Z ∧
       ∀ i j, ∃ x : ℤ_[p], algebraMap ℚ_[p] K (x : ℚ_[p]) = Z i j := sorry
@@ -203,8 +203,8 @@ open Matrix
 variable {R : Type*} [CommRing R]
 
 
-/-- Matrix portion of the Hilbert level action: precompose the level map with γ^∨.
-This is a left action; it lies over the right tower translation by γ^∨. -/
+/-- Matrix portion of the Hilbert level action: precompose the level map with `γ^∨`.
+This is a left action; it lies over the right tower translation by `γ^∨`. -/
 def levelAction (γ : GL (Fin 2) R) (α : Matrix (Fin 2) (Fin 2) R) : Matrix (Fin 2) (Fin 2) R :=
   α * (TauCeti.adjugateGL γ : Matrix (Fin 2) (Fin 2) R)
 
@@ -216,7 +216,7 @@ theorem levelAction_mul (γ δ : GL (Fin 2) R) (α : Matrix (Fin 2) (Fin 2) R) :
 theorem pairingCoefficient_level (γ : GL (Fin 2) R) (α : Matrix (Fin 2) (Fin 2) R) :
     (levelAction γ α).det = (γ : Matrix (Fin 2) (Fin 2) R).det * α.det := sorry
 
-/-- Change of the target generator β to uβ divides its pairing coefficient by u. -/
+/-- Change of the target generator `β` to `uβ` divides its pairing coefficient by `u`. -/
 def pairingChangeGenerator (u : Rˣ) (coefficient : R) : R := (u⁻¹ : Rˣ) * coefficient
 
 /-- Changing the chosen torsion generator by a unit divides its pairing coordinate by that unit. -/
@@ -224,12 +224,12 @@ theorem pairingCoefficient_changeGenerator (u : Rˣ) (coefficient : R) :
     (u : R) * pairingChangeGenerator u coefficient = coefficient := sorry
 
 
-/-- Test levelAction_adjugate: diagonal (a,d) dualizes to diagonal (d,a). -/
+/-- Test levelAction_adjugate: diagonal `(a,d)` dualizes to diagonal `(d,a)`. -/
 example (γ : GL (Fin 2) R) (a d : R) (hγ : (γ : Matrix (Fin 2) (Fin 2) R) = !![a, 0; 0, d]) :
     (TauCeti.adjugateGL γ : Matrix (Fin 2) (Fin 2) R) = !![d, 0; 0, a] := sorry
 
 /-- Test levelAction_vs_rightTranslation, matrix portion: the multiplier is the dual,
-which is not γ for a nonscalar diagonal. -/
+which is not `γ` for a nonscalar diagonal. -/
 example : (6 : ℚ) • (!![2, 0; 0, 3] : Matrix (Fin 2) (Fin 2) ℚ)⁻¹ ≠
     (!![2, 0; 0, 3] : Matrix (Fin 2) (Fin 2) ℚ) := sorry
 
@@ -247,13 +247,13 @@ end HilbertTower.Coefficients
 
 /-! ### Conditional double-coset identity
 
-The two factorizations of H are additional hypotheses. A rational Iwahori decomposition
+The two factorizations of `H` are additional hypotheses. A rational Iwahori decomposition
 does not supply them for a parabolic defined only over a splitting field.
 -/
 
 namespace AnalyticLevelGroup
 
-/-- If H factors in both parabolic/opposite-unipotent orders and t lies in P and normalises the opposite subgroup, the parabolic part of HtH equals (H∩P)t(H∩P). -/
+/-- If `H` factors in both parabolic/opposite-unipotent orders and `t` lies in `P` and normalises the opposite subgroup, the parabolic part of `HtH` equals `(H∩P)t(H∩P)`. -/
 theorem doubleCoset_inf_parabolic {G : Type*} [Group G] (P Ubar H : Subgroup G)
     (hPU : P ⊓ Ubar = ⊥) (t : G) (htP : t ∈ P) (ht : ∀ u ∈ Ubar, t⁻¹ * u * t ∈ Ubar)
     (hfac : ∀ h ∈ H, ∃ a ∈ H ⊓ P, ∃ b ∈ H ⊓ Ubar, h = a * b)
@@ -267,9 +267,9 @@ example {G : Type*} [Group G] (P : Subgroup G) (u : G) : u * 1 * u⁻¹ ∈ P :=
 
 end AnalyticLevelGroup
 
-/-- With P trivial and H and the opposite subgroup equal to G, the two factorizations
-hold. For t different from 1 the parabolic-membership premise holds with k = t⁻¹, k′ = 1,
-but the conclusion fails. Thus the condition t ∈ P is necessary. -/
+/-- With `P` trivial and `H` and the opposite subgroup equal to `G`, the two factorizations
+hold. For `t` different from `1` the parabolic-membership premise holds with `k = t⁻¹, k′ = 1`,
+but the conclusion fails. Thus the condition `t ∈ P` is necessary. -/
 example {G : Type*} [Group G] (t : G) (ht : t ≠ 1) :
     t⁻¹ * t * 1 ∈ (⊥ : Subgroup G) ∧
       ¬ (∃ a ∈ (⊥ : Subgroup G), ∃ a' ∈ (⊥ : Subgroup G),
