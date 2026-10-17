@@ -415,7 +415,7 @@ Reconstruct the bundle from a locally
 free finite-rank O-module using local bases. Prove the section/reconstruction
 equivalence, including morphisms and pullbacks, on these actual carriers.
 K4 supplies the holomorphic bundle and holomorphic-connection carriers for
-FormalConnectionsOpers F2.4's analytification comparison. F2.4 owns the
+[FormalConnectionsOpers F2.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c9f4ac867e9f22bbf6f71d6f5c4a361ab9f0e622/TauCetiRoadmap/FormalConnectionsOpers/README.md)'s analytification comparison. F2.4 owns the
 algebraic-to-holomorphic comparison, consuming K1's manifold inverse/implicit
 function theorem; K4 does not construct algebraic analytification.
 
@@ -1269,7 +1269,7 @@ the nonzero first spectral differential and the failure of an additive Hodge dec
 on this compact complex manifold. Own the Heisenberg group and lattice, the
 freeness and proper discontinuity of its holomorphic lattice action, and
 cocompactness. Consume #279 Milestone 4 for the quotient complex manifold and
-its projection/descent API; build the cohomology-comparison prerequisites here. Consume LieGroupoidsPoisson G1.3's all-degree real
+its projection/descent API; build the cohomology-comparison prerequisites here. Consume [LieGroupoidsPoisson G1.3](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1050)'s all-degree real
 Chevalley–Eilenberg differential and own its scalar-extension and complex-summand adapter:
 on the underlying real algebra, identify the complexification with `𝔤⊕bar(𝔤)`, with zero
 mixed bracket, and construct the complex-linear CE complex of `bar(𝔤)` and the invariant
