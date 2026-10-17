@@ -228,9 +228,23 @@ asserted at an excluded prime. (Diamond–Flach–Guo §§1.2, 2–3, Lemma 4.12
 
 ### From GL2AutomorphicRepresentationsAndTransfer
 
-**R16.3.** Local Langlands for `GL₂(ℚ_p)` and `GL₂(F_v)` with the Hecke normalisation `σ_h` (Carayol 0.5) and its relation to Langlands' (twist by `ω^{1/2}`, contragredient); preservation of conductors, `L`- and `ε`-factors; unramified twists of Steinberg `↔ N ≠ 0`. Twisting and duality for the Langlands parameter: `Rec_v(π_v ⊗ (χ∘det)) = Rec_v(π_v) ⊗ Rec_v(χ), Rec_v(π_v^∨) = Rec_v(π_v)^∨, π_v^∨ ≅ π_v ⊗ χ_{π_v}⁻¹` for `GL₂`, and preservation of `L-, ε`-factors and conductors under these operations.
+**R16.3.** Local Langlands for `GL₂(ℚ_p)` and `GL₂(F_v)` with the Hecke normalisation `σ_h` (Carayol 0.5) and its relation to Langlands' (twist by `ω^{1/2}`, contragredient); preservation of conductors, `L`- and `ε`-factors; arbitrary smooth character twists of Steinberg `↔ N ≠ 0`. The twist is unramified exactly when the Weil part has trivial inertia; finite inertia and the monodromy operator remain separate data. Twisting and duality for the Langlands parameter: `Rec_v(π_v ⊗ (χ∘det)) = Rec_v(π_v) ⊗ Rec_v(χ), Rec_v(π_v^∨) = Rec_v(π_v)^∨, π_v^∨ ≅ π_v ⊗ χ_{π_v}⁻¹` for `GL₂`, and preservation of `L-, ε`-factors and conductors under these operations.
 
-**R17.3.** The Jacquet–Langlands correspondence between automorphic representations of `(D ⊗ A_F)^×` and cuspidal representations of `GL₂(A_F)` that are discrete series at the ramification places of `D`, with local functoriality at every place (one-dimensional representations of `D_v^× ↔` unramified twists of Steinberg), as used by KW II §7 and Taylor. In Skinner §2.4.2, `[F:ℚ]` is even and the totally definite quaternion algebra is split at every finite place. A general definite instance may have finite ramification, must be split above `p` for §0.3, and receives only representations discrete series at its ramification places.
+**R17.3.** The Jacquet–Langlands correspondence between automorphic representations of `(D ⊗ A_F)^×` and cuspidal representations of `GL₂(A_F)` that are discrete series at the ramification places of `D`, with local functoriality at every place (one-dimensional representations `χ∘Nrd` of `D_v^× ↔ St⊗(χ∘det)` for arbitrary smooth characters `χ:F_v×→ℂ×`; the unramified case requires triviality on `O_D×`), as used by KW II §7 and Taylor. In Skinner §2.4.2, `[F:ℚ]` is even and the totally definite quaternion algebra is split at every finite place. A general definite instance may have finite ramification, must be split above `p` for §0.3, and receives only representations discrete series at its ramification places.
+
+**Checks.**
+
+- Over `ℚ₅`, let `χ` be quadratic on `ℤ₅×` by reduction modulo 5 and
+  `χ(5)=1`. Then `χ∘Nrd` is one-dimensional, its transfer is the ramified
+  `St⊗(χ∘det)`, and its WD parameter has `N≠0` with nontrivial scalar inertia.
+- For `χ=1` the division-algebra character is trivial on `O_D×`; its transfer
+  is Steinberg with trivial Weil inertia and nonzero monodromy.
+- A ramified principal series has `N=0` despite nontrivial finite Weil inertia;
+  inertia alone does not distinguish it from a ramified Steinberg twist.
+
+(Sources: GL2AutomorphicRepresentationsAndTransfer §§R16.3.2 and R17.1.2;
+[Bushnell–Henniart](https://link.springer.com/book/10.1007/3-540-31511-X),
+§56.1–§56.2, pp. 334–335.)
 
 **R17.4, especially §§R17.4.3, R17.4.13 and R17.4.17.** Local and global base change for `GL₂` along extensions of degree at most 3: Langlands for cyclic extensions and Jacquet–Piatetski-Shapiro–Shalika for non-Galois cubic ones, with the compatibility of the lift with restriction of the Weil–Deligne representation for principal series, special and ordinary cuspidal `π`, which Carayol (12.2.2) asserts without a reference. Cyclic totally real base change, descent and compatibility of attached good-prime polynomials with restriction; do not infer non-normal cubic base change from cyclic base change. Cyclic and non-normal cubic base change with local parameters and compatibility with Galois restriction, including Carayol §12.2.2; cyclic base change alone does not supply the cubic step. Section R17.4.17 supplies the nonnormal cubic comparison. Carayol §12.2.1–12.2.2 uses its local parameter/restriction assertion for principal series, special and ordinary cuspidal components at the chosen place, in addition to almost-all Satake transfer. Abelian (cyclic, solvable) base change of a cuspidal `π` of infinity type `(k,w)` to a totally real `F′`, cuspidal unless `π` is induced from `F′`, compatible with Satake parameters at unramified places and with Rec at every place; totally real quadratic base change; and the Gelbart–Jacquet adjoint lift `Ad(π)=Sym²π⊗ω_π⁻¹` to `GL₃`, cuspidal for non-CM `π`. Section 0.6 transports it by `ω_π|·|⁻¹` to the required `Π=Sym²π⊗|·|⁻¹`, including local parameters, central character and infinity exponents. For an essentially unitary `π` first take its unitary norm twist; the adjoint is unchanged by that twist.
 
@@ -294,7 +308,33 @@ the even-degree weight-two case are the precise targets of §0.7.
 
 ### From TauCetiRoadmap.ModularForms
 
-**layer 4 eigenforms newforms primitive forms the conductor.** The newform decomposition `S₂(Γ_H(N), K) = ⊕_f S_{K,f}` over newforms `f` of level `N_f | N`, with `S_{K,f}` spanned by the `f(aτ), a | N/N_f` (Darmon–Diamond–Taylor Theorem 1.22), and the characteristic polynomial `u^{v−1}(u² − a_p(f)u + ψ_f(p)p)` of `T_p` on the span of the `f(ap^iτ), v = v_p(N/N_f)`. For Deligne–Serre 5.2, in any weight `k`: an eigenform of the `T_p, p ∤ N`, has the eigenvalues of a newform of level dividing `N` (Atkin–Lehner–Li), whose coefficients are multiplicative with `a_{p^m} = a_p^m` and `|a_p| < p^{k/2}` at `p | N`.
+**layer 4 eigenforms newforms primitive forms the conductor.** For `N≥1`
+and a characteristic-zero field `K` containing the newform coefficients, the
+newform decomposition is `S₂(Γ_H(N), K) = ⊕_f S_{K,f}`, over normalized newforms
+`f` of primitive level `N_f | N` with compatible character. The summand is
+spanned by `f(aτ)` for `a | N/N_f` (Darmon–Diamond–Taylor Theorem 1.22).
+For a prime `p`, put `v=v_p(N/N_f)` and fix `a | N/(N_f p^v)`. If `v≥1`, the
+`T_p`-stable chain is `f(ap^iτ)` for `0≤i≤v`, and its characteristic polynomial
+is `u^(v−1)(u²−a_p(f)u+ψ_f(p)p)`. Here `ψ_f` is the character extended by zero
+modulo the full primitive level `N_f`, so `ψ_f(p)=0` whenever `p | N_f`.
+For `v=0` the chain is the line `K f(aτ)` and its polynomial is `u−a_p(f)`.
+These are the oldspace formulas of DDT §4.1, pp. 110–111, Lemma 4.4.
+For Deligne–Serre 5.2, in every weight `k≥1`, a nonzero cuspidal eigenform
+away from the ambient level `N` has the good eigenvalues of a normalized
+newform of primitive level `N_f | N` (Atkin–Lehner–Li). That newform's
+coefficients are multiplicative, and at `p | N_f` satisfy
+`a_{p^m}(f)=a_p(f)^m` for `m≥0` and `|a_p(f)|<p^(k/2)`.
+
+**Checks.**
+
+- The weight-two form `f=η(τ)²η(11τ)²=q−2q²−q³+2q⁴+⋯`, of primitive level
+  11, is a good-Hecke eigenform at ambient level 22. At `p=2`, its coefficients
+  satisfy `a₄=2≠4=a₂²` and `|a₂|=2=2^(k/2)`; the primitive bad-prime claims
+  do not apply. The two-term oldchain has polynomial `u²+2u+2`.
+- At `N=N_f=11` and `p=3`, `v=0` and the line `K f` has polynomial `u+1`,
+  rather than a quadratic expression with a truncated exponent.
+- At `N=121`, `N_f=11`, `p=11`, `v=1`, the full-level zero extension gives
+  `ψ_f(11)=0`, `a₁₁(f)=1` and oldchain polynomial `u(u−1)`.
 
 **layer 0 diamond operators and modular forms with character nebentypus.** Weight-one Eisenstein series with character and their Hecke eigenvalues: an Eisenstein eigenform of type `(1, ε)` on `Γ₀(N)` has `a_p = χ₁(p) + χ₂(p)` for `p ∤ N`, with Dirichlet characters satisfying `χ₁χ₂ = ε` (Hecke, Mathematische Werke p. 690, as cited in Deligne–Serre 8.1); and the Hecke-stable decomposition `M₁(N, ε) = S₁(N, ε) ⊕ E₁(N, ε)`. For weights `k≥2`, the Hecke-stable cusp/Eisenstein decomposition and Eisenstein good-prime eigenvalue `χ₁(q)+χ₂(q)q^{k−1}`, with `χ₁χ₂=ε`, conductor and parity hypotheses; these give the two arithmetic character summands in Deligne–Serre Theorem 6.1.
 
@@ -537,28 +577,46 @@ R07.4.13; ArithmeticGaloisRepresentations §7.6; ReductiveGroups Layer 9.
 
 ### 0.3 Quaternionic finite-slope families
 
-For a reduced weight space `W`, commuting Hecke algebra `H`, Banach `(Pr)` modules
-`M_X` over affinoid `X⊆W`, compact `U_X` and compatible links under restriction,
-construct `FiniteSlopeEigenvariety` by gluing the finite Hecke algebras on
-slope-adapted summands over `det(1−TU_X)=0`. It represents finite-slope
-Hecke eigensystems with their weight and nonzero `U`-value. Prove independence
-of the adapted cover, the cocycle identity on overlaps and compatibility with
-coefficient extension. Classicality and density are properties of the supplied
-family, proved separately for the following instance.
-
-Over affinoid weight discs, define `QuaternionicFiniteSlopeFamily` as an
-instance of these data using QuaternionicModularForms Layers 1–4, for a
-totally definite `D` over totally real `F`, split above `p`, with specified tame
+Over reduced affinoid weight discs `X` over a finite extension `K/ℚ_p`,
+define `QuaternionicFiniteSlopeFamily` using QuaternionicModularForms
+Layers 1–4, for a totally definite `D` over totally real `F`, split above `p`,
+with specified tame
 level, central character, `p`-level and admissible radii. Its classical JL
 constituents are discrete series at finite places in `Ram(D)`. Use its common
 finite stabiliser quotients with invertible orders and uniform analytic
 bounds. Its `S^D_κ(U;m)`, right coefficient actions, Hecke actions, Fredholm
 series and separated finite-projective slope summands are the supplied
-objects. The restriction links are the supplied radius/factorization maps;
-prove their eigenvariety link identities and their compatibility with weight
-restriction, central character and coefficient extension. A dense inclusion
-alone does not give the link identities. Glue the finite Hecke spectra and
-obtain the universal eigensystem on the reduced charts.
+objects. Use a specified supplied fully contracting Hecke operator `U` to
+control slopes. For `X′⊆X`, the supplied radius/factorization maps give a link
+`α:M_X′→M_X⊗̂O(X′)`, a finite composite of primitive links. For each primitive
+link between modules `M′` and `M`, prove the Hecke-equivariant identities
+`αc=U_M`, `cα=U_M′` for a compact reverse map `c:M→M′`. Prove their cocycle
+identities and compatibility with weight restriction, central character and
+finite coefficient extension. A dense inclusion alone does not give these
+identities. On each adapted spectral
+block let `N` be the supplied finite-projective slope summand, and form the
+actual image `B` of the commuting quaternionic Hecke algebra in `End(N)`.
+Its spectral coordinate is the inverse of the controlling operator. Use the
+affinoid gluing of RigidAnalyticGeometry Layers 1 and 6 to glue `Sp(B)`,
+with the weight map, invertible controlling eigenvalue and universal Hecke
+character. The target is this quaternionic family on the supplied form modules.
+
+Retain `B` with its nilpotents before forming `B_red=B/√0`. Restriction and
+primitive-link isomorphisms of the full charts must commute with the overlap
+cocycles; they induce the gluing of `Sp(B_red)`. The family records both the
+full space and its reduction, the canonical closed immersion from the latter
+to the former, and the restricted weight, eigenvalue and Hecke maps. Prove
+independence of the adapted cover for both spaces. Field-valued points of
+both classify the same finite-slope quaternionic Hecke eigensystems in the
+coefficient fibres, without recording generalized eigenspace multiplicities.
+For a finite extension `K′/K`, prove the full-chart scalar-extension
+isomorphism using flatness, then
+`(B⊗̂_K K′)_red ≅ B_red⊗̂_K K′`, using separability in characteristic zero.
+Affinoid restrictions give the corresponding comparisons on the reduced
+charts. At a weight specialization use the nilpotent-kernel comparison
+between the specialized image algebra and the fibre of `B`; a field-point
+bijection alone supplies no isomorphism of these full algebras. Classicality
+and density below concern the reduced quaternionic space.
 
 Prove `quaternionicFamily_operatorComparison` after the specified
 opposite-action/dual conversion from the supplied right polynomial action.
@@ -606,6 +664,7 @@ principal-series classical specializations, as
 in Skinner pp. 253–255.
 
 (Sources: [Buzzard, Eigenvarieties](https://www.ma.imperial.ac.uk/~buzzard/maths/research/papers/eigenvarieties.pdf),
+§5, Lemmas 5.4–5.6, Construction 5.7 and Lemmas 5.9–5.10, pp. 33–42;
 §§8–11, Lemma 12.2 pp. 78–79 and §13 pp. 79–80;
 [Buzzard 2004](https://www.ma.imperial.ac.uk/~buzzard/maths/research/papers/GL1.pdf),
 §7 Proposition 4, p. 19; Skinner §2.4.2 pp. 253–255.)
@@ -616,6 +675,15 @@ in Skinner pp. 253–255.
   `1−aT=0`, with `U`-eigenvalue `a`; its reciprocal coordinate is `a⁻¹`.
 - Restricting a slope chart twice agrees with direct restriction and preserves
   its finite-projective rank.
+- Over a point, on a two-dimensional slope summand with `U=1+J`,
+  `J²=0≠J`, the Hecke image generated by `U` is `K[ε]/(ε²)` and its reduction
+  is `K`. Both have the eigenvalue 1, but only the full chart retains the
+  generalized eigenspace. Reduced weight space does not force reduced charts.
+- In Buzzard's §5 example, `R=K⟨x,y⟩`, `U=1+xJ` and the commuting operator
+  `yJ` give `B=R⊕(x,y)ε`, `ε²=0`. At `x=y=0` the specialized image is `K`,
+  while `B⊗_R K` has a nonzero square-zero ideal of dimension two. Their
+  reductions agree; their full algebras do not. Finite coefficient extension
+  and affinoid restriction retain the stated full-chart comparisons.
 - At `F=ℚ` choose `D` ramified at infinity and a finite `q≠p`. For its `JL`
   constituents discrete series at `q`, slope strictly below `k−1` is classical;
   the endpoint is outside this criterion. There is no definite `D/ℚ` split at
@@ -1584,10 +1652,12 @@ archimedean subgroup and a finite-conductor subgroup. Finiteness of the ray
 class quotient `A_K×/(K×U)` gives finitely many representatives `x_j` and powers
 `x_j^{h_j}∈K×U`. Their `η`-values therefore have algebraic powers, hence are
 algebraic. Together with a field of definition of `χ_alg` they generate one
-finite number field `L` containing every `η`-value. This also puts `χ(W_v)` in `L`
-after enlarging `L` for the algebraic local uniformizer values. It supplies the
-number-field-valued Weil-group hypothesis in the converse lemma, rather than
-assuming that every continuous character already has algebraic Frobenius values.
+finite number field `L` containing every `η`-value. For each finite `v∤ℓ`
+the local algebraic correction is absent, so `χ(W_v)⊆L×`. Choose a finite set
+`Σ` containing the ramified, archimedean and coefficient places; this gives
+the number-field-valued Weil-group hypothesis for `v∉Σ` in the converse lemma.
+At `v|ℓ` use local algebraicity and the de Rham classification; the full
+inertia image need not consist of algebraic numbers.
 Then apply the converse in [Conrad's algebraic Hecke-character notes](https://math.stanford.edu/~conrad/DarmonCM/2011Notes/algebraicHeckecharacters.pdf),
 the second Lemma 1 and its proof, pp. 9–10.
 
@@ -1614,6 +1684,10 @@ avatars.
 **Checks.**
 
 - The trivial character has `m=0` and the trivial finite-order factor; `ε_ℓ` has `m=1` and degree `−1`.
+- For `K=ℚ`, `ℓ=3`, `χ=ε₃`, the coefficient-place inertia image is
+  `χ(I₃)=ℤ₃×⊆χ(W₃)`, an uncountable group contained in no number field.
+  Away from 3 the Weil images are rational, and the corrected `η` is
+  number-field-valued even at 3.
 - The CM elliptic character over `ℚ(i)` has unequal labelled degrees at conjugate embeddings; the totally real conclusion must not apply to it.
 - A continuous local character with a nonintegral Sen weight fails the de Rham hypothesis and supplies no algebraic avatar.
 

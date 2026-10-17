@@ -460,8 +460,13 @@ pairs, are specified in README.md.
 /-!
 The remaining definitions in README.md require arithmetic or geometric carriers:
 
-* Layer 0: `FiniteSlopeEigenvariety` and `QuaternionicFiniteSlopeFamily` on
-  QuaternionicModularForms' supplied modules, `quaternionicFamily_operatorComparison`
+* Layer 0: `QuaternionicFiniteSlopeFamily` on QuaternionicModularForms'
+  supplied modules over reduced weight discs, with the actual finite Hecke-image
+  charts and their reductions, the closed immersion and weight/eigenvalue maps,
+  restriction and primitive-link cocycles, cover independence, finite coefficient
+  extension and the field-point eigensystem comparison. Weight specialization
+  retains the nilpotent-kernel comparison rather than asserting equality of full
+  Hecke algebras. The normalization is `quaternionicFamily_operatorComparison`
   with its determinant scalar, `quaternionicFamily_totallyRealClassicality`
   in the even-degree finite-split Skinner domain with strict labelled bounds,
   and `quaternionicFamily_classicalDensity`.
