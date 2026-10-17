@@ -80,6 +80,55 @@ example : padicBallContains 3 0 2 (9 : ℚ_[3]) := by
 example : ¬ padicBallContains 3 0 2 (3 : ℚ_[3]) := by
   sorry
 
+/-- The precision-three square-root bracket has exactly the required rational width. -/
+example : realIntervalContains (11 / 8) (3 / 2) (Real.sqrt 2) ∧
+    (3 / 2 - 11 / 8 : ℚ) = (1 / 2 : ℚ) ^ 3 ∧
+    (1 / 2 : ℚ) ^ 3 < 3 / 2 - 1 := by
+  sorry
+
+/-- A rational midpoint admits a singleton bracket at every precision. -/
+example (n : ℕ) : realIntervalContains (1 / 2) (1 / 2) (1 / 2 : ℝ) ∧
+    (0 : ℚ) ≤ (1 / 2 : ℚ) ^ n ∧ (1 / 2 : ℚ) < 1 - 0 := by
+  sorry
+
+/-- Both signs of the square root lie in the broad interval, precluding isolation. -/
+example : realIntervalContains (-2) 2 (Real.sqrt 2) ∧
+    realIntervalContains (-2) 2 (-Real.sqrt 2) ∧ Real.sqrt 2 ≠ -Real.sqrt 2 := by
+  sorry
+
+/-- A zero-width box at zero certifies vanishing. -/
+example (z : ℂ) : complexBoxContains 0 0 0 0 z ↔ z = 0 := by
+  sorry
+
+/-- Multiplication gains the centre valuations as well as the input precisions. -/
+example (x y : ℚ_[3]) (hx : padicBallContains 3 3 4 x)
+    (hy : padicBallContains 3 9 5 y) :
+    padicBallContains 3 27 6 (x * y) := by
+  sorry
+
+/-- The inverse precision loss is attained by an element on the input boundary. -/
+example : padicBallContains 3 9 5 (252 : ℚ_[3]) ∧
+    padicBallContains 3 (1 / 9) 1 ((252 : ℚ_[3])⁻¹) ∧
+    ¬ padicBallContains 3 (1 / 9) 2 ((252 : ℚ_[3])⁻¹) := by
+  sorry
+
+/-- A zero-centred ball retains its full absolute precision in multiplication. -/
+example (x y : ℚ_[3]) (hx : padicBallContains 3 0 4 x)
+    (hy : padicBallContains 3 9 5 y) :
+    padicBallContains 3 0 6 (x * y) := by
+  sorry
+
+/-- Cancellation of centres preserves a ball but need not make the sum zero. -/
+example : padicBallContains 3 1 4 (82 : ℚ_[3]) ∧
+    padicBallContains 3 (-1) 4 (-1 : ℚ_[3]) ∧
+    padicBallContains 3 0 4 (81 : ℚ_[3]) ∧ (81 : ℚ_[3]) ≠ 0 := by
+  sorry
+
+/-- A valuation-two pivot loses two digits from a precision-nine numerator. -/
+example (x : ℚ_[3]) (hx : padicBallContains 3 9 9 x) :
+    padicBallContains 3 (-1) 7 (-x / 9) := by
+  sorry
+
 /-- Strong precision at a nonzero centre determines both norm and nonzero. -/
 theorem padic_nonzero_of_error_lt {p : ℕ} [Fact p.Prime]
     (x c : ℚ_[p]) (hc : c ≠ 0) (h : ‖x - c‖ < ‖c‖) :
@@ -286,6 +335,31 @@ example : ¬ coprimeSUnitTriple {2, 3} (2, 1, 3) ∧
     ¬ coprimeSUnitTriple {2, 3} (0, 1, 1) := by
   sorry
 
+/-- The cubic small-solution check has exactly two pairs at either stated bound. -/
+example (B : ℤ) (hB : B = 1 ∨ B = 4) :
+    {v : ℤ × ℤ | |v.2| ≤ B ∧ v.1 ^ 3 - 2 * v.2 ^ 3 = 1} =
+      (↑({(1, 0), (-1, -1)} : Finset (ℤ × ℤ)) : Set (ℤ × ℤ)) := by
+  sorry
+
+/-- The zero-Y slice and the larger-X solution test different search bounds. -/
+example :
+    {v : ℤ × ℤ | |v.2| ≤ 0 ∧ v.1 ^ 3 - 2 * v.2 ^ 3 = 8} =
+      (↑({(2, 0)} : Finset (ℤ × ℤ)) : Set (ℤ × ℤ)) ∧
+    (5 : ℤ) ^ 3 - 2 * 4 ^ 3 = -3 ∧ |(-3 : ℤ)| < |(5 : ℤ)| ∧
+    |(5 : ℚ)| < 126 := by
+  sorry
+
+/-- The y=-1 slice agrees with the integer roots of its specialization. -/
+example : {x : ℤ | x ^ 3 - 2 * (-1) ^ 3 = 1} = {-1} ∧
+    (Polynomial.X ^ 3 + 1 : Polynomial ℤ).roots.toFinset = {-1} := by
+  sorry
+
+/-- A linear times irreducible cubic reduction gives no quadratic conjugate pair. -/
+example :
+    (∀ x : ZMod 7, x ^ 4 - x - 1 = (x - 3) * (x ^ 3 + 3*x ^ 2 + 2*x + 5)) ∧
+    (∀ x : ZMod 7, x ^ 3 + 3*x ^ 2 + 2*x + 5 ≠ 0) := by
+  sorry
+
 end ED2
 
 /-! ## Layer 3: Descent, heights and Mordell–Weil data -/
@@ -314,7 +388,17 @@ example (n : ℕ) (a : ℚ) :
 
 end ED3
 
-/- Layer 4 consumes RestrictedPowerSeries §2.4 for Strassmann's theorem.
+/-- The transpose kernel describes differential coefficient columns. -/
+example :
+    let M : Matrix (Fin 2) (Fin 1) ℚ := fun i _ => if i = 0 then 1 else 0
+    (∀ c : Fin 2 → ℚ, M.transpose.mulVec c = 0 ↔ c 0 = 0) ∧
+    (∀ v : Fin 1 → ℚ, M.mulVec v = 0 ↔ v = 0) := by
+  sorry
+
+/- Layer 4 applies HeightsRationalPointsAndObstructions §§1.15a–1.16 for the formal
+identity chart and logarithm, extending it to A(K) and its integration pairing.
+Layer 3 applies its §1.17 local doubling count through the pinned descent kernel.
+Layer 4 consumes RestrictedPowerSeries §2.4 for Strassmann's theorem.
 The residue-disc application and its finite coefficient certificates are specified
 in README §4.11. -/
 
@@ -394,6 +478,30 @@ theorem candidates_eq_known {X : Type*} {ι : Type*} [Fintype ι]
 example : (Polynomial.X ^ 2 : Polynomial ℚ).roots = ({0, 0} : Multiset ℚ) := by
   sorry
 
+/-- The residual local height uses the negative away-place correction. -/
+example (hp away total : ℚ) (h : total = hp + away) :
+    hp - total = -away ∧ total - hp = away := by
+  sorry
+
+example : (Finset.image (fun x : ℚ => -x) {1}) = {-1} ∧
+    (Finset.image (fun x : ℚ => -x) {0}) = {0} ∧
+    ({-1} : Finset ℚ) ≠ {1} := by
+  sorry
+
+/-- Dimension two requires coefficient two in the trace-zero construction. -/
+example :
+    let A : Matrix (Fin 2) (Fin 2) ℚ := (-2) • (1 : Matrix (Fin 2) (Fin 2) ℚ)
+    Matrix.trace A = -4 ∧
+    Matrix.trace (6 • A - Matrix.trace A • (1 : Matrix (Fin 2) (Fin 2) ℚ)) = -16 ∧
+    2 • A - Matrix.trace A • (1 : Matrix (Fin 2) (Fin 2) ℚ) = 0 := by
+  sorry
+
+/-- Scalar Hecke operators in dimension six give a zero trace-corrected class. -/
+example (a : ℚ) :
+    let A : Matrix (Fin 6) (Fin 6) ℚ := a • (1 : Matrix (Fin 6) (Fin 6) ℚ)
+    6 • A - Matrix.trace A • (1 : Matrix (Fin 6) (Fin 6) ℚ) = 0 := by
+  sorry
+
 /-- Baran's homogeneous quartic evaluated in a commutative ring. -/
 def xs13Baran {R : Type*} [CommRing R] (x y z : R) : R :=
   (-y - z) * x ^ 3 + (2 * y ^ 2 + y * z) * x ^ 2 +
@@ -419,6 +527,24 @@ theorem xs13_quartic_identity_and_points :
 
 /-- A normalized conjugate eigenbasis cannot be the Baran coordinate basis. -/
 example : xs13Baran (1 : ℤ) 1 1 = -1 := by
+  sorry
+
+/-- Two further evaluations distinguish the constant and higher-degree terms. -/
+example : xs13Baran (0 : ℤ) 1 1 = -1 ∧ xs13Baran (2 : ℤ) 1 1 = -7 := by
+  sorry
+
+/-- The standard six-dimensional cup matrix is nondegenerate. -/
+example :
+    let C : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) ℚ :=
+      Matrix.fromBlocks 0 1 (-1) 0
+    Matrix.det C = 1 ∧ C.toBlocks₁₁ = 0 := by
+  sorry
+
+/-- The base point has a nonzero partial derivative in the affine chart. -/
+example :
+    let q : Polynomial ℚ := Polynomial.X ^ 4 - 10 * Polynomial.X ^ 3 +
+      24 * Polynomial.X ^ 2 - 16 * Polynomial.X
+    q.derivative.eval 0 = -16 := by
   sorry
 
 example (x y : ℤ) :
@@ -614,7 +740,9 @@ Layer 1: linearFormMatrix, linearFormLattice, linearFormTarget, roundOfEnclosure
 padicLatticeMatrix, padicLatticeTarget, padicLinearForm, apprOfEnclosure,
 quadraticCompletion, fpEnumeration, DistanceWitness, RealExclusionData,
 PadicExclusionData, the bounded-distance comparison.
-Layer 2: logAbsEnclosure, argEnclosure, MatveevConstantData,
+Layer 2: ThueConstants.exists_of_enclosures supplies rational bounds under sufficiently
+narrow root/logarithm enclosures, nonempty representatives and invertible unit minors.
+logAbsEnclosure, argEnclosure, MatveevConstantData,
 YuConstantData, PadicLogEvaluationData, PadicDiscreteLogData,
 ExponentReductionChain, InExponentBox, WeightedExponentReductionChain, thueForm,
 thueSolutions, ThueEquation, ThueFactorCovering, ThueConstants, ThueBoundParameters,
@@ -876,9 +1004,13 @@ ED6.xs13_derivative_ne_zero.
 §6.25:
 ED6.xs13_equivariant_height_comparison.
 
-§6.23:
+§6.23a (before §6.22):
+ED6.xs13_differentialBasis, with the actual model of §6.18 and exact residue/cup data;
+no Tate class is an input.
+
+§6.23 (after §§6.23a and 6.22):
 ED6.xs13_hodgeData_base_conditions,
-ED6.xs13_hodgeData_conditions.
+ED6.xs13_hodgeData_conditions, for eta/beta/gamma relative to the supplied basis and Z1,Z2.
 
 §6.18:
 ED6.xs13_planeModel, with rational h_i, their supplied invertible comparison with
@@ -890,6 +1022,7 @@ ED6.xs13_specialFibre_smooth.
 ED6.xs13_rationalPoints.
 
 §6.22:
-ED6.xs13_tateClasses_admissible.
+ED6.xs13_tateClasses_admissible, using ED6.xs13_differentialBasis and nonzero
+self-adjoint trace-corrected Hecke classes with coefficient 2g=6.
 -/
 end TauCetiRoadmap.EffectiveDiophantineMethods
