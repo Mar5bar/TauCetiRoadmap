@@ -537,7 +537,13 @@ variants, `IrrAdmissible`, `WeilGroupComplex`, `WeilGroupReal`, `IsBoundedParame
 `D_k`, `archimedeanUnitaryDual`, `genericUnitaryClassification`, `HasWhittakerModel`,
 `GContinuousNorm` and smooth Fréchet globalizations;
 `IsAutomorphicRepresentation`, `archimedeanHeckeAlgebra`, `RestrictedTensor`,
-`DiscreteOccurrence`, Whittaker coefficients, `HolomorphicSL2Form` and `MaassCuspForm`;
+`DiscreteOccurrence`, Whittaker coefficients and `HolomorphicSL2Form`;
+the shared §4.5 `MaassCuspForm` and its `NormalizedMaassEigenform` subtype, with
+`fourierCoefficient`, `fourierExpansion`, `maassHecke`, `maassHeckeRecurrence`,
+`maassAdelization` and `maassClassicalEquiv`. The subtype has first coefficient one
+in the factor-two expansion, reflection sign `(-1)^δ` and either the real or the
+imaginary spectral-parameter branch; the L-function consumer takes its real branch.
+The adelic comparisons use the ALS.F.6 cusp carrier and preserve these normalizations;
 `IsCAlgebraic`, `IsLAlgebraic`, `IsAlgebraicCT`, `HasCohomologyWith`, the general
 `ell0` and `q0`, `A_q`, `StableAdelicLattice`, `galoisTwist`, `rationalityField`,
 `IsFieldOfDefinition` and `galoisConjugate_cuspidal`; `HermitianGroupDatum`,
