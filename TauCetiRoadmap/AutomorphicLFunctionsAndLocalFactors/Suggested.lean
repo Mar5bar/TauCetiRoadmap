@@ -45,6 +45,14 @@ globalization and algebraic tensor constructions; §§4.3 and 5.7 supply number-
 GLₙ genericity and Clozel rationality. The README specializes these for its Whittaker and
 rational-period interfaces. The supplier’s §4.5 cosh Bessel kernel is identified with the half-integral
 adapter below; order-variable holomorphy and derivatives are additional targets here.
+Section 4.5 also supplies `NormalizedMaassEigenform(r,δ)`, `fourierCoefficient`,
+`fourierExpansion`, `maassHecke`, `maassHeckeRecurrence`, `maassAdelization` and
+`maassClassicalEquiv`. AL.2 consumes its real nonnegative parameter branch with reflection
+sign `(-1)^δ`; a negative real input uses the same eigenvalue and `K_{ir}=K_{-ir}`.
+The supplied subtype retains smooth level-one invariance, square-integrability, cuspidality,
+the Laplace and simultaneous Hecke eigenconditions, and first Fourier coefficient one.
+Its standard and adjoint L-series, local factors, completions, functional equation and
+L-value norm identities are specified in AL.2 of the README.
 The finite-place distribution epsilon scalar is identified unconditionally with
 ArithmeticGaloisRepresentations §2.7's `tateLocalConstant` at the norm-twisted character.
 The rational period datum retains its infinity generator; its Gauss twisting relation uses
@@ -795,7 +803,10 @@ example (q : ℝ) (s : ℂ) : StandardLocalLFactor (1-Polynomial.X) q s =
     (1-(q : ℂ)^(-s))⁻¹ := by sorry
 -- TauCeti.AutomorphicLFunctions.AL2.StandardLocalLFactor.ramified_gl1
 example (q : ℝ) (s : ℂ) : StandardLocalLFactor 1 q s = 1 := by sorry
-/-- The native Dirichlet series with the two unitary Maass gamma factors. -/
+/-- The native Dirichlet series with the two unitary Maass gamma factors.
+On AutomorphicFormsOnReductiveGroups §4.5's `NormalizedMaassEigenform(|r|,δ)`,
+`a` is its supplied `fourierCoefficient` and `ε = δ` gives reflection sign `(-1)^δ`.
+This scalar formula applies to arbitrary coefficients and real parameters. -/
 def maassCompletion (a : ℕ → ℂ) (ε : Fin 2) (r : ℝ) (s : ℂ) : ℂ :=
   Complex.Gammaℝ (s+(ε.val : ℂ)+Complex.I*r)*
     Complex.Gammaℝ (s+(ε.val : ℂ)-Complex.I*r)*LSeries a s

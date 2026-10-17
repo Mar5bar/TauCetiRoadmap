@@ -6,7 +6,7 @@ The library must expose the spaces, measures, distributions and comparison maps 
 
 ## Scope and ownership
 
-The finite-place representation categories, normalized parabolic induction, genericity and Satake isomorphisms come from **SmoothRepresentationsOfLocalGroups**, layers SR.1–SR.5. **ArithmeticLocallySymmetricSpaces**, ALS.F.6–F.7, supplies number-field automorphic forms, cusp forms, rapid decay, cuspidal discreteness and cohomological carriers; ALS.5b supplies their geometric rational cohomology realizations. **AutomorphicFormsOnReductiveGroups**, §§2.3–2.7 and 3.4–3.5, supplies normalized archimedean induction, Langlands classification, archimedean parameters, the generic unitary dual, globalization and algebraic restricted tensor factorization; §§4.3 and 5.7 supply number-field cuspidal `GLₙ` genericity and Clozel rationality. The representation prerequisites below specialize these constructions to the `GLₙ` Whittaker and local-factor interfaces, compare their smooth and Hilbert tensor realizations, and construct function-field cuspidal carriers, number-field isobaric sums and rational Whittaker/cohomological comparisons. Generic finite-place newforms use ClassFieldTheory layer 7 for rank one and [GL₂ newvectors](#gl2-newvectors) for rank two; the compatible higher-rank construction and Maass realization are targets here. The Whittaker integrals, their analytic continuation and the scalar period comparison are built here. Ordinary multiplicity one is proved from the supplied cusp-form Fourier reconstruction and local Whittaker uniqueness; it does not require the general automorphic trace formula.
+The finite-place representation categories, normalized parabolic induction, genericity and Satake isomorphisms come from **SmoothRepresentationsOfLocalGroups**, layers SR.1–SR.5. **ArithmeticLocallySymmetricSpaces**, ALS.F.6–F.7, supplies number-field automorphic forms, cusp forms, rapid decay, cuspidal discreteness and cohomological carriers; ALS.5b supplies their geometric rational cohomology realizations. **AutomorphicFormsOnReductiveGroups**, §§2.3–2.7 and 3.4–3.5, supplies normalized archimedean induction, Langlands classification, archimedean parameters, the generic unitary dual, globalization and algebraic restricted tensor factorization; §§4.3 and 5.7 supply number-field cuspidal `GLₙ` genericity and Clozel rationality; §4.5 supplies the shared `NormalizedMaassEigenform(r,δ)` carrier and its Fourier, Hecke, reflection-parity and adelization comparisons. The representation prerequisites below specialize these constructions to the `GLₙ` Whittaker and local-factor interfaces, compare their smooth and Hilbert tensor realizations, and construct function-field cuspidal carriers, number-field isobaric sums and rational Whittaker/cohomological comparisons. Generic finite-place newforms use ClassFieldTheory layer 7 for rank one and [GL₂ newvectors](#gl2-newvectors) for rank two; the compatible higher-rank newform construction is a target here. AL.2 consumes the real-parameter specialization of the shared Maass carrier for its standard and adjoint L-functions. The Whittaker integrals, their analytic continuation and the scalar period comparison are built here. Ordinary multiplicity one is proved from the supplied cusp-form Fourier reconstruction and local Whittaker uniqueness; it does not require the general automorphic trace formula.
 
 **AdelicAlgebraicGroups**, layers AA.0–AA.2, owns adelic group topology, restricted Haar products and quotient measures. ArithmeticGaloisRepresentations §2.7, **Global inputs**, owns the common number-field adelic Schwartz–Bruhat space, restricted/completed tensor API, self-dual Fourier transform, Poisson summation, scalar Tate integral, meromorphic continuation and scalar functional equation for every continuous idele-class quasi-character. This roadmap consumes that prefix and uses those measures for its local-vector-space, distribution and `GLₙ` extensions. **ReductiveGroupsPartII**, RG2.5, and **IntegralHeckeAndGaloisDeterminants**, §3a.1, supply the L-group, its Frobenius coset and the normalized `GLₙ` Satake coefficients. **ArithmeticGaloisRepresentations**, §§2.4–2.7, supplies Weil–Deligne representations and their geometric-Frobenius Euler and epsilon factors; §2.7 owns the canonical finite-place rank-one scalar `tateLocalConstant`. AL.1 identifies its distribution scalar with that constant unconditionally. Higher-rank ramified analytic/parameter factor equalities are supplied inputs to normalization transport; the existence of a general finite-place local Langlands correspondence is a separate theorem.
 
@@ -41,6 +41,7 @@ The following constructions are reused. The work below proves the additional loc
 | Interface | Existing construction and its precise use |
 | --- | --- |
 | Reductive representations and cuspidal `GLₙ` inputs | **AutomorphicFormsOnReductiveGroups**, §§2.3–2.7: normalized induction, Casselman embedding, Langlands classification, archimedean parameters, generic unitary dual and Casselman–Wallach globalization; §§3.4–3.5: restricted tensors and Flath factorization; §4.3: number-field cuspidal Fourier reconstruction and global/local genericity; §5.7: Clozel rationality and exact-field finite-part descent in the cohomological normalization. This roadmap specializes these inputs to its Whittaker, analytic tensor and rational-period comparisons. |
+| Normalized Maass eigenforms | **AutomorphicFormsOnReductiveGroups**, §4.5: `NormalizedMaassEigenform(r,δ)`, `fourierCoefficient`, `fourierExpansion`, `maassHecke`, `maassHeckeRecurrence`, `maassAdelization` and `maassClassicalEquiv`. AL.2 uses real `r≥0`, first coefficient one in the supplied factor-two expansion, reflection sign `(−1)^δ` and the supplied unitary adelic realization. Negative real parameters use the same eigenvalue and `K_(ir)=K_(−ir)`. The standard and adjoint L-series, local factors, completions, functional equation and L-value norm identities are targets here. |
 | Positive-argument Bessel kernel | **AutomorphicFormsOnReductiveGroups**, §4.5: the convergent cosh integral for complex order, argument derivatives, symmetry, Fourier ODE, decay and half-order value. AL.0 identifies its half-integral formula with that kernel and adds holomorphy and derivatives in the order variable. |
 | Characters and Fourier integrals | Mathlib `AddChar`, `ContinuousMonoidHom`, `Real.fourierChar`, `ZMod.toCircle`, `ZMod.dft`, `VectorFourier.fourierIntegral`, its translation/scalar/a.e. congruence lemmas, and `SchwartzMap.fourierTransformCLM`. Translation covariance and the Schwartz Fourier operator are imported. |
 | Compact-open duals | Mathlib `PontryaginDual` supplies the continuous-character space and topology. Tau Ceti's `fourierPontryaginDualEquiv` classifies the dual of an additive circle; its Fourier coefficient uniqueness and the Pontryagin Fourier–Stieltjes uniqueness results are reused in that scope. Local-field self-duality of the particular trace pairing is an additional theorem. |
@@ -106,6 +107,12 @@ and ArithmeticGaloisRepresentations §2.7.
   the global Whittaker product realization and the function-field extension on its
   curve carriers. Section 4.5 supplies the positive-argument cosh Bessel kernel and
   its argument analysis; AL.0 proves the half-integral adapter and order derivatives.
+  Section 4.5 also supplies `NormalizedMaassEigenform(r,δ)` with `fourierCoefficient`,
+  `fourierExpansion`, `maassHecke`, `maassHeckeRecurrence`, `maassAdelization` and
+  `maassClassicalEquiv`. AL.2 consumes its real `r≥0` specialization with reflection
+  sign `(−1)^δ`; a negative real parameter has the same eigenvalue and Bessel kernel.
+  AL.2 owns the standard and adjoint L-series, local factors, completions,
+  functional equation and L-value norm identities on this supplied subtype.
   Section 5.7 supplies Clozel's regular algebraic cuspidal `GLₙ` rationality and
   exact-field descent; [Finite-part rationality](#finite-part-rationality) identifies
   that model with the rational Whittaker model and the geometric coefficient field.
@@ -1627,9 +1634,9 @@ The interfaces `AL2.PairedHadamardFactorization`, `AL2.PairedHadamard_derivative
 
 <a id="maass-standard-l-function"></a>
 
-**The normalized Maass standard L-function.** For a level-one Hecke–Maass cusp eigenform of parity `ε∈{0,1}`, spectral parameter r and `a(1)=1`, use `φ(z)=2sqrt(y)∑_{m≠0}a(m)K_(ir)(2π|m|y)e(mx), a(−m)=(−1)^εa(m)`. Use the native `LSeries a s` for `L_f(s)=∑_{m≥1}a(m)m^(−s)`, with Euler polynomial1−a(p)T+T². The canonical completion is `Γ_R(s+ε+ir)Γ_R(s+ε−ir)L_f(s)`. Duke’s completion `π^(−s)Γ((s+ε+ir)/2)Γ((s+ε−ir)/2)L_f(s)` is `π^ε` times this canonical one.
+**The normalized Maass standard L-function.** For `r∈ℝ`, put `r₀=|r|` and take `φ∈NormalizedMaassEigenform(r₀,δ)` from **AutomorphicFormsOnReductiveGroups**, §4.5. Set `ε=δ∈{0,1}`, so the reflection sign is `(−1)^ε`, and let `a(m)=fourierCoefficient(φ,m)` in its supplied factor-two normalization, with `a(1)=1`. Use the native `LSeries a s` for `L_f(s)=∑_{m≥1}a(m)m^(−s)`, with Euler polynomial `1−a(p)T+T²`. The canonical completion is `Γ_R(s+ε+ir)Γ_R(s+ε−ir)L_f(s)`. Duke’s completion `π^(−s)Γ((s+ε+ir)/2)Γ((s+ε−ir)/2)L_f(s)` is `π^ε` times this canonical one.
 
-Work under the following hypotheses. Construct the level-one Hecke–Maass cusp-eigenform carrier as smooth `SL₂(ℤ)`-invariant functions on the upper half-plane, square-integrable for hyperbolic measure, with zero constant Fourier term, eigenvalue `1/4+r², r∈ℝ`, and reflection parity `ε`. Prove the displayed K-Bessel expansion and the normalized Hecke recurrence, with `a(1)=1`, and identify its adelic realization in the ALS.F.6 cusp space using the restricted tensor and archimedean prerequisites. The coefficient and continuation comparisons use that realization in unitary normalization.
+Work under the following hypotheses. The supplied subtype carries smooth `SL₂(ℤ)` invariance, square-integrability for hyperbolic measure, zero constant Fourier term, Laplace eigenvalue `1/4+r₀²=1/4+r²`, simultaneous normalized Hecke eigenvectors, first coefficient one and reflection parity `(−1)^δ`. Consume `fourierExpansion`, `maassHecke` and `maassHeckeRecurrence` for its Fourier and Hecke comparisons; use `maassAdelization` and `maassClassicalEquiv` for its realization in the ALS.F.6 cusp space. The coefficient and continuation comparisons use that supplied realization in unitary normalization. The identity `K_(ir)=K_(−ir)` identifies negative real inputs with `r₀`, preserving every real parameter in these L-function formulas. The general congruence-subgroup carrier and imaginary-parameter branch remain supplied by §4.5.
 
 Require the following API.
 
@@ -1642,8 +1649,10 @@ Require the following API.
 
 - `AL2.MaassStandardLFunction.first_coefficient`: `a(1)=1`; no extra factor2 occurs in the Dirichlet series.
 - `AL2.MaassStandardLFunction.odd_completion`: For `ε=1` Duke’s completion isπ times the canonical completion.
-- `AL2.MaassStandardLFunction.prime_square`: `a(p²)=a(p)²−1`, by the reciprocal quadratic polynomial.
+- `AL2.MaassStandardLFunction.prime_square`: the supplied `maassHeckeRecurrence` at `m=n=p` gives `a(p²)=a(p)²−1`, matching the reciprocal quadratic polynomial.
 - `AL2.MaassStandardLFunction.eisenstein_excluded`: Replacing the cusp form by an Eisenstein series can introduce poles; entirety is not then asserted.
+- For `δ=1`, the imported reflection sign is `−1`; `maassClassicalEquiv` restricts `maassAdelization(φ)` back to `φ`, retaining odd parity and its first coefficient. Full `O(2)` invariance would lose this parity component.
+- For negative real `r`, the eigenvalue and Fourier kernel agree with those at `−r`; at `r=0`, the shared carrier and the two equal gamma factors remain defined.
 
 The light `AL2.maassCompletion` takes `a:ℕ→ℂ, ε∈Fin 2, r∈ℝ` and `s∈ℂ`
 and multiplies `LSeries a s` by the two displayed native `Γ_R` factors.
@@ -1651,9 +1660,9 @@ Its API compares with Duke's formula and the reciprocal quadratic Hecke polynomi
 The `a(1)=1`, odd-parity and prime-square checks below fix this formula's normalization.
 
 
-(Source: [Duke–İmamoğlu–Tóth](#ref-dukeimamoglutoth2016), §5.2 pp.962–963 (5.7)–(5.9).)
+(Source: [Duke–İmamoğlu–Tóth](#ref-dukeimamoglutoth2016), §5.2 pp.962–963 (5.6)–(5.9); **AutomorphicFormsOnReductiveGroups**, §4.5, shared normalized carrier and comparisons.)
 
-*Needs:* [The K-Bessel kernel](#bessel-k); [The standard local L-factor](#standard-local-l-factor); [Canonical archimedean factors](#canonical-archimedean-factor); **ArithmeticLocallySymmetricSpaces**, ALS.F.6.
+*Needs:* **AutomorphicFormsOnReductiveGroups**, §4.5, `NormalizedMaassEigenform` and its Fourier, Hecke, parity and adelization comparisons; [The K-Bessel kernel](#bessel-k); [The standard local L-factor](#standard-local-l-factor); [Canonical archimedean factors](#canonical-archimedean-factor); **ArithmeticLocallySymmetricSpaces**, ALS.F.6.
 
 
 <a id="maass-standard-functional-equation"></a>
@@ -1687,7 +1696,7 @@ Work under the following hypotheses. Level1 and standard hyperbolic measure of v
 
 (Source: [Humphries–Nordentoft](#ref-humphriesnordentoft), §4.1.1 (4.2)–(4.6) pp.21–22.)
 
-*Needs:* [The normalized Maass standard L-function](#maass-standard-l-function); [The finite Maass adjoint L-function](#maass-adjoint-l-function); [Global Rankin–Selberg unfolding](#global-rs-unfolding); [Continuation and the Rankin–Selberg pole criterion](#rs-global-poles); [The K-Bessel kernel](#bessel-k); The Whittaker differential equation and its decaying solution are constructed here from AL.0’s K-Bessel kernel, specialized to `ν=ir` and `x>0`, with `W_(0,ν)(x)=sqrt(x/π)K_ν(x/2)` fixed by its large-x asymptotic. **ArithmeticLocallySymmetricSpaces**, ALS.F.6.
+*Needs:* **AutomorphicFormsOnReductiveGroups**, §4.5, the shared Fourier normalization and adelization comparisons; [The normalized Maass standard L-function](#maass-standard-l-function); [The finite Maass adjoint L-function](#maass-adjoint-l-function); [Global Rankin–Selberg unfolding](#global-rs-unfolding); [Continuation and the Rankin–Selberg pole criterion](#rs-global-poles); [The K-Bessel kernel](#bessel-k); The Whittaker differential equation and its decaying solution are constructed here from AL.0’s K-Bessel kernel, specialized to `ν=ir` and `x>0`, with `W_(0,ν)(x)=sqrt(x/π)K_ν(x/2)` fixed by its large-x asymptotic. **ArithmeticLocallySymmetricSpaces**, ALS.F.6.
 
 
 ### Examples
