@@ -137,7 +137,7 @@ here, which add the locally profinite, ring-valued or reductive clause: Tau Ceti
 induction, Frobenius reciprocity, stages and exactness over compact G (SR.2.1);
 `Rep.mackeyDecomposition` for finite G; Mathlib `Representation.Coinvariants` of `charTwist ψ⁻¹ ρ`
 for the twisted coinvariants (SR.2.3, SR.5.1); the Iwahori factorisations, cell products, index
-formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z` normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori) and Cartan decomposition of ReductiveGroupsPartII, RG2.3–RG2.4,
+formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z ∈ Δ_M` normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori) and Cartan decomposition of ReductiveGroupsPartII, RG2.3–RG2.4,
 and its `LocalIntegration.modularCharacter_eq_adjointModulus` and
 *parabolic-adjoint-determinant* in every characteristic, supplying
 det(Ad(p)|Lie P) = det(Ad(p)|Lie N) as an algebraic identity (SR.1.4–SR.1.5, SR.2.2, SR.3a.2;
@@ -449,7 +449,7 @@ chains of GL(V) and their stabilisers (*gl-building-lattice-chains*), whose endo
 are the hereditary orders of the types of SR.5.2. RG2.3: parahoric, Iwahori and
 pro-p Iwahori subgroups, the Moy–Prasad filtration and congruence subgroups in good position.
 RG2.4: the Iwasawa, Cartan and Iwahori–Bruhat decompositions, Iwahori factorisations and cell
-products, compact double-coset finiteness and the index formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z` normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori),
+products, compact double-coset finiteness and the index formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z ∈ Δ_M` normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori),
 compactness of P\G, unimodularity and the modulus δ_P of the minimal parabolic. RG2.5: the pinned
 integral dual group over ℤ with its Galois action through a finite quotient and the L-group. These
 are consumed as imported objects; no second topology, parahoric or dual group is defined here.
@@ -492,8 +492,9 @@ pro-p property behind *unit-pro-order*.
 ### From TauCetiRoadmap.RepresentationTheory.InductionRestriction
 
 Layer 0: the functorial core, transitivity and the projection formula of algebraic induction, with
-which compact induction from open subgroups agrees. Layer 3: the Mackey decomposition formula, the
-finite case of the Mackey filtration.
+which compact induction from open subgroups agrees. Layer 2: the finite-index coset model and
+preservation of finite dimension, used by induction of raw Weil–Deligne parameters in SR.5.2.
+Layer 3: the Mackey decomposition formula, the finite case of the Mackey filtration.
 
 ### From TauCetiRoadmap.ModularForms
 
@@ -1439,6 +1440,10 @@ Checks: the transported basis gives the unit; it recovers multiplication for a n
 - For GL_2(ℚ_p), let P be the upper Borel, M its diagonal torus, and U ⊆ GL_2(ℤ_p) the inverse
   image of the upper-triangular subgroup of GL_2(𝔽_p). Then diag(p, 1) normalizes U_M, and
   [U diag(p, 1) U]² = [U diag(p², 1) U].
+- For the same Iwahori U, `z = diag(1,p)` normalizes `U_M` but lies outside `Δ_M`.
+  In `zUz⁻¹` the upper entry lies in `p⁻¹ℤ_p` and the lower entry in `p²ℤ_p`, so
+  `[U : U ∩ zUz⁻¹] = p`, whereas `δ_B(z)⁻¹ = p⁻¹`. Normalization alone does not give the
+  dominant index formula of RG2.4 ([Cas95], Lemma 1.5.1, p. 16).
 - For P = M = G and any compact open U, two elements of the normalizer of U have degree-one
   double cosets and multiply with coefficient one, even when G is nonabelian.
 - In A₄, let H = {1, (12)(34)}, g = (123), and V₄ the Klein four subgroup. Then HgH = V₄g,
@@ -2549,7 +2554,7 @@ characters trivial on G°, a complex algebraic torus Ψ(G) = Hom(Λ(G), ℂ^×) 
 of Ψ(G) is a smooth character. Ψ(G) acts on irreducible representations by twisting. For a Levi M
 this gives Ψ(M), which acts on cuspidal representations of M ([Ber92] Ch. II §2.1,
 Proposition 22, p. 39; Ch. II §3, Definition 18, p. 43). *Needs:* *smooth-character*;
-ReductiveGroupsPartII RG2.0, ReductiveGroupsPartII RG2.1.
+ReductiveGroupsPartII RG2.0, ReductiveGroupsPartII RG2.1 and RG2.3.
 
 The lattice rank is the split rank minus the rank of the relative roots; the Laurent coordinate algebra is identified, and its points over every complex algebra are pinned by evaluation of group-algebra basis elements.
 
@@ -2563,20 +2568,29 @@ Ordinary unramified characters always use G°. For a minimal Levi M and its conn
 parahoric M₁, define the weakly unramified characters (relative to M₁) as smooth characters
 trivial on M₁. Here M₁ = ker κ_M, whereas M°/M₁ is the torsion subgroup of
 Ω_M = M(F)/M₁. Thus ordinary characters form the identity component of Hom(Ω_M, ℂˣ).
-For split G the minimal Levi is a split torus and M₁ = M°; only in that case do the
-two notions coincide automatically. These identifications are owned by
+The two notions coincide exactly when Ω_M is torsion-free. For unramified G the minimal
+Levi is an unramified torus T and Ω_T = X_*(T)^{Fr}, so M₁ = M°; this includes split G.
+They can differ when Ω_M has torsion, as for the ramified norm-one torus.
+These identifications are owned by
 *iwahori-components* below ([Ros14] §§2.5–2.9, §3.2).
 
-Checks: the full subgroup gives only the trivial character; the trivial subgroup gives all smooth
-characters; the ramified norm-one test
-uses RG2's `NormTorus.quadraticData`, `NormTorus.pointsEquiv` and
-`LevelSubgroups.normOneTorus_parahoric_index` (the example *torus-parahoric-example*):
-for a ramified quadratic extension of odd residue characteristic, T(F) is compact,
-T° = T(F), and the connected parahoric I has index two. There is exactly one ordinary
-unramified character and exactly two weakly unramified characters. The latter both
-have one-dimensional I-invariants and generate their character lines. The nontrivial
-one has no T(F)-fixed vector. The two lines lie in different ordinary Bernstein
-components, and H(T(F), I; ℂ) = ℂ[ℤ/2]. I remains the connected parahoric throughout.
+**Checks.**
+
+- Triviality on the full subgroup gives only the trivial character; triviality on the trivial
+  subgroup gives all smooth characters.
+- For the norm-one torus of an unramified quadratic extension, Frobenius acts by `−1` on
+  `X_*(T) = ℤ`, so Ω_T = 0 and T₁ = T° = T(F). Both character groups are trivial.
+- For G = Dˣ, with D a central division algebra over F, the minimal Levi is G and
+  Ω_G = ℤ via the valuation of the reduced norm. Thus G₁ = G° = O_Dˣ and both character
+  groups are Hom(ℤ, ℂˣ), even when G is nonsplit.
+- The ramified norm-one test uses RG2's `NormTorus.quadraticData`, `NormTorus.pointsEquiv` and
+  `LevelSubgroups.normOneTorus_parahoric_index` (the example *torus-parahoric-example*):
+  for a ramified quadratic extension of odd residue characteristic, T(F) is compact,
+  T° = T(F), and the connected parahoric I has index two. There is exactly one ordinary
+  unramified character and exactly two weakly unramified characters. The latter both
+  have one-dimensional I-invariants and generate their character lines. The nontrivial
+  one has no T(F)-fixed vector. The two lines lie in different ordinary Bernstein
+  components, and H(T(F), I; ℂ) = ℂ[ℤ/2]. I remains the connected parahoric throughout.
 
 **Finite length** (*finite-length*). For G reductive over F and complex coefficients prove: (1)
 if σ is an admissible representation of finite length of a Levi M, then i_P σ has finite length,
@@ -2975,7 +2989,7 @@ characters are trivial.
 ### Dependencies
 
 SR.0–SR.2 and SR.3a; the Λ-linear centre of SR.1 for the comparison of the Bernstein centre on the
-generators ℂ[G/K]; ReductiveGroups layer 7; ReductiveGroupsPartII RG2.0, RG2.1 and RG2.4.
+generators ℂ[G/K]; ReductiveGroups layer 7; ReductiveGroupsPartII RG2.0, RG2.1, RG2.3 and RG2.4.
 
 ## Layer SR.2a: second adjointness in characteristic zero
 
@@ -3641,7 +3655,7 @@ scaling behaviour.
 SR.1 (the spherical Hecke algebra and its comparison with the double-coset ring) and SR.2
 (parabolic induction and the modulus); SR.0d for the derived Satake statement; ModularForms
 layer 2; ReductiveGroups layers 3 and 7; ReductiveGroupsPartII RG2.1, RG2.4 and RG2.5;
-ClassFieldTheory layer 9.
+ClassFieldTheory layer 9; ProfiniteCohomology layer 10 for the finite-group cohomology comparison.
 
 ## Layer SR.5: integral local families for GL_n
 
@@ -4482,7 +4496,7 @@ for every a ≠ 0, as well as Sp(2)∨ ≅ Sp(2)⊗ω⁻¹ and det Sp(2) = ω
 ([Del73] §2.2.4, p. 522, §8.4.1, p. 568, and the proof of §8.4.3, p. 569).
 No Frobenius-semisimplicity hypothesis is imposed.
 *Needs:* *wd-raw-parameters*; ClassFieldTheory layer 9;
-RepresentationTheory/InductionRestriction layer 7; Mathlib linear duals and tensor products.
+RepresentationTheory/InductionRestriction layers 0 and 2; Mathlib linear duals and tensor products.
 
 **Checks.**
 
@@ -4792,7 +4806,8 @@ decompositions, for the stability in *integral-second-adjointness*), SR.2 (induc
 functors, first adjointness and coinvariants), SR.3a (cuspidality, for the distinguished cuspidal
 types and segments), SR.3 (finite length, cuspidal support, the Bernstein centre and the
 finiteness of Hecke corners over it) and SR.4 (*spherical-parameter*); from ReductiveGroupsPartII,
-RG2.2.4 (the lattice chains that define the hereditary orders of the types).
+RG2.2.4 (the lattice chains that define the hereditary orders of the types); ClassFieldTheory
+layer 9 for the Weil groups, embeddings and degree maps used throughout SR.5.2.
 
 ## Layer SR.6: finite-wild parameters, center images and stability
 

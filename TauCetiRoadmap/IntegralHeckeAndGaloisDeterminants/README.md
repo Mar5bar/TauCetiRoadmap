@@ -1233,7 +1233,7 @@ is evaluation at the identity using the counit. The cotensor convention is
 - `Ind_{C₂}^{C₂}(sign)` consists of `F` with `F(h)=hF(1)`; evaluation at the identity
   identifies it with `ℤ`, and right translation by the nonidentity acts as `−1`.
 - For `C₂=⟨(12)⟩⊂S₃` with trivial coefficients, `Ind_{C₂}^{S₃}(ℤ)` has rank three,
-  with the delta basis of left cosets `C₂g`. Right translation takes the delta function
+  with the delta basis of right cosets `C₂g`. Right translation takes the delta function
   of `C₂g` to that of `C₂gk⁻¹`; a three-cycle permutes the three basis vectors cyclically.
 
 **Compatible invariant-coordinate evaluation.** For the invariant coordinate algebras
@@ -1417,7 +1417,7 @@ These are the scalar-extension constructions in Chenevier, §§1.1–1.5.
 | Regular matrix invariance | Constant identity points are regular; actual `GL_d` points are regular; complex conjugation on `GL₁(ℂ)` is not a Laurent polynomial and fails regularity. The matrix-coordinate hypotheses specify the entire point map. |
 | Coefficient change of `H`-pseudocharacters | Identity fixes the family; reduction takes an integral value `2` to zero; rational extension retains a value `−3`. |
 | Quotient descent of `H`-pseudocharacters | The bottom subgroup retains values; the trivial point representation descends through the whole group; a coordinate separating `gδ` from `g` prevents descent by a subgroup containing `δ`. |
-| Two-dimensional determinants on a group | At identity the pair is `(1,2)`; at `diag(2,3)` it is `(6,5)`; at the swap matrix it is `(−1,0)`. These fix which component is the determinant. |
+| Two-dimensional determinants on a group | At identity the pair is `(2,1)`; at `diag(2,3)` it is `(5,6)`; at the swap matrix it is `(0,−1)`. These fix the `(trace, determinant)` order. |
 | The coefficient subring | Integral coefficients generate `ℤ`; degree zero generates the prime subring; the rank-one character `n↦(1/2)^n` on the multiplicative copy of `ℕ` generates `ℤ[1/2]`, containing `1/2` and excluding `1/3`. |
 | The universal ring `B_H^Γ` and its representing equivalence | For `GL₁`, the homomorphism representing a point character takes the universal coordinate at a group element to `2`, to `−3`, and at the identity over `𝔽₂` to `1`. The values are images of the universal coordinate under the representing homomorphism. |
 | Tensor coordinates | Arity zero over `ℚ` has dimension one; the torus variable is not idempotent; the variables on the two torus factors are distinct. |
@@ -3359,15 +3359,26 @@ the selected representatives. This abstracts the descent in
 
 **Functoriality of nilpotent descent.**
 For ideals `J ⊂ T`, `J′ ⊂ T′`, supply a continuous ring map
-`q : T/J → T′/J′`. Assume `T′/J′` Hausdorff, both
+`q : T/J → T′/J′`. Let `E` and `E′` be degree-`d` determinants over `T/J` and `T′/J′`,
+respectively. Assume `T′/J′` Hausdorff, both
 quotient determinants continuous, and their characteristic polynomials agree after `q`
 on Frobenius representatives whose conjugates are dense in `G`. Then the coefficient change of
-`D` along `q` is `E`.
+`E` along `q` is `E′`.
 Nilpotence is needed to quantify the original error, not for this compatibility assertion.
 This is the quotient-ring
 specialization of Layer 4's *Hecke level change in interpolation*, with the same hypotheses
 (uniqueness by the dense-set argument used in Scholze, Corollary 5.1.10, p.1037).
 *Needs:* Uniqueness from Frobenius density.
+
+**Checks.** For discrete finite G, take the dense subset to be all of G and
+`q : ℤ/(4) → ℤ/(2)` to be reduction.
+
+- The sign character of C₂ has polynomial `X−3` at its generator over `ℤ/(4)`;
+  its coefficient change has polynomial `X−1` over `ℤ/(2)`.
+- The sum of the sign and trivial characters has polynomial `X²+3` at that generator;
+  reduction gives `X²+1 = (X−1)²`, with trace zero and determinant one.
+- The degree-zero determinant has polynomial `1` on every group element over both rings;
+  coefficient change preserves it.
 
 ### 5.2 Nilpotence exponents
 
@@ -3414,9 +3425,18 @@ on `M`, unless its action is faithful. *Needs:* Mathlib `Submodule`, ideal power
 `(f⁻¹(J₁) ∩ g⁻¹(J₂))^(a·max(b,c)) = 0`.
 For an action faithful on a two-factor filtered module, the comparison kernel has `a = 2`.
 For a derived-to-cohomology comparison, use the inclusive amplitude exponent.
-*Needs:* Nilpotence through a quotient extension; nilpotence detected by products;
-Layer 2, Amplitude bound for ghost nilpotence.
+*Needs:* Nilpotence through a quotient extension; Nilpotence in a product of coefficient rings;
+Layer 2, Ghost nilpotence and annihilators.
 *Lean:* `Nilpotence.comparison`.
+
+**Checks.**
+
+- For `T = ℤ/(8)`, `f = g = id` and `J₁ = J₂ = (2)`, take `a=1`, `b=c=3`.
+  The comparison ideal is `(2)` with nonzero square and zero cube.
+- For `T = ℤ/(64)` and both maps reduction to `ℤ/(8)`, the joint kernel `(8)` has
+  square zero. With `J₁ = J₂ = (2)` the bound is `2·3=6`, and `(2)⁵ ≠ 0` in T.
+- For `T = ℤ/(8)`, `f = id`, `g` reduction to `ℤ/(4)` and `J₁ = J₂ = (2)` in their
+  respective rings, `a=1`, `b=3`, `c=2` give exponent three. Exponent two fails.
 
 **Uniform nilpotence in an inverse limit.** `Nilpotence.inverse_limit`: for ideals `K_r`
 in `A` with `⋂ K_r = 0`, an ideal `J`, and one natural number `N`, assume
@@ -3794,12 +3814,27 @@ These are the empty case, a full structure, and a failed congruence for
 
 ### 6.2 Relation minors and the auxiliary matrices
 
-**Five types of Ribet module relations.** Choose `ρ_i = ρ(g_i) − ψ(g_i)` spanning `Δψ` and adjoin
+**Five types of Ribet module relations.** Choose `g_i` such that
+`ρ_i = ρ(g_i) − ψ(g_i)I₂` span `Δψ` and the `ρ(g_i) − χ(g_i)I₂` span `Δχ`. Adjoin
 the `y_v`, and write `ν_i = ψ(g_i) − χ(g_i)`. Prove that a presentation of `N` consists of
 relations of five types: (I) linear relations among the `ρ_i`; (II) the coefficients `δ_ijk` from
 `(ρ_i + ν_i)ρ_j = ∑ δ_ijk ρ_k`; (III) the coefficients of `ρ(σ) − ψ(σ)`, `σ ∈ G_{v₀}`; (IV) those
 for `σ ∈ I_v`; (V) those for `σ ∈ G_v` together with `ψ(σ) − χ(σ)` in the `y_v` column
 ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §2.2, equations (18)–(24), pp.10–11). *Needs:* Ribet module with local conditions, Tau Ceti `TauCeti.fittingIdeal`.
+
+**Checks.**
+
+- For `G = (ℤ/2)²`, `T = ℤ₂`, trivial `ρ`, `ψ(a,b) = (−1)^a`, `χ(a,b) = (−1)^b`
+  and `S = ∅`, both difference modules are `2ℤ₂I₂` and their product is `4ℤ₂I₂`.
+  Choosing only `g₁=(1,0)` gives `ρ₁=2I₂`, `ν₁=−2` and a zero type (II) relation,
+  incorrectly presenting `ℤ₂`. Adjoining `g₂=(0,1)` supplies the missing χ-generator:
+  `ρ₂=0`, `ν₂=2`, and `(ρ₂+ν₂I₂)ρ₁=2ρ₁` gives the relation `2`, so
+  `N ≅ ℤ/2` and `Fitt₀(N)=(2)`.
+- For the integral upper-unipotent representation of `ℤ`, `χ=ψ=1` and `S=∅`,
+  the single difference generator `E₁₂` spans both modules, its square is zero, and
+  the presentation gives `N ≅ ℤ` with `Fitt₀(N)=0`.
+- For `ρ=ψI₂`, `χ=ψ` and `S=∅`, all chosen difference generators are zero;
+  type (I) relations kill each of them, giving `N=0` and `Fitt₀(N)=T`.
 
 **Stabilization of local relation rows.** Prove that adding each locally appearing
 `ρ(σ) − ψ(σ)` as a new generator, with a defining relation and a pivot row, changes the
@@ -3850,14 +3885,31 @@ pp.12–13). If `i=j` in a type (II) row, both subtractions apply to its single 
 - For `D=(5)` and `z_v=0`, the arithmetic determinant is zero whatever the top coefficient;
   the identity uses no division by a local factor.
 
-**Kernel vector for the altered matrix.** Prove that the altered arithmetic matrix `E′_arith` just defined has,
-on each principal artinian local factor `K_i`, a kernel vector with a unit coordinate. If all local
+**Kernel vector for the altered matrix.** Under the standing hypotheses of Layer IHG.6,
+choose the global basis lower triangular on `G_{v₀}` with second diagonal character `ξ_{v₀}`
+when `Σ` is nonempty, before choosing the generators and forming `E′_arith`.
+Prove that this matrix has, on each principal artinian local factor `K_i`, a kernel vector
+with a unit coordinate. If all local
 `D_v` are units, its entries are `−B_v/D_v`, the `b_i` and `−B_w/D_w`; otherwise multiply by a
 maximal power of the principal maximal-ideal generator and normalize the corresponding local `D_v`
 ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 2.4 and proof, pp.13–14). *Needs:* Weighted auxiliary matrix.
 
-**Vanishing of the altered determinant.** With the source total-fraction-ring hypotheses, prove
+**Vanishing of the altered determinant.** Under the standing hypotheses of Layer IHG.6,
+with `E′_arith` formed in the same distinguished-place basis as in the preceding target, prove
 `det E′_arith = 0` in `K` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Lemma 2.4, pp.13–14). *Needs:* Kernel vector for the altered matrix.
+
+**Checks for the kernel vector and determinant.**
+
+- Over `ℚ`, `[[2,1],[4,2]]` kills `(-1/2,1)` and has determinant zero; the unit
+  coordinate forces the determinant to vanish by the adjugate identity.
+- Over `ℤ/(4)`, take `D_v=2`, `B_v=1`, `b=1` and `x−a=2` in the local identity
+  `D_v b = B_v(x−a)`. Division by `D_v` is unavailable, but the scaled vector `(-1,2)`
+  has a unit coordinate and is killed by `[[2,1],[0,0]]`, whose determinant is zero.
+- Over `ℤ/(4)`, the matrix `(2)` kills the nonzero vector `(2)` but has nonzero
+  determinant. A merely nonzero kernel vector cannot replace the unit-coordinate condition.
+- Without irreducibility, take `ρ=ψI₂`, `χ=ψ`, `S=P=∅` and the single generator `g₁=1`.
+  Then `ρ₁=0`, the valid type (I) relation matrix is `D=(1)`, and `E′_arith=D` has
+  determinant one and no nonzero kernel. The total-fraction-ring assumption alone is insufficient.
 
 **Trace congruences for difference words.** For a noncommutative polynomial `f(X₁, …, X_r)` with
 zero constant term, prove `tr f(ρ₁, …, ρ_r) ≡ f(−ν₁, …, −ν_r)` modulo `I`, and also
