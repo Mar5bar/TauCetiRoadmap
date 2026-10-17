@@ -32,6 +32,11 @@ Generic continuous representations, stable lattices, Weil–Deligne functors,
 finite/Lie-group classification and Tate modules belong to
 ArithmeticGaloisRepresentations and the existing Tau Ceti library. Generic
 finite-group averaging is Mathlib's representation invariant projector.
+LocalGaloisDeformationRings §1.6 owns the shared coefficient Fontaine–Laffaille
+category and its free-lattice and finite-torsion realizations, labelled factors,
+Frobenius permutation and coefficient/kernel comparisons. Section 1.5a consumes
+those specialisations for labelled tame inertia, integral interval twists and
+automorphic applications.
 TauCetiRoadmap.LocalGaloisGroups Layer 5 supplies the cyclotomic reciprocity
 formulas `localCyclotomicCharacter_artinMap_unit` and
 `localCyclotomicCharacter_artinMap_uniformizer`; their geometric normalization
@@ -371,11 +376,13 @@ Holomorphy of the standard `L`-function of a cuspidal `GL₂` representation und
 
 ### From FiniteFlatGroupsAndIntegralPadicHodgeTheory
 
-**R07.3.** The underlying `ℤ_ℓ` Fontaine–Laffaille functor, its exactness, lattice comparison and simple-object tame-inertia formula in the safe interval `[0,ℓ−2]`, especially R07.3.9 and R07.3.17. Section 1.5a constructs the `O_E`-linear, embedding-labelled refinement, coefficient and kernel transport, and the residual inertia profiles used in §§1.6, 7.4–7.5. The classical specialization permits fundamental characters of niveau one or two. Endpoint weights require a separate comparison.
+**R07.3.** The underlying `ℤ_ℓ` Fontaine–Laffaille functor, its exactness, lattice comparison and simple-object tame-inertia formula in the safe interval `[0,ℓ−2]`, especially R07.3.9 and R07.3.17. LocalGaloisDeformationRings §1.6 supplies the `O_E`-linear, embedding-labelled free-lattice and finite-torsion specialisations, including coefficient and kernel transport. Section 1.5a uses them with R07.3.9 to prove the residual inertia profiles used in §§1.6, 7.4–7.5. The classical specialization permits fundamental characters of niveau one or two. Endpoint weights require a separate comparison.
 
 **R07.4.** Weight-two good-reduction crystalline representation from the `p`-divisible group of the modular abelian quotient; Barsotti–Tate equivalence in the stated coefficient conventions. The precise inertial/Hodge-type characterisation of weight-two potentially Barsotti–Tate lifts, including `p=2` caveats; no extension of small-range Fontaine–Laffaille to weight `p+1`. The weight-two potentially Barsotti–Tate identification used in KW II Corollary 7.8(ii), with its norm-factor and local type hypotheses.
 
 ### From LocalGaloisDeformationRings
+
+**Section 1.6.** The common coefficient Fontaine–Laffaille category over unramified `K/ℚ_ℓ` in `[0,ℓ−2]`, with labelled `O_E⊗_{ℤ_ℓ}O_K` factors and their Frobenius permutation when `E` contains every embedding of `K`. Its free-lattice and finite-torsion specialisations supply the covariant realization by the `ℤ_ℓ`-linear lattice dual and Pontryagin torsion dual of `U_S`, with transported coefficient actions, exactness, coefficient extension, reduction, strict kernels of coefficient-linear filtration-preserving maps commuting with divided Frobenius, and lattice-quotient comparisons. Section 1.5a uses these as `coefficientFontaineLaffaille`; labelled tame-inertia formulas, integral interval twists and automorphic comparisons belong here.
 
 **Sections 3.1–3.7.** Kisin 2.7.6/2.7.7 fixed potentially semistable/crystalline inertial and Hodge-type quotient for any complete Noetherian local `A°` with a free continuous family, with finite-projective period module and coefficient specialisation. The universal pst-deformation-ring node alone is insufficient.
 
@@ -1073,18 +1080,20 @@ formula.
 ### 1.5a Coefficients and labelled Fontaine–Laffaille comparison
 
 For finite unramified `K/ℚ_ℓ` of degree `f` and finite `E/ℚ_ℓ` containing all
-embeddings of `K`, construct `coefficientFontaineLaffaille` from R07.3's
-underlying functor. Keep the action of `A=O_E⊗_{ℤ_ℓ}O_K`, its factors
+embeddings of `K`, use the free-lattice and finite-torsion specialisations of
+LocalGaloisDeformationRings §1.6 as `coefficientFontaineLaffaille`.
+The supplied comparison retains the action of `A=O_E⊗_{ℤ_ℓ}O_K`, its factors
 `A≅∏_{τ:K→E}O_E`, their labelled filtrations, and the Frobenius permutation
-induced by `1⊗φ_K`. Use the covariant DFG realization `V`, the `ℤ_ℓ`-dual of
-the supplier's contravariant `U_S` on free lattices and its Pontryagin dual
+induced by `1⊗φ_K`. Its covariant DFG realization `V` is the `ℤ_ℓ`-dual of
+the scalar contravariant `U_S` on free lattices and its Pontryagin dual
 on torsion objects. A constant labelled rank-one jump `i` gives `ε_ℓ^{−i}`,
-of `D_HT` degree `i`. Construct the coefficient action through this duality and identify
-the rational filtered module with `D_cris(V)`. In the common safe interval
-`[0,ℓ−2]`, prove exactness, coefficient extension and reduction, comparison of
-kernels of coefficient-linear endomorphisms preserving the filtration and
-commuting with Frobenius, and compatibility with lattice quotients. All
-torsion kernels carry the induced strict filtration.
+of `D_HT` degree `i`. Use its transported coefficient action to identify
+the rational filtered module with `D_cris(V)` in the automorphic realizations.
+In the common safe interval `[0,ℓ−2]`, apply the supplied exactness,
+coefficient extension and reduction, kernel comparisons for coefficient-linear
+endomorphisms preserving the filtration and commuting with divided Frobenius,
+and lattice-quotient comparisons. The supplied torsion kernels carry the
+induced strict filtration.
 
 If the degrees lie in `[a,b]` with `b−a≤ℓ−2`, first apply the integral Tate
 twist `T(a)`, whose degrees lie in `[0,b−a]`, and record it in the comparison.
@@ -1126,7 +1135,8 @@ of R07.3.9 as well as the niveau-`f` case.)
 - An interval `[a,a+ℓ−2]` is carried to `[0,ℓ−2]` by `T(a)` and then restored.
   An interval of length `ℓ−1` fails this safe-range hypothesis.
 
-*Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.9,
+*Needs:* LocalGaloisDeformationRings §1.6;
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.9,
 R07.3.12–R07.3.17; ArithmeticGaloisRepresentations §2.3;
 AutomorphicGaloisRepresentationsPartII AG2.P, finite-coefficient periods.
 

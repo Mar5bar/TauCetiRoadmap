@@ -481,10 +481,14 @@ The remaining definitions in README.md require arithmetic or geometric carriers:
   `schollProjector_dfg` and `schollProjector_dfg_level`,
   the transported `newformOrbitProjector` and `newformFactor`
   (with its lattice), the cohomological newform realisation `M_g`,
-  `coefficientFontaineLaffaille` with its O_E⊗O_K factors, Frobenius-labelled
-  filtrations, covariant DFG realization and safe-range coefficient/kernel
-  comparisons, and `labelledTameInertia` with niveaux f and 2f and the
-  recorded integral Tate transport,
+  `coefficientFontaineLaffaille` as the free-lattice and finite-torsion
+  specialisations supplied by LocalGaloisDeformationRings §1.6, with its
+  O_E⊗O_K factors, Frobenius permutation, labelled filtrations, linear lattice
+  dual and Pontryagin torsion dual realization, transported coefficient
+  actions and safe-range coefficient, reduction, strict kernel and
+  lattice-quotient comparisons. This roadmap supplies `labelledTameInertia`
+  with niveaux f and 2f, integral interval twists and the automorphic
+  comparisons of README §1.5a,
   `IntegralPremotive` (with its kernel), `integralParabolic` and
   `integralNewformPremotive`.
 * Layer 3: `Carayol.sigmaLambda` and `Carayol.sigmaLambda_finrank` for π in the
