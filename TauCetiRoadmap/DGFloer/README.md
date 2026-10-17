@@ -128,7 +128,7 @@ This roadmap consumes, and does not rebuild:
 - **[SmoothBundlesConnections B1.4](https://github.com/TauCetiProject/TauCetiRoadmap/pull/887).**
   Generic smooth homogeneous quotient, principal projection and tangent quotient.
   Layer1 item7 owns the particular homogeneous models and metric applications.
-- **[ComplexKahlerGeometry K7.1–K7.2](../ComplexKahlerGeometry/README.md).** K7.1 supplies
+- **[ComplexKahlerGeometry K7.1–K7.2](https://github.com/TauCetiProject/TauCetiRoadmap/pull/953).** K7.1 supplies
   the single complex projective carrier, charts, real atlas and orientation before
   associated bundles. The separate later form comparison in Layer1 item7 consumes
   K7.2's normalized Fubini–Study form after its circle/Chern–Weil inputs; it is not
@@ -766,7 +766,7 @@ convergence targets below extend those interfaces.
    - Identify the manifold of orthonormal `2`-frames in `ℝⁿ` with `O(n)/O(n−2)` for n≥2,
      including its frame-evaluation map and tangent/metric comparison; treat the empty
      low-dimensional frame cases separately.
-   - For `CPᵈ`, use [ComplexKahlerGeometry K7.1](../ComplexKahlerGeometry/README.md)'s single
+   - For `CPᵈ`, use [ComplexKahlerGeometry K7.1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/953)'s single
      `Projectivization ℂ (Fin (d+1) → ℂ)` carrier, its affine charts and underlying real atlas.
      Construct the diffeomorphism `U(d+1)/(U(1)×U(d))→CPᵈ`, `[g]↦[g e₀]`, and prove its
      agreement with those charts and the complex orientation. Construct its
