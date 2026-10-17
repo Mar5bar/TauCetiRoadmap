@@ -7,7 +7,9 @@ import TauCeti.NumberTheory.DirichletCharacter.Basic
 
 These signatures are suggested forms, not an exhaustive checklist. README.md is the definitive
 roadmap. This file records light definitions and representative end theorems statable against
-the pinned APIs. It fixes the Bernoulli sign, integral
+the pinned APIs. Generic logarithm-series convergence, continuity and addition are supplied by
+PadicFunctionalAnalysis §4.5 on the imported `NormedSpace.logOneAdd` carrier.
+It fixes the Bernoulli sign, integral
 smoothing quotient, the Iwasawa normalization of the p-adic logarithm, normalized analytic
 denominator, signed Gamma, full division fibers and ordered arithmetic divisor coefficients.
 Arithmetic analytic expressions are evaluated only with the convergence and nonvanishing
@@ -79,20 +81,6 @@ example : (Complex.I)⁻¹ = -Complex.I := by simp
 
 /-! ### The Iwasawa logarithm -/
 
-/-- The logarithm series converges on the open unit disc of a complete field over `ℚ_[p]`. -/
-theorem hasSum_logOneAdd_of_norm_lt_one (p : ℕ) [Fact p.Prime] {K : Type*} [NormedField K]
-    [NormedAlgebra ℚ_[p] K] [CompleteSpace K] [CharZero K] {z : K} (hz : ‖z‖ < 1) :
-    HasSum (fun n : ℕ => (-1 : K) ^ (n + 1) / n * z ^ n) (NormedSpace.logOneAdd K K z) := by
-  sorry
-
-/-- The logarithm series turns products of principal units into sums. -/
-theorem logOneAdd_add_mul_of_norm_lt_one (p : ℕ) [Fact p.Prime] {K : Type*} [NormedField K]
-    [NormedAlgebra ℚ_[p] K] [CompleteSpace K] [CharZero K] {z w : K} (hz : ‖z‖ < 1)
-    (hw : ‖w‖ < 1) :
-    NormedSpace.logOneAdd K K (z + w + z * w) =
-      NormedSpace.logOneAdd K K z + NormedSpace.logOneAdd K K w := by
-  sorry
-
 /-- Every nonzero element has a power that is a power of `p` times a principal unit. -/
 def HasIwasawaDecomposition (p : ℕ) (K : Type*) [NormedField K] : Prop :=
   ∀ x : K, x ≠ 0 → ∃ n : ℕ, 0 < n ∧ ∃ m : ℤ, ‖x ^ n * (p : K) ^ (-m) - 1‖ < 1
@@ -124,6 +112,15 @@ theorem existsUnique_isIwasawaLog (p : ℕ) [Fact p.Prime] (K : Type*) [NormedFi
 theorem existsUnique_isIwasawaLog_padicComplex (p : ℕ) [Fact p.Prime] :
     ∃! L : ℂ_[p] → ℂ_[p], IsIwasawaLog p L := by
   sorry
+
+/-- A zero-parameter branch with the same value at zero equals the normalized logarithm. -/
+example (p : ℕ) [Fact p.Prime] {L ℓ : ℂ_[p] → ℂ_[p]} (hL : IsIwasawaLog p L)
+    (hzero : ℓ 0 = 0) (hp : ℓ p = 0)
+    (hmul : ∀ x y : ℂ_[p], x ≠ 0 → y ≠ 0 → ℓ (x * y) = ℓ x + ℓ y)
+    (hseries : ∀ z : ℂ_[p], ‖z‖ < 1 → ℓ (1 + z) = NormedSpace.logOneAdd ℂ_[p] ℂ_[p] z) :
+    ℓ = L := by
+  obtain ⟨_, _, hM⟩ := existsUnique_isIwasawaLog_padicComplex p
+  exact (hM ℓ ⟨hzero, hp, hmul, hseries⟩).trans (hM L hL).symm
 
 /-- The intrinsic Iwasawa logarithm of a finite extension of `ℚ_[p]`. -/
 theorem existsUnique_isIwasawaLog_of_finiteDimensional (p : ℕ) [Fact p.Prime] (K : Type*)
@@ -748,6 +745,12 @@ example : (-1 / 3 : ℚ) - 2 / 3 = -1 := by norm_num
 example : ((1 : ℚ) / 2) * (1 / 3) = 1 / 6 := by norm_num
 example : eisensteinPositiveMoment 5 2 7 - eisensteinPositiveMoment 5 2 3 = 120 := by
   decide
+/-- The angular weight-four adapter retains the normalized constant and divisor coefficient. -/
+example : eisensteinPositiveMoment 5 2 3 = 9 ∧
+    (1 - (5 : ℚ) ^ 3) * ((1 / 120) / 2) = -31 / 60 := by
+  constructor
+  · decide
+  · norm_num
 example : eisensteinPositiveMoment 2 6 0 = 2 := by decide
 example : eisensteinPositiveMoment 2 6 3 = 28 := by decide
 example : eisensteinPositiveMoment 3 6 1 = 3 := by decide
