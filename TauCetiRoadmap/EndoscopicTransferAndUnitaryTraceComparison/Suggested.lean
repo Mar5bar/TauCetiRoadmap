@@ -29,7 +29,12 @@ semisimple endomorphisms. The invariant is the class of the torsor of intertwini
 geometric isometries, using source and target descent; on a fixed space it lies in the
 kernel classifying rational orbits. These reductive and torsor interfaces are README targets.
 The global Weil carrier and its structural API are supplied by
-GL2AutomorphicRepresentationsAndTransfer §R17.5.0, with the endoscopic conventions of §1.3a. -/
+GL2AutomorphicRepresentationsAndTransfer §R17.5.0, with the endoscopic conventions of §1.3a.
+Section 1.16's EndoscopicDatum.classMap includes the central descent cocycle z_H,
+the H-torsor H_z and the lifted z-pair space H_{1,z}, with their conjugation actions.
+General twisted matching and stable orbital distributions use these descended carriers.
+An empty H_z(F) gives an empty matching set and zero target function and quotient spaces;
+ordinary endoscopy and cyclic base change have the compatible trivial descent. -/
 
 /-- The nonarchimedean parity sign from quasi-split and inner derived ranks. Real groups
 use symmetric-space half-dimensions instead. The integer exponent retains
@@ -69,7 +74,10 @@ end GLn
 
 /-! ## Layer 2: orbital integrals and transfer factors
 Section 2.6's rational nilpotent germs are locally constant on the regular semisimple locus.
-Their square-dilation homogeneity does not imply constancy on a Cartan's regular locus. -/
+Their square-dilation homogeneity does not imply constancy on a Cartan's regular locus.
+Section 2.11 uses functions and the stable orbital quotient on H_{1,z}(F).
+Section 2.13 constructs the endoscopically induced form B_h from B_g on matching Cartans;
+both Fourier transforms and Weil constants use these forms and the common character ψ. -/
 
 section KappaSum
 variable {D : Type*} [CommGroup D] [Fintype D]
@@ -111,7 +119,12 @@ moment-map charts for Higgs objects over bounded strongly generated sheaf charts
 Sections 3.11 and 3.16 permit auxiliary level at regular places and retain every local volume.
 EtaleDualityAndPerverseSheaves §§5.6, 5.8 supplies pureComplexGeometricSplitting,
 decompositionTheorem and relativeHardLefschetzTheorem; §3.15 extends their scheme statements
-to the specified smooth separated Deligne–Mumford source. -/
+to the specified smooth separated Deligne–Mumford source.
+Section 3.11a supplies uniform finite-jet comparison and H-good, transverse-away-from-v
+globalizations over every sufficiently large residue-extension degree.
+Section 3.17 gives codim Z ≤ δ_Z for every support and the top ordinary cohomology
+conclusion under equality, equivalently the additional hypothesis codim Z ≥ δ_Z.
+Section 3.18 is the preliminary H-good comparison; full stabilization is §4.3a. -/
 
 section ChevalleyGL
 variable {K : Type*} [Field K] {n : ℕ}
@@ -173,10 +186,22 @@ example : kostantSectionGL (0 : Fin 2 → K) = !![0, 0; 1, 0] := by
   fin_cases i <;> fin_cases j <;> simp [kostantSectionGL]
 end ChevalleyGL
 
+/-- A finite power sum vanishing at every sufficiently large exponent has zero coefficients
+when its bases are distinct and nonzero. Consecutive exponents give a Vandermonde matrix. -/
+theorem powerSum_coefficients_eq_zero_of_eventually
+    {ι K : Type*} [Fintype ι] [Field K] (α c : ι → K)
+    (hα : Function.Injective α) (hα0 : ∀ i, α i ≠ 0)
+    (h : ∀ᶠ m : ℕ in Filter.atTop, ∑ i, c i * α i ^ m = 0) :
+    ∀ i, c i = 0 := by
+  sorry
+
 /-! ## Layer 4: the fundamental lemma and smooth transfer
 The reductive and harmonic carriers required for these statements are described in README.md.
 Section 4.2 requires j_* and its inverse to identify the cocharacter lattices over ℤ_(p),
-in addition to p being prime to the Weyl order, and uses compatible centralizer Haar measures. -/
+in addition to p being prime to the Weyl order, and uses compatible centralizer Haar measures.
+Section 4.3 consumes finite jets and every sufficiently large extension degree from §3.11a,
+the preliminary H-good comparison of §3.18 and the Frobenius-count descent of §3.16a.
+Section 4.3a then deduces full anisotropic stabilization from the local fundamental lemma. -/
 
 /-! ## Layer 5: number-field discrete general linear input and normalization
 AutomorphicSpectralTheory §4.14a supplies the residual index and representations.
@@ -283,7 +308,12 @@ The geometric complex, its graded pieces and its commuting actions are README ta
 /-! ## Layer 10: trace parameters and classical comparison
 Section 10.8 transports one Haar measure through each norm centralizer identification.
 Its lattice sums retain reciprocal volumes of the actual compact open stabilizers;
-the norm equivalence identifies these subgroups and their weights. -/
+the norm equivalence identifies these subgroups and their weights.
+Section 10.14's CompactUnitaryRaw.globalizeSpeh provides a nonzero cohomological finite part,
+an algebraic coefficient, the prescribed local dual up to unramified twist, and an unramified
+similitude character using Scholze Theorem 10.2. CompactUnitaryRaw.globalizeDiscreteSeries
+uses Theorem 10.7 and §6.27. CompactUnitaryRaw.commonParity gives common parity and the
+nonzero signed divisor a with dim W = n*a, before positivity of the divided Euler class. -/
 
 /-- Subdiagonal monodromy of the raw special block: N e_j=e_(j+1). -/
 def specialMonodromy (k : ℕ) : Matrix (Fin k) (Fin k) ℚ :=
@@ -352,7 +382,15 @@ classification requires GSp4ClassificationInputs, as well as the automorphic car
 Section 13.9's oldform dimensions and their §15.6 export separately assume that Π_w
 is tempered at every finite place w; relevance and UnitaryClassificationInputs do not
 supply this hypothesis. The infinity Matsushima factor and the finite special-maximal
-zero/one calculation use their respective temperedness inputs. -/
+zero/one calculation use their respective temperedness inputs.
+With the fixed Haar measures of §13.7, each raw transferred trace in the Σ_min oldform
+product is divided by vol(K_v). Equivalently it is the trace of the transfer of e_Kv.
+The Σ_lr zero/one factors and spherical factors are also idempotent traces. -/
+
+/-- At the split GL₂ congruence level with residue cardinality three, the raw trace
+divided by the compact volume gives the four-dimensional invariant space. -/
+example : (1 / 12 : ℚ) / (1 / 48) = 4 := by
+  norm_num
 
 /-! ## Layer 14: rational Igusa spectral comparison
 Virtual spectral factorization is separate from degree-wise concentration. -/
