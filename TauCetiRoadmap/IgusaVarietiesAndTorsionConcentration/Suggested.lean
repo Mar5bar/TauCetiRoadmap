@@ -60,6 +60,12 @@ def DominatedBy {n : ℕ} (ν ν' : Fin n → ℚ) : Prop :=
     ∀ k : ℕ, ∑ i ∈ Finset.univ.filter (fun i : Fin n => i.val < k), ν i ≤
       ∑ i ∈ Finset.univ.filter (fun i : Fin n => i.val < k), ν' i
 
+/-- Every vector is dominated by itself. -/
+example {n : ℕ} (ν : Fin n → ℚ) : DominatedBy ν ν := sorry
+
+/-- Unequal singleton total slopes fail dominance. -/
+example : ¬ DominatedBy ![(0 : ℚ)] ![1] := sorry
+
 /-- `B(GL_n, μ)`: the Newton vectors dominated by the (dominant) cocharacter `μ`, written as a
 vector of integers in decreasing order (CS17 Definition 3.1.2, p. 677). -/
 def IsAdmissible {n : ℕ} (μ : Fin n → ℤ) (ν : NewtonVector n) : Prop :=
@@ -173,8 +179,18 @@ example (F : Type) [Field F] [NumberField F] [NumberField.IsCMField F]
 example (F : Type) [Field F] [NumberField F] [NumberField.IsCMField F] :
     splitTracePairing F 1 ![1, 0] ![0, 1] = (Module.finrank ℚ F : ℚ) := sorry
 
+/-- Exchanging the arguments negates the trace pairing. -/
+example (F : Type) [Field F] [NumberField F] [NumberField.IsCMField F]
+    (n : ℕ) (x y : Fin (2 * n) → F) :
+    splitTracePairing F n x y = -splitTracePairing F n y x := sorry
+
 /-- A unitary datum excludes the rank-zero matrix case. -/
 example (D : UnitarySimilitudeDatum) : D.n ≠ 0 := Nat.ne_of_gt D.n_pos
+
+/-- An imaginary quadratic datum of half-rank one has complex dimension one. -/
+example (D : UnitarySimilitudeDatum)
+    (hF : Module.finrank ℚ (NumberField.maximalRealSubfield D.F) = 1) (hn : D.n = 1) :
+    D.dim = 1 := sorry
 
 /-- Real degree two and half-rank three give complex dimension eighteen. -/
 example (D : UnitarySimilitudeDatum)

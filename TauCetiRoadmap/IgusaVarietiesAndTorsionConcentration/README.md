@@ -62,7 +62,7 @@ The convolution ring structure `HeckeCosetModule.instRingHeckeRing` (`TauCeti/Nu
 
 - **PELModuli M0–M3.** Integral PEL data and their local unramified scalar extensions (finite étale `ℤ_p`-orders, decomposition of `B` into matrix algebras over unramified fields, maximal orders, and the equivalence between a `B`-linear isotropic weight-`(0, 1)` projector `P` and the cocharacter `μ(t) = (1 − P) + tP` with `c ∘ μ = id`; CS17 §4.2, pp. 696–697), the moduli problem, the smooth integral model with hyperspecial level, and complex uniformization.
 - **FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1, R07.2, R07.6.** `p`-divisible groups, quotients by sub-`p`-divisible groups with exactness, base change and height additivity; the universal cover `X̃ = lim_{×p} X` over a ring on which `p` is nilpotent, its invariance under isogeny, its rigidity under nilpotent thickenings and its representability over perfect bases (CS17 Proposition 4.1.2), and quasi-isogenies as isomorphisms of universal covers; Dieudonné theory, the Dieudonné–Manin classification of isocrystals over `𝔽̄_p`, and the adapter from positive Dieudonné slopes to the covariant `[−1, 0]` normalization used here; Scholze–Weinstein's Theorem A (on an `f`-semiperfect ring such as `O_C/p`, the Dieudonné functor on `p`-divisible groups up to isogeny is fully faithful into `φ`-modules over `B⁺_cris`); the integral Dieudonné equivalence over perfect fields, with exactness and Cartier duality (FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.10), and Illusie deformation theory. The simultaneous integral PEL representative is constructed in IG.0.18a below; it is not an application of rational Dieudonné–Manin classification alone.
-- **AbelianSchemesAndArithmeticModuli A4.** The classical Serre–Tate theorem: for a nilpotent thickening `S → S′` on which `p` is nilpotent, abelian schemes over `S′` with endomorphisms and polarization correspond to triples `(A_S, 𝒢_{S′}, A_S[p^∞] ≅ 𝒢 ×_{S′} S)`; IG.0 extends it to semi-abelian schemes and non-noetherian bases.
+- **AbelianSchemesAndArithmeticModuli A4.9.** The arbitrary-ring Serre–Tate equivalence `serreTate`: for a nilpotent thickening `S → S′` on which `p` is nilpotent, abelian schemes over `S′` with endomorphisms and polarization correspond to triples `(A_S, 𝒢_{S′}, A_S[p^∞] ≅ 𝒢 ×_{S′} S)`. FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.26 (`universalCoverRigidity`) supplies the arbitrary-ring equivalence on `p`-divisible groups up to isogeny. IG.0.26 owns the semi-abelian extension and its structure compatibility.
 - **SchemeAndStackFoundations §§1.1, 2.23, 4.7–4.8.** Finite equivariant sheaves and descent, formal schemes, completion and henselian étale invariance in the supplier's stated finiteness range. The perfect Witt extension is IG.3.11/IG.3.15; geometric finite/profinite tower descent with nearby cycles and both level directions is IG.4.0b.
 - **AdicSpacesPartII R0; AdicSpacesPartIII F0, R2, R3.5; AdicSpacesPartIV R5; AdicEtaleGeometry A1; PerfectoidSpaces P0–P2, P7; DiamondsAndVStacks D5.** Analytic adic spaces, adic generic fibres of formal schemes over possibly nonnoetherian valuation bases, perfectoid spaces and tilting, preperfectoid spaces and strong completions, diamonds; and the criterion that a map of qcqs diamonds which is bijective on `(C, C⁺)`-points for every complete algebraically closed `C` and every allowed `C⁺` is an isomorphism (Scholze, Étale cohomology of diamonds, Lemma 11.11).
 - **ClassicalAdicEtaleCohomology Layers 1, 4–6; DiamondEtaleCohomology C0, C4, C8; DiamondSixOperations S1–S4.** Étale cohomology, overconvergence, canonical compactifications of separated diamonds and their universal property, dimension and representable six operations. ClassicalAdicEtaleCohomology §§4.4–4.5 give the microbial valuation formal–adic comparison with its actual exchange maps; §§5.4 and 6.2–6.3 give valuation nearby base change, constructibility, proper comparison and prime-to-`p` valuation invariance. DiamondSixOperations supplies the support triangle `i_*Ri^!→id→Rj_*j^*`, with `i_*` left adjoint to `Ri^!`, and smooth base change for eligible representable separated cohomologically smooth maps. The Artin-stack extension, full positive-kernel quotient, geometric torsor coinvariants and orientation comparison are IG.F.10–IG.F.14; they are not additional supplier contracts.
@@ -88,7 +88,7 @@ The convolution ring structure `HeckeCosetModule.instRingHeckeRing` (`TauCeti/Nu
 
 ## How to read the build
 
-In a *Needs* line, IG.`k` means the preceding targets of that layer; references to other layers mean their stated interfaces. Supplier contracts include the full hypotheses listed above.
+In a *Needs* line, IG.`k` means the preceding targets of that layer in the displayed build order; references to other layers mean their stated interfaces. Supplier contracts include the full hypotheses listed above. IG.0.2a follows IG.0.2; IG.0.17–IG.0.18a follow IG.0.11, before IG.0.12; IG.0.26–IG.0.27 precede IG.0.22. IG.0.25 proves the leaf dimension, and IG.1.4a proves the Igusa dimension after the towers and their perfection comparison.
 
 IG.0–IG.2 construct the special-fibre geometry; IG.F supplies the curve and coefficient interfaces. IG.3 identifies compactified period fibres. IG.4 proves the two degree bounds, IG.5 the trace-formula ordinary criterion, and IG.6 the boundary obstruction. IG.7 assembles the trace-and-boundary route, then the local spectral route, whose global conclusion requires neither `F⁺ ≠ ℚ` nor residual length at most two.
 
@@ -98,11 +98,11 @@ IG.0–IG.2 construct the special-fibre geometry; IG.F supplies the curve and co
 
 <a id="ig-0-isocrystals-and-kottwitz-set"></a>
 
-Let `G` be a connected reductive group over `ℚ_p, L = W(𝔽̄_p)[1/p]` and `σ` the Frobenius of `L`. Define `KottwitzSet G` `= B(G)` as the set of `σ`-conjugacy classes of `G(L)`, where `h` acts by `g ↦ hgσ(h)⁻¹`. An isocrystal over `𝔽̄_p` is a finite-dimensional `L`-vector space with a `σ`-linear automorphism; an isocrystal with `G`-structure is an exact tensor functor from `Rep_{ℚ_p}G` to isocrystals, and `b ↦ (V ↦ (V ⊗ L, b σ))` identifies `B(G)` with isomorphism classes of isocrystals with `G`-structure. For `G = GL_n` this is `b ↦ (L^n, bσ)`, and the Dieudonné–Manin classification identifies `B(GL_n)` with Newton polygons: rational slopes `λ` with multiplicities `m_λ ≥ 0` such that `m_λλ ∈ ℤ` and `Σ m_λ = n`. For `b ∈ G(L)` define the algebraic group `J_b` over `ℚ_p` by `J_b(R) = {g ∈ G(L ⊗_{ℚ_p} R) : g b σ(g)⁻¹ = b}`; `J_b(ℚ_p)` is the automorphism group of the isocrystal with `G`-structure of `b`, and `J_b` depends on `b` only up to isomorphism within its class. If `M_b` is the centralizer of the Newton cocharacter `ν_b` of IG.0.2, a `ℚ_p`-rational Levi subgroup for a decent representative, then `b` is basic in `M_b` and `J_b` is an inner form of `M_b`. For a `p`-divisible group `X` with extra structure over `𝔽̄_p, J_b(ℚ_p)` is the group of self-quasi-isogenies of `X` respecting the extra structure.
+Let `G` be a connected reductive group over `ℚ_p, L = W(𝔽̄_p)[1/p]` and `σ` the Frobenius of `L`. Define `KottwitzSet G` `= B(G)` as the set of `σ`-conjugacy classes of `G(L)`, where `h` acts by `g ↦ hgσ(h)⁻¹`. An isocrystal over `𝔽̄_p` is a finite-dimensional `L`-vector space with a `σ`-linear automorphism; an isocrystal with `G`-structure is an exact tensor functor from `Rep_{ℚ_p}G` to isocrystals, and `b ↦ (V ↦ (V ⊗ L, b σ))` identifies `B(G)` with isomorphism classes of isocrystals with `G`-structure. For `G = GL_n` this is `b ↦ (L^n, bσ)`, and the Dieudonné–Manin classification identifies `B(GL_n)` with Newton polygons: rational slopes `λ` with multiplicities `m_λ ≥ 0` such that `m_λλ ∈ ℤ` and `Σ m_λ = n`. For `b ∈ G(L)` define the algebraic group `J_b` over `ℚ_p` by `J_b(R) = {g ∈ G(L ⊗_{ℚ_p} R) : g b σ(g)⁻¹ = b}`; `J_b(ℚ_p)` is the automorphism group of the isocrystal with `G`-structure of `b`, and `J_b` depends on `b` only up to isomorphism within its class. For a `p`-divisible group `X` with extra structure over `𝔽̄_p, J_b(ℚ_p)` is the group of self-quasi-isogenies of `X` respecting the extra structure.
 
 Here `G` is connected reductive over `ℚ_p`; the identification with self-quasi-isogenies is for the PEL data of type `(A)` or `(C)` of IG.0.
 
-([CS17](#ref-cs17), §3.1, Definition 3.1.1, pp. 675–676; §5.4, pp. 738–739 for decent representatives, `M_b` and `J_b`, following Kottwitz `1985` and Rapoport–Zink `1996`, Chapter `1`.)
+([CS17](#ref-cs17), §3.1, Definition 3.1.1, pp. 675–676. The Newton Levi and inner-form comparison are IG.0.2a.)
 
 The API:
 
@@ -110,7 +110,7 @@ The API:
 - `KottwitzSet.equivIsocrystal`: The bijection with isomorphism classes of isocrystals with `G`-structure.
 - `KottwitzSet.glEquivNewtonPolygon`: For `GL_n`, the Dieudonné–Manin bijection with Newton polygons.
 - `KottwitzSet.map`: Functoriality for homomorphisms of reductive groups, and `B(G₁ × G₂) = B(G₁) × B(G₂)`.
-- `JGroup`: The `σ`-centralizer `J_b`, with `JGroup.isInnerForm` (an inner form of `M_b`) and `JGroup.equivAutIsocrystal`.
+- `JGroup`: The `σ`-centralizer `J_b`, with `JGroup.equivAutIsocrystal`. Its inner-form comparison is constructed in IG.0.2a after the Newton map.
 
 *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2 (Dieudonné–Manin); ReductiveGroupsPartII (reductive groups over `ℚ_p` and Levi subgroups); Mathlib `WittVector`.
 
@@ -118,7 +118,7 @@ The API:
 
 - For `G = 𝔾_m, B(G) ≅ ℤ` by `b ↦ val_p(b)`, and `J_b = 𝔾_m` for every `b`.
 - For `G = GL_2` the classes with Newton slopes `{0, 1}` and `{1/2, 1/2}` are distinct, and `{1/2, 0}` is not a Newton polygon of an isocrystal of height `2` (the slope `1/2` needs even multiplicity).
-- For `b = diag(1, p)` in `GL_2` (slopes `0` and `1`), `J_b(ℚ_p) = ℚ_p^× × ℚ_p^×`; for `b` basic of slope `1/2, J_b(ℚ_p) = D^×, D` the quaternion division algebra over `ℚ_p`, which is not split: `J_b` is an inner form of `M_b = GL_2` and not isomorphic to it.
+- For `b = diag(1, p)` in `GL_2` (slopes `0` and `1`), `J_b(ℚ_p) = ℚ_p^× × ℚ_p^×`; for `b` basic of slope `1/2, J_b(ℚ_p) = D^×, D` the quaternion division algebra over `ℚ_p`, which is not split.
 - `J_b(ℚ_p)` is not the centralizer of `b` in `G(L)`: for `b = p ∈ GL_1(L)` the centralizer is `L^×`, while `J_b(ℚ_p) = ℚ_p^×`.
 
 ### IG.0.2 The Newton and Kottwitz maps, the order and `B(G, μ)`
@@ -151,6 +151,22 @@ The API:
 - For `GL_4` with `μ = (1, 1, 0, 0)`, the ordinary class has `⟨2ρ, ν⟩ = 4 = ⟨2ρ, μ⟩` and the basic class (slopes `1/2` four times) has `⟨2ρ, ν⟩ = 0`.
 
 - Every Newton vector is dominated by itself; unequal total slopes fail dominance, including `(0)` versus `(1)`. The empty vector is admissible for the empty cocharacter. The empty `GL_0` vector has `⟨2ρ,ν⟩ = 0`. In the negative Shimura convention the dominant ordinary `GL_2` vector is `(0,−1)`, with `⟨2ρ,ν⟩ = 1`; the unsorted vector `(−1,0)` gives `−1` and is not dominant.
+
+### IG.0.2a Newton Levi subgroups and inner forms
+
+<a id="ig-0-newton-levi-inner-form"></a>
+
+Let `G` be connected reductive over `ℚ_p` and `b ∈ B(G)`. If `G` is quasi-split, choose a decent representative whose Newton cocharacter is defined over `ℚ_p`. Its centralizer `M_b` is a `ℚ_p`-rational Levi subgroup of `G`; the representative is basic in `M_b`, and `J_b` is an inner form of `M_b`. For general `G`, use the dominant Newton class in the common based root datum to form the Newton Levi `M_b^*` in the quasi-split inner form `G^*`. Then `J_b` is an inner form of `M_b^*`; this does not identify a rational Levi subgroup of `G`.
+
+The API: `JGroup.isInnerForm` gives the comparison with `M_b^*`, specializing to the Newton Levi in `G` under the quasi-split hypothesis.
+
+Source: [CS17](#ref-cs17), §5.4, pp.738–739, explicitly using quasi-splitness to make the Newton cocharacter rational, following Kottwitz 1985, §4.3, p.219, and Rapoport–Zink 1996, Chapter 1. The general case uses inner twisting of the same Newton centralizer. *Needs:* IG.0.1–IG.0.2; ReductiveGroupsPartII (based root data, inner forms and rational Levi subgroups).
+
+**Checks.**
+
+- For `G=GL₂` and slopes `(1,0)`, `M_b=𝔾_m²` and `J_b=M_b`.
+- For basic slope `1/2` in `GL₂`, `M_b=GL₂` and `J_b=D^×` for the quaternion division algebra `D/ℚ_p`; the comparison is an inner form, not an isomorphism.
+- For `G=D^×`, identify `G_L` with `GL₂,L` with descent Frobenius `σ_G=Ad(Π)σ`, `Π=[[0,p],[1,0]]`. Take `b=diag(1,p)Π⁻¹`. The equation for `J_b` becomes `g diag(1,p)=diag(1,p)σ(g)`, giving `J_b=𝔾_m²`. The group `D^×` has no proper rational Levi; here the Newton Levi lies in `G^*=GL₂`.
 
 ### IG.0.3 Quasi-split unitary similitude data
 
@@ -280,9 +296,9 @@ Assume `G` is the unitary similitude group of the quasi-split datum.
 
 <a id="ig-0-g-structure"></a>
 
-`(1)` For a scheme `S` over `ℤ[1/Δ_F]`, an abelian variety with `G`-structure over `S` is a triple `(A, ι, λ)`: an abelian scheme `A/S` of relative dimension `[F:ℚ]n`, an action `ι : O_F → End(A)` such that `Lie A` is a free `O_F ⊗_ℤ O_S`-module of `rank n`, and a principal polarization `λ : A ≅ A^∨` whose Rosati involution induces complex conjugation on `O_F`. `(2)` Take `p` unramified in `F` and a scheme `S` with `p` locally nilpotent. The `p`-divisible version consists of `(X, ι, λ)`, where `X/S` is `p`-divisible of height `2[F:ℚ]n` and dimension `[F:ℚ]n, ι : O_F → End(X)` with `Lie X` free of `rank n` over `O_F ⊗_ℤ O_S`, and `λ : X ≅ X^∨` a principal polarization whose Rosati involution is complex conjugation via `ι`. Morphisms are `O_F`-linear maps respecting `λ` (isomorphisms may respect `λ` up to `ℤ_p^×` when stated, as in Igusa level structures).
+`(1)` For a scheme `S` over `ℤ[1/Δ_F]`, an abelian variety with `G`-structure over `S` is a triple `(A, ι, λ)`: an abelian scheme `A/S` of relative dimension `[F:ℚ]n`, an action `ι : O_F → End(A)` such that `Lie A` is a locally free `O_F ⊗_ℤ O_S`-module of `rank n`, and a principal polarization `λ : A ≅ A^∨` whose Rosati involution induces complex conjugation on `O_F`. `(2)` Take `p` unramified in `F` and a scheme `S` with `p` locally nilpotent. The `p`-divisible version consists of `(X, ι, λ)`, where `X/S` is `p`-divisible of height `2[F:ℚ]n` and dimension `[F:ℚ]n, ι : O_F → End(X)` with `Lie X` locally free of `rank n` over `O_F ⊗_ℤ O_S`, and `λ : X ≅ X^∨` a principal polarization whose Rosati involution is complex conjugation via `ι`. Morphisms are `O_F`-linear maps respecting `λ` (isomorphisms may respect `λ` up to `ℤ_p^×` when stated, as in Igusa level structures).
 
-Assume `p` unramified in `F` in `(2)`; the rank condition on `Lie` is the determinant (Kottwitz) condition of the split signature `(n, n)` at every place.
+Assume `p` unramified in `F` in `(2)`; the rank condition on `Lie` is the determinant (Kottwitz) condition of the split signature `(n, n)` at every place. Local freeness is taken in the Zariski topology; no global trivialization of the Hodge bundle is part of the datum.
 
 ([CSnc](#ref-csnc), §2.1, Definition 2.1.3(2), p. 13.)
 
@@ -301,6 +317,7 @@ The API:
 - Over `𝔽̄_p` with `p` unramified in `F` (signature `(n, n)` makes the ordinary element admissible for every such `p`), `μ_{p^∞} ⊗ O_F^n ⊕ (ℚ_p/ℤ_p) ⊗ O_F^n` with the standard polarization is a `p`-divisible group with `G`-structure of height `2[F:ℚ]n`.
 - `A p`-divisible group with the required height and `O_F`-action whose `Lie` algebra has conjugate embedding ranks `(n+1,n−1)` fails the balanced `Lie-rank` condition; the failure is unequal component ranks, not freeness of a different common rank.
 - For an abelian variety with `G`-structure `A`, the height of `A[p^∞]` is `2 dim A = 2[F:ℚ]n`.
+- Over an elliptic base in odd characteristic with split `O_F`-action and `n=1`, twist a constant balanced family by a nontrivial `μ₂`-torsor through central `−1`. Each Lie embedding summand becomes the associated nontrivial order-two line bundle. The abelian and `p`-divisible families still satisfy the determinant condition; their Hodge bundles have no global frame.
 
 ### IG.0.9 The integral model `S_K`
 
@@ -365,11 +382,71 @@ The API:
 - An orthogonal datum (* of type `D, G` disconnected) is not an unramified local PEL datum in this sense.
 - `J_b(ℚ_p) = Aut(X_b, extra structures) ⊗ ℚ` equals the `σ`-centralizer of `b` of IG.0.1.
 
+### IG.0.17 Complete slope divisibility
+
+<a id="ig-0-completely-slope-divisible"></a>
+
+Let `T` be an `𝔽_p`-scheme and `𝒢/T` a `p`-divisible group with relative Frobenius `Frob_𝒢`. `(1) 𝒢` is isoclinic and slope divisible of slope `λ ∈ ℚ_{≥0}` if one can write `λ = a/s` with integers `a ≥ 0` and `s ≥ 1` so that the quasi-isogeny `p^{−a} Frob^s_𝒢 : 𝒢 → 𝒢^{(p^s)}` is an isomorphism. `(2) 𝒢` is slope divisible with respect to `λ = a/s (a ≥ 0, s ≥ 1)` if `p^{−a} Frob^s_𝒢` is an isogeny. `(3) 𝒢` is completely slope divisible if there are rational numbers `λ₁ > … > λ_r ≥ 0` and a filtration `0 = 𝒢₀ ⊂ 𝒢₁ ⊂ … ⊂ 𝒢_r = 𝒢` by `p`-divisible groups such that each `𝒢_i` is slope divisible with respect to `λ_i` and `𝒢_i/𝒢_{i−1}` is isoclinic and slope divisible of slope `λ_i`. Such a filtration is unique and its formation is fpqc local on `T`.
+
+Assume `T` an `𝔽_p`-scheme; `λ` denotes a nonnegative Frobenius slope as in CSnc Definition 2.3.3, not the negative covariant Dieudonné slope used for Newton vectors. A nonzero isoclinic `p`-divisible group has `λ ∈ [0, 1]`.
+
+([CSnc](#ref-csnc), §2.3, Definition 2.3.3, p. 18; §2.3, Lemma 2.3.4, p. 19.)
+
+The API:
+
+- `IsCompletelySlopeDivisible`: The stated slope-divisibility predicate.
+- `IsCompletelySlopeDivisible.slopeFiltration`: The unique slope divisible filtration.
+- `IsCompletelySlopeDivisible.baseChange`: Base-change stability of the predicate and filtration.
+- `IsCompletelySlopeDivisible.of_generic`: Generic-to-global divisibility over connected regular bases with constant Newton polygon (CSnc Lemma 2.3.4).
+- `IsCompletelySlopeDivisible.split_of_perfect`: Canonical splitting over perfect bases (Oort–Zink Proposition 1.3).
+
+*Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.
+
+**Checks.**
+
+- `μ_{p^∞} ⊕ ℚ_p/ℤ_p` over `𝔽̄_p` is completely slope divisible with slopes `1 > 0`.
+- A nonzero isoclinic slope divisible group is completely slope divisible with `r=1`; the zero group has the empty filtration `r=0`.
+- `A p`-divisible group over a nonnormal base that is not isogenous to one with a slope filtration ([OZ02, Ex. 4.2]) is not completely slope divisible.
+- For slopes in `{0, 1}` the slope filtration is the multiplicative–étale filtration of the `p`-divisible group.
+
+### IG.0.18 Slope divisible representatives and base change
+
+<a id="ig-0-slope-filtration-existence"></a>
+
+`(1)` Every `p`-divisible group over an algebraically closed field of characteristic `p` is isogenous to a completely slope divisible one, which is a direct sum of isoclinic slope divisible groups defined over a finite field, with decreasing slopes; the simultaneous integral PEL assertion is IG.0.18a, using the integral equivalence rather than the rational classification. `(2)` Over a perfect base a completely slope divisible `p`-divisible group is the direct sum of its isoclinic graded pieces [OZ02, Prop. 1.3]. `(3)` If `V` is a valuation ring of characteristic `p` with fraction field `K` and `G/V` has constant Newton polygon with `G_K` completely slope divisible, then `G` is completely slope divisible [OZ02, Prop. 2.3]. `(4)` Over a connected regular characteristic-`p` base with constant Newton polygon, complete slope divisibility at the geometric generic point implies it everywhere [Zin01, Thm `7`].
+
+Assume Characteristic `p` bases; `(3)` needs constant Newton polygon. In `(4)`, the Newton polygon is constant on the base.
+
+([oz02](#ref-oz02), Proposition 1.3, p. 186; Proposition 2.3, p. 189; [CS17](#ref-cs17), §4.3, p. 714.)
+
+*Needs:* IG.0.17; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.
+
+### IG.0.18a Integral PEL representatives from normalizer lattices
+
+<a id="ig-0-integral-pel-normalizer-lattice"></a>
+
+For the unramified type `(A)/(C)` datum of IG.0.11 and every admissible class `b`, construct a self-dual `O_B`-linear Dieudonné lattice whose group `X_b` has the prescribed determinant condition, principal quasi-polarization and complete slope divisibility. Use the contravariant integral module `M(X)`, with nonnegative Frobenius slopes, during this construction. Its rational module is the linear dual of the negative covariant module of IG.0.11; transport the opposite order action through `*`. Thus `μ⁺` is the dual of `μ⁻¹`, with weights `0` and `1`. Convert action, determinant and pairing back by FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.10 and FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.20; do not identify the integral covariant Frobenius with the group Frobenius. The lattice is not obtained by averaging rational slope projectors.
+
+*Construction and proof.* Morita equivalence and the embeddings of the unramified coefficient orders decompose the standard self-dual lattice over `W(k)` into the standard type-A or type-`C` weight lines, with the repeated Morita factors retained. The Frobenius on the coefficient embeddings permutes those factors. Choose a fundamental element `x` in `Wμ⁺(p)W` in the required class (Nie Proposition 1.5). Lift its finite Weyl factor by the usual signed permutation matrices in the standard self-dual basis and its translation factor by `μ⁺(p)`. These matrices preserve the `O_B` tensors and the alternating form up to multiplier `p`; in the paired type-A factors the second matrix is `p` times the inverse transpose of the first. Thus `F = ẋσ` satisfies `pM ⊂ FM ⊂ M, V = pF⁻¹` is integral, and `⟨Fu,Fv⟩ = pσ⟨u,v⟩`. The minuscule double coset gives exactly the specified Hodge ranks in each embedding, hence the determinant condition. The integral Dieudonné equivalence with duality gives the group, action and principal quasi-polarization simultaneously.
+
+Take `s` divisible by the cycles of the combined weight-line and coefficient-embedding permutation, and even to remove the signs. On each cycle `Fˢ` is `pᵃσˢ`, with `0 ≤ a ≤ s`. Sum the coordinate lattices having the same `a/s`, rather than rational eigenspaces: these are `O_B`-stable integral direct summands, `F`- and `V`-stable, and `p⁻ᵃFˢ` is bijective on each. The form pairs the `a/s` summand with the `(1−a/s)` summand. This is the required compatible complete slope decomposition; it does not require division by `2`, including at `p = 2`. Different choices give representatives of the same rational class, not a canonical integral object.
+
+The API: `integralPELRepresentative`, `integralPELRepresentative_isocrystal`, `integralPELRepresentative_determinant`, `integralPELRepresentative_principal`, `normalizerFrobenius_cyclePower`, `integralPELRepresentative_completelySlopeDivisible`. Each map respects the order action, Cartier duality and the positive/negative slope adapter.
+
+Source: [Nie](#ref-nie15), Proposition 1.5, p.3, with the mixed-characteristic qualification in footnote `1`, p.2; the integral PEL dictionary of [Viehmann–Wedhorn](#ref-vw), §7.2, pp.30–32, and the standard normalizer matrices in §8.2, Remark 8.12, pp.36–37. The cycle-power argument above supplies the integral compatibility beyond their split minimality comparison. *Needs:* IG.0.11, IG.0.17; PELModuli M0; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.10, R07.2.20; ReductiveGroupsPartII (unramified root data, affine Weyl groups and normalizer lifts).
+
+**Checks.**
+
+- Ordinary rank two: `F = diag(1,p)σ` has `F`-stable integral summands of slopes `0` and `1`, with multiplier `p` and perfect cross pairing. Their negative covariant slopes, after dualizing and reordering, are `0` and `−1`.
+- Basic rank two: `F = [[0,−p],[1,0]]σ` has `F² = −pσ²` and `F⁴ = p²σ⁴`; multiplier `p`, slope `1/2`, and the standard alternating pairing is perfect. At `p = 2` the fourth power still works; no alternating idempotent is divided by `2`.
+- If two coefficient embeddings are interchanged, include their orbit length in `s`. A coordinate line alone need not be `O_B/F`-stable; the full orbit sum is.
+- A rational isocrystal with the wrong Hodge ranks or a non-self-dual lattice is not an input to this construction. Rank zero gives the empty direct sum and does not give a positive-rank Shimura datum.
+
 ### IG.0.12 The Newton map and stratification
 
 <a id="ig-0-newton-map"></a>
 
-Let `S` be the special fibre over `k = 𝔽̄_p` of the integral model of a PEL Shimura variety of type `(A)` or `(C)` with hyperspecial level at `p` (for the quasi-split unitary datum: `S_{K,k}` with `p ∤ NΔ_F`). For a point `x ∈ S` with geometric point `x̄`, the rational Dieudonné module of `A_x̄[p^∞]` with its extra structures is an isocrystal with `G`-structure, classified by an element `b_x ∈ B(G_{ℚ_p})`; then `[b_x] ∈ B(G_{ℚ_p}, μ^{−1})` (Rapoport–Richartz), with `μ` the Hodge cocharacter. The Newton stratum `S^b = {x : [b_x] = b}` is locally closed, and `S = ⊔_{b ∈ B(G_{ℚ_p}, μ^{−1})} S^b`. For each `b` fix a completely slope divisible `X_b` over `k` with `G`-structure in the isogeny class `b` (CS17 §4.3, after [Man05, §3]). The map `x ↦ [b_x]` is the PEL-specific map; `B(G)`, the Newton map `ν`, the Kottwitz map `κ`, the order and `B(G, μ)` are those of IG.0.1–IG.0.2, with the sign of `μ` recorded: the Shimura variety has Hodge cocharacter `μ` and the strata are indexed by `B(G, μ^{−1})`.
+Let `S` be the special fibre over `k = 𝔽̄_p` of the integral model of a PEL Shimura variety of type `(A)` or `(C)` with hyperspecial level at `p` (for the quasi-split unitary datum: `S_{K,k}` with `p ∤ NΔ_F`). For a point `x ∈ S` with geometric point `x̄`, the rational Dieudonné module of `A_x̄[p^∞]` with its extra structures is an isocrystal with `G`-structure, classified by an element `b_x ∈ B(G_{ℚ_p})`; then `[b_x] ∈ B(G_{ℚ_p}, μ^{−1})` (Rapoport–Richartz), with `μ` the Hodge cocharacter. The Newton stratum `S^b = {x : [b_x] = b}` is locally closed, and `S = ⊔_{b ∈ B(G_{ℚ_p}, μ^{−1})} S^b`. For each `b` fix the completely slope divisible integral PEL representative `X_b` constructed in IG.0.18a, using the definitions and existence results of IG.0.17–IG.0.18 (CS17 §4.3, after [Man05, §3]). The map `x ↦ [b_x]` is the PEL-specific map; `B(G)`, the Newton map `ν`, the Kottwitz map `κ`, the order and `B(G, μ)` are those of IG.0.1–IG.0.2, with the sign of `μ` recorded: the Shimura variety has Hodge cocharacter `μ` and the strata are indexed by `B(G, μ^{−1})`.
 
 Require prime-to-`p` Hecke invariance, invariance under structure-preserving quasi-isogeny, and `closure(S^b)⊆⋃_{b′≤b}S^{b′}`.
 
@@ -379,7 +456,7 @@ Assume PEL datum of type `(A)` or `(C)` unramified at `p` with hyperspecial `K_p
 
 The API: `newtonPoint`, `newtonStratum`, `newtonStratum_disjoint_union`, `closure_newtonStratum_subset`, `newtonPoint_hecke`, `newtonPoint_isogeny`.
 
-*Needs:* IG.0; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.
+*Needs:* IG.0.1–IG.0.2, IG.0.9, IG.0.11, IG.0.17–IG.0.18a; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.
 
 **Checks.**
 
@@ -445,66 +522,6 @@ Assume `G, G′` isoclinic over a perfect field `k`.
 ([CS17](#ref-cs17), §4.1, Corollary 4.1.10, p. 696; §4.1, Corollary 4.1.11, p. 696.)
 
 *Needs:* IG.0.
-
-### IG.0.17 Complete slope divisibility
-
-<a id="ig-0-completely-slope-divisible"></a>
-
-Let `T` be an `𝔽_p`-scheme and `𝒢/T` a `p`-divisible group with relative Frobenius `Frob_𝒢`. `(1) 𝒢` is isoclinic and slope divisible of slope `λ ∈ ℚ_{≥0}` if one can write `λ = a/s` with integers `a ≥ 0` and `s ≥ 1` so that the quasi-isogeny `p^{−a} Frob^s_𝒢 : 𝒢 → 𝒢^{(p^s)}` is an isomorphism. `(2) 𝒢` is slope divisible with respect to `λ = a/s (a ≥ 0, s ≥ 1)` if `p^{−a} Frob^s_𝒢` is an isogeny. `(3) 𝒢` is completely slope divisible if there are rational numbers `λ₁ > … > λ_r ≥ 0` and a filtration `0 = 𝒢₀ ⊂ 𝒢₁ ⊂ … ⊂ 𝒢_r = 𝒢` by `p`-divisible groups such that each `𝒢_i` is slope divisible with respect to `λ_i` and `𝒢_i/𝒢_{i−1}` is isoclinic and slope divisible of slope `λ_i`. Such a filtration is unique and its formation is fpqc local on `T`.
-
-Assume `T` an `𝔽_p`-scheme; `λ` denotes a nonnegative Frobenius slope as in CSnc Definition 2.3.3, not the negative covariant Dieudonné slope used for Newton vectors. A nonzero isoclinic `p`-divisible group has `λ ∈ [0, 1]`.
-
-([CSnc](#ref-csnc), §2.3, Definition 2.3.3, p. 18; §2.3, Lemma 2.3.4, p. 19.)
-
-The API:
-
-- `IsCompletelySlopeDivisible`: The stated slope-divisibility predicate.
-- `IsCompletelySlopeDivisible.slopeFiltration`: The unique slope divisible filtration.
-- `IsCompletelySlopeDivisible.baseChange`: Base-change stability of the predicate and filtration.
-- `IsCompletelySlopeDivisible.of_generic`: Generic-to-global divisibility over connected regular bases with constant Newton polygon (CSnc Lemma 2.3.4).
-- `IsCompletelySlopeDivisible.split_of_perfect`: Canonical splitting over perfect bases (Oort–Zink Proposition 1.3).
-
-*Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.
-
-**Checks.**
-
-- `μ_{p^∞} ⊕ ℚ_p/ℤ_p` over `𝔽̄_p` is completely slope divisible with slopes `1 > 0`.
-- A nonzero isoclinic slope divisible group is completely slope divisible with `r=1`; the zero group has the empty filtration `r=0`.
-- `A p`-divisible group over a nonnormal base that is not isogenous to one with a slope filtration ([OZ02, Ex. 4.2]) is not completely slope divisible.
-- For slopes in `{0, 1}` the slope filtration is the multiplicative–étale filtration of the `p`-divisible group.
-
-### IG.0.18 Slope divisible representatives and base change
-
-<a id="ig-0-slope-filtration-existence"></a>
-
-`(1)` Every `p`-divisible group over an algebraically closed field of characteristic `p` is isogenous to a completely slope divisible one, which is a direct sum of isoclinic slope divisible groups defined over a finite field, with decreasing slopes; the simultaneous integral PEL assertion is IG.0.18a, using the integral equivalence rather than the rational classification. `(2)` Over a perfect base a completely slope divisible `p`-divisible group is the direct sum of its isoclinic graded pieces [OZ02, Prop. 1.3]. `(3)` If `V` is a valuation ring of characteristic `p` with fraction field `K` and `G/V` has constant Newton polygon with `G_K` completely slope divisible, then `G` is completely slope divisible [OZ02, Prop. 2.3]. `(4)` Over a connected regular characteristic-`p` base with constant Newton polygon, complete slope divisibility at the geometric generic point implies it everywhere [Zin01, Thm `7`].
-
-Assume Characteristic `p` bases; `(3)` needs constant Newton polygon. In `(4)`, the Newton polygon is constant on the base.
-
-([oz02](#ref-oz02), Proposition 1.3, p. 186; Proposition 2.3, p. 189; [CS17](#ref-cs17), §4.3, p. 714.)
-
-*Needs:* IG.0; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.
-
-### IG.0.18a Integral PEL representatives from normalizer lattices
-
-<a id="ig-0-integral-pel-normalizer-lattice"></a>
-
-For the unramified type `(A)/(C)` datum of IG.0.11 and every admissible class `b`, construct a self-dual `O_B`-linear Dieudonné lattice whose group `X_b` has the prescribed determinant condition, principal quasi-polarization and complete slope divisibility. Use the contravariant integral module `M(X)`, with nonnegative Frobenius slopes, during this construction. Its rational module is the linear dual of the negative covariant module of IG.0.11; transport the opposite order action through `*`. Thus `μ⁺` is the dual of `μ⁻¹`, with weights `0` and `1`. Convert action, determinant and pairing back by FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.10 and FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.20; do not identify the integral covariant Frobenius with the group Frobenius. The lattice is not obtained by averaging rational slope projectors.
-
-*Construction and proof.* Morita equivalence and the embeddings of the unramified coefficient orders decompose the standard self-dual lattice over `W(k)` into the standard type-A or type-`C` weight lines, with the repeated Morita factors retained. The Frobenius on the coefficient embeddings permutes those factors. Choose a fundamental element `x` in `Wμ⁺(p)W` in the required class (Nie Proposition 1.5). Lift its finite Weyl factor by the usual signed permutation matrices in the standard self-dual basis and its translation factor by `μ⁺(p)`. These matrices preserve the `O_B` tensors and the alternating form up to multiplier `p`; in the paired type-A factors the second matrix is `p` times the inverse transpose of the first. Thus `F = ẋσ` satisfies `pM ⊂ FM ⊂ M, V = pF⁻¹` is integral, and `⟨Fu,Fv⟩ = pσ⟨u,v⟩`. The minuscule double coset gives exactly the specified Hodge ranks in each embedding, hence the determinant condition. The integral Dieudonné equivalence with duality gives the group, action and principal quasi-polarization simultaneously.
-
-Take `s` divisible by the cycles of the combined weight-line and coefficient-embedding permutation, and even to remove the signs. On each cycle `Fˢ` is `pᵃσˢ`, with `0 ≤ a ≤ s`. Sum the coordinate lattices having the same `a/s`, rather than rational eigenspaces: these are `O_B`-stable integral direct summands, `F`- and `V`-stable, and `p⁻ᵃFˢ` is bijective on each. The form pairs the `a/s` summand with the `(1−a/s)` summand. This is the required compatible complete slope decomposition; it does not require division by `2`, including at `p = 2`. Different choices give representatives of the same rational class, not a canonical integral object.
-
-The API: `integralPELRepresentative`, `integralPELRepresentative_isocrystal`, `integralPELRepresentative_determinant`, `integralPELRepresentative_principal`, `normalizerFrobenius_cyclePower`, `integralPELRepresentative_completelySlopeDivisible`. Each map respects the order action, Cartier duality and the positive/negative slope adapter.
-
-Source: [Nie](#ref-nie15), Proposition 1.5, p.3, with the mixed-characteristic qualification in footnote `1`, p.2; the integral PEL dictionary of [Viehmann–Wedhorn](#ref-vw), §7.2, pp.30–32, and the standard normalizer matrices in §8.2, Remark 8.12, pp.36–37. The cycle-power argument above supplies the integral compatibility beyond their split minimality comparison. *Needs:* IG.0.11, IG.0.17; PELModuli M0; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.10, R07.2.20; ReductiveGroupsPartII (unramified root data, affine Weyl groups and normalizer lifts).
-
-**Checks.**
-
-- Ordinary rank two: `F = diag(1,p)σ` has `F`-stable integral summands of slopes `0` and `1`, with multiplier `p` and perfect cross pairing. Their negative covariant slopes, after dualizing and reordering, are `0` and `−1`.
-- Basic rank two: `F = [[0,−p],[1,0]]σ` has `F² = −pσ²` and `F⁴ = p²σ⁴`; multiplier `p`, slope `1/2`, and the standard alternating pairing is perfect. At `p = 2` the fourth power still works; no alternating idempotent is divided by `2`.
-- If two coefficient embeddings are interchanged, include their orbit length in `s`. A coordinate line alone need not be `O_B/F`-stable; the full orbit sum is.
-- A rational isocrystal with the wrong Hodge ranks or a non-self-dual lattice is not an input to this construction. Rank zero gives the empty direct sum and does not give a positive-rank Shimura datum.
 
 ### IG.0.18b Fundamental representatives and realization
 
@@ -573,6 +590,58 @@ The API: `liftableAutomorphismsPlain`, `liftableAutomorphisms`.
 
 *Needs:* IG.0.
 
+**Checks.**
+
+- In the EL case with no additional tensors, `X=μ_{p^∞}` gives `Γ_m=(ℤ/p^m)^×`.
+- For the unstructured étale group `X=(ℚ_p/ℤ_p)^h`, `Γ_m=GL_h(ℤ/p^m)`.
+- For the constant family `𝒢=X×𝒳`, the identity trivializes the `Γ_m`-torsor.
+- The ordinary nonisoclinic group `μ_{p^∞}⊕ℚ_p/ℤ_p` has infinitesimal automorphisms. The finite étale assertion here requires the isoclinic hypothesis; its slope pieces are treated separately.
+
+### IG.0.26 Serre–Tate theory without noetherian hypotheses
+
+<a id="ig-0-serre-tate-semi-abelian"></a>
+
+Suppose `S` is a quotient of `S′` by a nilpotent ideal and `p` is nilpotent in `S′`. Use the arbitrary-ring `p`-divisible-group isogeny equivalence `universalCoverRigidity` from FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.26 and the arbitrary-ring abelian equivalence `serreTate` from AbelianSchemesAndArithmeticModuli A4.9, including their abelian `p`-power-isogeny consequence. These equivalences are imported without new names.
+
+Prove the semi-abelian extension: `(1)` Base change from `S′` to `S` is an equivalence on semi-abelian schemes that are global extensions of abelian schemes by split tori, with morphisms `Hom ⊗ ℤ[1/p]`. `(2)` Such extensions `G_{S′}` are equivalent to triples `(G_S, 𝒢_{S′}, ρ)` with `G_S` such an extension over `S`, `𝒢_{S′}` a `p`-divisible group over `S′` and `ρ : G_S[p^∞] ≅ 𝒢_{S′} ×_{S′} S`. Prove compatibility with the torus and abelian quotient, endomorphisms and the duality/pairing data on these pieces used in the PEL boundary charts. No noetherian hypothesis is imposed. This target owns the semi-abelian statements and their structure compatibility.
+
+Assume `p` nilpotent in `S′`, kernel of `S′ → S` nilpotent.
+
+([CSnc](#ref-csnc), §2.4, Theorem 2.4.1, p. 20; §2.4, Theorem 2.4.2, p. 21.)
+
+*Needs:* AbelianSchemesAndArithmeticModuli A4.9; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.26, R07.1.
+
+**Checks.**
+
+- With torus rank zero, the triple equivalence is the imported abelian Serre–Tate equivalence.
+- With abelian quotient zero and torus rank `r`, the split torus lifts uniquely and its `p`-divisible group is `μ_{p^∞}^r`.
+- Distinct ordinary elliptic deformations over `k[ε]/ε²` have the same special fibre and can become isomorphic up to `p`-power isogeny. Integral reduction alone is not an equivalence: the triple retains the chosen `p`-divisible lift.
+
+### IG.0.27 PEL Rapoport–Zink spaces
+
+<a id="ig-0-pel-rapoport-zink-space"></a>
+
+For an unramified local PEL datum `D^int` with `p`-divisible group `X_b, Ĕ` the completion of the maximal unramified extension of `E` and `O_Ĕ` its ring of integers, `𝔐_{D^int}` is the functor on `Nilp^{op}_{O_Ĕ}` (`O_Ĕ`-algebras `R` on which `p` is nilpotent) sending `R` to the isomorphism classes of pairs `(G, ρ)` with `G` a `p`-divisible group over `R` with `O_B`-action satisfying the determinant condition and a principal polarization whose Rosati involution is compatible with *, and `ρ : X_b ×_{𝔽̄_p} R/p → G ×_R R/p` an `O_B`-linear quasi-isogeny respecting the polarizations up to an automorphism of `μ̃_{p^∞,R/p}`. It is representable by a formal scheme over `Spf O_Ĕ` that locally admits a finitely generated ideal of definition, and it is formally smooth (Rapoport–Zink [RZ96, Thm 3.25, §3.82]). `J_b(ℚ_p)` acts by composition on `ρ`.
+
+The action is `g·(G,ρ)=(G,ρ∘g⁻¹)`. Provide the adic generic fibre and the truncated reduced subspaces whose isogeny kernel lies in `X_b[p^m]`.
+
+Also construct the unstructured deformation functor for an arbitrary `p`-divisible framing `Y/k`: omit the action, determinant and polarization conditions. Its formal representability and bounded-isogeny reduced truncations supply `M_Y^{0,d}` of IG.0.22; imposing compatible extra structures gives the structured loci.
+
+Assume an unramified local PEL datum of type `(A)` or `(C)` (`p = 2` allowed without type `D`) for the structured functor; for the unstructured functor, `Y` is any `p`-divisible group over algebraically closed `k` of characteristic `p`.
+
+([CS17](#ref-cs17), §4.2, Definition 4.2.1, p. 697; §4.2, Theorem 4.2.2, p. 698; [SW13](#ref-sw13), Definition 6.1.1 and Theorem 6.1.2, pp.54–55, for the unstructured formal space; [CSnc](#ref-csnc), §2.2, before Lemma 2.2.5, p.16, for its bounded-isogeny truncations.)
+
+The API: `RZSpace`, `RZSpace.represents`, `RZSpace.formallySmooth`, `RZSpace.jAction`, `RZSpace.genericFibre`, `RZSpace.truncated`.
+
+*Needs:* IG.0.1–IG.0.2a, IG.0.11, IG.0.18a, IG.0.19, IG.0.26; AbelianSchemesAndArithmeticModuli A4.9; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.6, FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2, FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1; SchemeAndStackFoundations §§4.7–4.8; AdicSpacesPartIII `F0, R2`
+
+**Checks.**
+
+- For the paired PEL datum `GL_n×𝔾_m` of type `(1,0,…,0)`, the basic formal space has components indexed by `ℤ×ℤ`, each `Spf W(k)[[u₁,…,u_{n−1}]]`. The EL `GL_n` datum has only the `ℤ` index.
+- Multiplication by `p` is a positive-height quasi-isogeny, not an isomorphism; imposing isomorphisms changes the functor.
+- For the structured PEL functor the formal dimension is `⟨2ρ,μ⟩`.
+- The unstructured functor accepts `Y=μ_{p^∞}`, a height-one framing that has no principal polarization. Its formal dimension is zero.
+
 ### IG.0.22 Finite isomorphism loci in truncated RZ spaces
 
 <a id="ig-0-truncated-rz-isomorphism-locus"></a>
@@ -583,7 +652,7 @@ Assume `Y` need not be isoclinic.
 
 ([CSnc](#ref-csnc), §2.2, Lemma 2.2.5, p. 16.)
 
-*Needs:* IG.0; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.
+*Needs:* IG.0.26–IG.0.27; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.
 
 ### IG.0.23 Isomorphism torsors
 
@@ -596,6 +665,12 @@ Assume `(1) 𝒳` perfect; `(2) 𝒳` regular; `𝒢` geometrically isomorphic t
 ([CSnc](#ref-csnc), §2.2, Proposition 2.2.6, p. 17; §2.2, Proposition 2.2.7, p. 17.)
 
 *Needs:* IG.0; Mathlib `PerfectRing`.
+
+**Checks.**
+
+- For the constant family, the isomorphism torsor is the automorphism torsor: `Γ` on perfect test schemes and `Aut(X)` on all test schemes over a regular base.
+- For the unstructured ordinary group `X=μ_{p^∞}⊕ℚ_p/ℤ_p`, `Aut(X)` is nonreduced although `Γ=Aut(X)(k)` is profinite.
+- A twist by a nontrivial `Γ`-torsor over a perfect base has no global isomorphism with the constant `X`; geometric fibrewise isomorphisms do not choose a section.
 
 ### IG.0.24 Central leaves
 
@@ -629,47 +704,19 @@ The API:
 
 <a id="ig-0-central-leaf-dimension"></a>
 
-For a PEL datum of type `(A)` or `(C)` unramified at `p` with hyperspecial level and `b ∈ B(G_{ℚ_p}, μ^{−1})`, every central leaf `C^{X}` with `X` in the isogeny class `b` is smooth of pure dimension `d_b = ⟨2ρ, ν_b⟩`, where `ν_b` is the Newton point and `ρ` the half-sum of positive roots; the perfect Igusa variety `Ig^b` has the same dimension `d_b` (CSnc §2.7).
+For a PEL datum of type `(A)` or `(C)` unramified at `p` with hyperspecial level and `b ∈ B(G_{ℚ_p}, μ^{−1})`, every central leaf `C^{X}` with `X` in the isogeny class `b` is smooth of pure dimension `d_b = ⟨2ρ, ν_b⟩`, where `ν_b` is the Newton point and `ρ` the half-sum of positive roots. The Igusa dimension statement is IG.1.4a, after the tower constructions.
 
 Assume PEL type `(A)` or `(C)`, unramified at `p`, hyperspecial level.
 
 ([ham15](#ref-ham15), Corollary 7.8 (2), p. 30 (arXiv:1312.0490v2); [CS17](#ref-cs17), §4.2, Remark 4.2.13, p. 708.)
 
-*Needs:* IG.0.
-
-### IG.0.26 Serre–Tate theory without noetherian hypotheses
-
-<a id="ig-0-serre-tate-semi-abelian"></a>
-
-Suppose `S` is a quotient of `S′` by a nilpotent ideal and `p` is nilpotent in both rings. `(1)` Base change from `S′` to `S` is an equivalence on `p`-divisible groups up to isogeny, on abelian schemes up to `p`-power isogeny, and on semi-abelian schemes that are global extensions of abelian schemes by split tori (with `Hom ⊗ ℤ[1/p]`). `(2)` Extensions `G_{S′}` of abelian schemes by split tori over `S′` are equivalent to triples `(G_S, 𝒢_{S′}, ρ)` with `G_S` such an extension over `S, 𝒢_{S′}` a `p`-divisible group over `S′` and `ρ : G_S[p^∞] ≅ 𝒢_{S′} ×_{S′} S`. No noetherian hypotheses are needed. The classical statement for abelian schemes (CSnc Theorem 2.4.2(1)) comes from AbelianSchemesAndArithmeticModuli A4; the isogeny-level, non-noetherian and semi-abelian extensions used for toroidal boundary charts are the content of this target.
-
-Assume `p` nilpotent in `S′`, kernel of `S′ → S` nilpotent.
-
-([CSnc](#ref-csnc), §2.4, Theorem 2.4.1, p. 20; §2.4, Theorem 2.4.2, p. 21.)
-
-*Needs:* AbelianSchemesAndArithmeticModuli A4; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.6, FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1
-
-### IG.0.27 PEL Rapoport–Zink spaces
-
-<a id="ig-0-pel-rapoport-zink-space"></a>
-
-For an unramified local PEL datum `D^int` with `p`-divisible group `X_b, Ĕ` the completion of the maximal unramified extension of `E` and `O_Ĕ` its ring of integers, `𝔐_{D^int}` is the functor on `Nilp^{op}_{O_Ĕ}` (`O_Ĕ`-algebras `R` on which `p` is nilpotent) sending `R` to the isomorphism classes of pairs `(G, ρ)` with `G` a `p`-divisible group over `R` with `O_B`-action satisfying the determinant condition and a principal polarization whose Rosati involution is compatible with *, and `ρ : X_b ×_{𝔽̄_p} R/p → G ×_R R/p` an `O_B`-linear quasi-isogeny respecting the polarizations up to an automorphism of `μ̃_{p^∞,R/p}`. It is representable by a formal scheme over `Spf O_Ĕ` that locally admits a finitely generated ideal of definition, and it is formally smooth (Rapoport–Zink [RZ96, Thm 3.25, §3.82]). `J_b(ℚ_p)` acts by composition on `ρ`.
-
-The action is `g·(G,ρ)=(G,ρ∘g⁻¹)`. Provide the adic generic fibre and the truncated reduced subspaces whose isogeny kernel lies in `X_b[p^m]`.
-
-Assume Unramified local PEL datum of type `(A)` or `(C)` (`p = 2` allowed without type `D`).
-
-([CS17](#ref-cs17), §4.2, Definition 4.2.1, p. 697; §4.2, Theorem 4.2.2, p. 698.)
-
-The API: `RZSpace`, `RZSpace.represents`, `RZSpace.formallySmooth`, `RZSpace.jAction`, `RZSpace.genericFibre`, `RZSpace.truncated`.
-
-*Needs:* IG.0; AbelianSchemesAndArithmeticModuli A4; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.6, FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2, FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1; SchemeAndStackFoundations §§4.7–4.8; AdicSpacesPartIII `F0, R2`
+*Needs:* IG.0.2, IG.0.12, IG.0.24.
 
 **Checks.**
 
-- For the paired PEL datum `GL_n×𝔾_m` of type `(1,0,…,0)`, the basic formal space has components indexed by `ℤ×ℤ`, each `Spf W(k)[[u₁,…,u_{n−1}]]`. The EL `GL_n` datum has only the `ℤ` index.
-- Multiplication by `p` is a positive-height quasi-isogeny, not an isomorphism; imposing isomorphisms changes the functor.
-- The formal dimension is `⟨2ρ,μ⟩`.
+- The ordinary `GL₂` leaf has dimension `1`, from the dominant negative vector `(0,−1)`.
+- The basic `GL₂` leaf has dimension `0`, from the vector `(−1/2,−1/2)`.
+- For the split `GL₄` factor with Hodge multiplicities `(2,2)`, the ordinary leaf has dimension `4`.
 
 ### IG.0.28 Homomorphisms over valuation rings and normal domains
 
@@ -706,6 +753,12 @@ Assume All geometric fibres quasi-isogenous to `X_b` with extra structures.
 ([CS17](#ref-cs17), §4.3, Proposition 4.3.13, p. 720.)
 
 *Needs:* IG.0; Mathlib `AlgebraicGeometry.Scheme.ProEt.topology`.
+
+**Checks.**
+
+- For the constant ordinary `GL₂` framing, the torsor is trivial under `J_b(ℚ_p)=(ℚ_p^×)^2`.
+- For the basic slope-`1/2` framing, it is a torsor under `D^×`, with `D/ℚ_p` the quaternion division algebra.
+- An ordinary fibre is not quasi-isogenous to a basic framing. A family changing Newton class does not meet the fixed-`b` hypothesis.
 
 ### IG.0.31 Harris–Taylor Newton strata at Drinfeld level
 
@@ -838,6 +891,20 @@ Assume `X_b` completely slope divisible; `ℓ ≠ p`.
 The API: `perfectionOfMantovan`.
 
 *Needs:* IG.1; IG.0.
+
+### IG.1.4a Dimensions of the Igusa towers
+
+<a id="ig-1-igusa-dimension"></a>
+
+For the unramified PEL datum of type `(A)/(C)` with hyperspecial level, choose a completely slope divisible framing `X_b` in class `b`. Each finite-level Mantovan Igusa variety has pure dimension `d_b=⟨2ρ,ν_b⟩`: its map to the smooth central leaf is finite étale. The inverse-limit tower and its perfection `Ig^b` have the same dimension, by finite surjective transition maps and invariance under perfection. Isogeny invariance gives this dimension for the perfect Igusa variety attached to any structured framing in class `b`.
+
+Source: [CSnc](#ref-csnc), §2.3, Definition 2.3.5, p.19, and §2.7, p.33; [CS17](#ref-cs17), §4.3, Proposition 4.3.8, p.717. *Needs:* IG.0.25, IG.1.1–IG.1.4.
+
+**Checks.**
+
+- The ordinary `GL₂` tower has dimension `1` at every finite level and after perfection.
+- A nonempty basic `GL₂` Igusa variety is zero-dimensional, even when its profinite fibre is infinite.
+- An infinite profinite level group does not make the Igusa variety finite type; dimension `d_b` is independent of that finiteness property.
 
 ### IG.1.5 Faithful flatness of `Ig^b→C^b`
 
@@ -1410,7 +1477,7 @@ Over geometric `C` classify isomorphism classes by `B(G), b↦E_b`. Use the redu
 
 For general connected reductive `G` choose a finite unramified `E_h/E` over which it is quasi-split, using the same Steinberg theorem. Apply the preceding construction to the `h`-fold Frobenius/norm. Descend the comparison through its full automorphism group: positive HN graded pieces are `E`-vector spaces and have zero higher cohomology for the finite cyclic descent group by averaging in characteristic zero; the remaining obstruction is in `J_b(E_h)` and is exactly the cyclic-norm class defining the original element of `B(G)`. Matching that class gives effective descent and injectivity. This is the descent calculation of Fargues §§5.3–5.4, not an assertion that every nonsplit group is split or every positive-dimensional automorphism group is trivial. Compatibility with representations follows from the tensor construction. The classification is of geometric isomorphism classes, not of all families by constant `b`.
 
-The API: `FFGBundle`, `gBundle_tensorEquiv`, `BunG`, `BunG_vStack`, `gBundleOfIsocrystal`, `gBundle_geometricClassification`, `gBundle_classification_representation`. Source: [FS](#ref-fs), §§III.1–III.2, Theorem III.2.2, pp.85–89; [Fargues](#ref-fargues), Theorems 5.1 and 5.6, pp.14,`16`, Propositions 5.7–5.11, pp.16–17, and §§5.3–5.4, pp.17–21. *Needs:* IG.0.1–IG.0.2 extended to finite `E` by replacing `W(𝔽̄_p)[1/p], p` and `σ` by the completed maximal unramified extension of `E, π` and `q`-Frobenius (same `σ`-conjugacy, Newton and Kottwitz constructions); IG.F.1–IG.F.5; ReductiveGroups (representations, parabolics, unipotent radicals), ReductiveGroupsPartII RG2.1.1 and RG2.3 (Steinberg and Lang); AlgebraicVectorBundles (tensor and torsor descent).
+The API: `FFGBundle`, `gBundle_tensorEquiv`, `BunG`, `BunG_vStack`, `gBundleOfIsocrystal`, `gBundle_geometricClassification`, `gBundle_classification_representation`. Source: [FS](#ref-fs), §§III.1–III.2, Theorem III.2.2, pp.85–89; [Fargues](#ref-fargues), Theorems 5.1 and 5.6, pp.14,`16`, Propositions 5.7–5.11, pp.16–17, and §§5.3–5.4, pp.17–21. *Needs:* IG.0.1–IG.0.2a extended to finite `E` by replacing `W(𝔽̄_p)[1/p], p` and `σ` by the completed maximal unramified extension of `E, π` and `q`-Frobenius (same `σ`-conjugacy, Newton and Kottwitz constructions); IG.F.1–IG.F.5; ReductiveGroups (representations, parabolics, unipotent radicals), ReductiveGroupsPartII RG2.1.1 and RG2.3 (Steinberg and Lang); AlgebraicVectorBundles (tensor and torsor descent).
 
 **Checks.**
 
@@ -1423,11 +1490,11 @@ The API: `FFGBundle`, `gBundle_tensorEquiv`, `BunG`, `BunG_vStack`, `gBundleOfIs
 
 <a id="ig-f-crystalline-comparison"></a>
 
-For a `p`-divisible group over `O_C/p` evaluate its Dieudonné crystal on `A_cris` and invert `p`. FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.6 supplies full faithfulness on `f`-semiperfect bases. Construct its associated curve bundle by the Frobenius period modules and construct its Frobenius-period sections. Prove the rational functor fully faithful with essential image the bundle slopes `[0,1]`, as in SW13 Theorem 5.1.4; this step uses the geometric bundle classification and period-ring descent, not the later integral classification.
+For a `p`-divisible group over `O_C/p` evaluate its Dieudonné crystal on `A_cris` and invert `p`. FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.20 supplies the covariant crystalline evaluation, and R07.2.28 (`swDieudonneSemiperfect`) supplies rational full faithfulness on `f`-semiperfect bases. Construct its associated curve bundle by the Frobenius period modules and construct its Frobenius-period sections. Prove the rational functor fully faithful with essential image the bundle slopes `[0,1]`, as in SW13 Theorem 5.1.4; this step uses the geometric bundle classification and period-ring descent, not the later integral classification.
 
 For `G`-structures apply Fargues' additive tensor period-module comparison and reduction to `W(k)[1/p]`, where `k` is the residue field with a chosen embedding into `O_C/p`. His henselian reduction ring and tensor-stabilizer argument identify the resulting `G`-bundle with `E_b` for the reduced `G`-isocrystal. In particular, isomorphic reduced `G`-isocrystals give isomorphic `G`-bundles and hence structured quasi-isogenies on `O_C/p`. The tensor action and pairing are carried through this comparison, so a bare `GL_n` bundle isomorphism is insufficient. No assertion that the period-module inverse preserves every bundle exact sequence is used. This supplies precisely the extra constancy input in IG.3.9 and IG.3.20.
 
-The API: `crystallineCurveBundle`, `crystallineCurveBundle_fullyFaithful`, `crystallineCurveBundle_essentialImage`, `crystallineGBundle_reduction`, `pelQuasiIsogeny_of_reducedIsocrystal`. Source: [SW13](#ref-sw13), Theorem 5.1.4 and its proof, pp.49–50, Proposition 5.1.6, p.50; [Fargues](#ref-fargues), §5.2.1, pp.14–15, Lemma 5.4, Definition 5.5 and Theorem 5.6, pp.15–16, and henselian reduction and descent in §5.2.3 and §§5.3–5.4, pp.16–21; [CSnc](#ref-csnc), proof of Lemma 4.3.1, pp.54–55. *Needs:* IG.F.1–IG.F.3, IG.F.6; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2, R07.6; PELModuli M0 (tensor data).
+The API: `crystallineCurveBundle`, `crystallineCurveBundle_fullyFaithful`, `crystallineCurveBundle_essentialImage`, `crystallineGBundle_reduction`, `pelQuasiIsogeny_of_reducedIsocrystal`. Source: [SW13](#ref-sw13), Theorem 5.1.4 and its proof, pp.49–50, Proposition 5.1.6, p.50; [Fargues](#ref-fargues), §5.2.1, pp.14–15, Lemma 5.4, Definition 5.5 and Theorem 5.6, pp.15–16, and henselian reduction and descent in §5.2.3 and §§5.3–5.4, pp.16–21; [CSnc](#ref-csnc), proof of Proposition 4.3.1, pp.54–55. *Needs:* IG.F.1–IG.F.3, IG.F.6; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2.20, R07.2.28; PELModuli M0 (tensor data).
 
 **Checks.**
 
@@ -1785,6 +1852,12 @@ Work in the valued-field fibre setting.
 
 *Needs:* IG.0; IG.F.7–IG.F.8 (integral PEL classification and rational crystalline comparison); PerfectoidShimuraVarieties Layer 3.
 
+**Checks.**
+
+- For the minuscule `GL₂` flag variety, a rational line in `ℙ¹(ℚ_p)` gives an ordinary group.
+- A nonrational line in `ℙ¹(C)∖ℙ¹(ℚ_p)` gives the basic Newton class.
+- Changing the integral Tate framing from `α` to `g∘α`, for `g∈GL₂(ℤ_p)`, transforms the flag by `g` and leaves the underlying `p`-divisible group isomorphic.
+
 ### IG.3.4 The Newton stratification of the flag variety
 
 <a id="ig-3-flag-newton-stratification"></a>
@@ -1972,7 +2045,7 @@ Let `X` be a qcqs perfect scheme over `𝔽̄_p, C` a complete algebraically clo
 
 as isomorphisms, equivariantly for the Igusa actions. The first map is base extension to the residue field followed by henselian formal-site comparison; it is not an arbitrary identification of `X` with that special fibre.
 
-*Proof.* On an affine, write `R` as the filtered colimit of perfections of its finite-type `𝔽̄_p`-subalgebras; strict Witt completion and completed `O_C` base change give the corresponding perfectoid tilde-limit of generic fibres. Finite étale covers and their finite Čech diagrams descend, so prime-to-`p` étale cohomology is the filtered colimit on both sides. Thus reduce to `X=X₀^perf` for `X₀` affine of finite type. Perfection preserves its étale topos; the formal site is that of `X₀×k`, whose cohomology agrees with `X₀` by algebraically closed base extension. Tilt the generic fibre to `C♭`. It is the inverse Frobenius limit of the analytic constant family `X₀×C♭`. For that finite-type constant family, the map `X₀→Spec 𝔽̄_p` is universally locally acyclic for constant prime-to-`p` coefficients, even if `X₀` is singular. Hence its nearby cycles are the constant sheaf. The eligible valuation formal–adic comparison of ClassicalAdicEtaleCohomology §§4.4–4.5 and §5.4 applies to the algebraic constant model over `O_{C♭}`; one does not apply an admissible noetherian theorem directly to `W(R)`. Tilting and Frobenius invariance complete the affine comparison. A finite affine Čech cover and qc intersections give the qcqs result. Every map in the construction is functorial, giving action compatibility and compatibility with level changes.
+*Proof.* On an affine, write `R` as the filtered colimit of perfections of its finite-type `𝔽̄_p`-subalgebras; strict Witt completion and completed `O_C` base change give the corresponding perfectoid tilde-limit of generic fibres. Finite étale covers and their finite Čech diagrams descend, so prime-to-`p` étale cohomology is the filtered colimit on both sides. Thus reduce to `X=X₀^perf` for `X₀` affine of finite type. Perfection preserves its étale topos; the formal site is that of `X₀×k`, whose cohomology agrees with `X₀` by algebraically closed base extension. Tilt the generic fibre to `C♭`. It is the inverse Frobenius limit of the adic generic fibre of the pseudouniformizer-adic formal completion of `X₀×O_{C♭}`. Retain this bounded chart and its plus ring; the full analytification of `X₀×C♭` is a different space. For the algebraic constant model underlying this formal completion, the map `X₀→Spec 𝔽̄_p` is universally locally acyclic for constant prime-to-`p` coefficients, even if `X₀` is singular. Hence its nearby cycles are the constant sheaf. The eligible valuation formal–adic comparison of ClassicalAdicEtaleCohomology §§4.4–4.5 and §5.4 applies to this constant formal model and its supported generic fibre; one does not apply an admissible noetherian theorem directly to `W(R)`. Tilting and Frobenius invariance complete the affine comparison. A finite affine Čech cover and qc intersections give the qcqs result. Every map in the construction is functorial, giving action compatibility and compatibility with level changes.
 
 Source: [CS17](#ref-cs17), Lemma 4.4.3 and its proof, pp.728–729. The construction supplies the nonnoetherian Witt comparison needed here; the subsequent arbitrary Igusa formal diagrams use IG.4.0a–IG.4.0c instead.
 
@@ -1983,7 +2056,7 @@ The API: `perfectWittLift_cohomologyComparison`, `perfectWittLift_affineApproxim
 **Checks.**
 
 - `X=Spec 𝔽̄_p` gives `Λ` in degree `0` on both sides. `X=∅` gives zero; `n=0` is the zero coefficient case.
-- The perfect affine root line is not a noetherian scheme, but descends in this proof to the finite-type affine line before nearby cycles are used.
+- For `X₀=𝔸¹`, the tilted generic fibre is the perfectoid closed unit root disc with `|t|≤1`, with its power-bounded plus ring. The full analytic affine line also has points with `|t|>1`; those points do not belong to this generic fibre. The finite-type affine line supplies the constant formal model before nearby cycles are used.
 - A singular nodal constant `X₀` remains singular. Local acyclicity over an algebraically closed point does not require `X₀` smooth.
 - `ℓ=p` is excluded: tilting of prime-to-`p` étale cohomology does not turn this argument into a `p`-primary formal comparison.
 
@@ -2080,6 +2153,12 @@ Assume `Y` proper over `Spd C`.
 
 *Needs:* DiamondEtaleCohomology C4; DiamondsAndVStacks D5.
 
+**Checks.**
+
+- If `X` is already proper over `Spd C`, its canonical compactification is `X`.
+- The perfectoid closed unit disc has additional higher-rank boundary points in its canonical compactification, with no new `(C′,O_{C′})`-points.
+- At a rational modular flag, cusp points are rank-one points of the toroidal or minimal fibre outside the good-reduction fibre. They enter through the toroidal or minimal Igusa source, not through canonical compactification of the open source.
+
 ### IG.3.23 Toroidal period fibres
 
 <a id="ig-3-toroidal-fibre-theorem"></a>
@@ -2126,7 +2205,7 @@ Let `H` be a `p`-divisible group of height `h` and dimension `d` over a perfect 
 
 Assume `H` a `p`-divisible group over a perfect field `k`; "∼ `lim`" in the sense of Scholze–Weinstein Definition 2.4.1.
 
-([sw13](#ref-sw13), Theorem 6.3.4, p. 59 (§6.3; Definition 6.3.3 of `M_∞`); proof pp. 59–62; Definition 6.3.5 and Lemma 6.3.6, p. 60; proof pp. 60–62; [CS17](#ref-cs17), §4.2, proof of Theorem 4.2.4, p. 701; Definition 2.3.9, p. 18; Proposition 2.3.11, p. 19; §6.3, p. 60.)
+([sw13](#ref-sw13), Theorem 6.3.4, p. 59 (§6.3; Definition 6.3.3 of `M_∞`); proof pp. 59–62; Definition 6.3.5 and Lemma 6.3.6, p. 60; proof pp. 60–62; [CS17](#ref-cs17), §4.2, proof of Theorem 4.2.4, p. 701; [SW13](#ref-sw13), Definition 2.3.9, p. 18; Proposition 2.3.11, p. 19; §6.3, p. 60.)
 
 The API: `SWInfiniteLevel`, `SWInfiniteLevel.preperfectoid`, `SWInfiniteLevel.eq_tuples`, `SWInfiniteLevel.actions`, `SWInfiniteLevel.pel`.
 
@@ -2152,7 +2231,7 @@ Assume PEL type `(A)` or `(C)` unramified at `p`, hyperspecial `K_p`; for non-pr
 
 ### Examples
 
-For `GL_2` and `μ = (1, 0)` the flag variety is `ℙ¹`, the ordinary stratum `ℙ¹(ℚ_p)` is closed of dimension `0 = d − d_b`, and the basic stratum is the Drinfeld upper half plane of dimension `1`. At a rational flag of the modular curve the open period fibre is the generic fibre of the canonical lift of the ordinary perfect Igusa variety, and its canonical compactification adds the cusps and the higher-rank points; in the basic proper case the fibre is a profinite set.
+For `GL_2` and `μ = (1, 0)` the flag variety is `ℙ¹`, the ordinary stratum `ℙ¹(ℚ_p)` is closed of dimension `0 = d − d_b`, and the basic stratum is the Drinfeld upper half plane of dimension `1`. At a rational flag of the modular curve the open good-reduction fibre is the generic fibre of the canonical Witt lift of the ordinary perfect Igusa variety. Passing to toroidal or minimal Igusa varieties adds cusp points; canonical compactification of each source adds only higher-rank points; in the basic proper case the fibre is a profinite set.
 
 ### Dependencies
 
@@ -3037,7 +3116,7 @@ Locators refer to the editions below. For CS17 the printed Annals page is the PD
 
 <a id="ref-fs"></a>
 
-**fs** — Laurent Fargues, Peter Scholze, [Geometrization of the local Langlands correspondence](https://arxiv.org/pdf/2102.13459v1). arXiv:2102.13459v1, February 2021, 350 PDF pages. Locators use the printed chapter pagination; the PDF includes twenty preliminary pages.
+**fs** — Laurent Fargues, Peter Scholze, [Geometrization of the local Langlands correspondence](https://arxiv.org/pdf/2102.13459v1). arXiv:2102.13459v1, February 2021, 350 PDF pages. Locators use the printed page numbers, which agree with PDF page numbers in this edition.
 
 <a id="ref-fargues"></a>
 
@@ -3065,4 +3144,4 @@ Locators refer to the editions below. For CS17 the printed Annals page is the PD
 
 <a id="ref-acc23-published"></a>
 
-**acc23-published** — The authors of ACC+ above, [Potential automorphy over CM fields](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf). Annals of Mathematics 197 (2023), 897–1113, author-hosted published edition. New locators at IG.6.6a–IG.6.6b and IG.7.7 distinguish these printed pages from the arXiv edition.
+**acc23-published** — The authors of ACC+ above, [Potential automorphy over CM fields](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf). Annals of Mathematics 197 (2023), 897–1113, author-hosted published edition. Locators at IG.6.6a–IG.6.6b and IG.7.7 use these printed pages, distinguished from the arXiv edition.
