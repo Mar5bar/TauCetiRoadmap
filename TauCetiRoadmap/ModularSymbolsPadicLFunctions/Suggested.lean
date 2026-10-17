@@ -327,37 +327,54 @@ section Boundary
 
 variable {R V : Type*} [CommRing R] [AddCommGroup V] [Module R V]
 
-/-- **Boundary symbols** `BSymb_Γ(V) = Hom_{ℤ[Γ]}(ℤ[P¹(ℚ)], V)`. Belongs to Layer 0, §0.4. -/
+/-- **Boundary symbols** `BSymb_Γ(V) = Hom_{ℤ[Γ]}(ℤ[P¹(ℚ)], V)`, as an `R`-submodule
+under pointwise scalars. Belongs to Layer 0, §0.4. -/
 def boundarySymbols (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V) :
-    AddSubgroup (MonoidAlgebra ℤ (OnePoint ℚ) →ₗ[ℤ] V) where
+    Submodule R (MonoidAlgebra ℤ (OnePoint ℚ) →ₗ[ℤ] V) where
   carrier := {ψ | ∀ (γ : Γ) (D : MonoidAlgebra ℤ (OnePoint ℚ)),
     ψ (Representation.ofMulAction ℤ (GL (Fin 2) ℚ) (OnePoint ℚ) (Matrix.SpecialLinearGroup.mapGL ℚ (γ : SL(2, ℤ))) D) = ρ γ (ψ D)}
   add_mem' {a b} ha hb γ D := by simp [ha γ D, hb γ D]
   zero_mem' γ D := by simp
-  neg_mem' {a} ha γ D := by simp [ha γ D]
+  smul_mem' a ψ hψ γ D := by
+    simp only [LinearMap.smul_apply, hψ γ D, map_smul]
 
-/-- Restriction along `Δ₀ ⊆ ℤ[P¹(ℚ)]`. -/
-def restrictBoundary : (MonoidAlgebra ℤ (OnePoint ℚ) →ₗ[ℤ] V) →+ ((degreeZero ℤ) →ₗ[ℤ] V) where
-  toFun ψ := ψ ∘ₗ (degreeZero ℤ).subtype
-  map_zero' := rfl
+/-- Coefficient-linear restriction of boundary symbols along `Δ₀ ⊆ ℤ[P¹(ℚ)]`,
+landing in the module of equivariant symbols. -/
+def restrictBoundary (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V) :
+    boundarySymbols Γ ρ →ₗ[R] symbols Γ ρ where
+  toFun ψ := ⟨ψ.val ∘ₗ (degreeZero ℤ).subtype, fun γ D ↦ ψ.property γ D.val⟩
   map_add' _ _ := rfl
+  map_smul' _ _ := rfl
 
-/-- **Eisenstein symbols** `Eis_Γ(V)`, the image of the boundary symbols. -/
+/-- **Eisenstein symbols** `Eis_Γ(V)`, the `R`-submodule of equivariant symbols given by
+the range of boundary restriction. -/
 def eisSymbols (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V) :
-    AddSubgroup ((degreeZero ℤ) →ₗ[ℤ] V) :=
-  (boundarySymbols Γ ρ).map restrictBoundary
+    Submodule R (symbols Γ ρ) :=
+  LinearMap.range (restrictBoundary Γ ρ)
 
+/-- Boundary restriction takes values in equivariant symbols. -/
 theorem restrictBoundary_mem_symbols (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V)
-    {ψ : MonoidAlgebra ℤ (OnePoint ℚ) →ₗ[ℤ] V} (hψ : ψ ∈ boundarySymbols Γ ρ) :
-    restrictBoundary ψ ∈ symbols Γ ρ := sorry
+    (ψ : boundarySymbols Γ ρ) :
+    (restrictBoundary Γ ρ ψ : (degreeZero ℤ) →ₗ[ℤ] V) ∈ symbols Γ ρ :=
+  (restrictBoundary Γ ρ ψ).property
+
+/-- Pointwise scalars preserve boundary symbols, restriction commutes with scalars,
+and scalar multiples of its values remain Eisenstein. -/
+example (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V) (a : R)
+    (ψ : boundarySymbols Γ ρ) :
+    a • (ψ : MonoidAlgebra ℤ (OnePoint ℚ) →ₗ[ℤ] V) ∈ boundarySymbols Γ ρ ∧
+      restrictBoundary Γ ρ (a • ψ) = a • restrictBoundary Γ ρ ψ ∧
+      a • restrictBoundary Γ ρ ψ ∈ eisSymbols Γ ρ :=
+  ⟨(boundarySymbols Γ ρ).smul_mem a ψ.property, map_smul _ _ _,
+    (eisSymbols Γ ρ).smul_mem a (LinearMap.mem_range_self _ ψ)⟩
 
 /-- `res` is not injective: the degree map (the constant boundary function `1`) is a nonzero
 boundary symbol for the trivial action that restricts to zero on `Δ₀`. -/
-example : restrictBoundary (V := ℤ) (MonoidAlgebra.basis (OnePoint ℚ) ℤ).sumCoords = 0 := by
-  ext D
-  have hD := D.2
-  rw [TauCeti.ModularSymbols.mem_degreeZero_iff] at hD
-  simpa [restrictBoundary, TauCeti.ModularSymbols.degree] using hD
+example :
+    ∃ ψ : boundarySymbols (⊤ : Subgroup SL(2, ℤ))
+        (Representation.trivial ℤ (⊤ : Subgroup SL(2, ℤ)) ℤ),
+      (ψ : MonoidAlgebra ℤ (OnePoint ℚ) →ₗ[ℤ] ℤ) = degree ℤ ∧
+        restrictBoundary _ _ ψ = 0 := sorry
 
 /-- The cocycle `γ ↦ φ({γ x} - {x})` of a modular symbol, for a base cusp `x`. -/
 def symbolCocycle (Γ : Subgroup SL(2, ℤ)) (x : OnePoint ℚ) (φ : (degreeZero ℤ) →ₗ[ℤ] V) (γ : Γ) : V :=
@@ -386,7 +403,7 @@ def IsParabolic (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V) (c : Γ 
 the symbol is Eisenstein (Layer 0 milestone, integrally). -/
 theorem symbolCocycle_isCoboundary_iff (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V)
     (x : OnePoint ℚ) {φ : (degreeZero ℤ) →ₗ[ℤ] V} (hφ : φ ∈ symbols Γ ρ) :
-    IsCoboundaryOn Γ ρ ⊤ (symbolCocycle Γ x φ) ↔ φ ∈ eisSymbols Γ ρ := sorry
+    IsCoboundaryOn Γ ρ ⊤ (symbolCocycle Γ x φ) ↔ ⟨φ, hφ⟩ ∈ eisSymbols Γ ρ := sorry
 
 /-- The cocycle of a symbol is parabolic. -/
 theorem symbolCocycle_isParabolic (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V)
@@ -408,11 +425,13 @@ example : degree ℤ ∈ boundarySymbols (⊤ : Subgroup SL(2, ℤ))
 /-- For the trivial group, restricting the cusp-coordinate functional at infinity gives
 an Eisenstein symbol whose value on the path from `0` to `∞` is `1`. -/
 example :
-    let ψ : MonoidAlgebra ℤ (OnePoint ℚ) →ₗ[ℤ] ℤ :=
-      Finsupp.lapply ∞ ∘ₗ (MonoidAlgebra.coeffLinearEquiv ℤ).toLinearMap
-    restrictBoundary ψ ∈ eisSymbols (⊥ : Subgroup SL(2, ℤ))
-        (Representation.trivial ℤ (⊥ : Subgroup SL(2, ℤ)) ℤ) ∧
-      restrictBoundary ψ (divisor ((0 : ℚ) : OnePoint ℚ) ∞) = 1 := sorry
+    ∃ ψ : boundarySymbols (⊥ : Subgroup SL(2, ℤ))
+        (Representation.trivial ℤ (⊥ : Subgroup SL(2, ℤ)) ℤ),
+      (ψ : MonoidAlgebra ℤ (OnePoint ℚ) →ₗ[ℤ] ℤ) =
+          Finsupp.lapply ∞ ∘ₗ (MonoidAlgebra.coeffLinearEquiv ℤ).toLinearMap ∧
+        restrictBoundary _ _ ψ ∈ eisSymbols _ _ ∧
+          (restrictBoundary _ _ ψ : (degreeZero ℤ) →ₗ[ℤ] ℤ)
+            (divisor ((0 : ℚ) : OnePoint ℚ) ∞) = 1 := sorry
 
 /-- The cocycle convention gives `+1` when `S` moves `∞` to `0` and the functional reads
 its coefficient at `0`. -/

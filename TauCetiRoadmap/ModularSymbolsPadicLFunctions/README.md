@@ -659,16 +659,21 @@ generated over `ℤ`, this sum has finite index a power of 2. *Needs:* §0.3 (Th
 
 ### 0.4 Boundary symbols, group cohomology and parabolic cohomology
 
-**Boundary symbols** (definition). For `Γ` of finite index and a right `Γ`-module `V`,
+**Boundary symbols** (definition). For `Γ` of finite index and an `R`-module `V` with an `R`-linear right
+`Γ`-action, where `R` is a commutative ring,
 `BSymb_Γ(V) = Hom_{ℤ[Γ]}(ℤ[P¹(ℚ)], V)` is the module of maps `ψ : P¹(ℚ) → V` with `ψ(γc) = ψ(c)|γ⁻¹`.
-Restriction along `Δ₀ ⊆ ℤ[P¹(ℚ)]` gives `res : BSymb_Γ(V) → Symb_Γ(V)`, and its `image Eis_Γ(V)` is the
-module of Eisenstein (boundary) symbols. Choosing representatives `c₁`, …, `c_ν` of the finitely many
+It is an `R`-submodule of the integral Hom space, with pointwise scalar multiplication; the divisor
+carrier remains `ℤ[P¹(ℚ)]`. Restriction along `Δ₀ ⊆ ℤ[P¹(ℚ)]` gives the `R`-linear map
+`res : BSymb_Γ(V) → Symb_Γ(V)`, and its range is the `R`-submodule `Eis_Γ(V)` of
+Eisenstein (boundary) symbols inside `Symb_Γ(V)`. Choosing representatives `c₁`, …, `c_ν` of the finitely many
 cusps `Γ\P¹(ℚ)` gives `BSymb_Γ(V) ≅ ⊕_j V^{Γ_{c_j}}, ψ ↦ (ψ(c_j))_j`, where `Γ_c` is the stabiliser of `c` and
 `V^{Γ_c}` the invariants of the right action: `ℤ[P¹(ℚ)]` is the direct sum of the permutation modules
 `ℤ[Γ/Γ_{c_j}]`, and `Hom_{ℤ[Γ]}(ℤ[Γ/H], V) = V^H` (the homological definitions are [Wiese] Definition
 `1.5(b)`–`(e)`, pp. 7–8; the orbit description is [Wiese] Lemma 4.13, p. 49). API: `boundarySymbols`,
-`restrictBoundary` (restriction, landing in `symbols`), `boundarySymbolsEquivCusps` (`BSymb_Γ(V) ≃ ⊕_{c ∈ Γ\P¹(ℚ)} V^{Γ_c}` after
-choosing representatives), `eisSymbols` `(Eis_Γ(V) = range res)`, `eisSymbols_hecke` (`Eis_Γ(V)` is
+`restrictBoundary` (the `R`-linear restriction from `boundarySymbols` to `symbols`),
+`boundarySymbolsEquivCusps` (the `R`-linear isomorphism
+`BSymb_Γ(V) ≃ ⊕_{c ∈ Γ\\P¹(ℚ)} V^{Γ_c}` after choosing representatives),
+`eisSymbols` `(Eis_Γ(V) = range res)`, `eisSymbols_hecke` (`Eis_Γ(V)` is
 stable under the `Γ₀(N)` operators `T_ℓ, U_q` and `ι` under the compatible coefficient actions of
 §0.3). The `Γ₁(N)` and diamond versions are constructed in §0.5 after their operators.
 *Needs:* §0.2 (Modular symbols); §0.3 (Hecke operators; The involution at infinity); Mathlib
@@ -678,6 +683,10 @@ stable under the `Γ₀(N)` operators `T_ℓ, U_q` and `ι` under the compatible
 
 **Checks.**
 
+- For every `a ∈ R` and `ψ ∈ BSymb_Γ(V)`, the pointwise multiple `aψ` is a boundary symbol,
+  `res(aψ) = a·res(ψ)`, and `a·res(ψ) ∈ Eis_Γ(V)`.
+- For the trivial group and `V = ℤ`, the cusp-coordinate functional at `∞` restricts to
+  an Eisenstein symbol with value 1 on `{∞} − {0}`.
 - For `Γ = SL₂(ℤ)` and `V = ℤ` there is one cusp with stabiliser `⟨±T⟩`, so `BSymb ≅ ℤ` consists of the constant
   functions and `res = 0`; in particular `Eis_{SL₂(ℤ)}(ℤ) = 0`.
 - For `p` prime, `Γ₀(p)` has the two cusps `∞` and 0, and `BSymb_{Γ₀(p)}(ℤ) ≅ ℤ²`.
@@ -2262,8 +2271,9 @@ factors and conductor tests).
 `n ≥ 1` and `(a, Mp) = 1` the formula
 `μ^±_{f,α}(P, a + p^nMℤ_{p,M}) = α^{−n}λ^±(f, P; a, p^nM) − ε(p)p^kα^{−n−1}λ^±(f, P; a, p^{n−1}M)`, where `λ^±` are the modular
 symbols of `f` divided by periods `Ω^±_f` and `P` runs over integral polynomials of degree `≤ k`, defines an
-`h`-admissible distribution on `ℤ_{p,M}^×` (the values for `n = 0` follow by finite additivity from `n = 1`); it is a
-bounded measure only when `h = 0`. Additivity is the `T_p`-eigenform relation and the growth is Višik's
+`h`-admissible distribution on `ℤ_{p,M}^×` (the values for `n = 0` follow by finite additivity from `n = 1`).
+At slope `h = 0` it is a bounded measure; at positive slope the construction supplies the stated
+upper admissibility bound. Additivity is the `T_p`-eigenform relation and the growth is Višik's
 ([Pollack SS] §2.2, the measures and Proposition 2.8, p. 530). For a tame character `ψ` whose `(ℤ/M)×`
 component has primitive conductor exactly `M`, the power series
 `L_p(f, α, ψ, T) = ∫ψχ_u dμ^{sgn ψ}_{f,α}` (`u = 1 + T, χ_u` the wild character with `γ ↦ u`) lies in `K(α, ψ)⟦T⟧` and is
@@ -2282,6 +2292,9 @@ decomposition).
 
 **Checks.**
 
+- The nonzero Dirac measure `δ₁` at 1 is bounded and has `‖δ₁‖_r = 1` for `0 < r ≤ 1`.
+  It satisfies every positive upper admissibility bound, since `1 ≤ r^{−h}` for `h > 0`;
+  such a bound alone does not imply unboundedness.
 - At `p = 3` and `M = 2` the trivial character has tame conductor 1. There are no
   characters of conductor `2·3^ν`; both constant series 0 and 1 satisfy that empty
   interpolation test and an order-zero bound. Use `M = 1` for this branch.
