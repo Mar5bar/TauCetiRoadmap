@@ -1932,7 +1932,7 @@ In the ramified conductor-minimal setting, require `R_v` to be a complete inters
 **Checks.**
 
 - The natural inclusion `𝒪[[X]][1/p] → E[[X]]` has image consisting of series with uniformly bounded coefficient denominators. The series `∑ n≥0 p^(−n²) X^n` lies in `E[[X]]` but not in that image: multiplying by any fixed power of `p` leaves nonintegral coefficients for large `n`.
-- For `S=𝒪[[X]][1/p]`, the point `X=0` has residue field `E`, and the completion of its local ring is `E[[X]]`. This completion is formally smooth for the `X`-adic topology on finite local Artinian `E`-algebras with residue `E`; regularity of `Spec S` concerns the uncompleted scheme.
+- For `S=𝒪[[X]][1/p]`, the point `X=0` has residue field `E`, and the completion of its local ring is `E[[X]]`. This completion is formally smooth for the `X`-adic topology on finite local Artinian `E`-algebras with residue `E`; regularity of `Spec S` concerns the uncompleted scheme. Formal smoothness here is for the `X`-adic topology; in the discrete-topology sense (Mathlib's `Algebra.FormallySmooth`) it fails whenever `Ω_{E/ℚ}` is infinite-dimensional, for example `E=ℚ_p`.
 - In the extension-of-1 case with `p=3` and `q=7`, `p^a=3` gives two geometric components: `T=2` and `T=ζ₃+ζ₃⁻¹=−1`. This retains the count `(p^a+1)/2` with the completed-local formulation.
 
 *Needs:* [2.4](#t2-4); [2.13](#t2-13); [1.18](#t1-18); [1.10](#t1-10); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
