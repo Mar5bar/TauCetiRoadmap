@@ -50,15 +50,18 @@ def mu (ε : S) : WittVector p S :=
 def xi (ε : S) : WittVector p S :=
   ∑ j ∈ Finset.range p, (WittVector.teichmuller p ((_root_.frobeniusEquiv S p).symm ε)) ^ j
 
-/-- The Frobenius-shifted generator `ξ̃ = φ(ξ)`, which generates the kernel of `θ̃ = θ ∘ φ⁻¹`. -/
+/-- The Frobenius-shifted element `ξ̃ = φ(ξ)`. For `S=O_C^♭` and the fixed compatible
+primitive cyclotomic system, it generates the kernel of `θ̃ = θ ∘ φ⁻¹`. -/
 def tildeXi (ε : S) : WittVector p S :=
   WittVector.frobenius (xi p ε)
 
-/-- The finite-level generator `ξ_r = ∏_{j<r} φ^{−j}(ξ)` of `ker θ_r`. -/
+/-- The product `ξ_r = ∏_{j<r} φ^{−j}(ξ)`. For `S=O_C^♭` and the fixed compatible
+primitive cyclotomic system, it generates `ker θ_r`. -/
 def xiLevel (ε : S) (r : ℕ) : WittVector p S :=
   ∏ j ∈ Finset.range r, ((WittVector.frobeniusEquiv p S).symm^[j]) (xi p ε)
 
-/-- The shifted finite-level generator `ξ̃_r = ∏_{1 ≤ j ≤ r} φ^{j}(ξ)` of `ker θ̃_r`. -/
+/-- The shifted product `ξ̃_r = ∏_{1 ≤ j ≤ r} φ^{j}(ξ)`. For `S=O_C^♭` and the fixed
+compatible primitive cyclotomic system, it generates `ker θ̃_r`. -/
 def tildeXiLevel (ε : S) (r : ℕ) : WittVector p S :=
   ∏ j ∈ Finset.range r, ((WittVector.frobeniusEquiv p S)^[j + 1]) (xi p ε)
 
@@ -189,6 +192,31 @@ theorem isRegular_p_mu (ε : PreTilt (integers C) p)
     RingTheory.Sequence.IsRegular (WittVector p (PreTilt (integers C) p))
       [(p : WittVector p (PreTilt (integers C) p)), mu p ε] := by sorry
 
+-- The three cyclotomic evaluations distinguish the two Fontaine maps.
+example (ε : PreTilt (integers C) p)
+    (hε : IsPrimitiveRoot
+      (PreTilt.untilt ((_root_.frobeniusEquiv (PreTilt (integers C) p) p).symm ε)) p) :
+    WittVector.fontaineTheta (integers C) p (mu p ε) = 0 ∧
+    WittVector.fontaineTheta (integers C) p (tildeXi p ε) = p ∧
+    thetaTilde p (integers C) (tildeXi p ε) = 0 := by sorry
+
+-- The generic polynomials do not assert a kernel formula for arbitrary ε.
+example : xi 2 (0 : ZMod 2) = 1 ∧ tildeXi 2 (0 : ZMod 2) = 1 := by sorry
+
+-- Length one identifies the Witt almost ideal with the nonzero proper maximal ideal.
+example :
+    let m := IsLocalRing.maximalIdeal (integers C)
+    Function.Bijective (fun x : TruncatedWittVector p 1 (integers C) => x.coeff 0) ∧
+    (p : TruncatedWittVector p 1 (integers C)).coeff 0 ∈ m ∧
+    (p : TruncatedWittVector p 1 (integers C)) ≠ 0 ∧
+    (1 : TruncatedWittVector p 1 (integers C)).coeff 0 ∉ m := by sorry
+
+-- At length two, the cyclotomic quotient and V(1) have different first coordinates.
+example (ζ : integers C) (hζ : IsPrimitiveRoot ζ 4) :
+    (WittVector.truncate 2 (1 + WittVector.teichmuller 2 ζ)).coeff 0 = 1 + ζ ∧
+    1 + ζ ≠ 0 ∧
+    (WittVector.truncate 2 (WittVector.verschiebung (1 : WittVector 2 (integers C)))).coeff 0 = 0 := by sorry
+
 end CyclotomicKernel
 
 /-! ## Layer AI.1: The décalage operator Lη -/
@@ -221,6 +249,33 @@ example (C : CochainComplex (ModuleCat.{u} R) ℤ) (i : ℤ) :
 example (C : CochainComplex (ModuleCat.{u} R) ℤ) (f : R) (i : ℤ)
     (hd : C.d i (i + 1) = 0) : etaTerm C f i = ⊤ := by sorry
 
+/-- The integer complex `[ℤ --a→ ℤ]` in degrees zero and one, zero elsewhere. -/
+def integerTwoTerm (a : ℤ) : CochainComplex (ModuleCat ℤ) ℤ :=
+  CochainComplex.of
+    (fun i : ℤ => if i = 0 ∨ i = 1 then ModuleCat.of ℤ ℤ else ModuleCat.of ℤ (Fin 0 → ℤ))
+    (fun i => if h : i = 0 then by
+      subst i
+      exact ModuleCat.ofHom (LinearMap.lsmul ℤ ℤ a)
+    else 0)
+    (by sorry)
+
+-- The nondivisible element is excluded by η, even in an acyclic complex.
+example : (show (integerTwoTerm 1).X 0 from (1 : ℤ)) ∉ etaTerm (integerTwoTerm 1) 2 0 := by sorry
+
+-- A divisible differential and the terminal term give the full divisibility modules.
+example : etaTerm (integerTwoTerm 4) 2 0 = ⊤ ∧
+    etaTerm (integerTwoTerm 4) 2 1 = ⊤ := by sorry
+
+-- Changing 2 to −2 multiplies degree-one normalized coordinates by −1.
+example (x : ℤ) : (-1 : ℤ) ^ (1 : ℕ) * x = -x := by sorry
+
+-- The negative tensor power of (2) is the line (1/2)ℤ inside ℚ.
+example : (1 / 2 : ℚ) ∈ LinearMap.range
+    ({ toFun := fun n : ℤ => (n : ℚ) / 2
+       map_add' := by sorry
+       map_smul' := by sorry } : ℤ →ₗ[ℤ] ℚ) ∧
+    (4 : ℚ) * (1 / 2) = 2 := by sorry
+
 -- The cochain Koszul convention d⁰(m) = (xm, ym), d¹(a,b) = xb − ya has square zero.
 example (x y m : R) : x * (y * m) - y * (x * m) = 0 := by sorry
 
@@ -250,7 +305,69 @@ example (q : R) : qInteger q 2 = 1 + q := by sorry
 -- The empty sum is zero; the divided-difference formula is defined at q = 1.
 example (q : R) : qInteger q 0 = 0 := by sorry
 
+/-- The Laurent q-integer for an integer exponent and a unit q (BMS1, Remark 7.8). -/
+def laurentQInteger (q : Rˣ) (n : ℤ) : R :=
+  if 0 ≤ n then qInteger (q : R) n.toNat
+  else -((q ^ n : Rˣ) : R) * qInteger (q : R) (-n).toNat
+
+-- The inverse torus coordinate has coefficient −q⁻¹.
+example (q : Rˣ) : laurentQInteger q (-1) = -((q⁻¹ : Rˣ) : R) := by sorry
+
+example (n : ℤ) : laurentQInteger (1 : Rˣ) n = n := by sorry
+
+example (q : Rˣ) : laurentQInteger q 2 = 1 + (q : R) := by sorry
+
 end QInteger
+
+/-! ## Polynomial, monodromy and multiplicative checks of AI.1 and AI.6 -/
+
+-- Branch and torus log derivations, including their weights on every monomial.
+example (a b : ℕ) (c : ℤ) :
+    let X₀ : MvPolynomial (Fin 2) ℤ := MvPolynomial.X 0
+    let X₁ : MvPolynomial (Fin 2) ℤ := MvPolynomial.X 1
+    let D : Derivation ℤ (MvPolynomial (Fin 2) ℤ) (MvPolynomial (Fin 2) ℤ) :=
+      X₁ • MvPolynomial.pderiv 1 - X₀ • MvPolynomial.pderiv 0
+    D (X₀ * X₁ - MvPolynomial.C c) = 0 ∧
+    D (X₀ ^ a * X₁ ^ b) = ((b : ℤ) - a) • (X₀ ^ a * X₁ ^ b) := by sorry
+
+example (a b : ℕ) :
+    let Y : MvPolynomial (Fin 2) ℤ := MvPolynomial.X 0
+    let Z : MvPolynomial (Fin 2) ℤ := MvPolynomial.X 1
+    let D : Derivation ℤ (MvPolynomial (Fin 2) ℤ) (MvPolynomial (Fin 2) ℤ) :=
+      Y • MvPolynomial.pderiv 0 - Z • MvPolynomial.pderiv 1
+    D (Y * Z - 1) = 0 ∧
+    D (Y ^ a * Z ^ b) = ((a : ℤ) - b) • (Y ^ a * Z ^ b) := by sorry
+
+-- The position of N relative to the two Frobenius slopes fixes Nφ = pφN.
+example :
+    let φ : Matrix (Fin 2) (Fin 2) ℤ := !![1, 0; 0, 3]
+    let N : Matrix (Fin 2) (Fin 2) ℤ := !![0, 1; 0, 0]
+    let N' : Matrix (Fin 2) (Fin 2) ℤ := !![0, 0; 1, 0]
+    N * φ = 3 • (φ * N) ∧ N' * φ ≠ 3 • (φ * N') := by sorry
+
+-- Trivial rank-two action gives an exterior product with the ordered sign.
+example :
+    let x : ExteriorAlgebra ℤ (Fin 2 → ℤ) := ExteriorAlgebra.ι ℤ (Pi.single 0 1 : Fin 2 → ℤ)
+    let y : ExteriorAlgebra ℤ (Fin 2 → ℤ) := ExteriorAlgebra.ι ℤ (Pi.single 1 1 : Fin 2 → ℤ)
+    x * y ≠ 0 ∧ y * x = -(x * y) := by sorry
+
+-- In characteristic two the exterior relation supplies information beyond the sign rule.
+example :
+    let k := GaloisField 2 1
+    let x : ExteriorAlgebra k k := ExteriorAlgebra.ι k (1 : k)
+    Nat.card k = 2 ∧ x * x = 0 ∧ (Polynomial.X : Polynomial k) ^ 2 ≠ 0 := by sorry
+
+-- A Laurent matrix realization of xt = −tx for γ(t) = −t.
+example :
+    let t : LaurentPolynomial ℤ := LaurentPolynomial.T 1
+    let T : Matrix (Fin 2) (Fin 2) (LaurentPolynomial ℤ) := !![t, 0; 0, -t]
+    let x : Matrix (Fin 2) (Fin 2) (LaurentPolynomial ℤ) := !![0, 1; 0, 0]
+    x * T = -(T * x) ∧ x * x = 0 := by sorry
+
+-- Annihilators of 1 and 0 cannot be interchanged, already on length-two Witt vectors.
+example (p : ℕ) [Fact p.Prime] (R : Type*) [CommRing R] :
+    (∀ x : TruncatedWittVector p 2 R, x * 1 = 0 ↔ x = 0) ∧
+    (∀ x : TruncatedWittVector p 2 R, x * 0 = 0) := by sorry
 
 /-! ## Layer AI.7: Breuil–Kisin cohomology and relative traces -/
 
@@ -292,6 +409,24 @@ example (F : R →+* R) (a : R) :
     PowerSeries.coeff 2 (coefficientFrobenius 2 (by decide) F
       (PowerSeries.C a * PowerSeries.X)) = F a := by sorry
 
+-- Constant coefficients retain precisely one application of F.
+example (F : R →+* R) (a : R) : crystallineCoefficient F (PowerSeries.C a) = F a := by sorry
+
+-- No series has Frobenius image u when all exponents in the image are even.
+example : (PowerSeries.X : PowerSeries ℤ) ∉
+    Set.range (coefficientFrobenius 2 (by decide) (RingHom.id ℤ)) := by sorry
+
+-- A chosen multiplicative generator of the field of four elements is not Frobenius-fixed.
+example :
+    let k := GaloisField 2 2
+    let a : k := (Classical.choose (IsCyclic.exists_generator (α := kˣ)) : kˣ)
+    Nat.card k = 4 ∧ a ^ 2 ≠ a ∧
+    WittVector.map (RingHom.id k) (WittVector.teichmuller 2 a) ≠
+      WittVector.frobenius (WittVector.map (RingHom.id k) (WittVector.teichmuller 2 a)) ∧
+    crystallineCoefficient (WittVector.frobenius : WittVector 2 k →+* WittVector 2 k)
+      (PowerSeries.C (WittVector.teichmuller 2 a)) = WittVector.teichmuller 2 (a ^ 2) ∧
+    WittVector.teichmuller 2 (a ^ 2) ≠ WittVector.teichmuller 2 a := by sorry
+
 end BreuilKisinCoefficient
 
 /-! ## Targets stated in README.md only
@@ -325,13 +460,16 @@ Layer AI.5: `AOmega.proper`.
 Layer AI.6: `Semistable.chartRing`, `Semistable.divisorialLog`, `Semistable.monomialExponents`,
 `Semistable.rootTower`, `Semistable.ainfChartLift`, `Semistable.aOmega`,
 `Semistable.finiteLevelAcris`, `Semistable.logDerivations`, `Semistable.allCoordinates`,
-`Semistable.logExactification`, `Semistable.allCoordinatesPD`, `Semistable.allCoordinatesAOmega`,
+`Semistable.allCoordinates.rootCovers`, `Semistable.logExactification`,
+`Semistable.allCoordinatesPD`, `Semistable.allCoordinatesAOmega`,
 `Semistable.allCoordinatesLogCrystalline`, `Semistable.allCoordinatesComparisonMap`,
 `AInf.bdr_infinitesimal_envelope`, `AInf.canonical_bdr_deformation`, `AInf.canonical_bdr_etale_map`,
 `Semistable.bdrComparisonMap`, `AInf.normalized_valuation_length`,
 `Semistable.deRhamLatticeFunctor`.
 
-Layer AI.7: `CohomologicalBK.coefficientNormalization`, `AInf.Trace.tate`, `AInf.Trace.THH`,
+Layer AI.7: `CohomologicalBK.coefficientNormalization`, `AInf.Trace.tate`,
+`AInf.Trace.tateDiagonal`, `AInf.Trace.THH`,
+`AInf.Trace.bokstedtSpectralSequence`, `AInf.Trace.dyerLashofInput`,
 `AInf.relative_cyclotomic_traces`,
 `AInf.qrsp_trace_unfolding`, `CohomologicalBK.cohomology`, `CohomologicalBK.twistedTrace`,
 `CohomologicalBK.traceDescent`, `CohomologicalBK.twistCompatibility`,
