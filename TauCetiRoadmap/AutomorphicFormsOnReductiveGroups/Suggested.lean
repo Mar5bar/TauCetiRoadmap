@@ -23,8 +23,10 @@ Design choices.
   specialization indexes it by all proper rational parabolics.
 * Infinitesimal characters of `GLₙ(ℝ)` are `n`-tuples of complex numbers: L-algebraic means
   integral entries, C-algebraic means entries in `(n - 1)/2 + ℤ`.
-* Local coefficient lattices are finitely generated `ℤ_[p]`-submodules of `ℚ_[p]ⁿ` of full span.
+* Local coefficient lattices use `Submodule.IsLattice`; characteristic-zero integral models
+  are supplied by EtaleCohomologyFoundations F.4.0.
 * GSp₄ coherent weights use the four positive `C₂` coroot evaluations `(x - y, x, x + y, y)`.
+  Their full parameters have infinitesimal central weight opposite to the coefficient.
 * Algebraic modular forms use Gross's rational covariance `F(γ g) = ρ(γ) F(g)`, `F(g u) = F(g)`.
 -/
 
@@ -62,6 +64,11 @@ theorem moderateGrowth_rightTranslate {G : Type*} [Group G]
 /-- Constants have moderate growth with exponent zero. -/
 example (height : X → ℝ) (c : ℂ) : HasModerateGrowth height (fun _ => c) :=
   ⟨‖c‖, 0, norm_nonneg _, le_rfl, fun x => by simp⟩
+
+/-- A uniform norm bound gives moderate growth with exponent zero. -/
+example (height : X → ℝ) (f : X → ℂ) (C : ℝ) (hC : 0 ≤ C)
+    (hf : ∀ x, ‖f x‖ ≤ C) : HasModerateGrowth height f :=
+  ⟨C, 0, hC, le_rfl, fun x => by simpa using hf x⟩
 
 /-- A bounded height cannot accommodate the identity function on the real line. -/
 example : ¬HasModerateGrowth (fun _ : ℝ => 1) (fun x : ℝ => (x : ℂ)) := by
@@ -167,6 +174,9 @@ example (ρ : Representation ℂ K V) : IsKFinite ρ 0 := sorry
 
 /-- In a trivial representation every orbit spans at most a line. -/
 example (v : V) : IsKFinite (1 : Representation ℂ K V) v := sorry
+
+/-- For a trivial acting group every representation has one-point orbits. -/
+example [Subsingleton K] (ρ : Representation ℂ K V) (v : V) : IsKFinite ρ v := sorry
 
 /-- An infinite cyclic regular orbit spans infinitely many independent point masses. -/
 example : ¬IsKFinite (Representation.leftRegular ℂ (Multiplicative ℤ))
@@ -296,6 +306,9 @@ example (r₁ r₂ : ℕ) :
 example : (q0ResPGL 1 0 2, ell0ResPGL 1 0 2) = (1, 0) ∧
     (q0ResPGL 0 1 2, ell0ResPGL 0 1 2) = (1, 1) := by decide
 
+/-- Over an imaginary quadratic field the `PGL₂` symmetric space has dimension three. -/
+example : symDimResPGL 0 1 2 = 3 := by decide
+
 /-- `PGL₃/ℚ` has a five-dimensional symmetric space and `(q₀, ℓ₀) = (2, 1)`. -/
 example : symDimResPGL 1 0 3 = 5 ∧ (q0ResPGL 1 0 3, ell0ResPGL 1 0 3) = (2, 1) := by decide
 
@@ -303,32 +316,32 @@ end Defect
 
 namespace CoefficientLattices
 
-/-- Full, finitely generated `ℤ_[p]`-lattices stable under a subgroup of `GLₙ(ℚ_[p])`. -/
-def LocalStableLattice (p : ℕ) [Fact p.Prime] (n : ℕ)
-    (J : Subgroup (GL (Fin n) ℚ_[p])) :
-    Set (Submodule ℤ_[p] (Fin n → ℚ_[p])) :=
-  {L | L.FG ∧ Submodule.span ℚ_[p] (L : Set (Fin n → ℚ_[p])) = ⊤ ∧
-    ∀ g ∈ J, ∀ v ∈ L, (g : Matrix (Fin n) (Fin n) ℚ_[p]).mulVec v ∈ L}
-
-/-- A compact subgroup of `GLₙ(ℚ_[p])` stabilizes a full lattice. -/
-theorem exists_localStableLattice (p : ℕ) [Fact p.Prime] (n : ℕ)
-    (J : Subgroup (GL (Fin n) ℚ_[p]))
-    (hJ : IsCompact (J : Set (GL (Fin n) ℚ_[p]))) :
-    (LocalStableLattice p n J).Nonempty := sorry
-
-/-- In rank zero the zero lattice is full, including at `p = 2`. -/
+/-- In rank zero the zero lattice is full and stable, including at `p = 2`. -/
 example (p : ℕ) [Fact p.Prime] (J : Subgroup (GL (Fin 0) ℚ_[p])) :
-    (⊥ : Submodule ℤ_[p] (Fin 0 → ℚ_[p])) ∈ LocalStableLattice p 0 J := sorry
+    Submodule.IsLattice ℚ_[p] (⊥ : Submodule ℤ_[p] (Fin 0 → ℚ_[p])) ∧
+      ∀ g ∈ J, ∀ v ∈ (⊥ : Submodule ℤ_[p] (Fin 0 → ℚ_[p])),
+        (g : Matrix (Fin 0) (Fin 0) ℚ_[p]).mulVec v ∈
+          (⊥ : Submodule ℤ_[p] (Fin 0 → ℚ_[p])) := sorry
 
 /-- The zero submodule is not full in positive rank. -/
 example (p : ℕ) [Fact p.Prime] :
-    (⊥ : Submodule ℤ_[p] (Fin 1 → ℚ_[p])) ∉ LocalStableLattice p 1 ⊥ := sorry
+    ¬Submodule.IsLattice ℚ_[p] (⊥ : Submodule ℤ_[p] (Fin 1 → ℚ_[p])) := sorry
 
 /-- Scaling by `p` gives another stable full lattice. -/
 example (p : ℕ) [Fact p.Prime] (n : ℕ)
     (J : Subgroup (GL (Fin n) ℚ_[p])) {L : Submodule ℤ_[p] (Fin n → ℚ_[p])}
-    (hL : L ∈ LocalStableLattice p n J) :
-    L.map ((p : ℤ_[p]) • LinearMap.id) ∈ LocalStableLattice p n J := sorry
+    (hL : Submodule.IsLattice ℚ_[p] L)
+    (hstable : ∀ g ∈ J, ∀ v ∈ L,
+      (g : Matrix (Fin n) (Fin n) ℚ_[p]).mulVec v ∈ L) :
+    let pL := L.map ((p : ℤ_[p]) • LinearMap.id)
+    Submodule.IsLattice ℚ_[p] pL ∧
+      ∀ g ∈ J, ∀ v ∈ pL,
+        (g : Matrix (Fin n) (Fin n) ℚ_[p]).mulVec v ∈ pL := sorry
+
+/-- A full positive-rank lattice is distinct from its `p`-multiple. -/
+example (p : ℕ) [Fact p.Prime] (n : ℕ) (hn : 0 < n)
+    (L : Submodule ℤ_[p] (Fin n → ℚ_[p])) (hL : Submodule.IsLattice ℚ_[p] L) :
+    L.map ((p : ℤ_[p]) • LinearMap.id) ≠ L := sorry
 
 end CoefficientLattices
 
@@ -365,9 +378,38 @@ example :
      ne_zero := by decide
      eigen := fun _ => rfl }⟩
 
+/-- Evaluation at `1` and `-1` gives distinct systems on the same class `4` modulo eight,
+with the polynomial action fixed by evaluation at `1`. -/
+example :
+    letI : Algebra (Polynomial ℤ) (ZMod 8) :=
+      (Polynomial.eval₂RingHom (Int.castRingHom (ZMod 8)) (1 : ZMod 8)).toAlgebra
+    ∃ ePlus eMinus : TorsionEigenSystem (Polynomial ℤ) (ZMod 8) (ZMod 8),
+      ePlus.sys = Polynomial.eval₂RingHom (Int.castRingHom (ZMod 8)) 1 ∧
+      eMinus.sys = Polynomial.eval₂RingHom (Int.castRingHom (ZMod 8)) (-1) ∧
+      ePlus.c = 4 ∧ eMinus.c = 4 ∧ ePlus.sys ≠ eMinus.sys := sorry
+
 /-! ## Layer 6: Hermitian pairs and coherent representations -/
 
 namespace CoherentWeights
+
+/-- The coordinate map giving the compact coefficient weight for a dominant split
+coherent weight `(a,b;c_T)`, including its central weight. -/
+def coherentCoefficient (a b c_T : ℤ) : ℤ × ℤ × ℤ := (-b, -a, a + b + 2 * c_T)
+
+/-- The full parameter coordinate map; its last coordinate gives the infinitesimal central
+character in the classified cases and cancels that of the coherent coefficient. -/
+def harishChandraParameter (a b c_T : ℤ) : ℤ × ℤ × ℤ :=
+  (a - 1, b - 2, -a - b - 2 * c_T)
+
+/-- Contragredience reverses and negates the semisimple coordinates and negates the centre. -/
+def dualParameter (a b c_T : ℤ) : ℤ × ℤ × ℤ := (2 - b, 1 - a, a + b + 2 * c_T)
+
+/-- A nonzero central weight tests the balanced tensor and the sign of the dual. -/
+example : coherentCoefficient 3 2 0 = (-2, -3, 5) ∧
+    harishChandraParameter 3 2 0 = (2, 0, -5) ∧
+    dualParameter 3 2 0 = (0, -2, 5) ∧
+    (coherentCoefficient 3 2 0).2.2 + (harishChandraParameter 3 2 0).2.2 = 0 := by
+  norm_num [coherentCoefficient, harishChandraParameter, dualParameter]
 
 /-- Positive `C₂` coroot evaluations at the semisimple parameter `(x, y)`.
 The long roots `2e₁, 2e₂` have coroot evaluations `x, y`, without a factor two. -/
@@ -378,9 +420,15 @@ such as the noncompact wall `y = 0`, are allowed. -/
 def Separated (R x y : ℝ) : Prop :=
   ∀ i : Fin 4, corootValues x y i = 0 ∨ R < |corootValues x y i|
 
-/-- Semisimple Harish-Chandra parameter `(k - 1, l - 2)` of the classical weight `(k, l)`;
-the central coordinate is balanced separately. -/
+/-- Semisimple projection of `harishChandraParameter` for classical weight `(k,l)`;
+the full parameter has central coordinate `-k-l-2c_T`. -/
 def hcParameter (k l : ℤ) : ℝ × ℝ := ((k : ℝ) - 1, (l : ℝ) - 2)
+
+/-- The weight-gap parameter is the semisimple projection for every central twist. -/
+example (k l c_T : ℤ) :
+    hcParameter k l = (((harishChandraParameter k l c_T).1 : ℝ),
+      ((harishChandraParameter k l c_T).2.1 : ℝ)) := by
+  simp [hcParameter, harishChandraParameter]
 
 /-- The elementary weight inequalities imply separation with the same constant. -/
 theorem separated_of_weight_gaps (R : ℝ) (hR : 0 < R) (k l : ℤ)
