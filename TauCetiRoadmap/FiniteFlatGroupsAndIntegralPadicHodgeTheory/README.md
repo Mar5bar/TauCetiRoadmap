@@ -1606,20 +1606,41 @@ generically `E_*` is `p`-divisible, so `p` induces maps `E_{i+v+1}/E_{i+1} → E
 isomorphisms on the generic fibre. The affine algebras `D_i` of `E_{i+1}/E_i` form an increasing
 sequence of `R`-orders in one finite separable `K`-algebra, so they stabilise: `D_i = D_{i+1}` for `i ≥ i_0`. With `Γ_v = E_{i_0+v}/E_{i_0}`, multiplication by `p^v` on `Γ_{v+1}` factors through an isomorphism,
 so its kernel is `Γ_v: Γ` is `p`-divisible, and `p^{i_0}` gives `Γ → E ⊆ F` inducing `T_p(Γ) ≅ M` (Tate, proof
-of Proposition 12). Serre's example: for an elliptic curve over `R` with ordinary reduction and
-rational `p`-torsion, the map `φ` is not injective over `R`. (Tate 1967, (4.2), Proposition 12, p. 181:
-the statement; Tate 1967, (4.2), proof of Proposition 12, p. 182: the closure and the shift.)
+of Proposition 12). Serre's example uses an elliptic curve mapped to the product of two quotients
+whose kernels are distinct generically but have the same nonzero reduction, as in the check below.
+(Tate 1967, (4.2), Proposition 12, p. 181: the statement; proof of Proposition 12, p. 182:
+the closure and the shift; p. 183, immediately after that proof: Serre's counterexample.)
 
-*Needs:* §R07.1.20; §R07.1.8; §R07.1.5.
+*Needs:* §R07.1.20; §R07.1.8; §R07.1.5; §R07.1.9; §R07.1.16; §R07.1.19;
+TauCetiRoadmap.ModularCurves Layers 2B and `7E` (elliptic quotients and torsion towers).
 
 **Checks.**
 
 - `exists_of_tateModule_summand_self`: `M = T_p(F)` gives `Γ = F` (`i_0 = 0`); `M = 0` gives the
   zero group.
-- `exists_of_tateModule_summand_serre`: Serre's example: for an elliptic curve over `R` with
-  ordinary reduction and a `K`-rational point of order `p` outside the connected part, the closures
-  `E_v` of the corresponding generic subgroup do not form a `p`-divisible group, a shift `i_0 > 0`
-  is needed, and `φ : Γ → F` is not a closed immersion.
+- `exists_of_tateModule_summand_serre`: let `X/R` be an elliptic scheme with ordinary special
+  fibre and all geometric generic `p`-torsion `K`-rational. Choose independent
+  `x, y ∈ X_K[p](K)` whose reductions satisfy `x̄ = ȳ = z ≠ 0`. Their schematic closures
+  `H_x, H_y ⊆ X[p]` are constant étale groups of order `p`, with
+  `(H_x)_k = (H_y)_k = ⟨z⟩`. Let `q_x : X → Y_x = X/H_x` and
+  `q_y : X → Y_y = X/H_y`, and set `f = (q_x, q_y)` and
+  `F = Y_x[p^∞] × Y_y[p^∞]`. The generic kernels have zero intersection, so `f_K` is a
+  closed immersion. Its map on generic `p`-torsion is injective, so
+  `M = im(T_p(f) : T_p(X[p^∞]) → T_p(F))` is saturated, hence a `ℤ_p`-direct summand;
+  it is `G_K`-stable. On the special fibre `ker(f_k) = ⟨z⟩`, so
+  `f[p^∞] : X[p^∞] → F` is not a closed immersion. Were the closures `E_v` a
+  `p`-divisible tower, the generically isomorphic maps `X[p^v] → E_v` would be
+  isomorphisms: their heights agree generically and their dimensions agree by §R07.1.19;
+  the induced inclusions of coordinate orders have equal discriminants by §R07.1.16 and
+  hence are equal. This contradicts the kernel
+  containing `z` at level one. Thus `i_0 > 0` is necessary, and a realizing `φ` cannot be a
+  closed immersion, since its levels would then be precisely the closures `E_v`.
+- `exists_of_tateModule_summand_canonicalLift`: for the canonical lift `X/W(F̄_p)` of an
+  ordinary elliptic curve, take `F = X[p^∞] ≅ μ_{p^∞} × (ℚ_p/ℤ_p)` and `M` the Tate
+  module of its étale factor (§R07.1.9). A nonzero rational `p`-torsion point in that
+  factor has nonzero reduction, but the closures are already `(ℤ/p^vℤ)_R`:
+  `i_0 = 0` and the factor inclusion is closed. A single rational `p`-torsion point with
+  nonzero reduction therefore does not force the failure in Serre's product construction.
 
 ### R07.1.22 Tate's theorem: `p`-divisible groups are determined by their generic fibres
 

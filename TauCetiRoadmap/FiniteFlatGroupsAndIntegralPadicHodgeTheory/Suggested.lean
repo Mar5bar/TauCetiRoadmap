@@ -1150,7 +1150,20 @@ further instances of the statements above.
   `BarsottiTate.dim_add_dim_cartierDual`, `BarsottiTate.discr_level`,
   `invariantDifferentialsAndAbsoluteDifferent`; `BarsottiTate.completedPoints`;
   `BarsottiTate.hodgeTate`;
-  `BarsottiTate.exists_of_tateModule_summand`, `BarsottiTate.extend_genericFibre`;
+  `BarsottiTate.exists_of_tateModule_summand`, with
+  `exists_of_tateModule_summand_self` (the full and zero summands),
+  `exists_of_tateModule_summand_serre`: an elliptic scheme X/R with ordinary special fibre
+  and all generic p-torsion K-rational has independent x,y with the same nonzero reduction z.
+  For their constant étale closures H_x,H_y, put Y_x=X/H_x, Y_y=X/H_y and
+  F=Y_x[p^∞]×Y_y[p^∞]. The map f=(q_x,q_y) is a generic closed immersion, so
+  M=im T_p(f) is saturated and is a G_K-stable ℤ_p-direct summand of T_p(F).
+  On the special fibre ker(f_k)=⟨z⟩, so f[p^∞] is not a closed immersion.
+  If its unshifted closures were p-divisible, their generically isomorphic maps from X[p^v]
+  would be isomorphisms by equality of heights, dimensions and discriminants, contradicting z.
+  Thus a positive shift is necessary and a realizing map cannot be a closed immersion;
+  `exists_of_tateModule_summand_canonicalLift`: the split canonical lift over W(F̄_p),
+  with its étale Tate-module summand, has constant closures ℤ/p^vℤ, shift zero and a closed
+  factor inclusion; `BarsottiTate.extend_genericFibre`;
   `isSimple_killed_by_prime`; `BarsottiTate.quotientFiniteFlatSubgroup`;
   `Prolongation.sup`, `Prolongation.inf`, with the check
   `Prolongation.two_models_mu_p` over `ℤ_p[ζ_p]`; `BarsottiTate.exists_extension_of_levels`;
