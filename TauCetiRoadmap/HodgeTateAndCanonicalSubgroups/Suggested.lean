@@ -6,8 +6,8 @@ import Mathlib
 The roadmap is README.md. This file records light definitions and theorem signatures
 statable against the pinned APIs and is not exhaustive. It fixes the compact-open
 level order, distinguishes the weak, strong and geometric canonical-subgroup ranges,
-and records the left coordinate action and its automorphy factor. Log structures on
-adic spaces and the logarithmic layers are README targets in Layer 6 and Layer 7.
+and records the left coordinate action and its automorphy factor. The log-adic carriers and Kummer site come from PrismaticCohomologyPartIV §8.60;
+their additional API and logarithmic comparisons are README targets in Layers 6–7.
 Quantitative guards below use rational heights for exact numerical examples; the
 geometric statements use real rank-one valuations with v(p) = 1 and positive levels.
 -/
@@ -49,6 +49,27 @@ example [CompactSpace G] : Nonempty (CompactOpenSubgroup G) :=
 
 example (H K : CompactOpenSubgroup G) : H ≤ K ↔ (H.1 : Set G) ⊆ K.1 := Iff.rfl
 
+/-- Every subgroup of a finite discrete group occurs among the compact open levels. -/
+example [Finite G] [DiscreteTopology G] (H : Subgroup G) :
+    ∃ K : CompactOpenSubgroup G, K.1.toSubgroup = H := by
+  exact ⟨⟨⟨H, isOpen_discrete _⟩, (Set.toFinite _).isCompact⟩, rfl⟩
+
+/-- The discrete additive integers have only the trivial compact open subgroup. -/
+example (K : CompactOpenSubgroup (Multiplicative ℤ)) : K.1.toSubgroup = ⊥ := by
+  have : Finite K.1 := Set.finite_coe_iff.mpr K.2.finite_of_discrete
+  apply le_antisymm _ bot_le
+  intro x hx
+  have h := K.1.toSubgroup.subtype.isOfFinOrder (isOfFinOrder_of_finite ⟨x, hx⟩)
+  change x = 1
+  exact h.eq_one'
+
+/-- The additive real line has no compact open subgroup. -/
+example : IsEmpty (CompactOpenSubgroup (Multiplicative ℝ)) := by
+  refine ⟨fun K => ?_⟩
+  let : PreconnectedSpace (Multiplicative ℝ) := (inferInstance : PreconnectedSpace ℝ)
+  have hu := K.1.isClopen.eq_univ ⟨1, K.1.one_mem⟩
+  exact noncompact_univ ℝ (show IsCompact (Set.univ : Set ℝ) from hu ▸ K.2)
+
 end CompactOpenSubgroup
 
 /-! ## Layer 3: Canonical subgroups with quantitative bounds
@@ -69,6 +90,16 @@ example {O : Type u} [CommRing O] (v : AddValuation O (WithTop ℝ)) :
 
 example {O : Type u} [CommRing O] (v : AddValuation O (WithTop ℝ)) :
     hasseValuation v 1 = 0 := by simp [hasseValuation]
+
+/-- A normalized uniformizer has truncated height one. -/
+example {O : Type u} [CommRing O] (v : AddValuation O (WithTop ℝ)) (π : O)
+    (hπ : v π = 1) : hasseValuation v π = 1 := by
+  simp [hasseValuation, hπ]
+
+/-- A height strictly between zero and one is unchanged by truncation. -/
+example {O : Type u} [CommRing O] (v : AddValuation O (WithTop ℝ)) (Ha : O)
+    (hHa : v Ha = ((1 / 3 : ℝ) : WithTop ℝ)) : hasseValuation v Ha = 1 / 3 := by
+  norm_num [hasseValuation, hHa]
 
 /-- For p ≥ 2, S_n = 1 + p + ⋯ + p^{n−1} = (p^n − 1)/(p − 1). -/
 def canonicalSum (p n : ℕ) : ℚ := ((p : ℚ) ^ n - 1) / ((p : ℚ) - 1)
@@ -93,6 +124,13 @@ example : bhwConstant 7 = 2 := rfl
 
 example : canonicalSum 3 2 = 4 := by norm_num [canonicalSum]
 example : canonicalSum 2 0 = 0 := by norm_num [canonicalSum]
+example : canonicalSum 5 1 = 1 := by norm_num [canonicalSum]
+
+example : ¬ WeakCanonicalRange 2 2 (1 / 6) := by
+  norm_num [WeakCanonicalRange, canonicalSum]
+
+example : StrongCanonicalRange 2 2 (1 / 16) := by
+  norm_num [StrongCanonicalRange]
 
 example : WeakCanonicalRange 2 2 (1 / 8) := by
   norm_num [WeakCanonicalRange, canonicalSum]
@@ -101,6 +139,9 @@ example : ¬ StrongCanonicalRange 2 2 (1 / 8) := by
   norm_num [StrongCanonicalRange]
 
 example : BHWPositionRange 2 1 (1 / 4) ∧ ¬ BHWPositionRange 2 1 (1 / 3) := by
+  norm_num [BHWPositionRange, bhwConstant]
+
+example : BHWPositionRange 3 1 (1 / 4) ∧ ¬ BHWPositionRange 3 1 (1 / 3) := by
   norm_num [BHWPositionRange, bhwConstant]
 
 /-- For p ≥ 3 the endpoint is excluded: at p = 5, n = 1 the bound is 1/2. -/
@@ -121,7 +162,9 @@ example : WeakCanonicalRange 2 2 (1 / 7) ∧ ¬ StrongCanonicalRange 2 2 (1 / 7)
 
 The Hodge–Tate coordinate z of Layer 4 transforms by the left
 fractional-linear action z ↦ (az + b)/(cz + d) on its invertible-denominator domain, and
-j(γ, z) = cz + d is the factor of the AIP comparison. The algebraic identities are
+j(γ, z) = cz + d is the factor of the AIP comparison. For the tower right
+translations T, the BHW left action is γ⋅x = T_{γ^∨}(x), with frame αγ^∨;
+these algebraic identities use that left action. The algebraic identities are
 statable over any field. -/
 
 variable {K : Type u} [Field K]
@@ -156,6 +199,51 @@ theorem coordAction_mul (γ δ : GL (Fin 2) K) (z : K) (hδ : autFactor δ z ≠
     coordAction (γ * δ) z = coordAction γ (coordAction δ z) := by
   sorry
 
+/-- The identity has automorphy factor one. -/
+example (z : K) : autFactor (1 : GL (Fin 2) K) z = 1 := by
+  simp [autFactor]
+
+/-- An upper triangular matrix has factor d and coordinate (az+b)/d on its chart. -/
+example (γ : GL (Fin 2) K) (a b d z : K)
+    (hγ : (γ : Matrix (Fin 2) (Fin 2) K) = !![a, b; 0, d]) (hd : d ≠ 0) :
+    autFactor γ z ≠ 0 ∧ coordAction γ z = (a * z + b) / d := by
+  simpa [autFactor, coordAction, hγ] using hd
+
+/-- A diagonal matrix gives the guarded dilation chart. -/
+example (γ : GL (Fin 2) K) (a d z : K)
+    (hγ : (γ : Matrix (Fin 2) (Fin 2) K) = !![a, 0; 0, d]) (hd : d ≠ 0) :
+    autFactor γ z = d ∧ (autFactor γ z ≠ 0 ∧ coordAction γ z = a * z / d) := by
+  simp [autFactor, coordAction, hγ, hd]
+
+/-- Two lower unipotents satisfy the scalar cocycle on the nonzero-denominator chart. -/
+example (γ δ : GL (Fin 2) K) (c c' z : K)
+    (hγ : (γ : Matrix (Fin 2) (Fin 2) K) = !![1, 0; c, 1])
+    (hδ : (δ : Matrix (Fin 2) (Fin 2) K) = !![1, 0; c', 1])
+    (hz : c' * z + 1 ≠ 0) :
+    autFactor (γ * δ) z = (c + c') * z + 1 ∧
+      (c + c') * z + 1 = (c * (z / (c' * z + 1)) + 1) * (c' * z + 1) := by
+  constructor
+  · simp [autFactor, Matrix.mul_apply,
+      Fin.sum_univ_two, hγ, hδ]
+  · field_simp
+    ring
+
+/-- Lower unipotent coordinates compose as a left action on the common chart. -/
+example (c c' z : K) (hδ : c' * z + 1 ≠ 0) (hγδ : (c + c') * z + 1 ≠ 0) :
+    c * (z / (c' * z + 1)) + 1 ≠ 0 ∧
+      z / ((c + c') * z + 1) =
+        (z / (c' * z + 1)) / (c * (z / (c' * z + 1)) + 1) := by
+  have hden : c * (z / (c' * z + 1)) + 1 = ((c + c') * z + 1) / (c' * z + 1) := by
+    apply (eq_div_iff hδ).2
+    calc
+      (c * (z / (c' * z + 1)) + 1) * (c' * z + 1) = c * z + (c' * z + 1) := by
+        rw [add_mul, one_mul, mul_assoc, div_mul_cancel₀ _ hδ]
+      _ = (c + c') * z + 1 := by ring
+  rw [hden]
+  constructor
+  · exact div_ne_zero hγδ hδ
+  · rw [div_div_div_cancel_right₀ hδ]
+
 /-- Translation fixes the factor and adds 3 to the coordinate. -/
 example :
     let γ : GL (Fin 2) ℚ := Matrix.GeneralLinearGroup.mkOfDetNeZero !![1, 3; 0, 1] (by norm_num)
@@ -182,6 +270,7 @@ def aipExponent (p m : ℕ) (ε : ℚ) : ℚ := m - ε * (p : ℚ) ^ m / ((p : �
 
 example : aipExponent 3 1 0 = 1 := by norm_num [aipExponent]
 example : aipExponent 3 1 (1 / 9) = 5 / 6 := by norm_num [aipExponent]
+example : aipExponent 2 1 (1 / 8) = 3 / 4 := by norm_num [aipExponent]
 
 end HodgeTate
 
@@ -197,18 +286,22 @@ Layer 0: `TauCeti.HodgeTate.conormal`, `TauCeti.HodgeTate.hodgeTateMap`,
 `TauCeti.HodgeTate.coLieComplex`, `TauCeti.HodgeTate.abelianVerschiebung`.
 Layer 2: `ShimuraTower.pLevel`, `ShimuraTower.translate`, `ShimuraTower.infiniteLevel`,
 `TauCeti.HodgeTate.hodgeTateFlagPoint`, `TauCeti.HodgeTate.hodgeTateParabolicReduction`,
-`TauCeti.HodgeTate.ExactTensorFiltration`, `TauCeti.HodgeTate.openTowerHodgeTateMap`.
+`TauCeti.HodgeTate.ExactTensorFiltration`, `TauCeti.HodgeTate.hodgeTateFlagDescent`,
+`TauCeti.HodgeTate.openTowerHodgeTateMap` (for neat Hodge-type data with a fixed
+symplectic embedding and induced universal abelian family).
 Layer 3: `TauCeti.HodgeTate.hasseNeighbourhood`, `TauCeti.HodgeTate.canonicalSubgroup`.
 Layer 4: `TauCeti.HodgeTate.canonicalLocus`, `TauCeti.HodgeTate.hodgeTateCoordinate`,
 `TauCeti.HodgeTate.flagBall`.
 Layer 5: `TauCeti.HodgeTate.igusaTorsor`, `TauCeti.HodgeTate.integralDifferentialLattice`,
 `TauCeti.HodgeTate.modifiedHodgeBundle`, `TauCeti.HodgeTate.modifiedMinimalModel`,
 `TauCeti.HodgeTate.modifiedPlusSheaf`, `TauCeti.HodgeTate.aipTorsor`.
-Layer 6 (log adic spaces and their Kummer étale sites):
-`TauCeti.LogAdic.LogStructure`, `TauCeti.LogAdic.logification`,
+Layer 6 imports `TauCeti.LogAdic.LogStructure`, `TauCeti.LogAdic.logification`,
 `TauCeti.LogAdic.logPullback`, `TauCeti.LogAdic.IntegralChart`,
-`TauCeti.LogAdic.IsKummer`, `TauCeti.LogAdic.IsKummerEtale`,
-`TauCeti.LogAdic.KummerEtaleSite`, `TauCeti.LogAdic.KummerLocalSystem`,
+`TauCeti.LogAdic.IsKummer`, `TauCeti.LogAdic.IsKummerEtale` and
+`TauCeti.LogAdic.KummerEtaleSite` from PrismaticCohomologyPartIV §8.60.
+The additional log-adic targets are:
+`TauCeti.LogAdic.KummerLocalSystem` (the finite torsion-stalk extension of the
+supplied finite-free local systems),
 `TauCeti.LogAdic.MonoidAlgebraLog`, `TauCeti.LogAdic.DivisorialLog`,
 `TauCeti.LogAdic.FsAdicPullback`, `TauCeti.LogAdic.ContinuousLogDerivation`,
 `TauCeti.LogAdic.ContinuousLogDifferentials`, `TauCeti.LogAdic.AnalyticLogDR`,
@@ -222,9 +315,9 @@ Layer 7: `TauCeti.LogAdic.LogConstantPeriods`, `TauCeti.LogAdic.StructuralLogPer
 `TauCeti.LogAdic.StructuralLogPeriod`, `TauCeti.LogAdic.StructuralLogConnection`,
 `TauCeti.LogAdic.BdRCoefficientSheaf`, `TauCeti.LogAdic.FilteredLogConnection`,
 `TauCeti.LogAdic.LogRH`, `TauCeti.LogAdic.LogHiggs`, `TauCeti.LogAdic.ArithmeticLogDR`,
-`TauCeti.LogAdic.CanonicalLogRealizations`, `TauCeti.LogAdic.TwoDeRhamLattices`,
+`TauCeti.LogAdic.CanonicalLogRealizations` (agreement with the supplied canonical coefficients), `TauCeti.LogAdic.TwoDeRhamLattices`,
 `TauCeti.LogAdic.LatticeHTFiltration`, `TauCeti.LogAdic.HodgeTateReduction`,
-`TauCeti.LogAdic.FiniteLeviComparison`. -/
+`TauCeti.LogAdic.FiniteLeviComparison` (agreement with the supplied rational Levi comparison). -/
 
 end
 

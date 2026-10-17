@@ -6,13 +6,13 @@
 
 Layers 0–2 develop the character differential, Fargues degree and co-Lie theory, abelian comparison, and the rational Hodge–Tate flag on the open Shimura limit v-sheaf. Layers 3–5 develop quantitative canonical subgroups, Hilbert period domains, integral lattices, Siegel modified bundles and the AIP torsor comparison. Layers 6–8 construct general log adic Kummer geometry and comparisons, then the finite-level canonical Hodge–Tate filtration and Levi torsor for Hodge-type data.
 
-The downstream scope boundary is as follows. Perfectoid representability of Shimura towers, the perfectoid incarnation of `π_HT` and its extension to compactifications are PerfectoidShimuraVarieties S1–S3; the toroidal infinite-level Hodge–Tate morphism of Boxer–Pilloni Theorem 4.4.40 is PerfectoidShimuraVarieties S6. Coefficient sheaves of overconvergent forms, their comparison (BHW Theorem 7.14) and Hecke operators are OverconvergentAutomorphicForms O5–O6. Hasse invariants of BT₁ groups over arbitrary `𝔽_p`-schemes, Fargues's isomorphism LF and the BT₁ Hodge–Tate sequence belong to `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.2. The Verschiebung determinant of semi-abelian schemes on degeneration charts belongs to `ShimuraCompactifications` C4; Layer 0 names the Hasse section `Ha(G/S)` defined by that determinant, with its API, and proves the ordinary-locus and minimal-compactification statements. The fs log adic Kummer foundations (log structures on étale sites, logification and pullback, O⁺-charts, fs log adic spaces, Kummer maps, the Kummer étale site, its local systems and `R^iε_*(ℤ/n)`) are constructed in [6.0](#section-6-0), [6.12](#section-6-12), [6.15](#section-6-15) and [6.17](#section-6-17). `CohomologyComparisons` §6.1 constructs the logarithmic period sheaves of modular curves; the general constructions of Layers 6–7 specialize to it (7.15). Outside this roadmap are: Shimura data not of Hodge type in Layers 7–8 (their comparison uses special points, CM motives, Margulis superrigidity and the congruence subgroup property); Hilbert–Siegel models of GSp₄ over a totally real field in 0.17 and 5.5–5.7; the modified bundles at `p = 2`, whose boundary estimate the sources report without proof; abelian families over C that do not descend to a finite extension of `ℚ_p` (individual abelian varieties over C are treated); and integral tensor frames.
+The downstream scope boundary is as follows. Perfectoid representability of Shimura towers, the perfectoid incarnation of `π_HT` and its extension to compactifications are PerfectoidShimuraVarieties S1–S3; the toroidal infinite-level Hodge–Tate morphism of Boxer–Pilloni Theorem 4.4.40 is PerfectoidShimuraVarieties S6. Coefficient sheaves of overconvergent forms, their comparison (BHW Theorem 7.14) and Hecke operators are OverconvergentAutomorphicForms O5–O6. Hasse invariants of BT₁ groups over arbitrary `𝔽_p`-schemes, Fargues's isomorphism LF and the BT₁ Hodge–Tate sequence belong to `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.2. The Verschiebung determinant of semi-abelian schemes on degeneration charts belongs to `ShimuraCompactifications` C4; Layer 0 names the Hasse section `Ha(G/S)` defined by that determinant, with its API, and proves the ordinary-locus and minimal-compactification statements. `PrismaticCohomologyPartIV` §8.60 supplies the fs log-adic carriers, logification, pullback, integral charts, Kummer maps, site and topology, finite-free local systems, inertia and the exterior higher-direct-image formula. Layer 6 extends these interfaces by the additional chart, sheaf, descent and torsion-stalk constructions below. `CohomologyComparisons` §6.1 constructs the logarithmic period sheaves of modular curves; the general constructions of Layers 6–7 specialize to it (7.15). Outside this roadmap are: Shimura data not of Hodge type in Layers 7–8 (their comparison uses special points, CM motives, Margulis superrigidity and the congruence subgroup property); Hilbert–Siegel models of GSp₄ over a totally real field in 0.17 and 5.5–5.7; the modified bundles at `p = 2`, whose boundary estimate the sources report without proof; abelian families over C that do not descend to a finite extension of `ℚ_p` (individual abelian varieties over C are treated); and integral tensor frames.
 
 ## Conventions
 
 - Valuations are normalised by `v(p) = 1`. C is a complete algebraically closed nonarchimedean field over `ℚ_p` and `O_C` its valuation ring. Degrees of finite flat group schemes are Fargues degrees, sums of valuations of Fitting invariants, never lengths.
 - The Hodge–Tate map of an abelian scheme is a quotient `T_pA^∨ ⊗ Ô → ω_A` with kernel `Lie(A^∨)(1)`; flags use the quotient convention (the BHW convention). For `g = 1` the quotient line is `ω`.
-- Hilbert data use dual-abelian level structures `α: 𝒪_p² ≅ T_pA^∨`, the kernel coordinate `z = −HT(e₂)/HT(e₁)`, the left fractional-linear action `z ↦ (az + b)/(cz + d)` and `j = cz + d`. Conversion to the right action on towers is `α′ = α ∘ γ^∨`.
+- Hilbert data use dual-abelian level structures `α: 𝒪_p² ≅ T_pA^∨`, the kernel coordinate `z = −HT(e₂)/HT(e₁)`, the left fractional-linear action `z ↦ (az + b)/(cz + d)` and `j = cz + d`. Tower translations retain the right action. The corresponding BHW left action is `γ⋅x := T_{γ^∨}(x)`, changing the frame by `α↦αγ^∨` and giving `z(γ⋅x)=(az+b)/(cz+d)`.
 - Towers are indexed by compact open subgroups `K_p ⊂ G(ℚ_p)` at fixed tame level `K^p`. `G(ℚ_p)` acts on the right, `T_{gh} = T_h ∘ T_g`. Infinite-level objects are limits of diamonds in v-sheaves over `Spd(C, O_C)`, not perfectoid spaces.
 - Hasse heights `w ∈ [0, 1]` are truncated valuations of Hasse invariants. The weak and strong canonical ranges and the BHW position ranges are kept distinct (below).
 - Logarithmic structures are fine and saturated on étale sites of analytic adic spaces; Kummer and pro-Kummer sites follow Diao–Lan–Liu–Zhu (below).
@@ -31,7 +31,7 @@ AIP group membership follows from the ratio of actual torsor lifts, through thei
 
 ### Conventions of the logarithmic layers
 
-Log structures, logification, pullback and `O⁺`-charts on étale-sheafy analytic adic spaces are constructed in 6.0, using `AdicEtaleGeometry` A1 and `CrystallineCohomology` CR.5's monoid theory. Monoid-chart plus rings are integral closures of raw plus algebras; Kummer indices are invertible in `O`, without an `O⁺`-unit condition. Fine and fs are étale-local conditions; products are fs. Normal crossings is étale-local and permits self-intersections.
+Log structures, logification, pullback and `O⁺`-charts on étale-sheafy analytic adic spaces are supplied by `PrismaticCohomologyPartIV` §8.60; 6.0 records their supplied universal-property and coherence API. Monoid-chart plus rings are integral closures of raw plus algebras; Kummer indices are invertible in `O`, without an `O⁺`-unit condition. Fine and fs are étale-local conditions; products are fs. Normal crossings is étale-local and permits self-intersections.
 
 Continuous log differentials use complete Hausdorff targets and the explicit noetherian-type hypotheses. Pro-Kummer coverings satisfy the ordinal tower conditions at all topological points; log perfectoid presentations use all-integer-divisible chart limits. Keep presentations distinct from their completed affinoids. Layer 6 is independent of primitive and period comparisons.
 
@@ -104,7 +104,7 @@ Tau Ceti also provides `TauCeti.RestrictedProducts.CompactOpenSubgroups` in `Tau
 ### From TauCetiRoadmap roadmaps
 
 - **ModularCurves**, layer 0B: finite flat group schemes and Cartier duality, carrying the finite Hodge–Tate map of 0.2; layer 0G: the relative Grassmannian scheme of locally free rank-N quotients of the Hopf algebra of a finite locally free group scheme, with its affine charts, gluing and universal property; the Grassmannian and flag bundle of an arbitrary finite locally free module that 2.7 uses are `AlgebraicModuliForArithmeticGeometry` §1.3's.
-- **ReductiveGroups**, Layer 1: representations, comodules and Tannakian reconstruction (2.11, 2.14); Layer 3: closed subgroups and the fppf quotient G/H, whose representability is a theorem under stated hypotheses (2.9 takes the representing scheme of `G/P_µ` from `ShimuraData` Layer 3); Layer 7: parabolic subgroups and Levi decompositions, with the dynamic approach to parabolics kept as a parallel route (2.9, 2.14). The dynamic parabolic and Levi subgroups of a cocharacter, on points, are the pinned `TauCeti.Cocharacter.parabolic` and `TauCeti.Cocharacter.levi`.
+- **ReductiveGroups**, Layer 1: representations, comodules and Tannakian reconstruction (2.11, 2.14); Layer 3: closed subgroups and the fppf quotient G/H, whose representability is a theorem under stated hypotheses (2.14 constructs the opposite-type descent adapter using the parabolic representability of Layers 7–8); Layer 7: parabolic subgroups and Levi decompositions, with the dynamic approach to parabolics kept as a parallel route (2.9, 2.14). The dynamic parabolic and Levi subgroups of a cocharacter, on points, are the pinned `TauCeti.Cocharacter.parabolic` and `TauCeti.Cocharacter.levi`.
 - **AdicSpaces**: Huber pairs and adic spaces, with the pinned `TauCeti.Huber.Pair`.
 
 ### From other roadmaps
@@ -117,14 +117,15 @@ Each item is consumed as the supplier states it; where a statement here needs mo
 - **`ShimuraCompactifications`.** C2: toroidal compactifications, smooth with normal-crossings boundary at neat level for smooth fans, algebraized for projective fans, with canonical models over the reflex field; C3 (refinement map): refinement maps of toroidal charts; C4 (polarized degeneration data): polarized relative degeneration data `[Y → G̃]` over complete normal noetherian bases; C4 (semiabelian hasse boundary comparison): the Verschiebung of a semi-abelian scheme and its determinant on the Hodge line; C4 (constructible character sheaf, extended isogeny kernel, semi-abelian Tate module, homomorphism extension); C5 (integral toroidal space, integral minimal space, higher level toroidal normalization): the toroidal and minimal Siegel compactifications at prime-to-p level and the normalized toroidal model at higher p-power level, under their good-prime hypotheses; C5 (minimal Hodge ampleness); C6: the Hilbert near-ordinary model and the Hilbert Hasse ideal at the boundary. The pushforward of the structure sheaf modulo `p^k` to the full-level Siegel minimal model is 5.13.
 - **`HilbertModularVarietiesAndShimuraCurves`.** H2: the Hilbert Hasse ideal and the Hasse formal domains; H4: hybrid, geometric and arithmetic full level structures, `Γ₀(p^n)-level` structures and their forgetful maps. The `𝒪_F`-module structure of Hilbert canonical subgroups is 3.12.
 - **`PELModuli`.** M0: integral PEL data, the determinant condition and symplectic 𝒪-lattices; M1: level structures.
-- **`ShimuraData`.** Layer 3: compact duals and filtration parabolics, with the reflex-field form of the flag variety.
+- **`ShimuraData`.** §§3.7–3.9: the Hodge parabolic `P(µ⁻¹)` and its descended compact dual. The opposite-type reflex-field adapter for `P(µ)` is 2.14; the two equivariant flag varieties are not silently identified.
 - **`ShimuraVarieties`.** Layer 1: analytic points and right translations; Layer 8: level towers, finite level maps, translation laws, minimal descent and the abelian instance.
 - **`AutomorphicBundles`.** B0: the Hodge parabolic convention and the central split quotient; B1: Hodge tensor realizations, the absolute-Hodge propagation of Hodge tensors (Deligne, Blasius), the tensor frame torsor and the filtration reduction of the de Rham frame torsor to graded frames; B2 and B2.general: automorphic vector bundles of representations of the centralizer, the étale coefficient local systems and their tensor and Hecke compatibilities; B3.7 and B3.general: Deligne's canonical logarithmic extension with nilpotent residues (zero exponents) of a full-group coefficient with unipotent monodromy, its identification with the automorphic canonical extension, and their boundary functoriality.
 - **`AlgebraicModuliForArithmeticGeometry`.** §1.3: the coherent Grassmannian and flag bundle of a finite locally free module over an arbitrary base, with representability and pullback.
 - **`PadicHodgeTheory`.** §§0.2–0.3: `B_dR⁺` and Fontaine's element t; §8.3: Hodge–Tate weights of abelian varieties; §§2.1–2.4: the period sheaves `B_dR⁺`, `OB_dR⁺` and their gradings, acyclicity on affinoid perfectoids, the power-series description, the formal Poincaré lemma and the Faltings extension; §§2.7, 7.1–7.3: the primitive comparison theorem for proper smooth rigid spaces over C (with its pro-étale and rational forms), the geometric Hodge–Tate direct images `R^jν_*Ô = Ω^j(−j)` over an arbitrary C, de Rham lisse sheaves, the relative Hodge–Tate filtration, and the relative de Rham comparison for de Rham pairs over finite extensions of `ℚ_p`. The degree-one Hodge–Tate sequence over an arbitrary C and the relative character compatibility are 1.4–1.5.
 - **`CohomologyComparisons`.** §0.4: twist, Frobenius and filtration normalizations; `CohomologyComparisons` §2.15: Hodge–Tate degeneration; §6.1: the logarithmic period sheaves of modular curves, to which Layers 6–7 specialize (7.15).
 - **`CrystallineCohomology`.** CR.5 and CR.5:log-algebra: the monoid theory (prelog rings, saturated, characteristic and Kummer monoid maps, integral fibre products), log charts and divisorial log structures on schemes, the log-smoothness chart criterion, log differentials and log de Rham complexes, used through their monoid-level and scheme-level statements.
-- **AutomorphicBundles B3.log.1–B3.log.3.** The horizontal smooth-pair Kummer sites, canonical coefficient systems and unipotent logarithmic comparison supply their smooth proper boundary instances. Layer 6 constructs logification, integral charts and the Kummer topology for general étale-sheafy and locally noetherian fs log adic spaces; Layer 7 retains the general coefficient and residue-normalization theory, and identifies the Hodge-type unipotent instance with these supplied constructions.
+- **AutomorphicBundles B3.log.1–B3.log.3 and B3.HT.7.** Import `canonicalKummerCoefficient`, `unipotentLogPeriodComparison_associated`, `unipotentLogPeriodComparison_graded` and `unipotentLogPeriodComparison_tensor` for the Hodge-type canonical association. Import `rationalHTLeviTorsor` and its associated-bundle, tensor, action and boundary API for the rational tower comparison. Layers 2 and 7 prove agreement of the open and finite-level two-lattice constructions with these comparisons, with the Hodge/opposite cocharacter and Tate-sign dictionary. Layer 7 also constructs the general coefficient and residue-normalization theory.
+- **`PrismaticCohomologyPartIV` §8.60.** Log-adic carriers, logification, pullback and charts on étale-sheafy spaces; `NoetherianFsLogAdicSpace.kummerSite`, `.kummerTopology`, `.LocalSystem`, `.trivialLogSite` and `.inertiaExterior` on locally noetherian fs spaces, including log inertia and the cup-compatible exterior formula for positive invertible torsion indices. Section 6.0 imports this API; 6.12, 6.15 and 6.17 add the specified chart, sheaf and descent API; torsion stalks beyond the finite-free convention are included here.
 - **`AdicSpacesPartII`.** R0: locally noetherian adic spaces, noetherian-type Huber rings, fibre products, finite, smooth and étale morphisms, continuous differentials, completed tensor products and uniformization; R1: analytification, with the dimension theory of affinoid domains (§R1.9).
 - **AdicSpacesPartIII.** F0 and R2: formal schemes, admissible formal models, generic fibres, admissible blow-ups and Hasse domains (§R2.10); R3: coherent sheaves, Tate–Kiehl, Kiehl's proper mapping theorem and continuous differentials (§§R3.1–R3.7). Normalizations of formal models and their analytic integral structure (3.11), étale descent of finite coherent modules (6.1) and normal extension across a boundary (6.18) are constructed here.
 - **AdicSpacesPartIV.** §R4.7: smooth pairs and their analytifications. The general normal-crossings charts of 6.5 also allow étale-local branches over finite separable field extensions.
@@ -135,6 +136,23 @@ Each item is consumed as the supplier states it; where a statement here needs mo
 - **`ClassicalAdicEtaleCohomology`.** §§1.1–1.4, 8.2 and 11.1–11.2: étale and pro-étale cohomology of locally noetherian analytic adic spaces with the comparison `H^i(X_ét, F) ≅` `H^i(X_proét`, `ν^*F`), the Cartan–Leray spectral sequence for pro-finite-étale torsors, étale acyclicity of finite projective modules, torsion local systems and finite étale covers, Tate twists, Huber's comparison of algebraic and analytic étale cohomology with the normal-crossings purity computation, the derived limit of lisse towers (§1.3), and the étale cohomological dimension bound (§11.2); the comparison and purity statements are its §8.2 and §11.1. Its non-noetherian perfectoid, Kummer and finite-module versions are 6.28, 6.25 and 6.1.
 - **`EnhancedDerivedSheaves`.** E1: the derived pullback–pushforward adjunction and derived tensor products on ringed topoi; E2: derived limits on replete topoi. The projection formula for locally free coefficients and derived limits over an acyclic basis are 6.37 and 6.31.
 - **DerivedModuleAlgebra.** §§0.4, 0.6–0.8, 0.10 and 0.13: the full cotangent complex, its universal property, naive truncation, transitivity, derived base change and regular-quotient two-term models, from which 0.26 builds the co-Lie complex; §§0.5 and 0.25: square-zero extensions and their lifting obstructions.
+
+## Internal build order
+
+Build §§0.21–0.28's prerequisites before their named consumers. The complete Layer 0 dependency inventory is the following ordered list of batches; entries in one batch are independent once the earlier batches are available:
+
+| Batch | Sections |
+| --- | --- |
+| 1 | 0.1, 0.24 |
+| 2 | 0.21, 0.22, 0.26, 0.27 |
+| 3 | 0.2, 0.6, 0.25 |
+| 4 | 0.3, 0.7, 0.11, 0.20, 0.23, 0.28 |
+| 5 | 0.4, 0.8, 0.9, 0.12, 0.13 |
+| 6 | 0.5, 0.10, 0.14, 0.17, 0.18, 0.19 |
+| 7 | 0.15 |
+| 8 | 0.16 |
+
+Within Layer 2 build 2.14, then 2.11, before 2.8–2.10. Within Layer 3 build 3.11 before 3.1 and 3.12 before 3.10. Within Layer 4 build 4.8, then 4.7, then 4.6. Within Layer 5 build 5.13 before 5.6 and 5.9 before 5.4: construct 5.3's lattice and local API first, and prove its independence clause only after 5.9. Within Layer 6 build 6.6–6.7 before 6.5. Numbering groups the mathematics; these dependencies determine construction order.
 
 ## Suggested signatures
 
@@ -217,15 +235,17 @@ Sources: [FAR10], §9.2, Def. 17, p. 25.
 
 ### 0.4 The Hodge–Tate map of a p-divisible group and its completed linearisation
 
-For p-divisible `G/O_C`, use `ω_{G^D[p^n]}=ω_{G^D}/p^n` and completeness (0.25). Tate transitions are multiplication by p; conormal transitions are reduction. Descent to valuation subfield K gives continuous Galois equivariance.
+For p-divisible `G/O_C`, use `ω_{G^D[p^n]}=ω_{G^D}/p^n` and completeness (0.25). Tate transitions are multiplication by p; conormal transitions are reduction. Descent to a valuation subfield K gives equivariance for continuous K-automorphisms of C.
 
 - `TauCeti.HodgeTate.pDivisibleHodgeTateMap`: `α_G`: `T_pG(R) → ω_{G^D}`, the inverse limit of `α_{G[p^n]}`.
 - `TauCeti.HodgeTate.pDivisibleHodgeTateMap_mod`: `α_G mod p^n` equals `α_{G[p^n]}` composed with `T_pG → G[p^n]`.
 - `TauCeti.HodgeTate.pDivisibleHodgeTateLinear`: `α_G ⊗ 1`: `T_pG ⊗_{ℤ_p} O_C → ω_{G^D}` over `O_C`, and its C-linearisation.
 - `TauCeti.HodgeTate.pDivisibleHodgeTateMap_natural`: Natural in homomorphisms of p-divisible groups, 𝒪-linear for endomorphism actions, exchanged under a quasi-polarisation.
-- `TauCeti.HodgeTate.pDivisibleHodgeTateMap_galois`: For G over `O_K`, `α_G ⊗ 1` is `Gal(K̄/K)`-equivariant.
+- `TauCeti.HodgeTate.pDivisibleHodgeTateMap_galois`: For G over `O_K`, `α_G ⊗ 1` is equivariant for continuous K-automorphisms of C. If C is the completion of a chosen algebraic closure of K, this gives `Gal(K̄/K)`-equivariance. For general C an absolute-Galois assertion requires a specified compatible continuous action on C; the underlying map needs no such action.
 
 **Checks.**
+
+- For `C=widehat(overline(ℚ_p(T)))` with the Gauss valuation and an ordinary `E/ℤ_p`, the nonequivariant character map exists, but descent of E does not specify an action of `Gal(ℚ̄_p/ℚ_p)` on C.
 
 - `TauCeti.HodgeTate.pDivisibleHodgeTateMap_QpZp`: For `G = ℚ_p/ℤ_p` over `O_C`, `α_G(1) = dt/t`, so `α_G ⊗ 1` is an isomorphism `ℤ_p ⊗ O_C ≅ ω_{μ_{p^∞}}`.
 - `TauCeti.HodgeTate.pDivisibleHodgeTateMap_mu`: For `G = μ_{p^∞}`, `α_G = 0`.
@@ -638,7 +658,7 @@ Sources: [FAR11], §2.2.1, p. 7; [FAR10], §3, Exemple 2, p. 9.
 
 ### 0.26 The co-Lie complex of a finite locally free group scheme
 
-For finite flat commutative G/S with unit e, develop the following co-Lie API. For abelian `f:A→B`, the Hodge triangle is `ℓ_G[−1]→H¹_dR(B/S)→H¹_dR(A/S)→ℓ_{G^D}^∨`; its determinant gives `δ_G+δ_{G^D}=div(deg f)` when `deg f=|G|` is regular. This supplies the complexes of R07.1.11/R07.6.6.
+For finite flat commutative G/S with unit e, develop the following co-Lie API. For an abelian isogeny `f:A→B` with kernel G, put `C_f=Cone(f*:H¹_dR(B/S)→H¹_dR(A/S))`. The Hodge short exact sequences induce the distinguished triangle `ℓ_G→C_f→ℓ_{G^D}^∨[1]→ℓ_G[1]`; its determinant gives `δ_G+δ_{G^D}=div(deg f)` when `deg f=|G|` is regular. This supplies the complexes of R07.1.11/R07.6.6.
 
 Uses `H¹_dR`.
 
@@ -648,14 +668,14 @@ Uses `H¹_dR`.
 - `TauCeti.HodgeTate.coLieDivisor`: `δ_G = Div(ℓ_G)`, with ideal `Fitt₀ ω_G`, when G is generically étale on a schematically dense open.
 - `TauCeti.HodgeTate.coLieComplex_triangle`: the triangle `ℓ_{G₃} → ℓ_{G₂} → ℓ_{G₁}` for an exact sequence.
 - `TauCeti.HodgeTate.coLieComplex_baseChange`: `ℓ_{G_{S′}} = Lg*ℓ_G` for `S′ → S` (tor-independent because G is flat).
-- `TauCeti.HodgeTate.coLieComplex_isogenyKernel`: for `G = ker f`, `ℓ_G ≃ [ω_B →^{f*} ω_A]` and the Hodge-filtration triangle relating `ℓ_G`, `ℓ_{G^D}`, `H¹_dR(A/S)` and `H¹_dR(B/S)`.
+- `TauCeti.HodgeTate.coLieComplex_isogenyKernel`: for `G = ker f`, `ℓ_G ≃ [ω_B →^{f*} ω_A]` and the distinguished triangle `ℓ_G→C_f→ℓ_{G^D}^∨[1]→ℓ_G[1]`, where `C_f=Cone(f*:H¹_dR(B/S)→H¹_dR(A/S))`.
 
 **Checks.**
 
 - `TauCeti.HodgeTate.coLieComplex_mu`: For `μ_{p^n}` over a ring R, `ℓ = [R →^{p^n} R]`: `H⁰ = R/p^n`, and `H^{−1} = R[p^n]` is nonzero when R has p-torsion (for `R = 𝔽_p` both cohomology groups are `𝔽_p`).
 - `TauCeti.HodgeTate.coLieComplex_etale`: For an étale G, `ℓ_G = 0` and `δ_G = 0`.
 - `TauCeti.HodgeTate.coLieComplex_alphaP`: For `α_p` over `𝔽_p`, `ℓ = [𝔽_p →^{0} 𝔽_p]`: `H⁰ = H^{−1} = 𝔽_p`, so `δ` is undefined (`α_p` is nowhere generically étale over `𝔽_p`) although ℓ is perfect of rank zero.
-- `TauCeti.HodgeTate.coLieComplex_isogeny_mulP`: For `f = [p]` on an abelian scheme of dimension g over `ℤ_p`, `ℓ_{A[p]} = [ω_A →^{p} ω_A]` and `δ_{A[p]} = (p^g)`; with `δ_{A[p]^D} = (p^g)`, the sum is `div(p^{2g}) = div|A[p]|`.
+- `TauCeti.HodgeTate.coLieComplex_isogeny_mulP`: For `f = [p]` on an abelian scheme of dimension g over `ℤ_p`, `ℓ_{A[p]} = [ω_A →^{p} ω_A]` and `δ_{A[p]} = (p^g)`; with `δ_{A[p]^D} = (p^g)`, the sum is `div(p^{2g}) = div|A[p]|`. For an elliptic E, `H⁰(C_[p])=(ℤ_p/p)²`; the cone triangle has two outer terms with `H⁰=ℤ_p/p`, whereas a triangle with just one co-Lie term would lose a copy.
 
 Sources: [FAR10], §1.1, pp. 3–4; §1.2, p. 4; §2, Def. 3 and the paragraph before it, pp. 6–7; §2, Lem.s 1–2, pp. 7–8.
 
@@ -750,11 +770,13 @@ Sources: [CS17], §2.3, after Lem. 2.3.6, p. 20.
 
 ### 1.4 The degree-one Hodge–Tate sequence over an arbitrary C
 
-Prove `TauCeti.HodgeTate.hodgeTateSpectralSequence`. For proper smooth rigid X/C, supply the functorial multiplicative spectral sequence `E₂^{ij}=H^i(X,Ω^j_X)(−j)⇒H^{i+j}_ét(X,ℚ_p)⊗C` and its degree-one five-term sequence `0→H¹(O_X)→H¹_ét(X,ℚ_p)⊗C→H⁰(Ω¹_X)(−1)→^{d₂}H²(O_X)`. For dimension-g abelian A, the two Hodge terms have dimension g and étale H¹ dimension 2g, so d₂ vanishes. Using `H¹(O_A)=Lie(A^∨)`, `H⁰(Ω¹_A)=ω_A` and `T_pA^∨=H¹_ét(A,ℤ_p)(1)`, obtain `0→Lie(A^∨)⊗C(1)→T_pA^∨⊗C→ω_A⊗C→0`. The A/dual sequences are dual under the Weil pairing into `ℤ_p(−1)`. Descent of A and its morphisms to complete discretely valued K gives `Gal(C/K)`-equivariance; no descent is needed for the sequence itself.
+Prove `TauCeti.HodgeTate.hodgeTateSpectralSequence`. For proper smooth rigid X/C, supply the functorial multiplicative spectral sequence `E₂^{ij}=H^i(X,Ω^j_X)(−j)⇒H^{i+j}_ét(X,ℚ_p)⊗C` and its degree-one five-term sequence `0→H¹(O_X)→H¹_ét(X,ℚ_p)⊗C→H⁰(Ω¹_X)(−1)→^{d₂}H²(O_X)`. For dimension-g abelian A, the two Hodge terms have dimension g and étale H¹ dimension 2g, so d₂ vanishes. Using `H¹(O_A)=Lie(A^∨)`, `H⁰(Ω¹_A)=ω_A` and `T_pA^∨=H¹_ét(A,ℤ_p)(1)`, obtain `0→Lie(A^∨)⊗C(1)→T_pA^∨⊗C→ω_A⊗C→0`. The A/dual sequences are dual under the Weil pairing into `ℤ_p(1)`. Descent of A and its morphisms to complete discretely valued K gives `Gal(C/K)`-equivariance; no descent is needed for the sequence itself.
 
 All-degree degeneration belongs to `CohomologyComparisons` §2.15 (hodge tate degeneration); degree one here follows by dimension count.
 
 **Checks.**
+
+- For a principally polarized elliptic curve, `T_pE×T_pE→T_pμ_{p∞}=ℤ_p(1)`; the inverse twist belongs to the dual cohomological convention.
 
 - For an elliptic curve E over C, the sequence reads `0 → C(1) → T_pE ⊗ C → C → 0` after choosing a basis of `ω_E`, with the line of the connected part as the first term when E has ordinary good reduction.
 - For X a point, the sequence is `C = C`; for `X = ℙ¹` (not an abelian variety) `H¹` vanishes and `E₂^{0,1} = H⁰(Ω¹) = 0`, so the degree-one statement is vacuous.
@@ -801,6 +823,8 @@ Uses `E_v`.
 - `ShimuraTower.reindex`: Restriction along a cofinal family of levels (an initial functor into `CO_p`) does not change the limits formed from the tower.
 
 **Checks.**
+
+- For finite discrete G, every subgroup is compact open. For discrete `(ℤ,+)` only the trivial subgroup is compact open, since compact subsets are finite. For `(ℝ,+)` no compact open subgroup exists: connectedness makes an open subgroup the whole noncompact group.
 
 - `ShimuraTower.pLevel_gl2_components`: For `GL_2`, `K^p = K(N)^p` with `N ≥ 3` prime to p and `K_p = K(p^m)`, `S*_{K_p}` has `φ(Np^m)` connected components, each the analytification of the connected complete modular curve `X(Np^m`, `ζ)_C` with a fixed primitive Weil-pairing value `ζ`. Their disjoint union is the full-basis modular curve `X_full(Np^m)_C` of TauCetiRoadmap ModularCurves; `X_full` is not the name of one component.
 - `ShimuraTower.pLevel_gl2_transition_degree`: For `GL_2`, `N ≥ 3` and `m ≥ 1`, the map `S_{K(p^{m+1})} → S_{K(p^m)}` is finite étale of degree `p⁴ = [K(p^m) : K(p^{m+1})]`; no element of `K(p^m)` outside `K(p^{m+1})` acts trivially, because `−1 ∉ K(N)^p`.
@@ -955,17 +979,20 @@ Prove `TauCeti.HodgeTate.pelHodgeType_filtration`. For a characteristic-zero PEL
 
 **Checks.**
 
+- For the Hilbert family the rational endomorphism action makes the HT kernel an `F⊗C`-submodule, yielding one line in each embedding factor after a splitting extension.
+- In the Siegel case the Weil pairing vanishes on the dimension-g HT kernel. A dimension-g subspace with nonzero restricted pairing is rejected by the flag condition.
+
 - For the Siegel datum `Fl_{G,μ}` is the full Lagrangian Grassmannian; for the Hilbert datum it is `Res_{F/ℚ}ℙ¹ ⊗ C = ∏_{τ: F → C} ℙ¹`.
 
 Sources: [CS17], §2.3, Lems. 2.3.6–2.3.7, pp. 19–20.
 
-*Needs:* [2.7](#section-2-7); [2.11](#section-2-11); [2.14](#section-2-14); [1.3](#section-1-3); [0.3](#section-0-3); `PELModuli` M0 (determinant condition); `PELModuli` M0 (integral pel datum); `AutomorphicBundles` B0 (hodge parabolic convention); `ShimuraData` Layer 3 (compact dual); `AlgebraicModuliForArithmeticGeometry` §1.3 (flag bundle); `AutomorphicBundles` B1 (hodge tensor realizations); `AutomorphicBundles` B1 (tensor frame torsor).
+*Needs:* [2.14](#section-2-14) (opposite-type flag descent); [2.7](#section-2-7); [2.11](#section-2-11); [1.3](#section-1-3); [0.3](#section-0-3); `PELModuli` M0 (determinant condition); `PELModuli` M0 (integral pel datum); `AutomorphicBundles` B0 (hodge parabolic convention); `ShimuraData` Layer 3 (compact dual); `AlgebraicModuliForArithmeticGeometry` §1.3 (flag bundle); `AutomorphicBundles` B1 (hodge tensor realizations); `AutomorphicBundles` B1 (tensor frame torsor).
 
 <a id="section-2-9"></a>
 
 ### 2.9 The Hodge–Tate parabolic reduction and its Levi torsor
 
-On the finite-level Shimura pro-étale site use rational tensor frames and the reflex-field flag. P, U and `M=P/U` are algebraic groups, supplied by ReductiveGroups Layers 3 and 7 and 2.14; CS17 gives local nonemptiness. Open-tower pullback is 2.13; perfectoid compactified extension is S3's.
+For a neat Hodge-type Shimura datum with fixed symplectic embedding and induced universal abelian family, use rational tensor frames on the finite-level pro-étale site and 2.14's opposite-type reflex-field flag. P, U and `M=P/U` are algebraic groups, supplied by ReductiveGroups Layers 3 and 7 and 2.14; CS17 gives local nonemptiness. Open-tower pullback is 2.13; perfectoid compactified extension is S3's.
 
 - `TauCeti.HodgeTate.etaleFrameTorsor`: `𝒫_ét` is the `G(ℚ_p)`-torsor of rational tensor-preserving trivialisations `Λ ⊗ ℚ_p ≅ V_pA^∨`.
 - `TauCeti.HodgeTate.hodgeTateParabolicReduction`: `𝒫_HT` is the `P_μ`-reduction of `𝒫_ét ×^{G(ℚ_p)} G_Ô` defined by the relative Hodge–Tate filtration.
@@ -982,24 +1009,26 @@ On the finite-level Shimura pro-étale site use rational tensor frames and the r
 
 Sources: [CS17], §2.3, before Lem. 2.3.6, p. 19.
 
-*Needs:* [2.6](#section-2-6); [2.8](#section-2-8); [2.11](#section-2-11); [1.3](#section-1-3); `TauCeti.Cocharacter.parabolic`; `TauCeti.Cocharacter.levi`; `AutomorphicBundles` B1 (tensor frame torsor); `AdicEtaleGeometry` A1 (pro etale site corrected); [2.14](#section-2-14); TauCetiRoadmap ReductiveGroups Layers 3 and 7; `ShimuraData` Layer 3 (reflex flag descent); `AlgebraicModuliForArithmeticGeometry` §1.3 (flag bundle).
+*Needs:* [2.14](#section-2-14) (opposite-type flag descent); [2.6](#section-2-6); [2.8](#section-2-8); [2.11](#section-2-11); [1.3](#section-1-3); `TauCeti.Cocharacter.parabolic`; `TauCeti.Cocharacter.levi`; `AutomorphicBundles` B1 (tensor frame torsor); `AdicEtaleGeometry` A1 (pro etale site corrected); TauCetiRoadmap ReductiveGroups Layers 3 and 7; `ShimuraData` Layer 3 (reflex flag descent); `AlgebraicModuliForArithmeticGeometry` §1.3 (flag bundle).
 
 <a id="section-2-10"></a>
 
 ### 2.10 Cyclotomic comparison of de Rham and Hodge–Tate Levi torsors
 
-Prove `TauCeti.HodgeTate.deRhamHodgeTateLeviComparison`. For 1.1's rational Hodge-type family, take `ℳ_dR` from `AutomorphicBundles` B1 (filtration reduction), extend to `Ô` on the pro-étale site, and let `𝒯(1)` be the `ℤ_p×`-torsor of Tate bases. Over a stated field defining central `µ:ℤ_p×→M_µ`, prove `ℳ_HT≅ℳ_dR×^{µ,ℤ_p×}𝒯(1)`, independent of symplectic embedding and Hecke-equivariant. An associated central weight-a bundle is the de Rham bundle tensored with `Ô(a)`. Retain the determinant local system unless the similitude is trivialized. A C-valued Tate basis gives an underlying untwisted identification with transported linearization, without canonical finite-field descent.
+Prove `TauCeti.HodgeTate.deRhamHodgeTateLeviComparison`. For 1.1's rational Hodge-type family, take `ℳ_dR` from `AutomorphicBundles` B1 (filtration reduction), extend to `Ô` on the pro-étale site, and let `𝒯(1)` be the `ℤ_p×`-torsor of Tate bases. Over a stated field defining central `µ:ℤ_p×→M_µ`, identify 2.9's Levi torsor with the comparison supplied by `AutomorphicBundles` B3.HT.7, transported to `ℳ_HT≅ℳ_dR×^{µ,ℤ_p×}𝒯(1)` in the quotient/opposite convention, independent of symplectic embedding and Hecke-equivariant. An associated central weight-a bundle is the de Rham bundle tensored with `Ô(a)`. Retain the determinant local system unless the similitude is trivialized. A C-valued Tate basis gives an underlying untwisted identification with transported linearization, without canonical finite-field descent.
 
-Require 1.1’s algebraizable finite-K family and rational frames; define µ after a stated finite extension.
+Require a neat Hodge-type datum with fixed symplectic embedding, its induced universal abelian family satisfying 1.1’s algebraizable finite-K hypotheses, and rational frames; define µ after a stated finite extension.
 
 **Checks.**
+
+- Replacing a compatible Tate generator by u times that generator changes the trivialized comparison by µ(u), as in the supplied comparison; a generator-independent untwisted comparison would fail this test.
 
 - For the normalized modular curve the HT graded lines are `ω` and `ω^{-1}(1)`; raw de Rham lines are `ω` and `ω^{-1}`. The μ-weight-one part detects the missing twist.
 - For μ-weight zero representations the associated comparison is untwisted. Over a finite `K/ℚ_p` one cannot identify `Ô(1)` with `Ô` canonically; a C-valued Tate basis alone does not establish equivariance.
 
 Sources: [CS17], §2.3, Prop. 2.3.9, p. 21; [BPC25], §4.4.8, pp.67–68; Rem. 4.4.12, p.69; Rem. 4.4.23, p.74.
 
-*Needs:* [2.9](#section-2-9); [1.1](#section-1-1); [1.2](#section-1-2); [1.3](#section-1-3); `AutomorphicBundles` B1 (filtration reduction); `AutomorphicBundles` B2 (automorphic vector bundles from representations of the centralizer); `AutomorphicBundles` B1 (tensor frame torsor).
+*Needs:* `AutomorphicBundles` B3.HT.7 (`rationalHTLeviTorsor` and its tensor/action/boundary API); [2.14](#section-2-14) (opposite-type flag descent); [2.9](#section-2-9); [1.1](#section-1-1); [1.2](#section-1-2); [1.3](#section-1-3); `AutomorphicBundles` B1 (filtration reduction); `AutomorphicBundles` B2 (automorphic vector bundles from representations of the centralizer); `AutomorphicBundles` B1 (tensor frame torsor).
 
 <a id="section-2-11"></a>
 
@@ -1011,24 +1040,26 @@ For characteristic-zero E and finite-type reductive G/E, define an exact tensor 
 - `TauCeti.HodgeTate.ExactTensorFiltration.type`: The type: the conjugacy class of a splitting cocharacter (locally constant on Spec R).
 - `TauCeti.HodgeTate.ExactTensorFiltration.splitLocally`: For the algebraic filtered-fiber-functor input, a splitting exists fpqc locally by Ziegler Theorem 3.14. For the Shimura completed-structure-sheaf application use CS17’s separate frame-torsor theorem.
 - `TauCeti.HodgeTate.ExactTensorFiltration.frameTorsor`: The `P_μ`-torsor of frames carrying `Fil^•(μ)` to the given filtration.
-- `TauCeti.HodgeTate.ExactTensorFiltration.equivFlag`: Filtrations of type `μ ≅ (G/P_μ)(R)`.
+- `TauCeti.HodgeTate.ExactTensorFiltration.equivFlag`: Filtrations of type µ on the fixed standard underlying fibre functor, with a specified identification of that underlying functor, are represented by `(G/P_μ)(R)` over a field defining µ. For an arbitrary underlying G-torsor use its associated flag bundle; over the reflex field use 2.14's descended opposite-type flag.
 
 **Checks.**
 
-- `TauCeti.HodgeTate.ExactTensorFiltration.gl_grassmannian`: For `G = GL_n` and `μ` of type `(1^r, 0^{n−r})`, filtrations of type `μ` are the elements of Mathlib's `Module.Grassmannian R (R^n) (n − r)`.
+- For `G=G_m`, `µ=0` and `S=ℙ¹`, the fibre functors given by O and O(1) have the same filtration type and are nonisomorphic. The ordinary flag is a point and classifies filtrations only after fixing the underlying fibre functor.
+
+- `TauCeti.HodgeTate.ExactTensorFiltration.gl_grassmannian`: For `G = GL_n` and `μ` of type `(1^r, 0^{n−r})`, filtrations of type `μ` on the specified standard underlying fibre functor are the elements of Mathlib's `Module.Grassmannian R (R^n) (n − r)`.
 - `TauCeti.HodgeTate.ExactTensorFiltration.trivial`: For central `μ` and a supplied underlying tensor frame, the weight filtration needs no proper parabolic reduction and its framed torsor is trivial. Without that frame the underlying G-torsor need not be trivial.
 - `TauCeti.HodgeTate.ExactTensorFiltration.not_arbitrary_filtration`: A rank-one R-module filtered by a non-direct-summand ideal with nonflat quotient does not satisfy the locally free graded-piece/strict exact tensor-filtration condition; for example `(2)⊂ℤ` at the local prime 2.
-- For `G = GL_n` and `μ = (1, …, 1, 0, …, 0)`, an exact tensor filtration of type `μ` is a two-step filtration of the standard representation by a direct summand of rank r, and `G/P_μ` is the Grassmannian.
+- For `G = GL_n` and `μ = (1, …, 1, 0, …, 0)`, an exact tensor filtration of type `μ` on the specified standard underlying fibre functor is a two-step filtration of the standard representation by a direct summand of rank r, and `G/P_μ` is the Grassmannian.
 
 Sources: [ZIE], §3.5, Thm. 3.52, pp.27–28 (reductive case part (iii), p.28); [CS17], §2.3, Lems. 2.3.6–2.3.7, pp. 19–20.
 
-*Needs:* [2.14](#section-2-14); `TauCeti.Cocharacter.parabolic`; `TauCeti.Cocharacter.levi`; `Module.Grassmannian`; `AutomorphicBundles` B0 (hodge parabolic convention); `ShimuraData` Layer 3 (filtration parabolic); TauCetiRoadmap ReductiveGroups Layer 1.
+*Needs:* [2.14](#section-2-14) (opposite-type flag descent); `TauCeti.Cocharacter.parabolic`; `TauCeti.Cocharacter.levi`; `Module.Grassmannian`; `AutomorphicBundles` B0 (hodge parabolic convention); `ShimuraData` Layer 3 (filtration parabolic); TauCetiRoadmap ReductiveGroups Layer 1.
 
 <a id="section-2-12"></a>
 
 ### 2.12 Hodge–Tate map on the open limit tower
 
-Construct `π_HT:S_∞^◇→Fl_{G,µ}^◇` for 2.3's open tower and universal rational frame, using 1.1's relative families and the type-µ filtration. `DiamondsAndVStacks` D2.9 transfers completed pro-étale bundles to v-bundles and analytic bundles on perfectoid test untilts; apply the flag universal property. Keep the reflex-field form; splitting µ/F requires a stated extension. Perfectoidness and compactified extensions are S1–S3's.
+For a neat Hodge-type datum with fixed symplectic embedding and induced universal abelian family, construct `π_HT:S_∞^◇→Fl_{G,µ}^◇` for 2.3's open tower and universal rational frame, using 1.1's relative families and the type-µ filtration. `DiamondsAndVStacks` D2.9 transfers completed pro-étale bundles to v-bundles and analytic bundles on perfectoid test untilts; apply the flag universal property. Keep the reflex-field form; splitting µ/F requires a stated extension. Perfectoidness and compactified extensions are S1–S3's.
 
 - `TauCeti.HodgeTate.openTowerHodgeTateMap`: The v-sheaf morphism determined by the universal relative tensor filtration.
 - `TauCeti.HodgeTate.openTowerHodgeTateMap_ext`: Two candidate maps agree if their natural evaluations agree on every perfectoid test object, not merely on geometric points.
@@ -1042,6 +1073,8 @@ Construct `π_HT:S_∞^◇→Fl_{G,µ}^◇` for 2.3's open tower and universal r
 
 **Checks.**
 
+- The adjoint modular datum `G=PGL₂` has a tower as in 2.1–2.3 but has no faithful symplectic H¹ realization; this construction requires Hodge type and does not extend to that datum by the same abelian-family argument.
+
 - `TauCeti.HodgeTate.openTowerHodgeTateMap_modular`: For GL₂, evaluation on a perfectoid test family gives the kernel of the relative quotient to `ω_E`, with the tautological quotient pulling back to `ω_E`.
 - `TauCeti.HodgeTate.openTowerHodgeTateMap_torus`: For a central cocharacter the flag is a point, hence the map is its structural morphism regardless of whether the tower has a perfectoid representative.
 - `TauCeti.HodgeTate.openTowerHodgeTateMap_hilbertUnsplit`: For the Hodge-type Hilbert G* datum the target is `(Res_{F/ℚ}ℙ¹)^{an,◇}`; an embedding-product identification is asserted only after a specified splitting extension.
@@ -1051,13 +1084,13 @@ Construct `π_HT:S_∞^◇→Fl_{G,µ}^◇` for 2.3's open tower and universal r
 
 Sources: [CS17], §2.1, Thms. 2.1.2–2.1.3, pp.11–12; §2.3, Lem. 2.3.7 and subsequent frame-to-flag construction, pp.20–21; [BPC25], §4.4.22–4.4.24, pp.73–75; [SCH15], §III.3, Lem. III.3.4, pp. 55–56.
 
-*Needs:* [2.6](#section-2-6); [2.8](#section-2-8); [2.9](#section-2-9); [2.7](#section-2-7); [2.3](#section-2-3); [2.2](#section-2-2); `DiamondsAndVStacks` D6 (gluing and the diamond functor); `DiamondsAndVStacks` D2.9; `AlgebraicModuliForArithmeticGeometry` §1.3 (flag bundle); [1.5](#section-1-5).
+*Needs:* [2.14](#section-2-14) (opposite-type flag descent); [2.6](#section-2-6); [2.8](#section-2-8); [2.9](#section-2-9); [2.7](#section-2-7); [2.3](#section-2-3); [2.2](#section-2-2); `DiamondsAndVStacks` D6 (gluing and the diamond functor); `DiamondsAndVStacks` D2.9; `AlgebraicModuliForArithmeticGeometry` §1.3 (flag bundle); [1.5](#section-1-5).
 
 <a id="section-2-13"></a>
 
 ### 2.13 Open-tower Levi pullback and elliptic/Hilbert bundle formulas
 
-Prove `TauCeti.HodgeTate.openTowerLeviPullback`. Along Layer 2’s open-tower `π_HT`, the tautological Levi torsor of the Hodge–Tate flag pulls back to `ℳ_HT` on the limit v-sheaf. Hence an associated Levi representation of central μ-weight a pulls back to the finite-level de Rham automorphic bundle tensored with `Ô(a)`, by the cyclotomic comparison. In the dual-Tate quotient convention the elliptic tautological quotient `𝒪(1)` pulls back to `ω_E`; for the Hodge-type Hilbert G* datum the flag is `(Res_{F/ℚ}ℙ¹)^{an,◇}` and `π_HT*Res_{𝒪_F/ℤ}𝒪(1)≅ω_A` as a `rank-[F:ℚ]` bundle with its `Res G_m`-action. These identifications hold before perfectoid representability; they inherit the transported frame/Hecke linearizations.
+Prove `TauCeti.HodgeTate.openTowerLeviPullback`. For a neat Hodge-type datum with fixed symplectic embedding and induced universal abelian family, along Layer 2’s open-tower `π_HT`, the tautological Levi torsor of the Hodge–Tate flag pulls back to `ℳ_HT` on the limit v-sheaf. Hence an associated Levi representation of central μ-weight a pulls back to the finite-level de Rham automorphic bundle tensored with `Ô(a)`, by agreement with the supplied cyclotomic comparison of `AutomorphicBundles` B3.HT.7, with its Hodge/opposite and dual-coefficient dictionary. In the dual-Tate quotient convention the elliptic tautological quotient `𝒪(1)` pulls back to `ω_E`; for the Hodge-type Hilbert G* datum the flag is `(Res_{F/ℚ}ℙ¹)^{an,◇}` and `π_HT*Res_{𝒪_F/ℤ}𝒪(1)≅ω_A` as a `rank-[F:ℚ]` bundle with its `Res G_m`-action. These identifications hold before perfectoid representability; they inherit the transported frame/Hecke linearizations.
 
 **Checks.**
 
@@ -1067,25 +1100,31 @@ Prove `TauCeti.HodgeTate.openTowerLeviPullback`. Along Layer 2’s open-tower `�
 
 Sources: [CS17], §2.3, Lem. 2.3.8 and Prop. 2.3.9, p.21; [BPC25], §4.4.8, pp.67–68; Rem. 4.4.12, p.69; Rems. 4.4.23–4.4.24, pp.74–75; [BHW], §3.3, (3.2) and Lem. 3.17, pp.12–13; §5.3, Rem. 5.15, p.23; §5.4, Defs. 5.22–5.24 and Prop. 5.25/Rem. 5.28, pp.25–26.
 
-*Needs:* [2.12](#section-2-12); [2.10](#section-2-10); [2.9](#section-2-9); [2.5](#section-2-5); `AlgebraicModuliForArithmeticGeometry` §1.3 (flag bundle); `AutomorphicBundles` B0 (hodge parabolic convention); `AutomorphicBundles` B2 (automorphic vector bundles from representations of the centralizer); `HilbertModularVarietiesAndShimuraCurves` H2; `HilbertModularVarietiesAndShimuraCurves` H4; `DiamondsAndVStacks` D2.9; `HilbertModularVarietiesAndShimuraCurves` H4 (hybrid full level); `HilbertModularVarietiesAndShimuraCurves` H4 (geometric full level); `HilbertModularVarietiesAndShimuraCurves` H4 (integral gamma0); `HilbertModularVarietiesAndShimuraCurves` H4 (adjugate level action).
+*Needs:* `AutomorphicBundles` B3.HT.7 (`rationalHTLeviTorsor` and its tensor/action/boundary API); [2.14](#section-2-14) (opposite-type flag descent); [2.12](#section-2-12); [2.10](#section-2-10); [2.9](#section-2-9); [2.5](#section-2-5); `AlgebraicModuliForArithmeticGeometry` §1.3 (flag bundle); `AutomorphicBundles` B0 (hodge parabolic convention); `AutomorphicBundles` B2 (automorphic vector bundles from representations of the centralizer); `HilbertModularVarietiesAndShimuraCurves` H2; `HilbertModularVarietiesAndShimuraCurves` H4; `DiamondsAndVStacks` D2.9; `HilbertModularVarietiesAndShimuraCurves` H4 (hybrid full level); `HilbertModularVarietiesAndShimuraCurves` H4 (geometric full level); `HilbertModularVarietiesAndShimuraCurves` H4 (integral gamma0); `HilbertModularVarietiesAndShimuraCurves` H4 (adjugate level action).
 
 <a id="section-2-14"></a>
 
 ### 2.14 Filtered fibre functors: splittings, type and the filtration parabolic
 
-Prove `TauCeti.HodgeTate.filteredFiberFunctor_split`. For a Tannakian category 𝒯/k (including `Rep_k(G)` for finite-type affine G), and k-scheme S, let φ be an exact k-linear tensor fibre functor to finite exhaustive separated decreasing QCoh filtrations with quasi-coherent graded pieces. Morphisms are tensor morphisms; a splitting is graded γ with `φ=fil∘γ`. Prove fpqc-local splitting; `Spl(φ)` is a torsor under `U(φ)`, the filtration automorphisms trivial on gr. The stabilizer P surjects onto the graded automorphism group L with kernel U, so `P/U≅L`. P is flat, and P and U are smooth when the underlying tensor automorphism group is smooth. If that group is reductive, P is parabolic with unipotent radical U; a splitting χ gives Levi `Cent(χ)`, `Lie P=⊕_{w≥0}Lie(G)[χ=w]`, and splittings correspond to Levis. With a tensor generator, equality of cocharacter type is equivalent to fpqc-local isomorphism; functors of a fixed type over S′ classify `Aut^⊗(φ)_{S′}`-torsors. Reindex by `F_j=Fil^{−j}` for 2.11.
+Prove `TauCeti.HodgeTate.filteredFiberFunctor_split`. For a Tannakian category 𝒯/k (including `Rep_k(G)` for finite-type affine G), and k-scheme S, let φ be an exact k-linear tensor fibre functor to finite exhaustive separated decreasing QCoh filtrations with quasi-coherent graded pieces. Morphisms are tensor morphisms; a splitting is graded γ with `φ=fil∘γ`. Prove fpqc-local splitting; `Spl(φ)` is a torsor under `U(φ)`, the filtration automorphisms trivial on gr. The stabilizer P surjects onto the graded automorphism group L with kernel U, so `P/U≅L`. P is flat, and P and U are smooth when the underlying tensor automorphism group is smooth. If that group is reductive, P is parabolic with unipotent radical U; a splitting χ gives Levi `Cent(χ)`, `Lie P=⊕_{w≥0}Lie(G)[χ=w]`, and splittings correspond to Levis. With a tensor generator, equality of cocharacter type is equivalent to fpqc-local isomorphism; functors fpqc-locally isomorphic to a fixed filtered functor φ classify `Aut^⊗(φ)_{S′}`-torsors. Filtrations of type µ on a specified standard underlying fibre functor give `G/P_µ`; an arbitrary underlying G-torsor gives its associated flag bundle. Reindex by `F_j=Fil^{−j}` for 2.11.
+
+Construct `TauCeti.HodgeTate.hodgeTateFlagDescent`. For a pure Shimura datum with reflex field E, the Galois-stable conjugacy class of µ defines the opposite parabolic type `t_HT=type(P(µ))`. Apply ShimuraData §3.8's `parabolicTypeVariety` construction to this type, using ReductiveGroups Layers 7–8 for representability and AutomorphicBundles B0.3 for the Hodge/opposite and coset dictionary. This gives the projective E-scheme `Fl_HT=Par_{t_HT}(G_E)` with its universal parabolic, arbitrary-base-change comparison and effective descent. Over a field L defining µ its orbit map identifies it with `G_L/P(µ)`. ShimuraData §3.9 instead supplies `Par_{type(P(µ⁻¹))}`. No G-equivariant identification of the two flags is asserted without an explicit opposition or duality map.
 
 Splitting is fpqc-local; inseparable extensions can be necessary over imperfect fields.
 
 **Checks.**
 
+- For GL₂ the descended HT flag is `ℙ¹`; for a torus it is `Spec E`, compatible with base change.
+- After splitting a unitary datum of homological signature `(1,2)`, in its GL₃ factor take `µ(t)=diag(t,1,1)`: `P(µ)` stabilizes the weight-one line, while `P(µ⁻¹)` stabilizes the weight-zero plane. They are different G-equivariant flag types; choosing a dual representation is additional data.
+- For the nonsplit quaternion Shimura curve the descended opposite-type flag is the quaternion conic; it has no E-point when E=ℚ and becomes `ℙ¹` over a splitting field.
+
 - For `G = GL_n` and `φ` the filtration `0 ⊂ W ⊂ k^n` on the standard representation (W of dimension r, extended to all representations by tensor operations), `P(φ)` is the stabilizer of W, `U(φ) = Hom(k^n/W, W)` and `L(φ) = GL(W) × GL(k^n/W)`; the splittings are the complements of W.
 - For the trivial filtration (concentrated in degree `0) P(φ) = Aut^⊗(forg∘φ`), `U(φ)` is trivial and the splitting is unique.
 - Over `S = ℙ¹ = GL₂/B` with the tautological filtration `O(−1) ⊂ O²` on the standard representation, `φ` splits Zariski locally (on the two standard charts) but not globally, since the extension `0 → O(−1) → O² → O(1) → 0` is non-split.
 
-Sources: [ZIE], §3.2, Def. 3.4, p. 15; §3.3, Thms. 3.14–3.15, p. 17; §3.3, Lem. 3.23, p. 18; §3.5, Thm. 3.52, pp. 27–28.
+Sources: [MILNE-SV], Lem. 12.1 and Def. 12.2, pp.111–112; Conrad, *Reductive group schemes*, Corollaries 5.2.8–5.2.9, pp.155–157 (the parabolic-type scheme); [ZIE], §3.2, Def. 3.4, p. 15; §3.3, Thms. 3.14–3.15, p. 17; §3.3, Lem. 3.23, p. 18; §3.5, Thm. 3.52, pp. 27–28.
 
-*Needs:* TauCetiRoadmap ReductiveGroups Layer 1 (representations and Tannakian reconstruction); TauCetiRoadmap ReductiveGroups Layer 7 (parabolic and Levi subgroups); `TauCeti.Cocharacter.parabolic`; `TauCeti.Cocharacter.levi`; `Module.Grassmannian`.
+*Needs:* `ShimuraData` §§3.8–3.9 (`parabolicTypeVariety` and Hodge compact-dual descent); `AutomorphicBundles` B0.3; TauCetiRoadmap ReductiveGroups Layers 7–8; TauCetiRoadmap ReductiveGroups Layer 1 (representations and Tannakian reconstruction); TauCetiRoadmap ReductiveGroups Layer 7 (parabolic and Levi subgroups); `TauCeti.Cocharacter.parabolic`; `TauCeti.Cocharacter.levi`; `Module.Grassmannian`.
 
 ## Layer 3: Canonical subgroups with quantitative bounds
 
@@ -1103,6 +1142,8 @@ For truncated BTs set `w=min(v(Ha),1)`. Over p-complete flat bases containing `p
 - `TauCeti.HodgeTate.hasseNeighbourhood_mono`: `𝔛(ε) → 𝔛(ε′)` is an open immersion on generic fibres for `ε ≤ ε′`.
 
 **Checks.**
+
+- At a uniformizer π with normalized `v(π)=1`, `hasseValuation v π=1`; for a Hasse lift with `v(Ha)=1/3`, the height is `1/3`, strictly between 0 and 1.
 
 - `TauCeti.HodgeTate.hasseValuation_ordinary`: `Ha(μ_{p^∞}[p] ⊕ ℚ_p/ℤ_p[p]) = 0`.
 - `TauCeti.HodgeTate.hasseValuation_le_one`: `0 ≤ Ha(G) ≤ 1` for every BT₁ over `O_K` (truncation at 1, because it is computed in `O_K/p`).
@@ -1162,6 +1203,8 @@ For abelian A over a p-complete flat algebra over a sufficiently ramified rank-o
 - `TauCeti.HodgeTate.canonicalSubgroup_level`: `C_{m′} = C_m[p^{m′}]` for `m′ ≤ m` (strong subgroups).
 
 **Checks.**
+
+- The numerical guards give `canonicalSum 5 1=1`; `WeakCanonicalRange 2 2 (1/6)` fails at equality and `StrongCanonicalRange 2 2 (1/16)` holds.
 
 - `TauCeti.HodgeTate.canonicalSubgroup_ordinary`: If `Ha(A₁)` is a unit, `C_m = A[p^m]^0 (multiplicative)`.
 - `TauCeti.HodgeTate.canonicalSubgroup_ellipticDegree`: For E elliptic over `O_C` with `Ha(E[p]) = w < 1/2` and `p ≥ 5`, `deg C₁ = 1 − w` and `deg(E[p]/C₁) = w`.
@@ -1274,15 +1317,17 @@ Sources: [BHW], §5.2, pp. 21–23; §7.1, p. 29; [HALO], Appendix A.2, Cor. A.2
 
 ### 3.11 Normal formal models and their analytic integral structure
 
-Prove `TauCeti.HodgeTate.normalFormalModel_plus`. For finite `K/ℚ_p`, admissible (tft, p-torsion-free) formal 𝔛/`O_K`, generic fibre X and specialization `s:(X,O⁺)→𝔛`, prove: if 𝔛 is normal, `s⁻¹Spf A₀=Spa(A₀[1/p],A₀)` and integral sections on affine preimages equal formal sections. Finite locally free E pulls back to locally free `E⁺`, with the same sections on trivializing affines and `E⁺[1/p]=E_η`. A matrix defining `F⊂E`, whose determinant generates invertible 𝔡, gives the same integral columns, `𝔡E⁺⊂F⁺`, adjugate identities, maps and congruences. For reduced X, normalization of 𝔛 in X is finite admissible normal with generic fibre X; normalization in finite étale `Y→X` gives a functorial finite normal formal model of Y. These normalizations commute with étale base change.
+Prove `TauCeti.HodgeTate.normalFormalModel_plus`. For finite `K/ℚ_p`, admissible (tft, p-torsion-free) formal 𝔛/`O_K`, generic fibre X and specialization `s:(X,O⁺)→𝔛`, prove: if 𝔛 is normal, `s⁻¹Spf A₀=Spa(A₀[1/p],A₀)` and integral sections on affine preimages equal formal sections. Finite locally free E pulls back to locally free `E⁺`, with the same sections on trivializing affines and `E⁺[1/p]=E_η`. A matrix defining `F⊂E`, whose determinant generates invertible 𝔡, gives the same integral columns, `𝔡E⁺⊂F⁺`, adjugate identities, maps and congruences. Assume X is normal. Normalization of 𝔛 in X is finite admissible normal with generic fibre X; normalization in finite étale `Y→X` gives a functorial finite normal formal model of Y. For merely reduced X, normalize in its normalization; the resulting normal formal model has generic fibre the normalization of X. These normalizations commute with étale base change.
 
 Over nondiscretely valued bases no finiteness of normalization is asserted; construct analytic `O⁺` directly on the generic fibre.
 
 **Checks.**
 
+- For `𝔛=Spf ℤ_p⟨U,V⟩/(V²−U³)`, the reduced generic fibre is the nonnormal cusp. Its normalization `Spf ℤ_p⟨T⟩`, `U=T²,V=T³`, has the normalization disc as generic fibre, not the cusp.
+
 - For `𝔛 = Spf ℤ_p⟨T⟩`, X is the closed unit disc and `O⁺(X) = ℤ_p⟨T⟩`.
 - For the non-normal model `Spf ℤ_p⟨S`, `T⟩/(S² − p²T)` of the disc `Spa(ℚ_p⟨T′⟩)` with `S = pT′` (so `T = T′²`), the element `S/p = T′` is power-bounded but not in A₀, so `A⁺ ≠ A₀`; its normalization adjoins T′.
-- For `E = O_𝔛` and F given by the `1 × 1` matrix (p), `F⁺ = pO⁺` and `𝔡 = (p)`. A congruence modulo the non-invertible ideal (p, T) of `ℤ_p⟨T⟩` has no analytic meaning, since (p, T) becomes the unit ideal on the generic fibre: (2) transports congruences only modulo invertible ideals.
+- For `E = O_𝔛` and F given by the `1 × 1` matrix (p), `F⁺ = pO⁺` and `𝔡 = (p)`. Congruences modulo `(p,T)` also define integral analytic quotients: `O⁺(X)/(p,T)=𝔽_p`. Invertibility is required for the determinant and adjugate argument, not for integral analytic congruences.
 
 Sources: [AIPH], §3.3.1, p. 11; §4.1, Prop. 4.1 and its proof, pp. 15–16; [BHW], §4, Def. 4.2 and the paragraph before Def. 4.1, p. 15.
 
@@ -1363,26 +1408,28 @@ Sources: [BHW], §5.2, proof of Thm. 5.11, p. 22; [SCH15], §3.2.2, after the pr
 
 ### 4.4 The Hodge–Tate coordinate, the fractional-linear action and the factor cz + d
 
-For `O_p=O_F⊗ℤ_p`, `Fl=Res_{F/ℚ}ℙ¹`, use dual-abelian kernel-line coordinates. Right frame change `α′=αγ^∨` gives the left action below; the quotient-line action is `det(γ)⁻¹γ`, pullback `γ^∨=det(γ)γ⁻¹`. The e₁ section scales by `cz+d`; the derivative is `detγ/(cz+d)²`. Actual AIP-group membership is 5.11.
+For `O_p=O_F⊗ℤ_p`, `Fl=Res_{F/ℚ}ℙ¹`, use dual-abelian kernel-line coordinates. The BHW left action `γ⋅x=T_{γ^∨}(x)` changes the frame by `α′=αγ^∨`; the quotient-line action is `det(γ)⁻¹γ`, pullback `γ^∨=det(γ)γ⁻¹`. The e₁ section scales by `cz+d`; the derivative is `detγ/(cz+d)²`. Actual AIP-group membership is 5.11.
 
 Uses `OnePoint.instGLAction`, `OnePoint.smul_some_eq_ite`.
 
 - `TauCeti.HodgeTate.hodgeTateCoordinate`: On the kernel-line chart (z:1), `z = −HT(α(e₂))/HT(α(e₁))`; `HT(α(e₁))` is the quotient-line generator.
-- `TauCeti.HodgeTate.fractionalLinear_action`: For the specified left action, `z(γx) = (az+b)/(cz+d)` on the domain where cz+d is invertible.
+- `TauCeti.HodgeTate.fractionalLinear_action`: For the specified left action, `z(γ⋅x) = (az+b)/(cz+d)` on the domain where cz+d is invertible.
 - `TauCeti.HodgeTate.automorphyFactor`: `j(γ, x) := cz(x) + d`.
-- `TauCeti.HodgeTate.automorphyFactor_cocycle`: `j(γδ,x) = j(γ,δx)j(δ,x)` on common affine-chart domains with invertible denominators.
+- `TauCeti.HodgeTate.automorphyFactor_cocycle`: `j(γδ,x) = j(γ,δ⋅x)j(δ,x)` on common affine-chart domains with invertible denominators.
 - `TauCeti.HodgeTate.automorphyFactor_unit`: For `γ ∈ Γ₀(p)`, `j(γ,x)` is an `O⁺-unit` on the anticanonical period domains satisfying 4.6; this uses that the coordinates are within radius `< 1` of `𝒪_p`.
 - `TauCeti.HodgeTate.hodgeTateCoordinate_descent`: After splitting F, `z = (z_σ)_σ` and the generic formulas descend over `F ⊗ ℚ_p`. Integral descent requires the specified O⁺-lattice, not the false ramified product identification.
 
 **Checks.**
 
-- `TauCeti.HodgeTate.automorphyFactor_identity`: `j(1, x) = 1`.
-- `TauCeti.HodgeTate.fractionalLinear_upperTriangular`: For `γ = (a b; 0 d)`, `z(γx) = (a z(x) + b)/d`.
-- `TauCeti.HodgeTate.automorphyFactor_cocycle_test`: For `γ = (1 0; c 1)`, `δ = (1 0; c′ 1)`: `j(γδ, x) = (c + c′)z + 1 = j(γ, δx)·j(δ, x)`.
-- `TauCeti.HodgeTate.automorphyFactor_not_rightAction`: With the right action `x·γ` the factor is cz + d for `γ^{-1}`, not for `γ`: the cocycle law fails for the naive formula `j(γ, x) = cz + d` with `z(xγ) = (az + b)/(cz + d)`.
-- For `F = ℚ` and `γ = (1 0; c 1)`, `z(γx) = z/(cz + 1)`.
+- For `g=(1 1;0 1)` and `h=(1 0;1 1)`, `gh=(2 1;1 1)` and `hg=(1 1;1 2)` differ. The frame law uses `(gh)^∨=h^∨g^∨`, so it obeys the left action while `T_{gh}=T_h∘T_g` retains the right action.
 
-Sources: [BHW], §2, Def. 2.3, p. 8; §3.3, Lem. 3.19, p. 13.
+- `TauCeti.HodgeTate.automorphyFactor_identity`: `j(1, x) = 1`.
+- `TauCeti.HodgeTate.fractionalLinear_upperTriangular`: For `γ = (a b; 0 d)`, `z(γ⋅x) = (a z(x) + b)/d`.
+- `TauCeti.HodgeTate.automorphyFactor_cocycle_test`: For `γ = (1 0; c 1)`, `δ = (1 0; c′ 1)`: `j(γδ, x) = (c + c′)z + 1 = j(γ, δ⋅x)·j(δ, x)`.
+- `TauCeti.HodgeTate.automorphyFactor_not_rightAction`: For noncommuting upper/lower unipotents g,h, `(gh)^∨=h^∨g^∨` and `g⋅(h⋅x)=T_{h^∨g^∨}(x)=(gh)⋅x`. The right translations instead satisfy `T_{gh}=T_h∘T_g`; treating `αγ^∨` as a right frame law reverses the order.
+- For `F = ℚ` and `γ = (1 0; c 1)`, `z(γ⋅x) = z/(cz + 1)`.
+
+Sources: [BHW], §5.1, Def. 5.7 and Rem. 5.8, pp.19–20; §2, Def. 2.3, p. 8; §3.3, Lem. 3.19, p. 13.
 
 *Needs:* [2.7](#section-2-7); `ShimuraData` Layer 3 (compact dual); `Module.Grassmannian`; `HilbertModularVarietiesAndShimuraCurves` H4; [2.12](#section-2-12); `HilbertModularVarietiesAndShimuraCurves` H4 (hybrid full level); `HilbertModularVarietiesAndShimuraCurves` H4 (geometric full level); `HilbertModularVarietiesAndShimuraCurves` H4 (integral gamma0); `HilbertModularVarietiesAndShimuraCurves` H4 (adjugate level action).
 
@@ -1420,6 +1467,10 @@ Prove `TauCeti.HodgeTate.periodMap_inclusions`. Let `1 > r > 0`, `m ≥ 1` with 
 Boundary estimates require Layer 0/C4’s full dual one-motive flag and conormal estimates. They agree with S3’s compactified map where constructed; S3 is not an input to the open estimates.
 
 **Checks.**
+
+- For `p=2,n=1`, the position guard admits height `1/4` and rejects `1/3`; for `p=5,n=1`, it admits `1/3` and rejects `1/2`. These distinguish the inclusive all-prime endpoint from the strict odd-prime endpoint.
+
+- At `p=3,n=1`, `BHWPositionRange 3 1 (1/4)` holds and `BHWPositionRange 3 1 (1/3)` fails at its strict endpoint.
 
 - For `F = ℚ`, `p ≥ 5`, `m = 1`, `r = 1/p` and `ε = 1/(4p)`: `n = 2` and `x = 2 − p/(4(p − 1)) ≥ 27/16 > 1`, so `π_HT` of the anticanonical locus lies in the union of discs of radius 1/p around `ℤ_p`. The endpoint `ε = 1/(2p)` is excluded for `p ≥ 3`; for `p = 2` the endpoint `ε = 1/8` at `m = 1` is allowed.
 
@@ -1486,13 +1537,16 @@ Sources: [BHW], §7.1, Def. 7.1(2), p. 28; §3.4, p. 14.
 
 ### 5.2 Igusa trivialisations and the full p-level tower
 
-Establish `TauCeti.HodgeTate.igusaFullLevel_comparison`. For `0 ≤ ε ≤ ε_m^can`, the anticanonical full-level tower with universal `α: 𝒪_p² ≅ T_pA^∨` maps to the Igusa torsor by the generator `ψ`: `𝒪_p/p^m → H_m^∨` obtained from `α(e₁)` followed by the dual canonical-subgroup quotient. Anticanonicity makes `ψ` an isomorphism of finite `𝒪_p/p^m`-modules. The resulting map of spaces `φ`: `X_{Γ(p^∞)}(ε)_a → X_{Ig(p^m)}(ε)` is not claimed to be an isomorphism and does not factor through Γ₀-level, which forgets the generator. Under the pullback-frame convention `α′ = α ∘ γ^∨`, diagonal `γ =` diag(a,d) multiplies `ψ` by `d mod p^m`. BHW Proposition 7.11 uses `φ` and Hodge–Tate functoriality to lift the Igusa generator to the AIP torsor.
+Establish `TauCeti.HodgeTate.igusaFullLevel_comparison`. For `0 ≤ ε ≤ ε_m^can`, the anticanonical full-level tower with universal `α: 𝒪_p² ≅ T_pA^∨` maps to the Igusa torsor by the generator `ψ`: `𝒪_p/p^m → H_m^∨` obtained from `α(e₁)` followed by the dual canonical-subgroup quotient. Anticanonicity makes `ψ` an isomorphism of finite `𝒪_p/p^m`-modules. The resulting map of spaces `φ`: `X_{Γ(p^∞)}(ε)_a → X_{Ig(p^m)}(ε)` is not claimed to be an isomorphism and does not factor through Γ₀-level, which forgets the generator. Under the BHW left action `γ⋅x=T_{γ^∨}(x)` with frame `α′ = α ∘ γ^∨`, diagonal `γ =` diag(a,d) multiplies `ψ` by `d mod p^m`. BHW Proposition 7.11 uses `φ` and Hodge–Tate functoriality to lift the Igusa generator to the AIP torsor.
 
 Use m in both finite-level expressions of BHW Proposition 7.11: `H_m→A[p^m]` and `(1,0) mod p^m`.
 
 Uses the corrected indexing of BHW Proposition 7.11 (m, not n, in 'the dual of the inclusion `H_m → A[p^m]'` and `'(1, 0) mod p^m'`).
 
 **Checks.**
+
+- For the BHW left action of `diag(a,d)`, its right translation is by `diag(d,a)` and the Igusa generator becomes `dψ`.
+- Changing only the second frame vector by `diag(a,1)` in the BHW action fixes ψ, although the full Tate frame changes. The map to the Igusa torsor therefore forgets part of the frame.
 
 - For the modular curve at `ε = 0`, `φ` sends `(E, α)` to the image of `α(1, 0)` in `E[p^m]/E[p^m]^0 ≅ H_m^∨`.
 
@@ -1504,7 +1558,7 @@ Sources: [BHW], §7.2, Prop. 7.11, p. 30.
 
 ### 5.3 The modified integral lattice `ω^int`
 
-On the normal Hilbert Igusa model at `ε≤p^{−(m+1)}`, use invertible `Hdg_T`, `Hdg_T^{p−1}=Hdg`, and integral ideals `I_m=p^mHdg_T^{−(p^m−1)}⊂I′_m=p^mHdg_T^{−p^m}`. The universal class is `HT(ψ(1))`; AIPH's lifted matrix/adjugate and 3.11 identify its inverse-image span with the following lattice F.
+On the normal Hilbert Igusa model at `ε≤p^{−(m+1)}`, use invertible `Hdg_T`, `Hdg_T^{p−1}=Hdg`, and integral ideals `I_m=p^mHdg_T^{−(p^m−1)}⊂I′_m=p^mHdg_T^{−p^m}`. Construct the lattice and its local API before 5.9; its independence clause uses 5.9 after that construction. The universal class is `HT(ψ(1))`; AIPH's lifted matrix/adjugate and 3.11 identify its inverse-image span with the following lattice F.
 
 - `TauCeti.HodgeTate.igusaHodgeTateClass`: `ψ(1) ∈ ω⁺/I_mω⁺`, the Hodge–Tate image of the universal Igusa generator.
 - `TauCeti.HodgeTate.integralDifferentialLattice`: `ω^int :=` preimage in `ω⁺` of the `𝒪_F ⊗ O⁺-span` of `ψ(1)`.
@@ -1622,6 +1676,8 @@ In 5.3 define the congruence torsor below, analytic over Igusa and étale over `
 
 **Checks.**
 
+- `aipExponent 2 1 (1/8)=3/4`, while `aipExponent 3 1 (1/9)=5/6` and the ordinary value is `aipExponent 3 1 0=1`.
+
 - `TauCeti.HodgeTate.aipTorsor_ordinary`: At `ε = 0`, `B_m = 𝒪_p^×(1 + p^m Res 𝔾̂_a)` and `𝔉_m` is the torsor of generators of `ω⁺` congruent to the Igusa generator `mod p^m`.
 - `TauCeti.HodgeTate.aipSheaf_classical`: The O5 sheaf associated to this torsor and an algebraic weight `κ=x^k` agrees with `ω^{⊗k}`; this is an imported consumer compatibility test, not a second construction of the weight sheaf.
 - `TauCeti.HodgeTate.aipTorsor_bound_direction`: The reverse inclusion `𝒪_p^×(1 + p^x Res 𝔾̂_a) ⊂ B_m` fails at points where `|Ha| > |p|^ε`, since there `I′_m ⊊ p^xO⁺`.
@@ -1649,9 +1705,12 @@ Sources: [AIPH], §4.1, Prop. 4.1, pp. 15–16; §4.3.1, Prop. 4.7, p. 18.
 
 ### 5.10 The Hodge–Tate lift to the AIP torsor
 
-Prove `TauCeti.HodgeTate.hodgeTate_aipLift`. For `ε≤p^{−(m+1)}`, the canonical section `s=HT(α(e₁))` on the anticanonical full-level tower factors through the AIP torsor `F_m` over its Igusa generator map `φ`. This is a factorization into the actual open subspace of the total Hodge bundle.
+Prove `TauCeti.HodgeTate.hodgeTate_aipLift`. For `ε≤p^{−(m+1)}`, the canonical section `s=HT(α(e₁))` on the anticanonical full-level tower factors through the AIP torsor `F_m` over its Igusa generator map `φ`. Use the BHW left action `γ⋅x=T_{γ^∨}(x)` of 4.4; matrices refer to right translations by their adjugates in 2.2. This is a factorization into the actual open subspace of the total Hodge bundle.
 
 **Checks.**
+
+- For `m′≥m` on a common allowed radius, reduction of the canonical generator carries the lift at level m′ to the lift at level m; its differential section remains `HT(α(e₁))`.
+- For a prime-to-p isogeny carrying the chosen dual frames and canonical generators, pullback of the lifted section equals the lift of the pulled-back Igusa generator by character naturality.
 
 - On the ordinary modular cusp this is the dt/t generator with its Igusa congruence, not a trivialization of the whole Tate module.
 
@@ -1663,9 +1722,12 @@ Sources: [BHW], §7.2, Prop. 7.11, p. 30.
 
 ### 5.11 The AIP automorphy factor
 
-Prove `TauCeti.HodgeTate.aip_automorphyFactor`. For `γ∈Γ₀(p)` acting on the anticanonical tower with the fixed left-coordinate convention, `γ*s=(cz+d)s` and the scalar `j(γ,x)=cz(x)+d` is a section of the actual AIP structure group `B_m`. Its scalar cocycle is the period-coordinate cocycle.
+Prove `TauCeti.HodgeTate.aip_automorphyFactor`. For `γ∈Γ₀(p)` acting on the anticanonical tower by `γ⋅x=T_{γ^∨}(x)`, `s(γ⋅x)=(cz(x)+d)s(x)` and the scalar `j(γ,x)=cz(x)+d` is a section of the actual AIP structure group `B_m`. Its scalar cocycle is the period-coordinate cocycle.
 
 **Checks.**
+
+- The identity matrix gives ratio one and fixes the lifted section.
+- For a diagonal BHW element `diag(a,d)`, `s(γ⋅x)=d s(x)`, matching 5.2's Igusa-generator action; successive elements multiply with the left scalar cocycle.
 
 - At an ordinary elliptic point the ratio is a unit in `ℤ_p^×(1+p^mO⁺)`; the larger ambient ball bound alone does not prove membership in this smaller group.
 
@@ -1677,11 +1739,13 @@ Sources: [BHW], §5.4, Lem. 5.31, p. 26; §7.2, Lem. 7.12, pp. 30–31.
 
 ### 5.12 The Hodge–Tate section compares the anticanonical tower with the AIP torsor
 
-Prove `TauCeti.HodgeTate.aipTorsorHodgeTateComparison`. In 5.10's Hilbert range, `m≥1`, `ε≤p^{−(m+1)}`, let `n≥1` or `n=∞`. Set `X_n=X_{Γ*(p^∞)}(p^nε)_a`, `X_∞=X_{Γ*(p^∞)}(ε)_a`, and `u_n=diag(p^n,1):X_n→X_∞`, `u_∞=id`. Then `s̃_n=s∘u_n:X_n→F_m(ε)` lies over `AL_n:X_{Γ₀*(p^n)}(p^nε)_a≅X(ε)` (4.3); at infinity use the forgetful map. For `γ=(a b;c d)` in the finite deck group `Γ₀*(p^n)`, or in `Γ₀*(p)` at infinity, `j=cz+d∈B_m` and `s̃_n(xγ)=j(γ,x)s̃_n(x)`, with 4.4/BHW (7.2)'s action conventions. For bounded smooth weight `κ:U→𝒲*` and `b*f=κ⁻¹(b)f` on `F_m(ε)×U`, `g=s̃_n*f` satisfies `γ*g=κ⁻¹(cz+d)g`; pullback preserves `O⁺`-valued functions. Coefficient-sheaf identification (BHW Theorem 7.14) and Hecke equivariance belong to OverconvergentAutomorphicForms O5/O6.
+Prove `TauCeti.HodgeTate.aipTorsorHodgeTateComparison`. In 5.10's Hilbert range, `m≥1`, `ε≤p^{−(m+1)}`, let `n≥1` or `n=∞`. For finite n require also `p^nε<1/2` and the Hilbert canonical-subgroup range at every intervening quotient step of 4.3. Set `X_n=X_{Γ*(p^∞)}(p^nε)_a`, `X_∞=X_{Γ*(p^∞)}(ε)_a`, and `u_n(x)=diag(p^n,1)⋅x=T_{diag(1,p^n)}(x):X_n→X_∞`, `u_∞=id`. Then `s̃_n=s∘u_n:X_n→F_m(ε)` lies over `AL_n:X_{Γ₀*(p^n)}(p^nε)_a≅X(ε)` (4.3); at infinity use the forgetful map. For `γ=(a b;c d)` in the finite deck group `Γ₀*(p^n)`, or in `Γ₀*(p)` at infinity, `j=cz+d∈B_m` and `s̃_n(γ⋅x)=j(γ,x)s̃_n(x)`, with 4.4/BHW (7.2)'s action conventions. For bounded smooth weight `κ:U→𝒲*` and `b*f=κ⁻¹(b)f` on `F_m(ε)×U`, `g=s̃_n*f` satisfies `γ*g=κ⁻¹(cz+d)g`; pullback preserves `O⁺`-valued functions. Coefficient-sheaf identification (BHW Theorem 7.14) and Hecke equivariance belong to OverconvergentAutomorphicForms O5/O6.
 
 **Checks.**
 
-- For `n = ∞` and diagonal `γ =` diag(a, `d) ∈ Γ₀*(p`), (ii) reads `s(x·γ) = d·s(x)`, matching the transformation `ψ ↦ dψ` of the Igusa generator in 5.2.
+- For `p=5,m=1,ε=1/25,n=2`, the bound `ε≤p^{−(m+1)}` holds but `p^nε=1`; this finite-level domain is excluded by the ambient-radius hypothesis. At `n=∞` the domain retains radius ε and `u_∞=id`.
+
+- For `n = ∞` and diagonal `γ =` diag(a, `d) ∈ Γ₀*(p`), (ii) reads `s(γ⋅x) = d·s(x)`, matching the transformation `ψ ↦ dψ` of the Igusa generator in 5.2.
 - For `κ(t) = t^k` on `𝒪_p^×` (an algebraic weight), (iii) gives `γ*g = (c·z + d)^{−k}·g`, the weight-k automorphy law on the anticanonical tower.
 - The statement makes no claim that the pulled-back eigenfunctions span an invertible `𝒪⁺`-module or that the induced map of coefficient sheaves is an isomorphism; both are O5's.
 - The level restriction is necessary: at an ordinary point with `z = 0`, the Weyl matrix `(0 −1; 1 0)` belongs to `G*(ℤ_p) = Γ₀*(1)` and sends the kernel line to `∞`, outside the chosen anticanonical chart. It cannot be treated as a deck transformation preserving this branch.
@@ -1712,11 +1776,11 @@ Sources: [PS16], Appendice A, Thm. A.4 (1) and Lem. A.9, pp. 24–26; Corollaire
 
 ### 6.0 Log structures, logification and integral charts
 
-Construct `TauCeti.LogAdic.LogStructure`. On étale-sheafy analytic adic X define the full subcategory of commutative monoid sheaves `α:M→O_{X_ét}` with unit fibre isomorphic to `O×`; morphisms commute with α. Both locally noetherian and perfectoid spaces are allowed, independently of log smoothness or comparisons.
+Use `TauCeti.LogAdic.LogStructure`, `TauCeti.LogAdic.logification`, `TauCeti.LogAdic.logPullback` and `TauCeti.LogAdic.IntegralChart` supplied by `PrismaticCohomologyPartIV` §8.60 on étale-sheafy analytic adic spaces, including locally noetherian and perfectoid spaces. A log structure is a monoid sheaf `α:M→O_{X_ét}` with unit fibre `O×`. The adjunction, unit, counit, idempotence and pullback coherence belong to this supplied API.
 
-Construct `TauCeti.LogAdic.logification`: for a prelog sheaf `P→O_{X_ét}`, take the sheaf-monoid pushout `P ⊕_{α⁻¹O×} O×`. Prove its universal property as the left adjoint to inclusion of log structures, with the unit map, counit isomorphism on log structures and idempotence. Construct TauCeti.LogAdic.logPullback f M along a morphism of étale-sheafy adic spaces by logifying `f⁻¹M→O_Y`. Prove that log morphisms over `f` correspond to maps `f*M→N` on `Y`, together with the identity and composition isomorphisms and their coherence. A morphism of log adic spaces is strict when its comparison `f*M_X→M_Y` is an isomorphism; its stalkwise criterion is 6.2.
+The supplied logification `P ⊕_{α⁻¹O×} O×` is left adjoint to inclusion of log structures, with unit, counit isomorphism and idempotence. The supplied pullback is the logification of `f⁻¹M→O_Y`. Use its correspondence between log morphisms over `f` and maps `f*M→N` on `Y`, together with the supplied identity and composition isomorphisms and their coherence. A morphism of log adic spaces is strict when its comparison `f*M_X→M_Y` is an isomorphism; its stalkwise criterion is 6.2.
 
-Uses `TauCeti.LogAdic.IntegralChart`, `LogStructure.unit_fibre`, `logification.homEquiv`, `logification.idempotent`, `logPullback.id`, `logPullback.comp`, `IntegralChart.logificationIso`.
+Use the supplied integral charts, unit-fibre identification, logification adjunction and pullback coherence without a second construction.
 
 **Checks.**
 
@@ -1728,7 +1792,7 @@ Uses `TauCeti.LogAdic.IntegralChart`, `LogStructure.unit_fibre`, `logification.h
 
 Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Convention 2.2.1, Def. 2.2.2 and Rem. 2.2.3, pp.7–8, give log structures, logification, pullback and the adjunction. Def. 2.3.1 and Def. 2.3.5, p.13, give the integral-image chart condition and the coherent, fine and fs local conditions.
 
-*Needs:* `AdicEtaleGeometry` A1 (étale site and structure sheaves); `CrystallineCohomology` CR.5:log-algebra (commutative monoids and associated log structures); Mathlib `CategoryTheory.Sheaf` and `CategoryTheory.GrothendieckTopology`.
+*Needs:* `PrismaticCohomologyPartIV` §8.60 (the supplied log-adic carriers and Kummer foundations); `AdicEtaleGeometry` A1 (étale site and structure sheaves); `CrystallineCohomology` CR.5:log-algebra (commutative monoids and associated log structures); Mathlib `CategoryTheory.Sheaf` and `CategoryTheory.GrothendieckTopology`.
 
 <a id="section-6-1"></a>
 
@@ -1744,7 +1808,7 @@ The nonnoetherian stably adic case is asserted only for finite projective module
 - For `X = Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)`, `H¹(X_ét, O) = 0` while `H¹(X_ét, μ_p) ≠ 0`: the acyclicity is for coherent modules, not for torsion étale sheaves.
 - For `M = R` and a finite étale R-algebra S, the sections of `M̃_ét` over `Spa(S, S⁺)` are S.
 
-Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Appendix A, Prop. A.9, p. 97.
+Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Appendix A, Proposition A.9 (analytic modules) and Proposition A.10 (étale modules), pp.97–98.
 
 *Needs:* AdicSpacesPartIII R3 (tate kiehl affinoid); AdicSpacesPartIII R3 (coherent sheaf); `AdicEtaleGeometry` §A1.6; `AdicEtaleGeometry` §A1.6a; `AdicEtaleGeometry` A1 (etale site); `DiamondsAndVStacks` D0 (cech to derived comparison); `ClassicalAdicEtaleCohomology` §§1.1–1.4, 8.2, 11.1–11.2 (etale acyclicity of vector bundles).
 
@@ -1765,7 +1829,7 @@ Prove `TauCeti.LogAdic.characteristic_stalks` on any étale-sheafy analytic adic
 **Checks.**
 
 - `TauCeti.LogAdic.characteristic_disc`: For the log disc `Spa(k⟨T⟩, k°⟨T⟩)` with the log structure generated by T, the characteristic stalk at `T = 0` is `ℕ` and away from `T = 0` it is 0.
-- `TauCeti.LogAdic.strict_on_logified_pullback`: The inclusion of the origin into the log disc is strict when the origin carries the pulled-back log structure (characteristic `ℕ`), and not strict when it carries the trivial log structure (characteristic map `ℕ → 0`). Testing on `f^{−1}M_X → M_Y` instead of the logified pullback gives the wrong answer at units.
+- `TauCeti.LogAdic.strict_on_logified_pullback`: The inclusion of the origin into the log disc is strict when the origin carries the pulled-back log structure (characteristic `ℕ`). With the trivial source log structure the underlying origin inclusion has no compatible log morphism to the log disc: the generator T would have to pull back both to zero and to a unit. Testing on `f^{−1}M_X → M_Y` instead of the logified pullback gives the wrong answer at units.
 - `TauCeti.LogAdic.diagonal_not_exact`: The diagonal `D → D²`, T₁, `T₂ ↦ T`, of log polydiscs has characteristic map `ℕ² → ℕ`, `(a,b) ↦ a+b`, at the origin; the preimage of `ℕ` in `ℤ²` is the half-plane `a+b≥0`, distinct from `ℕ²`, so the map is not exact, while the identity is exact.
 - The trivial log structure is `O^×_X`, whose characteristic is 0; the one-element monoid mapping to 1 is not a log structure on `Spa(ℚ_p, ℤ_p)`.
 
@@ -1867,6 +1931,9 @@ Work with locally noetherian log spaces. Integralization/saturation are right ad
 
 **Checks.**
 
+- With trivial log structures the fs fibre product is the ordinary adic product with trivial log structure.
+- Over the coordinate log bidisc, root the first coordinate by `U^n=T₁` in one cover and the second by `V^m=T₂` in the other, with m,n invertible. Their fs product has chart `ℕ²`, `T₁=U^n,T₂=V^m`, with no extra saturation components: the two roots are independent.
+
 - `TauCeti.LogAdic.FsAdicPullback.identity`: `Y×_X X≃Y` as fs log adic spaces.
 - `TauCeti.LogAdic.FsAdicPullback.root_double`: For X the closed unit disc over k with chart `ℕ (1↦T)`, `Y=Spa(k⟨U⟩)` with `Uⁿ=T` and chart `ℕ→ℕ` multiplication by n, where n is invertible in k and `μ_n⊂k`: `(ℕ⊕_ℕℕ)^sat≅ℕ⊕ℤ/n`, so the fs product `Y×_X Y` is the disjoint union over `ζ∈μ_n` of copies of `Y (V=ζU)`, whereas the ordinary product `Spa(k⟨U,V⟩/(Uⁿ−Vⁿ))` is connected.
 - `TauCeti.LogAdic.FsAdicPullback.mapping_property`: Two morphisms from an fs test space coincide if their two projection maps coincide.
@@ -1884,6 +1951,9 @@ Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Prop. 2.3.23(
 Prove `TauCeti.LogAdic.log_smooth_chart_criterion`. For locally noetherian fs `f:Y→X`, log smoothness (log étaleness) means étale-locally an fs chart `u:P→Q` with finite `ker u^gp` and finite torsion part of `coker u^gp` (finite whole cokernel), of orders invertible in `O_X`, and étale comparison `Y→X×_{X⟨P⟩}X⟨Q⟩`. Such f is lft. A prescribed global fs P admits injective local charts satisfying this criterion; Q is torsion-free when P is. Prove composition/fs-base-change stability and equality with ordinary smoothness/étaleness for strict maps. Log smooth X over a trivial-log affinoid field has sharp toric charts, strictly étale composites of rational and finite étale maps; if X is also smooth take `P=ℕⁿ`, a chart to `Dⁿ`.
 
 **Checks.**
+
+- The strict smooth projection `D²→D` with trivial log structures is log smooth but not log étale: its ordinary relative dimension is one.
+- In characteristic p the coordinate p-th-root map fails the chart criterion because the group cokernel has order p, which is not invertible in O; it is not log étale.
 
 - Toric singularities are valid log smooth examples.
 - In characteristic zero, p-th coordinate roots are log étale although p is not a unit of `O⁺`.
@@ -1994,9 +2064,8 @@ Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Def. 3.3.19, 
 
 ### 6.12 Kummer étale maps: charts, the log-étale characterisation, cancellation and openness
 
-Prove `TauCeti.LogAdic.kummerEtale_theory` for locally noetherian fs maps. Kummer means injective sharp-characteristic maps with a power of every target element in the image. The chart criterion is étale-local on both spaces (only the target for finite maps): fs Kummer `P→Q`, finite invertible group index, étale comparison (finite étale in the finite case). Prescribed P is sharp torsion-free, Q can be sharp; use fs base change.
+Use `PrismaticCohomologyPartIV` §8.60's Kummer and Kummer-étale predicates (`TauCeti.LogAdic.IsKummer` and `TauCeti.LogAdic.IsKummerEtale`) for locally noetherian fs maps. Prove the additional chart, cancellation and openness API `TauCeti.LogAdic.kummerEtale_theory`. Kummer means injective sharp-characteristic maps with a power of every target element in the image. The chart criterion is étale-local on both spaces (only the target for finite maps): fs Kummer `P→Q`, finite invertible group index, étale comparison (finite étale in the finite case). Prescribed P is sharp torsion-free, Q can be sharp; use fs base change.
 
-- `TauCeti.LogAdic.IsKummer`, `TauCeti.LogAdic.IsKummerEtale`: the characteristic-stalk Kummer condition and its conjunction with log étaleness, stable under identity and restriction.
 - `TauCeti.LogAdic.kummerEtale_iff_chart`: the chart description, with the index invertible in `O_Y`.
 - `TauCeti.LogAdic.kummerEtale_rootChart`: Lemma 4.1.10's choice of chart with prescribed P and sharp Q.
 - `TauCeti.LogAdic.kummerEtale_iff_logEtale_exact`: Kummer étale iff log étale and Kummer iff log étale and exact.
@@ -2015,7 +2084,7 @@ Prove `TauCeti.LogAdic.kummerEtale_theory` for locally noetherian fs maps. Kumme
 
 Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Def. 4.1.2 (1)–(2), p. 41.
 
-*Needs:* [6.7](#section-6-7); [6.6](#section-6-6); [6.10](#section-6-10); [6.2](#section-6-2); [6.4](#section-6-4); [6.0](#section-6-0); `CrystallineCohomology` CR.5:log-algebra (kummer morphism).
+*Needs:* `PrismaticCohomologyPartIV` §8.60 (the supplied log-adic carriers and Kummer foundations); [6.7](#section-6-7); [6.6](#section-6-6); [6.10](#section-6-10); [6.2](#section-6-2); [6.4](#section-6-4); [6.0](#section-6-0); `CrystallineCohomology` CR.5:log-algebra (kummer morphism).
 
 <a id="section-6-13"></a>
 
@@ -2073,9 +2142,9 @@ Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Def. 4.1.12, 
 
 ### 6.15 Structure sheaves and projections on the Kummer étale site
 
-Construct `TauCeti.LogAdic.KummerEtaleSite` and prove `TauCeti.LogAdic.kummerEtaleSite_sheaves` for locally noetherian fs X. Structure sheaves evaluate as O, `O⁺`, M on each object; `f_két,*F(U)=F(U×_XY)`, with exact left adjoint and coherent composition. The chart basis gives an equivalent topos.
+Use `PrismaticCohomologyPartIV` §8.60's shared `TauCeti.LogAdic.KummerEtaleSite`, via `NoetherianFsLogAdicSpace.kummerSite` and `.kummerTopology` and prove `TauCeti.LogAdic.kummerEtaleSite_sheaves` for locally noetherian fs X. Structure sheaves evaluate as O, `O⁺`, M on each object; `f_két,*F(U)=F(U×_XY)`, with exact left adjoint and coherent composition. The chart basis gives an equivalent topos.
 
-- `TauCeti.LogAdic.KummerEtaleSite`: Kummer étale objects and log morphisms over X, with jointly surjective covering families; identity, composition and fs base change satisfy the site axioms by 6.12.
+- The underlying site, jointly surjective topology and fs pullbacks are supplied by `NoetherianFsLogAdicSpace.kummerSite` and `.kummerTopology`; the following sheaf and projection API is constructed on that site.
 - `TauCeti.LogAdic.kummerEtaleSite_generated`: generation by strictly étale maps and standard Kummer covers.
 - `TauCeti.LogAdic.kummerEtaleSite_structureSheaves`: the sheaves O, `O⁺`, M on `X_két`.
 - `TauCeti.LogAdic.kummerEtaleSite_representable`: `Mor_X(−, Y)` is a sheaf for every Y over X.
@@ -2091,9 +2160,9 @@ Construct `TauCeti.LogAdic.KummerEtaleSite` and prove `TauCeti.LogAdic.kummerEta
 - `TauCeti.LogAdic.kummerEtaleSite_root_invariants`: For the n-th root cover of the log disc over k with n invertible in k and `μ_n ⊂ k`, the equaliser of `O(D) ⇉ O(D ×_D D)` is `k⟨S⟩^{μ_n} = k⟨S^n⟩ = k⟨T⟩`, as sheafiness of O requires.
 - For trivial log structure, `ε_ét` is an isomorphism of sites and (4) is the identity.
 
-Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Rems. 4.1.17–4.1.18, p. 47.
+Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Rems. 4.1.17–4.1.18, p.47; Theorem 4.3.1, Corollary 4.3.3, Propositions 4.3.4–4.3.5, pp.52–55; §4.5, pp.65–67.
 
-*Needs:* [6.12](#section-6-12); [6.13](#section-6-13); [6.2](#section-6-2); [6.1](#section-6-1); [6.0](#section-6-0); `AdicEtaleGeometry` A1 (etale site); `AdicEtaleGeometry` A1 (etale structure sheaf); `CategoryTheory.GrothendieckTopology`; `CategoryTheory.Sheaf`; `DiamondsAndVStacks` D0 (cech to derived comparison).
+*Needs:* `PrismaticCohomologyPartIV` §8.60 (the supplied log-adic carriers and Kummer foundations); [6.12](#section-6-12); [6.13](#section-6-13); [6.2](#section-6-2); [6.1](#section-6-1); [6.0](#section-6-0); `AdicEtaleGeometry` A1 (etale site); `AdicEtaleGeometry` A1 (etale structure sheaf); `CategoryTheory.GrothendieckTopology`; `CategoryTheory.Sheaf`; `DiamondsAndVStacks` D0 (cech to derived comparison).
 
 <a id="section-6-16"></a>
 
@@ -2103,9 +2172,12 @@ Prove `TauCeti.LogAdic.kummer_coherent_acyclicity`. For noetherian affinoid fs X
 
 **Checks.**
 
+- For a trivial-log noetherian affinoid and `F=O/I`, analytic coherence gives positive-degree vanishing even when `R/I` is not projective.
+- On the log disc over a characteristic-zero field k, take `T=S²` and the line on the Kummer site descended from O on the root cover with sign character. Its sections are the odd eigenspace `S k⟨T⟩` and its positive cohomology vanishes by averaging over `µ₂`; the line need not descend as an analytic vector bundle across zero.
+
 - For `F=O` recover Theorem 4.3.1.
 
-Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Def. 4.3.6(1), p. 55.
+Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Definition 4.3.6(1)–(2) and Theorem 4.3.7(1)–(2), pp.55–56.
 
 *Needs:* [6.15](#section-6-15); [6.13](#section-6-13); [6.1](#section-6-1); AdicSpacesPartIII R3 (coherent sheaf); AdicSpacesPartIII R3 (tate kiehl affinoid); `ClassicalAdicEtaleCohomology` §§1.1–1.4, 8.2, 11.1–11.2 (etale acyclicity of vector bundles); `DiamondsAndVStacks` D0 (cech to derived comparison).
 
@@ -2113,18 +2185,20 @@ Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Def. 4.3.6(1)
 
 ### 6.17 Finite Kummer descent and the Kummer fundamental group
 
-Prove `TauCeti.LogAdic.finite_kummer_descent`. For locally noetherian fs X, log smoothness, log étaleness and Kummer étaleness of lft maps descend both through surjective Kummer base change and along a surjective Kummer source map. Finite Kummer objects satisfy effective descent for Kummer covers and cocycle data. The equivalence `X_fkét≃Loc(X_két)`, `Y↦Mor_X(−,Y)`, preserves products and finite-group quotients. Log geometric points exist over every geometric point, with complete separably closed field l and characteristic uniquely divisible by orders invertible in l; their fibres are conservative. For connected X with log basepoint ζ, this is a Galois category equivalent to finite continuous `π₁^két(X,ζ)`-sets, and likewise finite Λ-modules for finite rings Λ. Define `TauCeti.LogAdic.KummerLocalSystem` accordingly, with exact fibre equivalence, pullback and basepoint conjugacy. Prove `π₁^két(X_(ξ),ξ̃)=Hom(M̄^gp_{X,ξ},Ẑ′(1)(l))`. For invertible `n≥1`, the log Kummer boundary gives `R^iε_ét,*(ℤ/n)≅∧^i(M̄^gp_X/nM̄^gp_X)(−i)` for all `i≥0`, compatibly with cups and pullback.
+Prove `TauCeti.LogAdic.finite_kummer_descent`. For locally noetherian fs X, log smoothness, log étaleness and Kummer étaleness of lft maps descend both through surjective Kummer base change and along a surjective Kummer source map. Finite Kummer objects satisfy effective descent for Kummer covers and cocycle data. For the supplied Kummer site, develop the finite-cover equivalence `X_fkét≃Loc(X_két)`, `Y↦Mor_X(−,Y)`, with products and finite-group quotients. Log geometric points exist over every geometric point, with complete separably closed field l and characteristic uniquely divisible by orders invertible in l; their fibres are conservative. For connected X with log basepoint ζ, this is a Galois category equivalent to finite continuous `π₁^két(X,ζ)`-sets, and likewise finite Λ-modules for finite rings Λ. Extend `PrismaticCohomologyPartIV` §8.60's `NoetherianFsLogAdicSpace.LocalSystem` from finite locally free stalks to locally constant finite Λ-modules, including torsion stalks, as `TauCeti.LogAdic.KummerLocalSystem`, with exact fibre equivalence, pullback and basepoint conjugacy. Use that supplier's log inertia `Hom(M̄^gp_{X,ξ},Ẑ′(1)(l))` and `NoetherianFsLogAdicSpace.inertiaExterior`: for positive invertible n, `R^iε_ét,*(ℤ/n)≅∧^i(M̄^gp_X/nM̄^gp_X)(−i)`, with cups and pullback. The inertia and exterior formula are supplied inputs, not additional constructions.
 
 **Checks.**
+
+- For `Λ=ℤ/p²`, the constant stalk `ℤ/p` is admitted by the torsion extension, although it is not locally free over Λ; the finite-free supplied subcategory is recovered by restricting stalks.
 
 - For the rank-two log point, the direct images of `ℤ/n` have ranks 1, 2, 1 in degrees 0, 1, 2 and vanish above 2; with trivial log structure only degree 0 remains. These calculations also distinguish the local system of a nontrivial root character from the constant system.
 - On an fs log point over a complete separably closed field l with characteristic monoid `ℕ^r`, `π₁^két ≅ Ẑ′(1)(l)^r`; over a general field it is an extension of `Gal(k^sep/k)` by this group, split for a split log point.
 - For trivial log structure, `X_fkét` is the category of finite étale covers and `π₁^két` is the étale fundamental group.
 - The n-th root cover of the log point with n invertible is a connected finite Kummer étale cover of degree n, although its underlying map of adic spaces is a homeomorphism.
 
-Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Props. 4.2.7–4.2.8, pp. 50–52.
+Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Props. 4.2.7–4.2.8, pp.50–52; Theorem 4.4.15, Corollaries 4.4.18 and 4.4.22, Lemmas 4.4.27 and 4.4.29, pp.61–65.
 
-*Needs:* [6.15](#section-6-15); [6.13](#section-6-13); [6.7](#section-6-7); [6.10](#section-6-10); [6.12](#section-6-12); [6.0](#section-6-0).
+*Needs:* `PrismaticCohomologyPartIV` §8.60 (the supplied log-adic carriers and Kummer foundations); [6.15](#section-6-15); [6.13](#section-6-13); [6.7](#section-6-7); [6.10](#section-6-10); [6.12](#section-6-12); [6.0](#section-6-0).
 
 <a id="section-6-18"></a>
 
@@ -2272,7 +2346,7 @@ The continuous-cohomology form requires `F(Ṽ×S)=C(S,F(Ṽ))`; this holds for 
 
 **Checks.**
 
-- For the toric tower `Ṽ → V` of [6.26](#section-6-26) with `Γ ≅ Ẑ(1)^n`, (3) computes `H^i(V_két, L ⊗ O⁺/p)` as `H^i(Γ, L(Ṽ))` up to almost isomorphism, which vanishes for `i > n`.
+- For the toric tower `Ṽ → V` of [6.26](#section-6-26) with `Γ ≅ Ẑ(1)^n`, the spectral sequence computes `H^i(V_két,L⊗O⁺/p)`, up to almost isomorphism, from `H^i(Γ,(L⊗O⁺/p)(Ṽ))`; after trivializing the finite free `𝔽_p`-local system L the coefficient is `L(Ṽ)⊗_{𝔽_p}R⁺/p`. It vanishes for `i>n`. For `P=0`, `V=Ṽ=Spa(C,O_C)` and `L=𝔽_p`, degree zero is `O_C/p`, not `𝔽_p`.
 - For trivial log structure and `Γ` finite, (3) is the Hochschild–Serre spectral sequence of a finite étale Galois cover.
 - Without the profinite-function hypothesis, a skyscraper-type sheaf can have `F(Ṽ × Γ) ≠ C(Γ, F(Ṽ))`, and only the Čech form remains.
 
@@ -2415,9 +2489,12 @@ Prove `TauCeti.LogAdic.log_perfectoid_almost_acyclicity`. For locally noetherian
 
 **Checks.**
 
+- On the trivial-log perfectoid point `Spa(C,O_C)`, the completed structure sections are `Ô⁺=O_C`, `Ô=C`; the integral reduction has sections `O_C/p` up to the stated almost comparison.
+- For the free rank-r completed bundle on U, sections are `R^r` and positive cohomology is zero. At rank zero both sections and every cohomology group are zero.
+
 - Integral higher cohomology is almost zero, not asserted to vanish exactly.
 
-Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Thm. 5.4.3, p. 79.
+Sources: [DLLZ-adic](https://www.kwlan.org/articles/log-adic.pdf), Theorem 5.4.3, pp.79–80, and Theorem 5.4.4, pp.80–81.
 
 *Needs:* [6.29](#section-6-29); [6.30](#section-6-30); [6.23](#section-6-23); `PerfectoidSpaces` P3 (almost purity theorem); `PerfectoidSpaces` P0 (almost cech acyclicity criterion); [6.31](#section-6-31); `PerfectoidSpaces` P3 (etale almost acyclicity); `PerfectoidSpaces` P3 (etale site tilting equivalence).
 
@@ -3081,17 +3158,17 @@ Sources: [DLLZ-RH], Thm. 3.2.7(5), p. 26; Thm. 3.2.7(5), p. 27; Proof of Cor. 3.
 
 ### 7.29 Canonical coefficients of a Hodge-type datum on the log site
 
-For neat Hodge-type data with fixed Siegel V₀ and universal A, use smooth projective toroidal compactification with normal-crossings boundary over p-adic k containing the reflex field. For `W∈Rep_{ℚ_p}(Gᶜ)`, `Gᶜ=G`, import B2.general/B3.general's full-group realizations. Here `V₀=H₁(A)`, dual to `R¹f_*`; irreducibles are cut from `V₀^{⊗m_W}(−t_W)` by `s_W`, then extend additively. Use 6.20's Kummer extension; the Betti realization uses `ι:ℚ̄_p≅ℂ`.
+For neat Hodge-type data with fixed Siegel V₀ and universal A, use smooth projective toroidal compactification with normal-crossings boundary over p-adic k containing the reflex field. For `W∈Rep_{ℚ_p}(Gᶜ)`, `Gᶜ=G`, import B2.general/B3.general's full-group realizations and B3.log.2–B3.log.3's `canonicalKummerCoefficient` and canonical unipotent comparison. The targets below identify their realizations with the general functors of Layers 6–7. Here `V₀=H₁(A)`, dual to `R¹f_*`; irreducibles are cut from `V₀^{⊗m_W}(−t_W)` by `s_W`, then extend additively. Use 6.20 to identify the supplied Kummer extension; the Betti realization uses `ι:ℚ̄_p≅ℂ`.
 
-- `TauCeti.LogAdic.CanonicalLogRealizations`: The imported coefficient functors instantiated on the toroidal Kummer/pro-Kummer ringed sites, together with the p-adic realizations `p-W_dR` and `p-W_B`.
+- `TauCeti.LogAdic.CanonicalLogRealizations`: The compatibility identifications between the supplied coefficient functors on the toroidal Kummer/pro-Kummer sites and 7.24's realizations `p-W_dR` and `p-W_B`.
 - `TauCeti.LogAdic.CanonicalLogRealizations.etale_restriction`: Restriction to the interior recovers the canonical p-adic local system.
-- `TauCeti.LogAdic.CanonicalLogRealizations.de_rham_extension`: Its filtered log bundle is B3.general’s nilpotent-residue canonical extension.
-- `TauCeti.LogAdic.CanonicalLogRealizations.de_rham`: `W_p|S_K` is de Rham, through the relative comparison for `A^m` and the Hodge tensors `s_W`.
+- `TauCeti.LogAdic.CanonicalLogRealizations.de_rham_extension`: Its filtered log bundle agrees with the supplied nilpotent-residue canonical extension.
+- `TauCeti.LogAdic.CanonicalLogRealizations.de_rham`: The de Rham realization of 7.24 agrees with `unipotentLogPeriodComparison_associated`, via the relative comparison for `A^m` and the Hodge tensors `s_W`.
 - `TauCeti.LogAdic.CanonicalLogRealizations.hecke`: Pullbacks under finite-level Hecke maps agree with the coefficient representation action.
-- `TauCeti.LogAdic.CanonicalLogRealizations.unipotent_monodromy`: `W_p|S_K` has unipotent geometric monodromy along every boundary component, which makes the residues of `p-W_dR` nilpotent (DLLZ-RH Theorem 3.2.12(2)); the Kummer-étale extension itself is unique by the boundary local-system equivalence, independently of unipotence.
-- `TauCeti.LogAdic.CanonicalLogRealizations.p_de_rham`: `p-W_dR=D_dR,log(W_p)` is a filtered log connection with nilpotent residues on `S^tor_{K,Σ,k}`; `W↦p-W_dR` is a tensor functor (DLLZ-RH Theorem 3.2.12(2)).
-- `TauCeti.LogAdic.CanonicalLogRealizations.p_betti`: After `ι:ℚ̄_p≅C`, the horizontal sections of the analytified `p-W_dR|S_K` form a C-local system `p-W_B`; `W↦p-W_B` is a `G(𝔸_f)`-equivariant tensor functor.
-- `TauCeti.LogAdic.CanonicalLogRealizations.tensor`: Tensor, dual and unit isomorphisms for `W_p`, `W_dR`, `p-W_dR` and `p-W_B` are canonical and coherent.
+- `TauCeti.LogAdic.CanonicalLogRealizations.unipotent_monodromy`: The unipotent boundary monodromy supplied by `canonicalKummerCoefficient_monodromy` identifies with 6.35's monodromy and makes the residues of `p-W_dR` nilpotent (DLLZ-RH Theorem 3.2.12(2)); the Kummer-étale extension itself is unique by the boundary local-system equivalence, independently of unipotence.
+- `TauCeti.LogAdic.CanonicalLogRealizations.p_de_rham`: `p-W_dR=D_dR,log(W_p)` of 7.24 identifies with the supplied filtered log connection with nilpotent residues on `S^tor_{K,Σ,k}`, preserving its tensor structure (DLLZ-RH Theorem 3.2.12(2)).
+- `TauCeti.LogAdic.CanonicalLogRealizations.p_betti`: After `ι:ℚ̄_p≅C`, the horizontal sections of the analytified `p-W_dR|S_K` identify with the supplied C-local system `p-W_B`, preserving its `G(𝔸_f)`-equivariant tensor structure.
+- `TauCeti.LogAdic.CanonicalLogRealizations.tensor`: The tensor, dual and unit isomorphisms for `W_p`, `W_dR`, `p-W_dR` and `p-W_B` agree with `unipotentLogPeriodComparison_tensor`.
 
 **Checks.**
 
@@ -3103,15 +3180,15 @@ For neat Hodge-type data with fixed Siegel V₀ and universal A, use smooth proj
 
 Sources: [DLLZ-RH], Prop. 5.2.10, p. 54; §5.2, (5.2.12)–(5.2.16), p. 55; §5.5, the setting before Lem. 5.5.3, p. 62, and Lem. 5.5.6, p. 63; Prop. 5.2.17, p. 56; [BPC25], §4.4.38, p. 79.
 
-*Needs:* [6.20](#section-6-20); [6.34](#section-6-34); [6.35](#section-6-35); [7.24](#section-7-24); [7.26](#section-7-26); [1.3](#section-1-3); `PadicHodgeTheory` §7.3 (de rham pair derived pushforward); `AutomorphicBundles` B1 (hodge tensor realizations); `AutomorphicBundles` B2 (etale coefficient local system); `AutomorphicBundles` B2.general (general flat realizations); `AutomorphicBundles` B3.general.2 (general logarithmic comparison); `AutomorphicBundles` B3.log.2–B3.log.3 (the unipotent Hodge-type instance); `ShimuraCompactifications` C2 (smooth normal crossings).
+*Needs:* `AutomorphicBundles` B3.log.2–B3.log.3 (`canonicalKummerCoefficient`, the associated, graded and tensor comparisons); [6.20](#section-6-20); [6.34](#section-6-34); [6.35](#section-6-35); [7.24](#section-7-24); [7.26](#section-7-26); [1.3](#section-1-3); `PadicHodgeTheory` §7.3 (de rham pair derived pushforward); `AutomorphicBundles` B1 (hodge tensor realizations); `AutomorphicBundles` B2 (etale coefficient local system); `AutomorphicBundles` B2.general (general flat realizations); `AutomorphicBundles` B3.general.2 (general logarithmic comparison); `ShimuraCompactifications` C2 (smooth normal crossings).
 
-Prove that the Hodge-type, unipotent smooth-pair instance agrees with `AutomorphicBundles` B3.log.2–B3.log.3, preserving its period maps, tensors and residues. Uses: DLLZ-RH Theorem 5.3.1 (the comparison identifies these two canonical realizations) and PerfectoidShimuraVarieties S6 (imports these finite-level tensor-compatible coefficients).
+The compatibility preserves period maps, tensors and residues by DLLZ-RH Theorem 5.3.1. PerfectoidShimuraVarieties S6 consumes these finite-level compatibility identifications.
 
 <a id="section-7-30"></a>
 
-### 7.30 Canonical p-adic and de Rham association
+### 7.30 Agreement with the supplied canonical association
 
-Prove `TauCeti.LogAdic.canonical_log_period_comparison`. Under 7.29's Hodge-type, neat, smooth projective toroidal hypotheses and finite k containing the completed reflex field E, prove `p-W_dR≅W_dR⊗_Ek` for every `W∈Rep(G)`. On the interior it is the proper smooth relative comparison for tensor powers of A, restricted by Hodge tensors; normalized nilpotent extensions determine it on the boundary. Combining with 7.24's association gives the filtered horizontal `Ŵ_p⊗OB_dR,log≅W_dR⊗OB_dR,log` on the pro-Kummer site (µ denotes the site projection here). Preserve tensors, duals, Hecke, level change, morphisms of Hodge-type data and reflex-field descent; after ι identify horizontal `p-W_B≅W_B,ℂ`.
+Prove `TauCeti.LogAdic.canonical_log_period_comparison`. Under 7.29's Hodge-type, neat, smooth projective toroidal hypotheses and finite k containing the completed reflex field E, prove that 7.24's association agrees with `AutomorphicBundles` B3.log.3's `unipotentLogPeriodComparison_associated`: use its supplied identification `p-W_dR≅W_dR⊗_Ek` and filtered horizontal period isomorphism. Agreement on the interior is fixed by 1.1–1.3's abelian tensor comparison; normalized nilpotent extensions determine agreement on the boundary. Match `unipotentLogPeriodComparison_graded` and `_tensor`, including duals, Hecke, level change, morphisms of Hodge-type data and reflex-field descent, and the induced horizontal `p-W_B≅W_B,ℂ` after ι. This is an equality of the general and supplied comparison maps on identified ringed sites.
 
 **Checks.**
 
@@ -3121,7 +3198,7 @@ Prove `TauCeti.LogAdic.canonical_log_period_comparison`. Under 7.29's Hodge-type
 
 Sources: [DLLZ-RH], Lem. 5.5.3 and its proof, pp. 62–63; Lem. 5.5.6 and Cor. 5.5.7, p. 63; Thm. 5.3.1, p. 56; proof of Thm. 3.2.12(2), pp. 38–39; [BPC25], §4.4.38 and Rem. 4.4.39, p. 79.
 
-*Needs:* [7.29](#section-7-29); [7.24](#section-7-24); [7.22](#section-7-22); [7.26](#section-7-26); [7.25](#section-7-25); [1.1](#section-1-1); [1.3](#section-1-3); `PadicHodgeTheory` §7.3 (de rham pair derived pushforward); `AutomorphicBundles` B1 (hodge tensor realizations); `AutomorphicBundles` B3.general (general canonical extension); `AutomorphicBundles` B3.general (general boundary functoriality).
+*Needs:* `AutomorphicBundles` B3.log.2–B3.log.3 (`canonicalKummerCoefficient`, the associated, graded and tensor comparisons); [7.29](#section-7-29); [7.24](#section-7-24); [7.22](#section-7-22); [7.26](#section-7-26); [7.25](#section-7-25); [1.1](#section-1-1); [1.3](#section-1-3); `PadicHodgeTheory` §7.3 (de rham pair derived pushforward); `AutomorphicBundles` B1 (hodge tensor realizations); `AutomorphicBundles` B3.general (general canonical extension); `AutomorphicBundles` B3.general (general boundary functoriality).
 
 <a id="section-7-31"></a>
 
@@ -3153,12 +3230,12 @@ Sources: [BPC25], Rem. 4.4.39 and following text, p. 79; Rem. 4.4.39 and followi
 
 ### 7.32 The lattice Hodge–Tate filtration
 
-For 7.31 set `F_{−j}=image(M∩Fil^jM⁰→M/Fil¹M)`, kernel `Fil¹M∩Fil^jM⁰`. Use BPC25 indexing `Gr_j=F_{−j}/F_{−j−1}`; the ascending filtration is locally split with finite locally free gradeds.
+For 7.31 set `F_{−j}=image(M∩Fil^jM⁰→M/Fil¹M)`, kernel `Fil¹M∩Fil^jM⁰`. Use BPC25 indexing `Gr_j=F_j/F_{j−1}`; the ascending filtration is locally split with finite locally free gradeds.
 
 - `TauCeti.LogAdic.LatticeHTFiltration`: The image filtration with `F_{−j}=image(M∩Fil^jM⁰→M/Fil¹M)`.
 - `TauCeti.LogAdic.LatticeHTFiltration.mem`: A quotient class lies in `F_{−j}` iff it has a lift belonging to `M∩Fil^jM⁰`.
 - `TauCeti.LogAdic.LatticeHTFiltration.mono`: The image filtration is increasing in the HT index because `Fil^jM⁰` is decreasing.
-- `TauCeti.LogAdic.LatticeHTFiltration.grade`: With the displayed BPC25 indexing, its graded identification has the Tate twist: `Gr_j(Ŵ_p⊗Ô)(j)≃Gr^jW_dR⊗Ô`.
+- `TauCeti.LogAdic.LatticeHTFiltration.grade`: With the displayed BPC25 indexing, its graded identification agrees with `AutomorphicBundles` B3.log.3's `unipotentLogPeriodComparison_graded`, with the Tate twist: `Gr_j(Ŵ_p⊗Ô)(j)≃Gr^jW_dR⊗Ô`.
 - `TauCeti.LogAdic.LatticeHTFiltration.map`: Compatible maps of the two filtered lattices induce filtered quotient maps.
 - `TauCeti.LogAdic.LatticeHTFiltration.locally_split`: Each `F_i` is a locally direct-summand Ô-submodule, `F_i=0` for i below the lowest Hodge jump and `F_i=Ŵ_p⊗Ô` from the highest jump on.
 
@@ -3174,21 +3251,24 @@ For 7.31 set `F_{−j}=image(M∩Fil^jM⁰→M/Fil¹M)`, kernel `Fil¹M∩Fil^jM
 
 Sources: [BPC25], text after Rem. 4.4.39, p. 79; text after Rem. 4.4.39, p. 79.
 
-*Needs:* [7.31](#section-7-31); [7.30](#section-7-30); [7.13](#section-7-13); [1.2](#section-1-2); [2.11](#section-2-11); `CohomologyComparisons` §0.4 (twist frobenius filtration normalization).
+*Needs:* `AutomorphicBundles` B3.log.2–B3.log.3 (`canonicalKummerCoefficient`, the associated, graded and tensor comparisons); [7.31](#section-7-31); [7.30](#section-7-30); [7.13](#section-7-13); [1.2](#section-1-2); [2.11](#section-2-11); `CohomologyComparisons` §0.4 (twist frobenius filtration normalization).
 
 <a id="section-7-33"></a>
 
 ### 7.33 Tensor and Hecke compatibility of the finite-level HT flag
 
-Prove `TauCeti.LogAdic.canonical_ht_tensor`. For canonical full-group Gᶜ coefficients, prove tensor, dual, unit and Hecke compatibility: `F_i(W⊗W′)=Σ_{a+b=i}F_aW⊗F_bW′`, `F_i(W∨)=(F_{−i−1}W)^⊥`, and unit `F₋₁=0`, `F₀=Ô`. The filtered functor is exact, has exact gradeds and type µ, supplying 7.34's parabolic reduction.
+Prove `TauCeti.LogAdic.canonical_ht_tensor`. For canonical full-group Gᶜ coefficients, prove tensor, dual, unit and Hecke compatibility: `F_i(W⊗W′)=Σ_{a+b=i}F_aW⊗F_bW′`, `F_i(W∨)=(F_{−i−1}W)^⊥`, and unit `F₋₁=0`, `F₀=Ô`. These maps agree with `unipotentLogPeriodComparison_tensor` on the supplied canonical coefficients. The filtered functor is exact, has exact gradeds and type µ, supplying 7.34's parabolic reduction.
 
 **Checks.**
+
+- For the tensor unit the lattice filtration jumps only at zero, and its comparison is the identity.
+- A Tate line with ascending jump −1 has dual with jump +1; their tensor product jumps at zero. The supplied duality and the two-lattice annihilator formula give the same result.
 
 - Tate lines of weights m,n tensor to the line of weight m+n.
 
 Sources: [BPC25], text after Rem. 4.4.39, p. 80.
 
-*Needs:* [7.32](#section-7-32); [7.31](#section-7-31); [7.30](#section-7-30); [7.26](#section-7-26); `AutomorphicBundles` B2 (coefficient tensor hecke); [7.25](#section-7-25); [2.11](#section-2-11); `AutomorphicBundles` B0 (hodge parabolic convention).
+*Needs:* `AutomorphicBundles` B3.log.2–B3.log.3 (`canonicalKummerCoefficient`, the associated, graded and tensor comparisons); [7.32](#section-7-32); [7.31](#section-7-31); [7.30](#section-7-30); [7.26](#section-7-26); `AutomorphicBundles` B2 (coefficient tensor hecke); [7.25](#section-7-25); [2.11](#section-2-11); `AutomorphicBundles` B0 (hodge parabolic convention).
 
 <a id="section-7-34"></a>
 
@@ -3220,15 +3300,17 @@ Sources: [BPC25], text after Rem. 4.4.39, p. 80; text after Rem. 4.4.39, p. 80; 
 
 ### 7.35 Finite-level cyclotomic Levi-torsor comparison
 
-Under 7.34, take Levi quotients `M_HT/M_dR` via the common Levi of `P_µ/P_µ^std`. Prove `M_HT^an≅M_dR^an×^{µ,ℤ_p×}ℤ_p(1)` on the toroidal pro-Kummer site, using central µ and the torsor of Tate generators. The cyclotomic twist descends étale; an untwisted identification requires a generator.
+Under 7.34, take the Levi quotients of the two reductions via the common Levi of `P_µ/P_µ^std`. Prove that this two-lattice construction agrees with the finite-level ringed-site comparison supplied in `AutomorphicBundles` B3.HT.7 (`rationalHTLeviTorsor`), and hence with its rational tower pullback. Transport B0.3's Hodge/opposite and dual-coefficient dictionary explicitly: a local central weight `w=−j` corresponds to supplied Hodge coefficient degree `j`, giving the same twist `Ô(−j)=Ô(w)`. In this convention the supplied isomorphism reads `M_HT^an≅M_dR^an×^{µ,ℤ_p×}ℤ_p(1)` on the toroidal pro-Kummer site. The comparison is independent of embedding, preserves tensors and Hecke, and respects boundary restrictions and fan refinements. The cyclotomic twist descends étale; an untwisted identification requires a generator.
 
-- `TauCeti.LogAdic.FiniteLeviComparison`: The finite-level comparison of Levi torsors with the µ-contracted cyclotomic torsor.
-- `TauCeti.LogAdic.FiniteLeviComparison.central_twist`: The twisting action is through the central cocharacter `µ:Z_p×→M_µᶜ`.
-- `TauCeti.LogAdic.FiniteLeviComparison.hecke`: The comparison commutes with finite-level Hecke pullbacks.
+- `TauCeti.LogAdic.FiniteLeviComparison`: The agreement of the finite-level two-lattice Levi comparison with the supplied rational comparison after the Hodge/opposite and Tate-sign transport.
+- `TauCeti.LogAdic.FiniteLeviComparison.central_twist`: Under this agreement the twisting action is through the central cocharacter `µ:Z_p×→M_µᶜ`.
+- `TauCeti.LogAdic.FiniteLeviComparison.hecke`: The comparison's finite-level Hecke pullbacks match `rationalHTLeviTorsor_actions`.
 - `TauCeti.LogAdic.FiniteLeviComparison.trivialization`: Choosing a compatible generator of `Z_p(1)` identifies the contracted product with `M_dR`; changing that generator acts through µ.
 - `TauCeti.LogAdic.FiniteLeviComparison.assoc_bundle`: For an `M^c_µ-representation` V on which µ(z) acts by `z^w`, `M_HT^an×^{M^c_µ}V≅(M_dR^an×^{M^c_µ}V)⊗Ô(w)`, compatibly with tensor products and duals.
 
 **Checks.**
+
+- For the supplied BCGP `GSp₄` coefficient `(1,0;−1)`, transporting the opposite/dual convention recovers `ω_A(−1)` of `rationalHTLeviTorsor_associated`; the standard homology and its polarization retain their specified Tate pairings. A cocharacter sign change without coefficient transport does not suffice.
 
 - `TauCeti.LogAdic.FiniteLeviComparison.weight_zero`: For central weight zero the cyclotomic twist is trivial.
 - `TauCeti.LogAdic.FiniteLeviComparison.weight_one`: On a central weight-one character the contracted product is the associated Tate line, not an untwisted line with the same Galois action.
@@ -3238,7 +3320,7 @@ Under 7.34, take Levi quotients `M_HT/M_dR` via the common Levi of `P_µ/P_µ^st
 
 Sources: [BPC25], text after Rem. 4.4.39, p. 80; text after Rem. 4.4.39, p. 80; §4.4.8, p. 68; §4.0, p. 49.
 
-*Needs:* [7.34](#section-7-34); [7.33](#section-7-33); [7.30](#section-7-30); `AutomorphicBundles` B0 (hodge parabolic convention); `AutomorphicBundles` B3.general (general canonical extension); [2.9](#section-2-9); [2.10](#section-2-10).
+*Needs:* `AutomorphicBundles` B3.HT.7 (`rationalHTLeviTorsor_associated`, `_tensor`, `_actions`, `_boundary`); `AutomorphicBundles` B0.3 (Hodge/opposite and dual-coefficient dictionary); [7.34](#section-7-34); [7.33](#section-7-33); [7.30](#section-7-30); `AutomorphicBundles` B0 (hodge parabolic convention); `AutomorphicBundles` B3.general (general canonical extension); [2.9](#section-2-9); [2.10](#section-2-10).
 
 <a id="section-7-36"></a>
 
@@ -3292,9 +3374,9 @@ Locators refer to the versions named here, identified by SHA-256, and not to the
 - **BCGP21.** George Boxer, Frank Calegari, Toby Gee, Vincent Pilloni, [*Abelian surfaces over totally real fields are potentially modular*](https://arxiv.org/abs/1812.09269). arXiv:1812.09269v3 (28 Nov 2021); published Publ. Math. IHÉS 134 (2021). SHA-256 7c8d74b0628d8b9cc841a853372ca2d0bc18c086ab46d138f75afd15f35689ed.
 - **CS17.** Ana Caraiani, Peter Scholze, [*On the generic part of the cohomology of compact unitary Shimura varieties*](https://arxiv.org/abs/1511.02418). arXiv:1511.02418v1 (8 Nov 2015); published Ann. of Math. 186 (2017), Proposition 2.3.9 collated at pp.673–674. SHA-256 `aa93df3947e57ab78b070a82d638e70c25ae2ae15aeb60346575e74fdf85b349`.
 - **SW13.** Peter Scholze, Jared Weinstein, [*Moduli of p-divisible groups*](https://arxiv.org/abs/1211.6357). arXiv:1211.6357v2 (13 Apr 2013); Camb. J. Math. 1 (2013). SHA-256 984411ef6c3d735a713684d4c9251fbad411a40eab33cefed8ab5c8412b09f6d.
-- **AIPH.** Fabrizio Andreatta, Adrian Iovita, Vincent Pilloni, [*The adic, cuspidal, Hilbert eigenvarieties*](https://www.imo.universite-paris-saclay.fr/~pilloni/`Hilbert_adicfinal.pdf`). Res. Math. Sci. 3 (2016); author copy `Hilbert_adicfinal.pdf` dated 16 May 2016 (40 pp.). SHA-256 34f517fd8d02d778f16f19745f4303b3955d48646d0ce6665b88a10f6fcdebbd.
+- **AIPH.** Fabrizio Andreatta, Adrian Iovita, Vincent Pilloni, [*The adic, cuspidal, Hilbert eigenvarieties*](https://www.imo.universite-paris-saclay.fr/~pilloni/Hilbert_adicfinal.pdf). Res. Math. Sci. 3 (2016); author copy `Hilbert_adicfinal.pdf` dated 16 May 2016 (40 pp.). SHA-256 34f517fd8d02d778f16f19745f4303b3955d48646d0ce6665b88a10f6fcdebbd.
 - **AIP15.** Fabrizio Andreatta, Adrian Iovita, Vincent Pilloni, [*p-adic families of Siegel modular cuspforms*](https://arxiv.org/abs/1212.3812). arXiv:1212.3812v1 (16 Dec 2012); published Ann. of Math. 181 (2015), 623–697. SHA-256 546120d2dcbf50bc86a3b980602728c9dcebd90cc2b08528df4415ec2f7ea851.
-- **HALO.** Fabrizio Andreatta, Adrian Iovita, Vincent Pilloni, [*Le halo spectral*](https://mypage.concordia.ca/mathstat/iovita/`Halo_spectral.pdf`). Author copy `Halo_spectral.pdf`; Appendix A. SHA-256 154459bdefa0e91b5a103ba5a78d81bcced20e67d8bb9a0fb737de22494bee27.
+- **HALO.** Fabrizio Andreatta, Adrian Iovita, Vincent Pilloni, [*Le halo spectral*](https://mypage.concordia.ca/mathstat/iovita/Halo_spectral.pdf). Author copy `Halo_spectral.pdf`; Appendix A. SHA-256 154459bdefa0e91b5a103ba5a78d81bcced20e67d8bb9a0fb737de22494bee27.
 - **CDM12.** Peter Scholze, [*Perfectoid spaces: a survey*](https://people.mpim-bonn.mpg.de/scholze/CDM.pdf). Current author copy of the 2012 Current Developments in Mathematics survey. SHA-256 85a0b85e13163d8953c25d521c7f568afcc2a67c8f192228a8608f533b5f11eb.
 - **ZIE.** Paul Ziegler, [*Graded and filtered fiber functors on Tannakian categories*](https://arxiv.org/pdf/1111.1981v2). arXiv:1111.1981v2. SHA-256 7e553f590404cd31f92bf528d925755043ad4e2bb009e058a6ca39ab8d39ed40.
 - **BPC25.** George Boxer, Vincent Pilloni, [*Higher Coleman theory*](https://www.imo.universite-paris-saclay.fr/~pilloni/HigherColeman.pdf). Author revised manuscript dated 3 March 2025, HigherColeman.pdf (180 pp.); locators refer to this version. SHA-256 `d340c9a020cc5fdbca781a8630b6fae35e14607142bed700d6ab82334faa80ae`.
@@ -3330,6 +3412,6 @@ Related published versions and model references:
 [BHW]: https://arxiv.org/abs/1902.03985
 [BPC25]: https://www.imo.universite-paris-saclay.fr/~pilloni/HigherColeman.pdf
 [ZIE]: https://arxiv.org/pdf/1111.1981v2
-[HALO]: https://mypage.concordia.ca/mathstat/iovita/`Halo_spectral.pdf`
-[AIPH]: https://www.imo.universite-paris-saclay.fr/~pilloni/`Hilbert_adicfinal.pdf`
+[HALO]: https://mypage.concordia.ca/mathstat/iovita/Halo_spectral.pdf
+[AIPH]: https://www.imo.universite-paris-saclay.fr/~pilloni/Hilbert_adicfinal.pdf
 [DLLZ-RH]: https://www.kwlan.org/articles/log-RH.pdf
