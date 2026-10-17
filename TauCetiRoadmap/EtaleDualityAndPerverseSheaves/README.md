@@ -28,7 +28,7 @@ A correspondence has legs c₁:C→X₁ and c₂:C→X₂. Its cohomological mor
 
 ## Exact supplier contracts
 
-The named suppliers below are the existing TauCetiRoadmap documents, with versioned references in the bibliography. In particular, the weight-theory input is [TauCetiRoadmap.DeligneWeightsAndPurity](https://github.com/TauCetiProject/TauCetiRoadmap/blob/5f713c436ee303ceb25938d815e236b1a2c3d09a/TauCetiRoadmap/DeligneWeightsAndPurity/README.md), whose scalar, lisse and absolute Lefschetz targets are consumed here.
+The named suppliers below are the existing TauCetiRoadmap documents, with versioned references in the bibliography. In particular, the weight-theory input is TauCetiRoadmap.DeligneWeightsAndPurity, whose scalar, lisse and absolute Lefschetz targets are consumed here.
 
 ### From Mathlib and Tau Ceti
 
@@ -7686,21 +7686,21 @@ GeometricSatakeAndFusion and the proposed stack and perfect-space extensions use
 
 - **[Stacks-Morphisms]** The Stacks Project Authors, [The Stacks Project, Chapter 29: Morphisms of Schemes](https://stacks.math.columbia.edu/download/morphisms.pdf). Version ed88ff78 (compiled 14 July 2026).
 
-- **[TCR-AdicCoefficientsAndComparisons]** TauCetiRoadmap contributors, [Adic coefficients and comparison with schemes](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4a7b4d83e2622df066e2a883525bb755bce6b115/TauCetiRoadmap/AdicCoefficientsAndComparisons/README.md). README.md, version 4a7b4d83e2622df066e2a883525bb755bce6b115.
+- **[TCR-AdicCoefficientsAndComparisons]** TauCetiRoadmap contributors, Adic coefficients and comparison with schemes. README.md, version 4a7b4d83e2622df066e2a883525bb755bce6b115.
 
-- **[TCR-ClassicalAdicEtaleCohomology]** TauCetiRoadmap contributors, [Classical analytic étale cohomology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/cd2cc07b343892659c939ce98f41f8b21aa2f9ae/TauCetiRoadmap/ClassicalAdicEtaleCohomology/README.md). README.md, version cd2cc07b343892659c939ce98f41f8b21aa2f9ae.
+- **[TCR-ClassicalAdicEtaleCohomology]** TauCetiRoadmap contributors, Classical analytic étale cohomology. README.md, version cd2cc07b343892659c939ce98f41f8b21aa2f9ae.
 
-- **[TCR-ComplexComparisonPartII]** TauCetiRoadmap contributors, [Complex comparison, part II](https://github.com/TauCetiProject/TauCetiRoadmap/blob/654c956cf2e193efd94e91816658b2fcd1ffb8d8/TauCetiRoadmap/ComplexComparisonPartII/README.md). README, version 654c956cf2e193efd94e91816658b2fcd1ffb8d8.
+- **[TCR-ComplexComparisonPartII]** TauCetiRoadmap contributors, Complex comparison, part II. README, version 654c956cf2e193efd94e91816658b2fcd1ffb8d8.
 
-- **[TCR-DeligneWeightsAndPurity]** TauCetiRoadmap contributors, [Deligne weights, purity and the Weil bounds](https://github.com/TauCetiProject/TauCetiRoadmap/blob/5f713c436ee303ceb25938d815e236b1a2c3d09a/TauCetiRoadmap/DeligneWeightsAndPurity/README.md). README.md, version 5f713c436ee303ceb25938d815e236b1a2c3d09a.
+- **[TCR-DeligneWeightsAndPurity]** TauCetiRoadmap contributors, Deligne weights, purity and the Weil bounds. README.md, version 5f713c436ee303ceb25938d815e236b1a2c3d09a.
 
-- **[TCR-EnhancedDerivedSheaves]** TauCetiRoadmap contributors, [Enhanced derived categories of sheaves](https://github.com/TauCetiProject/TauCetiRoadmap/blob/b3ea60e3efc3bd4a0b541fb54469dcbf88772064/TauCetiRoadmap/EnhancedDerivedSheaves/README.md). README.md, version b3ea60e3efc3bd4a0b541fb54469dcbf88772064.
+- **[TCR-EnhancedDerivedSheaves]** TauCetiRoadmap contributors, Enhanced derived categories of sheaves. README.md, version b3ea60e3efc3bd4a0b541fb54469dcbf88772064.
 
-- **[TCR-EtaleCohomologyFoundations]** TauCetiRoadmap contributors, [Étale cohomology foundations](https://github.com/TauCetiProject/TauCetiRoadmap/blob/651c49797943811c7dd6d8ab4b5771b7ede1ec0d/TauCetiRoadmap/EtaleCohomologyFoundations/README.md). README.md, version 651c49797943811c7dd6d8ab4b5771b7ede1ec0d.
+- **[TCR-EtaleCohomologyFoundations]** TauCetiRoadmap contributors, Étale cohomology foundations. README.md, version 651c49797943811c7dd6d8ab4b5771b7ede1ec0d.
 
-- **[TCR-LefschetzPencilsAndVanishingCycles]** TauCetiRoadmap contributors, [Lefschetz pencils, nearby cycles and vanishing cycles](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4c7deab75898820bcc1fedd1db4df1010cfc2303/TauCetiRoadmap/LefschetzPencilsAndVanishingCycles/README.md). README.md, version 4c7deab75898820bcc1fedd1db4df1010cfc2303.
+- **[TCR-LefschetzPencilsAndVanishingCycles]** TauCetiRoadmap contributors, Lefschetz pencils, nearby cycles and vanishing cycles. README.md, version 4c7deab75898820bcc1fedd1db4df1010cfc2303.
 
-- **[TCR-SchemeAndStackFoundations]** TauCetiRoadmap contributors, [Scheme and stack foundations](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d2081398eedfbd4153d3067aa98a21b5a5270957/TauCetiRoadmap/SchemeAndStackFoundations/README.md). README.md, version d2081398eedfbd4153d3067aa98a21b5a5270957.
+- **[TCR-SchemeAndStackFoundations]** TauCetiRoadmap contributors, Scheme and stack foundations. README.md, version d2081398eedfbd4153d3067aa98a21b5a5270957.
 
 - **[Varshavsky-LV-2007]** Y. Varshavsky, [Lefschetz–Verdier trace formula and a generalization of a theorem of Fujiwara](https://arxiv.org/pdf/math/0505564v2). Geom. Funct. Anal. 17 (2007); arXiv:math/0505564v2.
 
