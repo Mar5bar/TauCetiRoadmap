@@ -99,7 +99,17 @@ end LocallyFinite
 /-! ## Layer 0: Ordinary Hecke algebras and Hida families
 The Hecke and form carriers use the saturated mixed-weight divided-congruence
 lattices D_j^M and D_j^S described in README.md, including the separate
-positive-coefficient lattice for the quotient by constants. -/
+positive-coefficient lattice for the quotient by constants.
+The Eisenstein adapters eisensteinConstantTerm, eisensteinCoefficientMeasure and
+eisensteinFamily consume DirichletPadicLFunctions §§1.6 and 5.4–5.9. They use left
+character 1 at level one and the right character at its actual tame level, inverse
+unit-coordinate weighting and angular pushforward. Full constants and clearing
+identities are transported together. Localization requires regularity of the
+transported denominator; evaluation requires its nonzero character image.
+The ordinary modular and Hecke comparisons retain p ≥ 5, parity, actual levels,
+primitive inducing characters and tame Euler deletions. ModularForms Layer 0
+supplies the holomorphic q-expansion input in weight two, including its corrected
+trivial-character stabilization. -/
 
 /-! ## Layer 1: Integral period modules and family measures -/
 
@@ -223,7 +233,9 @@ congruenceModule_self_eq, congruenceIdeal_map and congruenceIdeal_ne_bot.
 The complete-flat and compatible-minimal-model constructions are IsMinimal,
 CompleteFlatComplex, completeFlatBasis and compatibleMinimalModel.
 The odd-prime cuspidal input is ordinaryCuspidal_control_oddPrime.
-The Eisenstein inputs are eisensteinConstantTerm and eisensteinCoefficientMeasure;
+The Eisenstein inputs eisensteinConstantTerm and eisensteinCoefficientMeasure,
+assembled as eisensteinFamily, are the angular adapters of the arithmetic
+Eisenstein exports of DirichletPadicLFunctions;
 the modular Euler-system inputs are thetaUnit, modularZeta and their period comparisons.
 
 Its analytic constructions are Eigenvariety.spectralVariety, slopePolynomial,
