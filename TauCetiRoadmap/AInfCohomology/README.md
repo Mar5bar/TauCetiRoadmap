@@ -55,10 +55,12 @@ The layer labels are the labels other roadmaps cite. They are built in the order
   `A_inf(S) = W(S^♭)` for an integral perfectoid ring `S` with a compatible system of primitive
   `p`-power roots of unity; the shifted maps `θ̃ = θ ∘ φ⁻¹` and `θ̃_r=θ_r∘φ^(−r)`
   from the finite Fontaine maps `θ_r` supplied by PerfectoidQuotients §0.2; their additional
-  Verschiebung compatibility, cyclotomic normalizations and kernels; the identification `A_inf = lim_F W_r(O_C)` and
+  Verschiebung compatibility and cyclotomic formulas for the kernels imported from
+  CrystallineCohomology §CR.4.4; the identification `A_inf = lim_F W_r(O_C)` and
   the kernel of `A_inf → W(O_C)`;
   regularity of `(p, μ)` and `(p, ξ)`; flatness of the cyclotomic
-  power-series maps `ℤ_p[[T]] → A_inf`; Tor-independence for finite Witt vectors; coherence of `W_r(O_C)` and `W_r(O_C^♭)` for finite `r`.
+  power-series maps `ℤ_p[[T]] → A_inf`; cyclotomic specializations of the supplied finite-Witt
+  Tor-independence theorem; coherence of `W_r(O_C)` and `W_r(O_C^♭)` for finite `r`.
 - *Integral twists (AI.0:integral).* The residue map `A_inf → W(k)`; the Breuil–Kisin line
   `A_inf{1}` and its specializations `O_C{1}` and `ℤ_p(1)`; Fontaine's `dlog` theorem; the
   description of `O_C{1}` by the completed cotangent complex; the integral crystalline
@@ -106,7 +108,8 @@ The layer labels are the labels other roadmaps cite. They are built in the order
   images of `Ô_X`, extension across codimension two, acyclicity on affine formal schemes, the
   log crystalline base change, finiteness and descent statements, the noetherian approximation,
   connection and deformation statements behind the canonical `B_dR⁺`-deformation, and the log
-  differentials of a semistable curve (AI.6); circle actions and Tate constructions, topological Hochschild homology as a
+  differentials of a semistable curve (AI.6); circle actions, circle Tate constructions and the completed circle/finite-Tate comparison,
+  Dyer–Lashof operations on the supplied dual Steenrod generators, topological Hochschild homology as a
   cyclotomic spectrum, Bökstedt periodicity, finite freeness of the Breuil–Kisin Frobenius and the
   identification of `π_0 TP` over the sphere polynomial base (AI.7).
 
@@ -139,8 +142,14 @@ The layer labels are the labels other roadmaps cite. They are built in the order
   algebras: AdicSpacesPartII R0 and AdicSpacesPartIII F0, R2–R3.
 - Crystalline, logarithmic crystalline and Hyodo–Kato cohomology and de Rham–Witt complexes:
   CrystallineCohomology CR.1–CR.6, including the arbitrary-ring finite Witt étale/base-change
-  theorem of CR.4, *Witt localization and étale descent*. Divided power envelopes and `A_cris` of a `p`-adically
+  theorem of CR.4, *Witt localization and étale descent*, and §CR.4.4's generic finite-Witt
+  Fontaine kernels, their regularity and perfectoid base change, Tor independence and
+  Verschiebung annihilator/image identities. Divided power envelopes and `A_cris` of a `p`-adically
   complete ring: DerivedDeRhamCohomology §§PD.6–PD.7.
+- Finite-group Borel norms, Tate functors, coherent products and `can`: BordismFormalGroups
+  §F6.5. The actual dual Steenrod Hopf algebra `H_*(H𝔽_p;𝔽_p)`, its generators, coproduct
+  and conjugation conventions: TangentialBordism §B4, items 2 and 7. AI.7 transports these
+  inputs to (Sp) through EnhancedDerivedSheaves E5:spectra-comparison.
 - Breuil–Kisin modules of finite height, the coefficient rings `𝔖`, `𝒪_ℰ`, and Kisin's
   functor: FiniteFlatGroupsAndIntegralPadicHodgeTheory (R07.2, R07.4).
 - Arithmetic period rings, their topologies, Galois actions and fixed points:
@@ -185,10 +194,11 @@ The witness for the two normalizations is the point `Spf O_C`: `θ(μ) = 0` and 
   `Lη_f` is not exact: it sends `0 → ℤ/p → ℤ/p² → ℤ/p → 0` (with `f = p`) to a sequence that is
   not a triangle.
 - **Breuil–Kisin coefficients.** `K` is a complete discretely valued field of mixed
-  characteristic `(0, p)` with perfect residue field `k₀`, uniformizer `π`, Eisenstein polynomial
+  characteristic `(0, p)` with perfect residue field `k₀`, uniformizer `π`, monic Eisenstein polynomial
   `E ∈ W(k₀)[u]` and a compatible system `π^♭ = (π, π^{1/p}, …) ∈ O_C^♭`. `𝔖 = W(k₀)[[u]]` with
   `φ_𝔖` the Witt Frobenius on coefficients and `u ↦ u^p`; `𝔖^{(−1)}` is `𝔖` viewed as an
-  `𝔖`-algebra along `φ_𝔖`. The maps are `g : 𝔖 → A_inf`, `u ↦ [π^♭]`; `f = g ∘ φ_𝔖 = φ_A ∘ g`,
+  `𝔖`-algebra along `φ_𝔖`. Relative trace generators retain a unit
+  `α∈(𝔖^{(−1)})^×` in `φ(b)=ασ`; the fixed monic `E` is not renormalized. The maps are `g : 𝔖 → A_inf`, `u ↦ [π^♭]`; `f = g ∘ φ_𝔖 = φ_A ∘ g`,
   so `f(u) = [π^♭]^p`; `θ̃_𝔖 : 𝔖 → O_K`, `u ↦ π`, with identity on Witt coefficients;
   `θ_𝔖 = θ̃_𝔖 ∘ φ_𝔖`, `u ↦ π^p`; and the crystalline map `c = φ_W ∘ constantCoeff : 𝔖 → W(k₀)`.
   The spectral base uses a separate variable `z` of `𝕊[z] = 𝕊[ℕ]`.
@@ -223,7 +233,9 @@ The witness for the two normalizations is the point `Spf O_C`: `θ(μ) = 0` and 
   `E_∞`-algebras, geometric realizations, circle actions, homotopy fixed points and Tate
   constructions. EnhancedDerivedSheaves E5:abstract supplies operadic algebras;
   E5:presentability.2 supplies `spectra` and its stable symmetric monoidal structure;
-  E5:spectra-comparison supplies `eilenbergMacLane` and `moduleSpectra_equiv_derived`.
+  E5:spectra-comparison supplies `eilenbergMacLane`, `moduleSpectra_equiv_derived` and
+  `symmetricSpectra_equiv_spectra`, which transports the finite-group Tate and dual Steenrod
+  inputs from their concrete spectral models.
   Constructions written `THH(A)`, `X^{hG}` and `X^{tG}` are uncompleted; `;ℤ_p` explicitly
   denotes p-completion. The Breuil–Kisin trace calculations use the latter. Grading is homological.
 - **(BK)** `K`, `π`, `E`, `π^♭`, `𝔖` and `φ_𝔖` are as in the Breuil–Kisin conventions, and derived
@@ -379,7 +391,21 @@ unimplemented carrier is already available for a Lean declaration.
   cokernels of maps of complete modules. E5:abstract supplies operadic algebras;
   E5:presentability.2 supplies `spectra` and the
   stable symmetric monoidal structure; E5:spectra-comparison supplies `eilenbergMacLane`
-  and `moduleSpectra_equiv_derived`.
+  and `moduleSpectra_equiv_derived`; its `symmetricSpectra_equiv_spectra` transports the
+  concrete spectral constructions, their coherent action diagrams, products and `HR` objects
+  to this abstract stabilization.
+- **BordismFormalGroups**, [§F6.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/269912e4950a075eeb50885cdc68638b0d08dc2f/TauCetiRoadmap/BordismFormalGroups/README.md#f65-local-group-actions-and-completion-comparisons):
+  for every finite group `G`, Borel actions, homotopy orbits and fixed points, the norm and
+  its Tate cofibre, restriction and induction, and the coherent lax symmetric monoidal
+  Tate functor with `can` and module products. The local name `AInf.Trace.tateFinite` is
+  its `G=C_p` specialization transported through EnhancedDerivedSheaves
+  E5:spectra-comparison. AI.7 owns the circle extension and Tate-orbit comparison.
+- **TangentialBordism**, [§B4, items 2 and 7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4a5e27d2dd1b94abcca3e9b2151e9adf460a8a2f/TauCetiRoadmap/TangentialBordism/README.md):
+  the actual mod-p Eilenberg–Mac Lane homology Hopf algebra, polynomial on `ξ_i` (`i≥1`)
+  at `p=2`, and polynomial on `ξ_i` (`i≥1`) tensor exterior on `τ_i` (`i≥0`) at odd `p`,
+  with its dual Steenrod coaction, coproduct and conjugation. Use its Milnor generators
+  and conjugates after the same concrete-to-abstract spectral comparison; AI.7 owns
+  their Dyer–Lashof values, suspension compatibility and Bökstedt differentials.
 - **ArithmeticGaloisDuality**, §D7.3, *Continuous cochains in the derived category*:
   continuous cochains and their derived-category realization on its stated compact and
   cofinite coefficient domain. AI.1.7 owns the comparison with Mathlib's continuous
@@ -401,6 +427,12 @@ unimplemented carrier is already available for a Lean declaration.
   that for any étale map `A→B` of commutative rings and `r≥1`, `W_r(A)→W_r(B)` is étale
   and `W_r(A′)⊗_{W_r(A)}W_r(B)≅W_r(B⊗_A A′)` for arbitrary `A→A′` (BMS1, Theorem 10.4).
   The local name `AInf.witt_etale_base_change` is an alias of this supplied theorem.
+  Section CR.4.4, *Finite Witt base change for integral perfectoid rings*, supplies the
+  regular generators of `ker θ_r` and `ker θ̃_r`, their behaviour under perfectoid maps,
+  both derived finite-Witt base-change equivalences (restriction and Frobenius), and
+  `Ann(V^j(1))=ker F^j`, `V^j(1)W_r(S)=V^jW_{r−j}(S)`. The generic kernel/regularity
+  names of `AInf.xiWitt` and `AInf.witt_base_change` are transported aliases; AI.0 owns
+  the explicit cyclotomic generators, `q_(r,j)` formulas, coherence and almost ideals.
   CR.4 also supplies relative Frobenius–Verschiebung procomplexes, relative Witt
   forms over perfectoid bases, continuous relative de Rham–Witt, Laurent Witt weights,
   finite and infinite crystalline comparisons, Nygaard/conjugate/Hodge/lift filtrations,
@@ -447,7 +479,8 @@ unimplemented carrier is already available for a Lean declaration.
 ## How to read the build
 
 Layer AI.0 is commutative algebra over Mathlib's Witt vectors: it fixes the cyclotomic
-coefficients and proves the finite Witt facts used throughout. Layer AI.0:integral adds
+coefficients, imports the generic finite-Witt package of CrystallineCohomology §CR.4.4
+and proves the cyclotomic, coherence and almost-ideal refinements used throughout. Layer AI.0:integral adds
 the integral twists and the coefficient rings `W(k)` and `A_cris`; Layer AI.0:period-comparison
 relates `A_inf` to the rational period rings. Layer AI.1 is pure homological algebra: décalage on
 complexes and on derived categories of ringed topoi, with no `p`-adic geometry. Layer AI.2 is
@@ -534,7 +567,11 @@ Use the supplied Frobenius-limit identification and finite Fontaine identities; 
 - `AInf.thetaWitt_test_FnotR`: For a non-Frobenius-fixed Teichmüller input, `F` and `R` compatibility differ by `φ`.
 - `AInf.thetaWitt_test_VnotP`: Over a characteristic-zero untilt, V(1) in `W_2` has first Witt coordinate zero, whereas the first coordinate of `p` is `p≠0`; `θ_2(p)` cannot be used as V(1).
 
-**Finite Witt kernel generators** (`AInf.xiWitt`). Set `ξ_r=product_{i=0}^{r-1}φ^(-i)(ξ)`, and `ξ̃_r=φ^r(ξ_r)=product_{i=1}^{r}φ^i(ξ)`. Then `ker(θ_r)=(ξ_r)`, `ker(θ̃_r)=(ξ̃_r)`. Compatible unit choices are allowed for general perfectoid `S`. Both generators are nonzerodivisors.
+**Finite Witt kernel generators** (`AInf.xiWitt`). Import the generic regular-kernel and
+perfectoid-base-change theorem from CrystallineCohomology §CR.4.4. In the cyclotomic
+normalization set `ξ_r=product_{i=0}^{r-1}φ^(-i)(ξ)`, and `ξ̃_r=φ^r(ξ_r)=product_{i=1}^{r}φ^i(ξ)`. Then `ker(θ_r)=(ξ_r)`, `ker(θ̃_r)=(ξ̃_r)`. For general integral perfectoid `S` these products and their regularity are the supplied
+kernel theorem, transported along `θ̃_r=θ_r∘φ^(−r)`; only their explicit cyclotomic formulas
+and recursions are additional targets here.
 
 `Suggested.lean` declares `xiLevel`, `tildeXiLevel`, `xiLevel_succ`, `tildeXiLevel_succ`.
 
@@ -548,7 +585,7 @@ The API:
 - `AInf.xiWitt_ker_tilde`: `θ̃_r` induces `A_inf/(ξ̃_r)≅W_r(S)`.
 - `AInf.xiWitt_regular`: `ξ_r` and `ξ̃_r` are nonzerodivisors for integral perfectoid `S`, as are the distinguished generators after perfectoid base change.
 
-Induct using the finite Witt projection and kernel calculation. Transport the product by `φ^r` to obtain the shifted formula. Use the primitive-kernel nonzerodivisor theorem and transport regularity along Frobenius; products of regular factors remain regular. (BMS1 (arXiv v3), Lemmas 3.12–3.13; printed pp.23–24). *Needs:* *Finite Witt coefficient maps* (§AI.0.2); PerfectoidSpaces, P1 (*Fontaine's θ: W(S♭+) → S+ is surjective with kernel generated by a primitive nonzerodivisor (ECD Lemma 3.14)*).
+Use the supplied kernel generators and their regularity, with the local kernel and regularity API as aliases. Expand the cyclotomic finite products to prove the recursions and identify their positive and negative Frobenius orientations. (BMS1 (arXiv v3), Lemmas 3.12–3.13; printed pp.23–24). *Needs:* CrystallineCohomology, §CR.4.4 (*Finite Witt base change for integral perfectoid rings*); *Finite Witt coefficient maps* (§AI.0.2); PerfectoidSpaces, P1 (*Fontaine's θ: W(S♭+) → S+ is surjective with kernel generated by a primitive nonzerodivisor (ECD Lemma 3.14)*).
 
 **Checks.**
 
@@ -583,15 +620,17 @@ Modulo `p`, use the injective map `𝔽_p[[T]]→O_C^♭` and torsion-freeness o
 
 ### AI.0.3 Base change and coherence of finite Witt vectors
 
-**Tor independence for finite Witt vectors** (`AInf.witt_base_change`). For a map `S→S′` of integral perfectoid rings and `1≤j≤r`, the canonical maps `W_j(S) ⊗^L_(A_inf(S)) A_inf(S′)→W_j(S′)` and `W_j(S) ⊗^L_(W_r(S)) W_r(S′)→W_j(S′)` are quasi-isomorphisms. In the second map `W_j(S)` is a `W_r(S)`-module along either iterated Frobenius or restriction. This is Tor independence for the specified quotients, not flatness of every Witt map.
+**Tor independence for finite Witt vectors** (`AInf.witt_base_change`). This is an alias
+of CrystallineCohomology §CR.4.4, *Finite Witt base change for integral perfectoid rings*. For a map `S→S′` of integral perfectoid rings and `1≤j≤r`, the canonical maps `W_j(S) ⊗^L_(A_inf(S)) A_inf(S′)→W_j(S′)` and `W_j(S) ⊗^L_(W_r(S)) W_r(S′)→W_j(S′)` are quasi-isomorphisms. In the second map `W_j(S)` is a `W_r(S)`-module along either iterated Frobenius or restriction. This is Tor independence for the specified quotients, not flatness of every Witt map.
 
 Integral perfectoid rings S,S′; finite lengths `1≤j≤r`; use the same Frobenius or restriction convention on both sides.
 
-A distinguished generator `ξ` of `ker(θ)` remains distinguished after base change. Resolve `A_inf(S)/(ξ̃_j)`, or `A_inf(S)/(ξ_j)`, by its regular two-term `A_inf` resolution; the corresponding quotient over `S′` is again regular. Apply the same calculation at length `r` and derived tensor associativity to obtain the `W_r(S)` formula for either transition map. (BMS1 (arXiv v3), Lemma 3.13; printed p.24). *Needs:* PerfectoidQuotients, §0.2 (`theta_map_preserves_generator`) and §0.0 (`fontaine_tor_independence`) for the length-one input; *Finite Witt coefficient maps* (§AI.0.2); *Finite Witt kernel generators* (§AI.0.2).
+Transport the supplied equivalences through the coefficient identifications of §AI.0.2, preserving the chosen restriction or Frobenius module structure. The generic regular-resolution and derived-tensor argument is part of the supplier theorem. (BMS1 (arXiv v3), Lemma 3.13; printed p.24). *Needs:* CrystallineCohomology, §CR.4.4 (*Finite Witt base change for integral perfectoid rings*); *Finite Witt coefficient maps* (§AI.0.2); *Finite Witt kernel generators* (§AI.0.2).
 
 **Checks.**
 
 - For `j=r=1`, this is the supplied Fontaine quotient Tor-independence theorem.
+- For a perfect `𝔽_p`-algebra, the imported generators are `p^j` and `W_j=W/p^j`; no characteristic-zero or roots-of-unity hypothesis is imposed.
 - For `S=S′` and every `j≤r`, each comparison reduces to the identity on `W_j(S)`.
 - For `j=1,r=2`, use either `F` on both sides or `R` on both sides; mixing the maps changes Teichmüller inputs by a p-th power.
 
@@ -602,11 +641,11 @@ A distinguished generator `ξ` of `ker(θ)` remains distinguished after base cha
 
 Use Witt polynomial coordinates and the Teichmüller multiplicative lift to establish the two inclusions. Localize to obtain the Laurent statement. Pass to the filtered union of all p-power root variables, then to the specified p-adic completion. (BMS1 (arXiv v3), Lemma 9.8; printed p.74). *Needs:* *Finite Witt coefficient maps* (§AI.0.2); Mathlib `TruncatedWittVector`.
 
-**The Witt almost ideal** (`AInf.witt_almost_ideal`). For the maximal ideal `m⊂O_C`, `W_r(m)=ker(W_r(O_C)→W_r(k))` is generated by Teichmüller elements [a], `a∈m`; it is idempotent and flat over `W_r(O_C)`, by Lemma 10.1 and Corollary 10.2. Separately, for `0≤j≤r`, `Ann(V^j(1))=ker(F^j:W_r(O_C)→W_(r-j)(O_C))=(q_(r,j))`, where `q_(r,j)=([ζ_(p^j)]−1)/([ζ_(p^r)]−1)` is the polynomial quotient supplied by cyclotomic divisibility, and `Ann(q_(r,j))=(V^j(1))=V^j W_(r-j)(O_C)`, by Corollary 3.18. The first annihilator/kernel equality and the V-image equality hold for any perfectoid ring by Remark 3.19.
+**The Witt almost ideal** (`AInf.witt_almost_ideal`). For the maximal ideal `m⊂O_C`, `W_r(m)=ker(W_r(O_C)→W_r(k))` is generated by Teichmüller elements [a], `a∈m`; it is idempotent and flat over `W_r(O_C)`, by Lemma 10.1 and Corollary 10.2. Separately, for `0≤j≤r`, `Ann(V^j(1))=ker(F^j:W_r(O_C)→W_(r-j)(O_C))=(q_(r,j))`, where `q_(r,j)=([ζ_(p^j)]−1)/([ζ_(p^r)]−1)` is the polynomial quotient supplied by cyclotomic divisibility, and `Ann(q_(r,j))=(V^j(1))=V^j W_(r-j)(O_C)`, by Corollary 3.18. The generic annihilator/kernel and V-image equalities are imported from CrystallineCohomology §CR.4.4 (BMS1 Remark 3.19); this target adds their explicit cyclotomic `q_(r,j)` generators and the almost-ideal assertions.
 
 Finite `r≥1`; `O_C` valuation ring with divisible value group and the fixed compatible primitive p-power roots. For the cyclotomic annihilator formulas, `O_C` is p-torsion-free; `W_0=0`.
 
-Use Lemma 10.1 to compare powers of Witt ideals with ideals of Teichmüller lifts; apply Corollary 10.2 to the idempotent increasing union of principal ideals `m`. Deduce flatness from the filtered union of principal ideals generated by nonzerodivisors. For the separate Corollary 3.18 formulas, use `x V^j(1)=V^j(F^j(x))`, injectivity of `V^j` and surjectivity of `F^j`; compute `ker(F^j)` through the shifted `θ` kernels. Use nonzerodivisibility of `[ζ_(p^r)]−1` and the restriction map to identify `Ann(q_(r,j))` with `V^j W_(r-j)`. (BMS1 (arXiv v3), Lemma 10.1 and Corollary 10.2; printed p.80; BMS1 (arXiv v3), Corollary 3.18 and Remark 3.19; printed pp.25–26). *Needs:* *Finite Witt coefficient maps* (§AI.0.2); *Finite Witt kernel generators* (§AI.0.2); *Regularity of integral periods* (§AI.0.2); Mathlib `WittVector.map`; Mathlib `TruncatedWittVector`.
+Use Lemma 10.1 to compare powers of Witt ideals with ideals of Teichmüller lifts; apply Corollary 10.2 to the idempotent increasing union of principal ideals `m`. Deduce flatness from the filtered union of principal ideals generated by nonzerodivisors. For the separate Corollary 3.18 formulas, use the supplied annihilator/kernel and V-image identities and compute the cyclotomic generator of `ker(F^j)` through the shifted `θ` kernels. Use nonzerodivisibility of `[ζ_(p^r)]−1` and the restriction map to identify `Ann(q_(r,j))` with `V^j W_(r-j)`. (BMS1 (arXiv v3), Lemma 10.1 and Corollary 10.2; printed p.80; BMS1 (arXiv v3), Corollary 3.18 and Remark 3.19; printed pp.25–26). *Needs:* CrystallineCohomology, §CR.4.4 (*Finite Witt base change for integral perfectoid rings*); *Finite Witt coefficient maps* (§AI.0.2); *Finite Witt kernel generators* (§AI.0.2); *Regularity of integral periods* (§AI.0.2); Mathlib `WittVector.map`; Mathlib `TruncatedWittVector`.
 
 **Checks.**
 
@@ -2186,11 +2225,27 @@ after inverting `μ` (étale). The Hodge–Tate specialization uses the shifted 
 
 ### AI.4.1 The Hodge–Tate specialization
 
-**Hodge–Tate specialization** (`AInf.hodge_tate`). `AΩ ⊗^L_(A_inf,θ̃) O_C≃Ω̃:=Lη_(ζ_p−1) Rν_* Ô_X⁺`. Its cohomology sheaves are `Ω^i_(𝔛/O_C),cont{−i}`; the comparison is canonical and multiplicative, not an arbitrary splitting of the graded object.
+**Framed Hodge–Tate reduction** (`AInf.hodge_tate_local`). For a smooth p-adic formal
+`O_C`-scheme, construct the multiplicative coefficient comparison
+`AΩ ⊗^L_(A_inf,θ̃) O_C≃Ω̃:=Lη_(ζ_p−1) Rν_* Ô_X⁺`. On a small formally smooth algebra `R`
+with a framing by `d` torus coordinates, compute `H⁰(Ω̃_R)=R`, the framed free module
+`H¹(Ω̃_R)≅R^d`, and the cup-product isomorphisms `Λ^i_R H¹(Ω̃_R)≅H^i(Ω̃_R)`.
+Prove formally étale base change and descent for this calculation. The identification with
+continuous differential forms is the subsequent *Hodge–Tate specialization* target.
 
-Smooth p-adic formal `O_C-scheme`; continuous differentials; `θ̃` scalar extension.
+Standing hypotheses (C); the local computation has a chosen framing and uses `θ̃` scalar extension.
 
-Check the `θ̃` reduction of the q-Koszul calculation. Use the *Almost-to-honest décalage criterion* (§AI.3.2) criterion and coordinate-free cotangent map to identify the degree-one generator. Use exterior products and descent for all degrees. (BMS1 (arXiv v3), Theorems 8.3,8.7 and 9.2(i); printed pp.61–69). *Needs:* *The AΩ complex* (§AI.3.2); *Integral toric cohomology computation* (§AI.3.2); *Almost-to-honest décalage criterion* (§AI.3.2); *Intrinsic Breuil–Kisin twist* (§AI.0:integral.1).
+Reduce the q-Koszul model along `θ̃` and apply the almost-to-honest criterion to the toric
+comparison. Read the framed generators and their exterior products from that complex, and
+prove formally étale base change before descent.
+(BMS1 (arXiv v3), Corollary 8.13, pp.64–65, and Theorem 9.2(i), pp.69–70.)
+*Needs:* *The AΩ complex* (§AI.3.2); *Integral toric cohomology computation* (§AI.3.2); *Almost-to-honest décalage criterion* (§AI.3.2); *Framed q-de Rham model* (§AI.3.3); *Intrinsic Breuil–Kisin twist* (§AI.0:integral.1).
+
+**Checks.**
+
+- At `R=O_C`, `Ω̃_R=O_C[0]` and all positive exterior powers vanish.
+- For `R=O_C⟨T^{±1}⟩`, the framed cohomology has one free generator in degree one and no degree two.
+- For two torus coordinates, the ordered cup product generates `H²`; the square of each degree-one generator is zero also at `p=2`.
 
 **Factorization criterion through connective décalage** (`AInf.eta_factorization_criterion`). If `C∈D≤1(A)`, `D∈D≥0(A)`, `H^0(D)` is f-torsion-free and `f` is regular, a map `C→D` factors through `Lη_f D` in at most one way. It factors exactly when `H^1(C ⊗^L A/f)→H^1(D ⊗^L A/f)` is zero, equivalently `H^1(C)→H^1(D)` factors through `fH^1(D)`.
 
@@ -2208,13 +2263,33 @@ Compute the distinguished triangle `Lη_f D→D→H^1(D/f)[−1]` after truncati
 
 Small formally smooth `R`; p-completed cotangent complex; source cohomological shifts.
 
-Construct the transitivity map on the perfectoid cover. Use the unique-factorization lemma and the Fontaine dlog normalization to factor it through `η`. (BMS1 (arXiv v3), Remark 8.4, printed pp.61–62; Proposition 8.15, pp.66–67). *Needs:* *Hodge–Tate specialization* (§AI.4.1); *Factorization criterion through connective décalage* (§AI.4.1); *Fontaine dlog theorem* (§AI.0:integral.1); *Completed cotangent description of the twist* (§AI.0:integral.1); DerivedModuleAlgebra, §0.8 (*The cotangent transitivity triangle*).
+Construct the transitivity map on the perfectoid cover. Use the framed computation and formally étale base change to reduce its degree-one map to the one-dimensional torus. Fontaine dlog identifies its image in continuous cohomology with `(ζ_p−1)H¹`; apply the factorization criterion to obtain the map through `Lη_(ζ_p−1)` and the first-truncation equivalence. (BMS1 (arXiv v3), Remark 8.4, printed pp.61–62; Proposition 8.15, pp.66–67). *Needs:* *Framed Hodge–Tate reduction* (§AI.4.1); *Factorization criterion through connective décalage* (§AI.4.1); *Fontaine dlog theorem* (§AI.0:integral.1); *Completed cotangent description of the twist* (§AI.0:integral.1); DerivedModuleAlgebra, §0.8 (*The cotangent transitivity triangle*).
 
 **Checks.**
 
 - At `R=O_C`, the shifted twisted completed cotangent complex is `O_C[0]`.
-- At `R=O_C⟨T^{±1}⟩`, its `H¹` is the free line `R·dlog T{−1}`.
+- At `R=O_C⟨T^{±1}⟩`, the transitivity map takes `dlog T{−1}` to the normalized torus class: before décalage its image is `(ζ_p−1)` times the continuous-cohomology generator.
 - At `R=O_C⟨T₁^{±1},T₂^{±1}⟩`, the first truncation has `H⁰=R` and `H¹=R²{−1}`, with no degree-two cohomology.
+
+**Hodge–Tate specialization** (`AInf.hodge_tate`). For a smooth p-adic formal `O_C`-scheme,
+the coefficient comparison `AΩ ⊗^L_(A_inf,θ̃) O_C≃Ω̃` has the canonical multiplicative
+cohomology identification `H^i(Ω̃)≅Ω^i_(𝔛/O_C),cont{−i}`. In degree one this is induced by
+the cotangent transitivity map; in every degree it is its exterior power followed by cup product.
+
+Standing hypotheses (C); continuous differentials and the intrinsic twists are retained.
+
+Use the cotangent equivalence to identify degree one canonically. The framed exterior-power
+calculation proves that its multiplicative extensions are isomorphisms. Naturality of the
+cotangent map and cup product identifies them on overlaps, giving the sheaf statement.
+(BMS1 (arXiv v3), Theorems 8.3 and 8.7, pp.61–62; Corollary 8.13 and Proposition 8.15,
+pp.64–68; Theorem 9.2(i), pp.69–70.)
+*Needs:* *Framed Hodge–Tate reduction* (§AI.4.1); *Cotangent description of the first Hodge–Tate truncation* (§AI.4.1).
+
+**Checks.**
+
+- On the one-dimensional torus, `dlog T{−1}` maps to the cotangent-normalized degree-one class.
+- Replacing `T` by `T⁻¹` negates both `dlog T` and its cohomology class, so the identification agrees across these framings.
+- On the two-dimensional torus at `p=2`, the individual squares vanish and `dlog T₁∧dlog T₂{−2}` maps to the ordered degree-two cup product; the sign rule alone does not supply the square-zero assertion.
 
 **Hodge–Tate extension and lifting obstruction** (`AInf.hodge_tate_lifting_obstruction`). Under the cotangent identification, the extension class of `τ≤1 Ω̃_R` is the obstruction to lifting `R` to `A_inf/(ξ̃²)`, with the source twist and normalization. A chosen lift gives the corresponding splitting; existence of a canonical splitting is not asserted for every `R`.
 
@@ -3255,16 +3330,17 @@ Verify Schlessinger's conditions `H1`, `H2` and finite-dimensional tangent space
 - For a formal nodal smoothing `xy=t`, retain `t` as a parameter on `R`; descent does not assert a constant family.
 - A local `O/𝔪O` with a nonzero-dimensional spectrum is outside the formal descent hypothesis.
 
-**Proper smooth spreading out for the deformation** (`AInf.proper_smooth_spreading_out`). A proper smooth rigid X/C is a C-valued fibre of a proper smooth morphism of smooth rigid spaces over a complete discretely valued subfield `K⊂C` with the same residue field. More generally a proper rigid X/C spreads to a proper flat family. The formal input is: for complete noetherian local (W,m), an m-complete local W-algebra `O` with zero-dimensional O/mO and residue `k`, every proper flat adic formal `X_O/O` descends to a proper flat adic formal `X_R` over a complete noetherian local W-algebra `R` with residue `k` and a map `R→O`. Smoothness is obtained by shrinking only after proper flat descent.
+**Proper smooth spreading out for the deformation** (`AInf.proper_smooth_spreading_out`). A proper smooth rigid X/C is a C-valued fibre of a proper smooth morphism of smooth rigid spaces over a complete discretely valued subfield `K⊂C` with the same residue field. More generally a proper rigid X/C spreads to a proper flat family. The formal input is: for complete noetherian local (W,m), an m-complete local W-algebra `O` with zero-dimensional O/mO and residue `k`, every proper flat adic formal `X_O/O` descends to a proper flat adic formal `X_R` over a complete noetherian local W-algebra `R` with residue `k` and a map `R→O`. For a smooth fibre, first restrict to the locus where the family is smooth, then replace the parameter base by a smooth locally closed stratum through the image of the C-point and base-change the family.
 
 C/K complete nonarchimedean fields with equal residue field; `C` as above for the discretely valued-subfield choice. The formal input uses m-adic topology on `O` and maximal-ideal topology on `R`, and proper flatness, not only a proper special fibre.
 
-Use the versal deformation of the proper special fibre, extend its formally smooth classifying functor from artinian rings to local zero-dimensional rings by filtered colimits, and lift compatible maps `R→O/m^nO`. The deformation input is *Descent of proper flat formal deformations to a noetherian base* (§AI.6.5). Take the inverse limit of the compatible isomorphisms; use proper formal models and generic fibres for rigid spreading. Smoothness is open and allows shrinking the parameter base. (BMS1 (arXiv v3), Proposition 13.15 and Corollary 13.16 with proofs, printed pp.112–113). *Needs:* AdicSpacesPartIII, R2 (*Raynaud's theorem: quasi-compact admissible formal schemes localised at admissible blow-ups are quasi-compact quasi-separated rigid spaces*); AdicSpacesPartIII, R2 (*Admissible formal blow-ups and strict transforms*); AdicSpacesPartIII, R3; *Descent of proper flat formal deformations to a noetherian base* (§AI.6.5).
+Use the versal deformation of the proper special fibre, extend its formally smooth classifying functor from artinian rings to local zero-dimensional rings by filtered colimits, and lift compatible maps `R→O/m^nO`. The deformation input is *Descent of proper flat formal deformations to a noetherian base* (§AI.6.5). Take the inverse limit of the compatible isomorphisms; use proper formal models and generic fibres for rigid spreading. Properness allows restriction to an open neighbourhood of the parameter point over which the family is smooth. Over the characteristic-zero field `K`, stratify the reduced parameter base by smooth locally closed rigid subspaces, choose the stratum containing the image of the C-point, and base-change the family to it. The base and total space are then smooth over `K`, as required for the Gauss–Manin argument. (BMS1 (arXiv v3), Proposition 13.15 and Corollary 13.16 with proofs, printed pp.112–113). *Needs:* AdicSpacesPartIII, R2 (*Raynaud's theorem: quasi-compact admissible formal schemes localised at admissible blow-ups are quasi-compact quasi-separated rigid spaces*); AdicSpacesPartIII, R2 (*Admissible formal blow-ups and strict transforms*); AdicSpacesPartIII, R3; *Descent of proper flat formal deformations to a noetherian base* (§AI.6.5).
 
 **Checks.**
 
 - Retain the zero-dimensional residue-level hypothesis in the formal statement.
 - The family need not descend to a single K-variety; its base may have positive dimension.
+- For `P¹_K×S→S` with `S` a cusp and the point at its singularity, the morphism is already proper smooth, but no open base neighbourhood is smooth over `K`. The closed cusp-point stratum is smooth in characteristic zero, and its pullback retains the chosen fibre.
 
 **Coherent modules with integrable connection in characteristic zero** (`AInf.integrable_connection_locally_free`). For a proper smooth rigid morphism `f:Y→S` with `S` smooth over a characteristic-zero complete nonarchimedean field `K`, construct `Rf_*Ω^•_{Y/S}`, prove coherence and derived analytic base change, and construct the integrable Gauss–Manin connection on its cohomology from the filtration of `Ω^•_{Y/K}` by base forms. Prove horizontality of the base-change identifications, including along a chosen parameter map `A→B_dR⁺/ξ^n` and for the compatible family of these maps. On a smooth rigid space `S` over a field `K` of characteristic zero, a coherent module with an integrable connection is locally free. In particular, for a proper smooth morphism `f:Y→S`, the coherent Gauss–Manin modules `H^i(Rf_*Ω^•_{Y/S})` are locally free. On `S=Spa(A,A°)`, their finite projective A-modules remain finite projective after a chosen continuous lift `A→B_dR⁺` of `A→C`; over the local ring `B_dR⁺` they are finite free, and their reductions modulo `ξ^n` are free over `B_dR⁺/ξ^n`. This applies to the proper smooth family in §AI.6.5.
 
@@ -3649,7 +3725,14 @@ Every power series is uniquely `Σ_{j<p} u^j φ_𝔖(f_j)`, grouping exponents b
 
 ### AI.7.2 Relative cyclotomic traces
 
-**Circle actions, homotopy fixed points and Tate constructions** (`AInf.Trace.tate`). In spectra (Sp), for a spectrum `X` with an action of the circle `𝕋`, define `X^{h𝕋}`, `X_{h𝕋}` and the Tate construction `X^{t𝕋}` as the cofibre of the norm map `Σ X_{h𝕋} → X^{h𝕋}`; for a finite subgroup `C_p ⊂ 𝕋` define `X^{tC_p}`. Homotopy fixed points and the Tate constructions are lax symmetric monoidal, including the fixed-point-to-Tate natural transformations; homotopy orbits are the spectral colimit entering the norm triangle. On `E∞`-algebras with circle action, `X^{t𝕋}` receives the canonical map can : `X^{h𝕋} → X^{t𝕋}`, and there are homotopy fixed point and Tate spectral sequences. For bounded-below `X` their `E_2` terms are respectively `H^{−s}(B𝕋,π_tX)` and `Ĥ^{−s}(𝕋,π_tX)=π_tX[t^{±1}]`, with `|t|=(−2,0)`, while the fixed-point term has only nonpositive even `s`. Both abut conditionally to the corresponding `π_{s+t}`; any stronger convergence assertion requires the completeness hypotheses checked in the coefficient calculations below. For `E∞`-algebras these spectral sequences are multiplicative.
+**Circle actions, homotopy fixed points and Tate constructions** (`AInf.Trace.tate`). In spectra (Sp), for a spectrum `X` with an action of the circle `𝕋`, define `X^{h𝕋}`, `X_{h𝕋}` and the Tate construction `X^{t𝕋}` as the cofibre of the norm map `Σ X_{h𝕋} → X^{h𝕋}`; for finite groups use the Borel norm and Tate functor of BordismFormalGroups §F6.5, transported to (Sp) by EnhancedDerivedSheaves E5:spectra-comparison. The local name `AInf.Trace.tateFinite` is the supplied functor for `C_p ⊂ 𝕋`, retaining its residual `𝕋/C_p` action. Homotopy fixed points and the Tate constructions are lax symmetric monoidal, including the fixed-point-to-Tate natural transformations; homotopy orbits are the spectral colimit entering the norm triangle. On `E∞`-algebras with circle action, `X^{t𝕋}` receives the canonical map can : `X^{h𝕋} → X^{t𝕋}`, and there are homotopy fixed point and Tate spectral sequences. For bounded-below `X` their `E_2` terms are respectively `H^{−s}(B𝕋,π_tX)` and `Ĥ^{−s}(𝕋,π_tX)=π_tX[t^{±1}]`, with `|t|=(−2,0)`, while the fixed-point term has only nonpositive even `s`. Both abut conditionally to the corresponding `π_{s+t}`; any stronger convergence assertion requires the completeness hypotheses checked in the coefficient calculations below. For `E∞`-algebras these spectral sequences are multiplicative.
+
+For every bounded-below circle spectrum `X`, construct the natural comparison
+`X^{t𝕋}→(X^{tC_p})^{h(𝕋/C_p)}` and prove that it exhibits the target as the p-completion
+of the source. Thus `(X^{t𝕋})^∧_p≃(X^{tC_p})^{h(𝕋/C_p)}`. It is an equivalence of
+lax symmetric monoidal functors on bounded-below inputs and carries circle `can` to the
+map obtained by taking residual-circle fixed points of finite `can`. The isomorphism
+`𝕋/C_p≅𝕋` is `[t]↦t^p`; the residual action is retained before this transport.
 
 Standing hypotheses (Sp).
 
@@ -3657,16 +3740,21 @@ The API:
 
 - `AInf.Trace.homotopyFixed`: `X ↦ X^{h𝕋}`, lax symmetric monoidal.
 - `AInf.Trace.tate`: `X ↦ X^{t𝕋}` as the cofibre of the norm, lax symmetric monoidal, with can : `X^{h𝕋} → X^{t𝕋}`.
-- `AInf.Trace.tateFinite`: `X ↦ X^{tC_p}` for the subgroup `C_p`.
+- `AInf.Trace.tateFinite`: the transported alias of BordismFormalGroups §F6.5's finite Tate functor for `C_p`, with its product, `can` and residual action.
+- `AInf.Trace.tateOrbit`: for bounded-below `C_{p²}`-spectra, `(X_{hC_p})^{t(C_{p²}/C_p)}≃0`.
+- `AInf.Trace.completedTateComparison`: `(X^{t𝕋})^∧_p≃(X^{tC_p})^{h(𝕋/C_p)}` on bounded-below circle spectra, naturally, multiplicatively and compatibly with `can`.
 - `AInf.Trace.spectralSequence`: the multiplicative homotopy fixed point and Tate spectral sequences.
 
-Homotopy orbits and fixed points are colimits and limits over `B𝕋`; the norm map is constructed from the dualizing spectrum of `𝕋`; lax monoidality of `X ↦ X^{t𝕋}` follows because its kernel is a tensor ideal. The spectral sequences come from the cellular filtration of the classifying space. (BMS2 (arXiv), §1.2 and §§2.2–2.3, printed pp.3–5 and 13–15; NS, Theorem I.3.1, p.18, and Corollary I.4.3, p.28). *Needs:* EnhancedDerivedSheaves, E5:abstract (*Operadic algebras*); EnhancedDerivedSheaves, E5:presentability.2 (`spectra`); EnhancedDerivedSheaves, E5:spectra-comparison (`eilenbergMacLane`, `moduleSpectra_equiv_derived`); EnhancedDerivedSheaves, E2 (*Countable products in a replete topos*).
+Transport the supplied finite-group norms and coherent products through the symmetric monoidal spectral comparison. For the circle use its dualizing spectrum to construct the shifted norm; the induced-object tensor-ideal argument gives the coherent Tate product and `can`. The cellular filtration gives the spectral sequences. Prove the Tate-orbit lemma by Postnikov truncation and the Eilenberg–Mac Lane calculation. It identifies finite-stage `X^{tC_{p^n}}` with `(X^{tC_p})^{h(C_{p^n}/C_p)}`. Pass to the p-power subgroup tower and prove that the circle-to-tower map is p-completion; the norm diagrams and lax monoidal refinements give compatibility with `can` and products. (BMS2 (Publ. IHÉS), §2.3, p.216; NS, Lemma I.2.1, pp.13–18, Theorem I.3.1, p.18, Corollary I.4.3, p.28, and Lemmas II.4.1–II.4.2, pp.47–48.) *Needs:* BordismFormalGroups, §F6.5 (finite-group Borel norm and coherent Tate functor); EnhancedDerivedSheaves, E5:abstract (*Operadic algebras*); EnhancedDerivedSheaves, E5:presentability.2 (`spectra`); EnhancedDerivedSheaves, E5:spectra-comparison (`eilenbergMacLane`, `moduleSpectra_equiv_derived`); EnhancedDerivedSheaves, E2 (*Countable products in a replete topos*).
 
 **Checks.**
 
 - `tate_trivial_Fp`: For `X = H𝔽_p` with trivial action, `π_*X^{h𝕋} = 𝔽_p[t]` with |t| `=` −2 and `π_*X^{t𝕋} = 𝔽_p[t^{±1}]`.
 - `tate_induced`: For an induced spectrum `𝕋_+` ∧ `Y`, the Tate construction vanishes.
 - `tate_rational`: Before p-completion, for `X = Hℚ` with trivial action, `X^{tC_p} =` 0, whereas `X^{h C_p} = Hℚ`.
+- For trivial `X=H𝔽_p`, the completed comparison identifies the residual-fixed finite Tate target with `H𝔽_p^{t𝕋}` and preserves the image of the fixed-point class `t`; the residual action is part of this assertion.
+- For trivial `X=Hℚ`, circle Tate has `ℚ[t^{±1}]` as homotopy and is nonzero, whereas `(X^{tC_p})^{h(𝕋/C_p)}=0`. Its p-completion is zero, showing why completion is essential.
+- At finite stage `n=1` the comparison is the identity on `X^{tC_p}`; at `n=2` the norm triangle and Tate-orbit vanishing give `X^{tC_{p²}}≃(X^{tC_p})^{h(C_{p²}/C_p)}` for bounded-below `X`.
 - For translation on `X=C^*(𝕋;ℚ)`, equivariant duality with the invariant tangent framing gives `X≃Σ⁻¹(Σ∞_+𝕋∧Hℚ)` and `X_{h𝕋}≃Σ⁻¹Hℚ`. This nonzero spectrum has `π₀=0`, so it cannot be unital: its unit would be null and the unit law would force the identity to vanish. Thus spectral homotopy orbits do not inherit the unital algebra structure, even for bounded-below input.
 
 **Spectral Tate diagonal** (`AInf.Trace.tateDiagonal`). For a prime `p`, construct the natural lax symmetric monoidal transformation `X→(X^⊗p)^{tC_p}` on spectra, with cyclic permutation action on the tensor power, and its coherent compatibility with finite tensor products and cyclic realization.
@@ -3693,7 +3781,7 @@ The API:
 - `AInf.Trace.TP`: TP(A; `ℤ_p) =` THH(A; `ℤ_p)^{t𝕋}`, with can and `φ`.
 - `AInf.Trace.HKR`: the HKR filtration with graded pieces `Ω^i[i]` for smooth A.
 
-Realize the cyclic bar construction of A in `E∞`-rings; the Tate-valued Frobenius is the composite of the Tate diagonal of A with the identification of the `C_p-Tate` construction of the p-fold smash power. (BMS2 (arXiv), §1.2, items (1)–(4), printed pp.3–5, and §2.2–2.3, printed pp.13–16). *Needs:* *Spectral Tate diagonal* (§AI.7.2); *Circle actions, homotopy fixed points and Tate constructions* (§AI.7.2); EnhancedDerivedSheaves, E5:abstract (*Operadic algebras*); EnhancedDerivedSheaves, E5:presentability.2 (`spectra`); EnhancedDerivedSheaves, E5:spectra-comparison (`eilenbergMacLane`, `moduleSpectra_equiv_derived`).
+Realize the cyclic bar construction of A in `E∞`-rings; the Tate-valued Frobenius is the composite of the Tate diagonal of A with the identification of the `C_p-Tate` construction of the p-fold smash power. Since `THH(A)` is connective, take homotopy fixed points of its `𝕋≅𝕋/C_p`-equivariant cyclotomic map and then use `AInf.Trace.completedTateComparison` inversely to obtain `φ:TC⁻(A;ℤ_p)→TP(A;ℤ_p)`. The compatibility with `can` is that of this comparison. (BMS2 (arXiv), §1.2, items (1)–(4), printed pp.3–5, and §2.2–2.3, printed pp.13–16). *Needs:* *Spectral Tate diagonal* (§AI.7.2); *Circle actions, homotopy fixed points and Tate constructions* (§AI.7.2); EnhancedDerivedSheaves, E5:abstract (*Operadic algebras*); EnhancedDerivedSheaves, E5:presentability.2 (`spectra`); EnhancedDerivedSheaves, E5:spectra-comparison (`eilenbergMacLane`, `moduleSpectra_equiv_derived`).
 
 **Checks.**
 
@@ -3713,7 +3801,7 @@ The API:
 - `AInf.relative_cyclotomic_traces.can_phi`: can is `𝔖^(−1)`-linear on relative coefficients; `φ` is `Witt-Frobenius/u^p-semilinear` after the coefficient identification.
 - `AInf.relative_cyclotomic_traces.completion`: p-completion and compatible base changes use spectral derived tensor and the stated completed limits; no ordinary ungraded tensor replaces them.
 
-Realize the cyclic bar of an `E∞`-algebra in spectra to obtain THH and its circle action. The spectral operations are those of *Circle actions, homotopy fixed points and Tate constructions* (§AI.7.2) and *Topological Hochschild homology as a cyclotomic spectrum* (§AI.7.2). Compute the monoid cyclic bar weightwise. The square relating its augmentation to `z↦z^p` allows the relative tensor product to inherit the cyclotomic map by Construction 11.5. Take circle homotopy fixed points and the circle Tate construction; the canonical and Frobenius maps are induced separately. (BMS2 (Publ. IHÉS), §1.2, pp.201–203; Proposition 11.3 and Construction 11.5, pp.299–300). *Needs:* EnhancedDerivedSheaves, E5:abstract (*Operadic algebras*); EnhancedDerivedSheaves, E5:presentability.2 (`spectra`); EnhancedDerivedSheaves, E5:spectra-comparison (`eilenbergMacLane`, `moduleSpectra_equiv_derived`); EnhancedDerivedSheaves, E2 (*Countable products in a replete topos*); *Circle actions, homotopy fixed points and Tate constructions* (§AI.7.2); *Topological Hochschild homology as a cyclotomic spectrum* (§AI.7.2).
+Realize the cyclic bar of an `E∞`-algebra in spectra to obtain THH and its circle action. The spectral operations are those of *Circle actions, homotopy fixed points and Tate constructions* (§AI.7.2) and *Topological Hochschild homology as a cyclotomic spectrum* (§AI.7.2). Compute the monoid cyclic bar weightwise. The square relating its augmentation to `z↦z^p` allows the relative tensor product to inherit the cyclotomic map by Construction 11.5. Take circle homotopy fixed points and the circle Tate construction for `can`. The relative THH spectrum is connective; take residual-circle fixed points of its cyclotomic map and use `AInf.Trace.completedTateComparison` inversely to obtain the p-completed `φ`, with the transported residual action and `z↦z^p` semilinearity. (BMS2 (Publ. IHÉS), §1.2, pp.201–203; Proposition 11.3 and Construction 11.5, pp.299–300). *Needs:* EnhancedDerivedSheaves, E5:abstract (*Operadic algebras*); EnhancedDerivedSheaves, E5:presentability.2 (`spectra`); EnhancedDerivedSheaves, E5:spectra-comparison (`eilenbergMacLane`, `moduleSpectra_equiv_derived`); EnhancedDerivedSheaves, E2 (*Countable products in a replete topos*); *Circle actions, homotopy fixed points and Tate constructions* (§AI.7.2); *Topological Hochschild homology as a cyclotomic spectrum* (§AI.7.2).
 
 **Checks.**
 
@@ -3727,7 +3815,7 @@ Realize the cyclic bar of an `E∞`-algebra in spectra to obtain THH and its cir
 
 **Bökstedt spectral sequence** (`AInf.Trace.bokstedtSpectralSequence`). For a connective associative ring spectrum `A` and prime `p`, construct the spectral sequence of the skeletal filtration of its cyclic bar, `E²_{s,t}=HH_s(H_*(A;𝔽_p))_t⇒H_{s+t}(THH(A);𝔽_p)`. Prove strong convergence in this first-quadrant setting, naturality and compatibility with the dual Steenrod coaction. For commutative `A`, construct the multiplicative structure and the Hochschild suspension `σ`. Flatness of `E²` over `H_*(A;𝔽_p)` supplies the initial-page coproduct compatible with `d²`. If every `Eʳ` for `r≥2` is flat over `H_*(A;𝔽_p)`, construct the Hopf spectral-sequence structure. If `H_*(THH(A);𝔽_p)` is flat over `H_*(A;𝔽_p)`, construct the abutment Hopf coproduct of AR05 Theorem 4.5(a). Verify these flatness hypotheses in the `H𝔽_p` calculation.
 
-The `E¹` page is the normalized Hochschild chain complex by the field Künneth formula. Filter cyclic realization, and use subdivision to construct the product and coproduct. (Angeltveit–Rognes, *Hopf algebra structure on topological Hochschild homology*, §4, (4.1), Propositions 4.2–4.3, Theorem 4.5 and Proposition 4.9, pp.1238–1244). *Needs:* *Topological Hochschild homology as a cyclotomic spectrum* (§AI.7.2); EnhancedDerivedSheaves, E5:presentability.2 (`spectra`) and E5:spectra-comparison (`eilenbergMacLane`, `moduleSpectra_equiv_derived`).
+The `E¹` page is the normalized Hochschild chain complex by the field Künneth formula. Filter cyclic realization, and use subdivision to construct the product and coproduct. (Angeltveit–Rognes, *Hopf algebra structure on topological Hochschild homology*, §4, (4.1), Propositions 4.2–4.3, Theorem 4.5 and Proposition 4.9, pp.1238–1244). *Needs:* TangentialBordism, §B4 items 2 and 7 (actual dual Steenrod Hopf algebras); *Topological Hochschild homology as a cyclotomic spectrum* (§AI.7.2); EnhancedDerivedSheaves, E5:presentability.2 (`spectra`) and E5:spectra-comparison (`symmetricSpectra_equiv_spectra`, `eilenbergMacLane`, `moduleSpectra_equiv_derived`).
 
 **Checks.**
 
@@ -3735,9 +3823,9 @@ The `E¹` page is the normalized Hochschild chain complex by the field Künneth 
 - For `A=H𝔽₂`, `H_*A=𝔽₂[ξ₁,ξ₂,…]`, and `E²=H_*A⊗Λ(σξ₁,σξ₂,…)`; collapse of this page does not determine multiplicative extensions.
 - For odd `p` and `A=H𝔽_p`, `E²=H_*A⊗Λ(σξ_i:i≥1)⊗Γ(στ_i:i≥0)`; divided powers cannot be replaced by polynomial generators. The successive pages after the Bökstedt differential are free over `H_*A`, as is the abutment `H_*A⊗𝔽_p[u]`; at `p=2` the exterior initial page collapses and the abutment is again free. Thus the pagewise and abutment flatness hypotheses hold here.
 
-**Dyer–Lashof operations and the dual Steenrod input** (`AInf.Trace.dyerLashofInput`). Construct mod-p homology operations on commutative ring spectra from extended powers, including naturality, Cartan and Adem relations, instability and top-power identities. Compute `H_*(H𝔽_p;𝔽_p)` with its dual Steenrod coaction: at `p=2` it is polynomial on generators `ξ_i` of degree `2^i−1`; at odd `p` it is polynomial on `ξ_i` of degree `2p^i−2` tensor exterior on `τ_i` of degree `2p^i−1`. For conjugate generators prove `Q^{2^i}(ξ̄_i)=ξ̄_{i+1}` at `p=2` and `Q^{p^i}(τ̄_i)=τ̄_{i+1}` at odd `p`. Prove `Q^k(σx)=σQ^k(x)` and the odd-primary Bökstedt differential `d^{p−1}(γ_p(σx))=σ(βQ^i(x))` up to a nonzero scalar for `|x|=2i−1`.
+**Dyer–Lashof operations and the dual Steenrod input** (`AInf.Trace.dyerLashofInput`). Construct mod-p homology operations on commutative ring spectra from extended powers, including naturality, Cartan and Adem relations, instability and top-power identities. Import TangentialBordism §B4 items 2 and 7's actual computation of `H_*(H𝔽_p;𝔽_p)`, its dual Steenrod coaction, coproduct and conjugation, transported through EnhancedDerivedSheaves E5:spectra-comparison: at `p=2` it is polynomial on generators `ξ_i` of degree `2^i−1`; at odd `p` it is polynomial on `ξ_i` of degree `2p^i−2` tensor exterior on `τ_i` of degree `2p^i−1`. For conjugate generators prove `Q^{2^i}(ξ̄_i)=ξ̄_{i+1}` at `p=2` and `Q^{p^i}(τ̄_i)=τ̄_{i+1}` at odd `p`. Prove `Q^k(σx)=σQ^k(x)` and the odd-primary Bökstedt differential `d^{p−1}(γ_p(σx))=σ(βQ^i(x))` up to a nonzero scalar for `|x|=2i−1`.
 
-Construct extended powers and their homology operations on the supplied spectrum category. Compute the dual Steenrod algebra by the homology of Eilenberg–Mac Lane spectra, and use the operation formulas to resolve the spectral-sequence differentials and multiplicative extensions. (Bruner–May–McClure–Steinberger, *H∞ ring spectra and their applications*, Chapter III §1, Theorem 1.1, and §2, Theorems 2.2–2.4, pp.56–63; Angeltveit–Rognes, §5, (5.1)–(5.5), Propositions 5.6 and 5.9, and Theorem 5.12 at `m=0`, pp.1244–1255). *Needs:* *Bökstedt spectral sequence* (§AI.7.2); EnhancedDerivedSheaves, E5:abstract (operadic algebras) and E5:presentability.2 (`spectra`).
+Construct extended powers and their homology operations on the supplied spectrum category. Prove the operation values on the supplied Milnor conjugate generators, then use suspension compatibility to resolve the spectral-sequence differentials and multiplicative extensions. (Bruner–May–McClure–Steinberger, *H∞ ring spectra and their applications*, Chapter III §1, Theorem 1.1, and §2, Theorems 2.2–2.4, pp.56–63; Angeltveit–Rognes, §5, (5.1)–(5.5), Propositions 5.6 and 5.9, and Theorem 5.12 at `m=0`, pp.1244–1255). *Needs:* TangentialBordism, §B4 items 2 and 7 (actual dual Steenrod Hopf algebras and conjugation); EnhancedDerivedSheaves, E5:spectra-comparison (`symmetricSpectra_equiv_spectra`); *Bökstedt spectral sequence* (§AI.7.2); EnhancedDerivedSheaves, E5:abstract (operadic algebras) and E5:presentability.2 (`spectra`).
 
 **Checks.**
 
@@ -3827,16 +3915,18 @@ Use the spectral pushout for `z↦0` and the augmentation square to identify the
 - At `A=O_K` the `z=0` specialization gives THH(k).
 - A torsion `O_K`-algebra requires derived residue tensor; silently using its ordinary residue quotient would lose Tor.
 
-**Relative Breuil–Kisin trace coefficients**. For `O_K`, the p-completed relative coefficients are `π_*THH=O_K[b]`, `π_*TC⁻=𝔖^(−1)[b,v]/(bv−E)`, and `π_*TP=𝔖^(−1)[σ^{±1}]`, with `|b|=|σ|=2` and `|v|=−2`. can sends `b↦Eσ` and `v↦σ^−1`, linearly on `𝔖^(−1)`; `φ` acts by Witt `Frobenius/u^p` on coefficients and sends `b↦σ`, `v↦φ(E)σ^−1`. The Tate target of relative THH has coefficients `O_K[π^{1/p}][σ^{±1}]`; its coefficient map evaluates `u` at `π^{1/p}`, rather than `π`. These equalities use the relative sphere-polynomial construction, not absolute `THH(O_K)`.
+**Relative Breuil–Kisin trace coefficients**. For `O_K`, the p-completed relative coefficients are `π_*THH=O_K[b]`, `π_*TC⁻=𝔖^(−1)[b,v]/(bv−E)`, and `π_*TP=𝔖^(−1)[σ^{±1}]`, with `|b|=|σ|=2` and `|v|=−2`. can sends `b↦Eσ` and `v↦σ^−1`, linearly on `𝔖^(−1)`; for a unit `α∈(𝔖^(−1))^×`, `φ` acts by Witt `Frobenius/u^p` on coefficients and sends `b↦ασ`, `v↦φ(E)α^−1σ^−1`. The Tate target of relative THH has coefficients `O_K[π^{1/p}][σ^{±1}]`; its coefficient map evaluates `u` at `π^{1/p}`, rather than `π`. These equalities use the relative sphere-polynomial construction, not absolute `THH(O_K)`.
 
-Standing hypotheses (Sp). Standing hypotheses (BK), with residue field `k`. The Breuil–Kisin conventions for `𝔖`, `𝔖^{(−1)}`, `z`, `u` and `b`.
+Standing hypotheses (Sp). Standing hypotheses (BK), with residue field `k`. The Breuil–Kisin conventions for `𝔖`, `𝔖^{(−1)}`, `z`, `u` and `b`; `E` is the fixed monic polynomial from R07.4. The unit `α` belongs to the chosen trace bases, rather than to a normalization of `E`.
 
-Base change along the perfectoid root base reduces the computation to the perfectoid coefficient theorem. Identify `π_0` with the Frobenius-shifted copy of `𝔖` and choose compatible generators. Multiplicativity forces the two formulas on `v` from the relation `bv=E`. Track `θ^(−1)` and `θ̃^(−1)` in the square with THH and its finite Tate construction. (BMS2 (Publ. IHÉS), Proposition 11.10 and diagram, pp.302–303). *Needs:* *Relative trace specializations of the sphere polynomial base* (§AI.7.2); *Perfectoid trace coefficient calculation* (§AI.7.2); *Cohomological Breuil–Kisin coefficient maps* (§AI.7.1).
+Base change along the perfectoid root base reduces the computation to the perfectoid coefficient theorem. Identify `π_0` with the Frobenius-shifted copy of `𝔖`. Start with compatible trace generators and a trace-compatible kernel generator `E_tr=aE` for a unit `a`. Replacing their degree-two TC⁻ generator `b₀` by `a^−1b₀` gives `bv=E` and `can(b)=Eσ`, while `φ(b)=φ(a)^−1σ`; write this unit as `α`. Multiplicativity gives `φ(v)=φ(E)α^−1σ^−1`. In the finite-Tate square, `φ_p(b)=θ̃^(−1)(α)σ` and the coefficient evaluation remains `u↦π^{1/p}`. A further basis change `(b,v,σ)↦(cb,c^−1v,cσ)` gives `α↦φ(c)α/c`. After E-inversion, `can^−1φ` therefore acts on the degree-two line by `α/E`; tensor powers and duals retain the corresponding powers of this factor. (BMS2 (Publ. IHÉS), Proposition 11.10 and diagram, pp.302–303, with its generator choices transported to the fixed monic E; KN22, §4 before Lemma 4.2 and Remark 4.3, p.1693, for the distinction between monic E and the convention E(0)=p.) *Needs:* *Relative trace specializations of the sphere polynomial base* (§AI.7.2); *Perfectoid trace coefficient calculation* (§AI.7.2); *Cohomological Breuil–Kisin coefficient maps* (§AI.7.1).
 
 **Checks.**
 
-- `can(bv)=E`, whereas `φ(bv)=φ(E)`.
-- The target quotient evaluation `u↦π^{1/p}` distinguishes `θ̃` from `θ` in this trace diagram.
+- `can(bv)=E`, whereas `φ(bv)=φ(E)` since the factors `α` and `α^−1` cancel.
+- The target quotient evaluation `u↦π^{1/p}` distinguishes `θ̃` from `θ` in this trace diagram and sends the finite-Tate Frobenius coefficient to `θ̃^(−1)(α)`.
+- At `K=ℚ_p`, `π=p`, `E=u−p`, the cyclotomic residue specialization has `u↦0`, `E↦−p` and `α↦−1`. Thus `can(b̄)=−pσ̄=pφ(b̄)`, in agreement with `TC⁻(𝔽_p)→TP(𝔽_p)`. Setting `α=1` would force `2pσ̄=0` in `ℤ_p[σ̄^{±1}]`, also impossible at `p=2`. The coefficient/sign and nonvanishing assertions have mirrors in `Suggested.lean`.
+- Under `(b,v,σ)↦(cb,c^−1v,cσ)`, the localized coefficient changes from `α/E` to `φ(c)α/(cE)`, the usual semilinear change of basis; the underlying Frobenius map is unchanged.
 
 **Relative quasiregular evenness and descent**. For `S` a quasiregular semiperfectoid quasisyntomic `O_K`-algebra, the relative THH, `TC⁻` and TP spectra over `𝕊[z]` have no odd homotopy. Each homotopy group is an acyclic sheaf on the quasiregular semiperfectoid basis. `π_0TC⁻≃π_0TP` unfolds to an `E∞-𝔖^(−1)-algebra D̂_{A/𝔖^(−1)}` on `QSyn_{O_K}`, with the complete descending multiplicative Nygaard filtration from the homotopy fixed point spectral sequence. For smooth A this is the twisted trace complex of Layer AI.7; its specializations are those of Corollary 11.12, including the identity Witt map and `u↦π` on `𝔖^(−1)`.
 
@@ -3849,7 +3939,7 @@ After p-completed base change to `O_{K_∞}`, apply absolute quasiregular evenne
 - At `A=O_K`, `D̂_{A/𝔖^(−1)}=𝔖^(−1)` and its first Nygaard level is (E).
 - Replacing the twisted coefficient ring with untwisted `𝔖` changes the de Rham and crystalline coefficient maps.
 
-**Bott inversion and Frobenius descent input**. The relative cyclotomic Frobenius extends naturally from `TC⁻` to `TC⁻[1/b]⊗_{𝕊[z]}𝕊[z^{1/p}]→TP` because `φ(b)=σ` is invertible. For quasiregular semiperfectoid A, the Bott-localized source remains even with acyclic homotopy sheaves. After unfolding degree zero, the extended map is an equivalence for A the p-adic completion of a smooth `O_K`-algebra. This is the Frobenius-descent input defining the untwisted Breuil–Kisin complex in *Bott-inverted Breuil–Kisin descent* (§AI.7.3). No Bott inversion of the power-series parameter `u` is intended.
+**Bott inversion and Frobenius descent input**. The relative cyclotomic Frobenius extends naturally from `TC⁻` to `TC⁻[1/b]⊗_{𝕊[z]}𝕊[z^{1/p}]→TP` because `φ(b)=ασ` is invertible. For quasiregular semiperfectoid A, the Bott-localized source remains even with acyclic homotopy sheaves. After unfolding degree zero, the extended map is an equivalence for A the p-adic completion of a smooth `O_K`-algebra. This is the Frobenius-descent input defining the untwisted Breuil–Kisin complex in *Bott-inverted Breuil–Kisin descent* (§AI.7.3). No Bott inversion of the power-series parameter `u` is intended.
 
 Standing hypotheses (Sp). Standing hypotheses (BK), with residue field `k`. The Breuil–Kisin conventions for `𝔖`, `𝔖^{(−1)}`, `z`, `u` and `b`. The map extension exists for any `O_K`-algebra A. Evenness/acyclicity needs quasiregular semiperfectoid A; the unfolded equivalence needs p-completed smooth A.
 
@@ -3859,6 +3949,7 @@ Invert `b` under `φ` and extend the semilinear `z↦z^p` scalar map to `z^{1/p}
 
 - The inverted `b` has homotopy degree two; it is different from the degree-zero formal parameter `u`.
 - The stable-range argument proves the unfolded smooth statement and does not assert `TC⁻[1/b]≃TP` for every input.
+- At `K=ℚ_p`, `E=u−p`, the residue unit `α=−1` still makes `φ(b)=ασ` invertible; the Bott extension retains the monic coefficient convention.
 
 ### AI.7.3 Breuil–Kisin cohomology and its Frobenius
 
@@ -3868,7 +3959,7 @@ Standing hypotheses (BK). `𝕊[z]` is the sphere-spectrum monoid algebra; the B
 
 The API:
 
-- `CohomologicalBK.twistedTrace.coefficients`: For `R=O_K`, with all spectra relative to `𝕊[z]` and p-completed: `π_*THH=O_K[b]`; `π_*TC⁻=𝔖^(−1)[b,v]/(bv−E)` with `b` of degree 2 and `v` of degree −2; `π_*TP=𝔖^(−1)[σ^{±1}]` with `σ` of degree 2; `can(b)=Eσ` and `can(v)=σ^{−1}`; the cyclotomic Frobenius `π_*TC⁻→π_*TP` is `φ_𝔖` on `𝔖^(−1)`, with `φ(b)=σ` and `φ(v)=φ_𝔖(E)σ^{−1}`.
+- `CohomologicalBK.twistedTrace.coefficients`: For `R=O_K`, with all spectra relative to `𝕊[z]` and p-completed: `π_*THH=O_K[b]`; `π_*TC⁻=𝔖^(−1)[b,v]/(bv−E)` with `b` of degree 2 and `v` of degree −2; `π_*TP=𝔖^(−1)[σ^{±1}]` with `σ` of degree 2; `can(b)=Eσ` and `can(v)=σ^{−1}`; the cyclotomic Frobenius `π_*TC⁻→π_*TP` is `φ_𝔖` on `𝔖^(−1)`, with `φ(b)=ασ` and `φ(v)=φ_𝔖(E)α^−1σ^{−1}`, for the same unit `α` and monic `E` as in *Relative Breuil–Kisin trace coefficients*.
 - `CohomologicalBK.twistedTrace.specializations`: BMS2 Corollary 11.12(1)–(3): along `g`, with the (p,u)-completed tensor product, it is `AΩ_{R⊗̂O_C}`; along the W(k₀)-linear map `u↦π` (untwisted coefficients) it is the p-completed de Rham complex of `R` over `O_K`; along constantCoeff (identity on W(k₀), `u↦0`) it is crystalline cohomology of `R⊗_{O_K}k₀` over W(k₀).
 - `CohomologicalBK.twistedTrace.frobenius`: Its linearized Frobenius is invertible after `φ(E)`, matching Corollary 11.12(4).
 
@@ -3877,11 +3968,11 @@ Use the Layer AI.7 relative trace targets’ relative `THH/TC⁻/TP` computation
 **Checks.**
 
 - `CohomologicalBK.twistedTrace.point`: For `O_K` the `gr⁰` complex is `𝔖^(−1)` in degree 0.
-- `CohomologicalBK.twistedTrace.bott`: On `O_K` the cyclotomic map takes the Bott class `b` to `σ`, which is invertible in TP; can takes `b` to `Eσ`.
+- `CohomologicalBK.twistedTrace.bott`: On `O_K` the cyclotomic map takes the Bott class `b` to `ασ`, which is invertible in TP; can takes `b` to `Eσ`.
 - `CohomologicalBK.twistedTrace.relative`: Absolute `TC⁻(R;ℤ_p)` is not substituted for the relative theory: the class `b∈π₂` and the `𝔖^(−1)`-algebra structure of BMS2 Proposition 11.10 belong to `TC⁻(−/𝕊[z];ℤ_p)`, and the absolute theory appears only after base change, as `gr⁰TC⁻(R⊗̂_{O_K}O_{K_∞};ℤ_p)≃D̂_tw(R)⊗̂^L_{𝔖^(−1)}A_inf(O_{K_∞})` (BMS2 Corollary 11.12(1), Remark 11.9).
 - For `R=O_K` the complex is `𝔖^(−1)`, and its three specialisations of BMS2 Corollary 11.12(1)–(3), along `g`, `u↦π` and `u↦0`, are `A_inf`, `O_K` and W(k₀).
 
-**Bott-inverted Breuil–Kisin descent** (`CohomologicalBK.traceDescent`). Let `𝔖` act on `TC⁻(R/𝕊[z];ℤ_p)[1/b]` through `π₀(TC⁻(O_K/𝕊[z];ℤ_p)[1/b])=W(k₀)[[z]]`, the variable `z` of `𝕊[z]` being the coefficient variable `u`; the cyclotomic Frobenius makes `π₀TP(O_K/𝕊[z];ℤ_p)=𝔖^(−1)` an `𝔖`-algebra through `φ_𝔖`. `D_𝔖^tr(R)=gr⁰(TC⁻(R/𝕊[z];ℤ_p)[1/b])`, unfolded from the quasiregular semiperfectoid site, has `φ_𝔖^*D_𝔖^tr≃D̂_tw`, the tensor product being the ordinary one since `φ_𝔖` is finite free. The cyclotomic Frobenius extends over b-inversion and `z^{1/p}`; for p-completed smooth `R` the resulting map to `gr⁰TP` is an equivalence. The linearised descent Frobenius `φ_𝔖^*D_𝔖^tr→D_𝔖^tr` is the composite of `φ_𝔖^*D_𝔖^tr≃gr⁰TP(R/𝕊[z];ℤ_p)`, the inverse of the canonical equivalence `gr⁰TC⁻≃gr⁰TP` and the localisation `gr⁰TC⁻→gr⁰(TC⁻[1/b])=D_𝔖^tr`. Its base change along `φ_𝔖` is, under the identification above, the linearised Frobenius of `D̂_tw`, so that the pair `(D̂_tw,φ)` descends to `D_𝔖^tr` with this Frobenius; it is invertible after E-inversion.
+**Bott-inverted Breuil–Kisin descent** (`CohomologicalBK.traceDescent`). Let `𝔖` act on `TC⁻(R/𝕊[z];ℤ_p)[1/b]` through `π₀(TC⁻(O_K/𝕊[z];ℤ_p)[1/b])=W(k₀)[[z]]`, the variable `z` of `𝕊[z]` being the coefficient variable `u`; the cyclotomic Frobenius makes `π₀TP(O_K/𝕊[z];ℤ_p)=𝔖^(−1)` an `𝔖`-algebra through `φ_𝔖`. `D_𝔖^tr(R)=gr⁰(TC⁻(R/𝕊[z];ℤ_p)[1/b])`, unfolded from the quasiregular semiperfectoid site, has `φ_𝔖^*D_𝔖^tr≃D̂_tw`, the tensor product being the ordinary one since `φ_𝔖` is finite free. The cyclotomic Frobenius extends over b-inversion and `z^{1/p}`; for p-completed smooth `R` the resulting map to `gr⁰TP` is an equivalence. On the coefficient point the graded extension sends `b↦ασ`; after E-inversion its composite with `can^−1` sends `b↦(α/E)b`. On degree zero it remains `φ_𝔖`, independently of the trace bases. The linearised descent Frobenius `φ_𝔖^*D_𝔖^tr→D_𝔖^tr` is the composite of `φ_𝔖^*D_𝔖^tr≃gr⁰TP(R/𝕊[z];ℤ_p)`, the inverse of the canonical equivalence `gr⁰TC⁻≃gr⁰TP` and the localisation `gr⁰TC⁻→gr⁰(TC⁻[1/b])=D_𝔖^tr`. Its base change along `φ_𝔖` is, under the identification above, the linearised Frobenius of `D̂_tw`, so that the pair `(D̂_tw,φ)` descends to `D_𝔖^tr` with this Frobenius; it is invertible after E-inversion.
 
 Standing hypotheses (BK). `R` is the p-adic completion of a smooth `O_K`-algebra for the equivalence with `gr⁰TP` (BMS2 Proposition 11.15, last sentence); the extension of the cyclotomic Frobenius over b-inversion holds for every `O_K`-algebra.
 
@@ -4001,12 +4092,12 @@ Standing hypotheses (BK). Write `E_r=Eφ_𝔖(E)⋯φ_𝔖^{r−1}(E)`. Define `
 
 The API:
 
-- `CohomologicalBK.twistCompatibility.line`: the inverse limit is a free rank-one `𝔖`-module, with localized Frobenius acting by a unit multiple of 1/E on a basis.
+- `CohomologicalBK.twistCompatibility.line`: the inverse limit is a free rank-one `𝔖`-module, with localized Frobenius acting by a unit multiple of 1/E on a basis. Trace bases use the factor `α/E` of §AI.7.2, with `α↦φ(c)α/c` under rescaling by `c`; conormal bases carry the corresponding unit change, and scalar extension carries that unit to its image in `A_inf`.
 - `CohomologicalBK.twistCompatibility.baseChange`: the maps on conormal lines induced by `f` give the canonical `φ-compatible` equivalence `𝔖{1}⊗_{𝔖,f}A_inf≃A_inf{1}`.
 - `CohomologicalBK.twistCompatibility.powers`: the equivalence preserves tensor powers, duals and evaluation; the zeroth power is the unit.
 - `CohomologicalBK.twistCompatibility.galois`: `G_{K∞}` fixes `f(𝔖)`, and the equivalence is equivariant for its action on `A_inf{1}`.
 
-At every finite level `f(E_r)` generates `ξ̃_r=ξ̃φ_A(ξ̃)⋯φ_A^{r−1}(ξ̃)`, so it identifies the conormal lines and their divided transition maps. To pass to the limit, use their rank-one normalized bases: for `r>s`, `E_r/E_s` is `p^{r−s}` times a unit modulo `E_s`. Dividing the conormal transition by `p^{r−s}` therefore identifies the rank-one lines after reduction to `𝔖/E_s` (and to `A_inf/ξ̃_s`). Choose compatible bases through these identifications. The source and target rings are the respective inverse limits of these quotients (BMS1 Examples 4.2 and 4.24), so the bases identify the limit lines and their scalar extension. Thus this step does not interchange arbitrary inverse limits with tensor. It identifies the completed cotangent-line construction of AI.0:integral with the line of BMS1 Example 4.2, as used in the proof of Corollary 4.33. The displayed conormal maps commute with Frobenius and the `G_{K∞}` action; the latter fixes the compatible roots `π^♭` and Witt coefficients. Powers and duals follow from the symmetric monoidal scalar-extension functor. The étale realization after `W(C^♭)` extension is `ℤ_p(1)`, by `A_inf{1}=μ⁻¹(A_inf⊗ℤ_p(1))`. (BMS1 (Publ. IHÉS), Example 4.2, pp.262–263; Example 4.24, pp.276–277; Corollary 4.33 and proof, pp.281–282.) *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory, R07.4 (Breuil–Kisin coefficient rings); *Cohomological Breuil–Kisin coefficient maps* (§AI.7.1); *Exact cohomological BK to BKF tensor functor* (§AI.7.4); *Intrinsic Breuil–Kisin twist* (§AI.0:integral.1); *Completed cotangent description of the twist* (§AI.0:integral.1); *Étale realization of BKF modules* (§AI.2.2).
+At every finite level `f(E_r)` generates `ξ̃_r=ξ̃φ_A(ξ̃)⋯φ_A^{r−1}(ξ̃)`, so it identifies the conormal lines and their divided transition maps. To pass to the limit, use their rank-one normalized bases: for `r>s`, `E_r/E_s` is `p^{r−s}` times a unit modulo `E_s`. Dividing the conormal transition by `p^{r−s}` therefore identifies the rank-one lines after reduction to `𝔖/E_s` (and to `A_inf/ξ̃_s`). Choose compatible bases through these identifications. The source and target rings are the respective inverse limits of these quotients (BMS1 Examples 4.2 and 4.24), so the bases identify the limit lines and their scalar extension. Thus this step does not interchange arbitrary inverse limits with tensor. It identifies the completed cotangent-line construction of AI.0:integral with the line of BMS1 Example 4.2, as used in the proof of Corollary 4.33. The displayed conormal maps commute with Frobenius and the `G_{K∞}` action; the latter fixes the compatible roots `π^♭` and Witt coefficients. Powers and duals follow from the symmetric monoidal scalar-extension functor. The étale realization after `W(C^♭)` extension is `ℤ_p(1)`, by `A_inf{1}=μ⁻¹(A_inf⊗ℤ_p(1))`. (BMS1 (Publ. IHÉS), Example 4.2, pp.262–263; Example 4.24, pp.276–277; Corollary 4.33 and proof, pp.281–282.) *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory, R07.4 (Breuil–Kisin coefficient rings); *Relative Breuil–Kisin trace coefficients* (§AI.7.2); *Cohomological Breuil–Kisin coefficient maps* (§AI.7.1); *Exact cohomological BK to BKF tensor functor* (§AI.7.4); *Intrinsic Breuil–Kisin twist* (§AI.0:integral.1); *Completed cotangent description of the twist* (§AI.0:integral.1); *Étale realization of BKF modules* (§AI.2.2).
 
 **Checks.**
 
@@ -4054,7 +4145,7 @@ lengths by `p` for `K = ℚ_p(p^{1/p})` (see *Worked examples*).
 
 ### Dependencies
 
-Earlier layers: AI.0, AI.0:integral, AI.1, AI.2, AI.3, AI.4, AI.5, AI.6. Other roadmaps: AdicEtaleGeometry A1, AdicSpacesPartIII F0, CrystallineCohomology CR.4, DerivedModuleAlgebra §§1.1–1.9, DerivedDeRhamCohomology §§1.14–1.22, DerivedDeRhamCohomology Layer 2, DerivedDeRhamCohomology §§5.1–5.5, 5.23, EnhancedDerivedSheaves E1, EnhancedDerivedSheaves E2, EnhancedDerivedSheaves E4, EnhancedDerivedSheaves E5:abstract, EnhancedDerivedSheaves E5:presentability.2, EnhancedDerivedSheaves E5:spectra-comparison, FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.4, PerfectoidQuotients §§0.3, 1.3–1.4, PerfectoidSpaces P1. Mathlib: `Module.FaithfullyFlat.lTensor_bijective_iff_bijective`, `Module.FaithfullyFlat.zero_iff_lTensor_zero`, `Module.equiv_directSum_of_isTorsion`, `Module.equiv_free_prod_directSum`, `PowerSeries`, `PowerSeries.HasSubst.X_pow`, `PowerSeries.coeff_subst_X_pow`, `PowerSeries.constantCoeff`, `PowerSeries.constantCoeff_subst_X_pow`, `PowerSeries.expand`, `PowerSeries.map`, `PowerSeries.substAlgHom`, `PowerSeries.substAlgHom_X`, `PreTilt`, `PreTilt.untilt`, `WeierstrassCurve.j`, `WittVector`, `WittVector.fontaineTheta`, `WittVector.frobenius`, `WittVector.frobeniusEquiv`, `WittVector.map`, `WittVector.teichmuller`.
+Earlier layers: AI.0, AI.0:integral, AI.1, AI.2, AI.3, AI.4, AI.5, AI.6. Other roadmaps: BordismFormalGroups §F6.5, TangentialBordism §B4 items 2 and 7, AdicEtaleGeometry A1, AdicSpacesPartIII F0, CrystallineCohomology CR.4, DerivedModuleAlgebra §§1.1–1.9, DerivedDeRhamCohomology §§1.14–1.22, DerivedDeRhamCohomology Layer 2, DerivedDeRhamCohomology §§5.1–5.5, 5.23, EnhancedDerivedSheaves E1, EnhancedDerivedSheaves E2, EnhancedDerivedSheaves E4, EnhancedDerivedSheaves E5:abstract, EnhancedDerivedSheaves E5:presentability.2, EnhancedDerivedSheaves E5:spectra-comparison, FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.4, PerfectoidQuotients §§0.3, 1.3–1.4, PerfectoidSpaces P1. Mathlib: `Module.FaithfullyFlat.lTensor_bijective_iff_bijective`, `Module.FaithfullyFlat.zero_iff_lTensor_zero`, `Module.equiv_directSum_of_isTorsion`, `Module.equiv_free_prod_directSum`, `PowerSeries`, `PowerSeries.HasSubst.X_pow`, `PowerSeries.coeff_subst_X_pow`, `PowerSeries.constantCoeff`, `PowerSeries.constantCoeff_subst_X_pow`, `PowerSeries.expand`, `PowerSeries.map`, `PowerSeries.substAlgHom`, `PowerSeries.substAlgHom_X`, `PreTilt`, `PreTilt.untilt`, `WeierstrassCurve.j`, `WittVector`, `WittVector.fontaineTheta`, `WittVector.frobenius`, `WittVector.frobeniusEquiv`, `WittVector.map`, `WittVector.teichmuller`.
 
 ## Worked examples
 
@@ -4132,6 +4223,7 @@ for a proper smooth formal scheme each torsion summand `ℤ_p/p^a` of `H^i(RΓ_�
 - **Zav**: Bogdan Zavyalov, *Mod-p Poincaré duality in p-adic analytic geometry*, [arXiv:2111.01830v3](https://arxiv.org/abs/2111.01830v3).
 - **ALB**: Johannes Anschütz and Arthur-César Le Bras, *Prismatic Dieudonné theory*, Forum Math. Pi (2023); [arXiv:1907.10525v4](https://arxiv.org/abs/1907.10525v4), with the [erratum](https://lebras.perso.math.cnrs.fr/Erratum_PDT.pdf) (ALB-err).
 - **BLM**: Bhargav Bhatt, Jacob Lurie and Akhil Mathew, *Revisiting the de Rham–Witt complex*, Astérisque 424 (2021); [author copy](https://www.math.ias.edu/~lurie/papers/Crystalline.pdf).
+- **KN22**: Achim Krause and Thomas Nikolaus, *Bökstedt periodicity and quotients of DVRs*, Compos. Math. 158 (2022), 1683–1712; [published version](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/34286689D8EC1F3D33AFDEDEC3FAD554/S0010437X22007655a.pdf/bokstedt_periodicity_and_quotients_of_dvrs.pdf).
 - **NS**: Thomas Nikolaus and Peter Scholze, *On topological cyclic homology*, [author copy](https://people.mpim-bonn.mpg.de/scholze/CyclotomicSpectra.pdf).
 - **AR05**: Vigleik Angeltveit and John Rognes, *Hopf algebra structure on topological Hochschild homology*, Algebraic & Geometric Topology 5 (2005), 1223–1290, [paper](https://msp.org/agt/2005/5-3/agt-v5-n3-p14-s.pdf).
 - **BMMS**: Robert Bruner, J. Peter May, James McClure and Mark Steinberger, *H∞ ring spectra and their applications*, LNM 1176 (1986), [author copy](https://www.math.uchicago.edu/~may/BOOKS/h_infty.pdf).

@@ -16,7 +16,9 @@ Design choices made explicit here:
   Frobenius `φ` is `WittVector.frobeniusEquiv`, an automorphism because the tilt is perfect.
 - The cyclotomic elements `μ`, `ξ`, `ξ̃`, `ξ_r`, `ξ̃_r` are defined by polynomial formulas in the
   Witt vectors of any perfect ring of characteristic `p`; no division is used, and the
-  factorization `μ = ξ · φ⁻¹(μ)` is a theorem.
+  factorization `μ = ξ · φ⁻¹(μ)` is a theorem. The generic finite-Witt kernels, regularity
+  and Tor independence are imported from CrystallineCohomology CR.4.4; these polynomial
+  formulas fix their cyclotomic generators.
 - `θ̃ = θ ∘ φ⁻¹` is defined for any ring map and any automorphism, so that its kernel statement
   transports an existing principal kernel and assumes nothing else.
 - The divisibility submodule of décalage lives inside a term of Mathlib's
@@ -465,6 +467,12 @@ example :
       (PowerSeries.C (WittVector.teichmuller 2 a)) = WittVector.teichmuller 2 (a ^ 2) ∧
     WittVector.teichmuller 2 (a ^ 2) ≠ WittVector.teichmuller 2 a := by sorry
 
+-- For the monic unramified E = u − p, residue evaluation gives −p and the trace unit is −1.
+example (p : ℕ) [Fact p.Prime] :
+    Polynomial.eval (0 : PadicInt p)
+      (Polynomial.X - Polynomial.C (p : PadicInt p)) = -(p : PadicInt p) ∧
+    -(p : PadicInt p) * (-1) = p ∧ (2 : PadicInt p) * p ≠ 0 := by sorry
+
 end BreuilKisinCoefficient
 
 /-! ## Targets stated in README.md only
@@ -473,7 +481,11 @@ The following definitions and constructions are README targets: their carriers (
 ringed topoi with décalage, Breuil–Kisin–Fargues modules, pro-étale period sheaves, semistable charts
 and log structures, B_dR⁺-envelopes, spectra with circle actions) are not available at the pins.
 
-Layer AI.0: `AInf.thetaWitt`. The local name `AInf.witt_etale_base_change` is an alias of
+Layer AI.0: `AInf.thetaWitt`. The generic kernel and regularity API of `AInf.xiWitt` and
+`AInf.witt_base_change` are transported aliases of CrystallineCohomology CR.4.4's
+finite-Witt perfectoid package, for all integral perfectoid maps and either restriction or
+Frobenius module structures. The `xiLevel` formulas above fix the cyclotomic generators;
+`AInf.witt_almost_ideal` adds the cyclotomic q-generators and almost-ideal assertions. The local name `AInf.witt_etale_base_change` is an alias of
 CrystallineCohomology CR.4's coefficient theorem in *Witt localization and étale descent*:
 for a prime `p`, `r ≥ 1` and an étale map `A → B` of arbitrary commutative rings,
 `W_r(A) → W_r(B)` is étale and `W_r(A′) ⊗_{W_r(A)} W_r(B) ≅ W_r(B ⊗_A A′)` for every `A → A′`.
@@ -500,7 +512,11 @@ For `AInfSheaf.structuralDeRhamPeriods`, the affinoid perfectoid presentation
 The completions are classical and ordered as written (Sch13-corr, item (3)); the stabilized
 toric power-series computation supplies its connection and strict Poincaré lemma.
 
-Layer AI.4: `AOmega.wittPre`, `AOmega.wittImproved`, `AInf.boundedPD`
+Layer AI.4: `AInf.hodge_tate_local` provides the θ̃ reduction and framed exterior-power
+calculation. `AInf.eta_factorization_criterion` and `AInf.hodge_tate_cotangent` then construct
+the canonical first-truncation map with its torus dlog normalization. `AInf.hodge_tate` is
+the canonical multiplicative differential-form identification deduced from these inputs.
+`AOmega.wittPre`, `AOmega.wittImproved`, `AInf.boundedPD`
 (`AInf.bounded_pd_coefficients`).
 
 Layer AI.5: `AOmega.proper`.
@@ -527,6 +543,20 @@ Layer AI.7: `CohomologicalBK.coefficientNormalization`, `AInf.Trace.tate`,
 `AInf.qrsp_trace_unfolding`, `CohomologicalBK.cohomology`, `CohomologicalBK.twistedTrace`,
 `CohomologicalBK.traceDescent`, `CohomologicalBK.twistCompatibility`,
 `CohomologicalBK.choiceTransport`.
+`AInf.Trace.tateFinite` is BordismFormalGroups F6.5's finite-group Tate functor transported
+through EnhancedDerivedSheaves E5:spectra-comparison. `AInf.Trace.tateOrbit` and
+`AInf.Trace.completedTateComparison` give the bounded-below Tate-orbit vanishing and the
+natural multiplicative equivalence `(X^{t𝕋})^∧_p ≃ (X^{tC_p})^{h(𝕋/C_p)}`, compatible with
+`can`. This comparison turns residual-circle fixed points of the absolute or relative
+cyclotomic map into Frobenius on p-completed `TC⁻ → TP`.
+`AInf.Trace.dyerLashofInput` uses TangentialBordism B4's computed dual Steenrod Hopf algebras
+and conjugate generators; it supplies their Dyer–Lashof values and Bökstedt differentials.
+For monic E the relative trace coefficients retain a unit α:
+`bv=E`, `can(b)=Eσ`, `can(v)=σ⁻¹`, `φ(b)=ασ`, `φ(v)=φ(E)α⁻¹σ⁻¹`.
+The finite-Tate specialization sends `b` to `θ̃^(−1)(α)σ`; Bott inversion uses the unit ασ,
+and `can⁻¹φ` acts on the localized degree-two line by α/E. A basis rescaling by c changes
+α to φ(c)α/c. These same factors are retained in `CohomologicalBK.twistedTrace`,
+`CohomologicalBK.traceDescent` and `CohomologicalBK.twistCompatibility`.
 
 -/
 
