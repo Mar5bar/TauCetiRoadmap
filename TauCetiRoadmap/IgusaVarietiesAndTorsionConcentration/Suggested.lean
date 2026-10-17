@@ -327,6 +327,32 @@ example (D : HeckeCoset (⊤ : Submonoid (SplitLocalUnitaryGroup q W m))
     restrictValue q W m (localSimilitudeUnit q W m 1) D = 0 ∧
       restrictValue q W m (1 : localHeckeFull q W m) D = (1 : localHeckeUnitary q W m) D := sorry
 
+/-- An empty set of local factors gives the trivial unitary group. -/
+example : Subsingleton (SplitLocalUnitaryGroup q Empty m) := sorry
+
+/-- Rank-zero general linear factors give the trivial unitary group. -/
+example : Subsingleton (SplitLocalUnitaryGroup q W 0) := sorry
+
+/-- With no local factors the unitary Hecke ring is the coefficient ring. -/
+example [IsHeckeTriple (⊤ : Submonoid (SplitLocalUnitaryGroup q Empty m))
+    (splitUnitaryIntegralSubgroup q Empty m) (splitUnitaryIntegralSubgroup q Empty m)] :
+    Nonempty (localHeckeUnitary q Empty m ≃+* ℤ) := sorry
+
+/-- At rank zero the unitary Hecke ring is the coefficient ring. -/
+example [IsHeckeTriple (⊤ : Submonoid (SplitLocalUnitaryGroup q W 0))
+    (splitUnitaryIntegralSubgroup q W 0) (splitUnitaryIntegralSubgroup q W 0)] :
+    Nonempty (localHeckeUnitary q W 0 ≃+* ℤ) := sorry
+
+/-- With no local factors the scalar valuation still gives the full Laurent Hecke ring. -/
+example [IsHeckeTriple (⊤ : Submonoid (SplitLocalGroup q Empty m))
+    (splitIntegralSubgroup q Empty m) (splitIntegralSubgroup q Empty m)] :
+    Nonempty (localHeckeFull q Empty m ≃+* LaurentPolynomial ℤ) := sorry
+
+/-- At rank zero the scalar valuation still gives the full Laurent Hecke ring. -/
+example [IsHeckeTriple (⊤ : Submonoid (SplitLocalGroup q W 0))
+    (splitIntegralSubgroup q W 0) (splitIntegralSubgroup q W 0)] :
+    Nonempty (localHeckeFull q W 0 ≃+* LaurentPolynomial ℤ) := sorry
+
 end SplitLocalHecke
 
 section Localization
@@ -464,9 +490,10 @@ example :
       φ 0 0 = 1 ∧ φ 3 3 = 1 := by
   native_decide
 
-/-- IG.F.2: the differential is `1 - Frobenius`, with its actual sign. -/
+/-- IG.F.2: negation in degree one transports `Frobenius - 1` to `1 - Frobenius`. -/
 example :
-    (1 : Matrix (Fin 2) (Fin 2) ℤ) - !![1, 0; 0, 2] = !![0, 0; 0, -1] := by
+    let φ : Matrix (Fin 2) (Fin 2) ℤ := !![1, 0; 0, 2]
+    1 - φ = !![0, 0; 0, -1] ∧ (-1 : Matrix (Fin 2) (Fin 2) ℤ) * (φ - 1) = 1 - φ := by
   decide
 
 /-- IG.F.16/20: the GL₂ standard modification has shift one; its representation has
