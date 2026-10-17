@@ -511,8 +511,8 @@ Mathlib `IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing`,
 - `albertTypes_definiteQuaternion`: a definite quaternion algebra over `ℚ` with its canonical
   involution has type D (`B ⊗ ℝ ≅ ℍ`) and `I_bad = 2`.
 - `albertTypes_indefiniteQuaternion`: an indefinite quaternion algebra with the positive involution
-  `x ↦ t⁻¹ x̄ t` (for suitable `t` with `t̄ = −t`) has type C, so the type depends on the involution,
-  not only on `B`.
+  `x ↦ t⁻¹ x̄ t` (for suitable `t` with `t̄ = −t`) has type C. Thus a quaternion algebra need not
+  give type D: an indefinite quaternion algebra with a positive involution gives type C.
 - Swapping the factors of `ℚ × ℚ` gives `x x* = 0` at `x = (1,0)`, violating strict positivity;
   semisimplicity alone does not supply the normal-form hypothesis.
 
@@ -1354,6 +1354,11 @@ vanishes; `ker¹(T₀)` itself can be nontrivial. *Needs:* M0.23; M0.9;
 
 ### M0.25 Generalized CM types and their reflex fields
 
+For a CM field `F` with maximal totally real subfield `F⁺`, fix a coefficient embedding
+`τ_∞ : F ↪ ℂ` and write `τ̄_∞ = τ_∞|_{F⁺}` for its real restriction.
+In the CM field constructions below, the unadorned subfield `F ⊆ ℂ` means `τ_∞(F)`
+(Liu–Tian–Xiao–Zhang–Zhu, Ground fields, p. 119).
+
 The light predicate `IsGeneralizedCMType` imposes the conjugate-pair
 equation on a finitely supported multiplicity function; `IsCMType` specializes
 it to rank one. Define `GeneralizedCMType`: for a CM field `F` with set of complex embeddings `Σ_∞`, a finitely
@@ -1367,8 +1372,9 @@ its type-reflex field agrees with that supplier's `TauCeti.CM.CMType.reflexField
 (`z ∈ F_Ψ` iff `σ(z) ∈ F_{σΨ}`); `GeneralizedCMType.reflexField_eq_pel` (for a unitary PEL datum over
 `F` with signature coefficients `Ψ`, `F_Ψ` equals the PEL reflex field `F₀`, because
 `Tr(a | V₀) = Σ_τ p_τ τ(a)` and Dedekind independence identifies the stabilizers);
-`GeneralizedCMType.nPhi_sub` (for `N ≥ 1` and `τ_∞ ∈ Φ`, `NΦ − τ_∞ + τ_∞^c` is a generalized CM type of
-rank `N`); and `GeneralizedCMType.positiveImaginaryCone` (for rank-one `Φ`, the anti-invariant `a`
+`GeneralizedCMType.nPhi_sub` (for `N ≥ 1` and a CM type `Φ` containing the fixed embedding `τ_∞`,
+`NΦ − τ_∞ + τ_∞^c` is a generalized CM type of rank `N`); and
+`GeneralizedCMType.positiveImaginaryCone` (for rank-one `Φ`, the anti-invariant `a`
 with `Im τ(a) > 0` at every `τ` with coefficient one). The primitive type, cone,
 type-reflex field and Galois laws use only ShimuraVarieties §5.1 and the number-field
 inputs; `reflexField_eq_pel` is constructed after signatures and the PEL reflex field.
@@ -1409,13 +1415,17 @@ over `ℚ` because the set of CM types is `Aut(ℂ/ℚ)`-stable, and is CM or to
 
 ### M0.27 `τ`-parts at an unramified prime
 
-Define, for a CM field `F`, a prime `p` unramified in `F` and a fixed `ι_p : ℂ ≅ ℚ̄_p` (so that `Σ_∞`
-is also the set of `p`-adic embeddings): `tauField τ` (the composite `ℚ_p^τ` of `τ(F)` and `ℚ_p`,
+Define, for a CM field `F` with M0.25's fixed coefficient embedding `τ_∞ : F ↪ ℂ`, a prime `p`
+unramified in `F` and a fixed `ι_p : ℂ ≅ ℚ̄_p` (so that `Σ_∞` is also the set of `p`-adic embeddings):
+`tauField τ` (the composite `ℚ_p^τ` of `τ(F)` and `ℚ_p`,
 unramified, with integers `ℤ_p^τ` and residue field `𝔽_p^τ`); `diamondField` (`ℚ_p^◇`, the composite
-of all `ℚ_p^τ`); `psiField Ψ` (`ℚ_p^Ψ = ℚ_p · F · F_Ψ ⊆ ℚ_p^◇`); and `tauPart` / `tauSubmodule`
+of all `ℚ_p^τ`); `psiField Ψ` (`ℚ_p^Ψ = ℚ_p · τ_∞(F) · F_Ψ ⊆ ℚ_p^◇`, with both complex subfields
+transported by `ι_p`); and `tauPart` / `tauSubmodule`
 (for an `O_S`-module `ℱ` with commuting `O_F`-action over a `ℤ_p^τ`-scheme, `ℱ_τ` is the largest
 submodule on which `O_F` acts through `τ`) (Liu–Tian–Xiao–Zhang–Zhu, Notation 3.3.6, p. 148, and
-Remark 3.4.6, p. 150). The API is `unramifiedTauDecomposition` (`ℤ_p^◇ ⊗ O_F ≅ ∏_{τ} ℤ_p^◇`, by
+Remark 3.4.6, p. 150). Since `τ_∞^c(F) = τ_∞(F)`, both distinguished `tauField`s lie in
+`psiField Ψ`, so a `ℤ_p^Ψ`-scheme has both labelled parts. Other embeddings can require larger
+coefficient rings. The API is `unramifiedTauDecomposition` (`ℤ_p^◇ ⊗ O_F ≅ ∏_{τ} ℤ_p^◇`, by
 evaluation, because `p` is unramified); `tauPart_decomp` and `tauPart_decomp_linear` (over a
 `ℤ_p^◇`-scheme every `O_F ⊗ O_S`-module is `⊕_τ ℱ_τ`, also on nonreduced bases, through the
 idempotents of the finite étale splitting); `frobeniusOnEmbeddings` (the action of Frobenius `σ` on
@@ -1443,6 +1453,15 @@ fields, Frobenius).
   degree `6` over `ℚ_p`; choosing one `tauField` would give degree `2` or `3`.
   For any `Ψ`, the residue degrees of the selected embeddings of `F` and `F_Ψ`
   determine `psiField` by the same least-common-multiple calculation.
+- `tauComposite_mixedQuartic`: let `F = ℚ(α)`, `α² = −3 − √2`, `F⁺ = ℚ(√2)` and `p = 17`.
+  The polynomial `X⁴ + 6X² + 7` has discriminant `7168` and reduces to
+  `(X − 5)(X + 5)(X² − 3)`, with `3` a nonsquare modulo `17`. Choose `ι_p` so that
+  `τ₀(α)` reduces to `5`; the other conjugate pair `τ₁, τ₁^c` generates the unramified
+  quadratic extension `K₂/ℚ₁₇`. For `Ψ = 2τ₀ + 0τ₀^c + τ₁ + τ₁^c`, its stabilizer fixes
+  exactly the field `τ₀(F)`, so `F_Ψ = τ₀(F)`. With coefficient embedding `τ_∞ = τ₀`,
+  `psiField Ψ = ℚ₁₇` while `tauField τ₁ = K₂`. The factor `O_{K₂}` in
+  `O_F ⊗ ℤ₁₇ ≅ ℤ₁₇ × ℤ₁₇ × O_{K₂}` has no two labelled scalar eigensummands over
+  `ℤ₁₇` or `𝔽₁₇`. Choosing coefficient embedding `τ_∞ = τ₁` instead gives `psiField Ψ = K₂`.
 
 ### Examples
 
@@ -2207,9 +2226,14 @@ as formal functors on its completion, and the forgetful maps are
 relatively representable by closed immersions (for `λ` and `i`) and isomorphisms (for prime-to-`□`
 level) (Lan, Theorem 2.2.3.10, p. 245). Schlessinger's criterion (SchemeAndStackFoundations §4.4,
 `schlessinger_prorepresentable`; Lan, Theorem 2.2.1.4, p. 229) applies to `Def_{A₀}` with finite tangent space
-`H¹(A₀, T_{A₀})`; deformations of `λ` and `i` are unique when they exist and their existence is a
-closed condition (Lan, Proposition 2.2.2.5); étale level structures deform uniquely. Rigidity of
-automorphisms reducing to the identity (M2.1) is what is used; neatness is not needed for the marked
+`H¹(A₀, T_{A₀})`. Rigidity gives uniqueness of lifts of `λ` and `i` when they exist
+(Lan, Lemma 2.2.2.1 and Corollaries 2.2.2.6–2.2.2.7, pp. 231–237).
+The forgetful functors are subfunctors, and étale level structures deform uniquely
+(Corollaries 2.2.2.8 and 2.2.2.10, pp. 237–240). Prorepresentability of the polarized and
+endomorphism subfunctors is Propositions 2.2.3.7 and 2.2.3.9, pp. 243–245.
+Their injective relative tangent maps give surjections of the complete local representing
+`Λ`-algebras by complete local Nakayama, so existence of the extra structures is a closed condition.
+Rigidity of automorphisms reducing to the identity (M2.1) is what is used; neatness is not needed for the marked
 functor. Comparisons with completed local rings of charts retain the same coefficient and residue
 maps (AlgebraicModuliForArithmeticGeometry §8.3, `FramedDeformation`, `familyVersalAt_completion_iff`).
 For a larger geometric residue field, first make the specified coefficient base change and choose
@@ -2429,28 +2453,40 @@ R11.3 §3.10, R11.5 §§5.1–5.2.
 
 ### M2.12 Deformations of unitary `O_F`-abelian schemes
 
-Prove `unitaryDeformation`: let `F` be CM, `p > 2` unramified in `F`, `Ψ` a generalized CM type of rank `N`
-with `min(r_τ, r_{τ^c}) = 0` for every `τ` not above the distinguished place `τ_∞` of `F⁺`,
+Prove `unitaryDeformation`: let `F` be CM with the fixed coefficient embedding `τ_∞ : F ↪ ℂ`
+used in M0.27's `psiField`, and put `τ̄_∞ = τ_∞|_{F⁺}`. Let `p > 2` be unramified in `F` and
+`Ψ` a generalized CM type of rank `N` with `min(r_τ, r_{τ^c}) = 0` for every `τ` not above
+the real place `τ̄_∞`,
 `S ↪ Ŝ` a closed immersion of `ℤ_p^Ψ`-schemes with `p` locally nilpotent and a locally nilpotent PD
 structure on its ideal, and `(A, λ)` a unitary `O_F`-abelian scheme of signature type `Ψ` over `S`.
 Let `H^cris_1(A/Ŝ)` be the value at `Ŝ` of crystalline homology (a locally free `O_Ŝ ⊗ O_F`-module)
 with the pairing `⟨·,·⟩^cris_{λ,τ_∞}` between its `τ_∞` and `τ_∞^c` parts. Then
 `(Â, λ̂) ↦ (ω_{Â^∨/Ŝ,τ_∞}, ω_{Â^∨/Ŝ,τ_∞^c})` is an equivalence from deformations of `(A, λ)` to `Ŝ`
-onto pairs of subbundles lifting `ω_{A^∨/S,τ}` that are mutually orthogonal for that pairing
-(Liu–Tian–Xiao–Zhang–Zhu, Proposition 3.4.8 and its proof, p. 151). Apply Grothendieck–Messing with
+onto pairs of subbundles lifting `ω_{A^∨/S,τ}` for `τ ∈ {τ_∞, τ_∞^c}` that are mutually orthogonal
+for that pairing; the deformations retain the `O_F`-action, signature `Ψ` and marking on `S`
+(Liu–Tian–Xiao–Zhang–Zhu, Ground fields, p. 119, Notation 3.3.6, p. 148, and Proposition 3.4.8
+and its proof, pp. 150–151). The inclusion `τ_∞(F) ⊆ ℚ_p^Ψ` supplies both distinguished parts
+already over `Ŝ`, since `τ_∞^c(F) = τ_∞(F)`. Apply Grothendieck–Messing with
 the localized `O_F`-action and quasi-polarization (AbelianSchemesAndArithmeticModuli A4.7; the crystal
-is AbelianSchemesAndArithmeticModuli §A4.CR.7.2); decompose into `τ`-parts by the unramified splitting (M0.27); the
-extremal signatures away from `τ_∞` force the filtrations there; at the distinguished pair keep both
-orthogonal subbundles. *Needs:* M0.27, M1.3; AbelianSchemesAndArithmeticModuli A4.7; AbelianSchemesAndArithmeticModuli
+is AbelianSchemesAndArithmeticModuli §A4.CR.7.2). After the finite étale faithfully flat base
+change `ℤ_p^Ψ → ℤ_p^◇`, decompose into all `τ`-parts (M0.27). The extremal signatures away
+from `τ̄_∞` force the filtrations there to be zero or the whole component; at the distinguished
+pair keep both orthogonal subbundles. Uniqueness of the forced components and invariance of `Ψ`
+give descent data, and étale descent recovers the equivalence over `ℤ_p^Ψ`.
+*Needs:* M0.27, M1.3, M1.12; AbelianSchemesAndArithmeticModuli A4.7; AbelianSchemesAndArithmeticModuli
 §A4.CR.7.2.
 
 **Checks.**
 
-- `unitaryDeformation_dimension`: for `N ≥ 1`, `Ψ = NΦ − τ_∞ + τ_∞^c` and a `p`-principal
+- `unitaryDeformation_dimension`: for `N ≥ 1`, a CM type `Φ` containing the fixed coefficient
+  embedding `τ_∞`, `Ψ = NΦ − τ_∞ + τ_∞^c` and a `p`-principal
   polarization, the deformation space at a point is the
   space of isotropic line–hyperplane pairs, of dimension `N − 1`.
 - `unitaryDeformation_cm`: for `N = 1`, `Ψ` a CM type and a `p`-principal polarization, there are no deformations (dimension `0`),
   matching M2.11.
+- `unitaryDeformation_mixedSplitting`: for M0.27's quartic type, the nonextremal real place is
+  `τ₁|_{F⁺}`. Taking `τ_∞ = τ₁` makes `ℚ₁₇^Ψ = K₂`, so both distinguished crystalline parts
+  exist over `O_{K₂}`. The coefficient ring `ℤ₁₇` obtained from `τ₀` does not support this pair.
 
 ### M2.13 Dieudonné modules of isogenies: cokernel length and kernel height
 

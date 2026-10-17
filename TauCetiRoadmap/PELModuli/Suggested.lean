@@ -723,6 +723,8 @@ The following APIs and discriminating Checks are also specified in the README:
 * M0.2: `albertTypes` applies AbelianSchemesAndArithmeticModuli A6.15
   `realRosatiDecomposition` to the real extension with its positive regular trace; the PEL
   rational-centre consequences, A/C/D labels and group comparisons are derived here.
+  An indefinite quaternion algebra has type C for every positive involution; its canonical
+  quaternion involution is not positive (Check `albertTypes_indefiniteQuaternion`).
 * M0.3: `Order.disc_regularTrace_matrix` distinguishes the regular and reduced traces on
   `M₂(ℚ)`: the integral matrix-unit Gram determinants are `−16` and `−1`, and the trace-duals
   are `(1/2)M₂(ℤ)` and `M₂(ℤ)`. Generic `IntegralOrder.IsMaximalOrder` and containment in a
@@ -748,6 +750,13 @@ The following APIs and discriminating Checks are also specified in the README:
 * M0.18: `SatisfiesDetCondition.iff_eval`.
 * M0.21: `bpsSignatureConstancy` orders `σ, σ̄` above `τ` and selects `π_i^+` only in type A.
   Type C has `F = F₀`, one extension of `τ`, and constant multiplicity `dim_ℚ U_ℚ / (2nd)`.
+* M0.25–M0.27: `τ_∞ : F ↪ ℂ` is the fixed coefficient embedding and
+  `τ̄_∞ = τ_∞|_{F⁺}` its real restriction. In `psiField Ψ`, the factor `F` is `τ_∞(F)`,
+  so both `tauPart τ_∞` and `tauPart τ_∞^c` are defined over a `ℤ_p^Ψ`-scheme.
+  Other embeddings may require a larger coefficient ring. In Check `tauComposite_mixedQuartic`,
+  `F = ℚ(α)` with `α² = −3 − √2` at `p = 17` has two degree-one primes and one degree-two prime.
+  For `Ψ = 2τ₀ + 0τ₀^c + τ₁ + τ₁^c`, choosing coefficient embedding `τ₀` gives
+  `psiField Ψ = ℚ₁₇`; choosing `τ₁` gives the unramified quadratic extension.
 * M1.4: `symplecticIsomSheaf` is a pro-object in finite étale schemes, with the pro-constant
   source coefficients `(L/nL)_S` and `((ℤ/n)(1))_S`. Its geometric fibre is the profinite limit
   of the finite fibres. `symplecticIsomSheaf.reduce` projects to the liftable finite pairs;
@@ -778,6 +787,18 @@ The following APIs and discriminating Checks are also specified in the README:
   inducing the identity on `k`. The standard choices are `Λ = k` in characteristic zero and
   `Λ = W(k)` for perfect `k` at a good prime. Power-series rings and completed-chart comparisons
   retain these coefficient and residue maps, with a specified base change for larger residue fields.
+  Uniqueness of lifts uses Lan, Lemma 2.2.2.1 and Corollaries 2.2.2.6–2.2.2.7;
+  Corollary 2.2.2.10 and Propositions 2.2.3.7 and 2.2.3.9 give the prorepresentable
+  subfunctors. Their injective relative tangent maps make the complete representing rings
+  quotients, giving the closed immersions.
+* M2.12: `unitaryDeformation` distinguishes the fixed complex coefficient embedding `τ_∞`
+  from its real restriction `τ̄_∞` and assumes extremality away from `τ̄_∞`.
+  Its base is `ℤ_p^Ψ`, whose definition includes `τ_∞(F)`, so the two displayed crystalline
+  parts exist. The proof decomposes all components after finite étale base change to
+  `ℤ_p^◇` and descends the uniquely forced extremal components together with the given pair.
+  Check `unitaryDeformation_dimension` assumes `τ_∞ ∈ Φ`;
+  Check `unitaryDeformation_mixedSplitting` uses the quartic type of M0.27 with `τ_∞ = τ₁`
+  and coefficient ring `O_{K₂}`, where both distinguished parts are defined.
 * M2.16: `covariantHodgeCocharacter` complements the weights of M0.12's Shimura cocharacter
   embedding by embedding, has multiplier `z`, and preserves its reflex field.
   `averagedHodgeCocharacter` averages the dominant representative of this covariant cocharacter
