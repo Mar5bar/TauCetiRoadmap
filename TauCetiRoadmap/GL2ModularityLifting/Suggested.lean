@@ -83,6 +83,14 @@ example : Matrix.det !![(1 : ZMod 2), 0; 0, -1] = 1 := by
 example : Matrix.det (-1 : Matrix (Fin 2) (Fin 2) ℤ) = 1 := by
   simp [Matrix.det_fin_two]
 
+/-- An odd integral involution can reduce to a nonidentity unipotent involution modulo two. -/
+example :
+    let c : Matrix (Fin 2) (Fin 2) ℤ := !![1, 1; 0, -1]
+    c * c = 1 ∧ c.det = -1 ∧
+      c.map (Int.castRingHom (ZMod 2)) = !![1, 1; 0, 1] ∧
+      c.map (Int.castRingHom (ZMod 2)) ≠ 1 := by
+  decide
+
 /-! ## Layer 7: Statement table and normalisations over ℚ
 
 The signed prime `p*` of the residual hypothesis over `ℚ(√p*)` is Tau Ceti's
@@ -128,6 +136,14 @@ theorem odd_det_of_odd_reduction {R k : Type*} [CommRing R] [IsDomain R] [Field 
 /-- At odd residue characteristic the two signs stay distinct. -/
 example : (-1 : ZMod 3) ≠ 1 := by decide
 
+/-- Over a product ring an involution can have mixed determinant signs, with odd reduction
+under the first projection modulo three (§7.10). -/
+example :
+    let c : Matrix (Fin 2) (Fin 2) (ℤ × ℤ) := !![(1, 1), 0; 0, (-1, 1)]
+    c * c = 1 ∧ c.det = (-1, 1) ∧ c.det ≠ -1 ∧
+      (c.map ((Int.castRingHom (ZMod 3)).comp (RingHom.fst ℤ ℤ))).det = -1 := by
+  decide
+
 /-- Rank-two twisting by a scalar `a` multiplies the determinant by `a ^ 2`. -/
 example {R : Type*} [CommRing R] (a : R) (M : Matrix (Fin 2) (Fin 2) R) :
     (a • M).det = a ^ 2 * M.det := by
@@ -172,6 +188,10 @@ theorem panGoodComponent_mono (components : I → Set X) {nice nice' seed seed' 
     (hi : panGoodComponent components nice seed i) :
     panGoodComponent components nice' seed' i := by
   sorry
+
+/-- A single component consisting of a potentially nice seed point is good. -/
+example : panGoodComponent (fun _ : Unit => ({()} : Set Unit)) {()} {()} () :=
+  panGoodComponent_seed _ _ _ () () (by simp) (by simp) (by simp)
 
 /-- With no seed points no component is good. -/
 example (components : I → Set X) (nice : Set X) (i : I) :
@@ -236,6 +256,11 @@ theorem panExtensionComponents_comp_subset {C : Type*} [CommRing C] (f : A →+*
     panExtensionComponents (g.comp f) ⊆ panExtensionComponents f := by
   sorry
 
+/-- The identity map detects precisely all minimal-prime points. -/
+example :
+    panExtensionComponents (RingHom.id A) = {P : PrimeSpectrum A | P.asIdeal ∈ minimalPrimes A} :=
+  panExtensionComponents_id
+
 /-- A zero target detects no component. -/
 example [Subsingleton B] (f : A →+* B) : panExtensionComponents f = ∅ := by
   refine Set.eq_empty_iff_forall_notMem.2 fun P hP => ?_
@@ -278,7 +303,12 @@ their intended signatures.
   Kisin's multiplicity criterion and the de Rham lifting theorems at odd primes and at `2`.
 * Layers 10–12: `PanNicePrime`, `PanPotentiallyNicePrime` (with `panGoodComponent` and
   `panExtensionComponents` above), Pan's residually reducible theorem, the ordinary `3`-adic
-  completion and the transfer statements along congruences.
+  completion and the transfer statements along congruences. The Pan branch carries the
+  twist-two rational dual vanishing hypothesis LC, as specified in the README.
+* Layer 0: continuous rank-two determinants and pseudocharacters at odd primes, field
+  reconstruction, two-block generalized matrix algebras, reducibility ideals and nonsplit
+  stable lattices. Section 10.7a supplies Baker–Brumer, `abelian_leopoldt` and its Galois-rank
+  and reducible-locus dimension consequences.
 -/
 
 end TauCetiRoadmap.GL2ModularityLifting
