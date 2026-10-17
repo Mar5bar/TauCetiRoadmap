@@ -976,6 +976,14 @@ The G-valued integral type quotient is reduced and flat. Complete intersection,
 equidimensionality and a dense regular open are properties of its localized scheme
 generic fibre. Crystalline scheme generic fibres are regular; formal smoothness refers
 to completed local deformation rings with the maximal-ideal topology.
+
+README 3.7.1 uses finite length over O[GL₂(Q_p)] for block objects and the larger locally
+admissible category for injective envelopes. README 3.7.2's `MontrealFunctor` has finite-length
+smooth torsion inputs and Galois output of finite length over O. The compact extension uses
+inverse limits and Pontryagin duality, with profinite output; residually finite-length
+Banach inputs give finite-dimensional output after localization. The infinite sum of
+I(1,ω²) at p=5 has split finite subsums of unbounded length, so an additive extension to
+locally finite-length inputs cannot retain finite-length Galois output.
 -/
 
 section FiltrationProfile
@@ -1003,12 +1011,23 @@ end FiltrationProfile
 
 The height-one model resolution, finite-flat realization and generic-reducedness theorem
 use the exact scheme and integral-Hodge contracts of the README.
+README 4.9's `flatResolution.points` retains the coefficient map and generic-fibre
+identification and requires scheme-theoretic factorization through the flat local model
+of 4.7.1, including for nonreduced coefficients. The determinant condition alone describes
+the naive model; 4.8 states when these models coincide. For p=3, e=4 and v=(2,2,0,0),
+the residual lattice with Frobenius diag(1,u⁴) satisfies that determinant condition but
+has Jordan type (4), which is not dominated by the required dual partition (2,2).
 -/
 
 /-! ## Layer 5: Dyadic connected-model and endpoint geometry
 
 The connected dyadic category and selected weight endpoints require their integral-Hodge
 carriers. Their point criteria and ordinary ring isomorphisms are specified in the README.
+In 5.2 the ordinary reduced flat image quotient may be zero. Its generic dimension 3+f
+requires nonzero quotient; outside the split-distinct exception the integral ring is zero
+or a domain. The absolutely irreducible natural S₃-representation over F₂ at Q₂ has
+compatible cyclotomic determinant but admits no ordinary lift, since a saturated ordinary
+line would reduce to a residual stable line, also after finite coefficient extension.
 In 5.11, determinant equal to the cyclotomic character on the full Galois group means that
 there exists a Kisin basis in which the determinant unit specializes to one at u=0,
 equivalently a basis with determinant Frobenius p*E(u)/E(0). The displayed unit changes by
