@@ -57,7 +57,9 @@ Sections F.4–F.6 supply normalized `ℤ_ℓ` realization, finite `E` through l
 
 Section F.7 supplies the ordinary and compact global blow-up decomposition, including the actual exceptional columns and inverse signs, and constant-coefficient weak Lefschetz for smooth ample hyperplanes. Section F.8 supplies finite, integral `p/p⁺` and rational middle perversity, gluing, the abelian perverse heart, perverse cohomology, the image definition of open `j_!*`, and geometric affine vanishing, including the `p⁺` torsion boundary. Sections F.10.1–F.10.2b supply rational-point fixed loci and the comparison of scheme pullback with geometric cohomological Frobenius, including adic realization; §F.10.3 supplies perfect-complex trace, shift signs, cyclicity and coherent filtered additivity. These supplied definitions and their checks belong to those sections.
 
-EnhancedDerivedSheaves §§0.1–0.5 supply the coherent enhanced derived coefficient operations, the unbounded lower-shriek lift with amplitude control, adjoints and mates. Its coefficient-system and inverse-limit reconstruction in Layer 4 supply coherent towers and derived completeness. Limits of normalized systems below are taken in this enhancement; inverse limits of triangulated categories alone are insufficient.
+EnhancedDerivedSheaves §§0.1–0.4 supply the ringed-site enhancement, tensor–`Hom` and coherent derived limits. Section 0.4's `ClassicalDerived.functorCoherence` supplies the enhanced inverse-image/direct-image adjunction, exact extension by zero, adjunction mates and base-change/projection transformations; `ClassicalDerived.functorCoherence.coefficientComparison` supplies their coefficient-forgetting and coefficient-change maps. For a closed/open pair, this gives `j^* ⊣ Rj_*` and `j_! ⊣ j^*`; EtaleCohomologyFoundations §0.7's `ClassicalAlgebraic.supportLocalization` constructs `i^!` and both localization triangles for arbitrary coefficient rings. These ambient recollement data do not require self-injectivity. Section 0.2 proves bounded constructible preservation for noetherian coefficients; §2.2 records the resulting recollement.
+
+The unbounded scheme support functor used in §0.5 is EtaleCohomologyFoundations §F.2.3's `ClassicalAlgebraic.properSupports`, with the exceptional adjoint of §F.5. For separated finite-type field schemes and torsion `Λ`, its compactification `f=p∘j` satisfies the enhancement hypotheses: `j_!` is exact, proper geometric fibres have uniformly bounded torsion cohomology, and `Rp_*` commutes with direct sums. Proper base change and the projection formula give the exchange and projection equivalences. These supply finite cohomological amplitude and colimit preservation for the unbounded lift (Stacks Tags 0G2A, 0G29, 0F0C and 0GL5); §0.4 of EnhancedDerivedSheaves alone is not an unconditional proper-support theorem. The analytic and diamond applications retain the domains of their named geometric suppliers below. EnhancedDerivedSheaves §E4.5 supplies coefficient-system reconstruction and derived completeness. Limits of normalized systems below are taken in this enhancement; inverse limits of triangulated categories alone are insufficient.
 
 ### From geometric roadmaps
 
@@ -183,7 +185,7 @@ arbitrary-noetherian-coefficient `D_ctf` statement at constructible-biduality.
 
 Use [SGA4half] [Dualité] 1.1–1.4, pp. 155–157; [SGA4half] [Th. finitude] 4.1, p. 250.
 
-*Needs:* §0.1; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5; EtaleCohomologyFoundations
+*Needs:* §0.1; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4; EtaleCohomologyFoundations
 §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3; EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site
 contract above; `IsRegularLocalRing`.
 
@@ -240,7 +242,7 @@ finite-module lemma handles `O/π^m` as well. The duality preserves `D_ctf` by p
 Use [SGA4half] [Th. finitude] Theorem 4.3, Lemma 4.4 and §§4.5–4.7, pp. 250–251; [SGA4half] [Dualité] 1.1–1.4,
 pp. 155–157; [SGA4-XVIII] 3.2.6, p. 586; [Angeniol-1976] §3, Théorème 3.2 and proof, pp. 161–162.
 
-*Needs:* EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5; EtaleCohomologyFoundations §§F.0–F.1,
+*Needs:* EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4; EtaleCohomologyFoundations §§F.0–F.1,
 0.7; EnhancedDerivedSheaves §§0.1–0.3; EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract
 above.
 
@@ -276,7 +278,7 @@ canonical form).
 
 Use [SGA4-XVIII] 3.2.6, p. 586; [SGA4-XVIII] Théorème 3.2.5, p. 585.
 
-*Needs:* EtaleCohomologyFoundations §§0.11, F.6; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5;
+*Needs:* EtaleCohomologyFoundations §§0.11, F.6; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4;
 §0.1.
 
 **Checks.**
@@ -297,40 +299,51 @@ Name the resulting statement `dualityExchangeIsomorphisms`.
 A proof proceeds as follows.
 
 Apply `D` to the formal exchanges `D_S Rf_! ≅ Rf_* D_X` and `D_X f^* ≅ f^! D_S` (EtaleCohomologyFoundations §F.5;
-EnhancedDerivedSheaves §0.5) and use biduality on both sides; constructibility of `f^!K` follows from `f^!K ≅ D_X f^* D_S K`.
+EnhancedDerivedSheaves §0.4) and use biduality on both sides; constructibility of `f^!K` follows from `f^!K ≅ D_X f^* D_S K`.
 
 Use [SGA4-XVIII] 3.1.10 and 3.2.6, p. 573 and 586.
 
-*Needs:* EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5.
+*Needs:* EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4.
 
 **Checks.**
 
 
 - For `i` the inclusion of a closed point of a smooth curve `C` over an algebraically closed field: `i^!Λ ≅ D(i^*D_C Λ) = D(Λ(1)[2]) = Λ(−1)[−2]`.
 
-**Open-closed recollement on constructible complexes.** Let `X` be separated of finite type over a field, `i : Z → X` closed with open complement `j : U → X, Λ = O/πⁿ` (or a self-injective noetherian ring killed by `n`
-invertible). On `D^b_c` the six functors `i^*, i_* = i_!, i^!, j_!, j^* = j^!, Rj_*` satisfy: `i^* ⊣ i_* ⊣ i^!` and
+**Open-closed recollement on constructible complexes.** Let `X` be separated of finite type over a field `k`,
+`i : Z → X` closed with open complement `j : U → X`, and `Λ` a noetherian commutative ring killed by `n ≥ 1`
+invertible in `k`. On `D^b_c` the six functors `i^*, i_* = i_!, i^!, j_!, j^* = j^!, Rj_*` satisfy: `i^* ⊣ i_* ⊣ i^!` and
 `j_! ⊣ j^* ⊣ Rj_*`; `i_*, j_!` and `Rj_*` are fully faithful; `j^*i_* = 0, i^*j_! = 0` and `i^!Rj_* = 0`; and there are
-distinguished triangles `j_!j^*K → K → i_*i^*K →` and `i_*i^!K → K → Rj_*j^*K →`, natural in `K`. Duality exchanges
-the two triangles. These are the recollement data (BBD 1.4.3) that Layer 2 uses to glue the perverse
+distinguished triangles `j_!j^*K → K → i_*i^*K →` and `i_*i^!K → K → Rj_*j^*K →`, natural in `K`. When `Λ` is
+self-injective, duality exchanges the two triangles. These are the recollement data (BBD 1.4.3) that Layer 2 uses to glue the perverse
 `t`-structure.
 
-Work with the following additional hypotheses. `X` separated of finite type over a field; constructible
-coefficients; `Λ` as in constructible-biduality.
+Work with the following additional hypotheses. `X` separated of finite type over `k`; `n ≥ 1` invertible in `k`;
+`Λ` noetherian, commutative and killed by `n`. Self-injectivity is required only for the duality assertion.
 
 Name the resulting statement `recollementAdjunctions`.
 
 A proof proceeds as follows.
 
-The adjunctions and triangles hold on the unbounded categories (EtaleCohomologyFoundations §§F.0–F.1, 0.7;
-EnhancedDerivedSheaves §§0.1–0.3, EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5);
-constructibility of `Rj_*` and `i^!` (imported finiteness and §0.2) restricts them to `D^b_c`.
+On the ambient unbounded categories, EnhancedDerivedSheaves §0.4's `ClassicalDerived.functorCoherence`
+gives `j^* ⊣ Rj_*` and enhances the exact adjunction `j_! ⊣ j^*`.
+EtaleCohomologyFoundations §0.7's `ClassicalAlgebraic.supportLocalization` constructs `i^!` as the supported
+fibre in `i_*i^!K → K → Rj_*j^*K` and gives `i_* ⊣ i^!` and the other localization triangle.
+For bounded constructible preservation, finite-coefficient finiteness is EtaleCohomologyFoundations §F.3's
+`VanishingCycles.etaleFiniteness`. Extend it here to these noetherian coefficients: on a finite normal
+stratification the finite monodromy groups give resolutions by finite free modules over their group rings.
+Combine finite-cover coefficient change with the finite-coefficient finiteness theorem, and truncate the
+resolutions using the uniform cohomological bound for `Rj_*`. Noetherianity keeps the resulting kernels and
+cokernels finitely generated. Stratification and localization give bounded constructibility of `Rj_*K`;
+the supported triangle then gives it for `i^!K`. This restriction uses neither Verdier biduality nor an
+unbounded proper-support extension.
 
 The vanishing statements are checked on stalks `(j^*i_*)` or by adjunction (`i^!Rj_* =` right adjoint of `j^*i_* = 0`).
 
-Use [SGA4-XVIII] Proposition 3.1.8, p. 571.
+Use [SGA4-XVIII] Proposition 3.1.8, p. 571; [SGA4half] [Th. finitude] §§1–2 for finite-coefficient finiteness,
+with the noetherian-coefficient dévissage above.
 
-*Needs:* EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5; EtaleCohomologyFoundations §§F.0–F.1,
+*Needs:* EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4; EtaleCohomologyFoundations §§F.0–F.1,
 0.7; EnhancedDerivedSheaves §§0.1–0.3; EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract
 above.
 
@@ -338,6 +351,10 @@ above.
 
 
 - `X = A¹, Z = {0}`: for `K = Λ` the second triangle has `i^!Λ = Λ(−1)[−2]` and `Rj_*Λ` with stalk at 0 equal to `Λ ⊕ Λ(−1)[−1]`: both triangles and all shifts are verified (the closed-point acceptance test of §0.2).
+
+- For `Z = ∅` the support functor `i^!` is zero and `j^*` is the identity; for `Z = X` these roles are reversed.
+
+- Over an algebraically closed field with `ℓ` invertible, take `Λ = 𝔽_ℓ[ε,η]/(ε,η)²` and `j:𝔾_m→𝔸¹`. This ring is not self-injective (its socle has dimension two), but the recollement still exists: `i^!Λ_𝔸¹ = Λ(−1)[−2]`, and `(Rj_*Λ_𝔾_m)_0` has cohomology `Λ` in degree zero and `Λ(−1)` in degree one.
 
 ### 0.3 Quasi-finite flat and flat curve traces
 
@@ -648,17 +665,18 @@ Name the resulting statement `relativeAndGeometricDuality`.
 
 A proof proceeds as follows.
 
-(a) is EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5 (a) for a with `L := K` and `K := Λ`, using
-`a^!Λ = K_X` (EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5).
+(a) is sheafified exceptional adjunction from EtaleCohomologyFoundations §F.5, with `L := K`, target `Λ` and
+`a^!Λ = K_X`. The unbounded support functor satisfies the amplitude, colimit, exchange and projection hypotheses
+in the exact supplier contract above; EnhancedDerivedSheaves §0.4 supplies the coherent adjunction maps.
 
 For the displayed geometric duality, apply sheafified adjunction directly to `ā : X_k̄ → Spec k̄`. Do not
 commute `Ra_*` across the field extension by the proper base change theorem when a is not proper. Any separate
 comparison of the original relative duality object with its geometric stalk requires its own
 constructibility/base-change hypotheses.
 
-Use [SGA4-XVIII] 3.2.6, p. 586; [Stacks-MoreEtale] Lemma 11.6 (tag 0GLD).
+Use [SGA4-XVIII] 3.2.6, p. 586; [Stacks-MoreEtale] Lemmas 11.5–11.6 (tags 0GLC–0GLD).
 
-*Needs:* EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5; §0.1; EtaleCohomologyFoundations
+*Needs:* EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4; §0.1; EtaleCohomologyFoundations
 §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3; EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site
 contract above.
 
@@ -936,7 +954,7 @@ Name the resulting statement `relativeDualityLocallyConstant`.
 
 A proof proceeds as follows.
 
-`Rf_*RHom(F^∨, f^!Λ) ≅ RHom(Rf_!F^∨, Λ)` (EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5), with
+`Rf_*RHom(F^∨, f^!Λ) ≅ RHom(Rf_!F^∨, Λ)` (EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4), with
 `f^!Λ = Λ(d)[2d]` (EtaleCohomologyFoundations §§0.11, F.6) and `RHom(F^∨, Λ) = F`.
 
 If the `R^q f_!F^∨` are locally constant constructible, `ℰxt^p(R^q f_!F^∨, Λ) = 0` for `p > 0` (self-injectivity,
@@ -944,7 +962,7 @@ stalkwise), so the spectral sequence degenerates to the stated isomorphism.
 
 Use [SGA4-XVIII] Théorème 3.2.5, p. 585.
 
-*Needs:* EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5; EtaleCohomologyFoundations §§0.11, F.6;
+*Needs:* EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4; EtaleCohomologyFoundations §§0.11, F.6;
 §0.1.
 
 **Checks.**
@@ -958,7 +976,7 @@ For a double plane and coefficients `ℤ/2`, the top-degree flat trace is multip
 
 ### Dependencies
 
-EtaleCohomologyFoundations §§F.0–F.6 and 0.8–0.11; EnhancedDerivedSheaves §§0.1–0.5; JacobianChallenge Layers `A` and `D`; the Weil-pairing contract.
+EtaleCohomologyFoundations §§F.0–F.6 and 0.8–0.11; EnhancedDerivedSheaves §§0.1–0.4; JacobianChallenge Layers `A` and `D`; the Weil-pairing contract.
 
 ## Layer 1: higher Chern classes and Chow descent
 
@@ -1502,10 +1520,11 @@ every `K` in `D` the adjunction maps extend to distinguished triangles `j_!j^*K 
 `i_*i^!K → K → j_*j^*K → (i_*i^!K)[1]`; (c) the adjunction maps `i^*i_* → 1, 1 → i^!i_*, 1 → j^*j_!, j^*j_* → 1`
 are isomorphisms, so `i_*, j_!` and `j_*` are fully faithful (BBD 1.4.3). Consequences: `i^*j_! ≅ 0, i^!j_* ≅ 0, Hom(j_!B, i_*A) = 0 = Hom(i_*A, j_*B)`; the connecting maps of the triangles in (b) are unique; `i_*` identifies
 `D_F` with the full subcategory of `D` on which `j^*` vanishes. The basic instance is constructible étale sheaves on
-`X` with a closed subscheme `Z` and open complement `U`, with `i_* = i_!` and `j^! = j^*` (§0.2 for self-injective `Λ`;
-for any noetherian `Λ` killed by `n` invertible, the same data from EtaleCohomologyFoundations §§F.0–F.1, 0.7;
-EnhancedDerivedSheaves §§0.1–0.3 and EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5, with the
-finiteness theorem for `Rj_*` and `i^!`).
+`X` with a closed subscheme `Z` and open complement `U`, with `i_* = i_!` and `j^! = j^*`. For any noetherian `Λ`
+killed by an invertible `n`, use EnhancedDerivedSheaves §0.4's `ClassicalDerived.functorCoherence` for `j^* ⊣ Rj_*`
+and exact extension by zero, and EtaleCohomologyFoundations §0.7's `ClassicalAlgebraic.supportLocalization` for
+`i^!` and the triangles. The bounded constructible preservation in ofClosedOpen below is independent of
+self-injectivity; §0.2 additionally identifies the dual recollement when `Λ` is self-injective.
 
 Work with the following additional hypotheses. `D_F, D, D_U` pretriangulated; the six functors triangulated;
 adjunctions part of the data.
@@ -1525,7 +1544,7 @@ The interface consists of the following maps and identities.
 
 - `TauCeti.EtaleDuality.Recollement.op`: The opposite recollement of `D_F^op → D^op → D_U^op`, exchanging `j_!` with `j_*` and `i^*` with `i^!`.
 
-- `TauCeti.EtaleDuality.Recollement.ofClosedOpen`: The constructible étale recollement of `D^b_c(Z, Λ) → D^b_c(X, Λ) → D^b_c(U, Λ)` for `Z ⊂ X` closed with open complement `U` and `Λ` noetherian killed by `n` invertible (§0.2; EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3 and EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5 when `Λ` is not self-injective).
+- `TauCeti.EtaleDuality.Recollement.ofClosedOpen`: For `X` separated of finite type over a field `k`, `Z ⊂ X` closed with open complement `U`, and `Λ` noetherian killed by `n ≥ 1` invertible in `k`, construct the recollement `D^b_c(Z, Λ) → D^b_c(X, Λ) → D^b_c(U, Λ)`. Include bounded constructible preservation of `Rj_*` for these noetherian coefficients and deduce it for `i^!` from the supported triangle. The ambient functors and adjunctions are `ClassicalDerived.functorCoherence` (EnhancedDerivedSheaves §0.4) and `ClassicalAlgebraic.supportLocalization` (EtaleCohomologyFoundations §0.7); self-injectivity is unnecessary.
 
 - `TauCeti.EtaleDuality.Recollement.ofClosedOpen_upperStar`: In ofClosedOpen, `j^*` is restriction to `U` and `i_*` is pushforward along the closed immersion.
 
@@ -1537,10 +1556,16 @@ Record the functors and adjunctions as data, and (a)–(c) as properties (BBD 1.
 
 The kernel of `j^*` is the essential image of `i_*`: the second triangle of (b) for `K` with `j^*K = 0`.
 
+For ofClosedOpen, use recollementAdjunctions (§0.2), including its noetherian-coefficient finiteness argument
+for `Rj_*` and the localization construction of `i^!`. These give the six functors on `D^b_c` without
+self-injectivity or an unbounded proper-support lift.
+
 Use [BBD-1982] 1.4.3, (1.4.3.1)–(1.4.3.5), pp.44–45; 1.4.2.1, p.44; Remarque 1.4.8, p.48.
+For constructible preservation use §0.2 and [SGA4half] [Th. finitude] §§1–2.
 
 *Needs:* §0.2; EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3;
-EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5; `CategoryTheory.Functor.IsTriangulated`;
+EtaleCohomologyFoundations §F.3 (`VanishingCycles.etaleFiniteness`); EnhancedDerivedSheaves §0.4
+(`ClassicalDerived.functorCoherence`); `CategoryTheory.Functor.IsTriangulated`;
 `CategoryTheory.Adjunction`.
 
 **Checks.**
@@ -1556,7 +1581,7 @@ EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5; `CategoryTheory.
 
 - For the étale recollement of `Z = {0} ⊂ X = 𝔸¹` with `U = 𝔾_m`, the first triangle for `Λ_X` is the localization triangle `j_!Λ_U → Λ_X → i_*Λ_0 →`.
 
-- Duality on `D^b_c` (§0.2) maps the étale recollement to the opposite recollement, exchanging `j_!` with `j_*` and `i^*` with `i^!`.
+- For self-injective `Λ`, duality on `D^b_c` (§0.2) maps the étale recollement to the opposite recollement, exchanging `j_!` with `j_*` and `i^*` with `i^!`.
 
 **Gluing `t`-structures along a recollement.** Let `D_F → D → D_U` be a recollement (§2.2) of categories
 satisfying the octahedral axiom, with `t`-structures `t_F` and `t_U`. Put `D^{≤0} := {K : j^*K ∈ D_U^{≤0}, i^*K ∈ D_F^{≤0}}` and `D^{≥0} := {K : j^*K ∈ D_U^{≥0}, i^!K ∈ D_F^{≥0}}`. Then: (a) `(D^{≤0}, D^{≥0})` is a `t`-structure on
@@ -1601,7 +1626,9 @@ Use [BBD-1982] Théorème 1.4.10, p.48; Remarque 1.4.11, Proposition 1.4.12, p.4
 
 - With `D_F = 0` the glued `t`-structure on `D ≃ D_U` is `t_U`; with `D_U = 0` it is `t_F`.
 
-- For the étale recollement of a point in `𝔸¹` and the shifted natural `t`-structures (shift 1 on `𝔾_m, 0` on the point), the glued `t`-structure is the middle perverse `t`-structure of `𝔸¹` and `Λ_{𝔸¹}[1]` lies in its heart.
+- For `Z = {0} ⊂ 𝔸¹` with `U = 𝔾_m`, gluing the middle perverse `t`-structure on all `D^b_c(U, Λ)` to the natural `t`-structure on `D^b_c(Z, Λ)` gives the middle perverse `t`-structure on all `D^b_c(𝔸¹, Λ)` (§2.4; EtaleCohomologyFoundations §F.8). The object `Λ_{𝔸¹}[1]` lies in its heart. On the subcategory of `D^b_c(U, Λ)` with lisse cohomology, middle perversity agrees with the natural `t`-structure shifted by one; that description does not extend to every constructible complex on `U`.
+
+- Over algebraically closed `k` with `ℓ ≠ char(k)` and `Λ = 𝔽_ℓ`, let `a:{1}→𝔸¹` and `P=a_*Λ[0]`. The support/cosupport conditions make `P` middle perverse. Its restriction `j^*P` is a nonzero degree-zero skyscraper on `𝔾_m`, outside the shifted natural heart `Sh_c(𝔾_m,Λ)[1]`. Hence gluing that shifted natural `t`-structure on the full open category to the natural one at `{0}` excludes `P` from its heart, although `Λ_{𝔸¹}[1]` belongs to both glued hearts.
 
 - Gluing the natural `t`-structures (shift 0 on both pieces) gives the natural `t`-structure of `D^b_c(X, Λ)`.
 
@@ -1797,13 +1824,13 @@ pointwise conditions are the natural `t`-structure shifted by `e`: the stalk con
 Construction of the truncation triangle of a given `K` by noetherian induction on the reduced perfect-base change: take a dense open `U` on
 which the cohomology sheaves of `K` are lisse and `U` is smooth equidimensional, truncate there with the shifted
 natural truncation, glue with the perverse `t`-structure of the closed complement (induction) along the
-open–closed recollement by the octahedral argument of §2.2 (BBD 1.4.10 and 2.1.3). §0.2 states the recollement
-for self-injective `Λ`; for a general noetherian `Λ` killed by `n` the same adjunctions and triangles hold on `D(X, Λ)` by EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3 and
-EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5, `Rj_*` preserves `D^b_c` by the finiteness theorem
-required from EtaleCohomologyFoundations §§F.0–F.6, and then `i^!` does by the localization triangle; the
-finiteness theorem (`Rj_*` and `i^!` preserve `D^b_c`, EtaleCohomologyFoundations §§F.0–F.1, 0.7;
-EnhancedDerivedSheaves §§0.1–0.3 with its EtaleCohomologyFoundations §§F.0–F.6 import) keeps every object
-constructible.
+open–closed recollement by the octahedral argument of §2.2 (BBD 1.4.10 and 2.1.3). For every noetherian `Λ`
+killed by `n` invertible in `k`, the ambient adjunction `j^* ⊣ Rj_*` and exact extension by zero are
+EnhancedDerivedSheaves §0.4's `ClassicalDerived.functorCoherence`; `i^!` and the localization triangles are
+EtaleCohomologyFoundations §0.7's `ClassicalAlgebraic.supportLocalization`.
+Recollement.ofClosedOpen (§2.2) uses §0.2's noetherian-coefficient finiteness argument for `Rj_*`, whose
+supported triangle proves bounded constructibility of `i^!`; thus the construction stays in `D^b_c` without
+self-injectivity or a general unbounded proper-support lift.
 
 Orthogonality `Hom(pD^{≤0}, pD^{≥1}) = 0` by dévissage along the same stratification: for `i_S` the stratum
 inclusions, `Hom(i_{S!}i_S^*K, L) = Hom(i_S^*K, i_S^!L)` vanishes by the shifted natural bounds on `S` (BBD
@@ -1823,7 +1850,7 @@ Proposition 2.1.3, Corollaire 2.1.4, p.57; (2.1.2.1), p.57; [BBD-1982] proof of 
 4.2.9, p.112; [Stacks] Tag 04DY (Étale Cohomology, Section 59.45).
 
 *Needs:* §2.2; SchemeAndStackFoundations §0.7; EtaleCohomologyFoundations §§F.0–F.1, 0.7;
-EnhancedDerivedSheaves §§0.1–0.3; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5; §0.2;
+EnhancedDerivedSheaves §§0.1–0.3; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4; §0.2;
 EtaleCohomologyFoundations §§0.10, F.6; `CategoryTheory.Triangulated.TStructure`;
 `CategoryTheory.Triangulated.TStructure.bounded`; EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site
 contract above.
@@ -2006,7 +2033,7 @@ and Lemme 1.4.19, pp.51–52.
 Extend the supplied finite-Tor self-duality to bounded constructible self-injective finite coefficients.
 
 **Verdier duality preserves perverse sheaves.** Let `Λ` be self-injective (a finite field of characteristic `ℓ ≠ char k, O/λ^m` or `ℤ/ℓ^m`), or `Λ = E/ℚ_ℓ` finite under the `ℓ`-adic hypotheses. Verdier duality `D_X = RHom(−, K_X)`
-(EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5) maps `pD^{≤0}(X, Λ)` onto `pD^{≥0}(X, Λ)` and
+(EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4) maps `pD^{≤0}(X, Λ)` onto `pD^{≥0}(X, Λ)` and
 `pD^{≥0}` onto `pD^{≤0}`. Hence `D_X` restricts to an anti-equivalence `Perv(X, Λ)^op ≃ Perv(X, Λ)` with `D_X² ≅ id, pH^m(D_X K) ≅ D_X pH^{−m}(K), D_X ∘ pj_! ≅ pj_* ∘ D_U` and `D_X ∘ j_!* ≅ j_!* ∘ D_U` for an open `j`. The locally
 closed extension follows in §2.8 from closed-pushforward duality and transitivity. For `Λ = O_E` (not
 self-injective) duality exchanges the middle perversity `p` with `p⁺` instead (EtaleCohomologyFoundations §F.8
@@ -2040,7 +2067,7 @@ the dual map.
 Use [BBD-1982] 2.2.8, p.69; 2.2.11, p.70; [BBD-1982] 4.0, p.102; [Juteau-2009] §1.1, (1.2)–(1.9), pp.38–39
 (arXiv:0901.3671v1).
 
-*Needs:* §2.4; §2.3; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5; §0.2; §0.1;
+*Needs:* §2.4; §2.3; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4; §0.2; §0.1;
 EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
 
 **Checks.**
@@ -2078,14 +2105,14 @@ Left `t`-exactness of `Rf_*` and `f^!` by adjunction (§2.2, BBD 1.3.17 (iii)).
 
 Finite `f: Rf_* = Rf_! = f_*` exact on sheaves (finite pushforward, imported with proper base change through
 EtaleCohomologyFoundations §§F.0–F.6), so both one-sided statements combine; étale `f: f^! = f^*`
-(EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5) (BBD 2.2.6).
+(EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4) (BBD 2.2.6).
 
 `f_!*`: BBD 2.2.7 — the natural map `Rf_!F → Rf_*F` factors through `pH⁰` of each side.
 
 Use [BBD-1982] Proposition 2.2.5, p.68; Corollaire 2.2.6 and 2.2.7, p.69.
 
 *Needs:* §2.4; SchemeAndStackFoundations §0.7; §2.2; EtaleCohomologyFoundations §F.2; EnhancedDerivedSheaves
-§0.4; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5; EtaleCohomologyFoundations §§F.0–F.6 and
+§0.4; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4; EtaleCohomologyFoundations §§F.0–F.6 and
 the scheme-site contract above.
 
 **Checks.**
@@ -2469,7 +2496,7 @@ gives the `H¹` isomorphism.
 
 Use [BBD-1982] Corollaire 1.4.24, p.55; (2.1.2.1), p.57; [BBD-1982] Proposition 2.2.4, p.68.
 
-*Needs:* §2.8; §2.4; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5.
+*Needs:* §2.8; §2.4; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4.
 
 **Checks.**
 
@@ -2624,7 +2651,7 @@ torsion (`nΛ = 0, n` invertible in `k`). For `a ∈ ℤ` and `K` in the unbound
 (EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3), say `K ∈ pD^{≤a}_{ext}(X, Λ)` if
 `ℋ^m(i_x^*K) = 0` for `m > a − dim(x)` at every point `x`, and `K ∈ pD^{≥a}_{ext}(X, Λ)` if `K` is bounded below and
 `ℋ^m(i_x^!K) = 0` for `m < a − dim(x)` at every point `x` (`i_x^! :=` restriction of `i^!` along `{x}^− → X` to `x`,
-EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5). Then: (a) on `D^b_c(X, Λ)` these are the aisles
+EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4). Then: (a) on `D^b_c(X, Λ)` these are the aisles
 of the middle perverse `t`-structure; (b) `pD^{≤a}_{ext}` is closed under extensions, arbitrary direct sums and
 filtered colimits; (c) `pD^{≥a}_{ext} ⊆ D^{≥a−dim X}`, so every family in it is uniformly bounded below (BBD
 2.1.2, remark after the definition), and `pD^{≥a}_{ext}` is closed under extensions and under filtered colimits,
@@ -2688,7 +2715,7 @@ maps (SchemeAndStackFoundations §0.7). Étale `u`: stalks and costalks are pres
 Use [BBD-1982] Définition 2.1.2 and the remarks after it, p.56; [BBD-1982] 4.0, (4.0.1)–(4.0.2), p.102.
 
 *Needs:* §2.4; SchemeAndStackFoundations §0.7; §2.2; EtaleCohomologyFoundations §§F.0–F.1, 0.7;
-EnhancedDerivedSheaves §§0.1–0.3; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5;
+EnhancedDerivedSheaves §§0.1–0.3; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4;
 EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
 
 **Checks.**
@@ -2738,7 +2765,7 @@ On `X_α` the cohomology sheaves of `K` are locally constant, so the stalk condi
 gives `ℋ^m(K|_{X_α}) = 0` for `m > −dim X_α` everywhere on `X_α` (§2.4). Since `H^q_c(Z, F) = 0` for `q > 2·dim Z` and
 every torsion sheaf `F` (§0.4), the hypercohomology spectral sequence gives `H^m_c(Z_α, K) = 0` for `m > 2·dim Z_α − dim X_α ≤ −dim Y_β`. Hence `ℋ^m(Rf_*K)_ȳ = 0` for `m > −dim Y_β`; since `y ∈ Y_β, dim(y) ≤ dim Y_β`, so `−dim Y_β ≤ −dim(y)` and the stalk vanishes for `m > −dim(y)`, which is (4.0.1) at `y`; so `Rf_*K ∈ pD^{≤0}(Y)`.
 
-Cosupport: `D_X K` is perverse (§2.5) and satisfies the same stratum hypotheses, so `Rf_*D_X K ∈ pD^{≤0}(Y)`; `D_Y Rf_*K ≅ Rf_!D_X K = Rf_*D_X K` (EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5, `f` proper), hence
+Cosupport: `D_X K` is perverse (§2.5) and satisfies the same stratum hypotheses, so `Rf_*D_X K ∈ pD^{≤0}(Y)`; `D_Y Rf_*K ≅ Rf_!D_X K = Rf_*D_X K` (EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4, `f` proper), hence
 `Rf_*K ∈ pD^{≥0}(Y)` by self-duality.
 
 Smooth source: take one stratum `X`; `K = L[n]` and `D_X K = L^∨(n)[n]` have locally constant cohomology; `dim(X ×_Y X) ≤ n` is the stated inequality summed over the strata of a partition of `Y` by fibre dimension (de
@@ -2749,7 +2776,7 @@ Use [deCataldo-Migliorini-2009] §4.2, Proposition 4.2.1 and Definition 4.2.2, p
 [BBD-1982] 4.2.4, p.108.
 
 *Needs:* §2.4; §2.5; EtaleCohomologyFoundations §F.2; EnhancedDerivedSheaves §0.4; §0.4;
-EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5; EtaleCohomologyFoundations §§F.0–F.6 and the
+EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4; EtaleCohomologyFoundations §§F.0–F.6 and the
 scheme-site contract above.
 
 **Checks.**
@@ -3069,7 +3096,7 @@ realization and finite-`E` lattice coefficients.
 
 *Needs:* EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above; §3.1;
 EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3; EtaleCohomologyFoundations §F.5;
-EnhancedDerivedSheaves §0.5; §0.2; EtaleCohomologyFoundations §§0.11, F.6.
+EnhancedDerivedSheaves §0.4; §0.2; EtaleCohomologyFoundations §§0.11, F.6.
 
 **Checks.**
 
@@ -3125,7 +3152,7 @@ Use [Bhatt-Scholze-proetale-2015] Lemma 6.6.2, p.52; Lemma 6.7.13, p.57; 6.8.14�
 [TCR-EtaleCohomologyFoundations] §F.4, normalized `ℤ_ℓ` realization and finite-`E` lattice coefficients.
 
 *Needs:* EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above; EtaleCohomologyFoundations
-§F.5; EnhancedDerivedSheaves §0.5; §0.4; EtaleCohomologyFoundations §0.9; §0.6; EtaleCohomologyFoundations
+§F.5; EnhancedDerivedSheaves §0.4; §0.4; EtaleCohomologyFoundations §0.9; §0.6; EtaleCohomologyFoundations
 §§0.10, F.6; §1.1; §1.3.
 
 **Checks.**
@@ -3658,7 +3685,7 @@ Use [ECD-2026] Propositions 27.1–27.4, pp.163–165; 27.5–27.7, pp.166–167
 
 *Needs:* AdicCoefficientsAndComparisons §§L0–L6; ClassicalAdicEtaleCohomology §§8.2, 11.1–11.2;
 `CategoryTheory.Adjunction.isIso_counit_app_iff_mem_essImage`; EtaleCohomologyFoundations §F.5;
-EnhancedDerivedSheaves §0.5.
+EnhancedDerivedSheaves §0.4.
 
 **Checks.**
 
@@ -6228,7 +6255,7 @@ The interface consists of the following maps and identities.
 
 A proof proceeds as follows.
 
-The adjunction `c₂_! ⊣ c₂^!` is EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5; it identifies the
+The adjunction `c₂_! ⊣ c₂^!` is EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4; it identifies the
 two descriptions naturally in `F₁, F₂`.
 
 For `c` the identity correspondence of `X, Hom_c(F₁, F₂) = Hom(F₁, F₂)` (since `id^! = id`).
@@ -6236,7 +6263,7 @@ For `c` the identity correspondence of `X, Hom_c(F₁, F₂) = Hom(F₁, F₂)` 
 Use [Varshavsky-LV-2007] Definition 1.1.4 and Remark 1.1.5, p. 7 (arXiv v2); [Lu-Zheng-2022] §2.2,
 Construction 2.6, p. 13 (arXiv v4).
 
-*Needs:* §6.1; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5; EtaleCohomologyFoundations
+*Needs:* §6.1; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4; EtaleCohomologyFoundations
 §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3.
 
 **Checks.**
@@ -6301,7 +6328,7 @@ Compatibility with composition reduces to the compatibility of base change morph
 Use [Varshavsky-LV-2007] 1.1.6 (a)–(b) and 1.1.7 (a)–(c), pp. 7–8 (arXiv v2).
 
 *Needs:* EtaleCohomologyFoundations §F.2; EnhancedDerivedSheaves §0.4; EtaleCohomologyFoundations §F.5;
-EnhancedDerivedSheaves §0.5; EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
+EnhancedDerivedSheaves §0.4; EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
 
 **Checks.**
 
@@ -6392,7 +6419,7 @@ Work with the following additional hypotheses. All schemes are separated of fini
 a finite ring killed by a power of `ℓ`, or a finite extension of `ℤ_ℓ` or `ℚ_ℓ` (in the adic case `D^b_ctf` is the
 category of §3.1); `D^b_ctf(X, Λ)` is the category of constructible complexes of finite `Tor` dimension
 (EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3), stable under the six
-operations. The base-change maps are those of EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5;
+operations. The base-change maps are those of EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4;
 external products use finite `Tor` dimension on both factors.
 
 The interface consists of the following maps and identities.
@@ -6411,17 +6438,17 @@ The interface consists of the following maps and identities.
 A proof proceeds as follows.
 
 The base change map `pr_C^*c₂^! → pr_D^!d₁^*` exists for every cartesian square of separated finite-type schemes
-(EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5), so the composite is always defined.
+(EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4), so the composite is always defined.
 
 Associativity and unit: coherence of base change maps with composition of squares (EtaleCohomologyFoundations
-§F.5; EnhancedDerivedSheaves §0.5).
+§F.5; EnhancedDerivedSheaves §0.4).
 
 Compatibility with `RΓ_c`: compose the pushforwards of 1.1.6 and use proper base change (Lu–Zheng Construction
 2.6).
 
 Use [Lu-Zheng-2022] §2.2, Construction 2.6, p. 13 (arXiv v4).
 
-*Needs:* EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5; EtaleCohomologyFoundations §§F.0–F.1,
+*Needs:* EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4; EtaleCohomologyFoundations §§F.0–F.1,
 0.7; EnhancedDerivedSheaves §§0.1–0.3.
 
 **Checks.**
@@ -6480,7 +6507,7 @@ constructible finite-Tor complexes. Then sheafified adjunction gives `RHom(c₁^
 the product factorization proved in §0.2 as well as sheafified adjunction.
 
 The evaluation map and the diagonal adjunction give `DF ⊠ F → Δ_*K_X`; base change `c^!Δ_* ≅ Δ′_*c′^!` for the
-cartesian square defining `Fix(c)` (EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5), and `c′^!K_X = K_{Fix(c)}` (Varshavsky 1.2.2(a)).
+cartesian square defining `Fix(c)` (EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4), and `c′^!K_X = K_{Fix(c)}` (Varshavsky 1.2.2(a)).
 
 Local terms by restriction and the proper integration map (Varshavsky 1.2.2(`b`), (1.3)–(1.4)); the
 trivial-correspondence case is Varshavsky 1.2.3 and matches the perfect-complex trace of
@@ -6489,7 +6516,7 @@ EtaleCohomologyFoundations §F.10.3.
 Use [Varshavsky-LV-2007] 0.3–0.4, pp. 5–6; Notation 1.2.1, 1.2.2 (a)–(b) with (1.2)–(1.4), Example 1.2.3, pp.
 8–9 (arXiv v2).
 
-*Needs:* §6.2; §6.1; §0.2; §0.5; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5;
+*Needs:* §6.2; §6.1; §0.2; §0.5; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4;
 EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3.
 
 **Checks.**
@@ -6539,7 +6566,7 @@ Properness of `c` or `b` is not required.
 Use [Varshavsky-LV-2007] Proposition 1.2.5, p. 10; Theorem 4.3.1, Corollary 4.3.2 and 4.3.4, pp. 34–36 (arXiv
 v2).
 
-*Needs:* §6.2; §0.5; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.5; §0.2.
+*Needs:* §6.2; §0.5; EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4; §0.2.
 
 **Checks.**
 
@@ -7575,7 +7602,7 @@ GeometricSatakeAndFusion and the proposed stack and perfect-space extensions use
 
 - **[TCR-DeligneWeightsAndPurity]** TauCetiRoadmap contributors, Deligne weights, purity and the Weil bounds. README.md, version 5f713c436ee303ceb25938d815e236b1a2c3d09a.
 
-- **[TCR-EnhancedDerivedSheaves]** TauCetiRoadmap contributors, Enhanced derived categories of sheaves. README.md, version b3ea60e3efc3bd4a0b541fb54469dcbf88772064.
+- **[TCR-EnhancedDerivedSheaves]** TauCetiRoadmap contributors, Enhanced derived categories of sheaves. README.md, version ba9de88d837c1973a006cfaa2861b39410ddcba6.
 
 - **[TCR-EtaleCohomologyFoundations]** TauCetiRoadmap contributors, Étale cohomology foundations. README.md, version 651c49797943811c7dd6d8ab4b5771b7ede1ec0d.
 
