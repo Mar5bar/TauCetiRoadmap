@@ -87,4 +87,44 @@ theorem tangentRange_maximalTotallyReal
   exact (hL x).isMaximalTotallyReal_of_tames ((hω.tames_iff).mp ht (i x))
 end Boundary
 
+
+/-! ## FK8.1: the surface computation's finite algebraic matrix
+
+The lune/strip, orientation and local-system comparisons in the README must identify
+the actual geometric differential with this matrix. These algebraic declarations do
+not assert that comparison or identify arbitrary holonomy with scalar coefficients.
+Generators are ordered (z,a,b,c), with b in degree −1 and the others in degree zero.
+-/
+
+section SurfaceComputation
+variable {R : Type*} [CommRing R]
+
+/-- The two lune coefficients can be different; the geometry retains their actual
+ordered transports. The trivial rank-one equal-area case has u=v=T^A. -/
+def surfaceTorusDifferential (u v : R) : (Fin 4 → R) →ₗ[R] (Fin 4 → R) where
+  toFun f i := if i = 1 then u * f 2 else if i = 3 then -(v * f 2) else 0
+  map_add' f g := by
+    funext i
+    by_cases h1 : i = 1 <;> by_cases h3 : i = 3 <;> simp [h1, h3, mul_add, add_comm]
+  map_smul' r f := by
+    funext i
+    by_cases h1 : i = 1 <;> by_cases h3 : i = 3 <;>
+      simp [h1, h3, Pi.smul_apply, smul_eq_mul, mul_left_comm]
+
+/-- The four-generator matrix squares to zero before any localization or
+non-zero-divisor hypothesis; those enter the cohomology and bar calculation. -/
+theorem surfaceTorusDifferential_square (u v : R) :
+    (surfaceTorusDifferential u v).comp (surfaceTorusDifferential u v) = 0 := by
+  ext f i
+  simp [surfaceTorusDifferential]
+
+/-- The explicit cochain arrow is from b to a−c, with both real-area monomials q. -/
+theorem surfaceTorusDifferential_basis_b (q : R) :
+    surfaceTorusDifferential q q (fun i ↦ if i = 2 then 1 else 0) =
+      (fun i ↦ if i = 1 then q else if i = 3 then -q else 0) := by
+  ext i
+  simp [surfaceTorusDifferential]
+
+end SurfaceComputation
+
 end TauCetiRoadmap.FukayaTheory
