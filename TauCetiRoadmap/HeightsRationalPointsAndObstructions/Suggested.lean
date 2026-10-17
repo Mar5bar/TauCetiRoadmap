@@ -214,7 +214,7 @@ variable (K : Type) [Field K] [NumberField K]
 /-- Affine adelic points, using the native number-field adele algebra. -/
 def AdelicPoints := A →ₐ[K] AdeleRing (𝓞 K) K
 
-/-- The imported evaluation topology specialized to the adelic point carrier. -/
+/-- The evaluation topology of ReductiveGroupsPartII §RG2.0.1 on affine adelic points. -/
 instance : TopologicalSpace (AdelicPoints K A) :=
   TopologicalSpace.induced (fun x : AdelicPoints K A => (x : A →ₐ[K] AdeleRing (𝓞 K) K))
     (TopologicalSpace.induced (fun x : A →ₐ[K] AdeleRing (𝓞 K) K => (⇑x : A → AdeleRing (𝓞 K) K))
