@@ -26,6 +26,38 @@ theorem gsp_genusOne (R : Type*) [CommRing R] (γ : GL (Fin 1 ⊕ Fin 1) R) :
       (γ : Matrix (Fin 1 ⊕ Fin 1) (Fin 1 ⊕ Fin 1) R)ᵀ =
     (γ : Matrix (Fin 1 ⊕ Fin 1) (Fin 1 ⊕ Fin 1) R).det • J (Fin 1) R := sorry
 
+/-- Check levelGamma0_similitude_not_det: the genus-two diagonal has multiplier -1
+and determinant 1, so determinant congruence does not specify the multiplier. -/
+example : let γ : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) ℤ :=
+    fromBlocks 1 0 0 (-1)
+    γ * J (Fin 2) ℤ * γᵀ = (-1 : ℤ) • J (Fin 2) ℤ ∧ γ.det = 1 := sorry
+
+/-- At an odd prime the genus-two multiplier -1 does not reduce to 1. -/
+example (p : ℕ) [Fact p.Prime] (hp : p ≠ 2) :
+    PadicInt.toZModPow (p := p) 1 (-1) ≠ 1 := sorry
+
+/-- Check levelGamma1_not_cofinal: the upper unipotent remains in every Γ₁-level
+but its unit upper-right entry survives reduction modulo p. -/
+example (p : ℕ) [Fact p.Prime] (m : ℕ) :
+    let γ : Matrix (Fin 1 ⊕ Fin 1) (Fin 1 ⊕ Fin 1) ℤ_[p] := fromBlocks 1 1 0 1
+    γ * J (Fin 1) ℤ_[p] * γᵀ = J (Fin 1) ℤ_[p] ∧
+      (γ (Sum.inl 0) (Sum.inl 0) = 1 ∧ γ (Sum.inr 0) (Sum.inl 0) = 0 ∧
+       γ (Sum.inr 0) (Sum.inr 0) = 1) ∧
+      PadicInt.toZModPow m (γ (Sum.inl 0) (Sum.inr 0)) = 1 ∧
+      PadicInt.toZModPow 1 (γ (Sum.inl 0) (Sum.inr 0)) ≠ 0 := sorry
+
+/-- Check levelGamma_m_zero: reduction at depth zero is the zero matrix ring,
+whereas the identity at depth one still has diagonal entry 1. -/
+example (p : ℕ) [Fact p.Prime] (γ : Matrix (Fin 2) (Fin 2) ℤ_[p]) :
+    γ.map (PadicInt.toZModPow 0) = 0 ∧
+      ((1 : Matrix (Fin 2) (Fin 2) ℤ_[p]).map (PadicInt.toZModPow 1)) 0 0 = 1 := by
+  constructor
+  · have : Subsingleton (ZMod (p ^ 0)) := by
+      rw [pow_zero]
+      infer_instance
+    exact Subsingleton.elim _ _
+  · simp
+
 end GSp
 
 /-! ## Layer 0.general: general-data and toroidal diamonds -/
@@ -59,6 +91,13 @@ example (x : K) : normalizedTrace K K x = x := sorry
 example (a : K) : Algebra.trace K (K × K) (a, a) = 2 * a ∧
     normalizedTrace K (K × K) (a, a) = a := sorry
 
+
+/-- Finite Kummer-algebra part of normalizedTrace_g1_monomial. In the free algebra
+K[X]/(X^d-a), normalized trace projects monomials onto exponents divisible by d. -/
+example (a : K) (d k : ℕ) (hd : 0 < d) :
+    let f : Polynomial K := Polynomial.X ^ d - Polynomial.C a
+    normalizedTrace K (AdjoinRoot f) ((AdjoinRoot.root f) ^ k) =
+      if d ∣ k then a ^ (k / d) else 0 := sorry
 
 end SiegelTorsion.FiniteLevel
 
@@ -193,6 +232,14 @@ example (a : ℤ_[p]) :
 example (Z : Matrix g g ℤ_[p]) (hZ : Zᵀ = Z) :
     Z.map (fun x => algebraMap ℚ_[p] K (x : ℚ_[p])) ∈ graphDistanceDomain p K 0 := sorry
 
+/-- Check graph_domain_not_disc: translation by p fixes the distance-to-integral
+condition but leaves the disc centered at zero when its radius is less than |p|. -/
+example (r : ℝ) (hr : 0 ≤ r) (hp : r < ‖(p : ℚ_[p])‖) :
+    chartAction (1 : Matrix (Fin 1) (Fin 1) ℚ_[p]) !![(p : ℚ_[p])] 0 1 0 =
+      !![(p : ℚ_[p])] ∧
+    (!![(p : ℚ_[p])] : Matrix (Fin 1) (Fin 1) ℚ_[p]) ∈
+      graphDistanceDomain p ℚ_[p] r ∧ ¬ ‖(p : ℚ_[p])‖ ≤ r := sorry
+
 end PadicDistance
 end HodgeTate.MatrixChart
 
@@ -241,9 +288,94 @@ example (α : Matrix (Fin 2) (Fin 2) R) : levelAction 1 α = α := sorry
 example : pairingChangeGenerator (Units.mk0 (2 : ℚ) (by norm_num)) 6 = 3 := by
   norm_num [pairingChangeGenerator]
 
+/-- The identity generator change fixes every pairing coefficient. -/
+example (a : R) : pairingChangeGenerator (1 : Rˣ) a = a := by
+  simp [pairingChangeGenerator]
+
+/-- Every generator change fixes the zero pairing coefficient. -/
+example (u : Rˣ) : pairingChangeGenerator u (0 : R) = 0 := by
+  simp [pairingChangeGenerator]
+
 end HilbertTower.Coefficients
 
 /-! ## Layer 6: general period maps and abelian descent -/
+
+/-- The finite contracted-product model in §5.5 has invariant coordinate 2y+u. -/
+example (y t : ZMod 2) (u : ZMod 4) :
+    2 * ((y + t).val : ZMod 4) + (u - 2 * (t.val : ZMod 4)) =
+      2 * (y.val : ZMod 4) + u := sorry
+
+/-- The antidiagonal sign in §5.5 is detected by a group of odd order. -/
+example : (1 + 1 : ZMod 3) + (0 - 1) = 1 + 0 ∧
+    (1 + 1 : ZMod 3) + (0 + 1) ≠ 1 + 0 := by decide
+
+/-- Changing the section by the nonzero element of Z/2 changes the fibre coordinate. -/
+example (y : ZMod 2) : y + 1 ≠ y := by simp
+
+/-- The identity torsor diagram of §6.5 has a diagonal fibre product. -/
+example {G : Type*} [Group G] (x y : G) :
+    x = y ↔ ∃! g : G, (g, g) = (x, y) := sorry
+
+/-- A nontrivial smooth-surjective constant-group diagram has eight points. -/
+example : let f : ZMod 4 →+* ZMod 2 := ZMod.castHom (by decide) (ZMod 2)
+    Fintype.card {z : ZMod 4 × ZMod 4 // f z.1 = f z.2} = 8 := by decide
+
+/-- The fibre-product group of §6.5 acts simply transitively by translations. -/
+example : let f : ZMod 4 →+* ZMod 2 := ZMod.castHom (by decide) (ZMod 2)
+    ∀ x y : ZMod 4 × ZMod 4, f x.1 = f x.2 → f y.1 = f y.2 →
+      ∃! h : ZMod 4 × ZMod 4,
+        f h.1 = f h.2 ∧ (x.1 + h.1, x.2 + h.2) = y := sorry
+
+/-- The sections 1 and 2 of G_m in §6.5 have empty equaliser over Q. -/
+example : ¬ ∃ u : ℚˣ, (u : ℚ) = 1 ∧ (u : ℚ) = 2 := by
+  rintro ⟨u, h, h'⟩
+  norm_num [h] at h'
+
+/-- The component idempotent in §6.7 cuts out the first factor of a two-point space. -/
+example {K : Type*} [Field K] (a b : K) :
+    ((0, 1) : K × K) * (a, b) = 0 ↔ b = 0 := by simp
+
+/-- Swapping two points in §6.7 has the diagonal invariant ring. -/
+example {K : Type*} [Field K] (a b : K) : (a, b) = (b, a) ↔ a = b := by
+  simp [eq_comm]
+
+/-- The nontrivial two-orbit quotient in §6.7 is distinguished by parity. -/
+example : ∀ a b : ZMod 4,
+    (ZMod.castHom (by decide) (ZMod 2)) a = (ZMod.castHom (by decide) (ZMod 2)) b ↔
+      b = a ∨ b = a + 2 := by decide
+
+/-- The S3 induction Check in §6.7 uses S h, with S the nonnormal stabilizer of 0.
+Mathlib's rightRel records equality of these left S-orbits. -/
+example : let S := MulAction.stabilizer (Equiv.Perm (Fin 3)) (0 : Fin 3)
+    let s := Equiv.swap (1 : Fin 3) 2
+    let h := Equiv.swap (0 : Fin 3) 1
+    s ∈ S ∧ QuotientGroup.rightRel S h (s * h) ∧
+      ¬ QuotientGroup.rightRel S h (h * s) := by
+  dsimp
+  simp only [QuotientGroup.rightRel_apply, MulAction.mem_stabilizer_iff]
+  decide
+
+/-- A stabilizer element fixes the base coset while moving the two-point fibre. -/
+example : let S := MulAction.stabilizer (Equiv.Perm (Fin 3)) (0 : Fin 3)
+    let s := Equiv.swap (1 : Fin 3) 2
+    QuotientGroup.rightRel S (1 : Equiv.Perm (Fin 3)) s ∧ s 1 = 2 := by
+  dsimp
+  simp only [QuotientGroup.rightRel_apply, MulAction.mem_stabilizer_iff]
+  decide
+
+/-- With S=1 the coset relation used by induction is equality. -/
+example {G : Type*} [Group G] (h h' : G) :
+    QuotientGroup.rightRel (⊥ : Subgroup G) h h' ↔ h = h' := by
+  simp only [QuotientGroup.rightRel_apply, Subgroup.mem_bot, mul_inv_eq_one, eq_comm]
+
+/-- The contracted relation preserves the coordinate y h when S=H. -/
+example {G : Type*} [Group G] (y h s : G) :
+    (y * s) * (s⁻¹ * h) = y * h := by group
+
+/-- A noninvariant two-point map cannot descend through the quotient in §6.8. -/
+example : (¬ ∃ f : Unit → Fin 2, ∀ y : Fin 2, f () = y) ∧
+    (∃ f : Unit → Fin 2, ∀ _y : Fin 2, f () = 0) := by decide
+
 
 /-! ### Conditional double-coset identity
 
@@ -290,7 +422,8 @@ unitReductionKernel, similitude_spec, levelGamma_le_levelGamma1, levelGamma_norm
 levelGamma_cofinal, levelGamma_genusOne, similitude_levelGamma0,
 and their group and cofinality APIs (§0.1); ShimuraTower.pLevel, pLevelMin, toMin, translate, primeToPHecke,
 quotientAction, infiniteLevel, infiniteLevelMin, infiniteLevel.proj,
-PerfectoidRepresentative (diamondIso, ofDiamondIso), neutralComponent,
+PerfectoidRepresentative (diamondIso, ofDiamondIso with perfectoid completed affinoid
+uniformizations), neutralComponent,
 neutralComponent.toFull, neutralSymmetry, connectedDatumTower, Rigidified
 (quotientIso, infiniteLevel, trivial).
 Layer 0.general: ShimuraTower.generalInfiniteLevel, toroidal,
@@ -307,5 +440,7 @@ Layer 4: ShimuraTower.PropertyP, ConnectedPropertyP, propertyP_hodge.
 Layer 5: HilbertTower.geometric, intermediate, arithmetic, beta1, beta2,
 the geometric levelAction, polAction, weilPairing, weilPairing_arith, qpAction.
 Layer 6: AbelianType.hodgeCover, lovering, deltaGroup; LevelGroup.mk;
-BruhatTube.mk; the logarithmic, de Rham and Hodge–Tate torsors.
+BruhatTube.mk; the logarithmic, de Rham and Hodge–Tate torsors, the chosen universally open
+toric cover (§6.0), arbitrary-data canonical association (§6.1a), finite-level truncated
+period maps (§6.13a) and nonsplit Levi image (§6.13b).
 -/
