@@ -340,6 +340,25 @@ end QInteger
 
 /-! ## Polynomial, monodromy and multiplicative checks of AI.1 and AI.6 -/
 
+-- The log chain rule sums all source occurrences with a given target value (AI.6.6).
+example {R ι κ : Type*} [CommRing R] [Fintype ι] [DecidableEq κ]
+    (v : ι → κ) (a : κ) (P : MvPolynomial ι R) :
+    MvPolynomial.X a * MvPolynomial.pderiv a (MvPolynomial.rename v P) =
+      ∑ τ : ι, if v τ = a then
+        MvPolynomial.rename v (MvPolynomial.X τ * MvPolynomial.pderiv τ P) else 0 := by sorry
+
+-- Two independent occurrences mapping to Z have a summed derivative, and no individual identity.
+example (P : MvPolynomial (Fin 2) ℤ) :
+    let f := MvPolynomial.rename (R := ℤ) (fun _ : Fin 2 => ())
+    let X : MvPolynomial (Fin 2) ℤ := MvPolynomial.X 0
+    let Y : MvPolynomial (Fin 2) ℤ := MvPolynomial.X 1
+    let Z : MvPolynomial Unit ℤ := MvPolynomial.X ()
+    let D₀ := X • MvPolynomial.pderiv 0
+    let D₁ := Y • MvPolynomial.pderiv 1
+    let D := Z • MvPolynomial.pderiv ()
+    f X = Z ∧ f Y = Z ∧ D (f P) = f (D₀ P + D₁ P) ∧
+      f (D₀ Y) = 0 ∧ D (f Y) = Z ∧ Z ≠ 0 := by sorry
+
 -- Branch and torus log derivations, including their weights on every monomial.
 example (a b : ℕ) (c : ℤ) :
     let X₀ : MvPolynomial (Fin 2) ℤ := MvPolynomial.X 0
@@ -454,7 +473,10 @@ The following definitions and constructions are README targets: their carriers (
 ringed topoi with décalage, Breuil–Kisin–Fargues modules, pro-étale period sheaves, semistable charts
 and log structures, B_dR⁺-envelopes, spectra with circle actions) are not available at the pins.
 
-Layer AI.0: `AInf.thetaWitt`.
+Layer AI.0: `AInf.thetaWitt`. The local name `AInf.witt_etale_base_change` is an alias of
+CrystallineCohomology CR.4's coefficient theorem in *Witt localization and étale descent*:
+for a prime `p`, `r ≥ 1` and an étale map `A → B` of arbitrary commutative rings,
+`W_r(A) → W_r(B)` is étale and `W_r(A′) ⊗_{W_r(A)} W_r(B) ≅ W_r(B ⊗_A A′)` for every `A → A′`.
 
 Layer AI.0:integral: `AInf.bkTwist`; `AInf.residue` is Mathlib's Witt map specialized to the
 residue homomorphism, with its period calculation recorded above.
@@ -472,6 +494,11 @@ crystalline isomorphism, identity residue reduction and comparison-preserving mo
 Layer AI.3: `AInfSheaf.completedIntegral`, `AInfSheaf.tilt`, `AInf.classical_ainf_sheaf`,
 `AInfSheaf.ainf`, `AInfSheaf.deRhamPeriods`, `AInfSheaf.structuralDeRhamPeriods`,
 `AInf.nu`, `AOmega.local`, `AOmega.toricCover`, `AOmega.qModel`, `AInf.sqZero`.
+For `AInfSheaf.structuralDeRhamPeriods`, the affinoid perfectoid presentation
+`U = lim_i Spa(R_i,R_i⁺)` with completed limit `(R,R⁺)` gives the sheafification of
+`colim_i (((R_i⁺ ⊗_{W(k₀)} A_inf(R,R⁺))^∧_p)[1/p])^∧_{ker θ_i}`.
+The completions are classical and ordered as written (Sch13-corr, item (3)); the stabilized
+toric power-series computation supplies its connection and strict Poincaré lemma.
 
 Layer AI.4: `AOmega.wittPre`, `AOmega.wittImproved`, `AInf.boundedPD`
 (`AInf.bounded_pd_coefficients`).
@@ -488,6 +515,10 @@ Layer AI.6: `Semistable.chartRing`, `Semistable.divisorialLog`, `Semistable.mono
 `Semistable.bdrComparisonMap`, `AInf.normalized_valuation_length`,
 `Semistable.deRhamLatticeFunctor`, `AInf.pure_integral_model_freeness`. The latter supplies
 purity/projectivity and local-ring freeness of algebraic integral models before completion.
+The local ring map of `Semistable.bdrComparisonMap` induces the map on log differentials
+`dlog X_τ ↦ dlog X_{v(τ)}` and its exterior powers, where `τ` indexes source occurrences and
+`v(τ)` is their coordinate value. Its operator identity is
+`D′_a ∘ f = Σ_{v(τ)=a} f ∘ D_τ`, compatible with refinement; repeated values contribute a sum.
 
 Layer AI.7: `CohomologicalBK.coefficientNormalization`, `AInf.Trace.tate`,
 `AInf.Trace.tateDiagonal`, `AInf.Trace.THH`,
