@@ -2895,6 +2895,9 @@ Representation groups (Schur covers) of a finite group are RepresentationTheory/
 Layer 7; group extensions are
 Mathlib's `GroupExtension`.
 
+The Schur multiplier `M(G)` is Mathlib's `groupHomology.H2 (Rep.trivial ℤ G ℤ)`;
+its carrier and additive-group API are used directly. No second multiplier carrier is introduced.
+
 **Commutators of lifts and the class map of a central extension.** Let `1 → A → E → G → 1` be a
 central extension. For commuting `x, y ∈ G` and any lifts `X, Y ∈ E`, the commutator `X Y X⁻¹ Y⁻¹`
 lies in `A` and does not depend on the lifts; call it `κ_E(x, y)`. For commuting `x, y`, the chain
@@ -3061,7 +3064,7 @@ Theorem 2.5, pp. 2–4. *Needs:* *Marked central extensions*; Mathlib `Presented
   reduction modulo `2`.
 - For `G = 1` and `c = {1}`, the sole conjugation relation is the identity word; `U ≅ ℤ`,
   its projection has full kernel, and the marked lift of the identity is nontrivial.
-- Imposing `[x]^{ord(x)} = 1` would turn the previous example into `C₂`; the universal property
+- Imposing `[x]^{ord(x)} = 1` would turn the `G = C₂` example above into `C₂`; the universal property
   fails for the marked extension `C₄ → C₂`.
 
 **The class degree map.** Let `D = c/G` and `L = ℤ^D`, Mathlib's `D →₀ ℤ`. Define
@@ -4622,9 +4625,6 @@ sections give isomorphic `Γ`-groups, conjugation by that element being a `Γ`-e
 (Without the solvability hypothesis, conjugacy follows from the Feit–Thompson theorem, since one of two
 coprime orders is odd; that theorem is not part of this roadmap, and the conjugacy statement here
 carries the hypothesis.) For finite groups, Mathlib's
-The Schur multiplier `M(G)` is Mathlib's `groupHomology.H2 (Rep.trivial ℤ G ℤ)`;
-its carrier and additive-group API are used directly. No second multiplier carrier is introduced.
-
 `Subgroup.exists_right_complement'_of_coprime` gives existence. This target adds conjugacy and the
 profinite case.
 
