@@ -181,6 +181,25 @@ without that extra point in the unital case. Nonemptiness in the unital case
 requires a nonzero **commutative** algebra. Prove the unitization/character-space
 correspondence and vanishing at infinity of Gelfand transforms.
 
+For a commutative complex C*-algebra A, compare its nonzero continuous
+character space Ω with that of the native external `Unitization ℂ A`.
+The augmentation is the scalar projection `Unitization.fstHom` (underlying
+function `Unitization.fst`). Reuse `Unitization.lift` for the unique
+extension `χ⁺(c,a)=c+χ(a)`, with its star version when needed. Prove
+that restriction identifies every character other than augmentation with
+exactly one χ∈Ω, and prove the weak-star topology comparison by these
+evaluation formulas and the automatic character bounds. Thus Ω is the open
+complement of augmentation in the compact unitized character space. For A
+with no identity this is its one-point compactification; if A already has
+an identity, the external unitization still adds an isolated augmentation
+point. For A=0 the unitized space is just that point. In the latter unital
+case evaluation at the internal identity separates augmentation from Ω;
+conversely, prove that an isolated augmentation would give an identity of A
+by the commutative C*-Gelfand transform. Compare the product topology and
+equivalent Banach `UnitizationL1` and C*-unitization norms, not identical
+native norm instances. VonNeumannAlgebras V11 consumes this comparison
+before Fourier uniqueness or inversion.
+
 For commutative unital algebras reuse the character description of the spectrum,
 invertibility iff the transform has no zeros, and the Šilov idempotent theorem:
 clopen subsets of the character space correspond bijectively to idempotents.
@@ -418,7 +437,55 @@ the Banach algebra and involution APIs. With
 
 Prove well-definedness on almost-everywhere classes, associativity, the norm
 bound, the isometric involution and its reversal of products, and continuity
-of translations. Identify the discrete case with `ℓ¹(G)`. The algebra is
+of translations, including right-translation L¹ continuity. Retain
+AmenableGroups7.1–2's Haar/modular convention and its sigma-compact-support,
+Baire-representative and localized Fubini bridges; do not add global
+sigma-finiteness or second countability.
+
+**A7.ChosenApproximateIdentity.** Index by all identity neighbourhoods,
+ordered by reverse inclusion. Choose nonnegative continuous compactly
+supported u_U with support in U and integral one, using relatively compact
+neighbourhoods and compact-continuous Urysohn functions, positivity of Haar
+measure on nonempty open sets, and normalization. Prove u_U∈L¹∩L² and
+‖u_U‖₁=1. For these chosen kernels prove both u_U*f→f and f*u_U→f in
+L¹. In the right-hand formula use
+`(f*u_U)(x)=∫ c(z)u_U(z)f(xz⁻¹)dμ(z)` and
+`∫c(z)u_U(z)dμ(z)=∫u_U(z⁻¹)dμ(z)→1`;
+the latter limit uses modular continuity and shrinking support, not exact
+inversion invariance for a general group. Use nets, not an assumed countable
+neighbourhood basis.
+
+**A7.IntegratedRepresentations.** Integrate uniformly bounded strongly
+continuous representations π of G on a Banach space to nondegenerate
+bounded representations `ρ(f)ξ=∫f(x)π(x)ξ dμ(x)` of L¹(G), and construct
+the inverse correspondence, including intertwining maps and explicit norm
+estimates (`‖ρ(f)‖≤sup_x‖π(x)‖·‖f‖₁`). Prove the needed Bochner
+measurability on supports: the essential sigma-compact localization and
+separable images of compact sets supply it without a separability
+assumption on the whole Banach space. Prove multiplicativity with the
+stated convolution, and nondegeneracy by ρ(u_U)ξ→ξ. In the reverse
+direction define the group action first on the span of ρ(L¹)E by
+`π(x)ρ(f)ξ=ρ(L_x f)ξ`, `L_x f(y)=f(x⁻¹y)`; prove presentation
+independence, its uniformly bounded extension, strong continuity and
+recovery of ρ, using the bounded approximate identity. This construction
+precedes M(G), the regular representation and Fourier theory.
+
+**A7.RegularL2.** On L²(G) construct `λ_xξ(y)=ξ(x⁻¹y)`, prove
+unitarity by left Haar invariance and strong continuity by C_c density,
+and apply A7.IntegratedRepresentations. Prove the integrated involution
+law `λ(f*)=λ(f)*` and `‖λ(f)‖≤‖f‖₁`. Own the common-representative
+comparison: for f∈L¹ and h∈L¹∩L², the convolution integral represents
+both the L¹ convolution and λ(f)h in L², with Young bounds
+`‖f*h‖₁≤‖f‖₁‖h‖₁` and `‖λ(f)h‖₂≤‖f‖₁‖h‖₂`.
+Prove the almost-everywhere representative compatibility using the same
+localized integration bridges, rather than identifying the two Lp quotient
+types. Prove λ(u_U)ξ→ξ, hence nondegeneracy, using the chosen kernels
+and C_c density. For every G prove faithfulness: λ(f)=0 makes all
+λ(f)u_U zero in L²; the common-representative comparison makes f*u_U
+zero in L¹; its L¹ limit is f. These results precede V11's reduced
+C*-algebra and use no character correspondence or Fourier uniqueness.
+For abelian G prove unimodularity, inversion invariance of Haar measure
+and commutativity of L¹ convolution. Identify the discrete case with `ℓ¹(G)`. The algebra is
 unital iff `G` is discrete; account for the normalization of Haar measure in
 the function representing the identity.
 
@@ -437,10 +504,7 @@ of `L¹(G)` as a closed two-sided ideal, and `δ_g*δ_h=δ_gh`. The measure
 involution is conjugation followed by inversion; its restriction gives the
 displayed modular formula on `L¹`.
 
-Integrate uniformly bounded strongly continuous representations of `G` on a
-Banach space to nondegenerate bounded representations of `L¹(G)`, and construct
-the inverse correspondence, including intertwining maps and explicit norm
-estimates. Prove the needed Bochner measurability on supports. Extend essential
+Extend essential
 `L¹(G)` bimodules to `M(G)` by factorization. For a Banach algebra with bounded
 approximate identity embedded as a closed ideal in `B`, define the strict
 topology by `b↦‖ba‖+‖ab‖`; prove unique strict-to-weak-star continuous extension
@@ -451,6 +515,52 @@ left and right translation orbits on compact sets and regular-measure
 approximation to construct finite atomic measures with simultaneous strict
 error bounds. Control their total variation uniformly and pass to the net
 over finite test sets and positive error tolerances.
+
+**A7.CharactersAndUniqueness.** For every locally compact Hausdorff
+abelian G, identify all nonzero bounded characters of L¹(G) with continuous
+unitary group characters by `χ_γ(f)=∫f(x)γ(x)dμ(x)`, with no conjugation.
+Own the integrated character correspondence here. From a nonzero character
+χ choose f₀ with χ(f₀)≠0, construct γ from
+`χ(L_x f₀)/χ(f₀)`, prove independence of f₀, multiplicativity,
+continuity from L¹ translation continuity, and unit modulus from uniform
+boundedness on all powers and inverses. Derive the inverse integral formula
+by applying χ to the convolution integral. Prove the resulting
+homeomorphism from the compact-open dual to the Banach-algebra weak-star
+character space: use C_c approximation in one direction and the norm-compact
+translation orbit of f₀ over each compact set in the other. Consume A3's
+vanishing-at-infinity Gelfand transform to obtain Riemann–Lebesgue. This
+character correspondence and its topology proof do not use Fourier
+uniqueness, inversion or double-dual surjectivity.
+
+For uniqueness consume V11's inversion-free **closed topological
+embedding** of G into its double dual, with its compact-open topology and
+positive-character Fourier convention. Extend Tau Ceti's native
+`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`
+from finite positive inner regular measures on a Pontryagin dual to finite
+signed/complex regular measures by Jordan decomposition of real and
+imaginary parts and the transform identities at γ and its conjugate.
+For `H=Additive (PontryaginDual G)`, explicitly transport V11's evaluation
+embedding to `G→PontryaginDual (Multiplicative H)` through the canonical
+topological group equivalence; do not identify the wrapper types by fiat.
+Push a finite complex regular measure ν forward along this embedding.
+Its native evaluation transform at h∈H is precisely `∫γ_h(x)dν(x)`.
+Supply finite total variation, inner regularity of the positive variations
+and pushforwards, and injectivity of pushforward: the image is closed,
+and its homeomorphism with G takes Borel sets to Borel sets of that closed
+image. Native positive-measure uniqueness, applied to each pair of Jordan
+parts, therefore gives ν=0 when all these integrals vanish. This proves
+the signed/complex comparison, not just the positive special case.
+
+Apply this to the regular complex measure f·μ from the L¹→M(G)
+embedding and identify zero measure with f=0 almost everywhere. Prove its
+finite variation and regularity by essential sigma-compact localization
+and compact approximation; no globally sigma-finite Haar measure or global
+`L∞=(L¹)*` identification is assumed. This single A7 uniqueness theorem
+precedes V11's Fourier inversion, Fourier–Plancherel and double-dual
+surjectivity; only V11's earlier closed-embedding stage is consumed.
+Compare the source convention `h_γ(x)=γ(x⁻¹)` with the displayed convention
+by inverse/conjugate characters, including the corresponding transform
+identities.
 
 Use the invariant mean of AmenableGroups Layer 1 as the definition of group
 amenability. Build the affine fixed-point bridge: a locally compact group is
