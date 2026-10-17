@@ -10,7 +10,11 @@ specification. The file records light definitions and theorem signatures statabl
 the pinned Mathlib and Tau Ceti APIs. The good-dihedral predicates retain explicit inertia,
 characteristic and conductor inputs. Frobenius is arithmetic, and reductions retain their
 chosen integral model. Compatible systems, prescribed lifts, period modules, geometric forms
-and Galois attachments are specified in the README.
+and Galois attachments are specified in the README. Its compatible-system inputs enrich
+SmallRamificationAndAbelianVarietyBaseCases §5.0d's shared data and rank-two specialization,
+using the supplied Frobenius/Weil–Deligne and Hodge-sign adapters. Almost-strict compatibility
+requires every pairwise comparison outside its stated reducible-residual exceptions;
+a finite exceptional set of coefficient places alone does not supply those comparisons.
 -/
 
 noncomputable section
