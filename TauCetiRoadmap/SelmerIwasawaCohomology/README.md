@@ -98,7 +98,7 @@ Layer R02.1: §R02.1.2 (*Tate's inverse-limit theorem*; *Continuous sections of 
 
 ### From FiniteFlatGroupsAndIntegralPadicHodgeTheory
 
-§§R07.P2–R07.P5 supply finite-K comparison contracts for the period carriers, functors and fixed fields of PadicPeriodRings §§3–4: §R07.P2 identifies the crystalline period structures; §R07.P3 supplies the additional fundamental exact sequences, continuous sections and boundary maps; §§R07.P4–R07.P5 identify the fixed fields and arithmetic realization interfaces. Section R07.P5a supplies integral crystalline predicates. §R07.3.3a supplies the filtered Frobenius carrier over a general ring with an automorphism and its complete API; §R07.3.4 specializes it to `W(k)`. Sections R07.3.6–R07.3.7, R07.3.10–R07.3.11 and R07.3.15 supply the period realization inputs to §4.7.
+§§R07.P2–R07.P5 supply finite-K comparison contracts for the period carriers, functors and fixed fields of PadicPeriodRings §§3–4: §R07.P2 identifies the crystalline period structures; §R07.P3 supplies the additional fundamental exact sequences, continuous sections and boundary maps; §§R07.P4–R07.P5 identify the fixed fields and arithmetic realization interfaces. Section R07.P5a supplies integral crystalline predicates with `HT(ℚ_p(1)) = +1`. This roadmap uses `HT(ℚ_p(1)) = −1`: its aliases `localIsTorsionCrystalline(R,a,b) := IsTorsionCrystalline(R,−b,−a)` and `localIsIntegralCrystalline(R,a,b) := IsIntegralCrystalline(R,−b,−a)` reindex those supplied predicates. They introduce no separate crystalline notion; scalar restriction to `ℤ_p` and all finite reductions use the same conversion. §R07.3.3a supplies the filtered Frobenius carrier over a general ring with an automorphism and its complete API; §R07.3.4 specializes it to `W(k)`. Sections R07.3.6–R07.3.7, R07.3.10–R07.3.11 and R07.3.15 supply the period realization inputs to §4.7.
 
 ### From NeronModelsAndSemistableAbelianVarieties
 
@@ -106,7 +106,7 @@ Layer R02.1: §R02.1.2 (*Tate's inverse-limit theorem*; *Continuous sections of 
 
 ### From AbelianSchemesAndArithmeticModuli
 
-§§A2.2–A2.3 supply the dual abelian variety, rigidified Poincaré bundle, biduality and Mumford map; §§A3.1–A3.5 and A3.7 supply isogenies, multiplication kernels, dual isogenies and the intrinsic and polarized Weil pairings. Section A5.1 supplies complex lattice uniformization with conjugation. These are the geometric inputs to §§2.12a and 4.29, including A2.2's positive elliptic self-duality `a ↦ O([−a] − [O])` and A3.5's inversion comparison with the other self-duality. Section A4.3 supplies the degree-one de Rham and vector-extension comparison used in §4.26.
+§§A2.2–A2.3 supply the dual abelian variety, rigidified Poincaré bundle, biduality and Mumford map; §§A3.1–A3.5 and A3.7 supply isogenies, multiplication kernels, dual isogenies and the intrinsic and polarized Weil pairings. Section A5.1 supplies complex lattice uniformization; §2.12a constructs its real conjugation compatibility. These are the geometric inputs to §§2.12a and 4.29, including A2.2's positive elliptic self-duality `a ↦ O([−a] − [O])` and A3.5's inversion comparison with the other self-duality. Section A4.3 supplies the degree-one de Rham and vector-extension comparison used in §4.26.
 
 ### Gamma products
 
@@ -662,7 +662,7 @@ Supply `finiteCotype_primaryDecomposition`: a p-primary torsion abelian group `G
 - `G = ℤ/p²` has divisible subgroup zero and reduced quotient itself; finite p-torsion alone does not imply divisibility.
 - A p-primary torsion group with `G[p] = 0` is zero; the torsion hypothesis excludes `ℤ_p` from this inference.
 
-**All-place Kummer annihilators.** Define `KummerLocal φ v` as the image of `B(K_v)/φA(K_v)` in `H¹(K_v,A[φ])`. Prove `KummerLocal.dual_annihilator`: for every place `v`, these images and those for `φ∨ : B∨ → A∨` are exact annihilators under the finite local Tate pairing for `A[φ]` and its Cartier dual `B∨[φ∨]`. Include membership, isogeny functoriality, the good prime-to-degree unramified comparison used above, and the specialization to `[n]`, `n ≥ 1`. At finite places use ArithmeticGaloisDuality §D7.6's dual isogeny sequences. At real places use complex lattice uniformization with conjugation, the Poincaré dual lattice and the Tate complex with differentials `1 − c` and `1 + c`; its adjoint exact sequences give the same annihilators. In degree zero the real Tate group is `A(ℝ)/N A(ℂ) = π₀ A(ℝ)`, so its two-primary part is retained. At complex places `H¹ = 0` and the Kummer quotients vanish.
+**All-place Kummer annihilators.** Define `KummerLocal φ v` as the image of `B(K_v)/φA(K_v)` in `H¹(K_v,A[φ])`. Prove `KummerLocal.dual_annihilator`: for every place `v`, these images and those for `φ∨ : B∨ → A∨` are exact annihilators under the finite local Tate pairing for `A[φ]` and its Cartier dual `B∨[φ∨]`. Include membership, isogeny functoriality, the good prime-to-degree unramified comparison used above, and the specialization to `[n]`, `n ≥ 1`. At finite places use ArithmeticGaloisDuality §D7.6's dual isogeny sequences. At real places construct the conjugation adapter for A5.1’s complex uniformization: the differential of the real descent involution is an antilinear involution on the tangent space, commutes with the exponential and preserves its kernel lattice. Prove that the lattice-to-torsion identifications intertwine this involution with Galois conjugation and that Poincaré duality intertwines the two lattice actions with conjugation on roots of unity. Use the resulting conjugation-equivariant lattice sequences and the Tate complex with differentials `1 − c` and `1 + c`; their adjoint exact sequences give the same annihilators. In degree zero the real Tate group is `A(ℝ)/N A(ℂ) = π₀ A(ℝ)`, so its two-primary part is retained. At complex places `H¹ = 0` and the Kummer quotients vanish.
 
 Prove `KummerLocal.globalPlusLocal`: for `[n]` and finite `S` containing the bad, infinite and n-adic places, a tuple in `∏_{v∈S} H¹(K_v,A[n])` annihilates the localization of `Sel_n(A∨/K)` iff it is the sum of a localization from `H¹(G_{K,S},A[n])` and local Kummer classes. This is the finite Poitou–Tate localization diagram with the just established annihilators, including the real terms.
 
@@ -673,6 +673,7 @@ Prove `KummerLocal.globalPlusLocal`: for `[n]` and finite `S` containing the bad
 - At a good finite place with residue characteristic prime to `deg φ`, the image is the unramified subgroup; setting it to zero need not give the Kummer condition.
 - For a real elliptic curve with two components and `n = 2`, `E(ℝ)/2E(ℝ) ≅ ℤ/2` gives a nonzero local Kummer image and a real two-primary annihilator condition.
 - For odd `n` the real `[n]` Kummer quotient is zero, and at a complex place it is zero for every `n ≥ 1`.
+- For the real elliptic curve with analytic lattice `ℤ + iℤ`, conjugation fixes `1` and negates `i`; the adapter sends `[λ/n]` to `[λ̄/n]` on n-torsion, retaining both lattice actions.
 
 *Needs:* §§2.1–2.2 (Selmer diagrams and kernels); TauCetiRoadmap.EllipticCurves Layer 7; Mathlib `ContinuousCohomology.tateShafarevich`; native `AbelianVariety`; AbelianSchemesAndArithmeticModuli §§A2.2–A2.3, A3.1–A3.5, A3.7, A5.1; SchemeAndStackFoundations §§0.12, 2.1, 2.15 (henselization, torsors and field étale/Galois comparison); ArithmeticGaloisDuality §§R02.1.2, R02.3.1, R02.4.3, D7.6 (cohomology sequences, restricted-ramification finiteness, finite Poitou–Tate and local abelian duality).
 
@@ -963,7 +964,7 @@ Write `S̃^ord` and `S̃^mod` for its `selmerComplexOrd` and `selmerComplexMod` 
 That section owns these carriers, their `selmerComplex_map` functoriality and
 `selmerComplex_quasiIso` invariance. ArithmeticGaloisDuality §§R02.3.1, D7.5 supply the arithmetic complexes
 `C_v^mod` and maps `q_v`. Identify the strict modified instance with ArithmeticGaloisDuality §D7.5's
-`GaloisCohomology.compactCochains` for modified localisation. With
+Tate-modified carrier `Ĉ_c`, using finite-place cochains, complete real Tate cochains and zero complex-place terms. The projection forgetting the real Tate terms compares this carrier with the finite-place `GaloisCohomology.compactCochains`; it is a quasi-isomorphism under `(P)`, or whenever all real Tate terms are acyclic. With
 `U_v^{−,mod} = Cone(i_v^mod)`, the supplied `selmerComplex_globalTriangle` and
 `selmerComplex_compactTriangle` specialize to
 
@@ -1042,6 +1043,7 @@ sequence 6.1.3, §6.1.4, pp. 135–137; §5.7.2, pp. 131–132, for the ordinary
 
 **Checks.**
 
+- For `K=ℚ`, `S={2,∞}` and trivial `T=𝔽₂`, the strict modified fibre has `H^i=𝔽₂` for every `i<0`, from the complete real Tate term. The finite-place `GaloisCohomology.compactCochains` has no negative cohomology, so these fibres are not quasi-isomorphic.
 - With `q = id`, the supplied comparison map is the identity of the ordinary fibre.
   With every `U_v⁺ = 0`, the modified fibre is `C_c^mod`; with every modified `i_v = id`, it is
   the global complex. Both identities use the displayed modified triangles.
@@ -1552,7 +1554,8 @@ Prove this as follows. Identify compact and discrete tower duals using Shapiro a
 
 - A `γ`-eigencharacter `c` is paired with `c^−1`, rather than `c`.
 - A nontrivial local Tamagawa error prevents an integral quasi-isomorphism.
-- A finite `Λ`-error disappears at height one but must remain in the integral triangle.
+- For `d ≥ 1`, a finite `Λ=O[[ℤ_p^d]]`-error has support of codimension at least two and disappears at every height-one prime, but must remain in the integral triangle.
+- For the trivial tower `d=0`, `Λ=O` and `(O/λ)_(λ)=O/λ≠0`; this finite error contributes the characteristic factor `(λ)`.
 
 *Needs:* ArithmeticGaloisDuality §D7.7.4 (Duality for a global mapping fibre with local conditions); §3.8 (Iwasawa Selmer complex and completed action); §2.10 (Pontryagin duals with the contragredient action); PadicMeasuresIwasawaAlgebras §5.1.
 
@@ -1819,7 +1822,7 @@ Layers 0, `2` and ArithmeticGaloisDuality §D7.7.4, together with the supplier i
 
 ### 4.7 Small-weight crystalline realization and extension exactness
 
-On the small-weight category over an unramified p-adic field, the covariant period realization gives an exact fully faithful functor to finite `ℤ_p`-Galois modules whose essential image is the torsion crystalline representations of the specified interval. For free objects pass to the inverse limit of the mod-`p^m` realizations; the resulting free lattice has the same rank and its rationalization is crystalline. For the torsion inverse use the finite-level period object `S_m=coker(p^m:S→S)` in Fontaine–Laffaille’s enlarged filtered category, including its filtration modules and divided Frobenius. Here `S=W(𝒪_{ℂ_p}^♭)[[x]/p]⊆W(𝒪_{ℂ_p}^♭)[1/p]`, with `v(x)=p` in the normalization `v(p)=1, Fil^iS=(ker θ)^i∩{s:φ(s)∈p^iS}` for `i≥0, Fil^iS=S` for `i≤0`, and `φ_i=p^{−i}φ`. This is the carrier `ringS` of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.3.6, and its `S_m` is the period carrier of §R07.3.7. Shift the interval into `[0,p−2]` and transport the corresponding Tate twist. The contravariant realization is `Hom_{Fil,φ}(M,S_m)`; dualize over `ℤ_p` into `ℚ_p/ℤ_p` for the covariant convention. Construct the inverse filtered object from crystalline lattice lifts, with evaluation into `Hom_{G_K}(R^∨,S_m)`, and prove that the evaluation image, filtration and divided Frobenius are independent of those lifts and invert realization. Recover free lattices through compatible finite reductions. Only after rationalization identify the inverse with `dCris`. Tensor/dual compatibility holds only when the combined interval remains in the permitted range.
+On the small-weight category over an unramified p-adic field, the covariant period realization gives an exact fully faithful functor to finite `ℤ_p`-Galois modules whose essential image on filtration support `[a,b]` is `localIsTorsionCrystalline(R,a,b)`, namely the supplied torsion predicate at `[−b,−a]`. For free objects pass to the inverse limit of the mod-`p^m` realizations; the resulting free lattice has the same rank, satisfies `localIsIntegralCrystalline(R,a,b)` and has crystalline rationalization with local weights in `[a,b]`. For the torsion inverse use the finite-level period object `S_m=coker(p^m:S→S)` in Fontaine–Laffaille’s enlarged filtered category, including its filtration modules and divided Frobenius. Here `S=W(𝒪_{ℂ_p}^♭)[[x]/p]⊆W(𝒪_{ℂ_p}^♭)[1/p]`, with `v(x)=p` in the normalization `v(p)=1, Fil^iS=(ker θ)^i∩{s:φ(s)∈p^iS}` for `i≥0, Fil^iS=S` for `i≤0`, and `φ_i=p^{−i}φ`. This is the carrier `ringS` of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.3.6, and its `S_m` is the period carrier of §R07.3.7. Shift the interval into `[0,p−2]` and transport the corresponding Tate twist. The contravariant realization is `Hom_{Fil,φ}(M,S_m)`; dualize over `ℤ_p` into `ℚ_p/ℤ_p` for the covariant convention. Construct the inverse filtered object from crystalline lattice lifts, with evaluation into `Hom_{G_K}(R^∨,S_m)`, and prove that the evaluation image, filtration and divided Frobenius are independent of those lifts and invert realization. Recover free lattices through compatible finite reductions. Only after rationalization identify the inverse with `dCris`. Tensor/dual compatibility holds only when the combined interval remains in the permitted range.
 
 `p>2`; interval width `≤p−2`; Nizioł’s covariant normalization. Endpoint width `p−1` needs extra nilpotence/unipotence hypotheses and is outside this target.
 
@@ -1837,11 +1840,11 @@ Prove this as follows. Construct the `Hom` period realization and dualize to the
 
 ### 4.8 Integral crystalline modules and nonsingular extensions
 
-Use the quotient-lattice and all-reductions predicates of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P5a over unramified `K/ℚ_p`, with scalar restriction for O-coefficients. For a crystalline coefficient module `R` and `a≤0≤b`, define `H¹_ns(K,R)` as extension classes `0→R→R_s→ℤ_p→0` whose middle term is crystalline in that interval. The extension set is an O-submodule. The rationalized tensor `R⊗_{ℤ_p}B_cris` vanishes for finite p-primary `R` and cannot define this condition.
+Use the reindexed aliases `localIsTorsionCrystalline` and `localIsIntegralCrystalline` of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P5a over unramified `K/ℚ_p`, with scalar restriction for O-coefficients. At local interval `[a,b]` both aliases pass `[−b,−a]` to the supplier; the first is the quotient-lattice predicate and the second tests the first on every `R/p^mR`, `m≥1`. For `R` satisfying the integral alias and `a≤0≤b`, define `H¹_ns(K,R)` as extension classes `0→R→R_s→ℤ_p→0` whose middle term satisfies `localIsIntegralCrystalline(R_s,a,b)`. For finite modules the integral and torsion aliases agree. The extension set is an O-submodule. The rationalized tensor `R⊗_{ℤ_p}B_cris` vanishes for finite p-primary `R` and cannot define this condition.
 
 `K` unramified and coefficient weight conventions fixed; weights of `ℚ_p(1)` are `−1`. Scalar restriction precedes the crystalline test.
 
-The construction proceeds as follows. Use the predicates of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P5a and continuous `Ext¹`/cohomology to identify classes with extensions and pull back the crystalline extension predicate. For the submodule assertion use closure of crystalline lattice quotients under finite products and subquotients in the fixed interval: Baer sum and coefficient pushout are formed from those operations. Use the exact small-weight filtered-module category only for the comparison and finite-length calculations within its allowed interval, not to prove a general-width assertion.
+The construction proceeds as follows. Use the reindexed predicates of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P5a and continuous `Ext¹`/cohomology to identify classes with extensions and pull back the crystalline extension predicate. For the submodule assertion use closure of crystalline lattice quotients under finite products and subquotients in the fixed interval: Baer sum and coefficient pushout are formed from those operations. Use the exact small-weight filtered-module category only for the comparison and finite-length calculations within its allowed interval, not to prove a general-width assertion.
 
 (Liu–Tian–Xiao–Zhang–Zhu, Definitions 2.2.4–2.2.5, pp. 124–125.)
 
@@ -1889,7 +1892,7 @@ The comparison with ordinary local conditions is the conditional defect calculat
 
 ### 4.10 Crystalline extensions and the integral finite preimage
 
-Let `p>2` and `R` be a finite free O-lattice over unramified `K/ℚ_p, R[1/p]` crystalline with weights `[a,b], a≤0≤b` and `b−a≤p−2`. Then `H¹_ns(K,R)` is exactly the preimage of `H¹_f(K,R[1/p])` under `H¹(K,R)→H¹(K,R[1/p])`. The key lifting criterion is Breuil Proposition 6: a stable free lattice is rationally crystalline in the permitted interval when all its finite p-power reductions are torsion crystalline in that interval. Apply it to the middle term of the extension; width bounds and unramifiedness are hypotheses.
+Let `p>2` and `R` be a finite free O-lattice over unramified `K/ℚ_p, R[1/p]` crystalline with weights `[a,b], a≤0≤b` and `b−a≤p−2`. Then `H¹_ns(K,R)` is exactly the preimage of `H¹_f(K,R[1/p])` under `H¹(K,R)→H¹(K,R[1/p])`. The key lifting criterion is Breuil Proposition 6: a stable free lattice is rationally crystalline in the permitted interval when all its finite p-power reductions satisfy `localIsTorsionCrystalline(−,a,b)`, equivalently the supplier predicate at `[−b,−a]`. Apply it to the middle term of the extension; width bounds and unramifiedness are hypotheses.
 
 The extension has a free middle term; all finite reductions must be tested. No such equivalence is asserted for arbitrary weights or ramified `K`.
 
@@ -1900,16 +1903,17 @@ Prove this as follows. A crystalline integral extension gives a rational crystal
 **Checks.**
 
 - For `R=ℤ_p` with trivial action, `p>2` and `[a,b]=[0,0]`, both conditions are the unramified `ℤ_p`-line.
-- For `R=ℤ_p(1), p>2` and `[a,b]=[−1,0]`, both conditions give integral unit Kummer classes and exclude the uniformizer.
+- For `R=ℤ_p(1), p>2` and `[a,b]=[−1,0]`, the aliases use supplier interval `[0,1]`; both conditions give integral unit Kummer classes and exclude the uniformizer.
+- For `p=5`, `K=ℚ₅` and `R=ℤ₅(1)`, all reductions have supplier witnesses in `[0,1]`. They cannot all have witnesses in `[−1,0]`: twisting such witnesses by `(1)` and applying Breuil Proposition 6 would put `ℚ₅(2)` in supplier interval `[0,1]`, although its supplier weight is `2`. The witnesses may vary with the reduction level.
 - For `p=2, K=ℚ₂` and `R=ℤ₂` of weight zero, the interval bounds alone hold but the `p>2` hypothesis fails. The dyadic `[0,0]` torsion realization belongs to FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.10–R07.3.11; it does not supply the free-lattice comparison asserted here.
 
 *Needs:* §4.8 (Integral crystalline modules and nonsingular extensions); §4.9 (The Bloch–Kato local condition on `T` and `W`); §4.7 (Small-weight crystalline realization and extension exactness).
 
 ### 4.11 Finite crystalline annihilators and the inverse different
 
-For unramified `K/ℚ_p` and finite crystalline `R` with weights `a<0≤b` and `b−a≤(p−2)/2`, the nonsingular groups for underlying `ℤ_p` coefficients are exact annihilators under the finite local Tate pairing. For O-coefficients and the O-linear dual `R*=Hom_O(R,E/O)`, the pairing of `H¹_ns(K,R)` with `H¹_ns(K,R*(1))` takes values in `d_(E/ℚp)^−1/O`. Thus it vanishes when the different is the unit ideal; it need not vanish in `E/O` for ramified `E`. Do not replace this statement with exact O-linear annihilators without a separate hypothesis.
+For unramified `K/ℚ_p` and finite `R` satisfying `localIsTorsionCrystalline(R,a,b)` with `a<0≤b` and `b−a≤(p−2)/2`, the nonsingular groups for underlying `ℤ_p` coefficients are exact annihilators under the finite local Tate pairing. For O-coefficients and the O-linear dual `R*=Hom_O(R,E/O)`, the pairing of `H¹_ns(K,R)` with `H¹_ns(K,R*(1))` takes values in `d_(E/ℚp)^−1/O`. Thus it vanishes when the different is the unit ideal; it need not vanish in `E/O` for ramified `E`. Do not replace this statement with exact O-linear annihilators without a separate hypothesis.
 
-Finite `R`; the half-width bound allows the tensor-product crystalline calculation; dual interval is `[−b−1,−a−1]`.
+Finite `R`; the half-width bound allows the tensor-product crystalline calculation. The local Tate-dual interval `[−b−1,−a−1]` is passed to the supplier as `[a+1,b+1]`; its nonsingular extensions use the same reindexed integral predicate.
 
 Prove this as follows. Use the crystalline extension product to factor the nonsingular cup through crystalline `H²`, which vanishes in this range. Compare lengths of the two filtered modules and their `Fil⁰` pieces, then use local Euler characteristic and Tate duality to get exact annihilators over `ℤ_p` (Nizioł 6.2). Apply coefficient trace. Vanishing of Tr(`a·`pairing) for every `a∈O` is precisely membership in the inverse different quotient, yielding Liu 2.2.7.
 
@@ -1920,6 +1924,7 @@ Prove this as follows. Use the crystalline extension product to factor the nonsi
 - For unramified `E/ℚ_p` the inverse different is `O` and the value is zero.
 - For `E=ℚ_p(√p), p` odd, `d` is nonunit and `d^−1/O` is nonzero; trace-zero values need not be zero.
 - Width `p−2` is insufficient for the product proof; the half-width bound is essential.
+- The local Tate line of weight `−1` dualizes to weight `0`: the intervals `[−1,0]` and `[−1,0]` on the two sides both become supplier interval `[0,1]`, consistent with supplier duality `[c,d] ↦ [1−d,1−c]`.
 
 *Needs:* §4.7 (Small-weight crystalline realization and extension exactness); §4.8 (Integral crystalline modules and nonsingular extensions); ArithmeticGaloisDuality §D7.7.2 (Compatibility of the local pairings for `T, V, W` and `W_M`); ClassFieldTheory Layer 5, `eulerCharacteristic_mixed` and `eulerCharacteristic_finrank_fp`, applied to the underlying finite `ℤ_p`-module and transported through coefficient trace for `O`.
 

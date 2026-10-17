@@ -27,14 +27,19 @@ Design choices made explicit here:
   uses continuous cochains at every place; its modified instance uses finite-place cochains,
   complete Tate cochains at real places and zero at complex places, with localization composed
   with the ordinary-to-Tate maps. Arithmetic compact support and derived duality use the
-  modified instance. The H⁰ correction uses the chosen diagram, and the archimedean comparison
-  retains the difference between the two fibres even at odd p.
+  modified instance, identified with the supplier’s Tate-modified `Ĉ_c`. Its comparison with
+  the finite-place `GaloisCohomology.compactCochains` is a quasi-isomorphism when the real
+  Tate terms are acyclic, in particular under (P). The H⁰ correction uses the chosen diagram,
+  and the archimedean comparison retains the difference between the two fibres even at odd p.
 * ℤ_p-corank is computed on a compact dual (`corankFromDual`); Iwasawa corank is computed on
   each finite compact component dual (`iwasawaCorankFromComponentDual`).
 * PadicPeriodRings §§1.1–1.5, 2–3, 4.1–4.3 supply the period carriers, functors and fixed fields.
   FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a supply finite-K comparisons,
   additional sequences, continuous sections, boundary maps and integral crystalline predicates;
-  §R07.3.3a supplies filtered Frobenius modules for the arithmetic targets.
+  the aliases `localIsTorsionCrystalline(R,a,b)` and `localIsIntegralCrystalline(R,a,b)`
+  pass interval `[-b,-a]` to the supplier’s positive Hodge–Tate convention, for the local
+  convention `HT(ℚ_p(1)) = -1`. Section R07.3.3a supplies filtered Frobenius modules.
+  Local Tate duality sends `[-b-1,-a-1]` to supplier interval `[a+1,b+1]`.
 * Archimedean realizations extend Tau Ceti's opposed Hodge filtrations by a complex-linear
   Betti involution; the L-function Tate line has Hodge–Tate index `-n` and Gamma factor `Γℝ(s - n)`.
 
@@ -958,7 +963,9 @@ dyadic real places it can have lower negative Tate cohomology. Section 2.22 uses
 groups of the specified diagram: ordinary invariants, or modified real Tate groups and zero
 complex-place groups. For trivial `𝔽_p` over `ℚ`, `S = {p, ∞}` and odd p, the strict ordinary
 H⁰ map has cokernel `𝔽_p`, while the modified map has zero cokernel;
-the arithmetic compact-support identification and Selmer H¹ correction (§2A.1),
+the arithmetic compact-support identification with the supplied Tate-modified `Ĉ_c` and
+Selmer H¹ correction (§2A.1); for trivial `𝔽₂` over `ℚ` with `S = {2, ∞}`, this fibre has
+`H^i = 𝔽₂` for every `i < 0`, while the finite-place compact fibre has no negative cohomology;
 function-field Greenberg–Wiles (§2A.2), Selmer and deformation tangent comparison (§2A.3),
 the positive-rank cohomological determinant fibres and their ordinary/modified trace sequences
 (§2A.4, `n ≥ 1`); the determinant derivative above also holds for an empty matrix index type,
@@ -969,17 +976,21 @@ and derived coefficient change with its Tor spectral sequence (§2A.5);
 `abelian_localH1_comparison`, `abelianDescent_exact`, `abelianSelmerGroup_finite`,
 `finiteCotype_primaryDecomposition`, `KummerLocal`, `KummerLocal.dual_annihilator` and
 `KummerLocal.globalPlusLocal` (§2.12a), for arbitrary number-field abelian varieties and
-isogenies, including all real two-primary Kummer conditions; Iwasawa algebras of `ℤ_p^d × Δ` with their
-coordinates, involution and twists (§3.0); `iwasawaComplex`, `iwasawaCohomology`,
+isogenies, including the conjugation adapter for complex lattice uniformization, its
+compatibility with lattice torsion and Poincaré duality, and all real two-primary Kummer
+conditions; Iwasawa algebras of `ℤ_p^d × Δ` with their coordinates, involution and twists (§3.0); `iwasawaComplex`, `iwasawaCohomology`,
 `iwasawaSelmerComplex`, `discreteInfiniteSelmerComplex`, `localSpecializationError`,
 `selmerDeterminant` (§§3.1–3.14, with Iwasawa fibres for the chosen diagram and arithmetic
-duality on the modified instance); the étale comparison `restrictedRamification_finiteEtale_equiv`,
+duality on the modified instance). Finite errors disappear at height one for `d ≥ 1`; for
+`d = 0`, the finite module `O/λ` survives at `(λ)` and contributes characteristic factor `(λ)`;
+the étale comparison `restrictedRamification_finiteEtale_equiv`,
 `etaleCohomology_Gm_restrictedRamification`, `etaleGalois_comparison_restrictedRamification`,
 `etaleGalois_comparison_lattice` (including the finite-S ordinary-limit simplification),
 `etale_jStar_stalk`, `etale_jStar_degreeOne` (injection with image unramified at every removed
 place), `etale_jStar_iwasawa` (infinite decomposition groups at every removed place, §3.15);
 `semilocalCoind_restriction` (§3.6); `GreenbergStructureHypotheses` (§3.18);
-the small-weight crystalline realization and extension exactness (§4.7);
+the small-weight crystalline realization and extension exactness (§4.7), using the reindexed
+aliases `localIsTorsionCrystalline` and `localIsIntegralCrystalline` (§§4.7–4.11);
 `crystallineNonsingular` (§4.8); `blochKatoCondition`, `blochKatoCondition_T`,
 `blochKatoStructure` (§4.9); `pRamifiedModule`, `unramifiedModule`, `closedGlobalUnitTower`,
 `arithmeticPlusMinus` (§4.16); `PadicLFunctionDatum` and the main-conjecture propositions
