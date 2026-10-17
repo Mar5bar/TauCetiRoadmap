@@ -44,11 +44,14 @@ scaling and the classical `k≥2` coefficient normalization. The light coefficie
 expressions below fix the additional weight-one and inverse-Hecke-operator
 conventions; they do not introduce another determinant or scaling theory.
 
-The compatible-system carrier, weak and strict predicates, and their operations
-are supplied by AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank
-compatible data and operations”. Here define rank-two almost-strict
-compatibility on that carrier, record chosen `E_λ`-models as additional realization
-data, and prove the character converse. The shared early parallel-weight
+SmallRamificationAndAbelianVarietyBaseCases §5.0d supplies the arbitrary-rank
+compatible-system carrier and its raw operations and convention adapters.
+AutomorphicGaloisRepresentationsPartII AG2.P supplies the weak and strict
+predicates and their preservation by those operations. Here define rank-two
+almost-strict compatibility on that carrier, record chosen `E_λ`-models as
+additional realization data, and prove the character converse. The owner's
+finite-exception arithmetic specialization does not replace this pairwise
+almost-strict predicate. The shared early parallel-weight
 eigenpacket attachment belongs to HilbertModularVarietiesAndShimuraCurves
 R18.3.29 in type `(k,k−2)`; §3.10's adapter applies the integral Tate twist
 for general parallel `(k,w)` before identifying the arithmetic object with our dual.
@@ -415,12 +418,34 @@ with agreement on that overlap.
 Hodge–Tate numbers and its weight”.** Algebraic-character avatars, compatible
 coefficient change, geometric reciprocity and labelled local degrees. Use this
 rank-one construction without the higher-rank existence theorem. AG2.P,
-“Arbitrary-rank compatible data and operations”, supplies `AutomorphicSystemData`,
-`Weak`, `Strict` and their operations; AG2.6 populates that carrier. AG2.P, “Independent
+“Arbitrary-rank compatible data and operations”, supplies `Weak`, `Strict`
+and their preservation under the raw operations on
+SmallRamificationAndAbelianVarietyBaseCases §5.0d's `AutomorphicSystemData`;
+AG2.6 populates that carrier. AG2.P, “Independent
 classical and Hilbert members”, supplies `hilbertCoefficientPrimeComparison`
 with de Rhamness, spherical crystallinity and Iwahori semistability; §4.7
 proves the full Hilbert WD comparison. The generic AG2.P period contract is specified above; the independent unitary geometry
 and packet calculation needed by Skinner are the targets of §0.6.
+
+### From SmallRamificationAndAbelianVarietyBaseCases
+
+Section 5.0d supplies `AutomorphicSystemData` for arbitrary number fields and
+positive ranks, with finite local realization fields, coefficient embeddings,
+monic good polynomials of the specified rank with nonzero constant terms, and
+labelled Hodge multisets, without compatibility assertions.
+It supplies coefficient extension and conjugation, finite base restriction,
+sum, tensor, dual and Tate twist with identity/composition laws, and the
+Frobenius/WD and Hodge-sign convention adapters. For marked abelian
+realizations, §5.1 supplies `GL2TypeAction.isogeny` and
+`GL2TypeAction.baseChange`, retaining the coefficient action and its selected
+`λ`-factor. Section 7.1 uses this raw API and adds its Hilbert models and
+pairwise predicate. The owner's `ArithmeticCompatibleFamily` is a marked
+rank-two specialization over `ℚ`; its finite exceptional coefficient set
+alone implies no almost-strict comparison at a pair it excludes.
+(Sources: Allen et al. (ACC+),
+[*Potential automorphy over CM fields*](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf),
+§7.1, pp. 1084–1086; Dieulefait–Pacetti, Definition 1.10, pp. 6–7;
+[Snowden](https://arxiv.org/pdf/0905.4266v1), §9.4, pp. 29–30, for abelian realizations.)
 
 ### From QuaternionicModularForms
 
@@ -2686,20 +2711,22 @@ Layers 1, 3, 4 and 5; ModularCurvesPartII Layers 13–17; TauCetiRoadmap.Modular
 
 ### 7.1 The compatible-system carrier and operations
 
-Use AutomorphicGaloisRepresentationsPartII AG2.P's `AutomorphicSystemData`,
-`Weak` and `Strict` predicates from “Arbitrary-rank compatible data and
-operations”. Its coefficient field `M` is a field of good polynomials, and each
+Use SmallRamificationAndAbelianVarietyBaseCases §5.0d's `AutomorphicSystemData`
+and raw operations for arbitrary number fields and positive ranks. Its
+coefficient field `M` is a field of good polynomials, and each
 continuous semisimple member has a specified finite realization field
 `L_λ/M_λ` and coefficient embedding. Descent to `M_λ` is not a field of the
 carrier. It also records the base field, rank, bad set and labelled Hodge
-multisets. Reuse its operations and identity/composition laws. For rank two
+multisets, without asserting any compatibility. Reuse the owner's operations
+and identity/composition laws. For rank two
 over `ℚ` with chosen `E_λ`-models, these data recover the five-tuple of
 [Dieulefait–Pacetti](https://arxiv.org/pdf/2108.07577v2), Definition 1.10,
 pp. 6–7; labelled multisets extend its parallel `{0,k−1}` field to the Hilbert
 application.
 
-The supplied `Weak` predicate requires good-place unramifiedness and the
-polynomial identity away from the coefficient characteristic, de Rhamness at
+On this shared carrier use AutomorphicGaloisRepresentationsPartII AG2.P's
+`Weak` and `Strict` predicates. The supplied `Weak` predicate requires good-place
+unramifiedness and the polynomial identity away from the coefficient characteristic, de Rhamness at
 every `v|ℓ_λ`, the specified labelled degrees, and crystallinity at good `v|ℓ_λ`.
 The supplied `Strict` predicate adds a coefficient-field-independent
 Frobenius-semisimple WD parameter at every finite `v`, with its monodromy operator
@@ -2719,8 +2746,10 @@ our fixed Hilbert family is `V_λ=ρ_{π,λ}`. No canonical basis or intertwiner
 part of the assertion. The Hodge labels use the `D_HT` grading with `ε` of degree
 `−1`, and the member is `ρ`, rather than its arithmetic dual or `σ_Carayol`.
 
-(Source: AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank
-compatible data and operations”, and AG2.6, “Strong coefficient field”;
+(Source: SmallRamificationAndAbelianVarietyBaseCases §5.0d, shared raw data
+and operations; ACC+, §7.1, pp. 1084–1086;
+AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank
+compatible data and operations”, for the predicates, and AG2.6, “Strong coefficient field”;
 Carayol Theorem A, printed pp. 410–411, for finite `E_λ`-realizations.)
 
 For rank two define `IsAlmostStrictlyCompatible` by weak compatibility and a
@@ -2731,17 +2760,23 @@ coefficient prime comparison is still required. For `F=ℚ` this is exactly the
 exception of Definition 1.10; the displayed pairwise condition defines its
 extension to a general `F`. Record the omitted pairs; no existence theorem for
 almost-strict systems over general `F` is asserted by this definition. Strict
-compatibility implies almost strict, which implies weak.
+compatibility implies almost strict, which implies weak. The finite-exception
+WD condition on the owner's `ArithmeticCompatibleFamily` is a different
+predicate: using that specialization here requires the chosen models and
+every comparison at a non-omitted pair, including pairs at coefficient places
+in its finite exceptional set.
 
-Use AG2.P's coefficient extension, direct sum, tensor product, dual,
-algebraic-character twist and finite base restriction; transport coefficient
+Use SmallRamificationAndAbelianVarietyBaseCases §5.0d's coefficient extension,
+direct sum, tensor product, dual, Tate twist and finite base restriction;
+tensor with AG2.0's rank-one family
+for an algebraic-character twist. Transport coefficient
 conjugation with the specified field embedding. Polynomials are
 computed from roots or exterior powers without choosing an ordering; dual roots
 are inverse roots, and `ε_ℓ^m` twists geometric roots by `q_v^{−m}`. Hodge degrees
 negate under duality, add under tensor product and shift by `−m` under `ε_ℓ^m`.
 Pullback to `F′` uses the appropriate residue-degree power of Frobenius and base
 change of the local WD parameter; retain finite ramification in the new `S`.
-Use their supplied preservation of `Weak` and `Strict`, with the new rank,
+Use AG2.P's preservation of `Weak` and `Strict` on these operations, with the new rank,
 Hodge multisets and bad set. Character twists use a compatible
 rank-one algebraic-character family, and its ramified places enter `S`.
 Almost-strict compatibility is a rank-two predicate: direct sum or tensor
@@ -2764,12 +2799,21 @@ claim for the raw carrier. Transport `Weak` and `Strict` along these actual
 isomorphisms, and transport almost-strict comparisons only on the pairs
 specified above.
 
-*Needs:* AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank compatible data and operations”; ArithmeticGaloisRepresentations Layers 1–2, continuous semisimple
+Reuse that supplier's convention adapters: a geometric polynomial `P` of degree
+`n` with `P(0)≠0` becomes `X^n P(1/X)/P(0)` at arithmetic Frobenius. In the WD
+parameter invert the Frobenius matrix, retain inertia and `N`, and invert the Frobenius–`N`
+conjugation factor. Changing the numerical Hodge-sign convention negates the
+labels. These adapters describe the same representation; duality changes it.
+For models with a marked abelian realization, use its §5.1 isogeny and base-change
+transports of the chosen coefficient action before identifying `λ`-factors.
+
+*Needs:* SmallRamificationAndAbelianVarietyBaseCases §§5.0d–5.1, raw carrier, operations, convention adapters and marked transports; AutomorphicGaloisRepresentationsPartII AG2.P, “Arbitrary-rank compatible data and operations”, compatibility predicates and preservation; ArithmeticGaloisRepresentations Layers 1–2, continuous semisimple
 carriers, local WD functors and their tensor/dual laws; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P7.1–R07.P7.3,
 labelled period functors; AutomorphicGaloisRepresentationsPartII AG2.0,
 algebraic-character avatars; Layer 3's geometric-character theorem.
 
-- `AutomorphicSystemData`, `Weak` and `Strict`: The supplied carrier and compatibility predicates of AG2.P.
+- `AutomorphicSystemData`: The raw carrier supplied by SmallRamificationAndAbelianVarietyBaseCases §5.0d.
+- `Weak` and `Strict`: The supplied AG2.P compatibility predicates on that same carrier.
 - `HilbertSystemRealizations`, `hilbertSystemRealizations_transport`: Chosen rank-two `E_λ`-models over that carrier, with scalar-extension comparisons for the supplied operations.
 - `AutomorphicSystemData.IsAlmostStrictlyCompatible`: The rank-two predicate defined here with the omitted coefficient-prime pairs above.
 - `AutomorphicSystemData.almostStrict_transport`: For a rank-two output, require comparisons at every output pair not covered by a required input comparison; an omitted input pair alone supplies no comparison.
@@ -2785,6 +2829,8 @@ algebraic-character avatars; Layer 3's geometric-character theorem.
 - Dualizing the chosen `Δ` model negates degrees `(0,11)` to `(0,−11)` and inverts geometric roots. An arithmetic-dual model cannot represent the same normalized shared member without that conversion.
 - Extension `E⊆E′⊆E″` transports a chosen model and its comparison identically to direct extension `E⊆E″`; all scalar maps use the chosen coefficient embeddings.
 - At a coefficient prime with reducible residual representation, the almost-strict exception does not authorize dropping the de Rham or good-prime crystalline clauses.
+- At an odd unramified coefficient prime with reducible reduction, membership in `ArithmeticCompatibleFamily`'s finite exceptional set does not remove the WD comparison required by `IsAlmostStrictlyCompatible`.
+- For an elliptic Tate-module family at good `q`, the geometric polynomial `X²−(a_q/q)X+1/q` becomes `X²−a_qX+q` under the reciprocal adapter. Changing Hodge-sign convention sends its labels `{0,−1}` to `{0,1}` while keeping the same Tate module.
 - The direct sum and tensor product of two rank-two systems have rank four; neither is an instance of the rank-two almost-strict predicate.
 - At an odd coefficient prime with reducible residual representation, restrict a finite ramified scalar WD character to an extension that kills it, or twist by its inverse. The resulting unramified common parameter requires a coefficient-prime comparison that the original almost-strict hypothesis could omit.
 
@@ -2910,7 +2956,7 @@ place its common WD parameter retains `N≠0`, unlike a list of good polynomials
 
 ### Dependencies
 
-Layers 1, 3, 4 and 6; ArithmeticGaloisRepresentations Layers 2, 4 and 5; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.3; modular newform and local inertia contracts; generic `p`-adic analytic Chebotarev with the stated trace-zero hypothesis.
+Layers 1, 3, 4 and 6; SmallRamificationAndAbelianVarietyBaseCases §§5.0d–5.1; AutomorphicGaloisRepresentationsPartII AG2.P, compatibility predicates and preservation; ArithmeticGaloisRepresentations Layers 2, 4 and 5; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.3; modular newform and local inertia contracts; generic `p`-adic analytic Chebotarev with the stated trace-zero hypothesis.
 
 
 ## Downstream consumers
@@ -2925,7 +2971,8 @@ realization, coefficient projector and fixed rational/integral period lines.
 Crystalline regulators and explicit reciprocity use the actual Wach module and
 semilinear Frobenius with the chosen lattice. Modular and Hilbert deformation
 arguments use the whole integral Hecke determinant and the exact local-functor
-factorizations, including nilpotent quotients. AG2.P supplies the shared compatible-system carrier; its independent
+factorizations, including nilpotent quotients. SmallRamificationAndAbelianVarietyBaseCases §5.0d
+supplies the shared raw compatible-system carrier and operations; AG2.P supplies its weak and strict predicates. Its independent
 rank-two period input has the scope stated above.
 
 

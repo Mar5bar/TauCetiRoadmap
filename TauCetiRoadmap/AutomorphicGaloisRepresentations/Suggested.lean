@@ -449,12 +449,18 @@ example :
 
 /-! ## Layer 7: Compatible systems and large images
 
-AutomorphicGaloisRepresentationsPartII AG2.P supplies AutomorphicSystemData,
-Weak, Strict and the generic operations, allowing finite local realization
-extensions. HilbertSystemRealizations records chosen E_λ-models of its rank-two
+SmallRamificationAndAbelianVarietyBaseCases §5.0d supplies AutomorphicSystemData,
+its raw operations and Frobenius/WD and Hodge-sign convention adapters, allowing
+finite local realization extensions. Its §5.1 supplies the marked isogeny and
+base-change transports. AutomorphicGaloisRepresentationsPartII AG2.P supplies
+Weak, Strict and their preservation under the raw operations on that carrier.
+HilbertSystemRealizations records chosen E_λ-models of its rank-two
 members with scalar-extension identifications. Its model transport and the
 almost-strict predicate, with their coefficient embeddings and omitted local
-pairs, are specified in README.md.
+pairs, are specified in README.md. The finite-exception WD condition of the
+owner's ArithmeticCompatibleFamily does not supply omitted comparisons required
+by the pairwise almost-strict predicate, including at odd unramified coefficient
+primes with reducible residual representation.
 -/
 
 /-!
@@ -500,7 +506,10 @@ The remaining definitions in README.md require arithmetic or geometric carriers:
   under the cyclotomic determinant hypothesis, and the semistable type-Σ index
   data and finite newform set of §6.4a for `typeSigma_eigensystems_nonempty`,
   `geometricHeckeDeterminant`, and the quaternionic completed Hecke representation.
-* Layer 7: the supplied `AutomorphicSystemData`, `Weak` and `Strict`, the predicate
+* Layer 7: SmallRamificationAndAbelianVarietyBaseCases §5.0d's supplied
+  `AutomorphicSystemData` and raw operations and convention adapters, with §5.1's
+  `GL2TypeAction.isogeny` and `GL2TypeAction.baseChange` for marked realizations;
+  AG2.P's `Weak` and `Strict` on that same carrier; the predicate
   `IsAlmostStrictlyCompatible` and its transport theorems
   and `fixedEigenformFamily`, together with `HilbertSystemRealizations` and
   `hilbertSystemRealizations_transport` over the shared carrier and operations;
