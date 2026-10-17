@@ -556,6 +556,18 @@ repair. Its integral homology is nevertheless perfect by the even-index
 ordinary Morse attachments. This explicit projective example does not
 construct a generic symplectic-blowup or Hamiltonian-perfection API.
 
+Separately consume ConvexityToric T2's compact moment-map negative-bundle
+attachment and equivariant Thom/Euler construction, with its rational
+perfection theorem. Construct its comparison with M.7's ordinary homology
+model and M.8's critical-value filtration using the actual negative-bundle
+orientation and Thom identifications. Retain T2's separately stated integral
+conclusions and their hypotheses, including the isolated-fixed-point case;
+do not assert integral perfection for arbitrary positive-dimensional fixed
+components. This comparison does not supply an invariant regular Bott metric
+or imply vanishing of raw parametrized-chain differentials. The preceding
+current-level vanishing retains every one of its regularity and presentation
+hypotheses.
+
 **M.8 Filtrations and bundle comparison.** Consume DGFloer1.3's independent
 filtered-complex algebra. Construct the critical-value filtration and its
 shifted critical-component homology, convergence filtration and extension
