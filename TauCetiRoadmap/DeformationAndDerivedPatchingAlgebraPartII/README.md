@@ -304,6 +304,20 @@ elements and with respect to a maximal ideal at the same time. Flat base change 
 derived-torsion comparison for Mathlib's `localCohomology` come from SchemeAndStackFoundations §2.7. The Čech comparison, composite supports,
 restriction of scalars and filtered colimits are targets of this layer.
 
+**Supplier lemma: injective ideal-power torsion.** For a Noetherian ring `A`, an ideal `I ⊆ A`
+and an injective `A`-module `E`, the submodule `Γ_I(E) = {e ∈ E | Iⁿe = 0 for some n ≥ 0}`
+is injective as an `A`-module (Stacks 08XW). Thus for every ideal `J ⊆ A` and `p > 0`,
+`H^p_J(Γ_I(E)) = 0`: `Γ_I` sends injectives to `Γ_J`-acyclics. The carrier is Mathlib's
+`I.primaryComponent E`; the pinned Tau Ceti supplies `Ideal.injective_primaryComponent` in
+`TauCeti.Algebra.Module.Injective.Noetherian`.
+
+**Checks.**
+
+- For `I = (0)`, `Γ_I(E) = E`, so injectivity is retained for every injective `E`.
+- For `I = A`, `Γ_I(E) = 0`, which is injective and has zero higher local cohomology for every `J`.
+- For `A = k⟦x⟧`, `I = (x)` and the injective module `E = k((x))/A`, `Γ_I(E) = E` is injective
+  although no fixed power of `x` kills it; `H^p_J(E) = 0` for every ideal `J` and `p > 0`.
+
 **Čech computation.** For a Noetherian ring `A`, a finite list `f₁, …, fₙ` generating an ideal `J`
 and any `A`-module `N`, prove `localCohomology.cechIso`: `H^j_J(N)` is naturally the `j`-th cohomology
 of the extended alternating complex `N → ∏ N_{fᵢ} → ∏ N_{fᵢfⱼ} → ⋯`, with `N` in degree zero.
@@ -312,7 +326,8 @@ its construction requires no unit-ideal hypothesis. Identify its tensor form wit
 `J`-power torsion using SchemeAndStackFoundations' Ext-colimit comparison.
 (Stacks, Lemma 47.9.1, tag 0A6R, and Lemma 47.10.1, tag 0955.) *Needs:*
 SchemeAndStackFoundations §2.7 `localCohomology_colimit_ext_comparison`;
-AdicSpacesPartII, localization-cech-complex-exact (the complex).
+AdicSpacesPartII, localization-cech-complex-exact (the complex);
+K0.1's injective ideal-power torsion supplier lemma (Stacks 08XW).
 
 **Checks.**
 
@@ -337,7 +352,9 @@ In the depth induction `(I,J)` is `((r_i,r_s),𝔪')`, `((r_b),𝔪'')` or `(�
 *Hypotheses.* `A` Noetherian (this is what identifies Mathlib's `Ext`-colimit `localCohomology`
 with `RΓ_{V(I)}`); `N` arbitrary. (Stacks, Lemma 47.9.6, tag 0BJC, with Lemma 47.10.1, tag 0955, and
 Derived Categories, Lemma 13.22.2, tag 015N.) *Needs:* Mathlib `localCohomology`;
-SchemeAndStackFoundations §2.7 (derived torsion); `localCohomology.cechIso` above.
+SchemeAndStackFoundations §2.7 (derived torsion); `localCohomology.cechIso` above;
+K0.1's injective ideal-power torsion supplier lemma (Stacks 08XW), giving the
+`Γ_J`-acyclicity of `Γ_I(E)` for injective `E`.
 
 **Checks.**
 
