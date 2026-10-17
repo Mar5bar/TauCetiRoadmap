@@ -307,8 +307,10 @@ normalized geometric projective height; generated difference presentations; weil
 general neronTateHeight and neronTateForm; PointHeightMetricFamily, canonicalPointMetric,
 LocalWeilFunction and neronFunction; integral models and naive/canonical subvariety heights.
 
-Layer 1: positive-dimensional AbelianVariety.quotient; isogeny kummer maps,
-kummerSelmerStructure, selmerGroup and tateShafarevich; the K/k-trace; TwoCovering, W2 and
+Layer 1: positive-dimensional AbelianVariety.quotient; arbitrary-field fppf kummer maps
+with comparison to the supplied number-field abelianKummer; function-field
+localKummer_unramified; abelianHom_primaryExtension, chowImage, chowImage_constantExtension, chowImage_summationSmooth,
+the K/k-trace and the strengthened diagonal_closedImmersion; TwoCovering, W2 and
 order-k Selmer sets; IntegralCommutativeFormalGroup, smooth formal identity charts and
 formalLogarithm. Native finite-module Selmer constructors and finite-subgroup quotients
 are supplier interfaces, not replacements for these geometric inputs.
@@ -330,7 +332,10 @@ functional; CasselsTate.biextension_comparison (torsor/divisor and Poincaré rea
 of the supplied cohomological pairing), BrauerPic0 and BrauerPic0_n; PencilSelmerOrbit,
 oriented ideals, the isogeny Q invariant and realEffectiveFraction.
 
-SelmerIwasawaCohomology §2.12a supplies the abelian Kummer/Sha comparisons, finite Selmer
+SelmerIwasawaCohomology §2.12a supplies the number-field abelianKummer,
+kummerSelmerStructure, abelianSelmerGroup, abelianSha, abelian_localH1_comparison,
+abelianDescent_exact and abelianSelmerGroup_finite, with all local Kummer conditions.
+The arbitrary-field fppf map specializes to these carriers. It also supplies finite Selmer
 and reduced primary carriers, finiteCotype_primaryDecomposition, KummerLocal.dual_annihilator
 and KummerLocal.globalPlusLocal. Its §4.29 supplies CasselsTate and
 CasselsTate.finiteCoefficient_formula, CasselsTate.isogeny_adjoint,
@@ -342,7 +347,9 @@ apply those interfaces to torsor detection, Brauer evaluation and multiplication
 Sha is finite.
 
 Layer 4: good reduction outside S, shafarevichSet and ShafarevichFiniteness;
-KodairaParshin covers, S-integral points and section jets.
+KodairaParshin covers, S-integral points and section jets. SubspaceTheorem §6.2 supplies
+NumberField.exists_finset_submodule_of_approxProd_le; §4.7a transports relative products
+and heights to their absolute versions with the same epsilon and projectivizes the result.
 
 Layer 5: HasFiniteRank.of_fg; IsCoset, IsTorsionCoset and IsTorsionSubvariety; scheme stabilizer,
 generatedByDifferences, uenoLocus, cosetFreeOpen and orthogonalComplement;
@@ -350,16 +357,24 @@ ConnectedDieudonneModule on the supplied DieudonneModule carrier, its covector/c
 scalar and cotangent comparisons, and formalWeight; uniform torsion closure;
 blockIndex, blockIndexLocus, projectiveCycleHeight, bounded projection presentations,
 weightedGap_smallSection, weightedGap_jetLowerBound and multiblock admissible jets;
-geometric difference maps; torsionEnvelope, torsionDimension and
-essentialMinimum; ArithmeticCycleClass, metrized divisor action, arithmeticDegree and
-arithmeticIntersection; AdelicMetrizedLineBundle, SemipositiveAdelic, IntegrableAdelic,
+geometric difference maps, with generic birationality on geometrically integral X;
+torsionEnvelope and torsionDimension on geometric finite unions, its single-coset criterion
+on geometrically integral X, and essentialMinimum on geometrically integral X with
+finite-extension scaling as for point heights (invariant for absolute number-field heights); ArithmeticRealForms, ArithmeticRealCurrents,
+ArithmeticCycleClass with conjugation parity (-1)^(p-1) for Green currents, metrized divisor
+action, arithmeticDegree and arithmeticIntersection; AdelicMetrizedLineBundle, SemipositiveAdelic, IntegrableAdelic,
 adelicCycleHeight and cycleProbabilityMeasure; BergmanDensity, AdelicSectionLattice,
 arithmeticEulerCharacteristic, AdelicSuccessiveMinimum and canonicalAdelicMetric.
 
 Layer 6: IsLocallySoluble, SatisfiesHassePrinciple and SatisfiesWeakApproximation;
 BombieriLangConjecture, VojtaConjecture, BrauerManinOnlyObstructionConjecture and
 ShaFinitenessConjecture. The genus-classification and small-point measure theorems need the
-geometric hypotheses stated in the README; no bare point-group signature asserts them.
+geometric hypotheses stated in the README; Bogomolov uses geometrically integral X, and
+constant sequences are generic on a geometric singleton. The curve gap argument uses
+L = O(Theta + [-1]*Theta), with b_L/2 equal to the unhalved theta pairing. Class
+pushforward requires proper maps with smooth generic fibre between equidimensional
+arithmetic varieties, with codimension shifted by their dimension difference. The
+finite-cover strong-approximation obstruction requires proper X in positive characteristic. No bare point-group signature asserts these geometric results.
 -/
 
 end TauCetiRoadmap.HeightsRationalPointsAndObstructions
