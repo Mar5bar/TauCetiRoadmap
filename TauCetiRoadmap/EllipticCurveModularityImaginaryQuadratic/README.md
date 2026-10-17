@@ -185,7 +185,8 @@ these interfaces always mean their stated hypotheses, with no stronger theorem i
 | GL2AutomorphicRepresentationsAndTransfer R16.0, R16.3–R16.4, R16.6 and R17.4 | Tate-normalized LLC, regular algebraic cuspidal GL₂ representations, classical/Hilbert weights, strong multiplicity one and soluble base change/descent. The CM weight convention is fixed here by CN §2. |
 | AutomorphicGaloisRepresentationsPartII AG2.P and AG2.5–AG2.7 | Attached representations over CM or totally real fields, coefficient fields, residual lattices, semisimplified local comparison, the monodromy bound, existential decomposed genericity and infinitely many witnesses. Full elliptic monodromy comparison is the target `automorphic_wd`, using elliptic purity. |
 | FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.4.19, R07.5 and R07.6.1; AutomorphicGaloisRepresentationsPartII AG2.P | Integral/crystalline and potentially semistable comparison carriers, finite-flat elliptic torsion, and the weight conventions needed by §3.1. |
-| GlobalGaloisDeformations R04.3–R04.6; LocalGaloisDeformationRings Layers 1–6 and 8; DeformationAndDerivedPatchingAlgebra Layers 5–9 | Local/global deformation problems, ordinary and Barsotti–Tate components, and ring/module/complex patching for the independent lifting targets. |
+| GlobalGaloisDeformations R04.3–R04.6; LocalGaloisDeformationRings Layers 1–6 and 8; DeformationAndDerivedPatchingAlgebra §§8.2–8.5 and 9.4–9.7 | Local/global deformation problems, ordinary and Barsotti–Tate components, finite complex patching and spectral support transport. The arithmetic complexes, augmentation maps, uniformly nilpotent Hecke quotients and deformation maps are constructed by §0.1 here. |
+| ArithmeticLocallySymmetricSpaces ALS.1.2–ALS.1.5, ALS.1.6–ALS.1.7, ALS.4.9 and ALS.5a.6 | Equivariant cohomology and homology, Hecke actions, localization and perfect models under freeness or invertible-order hypotheses. The additional non-Eisenstein perfectness theorem at non-neat levels is `cm_nonneat_perfect_augmentation` here. |
 | AutomorphicGaloisRepresentations Layers 3–7 | Hilbert attachment, local compatibility, ordinary families and residual representations for the real-quadratic branch. |
 | NumberFieldArithmetic, “What Mathlib supplies”; LocalFieldsRamification Layer 2; ClassFieldTheory §5.4 | Hermite finiteness, local ramification bounds and quadratic-extension theory for the finite comparison. |
 | InverseGaloisAndArithmeticFundamentalGroups IG.2.4 and IG.2.7 | Hilbert irreducibility with finitely many local open conditions and disjoint specialization; §2.1 owns its CM solvable-globalization application with avoidance. |
@@ -474,6 +475,234 @@ a block or record rather than a nonexistent page.
 
 ### 0.1 CM lifting
 
+The direct lifting prerequisites include LocalGaloisDeformationRings
+and DeformationAndDerivedPatchingAlgebra, as well as the representation
+and locally symmetric suppliers below. This section owns the arithmetic inputs
+to their general deformation and patching interfaces. Write O for the ring of integers
+of a sufficiently large finite extension of ℚp, with uniformizer ϖ and
+residue field k. Derived Hecke algebras mean the commutative images of the stated Hecke operators in
+derived endomorphisms, with their coefficient and level maps.
+
+**`cm_torsion_local_deformation_hecke`** — Let n≥1, F be CM containing an
+imaginary quadratic subfield in which p splits, and T a conjugation-stable set
+of finite places containing Sp. For every v∉T of residue characteristic ℓ,
+require either that ℓ is unramified in F and no ℓ-adic place lies in T, or
+that ℓ splits in an imaginary quadratic subfield of F. Let K be a good GLn
+level, hyperspecial outside T, and λ a dominant weight. Choose distinct
+places a,b|p of F⁺ with
+`Σ_{w|p, w≠a,b} [F⁺_w:ℚp] ≥ [F⁺:ℚ]/2`.
+Use CN's parahoric level at a, and a non-Eisenstein, decomposed-generic maximal
+ideal m supporting the cohomology. All positive central Hecke operators for
+the chosen parabolic at a are units at m. Construct a continuous
+`ρ_m:G_F,T→GLn(T_K/J)` with the unramified Hecke polynomials, where
+`T_K = T^{Q_a,{a-ord}}(RΓ(X_K,V_λ)_m)` and `J^δ=0` for a δ depending only
+on n and [F⁺:ℚ]. The same bound applies for every coefficient quotient O/ϖʳ,
+weight and allowed level; retain compatible coefficient reductions and the
+integral inverse-limit comparison.
+
+The induced local framed maps factor through the prescribed rings: for
+partition (n,1,…,1) of 2n, ordinary at the chosen place ã|a and crystalline
+at ãᶜ; for the Borel of GL₂n, ordinary at both; for the Siegel parabolic,
+crystalline at both. These are the three cases of CN, with λ's labeled
+weights, not arbitrary potentially semistable conditions. If p∤n and a quotient
+of T_K/J has determinant ψ valued in Oˣ, crystalline at every p-adic place
+with labeled weights `Σ_i (λ_{τ,i}+n−i)`, its local maps factor through the
+fixed-determinant ψ quotients. (CN, Theorem 4.2.15 and Corollary 4.2.16,
+pp.71–72.)
+
+*Needs:* AutomorphicGaloisRepresentationsPartII AG2.P and AG2.5–AG2.7;
+LocalGaloisDeformationRings Layers 1–6; ArithmeticLocallySymmetricSpaces
+ALS.1–ALS.4; DeformationAndDerivedPatchingAlgebra §7.9 for the nilpotent
+kernel from derived endomorphisms to cohomology actions.
+
+**Checks.**
+
+- For n=2 and odd p, determinant εp⁻¹ has labeled weight 1, as required
+  for the weight-zero fixed-determinant Barsotti–Tate application.
+- The mixed partition (2,1,1) gives an ordinary/crystalline pair; imposing
+  crystallinity at both places would exclude the semistable ordinary branch.
+- In ℤ/9ℤ the unit ideal J satisfies `(3J)²=0` but `J²≠0`. A bound on
+  `(T_n² p^N₂ J)^N₁` with T_n invertible therefore does not give the
+  integral nilpotence bound here. Coefficient-prime characteristic-zero
+  comparison alone cannot supply this target.
+
+**`cm_nonneat_perfect_augmentation`** — For a CM number field F, let G be
+GL₂ or PGL₂ and U a product compact level, hyperspecial outside a finite S
+containing Sp. Let A(U,M) and C(U,M∨) be equivariant cohomology and homology,
+not the cohomology of the coarse quotient. Take R=O or O/ϖʳ and an R-finite
+free smooth coefficient system M with `M⊗_R k≅k` as a level representation.
+Suppose m is a non-Eisenstein Hecke maximal ideal with residue field k and
+absolutely irreducible residual representation. Require ζp∈F; for PGL₂
+require odd p, and for GL₂ require that `U∩Z_G(F)` contains no nontrivial
+p-torsion. Then `H^i(A(U,M)_m)=0` outside `[0,dim_ℝ X_G]`, and this
+localized complex is R-perfect. For V normal in U with abelian p-power
+quotient Δ, construct the residual-matching localization n and an
+R[Δ]-perfect homology complex with its Hecke-equivariant derived augmentation
+`C(U/V,M∨)_n ⊗ᴸ_{R[Δ]} R ≅ C(U,M∨)_m`.
+Retain coefficient reduction, trace and localization compatibilities, and the
+corresponding dual perfect complexes. (AKT, Theorem 5.11, pp.46–47;
+CN, Proposition 5.5.3, p.81, and Lemma 5.6.4, p.85.)
+
+*Needs:* ArithmeticLocallySymmetricSpaces ALS.1.2–ALS.1.7 and ALS.4.9;
+ArithmeticGaloisRepresentations Layers 1–4;
+AutomorphicGaloisRepresentationsPartII AG2.5–AG2.7;
+DeformationAndDerivedPatchingAlgebra Layer 7 for perfect-complex algebra.
+
+**Checks.**
+
+- A point with stabilizer C_p over 𝔽p has unbounded equivariant cohomology;
+  localization at an arbitrary Hecke ideal cannot replace the
+  non-Eisenstein hypothesis.
+- At neat level the usual free-cell perfect model agrees with this
+  localized complex; at non-neat level with p-torsion stabilizers there is
+  no averaging by the quotient order.
+- At p=2 the PGL₂ assertion is unavailable. AKT's GL₂ level U(c₀,c)
+  removes central 2-torsion and permits the dyadic application; replacing
+  it by U(1,c) without that restriction loses a hypothesis.
+
+**`cm_integral_patch_data`** — For the prepared weight-zero setting of CN
+§5.6(1)–(15), construct the finite complex patch datum of
+DeformationAndDerivedPatchingAlgebra §8.2. Explicitly, take odd p, a CM F,
+`Sp=S_p^cr ⊔ S_p^st`, a finite S⊃Sp and R⊂S∖Sp, and a residual-matching
+weight-zero cuspidal π on PGL₂. Each rational prime ramifying in F or below S
+splits in an imaginary quadratic subfield of F. For every a|p of F⁺ require
+a distinct b|p with `Σ_{w≠a,b} [F⁺_w:ℚp] > [F⁺:ℚ]/2`, and residue fields
+at p strictly larger than 𝔽p. Require π unramified off `R∪S_p^st`, with
+Iwahori invariants on that set and ordinary noncrystalline attachment at
+`S_p^st`. If S=Sp∪R require ζp∈F; otherwise S∖(Sp∪R) contains two places
+of distinct residue characteristics. At each v in that complement require
+v∉Rᶜ and `H²(F_v,ad⁰ρ̄)=0`. Require ρ̄ decomposed generic, absolutely
+irreducible on GF(ζp), trivial at Sp∪R, and the p=5 projective-field
+exclusion of `cm_ordinary_lifting`.
+
+For every tuple χ of residue characters at R trivial modulo ϖ, use determinant
+εp⁻¹, Barsotti–Tate local rings at `S_p^cr`, ordinary weight-zero rings at
+`S_p^st`, and the χ-level-raising rings at R. The other local rings have
+fixed determinant and are unrestricted. For Taylor–Wiles data Q take distinct
+residual Frobenius eigenvalues, `q_v≡1 mod p^N`, and residue characteristics
+split in imaginary quadratic subfields of F. Construct compatible surjections
+`R_{Sχ}↠T_χ/J_χ` and `R_{Sχ,Q}↠T_{χ,Q}/J_{χ,Q}`, the second over O[Δ_Q],
+with unramified Hecke polynomials and `J_χ^δ=J_{χ,Q}^δ=0` for one δ depending
+only on [F:ℚ]. At p use `cm_torsion_local_deformation_hecke`, including its
+fixed-determinant refinement; away from p prove the specified inertia and
+Taylor–Wiles character conditions. At Q the deformation and diamond actions
+must agree. Use `cm_nonneat_perfect_augmentation` when the levels are not neat.
+For the dual localized complexes retain
+`C_{χ,Q}⊗ᴸ_{O[Δ_Q]}O≅C_χ`, including the chosen-eigenvalue level-lowering
+comparison. (CN, Propositions 5.6.2–5.6.3 and Lemma 5.6.4, pp.83–85.)
+
+Choose Q_N of fixed cardinality killing the dual Selmer group, with
+`ker(ℤp^q↠Δ_{Q_N})⊂p^Nℤp^q`, and construct framed presentation surjections
+from a common power-series extension of the local deformation ring. Supply
+the augmentation isomorphisms of deformation rings, compatible Hecke maps
+surjective after the base error quotient, and all coefficient diagrams in §8.2.
+For χ=1 and a fixed χ with χ_v²≠1, prove the paired residual ring and derived
+complex identifications, equality of residual derived Hecke images, and
+agreement of deformation maps after quotient by the sum of residual error
+images. Derive a common finite residual amplitude and rank profile from the
+actual augmented perfect complexes. (CN, §5.6, pp.84–85; AKT, Proposition A.6,
+p.87 and the paired construction on pp.92–93.)
+
+Apply generic patching only to these data. Verify the dimension and component
+conditions of CN Assumption 5.4.1 from its Propositions 5.3.2 and Lemmas
+5.3.3–5.3.4 and the supplied local rings. The characteristic-zero π seed has
+cohomology in the required cuspidal interval. Prove the pairwise support
+transport of CN Proposition 5.4.2 and Corollary 5.4.3 using the spectral
+support and divisor-length interfaces: the residual generics under the seed
+component and the desired component must generalize to the same auxiliary
+component. There can be several auxiliary components, one for each choice at
+p; global uniqueness is not assumed. For a lift of determinant εp⁻¹ which is
+Barsotti–Tate on `S_p^cr`, with the same ordinarity there as π, noncrystalline
+of shape `(1,*;0,εp⁻¹)` on `S_p^st`, unipotently ramified at R and unramified
+outside S, this proves survival of its point in the augmented Hecke support.
+The characteristic-zero Hecke/automorphic comparison then proves the prepared
+lifting statement. (CN, Proposition 5.6.1 and proof, pp.82–85.)
+
+*Needs:* `cm_torsion_local_deformation_hecke`,
+`cm_nonneat_perfect_augmentation`; GlobalGaloisDeformations R04.3–R04.6;
+LocalGaloisDeformationRings Layers 1–6 and 8;
+DeformationAndDerivedPatchingAlgebra §§8.2–8.5 and 9.4–9.7;
+AutomorphicGaloisRepresentationsPartII AG2.5–AG2.7;
+ArithmeticGaloisRepresentations Layers 1–4.
+
+**Checks.**
+
+- For Q empty the ring and derived-complex augmentations recover Sχ and Cχ;
+  an equality of top cohomology quotients alone is insufficient.
+- Characters χ_v≡1 modulo ϖ identify the paired residual coefficient systems,
+  but the Hecke actions and deformation diagrams must agree as well.
+- Growing error exponents do not suffice: the ideals (t) in k[t]/(t^N)
+  are individually nilpotent, while their inverse-limit ideal (t) in k[[t]]
+  is not. The same δ is required at every Taylor–Wiles level.
+- If two residual generics lie on different auxiliary components, the
+  pairwise support bridge supplies no transfer between them.
+
+**`cm_ordinary_integral_patch_data`** — Construct the corresponding ordinary
+integral arithmetic inputs for both AKT lifting proofs, retaining the general
+weights of `cm_ordinary_lifting`. In the odd-p branch use exactly the prepared
+data of AKT §A.3, pp.87–88: local degrees [F_v:ℚp]>4 at p, the
+imaginary-quadratic splitting condition for primes ramifying in F or below S,
+residual cyclotomic absolute irreducibility and decomposed genericity, the
+p=5 exclusion, residual triviality at R, ζp∈F when S=Sp∪R, and otherwise
+two auxiliary places of distinct residue characteristics, outside Rᶜ with
+vanishing adjoint H². The residual-matching π is ordinary of weight μ,
+with pro-p Iwahori invariants at p, Iwahori invariants at R and unramified
+outside S. For a lift of weight λ≥0 keep determinant εp⁻¹ and local shape
+`(ψ_v,*;0,εp⁻¹ψ_v⁻¹)`, where on inertia
+`ψ_v(σ)=∏_τ τ(Art_v⁻¹(σ))^{λ_τ}`. For every p-power root u∈F_v require
+`∏_τ τ(u)^{λ_τ−μ_τ}=1`, as in AKT Theorem A.7.
+Use its weight-control comparisons and non-Eisenstein perfectness to construct
+the ordinary complexes over the chosen regular weight component Λ and their
+Taylor–Wiles augmentations. Construct the deformation-to-derived-Hecke
+surjections with one exponent δ(F) at every level and weight, with the
+fixed determinant and diamond actions, as in Propositions A.11 and A.13.
+Supply the paired datum of §8.2 over Λ for χ=1 and χ_v²≠1, including
+weight specialization and all residual action diagrams. (AKT, Lemmas
+A.8–A.12 and Proposition A.13, pp.89–92; paired patch, pp.92–93.)
+
+For the dyadic branch use AKT §6.1's prepared GL₂ data: an absolutely
+irreducible soluble ρ̄ over a finite characteristic-two k, decomposed generic,
+unramified outside 2,
+with local shape `(1,α_v;0,1)` at every v|2, where α_v is the Kummer
+character of an element of odd valuation, as in §4.2.1; a v₀|2
+preserving all 2-power roots of unity; conjugation-stable R with ρ̄ trivial
+there and `[F⁺:ℚ]>8|R|+10`; and a residual-matching ordinary weight-zero π,
+Iwahori at 2, unramified outside S₂∪R, with the distinct inverse 2-power
+inertia characters prescribed in §6.1 at R. Require the same splitting in
+imaginary quadratic subfields for every prime below S₂∪R or ramifying in F.
+Use the actual U(c₀,c) levels without central 2-torsion and distinguish
+`Λ₀↪Λ₁↠Λ`: perfectness is over regular Λ₀, and the Hecke weight action
+factors through Λ. Construct the ordinary minimal complexes, their coefficient
+and Taylor–Wiles augmentation maps, and the ordinary deformation-to-Hecke
+maps modulo ideals with one exponent δ(F). Retain the variable determinant
+of this GL₂ branch and its local ordinary characters; the odd-p
+fixed-determinant refinement is not applicable at p=2. Supply the paired
+finite datum over Λ₀ with the Λ₁ action and its factorization on the Hecke
+image, as in AKT §6.2. (AKT, Lemma 6.2, Theorem 6.3, Corollary 6.4,
+Theorem 6.8, Corollary 6.9 and §6.2, pp.53–66.)
+
+For each branch verify its local dimension/component bounds and nonzero
+characteristic-zero cuspidal seed before applying patching and spectral
+support transport. The soluble CM base changes in AKT §7 and §A.4 preserve
+the generic witness and required residual image, reach these prepared data,
+and permit automorphic descent. These constructions, and the prepared CN
+construction above, use no switching or imaginary-quadratic modularity endpoint.
+
+*Needs:* `cm_nonneat_perfect_augmentation`; GlobalGaloisDeformations
+R04.3–R04.6; LocalGaloisDeformationRings Layers 1–6 and 8;
+DeformationAndDerivedPatchingAlgebra §§8.2–8.5 and 9.4–9.7;
+AutomorphicGaloisRepresentationsPartII AG2.5–AG2.7;
+GL2AutomorphicRepresentationsAndTransfer R17.4.
+
+**Checks.**
+
+- For odd p, λ=0 specializes the ordinary family to weight zero; the
+  construction also retains nonzero dominant λ and its inertial characters.
+- At p=2, perfectness over Λ₀ does not assert perfectness over Λ₁ or Λ;
+  imposing a fixed determinant by the p∤n refinement would be unjustified.
+- Augmenting the Taylor–Wiles variables recovers the same ordinary complex
+  with its weight action, not merely a characteristic-zero eigensystem.
+
 **`cm_dihedral_lifting`** — For AKT Theorem 7.1 (§7, p.67), let K be CM and
 ρ:GK→GL₂(ℚ̄₂) continuous. Its residual representation is decomposed generic,
 dihedral with quadratic inducing field M/K, and extends to
@@ -487,6 +716,17 @@ attached representation isomorphic to ρ, for an isomorphism ι:ℚ̄₂≅ℂ.
 The dyadic residual image here is dihedral; a theorem assuming a nonsolvable
 residual image does not provide this interface.
 
+*Needs:* `cm_ordinary_integral_patch_data`; GL2AutomorphicRepresentationsAndTransfer R17.4.
+
+**Checks.**
+
+- A local inducing class of odd valuation gives the ramified dyadic condition;
+  an unramified inducing extension does not satisfy this target.
+- The prepared GL₂ complex uses central-2-torsion-free levels even though
+  p=2; the odd-p PGL₂ perfectness theorem is not its substitute.
+- Residual dihedral induction supplies the automorphic seed before the
+  independent integral patch and either elliptic switching conclusion.
+
 **`cm_ordinary_lifting`** — For AKT Theorem 8.1 (§8, pp.71–72; restated as Theorem A.14, §A.4, p.94),
 take odd p, CM K and continuous ρ:GK→GL₂(ℚ̄p), unramified away from a finite
 set, with det ρ=εp⁻¹. Require its residual representation to be decomposed
@@ -499,6 +739,17 @@ residual representation must exclude ζ5. The conclusion is a cuspidal
 PGL₂ representation Π of weight ιλ, ι-ordinary, with rΠ,ι≅ρ.
 Layer 2 uses its weight-zero specialization together with the dyadic theorem;
 both general lifting theorems are targets here, independent of the switching endpoints.
+
+*Needs:* `cm_ordinary_integral_patch_data`; GL2AutomorphicRepresentationsAndTransfer R17.4.
+
+**Checks.**
+
+- At λ=0 the conclusion has weight zero; nonzero dominant λ retains the
+  corresponding ordinary inertia characters and is also in scope.
+- At p=5 the PSL₂(𝔽5) case retains the full projective-field exclusion;
+  cyclotomic absolute irreducibility alone is insufficient.
+- At p=2 this statement is inapplicable; the separate dyadic GL₂ theorem
+  supplies that seed.
 
 **`qualified_cm_lifting`** — The qualified form of CN Theorem 5.2
 (§5.1, pp.73–74) takes odd p,
@@ -517,11 +768,27 @@ automorphy of ρ by a weight-zero cuspidal PGL₂ representation.
 For Layer 3, the qualification follows from [F(ζp):F]|p−1 for p=3,5;
 it is retained in the general lifting target.
 
+*Needs:* `cm_integral_patch_data`; GL2AutomorphicRepresentationsAndTransfer R17.4;
+InverseGaloisAndArithmeticFundamentalGroups IG.2.4 and IG.2.7 for the
+soluble CM preparation in CN §5.6, pp.86–88, with residual-image avoidance
+and the generic split prime retained.
+
+**Checks.**
+
+- For p=3 or 5 the cyclotomic degree divides p−1, so it cannot be 3;
+  the additional A₄ qualification is automatic in these applications.
+- A noncrystalline local lift uses the ordinary semistable component,
+  whereas a crystalline lift retains the seed's matching ordinarity.
+- Auxiliary extensions preserve a decomposed-generic split prime and the
+  cyclotomic residual image; unrestricted solvable base change alone would
+  not supply either condition.
+
 The lifting targets use ArithmeticGaloisRepresentations Layers 1–4,
 AutomorphicGaloisRepresentationsPartII AG2.P and AG2.5–AG2.7,
 GlobalGaloisDeformations R04.3–R04.6, LocalGaloisDeformationRings Layers 1–6,
 and DeformationAndDerivedPatchingAlgebra Layers 5–9 for the representation,
-local-condition, deformation and patching theories. They include the independent
+local-condition, deformation and patching theories. The four arithmetic targets
+above supply the integral maps and complexes to those theories. They include the independent
 CM ordinary/dihedral and potentially Barsotti–Tate proofs, with no appeal to
 `cm_modularity` or either switching conclusion.
 
