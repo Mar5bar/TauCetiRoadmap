@@ -362,6 +362,15 @@ example :
 
 end Period
 
+/-!
+The analytic Coleman algebra, normalized primitives and polylogarithms are supplied by
+ColemanIntegration L1–L2. The README's colemanFunctions, colemanPrimitive and colemanDilogarithm
+interfaces transport those objects to the tensor-path realization, with the coefficient field,
+logarithm branch, tangential normalization and outermost-letter order identified there.
+RestrictedPowerSeries supplies the native series, evaluation, rescaling and Strassmann theorem;
+the residue-chart comparison and Chabauty zero-set application are targets of Layer 5 here.
+-/
+
 /-! ## Layer 6: Quadratic Chabauty and height equations -/
 
 namespace Heights
@@ -613,6 +622,32 @@ example : Nonempty (GaloisSection (ContinuousMonoidHom.id G)) := by
 depth. In its geometric application the two functions are dimensions of the stated schemes. -/
 def KimDimensionCondition (selmerDimension deRhamDimension : ℕ → ℕ) : Prop :=
   ∃ n, 0 < n ∧ selmerDimension n < deRhamDimension n
+
+/-- Summing an eventual H² bound retains the full finite initial H² contribution.
+The Euler characteristic identities and tail estimates give this bound at every depth. -/
+theorem sum_h1_le_with_initial_h2 (h1 h2 negative error : ℕ → ℕ)
+    (k₀ : ℕ) (hk₀ : 1 ≤ k₀)
+    (hEuler : ∀ k, 1 ≤ k → h1 k = negative k + h2 k)
+    (hbound : ∀ k, k₀ ≤ k → h2 k ≤ error k) (n : ℕ) :
+    (∑ k ∈ Finset.Icc 1 n, h1 k) ≤
+      (∑ k ∈ Finset.Icc 1 n, negative k) +
+        (∑ k ∈ Finset.Ico 1 k₀, h2 k) +
+        ∑ k ∈ Finset.Icc k₀ n, error k := by
+  sorry
+
+/-- A degree-one H² term of two remains in every positive-depth sum when the tail is zero. -/
+example (n : ℕ) (hn : 1 ≤ n) :
+    (∑ k ∈ Finset.Icc 1 n, if k = 1 then 2 else 0) = 2 := by
+  sorry
+
+/-- A threshold of one has no initial H² terms. -/
+example (h2 : ℕ → ℕ) : (∑ k ∈ Finset.Ico 1 1, h2 k) = 0 := by
+  sorry
+
+/-- Before the threshold, the estimated tail sum is empty. -/
+example (error : ℕ → ℕ) (n k₀ : ℕ) (h : n < k₀) :
+    (∑ k ∈ Finset.Icc k₀ n, error k) = 0 := by
+  sorry
 
 /-- Equality of dimensions at all depths does not satisfy the condition. -/
 example (d : ℕ → ℕ) : ¬ KimDimensionCondition d d := by
