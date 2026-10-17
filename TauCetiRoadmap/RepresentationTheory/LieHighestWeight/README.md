@@ -893,7 +893,122 @@ base-change of forms, and "formally real" is never asserted over an algebraicall
   `26`-dimensional **fundamental representation** the trace-zero elements `J₀ = ker(albertTrace)`. Build
   `AlbertAlgebra K`, prove the Jordan identity, build `derivationLieAlgebra (AlbertAlgebra K)`, prove
   `finrank = 52` and Killing-simplicity of type `F₄`, and identify it with the split `LieAlgebra.f₄ K`.
-  (The formally real Albert algebra is the `K = ℝ` division-octonion form of this construction.)
+  On this native split carrier build `TauCeti.AlbertAlgebra.det`, using its
+  existing cyclic off-diagonal layout: for a_i=diag(i), x_i=offDiag(i),
+  `det A=a0*a1*a2−a0*N(x0)−a1*N(x1)−a2*N(x2)+tr_O((x0*x1)*x2)`,
+  with native `TauCeti.Octonion.norm` and `TauCeti.Octonion.trace`, following
+  [Baez's trace-power identity](https://math.ucr.edu/home/baez/octonions/node12.html),
+  with the cyclic coordinate formula verified against the native layout.
+  Give its homogeneous cubic/polarization and scalar-extension APIs,
+  and prove `A³−trace(A)*A²+s(A)*A−det(A)*1=0`,
+  where `s(A)=((trace A)²−trace(A²))/2` and powers use the Jordan product.
+  Pin s(A) and the characteristic identity on the native
+  `[CommRing R] [Invertible (2 : R)]` carrier. For the /6 trace-power
+  identity additionally assume `[Invertible (3 : R)]`.
+  Prove the characteristic identity and determinant's trace/power formula
+  `det(A)=((trace A)³−3*trace(A)*trace(A²)+2*trace(A³))/6`.
+  This supplies the split determinant compared by the compact
+  complexification below, rather than an undeclared target invariant.
+  Over ℝ this native carrier remains split. The separate division-octonion
+  construction below supplies the formally real compact Albert carrier.
+- **The compact real algebra suppliers.** This algebraic sublane of Layer 8 is
+  independent of Layers 0–7's representation/classification results and of projective
+  geometry. Follow the proposed global `CayleyDickson A` and
+  `_root_.Octonion R := CayleyDickson (Quaternion R)` design of [Mathlib PR41919](https://github.com/leanprover-community/mathlib4/pull/41919).
+  Build the unavailable doubling APIs in Tau Ceti as `TauCeti.CayleyDickson`
+  and name the real division carrier
+  `TauCeti.DivisionOctonionReal := TauCeti.CayleyDickson (Quaternion ℝ)`.
+  Give its ordered pair-coordinate comparison and retain the proposed global
+  `_root_.Octonion ℝ` naming/coordinate convention as an interoperability target. Preserve the distinct split `TauCeti.Octonion` name. For the
+  division real form use pairs `(a,b) : ℍ × ℍ`, multiplication
+  `(a,b)(c,d)=(ac−star(d)b, da+b star(c))`, conjugation `(star(a),−b)` and
+  `N(a,b)=‖a‖²+‖b‖²`. Define its scalar trace T(a,b)=2*re(a),
+  and prove x+star(x)=T(x)*1, with linearity and T(1)=2.
+  Give component/extensionality and linear-coordinate APIs,
+  conjugation and real scalars, the alternative/flexible/Moufang identities, multiplicative
+  positive-definite quadratic norm, its polarization and `‖x‖²=N(x)`, nonzero inverse `star(x)/N(x)`
+  and both inverse/cancellation laws. Prove that each two-generated subalgebra is
+  associative, including its closure under conjugation, and give the smooth real
+  multiplication/conjugation/inverse-on-nonzero maps under the ordered eight-coordinate
+  Euclidean model. Give `NonAssocRing`, `Module ℝ`, `SMulCommClass ℝ A A`
+  and `IsScalarTower ℝ A A` on this carrier A, together with its normed real
+  vector-space structure; associativity, `DivisionRing` and `NormedRing`
+  instances are not asserted.
+  The existing `TauCeti.Octonion ℝ` Zorn algebra is **split** and is not this carrier.
+- **The formally real Albert supplier.** On the division octonions just specified,
+  construct `compactAlbertAlgebra` with scalar diagonal `Fin 3 → ℝ` and cyclic
+  off-diagonal `Fin 3 → TauCeti.DivisionOctonionReal` in the same Hermitian positions as native
+  `TauCeti.AlbertAlgebra`. Define the Jordan product by the entrywise symmetrization
+  `½(AB+BA)`, with each binary octonion product parenthesized; no associative matrix
+  ring structure is used. Give `NonAssocCommRing`, `Module ℝ`,
+  `SMulCommClass ℝ J J` and `IsScalarTower ℝ J J` on this carrier J.
+  Give projection/extensionality, real bilinearity, unit,
+  conjugation, `IsCommJordan`, power associativity and trace/trace-zero.
+  Define its determinant cubic in the same cyclic layout by
+  `det A=a0*a1*a2−a0*N(x0)−a1*N(x1)−a2*N(x2)+T((x0*x1)*x2)`.
+  Prove its characteristic and trace-power identities as for the split
+  carrier, and give the trace/determinant polarization APIs.
+  Prove dimensions 27/26, the positive-definite
+  trace form `trace(A∘B)`, formal reality `Σ A_i²=0 → ∀i,A_i=0`, the diagonal
+  orthogonal idempotent frame, Peirce decomposition and products, the cubic
+  characteristic identity, associativity of the trace form
+  `trace((A∘B)∘C)=trace(A∘(B∘C))`, and intrinsic real spectral
+  decomposition into orthogonal primitive Jordan idempotents. Prove
+  primitive idempotents are exactly the trace-one idempotents, and any
+  complete orthogonal primitive frame summing to1 has exactly three
+  elements. Prove that
+  commutators `[L_A,L_B]` are derivations skew-adjoint for the trace form.
+  This algebraic decomposition does not assert automorphism transitivity
+  on frames: that geometric theorem belongs to TangentialBordism B3. Supply the fixed 27-coordinate Euclidean topology and smooth
+  product/trace/determinant maps, automorphism preservation of trace and the trace
+  form, and its native derivation Lie algebra with bracket and trace-zero
+  representation. These generic algebra APIs precede classification. The
+  complexification/type identification follows this algebraic sublane and
+  Layer7's split-F4 theorem. Construct the real tensor products
+  `ℂ ⊗[ℝ] TauCeti.DivisionOctonionReal` and
+  `ℂ ⊗[ℝ] compactAlbertAlgebra`. Consume native
+  `Algebra.TensorProduct.instNonAssocRing` and
+  `instNonUnitalNonAssocSemiring`, `tmul_mul_tmul`,
+  `isScalarTower_right` and `sMulCommClass_right` for their existing
+  nonassociative products, units and complex-bilinear interfaces:
+  `(z⊗a)(w⊗b)=zw⊗(ab)`. No second multiplication instance is introduced.
+  Construct the quadratic form via native `QuadraticForm.baseChange`,
+  the trace by linear extension, and define the complexified cubic by
+  `((trace A)³−3*trace(A)*trace(A²)+2*trace(A³))/6` on the native
+  tensor-product Jordan algebra. Prove its scalar-extension and polarized
+  comparisons; no undeclared cubic-form base-change API is presumed.
+  Extend octonion conjugation complex-linearly; this is
+  not scalar complex conjugation. Construct
+  `divisionOctonionComplexificationIso` and
+  `compactAlbertComplexificationIso` as complex-linear, unital,
+  product-preserving equivalences to native `TauCeti.Octonion ℂ` and
+  `TauCeti.AlbertAlgebra ℂ`, preserving the norm/involution and
+  trace/determinant respectively. No associative `Algebra`/`AlgEquiv`
+  instance is presumed for these nonassociative products.
+  Export `compactAlbertDerivationBaseChange`: the complexification of
+  `TauCeti.derivationLieAlgebra ℝ compactAlbertAlgebra` is the actual
+  derivation Lie algebra of the complexified product. Prove this using
+  finite-dimensional Leibniz-equation kernels and flat scalar extension,
+  including bracket preservation. Consume native
+  `TauCeti.derivationLieAlgebraCongr` on the preceding multiplicative
+  linear equivalence, then Layer7/8's split Albert identification, to
+  export `compactAlbertDerivation_complexification` with the split
+  type-F4 complex Lie algebra. Derive
+  `compactAlbertDerivation_finrank = 52` and zero real centre by faithful
+  complexification. Export `compactAlbertDerivation_skewAdjoint` for
+  every derivation, not just inner commutators: prove
+  `trace(L_A)=9 trace(A)` and `[D,L_A]=L_(D A)`; matrix commutator trace
+  gives trace(D A)=0, and Leibniz plus the associative trace form gives
+  skew-adjointness. Export `compactAlbertDerivation_killing_negDef`:
+  restrict the positive Hilbert–Schmidt form from the orthogonal
+  endomorphisms to the derivation algebra, prove ad(D) skew-adjoint,
+  and use zero centre to get `Killing(D,D)=−‖ad(D)‖²<0` for D≠0.
+  These named algebraic results give the compact real type-F4 Lie algebra
+  without any projective transitivity or an undefined complex F4 group.
+  Do not identify the split and division real forms.
+  The fixed-carrier trace-one-idempotent geometry,
+  its compact automorphism group and F4/Spin9 projective-plane comparison belong to
+  [TangentialBordism B3](../../TangentialBordism/README.md#b3-low-groups-and-specified-geometric-examples).
 - **The `E`-series `E₆, E₇, E₈`, as explicit constructions.** Two different constructions produce these,
   and the roadmap keeps them apart rather than conflating them:
     - **The Vinberg `ℤ/3`-model of split `E₈`.** `𝔢₈ = 𝔰𝔩₉ ⊕ ⋀³(K⁹) ⊕ ⋀³(K⁹)^*` of dimension
