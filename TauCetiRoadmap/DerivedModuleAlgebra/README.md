@@ -371,7 +371,7 @@ Mathlib `Ideal.span_le`.
 **Checks.**
 
 - For R=M=ℤ the ideal is proper: the element 1=dp(0,m) is not in it.
-- The degree-one elements dp(1,m) do not suffice as generators: in Γ_{F₂}(F₂), dp(2,1) is not in the
+- The degree-one elements dp(1,m) do not suffice as generators: in `Γ_{F₂}(F₂)`, `dp(2,1)` is not in the
   ideal they generate (gamma-degree-one-insufficient).
 
 **Scalar and augmentation splitting.** Construct an R-linear equivalence Γ_R(M)≃R×Γ_R(M)_+ by
