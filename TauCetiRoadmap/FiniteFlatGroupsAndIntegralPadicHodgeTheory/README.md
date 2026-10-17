@@ -110,7 +110,8 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   `p`-divisible groups of an elliptic curve over an algebraically closed field). ModularCurves
   schedules neither Dieudonné theory nor the Oort–Tate classification; both are owned here.
 - TauCetiRoadmap.LocalFieldsRamification: Layer 3 (Herbrand functions, upper numbering and the
-  different for finite residue fields; §R07.6.1a owns the perfect-residue extension) and
+  different for finite residue fields; PadicPeriodRings §2 owns the mixed-characteristic
+  perfect-residue extension, and §R07.6.1a owns its equal-characteristic counterpart) and
   Layer 4 (the tame quotient `I_K/P_K ≅ lim_{p ∤ m} μ_m` and the tame character,
   which Tau Ceti implements as `TauCeti.inertiaTameCharacter` and
   `TauCeti.quotientWildInertiaSubgroupEquiv`). §R07.1.26 keeps only what lies beyond Layer 4:
@@ -155,6 +156,8 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   the principal `O_C` envelope, presentation, completion, `θ_cris` and logarithm (§3),
   and the general-base topological period carriers, actions, invariant functors, rational
   predicates, fixed fields, regularity and underlying fundamental sequence (§§4.1–4.3).
+  Its §2 also owns mixed-characteristic perfect-residue Herbrand theory, the different and
+  the completed maximal unramified filtration comparison used in §R07.6.
   Sections R07.P2–R07.P5 import their finite-`K` specializations and supply the additional
   period sequence, continuous sections, boundary maps and crystalline-to-de Rham implication.
   Section R07.P5a owns the integral coefficient predicates. Sections R07.P7.1–R07.P7.5 give finite-coefficient de Rham and
@@ -411,6 +414,11 @@ laws) with `FormalGroup.IsComm`.
   `B_dR^+`, `B_dR`, the period `t` with `g(t) = χ(g)t`, the continuous Galois action,
   `padicComplex_fixed_eq`, `tate_normalizedTrace`, `tate_almostEtale`,
   `tate_H0_padicComplex_twist` and `tate_H1_padicComplex_twist`.
+  Section `2` supplies mixed-characteristic perfect-residue ramification and Herbrand theory
+  through the prerequisite of `senUpperBreaks`, and the different inputs of general-base
+  `periodTraceIdeal` and `senTowerEstimates`. These include quotient compatibility of upper
+  numbering and the inertia, upper-filtration and normalized-different comparisons under
+  completed maximal unramified base change, on the existing `Ideal.ramificationGroup` carrier.
   Section `3` supplies the principal `O_C` envelope, its presentation and completion, `θ_cris`
   and logarithm. Sections 4.1–4.3 supply the crystalline and semistable carriers, actions,
   period maps, invariant functors, rational predicates, fixed fields, regularity and underlying
@@ -2772,7 +2780,9 @@ Example `2`, p. 2: the rank-two models.)
   §R07.1.14.
 - `standardDieudonneModules_M2`: M2 has no `F`-stable line on which `F` is bijective, so it has no étale
   part.
-- `standardDieudonneModules_FV`: on `M2`, `FV e₁ = F e₂ = p e₁` and `VF e₂ = V(p e₁) = p e₂`, so `FV = VF = p`; the variant with `Fe₂ = e₁` would give `FV = 1` and is not a Dieudonné module.
+- `standardDieudonneModules_FV`: on `M2`, `FV e₁ = F e₂ = p e₁` and
+  `VF e₂ = V(p e₁) = p e₂`, so `FV = VF = p`. Changing only `Fe₂ = p e₁` to
+  `Fe₂ = e₁` gives `(FV)e₁ = e₁ ≠ p e₁`, with `FV = diag(1,p)`, and is not a Dieudonné module.
 - The rank-one modules `(i)` and `(ii)` are the light definitions `DieudonneModule.qpZp` and
   `DieudonneModule.muPInfty` on `W(k)`, with `V = pσ^{−1}` and `V = σ^{−1}` respectively.
   `qpZp_F_bijective`: on `M(ℚ_p/ℤ_p)` the Frobenius is bijective (slope `0`).
@@ -3313,8 +3323,16 @@ free of rank `r`, then `G̃ ≅ Spf R[[x₁^{1/p^∞}, …, x_r^{1/p^∞}]]` and
 
 `R p`-adically complete; `G̃` is representable by a formal scheme when `G` is isogenous to an extension of
 an étale by a connected `p`-divisible group (Scholze–Weinstein 3.1.3(iii)). Over a
-mixed-characteristic DVR with `K̄`-points the value `T_pG(O_{K̄})` recovers the Galois Tate module of
-§R07.1.8.
+mixed-characteristic DVR, compare with §R07.1.8 through the finite-level point functors on
+all `R`-algebras: the affine inverse-limit scheme `T_alg(G) = lim_n G[p^n]` represents
+`A ↦ lim_n G[p^n](A)` and restricts to `T_pG` on `Nilp_R^op`. Properness at each finite level gives
+`T_alg(G)(O_{K̄}) = lim_n G[p^n](K̄)`, the Galois Tate module of §R07.1.8.
+Here `O_{K̄}` is an `R`-algebra on which `p` is not nilpotent.
+
+Write `underline(M)` for the ordinary constant fpqc sheaf of the discrete group `M`.
+The coefficient sheaves for the étale example are
+`ℤ_p,cont = lim_n underline(ℤ/p^n)` and `ℚ_p,cont = ℤ_p,cont[1/p]`, with the limit and
+localization taken in fpqc sheaves. They differ from `underline(ℤ_p)` and `underline(ℚ_p)`.
 
 *Construction.* Define `T_pG` and `G̃` as limits of the sheaves `G[p^n]` and `G` along `p`; `G̃(S) = lim_p G(S)`
 is uniquely `p`-divisible, hence a `ℚ_p`-space. `Hom(ℚ_p/ℤ_p, G) = lim_n Hom(p^{−n}ℤ/ℤ, G) = lim_n G[p^n] = T_pG`; inverting `p` gives `G̃`. Exactness of `0 → T_pG → G̃ → G → 0`: projection to the last coordinate;
@@ -3330,6 +3348,10 @@ isogeny invariance and the perfect-base description of `G̃` (Proposition 3.1.3(
 representability of `T(G)` by an affine scheme flat over `R` (Proposition 3.3.1). The exact sequence `0 → T_pG → G̃ → G → 0` is not stated there; it follows from `p` being an epimorphism of fpqc sheaves
 (§R07.1.5).)
 
+For the étale example, Scholze–Weinstein §4.4, immediately after Lemma 4.4.1, identifies the
+coordinate ring of `T(ℚ_p/ℤ_p)` with `C_lc(ℤ_p,R)`. The ordinary constant group scheme is the
+disjoint union indexed by its discrete group (Stacks Tag 03YW).
+
 The API:
 
 - `BarsottiTate.tateSheaf`: `T_pG` as an fpqc sheaf of `ℤ_p`-modules on `Nilp_R^op`.
@@ -3343,11 +3365,15 @@ The API:
 
 **Checks.**
 
-- `BarsottiTate.universalCover_etale`: For `G = ℚ_p/ℤ_p, G̃` is the constant sheaf `ℚ_p` and `T_pG` the
-  constant sheaf `ℤ_p`.
+- `BarsottiTate.universalCover_etale`: For `G = ℚ_p/ℤ_p`, identify
+  `T_pG ≅ ℤ_p,cont` and `G̃ ≅ ℚ_p,cont`.
+- Over `R=𝔽_p`, take `A=C_lc(ℤ_p,𝔽_p)`, so `Spec A ≅ ℤ_p`. The compatible sections
+  `f_n(x)=x mod p^n` define the identity map in `T_p(ℚ_p/ℤ_p)(A)` and its image in `G̃(A)`.
+  This section has infinite image. Sections of the ordinary constant sheaves on this
+  quasi-compact affine have finite image, so neither ordinary constant sheaf gives this section.
 - `BarsottiTate.universalCover_mu`: For `G = μ_{p^∞}` over a perfect `F_p`-algebra `R, G̃ ≅ Spf R[[x^{1/p^∞}]]`.
 - `BarsottiTate.universalCover_not_colim`: The direct limit of `G` along multiplication by `p` is not
-  `G̃`: for `G = ℚ_p/ℤ_p` it is again a torsion sheaf with no map onto `G` whose kernel is `ℤ_p`; a
+  `G̃`: for `G = ℚ_p/ℤ_p` it is again a torsion sheaf with no map onto `G` whose kernel is `ℤ_p,cont`; a
   definition using colimits instead of the inverse limit fails the exact sequence `0 → T_pG → G̃ → G → 0`.
 - `BarsottiTate.universalCover_zero`: Height `0` gives `G̃ = 0`.
 
@@ -6618,6 +6644,12 @@ the opposite-order vanishing. Faithful coefficient extension detects the valuati
 condition. (Serre 1987, §2.8, pp.189–190, the finite-field-vector-scheme formulation and
 order-`p` Kummer proof; Raynaud 1974, Proposition 3.3.2; §R07.5.6's Kummer torsor construction.)
 
+AlgebraicModularFormsAndSerreWeights, *Finite flatness and peu ramifiée extensions*, consumes
+`IsFiniteFlatResidual` and `finiteFlatKummerCoefficients` for odd `p`, including coefficient
+extension and unramified descent. That consumer owns the all-prime shape-specific
+peu-ramifiée equivalence, including the dyadic maximal-model argument, agreement with this
+API at odd primes, and the local-weight application.
+
 *Needs:* ArithmeticGaloisRepresentations §1.4; §R07.1.30; §R07.5.6;
 TauCetiRoadmap.ModularCurves Layer 0E (effective descent).
 
@@ -7126,27 +7158,36 @@ abelian scheme.)
 ### R07.6.1a Herbrand theory over complete DVRs with perfect residue field
 
 Prove `perfectResidueHerbrand`. Let `K` be complete discretely valued with perfect residue
-field of characteristic `p>0`, and `L/K` finite Galois. On the existing congruence carrier
-`Ideal.ramificationGroup` for the maximal ideal of `O_L`, extend the lower filtration to
-real indices by the ceiling convention. Use Serre's normalization
+field of characteristic `p>0`, and `L/K` finite Galois. Its mixed-characteristic case is
+supplied by PadicPeriodRings §2: the ramification prerequisite of `senUpperBreaks` and the
+different inputs of general-base `periodTraceIdeal` and `senTowerEstimates`.
+This target owns the equal-characteristic extension, `char K=p`; the combined statement
+uses the supplied mixed-characteristic case. The following contract holds in both cases.
+
+Use the existing congruence carrier `Ideal.ramificationGroup` for the maximal ideal of `O_L`
+and its real-indexed ceiling extension `TauCeti.IsLocalRing.ramificationGroupReal`.
+Use Serre's normalization
 `φ(s)=∫₀ˢ [G₀:G_t]⁻¹ dt` for `s≥0`, extended by `φ(s)=s` on `[-1,0]`, and its inverse `ψ`.
-Prove strict monotonicity, continuity, the inverse identities, subgroup compatibility of lower
-numbering, tower compatibility of the Herbrand functions and quotient compatibility of upper
-numbering for every normal subgroup. Prove the different formula
+The contract comprises strict monotonicity, continuity, the inverse identities, subgroup
+compatibility of lower numbering, tower compatibility of the Herbrand functions and quotient compatibility of upper
+numbering for every normal subgroup, and the different formula
 `v_L(𝒟_{L/K})=Σ_{j≥0} (|G_j|−1)`, with `v_L` normalized to have value group `ℤ`.
-Construct the absolute upper filtration by inverse limit and prove invariance of inertia,
-upper ramification and the normalized different after completed maximal unramified base change,
-with the finite extension there obtained by compositum. This includes the algebraically closed
-residue reduction used in §R07.6.5.
+It includes the absolute upper filtration by inverse limit and invariance of inertia,
+nonnegative upper ramification and the normalized different after completed maximal unramified
+base change, with the finite extension there obtained by compositum. In mixed characteristic
+this is the supplied algebraically closed residue reduction used in §R07.6.5.
 
 These are extensions of LocalFieldsRamification Layer 3 on the same local-ring congruence
-carrier, owned here for arbitrary perfect residue fields. Prove agreement of all groups,
-functions and different ideals with that supplier when the residue field is finite. Use
+carrier: PadicPeriodRings owns the mixed-characteristic theory, and this target proves the
+equal-characteristic theory. In each case require agreement of all groups, functions and
+different ideals with LocalFieldsRamification when the residue field is finite. Use
 `TauCeti.IsLocalRing.lowerIndex` for the local-ring index, without assuming local compactness.
 (Serre, *Local Fields*, IV §§1–3, especially Propositions 4 and 14;
 Fontaine 1985, §§1.1–1.3, pp.517–518 and §2.1, p.525.)
 
-*Needs:* LocalFieldsRamification Layer 3 (finite-residue interface); Mathlib `differentIdeal`;
+*Needs:* PadicPeriodRings §2 (`senUpperBreaks` ramification prerequisite and general-base
+`periodTraceIdeal`, `senTowerEstimates` different inputs); LocalFieldsRamification Layer 3
+(finite-residue interface); Mathlib `differentIdeal`;
 Tau Ceti `Ideal.ramificationGroup` (`RingTheory/Ideal/RamificationGroup.lean`) and
 `TauCeti.IsLocalRing.lowerIndex` (`RingTheory/LocalRing/RamificationGroup.lean`).
 
@@ -7160,6 +7201,10 @@ Tau Ceti `Ideal.ramificationGroup` (`RingTheory/Ideal/RamificationGroup.lean`) a
   unramified base change its compositum extension is trivial and has the same upper inertia.
 - Completed maximal unramified base change of `ℚ₃(ζ₉)/ℚ₃` retains its ramification index,
   lower breaks, upper breaks and normalized different.
+- For any perfect `k` of characteristic `p`, the Artin–Schreier extension of `k((t))`
+  given by `y^p−y=t⁻¹` has degree `p`, lower and upper break `1`, and different exponent
+  `2(p−1)`. The element `y⁻¹` is a uniformizer, and each nonidentity automorphism changes
+  it by an element of valuation `2`.
 
 ### R07.6.2 Fontaine's normalisation of the ramification filtration
 
@@ -7174,7 +7219,8 @@ normalised by `v_K(K^*) = ℤ` and extended to `K̄`; for `L/K` finite Galois wi
 ramification index and `a^m_{L/K} = {x ∈ O_L : v_K(x) ≥ m}` (Fontaine 1985, §1). Serre's lower and
 upper numbering, Herbrand's functions, compatibility with quotients (Local Fields IV, Prop. `14`) and
 `v(𝒟) = Σ i_G(g)` (Local Fields IV, Prop. `4`) are supplied in this generality by
-§R07.6.1a, agreeing with LocalFieldsRamification Layer 3 for finite residue fields. This
+PadicPeriodRings §2 in mixed characteristic and §R07.6.1a in equal characteristic, agreeing
+with LocalFieldsRamification Layer 3 for finite residue fields. This
 target adds Fontaine's shifted normalisation and the invariants `u_{L/K}, i_{L/K}`.
 
 *Construction.* Fontaine's `i_{L/K}(g)` is Serre's `i_G(g)` divided by `e_{L/K}` (`v_K` rather than `v_L`),
@@ -7311,7 +7357,8 @@ gets `0 → ω_Γ → ω_Γ → ω_{Γ_{pⁿ}} → 0` with `ω_Γ` free over `O_
 Introduction, Théorème A, p. 515: Théorème A; Fontaine 1985, §2.1, Théorème 1, p. 525: Théorème 1;
 Fontaine 1985, §2.2, Remarque a), p. 526: the case `e = n = 1`.)
 
-*Needs:* §R07.6.4; §R07.6.1a; §R07.6.2; §R07.6.1; §R07.1.6; §R07.1.40; §R07.1.17.
+*Needs:* §R07.6.4; PadicPeriodRings §2 (perfect-residue Herbrand theory, different and
+completed maximal unramified comparison); §R07.6.2; §R07.6.1; §R07.1.6; §R07.1.40; §R07.1.17.
 
 **Checks.**
 
@@ -7526,6 +7573,7 @@ for good reduction at `p > 2`, by Fontaine's bound against the root discriminant
 ### Dependencies
 
 Layers R07.1–R07.4; AbelianSchemesAndArithmeticModuli Layer A3; DerivedModuleAlgebra §§0.4, 0.8;
+PadicPeriodRings §2 (mixed-characteristic perfect-residue ramification);
 TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKrasner.krasner`,
 `DividedPowers`, `KaehlerDifferential`, `WeierstrassCurve.HasGoodReduction`.
 
@@ -7549,6 +7597,11 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
 - **LocalGaloisDeformationRings** and **GlobalGaloisDeformations** use Fontaine–Laffaille modules
   (R07.3), Kisin modules with coefficients, finite-height lattices and Kisin's full faithfulness
   (R07.4), and the flat deformation condition and its tangent space (§R07.6.7).
+- **AlgebraicModularFormsAndSerreWeights** imports `IsFiniteFlatResidual` and
+  `finiteFlatKummerCoefficients` (§R07.5.6a) for its odd-prime coefficient Kummer and
+  unramified-descent input. Its all-prime finite-flat/peu-ramifiée equivalence, including
+  the dyadic maximal-model argument and agreement at odd primes, and local-weight application
+  are owned there.
 - **PadicHodgeTheory** consumes the finite-`K`, finite-coefficient `B_HT`, `D_HT`, labelled
   weights and Sen module/operator of §§R07.P7.1–R07.P7.2. A Laurent presentation of `B_HT`
   is identified with the supplied direct-sum presentation by a graded Galois-algebra

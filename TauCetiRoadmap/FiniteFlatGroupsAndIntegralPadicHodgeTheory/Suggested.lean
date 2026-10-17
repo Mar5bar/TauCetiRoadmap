@@ -1201,6 +1201,8 @@ further instances of the statements above.
   existence); `dieudonneGaloisDescent`; `dieudonneTangentSpace` (the natural comparison
   `σ_k^*T_{G,0} ≅ Hom_k(M/FM,k)`); `dieudonnePDivisible` (with crystalline evaluation and
   ordinary Cartier pairing); `dieudonneLieAlgebra` (the same scalar transport for `Lie(G)`); `standardDieudonneModules` in rank two; `alphaPFiltration`;
+  `standardDieudonneModules_FV`: changing only Fe₂ to e₁ in M2 gives FV=diag(1,p),
+  so the modified module fails FV=p;
   `ellipticDieudonne`; `dieudonneManinClassification` (integral slope consequences and endomorphism algebras); `standardDieudonne`,
   `slopeSequence`, `aNumber`; `isogenyClassification`; `covariantModule` with `covariantModule_lie` (the ordinary
   k-linear Hodge quotient and the semilinear comparison prototyped by `lieScalarComparison`);
@@ -1213,6 +1215,11 @@ further instances of the statements above.
   `hasseWitt`,
   `hasseInvariant`, `farguesLF`; `bt1HasseWittDuality`; `btStackSmooth`; `farguesLF_quasiPolarisation`;
   `henselianLiftingPDivisible`; `BarsottiTate.tateSheaf`, `BarsottiTate.universalCover`;
+  `BarsottiTate.universalCover_etale` identifies the Tate sheaf with the fpqc inverse limit
+  of the finite constant ℤ/pⁿ sheaves and its universal cover with that limit inverted at p.
+  Over 𝔽_p, the algebra C_lc(ℤ_p,𝔽_p) detects its infinite-image identity section, which
+  is absent from the ordinary discrete constant ℤ_p and ℚ_p sheaves. The affine inverse
+  limit of G[pⁿ] on all R-algebras compares O_{K̄}-points with the Galois Tate module;
   `universalCoverRigidity`; `deJongDieudonneEquivalence`;
   `swDieudonneSemiperfect`: over f-semiperfect R, Hom_R(G,H)⊗ℚ_p is the F,V-compatible
   B_cris^+(R)-linear Hom of M_A(G)[1/p] and M_A(H)[1/p];
@@ -1305,7 +1312,11 @@ further instances of the statements above.
   `IsFiniteFlatResidual` uses ArithmeticGaloisRepresentations §1.4's
   `residual_descent_finite_field` and is independent of finite coefficient model or enlargement;
   `finiteFlatKummerCoefficients` gives the `k`-linear finite-flat Ext/unit-Kummer comparison
-  for rank-one `k`-objects of order `#k`, used in Serre's criterion;
+  for rank-one `k`-objects of order `#k`, used in Serre's criterion and supplied to
+  AlgebraicModularFormsAndSerreWeights for odd p, with coefficient extension and unramified
+  descent. That consumer owns the all-prime shape-specific peu-ramifiée equivalence,
+  including the dyadic maximal-model argument and agreement with this API at odd primes,
+  and the local-weight application;
   `finiteFlatWeightTwoCriterion`; `dyadicFiniteFlatDichotomy`; `savittReductionPrincipalSeries`;
   `savittResidualTypes`; `flResidualWeights` (the rank-two inducing character θ_r
   restricts to ω₂^r on inertia and has θ_r(Φ²)=−1 for arithmetic Φ with ω(Φ)=1,
@@ -1316,10 +1327,11 @@ further instances of the statements above.
   `peuRamifieH1Int`; `peuRamifieIntegralLifting`; `SerreWeight`, `compactInduction`,
   `heckeOperatorT`, `endEquivPolynomial`.
 * Layer R07.6: `abelianSchemeTorsionFiniteFlat` (generic Galois and Tate-module compatibility); `fontaineLowerIndex`, `fontaineUpper`;
-  `perfectResidueHerbrand` extends the shared local-ring ramification carrier, Herbrand
-  functions, quotient theorem and different formula to complete DVRs with perfect residue,
-  agrees with LocalFieldsRamification for finite residue and permits completed unramified
-  base change. `krasnerEmbeddingCriterion` uses the boundary
+  `perfectResidueHerbrand` combines PadicPeriodRings §2's mixed-characteristic Herbrand,
+  different and completed-unramified comparison contract with the equal-characteristic
+  extension owned here, on the shared local-ring ramification carrier. It agrees with
+  LocalFieldsRamification for finite residue. Over k((t)), y^p-y=t⁻¹ has lower and upper
+  break 1 and different exponent 2(p-1). `krasnerEmbeddingCriterion` uses the boundary
   `eψ(u_{L/K}-1/e)=e i_{L/K}-1/d`, `d=|G_(i_{L/K})|`; `lciLiftingAndRamification`; `fontaineRamificationBound`;
   `illusieObstructionHomomorphisms`; `flatDeformationTangentSpace`; `finiteFlatBaseChangeTwist`;
   `raynaudDetTateModule`; `cyclotomicImageStability`.
