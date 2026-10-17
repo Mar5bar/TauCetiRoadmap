@@ -411,6 +411,21 @@ example : coherentCoefficient 3 2 0 = (-2, -3, 5) ∧
     (coherentCoefficient 3 2 0).2.2 + (harishChandraParameter 3 2 0).2.2 = 0 := by
   norm_num [coherentCoefficient, harishChandraParameter, dualParameter]
 
+/-- A weight with balanced centre gives zero central coordinates in all three maps. -/
+example : coherentCoefficient 4 2 (-3) = (-2, -4, 0) ∧
+    harishChandraParameter 4 2 (-3) = (3, 0, 0) ∧
+    dualParameter 4 2 (-3) = (0, -3, 0) := by
+  norm_num [coherentCoefficient, harishChandraParameter, dualParameter]
+
+/-- A central twist preserves the semisimple parameter and central cancellation. -/
+example : coherentCoefficient 3 2 1 = (-2, -3, 7) ∧
+    harishChandraParameter 3 2 1 = (2, 0, -7) ∧
+    dualParameter 3 2 1 = (0, -2, 7) ∧
+    (harishChandraParameter 3 2 1).1 = (harishChandraParameter 3 2 0).1 ∧
+    (harishChandraParameter 3 2 1).2.1 = (harishChandraParameter 3 2 0).2.1 ∧
+    (coherentCoefficient 3 2 1).2.2 + (harishChandraParameter 3 2 1).2.2 = 0 := by
+  norm_num [coherentCoefficient, harishChandraParameter, dualParameter]
+
 /-- Positive `C₂` coroot evaluations at the semisimple parameter `(x, y)`.
 The long roots `2e₁, 2e₂` have coroot evaluations `x, y`, without a factor two. -/
 def corootValues (x y : ℝ) : Fin 4 → ℝ := ![x - y, x, x + y, y]
@@ -519,12 +534,14 @@ README definitions requiring additional carriers include `AdelicSmoothFunction`,
 `IsAdmissible`, `IsHarishChandraModule`, `HasInfinitesimalCharacter`, generalized central
 characters, normalized induction, `IsTempered`, `IsSquareIntegrable`, their essential
 variants, `IrrAdmissible`, `WeilGroupComplex`, `WeilGroupReal`, `IsBoundedParameter`,
-`D_k`, `HasWhittakerModel`, `GContinuousNorm` and smooth Fréchet globalizations;
+`D_k`, `archimedeanUnitaryDual`, `genericUnitaryClassification`, `HasWhittakerModel`,
+`GContinuousNorm` and smooth Fréchet globalizations;
 `IsAutomorphicRepresentation`, `archimedeanHeckeAlgebra`, `RestrictedTensor`,
 `DiscreteOccurrence`, Whittaker coefficients, `HolomorphicSL2Form` and `MaassCuspForm`;
 `IsCAlgebraic`, `IsLAlgebraic`, `IsAlgebraicCT`, `HasCohomologyWith`, the general
-`ell0` and `q0`, `A_q`, `StableAdelicLattice`, `galoisTwist`, `rationalityField` and
-`IsFieldOfDefinition`; `HermitianGroupDatum`, `coherentCochains`, `coherentCohomology`,
+`ell0` and `q0`, `A_q`, `StableAdelicLattice`, `galoisTwist`, `rationalityField`,
+`IsFieldOfDefinition` and `galoisConjugate_cuspidal`; `HermitianGroupDatum`,
+`coherentCochains`, `coherentCohomology`,
 `CuspidalCoherentCohomology`, `DiscreteCoherentCohomology`, the GSp₄ character lattices
 and chambers, component induction and extensions, `coherentChambers` and scalar
 holomorphic series; `adelize`, `LevelAlgebraicModularForm` and
