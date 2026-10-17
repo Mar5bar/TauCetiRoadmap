@@ -294,6 +294,18 @@ the resulting basis over `A/(f₁^p,…,f_r^p)` consists of the products
 with its Frobenius base change. These are the characteristic-`p` inputs to
 Bhatt–Scholze Remark 7.15 and its proof, p.62.
 
+### From SchemeAndStackFoundations: étale invariance and Frobenius
+
+[SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §0.23a
+supplies topological invariance of étale schemes under universal
+homeomorphisms, in particular square-zero thickenings. Its §0.29 supplies
+`SchemeFrobenius.relativeFrobenius_etale_isIso`. For an étale map `A → B`
+of characteristic-`p` rings, its affine form is the isomorphism
+`B ⊗_(A,F_A) A → B`, `b ⊗ a ↦ b^p a`. These inputs supply the
+square-zero lifting and relative Frobenius steps in `delta_witt2_etale`
+and `perfectPrism_completeEtale_lift`. Sources: Stacks Theorem 59.45.2,
+tag `04DZ`, and Lemma 41.14.3, tag `0EBS`.
+
 ### From CrystallineCohomology: finite Witt operators
 
 CrystallineCohomology §CR.4.4, *Finite-length Witt operators and their
@@ -840,9 +852,10 @@ representative formula independent of the choice of lift.
 - `quotientPowerZero` — At `p=2`, `A=F₂` and `ϖ=0`, both quotients are
   `F₂` and the map is the identity.
 - `quotientPowerDirection` — At `p=2`, `A=F₂[T]` and `ϖ=T`, the source
-  is modulo `T` and the target modulo `T²`. The class of `1+T` maps to
-  the class of `(1+T)²=1+T²=1` in the target. Reversing the two quotient
-  ideals would not give the stated localization criterion.
+  is modulo `T` and the target modulo `T²`. The map is injective with
+  image the constants, while the nonzero class `[T]` has no preimage.
+  In the reverse direction the power map is surjective and sends the
+  nonzero class `[T]` to zero.
 
 Let `ϖ` be a nonzerodivisor in `A` with `ϖ^p | p`. The map
 `A/ϖ → A/ϖ^p` given by `p`th powers is injective if and only if `A` is
@@ -1002,7 +1015,7 @@ root closure in a fixed ambient ring from ordinary integral closure.
 
 ### Dependencies
 
-*Needs:* PerfectoidSpaces P0.6–P0.7, P1.20, P1.24–P1.25 and P4.15.1–P4.15.2; DerivedModuleAlgebra §§0.4, 0.8–0.11, 0.13, 0.25 and 1.1–1.9; CrystallineCohomology §CR.4.4; EnhancedDerivedSheaves §E1.6; SchemeAndStackFoundations §§0.12–0.13; AdicSpaces §6.1.
+*Needs:* PerfectoidSpaces P0.6–P0.7, P1.20, P1.24–P1.25 and P4.15.1–P4.15.2; DerivedModuleAlgebra §§0.4, 0.8–0.11, 0.13, 0.25 and 1.1–1.9; CrystallineCohomology §CR.4.4; EnhancedDerivedSheaves §E1.6; SchemeAndStackFoundations §§0.12–0.13, 0.23a and 0.29; AdicSpaces §6.1.
 
 Mathlib’s completion, quotient, localization, inverse-perfection and Witt APIs;
 DerivedModuleAlgebra §§0.4, 0.8–0.11 and 0.13 for the full cotangent
@@ -1121,16 +1134,30 @@ The API consists of the following named statements.
 - `bhattRootExtension.perfectoid` — `A_∞` is `t`-complete, flat over `K°`, saturated, and has the integral-model Frobenius isomorphism.
 - `bhattRootExtension.raw_almost_iso` — `C → C_*` is an almost isomorphism for the specified root ideal.
 - `bhattRootExtension.map_comp` — Maps of pairs `(A,g)` induce compatible root-extension maps preserving identities and composition.
+- `bhattRootExtensionPower` — The adjacent-root relations imply `g_n^(p^n)=image(g)` for every `n`.
+- `bhattRootExtensionModel` — Localization gives PerfectoidSpaces P4.14's universal perfectoid closed subspace `V(T−g)`; its powerbounded ring is the saturated model `A_∞`.
 
 **Checks.**
 
 - `bhattRootExtensionZero` — For the zero `K°`-algebra the root extension is zero and every root is zero.
-- `bhattRootExtensionPower` — For every `n`, the distinguished root satisfies `g_n^(p^n)=image(g)`, and the adjacent roots satisfy the stronger compatibility equality.
-- `bhattRootExtensionModel` — After localization the extension is PerfectoidSpaces P4.14's universal perfectoid closed subspace `V(T−g)`; its integral ring is the saturated powerbounded model.
 - `bhattRootExtensionZeroElement` — For `g=0` in any Bhatt integral perfectoid `K°`-model `A`, the canonical map `A → A_∞` is an isomorphism and every distinguished root is zero.
+- `bhattRootExtensionCharP` — In characteristic `p`, the model `A` is
+  perfect. Every `g` has a unique compatible root tower, and the canonical
+  map `A → A_∞` is an isomorphism.
+- `bhattRootExtensionMixedCharUnit` — For `p=2`, `A=𝒪_{ℂ₂}` and `g=1`,
+  evaluate the roots at the all-ones tower and at a compatible tower of
+  primitive `2`-power roots of unity starting with `g₀=1`, `g₁=−1`.
+  The universal closed-space property gives two `A`-algebra maps `A_∞ → A`
+  with different values on the first root, so `A → A_∞` is not an isomorphism.
 
 Sources: Bhatt, *On the direct summand conjecture and its derived
-variant*, Notation 2.1, Definition 2.2 and footnote 6, p.4. Prerequisites
+variant*, Notation 2.1, Definition 2.2 and footnote 6, p.4;
+Bhatt notes, Example 9.4.4 and Exercise 9.4.5, printed p.115, for the zero
+and unit cases. PerfectoidSpaces P4.14's
+`zariskiClosedSubspace_T_sub_one` and
+`zariskiClosedSubspace_T_sub_one_char_p` compute the unit case in mixed
+characteristic and characteristic `p`; unique roots in perfect rings give
+the latter identity for every `g`. Prerequisites
 are the fixed-field comparison in Layer 0, its root-polynomial construction,
 `PerfectoidSpaces:P0` saturation, `P1`'s integral model, `P2` rational
 localization and approximation, and `P4`'s universal closed-space

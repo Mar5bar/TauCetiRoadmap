@@ -158,6 +158,14 @@ example :
 example :
     (WittVector.frobenius (WittVector.mk 2 (fun n => if n = 1 then (1 : ZMod 2) else 0))).coeff 0 = 0 := by sorry
 
+-- finiteThetaSharpConvention
+/-- The Teichmüller representative of T has coordinates (T,0), as does θ₂([a]) when a♯=T. -/
+example :
+    let A := PerfectClosure (Polynomial (ZMod 2)) 2
+    let t : A := PerfectClosure.of (Polynomial (ZMod 2)) 2 Polynomial.X
+    (WittVector.teichmuller 2 t).coeff 0 = t ∧
+      (WittVector.teichmuller 2 t).coeff 1 = 0 := by sorry
+
 /-- A generator with sharp equal to 2 fixes the minus sign in [a]−2: changing it to plus gives 4. -/
 example [CharZero R] (a : PreTilt R 2) [Fact (¬ IsUnit (2 : R))]
     [IsAdicComplete (Ideal.span {(2 : R)}) R] (ha : a.untilt = 2) :
@@ -262,14 +270,21 @@ example :
 /-- At π=0 over F₂ the power map modulo zero is the identity. -/
 example : Function.Bijective (fun x : ZMod 2 => x ^ 2) := by sorry
 
-/-- The target of the cross-quotient map is modulo T², where (1+T)²=1. -/
+-- quotientPowerDirection
+/-- The class of T modulo T² has no square preimage over F₂, so the cross-quotient power map is not surjective. -/
 example :
     let R := Polynomial (ZMod 2)
-    let π : R := Polynomial.X
-    Ideal.Quotient.mk (Ideal.span {π ^ 2}) ((1 + π) ^ 2) =
-      Ideal.Quotient.mk (Ideal.span {π ^ 2}) 1 := by sorry
+    let I : Ideal R := Ideal.span {(Polynomial.X : R) ^ 2}
+    ¬ ∃ f : R, Ideal.Quotient.mk I (f ^ 2) =
+      Ideal.Quotient.mk I Polynomial.X := by sorry
 
 end RootClosure
+
+-- rootQuotientUnitGenerator
+/-- A root of X²+X+1 in characteristic two is a unit and is not fixed by squaring. -/
+example {k : Type*} [Field k] [CharP k 2] (ω : k)
+    (hω : ω ^ 2 + ω + 1 = 0) :
+    IsUnit ω ∧ ω ^ 2 ≠ ω := by sorry
 
 /-- In cohomological notation M[1] has M in degree −1 and zero in degree 0. -/
 example :
@@ -279,6 +294,12 @@ example :
       CategoryTheory.Limits.IsZero (((CochainComplex.shiftFunctor (ModuleCat ℤ) 1).obj K).X 0) := by sorry
 
 /-! ## Layer 1: relative covers and almost root extensions -/
+
+-- rootNeighborhoodZeroRadiusIndex
+/-- Two elements of the nonarchimedean unit ball differ by an element of the unit ball, giving U₀=Y. -/
+example {K : Type*} [NormedField K] [IsUltrametricDist K]
+    (x y : K) (hx : ‖x‖ ≤ 1) (hy : ‖y‖ ≤ 1) :
+    ‖x - y‖ ≤ 1 := by sorry
 
 /-- At a rank-one point T=t, the radii t and t² put U₂ inside U₁. -/
 example {K : Type*} [NormedField K] (t : K) (hpos : 0 < ‖t‖) (hlt : ‖t‖ < 1) :
