@@ -1,4 +1,6 @@
 import Mathlib
+import TauCeti.AlgebraicGeometry.LineBundle.Rigidified.Basic
+import TauCeti.AlgebraicGeometry.LineBundle.Rigidified.Automorphisms
 
 /-!
 # PotentialModularityAndCompatibleSystems: representative target signatures
@@ -150,7 +152,74 @@ example : archimedeanGammaFactor true {0, 1} {0, 1} 1 1 1 (1 / 2) = 0 ∧
     refine mul_ne_zero (mul_ne_zero two_ne_zero ?_) (Complex.Gamma_ne_zero_of_re_pos (by norm_num))
     exact Complex.cpow_ne_zero_iff.mpr (Or.inl (by simp [Real.pi_ne_zero]))
 
+/-- The rank-two reciprocal formula uses a nonzero determinant. -/
+example (a b : ℚ) (hb : b ≠ 0) :
+    dualPolynomial (Polynomial.X ^ 2 - Polynomial.C a * Polynomial.X + Polynomial.C b) =
+      Polynomial.X ^ 2 - Polynomial.C (a / b) * Polynomial.X + Polynomial.C (1 / b) := by
+  have hd : (Polynomial.X ^ 2 - Polynomial.C a * Polynomial.X + Polynomial.C b).natDegree = 2 := by
+    compute_degree!
+  have hx : Polynomial.reflect 2 (Polynomial.X : Polynomial ℚ) = Polynomial.X := by
+    simpa only [Polynomial.revAt_le (by decide : 1 ≤ 2), Nat.reduceSub, pow_one] using
+      (Polynomial.reflect_monomial 2 1 (R := ℚ))
+  have hr : (Polynomial.X ^ 2 - Polynomial.C a * Polynomial.X + Polynomial.C b).reverse =
+      1 - Polynomial.C a * Polynomial.X + Polynomial.C b * Polynomial.X ^ 2 := by
+    rw [Polynomial.reverse, hd]
+    simp only [sub_eq_add_neg, Polynomial.reflect_add, Polynomial.reflect_neg,
+      Polynomial.reflect_C_mul, Polynomial.reflect_monomial, Polynomial.reflect_C, hx,
+      Polynomial.revAt_le (by decide : 2 ≤ 2), Nat.sub_self, pow_zero]
+  rw [dualPolynomial, hr]
+  norm_num only [Polynomial.coeff_add, Polynomial.coeff_sub, Polynomial.coeff_X_pow,
+    Polynomial.coeff_C_mul, Polynomial.coeff_X_zero, Polynomial.coeff_C_zero]
+  simp only [mul_add, mul_sub, mul_one, ← mul_assoc, ← Polynomial.C_mul]
+  simp [hb, div_eq_mul_inv, mul_comm]
+  ring
+
 end Factors
+
+namespace HodgeChecks
+
+/-- A finite Hodge multiset is regular and distinguishes sums of equal-size submultisets. -/
+def IsExtremelyRegular (H : Multiset ℤ) : Prop :=
+  H.Nodup ∧ ∀ A ∈ H.powerset, ∀ B ∈ H.powerset,
+    A.card = B.card → A.sum = B.sum → A = B
+
+/-- The subset sums of `{0,1,3,7}` distinguish equal-size subsets. -/
+example : IsExtremelyRegular {0, 1, 3, 7} := by
+  unfold IsExtremelyRegular
+  decide +kernel
+
+/-- Distinct weights alone permit the collision `0+3=1+2`. -/
+example : ({0, 1, 2, 3} : Multiset ℤ).Nodup ∧
+    ¬ IsExtremelyRegular {0, 1, 2, 3} := by
+  unfold IsExtremelyRegular
+  decide +kernel
+
+/-- A repeated weight fails ordinary and extreme regularity. -/
+example : ¬ ({0, 0} : Multiset ℤ).Nodup ∧ ¬ IsExtremelyRegular {0, 0} := by
+  unfold IsExtremelyRegular
+  decide +kernel
+
+/-- Symmetric-square weights of a regular rank-two multiset stay distinct. -/
+example (h₁ h₂ : ℤ) (h : h₁ ≠ h₂) :
+    ({2 * h₁, h₁ + h₂, 2 * h₂} : Multiset ℤ).Nodup := by
+  simp only [Multiset.insert_eq_cons, Multiset.nodup_cons, Multiset.mem_cons,
+    Multiset.mem_singleton, Multiset.nodup_singleton]
+  constructor
+  · rintro (he | he) <;> apply h <;> omega
+  · exact ⟨fun he => h (by omega), True.intro⟩
+
+/-- Tensor weights can repeat zero even when both factors are regular. -/
+example : ({0, -1, 1, 0} : Multiset ℤ).count 0 = 2 ∧
+    ¬ ({0, -1, 1, 0} : Multiset ℤ).Nodup := by decide
+
+/-- Corrected tensor multipliers retain the odd CM value. -/
+example : (1 : ℤ) * 1 = 1 ∧ (-1 : ℤ) * (-1) = 1 ∧
+    (-1 : ℤ) * (-1) * (-1) = -1 ∧ (-1 : ℚ)⁻¹ = -1 := by norm_num
+
+/-- The CM unit's two quadratic factors cancel in the tensor multiplier. -/
+example (μ : ℤ) : μ * (-1) * (-1) = μ := by ring
+
+end HodgeChecks
 
 namespace RepRing
 
@@ -173,9 +242,61 @@ example : ((Finsupp.single (0 : Fin 2) (2 : ℤ) + Finsupp.single 1 (-1)).sum fu
   rw [Finsupp.sum_of_support_subset _ (Finset.subset_univ _) _ (by simp)]
   simp [Fin.sum_univ_two]
 
+/-- The regular character of C₂ minus its sign character is the trivial character. -/
+example : (![2, 0] : Fin 2 → ℤ) - ![1, -1] = ![1, 1] := by
+  ext i
+  fin_cases i <;> norm_num
+
 end RepRing
 
 /-! ## Layer 2: Integral points and controlled fields -/
+
+namespace PicardChecks
+
+open CategoryTheory AlgebraicGeometry TauCeti.AlgebraicGeometry
+
+/-- A compatible sheaf isomorphism identifies rigidified isomorphism classes. -/
+example {T X : Scheme} {s : T ⟶ X} (P Q : RigidifiedLineBundle s)
+    (e : P.lineBundle.obj ≅ Q.lineBundle.obj)
+    (he : (Scheme.Modules.pullback s).map e.hom ≫ Q.rigidification.hom = P.rigidification.hom) :
+    RigidifiedLineBundleClass.mk P = RigidifiedLineBundleClass.mk Q :=
+  RigidifiedLineBundleClass.mk_eq_mk_iff.mpr ⟨e, he⟩
+
+/-- Forgetting a representative retains precisely its underlying line-bundle class. -/
+example {T X : Scheme} {s : T ⟶ X} (P : RigidifiedLineBundle s) :
+    RigidifiedLineBundleClass.toLineBundleClass (RigidifiedLineBundleClass.mk P) =
+      LineBundleClass.mk P.lineBundle :=
+  RigidifiedLineBundleClass.toLineBundleClass_mk P
+
+/-- Whole-scheme rigidification trivializes the forgotten line bundle. -/
+example (X : Scheme) (P : RigidifiedLineBundle (𝟙 X)) :
+    RigidifiedLineBundleClass.toLineBundleClass (RigidifiedLineBundleClass.mk P) = 1 := by
+  rw [RigidifiedLineBundleClass.toLineBundleClass_mk, LineBundleClass.mk_eq_one_iff]
+  exact ⟨((Scheme.Modules.pullbackId X).app P.lineBundle.obj).symm ≪≫ P.rigidification⟩
+
+/-- All whole-scheme rigidifications have the same compatible-isomorphism class. -/
+example (X : Scheme) (P Q : RigidifiedLineBundle (𝟙 X)) :
+    RigidifiedLineBundleClass.mk P = RigidifiedLineBundleClass.mk Q := by
+  apply RigidifiedLineBundleClass.mk_eq_mk_iff.mpr
+  let e : P.lineBundle.obj ≅ Q.lineBundle.obj :=
+    ((Scheme.Modules.pullbackId X).app P.lineBundle.obj).symm ≪≫
+      P.rigidification ≪≫ Q.rigidification.symm ≪≫
+      (Scheme.Modules.pullbackId X).app Q.lineBundle.obj
+  refine ⟨e, ?_⟩
+  have hn := (Scheme.Modules.pullbackId X).hom.naturality e.hom
+  dsimp at hn
+  calc
+    (Scheme.Modules.pullback (𝟙 X)).map e.hom ≫ Q.rigidification.hom =
+        ((Scheme.Modules.pullback (𝟙 X)).map e.hom ≫
+          (Scheme.Modules.pullbackId X).hom.app Q.lineBundle.obj) ≫
+          (Scheme.Modules.pullbackId X).inv.app Q.lineBundle.obj ≫ Q.rigidification.hom := by
+      simp only [Category.assoc, Iso.hom_inv_id_app_assoc]
+    _ = ((Scheme.Modules.pullbackId X).hom.app P.lineBundle.obj ≫ e.hom) ≫
+          (Scheme.Modules.pullbackId X).inv.app Q.lineBundle.obj ≫ Q.rigidification.hom := by
+      rw [hn]
+    _ = P.rigidification.hom := by simp [e]
+
+end PicardChecks
 
 namespace Fields
 
@@ -323,10 +444,10 @@ def auxiliaryPrime : RequiredLiftParameters p k → Option ℕ
   | levelTwo q .. => some q
   | _ => none
 
-/-- In the weight-two prescription, `k=p+1` requires nonzero monodromy. -/
+/-- The noncrystalline prescriptions require monodromy at odd `k=p+1` and dyadic `k=4`. -/
 def requiresSteinberg : RequiredLiftParameters p k → Prop
   | minimalCrystalline _ => False
-  | _ => k = p + 1
+  | _ => (p = 2 ∧ k = 4) ∨ (p ≠ 2 ∧ k = p + 1)
 
 /-- The dyadic level-one character at `q=5` must have even exponent. -/
 example (k : ℕ) : ¬ (2 = 2 → Even 1) ∧
@@ -363,6 +484,14 @@ example : (RequiredLiftParameters.weightTwo (p := 3) (k := 4)).requiresSteinberg
     ¬ (RequiredLiftParameters.weightTwo (p := 3) (k := 2)).requiresSteinberg := by
   simp [RequiredLiftParameters.requiresSteinberg]
 
+/-- The dyadic exceptional weight four requires nonzero monodromy. -/
+example : (RequiredLiftParameters.weightTwo (p := 2) (k := 4)).requiresSteinberg := by
+  simp [RequiredLiftParameters.requiresSteinberg]
+
+/-- Dyadic weight three does not trigger the exceptional numerical condition. -/
+example : ¬ (RequiredLiftParameters.weightTwo (p := 2) (k := 3)).requiresSteinberg := by
+  simp [RequiredLiftParameters.requiresSteinberg]
+
 end RequiredLiftParameters
 end LiftParameters
 
@@ -386,10 +515,10 @@ end ResidualMembers
 
 /-! The following named targets are stated in README.md. Their arithmetic, geometric or
 automorphic carriers require the supplier theories described there.
-Layer 1: `weakCompatibility_ofKW`, `CompatibleSystem`, `induce`, `PolarizedSystem`, `WeaklyCompatibleSystem.IsRegular`, `symmetricPower`, `rankZeroSystem`, `PolarizedSystem.tensor`, `characterSystem`, `rank_one_purity`, `induced_character_purity`, `artinSystem`, `artin_twist_purity`, `rank_two_reducibility_independent_of_lambda`, `partialLFunction`, `RepRing`, `RepRing.brauer_transport`, `RepRing.eq_irreducible_of_pairing_eq_one`, `monodromy_component_field`, `hodgeTateCocharacterInMonodromy`, `LarsenData.G`, `serre_theta_uniform_bounds`, `larsen_good_primes`, `residual_irreducibility_density_one`, `constituents_essentially_self_dual`.
+Layer 1: `conjugationExtendsIntegralModel`, `weakCompatibility_ofKW`, `CompatibleSystem`, `induce`, `PolarizedSystem`, `WeaklyCompatibleSystem.IsRegular`, `symmetricPower`, `rankZeroSystem`, `PolarizedSystem.tensor`, `characterSystem`, `rank_one_purity`, `induced_character_purity`, `artinSystem`, `artin_twist_purity`, `rank_two_reducibility_independent_of_lambda`, `partialLFunction`, `RepRing`, `RepRing.brauer_transport`, `RepRing.eq_irreducible_of_pairing_eq_one`, `monodromy_component_field`, `hodgeTateCocharacterInMonodromy`, `LarsenData.G`, `serre_theta_uniform_bounds`, `larsen_good_primes`, `residual_irreducibility_density_one`, `constituents_essentially_self_dual`.
 Layer 2: `SkolemDatum`, `density_of_algebraic_local_points`, `elementary_reductions`, `reduction_to_curves`, `Picard.generalizedPicard`, `local_picard_opens_and_approximation`, `compact_generalized_jacobian_quotient`, `moret_bailly_integral_point`, `splitField_density_of_integralPoints`, `splitField_points_dense`, `function_field_chebotarev`, `frobenius_primes_generate`, `disjointness_by_extra_split_places`, `Fields.inf_sup_eq_of_linearDisjoint`, `cht_character_extension`, `cht_soluble_prescribed_completions`, `moret_bailly_three_local_conditions`, `moret_bailly_above_preliminary_field`, `snowden_soluble_preliminary_field`, `surjectiveSpecialisation`, `schemeChebotarevPoints`, `function_field_isom_torsor`, `fixed_constant_field`, `potential_global_galois_local_data`.
 Layer 3: `exists_cm_character_with_local_reductions`, `TaylorAuxiliaryData`, `local_points_twisted_hilbert_moduli`, `restricted_auxiliary_moduli`.
-Layer 4: `auxiliary_tateModule_ordinary_shape`, `quaternionic_hecke_galois_realisation`, `local_residual_inertial_shape`, `skinner_wiles_level_adjustment`, `taylor_crystalline_lifting`, `auxiliary_modularity_transfer`, `taylor_ordinary_potential_residual`, `taylor_niveau_two_potential_residual`, `weight_reduction_hecke_surjection`, `weightShift`, `weight_and_level_potential_residual`, `taylor_serre_weight_potential_residual`, `kw_potential_residual`, `kw_ordinary_potential_residual`, `snowden_potential_residual`, `bcgp_potential_residual`.
+Layer 4: `dyadicAuxiliaryModuli`, `auxiliary_tateModule_ordinary_shape`, `quaternionic_hecke_galois_realisation`, `local_residual_inertial_shape`, `skinner_wiles_level_adjustment`, `taylor_crystalline_lifting`, `auxiliary_modularity_transfer`, `taylor_ordinary_potential_residual`, `taylor_niveau_two_potential_residual`, `weight_reduction_hecke_surjection`, `weightShift`, `weight_and_level_potential_residual`, `taylor_serre_weight_potential_residual`, `kw_potential_residual`, `kw_ordinary_potential_residual`, `snowden_potential_residual`, `bcgp_potential_residual`.
 Layer 5: `potential_modularity_given_lift`.
 Layer 6: `controlled_extension`, `bcgp_local_data`.
 Layer 8: `AuxiliaryField`, `kwGlobalFiniteness`, `DefiniteUnitaryTwo.ordinaryHeckeAlgebra`, `DefiniteUnitaryTwo.heckeGaloisRepresentation`, `rank_two_ordinary_patching`, `rank_two_ordinary_automorphy_and_finiteness`, `ordinary_global_finiteness`, `cgRingFiniteness`.
@@ -398,6 +527,8 @@ Layer 10: `bockle_presentation`, `Presentations.finite_presentation_complete_int
 Layer 11: `alpha_beta_from_residual_modularity`, `rational_field_modularity_lifting`.
 Layer 12: `brauerSystem`, `brauerOverlapHomCharacters`, `almost_strict_compatibility`, `strict_brauer_system`, `exists_family_through_required_lift`, `dieulefait_families`.
 Layer 13: `residual_members`, `local_compatibility_at_the_coefficient_prime`, `linked_systems_modularity_transfer`.
+Taylor/HBAV branches carry the ordered polarization norm witnesses of §§3.2–3.3;
+dyadic local constructions consume `dyadicAuxiliaryModuli` with its polarization hypotheses.
 The family predicates and operations use the shared `AutomorphicSystemData` and its supplied
 `Weak`, `Strict`, `VeryWeak` and `ExtremelyWeak` predicates. The additional KW, polarized,
 regularity, purity, away-coefficient strictness and automorphy conditions are specified in §§1.2–1.8.
