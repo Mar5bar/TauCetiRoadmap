@@ -485,7 +485,7 @@ end Adjoint
 
 /-! ## Layer 3: Iwasawa cohomology, control and determinants
 
-The Iwasawa carriers are README targets; the checks below fix the conventions of §§3.1, 3.7 and
+The Iwasawa carriers are README targets; the checks below fix the conventions of §§3.1–3.2, 3.7 and
 3.14 numerically. -/
 
 /-- §3.1: norm-compatible integer invariants cannot be divisible by every power of three, so the
@@ -495,6 +495,10 @@ example (x : ℤ) (h : ∀ n : ℕ, ∃ y : ℤ, x = 3 ^ n * y) : x = 0 := by
   refine Int.eq_zero_of_dvd_of_natAbs_lt_natAbs ⟨y, hy⟩ ?_
   rw [Int.natAbs_pow]
   exact Nat.lt_pow_self (by norm_num)
+
+/-- §3.2: the linear coefficients of `γ = 1 + X` and `γ⁻¹` differ by a nonzero
+coefficient modulo three. -/
+example : (1 : ZMod 3) - (-1) = 2 ∧ (2 : ZMod 3) ≠ 0 := by decide
 
 /-- §3.7: at `k = 1` and `χ(γ) = 4`, the cup twist has inverse scalar `1/4`, not `4`. -/
 example : ((4 : ℚ) ^ (-1 : ℤ)) * 4 = 1 ∧ (4 : ℚ) * 4 ≠ 1 := by norm_num
@@ -959,7 +963,13 @@ function-field Greenberg–Wiles (§2A.2), Selmer and deformation tangent compar
 the positive-rank cohomological determinant fibres and their ordinary/modified trace sequences
 (§2A.4, `n ≥ 1`); the determinant derivative above also holds for an empty matrix index type,
 and derived coefficient change with its Tor spectral sequence (§2A.5);
-`ellipticSelmerInfinity` (§2.12); Iwasawa algebras of `ℤ_p^d × Δ` with their
+`ellipticSelmerInfinity` (§2.12); the abelian adapters `AbelianVariety.Points`,
+`AbelianVariety.torsion`, `abelianKummer`, `kummerSelmerStructure`, `abelianSelmerGroup`,
+`abelianSha` (the specialization of Mathlib's `ContinuousCohomology.tateShafarevich`),
+`abelian_localH1_comparison`, `abelianDescent_exact`, `abelianSelmerGroup_finite`,
+`finiteCotype_primaryDecomposition`, `KummerLocal`, `KummerLocal.dual_annihilator` and
+`KummerLocal.globalPlusLocal` (§2.12a), for arbitrary number-field abelian varieties and
+isogenies, including all real two-primary Kummer conditions; Iwasawa algebras of `ℤ_p^d × Δ` with their
 coordinates, involution and twists (§3.0); `iwasawaComplex`, `iwasawaCohomology`,
 `iwasawaSelmerComplex`, `discreteInfiniteSelmerComplex`, `localSpecializationError`,
 `selmerDeterminant` (§§3.1–3.14, with Iwasawa fibres for the chosen diagram and arithmetic
@@ -986,5 +996,13 @@ conditions at p, unramified conditions at other finite places, zero archimedean 
 its localized coefficient contract), `selmerParity_family`, `selmerParity_quadraticTwist` (exponent two),
 `selmerParity_oddAbelian` (odd degree, with `H⁰(E′, V) = 0`),
 `ordinaryModular_selmerParity_family` (§4.28) and
-`casselsTate_pairing`, `selmerParity_twoIsogeny`, `congruentNumber_selmerParity` (§4.29).
+the general abelian pairing `CasselsTate : Ш(A/K) × Ш(A∨/K) → ℚ/ℤ`, with
+`CasselsTate.finiteCoefficient_formula` (global-minus-local cocycles with the G_m correction),
+`CasselsTate.isogeny_adjoint`, `CasselsTate.annihilator_nTorsion`, `CasselsTate.left_radical`,
+`CasselsTate.right_radical`, `CasselsTate.reduced_primary_perfect`; the carrier comparison
+`ellipticSha_equiv_abelianSha`, the positive-(O)-polarization comparison
+`casselsTate_pairing_eq_abelian`, and `casselsTate_pairing` (the alternating elliptic pullback
+with divisible radicals and square-order reduced primary groups), `selmerParity_twoIsogeny`,
+`congruentNumber_selmerParity` (§4.29). General abelian pairings carry no unconditional
+alternation assertion.
 -/

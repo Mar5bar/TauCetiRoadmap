@@ -9,10 +9,10 @@
 This roadmap owns:
 
 - local completion and tensor comparisons, the p-adic Kummer identification for fields and S-units, coefficient-limit hypotheses, weak semisimplicity and integral lifting (Layer 0);
-- compact, rational and discrete Selmer data and Selmer groups, propagation of local conditions along coefficient maps, unramified, Greenberg and finite conditions at bad primes, Pontryagin duals and coranks, dual Selmer structures, Poitou–Tate for Selmer groups, Selmer complexes as mapping fibres with their `H⁰` correction, lattice changes and descent of vanishing (Layer 2);
+- compact, rational and discrete Selmer data and Selmer groups, propagation of local conditions along coefficient maps, unramified, Greenberg and finite conditions at bad primes, Pontryagin duals and coranks, dual Selmer structures, Poitou–Tate for Selmer groups, Selmer complexes as mapping fibres with their `H⁰` correction, lattice changes and descent of vanishing, with the abelian Kummer/Sha adapters, finiteness and all-place Kummer annihilators of §2.12a (Layer 2);
 - arithmetic compact-support identification and Selmer-complex `H¹` with its `H⁰` correction, function-field Greenberg–Wiles, comparison with deformation tangents, determinant tangent fibres and derived coefficient change (Layer 2A);
 - Iwasawa algebras of `ℤ_p^d × Δ` with their coordinates, involution and twists, Iwasawa cohomology and its Shapiro, descent, control and duality theorems, universal norms, semilocal descent, Iwasawa Selmer complexes with derived specialization, determinant lines, the étale `K(π,1)` comparison for `Spec 𝒪_{F,S}` and the `j_*` convention, local cofreedom, and Greenberg's structure theorems (Layer 3);
-- the small-weight crystalline realization, the Bloch–Kato conditions and their integral and finite variants, archimedean realizations with Gamma factors and Greenberg criticality, the cyclotomic unit–class-group dictionary, the main-conjecture propositions, global finite Selmer reductions, and the parity theorems of §§4.28–4.29 (Layer 4).
+- the cohomological Cassels–Tate pairing for `Ш(A/K) × Ш(A∨/K)` and its divisible radicals (§4.29), the small-weight crystalline realization, the Bloch–Kato conditions and their integral and finite variants, archimedean realizations with Gamma factors and Greenberg criticality, the cyclotomic unit–class-group dictionary, the main-conjecture propositions, global finite Selmer reductions, and the parity theorems of §§4.28–4.29 (Layer 4).
 
 ArithmeticGaloisDuality supplies continuous cochains with compact and rational coefficients and their limits (its Layer R02.1), the Hochschild–Serre spectral sequence and descent (Layer R02.2), restricted ramification, `G_{K,S}` and the S-idele class formation (Layer R02.3), local and global Tate duality, Poitou–Tate and the Euler characteristic (Layer R02.4), the Greenberg–Wiles formula (Layer R02.5) and the derived continuous cochains with compact support and their duality, including the complete Tate correction at real places when `p = 2` (Layer D7). This roadmap consumes those statements and does not restate them. Layer 2A here owns the arithmetic Selmer comparisons, function-field Greenberg–Wiles, deformation tangent comparisons, determinant tangent fibres and derived coefficient change.
 
@@ -66,7 +66,7 @@ Layer 5: the local cyclotomic character. Layer 7: the completed multiplicative g
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
-Layer 5: local Tate duality for finite modules over a local field, and the local Euler formulas `eulerCharacteristic_mixed` and `eulerCharacteristic_finrank_fp`. Layer 10: the global Brauer group sequence `0 → Br F → ⊕_v Br F_v → ℚ/ℤ`. Layer 11: global reciprocity, the idele class formation and the norm/transfer compatibilities used in §4.16. Layer 13: the principal ideal theorem, through ArithmeticGaloisDuality §R02.3.3.
+Layer 5: local Tate duality for finite modules over a local field, and the local Euler formulas `eulerCharacteristic_mixed` and `eulerCharacteristic_finrank_fp`. Layer 10: the global Brauer group sequence `0 → Br F → ⊕_v Br F_v → ℚ/ℤ`. Layer 11: global reciprocity, the idele class formation and norm/transfer compatibility. Layer 12: global existence and `globalClassFieldCorrespondence`. Layer 13: Hilbert and ray class fields, `gal_hilbertClassField_equiv_classGroup` and their maximal-unramified properties. Layers 11–13 give the unramified/class-group dictionary used in §§4.16 and 4.27, with arithmetic Frobenius normalization and norm compatibility; Layer 13 also supplies the principal ideal theorem, through ArithmeticGaloisDuality §R02.3.3.
 
 ### From TauCetiRoadmap.EllipticCurves
 
@@ -106,7 +106,7 @@ Layer R02.1: §R02.1.2 (*Tate's inverse-limit theorem*; *Continuous sections of 
 
 ### From AbelianSchemesAndArithmeticModuli
 
-§A4.3 supplies the degree-one de Rham and vector-extension comparison used in §4.26.
+§§A2.2–A2.3 supply the dual abelian variety, rigidified Poincaré bundle, biduality and Mumford map; §§A3.1–A3.5 and A3.7 supply isogenies, multiplication kernels, dual isogenies and the intrinsic and polarized Weil pairings. Section A5.1 supplies complex lattice uniformization with conjugation. These are the geometric inputs to §§2.12a and 4.29, including A2.2's positive elliptic self-duality `a ↦ O([−a] − [O])` and A3.5's inversion comparison with the other self-duality. Section A4.3 supplies the degree-one de Rham and vector-extension comparison used in §4.26.
 
 ### Gamma products
 
@@ -634,6 +634,47 @@ The named operations and identities are:
 The Bloch–Kato comparison of these conditions on `V_pE` belongs to §4.26.
 
 *Needs:* §2.9 (Compact and rational Galois Selmer groups); §2.11 (Coranks); TauCetiRoadmap.EllipticCurves Layer 7.
+
+### 2.12a Abelian Kummer and Sha interfaces
+
+**Abelian Kummer, Selmer and Sha carriers.** Let `K` be a number field, `A, B` native abelian varieties over `K`, and `φ : A → B` an isogeny. Use `AbelianVariety.Points A L` for the additive form of the native group of morphisms `Spec L → A` over `K`, with identity, addition, inverse, integer multiplication and extension-of-field maps. Define `AbelianVariety.torsion A n L` as the kernel of `[n]` on these points, with inclusion for `n | m`, base-change and homomorphism compatibility; the geometric finite étale kernel remains the supplied isogeny kernel. All Galois cohomology uses discrete geometric points; prove the degree-one groups are torsion by splitting cocycles over finite extensions and using restriction–corestriction. The connecting map `abelianKummer` gives `B(K)/φA(K) ↪ H¹(K,A[φ])`, natural in the field and in compositions of isogenies. Instantiate the discrete Selmer structure of EllipticCurves Layer 7 with the local Kummer images to obtain `kummerSelmerStructure` and `abelianSelmerGroup`. Define `abelianSha` by specializing Mathlib's `ContinuousCohomology.tateShafarevich` to degree one and the discrete module `A(Kˢ)`, over all places; retain its membership and kernel-of-product API.
+
+Supply `abelian_localH1_comparison`: restriction of `A(Kˢ)` to each local absolute Galois group followed by `A(Kˢ) → A(K_vˢ)` induces the canonical degree-one isomorphism with `H¹(K_v,A)`, compatible with Kummer maps and isogenies. At finite places descend a smooth torsor to the henselian algebraic local field and prove the required smooth approximation to its completion using étale charts, Hensel lifting and density; at real places use the real closure and complexification, and at complex places both degree-one groups vanish. Thus the fixed-coefficient kernel is the classical everywhere-locally-trivial kernel. Prove `abelianDescent_exact`: `0 → B(K)/φA(K) → Sel_φ(A/K) → ker(Ш(A/K) → Ш(B/K)) → 0`, by the global and local Kummer sequences. Include membership, restriction under finite field extension and comparison of the elliptic Selmer and Sha carriers with EllipticCurves Layer 7. No Mordell–Weil theorem is needed for these adapters.
+
+(Milne, *Arithmetic Duality Theorems*, I, §3, Remark 3.10, pp. 47–48, and §6, Lemma 6.1, pp. 73–74, and Proposition 6.4, p. 75; native `AbelianVariety` and Mathlib `ContinuousCohomology.tateShafarevich`, `mem_tateShafarevich`, `tateShafarevich_eq_ker_pi`.)
+
+**Checks.**
+
+- The zero abelian variety has singleton point group and zero Sha. For every `A`, `[1]` has zero kernel and `[0]` has the whole point group as kernel.
+- For `φ = id`, both the Kummer quotient and the Selmer group are zero; `[0]` on a positive-dimensional variety is not an isogeny.
+- An elliptic curve recovers the supplied point law and Selmer group, including the point at infinity as identity; the Sha comparison includes real places, so a genus-one torsor with no real point is excluded.
+- For `[n]`, `n ≥ 1`, the sequence ends in `Ш(A/K)[n]`, not all of `H¹(K,A)[n]`; local triviality is essential.
+
+**Finite Selmer and reduced primary groups.** Prove `abelianSelmerGroup_finite` for every number-field isogeny `φ`. For finite `S` containing the infinite places, the bad places of `A, B` and all primes dividing `deg φ`, good-reduction integral Kummer theory identifies the local image outside `S` with unramified `H¹(K_v,A[φ])`. Thus the Selmer group embeds into the finite group `H¹(G_{K,S},A[φ])` of ArithmeticGaloisDuality §R02.3.1. Descent makes `Ш(A/K)[n]` finite for every `n ≥ 1`.
+
+Supply `finiteCotype_primaryDecomposition`: a p-primary torsion abelian group `G` with finite `G[p]` is noncanonically `(ℚ_p/ℤ_p)^r ⊕ F`, with `r` finite and `F` a finite p-group; its maximal divisible subgroup is the first summand and the quotient is finite. Finite branching of division trees gives compatible infinite division chains; split their Prüfer subgroups by injectivity of divisible abelian groups. Finite `G[p]` bounds their number. An unbounded-exponent remainder would give another infinite chain, whereas a bounded-exponent remainder is finite by induction. Apply this to `Ш(A/K)[p^∞]`; no finiteness of the full Sha group is assumed.
+
+(Milne, I, §6, Lemma 6.1, pp. 73–74, Proposition 6.4 and Corollary 6.6, pp. 75–77, and Remark 6.7, p. 77.)
+
+**Checks.**
+
+- `G = ℚ_p/ℤ_p` has finite `G[p]`, but is infinite; its reduced quotient is zero.
+- `G = ℤ/p²` has divisible subgroup zero and reduced quotient itself; finite p-torsion alone does not imply divisibility.
+- A p-primary torsion group with `G[p] = 0` is zero; the torsion hypothesis excludes `ℤ_p` from this inference.
+
+**All-place Kummer annihilators.** Define `KummerLocal φ v` as the image of `B(K_v)/φA(K_v)` in `H¹(K_v,A[φ])`. Prove `KummerLocal.dual_annihilator`: for every place `v`, these images and those for `φ∨ : B∨ → A∨` are exact annihilators under the finite local Tate pairing for `A[φ]` and its Cartier dual `B∨[φ∨]`. Include membership, isogeny functoriality, the good prime-to-degree unramified comparison used above, and the specialization to `[n]`, `n ≥ 1`. At finite places use ArithmeticGaloisDuality §D7.6's dual isogeny sequences. At real places use complex lattice uniformization with conjugation, the Poincaré dual lattice and the Tate complex with differentials `1 − c` and `1 + c`; its adjoint exact sequences give the same annihilators. In degree zero the real Tate group is `A(ℝ)/N A(ℂ) = π₀ A(ℝ)`, so its two-primary part is retained. At complex places `H¹ = 0` and the Kummer quotients vanish.
+
+Prove `KummerLocal.globalPlusLocal`: for `[n]` and finite `S` containing the bad, infinite and n-adic places, a tuple in `∏_{v∈S} H¹(K_v,A[n])` annihilates the localization of `Sel_n(A∨/K)` iff it is the sum of a localization from `H¹(G_{K,S},A[n])` and local Kummer classes. This is the finite Poitou–Tate localization diagram with the just established annihilators, including the real terms.
+
+(Milne, I, §3, Theorem 3.2 and Corollary 3.4, pp. 41–44, Remark 3.7, p. 46, and §6, Lemma 6.15, pp. 86–87.)
+
+**Checks.**
+
+- At a good finite place with residue characteristic prime to `deg φ`, the image is the unramified subgroup; setting it to zero need not give the Kummer condition.
+- For a real elliptic curve with two components and `n = 2`, `E(ℝ)/2E(ℝ) ≅ ℤ/2` gives a nonzero local Kummer image and a real two-primary annihilator condition.
+- For odd `n` the real `[n]` Kummer quotient is zero, and at a complex place it is zero for every `n ≥ 1`.
+
+*Needs:* §§2.1–2.2 (Selmer diagrams and kernels); TauCetiRoadmap.EllipticCurves Layer 7; Mathlib `ContinuousCohomology.tateShafarevich`; native `AbelianVariety`; AbelianSchemesAndArithmeticModuli §§A2.2–A2.3, A3.1–A3.5, A3.7, A5.1; SchemeAndStackFoundations §§0.12, 2.1, 2.15 (henselization, torsors and field étale/Galois comparison); ArithmeticGaloisDuality §§R02.1.2, R02.3.1, R02.4.3, D7.6 (cohomology sequences, restricted-ramification finiteness, finite Poitou–Tate and local abelian duality).
 
 ### 2.13 Dual Selmer structures
 
@@ -1306,7 +1347,7 @@ The named operations and identities are:
 
 ### 3.2 Shapiro's lemma for Iwasawa cohomology
 
-With `𝓕_Γ(M) = lim_U M_U`: for `M` of finite type over `R` there are canonical `R̄[G]`-isomorphisms `𝓕_Γ(M) ≅ (M ⊗_R R̄) ⟨−1⟩` and `𝓕_Γ(M)^ι ≅ (M ⊗_R R̄^ι)⟨−1⟩ ≅ (M ⊗_R R̄)⟨1⟩`, where `⟨n⟩` twists the G-action by `χ_Γ^n, χ_Γ : G → Γ ⊂ R̄^×` the tautological character, and `ι` is the involution `γ ↦ γ^{−1}`; `𝓕_Γ(M)` is of finite type over `R̄`. The canonical morphism `C^•_cont(G, 𝓕_Γ(M)) → lim_U C^•_cont(G, M_U)` is an isomorphism, so `RΓ_cont(G, 𝓕_Γ(M)) ≅ RΓ_Iw(G, H; M)`.
+With `𝓕_Γ(M) = lim_U M_U`: for `M` of finite type over `R` there are canonical `R̄[G]`-isomorphisms `𝓕_Γ(M) ≅ (M ⊗_R R̄) ⟨−1⟩` and `𝓕_Γ(M)^ι ≅ (M ⊗_R R̄^ι)⟨+1⟩ ≅ (M ⊗_R R̄)⟨1⟩`, where `⟨n⟩` twists the G-action by `χ_Γ^n, χ_Γ : G → Γ ⊂ R̄^×` the tautological character, and `ι` is the involution `γ ↦ γ^{−1}`; `𝓕_Γ(M)` is of finite type over `R̄`. The last isomorphism is `id ⊗ ι`; the middle exponent is positive because twisting the scalar action by `ι` reverses `⟨n⟩`. The canonical morphism `C^•_cont(G, 𝓕_Γ(M)) → lim_U C^•_cont(G, M_U)` is an isomorphism, so `RΓ_cont(G, 𝓕_Γ(M)) ≅ RΓ_Iw(G, H; M)`.
 
 `M` ind-admissible of finite type over `R`; `Γ` abelian, `Γ ≅ Γ₀ × Δ` with `Γ₀ ≅ ℤ_p^r` and `Δ` finite.
 
@@ -1318,6 +1359,7 @@ The inverse action is explicit: with the tautological character the Galois actio
 
 **Checks.**
 
+- `R = ℤ₃, G = Γ = ℤ₃, H = 1, M = ℤ₃` trivial: in the first tensor model, `𝓕_Γ(M)^ι` has scalar action `λ·x = ι(λ)x` and Galois action `γ·x = γ⁻¹x`. The module `Λ^ι⟨+1⟩` has exactly these actions; `Λ^ι⟨−1⟩` instead has Galois action `γx`. For `γ = 1 + X`, the coefficient of `X` in `γ − γ⁻¹` is `2`, so a unit cannot intertwine those actions in `ℤ₃[[X]]`. Already modulo `(3, X²)`, `γ = 1 + ε` and `γ⁻¹ = 1 − ε` are distinct inverse units.
 - `R = ℤ₅, Γ = ℤ₅ × C₂: R̄ ≅ A × A` with `A = ℤ₅⟦T⟧`, and `J = (5, T)A × (5, T)A` gives the separated product topology. The maximal ideal `m₊ = (5, T)A × A` has `⋂_n m₊^n = 0 × A`, so its adic topology is not separated; a maximal ideal cannot replace `J` when `Δ` is not a p-group.
 - `R = ℤ_p, Γ = ℤ_p × C_p` with `δ` generating `C_p: R̄` is local with maximal ideal `rad(R̄) = J + (δ − 1)R̄`. Since `(δ − 1)^p ∈ pR̄, rad(R̄)^p ⊆ J ⊊ rad(R̄)`, so the two ideals define the same topology.
 - `Δ = 1: J` is the maximal ideal of `R⟦Γ₀⟧`, the local case of Nekovář 8.4.4.2. For `Γ = 1` the ideals `J_U` vanish, so `m^n R̄` is needed in the second system.
@@ -2025,7 +2067,7 @@ For `F_n=ℚ(μ_(p^n)), p` odd, define `Y_n` as the p-primary ideal class group,
 
 Cyclotomic tower and `p` odd; closed unit images rather than algebraic unit images; global Artin reciprocity normalized with arithmetic Frobenius.
 
-The construction proceeds as follows. Import finite-level global reciprocity, the class-group identification and local unit norm maps from TauCetiRoadmap.ClassFieldTheory Layer 11 (with the class group of Mathlib `NumberField.RingOfIntegers`). Construct the closed p-ramified idèle quotient, prove the finite-level exact unit/class-group sequence, and take the compatible norm limits. Compute the tower Galois action and plus/minus idempotents; prove descent to the real tower using the prime-to-p group of order two.
+The construction proceeds as follows. Import reciprocity and norm/transfer compatibility from TauCetiRoadmap.ClassFieldTheory Layer 11, global existence from Layer 12, and the Hilbert-class-field identification and maximal-unramified properties from Layer 13 (with the class group of Mathlib `NumberField.RingOfIntegers`). Construct the closed p-ramified idèle quotient, prove the finite-level exact unit/class-group sequence, and take the compatible norm limits. Compute the tower Galois action and plus/minus idempotents; prove descent to the real tower using the prime-to-p group of order two.
 
 (Rodrigues Jacinto–Williams (arXiv v2), §13.2 and Definition 13.12, preprint pp. 65–67; Proposition 13.13 and Corollary 13.14, pp. 67–68.)
 
@@ -2043,7 +2085,7 @@ The named operations and identities are:
 - For `c=1` the minus part is zero and the plus part is the whole module.
 - At `p=2`, division by `2` is unavailable and the `e±` integral direct sum is not an allowed construction.
 
-*Needs:* TauCetiRoadmap.ClassFieldTheory Layer 11; ArithmeticGaloisDuality §R02.3.0b (Completion of global units); §3.6 (Semilocal cohomology and descent of local classes).
+*Needs:* TauCetiRoadmap.ClassFieldTheory Layers 11–13; ArithmeticGaloisDuality §R02.3.0b (Completion of global units); §3.6 (Semilocal cohomology and descent of local classes).
 
 ### 4.17 The closed-unit and class-group exact sequence
 
@@ -2265,11 +2307,11 @@ Let `ρ` be a finite-image characteristic-zero representation over `E` with stab
 
 Finite-image `ρ`; finite-dimensional `ad⁰` and propagated rational finite conditions. Odd irreducible rank-two Artin over `ℚ` is the source’s worked case; modularity is not needed for the finiteness argument.
 
-Prove this as follows. Over `L` the representation is trivial and its rational finite condition is unramified at every finite place, including `p`; restriction of propagated finite classes therefore lands in unramified discrete classes. Use global class field theory to factor those classes through `Cl_L[p∞]`, giving a finite `Hom` group. Inflation–restriction gives the finite kernel: finite group cohomology of a finite-`corank E/O` module is finite and killed by `|Gal(L/F)|`. Include these errors when the degree has a p-part.
+Prove this as follows. Over `L` the representation is trivial and its rational finite condition is unramified at every finite place, including `p`; restriction of propagated finite classes therefore lands in unramified discrete classes. Use TauCetiRoadmap.ClassFieldTheory Layer 11 for reciprocity and norm compatibility, and Layers 12–13 for existence and the Hilbert-class-field/maximal-unramified identification, to factor those classes through `Cl_L[p∞]`, giving a finite `Hom` group. Inflation–restriction gives the finite kernel: finite group cohomology of a finite-`corank E/O` module is finite and killed by `|Gal(L/F)|`. Include these errors when the degree has a p-part.
 
 (Calegari–Geraghty–Harris (arXiv v1), §2, preprint p. 4 (published Appendix A §A.2, pp. 883–884).)
 
-*Needs:* §4.9 (The Bloch–Kato local condition on `T` and `W`); §2.25 (Selmer vanishing descends under injective restriction); ArithmeticGaloisDuality §R02.2.3 (*Restriction and corestriction descent for finite index*); TauCetiRoadmap.ClassFieldTheory Layer 11.
+*Needs:* §4.9 (The Bloch–Kato local condition on `T` and `W`); §2.25 (Selmer vanishing descends under injective restriction); ArithmeticGaloisDuality §R02.2.3 (*Restriction and corestriction descent for finite index*); TauCetiRoadmap.ClassFieldTheory Layers 11–13.
 
 ### 4.28 Parity of Selmer ranks in self-dual ordinary families and under quadratic twist
 
@@ -2410,17 +2452,41 @@ An odd-order `α` is trivial on every real decomposition group. Each complex con
 
 For positive squarefree `n` let `E_n` be the elliptic curve `y² = x³ − n²x` over `ℚ` (isomorphic to `n y² = x³ − x` by `(X, Y) = (nx, n²y)`), with its rational `2`-torsion point `P = (0, 0)` and the `2`-isogeny `φ : E_n → E′_n = E_n/⟨P⟩, E′_n : Y² = X³ + 4n²X`. The endpoint is the parity of the `ℤ₂`-corank of the `2^∞`-Selmer group `Sel_{2^∞}(E_n/ℚ)` (§2.12), which includes the divisible part of `Ш`; it is proved here from the Cassels–Tate pairing, the isogeny Selmer formula and an explicit computation of the local Kummer images of `φ`.
 
-**The Cassels–Tate pairing of an elliptic curve.** For an elliptic curve `E` over a number field `K`, prove `casselsTate_pairing`: there is a bilinear pairing `Ш(E/K) × Ш(E/K) → ℚ/ℤ` whose left and right kernels are the maximal divisible subgroup, and which is alternating; consequently, for every prime `ℓ, Ш(E/K)[ℓ^∞]/Ш(E/K)[ℓ^∞]_div ≅ T × T` for a finite abelian `ℓ`-group `T`, so its order is a square. Prove this by the cochain construction of Milne `I` §6.9. For `a,b ∈ Ш[ℓ^m]`, choose Selmer cocycles `α,β` with coefficients in `E[ℓ^m]`. Lift `α` to a global `1`-cochain `α₁` with coefficients in `E[ℓ^{2m}]`; it need not be a cocycle, and `dα₁` takes values in the kernel `E[ℓ^m]`. Choose local Kummer lifts `α_{v,1}` that are cocycles and map to `α_v`, using local triviality of `a` and the point Kummer sequence. Form `dα₁ ∪ β` with the Weil pairing `E[ℓ^m] × E[ℓ^m] → μ_{ℓ^m}` followed by the inclusion `μ_{ℓ^m} ⊂ (K^s)^×`; it is a 3-cocycle with values in the discrete `G_K`-module `(K^s)^×`. A global `2`-cochain `ε ∈ C²(G_K, (K^s)^×)` with `dε = dα₁ ∪ β` corrects the local products. It exists because `H³(G_K, (K^s)^×) = 0`: real places contribute to `H^r(G_K, (K^s)^×), r ≥ 3`, only in even degrees. No vanishing of `H³(G_K, μ_{ℓ^m})` is used; for `ℓ = 2` and `K` with a real place that group is nonzero. With a consistent sign convention, the resulting local `2`-cocycles `(α₁,v − α_{v,1}) ∪ β_v − ε_v` take values in `(K_v^s)^×`: the difference `α₁,v − α_{v,1}` takes values in the kernel `E[ℓ^m]` and is paired with `β_v` by the Weil pairing, and `inv_v : H²(K_v, G_m) → ℚ/ℤ` evaluates the classes, with `Br(ℝ) = ½ℤ/ℤ`. Prove the differential is zero, sum their local invariants, and prove finite support, independence of all cochains and local trivializations, bilinearity, compatibility as `m` increases, and functoriality under isogenies. Global changes cancel by reciprocity; local Kummer changes cancel by their dual annihilators. Poitou–Tate and the finite-level Selmer sequences show that the left and right radicals on `Ш[ℓ^∞]` are exactly its maximal divisible subgroup, not necessarily zero (Milne Theorem 6.13(a)); its quotient is finite by cofinite generation. Alternation follows from Poonen–Stoll's identity `⟨a, λa + c_λ⟩ = 0` with `c_λ = 0`, because the principal polarisation `λ` of `E` comes from the rational divisor `(O)`.
+**The cohomological Cassels–Tate pairing and its radicals.** For every abelian variety `A` over a number field `K`, construct `CasselsTate : Ш(A/K) × Ш(A∨/K) → ℚ/ℤ` on the carriers of §2.12a. No finiteness of Sha or polarization is assumed. For `a ∈ Ш(A/K)[n]`, `b ∈ Ш(A∨/K)[n]`, `n ≥ 1`, choose Kummer cocycles `α, β` with coefficients in `A[n], A∨[n]`. Lift `α` to a global `1`-cochain `α₁` in `A[n²]`; it need not be a cocycle, and `dα₁` lies in the kernel `A[n]`. Local triviality gives local Kummer cocycle lifts `α_{v,1}` in `A[n²]` mapping to `α_v`. Use the intrinsic Weil pairing `A[n] × A∨[n] → μ_n` of AbelianSchemesAndArithmeticModuli §A3.5, followed by `μ_n ⊂ (Kˢ)^×`. Choose `ε ∈ C²(G_K,(Kˢ)^×)` with `dε = dα₁ ∪ β`. It exists by ArithmeticGaloisDuality §R02.4.4's `H³(G_K,(Kˢ)^×) = 0`; no vanishing of `H³(G_K,μ_n)` is used. Fix the sign by
 
-(Milne, *Arithmetic Duality Theorems*, Chapter I, Corollary 4.21, printed p. 66, §6.9, printed pp. 78–79, §6.11 and its correction footnote, printed pp. 81–82, and Theorem 6.13(a), printed pp. 82–83 (PDF pp. 90–91), and its Notes; Poonen–Stoll, *The Cassels–Tate pairing on polarized abelian varieties*, Theorem 5, p. 1120, Corollaries 6–7, pp. 1121–1122, and Corollary 9, pp. 1123–1124; Cassels, *Arithmetic on curves of genus 1. IV. Proof of the Hauptvermutung*, J. reine angew. Math. 211 (1962).)
+```text
+CasselsTate(a,b) = Σ_v inv_v([(α₁,v − α_{v,1}) ∪ β_v − ε_v]).
+```
+
+The difference is `A[n]`-valued, and the Leibniz rule makes the displayed expression a local `G_m`-valued `2`-cocycle. Real invariants take values in `½ℤ/ℤ`. Prove `CasselsTate.finiteCoefficient_formula`, finite support, independence of cochains, Kummer lifts and `ε`, bilinearity and compatibility for `n | m`, giving the pairing on all Sha. Global changes cancel by reciprocity; local Kummer changes cancel by §2.12a's all-place annihilators. Prove `CasselsTate.isogeny_adjoint`: for every isogeny `f : A → B`, `CasselsTate_B(fa,b) = CasselsTate_A(a,f∨b)`.
+
+Prove `CasselsTate.annihilator_nTorsion`: the left annihilator of `Ш(A∨/K)[n]` is `n Ш(A/K)` for `n ≥ 1`, and the transposed statement. Finite Poitou–Tate first detects the obstruction to n-division in global `H¹(A)`; §2.12a's `KummerLocal.globalPlusLocal` then corrects the finite tuple of local failures by a global `A[n]` class to obtain division in Sha itself. Prove `CasselsTate.left_radical` and `CasselsTate.right_radical`: the full kernels are the respective maximal divisible subgroups, and the same holds on each primary component. With `finiteCotype_primaryDecomposition`, prove `CasselsTate.reduced_primary_perfect`: the quotients of `Ш(A/K)[ℓ^∞]` and `Ш(A∨/K)[ℓ^∞]` by their divisible subgroups are finite and perfectly paired. Alternation is not part of this general theorem. The torsor/divisor and Poincaré-biextension constructions and their Brauer–Manin comparisons belong to HeightsRationalPointsAndObstructions §§3.17a–3.17d; their comparisons identify those constructions with this cohomological pairing and its sign.
+
+(Milne, *Arithmetic Duality Theorems*, I, Corollary 4.21, p. 66, Proposition 6.9, pp. 78–79, Remark 6.10(a), p. 79, Theorem 6.13(a), pp. 82–83, and Lemmas 6.15–6.17 and the concluding diagram, pp. 86–89. The global-minus-local sign uses the correction footnote to Proposition 6.9 and the cohomological Leibniz rule.)
 
 **Checks.**
 
-- A single global Brauer cup class has `Σ_v inv_v(res_v c) = 0` by global reciprocity; prove this naive construction is identically zero. It cannot define a nonzero Cassels–Tate pairing.
-- A coefficient-module surjection `E[ℓ^{2m}] → E[ℓ^m]` need not be onto on `H¹`: its `H²` obstruction is retained as `dα₁` and cancelled by `ε` in the local construction.
-- If `Ш(E/K)[ℓ^∞]` is divisible (for example zero) the pairing is zero and `T = 0`.
-- `Ш(E/K)[2^∞]/Ш(E/K)[2^∞]_div` cannot be `ℤ/2`, since its order must be a square.
-- For abelian varieties the pairing need not be alternating (Poonen–Stoll exhibit Jacobians with #`Ш` twice a square); the elliptic statement uses that `c_λ = 0` for the polarisation from `(O)`.
+- A single global Brauer cup class has `Σ_v inv_v(res_v c) = 0` by reciprocity, so that construction gives zero rather than the Cassels–Tate pairing.
+- `A[n²] → A[n]` need not be onto on `H¹`: its obstruction remains as `dα₁` and is cancelled by `ε`; at real places with even `n`, `H³(G_K,μ_n)` need not vanish.
+- A Prüfer summand pairs to zero. For divisible `Ш(A/K)[ℓ^∞]` its reduced quotient is zero, whereas `n = 1` gives the full Sha group as annihilator.
+- On `ℤ/ℓ²`, characters of order `ℓ` detect divisibility by `ℓ`, not vanishing; replacing `n Ш` by zero in the annihilator formula fails.
+- General principally polarized abelian varieties need not have alternating Cassels–Tate pairing; Poonen–Stoll, Theorem 8 and Corollary 9, pp. 1122–1124, allow a reduced two-primary group of twice-square order.
+
+**The elliptic specialization and alternation.** For an elliptic curve `E/K`, let `A_E` be its abelian variety and `λ_(O) : A_E ≅ A_E∨` the positive principal polarization from the rational divisor `(O)`. In AbelianSchemesAndArithmeticModuli §A2.2's convention it sends `P` to `O([−P] − [O])`. Name the carrier comparison `ellipticSha_equiv_abelianSha`, induced by the point and localization identifications of §2.12a. Define the elliptic pairing by the pullback in the second variable and prove `casselsTate_pairing_eq_abelian`:
+
+```text
+⟨a,b⟩_E = CasselsTate_A_E(e a, (λ_(O))_* e b),   e = ellipticSha_equiv_abelianSha.
+```
+
+Its cochain sign is the global-minus-local invariant sum above, and its coefficient pairing is `e_n(x, λ_(O)y)`. Transport the supplied Weil-pairing comparison with EllipticCurves Layer 2 through AbelianSchemesAndArithmeticModuli §§A3.5–A3.7, retaining the inversion when replacing `λ_(O)` by `P ↦ O([P] − [O])`; that replacement negates the pulled-back Cassels–Tate pairing. Prove `casselsTate_pairing`: the elliptic pairing is alternating, with both kernels the maximal divisible subgroup, and for every prime `ℓ` its reduced ℓ-primary group is `T × T` for a finite abelian ℓ-group `T`. The radical statement is the general theorem above; alternation follows from the rational divisor `(O)`, whose polarization obstruction is zero, and the finite alternating perfect pairing gives the product decomposition and square order.
+
+(Milne, I, Remarks 6.10(b)–6.11 and their correction footnotes, pp. 79–81; Poonen–Stoll, Theorem 5, p. 1120, Corollaries 6–7, pp. 1121–1122, and Corollary 9, pp. 1123–1124; Cassels, *Arithmetic on curves of genus 1. IV. Proof of the Hauptvermutung*, J. reine angew. Math. 211 (1962).)
+
+**Checks.**
+
+- If `Ш(E/K)[ℓ^∞]` is divisible, the reduced group is zero and `T = 0`; no unconditional finiteness of the unreduced group follows.
+- `Ш(E/K)[2^∞]/Ш(E/K)[2^∞]_div` cannot be `ℤ/2`, since its order is a square. This elliptic conclusion uses `(O)` and does not extend to every principal polarization.
+- Replacing `λ_(O)` by its negative negates the pairing; a value `1/3` becomes `2/3`. Changing neither the polarization nor the local cocycle sign leaves the comparison unchanged.
 
 **Selmer corank parity from a rational `2`-isogeny.** Let `K` be a number field, `E/K` an elliptic curve with a K-rational point `P` of order two, `φ : E → E′ = E/⟨P⟩`, and for each place `v` let `φ_v : E(K_v) → E′(K_v)` and `σ_φ(E/K_v) = (−1)^{ord₂`(#`coker φ_v` / #`ker φ_v`)}. Prove `selmerParity_twoIsogeny`: `σ_φ(E/K_v) = 1` for all but finitely many `v`, and
 
@@ -2478,7 +2544,7 @@ The residues `0` and 4 modulo 8 do not occur for squarefree `n`. Prove this as f
 - `n = 5: −1 (∞), +1 (2), +1` (5), product `−1`, odd corank; 5 is a congruent number (`E₅` has `rank 1`).
 - `n = 6: −1 (∞), −1 (2), −1` (3), product `−1`, odd corank; the 3`-`4`-`5 triangle has area 6.
 
-*Needs:* §2.12 (Passage from finite elliptic Selmer groups to `p^∞`); §2.11 (Coranks); ArithmeticGaloisDuality §R02.4.3 (*Poitou–Tate duality and the nine-term exact sequence*); ArithmeticGaloisDuality §R02.5.1 (*The Greenberg–Wiles formula*); ArithmeticGaloisDuality §D7.6 (*Local abelian-variety duality and gerbe evaluation*; *Self-dual isogenies and their local index*); TauCetiRoadmap.EllipticCurves Layers 2 and 7.
+*Needs:* §2.12 (Passage from finite elliptic Selmer groups to `p^∞`); §2.12a (Abelian Kummer, Sha, finiteness and all-place annihilators); §2.11 (Coranks); ArithmeticGaloisDuality §R02.4.4 (*High-degree cohomology of the S-units*); AbelianSchemesAndArithmeticModuli §§A2.2–A2.3, A3.5–A3.7; TauCetiRoadmap.ClassFieldTheory Layer 10; ArithmeticGaloisDuality §R02.4.3 (*Poitou–Tate duality and the nine-term exact sequence*); ArithmeticGaloisDuality §R02.5.1 (*The Greenberg–Wiles formula*); ArithmeticGaloisDuality §D7.6 (*Local abelian-variety duality and gerbe evaluation*; *Self-dual isogenies and their local index*); TauCetiRoadmap.EllipticCurves Layers 2 and 7.
 
 ### Examples
 
@@ -2488,8 +2554,10 @@ For the crystalline trivial representation, `D_cris=K₀, t_V=D_dR/Fil⁰=0` and
 
 ### Dependencies
 
-Layers 0, `2`, 3; PadicPeriodRings §§1.1–1.5, `2`–3, 4.1–4.3 (period carriers, functors and fixed fields); FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a (finite-K comparisons, additional sequences, continuous sections, boundary maps and integral predicates), R07.3.3a (filtered Frobenius modules); ArithmeticGaloisDuality §§D7.7.2–D7.7.5; and the supplier interfaces: Mathlib `PadicComplex`, `PadicAlgCl`, `PadicComplexInt`, `PadicComplex.isAlgClosed`, `spectralNorm`, `UniformSpace.Completion.map`, `cyclotomicCharacter`, `continuousCohomology`, `BDeRhamPlus`, `BDeRham`, `fontaineThetaInvertP`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.dual`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.finrank_dual_piece`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.tateTwist`; Tau Ceti `TauCeti.Hodge.tate_hodgeNumber`; Tau Ceti `TauCeti.Hodge.tate`; TauCetiRoadmap.ClassFieldTheory Layers 5 and 11; TauCetiRoadmap.EllipticCurves Layer 7; TauCetiRoadmap.EllipticCurves Layers 2 and 7; TauCetiRoadmap.LocalFieldsRamification Layer 3; TauCetiRoadmap.LocalGaloisGroups Layer 5; TauCetiRoadmap.ProfiniteCohomology Layer 7; ArithmeticGaloisDuality Layer R02.1; ArithmeticGaloisDuality Layer R02.4; ArithmeticGaloisDuality §D7.6 (*Local abelian-variety duality and gerbe evaluation*; *Self-dual isogenies and their local index*); DerivedModuleAlgebra §1.T.1 (*Mittag-Leffler towers have vanishing `lim¹`*); ArithmeticGaloisDuality §R02.1.2 (*Long exact sequences for continuous cohomology*); ArithmeticGaloisDuality §R02.1.3 (*Rationalisation of lattice cohomology*); ArithmeticGaloisDuality §R02.2.3 (*Restriction and corestriction descent for finite index*); ArithmeticGaloisDuality §R02.4.3 (*Poitou–Tate duality and the nine-term exact sequence*); ArithmeticGaloisDuality §R02.5.1 (*The Greenberg–Wiles formula*); PadicMeasuresIwasawaAlgebras §4.6 (characteristic ideals); PadicMeasuresIwasawaAlgebras §4.6 (isotypic decomposition over `Λ(H × ℤ_p)`); PadicMeasuresIwasawaAlgebras §4.6 (transport of characteristic ideals along semilinear equivalences).
+Layers 0, `2`, 3; PadicPeriodRings §§1.1–1.5, `2`–3, 4.1–4.3 (period carriers, functors and fixed fields); FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a (finite-K comparisons, additional sequences, continuous sections, boundary maps and integral predicates), R07.3.3a (filtered Frobenius modules); ArithmeticGaloisDuality §§D7.7.2–D7.7.5; and the supplier interfaces: Mathlib `PadicComplex`, `PadicAlgCl`, `PadicComplexInt`, `PadicComplex.isAlgClosed`, `spectralNorm`, `UniformSpace.Completion.map`, `cyclotomicCharacter`, `continuousCohomology`, `BDeRhamPlus`, `BDeRham`, `fontaineThetaInvertP`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.dual`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.finrank_dual_piece`; Tau Ceti `TauCeti.Hodge.HodgeStructureOn.tateTwist`; Tau Ceti `TauCeti.Hodge.tate_hodgeNumber`; Tau Ceti `TauCeti.Hodge.tate`; TauCetiRoadmap.ClassFieldTheory Layers 5, 10–13; TauCetiRoadmap.EllipticCurves Layer 7; TauCetiRoadmap.EllipticCurves Layers 2 and 7; TauCetiRoadmap.LocalFieldsRamification Layer 3; TauCetiRoadmap.LocalGaloisGroups Layer 5; TauCetiRoadmap.ProfiniteCohomology Layer 7; ArithmeticGaloisDuality Layer R02.1; ArithmeticGaloisDuality Layer R02.4; ArithmeticGaloisDuality §D7.6 (*Local abelian-variety duality and gerbe evaluation*; *Self-dual isogenies and their local index*); DerivedModuleAlgebra §1.T.1 (*Mittag-Leffler towers have vanishing `lim¹`*); ArithmeticGaloisDuality §R02.1.2 (*Long exact sequences for continuous cohomology*); ArithmeticGaloisDuality §R02.1.3 (*Rationalisation of lattice cohomology*); ArithmeticGaloisDuality §R02.2.3 (*Restriction and corestriction descent for finite index*); ArithmeticGaloisDuality §R02.4.3 (*Poitou–Tate duality and the nine-term exact sequence*); ArithmeticGaloisDuality §R02.5.1 (*The Greenberg–Wiles formula*); PadicMeasuresIwasawaAlgebras §4.6 (characteristic ideals); PadicMeasuresIwasawaAlgebras §4.6 (isotypic decomposition over `Λ(H × ℤ_p)`); PadicMeasuresIwasawaAlgebras §4.6 (transport of characteristic ideals along semilinear equivalences).
 ## Downstream consumers
+
+HeightsRationalPointsAndObstructions §§1.0a–1.5 and 3.17a–3.17d consume the abelian Kummer/Sha carriers, all-place annihilators, cohomological `CasselsTate` and radical API of §§2.12a and 4.29. It owns the torsor/divisor and Poincaré-biextension realizations, their comparison with this pairing and the Brauer–Manin applications.
 
 Euler-system arguments for the cyclotomic main conjecture use the completed units, the Kummer and norm compatibilities and the cyclotomic Selmer dictionary (§§0.8, 4.16–4.22). Main-conjecture arguments for ordinary modular forms use the Iwasawa Selmer complexes, corrected specialization, localization surjectivity and the Fitting/characteristic comparison (§§3.8–3.21). Regulator and p-adic Hodge arguments use the finite-condition comparisons (§§4.8–4.12), built on PadicPeriodRings §§1.1–1.5, `2`–3, 4.1–4.3 and FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a. Rank-zero and rank-one Bloch–Kato arguments for elliptic curves use the ordinary structure criteria, the elliptic Selmer comparison and the parity theorems (§§3.18–3.21, 4.26, 4.28–4.29). The Bloch–Kato arguments for Rankin–Selberg motives in the style of Liu–Tian–Xiao–Zhang–Zhu use the torsion-crystalline condition, its small-weight comparisons and the uniform away-p bound (§§4.8–4.11, 4.24–4.25). The adjoint Bloch–Kato argument for finite-image representations uses the restriction and class-group finiteness criterion (§4.27). Global deformation problems use the arithmetic Selmer comparisons and determinant and coefficient fibres of §§2A.1–2A.5.
 
