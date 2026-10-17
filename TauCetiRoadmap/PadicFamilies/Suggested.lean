@@ -109,7 +109,15 @@ transported denominator; evaluation requires its nonzero character image.
 The ordinary modular and Hecke comparisons retain p ≥ 5, parity, actual levels,
 primitive inducing characters and tame Euler deletions. ModularForms Layer 0
 supplies the holomorphic q-expansion input in weight two, including its corrected
-trivial-character stabilization. -/
+trivial-character stabilization.
+Classical ordinary specialization retains the primitive associate, tame degeneracy
+coefficients and bad-prime eigenvalues. In the p-old case it is h - β V_p h for
+the specified normalized tame-level eigenform h, which may itself be tame old.
+For weight k ≥ 2 and unit a_p(h), this is the unique normalized ordinary vector
+in the span of h and V_p h. The primitive associate f and the expansion
+h = Σ c_d V_d f are recorded separately; specialization preserves these same
+tame coefficients in Σ c_d V_d f_α. The p-new case retains its actual conductor
+and U_p eigenvalue. -/
 
 /-! ## Layer 1: Integral period modules and family measures -/
 

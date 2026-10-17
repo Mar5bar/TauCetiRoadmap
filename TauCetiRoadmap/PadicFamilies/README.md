@@ -873,17 +873,26 @@ The modular Hecke identities follow from the full q-expansion comparison, with t
 
 ### 0.13 Specialisation to classical ordinary forms
 
-Let `F ∈ S^ord(N, a; Λ)` be a normalised `Λ`-adic eigenform (a `Λ`-algebra homomorphism `h^ord(N, a) → I`, `I` finite over `Λ`). For every arithmetic point `P` of `I` above `P_k (k ≥ 2)`, `F mod P` is the `q`-expansion of a classical normalised ordinary eigenform of weight `k`, level `N₀p` (or `N₀pʳ` for characters of conductor `pʳ`), nebentypus `ω^{a−k}` (times the finite character); if it is old at `p` it is the ordinary `p`-stabilisation `f_α(z) = f(z) − β f(pz)` of a newform `f` of level prime to `p` with `α` the unit root of `X² − a_p(f)X + p^{k−1}χ(p)`, and the ordinary `p`-stabilisation is unique.
+**Classical specialisation with tame degeneracy data.** Let `p ≥ 5` and let `F ∈ S^ord(N, a; Λ)` be a normalised `Λ`-adic eigenform (a `Λ`-algebra homomorphism `h^ord(N, a) → I`, `I` finite over `Λ`). For every arithmetic point `P` of `I` above `P_k (k ≥ 2)`, `g_P = F mod P` is the `q`-expansion of a classical normalised ordinary eigenform of weight `k`, level `N₀p` (or `N₀pʳ` for characters of conductor `pʳ`), nebentypus `ω^{a−k}` (times the finite character).
 
-`k ≥ 2`; ordinary forms of level prime to `p` enter through their unique unit-root stabilisation.
+When `g_P` is old at `p`, retain its specified normalised tame-level eigenform `h ∈ S_k(Γ₁(N₀), χ)`, which may itself be tame old. Write `V_d h(z) = h(dz)`. If `α` is the unit root and `β` the other root of `X² − a_p(h)X + p^{k−1}χ(p)`, then `g_P = h_α = h − βV_p h`. This is the unique normalised ordinary eigenvector in `span{h, V_p h}`. Separately record the associated primitive newform `f` of conductor `M | N₀`, the descent of `χ` to `M`, and the tame degeneracy coefficients `h = Σ_(d|N₀/M) c_d V_d f`, with `c_1 = 1`. The actual specialisation is `g_P = Σ_(d|N₀/M) c_d V_d f_α`. Tame primitivity gives `h = f`; general arithmetic points retain the full tame oldspace data and bad-prime eigenvalues.
 
-Control (Corollary 3.2) identifies `h^ord/P_k` with the classical ordinary Hecke algebra, so the specialised eigensystem is classical. `p`-stabilisation (ModularSymbolsPadicLFunctions Layer 2): exactly one root of `X² − a_pX + p^{k−1}χ(p)` is a unit when `a_p` is, giving a unique ordinary stabilisation; multiplicity is recorded (the other stabilisation is not ordinary).
+`k ≥ 2`; `p ∤ N₀`. In the `p`-old case `χ` descends to the tame level and `a_p(h)` is a unit. Uniqueness of the unit-root stabilisation is relative to `h`, including its tame degeneracy data.
 
-Record nebentypus, `p`-stabilisation and multiplicity at each arithmetic point; do not identify `P` with a unique vector.
+Control (Corollary 3.2) identifies `h^ord/P_k` with the classical ordinary Hecke algebra, so the specialised eigensystem is classical. `ModularForms`, Layers 4A, 4B and 5, supply the primitive associate and its tame oldspace. The companion-matrix calculation of `ModularSymbolsPadicLFunctions`, §1.3, applies to `h` by linearity in its tame degeneracy expansion: `U_p h = a_p(h)h − p^{k−1}χ(p)V_p h` and `U_pV_p h = h`. Since `k ≥ 2`, the two roots have valuations 0 and `k − 1`, giving one ordinary line in this two-dimensional span. The operators `V_d` for `p ∤ d` commute with `V_p`, so the same tame coefficients occur after ordinary stabilisation.
 
-See [Hida](#ref-hida), §3, Corollary 3.2, p. 250 (Numdam PDF page 21; printed page = PDF page + 229).
+Record nebentypus, the primitive associate, tame degeneracy data, `p`-refinement and oldspace multiplicities at each arithmetic point. For a `p`-new specialisation retain its actual conductor and `U_p` eigenvalue.
 
-This uses §0.11; `ModularSymbolsPadicLFunctions`, §1.3; Tau Ceti `HeckeRing.GL2.Newform`.
+**Checks.**
+
+- If `h` is tame new, `M = N₀`, `c_1 = 1` and `h_α = f − βV_p f` is the usual ordinary stabilisation of the primitive form.
+- Take `p = 11`, `N₀ = 2` and the weight-12 level-one form `Δ`, with `a_2 = −24` and `a_11 = 534612 ≡ 1 mod 11`. Choose roots `α_2, β_2` of `X² + 24X + 2¹¹`, and let `α_11` be the unit root at 11, with complementary root `β_11`. Then `h = (1 − β_2V_2)Δ` and `g = (1 − β_11V_11)h` give a normalised ordinary eigenform at level 22. Its coefficient at `q²` is `α_2 = −24 − β_2 ≠ −24`, since `α_2β_2 = 2¹¹`. Its primitive associate is `Δ`, whose 11-stabilisation has coefficient `−24` at `q²`; the tame stabilisation remains essential.
+- For any specified ordinary `h` of weight `k ≥ 2`, the complementary root has valuation `k − 1 > 0`. The other stabilisation is nonordinary even when `h` is tame old.
+- For `d | N₀/M`, `V_d(f − βV_p f) = V_d f − βV_pV_d f`. Thus ordinary stabilisation preserves every coefficient `c_d` of the tame oldspace vector, while uniqueness of the primitive pair alone does not determine those coefficients.
+
+See [Hida](#ref-hida), §3, Corollary 3.2, p. 250 (Numdam PDF page 21; printed page = PDF page + 229); [EPW](#ref-epw), paragraph after Proposition 4.1.4 and §4.2, p. 31 (arXiv v1).
+
+This uses §0.11; `ModularForms`, Layers 4A, 4B and 5; `ModularSymbolsPadicLFunctions`, §1.3; Tau Ceti `HeckeRing.GL2.Newform`.
 
 ### 0.14 `Λ`-adic forms as `q`-expansions and their duality with the ordinary Hecke algebra
 
