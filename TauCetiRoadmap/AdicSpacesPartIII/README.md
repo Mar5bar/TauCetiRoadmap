@@ -2890,6 +2890,20 @@ the limit of module sheaves. `coherentSystem_surjective_iff` detects surjectivit
 
   For every object of `CoherentSystem`, all transitions between such indices are isomorphisms.
 - `CoherentSystem_unit` — if the unit ideal is an ideal of definition, `X` is empty and every term of every coherent system is zero. The ideal-of-definition hypothesis is essential: the unit ideal is not an ideal of definition on a nonempty formal scheme.
+- `coherentSystem_nonNoetherian` (non-example for *coherent-as-inverse-system* and
+  *affine-coherent-equivalence* (iv)) — let `k` be a field, `B = k[X₀, X₁, …]` and
+  `A = B⟦T⟧` with its `T`-adic topology. Put `A_n = B[T]/(T^{n+1})`,
+  `J_n = (X₀, X₁T, …, X_nTⁿ)` and `M_n = A_n/J_n`. Each `M_n` is finitely presented,
+  and reduction gives `A_n ⊗_{A_{n+1}} M_{n+1} ≅ M_n`. The displayed generators of `J_n`
+  form a basis of `J_n/𝔪_n J_n` over `k`, where `𝔪_n = (T, X₀, X₁, …) ⊂ A_n`, so
+  `J_n` needs exactly `n+1` generators. If a finitely presented `A`-module `M` induced
+  every `M_n`, its finitely generated zeroth Fitting ideal would generate `J_n` after
+  each base change, imposing a uniform bound on their numbers of generators
+  (Stacks Tag 07ZA). This is impossible. Thus on `Spf A` this compatible system of
+  finitely presented modules is not the restriction system of a sheaf with finitely
+  presented global sections; the Noetherian hypotheses in both targets are essential.
+  The example is Grothendieck's, in his letter to Dieudonné of 27 August 1967 on
+  EGA I 10.10.5 without Noetherian hypotheses (Montpellier archive, folder 37, p. 92).
 
 **Quotient systems as coherent formal modules.** (*pow-quotient-formal-module-comparison*) Let `A`
 be a commutative ring, `X` a scheme over `Spec A`, `J ⊆ A` an ideal and
