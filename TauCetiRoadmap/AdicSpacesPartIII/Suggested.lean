@@ -56,6 +56,12 @@ R3.7a supplies the README-only analytic genus-one projective embedding
 (*rigid-generalised-elliptic-local-algebraicity*). These follow R3.6–R3.7 and provide
 *rigid-generalised-elliptic-level-classification* and *hasse-loci-admissible-opens*.
 R2 retains algebraic moduli and the formal Hasse-section domains.
+The Hasse comparison uses the cotangent frame `dX` of `ω = e*Ω̂¹` along the identity and
+its coordinate functional `τ_X = (dX)∨ : ω → O`, with `τ_X(dX) = 1`.
+Modulo `p`, `Ha = ā(dX)^{⊗(p−1)}` and `τ_X^{⊗(p−1)}(Ha) = ā`, where `ā` is the
+reduction of the coefficient of `X^p` in `[p]*(X)`. An integral coordinate change
+`X′ = uX + O(X²)`, `u` a unit, gives `ā′ = ū^{1−p}ā` and `dX′ = u dX` along
+the identity, preserving the section and its Hasse domains for `0 ≤ ε < 1`.
 R2.11's README-only full level over `ℤ[1/N]` is a commutative group-scheme isomorphism
 `((ℤ/N)²)_S ≅ E^sm[N]` meeting every geometric component. Its labels preserve zero and
 addition; the cyclic Drinfeld divisor condition is specified there.

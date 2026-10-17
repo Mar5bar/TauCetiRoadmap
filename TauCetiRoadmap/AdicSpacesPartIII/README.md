@@ -11724,7 +11724,12 @@ completion `M̂` of the proper moduli scheme `M` over which `e*Ω̂¹` is trivia
 Thresholds `h ∈ √|k^×|` are read with the convention of *fractional-valuation-bound*. Through the
 comparison `r` of AdicSpacesPartII layer R1 these are opens of the adic space, and for `h = |p|^ε` with `0 ≤ ε < 1`
 (so `h ∈ (1/p, 1]`) `S^{≥h}` is the Hasse domain `X(ε)` of *hasse-domain* for `ω` the Hodge bundle
-and `Ha` the Hasse invariant (`a ≡ Ha` in the trivialisation of `ω` by the dual of `dX`). In
+and `Ha` the Hasse invariant. Here `ω = e*Ω̂¹` and its cotangent frame `dX` is the pullback
+along `e` of the differential of `X`. The coordinate functional `τ_X = (dX)∨ : ω → O`
+satisfies `τ_X(dX) = 1`.
+Modulo `p`, the comparison is `Ha = ā_{Γ_A}(dX)^{⊗(p−1)}` and
+`τ_X^{⊗(p−1)}(Ha) = ā_{Γ_A}`, where `ā_{Γ_A}` is the reduction of `a_{Γ_A}`;
+the integral coefficient is a local lift of this scalar coordinate. In
 `AdicSpace`, define `hasseInvariantValue` (`h(E_s) = max(|a|, 1/p)` for a fibre `E_s`, via a
 semistable model after finite extension), `hasseLocusGT` (`S^{>h}` for `h ∈ [1/p, 1) ∩ √|k^×|`) and
 `hasseLocusGE` (`S^{≥h}` for `h ∈ (1/p, 1] ∩ √|k^×|`); prove `isOpen_hasseLocusGE` (`S^{>h}` and
@@ -11764,6 +11769,11 @@ ordinary or potentially toric reduction, and `h(E) < 1` iff potentially supersin
   `max(·, 1/p)` in Definition B.3.3 gives a different, coordinate-dependent set.
 - `hasseLocus_test_hasseDomain` (compatibility) — for `S = M^an` with the universal curve and `h = |p|^ε`, `0 ≤ ε < 1`: `S^{≥h} = X(ε)`, the Hasse domain of `M̂` with `ω` the Hodge bundle and `Ha`
   the Hasse invariant.
+- Under an integral coordinate change `X′ = uX + O(X²)`, `u ∈ A^×`, the reductions satisfy
+  `ā′ = ū^{1−p}ā`, while `dX′ = u dX` along the identity and `τ_{X′} = u⁻¹τ_X`.
+  Thus `ā′(dX′)^{⊗(p−1)} = ā(dX)^{⊗(p−1)}` modulo `p`, and the scalar lifts give the same
+  Hasse domains for `0 ≤ ε < 1`: their reductions differ by an integral unit and their lift
+  errors by multiples of `p`, below the threshold `|p|^ε`.
 - `hasseLocus_test_fractionalThreshold` (characterisation) — for `h = |c|^{1/n} ∈ √|k^×|` (`c ∈ k^×`), `S^{≥h} ∩ (Spf A)^rig = {|a_{Γ_A}^n| ≥ |c|}`, independent of the choice of `(c, n)`
   representing `h`.
 - `hasseLocus_test_pGon` (negative control for the reduction) — for `S = Sp ℚ_p` and `E` the
