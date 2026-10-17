@@ -338,10 +338,22 @@ layer makes the next layer's *types* expressible, its milestones go into `Sugges
   - `approx_identity_exists` - a net of nonnegative symmetric kernels whose convolution tends to the
     identity uniformly on `C(G)`.
 
-  Density then follows: convolving `f ∈ C(G)` by an approximate identity approximates `f` uniformly,
-  and spectral decomposition writes each convolution as a finite sum of matrix coefficients. Only
-  *after* this does point separation (`representativeStarSubalgebra_separatesPoints`) and any
-  Stone-Weierstrass argument enter, as corollaries.
+  Write `A_k := convolutionOperator k : L²(G) → L²(G)`. Construct its bounded
+  continuous representative `S_k : L²(G) → C(G)` for every continuous kernel k,
+  with `‖S_k u‖∞ ≤ ‖k‖₂ ‖u‖₂`, using Haar invariance and Cauchy–Schwarz.
+  Prove continuity of the pointwise convolution from L²-continuity of the
+  translated kernel, and prove `j ∘ S_k = A_k` for the continuous-function map
+  `j : C(G) → L²(G)`. Full support of Haar makes j injective; hence S_k vanishes
+  on ker(A_k). For symmetric k, compact self-adjoint spectral theory for A_k
+  gives finite sums of nonzero eigenspace projections converging in L² on
+  ker(A_k)ᗮ. Apply S_k to these tails to obtain uniform convergence to S_k f;
+  the kernel component contributes zero. Each nonzero eigenspace consists of
+  continuous matrix coefficients by the preceding representation construction.
+  Thus S_k f is a uniform limit of finite coefficient sums. First choose an
+  approximate-identity k with `‖S_k f−f‖∞` small, then a finite spectral sum s
+  with `‖S_k f−s‖∞` small. This proves uniform density. Only after this does
+  point separation (`representativeStarSubalgebra_separatesPoints`) and any
+  Stone–Weierstrass argument enter as corollaries.
 - **Density in `L²(G)`.** From uniform density plus `ContinuousMap.toLp_denseRange` (continuous
   functions dense in `L²` on the compact finite-measure `G`), `𝓡(G)` is **dense in `L²(G)`**, so its
   orthogonal complement is `⊥`.
