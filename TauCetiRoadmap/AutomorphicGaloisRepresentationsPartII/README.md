@@ -18,8 +18,9 @@ General representation theory, raw compact-unitary cohomology, determinant inter
 period-ring carriers and residual Hecke predicates are supplied by the roadmaps in the contracts
 below. The arithmetic p-adic monodromy bridge, finite-coefficient period comparisons and
 integral extension of correspondence traces belong to AG2.P. The particular families and
-compactifications belong to AG2.3–AG2.4, and AG2.P's compatible-data prelude owns the
-arbitrary-rank carrier.
+compactifications belong to AG2.3–AG2.4. SmallRamificationAndAbelianVarietyBaseCases owns
+the arbitrary-rank raw carrier and operations; AG2.P owns the compatibility predicates
+and their preservation under those operations.
 
 The following interfaces retain their supplier's definitions and complete API, including its
 Checks. They are used only after the hypotheses of the named specialization are discharged.
@@ -54,6 +55,18 @@ Checks. They are used only after the hypotheses of the named specialization are 
 
 ### Arithmetic and automorphic contracts
 
+- SmallRamificationAndAbelianVarietyBaseCases §5.0d supplies `AutomorphicSystemData`
+  and its raw coefficient extension/conjugation, finite restriction, direct sum, tensor,
+  dual and Tate-twist operations, including their member, polynomial and Hodge formulas
+  and identity/composition laws. It also supplies the geometric/arithmetic Frobenius,
+  Weil–Deligne and Hodge-sign adapters and the marked rank-two specialization
+  `ArithmeticCompatibleFamily`. Its finite-exception comparison condition does not imply
+  the pairwise almost-strict condition. Section 5.1 supplies `GL2TypeAction.isogeny` and
+  `GL2TypeAction.baseChange`, using `endZeroIsogeny` and `endZeroBaseChange`, for marked
+  abelian-variety realizations with their chosen coefficient action and embedding.
+  AG2.P uses the raw carrier without requiring the rank-two specialization's chosen
+  models over the coefficient-field completions; compatibility predicates and automorphic
+  existence are targets here.
 - ArithmeticGaloisRepresentations §§1.1–1.6 supply `ContinuousRep`, coefficient operations
   and stable lattices; §§1.7–1.9 supply semisimplification, Brauer–Nesbitt and residual
   reduction with lattice independence. Section 1.11 retains its additional hypotheses for
@@ -362,13 +375,11 @@ EtaleCohomologyFoundations §§F.1–F.6 and F.10.2b.
 
 ### Arbitrary-rank compatible data and operations
 
-Define `AutomorphicSystemData` over a number field `F` as the single arbitrary-rank carrier:
-rank `n`, coefficient number field `M`, finite exceptional set `S`, a monic degree-n polynomial
-`P_v∈M[X]` for each `v∉S`, continuous semisimple members at all finite coefficient places `λ`,
-and labelled integer multisets `H_τ` of size `n`. Record the coefficient embeddings and a
-finite local realization field `L_λ/M_λ` for each member. Scalar extension to `ℚ̄_ℓ` is always
-along a specified embedding; the carrier does not require descent to `M_λ` itself. The raw
-data do not assert any compatibility or period property.
+Use `AutomorphicSystemData` and its raw operations from
+SmallRamificationAndAbelianVarietyBaseCases §5.0d, for any number field `F` and rank `n≥1`.
+Retain its coefficient embeddings, finite local realization fields `L_λ/M_λ` and nonzero
+constant terms of the good polynomials. No descent to `M_λ` is required. The compatibility
+predicates below are conditions on this supplied carrier.
 
 Define `Weak` by unramifiedness and the common polynomial identity at `v∉S, v∤ℓ`,
 de Rhamness at every `v|ℓ` with the prescribed full labelled multisets for every coefficient
@@ -379,19 +390,17 @@ with a specified finite field of definition when a model is used. Strict implies
 Purity and polarization are separate predicates, using the supplied WD purity and
 polarization carriers with the common weight and multiplier character.
 
-Give coefficient extension, finite base-field restriction, direct sum, tensor, dual,
-Tate twist, algebraic-character tensor and coefficient conjugation, with their member,
-polynomial and Hodge formulas and identity/composition laws. Direct sums concatenate
-Hodge multisets and multiply polynomials; tensor Hodge labels add; dual roots invert
-and Hodge labels negate; `ε^t` multiplies geometric roots by `q_v^(−t)` and subtracts `t`
-from each Hodge label. Restriction uses residue-degree powers of Frobenius and restricted
-WD parameters, enlarging `S` by ramification. Conjugating coefficients transports both
-polynomials and labelled embeddings semilinearly. Prove preservation of Weak and Strict;
-claims of purity for direct sums require the same weight. Rank-one character systems
-use AG2.0’s algebraic Hecke-character construction. None of these definitions or operations
-uses an automorphic existence theorem. AG2.6 populates this carrier and adds its very-weak
-and extremely-weak predicates; rank-two almost-strict predicates are specializations on
-these data, with their additional omitted-pair conditions.
+Prove preservation of Weak and Strict under the supplied raw operations, retaining their
+member, polynomial and Hodge formulas. Finite restriction enlarges `S` by ramification;
+purity of a direct sum requires a common weight. Algebraic-character tensor uses the
+supplied tensor operation and the rank-one system from AG2.0's Hecke-character construction.
+Use the supplier's convention adapters: arithmetic Frobenius replaces `P_v(X)` by
+`X^n P_v(1/X)/P_v(0)`; on WD parameters invert the Frobenius matrix and its conjugation
+relation while keeping inertia and `N`. Changing to `HT(ε)=+1` negates numerical labels
+without dualizing the representation. AG2.6 populates the supplied carrier and adds its
+very-weak and extremely-weak predicates. Rank-two almost-strict predicates require their
+pairwise omitted-comparison conditions; a finite exceptional coefficient set alone
+does not imply them.
 
 **Checks.**
 
@@ -402,15 +411,21 @@ these data, with their additional omitted-pair conditions.
   but fails the strict comparison with that parameter.
 - Direct sums and tensor products of two rank-two systems have rank four and remain
   in the same carrier. Tensor with the Tate line subtracts 1 from each Hodge label.
+- An omitted comparison at an odd unramified coefficient prime with reducible residual
+  representation is not permitted by the pairwise almost-strict condition, even when
+  that coefficient place belongs to a finite exceptional set.
 
-*Needs:* ArithmeticGaloisRepresentations Layers 1–2 and §7.4; NumberFieldArithmetic Layer 0;
+*Needs:* SmallRamificationAndAbelianVarietyBaseCases §5.0d;
+ArithmeticGaloisRepresentations Layers 1–2 and §7.4; NumberFieldArithmetic Layer 0;
 [AG2.P: finite-coefficient periods](#finite-coefficient-period-api);
 [AG2.P: arithmetic p-adic monodromy](#arithmetic-padic-monodromy), for coefficient-prime WD parameters;
 [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character),
 for the character-system operation.
 
 (Sources: [ACC+](#source-accplus), §7.1, pp.1084–1086;
-[BLGGT](#source-blggt), §5.1, pp.62–65.)
+[BLGGT](#source-blggt), §5.1, pp.62–65;
+for the pairwise almost-strict condition, [Dieulefait–Pacetti](https://arxiv.org/pdf/2108.07577v2),
+Definition 1.10 and the following paragraph, pp.6–7.)
 
 <a id="rank-two-construction-contract"></a>
 
@@ -2147,7 +2162,7 @@ AG2.0–AG2.4; ArithmeticGaloisRepresentations §§2.4–2.6; LefschetzPencilsAn
 
 ## Layer AG2.6. Coefficient-prime comparison and compatible systems
 
-Apply period comparison to the actual projected summand, then extend through bounded families and solvable descent. The polarized and nonselfdual CM conclusions have different strengths. Assemble their members into the single compatible-data carrier of AG2.P, keeping purity and polarization as branch predicates. Finally compare rank-two, tensor and `GSp₄` specializations.
+Apply period comparison to the actual projected summand, then extend through bounded families and solvable descent. The polarized and nonselfdual CM conclusions have different strengths. Assemble their members into the supplied `AutomorphicSystemData` carrier, keeping purity and polarization as branch predicates. Finally compare rank-two, tensor and `GSp₄` specializations.
 
 The at-`ℓ` tensor-square realization is a separate geometric input from the away-prime AG2.5 instance. Using CrystallineCohomology CR.6’s log-crystalline complexes, AG2.6 constructs the two-boundary sequence and proves projected stratum concentration. AHTW additionally requires quantitative local Shimura-cohomology annihilators (Theorem 2.5.7), bounded potentially semistable/crystalline pseudodeformation quotients with arbitrary residual multiplicities (Theorem 3.3.6), and the bounded-torsion/non-Siegel boundary argument. Generic-only concentration and fixed-representation deformation rings do not supply these interfaces; no general formal GAGA theorem is assumed. Its generic maximal-orbit argument is additional to Varma's partition order. Liu's minimal-field geometric identification retains Hypothesis 3.2.10; outside the proved low-rank range of Proposition 3.2.11 it remains conditional.
 
@@ -2155,14 +2170,14 @@ The at-`ℓ` tensor-square realization is a separate geometric input from the aw
 
 ### Weak, very weak and extremely weak automorphic data
 
-On `AutomorphicSystemData` from AG2.P’s construction-independent prelude, define `VeryWeak`
+On `AutomorphicSystemData` supplied by SmallRamificationAndAbelianVarietyBaseCases §5.0d, define `VeryWeak`
 and `ExtremelyWeak` as additional strength predicates. Both retain the good-place
 unramifiedness and polynomial identities of `Weak`, and the determinant Hodge sums for
 all members. VeryWeak additionally requires, outside a set of rational coefficient primes
 of Dirichlet density zero, crystallinity at every `v|ℓ` for every `λ|ℓ` and the full labelled
 Hodge multisets for every coefficient embedding. ExtremelyWeak drops this density-one
 clause. Prove Weak `⇒` VeryWeak `⇒` ExtremelyWeak on the same data. No higher-rank converse
-is asserted. Prove preservation under the prelude’s operations with their stated domains;
+is asserted. Prove preservation under the supplier’s raw operations with their stated domains;
 finite restriction includes the newly ramified places in the exceptional set.
 
 **Checks.**
@@ -2174,7 +2189,8 @@ finite restriction includes the newly ramified places in the exceptional set.
 - Weak also tests every `λ` over the exceptional rational primes, so the density-one
   clause by itself cannot establish Weak.
 
-*Needs:* [AG2.P: arbitrary-rank compatible data](#compatible-data-prelude);
+*Needs:* SmallRamificationAndAbelianVarietyBaseCases §5.0d;
+[AG2.P: compatibility predicates](#compatible-data-prelude);
 [AG2.P: finite-coefficient periods](#finite-coefficient-period-api).
 
 (Sources: [ACC+](#source-accplus), §7.1, pp.1084–1086.)
@@ -2623,11 +2639,11 @@ Fix `π`, its coefficient field `M_π`, a place `λ` and an actual embedding `e:
 
 ### Compatible system attached to `π`
 
-For a regular algebraic cuspidal `π` of `GL_n(A_F)`, with `F` CM, or `F` totally real and `π` polarized, assemble `R_π` on that single carrier of AG2.P: `M_π` is the field fixed by `σ∈Aut(ℂ)` preserving `π^∞; S_π` is the finite ramification set of `π; P_v(X)` is the common monic `rec^T` geometric Frobenius polynomial; `r_λ` is the attached continuous semisimple representation; `H_τ={a_{τ,i}+n−i}`. Populate weak compatibility using all-CM de Rham admissibility, or the totally-real polarized theorem, and crystallinity for `v` outside `S_π` above `ℓ`. Purity, polarization and all-place strict compatibility are separate branch predicates, not fields asserted for every `π`.
+For a regular algebraic cuspidal `π` of `GL_n(A_F)`, with `F` CM, or `F` totally real and `π` polarized, assemble `R_π` on the supplied `AutomorphicSystemData`: `M_π` is the field fixed by `σ∈Aut(ℂ)` preserving `π^∞; S_π` is the finite ramification set of `π; P_v(X)` is the common monic `rec^T` geometric Frobenius polynomial; `r_λ` is the attached continuous semisimple representation; `H_τ={a_{τ,i}+n−i}`. Populate weak compatibility using all-CM de Rham admissibility, or the totally-real polarized theorem, and crystallinity for `v` outside `S_π` above `ℓ`. Purity, polarization and all-place strict compatibility are separate branch predicates, not fields asserted for every `π`.
 
 The required API is:
 
-- `compatibleSystem`: Map `π` to `R_π` in the AG2.P carrier.
+- `compatibleSystem`: Map `π` to `R_π` in the supplied `AutomorphicSystemData` carrier.
 - `compatibleSystem_member`: The `λ`-member after scalar extension along a chosen map inducing `e=ι⁻¹|M_π` is `r_{π,ℓ,ι}`, up to linear isomorphism.
 - `compatibleSystem_goodPolynomial`: At `v` outside `S_π`, the common polynomial is `P_v(X)`.
 - `compatibleSystem_hodgeTate`: The labelled multiset is `{a_{τ,i}+n−i}`, including multiplicities.
@@ -2652,7 +2668,7 @@ The required API is:
 
 - `compatibleSystem_no_automatic_strictness` — A weak instance with only good-place polynomials cannot supply an equality of monodromy at an unspecified bad place.
 
-*Needs:* [AG2.0: good-place attachment](#galois-representation-attached-at-good-places); [AG2.0: integral Frobenius polynomial](#frobenius-polynomial-and-conventions); [AG2.0: Hodge multiset](#expected-hodge-tate-multiset); [AG2.0: Rationality of the good Hecke polynomials](#field-of-rationality); [AG2.6: embedding independence](#coefficient-embedding-independence-and-semisimple-uniqueness); [AG2.6: Nonselfdual spherical and Iwahori admissibility](#all-cm-crystalline-and-iwahori-corollary); [AG2.6: Totally real polarized coefficient-prime descent](#totally-real-polarized-coefficient-prime-descent); [AG2.P: compatible-data carrier](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
+*Needs:* [AG2.0: good-place attachment](#galois-representation-attached-at-good-places); [AG2.0: integral Frobenius polynomial](#frobenius-polynomial-and-conventions); [AG2.0: Hodge multiset](#expected-hodge-tate-multiset); [AG2.0: Rationality of the good Hecke polynomials](#field-of-rationality); [AG2.6: embedding independence](#coefficient-embedding-independence-and-semisimple-uniqueness); [AG2.6: Nonselfdual spherical and Iwahori admissibility](#all-cm-crystalline-and-iwahori-corollary); [AG2.6: Totally real polarized coefficient-prime descent](#totally-real-polarized-coefficient-prime-descent); SmallRamificationAndAbelianVarietyBaseCases §5.0d; [AG2.P: compatibility predicates](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
 
 (Sources: [ACC+](#source-accplus), §7.1, pp.1093–1094; [AHTW](#source-ahtw), Theorem 1.2.1, pp.5–6.)
 
@@ -2685,13 +2701,13 @@ The required API is:
 
 - `strongCoefficientField_character` — A rank-one character whose values lie in `E` has the expected `E_λ-realizations`
 
-- `strongCoefficientField_extension` — Changing `E` to a finite extension gives exactly the coefficient base-change operation of AG2.P at every `λ′`
+- `strongCoefficientField_extension` — Changing `E` to a finite extension gives exactly the coefficient base-change operation of SmallRamificationAndAbelianVarietyBaseCases §5.0d at every `λ′`
 
 - `strongCoefficientField_not_rationality` — The definition does not identify rational Frobenius traces with a canonical `E_λ-model`; a nontrivial Schur obstruction must be split
 
 - `strongCoefficientField_scalar_intertwiner` — Nonzero scalar multiples of an intertwiner remain intertwiners, so uniqueness is of the isomorphism class.
 
-*Needs:* [AG2.6: embedding independence](#coefficient-embedding-independence-and-semisimple-uniqueness); [AG2.0: Rationality of the good Hecke polynomials](#field-of-rationality); ArithmeticGaloisRepresentations Layer 5.
+*Needs:* [AG2.6: embedding independence](#coefficient-embedding-independence-and-semisimple-uniqueness); [AG2.0: Rationality of the good Hecke polynomials](#field-of-rationality); ArithmeticGaloisRepresentations Layer 5; SmallRamificationAndAbelianVarietyBaseCases §5.0d.
 
 (Sources: [Liu](#source-liu), Definition 3.2.5 and Remark 3.2.6, printed p.145; [CH](#source-ch), Proposition 3.2.5, author-copy p.12.)
 
@@ -2715,7 +2731,7 @@ The target `polarizedSystemPurity` has the following hypotheses and conclusion.
 
 For a regular algebraic polarized cuspidal `(π,χ)` with `a_{τ,i}+a_{τc,n+1−i}=w, R_π` is pure and BLGGT-strictly pure of weight `W=w+n−1`. Its polarization is `r_λ^c≅r_λ^∨⊗μ_λ, μ_λ=ε_ℓ^{1−n}r_{χ,λ}`; the `χ`-system has purity weight `2w`. Total oddness uses `μ_λ(c_v)=(−1)^{n−1+w}χ_v(−1)`, so the required sign is `χ_v(−1)=(−1)^{n+w}`. BLGGT strict purity describes pure common WD parameters away from the coefficient prime; all-place strict compatibility needs the separately proved coefficient-prime theorem, not a change of definition.
 
-*Needs:* [AG2.6: automorphic compatible system](#compatible-system-of-pi); [AG2.6: full polarized comparison](#full-polarized-comparison-at-the-coefficient-prime); ArithmeticGaloisRepresentations §7.4; [AG2.0: multiplier parity](#sign-of-the-polarization-multiplier); [AG2.5: full away-prime comparison](#caraiani-upgrade-away-from-p-and-temperedness); [AG2.P: compatible-data carrier](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
+*Needs:* [AG2.6: automorphic compatible system](#compatible-system-of-pi); [AG2.6: full polarized comparison](#full-polarized-comparison-at-the-coefficient-prime); ArithmeticGaloisRepresentations §7.4; [AG2.0: multiplier parity](#sign-of-the-polarization-multiplier); [AG2.5: full away-prime comparison](#caraiani-upgrade-away-from-p-and-temperedness); SmallRamificationAndAbelianVarietyBaseCases §5.0d; [AG2.P: compatibility predicates](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
 
 (Sources: [BLGGT](#source-blggt), Theorem 2.1.1(1)–(2), pp.33–34; §5.1 pp.62–65.)
 
@@ -2727,7 +2743,7 @@ The target `veryWeakCompatibilityUnderDGI` has the following hypotheses and conc
 
 The weak compatibility proved for the constructed `R_π` implies very weak compatibility through AG2.6’s weakening map on the same data. This gives, in particular, the conclusions of ACC+ Lemmas 7.1.9–7.1.10. Lemma 7.1.9 originally assumes a density-one set of rational `ℓ` for which every residual member is absolutely irreducible and decomposed generic; Lemma 7.1.10 proves very weak compatibility in rank two through its constituent/image arguments. That Fontaine–Laffaille/degree-shifting proof is an arithmetic consumer in PA.1; it is not an input to the all-CM construction here. None of these statements gives residual irreducibility at every coefficient place.
 
-*Needs:* [AG2.6: automorphic compatible system](#compatible-system-of-pi); [AG2.P: compatible-data carrier](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
+*Needs:* [AG2.6: automorphic compatible system](#compatible-system-of-pi); SmallRamificationAndAbelianVarietyBaseCases §5.0d; [AG2.P: compatibility predicates](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
 
 (Sources: [ACC+](#source-accplus), Lemmas 7.1.9–7.1.10, pp.1093–1094.)
 
@@ -2763,7 +2779,7 @@ Prove `tensorAutomorphyIndependentOfIota` with the following hypotheses.
 
 Let `π_1` and `σ` be RAESDC over a totally real `F`. Suppose `r_{π_1,ι}⊗r_{σ,ι}` is irreducible and automorphic for one `(ℓ,ι)`, in the RAESDC sense used by Newton–Thorne. Then `r_{π_1,j}⊗r_{σ,j}` is automorphic for every prime `q` and `j:ℚ̄_q≅ℂ`. Match the automorphic realization’s good polynomial to the tensor-product polynomial using coefficient conjugation, then use semisimple uniqueness. This does not establish automorphy of an arbitrary tensor product; its initial automorphy and irreducibility are hypotheses.
 
-*Needs:* [AG2.6: coefficient conjugation](#complex-and-local-coefficient-conjugation); [AG2.6: embedding independence](#coefficient-embedding-independence-and-semisimple-uniqueness); [AG2.P: compatible-data carrier](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
+*Needs:* [AG2.6: coefficient conjugation](#complex-and-local-coefficient-conjugation); [AG2.6: embedding independence](#coefficient-embedding-independence-and-semisimple-uniqueness); SmallRamificationAndAbelianVarietyBaseCases §5.0d; [AG2.P: compatibility predicates](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
 
 (Sources: [NT](#source-nt), Proof of Lemma 5.8, pp.42–44, cf. proof of Lemma 2.1.)
 
@@ -2879,7 +2895,7 @@ Fix `π, λ` and an integral eigencharacter `θ_π:T^S→O_E` at that coefficien
 
 For a Galois-type maximal ideal `m` of rank `n`, the contragredient Hecke ideal `m^∨` is of Galois type with `r_{m^∨}≅r_m^∨⊗ε̄^{1−n}`. At good geometric Frobenius its eigenvalues are `q_v^{n−1}/α_i`. An integral unramified-at-`v` character `ψ` multiplies the eigenvalues by `ψ(Frob_v)`, and its Hecke twist realizes `r_m⊗ψ̄`. In the rank-`2n` unitary Hecke algebra the reciprocal factor is `q_v^{2n−1}`. Residual nonratio conditions are transported only with their unramifiedness hypotheses.
 
-*Needs:* IntegralHeckeAndGaloisDeterminants §3b.1; IntegralHeckeAndGaloisDeterminants §3a.1; [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); [AG2.P: compatible-data carrier](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
+*Needs:* IntegralHeckeAndGaloisDeterminants §3b.1; IntegralHeckeAndGaloisDeterminants §3a.1; [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); SmallRamificationAndAbelianVarietyBaseCases §5.0d; [AG2.P: compatibility predicates](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
 
 (Sources: [ACC+](#source-accplus), After Definition 2.3.6, p.938.)
 
@@ -3026,13 +3042,13 @@ For a relevant `Π` with a strong coefficient field `E` in Liu et al., choose th
 
 ### Good-prime characteristic-zero export
 
-`GoodPrimeExport(π)` consists of the AG2.P `R_π` carrier, its finite coefficient field and common `S_π/P_v` data, the chosen `λ`-member interfaces, and the proved good-Frobenius comparison maps. It forgets branch-specific admissibility/purity and contains no assertion of a full bad-place WD parameter. It is an interface wrapping the AG2.P carrier, not a new compatible-system definition.
+`GoodPrimeExport(π)` consists of `R_π` on the supplied `AutomorphicSystemData` carrier, its finite coefficient field and common `S_π/P_v` data, the chosen `λ`-member interfaces, and the proved good-Frobenius comparison maps. It forgets branch-specific admissibility/purity and contains no assertion of a full bad-place WD parameter. It is an interface wrapping that supplied carrier, not a new compatible-system definition.
 
 The required API is:
 
 - `GoodPrimeExport`: Wrap `R_π` with its good comparison maps.
 - `goodPrimeExport_member`: Retrieve the `λ`-member and good Frobenius theorem.
-- `goodPrimeExport_coeffChange`: Use AG2.P coefficient change on `R_π`, with identity and composition laws.
+- `goodPrimeExport_coeffChange`: Use the supplied raw coefficient change on `R_π`, with identity and composition laws.
 
 **Checks.**
 
@@ -3042,7 +3058,8 @@ The required API is:
 
 - `goodPrimeExport_not_fullWD` — The package cannot supply `N` at a ramified place without branch evidence.
 
-*Needs:* [AG2.6: automorphic compatible system](#compatible-system-of-pi).
+*Needs:* [AG2.6: automorphic compatible system](#compatible-system-of-pi);
+SmallRamificationAndAbelianVarietyBaseCases §5.0d.
 
 (Sources: [ACC+](#source-accplus), §7.1, pp.1093–1094.)
 
@@ -3122,7 +3139,7 @@ The required API is:
 
 - `unitaryDiscreteExport_not_cuspidal_irreducibility` — A two-character endoscopic sum cannot certify global irreducibility.
 
-*Needs:* [AG2.2: Caraiani–Scholze discrete normalization](#cs-discrete-polarization-normalization); AutomorphicGaloisRepresentationsPartII AG2.5; [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; [AG2.P: compatible-data carrier](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
+*Needs:* [AG2.2: Caraiani–Scholze discrete normalization](#cs-discrete-polarization-normalization); AutomorphicGaloisRepresentationsPartII AG2.5; [AG2.0: algebraic Galois characters](#galois-character-of-an-algebraic-hecke-character); EndoscopicTransferAndUnitaryTraceComparison §§6.24–6.29 and 13.1–13.4; SmallRamificationAndAbelianVarietyBaseCases §5.0d; [AG2.P: compatibility predicates](#compatible-data-prelude); [AG2.6: compatible data and predicates](#extremely-weakly-compatible-system).
 
 (Sources: [CS](#source-cs), Corollary 5.5.5 and Remark 5.5.6, printed pp.745–746.)
 

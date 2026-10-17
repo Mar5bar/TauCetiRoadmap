@@ -27,6 +27,9 @@ The README is the definitive roadmap. These are suggested forms, not an exhausti
 The file records light definitions and milestones statable against the pinned Mathlib APIs.
 Automorphic representations, geometric realizations, period comparisons and compatible systems
 are specified in the README. Geometric Frobenius and `HT(ε) = −1` fix the numerical conventions.
+SmallRamificationAndAbelianVarietyBaseCases §5.0d supplies `AutomorphicSystemData`, its raw
+operations and convention adapters. AG2.P provides compatibility predicates on that carrier
+and their preservation; AG2.6 provides automorphic systems with the stated branch hypotheses.
 AG2.P's `arithmeticPadicMonodromy` constructs the Galois representation/differential equation
 bridge used by `potentiallySemistableWD`. Its `finiteCoefficientCorrespondenceTrace` and
 `correspondenceTraceCoefficientLimit` extend the rational correspondence trace theorem supplied
