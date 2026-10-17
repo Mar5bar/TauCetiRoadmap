@@ -10,6 +10,8 @@ The generic theory of nonarchimedean measures, completed group algebras, Mahler 
 
 Classical modular forms and character spaces use **ModularForms**, Layer 0 and “What Mathlib already has (consume)”, and Tau Ceti’s character Eisenstein series. Classical Dirichlet continuation, character conductors, Euler products and generalized Bernoulli numbers are used through the libraries. Tau Ceti supplies the Dedekind continuation near 1; the global Tate comparison uses **AutomorphicLFunctionsAndLocalFactors**, Layer AL.1, “Global distributions and completed Euler products” and “Poisson continuation and the global functional equation”. Arithmetic-series normalization uses **ArithmeticDirichletSeries**, Layers 1 and 3, archived under `Completed/ArithmeticDirichletSeries/`. The number-field invariants in the residue are Mathlib’s class number, regulator, torsion order and discriminant; the global-character carrier is **GlobalNumberFields**, Layer 9. The universal distribution presentations below concern quotients of free abelian groups; they do not reconstruct profinite completion, Witt vectors, finite fields or general group cohomology.
 
+PadicFamilies §0.12 is a downstream consumer of `kubotaLeopoldtPseudomeasure`, `integralTwistedPositiveEisensteinMeasure`, `fullEisensteinAwaySeries` and the character interpolation of §5.9; it owns the ordinary Hecke-family comparison. For its angular coefficient `Σ ψ(d)d⁻¹[⟨d⟩]`, take the ordered divisor measure of §5.6 with left character 1 and right character ψ, weight by the continuous inverse coordinate x⁻¹, and push forward along the angular projection. Apply the same inverse-coordinate weighting and angular pushforward to the full character families of §§5.7–5.9 after clearing their constant denominators. For ψ=1 this transports `A₀=Tw_x(ζ_p)/2` to the angular image of ζ_p/2; at an arithmetic test ⟨x⟩^k the inducing finite character is ψω^(−k). The tame weights ψ(d) belong to the finite divisor sum, not to a presumed continuous function ψ on U. These arithmetic measures, smoothing relations and moments are constructed here.
+
 The following existing objects are inputs, rather than constructions of this roadmap:
 
 * Mathlib's `DirichletCharacter`, its `conductor`, `primitiveCharacter`, `changeLevel`, `LFunction`, `gaussSum`, Bernoulli numbers and polynomials, and `riemannZeta` at nonpositive integers.
@@ -67,7 +69,13 @@ The following pinned declarations are also suppliers:
 
 ### From PadicMeasuresIwasawaAlgebras
 
-Use its §0.1 for clopen restriction and extension by zero, §§1.1–1.5 for finite coefficients and finite coordinates of integral measures, and §1.7 for the canonical measure/completed-algebra comparison and coefficient extension. The comparison must preserve δ, convolution, coefficient maps and every finite clopen mass. Its §§2.1–2.6, 2.8 and 2.11–2.12 supply Mahler inversion, coefficient norm equality, the binomial character, ∂, φ, ψ and σ, the unit projector and inverse weighting; §3.2 supplies positive-moment separation for measures on U. Separation over a finite extension and over O is needed here, not merely separation of Z-valued measures.
+Use its §0.1 for clopen restriction and extension by zero, §§1.1–1.5 for finite coefficients and finite coordinates of integral measures, and §1.7 for the canonical measure/completed-algebra comparison and coefficient extension. The comparison must preserve δ, convolution, coefficient maps and every finite clopen mass. Its §§2.1–2.6, 2.8 and 2.11–2.12 supply Mahler inversion, coefficient norm equality, the binomial character, ∂, φ, ψ and σ, the unit projector and inverse weighting; §3.2 supplies positive-moment separation for Z-valued measures on U. Here prove `unitMeasure_eq_zero_of_positive_moments` for K-valued and O-valued measures: vanishing of every positive ordinary moment implies that the measure is zero. Use coefficient-general Mahler injectivity, extension by zero from U and the invertibility of its coordinate; record compatibility with the inclusion O→K. Equivalently, the extended Amice transform is constant, while its unit support forces that constant to vanish. This applies to the complete finite extension K and its integer ring O of the Conventions, both characteristic-zero domains with bounded Z-action. (RJW, Lemma 3.36(i), pp.130–131; the same Mahler argument with K/O coefficients.)
+
+**Checks.**
+
+* A Dirac measure at 1 has every positive moment 1, so it fails the vanishing hypothesis over K and O.
+* The difference of the Dirac measures at 1 and −1 has even moments zero but first moment 2, including at p=2; even moments alone do not separate measures.
+* The Dirac measure at additive 0 kills every positive power but has mass 1; it is excluded by support on U. Inclusion O→K preserves all moments and detects the zero integral measure.
 
 Its §3a.1 consumes the odd-prime and dyadic product decompositions from PadicFunctionalAnalysis §5.1, whose principal generator is exp(q), and the change-of-generator law of PadicFunctionalAnalysis §5.2. The transport to γ=1+p or γ=5 and its continuous h coordinate is the arithmetic comparison in §0.6 here. Its §1.6 character algebra map must satisfy `ev_κ(δ_u)=κ(u)` and `ev_κ(μ*ν)=ev_κ(μ)ev_κ(ν)` and commute with coefficient inclusion. Its §§3.1–3.3 supply the native submodule of the total quotient ring whose products by every `δ_u−1` are integral, cross-multiplication and uniqueness, regularity of an infinite-order smoothing denominator on the actual finite-by-procyclic unit group, and evaluation on the localization at a denominator with nonzero character image. No evaluation on the whole total quotient ring is requested.
 
@@ -312,7 +320,7 @@ Name the parameter identities `padicSmoothedMeasure_mul`, `padicSmoothedNumerato
 **Checks.**
 
 * u=1 gives zero for each series and measure; its denominator is the constant series 1.
-* u=−1 gives `q_u=(1+T)⁻¹`, `F_u=−1`, `μ_u=−δ_0`, and `ν_u=λ_u=0`. Extending the numerator formula to the original smoothing measure would fail.
+* u=−1 gives `q_u=−(1+T)⁻¹`, `F_u=−1`, `μ_u=−δ_0`, and `ν_u=λ_u=0`. Extending the numerator formula to the original smoothing measure would fail.
 * At p=3,u=1/2, the first two coefficients of F_u are `−1/4,1/16`, and `λ_u(x²)=−1/8`.
 * At p=3,u=2,v=4, the first-moment cocycle is `μ_8(x)=−21/4 = −1/4 + 4·(−5/4)`; the scalar in the measure cocycle is u² at this test.
 * For u=−1 the numerator cocycle gives `λ_(−v)=δ_(−1)*λ_v`; the vanishing of λ_(−1) does not identify δ_(−1) with δ_1.
@@ -329,7 +337,7 @@ With `N_a(r)=#{0≤i<a : i≡r mod q_m}`, prove
 c_m(r−a)−c_m(r) = N_a(r)−a[r=0].
 ```
 
-Translation of the actual measure proves the last recurrence. Prove `smoothingResidue_unique`: for q>0, a unit a in `ZMod q` and functions c,c′ from `ZMod q` into a characteristic-zero field, equality of the differences `c(r−a)−c(r)=c′(r−a)−c′(r)` for every r and equality of the total sums imply c=c′. Their difference is constant along the orbit of the additive generator a, and summing gives q times that constant equal to zero. Apply this to the candidate and the actual masses. State the unit witness in `ZMod q_m` explicitly. These are arithmetic consequences of the integral smoothing identity and finite projection, rather than a claim that the source separately names this formula. (RJW, Proposition 3.16, pp.122–123, and Proposition 4.4–4.6, p.137.)
+Translation of the actual measure proves the last recurrence. Prove `smoothingResidue_unique`: for q>0, a unit a in `ZMod q` and functions c,c′ from `ZMod q` into a characteristic-zero field, equality of the differences `c(r−a)−c(r)=c′(r−a)−c′(r)` for every r and equality of the total sums imply c=c′. Their difference is constant along the orbit of the additive generator a, and summing gives q times that constant equal to zero. Apply this to the candidate and the actual masses. State the unit witness in `ZMod q_m` explicitly. These are arithmetic consequences of the integral smoothing identity and finite projection, rather than a claim that the source separately names this formula. (RJW, Proposition 3.16, pp.121–122, and Proposition 4.4–4.6, p.137.)
 
 Use `smoothingResidueCandidate_eq_mass`, `_sum`, `_refine` and `_difference`; `smoothingResidue_carry` records the two least-residue carries used in the proof.
 
@@ -355,7 +363,7 @@ Prove independence using the cross-relation before dividing. For k≥1 this give
 ev_(x^k)(ζ_p)=(1−p^(k−1))ζ(1−k).
 ```
 
-Both sides are the p-adic image of a rational scalar. At k=1 the Euler factor is zero; the possible Bernoulli convention discrepancy is therefore harmless only after proving that boundary separately. For k>1, parity removes the sign from Layer 0. Prove `zeta_reflection : δ_(−1)*ζ_p=ζ_p`, vanishing on odd test characters, and uniqueness from its positive moments. Transport this same object through the canonical measure/completed-algebra equivalence and its localization extension. At odd p it lies in the plus corner with `e⁺=(1+δ_(−1))/2`; the quotient comparison uses that normalized projector. At p=2 retain the integral sign relation without dividing by 2. (RJW, Theorem 4.1 and Definitions 4.9–4.10, Proposition 4.11, pp.136,138–139; Lemmas 3.36–3.38, pp.130–132.)
+Both sides are the p-adic image of a rational scalar. At k=1 the Euler factor is zero; the possible Bernoulli convention discrepancy is therefore harmless only after proving that boundary separately. For k>1, parity removes the sign from Layer 0. Prove `zeta_reflection : δ_(−1)*ζ_p=ζ_p`, vanishing on odd test characters, and uniqueness from its positive moments. Transport this same object through the canonical measure/completed-algebra equivalence and its localization extension. At odd p it lies in the plus corner with `e⁺=(1+δ_(−1))/2`; the quotient comparison uses that normalized projector. At p=2 retain the integral sign relation without dividing by 2. (RJW, Theorem 4.1 and Definitions 4.9–4.10, Proposition 4.11, pp.136,138–139; Lemma 3.36, Definition 3.37 and Lemma 3.38, pp.130–132.)
 
 Use `kubotaLeopoldtPseudomeasure_clear`, `_unique`, `_evaluate`, `_moment`, `_reflection` and `_plusCorner` for the arithmetic pseudomeasure API; the last theorem is restricted to odd p.
 
@@ -623,7 +631,7 @@ Write θ for the primitive character inducing the product of η and ν at their 
 Lp_(ην)(1−k)=(1−ψ(p)p^(k−1))L(ψ,1−k),
 ```
 
-with the extra level-deletion factors when the chosen finite test is imprimitive. This is an identity between embeddings of the common algebraic Bernoulli value, not an evaluation of a complex analytic function inside K. For the principal pseudomeasure k>0 gives an admissible smoothing parameter. The equivalent additive-measure test is `ν ω⁻¹⟨x⟩^(−s)` after inverse-coordinate weighting. Keeping only `ν⟨x⟩^(−s)` changes the character by ω. Prove parity: an odd test for the even zeta pseudomeasure is zero, and a branch whose finite factor is odd vanishes identically. (RJW, Theorems 5.15, 5.17 and 5.20, pp.145–148, read with the inverse-coordinate factor of Remark 5.19.)
+with the extra level-deletion factors when the chosen finite test is imprimitive. This is an identity between embeddings of the common algebraic Bernoulli value, not an evaluation of a complex analytic function inside K. For the principal pseudomeasure k>0 gives an admissible smoothing parameter. The equivalent additive-measure test is `ν ω⁻¹⟨x⟩^(−s)` after inverse-coordinate weighting. Keeping only `ν⟨x⟩^(−s)` changes the character by ω. Prove parity: an odd test for the even zeta pseudomeasure is zero, and a branch whose finite factor is odd vanishes identically. (RJW, Definition 5.15 and Theorems 5.17 and 5.20, pp.145–148, read with the inverse-coordinate factor of Remark 5.19.)
 
 The three light scalar adapters are `analyticNumerator`, `analyticDenominator` and `analyticBranch`. As total functions their formulas make sense over any normed field; the arithmetic interpretation uses the complete characteristic-zero field, actual summability and exponential ball already specified. `analyticDenominator_hasDerivAt` takes the derivative of exp at zero as an explicit analytic hypothesis; `cleared_branch_residue` is the general normed-field quotient limit from continuity of the numerator, a zero denominator and its nonzero derivative. It does not itself assert a pole if the central numerator is zero.
 
@@ -706,7 +714,7 @@ V_η(t)=−G⁻¹ Σ_a w_a log_p(z_a(1+t)−1).
 
 Prove that every logarithm argument is a unit, the coefficient bound `‖[T^n]H‖≤‖G⁻¹‖·‖1/n‖`, summability on each smaller closed disc and equality of coefficient evaluation with the finite logarithm expression. In particular its coefficients need not be bounded, but they have at most the inverse-integer growth required for a locally analytic distribution. Multiplication by x identifies that distribution with μ_η, and its unit restriction with `ζ_η^U`. This comparison uses the native analytic-distribution equivalence, not an assertion that V is a measure on all Z. (RJW, Lemmas 6.4–6.5, pp.151–152.)
 
-For any scalar logarithm with the stated multiplicative law, the constructors C, H and V have additive/coefficient-map and root-transport APIs. By the branch comparison of §0.6, every change of logarithm branch has the form `ℓ'(b)−ℓ(b)=c·v_p(b)`, and such a change alters C by the displayed weighted valuation sum. In the tame case all these valuations are zero, so C and V are independent of c. In the nonprincipal conductor case the same comparison follows by the weighted valuation cancellation at the specific cyclotomic arguments; it is not inferred from the condition that ℓ vanishes on roots of unity alone. Define the powered constant `C^[m]=−G⁻¹Σ w_a log_p(ε^(ma)−1)` when all arguments are defined. If m is coprime to D, `C^[m]=η(m)C`. If a conductor prime divides m, first use character cancellation in its reduction fibers to prove the appropriate weighted powered sum is zero, with the zero arguments omitted only after the zero-character fiber has been treated.
+For any scalar logarithm with the stated multiplicative law, the constructors C, H and V have additive/coefficient-map and root-transport APIs. By the branch comparison of §0.6, every change of logarithm branch has the form `ℓ'(b)−ℓ(b)=c·v_p(b)`, and such a change alters C by the displayed weighted valuation sum. In the tame case all these valuations are zero, so C and V are independent of c. In the nonprincipal conductor case the same comparison follows by the weighted valuation cancellation at the specific cyclotomic arguments; it is not inferred from the condition that ℓ vanishes on roots of unity alone. Define the powered constant `C^[m]=−G⁻¹Σ w_a log_p(ε^(ma)−1)` with the explicit domain hypothesis `ε^(ma)≠1` for every unit a modulo D. The finite Lean adapters `cyclotomicLogConstant` and `cyclotomicPoweredLogConstant` take the scalar logarithm and this nonzero-argument hypothesis as inputs; their arithmetic comparisons use the Iwasawa logarithm and the primitive root and character hypotheses above. If m is coprime to D, `C^[m]=η(m)C`. If a conductor prime divides m, first use character cancellation in its reduction fibers to prove the appropriate weighted powered sum is zero, with the zero arguments omitted only after the zero-character fiber has been treated.
 
 For a primitive pth root ξ define the actual normalized trace and complement on the disc:
 
@@ -734,6 +742,7 @@ Name the formal objects `normalizedTameLogPrimitive`, `cyclotomicLogConstant`, `
 
 **Checks.**
 
+* At p=3, for the even quadratic character η modulo 5, `cyclotomicPoweredLogConstant` at m=1 equals C and at m=2 equals −C, since η(2)=−1. At m=5 every argument is zero, so the nonzero-argument domain excludes this powered constant.
 * H has zero constant while V has C. A formal primitive equation alone leaves this constant undetermined.
 * The nth coefficient costs `v_p(n)` in valuation, with no uniform bound asserted. At n prime to p it has bound `‖G⁻¹‖`.
 * At t=0 the trace is `η(p)C/p`, not `η(p)C`; the complement has the reciprocal Euler factor.
@@ -837,7 +846,7 @@ Its API gives G(0), the unit/nonunit recurrence, its unit image in Z, and intege
 Γ_p(x+1)=−Γ_p(x)         for x∈pZ.
 ```
 
-Morita's original Γ is the unsigned product; this roadmap uses his signed `(-1)^x Γ` convention where the sign is defined on integers and then extended as the complete signed function. At odd p the standalone expression `(-1)^x` is not a continuous function on Z and is not used to define the extension. Define `gammaDisc r` by `x↦Γ_p(p^r x)`, with restriction, rescaling, continuity and natural-value equations. (Morita, Theorem 1 and its proof, pp.255–256; Robert, §2, pp.158–160.)
+Morita's original Γ is the unsigned product; this roadmap uses his signed `(-1)^x Γ` convention where the sign is defined on integers and then extended as the complete signed function. At odd p the standalone expression `(-1)^x` is not a continuous function on Z and is not used to define the extension. Define `gammaDisc r` by `x↦Γ_p(p^r x)` (the Lean adapter takes the continuous interpolation Γ explicitly), with restriction, rescaling, continuity and natural-value equations. (Morita, Theorem 1 and its proof, pp.255–256; Robert, §2, pp.158–160.)
 
 The finite signed product is `moritaNaturalValue`; `moritaNaturalValue_congruence` is its admissible-precision congruence and `existsUnique_moritaGamma` is the continuous interpolation milestone. Use `moritaGamma_nat`, `moritaGamma_unit_step`, `moritaGamma_nonunit_step`, `moritaGamma_zero` and `moritaGamma_continuous` for its arithmetic API.
 
@@ -848,7 +857,7 @@ The finite signed product is `moritaNaturalValue`; `moritaNaturalValue_congruenc
 * At p=3, `G_3(4)=2`, because the factor 3 is omitted and the sign is positive.
 * At x=0 the nonunit recurrence gives Γ(1)=−Γ(0). Applying the unit recurrence there would give zero, contradicting unit-valuedness.
 * The approximants at x=0 are all 0 and give limit 1. Replacing least residues by their successor changes the interpolated function.
-* `gammaDisc 0` is Γ itself; its value at 0 is 1 at every r, and at a natural n it is the signed product through `p^r n−1`.
+* `gammaDisc 0` is Γ itself; its value at 0 is 1 at every r. At p=3,x=1, the values for r=0,1,2 are −1,−2,−2240, from the signed products at 1,3,9.
 
 ### 4.2 Common-level angular means
 
@@ -871,13 +880,13 @@ The expansion is used only when `‖N_n‖` lies inside the actual Taylor radius
 
 For convergence use a genuine Taylor expansion on a radius `R>r=‖q‖`, with divided derivatives D_m and a common bound B. Require value bounds `‖D_m(x)‖≤B/R^m` and Lipschitz bounds `‖D_m(x)−D_m(y)‖≤B‖x−y‖/(R^m r)` on `‖x−1‖≤r`, together with the actual Taylor HasSum. Define the useful finite bound `C_f=max(‖b⁻¹‖,‖q⁻¹‖²)`. The block recursion yields uniform mean bounds and a geometric bound on successive differences; in particular `‖M_χ^n(S(D_m))‖≤C_f B/R^m`, convergence to actual coefficients v_m, and the corresponding limit bound. The power-sum factor must remain in the quantitative difference estimate; it is not estimated by an archimedean sum of q unit norms and then discarded. An equivalent theorem with explicit value/Lipschitz constants for each D_m is useful when no analytic carrier is packaged. Completeness supplies the limits, not the finite identities. (Morita, §2, especially the estimates on pp.257–259 and Theorem 2, pp.259–260; the larger-radius hypothesis makes the closed-disc boundary convergence explicit.)
 
-Name the averaging modulus `moritaModulus`, the tower `moritaMeanLevel` and the linear finite sample `moritaFiniteMean`. Use `moritaFiniteMean_add`, `moritaFiniteMean_smul`, `moritaFiniteMean_map`, `moritaFiniteMean_raiseLevel`, `moritaFiniteMean_block` and `moritaFiniteMean_tendsto` for the stated interfaces. Name the sample operators `moritaAngularSample` and `moritaShiftedSample`, the twist `moritaDerivativeTwist`, the block sum `moritaBlockPowerSum` and the explicit bound `moritaMeanBound`.
+Name the averaging modulus `moritaModulus`, the tower `moritaMeanLevel` and the linear finite sample `moritaFiniteMean`. Use `moritaFiniteMean_add`, `moritaFiniteMean_smul`, `moritaFiniteMean_map`, `moritaFiniteMean_raiseLevel`, `moritaFiniteMean_block` and `moritaFiniteMean_tendsto` for the stated interfaces. The scalar Lean adapter `moritaMeanBound K p f` is the displayed real bound. Name the sample operators `moritaAngularSample` and `moritaShiftedSample`, the twist `moritaDerivativeTwist`, the block sum `moritaBlockPowerSum` and the explicit bound `moritaMeanBound`.
 
 **Checks.**
 
 * At p=2 the levels are multiples of 4, not merely 2. For f=3, N₀=12 and N₁=48.
-* The constant sample for trivial χ has mean `1−1/p` at every level. With nontrivial χ whose conductor divides N_n, its sum is zero.
-* Zero samples and zero characters give zero means; the excluded indices require no analytic values of A.
+* For the principal character at a p-power level, including level 1, the constant mean is `1−1/p`. At arbitrary positive level f it is `∏_(ℓ|pf)(1−1/ℓ)`. For p=2,f=3,n=0, the mean is 1/3: four of the twelve residues survive both unit conditions. With nonprincipal χ at level f, the constant mean is zero.
+* The zero sample gives zero mean; the excluded indices require no analytic values of A. At p=2,f=3,n=0, the quadratic character has constant-sample mean zero: its values on 1,5,7,11 are 1,−1,1,−1.
 * `s_0=q`. At p=2, q=4, `s_1=6`, so `s_1/q=3/2` is not integral; a proof that treats every normalized block power sum as integral fails.
 * The coefficient at order m uses χΩ^(−m). A direct factor `Ω^m` fails even for a unit with nontrivial torsion part.
 * Finite means commute with a field embedding without a topological hypothesis, but passing their limits through that embedding requires continuity.
@@ -885,7 +894,7 @@ Name the averaging modulus `moritaModulus`, the tower `moritaMeanLevel` and the 
 * For every unit a, `S_0(A)(a)=S(A)(a)`; for A=1 both samples are 1 on the units, and for A(x)=x the shifted sample is `α(a)+Ω(a)⁻¹z`. At a nonunit all three are zero.
 * The torsion character θ has values 1 at 1, −1 at −1 for odd p as well as p=2, and zero at p. The twists at orders 0,1,2 are χ, χθ⁻¹, χθ⁻², all at the same common level b.
 * At q=4, the block power sums at orders 0,1,2 are 4,6,14. At q=3 they are 3,3,5; neither family is uniformly divisible by q.
-* For f=1, `C_f=max(‖q⁻¹‖,‖q⁻¹‖²)=‖q⁻¹‖²`; for a conductor containing p^e it is the maximum of that value and `‖lcm(f,q)⁻¹‖`. For larger p-power conductor it must increase; it is not a uniform conductor-free constant.
+* Over K=Q_p, `moritaMeanBound` is 16 for (p,f)=(2,1), 9 for (3,1), and 27 for (3,27). The maximum with `‖lcm(f,q)⁻¹‖` detects the larger p-power level; this is not a uniform level-free constant.
 
 ### 4.3 Shifted limits, boundary sums and analytic Gamma
 
@@ -985,13 +994,13 @@ The finite digit sum is `grossKoblitzDigitSum p a f`; `grossKoblitz_fraction_sum
 
 ### 4.5 The Gross–Koblitz formula and its arithmetic analytic inputs
 
-In a complete p-adic extension containing a primitive pth root ζ, choose the unique π with
+Fix f≥1 and q=p^f. Work in a complete extension K/Q_p containing a primitive pth root ζ and a specified unramified degree-f extension E_f/Q_p. Identify the residue field of E_f with F_q and use its Teichmüller lift `F_qˣ→O_(E_f)ˣ→Kˣ`. In K choose the unique π with
 
 ```text
 π^(p−1)=−p,          π≡ζ−1 mod (ζ−1)².
 ```
 
-Prove existence and uniqueness with the local-field/Hensel interface; for p=2 the value is π=−2. Let `q=p^f`, let ω be the Teichmüller lift on `F_qˣ`, and let Tr be the native trace to F_p. Define the negative Gauss sum
+Prove existence and uniqueness with the local-field/Hensel interface; for p=2 the value is π=−2. Let ω be this specified Teichmüller lift on `F_qˣ`, and let Tr be the native trace to F_p. Define the negative Gauss sum
 
 ```text
 g_q(a)=−Σ_(x∈F_qˣ)ω(x)^(−a)ζ^(Tr x),        0≤a<q−1.
@@ -1035,6 +1044,8 @@ For a<q it equals π^a G_a; for a≥q its series is the definition, without an a
 With `r_p=p^(−1/(p−1))`, the sup norm of the scaled all-a function is at most `r_p^(a/q)` for odd p and `r_p^((a−q)/(2q))` for p=2. It therefore tends to zero with a. This proves the limiting telescope and evaluates the Gauss–Dwork sum at the actual Gamma orbit; it supplies the needed arithmetic comparison rather than an abstract summability placeholder. (Robert, Theorem 1, pp.160–161; Theorem 2, p.162; coefficient recurrence, p.164; Theorem 3 and tail bound, pp.165–168.)
 
 **Checks.**
+
+* For p=3,f=2, Q₃(ζ₃) has residue field F₃ and contains no element of order 8. The specified unramified quadratic extension supplies the F₉ˣ lift; ζ₃ alone does not.
 
 * At a=0 the sum is 1, the digit sum is 0 and every Gamma factor is Γ(0)=1. A positive Gauss sum or Γ(1) at zero gives a wrong sign.
 * At p=2,f=1 there is only a=0 and π=−2; this is a legitimate boundary case.
@@ -1130,7 +1141,7 @@ U_d(N) ≃ ⨁_(t∈T(N)) Z,
 rank U_d(N)=#primitive(T_d[N]),
 ```
 
-where U_d(N) is the actual image in the global ordinary quotient. First prove the internal generation: split an exceptional primary component by its full root relation, reduce the support of exceptional components by induction, and control admissible sublevel spans and their intersections. The rational realization of §4.11 proves independence and equality of internal and global relation subgroups. Give the basis coordinate maps, reconstruction, level compatibility, torsion-freeness and the actual GL_d(Z/NZ) action. A finite invertible matrix acts directly on T_d[N]; no claim that every such matrix lifts to GL_d(Z) is needed. (Kubert, Theorem 1.8, Propositions 1.9–1.10 and Lemma 1.12, pp.183–185; Theorem 4.14, p.199.)
+where U_d(N) is the actual image in the global ordinary quotient. First prove the internal generation: split an exceptional primary component by its full root relation, reduce the support of exceptional components by induction, and control admissible sublevel spans and their intersections. The rational realization of §4.11 proves independence and equality of internal and global relation subgroups. Give the basis coordinate maps, reconstruction, level compatibility, torsion-freeness and the actual GL_d(Z/NZ) action. A finite invertible matrix acts directly on T_d[N]; no claim that every such matrix lifts to GL_d(Z) is needed. (Kubert, Theorem 1.8, Proposition 1.9 and Lemmas 1.10 and 1.12, pp.183–185; Theorem 4.14, p.199.)
 
 For a positive weight w, prove the weighted version with rank equal to the same primitive count. The weighted basis is obtained from the specified root-lift combinations in Kubert's Appendix, not by declaring the unweighted set of point classes T(N) a basis again. Primitive point classes are a rational basis when w>0. At w=0 they need not be a rational basis. (Kubert, Appendix, pp.200–202.)
 
@@ -1283,7 +1294,13 @@ a=m_N^sharp∈{1,…,N},       m=a+hN,
 ι(m)=h+1+(N−a)(B−1)/N.
 ```
 
-Prove the integer range, `Nι(m)≡m mod B`, invertibility on M, unit support and the exact filtration equivalence `a>c ↔ Nι(m)<(N−c)B` for `0≤c≤N`. The N=1 case is the identity. Prove the weighted carry identity with the actual finite character χ, including `Σχ(a)V(a/N−1)=χ(p)Σχ(a)a/N`. These are finite reindexing tools for the derivative formula, not a model of the whole measure. (Zhao, Lemma 4.2, p.472; Appendix A, Proposition A.1, pp.473–474; Appendix B, Example B.1, p.474.)
+Prove the integer range, `Nι(m)≡m mod B`, invertibility on M, unit support and the exact filtration equivalence `a>c ↔ Nι(m)<(N−c)B` for `0≤c≤N`. The N=1 case is the identity. For an odd Dirichlet character χ of positive level N prime to p, prove `ferreroGreenberg_weighted_carry`:
+
+```text
+Σ_(1≤a<N)χ(a)V(a/N−1)=χ(p)Σ_(1≤a<N)χ(a)a/N.
+```
+
+The coefficient inclusion is into the characteristic-zero p-adic field, and V is the carry function above. These are finite reindexing tools for the derivative formula, not a model of the whole measure. (Zhao, Lemma 4.2, p.472; Appendix A, Proposition A.1, pp.473–474; Appendix B, Example B.1, p.474.)
 
 For a complete ultrametric coefficient field K as in the Conventions and a continuous K-valued f on Z, construct `normalizedMahlerAntidifference f = Λ_f` from Mathlib’s `PadicInt.mahlerEquiv`: if f has Mahler coefficients c_n→0, set the coefficient at 0 of Λ_f to zero and its coefficient at n+1 to c_n. The identity `binom(x+1,n+1)−binom(x,n+1)=binom(x,n)` proves `Λ_f(x+1)−Λ_f(x)=f(x)`. Prove continuity, K-linearity, uniqueness with value zero at 0, coefficient inclusion and the bound `‖Λ_f‖≤‖f‖`; uniqueness follows from constancy on the dense natural integers of a continuous function invariant under translation by 1. This constructs the normalized antidifference used in the arithmetic comparison. (Zhao, Appendix B, p.474, before Example B.1; the construction uses the native Mahler basis.) If f is extended by zero off U, then `Λ_f(1)=0`, and at positive n it sums f over `1≤m<n,p∤m`. For `f=log_p` on U, that sum is `log_p Γ_p(n)`. Thus the continuous identity is
 
@@ -1297,6 +1314,7 @@ Name the finite natural count `gammaUnitCount` and the explicit permutation form
 
 **Checks.**
 
+* At p=2,N=3, the principal character gives carry sum −1 and right side 1, so oddness cannot be omitted. For the odd quadratic character the two sides are both 1/3.
 * C_p(0)=0 and C_p(1)=0, while C_p(p+1)=p−1.
 * At p=5,N=3,B=25, the permutation values are `ι(1)=17`, `ι(3)=1`, `ι(24)=8`; the zero residue is represented by N, not 0.
 * N=1 gives `ι(m)=m`. The arithmetic permutation is never asserted for B=1 or for N divisible by p.
@@ -1314,7 +1332,7 @@ Let χ be primitive odd of conductor `N>1`, `p∤N`. In a finite coefficient fie
 S_(χ,N)=Σ_(0≤a<N)χ(a)log_p Γ_p(a/N).
 ```
 
-Use the actual integral point a/N, the signed native Gamma unit and the coefficient inclusion. Its API gives finite-sum evaluation, character-linear and coefficient-map laws, the vanishing a=0 term, root-of-unity sign invariance under the logarithm, and no inverse-character or 1/N normalization. Identify the derivative of the branch from §3.2 by differentiating its actual measure integral and applying the reindexing and antidifference formulas of §4.13:
+Use the actual integral point a/N, the signed native Gamma unit and the coefficient inclusion. Its API gives finite-sum evaluation, character-linear and coefficient-map laws, the vanishing a=0 term, root-of-unity sign invariance under the logarithm, and no inverse-character or 1/N normalization. Identify the derivative of the branch from §3.2 by differentiating its actual measure integral and applying the reindexing and antidifference formulas of §4.13, including `ferreroGreenberg_weighted_carry` with this odd χ:
 
 ```text
 Lp_(χω)(0)=−(1−χ(p))B_(1,χ),

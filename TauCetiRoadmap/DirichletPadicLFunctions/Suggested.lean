@@ -52,6 +52,12 @@ theorem exists_normalizedMellinContinuation (f : ℝ → ℂ)
         (-1 : ℂ) ^ n * iteratedDerivWithin n f (Set.Ici 0) 0) := by
   sorry
 
+example : iteratedDeriv 1 bernoulliKernel 0 = -1 / 2 := by
+  sorry
+example : iteratedDeriv 2 bernoulliKernel 0 = 1 / 6 := by
+  sorry
+example : smoothedMellinKernel 2 (Real.log 2) = 1 / 3 := by
+  sorry
 example : bernoulliKernel 0 = 1 := by simp [bernoulliKernel]
 example : bernoulliKernel (Real.log 2) = Real.log 2 := by
   sorry
@@ -63,7 +69,10 @@ example (t : ℝ) : smoothedMellinKernel 1 t = 0 := by
   simp [smoothedMellinKernel]
 example : iteratedDeriv 3 (smoothedMellinKernel 2) 0 = 1 / 8 := by
   sorry
-example : (259 / 24 : ℚ) = 1 / 8 + 16 * (2 / 3) := by norm_num
+example : iteratedDeriv 3 (smoothedMellinKernel 6) 0 =
+    iteratedDeriv 3 (smoothedMellinKernel 2) 0 +
+      16 * iteratedDeriv 3 (smoothedMellinKernel 3) 0 := by
+  sorry
 
 /-- A quartic finite-unit character detects the inverse in the GL₁ Euler convention. -/
 example : (Complex.I)⁻¹ = -Complex.I := by simp
@@ -202,6 +211,17 @@ example {p : ℕ} {K : Type*} [NormedField K] [CharZero K] {L : K → K} (h : L 
 example : ‖(2 : ℚ_[3]) ^ 2 * (3 : ℚ_[3]) ^ (-(0 : ℤ)) - 1‖ < 1 := by
   sorry
 
+/-- Positive ordinary moments separate unit measures over characteristic-zero coefficient
+ domains, including a finite extension of `ℚ_[p]` and its integer ring. -/
+theorem unitMeasure_eq_zero_of_positive_moments (p : ℕ) [Fact p.Prime]
+    {R : Type*} [NormedCommRing R] [IsDomain R] [CharZero R] [Algebra ℤ_[p] R]
+    [IsUltrametricDist R] [CompleteSpace R] [IsBoundedSMul ℤ_[p] R]
+    [ContinuousSMul ℤ_[p] R] (μ : AbstractMeasure (ℤ_[p])ˣ R R)
+    (hμ : ∀ k : ℕ, 0 < k →
+      μ ⟨fun u => (algebraMap ℤ_[p] R (u : ℤ_[p])) ^ k, by fun_prop⟩ = 0) :
+    μ = 0 := by
+  sorry
+
 /-! ## Layer 1: integral smoothing -/
 
 /-- Dividing the binomial polynomial by its zero at the origin shifts coefficients once. -/
@@ -253,6 +273,17 @@ theorem smoothedMeasure_moment (p : ℕ) [Fact p.Prime]
       (smoothingMoment a k : ℚ_[p]) := by
   sorry
 
+example : smoothedSeries ℚ 1 (by norm_num) = 0 := by
+  sorry
+example : smoothingDenominator (ZMod 2) 2 = PowerSeries.X := by
+  sorry
+example (ha : IsUnit (3 : ℤ_[2])) :
+    algebraMap ℤ_[2] ℚ_[2] ((smoothedMeasure 2 3 ha) 1) = 1 := by
+  sorry
+example (ha : IsUnit (3 : ℤ_[2])) :
+    algebraMap ℤ_[2] ℚ_[2]
+      ((smoothedMeasure 2 3 ha) ⟨fun x => x, continuous_id⟩) = -2 / 3 := by
+  sorry
 example : smoothingDenominator ℤ 0 = 0 := by
   sorry
 example : smoothingDenominator ℤ 1 = 1 := by
@@ -300,10 +331,20 @@ example : smoothingResidueCandidate 3 2 1 1 = 0 := by
   norm_num [smoothingResidueCandidate]
 example : smoothingResidueCandidate 2 1 0 0 = 1 / 2 := by
   norm_num [smoothingResidueCandidate]
-example : (-21 / 4 : ℚ) = -1 / 4 + 4 * (-5 / 4) := by norm_num
-example (c₁ c₂ c₃ : ℚ) :
-    6 * c₃ + 6 * c₂ + c₁ = c₁ + 6 * c₂ + 6 * c₃ := by ring
-example : (6 : ℚ) * (-1 / 16) + 6 * (1 / 8) - 1 / 4 = 1 / 8 := by norm_num
+example (h₂ : IsUnit (2 : ℤ_[3])) (h₄ : IsUnit (4 : ℤ_[3]))
+    (h₈ : IsUnit (8 : ℤ_[3])) :
+    (smoothedMeasure 3 8 h₈) ⟨fun x => x, continuous_id⟩ =
+      (smoothedMeasure 3 2 h₂) ⟨fun x => x, continuous_id⟩ +
+        4 * (smoothedMeasure 3 4 h₄) ⟨fun x => x, continuous_id⟩ := by
+  sorry
+example (F : PowerSeries ℚ) :
+    (((fun G : PowerSeries ℚ => (1 + PowerSeries.X) * PowerSeries.derivative G)^[3]) F).coeff 0 =
+      F.coeff 1 + 6 * F.coeff 2 + 6 * F.coeff 3 := by
+  sorry
+example :
+    (((fun G : PowerSeries ℚ => (1 + PowerSeries.X) * PowerSeries.derivative G)^[3])
+      (smoothedSeries ℚ 2 (by norm_num))).coeff 0 = 1 / 8 := by
+  sorry
 example : ¬ IsUnit (2 : ℤ_[2]) := by
   sorry
 
@@ -336,6 +377,12 @@ example : tameSeries (1 : DirichletCharacter ℚ 1) (by norm_num) = 0 := by
   sorry
 example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
     (tameSeries η (by norm_num)).coeff 0 = 1 / 3 := by
+  sorry
+example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
+    (tameSeries η (by norm_num)).coeff 1 = 0 := by
+  sorry
+example (η : DirichletCharacter ℚ_[3] 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
+    ‖(tameSeries η (by norm_num)).coeff 0‖ = 3 := by
   sorry
 example (η : DirichletCharacter ℚ 3) (h₁ : η 1 = 1) (h₂ : η 2 = -1) :
     (tameSeries η (by norm_num)).coeff 2 = -1 / 9 := by
@@ -414,6 +461,45 @@ example : (-(-(Complex.I * Real.pi / 3)) : ℂ) / (Complex.I * Real.sqrt 3) =
 example (p : ℕ) [Fact p.Prime] : ‖((1 : (ℤ_[p])ˣ) : ℤ_[p])‖ = 1 := by
   simp
 
+/-- The powered cyclotomic logarithm sum on its nonzero-argument domain, normalized by
+ the inverse-character Gauss sum. -/
+def cyclotomicPoweredLogConstant {K : Type*} [Field K] {D : ℕ} [NeZero D]
+    (η : DirichletCharacter K D) (ε : K) (L : K → K) (m : ℕ)
+    (_hdom : ∀ a : (ZMod D)ˣ, ε ^ (m * (a : ZMod D).val) ≠ 1) : K :=
+  -(∑ a : (ZMod D)ˣ, η⁻¹ (a : ZMod D) * ε ^ (a : ZMod D).val)⁻¹ *
+    ∑ a : (ZMod D)ˣ, η⁻¹ (a : ZMod D) * L (ε ^ (m * (a : ZMod D).val) - 1)
+
+/-- The cyclotomic integration constant uses the original root, without powering it. -/
+def cyclotomicLogConstant {K : Type*} [Field K] {D : ℕ} [NeZero D]
+    (η : DirichletCharacter K D) (ε : K) (L : K → K)
+    (hdom : ∀ a : (ZMod D)ˣ, ε ^ (a : ZMod D).val ≠ 1) : K :=
+  cyclotomicPoweredLogConstant η ε L 1 (by simpa using hdom)
+
+example {K : Type*} [NormedField K] [NormedAlgebra ℚ_[3] K] [CharZero K]
+    (η : DirichletCharacter K 5) (ε : K) (L : K → K)
+    (hdom : ∀ a : (ZMod 5)ˣ, ε ^ (a : ZMod 5).val ≠ 1) :
+    cyclotomicPoweredLogConstant η ε L 1 (by simpa using hdom) =
+      cyclotomicLogConstant η ε L hdom := rfl
+
+example {K : Type*} [NormedField K] [NormedAlgebra ℚ_[3] K] [CharZero K]
+    (η : DirichletCharacter K 5) (ε : K) (hε : IsPrimitiveRoot ε 5)
+    (h₁ : η 1 = 1) (h₂ : η 2 = -1) (h₃ : η 3 = -1) (h₄ : η 4 = 1)
+    (L : K → K) (hL : IsIwasawaLog 3 L)
+    (hdom₁ : ∀ a : (ZMod 5)ˣ, ε ^ (a : ZMod 5).val ≠ 1)
+    (hdom₂ : ∀ a : (ZMod 5)ˣ, ε ^ (2 * (a : ZMod 5).val) ≠ 1) :
+    cyclotomicPoweredLogConstant η ε L 2 hdom₂ =
+      -cyclotomicLogConstant η ε L hdom₁ := by
+  sorry
+
+example {K : Type*} [Field K] (ε : K) (hε : IsPrimitiveRoot ε 5) :
+    ¬ (∀ a : (ZMod 5)ˣ, ε ^ (5 * (a : ZMod 5).val) ≠ 1) := by
+  sorry
+
+example : ‖-(2 / 3 : ℚ_[3]) * NormedSpace.logOneAdd ℚ_[3] ℚ_[3] 3‖ = 1 := by
+  sorry
+example : ‖-(1 / 2 : ℚ_[2]) * NormedSpace.logOneAdd ℚ_[2] ℚ_[2] 2‖ = 1 / 2 := by
+  sorry
+
 /-! ## Layer 4: signed Gamma and universal division -/
 
 /-- Natural signed Gamma values omit every multiple of the chosen prime. -/
@@ -432,6 +518,15 @@ def moritaFiniteMean {K : Type*} [Field K] (p : ℕ) {f : ℕ}
     (χ : DirichletCharacter K f) (n : ℕ) (F : ℕ → K) : K :=
   (moritaMeanLevel p f n : K)⁻¹ *
     ∑ a ∈ (Finset.range (moritaMeanLevel p f n)).filter (fun a => ¬p ∣ a), χ a * F a
+
+/-- Rescaling a continuous signed Gamma interpolation gives its disc restriction. -/
+def gammaDisc (p : ℕ) [Fact p.Prime] (Γ : C(ℤ_[p], (ℤ_[p])ˣ)) (r : ℕ) :
+    C(ℤ_[p], (ℤ_[p])ˣ) :=
+  Γ.comp ⟨fun x => (p : ℤ_[p]) ^ r * x, by fun_prop⟩
+
+/-- The finite-mean bound retains the inverse common level and the squared inverse modulus. -/
+def moritaMeanBound (K : Type*) [NormedField K] (p f : ℕ) : ℝ :=
+  max ‖(Nat.lcm f (moritaModulus p) : K)⁻¹‖ (‖(moritaModulus p : K)⁻¹‖ ^ 2)
 
 /-- The truncated digit sum uses exactly `f` digits. -/
 def grossKoblitzDigitSum (p a f : ℕ) : ℕ :=
@@ -482,6 +577,24 @@ theorem ferreroGreenbergPermutationValue_congruence (p N B m : ℕ)
     Nat.ModEq B (N * ferreroGreenbergPermutationValue N B m) m := by
   sorry
 
+example (Γ : C(ℤ_[3], (ℤ_[3])ˣ))
+    (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[3]) : ℤ_[3]) = (moritaNaturalValue 3 n : ℤ_[3])) :
+    (gammaDisc 3 Γ 0 1 : ℤ_[3]) = -1 := by
+  sorry
+example (Γ : C(ℤ_[3], (ℤ_[3])ˣ))
+    (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[3]) : ℤ_[3]) = (moritaNaturalValue 3 n : ℤ_[3])) :
+    (gammaDisc 3 Γ 1 1 : ℤ_[3]) = -2 := by
+  sorry
+example (Γ : C(ℤ_[3], (ℤ_[3])ˣ))
+    (hΓ : ∀ n : ℕ, (Γ (n : ℤ_[3]) : ℤ_[3]) = (moritaNaturalValue 3 n : ℤ_[3])) :
+    (gammaDisc 3 Γ 2 1 : ℤ_[3]) = -2240 := by
+  sorry
+example : moritaMeanBound ℚ_[2] 2 1 = 16 := by
+  sorry
+example : moritaMeanBound ℚ_[3] 3 1 = 9 := by
+  sorry
+example : moritaMeanBound ℚ_[3] 3 27 = 27 := by
+  sorry
 example : moritaNaturalValue 2 0 = 1 := by decide
 example : moritaNaturalValue 2 1 = -1 := by decide
 example : moritaNaturalValue 3 4 = 2 := by decide
@@ -493,6 +606,11 @@ example : moritaModulus 5 = 5 := by norm_num [moritaModulus]
 example : moritaMeanLevel 2 3 0 = 12 := by norm_num [moritaMeanLevel, moritaModulus]
 example : moritaMeanLevel 2 3 1 = 48 := by norm_num [moritaMeanLevel, moritaModulus]
 example : moritaMeanLevel 3 1 1 = 9 := by norm_num [moritaMeanLevel, moritaModulus]
+example : moritaFiniteMean 2 (1 : DirichletCharacter ℚ 3) 0 (fun _ => 1) = 1 / 3 := by
+  sorry
+example (χ : DirichletCharacter ℚ 3) (h₁ : χ 1 = 1) (h₂ : χ 2 = -1) :
+    moritaFiniteMean 2 χ 0 (fun _ => 1) = 0 := by
+  sorry
 example : moritaFiniteMean 3 (1 : DirichletCharacter ℚ 1) 0 (fun _ => 1) = 2 / 3 := by
   sorry
 example : moritaFiniteMean 2 (1 : DirichletCharacter ℚ 1) 0 (fun _ => 1) = 1 / 2 := by
@@ -588,6 +706,8 @@ example : ‖(1 / 6 : ℚ_[2])‖ = 2 := by
   sorry
 example : (-1 / 3 : ℚ) - 2 / 3 = -1 := by norm_num
 example : ((1 : ℚ) / 2) * (1 / 3) = 1 / 6 := by norm_num
+example : eisensteinPositiveMoment 5 2 7 - eisensteinPositiveMoment 5 2 3 = 120 := by
+  decide
 example : eisensteinPositiveMoment 2 6 0 = 2 := by decide
 example : eisensteinPositiveMoment 2 6 3 = 28 := by decide
 example : eisensteinPositiveMoment 3 6 1 = 3 := by decide
@@ -619,11 +739,11 @@ tameZetaMeasure, intrinsicTameZetaMeasure, their integral counterparts, twistedT
 integralTameCharacterMeasure, tameCharacterField, tameCharacterInField;
 arithmeticBranchTest, arithmeticBranchNumerator, intrinsic analytic branches,
 inverseArithmeticCharacter, complexGaussLogValue, normalizedTameLogPrimitive,
-cyclotomicLogConstant, tameLogPrimitive, cyclotomicPoweredLogConstant,
+tameLogPrimitive,
 cyclotomicLogDiscTrace, cyclotomicLogDiscComplement, wildSmoothedLogPrimitive,
 mixedCyclotomicLogConstant, principal pole-cleared germs;
-GammaValue, moritaGamma, gammaDisc, moritaAngularSample, moritaShiftedSample,
-moritaDerivativeTwist, moritaBlockPowerSum, moritaMeanBound, convergent angular means,
+GammaValue, moritaGamma, moritaAngularSample, moritaShiftedSample,
+moritaDerivativeTwist, moritaBlockPowerSum, convergent angular means,
 Gamma analytic models and their reciprocal coefficients; Dwork splitting coefficients,
 Robert factorial functions and scaled factorial series; normalized finite-field Gauss sums;
 moritaMultiplicationProduct, gammaOrbitLogSum, gammaOrbitPhi, gammaOrbitMean;
@@ -662,7 +782,8 @@ smoothedSeries_unique.
 moritaFiniteMean_raiseLevel, moritaFiniteMean_block, moritaFiniteMean_tendsto.
 §4.4: grossKoblitzDigitSum_zero, grossKoblitzDigitSum_step, grossKoblitzDigitSum_rotate.
 §4.7: divisionRelator_map.
-§4.13: gammaUnitCount_eq, gammaUnitCount_step, normalizedMahlerAntidifference.
+§4.13: gammaUnitCount_eq, gammaUnitCount_step, normalizedMahlerAntidifference,
+ferreroGreenberg_weighted_carry.
 §5.7: tameSeries_character_variation.
 -/
 
