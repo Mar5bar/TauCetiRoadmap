@@ -354,8 +354,8 @@ stated in `Suggested.lean`.
 Numerical labels are reference labels. Build C0.21 before C0.8; C2.8 before C2.5 and C2.10 before
 C2.9; C4.8 before C4.6; C5.32–C5.33 before C5.13–C5.16, and C5.31 before C5.20–C5.22. In C6,
 start with the elementary C6.1–C6.8 and C6.15–C6.19. Construct C6.12a's ideal-level moduli, cusp
-lattices and stabilizers (C6.13, C6.54), fans, all-prime chart families (C6.20) and formal gluing
-(C6.55), then C6.21–C6.27. The geometric Koecher statements C6.9–C6.12 follow these inputs.
+lattices and stabilizers (C6.13, C6.54), fans, all-prime chart families (C6.20), Artinian
+uniformization (C6.20a) and formal gluing (C6.55), then C6.21–C6.27. The geometric Koecher statements C6.9–C6.12 follow these inputs.
 Build C6.31 before C6.30, and C6.53 before C6.42.
 
 ## Layer C0: admissible fans and relative torus embeddings
@@ -823,8 +823,10 @@ commute with completion. The quotient `A_R/(t^h)` has the monomial basis with so
 **Checks.**
 
 - For `r = 1`, `s = 0` the completion is `R[[x]]`.
-- For `r = 2`, `∑ x_1^n x_2^n` is admitted and `∑ x_1^n` is not (it is infinite modulo `x_1x_2`).
-- For `r = s = 1`, an infinite sum in degree `0` in `x` is excluded, while `∑ x^n y^n` is admitted.
+- For `R ≠ 0` and `r = 2`, `∑ x_1^n x_2^n` is admitted and `∑ x_1^n` is not (it is infinite
+  modulo `x_1x_2`). Over the zero ring both coefficient families are zero and are admitted.
+- For `r = s = 1`, a family with infinitely many nonzero Laurent coefficients in degree `0` in
+  `x` is excluded, while `∑ x^n y^n` is admitted.
 - A nilpotent constant stays nonzero; inverting `t` allows a finite negative diagonal shift.
 - For `R ≠ 0`, completing `R[x, x⁻¹]` at `(x)` gives the zero ring, since `(x) = (1)`;
   completing `R[x]` first and then inverting `x` gives the nonzero ring `R((x))`.
@@ -1066,8 +1068,9 @@ The API: `CuspLabel.arithmeticStabilizer_toLinearGroup` records the effective re
 - The effective action preserves the central lattice.
 - The zero cone is fixed by the whole effective group, so finite overlap does not make its
   stabilizer finite when that group is infinite.
-- For the modular curve, the effective stabilizer of the cusp `∞` in `Γ(N)` acts trivially on the
-  rank-one cone, while `±1` is ineffective.
+- For the modular curve, the cusp stabilizer in `Γ(N)` acts trivially on the rank-one cone.
+  The central `−I` belongs to `Γ(N)` only for `N = 1, 2`; when present it acts ineffectively on
+  the cone. In particular it is absent at full level `3`.
 
 ### C1.6 Positivity cones and boundary incidence
 
@@ -1416,7 +1419,7 @@ universally in the coefficients, so coherent cohomology of locally free sheaves 
 version do not depend on the choice. The statements are made for the characteristic-zero models of
 C2 and, with the same proofs on their charts, for the integral models of C5 and C6. The layer ends
 with the local completed form of these comparisons; the compactified Klingen correspondence, which
-also needs the boundary level comparison of C4.10, is C4.16–C4.17.
+also needs the characteristic-zero boundary level comparison of C4.10, is C4.16–C4.17.
 
 Standing hypothesis of the layer:
 
@@ -1554,6 +1557,35 @@ SchemeAndStackFoundations Layer 0, Layer 1.
 - For `H` normal in `H′`, the target functions are the `H′/H`-invariants; using `H/H′` or reversing
   the inclusion is wrong; equal levels give the plain isomorphism.
 
+### C3.6a Formal functions for algebraic spaces
+
+Prove `ToroidalRefinement.algebraicSpace_formalFunctions`: for a proper morphism `f : X → Y` of
+locally Noetherian algebraic spaces, a coherent module `E` on `X` and a coherent ideal `I` on `Y`,
+construct, in every degree `i ≥ 0`, the canonical isomorphisms
+`(R^i f_*E)^∧ ≅ R^i f̂_*(Ê) ≅ lim_n R^i f_*(E/I^{n+1}E)` along `V(I)`.
+On an affine étale target `Spec A → Y`, identify them with the completion of the finite module
+`H^i(X_A,E)` and its cohomology on the thickenings. Prove compatibility with étale localization
+and the transition maps of thickenings. Use formal functions for proper algebraic spaces
+([Stacks], Theorem 69.22.5, Tag 08AZ, in Situation 69.22.1, Tag 08AV), glue its affine-target
+comparisons, and identify formal cohomology using the coherent-thickening Mittag-Leffler argument
+of AdicSpacesPartIII §F0.6. The restriction to schemes agrees with that supplier's formal-functions
+and formal-direct-image maps. For non-neat finite quotient-stack refinement maps of C5,
+pull back along a compatible neat cover of the target, apply the comparison to the proper
+base-changed algebraic-space morphism, and descend the equivariant sheaf comparison to the
+quotient stack.
+*Needs:* SchemeAndStackFoundations Layer 1 (algebraic spaces and descent), Layer 2 (coherent higher
+direct images); AdicSpacesPartIII §F0.6 (formal-functions-affine, theorem-on-formal-functions,
+formal-direct-image-comparison).
+
+**Checks.**
+
+- For `P¹_{k[t]} → Spec k[t]`, `E = O(−2)`, `I = (t)` and `i = 1`, both completed modules
+  are `k[[t]]`; the comparison preserves their quotient maps to `k[t]/(t^{n+1})`.
+- For `Spec A′ → Spec A` finite, degree zero is `A′ ⊗_A Â ≅ lim_n A′/I^{n+1}A′`.
+- For `I = 0` the comparison is the identity; for `I = O_Y` all three completed modules vanish.
+- An étale scheme atlas of a proper algebraic space need not be proper over `Y`; the proper
+  source in the affine-target theorem is the whole base change `X_A`.
+
 ### C3.7 Higher direct images along refinements
 
 Prove `ToroidalRefinement.higherDirectImage_structureSheaf`: for a same-level refinement of the models
@@ -1561,13 +1593,17 @@ of C2 or C5, `R^i f_*O_{X′} = 0` for all `i > 0`, locally on the target; for L
 integral models this holds in his projective-cone and lattice-collection setting. On each inverse
 image of an affine target chart apply the positive-degree part of C3.5 and descend through the torsor
 and finite-quotient charts; formal completions are compared by the theorem on formal functions
-(AdicSpacesPartIII §F0.6 (theorem-on-formal-functions)), not by recognising completed coordinate rings ([Lan17], Proposition 7.5,
-(7.8) and its proof, pp. 28–29). *Needs:* C3.1, C3.5; AdicSpacesPartIII §F0.6 (theorem-on-formal-functions);
+(C3.6a, including algebraic spaces), not by recognising completed coordinate rings ([Lan17], Proposition 7.5,
+(7.8) and its proof, pp. 28–29). *Needs:* C3.1, C3.5, C3.6a;
 SchemeAndStackFoundations Layer 1, Layer 2.
 
 **Checks.**
 
 - Every `R^i` with `i > 0` is computed; the vanishing is not deduced from `f_*O = O`.
+- For the blow-up of the quadrant, the exceptional `P¹` contributes no positive-degree
+  structure-sheaf cohomology, consistently with C3.5.
+- On a nonschematic algebraic-space model, C3.6a applies to the proper refinement itself;
+  a nonproper scheme atlas does not replace it.
 
 ### C3.8 The boundary ideal along refinements
 
@@ -1625,11 +1661,12 @@ the degreewise isomorphisms induce isomorphisms of the ordinary inverse limits o
 cohomology groups. To identify these limits with cohomology of the derived inverse limit, require
 Mittag-Leffler in every cohomological degree on both sides and apply the Milnor exact sequence;
 Mittag-Leffler for sections alone does not control higher cohomology. No interchange of completed
-tensor products with cohomology is asserted. Use the theorem on formal functions (AdicSpacesPartIII §F0.6 (theorem-on-formal-functions)), the
-Mittag-Leffler property of the cohomology of thickenings (§F0.6 (formal-functions-affine)) and the comparison of algebraic and
-formal higher direct images (§F0.6 (formal-direct-image-comparison)). Boxer–Pilloni apply this on partial compactifications of Igusa
+tensor products with cohomology is asserted. Use C3.6a for algebraic-space formal functions and
+formal higher direct images, together with the Mittag-Leffler property of the cohomology of
+thickenings (AdicSpacesPartIII §F0.6 (formal-functions-affine)). On non-neat quotient stacks use
+the neat-cover descent of C3.6a. Boxer–Pilloni apply this on partial compactifications of Igusa
 towers and Pilloni with completed coefficients; those towers are built in the roadmaps that build on
-this one ([BP], 3.4.15–3.4.16, p. 39; [Pilloni20], 3.4, pp. 15–16). *Needs:* C3.7, C3.8,
+this one ([BP], 3.4.15–3.4.16, p. 39; [Pilloni20], 3.4, pp. 15–16). *Needs:* C3.6a, C3.7, C3.8,
 C3.9; AdicSpacesPartIII §F0.6 (cohomology-of-mittag-leffler-limit), §F0.6 (theorem-on-formal-functions), §F0.6 (formal-functions-affine), §F0.6 (formal-direct-image-comparison); SchemeAndStackFoundations Layer 2;
 ArithmeticGaloisDuality R02.1.1 (Milnor exact sequence).
 
@@ -1684,11 +1721,11 @@ character sheaves and Hodge bundles, torus extensions of abelian schemes, polari
 data over a complete normal base, Mumford's quotient construction and the equivalence between
 degenerations and their data, and the universal degeneration over the formal completion of a cusp
 chart. It then extends homomorphisms, endomorphisms and level structures across the boundary,
-compares the rank-one case with the Tate curve, and computes the boundary behaviour of Tate modules,
+compares elliptic degeneration data with the Tate curve, and computes the boundary behaviour of Tate modules,
 of Kodaira–Spencer and of the Hasse invariant. The local theory over a complete discrete valuation
 ring (Raynaud extension and rigid uniformization) is NeronModelsAndSemistableAbelianVarieties 3.13–3.14;
 this layer works over complete normal bases. The compactified Klingen correspondence of the Siegel
-threefold, which uses the level comparison C4.10, closes the layer.
+threefold, which uses the characteristic-zero level comparison of C4.10, closes the layer.
 
 Standing hypotheses of the layer:
 
@@ -1925,11 +1962,12 @@ AbelianSchemesAndArithmeticModuli A3.9 (the Rosati involution).
 Prove `UniversalDegeneration.level_compare`: on a cusp chart, the level structures prime to `□` of the
 generic PEL family correspond to level data on the degeneration (on the character and period lattices
 and on the abelian part), and the finite étale tame part extends across the boundary. At `p`-power
-level the higher-level normalized models of PELModuli M4.5–M4.6 are used with their actual generic
-level maps; the comparison is with their normalized monomial charts and their ramification. An étale
-level torsor on the open part need not extend étale over the boundary: the cusp map `q ↦ q^p` is
-ramified. Identify tame torsion through the degeneration data, compare normalized charts at `p`, and
-check level maps and descent along representatives ([Lan], 6.2.5 and 6.4.1.1(5), pp. 484–487 and
+level compare only on the characteristic-zero generic fibre with the actual generic level maps of
+PELModuli M4.5–M4.6. The integral higher-`p`-level boundary normalization and completed changed-lattice
+charts are constructed in C5.19–C5.20 from this tame/generic comparison. An étale level torsor on the
+open part need not extend étale over the boundary: the cusp map `q ↦ q^p` is ramified. Identify tame
+torsion through the degeneration data and check the generic level maps and descent along
+representatives ([Lan], 6.2.5 and 6.4.1.1(5), pp. 484–487 and
 519–523; [Pilloni20], 13.2.1, p. 85). *Needs:* C4.4, C4.8; PELModuli M4.5, M4.6;
 ModularCurvesPartII 3.6 (Tate `n`-gons), 3.7 (power isogenies), 4.8 (cusp parameters).
 
@@ -1937,6 +1975,8 @@ ModularCurvesPartII 3.6 (Tate `n`-gons), 3.7 (power isogenies), 4.8 (cusp parame
 
 - The `p`-isogeny of the Tate curve has ramified base map `q ↦ q^p`.
 - Tame level data are preserved; `p`-level structures are not asserted étale at the boundary.
+- At trivial generic higher level, the comparison is the identity; no integral boundary
+  normalization is needed as input to this target.
 
 ### C4.11 Isogenies at the boundary
 
@@ -2053,15 +2093,20 @@ level structure of level `p^n` and `L ⊆ A[p²]` is a totally isotropic subgrou
 arrows to compatible toroidal models; its analytic form is the adic analytification
 (AdicSpacesPartII §R1.3). The level subgroup in the second arrow is as stated; the printed formula
 in Pilloni's 13.2.1 has misplaced parentheses ([Pilloni20], 13.2.1, p. 85). The API:
-`KlingenToroidalCorrespondence.t1_open`, `t2_open` and `fanComparison`. *Needs:* C3.3, C4.10;
+`KlingenToroidalCorrespondence.t1_open`, `t2_open` and `fanComparison`. *Needs:* C3.3, C4.10 (characteristic-zero part);
 AdicSpacesPartII §R1.3.
 
 **Checks.**
 
-- `KlingenToroidalCorrespondence.t1_test`: `t_1` forgets `L` and keeps `H_n`.
-- `KlingenToroidalCorrespondence.t2_test`: the new level subgroup is the image of `[p]⁻¹(H_n) + L`
-  in `A/L`, of level `p^{n+1}`.
-- `KlingenToroidalCorrespondence.empty_test`: where no admissible `L` exists the fibre is empty.
+Use the symplectic frame `(ℤ/p²)^4` with basis `e_1,e_2,f_1,f_2` and
+`⟨e_i,f_j⟩ = δ_ij`; the Lean examples compute the following groups.
+
+- `L = ⟨e_1,pe_2,pf_2⟩` is isotropic of type `ℤ/p² ⊕ (ℤ/p)²`: the only potentially nonzero
+  pairing among its displayed generators is `⟨pe_2,pf_2⟩ = p² = 0`.
+- For `H_1 = ⟨pf_1⟩`, `L ∩ H_1 = 0`. The quotient `([p]⁻¹H_1 + L)/L` is cyclic of order
+  `p²`, generated by the class of `f_1`; the other preimage directions `pe_1,pe_2,pf_2` lie in `L`.
+- The isotropic `L_0 = ⟨e_1,e_2⟩` has the wrong type `(ℤ/p²)²`. Here the same quotient is
+  `ℤ/p² ⊕ ℤ/p`, generated by the classes of `f_1` and `pf_2`, and is not cyclic.
 
 ### C4.17 Acyclicity of the Klingen first projection
 
@@ -2168,14 +2213,16 @@ universal formal family and its PEL structures by Artin approximation
 étaleness hypotheses as corrected in Lan's errata ([Lan], 6.3.2.5–6.3.2.9, pp. 503–505; [Lan, errata],
 items 60–77). The API: `GoodCuspModel.formalComparison`; `.openPEL` (the dense open maps étale to the
 moduli space of PELModuli M2.8 with its universal family); `.embeddings` (the two maps and the
-conditions (3a)–(3c)). *Needs:* C4.7, C4.9, C4.10; PELModuli M2.8, M2.9;
+conditions (3a)–(3c)). *Needs:* C4.7, C4.9, C4.10 (tame part); PELModuli M2.8, M2.9;
 AlgebraicModuliForArithmeticGeometry Layer 6; SchemeAndStackFoundations Layer 1, Layer 4.
 
 **Checks.**
 
 - `GoodCuspModel.rankZero_test`: at toric rank zero the model is an étale chart of the open moduli
   space.
-- `GoodCuspModel.tate_test`: in rank one the completion carries the `q`-adic Tate degeneration.
+- `GoodCuspModel.tate_test`: for elliptic data `A = 0`, `X = Y = ℤ` and the standard principal
+  polarization, the completion carries the Tate degeneration with the level's width-normalized
+  period. A genus-two Klingen chart retains its elliptic abelian quotient and rank-one toric part.
 - `GoodCuspModel.twoEmbeddings_test`: requiring `i_nat = i_alg` in the definition excludes models
   that Lan's construction produces.
 
@@ -2580,7 +2627,7 @@ smooth and `p` is good, the normalized blow-up at level `K^pK_p^0` is the smooth
 which the pulled-back boundary ideal is the invertible ideal of the divisor `∑_ρ d·pol(ρ) D_ρ`,
 ample relative to the minimal model by projectivity), so (c) identifies the two higher-level models.
 A map induced by a subdivision is not finite ([Lan17], Theorem 6.1(3)–(4), pp. 22–23, Construction
-4.5, p. 11). *Needs:* C0.16, C0.20, C4.10, C5.19, C5.31; SchemeAndStackFoundations Layer 1, Layer 4;
+4.5, p. 11). *Needs:* C0.16, C0.20, C4.10 (tame/generic part), C5.19, C5.31; SchemeAndStackFoundations Layer 1, Layer 4;
 excellent-ring normalization and completion ([Stacks], Tag 0C23 for normality of completed excellent
 local normal rings).
 
@@ -2670,15 +2717,17 @@ sections of the formally canonical sheaves of C5.21 from the toroidal preimage t
 moduli space is bijective, over `ℤ_p`, modulo `p^n` and on `p`-adic completions. The ordinary locus is
 an open subset of the minimal compactification, so this is C5.22 (valid for every open of the minimal
 compactification and every coefficient ring, including `ℤ/p^n`) applied to it, followed by passage to
-completions with the theorem on formal functions and the Mittag-Leffler property (AdicSpacesPartIII
-§F0.6 (theorem-on-formal-functions), §F0.6 (formal-functions-affine)). The characteristic-zero Koecher principle alone does not give the statement modulo `p`
-([Pilloni20], 11.1.1, p. 66, where it is stated without proof). *Needs:* C5.21, C5.22;
+completions with formal functions for proper algebraic spaces (C3.6a) and the Mittag-Leffler
+property (AdicSpacesPartIII §F0.6 (formal-functions-affine)). The characteristic-zero Koecher principle alone does not give the statement modulo `p`
+([Pilloni20], 11.1.1, p. 66, where it is stated without proof). *Needs:* C3.6a, C5.21, C5.22;
 AdicSpacesPartIII §F0.6 (theorem-on-formal-functions), §F0.6 (formal-functions-affine), §R2.10 (hasse-domain); SchemeAndStackFoundations Layer 2.
 
 **Checks.**
 
 - The statement modulo `p^n` is proved directly, not deduced from characteristic zero.
 - No statement about higher cohomology or parahoric models is made.
+- On a toric boundary chart modulo `p²`, the coefficient `p` survives in the formal comparison;
+  passing to the reduced special fibre would lose it.
 
 ### C5.25 Codimension of the Hilbert–Siegel minimal boundary
 
@@ -2711,16 +2760,18 @@ formal sheaf are the inverse limit of its thickenings. No surjectivity of the tr
 global sections, or Mittag-Leffler assertion about them, is needed. The structure-sheaf identity
 `O_{formal min} = π̂_*O_{formal tor}` for BCGP's
 formal contraction is the completion of `O_{M^min} = π_*O_{M^tor}` (C5.16) by the comparison of
-algebraic and formal direct images (AdicSpacesPartIII §F0.6 (formal-direct-image-comparison), for proper morphisms of noetherian
-schemes, applied on scheme charts), and the projection formula for the invertible sheaf follows. Neither
+algebraic and formal direct images for the proper toroidal contraction (C3.6a, allowing an
+algebraic-space source over an étale scheme chart of the target), and the projection formula for the invertible sheaf follows. Neither
 generic-fibre normality nor the refinement theorems of C3 give this. Higher cohomology is not treated
-([BCGP21], §8.2, p. 240). *Needs:* C5.16, C5.25; AdicSpacesPartIII §F0.6 (formal-direct-image-comparison);
+([BCGP21], §8.2, p. 240). *Needs:* C3.6a, C5.16, C5.25; AdicSpacesPartIII §F0.6 (formal-direct-image-comparison);
 SchemeAndStackFoundations Layer 0, Layer 2.
 
 **Checks.**
 
 - The statement concerns `H^0` of an invertible sheaf on the normal formal model.
 - No statement about higher cohomology is made.
+- For the trivial line on `Spf ℤ_p[[x,y]]`, removing `V(x,y)` at each `p^n`-thickening
+  preserves the ring of sections `(ℤ/p^n)[[x,y]]`; the special-fibre depth is two.
 
 ### C5.27 The cyclic level group at the boundary
 
@@ -2924,6 +2975,13 @@ Standing hypotheses of the layer:
   model is the fine moduli scheme of `c`-polarized Hilbert–Blumenthal abelian varieties with
   `μ_n`-level structure constructed in C6.12a. For scalar `n = No`, H1.6 gives the level functor,
   H1.7 its good-prime representability and H2.2–H2.2b the all-prime Deligne–Pappas scheme comparison.
+  Scheme-valued fine family statements in C6.20–C6.27 require a neat tame level, obtained by
+  an auxiliary full tame level with the same inverted primes. Boundary-action freeness requires
+  neatness of the acting arithmetic level as well. For general levels allowed here, descend the
+  neat construction to the finite quotient stack, retain its inertia, and form the coarse
+  compactification separately. Throughout C6, universal families and Hodge bundles at such levels
+  live on this compactified stack; statements about coarse schemes carry the descent conditions
+  on their weight lines. The open fine scheme alone does not imply a fine boundary.
 - (C6-b) For an infinite place `w` of `F`, `τ_w : F → ℝ` is the corresponding real embedding;
   Mathlib's `InfinitePlace` value `w(x)` is `|τ_w(x)|`. `U` is a subgroup of the unit group `o^×`.
 - (C6-c) Under (C6-a) with `g > 1`: a regular admissible cusp fan system (finite modulo units), a
@@ -2990,6 +3048,7 @@ definition of `R_C^{(κ)}(R)` after it, p. 546). *Needs:* Mathlib `Units.mul_rig
 
 - In `ℤ/4` the nonunit `2` kills `2`; the multipliers must be units.
 - Units stay units after any coefficient change, even when they become `1`.
+- Multiplication by `1` preserves every nonzero coefficient, also over nonreduced rings.
 
 ### C6.5 Koecher support for coefficient families
 
@@ -3263,16 +3322,20 @@ Proposition 4.1(ii) and equation (5), pp. 537 and 546). The API: `tracePhase_app
 
 ### C6.20 The universal family on a cusp chart
 
-Prove `HilbertModular.cuspChart_family`: over `B[ζ_e]`, `e` the exponent of `b′/b`, the Mumford family
-of C4.5 on the toric chart of C0.8 for `X` carries the `c`-polarization and `μ_n`-level structure, and
-on the open abelian locus it is the pullback of the universal Hilbert–Blumenthal abelian variety;
+Prove `HilbertModular.cuspChart_family`: over `B[ζ_e]`, `e` the exponent of `b′/b`, form the
+boundary-adic completed cone algebra `R̂_σ` of C0.8 (C0.19 on regular charts). Construct the Mumford
+semi-abelian family of C4.5 on `Spec R̂_σ`, carrying its `c`-polarization and `μ_n`-level structure.
+Its abelian locus is the complement of the closed boundary, `Spec R̂_σ[1/t]` on a regular chart,
+and there it is the pullback of the universal Hilbert–Blumenthal abelian variety. Its formal
+completion is the family on `Spf R̂_σ` used in C6.21 and C6.55. The classifying map and the
+following phase and unit comparisons are on these completed carriers:
 changing the uniformization `x ∈ (ab)^*/(ab′)^*` acts by `q^ξ ↦ ζ_e^{e·Tr(ξx)} q^ξ`, the phase of
 C6.19. Construct this family directly from C4.4–C4.6 and the cusp lattices and phases of C6.13,
 C6.19 and C6.54, without (C4-b). Build its `o`-action and tame ideal-level marking from those lattices,
 using C4.8 for uniqueness and C6.12a for the classifying map. Faces and changes by cusp units and
 `H_C` are compatible. After restriction to the good-prime PEL base, compare with C4.7, C4.9 and
 C4.10 ([Dimitrov], Proposition 4.1(i)–(iii),
-pp. 536–537). *Needs:* C0.8, C4.4–C4.6, C4.8, C6.12a, C6.13, C6.19, C6.54.
+pp. 536–537). *Needs:* C0.8, C0.19, C4.4–C4.6, C4.8, C6.12a, C6.13, C6.19, C6.54.
 
 **Checks.**
 
@@ -3280,22 +3343,50 @@ pp. 536–537). *Needs:* C0.8, C4.4–C4.6, C4.8, C6.12a, C6.13, C6.19, C6.54.
 - Ramification of the cusp for the level is a property of `b′/b`.
 - For `F = ℚ(√5)`, `n = (4)` and `p = 5`, the chart and its `o`-action are defined over
   `ℤ[1/4,ζ_e]`; the ramified prime is retained. C4.7 cannot supply this all-prime chart.
+- In the elliptic case the Tate family is over `B[[q]]` and is abelian over `B[[q]][1/q]`.
+  Its nonrational `j(q)` prevents descent to the ordinary chart `B[q]` with that parameter.
+
+### C6.20a Raynaud uniformization over Artinian thickenings
+
+Construct `HilbertModular.artinianRaynaudUniformization`: for a permitted Artinian thickening
+`(R,R⁽⁰⁾)` of a complete discretely valued pair `(K,V)` as in C6.55, and an HBAV over `R` with
+split bad semistable reduction after the stipulated admissible thickening and splitting extension,
+construct its rigid-analytic uniformization by `G_m ⊗ a^*` and the period lattice `b`, retaining
+its `o`-action, ordered polarization and ideal-level data. Prove the torsion exact sequence,
+the `o`-balanced valuation pairing, reduction compatibility, uniqueness up to isomorphism of the
+lattice data, and compatibility on increasing the admissible thickening and on splitting base
+change. Compare this uniformization with the completed Mumford families of C6.20. The complete-DVR
+uniformization supplies the reduced case; extend Raynaud's construction to these Artinian pairs
+as in [Dimitrov], §6, Définition 6.1 and Théorème 6.2, p. 541. Normal-domain degeneration theory
+alone does not cover the nilpotents of `R`. *Needs:* C6.13, C6.19, C6.20, C6.55 (definition of
+permitted thickening); NeronModelsAndSemistableAbelianVarieties 3.13–3.14;
+AdicSpacesPartIII F0, R2; SchemeAndStackFoundations Layer 1.
+
+**Checks.**
+
+- A constant deformation over `K[ε]/(ε²)` of a split semistable HBAV retains its reduced torus,
+  period lattice, polarization and marking.
+- In the elliptic case, replacing a Tate period by `q(1+ε)` reduces to `q` but retains the
+  first-order period deformation; reduction does not identify the two deformations.
+- Passing from `R⁽ⁱ⁾` to `R⁽ⁱ⁺¹⁾` gives the same uniformization after restriction to their common
+  rigid generic fibre, including the torsion sequence and ideal-level marking.
 
 ### C6.21 The fine Hilbert toroidal compactification
 
-Prove `HilbertModular.toroidal_exists`: for an admissible fan system `Σ`, there are a scheme `M̄¹_Σ`
-over `B`, an open immersion `M¹ → M̄¹_Σ` and identifications of the completions along the boundary
+Prove `HilbertModular.toroidal_exists`: at neat tame level, for an admissible fan system `Σ`,
+there are a scheme `M̄¹_Σ` over `B`, an open immersion `M¹ → M̄¹_Σ` and identifications of the completions along the boundary
 with the cusp charts of C6.20, compatible with the universal family; the triple is unique up to
 unique isomorphism. Choose finitely many orbit representatives of cusps and cones with their unit,
 cyclotomic and face relations; the cusp charts form a découpage in the sense of C6.55; its
 hypotheses hold: the interior is schematically dense, the open moduli space is compactifiable, the
 gluing map is permitted, and the conditions on points over complete discrete valuation rings and
 their Artinian thickenings are verified on the permitted boundary-specializing locus of C6.55, using
-Raynaud's uniformization of semistable Hilbert–Blumenthal abelian varieties (Dimitrov §6:
-NeronModelsAndSemistableAbelianVarieties 3.13–3.14 and C4.6). At primes dividing `Δ_F` the open
-model is the ideal-level Deligne–Pappas model of C6.12a (H2.2–H2.2b at scalar level); no smoothness
+NeronModelsAndSemistableAbelianVarieties 3.13–3.14 for the reduced-point condition and C6.20a for
+the Artinian lifting condition (ii). For general (C6-a) levels, descend the neat construction with
+its family to the compactified quotient stack and separately form its coarse scheme. At primes
+dividing `Δ_F` the open model is the ideal-level Deligne–Pappas model of C6.12a (H2.2–H2.2b at scalar level); no smoothness
 is used there. Uniqueness is part of C6.55 ([Dimitrov], Théorème 7.2(i) and §§5–6, pp. 538–543).
-*Needs:* C4.6, C6.12a, C6.14, C6.20, C6.55; NeronModelsAndSemistableAbelianVarieties 3.13, 3.14;
+*Needs:* C4.6, C6.12a, C6.14, C6.20, C6.20a, C6.55; NeronModelsAndSemistableAbelianVarieties 3.13, 3.14;
 HilbertModularVarietiesAndShimuraCurves H2.2, H2.3; AdicSpacesPartIII F0; SchemeAndStackFoundations
 Layer 1.
 
@@ -3311,9 +3402,11 @@ Layer 1.
 Prove `HilbertModular.toroidal_polarizationQuotient`: for a fan system invariant under the finite
 tame polarization group (C6.12a; HilbertModularVarietiesAndShimuraCurves H3 at scalar level,
 `Δ(N) = o^{×,+}/((1+No)^×)²` in the scalar case), its action extends to `M̄¹_Σ` and the quotient `M̄_Σ`
-compactifies the coarse model `M`; in Dimitrov's torsion-free tame case `M̄¹_Σ → M̄_Σ` is finite
-étale. The chart maps are equivariant (Dimitrov, Proposition 4.1(iii)) and the action on the
-toroidal model is free ([Dimitrov], Théorème 7.2(ii), pp. 542–543; [BHW], Proposition 8.4, p. 1766,
+compactifies the coarse model `M`. At neat tame level for the acting arithmetic group, the
+boundary action is free and `M̄¹_Σ → M̄_Σ` is finite étale. At general (C6-a) levels use the
+quotient stack before taking its coarse scheme; no freeness or étaleness follows from torsion
+freeness alone. The chart maps are equivariant ([Dimitrov], Proposition 4.1(iii), p. 537, and
+Théorème 7.2(ii), pp. 542–543; [BHW], Proposition 8.4, p. 1766,
 for the open part). *Needs:* C6.12a, C6.21; HilbertModularVarietiesAndShimuraCurves H3;
 SchemeAndStackFoundations Layer 1.
 
@@ -3328,60 +3421,86 @@ SchemeAndStackFoundations Layer 1.
 
 Prove `HilbertModular.boundary_formal`: the completion of `M̄_Σ` along its boundary is the disjoint
 union over cusps of the completed toric union (C0.19) modulo the effective cusp units, with
-coefficients `B[ζ_e]^{H_C}`; on the fine model use `U_{C,1}` and `H_{C,1}` (C6.54); the action on roots
-of unity and on the weight line are transported together ([Dimitrov], Théorème 7.2(i)–(ii),
+coefficients `B[ζ_e]^{H_C}` on coarse charts; on the neat fine model use `U_{C,1}` and `H_{C,1}`
+(C6.54). At general level keep the full residual cusp action on the compactified stack before
+passing to these invariant rings; the actions on roots of unity and on the weight line are
+transported together ([Dimitrov], Théorème 7.2(i)–(ii),
 pp. 541–543). The arithmetic unit quotient is infinite and is not a finite quotient of one chart.
 *Needs:* C0.8, C0.12, C0.19, C6.13, C6.21, C6.22, C6.54; AdicSpacesPartIII F0.
 
 **Checks.**
 
 - Formal completion and tensor products of coefficients are kept apart.
+- At a split neat elliptic cusp of width `h`, the strict chart is the power-series chart in
+  `q_h` with `q_Tate = q_h^h`.
+- At the irregular `Γ₁(4)` cusp `1/2`, the quadratic strict cover has a residual involution.
+  Its quotient stack retains inversion inertia, and the coarse invariant parameter does not
+  trivialize that action on the Hodge line.
 
 ### C6.24 Étale toric charts at the boundary
 
-Prove `HilbertModular.boundary_etaleToric`: near the boundary, `M → M̄` is étale locally the relative
+Prove `HilbertModular.boundary_etaleToric`: at neat tame level, near the boundary, `M → M̄` is
+étale locally the relative
 torus embedding of C0.8 for the lattice `X`; the strata have their toric description after base change
-to an algebraically closed field of characteristic prime to `N(n)`. The effective cusp units act freely
-on the boundary strata, and boundary-local étale charts are obtained from the formal ones by Artin
+to an algebraically closed field of characteristic prime to `N(n)`. At neat tame level the
+effective cusp units act freely on the boundary strata. At general levels the toric charts are
+charts of the quotient stack; coarse charts can retain finite quotient singularities.
+Boundary-local étale charts of the neat model are obtained from the formal ones by Artin
 approximation (AlgebraicModuliForArithmeticGeometry Layer 6) ([Dimitrov], Corollaire 7.4, p. 544).
 *Needs:* C0.8, C0.9, C0.18, C6.23; AdicSpacesPartIII F0; AlgebraicModuliForArithmeticGeometry Layer 6.
 
 **Checks.**
 
-- Freeness on toroidal strata does not imply freeness at a minimal cusp.
+- Freeness on neat toroidal strata does not imply freeness at a minimal cusp.
+- A neat split elliptic boundary has the étale toric pair `G_m ⊂ A¹`.
+- At `Γ₁(4)` the cusp `1/2` retains order-two inertia on the stack, although its coarse
+  boundary point is a smooth point of a curve.
 
 ### C6.25 Smooth refinements over the good base
 
 Prove `HilbertModular.regularRefinement_smooth`: an admissible refinement regular for each `X^*`
-makes `M̄_Σ` smooth over `ℤ[1/Δ]`, and refinement maps agree with C3.1 on the open part and on
-completed charts. Combine C0.15, the smooth open model over `ℤ[1/Δ]` and the étale charts of C6.24
+at neat tame level makes `M̄_Σ` smooth over `ℤ[1/Δ]`, and refinement maps agree with C3.1 on
+the open part and on completed charts. Combine C0.15, the smooth open model over `ℤ[1/Δ]` and the étale charts of C6.24
 ([Dimitrov], Corollaire 7.5 and Remarque 7.3, pp. 543–544). *Needs:* C0.15, C3.1, C6.24;
 HilbertModularVarietiesAndShimuraCurves H1.6.
 
 **Checks.**
 
 - Smoothness over `ℤ[1/N(n)]` is not asserted at primes dividing `Δ_F`.
+- In rank one a regular neat cusp chart is smooth over its étale cusp base.
+- A smooth chart with a residual finite action gives a smooth quotient stack, but its coarse
+  quotient need not be smooth; regularity of the fan alone does not remove this obstruction.
 
 ### C6.26 The universal semi-abelian scheme
 
 Prove `HilbertModular.semiAbelian_extend`: the universal Hilbert–Blumenthal abelian variety on `M¹`
-extends uniquely to a semi-abelian scheme `G` over `M̄¹_Σ` with `o`-action; it is a torus over the
-boundary and its pullbacks to charts are the Mumford families. Descend the chart families by their
-equivariance, glue with the universal family, and use uniqueness of extensions over the normal model
+at neat tame level extends uniquely to a semi-abelian scheme `G` over `M̄¹_Σ` with `o`-action;
+it is a torus over the boundary. Its pullbacks to `Spec R̂_σ` and their formal completions are the
+Mumford families of C6.20. At general (C6-a) levels the extension is on the compactified quotient
+stack; its descent to a coarse scheme requires trivial stabilizer action on the family. Descend
+the chart families by their equivariance, glue with the universal family, and use uniqueness of extensions over the normal model
 (C4.8) ([Dimitrov], Proposition 7.6, p. 544). *Needs:* C4.6, C4.8, C6.20, C6.21;
 NeronModelsAndSemistableAbelianVarieties 3.14; SchemeAndStackFoundations Layer 1.
 
 **Checks.**
 
-- The coarse quotient carries no universal polarized family.
+- A nontrivial polarization quotient need not carry the universal ordered `c`-polarization.
+  For `F = ℚ`, `c = ℤ` and scalar level `5`, `Δ(5) = 1`: the quotient equals the fine model
+  and retains its universal principally polarized elliptic curve and semi-abelian extension.
 - At the boundary the torus has rank `g`, and its `p^n`-torsion is multiplicative of rank `p^{ng}`,
   not of height `2g`.
 - For `F = ℚ(√5)`, scalar level `4` and residue characteristic `5`, descend the C6.20
-  families with their lattice-defined `o`-action, without the good-prime PEL endomorphism theorem.
+  families on the compactified stack with their lattice-defined `o`-action, without the
+  good-prime PEL endomorphism theorem; a neat auxiliary cover gives the scheme-valued family.
+- For `F = ℚ`, `n = (4)`, `σ = [[1,0],[2,1]]` and `T = [[1,1],[0,1]]`, the cusp `1/2` has
+  `γ = [[1,−1],[4,−3]] = −σTσ⁻¹ ∈ Γ₁(4)`. Both eigenvalues are `−1`; strict width is `2`,
+  effective width `1`. Its sign monodromy becomes unipotent after the quadratic cusp cover,
+  but forbids a semi-abelian extension over the coarse cusp (ModularCurvesPartII §§3.5, 4.8).
 
 ### C6.27 Invariant differentials
 
-Prove `HilbertModular.conormal_compare`: `e^*Ω¹_{G/M̄}` is the differential module of the chart
+Prove `HilbertModular.conormal_compare`: on the neat model, or on the compactified quotient stack
+at general level as in C6.26, `e^*Ω¹_{G/M̄}` is the differential module of the chart
 families, restricts to the Hodge bundle on `M¹`, is locally free of `O_{M̄}`-rank `g`, and is
 locally free of rank one over `o ⊗ O_{M̄}` on the Rapoport locus and on split toric boundary charts,
 and after inverting `Δ` its weight lines are those of HilbertModularVarietiesAndShimuraCurves H3.
@@ -3602,8 +3721,12 @@ a noninjective map such as `R → 0` uniqueness fails ([Dimitrov], Proposition 8
 
 **Checks.**
 
-- The injective non-flat map `ℤ/4 → (ℤ/4)[t]/(2t)` is allowed.
+- The injective non-flat map `ℤ/4 → (ℤ/4)[t]/(2t)` is allowed. Evaluation at zero splits the
+  coefficient inclusion; the class of `t` is killed by `2` but is not in `2A`, where
+  `A = (ℤ/4)[t]/(2t)`. Flatness would force `ker(2 : A → A) = 2A`. The Lean examples state
+  injectivity and nonflatness for this polynomial quotient.
 - For `R → 0`, uniqueness fails when `R ≠ 0`.
+- For the identity inclusion the descended section is the original section.
 
 ### C6.42 Cusp ideals on the minimal and toroidal models
 
@@ -3753,7 +3876,9 @@ Prove `HilbertModular.degreeOne_compare`: for `F = ℚ`, with the same principal
 canonically the compactified coarse modular curves of ModularCurvesPartII 5.2 and 5.13, compatibly with
 the moduli identification on the open part and with cusps. Normal proper completions of the same dense
 open curve are uniquely isomorphic, and a proper birational map of normal curves is an isomorphism. Full
-level keeps its cyclotomic field of components. Koecher fails in degree one ([BHW], §2.1,
+level keeps its cyclotomic field of components. At `Γ₁(4)` this identifies the coarse `X₁(4)`;
+the universal semi-abelian family and its Hodge bundle remain on the compactified stack at the
+irregular cusp (ModularCurvesPartII §§3.5, 4.8). Koecher fails in degree one ([BHW], §2.1,
 pp. 1720–1721). *Needs:* C4.12; HilbertModularVarietiesAndShimuraCurves H1, H4, H5.1;
 ModularCurvesPartII 5.2, 5.13; SchemeAndStackFoundations Layer 0.
 
@@ -3761,6 +3886,8 @@ ModularCurvesPartII 5.2, 5.13; SchemeAndStackFoundations Layer 0.
 
 - For `g = 1` a form can have a pole at a cusp.
 - Composite and full levels use ModularCurvesPartII 5.2.
+- At `Γ₁(4)`, the coarse curve comparison preserves the cusp `1/2` without asserting descent
+  of its stack-valued universal family.
 
 ### C6.51 Cusp parameters of modular curves
 
@@ -3825,8 +3952,10 @@ in `o^×`. Put `a = u²ε`. Conjugation acts on the unipotent lattice `X^*` by `
 coefficient covariance; the contragredient left action on characters is instead `ξ ↦ a⁻¹ξ`,
 preserving the trace pairing with `v ↦ av`. The action on roots of unity at the cusp factors through
 the finite cyclotomic groups `H_C ⊇ H_{C,1}`; the weight line transforms by the corresponding unit
-characters. The full stabilizer is not its finite cyclotomic image. At torsion-free tame level the
-action on toroidal charts is free, while minimal cusps may have stabilizers ([Dimitrov], Proposition
+characters. The full stabilizer is not its finite cyclotomic image. At neat tame level the
+effective boundary action is free, while minimal cusps may have stabilizers. At general (C6-a)
+levels retain residual inertia on the compactified stack, including the irregular `Γ₁(4)` cusp
+of C6.26 ([Dimitrov], Proposition
 3.3(iv)–(v), pp. 533–534, and Proposition 4.1(iii), p. 537). *Needs:* C6.12a, C6.13;
 HilbertModularVarietiesAndShimuraCurves H1.9 (scalar-level laws), H3 (the group `Δ(N)`); Mathlib
 `NumberField.Units.dirichletUnitTheorem.exists_unit`.
