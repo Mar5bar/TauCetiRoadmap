@@ -115,6 +115,14 @@ end FiniteFunctions
 example : (2 : ZMod 25) ^ (5 * 4) = 1 ∧ (5 : ZMod 125) ^ 3 = 0 := by
   decide
 
+/-- With m=0 the projector exponent vanishes, so a nilpotent is sent to one. -/
+example (n : ℕ) : (5 : ZMod 125) ^ (5 ^ n * (5 ^ 0 - 1)) = 1 := by
+  simp
+
+/-- The Eisenstein congruence sign is distinguishable in odd characteristic. -/
+example : (1 : ZMod 5) ≠ -1 := by
+  decide
+
 /-! ## Layer 2: Permissible localizations, duality and level maps -/
 
 /-- The index exponent one at p=5 gives rank five, rather than rank one. -/
@@ -143,7 +151,8 @@ section PseudoRep
 `z` (a complex conjugation). For a representation with `ρ z = diag(1, −1)` and
 `ρ σ = (a_σ b_σ; c_σ d_σ)` the data are `a`, `d` and `x σ τ = b_σ c_τ`. The coefficient ring
 has `2` invertible. Traces and determinants are compared with pseudocharacters through
-TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants; the ordered entries are extra data. -/
+TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants. For fixed `z`, the trace recovers
+all three ordered functions because `2` is invertible. -/
 structure PseudoRep (G A : Type*) [Group G] [TopologicalSpace G] [CommRing A]
     [TopologicalSpace A] [Invertible (2 : A)] (z : G) where
   /-- The upper-left entry. -/
@@ -180,6 +189,16 @@ def trace (ρ : PseudoRep G A z) (σ : G) : A := ρ.a σ + ρ.d σ
 
 /-- The determinant `a(σ)d(σ) − x(σ, σ)` of a pseudo-representation. -/
 def det (ρ : PseudoRep G A z) (σ : G) : A := ρ.a σ * ρ.d σ - ρ.x σ σ
+
+/-- The fixed normalizing element recovers the ordered functions from the trace. -/
+theorem trace_recovery (ρ : PseudoRep G A z) (σ τ : G) :
+    2 * ρ.a σ = ρ.trace σ + ρ.trace (z * σ) ∧
+    2 * ρ.d σ = ρ.trace σ - ρ.trace (z * σ) ∧
+    ρ.x σ τ = ρ.a (σ * τ) - ρ.a σ * ρ.a τ := by
+  simp only [trace, ρ.a_mul, ρ.d_mul, ρ.a_z, ρ.d_z, ρ.x_z_left, ρ.x_z_right]
+  constructor
+  · ring
+  constructor <;> ring
 
 /-- A continuous matrix representation normalized at `z` supplies Wiles' ordered data. -/
 def ofRep [IsTopologicalRing A] (z : G)
@@ -279,6 +298,22 @@ example :
 
 end PseudoRep
 
+/-- The t² coefficient of the square records the x₁ contribution in §3.8.
+The same coefficients survive modulo t³, while the original diagonal has no t² term. -/
+example :
+    let M : Matrix (Fin 2) (Fin 2) (Polynomial (ZMod 5)) :=
+      !![1, Polynomial.X; Polynomial.X, 1]
+    ((M * M) 0 0).coeff 2 = 1 ∧ (M 0 0).coeff 2 = 0 ∧
+      (M 0 1 * M 1 0).coeff 2 = 1 := by
+  norm_num [Matrix.mul_apply, Fin.sum_univ_two, ← pow_two, Polynomial.coeff_one]
+
+/-- The two involutions anticommute, giving the projective Klein-four control of §3.30. -/
+example :
+    let A : Matrix (Fin 2) (Fin 2) (ZMod 5) := !![1, 0; 0, -1]
+    let B : Matrix (Fin 2) (Fin 2) (ZMod 5) := !![0, 1; 1, 0]
+    A ^ 2 = 1 ∧ B ^ 2 = 1 ∧ A * B = -(B * A) ∧ A * B ≠ B * A := by
+  decide
+
 /-- Quotient recovery in the field coefficient case of §3.17: β labels the sub-character
 and α labels the quotient. The complete-local-ring version requires β−α to be a unit. -/
 theorem quotientCharacter_recovery {K : Type*} [Field K] (α β u v : K)
@@ -347,6 +382,35 @@ example (d : ℕ) (hd : 1 ≤ d) :
   omega
 
 /-! ## Layer 4: Pro-modularity and localized R = T -/
+
+/-- Reduction modulo (x) factors through the quotient killing x (§4.1). -/
+example {k : Type*} [Field k] :
+    ∃ θ : Polynomial k →+* Polynomial k,
+      (Polynomial.evalRingHom (0 : Polynomial k)) =
+        θ.comp (Polynomial.evalRingHom (0 : Polynomial k)) := by
+  exact ⟨RingHom.id _, rfl⟩
+
+/-- Reduction modulo (t,x) factors through the same quotient, then evaluation of t. -/
+example {k : Type*} [Field k] :
+    ∃ θ : Polynomial k →+* k,
+      (Polynomial.evalRingHom (0 : k)).comp
+        (Polynomial.evalRingHom (0 : Polynomial k)) =
+        θ.comp (Polynomial.evalRingHom (0 : Polynomial k)) := by
+  exact ⟨Polynomial.evalRingHom 0, rfl⟩
+
+/-- Reduction modulo (t) retains x, so it cannot factor through the quotient killing x. -/
+example {k : Type*} [Field k] :
+    ¬ ∃ θ : Polynomial k →+* Polynomial k,
+      Polynomial.mapRingHom (Polynomial.evalRingHom (0 : k)) =
+        θ.comp (Polynomial.evalRingHom (0 : Polynomial k)) := by
+  rintro ⟨θ, hθ⟩
+  have h := DFunLike.congr_fun hθ (Polynomial.X : Polynomial (Polynomial k))
+  simp at h
+
+/-- The auxiliary patching parameter vanishes at the identity matrix. -/
+example : Matrix.trace (1 : Matrix (Fin 2) (Fin 2) ℚ) - 2 = 0 ∧
+    Matrix.trace ((1 : Matrix (Fin 2) (Fin 2) ℚ) - 2) = -2 := by
+  norm_num [Matrix.trace, Matrix.diag, Fin.sum_univ_two, Matrix.ofNat_apply]
 
 /-- The patching map uses t=s²/(1+s); division needs the displayed nonvanishing. -/
 example {K : Type*} [Field K] (s : K) (h : 1 + s ≠ 0) :
@@ -456,7 +520,7 @@ pseudocharacter comparisons. The identity, free-pairing, two-point, stabilizer-r
 determinant, diagonal-conjugation and identity-augmentation Checks have coefficient-level examples above. The arithmetic
 central-character and pseudocharacter comparisons remain README targets. Local tangent
 conditions, the determinant–flag spectrum comparison, arithmetic patching, localized R=T,
-Skinner–Wiles lifting and the rank-two BLGG/BCGP/Newton–Thorne targets likewise require
+Skinner–Wiles lifting and single-coefficient solvable descent likewise require
 arithmetic carriers beyond these finite-function definitions.
 -/
 
