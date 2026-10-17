@@ -122,10 +122,17 @@ This roadmap consumes, and does not rebuild:
   - Layer 7: Riemannian structures.
 - **[Universal covers](../../Completed/UniversalCovers/README.md).** Covering spaces, and induced
   maps on homotopy groups.
-- **[Lie groups](../RepresentationTheory/LieGroups/README.md).** Layer 2: the closed-subgroup
-  theorem, and `U(n)` and `SO(n)` as embedded Lie subgroups. The compact symplectic group
-  `Sp(n) ⊂ GL_n(ℍ)` is a closed subgroup, so the same theorem makes it a Lie group. Layer 1 item 7
-  builds its homogeneous spaces on these.
+- **[Lie groups](../RepresentationTheory/LieGroups/README.md).** Layer 2 supplies the
+  closed-subgroup theorem and the embedded Lie groups U(n), SO(n) and the compact
+  symplectic group `Sp(n)⊂GL_n(ℍ)`.
+- **[SmoothBundlesConnections B1.4](https://github.com/TauCetiProject/TauCetiRoadmap/pull/887).**
+  Generic smooth homogeneous quotient, principal projection and tangent quotient.
+  Layer1 item7 owns the particular homogeneous models and metric applications.
+- **[ComplexKahlerGeometry K7.1–K7.2](../ComplexKahlerGeometry/README.md).** K7.1 supplies
+  the single complex projective carrier, charts, real atlas and orientation before
+  associated bundles. The separate later form comparison in Layer1 item7 consumes
+  K7.2's normalized Fubini–Study form after its circle/Chern–Weil inputs; it is not
+  a premise of the earlier homogeneous metric or based-loop Morse applications.
 - **[Hamiltonian systems](../HamiltonianSystems/README.md)** (proposed in #480, not yet merged; the link resolves once it is). Layers 1--2: Hamiltonian vector
   fields, the Poisson bracket, conservation of energy, symplectomorphisms and their action on
   Hamiltonian vector fields and integral curves.
@@ -160,9 +167,10 @@ This roadmap owns everything else it states. In particular it owns:
 - the Pontryagin--Thom collapse for framed submanifolds of an arbitrary closed ambient manifold,
   extending the Euclidean-ambient construction of the homotopy spheres roadmap;
 - local triviality of `Diff(M) → M`;
-- Stiefel manifolds, `CPᵈ` and `HPᵈ` as manifolds, and the index, perfectness and explicit-generator
-  computations for the energy on their based loop spaces, as applications of the homotopy spheres
-  roadmap's Morse--Bott API;
+- the specific Stiefel, complex-projective and quaternionic-projective model identifications,
+  orientation/metric comparisons and index, perfectness and explicit-generator computations
+  for their based-loop energy, using SBC B1.4's generic quotient construction, CKG K7.1's
+  single complex-projective carrier and the stated homogeneous-metric/Morse--Bott suppliers;
 - the extension of that roadmap's broken-geodesic carrier from based paths to the free loop space
   of a closed Riemannian manifold;
 - Moore path and loop spaces, transitive lifting-function data, the Moore-path
@@ -359,7 +367,7 @@ The following targets are built here, consuming the native APIs cited in their l
   uniqueness up to weak equivalence, and the one-step connected covers of Layer 1 item 4;
 - the Pontryagin--Thom collapse in a non-Euclidean ambient manifold;
 - Stiefel manifolds;
-- `CPᵈ` and `HPᵈ` as manifolds.
+- `HPᵈ` as a manifold, and the `CPᵈ` homogeneous-quotient comparison on K7.1's carrier.
 
 ---
 
@@ -750,12 +758,41 @@ convergence targets below extend those interfaces.
    compactly supported diffeomorphisms moving the basepoint, fed into the smooth-families map of
    geometric topology's Layer 3.
 7. **Homogeneous examples.**
-   - Stiefel manifolds of orthonormal `2`-frames.
-   - `CPᵈ` and `HPᵈ` as smooth manifolds, as homogeneous spaces of `U(d+1)` and `Sp(d+1)`, with
-     their homogeneous metrics. Projective lines are totally geodesic round spheres.
-   - `G/H` for a compact Lie group `G` and a closed subgroup `H`, with `G → G/H` a principal
-     bundle.
-   - Three pointwise orthonormal vector fields on `S^{4k−1}`, from quaternionic multiplication.
+   Consume [SmoothBundlesConnections B1.4](../SmoothBundlesConnections/README.md)'s general
+   smooth quotient `G/H` and principal `H`-bundle `G→G/H` for a compact Lie group G and closed
+   Lie subgroup H, with its quotient topology, smooth projection and tangent comparison.
+   Construct the following specific models and comparisons here, using the stated generic
+   homogeneous-metric and Morse--Bott suppliers for their geometric applications.
+   - Identify the manifold of orthonormal `2`-frames in `ℝⁿ` with `O(n)/O(n−2)` for n≥2,
+     including its frame-evaluation map and tangent/metric comparison; treat the empty
+     low-dimensional frame cases separately.
+   - For `CPᵈ`, use [ComplexKahlerGeometry K7.1](../ComplexKahlerGeometry/README.md)'s single
+     `Projectivization ℂ (Fin (d+1) → ℂ)` carrier, its affine charts and underlying real atlas.
+     Construct the diffeomorphism `U(d+1)/(U(1)×U(d))→CPᵈ`, `[g]↦[g e₀]`, and prove its
+     agreement with those charts and the complex orientation. Construct its
+     homogeneous metric with the chosen normalization, its Hermitian compatibility
+     with K7.1's complex structure and its independent metric comparison.
+   - For `HPᵈ`, construct the space of quaternionic right lines
+     `(ℍ^(d+1)∖{0})/ℍˣ`, with `v∼vλ`. The compact group Sp(d+1) acts on the
+     left. Construct `Sp(d+1)/(Sp(1)×Sp(d))→HPᵈ`, `[g]↦[g e₀]_ℍ`, and prove
+     its inverse and chart identities. On v_i≠0 use the right ratios
+     `v_j v_i⁻¹` (j≠i) and the representative with i-coordinate1; prove the
+     right-scaling invariance, overlap maps, real orientation and homogeneous
+     metric comparison. Include d=0 as a point. This is a specific application
+     of the supplied generic quotient theorem.
+   - Prove that projective lines for these homogeneous metrics are totally geodesic round
+     spheres, with the actual metric scale. Use these precise models and comparisons in the
+     based-loop energy index, perfectness and explicit-generator applications below.
+   - Construct three pointwise orthonormal vector fields on `S^{4k−1}` by quaternionic
+     multiplication.
+   - After K7.2 and its SBC B6.2–B6.3 inputs, construct the separate complex
+     projective form comparison. For the earlier Hermitian metric g and its
+     complex structure J put `ω_g(X,Y)=g(JX,Y)`. Prove closedness and calculate
+     the actual scale `ω_g=c·ω_FS`, with c>0; for d≥1 determine c by the
+     oriented complex-line integral, since `∫_(CP¹)ω_FS=1`. For d=0 both forms
+     vanish. Prove compatibility with the quotient/charts and the chosen metric
+     normalization. This later comparison is not a premise of the metric-scale,
+     totally-geodesic, index, perfectness or generator applications above/below.
 8. **Degrees of explicit maps**, computed by counting regular preimages: the map
    `T¹S^{n−1} × S¹ → S^{n−1} × S^{n−1}` of the proof of Proposition 6.17, and the rotation map
    `T¹_p Sⁿ × S¹ → Sⁿ` of the second proof of Proposition 6.34.
