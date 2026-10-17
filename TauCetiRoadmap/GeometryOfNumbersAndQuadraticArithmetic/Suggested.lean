@@ -3655,6 +3655,28 @@ example {DX DY : CochainComplex (ModuleCat ℚ) ℤ} (Df : Cochain DY DX 0)
 
 end DGDualitySigns
 
+section LTheoryEndpointChecks
+
+-- In §6.10b's quadratic endpoint, naturality with signature-eight symmetrization
+-- forces the signature-one shift to act identically on the quadratic integer invariant.
+example (a xa : ℤ) (h : 8 * xa = 8 * a) : xa = a := by omega
+
+-- The integral comparison from the quadratic telescope retains the missing signature-one class.
+example : ¬ Function.Surjective (fun a : ℤ => 8 * a) := by
+  intro h
+  obtain ⟨a, ha⟩ := h 1
+  change 8 * a = 1 at ha
+  omega
+
+-- Eight becomes a unit after inverting two, as required by the separate endpoint comparison.
+example : IsUnit (8 : Localization.Away (2 : ℤ)) := by
+  have h := (IsLocalization.Away.algebraMap_isUnit
+    (S := Localization.Away (2 : ℤ)) (2 : ℤ)).pow 3
+  norm_num at h ⊢
+  exact h
+
+end LTheoryEndpointChecks
+
 section SurgeryMatrixChecks
 
 -- Two invertible singleton blocks with a degenerate combination: `[[1,1],[1,1]]` has kernel
