@@ -94,12 +94,24 @@ continuity of ring operations, and cutoff/convolution compatibility. Scalar chan
 is coefficientwise; do not identify base change of completed rings with a tensor
 product without its own proof. Positive rescaling of N gives the same ring and
 topology; −N reverses the completion and is related by h↦−h, not the identity.
-For an exponent homomorphism φ:H→H′ and c>0 satisfying N′∘φ=cN,
-construct coefficient-summing pushforward φ_*; prove each coefficient sum and
-every target sublevel support is finite using this identity. With finite kernel
-also construct restriction φ^* by coefficient precomposition and prove its
-support bound. Export the inclusion/restriction cases used in finite cyclic
-covers. Do not claim an unrestricted series pushforward for arbitrary φ.
+For commutative ground rings R,S, a unital homomorphism ρ:R→S, an exponent
+homomorphism φ:H→H′ and c>0 satisfying N′∘φ=cN, construct the continuous unital
+ring homomorphism P_(ρ,φ):Nov(R,H,N)→Nov(S,H′,N′) with coefficient
+`P_(ρ,φ)(a)(h′)=Σ_(φ(h)=h′)ρ(a(h))`, summing over nonzero source coefficients.
+Prove this sum and every target sublevel support finite using the period identity.
+Prove additivity, multiplication, preservation of 1 and monomials, ground-coefficient
+naturality, identity and composition laws by reindexing the actual finite sums.
+If U_C and U′_D are the declared period neighborhoods, prove
+`P_(ρ,φ)(U_C)⊆U′_(cC)` and deduce continuity. Construct its restrictions to the
+nonnegative subrings and strictly positive ideals. With fixed ground ring export
+the R-algebra homomorphism specialization. Finite kernel is not required for this
+pushforward. With finite kernel also construct restriction φ^* by coefficient
+precomposition and prove its support bound. Export the inclusion/restriction cases
+used in finite cyclic covers. A pushforward with a finer grading additionally
+requires a target degree map commuting with φ, or an explicit degree quotient;
+the period identity alone supplies the ungraded map. Do not claim an unrestricted
+series pushforward for arbitrary φ or infer flatness, injectivity, or a completed
+tensor-product identification from this construction.
 
 Construct the nonnegative-period subring of series supported on N≥0 and its
 strictly positive ideal of series supported on N>0. Construct geometric series
