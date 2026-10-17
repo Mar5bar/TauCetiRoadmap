@@ -16,7 +16,7 @@ The following boundaries are part of the specification. They prevent two constru
 - `AlgebraicVectorBundles`, Layers 0B–0C, owns finite locally free duals, exterior powers, determinant lines and their affine/pullback comparisons. `PadicMeasuresIwasawaAlgebras` §5.1 supplies determinant exact-sequence, quasi-isomorphism and acyclic comparisons. The extra assertion here is the trivialization of a line bundle admitting a finite free resolution. `GrothendieckEulerForms`, Layer 5, owns finite-support Euler characteristics and their triangle additivity. The extra assertions here concern local multiplicity and finite-action specialization.
 - `DGAInfinity` Layer 5 owns its dg perfect envelope and idempotent completion. Only the comparison with bounded finite module complexes and isolated blocks for a finite action is needed here. `LocalFieldsRamification`, Layer 0, supplies integer rings and topologies of finite valued extensions. A ring-theoretic integral point is first constructed algebraically, before making this comparison.
 - `DeformationAndDerivedPatchingAlgebraPartII` owns p-standard and secant sequences for Macaulayfication, annihilators of local cohomology used to choose blowup centres, Cohen–Macaulay blowups, strict transforms and Macaulayfication. Its §§K0.1, K0.4–K0.7 also own the Čech/local-cohomology comparison, CM concentration, regularity of secant sequences on CM modules, normalized local duality for finite modules and the Matlis annihilator comparison. Its §K3.1 owns ordinary Rees modules. `ArithmeticGaloisDuality` §D7.1 owns local duality for bounded finite complexes over complete local rings. The extension here is its noncomplete bounded-complex comparison and the ordinary graded quotient of the supplied Rees module.
-- This roadmap owns the generic labelled completed coproduct (§1.12), minimal relative presentation and relation-obstruction algebra (§§1.9, 2.1–2.5), fixed-basis continuous matrix ring (§§2.6–2.7), canonical module/type algebra (§3.9) and pointed tensor-domain comparison (§4.6). The common generic constructions in `LocalGaloisDeformationRings` §§F.0.1–F.0.2, F.2.3–F.2.4 and 0.1 belong to these targets; its arithmetic specializations and graded canonical-module extension belong there.
+- This roadmap owns the generic labelled completed coproduct (§1.12), minimal relative presentation and relation-obstruction algebra (§§1.9, 2.1–2.5), fixed-basis continuous matrix ring (§§2.6–2.7), canonical module/type algebra (§3.9) and pointed tensor-domain comparison (§4.6). Specialization to a coefficient DVR uses these same carriers and maps. Arithmetic tangent and obstruction assignments, local deformation conditions and the graded canonical-module comparison belong to `LocalGaloisDeformationRings`. An arithmetic representability proof identifies its representing pair with §2.7 wherever both hypotheses hold; it does not choose a second framed carrier.
 - Sections 7.3, 7.5 and 7.8 here own the commutative minimal-model, complete-flat basis/matrix/retract and finite-derived-Hom completion comparisons. These are the generic inputs for `PadicFamilies` §0a.0; compatible ordinary projectors and their coefficient-tower diagrams belong to `PadicFamilies`.
 - Galois deformation conditions, Selmer groups, arithmetic tangent and obstruction computations, Taylor–Wiles primes, locally symmetric spaces and automorphy lifting are downstream uses. An obstruction space below is an algebraic lifting interface, not an assertion that a particular Selmer group supplies it.
 
@@ -268,6 +268,8 @@ For labelled `A,B∈CoeffCNL_Λ`, construct `coeffCompletedTensor A B` on the na
 
 It is complete Noetherian local with residue `k`. Its two inclusions agree on `Λ`; compatible continuous labelled maps to a complete coefficient object extend uniquely. State `coeffTensor_lift`, its two inclusion equations, extensionality, symmetry, associativity, quotient by closed ideals, and the direct-sum formula for relative cotangents. These construct the complete-local coproduct for arbitrary labelled coefficient maps. Its comparison with the supplied topological tensor retains the adic-map hypotheses of that supplier (Khare–Wintenberger II §§2.1–2.3, pp. 6–10; Calegari–Geraghty, Lemma 4.2, printed p. 355).
 
+For a labelled base map `Λ→D`, the same construction with coefficient base `D` gives `A⊗̂_D B` for labelled complete Noetherian local `D`-algebras `A,B`. In the coefficient-DVR category it is the same joint-maximal-ideal completion, with the same inclusions. Any coproduct obtained from another presentation has a unique isomorphism to this one preserving both inclusions; the uniqueness makes the symmetry, associativity and coefficient-change diagrams commute. No adic hypothesis on `D→A` or `D→B` is added.
+
 A finite `Λ`-module factor needs no further completion; in particular if `A` is finite over `Λ`, `A⊗_Λ B→A⊗̂_Λ B` is an isomorphism without assuming `A` flat. If `B` is `Λ`-flat, completed tensor with a finite `Λ`-module preserves short exact sequences. Separate ring-flatness, dimension and domain conclusions require their later hypotheses.
 
 **Checks.**
@@ -275,6 +277,7 @@ A finite `Λ`-module factor needs no further completion; in particular if `A` is
 - `A⊗̂_Λ Λ≅A`, with both inclusion and augmentation equations.
 - `O[[x]]⊗̂_O O[[y]]≅O[[x,y]]`; the relative cotangent is `kx⊕ky`.
 - The ordinary `k[[x]]⊗_k k[[y]]` does not replace the completed ring: a diagonal series with coefficients of unbounded tensor rank need not be an algebraic finite sum of pure tensors. The finite-factor comparison does apply to `k[x]/x²`.
+- For `D=O[[t]]`, `D[[x]]⊗̂_D D[[y]]≅D[[x,y]]`; the two maps send `t` to the same element. Identifying only the residue maps would instead leave two coefficient variables.
 
 *Needs:* §§1.5–1.9, native `AdicCompletion` and algebraic tensor, finite-module completion and the joint power-series topology; `AdicSpacesPartII` §R0.3 for the comparison under adic structure maps.
 
@@ -375,6 +378,8 @@ Let `R` be a complete coefficient algebra over `Λ`, with the labelled residue f
 
 Call this a **minimal relative presentation**. Its defining condition is that the induced relative cotangent map is an isomorphism, equivalently `J = ker q ⊆ m_S²+m_ΛS`. The API retains the chosen generators, evaluates each `X_i` to its chosen lift, identifies `S/J` with `R`, characterizes minimality by this kernel inclusion, and compares the number of variables under a change of basis. The presentation is a choice; its variable count is invariant. For a hull `h_R → F`, the imported tangent isomorphism identifies `d` with `dim_k T_F`.
 
+Taking any labelled complete Noetherian local `B` as coefficient base gives the relative presentation for `B→R`. In the coefficient-DVR category this uses the same evaluation map, kernel ideal and quotient `J/m_SJ` as §§2.2–2.4. Transport along an isomorphism of chosen presentations must preserve relation classes and their obstruction evaluations; arbitrary choices of presentation are not identified without such an isomorphism.
+
 **Checks.**
 
 - For `R=Λ`, `d=0` and the presentation is the identity.
@@ -467,12 +472,15 @@ Now let `k` be finite of characteristic `p` and let `Γ` be profinite with a con
 
 The API includes the natural evaluation equivalence with actual continuous framed lifts, compatibility with the discrete word construction, the tangent bound `dn²`, and uniqueness of the representing pair under a unique isomorphism carrying the universal representation. It also includes reduction to the maximal pro-`p` quotient of the residual kernel: every Artinian lift kills the corresponding pro-`p` kernel, and finite generation of that quotient suffices even when `Γ` itself is not finitely generated. Arithmetic conditions ensuring this finite generation belong to the Galois deformation suppliers.
 
+For any second complete coefficient ring `R'` with a universal lift of the same fixed-basis residual representation and natural representing bijections on the same coefficient category, construct the unique continuous labelled isomorphism `R≅R'` carrying the universal lifts to each other. Evaluate each universal lift in the other representing bijection; naturality and injectivity show that the resulting maps are inverse. The comparison respects coefficient change and prescribed determinant or multiplier equations when both representing functors impose the same equations. An arithmetic Schlessinger proof can therefore retain its own existence argument on this common representing pair. The isomorphism preserves the actual lifts, rather than only their conjugacy classes.
+
 **Checks.**
 
 - For the trivial group the ring is `Λ`.
 - A free profinite group on `d` generators gives all `dn²` variables.
 - For `C₂`, scalar residual representation `1`, and characteristic two, the ring is the nonsmooth quadratic ring of §2.6.
 - Finite-word equations over an arbitrary infinite residue field do not supply this continuity theorem: finiteness of the discrete quotients is used in constructing the profinite map.
+- In rank one for `Γ=ℤ_p` and trivial residual character, any other representing pair identifies with `Λ[[T]]` by sending its universal value at `1` to `1+T`. Changing `T` to `T+T²` is a ring automorphism but does not preserve that universal lift, so it is not a second comparison of representing pairs.
 
 **Targets.** Construct the continuous universal representation and prove the reduction and evaluation statements. Source: Kisin, Lecture 1, Proposition 1.2.1(1) and Remark 1.1.2(1), pp. 1–2. Needs: §2.6, the free profinite and maximal pro-`p` interfaces of ProfiniteProPGroups, and native profinite limits. The generic free profinite construction is supplied by `ProfiniteProPGroups` Layers 0, 3 and 4; only its continuous matrix-representation comparison is new here.
 
@@ -679,6 +687,8 @@ Source: Stacks Dualizing Complexes Lemmas 47.15.8–47.15.10, Proposition 47.15.
 
 For local `A` of dimension `d` with normalized `ω`, its **canonical module** is `K_A=H^(-d)(ω)`. For a finite nonzero CM module of support dimension `s`, its **CM dual** is `M^∨=H^(-s) RHom_A(M,ω)`. The API identifies the full derived Hom with `M^∨[s]`, gives natural biduality, preserves support dimension and is exact on short exact sequences of CM modules of the same dimension. For a CM ring, `K_A` is MCM.
 
+For a surjection from a complete regular local ring `S` of dimension `n` onto a nonzero complete CM local ring `A` of dimension `d`, finite-local duality compares the chosen normalized `ω` with `RHom_S(A,S)[n]`. Taking degree `-d` gives `K_A≅Ext_S^(n-d)(A,S)`. Normalized dualizing-complex comparisons give presentation independence up to module isomorphism; no unique module isomorphism is asserted without chosen duality data. For a regular sequence `x₁,…,x_r` in `m_A`, prove `K_(A/(x))≅K_A/(x)K_A`, and for formal variables prove `K_(A[[T]])≅K_A⊗_A A[[T]]`. These identify the Ext and normalized-duality constructions on the same canonical-module interface, including the type and socle comparisons below. The additional graded Ext/completion comparison is outside this interface.
+
 **Checks.**
 
 - Over a field these are ordinary finite vector-space duals.
@@ -692,6 +702,7 @@ A **Gorenstein local ring** is Noetherian local with finite self-injective dimen
 - Fields, DVRs and `k[ε]/ε²` are Gorenstein of type one.
 - `k[x,y]/(x,y)²` has socle dimension two and is not Gorenstein.
 - Adjoining any finite number of formal variables preserves type; quotienting by a zero divisor is not covered by regular-parameter invariance.
+- For `S=k[[x,y]]` and `A=S/(x²,y)`, the Ext degree is `2`, and `Ext_S²(A,S)≅A` agrees with the type-one socle of `k[x]/x²`. A change of regular presentation changes the Ext degree along with `dim S`, not the canonical-module isomorphism class.
 
 `traceIdeal A M`, the **trace ideal** of an arbitrary module, is the image ideal of evaluation `M⊗Hom_A(M,A)→A`. Its API includes the span-of-values formula, functoriality under isomorphism and direct sums, and `trace_eq_top_iff_free_summand`: over a local ring, `tr(M)=A` exactly when `A` is a direct summand of the arbitrary module `M`.
 
@@ -701,7 +712,7 @@ A **Gorenstein local ring** is Noetherian local with finite self-injective dimen
 - Over a DVR, `tr(k)=0` although `k≠0`.
 - For the ideal `(x,y)` in `k[[x,y]]`, the trace is `(x,y)`, so it has no free rank-one summand.
 
-Source: Stacks, Dualizing Complexes §§19–21, tags 0AWR, 0AWS, 0DW7, 0AWX, 0BJJ, 0DWA, pp. 35–39; Iyengar–Khare–Manning, (4.2)–(4.3), Proposition 4.4 and Lemma 9.3, pp. 21–22, 38; Calegari–Geraghty, Lemmas 4.1–4.2, pp. 355–356. Needs: §§3.4, 3.8 and the finite-order/group-algebra suppliers.
+Source: Stacks, Dualizing Complexes §§19–21, tags 0AWR, 0AWS, 0DW7, 0AWX, 0BJJ, 0DWA, pp. 35–39; Iyengar–Khare–Manning, (4.2)–(4.3), Proposition 4.4 and Lemma 9.3, pp. 21–22, 38; Calegari–Geraghty, §4.1 before Lemma 4.1 and Lemmas 4.1–4.2, pp. 355–356 (arXiv pp. 43–44). Needs: §§3.4, 3.8, SchemeAndStackFoundations §2.21's normalized finite-local duality and the finite-order/group-algebra suppliers.
 
 ### 3.10 Abelian group-ring complete intersections
 
@@ -957,6 +968,7 @@ For component bookkeeping impose geometric integrality on each domain quotient: 
 - `O[[X]]⊗̂_O O[[Y]]=O[[X,Y]]`, with dimension three.
 - The degree-zero pointed factor `A=O` changes neither the other factor nor its dimension.
 - Finite field extensions can split after tensoring with themselves; arbitrary domains do not satisfy an unconditional tensor-domain theorem.
+- Let `O=ℤ_p`, `p` odd, and `O'=O[α]` with `α²=p`. This is a complete DVR with the same residue field and regular generic fibre, but has no `O`-valued point. Its finite-factor product `O'⊗̂_O O'=O'⊗_O O'` has nonzero factors `α⊗1−1⊗α` and `α⊗1+1⊗α` whose product is zero. Its generic fibre is `E'×E'`, so the pointed hypothesis excludes it.
 
 Source: Khare–Wintenberger II, Proposition 2.2(ii), pp. 9–10; Thorne, definition before Lemma 1.3 and Lemma 1.4(1),(2),(4), pp. 5–6; Böckle–Iyengar–Paškūnas, Lemma 6.3, PDF pp. 52–53. Needs: §§1.12, 4.5 and supplier excellence/regular-locus comparisons.
 
@@ -1803,7 +1815,7 @@ Layers 3, 6, 7 and 8; native module support, local cohomology, finite integral d
 
 ## Downstream consumers
 
-`LocalGaloisDeformationRings` §§F.0.1–F.0.2, F.2.3–F.2.4 and 0.1 and `GlobalGaloisDeformations` consume the generic coefficient/presentation targets and supply arithmetic tangent, obstruction and finite-level ring data. The ownership boundary in Scope and ownership applies to the generic coefficient, canonical-module and tensor-domain constructions.
+The arithmetic interface for `LocalGaloisDeformationRings` §F.0.1 specializes §§1.12 and 4.6; §F.0.2 specializes §§1.9 and 2.1–2.5; §§F.2.3–F.2.4 use §2.7's representing-pair comparison wherever both finiteness hypotheses hold; §0.1's ungraded canonical-module/type interface specializes §3.9. Completed products retain the joint-completion carrier and inclusions; presentations retain their chosen evaluation maps and relation spaces; framed rings retain their representing pair; canonical modules use the Ext comparison. Arithmetic tangent/obstruction assignments, local conditions and graded canonical-module comparisons are separate targets there. `GlobalGaloisDeformations` uses the generic coefficient/presentation interface with its arithmetic finite-level data. These application interfaces supply no prerequisites to this roadmap.
 
 Arithmetic patching applications supply the complexes, dimension bounds, component calculations, residual comparisons and characteristic-zero seed. Freeness and support results here apply with those data; they do not assert an automorphy lifting theorem by themselves.
 

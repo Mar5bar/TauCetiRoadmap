@@ -29,6 +29,9 @@ variable (M : Type v) [AddCommGroup M] [Module A M]
 Layers 1–2 are specified in README.md, §§1.1–2.8. The small-extension predicate
 is supplied by SchemeAndStackFoundations §4.2; the labelled coefficient,
 relation-obstruction and hull comparisons require their further carriers.
+Specializing the coefficient base retains the joint-completion carrier and the
+chosen presentation kernel. Continuous framed representing pairs are compared
+by the unique coefficient isomorphism preserving the actual universal lift.
 -/
 
 /-! ## Layer 3: Homological dimension, local duality and multiplicity -/
@@ -594,7 +597,7 @@ principal-unit orbit functor and its hull.
 
 Layer 3: regular-sequence ideal and local complete-intersection presentation adapter and conormal comparisons,
 bounded Hom subcomplex and stable quotient, residue acyclic closure with graded Lie square
-operations and its PBW/Yoneda comparison, stable residue injection, depth_shortExact from residue Ext, finite resolution/depth comparison, top local-cohomology tensor comparison, explicit Cohen-presentation and noncomplete bounded-complex duality comparisons and canonical CM dual, canonical module, Gorenstein predicate,
+operations and its PBW/Yoneda comparison, stable residue injection, depth_shortExact from residue Ext, finite resolution/depth comparison, top local-cohomology tensor comparison, explicit Cohen-presentation and noncomplete bounded-complex duality comparisons and canonical CM dual, canonical module with its regular-presentation Ext and regular-quotient comparisons, Gorenstein predicate,
 type, graded Hilbert
 polynomial and intrinsic/ambient multiplicities, Koszul parameter Euler comparison, superficial reductions and normalization descent for multiplicity one,
 F-finiteness and local-locus adapters, total jets, shifted jet multiplication,
