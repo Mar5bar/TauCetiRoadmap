@@ -206,6 +206,13 @@ example : restrictedSubspace (LinearMap.id : V →ₗ[E] V) = ⊤ := by sorry
 example : primitiveSubspace (0 : V →ₗ[E] W) = ⊤ := by sorry
 example : primitiveSubspace (LinearMap.id : V →ₗ[E] V) = ⊥ := by sorry
 
+/-- In characteristic three, the cubic divisor class gives the zero Lefschetz operator;
+its primitive degree-two kernel is the entire nonzero Tate line. -/
+example (K : Type*) [Field K] [CharP K 3] :
+    let L : K →ₗ[K] K := (3 : K) • LinearMap.id
+    L = 0 ∧ primitiveSubspace L = ⊤ ∧ primitiveSubspace L ≠ ⊥ := by
+  sorry
+
 /-- The sum map has the nonzero proper antidiagonal as its primitive kernel. -/
 example :
     primitiveSubspace (LinearMap.fst ℚ ℚ ℚ + LinearMap.snd ℚ ℚ ℚ) =
@@ -473,7 +480,7 @@ end TauCetiRoadmap.EtaleDualityAndPerverseSheaves
 Definitions specified in README.md whose geometric or enhanced carriers are not present
 at the pins: constructible all-coefficient Verdier duality, general flat trace and
 fundamental class, semi-purity and cycle class with supports, higher étale Chern classes
-and Chow cycle class; recollement, glued t-structure, heart cohomology functors, abstract
+and Chow cycle class, the Euler–Tor comparison for proper Chow intersections; recollement, glued t-structure, heart cohomology functors, abstract
 intermediate extension, torsion tilt, Noetherian perverse category, locally closed
 intermediate extension, intersection complex, nonconstructible perverse conditions,
 semismall and small maps; ramified normalized constructible systems, strict derived
@@ -487,11 +494,11 @@ pure specialization; scheme and cohomological correspondences, their proper push
 pullback and composition, trace classes and integrated local terms, specialization and
 normal-cone deformation, contraction and Frobenius twisting with positive ramification exponents; the semisimple cyclic closure and character criterion; tubular-neighbourhood
 conditions, ULA specialization, full Artin fixed components and their finite-jet weight
-model; finite filtered localization and its graded trace; supported Betti purity and
+model; finite filtered localization and its graded trace; supported Betti purity for smooth closed pairs and
 derived-complete Betti coefficient systems; GradedFrobeniusDuality and its geometric Poincaré export.
 
 Additional prerequisite targets: curveEulerPoincareSwan, adicFiniteFieldHochschildSerre,
-semisimpleCyclicClosure_diagonalizable.
+semisimpleCyclicClosure_diagonalizable, chowIntersection_eq_eulerTor.
 
 Principal names for these README targets: quasiFiniteFlatTrace, curveTrace, trace,
 derivedTrace, fundamentalClass, fundamentalClassOfCycle, chernClass, totalChernClass,
