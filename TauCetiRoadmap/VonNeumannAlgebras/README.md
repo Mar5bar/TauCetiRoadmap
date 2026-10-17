@@ -200,12 +200,69 @@ with their norm, adjoint, elementary-tensor and separating-family lemmas. Prove 
 B(K) tensor factors here; the general commutation theorem is a V11 consequence. Prove the B(K) tensor splitting theorem for a von Neumann algebra
 containing `1 ⊗ B(K)` and the factoriality of a tensor product of factors.
 
+For a sequence of complex Hilbert spaces `(H_n)` with specified unit vectors `ξ_n`, construct
+its incomplete Hilbert tensor product `ITP(H,ξ)`. Form the algebraic direct limit of the finite
+prefix Hilbert tensor products under the linear isometries `v↦v⊗ξ_(n+1)`, define its inner
+product at a common finite stage, prove independence of stage and representative, then complete.
+Prove the canonical prefix maps are linear isometries with dense union and that the all-reference
+vector has norm one. This carrier depends on the reference-vector data; parenthesization alone
+does not define a countable Hilbert tensor product.
+
+Export the prefix/tail splitting unitary, associativity and reindexing coherence, and the
+bounded local-operator maps, their exact norms, multiplication, adjoint and mutual commutation
+at disjoint sites. Prove compatible factorwise unitaries `U_n:H_n≃ₗᵢ[ℂ]K_n` with
+`U_n ξ_n=η_n` extend uniquely to a unitary `ITP(H,ξ)≃ₗᵢ[ℂ]ITP(K,η)`. Reindexing includes
+the reference vectors; for identical pairs `(H,ξ)` obtain the finite site-permutation action.
+
+State two separate reference-change results. First, for `ζ_n=U_nξ_n`, the literal raw prefix
+vectors `Ω_m=ζ_1⊗⋯⊗ζ_m⊗η_(m+1)⊗⋯` in the η-component are Cauchy exactly when their
+complex tail products tend uniformly to one: for every ε>0, eventually every finite tail product
+`∏_(m<j≤l)⟨η_j,ζ_j⟩` differs from 1 by less than ε. Equivalently, only finitely many overlaps
+vanish and the partial products after the last zero converge to a nonzero limit. Thus
+`Σ|1−⟨ζ_n,η_n⟩|<∞` is sufficient but not necessary for raw-prefix convergence. A phase sequence
+can give conditional product convergence, while `ζ_n=−η_n` at every site has zero
+`Σ(1−|⟨ζ_n,η_n⟩|)` but alternating raw prefixes.
+
+Second, define the *specified local-product representations* on the two incomplete products by
+the represented local copies of each `B(H_n)`: an operator `A∈B(H_n)` acts at site n
+on `ITP(H,ξ)`, and `U_nAU_n⁻¹∈B(K_n)` acts at site n on `ITP(K,η)`.
+There exists a unitary intertwiner for all these local factors if and only if
+`Σ_n(1−|⟨ζ_n,η_n⟩|)<∞`. After selecting phases `c_n∈𝕋` so that
+`c_n⟨ζ_n,η_n⟩=|⟨ζ_n,η_n⟩|`, this is equivalent to
+`Σ_n|1−c_n⟨ζ_n,η_n⟩|<∞` and to `Σ_n‖ζ_n−c_nη_n‖²<∞` (with inner product linear in the
+second variable). Prove sufficiency by phase-rescaling the truncations so each finite-prefix reference overlap is nonnegative, then use the tail-product estimate,
+then extend isometrically on dense finite-excitation tensors and construct the inverse. For
+necessity, approximate the image of the source reference vector by a finite-excitation vector
+through site N; projecting onto the target reference lines on each finite tail `(N,M]` forces
+`∏_(N<j≤M)|⟨ζ_j,η_j⟩|²→1` uniformly in M. Since `−log r≥1−r` for `0<r≤1`, this implies
+the stated summability. Prove uniqueness of the intertwiner up to a unit scalar by showing the
+commutant of all local factors is scalar: each reference projection fixes the reference vector,
+and the finite-excitation vectors are dense. More explicitly, let `R_N=∏_(n≤N)P_(ξ_n)` be the product of the first N local reference-line projections; then `TΩ∈⋂_N ran R_N=ℂΩ`. These projections decrease to the vacuum-line projection, whereas the projections onto finite-excitation prefix spaces increase to the identity. The finite-excitation vectors force T to be that scalar on a dense subspace. This theorem is specifically about these local
+representations and their factorwise identification; it does not classify arbitrary abstract
+isomorphisms of von Neumann closures. It is phase-adjusted component equivalence, not convergence
+of the raw prefix vectors. Consumers must state which conclusion they use.
+Do not assert that arbitrary factorwise unitaries have an infinite product on this component.
+For a topological group G and strongly continuous unitary representations U_n:G→U(H_n) fixing each reference ξ_n, prove that the compatible product unitaries define a strongly continuous unitary representation on ITP(H,ξ). Prove continuity first on each dense finite-prefix cylinder and then on every vector by the uniform norm-one bound; include compact topological groups acting by compatible reference-fixing factor unitaries; this covers compact product-torus actions when those hypotheses hold. Prove separability when every `H_n` is separable, and the compatibility of finite-cylinder
+projections, their commuting local embeddings and their normal-state pairings. Von Neumann
+product-algebra and modular-theory constructions consume this Hilbert carrier; they are distinct
+from its definition. QuantumFoundations QF6b consumes it for countable composite models with
+specified reference vectors. TypeAHeckeAlgebras H3 consumes it for the repeated standard-form Hilbert
+space `K⊗K̄` and its density-vector reference, and owns that application's von Neumann product
+state, modular action, shift and first-site analysis.
+
 For σ-finite measure spaces realize L∞ as multiplication operators on L² and prove
 its commutant is itself. For abelian algebras on separable H construct a single
 self-adjoint generator by a convergent ternary-weight projection series. Prove the classification of separable nonatomic probability measure algebras by the
 Lebesgue interval. Classify the abelian algebras
 abstractly as ℓ∞ of a finite/countable atomic set, a nonatomic L∞[0,1] part, or their direct
 sum, and develop the multiplicity description of their normal representations.
+
+**V2.NonmodularProjectionLattice.** On H=ℓ²⊕ℓ² let
+D(x)_n=x_n/(n+1), y_n=1/(n+1), A=ℓ²⊕0, B=graph D and C=ℓ²⊕ℂy.
+Prove these subspaces closed, D injective with dense range and y∉range D.
+Then A<C, B∧C=0 and A∨B=H, so the modular law fails. Transport it to
+ℓ² by the unitary interleaving the two standard bases at even/odd indices.
+This elementary Hilbert/projection result is consumed by QF2.ModularityComparison and V5.
 
 ## V3. Type I and finite-dimensional algebras
 
@@ -422,6 +479,24 @@ OptimalTransport's finite-measure completion theorem. Pass through the
 completed base measure and choose Borel representatives modulo null sets;
 pointwise existence alone does not supply the selected field.
 
+**V5.LatticeFinite — finiteness and projection modularity.** Own the exact
+all-cardinality theorem `P(M) is modular ↔ M is finite`, and its corner form
+`[0,p] is modular ↔ p is Murray–von Neumann finite`. For finite M consume the
+faithful center-valued trace constructed above; prove
+`T(p∨q)+T(p∧q)=T(p)+T(q)` by the partial-isometry comparison. For a≤c,
+compute equal center-valued traces of `a∨(b∧c)` and `(a∨b)∧c`; their order
+and trace faithfulness force equality. No faithful scalar tracial state is
+assumed on an arbitrary finite algebra.
+
+For a nonfinite algebra use the nonzero properly-infinite central summand.
+Iterate halving to obtain orthogonal p_n equivalent to its unit, then absorb
+the orthogonal remainder into p_1 by projection Schröder–Bernstein so their
+sum is the unit. The resulting normal matrix-unit embedding of B(ℓ²)
+preserves all projection joins, meets and complements. Embed the
+V2.NonmodularProjectionLattice witness in this properly-infinite corner.
+This is the single generic modularity/finiteness owner. QF3.G.Type consumes
+it; QF2's elementary Hilbert witness consumes V2 separately.
+
 ## V6. Tracial standard form and semifinite factors
 
 For arbitrary finite von Neumann algebras define faithful normal finite
@@ -475,6 +550,43 @@ the same positive-cone vocabulary. For V4 central decompositions prove
 each type-I/II/III central projection is diagonal and its measurable
 support consists almost everywhere of fibers of that type. Include
 the type-Iₙ and II₁/II∞ subdivisions.
+
+**V6.LatticeTypes — internal projection-logic type criteria.** Consume
+V5.LatticeFinite and V3's abelian/minimal-projection classification. A nonzero
+projection e is abelian exactly when the interval [0,e] is Boolean. For
+arbitrary M prove typeI iff every nonzero projection dominates a nonzero
+abelian projection. Existence of one atom is a typeI criterion only for a
+factor; ℂ⊕R_II1 has an atomic center and an atom but is not typeI. When the
+center is atomic, M is typeI iff every minimal central summand has an atom.
+
+Recover the logic center by `q=(q∧z)∨(q∧z')` for every q. In a nonzero factor,
+prove the lattice criteria: typeI iff an atom exists; typeII₁ iff the lattice
+is atomless and modular; typeII∞ iff it is atomless and nonmodular but some
+nonzero interval [0,p] is modular; typeIII iff every nonzero interval is
+nonmodular. These are consequences of the actual type definitions, not a
+replacement notion of finiteness. Recover typeI_n, for n≥1, by n orthogonal atoms
+joining to the identity, and retain V6's infinite-cardinality refinements.
+For a nonzero central projection z, prove zM is homogeneous typeI₂ iff z=e∨f for
+two orthogonal abelian projections e,f with central supports both z. Thus
+the typeI₂ central part is the supremum of those nonzero central projections,
+and is zero when there are none; it is recognizable from the lattice. For
+each n≥1, generalize the criterion on a nonzero central part z to n
+full-central-support abelian orthogonal summands for homogeneous I_n. Prove every projection orthoisomorphism transports these central parts,
+using the lattice criteria before invoking Dye. Also recover every nonfactor
+central type part intrinsically. Let z_I be the supremum of central supports
+of nonzero Boolean-interval projections, z_sf the supremum of central
+supports of nonzero modular-interval projections, and z_fin the greatest
+central z with [0,z] modular. Prove
+`z_III=1−z_sf`, `z_II1=z_fin∧(1−z_I)` and
+`z_IIinf=z_sf∧(1−z_I)∧(1−z_fin)`. Within z_I identify each nonzero homogeneous
+I_κ central part z, for nonzero cardinals κ, by a family of κ orthogonal
+abelian projections of central support z joining to z. Prove the finite
+and infinite cardinal cases and uniqueness of κ for each such nonzero
+part. Treat the zero central part separately, with no homogeneous
+multiplicity assigned to it. On a factor κ is the cardinality of any
+maximal orthogonal atom family. Derive these characterizations from V3/V6's
+actual central decomposition. No state reconstruction is an input.
+
 
 ## V7. Hilbert modules, coupling dimension, and index
 
