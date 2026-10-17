@@ -484,13 +484,13 @@ classes of unramified Frobenius in every finite quotient of `G_{F,S}`.
 
 ModularForms layer 9: the Hecke polynomial `X²−a_ℓX+ω(ℓ)ℓ^{k−1}` of a normalised eigenform, the
 classical half of the rank-two normalisation of Layer IHG.3a.
-[PadicMeasuresIwasawaAlgebras §5.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4c2b687410d8df022e1212fdf22129450963d696/TauCetiRoadmap/PadicMeasuresIwasawaAlgebras/README.md#51-determinant-lines-of-perfect-complexes)
+PadicMeasuresIwasawaAlgebras §5.1
 supplies `projectiveDeterminant`, `projectiveDeterminant_constantRank`,
 `projectiveDeterminant_baseChange` and the exterior-map formula on finite projective modules.
 The degree-`d` multiplicative polynomial law on endomorphisms is the additional construction here.
 AlgebraicVectorBundles L0C consumes that ring-level foundation for sheaf determinants.
 
-[PadicMeasuresIwasawaAlgebras §4.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4c2b687410d8df022e1212fdf22129450963d696/TauCetiRoadmap/PadicMeasuresIwasawaAlgebras/README.md#45-the-iwasawa-coordinate-and-the-initial-fitting-ideal)
+PadicMeasuresIwasawaAlgebras §4.5
 supplies `TauCeti.Module.fittingIdeal_le_annihilator` on the existing `TauCeti.fittingIdeal`
 carrier: for a commutative ring `A` and `[Module.FinitePresentation A M]`,
 `fittingIdeal A M 0 ≤ Module.annihilator A M`, that is, for finitely presented modules; the Ribet
@@ -499,7 +499,7 @@ suffices. This is the common bound consumed by Ribet and Iwasawa theory.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
-[SchemeAndStackFoundations §0.20](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2a5f34f36fd23d27dd9eaa4a2c69a12d857213fe/TauCetiRoadmap/SchemeAndStackFoundations/README.md#020-japanese-and-nagata-rings)
+SchemeAndStackFoundations §0.20
 supplies `Ring.IsJapanese`, `Ring.IsNagata`, `Ring.IsJapanese.of_complete_local` and
 `Ring.IsNagata.of_complete_local` in the neutral ring-level API. For a complete noetherian local
 domain `A`, the Japanese condition gives `Module.Finite A (integralClosure A E)` for every
@@ -511,7 +511,7 @@ additional result here is the global difference lattice of §6.1; together with 
 fraction-lattice topology of §6.1 it supplies the finite-lattice and topology inputs to
 `IntegralRibet.local_ribet`.
 
-[SchemeAndStackFoundations §2.22](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d23fdaf388733bd9bcb0dc9b7963cc336f21461d/TauCetiRoadmap/SchemeAndStackFoundations/README.md#222-sheaves-of-algebras-azumaya-algebras-and-the-brauer-group-of-a-scheme)
+SchemeAndStackFoundations §2.22
 owns the affine splitting content of `azumaya_affine_iff` and `azumaya_equivalent_conditions`.
 Its ring-level supplier is `IsAzumaya.exists_etale_matrix_splitting`: for `IsAzumaya A R`,
 `d>0` and `rankAtStalk R=d²`, it returns an étale faithfully flat commutative `A`-algebra `B`
