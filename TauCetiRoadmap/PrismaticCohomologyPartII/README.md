@@ -168,7 +168,7 @@ For `J=(d)` this reads `φ(x)∈d^iB`. Initial QRSP prisms are imported at Prism
 <a id="s3-2"></a>
 <a id="layer-3-nygaard-key-case"></a>
 
-### 3.2 The key case: q-divided powers and the Nygaard filtration of Z_p^cycl⟨X^{1/p^∞}⟩/X
+### 3.2 The key case: q-divided powers and the Nygaard filtration of `Z_p^cycl⟨X^{1/p^∞}⟩/X`
 
 Take the perfect cyclotomic prism `A=(Z_p[q^(1/p^∞)])^∧_(p,[p]_q), R=A/[p]_q, q^(1/p^n)↦ζ_(p^(n+1))`, and `S=R⟨X^(1/p^∞)⟩/(X)`. Then `Δ_S=A⟨Y^(1/p^∞)⟩{Y^p/[p]_q}^∧`, flat over `Z_p[[q−1]]`, with `X^(1/p^n)↦Y^(1/p^(n−1))` in `Δ̄`. The q-PD lemma says `x^n∈[n]_q!D` when D is derived complete and completely flat for `(p,[p]_q), φ(q)=q^p`, and `φ(x)=x^p∈[p]_qD`. The factorial identities are `[mp]_q!=unit·φ([m]_q!)[p]_q^m` and `[⌊i⌋p]_q!=unit·[⌊ip⌋]_q!, i∈N[1/p]`. Thus `Δ` is completed free on `b_i=Y^i/[⌊i⌋]_q!, φ(b_i)=unit·[p]_q^⌊i⌋b_(ip)`. Its `Fil_N^n` is the completed sum of `[p]_(q^(1/p))^max(n−⌊i⌋,0)Ab_i`. Divided `φ` has image `Fil_n^conjΔ̄=span{b_i:i<p(n+1)}; Δ/Fil_N¹≃S` via `φ`, carrying `b_i` to `b_(pi)` for `i<1`.
 
@@ -453,7 +453,7 @@ For large quasisyntomic `S/A/I, Δ_(S/A)` is discrete completely flat, a δ-A-al
 <a id="s3-14"></a>
 <a id="layer-3-relative-nygaard-filtration"></a>
 
-### 3.14 Relative Nygaard filtration on the Frobenius twist φ_A^*Δ_{R/A}
+### 3.14 Relative Nygaard filtration on the Frobenius twist `φ_A^*Δ_{R/A}`
 
 For animated `R/A/I` set `Δ¹=Δ⊗`̂^`L_(A,φ_A)A`, with A-linear `φ_rel:Δ¹→Δ`. Construct relative Nygaard from §3.13 by quasisyntomic right Kan extension, then completed polynomial left Kan extension; these agree on their common range and glue on smooth formal schemes. Characterization: preserve sifted colimits and require `gr_N^n→Δ`̄`{n}` to be an iso on `H^m, m≤n`, and zero above n on polynomial algebras. It is multiplicative, N-indexed, with the filtered Frobenius, v-map, base change, and specializations in the API below. On perfect bases it is `φ_A*` of §3.4; affine quasisyntomic sections compute the smooth formal filtration.
 
