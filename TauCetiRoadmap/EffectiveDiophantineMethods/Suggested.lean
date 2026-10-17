@@ -50,6 +50,15 @@ example : realIntervalContains 1 2 (Real.sqrt 2) ∧
 example : ¬ realIntervalContains 2 2 (Real.sqrt 2) := by
   sorry
 
+/-- A singleton real interval determines its enclosed value. -/
+example (q : ℚ) (x : ℝ) : realIntervalContains q q x ↔ x = (q : ℝ) := by
+  sorry
+
+/-- A box with both widths zero determines both complex coordinates. -/
+example (a b : ℚ) (z : ℂ) :
+    complexBoxContains a a b b z ↔ z = (a : ℂ) + (b : ℂ) * Complex.I := by
+  sorry
+
 example : complexBoxContains 0 0 1 1 Complex.I := by
   sorry
 
@@ -305,23 +314,9 @@ example (n : ℕ) (a : ℚ) :
 
 end ED3
 
-/-! ## Layer 4: Chabauty–Coleman and residue discs -/
-namespace ED4
-
-/-- Strassmann's bound on the closed unit disc, using the last coefficient of
-maximal norm. The coefficients tend to zero, so their series converges there. -/
-theorem strassmann_card_le {p : ℕ} [Fact p.Prime]
-    (a : ℕ → ℚ_[p]) (N : ℕ)
-    (ha : Filter.Tendsto a Filter.atTop (nhds 0))
-    (haN : a N ≠ 0)
-    (hmax : ∀ k, ‖a k‖ ≤ ‖a N‖)
-    (hlast : ∀ k, N < k → ‖a k‖ < ‖a N‖)
-    (Z : Finset ℚ_[p])
-    (hZ : ∀ z ∈ Z, ‖z‖ ≤ 1 ∧ ∑' k : ℕ, a k * z ^ k = 0) :
-    Z.card ≤ N := by
-  sorry
-
-end ED4
+/- Layer 4 consumes RestrictedPowerSeries §2.4 for Strassmann's theorem.
+The residue-disc application and its finite coefficient certificates are specified
+in README §4.11. -/
 
 /-! ## Layer 5: The Mordell–Weil sieve -/
 namespace ED5
@@ -359,6 +354,21 @@ theorem FiniteSolutionSet.coe_eq_setOf {α : Type*} {H : Prop} {P : α → Prop}
     (c.solutions : Set α) = {x | P x} := by
   sorry
 
+/-- Both integer square roots give an unconditional complete list. -/
+example : ∃ c : FiniteSolutionSet True (fun x : ℤ => x ^ 2 = 4),
+    c.solutions = {-2, 2} := by
+  sorry
+
+/-- The constantly false predicate has an empty unconditional solution set. -/
+example : ∃ c : FiniteSolutionSet True (fun _ : ℤ => False),
+    c.solutions = ∅ := by
+  sorry
+
+/-- A false predicate forces an empty sound list under any completeness label. -/
+example (H : Prop) (c : FiniteSolutionSet H (fun _ : ℤ => False)) :
+    c.solutions = ∅ := by
+  sorry
+
 /-- Exact membership alone cannot certify an incomplete list. -/
 example : ¬ ∃ c : FiniteSolutionSet True (fun x : ℤ => x ^ 2 = 4),
     c.solutions = {2} := by
@@ -382,6 +392,215 @@ theorem candidates_eq_known {X : Type*} {ι : Type*} [Fintype ι]
 
 /-- A distinct-root count of one does not supply a multiplicity bound of one. -/
 example : (Polynomial.X ^ 2 : Polynomial ℚ).roots = ({0, 0} : Multiset ℚ) := by
+  sorry
+
+/-- Baran's homogeneous quartic evaluated in a commutative ring. -/
+def xs13Baran {R : Type*} [CommRing R] (x y z : R) : R :=
+  (-y - z) * x ^ 3 + (2 * y ^ 2 + y * z) * x ^ 2 +
+    (-y ^ 3 + y ^ 2 * z - 2 * y * z ^ 2 + z ^ 3) * x +
+    2 * y ^ 2 * z ^ 2 - 3 * y * z ^ 3
+
+/-- The monic-in-Y quartic used for the level-13 residue-disc calculations. -/
+def xs13Quartic {R : Type*} [CommRing R] (x y z : R) : R :=
+  y ^ 4 + 5 * x ^ 4 - 6 * x ^ 2 * y ^ 2 + 6 * x ^ 3 * z +
+    26 * x ^ 2 * y * z + 10 * x * y ^ 2 * z - 10 * y ^ 3 * z -
+    32 * x ^ 2 * z ^ 2 - 40 * x * y * z ^ 2 + 24 * y ^ 2 * z ^ 2 +
+    32 * x * z ^ 3 - 16 * y * z ^ 3
+
+/-- The coordinate substitution identifies the quartic equations; the seven
+listed coordinates lie on the second quartic. This supplies algebraic identities. -/
+theorem xs13_quartic_identity_and_points :
+    (∀ x y z : ℤ,
+      xs13Quartic (x - y) (x + y) (x + z) = 16 * xs13Baran x y z) ∧
+    (∀ v ∈ ({(1, 1, 1), (1, 1, 2), (0, 0, 1), (-3, 3, 2),
+      (1, 1, 0), (0, 2, 1), (-1, 1, 0)} : Finset (ℤ × ℤ × ℤ)),
+      xs13Quartic v.1 v.2.1 v.2.2 = 0) := by
+  sorry
+
+/-- A normalized conjugate eigenbasis cannot be the Baran coordinate basis. -/
+example : xs13Baran (1 : ℤ) 1 1 = -1 := by
+  sorry
+
+example (x y : ℤ) :
+    xs13Quartic x y 0 = (y ^ 2 - x ^ 2) * (y ^ 2 - 5 * x ^ 2) := by
+  sorry
+
+/-- Affine representatives and X=1 infinity representatives cover the special
+fibre; the first chart consists of the affine points with nonzero Y derivative. -/
+example :
+    let affine := ((Finset.univ : Finset (ZMod 17)).product Finset.univ).filter
+      (fun v => xs13Quartic v.1 v.2 1 = 0)
+    let infinity := (Finset.univ : Finset (ZMod 17)).filter
+      (fun y => xs13Quartic 1 y 0 = 0)
+    let firstChart := affine.filter (fun v =>
+      4 * v.2 ^ 3 - 12 * v.1 ^ 2 * v.2 + 26 * v.1 ^ 2 +
+        20 * v.1 * v.2 - 30 * v.2 ^ 2 - 40 * v.1 + 48 * v.2 - 16 ≠ 0)
+    affine.card + infinity.card = 20 ∧ firstChart.card = 17 := by
+  sorry
+
+/-- The exceptional curve's four listed points satisfy its quartic. -/
+example :
+    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
+      4*x^3*y - 3*x^2*y^2 + 3*x*y^3 - x^3*z + 16*x^2*y*z -
+      11*x*y^2*z + 5*y^3*z + 3*x^2*z^2 + 9*x*y*z^2 + y^2*z^2 +
+      x*z^3 + 2*y*z^3
+    ∀ v ∈ ({(1, 3, -2), (0, 0, 1), (0, 1, 0), (1, 0, 0)} :
+      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
+  sorry
+
+/-- Every listed point at prime level 97 satisfies its displayed quartic. -/
+example :
+    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
+      z*x^3 + (-y^2+z*y)*x^2 + (-y^3-z*y^2-z^3)*x + z*y^3+z^2*y^2
+    ∀ v ∈ ({(1, 0, 0), (-2, 1, 1), (-1, 0, 1), (0, 0, 1), (0, 1, 0), (0, -1, 1), (1, 0, 1), (1, 1, 1), (-1, 1, 0), (5, 3, 2)} :
+      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
+  sorry
+
+/-- Every listed point at prime level 109 satisfies its displayed quartic. -/
+example :
+    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
+      z*x^3 + (z*y+z^2)*x^2 + (-y^3-z*y^2-z^3)*x - z*y^3-3*z^2*y^2-2*z^3*y
+    ∀ v ∈ ({(1, 0, 0), (-2, 1, 2), (0, -2, 1), (0, -1, 1), (0, 1, 0), (0, 0, 1), (-1, -1, 1), (-2, 1, 1), (1, -1, 1)} :
+      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
+  sorry
+
+/-- Every listed point at prime level 113 satisfies its displayed quartic. -/
+example :
+    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
+      z*x^3 + (-y^2-z^2)*x^2 + (y^3+z^3)*x - 2*z^2*y^2+z^3*y
+    ∀ v ∈ ({(1, 0, 0), (2, 2, 1), (0, 1, 0), (1, 1, 1), (1, 1, 0), (0, 0, 1), (0, 1, 2), (5, 3, 1)} :
+      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
+  sorry
+
+/-- Every listed point at prime level 127 satisfies its displayed quartic. -/
+example :
+    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
+      z*x^3 + (-y^2-3*z^2)*x^2 + (y^3-z^2*y+4*z^3)*x + 2*z*y^3-3*z^2*y^2+3*z^3*y-2*z^4
+    ∀ v ∈ ({(1, 0, 0), (5, 3, 2), (2, 1, 1), (1, 1, 0), (1, 0, 1), (0, 1, 1), (0, 1, 0), (4, 2, 1)} :
+      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
+  sorry
+
+/-- Every listed point at prime level 139 satisfies its displayed quartic. -/
+example :
+    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
+      z*x^3 + (-y^2+z*y)*x^2 + (-y^3-2*z*y^2-3*z^2*y-z^3)*x + y^4+z*y^3+z^2*y^2+z^3*y
+    ∀ v ∈ ({(1, 0, 0), (4, -3, 1), (0, 0, 1), (0, -1, 1), (1, -1, 1), (1, 0, 1), (-1, 0, 1)} :
+      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
+  sorry
+
+/-- Every listed point at prime level 149 satisfies its displayed quartic. -/
+example :
+    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
+      z*x^3-y^2*x^2 + (y^3+z*y^2-2*z^2*y-z^3)*x - y^4+z*y^3+z^2*y^2-z^3*y
+    ∀ v ∈ ({(1, 0, 0), (-1, 0, 1), (0, 1, 1), (1, 0, 1), (0, 0, 1), (0, -1, 1), (2, 2, 1)} :
+      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
+  sorry
+
+/-- Every listed point at prime level 151 satisfies its displayed quartic. -/
+example :
+    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
+      z*x^3 + (-2*z*y+z^2)*x^2 + (-y^3+2*z*y^2)*x - z*y^3+3*z^2*y^2-z^3*y-2*z^4
+    ∀ v ∈ ({(1, 0, 0), (-2, -2, 1), (0, 1, 0), (0, 2, 1), (1, 1, 1), (2, 3, 2), (1, 0, 1), (3, 2, 1)} :
+      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
+  sorry
+
+/-- Every listed point at prime level 179 satisfies its displayed quartic. -/
+example :
+    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
+      z*x^3 + (-2*z*y-z^2)*x^2 + (-y^3-z*y^2-2*z^2*y-z^3)*x - z*y^3+z^3*y
+    ∀ v ∈ ({(1, 0, 0), (0, -1, 1), (0, 1, 0), (0, 0, 1), (0, 1, 1), (-2, 2, 1)} :
+      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
+  sorry
+
+/-- Every listed point at prime level 239 satisfies its displayed quartic. -/
+example :
+    let Q : ℤ → ℤ → ℤ → ℤ := fun x y z =>
+      z*x^3 + (-y^2+z*y+z^2)*x^2 + (-y^3-z*y^2-z^2*y)*x + y^4+3*z*y^3+2*z^2*y^2+z^3*y
+    ∀ v ∈ ({(1, 0, 0), (-1, 0, 1), (0, 0, 1), (1, -2, 1), (1, -1, 1)} :
+      Finset (ℤ × ℤ × ℤ)), Q v.1 v.2.1 v.2.2 = 0 := by
+  sorry
+
+/-- The quartic Thue substitutions in the worked example are exact. -/
+example :
+    (∀ v ∈ ({(1, 0), (-1, 0)} : Finset (ℤ × ℤ)),
+      v.1^4 - 4*v.1^3*v.2 - 12*v.1^2*v.2^2 + 4*v.2^4 = 1) ∧
+    (∀ v ∈ ({(1, 0), (-1, 0), (1, -1), (-1, 1), (1, 3),
+      (-1, -3), (3, -1), (-3, 1)} : Finset (ℤ × ℤ)),
+      v.1^4 - 12*v.1^2*v.2^2 - 8*v.1*v.2^3 + 4*v.2^4 = 1) := by
+  sorry
+
+example : (1274 : ℤ)^3 - 4*1274 + 1 = 45473^2 := by
+  sorry
+
+/-- Both signs of each listed integral y-coordinate satisfy the elliptic equation. -/
+example : ∀ v ∈ ({(-2, 1), (-1, 2), (0, 1), (2, 1), (3, 4), (4, 7),
+    (10, 31), (12, 41), (20, 89), (114, 1217), (1274, 45473)} : Finset (ℤ × ℤ)),
+    v.2 ^ 2 = v.1 ^ 3 - 4*v.1 + 1 ∧ (-v.2) ^ 2 = v.1 ^ 3 - 4*v.1 + 1 := by
+  sorry
+
+/-- The integral substitutions for Mohanty's equation give the elliptic model. -/
+example (m n : ℤ) :
+    (2*n + 1)^2 - ((2*m + 2)^3 - 4*(2*m + 2) + 1) =
+      4 * (n*(n + 1) - 2*m*(m + 1)*(m + 2)) := by
+  sorry
+
+/-- The possible common-prime residue has odd valuation and cannot be a square. -/
+example : (29 : ℤ)^3 - 4*29 + 1 = 229*106 ∧
+    (3*29^2 - 4 : ℤ) = 229*11 ∧ (106 : ℤ) % 229 ≠ 0 := by
+  sorry
+
+/-- The bounded S-unit search checks consistency of the displayed list and
+exponent box; completeness beyond the search bound is a separate theorem. -/
+example :
+    let primes : Finset ℕ := {2, 3, 5, 7, 11, 13}
+    let smooth := (Finset.range 3000001).filter
+      (fun n => 0 < n ∧ n.primeFactors ⊆ primes)
+    let pairs := (smooth.product smooth).filter (fun v =>
+      v.1 ≤ v.2 ∧ v.1 + v.2 ≤ 3000000 ∧
+      Nat.Coprime v.1 v.2 ∧ (v.1 + v.2).primeFactors ⊆ primes)
+    let bounded := pairs.filter (fun v =>
+      padicValNat 2 (v.1*v.2*(v.1+v.2)) ≤ 12 ∧
+      padicValNat 3 (v.1*v.2*(v.1+v.2)) ≤ 7 ∧
+      padicValNat 5 (v.1*v.2*(v.1+v.2)) ≤ 5 ∧
+      padicValNat 7 (v.1*v.2*(v.1+v.2)) ≤ 4 ∧
+      padicValNat 11 (v.1*v.2*(v.1+v.2)) ≤ 3 ∧
+      padicValNat 13 (v.1*v.2*(v.1+v.2)) ≤ 3)
+    pairs.card = 545 ∧ bounded.card = 514 ∧
+      (∀ v ∈ pairs, v.1 + v.2 ≤ 1771561) := by
+  sorry
+
+/-- The largest displayed S-unit triple has the claimed exact sum and support. -/
+example : ED2.coprimeSUnitTriple {2, 3, 5, 7, 11, 13} (91, 1771470, 1771561) ∧
+    (1771561 : ℕ) = 11^6 ∧ (1771470 : ℕ) = 2*3^11*5 := by
+  sorry
+
+example :
+    (48632 : ℤ)^3 - 23*48632^2*(-3729) + 5*48632*(-3729)^2 + 24*(-3729)^3 =
+      320000000000000 ∧ (320000000000000 : ℤ) = 2^18*5^13 := by
+  sorry
+
+example :
+    (0 : ℤ)^3 - 23*0^2*(-1) + 5*0*(-1)^2 + 24*(-1)^3 = -24 ∧
+      (-24 : ℤ) = -(2^3*3) := by
+  sorry
+
+/-- The bad-reduction genus-one factors have different point counts over F₅. -/
+example :
+    let h₁ : ZMod 5 → ZMod 5 := fun x => x^4+x^2+4*x+1
+    let h₂ : ZMod 5 → ZMod 5 := fun x => x^4+2*x^2+2*x+1
+    let pairs := (Finset.univ : Finset (ZMod 5)).product Finset.univ
+    (pairs.filter (fun v => v.2^2 = h₁ v.1)).card + 2 = 8 ∧
+      (pairs.filter (fun v => v.2^2 = h₂ v.1)).card + 2 = 10 := by
+  sorry
+
+/-- The four small-level genus calculations use the full elliptic and cusp terms. -/
+example : (1 + 6/12 - 3/2 : ℚ) = 0 ∧ (1 + 12/12 - 4/2 : ℚ) = 0 ∧
+    (1 + 30/12 - 2/4 - 6/2 : ℚ) = 0 ∧
+    (1 + 56/12 - 2/3 - 8/2 : ℚ) = 1 := by
+  sorry
+
+/-- A fixed point of the Fricke action exists in the upper half-plane. -/
+example : -1 / ((49 : ℂ) * (Complex.I / 7)) = Complex.I / 7 := by
   sorry
 
 end ED6
@@ -416,7 +635,9 @@ SymmetricSquareChabautyDatum, together with number-field local criterion data.
 Layer 5: admissibleClasses, refineClasses, JacobianReductionData, padicImageClasses,
 siftChain, subgroup_triangular_generators, SieveData, with genus-two Kummer
 and finite group-presentation data.
-Layer 6: QCDiscData, ExplicitSetup,
+Layer 6: QCDiscData, ExplicitSetup (the third-kind span becomes the full sum-zero
+residue hyperplane after tensoring with its Galois splitting field L; its Q-image
+is the Galois-invariant part),
 AdmissibleTateMatrix, A_Z, gaugeMatrix, connectionMatrix, HodgeFiltrationData,
 leftMulMatrix, rightMulMatrix, transportMatrix, Frobenius structure and splitting,
 localHeight, qc_candidates_cover, qc_complete_of_matched, xs13FrobeniusLift and xs13Theta,
@@ -581,6 +802,10 @@ ED6.FiniteSolutionSet.solutions_eq.
 §6.14:
 ED6.baseChange_splitting_eq.
 
+§6.30:
+ED6.smallLevel_genus,
+ED6.w49_fixedPoints_card.
+
 §6.19:
 ED6.finrank_of_xs13_cubic,
 ED6.newform_endomorphism_comparison,
@@ -603,7 +828,6 @@ ED6.gaugeMatrix_inv,
 ED6.gaugeMatrix_shift.
 
 §6.16:
-ED6.geometricRootCount_eq_weierstrassDegree,
 ED6.root_satisfies_truncation_congruence,
 ED6.roots_determined_of_truncation.
 
@@ -629,7 +853,9 @@ ED6.valuation_coeff_ge.
 ED6.rationalPoints_eq_of_qcData.
 
 §6.35:
-ED6.x0plus_genusThree_rationalPoints.
+ED6.x0plus_genusThree_rationalPoints, with a supplied regular proper semistable
+Z_N model, geometrically irreducible special fibre, the actual generic-fibre
+identification and normalized local-height comparison at each of the nine primes.
 
 §6.34:
 ED6.xS4_13_rationalPoints.
@@ -655,8 +881,8 @@ ED6.xs13_hodgeData_base_conditions,
 ED6.xs13_hodgeData_conditions.
 
 §6.18:
-ED6.xs13_planeModel,
-ED6.xs13_quartic_identity_and_points,
+ED6.xs13_planeModel, with rational h_i, their supplied invertible comparison with
+the normalized conjugate eigenforms, and exact weight-eight Sturm identities,
 ED6.xs13_specialFibre_card,
 ED6.xs13_specialFibre_smooth.
 

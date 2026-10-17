@@ -62,7 +62,8 @@ hypotheses have been formalised.
 ## Conventions
 
 All integer and rational entries of a datum are exact. Real intervals and complex boxes are
-closed and outward-rounded. Their intersection does not prove equality of their contents. An exact
+closed and outward-rounded. Overlap alone does not in general prove equality of their contents; singleton
+real intervals and complex boxes with both widths zero determine their enclosed value. An exact
 algebraic value lives in an existing algebraic closure with a selected embedding; a datum adds
 a nonzero squarefree polynomial and an isolating interval, box or disc for that value. The principal
 complex argument lies in (`-π,π`]; numerical branch boxes avoid the closed negative real axis, and the
@@ -103,6 +104,16 @@ model, Hecke, Frobenius, integral and L-value data are hypotheses with their exa
 The exact scalar and logarithm-error results of Layers 0 and 2 establish the precision facts
 used by the enumeration theorems. Conditional completeness carries its hypothesis `H` explicitly;
 membership of every listed solution is unconditional.
+
+## Build order
+
+Build Layers 0–2 in numerical order. In Layer 3 use §§3.1–3.14, §3.20,
+§§3.15–3.19, §3.23, §§3.21–3.22, then §§3.24–3.29. In Layer 4 use
+§§4.1–4.10, §4.26, §4.11, §§4.13–4.14, §4.12, then §§4.15–4.25.
+Build Layer 5 in numerical order. In Layer 6 use §§6.1–6.2, §§6.5–6.16,
+§§6.3–6.4, then §§6.17–6.39; within §6.30 prove the small-level genera and
+Fricke fixed-point count before the rational-point application. Section numbers
+identify topics; this order specifies which results are available to each target.
 
 ## Exact supplier contracts
 
@@ -234,6 +245,13 @@ Abel maps `Sym^d X → Pic^d` on symmetric powers.
 From JacobianChallenge Layer `E` (abelian varieties): The Jacobian over `𝔽_p` and over
 `ℚ_p` as an abelian variety; `J(𝔽_p)` is a finite group.
 
+From AbelianSchemesAndArithmeticModuli A3.9 (`Polarization.rosati`), A6.14
+(`rosatiPositivity`) and A6.15 (`rationalNSAmpleCone`): over an algebraically closed
+field and with a polarization, `NS(A)⊗Q` identifies with the Rosati-fixed part of
+`End⁰(A)`. Use these over `Qbar` with JacobianChallenge Layer E's principal theta
+polarization. Rosati positivity forces its action on a totally real endomorphism
+field to be the identity, as used in §6.19.
+
 From JacobianChallenge Layer `F` (Abel–Jacobi): For a curve
 of genus at least one with a rational point `x₀`, the Abel–Jacobi morphism is a closed immersion (the
 Layer `F` closed-immersion theorem); in particular `x ↦ [x − x₀]` is injective on k-points, used over `𝔽_p`.
@@ -271,8 +289,9 @@ using only `κ(J(Q)) ⊗ Q_p` (using the full tensor product); `Υ = {0}` under 
 `D_cris(A_Z(b, x)) ≅ x^*A_Z` of filtered `φ-modules` (Lemma `5.4`) and Nekovář's local height formula
 (17); (d) Theorem `2.3: r < g + ρ − 1` implies `X(Q_p)_2` finite, with `X(Q) ⊆ X(Q_p)_2 ⊆ X(Q_p)_{U_Z}`;
 (e) the class of a nice correspondence satisfies (a)–(d) (forward direction of Lemma `4.7` only),
-and `6T_q − tr(T_q)` on a modular curve with absolutely simple Jacobian is nice; (f) BDMTV 2021
-Theorem `3.2`: local heights away from p via a regular semistable model.
+and `6T_q − tr(T_q)` on a modular curve with absolutely simple Jacobian is nice.
+The prime-level local-height factorization used in §6.35 is a separate application
+hypothesis specified below (BDMTV 2021 Theorem 3.2).
 
 From AnabelianGeometryAndNonabelianChabauty §§2.0–2.7: consume the following connection and path interfaces: Kim's universal pointed unipotent connection `A_n^dR(Y) = ⊕_{i≤n} V_dR(Y)^{⊗i} ⊗ O_Y` with `∇` as in (21) and its universal property for pointed objects with v
 in the fibre at b (Theorem `4.2` with the distinguished vector in the fibre at b); Corollary `4.4 (A_n^dR(X)|_Y` is the maximal
@@ -292,18 +311,24 @@ compatibility and the identification needed by the local-height formulas. Concre
 Frobenius/coefficient/integral tables and their numerical generation are explicit ED consumer
 hypotheses; the numerical tables are explicit hypotheses.
 
-From ModularCurvesPartII §§9.3–9.6: (a)
-`X_s(ℓ) ≅ X_0(ℓ²)/w_{ℓ²}` over `Q`; (b) for `H = C_s^+(ℓ)` or `C_ns^+(ℓ)`, a non-cuspidal `x ∈ X_H(Q)` with
-`j(x) ∉ {0, 1728}` corresponds to an elliptic curve E/Q with `j(E) = j(x)` and `ρ_{E,ℓ}(G_Q)` conjugate
-into `H`, and conversely; `(c) X_s(ℓ)` has a Q-rational cusp (the image of the cusps 0 and `∞` of
-`X_0(ℓ²)`); (d) for ℓ `= 13` the fibres of `X_s(13)` above `j = 0` and `j = 1728` contain Q-rational points;
-(e) the genus of `X_0(4), X_0(9), X_0(25)` is 0, the genus of `X_0(49)` is 1, and `w_49` has `h(−196) = 4`
-fixed points on `X_0(49)`.
+From ModularCurvesPartII §9.5 use `X_s(ℓ) ≅ X_0(ℓ²)/w_{ℓ²}` over `Q` and its
+rational cusp. Section 9.6 supplies the Cartan and exceptional carriers; §9.7 supplies the
+rational-point/Galois-image criterion for `j∉{0,1728}`, and the rational CM fibres of
+`X_s(13)` over 0 and 1728. Section 9.8 supplies `gammaZeroPlus` and
+`gammaZeroPlus.quotientMap` for `X₀⁺(N)`. The four small-level genera and the fixed-point
+count of `w₄₉` are targets of §6.30 below.
 
-From ModularCurvesPartII §11.7: `X_s(13)`
-has potentially good reduction at 13 (Corollary `6.7`, with good reduction away from 13 taken from the
-first Baran model); and for prime `N, X_0^+(N)` has a regular semistable model over `Z_N` with
-irreducible special fibre (BDMTV 2021 Lemma `5.2`, Xue), so the local height at `N` is trivial.
+From ModularCurvesPartII §11.8 use potential good reduction of `X_s(13)` at 13 and
+good reduction away from 13, including at 2 for the first Baran model (Corollary 6.7).
+For each prime-level application of §6.35 assume a regular proper semistable model over
+`Z_N`, with its generic fibre identified with the smooth projective quotient `X₀⁺(N)`
+and geometrically irreducible special fibre. Also supply the factorization of the
+normalized local height `h_N` through the component reduction map: its value on
+the component of the base point is zero. These are explicit application inputs,
+not a consequence of the split-Cartan prime-square model. BDMTV 2021 Lemma 5.2,
+pp.27–28, proves this prime-level fact using Xue's quotient of the Deligne–Rapoport
+model; its Theorem 3.2, p.8, supplies the source for the height comparison.
+The one-component reduction map and the normalized factorization give `h_N=0`.
 
 From ModularCurvesPartII §§13.1–13.4 and `16.1–16.8` consume the actual weight-two
 Jacobian quotients, their Hecke action, dimension and differential comparison. The decomposition
@@ -318,15 +343,15 @@ bad-prime patching and cusp/Abel-Jacobi compatibilities under the stated level h
 comparison and its T7/T11 Tate classes require the actual identity and comparison, not merely a
 matrix that satisfies a linear relation.
 
-From ModularCurvesPartII §§9.3–9.6: Construct the actual algebraic coarse modular curves and finite
+From ModularCurvesPartII §§9.6 and 9.8: Construct the actual algebraic coarse modular curves and finite
 quotient morphisms for `X_0(N)/<w_N>, N` in `{97,109,113,127,139,149,151,179,239}`, and for the
-exceptional subgroup whose projective mod-13 image is S4. Use the existing ModularCurvesPartII §§9.3–9.6 coarse-space
+exceptional subgroup whose projective mod-13 image is S4. Use the ModularCurvesPartII §§9.6 and 9.8 coarse-space
 program on the genuine modular stack presentations, with finite inertia, properness/normality and
 required base-change hypotheses. Supply smooth projective Q-curves with the quotient maps and their
 defining moduli problems. `ED.6` combines this algebraic object with the supplied exact
 q-expansion/model comparison identities to certify the particular printed plane quartics.
 
-From ModularCurvesPartII §9.7: For the ModularCurvesPartII §§9.3–9.6 Cartan, exceptional `S4(13)`, and `X_0(N)/<w_N>`
+From ModularCurvesPartII §§9.7–9.8: For the ModularCurvesPartII §§9.6 and 9.8 Cartan, exceptional `S4(13)`, and `X_0(N)/<w_N>`
 coarse curves, supply the generic-fibre/moduli/correspondence comparison, components and determinant
 data, cusp fields and the geometric identification of the listed cusp and CM fibres. In the
 `X_0(N)/<w_N>` case the interpretation is an unordered N-isogenous pair; the function j on `X_0(N)` does
@@ -427,8 +452,10 @@ rational centre c and an integer `N` with `‖x − c‖_p ≤ p^(−N); N` is i
 canonical record is the `ED.0` normalized p-adic ball data `(N, v, s)` with `(v, s) = (N, 0)` when `c = 0`;
 otherwise `v = min(v_p(c), N), s = 0` when `v = N`, and when `v < N s` the residue of `c·p^(−v)` in [`1, p^(N−v)`) prime to p; that record denotes the same ball and so contains x. Every check on an
 enclosure (width, precision, membership of a rational, exclusion of zero) is a finite comparison of
-rationals or of p-adic valuations of rationals. An enclosure never certifies an equality: two
-different numbers can have overlapping or identical enclosures.
+rationals or of p-adic valuations of rationals. Overlap of enclosures does not in general certify equality: distinct numbers can
+have overlapping or identical positive-width enclosures. A singleton real interval
+`[q,q]` certifies its enclosed value is q; a complex box with both widths zero
+likewise certifies its value.
 
 Work under the following conditions. p is a prime in (iii); `n ∈` ℕ and `N ∈ ℤ`. Endpoints and centres
 are exact rationals; no floating-point value enters a check.
@@ -473,7 +500,9 @@ examples alone do not test either record constructor.
 - `padicEnclosure_normalize_five`. At `p = 3` the enclosure `(5, 1)` has canonical `ED.0` exact algebraic/ball data record `(N, v, s) = (1, 0, 2)`: the balls of radius 1/3 about 5 and about 2 coincide.
 - `padicEnclosure_normalize_zero`. At `p = 3`, centre `c = 0` and precision `N = 2`, the canonical `ED.0` exact algebraic/ball data record is `(N, v, s) = (2, 2, 0)`. The pinned totalized `padicValRat 3 0 = 0` must not select `v = 0`: a `v < N` record requires a nonzero residue prime to p.
 - Every enclosure check is a comparison of rationals: [141/100, 142/100] ∋ `√2` is verified by `141² < 2·100² < 142²`.
-- An enclosure containing two distinct numbers exists `(realEnclosure_overlap)`, so no equality is ever read from enclosures.
+- An enclosure containing two distinct numbers exists `(realEnclosure_overlap)`, so
+  overlap alone does not imply equality. In contrast, `realIntervalContains 0 0 x`
+  implies `x=0`, and a complex box with both widths zero determines its value.
 
 ([de Weger (1989)](https://ir.cwi.nl/pub/13190), §2.5, printed pp. 33–34; [J. R. Doyle, D.
 Krumm](https://arxiv.org/abs/1111.4963), §4, before §4.1 (arXiv v4 p. 9).)
@@ -731,16 +760,17 @@ The representative `ED0.exists_padic_ball` supplies rational centres at every in
 ### 0.7 Exact nonvanishing and the exact zero test
 
 Let `K` be a number field with power basis pb and `α ∈ K` with power-basis coordinates `(a_j) ∈ ℚ^d`. (a)
-`α = 0` if and only if every `a_j = 0`; this exact test is the only way an identity `α = 0` (or `α = β`,
-applied to `α − β`) is established, For algebraic values given with isolations, the comparison uses exact equality in the
+`α = 0` if and only if every `a_j = 0`; this coordinate test establishes `α = 0` (or `α = β`,
+applied to `α − β`). For algebraic values given with isolations, the comparison uses exact equality in the
 algebraic closure and the common-root comparison of §0.2. (b) If c is an archimedean embedding datum and `(R, I)` a ComplexEnclosure of
 `σ_c(α)` whose box excludes `0 (R.fst > 0, R.snd < 0, I.fst > 0` or `I.snd < 0`), then `α ≠ 0`, and
 therefore `τ(α) ≠ 0` for every ring homomorphism `τ` from `K` to a field. (c) If a is a p-adic embedding
 datum and `(c, N)` a PadicEnclosure of `σ_a(α)` with `c ≠ 0` and `v_p(c) < N`, then `α ≠ 0`. (d) The
 exclusion test is complete: if `α ≠ 0`, every ComplexEnclosure of `σ_c(α)` of absolute precision n with
 `2·4^(−n) < |σ_c(α)|²` excludes 0, and every PadicEnclosure `(c, N)` of `σ_a(α)` with `N > v_p(σ_a(α))` has
-`c ≠ 0` and `v_p(c) = v_p(σ_a(α)) < N`; so every sufficiently fine enclosure excludes zero. (e) No enclosure
-containing 0 proves `α = 0`: for every n the rational `α = 2^(−n−1)` has the precision-n enclosure `[0, 2^(−n)]` containing 0.
+`c ≠ 0` and `v_p(c) = v_p(σ_a(α)) < N`; so every sufficiently fine enclosure excludes zero. (e) A positive-width enclosure
+containing 0 alone need not prove `α = 0`; a singleton real interval `[0,0]` or
+a zero-width complex box at zero does prove vanishing. For every n the rational `α = 2^(−n−1)` has the precision-n enclosure `[0, 2^(−n)]` containing 0.
 
 Work under the following conditions. `K` a number field, pb : PowerBasis `ℚ K; σ_c` from §0.4 and `σ_a`
 from §0.6. Enclosures are those of §0.1.
@@ -756,6 +786,8 @@ The representative `ED0.padic_nonzero_of_error_lt` states the strict relative-er
 
 **Checks.**
 
+- The singleton real enclosure `[0,0]` implies `α=0`; the positive-width enclosure
+  `[0,2^(−n)]` also contains the nonzero rational `2^(−n−1)`.
 - Pell unit test: in `K = ℚ(√2)` with the datum `[1, 2] × [0, 0], α = 3363 − 2378·θ` has `σ_c(α) = (1 − √2)^10 = 1.4867…·10^(−4)`. The exact test (a) gives `α ≠ 0` from the coordinates `(3363, −2378)`. An enclosure of precision 10 (width `2^(−10) ≈ 9.8·10^(−4)`) can contain 0, while every enclosure of precision 14 excludes 0 by (d), since `2·4^(−14) ≈ 7.5·10^(−9) < 2.2·10^(−8) ≈ |σ_c(α)|²`.
 - At `p = 7` with the datum a `= 3` for `X² − 2`, the enclosure `(7, 2)` of `σ_a(θ − 3)` certifies `θ − 3 ≠ 0` and `v_7(σ_a(θ − 3)) = 1`.
 
@@ -4812,7 +4844,7 @@ giving valuation `≥ k − 2δ`. The `ω^{(i)}` are linearly independent (each 
 
 ([Samir Siksek](https://arxiv.org/abs/1010.2603), §4 Remark (iii), p.9; [Stoll (arXiv
 v2)](https://arxiv.org/abs/0803.2836), §3 proof of Lemma 5, p.10; [McCallum–Poonen
-(2012)](https://math.mit.edu/~poonen/papers/chabauty.pdf), §7 (4), author copy p.9.)
+(2012)](https://math.mit.edu/~poonen/papers/chabauty.pdf), §8.3, equation (4), author copy p.11.)
 
 *Needs:* §4.9; §4.5; §3.21; §0.8; §0.6.
 
@@ -5647,36 +5679,31 @@ v2)](https://arxiv.org/abs/0803.2836), §4 Theorem 7, p.13.)
 
 *Needs:* §4.18; §4.17; §4.5; §4.10; §4.11; §4.16; §3.29.
 
-### 4.26 Strassmann's theorem: zeros of a restricted power series on the closed unit disc
+### 4.26 Strassmann supplier on the closed unit disc
 
-Let `K` be a field with a complete nonarchimedean (ultrametric) absolute value `|·|` (for example `ℚ_p` or
-a finite extension of `ℚ_p`), and let `f = Σ_{n≥0} a_n x^n ∈` K[[x]] be nonzero with `|a_n| → 0 (f` is
-restricted at radius 1, Mathlib's `PowerSeries.IsRestricted 1`). Let `N` be the largest index with `|a_N| = max_n |a_n|` (it exists: the last coefficient attaining the Gauss norm at radius 1). Then f has at
-most `N` distinct zeros in the closed unit disc `{x ∈ K : |x| ≤ 1}`. In particular a nonzero restricted
-power series has finitely many zeros there, and if `N = 0` it has none.
-
-Work under the following conditions. `K` complete with respect to a nonarchimedean absolute value; `f ∈`
-K[[x]], `f ≠ 0, |a_n| → 0`. Zeros are counted as distinct points x with `|x| ≤ 1`, at which the series `Σ a_n x^n` converges.
-
-For the proof, use the last Gauss-norm maximum at radius `c = 1`, expressed in the pinned library by
-`TauCeti.PowerSeries.exists_isDistinguished`. It gives an index `N` with `|a_N|` equal
-to the Gauss `norm PowerSeries.gaussNorm` and `|a_m|` strictly
-smaller for every `m > N`. Induction on `N`. If `N = 0` then `|a_0| > |a_n| ≥ |a_n x^n|` for `n ≥ 1` and `|x| ≤ 1`, so `|f(x)| = |a_0| ≠ 0` by the ultrametric inequality. If `f(α) = 0` with `|α| ≤ 1`, write `f(x) = f(x) − f(α) = (x − α)g(x)` with `g = Σ_j b_j x^j, b_j = Σ_{n>j} a_n α^{n−1−j}`; the `b_j` tend to `0, |b_j| ≤ |a_N|` for all `j, |b_{N−1}| = |a_N|` and `|b_j| < |a_N|` for `j ≥ N`, so the last dominant index of g is `N − 1`. Every zero of f in the closed unit disc other than `α` is a zero of g, so f has at most `1 + (N − 1) = N` zeros (Flynn–Poonen–Schaefer, Theorem 4, citing Cassels' Local Fields `p.62`).
-
-The representative `ED4.strassmann_card_le` bounds a finite set of distinct closed-disc zeros by the last maximal coefficient index; it assumes coefficients tend to zero and the dominant coefficient is nonzero.
+RestrictedPowerSeries §2.4 supplies Strassmann's theorem, including arbitrary radius
+and complete isometric extensions. Its radius-one specialization over `Q_p` says
+that a nonzero restricted series has at most N distinct closed-unit-disc zeros,
+where N is the last index attaining its Gauss norm. Section 4.11 applies this to
+`f(pT)`, where `f'∈Z_p[[t]]`, and certifies N from finite coefficient bounds and a
+strict infinite-tail bound. The convergence and dominant-coefficient hypotheses
+are carried by that application. The general Strassmann theorem is supplied by
+RestrictedPowerSeries rather than constructed here.
 
 **Checks.**
 
-- `f = x − x²` over `ℚ_p: N = 2 (|a_1| = |a_2| = 1)` and the zeros 0, 1 are exactly two.
-- `f = 1 + p x: N = 0` and f has no zero in `ℤ_p` (its zero −1/p has absolute value p).
-- For example, Strassmann's bound for `1 + pX + X² + pX⁵` over `ℚ_p` is 2.
-- Applied to `f(pT)` for a Coleman integral on a residue disc, it bounds the zeros in the disc `(§4.11)`.
+- `f=X−X²` has last dominant index 2 and exactly the two closed-disc zeros 0 and 1.
+- `f=1+pX` has last dominant index 0; its root `−1/p` lies outside the closed unit disc.
+- `1+pX+X²+pX⁵` has last dominant index 2, so the supplier bounds its zeros by 2.
+- For a residue-disc integral, `t=pT` identifies its zeros on `pZ_p` with the
+  unit-disc zeros to which §4.11 applies the supplier.
 
-([Flynn–Poonen–Schaefer (arXiv v1)](https://arxiv.org/abs/math/9508211), §8, Theorem 4, p.21
-(arXiv:math/9508211); [McCallum–Poonen (2012)](https://math.mit.edu/~poonen/papers/chabauty.pdf),
+([Flynn–Poonen–Schaefer (arXiv v1)](https://arxiv.org/abs/math/9508211), §8,
+Theorem 4, p.21; [McCallum–Poonen](https://math.mit.edu/~poonen/papers/chabauty.pdf),
 §5.3, proof of Lemma 5.1, author copy p.6.)
 
-*Needs:* Mathlib `PowerSeries.IsRestricted`; Mathlib `PowerSeries.gaussNorm`; Tau Ceti `TauCeti.PowerSeries.exists_isDistinguished`; Mathlib IsUltrametricDist.
+*Needs:* RestrictedPowerSeries §2.4 (Strassmann) and §2 (evaluation);
+Tau Ceti `TauCeti.PowerSeries.exists_isDistinguished`.
 
 ### Examples
 
@@ -6604,11 +6631,19 @@ these model theorems.
 
 **Checks.**
 
-- Remark `5.12`: for `k = 𝔽_q` with q odd, `#J_F^0(𝔽_q)` depends only on the factorisation pattern of `F` (Figure 1).
+- For singular `F̄` over `F_q`, q odd, Remark 5.12 and Figure 1 determine
+  `#J⁰_{F̄}(F_q)` from factor degrees and multiplicities together with the indicated
+  square classes of resultants or leading coefficients and, in genus-one rows, `#E(F_q)`.
+  The factorization pattern alone does not determine the order.
+- Over `F₅`, `h₁=x⁴+x²+4x+1` and `h₂=x⁴+2x²+2x+1` are irreducible. The smooth
+  genus-one curves `y²=h_i` have respectively 8 and 10 points, including their two
+  points at infinity. For `F̄=X²h_i`, the resultant `h_i(0)=1` is a square, so
+  Figure 1 gives orders `4·8=32` and `4·10=40` for the same factorization pattern.
 - `F = H²` a nonzero square: `J_F` has three components, the two not containing the origin are principal homogeneous spaces under `J_F^0`, and the exact sequence (c) is not claimed.
 
 ([Bruin–Stoll (2010)](https://doi.org/10.1112/S1461157009000187), Theorem 5.11, published p.291;
-[Bruin–Stoll (2010)](https://doi.org/10.1112/S1461157009000187), Corollary 5.15, published p.294.)
+[Bruin–Stoll (2010)](https://doi.org/10.1112/S1461157009000187), Corollary 5.15, published p.294;
+Remark 5.12 and Figure 1, published p.292.)
 
 *Needs:* §5.13; §5.17; StableReduction Layer 5 (regular and minimal models); AlgebraicCurves Layer 10 (hyperelliptic and plane models).
 
@@ -7052,14 +7087,17 @@ splitting field `L` for `D` and uniformizers `t_x` identifying completed local r
 `L[[t_x]]` and their fraction fields with `L((t_x))`; expansions must be the maps induced by `K⊗L`, not
 arbitrary Laurent-family maps. Choose `ω_0,…,ω_{2g+d−2}` in `Ω¹(Y/Q)` whose classes form a basis of
 `H¹_dR(Y)`, the first2g of the second kind, the firstg a basis of `H⁰(X,Ω¹)`, with cup matrix
-`C=[[0,I],[-I,0]]`, and third-kind complement with residue map an isomorphism onto `{(r_x):Σr_x=0}`. Put
+`C=[[0,I],[-I,0]]`, and third-kind complement with residue map, after tensoring with L, an L-linear isomorphism onto
+`{(r_x)∈L^{D(L)}:Σ_x r_x=0}`. Over Q its image is the Galois-invariant part
+of that hyperplane. Put
 `V_dR=H¹_dR(X)^*` with dual basis `T_i`. Take nonzero rational tensor `Z` with antisymmetry, lower-right
 `g×g` block0 and zero cup contraction; under crystalline/de Rham comparison require Frobenius weight
 p, in coordinates `FᵀZF=pZ`. For height applications additionally supply an actual nice correspondence
 whose cycle class is `Z`; do not infer a rational algebraic cycle from these linear/Frobenius
 conditions. The geometric signature uses this curve, its function field and these induced
-expansions. The residue map from `span(ω_{2g}, …, ω_{2g+d−2})` to `L^D` is injective with image the
-sum-zero hyperplane, because the kernel of `H¹_dR(Y) → L^d` is `H¹_dR(X)` (BDMTV proof of Lemma `4.10`);
+expansions. The residue map on `span_Q(ω_{2g}, …, ω_{2g+d−2})⊗_Q L` is
+injective with image the L-linear sum-zero hyperplane, because the kernel of
+`H¹_dR(Y)⊗_Q L → L^{D(L)}` is `H¹_dR(X)⊗_Q L` (BDMTV proof of Lemma `4.10`);
 this is the property explicit-connection uses. Condition (b) reads `Z_ij = 0` for `i, j ≥ g` only
 because `ω_0, …, ω_{g−1} span Fil¹`; condition (c) reads `Σ_{i<g} Z_{i,g+i} = 0` only for the symplectic
 convention.
@@ -7072,7 +7110,9 @@ b. Put `A=Γ(Y,O_Y), K=Q(X)=Frac(A)`. Choose a finite Galois splitting field `L`
 `L((t_x))`; expansions must be the maps induced by `K⊗L`, not arbitrary Laurent-family maps. Choose
 `ω_0,…,ω_{2g+d−2}` in `Ω¹(Y/Q)` whose classes form a basis of `H¹_dR(Y)`, the first2g of the second kind,
 the firstg a basis of `H⁰(X,Ω¹)`, with cup matrix `C=[[0,I],[-I,0]]`, and third-kind complement with
-residue map an isomorphism onto `{(r_x):Σr_x=0}`. Put `V_dR=H¹_dR(X)^*` with dual basis `T_i`. Take
+residue map, after tensoring with L, an L-linear isomorphism onto
+`{(r_x)∈L^{D(L)}:Σ_x r_x=0}`. Over Q its image is the Galois-invariant part
+of that hyperplane. Put `V_dR=H¹_dR(X)^*` with dual basis `T_i`. Take
 nonzero rational tensor `Z` with antisymmetry, lower-right `g×g` block0 and zero cup contraction; under
 crystalline/de Rham comparison require Frobenius weight p, in coordinates `FᵀZF=pZ`. For height
 applications additionally supply an actual nice correspondence whose cycle class is `Z`; do not infer
@@ -7087,6 +7127,10 @@ pairing; the separate ExplicitSetupLinearData only stores matrices.
 - `admissibleTate_symmetric`. The matrix `fromBlocks 0 1 1 0` (symmetric, nonzero) fails (d).
 - `explicitSetup_cupMatrix_g1`. For `g = 1` the cup product matrix is the `2×2` matrix with rows `(0, 1)` and `(−1, 0)`, the standard symplectic form, `Matrix.fromBlocks 0 1 (−1) 0`.
 - `explicitSetup_frobenius_nonexample`. A nonzero matrix satisfying `only(b)–(d)`, together with `F=I` and `p=17`, fails `FᵀZF=17Z` and cannot supply an ExplicitSetup Tate class. The Frobenius compatibility must be checked on the actual cohomology.
+- For `X:y²=2x⁶+1`, the two infinity points split over `L=Q(√2)`. The
+  third-kind complement has Q-dimension one; the full sum-zero hyperplane in `L²`
+  has Q-dimension two. Its invariant tuples are `(a√2,−a√2)`, `a∈Q`, and the
+  residue map becomes an isomorphism onto the whole hyperplane only after tensoring with L.
 - `X_s(13), Y = {Z ≠ 0}, b = P2 = (0,0), g = 3: ω = (1, x, y, …)dx/Q_y` and Z1, Z2 of xs13-tate-classes form a set-up.
 - A symmetric nonzero matrix is never admissible, by (d).
 
@@ -7126,7 +7170,9 @@ uniformizers `t_x` identifying completed local rings at `x∈D(L)` with `L[[t_x]
 with `L((t_x))`; expansions must be the maps induced by `K⊗L`, not arbitrary Laurent-family maps. Choose
 `ω_0,…,ω_{2g+d−2}` in `Ω¹(Y/Q)` whose classes form a basis of `H¹_dR(Y)`, the first2g of the second kind,
 the firstg a basis of `H⁰(X,Ω¹)`, with cup matrix `C=[[0,I],[-I,0]]`, and third-kind complement with
-residue map an isomorphism onto `{(r_x):Σr_x=0}`. Put `V_dR=H¹_dR(X)^*` with dual basis `T_i`. Take
+residue map, after tensoring with L, an L-linear isomorphism onto
+`{(r_x)∈L^{D(L)}:Σ_x r_x=0}`. Over Q its image is the Galois-invariant part
+of that hyperplane. Put `V_dR=H¹_dR(X)^*` with dual basis `T_i`. Take
 nonzero rational tensor `Z` with antisymmetry, lower-right `g×g` block0 and zero cup contraction; under
 crystalline/de Rham comparison require Frobenius weight p, in coordinates `FᵀZF=pZ`. For height
 applications additionally supply an actual nice correspondence whose cycle class is `Z`; do not infer
@@ -7226,7 +7272,9 @@ b. Put `A=Γ(Y,O_Y), K=Q(X)=Frac(A)`. Choose a finite Galois splitting field `L`
 `L((t_x))`; expansions must be the maps induced by `K⊗L`, not arbitrary Laurent-family maps. Choose
 `ω_0,…,ω_{2g+d−2}` in `Ω¹(Y/Q)` whose classes form a basis of `H¹_dR(Y)`, the first2g of the second kind,
 the firstg a basis of `H⁰(X,Ω¹)`, with cup matrix `C=[[0,I],[-I,0]]`, and third-kind complement with
-residue map an isomorphism onto `{(r_x):Σr_x=0}`. Put `V_dR=H¹_dR(X)^*` with dual basis `T_i`. Take
+residue map, after tensoring with L, an L-linear isomorphism onto
+`{(r_x)∈L^{D(L)}:Σ_x r_x=0}`. Over Q its image is the Galois-invariant part
+of that hyperplane. Put `V_dR=H¹_dR(X)^*` with dual basis `T_i`. Take
 nonzero rational tensor `Z` with antisymmetry, lower-right `g×g` block0 and zero cup contraction; under
 crystalline/de Rham comparison require Frobenius weight p, in coordinates `FᵀZF=pZ`. For height
 applications additionally supply an actual nice correspondence whose cycle class is `Z`; do not infer
@@ -7397,7 +7445,9 @@ b. Put `A=Γ(Y,O_Y), K=Q(X)=Frac(A)`. Choose a finite Galois splitting field `L`
 `L((t_x))`; expansions must be the maps induced by `K⊗L`, not arbitrary Laurent-family maps. Choose
 `ω_0,…,ω_{2g+d−2}` in `Ω¹(Y/Q)` whose classes form a basis of `H¹_dR(Y)`, the first2g of the second kind,
 the firstg a basis of `H⁰(X,Ω¹)`, with cup matrix `C=[[0,I],[-I,0]]`, and third-kind complement with
-residue map an isomorphism onto `{(r_x):Σr_x=0}`. Put `V_dR=H¹_dR(X)^*` with dual basis `T_i`. Take
+residue map, after tensoring with L, an L-linear isomorphism onto
+`{(r_x)∈L^{D(L)}:Σ_x r_x=0}`. Over Q its image is the Galois-invariant part
+of that hyperplane. Put `V_dR=H¹_dR(X)^*` with dual basis `T_i`. Take
 nonzero rational tensor `Z` with antisymmetry, lower-right `g×g` block0 and zero cup contraction; under
 crystalline/de Rham comparison require Frobenius weight p, in coordinates `FᵀZF=pZ`. For height
 applications additionally supply an actual nice correspondence whose cycle class is `Z`; do not infer
@@ -7455,7 +7505,9 @@ b. Put `A=Γ(Y,O_Y), K=Q(X)=Frac(A)`. Choose a finite Galois splitting field `L`
 `L((t_x))`; expansions must be the maps induced by `K⊗L`, not arbitrary Laurent-family maps. Choose
 `ω_0,…,ω_{2g+d−2}` in `Ω¹(Y/Q)` whose classes form a basis of `H¹_dR(Y)`, the first2g of the second kind,
 the firstg a basis of `H⁰(X,Ω¹)`, with cup matrix `C=[[0,I],[-I,0]]`, and third-kind complement with
-residue map an isomorphism onto `{(r_x):Σr_x=0}`. Put `V_dR=H¹_dR(X)^*` with dual basis `T_i`. Take
+residue map, after tensoring with L, an L-linear isomorphism onto
+`{(r_x)∈L^{D(L)}:Σ_x r_x=0}`. Over Q its image is the Galois-invariant part
+of that hyperplane. Put `V_dR=H¹_dR(X)^*` with dual basis `T_i`. Take
 nonzero rational tensor `Z` with antisymmetry, lower-right `g×g` block0 and zero cup contraction; under
 crystalline/de Rham comparison require Frobenius weight p, in coordinates `FᵀZF=pZ`. For height
 applications additionally supply an actual nice correspondence whose cycle class is `Z`; do not infer
@@ -7506,7 +7558,9 @@ uniformizers `t_x` identifying completed local rings at `x∈D(L)` with `L[[t_x]
 with `L((t_x))`; expansions must be the maps induced by `K⊗L`, not arbitrary Laurent-family maps. Choose
 `ω_0,…,ω_{2g+d−2}` in `Ω¹(Y/Q)` whose classes form a basis of `H¹_dR(Y)`, the first2g of the second kind,
 the firstg a basis of `H⁰(X,Ω¹)`, with cup matrix `C=[[0,I],[-I,0]]`, and third-kind complement with
-residue map an isomorphism onto `{(r_x):Σr_x=0}`. Put `V_dR=H¹_dR(X)^*` with dual basis `T_i`. Take
+residue map, after tensoring with L, an L-linear isomorphism onto
+`{(r_x)∈L^{D(L)}:Σ_x r_x=0}`. Over Q its image is the Galois-invariant part
+of that hyperplane. Put `V_dR=H¹_dR(X)^*` with dual basis `T_i`. Take
 nonzero rational tensor `Z` with antisymmetry, lower-right `g×g` block0 and zero cup contraction; under
 crystalline/de Rham comparison require Frobenius weight p, in coordinates `FᵀZF=pZ`. For height
 applications additionally supply an actual nice correspondence whose cycle class is `Z`; do not infer
@@ -7560,7 +7614,9 @@ b. Put `A=Γ(Y,O_Y), K=Q(X)=Frac(A)`. Choose a finite Galois splitting field `L`
 `L((t_x))`; expansions must be the maps induced by `K⊗L`, not arbitrary Laurent-family maps. Choose
 `ω_0,…,ω_{2g+d−2}` in `Ω¹(Y/Q)` whose classes form a basis of `H¹_dR(Y)`, the first2g of the second kind,
 the firstg a basis of `H⁰(X,Ω¹)`, with cup matrix `C=[[0,I],[-I,0]]`, and third-kind complement with
-residue map an isomorphism onto `{(r_x):Σr_x=0}`. Put `V_dR=H¹_dR(X)^*` with dual basis `T_i`. Take
+residue map, after tensoring with L, an L-linear isomorphism onto
+`{(r_x)∈L^{D(L)}:Σ_x r_x=0}`. Over Q its image is the Galois-invariant part
+of that hyperplane. Put `V_dR=H¹_dR(X)^*` with dual basis `T_i`. Take
 nonzero rational tensor `Z` with antisymmetry, lower-right `g×g` block0 and zero cup contraction; under
 crystalline/de Rham comparison require Frobenius weight p, in coordinates `FᵀZF=pZ`. For height
 applications additionally supply an actual nice correspondence whose cycle class is `Z`; do not infer
@@ -7685,7 +7741,7 @@ class solving a congruence is not itself a polynomial root and carries no multip
 guarantee. With `d = 1` after recentring and rescaling (BDMTV 2021 Remark `4.8`), each simple root is
 isolated in a ball containing no other root, which is the (unique) condition of qc-disc-datum;
 the bound d must count geometric roots with multiplicity. Obtain it from the Weierstrass degree
-of `G` (the last index attaining its Gauss norm), through the root-counting adapter below. The distinct
+of `G` (the last index attaining its Gauss norm), by the NewtonPolygons §4.3 multiplicity count specialized below. The distinct
 `Q_p-root` bound of §4.26 alone does not supply this multiplicity bound.
 
 Work under the following conditions. `F` converges on the closed disc `ord_p(x) ≥ 1` (ensured by
@@ -7694,16 +7750,25 @@ valuations `(ED.0)`.
 
 The interface includes these statements.
 
-- `ED6.geometricRootCount_eq_weierstrassDegree`: For a nonzero restricted series `G` over `Q_p` with last dominant index `D`, extend coefficients to completed `C_p` and evaluate on its closed unit disc. Its zero multiset has cardinality `D`, using analytic vanishing multiplicity; in particular `D≤d` supplies the hypothesis above. The unit factor in the reused preparation has constant absolute value equal to the Gauss norm of `G` and contributes no zeros.
+- Supplier specialization (NewtonPolygons §4.3): for nonzero restricted `G` over `Q_p`
+  with last dominant index D, extend to completed `C_p` and evaluate on the closed unit
+  disc. Its geometric zero multiset has cardinality D with analytic multiplicity;
+  `D≤d` supplies the bound above. RestrictedPowerSeries §2 supplies evaluation and
+  translation; NewtonPolygons §§3.4 and 4.3 supply strict-perturbation multiplicity
+  counts on every recentered cluster disc.
 - `ED6.roots_determined_of_truncation`: Under the displayed restriction, tail, coefficient-error, `n>k` and geometric multiplicity hypotheses, provide the matching of geometric root multisets and a complete finite ball cover. Isolation additionally requires a local count of one; repeated roots remain clusters.
 - `ED6.root_satisfies_truncation_congruence`: Supporting necessary congruence for an existing `Q_p` root, using the supplied tail valuation. No cluster existence, multiplicity or isolation conclusion.
 
-For the proof, normalize to `G(T)=p^(−k)F(pT)`, of Gauss norm one. The tail and coefficient-error hypotheses give `||G−H||≤ε=p^(−(n−k))<1`. Thus `G` and `H` have the same last coefficient of norm one, of index `D≤d`. If `D=0` both are units and have no closed-disc roots. Otherwise use the pinned `TauCeti.PowerSeries.IsDistinguished.exists_isUnit_isMonicOfDegree_mul_eq` and its uniqueness theorem to factor each as a unit of norm one times a monic degree-D polynomial whose roots lie in the closed unit disc. The new analytic adapter must show that these unit factors have absolute value one throughout that disc. Partition the union of the two finite root multisets into closed balls of radius `ε^(1/d)`. Enlarge a cluster ball slightly to a radius `ε^(1/d)<r<1` that crosses no other root distance. On its boundary every factor in the polynomial for `G` has absolute value at least r, so `|G|≥r^D≥r^d>ε`. The nonarchimedean Rouché/Newton-polygon comparison gives equal numbers of G- and H-roots inside, with multiplicity. Taking the radii down to `ε^(1/d)` gives the matching. This comparison, including multiplicity and stability, is the new root-counting comparison; preparation itself is reused. Translate the matched balls by `x=pT`. A further local count equal to one proves isolation; solving a bare congruence supplies neither existence nor that count.
+For the proof, normalize to `G(T)=p^(−k)F(pT)`, of Gauss norm one. The tail and coefficient-error hypotheses give `||G−H||≤ε=p^(−(n−k))<1`. Thus `G` and `H` have the same last coefficient of norm one, of index `D≤d`. If `D=0` both are units and have no closed-disc roots. Otherwise use the pinned `TauCeti.PowerSeries.IsDistinguished.exists_isUnit_isMonicOfDegree_mul_eq` and its uniqueness theorem to factor each as a unit of norm one times a monic degree-D polynomial whose roots lie in the closed unit disc. The supplier unit criterion and evaluation show that these unit factors have absolute value one throughout that disc. Partition the union of the two finite root multisets into closed balls of radius `ε^(1/d)`. Enlarge a cluster ball slightly to a radius `ε^(1/d)<r<1` that crosses no other root distance. On its boundary every factor in the polynomial for `G` has absolute value at least r, so `|G|≥r^D≥r^d>ε`. The nonarchimedean Rouché/Newton-polygon comparison gives equal numbers of G- and H-roots inside, with multiplicity. Taking the radii down to `ε^(1/d)` gives the matching. Apply NewtonPolygons §§3.4 and 4.3 after translating and rescaling each cluster
+disc, using RestrictedPowerSeries §2. The quantitative matching radius and its
+finite-data application are the targets here; the multiplicity and strict-perturbation
+comparisons are supplied. Translate the matched balls by `x=pT`. A further local count equal to one proves isolation; solving a bare congruence supplies neither existence nor that count.
 
 The intended signatures also include `ED6.roots_determined_of_truncation`. For nonzero
 restricted `F(pT)` over completed Cp, positive multiplicity bound d, finite coefficients modulo `p^N`
-and exact tail lower bounds, prove the Weierstrass/Newton perturbation theorem with `n−k>0`: a
-complete ball cover of every root, multiplicities, isolation and stability. Exact `Polynomial.roots`
+and exact tail lower bounds, prove the quantitative matching theorem with `n−k>0`: a
+complete ball cover of every root, with multiplicities and stability; isolation
+requires a local multiplicity count of one. Exact `Polynomial.roots`
 over `Q_p` is not a residue-root enumerator or a Cp root constructor. Zero coefficients have
 `valuation∞`; a zero dominant coefficient is rejected.
 
@@ -7716,7 +7781,7 @@ over `Q_p` is not a residue-root enumerator or a Cp root constructor. Zero coeff
 ([BDMTV (arXiv v4, 2023)](https://arxiv.org/abs/2101.01862v4), Lemma 4.7, p.25 (arXiv v4); [BDMTV
 (arXiv v4, 2023)](https://arxiv.org/abs/2101.01862v4), Remark 4.8, p.25 (arXiv v4).)
 
-*Needs:* §4.11; §6.15; §0.8; Mathlib PowerSeries; Mathlib `Polynomial.roots`; Tau Ceti `TauCeti.PowerSeries.IsDistinguished.exists_isUnit_isMonicOfDegree_mul_eq` and `TauCeti.PowerSeries.IsDistinguished.existsUnique_isUnit_isMonicOfDegree_mul_eq`.
+*Needs:* §4.11; §6.15; §0.8; NewtonPolygons §§3.4 and 4.3; RestrictedPowerSeries §2; Mathlib PowerSeries; Mathlib `Polynomial.roots`; Tau Ceti `TauCeti.PowerSeries.IsDistinguished.exists_isUnit_isMonicOfDegree_mul_eq` and `TauCeti.PowerSeries.IsDistinguished.existsUnique_isUnit_isMonicOfDegree_mul_eq`.
 
 ### 6.17 Quadratic Chabauty on an affine cover
 
@@ -7763,8 +7828,9 @@ all determinant equations. Apply the root matching theorem, then §6.2 and the s
 ### 6.18 Plane quartic model of `X_s(13)`, its seven known points and the residue discs at 17
 
 Conditional on the explicit arithmetic-input hypotheses listed below, let `B(X, Y, Z) := (−Y − Z)X³ + (2Y² + YZ)X² + (−Y³ + Y²Z − 2YZ² + Z³)X + (2Y²Z² − 3YZ³`) (Baran's quartic) and `Q(X, Y, Z) := Y⁴ + 5X⁴ − 6X²Y² + 6X³Z + 26X²YZ + 10XY²Z − 10Y³Z − 32X²Z² − 40XYZ² + 24Y²Z² + 32XZ³ − 16YZ³`. `(i) X_s(13) ≅ X_0^+(169)` over `Q`, and the canonical model of `X_0^+(169)` is the smooth plane quartic `B = 0`, cut
-out by the quartic relation among the three Galois conjugates of the newform f of
-xs13-endomorphism-algebra (which satisfy no quadratic relation). `(ii) Q(X − Y, X + Y, X + Z) = 16·B(X, Y, Z)`, so (`X : Y : Z) ↦ (X − Y : X + Y : X + Z`) is a Q-isomorphism `{B = 0} → {Q = 0}; Q` is
+out by `B(h₁,h₂,h₃)=0` for a rational basis `h₁,h₂,h₃` of
+`S₂(Γ₀(169))^{w₁₆₉=+1}`. These are the Baran coordinates; their products satisfy no
+quadratic relation. `(ii) Q(X − Y, X + Y, X + Z) = 16·B(X, Y, Z)`, so (`X : Y : Z) ↦ (X − Y : X + Y : X + Z`) is a Q-isomorphism `{B = 0} → {Q = 0}; Q` is
 monic in `Y`. (iii) `B = 0` has good reduction at every prime `≠ 13`, and `Q = 0` at every prime `≠ 2, 13; Q`
 is smooth modulo 17 and #`{Q = 0}(F_17) = 20`. (iv) The points P0 `= (1 : 1 : 1), P1 = (1 : 1 : 2)`, P2
 `= (0 : 0 : 1), P3 = (−3 : 3 : 2), P4 = (1 : 1 : 0), P5 = (0 : 2 : 1), P6 = (−1 : 1 : 0)` lie on `Q = 0`
@@ -7772,27 +7838,35 @@ and have seven distinct reductions modulo 17. (v) With `U_1 := {Z ≠ 0, `∂Q/�
 `∂Q/∂Y ≠ 0}` in `X_{F_17}, U_1` contains 17 of the 20 points of `X(F_17)`; the other three are (1 : 1 :
 0), `(1 : −1 : 0) ∈ U_2` and `(1 : 1 : 1)`, which lies in neither (the disc of P0). The boundary `D = {Z = 0}` consists of the four points `(1 : ±1 : 0), (1 : ±√5` : 0), since `Q(X, Y, 0) = (Y² − X²)(Y² − 5X²)`.
 
-Work under the following conditions. `X_s(13)` is defined as `X(13)/C_s^+(13)` over `Q` (ModularCurvesPartII §§9.3–9.6). Assume
+Work under the following conditions. `X_s(13)` is defined as `X(13)/C_s^+(13)` over `Q` (ModularCurvesPartII §9.6). Assume
 the stated plane quartic is isomorphic over `Q` to the actual split-Cartan modular curve, via the
 supplied maps with inverse and cusp/CM identifications. The required q-expansion/Sturm comparison
-identities and exact coefficient data are hypotheses, not computation targets. Supply finite
-q-expansion coefficient data and their Sturm comparison identities, the exact good-reduction ideal
+identities and exact coefficient data are hypotheses, not computation targets. Supply this rational basis, its q-expansions, and an explicit matrix `A∈GL₃(K)`
+with `(h₁,h₂,h₃)ᵀ=A(f₁,f₂,f₃)ᵀ`, where `K=Q(ζ₇)^+` and the `f_i` are the normalized
+conjugates of f. Supply exact coefficient identities through `q^121` proving
+`B(h₁,h₂,h₃)=0` by the weight-eight Sturm bound, the exact good-reduction ideal
 identities, and the complete F17 projective-point/partial-derivative table with its finite ambient
 coverage. These data are hypotheses; polynomial/model transport, point membership, smoothness and
 the20/17 counts are deduced by exact verification, without a target to generate a point-count table.
 
 The interface includes these statements.
 
+- `ED6.xs13Baran` and `ED6.xs13Quartic`: the displayed B and Q polynomial evaluations
+  over any commutative ring, compatible with ring homomorphisms. Their coordinate
+  identity and listed memberships are provided by the next theorem.
 - `ED6.xs13_quartic_identity_and_points`: Supporting algebra only: The polynomial identity/point memberships do not identify the modular curve or prove good reduction. The geometric application requires the hypotheses of this section.
 - `ED6.xs13SpecialFibrePoints`: Finite set of all projective special-fibre points at17 using unique normalized representatives `Z=1, Z=0/Y=1`, and `(1:0:0)`.
 - `ED6.xs13_specialFibre_card`: Exact enumeration gives20 distinct projective points.
 - `ED6.xs13_specialFibre_smooth`: At each enumerated F17 point one partial derivative is nonzero. This rational-point check alone does not prove geometric smoothness over F17-bar; the good-reduction model is a separate hypothesis.
 
-For the proof, (i) Import `X_s(13) ≅ X_0(169)/w_169` from ModularCurvesPartII §§9.3–9.6; `S_2(Γ_0(169))^{w_169 = +1}` has
+For the proof, (i) Import `X_s(13) ≅ X_0(169)/w_169` from ModularCurvesPartII §9.5; `S_2(Γ_0(169))^{w_169 = +1}` has
 dimension 3, spanned by the conjugates of f (supplied geometric/Hecke data with exact identification
-hypotheses); their q-expansions give the canonical map; no quadratic relation holds (finite linear
-algebra on q-expansions), so the curve is not hyperelliptic and its canonical image is a plane
-quartic; `B(f_1, f_2, f_3)` is a weight-8 cusp form for `Γ_0(169)` vanishing to order `> 8 ·` 182/12 at `∞`,
+hypotheses). Apply the supplied invertible change of basis to obtain the rational forms `h_i`.
+Their q-expansions give the canonical map; independence of their six quadratic products
+is certified by an exact coefficient matrix of rank six. Thus the curve is not hyperelliptic
+and its canonical image is a plane quartic. `B(h₁,h₂,h₃)` is a weight-eight cusp form for
+`Γ₀(169)`, with coefficients through degree 121 zero, hence order at least 122,
+which exceeds `8·182/12`,
 hence zero by the Sturm bound (supplied geometric/Hecke data with exact identification hypotheses).
 (ii) A polynomial identity of ternary quartics over `Z`, checked by expansion (both sides agree on the
 grid `{0, …, 4}³`, which determines a polynomial of degree `≤ 4` in each variable). (iii) Good
@@ -7804,12 +7878,17 @@ over `Q`.
 
 The intended signatures also include `ED6.xs13_planeModel`. Return the actual modular
 identification with `X_s(13)`, smooth projective quartic/good reduction at17, complete20-point special
-fibre and all chart data from ModularCurvesPartII §§9.3–9.6/explicit supplied geometric/Hecke data; the exact quartic
+fibre and all chart data from ModularCurvesPartII §§9.5–9.6 and the supplied
+rational basis, invertible eigenbasis comparison and exact Sturm coefficient identities; the exact quartic
 identity and seven memberships are supporting.
 
 **Checks.**
 
 - `Q(P_i) = 0` for `i = 0, …, 6` (exact).
+- `B(1,1,1)=−1`: since every normalized conjugate begins with q, substitution of the
+  conjugate eigenbasis gives leading term `−q⁴`; that basis cannot be the Baran coordinates.
+- `det(A)≠0` and rational q-coefficients of the `h_i` certify the coordinate basis;
+  the weight-eight vanishing threshold is 122, not merely the four initial coefficients.
 - `#X(F_17) = 20`, so the trace of Frobenius on `H¹` is `17 + 1 − 20 = −2`.
 
 ([BDMTV (2019)](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf),
@@ -7818,7 +7897,7 @@ identity and seven memberships are supporting.
 [BDMTV (2019)](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), §6.3,
 p.929.)
 
-*Needs:* ModularCurvesPartII §§9.3–9.6; Mathlib MvPolynomial; Mathlib `MvPolynomial.eval`; Mathlib `MvPolynomial.IsHomogeneous`.
+*Needs:* ModularCurvesPartII §§9.5–9.6; Mathlib MvPolynomial; Mathlib `MvPolynomial.eval`; Mathlib `MvPolynomial.IsHomogeneous`.
 
 ### 6.19 The endomorphism algebra and Picard number of `J_s(13)`
 
@@ -7847,7 +7926,10 @@ by the conjugates of f (ModularCurvesPartII §16.2, ModularCurvesPartII §16.6,
 ModularCurvesPartII §16.4: `dim A_f = [K : Q] = 3`). `End(A_f) ⊗ Q ≅ K` and `End_Q̄(A_f) ⊗ Q ≅ K`
 for f without CM and inner twists (Shimura Th. `7.14`, Ribet Cor. `4.2`; the comparison target below), so `J` is
 absolutely simple. `NS(J_Q̄) ⊗ Q` is the Rosati-fixed part of `End⁰(J_Q̄) = K`, which is all of `K` since
-`K` is totally real; hence `ρ = 3`.
+`K` is totally real and Rosati is positive; hence `ρ = 3`. Indeed, extend to
+`K⊗R≅R³`. A nonidentity involution would exchange two real factors; a vector
+with coordinates 1 and −1 on that pair gives negative `Tr(x x†)`, contradicting
+positivity. Therefore Rosati fixes every factor and is the identity.
 
 The intended signatures also include `ED6.xs13_endAlgebra`. Construct the algebra
 isomorphism `End(J_s(13))⊗Q≃Q(ζ₇)^+`, prove no additional endomorphisms using the
@@ -7857,6 +7939,8 @@ does not prove this.
 **Checks.**
 
 - `xs13_coeffField_inert_seventeen`. The cubic `t³+2t²−t−1` has no root modulo17 and hence is irreducible there. This supplies the residue-field inertness check once the actual coefficient field is identified.
+- In `K⊗R≅R³`, exchanging two real embeddings makes `Tr(x x†)<0` for
+  `x=(1,−1,0)`; such an involution cannot be Rosati.
 - `ρ = 3 = r = g`, so `r < g + ρ − 1 = 5` and `X_s(13)(Q_p)_2` is finite (AnabelianGeometryAndNonabelianChabauty §§6.1–6.8, BDMTV Theorem `2.3); g + ρ − 1 − r = 2` independent nice classes are available.
 
 ([BDMTV (2019)](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf),
@@ -7872,7 +7956,9 @@ Retain the algebraic and geometric endomorphism fields and the Hecke quotient id
 apply this theorem to the explicit level-169 form above. Its Rosati-fixed part gives the stated
 Néron–Severi rank. Source: BDMTV (2019) §6.1, `pp.926–927`, using Shimura Theorem `7.14` and
 Ribet Corollary `4.2` as cited there. *Needs:* ModularCurvesPartII §§16.1–16.8;
-JacobianChallenge Layer `E` for Rosati and Néron–Severi comparison.
+AbelianSchemesAndArithmeticModuli A3.9 (`Polarization.rosati`), A6.14
+(`rosatiPositivity`), A6.15 (`rationalNSAmpleCone`), over `Qbar`;
+JacobianChallenge Layer E for the principal theta polarization.
 
 ### 6.20 Exact analytic rank one for the conjugates of `f`
 
@@ -8131,7 +8217,7 @@ determinant computed to precision); with `ψ_1, ψ_2, ψ_3` the dual basis of `�
 proof; their numerical production is outside this roadmap.
 
 Work under the following conditions. `X_s(13)` has potentially good reduction everywhere, so the pairs
-`(θ_Z, {0})` are quadratic Chabauty pairs (AnabelianGeometryAndNonabelianChabauty §§6.1–6.8, BDMTV Corollary `3.8`; ModularCurvesPartII §11.7). `rk J(Q) = 3`
+`(θ_Z, {0})` are quadratic Chabauty pairs (AnabelianGeometryAndNonabelianChabauty §§6.1–6.8, BDMTV Corollary `3.8`; ModularCurvesPartII §11.8). `rk J(Q) = 3`
 (xs13-rank-three). Assume the exact correspondence/Hecke matrices and identifications with the
 actual geometric maps; Frobenius, Hodge and local-height data must satisfy the displayed
 matrix/precision identities. Computing their tables is not a target.
@@ -8159,7 +8245,7 @@ could be torsion.
 ([BDMTV (2019)](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf),
 §6.4.1, p.932.)
 
-*Needs:* AnabelianGeometryAndNonabelianChabauty §§6.1–6.8; §6.13; §6.24; §6.21; §6.19; ModularCurvesPartII §11.7; §4.2.
+*Needs:* AnabelianGeometryAndNonabelianChabauty §§6.1–6.8; §6.13; §6.24; §6.21; §6.19; ModularCurvesPartII §11.8; §4.2.
 
 ### 6.26 Rational points of `X_s(13)` on the first chart `]U_1[`
 
@@ -8300,7 +8386,7 @@ one in which 13 splits (discriminants −3, −4, −12, −16, −27, −43; j-
 
 Work under the following conditions. `rk J(Q) = 3 = g, ρ = 3` (xs13-rank-three,
 xs13-endomorphism-algebra). Good reduction away from 13 (xs13-plane-model (iii)) and potentially
-good reduction at 13 (ModularCurvesPartII §11.7), so all local heights away from 17 vanish (AnabelianGeometryAndNonabelianChabauty §§6.1–6.8). Assume all concrete
+good reduction at 13 (ModularCurvesPartII §11.8), so all local heights away from 17 vanish (AnabelianGeometryAndNonabelianChabauty §§6.1–6.8). Assume all concrete
 model/modular-identification, Hecke, analytic-continuation/sign/derivative, Frobenius, integral and
 local coefficient/error/tail inputs in xs13-plane-model through the three chart-datum nodes.
 The finite F17 list and chart cover are supplied with exact correctness/completeness hypotheses. The
@@ -8312,13 +8398,13 @@ For the proof, By xs13-plane-model `(v), X(F_17)` has 20 points: 17 discs in `]U
 xs13-second-chart-points and xs13-p0-disc give `X(Q) ∩` (each disc) `⊆ {P0, …, P6}` with each `P_i` in its
 own disc; the `P_i` are rational (xs13-plane-model (iv)). padic-candidate-comparison (all balls
 matched or excluded) gives `X(Q) = {P0, …, P6}` conditional on the stated finite arithmetic inputs.
-Moduli identification: `X_s(13)` has a rational cusp (ModularCurvesPartII §§9.3–9.6); for each of the six discriminants `D`, a
+Moduli identification: `X_s(13)` has a rational cusp (ModularCurvesPartII §9.5); for each of the six discriminants `D`, a
 CM curve E/Q with `End(E_Q̄) ≅ O_D` has `ρ_{E,13}(G_Q)` in a split Cartan normaliser (the shared CM
 residual-Cartan application hypothesis, 13 split and prime to `D`), giving a rational point above `j(O_D)`
-(ModularCurvesPartII §§9.3–9.6 criterion for `j ≠ 0, 1728`; the fibres above `j = 0, 1728` are supplied by ModularCurvesPartII §§9.3–9.6); these seven
+(ModularCurvesPartII §9.7 criterion for `j ≠ 0, 1728`; the fibres above `j = 0, 1728` are supplied by ModularCurvesPartII §9.7); these seven
 points have distinct j-values, so they are the seven points of `X(Q)`.
 
-The intended signatures also include `ED6.xs13_rationalPoints`. On `X_s(13)(Q)=Hom_Q(Spec Q,X_s(13))`, use the exact ModularCurvesPartII §§9.3–9.6 isomorphism to the smooth projective quartic `xs13Quartic=0` in
+The intended signatures also include `ED6.xs13_rationalPoints`. On `X_s(13)(Q)=Hom_Q(Spec Q,X_s(13))`, use ModularCurvesPartII §9.5 and §6.18’s supplied modular-model isomorphism to the smooth projective quartic `xs13Quartic=0` in
 `P²_Q`. Let `P_i` be the projective classes of `xs13Points(i), i=0,…,6`. Prove `X_s(13)(Q)={P_i}`, with all
 seven distinct, by the actual seventeen first-chart discs, two second-chart discs and P0 disc at17,
 using the named geometric comparison results. Through the actual modular j-map the set is one cusp and
@@ -8340,7 +8426,7 @@ Theorem 1.1, p.888; [BDMTV
 (2019)](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), §1.1,
 p.888.)
 
-*Needs:* §6.26; §6.27; §6.28; §6.18; §6.21; §6.2; §6.1; ModularCurvesPartII §§9.3–9.6; ModularCurvesPartII §11.7; the shared CM application hypotheses under Exact supplier contracts; ModularCurvesPartII §9.7.
+*Needs:* §6.26; §6.27; §6.28; §6.18; §6.21; §6.2; §6.1; ModularCurvesPartII §§9.5–9.6; ModularCurvesPartII §11.8; the shared CM application hypotheses under Exact supplier contracts; ModularCurvesPartII §9.7.
 
 ### 6.30 Existence of non-CM split-Cartan images for `ℓ = 2, 3, 5, 7`
 
@@ -8349,19 +8435,65 @@ prerequisite application, for ℓ `∈ {2, 3, 5, 7}` there are infinitely many `
 curve E/Q with `j(E) = j` has no CM and `ρ_{E,ℓ}(G_Q)` is contained in the normaliser `C_s^+(ℓ)` of a
 split Cartan subgroup of `GL_2(F_ℓ)`.
 
-Work under the following conditions. `X_s(ℓ) ≅ X_0^+(ℓ²)` over `Q` and the rational-point criterion for
-`X_H` with −I `∈ H` (ModularCurvesPartII §§9.3–9.6).
+**Small-level genera.** Prove `ED6.smallLevel_genus`: the genera of `X₀(4)`,
+`X₀(9)`, `X₀(25)`, `X₀(49)` over `Q` are respectively `0,0,0,1`.
+Use the actual modular curves, their complex comparison and cusp ramification from
+ModularCurvesPartII §§5.11, 6.1–6.2. Compute their finite coset actions and apply
+Riemann–Hurwitz to the j-map. For these four levels the data
+`(μ,ν₂,ν₃,ν_∞)` are `(6,0,0,3)`, `(12,0,0,4)`, `(30,2,0,6)`, `(56,0,2,8)`;
+`g=1+μ/12−ν₂/4−ν₃/3−ν_∞/2`. Here μ is the index of `Γ₀(N)`, ν₂ and ν₃
+count its elliptic points, and ν_∞ counts geometric cusps. Establish these data by
+enumerating primitive pairs modulo units in `P¹(Z/NZ)`, its order-two and order-three stabilizers and cusp orbits;
+use `ν_∞=Σ_{d|N}φ(gcd(d,N/d))`. The orbit calculations and Riemann–Hurwitz
+substitution are part of this target.
+Source: Diamond–Shurman, *A First Course in Modular Forms*, §3.1, Theorem 3.1.1;
+AlgebraicCurves Layer 7 supplies Riemann–Hurwitz.
+*Needs:* ModularCurvesPartII §§5.11, 6.1–6.2; AlgebraicCurves Layer 7.
+
+**Checks.**
+
+- At level 4 the index 6 and three cusps give `g=1+6/12−3/2=0`.
+- At level 25 the two order-two elliptic points contribute `2/4`, giving genus zero.
+- At level 49 the two order-three elliptic points and eight cusps give
+  `g=1+56/12−2/3−8/2=1`.
+
+**Fricke fixed points at level 49.** Prove `ED6.w49_fixedPoints_card`: on the
+geometric curve `X₀(49)_Qbar`, the fixed locus of `w₄₉` has four points, each
+with ramification index two in the quotient. Use the Fricke map of
+ModularCurvesPartII §9.4 and its complex comparison: `τ=i/7` is fixed by
+`τ↦−1/(49τ)`. The involution is nonidentity since it exchanges cusps 0 and ∞.
+The finite algebraic fixed locus is therefore nonempty over `Qbar`. Choose one
+of its points as origin on this genus-one curve. A pointed
+curve automorphism is a group automorphism; its endomorphism u satisfies
+`(u−1)(u+1)=0`. Nonzero elliptic endomorphisms are isogenies and their composite
+is nonzero, so `u=−1`. Its fixed locus is geometric 2-torsion, of cardinality
+four in characteristic zero; relative to any other origin these fixed points
+form a translate of geometric 2-torsion.
+Source: Silverman, *The Arithmetic of Elliptic Curves*, III.4, Theorem 4.8 and
+III.6, Corollary 6.4 (pointed morphisms and multiplication degrees).
+*Needs:* `ED6.smallLevel_genus`; ModularCurvesPartII §§6.1, 9.4;
+EllipticCurves Layers 1–2; JacobianChallenge Layer E (multiplication degree and étaleness).
+
+**Checks.**
+
+- `−1/(49·(i/7))=i/7` supplies a fixed geometric point.
+- At level 49 the four simple fixed points give `0=2(2g'−2)+4`, so `g'=0`.
+- A translation by a nonzero 2-torsion point is a fixed-point-free involution on
+  a genus-one curve; the existence of the Fricke fixed point is essential.
+
+Work under the following conditions. `X_s(ℓ) ≅ X_0^+(ℓ²)` over `Q` (ModularCurvesPartII §9.5) and
+the rational-point criterion for `X_H` with `−I∈H` (ModularCurvesPartII §9.7).
 
 For the proof, Genus zero: `X_0(4), X_0(9), X_0(25)` have genus 0, so their quotients `X_0^+(ℓ²) do`;
 `X_0(49)` has genus `1 (μ = 56, ν_2 = 0, ν_3 = 2, ν_∞ = 8, g = 1 +` 56/12 − 2/3 − 4) and `w_49` has
-`h(−196) = 4` fixed points, so Riemann–Hurwitz `0 = 2(2g' − 2) + 4` gives g' `= 0` (genus and fixed-point
-data from ModularCurvesPartII §§9.3–9.6). The cusps 0 and `∞` of `X_0(ℓ²)` are rational and swapped by `w_{ℓ²}`, so their common
+`4` geometric fixed points, so Riemann–Hurwitz `0 = 2(2g' − 2) + 4` gives g' `= 0`
+by `ED6.smallLevel_genus` and `ED6.w49_fixedPoints_card`. The cusps 0 and `∞` of `X_0(ℓ²)` are rational and swapped by `w_{ℓ²}`, so their common
 image is a rational point of `X_s(ℓ)`; a genus-zero curve with a rational point is isomorphic to `P¹_Q`.
 The j-map `X_s(ℓ) → X(1)` is a nonconstant morphism over `Q` with a pole at that cusp; for a prime q,
 rational points t q-adically close to the cusp satisfy `v_q(j(t)) < 0`, and there are infinitely many
 such t with pairwise distinct `j(t)` (the fibres are finite). CM j-invariants are algebraic integers
 (the shared CM application hypothesis), so a non-integral rational j is not CM and is `≠ 0, 1728`; the rational-point
-criterion (ModularCurvesPartII §§9.3–9.6) gives E/Q with `j(E) = j(t)` and image in `C_s^+(ℓ)` (no twist is needed since −I `∈ C_s^+(ℓ)`).
+criterion (ModularCurvesPartII §9.7) gives E/Q with `j(E) = j(t)` and image in `C_s^+(ℓ)` (no twist is needed since −I `∈ C_s^+(ℓ)`).
 
 **Checks.**
 
@@ -8372,7 +8504,7 @@ criterion (ModularCurvesPartII §§9.3–9.6) gives E/Q with `j(E) = j(t)` and i
 Theorem 1.2, p.888; [BDMTV
 (2019)](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), §6, p.926.)
 
-*Needs:* ModularCurvesPartII §§9.3–9.6; the shared CM application hypotheses under Exact supplier contracts.
+*Needs:* `ED6.smallLevel_genus`; `ED6.w49_fixedPoints_card`; ModularCurvesPartII §§9.5–9.7; the shared CM application hypotheses under Exact supplier contracts.
 
 ### 6.31 The split Cartan case of Serre's uniformity question (BDMTV Theorem 1.2)
 
@@ -8386,7 +8518,7 @@ xs13-rational-points; ℓ `≤ 7` is small-prime-split-cartan.
 Work under the following conditions. Bilu–Parent–Rebolledo [BPR13] for ℓ `> 7, ℓ ≠ 13`.
 
 For the proof, ℓ `∈ {2, 3, 5, 7}`: small-prime-split-cartan. ℓ `= 13`: a non-CM E/Q with image in
-`C_s^+(13)` has `j(E) ∉ {0, 1728}` and gives a non-cuspidal point of `X_s(13)(Q)` with non-CM j (ModularCurvesPartII §§9.3–9.6
+`C_s^+(13)` has `j(E) ∉ {0, 1728}` and gives a non-cuspidal point of `X_s(13)(Q)` with non-CM j (ModularCurvesPartII §9.7
 criterion); by xs13-rational-points every point of `X_s(13)(Q)` is a cusp or a CM point, a
 contradiction. ℓ `= 11` and ℓ `≥ 17`: Bilu–Parent–Rebolledo, BPR13 (Mazur's method applies since `J_0(ℓ) ≠ 0`, with Runge's method); an explicit input hypothesis.
 
@@ -8399,7 +8531,7 @@ Theorem 1.2, p.888; [BDMTV
 (2019)](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), §1.1,
 p.887.)
 
-*Needs:* §6.30; §6.29; ModularCurvesPartII §§9.3–9.6.
+*Needs:* §6.30; §6.29; ModularCurvesPartII §9.7.
 
 ### 6.32 The rational points of `X_ns(13)` (BDMTV Corollary 1.3)
 
@@ -8416,7 +8548,7 @@ to this application.
 For the proof, Baran's isomorphism transports xs13-rational-points: `#X_ns(13)(Q) = 7`. For each of
 the seven discriminants, 13 is inert in `O_D` and prime to `D`, so a CM curve E/Q with `End(E_Q̄) ≅ O_D`
 has `ρ_{E,13}(G_Q)` in a non-split Cartan normaliser (the shared CM residual-Cartan application hypothesis);
-`j(O_D) ∉ {0, 1728}`, so the criterion (ModularCurvesPartII §§9.3–9.6) gives a rational point of `X_ns(13)` above `j(O_D)`. The
+`j(O_D) ∉ {0, 1728}`, so the criterion (ModularCurvesPartII §9.7) gives a rational point of `X_ns(13)` above `j(O_D)`. The
 seven j-values are distinct, so these seven points are all of `X_ns(13)(Q)`.
 
 The intended signatures also include `ED6.xns13_rationalPoints_card`. For the actual
@@ -8439,7 +8571,7 @@ Corollary 1.3, p.888; [BDMTV
 (2019)](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), §1.1, (1),
 p.888.)
 
-*Needs:* §6.29; ModularCurvesPartII §§9.3–9.6; the shared CM application hypotheses under Exact supplier contracts; ModularCurvesPartII §9.7.
+*Needs:* §6.29; ModularCurvesPartII §§9.6–9.7; the shared CM application hypotheses under Exact supplier contracts.
 
 ### 6.33 Class number one from `X_ns(13)` (BDMTV Remark 1.4)
 
@@ -8457,7 +8589,7 @@ For the proof, Let `K` have discriminant `D` with `h(K) = 1` and `|D| > 52`. Eve
 is inert in `K`: a split or ramified ℓ would give a principal ideal of norm ℓ, generated by (a `+ b√D)/2` with `(a² + |D|b²)/4 =` ℓ, forcing `b = 0` and then `a² =` 4ℓ, impossible. In particular 13 is
 inert. `j(O_K) ∈ Q` (class number one) and a CM curve E/Q with `End(E_Q̄) ≅ O_K` has image in a
 non-split Cartan normaliser at 13 (the shared CM residual-Cartan application hypothesis), with `j ≠ 0, 1728`; it
-gives a rational point of `X_ns(13)` (ModularCurvesPartII §§9.3–9.6), so by nonsplit-cartan-13, `D ∈ {−7, −8, −11, −19, −28, −67, −163}`; with `|D| > 52` and `D` fundamental this leaves −67 and −163. For `|D| ≤ 52` a finite
+gives a rational point of `X_ns(13)` (ModularCurvesPartII §9.7), so by nonsplit-cartan-13, `D ∈ {−7, −8, −11, −19, −28, −67, −163}`; with `|D| > 52` and `D` fundamental this leaves −67 and −163. For `|D| ≤ 52` a finite
 exact class-number computation gives −3, −4, −7, −8, −11, −19, −43, and the same computation
 certifies `h(−67) = h(−163) = 1` (explicit supplied class/unit/factorization data).
 
@@ -8468,7 +8600,7 @@ certifies `h(−67) = h(−163) = 1` (explicit supplied class/unit/factorization
 ([BDMTV (2019)](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf),
 Remark 1.4, p.888.)
 
-*Needs:* §6.32; the shared CM application hypotheses under Exact supplier contracts; ModularCurvesPartII §§9.3–9.6.
+*Needs:* §6.32; the shared CM application hypotheses under Exact supplier contracts; ModularCurvesPartII §§9.6–9.7.
 
 ### 6.34 The rational points of the exceptional curve `X_S4(13)` (BDMTV 2021 Theorem 1.1)
 
@@ -8518,7 +8650,7 @@ application.
 ([BDMTV (arXiv v4, 2023)](https://arxiv.org/abs/2101.01862v4), Theorem 1.1, p.2 (arXiv v4); [BDMTV
 (arXiv v4, 2023)](https://arxiv.org/abs/2101.01862v4), §5.1, p.26 (arXiv v4).)
 
-*Needs:* §6.17; §6.4; §6.2; §6.21; §6.1; ModularCurvesPartII §§9.3–9.6; ModularCurvesPartII §9.7.
+*Needs:* §6.17; §6.4; §6.2; §6.21; §6.1; ModularCurvesPartII §§9.6–9.7.
 
 ### 6.35 Rational points on the genus-three curves `X_0^+(N), N` prime (BDMTV 2021 Theorem 5.6)
 
@@ -8529,8 +8661,9 @@ are no exceptional rational points. For `N = 97`, with the model `zx³ + (−y²
 `(1:0:1), (1:1:1), (−1:1:0), (5:3:2)}` (the cusp and CM points of discriminants −3, −4, −8, −11, −12,
 −16, −27, −43, −163). Data per `N`: a prime p (5, 29, 17, 11, 19, 11, 19, 17, 13 respectively),
 analytic rank g for the newform orbit (the modular rank-one hypotheses give rank g), absolute
-simplicity, trivial local heights at `N` (regular semistable model with irreducible special fibre,
-ModularCurvesPartII §11.7), two independent cycles, height pairing from the known points, and common zero set equal to
+simplicity, trivial local heights at `N` (deduced from the supplied regular proper semistable `Z_N` model
+with geometrically irreducible special fibre, the actual generic-fibre identification
+and normalized local-height factorization through component reduction), two independent cycles, height pairing from the known points, and common zero set equal to
 the known points. Exact model and ordered point/CM data for every listed level: `N=97, p=5`:
 `Q_N=zx³+(−y²+zy)x²+(−y³−zy²−z³)x+zy³+z²y²=0`; ordered points
 `(1:0:0)`,(-2:1:1),(-1:0:1),`(0:0:1),(0:1:0)`,(0:-1:1),`(1:0:1),(1:1:1)`,(-1:1:0),`(5:3:2)`; first point is
@@ -8565,7 +8698,10 @@ Work under the following conditions. The genus-three list of prime levels (Ogg) 
 functional-equation sign and supplied derivative enclosures excluding 0; the modular
 rank-one implication must meet the separate admissibility hypotheses of §6.21. `ED.2` supplies
 scalar logarithms only, not L-value tables. For each of the nine stated levels assume the exact
-model, rational point coordinates, Hecke/Frobenius/correspondence data, local expansion
+model, a regular proper semistable `Z_N` model with geometrically irreducible special fibre
+and generic-fibre isomorphism to that quotient, the normalized factorization of `h_N`
+through its component reduction map (zero at the base component), rational point coordinates,
+Hecke/Frobenius/correspondence data, local expansion
 coefficients/tail inequalities, and L-value/derivative enclosures with the required
 signs/nonvanishing proofs. The conditional theorem deduces completeness of its listed points from
 the complete QC/sieve datum; it does not assume that completeness or target production of
@@ -8573,11 +8709,13 @@ these data.
 
 For the proof, use the supplied analytic-continuation/sign/derivative data and the admissible modular
 rank-one implication to deduce rank g; use supplied Hecke identifications for real
-multiplication, and the ModularCurvesPartII §11.7 geometric model hypotheses for trivial `h_N`. No L-value, Hecke or model
+multiplication, and the explicit regular semistable model hypothesis for trivial `h_N`,
+using the supplied normalized factorization through the one-component reduction map
+(BDMTV 2021 Theorem 3.2). No L-value, Hecke or model
 table is produced here. Apply §6.17 at the stated prime, assuming the supplied coefficient, root and exclusion bounds; its conclusion is exactly the known
 points. padic-candidate-comparison gives the exact solution set; the CM discriminants are
 identified through the modular interpretation as unordered N-isogenous elliptic pairs and CM data
-(ModularCurvesPartII §§9.3–9.6, the shared CM application hypotheses); the j-map on `X0(N)` does not generally descend to X0+(N).
+(ModularCurvesPartII §§9.7–9.8, the shared CM application hypotheses); the j-map on `X0(N)` does not generally descend to X0+(N).
 
 The intended signatures also include `ED6.x0plus_genusThree_rationalPoints`. For each
 `N∈{97,109,113,127,139,149,151,179,239}`, let `X=X0(N)/⟨w_N⟩` be the actual coarse smooth projective
@@ -8613,19 +8751,27 @@ discriminants in order -7,-8,-11,-28,-163. `N=239, p=13`:
 `(1:0:0)`,(-1:0:1),`(0:0:1)`,(1:-2:1),(1:-1:1); first point is the cusp, remaining CM discriminants in
 order -7,-19,-28,-43. The source counts are10,9,8,8,7,7,8,6,5 respectively. Require genuine
 rank/logarithm, endomorphism, model/reduction, local-height and two-cycle coefficient/zero/matching
-data for each `N`. Retain the explicit modular rank-over-Q hypothesis and require the complete
+data for each `N`, including the regular proper semistable `Z_N` model with geometrically
+irreducible special fibre, its generic-fibre isomorphism to `X`, and the normalized
+factorization of `h_N` through component reduction, zero at the base component. Retain the explicit modular rank-over-Q hypothesis and require the complete
 finite data; do not generalize the ten-point97 helper to every level.
 
 **Checks.**
 
 - `X_0^+(97)`: ten rational points, all satisfying the model exactly.
 - All nine source lists have distinct projective points satisfying their own displayed homogeneous quartic; their sizes are10,9,8,8,7,7,8,6,5. This substitution check does not certify completeness.
+- For `N=97` the assumed geometrically irreducible semistable fibre has a one-vertex dual
+  graph; the supplied normalized component factorization gives `h_97=0`, even when
+  that graph has loops.
+- Prime-square level 169 is outside the prime-level model statement; its local-height
+  vanishing uses §11.8 of ModularCurvesPartII instead.
 
-([BDMTV (arXiv v4, 2023)](https://arxiv.org/abs/2101.01862v4), Theorem 5.6, p.30 (arXiv v4); [BDMTV
+([BDMTV (arXiv v4, 2023)](https://arxiv.org/abs/2101.01862v4), Theorem 5.6, p.30 and Lemma 5.2, pp.27–28 (arXiv v4); [BDMTV
 (arXiv v4, 2023)](https://arxiv.org/abs/2101.01862v4), Example 5.7, p.31 (arXiv v4); [BDMTV (arXiv
 v4, 2023)](https://arxiv.org/abs/2101.01862v4), Examples5.7–5.15,pp31–32(arXivv4).)
 
-*Needs:* §6.17; §6.4; §6.2; the explicit modular rank-one hypotheses of §6.21; ModularCurvesPartII §11.7; §6.1; ModularCurvesPartII §§9.3–9.6; ModularCurvesPartII §9.7.
+*Needs:* §6.17; §6.4; §6.2; the explicit modular rank-one hypotheses of §6.21; the regular semistable model hypothesis of this section;
+§6.1; ModularCurvesPartII §9.8; the normalized local-height factorization hypothesis of this section.
 
 ### 6.36 Two quartic Thue equations solved by Tzanakis–de Weger
 
@@ -8798,7 +8944,7 @@ prove completeness.
 
 Layers 0–5; AnabelianGeometryAndNonabelianChabauty §§2.0–2.7,AnabelianGeometryAndNonabelianChabauty §§6.1–6.8; ColemanIntegration L0–L1;
 PadicDifferentialEquationsAndRigidCohomology `RD.7`; ModularCurvesPartII
-ModularCurvesPartII §§9.3–9.6,ModularCurvesPartII §9.7,ModularCurvesPartII §11.7,ModularCurvesPartII §§16.1–16.8,ModularCurvesPartII §17.2. The rank-over-Q, CM and external uniformity hypotheses are stated
+ModularCurvesPartII §§9.5–9.8,ModularCurvesPartII §9.7,ModularCurvesPartII §11.8,ModularCurvesPartII §§16.1–16.8,ModularCurvesPartII §17.2. The rank-over-Q, CM and external uniformity hypotheses are stated
 explicitly; concrete tables are inputs.
 
 ## Downstream consumers
