@@ -60,6 +60,15 @@ example (R : Type u) [CommRing R] :
     Subsingleton (Module.Dual R (Module.Dual R (Fin 0 → R))) := by
   infer_instance
 
+/-- The nonprojective `ℤ/4`-module `ℤ/2` has a nonzero dual generator sending `1` to `2`. -/
+example :
+    letI : Module (ZMod 4) (ZMod 2) :=
+      AddCommGroup.zmodModule (by decide : ∀ x : ZMod 2, (4 : ℕ) • x = 0)
+    ¬ Module.Projective (ZMod 4) (ZMod 2) ∧
+      ∃ f : Module.Dual (ZMod 4) (ZMod 2),
+        f 1 = 2 ∧ f ≠ 0 ∧ ∀ g : Module.Dual (ZMod 4) (ZMod 2), ∃ r : ZMod 4, g = r • f := by
+  sorry
+
 /-! ## Layer 1: higher Chern classes and Chow descent
 
 The étale cohomology and Chow carriers needed for these targets are specified in README.md.
@@ -102,6 +111,10 @@ example (t : TStructure C) : Functor.IsTExact t t (𝟭 C) :=
 example (t : TStructure C) : Functor.IsRightTExact t t (shiftFunctor C (1 : ℤ)) := by
   sorry
 
+/-- Shift `[-1]` is left t-exact. -/
+example (t : TStructure C) : Functor.IsLeftTExact t t (shiftFunctor C (-1 : ℤ)) := by
+  sorry
+
 end TExact
 
 /-- Shift `[1]` fails left t-exactness when the heart has a nonzero object. -/
@@ -110,6 +123,23 @@ example {C : Type*} [Category C] [Preadditive C] [HasZeroObject C] [HasShift C �
     (t : TStructure C) (A : t.heart.FullSubcategory)
     (hA : ¬ IsZero (t.heart.ι.obj A)) :
     ¬ Functor.IsLeftTExact t t (shiftFunctor C (1 : ℤ)) := by
+  sorry
+
+/-- Shift `[-1]` fails right t-exactness in a nonzero heart. -/
+example {C : Type*} [Category C] [Preadditive C] [HasZeroObject C] [HasShift C ℤ]
+    [∀ n : ℤ, (shiftFunctor C n).Additive] [Pretriangulated C]
+    (t : TStructure C) (A : t.heart.FullSubcategory)
+    (hA : ¬ IsZero (t.heart.ι.obj A)) :
+    ¬ Functor.IsRightTExact t t (shiftFunctor C (-1 : ℤ)) := by
+  sorry
+
+/-- Neither nonzero unit shift is t-exact when the heart is nonzero. -/
+example {C : Type*} [Category C] [Preadditive C] [HasZeroObject C] [HasShift C ℤ]
+    [∀ n : ℤ, (shiftFunctor C n).Additive] [Pretriangulated C]
+    (t : TStructure C) (A : t.heart.FullSubcategory)
+    (hA : ¬ IsZero (t.heart.ι.obj A)) :
+    ¬ Functor.IsTExact t t (shiftFunctor C (1 : ℤ)) ∧
+      ¬ Functor.IsTExact t t (shiftFunctor C (-1 : ℤ)) := by
   sorry
 
 /-- The heart of a t-structure on a triangulated category admits an abelian structure.
@@ -175,6 +205,25 @@ example : restrictedSubspace (0 : U →ₗ[E] V) = ⊥ := by sorry
 example : restrictedSubspace (LinearMap.id : V →ₗ[E] V) = ⊤ := by sorry
 example : primitiveSubspace (0 : V →ₗ[E] W) = ⊤ := by sorry
 example : primitiveSubspace (LinearMap.id : V →ₗ[E] V) = ⊥ := by sorry
+
+/-- The sum map has the nonzero proper antidiagonal as its primitive kernel. -/
+example :
+    primitiveSubspace (LinearMap.fst ℚ ℚ ℚ + LinearMap.snd ℚ ℚ ℚ) =
+        Submodule.span ℚ {((1, -1) : ℚ × ℚ)} ∧
+      primitiveSubspace (LinearMap.fst ℚ ℚ ℚ + LinearMap.snd ℚ ℚ ℚ) ≠ ⊥ ∧
+      primitiveSubspace (LinearMap.fst ℚ ℚ ℚ + LinearMap.snd ℚ ℚ ℚ) ≠ ⊤ := by
+  sorry
+
+/-- The vanishing space of the sum map is a nonzero proper line. -/
+example :
+    vanishingSubspace (LinearMap.fst ℚ ℚ ℚ + LinearMap.snd ℚ ℚ ℚ) =
+      Submodule.span ℚ {((1, -1) : ℚ × ℚ)} := by
+  sorry
+
+/-- Diagonal restriction has a nonzero proper image. -/
+example : restrictedSubspace ((LinearMap.id : ℚ →ₗ[ℚ] ℚ).prod LinearMap.id) =
+    Submodule.span ℚ {((1, 1) : ℚ × ℚ)} := by
+  sorry
 
 -- In the quadric-surface test the ruling coordinates give restriction a ↦ (a,a)
 -- and Gysin (x,y) ↦ x+y. Over F₂ their nonzero diagonal is both image and kernel.
@@ -272,6 +321,18 @@ example {C : Type u} [Category.{v} C] [Abelian C] (P : C → Prop) (X : C)
 example {C : Type u} [Category.{v} C] [Abelian C] (P : C → Prop)
     (hP : ∀ {X Y : C}, Nonempty (X ≅ Y) → (P X ↔ P Y)) (X : C) [Simple X] :
     SimpleSubquotientsIn P X ↔ P X := by
+  sorry
+
+/-- A nonsplit unipotent Jordan module has only the permitted simple constituent. -/
+example :
+    SimpleSubquotientsIn
+        (fun S : ModuleCat (Polynomial ℚ) => Nonempty (S ≅
+          ModuleCat.of (Polynomial ℚ)
+            (Polynomial ℚ ⧸ Ideal.span {(Polynomial.X - 1 : Polynomial ℚ)})))
+        (ModuleCat.of (Polynomial ℚ)
+          (Polynomial ℚ ⧸ Ideal.span {(Polynomial.X - 1 : Polynomial ℚ) ^ 2})) ∧
+      ¬ IsSemisimpleObject (ModuleCat.of (Polynomial ℚ)
+        (Polynomial ℚ ⧸ Ideal.span {(Polynomial.X - 1 : Polynomial ℚ) ^ 2})) := by
   sorry
 
 /-! ## Layer 6: cohomological correspondences and contracting trace formulas
@@ -385,6 +446,23 @@ example : gradedDelta (fun _ => ℚ) 1 (fun i =>
       (by split_ifs <;> norm_num)) = Units.mk0 (10 / 3 : ℚ) (by norm_num) := by
   sorry
 
+/-- Identity automorphisms give alternating determinant one in every dimension. -/
+example {E : Type u} [Field E] (H : ℤ → Type v)
+    [∀ i, AddCommGroup (H i)] [∀ i, Module E (H i)] [∀ i, FiniteDimensional E (H i)]
+    (d : ℕ) : gradedDelta H d (fun _ => LinearEquiv.refl E _) = 1 := by
+  sorry
+
+/-- Zero-dimensional families give alternating determinant one for every automorphism. -/
+example (d : ℕ) (F : ∀ i : ℤ, (Fin 0 → ℚ) ≃ₗ[ℚ] (Fin 0 → ℚ)) :
+    gradedDelta (fun _ => Fin 0 → ℚ) d F = 1 := by
+  sorry
+
+/-- A scalar determinant in degree one contributes its inverse. -/
+example (a : ℚˣ) :
+    gradedDelta (fun _ => ℚ) 1
+      (fun i => if i = 1 then LinearEquiv.smulOfUnit a else LinearEquiv.refl ℚ ℚ) = a⁻¹ := by
+  sorry
+
 /-- Rank zero gives the multiplicative identity, including at multiplier zero. -/
 example : LinearMap.det (0 : (Fin 0 → ℚ) →ₗ[ℚ] (Fin 0 → ℚ)) = 1 := by
   simp
@@ -407,10 +485,13 @@ complete-intersection cohomology; Weil and mixed perverse categories, perverse w
 relative Lefschetz object and primitive objects, geometric-origin spread category and
 pure specialization; scheme and cohomological correspondences, their proper pushforward,
 pullback and composition, trace classes and integrated local terms, specialization and
-normal-cone deformation, contraction and Frobenius twisting; tubular-neighbourhood
+normal-cone deformation, contraction and Frobenius twisting with positive ramification exponents; the semisimple cyclic closure and character criterion; tubular-neighbourhood
 conditions, ULA specialization, full Artin fixed components and their finite-jet weight
 model; finite filtered localization and its graded trace; supported Betti purity and
 derived-complete Betti coefficient systems; GradedFrobeniusDuality and its geometric Poincaré export.
+
+Additional prerequisite targets: curveEulerPoincareSwan, adicFiniteFieldHochschildSerre,
+semisimpleCyclicClosure_diagonalizable.
 
 Principal names for these README targets: quasiFiniteFlatTrace, curveTrace, trace,
 derivedTrace, fundamentalClass, fundamentalClassOfCycle, chernClass, totalChernClass,
