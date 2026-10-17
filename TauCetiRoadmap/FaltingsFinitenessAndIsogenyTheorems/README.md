@@ -365,7 +365,20 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
 - *HeightsAndUnits*: §1.1 `instNorthcottProjectivizationMulHeight` and
   `instNorthcottProjectivizationLogHeight`; *DiophantineApproximationAndTranscendence*: §§0.2–0.3
   `absoluteProjectiveTupleHeight`, `mulHeight_algebraMap` and `finite_setOf_absMulHeight₁_le`.
+  For a finite extension `L/K` of number fields and a finite tuple `x` over `K`,
+  `mulHeight_algebraMap` supplies `H_rel,L(x) = H_rel,K(x)^[L:K]`, with coordinates mapped to `L`;
+  the zero tuple has height `1`. Applying this to `(x,1)` gives the scalar comparison.
+  The absolute tuple height is `H_abs(x) = H_rel,K(x)^(1/[K:ℚ])` and is invariant under
+  extension, since `[L:ℚ] = [L:K][K:ℚ]` cancels the relative-height power
+  ([Wu, *Arithmetic heights*](https://www.math.columbia.edu/~xiaorunw/diop/08.pdf),
+  §2, Lemma 2.5 and Definition 2.7, p. 4).
   These supply the normalization, extension comparisons and projective Northcott used here.
+
+  **Checks.**
+
+  - The tuple `(2,1)` has relative height `2` over `ℚ` and `4` over `ℚ(i)`.
+  - Its absolute height is `2` over both fields.
+  - The zero tuple has height `1` over both fields, consistent with `1^[L:K] = 1`.
 - *DeligneWeightsAndPurity*: DWP.0 §0.14 (eigenvalues of exterior powers), DWP.1 §1.4 (the Weil estimate for
   abelian varieties over `𝔽_q`).
 - *FiniteFlatGroupsAndIntegralPadicHodgeTheory*: R07.1.3 `finitePart`; R07.1.8 `BarsottiTate.tateModule`;
