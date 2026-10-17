@@ -125,7 +125,7 @@ target says so, and are otherwise outside it. Comparisons with étale, prismatic
   `DiamondsAndVStacks` for the saturated de Rham–Witt residue, degree-zero identification
   and cusp comparison; the generic ring theory is supplied there.
 - **EnhancedDerivedSheaves**
-  ([specification](https://github.com/TauCetiProject/TauCetiRoadmap/blob/03046909/TauCetiRoadmap/EnhancedDerivedSheaves/README.md))
+  (specification)
   owns the enhanced derived categories of sheaves, derived tensor products and internal Hom,
   pullback and pushforward (Layer E1), derived limits, hypercovers and hypercover descent (Layer
   E2), Kan extensions and Beck–Chevalley comparisons (Layer E3) and the quasicategorical background
