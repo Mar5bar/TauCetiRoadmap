@@ -23,6 +23,9 @@ RD.0.1–RD.0.2, with derivation supplied by RD.0.36. Its annulus series are two
 whose supports are bounded below. The complex polylogarithm uses its scalar series, with a
 principal logarithm at weight one. Cross-ratios use homogeneous determinants in the displayed
 order. The Amice operator is `(1 + T) d/dT`, and smoothing cancels poles before formal inversion.
+The Coleman coefficient extension is algebraic: `B = A_K⁺ ⊗_K ℂ_p`, with word algebra
+`U_B = U_K ⊗_K ℂ_p`. L1.17a supplies meromorphic-primitive descent into `B` and
+restriction injectivity; the full `ℂ_p` dagger algebra is a distinct coefficient ring.
 -/
 
 open Filter Topology
@@ -677,6 +680,17 @@ example {K : Type*} [Field K] (c : K) :
     constantTerm (Polynomial.C (HahnSeries.single (0 : ℤ) c)) = c := by
   sorry
 
+/-- L1.17a: a geometric series with parameter transcendental over `K` has no finite
+expression with coefficients in `L` and power series over `K`. Its coefficients are the
+linearly independent powers of the parameter, whereas a finite expression has coefficients
+in one finite-dimensional `K`-subspace of `L`. -/
+theorem geometricSeries_not_finite_coefficient_sum {K L : Type*} [Field K] [Field L]
+    [Algebra K L] (α : L) (hα : Transcendental K α) :
+    ¬ ∃ (m : ℕ) (c : Fin m → L) (f : Fin m → PowerSeries K),
+      (1 - PowerSeries.C α * PowerSeries.X)⁻¹ =
+        ∑ i, c i • PowerSeries.map (algebraMap K L) (f i) := by
+  sorry
+
 /-! ## Layer L2: Coleman polylogarithms and functional equations -/
 
 section PolylogSeries
@@ -1011,8 +1025,9 @@ example {ζ : ℂ_[3]} (hζ : IsPrimitiveRoot ζ 3) :
   sorry
 
 /-- L3.Fa.4: a functional taking value `1` on a vector detects its nonzero diagonal tensor,
-whereas alternating projection kills it. For `O = ℤ_(2)`, take the vector `[3]` in
-`Oˣ ⊗ ℚ` and the functional `v₃`. -/
+whereas alternating projection kills it. For `O = ℤ_(2)`, the actual symbolic and de Jeu
+complexes are zero. Taking `[3]` in `Oˣ ⊗ ℚ` and `v₃` detects the nonzero `H²` that
+would be introduced by appending an unwarranted tensor term. -/
 example {V : Type*} [AddCommGroup V] [Module ℚ V] (v : V) (f : V →ₗ[ℚ] ℚ)
     (hv : f v = 1) :
     TensorProduct.tmul ℚ v v ≠ 0 ∧
@@ -1031,7 +1046,10 @@ example {V : Type*} [AddCommGroup V] [Module ℚ V] (v : V) (f : V →ₗ[ℚ] �
   (L1.1–L1.6), with whole-disc Frobenius maps on ordinary residue discs and cofinal annular
   pullbacks at removed ends; coordinate maps, change of basis and iteration of Frobenius data (L1.7);
   their geometric existence and the differential/dualizing-sheaf comparison (L1.9); the
-  shuffle word algebra, its differential, depth and Frobenius action (L1.12–L1.16); Coleman functions and integration, uniqueness, Taylor
+  shuffle word algebra, its differential, depth and Frobenius action (L1.12–L1.16);
+  algebraic coefficient extension, meromorphic-primitive descent and injective restrictions
+  (L1.17a: `colemanCoefficients_exact`, `colemanCoefficients_meromorphicPrimitive`,
+  `colemanCoefficients_restrict_injective`); Coleman functions and integration, uniqueness, Taylor
   transport with finite-chart convergence and gluing, lift and branch independence and
   pullback (L1.17–L1.24, L1.43); the punctured and four-punctured lines and their explicit data (L1.25–L1.42, L1.44).
 * L2: the log-Laurent class and the global polylogarithm family and its uniqueness
@@ -1051,16 +1069,19 @@ example {V : Type*} [AddCommGroup V] [Module ℚ V] (v : V) (f : V →ₗ[ℚ] �
   regulators and the p-adic Beilinson conjecture, including the dyadic formulas
   (L3.15–L3.16, L3.36–L3.37).
 
-In L3.Fa.4 the reduced complex is the quotient by the actual inversion subcomplex. Its last
-term is `(V ⊗ Λ^(n-1)V) / d(N₂ ⊗ Λ^(n-2)V)`, where `V = Oˣ ⊗ ℚ`; it is `ΛⁿV` when the
-residue field has more than two elements. For residue field `F₂` the inversion subcomplex
-is zero and the last term remains `V ⊗ Λ^(n-1)V`. The unreduced comparison requires
-Beilinson–Soulé vanishing for the fraction and residue fields. The general reduced comparison
-and reduced localization injection require it for every characteristic-zero field and for the
-residue field. Number fields give unconditional comparisons; when the residue field is `F₂`,
-the actual reduced quotient equals the unreduced complex. The cup-product denominator in
-symbol weight `k` uses `Symb_(k-1)`. In L3.Fb.5 the square includes localization from the
-unlocalized relative cube, and reads `ℛ ∘ loc = ε_n · (reg ∘ relativityIso)`.
+In L3.Fa.4 the unreduced complex is the actual alternating symbolic quotient by the
+cup-product subcomplex, and the reduced complex is its quotient by the inversion subcomplex.
+For residue field `F₂`, all removed-section index sets are empty, and both complexes are
+zero in every degree for `n ≥ 2`. When the residue field has more than two elements,
+the unreduced last term is `V ⊗ Λ^(n-1)V`, where `V = Oˣ ⊗ ℚ`, and the reduced last term
+is its quotient by `d(N₂ ⊗ Λ^(n-2)V)`, identified with `ΛⁿV`.
+The unreduced comparison requires Beilinson–Soulé vanishing for the fraction and residue
+fields. The general reduced comparison and reduced localization injection require it for
+every characteristic-zero field and for the residue field. Number fields give unconditional
+comparisons; the zero-source comparisons for residue field `F₂` need no vanishing hypothesis.
+The cup-product denominator in symbol weight `k` uses `Symb_(k-1)`. In L3.Fb.5 the square
+includes localization from the unlocalized relative cube, and reads
+`ℛ ∘ loc = ε_n · (reg ∘ relativityIso)`.
 
 In L3.Fa.2, `cubeRelK.injective_to_generic` uses `NoLowWeightKTheory κ_O` for the
 residue field of a discrete valuation ring `O` with fraction field `F`, and keeps the same
