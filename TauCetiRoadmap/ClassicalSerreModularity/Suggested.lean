@@ -92,49 +92,6 @@ example : auxLevel 1 = 5 ∧ auxLevel 4 = 20 := by decide
 /-- At and above the threshold the level is unchanged. -/
 example : auxLevel 5 = 5 ∧ auxLevel 11 = 11 := by decide
 
-/-! ## Layer I.2: power-series presentations -/
-
-/-- A finite presentation over a formal power-series algebra, retaining the chosen equations. -/
-structure PowerSeriesPresentation (O R : Type*) [CommRing O] [CommRing R] [Algebra O R]
-    (n m : ℕ) where
-  relations : List (MvPowerSeries (Fin n) O)
-  relationCount : relations.length = m
-  equivalence : (MvPowerSeries (Fin n) O ⧸ Ideal.ofList relations) ≃ₐ[O] R
-
-/-- Existence of a power-series presentation by a regular sequence.
-Flatness and finiteness over the coefficient ring are separate hypotheses. -/
-def IsCompleteIntersection (O R : Type*) [CommRing O] [CommRing R] [Algebra O R] : Prop :=
-  ∃ n m, ∃ P : PowerSeriesPresentation O R n m,
-    RingTheory.Sequence.IsRegular (MvPowerSeries (Fin n) O) P.relations
-
-/-- A field has the presentation with no variables and no relations. -/
-example : Nonempty (PowerSeriesPresentation ℚ ℚ 0 0) := by sorry
-
-/-- Killing the single formal variable gives another presentation of the coefficient field. -/
-example : Nonempty (PowerSeriesPresentation ℚ ℚ 1 1) := by sorry
-
-/-- The empty regular sequence presents the coefficient field itself. -/
-example : IsCompleteIntersection ℚ ℚ := by sorry
-
-/-- A quotient by a unit fails the regular-sequence condition. -/
-example : ¬ RingTheory.Sequence.IsRegular (MvPowerSeries (Fin 1) ℚ)
-    ([1] : List (MvPowerSeries (Fin 1) ℚ)) := by sorry
-
-/-- The dual numbers have a single relation, the square of the formal variable. -/
-example : ∃ P : PowerSeriesPresentation ℚ (DualNumber ℚ) 1 1,
-    P.relations = [(MvPowerSeries.X (0 : Fin 1)) ^ 2] ∧
-      P.relations.length = 1 := by sorry
-
-/-- The dual-number relation is regular, so the algebra is a complete intersection. -/
-example : IsCompleteIntersection ℚ (DualNumber ℚ) := by sorry
-
-/-- The square-zero algebra with two tangent directions has no regular presentation. -/
-example :
-    let X := MvPowerSeries.X (0 : Fin 2) (R := ℚ)
-    let Y := MvPowerSeries.X (1 : Fin 2) (R := ℚ)
-    let I := Ideal.ofList [X ^ 2, X * Y, Y ^ 2]
-    ¬ IsCompleteIntersection ℚ (MvPowerSeries (Fin 2) ℚ ⧸ I) := by sorry
-
 /-! ## Layers R26.2–R26.3 and R27.2: numerical milestones -/
 
 
