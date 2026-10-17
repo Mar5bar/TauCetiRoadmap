@@ -165,6 +165,20 @@ end AnalyticCoefficients
 
 /-! ## Layer 2: Local period sheaves -/
 
+/-- A Teichmüller lift is a unit when its untilt is a unit, provided theta is
+surjective and its source is complete for the theta kernel. -/
+theorem deRhamTeichmuller_isUnit {B R X : Type*} [CommRing B] [CommRing R]
+    (theta : B →+* R) (hTheta : Function.Surjective theta)
+    [IsAdicComplete (RingHom.ker theta) B]
+    (teichmuller : X → B) (untilt : X → R)
+    (hTeichmuller : ∀ x, theta (teichmuller x) = untilt x)
+    (x : X) (hx : IsUnit (untilt x)) : IsUnit (teichmuller x) := by
+  sorry
+
+/-- A nonzero untilt on a product chart can be a nonunit. -/
+example : ((1, 0) : ℚ × ℚ) ≠ 0 ∧ ¬ IsUnit ((1, 0) : ℚ × ℚ) := by
+  simp [Prod.isUnit_iff, Prod.ext_iff]
+
 /-- The toric logarithm of the ordered quotient has positive translation. -/
 example : Polynomial.comp (Polynomial.X : Polynomial ℚ) (Polynomial.X + 1) -
     Polynomial.X = 1 := by
@@ -219,7 +233,7 @@ example : (2 : ℚ)⁻¹ = 1/2 ∧ ((2 : ℚ)⁻¹)⁻¹ = 2 := by
 example : (-1 : ℚ) ^ ((1 : ℕ) * 1) = -1 := by
   norm_num
 
-/-- For scalar phi = 2 and gamma = 3, Herr's d0 sends 1 to (1,2),
+/-- For scalar phi = 2 and gamma = 3, the supplied Herr d0 sends 1 to (1,2),
 and d1(a,b) = 2a-b kills that vector. -/
 example : (((2 : ℚ) - 1) * 1, ((3 : ℚ) - 1) * 1) = (1, 2) ∧
     ((3 : ℚ) - 1) * (((2 : ℚ) - 1) * 1) -
@@ -232,7 +246,7 @@ example : ((3 : ℚ) - 1) * 1 - ((2 : ℚ) - 1) * 0 = 2 ∧
     ((2 : ℚ) - 1) * 0 - ((3 : ℚ) - 1) * 1 = -2 := by
   norm_num
 
-/-- With arithmetic Artin and character first, the normalized cup value is +1;
+/-- With arithmetic Artin and character first, the supplied normalized cup value is +1;
 the scalar Koszul coefficient for the reversed order is -1. -/
 example : (!![(0 : ℚ), 1; -1, 0]) *ᵥ ![0, 1] = ![1, 0] ∧
     (!![(0 : ℚ), 1; -1, 0]) *ᵥ ![1, 0] = ![0, -1] := by
