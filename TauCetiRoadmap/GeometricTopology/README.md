@@ -215,6 +215,48 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   say) are the same def with `A`, `B` proper faces. Set this up for arbitrary manifolds, not
   only handles, because everything downstream (surgery, handlebodies, cobordism
   composition) is a special case of it.
+- **Smooth compact-surface comparison.** For a compact Hausdorff second-countable
+  smooth real two-manifold, with or without boundary, construct the comparison
+  of its actual smooth atlas with the triangulation-based surface carriers of
+  [PlanarTopology Layers 0,3,5,8](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/PlanarTopology/README.md)
+  and [SurfaceTopology Layers 2–3,6,8](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/SurfaceTopology/README.md).
+  Consume their topological classification, Radó/PL comparison and smoothing
+  of compatible triangulations. Own the converse needed for a given smooth
+  atlas: construct a finite triangulation and a realization homeomorphism
+  for which, after a specified subdivision, each closed simplex is smoothly
+  embedded with injective differential. Carry the boundary as a subcomplex.
+  This is compatibility with the given smooth structure, not a claim that
+  its chart transitions are PL or that an arbitrary triangulation has that
+  compatibility. Construct the finite smooth arc/triangle decomposition in
+  coordinate discs and half-discs, the relative edge/vertex smoothing and
+  subdivisions, with the overlap, nondegeneracy and realization comparisons.
+  For prescribed compatible finite data on a closed boundary collar,
+  construct the extension fixing a smaller collar; collar straightening
+  precedes gluing, so pointwise boundary agreement alone is not substituted
+  for smooth agreement on a collar.
+
+  Apply the cited compatible-PL smoothing/uniqueness and homeomorphism
+  approximation theorems to these actual triangulations. Export existence
+  and uniqueness up to smooth diffeomorphism of the orientable genus-g and
+  nonorientable k-crosscap models with b boundary components, by consuming
+  SurfaceTopology's classification rather than reproving its finite or
+  topological invariant theory. Construct the smooth model by the cited
+  smoothing or this layer's disc/handle gluing, and compare the two. For a
+  homeomorphism already smooth on specified closed boundary collars,
+  construct a diffeomorphism agreeing on smaller collars and the relative
+  comparison isotopy, with its source/target smooth structures explicit.
+  Track its orientation sign when orientations are supplied. Include the
+  sphere, disc, annulus, torus and empty/disconnected finite unions separately.
+  On closed orientable surfaces compare the resulting triangulation with
+  AlgebraicTopology's genus-g CW model having one vertex, 2g edges and a
+  two-cell attached by the product of commutators; construct the realization
+  and cellular/singular comparison maps, treating genus0 by the sphere model.
+  Export restriction, boundary, gluing and smooth-structure transport laws.
+  These are the smooth/polygon/CW interfaces used by IndexTheory's curve
+  cut-and-paste argument. This two-dimensional adapter uses the cited
+  triangulation-based theory, not this roadmap's later general chart-based
+  PL/smoothing reconciliation; that reconciliation consumes its surface case.
+
 - **Tubular neighbourhoods.** Work on finite-dimensional Hausdorff
   second-countable smooth manifolds with boundaryless models. For a smooth
   embedding i:S→M of dimensions s≤m, construct the quotient normal bundle
