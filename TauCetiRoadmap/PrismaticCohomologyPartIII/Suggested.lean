@@ -8,9 +8,12 @@ The roadmap is README.md. This file records suggested forms statable against the
 Mathlib and Tau Ceti APIs, not an exhaustive checklist.
 
 These elementary fixed-point, base-change and lattice witnesses pin the conventions of Layers 6–7.
-Frobenius fixed points in README.md are derived fibres; taking an ordinary kernel records
-only their degree-zero part. The comparison and crystal targets retain their full sites,
-period coefficients and cohomological shifts there.
+Frobenius fixed points in README.md are derived fibres. For discrete modules, an ordinary
+kernel records their degree-zero part. The comparison and crystal targets retain their full sites,
+period coefficients and cohomological shifts there. Laurent coefficients use derived
+p-completion for vector bundles as well as perfect complexes; coherent derived quotient
+towers retain their morphisms. Ordinary finite projectives describe these coefficients
+when the bounded p-power torsion comparison applies.
 -/
 
 namespace TauCetiRoadmap.PrismaticCohomologyPartIII
@@ -55,6 +58,19 @@ theorem pr7_ok_bk_not_perfect :
 theorem pr7_etale_rank_one_nonunit (p : ℕ) [Fact p.Prime] :
     ¬ IsUnit (1 + Polynomial.X : Polynomial (ZMod p)) := by
   sorry
+
+/-- Evaluation at 1 identifies scalar extension on rank-one endomorphisms with the
+coefficient map, so injectivity holds exactly when that coefficient map is injective. -/
+theorem pr7_completion_unit_endomorphisms (R S : Type*) [CommRing R] [CommRing S]
+    (g : R →+* S) :
+    Function.Injective (fun f : R →ₗ[R] R => g (f 1)) ↔ Function.Injective g := by
+  constructor
+  · intro h x y hxy
+    apply LinearMap.toSpanSingleton_injective R R
+    apply h
+    simpa only [LinearMap.toSpanSingleton_apply_one] using hxy
+  · intro h f f' hff
+    exact LinearMap.ext_ring (h hff)
 
 /-- The identity transition satisfies the base-change condition along the identity ring map. -/
 theorem pr7_crystal_base_change_id (R : Type*) [CommRing R]
