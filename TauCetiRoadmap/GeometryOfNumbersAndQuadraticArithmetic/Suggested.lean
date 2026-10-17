@@ -203,9 +203,9 @@ def successiveMinimum (L : TauCeti.IntegralLattice V) (i : Fin (finrank ℤ L)) 
   sInf {N : ℕ | ∃ v : Fin (i.val + 1) → L, LinearIndependent ℤ v ∧
     ∀ j, L.integralNorm (v j) ≤ (N : ℤ)}
 
-/-- A semidefinite squared minimum is at most `N` exactly when an independent family meets
-that squared-norm bound (1.2.13a). -/
-theorem successiveMinimum_le_iff (L : TauCeti.IntegralLattice V) (hL : L.IsPosSemidef)
+/-- A natural squared-norm threshold is at most `N` exactly when an independent family meets
+that bound, for any integral lattice (1.2.13a). -/
+theorem successiveMinimum_le_iff (L : TauCeti.IntegralLattice V)
     (i : Fin (finrank ℤ L)) (N : ℕ) :
     L.successiveMinimum i ≤ N ↔ ∃ v : Fin (i.val + 1) → L, LinearIndependent ℤ v ∧
       ∀ j, L.integralNorm (v j) ≤ (N : ℤ) := by sorry
@@ -235,6 +235,14 @@ example :
 example {L : TauCeti.IntegralLattice V} [Subsingleton L] :
     IsEmpty (Fin (finrank ℤ L)) ∧
       ∃ v : Fin (finrank ℤ L) → L, LinearIndependent ℤ v := by sorry
+
+-- Without semidefiniteness, the natural threshold can be zero without norm-equality attainment.
+example :
+    let L := TauCeti.IntegralLattice.ofGramMatrix (Pi.basisFun ℚ (Fin 1))
+      (Matrix.diagonal ![-1] : Matrix (Fin 1) (Fin 1) ℤ) (by sorry)
+    ∃ i : Fin (finrank ℤ L), L.successiveMinimum i = 0 ∧
+      (∃ v : Fin 1 → L, LinearIndependent ℤ v ∧ ∀ j, L.integralNorm (v j) ≤ 0) ∧
+      ¬ ∃ x : L, x ≠ 0 ∧ L.integralNorm x = 0 := by sorry
 
 end TauCeti.IntegralLattice
 
