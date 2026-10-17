@@ -246,7 +246,7 @@ one, and a single weight of multiplicity two contributes the square.
 |---|---|---|
 | Relative roots and weights | RG2.1 targets `AlgebraicRelativeRoots.Character`, `.Root`, `.weightSpace`; `ReductiveGroupsPartII/README.md` | Shared algebraic carriers extending ReductiveGroups layer 7; AA adds reduction data. The local modulus is RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus`, `ReductiveGroupsPartII/Suggested.lean`. |
 | Geometric torsors and classes | SchemeAndStackFoundations, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_base_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
-| Finite-image Artin factors | AA.2.4 owns the local factors on inertia invariants, their induction formula, the nonzero leading coefficient at one and its positivity for character lattices (README targets of *convergence-factors* and AA.2.5) | Determinants on inertia invariants and the nonzero leading coefficient at one. Chebotarev layer 10 supplies Dirichlet density only. |
+| Finite-image Artin factors | AA.2.4 owns the local factors on inertia invariants, their induction formula, the nonzero leading coefficient at one and its positivity for character lattices (README targets of *convergence-factors* and AA.2.5) | Determinants on inertia invariants and the nonzero leading coefficient at one. |
 | Linear Haar scaling | [MassFormula, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md) | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA owns completion, nonlinear charts, gauge forms, extension-basis Jacobians and the global discriminant. |
 | Rational tuple heights | [ArithmeticHeights, §0.1](https://github.com/rwst/TauCetiRoadmap/blob/b8aec35b6cd8e68031df1038a2cae63088be4a17/TauCetiRoadmap/ArithmeticHeights/Suggested.lean): `NumberField.arakelovMulHeight`, `arakelovMulHeight_eq`, `arakelovMulHeight_pow_finrank`, `arakelovMulHeight_rpow_comp` | The relative finite-sup/archimedean-`ℓ²` height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. AA retains adelic properness and quantitative counting. |
 | Finite-order Hecke analysis | [LFunctions, layers 5–6](https://github.com/roed-math/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/Suggested.lean): `PrimitiveRayClassCharacter`, `heckeLFunctionC`, `heckeLFunctionC_eq`, `heckeLFunctionC_induced`, `heckeLFunctionC_eq_primitive`, `eulerCorrection`, `heckeLFunction_ne_zero_of_one_le_re` | GlobalNumberFields supplies ray class carriers; ArithmeticDirichletSeries supplies ideal series; ThetaSeries supplies Poisson/Mellin analysis. AA uses the nonzero germ at one for nontrivial primitive finite-order characters. |
@@ -2165,7 +2165,7 @@ fundamental domains, `L²` spaces, exterior powers and Dedekind zeta residues; T
 characters with their Galois action, cotangent spaces, adjoint representation, dynamic parabolics
 and Euler product; ReductiveGroups, layer 4; ReductiveGroupsPartII, RG2.0 and RG2.1;
 GlobalNumberFields, layers 0 and 6; NumberFieldArithmetic, layer 4; LFunctions, layers 5–6 (ThetaSeries);
-ClassFieldTheory reciprocity; Chebotarev, layer 10;
+ClassFieldTheory reciprocity;
 RepresentationTheory/CompactGroups, layer 5.
 
 ## Layer 3: reduction and arithmetic quotients
@@ -3483,9 +3483,9 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   `[[0,−1],[1,0]]` when `H` is the diagonal split torus; for the compact norm-one torus, `N_Z=N_G`
   leaves only the identity Weyl element admissible and the connected-centralizer quotient is `1`.
 - **Uniform compact factors for subgroup Siegel sets.** In the notation and under the
-  hypotheses of *containment-weyl-representatives*, with `Ω_H ⊂ N_H(ℝ) M_H(ℝ)^+` compact and
+  hypotheses of *containment-weyl-representatives*, with `Ω_H ⊆ N_H M_H⁰` compact and
   `K_Z = K_G ∩ Z_G(S_H)(ℝ)` (maximal compact in `Z_G(S_H)(ℝ)` by the Cartan hypothesis), prove
-  that one can choose a compact `Ω_G ⊂ N_G M_G` and, for every admissible `w`, a compact
+  that one can choose a compact `Ω_G ⊆ N_G M_G⁰` and, for every admissible `w`, a compact
   `B_w ⊂ S_G(ℝ)^0` such that `w′_Q⁻¹ Ω_H ⊂ Ω_G w_K⁻¹ B_w K_Z`; all these choices range over a
   finite Weyl set ([Orr], §4.E, Lemmas 4.12–4.13, pp. 23–24; [Orr–Schnell], §§A,E, pp. 1232,
   1236). *Needs:* AA.3.7; AA.3.2.
@@ -3493,6 +3493,8 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   **Checks.** For trivial groups take every compact factor to be `{1}`;
   for `H=G` and the identity representative take `Ω_G=Ω_H`, `B_w={1}`;
   for the compact norm-one torus take `Ω_G=B_w={1}` and `K_Z=SO₂(ℝ)` for its full compact window.
+  For `H=G=SL₂` with the standard upper-Borel triple, `M_H⁰=M_G⁰={I}`; the singleton `{-I}`
+  is not a window in either group, while `-I ∈ K_G=SO₂(ℝ)`.
 - **Containment of subgroup Siegel sets.** (*orr-schnell-containment*) Let `𝐇 ⊂ 𝐆` be
   reductive `ℚ`-groups, `(𝐏_H, 𝐒_H, K_H)` a Siegel triple for `𝐇` and `𝔖_H = Ω A_t K_H` a Siegel
   set. Let `K_G ⊂ 𝐆(ℝ)` be maximal compact with `K_H ⊂ K_G` and whose Cartan involution
@@ -4382,11 +4384,16 @@ quaternion norms and compact abelian Fourier limits.
 
   **Checks.**
   - For `g = 1` both maps are the identity.
-  - `T_g` and `T_{g⁻¹}` are transposes, not equal in general: for `GL_2/ℚ` with `g = diag(p, 1)`,
+  - `T_g` and `T_{g⁻¹}` are transposes, not equal in general. For `GL₂/ℚ` with
+    `U = GL₂(ℤ_p) × U^p` and `g` equal to `diag(p,1)` at `p` and `1` elsewhere,
     `T_{g⁻¹}` is `T_g` composed with translation by the central idele `p⁻¹` at `p`.
   - With `U = GL_2(ℤ̂)` and `K∞ = SO(2)` this translation rescales the archimedean component
     (`|det x_∞|` is multiplied by `p²`), so `T_{g⁻¹} ≠ T_g`; if `K∞ ⊇ ℝ_{>0}` the translation is
     trivial on `X_U` and the two coincide.
+  - At `U = K₀(p)`, let `I=U_p` be upper triangular modulo `p`. The reductions of
+    `I diag(p,1) I` have zero first column and nonzero lower-right entry; those of
+    `I diag(1,p) I` have zero bottom row and nonzero upper-left entry. The double cosets
+    are disjoint, so `I diag(p,1) I ≠ I diag(1,p) I`.
 - **Cartesian squares of level maps.** For a connected reductive group `G` over `F`,
   `U′, L ⊂ U` compact open with `U` neat, `K∞` containing `A_G(ℝ)^0` and compact modulo it, and
   `U′L = U`, prove that the square `X_{U′∩L} → X_L`, `X_{U′∩L} → X_{U′}`, `X_{U′} → X_U`,
