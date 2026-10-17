@@ -431,6 +431,8 @@ end RD2
 /-! ## Layer RD.3: Frames, convergent and overconvergent coefficients -/
 
 -- With Witt-vector coefficients and p-Frobenius, perfect-point fibres use this carrier.
+-- The all-rank ordinary Witt equivalence in README RD.1.32 uses CrystallineCohomology CR.4.7
+-- for cyclic blocks and classification; Mathlib supplies the carrier and rank-one theorem.
 #check WittVector.Isocrystal
 
 
@@ -1289,7 +1291,9 @@ def kedlayaPositiveExponent (p g m : ℕ) : ℕ := Nat.log p ((2 * g + 1) * (2 *
 def latticeDefectExponent (p g : ℕ) : ℕ := Nat.log p (2 * g - 1)
 
 /-- Tuitman's reconstruction precision `max_{1 ≤ i ≤ g} (⌊log_p binom(4g, i) + ni/2⌋ + 1)`
-(README §RD.7.19 (1); Tuitman, Proposition 4.2). -/
+(README §RD.7.19 (1); Tuitman, Proposition 4.2). This coefficient bound for the Weil polynomial
+is independent of a cohomology basis; the Frobenius-coordinate bounds in parts (2)–(4) use
+a basis of the integral image lattice specified in §RD.7.18. -/
 noncomputable def tuitmanReconstructionPrecision (p g n : ℕ) : ℕ :=
   (Finset.Icc 1 g).sup fun i =>
     (⌊Real.logb p ((4 * g).choose i) + ((n * i : ℕ) : ℝ) / 2⌋).toNat + 1
