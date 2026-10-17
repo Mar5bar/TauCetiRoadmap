@@ -8,6 +8,8 @@ A framed ring, an unframed ring, a flag-incidence scheme and its flag-forgetting
 
 `SchemeAndStackFoundations`, §4.2 supplies the coefficient categories. Layer F constructs the generic deformation functors, strict equivalence, continuous representability, local deformation problems and inertia-rigid rings. `ArithmeticGaloisRepresentations`, §7.4 supplies the polarized group, fixed-multiplier representations and CHT coset/pairing dictionary for arbitrary index-two groups. The local polarized conditions and nodal model are [2.12](#t2-12). Build the generic foundations before their local specializations in Layers 0–8.
 
+`DeformationAndDerivedPatchingAlgebra` owns the common complete-local coproduct (§1.12), relative presentation and relation algebra (§§2.1–2.5), continuous framed matrix ring (§§2.6–2.7), ungraded canonical-module/type interface (§3.9) and pointed tensor comparison (§4.6). Sections F.0.1–F.0.2, F.2.3–F.2.4 and 0.1 specialize these carriers and maps to `C_𝒪`. The arithmetic tangent and obstruction assignments, local conditions, graded canonical-module comparison and `Φ_p`/Schlessinger representability argument belong here; the latter identifies its representing pair with the common framed pair.
+
 Period rings and field-valued admissibility use `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.0–R07.3.3 and R07.4.13. Targets [0.2](#t0-2)–[0.4](#t0-4) construct the coefficient, ordinary and `(φ,Γ)` interfaces used here. `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1,R07.3,R07.4` owns finite-flat, Fontaine–Laffaille and Breuil–Kisin categories and realizations. Their deformation applications and model spaces belong here. Completed coefficient products and presentations use [F.0.1](#completed-coefficient-products) and [F.0.2](#minimal-relative-presentations); canonical-module tests are target [0.1](#t0-1), and excellence uses `SchemeAndStackFoundations`, §0.21; flags and lattice representability belong to `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and §1.7, and formal functions and algebraization to `SchemeAndStackFoundations`, §§4.9–4.10, and `AdicSpacesPartIII`, `F0`.8.
 
 Tau Ceti's `LocalGaloisGroups`, Layers 3 and 7, supplies finite generation of the maximal pro-`p` Galois group over each finite local extension, hence the `p`-finiteness used here. `LocalFieldsRamification` supplies the full tame quotient, whose inertia is the whole prime-to-`ℓ` tame inertia. Target 2.6 instead removes the kernel of inertia's projection to its coefficient-`p` factor `ℤ_p`. The Tau Ceti module `NumberTheory/LocalField/Tame/PadicCharacter` already supplies `inertiaPadicTameCharacter`, its surjectivity, kernel criterion and arithmetic Frobenius conjugation. Target 2.6 consumes that character to construct the coefficient-`p` quotient and its matrix-pair universal property. The local Galois group, tame character and full tame quotient are not targets here.
@@ -47,8 +49,9 @@ The contracts state the input needed at each boundary. Library declarations belo
 - `TauCeti.FieldTheory.GaloisCohomology.Kummer` supplies `TauCeti.kummerIso`, `TauCeti.kummerIso_res` and `TauCeti.kummerIso_norm`: for `n` invertible in the field, the power-class quotient is multiplicatively isomorphic to `H¹(G_K,μ_n)`, compatibly with restriction and, for finite separable extensions, norm/corestriction. `TauCeti.NumberTheory.ClassFieldTheory.Local.Duality.FiniteModule` supplies `TauCeti.ClassFieldTheory.dualityMap0_kummerCoeff_bijective`, `TauCeti.ClassFieldTheory.dualityMap1_kummerCoeff_bijective` and `TauCeti.ClassFieldTheory.dualityMap2_kummerCoeff_bijective` for finite discrete modules killed by `n` invertible in the local field. These finite-level inputs retain their existing carriers; the completed and `κ`-linear comparisons below add hypotheses and are separate mathematical targets.
 - `TauCeti.LinearAlgebra.Matrix.SymplecticMultiplier` supplies `Matrix.transpose_mul_J_mul_eq_det_smul` and `Matrix.det_eq_of_transpose_mul_J_mul_eq_smul` over every commutative ring in rank two. These identify the symplectic multiplier with the determinant without dividing by two. The rank-four integral similitude and Lie contracts are `ArithmeticGaloisRepresentations`, §§7.3–7.5, with its prescribed Gram matrices and its explicit hypotheses wherever scalar splitting is used.
 
-- [F.1.1](#lifting-functor)–[F.1.10](#determinant-comparison) construct deformation functors, strict equivalence and determinant conditions; [F.2.1](#phi-p-condition)–[F.2.11](#pseudodeformation-rings) supply continuous representability under `Φ_p` and Schur unframed representability. [F.3.1](#local-deformation-problem)–[F.3.2](#deformation-problem-ideal) supply the condition/ideal correspondence, and [F.4.12](#inertia-rigid-deformations) supplies inertia-rigid rings. [F.0.2](#minimal-relative-presentations) gives relation bounds for a supplied natural, additive obstruction assignment detecting lifts over every finite-dimensional small-extension kernel. The local Galois obstruction assignment and surjection `H²(Γ,ad ρ̄)∨→J/𝔪_SJ` for a minimal `S=𝒪[[x₁,…,x_r]]→R` with kernel `J` are constructed in [1.4](#t1-4). See [Gee22], Lemma 3.2, p. 12, Corollary 3.12 and Lemma 3.13, p. 13.
-- Completed coefficient products, residue extension, flat dimensions and domain comparisons use [F.0.1](#completed-coefficient-products). Its product component formula retains equidimensional special fibres; its domain comparison retains an `𝒪`-point and regular generic fibre for each domain factor. The coefficient categories and Schlessinger criteria use `SchemeAndStackFoundations`, §§4.2–4.4; excellence and regular completion maps use its §0.21. Target [0.1](#t0-1) supplies the canonical-module and type tests for 6.18.
+- [F.1.1](#lifting-functor)–[F.1.10](#determinant-comparison) construct deformation functors, strict equivalence and determinant conditions; [F.2.1](#phi-p-condition)–[F.2.11](#pseudodeformation-rings) supply continuous representability under `Φ_p` and Schur unframed representability. [F.3.1](#local-deformation-problem)–[F.3.2](#deformation-problem-ideal) supply the condition/ideal correspondence, and [F.4.12](#inertia-rigid-deformations) supplies inertia-rigid rings. [F.0.2](#minimal-relative-presentations) specializes the supplied relation bound for a natural, additive obstruction assignment detecting lifts over every finite-dimensional socle kernel. The local Galois obstruction assignment and surjection `H²(Γ,ad ρ̄)∨→J/𝔪_SJ` for a minimal `S=𝒪[[x₁,…,x_r]]→R` with kernel `J` are constructed in [1.4](#t1-4). See [Gee22], Lemma 3.2, p. 12, Corollary 3.12 and Lemma 3.13, p. 13.
+- `DeformationAndDerivedPatchingAlgebra`, §1.12 supplies the joint-maximal-ideal completion coproduct, inclusions, symmetry, associativity and coefficient comparisons; §§2.1–2.5 supply the chosen relative presentation, relation space and obstruction bound for all finite-dimensional socle kernels; §§2.6–2.7 supply the fixed-basis continuous matrix ring and uniqueness of its representing pair. Its §3.9 supplies the canonical module by normalized duality and its regular-presentation `Ext`, power-series, regular-quotient, type/socle and Gorenstein comparisons; §4.6 supplies the pointed tensor-domain comparison, including generic regularity for `E/ℚ_p` finite. These interfaces specialize on the same carriers in [F.0.1](#completed-coefficient-products), [F.0.2](#minimal-relative-presentations), [F.2.3](#universal-lifting-ring), [F.2.4](#universal-continuous-lift) and [0.1](#t0-1).
+- Completed coefficient products and the pointed domain comparison specialize the supplied algebra in [F.0.1](#completed-coefficient-products), with residue-extension and flat-dimension statements on that coproduct. Its product component formula retains equidimensional special fibres; its domain comparison retains an `𝒪`-point and regular generic fibre for each domain factor. The coefficient categories and Schlessinger criteria use `SchemeAndStackFoundations`, §§4.2–4.4; excellence and regular completion maps use its §0.21. Target [0.1](#t0-1) specializes the supplied ungraded canonical-module/type tests and adds the graded completion comparison for 6.18.
 - `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`, supplies the cocycle, strict-class and adjoint tangent comparisons. `SelmerIwasawaCohomology`, §`2A`.4, *Determinant tangent fibres*, retains the trace-sequence boundary when `p` divides the rank. Apply these to the functors of §§F.1.1–F.1.10; the local obstruction assignment and relation-space comparison are [1.4](#t1-4).
 - `ClassFieldTheory`, Layer 5, supplies finite smooth discrete local Tate duality and the Euler characteristic. Above `p` the `κ`-linear extension is `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields*: retain continuity, a stable valuation-ring lattice for local `κ`, and its adic topology. It supplies finite-dimensional `κ`-linear cohomology, perfect pairings and Euler characteristic `−[K:ℚ_p] dim V` for precisely the fields of 1.15. Away from `p` use the finite duality input and the supplied tame inertia quotient and procyclic resolutions in 1.18, passing through stable-lattice quotients and localization; the resulting Euler characteristic is zero. The latter adapter, including scalar extension, is constructed in [1.18](#t1-18). Pinned `TauCeti.ContCohomology.H2` is only the additive `Z²/B²` carrier.
 - `ClassFieldTheory`, Layer 7, supplies the local Artin map and its normalization, the identification of abelianized inertia with completed units and its pro-`p` factor. `LocalGaloisGroups`, Layers 3 and 7, supplies the `p`-finiteness input over every finite extension. The Kummer maps named in the scope supply `H¹(G_L,μ_{pⁿ})≅L×/L×^{pⁿ}` for characteristic-zero `L`. Target [4.2.1](#t4-2-1) constructs the decomposition-equivariant completed valuation sequence over `K^nr`, including its coefficient twists, from these finite-level maps and `SelmerIwasawaCohomology`, §§0.4–0.6. Full tame inertia and its coefficient-`p` quotient are different, as specified in the scope.
@@ -78,8 +81,8 @@ kernel of reduction `GLₙ(A) → GLₙ(k)`. Artinian coefficient objects have d
 The functors exist before representability is asserted; `Φ_p`, Schur and absolute irreducibility
 are imposed precisely where stated.
 
-Construct completed coefficient products and conditional presentations first, then deformation
-functors, representability and comparisons, the local-condition ideal correspondence and
+Specialize the common completed coefficient products and conditional presentations first, then construct deformation
+functors, arithmetic representability and comparisons, the local-condition ideal correspondence and
 inertia-rigid rings. For `k[ε]`, ArithmeticGaloisDuality `D8`.1 identifies lifts with
 `Z¹(G, ad ρ̄)` and strict classes with `H¹(G, ad ρ̄)`, giving framed tangent dimension
 `h¹ + n² − h⁰`; SelmerIwasawaCohomology §`2A`.4 supplies determinant tangent fibres, including the trace-sequence boundary
@@ -89,29 +92,33 @@ when `p | n`. The local obstruction-to-relation-space comparison is [1.4](#t1-4)
 
 ### F.0.1 Completed coefficient products and dimensions
 
-**Completed local coefficient algebra.** For maps `A → B` and `A → C` in `C_𝒪`, form
-`B ⊗̂_A C` as the separated completion of `B ⊗_A C` at the ideal generated by the two maximal
-ideals, using Mathlib `AdicCompletion`. It is in `C_𝒪` and is its coproduct over `A`: continuous
+**Completed local coefficient algebra.** For maps `A → B` and `A → C` in `C_𝒪`, use
+`DeformationAndDerivedPatchingAlgebra`, §1.12's coproduct with coefficient base `A`.
+The notation `B ⊗̂_A C` denotes its native `AdicCompletion` of `B ⊗_A C` at the ideal generated
+by the two maximal ideals, with the same two inclusions. It is in `C_𝒪` and is its coproduct over `A`: continuous
 local maps to `D ∈ C_𝒪` correspond to pairs of such maps from `B` and `C` agreeing on `A`.
-Prove associativity, symmetry, the unit and empty-product conventions and compatibility with
-Artinian quotients. The general adic-map tensor product of AdicSpacesPartIII `F0`.1 uses the same
+Associativity, symmetry, the unit and empty-product conventions and compatibility with
+Artinian quotients specialize that interface, preserving the inclusions. The general adic-map tensor product of AdicSpacesPartIII `F0`.1 uses the same
 completion carrier where its hypotheses apply; the maps `𝒪 → 𝒪⟦X⟧` with maximal-ideal topology
 are not adic maps, so the coefficient-category mapping theorem here carries its own hypotheses.
 For a finite extension of coefficient DVRs `𝒪 → 𝒪′` with residue inclusion `k → k′`,
-`B ⊗̂_𝒪 𝒪′` is a complete Noetherian local `𝒪′`-algebra with residue `k′`, flat over `B`;
-construct its residue-extension mapping property and transitivity ([KW209], §2.1, pp. 5–6).
+use the same completion and its finite-factor comparison `B ⊗̂_𝒪 𝒪′ ≅ B ⊗_𝒪 𝒪′`: it is a complete
+Noetherian local `𝒪′`-algebra with residue `k′`, flat over `B`. Specialize the mapping property
+to maps respecting `k → k′`; uniqueness gives transitivity ([KW209], §2.1, pp. 5–6).
 
 For a finite nonempty family of `𝒪`-flat coefficient rings `B_i` whose special fibres are
 equidimensional of dimensions `d_i`, prove that `⊗̂_𝒪 B_i` is flat, with each component of
 absolute dimension `1 + Σ d_i`. In particular its generic fibre has dimension `Σ d_i`.
 For a nonzero flat coefficient ring `B`, prove `dim B = 1 + dim B[1/λ]`.
-If every `B_i` is a domain with an `𝒪`-point and regular generic fibre, the product is a domain
-with regular generic fibre; these hypotheses are retained ([KW209], §2.3, Proposition 2.2
+If every `B_i` is a domain with an `𝒪`-point and regular generic fibre, specialize
+`DeformationAndDerivedPatchingAlgebra`, §4.6 to obtain a domain with regular generic fibre;
+retain these hypotheses and `E/ℚ_p` finite ([KW209], §2.3, Proposition 2.2
 and proof, p. 9; §4.1.3, p. 39). For the dimension assertion, reduction modulo `λ` gives the
 completed product over `k`; systems of parameters give its dimension `Σ d_i`, and catenarity
 and flatness give the component and generic-fibre assertions.
 
-*Needs:* SchemeAndStackFoundations §§4.2, 0.16, 0.20–0.21; Mathlib `AdicCompletion`,
+*Needs:* DeformationAndDerivedPatchingAlgebra §§1.12, 4.6;
+SchemeAndStackFoundations §§4.2, 0.16, 0.20–0.21; Mathlib `AdicCompletion`,
 `IsAdicComplete`, `MvPowerSeries`, `TensorProduct`, `IsNoetherianRing`, `Module.Flat`.
 
 **Checks.**
@@ -125,34 +132,41 @@ and flatness give the component and generic-fibre assertions.
 - **coefficient_product_domain_hypotheses.** take a nontrivial finite coefficient extension
   `𝒪′/𝒪` with the same residue field. Its generic fibre is regular and it is a domain, but it
   has no `𝒪`-point. The generic fibre of `𝒪′ ⊗̂_𝒪 𝒪′` has distinct factors and is not a domain.
+- **coefficient_product_common_base.** for `A=𝒪⟦t⟧`, the common coproduct
+  `A⟦x⟧ ⊗̂_A A⟦y⟧ ≅ A⟦x,y⟧` identifies the two images of `t`. Agreement only on residue
+  maps would leave two coefficient variables and would not give this coproduct.
 
 <a id="minimal-relative-presentations"></a>
 
 ### F.0.2 Minimal relative presentations and obstruction bounds
 
-**Presentation algebra.** For a local map `B → R` in `C_𝒪`, let
+**Presentation algebra.** Specialize `DeformationAndDerivedPatchingAlgebra`, §§2.1–2.5
+to a local map `B → R` in `C_𝒪`, using `B` as coefficient base. Let
 `g = dim_k 𝔪_R/(𝔪_R² + 𝔪_B R)`. Lifts of a basis give a continuous local surjection
 `P = B⟦x₁,…,x_g⟧ ↠ R` inducing an isomorphism on relative tangent spaces.
-For its kernel `J`, `J/𝔪_P J` is the relation space; a basis lifts to a minimal set of generators
+Use that chosen evaluation map, its kernel `J` and the actual relation quotient `J/𝔪_P J`
+from the supplier. A basis lifts to a minimal set of generators
 of `J`, and `dim R ≥ dim B + g − dim_k(J/𝔪_P J)` ([KW209], §2.1, pp. 5–6; [CHT08],
 Corollary 2.2.12 and proof, p. 25).
 
 For the represented relative deformation functor, suppose a finite-dimensional obstruction space
 `O` is supplied for all surjections of Artinian `B`-algebras with finite-dimensional kernel `I`
 killed by the maximal ideal. Require classes in `O ⊗_k I`, natural under maps of such extensions,
-additive under direct sums of kernels, and zero exactly when a lift exists. For the minimal
-presentation above, construct the obstruction-compatible injection
+including all linear pushouts of kernels, additive under direct sums of kernels, and zero exactly
+when a lift exists. This is the supplier's complete obstruction interface for socle kernels.
+For the minimal presentation above, specialize its obstruction-compatible injection
 `(J/𝔪_P J)ˇ ↪ O`, equivalently the surjection `Oˇ ↠ J/𝔪_P J`.
-Its construction uses Artinian quotients of the extension with kernel `J/𝔪_P J`; minimality
+The supplied comparison uses Artinian quotients of the extension with kernel `J/𝔪_P J`; minimality
 makes changes of the variable lifts act trivially on this kernel. Hence
 `dim_k(J/𝔪_P J) ≤ dim_k O`, and `O = 0` makes `R` a power-series ring over `B`.
 An elementary obstruction assignment restricted to one-dimensional kernels alone is not the
-asserted input.
+asserted input. Arithmetic obstruction assignments and their identification with this
+relation evaluation are [1.4](#t1-4); specializing the algebra does not supply those assignments.
 
 (Sources: [Gee22], Lemma 3.13 and Corollary 3.14, pp. 13–14;
 [KWESI], Lemma 4.5 and proof, pp. 32–33; [CHT08], Corollary 2.2.12, p. 25.)
 
-*Needs:* [F.0.1](#completed-coefficient-products);
+*Needs:* DeformationAndDerivedPatchingAlgebra §§2.1–2.5; [F.0.1](#completed-coefficient-products);
 SchemeAndStackFoundations §§4.2–4.4; Mathlib `MvPowerSeries`, `IsAdicComplete`, `IsNoetherianRing`.
 
 *Lean:* `truncatedIdeal`, `truncateCubeToSquare` and the square-zero lifting obstruction `example`.
@@ -577,7 +591,9 @@ Lecture 1, (1.2), p. 2).
 
 ### F.2.3 The universal lifting ring
 
-**Theorem.** If `Φ_p(G)` holds, there are `R^□_ρ̄ ∈ C_𝒪` and a continuous lift `ρ^□` such that local
+**Theorem.** Under `Φ_p(G)`, use `R^□_ρ̄ ∈ C_𝒪` and `ρ^□` for the continuous framed
+representing pair of `DeformationAndDerivedPatchingAlgebra`, §§2.6–2.7, specialized to `𝒪`,
+`k`, `n` and the fixed residual basis. Continuous local
 `𝒪`-algebra maps `R^□_ρ̄ → A` correspond naturally and bijectively to `Lift_ρ̄(A)`, by pushforward of
 `ρ^□`. No Schur hypothesis is needed ([KisinNotes], Lecture 1, Proposition (1.2.1)(1) and its proof, p. 2;
 [Gee22], Lemma 3.2 and Definition 3.3, p. 12).
@@ -588,8 +604,14 @@ fibre product is equivalent to continuity of its projections. Its tangent space 
 `Φ_p` and the framed tangent count supplied by ArithmeticGaloisDuality `D8`.1. Apply SchemeAndStackFoundations
 §4.4's Schlessinger pro-representability theorem and pass to complete coefficients using the
 inverse-limit comparison of F.1.1. Specialise to global and local Galois groups by F.2.2.
+For comparison with the matrix construction, `H=ker ρ̄` is open and `Φ_p(G)` makes its maximal
+pro-`p` quotient finitely generated by F.2.1. Every Artinian lift kills the kernel of
+`H → H(p)`, so §2.7 applies even when `G` itself is not finitely generated. The Schlessinger
+representing pair has a unique continuous labelled isomorphism to that common pair carrying
+the actual universal lifts to each other. Use this identification for `R^□_ρ̄` and its maps.
 
-*Needs:* [F.2.1](#phi-p-condition); [F.1.1](#lifting-functor); `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`;
+*Needs:* DeformationAndDerivedPatchingAlgebra §§2.6–2.7;
+[F.2.1](#phi-p-condition); [F.1.1](#lifting-functor); `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`;
 SchemeAndStackFoundations §§4.2–4.4; Mathlib
 `MvPowerSeries`, `IsAdicComplete`.
 
@@ -600,25 +622,31 @@ SchemeAndStackFoundations §§4.2–4.4; Mathlib
 - **univLiftRing_not_schur_needed.** for `ρ̄ = 1 ⊕ 1` of `G = ℤ_p`, a lift is the free choice of the image
   `1 + X` of a topological generator in the pro-`p` group `Γ̂₂(A)`, so `R^□ = 𝒪⟦X₁₁, X₁₂, X₂₁, X₂₂⟧`
   exists although `Def` is not pro-representable.
+- **univLiftRing_pair_comparison.** in the rank-one `ℤ_p` case, a second representing pair
+  identifies with `𝒪⟦T⟧` by its universal value `1+T`. The automorphism `T ↦ T+T²` does not
+  preserve that value, so it is not a second isomorphism of representing pairs.
 
 <a id="universal-continuous-lift"></a>
 
 ### F.2.4 The universal continuous lift over the inverse-limit ring
 
-**The universal lift.** Recover `ρ^□` over the complete representing ring from the compatible
-universal lifts over the quotients `R^□/𝔪ʳ`. Its reduction is `ρ̄` and its entries are continuous for
+**The universal lift.** Under `Φ_p(G)`, specialize `DeformationAndDerivedPatchingAlgebra`,
+§2.7's universal representation on the common framed ring of F.2.3. Its inverse-limit
+description recovers `ρ^□` from the compatible universal lifts over `R^□/𝔪ʳ`; the
+representing-pair identification preserves every reduction. Its reduction is `ρ̄` and its entries are continuous for
 the adic topology. Evaluation at this lift realizes the representing bijection for every complete
 coefficient object, not only for Artinian quotients ([Gee22],
 Definition 3.3, p. 12; [KisinNotes], Lecture 1, Remark (1.2.2)(2), p. 2).
 
-The API:
+The API consists of aliases and specializations on this same ring and universal lift:
 
 - `univLift`: `ρ^□ : G →* GLₙ(R^□_ρ̄)`, continuous.
 - `univLift_reduce`: `ρ^□ mod 𝔪 = ρ̄`.
 - `liftEquivHom`: `Lift_ρ̄(A) ≃` local `𝒪`-algebra maps `R^□_ρ̄ → A`, for `A ∈ C_𝒪`.
 - `univLift_continuous`: `ρ^□` is continuous for the `𝔪`-adic topology.
 
-*Needs:* [F.2.3](#universal-lifting-ring); [F.1.1](#lifting-functor); [F.0.1](#completed-coefficient-products); Mathlib `IsAdicComplete`.
+*Needs:* DeformationAndDerivedPatchingAlgebra §2.7; [F.2.3](#universal-lifting-ring);
+[F.1.1](#lifting-functor); [F.0.1](#completed-coefficient-products); Mathlib `IsAdicComplete`.
 
 **Checks.**
 
@@ -1015,19 +1043,20 @@ Propositions 2.10 and 2.11, pp. 15–16; [KWESI], §2.3, Propositions 2.6–2.7,
 
 ### 0.1 Canonical modules and type under regular quotients
 
-For a nonzero complete Cohen–Macaulay local quotient `R` of a regular local power-series ring `S`, construct its canonical module `ω_R=Ext_S^{dim S−dim R}(R,S)`. For the graded rings used in 6.18 use the graded `Ext` module and compare its completion at the homogeneous maximal ideal. Prove independence up to isomorphism of the presentation, compatibility with power-series extension and with quotient by a regular sequence in the maximal ideal. Its minimal generator number is the Cohen–Macaulay type; this equals the socle dimension of an Artinian parameter quotient. Type one characterizes Gorenstein rings.
+For a nonzero complete Cohen–Macaulay local quotient `R` of a regular local power-series ring `S`, use `DeformationAndDerivedPatchingAlgebra`, §3.9's canonical module `K_R`, with its comparison `K_R≅Ext_S^{dim S−dim R}(R,S)`. The local name `CanonicalModule` denotes this same module. Presentation independence up to isomorphism, power-series extension, quotient by a regular sequence in the maximal ideal and the type/socle/Gorenstein tests specialize that interface. In particular `CanonicalModule.regularQuotient` and `CanonicalModule.type_eq_socle` are its specialized comparisons. The minimal generator number is the Cohen–Macaulay type, equal to the socle dimension of an Artinian parameter quotient; type one characterizes Gorenstein rings.
 
-The API is `CanonicalModule`, `CanonicalModule.regularQuotient`, `CanonicalModule.completion` and `CanonicalModule.type_eq_socle`. Construct finite resolutions over `S`, use the Koszul resolution for a regular quotient, and local duality to identify the residue-fibre generator count. This supplies precisely the tests used by 6.18.
+The graded comparison used in 6.18 belongs here. For a nonzero standard graded Cohen–Macaulay quotient `C=P/I`, `P=k[x₁,…,x_N]`, with homogeneous `I`, put `d=dim C` and `ω_C=Ext_P^{N−d}(C,P(−N))` in graded modules. `CanonicalModule.completion` identifies its completion at `C_+`, after forgetting the grading, with the supplied canonical module of the completed local ring. A finite graded free resolution over `P` and flatness of completion identify the completed `Ext` with `Ext` over `k[[x₁,…,x_N]]`. Its residue generator number therefore computes the same type. This comparison and the supplied regular-quotient tests give the canonical-module tests for 6.18.
 
 **Checks.**
 
 - For `S` itself, `ω_S≅S` and its type is one.
 - `k[[x,y]]/(x,y)²` has socle spanned by `x`,`y` and type two, so it is not Gorenstein.
 - A regular-sequence quotient preserves type; a Cohen–Macaulay ring of type three cannot acquire type one through such a quotient.
+- For `C=P`, the graded canonical module is `P(−N)`; after completion and forgetting grading it is free of rank one over `k[[x₁,…,x_N]]`, of type one.
 
-*Needs:* `SchemeAndStackFoundations`, §§4.2 and 0.21; `ArithmeticGaloisDuality`, `D7`, *Grothendieck local duality for a complete Noetherian local ring*; Mathlib `Ext` and regular sequences.
+*Needs:* DeformationAndDerivedPatchingAlgebra §3.9; `SchemeAndStackFoundations`, §§4.2 and 0.21; `ArithmeticGaloisDuality`, `D7`, *Grothendieck local duality for a complete Noetherian local ring*; Mathlib `Ext` and regular sequences.
 
-(Sources: [CG18], §4.1, discussion before Lemma 4.1 and Lemma 4.2, arXiv pp. 43–44; Stacks [Tag 0AWS](https://stacks.math.columbia.edu/tag/0AWS), Cohen–Macaulay dualizing modules.)
+(Sources: [CG18], §4.1, discussion before Lemma 4.1 and Lemma 4.2, arXiv pp. 43–44; Stacks [Tag 0AWS](https://stacks.math.columbia.edu/tag/0AWS), Cohen–Macaulay dualizing modules, and [Tag 00MB](https://stacks.math.columbia.edu/tag/00MB), flatness and finite-module exactness of completion.)
 
 <a id="t0-2"></a>
 

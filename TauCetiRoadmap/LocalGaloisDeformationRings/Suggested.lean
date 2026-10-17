@@ -11,6 +11,16 @@ conditions, ordered characters, Frobenius data, coefficient equations and actual
 rings explicit. The universal rings, period, flag-moduli and patching constructions
 are specified in the README, where their full supplier contracts are available.
 
+README F.0.1–F.0.2 specialize DeformationAndDerivedPatchingAlgebra §1.12's joint
+completion and §§2.1–2.5's chosen presentations and relation spaces to the labelled
+coefficient category. F.2.3–F.2.4 use §§2.6–2.7's continuous framed representing pair;
+under Φ_p, the Schlessinger comparison preserves the actual universal lift and all
+its reductions. README 0.1 uses §3.9's canonical-module/type interface, retaining the
+graded Ext/completion comparison here. The pointed tensor comparison uses §4.6 with
+flat domain factors, coefficient-ring points and regular generic fibres over a finite
+extension of Q_p. Arithmetic tangent and obstruction assignments and local conditions
+retain the hypotheses in the README.
+
 README 2.26.1 provides the canonical characteristic-zero Jacquet–Langlands equivalence from
 irreducible admissible smooth division-algebra classes to essentially square-integrable general
 linear classes over the algebraic closure of the coefficient field. It specifies coefficient
@@ -642,7 +652,9 @@ noncomputable def truncateCubeToSquare :
   Ideal.Quotient.factor (by sorry)
 
 /-- The cubic-to-quadratic truncation has square-zero kernel, but the square-zero class
-of t in the quadratic quotient has no square-zero lift (README F.0.2). -/
+of t in the quadratic quotient has no square-zero lift. This realizes the quadratic
+relation obstruction specialized in README F.0.2 from DeformationAndDerivedPatchingAlgebra
+§§2.2–2.4. -/
 example :
     (∀ x y, truncateCubeToSquare x = 0 → truncateCubeToSquare y = 0 → x * y = 0) ∧
     (Ideal.Quotient.mk (truncatedIdeal 2) Polynomial.X) ^ 2 = 0 ∧
@@ -1393,6 +1405,15 @@ Layer F: `ModDef`, `ModDefFramed`, `DetDef`, `PseudoDefRing`, `univLift`,
 `DeformationProblem` and inertia-rigid deformation rings. Empty type quotients are excluded
 from `DeformationProblem`. Their README-only APIs include
 `isSchur_baseChange` (F.1.8) and `phiP_iff_fg` (F.2.1).
+The names `univLift`, `univLift_reduce`, `liftEquivHom` and `univLift_continuous` in
+F.2.4 specialize the common continuous framed pair of DeformationAndDerivedPatchingAlgebra
+§2.7, under Φ_p and with the specified residue basis and maximal-ideal topology.
+
+Layer 0: `CanonicalModule`, `CanonicalModule.regularQuotient` and
+`CanonicalModule.type_eq_socle` specialize DeformationAndDerivedPatchingAlgebra §3.9
+for a nonzero complete CM quotient of a regular local power-series ring.
+`CanonicalModule.completion` compares the completed graded Ext module, after forgetting
+grading, with that same canonical module; its standard graded CM hypotheses are README 0.1.
 
 Layer 1: `heightLatticeFunctor`, `ordinaryWeightRing`, `universalInertialCharacter`,
 `ordinaryWeightRingTilde`, `FLDeformation`, `IsOrdinaryOfWeight`,
