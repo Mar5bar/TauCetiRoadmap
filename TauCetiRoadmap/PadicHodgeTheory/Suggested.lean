@@ -7,8 +7,9 @@ import TauCeti.RingTheory.Huber.Restricted.TwoSidedSeries.Convolution
 **This file is not the roadmap and it is not exhaustive.** The definitive
 specification is `README.md`. These are suggested forms: definitions and theorem
 signatures statable against the pinned Mathlib and Tau Ceti APIs.
-The analytic coefficient definitions and norm signatures sketch the supplied
-PadicDifferentialEquationsAndRigidCohomology interface; Laurent multiplication
+The anonymous analytic coefficient formulas describe the supplied
+PadicDifferentialEquationsAndRigidCohomology interface without defining another
+convergence predicate, Gauss norm or analytic carrier. Laurent multiplication
 uses genuine discrete convolution. Field periods and their geometric structures
 are imported from the lower owners named in the README.
 Coordinate matrices fix covariant Tate periods, negative-derivative monodromy
@@ -88,99 +89,67 @@ example : Polynomial.derivative
     Polynomial.C (1/2 : ℚ) - Polynomial.C (1/4 : ℚ) * Polynomial.X := by
   sorry
 
-/-! ## Layer 1: Analytic annuli
+/-! ## Layer 1: Supplied analytic coefficients
 
-These coefficient formulas present the supplier interface of
-PadicDifferentialEquationsAndRigidCohomology §§RD.0.1–RD.0.3 and RD.0.18.
-They specify the imported analytic carriers and their norm conventions.
+PadicDifferentialEquationsAndRigidCohomology §§RD.0.1–RD.0.2 owns the analytic
+carriers, Gauss norms and topologies. These anonymous formulas express their
+coefficient conventions and radius-one agreement with the pinned convolution.
 -/
 
 section AnalyticCoefficients
 
 variable {K : Type*} [NormedField K]
 
-/-- Coefficient presentation of the supplied analytic Laurent convergence condition on I. -/
-def laurentConvergesOn (I : Set ℝ) (a : ℤ → K) : Prop :=
-  ∀ ρ ∈ I, Tendsto (fun n : ℤ => ‖a n‖ * ρ ^ n) cofinite (𝓝 0)
-
-/-- Coefficient presentation of the supplied Gauss norm at a positive radius of convergence. -/
-def gaussNorm (ρ : ℝ) (a : ℤ → K) : ℝ := ⨆ n : ℤ, ‖a n‖ * ρ ^ n
-
-/-- The supplied Gauss norm bounds every weighted coefficient. -/
-theorem norm_coeff_mul_le_gaussNorm {I : Set ℝ} {a : ℤ → K}
-    (ha : laurentConvergesOn I a) {ρ : ℝ} (hρ : 0 < ρ) (hρI : ρ ∈ I) (n : ℤ) :
-    ‖a n‖ * ρ ^ n ≤ gaussNorm ρ a := by
+/-- At a positive convergence radius the supplied Gauss supremum bounds every coefficient. -/
+example {a : ℤ → K} {ρ : ℝ} (hρ : 0 < ρ)
+    (ha : Tendsto (fun n : ℤ => ‖a n‖ * ρ ^ n) cofinite (𝓝 0)) (n : ℤ) :
+    ‖a n‖ * ρ ^ n ≤ ⨆ m : ℤ, ‖a m‖ * ρ ^ m := by
   sorry
 
-/-- The supplied Gauss norm is definite on convergent coefficients. -/
-theorem gaussNorm_eq_zero_iff {I : Set ℝ} {a : ℤ → K}
-    (ha : laurentConvergesOn I a) {ρ : ℝ} (hρ : 0 < ρ) (hρI : ρ ∈ I) :
-    gaussNorm ρ a = 0 ↔ a = 0 := by
+/-- Radius-one convergence agrees with the existing restricted-series submodule. -/
+example (a : ℤ → K) :
+    Tendsto (fun n : ℤ => ‖a n‖ * (1 : ℝ) ^ n) cofinite (𝓝 0) ↔
+      a ∈ TauCeti.Huber.twoSidedRestrictedSubmodule K K := by
   sorry
 
-/-- Compatibility with the existing two-sided restricted-series submodule at radius one. -/
-theorem laurentConvergesOn_singleton_one (a : ℤ → K) :
-    laurentConvergesOn {1} a ↔ a ∈ TauCeti.Huber.twoSidedRestrictedSubmodule K K := by
+/-- Finite Laurent support converges at every positive radius. -/
+example {ρ : ℝ} (hρ : 0 < ρ) (m : ℤ) (c : K) :
+    Tendsto (fun n : ℤ => ‖(if n = m then c else 0 : K)‖ * ρ ^ n)
+      cofinite (𝓝 0) := by
   sorry
 
-/-- Test: finite Laurent support converges on every set of positive radii. -/
-example (I : Set ℝ) (m : ℤ) (c : K) :
-    laurentConvergesOn I (fun n => if n = m then c else 0) := by
-  sorry
-
-/-- Test: geometric series converges strictly inside the unit circle. -/
+/-- Geometric coefficients converge strictly inside the unit circle. -/
 example {ρ : ℝ} (hρ : 0 < ρ) (hρ1 : ρ < 1) :
-    laurentConvergesOn {ρ} (fun n : ℤ => if 0 ≤ n then (1 : K) else 0) := by
+    Tendsto (fun n : ℤ => ‖(if 0 ≤ n then 1 else 0 : K)‖ * ρ ^ n)
+      cofinite (𝓝 0) := by
   sorry
 
-/-- Test: the same coefficients fail the unit-circle convergence condition. -/
-example : ¬ laurentConvergesOn {1} (fun n : ℤ => if 0 ≤ n then (1 : K) else 0) := by
-  sorry
-
-/-- Test gaussNorm.test_one_add_T. -/
-example {ρ : ℝ} (hρ : 0 < ρ) :
-    gaussNorm ρ (fun n : ℤ => if n = 0 ∨ n = 1 then (1 : K) else 0) = max 1 ρ := by
-  sorry
-
-/-- Test gaussNorm.test_constant. -/
-example {ρ : ℝ} (hρ : 0 < ρ) (c : K) :
-    gaussNorm ρ (fun n : ℤ => if n = 0 then c else 0) = ‖c‖ := by
-  sorry
-
-/-- Test gaussNorm.test_not_pointwise: vanishing at T = c does not kill the norm. -/
-example (c : K) (hc : c ≠ 0) :
-    gaussNorm ‖c‖ (fun n : ℤ => if n = 0 then c else if n = 1 then -1 else 0) = ‖c‖ := by
+/-- The same geometric coefficients fail convergence at radius one. -/
+example : ¬ Tendsto
+    (fun n : ℤ => ‖(if 0 ≤ n then 1 else 0 : K)‖ * (1 : ℝ) ^ n)
+      cofinite (𝓝 0) := by
   sorry
 
 /-- The two opposite Laurent monomials have the maximum of their radius norms. -/
 example {ρ : ℝ} (hρ : 0 < ρ) :
-    gaussNorm ρ (fun n : ℤ => if n = -1 ∨ n = 1 then (1 : K) else 0) =
+    (⨆ n : ℤ, ‖(if n = -1 ∨ n = 1 then 1 else 0 : K)‖ * ρ ^ n) =
       max ρ ρ⁻¹ := by
   sorry
 
 variable [CompleteSpace K] [IsUltrametricDist K]
 
-/-- The quadratic convolution product has nonzero Gauss norm on its root circle,
-including residue characteristic two. -/
-example (c : K) (hc : c ≠ 0) :
-    gaussNorm ‖c‖
-      ((fun n : ℤ => if n = 0 then -c else if n = 1 then (1 : K) else 0) ⋆ᵣ₊
-       (fun n : ℤ => if n = 0 then c else if n = 1 then (1 : K) else 0)) =
-      ‖c‖ ^ 2 := by
+/-- The supplied Gauss supremum is multiplicative for convergent convolution. -/
+example {a b : ℤ → K} {ρ : ℝ} (hρ : 0 < ρ)
+    (ha : Tendsto (fun n : ℤ => ‖a n‖ * ρ ^ n) cofinite (𝓝 0))
+    (hb : Tendsto (fun n : ℤ => ‖b n‖ * ρ ^ n) cofinite (𝓝 0)) :
+    (⨆ n : ℤ, ‖(a ⋆ᵣ₊ b) n‖ * ρ ^ n) =
+      (⨆ n : ℤ, ‖a n‖ * ρ ^ n) * (⨆ n : ℤ, ‖b n‖ * ρ ^ n) := by
   sorry
 
-/-- The supplied Laurent convergence condition is closed under discrete convolution. -/
-theorem laurentConvergesOn_convolution {I : Set ℝ} (hI : ∀ ρ ∈ I, 0 < ρ)
-    {a b : ℤ → K} (ha : laurentConvergesOn I a) (hb : laurentConvergesOn I b) :
-    laurentConvergesOn I (a ⋆ᵣ₊ b) := by
-  sorry
-
-/-- The Gauss norm is multiplicative for convergent nonarchimedean convolution. -/
-theorem gaussNorm_convolution {I : Set ℝ} {a b : ℤ → K}
-    (ha : laurentConvergesOn I a) (hb : laurentConvergesOn I b)
-    {ρ : ℝ} (hρ : 0 < ρ) (hρI : ρ ∈ I) :
-    gaussNorm ρ (a ⋆ᵣ₊ b) = gaussNorm ρ a * gaussNorm ρ b := by
-  sorry
+/-- A ring map cannot evaluate an annular unit to zero in a nonzero ring. -/
+example {R S : Type*} [CommRing R] [CommRing S] [Nontrivial S]
+    (f : R →+* S) (u : Rˣ) : f (u : R) ≠ 0 := by
+  exact (u.isUnit.map f).ne_zero
 
 end AnalyticCoefficients
 
@@ -285,6 +254,12 @@ example : (1 : ZMod 2) ≠ 0 ∧ 2 * (1 : ZMod 2) = 0 ∧
 /-- The sign action on the cocharacter lattice imposes the relation two. -/
 example : (1 : ℤ) - (-1) = 2 := by
   norm_num
+
+/-- A ramified quadratic descent sign changes the Frobenius polynomial from X minus one to X plus one. -/
+example :
+    (!![(-1 : ℚ)] : Matrix (Fin 1) (Fin 1) ℚ).charpoly = Polynomial.X + 1 ∧
+    (!![(1 : ℚ)] : Matrix (Fin 1) (Fin 1) ℚ).charpoly = Polynomial.X - 1 := by
+  sorry
 
 /-! ## Layer 6: Ordinary lifting -/
 
@@ -527,9 +502,5 @@ example : (!![(-1/2 : ℚ), 0; 0, -1]) * !![-2, 0; 0, -1] = 1 := by
 example : tatePhiMatrix (3 : ℚ) * !![3, 0; 0, 1] = 1 := by
   sorry
 
-
-/-! The annulus-carrier APIs `gaussNorm_eq_powerSeries_gaussNorm` (§1.1) and
-`gaussNorm_res` (§1.2) are supplied interfaces described in the README. Their statements use the
-supplier’s annulus, power-series comparison and restriction maps. -/
 
 end TauCetiRoadmap.PadicHodgeTheory
