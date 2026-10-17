@@ -48,6 +48,25 @@ example {R S : Type*} [CommRing R] [CommRing S] (f : R →+* S)
     f (x + p) = (p : S) ∧ f (x + p) ≠ 0 := by
   simp [hx, hp]
 
+/-!
+README §0.4's `dividedFrobenius_dyadic_generators` uses xi-two = 1 + [epsilon^(1/2)]
+and T = t/2. Its closed A_inf-span consists of xi-two^j gamma_n(T), j+n ≥ r.
+The trace coordinate pi-zero = [epsilon] + [epsilon]^(-1) - 2 instead gives
+q-prime = [epsilon^(1/2)] + [epsilon^(-1/2)], whose theta image is -2.
+The corrected primitive generator has theta image zero and Frobenius image
+xi-two^2 - 2 xi-two + 2, divisible by 2 in A_cris.
+-/
+
+/-- Theta sends the trace-based dyadic candidate to minus two and the primitive generator to zero. -/
+example {R S : Type*} [CommRing R] [CommRing S] [CharZero S]
+    (theta : R →+* S) (a b : R) (ha : theta a = -1) (hb : theta b = -1) :
+    theta (a + b) = -2 ∧ theta (a + b) ≠ 0 ∧ theta (1 + a) = 0 := by
+  norm_num [ha, hb]
+
+/-- The Frobenius polynomial of the primitive dyadic generator is twice its divided expression. -/
+example (x : ℚ) : x ^ 2 - 2 * x + 2 = 2 * (1 - x + x ^ 2 / 2) := by
+  ring
+
 /-- At p = 2 the iterated divided powers obey delta-zero squared = 2 delta-one. -/
 example (x : ℚ) : (x ^ 2 / 2) ^ 2 = 2 * (x ^ 4 / 8) := by
   ring
@@ -207,7 +226,18 @@ Dominance makes the labelled weights strictly ordered; finite-order inertia is a
 The supplied graded-character, restriction, dual/twist and rank-two dictionaries
 give `regularOrdinary_graded`, `regularOrdinary_restrict` and `regularOrdinary_rank_two`.
 Flag uniqueness uses the distinct ordered inertial characters. The slope, monodromy
-and finite-extension descent comparisons remain the targets of §3.6.
+and finite-extension descent comparisons are the targets of §3.6. For the crystalline
+slope equivalence, assume for each embedding τ that gr^i D_dR,τ(V) has E-dimension
+one exactly at i = λ_(τ,j) + n - j and zero elsewhere. Under this prescribed Hodge
+type, regular ordinarity of weight λ is equivalent to the descending valuations
+v_K(alpha_i) = ∑_τ (λ_(τ,i) + n - i) of phi^f, with v_K(p) = e_K.
+With jumps -1 and 2 and intermediate line E(e+f), phi = diag(1,p) instead realizes
+an irreducible crystalline representation with valuations (1,0); its Hodge type
+excludes the weight-zero equivalence.
+README §3.4's `filteredHodge_supermodular` compares ambient induced filtrations:
+t_H(A) + t_H(B) ≤ t_H(A ∩ B) + t_H(A + B). Newton numbers are additive.
+For the two eigenlines and Fil^1 = E(e+f), the Hodge inequality is strict, 0 < 1.
+The quotient filtration on their sum differs from the ambient induced filtration.
 -/
 
 /-- A Tate-line period of exponent minus one has filtration jump minus one. -/
@@ -253,6 +283,15 @@ example : (!![(0 : ℚ), 1; -1, 0]) *ᵥ ![0, 1] = ![1, 0] ∧
   sorry
 
 /-! ## Layer 5: Monodromy and admissibility -/
+
+/-!
+README §5.1's zero-Lie-action assertion uses a finite extension F/Q_p, a finite
+scalar action of Gamma_K, and a finite-dimensional continuous semilinear
+F-representation. On an open subgroup fixing F the representation is linear;
+zero Lie action and logarithm/exponential give an open kernel. Over K_infinity,
+zero Sen action gives vectorwise open stabilizers. The natural action on
+K_infinity has zero Sen operator and faithful scalar action.
+-/
 
 /-- The reduction of X squared plus one has no root at three;
 monic reduction then excludes a root over the 3-adic field. -/
