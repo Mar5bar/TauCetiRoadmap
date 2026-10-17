@@ -188,6 +188,17 @@ example (a : ℤ) : cyclicLaplacian 3 *ᵥ (fun _ => a) = 0 := by
   rw [← Finset.sum_mul, cyclicLaplacian_row_sum]
   simp
 
+/-! ## Layer 5: Exceptional residual primes -/
+
+/-- The rational two-torsion curve has nonintegral j-invariant
+(README §5.1). -/
+example :
+    let W : WeierstrassCurve ℚ := ⟨0, -1, 0, -1, 0⟩
+    W.Δ = 80 ∧ W.c₄ = 64 ∧ W.c₄ ^ 3 / W.Δ = 16384 / 5 := by
+  norm_num [WeierstrassCurve.Δ, WeierstrassCurve.c₄,
+    WeierstrassCurve.b₂, WeierstrassCurve.b₄,
+    WeierstrassCurve.b₆, WeierstrassCurve.b₈]
+
 /-! ## Layer 7: Residual monodromy and simultaneous genericity -/
 
 /-- Evaluation of 2−u−u⁻¹ at a character value (OpenAI Lemma 8.1, p.21). -/
@@ -290,6 +301,25 @@ example : (404 : ℚ) / 10200 < 1 ∧ (202 : ℚ) / 10200 < 1 := by
   norm_num
 
 /-! ## Layer 8: Cohomological and unitary normalization -/
+
+/-- The invariants of the type-III boundary curve (README §8.3). -/
+example :
+    let W : WeierstrassCurve ℤ := ⟨0, 0, 0, 103, 103 ^ 2⟩
+    W.Δ = -16 * 103 ^ 3 * 2785 ∧ W.c₄ = -48 * 103 := by
+  norm_num [WeierstrassCurve.Δ, WeierstrassCurve.c₄,
+    WeierstrassCurve.b₂, WeierstrassCurve.b₄,
+    WeierstrassCurve.b₆, WeierstrassCurve.b₈]
+
+/-- The good reduction at eleven has eight points including infinity
+(README §8.3). -/
+example : (Finset.univ.filter (fun P : ZMod 11 × ZMod 11 =>
+    P.2 ^ 2 = P.1 ^ 3 + 103 * P.1 + 103 ^ 2)).card + 1 = 8 := by
+  decide
+
+/-- Both Frobenius discriminants are nonsquares modulo 103 (README §8.3). -/
+example : (∀ x : ZMod 103, x ^ 2 ≠ 75) ∧
+    (∀ x : ZMod 103, x ^ 2 ≠ 67) := by
+  decide
 
 /-- A cubic scalar character needs its inverse in the descent correction. -/
 example : (2 : ZMod 7) * 4 = 1 ∧ (2 : ZMod 7) * 2 = 4 ∧
