@@ -1684,9 +1684,11 @@ the following prerequisites and finite-height descent.
    preserves these poset-indexed homotopy colimits. This is a derived
    comparison, not a monoidal model assertion about the Bergner product.
 
-   Use native
-   `HomotopicalAlgebra.ReedyStructure` and construct the simplex and
-   opposite Reedy structures from native simplex epi/mono factorization.
+   Use native `HomotopicalAlgebra.ReedyStructure` and its
+   `HomotopicalAlgebra.ReedyStructure.op` construction for opposite structures.
+   Construct the simplex Reedy structure from native simplex epi/mono
+   factorization, following the design of
+   [`SimplexCategory.reedyStructure`](https://github.com/leanprover-community/mathlib4/blob/1e75e9dd53d483fa01eff9ac7d4ea0472ce9d1fa/Mathlib/AlgebraicTopology/Reedy/SimplexCategory.lean).
    Construct their Reedy model structures, latching/matching objects
    and functorial frames on the Bergner model and its ordinary
    projective diagram models, with objectwise latching/matching
@@ -2729,12 +2731,15 @@ construct the compatible splittings by G5.7's filtered extension-classification
 form. The finite Borel restriction diagram is obtained from the one global
 path and its functorial restriction maps.
 
-The geometric application supplies its actual stable-stratum/support cofiber,
-j, diagonal Thom/Euler homotopy and prior finite-piece decomposition of A
-from SymplecticGeometry/ConvexityToric T2, **Morse–Bott and moment-map
-topology**, through its stable-stratum/open-filtration and diagonal Euler
-data. These inputs instantiate the abstract lemma. The same supplied
-path can then be sent through G5.5's fixed MU→HZ scalar extension.
+Construct the geometric instantiation in SymplecticGeometry/ConvexityToric
+T2, **Morse–Bott and moment-map topology**, as a separate stable-stratum/
+open-filtration and diagonal Thom/Euler construction. Supply its actual
+stable-stratum/support cofiber, j, diagonal Thom/Euler homotopy and prior
+finite-piece decomposition of A to instantiate the abstract lemma. Retain
+the full integral MU-module moment-filtration application, including torsion
+in fixed-component homology. T2's ordinary rational perfection and its
+even/torsion-qualified integral cases precede this separate construction.
+Send the resulting chosen path through G5.5's fixed MU→HZ scalar extension.
 
 ## Order and references
 
@@ -2745,10 +2750,11 @@ module-family/Thom adapters. Its coefficient proof does not consume the
 chromatic localization, strong-smashing or Tate applications. The generic
 F6.5 enhancement precedes G5.7 and has no F6.6 or geometric input.
 F6.7 consumes F6.6 plus G5.7's extension classification.
+The separate stable-stratum/diagonal construction in
 SymplecticGeometry/ConvexityToric T2, **Morse–Bott and moment-map topology**,
-supplies the geometric cofiber/diagonal data and applies F6.7 to its finite
-moment filtration. The Euler proof uses the generic coefficient constructions
-and the stated module-family/duality inputs.
+supplies the geometric cofiber/diagonal data and instantiates F6.7 for the
+full integral MU-module finite moment filtration. The Euler proof uses the
+generic coefficient constructions and the stated module-family/duality inputs.
 
 F1 precedes F2. F2 consumes TB B4's mod-p Adams/coefficient tools plus
 G's MU model and supplies F3's spectra/cooperations. F4's initial AHSS
