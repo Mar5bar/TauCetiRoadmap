@@ -10,6 +10,8 @@ import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Injective
 import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Domain
 import TauCeti.Algebra.Lie.Sl2.Weyl.Automorphism
 import TauCeti.Algebra.Lie.GeneralLinear.Radical
+import TauCeti.Algebra.Lie.Presentation.Serre.Killing
+import TauCeti.Algebra.Lie.Derivation.Basic
 import TauCeti.LinearAlgebra.SymmetricAlgebra.Functoriality
 import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Basis
 import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Functoriality
@@ -75,7 +77,7 @@ attribute [local instance 100] LieRing.ofAssociativeRing
 open scoped Classical DirectSum
 open LieModule LieAlgebra Module
 
-universe u
+universe u v
 
 /-! ## Layer 0: `sl₂` representation theory (the engine)
 
@@ -93,6 +95,7 @@ variable {L : Type u} [LieRing L] [LieAlgebra K L]
 variable {M : Type u} [AddCommGroup M] [Module K M] [LieRingModule L M] [LieModule K L M]
 variable {h e f : L} (t : IsSl2Triple h e f)
 
+include t in
 /-- **The weight string.** In a finite-dimensional module, `h` acts with **integer** eigenvalues;
 this extends `IsSl2Triple.HasPrimitiveVectorWith.exists_nat` from primitive vectors to the whole
 spectrum, and is the fact Layer 2 restricts to along each root. -/
@@ -214,8 +217,9 @@ This is stated as a `def` with the value equation `basisPbwGraded_apply` beside 
 a `Nonempty` existence statement: the graded vector-space dimensions are a strictly weaker fact
 than the canonical multiplication and the symmetric-algebra comparison, so an existence statement
 would not supply what weighted truncation, monic-relation reduction and functoriality consume. -/
-noncomputable def basisPbwGraded {κ : Type u} [LinearOrder κ] (b : Basis κ K L) (n : ℕ) :
-    Basis {m : κ →₀ ℕ // (m.sum fun _ k => k) = n} K (pbwGraded K L n) := sorry
+noncomputable def basisPbwGraded :
+    ∀ {κ : Type u} [LinearOrder κ] (b : Basis κ K L) (n : ℕ),
+      Basis {m : κ →₀ ℕ // (m.sum fun _ k => k) = n} K (pbwGraded K L n) := sorry
 
 theorem basisPbwGraded_apply {κ : Type u} [LinearOrder κ] (b : Basis κ K L) (n : ℕ)
     (m : {m : κ →₀ ℕ // (m.sum fun _ k => k) = n}) :
@@ -914,8 +918,8 @@ noncomputable def weightEvaluation (lam : Module.Dual K H) :
 
 /-- Translation characterized by `ev_λ(τ_μ p) = ev_(λ+μ)(p)`.
 The implementation also supplies the generator formula, composition, inverse, and filtration API. -/
-noncomputable def weightTranslation (mu : Module.Dual K H) :
-    SymmetricAlgebra K H ≃ₐ[K] SymmetricAlgebra K H := sorry
+noncomputable def weightTranslation :
+    (mu : Module.Dual K H) → SymmetricAlgebra K H ≃ₐ[K] SymmetricAlgebra K H := sorry
 
 theorem weightTranslation_evaluation (mu lam : Module.Dual K H)
     (p : SymmetricAlgebra K H) :
@@ -1296,9 +1300,10 @@ theorem killingSymmetricEquiv_cartan_restriction (p : SymmetricAlgebra K L) :
       (SymmetricAlgebra.map K (LieAlgebra.IsKilling.cartanEquivDual H).toLinearMap)
         (lieCartanRestriction p) := sorry
 
-noncomputable def tracePowerPolynomial {M : Type*} [AddCommGroup M] [Module K M]
-    [LieRingModule L M] [LieModule K L M] [FiniteDimensional K M] (n : ℕ) :
-    SymmetricAlgebra K (Module.Dual K L) := sorry
+noncomputable def tracePowerPolynomial :
+    ∀ (M : Type*) [AddCommGroup M] [Module K M] [LieRingModule L M]
+      [LieModule K L M] [FiniteDimensional K M] (n : ℕ),
+      SymmetricAlgebra K (Module.Dual K L) := sorry
 
 theorem tracePowerPolynomial_evaluation {M : Type*} [AddCommGroup M] [Module K M]
     [LieRingModule L M] [LieModule K L M] [FiniteDimensional K M] (n : ℕ) (x : L) :
@@ -1589,16 +1594,10 @@ theorem coeff_formalCharacter_eq_freudenthalRHS_div
         (invForm (lam + weylVector base) (lam + weylVector base) -
           invForm (mu + weylVector base) (mu + weylVector base)) := sorry
 
-/-- **A Chevalley system.** Before the presentation theorem one must fix, for each simple root `αᵢ`,
-normalized generators `eᵢ ∈ Lα`, `fᵢ ∈ L_{-α}`, `hᵢ = αᵢ^∨` with `⁅eᵢ, fᵢ⁆ = hᵢ` and the correct
-`⁅hᵢ, eⱼ⁆ = ⟨αⱼ, αᵢ^∨⟩ eⱼ` scalings: the root spaces are only lines, so the `eᵢ`, `fᵢ` require an
-explicit normalization (and sign choice) for the Cartan-matrix and higher Serre relations to hold with
-Mathlib's `CartanMatrix.Relations` conventions. The data is bundled — root-space membership for
-`eᵢ`/`fᵢ`, `hᵢ` the coroot vector, `⁅eᵢ, fᵢ⁆ = hᵢ`, and the `h`-eigenvalue relations — because a
-bare "nonzero functions exist" conclusion would be unrelated to the Serre presentation this
-milestone feeds; writing `A = base.cartanMatrix`, the higher Serre relations for distinct simple
-roots (`ad(eᵢ)^{1-A j i} eⱼ = 0`, and likewise for `f`) are consumed by
-`serre_presentation_equiv` below. -/
+omit algClosedK in
+/-- All-root sl₂ normalization over a characteristic-zero split Killing field. This helper
+retains its all-root carrier; the actual Serre presentation uses the normalized simple-root
+family on `base.support` below. -/
 theorem exists_chevalleySystem (base : (LieAlgebra.IsKilling.rootSystem H).Base) :
     ∃ e f : H.root → L,
       (∀ i, e i ≠ 0) ∧ (∀ i, f i ≠ 0) ∧
@@ -1608,17 +1607,33 @@ theorem exists_chevalleySystem (base : (LieAlgebra.IsKilling.rootSystem H).Base)
       ∀ i j : H.root, ⁅(LieAlgebra.IsKilling.coroot i.1 : L), e j⁆
           = (j.1 : H → K) (LieAlgebra.IsKilling.coroot i.1) • e j := sorry
 
-/-- **The Serre presentation** of a **simple** `L`. Mathlib builds `Matrix.ToLieAlgebra K CM`, the
-quotient of the free Lie algebra by the Serre relations of a Cartan matrix `CM`
-(`Mathlib/Algebra/Lie/SerreConstruction.lean`). For simple `L`, the Chevalley system of
-`exists_chevalleySystem` satisfies exactly the Serre relations of `base.cartanMatrix.transpose` and the induced
-map is a Lie-algebra isomorphism. **Orientation pin:** Mathlib's
-`base.cartanMatrix i j` is `αᵢ(hⱼ)` while `Matrix.ToLieAlgebra CM` imposes `⁅Hᵢ, Eⱼ⁆ = CM i j • Eⱼ`
-`= αⱼ(hᵢ) • Eⱼ`, so the Serre matrix is the **transpose** `base.cartanMatrixᵀ` — invisible in
-simply-laced types but exactly the `Bₙ`/`Cₙ` swap otherwise. Simplicity keeps the matrix
-indecomposable; the reducible Killing-semisimple case is the direct sum of the simple-ideal
-presentations, handled componentwise. A refinement worth adopting at implementation time: index the
-Chevalley generators by `base.support` (the statement above quantifies over all roots). -/
+omit algClosedK in
+/-- Native normalized simple-root Serre data, including generation, without algebraic closure. -/
+theorem exists_simpleRoot_serreSystem (base : (LieAlgebra.IsKilling.rootSystem H).Base) :
+    ∃ e f : ↥base.support → L,
+      TauCeti.IsSerreSystem K base.cartanMatrix.transpose
+        (fun i ↦ (((LieAlgebra.IsKilling.rootSystem H).coroot i : H) : L)) e f ∧
+      LieSubalgebra.lieSpan K L (Set.range e ∪ Set.range f) = ⊤ := by
+  exact TauCeti.exists_isSerreSystem_of_base base
+
+omit algClosedK in
+/-- The remaining split-field presentation target: injectivity of the ACTUAL normalized lift.
+The coroot family is fixed, and the raising/lowering families generate `L`. The native module
+already supplies these data and surjectivity, not this kernel theorem. -/
+theorem serreLift_injective_of_base [LieAlgebra.IsSimple K L]
+    (base : (LieAlgebra.IsKilling.rootSystem H).Base) {e f : ↥base.support → L}
+    (hS : TauCeti.IsSerreSystem K base.cartanMatrix.transpose
+      (fun i ↦ (((LieAlgebra.IsKilling.rootSystem H).coroot i : H) : L)) e f)
+    (hspan : LieSubalgebra.lieSpan K L (Set.range e ∪ Set.range f) = ⊤) :
+    Function.Injective (TauCeti.serreLift hS) := sorry
+
+omit algClosedK in
+/-- Split-field Serre presentation for simple `L`. Construct this equivalence from the SAME
+normalized `TauCeti.serreLift`: native `serreLift_surjective` plus
+`serreLift_injective_of_base`, retaining `serreLift_serreH/E/F` as its generator equations.
+The matrix is `base.cartanMatrix.transpose`: `A i j=αᵢ(hⱼ)`, while
+`⁅hᵢ,eⱼ⁆=A j i • eⱼ`. Keep the nonsymmetric B₃/C₃ comparison and assemble reducible
+Killing-semisimple systems from their simple components, including the empty system. -/
 theorem serre_presentation_equiv [LieAlgebra.IsSimple K L]
     (base : (LieAlgebra.IsKilling.rootSystem H).Base) :
     Nonempty (Matrix.ToLieAlgebra K base.cartanMatrix.transpose ≃ₗ⁅K⁆ L) := sorry
@@ -1627,15 +1642,15 @@ end General
 
 /-! ## Layer 8: the exceptional Lie algebras, explicitly
 
-Mathlib names `LieAlgebra.e₆`, `e₇`, `e₈`, `f₄`, `g₂` as `Matrix.ToLieAlgebra` quotients but proves
-none of their structural theorems (finite-dimensionality, dimensions, Killing-semisimplicity and type,
-concrete models, representations), and has **no octonions**. This section works entirely in the
-**split** track: over the char-zero field `K` (defaulting, as elsewhere, to algebraically closed `K`)
-it builds the **split** octonions `𝕆` and the **split** Albert algebra `H₃(𝕆)`, their derivation Lie
-algebras `G₂ = Der(𝕆)` and `F₄ = Der(H₃(𝕆))`, and the split `E`-series, identifying each with the
-split Serre-construction object `LieAlgebra.g₂`/`f₄`/`e₆`/`e₇`/`e₈` via `serre_presentation_equiv`. The
-formally real / compact division forms live over `K = ℝ` and are **not** identified with the split
-Serre algebras without a separate base-change of forms. -/
+Mathlib names `LieAlgebra.e₆`, `e₇`, `e₈`, `f₄`, `g₂` as `Matrix.ToLieAlgebra` quotients.
+The split identifications here use Layer7's split-field normalized presentation over every
+characteristic-zero `K`. First construct each concrete model's split Cartan/root-space and
+transposed Cartan-matrix comparison. The native `TauCeti.Octonion`, `TauCeti.AlbertAlgebra`
+and integral `TauCeti.E7Minuscule` interfaces are consumed through the explicit model comparisons
+owned in the README. The illustrative doubling/Albert/Freudenthal carriers below must be
+intertwined with those native products/generator actions; the samples do not claim native
+implementation is absent. The compact division forms over `ℝ` remain a separate real-form
+track and are compared with split forms only after the stated scalar extension. -/
 
 section Exceptional
 
@@ -1647,9 +1662,10 @@ the split quaternions: an `8`-dimensional non-associative alternative compositio
 octonions are a distinct `K = ℝ` real form. Absent from Mathlib, so building it is itself a target. The
 multiplication is `K`-bilinear and unital (hence `NonAssocRing` — which packages the unit — with the
 two scalar towers, not a bare `Mul` or a separate `One`). -/
-def Octonion (K : Type) : Type := sorry
+def Octonion : Type → Type := sorry
 
-noncomputable instance : NonAssocRing (Octonion K) := sorry
+noncomputable instance :
+    ∀ (K : Type) [Field K] [CharZero K], NonAssocRing (Octonion K) := sorry
 noncomputable instance : Module K (Octonion K) := sorry
 noncomputable instance : SMulCommClass K (Octonion K) (Octonion K) := sorry
 noncomputable instance : IsScalarTower K (Octonion K) (Octonion K) := sorry
@@ -1662,7 +1678,8 @@ noncomputable def octonionConj : Octonion K →ₗ[K] Octonion K := sorry
 
 /-- **The octonion norm** `N(x)`, the composition-algebra norm form, given here as its underlying
 map to `K` (with `N(x) • 1 = x * octonionConj x`). -/
-noncomputable def octonionNorm : Octonion K → K := sorry
+noncomputable def octonionNorm :
+    ∀ (K : Type) [Field K] [CharZero K], Octonion K → K := sorry
 
 /-- The norm is **multiplicative**: `N(x y) = N(x) N(y)`, the defining property of a composition
 algebra. -/
@@ -1680,18 +1697,35 @@ noncomputable def imaginaryOctonion : Submodule K (Octonion K) := sorry
 /-- `Im 𝕆` is `7`-dimensional. -/
 theorem finrank_imaginaryOctonion : Module.finrank K (imaginaryOctonion K) = 7 := sorry
 
-/-- **The derivation Lie algebra** `Der(A)` of a non-unital non-associative `K`-algebra `A`: the
+/- **The derivation Lie algebra** `Der(A)` of a non-unital non-associative `K`-algebra `A`: the
 `K`-linear maps `D` with `D (x * y) = D x * y + x * D y`, a Lie algebra under commutator. The
 multiplication must be `K`-bilinear (the `NonUnitalNonAssocSemiring` together with the two scalar
 towers), which `[Mul A]` alone does not supply; for a Lie algebra `A` this specializes to Mathlib's
 `LieDerivation`. -/
-def derivationLieAlgebra (A : Type u) [NonUnitalNonAssocSemiring A] [Module K A]
-    [SMulCommClass K A A] [IsScalarTower K A A] : Type u := sorry
+/-- Additive inverses are forced by the existing K-module: -x = (-1 : K) • x.
+This dictionary preserves the supplied zero, addition, natural scalar multiplication and
+multiplication, so the original semiring-plus-field-module input scope is retained. -/
+abbrev derivationNonAssocRing (A : Type u) [NonUnitalNonAssocSemiring A] [Module K A] :
+    NonUnitalNonAssocRing A :=
+  { (inferInstance : NonUnitalNonAssocSemiring A),
+    (Module.addCommMonoidToAddCommGroup K : AddCommGroup A) with }
+
+/-- The actual native Leibniz subalgebra, using the canonical additive inverse dictionary above. -/
+abbrev derivationLieAlgebra (A : Type u) [NonUnitalNonAssocSemiring A] [Module K A]
+    [SMulCommClass K A A] [IsScalarTower K A A] : Type u := by
+  letI := derivationNonAssocRing K A
+  exact ↥(TauCeti.derivationLieAlgebra K A)
 
 noncomputable instance (A : Type u) [NonUnitalNonAssocSemiring A] [Module K A]
-    [SMulCommClass K A A] [IsScalarTower K A A] : LieRing (derivationLieAlgebra K A) := sorry
+    [SMulCommClass K A A] [IsScalarTower K A A] : LieRing (derivationLieAlgebra K A) := by
+  letI := derivationNonAssocRing K A
+  change LieRing ↥(TauCeti.derivationLieAlgebra K A)
+  infer_instance
 noncomputable instance (A : Type u) [NonUnitalNonAssocSemiring A] [Module K A]
-    [SMulCommClass K A A] [IsScalarTower K A A] : LieAlgebra K (derivationLieAlgebra K A) := sorry
+    [SMulCommClass K A A] [IsScalarTower K A A] : LieAlgebra K (derivationLieAlgebra K A) := by
+  letI := derivationNonAssocRing K A
+  change LieAlgebra K ↥(TauCeti.derivationLieAlgebra K A)
+  infer_instance
 
 /-- **`G₂ = Der(𝕆)`** is `14`-dimensional. Its `7`-dimensional fundamental representation is
 `imaginaryOctonion`. -/
@@ -1708,9 +1742,11 @@ symmetrized product `x ∘ y = ½(x y + y x)`, a `27`-dimensional exceptional Jo
 **split** form (derivations the split `LieAlgebra.f₄`); the formally real Albert algebra is the
 `K = ℝ` division-octonion form and is not identified with `LieAlgebra.f₄ ℝ` here. Absent from Mathlib.
 The product is commutative and `K`-bilinear. -/
-def AlbertAlgebra (K : Type) : Type := sorry
+def AlbertAlgebra : Type → Type := sorry
 
-noncomputable instance : NonUnitalNonAssocCommRing (AlbertAlgebra K) := sorry
+noncomputable instance :
+    ∀ (K : Type) [Field K] [CharZero K],
+      NonUnitalNonAssocCommRing (AlbertAlgebra K) := sorry
 noncomputable instance : Module K (AlbertAlgebra K) := sorry
 noncomputable instance : SMulCommClass K (AlbertAlgebra K) (AlbertAlgebra K) := sorry
 noncomputable instance : IsScalarTower K (AlbertAlgebra K) (AlbertAlgebra K) := sorry
@@ -1775,7 +1811,7 @@ is the restriction to `sl (Fin n) K`, pinned by the transfer targets, not left a
 
 section Reductive
 
-variable {K : Type*} [Field K] [CharZero K]
+variable {K : Type v} [Field K] [CharZero K]
 variable {L : Type u} [LieRing L] [LieAlgebra K L] [FiniteDimensional K L]
 
 /-- **The structure of reductive Lie algebras** (char 0, finite-dimensional): the radical is central
@@ -1892,7 +1928,8 @@ below are canonically statable. Total in `μ` for signature convenience; the str
 (`isIrreducible_glIrreducible`, `finiteDimensional_glIrreducible`,
 `exists_isGlHighestWeightVector_glIrreducible`) carry the dominance hypothesis, and the carrier is
 junk off the dominant set (the `coweightPairing` precedent). -/
-def glIrreducible (n : ℕ) (mu : Fin n → K) : Type u := sorry
+def glIrreducible :
+    ∀ {K : Type v} [Field K] [CharZero K] (n : ℕ) (mu : Fin n → K), Type v := sorry
 
 noncomputable instance (n : ℕ) (mu : Fin n → K) : AddCommGroup (glIrreducible n mu) := sorry
 noncomputable instance (n : ℕ) (mu : Fin n → K) : Module K (glIrreducible n mu) := sorry
@@ -1916,7 +1953,7 @@ theorem exists_isGlHighestWeightVector_glIrreducible [IsAlgClosed K] {n : ℕ} (
 
 /-- **The `gl_n` universality substitute**: an irreducible with a highest weight vector of weight
 `μ` has minimal dimension among finite-dimensional modules with a **cyclic** highest weight vector
-of weight `μ` (cyclicity is essential: a highest weight vector alone bounds nothing about `M'`).
+of weight `μ` (this is the stronger cyclic special case; in finite dimension, an arbitrary highest-weight vector generates a finite-dimensional submodule with the same central character, and its simple quotient gives the same dimension lower bound).
 Follows from the Layer 6 toolkit read through the transfer targets below, but pinned in this
 concrete form because it is the statement applications consume directly. -/
 theorem gl_finrank_le_of_isGlHighestWeightVector {n : ℕ} {M M' : Type u}

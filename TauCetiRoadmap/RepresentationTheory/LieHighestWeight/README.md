@@ -85,6 +85,12 @@ shares its `FDRep`-flavoured vocabulary with the finite-group
   diagonalizability and the classification need algebraic closure. **Do not** bundle "algebraically
   closed, characteristic zero, semisimple, split" into one mega-class; spell the hypotheses each theorem
   uses.
+  The named split-field Serre sublane in Layer 7 and the split models in Layer 8 instead
+  use an arbitrary `[Field K] [CharZero K]`, a finite-dimensional Killing-semisimple `L`,
+  a Cartan subalgebra `H` and `[IsTriangularizable K H L]`. The indecomposable presentation
+  additionally assumes `[LieAlgebra.IsSimple K L]`; reducible systems are assembled
+  componentwise. The HC/Chevalley representation-theoretic results retain their separately
+  stated algebraic-closure hypotheses.
 - **The Lie algebra, and what "semisimple" means here.** `L` is a finite-dimensional Lie algebra over
   `K` (`[LieRing L] [LieAlgebra K L] [Module.Finite K L]`). The default semisimplicity hypothesis is
   **`LieAlgebra.IsKilling K L`** (non-degenerate Killing form), which over a characteristic-zero field
@@ -208,8 +214,8 @@ below are the Mathlib-now column.
   `ι_comp_lift`, `lift_unique`, `hom_ext`.
 - **Semisimplicity and irreducibility infrastructure:** `Mathlib/Algebra/Lie/Semisimple/Defs.lean`
   (`LieModule.IsIrreducible R L M := IsSimpleOrder (LieSubmodule R L M)`, `HasTrivialRadical`,
-  `LieAlgebra.IsSemisimple`, `LieAlgebra.IsSimple`), `Semisimple/Basic.lean` (a semisimple Lie algebra
-  is irreducible as a module over itself), `Weights/IsSimple.lean` (the ideal/root-set dictionary).
+  `LieAlgebra.IsSemisimple`, `LieAlgebra.IsSimple`), `Semisimple/Basic.lean` (under `[LieAlgebra.IsSimple R L]`, the adjoint module `L` is
+  irreducible; semisimple algebras are not generally irreducible as modules over themselves), `Weights/IsSimple.lean` (the ideal/root-set dictionary).
 - **Trace and invariant forms:** `Mathlib/Algebra/Lie/TraceForm.lean`, `InvariantForm.lean`,
   `Killing.lean` (`killingForm`, `traceForm`, `traceForm_cartan_nondegenerate`), the raw material for
   the Casimir element.
@@ -838,15 +844,30 @@ no ordered-field structure on algebraically closed K is used.
   Export `coeff_formalCharacter_eq_freudenthalRHS_div` with the actual-weight and
   non-top hypotheses; the recursion has no nonzero-denominator claim for absent weights.
   It is a check on Kostant's formula and the route for the worked examples below.
-- **Serre's relations and the presentation of `L`.** Mathlib builds `Matrix.ToLieAlgebra K CM`
-  (`SerreConstruction.lean`), the quotient of `FreeLieAlgebra K (CartanMatrix.Generators B)` by the Serre
-  relations from `CM`, with Chevalley generators `E_i, F_i, H_i`. Two steps stand between this and `L`.
-  First, a **Chevalley system**: since the root spaces are only lines, choose normalized generators
-  `eᵢ ∈ Lαᵢ`, `fᵢ ∈ L_{-αᵢ}`, `hᵢ = αᵢ^∨` with `⁅eᵢ, fᵢ⁆ = hᵢ` and the correct `⁅hᵢ, eⱼ⁆` scalings; the
-  normalization and sign choices are what make the Cartan-matrix and higher Serre relations hold in
-  Mathlib's `CartanMatrix.Relations` conventions. Then, for a **simple** `L`, prove those generators
-  satisfy exactly the Serre relations of `base.cartanMatrix.transpose` and that the induced map is an
-  isomorphism `Matrix.ToLieAlgebra K base.cartanMatrix.transpose ≃ₗ⁅K⁆ L`. Writing
+- **Serre's relations and the split-field presentation of `L`.** Work over any
+  `[Field K] [CharZero K]` with `[FiniteDimensional K L] [LieAlgebra.IsKilling K L]`,
+  a Cartan `H` and `[IsTriangularizable K H L]`; the simple presentation below additionally
+  assumes `[LieAlgebra.IsSimple K L]`. Mathlib's `Matrix.ToLieAlgebra K CM` is the
+  quotient by the Serre relators. Consume the native
+  `TauCeti/Algebra/Lie/Presentation/Serre/Killing.lean`: its
+  `exists_isSerreSystem_of_base` supplies `e,f : ↥base.support → L`, the fixed simple
+  coroot family `h_i=((rootSystem H).coroot i : L)`,
+  `TauCeti.IsSerreSystem K base.cartanMatrix.transpose h e f`, and
+  `LieSubalgebra.lieSpan K L (Set.range e ∪ Set.range f)=⊤`, without algebraic closure.
+  Its root-string construction uses normalized simple-root sl₂ triples; retain the
+  raising/lowering root-space and coroot normalization when exposing these data.
+  `TauCeti.serreLift` sends the actual H/E/F generators to those families, and
+  `serreLift_surjective` (or `exists_surjective_serreLift_of_base`) gives surjectivity.
+  Own the remaining `serreLift_injective_of_base` for this actual normalized lift:
+  for every such generating system in simple `L`, prove its kernel is zero. Construct
+  the finite-type root-graded straightening/spanning theorem from the Serre relations:
+  the simple Cartan generators together with one chosen bracket word for each root span
+  the presented algebra. Show their images are the normalized coroot/root-space basis of
+  `L`, using root strings, Jacobi and characteristic-zero coefficients. Their independent
+  images then prove injectivity. Combine it with the supplied surjection to construct
+  the presentation equivalence from that same lift, with its H/E/F value equations.
+  The all-root normalization `exists_chevalleySystem` and `serre_presentation_equiv`
+  are split-field contracts, independent of the HC isomorphism. Writing
   `A = base.cartanMatrix`, the native root convention is `A i j = αᵢ(hⱼ)`, whereas
   `CartanMatrix.Relations.HE` imposes `⁅Hᵢ, Eⱼ⁆ = CM i j • Eⱼ`. Hence
   `⁅hᵢ, eⱼ⁆ = αⱼ(hᵢ) • eⱼ = A j i • eⱼ`, and for distinct simple roots the higher
@@ -864,35 +885,44 @@ no ordered-field structure on algebraically closed K is used.
 
 ### Layer 8: the exceptional Lie algebras, explicitly
 
-Mathlib names `LieAlgebra.e₆`, `e₇`, `e₈`, `f₄`, `g₂` as Serre-construction quotients but establishes
-none of their structural theorems, and has no octonions. This layer works in the **split track**: over
-the char-zero field `K` (defaulting, as elsewhere, to algebraically closed `K`) the objects whose
-derivations are the **split** `LieAlgebra.g₂`/`f₄`/`e₆`/`e₇`/`e₈` are the **split** octonions and the
-**split** Albert algebra, and those are what is built and identified via Layer 7. The formally real /
-compact division forms are a **separate `K = ℝ` real-form track**: they are genuine composition and
-formally real Jordan algebras, but they are **not** identified with the split Serre algebras without a
-base-change of forms, and "formally real" is never asserted over an algebraically closed `K`.
+Mathlib names `LieAlgebra.e₆`, `e₇`, `e₈`, `f₄`, `g₂` as Serre-construction quotients.
+This layer identifies concrete **split** models over every characteristic-zero field `K`,
+using Layer 7's split-field presentation. For each concrete derivation or graded model,
+first prove finite dimensionality, Killing-simplicity, construct its split Cartan `H`
+and `[IsTriangularizable K H L]`, and compute its concrete root system/base and fixed
+coroots. Give the explicit index equivalence taking `base.cartanMatrix.transpose` to
+that named Serre algebra's Cartan matrix, checking the generator scalings; apply the
+normalized presentation only after these model-specific inputs. The resulting map is
+defined over `K`, including nonclosed fields. The formally real / compact division forms
+are a **separate `K=ℝ` real-form track** and are compared with split models only after
+the stated scalar extension; “formally real” is never asserted over algebraically closed `K`.
 
-- **The split octonions `𝕆`.** The split Cayley algebra over `K`, built by **Cayley-Dickson doubling**
-  of the split quaternions: an `8`-dimensional non-associative, non-commutative, **alternative**
-  composition algebra with a multiplicative norm form. Mathlib has none of this, so it is built here
-  (`Octonion K`) with its conjugation, norm, alternative and Moufang identities, and its multiplication
-  as an honest `K`-bilinear operation (a non-unital non-associative `K`-algebra, not a bare `Mul`). This
-  is the split form; the compact division octonions are the `K = ℝ` real form and are not `Der`-matched
-  to `LieAlgebra.g₂ ℝ`.
+- **The split octonions `𝕆`.** Consume the actual native `TauCeti.Octonion K`
+  Zorn-vector-matrix carrier, product, conjugation, norm and trace from
+  `TauCeti/Algebra/Octonion/Basic.lean`. Construct the split Cayley–Dickson doubling
+  comparison by an explicit `K`-linear equivalence preserving unit, product, conjugation,
+  norm and trace; it is a comparison of nonassociative algebras, not an associative
+  `AlgEquiv`. Export its eight-dimensionality, alternative/Moufang and composition APIs
+  using the native facts where present and proving the remaining targets. The illustrative
+  `Octonion K` doubling interface is transported through this comparison. The compact
+  division octonions are the separate real form and are not `Der`-matched with split
+  `LieAlgebra.g₂ ℝ`.
 - **`G₂ = Der(𝕆)`.** The derivation algebra of the split `𝕆` is a `14`-dimensional simple Lie algebra of
   type `G₂`, with its `7`-dimensional **fundamental representation** the imaginary octonions `Im 𝕆`
   (`imaginaryOctonion`). Build `derivationLieAlgebra (Octonion K)` (derivations of the non-associative
   algebra `𝕆`, a Lie algebra under commutator), prove `finrank = 14`, that it is Killing-simple of type
   `G₂`, and that `Im 𝕆` is its `7`-dimensional irreducible; identify it with the **split**
   `LieAlgebra.g₂ K` via the Serre presentation of Layer 7.
-- **The split Albert algebra `H₃(𝕆)` and `F₄ = Der(H₃(𝕆))`.** The split exceptional (Albert) Jordan
-  algebra `J = H₃(𝕆)` of `3×3` Hermitian split-octonionic matrices under the symmetrized product
-  `x ∘ y = ½(xy + yx)`, a `27`-dimensional exceptional Jordan algebra (consume `IsCommJordan`). Its
-  derivation algebra `F₄ = Der(J)` is a `52`-dimensional simple Lie algebra of type `F₄`, with its
-  `26`-dimensional **fundamental representation** the trace-zero elements `J₀ = ker(albertTrace)`. Build
-  `AlbertAlgebra K`, prove the Jordan identity, build `derivationLieAlgebra (AlbertAlgebra K)`, prove
-  `finrank = 52` and Killing-simplicity of type `F₄`, and identify it with the split `LieAlgebra.f₄ K`.
+- **The split Albert algebra `H₃(𝕆)` and `F₄ = Der(H₃(𝕆))`.** Consume the native
+  `TauCeti.AlbertAlgebra K` coordinate carrier and symmetrized product from
+  `TauCeti/Algebra/AlbertAlgebra/Basic.lean`, with its actual cyclic off-diagonal layout,
+  trace and trace-zero submodule. Transport the Hermitian-matrix/doubling presentation
+  by an explicit product-preserving linear equivalence, using the octonion comparison;
+  preserve trace and hence its kernel. Prove the Jordan, dimension and representation
+  targets using those native interfaces, extending them where needed. Its derivation
+  algebra is a 52-dimensional Killing-simple split algebra with fundamental 26-dimensional
+  trace-zero representation. Construct its split Cartan and concrete root-matrix
+  comparison before identifying it with `LieAlgebra.f₄ K` by Layer 7.
   On this native split carrier build `TauCeti.AlbertAlgebra.det`, using its
   existing cyclic off-diagonal layout: for a_i=diag(i), x_i=offDiag(i),
   `det A=a0*a1*a2−a0*N(x0)−a1*N(x1)−a2*N(x2)+tr_O((x0*x1)*x2)`,
@@ -1021,6 +1051,14 @@ base-change of forms, and "formally real" is never asserted over an algebraicall
       Freudenthal triple system on `J`) each need an **explicit carrier and bracket**, not merely a
       dimension count, either from the magic square uniformly or from their own graded models; they are
       not "rows" of the `sl₉ ⊕ Λ³ ⊕ Λ³*` model.
+      For the `E₇` 56-dimensional representation, consume the native integral `TauCeti.E7Minuscule` weight table,
+      `cartanMatrix`, `raisingMatrix`, `loweringMatrix`, `isSerreSystem` and
+      `serreRepresentation` in `TauCeti/Algebra/Lie/E7/Minuscule/Basic.lean`. After
+      entrywise `ℤ→K` scalar extension and the explicit Cartan-index comparison, prove
+      that the Freudenthal model's generator action is intertwined with this actual
+      native 56-dimensional representation. The invariant symplectic/quartic-form
+      comparisons and the 133-dimensional algebra/bracket identification remain
+      concrete targets here; the native matrix representation alone does not supply them.
   Build each, prove its dimension and Killing-simplicity of the stated type, and identify it with the
   split `LieAlgebra.e₆`, `e₇`, `e₈ K` via Layer 7. The **fundamental representations** `27` for `E₆`,
   `56` for `E₇`, and the adjoint `248` for `E₈` are the smallest ones and the acceptance targets.
@@ -1169,9 +1207,13 @@ system). It is independent of Layer 8.
 - **The single-weight criterion in action.** For the `gl_N` action by fermionic bilinears on the
   exterior algebra of an `N²`-dimensional space (the CAR module of
   [../SpinRepresentations/README.md](../SpinRepresentations/README.md) Layer 9), every highest
-  weight vector has weight `ν`. First prove `N ≥ 1` and that the identity matrix acts
-  semisimply: express its shifted total-number operator in the occupation basis and prove it
-  diagonal there. With these hypotheses, `gl_isotypic_of_forall_isGlHighestWeightVector` forces
+  weight vector has weight `ν`. First prove `N≥1`. With the actual supplier normalization
+  `F_ij=½Σ_k d_ik d_kj` and `d_ab d_cd+d_cd d_ab=2δ_bcδ_ad`, prove
+  `Σ_i F_ii=((N:K)^2/2) • (1 : Cliff(M_N))`: diagonal terms have `d_ii²=1`, and
+  each unordered off-diagonal pair contributes `d_ik d_ki+d_ki d_ik=2`, so the
+  unhalved sum is `N+N(N−1)=N²`. Thus the identity matrix acts by this scalar on
+  the left-regular module and acts semisimply. The scalar equals `Σ_i ν_i=N²/2`.
+  With these hypotheses, `gl_isotypic_of_forall_isGlHighestWeightVector` forces
   the module to be `L(ν)`-isotypic, necessarily with multiplicity `2^{N(N+1)/2}` by dimension count
   (`2^{N²} / 2^{N(N-1)/2}`). Fock spaces themselves are never named in this roadmap's general
   statements; the layer must make that external computation expressible with no new general lemmas.
