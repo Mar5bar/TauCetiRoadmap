@@ -36,7 +36,12 @@ ring is the integral closure of the stage-plus image; completion takes its image
 The target pair is identified with this actual separated completion by a topological ring
 isomorphism preserving the plus ring and all stage maps. Its kernel on the colimit is exactly
 the closure of zero. The product projection and disc evaluation fail this identification;
-README §1.5(2) separately uses isomorphisms modulo every power of the pseudouniformiser.
+README §1.5(2) uses the same actual completion criterion with genuine Tate definition rings.
+Its separate reduction test in §1.5(3) requires a bounded target plus ring whose powers give
+the actual topology, together with an independent topological-limit homeomorphism. Field
+plus rings satisfy that boundedness condition. Strict localisations use their valuation and
+rational-neighborhood shrinking argument for the homeomorphism; finite-type base changes
+use the ordinary tilde-limit theorem without assuming boundedness of the new plus rings.
 The base-change contract keeps qcqs spaces, adic transitions and cone maps, a final stage,
 a locally weakly finite-type morphism and the required fibre products. README §1.5's
 `SupportedTildeLimit.fullSupport_iff` identifies the full-support predicate with that same
@@ -509,6 +514,11 @@ AdicBerkovichToposMorphism, OverconvergentEtaleSheaf, PreadicSpace.ZpLocalSystem
 PreadicSpace.IsogenyZpLocalSystem, PreadicSpace.QpLocalSystem, PreadicSpace.BoundedLattice,
 AdicSpace.AnalyticEtaleCover, AdicSpace.AnalyticCoverFiber,
 AdicSpace.AnalyticEtaleFundamentalGroup, AnalyticTateQuotient, AnalyticRationalLatticeCover.
+AnalyticTateQuotient.finiteEtaleDegreeOneIso: a finite etale map of strict analytic spaces over
+an algebraically closed complete nontrivially valued field, with nonempty connected target
+and one classical fibre of cardinality one, is an analytic isomorphism, including all completed
+residue fields. The glued Tate quotient is proper and etale over E_q^an, hence finite, before
+this criterion applies; an invertible differential alone supplies etaleness.
 Layer 4: FormalScheme.Hom.IsEtale, FormalScheme.SmallEtale,
 FormalScheme.smallEtaleTopology, FormalScheme.specialisationFunctor, FormalScheme.Pair,
 FormalScheme.Pair.SmallEtale, FormalScheme.Pair.specialisationFunctor,
@@ -543,6 +553,8 @@ SemistableFormalCurveModel, proper_trait_comparison_agreement, FormalCurve.compa
 FormalCurve.local_compactification_at, AdicSpace.properSupportSections,
 AdicSpace.RProperSupportSections, AdicSpace.lowerShriek, AdicSpace.lowerShriekUnbounded,
 AdicSpace.compactCohomology, AdicSpace.quasiFiniteTrace.
+README §8.3's arbitrary-open model expression is the fixed proper-model composite
+R pi_(P_0)* j_0!, agreeing with ClassicalAlgebraic.properSupports when the open is quasi-compact.
 Layer 9: AdicSpace.IsSmoothCurve, AdicSpace.curveTrace, BoundaryPretrace,
 BoundaryResidueTrace, AnalyticLCICycleClass, AffineSpaceTrace, AnalyticFirstChernClass,
 SmoothRelativeTrace, SmoothRelativeTrace.topDegreeComposition (the top-degree Leray operation
@@ -561,6 +573,10 @@ Hom(H^2_c(X_eta,mu_n), Z/n). AdicSpace.curveTrace is the normalized sheaf morphi
 induces the global-sections trace, which determines it when Cplus = O_C and need not determine
 it at higher rank. For rank-two S and f : P^1_eta -> S the source is j_! Z/n with zero global
 sections and Hom to Z/n = Z/n.
+AdicSpace.curveTrace_isIso: over arbitrary Cplus, the generic fibre is connected and the top
+proper-support direct image is constant. For quasi-compact smooth-model tubes a sufficient
+condition is that the normalized scheme trace is an isomorphism over the whole residual base;
+the tube P^1_eta over rank-two S fails this condition, with top direct image j_! Z/n.
 Layer 10: AnnulusKummerGenerator.
 Layer 11: BallExhaustion, radiusBall.
 -/
