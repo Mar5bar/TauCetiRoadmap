@@ -2267,6 +2267,19 @@ pp. 51–53; §3.1, pp. 75–76.) *Needs:* Mathlib `DerivedCategory`; Mathlib
 
 - For `R = ℤ_p`, `E_R(k) = ℚ_p/ℤ_p`, `D(ℤ_p^r) = (ℚ_p/ℤ_p)^r` and `D((ℚ_p/ℤ_p)^r) = ℤ_p^r`: a
   lattice is dual to a cofinite-type module and conversely.
+  The supporting lemma is that, for a DVR `A` complete for its maximal ideal and fraction field
+  `K`, every `A`-linear map `f : K → K/A` has the form `f(x) = cx mod A` for a unique `c ∈ K`.
+  For a uniformizer `ϖ`, choose lifts `b_n ∈ K` of `f(ϖ⁻ⁿ)`; linearity gives
+  `ϖb_(n+1) − b_n ∈ A`, so the successive differences of `ϖⁿb_n` lie in `ϖⁿA`.
+  Completeness sums these differences to an element `c ∈ b_0 + A` with
+  `c − ϖⁿb_n ∈ ϖⁿA`, which gives the formula on every `aϖ⁻ⁿ ∈ K`.
+  Uniqueness follows because `(c − c′)K ⊆ A` forces `c = c′`.
+  Applying this to an endomorphism of `K/A` composed with `K → K/A` gives `cA ⊆ A`,
+  hence `c ∈ A`; multiplication therefore identifies `D(K/A) ≅ A`, and additivity on
+  finite sums gives `D((K/A)^r) ≅ A^r`, with `D = Hom_A(−, K/A)`.
+  Specializing to `A = ℤ_p`, `K = ℚ_p` gives the asserted dual of the cofinite-type module.
+  Completeness is essential: for a non-complete DVR `R` with fraction field `K`, the
+  endomorphism ring of `K/R` is `R̂`, as in §1.M.2 (Stacks, Lemma 47.7.5, tag 08Z6).
 - For `R = ℤ_p` and `E = ℚ_p/ℤ_p`, the module `R ⊕ E` is neither finite nor Artinian, but
   `D(R ⊕ E) ≅ E ⊕ R` and evaluation is an isomorphism, by additivity of `D` on finite sums.
 - `D(k) = Hom_R(k, E_R(k)) = k` (the socle of `E_R(k)`), and `k → D(D(k))` is an isomorphism; by
