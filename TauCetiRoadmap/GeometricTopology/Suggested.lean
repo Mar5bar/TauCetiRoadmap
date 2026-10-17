@@ -38,15 +38,23 @@ then surgery, then the volume measure), state each layer's milestones here with 
 dependency order, have these shapes:
 
   -- Layer 1, the gluing engine and its first invariant:
-  -- def connectedSum (M N : Manifold ...) : Manifold ... := ...
-  -- theorem connectedSum_sphere (M : Manifold ...) : connectedSum M (sphere n) ≃ₘ M
+  -- Layer 1 first constructs ballComplement and its boundary identification.
+  -- def connectedSum (M N : Manifold ...) (oM : Orientation M) (oN : Orientation N)
+  --     (ballM : EmbeddedBall M) (ballN : EmbeddedBall N)
+  --     (collarM : BoundaryCollar (ballComplement ballM))
+  --     (collarN : BoundaryCollar (ballComplement ballN)) : Manifold ... := ...
+  -- theorem connectedSum_sphere (M : Manifold ...) (oM : Orientation M) (oS : Orientation (sphere n))
+  --     (ballM : EmbeddedBall M) (ballS : EmbeddedBall (sphere n))
+  --     (collarM : BoundaryCollar (ballComplement ballM)) (collarS : BoundaryCollar (ballComplement ballS)) :
+  --     connectedSum M (sphere n) oM oS ballM ballS collarM collarS ≃ₘ M
   --
   -- Layer 3, the Smale conjecture, once Diff carries the C^∞ topology:
   -- theorem smale_conjecture : ∃ h : ContinuousMap.HomotopyEquiv (orthogonalGroup 4 ℝ) (Diff (sphere 3)), h.toFun = orthogonalInclusion   -- [Kir97, 4.34]
   --
   -- Layer 4, topological sliceness stated cleanly (knot theory owned here):
-  -- theorem freedman_alexanderOne_slice (K : Knot) (h : alexander K = 1) :
-  --     IsTopologicallySlice K                                             -- [Kir97, 1.36]
+  -- theorem freedman_alexanderOne_slice
+  --     (f : TauCeti.SmoothEmbedding (𝓡 1) (𝓡 3) ∞ Circle (sphere 3))
+  --     (h : alexanderOfDiagram (diagramOf f) = 1) : IsTopologicallySlice f                                             -- [Kir97, 1.36]
   --
   -- Layer 5, Dehn surgery recovering known manifolds (the convention check):
   -- theorem surgery_unknot_zero : dehnSurgery unknot (0 : Slope) ≃ₘ (circle ×ₘ sphere 2)

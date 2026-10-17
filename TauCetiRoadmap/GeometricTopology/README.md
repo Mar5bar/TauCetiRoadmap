@@ -161,7 +161,7 @@ themselves rather than a separate enumeration here.
 Ordered roughly from "closest to Mathlib" to "furthest". The early layers are
 high-leverage and close to Mathlib; the geometric-structures layers are the hardest. Each
 layer below records what it starts from (in Mathlib or an earlier layer), what to build
-(with illustrative target shapes, not yet compiled), the design pitfalls, and the Kirby
+(with illustrative target shapes), the design pitfalls, and the Kirby
 problems it would let us *state*. The ordering and granularity are a first cut, offered to
 be argued with: layers 1 and 5 in particular could be split further, and layers 7 and 8
 share a Riemannian substrate that could be its own node.
@@ -202,19 +202,37 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   manifold with corners is not a manifold at a corner, and the face-indexed abstract boundary — the
   faces along which gluing operates, each a manifold with corners one dimension down — is the
   [differential-geometry roadmap](../DifferentialGeometry/README.md)'s (its 5.5), consumed here.
+- **Complements of embedded balls.** For a smooth embedding e of the closed
+  unit n-ball in a boundaryless n-manifold, construct `ballComplement e` on
+  the subtype `M ∖ e(B°)`, with its subspace topology and smooth
+  manifold-with-boundary atlas. Identify its boundary smoothly with
+  `e(S^(n−1))` and the abstract boundary model above; prove its interior
+  inclusion is smooth and agrees with M's original charts, and export the
+  boundary inclusion, orientation and restriction comparisons. For n≥1,
+  apply this layer's independent tubular-neighborhood theorem to the embedded
+  boundary sphere. The differential of e on the radial vector trivializes
+  its normal line and picks the outward side. Use compactness of the sphere
+  for a common tube width; prove that its inward half lies in e(B°) and its
+  outward half lies in the complement, using the interior inverse-function
+  theorem, the embedding and the boundary identification. The outward half
+  of this tube gives the complement's half-space charts; prove their
+  transition smoothness, independence of auxiliary tube data and agreement
+  with the original interior charts. For n=0 the complement is an open
+  discrete manifold with empty boundary. The tube theorem uses only the
+  boundary sphere in the original boundaryless M, independently of the
+  complement and collar theorem. These charts precede
+  `BoundaryCollar (ballComplement e)`.
+  For a manifold already having boundary require the embedded ball to lie in
+  its interior; the old boundary and new sphere give disjoint boundary pieces.
 - **Collar neighbourhoods.** A boundary component has a neighbourhood diffeomorphic to
   `∂M × [0, 1)` (the collar theorem; Hirsch, *Differential Topology*, GTM 33, Theorem 6.1,
   [extract](references/hirsch-collar.md); Lee, *Introduction to Smooth Manifolds*, GTM 218,
   2nd ed., Theorem 9.25, [extract](references/lee-smooth-collar.md)). Collars are what make a
   gluing smooth rather than merely topological, and they feed the well-definedness proofs.
-- **Gluing along a piece of the boundary.** The general operation glues a codimension-0
-  submanifold-with-corners `A ⊆ ∂M` to one `B ⊆ ∂N` along a diffeomorphism `f : A ≃ₘ B`,
-  producing `M ∪_f N` with corners along `∂A`. Full-boundary gluing is the special case
-  `A = ∂M`, `B = ∂N`; **handle attachment** is `N` a handle `Dᵏ × Dⁿ⁻ᵏ` glued along
-  `Sᵏ⁻¹ × Dⁿ⁻ᵏ ⊆ ∂N`; and partial gluings (a rectangle onto a disc along two of its edges,
-  say) are the same def with `A`, `B` proper faces. Set this up for arbitrary manifolds, not
-  only handles, because everything downstream (surgery, handlebodies, cobordism
-  composition) is a special case of it.
+  Package a `BoundaryCollar M` by its smooth embedding of `∂M × [0,1)` into M,
+  its restriction to the boundary inclusion at parameter0, and its open image
+  containing the boundary. Supply the inverse collar coordinates and their
+  smoothness, restriction to smaller widths and comparison API.
 - **Smooth compact-surface comparison.** For a compact Hausdorff second-countable
   smooth real two-manifold, with or without boundary, construct the comparison
   of its actual smooth atlas with the triangulation-based surface carriers of
@@ -242,7 +260,8 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   SurfaceTopology's classification rather than reproving its finite or
   topological invariant theory. Construct the smooth model by the cited
   smoothing or this layer's disc/handle gluing, and compare the two. For a
-  homeomorphism already smooth on specified closed boundary collars,
+  homeomorphism whose restrictions to neighborhoods of the specified closed
+  boundary collars are smooth diffeomorphisms onto their images,
   construct a diffeomorphism agreeing on smaller collars and the relative
   comparison isotopy, with its source/target smooth structures explicit.
   Track its orientation sign when orientations are supplied. Include the
@@ -257,6 +276,33 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   triangulation-based theory, not this roadmap's later general chart-based
   PL/smoothing reconciliation; that reconciliation consumes its surface case.
 
+  Read the consumed classification invariants as χ=2−2g−b in the
+  orientable case and χ=2−k−b in the nonorientable case. AlgebraicTopology
+  supplies cellular homology/cohomology; ComplexKahlerGeometry K7 owns
+  the resulting Riemann-surface Betti/genus comparison. Layer4's Seifert
+  surfaces consume these surface normal forms and own their embedded
+  band/isotopy data; Layer9 consumes the closed oriented classification
+  for Heegaard surfaces. The triangulated polygon models and their finite
+  invariant classification remain the cited surface roadmaps' targets.
+
+- **Gluing along a piece of the boundary.** The general operation glues a codimension-0
+  submanifold-with-corners `A ⊆ ∂M` to one `B ⊆ ∂N` along a diffeomorphism `f : A ≃ₘ B`,
+  producing `M ∪_f N` with corners along `∂A`, using prescribed compatible
+  collar data on the faces. Package `FaceCollar A M` with its collar embedding
+  and compatibility with the corner product charts from DG5.5. Full-boundary gluing uses `glueAlongCollars` below
+  for `A = ∂M`, `B = ∂N`; **handle attachment** is `N` a handle `Dᵏ × Dⁿ⁻ᵏ` glued along
+  `Sᵏ⁻¹ × Dⁿ⁻ᵏ ⊆ ∂N`; and partial gluings (a rectangle onto a disc along two of its edges,
+  say) are the same def with `A`, `B` proper faces. Set this up for arbitrary manifolds, not
+  only handles, because everything downstream (surgery, handlebodies, cobordism
+  composition) is a special case of it.
+  Handle attachment takes the boundary collar of M, restricts it to the
+  attaching face, and uses the handle's standard product collar on the other side.
+  Define full-boundary `glueAlongCollars` with two `BoundaryCollar` values as explicit
+  data. Construct the smooth structure using their signed collar charts,
+  and give the chart and inclusion equations on each side of the seam.
+  Prove independence of `glueAlongCollars` from the chosen collars up to a diffeomorphism agreeing
+  with the piece inclusions away from a smaller collar; keep this comparison
+  separate from the smooth structure for the prescribed collars.
 - **Tubular neighbourhoods.** Work on finite-dimensional Hausdorff
   second-countable smooth manifolds with boundaryless models. For a smooth
   embedding i:S→M of dimensions s≤m, construct the quotient normal bundle
@@ -562,27 +608,41 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   Smale's handle-cancellation proof and Milnor's *Lectures on the h-cobordism
   theorem*, handle trading/cancellation chapters, supply the geometric proof.
 - **Connected sum, with the choices explicit.** The definition must *take* the data it
-  depends on: an orientation on each summand and an embedding of the closed `n`-ball into
-  each, inducing opposite orientations; `M # N` deletes the open balls and glues along the
-  resulting spheres. Independence of the balls is then a *theorem*, not part of the
+  depends on: an orientation on each summand, an embedding of the closed `n`-ball into
+  each inducing opposite boundary orientations, and prescribed complement-side boundary
+  collars on the `ballComplement` manifolds just constructed in Layer 1,
+  whose new boundaries are the spheres left after deleting the open balls. Construct `M # N` by
+  `glueAlongCollars` with these collars. Independence of the balls and collars is a *theorem*, not part of the
   definition, proved from the disc theorem (any two orientation-compatible ball embeddings
   into a connected manifold are ambient isotopic; Palais, *Extending diffeomorphisms*, Proc.
   AMS 11 (1960) 274–277; Hirsch GTM 33, Chapter 4 §6, Theorem 6.6,
   [extract](references/hirsch-disc-theorem.md)). A downstream wrapper then picks the balls on
-  a connected oriented manifold and inherits well-definedness from that theorem.
+  a connected oriented manifold, chooses complement-side collars by the collar theorem,
+  and inherits well-definedness from the ball and collar comparison theorems.
 
 ```lean
 -- the boundary is a boundaryless manifold one dimension down: Tau Ceti's
 -- `TauCeti.isManifold_boundary` (half-space model); faces of corners come from DifferentialGeometry 5.5
 -- gluing along a piece of the boundary (faces A ⊆ ∂M, B ⊆ ∂N); produces corners along ∂A
--- def glue (M N) (A : Face (I.boundary M)) (B : Face (I.boundary N)) (f : A ≃ₘ⟮…⟯ B) : Manifold …
--- handle attachment and full-boundary gluing are special cases of `glue`
--- def attachHandle (M) (k) (φ : Embedding (sphere (k-1) ×ₘ ball (n-k)) (I.boundary M)) : Manifold …
+-- def glue (M N) (A : Face (I.boundary M)) (B : Face (I.boundary N))
+--     (f : A ≃ₘ⟮…⟯ B) (cA : FaceCollar A M) (cB : FaceCollar B N) : Manifold …
+-- Layer 1 constructs ballComplement e as a manifold with boundary on M \ e(B°),
+-- identifies its boundary with e(S^(n-1)), and only then forms its BoundaryCollar.
+-- full-boundary specialization with its prescribed smooth collar atlas
+-- def glueAlongCollars (M N) (cM : BoundaryCollar M) (cN : BoundaryCollar N)
+--     (f : I.boundary M ≃ₘ⟮…⟯ I.boundary N) : Manifold …
+-- theorem glueAlongCollars_indep (cM cM' cN cN' …) :
+--     glueAlongCollars M N cM cN f ≃ₘ glueAlongCollars M N cM' cN' f
+-- handle attachment uses the corresponding face collars in `glue`
+-- def attachHandle (M) (cM : BoundaryCollar M) (k)
+--     (φ : Embedding (sphere (k-1) ×ₘ ball (n-k)) (I.boundary M)) : Manifold …
 --
--- connected sum TAKES the balls; independence is a theorem, not baked into the def
+-- connected sum TAKES the balls and complement-side collars; independence is a theorem
 -- def connectedSum (e₁ : Embedding (closedBall n) M) (e₂ : Embedding (closedBall n) N)
+--     (c₁ : BoundaryCollar (ballComplement e₁)) (c₂ : BoundaryCollar (ballComplement e₂))
 --     (h : OrientationReversing e₁ e₂) : Manifold …
--- theorem connectedSum_indep (e₁ e₁' e₂ e₂' …) : connectedSum e₁ e₂ _ ≃ₘ connectedSum e₁' e₂' _
+-- theorem connectedSum_indep (e₁ e₁' e₂ e₂' c₁ c₁' c₂ c₂' …) :
+--     connectedSum e₁ e₂ c₁ c₂ _ ≃ₘ connectedSum e₁' e₂' c₁' c₂' _
 -- the picking wrapper, on connected oriented summands, and its first identity
 -- noncomputable def connSum (M N) [Connected M] [Connected N] [Oriented M] [Oriented N] : Manifold …
 -- theorem connSum_sphere (M) : connSum M (sphere n) ≃ₘ M
@@ -821,13 +881,13 @@ Watanabe's disproof of the 4-dimensional Smale conjecture, `[Kir97, Problem 4.12
 
 ### Layer 4: knot theory, done properly (owned here)
 
-This is a whole subproject and the most glaring gap: Mathlib has nothing knot-theoretic
-beyond `Quandle`. The lean-eval Piccirillo and Conway-knot statements are, frankly, an
-ad-hoc disaster, and cleaning them up means building real foundations. The design
-commitment, shared with the combinatorial Heegaard Floer roadmap, is **no privileged
-representation**: a knot is not "an embedding `S¹ ↪ S³`" any more than it is "a diagram",
-and the content is in the *types of presentation*, the *maps between them*, and the
-theorems saying when two presentations give the same knot.
+This is a whole subproject. Mathlib supplies `Quandle` as a seed for coloring
+arguments; the pinned Tau Ceti dependency already supplies substantial algebraic and
+combinatorial knot infrastructure, described below. The remaining work is to connect those finite presentations to embedded links, specify the geometric equivalence relation, and prove the polynomial and minimum-invariant comparison theorems stated here.
+The design commitment, shared with the combinatorial Heegaard Floer roadmap, is **no
+privileged representation**: a knot is not identified with one presentation. The content is
+in the presentation types, maps between them, and the theorems that characterize when two
+presentations encode the same geometric knot or link.
 
 **From Mathlib / earlier layers.** `Quandle` (`Mathlib/Algebra/Quandle.lean`) as the seed
 for diagram colourings; `PresentedMonoid` (`Mathlib/Algebra/PresentedMonoid/Basic.lean`,
@@ -835,47 +895,99 @@ from Hannah Fechtner's braid program) for braid groups; smooth embeddings
 (`IsSmoothEmbedding`) and the sphere instance for the geometric presentation; layer 1's
 manifolds for complements (handed on to layer 5).
 
+**Existing Tau Ceti knot substrate.** The dependency already has several concrete
+presentations and invariant implementations. `PDCode` and `OrientedPDCode` carry crossing
+and component data; `PDCode.IsPlanar`, rotation systems and permutation triples support
+finite combinatorics; `BasedOrientedGaussCode.toOrientedPDCode` converts code-level Gauss
+presentations. `BraidWord.closure` constructs an oriented PD closure, and native braid,
+Markov-equivalence and closure results handle specified algebraic moves. `kauffmanBracket`,
+`normalizedKauffmanBracket`, and `jonesPolynomial` provide the bracket/Jones state sum and
+code-level Reidemeister invariance. Matrix-level Alexander polynomials, PD/Fox modules,
+Burau comparisons, algebraic Seifert-matrix S-equivalence, matrix signatures and
+Tristram–Levine/Alexander-root criteria are also implemented. `SmoothLinkEmbedding` and
+its isotopy relations provide a geometric carrier; `KnotGroup` uses the complement
+fundamental group; slice predicates, a Freedman theorem proposition, and grid-homology
+structures are present. Use existing declarations only at their stated types and hypotheses; the adapters below specify the geometric comparisons.
+
+These APIs are real existing work, but their scopes stay bounded by their types and
+hypotheses. Code Reidemeister equivalence is not the geometric theorem that ambient isotopy
+is generated by Reidemeister moves, and the PD relation does not by itself carry the
+source's plane outer face or a realized projection. Braid-word/closure theorems do not
+supply Alexander's closed-braid theorem, geometric Markov completeness, or minimum braid
+index. Matrix Alexander and S-equivalence lemmas do not prove existence or classification
+of geometric Seifert surfaces, or compare every source Fox matrix with a Seifert form.
+Fixed-colour Jimbo trace specializations do not construct the full two-variable HOMFLY or
+Kauffman `F` and absolute `Q` invariants. The complement-group carrier is not a Wirtinger
+presentation theorem. Each bridge below is a target, and an existing implementation is reused only where its
+statement and hypotheses match.
+
+**Owners and interfaces.** The geometric unframed link carrier has `n` components for `n : ℕ`; a knot is the one-component case, and a framing is additional normal-bundle data. Layer 4 owns knot and link presentations, realization maps,
+geometric/combinatorial equivalence theorems, diagram and braid minima, and knot/link
+invariants. It consumes Layer 1's compact-surface, embedding, isotopy and smoothing
+foundations; AlgebraicTopology's van Kampen theorem and fundamental-group maps; and
+TangentialBordism B3.2's finite quadratic-Arf interface. Layer 6 consumes the geometric
+Seifert/Alexander and signature interfaces. Layer 7 consumes a realized link complement and
+owns finite-volume hyperbolic structures and certified volume calculation. These edges are
+one-way; Layer 4 does not depend on later layers.
+
 **What to build.**
-- **The presentations, as first-class types carrying orientation and framing** (Lickorish,
+- **The presentations and their orientation/framing decorations** (Lickorish,
   *An Introduction to Knot Theory*, GTM 175, is the spine throughout this layer; per-topic
   extracts are in [references/](references/)). Per the encoding conventions there is **no
-  umbrella `Knot` type**: the presentations are first-class types, and the geometric one is
-  simply a smooth embedding `S¹ ↪ M`, worked over a general manifold `M` and specialised to
-  `ℝ³` or `S³`. The presentations are smooth and PL embeddings `S¹ ↪ M`; PL polylines; braid
-  closures (over `PresentedMonoid` braid groups with the Artin relations); knot diagrams as
-  4-valent planar graphs with crossing signs, and the equivalent oriented PD codes and Gauss
-  codes. From the start each
-  presentation carries **orientation** (a direction on the knot) and **framing** (a chosen
-  push-off, blackboard or Seifert), with **forgetful maps** dropping that data, so
-  framed-and-oriented, oriented, and unoriented knots are connected by forgetful maps and
-  every theorem assumes only the structure it needs. Each is a `Type`, with the realization
-  and forgetful maps to the others (a braid word closes to a diagram; a diagram realizes to
-  a PL knot).
-- **Equivalence in each presentation, and the correspondences between them (the hard part,
-  flagged as such).** Each presentation has its own equivalence: ambient isotopy for the
+  umbrella `Knot` type**: the presentations are first-class types. For each `n : ℕ`, the
+  geometric link carrier is a finite family of `n` smooth embeddings of the standard circle
+  into a general manifold `M`, with pairwise-disjoint ranges; the knot carrier is the `n = 1`
+  case. The unframed carrier does not include a normal framing: treat a chosen framing as
+  separate normal-bundle data, with forgetful maps. The combinatorial presentations are PL
+  polylines, braid closures (over `PresentedMonoid` braid groups with the Artin relations),
+  and link diagrams encoded by finite plane maps or by PD/Gauss data equipped with witnesses
+  that make them realizable in the plane. Each is a `Type`, with realization and forgetful
+  maps between them (a braid word closes to a diagram; a diagram realizes to a PL link).
+  A realizable diagram has a finite plane map, cyclic order of half-edges at each crossing,
+  over/under data, crossing signs and a distinguished outer face; crossing-free circles and
+  disconnected link components are included. Build the plane realization, lift edges to
+  polygonal arcs in `ℝ³`, and insert the prescribed local crossing model. Prove projection
+  recovers the code up to orientation-preserving plane isotopy and that outer-face data
+  transport under mirror and component-orientation reversal. Conversely extract the data
+  from a generic projection using a point at infinity away from the projection. An algebraic
+  Gauss-to-PD conversion alone does not prove planarity: prove the supplied rotation/outer-face
+  realization witnesses satisfy the planarity predicate. Both realization directions preserve
+  components and any specified component orientations or framing. Prove that permuting the `Fin n`
+  labels commutes with realization and preserves the resulting geometric link; every link invariant
+  and minimum below must be invariant under this reindexing.
+- **Equivalence in each presentation and the correspondences between them.** Each presentation has its own equivalence: ambient isotopy for the
   geometric presentation (the general `Isotopic` of the encoding conventions, specialised to
   smooth embeddings `S¹ ↪ M`, so isotopy is defined once for arbitrary maps and reused),
   Reidemeister moves (diagrams), Markov moves (braids), stellar moves (polylines), grid moves
   (grids, from the combinatorial Heegaard Floer roadmap). The correspondences split into two
   regimes of very different difficulty:
-  - **Combinatorial to combinatorial** (diagram, braid, grid, PD/Gauss): the equivalences
-    are finite local moves, so the correspondences are themselves combinatorial and can be
-    established move-by-move (Markov's theorem for braid-to-diagram, Cromwell's for
-    grid-to-diagram). Tedious but elementary.
-  - **Geometric to combinatorial** (a smooth or PL embedding to its diagram): genuinely hard.
-    Producing a diagram is a generic projection (general position), and proving "isotopic iff
-    Reidemeister-equivalent" means controlling an ambient isotopy as the projection passes
-    through codimension-1 degeneracies, a one-parameter general-position (Cerf-theoretic)
-    argument. This is where the foundational difficulty lives, and where the Isabelle/AFP and
-    Lean `leanknot` experiments stalled; flag it as a major target, and let the rest of the
-    layer not wait on it.
-  - **Which correspondences to develop.** Do not aim for all pairwise equivalences (the
-    complete graph on presentations). Pick a **spanning tree** anchored at the diagram as the
-    hub (most invariants are defined from diagrams), with the single expensive
-    geometric-to-diagram edge that everything routes through, and add a few direct edges only
-    where they are cheap or load-bearing (grid-to-diagram for the Heegaard Floer roadmap,
-    braid-to-diagram via Markov). Each extra edge is a convenience theorem, not a
-    prerequisite; the tree is what the rest of the layer actually needs.
+  - **Combinatorial correspondences.** Prove the diagram/PD/Gauss conversions, braid
+    closure and Markov equivalence, and grid-to-diagram correspondence consumed by the
+    combinatorial Heegaard Floer roadmap, with explicit orientation and framing maps.
+  - **Geometric to combinatorial.** Prove every tame link admits a generic projection and
+    every ambient isotopy induces a finite sequence of Reidemeister moves by a relative
+    one-parameter general-position argument, including endpoint and component-orientation
+    data. Conversely prove each Reidemeister move is realized by an ambient isotopy.
+  - **Correspondence graph.** Use diagrams as the hub, with proved edges from geometric
+    embeddings, PL embeddings and braid closures, and the grid-to-diagram edge consumed by
+    the combinatorial Heegaard Floer roadmap. State and prove the specific maps each invariant
+    uses; do not infer an unproved edge from a chain of presentation names.
+- **Diagram-independent minima.** For a geometric link `L`, define crossing number as the
+  minimum crossing count over all realizable diagrams of all links ambient-isotopic to `L`;
+  include all component relabelings. For a knot `K` only, define unknotting number `u(K)` as
+  the minimum number of crossing changes over all diagrams of all knots ambient-isotopic to
+  `K` needed to obtain a diagram of the unknot. Define bridge number as the minimum number
+  of local maxima over all pairs consisting of a representative in the ambient-isotopy class
+  of `K` and a generic height direction for that representative. For a nonempty oriented link, define braid index as the
+  minimum strand count over all closed braids, with all braid axes allowed, whose oriented
+  closures are ambient-isotopic to the given oriented link; the closure joins the `i`th top
+  endpoint to the `i`th bottom endpoint. Prove nonemptiness, attainment in `ℕ`, independence
+  of `Fin n` labels, and ambient-isotopy invariance. Prove `u(K # J) ≤ u(K)+u(J)`, give an
+  infinite family of unknotting-number-one knots distinguished by their Alexander
+  polynomials, and prove the source statements that only the unknot has bridge number one,
+  `br(K # J)=br(K)+br(J)−1`, braid index is subadditive under connected sum, and every
+  2-bridge knot is prime. Give constructions for upper bounds and geometric lower-bound
+  arguments; minimizing one chosen code, height direction, or braid axis is insufficient.
 - **Seifert surfaces and the integral/Arf dictionary.** For an oriented
   geometric link in oriented S³ construct an actual compact connected
   embedded oriented Seifert surface with its marked boundary and positive
@@ -893,6 +1005,53 @@ manifolds for complements (handed on to layer 5).
   geometric and diagram Seifert algorithms agree through the presentation
   correspondences. The mod2 polar form and Arf tests use the reduction of
   this signed dictionary, alongside the integral symplectic-pair check.
+
+  Construct the disc-band surface from each oriented diagram and prove its boundary is the
+realized link with prescribed orientation; compare moves by explicit isotopy/stabilization.
+Identify the geometric linking-number matrix's presentation-independent S-equivalence class
+with the algebraic matrix API. Fix the one-variable coefficient ring `R=ℤ[T,T⁻¹]` and the meridian homomorphism
+`π₁(S³ \ L) → ℤ` sending each positively oriented meridian to `1`. For each nonempty
+oriented link, define its classical Alexander module as `H₁(X∞;ℤ)` for the associated infinite
+cyclic cover. Build the Wirtinger presentation with one meridian generator per diagram arc and
+one relation per crossing, apply Fox derivatives, and abelianize by sending each meridian to
+`T`. Specify basepoint changes, meridian reversal (`T ↦ T⁻¹`), and Laurent-unit ambiguity.
+
+  For an oriented PD-code with `N` crossings and `c` crossing-free components, form the
+  half-edge/crossing-free-component relation module and all its Fitting ideals `E_k`. The
+  pinned PD presentation has `4N+c` generators and `E_k` is generated by the minors of size
+  `4N+c−k` of its relation vectors. Prove the comparison with the classical Alexander module
+  explicitly: the PD arc module is the classical module together with its free
+  constant-generator summand, hence `E₀=0` and `E_k = Fitt_{k−1}(H₁(X∞;ℤ))` for `k≥1`.
+  For knots `E₁=(Δ_K)`; normalize `Δ_K` by the symmetric Conway convention and `Δ_K(1)=1`.
+  For links, retain the full `E_k` family and record zero ideals explicitly (in particular,
+  crossing-free `c`-component diagrams have `E_k=0` for `k<c` and `E_k=R` for `k≥c`).
+  Define `ord_L` as the gcd of generators of `Fitt₀(H₁(X∞;ℤ))`, up to `±T^j`, with
+  `ord_L=0` when this ideal is zero. For the Conway specialization
+  `Δ_L(T)=P_L(1,−1,T^(1/2)−T^(−1/2))`, prove
+  `ord_L ≍ Δ_L(T)` up to units `±T^(j/2)`, and prove the
+  divisibility/conversion. Do not infer a determinant from a nonprincipal or zero ideal. For an
+  oriented Seifert surface with `μ≥1` boundary
+  components, use a basis of rank `2g+μ−1` and the matrix `TV−Vᵀ` to present the same
+  Alexander module; compare its Fitting ideals with the Fox ideals. The square determinant
+  formula is the knot case: if `μ=1`, `V` has size `2g` and
+  `Δ_K(T)=T^(−g) det(TV−Vᵀ)` with the fixed symmetric Conway normalization.
+
+  For the braid route, use a `MarkovBraid β` on `n=predStrands(β)+1≥1` strands and its standard
+  closure joining the `i`th top endpoint to the `i`th bottom endpoint. The closure has as many
+  components as the number of orbits of the underlying strand permutation. The native
+  unreduced Burau matrix `ρ_n(β)` gives the corner-minor invariant
+  `det(((ρ_n(β)−I) restricted by deleting the last row and last column))`; the `1×1` case
+  has the empty determinant `1`. For a closure with `μ` components, prove this scalar is
+  associated to the gcd of the generators of `Fitt₀(H₁(X∞;ℤ))`, equivalently the gcd of the
+  `E₁` generators in the PD presentation above; it is zero when that ideal is zero. Thus it
+  agrees with `ord_L` as defined above, and with the Conway-normalized one-variable link
+  polynomial through `ord_L ≍ Δ_L(T)`. Do not claim the scalar generates a
+  potentially nonprincipal Fitting ideal. Prove the stated unit ambiguity: conjugation leaves
+  the corner minor unchanged, positive stabilization multiplies it by `−T`, and negative
+  stabilization by `−1`. State a separate comparison if rewriting the formula in reduced-Burau
+  conventions; do not silently substitute a different determinant or strand factor. This is
+  the closed-braid route for all component counts, not a claim that Markov completeness is
+  already proved.
   Define the mod2 quadratic refinement q(x)=lk(x,x^+) mod2 on H₁(surface;F2)
   and prove q(x+y)=q(x)+q(y)+x·y. Consume TangentialBordism B3.2's early
   `finiteQuadraticArf` constructor, basis independence, orthogonal-sum and
@@ -902,8 +1061,9 @@ manifolds for complements (handed on to layer 5).
   radical and use its nonsingular quotient. Export `knotArfInvariant` and
   `properLinkArfInvariant`, independence of surface/basis, isotopy,
   connected/band-sum and mirror/orientation comparisons. Pin the unknot to0
-  and a trefoil to1. Prove Alexander agrees with det(tV−Vᵀ), up to the
-  units fixed by Conway normalization, and the determinant-at−1 mod8 Arf
+  and a trefoil to1. For knots, prove Alexander agrees with
+  `T^(−g) det(TV−Vᵀ)`, up to the unit fixed by the symmetric Conway normalization, and prove
+  the determinant-at−1 mod8 Arf
   criterion; export `alexanderOne_arf_eq_zero`. Four F1/F3/F4 consumes this
   geometric dictionary, and Layer6 consumes the Alexander-one corollary.
 - **Slice-ness, stated cleanly** on a presentation `K` (by default a smooth embedding
@@ -911,16 +1071,78 @@ manifolds for complements (handed on to layer 5).
   `IsTopologicallySlice K` (a *locally flat* disc, consuming layer 2 and the topological
   4-manifold input of layer 6); the slice genus `g_s(K)` and the topological slice genus.
   These replace the lean-eval monstrosities with one-line definitions.
-- **Knot polynomials, each a project in itself, with several algorithms apiece.** The
-  Alexander polynomial (Conway normalization), Jones, and HOMFLY; each is a substantial
-  sub-project, and we will likely want **multiple algorithms for the same invariant, starting
-  from different presentations**, with theorems that they agree: Alexander from a Seifert
-  matrix, from the Conway skein relation on a diagram, and from the Burau representation of a
-  braid; Jones from the Kauffman bracket on a diagram and from the Temperley–Lieb / Jones
-  representation of a braid. The agreement theorems (same invariant, different route) are as
-  much of the value as the algorithms, and they exercise the presentation correspondences
-  above; they also let the acceptance criteria evaluate the invariants on small knots.
+- **Knot polynomials and their normalizations.** The geometric link carrier includes the empty
+  link, but the polynomial invariants in this subsection are defined on nonempty links and
+  diagrams (`n≥1`); an empty-link value is not implicit. Construct the Conway-normalized
+  Alexander and Jones invariants, oriented HOMFLY, Kauffman bracket, and Kauffman's two-variable
+  `F` and absolute `Q` on that domain. For HOMFLY, grade the Laurent variables by
+  `deg(x)=deg(y)=deg(z)=1` and take `P_L` in the degree-zero subring `R₀` of
+  `ℤ[x^{±1},y^{±1},z^{±1}]`, with
+  `x P(L₊)+y P(L₋)+z P(L₀)=0` and `P(unknot)=1`. For each `n ≥ 1`, set
+  `P(unlink_n)=(-(x+y)/z)^(n−1)`. For nonempty links `L,J`, prove the split-union law
+  `P(L ⊔ J)=(-(x+y)/z)P(L)P(J)`; state connected-sum multiplicativity for knots. Do not
+  extrapolate the unlink exponent to `n=0` or assert normalized split-union laws with an
+  empty factor without separately specifying an empty-link convention. Prove uniqueness and
+  existence by terminating skein resolution on the nonempty-link domain, plus Reidemeister
+  invariance and the mirror/component-orientation laws below. Prove the specializations
+  `Δ_L(t)=P_L(1,−1,t^(1/2)−t^(−1/2))` and
+  `V_L(t)=P_L(t,−t^(−1),t^(1/2)−t^(−1/2))`. Set `t=s²`. Because `s−s⁻¹` is not a unit
+  in `ℤ[s,s⁻¹]`, first define these substitutions from `R₀` into the rational function field
+  `ℚ(s)` (native `RatFunc ℚ`), where the required nonzero denominators are invertible. Prove the invariant images
+  lie in the embedded Laurent subring `ℤ[s,s⁻¹]` and define their Laurent-valued versions
+  there. Evaluations at `s=±1` use those Laurent extensions, not a map sending an invertible
+  z to zero. Use this same half-Laurent coefficient extension in the Fox/Seifert comparisons. The source's two-variable convention is `ρ_L(l,m)=P_L(l,l⁻¹,m)`;
+  substitution identifies `R₀` with the subring of `ℤ[l^{±1},m^{±1}]` spanned by monomials
+  `l^r m^s` with `r ≡ s (mod 2)`, with inverse
+  `l^r m^s ↦ x^((r−s)/2)y^((-r−s)/2)z^s`.
 
+  On nonempty unoriented diagrams, define the Kauffman regular-isotopy polynomial `Λ` in
+  `ℤ[a^{±1},x^{±1}]` by `Λ(unknot)=1`,
+  `Λ(L₊)+Λ(L₋)=x(Λ(L₀)+Λ(L∞))`. Pin the curl factors by the local writhe change:
+  a curl of sign +1 multiplies Λ by a, and one of sign −1 multiplies it by a⁻¹.
+  Use the convention table’s crossing sign for these local models. Set `F_D(a,x)=a^(−w(D))Λ_|D|(a,x)`
+  in `ℤ[a^{±1},x^{±1}]` for an oriented diagram `D`, and `Q_D(x)=F_D(1,x)` in
+  `ℤ[x^{±1}]`. Prove the curl correction, skein construction and uniqueness, ambient
+  invariance of `F`, and the evaluation map defining `Q`; pin crossing signs and writhe
+  changes. Prove uniqueness and construction on nonempty diagrams. Reversing all component
+  orientations preserves writhe and `F`. If a subset `S`
+  of components is reversed and `Δw=w(D^S)−w(D)`, prove
+  `F_{D^S}=a^(−Δw)F_D`; hence `Q` is independent of component-orientation choices. State
+  any normalized unlink or split-union formula for `F` or `Q` only for nonempty links and
+  nonempty factors, unless an empty-link convention is separately defined.
+
+  For HOMFLY distinguish mirror from changing component orientations: prove
+  `P_mirror(L)(x,y,z)=P_L(y,x,z)` (equivalently
+  `ρ_mirror(L)(l,m)=ρ_L(l⁻¹,m)`), while simultaneous reversal of all component orientations
+  leaves `P` unchanged. Derive chirality tests by comparing values with the mirror transform;
+  reversing a knot's orientation is not itself the chirality test. Prove route agreements:
+  Alexander via Seifert matrix, Conway skein and Burau; Jones via bracket and
+  braid/Temperley–Lieb trace; HOMFLY via braid trace and diagram skein. Construct `F` and
+  `Q` by their own skein theory and prove their separation examples.
+
+  Make small-knot tests executable from explicit code, not names alone. Supply oriented PD
+  or Gauss/rotation-system codes for `0₁`, `3₁`, `4₁`, and `7₁`, `7₃`, `7₅`, `7₇`, with
+  proofs that each realizes its named knot. Compute the HOMFLY formulas on pp. 83–84 and
+  their listed Jones and Alexander specializations, using p. 84's typeset values to settle
+  overwritten p. 83 entries. Compute the p. 112 separations
+  `P(8₈)=P(10₁₂₉)` with `Q(8₈)≠Q(10₁₂₉)`, and
+  `F(11₂₅₅)=F(11₂₅₇)` while `P`, `∇`, and `Δ` differ. Include oriented code data,
+  coefficient rings, substitutions, and unknot/unlink normalization checks for each example.
+  The regression table includes the exact outputs below (with variables in the stated
+  convention): `P₇₁=(−4l⁻⁶−3l⁻⁸)+(10l⁻⁶+4l⁻⁸)m²+(−6l⁻⁶−l⁻⁸)m⁴+l⁻⁶m⁶`;
+  `P₇₃=(l⁴−2l⁶−2l⁸)+(−3l⁴+3l⁶+l⁸)m²+(l⁴−l⁶)m⁴`;
+  `P₇₅=(2l⁻⁴−l⁻⁸)+(−3l⁻⁴+2l⁻⁶+l⁻⁸)m²+(l⁻⁴−l⁻⁶)m⁴`;
+  `P₇₇=(2+2l²+l⁴)+(−l⁻²−2−2l²)m²+m⁴`. The Jones outputs are, in order,
+  `−t⁻¹⁰+t⁻⁹−t⁻⁸+t⁻⁷−t⁻⁶+t⁻⁵+t⁻³`,
+  `t²−t³+2t⁴−2t⁵+3t⁶−2t⁷+t⁸−t⁹`,
+  `−t⁻⁹+2t⁻⁸−3t⁻⁷+3t⁻⁶−3t⁻⁵+3t⁻⁴−t⁻³+t⁻²`, and
+  `4−t⁻³+3t⁻²−3t⁻¹−4t+3t²−2t³+t⁴`. The Alexander outputs are
+  `t⁻³−t⁻²+t⁻¹−1+t−t²+t³`,
+  `2t⁻²−3t⁻¹+3−3t+2t²`,
+  `2t⁻²−4t⁻¹+5−4t+2t²`, and
+  `t⁻²−5t⁻¹+9−5t+t²`. Prove these outputs from the codes and derive the source's
+  chirality conclusion from the correct mirror/orientation transformation laws, not from
+  the knot labels.
 ```lean
 -- no umbrella `Knot` type (see Encoding conventions); presentations are first-class types
 -- def SmoothLink (M) : Type := { f : C^∞(circle, M) // IsEmbedding f }   -- geometric presentation, general M
@@ -942,9 +1164,9 @@ these; fix them once.
 | item | convention |
 | --- | --- |
 | ambient space | standard orientation on `ℝ³` / `S³` |
-| knot orientation | oriented by default; the unoriented version is the image of the forgetful map |
+| component orientation | each oriented component uses its standard circle orientation; forget it for an unoriented link |
 | crossing sign | a right-handed crossing counts `+1` |
-| mirror, reverse | mirror is reflection (negates every crossing); reverse flips the orientation |
+| mirror, reversal | ambient reflection is the mirror and negates every crossing; reversing component orientations is a separate operation |
 | framing | the Seifert (`0`-) framing is the canonical longitude; the blackboard framing equals the writhe |
 | Alexander | Conway-normalised: `Δ_K(t) = Δ_K(t⁻¹)`, `Δ_unknot = 1`; right-handed trefoil `Δ = t − 1 + t⁻¹` |
 | Jones | via the Kauffman bracket with `t = A⁻⁴` and `V_unknot = 1`; fix the trefoil value from Lickorish, [references/lickorish-jones.md](references/lickorish-jones.md) |
@@ -1241,48 +1463,71 @@ witness `M` with strict inequality, not a general formula.
 
 ### Layer 10: foliations and their Euler class
 
-A codimension-one foliation slices a 3-manifold into surfaces (leaves); its tangent plane
-field is an oriented 2-plane bundle with an Euler class in `H²(M)`. Thurston conjectured a
-bound on this class; Gabai and Yazdi disproved it, and stating that needs foliations and
-the Euler class as first-class objects.
+A transversely oriented codimension-one foliation on an oriented 3-manifold
+has an oriented tangent plane bundle and an integral Euler class. Construct its
+evaluation on surfaces and the Thurston norm. Prove Thurston's Euler-class
+inequality and state the Euler-class-one counterexamples with the parity
+condition, as different mathematical assertions.
 
-**From Mathlib / earlier layers.** The tangent bundle and `mfderiv`
-(`Mathlib/Geometry/Manifold/`); singular and the implied de Rham / `H²` cohomology for the
-Euler class; vector bundles and their (to-be-built) Euler class; layer 1's manifolds.
+**From Mathlib / earlier layers.** Consume DifferentialGeometry Layer4's
+involutive distributions, Frobenius flat charts and leaves, Layer5's surface
+integration and Layer10.1's regular-value predicates, LieGroupoidsPoisson
+G0.1's regular-fiber manifold, AlgebraicTopology Stage6's integral
+cohomology, cup/cap pairing and duality, and this roadmap's smooth manifold,
+embedded surface and hyperbolic carriers.
 
 **What to build.**
-- A **foliation** of `M`: the general objects — distributions, involutivity, integral manifolds,
-  flat charts and the leaves of the global Frobenius theorem (`Distribution`, `IsInvolutive`,
-  `IntegralManifold`, `leafThrough`) — are the
-  [differential-geometry roadmap](../DifferentialGeometry/README.md)'s layer 4, consumed here and
-  specialized to codimension one; built here on top: the codimension-one specifics, and **taut**
-  foliations (a closed transversal through every leaf). Calegari, *Foliations and the Geometry of
-  3-Manifolds* (freely available online), is the reference.
-- The **Euler class** of an oriented plane bundle in degree-2 *cohomology* (a small standalone
-  layer on top of Mathlib's bundle theory), specialized to the tangent field of a codimension-one
-  foliation. ⚠ Be explicit that this is singular *cohomology* `H²(M; ℤ)`, not homology; the
-  notation in the target must name a cohomology group, since the statement pairs the class
-  against surfaces.
-- The **Euler-class bound** statement, with its pairing spelled out: the evaluation of a
-  degree-2 class on the fundamental class `[S] ∈ H₂` of an embedded surface, the inequality
-  `|⟨e(F), [S]⟩| ≤ −χ(S)` on every leaf-or-surface `S`, and a witness foliation violating it.
-  Define the surface class and the pairing before the inequality.
+
+- Build transversely oriented codimension-one foliations, their tangent plane
+  bundle, restriction and orientation laws, and tautness (a closed transversal
+  through every leaf). Include leafwise-smooth, transversely continuous
+  C^(∞,0) foliated charts and plane fields, as required by the counterexample;
+  compare smooth Frobenius foliations with this carrier.
+- Construct the integral Euler class of an oriented plane bundle independently
+  of foliations, with clutching/obstruction definition, normalization, pullback
+  and evaluation. Compare it with CharacteristicClasses C2's general Euler
+  class. On closed oriented 3-manifolds prove the
+  foliation class lies in 2H²(M;ℤ).
+- For a compact oriented surface define χ₋ as the sum of max(0,−χ) over
+  components. Define the Thurston norm on integral H₂(M;ℤ) as the minimum χ₋
+  among embedded oriented representatives. Prove existence of representatives
+  and the minimum, homogeneity and triangle inequality by regular-value and
+  oriented cut-and-paste constructions. Extend to rational and real homology,
+  prove continuity, and define the dual norm on real H² with its evaluation
+  pairing. On closed hyperbolic 3-manifolds prove the norm is nondegenerate.
+- Prove Thurston's inequality for a taut transversely oriented C^(∞,0) foliation on a
+  closed oriented hyperbolic 3-manifold: |⟨e(F),[S]⟩|≤χ₋(S) for embedded
+  oriented surfaces, hence x*(e(F)_ℝ)≤1. Use incompressible representatives,
+  the saddle-tangency general-position theorem and Poincaré–Hopf index
+  comparison, using Gabai–Yazdi §2.7 and its explicit extension
+  from transversely C² to C^(∞,0); build those foliation/surface comparison
+  lemmas here. Sphere
+  components contribute zero; do not bound their evaluation by −χ(S).
+- Construct a closed oriented hyperbolic 3-manifold and e∈2H²(M;ℤ) with
+  x*(e_ℝ)=1 which is not the Euler class of any taut C^(∞,0) foliation. Follow
+  Yazdi's explicit fibered-manifold Dehn-surgery construction and Gabai–Yazdi's
+  fully marked surface theorem, building the sutured foliation and
+  norm-minimizing surface lemmas those proofs need. The existing surgery and
+  hyperbolic layers supply the ambient constructions.
 
 ```lean
--- a codimension-one foliation is an involutive DifferentialGeometry `Distribution` of corank one, with its leaves
--- def eulerClass (E : OrientedPlaneBundle M) : SingularCohomology 2 M ℤ := …     -- cohomology, not homology
--- def evalOnSurface (c : SingularCohomology 2 M ℤ) (S : EmbeddedSurface M) : ℤ := ⟨c, fundamentalClass S⟩
--- def EulerClassBounded (F : Foliation M) : Prop := ∀ S, |evalOnSurface (eulerClass F.dist) S| ≤ -eulerChar S
--- theorem gabai_yazdi : ∃ (M : ClosedHyperbolic3) (F : Foliation M), Taut F ∧ ¬ EulerClassBounded F
+-- eulerClass is in integral singular cohomology; its real image is used by the norm.
+-- Foliation here carries leafwise-smooth, transversely-continuous C^(∞,0) charts.
+-- theorem thurston_euler_bound (F : Foliation M) (hF : Taut F) :
+--   dualThurstonNorm (realImage (eulerClass F.tangentPlane)) ≤ 1
+-- theorem euler_class_one_counterexample : ∃ (M : ClosedOrientedHyperbolic3)
+--   (e : SingularCohomology 2 M ℤ), (∃ b, e = 2 • b) ∧
+--   dualThurstonNorm (realImage e) = 1 ∧
+--   ∀ (F : Foliation M), Taut F → eulerClass F.tangentPlane ≠ e
 ```
 
-**Design notes.** The Euler-class layer is small and reusable on its own; build it against
-Mathlib's vector bundles independently of foliations, then specialize. State Thurston's
-conjecture as the *bounded* predicate and the Gabai–Yazdi result as its negation on an
-explicit example, so the disproof is a witness rather than a universal statement.
+**References.** [Yazdi, On Thurston's Euler class one
+conjecture](https://arxiv.org/abs/1603.03822), including the parity condition;
+[Gabai–Yazdi, The fully marked surface theorem](https://arxiv.org/abs/2008.07223).
+Calegari, *Foliations and the Geometry of 3-Manifolds*, supplies the foliation
+foundations and Thurston inequality.
 
-**Unlocks.** Gabai–Yazdi's disproof of Thurston's foliation Euler-class conjecture (no
-Kirby number).
+**Unlocks.** The Euler-class-one counterexample (no Kirby number).
 
 ### Layer 11: triangulations, PL structures, and collapse
 
@@ -2172,6 +2417,10 @@ essential statements quoted with attribution and an exact locator); those are li
   Manifolds*, Springer GTM 218, 2nd ed. (2013), the same material at a gentler pace (collars,
   Theorem 9.25, [extract](references/lee-smooth-collar.md); tubular neighbourhoods, Theorem
   6.24, [extract](references/lee-smooth-tubular.md)).
+- J. Lee, *Introduction to Riemannian Manifolds*, Springer GTM 176, 2nd ed.
+  (2018), Theorem 5.25 and equations (5.21)–(5.24), pp. 133–135:
+  the normal-exponential and positive-radius proof for arbitrary embedded
+  submanifolds, [extract](references/lee-riemannian-tubular.md).
 - R. Palais, *Extending diffeomorphisms*, Proc. Amer. Math. Soc. 11 (1960) 274–277: the
   isotopy uniqueness of ball embeddings, used for connected-sum well-definedness.
 - C. Rourke, B. Sanderson, *Introduction to Piecewise-Linear Topology*, Springer (1972):
