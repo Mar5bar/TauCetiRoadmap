@@ -8,7 +8,7 @@ The four roadmaps form the chain [PrismaticCohomology](../PrismaticCohomology/RE
 
 This part consumes PrismaticCohomology Layers 0–2; PrismaticCohomologyPartIII and PrismaticCohomologyPartIV are downstream consumers. It owns canonical prism twists, the relative Nygaard filtration, the Cartier–Witt and absolute constructions, and the framed q-models. AInfCohomology supplies décalage and `AΩ`; ordinary monoidal derived and formal-stack foundations remain imports. The local enhancements and all-coordinate comparison maps are specified in Layers 3–5.
 
-This roadmap owns the primitive AΩ/prismatic comparison (§5.23), the perfect-prism η-uniqueness theorem (§5.25), and absolute Nygaard, twist and divided-Frobenius data (§§3.9, 3.20, 4.25–4.31). CohomologyComparisons §1.7 consumes these and owns agreement with its chosen crystalline, de Rham and étale specialization maps; its §1.11 consumes the completed absolute data to construct syntomic coefficients.
+This roadmap owns the primitive AΩ/prismatic comparison (§5.23), the perfect-prism η-uniqueness theorem (§5.25), and absolute Nygaard, twist and divided-Frobenius data (§§3.9, 3.20, 4.25–4.31). These are the primitive inputs for CohomologyComparisons §1.7's agreement with its chosen crystalline, de Rham and étale specialization maps and §1.11's syntomic coefficients. On A_inf coefficients, §3.9 identifies the general prism twist with the line supplied by AInfCohomology §AI.0:integral.1.
 
 <a id="s4-2"></a>
 <a id="layer-4-generalized-cartier-divisor"></a>
@@ -54,6 +54,7 @@ A supplier row specifies the interface used, under the hypotheses shown. Its the
 | EnhancedDerivedSheaves Layer E2 | 5 | Enhanced sheaves, hypercovers, effective epimorphisms, cohomological descent and replete-topos limits. Use space-valued fpqc sheafification, not just groupoid stackification. |
 | DerivedDeRhamCohomology §4.2; CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4, CR.DDR.5.8–CR.DDR.5.10 | 4 | The PD conjugate filtration and the derived de Rham–crystalline realization, with completed filtered modules and base change in their stated ranges; prismatic F-crystal comparison and integral lattice descent are local targets. |
 | SchemeAndStackFoundations §§1.1, 1.18–1.22 | 4 | Affine module/vector-bundle faithfully flat descent, stacks in groupoids, quotient stacks and line bundles with a section. Complete formal QCoh, compatible-tower effectivity and punctured derived-completion descent have explicit local owners where used. |
+| AInfCohomology §AI.0:integral.1 | 3–5 | `AInf.bkTwist`: the intrinsic A_inf coefficient line, its divided conormal projections, integer tensor and dual powers, and Frobenius. Section 3.9 constructs `Prismatic.BKTwist.ainfTwistIso` to identify the general prism twist with this supplied line in its coefficient range. |
 | AInfCohomology Layer AI.1 | 3, 5 | Derived `Lη` for an invertible ideal, torsion-free `η`-models, cohomology/truncation and Bockstein reduction, with the lax symmetric monoidal refinement and all coherences of §§AI.1.3–AI.1.4, hence functoriality on `E∞` algebras. Completed commuting-endomorphism Koszul models retain the exterior degree/sign adapter. |
 | EnhancedDerivedSheaves Layer E3 | 3, 5 | Coherent left/right Kan extensions, sifted colimits, totalizations and adjunctions in enhanced categories. Polynomial animation uses its universal property, not a choice of a single resolution. |
 | EnhancedDerivedSheaves Layer E5:animation | 3 | Animated commutative rings and prelog analogues, compact projective polynomial generators, free resolutions and the nonabelian-derived universal property. Completion and algebra structures use DerivedModuleAlgebra §§1.1–1.9, DerivedDeRhamCohomology Layer 1 and EnhancedDerivedSheaves Layer E5:abstract. |
@@ -355,7 +356,7 @@ For any prism, take the colimit of `A⊗_(A₀)A₀{1}` over transversal prisms 
 
 (BL22, Proposition 2.5.1, Definition 2.5.2, Notation 2.5.4; p. 28; BL22, Remarks 2.5.5, 2.5.7, 2.5.8; pp. 28, 29; BL22, Remark 2.5.9; p. 29; BS22, Theorem 1.8 `(2)`, the sentence after the display; p. 4.)
 
-*Needs:* [§3.7](#s3-7), [§3.8](#s3-8), [PrismaticCohomology §0.73](../PrismaticCohomology/README.md#s0-73), [PrismaticCohomology §1.1](../PrismaticCohomology/README.md#s1-1), Mathlib `Module.Invertible`, Mathlib `ModuleCat.extendScalars`, Mathlib `Ideal.Cotangent`, Mathlib `Module.Dual`.
+*Needs:* [§3.7](#s3-7), [§3.8](#s3-8), [PrismaticCohomology §0.73](../PrismaticCohomology/README.md#s0-73), [PrismaticCohomology §1.1](../PrismaticCohomology/README.md#s1-1), AInfCohomology §AI.0:integral.1 (`AInf.bkTwist`), Mathlib `Module.Invertible`, Mathlib `ModuleCat.extendScalars`, Mathlib `Ideal.Cotangent`, Mathlib `Module.Dual`.
 
 - `Prismatic.BKTwist.twist`: The canonical invertible module `A{1}`.
 - `Prismatic.BKTwist.twist_invertible`: Invertibility of `A{1}`.
@@ -379,6 +380,18 @@ For any prism, take the colimit of `A⊗_(A₀)A₀{1}` over transversal prisms 
 - `pr3_bk_twist_no_fixed_generator`: For a crystalline prism `(A, (p))` with `A ≠ 0` no generator e of `A{1}` satisfies `φ_{A{1}}(e) = e`: the twist is not the unit Frobenius module.
 
 **Proof route.** Existence: C has weakly contractible nerve (§3.7 `(4)`) and the diagram has invertible transition maps by part `(2)` of §3.8, so the colimit exists and every structure map is an isomorphism (BL22 Proposition 2.5.1).
+
+**A_inf twist compatibility** (`Prismatic.BKTwist.ainfTwistIso`). For a complete algebraically closed extension C of Q_p in AInfCohomology §AI.0:integral.1's coefficient range, put `A_inf=W(O_C^♭)`. On the transversal prism `(A_inf,(ξ̃))`, identify the present twist with the supplied `AInf.bkTwist`. Here `I_r=ker θ̃_r=(ξ̃ φ(ξ̃)⋯φ^{r−1}(ξ̃))`; the identification preserves every conormal projection and divided transition map, tensor powers, duals and Frobenius. Transport it along the prism isomorphism `φ:(A_inf,(ξ))→(A_inf,(ξ̃))`, including extension of scalars along φ. Use the supplied coefficient twist and its API for AΩ coefficients under this identification. A compatible system of roots of unity is required only for the displayed cyclotomic generators.
+
+(BMS1, Example 4.24; p.41; BMS2, Proposition 6.5 and Remark 6.6; pp.40–41; BL22, Construction 2.2.11 and Remark 2.5.9; pp.23, 29.)
+
+*Needs:* [§3.8](#s3-8), the general prism twist and base change constructed above, AInfCohomology §AI.0:integral.1 (`AInf.bkTwist`).
+
+**Checks.**
+
+- At `r=1`, reduction modulo ξ̃ identifies the two projections to `ker θ̃/(ker θ̃)²`. The undivided conormal transition is p times the transition used in both twists.
+- For `q=[ε]`, one has `[p]_q=ξ̃` and the compatible classes of `[p^r]_q` give the supplied generator e with `φ(e)=ξ̃^−1e`. In particular, at `p=2` the denominator is `1+q`; on the `(ξ)` prism it is `1+φ^−1(q)`, transported to `1+q` by φ.
+- At tensor power zero the adapter is the identity of A_inf; at power −1 it is the dual adapter, with Frobenius factor ξ̃ on the dual cyclotomic generator. Tensoring the two adapters gives the evaluation to A_inf.
 
 <a id="s3-10"></a>
 <a id="layer-3-divided-frobenius"></a>
@@ -929,7 +942,7 @@ Distinguished Witt vectors `WCart₀` are represented by `Spf A⁰, A⁰=Z[a₀,
 
 ### 4.6 Transversal prisms and coproducts of prisms
 
-For the prism charts used in Cartier–Witt geometry, import the transversal approximations, coproducts and residue-field lifts of §3.7. Their maps to Cartier–Witt divisors are compatible with the canonical cocones and with change of base. The coproduct of two chart points corresponds to the common refinement of their prism charts; this target supplies chart compatibility, rather than a second construction of transversal coproducts.
+For the prism charts used in Cartier–Witt geometry, import the algebraic transversal approximations, coproducts and residue-field lifts of §3.7, with their canonical prism-map cocones and base-change maps.
 
 Only transversal×bounded coproducts are used. General prism coproducts would require animation. Flatness is tested by p-complete flatness modulo the prism ideals.
 
@@ -937,7 +950,7 @@ Only transversal×bounded coproducts are used. General prism coproducts would re
 
 *Needs:* [§3.7](#s3-7), [§3.6](#s3-6), [PrismaticCohomology §0.72](../PrismaticCohomology/README.md#s0-72), [PrismaticCohomology §0.73](../PrismaticCohomology/README.md#s0-73), [PrismaticCohomology §0.86](../PrismaticCohomology/README.md#s0-86), [PrismaticCohomology §0.79](../PrismaticCohomology/README.md#s0-79), [PrismaticCohomology §0.55](../PrismaticCohomology/README.md#s0-55), [PrismaticCohomology §0.74](../PrismaticCohomology/README.md#s0-74), [PrismaticCohomology §0.77](../PrismaticCohomology/README.md#s0-77), DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology Layer 1, [PrismaticCohomology §0.56](../PrismaticCohomology/README.md#s0-56).
 
-**Proof route.** Use the δ-ring and transversal-coproduct results owned by §3.7. Apply the functorial Cartier–Witt divisor construction to their prism maps and verify the cocone equalities on the underlying Witt modules.
+**Proof route.** Use the δ-ring and transversal-coproduct results owned by §3.7, with their algebraic universal properties.
 
 <a id="s4-7"></a>
 <a id="layer-4-prism-point-of-wcart"></a>
@@ -950,7 +963,7 @@ A ring map `f:A→R` from a prism lifts uniquely to a δ-map `A→W(R)`. Its pul
 
 (BL22, Construction 3.2.4, Examples 3.2.5 and 3.2.6, Remark 3.2.7; p. 41.)
 
-*Needs:* [§4.4](#s4-4), [§4.3](#s4-3), [Presentation of WCart as the quotient `[WCart_0 / W^×]`](#layer-4-wcart-quotient-presentation), [§4.6](#s4-6), [PrismaticCohomology §0.72](../PrismaticCohomology/README.md#s0-72), [PrismaticCohomology §0.56](../PrismaticCohomology/README.md#s0-56), [PrismaticCohomology §0.79](../PrismaticCohomology/README.md#s0-79), [PrismaticCohomology §0.74](../PrismaticCohomology/README.md#s0-74), [PrismaticCohomology §0.61](../PrismaticCohomology/README.md#s0-61), [§4.0](#s4-0), [PrismaticCohomology §0.78](../PrismaticCohomology/README.md#s0-78), SchemeAndStackFoundations §§1.15, 1.18, 1.21.
+*Needs:* [§4.4](#s4-4), [§4.3](#s4-3), [Presentation of WCart as the quotient `[WCart_0 / W^×]`](#layer-4-wcart-quotient-presentation), [PrismaticCohomology §0.72](../PrismaticCohomology/README.md#s0-72), [PrismaticCohomology §0.56](../PrismaticCohomology/README.md#s0-56), [PrismaticCohomology §0.79](../PrismaticCohomology/README.md#s0-79), [PrismaticCohomology §0.74](../PrismaticCohomology/README.md#s0-74), [PrismaticCohomology §0.61](../PrismaticCohomology/README.md#s0-61), [§4.0](#s4-0), [PrismaticCohomology §0.78](../PrismaticCohomology/README.md#s0-78), SchemeAndStackFoundations §§1.15, 1.18, 1.21.
 
 - `Prismatic.WCart.prismPoint`: Witt pullback of I along f with `f(I+(p))` nilpotent.
 - `Prismatic.WCart.prismPoint_comp`: Ring-base-change naturality.
@@ -972,13 +985,21 @@ A ring map `f:A→R` from a prism lifts uniquely to a δ-map `A→W(R)`. Its pul
 
 For bounded A and transversal B, their prism coproduct C represents `Spf A×_WCart Spf B`. Every prism point `ρ_B` is affine; for bounded B it is flat iff B is transversal, and faithfully flat if also `B≠0`. The `(n+1)`-fold atlas fibre powers are therefore `Spf A^n`, where `A^n` is the coproduct of `n+1` universal oriented prisms; this is its cosimplicial Čech nerve.
 
+Apply `Prismatic.WCart.prismPoint` and its prism-map naturality from §4.7 to the algebraic cocones of §4.6. The pulled-back Cartier–Witt divisors agree canonically on `Spf C`, compatibly with base change and iterated cocones. This makes the coproduct chart a common refinement of the two prism charts over WCart.
+
 `(1): (A, I)` bounded and `(B, J)` transversal; the roles are not symmetric in the source and the coproduct exists by Transversal prisms and coproducts of prisms. `(3): (B, J)` bounded. Corrected misprints of the proof: the fibre product computed there is `Spf(A^0) ×_{WCart} Spf(B) ≅ Spf(B) × W^×`, and the bijection is with the invertible elements of the test prism.
 
 (BL22, Proposition 3.2.8 and Corollary 3.2.9; pp. 41, 42; BL22, Corollary 3.2.10; p. 42; BL22, Notation 3.3.9; p. 44.)
 
 *Needs:* [§4.7](#s4-7), [Presentation of WCart as the quotient `[WCart_0 / W^×]`](#layer-4-wcart-quotient-presentation), [§4.6](#s4-6), [PrismaticCohomology §0.55](../PrismaticCohomology/README.md#s0-55), [§4.0](#s4-0), DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology Layer 1, SchemeAndStackFoundations §§1.15, 1.18, 1.21.
 
-**Proof route.** Reduce `(1)` Zariski-locally to `I = (d_A), J = (d_B)`; factor through the universal oriented prism `(A^0, I^0) → (A, I), a_0 ↦ d_A`; the left square `Spf(C) = Spf(A) ×_{Spf(A^0)} Spf(C^0)` is a pullback because `(B, J) → (C^0, K^0)` is flat (Transversal prisms and coproducts of prisms).
+**Proof route.** First apply §4.7's functorial divisor construction to the prism maps and verify the cocone identifications on the underlying Witt modules. Reduce `(1)` Zariski-locally to `I = (d_A), J = (d_B)`; factor through the universal oriented prism `(A^0, I^0) → (A, I), a_0 ↦ d_A`; the left square `Spf(C) = Spf(A) ×_{Spf(A^0)} Spf(C^0)` is a pullback because `(B, J) → (C^0, K^0)` is flat (Transversal prisms and coproducts of prisms).
+
+**Checks.**
+
+- For the identity prism map the divisor identification is the identity; for two composable prism maps it is the composite of their identifications.
+- On the coproduct of three universal oriented prisms, the two iterated cocones give the same divisor identification and the Čech face maps satisfy their identities.
+- For a transversal chart `(B,J)` with a chosen generator of J, pullback along the universal oriented atlas gives `Spf(B) × W^×`: a Witt unit records the change of generator, including its Cartier–Witt divisor identification.
 
 <a id="s4-9"></a>
 <a id="layer-4-quasi-coherent-complexes-on-wcart"></a>

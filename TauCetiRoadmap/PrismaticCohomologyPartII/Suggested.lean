@@ -10,6 +10,13 @@ AInfCohomology §AI.3.3 supplies q-integers; their polynomial values, including 
 are checked here using Mathlib finite sums. These signatures and
 examples fix the coefficient, cochain sign and derivative-thickening conventions of
 Layers 3–5; the complete Nygaard, stack and q-PD constructions are specified in README.md.
+
+AInfCohomology §AI.0:integral.1 supplies `AInf.bkTwist` on A_inf coefficients.
+README §3.9 specifies `Prismatic.BKTwist.ainfTwistIso`, identifying the general prism
+twist on `(A_inf, (ξ̃))` with that line, including conormal projections, integer powers,
+duals and Frobenius. Transport to `(ξ)` includes extension of scalars along φ.
+README §4.7 constructs the prism points and their naturality; §4.8 applies them to
+the algebraic coproduct cocones imported in §4.6.
 -/
 
 namespace TauCetiRoadmap.PrismaticCohomologyPartII
