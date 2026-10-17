@@ -76,6 +76,14 @@ end GLn
 Section 2.6's rational nilpotent germs are locally constant on the regular semisimple locus.
 Their square-dilation homogeneity does not imply constancy on a Cartan's regular locus.
 Section 2.11 uses functions and the stable orbital quotient on H_{1,z}(F).
+At real places its compact-modulo-Z₁ and Harish-Chandra Schwartz central-character
+spaces have separate stable orbital quotients. Section 2.14 provides compact-modulo-Z₁
+transfer for compactly supported inputs and Schwartz transfer for Schwartz inputs,
+with Shelstad’s purely imaginary embedding correction and unitary central character.
+K-finiteness is imposed within one of these source spaces and implies no support condition.
+Section 2.16's InnerGL.temperedSupport specializes the supplied
+harish-chandra-tempered-support of SmoothRepresentationsOfLocalGroups SR.3.3;
+InnerGL.temperedInductionIrreducible and InnerGL.standardBasis give the inner-GL consequences.
 Section 2.13 constructs the endoscopically induced form B_h from B_g on matching Cartans;
 both Fourier transforms and Weil constants use these forms and the common character ψ. -/
 
@@ -201,7 +209,14 @@ Section 4.2 requires j_* and its inverse to identify the cocharacter lattices ov
 in addition to p being prime to the Weyl order, and uses compatible centralizer Haar measures.
 Section 4.3 consumes finite jets and every sufficiently large extension degree from §3.11a,
 the preliminary H-good comparison of §3.18 and the Frobenius-count descent of §3.16a.
-Section 4.3a then deduces full anisotropic stabilization from the local fundamental lemma. -/
+Section 4.3a then deduces full anisotropic stabilization from the local fundamental lemma.
+Section 4.9a's NonstandardSmoothTransfer.transfer provides matching for every compactly
+supported smooth Lie-algebra test over any finite extension of ℚ_p, using compatible
+centralizer measures. NonstandardSmoothTransfer.fourier uses the common additive character,
+forms transported on matching Cartans and self-dual additive measures. It gives the
+nonstandard Fourier compatibility on stable orbital quotients.
+Section 4.10(a) consumes this all-test-function theorem for every descended nonstandard
+triple; part (b) separately consumes the good-prime nonstandard lattice unit identity. -/
 
 /-! ## Layer 5: number-field discrete general linear input and normalization
 AutomorphicSpectralTheory §4.14a supplies the residual index and representations.
@@ -253,6 +268,14 @@ example : endoscopicCoefficient 2 0 2 = 0 := by
 
 /-! ## Layer 7: algebraic isocrystals and rational Igusa geometry
 The structured isocrystal and moduli targets are stated in README.md.
+Section 7.8 includes m=0: FiniteIgusa at zero is the central leaf, U_p(0)=Γ_b,
+and its deck quotient is trivial. IgusaMonoid.levelMap in §7.9 is defined for m≥e₁,
+including m=e₁ with target level zero.
+Section 7.3's IgusaRational.perfection inverts j_i:Σ_i→gr_i to ρ_i=j_i⁻¹.
+For the perfect-to-finite-tower map P, the left action a and right action r satisfy
+P ∘ a_{δ⁻¹} = r_δ ∘ P. Rational pullback P* therefore identifies r_δ* with
+inverse pullback a_{δ⁻¹}*, compatibly with level transitions and prime-to-p actions.
+These Layer 7 carriers and comparisons supply the common downstream Igusa foundations.
 Section 7.10a uses TauCeti.EtaleDuality.CohCorr and its rgammac, comp, pushforward, traceMap
 and localTerm from EtaleDualityAndPerverseSheaves §§6.1–6.3, with traceAdditivity and
 fujiwaraVarshavskyTraceFormula from §§6.4–6.5, for finite Igusa coefficient correspondences.
@@ -306,6 +329,10 @@ example (a : ℕ) (c₁ c₂ : ℚ)
 The geometric complex, its graded pieces and its commuting actions are README targets. -/
 
 /-! ## Layer 10: trace parameters and classical comparison
+SmoothRepresentationsOfLocalGroups SR.5.2 supplies the shared raw Weil–Deligne fields,
+special pairs, operations and Frobenius semisimplification used by §§10.23–10.26.
+ArithmeticGaloisRepresentations supplies the arithmetic adapter and local factors;
+its §2.6 supplies the special-block decomposition used by ClassicalWDParameter.inverse.
 Section 10.8 transports one Haar measure through each norm centralizer identification.
 Its lattice sums retain reciprocal volumes of the actual compact open stabilizers;
 the norm equivalence identifies these subgroups and their weights.
@@ -363,10 +390,21 @@ example : specialFrobenius 1 2 = 1 := by
 The bounded and extended packets assume the README contract UnitaryClassificationInputs.
 GSp₄ classification instead assumes GSp4ClassificationInputs, including its exterior-square,
 tensor and Asai transfers and the completed local compatibilities.
-Their packet carriers and weighted stabilization identities are specified in README.md. -/
+Their packet carriers and weighted stabilization identities are specified in README.md.
+Section 11.2 at E=F×F uses the relevant singleton on the actual inner group GL_m(D),
+with N=m·deg(D) and discrete parameter block dimensions divisible by deg(D).
+The nonarchimedean interface is InnerFormWDParameter in §10.31; KMSW §1.6.3 supplies
+the archimedean inner-GL interface. Ordinary pure inner twists specialize to split GL_N.
+ExtendedUnitaryPacket.split in §11.3 induces from bounded packets on the relevant
+inner Levi and retains the induced module with its positive exponents. -/
 
 /-! ## Layer 12: local towers and their cohomology
 The marked relative chart and the actual cohomological realizations are README targets.
+Section 12.4 represents integral special O_D-module moduli only at level zero.
+Drinfeld.level at m≥1 is the generic-fibre O_D-linear torsion-frame cover at ϖ_E^m;
+Drinfeld.forgetLevel restricts those frames for m≥r≥0. Its deck quotient is
+O_D×/(1+ϖ_E^m O_D). These higher-dimensional formal groups use no Cartier-divisor
+level condition; the one-dimensional Lubin–Tate condition belongs to §12.3.
 Section 12.1's TowerUntiltChart.unramifiedComparison identifies the ℚ_p and unramified
 specializations of the finite-E rings, annuli, curve and divisor with PadicHodgeTheory §7.5,
 commuting with pullback, radius restriction and the stated power of Frobenius.
