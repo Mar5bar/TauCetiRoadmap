@@ -8,7 +8,7 @@ The new functional analysis consists of the unbounded spectral-domain adapter, m
 
 OperatorTheory/SelfAdjointSpectralTheory owns projection-valued measures and bounded Borel calculus, Stone's correspondence and unbounded self-adjoint spectral measures. OperatorTheory/OperatorIdeals owns the Hilbert–Schmidt and trace-class ideals and their gauges. VonNeumannAlgebras V4's early analytic prefix owns measurable Hilbert fields, direct integrals, decomposable operators, diagonal spectral representations and the generic complex operator trace on those ideals. These contracts use the analytic prefix independently of modular theory and factor classification. RepresentationTheory/CompactGroups owns Peter–Weyl and its continuous compact-group kernels. The present additions are the automorphic spectral transform, its unbounded-domain adapter, square-integrable kernels on general scalar `L²` spaces and representative-dependent or regularized diagonal trace formulas.
 
-For number fields, AdelicAlgebraicGroups owns the adelic topology, restricted Haar products, rational characters, logarithmic height, `G(𝔸)¹`, homogeneous quotient integration, parabolic and Iwasawa data, reduction and Siegel estimates. ReductiveGroupsPartII owns the underlying local points, parabolics and `L`-groups. SmoothRepresentationsOfLocalGroups owns the finite-place representation categories, Hecke algebras, normalized induction, Jacquet modules and Satake theory. Sections 0.48–0.50 construct the general-group real representation foundations, smooth Fréchet globalizations and restricted tensor factorization, consuming the `GLₙ` specializations from AutomorphicLFunctionsAndLocalFactors. ArithmeticLocallySymmetricSpaces owns relative cochains, smooth growth spaces, constant terms, cusp forms and their discreteness, and the de Rham and moderate-growth comparisons. In particular, the comparison from all smooth functions to uniform moderate growth is a supplier theorem; the new comparison here passes from uniform moderate growth to central-finite automorphic forms. AutomorphicLFunctionsAndLocalFactors also owns scalar `L`-functions, local factors, Fourier–Laplace analysis, `K`-Bessel transforms, curve additive analysis, `GLₙ` isobaric sums, cuspidal continuation and pole criteria, and the pure curve-cohomological realization. The present roadmap constructs residual-block classification (§§4.14–4.14a), residual scalar applications (§§4.15a–4.15e), normalized `GLₙ` intertwining estimates (§2.3a), global strip bounds and standard-completion applications (§§3.6a–3.6d), and `GLₙ` transfer applications (Layer 7).
+For number fields, AdelicAlgebraicGroups owns the adelic topology, restricted Haar products, rational characters, logarithmic height, `G(𝔸)¹`, homogeneous quotient integration, parabolic and Iwasawa data, reduction and Siegel estimates. ReductiveGroupsPartII owns the underlying local points, parabolics and `L`-groups. SmoothRepresentationsOfLocalGroups owns the finite-place representation categories, Hecke algebras, normalized induction, Jacquet modules and Satake theory. AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7 and 3.4–3.5 supplies the general-group real representation foundations, smooth Fréchet globalizations and algebraic restricted tensor factorization; §§0.48–0.50 identify their spectral inducing realizations and Hilbert tensor completions, agreeing with the `GLₙ` specializations of AutomorphicLFunctionsAndLocalFactors. Its §0.2 supplies the support/level test-function topology and §4.1 supplies constant-term transitivity; §§0.11 and 0.51 add the nuclear-space and spectral constant-term adapters. ArithmeticLocallySymmetricSpaces owns relative cochains, smooth growth spaces, constant terms, cusp forms and their discreteness, and the de Rham and moderate-growth comparisons. In particular, the comparison from all smooth functions to uniform moderate growth is a supplier theorem; the new comparison here passes from uniform moderate growth to central-finite automorphic forms. AutomorphicLFunctionsAndLocalFactors also owns scalar `L`-functions, local factors, Fourier–Laplace analysis, `K`-Bessel transforms, curve additive analysis, `GLₙ` isobaric sums, cuspidal continuation and pole criteria, and the pure curve-cohomological realization. The present roadmap constructs residual-block classification (§§4.14–4.14a), residual scalar applications (§§4.15a–4.15e), normalized `GLₙ` intertwining estimates (§2.3a), global strip bounds and standard-completion applications (§§3.6a–3.6d), and `GLₙ` transfer applications (Layer 7).
 
 Ordinary orbital integrals, discrete-series pseudo-coefficients and generic packets built from given tempered packets are constructed here. Layer 7 also constructs the cyclic `GLₙ` twisted orbital integrals, transfer and trace comparison required for prime-degree base change. General endoscopic transfer and stabilization belong to the roadmaps that consume this material. Tempered packets, their generic members and compatibility of their local factors with parameters are hypotheses; this roadmap does not prove the general local Langlands correspondence. Its analytic Green kernel precedes the arithmetic Green functions and heights of Gross–Zagier.
 
@@ -35,6 +35,7 @@ For cohomology, `V=V_λ` is a finite-dimensional algebraic coefficient module an
 | ReductiveGroupsPartII | RG2.0, RG2.4–RG2.5: local points, decompositions, integration, dual groups and `L`-groups. |
 | SmoothRepresentationsOfLocalGroups | SR.1–SR.4: Hecke actions, normalized induction, Jacquet modules, finite length, conditional Langlands classification and Satake parameters. |
 | AdelicAlgebraicGroups | §§0.1–0.3, 2.1–2.3, 3.1, 3.4–3.6: restricted Haar products, height, quotient integration, Iwasawa data and reduction. |
+| AutomorphicFormsOnReductiveGroups | §0.2: support/level test-function stages, inductive-limit topology, cofinal-choice independence, convolution and involution; §§2.1–2.4 and 2.7: Harish-Chandra modules, normalized real induction, tempered/discrete series, Langlands classification and Casselman–Wallach globalization; §§3.4–3.5: restricted tensors, finite corners, spherical lines and Flath factorization; §4.1: nested-parabolic quotient disintegration, constant terms in stages and conjugation. |
 | ArithmeticGaloisRepresentations | §§2.4–2.7: local factors and constants evaluated on the specified compatible packet parameter in §2.8; §2.7 **Global inputs**: the scalar adelic Schwartz–Bruhat space and tensor API, self-dual Fourier transform, Poisson summation, global Tate integral, meromorphic continuation and Hecke functional equation. |
 | ArithmeticLocallySymmetricSpaces | ALS.0.2, ALS.F.1, ALS.F.5–ALS.F.6, ALS.4.5, ALS.5b.1, ALS.5b.3, ALS.5b.5: real Lie data, cochains, growth spaces, constant terms, cuspidal discreteness, Kostant theory and cohomological comparisons. |
 | AutomorphicLFunctionsAndLocalFactors | Representation prerequisites, `isobaric-construction`, `archimedean-smooth-representations`, `restricted-tensor-realizations`; AL.0 local Fourier/Bessel analysis and vector-space adelic extensions; AL.1 distribution-valued Tate theory and number-field normalization adapters; AL.2 standard-factor analysis and generic paired Hadamard theory; AL.3 cuspidal pair factors, continuation, functional equations, poles, `isobaric-strong-multiplicity-one`, curve additive analysis, pure realization and tensor determinant. |
@@ -92,9 +93,9 @@ AdelicAlgebraicGroups Layer 0, §§0.1–0.3 supplies the restricted products an
 
 ### From ArithmeticLocallySymmetricSpaces and the automorphic roadmap targets
 
-ArithmeticLocallySymmetricSpaces ALS.F.5 supplies relative `(𝔤,K)` cochains and their invariant forms; ALS.5b.1 specializes them to `(𝔪_G,K_∞)` with `𝔪_G=𝔤/𝔞_G`. ALS.F.6 supplies smooth adelic functions, the uniform-moderate-growth space `T([G])`, constant terms, cuspidal automorphic representations, and cuspidal discreteness/finite multiplicity. Transitivity of constant terms in stages is constructed in §0.51 from integration in stages (AdelicAlgebraicGroups §2.2). ALS.4.5 supplies Kostant's decomposition with weights `w(λ+ρ)−ρ`. ALS.5b.1 supplies de Rham comparison with local coefficients, ALS.5b.3 supplies moderate-growth comparison, and ALS.5b.5 supplies cuspidal cohomology. ALS.5b.4 takes `LocallySymmetric.FrankeInput(G,K,V)` as a hypothesis. Layer 5 below proves all three clauses of that hypothesis under the neat-level, irreducible-coefficient, split-central and full-`K_∞` conventions above; it uses none of those clauses as an assumption.
+ArithmeticLocallySymmetricSpaces ALS.F.5 supplies relative `(𝔤,K)` cochains and their invariant forms; ALS.5b.1 specializes them to `(𝔪_G,K_∞)` with `𝔪_G=𝔤/𝔞_G`. ALS.F.6 supplies smooth adelic functions, the uniform-moderate-growth space `T([G])`, constant terms, cuspidal automorphic representations, and cuspidal discreteness/finite multiplicity. AutomorphicFormsOnReductiveGroups §4.1 supplies transitivity of constant terms and its quotient-measure disintegration; §0.51 applies it to spectral constant terms with the same measures. ALS.4.5 supplies Kostant's decomposition with weights `w(λ+ρ)−ρ`. ALS.5b.1 supplies de Rham comparison with local coefficients, ALS.5b.3 supplies moderate-growth comparison, and ALS.5b.5 supplies cuspidal cohomology. ALS.5b.4 takes `LocallySymmetric.FrankeInput(G,K,V)` as a hypothesis. Layer 5 below proves all three clauses of that hypothesis under the neat-level, irreducible-coefficient, split-central and full-`K_∞` conventions above; it uses none of those clauses as an assumption.
 
-ArithmeticLocallySymmetricSpaces ALS.F.1 (`LocallySymmetric.realPoints_lieGroup`) supplies the real Lie group and maximal compact; ALS.0.2 supplies the real reductive Lie adapter. RepresentationTheory/LieGroups Layer 9 supplies `iwasawaDecomposition`, Cartan and KAK decompositions. Sections 0.48–0.49 construct real discrete series, tempered representations, the real Langlands classification, smooth Fréchet globalizations and normalized real induction with covariance `a^(ν+ρ_P)σ(m)`, right translation, `K∩M_P` compact picture and induction in stages. For `GLₙ`, consume AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `archimedean-smooth-representations` and `restricted-tensor-realizations`; §§0.49–0.50 construct the general-group extensions with agreement on those specializations. For convention `Y`, consume completion-valued adeles, residue characters and the discrete/cocompact rational additive quotient from its AL.3 `curve-additive-analysis`, including the `CurveAdditiveAnalysis` annihilator, conductor and Poisson API. Section 1.10a adds determinant-degree/Iwasawa data, quotient-volume normalization and reduction; §1.10b constructs the Eisenstein theory. Consume `GLₙ` isobaric sums and Satake products from its Representation prerequisites, `isobaric-construction`, and isobaric uniqueness over number fields from AL.3 `isobaric-strong-multiplicity-one`. Residual classification is constructed in §§4.14–4.14a after the cuspidal Eisenstein continuation and residue prefix; §§4.15a–4.15e construct the residual scalar applications from the AL.3 cuspidal factors, with the normalizing scalar owned by §4.15d. ArithmeticGaloisRepresentations §2.7 **Global inputs** supplies the common scalar adelic Schwartz–Bruhat space and tensor API, self-dual Fourier transform, Poisson summation, global Tate integral, continuation and Hecke functional equation. AutomorphicLFunctionsAndLocalFactors AL.0 supplies local Fourier analysis and vector-space adelic extensions with self-dual measures and Fourier inversion, and its Bessel transforms section specifies `K_ν(c)=(1/2)∫₀^∞u^(ν−1)exp(−c(u+u⁻¹)/2)du` for `c>0`, with `K_{−ν}=K_ν`, entire dependence on `ν` and `K_{1/2}(c)=√(π/(2c))e^(−c)`. These are mathematical target contracts, rather than declarations imported from the pinned libraries. The Euclidean Paley–Wiener theorem on `𝔞_P^G` is the target in §1.6; AutomorphicLFunctionsAndLocalFactors AL.1 supplies the number-field normalization adapters; AL.2–AL.3 supply standard and cuspidal Rankin–Selberg scalar factors.
+ArithmeticLocallySymmetricSpaces ALS.F.1 (`LocallySymmetric.realPoints_lieGroup`) supplies the real Lie group and maximal compact; ALS.0.2 supplies the real reductive Lie adapter. RepresentationTheory/LieGroups Layer 9 supplies `iwasawaDecomposition`, Cartan and KAK decompositions. AutomorphicFormsOnReductiveGroups §§2.1–2.4 and 2.7 supplies Harish-Chandra modules, real discrete series, tempered representations, Langlands classification, smooth Fréchet globalizations and normalized real induction with covariance `a^(ν+ρ_P)σ(m)`, right translation, `K∩M_P` compact picture and induction in stages; §§3.4–3.5 supplies algebraic restricted tensors and Flath factorization. Sections 0.48–0.50 use these constructions for spectral induction, its smooth topology and its unitary Hilbert tensor realization. They agree with AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `archimedean-smooth-representations` and `restricted-tensor-realizations` on `GLₙ`. AutomorphicFormsOnReductiveGroups §0.2 supplies `AdelicTestFunction(G)`, its support/level topology and algebra operations; §0.11 proves nuclearity and describes its distribution duals on that topology. For convention `Y`, consume completion-valued adeles, residue characters and the discrete/cocompact rational additive quotient from AutomorphicLFunctionsAndLocalFactors AL.3 `curve-additive-analysis`, including the `CurveAdditiveAnalysis` annihilator, conductor and Poisson API. Section 1.10a adds determinant-degree/Iwasawa data, quotient-volume normalization and reduction; §1.10b constructs the Eisenstein theory. Consume `GLₙ` isobaric sums and Satake products from its Representation prerequisites, `isobaric-construction`, and isobaric uniqueness over number fields from AL.3 `isobaric-strong-multiplicity-one`. Residual classification is constructed in §§4.14–4.14a after the cuspidal Eisenstein continuation and residue prefix; §§4.15a–4.15e construct the residual scalar applications from the AL.3 cuspidal factors, with the normalizing scalar owned by §4.15d. ArithmeticGaloisRepresentations §2.7 **Global inputs** supplies the common scalar adelic Schwartz–Bruhat space and tensor API, self-dual Fourier transform, Poisson summation, global Tate integral, continuation and Hecke functional equation. AutomorphicLFunctionsAndLocalFactors AL.0 supplies local Fourier analysis and vector-space adelic extensions with self-dual measures and Fourier inversion, and its Bessel transforms section specifies `K_ν(c)=(1/2)∫₀^∞u^(ν−1)exp(−c(u+u⁻¹)/2)du` for `c>0`, with `K_{−ν}=K_ν`, entire dependence on `ν` and `K_{1/2}(c)=√(π/(2c))e^(−c)`. These are mathematical target contracts, rather than declarations imported from the pinned libraries. The Euclidean Paley–Wiener theorem on `𝔞_P^G` is the target in §1.6; AutomorphicLFunctionsAndLocalFactors AL.1 supplies the number-field normalization adapters; AL.2–AL.3 supply standard and cuspidal Rankin–Selberg scalar factors.
 
 For the specified compatible packet parameters in §2.8, ArithmeticGaloisRepresentations §§2.4–2.7 supplies the local parameter-factor calculations, using ReductiveGroupsPartII RG2.5's dual groups and `L`-groups. Section 2.8 constructs the displayed classical-group normalizer and its global meromorphic product comparison under the packet-compatibility hypothesis.
 
@@ -257,13 +258,13 @@ Prove `kernel_trace_diagonal`. Let `X` be `σ`-finite and `K₁,K₂∈L²(X×X)
 
 ### 0.11 Nuclear Fréchet and LF test spaces
 
-Define `nuclear_lf_space` as follows. For Hausdorff locally convex complex `E`, define Fréchet by completeness and a countable seminorm topology. Nuclear maps admit Banach factorizations `Σ_jλ_jℓ_j⊗v_j` with `Σ_j|λ_j|<∞` and bounded functionals/vectors; nuclear spaces require these factorizations for strengthened seminorm quotient maps. A strict LF space is a countable inductive limit of Fréchet spaces with closed topological embeddings. Fixed-level, fixed-compact-support smooth adelic functions are nuclear Fréchet, and their support/level limit is the nuclear LF space `𝓓(G(𝔸))`. Quasi-completeness means completeness of every closed bounded subset.
+Define `nuclear_lf_space` as follows. For Hausdorff locally convex complex `E`, define Fréchet by completeness and a countable seminorm topology. Nuclear maps admit Banach factorizations `Σ_jλ_jℓ_j⊗v_j` with `Σ_j|λ_j|<∞` and bounded functionals/vectors; nuclear spaces require these factorizations for strengthened seminorm quotient maps. A strict LF space is a countable inductive limit of Fréchet spaces with closed topological embeddings. Quasi-completeness means completeness of every closed bounded subset. For a connected reductive group over a number field, use the support/level stages and test-function topology of AutomorphicFormsOnReductiveGroups §0.2. Identify `𝓓(G(𝔸))` with its `AdelicTestFunction(G)` by the identity on functions. Prove that its fixed-level, fixed-compact-support stages are nuclear Fréchet and its supplied support/level limit is nuclear strict LF. Use the supplier's cofinal-choice identifications, convolution and involution on this same topology.
 
 *Standing hypotheses:* a countable exhaustion and a second-countable finite-dimensional real Lie group are fixed; nonarchimedean test functions are locally constant.
 
 Prove the following API statements.
-- `supportLevelPiece`: Compact support and finite level define a nuclear Fréchet subspace with seminorms `sup‖D f‖`.
-- `inclusion`: Increasing support and lowering finite level give continuous closed embeddings and their induced LF maps.
+- `supportLevelPiece`: The supplied compact-support, finite-level stage is nuclear Fréchet for its derivative seminorms `sup‖D f‖`.
+- `inclusion`: The supplier's support/level transition maps are closed embeddings between these nuclear stages, and induce its LF maps.
 - `bounded_stage`: A bounded set in the strict LF test space is contained and bounded in one Fréchet stage.
 - `distributionDual`: Continuous complex-linear functionals form the strong and weak distribution duals with their topologies.
 
@@ -271,10 +272,11 @@ Prove the following API statements.
 - The constant finite-group function stages induce exactly the usual finite-dimensional topology on their function space.
 - For real smooth compactly supported tests, the support-stage construction agrees with Mathlib TestFunction topology, and each fixed-support stage embeds as a closed subspace.
 - The translates by `n` of a fixed nonzero real test function are not von Neumann bounded in the LF topology; failure of a common support alone is not the conclusion.
+- A cofinal change of support/level stages gives the same topology and the same convolution and involution; on a unimodular group the latter sends support `C` to `C⁻¹`, and convolution sends supports `C₁,C₂` into `C₁C₂`.
 
 ([BPCZ22], Appendix A.0.1, A.0.4 and A.0.6, pp.326–330.)
 
-*Needs:* ArithmeticLocallySymmetricSpaces ALS.F.6 (smooth adelic functions); `WithSeminorms.banach_steinhaus`; `TestFunction`; `TestFunction.topologicalSpace`.
+*Needs:* AutomorphicFormsOnReductiveGroups §0.2 (test-function stages, topology, cofinal choices and algebra operations); ArithmeticLocallySymmetricSpaces ALS.F.6 (smooth adelic functions); `WithSeminorms.banach_steinhaus`; `TestFunction`; `TestFunction.topologicalSpace`.
 
 
 ### 0.12 Quasi-complete vector integration and summation
@@ -293,7 +295,7 @@ The integration API consists of `integral_dual` (every continuous scalar functio
 - The zero function and the empty summation family give zero, including the zero target space.
 - In `E=ℂ`, integrating `t↦t` over `[0,1]` gives `1/2`, agreeing with the native Bochner integral; merely weak convergence cannot replace the required seminorm majorants.
 
-*Needs:* §0.11; `MeasureTheory.integral_tsum`; `MeasureTheory.integral_prod`.
+*Needs:* §0.11; `MeasureTheory.integral_tsum`; `MeasureTheory.integral_prod`. AutomorphicFormsOnReductiveGroups §0.2 supplies the shared constructions used by these adapters.
 
 
 ### 0.13 Nuclear LF function-space kernel theorem
@@ -312,7 +314,7 @@ The API identifies elementary tensors pointwise, proves uniqueness from point ev
 
 ([BPCZ22], Appendix A.0.7, (A.0.7.8), pp.330–331.)
 
-*Needs:* NoncommutativeGeometry N1 (completed projective tensors); §0.11; §0.12.
+*Needs:* NoncommutativeGeometry N1 (completed projective tensors); §0.11; §0.12. AutomorphicFormsOnReductiveGroups §0.2 supplies the shared constructions used by these adapters.
 
 
 ### 0.14 Vector-valued Schwartz spaces
@@ -362,7 +364,7 @@ For a normed target and an open one-complex-parameter domain `U`, `CommonDenomin
 - An analytic function uses exponent zero; a removable singularity does not require a nonzero polar part.
 - The scalar essential singularity `exp(1/z)` has no finite denominator at zero, and the coordinate family `z^(−n)` has no common exponent for all coordinates.
 
-*Needs:* §0.11; §0.12; `WithSeminorms.banach_steinhaus`.
+*Needs:* §0.11; §0.12; `WithSeminorms.banach_steinhaus`. AutomorphicFormsOnReductiveGroups §0.2 supplies the shared constructions used by these adapters.
 
 
 ### 0.16 Analytic Fredholm continuation
@@ -384,7 +386,7 @@ Prove `distribution_convergence`. For the continuous dual of the LF test space, 
 
 ([BPCZ22], Appendix A.0.2–A.0.4, pp.327–329.)
 
-*Needs:* §0.11; §0.12; `MeasureTheory.integral_prod`; `MeasureTheory.integral_tsum`; `hasFDerivAt_integral_of_dominated_of_fderiv_le`.
+*Needs:* §0.11; §0.12; `MeasureTheory.integral_prod`; `MeasureTheory.integral_tsum`; `hasFDerivAt_integral_of_dominated_of_fderiv_le`. AutomorphicFormsOnReductiveGroups §0.2 supplies the shared constructions used by these adapters.
 
 
 ### 0.18 Vector Phragmén–Lindelöf principle
@@ -784,14 +786,14 @@ Prove `lf_dual_continuation`. Let `W` be an LF space, `H⊂W` a dense linear sub
 
 ([BPCZ22], Corollary A.0.11.2, p.333.)
 
-*Needs:* §0.18; §0.11; `WithSeminorms.banach_steinhaus`.
+*Needs:* §0.18; §0.11; `WithSeminorms.banach_steinhaus`. AutomorphicFormsOnReductiveGroups §0.2 supplies the shared constructions used by these adapters.
 
 
 ### 0.48 Real reductive representation foundations
 
-Construct `real_representation_foundations` for a linear real reductive group `G`, full maximal compact `K` and compatible `(𝔤_ℂ,K)`-actions. Harish-Chandra modules are finitely generated with finite `K`-multiplicities. Construct normalized smooth parabolic induction with covariance `a^(ν+ρ_P)σ(m)`, right translation and the `K∩M` compact picture; prove induction in stages and compatibility with the `K`-finite module. Develop tempered and square-integrable-mod-centre representations with unitary central character, discrete series and their Harish-Chandra parameters, and the real Langlands classification: positive standard modules have a unique irreducible quotient, and every irreducible admissible module has unique standard data up to the prescribed Weyl equivalence. For split centre, fix its character and apply square integrability on the central quotient.
+Use `real_representation_foundations` for the spectral induction adapter to AutomorphicFormsOnReductiveGroups §§2.1–2.4. Let `G` be a linear real reductive group with full maximal compact `K`, and use the supplied finitely generated, finite-`K`-multiplicity Harish-Chandra modules and compatible `(𝔤_ℂ,K)`-actions. For `P=MAN` and smooth moderate-growth inducing data `σ`, identify the supplied normalized induction with the spectral covariance `a^(ν+ρ_P)σ(m)`, right translation and `K∩M` compact picture. This identification transports induction in stages, compact-picture evaluation, central twisting and contragredients to the spectral realization, with the same `K`-finite module.
 
-The API includes central twisting, compact-picture evaluation, contragredients and the transport between submodule and quotient conventions in the classification.
+Use the supplier's tempered and square-integrable-mod-centre representations with unitary central character, discrete-series parameters and positive-standard-module Langlands quotients. Fix the split-central character and use its central quotient for square integrability. The adapter preserves the unique irreducible quotient and the prescribed Weyl equivalence of standard data, including transport from a submodule convention by contragredients.
 
 **Checks.**
 
@@ -801,12 +803,14 @@ The API includes central twisting, compact-picture evaluation, contragredients a
 
 ([Wal79], §§1–2 and `6`, Theorems 6.3 and 6.7, pp.71–74, 79–80; use contragredients to pass from its submodule convention to positive standard quotients; discrete-series parameter theory cited there. [CD90], §§1–2, pp.196–205.)
 
-*Needs:* ArithmeticLocallySymmetricSpaces ALS.F.1 (real points and maximal compact) and ALS.0.2 (real reductive Lie adapter); RepresentationTheory/LieGroups Layer 9 (Iwasawa, Cartan and KAK); ReductiveGroupsPartII RG2.0 (shared point topology); RepresentationTheory/LieHighestWeight Layer 7 (central algebra); RepresentationTheory/CompactGroups (`K`-types).
+*Needs:* AutomorphicFormsOnReductiveGroups §§2.1–2.4 (Harish-Chandra modules, induction, tempered/discrete series and Langlands classification); ArithmeticLocallySymmetricSpaces ALS.F.1 (real points and maximal compact) and ALS.0.2 (real reductive Lie adapter); RepresentationTheory/LieGroups Layer 9 (Iwasawa, Cartan and KAK); ReductiveGroupsPartII RG2.0 (shared point topology); RepresentationTheory/LieHighestWeight Layer 7 (central algebra); RepresentationTheory/CompactGroups (`K`-types).
 
 
 ### 0.49 Smooth Fréchet globalizations
 
-Construct `smooth_frechet_globalization` for the linear real reductive groups of §0.48, consuming the `GLₙ(ℝ)` and `GLₙ(ℂ)` case from AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `archimedean-smooth-representations`. Taking `K`-finite vectors is an equivalence between smooth admissible Fréchet representations of moderate growth and Harish-Chandra modules. Construct its inverse, the unique smooth moderate-growth globalization, and extend every module morphism uniquely and continuously. Prove exactness and compatibility with normalized parabolic induction, finite-dimensional tensor products and the smooth vectors of a specified unitary Hilbert realization, agreeing with the supplied `GLₙ` constructions. Moderate growth is a seminorm estimate `p(π(g)v)≤C‖g‖^N q(v)`, with the source seminorm `q` and exponent depending on `p`; admissibility and finite generation are required for this equivalence.
+Use `smooth_frechet_globalization` for the smooth spectral realization of the Casselman–Wallach globalization supplied by AutomorphicFormsOnReductiveGroups §2.7. For a Harish-Chandra module `V` of a linear real reductive group as in §0.48, use its supplied unique smooth admissible Fréchet globalization of moderate growth and its continuous extensions of module morphisms. Given a unitary Hilbert realization `H` with `H^{∞,K-fin}=V`, identify this globalization with `H^∞` by the map extending identity on `V`; its topology is the smooth-vector Sobolev topology. For normalized parabolic induction, identify it with the smooth `K∩M` compact picture. Use the supplier's exactness and compatibility with normalized induction and finite-dimensional tensor products. The comparison agrees with AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `archimedean-smooth-representations`, on `GLₙ(ℝ)` and `GLₙ(ℂ)`.
+
+Moderate growth is the seminorm estimate `p(π(g)v)≤C‖g‖^N q(v)`, with the source seminorm `q` and exponent depending on `p`; admissibility and finite generation are required for the supplied equivalence.
 
 **Checks.**
 
@@ -814,14 +818,16 @@ Construct `smooth_frechet_globalization` for the linear real reductive groups of
 - A unitary discrete-series Hilbert space and its dense smooth globalization have the same `K`-finite module, but different topologies.
 - The countable direct sum of trivial modules is locally `K`-finite and has infinite trivial `K`-multiplicity; it lies outside the globalization equivalence's admissible category.
 
-([BK14], §§1–2, Theorem 1.1, and §§9–11, especially Theorem 11.6 for parameter families.)
+([BK14], §§1–2, Theorem 1.1, Proposition 9.6 and Theorem 10.6; Theorems 11.6–11.7 for parameter families.)
 
-*Needs:* §0.48; the locally convex topology and integration of §§0.11–0.12; AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `archimedean-smooth-representations` `(GLₙ specialization)`.
+*Needs:* AutomorphicFormsOnReductiveGroups §§2.3 and 2.7 (smooth induction, globalization and Sobolev comparison); §0.48; the locally convex topology and integration of §§0.11–0.12; AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `archimedean-smooth-representations` `(GLₙ specialization)`.
 
 
 ### 0.50 Restricted tensor factorization
 
-Construct `restricted_tensor_factorization` for irreducible admissible adelic representations over a global field, with `(𝔤_∞,K_∞)`-modules at infinite places and smooth representations at finite places. Consume the `GLₙ` realization from AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `restricted-tensor-realizations`, and construct the extension to general reductive groups with agreement on that specialization. Choose spherical vectors at almost all finite places and form the algebraic restricted tensor product; prove irreducibility, factorization and uniqueness of the local factors. For an irreducible unitary Hilbert realization, normalize the distinguished vectors to norm one and identify the algebraic `K`-finite tensor product with the finite-place smooth, archimedean `K`-finite vectors of the restricted Hilbert tensor completion. Continuous smooth archimedean factors use §0.49.
+Use `restricted_tensor_factorization` for the spectral adapter to the algebraic restricted tensors, finite-corner factorization and Flath theorem of AutomorphicFormsOnReductiveGroups §§3.4–3.5 for irreducible admissible adelic representations over a global field, with `(𝔤_∞,K_∞)`-modules at infinite places and smooth representations at finite places. Choose nonzero spherical vectors at almost all finite places; the supplied algebraic factorization is irreducible and determines the local factors up to isomorphism. For function fields, apply §3.4's countable-index tensor and finite-corner construction with no archimedean factors and the given adelic restricted-product group; commutativity of the almost-everywhere spherical Hecke algebras gives the same Flath factorization. Section 1.10a supplies the adelic realization for the `GLₙ` function-field branch. Compare with the `GLₙ` realization of AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `restricted-tensor-realizations`.
+
+For a specified irreducible unitary Hilbert realization, take unit reference spherical vectors and extend its algebraic factorization to a unitary identification with the restricted Hilbert tensor completion of its local unitary factors. The algebraic tensor corresponds exactly to the finite-place smooth, archimedean `K`-finite vectors. Continuous smooth archimedean factors use §0.49. The displayed identifications retain the reference-vector choices and the global scalar normalization.
 
 **Checks.**
 
@@ -831,12 +837,12 @@ Construct `restricted_tensor_factorization` for irreducible admissible adelic re
 
 ([Fla79], Theorems 1–4, pp.179–182.)
 
-*Needs:* §0.48; §0.49 for number fields; SmoothRepresentationsOfLocalGroups SR.1–SR.3; AdelicAlgebraicGroups Layer 0 (generic restricted products), and §1.10a for function-field specialization; AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `restricted-tensor-realizations` `(GLₙ realization)`.
+*Needs:* AutomorphicFormsOnReductiveGroups §§3.4–3.5 (algebraic restricted tensors, finite corners and Flath factorization); §0.48; §0.49 for number fields; SmoothRepresentationsOfLocalGroups SR.1–SR.4; AdelicAlgebraicGroups Layer 0 (generic restricted products), and §1.10a for function-field specialization; AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `restricted-tensor-realizations` `(GLₙ realization)`.
 
 
 ### 0.51 Constant terms in stages
 
-Prove `constant_term_transitivity`. For nested rational parabolics `P⊆Q` in a number-field reductive `G`, let `P∩M_Q` be the induced parabolic of `M_Q`. Normalize the rational unipotent quotients compatibly and prove `f_P=(f_Q)_{P∩M_Q}`. Construct the exact sequence `N_Q→N_P→N_{P∩M_Q}`, its rational/adelic quotient integration in stages, and invariance under Levi representatives. Smooth finite-level forms are integrable on these compact unipotent quotients; for other input functions carry the absolute-integrability hypothesis. The function-field version is part of §1.10b.
+Use `constant_term_transitivity` for the spectral constant-term adapter to AutomorphicFormsOnReductiveGroups §4.1. Let `P⊆Q` be nested rational parabolics in a number-field reductive `G`, with compatible Levi choices, and let `f` be a smooth finite-level rational-left-invariant function. Identify its spectral constant terms with the supplier's operators and obtain `f_P=(f_Q)_{P∩M_Q}` from the supplied decomposition `N_P=N_Q⋊N_{P∩M_Q}` and rational/adelic quotient disintegration. Use compatible measures on the unipotent quotients, with probability normalization when specified, and the supplied invariance under Levi representatives and rational conjugation. This also identifies reduction to standard-parabolic vanishing tests. Smooth finite-level forms are integrable on the compact unipotent quotients; for other input functions carry the absolute-integrability hypothesis. The function-field version is part of §1.10b.
 
 **Checks.**
 
@@ -844,9 +850,9 @@ Prove `constant_term_transitivity`. For nested rational parabolics `P⊆Q` in a 
 - For the upper Borel inside the `(2,1)` parabolic of `GL₃`, integration over its three unipotent coordinates equals integration first over the two-dimensional radical of `Q`, then over the remaining Levi coordinate.
 - With probability unipotent quotients the constant function has every constant term equal to one; changing one stage's measure by two changes the iterated integral by two.
 
-([Art05], §8 (8.1), pp.41–42; the nested-parabolic identity follows from the unipotent decomposition and Fubini.)
+([Art05], §§4–5, pp.20–25, and §13 (13.1), p.68; [BPCZ22], §2.5.13, pp.215–216. The nested-parabolic identity uses the supplied unipotent quotient disintegration and Fubini.)
 
-*Needs:* ArithmeticLocallySymmetricSpaces ALS.F.6 (constant terms); AdelicAlgebraicGroups §2.2 (integration in stages); ReductiveGroups Layer 7 (parabolics).
+*Needs:* AutomorphicFormsOnReductiveGroups §4.1 (unipotent quotient disintegration, transitivity and conjugation); ArithmeticLocallySymmetricSpaces ALS.F.6 (constant terms); AdelicAlgebraicGroups §2.2 (integration in stages); ReductiveGroups Layer 7 (parabolics).
 
 
 ### Examples
@@ -855,7 +861,7 @@ For `μ=aδ₀+bδ₁` the direct-integral norm is `a‖v₀‖²+b‖v₁‖²`
 
 ### Dependencies
 
-The Hilbert branch uses the measure, operator and compact-group supplier contracts. The vector branch uses TestFunction, SchwartzMap, barrelled-space Banach–Steinhaus and the nuclear LF construction before projective tensors or continuation. The rank-one branch uses regularized hypergeometric functions, gamma identities, the supplied positive-argument `K`-Bessel kernel and the hyperbolic metric. The cycle-cover branch uses the independent function-field root and torus prefix described in How to read the build.
+The Hilbert branch uses the measure, operator and compact-group supplier contracts. The vector branch uses TestFunction, SchwartzMap, barrelled-space Banach–Steinhaus and the nuclear LF adapter to AutomorphicFormsOnReductiveGroups §0.2 before projective tensors or continuation. The rank-one branch uses regularized hypergeometric functions, gamma identities, the supplied positive-argument `K`-Bessel kernel and the hyperbolic metric. The cycle-cover branch uses the independent function-field root and torus prefix described in How to read the build.
 
 ## Layer 1: Normalized induction and convergent Eisenstein families
 
@@ -879,7 +885,7 @@ Prove the following API statements.
 
 ([Art05], §7 pp.32–34; [BK14], §2.4 (smooth-vector topology), §11 Theorem 11.6 and §12.1 (smooth and Hilbert compact pictures).)
 
-*Needs:* §0.48; §0.49; §0.50; AdelicAlgebraicGroups §2.1 (logarithmic height); AdelicAlgebraicGroups §2.2 (parabolic modulus); AdelicAlgebraicGroups §2.3 (automorphic quotient measure); ArithmeticLocallySymmetricSpaces ALS.F.6 (cuspidal representations); §0.2.
+*Needs:* §0.48; §0.49; §0.50; AdelicAlgebraicGroups §2.1 (logarithmic height); AdelicAlgebraicGroups §2.2 (parabolic modulus); AdelicAlgebraicGroups §2.3 (automorphic quotient measure); ArithmeticLocallySymmetricSpaces ALS.F.6 (cuspidal representations); §0.2. AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7, 3.4–3.5 supplies the shared constructions used by these adapters.
 
 
 ### 1.2 Eisenstein series in the convergence chamber
@@ -1032,7 +1038,7 @@ For generators `Sχ`, require `OrthogonalFamily` of closed spans and dense span 
 
 ([Art05], §12 Lemma 12.4, equation (12.4), pp.64–66.)
 
-*Needs:* §1.9; §1.8; ArithmeticLocallySymmetricSpaces ALS.F.6 (constant terms); §0.51 (constant-term transitivity); Mathlib `IsHilbertSum.mkInternal` (`l2Space`).
+*Needs:* §1.9; §1.8; ArithmeticLocallySymmetricSpaces ALS.F.6 (constant terms); §0.51 (constant-term transitivity); Mathlib `IsHilbertSum.mkInternal` (`l2Space`). AutomorphicFormsOnReductiveGroups §4.1 supplies the shared constructions used by these adapters.
 
 
 ### 1.10a Function-field adelic topology, degree and integration
@@ -1066,7 +1072,7 @@ Continue these families rationally in the unramified character coordinates, prov
 
 ([Laf97], Chapter VI §§1–2, in particular the induced spaces and intertwiners, pp.284–304; [Yu22], §§5.2.2–5.2.3, pp.32–35 and §5.3.1, pp.36–39 for the discrete residue extension.)
 
-*Needs:* §1.10a; §0.50; AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `restricted-tensor-realizations` (function-field cuspidal carrier); SmoothRepresentationsOfLocalGroups SR.1–SR.4; §0.15 (operator meromorphy).
+*Needs:* §1.10a; §0.50; AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, `restricted-tensor-realizations` (function-field cuspidal carrier); SmoothRepresentationsOfLocalGroups SR.1–SR.4; §0.15 (operator meromorphy). AutomorphicFormsOnReductiveGroups §§3.4–3.5 supplies the shared constructions used by these adapters.
 
 
 ### 1.11 Unramified character tori and central degree lattices
@@ -1431,7 +1437,7 @@ Prove the following API statements.
 
 ([Art05], §21 pp.134–135 preceding Theorem 21.4.)
 
-*Needs:* SmoothRepresentationsOfLocalGroups Layer 2; SmoothRepresentationsOfLocalGroups Layer 3; §0.48 (real reductive representation foundations); §0.15.
+*Needs:* SmoothRepresentationsOfLocalGroups Layer 2; SmoothRepresentationsOfLocalGroups Layer 3; §0.48 (real reductive representation foundations); §0.15. AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
 
 
 ### 2.2 Harish-Chandra `μ`-function
@@ -1506,7 +1512,7 @@ For arbitrary `h∈G(𝔸)`, prove `E_P^∞(g, I_P(λ,h)φ, λ) = E_P^∞(gh, φ
 
 ([Art05], §7 Lemma 7.1 and Theorem 7.2(a), pp.34–35, for the `K`-finite families; [BK14], §11 Theorems 11.6–11.7 and Remark 11.8, pp.49–50, for extension to smooth sections and the required uniform growth input.)
 
-*Needs:* §§1.1–1.4 and 2.4; §§0.48–0.49 (smooth globalizations and parameter families); §§0.11–0.12 (locally convex maps and integration); AdelicAlgebraicGroups §§3.5–3.6 (Siegel height estimates).
+*Needs:* §§1.1–1.4 and 2.4; §§0.48–0.49 (smooth globalizations and parameter families); §§0.11–0.12 (locally convex maps and integration); AdelicAlgebraicGroups §§3.5–3.6 (Siegel height estimates). AutomorphicFormsOnReductiveGroups §§0.2, 2.1–2.4, 2.7 supplies the shared constructions used by these adapters.
 
 
 ### 2.5 Local–global factorization and adjoints
@@ -1517,7 +1523,7 @@ Prove `intertwiner_factorization`. For a factorizable discrete `π=⊗′π_v` a
 
 ([Art05], §21, (21.13)–(21.14), p.136.)
 
-*Needs:* §2.3; §2.4; §1.1; §0.50 (restricted tensor factorization), restricted tensor factorization.
+*Needs:* §2.3; §2.4; §1.1; §0.50 (restricted tensor factorization), restricted tensor factorization. AutomorphicFormsOnReductiveGroups §§3.4–3.5 supplies the shared constructions used by these adapters.
 
 
 ### 2.6 Polar hyperplanes and ordered Eisenstein residues
@@ -1560,7 +1566,7 @@ Prove the following API statements.
 
 ([JZ20], Appendix B (B.1)–(B.2), pp.84–85; the generic member, proof of Theorem B.2, p.86, citing Arthur's and Mok's endoscopic classifications.)
 
-*Needs:* SmoothRepresentationsOfLocalGroups Layer 2; SmoothRepresentationsOfLocalGroups Layer 3; §0.48 (real reductive representation foundations), real Langlands classification; §2.1.
+*Needs:* SmoothRepresentationsOfLocalGroups Layer 2; SmoothRepresentationsOfLocalGroups Layer 3; §0.48 (real reductive representation foundations), real Langlands classification; §2.1. AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
 
 
 ### 2.8 Classical-group Shahidi normalization
@@ -1592,7 +1598,7 @@ Prove `generic_standard_module`. For the relevant generic local parameter `φ⁺
 
 ([JZ20], Appendix B Proposition B.1, p.85; (B.5)–(B.6), p.86.)
 
-*Needs:* §2.7; SmoothRepresentationsOfLocalGroups Layer 3; §0.48 (real reductive representation foundations).
+*Needs:* §2.7; SmoothRepresentationsOfLocalGroups Layer 3; §0.48 (real reductive representation foundations). AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
 
 
 ### 2.10 Tempered GL intertwiner half-plane
@@ -1614,7 +1620,7 @@ Prove `tempered_standard_intertwiner`. For unitary tempered GL data `τ` and a t
 
 ([JZ20], Appendix B p.87.)
 
-*Needs:* §2.7; §2.8; §0.48 (real reductive representation foundations); SmoothRepresentationsOfLocalGroups Layer 3.
+*Needs:* §2.7; §2.8; §0.48 (real reductive representation foundations); SmoothRepresentationsOfLocalGroups Layer 3. AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
 
 
 ### 2.12 Generic classical normalized intertwiner bound
@@ -2254,7 +2260,7 @@ Prove `discrete_finite_multiplicity`. Every irreducible unitary automorphic repr
 
 ([Art05], §7 discrete inducing spaces, pp.32–33; §12 discrete decomposition (12.5)–(12.6), p.66.)
 
-*Needs:* §4.4; §0.50 (restricted tensor factorization); ArithmeticLocallySymmetricSpaces ALS.F.6 (cuspidal discreteness and finite multiplicity).
+*Needs:* §4.4; §0.50 (restricted tensor factorization); ArithmeticLocallySymmetricSpaces ALS.F.6 (cuspidal discreteness and finite multiplicity). AutomorphicFormsOnReductiveGroups §§3.4–3.5 supplies the shared constructions used by these adapters.
 
 
 ### 4.6 Hecke and central-character spectral compatibility
@@ -2276,7 +2282,7 @@ Prove `compact_quotient_spectrum`. For a cocompact lattice `Γ` in a real reduct
 
 ([Art05], §1, equations (1.1)–(1.3), pp.7–11.)
 
-*Needs:* §0.8; §0.9; §0.10; AdelicAlgebraicGroups §3.4 (compactness modulo the centre); §0.48 (real reductive representation foundations); `TauCeti.stdPeterWeylBasis`; `IsCompactOperator.finiteDimensional_eigenspace`.
+*Needs:* §0.8; §0.9; §0.10; AdelicAlgebraicGroups §3.4 (compactness modulo the centre); §0.48 (real reductive representation foundations); `TauCeti.stdPeterWeylBasis`; `IsCompactOperator.finiteDimensional_eigenspace`. AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
 
 
 ### 4.8 `GL₂` modular spectral expansion
@@ -2309,7 +2315,7 @@ Prove `wallach_cuspidality`. For a semisimple real group arising from a `Q`-grou
 
 ([Wal84], §4 Theorem 4.3 and its proof pp.233–234.)
 
-*Needs:* §0.48 (real reductive representation foundations); ArithmeticLocallySymmetricSpaces ALS.F.6 (constant terms); §4.4.
+*Needs:* §0.48 (real reductive representation foundations); ArithmeticLocallySymmetricSpaces ALS.F.6 (constant terms); §4.4. AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
 
 
 ### 4.11 Discrete spherical spectrum
@@ -2401,7 +2407,7 @@ Prove `moeglin_waldspurger`, the everywhere-unramified function-field residual c
 
 (Source: Mœglin–Waldspurger [MW89], introduction theorem, pp.605–606; Cogdell [Cog04], Lecture 9, pp.75–76, for the isobaric Langlands data.)
 
-*Needs:* §§1.1–1.5, 2.4 and 2.6; AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, [GLₙ isobaric sums](../AutomorphicLFunctionsAndLocalFactors/README.md#isobaric-construction); its AL.3 [cuspidal continuation and poles](../AutomorphicLFunctionsAndLocalFactors/README.md#rs-global-poles); SmoothRepresentationsOfLocalGroups SR.2–SR.3; §0.48 for archimedean Langlands quotients.
+*Needs:* §§1.1–1.5, 2.4 and 2.6; AutomorphicLFunctionsAndLocalFactors, Representation prerequisites, [GLₙ isobaric sums](../AutomorphicLFunctionsAndLocalFactors/README.md#isobaric-construction); its AL.3 [cuspidal continuation and poles](../AutomorphicLFunctionsAndLocalFactors/README.md#rs-global-poles); SmoothRepresentationsOfLocalGroups SR.2–SR.3; §0.48 for archimedean Langlands quotients. AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
 
 
 ### 4.15 Residual twist stabilizers
@@ -2639,7 +2645,7 @@ Prove the additional API statements.
 
 ([Fra98], §4, `(1)`, p.207, and Theorem 7(1)–(2), p.208; enough injectives and compatible coinduction are the `(𝔤,K)`-module category of [Vog81], §§6.1–6.2; the module construction and its map/kernel laws are the Mathlib contracts above.)
 
-*Needs:* RepresentationTheory/LieHighestWeight Layer 7 (infinitesimal characters); §0.48 (real reductive representation foundations), Harish-Chandra modules; Mathlib's `Ideal.primaryComponent` and its functorial API.
+*Needs:* RepresentationTheory/LieHighestWeight Layer 7 (infinitesimal characters); §0.48 (real reductive representation foundations), Harish-Chandra modules; Mathlib's `Ideal.primaryComponent` and its functorial API. AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
 
 
 ### 5.4 Derived finite-character and coefficient comparison
@@ -2671,7 +2677,7 @@ Prove the following API statements.
 
 ([Fra98], §6 (1)–(9), printed pp.232–233.)
 
-*Needs:* §5.3; ArithmeticLocallySymmetricSpaces ALS.F.6 (constant terms); §0.51 (constant-term transitivity); §3.1.
+*Needs:* §5.3; ArithmeticLocallySymmetricSpaces ALS.F.6 (constant terms); §0.51 (constant-term transitivity); §3.1. AutomorphicFormsOnReductiveGroups §4.1 supplies the shared constructions used by these adapters.
 
 
 ### 5.6 Principal values of meromorphic Eisenstein jets
@@ -2762,7 +2768,7 @@ Prove `gl_sl_cuspidal_diagram`. At level one and trivial algebraic coefficients,
 
 ([BCG25], Remark 1.2, pp.511–512.)
 
-*Needs:* ArithmeticLocallySymmetricSpaces ALS.5b.5 (cuspidal cohomology); §0.48 (real reductive representation foundations).
+*Needs:* ArithmeticLocallySymmetricSpaces ALS.5b.5 (cuspidal cohomology); §0.48 (real reductive representation foundations). AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
 
 
 ### 5.12 Franke–Schwermer cuspidal-support decomposition
@@ -2830,7 +2836,7 @@ Prove `real_invariant_paley_wiener`. For a real reductive algebraic group `G` wi
 
 ([CD90], §0 Theorem 1(i)–(iv), pp.194–195; §5 Theorem 1`′.`)
 
-*Needs:* §0.11; §0.48 (normalized real induction); §0.49 (smooth Fréchet globalizations).
+*Needs:* §0.11; §0.48 (normalized real induction); §0.49 (smooth Fréchet globalizations). AutomorphicFormsOnReductiveGroups §§0.2, 2.1–2.4, 2.7 supplies the shared constructions used by these adapters.
 
 
 ### 6.2 Real operator Paley–Wiener theorem
@@ -2841,7 +2847,7 @@ Prove `real_operator_paley_wiener`. For Arthur’s real reductive group `G` and 
 
 ([Art83PW], III §4 Theorem 4.1, pp.84–85.)
 
-*Needs:* §0.14; §0.11; §0.49 (smooth Fréchet globalizations); §0.48 (normalized real induction).
+*Needs:* §0.14; §0.11; §0.49 (smooth Fréchet globalizations); §0.48 (normalized real induction). AutomorphicFormsOnReductiveGroups §§0.2, 2.1–2.4, 2.7 supplies the shared constructions used by these adapters.
 
 
 ### 6.3 Arthur spectral multipliers
@@ -3132,7 +3138,7 @@ Prove the following API statements.
 
 ([CD90], §5.2 Lemma 6, Proposition 4 and its Corollary, pp.212–213.)
 
-*Needs:* §6.1; §0.48 (real reductive representation foundations), tempered and square-integrable representations; §0.48 (real reductive representation foundations), real discrete series; §0.48 (real reductive representation foundations), real Langlands classification.
+*Needs:* §6.1; §0.48 (real reductive representation foundations), tempered and square-integrable representations; §0.48 (real reductive representation foundations), real discrete series; §0.48 (real reductive representation foundations), real Langlands classification. AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
 
 
 ### 6.19 Real Euler–Poincaré test functions
@@ -3563,7 +3569,7 @@ Construct normalized twisted characters of `σ`-stable irreducible admissible lo
 
 (Source: [AC89], Chapter I §§1–2, pp.3–12, §3, pp.20–26, and §6.3, pp.55–57; [Art05], §26, pp.188–190.)
 
-*Needs:* SmoothRepresentationsOfLocalGroups SR.1–SR.4; AutomorphicLFunctionsAndLocalFactors representation prerequisites and AL.2 local Whittaker uniqueness; §§0.48–0.50, 2.1–2.3 and 4.14a for real representations, intertwiners and number-field residual terms; AdelicAlgebraicGroups §§0.1–0.3 and 2.1–2.3 for restriction of scalars, measures and quotients. The twisted objects and normalizations are constructed here.
+*Needs:* SmoothRepresentationsOfLocalGroups SR.1–SR.4; AutomorphicLFunctionsAndLocalFactors representation prerequisites and AL.2 local Whittaker uniqueness; §§0.48–0.50, 2.1–2.3 and 4.14a for real representations, intertwiners and number-field residual terms; AdelicAlgebraicGroups §§0.1–0.3 and 2.1–2.3 for restriction of scalars, measures and quotients. The twisted objects and normalizations are constructed here. AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7, 3.4–3.5 supplies the shared constructions used by these adapters.
 
 ### 7.0b Local matching and twisted character transfer
 
@@ -3603,7 +3609,7 @@ The proof uses the preliminary twisted trace comparison of §7.0c before any res
 
 (Source: [BH16], §§2.1–2.2 and 2.6, Theorem D(a)–(b), pp.14–15, Theorem E, pp.19–20, and §6.7, pp.37–39; [AC89], Chapter I, Lemma 6.5, p.54, and the prescribed cyclic-extension theorem cited in [BH16, §6.7].)
 
-*Needs:* §7.0a and the tempered and whole-induced-module identities of §7.0b; the preliminary comparison and cuspidal isolation of §7.0c; §4.14a; §§0.48–0.50; SmoothRepresentationsOfLocalGroups SR.2–SR.3; AutomorphicLFunctionsAndLocalFactors representation prerequisites and AL.3 cuspidal factors; ClassFieldTheory Layers 11–12 for cyclic characters and local norm compatibility. The local unitary classification, globalization, Speh lifting and its normalized-operator comparison are constructed here.
+*Needs:* §7.0a and the tempered and whole-induced-module identities of §7.0b; the preliminary comparison and cuspidal isolation of §7.0c; §4.14a; §§0.48–0.50; SmoothRepresentationsOfLocalGroups SR.2–SR.3; AutomorphicLFunctionsAndLocalFactors representation prerequisites and AL.3 cuspidal factors; ClassFieldTheory Layers 11–12 for cyclic characters and local norm compatibility. The local unitary classification, globalization, Speh lifting and its normalized-operator comparison are constructed here. AutomorphicFormsOnReductiveGroups §§2.1–2.4, 2.7, 3.4–3.5 supplies the shared constructions used by these adapters.
 
 ### 7.0c Cyclic twisted trace comparison and spectral isolation
 

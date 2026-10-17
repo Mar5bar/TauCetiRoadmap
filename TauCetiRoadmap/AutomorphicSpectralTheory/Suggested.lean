@@ -9,6 +9,9 @@ statable against the pinned Mathlib and Tau Ceti APIs and is not exhaustive. In 
 it keeps native analytic functions, measures and the upper half-plane; the adelic spaces,
 trace distributions and relative cohomology belong to the README. Measurable Hilbert fields,
 direct-integral carriers and generic complex traces are supplied by VonNeumannAlgebras V4.
+AutomorphicFormsOnReductiveGroups supplies the test-function topology, real representation
+constructions, smooth globalizations, algebraic restricted tensors and constant-term
+transitivity used by the spectral adapters of README §§0.11 and 0.48–0.51.
 
 Complex inner products conjugate the first slot. Positive real powers use the real logarithm.
 The modular Laplacian has the positive spectral sign. Integrals and sums denote analytic
@@ -556,7 +559,14 @@ nuclear_lf_space, nuclear_function_kernel, vector_schwartz, operator_meromorphic
 spectral_cycle_coordinates, compact_cover_transfer, whittaker_w,
 vector_schwartz_entire, locally_convex_integration, vector_phragmen_lindelof,
 real_representation_foundations, smooth_frechet_globalization, restricted_tensor_factorization,
-constant_term_transitivity. Completed projective tensors are supplied by NoncommutativeGeometry N1.
+constant_term_transitivity. The nuclear_lf_space target adds nuclearity and distribution duals
+to the test-function topology supplied by AutomorphicFormsOnReductiveGroups §0.2.
+The real_representation_foundations and smooth_frechet_globalization adapters identify the
+spectral compact picture and smooth-vector topology with that supplier's §§2.1–2.4 and 2.7.
+The restricted_tensor_factorization adapter uses its §§3.4–3.5 algebraic factorization and
+identifies the unitary Hilbert tensor realization. The constant_term_transitivity adapter
+uses its §4.1 quotient disintegration for P ⊆ Q, with N_P = N_Q ⋊ N_{P∩M_Q}.
+Completed projective tensors are supplied by NoncommutativeGeometry N1.
 The strip-order API target StripOrder.mono_order is in README §0.18.
 
 Layer 1: function_field_adelic_data, function_field_eisenstein_theory, modular_laplacian_realization,
