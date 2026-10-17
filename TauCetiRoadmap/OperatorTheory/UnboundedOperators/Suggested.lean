@@ -194,6 +194,15 @@ theorem CommonInvariantDomain.applyWord_cons_coe {k : ℕ}
     (D.applyWord (i :: w) x : H) =
       D.operators i ⟨(D.applyWord w x : H), D.domain_le i (D.applyWord w x).property⟩ := rfl
 
+/-- The quantitative hypothesis uses actual ordered words, operators, and vector.
+UO-E03 requires this for every vector in the common dense invariant domain. -/
+structure MixedWordAnalyticBound {k : ℕ} (D : CommonInvariantDomain k H)
+    (x : D.carrier) (C R : ℝ) where
+  C_pos : 0 < C
+  R_pos : 0 < R
+  bound : ∀ w : List (Fin k),
+    ‖(D.applyWord w x : H)‖ ≤ C * R ^ w.length * (Nat.factorial w.length : ℝ)
+
 /-- The unbounded spectral integral uses the existing SAST PVM and diagonal measure.
 
 Roadmap: UO-A01. -/

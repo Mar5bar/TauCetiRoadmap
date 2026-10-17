@@ -26,7 +26,7 @@ Let `P` be the existing normalized PVM on `ℝ` and `μˣ(B)=⟪x,P(B)x⟫`. For
 - **UO-A04 — Pushforward and recovery.** Prove `P_{f(A)}(B)=P_A(f⁻¹(B))` for real Borel f. For a real Borel g, prove `A=g(f(A))` as actual partial operators exactly when `P_A({λ : g(f(λ))≠λ})=0`; in that case prove `P_A(B)=P_{f(A)}(g⁻¹(B))` for every Borel B. State the domain equalities through the second-moment calculus. If a finite scalar control measure μ is given, translate this condition to μ-almost everywhere equality. For separable H, construct such a finite control measure from a countable total family of vectors and prove that existence of a Borel g with this recovery property is equivalent to f being injective on a μ-full Borel set. Supply the standard-Borel inverse-on-image argument, consuming native measurable-equivalence APIs and proving any missing Lusin–Souslin adapter here. For a general nonseparable H use PVM-nullness directly; a finite scalar control measure is not assumed to exist.
 - **UO-A05 — Spectral families.** Give the right-continuous increasing projection family `E_A(t)=P_A((−∞,t])`, endpoint limits, interval differences and inverse construction of its PVM. Prove equivalence of spectral families and normalized real PVMs, and compatibility with `P_A` from SAST.
 - **UO-A06 — Support, spectrum and truncation core.** Prove `supp P_A=σ(A)` in the spectral-support sense; consume SAST SA-E08 for `P_A(B)=0` on Borel resolvent regions. Give the natural spectral truncations as a graph core of `A`; prove `⋃ₙ ran P_A({|f|≤n})` is a graph core for `f(A)` on its domain, using the finite second spectral moment that defines that domain.
-- **UO-A07 — Multiplier model.** Consume V10's cyclic multiplier-form theorem to identify `f(A)` with multiplication by `f` on each cyclic summand, including the full square-integrability domain. Prove the intertwining identities for adjoints, products, sums and spectral projections under those unitaries. Do not reconstruct V10's direct-integral decomposition. For a measurable multiplier represented by a function `h : X → ℂ` on the existing complex `Lᵖ(μ;ℂ)` carrier, make its maximal domain exactly `{u ∈ Lᵖ : h·u ∈ Lᵖ}` and prove the domain and operator action are unchanged when either the multiplier or the input representative is changed on a null set; for the self-adjointness theorem restrict to the Hilbert space `L²(μ)` and real-valued measurable `h`, prove density of the maximal domain by the cutoffs `1_{|h|≤n}u`, and state the measurable-space hypotheses. For scalar a.e. classes on a space with measurable singletons, point evaluation at `x` is representative-independent exactly when `μ({x})>0`; do not conflate it with the a.e.-defined multiplier action.
+- **UO-A07 — Multiplier model.** Consume V10.ClosedOperators' cyclic multiplier-form theorem to identify `f(A)` with multiplication by `f` on each cyclic summand, including the full square-integrability domain. Prove the intertwining identities for adjoints, products, sums and spectral projections under those unitaries. Consume that cyclic-sum multiplier representation and its single finite-measure model under its stated separability hypotheses. Do not reconstruct V10's direct-integral decomposition. For a measurable multiplier represented by a function `h : X → ℂ` on the existing complex `Lᵖ(μ;ℂ)` carrier, make its maximal domain exactly `{u ∈ Lᵖ : h·u ∈ Lᵖ}` and prove the domain and operator action are unchanged when either the multiplier or the input representative is changed on a null set; for the self-adjointness theorem restrict to the Hilbert space `L²(μ)` and real-valued measurable `h`, prove density of the maximal domain by the cutoffs `1_{|h|≤n}u`, and state the measurable-space hypotheses. For scalar a.e. classes on a space with measurable singletons, point evaluation at `x` is representative-independent exactly when `μ({x})>0`; do not conflate it with the a.e.-defined multiplier action.
 - **UO-A08 — Calculus comparison adapters.** Prove H6's unbounded continuous calculus agrees with UO-A01 for continuous symbols, with equality of actual domains and actions. UO-A07 already owns the spectral-integral identification with V10's cyclic multiplier models and their square-integrability domains; cite it rather than duplicate that comparison. For self-adjoint A affiliated with a represented von Neumann algebra M and a real-axis Borel symbol f, compare UO's f(A) with VNA V10's affiliated-operator functional calculus, proving equality of actual domains and actions in that representation. Add no second calculus carrier and no V10-to-UO dependency.
 
 
@@ -34,7 +34,7 @@ Let `P` be the existing normalized PVM on `ℝ` and `μˣ(B)=⟪x,P(B)x⟫`. For
 
 When translating the notes' integral tests, retain their literal statements as source text and prove the correctly qualified versions: one equality `∫ (u−v) dμ = 0` does not imply `u=v` almost everywhere, and convergence of signed integrals does not imply `L¹` convergence. Use `AEEqFun`'s a.e. quotient; an integral characterization of equality tests integrals on every measurable finite-measure set and states its exponent and local-integrability hypotheses. `eLpNorm` is the Lp norm/gauge, with absolute value and exponent in the integrand; a signed integral is not a norm. Do not infer integrability of every continuous function from Borelness of the measure (for example, the constant one is not integrable for Lebesgue measure on ℝ).
 
-In the Euclidean position application, QuantumFoundations QF6a consumes the full-support and ball-volume facts: for a continuous representative on `ℝ^N`, `N≥1`, prove uniqueness in its `L²(volume)` class and the normalized formula `vol(B_R)⁻¹ ∫_{B_R} f(x) dx → f(0)`. The unnormalized integral tending to zero follows from Cauchy–Schwarz and `vol(B_R)→0` but does not characterize the point value. This consumer remains owned by QF6a, not by a new generic UO measure milestone.
+The positive and signed density adapters are source-theory interfaces, not a second measure library. In the Euclidean position application, QuantumFoundations QF6a consumes the full-support and ball-volume facts: for a continuous representative on `ℝ^N`, `N≥1`, prove uniqueness in its `L²(volume)` class and the normalized formula `vol(B_R)⁻¹ ∫_{B_R} f(x) dx → f(0)`. The unnormalized integral tending to zero follows from Cauchy–Schwarz and `vol(B_R)→0` but does not characterize the point value. This consumer remains owned by QF6a, not by a new generic UO measure milestone.
 
 **Acceptance examples.** Exact norm of `A P_A([−α,α])` as the essential supremum of `|λ|` on that spectral window (zero when the projection is zero); self-adjoint operators agreeing on a dense subspace versus the uniqueness of a self-adjoint operator vanishing on a dense subspace; Borel reindexing of point and continuous spectrum; continuous spectral-family transport under a continuous function; and spectral projections of a diagonal multiplication operator.
 
@@ -55,7 +55,7 @@ A normal unbounded operator is a closed densely defined complex-linear partial o
 - `(x,0)~(x,1)` and `(x,3)~(x,2)` for `x∈(1,2)`;
 - the four outer corners are all identified.
 
-For the B03 operator example, prove the regular quotient is a Hausdorff, second-countable smooth surface with the displayed translation atlas and descended flat Riemannian metric. Supply its `RiemannianBundle` and `IsContinuousRiemannianBundle` instances, the Borel measurable-space structure with `BorelSpace M`, and `LindelofSpace` from second countability, together with the smooth-manifold instance required by native `TauCeti.riemannianVolume`. Translation charts have Gram determinant one, so use the native chart-volume characterization `eq_riemannianVolume_iff` to identify that measure with Lebesgue measure transported from `int M₁`, after removing the finitely many glued boundary arcs and punctures, which are null. Keep completion and genus in the separate UO-B03a acceptance target below. The printed support-location annotations (“above” and “to the right”) refer to the inverse-flow products calculated below; keep those support claims distinct from the quotient/genus construction. On `H=L²(M,dx dy)` put `D=C_c^∞(M)` and use the chart fields `X₀=∂ₓ`, `Y₀=∂ᵧ`. Prove D dense and invariant, integration-by-parts skew-symmetry and `X₀Y₀=Y₀X₀` there. Own Nelson Lemma 10.1's flow criterion: for a smooth divergence-free field, if the **closures** `E_t,E_(-t)` of the sets where the respective partial flows are undefined are null for some `t>0`, then its restriction to `C_c^∞` is essentially skew-adjoint. Prove this from the measure-preserving partial flows and their contraction extensions. For each `(a,b)`, show those exceptional closures for `aX₀+bY₀` are finite unions of straight segments leading to the removed vertices, in both time directions for each finite t; include vertical directions and the zero field. Thus every real linear combination is essentially skew-adjoint on D. Put `X=cl(X₀)`, `Y=cl(Y₀)`, `A=−iX`, `B=−iY`; prove these are self-adjoint and D is a graph core for each. Their Stone groups are `e^(itA)=e^(tX)` and `e^(isB)=e^(sY)`. Fix the pullback convention `e^(tX)u=u∘φ_t^x`, so supports move by `φ_(-t)^x`, and likewise for Y. Nelson prints the positive-exponential orders `e^Xe^Y` and `e^Ye^X`; under the pullback convention fixed here, the two positive-exponential products each have support in `(2,3)×(2,3)`; `(2,2)` is the regular corner of that target square. The distinct-support witness uses inverse flows: for a nonzero smooth u compactly supported in `(0,1)²`, calculate that `e^(-X)e^(-Y)u` is supported in `(0,1)×(1,2)`, while `e^(-Y)e^(-X)u` is supported in `(1,2)×(0,1)`. The nonzero images have disjoint supports, so these groups and hence their spectral PVMs do not commute. This supplies the common invariant graph-core counterexample with essential self-adjointness proved from the flow criterion.
+For the B03 operator example, prove the regular quotient is a Hausdorff, second-countable smooth surface with the displayed translation atlas and descended flat Riemannian metric. Supply its `RiemannianBundle` and `IsContinuousRiemannianBundle` instances, the Borel measurable-space structure with `BorelSpace M`, and `LindelofSpace` from second countability, together with the smooth-manifold instance required by native `TauCeti.riemannianVolume`. Prove the translation-chart orientation and area form `dx∧dy` descend, with its positive measure agreeing with the descended flat Riemannian volume. Translation charts have Gram determinant one, so use the native chart-volume characterization `eq_riemannianVolume_iff` to identify that measure with Lebesgue measure transported from `int M₁`, after removing the finitely many glued boundary arcs and punctures, which are null. Keep completion and genus in the separate UO-B03a acceptance target below. The printed support-location annotations (“above” and “to the right”) refer to the inverse-flow products calculated below; keep those support claims distinct from the quotient/genus construction. On `H=L²(M,dx dy)` put `D=C_c^∞(M)` and use the chart fields `X₀=∂ₓ`, `Y₀=∂ᵧ`. Prove D dense and invariant, integration-by-parts skew-symmetry and `X₀Y₀=Y₀X₀` there. Own Nelson Lemma 10.1's flow criterion: for a smooth divergence-free field, if the **closures** `E_t,E_(-t)` of the sets where the respective partial flows are undefined are null for some `t>0`, then its restriction to `C_c^∞` is essentially skew-adjoint. Prove this from the measure-preserving partial flows and their contraction extensions. For each `(a,b)`, show those exceptional closures for `aX₀+bY₀` are finite unions of straight segments leading to the removed vertices, in both time directions for each finite t; include vertical directions and the zero field. Thus every real linear combination is essentially skew-adjoint on D. Put `X=cl(X₀)`, `Y=cl(Y₀)`, `A=−iX`, `B=−iY`; prove these are self-adjoint and D is a graph core for each. Their Stone groups are `e^(itA)=e^(tX)` and `e^(isB)=e^(sY)`. Fix the pullback convention `e^(tX)u=u∘φ_t^x`, so supports move by `φ_(-t)^x`, and likewise for Y. Nelson prints the positive-exponential orders `e^Xe^Y` and `e^Ye^X`; under the pullback convention fixed here, the two positive-exponential products each have support in `(2,3)×(2,3)`; `(2,2)` is the regular corner of that target square. The distinct-support witness uses inverse flows: for a nonzero smooth u compactly supported in `(0,1)²`, calculate that `e^(-X)e^(-Y)u` is supported in `(0,1)×(1,2)`, while `e^(-Y)e^(-X)u` is supported in `(1,2)×(0,1)`. The nonzero images have disjoint supports, so these groups and hence their spectral PVMs do not commute. This supplies the common invariant graph-core counterexample with essential self-adjointness proved from the flow criterion.
 
 **UO-B03a — Completion and genus acceptance for Nelson’s model.** This is a separate geometric acceptance target, not a prerequisite for the operator-theoretic B03 result. Prove the metric completion adds exactly one point: the twelve removed vertices form one equivalence class, while the four outer corners give a regular point. Show the added point has cone angle `14π`, with a topological disk chart, and that the orientation extends across it. Prove the completed surface is compact, Hausdorff, connected and second-countable. Give it a boundaryless topological surface atlas and the half-space charted-space instances used by [PlanarTopology Layers 0, 2–3 and 5–6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/PlanarTopology/README.md#layer-6-the-euler-characteristic-and-orientability).
 
@@ -78,7 +78,11 @@ For a closed densely defined operator T, define the point spectrum by noninjecti
 - **UO-C02 — Essential spectrum.** Define essential spectrum both as spectrum after deleting isolated eigenvalues of finite multiplicity and as failure of Fredholmness of `A−λ` with its closed domain/range data. Prove equivalence for self-adjoint `A`, stability under unitary equivalence, and the spectral-projection characterization using finite rank on compact intervals away from the essential spectrum.
 - **UO-C03 — Pure-point/absolutely-continuous/singular decomposition.** For every self-adjoint `A`, split H into the mutually orthogonal reducing subspaces generated by atomic, absolutely continuous, and singular-continuous scalar spectral measures. In the finite-control-measure case, prove independence of the chosen control measure, restriction self-adjointness, direct-sum reconstruction, and the corresponding spectral-set relations. In the general case, whether or not H is separable and whether or not a finite control measure is available, construct the reducing subspaces directly from all scalar spectral measures and prove the operator decomposition without assuming such a measure. Preserve the distinction between singular-continuous and the broader continuous spectrum. First supply the scalar-measure construction for a σ-finite Borel measure `ρ` on ℝ: prove `{x | ρ({x})>0}` is countable; set `A={x | ρ({x})>0}`, `ρ_pp=ρ.restrict A`, and `ρ_cont=ρ.restrict Aᶜ`. Prove `ρ_pp=Σ_{x∈A}ρ({x})·dirac(x)`, positivity, `ρ=ρ_pp+ρ_cont`, and uniqueness of this split. Prove that every measure-theoretic atom of a σ-finite Borel measure on ℝ is concentrated on a singleton: reduce to a finite positive piece and use a countable separating family of rational cuts. Deduce that `ρ_cont` is atomless. This restriction construction avoids ambiguous subtraction of infinite masses. Combine it with Mathlib's native Lebesgue decomposition of the s-finite `ρ` relative to σ-finite Lebesgue measure to obtain the unique `pp + ac + singular-continuous` split, with `singular-continuous` explicitly atomless and singular. Do not use the notes' unqualified “Borel implies countably many atoms”: counting measure on ℝ is Borel and has an atom at every point. For arbitrary H, define the three closed reducing subspaces by the types of all their scalar spectral measures, construct their orthogonal projections, and prove these projections commute with every `P_A(B)`, preserve the actual operator domain and give the direct-sum reconstruction. When a finite scalar control measure exists, in particular for separable H, identify the three projections as `P_A(B_pp)`, `P_A(B_ac)` and `P_A(B_sc)` for a Borel partition modulo PVM-null sets obtained from that measure's decomposition. The general reducing projections need not each be one Borel value of the PVM. As a required distinction, on `ℓ²(ℝ) ⊕ L²(ℝ,dx)` take the direct sum of the diagonal coordinate operator and multiplication by the real coordinate, with their square-moment domains. Prove its pure-point subspace is `ℓ²(ℝ)⊕0` and that its projection cannot equal `P_A(B)` for any Borel B: including every coordinate eigenvector forces B=ℝ, which also retains the continuous summand. This is the operator spectral-type theorem, not a second generic measure-theory roadmap.
 - **UO-C04 — Staircase pure-point approximation.** For every self-adjoint `A`, use countably-valued Borel grid functions `fₙ:ℝ→ℝ` with `|fₙ(t)−t|≤1/(n+1)` for all t and put `Aₙ=fₙ(A)`. Prove their pure-point decomposition by the countably many grid level projections. Then `dom Aₙ=dom A`; the difference has a bounded extension `Bₙ=(fₙ−id)(A)` with `‖Bₙ‖≤1/(n+1)`, and `Aₙ=A+Bₙ` on their common domain. Prove the resolvents converge in operator norm locally uniformly off the real axis (in particular at `±i`); this is norm-resolvent convergence, not operator-norm convergence of unbounded operators themselves. Also prove `‖exp(itAₙ)−exp(itA)‖≤|t|/(n+1)` by the bounded-difference/Duhamel estimate, hence operator-norm convergence uniformly on compact time intervals. For each bounded continuous `φ:ℝ→ℂ`, prove strong convergence `φ(A_n)x→φ(A)x` for every `x`; for `φ∈C₀(ℝ)`, strengthen this to operator-norm convergence using norm-resolvent convergence and continuous functional calculus. Do not claim uniform-norm convergence for arbitrary `φ∈C_b(ℝ)` (or convergence in the uniform norm of the functional calculus).
-- **UO-C05 — Diagonal spectrum calculations.** Develop the reusable point/continuous/residual spectrum API for multiplication and diagonal operators, including countable sequences with accumulation points and Borel functions that map a pure point spectrum onto prescribed closed sets. Supply explicit formulas for kernels, ranges, adjoints and inverse domains.
+- **UO-C05 — Diagonal spectrum calculations.** Develop the reusable point/continuous/residual spectrum API for multiplication and diagonal operators, including countable sequences with accumulation points and Borel reindexing of a total eigenbasis. Supply explicit formulas for kernels, ranges, adjoints and inverse domains. For a diagonal operator the spectral set is the closure of the eigenvalue image; do not require a countable eigenvalue set to map directly onto an arbitrary uncountable closed set.
+
+  Precisely, for a self-adjoint A with a total orthonormal eigenbasis and countably infinitely many **distinct** eigenvalues `λ_n`, and every nonempty closed `F⊆ℂ`, choose a nonempty countable dense subset D of F and construct a Borel `g:ℝ→ℂ` with `{g(λ_n):n∈ℕ}=D`. Enumerate the distinct eigenvalues; assign their values by a surjection onto D and set g=d₀∈D outside that countable set. Prove measurability and use the existing A PVM to construct g(A) on its exact square-moment domain. Prove it is closed normal, with `σ(g(A))=cl(D)=F`, `σ_p(g(A))=D`, `σ_c(g(A))=F\D` and `σ_r(g(A))=∅`. Construct the eigenprojections and their possibly repeated multiplicities, the pushforward PVM, finite spectral truncation graph cores and reciprocal resolvents off F. If a real-valued g and self-adjoint g(A) are required, restrict F to a nonempty closed subset of ℝ. The distinct-eigenvalue hypothesis prevents a function of A from assigning different values inside one eigenspace.
+
+  Treat the remaining cases explicitly. With exactly m>0 distinct eigenvalues and a total eigenbasis on nonzero H, the possible spectral sets of g(A) are exactly the nonempty finite F⊆ℂ of cardinality at most m; the point spectrum is F and the continuous/residual spectra are empty. On the zero Hilbert space the spectrum and all three spectral subsets are empty. The zero operator on a nonzero space instead has spectral/point set{0}. Retain the general multiplication/diagonal operator API and the separate I8/I9 examples; this realization theorem does not narrow them.
 
 ## Part D — symmetric operators, deficiency and boundary data
 
@@ -102,7 +106,7 @@ unitary, restriction and finite-sum transport. Conversely a complete Hilbert V,
 bounded Hermitian form q, continuous injective dense j, and a quantitative shifted coercive
 bound give precisely this closed-form model. Compactness of j is not required.
 Use native real Lax–Milgram and the scalar-generic coercive adapter specified in
-[VariationalMethods V2.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/roadmap/variational-methods/TauCetiRoadmap/VariationalMethods/README.md#v2--first-variations-convex-minima-and-coercive-quadratic-energies),
+[VariationalMethods V2.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md#v2--first-variations-convex-minima-and-coercive-quadratic-energies),
 whose complexification and real restriction are proved there, to construct the
 unique self-adjoint partial operator A over `[RCLike 𝕜]`:
 `j(u)∈dom A` iff there exists h∈H with `q(u,v)=⟨h,j(v)⟩` for every v∈V, and
@@ -149,7 +153,7 @@ the same lower bound: `T≤S_F` in form order means `dom q_(S_F)⊆dom q_T` and
 Prove `dom S⊆dom T` and `dom S⊆dom S_F`; the form-domain comparison does
 not assert an inclusion between `dom T` and `dom S_F`. For `[RCLike 𝕜]` and a Hermitian sesquilinear form perturbation b on the same
 form domain put `q_α(u,v)=q(u,v)+α⟨j(u),j(v)⟩`, α>−γ. With
-`|b(u,u)|≤a q_α(u,u)+c‖j(u)‖_H²`, 0≤a<1 and c≥0, prove the closed semibounded sum-form theorem and its represented operator over 𝕜;
+`‖b(u,u)‖≤a RCLike.re (q_α(u,u))+c‖j(u)‖_H²`, 0≤a<1 and c≥0, prove the closed semibounded sum-form theorem and its represented operator over 𝕜;
 do not identify that operator with the algebraic operator sum without its domain
 theorem.
 
@@ -231,26 +235,366 @@ These examples validate distinct APIs; each source problem remains an individual
 
 | Printed source item | Owner and acceptance target |
 |---|---|
-| UNSW Final Examination 2001, Q1, pp. 2–3: the Dirichlet Laplacian `−d²/dx²` on `L²(0,1)` in the position representation, with its spectral resolution, diagonalization, group and Borel calculus | UO-A02/A07; the chosen example's physical interpretation belongs to Quantum Foundations |
+| UNSW Final Examination 2001, Q1, physical p.2: the complete two-choice essay prompt, including a course non-multiplication self-adjoint model and Borel f with `σ_p(f(A))=ℤ_+`, `σ_c(f(A))=(−∞,0]` | UO-A02/A04/A07/C01/C05; use the full-line momentum witness and exact symbol specified below, keeping the alternative essay prompt and the independent Dirichlet example |
 | Exam Q2(i), p. 2: `(fg)(A) ⊇ f(A)g(A)` with `dom(f(A)g(A))=dom g(A)∩dom(fg)(A)` | UO-A03, including equality on the natural domain |
 | Exam Q2(ii), p. 2: `[A,B]=iC*C` on a dense domain and eigenvectors of A | UO-E01 acceptance proof, with explicit common-domain hypotheses; derive `Cψ=0` from the expectation identity |
 | Exam Q3(i–ii), pp. 2–3: exact norm on a spectral window; recover `P_A` from `P_{f(A)}` | UO-A04/A06 |
 | Exam Q4–5, p. 3: uniqueness on a dense subspace; norm convergence `exp(itA)→1` for bounded A | UO-A02 and SAST Part A respectively |
-| Exam Q6(i–ii), p. 3: `iψ′` on the two half-lines with `ψ(0)=0`, adjoint permitting a jump, deficiency indices and all extensions | UO-D02/D05 plus H6; Quantum Foundations owns the measurement interpretation |
-| Exam Q7–8, p. 4: invariant-domain core; dilation group and generator | UO-E01 and SAST Stone API, with a checked common core |
+| Exam Q6(i–ii), p. 3: `+iψ′` on the two half-lines with both zero traces, a commuting reflected conjugation, adjoint permitting a jump, deficiency indices and all extensions | UO-D02/D03/D05 plus H6; the explicit `Jψ(x)=conj ψ(−x)`, maximal domain, signs and boundary conditions are specified below; Quantum Foundations owns the measurement interpretation |
+| Exam Q7(i–ii) and Q8(i–iii), physical p.4: invariant-domain core, two explicit invariant dense position domains, positive dilation group, maximal generator domain and empty point spectrum | UO-E01 and SAST Stone, with the exact C_c∞/Schwartz and logarithmic-coordinate comparisons below; retain the repeated source `D≠D` notation as qualified |
 | Assignment 1 Q1, physical p.49, and its revised solution pp.43–44: the original domain `{ψ∈L²:Aψ∈L²}` and the revised source domain `{ψ∈L²:Aψ∈L² and ∫∫|K(x,y)φ(x)ψ(y)| dxdy<∞ for every φ∈L²}`, with the displayed a.e. column-L² hypothesis, adjoint/composition and Fubini conditions | UO-E01 states the a.e. convergence requirements, compares these source domains with its maximal integral domain, and proves the appropriately qualified adjoint/composition results; a Fubini-restricted source domain is not silently called maximal. Retain the p. 49 question asking when A is self-adjoint: the source answer requires kernel symmetry `K(x,y)=conj K(y,x)` and `dom A=dom A*`; conjugate-transpose Fubini alone gives only an adjoint inclusion, so prove domain equality under explicit hypotheses rather than treating kernel symmetry alone as sufficient |
 | Assignment 1 Q6, physical pp. 49–50: cylinder operator `ix∂θ`: the source writes `Span{φ(θ)ξ(x): φ∈C∞(T), xξ∈L²(R)}`; in the operator domain require also `ξ∈L²(R)` so each generator belongs to the stated Hilbert space. Prove the corrected-domain closure, diagonalization, spectrum, PVM, one-parameter group and conjugated multiplication B | UO-A/C for spectral calculus; use SAST Part A for the one-parameter Stone group (UO-B05 is the multiparameter theorem); QF owns physical interpretation |
-| Assignment 1 Q2–3, pp. 44–45: closed N,R but R−N not closable; adjoint-of-sum and adjoint-of-product inclusions | H6 sum/product API plus UO-E01 acceptance tests |
-| Assignment 1 Q4–5, p. 49: spectral family of continuous `f(A)`; pure-point unbounded A and Borel functions with prescribed spectrum | UO-A04/A05/C05 |
+| Assignment 1 Q2–3, pp. 44–45 and the complete question p.49: the displayed h, weighted D and operators N,R with R−N not closable; adjoint-of-sum and adjoint-of-product inclusions | H6 sum/product API plus UO-E01; prove the fully specified Q2 example below, including the sequence `e_n/n`, rather than leaving N,R as unbound names |
+| Assignment 1 Q4–5, p.49: spectral family of continuous `f(A)`; under separability, unboundedness and `σ(A)=σ_p(A)`, prove the eigenvalue set countable and unbounded, classify accumulation points of its Borel image, and realize spectrum ℝ | UO-A04/A05/C05; the source-specific premise derivation and explicit rational-image symbol are specified below |
 | Assignment 2 Q1(i), pp. 20–21: clamped second derivative, exact adjoint domain and `(2,2)` deficiency indices/`U(2)` extensions; retain the source's false `U(2)/ℤ₂=SU(2)≅SO(3)` and two-disjoint-copies claim as a source error | UO-D02/D04/D05, consuming H6 and explicit endpoint traces |
-| Assignment 2 Q2(ii)–3, pp. 21–22: failure of symmetric domain invariance under extension group, analytic vectors on extensions, conjugation relation | UO-D03/E02/E03 |
+| Assignment 2 Q2(ii)–3, pp.21–22: failure of symmetric domain invariance under extension group, analytic vectors on extensions, and every rank-(1,1) self-adjoint extension commuting with the fixed conjugation | UO-D03/E02/E03, with the explicit rank-one identities and qualified source deficiency labels below |
+| Assignment 2 solution4, physical pp.14 and23: bounded commuting B, source C∞-domain assertion, and analytic vectors for AB and A+B | UO-E02 owns the domain-qualified hypotheses, product/binomial bounds and B=0 case below; retain the source assertion separately from the corrected analytic-transfer targets |
 | Problems I 1–3, physical p. 75: Theorem 3.9(ii); bounded inverse of SA; adjoints of products bounded and unbounded | H6's closed operator and composition API, and UO-A02 for inverse spectral calculus |
-| Problems I 4, p. 75: unilateral shift, adjoint/kernel/range, positivity and all three spectra of `A*A` | UO-B01/C01/C05 |
-| Problems I 5, p. 75: `i d/dx` on endpoint-zero `C¹` domain, adjoint and one SA extension | UO-D02/D04/D05; state closure and trace hypotheses precisely |
+| Problems I 4, p. 75: backward shift `A(x₁,x₂,…)=(x₂,x₃,…)`, its norm, adjoint, kernels/range, positivity and self-adjointness of `A*A`, and all three spectra of A | UO-C01/C05: prove `‖A‖=1`, `A*` is the forward shift, `ker A=ℂe₁`, `ker A*={0}`, `ran A*=e₁⊥`, and `A*A=I−P_(ℂe₁)` is positive self-adjoint. Compute `σ_p(A)={z:|z|<1}`, `σ_c(A)={z:|z|=1}`, `σ_r(A)=∅`; the source asks these spectra of A, not of `A*A` |
+| Problems I 5, p.75: literal endpoint-zero `C¹(0,1)` domain for `+i d/dx`, missing derivative-L² condition, adjoint and one SA extension | UO-D02/D04/D05; prove the printed expression is not L²-valued on its full stated domain, then use the explicit derivative-L² restriction, H₀¹ closure, H¹ adjoint and periodic extension below |
 | Problems I 6, p. 75: `−d²/dx²` on `C_c∞(ℝ)`, adjoint and essential self-adjointness | UO-D01 supplies the deficiency-zero criterion; identify the adjoint as the maximal `H²(ℝ)` operator using the PDE weak-derivative supplier, then solve `−u″=±iu` and show neither deficiency equation has a nonzero L² solution. UO-E01/E05 supply the graph-density/Fourier proof that `C_c∞(ℝ)` is an operator core. Do not route compact support through an analytic-vector criterion |
 | Problems I 7, p. 75: measurable kernel operator, adjoint, self-adjointness, positivity, boundedness and norm | H6 adjoint API and UO-E01's kernel-operator domain example |
-| Problems I 8, p. 75: complex diagonal sequence, assumed closed, point/continuous/residual spectrum | UO-B01/C05 with the displayed domain condition |
-| Problems I 9, p. 75: begins a possible spectrum-realization exercise but is cut off | No mathematical obligation is inferred from the truncated item; retain the uncertainty in the source record |
+| Problems I 8, p. 75: complex diagonal sequence on `D₃={x∈ℓ²:Σ n⁶|x_n|²<∞}`, with finite accumulation points precisely `±i` and `sup_n |λ_n/n³|<∞`; the source adds “assuming A=Ā” | UO-B01/C05: prove the displayed restriction is closable but is never closed under these hypotheses. Identify its maximal diagonal closure and compute the closure’s point/continuous/residual spectra as specified below; retain the incompatible source closedness assumption separately |
+| Problems I 9, p.75: the recoverable `σ_p(A)=ℚ`, `σ_c(A)=ℝ\ℚ` spectrum-realization request on ℓ²; the “5-a” glyph and remainder are uncertain/clipped | UO-C05 owns the explicit self-adjoint maximal rational diagonal below. Preserve the literal glyph and cutoff; do not infer any additional condition from the missing text |
+
+### Exam Q6 — the split-line derivative and its commuting conjugation
+
+Retain the source's `+i` sign in `Bψ=iψ′`. Interpret its separate AC
+conditions on either side of0 and its zero value at0 as the two zero traces:
+`dom B=H₀¹((−∞,0))⊕H₀¹((0,∞))` in the orthogonal half-line
+decomposition of `L²(ℝ)`. Prove equivalence with the stated local AC and
+L²-derivative conditions, density, closedness and symmetry. The adjoint is
+`B*ψ=iψ′` on the exact domain `H¹((−∞,0))⊕H¹((0,∞))`, with independent
+traces and no requirement of absolute continuity across0. Prove the
+half-line limits at infinity vanish and derive the boundary form by
+integration by parts.
+
+For Q6(i), explicitly construct the conjugation
+`(Jψ)(x)=conj(ψ(−x))`. Prove it is an antiunitary involution, swaps the two
+half-lines, preserves both zero traces and satisfies `BJψ=JBψ` on dom B:
+both sides equal `−i conj(ψ′(−x))`. Plain pointwise conjugation instead
+anticommutes with `+i∂`; it does not supply the requested commuting J.
+Apply UO-D03 and H6 to obtain equal deficiency indices and existence of
+self-adjoint extensions. For Q6(ii), in the convention
+`N₊=ker(B*−i)` and `N₋=ker(B*+i)`, compute
+`N₊=span{1_(−∞,0)(x)e^x}` and
+`N₋=span{1_(0,∞)(x)e^(−x)}`, so `(n₊,n₋)=(1,1)`.
+Classify all self-adjoint extensions by the maximal-domain trace condition
+`ψ(0+)=exp(iθ)ψ(0−)`, `0≤θ<2π`, and prove these exhaust the boundary-form
+classification. The jump allowed by the source remains explicit. This
+`+i` example is transported by a sign change from the generic UO-D05
+`−i` convention, without silently identifying their deficiency labels.
+
+### Problems I5 — the printed interval domain and an L²-valued restriction
+
+Preserve the literal p.75 domain: `f∈L²(0,1)∩C¹(0,1)` with the endpoint
+values0, without a stated `f′∈L²` condition. It does not define an
+L²-valued operator `Af=if′` on every listed function. Prove this using
+`f(x)=x(1−x)sin(1/x)`: it has continuous zero endpoint values and is C¹
+on the open interval, while
+`f′(x)=(1−2x)sin(1/x)−(1−x)cos(1/x)/x` is not L² near0. The bounded
+first term cannot cancel the latter's divergent squared integral, as the
+substitution `u=1/x` shows.
+
+Adopt the explicit restriction adding `f′∈L²(0,1)`, with endpoint values
+interpreted as traces of its continuous representative. Prove this domain
+lies in `H₀¹(0,1)` and contains `C_c∞(0,1)`; use weak/strong derivative
+agreement and Sobolev graph density to show its graph closure is the
+closed minimal operator `A_min=i∂` on `H₀¹(0,1)`. Prove density and
+symmetry of the restriction, and identify its adjoint, equal to
+`A_min*`, as `i∂` on `H¹(0,1)` without endpoint constraints. The
+restriction and its closure are not self-adjoint. For the requested one
+self-adjoint extension, choose `A_per=i∂` on
+`{f∈H¹(0,1):f(1)=f(0)}` and prove self-adjointness by the boundary form
+or the periodic Fourier basis. Keep the source's `+i` action throughout;
+UO-D05's generic `−i∂` example is related by negation.
+
+### Assignment 1 Q2 — two closed operators whose difference is not closable
+
+On a separable Hilbert space with orthonormal basis `(e_n)_(n≥1)`, put
+`h=Σ_(n≥2)e_n/n`,
+`D={x∈H:Σ_(n≥2)n⁴|⟨e_n,x⟩|²<∞}`,
+`Nx=Σ_(n≥2)n²⟨e_n,x⟩e_n` and
+`Rx=Nx+⟨h,Nx⟩e₁`, both on D. Prove h exists in H, D is dense, and
+N is closed by its maximal diagonal description, with eigenvalue0 on e₁.
+Let `T=I+(y↦⟨h,y⟩e₁)`. Since `h⊥e₁`, its rank-one summand squares
+to0 and T has bounded inverse `I−(y↦⟨h,y⟩e₁)`. Prove `R=TN` is
+closed by this bounded invertibility. For `n≥2`, the vectors `x_n=e_n/n`
+lie in D and tend to0, while `(R−N)x_n=e₁`. Thus R−N on D is not
+closable. This proves the source's concrete counterexample, as well as
+the failure of closed operators on a fixed domain to form a linear space;
+the generic H6 sum and product inclusions remain separate Q3 targets.
+
+### Assignment 1 Q5 — the source pure-point hypotheses and image accumulation
+
+Retain all p.49 premises: A is unbounded self-adjoint on separable H and
+`σ(A)=σ_p(A)=Λ`. Prove Λ is countable by choosing mutually orthogonal
+unit eigenvectors for distinct eigenvalues and using separability. Prove
+Λ is unbounded: bounded spectrum would, by the PVM moment-domain theorem,
+make A everywhere defined and bounded. Hence Λ has countably infinitely
+many distinct members. Since the PVM is supported on the countable set Λ,
+prove its eigenspaces are total; this discharges the total-eigenbasis
+hypothesis used by UO-C05, without assuming that hypothesis from a label.
+
+For the source's real Borel h, prove `σ_p(h(A))=h(Λ)` and
+`σ(h(A))=closure(h(Λ))`, with zero residual spectrum. If z is a finite
+accumulation point of h(Λ), then z is in the point spectrum exactly when
+`z∈h(Λ)`; otherwise it is in the continuous spectrum. State this using
+the full moment domain and the coordinate eigenspace PVM, so repeated
+values and multiplicities are retained. For Q5(ii), enumerate the distinct
+eigenvalues `λ_n` and the rationals `q_n`, define the real Borel symbol
+`g(λ_n)=q_n` and g=0 off Λ, and prove
+`σ(g(A))=ℝ`, `σ_p(g(A))=ℚ`, `σ_c(g(A))=ℝ\ℚ`, `σ_r(g(A))=∅`.
+This is the real-symbol instance of C05's closure-of-image construction;
+it does not require a countable image to equal all of ℝ.
+
+### Assignment 2 — deficiency labels and the rank-one conjugation conclusion
+
+Use the adopted convention `N₊=ker(A*−i)`, `N₋=ker(A*+i)`, with
+extension action `A_U(x+x₊+Ux₊)=Ax+i x₊−i Ux₊` for
+`U:N₊→N₋`. Retain the source's notation qualification: p.21 writes
+`K_±=ker(i±A*)`, whose literal K₊ is adopted N₋ and literal K₋ is
+adopted N₊, whereas p.22 uses the displayed `+i`/`−i` extension action
+with its K-labels. Do not silently identify these two literal sign usages.
+The adopted N-labels fix all deficiency computations and extension formulas.
+For the clamped second derivative, retain the separate p.20–21 proof-line
+qualification: the source defines `ξ=A*φ` but writes `φ″=−conj ξ`.
+This line is not the adopted complex-linear adjoint relation. Prove
+`dom A*=H²(0,1)` and `A*φ=−φ″` as in UO-D04; in this notation the
+correct relation is `φ″=−ξ`. The separately qualified false group-topology
+remark in the source remains qualified.
+
+For Assignment2 Q3, suppose the closed symmetric A has indices `(1,1)`
+and the conjugation J preserves dom A and commutes with A. Prove every
+self-adjoint extension A_U commutes with this fixed J, including domain
+invariance. Choose a unit e∈N₊ and put f=Je∈N₋, so Jf=e. Every
+unitary has `Ue=exp(iθ)f`; compute `JU=U*J` on N₊ and `UJ=JU*`
+on N₋. Insert these identities into the domain/action formula above,
+using J's antilinearity, to prove `J(dom A_U)=dom A_U` and
+`JA_U=A_UJ`. This is the source's universal rank-one conclusion, beyond
+the generic UO-D03 characterization of J-invariant extensions.
+
+### Assignment 2 solution4 — bounded commutants and analytic vectors
+
+Read physical p.14 together with its p.23 continuation. The source assumes
+symmetric A and bounded B, writes `AB=BA`, crosses/qualifies the need for
+B to be self-adjoint, and asserts
+`C∞(A)=C∞(AB)=C∞(A+B)` before proving analytic-vector estimates.
+Adopt the definite bounded-commutant interpretation
+`B(dom A)⊆dom A` and `A(Bx)=B(Ax)` for every `x∈dom A`.
+The analytic-vector conclusions below do not require B self-adjoint.
+Define the natural product on `dom(AB)={x∈H:Bx∈dom A}` and the sum on
+`dom(A+B)=dom A`. Under these assumptions, commutation is an equality of
+actions on dom A; it is not asserted to be equality of these partial
+operators on identical domains.
+
+Prove by induction that B preserves every `dom Aⁿ`, commutes with Aⁿ
+there, and preserves `D∞=⋂ₙdom Aⁿ`. On D∞ prove
+`(AB)ⁿx=BⁿAⁿx` and
+`(A+B)ⁿx=Σ_(j=0)^n binom(n,j) B^(n−j)A^j x`, including the required
+iterated-domain inclusions. For `t>0`, if
+`M_t=Σ_(n≥0) tⁿ‖Aⁿx‖/n!<∞` and `b=‖B‖`, take
+`s=t/max(1,b)>0`. Prove
+`Σ sⁿ‖(AB)ⁿx‖/n!≤M_t` and
+`Σ sⁿ‖(A+B)ⁿx‖/n!≤exp(sb) Σ s^j‖A^j x‖/j!≤exp(sb)M_t`.
+The latter estimate follows from the binomial expansion and the
+nonnegative double series, with its reindexing justified. Thus every
+A-analytic vector is analytic for AB and A+B. Handle B=0 directly or
+with this positive denominator; do not divide by `‖B‖` at0.
+
+Preserve the true sum-domain part of the source assertion: prove
+`dom((A+B)ⁿ)=dom(Aⁿ)` for every natural n under these same bounded
+commutant hypotheses, and hence `C∞(A+B)=C∞(A)`. Prove the iterated
+domain equality by induction, using the binomial expression and the fact
+that all its lower-order terms already lie in dom A; equivalently reverse
+the comparison with `A=(A+B)−B`, since B preserves dom A and commutes
+with A+B there. B need not be self-adjoint for this algebraic domain
+equality. Keep this sum equality separate from the product qualification.
+
+Do not adopt the source's equality `C∞(A)=C∞(AB)` under this bounded
+commutant interpretation. On `ℓ²(ℕ_{≥1})` let A be the maximal
+self-adjoint diagonal with eigenvalues n and let B=0. Then B preserves
+dom A and commutes there, but the natural AB is the everywhere-defined
+zero operator, so `C∞(AB)=H`, whereas `C∞(A)≠H` (the sequence `1/n`
+is in H and not even in dom A). Preserve the different stronger possible
+premise: if `AB=BA` means equality of partial operators including their
+natural domains, then this B=0 example fails that premise for unbounded
+A, since `dom AB=H` and `dom BA=dom A`. The counterexample refutes the
+unqualified equality under the explicitly adopted weaker interpretation;
+it does not refute a statement whose additional domain hypothesis has
+been imposed. Retain the source's written assertion and its domain
+qualification separately from the proved analytic-transfer targets.
+
+
+### Exam Q7–8 — invariant position domains and the dilation generator
+
+For Q7(i), consume UO-E01's theorem: if A is self-adjoint, a dense linear
+`D⊆dom A` invariant under every `exp(itA)` is an operator graph core, so
+A restricted to D is essentially self-adjoint. For Q7(ii) on
+`Qψ(x)=xψ(x)`, `dom Q={ψ∈L²(ℝ):xψ∈L²(ℝ)}`, take the actual subspaces
+`D₁=C_c∞(ℝ)` and `D₂=Schwartz(ℝ)`. Prove both are dense in L², contained
+properly in dom Q and invariant under `exp(itQ)ψ(x)=exp(itx)ψ(x)` for
+every real t. Prove D₁ and D₂ are distinct: a Gaussian belongs to D₂ but
+not D₁. The indicator of [0,1] belongs to dom Q but has no smooth
+representative, so each inclusion is proper. Prove the needed multiplier
+smoothness/Schwartz estimates, then apply Q7(i) to obtain both graph cores.
+The source prints the repeated notation `D≠D`; retain that literal notation
+and its qualification rather than asserting that a missing prime was read.
+D₁,D₂ are the unambiguous adopted pair.
+
+For Q8, choose the continuous **positive** amplitude `h(x,t)=exp(t/2)` and
+set `U_tψ(x)=exp(t/2)ψ(exp(t)x)`. Prove its unitary norm identity by change
+of variables, identity/inverse/group laws and strong continuity, first on
+compactly supported test functions and then by density. Unitarity fixes the
+modulus exp(t/2); positivity fixes this chosen amplitude. Do not assert that
+unitarity determines every continuous complex amplitude: constant phases
+`exp(ict)` already give further group choices.
+
+Define the unitary logarithmic-coordinate map
+`V:L²(ℝ,dx)→L²(ℝ,dy)⊕L²(ℝ,dy)` by
+`(V_±ψ)(y)=exp(y/2)ψ(±exp(y))`, with the positive and negative half-lines
+as separate summands and the point0 discarded only as a null set. Prove V
+is onto and intertwines U_t with simultaneous translations `v_±(y+t)`.
+In the positive Stone convention, its self-adjoint generator is
+`A=V⁻¹((−i∂_y)⊕(−i∂_y))V`, on the exact maximal domain
+`V⁻¹(H¹(ℝ)⊕H¹(ℝ))`. On `C_c∞(ℝ\{0})` differentiate to obtain
+`Aψ=−i(xψ′+ψ/2)`. Prove this test domain is dense, symmetric for that
+expression, and an operator graph core by its exact logarithmic image
+`C_c∞(ℝ)⊕C_c∞(ℝ)`. No endpoint-gluing condition is imposed at0.
+Use the translation/momentum comparison to prove A is unbounded,
+`σ(A)=σ_c(A)=ℝ`, `σ_p(A)=σ_r(A)=∅`; in particular this explicitly owns
+Q8(iii). The Sobolev/weak-derivative comparison is PDE Lane A.1–A.3's
+written supplier, with the actual native Fourier/Bessel carriers as inputs.
+
+### Exam Q1 — a course differential operator and mixed spectral calculus
+
+Preserve the complete first essay prompt from physical p.2: choose an unbounded
+self-adjoint operator that occurred in the course and is not a multiplication
+operator in its given representation, discuss its spectrum, diagonalization,
+spectral resolution, one-parameter unitary group and physical interpretation
+if any, and find a Borel f with `σ_p(f(A))=ℤ_+` and
+`σ_c(f(A))=(−∞,0]`. The source asks for an essay of at least200 words.
+Preserve its separate alternative: discuss either spectral theory or the
+self-adjoint-extension theory, their motivating problems, achievements,
+structure, relevance to physics and any open problems or further connections.
+These are the source's two essay choices, not permission to omit the operator
+and spectral examples specified here. The alternative's historical open-problem
+wording is not a new unspecified theorem target or an assertion that any
+particular problem is still open.
+
+Choose the course's full-line momentum differential operator on `L²(ℝ,dx)` in
+the position representation. Physical pp.121–122 write
+`P=(h/(2πi))d/dx` with Fourier kernel `exp(−2πiξx)`, and p.59 names Q,P as
+self-adjoint with Schwartz core. Fix units `h=2π`, so `ℏ=1` and
+`P=−i d/dx`. This is a stated normalization, not a repair of the overwritten
+source expectation calculation. Prove its maximal operator domain is PDE Lane A.1's
+weak-derivative Sobolev space `H¹(ℝ)`, identified with the native Bessel-potential carrier by Lane A.3, and its action is the weak
+derivative multiplied by−i. Use PDE's weak-derivative/Fourier characterization,
+UO-A07 and SAST's spectral/Stone interface to prove self-adjointness and
+essential self-adjointness on Schwartz space and `C_c∞(ℝ)`. Prove that P is
+not a multiplication operator in this position representation, for example
+from its noncommutation with a smooth bounded nonconstant position multiplier
+on `C_c∞`. No Fourier-diagonal operator is being excluded by this condition.
+
+With the unitary Fourier transform `Fψ(ξ)=∫exp(−2πiξx)ψ(x)dx`, prove
+`FPF⁻¹=M_(2πξ)` with equality of domains. Define the spectral-coordinate
+unitary `Gψ(λ)=(2π)^(−1/2)Fψ(λ/(2π))` from `L²(dx)` to `L²(dλ)`;
+prove `GPG⁻¹=M_λ`. Give
+`P_P(B)=G⁻¹M_(1_B)G`, `E_P(t)=P_P((−∞,t])`,
+`σ(P)=σ_c(P)=ℝ`, `σ_p(P)=σ_r(P)=∅`, and
+`exp(itP)ψ(x)=ψ(x+t)`, in the standing positive Stone convention.
+The momentum/translation interpretation is a source example; physical
+state probabilities and dynamics remain outgoing QF consumers, not
+prerequisites for these generic operator proofs.
+
+Fix `ℤ_+={1,2,3,…}` and define the real Borel symbol
+
+```
+f(λ)=λ                    if λ<0,
+f(λ)=floor(λ)+1           if λ≥0.
+```
+
+Prove Borel measurability and identify the actual domain and action:
+`dom f(P)={ψ:∫|f(λ)|²|Gψ(λ)|²dλ<∞}` and
+`G(f(P)ψ)=f·Gψ`. The bound `|f(λ)−λ|≤1` also gives
+`dom f(P)=dom P=H¹(ℝ)`; prove it using the bounded-difference domain comparison.
+For each integer k≥1, prove
+`ker(f(P)−k)=G⁻¹L²([k−1,k),dλ)` is nonzero (indeed infinite-dimensional).
+Here the interval L² space is embedded in `L²(ℝ,dλ)` by extension by zero.
+For every λ≤0 the level set of f at λ has Lebesgue measure zero, while every
+neighborhood of λ has preimage of positive measure. Include λ=0: the level
+set is empty, but negative values approach it. Thus prove
+`σ_p(f(P))=ℤ_+`, `σ_c(f(P))=(−∞,0]`, `σ_r(f(P))=∅`, and
+`σ(f(P))=(−∞,0]∪ℤ_+`. Prove the resolvent exists at every point outside
+that closed set by its bounded reciprocal multiplier. Give the PVM
+`P_(f(P))(B)=P_P(f⁻¹(B))`, its spectral family and its Stone group as the
+Fourier multiplier `exp(itf)`. Explicitly distinguish this continuous-to-point
+spectral collapse on positive-length intervals from a pure-point source
+operator: a Dirichlet-interval operator cannot meet this f requirement,
+since the closure of its eigenvalue image ℤ_+ contains no negative half-line.
+The source prints `Z_+` without an explicit convention here; if it included0,
+its two requested spectral sets would intersect at0, contradicting the
+standing disjoint point/continuous definitions. Record that qualification
+without changing the literal prompt.
+
+Retain the independent Dirichlet-interval example: for `−d²/dx²` on
+`H²(0,1)∩H₀¹(0,1)`, construct its normalized sine diagonalization, PVM,
+spectral family, Stone group and full Borel calculus with actual domains.
+This also consumes UO-E05's analytic sine span and graph-core calculation.
+It remains a required example alongside the corrected Exam Q1 witness.
+
+**Assignment 1 Q6 — the cylinder domain and closure.** The source span writes
+only xξ∈L², which does not ensure ξ∈L²: ξ(x)=x^(−1/2)1_(0,1)(x) is a
+counterexample. Preserve that literal condition separately and adopt
+`D₀=Span{φ(θ)ξ(x):φ∈C^∞(𝕋), ξ∈L²(ℝ), xξ∈L²(ℝ)}⊆L²(𝕋×ℝ)`.
+Define `A₀ψ=ix∂θψ` on D₀; all following core and closure statements concern
+this corrected Hilbert-space operator. Use normalized circle measure and
+Fourier modes `e^(inθ)`, `n∈ℤ`. The Fourier unitary sends A₀ to
+`u_n(x)↦−nx u_n(x)`. Prove its closure is the self-adjoint
+maximal multiplier with domain
+`{u:Σ_(n∈ℤ)∫_ℝ n²x²|u_n(x)|² dx<∞}`. Finite Fourier sums with smooth
+compactly supported x-coefficients lie in D₀ and are a graph
+core. Construct its PVM by multiplication by `1_E(−nx)`, compute its spectrum
+`ℝ`, and distinguish the zero eigenspace (the n=0 Fourier summand) from the
+continuous spectrum `ℝ\{0}`; its residual spectrum is empty. In the convention
+`U(t)=exp(it cl(A₀))`, prove `U(t)ψ(θ,x)=ψ(θ−tx,x)` and, for
+`(Bψ)(θ,x)=e^(iθ)ψ(θ,x)`, prove `U(t)BU(−t)=e^(−itx)B`.
+
+**Problems I8 — prescribed domain versus maximal diagonal closure.** For every
+sequence in the table's hypotheses put
+`M_λ x=(λ_n x_n)` on `D_max={x∈ℓ²:Σ|λ_n x_n|²<∞}`. Prove M_λ is closed,
+densely defined and normal, with adjoint the conjugate multiplier. The growth
+bound gives `D₃⊆D_max`; finite-support sequences lie in D₃ and approximate every
+x∈D_max in graph norm. Hence `cl(A)=M_λ`. Select indices n_j→∞ for a subsequence
+λ_(n_j)→i, and set `x_(n_j)=n_j^(−3)`, with other coordinates zero. Then
+x,M_λx∈ℓ² but `Σ n⁶|x_n|²=∞`; its finite truncations are in D₃ and converge
+in graph norm. This proves the stated A cannot satisfy A=Ā. With
+`Λ={λ_n:n≥1}`, compute for the meaningful closed comparison
+`σ(M_λ)=cl(Λ)=Λ∪{i,−i}`, `σ_p(M_λ)=Λ`,
+`σ_c(M_λ)={i,−i}\Λ`, and `σ_r(M_λ)=∅`. Allow either accumulation point to
+also occur as an actual eigenvalue. Construct the coordinate PVM and prove the
+resolvent formula on the complement of cl(Λ), including its range in D_max;
+do not infer these closed-normal conclusions from the incompatible assumption
+on the original restricted domain.
+
+**Problems I9 — rational point spectrum and irrational continuous spectrum.**
+Adopt a bijective enumeration `q:ℕ≃ℚ` and regard each q_n as real. On
+`ℓ²(ℕ;ℂ)` define `A_q x=(q_n x_n)` with its maximal domain
+`D_q={x:Σ_n |q_n|²|x_n|²<∞}`. Prove this is densely defined, closed and
+self-adjoint, and that the finite-support vectors form an operator graph core.
+Construct its normalized coordinate PVM
+`P(B)x=(1_B(q_n)x_n)_n` and its spectral family. Prove
+`σ(A_q)=ℝ`, `σ_p(A_q)=ℚ`, `σ_c(A_q)=ℝ\ℚ`, `σ_r(A_q)=∅`,
+and `ker(A_q−q_n)=ℂe_n`. For an irrational λ, rational approximations give
+normalized coordinate approximate eigenvectors; the kernel is zero and the
+range is dense but not surjective. Outside ℝ give the reciprocal diagonal
+resolvent and prove its range lies in D_q. The spectrum is the closure of
+this dense rational eigenvalue set; a total eigenbasis does not imply that
+the spectral set has no continuous-spectrum points. This is an explicit
+adopted self-adjoint realization of the readable request. The source's
+“(maybe) a 5-a op.” glyph, final symbol and clipped continuation remain
+unresolved; neither self-adjointness nor any extra requirement is attributed
+to that uncertain glyph. No missing remainder is reconstructed.
 
 The course packet also contains chapter examples that are acceptance tests rather than separate quantum-mechanics deliverables: weighted shifts and their adjoints/non-normality (physical pp. 131–133); multiplication spectra and the harmonic oscillator (pp. 141–160); joint spectra/commuting groups (pp. 170–182); deficiency and boundary examples (pp. 183–202); analytic vectors (pp. 203–210); angular momentum, hydrogen and tensor sums (pp. 211–221); Weyl relations (pp. 222–225). The generic operator identities and tensor-sum criteria belong here; physical eigenfunctions, representation conventions, and probabilities belong to Quantum Foundations.
 
