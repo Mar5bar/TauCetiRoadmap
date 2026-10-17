@@ -13,7 +13,8 @@ The endpoint is a collection of independent base cases, rather than the full ind
 Serre's conjecture. The consumers are `ClassicalSerreModularity:R26.1`, `R26.5` and `R33.4`. In
 particular, the argument below never assumes the level-one modularity theorem it will help prove.
 Layer 5 specifies the minimal lifting, compatible-family, ordinary and potential-modularity
-statements needed by the terminal arguments. Finite flat group schemes, local reciprocity,
+statements needed by the terminal arguments, together with the shared raw compatible-system data
+and their representation operations. Finite flat group schemes, local reciprocity,
 ramification filtrations, abelian schemes and Néron models are also imported. Here we specialise
 their theorems, carry out the small arithmetic calculations, and assemble the contradictions.
 
@@ -681,17 +682,32 @@ Fontaine, statement of Théorème A, p. 515.
 - The trivial scheme is killed by one and by every n, while a nontrivial group is not killed by one;
   multiplication by zero kills every group.
 
-`IsSimpleGroupScheme G` means `order G ≠ 1` and every closed flat subgroup embedding `M → G` has
-rank one or is an isomorphism. Its API is invariance under isomorphism and Cartier duality, and the
-generic-module comparison for a simple group over a Dedekind arithmetic base. The comparison and
-prime-order simplicity are supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.23; the
-new classification over `ℤ` is §3.2.
+`IsSimpleGroupScheme G` is the constant-rank specialization of the simplicity notion owned by
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.23: `order G ≠ 1`, and every closed flat
+subgroup embedding `M → G` has rank one or is an isomorphism. Use the supplier's predicate as an
+alias when its API is available; the suggested signature unfolds this condition on the pinned
+finite locally free carrier. The supplier owns invariance under isomorphism and Cartier duality,
+prime-order simplicity, and the Dedekind-base comparison. This roadmap owns the classification over
+`ℤ` in §3.2.
+
+The adapter `isSimpleGroupScheme_iff_generic` specializes that comparison: for a Dedekind domain R
+with fraction field K of characteristic zero, G is simple if and only if `G(K̄)` is nontrivial and
+has no proper nontrivial Galois-stable subgroup. The suggested signature takes `K = ℚ`, covering
+`ℤ` and `ℤ[1/l]`. Generic fibres are finite étale in characteristic zero, and the supplier's
+§R07.1.20 identifies generic subgroups with their finite flat schematic closures over R. These
+hypotheses belong to the comparison, not to the definition of simplicity. Sources:
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.1.20, R07.1.23; Raynaud (1974), §2.1,
+pp. 259–260; Schoof, proof of Proposition 5.1, p. 854.
 
 **Checks.**
 
-- The trivial scheme fails the nonzero condition.
-- Both `μ₂` and the constant order-two scheme pass.
-- The constant scheme `(ℤ/2ℤ)²` fails because a rank-two closed subgroup is proper.
+- The trivial scheme fails the nonzero condition, and its generic point group is trivial.
+- Both `μ₂` and the constant order-two scheme pass, with simple generic Galois modules, although
+  their integral models differ.
+- The constant scheme `(ℤ/2ℤ)²` fails because a rank-two closed subgroup is proper; its generic
+  module has the corresponding invariant line.
+- Over `ℤ_p[ζ_p]`, the closure of the graph subgroup in `ℤ/pℤ × μ_p` has rank p and is simple;
+  this uses the Dedekind-base comparison and does not identify the two factors over `ℤ`.
 
 `IsConstantGroupScheme G` means an isomorphism to the native constant scheme of a finite commutative
 group. `IsDiagonalizableGroupScheme G` means its Cartier dual is constant, so it is the split
@@ -1799,29 +1815,88 @@ Its finite part is unramified away from p. Source: Khare–Wintenberger, version
 3.3, p. 239 (proof, p. 243), and Theorem 4.2, pp. 244–245; the first preprint's corresponding lift results are
 in §3.
 
-Define `ArithmeticCompatibleFamily` to consist of a number field E, continuous semisimple rank-two
-representations `ρ_λ : G_ℚ → GL₂(E_λ)` for its finite places, a finite ramification set S, a
-polynomial `P_q ∈ E[X]` of degree two for every q outside S, and a fixed Hodge–Tate pair, with
-`det(X−ρ_λ(Frob_q)) = P_q` for q different from the residue characteristic of `λ`. Include
-unramifiedness outside S and that characteristic, coefficient embeddings and local
-Frobenius-semisimple Weil–Deligne compatibility, including the monodromy operator, at the places
-used in the argument. The term *almost strictly compatible* retains explicitly the finite
-exceptional set of coefficient places and the crystalline or Steinberg comparisons at
-residue-characteristic places used below. A common trace alone is insufficient. Its API includes
-coefficient extension, residual representations through stable lattices, recognition of a semisimple
-member by the common Frobenius polynomials, and propagation of modularity from one member to all
-members with the same polynomials. General representation operations and recognition come from
-ArithmeticGaloisRepresentations Layers 1, 2 and 5; GL2AutomorphicRepresentationsAndTransfer
-§§R17.6.17–R17.6.19 supply the transfer comparisons.
+The shared raw carrier `AutomorphicSystemData` is a target here, independent of any automorphic
+existence theorem. For an arbitrary number field F and rank `n ≥ 1`, it records a coefficient
+number field E, a finite bad set S, monic degree-n good-place polynomials with nonzero constant
+term, continuous semisimple members at every finite coefficient place λ, and integer Hodge
+multisets of size n at the labelled embeddings of F. Each member has a specified finite local
+realization field `L_λ/E_λ` and coefficient embedding into an algebraic closure. The carrier
+records these data without asserting polynomial, Hodge or period compatibility. In particular,
+E-valued polynomials do not imply that a member descends to `E_λ`. These raw data and their
+operations have this single owner; specialized arithmetic and automorphic compatibility predicates
+are additional conditions on them. Source: Allen–Calegari–Caraiani–Gee–Helm–Le Hung–Newton–Scholze–
+Taylor–Thorne, [Potential automorphy over CM fields](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf),
+§7.1, pp. 1084–1086, separating the five-tuple from its compatibility clauses.
 
-**Checks.**
+Its basic API transports the data under coefficient extension and conjugation, finite base-field
+restriction, direct sum, tensor product, dual and Tate twist, with identity and composition laws.
+On polynomials, sums take products, tensors take pairwise products of roots, and duals invert
+roots; Hodge multisets concatenate, add pairwise and negate respectively. Restriction raises
+Frobenius roots to residue degrees, restricts the Hodge labels and enlarges S by ramified places.
+The raw convention is geometric Frobenius and `HT(χ_cyc) = −1`: twisting by `χ_cyc^t` scales roots
+by `q_v^(−t)` and subtracts t from Hodge labels. These formulas concern the raw data; they assert
+no local comparison without its hypotheses. Source: the same §7.1 and the definitions of these
+representation operations in ArithmeticGaloisRepresentations Layers 1–2 and 5.
 
-- For the Tate system of an elliptic curve at a good prime q, `P_q = X²−a_qX+q`; switching arithmetic
-  and geometric Frobenius without dualizing gives the wrong determinant.
-- A system unramified outside S need not be unramified at `λ`'s residue characteristic; crystalline
-  comparison there is a separate condition.
-- Different twists at different `λ` that change the good-prime traces do not form a family with the
-  same `P_q`, even if the dimensions and Hodge–Tate pairs agree.
+**Checks for the shared data.**
+
+- The trivial rank-one system has polynomial `X−1` and label 0; the cyclotomic system has
+  geometric polynomial `X−q_v⁻¹` and label `−1`.
+- Unrelated polynomials and members are valid raw data but fail the common-polynomial condition.
+- Direct sums and tensor products of two rank-two data have rank four, so these operations stay
+  in the same carrier without imposing a rank-two hypothesis.
+- Specifying a member over `L_λ/E_λ` does not supply an `E_λ`-model; such a model requires a chosen
+  descent and an identification after scalar extension.
+
+Define `ArithmeticCompatibleFamily` as the base-`ℚ`, rank-two specialization of these data,
+with chosen `E_λ`-models and equivariant identifications after scalar extension, and the following
+additional predicates. Retain just one copy of the coefficient field, S, polynomials and Hodge data.
+Each member is unramified outside S and its residue characteristic, and has the prescribed
+common polynomial at good primes of different residue characteristic. The members are de Rham
+with the fixed Hodge pair and crystalline at good coefficient-prime places. Specify a common
+Frobenius-semisimple Weil–Deligne parameter, including monodromy, with a finite field of definition
+when a model is required, and require its comparison outside an explicitly given finite exceptional
+set of coefficient places and at the selected pairs used below. Crystalline or Steinberg conditions
+at those selected coefficient-prime pairs remain explicit hypotheses or conclusions.
+
+The adapter to the arithmetic convention used in the lifting statements sends a geometric
+polynomial P of degree n to `X^n P(1/X)/P(0)` and negates the numerical Hodge labels when using
+`HT(χ_cyc) = +1`. In a WD comparison, arithmetic Frobenius is the inverse of geometric
+Frobenius: invert its r-matrix, keep the inertia action and N, and invert the corresponding
+Frobenius–N conjugation relation. These convention changes leave the representation unchanged.
+Thus the stored negative Hodge pair
+corresponds to the pair `{0,k−1}` in that convention. This is separate from taking the dual,
+which changes the representation, inverts its Frobenius roots and negates its Hodge labels within
+a fixed convention.
+
+The finite-exception condition here is distinct from the almost-strict condition of
+Dieulefait–Pacetti, Definition 1.10, pp. 6–7. That condition permits omission only at a
+coefficient-prime pair with reducible global residual representation and either residue
+characteristic two or ramified common WD parameter. At an odd unramified coefficient prime it
+still requires comparison. An agreement with that predicate requires its de Rham, crystalline and
+pairwise WD clauses at every non-omitted pair, including coefficient places in the finite
+exceptional set here; no implication from finiteness of that set alone is asserted. Sources:
+Dieulefait–Pacetti, Definition 1.10; Khare–Wintenberger, Theorem 4.2, pp. 244–245.
+
+The family API includes coefficient extension with the chosen models, residual representations
+through stable lattices, recognition of a semisimple member by common Frobenius polynomials, and
+propagation of modularity from one member to members with those same polynomials. General
+representation operations and recognition use ArithmeticGaloisRepresentations Layers 1, 2 and 5;
+GL2AutomorphicRepresentationsAndTransfer §§R17.6.17–R17.6.19 supply the transfer comparisons.
+The minimal-lift construction and its selected auxiliary-prime comparisons remain targets here.
+
+**Checks for the arithmetic specialization.**
+
+- For an elliptic Tate system at a good prime q, the geometric polynomial is
+  `X²−(a_q/q)X+1/q`; the adapter gives the arithmetic polynomial `X²−a_qX+q`.
+- Unramifiedness outside S and the coefficient characteristic does not assert unramifiedness
+  at the coefficient characteristic; the crystalline comparison is a separate clause.
+- Different twists at different λ that change the good-prime traces fail the common-polynomial
+  condition, even when dimensions and Hodge pairs agree.
+- Omitting comparison at an odd unramified coefficient prime with reducible reduction is not
+  allowed by Definition 1.10, even if that coefficient place lies in the finite exceptional set.
+- A Steinberg parameter has nonzero monodromy; its Frobenius polynomial alone does not identify
+  its WD parameter with one having zero monodromy.
 
 Prove `minimalLift_compatibleFamily`: the minimal crystalline lifts above admit such a family with S
 empty, the same Hodge–Tate pair and an identified original member. Retain the following specific
@@ -1869,49 +1944,51 @@ hypotheses, rather than a consequence of modularity alone.
 
 ### 5.1 Abelian varieties of GL₂-type
 
-Define `IsGL2Type A K` for an abelian variety A over a number field F and a number field K acting by
-F-rational endomorphisms up to isogeny. Explicitly,
+Define `GL2TypeAction A K` for an abelian variety A over a number field F and a number field K:
+it contains a chosen unital action `ι : K →+* End⁰_F(A)` and the equality `[K:ℚ] = dim A`.
+The predicate `IsGL2Type A K` asserts existence of such data and carries no chosen action.
+Since the dimension is positive and K is a field, the action is faithful. The base F is essential:
+the descent theorem passes through an abelian variety over a finite extension of `ℚ`. No simplicity
+hypothesis on A is required. Sources: Snowden, §9.4, before Lemma 9.4.3, p. 29;
+Khare–Wintenberger, Theorem 3.1(ii), §3, p. 16 of the arXiv version.
 
-`K → End⁰_F(A) = ℚ ⊗_ℤ End_F(A), [K:ℚ] = dim A.`
+The library carriers are `TauCeti.AlgebraicGeometry.AbelianVariety`, its `dim` and its `End`.
+AbelianSchemesAndArithmeticModuli A6 supplies rational endomorphisms and their Tate action;
+A6.12 / `traceDegreeSubfield` gives rank-two freeness for the specified action. Specialize
+ArithmeticGaloisRepresentations §6.4 / `TateModule.lambdaTateModule` using the embedding ι and its
+image subfield: the identification `K ≃ ι(K)` transports its scalars back to K. Thus each realization
+uses the input action, with no fresh choice from `IsGL2Type`. The API is:
 
-Since K is a field and the map is unital, the action is faithful. The general base F is essential:
-the descent lemma passes through an abelian variety over a finite extension of `ℚ`. Simplicity of A is
-not part of the definition. Snowden, §9.4, before Lemma 9.4.3, p. 29, uses this notion;
-Khare–Wintenberger, Theorem 3.1(ii), §3, p. 16 of the arXiv version, uses the same arithmetic
-structure.
-
-The library carrier is `TauCeti.AlgebraicGeometry.AbelianVariety`,
-`TauCeti.AlgebraicGeometry.AbelianVariety.dim` and `TauCeti.AlgebraicGeometry.AbelianVariety.End`.
-AbelianSchemesAndArithmeticModuli A6 supplies rational endomorphisms and their action on the Tate
-module; AbelianSchemesAndArithmeticModuli A3 and ArithmeticGaloisRepresentations §6.1 supply the
-rational Tate module. Use AbelianSchemesAndArithmeticModuli A6.12 / `traceDegreeSubfield` with
-`[K:ℚ] = dim A` for rank-two freeness, and ArithmeticGaloisRepresentations §6.4 /
-`TateModule.lambdaTateModule` for the `λ`-factor and its continuous Galois action. The following
-`IsGL2Type` Tate-module names are specialization aliases to those supplied objects and theorems.
-The resulting API is:
-
-- `IsGL2Type`: The action and the dimension equality.
-- `IsGL2Type.lambdaAdicRep`: For `λ` over p, the `G_F`-representation
-  `V_λ(A) = V_p(A) ⊗_{K ⊗ ℚ_p}K_λ`.
-- `IsGL2Type.finrank_lambdaAdicRep`: Its `Kλ`-dimension is two.
-- `IsGL2Type.free_tateModule`: `V_p(A)` is free of rank two over `K ⊗ ℚ_p`.
-- `IsGL2Type.isogeny`: Transport of the K-action across an F-isogeny, with the resulting `λ`-adic
-  representations identified.
-- `ComesFromGL2Type`: A two-dimensional representation is a scalar extension of some `V_λ(A)`,
-  through an embedding `K ↪ ℚ̄_p` inducing `λ`.
-- `IsGL2Type.baseChange`: Finite base change preserves the structure and restricts the `λ`-adic
-  representation to the smaller Galois group.
+- `GL2TypeAction.lambdaAdicRep`: For marked data h and `λ|p`, the continuous `G_F`-representation
+  `V_λ(A,h) = V_p(A) ⊗_{K ⊗ ℚ_p} K_λ`, using `h.action` in the tensor product. Its identification
+  with the supplied `TateModule.lambdaTateModule` is K-equivariant and compatible with coefficient
+  extension and the decomposition over all `λ|p`.
+- `GL2TypeAction.finrank_lambdaAdicRep`: For the same h, its `K_λ`-dimension is two.
+- `GL2TypeAction.free_tateModule`: For the same h, `V_p(A)` is free of rank two over `K ⊗ ℚ_p`.
+- `GL2TypeAction.isogeny`: For an F-isogeny `f:A → B`, transport h by
+  `ι_B(a) = f ι_A(a) f⁻¹` in the rational isogeny category. The induced Tate map intertwines
+  these marked K-actions and identifies their λ-factors.
+- `GL2TypeAction.baseChange`: For a finite extension `F′/F`, transport ι by base change of
+  F-rational endomorphisms. The marked λ-representation is the restriction to `G_F′`.
+- `IsGL2Type.isogeny` and `IsGL2Type.baseChange`: The corresponding unmarked existence results.
+- `ComesFromGL2Type`: Existence of A, K, marked data `h : GL2TypeAction A K`, a specified embedding
+  `K ↪ ℚ̄_p` inducing λ, and an equivariant isomorphism from the scalar extension of
+  `GL2TypeAction.lambdaAdicRep h λ` to the given rank-two representation.
 
 `endZeroAlgebra A` denotes `ℚ ⊗[ℤ] A.End`, with the endomorphism-ring structure and scalar extension
-from AbelianSchemesAndArithmeticModuli A6.8 and A6.10–A6.12. Its API is the natural map from
-integral endomorphisms, scalar compatibility and transport by quasi-isogenies. For a non-CM elliptic
+from AbelianSchemesAndArithmeticModuli A6.8 and A6.10–A6.12. Its API includes the natural map from
+integral endomorphisms and scalar compatibility. The transport maps are `endZeroIsogeny`, the
+unital ring isomorphism given by conjugation with an F-isogeny, and `endZeroBaseChange`, the
+unital ring map induced by base change to a finite extension. Their identity and composition laws
+agree with conjugation and base change of endomorphisms. For a non-CM elliptic
 curve its value is `ℚ`; for a CM elliptic curve with all endomorphisms defined over the base it is the
 imaginary quadratic CM field; for `E×E` with E non-CM it is `M₂(ℚ)`. These three checks distinguish
 rationalization, the rationality field of endomorphisms and the product algebra (Snowden, §9.4, pp.
 29–30; the rational endomorphism supplier above).
 
 `ComesFromGL2Type` has API lemmas for isomorphism of representations, coefficient extension, isogeny
-and finite restriction, retaining the specified embedding of K into `ℚ̄p`. Its checks are the elliptic
+and finite restriction, retaining both the chosen action and the specified embedding of K into `ℚ̄p`.
+Isogeny and restriction use exactly the two marked transports above. Its checks are the elliptic
 Tate module `(K = ℚ)`, the marked `λ`-factor of `J₀(23)` `(K = ℚ(√5))`, and exclusion of a one-dimensional
 character by rank. The whole four-dimensional `ℚp` Tate module of `J₀(23)` is not its two-dimensional
 `λ`-factor. These pin both the realization marking and its dimension.
@@ -1930,6 +2007,11 @@ is `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny`.
 - `not_isGL2Type_prod_rat`: a dimension-two surface such as `E×E` fails the predicate with `K = ℚ`. This
   tests the dimension equality, not a prohibition on `GL₂`-type: a quadratic field can embed in
   `M₂(ℚ)`.
+- For such a product `E×E`, a quadratic embedding and its conjugate by a rational invertible
+  matrix give marked actions transported by the corresponding quasi-isogeny; forgetting the
+  action preserves `IsGL2Type` but does not specify a λ-factor.
+- The identity isogeny preserves ι, and finite base change sends every `ι(a)` to its base change;
+  both tests compare the marked λ-factor with `TateModule.lambdaTateModule` for that same action.
 - `isGL2Type_zero`: dimension zero fails for every number field K, whose degree is positive.
 
 The `J₀(23)` test uses the modular Jacobian itself and its Hecke embedding `ℚ(√5) ↪ End⁰_ℚ(J₀(23))`. Tau Ceti's ModularCurves Layer
