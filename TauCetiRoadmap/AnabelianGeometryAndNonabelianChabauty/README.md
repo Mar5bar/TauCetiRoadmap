@@ -3798,13 +3798,14 @@ The API includes `wordShuffleDuality`, `wordCoordinate_empty`, `wordCoordinate_s
 
 <a id="neutral-tensor-reconstruction"></a>
 
-**Neutral tensor category and Hopf reconstruction.** Let K be a characteristic-zero field and C an essentially small K-linear rigid abelian symmetric tensor category with `End(1)=K` and an exact faithful K-linear tensor functor ω:C→finite-dimensional K-vector spaces. Use PadicDifferentialEquationsAndRigidCohomology §RD.6.64 (`RD6.neutralTannakian_recognition`) for the Hopf algebra of matrix coefficients, representation of `Aut^⊗(ω)` on every commutative K-algebra, and the tensor equivalence with finite-dimensional representations. For a second fibre functor `η`, construct `Isom^⊗(ω,η)` as the affine fpqc torsor with its evaluation coactions. Identify the unit-generated extension subcategory with the pro-unipotent quotient, and compare this reconstruction with Tau Ceti's finite-comodule equivalence when the Hopf algebra was given initially.
+**Neutral tensor category and Hopf reconstruction.** Let K be a characteristic-zero field and C an essentially small K-linear rigid abelian symmetric tensor category with `End(1)=K` and an exact faithful K-linear tensor functor ω:C→finite-dimensional K-vector spaces. Use PadicDifferentialEquationsAndRigidCohomology §RD.6.64 (`RD6.neutralTannakian_recognition`) for the Hopf algebra of matrix coefficients, representation of `Aut^⊗(ω)` on every commutative K-algebra, and the tensor equivalence with finite-dimensional representations. For a commutative K-algebra R and an exact faithful K-linear tensor fibre functor `η:C→Proj_R`, construct `Isom^⊗(R⊗ω,η)` as an affine fpqc torsor under `Aut^⊗(ω)_R`, with right precomposition and commuting left postcomposition by `Aut^⊗(η)`. Here `Proj_R` consists of finite projective R-modules. C need not have a tensor generator, so the representing groups may be proaffine. Identify the unit-generated extension subcategory with the pro-unipotent quotient, and compare this reconstruction with Tau Ceti's finite-comodule equivalence when the Hopf algebra was given initially.
 
 All coends use a fixed small skeleton; scalar extension and tensor isomorphisms are considered on every commutative K-algebra. Faithfulness and exactness are hypotheses.
 
 The interface consists of the following named results.
 
 - `NeutralTensor.tensorIsomTorsor`: Represent tensor isomorphisms with left and right coactions.
+- `NeutralTensor.tensorIsomTorsor_repEquiv`: For `C=Rep_K(G)` with G an affine group scheme of finite type and ω the forgetful functor, identify this torsor with ReductiveGroups Layer 1's `tensorIsomTorsor`. On every R-algebra S the comparison sends a tensor isomorphism to itself; it intertwines right precomposition and left postcomposition and commutes with base change in R and tensor isomorphisms of η. The finite-type torsor is faithfully flat of finite presentation. Under `g·p=p∘g⁻¹`, the comparison preserves its class in SchemeAndStackFoundations §§1.15 and 2.3's common fppf torsor-class carrier `NonabelianH1`, using ReductiveGroups Layer 1's `tensorIsomTorsor_rightToLeft` and `tensorIsomTorsor_actions`. No connectedness or reductivity hypothesis is imposed on G.
 - `NeutralTensor.unipotentQuotient`: Identify the unit-extension subcategory.
 
 **Checks.**
@@ -3812,10 +3813,13 @@ The interface consists of the following named results.
 - For finite-dimensional vector spaces with the identity fibre functor the group is trivial.
 - For representations of `G_a`, recover its coordinate Hopf algebra and its unipotent group.
 - Truncating objects to a fixed extension length is not tensor-closed: lengths n and m can produce length `n+m`.
+- For `η=R⊗ω` with nonzero R and finite-type G, the comparison identifies the identity tensor isomorphism and the neutral torsor class on both sides.
+- For `G=GL₂`, precomposition by `a=((1,1),(0,1))` followed by `b=((1,0),(1,1))` sends p to `p∘a∘b`, with `ab≠ba`. Postcomposition by h sends this to `h∘p∘a∘b` on both sides of the comparison; the common left G-action is `g·p=p∘g⁻¹`.
+- For `G=μ₂/ℚ`, descend the forgetful functor over `ℚ(√2)` using the cocycle `σ↦σ(√2)/√2`. Both constructions give the nonneutral torsor `Spec ℚ(√2)`, which becomes neutral over `ℚ(√2)`; an fpqc torsor need not have a rational tensor isomorphism.
 
-The construction and its conventions follow [Pierre Deligne and James S. Milne](#reference-deligne-milne), §2, Theorem 2.11 and its proof, note pp. 21–29; §3, Theorem 3.2, pp. 31–33; [Amnon Besser](#reference-besser), §2, Tannakian categories and fibre functors, PDF pp. 2–5; [Minhyong Kim](#reference-kim2009), §1, published pp. 97–101.
+The construction and its conventions follow [Pierre Deligne and James S. Milne](#reference-deligne-milne), §2, Theorem 2.11 and its proof, note pp. 21–29; §3, Theorem 3.2(a)–(b) and Remark 3.3(b), pp. 31–32. Finite presentation in the finite-type case descends from G after an fpqc trivialization. The unipotent specialization follows [Amnon Besser](#reference-besser), §2, Tannakian categories and fibre functors, PDF pp. 2–5; [Minhyong Kim](#reference-kim2009), §1, published pp. 97–101.
 
-Use [PadicDifferentialEquationsAndRigidCohomology](../PadicDifferentialEquationsAndRigidCohomology/README.md) §RD.6.64 (`RD6.neutralTannakian_recognition`); [Unipotent groups and their homogeneous quotients in characteristic zero](#split-unipotent-quotients); `CategoryTheory.MonoidalCategory`; `ModuleCat`; [TauCetiRoadmap.ReductiveGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-0-the-functor-of-points-and-the-three-way-dictionary).
+Use [PadicDifferentialEquationsAndRigidCohomology](../PadicDifferentialEquationsAndRigidCohomology/README.md) §RD.6.64 (`RD6.neutralTannakian_recognition`); [Unipotent groups and their homogeneous quotients in characteristic zero](#split-unipotent-quotients); `CategoryTheory.MonoidalCategory`; `ModuleCat`; [ReductiveGroups](../ReductiveGroups/README.md) Layer 1 (finite-type tensor-isomorphism torsors and their two actions); [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §§1.2, 1.15 and 2.3 (affine descent, torsors and their common class carrier).
 
 ### 2.2 Unipotent categories, fundamental groups and path torsors
 
