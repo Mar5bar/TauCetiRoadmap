@@ -732,7 +732,10 @@ the genus-one family over ℍ is AbelianSchemesAndArithmeticModuli's `SiegelFami
 * Level-H structures away from the level
 * The Deligne–Rapoport level-H stack
 * The cyclotomic structure of X_H
-* The fixed-pairing compactified curve
+* The fixed-pairing compactified curve (README §5.13): coarse base change for flat
+  changes, for N≥3 with N invertible, for N≥2 outside positive prime powers and
+  twice such powers, and for N=1 via the coarse projective j-line; the level-one
+  stack retains inversion and is not a scheme.
 * Compactified twisted curves X(ρ)
 * Level maps between coarse curves
 * Cartan modular curves

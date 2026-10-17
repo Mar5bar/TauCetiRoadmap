@@ -2017,34 +2017,35 @@ The public interface should expose:
 
 ### 5.13 The fixed-pairing compactified curve
 
-For `N≥1` and a ring R with a ring map `ζ:ℤ[ζ_N]→R`, let `𝒳(N,ζ)_R:=𝒳_{Γ(N)}×_{Spec ℤ[ζ_N]}Spec` R, using the extended Weil pairing `𝒳_{Γ(N)}→Spec ℤ[ζ_N]` (Conrad Theorem 4.1.1(3)), and let `X(N,ζ)_R` be its coarse space. For `R=ℤ[ζ_N]`, `X(N,ζ)=X(N)` with its cyclotomic structure. Its elliptic open over `ℤ[1/N,ζ_N]` is the coarse space of the stack of curves with full level structure of Weil pairing `ζ`, which for `N≥3` is upstream's fine scheme `Y(N,ζ)`. The formation of `X(N,ζ)_R` commutes with base change `R→R′` when R′ is flat over R, when `N≥3` and R is a `ℤ[1/N]`-algebra, and when N is not of the form `p^s` or `2p^s`, because `𝒳_{Γ(N)}` is then a scheme. Over `ℤ[1/N,ζ_N]` it is a smooth proper curve, and `X(N)_{ℤ[1/N,ζ_N]}` is the disjoint union over `d∈(ℤ/N)^×` of the curves `X(N,ζ^d)_{ℤ[1/N,ζ_N]}`. Geometric connectedness of its fibres is theorem [§4.10](#s4-10) and is not used here.
+For `N≥1` and a ring R with a ring map `ζ:ℤ[ζ_N]→R`, let `𝒳(N,ζ)_R:=𝒳_{Γ(N)}×_{Spec ℤ[ζ_N]}Spec` R, using the extended Weil pairing `𝒳_{Γ(N)}→Spec ℤ[ζ_N]` (Conrad Theorem 4.1.1(3)), and let `X(N,ζ)_R` be its coarse space. For `R=ℤ[ζ_N]`, `X(N,ζ)=X(N)` with its cyclotomic structure. Its elliptic open over `ℤ[1/N,ζ_N]` is the coarse space of the stack of curves with full level structure of Weil pairing `ζ`, which for `N≥3` is upstream's fine scheme `Y(N,ζ)`. The formation of `X(N,ζ)_R` commutes with base change `R→R′` when R′ is flat over R, when `N≥3` and R is a `ℤ[1/N]`-algebra, when `N≥2` and N is not of the form `p^s` or `2p^s` (`s≥1`), because `𝒳_{Γ(N)}` is then a scheme, and when `N=1`, because [§3.11](#s3-11) identifies the coarse curve with `ℙ¹_R` compatibly with arbitrary base change. Over `ℤ[1/N,ζ_N]` it is a smooth proper curve, and `X(N)_{ℤ[1/N,ζ_N]}` is the disjoint union over `d∈(ℤ/N)^×` of the curves `X(N,ζ^d)_{ℤ[1/N,ζ_N]}`. Geometric connectedness of its fibres is theorem [§4.10](#s4-10) and is not used here.
 
 `N≥1`; R a `ℤ[ζ_N]`-algebra.
 
 The listed base-change cases are the only ones asserted.
 
-Establish this as follows. Base change the full-level stack along `ζ` and take the Keel–Mori coarse space (SchemeAndStackFoundations §1.23, `keel_mori`). For `R=ℤ[ζ_N]` the base change is the identity, so the coarse space is `X(N)` with its cyclotomic structure ([§5.12](#s5-12)). Base change: flat base change of coarse spaces; for `N≥3` over `ℤ[1/N]` the stack is a fine scheme (Katz–Mazur rigidity, upstream 2F, 5B); for N not of the form `p^s`, `2p^s` the stack is a projective scheme over `ℤ` ([§5.1](#s5-1)). Over `ℤ[1/N]` the ring `ℤ[1/N,ζ_N]⊗_ℤℤ[ζ_N]` is the product of copies of `ℤ[1/N,ζ_N]` indexed by `σ_d`, which splits `X(N)` after base change into the fibres `X(N,ζ^d)`. Smoothness over `ℤ[1/N,ζ_N]` from [§5.8](#s5-8) (c) and [§5.3](#s5-3).
+Establish this as follows. Base change the full-level stack along `ζ` and take the Keel–Mori coarse space (SchemeAndStackFoundations §1.23, `keel_mori`). For `R=ℤ[ζ_N]` the base change is the identity, so the coarse space is `X(N)` with its cyclotomic structure ([§5.12](#s5-12)). Base change: flat base change of coarse spaces; for `N≥3` over `ℤ[1/N]` the stack is a fine scheme (Katz–Mazur rigidity, upstream 2F, 5B); for `N≥2` not of the form `p^s`, `2p^s` (`s≥1`) the stack is a projective scheme over `ℤ` ([§5.1](#s5-1)); for `N=1`, `ℤ[ζ₁]=ℤ` and the stack retains inversion, while its coarse j-line and projective completion are `𝔸¹_R` and `ℙ¹_R` for every R by [§3.11](#s3-11), compatibly with every `R→R′`. Over `ℤ[1/N]` the ring `ℤ[1/N,ζ_N]⊗_ℤℤ[ζ_N]` is the product of copies of `ℤ[1/N,ζ_N]` indexed by `σ_d`, which splits `X(N)` after base change into the fibres `X(N,ζ^d)`. Smoothness over `ℤ[1/N,ζ_N]` from [§5.8](#s5-8) (c) and [§5.3](#s5-3).
 
 The public interface should expose:
 
 - `fixedPairingCurve`: `X(N,ζ)_R` for a ring R with `ζ:ℤ[ζ_N]→R`.
 - `fixedPairingCurve.toBase`: The proper structure morphism `X(N,ζ)_R→Spec` R.
 - `fixedPairingCurve.ellipticOpen`: Over `ℤ[1/N,ζ_N]` and `N≥3` its elliptic open is upstream's `Y(N,ζ)`.
-- `fixedPairingCurve.baseChange`: The comparison `X(N,ζ)_{R′}→X(N,ζ)_R×_R` R′, an isomorphism in the three listed cases.
+- `fixedPairingCurve.baseChange`: The comparison `X(N,ζ)_{R′}→X(N,ζ)_R×_R` R′, an isomorphism in the four listed cases.
 - `fullLevel_split`: `X(N)×_ℤℤ[1/N,ζ_N] ≅ ⊔_{d∈(ℤ/N)^×} X(N,ζ^d)_{ℤ[1/N,ζ_N]}`.
 - `fixedPairingCurve.galois`: The frame change by [[1,0],[0,d]] gives an isomorphism `X(N,ζ)_R≅X(N,ζ^d)_R` over R and over the j-line; for `R=ℤ[ζ_N]` it is an automorphism of `X(N)` lying over `σ_d`.
 
 **Checks.**
 
 - For `N=1` and `N=2`, `ℤ[ζ_N]=ℤ` and `X(N,ζ)=X(N)`; `X(1,ζ)=ℙ¹_ℤ` and `X(2)` has degree 6 over `ℙ¹`.
+- At `N=1`, `𝒳(1,ζ)_ℚ` retains the nontrivial inversion automorphism and is not a scheme, although 1 is neither `p^s` nor `2p^s` for `s≥1`. Its coarse curve is `ℙ¹_ℚ`; over every ring R it is `ℙ¹_R`, including after the nonflat base change `ℤ→𝔽₂`.
 - `X(5,ζ)` over `ℚ(ζ₅)` has degree 60 over the j-line and twelve cusps, each of width 5.
 - `X(5)` over `ℚ` is not `X(5,ζ)`: it has degree 240 over `ℙ¹_ℚ` and maps onto `Spec ℚ(ζ₅)`.
 - For `N≥3` over `ℤ[1/N,ζ_N]` the coarse map is an isomorphism from the stack, which is upstream's fine scheme `Y(N,ζ)` on the elliptic open.
 - `N=5` over `ℚ(ζ₅)`: `X(5,ζ)` has degree 60 over `ℙ¹` and twelve cusps of width 5, whereas `X(5)_ℚ` has degree 240.
 
-*Needs:* [§5.1](#s5-1); [§5.3](#s5-3); [§5.8](#s5-8); [§5.12](#s5-12); `SchemeAndStackFoundations §1.23/keel_mori`; [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 2F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2f-endomorphism-degree-trace-and-rigidity).
+*Needs:* [§3.11](#s3-11); [§5.1](#s5-1); [§5.3](#s5-3); [§5.8](#s5-8); [§5.12](#s5-12); `SchemeAndStackFoundations §1.23/keel_mori`; [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 2F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2f-endomorphism-degree-trace-and-rigidity).
 
-([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 4.1.1(3), p.31; Lemma 4.2.4, p.37; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Proposition 4.3.6, p.39; [Roadmap: modular curves, following Katz–Mazur (Tau Ceti roadmap ModularCurves)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves), §5B and Convention 5.)
+([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 4.1.1(3), p.31; Lemma 4.2.4, p.37; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Proposition 3.3.2 and proof, pp.24–25; Proposition 4.3.6, p.39; [Roadmap: modular curves, following Katz–Mazur (Tau Ceti roadmap ModularCurves)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves), §5B and Convention 5.)
 
 <a id="s5-14"></a>
 
