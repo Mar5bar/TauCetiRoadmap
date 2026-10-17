@@ -16,6 +16,10 @@ namespace TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 open scoped BigOperators
 
 /-! ## Layer 1: stable conjugacy and arithmetic invariants
+Section 1.1's NonabelianH1.exact_of_normal requires a Γ-stable normal subgroup H′ of H.
+The (H/H′)^Γ-orbits are the fibres of H¹(Γ,H′) → H¹(Γ,H); their quotient is the
+neutral fibre of H¹(Γ,H) → H¹(Γ,H/H′). Other nonempty fibres use the twisted sequence
+after choosing a cocycle lift.
 Section 1.8 uses the full embedding-permuting Weil action on the supplied pinned dual.
 Section 1.9's InnerTwist.equiv_of_localClass_eq takes equality of localized marked
 cohomology classes and returns equivalence of the two InnerTwist objects as in §1.6.
@@ -164,7 +168,10 @@ The reductive and harmonic carriers required for these statements are described 
 AutomorphicSpectralTheory §4.14a supplies the residual index and representations.
 The endoscopic labels use those same objects; the GL intertwiner normalization is a README target. -/
 
-/-! ## Layer 6: stable and twisted unitary trace comparison -/
+/-! ## Layer 6: stable and twisted unitary trace comparison
+Section 6.2 supplies Tamagawa number one for every simply connected semisimple group
+over a number field, including type-C derived covers and inner centralizers.
+Section 6.5 uses this theorem for the absolute Tamagawa formulas. -/
 
 /-- The numerical component count for d=[F⁺:ℚ] and the block sizes.
 Its group interpretation requires d>0 and a nonempty list of positive sizes. -/
@@ -253,7 +260,10 @@ example (a : ℕ) (c₁ c₂ : ℚ)
 /-! ## Layer 9: raw compact-unitary cohomology
 The geometric complex, its graded pieces and its commuting actions are README targets. -/
 
-/-! ## Layer 10: trace parameters and classical comparison -/
+/-! ## Layer 10: trace parameters and classical comparison
+Section 10.8 transports one Haar measure through each norm centralizer identification.
+Its lattice sums retain reciprocal volumes of the actual compact open stabilizers;
+the norm equivalence identifies these subgroups and their weights. -/
 
 /-- Subdiagonal monodromy of the raw special block: N e_j=e_(j+1). -/
 def specialMonodromy (k : ℕ) : Matrix (Fin k) (Fin k) ℚ :=
@@ -306,11 +316,19 @@ tensor and Asai transfers and the completed local compatibilities.
 Their packet carriers and weighted stabilization identities are specified in README.md. -/
 
 /-! ## Layer 12: local towers and their cohomology
-The marked relative chart and the actual cohomological realizations are README targets. -/
+The marked relative chart and the actual cohomological realizations are README targets.
+Section 12.16's TowerLocallyAnalytic.orbitMapEquiv identifies the tower analytic vectors
+with the generic invariant orbit-map carrier on LocallyAnalyticDistributions' stages.
+Evaluation at the identity and the orbit map give inverse topological linear maps,
+compatible with radius restriction, right translation and the differentiated Lie action. -/
 
 /-! ## Layer 13: pure automorphic transfer and level comparison
 The packet and oldform statements require UnitaryClassificationInputs, and GSp₄
-classification requires GSp4ClassificationInputs, as well as the automorphic carriers. -/
+classification requires GSp4ClassificationInputs, as well as the automorphic carriers.
+Section 13.9's oldform dimensions and their §15.6 export separately assume that Π_w
+is tempered at every finite place w; relevance and UnitaryClassificationInputs do not
+supply this hypothesis. The infinity Matsushima factor and the finite special-maximal
+zero/one calculation use their respective temperedness inputs. -/
 
 /-! ## Layer 14: rational Igusa spectral comparison
 Virtual spectral factorization is separate from degree-wise concentration. -/
