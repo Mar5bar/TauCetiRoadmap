@@ -794,7 +794,70 @@ For arbitrary locally compact Hausdorff abelian G, develop the shared
 harmonic-analysis layer using Mathlib `PontryaginDual` and Tau Ceti
 `Analysis/Fourier/Pontryagin/{DualEval,Continuity,Measure,Uniqueness,StronglyContinuous}`.
 Construct the compact-open dual topology, dual Haar normalization, the
-positive-character Fourier transform on C_c and L¹, inversion on its
+positive-character Fourier transform on C_c and L¹. The compact-open
+dual and inversion-free closed double-dual embedding precede BanachAlgebras A7's L¹
+uniqueness extension of native finite-positive-measure uniqueness;
+it consumes no Fourier inversion theorem. Construct the commutative
+reduced group C*-algebra from integrated translations on L²(G).
+Consume AmenableGroups7.1–2's Haar/convolution interfaces and
+BanachAlgebras A7's early L² regular representation, L¹ convolution
+and integrated maps,
+including λ_xλ(f)=λ(δ_x*f), faithfulness and commutativity for abelian G.
+Those early A7 items precede its character/Fourier-uniqueness item,
+which in turn consumes this closed embedding.
+For x≠1, choose a compactly supported vector whose x-translate differs,
+and use a Gelfand character detecting `(λ_x−1)a≠0` in that algebra.
+Extend the character to its multipliers; the values on λ_g give a
+continuous unitary character separating x from1. Before A7's later
+character item, own the weak-star-to-compact-open continuity lemma:
+for f∈C_c(G) and compact K⊆G the set {λ(δ_x*f):x∈K} is
+norm compact by translation continuity. Bounded weak-star convergent
+nets of C*_r(G) characters converge uniformly on this set. At a fixed
+nonzero limit character choose f with φ(λ(f))≠0 and divide the
+identity φ(λ(δ_x*f))=γ_φ(x)φ(λ(f)); obtain uniform convergence
+of γ_φ on K. Thus the character space's compact subsets map to
+compact subsets of the compact-open dual, independently of A7's
+later homeomorphism. For each open identity neighbourhood U, choose
+ξ∈C_c(G) with ‖ξ‖₂=1 and
+supp ξ·(supp ξ)⁻¹⊆U. Construct it from a normalized nonzero
+compact-continuous bump in a sufficiently small relatively compact
+neighbourhood. Set p(g)=⟨ξ,λ_gξ⟩; prove supp p⊆U.
+Write A=C*_r(G), Ω for its nonzero character space and Ω⁺ for
+the character space of its external unitization, with ∞ the augmentation
+character given by native `Unitization.fst`. Consume BanachAlgebras
+A3's unitization/character-space comparison; Ω⁺ is the one-point
+compactification when A is genuinely nonunital. Extend λ by native
+Unitization.starLift and use its normalized vector state ω⁺_ξ.
+Native commutative Gelfand duality and BanachSpaceTheory B5's compact
+Riesz theorem give a positive regular probability ν on Ω⁺.
+Use native CStarAlgebra.approximateUnit, eventually positive contractive
+and approaching the identity on A. Prove λ(e)ξ→ξ by A7's
+nondegeneracy, first on λ(A)H and then by density and uniform
+contractivity. For the Gelfand function ê, prove
+ê(∞)=0 and 0≤ê≤1_Ω, so
+ν(Ω)≥∫ê dν=⟨ξ,λ(e)ξ⟩→1. Hence ν({∞})=0.
+
+Prove the coefficient identity p(g)=∫_Ω γ_φ(g) dν(φ).
+For λ_g e∈A use φ(λ_g e)=γ_φ(g)φ(e), then pass
+to the approximate-unit limit. Own uniform φ(e)→1 on each compact
+K⊆Ω: choose finitely many a_j∈A with
+Σ_j|φ(a_j)|²≥δ>0 on K and apply norm convergence of
+e·Σ_j star(a_j)·a_j. Use compact uniform convergence and regularity/tail
+bounds to pass the integral limit. This controls the approximate-unit filter
+directly; the native dominated-convergence theorem for filters requires
+countable generation, which is not assumed here.
+Choose K⊆Ω compact with ν(Ω\K)<ε, where 0<ε<1/3.
+If |γ_φ(g)−1|<ε on K, the identity gives
+|p(g)−1|<3ε, hence p(g)≠0 and g∈U. The earlier continuity
+lemma makes γ(K) compact in the compact-open dual, so this condition
+is an actual neighbourhood in the double dual. Prove evaluation is
+a topological embedding and its locally compact image is closed.
+These steps consume native Gelfand/approximate-unit
+APIs, BanachAlgebras A3 and BanachSpaceTheory B5, with no Fourier
+injectivity, inversion or double-dual surjectivity.
+This is the Gelfand–Raikov point-separation/embedding input to A7;
+the later double-dual surjectivity is not used there. Consume that single A7
+injectivity result before constructing inversion on its
 integrable domain, and Fourier–Plancherel on L². Prove the evaluation
 map `G→dual(dual G)` a topological group isomorphism, its naturality,
 and Fourier/Haar rescaling compatibilities. Give compact-support density
