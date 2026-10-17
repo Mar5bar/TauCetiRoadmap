@@ -375,6 +375,9 @@ Commutative p-divisible sheaves satisfy the same condition. The downstream inter
 construction is owned by AbelianSchemesAndArithmeticModuli §A4.CR.7.2.
 Layer CR.6 includes log rigid Hyodo–Kato cohomology; Layer CR.5:log-algebra includes the classical
 normalization and tame Kummer comparison used in the logarithmic Abhyankar lemma.
+Log rigid Hyodo–Kato cohomology uses S† = Spwf(A₀[t]†), weak formal lifts, products and blow-ups,
+and dagger generic fibres. The convergent comparison uses their adic completions over
+Ŝ = Spf A₀⟨t⟩. The point lift is Z = S†, with t = 0 fibre Spf A₀.
 The following README subsections also specify these APIs; they are names of mathematical
 targets in the README, rather than declarations in this file.
 
@@ -386,6 +389,10 @@ Crystalline.crisStructure_eval; Crystalline.crisPDideal_kernel; Crystalline.cris
 Crystalline.crisSheaf_ofRestrictions; Crystalline.crisPDideal_pdPower.
 
 CR.1.3 Differentials, connections and stratifications:
+Crystalline evaluations on (X, Spec D_e) and the CR.2.3 formal coefficient comparison use
+e ≥ e₀, with e₀ chosen so X factors through the finite base and the quotient PD structures
+exist. Their ordinary and derived inverse limits are unchanged by restriction to this cofinal
+range. For A = Z_p and I = (p²), the zero-variable example starts at e₀ = 2.
 Crystalline.pdDifferentials_lift; Crystalline.pdDifferentials_dpow; Crystalline.pdDifferentials_map;
 Crystalline.pdDifferentials_adjoin; Crystalline.pdDifferentials_quotient;
 Crystalline.pdDifferentials_diagonal; Crystalline.pdDifferentials_completion.
@@ -409,6 +416,13 @@ Crystalline.crysChern_fil; Crystalline.crysChern_deRham; Crystalline.crysChern_r
 Crystalline.crysChern_hyperplane; Crystalline.crysCup_unit; Crystalline.crysCup_graded_comm;
 Crystalline.crysCup_reduction; Crystalline.crysCup_assoc; Crystalline.crysCup_pullback;
 Crystalline.crysCup_deRham; Crystalline.crysCup_external.
+The cup product exists for arbitrary O_crys-modules E,F without flatness. crysCup_deRham
+requires E,F to be quasi-coherent crystals, p nilpotent in A and a smooth lift Y of X over A;
+it identifies the coefficient cup product with the wedge pairing on their de Rham complexes.
+The multiplicative truncation Ω•_(X/S) → O_crys[0] and its coefficient analogues become
+isomorphisms after Ru_*; invert these and compose with restriction to the thickening.
+For X = Y = A¹_(F_p), J_crys evaluates to zero on Y but the connecting class of t in H¹(J_crys)
+is nonzero and remains nonzero on cup product with 1.
 
 CR.3.4 Frobenius:
 Crystalline.crysFrobenius_semilinear; Crystalline.crysFrobenius_linearize;
@@ -465,6 +479,8 @@ snRing (F_p[t²,t³]) with F_p[t] compatibly with snMap, for every prime includi
 The dual-number and purely inseparable field Checks distinguish the reflection from reduction
 alone and from universal homeomorphisms with nontrivial residue-field extensions.
 Structural properties of the classical complex on smooth F_p-algebras:
+The saturation formula uses the corrected proof of Illusie I.3.21 in Illusie–Raynaud II.1.3,
+p.125, as specified by Illusie's errata for p.579.
 Crystalline.classicalDRW_injective; Crystalline.classicalDRW_saturated;
 Crystalline.classicalDRW_restriction_kernel; Crystalline.classicalDRW_strict;
 Crystalline.classicalDRW_derived_limit.
@@ -482,6 +498,9 @@ SchemeAndStackFoundations §0.15 popescu_desingularization for a filtered presen
 smooth algebras.
 
 CR.4.7 Integral cohomological control:
+Nygaard indices are integers. For a perfect F_p-algebra k, N^(≥i)W(k) = p^i W(k) for i ≥ 0,
+and N^(≥i)W(k) = W(k) for i ≤ 0. The perfect-object Checks for derived Witt and quasiregular
+semiperfect Witt control use the same nonnegative range for the formula p^i W(k).
 Crystalline.wittCohomology_bounded_torsion; Crystalline.wittCohomology_free_quotient;
 Crystalline.wittCohomology_V_complete.
 
@@ -512,6 +531,16 @@ LogCrystalline.IsKummerEtale.logEtale; LogCrystalline.IsKummerEtale.root_chart.
 SchemeAndStackFoundations §0.29 supplies absoluteFrobenius, schemeFrobeniusTwist and
 relativeFrobenius. EnhancedDerivedSheaves §E2:towers.1 supplies derivedTowerLimit;
 §E2.2 supplies IsReplete.derived_limits and IsReplete.milnor.
+
+CR.5.1 Logarithmic differentials and log de Rham complexes:
+DerivedDeRhamCohomology §6.20 owns the universal affine log differential module, identified by
+DerivedDeRham.logCotangentH0 with H⁰ of DerivedDeRham.gabberLogCotangent, and the ordinary
+exterior log dg construction used on its free prelog resolutions. CR.5.1 sheafifies these same
+objects, with natural affine-chart identifications preserving d, dlog, exterior products and
+the differential, compatibly with logification and canonical base-change maps. The quotient
+formula presents the supplied module. CR.5.1 owns the geometric, residue, continuous and
+coefficient extensions. The ordinary chart complex is distinct from the realized raw derived
+log de Rham complex on general inputs.
 
 CR.DDR.5.8–5.9 base-linear realization and lci comparison:
 For n ≥ 1 and lci maps of flat Z/p^n-schemes, the source of
