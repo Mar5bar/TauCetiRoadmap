@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RingTheory.RootsOfUnity.PadicTateTwist
 
 /-!
 # PrismaticCohomologyPartIII: representative target signatures
@@ -35,6 +36,24 @@ example : ¬ ∃ x : ZMod 2, x ^ 2 - x = 1 := by decide
 /-- The polynomial coordinate survives in the Artin–Schreier cokernel over every prime field. -/
 theorem pr4_fixed_points_not_fixed_vectors (p : ℕ) [Fact p.Prime] :
     ¬ ∃ f : Polynomial (ZMod p), f ^ p - f = Polynomial.X := by
+  sorry
+
+/-- The imported Tate module has p-th-power transitions between its roots-of-unity levels. -/
+theorem pr4_tate_module_transition (p : ℕ) (R : Type*) [CommMonoid R]
+    (x : TauCeti.PadicTateTwist p R) (n : ℕ) :
+    ((TauCeti.PadicTateTwist.proj (n + 1) x).toMul : Rˣ) ^ p =
+      ((TauCeti.PadicTateTwist.proj n x).toMul : Rˣ) := by
+  simpa only [TauCeti.PadicTateTwist.coe_proj] using
+    TauCeti.PadicTateTwist.coe_tateModuleProj_succ_pow x n
+
+/-- For residue field F₂, Breuil–Kisin Frobenius misses the coordinate u in Z₂[[u]]. -/
+theorem pr7_ok_bk_not_perfect :
+    ¬ ∃ f : PowerSeries ℤ_[2], PowerSeries.expand 2 (by decide) f = PowerSeries.X := by
+  sorry
+
+/-- The polynomial 1 + x over a prime field cannot be an invertible rank-one multiplier. -/
+theorem pr7_etale_rank_one_nonunit (p : ℕ) [Fact p.Prime] :
+    ¬ IsUnit (1 + Polynomial.X : Polynomial (ZMod p)) := by
   sorry
 
 /-- The identity transition satisfies the base-change condition along the identity ring map. -/
