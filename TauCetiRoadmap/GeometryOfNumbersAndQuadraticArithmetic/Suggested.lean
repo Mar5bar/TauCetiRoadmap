@@ -3240,7 +3240,8 @@ def ofExactFunctor (F : Cᵒᵖ ⥤ C) (eta : 𝟭 C ≅ F.rightOp ⋙ F) (hc : 
 theorem map_conflation (D : ExactCategoryDuality E) (S : ShortComplex Cᵒᵖ)
     (hS : E.op.Conflation S) : E.Conflation (S.map D.dual) := by sorry
 
-/-- The sign-twisted duality, with double dual `-η`; the functor is unchanged. -/
+/-- The sign-twisted duality, with double dual `-η`; for linear duality its symmetric spaces
+are skew-symmetric forms. Alternation is a separate condition when two is not invertible. -/
 def sign (D : ExactCategoryDuality E) : ExactCategoryDuality E where
   dual := D.dual
   biddual := { hom := -D.biddual.hom, inv := -D.biddual.inv,
@@ -3257,6 +3258,9 @@ theorem sign_biddual (D : ExactCategoryDuality E) (X : C) :
 theorem sign_sign (D : ExactCategoryDuality E) : D.sign.sign = D := by sorry
 
 end ExactCategoryDuality
+
+-- Over `F₂`, `b(x,y) = xy` is skew-symmetric but has nonzero diagonal.
+example : (∀ x y : ZMod 2, x * y = -(y * x)) ∧ (1 : ZMod 2) * 1 ≠ 0 := by decide
 
 variable {E : TauCeti.ExactStructure C} (D : ExactCategoryDuality E)
 
@@ -3607,8 +3611,9 @@ def dgDualDifferentialSign (i : ℤ) : ℤ := (-1) ^ (i + 1).natAbs
 /-- The bidual sign `(-1)^i` in degree `i`. -/
 def dgBidualSign (i : ℤ) : ℤ := (-1) ^ i.natAbs
 
-/-- The dualization sign `(-1)^{i(j-i)}` on a component `X^i → Y^j`. -/
-def dgDualMorphismSign (i j : ℤ) : ℤ := (-1) ^ (i * (j - i)).natAbs
+/-- The dualization sign `(-1)^{j(j-i)}` on a component `X^i → Y^j`, whose dual has source
+`DY^{-j}` and target `DX^{-i}`. It is the internal-Hom sign for a degree-`-j` functional. -/
+def dgDualMorphismSign (i j : ℤ) : ℤ := (-1) ^ (j * (j - i)).natAbs
 
 /-- The opposite-composition sign is symmetric. -/
 theorem dgOppositeSign_comm (i j : ℤ) : dgOppositeSign i j = dgOppositeSign j i := by sorry
@@ -3626,7 +3631,27 @@ theorem dgDualMorphismSign_degree_zero (i : ℤ) : dgDualMorphismSign i i = 1 :=
 -- The differential changes sign in degree zero, the bidual does not.
 example : dgDualDifferentialSign 0 = -1 ∧ dgBidualSign 0 = 1 := by decide
 example : dgOppositeSign 1 1 = -1 ∧ dgOppositeSign 1 2 = 1 := by decide
-example : dgDualMorphismSign 1 2 = -1 ∧ dgDualMorphismSign (-1) 1 = 1 := by decide
+example : dgDualMorphismSign 1 2 = 1 ∧ dgDualMorphismSign 0 1 = -1 ∧
+    dgDualMorphismSign (-1) 1 = 1 := by decide
+
+open CategoryTheory CochainComplex.HomComplex
+
+-- For `X = ℚ[0]`, `Y = (ℚ →id ℚ)` in degrees `0,1` and `f⁰ = id`, this component
+-- of the native Hom differential is `id`; closedness of `f` is not assumed.
+example {X Y : CochainComplex (ModuleCat ℚ) ℤ} (f : Cochain X Y 0)
+    (hX : X.d 0 1 = 0) :
+    (δ 0 1 f).v 0 1 (by omega) = f.v 0 0 (by omega) ≫ Y.d 0 1 := by
+  rw [δ_v 0 1 (by omega) f 0 1 (by omega) 0 1 (by omega) (by omega)]
+  simp [hX]
+
+-- In the dual two-term example, `d_DY^{-1} = id` and `(Df)⁰ = id`. The native Hom
+-- differential is `-id`, agreeing with dualization of `δf` with the degree-one sign.
+example {DX DY : CochainComplex (ModuleCat ℚ) ℤ} (Df : Cochain DY DX 0)
+    (hDX : DX.d (-1) 0 = 0) :
+    (δ 0 1 Df).v (-1) 0 (by omega) =
+      dgDualMorphismSign 0 1 • (DY.d (-1) 0 ≫ Df.v 0 0 (by omega)) := by
+  rw [δ_v 0 1 (by omega) Df (-1) 0 (by omega) (-1) 0 (by omega) (by omega)]
+  simp [hDX, dgDualMorphismSign]
 
 end DGDualitySigns
 
