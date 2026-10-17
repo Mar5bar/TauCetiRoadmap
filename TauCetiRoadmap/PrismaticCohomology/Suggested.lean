@@ -467,4 +467,171 @@ The Witt delta structure (§0.56) satisfies `Delta.witt_frobenius`; its unit has
 (§0.92) is `Delta.joyalDelta_ghost` and `Delta.joyalDelta_free_generators`.
 -/
 
+/-! ## General orientable envelopes and relative quotient maps -/
+
+namespace Prism
+
+universe u
+
+variable {p : ℕ} {A B C : Type u} [CommRing A] [CommRing B] [CommRing C]
+
+/-- The telescope difference operator detects derived completeness of a discrete module. -/
+def telescope (f : A) (x : ℕ → A) : ℕ → A := fun n => x n - f * x (n + 1)
+
+/-- An oriented prism has a regular generator, derived completeness and the prism relation.
+Bijectivity of both telescope operators expresses derived `(p,d)`-completeness. -/
+def IsOrientedPrism (δA : Delta.Structure p A) (d : A) : Prop :=
+  Function.Injective (fun x : A => d * x) ∧
+  Function.Bijective (telescope (p : A)) ∧ Function.Bijective (telescope d) ∧
+  (p : A) ∈ Ideal.span {d, Delta.associatedFrobenius δA d}
+
+/-- The given ideal becomes divisible by the specified prism generator. -/
+def CarriesIdeal (J : Ideal B) (d : C) (f : B →+* C) : Prop :=
+  ∀ x ∈ J, f x ∈ Ideal.span {d}
+
+/-- An envelope is a prism under `B`, initial among all prism-valued delta maps dividing `J`.
+Target rings are taken in the fixed universe; no boundedness is imposed. -/
+def IsEnvelope (a : A →+* B) (d : A) (J : Ideal B)
+    (δB : Delta.Structure p B) (δC : Delta.Structure p C) (ι : B →+* C) : Prop :=
+  Delta.IsDeltaMap δB δC ι ∧ IsOrientedPrism δC (ι (a d)) ∧
+  CarriesIdeal J (ι (a d)) ι ∧
+  ∀ (T : Type u) [CommRing T] (δT : Delta.Structure p T) (f : B →+* T),
+    Delta.IsDeltaMap δB δT f → IsOrientedPrism δT (f (a d)) →
+    CarriesIdeal J (f (a d)) f →
+    ∃! g : C →+* T, Delta.IsDeltaMap δC δT g ∧ g.comp ι = f
+
+/-- The carrier, delta operation and universal map of a general orientable envelope. -/
+structure Envelope (a : A →+* B) (d : A) (J : Ideal B) (δB : Delta.Structure p B) where
+  Carrier : Type u
+  [commRing : CommRing Carrier]
+  delta : Delta.Structure p Carrier
+  fromB : B →+* Carrier
+  universal : IsEnvelope a d J δB delta fromB
+
+attribute [instance] Envelope.commRing
+
+/-- General envelopes exist without boundedness, flatness or regularity of the input ideal. -/
+theorem generalEnvelope_exists (hp : p.Prime) (δA : Delta.Structure p A)
+    (d : A) (hA : IsOrientedPrism δA d) (δB : Delta.Structure p B)
+    (a : A →+* B) (ha : Delta.IsDeltaMap δA δB a)
+    (J : Ideal B) (hJ : a d ∈ J) : Nonempty (Envelope a d J δB) := by
+  sorry
+
+/-- A choice of the envelope furnished by its existence theorem. -/
+noncomputable def generalEnvelope (hp : p.Prime) (δA : Delta.Structure p A)
+    (d : A) (hA : IsOrientedPrism δA d) (δB : Delta.Structure p B)
+    (a : A →+* B) (ha : Delta.IsDeltaMap δA δB a)
+    (J : Ideal B) (hJ : a d ∈ J) : Envelope a d J δB :=
+  Classical.choice (generalEnvelope_exists hp δA d hA δB a ha J hJ)
+
+/-- Restriction identifies maps from the envelope with admissible maps from its input. -/
+theorem generalEnvelope.liftEquiv (a : A →+* B) (d : A) (J : Ideal B)
+    (δB : Delta.Structure p B) (E : Envelope a d J δB)
+    (δC : Delta.Structure p C) (aC : A →+* C) (hC : IsOrientedPrism δC (aC d)) :
+    ∃ e : {g : E.Carrier →+* C // Delta.IsDeltaMap E.delta δC g ∧
+        (g.comp E.fromB).comp a = aC} ≃
+      {f : B →+* C // Delta.IsDeltaMap δB δC f ∧ f.comp a = aC ∧
+        CarriesIdeal J (aC d) f},
+      ∀ g, (e g).val = g.val.comp E.fromB := by
+  sorry
+
+/-- The zero-parameter telescope is exactly the identity. -/
+theorem generalEnvelope_telescopeZero : telescope (0 : ℤ) = id := by
+  funext x n
+  simp [telescope]
+
+/-- The unit-parameter telescope has two distinct constant sequences in its kernel. -/
+theorem generalEnvelope_telescopeUnit : ¬ Function.Injective (telescope (1 : ℤ)) := by
+  sorry
+
+/-- The subtraction convention sends the constant minus-one sequence to one at parameter two. -/
+theorem generalEnvelope_telescopeSign : telescope (2 : ℤ) (fun _ => -1) = fun _ => 1 := by
+  funext n
+  norm_num [telescope]
+
+end Prism
+
+namespace Prismatic
+
+open CategoryTheory
+open scoped TensorProduct MonoidalCategory
+
+universe u
+
+/-- The split residue Čech factor has a basis of tuples of elements of `G/pG`.
+Its maps add the entries over each fibre of the simplex map, inserting zero for empty fibres. -/
+noncomputable def residueCech (k : Type u) [CommRing k] (p : ℕ) (S : Type u) :
+    CosimplicialObject (ModuleCat.{u} k) where
+  obj n := ModuleCat.of k ((Fin (n.len + 1) → (S →₀ ZMod p)) →₀ k)
+  map f := ModuleCat.ofHom (Finsupp.lmapDomain k k
+    (fun x j => ∑ i, if f.toOrderHom i = j then x i else 0))
+  map_id := by sorry
+  map_comp := by sorry
+
+/-- The pointed augmentation tensored degreewise with arbitrary cosimplicial coefficients. -/
+noncomputable def laurentRelativeFrobeniusMap (k : Type u) [CommRing k]
+    (p : ℕ) (S : Type u) (N : CosimplicialObject (ModuleCat.{u} k)) :
+    N ⟶ N ⊗ residueCech k p S where
+  app n := ModuleCat.ofHom
+    ((TensorProduct.mk k (N.obj n) ((Fin (n.len + 1) → (S →₀ ZMod p)) →₀ k)).flip
+      (Finsupp.single 0 1))
+  naturality := by sorry
+
+/-- The free-factor expression of Laurent relative Frobenius is a quasi-isomorphism.
+No flatness or finite-rank condition is imposed on the coefficients or the variable set. -/
+theorem laurentRelativeFrobenius (k : Type u) [CommRing k]
+    (p : ℕ) (hp : p.Prime) [CharP k p] (S : Type u)
+    (N : CosimplicialObject (ModuleCat.{u} k)) :
+    QuasiIso ((AlgebraicTopology.alternatingCofaceMapComplex (ModuleCat k)).map
+      (laurentRelativeFrobeniusMap k p S N)) := by
+  sorry
+
+/-- Laurent exponents have a unique quotient and finitely supported standard residue. -/
+theorem laurentResidue_unique (p : ℕ) (hp : p.Prime) (S : Type u) (g : S →₀ ℤ) :
+    ∃! ha : (S →₀ ℤ) × (S →₀ ℤ),
+      g = p • ha.1 + ha.2 ∧ ∀ s, 0 ≤ ha.2 s ∧ ha.2 s < (p : ℤ) := by
+  sorry
+
+variable {p : ℕ} {A S T : Type u} [CommRing A] [CommRing S] [CommRing T]
+
+/-- The envelope of a quotient kernel induces its structural map from the quotient ring. -/
+noncomputable def quotientStructureMap (q : A →+* S) (hq : Function.Surjective q)
+    (d : A) (δA : Delta.Structure p A)
+    (E : Prism.Envelope (RingHom.id A) d (RingHom.ker q) δA) :
+    S →+* E.Carrier ⧸ Ideal.span {E.fromB d} :=
+  RingHom.liftOfSurjective q hq
+    ⟨(Ideal.Quotient.mk (Ideal.span {E.fromB d})).comp E.fromB, by
+      intro x hx
+      exact Ideal.Quotient.eq_zero_iff_mem.mpr (E.universal.2.2.1 x hx)⟩
+
+/-- The envelope of a surjective quotient diagram has unique lifts to every target prism.
+This is the algebraic mapping-property part of relative quasiregular initiality;
+comparison with derived prismatic cohomology and boundedness use the cotangent hypotheses. -/
+theorem quasiregularQuotient.initial (q : A →+* S) (hq : Function.Surjective q)
+    (d : A) (δA : Delta.Structure p A) (E : Prism.Envelope (RingHom.id A) d (RingHom.ker q) δA)
+    (δT : Delta.Structure p T) (aT : A →+* T)
+    (haT : Delta.IsDeltaMap δA δT aT) (hT : Prism.IsOrientedPrism δT (aT d))
+    (sT : S →+* T ⧸ Ideal.span {aT d})
+    (hsT : sT.comp q = (Ideal.Quotient.mk (Ideal.span {aT d})).comp aT) :
+    ∃! g : E.Carrier →+* T, Delta.IsDeltaMap E.delta δT g ∧ g.comp E.fromB = aT := by
+  sorry
+
+/-!
+The general-envelope checks are `generalEnvelope_identity`, `generalEnvelope_unitIdeal`,
+`generalEnvelope_regularAgreement`, `generalEnvelope_nonregularInput` and
+`generalEnvelope_unboundedIdentity`. The supplied regular-envelope checks are
+`envelope_trivial`, `envelope_divisible_element`, `envelope_z_unique`, `envelope_delta_z`,
+`envelope_incomplete_polynomial` and `envelope_not_localization`.
+The geometric delta API also includes `Prismatic.isDistinguished_p_int`,
+`Prismatic.qAnalog_one_eq` and `Prismatic.qAnalog_mul_sub_one`.
+The general-envelope API also includes `Prism.generalEnvelope.map`,
+`Prism.generalEnvelope.orientationIndependent` and `Prism.generalEnvelope.regularComparison`.
+The derived comparison targets are `Prismatic.quasiregularQuotient.bounded`,
+`Prismatic.quasiregularQuotient.envelopeEquiv` and `Prismatic.quasiregularQuotient.map`.
+Their cotangent complexes, completed conjugate filtrations and derived prismatic algebras
+are the supplied enhanced constructions specified in the README.
+-/
+
+end Prismatic
+
 end TauCetiRoadmap.PrismaticCohomology

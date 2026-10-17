@@ -8,7 +8,7 @@ PerfectoidQuotients and AInfCohomology supply prerequisites. This roadmap constr
 
 Cross-roadmap prerequisites use the section labels of their owning roadmaps.
 
-This part owns the integral polynomial, localization, completion and δ-ideal API over arbitrary commutative rings; the p-local geometric δ-ring and prism objects and restricted affine theory are imported from PerfectoidSpaces. It owns the extension to arbitrary bounded prisms with canonical Breuil–Kisin twists and formal schemes, and animated perfectoidization, arc descent and integral J-almost purity (§§2.0, 2.22–2.31). PerfectoidSpaces owns the semiperfectoid universal quotient.
+This part owns the integral polynomial, localization, completion and δ-ideal API over arbitrary commutative rings; the p-local geometric δ-ring and prism objects and restricted affine theory are imported from PerfectoidSpaces. It owns the extension to arbitrary bounded prisms with canonical Breuil–Kisin twists and formal schemes, and animated perfectoidization, arc descent and integral J-almost purity (§§2.0, 2.22–2.31). PerfectoidSpaces owns the semiperfectoid universal quotient. General orientable envelopes, Laurent relative Frobenius and relative quasiregular initiality are targets of §§0.93, 1.13a and 2.13a, with their wider ranges stated explicitly.
 
 Mathlib supplies ordinary Witt vectors, adic completions, divided powers and divided power algebras, localizations, sites and derived categories. EnhancedDerivedSheaves and DerivedDeRhamCohomology supply their enhanced, completed and animated interfaces; SchemeAndStackFoundations supplies adic thickening systems; §1.0 constructs the bounded p-adic formal schemes and sites used here. No divided power envelope or full cotangent complex is inferred from its naive counterpart. AlgebraicVectorBundles supplies the ordinary affine vector-bundle dictionary; compatible-system effectivity in §2.28 is additional.
 
@@ -157,6 +157,7 @@ A supplier row specifies the interface used, under the hypotheses shown. Its the
 | DerivedDeRhamCohomology §§PD.6–PD.7 | `0`, `1`, `2` | PD envelopes with their initial property and flat base change, including p-completion. For p-torsion-free `B` and a sequence regular modulo `p`, retain p-torsion-freeness; in characteristic `p` use the divided-power monomial basis. `A_crys(S)` is the initial p-complete PD thickening of a semiperfect `F_p`-algebra `S`, with Frobenius, PD/conjugate filtrations and the PD logarithm. The `γ_p-stability` and `γ_k∘γ_p` identities are used with their p-torsion-free hypotheses (BS22 Lemmas 2.38, 16.11). |
 | DerivedModuleAlgebra §§1.1–1.9, 1.E.1; DerivedDeRhamCohomology §§1.10–1.23 | `0`, `1`, `2` | Derived completion at a finitely generated ideal, completed tensors, Nakayama and complete-flat descent; complete Tor-amplitude and the bounded-torsion discreteness criterion (BMS2 Lemmas 4.4–4.7). Finite complete Tor-amplitude base change commutes with bounded-below totalizations (BS22 Lemma 4.22). Filtered derived categories, Day tensor, graded pieces, completion, Beilinson t-structure and heart and Bocksteins retain their enhanced coherences. Derived complete `M` with perfect reduction is perfect. Negative tensor powers of invertible ideals are allowed; no unqualified classical-completion comparison is assumed. |
 | EnhancedDerivedSheaves §§0.1–0.3, E1.1–E1.4 | `0` | Enhanced module derived categories, derived tensor, adjunctions and derived limits; their homotopy categories recover ordinary derived categories. The complete enhancements and algebra objects are retained, not inferred from triangulated categories. |
+| EnhancedDerivedSheaves §E0.4 | `0` | Products and limits with fixed universe cutoffs; §0.93 takes its solution-set product in a larger ambient universe. |
 | DerivedModuleAlgebra §§0.1–0.17, 0.25 | `0`, `1`, `2` | Full cotangent complexes, transitivity, derived exterior/divided powers, décalage `∧^i(M[1])≃Γ^i(M)[i]`, p-complete Tor-amplitude and quasisyntomic/QRSP predicates. Square-zero deformation classes, map-lifting and uniqueness under cotangent vanishing are affine inputs; scheme lifting groupoids are §2.6. |
 | DerivedDeRhamCohomology §§2.7–2.26, 5.8 | `1` | Derived p-complete de Rham algebras with Hodge filtration, polynomial models, continuous forms for smooth algebras and crystalline base change; the shared logarithmic constructors are in DerivedDeRhamCohomology §6.20. Comparison maps preserve multiplication and the stated filtrations. |
 | DerivedDeRhamCohomology §§5.1–5.7, 5.17, 5.26 | `1`, `2` | Quasisyntomic site and QRSP basis, completed faithfully flat cotangent-power descent, unfolding from QRSP objects and completed left Kan extension. BMS2 Lemma 4.34 supplies the relative cotangent-flatness condition only in its perfect-base range. §5.26 supplies `DerivedDeRham.formalEtaleRealization`, `formalEtaleAffine`, `formalEtaleCoverDescent`, `formalEtalePullback` and `formalEtaleFiltered` on quasisyntomic charts. |
@@ -1842,6 +1843,32 @@ The identity is integral, including with p-torsion; only its universal torsion-f
 
 *Needs:* [§0.72](#s0-72), [§0.61](#s0-61), [§0.5](#s0-5), Mathlib `RingTheory.Sequence.IsRegular`, [§0.86](#s0-86), [§0.66](#s0-66), [§0.81](#s0-81), [§0.78](#s0-78), Mathlib `MvPolynomial`, Mathlib `AdicCompletion`, [§0.55](#s0-55), [§0.56](#s0-56), Mathlib `RingHom.FaithfullyFlat`, [§0.8](#s0-8), [§0.44](#s0-44), [§0.28](#s0-28), [§0.13](#s0-13).
 
+<a id="s0-93"></a>
+<a id="layer-0-general-prismatic-envelope"></a>
+
+### 0.93 General envelopes over orientable prisms
+
+For an orientable prism `(A,I=(d))`, a δ-A-algebra `B` and an ideal `J⊇IB`, construct `Prism.generalEnvelope(B,J)`. This is a prism `(C,IC)` with a δ-A-map `B→C` carrying `J` into `IC`, universal for such maps into prisms over `A`. Both the base and the target prisms may be unbounded. No completeness, flatness, finite generation or regularity is required of the input; neither boundedness nor complete flatness is asserted for the output. ([K1](#ref-k1), Propositions 3.1–3.2, p.13; [Lecture V](#ref-lecture-v), Lemma 5.1, p.6, with the bounded-base convention on p.1.)
+
+The mapping equivalence `Prism.generalEnvelope.liftEquiv` is between δ-A-maps `C→T` and δ-A-maps `B→T` sending `J` into `IT`, for every prism `T` over `A`. Supply `Prism.generalEnvelope.map` with identity and composition laws, `Prism.generalEnvelope.orientationIndependent` for the canonical isomorphism obtained from two generators of `I`, and `Prism.generalEnvelope.regularComparison` with §0.86 under its bounded-base, complete-flatness and relative complete-regularity hypotheses.
+
+**Proof route.** Rigidity makes `d` injective in every target. For a discrete ring `T`, derived completeness at `(p,d)` is equivalent to bijectivity of the two telescope operators `Δ_f:(ℕ→T)→(ℕ→T)`, `Δ_f(x)_n=x_n−f x_(n+1)`, for `f=p,d`. Their inverse-coordinate operations are uniquely determined and hence preserved by A-maps. Put `κ=max(ℵ₀,|A|,|B|)` and `λ=κ^ℵ₀`. In a target, the subring generated by the image of `B`, the unique d-quotients of its elements from `J`, and closure under δ and these countably ary inverse operations for `ω₁` stages has cardinal at most `λ`. Every countable family lies in a common earlier stage, so this subring remains derived complete and d-regular. In a larger universe take the product of representatives of these small targets, including zero, and the same generated closed subring in that product. Projection to the small subring inside any given target gives existence of a lift; preservation of the generating operations gives uniqueness by transfinite induction. The prism relation is inherited from `A`. This argument uses choice and never identifies an arbitrary animated completion with a discrete ring. (Stacks, Tags [091P](https://stacks.math.columbia.edu/tag/091P), [091Q](https://stacks.math.columbia.edu/tag/091Q), [091S](https://stacks.math.columbia.edu/tag/091S), More on Algebra §93, Lemmas 93.1–93.2 and Definition 93.4, pp.261–263, for the completeness criteria.)
+
+The elementary signatures use `Prism.telescope`, `Prism.IsOrientedPrism`, `Prism.CarriesIdeal` and `Prism.IsEnvelope` for these explicit conditions. `Prism.Envelope` bundles the carrier and universal map; `Prism.generalEnvelope_exists` states existence of the ring and its universal map; `Prism.generalEnvelope` chooses that data. These predicates retain the given δ-structures and impose no boundedness condition.
+
+**Checks.**
+
+- `generalEnvelope_identity`: if `(B,IB)` is a prism and `J=IB`, its identity map is an envelope.
+- `generalEnvelope_unitIdeal`: `J=B` gives the zero prism: divisibility of 1 makes `d` a unit, incompatible with derived d-completeness in a nonzero ring.
+- `generalEnvelope_regularAgreement`: for the completed free δ-algebra on `x` and `J=(d,x)`, the comparison with §0.86 carries its complete-flatness and relative regularity hypotheses.
+- `generalEnvelope_nonregularInput`: the uncompleted free δ-algebra on `x,y` with `J=(d,x²,xy,y²)` is an admissible input without a regular presentation; its envelope is not asserted flat.
+- `generalEnvelope_unboundedIdentity`: for any unbounded orientable prism, `B=A,J=I` returns `A`; a bounded-output assertion would contradict this case.
+- `generalEnvelope_telescopeZero`: `Δ_0` on `ℕ→ℤ` is the identity, so its inverse coordinates introduce no elements.
+- `generalEnvelope_telescopeUnit`: both constant sequences 0 and 1 belong to the kernel of `Δ_1` on `ℕ→ℤ`; the unit ideal is not a derived-complete ideal of `ℤ`.
+- `generalEnvelope_telescopeSign`: the constant sequence `−1` satisfies `Δ_2(x)=1`; replacing subtraction by addition gives `−3`.
+
+*Needs:* [§0.79](#s0-79), [§0.55](#s0-55) and the integral δ-algebra API, DerivedModuleAlgebra §§1.1–1.9 (derived completeness and the telescope criterion), EnhancedDerivedSheaves §E0.4 (products and limits with explicit universe cutoffs).
+
 ### Examples
 
 At `p=2` on `Z`, `δ(a)=(a−a²)/2` gives `δ(2)=−1` and `δ(4)=−6`. Its associated Frobenius is the identity. The product rule on 2·2 computes `4(−1)+4(−1)+2(−1)²=−6`, so omitting the final `pδ(x)δ(y)` term is detected. The ideal `(2)` is Frobenius-stable but not delta-stable; its `δ` closure is the unit ideal. On `Z_(2)`, `2` is distinguished and `4` is not. On the nonzero ring `F₂`, the identity is an ordinary Frobenius lift but there is no `δ` structure. These examples force both the integral division convention and the no-torsion hypothesis of reconstruction.
@@ -2253,6 +2280,26 @@ The tensor is termwise. BS22’s monoid partition uses residues `{0,…,p−1}^r
 *Needs:* Mathlib `AlgebraicTopology.alternatingCofaceMapComplex`, Mathlib `MvPolynomial`.
 
 **Proof route.** Decompose polynomial monomials by their residues modulo `p`; the relative Frobenius Čech summands contract after adjoining coefficients (BS22 Lemma 5.4, pp.46–49).
+
+<a id="s1-13a"></a>
+<a id="layer-1-laurent-relative-frobenius"></a>
+
+### 1.13a Laurent relative Frobenius on a Čech nerve
+
+For a characteristic-p ring `k`, an arbitrary set `S`, `G=⊕_(s∈S)ℤ` and `B=k[G]`, let `B^n=B^(⊗_k(n+1))` be the Čech nerve and put `B^(•,(1))=B^•⊗_(k,Frob_k)k`. Prove `Prismatic.laurentRelativeFrobenius`: for every cosimplicial `B^(•,(1))-module N`, the comparison `N→N⊗_(B^(•,(1)))B^•` induces a quasi-isomorphism of unnormalized cochain complexes of k-modules. The tensor product is ordinary and degreewise. Relative Frobenius is free in every degree, but `N` need not be k-flat. The free abelian group may have infinite rank; arbitrary nonfree groups and monoids with p-torsion are not included. ([BS22](#ref-bs22), Lemma 5.4 and proof, pp.48–49, for the polynomial argument; [K1](#ref-k1), Appendix B, Lemma B.4, pp.61–62, for its Laurent application.)
+
+**Proof route.** Every `g∈G` has a unique expression `g=ph+a` with finitely supported coordinates `0≤a_s<p`. These representatives give a degreewise free basis compatible with cofaces. The resulting free k-module factor is the underlying semicosimplicial module of the split Čech nerve of `k→k[G/pG]`. Its augmentation is a cosimplicial homotopy equivalence, preserved by degreewise tensoring with any cosimplicial k-module. Cofaces suffice to identify the unnormalized complexes; codegeneracies need not preserve the chosen basis. Finite support supplies the same basis for infinite `S`, without requiring an arbitrary coefficient module to descend to finitely many variables.
+
+In Suggested.lean, `Prismatic.residueCech` is this split factor, with degree-n basis `(G/pG)^(n+1)`, and `Prismatic.laurentRelativeFrobeniusMap` is its pointed augmentation tensored with `N`. The signature `Prismatic.laurentRelativeFrobenius` states the equivalent free-factor comparison, for every cosimplicial k-module `N`. Thus it applies to the underlying k-module of each coefficient object in the assertion above. `Prismatic.laurentResidue_unique` supplies the exponent decomposition over `ℤ`.
+
+**Checks.**
+
+- If `S` is empty, then `B=k` and the relative comparison is the identity.
+- At `p=2` and `G=ℤ`, `−1=2(−1)+1`, so `X^(−1)=X^(−2)X`; the quotient exponent cannot be restricted to nonnegative integers.
+- At `p=2`, a codegeneracy adds the pair `(1,1)` to give 2, outside the residue set `{0,1}`. Basis compatibility is required only for cofaces.
+- For `k=𝔽_p[ε]/(ε²)`, take constant `N=k/(ε)` with every group variable acting as 1. The split homotopy still applies although `N` is not k-flat.
+
+*Needs:* [§1.13](#s1-13), Mathlib `AlgebraicTopology.alternatingCofaceMapComplex`, EnhancedDerivedSheaves §§E1.1–E1.4 (module tensor products), and the coface-compatible splitting in this section.
 
 <a id="s1-14"></a>
 <a id="layer-1-crystalline-comparison"></a>
@@ -2838,6 +2885,29 @@ Regular means Koszul-regular; all δ-adjunctions and completions in the local fo
 
 **Proof route.** Consume the oriented regular envelope and glue its divided-power graded pieces with canonical ideal twists (BS22 Lemma 7.7, pp.57–58).
 
+<a id="s2-13a"></a>
+<a id="layer-2-quasiregular-quotient-initiality"></a>
+
+### 2.13a Relative initiality for quasiregular quotients
+
+Let `(A,I)` be any bounded prism and `A/I→S` a surjection. Suppose `S` is derived p-complete with bounded p-power torsion and `(L_(S/(A/I))[−1])^∧_p` is p-completely flat over `S`. Then `Δ_(S/A)` is a discrete δ-A-algebra, its Hodge–Tate reduction is p-completely faithfully flat over `S` with bounded p-power torsion, and `(Δ_(S/A),IΔ_(S/A))` is initial among all prisms over `A` with an `A/I`-map `S→T/IT`. Target prisms may be unbounded. If `I=(d)`, identify it with `Prism.generalEnvelope(A,ker(A→S))`. Neither perfection of `A` nor a regular sequence generating the original kernel is required. ([KY](#ref-ky), Proposition 4.17 and Lemma 4.18 with proof, pp.39–40; [BL22](#ref-bl22), Corollary 4.1.17, Variant 4.1.19 and Remark 4.1.20, pp.81–82, Remark 4.3.9 and Lemma 4.3.10, p.87.)
+
+Supply `Prismatic.quasiregularQuotient.initial`, the unique δ-A-lift to every such prism; `Prismatic.quasiregularQuotient.bounded`, including complete faithful flatness of its reduction; `Prismatic.quasiregularQuotient.envelopeEquiv`, compatible with δ, the A-map and the map from `S`; and `Prismatic.quasiregularQuotient.map`, functorial for maps of quotient diagrams satisfying these hypotheses. Functoriality does not assert equivalence under arbitrary changes of `A`.
+
+**Proof route.** The conjugate graded pieces `Γ^i_S((L_(S/(A/I))[−1])^∧_p){−i}^∧_p` are discrete and p-completely flat. Their completed filtered assembly gives discreteness, complete faithful flatness and bounded torsion of the Hodge–Tate reduction. By §2.12 there is a natural idempotent `e_S` on the resulting prism with initial image. Choose generators `f_j` of the kernel and use the auxiliary quotient `S′=((A/I)⟨X_j^(1/p^∞)⟩/(X_j−f_j))^∧_p`, mapping to `S` by sending every root variable to zero. Its relation classes surject onto the shifted cotangent complex modulo `p`; divided powers and the conjugate filtration therefore give a surjection `Δ_(S′/A)→Δ_(S/A)`. Naturality reduces `e_S=id` to this auxiliary case. Completed filtered colimits reduce to finitely many variables. Replace `A` by `A′=(A[X_1^(1/p^∞),…,X_r^(1/p^∞)])^∧_(p,I)`, with δ zero on each root. The reduction is relatively p-completely formally étale, so the prismatic complex is unchanged. At each finite root level the relations `X_i−f_i` are successively monic, with free quotients over `A/I`; §2.13 applies after completion. Thus `e=id` and the prism is initial even for unbounded targets. In the orientable case §0.93 has the same mapping problem, giving the envelope comparison. ([BS22](#ref-bs22), Lemma 7.7, pp.57–58, Example 7.9 and Proposition 7.10, pp.59–60.)
+
+The algebraic part of the signatures uses `Prismatic.quotientStructureMap` for the induced map `S→C/IC`. Given an envelope of `ker(A→S)`, `Prismatic.quasiregularQuotient.initial` states its unique lifting property for a surjective `A→S`; this mapping-property consequence itself needs no cotangent hypothesis. The identification with derived `Δ`, its boundedness and the functorial comparison above retain all the hypotheses of this section.
+
+**Checks.**
+
+- `quasiregularQuotient_identity`: `S=A/I` gives the relative prism `A`, including bounded nonperfect bases.
+- `quasiregularQuotient_fatPoint`: for `A=ℤ_p⟨x⟩`, `δ(x)=0`, `I=(p)` and `S=𝔽_p[x]/(x²)`, the shifted cotangent complex over `𝔽_p[x]` is free of rank one. The envelope adjoins `x²/p` with its δ-relations; this example does not require `S` to be semiperfectoid.
+- `quasiregularQuotient_unboundedTargets`: the lift equivalence includes unbounded target prisms, beyond the bounded site.
+- `quasiregularQuotient_nonsurjective`: `𝔽_p→𝔽_p[x]` is not surjective and its cotangent complex has the degree-zero generator `dx`. Its positive-degree Hodge–Tate cohomology precludes this discrete initiality conclusion.
+- With `r` regular relations, `gr_i` is free of rank `binom(r+i−1,i)`; for `r=0` the rank is 1 at `i=0` and 0 otherwise. For `(A,I)=(ℤ_p⟨x⟩,(p))` and the relation `x^p`, the envelope is the p-completed PD envelope of `(x)`; for `A_inf(O_C)` and the relation `p` it is `A_inf{p/ξ}^∧`.
+
+*Needs:* [§2.12](#s2-12), [§2.13](#s2-13), [§0.93](#s0-93), [§2.3](#s2-3) and [§2.10](#s2-10) (derived Hodge–Tate comparison and conjugate filtration), DerivedModuleAlgebra §§0.1–0.17 (cotangent complexes) and §§1.1–1.9 (complete flatness and completion), [§0.58](#s0-58) (animated δ-algebras). A logarithmic application requires identification with this ordinary relative complex after exactification, together with the cotangent and torsion hypotheses above.
+
 <a id="s2-14"></a>
 <a id="layer-2-derived-input-higher-homotopy"></a>
 
@@ -3265,3 +3335,11 @@ The Mathlib source links in the supplier contracts are the files at commit `6b7a
 <a id="ref-pin-adic-complete"></a>
 
 - **PIN-adic-complete**: [Mathlib/RingTheory/AdicCompletion/Completeness.lean](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/AdicCompletion/Completeness.lean).
+
+<a id="ref-k1"></a>
+
+- **K1**: Teruhisa Koshikawa. [Logarithmic prismatic cohomology I](https://arxiv.org/pdf/2007.14037v3). Propositions 3.1–3.2, p.13; Appendix B, Lemma B.4, pp.61–62.
+
+<a id="ref-lecture-v"></a>
+
+- **Lecture V**: Bhargav Bhatt. [The prismatic site](https://www.math.ias.edu/~bhatt/teaching/prismatic-columbia/lecture5-prismatic-site.pdf). Lemma 5.1, p.6, with bounded base as specified on p.1. Section 0.93 gives the solution-set argument for unbounded bases and targets.
