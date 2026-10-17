@@ -19,7 +19,7 @@ This roadmap builds that package. Its first layers are reusable well beyond symp
 - path and mapping spaces;
 - DG local systems and the algebra of twisting cocycles.
 
-The Floer layers sit on the analytic tower of the [Heegaard Floer roadmap](../HeegaardFloer/README.md)
+The Floer layers sit on the analytic tower of the [Heegaard Floer roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e46412766ddc4c77407a94184340ec1cb7d033f2/TauCetiRoadmap/HeegaardFloer/README.md)
 and add the one Floer theory that roadmap does not build, Hamiltonian Floer homology of periodic
 orbits.
 
@@ -37,7 +37,7 @@ Suggested homes:
 ## Scope boundary
 
 In scope: every numbered statement of the source paper
-([arXiv:2404.07953](https://arxiv.org/abs/2404.07953)), except the four listed below. The
+([arXiv:2404.07953](https://arxiv.org/abs/2404.07953)), subject to the named exclusions and supplier-coordination applications below. The
 [source coverage](#source-coverage) section assigns each of them to a layer.
 
 Out of scope, so nobody mistakes them for later stages:
@@ -48,32 +48,64 @@ Out of scope, so nobody mistakes them for later stages:
   structures, which nothing here builds.
 - **The Cayley plane** in Proposition 6.39. It needs the octonionic projective plane as a
   Riemannian manifold. The quaternionic half of Proposition 6.39 is in scope.
-- **Thom's realization theorem** (some multiple of every integral homology class of a manifold is
-  the image of the fundamental class of a closed oriented manifold). Theorem B and its general
-  form, Theorem 5.14, invoke it once. Here they are proved for classes `α` given together with a
-  representing map, `N · α = φ_*[S]`, which is exactly what their proof consumes (Layer 10 item 5).
-  The realization theorem itself needs oriented bordism and the rational stable homotopy of the
-  Thom spaces `MSO(k)`, which no roadmap builds. That is a roadmap-for-a-roadmap: contributors
-  should not attempt it here.
-- **The two appeals to classification results:**
-  - Lemma 6.35, which reads `π_{n−1}(SO(n))` off tables and uses Bott periodicity;
-  - the implication "a compact connected Lie group other than a torus is not a `K(π,1)`" used in
-    Proposition 6.31.
-
-  Proposition 6.34 is proved here by the source's second proof, which needs neither result.
-  Proposition 6.31 is stated for compact connected Lie groups that are not a `K(π,1)`.
+- **The two classification applications:** the finite-rank diagonal group in Lemma6.35 and
+  the compact non-torus Lie-group consequence used by Proposition6.31 have the coordination
+  contracts in the source-owner table below. Stable real Bott is supplied by HomotopySpheres
+  Stage4A–4B; it does not by itself compute the diagonal π_(n−1)(SO(n)). Proposition6.34 retains
+  its independent second proof. Proposition6.31 retains its explicit compact connected
+  non-K(π,1) hypothesis until the bounded compact-Lie application is constructed.
 
 Also out of scope:
 - chain-level higher structures, meaning `A∞` refinements of the DG Floer maps, products, and the
   BV and loop-product structures on either side of the Viterbo isomorphism;
 - Floer homotopy theory;
 - Lagrangian Floer theory with DG coefficients.
+- General Lagrangian/polygon operations, which have their separate Fukaya-category construction. The specific graph/diagonal strip folding, relative-spin and count comparison of G0–G7 is the bounded application constructed here.
+- All-dimensional monotone DG-coefficient compactifications, which require representing-chain boundary constructions beyond the count-dimensional classical branch.
+
+The source-owner table distinguishes the positive product, surface-suspension and polar suppliers from the precise global-flux, general-suspension and global-seam coordination contracts. An exclusion is not used as a source-coverage assignment.
+
+The capped classical branch in Layer7.C additionally treats closed positive spherical-monotone
+and spherical-c₁-zero targets in the contractible sector, with ordinary finite Laurent and
+completed Novikov coefficients as specified there. Its low-dimensional count compactifications
+do not extend Layer8's all-dimensional DG coefficient theory beyond that layer's separate
+aspherical/atoroidal hypotheses. The classical branch retains the scope exclusions above.
+
+### Named source applications and coordination contracts
+
+This table specifies mathematical owner boundaries. A **coordination contract** names a construction to allocate and prove; an infinitesimal, local or stable floor is not its global conclusion. It is distinct from a supplied theorem or an implementation claim.
+
+| Source subject | Owner and application boundary |
+| --- | --- |
+| Product curves, general closed source Σ | [HeegaardFloer](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e46412766ddc4c77407a94184340ec1cb7d033f2/TauCetiRoadmap/HeegaardFloer/README.md) F2.6c1 owns the product J and native holomorphic projection, integral degree-one/area comparison and slice-image classification in [Σ]×[z₀]. Its moving-domain kernel/cokernel test consumes [AnalyticStableMaps](https://github.com/TauCetiProject/TauCetiRoadmap/blob/92d06341e711d818a5d0681ede82af96ca47430a/TauCetiRoadmap/AnalyticStableMaps/README.md) M2.0/M2.0a only at id_Σ:Σ→Σ, with direct unanchored sphere/torus models. A noncompact second factor is allowed for each individual closed source image; no uniform no-escape/moduli compactness is inferred. |
+| Surface suspension, horizontal orbit tori, SW/Gr/zeta remark | TaubesGromov owns the surface/four-dimensional suspension, vertical form, primitive images/covers and its stated point-count/product/zeta applications, including their chamber, orientation, SpinC and convergence hypotheses. The zero pairing uses the vertical form ω_v; the full symplectic form Ω integrates to the winding, not zero. This is not three-dimensional gauge Floer theory. |
+| General symplectic suspension | Coordination with [SymplecticGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/93ad76c0f2a89760726126e98fcdb41cee38fe93/TauCetiRoadmap/SymplecticGeometry/README.md): contracts S0–S2 below build the smooth quotient, block tensors and compact horizontal-image theorem in arbitrary finite dimension; HF's J-space and HS flow floors are inputs. The actual TG four-dimensional target remains its own specialization. |
+| Global flux and Hamiltonian kernel | Coordination with [HamiltonianReduction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/93ad76c0f2a89760726126e98fcdb41cee38fe93/TauCetiRoadmap/SymplecticGeometry/HamiltonianReduction/README.md) R1: contracts F0–F3 below extend its infinitesimal exact sequence to paths/kernel/endpoint quotient and the normalized torus example. F4 is a separate compact-support/noncompact contract. R1 is not cited as a global flux theorem. |
+| Arbitrary ψ periodic Floer setup | DGF's intended global-seam application is the G0–G7 contract below on closed spherical-aspherical targets. The existing linear seam and Hamiltonian untwisting remain positive floors. The nonaspherical and noncompact problems retain their specified additional bubble/virtual/no-escape obligations; no arbitrary-ψ Arnold or PSS-to-H(X) endpoint is asserted. |
+| Sp(2,ℝ) polar deformation | [CotangentLagrangian](https://github.com/TauCetiProject/TauCetiRoadmap/blob/93ad76c0f2a89760726126e98fcdb41cee38fe93/TauCetiRoadmap/SymplecticGeometry/CotangentLagrangian/README.md) C2.0 and C2.1's symplectic polar factors/powers supply A=PU↦P^(1−t)U, fixing U(1). DGF's bounded n=1 application identifies U(1) with S¹, the positive symplectic factor with its chosen open-disc coordinate, and transports source winding/crossings to the single HF index with its stated sign. The full C2.0/C2.1 package is the supplier, not a shorter clause merely naming polar geometry. |
+| Qualified autonomous virtual cancellation | DGF7.C.5c owns the energy-cutoff/isolating relative virtual comparison below. The regular R×S¹ dimension argument and PSS homology comparison are separate results, not raw coefficient cancellation. |
+| Multiple realization | [GeneralizedCohomology](../GeneralizedCohomology/README.md) G5 and [TangentialBordism](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4a5e27d2dd1b94abcca3e9b2151e9adf460a8a2f/TauCetiRoadmap/TangentialBordism/README.md) B5/B6.3 supply Thom/PT/rational bordism inputs. DGF10.5 owns their smooth-target multiple-realization application and the resulting TheoremB/5.14 endpoint. |
+| Finite-rank Bott and compact-Lie applications | HomotopySpheres Stage4A–4B supplies stable real Bott. The finite-rank boundary map for SO(n)→SO(n+1)→Sⁿ and its actual extension data are needed for Lemma6.35's dimensions. LieGroups supplies compact-group structure; the compact non-torus non-K(π,1) consequence requires its own finite-cover/higher-homotopy application. Keep Proposition6.34's second proof and Proposition6.31's present hypothesis independent of those coordination targets. |
+
+**The n=1 polar/index adapter.** In the supplied A=PU factor order, write the positive symplectic factor as P=exp([[a,b],[b,−a]]), (a,b)∈ℝ². Construct its disc coordinate (a,b)/sqrt(1+a²+b²), inverse v/sqrt(1−‖v‖²), and prove the actual smooth inverse and factor-order maps. Identify U(1) with the real rotation circle and transport its winding and crossing conventions to the single HF Maslov/CZ construction, including the factor2 loop/frame-change law and the existing μ=−CZ_HF calibration. This specializes the full C2.0/C2.1 polar theorem and does not introduce a second index.
+
+**F0–F3. Closed-manifold flux coordination.** For a nonempty closed connected symplectic M, construct smooth symplectic paths constant on end collars modulo smooth homotopy relative endpoints. With X_t=(∂tφ_t)φ_t⁻¹ define Flux=[∫ι_(X_t)ωdt], calibrated by sweeps of integral cycles in dt-then-cycle orientation. Prove composition, inverse, concatenation, reparametrization and two-parameter homotopy laws. Consume R1's infinitesimal sequence and HS/DG finite-dimensional flows/de Rham theory. Use a finite period-dual closed-form basis and complete inverse fields to prove zero flux exactly when the path is endpoint-fixed homotopic to a Hamiltonian isotopy, with an actual smooth normalized primitive selector. Construct Γ_ω from based loops and the exact group quotient Ham→Symp₀→H¹_dR/Γ_ω→0. Build the compact-open C∞ path/relative-smoothing comparison using the existing C4 diagonal neighborhood and closed-one-form charts. On (T²,A dx∧dy), prove Γ_ω=A H¹(T²;ℤ); translation sweeps give one inclusion and integral torus degree the other. Neither general flux discreteness nor a quotient Lie structure is asserted.
+
+**F4. Compact-support flux coordination.** On a noncompact symplectic M require a common compact support for the path and homotopies and use H¹_c(M). Construct the finite-type relatively compact-domain reduction, compact primitive selection and support-preserving complete inverse fields under the actual compact-support zero-class hypothesis. Prove comparison to ordinary flux; ordinary H¹ has no silently identical Hamiltonian kernel. An unrestricted noncompact path/kernel theorem requires further support/completeness/topology hypotheses.
+
+**S0–S2. General suspension coordination.** For a Hausdorff second-countable finite-dimensional symplectic M and global symplectomorphism φ, construct Y_φ=(ℝ×M)/((t,x)∼(t+1,φ⁻¹x)) with its actual short-interval quotient charts, tangent/seam laws and complete descended ∂t flow, whose return map is φ. Descend the fibre form ω_v and construct Ω=ds∧dt+ω_v on S¹×Y_φ, both circles period1. Consume HF's relative J-family floor to assemble the seam-compatible vertical J and block J∂s=∂t, proving its smoothness and tameness. A primitive orbit of time d gives one embedded image S¹×γ with Ω-area d and ω_v-area0; distinguish its d marked starting points from iterations and parametrized covers. For an embedded closed connected complex curve in the integral cross summand [S¹]⊗H₁(Y_φ), prove nonnegative vertical density and zero pairing force tangent distribution span(∂s,∂t). Completeness on the compact image and the two commuting flows then make that image S¹×γ for a single primitive closed orbit. Compactness is the individual source/image assumption, not a family no-escape theorem.
+
+**G0–G7. Closed-aspherical global-seam application.** DGF constructs this application on closed connected X with ω and c₁ zero on spherical classes and an arbitrary symplectomorphism ψ. Define the actual ψ⁻¹-seamed path/configuration space, retain generator components and a reference section/frame per such component, and construct the area/Chern reference-cylinder cover by the joint kernel of the two transgressions on loops of sections. A loop is a torus in the mapping torus Y_ψ, not automatically a sphere or torus inside X. Construct Γ_a=im(I_ω,I_c), cap/reference transport and the actual covering/path lifting; asphericity excludes sphere energy but need not kill these transgressions. Choose seam-compatible J with all seam jets. Nondegenerate fixed points are finite; degenerate ψ uses actual seam-compatible Hamiltonian K_t and the fixed-point dictionary ψ∘φ_K¹, not an unperturbed count.
+
+Use reference-to-orbit cylinders and A_ψ=∫ω_v+∫K_tdt, positive-end input, the actual end/reference energy and recapping laws and the supplied single HF relative index/determinant, with the extending-frame proof of the +2I_c shift. Apply MN N1 with ν=−I_ω, without injectivity or a field assumption. Use complete filtered residue grading modulo the nonzero positive generator of2I_c(Γ_a), and integer grading when I_c=0; no integer direct-sum grading of arbitrary completed series is asserted. Prove the nonlinear seamed Sobolev/universal section, seam unfolding and FHS separation/adjoint range for the actual split/seam data, including the stationary inverse separately. Construct raw energy-cutoff compactness, class splitting and conditional linear gluing before smooth-stratum openness/selection; then nonlinear gluing, orientations, finite-cutoff counts/d² and the stated continuation homotopies. Prove geometric finite-below support before completion. Folding gives the graph/diagonal strip with the conformal rescaling of both s and t; doubling boundary discs proves weak exactness from spherical asphericity. Construct relative-spin/orientation-line and count comparisons on the actual split-data carriers. No whole Fukaya or PSS theorem is used as an undefined replacement for this seamed analysis.
+
+Construct J/K continuation with fixed nondegenerate ends, actual energy/support bounds and coherent reference/cover/local-system transports, including specified Hamiltonian deformations of ψ. For the Hamiltonian overlap consume the actual 7.C contractible spherical-aspherical Γ=0 cylinder complex and supported compatible continuation, together with the untwisting of 7.C.2. Identify the selected reference cylinders/caps and their zero-period normalization, transport the single index, end orientation and spin data, and prove the equation/count/continuation diagrams. Reflection changes ψ to ψ⁻¹ and uses its actual reference/period-sign transport. This comparison has no arbitrary-ψ PSS or Arnold conclusion. A nonaspherical closed-target extension requires its seamed sphere-incidence/multicover and coherent punctured virtual-boundary construction. A noncompact extension requires seam-invariant asymptotic/support data, finite generators in declared windows and an actual uniform no-escape/compact-image theorem for solutions and continuation.
 
 ## Ownership and dependencies
 
 This roadmap consumes, and does not rebuild:
 
-- **[Heegaard Floer](../HeegaardFloer/README.md).**
+- **[Heegaard Floer](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e46412766ddc4c77407a94184340ec1cb7d033f2/TauCetiRoadmap/HeegaardFloer/README.md).**
   - Lane M: Morse–Smale pairs, compactified trajectory spaces with their corner structure and
     gluing, and the Morse complex over `𝔽₂` and `ℤ`.
   - Lane F0: Fredholm theory and Sard–Smale.
@@ -85,7 +117,7 @@ This roadmap consumes, and does not rebuild:
     also proposes to own it. This roadmap depends only on its homological characterization
     `f_*[S] = deg(f) · [Q]` from Stage 6 of the algebraic topology roadmap, so it is unaffected by
     which of the two owns it.
-- **[Algebraic topology](../AlgebraicTopology/README.md).**
+- **[Algebraic topology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/77caf227f456d6da938674a1ac50e309d47c476a/TauCetiRoadmap/AlgebraicTopology/README.md).**
   - Stage 2: relative singular homology and local coefficient systems.
   - Stage 4: CW pairs, cellular approximation and cofibrations.
   - Stage 5.1–5.4: Eilenberg--Zilber, the Künneth theorems and transfer.
@@ -105,58 +137,47 @@ This roadmap consumes, and does not rebuild:
   - Layer 4: Maurer--Cartan elements in the strictly upper-triangular regime.
   - Layer 5: one-sided twisted complexes and derived tensor products.
 - **[Generalized cohomology](../GeneralizedCohomology/README.md).**
-  - Early G2.1 supplies the convenient-space comparisons; G2.10 owns
-    `IsHurewiczFibration`, continuous lifting for arbitrary parameter spaces,
-    the based path-loop and mapping-path fibre carriers, and the comparison
-    with native `TauCeti.TopCat.serreFibrations`. The order is
-    early G2.1 → G2.10's path/lift/native-comparison constructions;
-    Layer 1 item 2 → G2.10's fibration-LES applications. Both precede
-    Layer 1 item 4 and Layer 2.
-    G2.1's individual convenient-space exports retain their own earlier
-    prerequisites; G2.10 precedes G2.7's Eilenberg–MacLane spectra and
-    consumes no EM representability or mod-2 vanishing.
-- **[Geometric topology](../GeometricTopology/README.md).**
+   - Early G2.1 supplies its actual compact-generation, product/Kelley and realizationProductKelleyComparison interfaces. G2.10 constructs IsHurewiczFibration, arbitrary-parameter continuous lifting, compact-open interval path/loop and mapping-path carriers, and comparison with native TauCeti.TopCat.serreFibrations using these EARLY exports and the compact-open exponential law. Those raw constructions do not consume the later Quillen/CW-approximation comparison.
+   - Layer1.2's direct weak-equivalence/CW and native Serre LES/ordinary spectral-sequence outputs then feed G2.1's designated model comparison and G2.10's derived fibration-LES application. Layer1.4 applies that LES to the supplied path carriers before G5's rational Hurewicz input. G2.10 raw lifting precedes G2.7 representability and uses no EM/mod2 theorem. Consume each exact export, not a whole-roadmap dependency.
+   - For Layer10.5 distinguish GC's designated ordinary/spectral Thom-carrier and collapse/finite-duality comparisons from its later G5 rational spectral Hurewicz theorem. TB B5 consumes the actual G2.10 mapping-path replacement, designated Thom carriers and the stabilization/duality comparisons; TB B6.3 additionally consumes its stated rational oriented-bordism comparison. Lower Layer1.2/1.4 inputs precede those GC/TB outputs and their Layer10 application.
+- **[Geometric topology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c0916c297392b21d768393a41296bfe37bd633ac/TauCetiRoadmap/GeometricTopology/README.md).**
   - Layer 1: manifolds with boundary, collars, tubular neighbourhoods, connected sum.
   - Layer 3: `Diff(M)` as a topological group with the `C^∞` topology, the smooth-families map,
     and the inclusion `O(n+1) → Diff(Sⁿ)`.
   - Layer 7: Riemannian structures.
 - **[Universal covers](../../Completed/UniversalCovers/README.md).** Covering spaces, and induced
   maps on homotopy groups.
-- **[Lie groups](../RepresentationTheory/LieGroups/README.md).** Layer 2 supplies the
-  closed-subgroup theorem and the embedded Lie groups U(n), SO(n) and the compact
-  symplectic group `Sp(n)⊂GL_n(ℍ)`.
-- **[SmoothBundlesConnections B1.4](https://github.com/TauCetiProject/TauCetiRoadmap/pull/887).**
-  Generic smooth homogeneous quotient, principal projection and tangent quotient.
-  Layer1 item7 owns the particular homogeneous models and metric applications.
-- **[ComplexKahlerGeometry K7.1–K7.2](https://github.com/TauCetiProject/TauCetiRoadmap/pull/953).** K7.1 supplies
-  the single complex projective carrier, charts, real atlas and orientation before
-  associated bundles. The separate later form comparison in Layer1 item7 consumes
-  K7.2's normalized Fubini–Study form after its circle/Chern–Weil inputs; it is not
-  a premise of the earlier homogeneous metric or based-loop Morse applications.
-- **[Hamiltonian systems](../HamiltonianSystems/README.md)** (proposed in #480, not yet merged; the link resolves once it is). Layers 1--2: Hamiltonian vector
-  fields, the Poisson bracket, conservation of energy, symplectomorphisms and their action on
-  Hamiltonian vector fields and integral curves.
-- **[Differential geometry](../DifferentialGeometry/README.md)** (proposed in #178, not yet merged; the link resolves once it is).
+- **[Lie groups, Layer2](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1051).** The generic closed-subgroup theorem and real/complex matrix groups. GeneralizedCohomology G4.0b supplies the designated quaternionic Sp(n) carrier, topology, real model and smooth ambient-map criterion, using that generic theorem.
+- **[SmoothBundlesConnections B1.4](https://github.com/TauCetiProject/TauCetiRoadmap/pull/887).** Proper free-action smooth homogeneous quotients, principal projections and tangent quotients. Layer1 item7 consumes this single generic quotient owner for its geometric applications.
+- **[ComplexKahlerGeometry K7.1–K7.2](https://github.com/TauCetiProject/TauCetiRoadmap/pull/953).** K7.1 supplies the single complex projective carrier, complex/real atlases and orientation; GeneralizedCohomology G4.0b supplies its fixed real model/Grassmannian comparison and the designated HP carrier. K7.2's normalized Fubini–Study form and SBC B6.2–B6.3 inputs are used only in the later form comparison of Layer1 item7, after the independent metric and Morse–Bott applications have been constructed.
+- **[Morse–Novikov](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e7448f1ab9f882422f1ea2636d94325d05cde238/TauCetiRoadmap/MorseNovikov/README.md).** N1: the generic period-controlled completed group
+  ring/module, support condition, convolution, geometric-series inverse, and finite-below algebra.
+  DGF consumes this generic owner and proves only the geometric support and graded-chain
+specializations required by Layer 7.C.
+- **[Hamiltonian systems](https://github.com/TauCetiProject/TauCetiRoadmap/blob/28fb4d91cf30e27c7097d04dd03ace65db7f5de1/TauCetiRoadmap/HamiltonianSystems/README.md).** Layers 1--2: Hamiltonian vector fields, the Poisson bracket,
+  conservation of energy, symplectomorphisms and their action on Hamiltonian vector fields and
+  integral curves.
+- **[Implicit atlases](https://github.com/TauCetiProject/TauCetiRoadmap/blob/55a2a9d8b4f6c5e76b65b4d53650b839f990ddec/TauCetiRoadmap/ImplicitAtlases/README.md), V0–V6.** Consume the specified finite-group implicit-atlas, virtual cochain/dual-Čech trace, actual boundary/refinement/cobordism and cell-like-stratum interfaces only in the qualified application of 7.C.5c. Its compact-Hausdorff base, atlas, finite-dimensional real representations, coefficient/orientation and regular-product/coverage witnesses are inputs supplied by that application. This engine is not a construction of punctured analytic moduli or a canonical singular chain on a wild source. The classical count and PSS branches are independent of this virtual application.
+- **[Differential geometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f2c41bace7640366666d72c8939784696e8e3888/TauCetiRoadmap/DifferentialGeometry/README.md).**
   - Layers 0--1: smooth differential forms on manifolds, pullback, the exterior derivative
     `mextDeriv`, the Cartan calculus (interior product, Lie derivative, Cartan's formula).
   - Layer 3: flows of vector fields.
   - Tau Ceti's `SmoothTwoForm` migrates onto its generic form carrier (its item 0.4), and this
     roadmap uses the migrated carrier.
-- **[Homotopy spheres](../HomotopySpheres/README.md)** (proposed in #284, not yet merged; the link resolves once it is).
+- **[Tangential bordism](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4a5e27d2dd1b94abcca3e9b2151e9adf460a8a2f/TauCetiRoadmap/TangentialBordism/README.md).** B5/B6.3 supplies structured PT and the rational oriented-bordism orientation-map surjection with geometric preimages and singular-CW comparison. Layer10.5 consumes these with GeneralizedCohomology G5; lower Layer1 inputs precede their construction. No whole-roadmap reverse dependency is imposed.
+- **[Homotopy spheres](https://github.com/TauCetiProject/TauCetiRoadmap/blob/84eb50c63d08d9dafdc05a330be675d762bf62a3/TauCetiRoadmap/HomotopySpheres/README.md).**
   - Stage 3A: pointed compactly generated spaces, based loop spaces, and the suspension--loop
     adjunction, with the comparison homeomorphisms to ordinary spaces.
   - Stage 3B item 3: the James map and the tensor-algebra computation of `H_*(ΩΣX)`, used for the
     ring `H_*(ΩSⁿ)` in Layer 11 item 2.
-  - Stage 4B items 2--5: invariant metrics on the compact classical groups and the homogeneous
-    symmetric spaces with their Jacobi fields; the finite-dimensional manifolds of broken
-    geodesics below an energy cutoff, with their comparison to path-space sublevels; and the
-    finite-dimensional Morse--Bott theorem with attachment of negative disc bundles. These are the
-    single carrier for broken geodesics and the single Morse--Bott foundation. Layer 5 items 6--7
-    consume them and add only the extensions stated there.
-  - Stage 5: the Pontryagin--Thom collapse map of a framed submanifold, built from a chosen tubular
-    neighbourhood and normal framing.
+  - Stage 4B items 2–5 supply the invariant/Jacobi and finite-dimensional Morse–Bott constructions used in the Bott chain of compact classical groups and symmetric spaces. Their Bott-chain applications remain there.
+  - Stage5 supplies the framed Pontryagin–Thom collapse from a chosen normal tube and framing; Layer1 extends it to a closed ambient manifold.
+- **[Riemannian geometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/53915bae39e30b2b78fe08bb697d90d62bce66ef/TauCetiRoadmap/RiemannianGeometry/README.md).** R1 supplies the specified round-Hopf projective metrics. R2 supplies Jacobi initial-value/endpoint-exponential comparisons; R3 supplies the index form, finite node-value reduction, and general complete-manifold finite broken-geodesic carriers and path-energy comparisons. Layer5 constructs the cyclic/free-loop and projective applications on those carriers.
+- **[Morse theory](../MorseTheory/README.md).** M5 supplies the abstract compact-band Morse–Bott parameter lemma, negative normal bundles, disc attachment and orientation-local-system Thom comparison. It consumes only Layer1.3's early filtered-complex algebra. Riem R3's based-loop sphere calculation consumes only Layer1.2's early weak-equivalence/homology comparison. Neither generic foundation uses Layer5's projective/free-loop conclusion.
 
-This roadmap owns everything else it states. In particular it owns:
+This roadmap owns everything else it states. The generic Novikov support/completion algebra is
+consumed from MorseNovikov N1 under its captured written contract; DGF owns only the Floer-specific
+support, grading, and comparison applications stated in Layer 7.C. In particular this roadmap owns:
 - cubical singular chains and their comparison with simplicial singular chains;
 - `H₁ ≅ π₁ᵃᵇ`, CW approximation, and homology invariance under weak equivalences;
 - the homological/cohomological adapters and convergence/filtration theory
@@ -167,12 +188,8 @@ This roadmap owns everything else it states. In particular it owns:
 - the Pontryagin--Thom collapse for framed submanifolds of an arbitrary closed ambient manifold,
   extending the Euclidean-ambient construction of the homotopy spheres roadmap;
 - local triviality of `Diff(M) → M`;
-- the specific Stiefel, complex-projective and quaternionic-projective model identifications,
-  orientation/metric comparisons and index, perfectness and explicit-generator computations
-  for their based-loop energy, using SBC B1.4's generic quotient construction, CKG K7.1's
-  single complex-projective carrier and the stated homogeneous-metric/Morse--Bott suppliers;
-- the extension of that roadmap's broken-geodesic carrier from based paths to the free loop space
-  of a closed Riemannian manifold;
+- the real orthonormal-two-frame quotient and its Stiefel-map degree application, consuming native frame carriers, SBC proper quotients and LieGroups' actual orthogonal subgroups;
+- cyclic/free-loop broken-geodesic extensions and the projective energy, Jacobi index, integral perfectness and explicit-generator applications, consuming the designated CKG/GC carriers, Riem R1–R3 and MorseTheory M5;
 - Moore path and loop spaces, transitive lifting-function data, the Moore-path
   replacement with its strict holonomy, and mapping spaces out of spheres;
   G2.10 owns the Hurewicz-fibration predicate and its Serre comparison;
@@ -182,11 +199,12 @@ This roadmap owns everything else it states. In particular it owns:
 - time-dependent Hamiltonian flows and their 1-periodic orbits, Liouville domains, and the cotangent
   bundle of a manifold with its canonical Liouville form;
 - Hamiltonian Floer and symplectic homology;
+- the rooted/attached and inhomogeneous fixed-asymptotic sphere-tree applications and conditional shared-structure multi-map evaluation modules of Layer7.C.2b–3; generic marked unforced stable-map compactness is consumed from AnalyticStableMaps M3;
 - the Viterbo isomorphism;
 - symplectic capacities;
 - the almost existence property.
 
-Four of these touch other roadmaps and are coordination points:
+The following constructions touch other roadmaps and are coordination points:
 
 - **The filtered-complex and ordinary Serre spectral sequences.** Layer 1
   item 3 extends native filtered-cochain spectral objects with homological
@@ -200,13 +218,10 @@ Four of these touch other roadmaps and are coordination points:
 - **The Pontryagin--Thom collapse.** Layer 1 builds it with the same data as the homotopy spheres
   roadmap: a chosen tubular neighbourhood and normal framing, with independence as a theorem. It
   agrees with that roadmap's collapse when the ambient manifold is a sphere.
-- **Broken geodesics and Morse--Bott theory.** The homotopy spheres roadmap (Stage 4B) is the
-  supplier. Its contract, as consumed here: for a complete Riemannian manifold and an energy cutoff,
-  the finite-dimensional broken-geodesic manifold, its deformation equivalence with the path-space
-  sublevel, and the Morse--Bott attachment of negative disc bundles. Layer 5 item 6 extends the
-  carrier to closed broken geodesics, without introducing a second one. If that roadmap restricts
-  its carrier to symmetric spaces, the general-manifold statement of its Stage 4B item 3 is a
-  requested extension there, not a separate construction here.
+- **Broken geodesics and Morse–Bott theory.** Consume Riem R2/R3's general Jacobi/index-form and complete-manifold finite-vertex path construction and MorseTheory M5's abstract compact-band Morse–Bott attachment/Thom theorem. For an energy cutoff and admissible partition R3 gives the actual finite node carrier and its short-segment/path-sublevel comparison. Layer5 constructs its cyclic seam, free-loop subdivisions, cut comparisons and colimit. The HS4B Bott-chain instantiations use the same generic foundations in their specified compact homogeneous examples; they are not a general complete-manifold replacement.
+
+- **Closed-sphere trees and attachments.** Consume AnalyticStableMaps M3 at genus0 for full marked, multiply covered unforced stable-map compactness, integral splitting and topology over the stated compact smooth tame-J families. Layer7.C.3 constructs the actual rooted attachment, equal-parameter/shared-structure evaluation, inhomogeneous/fixed-asymptotic convergence and conditional gluing application. Different root attachments may carry different frozen structures; retain the corresponding finite product/matching data. The unstable two-marked constant raw PSS core has its own normalization/contraction construction. HF F2.6c's minimal-area single-positive-component compactness retains its additional area hypothesis and does not replace the marked all-tree supplier.
+- **Conditional shared-structure evaluation.** Layer7.C.2b owns the reusable finite-tuple distinct-simple-image separation and conditional joint evaluation theorem, with actual allowed variation spaces, collision/attachment partitions and supplied incidence strata. HF owns the two-map local-germ and single-map sphere floors. The pure sphere version has no auxiliary Morse datum; Morse-chain and critical-point versions separately apply it to HF Lane M strata. These modules retain their own prerequisite interfaces when used by another curve-count construction.
 
 ## Standing conventions
 
@@ -255,18 +270,33 @@ Four of these touch other roadmaps and are coordination points:
     subspace of `[0, ∞) × C([0, ∞), X)`. The source `[0, ∞)` is locally compact Hausdorff but not
     compact.
 
-  In both cases the exponential law holds without compact generation, since it needs only local
-  compactness of the source. The homotopy spheres roadmap forms loop spaces in compactly generated
-  spaces. Its comparison homeomorphism for locally compact Hausdorff sources identifies the two,
-  and is used whenever a result is transported between the roadmaps.
+  In both cases local compactness of the source supplies the ordinary Top compact-open
+  evaluation/currying law. Retain these raw topologies for arbitrary target spaces. The
+  HomotopySpheres Stage3A convenient internal hom is compact-open followed by compact
+  generation k. Construct the comparison using the actual counit kZ→Z and the compact-Hausdorff
+  test/currying maps; prove its based homotopy-group and singular/cubical-chain comparisons,
+  and its compatibility with endpoints, cap/reference maps, constant sections and path
+  composition. Convenient multiplication uses k-products; an ordinary product of k-spaces is
+  not silently already k. Parameter-family transport retains the actual compact-generation
+  hypotheses on its parameter/domain. These weak comparisons do not create Hurewicz lifts or
+  fibre homotopy equivalences: consume G2.10's raw lifting maps and the explicit Layer2 Moore
+  replacement maps/homotopies for those stronger results.
+
+  Prove a comparison homeomorphism when the raw mapping and stopped-path carriers are themselves
+  compactly generated. In particular, for metrizable Y and compact metric sphere/interval source,
+  use the uniform compact-open metric. For [0,∞) use the countable exhaustion [0,m] and the
+  corresponding compact-open metric; the stopped Moore and fixed-end carriers are metrizable
+  subspaces of the resulting products. This gives the homeomorphism lane needed for the
+  geometric manifold targets without narrowing the earlier arbitrary-space constructions.
 - **Coefficients.** The algebraic Layers 0, 3 and 4 work over an arbitrary commutative ring. The
   geometric Layers 5 and 7--9 are built over `𝔽₂` first. Integer coefficients, with the source's
   orientation conventions of §3.1, form a separate milestone inside each of those layers. Every
   `𝔽₂` theorem is stated so the ring can be generalized without restating the geometry.
-- **Floer grading.** The degree of a nondegenerate 1-periodic orbit is its Conley--Zehnder index.
-  It is normalized so that for a `C²`-small autonomous Morse Hamiltonian on a closed `2n`-manifold,
-  `FH_*(H) ≅ H_{*+n}(X)`. The grading needs, besides the area condition, a Chern condition and
-  chosen trivializations, as in the source's §3.2:
+- **Floer grading.** The standing degree of a nondegenerate 1-periodic orbit is its Conley--Zehnder
+  index. It is normalized so that for a `C²`-small autonomous Morse Hamiltonian on a closed
+  `2n`-manifold, `FH_*(H) ≅ H_{*+n}(X)`. The grading needs, besides the area condition, a Chern
+  condition and chosen trivializations, as in the source's §3.2. The scoped Layer 7.C exception
+  uses `μ=−CZ_HF` on the same symplectic path and states its conversion explicitly there:
   - **First Chern number of a surface map.** For a closed oriented surface Σ
     and smooth f:Σ→X, consume [HeegaardFloer F1.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7d7fa6e83b9975bca12a0a620f4e3fab7db029be/TauCetiRoadmap/HeegaardFloer/README.md)'s independently constructed
     clutching number `wind(det g)` and its equality with
@@ -284,12 +314,16 @@ Four of these touch other roadmaps and are coordination points:
     unitary trivialization of `TX` along it. Trivializations along 1-periodic orbits are induced
     through cylinders to the reference loop; the Chern condition on tori makes the induced
     Conley--Zehnder index independent of the cylinder. For contractible orbits the reference loop
-    is constant and the condition on spheres suffices.
-  - These conditions are separate named hypotheses on every statement of Layers 7--9 and on the
-    general Liouville-domain results. Exactness of a Liouville domain gives the area condition
-    only; the Chern condition stays a hypothesis there. For cotangent bundles, `2c₁(T(T*Q)) = 0`
-    holds globally, and the canonical grading of Layer 9 item 1 is compared with this one
-    separately; it is not assumed for arbitrary domains.
+    is constant and the condition on spheres suffices. Layer 7.C is a separate contractible capped
+    branch: it constructs cap trivializations and the spherical quotient `Γ` and does not assume
+    the global atoroidal hypothesis of the standing noncontractible theory.
+  - These conditions are separate named hypotheses on every statement of the standing Layers 7--9
+    and on the general Liouville-domain results. Layer 7.C instead states its own positive
+    spherical-monotone or spherical-`c₁`-zero hypothesis in the contractible capped sector; it does
+    not silently inherit asphericity or atoroidality. Exactness of a Liouville domain gives the area
+    condition only; the Chern condition stays a hypothesis there. For cotangent bundles,
+    `2c₁(T(T*Q)) = 0` holds globally, and the canonical grading of Layer 9 item 1 is compared with
+    this one separately; it is not assumed for arbitrary domains.
 - **Sign dictionary.** Two conventions differ between the source and Tau Ceti, and they are fixed
   together here.
   - *Hamiltonian vector fields* are those of the Hamiltonian systems roadmap, `ι_{X_H} ω = dH`.
@@ -315,11 +349,13 @@ Four of these touch other roadmaps and are coordination points:
     `X^{source}_{ω,H} = X_{ω,−H}` finishes the translation, exactly as on a closed `(X, ω)`. So
     there is one Hamiltonian bridge in the whole roadmap, and on cotangent bundles it is preceded by
     `ν`.
-  - *Downstream quantities.* The action functional is the source's
-    `𝒜_H(γ) = ∫ γ̄^*ω − ∫ H(t, γ(t)) dt` (§3.2), with `γ̄` a cylinder to the reference loop,
-    stated in the source's normalization after the substitutions above. Conley--Zehnder indices are
-    normalized so that `FH_*(H) ≅ H_{*+n}(X)` keeps its form. The magnetic fibre translation is
-    fixed in Layer 6 item 3.
+  - *Downstream quantities.* The standing action functional is the source's
+    `𝒜_H(γ) = ∫ γ̄^*ω − ∫ H(t, γ(t)) dt` (§3.2), with `γ̄` oriented from `γ` to the reference loop,
+    in the source normalization after the substitutions above. Layer 7.C instead writes
+    `A_H(γ,D)=∫Hdt+∫_Dω`; on its actual aspherical overlap the standing comparison uses the
+    reflected Hamiltonian `H∨`, not a same-`H` identity. Conley--Zehnder indices in the standing
+    convention retain `FH_*(H) ≅ H_{*+n}(X)`. The magnetic fibre translation is fixed in Layer 6
+    item 3.
   - Acceptance criterion 9 checks the model evaluations.
 - **Hypotheses stay unbundled**, as in the Heegaard Floer roadmap: nondegeneracy, regularity of
   `J`, admissibility at infinity, asphericity and atoroidality are separate named hypotheses.
@@ -329,12 +365,7 @@ Four of these touch other roadmaps and are coordination points:
 
 ## Inventory
 
-The Serre-fibration and filtered-cochain APIs linked in Layer 1 are present at
-Tau Ceti snapshot `720bf8c135bd2c354a15d55a73f2fc2c3d7aa358`.
-They are absent from this repository's pinned Tau Ceti snapshot
-`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. Reuse those native interfaces
-when incorporating them; the LES, local-coefficient, arbitrary-base, product
-and convergence constructions specified below remain targets.
+Use the native Serre-fibration and filtered-cochain carriers named in Layer1. Construct the specified LES, local-coefficient, arbitrary-base, product and convergence extensions over those carriers. The cited APIs are present at Tau Ceti snapshot `720bf8c135bd2c354a15d55a73f2fc2c3d7aa358`, beyond this repository’s pinned `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`; consume their native interfaces when incorporating them. This is source currency, not a claim that the pinned dependency implements them.
 
 Mathlib provides:
 - singular homology and its homotopy invariance;
@@ -366,8 +397,8 @@ The following targets are built here, consuming the native APIs cited in their l
 - Serre classes, Eilenberg--MacLane spaces `K(A, n)` for arbitrary abelian `A` with their
   uniqueness up to weak equivalence, and the one-step connected covers of Layer 1 item 4;
 - the Pontryagin--Thom collapse in a non-Euclidean ambient manifold;
-- Stiefel manifolds;
-- `HPᵈ` as a manifold, and the `CPᵈ` homogeneous-quotient comparison on K7.1's carrier.
+- the real orthonormal-two-frame homogeneous identification from native frames and SBC quotients;
+- projective loop-energy/index/perfectness/generator applications on the supplied CKG/GC carriers and RiemannianGeometry metrics.
 
 ---
 
@@ -396,8 +427,7 @@ The following targets are built here, consuming the native APIs cited in their l
    faces. This is the chain-level input of every representing chain system in Layers 5 and 8.
    - The only homological fact used is that the connecting map `H_n(M, ∂M) → H_{n−1}(∂M)` sends
      the fundamental class rel boundary to the fundamental class of the boundary.
-   - So topological manifolds suffice: no smooth structure on the strata is needed anywhere in this
-     roadmap, and the moduli spaces need only be produced as topological manifolds with corners.
+    - Topological manifolds with corners suffice for these representing-chain systems in Layers5 and8. Regular analytic moduli loci still require their actual differentiable charts, tangent-kernel identifications, smooth group actions and oriented Fredholm gluing. A smooth atlas on every coarse compactification stratum is not a hypothesis of the fundamental-chain theorem; the virtual application retains its specified topological regular-model axioms.
 5. Source: Massey, *Singular Homology Theory*, Chapters II and VII; Serre, *Homologie singulière
    des espaces fibrés*, Chapter II; BDHO, Chapter 5 and Appendix; Barraud--Cornea, Appendix A.
 
@@ -596,7 +626,7 @@ convergence targets below extend those interfaces.
      applies it. Its prerequisites are owned here, since no roadmap supplies them:
      - **Eilenberg--MacLane spaces.** Pin one functorial abelian model in each degree.
        For n=1 set `K(A,1)=B(Multiplicative A)`, an alias of
-       [AlgebraicTopology 8.8](../AlgebraicTopology/README.md)'s native
+       [AlgebraicTopology 8.8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/77caf227f456d6da938674a1ac50e309d47c476a/TauCetiRoadmap/AlgebraicTopology/README.md)'s native
        `|nerve (SingleObj (Multiplicative A))|`. That item owns the generic
        contractible Eπ, covering, CW structure and fundamental-group edge normalization;
        it has no dependency on this item. For n≥2 use the realization of the
@@ -753,49 +783,14 @@ convergence targets below extend those interfaces.
    homotopy spheres roadmap's Stage 5, with an arbitrary closed ambient manifold in place of
    `ℝ^{n+k}`, and agrees with it for spherical ambient manifolds. Independence of the choices, its
    effect on fundamental classes, and its compatibility with shriek maps.
-6. **Diffeomorphism groups.** For a closed manifold `M`, evaluation at a point
-   `Diff(M) → M` is a locally trivial fibre bundle (Palais). The proof uses a smooth family of
-   compactly supported diffeomorphisms moving the basepoint, fed into the smooth-families map of
-   geometric topology's Layer 3.
-7. **Homogeneous examples.**
-   Consume [SmoothBundlesConnections B1.4](../SmoothBundlesConnections/README.md)'s general
-   smooth quotient `G/H` and principal `H`-bundle `G→G/H` for a compact Lie group G and closed
-   Lie subgroup H, with its quotient topology, smooth projection and tangent comparison.
-   Construct the following specific models and comparisons here, using the stated generic
-   homogeneous-metric and Morse--Bott suppliers for their geometric applications.
-   - Identify the manifold of orthonormal `2`-frames in `ℝⁿ` with `O(n)/O(n−2)` for n≥2,
-     including its frame-evaluation map and tangent/metric comparison; treat the empty
-     low-dimensional frame cases separately.
-   - For `CPᵈ`, use [ComplexKahlerGeometry K7.1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/953)'s single
-     `Projectivization ℂ (Fin (d+1) → ℂ)` carrier, its affine charts and underlying real atlas.
-     Construct the diffeomorphism `U(d+1)/(U(1)×U(d))→CPᵈ`, `[g]↦[g e₀]`, and prove its
-     agreement with those charts and the complex orientation. Construct its
-     homogeneous metric with the chosen normalization, its Hermitian compatibility
-     with K7.1's complex structure and its independent metric comparison.
-   - For `HPᵈ`, construct the space of quaternionic right lines
-     `(ℍ^(d+1)∖{0})/ℍˣ`, with `v∼vλ`. The compact group Sp(d+1) acts on the
-     left. Construct `Sp(d+1)/(Sp(1)×Sp(d))→HPᵈ`, `[g]↦[g e₀]_ℍ`, and prove
-     its inverse and chart identities. On v_i≠0 use the right ratios
-     `v_j v_i⁻¹` (j≠i) and the representative with i-coordinate1; prove the
-     right-scaling invariance, overlap maps, real orientation and homogeneous
-     metric comparison. Include d=0 as a point. This is a specific application
-     of the supplied generic quotient theorem.
-   - Prove that projective lines for these homogeneous metrics are totally geodesic round
-     spheres, with the actual metric scale. Use these precise models and comparisons in the
-     based-loop energy index, perfectness and explicit-generator applications below.
-   - Construct three pointwise orthonormal vector fields on `S^{4k−1}` by quaternionic
-     multiplication.
-   - After K7.2 and its SBC B6.2–B6.3 inputs, construct the separate complex
-     projective form comparison. For the earlier Hermitian metric g and its
-     complex structure J put `ω_g(X,Y)=g(JX,Y)`. Prove closedness and calculate
-     the actual scale `ω_g=c·ω_FS`, with c>0; for d≥1 determine c by the
-     oriented complex-line integral, since `∫_(CP¹)ω_FS=1`. For d=0 both forms
-     vanish. Prove compatibility with the quotient/charts and the chosen metric
-     normalization. This later comparison is not a premise of the metric-scale,
-     totally-geodesic, index, perfectness or generator applications above/below.
-8. **Degrees of explicit maps**, computed by counting regular preimages: the map
-   `T¹S^{n−1} × S¹ → S^{n−1} × S^{n−1}` of the proof of Proposition 6.17, and the rotation map
-   `T¹_p Sⁿ × S¹ → Sⁿ` of the second proof of Proposition 6.34.
+6. **Diffeomorphism groups.** For a closed manifold M consume GT Layer3's C-infinity topological group Diff(M), the map from actual smooth parameter families to Diff(M), and the orthogonal action on spheres. Construct local Palais evaluation sections: in a coordinate ball choose compactly supported smooth vector fields giving a smooth family moving the basepoint, extend by identity and use the smooth-families map. Prove evaluation Diff(M)→M locally trivial, including its actual local product/inverse. A merely continuous family into Diff is not identified with a jointly smooth family.
+7. **Homogeneous examples on designated carriers.** Consume [SBC B1.4](https://github.com/TauCetiProject/TauCetiRoadmap/pull/887) for proper free-action smooth quotients, principal projections and tangent quotients, and LieGroups Layer2 for the real/complex closed matrix subgroups. Consume [CKG K7.1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/953) for its complex projectivization atlas and real restriction, [GC G4.0b](../GeneralizedCohomology/README.md#g4-generalized-lerayhirsch-thom-and-euler-theory) for the designated Sp, quaternionic frame/Grassmannian/HP carriers and smooth Hopf comparisons, and Riem R1 for the normalized quotient metrics. Retain the supplied topologies, smooth structures and explicit quotient comparisons.
+   - For n≥3 construct the ordered orthonormal-two-frame identification SO(n)/SO(n−2), with stabilizer diag(I₂,SO(n−2)), actual orbit/inverse maps, tangent quotient and sphere-bundle projection. For n=2 the carrier is O(2)=SO(2)⊔rSO(2), r=diag(1,−1), with determinant distinguishing the two SO(2) orbits; for n<2 it is empty. Compare with O(n)/O(n−2) for every n≥2, so both descriptions use this same frame carrier.
+   - On the designated CPᵈ carrier pin the supplied quotient comparison U(d+1)/(U(1)×U(d))→CPᵈ to [g]↦[g e₀], including subgroup blocks, basepoint, principal local sections and agreement with K7.1's complex orientation. On GC's designated HPᵈ carrier pin its Sp(d+1)/(Sp(1)×Sp(d)) comparison to [g]↦[g e₀]_ℍ. Its native Projectivization uses right lines through ℍᵐᵒᵖ, with v∼vλ; compare the supplied charts on v_i≠0 with right ratios v_j v_i⁻¹ and representative with i-coordinate1, and verify right-scaling invariance. These are comparisons on the supplied carriers and smooth structures.
+   - Transport the supplied unit-round Hopf metrics. Prove Hermitian compatibility of the CP metric with its designated complex structure, and the orientation/metric/quotient-chart comparisons. For d≥1 the primitive unit-speed period is π; d=0 is a point. For d≥2 the sectional curvature bounds1 and4 are both attained; CP¹ and HP¹ have curvature4 and radius1/2. Prove projective lines totally geodesic with this metric scale. Layer5 constructs the energy/index/perfectness/generator applications with that scale, or explicitly transports a different one.
+   - Construct the three pointwise orthonormal quaternionic vector fields on S^(4k−1).
+   - After K7.2 and its SBC B6.2–B6.3 inputs, construct the separate CP form comparison. For the earlier Hermitian metric g and complex structure J put ω_g(X,Y)=g(JX,Y). Prove closedness and ω_g=π·ω_FS for the unit-round Hopf normalization above, with ∫_(CP¹)ω_FS=1. For d≥1 calculate the scale from the oriented radius1/2 complex line, whose area is π; for d=0 both forms vanish. Prove compatibility with the same quotient/charts. Under a positive metric rescaling prove the corresponding positive form scale. This later comparison is not a premise of the earlier metric, totally-geodesic, index, perfectness or generator applications.
+8. **Degrees of explicit maps.** Construct and orient the actual Stiefel-domain map T¹S^(n−1)×S¹→S^(n−1)×S^(n−1) of Proposition6.17 using item7's frame/sphere-bundle comparison, and count its regular preimages with the stated product orientations. Separately, for fixed p∈Sⁿ, identify T¹_pSⁿ≅S^(n−1) and construct the rotation family S^(n−1)×S¹→Sⁿ of the second proof of Proposition6.34. Compute its degree2 for odd n by regular preimages and local signs. This fixed-p construction has no Stiefel-quotient, unstable Bott or Pontryagin–Thom premise. Keep the actual Diff-family/evaluation and covered-by-diffeomorphisms comparisons for Layer11.
 9. Source: Hatcher, *Algebraic Topology*, §§2.A, 4.1, 4.J; McCleary, *A User's Guide to Spectral
    Sequences*, Chapter 2; Serre, *Groupes d'homotopie et classes de groupes abéliens*; Palais,
    *Local triviality of the restriction map for embeddings*; Milnor--Stasheff, Chapter 5.
@@ -860,8 +855,10 @@ convergence targets below extend those interfaces.
    that native loop carrier to `Map_*(S¹,X)` through I/∂I and AT4.4's
    based circle model, as well as the iterated sphere-model comparisons
    below. Prove continuity and inverse laws with the declared compact-open
-   topologies and convenient-space adapters; the two notations designate
-   these compared carriers, not an additional loop construction.
+   topologies. The displayed sphere/interval identifications are on the raw compact-open
+   carriers. Compose with the preceding counit/compact-test adapters for convenient spaces;
+   claim a homeomorphism there only in the proved compactly generated lane. The two notations
+   designate these compared carriers, not an additional loop construction.
    - `P^{[0,1]}_{⋆→Q} 𝓛₀Q ≅ Map_*(S², Q)`;
    - `P^{[0,1]}_{Q→Q} 𝓛₀Q ≅ Map(S², Q)`;
    - `Map_*(S^k, X) ≅ (Ω^{[0,1]})^k X`.
@@ -975,8 +972,9 @@ corner structures.
    - Evaluate the representing chains into Moore paths, then into `C_*(ΩB)`. The result is a
      twisting cocycle (Layer 4).
    - Its twisted homology is independent of all choices up to specified continuation isomorphisms.
-3. **DG Morse homology** `H_*(B; 𝓕)` on closed manifolds, and on compact manifolds with boundary in
-   the relative version. It has direct maps `f_*` and shriek maps `f_!`.
+3. **DG Morse homology** H_*(B;𝓕) on closed manifolds and the absolute/relative complexes for compact manifolds with boundary. Direct maps f_* retain their specified coefficient morphism. For f:X^m→Y^n and a DG local system 𝓕 on Y, construct the integral Umkehr
+   `f_!:H_k(Y;𝓕)→H_(k+m−n)(X;f*𝓕⊗or_X⊗f*or_Y)`,
+   with all orientation local systems concentrated in degree zero. Use AT's actual orientation-system transport and canonical square normalization. Construct the DG-coefficient Poincare–Lefschetz/cap comparison, its cochain pullback and the resulting f_!, rather than applying ordinary local-coefficient duality to a DG system without an adapter. Build this from the finite Morse/skeletal filtration and the actual chain-level diagonal/cap comparison; its graded-classical comparison and bounded base filtration give the homology equivalence. These constructions use the earlier chain/filtered and AT interfaces, not the later fibration conclusion. Chosen orientations trivialize the two factors and recover f_!:H_k(Y;𝓕)→H_(k+m−n)(X;f*𝓕); over 𝔽₂ the factors canonically disappear. Prove identity/composition, coefficient/basepoint/continuation naturality and the actual degree/sign diagrams. For maps of manifold pairs construct the absolute and relative Poincare–Lefschetz versions with their boundary/collar hypotheses, maps and boundary naturality. All nonorientable targets remain in scope with the displayed twists.
 4. **Fibration theorem.** For a Hurewicz fibration `F → E → B` over a closed connected manifold,
    with the DG local system `C_*(F')` of Layer 3 item 2:
    - first for fibrations with a transitive lifting function (BDHO Theorem 7.2), then for all
@@ -984,22 +982,13 @@ corner structures.
      homotopy equivalence and has a transitive lifting function;
    - `H_*(B; C_*(F')) ≅ H_*(E') ≅ H_*(E)`;
    - the index spectral sequence is isomorphic to the Serre spectral sequence from `E²` on;
-   - direct and shriek maps correspond to the maps induced by maps of total spaces and by the
-     Umkehr maps of pulled-back fibrations.
-5. **Classes living over the fundamental class.**
-   - The definition (the source's Definition 2.3) and its chain-level characterization
-     (Proposition 2.5).
-   - For fibrations, the characterization by the column `E^∞_{n,*}` (Proposition 2.6), and the
-     identification of the shriek map to a point with `H_*(E) → H_*(E, E|_{Y_{n−1}}) ≅ H_{*−n}(F)`
-     (Lemma 2.9).
-   - Naturality of shriek maps under maps of fibrations (Proposition 2.12, Lemma 2.14), and the
-     criterion `σ_*[F] ≠ 0 ⇒ σ_*[E]` lives over the fundamental class (Corollary 2.13).
+   - direct maps correspond to maps of total spaces. For pullbacks along f:X^m→B^n between the declared manifold bases, construct the base-induced fibration Umkehr comparison with degree m−n and the pulled-back degree-zero or_X⊗f*or_B factors from item3. A total space or fibre need not itself be a manifold; the map is constructed through the base Morse/fibration-chain model, with its absolute/relative and coefficient diagrams.
+5. **Classes living over the fundamental class.** Construct the source's Definition2.3 and chain characterization Proposition2.5 with the actual coefficient and orientation data. For an oriented closed connected B^n (or over 𝔽₂), recover its ordinary top class and E^∞_(n,*) characterization (Proposition2.6). For arbitrary B use [B]_or∈H_n(B;or_B), the corresponding twisted top column and the pulled-back orientation system on E; do not assert an untwisted integral fundamental class on a nonorientable base.
+   - For the inclusion i:{b}→B, its shriek map has degree−n. With untwisted total-space coefficients it takes values in H_(*−n)(F_b)⊗(or_B)_b; a chosen local orientation identifies the last line with the ground ring. With π*or_B coefficients on E its two point-orientation factors contract canonically, giving H_*(E;π*or_B)→H_(*−n)(F_b). Construct a compatible Morse/CW model with one top n-cell containing b, using the supplied Morse/handle comparison, and denote its actual lower skeleton by B_(n−1). Construct the relative skeletal quotient and orientation-twisted Thom/cell comparison underlying Lemma2.9 for this chosen model; an arbitrary skeleton with several top cells is not identified with a single fibre. Under the oriented or mod2 trivialization this is H_*(E)→H_*(E,E|_(B_(n−1)))≃H_(*−n)(F_b).
+   - Prove shriek naturality for maps of fibrations (Proposition2.12/Lemma2.14), and the source's Corollary2.13 criterion σ_*[F]≠0⇒σ_*[E] lives over the fundamental class, using actual oriented classes or their stated orientation-twisted replacements and the corresponding coefficient morphisms. No untwisted integral nonorientable version is inferred.
 6. **Free loop space.** DG Morse homology of `𝓛₀Q` and `𝓛Q` for a closed manifold `Q`, through
    the finite-dimensional approximations by broken geodesics and the colimit over them.
-   - The approximations are the homotopy spheres roadmap's broken-geodesic carrier (Stage 4B
-     item 3). The extension owned here is the closed version: closed broken geodesics with a fixed
-     number of breaks, their deformation equivalence with the free-loop energy sublevels, and the
-     inclusions as the number of breaks grows. No second carrier is built.
+   - Consume Riem R3's finite-vertex short-segment path construction. For closed Q construct the cyclic vertex carrier, its seam charts and energy, its comparison/deformation to the free-loop energy sublevel, and subdivision maps. The based and cyclic versions share the designated short-segment maps and topology; prove the cyclic comparison rather than identify a based-path theorem with a free-loop theorem.
    - A closed broken geodesic with `r` breaks is determined by its vertices, an `r`-tuple of
      points of `Q` with consecutive distances below the injectivity radius. The carrier above cuts
      these tuples by an energy bound. The Viterbo proof (Layer 9 item 3) uses the same tuples with
@@ -1009,23 +998,13 @@ corner structures.
      speed as a Moore loop. Both systems have the colimit property of BDHO §13 for `𝓛Q`, by the
      weak equivalence of Layer 9 item 3, so the DG Morse homology of `𝓛Q` is the same through
      either; the cut is a choice of cutoff, not a third model.
-7. **Morse--Bott energy on `CPᵈ` and `HPᵈ`**, as applications of the homotopy spheres roadmap's
-   Morse--Bott API (Stage 4B items 2, 4 and 5). For the homogeneous metric, the energy functional on
-   the finite-dimensional approximations of `Ω_p` is Morse--Bott:
-   - the critical manifolds are the constant loop and the iterated great circles;
-   - their indices are those computed by Bott and Ziller, from the Jacobi fields supplied there;
-   - the functional is perfect, which identifies `H_{2d}(Ω CPᵈ)` and `H_{4d+2}(Ω HPᵈ)` with `ℤ`,
-     with an explicit generator.
+7. **Based-loop Morse–Bott energy on CPᵈ and HPᵈ.** Use the actual Riem R1 metrics, R2 Jacobi ODE/endpoint data and R3 index form/finite-node comparison, and MorseTheory M5's compact-band normal attachment theorem. On the finite approximations to Ω_p construct the critical manifolds of constant and iterated geodesics, calculate their negative bundles, indices and nullities on that same metric, and identify their Thom orientation systems and attachment maps. HS4B's Bott-chain computations are comparisons on their stated examples, not the generic owner of these constructions.
 
-   The index, perfectness and generator computations are owned here. The Morse--Bott foundation is
-   not.
+   For d≥1 prove the integral perfectness and calibrate the explicit generators H_(2d)(ΩCPᵈ)=ℤ and H_(4d+2)(ΩHPᵈ)=ℤ. In the CP calculation the cells have degrees a_k=2d(k−1)+1 and b_k=2dk, k≥1, with the constant cell in degree0. Since a_(k+1)−b_k=1 for every d≥1, zero boundary is proved by the following homology/attachment comparison, not a lacunarity inference.
 
-   **Open alternative, not in the literature.** One could instead compute these groups from the
-   path-loop fibration `Ω_p → P_p → CPᵈ` (and over `HPᵈ`), through the fibration theorem (item 4;
-   BDHO Theorem 7.2) and the index spectral sequence (BDHO §4.2). This would avoid Morse--Bott
-   theory and Ziller's computations. It has not been carried out, and it is not known whether it
-   yields the explicit generator that Propositions 6.38 and 6.39 need. A contributor who completes
-   it may replace the Morse--Bott route, and should record the change here.
+   Construct j:S¹→ΩCPᵈ adjoint to the normalized projective-line generator, and the based Hopf product j⋆Ωq:S¹×ΩS^(2d+1)→ΩCPᵈ. The Hopf fibration LES proves its π₁ and higher homotopy isomorphisms. Use Layer1.2's early weak-equivalence homology comparison, integral Künneth and the supplied odd-sphere based-loop calculation to obtain ℤ in degrees2dk and2dk+1 and zero elsewhere. For CP¹ consume Riem R3's actual ΩS² calculation at radius1/2 with the explicit time/metric normalization. Construct the oriented Morse–Bott Thom/CW model with one ℤ cell in the displayed degrees; prove orientability of the negative bundles and identify these cells on the finite approximations. Finite-type energy-filtration convergence and the final homology ranks force each integer cellular boundary to vanish. Construct the actual generator representatives/completing cycles and their energy and Thom-cell comparison. This proves perfectness and the generator assertions on the chosen based carrier.
+
+   For HPᵈ the analogous cell degrees have within-level gap4d−1 and successive-level gap3; prove the actual negative-bundle/Thom model before using these gaps to infer vanishing boundaries and identify its calibrated generator. The case d=0 is the constant point space. The free-loop extension in item6 is a separate construction; the based Hopf calculation alone does not give it.
 8. Source: BDHO Chapters 5--13; the source paper §§2.1--2.4 and 4.3--4.4; Bott, *The stable
    homotopy of the classical groups*, §§1--3; Ziller, *The free loop space of globally symmetric
    spaces*.
@@ -1088,12 +1067,10 @@ real boundary conditions.
    not a second construction. Consume F1.5's identification of the clutching-loop
    first Chern number with CharacteristicClasses' topological c₁, with the same
    trivializations and factor2 convention.
+   With `ι_(X_H)ω=dH`, use the standing PDE `u_s+J_t(u_t−X_H)=0`, negative-end input and positive-end output. For its reference-cylinder action `𝒜_H=∫γ̄*ω−∫Hdt`, this PDE decreases `𝒜_H` along s. The contractible complex is defined under asphericity alone; an all-free-loop construction uses its separate atoroidality hypotheses.
    Asphericity rules out sphere bubbling in `𝓛₀X`, and atoroidality does the same in all of
    `𝓛X`.
-2. Compactness, transversality for generic `J`, and gluing for the spaces of Floer cylinders, with
-   the corner structure of the compactifications in every dimension. The source's §3.2 and
-   Barraud--Cornea Appendix A fix the regularity: topological manifolds with corners. By Layer 0
-   item 4 this is all that is consumed. Smoothness of the strata is welcome but not required.
+2. Compactness, transversality for generic J and gluing for Floer cylinders, with topological manifolds-with-corners compactifications in every dimension under this standing branch's hypotheses. Layer0 consumes their oriented product-face fundamental-chain systems. The regular analytic loci additionally carry the differentiable charts, tangent-kernel identifications, evaluation/action maps and determinant comparisons used in constructing those spaces; topological corners alone do not supply that analysis.
 3. **Orientations over `ℤ`.**
    - Coherent orientations through determinant lines of stabilized Cauchy--Riemann operators.
    - The gluing sign `(−1)^{dim V₂ · ind D₁}` (the source's Lemma 3.1).
@@ -1102,7 +1079,7 @@ real boundary conditions.
    - The complex itself, continuation maps and homotopies.
    - The action filtration: monotone homotopies preserve it, and general homotopies shift it by at
      most the Hofer-norm bound.
-   - `FH_*(X) ≅ H_{*+n}(X)` for closed aspherical `X`.
+   - For closed aspherical X in the contractible sector, construct FH_*(X)≅H_(*+n)(X) by the common module-comparison construction specified in 7.C.5b on Γ=0. Its inputs are the actual independent Morse complex, raw capped/reflected cylinder and PSS carriers, conditional estimates, selected data, orientations, support and both inverse boundaries; neither module-comparison readout is an input to those constructions. Construct the reflection/cap/coefficient chain transport before reading this standing convention. The all-dimensional corner-chain package in item2 is a separate output and remains available to Layer8; this module comparison does not replace it.
 5. **Symplectic homology** `SH_*(W)` of a Liouville domain, as a direct limit over slopes, with
    classical local coefficients.
    - The zero-energy and positive-energy parts and the long exact sequence between them.
@@ -1111,10 +1088,221 @@ real boundary conditions.
    view of symplectic cohomology*; Abouzaid, *Symplectic cohomology and Viterbo's theorem*,
    Sections 1--4.
 
+### 7.C. Capped classical Floer theory on closed spherical-monotone and spherical-c₁-zero targets
+
+This branch constructs classical Hamiltonian Floer complexes, continuation and PSS comparison for a closed connected symplectic manifold `(X²ⁿ,ω)` in the contractible orbit sector. Its target hypotheses are either **positive spherical monotonicity**, `ω(A)=κ c₁(A)` for every spherical integral class, with a specified `κ>0`, or **spherical c₁-zero**, `c₁(A)=0` for every spherical integral class, with no assumption that sphere areas vanish. Its compactifications have the dimensions required by the counts, chain identities, homotopies and PSS comparisons below. Layer7 items1–5 and Layer8 retain their stated aspherical/atoroidal and Liouville hypotheses and their separate all-dimensional corner-space requirements. The monotone outputs here are ordinary/Novikov classical counts in these stated dimensions; the standing DG and symplectic-homology outputs retain their own hypotheses.
+
+**Convention and application checks.** Verify the capped action, index and recapping laws in the conventions below; construct the two distinct signed inverse homotopies with their actual identity endpoints; prove the separate positive-monotone and spherical-c₁-zero count-dimensional compactifications; construct integer determinant-line counts after the 𝔽₂ version; prove finite-Laurent identities before completion and the stated coefficient-correct PSS equivalences. For ℂPⁿ with positive spherical monotonicity and Chern generator n+1, verify the cyclic module formula gives one copy of R in precisely the degrees i for which i+n is one of 0,2,…,2n modulo2(n+1), and zero in the other degrees. This check concerns the module grading and the PSS module equivalence. On Γ=0 verify the integer formula and the reflected standing contractible complex.
+
+**7.C.0. Suppliers and literal convention transport.** Consume [HeegaardFloer F0 and F1.1–5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e46412766ddc4c77407a94184340ec1cb7d033f2/TauCetiRoadmap/HeegaardFloer/README.md#lane-f1-the-cauchyriemann-elliptic-package-shared-with-the-pde-roadmap) for Sobolev sections, finite-order Sard–Smale budgets, elliptic/adjoint regularity, spectral flow, the single Maslov/CZ index, relative c₁, determinant lines and signed puncture Riemann–Roch; F2.1–5 and F2.6a–d supply their stated local curve/sphere/factorization/simple marked-regularity floors. Consume [AnalyticStableMaps M3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/92d06341e711d818a5d0681ede82af96ca47430a/TauCetiRoadmap/AnalyticStableMaps/README.md) for full marked unforced genus-zero stable-map compactness over compact tame-J families. DGF constructs the rooted attachment/matching, varying frozen-structure and inhomogeneous fixed-asymptotic applications, every Morse-incidence application and the unstable two-marked constant raw-core normalization. HF's minimal-area zero/one-marked compactness keeps its extra area hypothesis. Consume [MorseNovikov N1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e7448f1ab9f882422f1ea2636d94325d05cde238/TauCetiRoadmap/MorseNovikov/README.md#n1-period-controlled-completed-group-rings-and-modules) as the generic support/completion owner; DGF proves its geometric finite-below and graded-chain adapters. Consume HamiltonianSystems Layers1–2 and Layer6 here for the actual Hamiltonian fields and time-dependent flows.
+
+Layer 7.C uses the following capped contractible convention. It is the contractible capped theory on the two hypotheses stated in its heading; it uses `μ=−CZ_HF` on the same path, spherical cap changes, and the action `A_H=∫Hdt+∫_Dω`. Its positive-end input and negative-end output satisfy `u_s+J_t(u_t−X_H)=0` and are upward for `A_H`. The standing convention uses `CZ`, a reference-loop cylinder oriented from the orbit to the reference, and `𝒜_H=∫γ̄^*ω−∫Hdt`. On the contractible aspherical overlap with constant reference and zero reference cap, the same-H actions satisfy `𝒜_H(γ̄)=−A_C(H,γ,D)` when `γ̄` is oriented from the orbit to the reference. A standing trajectory has negative-end input `x₋`, positive-end output `x₊`, and `E=𝒜_H(γ̄₋)−𝒜_H(γ̄₊)`; for the fixed PDE `u_s+J_t(u_t−X_H)=0`, `𝒜_H` decreases along s. The t-independent equation is the negative-gradient equation for `−H` and has the same Morse degree as the source branch after reflection. Under the reflected Hamiltonian and cap reflection, `A_C(H∨,reflected x)=−A_C(H,x)`, so the two energy conventions agree. These identities use the stated zero-reference normalization; other reference choices may add constants. The convention identification is only with the standing complex on 𝓛₀X under asphericity alone, on the `Γ=0` overlap and at the reflected Hamiltonian `H∨`. Its overlap comparison uses the reflected Hamiltonian and contractible aspherical sector specified here.
+
+Use `ι_(X_H)ω=dH`, `g_t(v,w)=ω(v,J_t w)` for compatible `J_t`,
+`A_H(γ,D)=∫₀¹H_t(γ(t))dt+∫_Dω`, and
+`u_s+J_t(u_t−X_H)=0`. On smooth loops prove `dA_H(ξ)=∫ω(ξ,γ̇−X_H)` and the weak-L² identity `grad A_H=−J_t(γ̇−X_H)`: these are upward gradient cylinders. For any Hˢ realization, construct this differential expression with its derivative loss into H^(s−1); the differential expression has precisely this weak-metric and derivative-loss meaning. Both asymptotic limits are part of the carrier. The homological input is the positive end `x₊`, and the output is the negative end `x₋`. Write `μ(x,D)=−CZ_HF(x,D)` on the **same** symplectic path. Consequently a small positive plane rotation has μ=1, `μ(x,const)=ind_Morse(H,x)−n`, and a cap change `D′−D=A` gives `μ(x,D′)=μ(x,D)+2c₁(A)`. Prove this identity from the actual extending-frame clutching loop, whose winding in the old frame is `−c₁(A)`.
+
+On the actual aspherical overlap, where Γ=0, retain the path-level dictionary given by `v(s,t)=u(−s,−t)`, `H∨_t=−H_(−t)`, `J∨_t=J_(−t)` and reflected cap boundary parametrizations. The index identity is `CZ_HF(H∨,reflected cap)=−CZ_HF(H,cap)=μ_H`; the physical negative end of v is the positive-end input of u. These are the reflected equation, capped path and index identities. The chain-level comparison is a downstream submilestone of 7.C.4. After both complexes, counts, continuation maps and orientation lines exist, construct the quotient-then-negative-flow orientation reversal and the degree-dependent chain sign, if any, from the actual determinant and boundary exact sequences, then prove that the map intertwines reflected continuation. The standing comparison is on 𝓛₀X under asphericity alone. The resulting chain comparison is at H∨. The coefficient comparison is on Γ=0. μ remains a notation for the single supplied index. For the cylindrical linear model `D=∂s+B_s`, `B_s=J₀∂t+S_s`, apply F1.3 to `−B_s`: `ind D=SF(B)=−SF(−B)`. Check the scalar `B=tanh s` kernel `sech s`, cokernel0, and index1. Use the L² common-domain self-adjoint realization and the actual Lᵖ elliptic transport for `1<p<∞`; coefficient norm convergence, end invertibility and graph estimates are hypotheses of that application. The puncture formula in μ notation is `nχ(Σ)+2c₁^τ+Σ_positive μ−Σ_negative μ`. Use complex-oriented end reversal, stabilized matching exact sequences and determinant gluing; use the determinant exact sequences for kernels and cokernels. The constant-sphere adjoint comparison uses `deg K_(S²)=−2` and `c₁(TS²)=2` as different bundles.
+
+**7.C.1. Capped loop cover, periods and the time-dependent variational equation.** Let `S_sph⊂H₂(X;ℤ)` be the image of the spherical Hurewicz map and put `Γ=S_sph/(ker ω∩ker c₁)`. Define caps equivalent when their glued difference pairs to zero with both ω and c₁. Construct the cap cover of the contractible loop component by local cap transport, prove its topology and path lifting, and identify each fibre with a Γ-torsor. Construct the forgetful, recapping, gluing, smooth/Sobolev and reference-cap comparison maps. Prove evaluation of contractible loops has a constant-loop section and that its based-loop fibre retains the π₂ term; retain the π₁(X) contribution in the evaluation sequence instead of identifying π₁(L₀X) with π₂(X). Show the period/Chern transgression factors through the stated Γ-cover. The generator sector of this construction consists of contractible loops.
+
+Assume every contractible one-periodic orbit of H is nondegenerate. Prove the corresponding subset of the time-one fixed set compact: x↦(t↦φ_H^t(x)) is continuous into the smooth loop space, loop free-homotopy classes are locally constant by short-geodesic homotopies, and hence its contractible preimage is open and closed in the compact fixed set. End nondegeneracy makes this subset discrete, so it is finite. Choose one cap per such orbit; all breaking and cap transport remain in this contractible sector. Other standing orbit sectors retain their own stated nondegeneracy hypotheses. Construct the action, its recapping law `A_H(A·x̃)=A_H(x̃)+ω(A)`, critical-point/fixed-point bijection and index independence modulo `2c₁(S_sph)`. Put `c₁(S_sph)=N_Cℤ` with `N_C>0` when nonzero; otherwise use an integer grading, without a minimum of an empty positive set.
+
+**7.C.1(i). Coefficient-torsor datum.** From this cap cover construct the typed datum `(Γ,ω,c₁,ν=−ω)` and its Γ-torsor of caps over each orbit, with reference-cap coordinates and diagonal monomial changes over R[Γ]. This datum is available before either branch-specific coefficient classification. Its monotone injective-Chern and spherical-c₁-zero injective-period specializations are proved separately in 7.C.6a and 7.C.6e; each concrete matrix construction consumes its own specialization.
+
+For the actual time-dependent flow `φ_t` prove, with a torsion-free connection,
+`∇_t(dφ_t v)=∇_(dφ_t v)X_(H_t)` by differentiating a two-parameter variation. Compare the actual symplectic-frame ODE, including connection and frame derivatives, with the asymptotic operator of the cylinder linearization. This is the time-dependent connection/frame application of HamiltonianSystems' variational equation.
+
+**7.C.1a. Auxiliary Morse comparison complex.** Fix an auxiliary Morse–Smale pair (f,g) independently of Hamiltonian H. Consume [HF Lane M](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e46412766ddc4c77407a94184340ec1cb7d033f2/TauCetiRoadmap/HeegaardFloer/README.md#lane-m-morse-homology-stage-0) and its explicit MorseTheory M1–M6/DG-flow prerequisites for the Morse-function, normal-form, sublevel, attachment and dynamics foundations. Consume that same Lane M1–M5 for the oriented homological Morse complex MC_j(f,g;R), its signed Morse/singular comparison and ordinary Morse continuation. Define M_i=MC_(i+n)(f,g;R), d_M=d_MC; a generator of Morse index j has degree j−n and its coefficient differential is zero. In the positive-monotone coefficient model give e^A degree 2c₁(A), so x⊗e^A has total degree j−n+2c₁(A). Build this comparison complex independently of autonomous Floer trajectories; PSS sections and equivalences use it. The small autonomous Hamiltonian construction in 7.C.5 is a later specialization: for H=εf with ε>0 sufficiently small and a realized compatible Morse–Smale metric, prove the positive-rescaling normalization and the ordinary Morse-continuation comparison between the realized metric and the auxiliary metric, using HF Lane M1–M5. DGF owns this Floer specialization and all PSS constructions. The auxiliary Morse complex precedes both PSS and the autonomous trajectory comparison; this metric-comparison target consumes ordinary Morse continuation.
+
+**7.C.2. Cylinder and seam analysis.** Construct the Banach configuration spaces with specified capped ends, exponential decay charts, regularity bootstrap and the Floer section. Its covariant derivative is
+
+`∇sξ+J_t∇tξ−J_t∇ξX_H+(∇ξJ_t)(u_t−X_H)`.
+
+Prove its end comparison, Fredholm index `μ(x̃₊)−μ(x̃₋)` for cap-matched ends, and, for fixed reference caps and cylinder class `A_cyl=D₋+u−D₊`, index `μ(x̃₊)−μ(x̃₋)+2c₁(A_cyl)`. Prove the fixed-H energy formula `E=A_H(x̃₊)−A_H(x̃₋)` for matched caps, where `E=∫ω(u_s,J_tu_s)`; choose compatible J throughout this closed capped branch, so this is its actual metric energy. The tame-data application and comparison are constructed in 7.C.2c.
+
+For nonstationary cylinders prove the FHS injective-point/separation theorem for `(s,t)↦(u(s,t),t)`, including separation from asymptotic orbits, and the localized universal perturbation/adjoint argument for generic periodic J. State and prove the regularity budget on every parameter window. Treat `u(s,t)=γ(t)` separately: the identical nondegenerate end operator makes its constant-cylinder linearization invertible; the translation action is not free there. Any use of the symmetric-matrix lemma in the transversality proof must establish its orthogonality condition. With orthogonal J, symmetric S_mat, `C_J=S_matJ−JS_mat`, `L=C_J−aI−bJ`, `Lz=0`, prove `LJz=2bz−2aJz`; the adjustment `(α,β,ξ)↦(α−2tb,β+2ta,ξ−tJz)` preserves `Lξ−(α+βJ)z`. Choose t to make `ξ⊥Jz`, and construct the symmetric complex-linear matrix taking z to ξ. Use this algebra in the localized analytic proof with its actual range and regularity estimates.
+
+For an arbitrary symplectomorphism ψ, construct the **linear seam application** with `u(s,t+1)=ψ⁻¹u(s,t)`, compatible `J_(t+1)=dψ⁻¹ J_t dψ`, bundle gluing, nondegenerate asymptotics, reference trivializations and the signed F1 index/determinant comparison. A cylinder joining constant fixed points lies in a specified seam component; an action is used only with a supplied period homomorphism/reference cap or cylinder and a proved energy identity. For `ψ=φ_H¹`, additionally construct the global equation identification in the contractible untwisted sector: `w(s,t)=φ_H^t(v(s,t))` takes the ψ⁻¹ seam to periodic w and transforms `v_s+J'_t v_t=0` to `w_s+J_t(w_t−X_H)=0`, with `J'_t=(dφ_H^t)⁻¹J_t dφ_H^t`. Prove the cap, action, class, asymptotic and determinant transport. The arbitrary-ψ output is this linear seam theorem; the global equation/cap transport here uses ψ=φ_H¹.
+
+**7.C.2a. Ordered determinant kernels, count functionals and family conventions.** Construct abstract Fredholm determinant bundles and stabilized kernel/cokernel, direct-sum, duality, evaluation and recapping isomorphisms for fixed topological domain, puncture, cap and end types. Factor the unselected domain, cap, marker and matching templates from the choice of compatible or tame J. Pull the abstract determinant interfaces back to each lane's actual raw endpoint, cylinder, plane, nodal, smoothing and cutoff-zero operators, including both pole constraints, before the constant-reference calculation. The downstream regular-gluing theorem compares these raw references with actual analytic gluing. Pure-cylinder determinant and quotient-followed-by-negative-flow interfaces use arbitrary supplied oriented end lines, HF F0/F1 and the raw cylinder/end carrier, without Morse or PSS data. Formal tensor/dual/evaluation identities are universal identities of complexes before either lane's actual differential exists; independent Morse and raw plane data are supplied only for their PSS instantiation.
+
+Use the standard homological tensor category, with differential of degree −1, Koszul symmetry and dual differential `d(f)=(-1)^(|f|+1)f d`. Let `U` be the oriented Morse complex before its degree shift, `o_x` the Floer end line of degree μ(x̃), `λ` a fixed oriented zero-differential line of degree n, and `V` the complex-oriented line of degree 2n. Fix positive degree-zero maps `b_λ:λ→λ∨∨` and `φ_p:λ⊗λ∨∨→det(T_pX)`. Set `m=U⊗λ∨`, with `d_m=d_U⊗id`, and the formal stable complex `S_st=U∨⊗V`. Construct the comparison of the actual stable Morse boundary orientations with this complex and its basis-positive stable solving map. In particular its basis differential is `d s_k=(-1)^(k+1)Σ a_(k+1,k)s_(k+1)` when `d_U u_(k+1)=Σ a_(k+1,k)u_k`.
+
+The orientation specification precedes the actual Floer differential. Its tensor/dual calculations are universal formal identities; the later oriented-boundary and count construction establishes the actual differential, its square-zero and chain equations, and instantiates these identities.
+
+Fix cap lines `C_x^+=o_x⊗λ` and `C_x^−=λ∨∨⊗o_x∨`, of degrees n+μ and n−μ. Define their degree-zero cap pairing `γ_min:C^+⊗C^−→V` to have coefficient `(-1)^(μ+n)` on the specified positive bases. This is positive in the complex quadratic-minimum reference, where μ=−n. Its sewing map is the right-dual **coevaluation** `q_min:V→C^−⊗C^+`, with the same coefficient `(-1)^(μ+n)`; prove its snake identities and differential compatibility. The swapped negative-first evaluation has coefficient +1 and is a different map. Use the coevaluation in composing count functionals. Prove these laws from the actual end/cap determinant isomorphisms, including frame and recapping cocycles. Recapping changes μ by an even integer.
+
+For each operation from A to B use the input-first external orientation kernel `𝒦(A,B)=A⊗B∨`. Its count is a functional on 𝒦(A,B). The chain-compatible identification `𝒦(A,B)∨=B∨∨⊗A∨→B⊗A∨=Hom(A,B)` uses `j_ch,B^−1`, where `j_ch(x)=(-1)^|x|j₀(x)` for the positive-basis bidual map j₀. Thus a degree-zero count functional has ordinary operator coefficient `(-1)^|B|` times its coefficient in the positive kernel bases. The identity functional is right evaluation, with coefficient `(-1)^|A|`; the identity vector is left coevaluation. Construct both APIs with their actual variances.
+
+Write `F:M→CF` for the negative-plane map and `G:CF→M` for the positive-plane map. Their raw kernels are `E_F=U_p⊗C_x^−⊗V_p∨` and `E_G=C_x^+⊗S_st,q⊗V_q∨`. Fix the positive vector readouts `E_F→m_p⊗o_x∨` and `E_G→o_x⊗m_q∨`: the first contracts `λ∨∨⊗λ∨` by left evaluation of λ∨, and the second uses the stable solving map, even V evaluation and b_λ. Prove the readouts are chain isomorphisms on adjacent generators. On count functionals their ordinary operator coefficients are respectively `(-1)^μ` and `(-1)^(ind(q)−n)`. These fix the conversion from plane count functionals to ordinary operators before counting. The degree-zero external readouts of the Morse inverse family, the finite-Morse-length family and the smoothing/identity family each have the further fixed factor `(-1)^n`; retain that factor on every face of each family. The normalized nodal map 𝒩 uses that same family readout.
+
+For a nodal pair order the matching sequence as
+
+`0→ker D_N→ker D₊⊕ker D₋→TX→coker D_N→coker D₊⊕coker D₋→0`,
+
+with `ev₊−ev₋`, positive-plane factor first, and complex-oriented TX. Its external kernel is `C_x^+⊗C_y^−⊗V∨`. Use this identical sequence at the L=0 and positive-ray τ=0 faces. On the stationary fibre the unscaled functional is γ_min; its ordinary readout is `(-1)^n Id`, so the specified family factor gives Id. Construct the stationary Fredholm comparison with these maps.
+
+At the Morse inverse zero face retain both ordered pole targets. In domain order `U_p⊕V⊕S_st,q` and target order `V_p⊕V_q`, the constant-core matching map is `(u,v,s)↦(u−v,v−s)`. Compute its determinant `(-1)^k` for every k=ind(p)=ind(q), using both constraint duals. The count-functional readout into Hom(M,M) contributes `(-1)^(k−n)` and the fixed family factor contributes `(-1)^n`, giving the positive identity. Calibrate the complex minimum by its actual cap operators of indices0 and2n, and prove the comparison for every k by its own stabilized exact-sequence diagram. The constant two-marked core is contracted as in 7.C.3a.
+
+At the broken Morse inverse face insert q_min for the intermediate Floer end. At the Floer inverse long face orient the negative-gradient graph by its first projection. For the stable/unstable splitting its canonical map is `χ_M:V→S_st⊗U`, with coefficient `(-1)^k` on `s_k⊗u_k`. Prove its adjacent-generator differential identity and the actual Morse gluing comparison; the two pole-normal factors retain their order and have even degree. Together with the functional readouts and fixed family factors above these give positive GF and FG composition faces. Construct these simultaneous raw determinant diagrams before counts, then prove their agreement with actual regular gluing at the corresponding endpoint theorem. The reference computation and the per-index finite-block computations fix the convention; its full geometric realization is a construction target.
+
+Construct the pure-cylinder quotient/negative-flow orientation comparison on HF F1 determinant lines, with quotient orientation followed by the negative-flow tangent. In the actual Morse applications compare this convention with HF M.3, using the auxiliary Morse datum there. Along the positive-end-input arrow this tangent is −u_s; the translation generator is +u_s. A translation-first convention changes by `(-1)^d` when its line moves past a d-dimensional quotient. Use outward normal first at parameter boundaries. For an oriented j-dimensional parameter chain P and input of degree i, the raw count kernel is `A⊗det(P)⊗B∨` with output degree i+j. The Hom degree is +j. Its parameter-first operator readout has coefficient `(-1)^(i+j+ij)` on positive bases; the three inverse families also retain their fixed factor `(-1)^n`. Once an input-first operator readout has already been taken, the further parameter-first conversion is `(-1)^(ij)`. Prove the actual ordered boundary comparison giving `D T_P=dT_P−(-1)^jT_Pd=T_(∂P)`. A degree-one inverse homotopy therefore has raw functional readout `(-1)^(n+1)` and differential d𝓗+𝓗d.
+
+Prove the simultaneous Morse/Fredholm realization of this complete system, including the actual stable Morse differential, cap pairing and sewing coevaluation, both pole constraints, graph χ_M, identical nodal sequences, raw endpoint data, parameter/flow order, frame changes, recapping and stabilization. Orient the Morse comparison from its zero-cutoff identity face toward its broken GF face, L increasingly and τ decreasingly. At each fixed total cap/class and finite energy window the oriented boundary readouts have the formal shapes `D𝓗_M=GF−Id_M`, `D𝓗_L=FG−𝒩` and `D𝓗_τ=𝒩−Id_CF`, where D is the specified graded Hom boundary readout. First these are finite geometric boundary identities of the actual cutdown spaces, with end counts and matching multiplicities. After support and the corresponding matrices exist, 7.C.6 interprets them as the displayed chain-homotopy equations in the finite-Laurent or completed module. Use the same determinant realization in both branches, with their own actual compactness and endpoint theorems.
+
+**7.C.2b. Raw individual continuation sections.** Construct fixed-end data `(H_(s,t),J_(s,t))` with compatible J, nondegenerate Floer ends and finite `∫sup_X|∂sH|`. Raw configuration/section bundles, vertical linearizations, Fredholm/evaluation maps and cap classes may retain those ends as unselected parameters. Their selected instantiation consumes the regular cylinder/end data and shared t-parametrized sphere-evaluation families constructed in 7.C.3. Fix those selected ends before selecting the individual continuation section. Vary H_s by genuine compactly supported smooth interior variations, together with J, preserving the selected tails.
+
+**7.C.2b(0). Raw cylinder homotopy and composition templates.** Before selecting interiors construct the parameterized cylinder domains for interpolation homotopies and composition: fixed capped asymptotic ends, end markers and cylindrical coordinates; finite neck length, neck/cutoff profiles and their compactified parameter coordinates; smooth one-forms H_(p,s,t)dt or the declared more general K, compatible J_(p,s,t), fixed-tail jets and matching cap/reference maps. At this raw stage face sections are unselected variables satisfying the stated restriction/corner equations. A zero-length identity uses the raw stationary cylinder, not a two-marked PSS sphere. Construct the raw Sobolev sections, compact-parameter K-curvature allowances, evaluation maps and determinant pullbacks. Establish raw energy-cutoff compactness and conditional gluing for these cylinder templates independently of any Morse/PSS data. After the cylinder ends and individual continuation sections are selected, insert those selected pieces as actual regular true faces, then perform the face-flat relative interior selection. The PSS comparison-domain templates below are separate carriers.
+
+**7.C.2b(i). Smooth perturbation synthesis and the continuation face-free carrier.** Fix the domain/end metrics, target connections, parameter coordinate windows, bundle charts, end weights and configuration windows. At each finite F0 section/evaluation/projection differentiability budget record the finite mixed derivative list I_m, the finite list P_m⊂[1,∞) of integrability exponents, and the positive domain weights w_(m,α,β,γ,q). Include every derivative needed by the actual Sobolev multiplication and trace theorems for that budget. A perturbation direction is e=(A,δK), where A is a compatible-J bundle-chart direction and δK is a smooth domain Hamiltonian one-form (δH_sdt in the individual continuation instance). For each B=A,δK and each (α,β,γ)∈I_m include the linear coefficient seminorms
+
+`sup_(p,z,x) w_(m,α,β,γ,∞)(p,z)|∂p^α∇z^β∇X^γ B(p,z,x)|`,
+
+`sup_p (∫_Σ [sup_(x∈X) w_(m,α,β,γ,q)(p,z)|∂p^α∇z^β∇X^γ B(p,z,x)|]^q dvol_Σ)^(1/q)` for q∈P_m.
+
+The lists include all mixed parameter/domain/target derivatives, for both A and δK, through the specified finite budgets; the weights and norms are fixed independently of the perturbation. Include C^m seminorms on the first m compact exhaustion charts. The global A₀ controls also include the unweighted compatible-J and δK C⁰ norms, `sup_(p,z,x)|∇_XδK|`, and `sup_p∫_Σ sup_X(|d_ΣδK|+|∇_XδK|)dvol_Σ`. The target supremum is inside every domain integral. Derive the corresponding linear multiplication/weighted-Sobolev operator bounds, using dense compactly supported test sections for their operator norms. Define A_m by the finite sum of these controls and all earlier A_j. Prove each compact testing-library element finite for these fixed norms, including its transported cutoffs and weights. Prove lower semicontinuity under C^∞_loc: coefficient suprema use suprema, coefficient integral norms use Fatou followed by sup_p, and linear operator norms use dense compact tests with the actual source/target norm comparisons.
+
+For a countable dense local testing library e_ν set `w_ν=2^ν max(1,A₀(e_ν),…,A_ν(e_ν))`. Prove the ℓ¹(w_ν) series converges in C^∞_loc and in every controlled global seminorm, by applying the lower-semicontinuity bounds to its tails. Its closed-kernel quotient is a complete separable Banach space injected into smooth fields. Instantiate it first on the individual continuation cylinder with free compact interior δH_s and A directions. Using `J(A)=exp(A)J_base exp(−A)`, prove the finite-order chain-rule and Sobolev–Moser estimates for composition with every controlled configuration map, including evaluation, trace and parameter derivatives. These estimates establish the universal section and projection maps C^ℓ on each declared configuration window from the stated linear coefficient controls. The synthesis seminorms are the stated linear coefficient and linear operator controls. Require A to lie in the symplectic Lie algebra and satisfy AJ_base=−J_base A. Then exp(A) is symplectic and J(A)=exp(A)J_base exp(−A) is compatible; prove the compatible-J local chart and the uniform metric bounds on the specified small chart balls. Expanding the Hamiltonian curvature gives `sup_p∫_Σ sup_X|R_(K+δK)−R_K|≤C₁‖e‖+C₂‖e‖²`: the quadratic bracket is bounded by the global first-target-derivative supremum times its L¹ domain integral, and background brackets and d_ΣδK by the stated linear controls. This proves the global bound on tails and necks with the fixed metrics. The face-free construction uses only these coefficient/global norms.
+
+Build the individual continuation universal section and its simple-sphere/marked-incidence families at the actual attachment structures J_(s,t), together with their shared core and matching evaluations. On each fixed end J_(s,t)=J_t, use the previously selected t-parametrized sphere/evaluation families: attachments with equal t share that same J_t even if their s coordinates differ. Vary the continuation core only in its allowed interior directions and make its evaluations transverse to these fixed end families. In free regions apply the conditional grouped theorem below with its actual domain-localized variations. Sphere tuples allow repeated classes and have pairwise-distinct simple images in the reduced incidence problem. Prove the combined adjoint range, finite F0 budgets, matching transversality and simple-image reductions; constant core solutions are detected by δH_s, while spheres receive no δH_s variation. Select simultaneously on countable class/energy/index/attachment windows. The s-independent identity has its separate invertible stationary operator with identical nondegenerate ends. These selected individual constructions precede homotopy/composition faces and retain the end incidence data in all subsequent restrictions.
+
+For a domain-dependent Hamiltonian one-form `K=K_s ds+K_t dt`, define `X_K` componentwise with `ι_Xω=dH`. Set `{F,G}=ω(X_F,X_G)` and `R_K=∂sK_t−∂tK_s−{K_s,K_t}`. Derive `E_K=∫ω(u_s−X_(K_s),u_t−X_(K_t))=∫u*ω+∫∂ K(u)−∫R_K(u)dsdt` for `(du−X_K)^(0,1)=0`. With capped ends it gives the corresponding action/class identity; for K=H_sdt it is the displayed continuation formula. Prove uniform `∫sup_X|R_K|` bounds on each declared compact parameter window, including neck/stretching/cutoff ranges and the admissible perturbations, with actual end actions/periods and compact target giving the necessary energy cutoffs. Include domain-dependent K variations in this curvature budget.
+
+**7.C.2b(ii). Raw PSS sections with common poles.** Use two fixed globally parametrized planes with Morse pole z=0 and Floer puncture at infinity. Fix their complex coordinates, tangent frames and cylindrical end coordinates once. In the positive-end chart write z=exp(2π(s+it)), and in the negative-end chart z=exp(−2π(s+it)); use the corresponding fixed inversion coordinates at infinity. On the positive plane take β₊H_tdt, zero near0 and equal to H_tdt on its Floer end; use the corresponding negative-end cutoff on the negative plane. Prescribe K=0 and a common domain-independent compatible J_pole=J₀ on fixed discs at both poles, treating J₀ as unselected data at this raw stage. Pair compatible domain-dependent J outside these discs with genuine interior/core/neck Hamiltonian one-form variations δK, zero on the pole discs and fixed Floer tails. Each nonsphere plane of every matching configuration has its own nonempty free δK region. Construct the raw Banach fibre-product sections with the outgoing negative-gradient Morse ray to q on `[0,∞)` and incoming ray from p on `(−∞,0]`, capped ends and evaluation maps. For a single fixed basic datum, the pre-incidence Fredholm indices are n+μ(x̃₊) and n−μ(x̃₋), giving μ(x̃₊)−(ind q−n) and (ind p−n)−μ(x̃₋) after incidence, with all class and parameter corrections. The selected instantiation of these raw planes uses the earlier regular Floer ends and their full t-parametrized sphere-incidence/evaluation data from 7.C.3, together with the independently selected pole datum J₀. This selection occurs before regular plane data or inverse-family true faces are chosen.
+
+**7.C.2b(iii). Unselected comparison-domain templates.** Construct the finite Morse-segment, finite Floer-neck, middle-cutoff and cutoff-zero domains, positive nodal smoothing ray, compactified parameter faces, cap/evaluation carriers and cutoff formulas with J₀ and broken-face sections as unselected parameters. The domains, end labels, constraints and matching maps precede any lane's regularity/count theorem. Instantiate their jets and actual sections separately with compatible or uniformly tame J. For each raw finite-neck compact-sphere domain fix smooth K_*∈Ω¹(Σ;C^∞(X)), zero on fixed pole discs with prescribed cutoff/end matching. Near cutoff-zero use K_R^base=R K_* and J_R^base=J₀. The actual R=0 section is the full two-marked unforced J₀-sphere section with its explicit unstable-constant normalization; the other templates retain their fixed nondegenerate Floer asymptotics. Substitute selected continuation/PSS/Morse pieces only in later true-face constructions with their actual regularity and matching corner jets. True-face flatness is all-order vanishing at the face.
+
+**7.C.2b(iv). Distinct-image separation and conditional joint evaluation.** Consume HF F2.2a and F2.2c for the two-map unique-continuation and accumulation-to-factorization floors, and F2.6a–d for sphere domains, single-map factorization and marked quotient/evaluation carriers. Construct the application theorem that two simple maps with distinct images share no open image germ. For a finite tuple for one common J, either ω-compatible or ω-tame, prove that each map has a dense set of injective regular points avoiding all other full simple images and the prescribed finite marked test values. Remove the finite union of the closed other-image preimages with empty interior and the noninjective/critical locus. Specify the actual allowed variation space: a J-tangent Y satisfies YJ+JY=0; in the compatible lane ω(v,Yw) is additionally symmetric, while the tame lane has no such symmetry constraint and is restricted by the chosen open uniformly tame chart. Prove the localized range theorem separately in these two spaces. With disjoint allowed target/domain-localized tests, the combined adjoint equation first kills sphere cokernels; unique continuation and actual matching equations then kill the remaining finite evaluation dual variables. State the finite-F0 theorem for the supplied sphere quotient/evaluation carriers, smooth incidence maps, matching rank conditions, orientations and relative parameter restrictions. Class tuples may repeat while reduced simple images are distinct. This conditional theorem does not select data or construct a Morse datum. Its pure cylinder application uses core/orbit evaluations; Morse-chain, critical-point and broken-Morse applications separately supply HF Lane M and 7.C.1a strata with their actual dimensions.
+
+For a supplied domain-parametrized problem with specified variation space, fixed regions, collision strata and face restrictions, group sphere attachments by their actual common structure in the chosen tame or compatible lane. Wherever the structure depends only on t, every equal-t attachment belongs to the same group, including distinct s or domain points. Fixed pole groups use J₀. Free domain attachment points admit independent localized directions only when those directions belong to the supplied variation space. Apply the common-J theorem within a group and prove the resulting conditional combined range and restriction laws. Actual continuation/PSS applications instantiate this theorem after their carriers and strata exist: fixed end/tail groups consume the selected t-families, free groups consume their actual interior directions, and relative true faces consume their previously selected face data. Their collision, matching, smooth-selection and corner laws are construction outputs of those applications. The grouped theorem uses the selected lane’s actual tangent space and coefficient/coercivity bounds; a compatible-only range theorem is not an input to the arbitrary-tame conclusion.
+
+**7.C.2b(v). Compact exhaustion within each actual stratum.** For every finite component/class tuple, normalized domain type, incidence stratum and equality partition of attachment structures, construct countably many closed quantitative windows indexed by positive integers. Class tuples may repeat. Distinct reduced simple images define that stratum; equal-image vertices are retained in their separate simple-image/cover reduction strata. The equality partition records exactly which times, domain points, marks or target values coincide. Preserve its diagonal equations, and impose a positive lower bound only on distinctions required in that stratum. Equal-t groups are allowed. Marks that collide in the compactification are retained in the corresponding marked/nodal collision stratum.
+
+For each distinct-image simple component choose an injective regular source anchor z_* in a normalized source disc whose image avoids every other reduced image, the required marked test values and fixed forbidden regions. On its normalized closed domain fix the reference source metric g_Σ independently of the map, using the fixed round metric for spheres and the declared slice identifications for varying domain representatives. For a quantitative window with K≥1 require the GLOBAL self-point floor `inf_(ζ∈Σ, ζ≠z_*) d_X(u(z_*),u(ζ))/d_(g_Σ)(z_*,ζ)≥1/K`, together with `‖du‖∞≤K` in these fixed source/target metrics. The infimum ranges over the ENTIRE source, including points outside the anchor disc. Retain separately the regular derivative lower bound, inverse-chart radius and controlled derivative bounds, distance from u(z_*) to every OTHER FULL reduced component image, required marked test value and spatially fixed region, and the slice/automorphism normalization bounds. Impose only the fixed-region separations required for the actual relative variation problem. Nonsphere inhomogeneous section components retain their separately stated FHS graph/core-evaluation window conditions; the closed simple-component floor does not replace those conditions. Record slice/automorphism normalization bounds. Bound domain/parameter coordinates and derivatives and impose distances from the boundary of the domain, mark, incidence and equality-partition chart only where that boundary is excluded from this stratum. For Morse strata use compact subsets of each actual smooth unbroken or broken trajectory stratum, with ranks and separation bounds for the already supplied incidence charts/maps, not regularity of the moduli equation being selected; shared or equal critical values are retained in the stratum allowing them. These are quantitative window inputs, not consequences of single-map bounds.
+
+Prove exhaustion using distinct-image injective-point separation, local slices and the actual allowed diagonal/incidence relations. At an injective regular anchor, the local immersion/inverse estimate gives the ratio floor near z_*, while compactness of the complement of that source neighborhood and uniqueness of its anchor preimage give a positive ratio lower bound there; hence some finite K contains every relevant simple component. Prove relative compactness inside that stratum for convergent smooth structures and data with fixed window bounds: elliptic compactness and normalization preserve the GLOBAL self-point floor, regular derivative, full-other-image/fixed-region and slice bounds. Thus the limiting anchor remains globally injective and regular, preventing degeneration of that simple component to a multiple cover as well as image merger or a forbidden collision. Allowed boundaries have their own strata/windows, with compatible restriction and refinement maps. Derive openness of regularity/evaluation transversality on each proper window, density by the conditional finite-F0 range theorem and relative smooth approximation, then Taubes countable-intersection selection. The abstract smooth-selection theorem takes the declared section/variation spaces, stratum windows, fixed regions and already regular face restrictions as hypotheses. Instantiate it separately for J₀, J_t, J_(s,t), J_(p,s,t) and J_(p,z) only after each actual carrier, conditional range theorem, shared group and matching/incidence problem is constructed, retaining fixed ends/poles and parameter dimensions. Relative exhaustion/refinements commute with prescribed face restrictions; regular true faces remain inputs. No distinctness condition is imposed beyond its defining stratum.
+
+**7.C.2b(vi). Select the common sphere datum first.** Choose one domain-independent compatible smooth J₀ for the simple-sphere finite class tuples (with repetitions allowed and pairwise-distinct simple images), two-marked Morse-chain incidences and one-marked incidences at all critical points of the auxiliary Morse pair. Prove the joint universal section and finite F0 budgets using the actual compatible-J tangent linear algebra and localized simple injective points. Consume HF F2.6d's smooth-J route: use the actual-stratum compact exhaustion of 7.C.2b(v), including the fixed-metric GLOBAL self-point floor, regular derivative and full-other-image/fixed-region anchor bounds, slices and incidence/equality-partition bounds; prove openness on each proper window, density from finite-C^ℓ Sard–Smale and relative smooth approximation, and apply the Taubes countable-intersection argument in the smooth compatible-J topology. Apply the same method to these marked/evaluation fibre products with their actual Morse constraints. Obtain a residual subset of smooth J₀ simultaneously for all declared windows. In spherical c₁-zero the one-marked critical-point strata have the avoidance consequence used below. Fix this J₀ and its regular strata before selecting the planes.
+
+**7.C.2b(vii). PSS face-free Banach carrier and basic selection.** Instantiate the testing-series/closed-kernel synthesis separately on the raw planes, using the space of smooth Hamiltonian one-forms Ω¹(Σ;C^∞(X)) with the specified pole/end restrictions, compatible-J chart directions and the actual finite F0 budgets. Use each plane's independent free δK directions and compatible-J chart directions zero on the fixed pole discs and Floer tails. Use the plane metrics and end weights in every mixed coefficient supremum and weighted L^q norm specified above, for both A and δK, with the actual plane finite F0 section/evaluation/projection lists. Retain the global curvature controls and derive the plane allowance `sup_p∫_Σ sup_X|R_(K+δK)−R_K|≤C₁‖e‖+C₂‖e‖²`. This is an independent face-free plane instance. Prove local detection, lower semicontinuity, complete separable synthesis and the section/evaluation differentiability budgets in this named plane instance. With the independent J₀ strata and the earlier selected regular Floer ends/t-parametrized sphere-evaluation families fixed, prove universal plane evaluation submersivity using free interior δK, the adjoint matching equations and unique continuation; this includes constant planes where J variation vanishes. Select positive/negative plane data and their two pole/matching evaluations transverse to the fixed J₀ sphere/Morse strata. At fixed Floer-tail attachments use the selected J_t families, grouping all equal-t attachments even at different s values; use the free core directions to obtain the required transversality to those fixed families. At free nonpole attachments construct the actual grouped J_z sphere/evaluation problems with only their allowed variations. Prove the matching and collision laws with the prescribed pole/end restrictions. Thus plane selection, its node matching and its sphere-incidence outputs are actual theorems before inverse-family faces are formed.
+
+**7.C.2c. Periodic tame data and the compatible-model comparison.** For a smooth periodic ω-tame J_t on closed X, construct the same capped raw equation and section with the same nondegenerate contractible Hamiltonian ends. Put g_J^sym(v,w)=(ω(v,Jw)+ω(w,Jv))/2 and prove it is a positive symmetric metric. On each specified compact tame-data parameter family prove uniform positive coercivity and coefficient bounds. The equation gives u_t−X_H=J_tu_s, hence E=∫ω(u_s,J_tu_s)=A_H(x̃₊)−A_H(x̃₋), with its continuation/K-curvature versions. The action variation is dA_H(ξ)=∫ω(ξ,γ̇−X_H); construct its actual weak-gradient expression using g_J^sym, distinguishing it from −J_t(γ̇−X_H) for merely tame J_t.
+
+Build the tame Sobolev section/evaluation charts, local/removal estimates and elliptic/end Fredholm theory from HF F0/F1/F2 on actual compact uniformly tame coefficient windows. In the asymptotic linear theory identify the action Hessian and the actual positive-symmetric-part mobility; prove the spectral-gap/exponential-end estimate and its uniform compact-family version from nondegenerate Hamiltonian ends. Do not assert self-adjointness for a nonsymmetric pairing. Transport the Fredholm index and determinant line by the fixed-end tame-to-compatible operator homotopy, and apply the supplied self-adjoint spectral-flow comparison only at the compatible realization. Prove cap, puncture-index and orientation transport on that actual homotopy.
+
+**Tame synthesis and staged selection.** Use general anti-J directions A, AJ_base+J_baseA=0, and J(A)=exp(A)J_base exp(−A) on a quantified small C⁰ ball. Prove that these give local tame charts and uniform positive tameness bounds; A is not required to be symplectic. In the actual mixed coefficient/linear-operator norms of 7.C.2b(i), use D exp_A(B)=∫₀¹exp((1−t)A)B exp(tA)dt, its iterated derivatives and Sobolev multiplication/trace/composition to prove every finite mixed parameter/domain/target chain-rule and Moser bound. Record the actual lists, constants and section/evaluation/projection C^ℓ budget before applying F0. The testing-series and global curvature estimates are instantiated in these tame norms, independently of compatible selection/counts.
+
+Construct tame raw cylinder/continuation/plane/comparison sections, ASM-based unforced tree convergence and the attached inhomogeneous compactifications and conditional gluing with uniform tame coefficients. Prove grouped conditional evaluation in the actual tame tangent space and actual-stratum proper-window openness/density/smoothing before each selection. First select regular ends with all shared t-parametrized sphere/evaluation data, including equal-t groups and stationary incidences. Independently select J₀ with its actual Morse/critical-point sphere incidences. With selected ends fixed select individual continuations; with ends and J₀ fixed select basic planes and node/sphere incidences. For homotopies and inverse/composition families insert the previously selected geometric pieces as actual regular true faces, construct their corner restrictions and select relative interiors with all parameter dimensions included. The independent pole choice is not a premise of pure cylinders or individual continuation. Conditional gluing supplies face-flat weights and per-energy collars before branch exclusion and fixed-class boundaries. Geometric support precedes each matrix and its equations. Full tame-to-compatible module comparison occurs only after both lanes' supported complexes exist.
+
+**Tame raw sign realization.** Before tame counts, instantiate the complete formal system of 7.C.2a on the actual tame operators, with the same ordered input kernels, both pole targets, stable Morse complex, γ_min and q_min, matching exact sequences, cap/frame/recapping and parameter/flow order. Transport the complex-minimum and each finite-index reference by the fixed-end tame-to-compatible Fredholm OPERATOR homotopy of 7.C.2c; this construction has no chain-comparison or compatible-count premise. Prove its determinant homotopy, stabilization and gluing-reference diagrams. Pure tame cylinder parameter boundaries consume the universal readout (−1)^(i+j+ij) and quotient/negative-flow order without Morse/PSS data. Tame PSS parameter and endpoint boundaries additionally consume the actual raw cap/Morse calibration: j=1 gives −1, the inverse-family readout is (−1)^(n+1), the stationary cap and functional readout give (−1)^n before the fixed family factor, and the Morse zero-face exponent k+(k−n)+n is even. Prove agreement of these raw references with the actual tame regular-gluing boundaries before support/matrix equations.
+
+Consume HF F2.1’s tame/compatible contraction fixing a compatible structure and relative smooth-family extension, and F2.6d’s corresponding localized single-sphere range and smooth selection floors. Apply them to the actual periodic/continuation/PSS end/pole/true-face data with the declared uniform tame budgets. Arbitrary periodic tame data retain their raw equation, energy, conditional local compactness and Fredholm interfaces; counts require selected regular data in the preceding tame construction. After both tame and compatible supported module complexes and continuation maps exist, select regular tame-to-compatible continuation and relative homotopy/composition data with their prescribed tails, true faces and K-curvature allowances. Prove the comparison’s own energy-cutoff compactness, exclusion, gluing, coefficient support and determinant diagrams; use its supported matrices and oriented boundaries to obtain the filtered chain-homotopy equivalence and cap-change naturality in each coefficient lane. This is a module comparison, with no quantum-operation construction or generic index/flow duplication.
+
+**7.C.3. Raw compactness, conditional gluing and analytic branch exclusion.** Consume ASM M3's full marked unforced stable-map compactness at genus0, with its compact smooth tame-J family and integral splitting hypotheses. Construct the rooted attachment/equal-parameter matching application for the declared raw inhomogeneous cylinder, continuation and PSS sections with uniform K-curvature/end bounds: finite-cutoff convergence to broken cores and sphere trees, removal, no-neck/end convergence, integral class splitting, topology and Hausdorffness. Each bubble subtree has its attachment's frozen J; separate roots retain their actual shared-structure partition and matching evaluations. Normalize/contract unstable constant raw components, in particular the two-marked zero-cutoff core, rather than identify them with a stable two-marked moduli space. At supplied regular broken configurations construct the actual conditional gluing, surjective matching, determinant and onto-neighborhood theorem, with inverse/derivative/cutoff/error bounds on each finite-energy window. These estimates supply weights/collars before relative-family selection. Contractible-sector persistence and the finite nondegenerate end theorem of 7.C.1 are explicit inputs in both coefficient lanes. HF local removal/factorization/index estimates are consumed with their actual scope; its minimal-area single-component compactness is not a replacement for ASM's full marked supplier.
+
+Keep the branch hypothesis records separate from their analytic consequences: positive spherical monotonicity is the equality ω=κc₁ with κ>0 on S_sph; spherical-c₁-zero is c₁|S_sph=0 with no sphere-area vanishing. Actual bubble exclusion additionally consumes the raw sections/compactness, common universal parameter spaces, compatible-J curve floors and marked/core incidence, as well as the cap quotient.
+
+**Separate finite counting budgets.** For pure cylinders, individual continuation, cylinder homotopy and composition, use the finite contractible Hamiltonian ends of 7.C.1, their reference cap actions/degrees, the declared finite parameter/count dimensions and actual global K-curvature allowance. In positive monotonicity the cap/index equation bounds the relevant spherical Chern numbers and hence energy at that fixed counting budget. Prove the resulting cylinder/continuation energy ceiling and per-budget collar bounds without a Morse datum. For PSS, the nodal correspondence and the two inverse families, additionally supply the independent finite Morse critical set, its indices/actions and the actual finite Morse-segment/end data; derive their own cap/index/energy ceiling and endpoint collar bounds. Morse finiteness is a premise only of this second budget. In spherical c₁-zero, neither index equation bounds sphere energy; use a declared finite energy cutoff in each lane and retain the resulting cutoff-dependent collars.
+
+For cylinders construct and select one shared countable universal parameter problem for regular cylinders, sphere tuples, their marks, attachment times and matching evaluations, using the cylinder FHS range and the conditional two-/multi-map sphere theorem of 7.C.2b. Keep the actual t-parametrized evaluation families, not only regularity at a single t. At each common t use one shared-J tuple problem; repeated classes and distinct reduced images are included. Include the stationary cylinder through its invertible end operator and the required joint sphere incidence. Complete the finite-C^ℓ budgets, bounded-piece openness, smoothing and countable smooth selection for these strata. Fix the resulting regular end/tail data before selecting actual individual continuation or plane data. Their frozen end/tail restrictions reuse this same selected sphere/evaluation theorem; this step has no premise from the independent J₀ pole selection.
+
+In the positive-monotone branch, prove the stationary Chern-one attachment exclusion at total index2 by its joint orbit/sphere evaluation theorem and actual parameter dimension. Combine this with the positive-area Chern lower bound for nonstationary cores.
+
+In the c₁-zero branch the simple-sphere evaluation with its mark/time has codimension4 in X×S¹, and an index-k nonstationary quotient with attachment has dimension k+1, giving k−3; the stationary incidence has dimension−3. Prove the joint transversality, simple-image/cover reductions and absence of these strata at k≤2.
+
+For individual continuation and relative parameter families construct their own simple-sphere and marked-incidence section problems frozen at the actual attachment structures J_(s,t) and J_(p,s,t). Include core, marked sphere and matching equations with shared variations, class tuples with repetition and pairwise-distinct simple-image chains, constant-core cases, simple-image/cover reductions and the actual total parameter dimensions. The selected individual continuation problem supplies its J_(s,t) output; relative families supply their J_(p,s,t) theorem through their own face-flat carrier and already-selected true-face incidence data. Joint selection and those face compatibility laws precede the corresponding branch exclusions and signed boundaries. PSS uses its already-constructed J₀ pole strata and actual frozen J_z problems. These are the distinct parameter/PSS incidence and exclusion constructions. On every fixed end/tail restriction the earlier selected J_t sphere/evaluation families supply regularity, with equal-t attachments grouped regardless of s. Only free core structures vary in these later problems. Actual relative selection uses this fixed end output and previously regular true-face incidence data before proving its branch exclusion.
+
+**7.C.3a. Zero-cutoff fibre and all-tree exclusion.** Define the endpoint of both coefficient branches' Morse-side PSS inverse identity as the complete two-marked sphere with its two ordered Morse attachments, or equivalently the same two removable cylindrical poles. Require finite energy and prove removal at them. Match the two evaluations to the outgoing and incoming Morse rays, without adding further incidence marks.
+
+Use the single J₀ and its sphere/Morse/one-marked strata already selected independently in 7.C.2b. The basic plane data have subsequently been chosen transverse to those fixed strata, using their own face-free Hamiltonian carrier. Substitute these selected pieces into the true zero-cutoff and broken-face templates here and in 7.C.3c. Keep the class-tuples with repetition, pairwise-distinct simple images, fixed auxiliary Morse pair and closed broken stable/unstable loci. The one-marked regularity theorem is common to both branches; only its spherical-c₁-zero critical-point avoidance consequence is used below. This keeps the common sphere selection before the basic plane selection.
+
+Write `A_end` for the total spherical class at this endpoint, `B_rec=−A_end` for the output recap, and `A_simple` for the class of a simple image through which a nonconstant component factors with degree `d≥1`; thus `A_end=d A_simple` for a single covered component. The rigid degree-zero equation is `ind_f(q)−ind_f(p)=2c₁(A_end)`. These are sphere classes; the cylinder class `A_cyl` and its matched-cap case `A_cyl=0` are treated in 7.C.2. Prove finite stabilizers and the two-marked incidence theorem on the nonconstant locus; the residual `ℂ*` quotient is used only there. A constant two-marked sphere is unstable and has infinite `ℂ*` automorphisms. Treat its constant core by contracting the unstable component and using the two Morse constraints at `p=q`: on the sphere, `∂̄` has kernel `TX` and zero cokernel, while transverse `Wᵘ(p)∩Wˢ(p)` cuts the value to the isolated index-zero diagonal term. Derive the determinant-line gluing and Morse orientation identification that makes this term exactly the identity on `M`; use the cap/stationary calibration of 7.C.2a.
+
+Treat all sphere-tree strata: ghosts, critical values, multiple covers and repeated/shared simple images. For distinct external marked values, reduce the finite image-incidence graph to a chain of pairwise-distinct simple images joining them. Contract repeated-image vertices only in that graph, remove excursions and shorten a retained image with identical entry and exit values until every retained image has two distinct incident values. Prove preservation of the connecting incidence. For coincident external values use the common-value incidence on the closed broken Morse loci. A critical-point incidence reaching a nonconstant component through ghosts is a one-marked simple-image incidence; apply avoidance to it only in the spherical-c₁-zero branch. The single J₀ theorem above covers the entire reduced-image problem.
+
+Index every nonconstant component of the full tree by v, with simple-image class A_v and covering multiplicity d_v≥1; include off-chain components and repeated images in A_end=Σ_v d_v A_v. Ghosts have class zero. Separately let B_j, 1≤j≤r, be the classes of the distinct simple images retained on the reduced chain. Then Σ_j c₁(B_j)≤c₁(A_end) in the positive-monotone case because each retained image is represented among the full-tree components and all nonconstant components have positive Chern number; in the spherical-c₁-zero branch both sides vanish. The joint unparametrized dimension is
+
+Σ_j(2n+2c₁(B_j)−6)+4r−2n(r−1)−(2n−ind_f(p)+ind_f(q))
+
+=2(Σ_j c₁(B_j)−c₁(A_end))−2r≤−2r.
+
+Prove emptiness using the shared-J incidence theorem, the full-tree class accounting and compactness. For coincident external values use `cl Wᵘ(p)∩cl Wˢ(q)`: it is empty when ind p<ind q, since a broken negative-gradient trajectory decreases Morse index. Positive monotonicity with nonzero total sphere class gives this strict inequality by the degree equation. In the spherical-c₁-zero branch equal indices force p=q; a nonconstant tree through the common value then contains a simple image through that critical point, whose one-marked incidence has dimension −4. Prove its absence with covers, ghosts and repeated images included, and with the additional dimensions of the finite parameter problems under consideration. Monotone spheres may pass through critical points; their excluded endpoint configurations are ruled out by the compactified Morse incidence and index argument instead.
+
+**Regular true endpoint and energy-dependent neighborhood.** Prove regularity and identity orientation of the actual R=0 fibre from the constant-core model and branch-specific all-tree exclusion. At each finite energy/index/parameter budget use raw compactness and quantitative conditional gluing to find ε(E)>0 so the actual face-flat family near R=0 has precisely the glued identity-end configurations, with its error/inverse/derivative estimates. This PSS endpoint uses the PSS budget above, including the finite Morse critical set from 7.C.1a and finite contractible ends. Positive monotonicity gives a bounded-energy collar for its fixed counting budget; c₁-zero retains ε(E) separately. Pure cylinder/continuation collars use their own Morse-free budget instead.
+
+**7.C.3b. Floer inverse through one nodal correspondence.** With the selected basic PSS data construct the degree-zero geometric correspondence 𝒩 from the pair of planes with equal pole evaluations at L=0. Construct its matching fibre product, compactification, coherent determinant orientation and rigid coefficients at fixed cap/class. The oriented one-dimensional boundary is the finite geometric end-breaking formula, using the actual cylinder breaking/gluing/bubble-exclusion theorem and plane matching. Prove geometric finite-below support before assembling its matrix. In each branch the resulting supported matrix is a chain map by that boundary formula after the cylinder differential exists. Retain the same cap classes and normalized 𝒩 readout in both families below.
+
+First join the two pole evaluations by a negative-gradient segment of length L≥0. Its L→∞ boundary is the broken PSS/Morse composition and its L=0 boundary is 𝒩. Second, use the common J₀/K=0 pole discs and frames to smooth the nodal pair by `z₊z₋=τ≥0`. On the two punctured local discs put `z₊=exp(2π(s₊+it₊))` and `z₋=exp(−2π(s₋+it₋))`; positive τ implies t₊=t₋ modulo1. Construct the positive-ray smoothing family and its deformation to the s-independent continuation identity. All ends use Hdt and the fixed markers; coordinate changes have specified comparison, face/cocycle and determinant laws. At each finite energy prove the actual gluing neighborhoods for both sides using their own analytic bubble exclusion, cylinder breaking/gluing, Morse gluing and stationary inverse.
+
+Orient the Morse-length interval by increasing L and the smoothing/identity interval by decreasing τ, with the nodal end as its positive boundary. Use the full standard kernel/functionals/coevaluations and fixed family readouts of 7.C.2a. At L→∞ use the actual first-projection Morse graph χ_M and its stable-complex comparison, retaining both pole normal factors. At L=0 and τ=0 use the identical positive-first matching `ev₊−ev₋`; both yield the same normalized 𝒩, including cap classes. The stationary reference comparison consumes the separately proved inverse for the identical nondegenerate stationary cylinder of 7.C.2; the Morse-side two-marked sphere endpoint is a different input. At the stationary end use γ_min and the specified family factor, giving Id_CF. Prove these simultaneous raw determinant identifications from their stabilized exact sequences, then their agreement with actual regular gluing. At fixed total cap/class and finite energy the resulting geometric Hom boundary readouts have the forms `d𝓗_L+𝓗_Ld=F∘G−𝒩` and `d𝓗_τ+𝓗_τd=𝒩−Id_CF`, with degree-one raw count-functional readout `(-1)^(n+1)`. Their geometric nodal terms cancel. After support and matrices exist, these are the corresponding module equations and their sum is the Floer inverse homotopy. Resolve every matrix product by the finite-below convolution before making that algebraic interpretation. The Morse inverse separately uses its two-pole zero core and q_min broken-face insertion. Every family uses the fixed convention before counting.
+
+The true endpoint data and finite-energy gluing estimates are inputs to relative-family regularity and each branch’s PSS geometric inverse boundaries. Cylinder fixed-class boundaries, ordinary continuation data and the Γ=0 reflection bridge use only their own cylinder/continuation constructions. The geometric inverse boundaries feed PSS support, then its matrices, and then the R[Γ] or completed inverse equations in 7.C.6; they are not already equations between undefined matrix series.
+
+**7.C.3c. Face-flat relative perturbations.** For each branch construct the selected regular individual continuation sections, their rigid geometric count coefficients, zero-/one-dimensional oriented compactifications and finite-below support from their own Morse-free cylinder/continuation data. Assemble their actual maps and chain-map equations only in the matrix stage. Construct homotopy/composition true faces from these selected geometric pieces, raw cylinder comparison templates, cylinder breaking/gluing, stationary identity and that branch’s analytic exclusion; no algebraic composition equation is needed to specify a broken face. PSS relative faces separately insert their selected plane/Morse pieces and endpoint theorems. Prove each prescribed true-face operator and matching problem regular. Compatible raw jets extend to a base family in the actual product-collar and compatible-J charts before generic face-flat interior selection.
+
+Construct the relative separable complete real Banach carrier using smooth local Hamiltonian one-form/δH_s and compatible-J chart directions in free domain/target/interior parameter charts. Each testing element vanishes on its own neighborhood of the true faces and the fixed pole/end regions; their supports together meet every free interior parameter arbitrarily close to the faces. Retain all face-free mixed coefficient derivative suprema, weighted L^q norms, linear operator controls, exhaustion seminorms and global integrated curvature controls above. Conditional gluing gives positive locally bounded functions G_(E,j)≥1 on specified larger collars `0<x<2x₀(E)`, and on larger product collars `0<x_i<2x₀,i(E)` at corners. Take their weighted suprema on the closed outer subcollars `0<x≤x₀(E)` and `0<x_i≤x₀,i(E)`: `sup G_(E,j)(x)(∏_i x_i^(−m))|∇^j e|`, with the declared domain/target/parameter charts and derivatives. Specify a smooth cutoff ϑ valued in [0,1], equal to1 on this closed outer subcollar and supported in the larger collar with x_i<3x₀,i/2. Define the global extension Ĝ=1+ϑ(G−1) there and Ĝ=1 off that support. Include the corresponding global weighted norms using the declared chart cutoffs and the ordinary face-distance weights; use a locally finite fixed chart system and its stated norm comparison constants. Thus the global norm is defined everywhere, and its weights are positive and locally bounded away from true faces. A compact-library support away from true faces meets each closed outer subcollar in a compact subset of its larger open collar, so all these weighted norms are finite. Use coefficient suprema/Fatou and dense tests for linear operators to prove their lower semicontinuity. The same ℓ¹ synthesis and closed-kernel quotient give the complete separable smooth carrier, convergence in every controlled norm, all-order face flatness and compatible corner jets. Derive its finite-C^ℓ nonlinear section/evaluation estimates by the stated chain-rule/Sobolev–Moser theorem. Small balls preserve the global curvature and energy allowances. Its G weights come from the earlier conditional gluing estimates.
+
+At every interior parameter the localized δK or δH_s directions detect adjoint cokernels, including constant maps and matching constraints. Form the actual J_(p,s,t) simple-sphere/marked-incidence families frozen at each attachment, and the PSS J_(p,z) versions, with shared core/sphere/evaluation variations and prescribed true-face strata. Prove their combined universal transversality, simple-image reductions, finite differentiability budgets and countable simultaneous selection; with their own shared-J theorem. At true faces use their previously selected regular operators and sphere-incidence data. Perturbations have all-order flat jets on true faces. From these weighted errors and conditional gluing construct a cutoff width ε(E)>0 at R=0, a Floer-neck threshold T(E), and a Morse-length threshold L(E), in their respective declared charts, below every inverse/contraction/onto-neighborhood error tolerance and within every required derivative budget. Counts/boundaries are coefficientwise at finite energy. Positive monotonicity supplies the separately proved cylinder/continuation or PSS finite counting-budget ceiling, with Morse data used only by the latter; spherical-c₁-zero keeps cutoff dependence.
+
+Now prove the branch-specific regular compact zero-dimensional and oriented one-dimensional boundary theorems. The cylinder theorem has index1 rigid quotients and index2 broken boundaries, removing trivial levels by their actual equivalence.
+
+Per branch, continuation/homotopy, PSS and inverse-endpoint geometric boundaries consume cylinder breaking/gluing, their own analytic exclusion, actual regular true faces and finite-energy neighborhoods, shared orientations, Morse factors and stationary identity exactly where used. Prove the cylinder fixed-class boundary theorem before parameter/PSS boundaries and geometric rigid support. After the relevant support theorem constructs the matrices, these same oriented boundaries give their chain-map, square-zero, composition and inverse equations. The two branches share earlier floors but retain independent analytic consequences and concrete exports. Compactifications here have precisely the dimensions needed for these classical counts and identities.
+
+**7.C.4. Coherent counts and continuation.** Work first over 𝔽₂, then use the shared cap/determinant/Morse orientation lines of 7.C.2a for integer counts and outward-first broken boundaries. Use its quotient-then-negative-flow ordering and explicit parameter/end-reversal laws; convert a translation-first auxiliary formula by the specified (−1)^(dim quotient) factor. Extend counts by actual scalar maps to each commutative ground ring R. Orientation generators give matrices and their changes give explicit diagonal sign maps.
+
+For each fixed generator pair and recapping class define the rigid index-one quotient count coefficient with the ordered orientation lines. First prove its geometric finite-below support in 7.C.6 and assemble the degree−1 matrix d over that branch’s ring. The signed index-two fixed-class boundary then gives d²=0, with sums interpreted through the proved support/convolution theorem. For previously selected individual continuation data retain the energy formula
+`E=A_(H₊)(x̃₊)−A_(H₋)(x̃₋)−∫∂sH(s,t,u)`,
+count the compact rigid index-zero sections on their parametrized domain at each cap/class, prove their own support and assemble the degree-zero continuation matrix after the differential’s coefficient module exists. Constant data give the stationary identity through its actual inverse/orientation comparison. Homotopy/composition true-face selection uses those earlier geometric sections; its fixed-class boundary theorem and support construct the degree-one homotopy matrices. Only after all participating matrices exist prove chain-map, composition, independence and inverse equations in the branch ring. Derive actual Hofer cutoff shifts, cap equivariance and support bounds from the raw energy and count geometry; no completed identity is a support premise.
+
+**7.C.5. Small autonomous trajectories and the later Morse specialization.** For sufficiently C²-small autonomous Morse H construct compatible J with `(H,g_J)` Morse–Smale by a localized positive-gradient realization. Prove all one-periodic orbits are constant and compute μ=`ind(H)−n` using the cap frame. For an actual t-independent Morse trajectory prove its Floer linearization is surjective: in a t-independent trivialization the zero Fourier mode is the Morse operator, while nonzero modes have the `2π` gap and the proved small-coefficient perturbation estimate. Include its right inverse and determinant orientation comparison. This proves regularity of the t-independent trajectory locus.
+Use the independent auxiliary pair `(f,g)` and comparison complex M of 7.C.1a. For H=εf with ε>0 sufficiently small prove the positive-rescaling normalization and compatible Morse–Smale realization. Construct the bijection between t-independent Floer cylinders and upward trajectories of the realized Morse metric, using τ=εs, with the induced cap classes, quotient translations and the determinant orientations fixed in 7.C.2a; prove the ordinary Morse-continuation comparison between the realized metric and the auxiliary metric, using HF Lane M1–M5, with its signs. The comparison concerns this t-independent trajectory locus. The PSS homology comparison is a separate construction with its own branch prerequisites.
+
+**7.C.5a. Autonomous translation and time-rotation dimensions.** On smooth finite-energy cylinders for these autonomous data with the fixed constant asymptotic ends and fixed capped relative class, define commuting actions `T_a u(s,t)=u(s+a,t)` for `a∈R` and `R_θu(s,t)=u(s,t+θ)` for `θ∈R/Z`. They preserve the equation; their isotopies preserve the capped class relative to the constant end caps. Prove smoothness on the actual finite-dimensional regular moduli spaces after elliptic bootstrapping. The fixed locus of the whole `S¹` time-rotation action is exactly `u_t=0`; its Floer equation is the specified positive-gradient Morse equation, so its elements are the upward Morse trajectories already treated above.
+
+For a non-time-invariant cylinder, `u_s` and `u_t` are linearly independent as global tangent vectors. If `a u_s+b u_t=0` with constants `(a,b)≠(0,0)`, `a=0` gives time invariance, while `b=0` makes the map independent of `s` and hence constant by its asymptotic ends. If both are nonzero, `u` is constant along the domain flow in direction `(a,b)`; iterating toward a constant asymptotic end and using uniform convergence in `t` forces the whole cylinder to be constant. If a stabilizer element has nonzero `s`-translation, iterate it in the direction of one constant asymptotic end. The end convergence is uniform in `t`, so the stabilizer equation forces the entire cylinder to equal that constant end; this excludes every such element without assuming an `s`-period. Thus on the non-time-invariant locus the `R×S¹` orbit has dimension two and its remaining time-rotation stabilizer is finite. Conditional on surjectivity of the actual autonomous linearization, a non-time-invariant cylinder has Fredholm index at least two; regular index-one cylinders are time-independent. The dimension conclusion is conditional on that actual regularity. The homology comparison is the separate PSS theorem.
+
+**7.C.5b. PSS maps and equivalence.** Construct the PSS/inverse matrices from the regular basic punctured sections and their branch-specific energy/support bounds. The Morse-side inverse uses its broken PSS composition and the true zero-cutoff Morse identity end, with the full ordered Morse/cap calibration of 7.C.2a and its explicitly constructed equation d𝓗_M+𝓗_Md=PSS⁻¹∘PSS−Id_M. The Floer-side inverse uses the same nodal chain map 𝒩 in the finite-Morse-length and positive-smoothing-ray homotopies; their signed nodal boundaries cancel, leaving the stationary Floer identity. Face-flat relative regularity, the finite-energy neighborhoods and signed boundary theorems give both coefficientwise homotopy equations. Obtain the branch-specific chain-homotopy equivalence: integer-graded at the finite Laurent stage, complete ν-filtered and ℤ/(2N_C)-graded after nonzero-monotone completion, and integer-graded in the c₁-zero and Γ=0 lanes. The specified output is the module chain-homotopy equivalence.
+
+In the spherical-c₁-zero completed lane, the integer-graded homology comparison is HF_i≅H_(i+n)(X;Λ_R). Over a field 𝕜 it identifies with H_(i+n)(X;𝕜)⊗_𝕜Λ_𝕜; over other R such a tensor description requires a proved homology base-change hypothesis. Use the actual base-changed chain homotopies for their equations.
+
+In the nonzero positive-monotone Laurent lane, write HF_i^cyc for homology after t↦1 and prove HF_i^cyc≅⊕_(j≡i+n mod2N_C)H_j(X;R). On Γ=0 choose the spherical-c₁-zero PSS construction of this item as the single common MODULE-comparison construction for HF_i≅H_(i+n)(X;R). Its phase inputs are the independent auxiliary Morse comparison, actual raw cylinder/plane/nodal/inverse operators, finite end/Morse data, selected regular true faces/interiors, branch compactness, simultaneous determinant realization, geometric support and both inverse boundaries. None is obtained from standing Layer7.4's comparison readout. First construct that equivalence and common continuation/PSS data, then compare the Γ=0 finite-Laurent readout and the standing reflected complex through the actual equation/cap/reference/degree/determinant dictionary of 7.C.0, quotient-then-negative-flow orientation reversal and coefficient identity Γ=0. Prove the chain and continuation diagrams, including their actual degree sign, before the two displayed homology readouts. The integer formula has no premise from two separately assumed equivalences. Standing all-dimensional corner-chain, all-free-loop atoroidal and Liouville outputs retain their distinct construction hypotheses and scope.
+
+**7.C.5c. Relative autonomous virtual comparison.** On an actual finite energy/class/index window with prescribed isolating compactified interfaces, construct the compact Hausdorff pair (Z,∂Z), cap/end/reference labels and full allowed-bubble topology. Consume ASM M3 only for its unforced marked components; construct the actual punctured/inhomogeneous attachment application.
+
+For every nonconstant holomorphic sphere bubble choose codimension-two target discs transverse at all their preimages, away from nodes/marks/critical values with compact buffers. Retain the FULL finite unordered preimage sets, actual automorphism/permutation extensions, incidence motion, forgetting and coordinate-change compatibility; stabilize constant ghosts by actual special flags or their specified normalization/contraction. Such target cuts are used only at genuine rank-two transverse points. For rank≤1 inhomogeneous/autonomous cylinder cores use the fixed cylinder/end-marker carrier instead: at a nonstationary reference construct an R-translation slice from a compactly supported configuration-chart functional whose translation derivative is ∫χ|u_s|²>0, with IFT, parameter/scale differentiability, slice transitions and broken/glued compatibility. Stationary cores use their separate invertible block, not a free R slice.
+
+Construct finite-dimensional obstruction maps and compatible finite-group thickenings on these carriers. Prove conditional gluing for the ACTUAL extended operator, including obstruction parameters, incidence and normalization constraints, matching/extra factors and regular product/projection maps, with the requisite derivative-loss budgets, determinant/normal exact sequences and orientations. This is a thickened application of the analytic gluing estimates, not a consequence of unthickened regularity alone. Construct zero-fibre quotient identifications, open regular loci, extra-factor freeness, footprint coverage and every V1 relative/product axiom. Supply V6's actual finite cell-like closure/normal-incidence data for fixed, broken, allowed-bubble and nonfixed interface pieces.
+
+Construct transport of these atlas, obstruction, orientation, coordinate-change, forgetful, neck/end-marker and relative data under the global S¹ time rotation. The identity (u∘ρ)⁻¹(D)=ρ⁻¹u⁻¹(D) proves only the auxiliary-set part. Nonfixed slices retain their actual finite stabilizer representations; at S¹-fixed autonomous cores construct an equivariant cokernel/obstruction lift and all transition diagrams. Positive-dimensional global S¹ isotropy is distinct from the finite reparametrization groups in V1. The analytic construction and its actual oriented thickened gluing precede the generic virtual engine and do not assume classical counts or closed GW atlases.
+
+Apply [ImplicitAtlases V0–V6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/55a2a9d8b4f6c5e76b65b4d53650b839f990ddec/TauCetiRoadmap/ImplicitAtlases/README.md#v0-coefficients-local-orientations-and-chain-interfaces) on these actual inputs. Its principal output is a rational functional on the specified degree-d relative Čech cohomology with orientation coefficients, obtained from the virtual cochain comparison and normalized trace. Construct the application maps of trace complexes and coefficient/pair diagrams whose evaluations on the finite Floer generator kernels give relative boundary count functionals. On regular pieces prove normalization with the actual ordered determinant count; for comparison perturbations construct actual refinement/concordance/cobordism witnesses and their continuation extension. Use V5’s boundary/cobordism laws only after those witnesses exist. A singular-homology realization uses the stated finite-CW target/Čech-singular/UCT hypotheses and is not asserted on an arbitrary wild source. Any chosen chain representative or splitting has its explicit maps, degree/sign and homotopy independence; no canonical source singular chain is inferred from the dual-Čech VFC.
+
+On an isolated compact non-time-invariant sector with locally free circle action, prove properness and construct transverse finite-isotropy quotient charts using the actual slice theorem, descended obstruction representations, orientation/local-system lines and all coordinate/gluing/refinement compatibility. Construct the quotient implicit atlas with virtual dimension one less, retaining each finite stabilizer. Positive-dimensional stabilizers at the fixed locus lie in separate relative interface data, not in these finite-group charts. Construct the equivariant circle-transfer/Gysin-to-trace comparison, with rational 1/|Γ| normalization, or specified coefficients in which all relevant stabilizer orders are units. Prove that the original expected-zero sector functional factors through the negative-degree quotient functional; its vanishing then follows from V’s ordinary negative-Čech-degree theorem. The free-action integral specialization requires its own integral comparison and orientation data. Interfaces with fixed, broken or other isolating boundaries remain in the relative equation. Compare to the supported regular time-dependent continuation/count matrices via the constructed regular-normalization and concordance trace diagrams; prove compatibility across energy cutoffs and reference caps. This is a qualified relative comparison/isolated-sector cancellation theorem. It is not an unqualified identity for raw nonfixed coefficients, nor a consequence of PSS or the conditional regular orbit-dimension lemma alone.
+
+**7.C.6. Geometric support, finite Laurent and completed matrices.** Apply MorseNovikov N1 with ν=−ω:Γ→ℝ only after the geometric support hypotheses are proved. For output recapping B the matched-cap energy is `E=A_H(x̃₊)−A_H(x̃₋)+ν(B)`; continuation, PSS, nodal and homotopy versions retain their actual global error bounds. At a fixed ν cutoff use their own energy-cutoff compactness and rigid-dimensional exclusion of nontrivial breaking/bubbling/parameter-boundary limits to prove finitely many rigid coefficients below that cutoff, including dense period image. These inputs are the geometric sections, fixed-class oriented boundaries where needed and cap/index data, not completed chain equations. First prove cylinder/individual-continuation/relative-cylinder support; separately prove PSS/nodal/both-inverse-homotopy support with their own endpoint/Morse/parameter data. Construct the actual finite-orbit modules, reference-cap coordinates and diagonal monomial changes. Build the differential and all participating maps/homotopies as supported matrices in their concrete ring, then read the finite geometric boundary identities as matrix equations using N1’s finite-below convolution. Aggregate support is an export of the independent concrete support results.
+
+**7.C.6a. Positive-monotone bare coefficient model.** Before matrices specialize the early datum: ω=κc₁ implies kerω∩kerc₁=kerc₁, so c₁ identifies Γ with N_Cℤ, or Γ=0. Give e^B degree2c₁(B). This algebra uses cap/branch data alone and is available to fixed-class geometry without any completed count package.
+
+**Positive-monotone finite Laurent matrices.** Use the respective geometric support to construct cylinder/continuation matrices and, separately, PSS/inverse matrices over R[Γ]. A homogeneous entry has at most one exponent by the degree equation. For Γ≠0 choose the positive-Chern generator t, deg t=2N_C and ν(t)=−κN_C<0, so t⁻¹ has positive valuation. The coefficient differential is zero and a Morse tensor generator has degree j−n+2c₁(B). Construct each finite homogeneous matrix before reading its own boundary identities or extending coefficients.
+
+**7.C.6b. Finite-Laurent chain identities.** Prove `d²`, continuation chain-map/composition/homotopy equations and their orientation-line signs over `R[Γ]`, using the monotone cylinder/count and parameter-boundary targets. This proof is the finite-Laurent monotone construction.
+
+**7.C.6c. Finite-Laurent PSS equivalence.** With the actual injective-Chern Γ model and monotone matrices/support, prove PSS and inverse matrices are chain maps. Prove the Morse-side inverse from its broken composition and zero-cutoff Morse identity end; prove the Floer-side inverse from its broken composition and its separately constructed nodal/positive-ray/stationary identity end. Each consumes its own monotone endpoint/parameter boundaries together with monotone cylinder identities. Use the two constructed finite-Laurent homotopies for the inverse equations. This gives the chain-homotopy equivalence to M⊗_R R[Γ] before completion.
+
+**7.C.6d. Complete filtered cyclic grading after monotone completion.** After 7.C.6b–c, extend the finite matrices and specified homotopies along R[Γ]→Λ_R=Nov(R,Γ,ν), ν=−ω, using N1. For Γ≠0 set d_C=2N_C. Give Λ_R degree zero modulo d_C and each finite reference orbit/Morse generator its μ or j−n residue. The completed module is finite free over Λ_R with these residues. Define F^aΛ_R by support in ν≥a, give the finite generator module its product filtration and prove it complete and separated. A map T has its proved finite shift δ_T, meaning T(F^a)⊂F^(a−δ_T); the differential and specified homotopies carry their own such shifts. Cap changes give diagonal monomial maps with their actual finite shifts. A series may have infinitely many integer degrees; this completed theory is ℤ/d_C-graded. Differential, maps and specified homotopies are continuous with the proved filtration shifts and residue degrees −1,0,+1. Prove completeness, cap-change compatibility and continuity from the finite matrices/support bounds. Extend the finite-Laurent equivalence and both actual homotopies to a complete ν-filtered ℤ/d_C-graded Λ_R-module chain-homotopy equivalence with correspondingly regraded M⊗_RΛ_R. Γ=0 retains integer grading and R coefficients. The integer finite-Laurent theory and its cyclic t↦1 specialization remain separate outputs; no t↦1 map on Λ_R is asserted.
+
+**7.C.6e. Spherical-c₁-zero bare model and completion.** Before counts, c₁|S_sph=0 gives kerω∩kerc₁=kerω, so ν=−ω identifies Γ with its real period subgroup; all coefficient degrees are zero. This is an early datum, not a matrix theorem. Use cylinder/continuation support to construct their completed matrices and only then read their own finite-cutoff boundaries as d²/continuation equations. Independently construct the PSS/inverse matrices from their support and derive their equations from the c₁-zero PSS boundaries and BOTH endpoints. Finitely many orbit generators give the usual integer grading with a finite underlying degree set. This separate completed lane includes positive sphere areas; index alone supplies no energy bound.
+
+**7.C.6f. Laurent cyclic specialization and the completed-unit obstruction.** On the finite ring `R[t,t⁻¹]`, the ungraded map `t↦1` gives the finite cyclic complex and PSS comparison graded modulo `2N_C`; retain the integer grading when `Γ=0`. For any nonzero unital `R` and `ν(B)>0`, N1 makes `1−e^B` a unit, so a unital map from the entire completion to `R` sending every monomial to1 cannot exist. The cyclic specialization is consequently defined on the finite Laurent ring.
+
+**7.C.6g. Field adapter and Arnold bound.** Assume every contractible one-periodic orbit of H is nondegenerate. For a field 𝕜 and injective ν, factor a nonzero series at its unique least-period element B₀ as `c e^(B₀)(1+b)` and invert the strictly-positive-support `1+b` by N1, including dense period image. This field adapter applies only where ν:Γ→ℝ is proved injective; Γ=0 gives 𝕜. For the positive-monotone Arnold bound use the finite-Laurent PSS equivalence, followed by the permitted `t↦1` specialization: the resulting cyclic 𝕜-chain complex has rank equal to the number of contractible periodic orbits, and its homology is the cyclic direct sum of H_j(X;𝕜), with total dimension the total 𝕜-Betti rank. The finite-dimensional chain-rank inequality gives `#{contractible 1-periodic orbits}≥Σ_j dim_𝕜 H_j(X;𝕜)`. For spherical-c₁-zero use the actual Novikov field adapter and completed PSS equivalence, which has that finite homology rank; Γ=0 is the ordinary 𝕜 case. The monotone comparison uses its Laurent-only specialization and the c₁-zero comparison uses its field adapter. Over arbitrary rings retain `H_(i+n)(X;Λ_R)` separately and require a proved base-change hypothesis for any tensor-product homology description.
+
+**7.C.7. Scope and application interfaces.** Export the cap/seam/index dictionaries, rigid counts, specified continuation maps/homotopies, cutoff estimates, finite Laurent specialization, completed PSS equivalence and Arnold inequality. Keep target hypotheses, nondegeneracy, compatible data, actual regular true faces, face-flat interiors, per-energy gluing neighborhoods and coherent orientations as separate inputs/conclusions. The scope exclusions are those stated at the beginning of this roadmap. Export the early cap/coefficient-torsor datum independently of the later injective-Chern and injective-period branch models; Laurent or completed matrix consumers use the model proved in their own branch.
+
 ## Layer 8: the DG Floer toolset
 
-1. **Representing chain systems for Floer moduli spaces.** Existence (the source's Proposition 3.4,
-   Definition 3.5) and uniqueness up to homology (Proposition 3.6).
+1. **Representing chain systems for Floer moduli spaces.** Consume standing Layer7.2's ALL-dimensional aspherical/atoroidal topological corner compactifications, ordered orientations and product faces, then Layer0's relative fundamental-chain theorem. Construct existence (Proposition3.4/Definition3.5) and uniqueness up to homology (Proposition3.6). The count-dimensional module equivalence of 7.C.5b is not this all-dimensional carrier input.
 2. **The Barraud--Cornea twisting cocycle** in `C_*(Ω𝓛X)`: Definition 3.7, the twisting equation
    of Proposition 3.8, uniqueness up to homology of Proposition 3.9.
 3. **The DG Floer complex** (Definition 3.12) and its independence of `(J, Ξ)` up to chain homotopy
@@ -1149,19 +1337,20 @@ real boundary conditions.
 
 ## Layer 9: the Viterbo isomorphism
 
-1. The local system `η` on `𝓛Q`, and the canonical grading of Floer homology of `T*Q` (the source's
-   §§4.1--4.2). `T*Q` with `ω_can` is exact, and `T(T*Q)` restricted to the zero section is
+1. Construct the degree-zero Viterbo twist η₀ on 𝓛Q, equal to the source's underlined η in §§1.5/4.1, and the canonical grading of Floer homology of T*Q (§4.2). Let o_Q be AT's orientation local system in degree zero. Define σ by monodromy (−1)^⟨w₂(TQ),Γ_*[T²]⟩ along a loop of loops with adjoint Γ:T²→Q. Put w(γ)=0 when γ*TQ is orientable and −1 otherwise, and
+   `η₀=σ⊗ev₀*(o_Q^−1)⊗ev₀*(o_Q^(−w))`.
+   Prove component/local-system, monodromy, tensor and coefficient-extension laws using actual w₁/w₂ and orientation-line transport, including nonorientable Q. Keep the source's graded twist η_gr=η₀[n], supported in degree−n, separate from η₀. Fix homological shifts C[n]_j=C_(j+n), d_[n]=(−1)^n d and construct the tensor/shift comparison: on a homogeneous fibre element α of degree p its map 𝓕⊗η_gr→(𝓕⊗η₀)[n] has the Koszul factor (−1)^(np). Compare the DG action, differentials and raw determinant equations through this same map. All unshifted Viterbo formulas below use η₀, with the index/determinant normalization proved accordingly. `T*Q` with `ω_can` is exact, and `T(T*Q)` restricted to the zero section is
    `TQ ⊗ ℂ`, so the Chern numbers of all surface maps vanish; this verifies the smooth asphericity
    and atoroidality conditions. The canonical grading is compared with the grading of the standing
    conventions.
 2. **Classical Viterbo with local coefficients.** For every classical local system `L` on `𝓛Q`,
-   `SH_*(T*Q; Π*L) ≅ H_*(𝓛Q; L ⊗ η)`. The proof is by hybrid Floer-to-Morse moduli spaces in the
+   `SH_*(T*Q; Π*L) ≅ H_*(𝓛Q; L ⊗ η₀)`. The proof is by hybrid Floer-to-Morse moduli spaces in the
    finite-dimensional approximation (Abbondandolo--Schwarz, as organized in Abouzaid).
 3. **Theorem K.** For a DG local system `𝓕` on `𝓛Q` with `H_*(𝓕)` bounded below,
-   `SH_*(T*Q; Π*𝓕) ≅ H_*(𝓛Q; 𝓕 ⊗ η)`. The steps, in the source's numbering:
+   `SH_*(T*Q; Π*𝓕) ≅ H_*(𝓛Q; 𝓕 ⊗ η₀)`. The steps, in the source's numbering:
    - the half-cylinder moduli spaces `𝓜(x)` and their dimension and orientation lines
      (Proposition 4.6);
-   - their representing chains `s_x` (Proposition 4.7) and the equation `∂m_x = Σ m^η_{x,y} m_y`
+   - their representing chains `s_x` (Proposition 4.7) and the equation `∂m_x = Σ m^(η₀^−1)_{x,y} m_y`, where m^(η₀^−1)_{x,y}=Φ^(η₀^−1)(m_{x,y}) uses the degree-zero inverse-monodromy local system. The source abbreviates this Φ^(η₀^−1) by Φ^η; the graded η_gr and item1’s tensor/shift comparison enter only the actual graded determinant readouts
      (Proposition 4.9);
    - the hybrid moduli spaces `𝓑(x; y)` (Proposition 4.10), their representing chains
      (Proposition 4.11), evaluation maps (Proposition 4.13) and the equation for `b_{x,y}`
@@ -1190,8 +1379,10 @@ real boundary conditions.
    - the chain map `Ψ̃^r` (Proposition 4.16).
 
    The map is an isomorphism by comparison of index spectral sequences, whose `E²` map is item 2.
-4. The zero-energy part of Theorem K (Proposition 4.1), and the transfer of DG local systems from
-   `𝓛Q` to `𝓛T*Q` (Corollary 4.17).
+4. Construct the zero-energy part of TheoremK (Proposition4.1), including i_Q*η₀≃o_Q for the constant-loop inclusion and its actual Thom/shriek diagram:
+   `SH_k^(=0)(T*Q;Π*𝓕)≃H_k(Q;i_Q*𝓕⊗o_Q)` and
+   `SH_k^(=0)≃H_(k+n)(D*Q,S*Q;π*i_Q*𝓕)`.
+   Identify the first map with the orientation-twisted zero-section Thom map of Layer5.3, and prove its inverse and compatibility with the tautological map to full SH. Construct the transfer of DG local systems 𝓛Q→𝓛T*Q (Corollary4.17) with the same η₀ normalization.
 5. Source: the source paper §4; Abbondandolo--Schwarz, *On the Floer homology of cotangent bundles*
    and its corrigendum; Abouzaid, op. cit., Sections 5--8.
 
@@ -1215,11 +1406,9 @@ real boundary conditions.
    degree by the same equation with `𝔽₂`-fundamental classes from the algebraic topology
    roadmap's Stage 6. **Corollaries D and E**, from
    Layer 6. The `𝔽₂` stage of Layers 5 and 7--9 is enough for Theorem C.
-   - **Theorem 5.14 and Theorem B** are stated for a class `α ∈ H_n(U; ℤ)` with
-     `π_{U*}α ≠ 0`, **together with** a closed oriented manifold `S`, a map `φ : S → U` and
-     `N ≥ 1` such that `N · α = φ_*[S]`. Their proof then reduces to Theorem 5.10 with
-     `d = N · b`, where `π_{U*}α = b · [Q]`. The unconditional statement needs Thom's realization
-     theorem, which is out of scope (scope boundary).
+   - **Multiple realization and Theorem5.14/TheoremB.** Consume the designated GC Thom/collapse/stabilization/finite-duality comparisons and G5 rational spectral Hurewicz, then TB B5's geometric PT and B6.3's rational SO-bordism orientation surjection, retaining their actual early mapping-path/Thom/Layer1.2/1.4 inputs. On a smooth boundaryless U lift α⊗1 to a finite rational bordism combination. Clear denominators and then kill the finite-order torsion difference to obtain a closed oriented finite disjoint union S and continuous f:S→U with f_*[S]=Nα, N≥1.
+
+     Construct the compact-image embedding here: choose finitely many target charts φ_i and smooth supported cutoffs ρ_i near f(S), with Σρ_i>0 on W, and define e(x)=(ρ_i(x),ρ_i(x)φ_i(x))_i, extending each supported block by zero. Where ρ_i>0 the ratios recover φ_i; this proves injectivity, continuous local inverse and, by differentiation, immersion. Restrict a precompact neighborhood of the image if required. GT supplies the actual normal tube of this embedding, with positive uniform radius on the compact core. Smooth e∘f on S by partitions/mollifiers closely enough for the tube, project back and construct the small homotopy in U. A fixed-relative version supplies its own collar data. DG supplies the partition/smoothing floors; the finite-chart embedding is this application's construction, not GT's output. Then φ_*[S]=Nα and the representing-witness argument gives degree Nb≠0 from π_(U*)α=b[Q]≠0. Layer10's all-dimensional DG trajectory/chain inputs come from Layers7.2/8/9; its module-comparison corollaries use the actual common readout only on its specified overlap. No integral every-class realization is asserted.
    - **Theorem 5.15 (Theorem C)** uses the mod-2 vanishing theorem of Layer 1 item 4 in place of the
      source's class `{G | G ⊗ ℤ/2 = 0}`. With `Y = Ω₀Q`, simply connected because `π₂(Q) = 0`: if
      `H̃_*(Ω₀Q; 𝔽₂) = 0`, every `π_i(Ω₀Q) = π_{i+1}(Q)` is uniquely 2-divisible, contradicting
@@ -1242,8 +1431,8 @@ real boundary conditions.
 3. **Covering by diffeomorphisms** (Definitions 6.26 and 6.32, over geometric topology's `Diff(M)`).
    - Abundance of manifolds covered, or `ℓ`-covered, by diffeomorphisms (Propositions 6.29
      and 6.33).
-   - Compact connected Lie groups that are not a `K(π,1)` (Proposition 6.31 in that form).
-   - Odd spheres, by the source's second proof (Proposition 6.34).
+   - For a compact connected Lie group G supplied with the explicit hypothesis that it is not K(π,1), construct the left-translation smooth family G→Diff(G), its evaluation/covering witness and the actual sphere/homology class required by Proposition6.31, then apply the abundance criterion. The hypothesis is input data; deriving it from “non-torus” is the separately coordinated structural/higher-homotopy application.
+   - For odd Sⁿ retain the independent second proof of Proposition6.34. Use GT3 and Layer1.6's local evaluation bundle, Layer1.8's fixed-p rotation family of degree2 with domain S^(n−1)×S¹, and construct the actual ℓ-covered-by-diffeomorphisms witness of Definition6.32. Apply Proposition6.33 with the degree2/non-2-torsion sphere class and the stated homological comparison. This is an explicit degree/evaluation proof, with no Pontryagin–Thom or unstable Bott premise.
 4. **Homogeneous spaces** (Proposition 6.36), including `S² = SO(3)/SO(2)`.
 5. **Projective spaces.** `CPᵈ` (Proposition 6.38) and `HPᵈ` (Proposition 6.39 without the Cayley
    plane), from Layer 5 item 7. These give **Theorem I** within the scope boundary.
@@ -1288,8 +1477,7 @@ real boundary conditions.
    - `H₁(Ω²S³) ≅ ℤ`, through Layer 1 item 1.
 6. **Floer.** `FH_*(H) ≅ H_{*+n}(X)` for a `C²`-small Morse Hamiltonian on a closed aspherical
    `X`. Theorem J for the trivial fibration recovers it with coefficients.
-7. **Viterbo on `E²`.** For `Q = S¹`, both sides of Theorem K with `𝓕 = C_*(Ω𝓛S¹)` are computed
-   and the `E²` pages agree.
+7. **Viterbo on E².** For Q=S¹, compute η₀ trivial in degree zero and prove with trivial integral coefficients SH_k(T*S¹)≃H_k(𝓛S¹;ℤ): the groups in degrees0/1 are ℤ[ℤ] and negative degrees vanish. The graded η_gr would introduce a shift and is not the twist in this formula. Compute both sides and E² pages of TheoremK for 𝓕=C_*(Ω𝓛S¹) componentwise, with Layer3's chosen basepoints and η₀. Match the zero-energy Thom diagram of Layer9.4.
 8. **End to end.**
    - For `Q = S²` and a bounded domain `U ⊆ T*S²` containing the zero section, `∂U` has the
      contractible almost existence property.
@@ -1323,8 +1511,8 @@ version (TeX source of 13 May 2026, compiled).
 | Def 1.1 | 6.5 |
 | Conj 1.2 | out of scope |
 | Thm A, C | 10.5 (Thms 5.10, 5.15) |
-| Thm B | 10.5, with a representing map given (Thom realization out of scope) |
-| Cor D, E | 6.3, 6.4, 10.5; their Theorem B case with a representing map given |
+| Thm B | 10.5: representing-map endpoint and GC/TB multiple-realization application |
+| Cor D, E | 6.3,6.4,10.5, including the constructed multiple-realization TheoremB case |
 | Cor F | out of scope |
 | Thm G | 11.6 (Thm 7.1) |
 | Def 1.7, Thm H | 11.1 (Def 6.11, Thm 6.12) |
@@ -1353,7 +1541,7 @@ version (TeX source of 13 May 2026, compiled).
 | Def 5.3 | 6.5 |
 | Prop 5.9 | 10.3 |
 | Thm 5.10, Thm 5.15 | 10.5 (5.15 through the mod-2 vanishing theorem of 1.4) |
-| Thm 5.14 | 10.5, with a representing map given (Thom realization out of scope) |
+| Thm 5.14 | 10.5: representing-map endpoint and GC/TB multiple-realization application |
 | Prop 5.11, Prop 5.13 | 10.4 |
 | Thm 5.12 | 1.4, for genuine Serre classes; the source's mod-2 class is replaced there |
 | Def 6.1, Prop 6.3 | 6.5 |
@@ -1363,10 +1551,21 @@ version (TeX source of 13 May 2026, compiled).
 | Defs 6.26, 6.32, Props 6.29, 6.33 | 11.3 (evaluation fibration 1.6) |
 | Prop 6.31 | 11.3, for non-aspherical groups |
 | Prop 6.34 | 11.3, second proof (degree computation 1.8) |
-| Lem 6.35 | out of scope (not needed by the second proof of 6.34) |
+| Lem 6.35 | finite-rank sphere-fibration coordination contract; 6.34 second proof remains independent |
 | Prop 6.36 | 11.4 |
-| Props 6.38, 6.39 | 11.5 (Morse--Bott input 5.7, on the homotopy spheres roadmap's API), without `CaP²` |
+| Props 6.38, 6.39 | 11.5, consuming 5.7's Riem R2/R3 and MorseTheory M5 based-loop application and its actual index/perfectness/generators; without `CaP²` |
 | Thm 7.1, Prop 7.5, Lems 7.6, 7.7 | 11.6 (collapse 1.5) |
+
+### Classical capped-source requirements
+
+| Source requirements | Construction target |
+| --- | --- |
+| Hutchings pages74–85: action, capped indices and variational equation | 7.C.0–2 |
+| Hutchings pages86–88: capped generators, FHS, linearized/asymptotic operators, relative index and variational exercise | 7.C.1–2 |
+| Hutchings pages89–93: cap/degree/monotone coefficient comparisons | 7.C.1,7.C.3–6 |
+| Hutchings pages94–95: individual continuation, identity, relative homotopy/composition and small-autonomous setup | 7.C.2b,7.C.3c,7.C.4–5 |
+| Hutchings pages96–101: classical Floer, autonomous symmetry, PSS/Novikov and Arnold applications | 7.C.2–7, with the explicit shifted/module/coefficient formulas |
+| ℂPⁿ cyclic module and Γ=0 reflected comparison | 7.C convention/application checks and7.C.6f |
 
 ## Prior formalization
 
@@ -1391,8 +1590,10 @@ The Morse lemma and Sard's theorem are formalized there too, but Tau Ceti alread
 are not ported. Porting is ordinary Tau Ceti work: one claimed item at a time, adapted to Tau Ceti's
 Mathlib and conventions.
 
+
 ## References
 
+- Michael Hutchings, *Lecture notes on Morse homology, Floer theory, and pseudoholomorphic curves*, September 11, 2002; unfinished informal lecture notes. Layer7.C treats the action/capping and classical count/comparison applications on pages74–101, especially96–101.
 - J.-F. Barraud, M. Damian, V. Humilière, A. Oancea, *Floer homology with DG coefficients.
   Applications to cotangent bundles*, [arXiv:2404.07953](https://arxiv.org/abs/2404.07953): the
   source paper.
@@ -1409,6 +1610,8 @@ Mathlib and conventions.
 - R. Bott, *The stable homotopy of the classical groups*, Ann. of Math. 70 (1959); W. Ziller,
   *The free loop space of globally symmetric spaces*, Invent. Math. 41 (1977).
 - M. Audin, M. Damian, *Morse Theory and Floer Homology*, Universitext, Springer, 2014.
+- A. Floer, H. Hofer, D. Salamon, *Transversality in elliptic Morse theory for the symplectic action*, Duke Math. J.80(1) (1995),251–292, [DOI10.1215/S0012-7094-95-08010-7](https://doi.org/10.1215/S0012-7094-95-08010-7). Layer7.C.2 proves the stated orthogonality and symmetric-matrix lemma in its localized transversality application.
+- S. Piunikhin, D. Salamon, M. Schwarz, *Symplectic Floer–Donaldson theory and quantum cohomology*, in *Contact and Symplectic Geometry*, ed.C.B.Thomas, Publications of the Newton Institute8, Cambridge University Press (1996),171–200: the punctured comparison construction with the coefficient/sign/regularity applications specified here.
 - D. Salamon, *Lectures on Floer homology*, IAS/Park City Math. Ser. 7 (1999).
 - M. Abouzaid, *Symplectic cohomology and Viterbo's theorem*, in *Free loop spaces in geometry and
   topology*, IRMA Lect. Math. Theor. Phys. 24 (2015).
@@ -1421,27 +1624,10 @@ Mathlib and conventions.
 
 ## How to drive it
 
-The material splits into three largely independent parts:
-1. **Floer analysis**, whose only output is the manifold-with-corners structure of the moduli
-   spaces (Lane M and Lanes F0--F2 of the Heegaard Floer roadmap, Layer 7 item 2). This analysis
-   is carried out in Barraud--Cornea.
-2. **The algebraic definition** of DG Morse and Floer homology from those moduli spaces
-   (Layers 0--5 and 8). It consumes only the output of part 1, as a black box. Layers 0--4 and the
-   topological hypotheses of the applications do not depend on part 1 at all.
-3. **The Viterbo isomorphism** (Layer 9) between DG Floer homology and DG Morse homology of the
-   free loop space, a DG version of Abouzaid's proof.
+The construction has separate reusable and geometric stages. Layers0–4 build cubical/local-coefficient algebra, the direct weak-equivalence/CW/native-Serre interfaces, convenient path spaces and filtered complexes before Floer counts. Each designated GC/SBC/CKG/CC/Riem/Morse/HS input is consumed only by the item that uses it; GC's early raw path/Kelley interfaces precede its later model/LES applications. The lower DGF outputs used by those generic constructions precede the later DG geometric applications.
 
-Layers 0--4 start immediately. They depend only on material that exists or is scheduled in the
-algebraic topology, geometric topology and DG roadmaps, and each is useful on its own. Layer 6
-starts in parallel with them, alongside Lane F2.1.
+Floer analysis supplies actual regular differentiable loci, Fredholm/evaluation/orientation and conditional gluing estimates; the standing aspherical/atoroidal branch additionally constructs ALL-dimensional topological corner compactifications with product faces. Layers5/8 use their relative fundamental chains and twisting cocycles. Layer7.C instead constructs its stated classical count dimensions, supported continuation and the common PSS module comparison, with separate compatible/tame coefficient lanes. Its qualified virtual application supplies full punctured analytic atlas/equivariant/relative data before using ImplicitAtlases; closed GW inputs do not construct that atlas.
 
-The purely topological inputs to the applications depend only on Layers 0--3 and the algebraic
-topology roadmap:
-- Layer 10 item 4;
-- the homotopy-theoretic parts of Layer 11, namely items 2--4 and the `Ω²` computations of item 6.
+Layer6's Hamiltonian/Liouville constructions proceed with HamiltonianSystems, HF's symplectic/J-space floors and the actual support/completeness estimates. Layer5's finite-dimensional geodesic/MB and projective applications consume Riem R2/R3 and Morse M5 without making their early algebra inputs depend on those applications. Layer9's DG Viterbo comparison consumes the standing all-dimensional DG Floer and free-loop Morse packages. Layers8–10 retain those chain-space hypotheses independently of the smaller common FH=H module readout; their atoroidal/noncontractible and Liouville branches keep their own conditions.
 
-They can land before any Floer theory, stated as the topological hypotheses of Theorems A--I.
-
-Layer 5 follows Lane M of the Heegaard Floer roadmap, and is the first place where the
-Barraud--Cornea idea is used on real moduli spaces. Layer 7 follows Lanes F0--F2 and is this
-roadmap's analytic headline. Layers 8--10 follow it, and Layer 11 item 5 needs Layer 5 item 7.
+The topological abundance and multiple-realization applications use their explicit lower cubical/CW/Hurewicz/Serre/filtered interfaces, named GC/TB/HS/GT/SBC/Lie inputs and actual degree/evaluation maps. They require no Floer counts. Source-owner coordination specifications for global flux/suspension, finite-rank/compact-Lie and TG applications are separate from supplied generic floors. The later projective abundance application uses Layer5's actual based-loop index/perfectness/generator calculation.
