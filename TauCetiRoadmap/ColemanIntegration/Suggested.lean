@@ -12,8 +12,12 @@ The README specifies the geometric, Coleman, Bloch-group and regulator construct
 their APIs and Checks. Definitions here have real bodies; theorem proofs are left as `sorry`.
 
 The formal primitive has zero constant coefficient. Whole-disc analyticity requires positive
-radius. Logarithm branches are specified by their principal-unit series and their value at `p`;
-existence is a theorem, with no chosen branch constructed here. The Laurent coefficient predicates,
+radius. DirichletPadicLFunctions §0.6 supplies the Iwasawa decomposition and normalized logarithm
+`iwasawaLog p`, including value zero at zero, restriction and equivariance. General branches
+are its valuation adapters `iwasawaLog p x + a * v_p(x)` on nonzero inputs, with value zero
+at zero; the signatures below characterize these adapters by their series and value at `p`.
+The `ℚ_p` logarithm-series theory is supplied by PadicFunctionalAnalysis §4.5; L0.10 and
+L0.13 extend it to general ultrametric fields of characteristic zero. The Laurent coefficient predicates,
 convolution and Gauss norms below are adapters to PadicDifferentialEquationsAndRigidCohomology
 RD.0.1–RD.0.2, with derivation supplied by RD.0.36. Its annulus series are two-sided coefficient families `ℤ → K` with a decay predicate, not Mathlib's `LaurentSeries`,
 whose supports are bounded below. The complex polylogarithm uses its scalar series, with a
@@ -424,12 +428,14 @@ structure IsLogBranch (a : ℂ_[p]) (L : ℂ_[p] → ℂ_[p]) : Prop where
   hasSum_one_add : ∀ x : ℂ_[p], ‖x‖ < 1 →
     HasSum (fun n : ℕ => (-1 : ℂ_[p]) ^ n * x ^ (n + 1) / (n + 1)) (L (1 + x))
 
-/-- L0.15: there is a unique branch on `ℂ_p`, with the junk value zero at zero. -/
+/-- L0.15: the valuation adapter to the Iwasawa logarithm of DirichletPadicLFunctions §0.6
+is the unique branch on `ℂ_p` with parameter `a` and value zero at zero. -/
 theorem existsUnique_logBranch (a : ℂ_[p]) :
     ∃! L : ℂ_[p] → ℂ_[p], IsLogBranch p a L ∧ L 0 = 0 := by
   sorry
 
-/-- L0.16: branch change on a nonzero point, with its rational valuation specified by its norm. -/
+/-- L0.16: the valuation adapters to the supplied Iwasawa logarithm differ by the parameter
+difference times the rational valuation specified by the norm, on nonzero inputs. -/
 theorem logBranch_sub {a b : ℂ_[p]} {L L' : ℂ_[p] → ℂ_[p]}
     (hL : IsLogBranch p a L) (hL' : IsLogBranch p b L')
     {x : ℂ_[p]} (hx : x ≠ 0) (v : ℚ) (hv : ‖x‖ = (p : ℝ) ^ (-(v : ℝ))) :
@@ -993,9 +999,10 @@ end PositiveIntegerValues
 ## Targets specified in the README
 
 * L0: annulus residues and logarithmic primitives (L0.11–L0.12, L0.20–L0.25); the
-  constructions of valuation and logarithm branches, Iwasawa logarithm and local-field
-  compatibility, including comparison with an independently normalized logarithm on a finite
-  extension (L0.14–L0.18). The branch existence and change milestones are stated above.
+  Iwasawa decomposition, normalized logarithm, restriction and equivariance imported from
+  DirichletPadicLFunctions §0.6, and their general-branch valuation adapters (L0.14–L0.18).
+  The zero branch is the supplied `iwasawaLog p`, including its value at zero.
+  The branch existence and change milestones are stated above.
 * L1: good-reduction pairs, wide opens, dagger algebras, logarithmic ends and Frobenius lifts
   (L1.1–L1.6); coordinate maps, change of basis and iteration of Frobenius data (L1.7);
   their geometric existence and the differential/dualizing-sheaf comparison (L1.9); the
