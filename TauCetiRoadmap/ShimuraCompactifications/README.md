@@ -58,35 +58,36 @@ this README is the specification.
 **Owned here.** The face projection of a monoid algebra onto a face submonoid with its kernel,
 quotient and coefficient-change laws; the character decomposition of a split-torus torsor; relative
 torus embeddings of torsors, their face charts, regular coordinates and scheme-theoretic strata;
-toric schemes of finite fans over arbitrary commutative rings with base change, the support criterion
-for properness of relative toric maps, the integral boundary union and its completion, and finite toric
-maps for a change of lattice; arithmetic cone systems with their common and smooth projective
-refinements; toric acyclicity of subdivisions for the structure sheaf and the boundary ideal over any
-coefficient ring. Mixed boundary data of pure Shimura data, boundary mixed Hodge structures, boundary
-torus-and-abelian torsors, cusp labels, effective stabilizers with finite overlap and the incidence of
-positivity cones; canonical models of the mixed boundary Shimura varieties. Partial compactifications
-of boundary torsors, Pink's analytic toroidal compactification with its normality, compactness,
-smoothness and normal crossings, algebraization, map to the minimal compactification and canonical
-model, for abelian-type and general data. Refinement, level, datum and Hecke maps of toroidal models,
-the independence of coherent and cuspidal cohomology from the cone system, and its completed local
-form. Semi-abelian schemes with character sheaves, Hodge bundles, Tate modules and the boundary Hasse
-determinant; Frobenius and Verschiebung of flat commutative group schemes; torus extensions,
-polarized degeneration data, Mumford's construction and the degeneration equivalence over complete
-normal bases; universal degenerations on cusp charts, extension of homomorphisms, endomorphisms,
-level structures and isogenies across the boundary, the Tate curve comparison with logarithmic
-Kodaira–Spencer, and the compactified Klingen correspondence of the Siegel threefold. Integral
-toroidal and minimal compactifications of PEL Shimura varieties at good primes, their strata,
-logarithmic Kodaira–Spencer, Hodge-line semiampleness (including the general generation theorem for
-semi-abelian families and the isotriviality criterion on curves), Fourier–Jacobi expansions of
-Hodge-line sections, quasi-projectivity of the moduli space, higher-level normalizations and
-normalized blow-ups, formally canonical sheaves, Koecher principles, cyclic level covers, the canonical
-bundle of a Siegel threefold and good-reduction boundary geometry. The arithmetic of Hilbert cusps
-(units, total positivity and cyclotomic trace phases), cusp data, lattices and stabilizers, admissible
+toric schemes of finite fans over arbitrary commutative rings with base change, the support
+criterion for properness of relative toric maps, the integral boundary union and its completion, and
+finite toric maps for a change of lattice; arithmetic cone systems with their common and smooth
+projective refinements; toric acyclicity of subdivisions for the structure sheaf and the boundary
+ideal over any coefficient ring. Mixed boundary data of pure Shimura data, boundary mixed Hodge
+structures, boundary torus-and-abelian torsors, cusp labels, effective stabilizers with finite
+overlap and the incidence of positivity cones; canonical models of the mixed boundary Shimura
+varieties. Partial compactifications of boundary torsors, Pink's analytic toroidal compactification
+with its normality, compactness, smoothness and normal crossings, algebraization, map to the minimal
+compactification and canonical model, for abelian-type and general data. Refinement, level, datum
+and Hecke maps of toroidal models, the independence of coherent and cuspidal cohomology from the
+cone system, and its completed local form. Character sheaves, Hodge bundles, Tate modules and the
+boundary Hasse determinant on the supplied semi-abelian family carrier; the nonaffine extension of
+the supplied flat affine Frobenius–Verschiebung API; torus extensions, polarized degeneration data,
+Mumford's construction and the degeneration equivalence over complete normal bases; universal
+degenerations on cusp charts, extension of homomorphisms, endomorphisms, level structures and
+isogenies across the boundary, the Tate curve comparison with logarithmic Kodaira–Spencer, and the
+compactified Klingen correspondence of the Siegel threefold. Integral toroidal and minimal
+compactifications of PEL Shimura varieties at good primes, their strata, logarithmic
+Kodaira–Spencer, Hodge-line semiampleness (including the general generation theorem for semi-abelian
+families and the isotriviality criterion on curves), Fourier–Jacobi expansions of Hodge-line
+sections, quasi-projectivity of the moduli space, higher-level normalizations and normalized
+blow-ups, formally canonical sheaves, Koecher principles, cyclic level covers, the canonical bundle
+of a Siegel threefold and good-reduction boundary geometry. The arithmetic of Hilbert cusps (units,
+total positivity and cyclotomic trace phases), cusp data, lattices and stabilizers, admissible
 Hilbert fans, the formal gluing theorem of Rapoport and Dimitrov, integral toroidal and minimal
-Hilbert compactifications with their semi-abelian family, Hodge line, cusps, boundary fibres, weights,
-`q`-expansions, coefficient descent and cusp ideals, the comparison with Deligne–Pappas models, the
-boundary Hasse ideal and ordinary neighbourhoods, finite-level maps, and the degree-one comparison
-with compactified modular curves.
+Hilbert compactifications with their semi-abelian family, Hodge line, cusps, boundary fibres,
+weights, `q`-expansions, coefficient descent and cusp ideals, the comparison with Deligne–Pappas
+models, the boundary Hasse ideal and ordinary neighbourhoods, finite-level maps, and the degree-one
+comparison with compactified modular curves.
 
 **Built in Tau Ceti and cited.**
 
@@ -102,7 +103,7 @@ with compactified modular curves.
   The toric schemes there have complex coefficients; C0.16 adds arbitrary coefficient rings by base
   change from `ℤ` and agrees with them over `ℂ`.
   `TauCeti.SplitTorus.mapValue_frobenius_eq_comp_powEnd` already computes Frobenius on split-torus
-  points; C4.18 adds Verschiebung for general flat commutative group schemes. The field theorem
+  points; C4.18 extends the flat affine Frobenius–Verschiebung API to nonaffine flat finitely presented groups. The field theorem
   `TauCeti.AlgebraicGeometry.appTop_bijective_of_section` in
   `TauCeti/AlgebraicGeometry/RationalPoint/Basic` assumes an integral scheme and a rational point;
   C6.53 instead treats relative boundary fibres and arbitrary base change, without a section.
@@ -110,7 +111,8 @@ with compactified modular curves.
   determinants, symmetric algebras, relative spectra and geometric bundles. C0.21 adds the character-graded algebra
   of a torus torsor, whose multiplication relates different invertible weight sheaves.
 - *TauCetiRoadmap.EllipticCurves* and *ModularCurves* Layer 7 already treat elliptic Frobenius and
-  Verschiebung; C4.18 extends to all flat finitely presented commutative group schemes.
+  Verschiebung; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.1 supplies the flat affine API,
+  and C4.18 extends it to nonaffine flat finitely presented commutative groups.
 - *TauCetiRoadmap.AnalyticToricGeometry.* Layer 0 (the algebraic toric supplier: lattices, cones,
   rays, regular cones, fans, dual semigroups, face localizations and the fan scheme), Layer 2 (affine
   analytic charts of regular cones), Layer 3 (finite-fan analytic gluing), Layer 4 (torus actions,
@@ -291,7 +293,9 @@ Layer 7 supplies parabolics and unipotent radicals (C1). ModularCurves Layer 10 
   (rational boundary components and incidence), 2.2 (Satake topology and compactness), 2.5 and 2.7
   (Baily–Borel compactification and its algebraization), Layer 4 (reciprocity at special points), Layer 7
   (general data), Layer 8 (canonical models, uniqueness, Hecke spans 8.4, general towers and minimal
-  compactifications 8.22–8.23).
+  compactifications 8.22–8.23). §P.6 (`TauCeti.Shimura.finite_analytic_quotient`) supplies finite
+  analytic quotients, invariant sheaves and gluing; §5.2 (`TauCeti.Shimura.weight_one_algebraization`)
+  algebraizes polarized integral weight-one variations with their lattices and polarizations.
 - **AbelianSchemesAndArithmeticModuli.** A0.1 (abelian schemes), A1.3 (invariant differentials), A2.2–A2.3
   (dual abelian scheme, Poincaré bundle and biextensions), A2.5 (polarizations), A2.8 (projective
   presentations over normal bases), A3.2 (multiplication and torsion), A3.6 (theta groups), A3.9 (Rosati
@@ -303,17 +307,32 @@ Layer 7 supplies parabolics and unipotent radicals (C1). ModularCurves Layer 10 
 - **PELModuli.** M0–M1 (PEL data, PEL-type abelian schemes and moduli problems), M2.8–M2.10
   (representability and smoothness at good primes, universal family, Kodaira–Spencer isomorphism),
   M4.5–M4.6 (normal integral models at higher `p`-level).
-- **FiniteFlatGroupsAndIntegralPadicHodgeTheory.** R07.2.21 (`Ha(G) = det V^*` for a truncated
+- **FiniteFlatGroupsAndIntegralPadicHodgeTheory.** R07.1.1 supplies `frobeniusHom`, `verschiebungHom`,
+  their naturality, base change and `VF = FV = [p]` on flat affine commutative groups; C4.18 extends
+  this interface to nonaffine groups. R07.2.21 (`Ha(G) = det V^*` for a truncated
   Barsotti–Tate group over an `𝔽_p`-scheme, the isomorphism `LF` and the Hodge–Tate sequence).
 - **ArithmeticGaloisDuality.** R02.1.1 (towers, `lim` and `lim¹`, Mittag-Leffler and Tate's inverse-limit
   theorem).
 - **HilbertModularVarietiesAndShimuraCurves.** H0.3–H0.5 supply polarization and trace-dual
   lattices with their stabilizers; H1.1, H1.6, H1.7, H1.9 (polarization modules, the fine
-  moduli scheme at tame level, its universal family, level data); H2.2–H2.3 (Deligne–Pappas models),
+  moduli at scalar tame level `n = No`, its universal family and pairing/ideal-change laws); H2.2–H2.3 (Deligne–Pappas models),
   H2.5–H2.6 (Rapoport and ordinary loci), H2.7 (the Hilbert Hasse ideal), H2.8 (formal Hasse
   neighbourhoods and lift independence); H3 (the tame polarization group `Δ(N)` and weights); H4.4
   (adjugate action on dual levels), H4.11 (residue polarization components), H4.13 (effective finite
-  level groups, with the `Γ_0`-type levels); H5.1 (the elliptic case `F = ℚ`).
+  level groups); H4.8–H4.9 supply `HilbertIntegralGamma0` and `gamma0Cartesian`, the subgroup-level
+  moduli and its Cartesian polarization quotient on the generic moduli locus; H5.1 (the elliptic case `F = ℚ`).
+- **ArakelovGeometryAndAbelianHeights.** §2.0 supplies `GroupScheme.IsSemiAbelianFamily` for smooth
+  separated commutative groups of finite presentation, its base-change API, and
+  `GroupScheme.semiAbelianHom_extend` over Noetherian normal schemes. C4.1 uses this carrier and
+  adds character and Hodge theory; C4.8 supplies locally Noetherian and algebraic-space descent.
+  §§5.0a–5.0b supply `SiegelModuli.ToroidalCompactification`, `SiegelModuli.toroidalDegenerationChart`,
+  `SiegelModuli.MinimalCompactification`, `SiegelModuli.hodgePower_generated` and
+  `SiegelModuli.hodgeDegree_zero_criterion`, with the principal Siegel families, refinements and
+  Hodge powers over all of `ℤ`. C4–C5 extend these interfaces to general degeneration and PEL data
+  and prove agreement on the principal Siegel specialization, including level pullback.
+- **PadicDifferentialEquationsAndRigidCohomology.** §RD.5.116 supplies relative Zarhin's trick and
+  `AbelianVariety.zarhin_dim`. C5.32–C5.33 apply it on the polarized abelian locus, retaining its
+  étale-local polarization hypotheses, and extend the comparisons by C4.8.
 - **ModularCurvesPartII.** 3.6 (generalized Tate `n`-gons and `du/u`), 3.7 (power isogenies at the
   boundary), 3.11 (the compactified coarse `j`-line), 4.8 (Tate and analytic cusp parameters), 5.2
   (integral coarse modular curves), 5.13 (the fixed-pairing compactified curve), 9.1 (compactified Hecke
@@ -331,6 +350,13 @@ C4 and the generic results C5.32–C5.33, but not the good-prime models of C5: i
 primes dividing the discriminant are built directly, by C0 charts, C4 families and the gluing theorem
 C6.55. The elementary arithmetic of C6.1–C6.8 and C6.15–C6.19 is independent of everything else and is
 stated in `Suggested.lean`.
+
+Numerical labels are reference labels. Build C0.21 before C0.8; C2.8 before C2.5 and C2.10 before
+C2.9; C4.8 before C4.6; C5.32–C5.33 before C5.13–C5.16, and C5.31 before C5.20–C5.22. In C6,
+start with the elementary C6.1–C6.8 and C6.15–C6.19. Construct C6.12a's ideal-level moduli, cusp
+lattices and stabilizers (C6.13, C6.54), fans, all-prime chart families (C6.20) and formal gluing
+(C6.55), then C6.21–C6.27. The geometric Koecher statements C6.9–C6.12 follow these inputs.
+Build C6.31 before C6.30, and C6.53 before C6.42.
 
 ## Layer C0: admissible fans and relative torus embeddings
 
@@ -402,7 +428,9 @@ Mathlib `Finsupp.comapDomain_apply`.
 
 **Checks.**
 
-- The formula holds for `R = 0` and for nilpotent coefficients.
+- For `R = 0` every coefficient on both sides is the unique zero element.
+- Over `ℤ/4`, the constant monomial with coefficient `2` retains that coefficient.
+- For two distinct degrees in `F`, a sum of their monomials retains each coefficient separately.
 
 ### C0.3 A section of the face projection
 
@@ -415,6 +443,8 @@ C0.2 prove it on arbitrary finite sums ([Lan], 6.1.2.6, pp. 443–445). *Needs:*
 **Checks.**
 
 - An arbitrary finitely supported element of `R[F]`, not only `1`, is recovered.
+- Over `ℤ/4`, the constant monomial `2e_0` is recovered without reducing its coefficient.
+- For `F = P = ℤ`, the Laurent monomial `e_{−1}` is recovered, so the section keeps negative degrees.
 
 ### C0.4 The monomial ideal of the face complement
 
@@ -464,8 +494,9 @@ or `0` according as `p ∈ F` ([Lan], 6.1.2.1–6.1.2.6, pp. 443–445). *Needs:
 
 **Checks.**
 
-- The square commutes for `ℤ/4 → ℤ/2`, for the identity, and for a composite of two coefficient
-  maps.
+- For the nonflat map `ℤ/4 → ℤ/2`, the constant coefficient `2` becomes zero on both paths.
+- For the identity coefficient map, an arbitrary finite coefficient family is unchanged.
+- For a composite `R → S → T`, the coefficient at a surviving degree is `ψ(φ(r))` on both paths.
 
 ### C0.7 The face ideal commutes with coefficient change
 
@@ -481,6 +512,7 @@ Mathlib `AddMonoidAlgebra.mapRingHom`.
 - The non-flat map `ℤ/4 → ℤ/2` satisfies the equality.
 - The argument uses the fixed monomial generating set; it is not a claim that kernel formation
   commutes with base change.
+- For `F = P` both extended ideals are zero, even when the coefficient map kills a nonzero scalar.
 
 ### C0.8 Relative torus embeddings
 
@@ -645,12 +677,21 @@ space). *Needs:* AnalyticToricGeometry Layer 0; Tau Ceti `TauCeti.Toric.Fan.ext`
 Construct `ArithmeticFan.commonRefinement`: for two complete systems and a finite family of
 boundary-compatible integral lattice maps `φ`, the system of cones `σ_1 ∩ φ⁻¹(σ_2)` closed under
 faces. Assume the systems satisfy C0.13, each `φ` maps the source positivity domain into the target
-one, and the arithmetic action has the finite-overlap property: for cones `σ, τ`, only finitely many
+one. Specify a common arithmetic source group (or a finite-index subgroup), homomorphisms to
+all target arithmetic groups, and equivariance of every lattice map and cusp action for these
+homomorphisms. Both input systems must have finitely many orbits under the common source action.
+Take intersections under that action, and require finite relative overlap: for each source cone
+representative, only finitely many translates of each target cone representative have inverse image
+meeting it in the relevant open positivity domain, modulo stabilizers and identical intersections.
+Also assume the source finite-overlap property: for cones `σ, τ`, only finitely many
 effective group elements `γ` make `γσ` meet `τ` in the open positivity cone. For Shimura boundary
-data this property is C1.5 ([Pink], 6.19), which C2, C3 and C6 cite when they use this construction.
+data C1.5 ([Pink], 6.19), together with the finite-index level comparisons, supplies these overlap
+conditions for the refinement and Hecke maps used in C2, C3 and C6.
+The finite representative sets and relative overlap give finitely many intersection orbits.
 The output is complete with the common (or inverse-image) support, has finitely many orbits, is
 compatible with cusps and levels, and is the coarsest common refinement for containment. No common
-refinement is asserted for infinitely many unrelated Hecke maps ([Pink], 9.22–9.23, pp. 157–158).
+refinement is asserted for infinitely many unrelated Hecke maps; without equivariance an invariant
+refinement requires adding and controlling the relevant translates ([Pink], 9.22–9.23, pp. 157–158).
 The API: `commonRefinement_le` (each cone lies in a cone of each input);
 `commonRefinement_universal` (a compatible system refining both refines this one);
 `commonRefinement_support`. *Needs:* C0.13; AnalyticToricGeometry Layer 0.
@@ -662,6 +703,9 @@ The API: `commonRefinement_le` (each cone lies in a cone of each input);
   two cones of the subdivision and their faces.
 - `commonRefinement_level_test`: restriction to a smaller level induces the same containment maps.
 - Two refinements are compared through a third; they need not be equal.
+- The coordinate-swap action on the quadrant does not preserve the subdivision at `(1,2)` alone:
+  the identity map to that fan with trivial action is not equivariant. Adding `(2,1)` gives an
+  invariant refinement for this finite group.
 
 ### C0.15 Smooth projective refinements
 
@@ -940,16 +984,18 @@ lattice in `V_1 = W_1/U_1` with the polarization from the commutator pairing, wh
 the class of the torus torsor through the Poincaré biextension. Assume (C1-a), neat level for the
 torsor form (at non-neat level the finite stabilizer quotients are kept), and the lattices coming
 from `K`; the central lattice and the weight `−1` lattice are not interchangeable. The proof follows
-Pink 3.12–3.19: the `U_1`-quotient is an algebraic torus, the `V_1`-quotient is a polarized complex
-torus, algebraized by AbelianSchemesAndArithmeticModuli A5.3, and the commutator gives the torsor
-through its line-bundle class; assemble over the pure quotient and compare transition maps ([Pink],
+Pink 3.12–3.19: the `U_1`-quotient is an algebraic torus. Construct the polarized integral variation
+of homological types `(−1,0),(0,−1)` from the `V_1` lattice over the neat pure boundary Shimura
+variety, and apply ShimuraVarieties §5.2 (`TauCeti.Shimura.weight_one_algebraization`) to obtain
+its algebraic abelian family with lattice and polarization. Construct the abelian and torus torsors
+using the Poincaré biextension and descent, and compare transition maps ([Pink],
 3.12–3.22, 6.1–6.7 and 7.2–7.5, pp. 47–53, 94–99 and 118–121).
 
 The API: `BoundaryTorsor.torusCharacters` (the character lattice is dual to the integral `U_1`
 lattice); `BoundaryTorsor.abelianQuotient` (the quotient by the torus is the abelian torsor over the
 pure base); `BoundaryTorsor.levelChange` (level changes induce the lattice and torsor maps,
 compatibly with conjugation). *Needs:* C1.1, C1.2; AbelianSchemesAndArithmeticModuli A2 (dual
-abelian scheme and Poincaré biextension), A5.3 (algebraization of polarized complex tori);
+abelian scheme and Poincaré biextension); ShimuraVarieties §5.2;
 SchemeAndStackFoundations Layer 1 (torsors); ShimuraVarieties 0.5; Tau Ceti
 `TauCeti.SplitTorus.groupScheme`.
 
@@ -1025,8 +1071,10 @@ The API: `CuspLabel.arithmeticStabilizer_toLinearGroup` records the effective re
 
 ### C1.6 Positivity cones and boundary incidence
 
-Prove `CuspLabel.boundary_incidence`: the positivity cone `C(P_1, X_1) ⊆ U_1(ℝ)(−1)` and its
-rational closure `C*` are the union of the cones of the incident rational boundary components. For
+Prove `CuspLabel.boundary_incidence`: construct the positivity cone
+`C(P_1, X_1) ⊆ U_1(ℝ)(−1)`. Its rational closure `C*` is the union of the embedded cones of
+rational boundary components between the ambient datum and `(P_1,X_1)`, including both endpoints;
+`C` is its open positive stratum. For
 a pure ambient datum the cone is open, convex, nondegenerate, homogeneous and self-adjoint; for mixed
 data there can be a lineality space, removed by Pink's quotient in 4.15. Nested boundary components
 and rational conjugation act compatibly on groups, central lattices, torsors and cones, compatibly
@@ -1040,6 +1088,8 @@ AnalyticToricGeometry Layer 0.
 - For the maximal Siegel cusp, `C` is the cone of positive definite symmetric forms and `C*` adds
   the positive semidefinite forms with rational radical.
 - Semidefinite forms with irrational radical lie in the topological closure but not in `C*`.
+- At a modular cusp `C = ℝ_{>0}`, while `C* = ℝ_{≥0}` includes the ambient pure component
+  contributing `{0}`.
 
 ### Examples
 
@@ -1088,21 +1138,22 @@ opens ([Pink], 6.6–6.17, especially 6.13 for the controlled open and 6.14–6.
 identifications, pp. 98–105).
 
 The API: `PartialBoundaryChart.openTorsor` (the boundary torsor is an equivariant open of `Y`, and
-`U_0` an equivariant dense open of `Ū`); `PartialBoundaryChart.faceOpen` (faces give the
-analytified open immersions of C0.9, and the elementary identifications restrict to the controlled
-opens); `PartialBoundaryChart.anchor` (a finite regular trivialized chart is the chart of
+`U_0` is a dense open of `Ū`; controlled opens retain the arithmetic and elementary transitions that
+preserve them, rather than the full complex torus action); `PartialBoundaryChart.faceOpen` (faces
+give the analytified open immersions of C0.9, and the elementary identifications restrict to the
+controlled opens); `PartialBoundaryChart.anchor` (a finite regular trivialized chart is the chart of
 AnalyticToricGeometry Layer 2, with characters and strata); `PartialBoundaryChart.glue_hom`
 (compatible analytic maps on the controlled opens glue uniquely). *Needs:* C0.8, C0.9, C1.3, C1.4,
-C1.6; ComplexComparisonPartII §C−1.1 (`ComplexAnalyticSpace`,
-`complexSchemeAnalytification`); ComplexComparisonPartII C0.4; AnalyticToricGeometry Layers 0, 2, 3
-and 4.
+C1.6; ComplexComparisonPartII §C−1.1 (`ComplexAnalyticSpace`, `complexSchemeAnalytification`);
+ComplexComparisonPartII C0.4; AnalyticToricGeometry Layers 0, 2, 3 and 4.
 
 **Checks.**
 
 - `PartialBoundaryChart.zero_test`: the zero cone adds no boundary; its controlled chart is `U_0`.
 - `PartialBoundaryChart.rankOne_test`: at the standard rank-one cusp the ambient ray chart is `A¹_ℂ`
   with open `G_m`, and `q = exp(2πiz)`, `Im z > 0` gives `Ū = {|q| < 1}` with `U_0 = {0 < |q| < 1}`;
-  taking all of `A¹_ℂ` as the controlled chart is wrong.
+  taking all of `A¹_ℂ` as the controlled chart is wrong. Multiplication by `2` sends `q = 3/4`
+  outside both controlled opens, so the full torus action does not restrict.
 - `PartialBoundaryChart.nilpotent_test`: analytifying a nonreduced finite-type base keeps the class
   of `ε` with `ε² = 0`; passing to the reduced manifold loses it.
 
@@ -1111,22 +1162,24 @@ and 4.
 Prove `PartialBoundaryChart.quotient_separation`: the elementary relation on the controlled charts
 of C2.1 admits local quotient neighbourhoods by the cusp normalizer, has closed graph, and gives a
 Hausdorff complex analytic quotient whose local stabilizers act through finite effective groups.
-Quotients are taken in the analytic category: construct the local finite-group analytic quotients
-of Pink 6.20, with structure sheaf the invariant holomorphic functions, and glue the controlled
-neighbourhoods of 6.22–6.24. At neat level their effective point stabilizers are trivial;
-at arbitrary level the finite quotient is kept and
-smoothness is not asserted. Assume (C2-a); use Pink's controlled neighbourhoods `V_1 ⊆ V_2 ⊆ V_3` in
-the rational Satake space of ShimuraVarieties 2.2. The ineffective centre acts trivially and is
-removed; the full cusp group is not finite. The finite-overlap theorem C1.5 gives discontinuity on
-cone charts; on the controlled neighbourhoods the chart relation is the action of the cusp
-normalizer, whose graph is closed ([Pink], 6.20–6.24, pp. 107–112). *Needs:* C1.5, C2.1; ShimuraVarieties 2.2;
-ComplexComparisonPartII §C−1.1; AnalyticToricGeometry Layer 3; SchemeAndStackFoundations
-Layer 1 (finite group quotients).
+Apply ShimuraVarieties §P.6 (`TauCeti.Shimura.finite_analytic_quotient`) to the finite effective
+stabilizers on Pink's controlled neighbourhoods, and glue using its invariant sheaves and open
+restriction. This target proves the neighbourhood reduction, closedness, proper discontinuity and
+gluing compatibility of Pink 6.20–6.24. At neat level their effective point stabilizers are trivial;
+at arbitrary level the finite quotient is kept and smoothness is not asserted. Assume (C2-a); use
+Pink's controlled neighbourhoods `V_1 ⊆ V_2 ⊆ V_3` in the rational Satake space of ShimuraVarieties
+2.2. The ineffective centre acts trivially and is removed; the full cusp group is not finite. The
+finite-overlap theorem C1.5 gives discontinuity on cone charts; on the controlled neighbourhoods the
+chart relation is the action of the cusp normalizer, whose graph is closed ([Pink], 6.20–6.24, pp.
+107–112). *Needs:* C1.5, C2.1; ShimuraVarieties §P.6, 2.2; ComplexComparisonPartII §C−1.1;
+AnalyticToricGeometry Layer 3; SchemeAndStackFoundations Layer 1 (finite group quotients).
 
 **Checks.**
 
 - A nontrivial finite stabilizer can give a normal singular quotient (the quotient of `ℂ²` by `−1`).
 - Closedness of the graph is proved; it does not follow from finiteness of cone orbits.
+- For `z ↦ −z` on a one-dimensional chart the quotient coordinate is `z²`, ramified at zero;
+  trivial effective stabilizer gives an unramified local quotient.
 
 ### C2.3 Arithmetic toroidal gluing
 
@@ -1261,7 +1314,8 @@ Construct `ToroidalCanonicalModel` (suggested home `TauCeti/Geometry/Shimura/Tor
 for a rational cone system compatible with the descent actions, the descent of the algebraization of
 C2.7 to the reflex field `E = E(G, X)`. It restricts to the canonical model of `Sh_K` over `E`
 (ShimuraVarieties Layer 8, `CanonicalModel`), its boundary formal neighbourhoods are the completions
-of the canonical models of the mixed boundary varieties along their toric strata (C2.10), and it is a
+along cone strata of the relative torus embeddings (C0.8–C0.11) of the mixed canonical models
+of C2.10, with the prescribed cusp stabilizer quotient and reflex-field descent, and it is a
 scheme under Pink's ample-cover hypothesis of 12.4 and an algebraic space in general (12.5). Uniqueness
 of canonical models on the dense interior determines morphisms once the model exists; it does not
 construct the boundary descent. The reflex fields of boundary components are compared by Pink 12.1;
@@ -1285,6 +1339,8 @@ ComplexComparisonPartII C4.4.
 - `ToroidalCanonicalModel.modular_cusp_test`: at a modular cusp the completed ring descends to the
   cyclotomic cusp ring with its width-normalized parameter `q`.
 - A formal chart isomorphism is not used as an ordinary open overlap.
+- At a modular cusp the mixed model is the punctured `q`-line; completion at `q = 0` takes
+  place in its ray embedding `A¹`, giving the completed power-series chart, not in `G_m`.
 
 ### C2.10 Canonical models of mixed Shimura varieties
 
@@ -1369,17 +1425,20 @@ Standing hypothesis of the layer:
 
 ### C3.1 Refinement maps
 
-Construct `ToroidalRefinement` (suggested home `TauCeti/Geometry/Shimura/Toroidal/Refinement`): for a
-compatible refinement `Σ′` of `Σ` at fixed datum and level, with the same support, the canonical
+Construct `ToroidalRefinement` (suggested home `TauCeti/Geometry/Shimura/Toroidal/Refinement`): for
+a compatible refinement `Σ′` of `Σ` at fixed datum and level, with the same support, the canonical
 proper map `Sh_K^tor(Σ′) → Sh_K^tor(Σ)` that is the identity on `Sh_K` and, on each regular
 trivialized chart, the toric refinement map of AnalyticToricGeometry Layer 5. Identity and
 composition hold as equalities of maps. The chart maps come from inclusions of character monoids;
 they commute with Pink's elementary identifications, so they descend and glue; equality of supports
-gives properness on charts (C0.17), and the map descends to the reflex field. The integral version on
-the models of C5 is the same construction on their degeneration charts ([Pink], 6.25 and 9.22–9.23,
-pp. 112–113 and 157–158; [Lan], 6.4.2.2–6.4.2.3 and 7.1.1.4, pp. 524–525 and 532). The API:
-`ToroidalRefinement.id`; `ToroidalRefinement.comp`; `ToroidalRefinement.interior`;
-`ToroidalRefinement.proper`. *Needs:* C0.17, C1.4, C2.9; AnalyticToricGeometry Layers 0, 3, 4 and 5.
+gives properness on charts (C0.17), and the map descends to the reflex field. The integral version
+on the models of C5 is the same construction on their degeneration charts ([Pink], 6.25 and
+9.22–9.23, pp. 112–113 and 157–158; [Lan], 6.4.2.2–6.4.2.3 and 7.1.1.4, pp. 524–525 and 532). The
+API: `ToroidalRefinement.id`; `ToroidalRefinement.comp`; `ToroidalRefinement.interior`;
+`ToroidalRefinement.proper`. On principal Siegel models, identify these maps and pulled-back
+families with ArakelovGeometryAndAbelianHeights §5.0a's `SiegelModuli.toroidalRefinement` and its
+family comparison. *Needs:* ArakelovGeometryAndAbelianHeights §5.0a; C0.17, C1.4, C2.9;
+AnalyticToricGeometry Layers 0, 3, 4 and 5.
 
 **Checks.**
 
@@ -1424,11 +1483,16 @@ is that of ShimuraVarieties 8.4, with its order of arrows); `ToroidalHeckeSpan.c
 
 **Checks.**
 
-- `ToroidalHeckeSpan.identity_test`: the trivial double coset gives the identity span.
-- `ToroidalHeckeSpan.q_power_test`: at a rank-one cusp, a `p`-isogeny arrow is `q ↦ q^p` or
-  `q′^p = q`, as the lattice map prescribes; it is not assumed étale.
-- `ToroidalHeckeSpan.refinement_test`: further refining the intermediate system leaves the open span
-  unchanged.
+- `ToroidalHeckeSpan.q_power_test`: take `g = diag(p,1)`, `p ∤ N`, `N ≥ 3`, and
+  `Γ′ = Γ(N) ∩ gΓ(N)g⁻¹`. At infinity its width is `pN`; for the ordered arrows `z ↦ z` and
+  `z ↦ z/p`, put `t = exp(2πiz/(pN))`. The two target cusp parameters pull back to `t^p` and
+  `t`. The ordered cocharacter maps are multiplication by `p` and `1`, with ramification indices
+  `p` and `1`.
+- On a diagonal quadrant face at a genus-two maximal cusp, intermediate fans with rays `(1,1)`
+  and `(1,2)` have common refinement with both rays and maximal cones spanned by the consecutive
+  pairs `(1,0),(1,1)`, `(1,1),(1,2)` and `(1,2),(0,1)`, together with their faces.
+- `ToroidalHeckeSpan.refinement_test`: subdividing that middle cone inserts new strata, while both
+  ordered maps retain their character pullbacks on the torus and hence the same open Hecke span.
 
 ### C3.4 Independence through common refinements
 
@@ -1509,14 +1573,15 @@ SchemeAndStackFoundations Layer 1, Layer 2.
 
 Prove `ToroidalRefinement.pushforward_boundaryIdeal`: for a same-level refinement of the models,
 `f_*I_{D′} = I_D` and `R^i f_*I_{D′} = 0` for `i > 0`, where on a relative toric chart `I_D` is the
-ideal of the union of the boundary divisors (distinct from the face ideal of a closed stratum, C0.18)
-and, over a nonreduced base, the base change of that ideal rather than its radical. On the regular
-integral models it is the reduced Cartier boundary ideal. In general `f^*I_D` is only a subsheaf of
-`I_{D′}`. For a change of level as in C3.6, the degree-zero statement takes `H′/H`-invariants. Use the
-boundary-ideal part of C3.5 and descend as in C3.7 ([Lan17], Proposition 7.5, (7.7) and (7.9),
-pp. 28–29; [Pilloni20], 5.3 and Theorem 6.1.5.1(2), pp. 24 and 29, where the comparison is used in
-this derived form rather than as an equality of pullbacks). *Needs:* C0.12, C3.1, C3.5;
-SchemeAndStackFoundations Layer 1, Layer 2.
+ideal of the union of the boundary divisors (distinct from the face ideal of a closed stratum,
+C0.18) and, over a nonreduced base, the base change of that ideal rather than its radical. On the
+regular integral models it is the reduced Cartier boundary ideal. In general the image ideal
+`I_D·O_{X′}` is contained in `I_{D′}`; the map `f^*I_D → I_{D′}` can have a torsion kernel. For
+Cartier `D`, `f^*I_D` identifies with its image ideal. For a change of level as in C3.6, the
+degree-zero statement takes `H′/H`-invariants. Use the boundary-ideal part of C3.5 and descend as in
+C3.7 ([Lan17], Proposition 7.5, (7.7) and (7.9), pp. 28–29; [Pilloni20], 5.3 and Theorem 6.1.5.1(2),
+pp. 24 and 29, where the comparison is used in this derived form rather than as an equality of
+pullbacks). *Needs:* C0.12, C3.1, C3.5; SchemeAndStackFoundations Layer 1, Layer 2.
 
 **Checks.**
 
@@ -1524,6 +1589,10 @@ SchemeAndStackFoundations Layer 1, Layer 2.
   order `1`.
 - For the quadrant, the union ideal is `(xy)` and the closed-stratum ideal is `(x, y)`.
 - At a change of level the degree-zero identification takes `H′/H`-invariants.
+- On the cubic Veronese cone `A = k[s³,s²t,st²,t³]`, the boundary ideal
+  `I = (s²t,st²)` pulls back on the resolution chart `B = k[u,v]` via
+  `(s³,s²t,st²,t³) ↦ (u,uv,uv²,uv³)`. At `(u,v)`, `I ⊗_A B` needs two generators but
+  its image `IB = (uv)` needs one; the natural map has a nonzero kernel.
 
 ### C3.9 Coherent cohomology does not depend on the cone system
 
@@ -1634,14 +1703,15 @@ Standing hypotheses of the layer:
 
 ### C4.1 Semi-abelian schemes
 
-Define `SemiAbelianScheme` (suggested home `TauCeti/AlgebraicGeometry/GroupScheme/SemiAbelian`): a
-separated smooth commutative group scheme `G` over a scheme `S` whose geometric fibres are extensions
-of abelian varieties by tori. The relative dimension and the character sheaf of the maximal fibrewise
-torus (C4.2) are part of its API. A global extension by a relative torus exists only on loci where
-the toric rank is locally constant; it is not part of the definition, since the toric rank jumps in
-a degenerating family. Smoothness gives local finite presentation; an application that needs global
-finite type states it ([Lan], Definition 3.3.1.1 and Remarks 3.3.1.2–3.3.1.3, pp. 191–192, and
-Theorem 3.3.1.9, Corollary 3.3.1.10, p. 193). Algebraic-space bases are treated through étale atlases
+Use `GroupScheme.IsSemiAbelianFamily` from ArakelovGeometryAndAbelianHeights §2.0.
+`SemiAbelianScheme` denotes a smooth separated commutative group scheme of finite presentation with
+that supplied fibrewise predicate, rather than a second predicate or a chosen torus extension. Its
+geometric fibres are extensions of abelian varieties by tori. The relative dimension and the
+character sheaf of the maximal fibrewise torus (C4.2) are part of its API. A global extension by a
+relative torus exists only on loci where the toric rank is locally constant; it is not part of the
+definition, since the toric rank jumps in a degenerating family. Finite presentation is retained
+under base change ([Lan], Definition 3.3.1.1 and Remarks 3.3.1.2–3.3.1.3, pp. 191–192, and Theorem
+3.3.1.9, Corollary 3.3.1.10, p. 193). Algebraic-space bases are treated through étale atlases
 (SchemeAndStackFoundations Layer 1).
 
 The API: `SemiAbelianScheme.baseChange`; `SemiAbelianScheme.characterSheaf`;
@@ -1655,6 +1725,7 @@ the Hodge bundle `E = e^*Ω¹_{G/S}`, locally free of rank the relative dimensio
 `0 → Lie T → Lie G → Lie A → 0` (for a torus the invariant differentials are `X(T) ⊗ O_S`, by
 `χ ↦ dχ/χ`). This Hodge bundle is the one used in
 C4–C6, and AutomorphicBundles builds its coefficient bundles on it. *Needs:*
+ArakelovGeometryAndAbelianHeights §2.0;
 AbelianSchemesAndArithmeticModuli A0.1 (abelian schemes), A1.3 (invariant differentials);
 SchemeAndStackFoundations Layer 0, Layer 1; Tau Ceti `TauCeti.SplitTorus.groupScheme`.
 
@@ -1737,7 +1808,7 @@ NeronModelsAndSemistableAbelianVarieties 3.13, 3.14; AbelianSchemesAndArithmetic
 **Checks.**
 
 - `PolarizedDegenerationData.rankZero_test`: `X = Y = 0` gives `A` with its polarization.
-- `PolarizedDegenerationData.tate_test`: for `X = Y = ℤ` and period `q`, positivity is `v(q) > 0`
+- `PolarizedDegenerationData.tate_test`: for `A = 0`, `X = Y = ℤ`, the standard principal polarization and period `q`, positivity is `v(q) > 0`
   and the datum is that of the Tate curve.
 - `PolarizedDegenerationData.local_test`: over a complete discrete valuation ring the character and
   period lattices are those of NeronModelsAndSemistableAbelianVarieties 3.13.
@@ -1751,21 +1822,24 @@ relatively complete model of the torus extension, its formal quotient by the per
 descended ample line, and the algebraization of that projective formal quotient over the complete
 base, giving a semi-abelian degeneration whose generic fibre is a polarized abelian scheme. Assume
 (C4-a), a compatible polarization and decomposition, the cubical identities and positivity. The
-relatively complete model is built from the relative torus charts of C0.8 with the multiplication
-of line bundles induced by `τ`; positivity makes the period action discrete on the formal model; the
+relatively complete model is built from the relative torus charts of C0.8 with the multiplication of
+line bundles induced by `τ`; positivity makes the period action discrete on the formal model; the
 ample line descends after passing to a finite-index sublattice `Y_0`, and the full lattice action
 descends afterwards; the formal quotient is algebraized by Grothendieck's existence theorem
-(AdicSpacesPartIII §F0.8 (grothendieck-algebraization)). The relatively complete models and theta functions are Lan 4.5.1–4.5.2 and
-Faltings–Chai III.3 ([Lan], 4.5.1–4.5.2, in particular Proposition 4.5.2.15, (4.5.2.16),
-Construction 4.5.2.17 and Definition 4.5.2.18, pp. 260–275; [FC], Chapter III, §3). The API:
-`MumfordDegeneration.genericFibre`; `.formalCompletion`; `.fanComparison` (compatible subdivisions
-give comparison maps agreeing on the generic fibre). *Needs:* C0.8, C0.15, C4.4; AdicSpacesPartIII
-§F0.7 (grothendieck-existence), §F0.8 (grothendieck-algebraization); SchemeAndStackFoundations Layer 1, Layer 4; NeronModelsAndSemistableAbelianVarieties 3.14.
+(AdicSpacesPartIII §F0.8 (grothendieck-algebraization)). The relatively complete models and theta
+functions are Lan 4.5.1–4.5.2 and Faltings–Chai III.3 ([Lan], 4.5.1–4.5.2, in particular Proposition
+4.5.2.15, (4.5.2.16), Construction 4.5.2.17 and Definition 4.5.2.18, pp. 260–275; [FC], Chapter III,
+§3). The API: `MumfordDegeneration.genericFibre`; `.formalCompletion`; `.fanComparison` (compatible
+subdivisions give comparison maps agreeing on the generic fibre). On principal Siegel data use
+ArakelovGeometryAndAbelianHeights §5.0a and identify this interface with its supplied
+specialization. *Needs:* ArakelovGeometryAndAbelianHeights §5.0a; C0.8, C0.15, C4.4;
+AdicSpacesPartIII §F0.7 (grothendieck-existence), §F0.8 (grothendieck-algebraization);
+SchemeAndStackFoundations Layer 1, Layer 4; NeronModelsAndSemistableAbelianVarieties 3.14.
 
 **Checks.**
 
 - `MumfordDegeneration.rankZero_test`: the datum with no periods returns `A`.
-- `MumfordDegeneration.tate_test`: the rank-one period `q` gives `G_m/q^ℤ` on the generic analytic
+- `MumfordDegeneration.tate_test`: with `A = 0`, `X = Y = ℤ` and the standard principal polarization, period `q` gives `G_m/q^ℤ` on the generic analytic
   fibre.
 - `MumfordDegeneration.refinement_test`: a compatible subdivision changes the model by a toroidal
   comparison and keeps the generic uniformization.
@@ -1813,22 +1887,22 @@ PELModuli M1.2 (PEL-type abelian schemes), M1.7; SchemeAndStackFoundations Layer
 ### C4.8 Extension of homomorphisms
 
 Prove `SemiAbelianScheme.hom_extend`: for semi-abelian schemes `G`, `H` over a locally noetherian
-normal scheme `S` and a dense open `U ⊆ S`, restriction `Hom_S(G, H) → Hom_U(G_U, H_U)` is bijective;
-the same holds over normal algebraic spaces by étale descent. Reduce to discrete valuation rings by
-the closure of the graph of a generic homomorphism, the valuative criterion and Stein factorization
-(the graph on geometric fibres is controlled by torsion); over a discrete valuation ring, extend to the
-abelian part by the Néron model (NeronModelsAndSemistableAbelianVarieties, Layer 1), show that for a
-split torus target the divisor of the multiplicative function is vertical and has multiplicity zero
-by the group law, and treat the general case by the torus extension and semistable base change
-(NeronModelsAndSemistableAbelianVarieties 3.10) ([FC], Chapter I, Proposition 2.7 and its proof,
-pp. 9–11; [Lan], 3.3.1.5, p. 192; [BP], Lemma 4.2.2, p. 43). *Needs:* C4.1;
-NeronModelsAndSemistableAbelianVarieties Layer 1, 3.10; SchemeAndStackFoundations Layer 1, Layer 4 (Stein
-factorization).
+normal scheme `S` and a dense open `U ⊆ S`, restriction `Hom_S(G, H) → Hom_U(G_U, H_U)` is
+bijective; the same holds over normal algebraic spaces by étale descent. Apply the supplied
+`GroupScheme.semiAbelianHom_extend` of ArakelovGeometryAndAbelianHeights §2.0 on Noetherian normal
+affine opens. Uniqueness makes the extensions agree on overlaps; descent along normal étale atlases
+then supplies the algebraic-space statement. All families use C4.1's finite-presentation carrier
+([FC], Chapter I, Proposition 2.7 and its proof, pp. 9–11; [Lan], 3.3.1.5, p. 192; [BP], Lemma
+4.2.2, p. 43). *Needs:* C4.1; ArakelovGeometryAndAbelianHeights §2.0;
+NeronModelsAndSemistableAbelianVarieties Layer 1, 3.10; SchemeAndStackFoundations Layer 1, Layer 4
+(Stein factorization).
 
 **Checks.**
 
 - The restriction map is a bijection of homomorphisms.
 - Existence of an extension does not make its kernel finite flat (see C4.11).
+- On `G_m` over a normal base, `u ↦ u²` extends across residue characteristic two; extension
+  does not require the homomorphism to be étale.
 
 ### C4.9 PEL endomorphisms across the boundary
 
@@ -1884,8 +1958,10 @@ SchemeAndStackFoundations Layer 0, Layer 1.
 
 ### C4.12 The Tate curve
 
-Prove `MumfordDegeneration.tate_compare`: in toric rank one, the construction of C4.5–C4.6 is the
-Tate curve and generalized Tate `n`-gon of ModularCurvesPartII 3.6, with the same period, polarization,
+Prove `MumfordDegeneration.tate_compare`: for `A = 0`, `X = Y = ℤ`, the standard principal
+polarization and positive period `q`, C4.5–C4.6 recover the semi-abelian identity family of the Tate
+elliptic curve. Compare its generalized Tate `n`-gon compactification separately with
+ModularCurvesPartII 3.6, retaining the period, polarization,
 invariant differential `du/u`, torsion, and base-parameter maps under the two standard `p`-isogenies
 (ModularCurvesPartII 3.7); the generic torsion sequence and the loss of rank on the special fibre are
 kept. For a period `q` of positive valuation, the quotient maps `u ↦ u^p` (period `q` to `q^p`) and the
@@ -1897,6 +1973,8 @@ identity on `u` (period `q^p` to `q`) are distinguished ([Lan], 4.4–4.5 in ran
 - Under `u ↦ u^p`, `du/u` pulls back to `p·du/u`.
 - The identity on `u` from period `q^p` to period `q` has generic kernel of order `p` and trivial
   special kernel.
+- The product of a Tate degeneration with a constant elliptic curve has toric rank one but
+  generic dimension two and a one-dimensional abelian quotient; it is not a Tate elliptic curve.
 
 ### C4.13 Logarithmic Kodaira–Spencer for the Tate curve
 
@@ -2004,19 +2082,22 @@ SchemeAndStackFoundations Layer 2.
 
 ### C4.18 Frobenius and Verschiebung of commutative group schemes
 
-Prove `GroupScheme.verschiebung` (suggested home `TauCeti/AlgebraicGeometry/GroupScheme/Verschiebung`):
+Extend the flat affine API of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.1 to
+`GroupScheme.verschiebung` (suggested home `TauCeti/AlgebraicGeometry/GroupScheme/Verschiebung`):
 for a commutative group scheme `G` that is flat and of finite presentation over an `𝔽_p`-scheme `S`,
 the relative Frobenius `F : G → G^{(p)}` and the Verschiebung `V : G^{(p)} → G` are homomorphisms
-with `V ∘ F = [p]_G` and `F ∘ V = [p]_{G^{(p)}}`, natural in `G` and compatible with base change. If
-`G` is smooth of relative dimension `g`, `F` is finite locally free of degree `p^g`, `ker F` is
-finite locally free of height one, and `V` is the unique homomorphism with
-`V ∘ F = [p]` (fppf descent of `[p]` along the epimorphism `F`). On invariant differentials
-`F^* = 0` and `V^* : e^*Ω¹_G → e^*Ω¹_{G^{(p)}} = Frob_S^* e^*Ω¹_G`. For `G_m`, `F` is `z ↦ z^p` onto
-`G_m^{(p)} = G_m` and `V = id`; for `G_a`, `V = 0`. (SGA 3, Exposé VII_A, §§4.1–4.3,
-especially 4.2.1, 4.3.1 and 4.3.2, re-edition pp. 464–472; for the smooth Frobenius, Stacks,
-Lemma 50.19.5, Tag 0FW2: étale locally its basis is the monomials with each exponent less than `p`.)
-*Needs:* AbelianSchemesAndArithmeticModuli A1.3 (invariant
-differentials); SchemeAndStackFoundations Layer 0, Layer 1 (fppf descent).
+with `V ∘ F = [p]_G` and `F ∘ V = [p]_{G^{(p)}}`, natural in `G` and compatible with base change. On
+affine groups these maps agree with `frobeniusHom` and `verschiebungHom`, including naturality, base
+change and both identities. The new construction covers nonaffine groups. If `G` is smooth of
+relative dimension `g`, `F` is finite locally free of degree `p^g`, `ker F` is finite locally free
+of height one, and `V` is the unique homomorphism with `V ∘ F = [p]` (fppf descent of `[p]` along
+the epimorphism `F`). On invariant differentials `F^* = 0` and `V^* : e^*Ω¹_G → e^*Ω¹_{G^{(p)}} =
+Frob_S^* e^*Ω¹_G`. For `G_m`, `F` is `z ↦ z^p` onto `G_m^{(p)} = G_m` and `V = id`; for `G_a`, `V =
+0`. (SGA 3, Exposé VII_A, §§4.1–4.3, especially 4.2.1, 4.3.1 and 4.3.2, re-edition pp. 464–472; for
+the smooth Frobenius, Stacks, Lemma 50.19.5, Tag 0FW2: étale locally its basis is the monomials with
+each exponent less than `p`.) *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.1;
+AbelianSchemesAndArithmeticModuli A1.3 (invariant differentials); SchemeAndStackFoundations Layer 0,
+Layer 1 (fppf descent).
 
 **Checks.**
 
@@ -2119,25 +2200,29 @@ SchemeAndStackFoundations Layer 1 (étale groupoids and quotients), Layer 4.
 
 Construct `IntegralToroidalModel` (suggested home `TauCeti/Geometry/Shimura/PEL/Toroidal`): for a
 smooth compatible collection `Σ` (Lan, Definition 6.3.3.4, with conditions 6.2.5.25 and 6.3.3.2),
-the quotient `M^tor_{H,Σ} = [U_H/R_H]` over `B` with its descended semi-abelian family, polarization,
-`O`-action and level structure and its stratification by cusp and cone labels. It is a smooth
-separated algebraic stack of finite type over `B`, an algebraic space at neat level; properness for
-complete `Σ` is C5.5. At non-neat level the finite stabilizers are kept before any coarse space is
-formed. Nonsmooth cone systems are handled by C5.31. Assume (C5-a) and Lan's condition 1.4.3.10 and
-convention 6.2.1.1 ([Lan], Definition 6.3.3.4, p. 509; Definition 6.3.3.15 and Corollary 6.3.3.16,
-p. 518; Theorem 6.4.1.1, pp. 519–523). The API: `IntegralToroidalModel.openImmersion` (the moduli
-space of PELModuli M2.8 is an open subspace); `.universalSemiAbelian`; `.chart`;
-`.genericComparison` (base change to characteristic zero is the model of C2.9 for the same datum and
-`Σ`); `.descend_hom`. *Needs:* C0.10, C4.9, C5.2; PELModuli M2.8; SchemeAndStackFoundations Layer 1.
+the quotient `M^tor_{H,Σ} = [U_H/R_H]` over `B` with its descended semi-abelian family,
+polarization, `O`-action and level structure and its stratification by cusp and cone labels. It is a
+smooth separated algebraic stack of finite type over `B`, an algebraic space at neat level;
+properness for complete `Σ` is C5.5. At non-neat level the finite stabilizers are kept before any
+coarse space is formed. Nonsmooth cone systems are handled by C5.31. Assume (C5-a) and Lan's
+condition 1.4.3.10 and convention 6.2.1.1 ([Lan], Definition 6.3.3.4, p. 509; Definition 6.3.3.15
+and Corollary 6.3.3.16, p. 518; Theorem 6.4.1.1, pp. 519–523). The API:
+`IntegralToroidalModel.openImmersion` (the moduli space of PELModuli M2.8 is an open subspace);
+`.universalSemiAbelian`; `.chart`; `.genericComparison` (base change to characteristic zero is the
+model of C2.9 for the same datum and `Σ`); `.descend_hom`. On principal Siegel data use
+ArakelovGeometryAndAbelianHeights §5.0a and identify this interface with its supplied
+specialization. *Needs:* ArakelovGeometryAndAbelianHeights §5.0a; C0.10, C4.9, C5.2; PELModuli M2.8;
+SchemeAndStackFoundations Layer 1.
 
 **Checks.**
 
-- `IntegralToroidalModel.interior_test`: the interior with its family is the moduli space of PELModuli
-  M2.8.
-- `IntegralToroidalModel.modular_test`: at a cusp of a modular curve the completion carries the Tate
-  generalized elliptic curve.
-- `IntegralToroidalModel.badPrime_test`: the construction gives no smooth model at a prime dividing
-  the level.
+- At a genus-two Klingen cusp the completed chart has one toric embedding coordinate over the
+  elliptic boundary torsor; the family has an elliptic abelian quotient and a rank-one torus.
+- At a maximal genus-two Siegel cusp the torus embedding has three character directions
+  (`Sym² ℤ²`), while the family has toric rank two and zero abelian quotient. On a maximal regular
+  cone its three boundary coordinates have union ideal `(x_1x_2x_3)`.
+- At non-neat genus-one level one, `−1` fixes the cusp parameter and acts by `−1` on `du/u`.
+  This inertia is retained on the stack even though the coarse cusp parameter is fixed.
 
 ### C5.4 Formal completion along boundary strata
 
@@ -2315,17 +2400,22 @@ SchemeAndStackFoundations Layer 0.
 
 Prove `IntegralToroidalModel.hodgeLine_semiample`: on the integral toroidal model (C5.3, complete
 `Σ`), a positive power of `ω = det E` is generated by global sections relative to `B`. This is
-semiampleness: `ω` has degree zero on curves in the fibres of the contraction to the minimal
-compactification and is not ample on the toroidal model. Apply C5.32 to the universal semi-abelian
+semiampleness: `ω` has degree zero on curves in geometric fibres of the contraction to the minimal
+compactification. If a geometric fibre is positive-dimensional, it contains a proper curve of Hodge
+degree zero, and `ω` is not ample on the toroidal model. Apply C5.32 to the universal semi-abelian
 scheme over the normal excellent noetherian algebraic space `X` (at neat level; descend a positive
-power through the finite quotient otherwise) ([FC], Chapter V, Proposition 2.1, p. 149, and its direct
-proof in V.3; [Lan], Propositions 7.2.1.1–7.2.1.2, pp. 540–541). *Needs:* C4.1, C5.3, C5.5, C5.32;
+power through the finite quotient otherwise) ([FC], Chapter V, Proposition 2.1, p. 149, and its
+direct proof in V.3; [Lan], Propositions 7.2.1.1–7.2.1.2, pp. 540–541). On principal Siegel data use
+ArakelovGeometryAndAbelianHeights §5.0b and identify this interface with its supplied
+specialization. *Needs:* ArakelovGeometryAndAbelianHeights §5.0b; C4.1, C5.3, C5.5, C5.32;
 SchemeAndStackFoundations Layer 2.
 
 **Checks.**
 
 - A uniform positive power is generated by sections.
 - On a boundary contraction fibre the degree of `ω` is zero.
+- On the fine modular curve `X(N)`, `N ≥ 3`, toroidal and minimal models coincide and `ω` has
+  positive degree, hence is ample on each geometric fibre over the level base.
 
 ### C5.14 Finite generation of the Hodge section algebra
 
@@ -2383,30 +2473,34 @@ C5.4; SchemeAndStackFoundations Layer 1, Layer 2.
 
 ### C5.16 The integral minimal compactification
 
-Construct `IntegralMinimalModel` (suggested home `TauCeti/Geometry/Shimura/PEL/Minimal`):
-`M^min_H = Proj_B S` with the proper map `π : M^tor_{H,Σ} → M^min_H` and the open immersion of the
-PEL moduli space. It is projective, normal and flat over `B`, independent of `Σ`, with
-`O_{M^min} = π_*O_{M^tor}`, its boundary strata are identified with the coarse boundary moduli spaces
-through the constant terms of C5.15, and its generic fibre is the minimal compactification of
-ShimuraVarieties 2.5–2.7 for the same datum. The map contracts the toroidal boundary directions.
-Completions and special fibres are compared separately. Construct `M^min` as the Stein factor of C5.14
-and identify it with `Proj S`; on every proper curve contained in a geometric fibre of `π`, `ω`
-has degree zero, so C5.33 controls the abelian part along these curves. The fibres can have higher
-dimension; identification of their boundary moduli and connectedness uses the stratum and
-constant-term analysis, not a claim that all fibres are curves. Images and fibres of strata follow from C5.15 and
+Construct `IntegralMinimalModel` (suggested home `TauCeti/Geometry/Shimura/PEL/Minimal`): `M^min_H =
+Proj_B S` with the proper map `π : M^tor_{H,Σ} → M^min_H` and the open immersion of the PEL moduli
+space. It is projective, normal and flat over `B`, independent of `Σ`, with `O_{M^min} =
+π_*O_{M^tor}`, its boundary strata are identified with the coarse boundary moduli spaces through the
+constant terms of C5.15, and its generic fibre is the minimal compactification of ShimuraVarieties
+2.5–2.7 for the same datum. The map contracts the toroidal boundary directions. Completions and
+special fibres are compared separately. Construct `M^min` as the Stein factor of C5.14 and identify
+it with `Proj S`; on every proper curve contained in a geometric fibre of `π`, `ω` has degree zero,
+so C5.33 controls the abelian part along these curves. The fibres can have higher dimension;
+identification of their boundary moduli and connectedness uses the stratum and constant-term
+analysis, not a claim that all fibres are curves. Images and fibres of strata follow from C5.15 and
 Lan 7.2.3.5–7.2.3.9; different `Σ` are compared through C3 ([FC], Chapter V, Theorem 2.3 and its
 proof, pp. 150–152; [Lan], 7.2.3 and 7.2.3.1–7.2.3.9, pp. 544–548). The API:
 `IntegralMinimalModel.fromToroidal`; `.fanIndependent`; `.genericComparison`; `.levelMap`;
-`.structureSheaf`. *Needs:* C3.9, C5.14, C5.15, C5.33; ShimuraVarieties 2.5, 2.7;
-SchemeAndStackFoundations Layer 0, Layer 2, Layer 4.
+`.structureSheaf`. On principal Siegel data use ArakelovGeometryAndAbelianHeights §5.0b and identify
+this interface with its supplied specialization. *Needs:* ArakelovGeometryAndAbelianHeights §5.0b;
+C3.9, C5.14, C5.15, C5.33; ShimuraVarieties 2.5, 2.7; SchemeAndStackFoundations Layer 0, Layer 2,
+Layer 4.
 
 **Checks.**
 
-- `IntegralMinimalModel.interior_test`: the open immersion composed with `π` is the open immersion of
-  the moduli space.
-- `IntegralMinimalModel.modular_test`: in dimension one the cusp contraction is the compactified
-  modular curve.
-- `IntegralMinimalModel.fan_test`: a compatible refinement of `Σ` gives the same target.
+- `IntegralMinimalModel.modular_test`: for fine genus-one level, `π` is the identity on `X(N)`;
+  each cusp remains a point and the positive-degree Hodge line is ample.
+- In genus two the Klingen boundary maps to the elliptic modular curve, and the maximal Siegel
+  boundary maps to the zero-dimensional genus-zero stratum; the minimal boundary has dimension one.
+- Over an elliptic Klingen boundary point, the proper toroidal fibre has positive dimension
+  (the elliptic extension direction, up to its finite quotient). Every proper curve in this fibre
+  has Hodge degree zero, so the toroidal Hodge line fails ampleness there.
 
 ### C5.17 The Hodge line on the minimal compactification
 
@@ -2416,12 +2510,17 @@ quotients at non-neat level, a positive power descends as an ample `ℚ`-line, a
 level and with the stabilizer conditions of the quotient. In the Siegel case this is the ample Hodge
 `ℚ`-line used by Yuan. Ampleness of `ω` on the toroidal model is not asserted. The Stein factor maps
 finitely to projective space and `O(1)` pulls back to `ω^{⊗m}` ([Lan], 7.2.3, p. 544; [Yuan], §3.4,
-Theorem 3.8, pp. 54–56). *Needs:* C4.1, C5.13, C5.16; SchemeAndStackFoundations Layer 1.
+Theorem 3.8, pp. 54–56). On principal Siegel data use ArakelovGeometryAndAbelianHeights §5.0b and
+identify this interface with its supplied specialization. *Needs:* ArakelovGeometryAndAbelianHeights
+§5.0b; C4.1, C5.13, C5.16; SchemeAndStackFoundations Layer 1.
 
 **Checks.**
 
 - The descended sheaf is ample on the minimal model.
-- Its pullback to the toroidal model is a power of `ω`, which is not ample there.
+- Its pullback has degree zero on curves in positive-dimensional contraction fibres and is
+  therefore not ample when such fibres occur.
+- In genus one the contraction is the identity and the Hodge line on the fine compactified
+  modular curve is ample; a positive power also descends through coarse inertia.
 
 ### C5.18 Quasi-projectivity of PEL moduli at good primes
 
@@ -2465,20 +2564,24 @@ SchemeAndStackFoundations Layer 1, Layer 4.
 ### C5.20 Charts of normalized models
 
 Prove `NormalizedToroidalModel.chart_compare`: (a) the completion of the finite normalization of
-C5.19 along a boundary stratum is the integral closure of the completed good-level chart (C5.4) in
-the function field at level `K^pK_p`, which on the torus-torsor charts is the chart of the changed
-lattice of C0.20 over the normalized boundary base; (b) for the normalized blow-up model of C5.31 the
-completed charts are those of Lan's Theorem 6.1(3)–(4), with their torus-torsor bases and changed
-lattices; (c) the normalized blow-up at level `K^pK_p` is the relative normalization, in the function
-field at that level, of the normalized blow-up at level `K^pK_p^0` for the same `Σ` and polarization
-function: both are normal and birational over the minimal model, and each maps to the other by the
-universal properties of normalization and of blowing up, since the boundary ideal becomes invertible
-on both. When `Σ` is smooth and `p` is good, the normalized blow-up at level `K^pK_p^0` is the smooth
-model of C5.3 (on which the pulled-back boundary ideal is the invertible ideal of the divisor
-`∑_ρ d·pol(ρ) D_ρ`, ample relative to the minimal model by projectivity), so (c) identifies the two
-higher-level models. A map induced by a subdivision is not finite ([Lan17], Theorem 6.1(3)–(4),
-pp. 22–23, Construction 4.5, p. 11). *Needs:* C0.16, C0.20, C4.10, C5.19, C5.31;
-SchemeAndStackFoundations Layer 1, Layer 4.
+C5.19 along a boundary stratum is computed as follows. On a normal excellent integral affine chart
+`A`, let `L` be the finite generic level algebra over `Frac(A)` and `A′` the finite normalization of
+`A` in `L`, componentwise. For its boundary completion `Â`, the completed normalization is `A′ ⊗_A
+Â`. Identify it with the normalization of `Â` in `L ⊗_{Frac(A)} Q(Â)`, using the total quotient ring
+componentwise; on torus-torsor charts this is the changed-lattice chart of C0.20 over the normalized
+boundary base; (b) for the normalized blow-up model of C5.31 the completed charts are those of Lan's
+Theorem 6.1(3)–(4), with their torus-torsor bases and changed lattices; (c) the normalized blow-up
+at level `K^pK_p` is the relative normalization, in the function field at that level, of the
+normalized blow-up at level `K^pK_p^0` for the same `Σ` and polarization function: both are normal
+and birational over the minimal model, and each maps to the other by the universal properties of
+normalization and of blowing up, since the boundary ideal becomes invertible on both. When `Σ` is
+smooth and `p` is good, the normalized blow-up at level `K^pK_p^0` is the smooth model of C5.3 (on
+which the pulled-back boundary ideal is the invertible ideal of the divisor `∑_ρ d·pol(ρ) D_ρ`,
+ample relative to the minimal model by projectivity), so (c) identifies the two higher-level models.
+A map induced by a subdivision is not finite ([Lan17], Theorem 6.1(3)–(4), pp. 22–23, Construction
+4.5, p. 11). *Needs:* C0.16, C0.20, C4.10, C5.19, C5.31; SchemeAndStackFoundations Layer 1, Layer 4;
+excellent-ring normalization and completion ([Stacks], Tag 0C23 for normality of completed excellent
+local normal rings).
 
 **Checks.**
 
@@ -2486,6 +2589,9 @@ SchemeAndStackFoundations Layer 1, Layer 4.
 - No interchange of completion with inverse limits is asserted.
 - For the blow-up of a regular two-dimensional chart at its vertex, the normalized blow-up has an
   exceptional line, so it is not finite over the chart.
+- Even for the identity cover `A = k[q]`, `L = k(q)`, the answer is `k[[q]]`, which is not
+  an `A`-subalgebra of `k(q)`: the series `∑_{n≥1} q^{n!}` is not rational. The containing
+  generic algebra is the one after completion.
 
 ### C5.21 Formally canonical coefficient sheaves
 
@@ -2513,7 +2619,9 @@ pp. 1009–1010). *Needs:* C3.8, C4.1, C4.7, C5.3, C5.4, C5.19, C5.31.
 **Checks.**
 
 - `O`, `ω^{⊗k}` and `Sym^{a−b}E ⊗ (det E)^{⊗b}` satisfy the condition.
-- The subcanonical condition keeps boundary multiplicities under refinement.
+- On the blow-up of the quadrant, the new subcanonical boundary ideal has exceptional order one,
+  whereas ordinary pullback of `(xy)` has order two. C3.8 compares these sheaves by derived
+  pushforward, rather than equality of pullbacks.
 - A skyscraper sheaf at a boundary point is not formally canonical.
 - On the two-ray regular chart, subcanonical weights have both exponents positive: `xy` occurs,
   `x` does not. Including the zero face in the positivity intersection would incorrectly kill all weights.
@@ -2666,19 +2774,23 @@ SchemeAndStackFoundations Layer 0, Layer 2.
 
 ### C5.30 Good-reduction geometry for étale cohomology
 
-Prove `IntegralToroidalModel.goodReduction_geometry`: for the Siegel threefold at a prime `ℓ` where the
-level is hyperspecial, with auxiliary level prime to `ℓ`, choose a smooth projective cone system
+Prove `IntegralToroidalModel.goodReduction_geometry`: for the Siegel threefold at a prime `ℓ` where
+the level is hyperspecial, with auxiliary level prime to `ℓ`, choose a smooth projective cone system
 using C0.15. The resulting toroidal model over `ℤ_(ℓ)` of C5.3 and C5.5 is smooth and projective,
-with its universal semi-abelian scheme, open moduli space and
-normal-crossings boundary, and the smooth proper strata closures of C5.9. These are the geometric
-inputs of BCGP 2025 Theorem 1.8.29; nearby cycles, duality and the Eichler–Shimura relation used there
-belong to the étale-cohomology roadmaps that build on this one ([BCGP25], Theorem 1.8.29 and the
-beginning of its proof, p. 17). *Needs:* C0.15, C5.3, C5.5, C5.9, C5.12.
+with its universal semi-abelian scheme, open moduli space and normal-crossings boundary, and the
+smooth proper strata closures of C5.9. These are the geometric inputs of BCGP 2025 Theorem 1.8.29;
+nearby cycles, duality and the Eichler–Shimura relation used there belong to the étale-cohomology
+roadmaps that build on this one ([BCGP25], Theorem 1.8.29 and the beginning of its proof, p. 17). On
+principal Siegel data use ArakelovGeometryAndAbelianHeights §5.0a and identify this interface with
+its supplied specialization. *Needs:* ArakelovGeometryAndAbelianHeights §5.0a; C0.15, C5.3, C5.5,
+C5.9, C5.12.
 
 **Checks.**
 
 - The model has good reduction at `ℓ`, with the stated level conditions.
 - No cohomological statement is deduced from smoothness of the open part.
+- At a maximal genus-two cusp the family has toric rank two and zero abelian quotient, while
+  a maximal regular toric chart has three boundary coordinates and relative normal crossings.
 
 ### C5.31 Normalized blow-ups of minimal compactifications
 
@@ -2721,19 +2833,23 @@ SchemeAndStackFoundations §0.3, Layer 2, Layer 4.
 Prove `SemiAbelianScheme.hodgeLine_generated`: let `S` be a normal excellent noetherian scheme (or
 algebraic space) and `G → S` a separated smooth commutative group scheme of finite presentation
 whose fibres have semi-abelian identity components, with abelian fibres over a dense open and a
-polarization there. Then there is
-`m > 0` such that `ω_{G/S}^{⊗m}` is generated by its global sections over `S`, when `S` is proper over an
-affine base; locally on such a base in general. The proof of Faltings–Chai V.3 builds the sections
-from algebraic theta constants: after an auxiliary level and Zarhin's trick reducing to principal
-polarizations, the theta constants are sections of a power of `ω` with no common zero, because theta
-functions give projective embeddings of the abelian part of each fibre; descend from the auxiliary
-level. For algebraic-space bases retain this theta-section descent argument, as in Lan's application
-to the toroidal moduli space; étale-local generation alone is not a proof of generation by global
-sections ([Lan], Proposition 7.2.1.1, p. 540; [FC], Chapter V, Proposition 2.1, p. 149, and §3,
-pp. 157–164; Moret-Bailly, *Pinceaux de variétés
-abéliennes*, Astérisque 129, Chapter IX, Theorem 2.1, p. 208). *Needs:* C4.1, C4.6; AbelianSchemesAndArithmeticModuli
-A2.5 (polarizations), A3.6 (theta groups and polarized descent), A2.8 (projective presentations over
-normal bases).
+polarization there. Then there is `m > 0` such that `ω_{G/S}^{⊗m}` is generated by its global
+sections over `S`, when `S` is proper over an affine base; locally on such a base in general. The
+proof of Faltings–Chai V.3 builds the sections from algebraic theta constants: after an auxiliary
+level and Zarhin's trick (PadicDifferentialEquationsAndRigidCohomology §RD.5.116) reducing to
+principal polarizations, the theta constants are sections of a power of `ω` with no common zero,
+because theta functions give projective embeddings of the abelian part of each fibre; descend from
+the auxiliary level. For algebraic-space bases retain this theta-section descent argument, as in
+Lan's application to the toroidal moduli space; étale-local generation alone is not a proof of
+generation by global sections ([Lan], Proposition 7.2.1.1, p. 540; [FC], Chapter V, Proposition 2.1,
+p. 149, and §3, pp. 157–164; Moret-Bailly, *Pinceaux de variétés abéliennes*, Astérisque 129,
+Chapter IX, Theorem 2.1, p. 208). On principal Siegel data use ArakelovGeometryAndAbelianHeights
+§§5.0a–5.0b and identify this interface with its supplied specialization. Apply the trick on the
+polarized abelian locus, with its étale-local polarization hypotheses; use C4.8 to extend the
+resulting homomorphisms and identities across the boundary. *Needs:* C4.8;
+PadicDifferentialEquationsAndRigidCohomology §RD.5.116; ArakelovGeometryAndAbelianHeights
+§§5.0a–5.0b; C4.1, C4.6; AbelianSchemesAndArithmeticModuli A2.5 (polarizations), A3.6 (theta groups
+and polarized descent), A2.8 (projective presentations over normal bases).
 
 **Checks.**
 
@@ -2745,16 +2861,21 @@ normal bases).
 ### C5.33 Isotriviality on curves of degree zero
 
 Prove `SemiAbelianScheme.isotrivial_of_degree_le_zero`: let `C` be a proper smooth irreducible curve
-over an algebraically closed field and `G → C` a semi-abelian scheme with `deg ω_{G/C} ≤ 0`. Then some
-positive power of `ω_{G/C}` is trivial, so the degree is `0`, and `G` is an extension of an isotrivial
-abelian scheme by a torus. Reduce by the torus part (C4.2) to generically abelian `G`, then by
-Zarhin's trick to principal polarizations; all sections of `ω^{⊗n}` are then zero or nowhere zero, so
-the theta constants are constant and `G` has potentially good reduction everywhere and constant
-moduli ([FC], Chapter V, Proposition 2.2, pp. 149–150; Moret-Bailly, *Pinceaux*, Chapter XI,
-Theorem 4.5, pp. 235–236, especially (v bis) implies (iv), with Proposition 4.4).
-Here isotrivial means constant after a finite étale cover. The determinant
-of the torus character local system has finite sign monodromy, so its square is trivial; the torus
-Hodge line itself need not be trivial. *Needs:* C4.2, C5.32; AbelianSchemesAndArithmeticModuli A2.5, A3.6;
+over an algebraically closed field and `G → C` a semi-abelian scheme with `deg ω_{G/C} ≤ 0`. Then
+some positive power of `ω_{G/C}` is trivial, so the degree is `0`, and `G` is an extension of an
+isotrivial abelian scheme by a torus. Reduce by the torus part (C4.2) to generically abelian `G`,
+then by Zarhin's trick (PadicDifferentialEquationsAndRigidCohomology §RD.5.116) to principal
+polarizations; all sections of `ω^{⊗n}` are then zero or nowhere zero, so the theta constants are
+constant and `G` has potentially good reduction everywhere and constant moduli ([FC], Chapter V,
+Proposition 2.2, pp. 149–150; Moret-Bailly, *Pinceaux*, Chapter XI, Theorem 4.5, pp. 235–236,
+especially (v bis) implies (iv), with Proposition 4.4). Here isotrivial means constant after a
+finite étale cover. The determinant of the torus character local system has finite sign monodromy,
+so its square is trivial; the torus Hodge line itself need not be trivial. On principal Siegel data
+use ArakelovGeometryAndAbelianHeights §5.0b and identify this interface with its supplied
+specialization. Apply the trick on the polarized abelian locus, with its étale-local polarization
+hypotheses; use C4.8 to extend the resulting homomorphisms and identities across the boundary.
+*Needs:* C4.8; PadicDifferentialEquationsAndRigidCohomology §RD.5.116;
+ArakelovGeometryAndAbelianHeights §5.0b; C4.2, C5.32; AbelianSchemesAndArithmeticModuli A2.5, A3.6;
 NeronModelsAndSemistableAbelianVarieties Layer 1.
 
 **Checks.**
@@ -2784,14 +2905,15 @@ Layer 1, Layer 2 and Layer 4.
 
 For Hilbert modular varieties the general machinery becomes explicit, and it can be pushed to every
 prime not dividing the tame level, including primes ramified in the totally real field and `p = 2`,
-where the PEL models of C5 are not smooth. Following Dimitrov, this layer first proves the
-arithmetic Koecher principle from unit-orbit estimates on Fourier coefficients (elementary number
-theory, stated in the Lean file), then constructs the Hilbert cusp data, lattices, admissible fans and
-cyclotomic phases, glues the toroidal compactification over `ℤ[1/N(n)]` from formal charts by
-Rapoport's gluing theorem (C6.55), and develops its semi-abelian family, Hodge line, minimal
-contraction, cusps and boundary ideals, `q`-expansion principle and coefficient descent. It ends with
-the Hasse invariant on the boundary and the ordinary neighbourhoods used for overconvergent Hilbert
-forms, the finite-level maps, and, for `F = ℚ`, the comparison with the compactified modular curves.
+where the PEL models of C5 are not smooth. Following Dimitrov, this layer first proves only the
+elementary unit-orbit estimates C6.1–C6.8 and trace-phase arithmetic C6.15–C6.19. It constructs the
+ideal-level moduli, Hilbert cusp data, lattices, stabilizers, fans and all-prime families, then
+glues the toroidal compactification over `ℤ[1/N(n)]` from formal charts by Rapoport's gluing theorem
+(C6.55). After constructing its semi-abelian family and Hodge bundle, it proves the geometric
+arithmetic Koecher principle C6.9–C6.12 and develops the minimal contraction, cusps and boundary
+ideals, `q`-expansion principle and coefficient descent. It ends with the Hasse invariant on the
+boundary and the ordinary neighbourhoods used for overconvergent Hilbert forms, the finite-level
+maps, and, for `F = ℚ`, the comparison with the compactified modular curves.
 
 Standing hypotheses of the layer:
 
@@ -2799,7 +2921,8 @@ Standing hypotheses of the layer:
   `f^* = f⁻¹d⁻¹` for a fractional ideal `f`. The tame level `n` is prime to the discriminant `Δ_F`
   and divides neither `2` nor `3`; `c` is a fractional ideal prime to `n`; `B = ℤ[1/N(n)]`. The open
   model is the fine moduli scheme of `c`-polarized Hilbert–Blumenthal abelian varieties with
-  `μ_n`-level structure of HilbertModularVarietiesAndShimuraCurves H1.6–H1.7.
+  `μ_n`-level structure constructed in C6.12a. For scalar `n = No`, H1.6 gives the level functor,
+  H1.7 its good-prime representability and H2.2–H2.2b the all-prime Deligne–Pappas scheme comparison.
 - (C6-b) For an infinite place `w` of `F`, `τ_w : F → ℝ` is the corresponding real embedding;
   Mathlib's `InfinitePlace` value `w(x)` is `|τ_w(x)|`. `U` is a subgroup of the unit group `o^×`.
 - (C6-c) Under (C6-a) with `g > 1`: a regular admissible cusp fan system (finite modulo units), a
@@ -2928,7 +3051,7 @@ order along the boundary is, after a character-compatible trivialization, `t^{�
 `⟨ξ, y⟩ ≥ −m ∑_i ⟨m_i, y⟩` for every `y` in the cone, `m_i` the coordinate characters. Exponents of
 `g` pair nonnegatively with the cone, Laurent coordinates pair to `0`, and `t^{−m}` shifts the support
 (C0.19) ([Dimitrov], §2, pp. 529–530, and the proof of Théorème 8.3, p. 547). *Needs:* C0.10, C0.12,
-C0.19, C4.7, C6.23, C6.27, C6.54; AdicSpacesPartIII F0; HilbertModularVarietiesAndShimuraCurves H1.
+C0.19, C6.20, C6.23, C6.27, C6.54; AdicSpacesPartIII F0; HilbertModularVarietiesAndShimuraCurves H1.
 
 **Checks.**
 
@@ -2945,13 +3068,15 @@ the character lattice at the cusp (C6.13). The finite-index group of units `(u, 
 stabilizer (C6.54) preserves `X` and acts by unit multipliers; choose `y` in the open positive cone,
 in some cone by completeness of the fan, apply C6.9 and then C6.5 in a local trivialization; unit
 transition scalars make the result independent of it ([Dimitrov], proof of Théorème 8.3, p. 547).
-*Needs:* C0.10, C0.12, C0.19, C4.7, C6.5, C6.9, C6.13, C6.20, C6.23, C6.54;
+*Needs:* C0.10, C0.12, C0.19, C6.5, C6.9, C6.13, C6.20, C6.23, C6.54;
 HilbertModularVarietiesAndShimuraCurves H1.
 
 **Checks.**
 
 - Cusps with `b′ = b` and with `b′ ≠ b` each use their own lattice.
 - A cusp that is ramified for the level need not lie over a prime ramified in `F`.
+- Over the ramified prime `5` for `F = ℚ(√5)`, the chart comes from C6.20; the coefficient
+  support argument over the weight base uses no smooth good-prime PEL family.
 
 ### C6.11 The arithmetic Koecher principle
 
@@ -2959,13 +3084,14 @@ Prove `HilbertModular.koecher`: for `g > 1`, every `o′[1/Δ]`-algebra `R` and 
 model, restriction `Γ(M̄_R, ω^κ) → Γ(M_R, ω^κ)` is an isomorphism; constant terms need not vanish.
 Injectivity: the open part is schematically dense and the line is invertible. Surjectivity for
 noetherian `R`: a section on the open part has finite poles along the boundary, its expansions are
-positive (C6.10), so they lie in the completed regular rings; glue these formal sections by the chart
-relation and extend by the comparison of completions with the formal model (AdicSpacesPartIII §F0.6 (theorem-on-formal-functions),
-§F0.6 (formal-direct-image-comparison)). For general `R`, descend the section to a finitely generated subalgebra and use that
-cohomology of quasi-compact separated schemes commutes with filtered colimits
-(SchemeAndStackFoundations §§2.5–2.6); completion is never commuted with
-arbitrary tensor products ([Dimitrov], Théorème 8.3, p. 547). *Needs:* C0.12, C4.7, C6.10, C6.21,
-C6.27, C6.54; AdicSpacesPartIII §F0.6 (theorem-on-formal-functions), §F0.6 (formal-direct-image-comparison); SchemeAndStackFoundations Layer 0, Layer 1, Layer 2.
+positive (C6.10), so they lie in the completed regular rings; glue these formal sections by the
+chart relation and extend by the comparison of completions with the formal model (AdicSpacesPartIII
+§F0.6 (theorem-on-formal-functions), §F0.6 (formal-direct-image-comparison)). For general `R`,
+descend the section to a finitely generated subalgebra and use that cohomology of quasi-compact
+separated schemes commutes with filtered colimits (SchemeAndStackFoundations §§2.5–2.6); completion
+is never commuted with arbitrary tensor products ([Dimitrov], Théorème 8.3, p. 547). *Needs:* C0.12,
+C6.20, C6.10, C6.21, C6.27, C6.54; AdicSpacesPartIII §F0.6 (theorem-on-formal-functions), §F0.6
+(formal-direct-image-comparison); SchemeAndStackFoundations Layer 0, Layer 1, Layer 2.
 
 **Checks.**
 
@@ -2994,6 +3120,36 @@ SchemeAndStackFoundations Layer 0, Layer 1.
 - On a rank-one chart the condition is divisibility by `q`.
 - Every cusp component must be tested.
 
+### C6.12a Ideal-level Hilbert moduli
+
+Construct `HilbertModular.idealLevelModel`: under (C6-a), the functor of `o`-abelian schemes with
+ordered `c`-polarization satisfying the Deligne–Pappas condition and an `o`-linear closed immersion
+`(o/n)(1) → A[n]`, where `(o/n)(1)` is the Cartier dual of the constant module `o/n`.
+Prove representability by a normal quasi-projective fine scheme over `B = ℤ[1/N(n)]`, with universal
+family, arbitrary base change of the functor and its level maps, and its identification with the
+ideal-level Deligne–Pappas moduli problem. Retain the prime-to-discriminant and torsion-free level
+hypotheses in (C6-a). Prove the pairing, change-of-polarization-ideal and forgetful level laws with
+the trace-dual lattice visible, and the tame polarization quotient laws with the ideal congruence
+unit group retained; compare the scalar case with H3. For `n = No`, identify the functor and laws with
+HilbertModularVarietiesAndShimuraCurves H1.6–H1.9 and the all-prime scheme of H2.2–H2.2b.
+For general `n`, choose scalar `No ⊆ n`, pull the stipulated ideal marking back to the full scalar
+frame cover, cut out its injective `o`-linear markings and descend by their finite frame stabilizer.
+Prove that this quotient represents the ideal-level functor, preserving its DP condition and
+normality; the level hypotheses remove automorphisms. Quasi-projectivity uses the descended ample
+polarized moduli presentation, not merely trivial inertia ([Dimitrov], §4, pp. 535–536; [DT],
+Définitions 2.2–2.5 and Théorème 4.1). *Needs:* HilbertModularVarietiesAndShimuraCurves H1.1,
+H1.6–H1.9, H2.2–H2.2b, H3; AbelianSchemesAndArithmeticModuli A3 (torsion, finite level and pairings);
+SchemeAndStackFoundations Layer 1 (finite quotients and descent).
+
+**Checks.**
+
+- For `n = No`, recover the supplied scalar `μ_N` functor, including its trace-dual convention;
+  for `F = ℚ` this is the multiplicative marking form of `Y_1(N)`.
+- For `F = ℚ(√5)`, `n = (11)` and scalar `N = 11`, the ideal and scalar constructions agree;
+  at the ramified prime `5` the open model is DP and no smoothness is inferred.
+- For the nonscalar prime ideal `n = ((11+5√5)/2 − 1)` of norm `11`, the marking has rank `11`,
+  whereas a scalar `(11)` marking has rank `121`. The finite-frame descent must retain this distinction.
+
 ### C6.13 Cusp data, lattices and the trace pairing
 
 Define `HilbertCusp.Data` and prove `HilbertCusp.lattice_eq` (suggested home
@@ -3005,7 +3161,7 @@ stabilizer is `X^*` and the diagonal units act through `u²ε` (C6.54). The cusp
 level exactly when `b′ = b` ([Dimitrov], §3, Définition 3.2 and Proposition 3.3(i)–(iv), pp. 531–535).
 The finite cyclotomic action `H_C` is kept separate from translations and diagonal units. *Needs:*
 HilbertModularVarietiesAndShimuraCurves H0.3–H0.5, H1.1, H1.9 (polarization and trace-dual
-lattices, polarization modules and level data); Mathlib
+lattices, polarization modules and scalar-level laws); C6.12a for general ideal-level data; Mathlib
 `Submodule.traceDual`.
 
 The API: `HilbertCusp.Data.ext` (isomorphism of the exact sequence respecting polarization and
@@ -3023,7 +3179,7 @@ isomorphism of cusp data, contravariantly in the cocharacter lattice).
 
 ### C6.14 Admissible Hilbert cusp fans
 
-Prove `HilbertCusp.admissibleFan_iff`: an arithmetic cone system of C0.13 at a Hilbert cusp is the
+Prove `HilbertCusp.admissibleFan_iff`: a complete arithmetic cone system of C0.13 at a Hilbert cusp is the
 same as a complete rational polyhedral decomposition of the totally positive cone in `X^* ⊗ ℝ`, with
 `0`, locally finite away from `0`, stable under the effective cusp units, with finitely many orbits and
 compatible with cusp isomorphisms (Dimitrov, Définition 7.1). The finite-overlap hypothesis of
@@ -3036,6 +3192,8 @@ C1.5, C6.13, C6.54.
 - For `g > 1`, finitely many unit orbits does not mean finitely many cones.
 - A fan regular for `(cb²)^*` need not be regular for `(cbb′)^*` at a ramified cusp (Dimitrov,
   Remarque 7.3).
+- The system consisting only of the zero cone satisfies C0.13 but is not complete at a
+  positive-degree Hilbert cusp, so it is excluded from this equivalence.
 
 ### C6.15 Integral trace exponents
 
@@ -3108,29 +3266,35 @@ Prove `HilbertModular.cuspChart_family`: over `B[ζ_e]`, `e` the exponent of `b�
 of C4.5 on the toric chart of C0.8 for `X` carries the `c`-polarization and `μ_n`-level structure, and
 on the open abelian locus it is the pullback of the universal Hilbert–Blumenthal abelian variety;
 changing the uniformization `x ∈ (ab)^*/(ab′)^*` acts by `q^ξ ↦ ζ_e^{e·Tr(ξx)} q^ξ`, the phase of
-C6.19. Faces and changes by cusp units and `H_C` are compatible ([Dimitrov], Proposition 4.1(i)–(iii),
-pp. 536–537). *Needs:* C4.7, C4.9, C4.10, C6.13, C6.19, C6.54; HilbertModularVarietiesAndShimuraCurves
-H1.6, H1.7.
+C6.19. Construct this family directly from C4.4–C4.6 and the cusp lattices and phases of C6.13,
+C6.19 and C6.54, without (C4-b). Build its `o`-action and tame ideal-level marking from those lattices,
+using C4.8 for uniqueness and C6.12a for the classifying map. Faces and changes by cusp units and
+`H_C` are compatible. After restriction to the good-prime PEL base, compare with C4.7, C4.9 and
+C4.10 ([Dimitrov], Proposition 4.1(i)–(iii),
+pp. 536–537). *Needs:* C0.8, C4.4–C4.6, C4.8, C6.12a, C6.13, C6.19, C6.54.
 
 **Checks.**
 
 - For `b′ = b`, `e = 1` and the phase is trivial.
 - Ramification of the cusp for the level is a property of `b′/b`.
+- For `F = ℚ(√5)`, `n = (4)` and `p = 5`, the chart and its `o`-action are defined over
+  `ℤ[1/4,ζ_e]`; the ramified prime is retained. C4.7 cannot supply this all-prime chart.
 
 ### C6.21 The fine Hilbert toroidal compactification
 
 Prove `HilbertModular.toroidal_exists`: for an admissible fan system `Σ`, there are a scheme `M̄¹_Σ`
-over `B`, an open immersion `M¹ → M̄¹_Σ` and identifications of the completions along the boundary with
-the cusp charts of C6.20, compatible with the universal family; the triple is unique up to unique
-isomorphism. Choose finitely many orbit representatives of cusps and cones with their unit, cyclotomic
-and face relations; the cusp charts form a découpage in the sense of C6.55; its hypotheses hold: the
-interior is schematically dense, the open moduli space is compactifiable, the gluing map is permitted,
-and the conditions on points over complete discrete valuation rings and their Artinian thickenings
-follow from Raynaud's uniformization of semistable Hilbert–Blumenthal abelian varieties (Dimitrov §6:
-NeronModelsAndSemistableAbelianVarieties 3.13–3.14 and C4.6). At primes dividing `Δ_F` the open model
-is the Deligne–Pappas model of HilbertModularVarietiesAndShimuraCurves H2.2–H2.3; no smoothness is
-used there. Uniqueness is part of C6.55 ([Dimitrov], Théorème 7.2(i) and §§5–6, pp. 538–543). *Needs:*
-C4.6, C6.14, C6.20, C6.55; NeronModelsAndSemistableAbelianVarieties 3.13, 3.14;
+over `B`, an open immersion `M¹ → M̄¹_Σ` and identifications of the completions along the boundary
+with the cusp charts of C6.20, compatible with the universal family; the triple is unique up to
+unique isomorphism. Choose finitely many orbit representatives of cusps and cones with their unit,
+cyclotomic and face relations; the cusp charts form a découpage in the sense of C6.55; its
+hypotheses hold: the interior is schematically dense, the open moduli space is compactifiable, the
+gluing map is permitted, and the conditions on points over complete discrete valuation rings and
+their Artinian thickenings are verified on the permitted boundary-specializing locus of C6.55, using
+Raynaud's uniformization of semistable Hilbert–Blumenthal abelian varieties (Dimitrov §6:
+NeronModelsAndSemistableAbelianVarieties 3.13–3.14 and C4.6). At primes dividing `Δ_F` the open
+model is the ideal-level Deligne–Pappas model of C6.12a (H2.2–H2.2b at scalar level); no smoothness
+is used there. Uniqueness is part of C6.55 ([Dimitrov], Théorème 7.2(i) and §§5–6, pp. 538–543).
+*Needs:* C4.6, C6.12a, C6.14, C6.20, C6.55; NeronModelsAndSemistableAbelianVarieties 3.13, 3.14;
 HilbertModularVarietiesAndShimuraCurves H2.2, H2.3; AdicSpacesPartIII F0; SchemeAndStackFoundations
 Layer 1.
 
@@ -3138,21 +3302,26 @@ Layer 1.
 
 - No smoothness at primes dividing `Δ_F` is asserted.
 - Replacing the lattice `cbb′` at a ramified cusp by `cb²` contradicts Remarque 7.3.
+- A constant good-reduction HBAV over a complete DVR gives an interior point outside the
+  permitted boundary-specializing locus. Boundary charts are not required to cover that point.
 
 ### C6.22 Polarization quotients of toroidal models
 
 Prove `HilbertModular.toroidal_polarizationQuotient`: for a fan system invariant under the finite
-tame polarization group (HilbertModularVarietiesAndShimuraCurves H3, `Δ(N) = o^{×,+}/((1+No)^×)²` in
-the scalar case), its action extends to `M̄¹_Σ` and the quotient `M̄_Σ` compactifies the coarse model
-`M`; in Dimitrov's torsion-free tame case `M̄¹_Σ → M̄_Σ` is finite étale. The chart maps are
-equivariant (Dimitrov, Proposition 4.1(iii)) and the action on the toroidal model is free ([Dimitrov],
-Théorème 7.2(ii), pp. 542–543; [BHW], Proposition 8.4, p. 1766, for the open part). *Needs:* C6.21;
-HilbertModularVarietiesAndShimuraCurves H3; SchemeAndStackFoundations Layer 1.
+tame polarization group (C6.12a; HilbertModularVarietiesAndShimuraCurves H3 at scalar level, `Δ(N) =
+o^{×,+}/((1+No)^×)²` in the scalar case), its action extends to `M̄¹_Σ` and the quotient `M̄_Σ`
+compactifies the coarse model `M`; in Dimitrov's torsion-free tame case `M̄¹_Σ → M̄_Σ` is finite
+étale. The chart maps are equivariant (Dimitrov, Proposition 4.1(iii)) and the action on the
+toroidal model is free ([Dimitrov], Théorème 7.2(ii), pp. 542–543; [BHW], Proposition 8.4, p. 1766,
+for the open part). *Needs:* C6.12a, C6.21; HilbertModularVarietiesAndShimuraCurves H3;
+SchemeAndStackFoundations Layer 1.
 
 **Checks.**
 
 - The corresponding map of minimal compactifications need not be étale (C6.33).
 - Positive units need not preserve full `p`-level structures.
+- At scalar level `No` the ideal-level group and its quotient agree with the supplied H3
+  group `Δ(N)` and its action on ordered polarizations.
 
 ### C6.23 Formal neighbourhoods of the boundary
 
@@ -3198,7 +3367,7 @@ Prove `HilbertModular.semiAbelian_extend`: the universal Hilbert–Blumenthal ab
 extends uniquely to a semi-abelian scheme `G` over `M̄¹_Σ` with `o`-action; it is a torus over the
 boundary and its pullbacks to charts are the Mumford families. Descend the chart families by their
 equivariance, glue with the universal family, and use uniqueness of extensions over the normal model
-(C4.8) ([Dimitrov], Proposition 7.6, p. 544). *Needs:* C4.6, C4.8, C4.9, C6.20, C6.21;
+(C4.8) ([Dimitrov], Proposition 7.6, p. 544). *Needs:* C4.6, C4.8, C6.20, C6.21;
 NeronModelsAndSemistableAbelianVarieties 3.14; SchemeAndStackFoundations Layer 1.
 
 **Checks.**
@@ -3206,23 +3375,29 @@ NeronModelsAndSemistableAbelianVarieties 3.14; SchemeAndStackFoundations Layer 1
 - The coarse quotient carries no universal polarized family.
 - At the boundary the torus has rank `g`, and its `p^n`-torsion is multiplicative of rank `p^{ng}`,
   not of height `2g`.
+- For `F = ℚ(√5)`, scalar level `4` and residue characteristic `5`, descend the C6.20
+  families with their lattice-defined `o`-action, without the good-prime PEL endomorphism theorem.
 
 ### C6.27 Invariant differentials
 
 Prove `HilbertModular.conormal_compare`: `e^*Ω¹_{G/M̄}` is the differential module of the chart
-families, restricts to the Hodge bundle on `M¹`, is locally free of `O_{M̄}`-rank `g`, and is locally free of rank one over
-`o ⊗ O_{M̄}` on the Rapoport locus and on split toric boundary charts, and after inverting `Δ` its
-weight lines are those of HilbertModularVarietiesAndShimuraCurves H3. For a torus the differentials
-come from the character lattice (C4.1), and the pieces glue by uniqueness. The modified integral
-lattice used for canonical subgroups is a different sheaf ([Dimitrov], Proposition 7.6 and the opening
-of §8, pp. 544–546; [BHW], §7.1, pp. 1759–1760). AutomorphicBundles B3 and
-HilbertModularVarietiesAndShimuraCurves H5 apply this comparison. *Needs:* C4.1, C4.7, C6.26;
-HilbertModularVarietiesAndShimuraCurves H1, H2, H3.
+families, restricts to the Hodge bundle on `M¹`, is locally free of `O_{M̄}`-rank `g`, and is
+locally free of rank one over `o ⊗ O_{M̄}` on the Rapoport locus and on split toric boundary charts,
+and after inverting `Δ` its weight lines are those of HilbertModularVarietiesAndShimuraCurves H3.
+For a torus the differentials come from the character lattice (C4.1), and the pieces glue by
+uniqueness. The modified integral lattice used for canonical subgroups is a different sheaf
+([Dimitrov], Proposition 7.6 and the opening of §8, pp. 544–546; [BHW], §7.1, pp. 1759–1760).
+AutomorphicBundles B3 and HilbertModularVarietiesAndShimuraCurves H5 apply this comparison. *Needs:*
+C4.1, C6.20, C6.26; HilbertModularVarietiesAndShimuraCurves H1, H2, H3.
 
 **Checks.**
 
 - Away from the Rapoport locus at a ramified prime, local freeness of rank one over `o ⊗ O` fails in
   general.
+- At the split toric boundary for `F = ℚ(√5)` and residue characteristic `5`, the module is
+  `X ⊗ O`, free of rank one over `o ⊗ O` even though `5` ramifies in `F`.
+- As an `O`-module this same boundary module has rank two, so it is not an invertible
+  `O`-module; weight lines arise only after the stipulated splitting and weight-base changes.
 
 ### C6.28 Properness
 
@@ -3347,18 +3522,26 @@ C6.23, C6.35, C6.54; AdicSpacesPartIII §F0.6 (theorem-on-formal-functions), §F
 ### C6.37 Weights that extend to the minimal model
 
 Prove `HilbertModular.minimal_weightExtends_iff`: for `g > 1` and an integral weight `κ` over
-`o′[1/Δ]`, the weight line on `M` extends to an invertible sheaf on `M^min` if and only if `κ` is
-parallel; `π_*ω^κ` is coherent for every `κ`. For nonparallel `κ`, choose a place of maximal weight and
-a unit contracting away from it (C6.1); the weighted logarithmic sum is positive, so the cusp-unit
-character on the trivialized line is nontrivial; for parallel `κ` use the norm law and the determinant
-line (C6.29). Stabilizers at minimal cusps require the stated powers ([Dimitrov], Théorème 8.6(vi) and
-its proof, pp. 548–549). *Needs:* C6.1, C6.27, C6.34, C6.36, C6.54; HilbertModularVarietiesAndShimuraCurves
-H3; SchemeAndStackFoundations Layer 0, Layer 2.
+`o′[1/Δ]`, the weight line extends invertibly to the minimal model if and only if `κ` is parallel
+and every residual cusp character is trivial. On the fine model this requires `u^κ = 1` for all `u ∈
+o_{C,1}^×` at every cusp; on the coarse model also require trivial residual inertia on the fibre.
+Here extension is over the characteristic-zero weight base, and `π_*ω^κ` is coherent for every `κ`.
+For nonparallel `κ`, the logarithmic unit lattice makes the weight character nontrivial. For
+parallel `κ`, the norm character has finite image: specify a common positive exponent annihilating
+these characters at all cusps and the residual inertia, so this power extends invertibly. A formal
+unit trivialization has a nonzero constant term, forcing precisely the stated character condition
+([Dimitrov], Théorème 8.6(vi) and its proof, pp. 548–549). *Needs:* C6.1, C6.27, C6.34, C6.36,
+C6.54; HilbertModularVarietiesAndShimuraCurves H3; SchemeAndStackFoundations Layer 0, Layer 2.
 
 **Checks.**
 
 - A nonparallel character can become trivial in a special coefficient ring; that does not give an
   invertible extension over `o′[1/Δ]`.
+- For `F = ℚ(√5)`, put `u = ((1+√5)/2)^5 = (11+5√5)/2`, `n = (u−1)` and
+  `b = b′ = o`. Then `N(n) = 11`, `u ∈ o_{C,1}^×` and `N(u) = −1`. The parallel weight
+  `(1,1)` has character `−1` and does not extend invertibly in characteristic zero.
+- In that fine-model example the square kills the norm sign; weight `(2,2)` has trivial cusp-unit
+  character. On a coarse model a power must also kill any remaining inertia.
 
 ### C6.38 The geometric q-expansion map
 
@@ -3442,17 +3625,22 @@ AdicSpacesPartIII §F0.6 (formal-direct-image-comparison); SchemeAndStackFoundat
 
 Prove `HilbertModular.integralModel_compare`: for every prime `p` not dividing the tame level, including
 `p = 2` and `p` ramified in `F`, the completions of the Deligne–Pappas model of
-HilbertModularVarietiesAndShimuraCurves H2.2–H2.3 and of its toroidal and minimal compactifications
+C6.12a (HilbertModularVarietiesAndShimuraCurves H2.2–H2.2b at scalar level) and of its toroidal
+and minimal compactifications
 agree with the models of C6.21 and C6.32 on the common open and the cusp charts; the ordinary locus and
 the Hasse neighbourhoods are those of the local model of H2.5–H2.8. Match the moduli data on the
 interior and the families and lattices on the boundary, and identify completions by uniqueness in
 C6.55; Birkbeck–Heuer–Williams assume `N ≥ 4` and `(N, p) = 1` ([BHW], §§5.1.2–5.2, pp. 1744–1748;
-[Dimitrov], Théorèmes 7.2 and 8.6, pp. 541–543 and 548–549). *Needs:* C6.21, C6.23, C6.32, C6.55;
+[Dimitrov], Théorèmes 7.2 and 8.6, pp. 541–543 and 548–549). *Needs:* C6.12a, C6.21, C6.23, C6.32, C6.55;
 HilbertModularVarietiesAndShimuraCurves H1, H2.2, H2.3, H2.5–H2.8; AdicSpacesPartIII F0.
 
 **Checks.**
 
 - Ramification of `p` in `F` and ramification of a cusp for the level are independent.
+- For `F = ℚ(√5)` and scalar level `4`, the prime `5` is retained in the DP model and the
+  cusp completion is the C6.20 all-prime chart.
+- With the same field and level, `p = 2` is excluded because it divides the level; with scalar
+  level `11`, `p = 2` is retained. Inverting the discriminant would lose the first comparison.
 
 ### C6.44 The Hasse ideal on the boundary
 
@@ -3503,28 +3691,37 @@ Prove `HilbertModular.nearOrdinary_quotient`: for the tame group `Δ(N)`, the Ha
 depend on the polarization and the ordinary neighbourhood at level `G` is the quotient of the one at
 level `G^*`; at level `Γ_0(p^n)` the square over the corresponding opens without `p`-level is cartesian
 and finite étale of group `Δ(N)` on the adic moduli locus. The underlying `o`-abelian scheme, hence the
-Hasse ideal, is unchanged by the polarization action; use the relative `Γ_0` problem of
-HilbertModularVarietiesAndShimuraCurves H4.13 and the `o`-stable natural subgroup ([BHW], Proposition 8.4
+Hasse ideal, is unchanged by the polarization action. On the adic moduli locus consume
+HilbertModularVarietiesAndShimuraCurves H4.8–H4.9 (`HilbertIntegralGamma0`, `gamma0Cartesian`).
+This target proves compatibility with the compactified Hasse domains and the toroidal/minimal
+quotient maps of C6.22/C6.33 ([BHW], Proposition 8.4
 and Lemma 8.5, pp. 1766–1767). No étale torsor is asserted at minimal cusps. *Needs:* C6.22, C6.33,
-C6.46; HilbertModularVarietiesAndShimuraCurves H3, H4.13; SchemeAndStackFoundations Layer 1.
+C6.46; HilbertModularVarietiesAndShimuraCurves H3, H4.8–H4.9; SchemeAndStackFoundations Layer 1.
 
 **Checks.**
 
 - For full `p`-level `G^*`, positive units need not preserve the Weil-pairing condition.
+- For an ordinary elliptic curve the multiplicative subgroup `μ_{p^n}` is preserved under
+  changing the polarization; the supplied Cartesian square restricts to its rational Hasse domain.
+- At a minimal cusp the polarization quotient can have stabilizers, so the compactified comparison
+  retains the quotient map without extending the interior finite étale torsor assertion.
 
 ### C6.48 Finite-level maps at the boundary
 
 Prove `HilbertModular.levelMap_extend`: the forgetful maps and the finite effective level and
-polarization maps of HilbertModularVarietiesAndShimuraCurves H4 extend to the minimal compactifications
-of the generic fibres (or the stated finite normalizations), and to toroidal compactifications after
-choosing fans compatible with the induced lattice maps (C0.14, C3.2). The extension is finite when the
-source fan is the pullback fan (C0.20); further subdivisions give proper, nonfinite maps. The maps agree
-on completed cusp data (lattice inclusions, action on roots of unity, determinant pairing). The full-level
-comparison goes through the mixed level problem of H4; it is not the quotient of `X_{Γ^*(p^n)}` by all
-positive units. Integral models at wild level are only those given by H2–H4 together with finite
-relative normalization in the higher-level function field, as in C5.19 ([BHW], §5.1.1–5.1.2 and
-§§8.2–8.4, pp. 1741–1745 and 1768–1779). *Needs:* C0.8, C0.14, C0.20, C3.2, C3.4, C4.10, C6.23, C6.36;
-HilbertModularVarietiesAndShimuraCurves H2, H3, H4.4, H4.11, H4.13; SchemeAndStackFoundations Layer 4.
+polarization maps of HilbertModularVarietiesAndShimuraCurves H4 extend to the minimal
+compactifications of the generic fibres (or the stated finite normalizations), and to toroidal
+compactifications after choosing fans compatible with the induced lattice maps (C0.14, C3.2). The
+extension is finite when the source fan is the pullback fan (C0.20); further subdivisions give
+proper, nonfinite maps. The maps agree on completed cusp data (lattice inclusions, action on roots
+of unity, determinant pairing). The full-level comparison goes through the mixed level problem of
+H4; it is not the quotient of `X_{Γ^*(p^n)}` by all positive units. Integral models at wild level
+are only those given by H2–H4 together with finite relative normalization in the higher-level
+function field, as in C5.19 ([BHW], §5.1.1–5.1.2 and §§8.2–8.4, pp. 1741–1745 and 1768–1779). The
+C4.10 comparison is used only on the generic fibre, where its good-prime base conditions hold.
+*Needs:* C0.8, C0.14, C0.20, C3.2, C3.4, C4.10, C6.23, C6.36;
+HilbertModularVarietiesAndShimuraCurves H2, H3, H4.4, H4.11, H4.13; SchemeAndStackFoundations Layer
+4.
 
 **Checks.**
 
@@ -3566,17 +3763,20 @@ ModularCurvesPartII 5.2, 5.13; SchemeAndStackFoundations Layer 0.
 
 ### C6.51 Cusp parameters of modular curves
 
-Prove `HilbertModular.degreeOne_cuspParameter`: under C6.50, the Tate family (C4.12), cusp fields and
-formal parameter agree with ModularCurvesPartII 3.6 and 4.8: at a cusp of width `w`,
-`j = q_Tate⁻¹ + 744 + ⋯` and `q_Tate = t^w` in the cusp parameter `t`; analytification and the level and
-degeneracy maps of ModularCurvesPartII 9.1 commute with this. The character inclusion at the cusp has
-index `w` (C4.10). At the level of stacks inertia is kept; on coarse spaces the width is kept.
-*Needs:* C4.10, C4.12, C6.50; ModularCurvesPartII 3.6, 4.8, 9.1; AdicSpacesPartIII F0, R2.
+Prove `HilbertModular.degreeOne_cuspParameter`: under C6.50, the Tate family (C4.12), cusp fields
+and formal parameter agree with ModularCurvesPartII 3.6 and 4.8: at a cusp of width `w`, `j =
+q_Tate⁻¹ + 744 + ⋯` and `q_Tate = t^w` in the cusp parameter `t`; analytification and the level and
+degeneracy maps of ModularCurvesPartII 9.1 commute with this. The character inclusion at the cusp
+has index `w`, computed from C6.20 and the finite lattice map C0.20. At the level of stacks inertia
+is kept; on coarse spaces the width is kept. *Needs:* C0.20, C4.12, C6.20, C6.50;
+ModularCurvesPartII 3.6, 4.8, 9.1; AdicSpacesPartIII F0, R2.
 
 **Checks.**
 
 - For `w > 1` the coarse parameter `t` is not the Tate parameter.
 - A map of coarse spaces does not replace a correspondence of stacks.
+- At infinity for full level `N ≥ 3`, `w = N` and `q_Tate = t^N` over the fixed-pairing
+  cyclotomic cusp base, with no `−1` inertia.
 
 ### C6.52 Comparison with the prime-level diamond quotients of ModularCurves
 
@@ -3614,20 +3814,20 @@ AdicSpacesPartIII F0.
 
 ### C6.54 The stabilizer of a Hilbert cusp
 
-Prove `HilbertCusp.stabilizer_exact` (suggested home `TauCeti/Geometry/Shimura/Hilbert/Cusp`): for an
-`(R, n)`-cusp given by `γ` (C6.13), its automorphism group is `γ⁻¹Γγ ∩ B_ℚ`, and there is an exact
-sequence `0 → X^* → γ⁻¹Γγ ∩ B_ℚ → o_C^× → 1`, `X = cbb′`, where `o_C^×` consists of the pairs
+Prove `HilbertCusp.stabilizer_exact` (suggested home `TauCeti/Geometry/Shimura/Hilbert/Cusp`): for
+an `(R, n)`-cusp given by `γ` (C6.13), its automorphism group is `γ⁻¹Γγ ∩ B_ℚ`, and there is an
+exact sequence `0 → X^* → γ⁻¹Γγ ∩ B_ℚ → o_C^× → 1`, `X = cbb′`, where `o_C^×` consists of the pairs
 `(u, ε)`, `u ∈ o^×`, `ε` a totally positive unit, with `u − 1 ∈ n b′b⁻¹` and `uε − 1 ∈ b b′⁻¹`; the
-subgroup with `ε = 1` is `o_{C,1}^× = {u ∈ o^× : u ∈ (1 + bb′⁻¹) ∩ (1 + n b′b⁻¹)}`, of finite index in
-`o^×`. Put `a = u²ε`. Conjugation acts on the unipotent lattice `X^*` by `a`, and the toric map
+subgroup with `ε = 1` is `o_{C,1}^× = {u ∈ o^× : u ∈ (1 + bb′⁻¹) ∩ (1 + n b′b⁻¹)}`, of finite index
+in `o^×`. Put `a = u²ε`. Conjugation acts on the unipotent lattice `X^*` by `a`, and the toric map
 `T_σ → T_{aσ}` pulls a target monomial `q^ξ` back to `q^{aξ}`. This pullback convention is used in
 coefficient covariance; the contragredient left action on characters is instead `ξ ↦ a⁻¹ξ`,
 preserving the trace pairing with `v ↦ av`. The action on roots of unity at the cusp factors through
-the finite cyclotomic groups `H_C ⊇ H_{C,1}`; the weight line
-transforms by the corresponding unit characters. The full stabilizer is not its finite cyclotomic image.
-At torsion-free tame level the action on toroidal charts is free, while minimal cusps may have
-stabilizers ([Dimitrov], Proposition 3.3(iv)–(v), pp. 533–534, and Proposition 4.1(iii), p. 537).
-*Needs:* C6.13; HilbertModularVarietiesAndShimuraCurves H1.9, H3 (the group `Δ(N)`); Mathlib
+the finite cyclotomic groups `H_C ⊇ H_{C,1}`; the weight line transforms by the corresponding unit
+characters. The full stabilizer is not its finite cyclotomic image. At torsion-free tame level the
+action on toroidal charts is free, while minimal cusps may have stabilizers ([Dimitrov], Proposition
+3.3(iv)–(v), pp. 533–534, and Proposition 4.1(iii), p. 537). *Needs:* C6.12a, C6.13;
+HilbertModularVarietiesAndShimuraCurves H1.9 (scalar-level laws), H3 (the group `Δ(N)`); Mathlib
 `NumberField.Units.dirichletUnitTheorem.exists_unit`.
 
 **Checks.**
@@ -3643,31 +3843,44 @@ stabilizers ([Dimitrov], Proposition 3.3(iv)–(v), pp. 533–534, and Propositi
 
 ### C6.55 Formal gluing along a boundary (Rapoport–Dimitrov)
 
-Prove `FormalGluing.effective` (suggested home `TauCeti/AlgebraicGeometry/FormalGluing`): let `S` be an
-affine scheme of finite type over a field or an excellent Dedekind ring, `X` a separated formal algebraic
-space of finite type over `S` with an affine atlas `Spf A_2 ⇒ Spf A_1 → X`, and `Y°` an algebraic space of
-finite type over `S` with a map `f° : (Spec A_1)° → Y°` from the complement of the closed fibre
-(`Spec A_1` with its ideal of definition), equalizing the two arrows obtained from the atlas by
-algebraization of formal maps (Lemme 5.8, EGA III 5; AdicSpacesPartIII §F0.8 (completion on relative morphisms and grothendieck-algebraization)). Assume: `(Spec A_1)°`
-is schematically dense in `Spec A_1`; `Y°` admits an open immersion into an algebraic space proper over
-`S`; `f°` is permitted (it sends the boundary to the boundary: for every permitted point
-`Spec K → (Spec A_1)°` coming from a formal map `Spf V → Spf A_1` of finite type, the extension to `Spec V`
-of the composite to a proper compactification sends the closed point outside `Y°`); and for every
-complete discrete valuation ring `V` with fraction field `K`: (i) the sequence of permitted `K`-points
-`(Spec A_2)°(K) ⇒ (Spec A_1)°(K) → Y°(K)` is exact, and (ii) for every thickening `(R, R^{(0)})` of
-`(K, V)`, every permitted `Spec K → (Spec A_1)°` with a map `Spec R → Y°` extending its composite lifts
-uniquely to a permitted `Spec R → (Spec A_1)°`. Then there are an algebraic space `Y` of finite type over
-`S`, an open immersion `Y° ⊆ Y` and an isomorphism of `X` with the completion of `Y` along `Y ∖ Y°`
-inducing `f°`; the triple is unique up to unique isomorphism. Rapoport's proof algebraizes the formal
-modification of a compactification of `Y°` along its boundary ([Dimitrov], Lemme 5.8, Définitions 5.9–5.10 and
-Théorème 5.11, pp. 539–540; M. Rapoport, *Compactifications de l'espace de modules de Hilbert–Blumenthal*,
-Compositio Math. 36 (1978), Théorème 3.5). *Needs:* AdicSpacesPartIII §F0.7 (grothendieck-existence), §F0.8 (completion on relative morphisms), §F0.8 (grothendieck-algebraization); SchemeAndStackFoundations Layer 1
-(algebraic spaces), Layer 4 (formal completion); AlgebraicModuliForArithmeticGeometry Layer 6.
+Prove `FormalGluing.effective` (suggested home `TauCeti/AlgebraicGeometry/FormalGluing`): let `S` be
+an affine scheme of finite type over a field or an excellent Dedekind ring, `X` a separated formal
+algebraic space of finite type over `S` with an affine atlas `Spf A_2 ⇒ Spf A_1 → X`, and `Y°` an
+algebraic space of finite type over `S` with a map `f° : (Spec A_1)° → Y°` from the complement of
+the closed fibre (`Spec A_1` with its ideal of definition), equalizing the two arrows obtained from
+the atlas by algebraization of formal maps (Lemme 5.8, EGA III 5; AdicSpacesPartIII §F0.8
+(completion on relative morphisms and grothendieck-algebraization)). Assume: `(Spec A_1)°` is
+schematically dense in `Spec A_1`; `Y°` admits an open immersion into an algebraic space proper over
+`S`, fixed as `Y*`. Define `Y°(K)_permis` by requiring that the unique extension of a `K`-point to
+`Spec V → Y*` specializes to `Y* ∖ Y°`. For a thickening `(R,R^{(0)})`, `R` is local Artinian with
+residue `K`, and `R^{(0)}` is a Noetherian subring surjecting onto `V` with generic localization `R`
+(Dimitrov, Définition 5.3). Put `J = ker(R^{(0)} → V)`, choose a lift `π̃` of a uniformizer, and set
+`R^{(i)} = R^{(0)}[J/π̃^i]`. A permitted `Spec R → Y°` extends to the boundary completion of `Y*`
+over `Spf R^{(i)}` for some `i`, as in Remarque 5.7; permitted maps to the affine charts are defined
+in the same way using `Spf A_j`. Require that `f°` is permitted (it sends the boundary to the
+boundary: for every permitted point `Spec K → (Spec A_1)°` coming from a formal map `Spf V → Spf
+A_1` of finite type, the extension to `Spec V` of the composite to a proper compactification sends
+the closed point outside `Y°`); and for every complete discrete valuation ring `V` with fraction
+field `K`: (i) the sequence of permitted `K`-points `(Spec A_2)°(K)_permis ⇒ (Spec A_1)°(K)_permis →
+Y°(K)_permis` is exact, and (ii) for every thickening `(R, R^{(0)})` of `(K, V)`, every permitted
+`Spec K → (Spec A_1)°` with a permitted map `Spec R → Y°` extending its composite lifts uniquely to
+a permitted `Spec R → (Spec A_1)°`. Then there are an algebraic space `Y` of finite type over `S`,
+an open immersion `Y° ⊆ Y` and an isomorphism of `X` with the completion of `Y` along `Y ∖ Y°`
+inducing `f°`; the triple is unique up to unique isomorphism. Rapoport's proof algebraizes the
+formal modification of a compactification of `Y°` along its boundary ([Dimitrov], Lemme 5.8,
+Définitions 5.9–5.10 and Théorème 5.11, pp. 539–540; M. Rapoport, *Compactifications de l'espace de
+modules de Hilbert–Blumenthal*, Compositio Math. 36 (1978), Théorème 3.5). *Needs:*
+AdicSpacesPartIII §F0.7 (grothendieck-existence), §F0.8 (completion on relative morphisms), §F0.8
+(grothendieck-algebraization); SchemeAndStackFoundations Layer 1 (algebraic spaces), Layer 4 (formal
+completion); AlgebraicModuliForArithmeticGeometry Layer 6.
 
 **Checks.**
 
-- For the modular curve, gluing the formal Tate charts `Spf ℤ[[q]]` (modulo `±1`) to `Y(N)` recovers
-  the compactified modular curve.
+- For full level `N ≥ 3`, glue the cusp charts `Spf ℤ[1/N,ζ_N][[t]]` to the corresponding
+  fixed-pairing `Y(N)`. At infinity `q_Tate = t^N`; use each cusp's residue field and width.
+  Full-level charts have trivial inertia.
+- A constant good-reduction elliptic curve over `k[[t]]`, with compatible tame level, defines a
+  `k((t))`-point of `Y(N)` whose specialization stays in `Y(N)`. It is not in `Y°(K)_permis`.
 - Without schematic density (an embedded component on the boundary chart) the gluing is not unique.
 - If `f°` is not permitted (it sends a boundary point into `Y°`), no compactification with the given
   completion exists.
@@ -3730,8 +3943,9 @@ Mathlib's units of number fields and trace duals; Tau Ceti's total positivity.
   C5.19–C5.22).
 - **AutomorphicGaloisRepresentationsPartII** and the étale-cohomology roadmaps: good-reduction geometry
   of Siegel threefolds (C5.30).
-- **ArakelovGeometryAndAbelianHeights** and **FaltingsFinitenessAndIsogenyTheorems**: the ample Hodge line
-  on minimal compactifications and quasi-projectivity of moduli (C5.17–C5.18).
+- **FaltingsFinitenessAndIsogenyTheorems**: the general PEL ample Hodge line and quasi-projectivity
+  of moduli (C5.17–C5.18). The principal Siegel compactifications and Hodge comparisons are supplied
+  by ArakelovGeometryAndAbelianHeights §§5.0a–5.0b, with agreement in C4–C5 as specified above.
 - Generalized Jacobians and anabelian applications: Tate modules of semi-abelian varieties (C4.14).
 - The nonarchimedean development of AnalyticToricGeometry: toric schemes over arbitrary rings (C0.16).
 
