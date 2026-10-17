@@ -30,7 +30,8 @@ PerfectoidSpaces P3.17a and AdicSpacesPartIV R5.5–R5.11.
 Dependencies: AdicSpaces §§0–5; AdicSpacesPartII R0, R1; AdicSpacesPartIII R3;
 AdicEtaleGeometry A1, A2, A4.2–A4.5, A4.2a, A4.7; PerfectoidSpaces P0–P7,
 including P3.17a–P3.17b, P5.13, P6.15–P6.17, P7.11, P7.16;
-AdicSpacesPartIV R4, R5.5–R5.11; DiamondsAndVStacks D2–D6; ProfiniteCohomology Layer 3.
+AdicSpacesPartIV R4, R5.5–R5.11; DiamondsAndVStacks D2–D6; ProfiniteCohomology Layer 3;
+PadicFunctionalAnalysis §§2.2–2.4 (Banach bases and model comparisons).
 
 ## Scope and ownership
 
@@ -43,9 +44,12 @@ PerfectoidSpaces owns P0–P7, and this roadmap owns the tower-quotient and tors
   descent of functions along a perfectoid tower, descent with
   weight-space coefficients, twisted character sheaves and their local freeness.
 
+PadicFunctionalAnalysis §§2.2–2.4 owns the Banach-basis and model-space inputs to P8.7 and
+P9.7; the invariant-tensor comparisons and their geometric applications belong here.
 DiamondsAndVStacks owns the v-topology, diamondification, diamond presentations and spatiality,
 together with the foundational comparisons that P9 applies to towers: the vector-bundle
 comparison across the analytic, étale, pro-étale and v-sites (D2.9, [KL16] Theorem 3.5.8, p. 76)
+and the analytic/diamond étale-site equivalence (D6.5), specialised to smoothoid spaces in P9.11,
 and the seminormal comparison `O_X ≅ ν_*Ô_X` with its vector-bundle unit and the full
 faithfulness of diamondification on seminormal rigid spaces (D6.9, [KL16] Theorem 8.2.3,
 pp. 162–163, and Corollary 8.2.4, p. 163). The applications to a prescribed pro-étale Galois tower
@@ -178,6 +182,18 @@ In P9, `AffinoidPresentation` and its `points` comparison, and
 in `TauCetiRoadmap.PerfectoidSpaces.ProEtaleSite`. P9 defines its completed sheaves
 and tower comparisons on these supplied objects.
 
+### From TauCetiRoadmap.PadicFunctionalAnalysis
+
+[PadicFunctionalAnalysis §§2.2–2.4](../PadicFunctionalAnalysis/README.md#layer-2-model-spaces-and-bases)
+supplies the basis and model interfaces used in P8.7 and P9.7.
+Here `c₀(I,K)` is its native `C₀(I,K)` for a discrete index type `I`.
+
+| Application | Supplier section and interface | Use |
+| --- | --- | --- |
+| Specified basis and model | §2.2: coefficient expansion and conversion between an orthonormal basis and a chosen linear model isometry | P8.7 transports its specified bounded model through completed tensors; P9.7 uses an isometry when the given norm admits one. |
+| Countable-type Banach space | §2.4: a `t`-orthogonal basis for `0 < t < 1` and a continuous linear equivalence with a `C₀` model over any complete nontrivially valued ultrametric field | P9.7 uses this bounded model equivalence for the whole chart algebra, including over nondiscretely valued perfectoid fields. |
+| Discretely valued field | §2.3: potential orthonormalisability of every Banach space by an equivalent norm, with §2.2's model comparison | P9.7 uses the resulting bounded linear equivalence for arbitrary index sets; isometry for the original norm requires an orthonormal basis for that norm. |
+
 ### From TauCetiRoadmap.DiamondsAndVStacks
 
 The names in this table are those DiamondsAndVStacks fixes for its targets; its `Suggested.lean`
@@ -191,6 +207,7 @@ prefix `TauCetiRoadmap.DiamondsAndVStacks`.
 | v-topology and test category | `TauCetiRoadmap.DiamondsAndVStacks.Geometry.vTopology`, `Geometry.Perf`, `Geometry.space`, `Geometry.proet` | D2.1–D2.2 supply the characteristic-p perfectoid v-site for P8 quotients. |
 | v-sheaf and point-space carriers | `Geometry.Spaces`, `Geometry.VSheaf`, `Perf.Diamond.space` | P8 quotient and spatial-presentation statements use the supplied sheaf category and its topological realization. |
 | Diamond functor | `TauCetiRoadmap.DiamondsAndVStacks.PreAdic.geometricDiamond`, `PreAdic.diamond_perfectoid`, `PreAdic.diamond_fibreProduct` | D6.4 supplies diamondification and these comparisons. Compose with `CategoryTheory.ULiftHom.up` on the analytic Yoneda carrier; quotient and tower comparisons retain their canonical maps. |
+| Analytic/diamond étale sites | `TauCetiRoadmap.DiamondsAndVStacks.PreAdic.diamond_etale_equivalence` | D6.5 supplies the equivalence from diamond étale objects to analytic étale objects for an analytic carrier over `Spa(ℤ_p,ℤ_p)`. P9.11 transports it to the smoothoid carrier and takes its inverse for the analytic-to-diamond direction, preserving and reflecting coverings. |
 | Topology of diamond limits | `TauCetiRoadmap.DiamondsAndVStacks.Perf.Diamond.cofilteredLimit` | D5.3 (ECD 11.22) supplies the homeomorphism for locally spatial levels with qcqs transitions; it imposes no density condition on analytic functions. |
 | Spatial presentations | `TauCetiRoadmap.DiamondsAndVStacks.Perf.Diamond.Presentation`, `Perf.Diamond.IsSpatial`, `Geometry.realized`, `Perf.Diamond.spaceι` | D4–D5 supply presentations, spatiality and their point spaces. `SpatialPresentation` abbreviates the supplied presentation with its spatiality proof; component loci use the supplied realization and evaluation maps. |
 | Presentation comparisons | `TauCetiRoadmap.DiamondsAndVStacks.Perf.Diamond.Presentation.atlas`, `.atlas_isColimit`, `Perf.Diamond.relation_eq`, `Perf.Diamond.presentationSpace`, `Perf.Diamond.space_eq_quotient` | The supplied presentation determines its epimorphic atlas, effective relation and topological quotient. |
@@ -901,8 +918,11 @@ extension of [P2.16](../PerfectoidSpaces/README.md#layer-p2-rational-localisatio
 (*quotient-scalar-extension*) (the coordinatewise argument of [CHJ] Lemma 2.23(2),
 pp. 19–20, stated there over `ℚ_p`; here the specified `c₀` isomorphism supplies the same
 argument over `K`). The Banach-module theorem `quotient_scalar_extension` uses the specified
-`c₀` basis, whereas `invariants_completedTensor` supplies it from countable type or a discrete
-value group. The pair statement is `quotient_scalar_extension_pair`: `K` and `L` are complete
+`c₀` model, whereas `invariants_completedTensor` consumes the countable-type model of
+PadicFunctionalAnalysis §§2.2, 2.4 or the discretely valued model of §§2.2–2.3.
+These are bounded linear equivalences; an isometry for the original norm requires an
+orthonormal basis for that norm. The pair statement is `quotient_scalar_extension_pair`:
+`K` and `L` are complete
 nonarchimedean nontrivially normed fields, `A` is a complete nonarchimedean normed `K`-algebra
 with its Tate topology, and `G` is finite, acts continuously by `K`-algebra automorphisms,
 and preserves `A⁺`. The structure map sends `K°` into `A⁺`. The action on the completed
@@ -927,7 +947,8 @@ nonzero field `L`; it is a negative control for the theorem's hypotheses.
 Check `quotient_scalar_extension_pair_zeroAlgebra` uses the theorem's comparison for
 zero `A` and verifies that both `e` and its inverse send every element to zero. *Needs:*
 *invariants-of-perfectoid-tate-ring*; *invariant-spectrum-homeomorphism*;
-*rational-invariants-perfectoid*; *categorical-quotient*; [P2.8](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces); [P2.16](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces); AdicSpacesPartII layer R0.
+*rational-invariants-perfectoid*; *categorical-quotient*; [P2.8](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces); [P2.16](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces); AdicSpacesPartII layer R0;
+PadicFunctionalAnalysis §§2.2–2.4 (basis and model interfaces).
 
 Lean: `exists_isCategoricalQuotient_of_invariant_cover`, applied with the whole space as the
 `G`-stable affinoid perfectoid chart, together with `invariants_perfectoid`: the categorical
@@ -2521,8 +2542,15 @@ linearly homeomorphic to `c₀(I, K)` and this is P8.7's statement for modules) 
 valued (the clause added here), the canonical map `J : F ⊗̂_K V → (E ⊗̂_K V)^G` (projective tensor
 completions of AdicSpacesPartII layer R0) is a natural topological isomorphism, isometric when `V`
 is isometric to `c₀(I, K)` (an orthonormal basis)
-(*invariants-of-completed-tensor-with-banach-space*) ([CHJ] Lemma 2.23(2), pp. 19–20). *Needs:*
+(*invariants-of-completed-tensor-with-banach-space*) ([CHJ] Lemma 2.23(2), pp. 19–20).
+Consume PadicFunctionalAnalysis §2.4's countable-type basis theorem over any complete
+nontrivially valued ultrametric `K`, or §2.3's equivalent orthonormalisable norm when `K`
+is discretely valued, and §2.2's coefficient/model comparison. Transport the completed
+tensor through the resulting bounded linear equivalence `V ≃L[K] C₀(I,K)` to compute fixed
+points coordinatewise. A specified model isometry gives the isometric conclusion
+for the original norms. *Needs:*
 *quotient-scalar-extension* (P8.7);
+PadicFunctionalAnalysis §§2.2–2.4 (basis and model interfaces);
 *function-descent-over-perfectoid-base*; *function-descent-seminormal-base* (P9.12, for a smooth
 rigid base); *cech-descent-datum*; [P2.17](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces); AdicSpacesPartIV R5.5
 (*perfectoid-times-smooth-fibre-product*); PerfectoidSpaces P3.17a.4
@@ -2559,6 +2587,19 @@ of the fixed subspace is a closed embedding with image the fixed tensors. The
 coefficient space has either a countable set with dense linear span, or the field's
 norm group is generated by one element of norm strictly between zero and one.
 This uses `BanachModule.CompletedTensor` and its continuous linear `map` from R0.
+
+**Checks.**
+
+- `invariants_completedTensor_scalar` — for `V = K`, the canonical comparison is the
+  identity on `F` after the scalar-tensor identifications.
+- `invariants_completedTensor_countable_nondiscrete` — for `K = ℂ_p` and `V = K⟨T⟩`,
+  the countably many monomials give the `c₀(ℕ,K)` model; fixed tensors are exactly
+  power series whose coefficients belong to `F`. This uses the countable-type branch
+  over a nondiscretely valued perfectoid field.
+- `invariants_completedTensor_rescaled_line` — give `V = ℚ_p` the norm `r|a|`, with
+  `r > 0` outside `|ℚ_pˣ|`. Its identity map to the usual scalar model is bounded with
+  bounded inverse, so the comparison applies, while no vector has norm `1` and the
+  original norm has no orthonormal basis.
 
 Lean: README only.
 
@@ -3080,10 +3121,16 @@ on analytic adic spaces over `Spa(K,K⁺)` by existence of an open cover whose m
 admit smooth maps to perfectoid spaces over `K` ([Heuer] Definition 2.2, p. 8).
 Supply restriction to opens, étale stability, gluing of such covers, and the instances
 for perfectoid spaces and smooth rigid spaces over `K`. Smooth charts use
-AdicEtaleGeometry A2's ball-chart convention. Construct
-`WeightExtension.smoothoidEtaleEquivalence` between the analytic étale site and the
-étale site of the diamond, retaining objects, pullbacks and coverings, and the natural
-unit isomorphisms `WeightExtension.smoothoidIntegralComparison : O⁺ ≅ ν_*O⁺` and
+AdicEtaleGeometry A2's ball-chart convention. Define
+`WeightExtension.smoothoidEtaleEquivalence : X_et ≌ (X^◇)_et` by specialising
+DiamondsAndVStacks D6.5's `PreAdic.diamond_etale_equivalence` to the analytic Yoneda
+carrier of a smoothoid `X`. Transport its analyticity and the structure map
+`X → Spa(K,K⁺) → Spa(ℤ_p,ℤ_p)` through `CategoryTheory.ULiftHom.up`, and take the
+inverse of the supplied diamond-to-analytic equivalence. On objects and maps it sends
+`U → X` to `U^◇ → X^◇`, retaining pullbacks and preserving and reflecting covering
+families, including the empty family ([ECD] Lemma 15.6, p. 91).
+Supply the natural unit isomorphisms
+`WeightExtension.smoothoidIntegralComparison : O⁺ ≅ ν_*O⁺` and
 `WeightExtension.smoothoidRationalComparison : O ≅ ν_*O` for
 `ν : X^◇_v → X_et` ([Heuer] Lemma 2.6(2)–(3), p. 9, and Proposition 2.9(2), p. 10,
 in degree zero). The rational comparison is local on toric smooth charts: Lemma 2.5
@@ -3094,15 +3141,17 @@ of functions, commute with restriction and étale pullback, and preserve the int
 inclusion. *Needs:* AdicEtaleGeometry A1 (étale sites) and A2 (smooth charts);
 AdicSpacesPartIV R5.5 (*perfectoid-times-smooth-fibre-product*);
 PerfectoidSpaces P3.17a.4 (sousperfectoid charts);
-DiamondsAndVStacks D2 (v-sheaves and structure sheaves) and D6.4 (diamondification).
+DiamondsAndVStacks D2 (v-sheaves and structure sheaves), D6.4 (diamondification) and
+D6.5 (`PreAdic.diamond_etale_equivalence`).
 
 **Checks.**
 
 - `smoothoid_perfectoid_point` — `Spa(K,K⁺)` has the identity smooth chart; the site
-  equivalence retains its étale objects and the two unit maps identify sections with
-  `K⁺` and `K`.
+  equivalence is the transported inverse of D6.5's equivalence and retains its étale
+  objects; the two unit maps identify sections with `K⁺` and `K`.
 - `smoothoid_empty` — the empty cover makes the empty space smoothoid; its étale
-  site is the empty-space site and both comparisons give the zero section rings.
+  site is the empty-space site, the site equivalence preserves and reflects the empty
+  covering family, and both comparisons give the zero section rings.
 - `smoothoid_disc` — the ordinary disc over `K` is smoothoid via its smooth map to
   `Spa(K,K⁺)`, although it is not perfectoid. The étale equivalence retains its rational
   annulus `|π| ≤ |T| ≤ 1`, for a pseudouniformizer `π ∈ K`; the two comparisons

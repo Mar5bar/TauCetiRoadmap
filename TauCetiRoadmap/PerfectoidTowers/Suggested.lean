@@ -17,6 +17,10 @@ The rigid pro-étale affinoid perfectoid basis is supplied by PerfectoidSpaces P
 and finite Galois module descent by AdicEtaleGeometry A4.2a. Completed structure sheaves,
 pro-étale Galois towers, good towers, analytic separation and the diamond comparisons
 are formalisation targets specified in the README only.
+P8.7 and P9.7 consume PadicFunctionalAnalysis §§2.2–2.4's Banach bases and model comparisons.
+P9.11's `WeightExtension.smoothoidEtaleEquivalence` specialises the inverse of
+DiamondsAndVStacks D6.5's `PreAdic.diamond_etale_equivalence` after transport of the analytic
+carrier and its structure map to `Spa(ℤ_p, ℤ_p)`; the structure-sheaf comparisons are P9.11 targets.
 Good towers use PerfectoidSpaces P7.11's represented-limit affinoid basis through a local
 diamond-limit adapter, and AdicSpacesPartIII R3.7's finite-cover algebraization and projectivity.
 P9.0 constructs continuous cochain foundations, including lifting along discrete surjections
