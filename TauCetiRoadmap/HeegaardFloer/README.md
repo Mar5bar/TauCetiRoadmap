@@ -1363,7 +1363,8 @@ with boundary versions from Oh and Floer–Hofer–Salamon:
       The accumulating zeros force σ=0; the tangential curve equation
       then makes φ=a holomorphic. This proof uses no full Micallef–White
       normal form, root-of-unity exclusion or simple-branch isolation.
-   Deduce the somewhere-injectivity results through F2.6b's factorization.
+   Construct the closed-source simple/somewhere-injective comparison in
+   AnalyticStableMaps M0.1 from this local floor; F2.6b is its sphere application.
    Construct Oh's boundary-injectivity for totally real boundary separately.
 3. **Compactness** (MS Chapter4, including Theorem4.1.2, Lemmas4.3.1/4.3.4/4.5.1 and Exercises4.5.2/4.5.5). Construct interior and boundary mean-value/ε-regularity estimates, monotonicity, and finite-Dirichlet-energy puncture removal on almost complex manifolds of real dimension2n, under compact-image and uniform geometry hypotheses. Supply a smooth symplectic form ω taming J on a neighborhood of the fixed compact target-image set K. At boundary punctures use a native `SmoothEmbedding` i:L→M with closed image, and the native `TauCeti.IsMaximalTotallyReal` condition pointwise on `i.tangentRange`. Compare it with dim_ℝL=n and TL⊕JTL=TM|L through the native complement/finrank API. Require all boundary images in a specified compact K_L⊂L, with uniform smooth geometry on fixed neighborhoods; compact L is the case K_L=L. Include Lagrangian boundary as a specialization; the maximal totally real branch does not require ω|TL=0.
 
@@ -1465,42 +1466,32 @@ J-holomorphic sphere locus with somewhere-injectivity, where A is an integral
 spherical homology class and ω(A)>0. Reuse native almost-complex structures,
 `IsPseudoholomorphic`, actual map differentials and section bundles. Construct
 its C-infinity topology and comparisons to sufficiently high W(k,p), p>2,
-with the derivative budget from F0. Construct factorization of every
-nonconstant sphere through a positive-degree finite holomorphic map to a
-compact normalization and a simple J-curve. Build the normalization from
-the local analytic floor and McDuff–Salamon Proposition2.5.1's
-coincident-branch relation Γ₀⊂(Σ∖X)², where
-X=u⁻¹(u(Crit u)) is the full preimage of the critical values. Prove
-finiteness of Crit u and of each fiber from the local analytic floor,
-so X is finite by F2.2a; part b uses no part e result. On Σ∖X define Γ₀ by equality of
-the local image germs, including the diagonal and excluding isolated
-intersections of distinct image branches. Prove equivalence with the
-accumulation-sequence relation using F2.2c, and prove Γ₀ closed
-in (Σ∖X)². Construct its holomorphic local transition maps and prove
-that projection to the first factor is a proper local diffeomorphism.
-For properness, a convergent partner over z∉X cannot limit into X,
-because its image equals u(z), a noncritical value. The finite covering
-has constant fiber cardinality on the connected punctured surface.
-Prove Γ=cl(Γ₀) is an equivalence relation on Σ and X is invariant.
-Construct local multiplicities m(z), equal1 off X, satisfying
-Σ_(ζ∼z)m(ζ)=m. Extend the local transition maps across the punctures
-by holomorphic removability and construct the product quotient
-coordinate Π_j w(ψ_j(z)), with its local branched degree and holomorphic
-transition maps. The descended v has finite Dirichlet energy by the
-degree/pullback identity off the punctures; apply F2.3's puncture removal
-to extend it smoothly. When m=1, equivalently Γ₀ is the diagonal,
-prove noninjective points accumulate only at critical points using
-F2.2c, including a regular point of X with a possibly critical partner.
-Use finite fibers to discard a subsequence with a constant partner
-parameter before applying that lemma. Prove Γ₀(v) is diagonal: germ
-coincidences for v lift to Γ₀(u) and are identified by the quotient.
-Apply the m=1 argument to v to prove it is somewhere injective. In particular a somewhere-injective map has no nonempty open
-set of noninjective points. Establish Hausdorffness, complex charts, compactness,
-degree, uniqueness and the integral homology identity
-`u_*[S²]=d v_*[normalization]`. Part a identifies this normalization with
-S². This Γ₀ route uses neither part e's branch-isolation theorem nor
-intersection positivity. Primitivity rules out a multiple cover; it does not rule out splitting
-into different positive-energy classes.
+with the derivative budget from F0.
+
+Consume [AnalyticStableMaps M0.1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/987)'s
+arbitrary-genus nonconstant closed-curve factorization, constructed from this
+roadmap's earlier F2.2a–c local vanishing/coincident-germ and F2.3 removal floors.
+The generic Γ₀/closure, local multiplicity and holomorphic quotient-chart
+construction has that single owner and uses no F2.6b/F2.6d input. On each
+nonconstant sphere apply it to obtain u=v∘π and its connected compact factor
+Riemann surface Σ₀, retaining the actual finite branched cover and all branch
+multiplicities. Use FuchsianOrbifolds Layer5's degree/Riemann–Hurwitz formula
+and part a's independent genus-zero identification to identify Σ₀ with the
+fixed sphere: 2=dχ(Σ₀)−R, d>0 and R≥0 imply χ(Σ₀)>0, hence genus0.
+Transport the actual map, degree, class and complex orientation through that
+biholomorphism and prove u_*[S²]=d v_*[S²] integrally. These are sphere
+application comparisons, not a second construction of general normalization.
+
+Consume M0.1's simple/somewhere-injective equivalence and its at-most-countable
+noninjective locus, with accumulation only at critical points. Construct the
+identification of its sphere simple locus with P_A and the map, topology and
+source-reparametrization comparisons required below. Retain the full critical-value
+preimage B=u⁻¹(u(Crit u)) in this application; isolated crossings of distinct
+branches are not identified by the coincident-germ relation. Nonconstant
+curves with nonprimitive class may still be simple. Primitivity rules out a
+multiple cover but does not rule out splitting into different positive-energy
+classes. No four-dimensional intersection-positivity theorem or part e branch
+normal form is a premise of this factorization/sphere-identification application.
 
 The right action is `(u,g)↦u∘g`. Prove that simple-map stabilizers are trivial
 using an injective regular point and holomorphic uniqueness. Prove properness
