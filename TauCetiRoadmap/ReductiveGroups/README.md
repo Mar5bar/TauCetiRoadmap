@@ -272,6 +272,20 @@ faithfully-flat descent.
   field of characteristic `p`, a **smooth connected affine** group is linearly reductive iff it is a torus.
   Provide both definitions and the char-0 equivalence so downstream work can pick either.
 
+#### Layer 6B: complex reductive coset affineness
+
+- **Complex reductive coset affineness.** For a smooth connected affine reductive
+  complex algebraic group A and a closed connected reductive subgroup H, construct
+  the fpqc quotient A/H and prove it is the affine scheme Spec(O(A)^H).
+  Build the Reynolds map using Layer6's characteristic-zero complete reducibility,
+  finite generation of the invariant algebra, and the closed-orbit quotient and
+  torsor identification; expose the quotient map, universal property and base
+  changes at the exact stated hypotheses. In particular apply this to GL_n/G
+  for every faithful closed reductive G→GL_n. This is the Matsushima construction
+  owned here; FormalConnectionsOpers F6 consumes it and owns its loop-Grassmannian
+  reduction-locus/ind-stage application. Keep the general quotient discussion and
+  its hypotheses, without asserting arbitrary closed-subgroup quotients affine.
+
 ### Layer 7: structure theory
 - **Borel subgroups and maximal tori**, their conjugacy, and the existence of a common
   maximal torus in any pair of Borel subgroups in a connected reductive group. Prove the
