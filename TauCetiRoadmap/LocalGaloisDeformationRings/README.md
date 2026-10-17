@@ -32,7 +32,7 @@ Residual representations are continuous for discrete `k`. In Layers 0–8 take `
 
 `R□` represents actual lifts in a fixed residual basis; `R` represents strict classes under `End_Γ(ρ̄)=k`. `LiftingRing`, `ConditionRing` and `GenericFibre` mean the framed ring, its specified quotient and localization at `ϖ`. A quotient's point criterion specifies whether it uses every finite `E`-algebra or just field-valued points. Residual conjugacies and coefficient extensions are transported explicitly. A fixed determinant `ψ` is a continuous lift of `det ρ̄`, not a new free parameter hidden in a ring name.
 
-Integral dimension is one plus relative dimension for the nonzero flat rings here; generic dimension is over `E`. The zero ring is allowed for type quotients and has no component dimension. Relative determinant presentations use `ad⁰` even when `p` divides `d`; integral scalar splitting requires `p∤d`. For general `G`, fixing the whole `G/G^der` uses `dim G^der`. `G`-valued lifts mean points of a specified smooth affine group scheme over `𝒪` with its base-change functor, not independently chosen subgroups of `GL_d(A)`.
+Integral dimension is one plus relative dimension for the nonzero flat rings here; generic dimension is over `E`. The zero ring is allowed for type quotients and has no component dimension. Relative determinant presentations use `ad⁰` even when `p` divides `d`; integral scalar splitting requires `p∤d`. For generalised reductive `G`, set `G^der=(G⁰)^der` and likewise `H^der=(H⁰)^der`. Fixing the entire quotient representation into `G/G^der` uses `dim G^der`; this quotient can be noncommutative when `G` is disconnected. Abelianisation terminology applies to connected `G`; apply the schematic derived-subgroup construction to `G⁰`. `G`-valued lifts mean points of a specified smooth affine group scheme over `𝒪` with its base-change functor, not independently chosen subgroups of `GL_d(A)`.
 
 Ordinary-character reciprocity sends a uniformizer to geometric Frobenius. Tau Ceti `ClassFieldTheory`, Layer 7, uses arithmetic reciprocity, so compose with inversion. The tame relation uses arithmetic `φtφ⁻¹=t^q`; inert quadratic places use `q²`. `HT(ε)=+1`. Negate labelled Hodge–Tate weights from `HT(ε)=−1` sources, while retaining the contravariant `D*` and covariant Fontaine–Laffaille dictionaries. Ordinary highest weights `λ` give ordered characters of weights `−λ_{τ,d−i+1}−i+1`. The rank-two weight-zero shape has `{0,−1}`, and its dual KW shape has `{0,1}`. LLHLM uses the same positive cyclotomic convention: type `η=(2,1,0)` has actual labelled Hodge–Tate weights `{0,1,2}`. Its contravariant `T*_dd` accounts for the descent type `τ∨` and realizes the original representation; it does not dualize that representation again ([LLHLM20], §1.4, p. 7, Definition 3.1.3 and Remark 3.1.5, p. 21).
 
@@ -1159,19 +1159,26 @@ For odd `p`, construct `RankTwoNonordinaryEndpoint.exists`: given an irreducible
 
 ### 0.4 Coefficient Robba modules, Herr cohomology and period conditions
 
-For finite `K/ℚ_p` and finite local `E`-algebra `A`, construct the coefficient Robba ring `ℛ_{K,A}`, finite-projective `(φ,Γ_K)`-modules and their exact tensor category. Use annular convergent Laurent series and coefficient tensor products; import the scalar Robba and slope theory of `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.4.7–R07.4.9. Construct `D_rig` and its inverse on étale objects, compatibly with finite coefficient change. Supply saturated triangulations with actual rank-one character quotients and the de Rham period module with projective labelled filtrations.
+For finite `K/ℚ_p` and finite local `E`-algebra `A`, construct the coefficient Robba ring `ℛ_{K,A}`, finite-projective `(φ,Γ_K)`-modules and their exact tensor category. Use annular convergent Laurent series and coefficient tensor products; import the scalar Robba and slope theory of `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.4.7–R07.4.9. This section owns the common finite-`A` category, `D_rig` and its inverse on étale objects, compatibly with finite coefficient change, tensor products and duals. Supply saturated triangulations with actual rank-one character quotients and the de Rham period module with projective labelled filtrations.
+
+`PadicHodgeTheory`, §4.3, is a consumer of the `A=E` specialization for its rational Robba realization. That roadmap owns the further cyclotomic analytic adapters, connections, B-pairs and period comparisons.
 
 The APIs `CoefficientRobbaModule`, `CoefficientRobbaModule.etaleEquivalence`, `HerrCohomology` and `HerrCohomology.baseChange` give the Herr complex, `Ext` comparison, perfect amplitude `[0,2]`, derived base change, Euler characteristic `−[K:ℚ_p]` rank and Tate duality with the cyclotomic dual. Construct the étale equivalence by overconvergence followed by Artinian dévissage, and use the Herr complex to identify first-order deformation classes. Cohomology-group base change is asserted only when the associated `Tor` terms vanish. These are the carriers and comparisons used by 1.23, rather than new trianguline-variety geometry.
+
+Take invariants under the full finite torsion subgroup `Δ⊂Γ_K` and choose `γ` whose image topologically generates `Γ_K/Δ`. On `D^Δ` use degrees `0,1,2`, with `d⁰x=((φ−1)x,(γ−1)x)` and `d¹(a,b)=(γ−1)a−(φ−1)b`. Supply the change-of-generator quasi-isomorphisms and the natural derived comparison with continuous Galois cochains on étale objects. The `A=E` specialization is the complex called `herrComplex` in `PadicHodgeTheory`, §4.5: its realization comparison identifies `D_rig(V)` with `D_(rig)^†(V)`, preserving the coefficient-ring identification, Frobenius, Gamma, tensor products and duals. The induced cohomology comparisons preserve cup products and the signed degree-two trace. Relative to Liu's swapped degree-one coordinates, the cochain adapter has degree maps `1`, `(a,b)↦(b,a)`, `−1`. Normalize the trace by arithmetic reciprocity: over `K=ℚ_p`, `tr(χ_ur∪κ(p))=1` for the additive unramified class `χ_ur(Φ)=1`, and the reversed cup has trace `−1`. Here `Φ` is arithmetic Frobenius and `κ` is the supplied Kummer map. Finite-torsion invariants remain exact over every such `A`, including at `p=2`. Construct this common interface before its field-level consumers; the analytic and B-pair comparisons preserve it.
 
 **Checks.**
 
 - `D_rig(E)` is the trivial rank-one étale module; its deformation tangent has dimension `[K:ℚ_p]+1`.
 - The cyclotomic rank-one module has nonzero `H²`, paired with `H⁰` of the trivial module; the twist in duality is essential.
 - Over `E[ε]/(ε²)`, extension classes in `Ext¹` transport to the actual representation extensions; fibrewise diagonal characters alone do not specify the extension.
+- At `A=E`, the unit, its cyclotomic twist and their tensor/dual identifications agree in the common realization and the field-level realization.
+- For scalar commuting operators `φ=2`, `γ=3`, `d⁰(1)=(1,2)` and `d¹(1,2)=0`. At `(a,b)=(1,0)`, the degree-two value is 2 and Liu's value after swapping is `−2`, forcing the sign adapter.
+- Over `ℚ₂`, retain the finite Gamma torsion invariants; the character-first Kummer cup has trace 1 and its reverse has trace `−1`.
 
 *Needs:* [0.2](#t0-2); the scalar Robba targets above; `ArithmeticGaloisDuality`, `D7`.
 
-(Sources: [DING25], coefficient `(φ,Γ)`-module deformation setting; Kedlaya–Pottharst–Xiao, [Cohomology of arithmetic families of (φ,Γ)-modules](https://arxiv.org/abs/1203.5718), §§2.1–2.3 and Theorems 4.4.2–4.4.5; Berger–Colmez/Kedlaya–Liu étale comparison as cited there.)
+(Sources: [DING25], coefficient `(φ,Γ)`-module deformation setting; Kedlaya–Pottharst–Xiao, [Cohomology of arithmetic families of (φ,Γ)-modules](https://arxiv.org/abs/1203.5718), §§2.1–2.3, Definition 2.3.3, Proposition 2.3.7, the cup and trace in §2.3.10 and Theorems 4.4.2–4.4.5; [Liu, Cohomology and duality for (φ,Γ)-modules over the Robba ring](https://arxiv.org/abs/0711.4346), §§2.1–2.2 and Theorems 2.3, 4.7; Berger–Colmez/Kedlaya–Liu étale comparison as cited there.)
 
 ## Layer 1: Universal lifting rings and coefficient infrastructure
 
@@ -1446,7 +1453,7 @@ Over `Λ`, `R□=Λ[[X₁,…,X_r]]/(f₁,…,f_s)`, with `r=dim_κZ¹(ad ρ)`, 
 
 ### 1.17 `G`-valued framed deformation rings
 
-For smooth affine `G/Λ`, continuous framed lifts `Γ→G(A)` have universal ring `R□_{ρ̄,G}`, tangent `Z¹`(`Γ`,Lie `G` with `Ad ρ̄`), and contravariant maps induced by `G→H`. Fixing a multiplier means fixing the map to `G/G^der`. Import the integral group/Lie interface; `dim GSp₄=11` and `dim Sp₄=10`.
+For smooth affine `G/Λ`, continuous framed lifts `Γ→G(A)` have universal ring `R□_{ρ̄,G}`, tangent `Z¹`(`Γ`,Lie `G` with `Ad ρ̄`), and contravariant maps induced by `G→H`. For generalised reductive `G`, the fixed-quotient condition specifies a lift `μ:Γ→(G/G^der)(Λ)` and requires equality with `μ` after the quotient map, with `G^der=(G⁰)^der`. For connected `GSp`, this is the fixed-multiplier condition. Import the integral group/Lie interface; `dim GSp₄=11` and `dim Sp₄=10`.
 
 The construction provides the following API.
 
@@ -1454,7 +1461,7 @@ The construction provides the following API.
 - `GFramedRing`: `R^□_{ρ,G}`, the pro-representing complete local Noetherian `Λ`-algebra, with the universal lift `ρ^□_G` : `Γ → G(R^□_{ρ,G})`.
 - `GFramedRing.tangent`: `Hom_Λ(R^□_{ρ,G}, κ[ε]) ≅ Z¹(Γ, ad ρ)`.
 - `GFramedRing.map`: A morphism `φ` : `G → H` induces `R^□_{φ∘ρ,H} → R^□_{ρ,G}`, with `map_id` and `map_comp`.
-- `GFramedRing.fixedMultiplier`: For a character `μ` lifting `ν∘ρ`, the quotient `R^{□,μ}_{ρ,G}` of lifts with `ν∘ρ_A = μ`.
+- `GFramedRing.fixedMultiplier`: For generalised reductive `G`, `ν:G→G/G^der` and a continuous quotient representation `μ:Γ→(G/G^der)(Λ)` lifting `ν∘ρ`, the quotient `R^{□,μ}_{ρ,G}` represents lifts with `ν∘ρ_A = μ_A`. For connected `GSp`, `μ` is a multiplier character.
 - `GFramedRing.gl`: For `G = GL_d`, `R^□_{ρ,GL_d} = R^□_ρ` of [1.1](#t1-1).
 - `GFramedRing.hom_ext`: Maps from the universal ring are equal iff their framed lifts agree; this bijection is natural in coefficients.
 
@@ -1501,11 +1508,17 @@ For `K/ℚ_p` finite, `R□≅𝒪[μ_{p∞}(K)][[X₁,…,X_{[K:ℚ_p]+1}]]`. S
 
 ### 1.20 Presentations of `G`-valued framed rings and central quotients
 
-For smooth affine `𝒪`-groups `φ`:`G→H` with `G⁰→H⁰` smooth surjective, put `𝔨=ker(ad ρ→ad(φρ))`. Then `R□_G=R□_H[[X₁,…,X_r]]/(f₁,…,f_t)`, `r=dim Z¹(𝔨)`, `t=h²(𝔨)`; for `Γ=G_K`, `r−t=(dim G−dim H)(1+f)`. Taking `H=1` gives the absolute presentation. Continuous sections are required for local-field `κ`. For generalised reductive `G` and flat closed `Z⊂Z(G⁰)` normal in `G`, `H=G/Z`: finite étale `Z` gives `R□_H≅R□_G`; a torus `Z` with `Z∩G^der` étale gives `R□_{G/G^der}⊗̂_{R□_{H/H^der}}R□_H≅R□_G`. Away from `p`, `GSp₄` with fixed multiplier and `H⁰(ad⁰ρ̄(1))=0` has a ten-variable smooth ring; if `ρ̄` is also unramified, every lift is unramified.
+For smooth affine `𝒪`-groups `φ`:`G→H` with `G⁰→H⁰` smooth surjective, put `𝔨=ker(ad ρ→ad(φρ))`. Then `R□_G=R□_H[[X₁,…,X_r]]/(f₁,…,f_t)`, `r=dim Z¹(𝔨)`, `t=h²(𝔨)`; for `Γ=G_K`, `r−t=(dim G−dim H)(1+f)`. Taking `H=1` gives the absolute presentation. Continuous sections are required for local-field `κ`. For generalised reductive `G`, use `G^der=(G⁰)^der` and `H^der=(H⁰)^der`. The specified quotient representations, including their component-group actions, are retained in the completed product. For flat closed `Z⊂Z(G⁰)` normal in `G`, `H=G/Z`: finite étale `Z` gives `R□_H≅R□_G`; a torus `Z` with `Z∩G^der` étale gives `R□_{G/G^der}⊗̂_{R□_{H/H^der}}R□_H≅R□_G`. Away from `p`, `GSp₄` with fixed multiplier and `H⁰(ad⁰ρ̄(1))=0` has a ten-variable smooth ring; if `ρ̄` is also unramified, every lift is unramified.
+
+**Checks.**
+
+- For connected `GL_d`, `G^der=SL_d` and fixing `G/G^der` fixes the determinant.
+- For connected `GSp₄`, `G^der=Sp₄`; fixing the multiplier leaves dimension ten away from `p` under the displayed vanishing hypothesis.
+- Over a characteristic-zero field, `G=𝔾_m⋊C₂` with inversion has `G^der=1`, so `G/G^der=G` is noncommutative. Its full commutator subgroup is `𝔾_m`, since the commutator with the involution is the square map on the torus up to inversion, which is surjective as an fppf sheaf. Its actual abelianisation is `C₂`; fixing only that representation leaves torus deformations that fixing `G/G^der` excludes.
 
 *Needs:* [1.17](#t1-17); [1.16](#t1-16); [F.2.9](#fixed-determinant-rings); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
-(Sources: [PQ26], Proposition 3.6, arXiv v2 p. 24; [PQ26], Corollary 3.12 and Proposition 3.13, arXiv v2 p. 26; [BCGP21], Proposition 7.4.2, arXiv v3 p. 189.)
+(Sources: [PQ26], Introduction, arXiv v2 p. 4, Proposition 3.6, p. 24, Corollary 3.12 and Proposition 3.13, p. 26; [FKP22], §2, arXiv v5 p. 9; [BCGP21], Proposition 7.4.2, arXiv v3 p. 189.)
 
 <a id="t1-21"></a>
 
@@ -1536,7 +1549,7 @@ The construction provides the following API.
 
 ### 1.22 Smooth points of the generic fibre and purity
 
-Away from `p`, a closed characteristic-zero point is regular iff `H²(ad⁰ρ_x)=H⁰(ad⁰ρ_x(1))=0`. Pure WD points satisfy this vanishing. The unrestricted `GL_d` generic dimension is `d²`; a fixed full abelianisation gives `dim G^der` in the group-valued setting.
+Away from `p`, a closed characteristic-zero point is regular iff `H²(ad⁰ρ_x)=H⁰(ad⁰ρ_x(1))=0`. Pure WD points satisfy this vanishing. The unrestricted `GL_d` generic dimension is `d²`; fixing a compatible quotient representation into `G/G^der`, with `G^der=(G⁰)^der`, gives `dim G^der` in the group-valued setting.
 
 *Needs:* [1.18](#t1-18); [1.4](#t1-4); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
@@ -2127,7 +2140,7 @@ Define `cyc(σ)=Σ_{(τ,N)} dim_{Ē} Hom_{GL_d(𝒪_K)}(σ∨⊗Ē,π_{τ,N})[
 
 ### 2.28 Generic fibres of `G`-valued lifting rings away from `p` and minimally ramified lifts
 
-For reductive, possibly disconnected `G` and fixed full abelianisation, the generic fibre is reduced, equidimensional of dimension `dim G^der`, with dense regular open and finitely many type loci. For `GSp_{2d}`, assume `p>2d`, all irreducible representations of the subgroup `Λ_K=ker(I_K→ℤ_p)` occurring in the residual space are absolutely irreducible over `k`, and `𝒪×` contains square roots of `q`, `−1` and 2. Require a pure nilpotent lift `N_σ` of the residual logarithm with smooth scheme-theoretic centralizer `Z_G(N_σ)`. After the permitted finite residue/coefficient extension, the fixed-similitude minimally ramified condition is liftable with tangent dimension `h⁰(G_K,ad⁰ρ̄)`, giving a smooth framed quotient. These are Booher's `(A1)`–`(A4)` and splitting assumptions, not a consequence of `p>2d` alone. A Steinberg lift at the specified trivial prime is smooth.
+For reductive, possibly disconnected `G` and a fixed compatible quotient representation into `G/G^der`, with `G^der=(G⁰)^der`, the generic fibre is reduced, equidimensional of dimension `dim G^der`, with dense regular open and finitely many type loci. For `GSp_{2d}`, assume `p>2d`, all irreducible representations of the subgroup `Λ_K=ker(I_K→ℤ_p)` occurring in the residual space are absolutely irreducible over `k`, and `𝒪×` contains square roots of `q`, `−1` and 2. Require a pure nilpotent lift `N_σ` of the residual logarithm with smooth scheme-theoretic centralizer `Z_G(N_σ)`. After the permitted finite residue/coefficient extension, the fixed-similitude minimally ramified condition is liftable with tangent dimension `h⁰(G_K,ad⁰ρ̄)`, giving a smooth framed quotient. These are Booher's `(A1)`–`(A4)` and splitting assumptions, not a consequence of `p>2d` alone. A Steinberg lift at the specified trivial prime is smooth.
 
 *Needs:* [1.17](#t1-17); [1.22](#t1-22); [2.24](#t2-24).
 
@@ -2367,7 +2380,7 @@ The crystalline scheme generic fibre `Spec R□`,`crys_{τ,v}[1/ϖ]` is regular 
 
 ### 3.11 `G`-valued potentially semistable lifting rings (Balaji, Bellovin–Gee)
 
-Let `G/𝒪` be a smooth affine group scheme with reductive identity component and the `G`-valued lifting interface of 1.17. Fix a continuous residual representation, a `G⁰`-conjugacy class `τ` of finite-image inertia representations extending to the required Weil action, and a labelled Hodge cocharacter class `v`. Choose a finite Galois `L/K` with `τ|I_L=1`. The general-linear family input from [3.5](#t3-5) carries the induced fixed labelled Hodge and inertia types and this extension `L`; its period modules retain the tensor compatibility of [0.2](#t0-2). Construct the unique reduced `𝒪`-flat integral quotient `R□_{τ,v}` characterized, on every finite local `E`-algebra including nonreduced ones, by lifts of labelled Hodge type `v` and WD inertia type `τ` whose restriction to `G_L` is semistable. The quotient can be zero. If nonzero, its scheme generic fibre `Spec R□_{τ,v}[1/ϖ]` is reduced, locally a complete intersection and equidimensional, with a dense regular open. Its dimension is `dim G+Σ_σdim(G/P_{v,σ})`, or `dim G+f dim Fl_G` for regular `v`. A nonempty compatible fixed full abelianisation replaces `dim G` by `dim G^der` and has the corresponding generic-fibre properties. Integral complete intersection, Cohen–Macaulayness or formal smoothness requires a separate theorem carrying its own hypotheses; ordinary quotients and patching modules use only the properties on the stated fibre.
+Let `G/𝒪` be a smooth affine group scheme with reductive identity component and the `G`-valued lifting interface of 1.17. Fix a continuous residual representation, a `G⁰`-conjugacy class `τ` of finite-image inertia representations extending to the required Weil action, and a labelled Hodge cocharacter class `v`. Choose a finite Galois `L/K` with `τ|I_L=1`. The general-linear family input from [3.5](#t3-5) carries the induced fixed labelled Hodge and inertia types and this extension `L`; its period modules retain the tensor compatibility of [0.2](#t0-2). Construct the unique reduced `𝒪`-flat integral quotient `R□_{τ,v}` characterized, on every finite local `E`-algebra including nonreduced ones, by lifts of labelled Hodge type `v` and WD inertia type `τ` whose restriction to `G_L` is semistable. The quotient can be zero. If nonzero, its scheme generic fibre `Spec R□_{τ,v}[1/ϖ]` is reduced, locally a complete intersection and equidimensional, with a dense regular open. Its dimension is `dim G+Σ_σdim(G/P_{v,σ})`, or `dim G+f dim Fl_G` for regular `v`. A nonempty compatible fixed quotient representation into `G/G^der`, with `G^der=(G⁰)^der`, replaces `dim G` by `dim G^der` and has the corresponding generic-fibre properties. Integral complete intersection, Cohen–Macaulayness or formal smoothness requires a separate theorem carrying its own hypotheses; ordinary quotients and patching modules use only the properties on the stated fibre.
 
 **Checks.**
 
@@ -3242,7 +3255,7 @@ For the reference type of 6.4 and a witness `hρ̄ : IsDiscreteSeriesLift type �
 
 ### 6.17 The `G`-valued ordinary locus is a union of components
 
-For dominant regular `λ` and the preceding fixed-extension ordinary quotient, its generic fibre is a union of components of the ambient `G`-valued semistable ring. It has dense regular open and every component has dimension `dim G+[K:ℚ_p]dim Fl_G`. Fixing a compatible full abelianisation replaces `dim G` by `dim G^der`.
+For dominant regular `λ` and the preceding fixed-extension ordinary quotient, its generic fibre is a union of components of the ambient `G`-valued semistable ring. It has dense regular open and every component has dimension `dim G+[K:ℚ_p]dim Fl_G`. Fixing a compatible quotient representation into `G/G^der`, with `G^der=(G⁰)^der`, replaces `dim G` by `dim G^der`.
 
 *Needs:* [6.5](#t6-5); [3.11](#t3-11); [1.18](#t1-18); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
@@ -3612,7 +3625,11 @@ These are the remaining prime generators in the explicit quotient rings.
 
 ### 6.34 Generic fibres of the `GSp₄` ordinary rings: irreducibility, dimension and smooth pure points
 
-For the preceding distinguished residual problems, the Borel generic fibres are irreducible of dimension sixteen, each single Borel condition after diagonal-weight base change has dimension fifteen, and their `P`-ordinary intersection has dimension fourteen. The universal `P`-ring and its weight specialisation are complete intersections with connected characteristic-zero fibres and nonsmooth locus of codimension at least two; their dimensions are fifteen and fourteen. The `P`-framed ring is the completed tensor product of three `GL₂` ordinary subquotient rings. The Borel `H²` exceptional cases are listed below, with dimension at most one except the simultaneous double exception, where it is two. Pure distinguished closed points are smooth, using the symplectic dual-quotient argument. In the double exception the integral Borel ring is not asserted flat or to have complete-intersection special fibre.
+For the preceding distinguished residual problems, the Borel generic fibres are irreducible of dimension sixteen, each single Borel condition after diagonal-weight base change has dimension fifteen, and their `P`-ordinary intersection has dimension fourteen. The universal `P`-ring and its weight specialisation are complete intersections with connected characteristic-zero fibres and nonsmooth locus of codimension at least two; their dimensions are fifteen and fourteen. The `P`-framed ring is the completed tensor product of the three `GL₂` ordinary subquotient rings over the character bases specified below. The Borel `H²` exceptional cases are listed below, with dimension at most one except the simultaneous double exception, where it is two. Pure distinguished closed points are smooth, using the symplectic dual-quotient argument. In the double exception the integral Borel ring is not asserted flat or to have complete-intersection special fibre.
+
+Let `R_A` and `R_B` be the `B₂`-framed ordinary rings of 6.15 with determinant `ε⁻¹`, top characters `χ_A`,`χ_B` and bottom characters `ε⁻¹χ_A⁻¹`,`ε⁻¹χ_B⁻¹`. Let `R_AB` be the `B₂`-framed ring of the cross subquotient with variable determinant, and write its top and bottom characters as `ξ₁`,`ξ₂`. Put `D=R_{GL₁×GL₁}=R_{GL₁}⊗̂_𝒪R_{GL₁}` for the pair of characters lifting the ordered residual unramified characters. The map `D→R_A⊗̂_𝒪R_B` classifies `(χ_A,χ_B)`; the map `D→R_AB` classifies `(ξ₁,ε⁻¹ξ₂⁻¹)`. Thus the tensor product identifies `χ_A=ξ₁` and `χ_B=ε⁻¹ξ₂⁻¹`, or equivalently `ξ₂=ε⁻¹χ_B⁻¹`.
+
+With `Λ=𝒪[[1+pℤ_p]]` mapping by the top inertial character to both `R_A` and `R_B`, the presentations are `R^{P,univ,◹}≅(R_A⊗̂_𝒪R_B)⊗̂_D R_AB` and `R^{P,◹}≅(R_A⊗̂_ΛR_B)⊗̂_D R_AB`. The second presentation additionally identifies the two inertial weights. All completions use the coefficient-category coproduct of F.0.1. Full framing is formally smooth of relative dimension five over these `P`-valued charts, whose generic dimensions are ten and nine.
 
 Write the residual Siegel extension classes as `η_{α²}`,`η_{β²}`,`η_{αβ}`. The only possible nonzero Borel obstruction cases are:
 
@@ -3622,10 +3639,15 @@ Write the residual Siegel extension classes as `η_{α²}`,`η_{β²}`,`η_{αβ
 
 The list supplies necessary conditions, without asserting a converse for every listed datum. For smooth pure points, duality uses the quotient `ad⁰/Fil¹ad⁰`, rather than treating the dual of the Borel as a submodule of `ad⁰`. In the dimension estimates use relative dimension twelve over the `GL₂` Borel ring in case `(2b)`, complement dimension at most thirteen in case `(2a)`, and codimension three in the indicated `P` comparison.
 
+**Checks.**
+
+- A triple with `ξ₁≠χ_A` or `ξ₂≠ε⁻¹χ_B⁻¹` cannot define a point of the tensor product over `D`, even if all three individual subquotient lifts exist over the same coefficient algebra.
+- Over the unrestricted chart the inertial weights can differ; tensoring `R_A` and `R_B` over `Λ` forces their equality and gives the scalar-inertia `P` condition.
+- The chart generic dimensions ten and nine become fifteen and fourteen after adding the five full-framing variables; the tensor products over `𝒪` alone would omit the character identifications.
 
 *Needs:* [6.27](#t6-27); [6.15](#t6-15); [1.18](#t1-18); [1.22](#t1-22); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology); [6.31](#t6-31).
 
-(Sources: [BCGP21], Proposition 7.3.4, arXiv v3 p. 173; [BCGP21], Proposition 7.3.16, arXiv v3 p. 183; [BCGP21], Lemma 7.3.18, arXiv v3 p. 188.)
+(Sources: [BCGP21], Proposition 7.3.4, arXiv v3 p. 173; [BCGP21], Lemma 7.3.15 and Proposition 7.3.16, arXiv v3 p. 183; [BCGP21], Lemma 7.3.18, arXiv v3 p. 188.)
 
 <a id="t6-35"></a>
 
@@ -3839,14 +3861,14 @@ For `p≥3` and global residual (`χ̄`,*;0,1) with geometric determinant `μ=κ
 
 ### 8.6 Deformation conditions cut out by a category `S` (BCDT §4.3)
 
-For a Schur residual module `V`, let `S(ρ̄)` consist of finite-length coefficient Galois modules admitting a finite filtration with every successive quotient isomorphic to `V`. With the Schur hypothesis this is an abelian category. A full subcategory `S` containing `V` and closed under isomorphism, finite products, subobjects and quotients inside `S(ρ̄)` defines a deformation condition by requiring every open-ideal quotient of a lift to lie in `S`. Construct its universal unframed quotient, with and without fixed determinant. Its tangent is `Ext¹_S(V,V)`, identified with the condition subspace `L_S⊆H¹(G_K,ad ρ̄)`. With fixed determinant the tangent is `L_S∩ker(tr_*:H¹(ad ρ̄)→H¹(k))`. When `p∤d`, scalar splitting identifies this with the corresponding subspace of `H¹(ad⁰ρ̄)`. For `p|d` use the kernel in `H¹(ad)`, equivalently trace-zero cocycles modulo coboundaries from all of `ad`; `H¹(ad⁰)` alone can overcount strict classes. Inclusion `S⊆T` gives a compatible surjection `R^T→R^S`; the finite-flat subcategory recovers Layer 4.
+For a Schur residual module `V`, let `S(ρ̄)` consist of finite-length coefficient Galois modules admitting a finite filtration with every successive quotient isomorphic to `V`. With the Schur hypothesis this is an abelian category. A full subcategory `S` containing `V` and closed under isomorphism, finite products, subobjects and quotients inside `S(ρ̄)` defines a deformation condition by requiring every open-ideal quotient of a lift to lie in `S`. Construct its universal unframed quotient, with and without fixed determinant. Put `S_k={M∈S:ϖM=0}`, with exact sequences inherited from discrete `k[G_K]`-modules. The relative tangent of the condition is `t(D^S)≅Ext¹_{S_k}(V,V)↪H¹(G_K,ad ρ̄)`; define `L_S` as the image of this injection. The Ext classes have middle object in `S_k`; extensions in `S` whose middle object is not killed by `ϖ` do not give tangent deformations. With fixed determinant the tangent is `L_S∩ker(tr_*:H¹(ad ρ̄)→H¹(k))`. When `p∤d`, scalar splitting identifies this with the corresponding subspace of `H¹(ad⁰ρ̄)`. For `p|d` use the kernel in `H¹(ad)`, equivalently trace-zero cocycles modulo coboundaries from all of `ad`; `H¹(ad⁰)` alone can overcount strict classes. Inclusion `S⊆T` gives a compatible surjection `R^T→R^S`; the finite-flat subcategory recovers Layer 4.
 
 The construction provides the following API.
 
 - `CategoryCondition`: A full subcategory `S ⊂ S(ρ̄)` closed under isomorphism, finite products, `S(ρ̄)`-subobjects and `S(ρ̄)`-quotients, containing `V`.
 - `CategoryCondition.defFunctor`: `D^S_{V,𝒪}` and `D^{ψ,S}_{V,𝒪}`.
 - `CategoryCondition.ring`: `R^S_{V,𝒪}`, `R^{ψ,S}_{V,𝒪}`, quotients of `R_{V,𝒪}`, `R^ψ_{V,𝒪}`.
-- `CategoryCondition.tangent`: The tangent of `D^{ψ,S}` is `L_S∩ker(tr_*:H¹(G_K,ad ρ̄)→H¹(G_K,k))`; for `p∤d` it identifies with `H¹_S(G_K,ad⁰ρ̄)`. In general `Z¹(ad⁰)/B¹(ad)` maps injectively into `H¹(ad)`, and its intersection with `L_S` gives the condition tangent.
+- `CategoryCondition.tangent`: The relative tangent of `D^S` identifies with `Ext¹_{S_k}(V,V)` and embeds with image `L_S` in `H¹(G_K,ad ρ̄)`. The tangent of `D^{ψ,S}` is `L_S∩ker(tr_*:H¹(G_K,ad ρ̄)→H¹(G_K,k))`; for `p∤d` it identifies with `H¹_S(G_K,ad⁰ρ̄)`. In general `Z¹(ad⁰)/B¹(ad)` maps injectively into `H¹(ad)`, and its intersection with `L_S` gives the condition tangent.
 - `CategoryCondition.flat`: For `S` the finite flat modules, `D^S` is [4.1](#t4-1), with the condition and Fontaine–Laffaille tangent identification supplied by `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.6.7 (`flatDeformationTangentSpace`).
 - `CategoryCondition.mono`: `S⊂T` induces `R^T↠R^S`, compatibly with the same residual object, determinant and universal lifts.
 
@@ -3855,6 +3877,7 @@ The construction provides the following API.
 - `S = S(ρ̄)`: `R^S_{V,𝒪} = R_{V,𝒪}`.
 - `S` = finite flat `𝒪[G_ℓ]`-modules `(ℓ = p)`: `R^S` is the flat deformation ring.
 - The category `{0,V}` fails product closure since `V⊕V` is missing.
+- For `p=3`, `K=ℚ₃`, `𝒪=ℤ₃`, `V=𝔽₃` trivial, let `S` consist of all finite-length coefficient modules with trivial Galois action. Its deformation functor has only the trivial character, so `R^S=𝒪` and `t(D^S)=Ext¹_{S_k}(V,V)=0`. In contrast, `0→k→𝒪/9→k→0`, with first map `a↦3a`, is nonsplit in `S` and gives `Ext¹_S(k,k)≅k`. Its middle object is not killed by 3 and cannot underlie a `k[ε]/(ε²)` deformation. More generally the same exclusion applies to the trivial-action extension `𝒪/ϖ²`.
 - A nonsplit Schur extension `V` of distinct characters belongs to `S(ρ̄)` by its one-step `V`-filtration. Its two character factors are not `V` and need not be objects of `S(ρ̄)`.
 - For a Schur representation with `p=2` and `d=2`, every invariant endomorphism is scalar and has trace `2a=0`. In `0→ad⁰→ad→k→0` the connecting class `δ(1)` is therefore nonzero in `H¹(ad⁰)` but maps to zero in `H¹(ad)`. Counting it as an unframed fixed-determinant tangent direction would count a strict coboundary.
 - For `p` odd, `S` = finite flat, `ρ̄` peu ramifié of weight 2 over `ℚ_p`: `dim H¹_S(G_p, ad⁰ρ̄) = 1 + dim H⁰(G_p, ad⁰ρ̄)`.

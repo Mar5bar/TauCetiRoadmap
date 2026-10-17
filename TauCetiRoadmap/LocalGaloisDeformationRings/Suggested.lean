@@ -1432,6 +1432,15 @@ The names `univLift`, `univLift_reduce`, `liftEquivHom` and `univLift_continuous
 F.2.4 specialize the common continuous framed pair of DeformationAndDerivedPatchingAlgebra
 §2.7, under Φ_p and with the specified residue basis and maximal-ideal topology.
 
+Layer 0: README 0.4 owns `CoefficientRobbaModule`, `D_rig`, its étale equivalence,
+`HerrCohomology` and derived coefficient change. At A=E these give PadicHodgeTheory's
+`D_(rig)^†` and `herrComplex`, preserving tensor, dual, cohomology, cup and signed trace.
+On finite Gamma-torsion invariants the differentials are
+x ↦ ((φ−1)x,(γ−1)x) and (a,b) ↦ (γ−1)a−(φ−1)b.
+The adapter to Liu swaps degree-one coordinates and negates degree two;
+arithmetic reciprocity gives trace one for the unramified-class-first Kummer cup.
+Connections, B-pairs and further analytic period comparisons belong to PadicHodgeTheory.
+
 Layer 0: `CanonicalModule`, `CanonicalModule.regularQuotient` and
 `CanonicalModule.type_eq_socle` specialize DeformationAndDerivedPatchingAlgebra §3.9
 for a nonzero complete CM quotient of a regular local power-series ring.
@@ -1443,6 +1452,12 @@ Layer 1: `heightLatticeFunctor`, `ordinaryWeightRing`, `universalInertialCharact
 `IsSemistableOrdinaryOfWeight`, `ordinaryFlagScheme`, `ordinaryFlagImage`, `CoeffRing`,
 `ArtinCat`, `liftFunctorΛ`, `GLift`, `GFramedRing`, `canonicalTorus`, `chiLambda`, `IsGOrdinary`,
 `PhiGamma.defRing`, `PhiGamma.triangulineDefRing`, `PhiGamma.deRhamDefRing`.
+For generalised reductive G, README 1.17, 1.20 and 1.22 use G^der=(G⁰)^der.
+The fixed-quotient lift μ takes values in G/G^der, which can be noncommutative;
+`GFramedRing.fixedMultiplier` specializes to a character for connected GSp.
+The pinned schematic derived-group construction is applied to G⁰.
+For the inversion semidirect product of the multiplicative group with C₂,
+G^der is trivial but the full commutator subgroup is the multiplicative group.
 Integral ordinary flag uniqueness requires residual inertial separation or vanishing Hom
 modules between distinct graded characters; coefficient-change existence retains the flags.
 
@@ -1481,6 +1496,12 @@ of §6.8, `OrdinaryFixedInertia`, `DiscreteSeriesType`, `IsDiscreteSeriesLift`,
 fixed residual representation. The liftability, tangent dimension and smooth framed ring of
 README 6.16 retain that witness. Incompatible residual data give an empty condition and a zero
 condition quotient, excluded from `DeformationProblem`.
+README 6.34 identifies the P-valued charts with
+(R_A ⊗̂_𝒪 R_B) ⊗̂_D R_AB and (R_A ⊗̂_Λ R_B) ⊗̂_D R_AB,
+where D is the ring of two characters, R_A and R_B have determinant ε⁻¹,
+and R_AB has variable determinant. The character maps classify (χ_A,χ_B) and
+(ξ₁,ε⁻¹ξ₂⁻¹); Λ identifies the top inertial weights. The chart dimensions ten
+and nine become fifteen and fourteen after five full-framing variables.
 The GL₃ type `(η, τ)` has actual weights `{0,1,2}` and determinant weight `3`.
 Its Kisin Frobenius matrices lie over power series with a height condition;
 `GL3KisinChart.frobMatrix` becomes invertible over the completed étale coefficient ring,
@@ -1497,7 +1518,12 @@ the separate auxiliary-lift, scoped-globalization and finite-level unitary patch
 Layer 7: `detOrdTilde`, `detOrd`.
 Layer 8: `IrreducibleEndpointDeformation` retains the restricted endpoint category and
 coefficient-compatible one-parameter normal form, including p=2. `CategoryCondition` uses
-V-filtrations and subobjects and quotients inside that abelian category; `KWCondition`
+V-filtrations and subobjects and quotients inside that abelian category.
+Its relative tangent Ext is taken in S_k, the discrete k-linear objects of S killed by ϖ,
+with image L_S in H¹(ad). The fixed-determinant tangent is L_S ∩ ker(tr_*), using
+trace-zero cocycles modulo full-adjoint coboundaries also when p divides the rank.
+The trivial-action extension 𝒪/ϖ² belongs to S but is excluded from S_k;
+for the trivial rank-one condition the relative tangent is zero. `KWCondition`
 retains its selected branch data.
 -/
 
