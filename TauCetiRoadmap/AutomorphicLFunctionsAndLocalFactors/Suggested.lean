@@ -40,6 +40,11 @@ gamma factors, geometric-Frobenius determinant conventions and continuation befo
 The common adelic Schwartz/Fourier/Poisson space and scalar Tate continuation are consumed from
 ArithmeticGaloisRepresentations §2.7 Global inputs. The README specifies their vector-space and
 distribution refinements, representation spaces, shtukas and rational period comparisons.
+AutomorphicFormsOnReductiveGroups §§2.3–2.7 and 3.4–3.5 supplies the general induction,
+globalization and algebraic tensor constructions; §§4.3 and 5.7 supply number-field cuspidal
+GLₙ genericity and Clozel rationality. The README specializes these for its Whittaker and
+rational-period interfaces. The supplier’s §4.5 cosh Bessel kernel is identified with the half-integral
+adapter below; order-variable holomorphy and derivatives are additional targets here.
 The finite-place distribution epsilon scalar is identified unconditionally with
 ArithmeticGaloisRepresentations §2.7's `tateLocalConstant` at the norm-twisted character.
 The rational period datum retains its infinity generator; its Gauss twisting relation uses
@@ -287,18 +292,32 @@ example : Function.Bijective (fun y : ZMod 2 =>
 example : AddChar.mulShift (1 : AddChar ℝ Circle) (1 : ℝ) =
     AddChar.mulShift (1 : AddChar ℝ Circle) 0 := by sorry
 
-/-- The order variable is complex; the argument is positive real in the public API. -/
+/-- Half-integral adapter to AutomorphicFormsOnReductiveGroups §4.5's cosh Bessel kernel,
+    with complex order and positive real argument in the public API. -/
 def BesselK (ν : ℂ) (c : ℝ) : ℂ :=
   (1/2 : ℂ) * ∫ u : ℝ in Set.Ioi 0,
     Complex.exp (-(c : ℂ) * ((u : ℂ) + (u : ℂ)⁻¹)/2) *
       Complex.exp (ν * (Real.log u : ℂ)) / (u : ℂ)
 
+/-- For positive argument the half-integral converges absolutely and equals the supplied
+    cosh kernel, by substituting u = exp(t) and pairing t with -t. -/
+theorem BesselK.integral (ν : ℂ) {c : ℝ} (hc : 0 < c) :
+    IntegrableOn (fun u : ℝ =>
+      Complex.exp (-(c : ℂ) * ((u : ℂ) + (u : ℂ)⁻¹)/2) *
+        Complex.exp (ν * (Real.log u : ℂ)) / (u : ℂ)) (Set.Ioi 0) ∧
+    BesselK ν c = ∫ t : ℝ in Set.Ioi 0,
+      Complex.exp (-(c : ℂ) * (Real.cosh t : ℂ)) * Complex.cosh (ν * (t : ℂ)) := by
+  sorry
+
+/-- The supplied cosh-kernel symmetry transports to the half-integral adapter. -/
 theorem BesselK.even (ν : ℂ) {c : ℝ} (hc : 0 < c) :
     BesselK (-ν) c = BesselK ν c := by sorry
 
+/-- At positive argument the half-integral adapter is entire in its complex order. -/
 theorem BesselK.entire_order {c : ℝ} (hc : 0 < c) :
     Differentiable ℂ (fun ν => BesselK ν c) := by sorry
 
+/-- The supplied half-order value transports to the half-integral adapter. -/
 theorem BesselK.half {c : ℝ} (hc : 0 < c) :
     BesselK (1/2) c = (Real.sqrt (Real.pi/(2*c))*Real.exp (-c) : ℝ) := by sorry
 
