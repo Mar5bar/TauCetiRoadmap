@@ -56,6 +56,18 @@ existence and independence of compact restriction, finite support and descent of
 collection to finite splitting coefficients. The type-detection identities in 2.26.1–2.26.2 use
 these generic representatives; the inverse-zero convention applies to those outside the
 essentially square-integrable subset.
+For p>2 and arbitrary rank d at residue characteristic ℓ≠p,
+`AwayFromP.arithmeticCycleFunctor` provides the restricted CM globalization and
+finite-level arithmetic systems, including their ordinary automorphy and local–global
+compatibility input. Its exact covariant H∞ on finitely generated O-modules with smooth
+GL_d(O_K)^m-action commutes with reduction and preserves O-torsion-free objects.
+Over R∞=(R□)^{⊗̂m}⊗̂A its generic cycle is c times the product of the local cycle maps,
+with c=d! and A geometrically integral and flat. Abstract module patching and cycle
+specialization use DeformationAndDerivedPatchingAlgebra Layer 5 and §6.7.
+`AwayFromP.glCycleReductionDescent` gives ker(r_p^{GL})⊆ker(red∘cyc), hence the
+unique additive cyc̄_GL on the mod-p Grothendieck group with values in dimension-d²
+special cycles. Tensor powers detect nonzero cycles even when p divides c, as for
+d=p=3 and c=6. Composing with JL_p gives cyc̄_D and its reduction identity.
 -/
 
 namespace TauCetiRoadmap.LocalGaloisDeformationRings
@@ -1521,6 +1533,13 @@ where D is the ring of two characters, R_A and R_B have determinant ε⁻¹,
 and R_AB has variable determinant. The character maps classify (χ_A,χ_B) and
 (ξ₁,ε⁻¹ξ₂⁻¹); Λ identifies the top inertial weights. The chart dimensions ten
 and nine become fifteen and fourteen after five full-framing variables.
+README 6.15 denotes the four-dimensional B₂-valued chart by R^{B₂,◹}; a flag
+splitting gives the fully framed R^{B₂}≅R^{B₂,◹}[[u]], of relative dimension five.
+In README 6.34 case (2b), compatible flag splittings give the middle symplectic
+subquotient W=Fil₃/Fil₁ with residual λ_βbar⊗(1⊕εbar⁻¹). Its triangular basis
+induces R^{B₂,◹}(W)→R^B, formally smooth of relative dimension twelve. Retaining
+one transverse W-frame coordinate gives R^{B₂}(W)→R^B of relative dimension
+eleven. Thus both 4+12 and 5+11 give the ambient relative dimension sixteen.
 The GL₃ type `(η, τ)` has actual weights `{0,1,2}` and determinant weight `3`.
 Its Kisin Frobenius matrices lie over power series with a height condition;
 `GL3KisinChart.frobMatrix` becomes invertible over the completed étale coefficient ring,

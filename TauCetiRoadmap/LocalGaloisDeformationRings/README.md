@@ -20,7 +20,7 @@ Tau Ceti `NumberTheory/ClassFieldTheory/Local/Duality/FiniteModule` supplies `Ta
 
 `ReductiveGroups`, Layers 0, 7–9, owns affine group schemes, Lie theory, field-valued Borel theory, relative reductive structure and split integral forms. The relative Borel contract below is a dependency on its Layer 8, including its long-horizon content. `ArithmeticGaloisRepresentations`, §§7.3–7.5 supplies the integral symplectic matrix carrier and multiplier. Tau Ceti `LinearAlgebra/Matrix/SymplecticMultiplier` already identifies the multiplier with the determinant in rank two; that identity is not a target. Rank-four ramification and ordinary deformation conditions here retain their local Galois, flag and coefficient data.
 
-Global presentations, dual Selmer conditions, compatible systems and general patching stay with their respective roadmaps. The local `GL₃` weak patching interface in 6.30 and the block pseudodeformation identification in 3.8 are the precise inputs required here, not the whole global patching or `p`-adic local Langlands programmes. Division-algebra transfer and types, local-model geometry, endpoint classification and family admissibility are the targets and exact imports below; no application asserts that its supplier's theory already exists. Further locally algebraic trianguline geometry belongs to the trianguline-variety direction.
+Global presentations, dual Selmer conditions, compatible systems and general patching stay with their respective roadmaps. The restricted arbitrary-rank away-from-`p` arithmetic cycle functor in 2.27, the local `GL₃` weak patching interface in 6.30 and the block pseudodeformation identification in 3.8 are the precise arithmetic inputs constructed here. The first includes Shotton's scoped globalization, finite-level coefficient functors and automorphy input for cycle descent; its abstract patching algebra remains with `DeformationAndDerivedPatchingAlgebra`. Division-algebra transfer and types, local-model geometry, endpoint classification and family admissibility are the targets and exact imports below; no application asserts that its supplier's theory already exists. Further locally algebraic trianguline geometry belongs to the trianguline-variety direction.
 
 The canonical nonarchimedean local Jacquet–Langlands correspondence for central division algebras belongs to [2.26.1](#t2-26-1). `GL2AutomorphicRepresentationsAndTransfer`, R17.1.1, consumes its degree-two specialization, with the same isomorphism-class carriers, coefficient transport, inverse and character normalization. That roadmap owns the quaternionic local/global packaging and the split and real comparisons; division-algebra types, partition refinements, virtual inverse extension and deformation-cycle applications belong here.
 
@@ -60,6 +60,7 @@ The contracts state the input needed at each boundary. Library declarations belo
 - Target 6.9 extends the coefficient Kisin modules of `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.4.36, by tame descent data over `𝔖_{L′,A}=(W(k′)⊗A)[[u′]]`, `v=(u′)^{p^{f′}−1}`, for `K′/K` unramified of degree `≤3` and `L′=K′((−p)^{1/(p^{f′}−1)})`. The semilinear `Δ`-action commutes with `φ`; descent to the étale module and `T*_dd` are coefficient compatible, as are changes of eigenbasis on partial Frobenius matrices. These are [LLHLM20], Definition 3.1.3, p. 21, and its cited LLHLM18 Propositions 2.13 and 2.15; plain coefficient Kisin modules do not include descent data.
 - `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and §1.7 supplies projective Grassmannians and flag schemes, direct-summand universal subbundles, very ample bundles and closed invariant/Frobenius-stability equations; `SchemeAndStackFoundations`, §§4.9–4.10, and `AdicSpacesPartIII`, `F0`.8 supplies formal functions and algebraization. Target [4.7.1](#t4-7-1) constructs the Pappas–Rapoport and Deligne–Pappas local models and the comparisons required by 4.8 and 5.13. Grassmannian representability supplies their carriers, rather than their flatness or singularities.
 - `AdelicAlgebraicGroups`, AA.3.4 (`Reduction.finite_classes`) and AA.4.4 (level quotients and finite full rational stabilizers, with the compactness hypotheses there), supplies the adelic finiteness and level infrastructure used by [6.30](#t6-30). The definite-unitary function modules, Hecke actions and their patching application belong to 6.30.
+- Target [2.27](#t2-27) constructs the away-from-`p` arithmetic cycle functor and `GL_d` reduction descent. Its scoped arithmetic systems and generic cycle formula belong here; `DeformationAndDerivedPatchingAlgebra`, Layer 5 and §6.7, supplies abstract module patching, affine module cycles and uniformizer specialization. Adelic finiteness uses `AdelicAlgebraicGroups`, AA.3.4 and AA.4.4, with prime-to-`p` stabilizers for exact coefficient functors.
 - Target [4.14.1](#t4-14-1) constructs the Breuil–Kisin/Emerton–Gee comparison giving generic reducedness of potentially Barsotti–Tate special fibres for `p>2` and tame `τ`, and its fixed-determinant scalar-twisting adapter.
 - The period and filtered-module carriers use `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.0–R07.3.3 and R07.4.13; §§R07.4.27–R07.4.28 give its odd-prime field-valued descent dictionary. Target [0.2](#t0-2) supplies finite local `E`-algebra descent and completed deformation groupoids, with maximal-ideal topology. Targets [0.3](#t0-3) and [0.4](#t0-4) supply the ordinary and coefficient Robba comparisons.
 - `ReductiveGroups`, Layers 8–9, supplies smooth affine integral reductive groups, Lie algebras and `G/G^der`, the scheme of Borels `G/B₀` and coefficient-ring conjugacy/canonical-torus comparisons. For split `G` over local `A`, Borels are `G(A)`-conjugate to `B₀` with canonically identified torus quotients ([Conrad], Theorem 5.2.11 and Corollary 5.2.13, pp. 157–159). `ArithmeticGaloisRepresentations`, §§7.3–7.5 supplies the integral `GSp` realization and transpose conventions.
@@ -2123,7 +2124,7 @@ With the coefficients and types of 2.26.1, construct the additive Grothendieck-g
 
 Let `D/K` be central division of degree `d`, with residue characteristic `ℓ≠p`, and choose `E` defining the occurring types and making the irreducible components of both fibres geometrically irreducible. For each occurring pair `(τ,N)`, choose an absolutely irreducible admissible generic representation `π_{τ,N}` of `GL_d(K)` over `Ē` whose WD parameter has that inertia and monodromy. Prove existence by the segment classification and generic choices of unramified twists. Prove that any two such generic choices have isomorphic restrictions to `GL_d(𝒪_K)`, hence the same finite detection multiplicities. These existence and independence statements are targets here, using Shotton Lemma 4.1 and Definition 4.2; the characteristic-zero Jacquet–Langlands equivalence remains 2.26.1.
 
-Define `cyc(σ)=Σ_{(τ,N)} dim_{Ē} Hom_{GL_d(𝒪_K)}(σ∨⊗Ē,π_{τ,N})[R□(τ,N)]`, in dimension `d²+1`. Prove finite support for each finite-length compact representation `σ`. For each calculation descend its finite collection of types, generic representations and nonzero division-algebra transfers to absolutely irreducible models over a sufficiently large finite extension of `E`, with compatibility under further extension. Define `cyc_D` by the same sum using `Hom_{𝒪_D×}(σ∨⊗Ē,JL⁻¹π_{τ,N})`. Here the inverse-zero convention is applied to these generic representatives: an essentially square-integrable one has its inverse from 2.26.1, and every other one contributes zero. Prove independence of the generic choice also for these division-algebra multiplicities, using the type-detection identity of 2.26.2 and the compact-restriction independence above. Then `cyc_D=cyc∘JL_K`. For `p≠2` there is a unique special-cycle map in dimension `d²` satisfying `red∘cyc_D=cyc̄_D∘r_p`. Under `p≠2` and even `d`, inflate an order-`p` character of the quadratic residue extension through `N_{k_D/k′}`; its type ring and Steinberg have isomorphic reduced special-fibre subschemes. Equal cycles do not assert reducedness of either original fibre.
+Define `cyc(σ)=Σ_{(τ,N)} dim_{Ē} Hom_{GL_d(𝒪_K)}(σ∨⊗Ē,π_{τ,N})[R□(τ,N)]`, in dimension `d²+1`. Prove finite support for each finite-length compact representation `σ`. For each calculation descend its finite collection of types, generic representations and nonzero division-algebra transfers to absolutely irreducible models over a sufficiently large finite extension of `E`, with compatibility under further extension. Define `cyc_D` by the same sum using `Hom_{𝒪_D×}(σ∨⊗Ē,JL⁻¹π_{τ,N})`. Here the inverse-zero convention is applied to these generic representatives: an essentially square-integrable one has its inverse from 2.26.1, and every other one contributes zero. Prove independence of the generic choice also for these division-algebra multiplicities, using the type-detection identity of 2.26.2 and the compact-restriction independence above. Then `cyc_D=cyc∘JL_K`.
 
 **Checks.**
 
@@ -2132,7 +2133,31 @@ Define `cyc(σ)=Σ_{(τ,N)} dim_{Ē} Hom_{GL_d(𝒪_K)}(σ∨⊗Ē,π_{τ,N})[
 - An unramified twist of a generic representative has isomorphic compact restriction and the same multiplicities. A generic irreducible principal series has inverse-zero transfer, whereas `St_d` has the trivial division-algebra inverse.
 - Finite coefficient extension preserves the Hom dimensions of the split absolutely irreducible models and transports the cycles by scalar extension.
 
-*Needs:* [2.26.1](#t2-26-1); [2.26.2](#t2-26-2); [2.18](#t2-18); [2.24](#t2-24); [2.15](#t2-15).
+**Arithmetic cycle functor.** For `p>2`, arbitrary `d≥1` and continuous `ρ̄:G_K→GL_d(k)` with `ℓ≠p`, construct `AwayFromP.arithmeticCycleFunctor`: after finite coefficient extension there are `m,c≥1`, a geometrically integral flat `A∈C_𝒪`, and an exact covariant functor `H∞` from finitely generated `𝒪`-modules with smooth `GL_d(𝒪_K)^m`-action to finite `R∞=(R□)^{⊗̂ m}⊗̂_𝒪A`-modules. It commutes with reduction modulo `ϖ`, preserves `𝒪`-torsion-free objects and satisfies `Z(H∞(⊠_i σ_i))=c·(⊗_i cyc(σ_i))⊗[A]` for finite free lattices, under the product identification of top-dimensional cycle groups. Shotton's construction gives `c=d!`.
+
+This target includes the restricted CM globalization with prescribed completions `K` at the places above `ℓ`, adequate cyclotomic residual image, trivial residual representations and ordinary lifts at the places above `p`, and a nonzero definite-unitary automorphic space. It includes its finite-level exact coefficient functors, Hecke and Galois actions, reduction comparisons, and the ordinary automorphy lifting and local–global compatibility statements that meet every generic component and give the displayed cycle formula. Retain the splitting, multiplier and auxiliary-level hypotheses of Shotton Proposition 5.13 and §5.4; exactness uses prime-to-`p` stabilizers. These arithmetic inputs are constructed here using the supplied abstract patching algebra.
+
+**Checks.**
+
+- Applying exactness to `0→L→L→L/ϖL→0`, with first map multiplication by `ϖ`, gives the stated reduction comparison for a lattice `L`.
+- At a product component the generic coefficient is `c` times the product of the type-detection multiplicities. A zero functor fails this formula whenever that product is nonzero.
+- For `d=3`, `p=3`, the construction has `c=6`; the theorem imposes no prime-to-`p` condition on `c` or on the rank.
+
+(Sources: [Shotton], proof of Theorem 4.6, arXiv v2 pp. 17–18; §§5.1–5.4, pp. 21–34, especially Proposition 5.13, pp. 27–28, Proposition 5.20, p. 32, and Corollary 5.21, p. 33.)
+
+**Reduction descent.** For these same arbitrary-rank data with `p>2`, prove `AwayFromP.glCycleReductionDescent`: `ker(r_p^{GL})⊆ker(red∘cyc)`. Equivalently there is a unique additive `cyc̄_GL:R_k(GL_d(𝒪_K))→Z_{d²}(R□/ϖ)` with `red∘cyc=cyc̄_GL∘r_p^{GL}`. Here `R_E` and `R_k` denote Grothendieck groups of finite-dimensional smooth compact representations, and `r_p^{GL}:R_E→R_k` is lattice reduction. Exactness and the cycle formula above give the kernel inclusion by tensor powers and specialization; the auxiliary special cycle `Z(A/ϖ)` is nonzero. Surjectivity of reduction gives uniqueness. Compose with `JL_p` to obtain `cyc̄_D=cyc̄_GL∘JL_p` and `red∘cyc_D=cyc̄_D∘r_p^D`.
+
+**Checks.**
+
+- Two compact representations with the same mod-`p` Grothendieck class have equal specialized cycles, including when their difference is a nonzero virtual class in `ker(r_p^{GL})`.
+- The cycle groups are free abelian: a nonzero cycle `β` has `c·β^{⊗ m}⊗Z(A/ϖ)≠0`. Thus `p|c`, as for `d=p=3`, does not obstruct descent; no inversion of `c` in `𝒪` is used.
+- For `d=1` and `D=K`, both transfers are identities and division-algebra descent is the `GL₁` descent. Characteristic-zero transfer and its reduction square alone do not supply the kernel inclusion; `p=2` is outside this descent theorem.
+
+(Sources: [Shotton], Theorem 4.6 and proof, arXiv v2 pp. 17–18; [DOTTO25], Theorem 6.3 and proof, published pp. 244–245.)
+
+Under `p≠2` and even `d`, inflate an order-`p` character of the quadratic residue extension through `N_{k_D/k′}`; its type ring and Steinberg have isomorphic reduced special-fibre subschemes. Equal cycles do not assert reducedness of either original fibre.
+
+*Needs:* [2.26.1](#t2-26-1); [2.26.2](#t2-26-2); [2.18](#t2-18); [2.24](#t2-24); [2.15](#t2-15); the arithmetic cycle functor and reduction-descent targets above; `DeformationAndDerivedPatchingAlgebra`, Layer 5 and §6.7; `AdelicAlgebraicGroups`, AA.3.4 and AA.4.4; `SmoothRepresentationsOfLocalGroups`, SR.0, SR.1.2 and SR.5.
 
 (Sources: [NT26], proof of Lemma 3.6, arXiv v2 pp. 18–19; [DOTTO25], §6, case `ℓ ≠ p` and Theorem 6.3, pp. 243–245 (journal pages); [Shotton], §3.5, arXiv v2 pp. 14–15, Lemma 4.1 and Definitions 4.2, 4.4, pp. 16–17, and Theorem 4.6, p. 17.)
 
@@ -3225,19 +3250,24 @@ The construction provides the following API.
 
 ### 6.15 The `GL₂` ordinary ring `R^{B₂}`: irreducible generic fibre and explicit presentations
 
-For `p>2` and residual (`λ_ᾱ`,*;0,`ε̄⁻¹λ_ᾱ⁻¹`), fix determinant `ε⁻¹` and the universal inertial character over `𝒪[[1+pℤ_p]]`. The ordinary ring has irreducible generic fibre of dimension five and is formally smooth over `𝒪` of that relative dimension when `H²=0`. `H²` is one precisely for `ᾱ²=1` and zero extension class, and zero otherwise. The `B₂`-framed versions are flat complete intersections of relative dimension four, with the four explicit presentation cases below; full framing adds one smooth variable. The points nonsmooth over weight space are, up to unramified twist, crystalline extensions of `ε⁻¹` by 1.
+For `p>2` and residual (`λ_ᾱ`,*;0,`ε̄⁻¹λ_ᾱ⁻¹`), fix determinant `ε⁻¹` and the universal inertial character over `𝒪[[1+pℤ_p]]`. The fully framed ordinary ring `R^{B₂}` has irreducible generic fibre of dimension five and is formally smooth over `𝒪` of that relative dimension when `H²=0`. `H²` is one precisely for `ᾱ²=1` and zero extension class, and zero otherwise. The partially `B₂`-framed chart `R^{B₂,◹}` is a flat complete intersection of relative dimension four, with the four explicit presentation cases below; a choice of flag splitting gives `R^{B₂}≅R^{B₂,◹}[[u]]`. The points nonsmooth over weight space are, up to unramified twist, crystalline extensions of `ε⁻¹` by 1.
 
 For the `B₂`-framed calculation, use `y₁`,`y₂` from the rank-one character ring, `x_i` for framing and `z_i` for extensions. The residual character parameter is `γ` and the extension class is `η∈H¹(ℚ_p,ε̄λ_γ²)`.
 
-| Residual case `| B₂`-framed ring or relation |
+| Residual case | `B₂`-framed ring or relation |
 |---|---|
-`| γ²≠1`, `η≠0 | 𝒪[[x₁,x₂,y₁,y₂]] |`
-`| γ²≠1`, `η=0 | 𝒪[[x₁,z₁,y₁,y₂]] |`
-`| γ²=1`, `η≠0 | 𝒪[[x₁,x₂,z₁,y₁,y₂]]/(g_η)`, with `g_η≡c_ηy₁+d_ηy₂ mod (ϖ,𝔪²) |`
-`| γ²=1`, `η=0 | 𝒪[[x₁,z₁,z₂,y₁,y₂]]/(g)`, with `g≡z₁y₁+z₂y₂ mod (ϖ,𝔪³) |`
+| `γ²≠1`, `η≠0` | `𝒪[[x₁,x₂,y₁,y₂]]` |
+| `γ²≠1`, `η=0` | `𝒪[[x₁,z₁,y₁,y₂]]` |
+| `γ²=1`, `η≠0` | `𝒪[[x₁,x₂,z₁,y₁,y₂]]/(g_η)`, with `g_η≡c_ηy₁+d_ηy₂ mod (ϖ,𝔪²)` |
+| `γ²=1`, `η=0` | `𝒪[[x₁,z₁,z₂,y₁,y₂]]/(g)`, with `g≡z₁y₁+z₂y₂ mod (ϖ,𝔪³)` |
 
 In the third row `[c_η:d_η]` depends only on `η` and `c_η=0` exactly for peu-ramification; the ring is smooth over `𝒪` but smooth over `Λ` only outside that peu branch. The last row is not smooth modulo `ϖ`. Full framing adds one variable. These congruences specify the initial terms of the relations; they do not identify an arbitrary chosen higher-order polynomial with the deformation equation.
 
+**Checks.**
+
+- The first two rows have four variables and no relation; full framing gives five variables.
+- In the third row the nonzero linear term makes the chart smooth over `𝒪`, while the peu-ramifiée case still fails smoothness over `Λ`.
+- At the residual origin in the last row the special-fibre tangent dimension is five and its dimension is four; its quadratic initial relation prevents formal smoothness.
 
 *Needs:* [6.3](#t6-3); [1.19](#t1-19); [1.18](#t1-18); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
 
@@ -3645,17 +3675,18 @@ Write the residual Siegel extension classes as `η_{α²}`,`η_{β²}`,`η_{αβ
 - `η_{β²}=0` and `β̄²=1`; if the first case also holds then `h²=2`, while outside it `h²=1` and the obstruction is identified with the `GL₂` Borel obstruction of `W=λ_β̄⊗(1⊕ε̄⁻¹)`;
 - `η_{αβ}=η_{β²}=0` and `ᾱβ̄=1`.
 
-The list supplies necessary conditions, without asserting a converse for every listed datum. For smooth pure points, duality uses the quotient `ad⁰/Fil¹ad⁰`, rather than treating the dual of the Borel as a submodule of `ad⁰`. In the dimension estimates use relative dimension twelve over the `GL₂` Borel ring in case `(2b)`, complement dimension at most thirteen in case `(2a)`, and codimension three in the indicated `P` comparison.
+The list supplies necessary conditions, without asserting a converse for every listed datum. For smooth pure points, duality uses the quotient `ad⁰/Fil¹ad⁰`, rather than treating the dual of the Borel as a submodule of `ad⁰`. In case `(2b)`, let `W=Fil₃/Fil₁` be the middle symplectic subquotient, with residual representation `λ_β̄⊗(1⊕ε̄⁻¹)`. Choose compatible splittings of the ordinary flags reducing to the fixed residual bases. Taking this subquotient in the resulting triangular basis induces `R^{B₂,◹}(W)→R^B`, formally smooth of relative dimension twelve over the four-dimensional chart of 6.15. Retaining one transverse frame coordinate for `W` extends this map to the fully framed `R^{B₂}(W)≅R^{B₂,◹}(W)[[u]]→R^B`, formally smooth of relative dimension eleven over the five-dimensional base. These are comparisons with the fully framed `GSp₄` Borel ring `R^B`, of relative dimension sixteen over `𝒪`. The other estimates are complement dimension at most thirteen in case `(2a)` and codimension three in the indicated `P` comparison.
 
 **Checks.**
 
 - A triple with `ξ₁≠χ_A` or `ξ₂≠ε⁻¹χ_B⁻¹` cannot define a point of the tensor product over `D`, even if all three individual subquotient lifts exist over the same coefficient algebra.
 - Over the unrestricted chart the inertial weights can differ; tensoring `R_A` and `R_B` over `Λ` forces their equality and gives the scalar-inertia `P` condition.
 - The chart generic dimensions ten and nine become fifteen and fourteen after adding the five full-framing variables; the tensor products over `𝒪` alone would omit the character identifications.
+- In case `(2b)`, `4+12=5+11=16`. Relative dimension twelve over the fully framed five-dimensional `GL₂` base would instead give seventeen and fails this comparison.
 
 *Needs:* [6.27](#t6-27); [6.15](#t6-15); [1.18](#t1-18); [1.22](#t1-22); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology); [6.31](#t6-31).
 
-(Sources: [BCGP21], Proposition 7.3.4, arXiv v3 p. 173; [BCGP21], Lemma 7.3.15 and Proposition 7.3.16, arXiv v3 p. 183; [BCGP21], Lemma 7.3.18, arXiv v3 p. 188.)
+(Sources: [BCGP21], Proposition 7.3.4, arXiv v3 p. 173, and its proof, case `(2b)`, p. 185; Lemma 7.3.12, p. 180; [BCGP21], Lemma 7.3.15 and Proposition 7.3.16, arXiv v3 p. 183; [BCGP21], Lemma 7.3.18, arXiv v3 p. 188.)
 
 <a id="t6-35"></a>
 
