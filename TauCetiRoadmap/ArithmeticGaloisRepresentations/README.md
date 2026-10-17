@@ -2751,13 +2751,15 @@ logarithm/exponential comparison here.
 
 **Analytic zero sets.** For a restricted power series with coefficients in finite `E/ℚ_ℓ`
 on `ℤ_ℓ^d`, not all coefficients zero, prove that its zero set has product Haar measure zero.
-Prove the one-variable finite-zero theorem first. In several variables write the series in the
-last variable, choose a nonzero coefficient series, and apply induction to its zero set; off this
+Use RestrictedPowerSeries §2.4 at radius one over `E`: Strassmann's bound gives finitely
+many zeros in `O_E`, hence in `ℤ_ℓ ⊂ O_E`. In several variables write the series in the last
+variable, choose a nonzero coefficient series, and apply induction to its zero set; off this
 exceptional null set the fibre has finitely many zeros, so Fubini gives the result. Apply this on
 each compact subgroup chart to analytic functions vanishing on no nonempty open subset
 (Conrad, [*Infinite series in p-adic fields*](https://kconrad.math.uconn.edu/blurbs/gradnumthy/infseriespadic.pdf),
 Theorem 10.1, p. 37, for Strassmann's theorem; Serre 1981, §6.4, proof of Proposition 13, p. 168).
-*Needs:* compact subgroup charts above; Mathlib convergent power series and product integration.
+*Needs:* RestrictedPowerSeries §2.4 (Strassmann's bound); compact subgroup charts above;
+Mathlib convergent power series and product integration.
 
 **Checks.**
 - A nonzero constant has empty zero set, also in dimension zero.
@@ -2901,18 +2903,87 @@ fundamental groupoids), §F.0.A1 (decomposition and inertia groups of a cover); 
   at `0` and `∞`; it factors through `G_{K_C,U}` and need not factor through `G_{K_C,C}`.
 - The identity extension has trivial Frobenius at every closed point.
 
-**Chebotarev for function fields.** Prove that for a continuous surjection `φ : G_{K_C, U} → H` onto a
-finite group, every conjugacy class `C ⊂ H` is `φ(Frob_x)` for a set of closed points `x ∈ |U|` of
-Dirichlet density `#C/#H > 0`; hence the Frobenius classes are dense in `G_{K_C, U}` (Serre, *Zeta and
-L functions*, 1965, Thm 7; used at Kisin–Zhou 2025, proof of Prop. 5.3.5, p. 54). *Needs:* §5.1 (the
-argument from finite quotients); the restricted-ramification function-field groups and Frobenius
-target above.
+For `x ∈ |U|`, set `deg x = [κ(x):𝔽_q]` and `N(x) = q^{deg x}`. A subset `S ⊂ |U|` has
+closed-point Dirichlet density `δ` when
+`lim_{s → 1⁺} (Σ_{x ∈ S} N(x)^{−s}) / log(1/(s − 1)) = δ`, with real `s > 1`.
+The counting targets below prove convergence of these sums and density one for `|U|`;
+thus normalization by the all-point sum gives the same density.
+
+**Curve point-counting input.** For every smooth projective geometrically connected curve `D/𝔽_Q`
+of genus `g` and every integer `r ≥ 1`, prove
+`|#D(𝔽_{Q^r}) − (Q^r + 1)| ≤ 2g Q^{r/2}`. Fix an auxiliary prime `ℓ ≠ char 𝔽_Q` and
+write `H¹(D) = H¹_et(D_𝔽̄_Q, ℚ_ℓ)`. Let `F_D` and `F_J` be the `Q`-power scheme Frobenius
+endomorphisms of `D` and its Jacobian. Build the curve/Jacobian degree-one cohomology comparison
+and the trace identity `#D(𝔽_{Q^r}) = Q^r + 1 − Tr((F_D^*)^r | H¹(D))`; scheme pullback
+here is geometric Galois Frobenius. Use the Jacobian's polarization, `F_J† F_J = [Q]`, and Rosati
+positivity to prove that every complex conjugate of a Frobenius eigenvalue has absolute value
+`Q^{1/2}`. This includes descent of the Jacobian and its polarization from finite extensions
+admitting a point, without a chosen rational point on `D` over its base field. Removing finitely
+many geometric points changes the count by a bounded amount. These curve estimates are built
+here (Milne, *Abelian Varieties*, 2022, Theorem 19.1 and Lemmas 19.2–19.3, pp. 40–41;
+Serre, *Lectures on N_X(p)*, 2011 notes, §4.5, Theorem 4.6, p. 42).
+*Needs:* AlgebraicCurves Layers 5, 6 and 12; JacobianChallenge (the Picard variety);
+AbelianSchemesAndArithmeticModuli §§A6.11, A6.14 (Tate characteristic polynomials and Rosati positivity);
+EtaleCohomologyFoundations §§F.2.6, F.5–F.6, F.10.2b (Künneth, duality, cycle classes and Frobenius comparison).
+
+**Checks.**
+- `D = ℙ¹` has `g = 0` and exactly `Q^r + 1` points.
+- In genus one the bound is `2Q^{r/2}`; the Frobenius trace occurs with a minus sign.
+- The bound requires geometric connectedness: `ℙ¹_{𝔽_{Q²}}` viewed over `𝔽_Q` has no
+  `𝔽_Q`-points and has `2(Q² + 1)` points over `𝔽_{Q²}`.
+
+**Chebotarev for function fields.** Let `Y → U` be a connected finite étale Galois cover with
+finite group `H`, corresponding to a continuous surjection `φ : G_{K_C,U} → H`. Let its exact
+constant field be `𝔽_{q^a}`, and write `H_geom = ker(H → Gal(𝔽_{q^a}/𝔽_q))`.
+For a conjugacy class `B ⊂ H`, let `b ∈ ℤ/a` be its image, identifying arithmetic `q`-Frobenius
+with `1`. For `n ≥ 1`, let `π_B(n)` count the degree-`n` closed points with `φ(Frob_x) ∈ B`.
+Prove `π_B(n) = 0` if `n ≢ b mod a`, and
+`π_B(n) = (#B/#H_geom) q^n/n + O_Y(q^{n/2}/n)` if `n ≡ b mod a`, with a constant independent of `n`.
+Construct the Frobenius twists of the geometric components of the smooth projective completion
+of `Y`, by finite-field descent, and identify their rational points with the corresponding
+Frobenius fixed points. Apply the preceding curve bound to these twists; use orbit counting and
+remove points defined over proper subfields to pass to closed points. This supplies the finite-cover
+counting theorem, including covers with enlarged constants. Sum over the allowed degrees using
+`Σ_{n ≥ 1, n ≡ b mod a} z^n/n = (1/a) log(1/(1 − z)) + O(1)` as `z → 1⁻`.
+Deduce Dirichlet density `#B/#H > 0` (Serre, *Zeta and L functions*, 1965, Theorem 7;
+Kisin–Zhou 2025, proof of Prop. 5.3.5, p. 54).
+*Needs:* the preceding curve point-counting input and restricted-ramification groups;
+SchemeAndStackFoundations Layer 1 (effective descent); EtaleCohomologyFoundations §F.0.2
+(finite étale Galois categories); Mathlib real power series and finite-group orbit counting.
+
+**Checks.**
+- The trivial cover gives `π(n) = q^n/n + O_U(q^{n/2}/n)` and density one for `|U|`.
+- For the constant cover `U × 𝔽_{q^a} → U`, a class `b` occurs only in degrees `n ≡ b mod a`
+  and has Dirichlet density `1/a`; no geometric-connectedness hypothesis on `Y` is imposed.
+- Deleting finitely many closed points changes the weighted sum by a bounded function near
+  `s = 1` and leaves every Dirichlet density unchanged.
+
+**Profinite Frobenius density.** Prove that the union of all arithmetic Frobenius conjugacy
+classes at closed points of `U` is dense in `G_{K_C,U}`. For a nonempty open subset, choose a
+coset of an open normal subgroup contained in it; the finite-cover theorem realizes the conjugacy
+class of its image, and a conjugate of the resulting Frobenius lies in that coset
+(Kisin–Zhou 2025, proof of Prop. 5.3.5, p. 54).
+*Needs:* the finite-cover Chebotarev theorem above; §5.1's profinite finite-quotient argument.
+
+**Checks.**
+- The image meets every element of every finite quotient after allowing all conjugates.
+- Restricting to degree-one closed points cannot give density in the constant quotient `ℤ/a`
+  when `a > 1`.
+- Deleting any finite set of closed points preserves profinite Frobenius density.
 
 **Recognition.** Prove that for `ℓ ≠ p`, `E` a finite extension of `ℚ_ℓ` or `ℚ̄_ℓ`, and `V₁, V₂`
 continuous rank-`n` representations of `G_{K_C, C}` over `E`, if at every closed point `x ∈ |U|`
 `det(1 − Frob_x t | V₁) = det(1 − Frob_x t | V₂)` in `E[t]`, the same kind of Frobenius being used on
 both sides, then `V₁^ss ≅ V₂^ss`, and `V₁ ≅ V₂` when both are semisimple (Kisin–Zhou 2025, proof of
-Prop. 5.3.5, p. 54). *Needs:* the Chebotarev target above; §5.3.
+Prop. 5.3.5, p. 54). *Needs:* the profinite Frobenius density target above; §5.3.
+
+**Checks.**
+- In rank one, equality at Frobenius gives equality of the two continuous characters.
+- A nontrivial unipotent extension of the trivial character by itself, factoring through the
+  constant quotient `ℤ_ℓ`, has the same Frobenius polynomials as `1 ⊕ 1` and the same
+  semisimplification, but is not isomorphic to it.
+- Arithmetic and geometric Frobenius give the same recognition criterion when both
+  representations use the same choice; their individual polynomials need not agree.
 
 ### Examples
 
@@ -2924,7 +2995,7 @@ basic example of a representation with real traces not realisable over `ℝ`.
 ### Dependencies
 
 Layers 1 and 2; `TauCetiRoadmap.Chebotarev` layers 10 and 14;
-`TauCetiRoadmap.ArithmeticDirichletSeries` layer 7;
+`TauCetiRoadmap.ArithmeticDirichletSeries` layer 7; RestrictedPowerSeries §2.4;
 `TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras` layer 2; IntegralHeckeAndGaloisDeterminants
 Layers 0 and 1; EtaleCohomologyFoundations §§F.0.2, F.0.A1; Tau Ceti's Brauer group,
 central simple algebras and Haar probability.
@@ -4019,7 +4090,7 @@ there is `a₀(p) ≥ 3` such that for `a ≥ a₀` and finite `G ⊆ GL₂(F̄_
 Frobenius on the first factor) are adequate, and every subgroup of index `< 2p` contains a conjugate
 of `SL₂(F_{p^a})`; (3) for finite image with `SL₂(F_p) ⊆ r̄(Γ')` and `p ≥ 2n + 2`, `(Sym^{n−1}r̄)(Γ')`
 is adequate. Clause (1) uses GHT, Cor. 9.4, p. 50, and the adequate/GHT-adequate
-equivalence of §7.8; clause (2) is NT26, Lemma 2.3, p. 11; clause (3) uses the
+equivalence of §7.9 for `p ∤ n`; clause (2) is NT26, Lemma 2.3, p. 11; clause (3) uses the
 large-characteristic criterion of §7.9 (GHTT, Thm 9).
 *Needs:* for (1), §7.8 and §7.9's overgroup permanence and `SL₂` criterion, with §4.7 for
 cyclotomic restriction; for (2), §7.8; for (3), §7.9's large-characteristic criterion and the
@@ -4385,6 +4456,8 @@ printed pagination of version 2.00 (2008).
   <https://jmarzec.ukw.edu.pl/marzec,neururer-lecture.pdf>
 - D. Masser, U. Zannier, *Abelian varieties isogenous to no Jacobian*, Ann. of Math. 191 (2020), 635–674.
 - J. S. Milne, *Abelian Varieties*, course notes, version 2.00, 2008.
+- J. S. Milne, *Abelian Varieties*, revised article, 2 January 2022, §19, pp. 40–41.
+  <https://www.jmilne.org/math/xnotes/AVs.pdf>
 - J. S. Milne, *Elliptic Curves*, 2nd ed., World Scientific, 2021.
 - D. Mumford, *Abelian Varieties*, Tata Institute / Oxford University Press, 1970.
 - O. Brinon, B. Conrad, *CMI summer school notes on p-adic Hodge theory*, 2009, §§6.3, 15.1.
@@ -4414,6 +4487,8 @@ printed pagination of version 2.00 (2008).
 - J.-P. Serre, *Propriétés galoisiennes des points d'ordre fini des courbes elliptiques*, Invent.
   Math. 15 (1972), 259–331.
 - J.-P. Serre, *Local Fields*, Graduate Texts in Math. 67, Springer, 1979.
+- J.-P. Serre, *Lectures on N_X(p)*, 2011 lecture notes, §4.5, Theorem 4.6, p. 42.
+  <https://www.college-de-france.fr/media/jean-pierre-serre/UPL9140953003901187132_14___Lectures_on_N_X.pdf>
 - J.-P. Serre, *Quelques applications du théorème de densité de Chebotarev*, Publ. Math. IHÉS 54 (1981),
   123–201.
 - J.-P. Serre, *Sur les représentations modulaires de degré 2 de `Gal(ℚ̄/ℚ)`*, Duke Math. J. 54 (1987),
