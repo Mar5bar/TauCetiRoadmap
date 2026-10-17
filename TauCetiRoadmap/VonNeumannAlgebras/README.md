@@ -251,6 +251,82 @@ Define positive, faithful, tracial, state, and normal linear functionals with cl
 Cauchy–Schwarz, support-projection, norm-at-one, and restriction APIs. Prove normality iff
 ultraweak continuity for positive functionals and the corresponding equivalence for positive
 maps and star homomorphisms. Prove both implications rather than assuming normal functionals are ultraweak continuous by definition.
+
+Refer to V4's preceding isometric trace-class quotient, faithful normal concrete
+representation and induced predual duality as **V4.Core**; this names that
+existing carrier and does not consume measurable-field decomposition. Prove
+the following existing-functional criterion before the normal-to-ultraweak
+implication stated above; its proof does not extend a new projection charge.
+
+**V4.PositivePredual — positive spanning and the self-adjoint base norm.**
+For every complex W*-algebra M, with no trace, separability or sigma-finiteness
+hypothesis, prove that every self-adjoint member of M_* is a difference
+of positive members of M_*, and every member of M_* is a complex
+linear combination of four positive normal functionals. On the real
+self-adjoint predual prove the exact norm formula
+
+```
+||φ|| = inf {a(1)+b(1) : a,b∈M_*^+, φ=a−b}.
+```
+
+Consume V4.Core's faithful ultraweakly continuous concrete representation
+inducing the given predual and its isometric trace-class quotient. Use that quotient norm:
+for every ε>0 lift φ to trace-class h with ||h||₁<||φ||+ε, replace h by
+(h+h*)/2 for self-adjoint φ, whose trace norm is no larger. Rename this
+Hermitian lift h, retaining ||h||₁<||φ||+ε, and restrict its trace-class positive parts
+h_+,h_- to M. Prove these restrictions positive and normal, their difference
+φ, and their masses sum to ||h||₁. The triangle inequality gives the reverse
+bound and ε↓0 the formula; no norm-attaining lift is presumed. Real and
+imaginary parts give four positive terms. Include the zero algebra. This is
+the general predual result consumed by V12.J for typeIII and mixed algebras.
+
+For every already given bounded positive functional φ, prove equivalence of
+ultraweak continuity, preservation of bounded increasing positive nets and
+complete orthogonal additivity of its projection restriction. Prove that
+countable decomposability is equivalent to existence of a faithful normal
+positive functional; for M≠0 it is equivalent to existence of a faithful normal
+state. For M=0 the zero functional supplies the first equivalence and there is
+no state. For countable decomposability ⇒ a faithful normal positive
+functional, in V4.Core's representation choose a countable
+maximal orthogonal family of nonzero cyclic projections `[M′ξ_n]∈M`,
+choosing each ξ_n of norm1, and
+sum strictly positive summable multiples of their vector functionals; the sum
+is faithful. Prove the converse using positivity on nonzero orthogonal
+projections. On a countably decomposable algebra countable additivity suffices.
+
+Own the following all-cardinality vector-domination proof. In V4.Core's
+faithful ultraweakly continuous representation inducing the given predual, for each nonzero projection q choose ξ∈qH
+with ||ξ||²>φ(q). A Zorn-maximal orthogonal family of nonzero f≤q satisfying
+φ(f)≥ω_ξ(f) has sum f₀<q, by complete additivity. Put e=q−f₀. Maximality
+gives φ(p)≤ω_ξ(p) for every projection p≤e. Spectral-step approximation
+inside this fixed corner gives φ(exe)≤ω_ξ(exe) for x≥0. Cauchy–Schwarz gives
+`|φ(xe)|²≤φ(1)||xeξ||²`, so Riesz representation expresses x↦φ(xe) as
+a vector coefficient, hence as an element of M_*. A maximal orthogonal family
+of such e_i sums to1. For e_F=Σ_(i∈F)e_i over finite F, φ(·e_F) lies in M_* and
+
+```
+||φ−φ(·e_F)||≤φ(1)^(1/2)φ(1−e_F)^(1/2)→0.
+```
+
+The isometric predual is norm closed, so φ∈M_* and is ultraweakly continuous.
+Use V4.Core for the converse normality/complete-additivity implications. Deduce
+ultraweak continuity iff preservation of increasing projection nets; the
+increasing-positive-net condition is the normality predicate already defined.
+Spectral-step approximation here is confined to a fixed corner: spectral
+projections of an increasing noncommuting positive net need not increase.
+This existing-functional theorem has no typeI₂ exclusion or charge-extension
+input. V12.J uses it for its scalar-extension and positive-map comparisons;
+Enriched's predual-adjoint construction establishes its own normality directly.
+
+**V4.Normality — consequences of the positive criterion.**
+Consume V4.Core and V4.PositivePredual. Identify M_* with the complex linear
+span of bounded positive normal functionals; use the criterion once for the
+hard normal-to-ultraweak direction. Derive ultraweak continuity iff normality
+for positive maps and star homomorphisms by composition with positive target
+predual functionals and their separation. Consume V4.Core's faithfulness
+predicate; own the tracial predicate, closure, support projections and normal
+restriction APIs.
+
 Prove a normal representation has von Neumann image, normal quotient/corner behavior,
 and that a normal positive functional on a concrete algebra is a countable sum of vector
 functionals with square-summable vectors. Derive normal GNS, cyclic-vector uniqueness, the concrete vector-state GNS identification for
@@ -1037,6 +1113,157 @@ For an ICC group with `1∉Δ` and `Γ={1}∪Δ∪αΔα⁻¹` and three disjoin
 `‖x-τ(x)1‖₂ ≤ 14 max(‖[x,u_α]‖₂,‖[x,u_β]‖₂,‖[x,u_γ]‖₂)`.
 Supply the ℓ² coefficient estimate, a verified reduced-word partition for every finite-rank
 free group of rank ≥2, and deduce its factor lacks Γ and is not R. These ultrapower and central-sequence APIs precede the automorphism classification below.
+
+### V12.J — projection logic, normal Jordan maps and reconstruction
+
+**V12.J.Maps — the normal Jordan map API.** Consume V2, V4.Normality and
+V4.PositivePredual.
+Use the native `IsStarProjection` subtype P(M), its V2 complete lattice and
+complement p↦1−p, native `OrderIso`, and complex `LinearMap`/`LinearEquiv`.
+Use native `SymAlg`/`IsCommJordan` and `SymAlg.sym_mul_sym` for the symmetrized
+product, with comparison to the original associative C*-algebra carrier. Native
+SymAlg multiplication requires `Invertible (2 : M)`; supply the inverse
+`algebraMap ℂ M (1/2)` using `Invertible.map` from the nonzero scalar2,
+transport `Invertible.map (algebraMap ℂ M) (2:ℂ)` to `(2:M)`
+using native `Invertible.copy` and the algebraMap numeral equality. The
+source scalar instance supplies inverse1/2.
+A Jordan *-map is complex linear, star preserving and preserves squares of
+self-adjoint elements; equivalently it preserves `(xy+yx)/2`. Develop the
+identity, composition, inverse, extensionality on projections, boundedness,
+positivity, unit, normality and transport APIs before reconstruction. Build
+any needed bundled map by extending the native linear-map carrier, rather
+than replacing native WStarAlgebra, IsStarProjection or OrderIso. Specialize
+V4.Normality's normal-positive-map API and ultraweak-continuity equivalence
+to Jordan *-maps, and add equivalence with preservation of arbitrary
+orthogonal projection sums, using V4.PositivePredual and normal-functional
+separation. These inputs have no typeI₂ or charge-extension hypothesis; this
+map API and Enriched do not consume Scalar. No separability or σ-finiteness is imposed on this net-based layer.
+
+**V12.J.Scalar.** Own the scalar Mackey–Gleason–Bunce–Wright extension theorem: if M has no
+nonzero typeI₂ central summand, μ:P(M)→ℂ satisfies μ(p+q)=μ(p)+μ(q) for pq=0,
+and `∀p, ‖μ(p)‖≤C` for a stated C≥0, there is a unique bounded complex-linear
+functional extending μ. Prove the uniform estimate `‖φ‖≤4C`, positivity and
+`‖φ‖=φ(1)` for positive μ, and normality of a positive extension iff μ is
+completely orthogonally additive. For σ-finite M prove countable additivity
+suffices; do not identify these notions on arbitrary M. The signed scalar
+proof includes the bounded quasi-linear extension, matricial corner/patching,
+properly-infinite approximate-additivity and finite-II₁ signed-measure
+arguments, and central-summand assembly. For the signed finite-dimensional input consume QuantumFoundations
+QF2.Frame: if a real frame function is bounded by C, add C to make it
+nonnegative, apply that theorem and subtract C·Id; split complex functions
+into real and imaginary parts. Prove the frame constants and phase/ray
+compatibility in this reduction. This sublayer follows QF2.Frame, V0–V6 and V4.PositivePredual;
+QF2.Frame does not consume this sublayer, the later .G applications or the
+modularity comparisons. It does not consume QF5.G. This is the only generic
+von Neumann charge-extension owner.
+
+The finite-dimensional QF2.Frame input here is exactly: for n≥3, every
+bounded nonnegative function on the unit sphere of ℂⁿ whose sums over all
+orthonormal bases have one fixed value is uniquely `v↦⟪v,Tv⟫` for a positive
+Hermitian T. Phase/ray compatibility and the dimension-one comparison belong
+to that existing QF owner. This names only the earlier finite Frame theorem,
+not QF2's later general-density, QF4 reconstruction or QF5.G conclusions.
+
+
+**V12.J.Dye lattice input.** Consume V6.LatticeTypes for the purely lattice
+center and I₂-central-part transport before Dye reconstruction. This neither
+uses a state extension nor depends on the Jordan theorem it supports. It is
+an input to Dye, not to V12.J.Scalar.
+
+The required V6.LatticeTypes interface is the bounded center/I₂ comparison:
+recover the lattice center by `q=(q∧z)∨(q∧z′)` for every projection q,
+recognize an abelian projection e by the Boolean interval [0,e], and recover
+central support as the least central projection above e. For central z≠0,
+prove that zM is homogeneous typeI₂ precisely when z=e∨f for two orthogonal
+abelian projections e,f with central supports both z. Its greatest such
+central part is therefore transported by projection orthoisomorphisms.
+These are lattice/corner targets within V6, before Dye or state extension;
+they require no V12.J conclusion. The general other type criteria in V6
+remain separate.
+
+
+**V12.J.Dye.** Consume V12.J.Maps. Prove Dye's extension theorem in the following exact form. For nonzero complex
+von Neumann algebras M,N, if M has no typeI₂ central summand and
+α:P(M)≃P(N) preserves orthogonality in both directions, there is a unique
+normal unital Jordan *-isomorphism Φ:M→N with Φ(p)=α(p). Derive the order,
+complement and arbitrary-supremum laws from the orthoisomorphism. Pull back
+normal positive functionals through α, apply the preceding scalar extension
+and its complete-additivity normality criterion, and use V4.PositivePredual's positive spanning and exact self-adjoint
+base-norm formula to construct the bounded predual map, then V4.Core duality
+for its adjoint. Positive masses at1 are preserved; difference-decomposition
+independence comes from uniqueness of scalar extension. Complexification
+has the explicit bound at most twice the self-adjoint bound, sufficient
+for the adjoint. Orthogonal spectral-step approximation
+proves square preservation; order/spectral norm and projection density prove
+injectivity and surjectivity. Prove identity/composition/inverse compatibility
+and the resulting group isomorphism between projection orthoautomorphisms
+and normal Jordan *-automorphisms. The target N need not be assumed separately
+free of typeI₂; the earlier lattice criterion supplies this consequence.
+
+Keep the typeI₂ summand in the theory. Any projection orthoisomorphism carries
+central projections and the typeI₂ central part to their counterparts. Its
+restriction off that part has the unique extension above. The centers of the
+typeI₂ parts determine an abstract Jordan isomorphism via M₂(Z), but that map
+need not extend the given orthoisomorphism. On M₂(ℂ), consume QF2.ElementaryBloch
+for the single nonextendible antipodal example. On the scalar/abelian part use the Boolean projection
+isomorphism and bounded spectral approximation, with no dimension-two exclusion.
+Treat the zero algebra separately, where the projection lattice is a singleton
+and there is no normalized state.
+
+For that single QF2.ElementaryBloch consumer, use its antipodal bijection
+`(x,y,z)↦(x,y,2z)/sqrt(x²+y²+4z²)` on the unit sphere, with rank-one
+projections `p(n)=(I+n·σ)/2`; extend it by fixing 0 and I. Orthogonality of
+rank-one projections is antipodality, while the displayed map is not an
+orthogonal sphere map. Thus it need not extend to a Jordan *-isomorphism.
+The Bloch construction/example stays with QF2.ElementaryBloch.
+
+
+**V12.J.Enriched.** Consume V12.J.Maps. For all nonzero M,N, including arbitrary typeI₂ central summands, prove the
+enriched comparison theorem: an affine bijection β:S_n(M)→S_n(N) of their full
+normal state spaces extends uniquely to an order isomorphism of the real
+self-adjoint preduals by
+`T(tω)=tβ(ω)` (t≥0), then by positive differences, consuming V4.PositivePredual without a
+tracial hypothesis. Prove independence of the
+difference decomposition, base-norm isometry and bounded complexification.
+Its adjoint J:N→M is normal, unital and an order isomorphism. Prove that
+the extreme points of the effect interval [0,1] are exactly projections, using
+positive-square-root/compression identities for one direction and a nonzero
+continuous spectral perturbation supported inside (0,1) for the other. Thus
+J and J⁻¹ carry projections to projections. Linearity carries orthogonal
+finite projection sums to such sums; bounded spectral-step approximation then
+proves square preservation.
+Thus Φ=J⁻¹ is the unique normal Jordan *-isomorphism with
+`β(ω)=ω∘Φ⁻¹`. No continuity assumption on β is needed; prove the resulting
+norm continuity rather than assuming it. If a logic orthoisomorphism α is
+also supplied and `β(ω)(α(p))=ω(p)` for all ω,p, prove Φ(p)=α(p) by normal-state
+separation. Prove that a bijection β satisfying all these evaluation identities
+is automatically affine, by evaluating every convex mixture on α(P(M)).
+This restores extension of the given map on typeI₂ precisely
+with the full affine state/evaluation hypothesis, not by dropping its summand.
+
+**V12.J.CentralSplitting.** Consume V12.J.Maps. Prove a normal Jordan *-isomorphism splits over central projections into a
+*-isomorphism and a complex-linear *-anti-isomorphism. The splitting is not
+unique on an abelian summand. Prove transport of centers, central support,
+Murray–von Neumann projection equivalence/finiteness, and the complete type
+decomposition from V6. It gives classification of projection/state operational
+presentations up to Jordan isomorphism, not a choice of associative orientation
+or a classification of all factors. A general nonfactor action can have
+different multiplicative/antimultiplicative behavior on central pieces; it
+need not have one global C₂ grading. Spatial *-implementations in standard
+form consume V11 separately; the Jordan conclusion alone does not assert a
+unitary/antiunitary normalizer in an arbitrary original representation.
+
+These are later W*-algebra owner contracts for CStar.WStarJordanBoundary.
+Maps and Enriched precede and do not consume Scalar or QF2.Frame; only the
+bare-projection Dye route consumes Scalar and its stated finite-frame input.
+They add no V12.J prerequisite to V0, CStar C2's pure-state/GNS theory or
+earlier QF1/QF5 interfaces. Use SymAlg only to compare Jordan multiplication
+on the existing associative W*-carrier, not to replace that carrier.
+The scalar endpoint is [Bunce–Wright, *The Mackey-Gleason Problem*](https://arxiv.org/abs/math/9204228).
+The [Dye/Gleason extension formulation](https://arxiv.org/abs/1408.4597)
+provides a statement-level comparison; the constructions above remain
+explicit Tau Ceti proof targets.
+
 
 ## V13. Hyperfiniteness and injective classification
 
