@@ -301,6 +301,36 @@ example : (TruncatedWittVector.mk 2 ![(1 : ZMod 2), 0] +
     TruncatedWittVector.mk 2 ![(1 : ZMod 2), 0]).coeff 1 = 1 := by
   sorry
 
+/-- The integer Witt section has the negative second coordinate and the identity ghost. -/
+example :
+    ∃ s : ℤ →+* TruncatedWittVector 2 2 ℤ,
+      (∀ x, (s x).coeff 0 = x) ∧
+      (s 2).coeff 1 = -1 ∧
+      (s 2).coeff 0 ^ 2 + 2 * (s 2).coeff 1 = 2 := by
+  sorry
+
+/-- A nonzero characteristic-two ring admits no first-coordinate Witt section. -/
+example :
+    ¬ ∃ s : ZMod 2 →+* TruncatedWittVector 2 2 (ZMod 2),
+      ∀ x, (s x).coeff 0 = x := by
+  sorry
+
+/-- The unique length-two Witt vector over the zero ring is a unit. -/
+example : IsUnit (0 : TruncatedWittVector 2 2 (ZMod 1)) := by
+  sorry
+
+/-- The first dyadic shifted quotient sends the class of two to one. -/
+example : (integerDelta 2 2 : ZMod 2) = 1 := by
+  decide
+
+/-- The first triadic shifted quotient sends the class of three to one. -/
+example : (integerDelta 3 3 : ZMod 3) = 1 := by
+  decide
+
+/-- The second dyadic shifted quotient retains a nonzero even residue. -/
+example : (integerDelta 2 4 : ZMod 4) = 2 := by
+  decide
+
 /-- The rational localization has the forced delta value on one third. -/
 example (d : Structure 2 ℚ) : d.delta (1 / 3) = 1 / 9 := by
   sorry
@@ -342,6 +372,20 @@ example (c : ZMod 2) :
       d.delta (TrivSqZeroExt.inr 1) = TrivSqZeroExt.inr c ∧
       ∀ a : ℤ, d.delta (TrivSqZeroExt.inl a) =
         TrivSqZeroExt.inl (integerDelta 2 a) := by
+  sorry
+
+/-- Frobenius equality does not detect rank one on the square-zero torsion generator. -/
+example :
+    ∃ d : Structure 2 (TrivSqZeroExt ℤ (ZMod 2)),
+      associatedFrobenius d (TrivSqZeroExt.inr 1) =
+        (TrivSqZeroExt.inr 1) ^ 2 ∧
+      ¬ IsRankOne d (TrivSqZeroExt.inr 1) := by
+  sorry
+
+/-- The square-zero correction has both mixed terms with negative signs. -/
+example (x y : TrivSqZeroExt ℤ (ZMod 2)) :
+    (addCorrection 2 x y).snd =
+      -(x.fst : ZMod 2) * y.snd - (y.fst : ZMod 2) * x.snd := by
   sorry
 
 /-- Delta compatibility is preserved by composition of ring maps. -/
