@@ -91,11 +91,16 @@ Consume these exact suppliers:
   the smooth complex projective carrier used by R1; K7.2 supplies its normalized
   Fubini–Study form. PDO P1.0 supplies formal differential adjoints.
 - [PDE A.1–6/D16–19/E20–22](../PDE/README.md) and
-  [VariationalMethods V2.4/V3–V5.2](../VariationalMethods/README.md): Sobolev,
+  [VariationalMethods V2.3–V2.4/V3–V5.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md): Sobolev,
   trace, energy/interior estimates and abstract closed-form/represented-operator
   theory for R5b's normal-Jacobi Dirichlet specialization. R5b constructs its
   boundary H² estimate and exact operator domain; these are not supplied by
   closed-manifold PDO/K5a or PDE E's interior regularity theorem.
+  Consume [UnboundedOperators UO-D06](https://github.com/TauCetiProject/TauCetiRoadmap/blob/24e97bb6ab2f84e01c5a3caca0b6cd4d8ec72787/TauCetiRoadmap/OperatorTheory/UnboundedOperators/README.md#uo-d06--closed-forms-and-the-friedrichs-extension)
+  for the single generic closed semibounded-form representation, with its
+  native partial-operator domain, self-adjointness and real/complex comparison.
+  The abstract order is VM V2.3 → UO-D06 → VM V5.1–V5.2; R5b
+  supplies its geometric form and boundary-domain identification afterwards.
 - [GeneralizedCohomology G4.0b](../GeneralizedCohomology/README.md#g4-generalized-lerayhirsch-thom-and-euler-theory):
   smooth quaternionic projective and Stiefel carriers, the smooth Hopf
   quotient submersion and its classical homogeneous-space diffeomorphism.
@@ -339,10 +344,15 @@ isometry characterization and the identity
 ## R3. Second variation, index forms and conjugate points
 
 Construct smooth and piecewise smooth variations and their endpoint constraints
-on the actual curve/section types. Pin the real module of continuous piecewise
-C¹ sections of γ*TM with endpoint zero, specified by a finite subdivision and
-C¹ lifts on its pieces; its smooth submodule and H¹ completion have comparison
-maps. The index form is a real `LinearMap.BilinForm` on this carrier. Starting from HopfRinow's first variation,
+on the actual curve/section types. First construct the shared ambient real module
+of continuous piecewise C¹ sections of γ*TM on [a,b], with subdivision-independent
+C¹ lifts on the pieces and linear endpoint evaluations. Construct the bulk index
+integral as a real `LinearMap.BilinForm` on this module. Its fixed-endpoint
+restriction I is on V₀₀={X | X(a)=0 and X(b)=0}; R3 uses this restriction.
+Construct the smooth-submodule and H¹ completion comparisons and continuous
+endpoint traces, with their inclusion/restriction laws. The periodic and R6
+mixed-endpoint subspaces use this same ambient interval-section module, with
+their own endpoint constraints. Starting from HopfRinow's first variation,
 first prove the first-variation formula for continuous piecewise smooth curves,
 including the jump of tangent velocity at each corner. Then prove mixed
 covariant derivatives commute up to curvature, interchange
@@ -380,7 +390,8 @@ segments with no conjugate point in `(a,b]` are strictly locally minimizing
 among uniformly close fixed-endpoint curves up to nondecreasing reparametrization
 for length, or uniquely at the fixed affine parametrization for energy.
 Global minimizing and absence of conjugacy remain distinct. R6 supplies the
-submanifold-endpoint and focal versions on this same index-form carrier.
+submanifold-endpoint and focal versions on its mixed-endpoint subspace of the
+same ambient interval-section module, with the bulk form restricted there.
 
 Define the H¹ path carrier using continuous curves whose readings on a finite
 coordinate subdivision have weak first derivatives in L². Pin its topology by
@@ -568,7 +579,12 @@ stable homotopy calculations remain with
    On a smooth normal-distance domain derive radial Hessian zero and the
    corresponding transverse lower/upper bounds by `(s_κ'/s_κ)g`, together
    with the Laplacian trace and the scalar sign dictionary. Derive Günther
-   lower-volume comparison from sectional upper bounds, and Bishop–Gromov
+   lower-volume comparison from sectional upper bounds: on connected complete M
+   with K≤κ, at p use 0<r<inj(p), and also r<π/√κ when κ>0, to conclude
+   Vol_g(B(p,r))≥Vol_κ(B_κ(r)) in the model of the same dimension. Treat the
+   low-dimensional cases directly. For radial comparisons beyond this full-ball
+   range retain the actual cut-time-truncated polar domain; cut-locus nullity
+   does not remove its radial truncation. Distinguish Bishop–Gromov global
    relative-volume monotonicity from Ricci lower bounds. Use the Jacobi
    determinant/Riccati equation, trace Cauchy–Schwarz and model s_κ to prove
    the radial density inequalities before integrating. Supply radial-Jacobian,
@@ -848,8 +864,9 @@ sections, not the scalar inequality for every function on the cover.
 Prove the W¹,²_0 quadratic-form extension on relatively compact smooth
 domains and its agreement with the smooth form. Consume PDE A.1–6/D16–19/
 E20–22's Sobolev, trace and bounded-domain elliptic/Dirichlet estimates, and
-VariationalMethods V2.4/V3–V5.2's abstract closed semibounded form and represented-
-operator theory. Own their finite-chart Riemannian normal-bundle specialization:
+[VariationalMethods V2.3–V2.4/V3–V5.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md)'s
+abstract coercive, compact-form and represented-operator comparisons, consuming
+UO-D06's single generic closed-form representation. Own their finite-chart Riemannian normal-bundle specialization:
 actual metric/connection weights, trace-compatible transitions, bounded curvature
 potential, coercive shift, form closure and compact embedding. Construct the
 Dirichlet self-adjoint realization, domain/regularity comparison, compact resolvent
@@ -904,12 +921,25 @@ normal exp in base/fiber directions with the induced normal connection.
 Manifold Sard then proves the focal set has measure zero for the ambient
 Riemannian measure; relate chart Lebesgue nullity to the canonical density.
 
-For initial endpoint on M and final fixed endpoint, use
-`I_M(X,Y)=I(X,Y)−⟨S_(γ′(0))X(0),Y(0)⟩` on the same section carrier as R3.
-Prove its kernel, index and nullity theorems and the focal multiplicity sum;
-passing an interior focal point produces a shortening variation with its
-initial point still in M, so the segment no longer minimizes distance from M.
-State the finite-interval and nonfocal-endpoint hypotheses precisely.
+For a finite interval a<b, a geodesic γ normal to the immersed initial
+submanifold at γ(a)=f(p), and final endpoint fixed, use the subspace
+V_M0={X | X(a)∈range(df_p) and X(b)=0} of R3's ambient continuous
+piecewise C¹ interval sections. Identify T_pM with range(df_p) by the
+immersion differential. Restrict the bulk index integral to V_M0 and set
+`I_M(X,Y)=I_bulk(X,Y)−⟨S_(γ′(a))X(a),Y(a)⟩`.
+Construct its inclusion of V₀₀ and prove the restriction is exactly R3's I.
+Prove its smooth/piecewise C¹/H¹ comparisons on this mixed subspace using
+the endpoint traces; do not impose a derivative condition on every test field.
+Integration by parts identifies its kernel with Jacobi fields satisfying
+`(D_tX)(a)+S_(γ′(a))X(a)∈ν_pM` in addition to the two value conditions.
+Prove the converse normal-geodesic variation realization, finiteness and
+attainment of index, the sum of focal multiplicities strictly inside (a,b),
+and focal nullity at b. State the nonfocal-endpoint specialization explicitly.
+Passing an interior focal point produces a shortening variation with its
+initial point still in M. As a regression, for the unit circle in ℝ²,
+p=(1,0), γ(t)=(1−t,0) and X(t)=(1−t/b)(0,1), prove
+`I_M(X,X)=1/b−1`: it is negative for b>1 and X is a nonzero kernel
+field at b=1. R3's endpoint-zero Euclidean form has neither conclusion.
 
 In Euclidean ambient space compute the normal-exponential derivative block and
 `det(I−tS_v)`. Focal times along a unit normal are 1/κ_i for nonzero principal
