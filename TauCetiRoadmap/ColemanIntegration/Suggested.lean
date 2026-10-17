@@ -576,6 +576,15 @@ end LogLaurent
 
 /-! ## Layer L1: Frobenius continuation and Coleman functions -/
 
+/-- L1.5: the integral dagger lift `z ↦ z^p + p/(z - 1)` sends the point `1 + p²`
+of the removed residue disc of `1` into the residue disc of `∞`. Pullback at a removed
+point uses an outer annulus and its end germ. -/
+example (p : ℕ) [Fact p.Prime] :
+    ‖(1 + (p : ℚ_[p]) ^ 2) - 1‖ < 1 ∧
+      ‖(1 + (p : ℚ_[p]) ^ 2) ^ p +
+        (p : ℚ_[p]) / ((1 + (p : ℚ_[p]) ^ 2) - 1)‖ = (p : ℝ) := by
+  sorry
+
 /-- L1.7: a Frobenius lift `φ` of an algebra `A` with differentials `Ω`, its action on `Ω`,
 forms `ω`, the matrix `M` and the functions `g` with `φ^* ω_i = ∑_j M_ij ω_j + d g_i`. The
 hypotheses (H0), (H1), (Hw) are the `Prop`-valued definitions below. -/
@@ -995,6 +1004,15 @@ theorem LFunction_nat_eq_gaussSum_inv_mul_sum_complexPolylog {N : ℕ} [NeZero N
 
 end PositiveIntegerValues
 
+/-- L3.Fa.4: a functional taking value `1` on a vector detects its nonzero diagonal tensor,
+whereas alternating projection kills it. For `O = ℤ_(2)`, take the vector `[3]` in
+`Oˣ ⊗ ℚ` and the functional `v₃`. -/
+example {V : Type*} [AddCommGroup V] [Module ℚ V] (v : V) (f : V →ₗ[ℚ] ℚ)
+    (hv : f v = 1) :
+    TensorProduct.tmul ℚ v v ≠ 0 ∧
+      exteriorPower.ιMulti ℚ 2 (fun _ : Fin 2 => v) = 0 := by
+  sorry
+
 /-!
 ## Targets specified in the README
 
@@ -1004,7 +1022,8 @@ end PositiveIntegerValues
   The zero branch is the supplied `iwasawaLog p`, including its value at zero.
   The branch existence and change milestones are stated above.
 * L1: good-reduction pairs, wide opens, dagger algebras, logarithmic ends and Frobenius lifts
-  (L1.1–L1.6); coordinate maps, change of basis and iteration of Frobenius data (L1.7);
+  (L1.1–L1.6), with whole-disc Frobenius maps on ordinary residue discs and cofinal annular
+  pullbacks at removed ends; coordinate maps, change of basis and iteration of Frobenius data (L1.7);
   their geometric existence and the differential/dualizing-sheaf comparison (L1.9); the
   shuffle word algebra, its differential, depth and Frobenius action (L1.12–L1.16); Coleman functions and integration, uniqueness, Taylor
   transport with finite-chart convergence and gluing, lift and branch independence and
@@ -1025,6 +1044,17 @@ end PositiveIntegerValues
   pairings and Artin L-functions with coefficients (L3.Fa.1–L3.Fd.2); cyclotomic
   regulators and the p-adic Beilinson conjecture, including the dyadic formulas
   (L3.15–L3.16, L3.36–L3.37).
+
+In L3.Fa.4 the reduced complex is the quotient by the actual inversion subcomplex. Its last
+term is `(V ⊗ Λ^(n-1)V) / d(N₂ ⊗ Λ^(n-2)V)`, where `V = Oˣ ⊗ ℚ`; it is `ΛⁿV` when the
+residue field has more than two elements. For residue field `F₂` the inversion subcomplex
+is zero and the last term remains `V ⊗ Λ^(n-1)V`. The unreduced comparison requires
+Beilinson–Soulé vanishing for the fraction and residue fields. The general reduced comparison
+and reduced localization injection require it for every characteristic-zero field and for the
+residue field. Number fields give unconditional comparisons; when the residue field is `F₂`,
+the actual reduced quotient equals the unreduced complex. The cup-product denominator in
+symbol weight `k` uses `Symb_(k-1)`. In L3.Fb.5 the square includes localization from the
+unlocalized relative cube, and reads `ℛ ∘ loc = ε_n · (reg ∘ relativityIso)`.
 
 The following README APIs specify further targets in these subsections; they do not add
 Lean declarations to the representative signatures above:
