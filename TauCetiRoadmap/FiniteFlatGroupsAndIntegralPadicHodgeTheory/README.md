@@ -39,7 +39,7 @@ Fontaine–Laffaille functor is contravariant with its safe interval `[0, p − 
 | Layer | Title | Headline targets |
 | --- | --- | --- |
 | R07.P | Finite-`K` periods and labelled Sen theory | `aCris`, `bCris`, `dCris`, `dDeRham`, `IsCrystalline`, `IsDeRham`, `GaloisRep.deRhamSupplierEquiv` |
-| R07.1 | Finite flat group schemes and `p`-divisible groups | `frobeniusHom`, `etaleGroupEquivContAction`, `multiplicativeTypeRigidity`, `BarsottiTate.tateModule`, `BarsottiTate.connectedEtale_exact`, `TruncatedBT`, `FormalLieGroup`, `BarsottiTate.hodgeTate`, `BarsottiTate.extend_genericFibre`, `Prolongation`, `prolongation_unique_of_lt`, `tameInertiaIso`, `FVectorScheme`, `tameInertia_exponents_le`, `oortTate_classification`, `raynaudAbelianEmbedding` |
+| R07.1 | Finite flat group schemes and `p`-divisible groups | `frobeniusHom`, `etaleGroupEquivContAction`, `multiplicativeTypeRigidity`, `BarsottiTate.tateModule`, `BarsottiTate.connectedEtale_exact`, `TruncatedBT.of_exact`, `FormalLieGroup`, `BarsottiTate.hodgeTate`, `BarsottiTate.extend_genericFibre`, `Prolongation`, `prolongation_unique_of_lt`, `tameInertiaIso`, `FVectorScheme`, `tameInertia_exponents_le`, `oortTate_classification`, `raynaudAbelianEmbedding` |
 | R07.2 | Dieudonné theory | `canonicalDecomposition`, `DieudonneRing`, `dieudonneEquivalenceFinite`, `dieudonnePDivisible`, `dieudonneManinClassification`, `isogenyClassification`, `hasseInvariant`, `btStackSmooth`, `BarsottiTate.universalCover`, `deJongDieudonneEquivalence` |
 | R07.3 | Filtered modules and Fontaine–Laffaille theory | `FilteredPhiNModule`, `FilteredPhiNModule.IsWeaklyAdmissible`, `dSt_isWeaklyAdmissible`, `FLModule`, `flExactFaithful`, `flTameInertia`, `flFullFaithfulness`, `flAdmissibility`, `flFiniteFlatDictionary` |
 | R07.4 | Breuil–Kisin modules | `KisinModule`, `kummerFieldOfNorms`, `kedlayaSlopeFiltration`, `kisinCrystallineEmbedding`, `semistableFiniteHeight`, `crystalline01IsBt`, `kisinPDivisibleClassification`, `dyadicClassification`, `bmsKisinFunctor`, `descentDataLatticeClassification` |
@@ -48,15 +48,15 @@ Fontaine–Laffaille functor is contravariant with its safe interval `[0, p − 
 
 ## Scope and ownership
 
-**Owned here.** Frobenius and Verschiebung of commutative group schemes;
+**Owned here.** The flat-affine extension of Frobenius and Verschiebung of commutative group schemes;
 the group-object applications of the supplied finite étale Galois-category equivalence;
 the finite part of a quasi-finite group over a henselian base; rigidity of homomorphisms into étale
 and out of multiplicative groups. The general
 theory of `p`-divisible groups of arbitrary height over arbitrary bases beyond the basic interface
 listed below: homomorphisms as inverse limits, the levels as torsion, Tate modules and their
-pairing, the connected–étale sequence over a henselian local base, truncated Barsotti–Tate groups
-and their recognition, formal Lie groups and the Serre–Tate equivalence with connected `p`-divisible
-groups, dimension and the identity `dim G + dim G^D = h`, discriminants, invariant differentials and
+pairing, the connected–étale sequence over a henselian local base, exact-sequence and coLie
+recognition on the supplied truncated Barsotti–Tate carrier, formal Lie groups and the Serre–Tate
+equivalence with connected `p`-divisible groups, dimension and the identity `dim G + dim G^D = h`, discriminants, invariant differentials and
 Raynaud's absolute different, Tate's Hodge–Tate decomposition, closures of
 generic subgroups and Tate's generic-fibre theorem. Finite flat models over Dedekind bases:
 schematic closure, simple objects, prolongations and their order, Raynaud's uniqueness theorem and
@@ -135,7 +135,13 @@ point-counting applications consume these shared maps and comparisons.
   local base whose connected parts are finite flat at every level. Every `p`-divisible group below
   is this carrier; the targets of R07.1 that touch the same objects add only what is stated in them
   (homomorphisms as limits, the standard examples, the connected–étale sequence over an arbitrary
-  henselian local base, Tate modules). §A3.2 `multiplicationAndDensity` supplies finite locally free
+  henselian local base, Tate modules). §A4.5a owns the shared `TruncatedBT S p n` carrier for
+  prime `p` and `n ≥ 1`, its height, base change, effective fppf descent, Cartier duality,
+  restriction and full-tower truncation. It also supplies the canonical Frobenius and
+  Verschiebung of finite locally free commutative groups in characteristic `p`, with naturality,
+  base change and `VF = [p] = FV`. Every truncated Barsotti–Tate group below uses this carrier;
+  §R07.1.10 adds exact-sequence recognition, and §R07.1.11 adds coLie and fibrewise recognition.
+  §A3.2 `multiplicationAndDensity` supplies finite locally free
   `A[n]` of rank `|n|^{2g}` for integers `n ≠ 0`,
   with arbitrary base change, and §A4.5 `BarsottiTate.ofAbelian` supplies its height-`2g` tower.
 - CrystallineCohomology §CR.4.7, *Slope decomposition on the existing isocrystal carrier*,
@@ -376,7 +382,13 @@ laws) with `FormalGroup.IsComm`.
 
 - **AbelianSchemesAndArithmeticModuli.** §A4.5 `BarsottiTate` with `BarsottiTate.truncation`,
   `BarsottiTate.dual`, `BarsottiTate.baseChange`, `BarsottiTate.ofAbelian` and
-  `BarsottiTate.connectedEtale` as described above; Layer A3 (isogenies over a base, quotients by
+  `BarsottiTate.connectedEtale` as described above. §A4.5a supplies `TruncatedBT`,
+  `TruncatedBT.height`, `TruncatedBT.baseChange`, effective fppf descent,
+  `TruncatedBT.cartierDual` with biduality, `TruncatedBT.restrict` for `1 ≤ m ≤ n`, and
+  `BarsottiTate.truncation` with values in this carrier, preserving height and commuting with
+  base change and duality. Its canonical finite-group Frobenius and Cartier-dual Verschiebung
+  satisfy naturality, base change and `VF = [p] = FV`; §R07.1.1 extends these maps to flat affine
+  groups and proves agreement on finite locally free groups. Layer A3 (isogenies over a base, quotients by
   finite locally free subgroups, and §A3.2 `multiplicationAndDensity`, including finite locally
   free `A[n]` of rank `|n|^{2g}` for integers `n ≠ 0` and base change). §A4.CR.7.2 supplies
   `LogCrystalline.dieudonneEvaluation` (evaluation of `D(G)` on divided-power thickenings,
@@ -435,7 +447,7 @@ laws) with `FormalGroup.IsComm`.
 
 | Owner | Provides / consumer | Convention |
 | --- | --- | --- |
-| SchemeAndStackFoundations §0.29 / `absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`, `iteratedSchemeFrobenius`, `qPowerFrobenius` | Scheme maps, naturality, products, arbitrary relative base change and iteration; §R07.1.1 upgrades the relative map to `frobeniusHom` | `F_X : X → X` is absolute; `F_{X/S} : X → X^{(p/S)}` is relative. The group `F_G` is relative. The existing group `frobeniusTwist` is the affine group base-change adapter to `schemeFrobeniusTwist`. Verschiebung and the symmetric-tensor construction for flat affine groups are §R07.1.1. |
+| SchemeAndStackFoundations §0.29 / `absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`, `iteratedSchemeFrobenius`, `qPowerFrobenius` | Scheme maps, naturality, products, arbitrary relative base change and iteration; §R07.1.1 upgrades the relative map to `frobeniusHom` | `F_X : X → X` is absolute; `F_{X/S} : X → X^{(p/S)}` is relative. The group `F_G` is relative. The existing group `frobeniusTwist` is the affine group base-change adapter to `schemeFrobeniusTwist`. The finite locally free group maps are supplied by AbelianSchemesAndArithmeticModuli §A4.5a; §R07.1.1 extends them by the symmetric-tensor construction for flat affine groups and proves agreement. |
 
 ## How to read the build
 
@@ -452,7 +464,9 @@ uses, and builds Fontaine–Laffaille theory. Layer R07.4 builds Breuil–Kisin 
 R07.2 and R07.3, with Kedlaya's slope filtration as its analytic input, and classifies `p`-divisible
 groups and finite flat group schemes over `𝒪_K`. Layer R07.5 applies R07.1–R07.4 to compute residual
 local Galois representations, and Layer R07.6 draws the deformation-theoretic and ramification
-consequences. Build the TruncatedBT definition before btNRecognition, then its conormal consequences.
+consequences. The `TruncatedBT` carrier and basic API come from
+AbelianSchemesAndArithmeticModuli §A4.5a; exact-sequence recognition (§R07.1.10) and
+`btNRecognition` (§R07.1.11) use that carrier, with the conormal consequences of §R07.1.11.
 Build the Dieudonné ring (§R07.2.5) before its action on Witt kernels (§R07.2.4).
 The Hasse invariant precedes btStackSmooth, and the quasi-polarised `LF` compatibility
 uses the smoothness and density proved there. Section labels identify contracts; this
@@ -466,7 +480,8 @@ Verschiebung use SchemeAndStackFoundations §0.29, along
 with the two rigid building blocks, étale groups (Galois modules) and multiplicative groups
 (their Cartier duals). It then develops `p`-divisible groups on the carrier `BarsottiTate` of
 AbelianSchemesAndArithmeticModuli §A4.5: torsion levels, duality, Tate modules, the connected–étale
-sequence over a henselian local base, truncations, formal Lie groups and dimension, and Tate's two
+sequence over a henselian local base, recognition on the truncated carrier of
+AbelianSchemesAndArithmeticModuli §A4.5a, formal Lie groups and dimension, and Tate's two
 theorems over a complete discrete valuation ring, using Tate–Sen from PadicPeriodRings §2. Over
 Dedekind bases it treats schematic closure and finite flat models, Raynaud's uniqueness theorem and
 his theory of `F`-vector schemes (written in the tame characters, which are introduced here), the
@@ -480,7 +495,10 @@ base change for the group construction are supplied by SchemeAndStackFoundations
 §0.29 / `absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`.
 Here `F_G : G → G^{(p)}` means `F_{G/Spec k}`, while `F_X : X → X` in SchemeAndStackFoundations §0.29 is absolute.
 The twist `G^{(p)} = G ⊗_{k,σ} k` uses the `p`-power map `σ` on the base; the group API retains
-the flat-group extension to characteristic-`p` ring bases.
+the flat-group extension to characteristic-`p` ring bases. The finite locally free group maps,
+their naturality, base change and `VF = [p] = FV` are supplied by
+AbelianSchemesAndArithmeticModuli §A4.5a. The construction here extends those maps to flat affine
+groups and agrees with them on finite locally free groups, including all these identities.
 
 Construct `frobeniusHom` and `verschiebungHom`. Let `k` be a field of characteristic `p`. For an affine
 commutative group scheme `G` over `k`, upgrade the supplied relative scheme Frobenius to a homomorphism
@@ -528,6 +546,7 @@ The API:
   definition through Tau Ceti's `baseChangeFunctor`.
 
 *Needs:* SchemeAndStackFoundations §0.29 (scheme Frobenius, naturality, products and arbitrary relative base change);
+AbelianSchemesAndArithmeticModuli §A4.5a (canonical finite-group Frobenius and Verschiebung);
 Tau Ceti `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`; Tau Ceti
 `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDuality`; Mathlib `PerfectField`.
 
@@ -903,53 +922,38 @@ p. 38: the finite-level sequence; Stix 2012, §9.2(5), p. 56: the tower-level st
   field is not; a group that is both étale and connected has order `1`
   (`rank_eq_one_of_isEtale_of_isConnectedLocal`).
 
-### R07.1.10 Truncated Barsotti–Tate groups of level `n`
+### R07.1.10 Exact-sequence recognition on truncated Barsotti–Tate groups
 
-Define `TruncatedBT`. Let `S` be a scheme and `n ≥ 1`. A truncated Barsotti–Tate group of level `n` (a
-`BT_n`) over `S` is a finite locally free commutative `S`-group scheme `G` killed by `p^n` and flat over `ℤ/p^n`
-(as an fppf sheaf of `ℤ/p^n`-modules: the image of `p^{n−i}` equals the kernel of `p^i` for `0 ≤ i ≤ n`)
-such that, when `n = 1`, the sequence `G₀ →F G₀^{(p)} →V G₀` is exact, `G₀ = G ×_S S₀` over `S₀ = V(p) ⊂ S`.
-The rank of `G[p]` is `p^h` with `h` locally constant, the height. Basic facts: `G[p^n]` of a `p`-divisible
-group of height `h` is a `BT_n` of height `h`; the Cartier dual of a `BT_n` is a `BT_n` of the same height; in
-an exact sequence of finite locally free groups of order `p^n`-torsion, two of which are `BT_n`, so is
-the third. The conormal and dimension consequences are stated in §R07.1.11.
+Use the shared `TruncatedBT S p n` carrier and basic API of
+AbelianSchemesAndArithmeticModuli §A4.5a, including height, base change, descent, Cartier duality,
+restriction and `BarsottiTate.truncation`. The coLie and dimension consequences are §R07.1.11.
 
-Here `S` is any scheme; Cartier duality and kernels of finite locally free groups are ModularCurves
-Layer 0B's; the relative Frobenius and Verschiebung over `S₀` are those of §R07.1.1 over a base of
-characteristic `p`. For `n = 1` and `p` invertible on `S` the Frobenius condition is empty and a `BT_1` is a
-finite étale group killed by `p` of rank `p^h`.
+Prove `TruncatedBT.of_exact`. Let `S` be any scheme, `p` a prime and `n ≥ 1`, and let
+`0 → G₁ → G₂ → G₃ → 0` be an exact sequence of fppf sheaves represented by finite locally free
+commutative `S`-group schemes, all killed by `p^n`. If any two are objects of `TruncatedBT S p n`,
+then so is the third. Their locally constant heights satisfy `h₂ = h₁ + h₃`.
 
-*Construction.* Definition as in Illusie, Déformations de groupes de Barsotti–Tate, Definition 1.1
-(as quoted by Anschütz–Le Bras, §4.6, p. 58). `G[p^n]` of a `p`-divisible group: the level exactness of
-§R07.1.5 gives `im(p^{n−i}) = ker(p^i)` on `G_n`; for `n = 1` in characteristic `p, im F = ker V` (and `ker F = im V`) on `G_1` follows from `FV = VF = p = 0` and rank counting (Illusie 1.3(e); §R07.1.1). Duality
-and two-out-of-three: Illusie 1.3(f) and 1.6 (as quoted by Anschütz–Le Bras, facts `(1)`–`(3)`, p. 59).
-The coLie recognition criterion and its conormal consequences are §R07.1.11. (Anschütz–Le Bras 2023,
-§4.6, the paragraph after Proposition 4.6.2 and facts `(1)`–`(3)`,
-pp. 58–59 (arXiv `v4`): the definition of a truncated Barsotti–Tate group of level `n` (after Illusie,
-Definition 1.1) and its three basic properties (Illusie 1.3(e), 1.3(f), 1.6); Pilloni 2020, §6.3.1,
-p. 30: `BT₁` groups over `F_p`-schemes, the Verschiebung and its differential, the Hasse–Witt map.)
+*Proof sketch.* Flatness as fppf `ℤ/p^n`-module sheaves and the level-one Frobenius–Verschiebung
+exactness give the two-out-of-three property (Illusie 1.6, quoted in Anschütz–Le Bras 2023,
+§4.6, fact (3), p. 59, arXiv `v4`). Multiplicativity of finite locally free ranks in the exact
+sequence and `rk Gᵢ = p^{nhᵢ}` give height additivity. The same source, pp. 58–59,
+paragraph after Proposition 4.6.2 and facts (1)–(2), supplies the definition and basic operations
+owned by AbelianSchemesAndArithmeticModuli §A4.5a.
 
-The API:
-
-- `TruncatedBT`: A finite locally free commutative group killed by `p^n`, flat over `ℤ/p^n`, with `ker F = im V` when `n = 1`.
-- `TruncatedBT.height`: The locally constant `h` with rank `G[p] = p^h`.
-- `BarsottiTate.truncation`: `G ↦ G[p^n] = G_n` as a `BT_n` of the same height.
-- `TruncatedBT.cartierDual`: The Cartier dual of a `BT_n` is a `BT_n` of the same height.
-- `TruncatedBT.of_exact`: Two out of three in a short exact sequence of `p^n`-torsion finite locally
-  free groups.
-- `TruncatedBT.restrict`: `G ↦ G[p^m]` for `m ≤ n` is a `BT_m`.
-
-*Needs:* §R07.1.6; §R07.1.5; §R07.1.7; TauCetiRoadmap.ModularCurves Layer 0B; §R07.1.1.
+*Needs:* AbelianSchemesAndArithmeticModuli §A4.5a (`TruncatedBT` and its basic API);
+TauCetiRoadmap.ModularCurves Layers 0B and 0C (finite locally free groups, quotients and ranks).
 
 **Checks.**
 
-- `TruncatedBT.mu`: `μ_{p^n}` is a `BT_n` of height `1` and dimension `1`; `ℤ/p^n` is a `BT_n` of height `1` and
-  dimension `0`.
-- `TruncatedBT.not_alpha`: `α_p` over `F_p` is not a `BT₁: F = 0` and `V = 0` on `α_p`, so `im F = 0` while `ker V = α_p^{(p)}`, and the sequence is not exact; a definition that omits the Frobenius condition for
-  `n = 1` accepts it.
-- `TruncatedBT.not_Zp2_level1`: `ℤ/p ⊕ ℤ/p²` is killed by `p²` but is not a `BT₂: ker p = (ℤ/p)²` while `im p = ℤ/p`, so it is not flat over `ℤ/p²`; a definition requiring only `p²`-torsion accepts it.
-- `TruncatedBT.elliptic`: For an elliptic curve `E/S, E[p^n]` is a `BT_n` of height `2`, the truncation of
-  ModularCurves Layer 7E (PD-`1`)'s `E[p^∞]`.
+- `0 → μ_{p^n} → μ_{p^n} × (ℤ/p^n)_S → (ℤ/p^n)_S → 0` has heights `1, 2, 1`,
+  over any scheme `S`.
+- The split exact sequence with middle term `(ℤ/p^n)_S^{a+b}` and outer terms of ranks
+  `p^{na}` and `p^{nb}` recovers the constant height identity `a + b`.
+- Over `𝔽̄_p`, for a supersingular elliptic curve the exact sequence
+  `0 → α_p → E[p] → α_p → 0` has only its middle term a `BT₁`. One `BT₁` term alone
+  does not imply recognition of the others.
+- Over `𝔽_p`, `0 → μ_{p^n} → μ_{p^{2n}} → μ_{p^n} → 0` has `BT_n` outer terms,
+  but the middle term is not killed by `p^n`. The common torsion hypothesis is necessary.
 
 ### R07.1.11 Recognising truncated Barsotti–Tate groups: Illusie's coLie criterion and the fibrewise criterion
 
@@ -983,15 +987,15 @@ terms of `t_G, t_{G^D}, φ_G, φ_{G^D}`, with the ranks of `ω_G` and `ν_{G^D}`
 of Lemma 10.1.1 and footnote `14`, p. 57: the fibrewise criterion, proved for `n = 1`, with the general
 case asserted and attributed to Fargues.)
 
-*Needs:* §R07.1.10; §R07.1.1; DerivedModuleAlgebra §0.4 (the full cotangent complex);
-TauCetiRoadmap.ModularCurves Layer 0B.
+*Needs:* AbelianSchemesAndArithmeticModuli §A4.5a (`TruncatedBT`); §R07.1.1;
+DerivedModuleAlgebra §0.4 (the full cotangent complex); TauCetiRoadmap.ModularCurves Layer 0B.
 
 **Checks.**
 
 - `btNRecognition_muP`: `μ_p` over `ℤ/p²` has every fibre a `BT₁` (the only fibre is `μ_p` over
   `F_p`), so it is a `BT₁` over `ℤ/p²`.
 - `btNRecognition_alphaP`: over `F_p[ε]`, any finite locally free group whose special fibre is `α_p`
-  fails `(ii)`, since `α_p` is not a `BT₁` (§R07.1.10).
+  fails `(ii)`, since `α_p` is not a `BT₁` (AbelianSchemesAndArithmeticModuli §A4.5a).
 - `btNRecognition_ranks`: for `G = μ_{p^n}`, `(i)` gives `ω_G` locally free of rank `1 = dim G` and
   `ν_{G^D}` of rank `h − dim G = 0`; for `G = ℤ/p^n` the ranks are `0` and `1`.
 - For `G = μ_p` over `R = ℤ/p², ω_G = R/pR` is not free over `R`; nilpotence of `p`
@@ -2398,7 +2402,8 @@ multiplicative–connected filtration `G^m ⊂ G^o ⊂ G` of a `BT₁` with `G^{
 §7.4.2, proof of Lemma 7.4.2.1, p. 44: splitting `G = G^m ⊕ G^{oo} ⊕ G^{et}` over a perfect scheme via
 Verschiebung (citing Oort–Zink, Proposition 1.3).)
 
-*Needs:* §R07.1.6; §R07.1.9; §R07.1.7; §R07.1.10; §R07.2.1; §R07.1.1.
+*Needs:* §R07.1.6; §R07.1.9; §R07.1.7; AbelianSchemesAndArithmeticModuli §A4.5a
+(`TruncatedBT`); §R07.1.10; §R07.2.1; §R07.1.1.
 
 **Checks.**
 
@@ -2426,7 +2431,8 @@ and `S^{oo}` is the complement (Pilloni, Lemma 7.4.2.1, proof). (Pilloni 2020, �
 and its proof, p. 44: the decomposition `S = S^{et} ⊔ S^m ⊔ S^{oo}` by the type of an order-`p`
 subgroup.)
 
-*Needs:* §R07.2.2; §R07.1.4; §R07.1.34; §R07.1.10.
+*Needs:* §R07.2.2; §R07.1.4; §R07.1.34; AbelianSchemesAndArithmeticModuli §A4.5a
+(`TruncatedBT`).
 
 **Checks.**
 
@@ -3075,7 +3081,8 @@ DerivedDeRhamCohomology §§PD.6–PD.7 (universal and completed PD envelopes).
 ### R07.2.21 The Hasse invariant of a `BT₁` and the Hasse–Witt map
 
 Define `hasseInvariant` and the Hasse–Witt map `hasseWitt`. Let `S` be an `F_p`-scheme and `G` a `BT₁` over
-`S` (§R07.1.10) with conormal sheaf `ω_G` along the unit section, locally free of rank `d = dim G`. The
+`S` (AbelianSchemesAndArithmeticModuli §A4.5a) with conormal sheaf `ω_G` along the unit section,
+locally free of rank `d = dim G`. The
 Verschiebung `V : G^{(p)} → G` has differential `V* : ω_G → ω_G^{(p)} = ω_G ⊗_{O_S,Frob} O_S`, the
 Hasse–Witt map, and the Hasse invariant is `Ha(G) = det V* ∈ H⁰(S, (det ω_G)^{⊗(p−1)})`. `G` is
 ordinary at `s ∈ S` iff `Ha(G)` is invertible near `s`. Fargues: there is a canonical functorial
@@ -3104,7 +3111,8 @@ The API:
 - `farguesLF`: `LF : (det ω_G)^{p−1} ≅ (det ω_{G^D})^{p−1}` with `LF(Ha(G)) = Ha(G^D)`.
 - `hodgeTateMap_exact`: `0 → ker F → G → ω_{G^D} → ω_{G^D}^{(p)}` is exact, the last map `F − V*_{G^D}`.
 
-*Needs:* §R07.1.10; §R07.1.1; §R07.2.2; §R07.1.7.
+*Needs:* AbelianSchemesAndArithmeticModuli §A4.5a (`TruncatedBT`); §R07.1.1; §R07.2.2;
+§R07.1.7.
 
 **Checks.**
 
@@ -3139,7 +3147,7 @@ and the exactness of `F*, V*` hold after base change to perfect fields and hence
 (2.4.2)).
 
 *Proof sketch.* Over a perfect field the claims are Dieudonné-module linear algebra: for `M = M(G)`
-killed by `p, ker F = im V` and `ker V = im F` (§R07.2.8, §R07.1.10). Over `S`, the complex `𝓔 → 𝓔^{(p)} → 𝓔` of locally free modules is exact because it is exact at all perfect points and its images are
+killed by `p, ker F = im V` and `ker V = im F` (§R07.2.8; AbelianSchemesAndArithmeticModuli §A4.5a). Over `S`, the complex `𝓔 → 𝓔^{(p)} → 𝓔` of locally free modules is exact because it is exact at all perfect points and its images are
 locally free (Cais–Lau, discussion of (2.4.2)). Identify `F*` on the quotient `ω_{G^D}^∨` with the dual
 of `V*_{G^D}` through Cartier duality `D(G^D) ≅ D(G)^∨(−1)` (CR.`7`, variance and twists). The long exact
 cohomology sequence of a short exact sequence of complexes with exact middle term identifies the
@@ -3151,8 +3159,9 @@ of the sequence is general; Cais–Lau 2017, §2.4, (2.4.2), Definition 2.4.1 an
 pp. 10–11 (arXiv:1412.3174v2): exactness of the `F`–`V` complex of a Dieudonné crystal by reduction to
 perfect fields; the Hodge filtration and its compatibility with duality.)
 
-*Needs:* §R07.2.21; §R07.1.40; §R07.2.8; §R07.1.10; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (the crystalline
-Dieudonné crystal); AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Dieudonné variance and Tate twists).
+*Needs:* §R07.2.21; §R07.1.40; §R07.2.8; §R07.1.10;
+AbelianSchemesAndArithmeticModuli §A4.5a (`TruncatedBT`) and §A4.CR.7.2 (the crystalline
+Dieudonné crystal, variance and Tate twists).
 
 **Checks.**
 
@@ -3193,8 +3202,8 @@ Bras 2023, §4.6, proof of Lemma 4.6.6, p. 62 (arXiv `v4`): `BT_n^h` is a smooth
 6.3.1.1, p. 30: the stack of quasi-polarised `BT₁` is smooth with dense ordinary locus (citing
 Illusie, Astérisque `127`).)
 
-*Needs:* §R07.2.21; §R07.1.10; §R07.1.11; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Grothendieck–Messing deformation
-theory).
+*Needs:* §R07.2.21; §R07.1.10; §R07.1.11; AbelianSchemesAndArithmeticModuli §A4.5a
+(`TruncatedBT`) and §A4.CR.7.2 (Grothendieck–Messing deformation theory).
 
 **Checks.**
 
@@ -3228,7 +3237,8 @@ smoothness statements are §R07.2.23.
 62–63 (arXiv `v4`; published Lemma 4.70): lifting along henselian pairs through the smooth stacks
 `BT_n^h` and Elkik's theorem.)
 
-*Needs:* §R07.1.10; §R07.1.6; §R07.2.23; SchemeAndStackFoundations §0.14
+*Needs:* AbelianSchemesAndArithmeticModuli §A4.5a (`TruncatedBT`); §R07.1.6; §R07.2.23;
+SchemeAndStackFoundations §0.14
 `henselian_smooth_lifting` (Stacks Tag 0H74).
 
 **Checks.**

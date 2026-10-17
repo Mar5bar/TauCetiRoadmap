@@ -24,6 +24,11 @@ The design choices made explicit here:
 * The finite constant groups and the finite diagonalizable groups `D(M)` (so `μ_N = D(ℤ/N)`) are Tau
   Ceti's `ConstantGroup.finiteLocallyFreeGroupScheme` and
   `DiagonalizableGroup.finiteLocallyFreeGroupScheme`; they are the test objects for the predicates.
+* Truncated Barsotti–Tate groups use `TruncatedBT` from
+  AbelianSchemesAndArithmeticModuli §A4.5a, with `TruncatedBT.height`,
+  `TruncatedBT.baseChange`, descent, `TruncatedBT.cartierDual`, `TruncatedBT.restrict` and
+  `BarsottiTate.truncation`. Its canonical finite-group Frobenius and Verschiebung agree with
+  the flat-affine extension of §R07.1.1, preserving naturality, base change and `VF = [p] = FV`.
 * A finite flat model of a generic group is a `Prolongation`: a model together with an isomorphism
   of its generic fibre, ordered by domination.
 * Dieudonné modules are contravariant: a Dieudonné module over a perfect field `k` is a
@@ -1087,8 +1092,13 @@ further instances of the statements above.
   `finitePart`; `multiplicativeTypeRigidity`;
   `p`-divisible groups beyond the finite levels (`BarsottiTate.Hom`, `BarsottiTate.muPInfty`,
   `BarsottiTate.constQpZp`, `BarsottiTate.exact_levels`, `BarsottiTate.cartierDual_levels`,
-  `BarsottiTate.tateModule`, `BarsottiTate.connectedEtale_exact`); `TruncatedBT` and
-  `btNRecognition`; `FormalLieGroup`, `BarsottiTate.equivFormalLieGroup`, `BarsottiTate.dim`,
+  `BarsottiTate.tateModule`, `BarsottiTate.connectedEtale_exact`);
+  `TruncatedBT.of_exact` on the shared carrier of AbelianSchemesAndArithmeticModuli §A4.5a:
+  for prime `p`, level `n ≥ 1` and an exact sequence of finite locally free commutative groups
+  over any scheme `S`, all killed by `p^n`, any two terms being `BT_n` implies the third is,
+  with additive heights. The product and constant examples, the supersingular sequence with
+  two `α_p` outer terms, and the `μ_{p^{2n}}` sequence test recognition and its hypotheses;
+  `btNRecognition` on that same shared carrier; `FormalLieGroup`, `BarsottiTate.equivFormalLieGroup`, `BarsottiTate.dim`,
   `BarsottiTate.dim_add_dim_cartierDual`, `BarsottiTate.discr_level`,
   `invariantDifferentialsAndAbsoluteDifferent`; `BarsottiTate.completedPoints`;
   `BarsottiTate.hodgeTate`;
