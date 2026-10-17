@@ -67,13 +67,76 @@ example :
 
 end Diagrams
 
-/-- A trivial C₂ action on a point has geometric degree one. At p = 3, normalizing that trace
-by the raw index two changes its value; at p = 2 the raw index is not invertible (README 1.4). -/
-example : (2 : ZMod 3)⁻¹ * 1 = 2 ∧ (2 : ZMod 3)⁻¹ * 1 ≠ 1 ∧
+/-- README F.3 and 1.4: the raw C₂ sum differs from geometric trace on a point.
+Its average is identity at p = 3; dividing geometric trace by two changes it. -/
+example : (2 : ZMod 3) ≠ 1 ∧ (2 : ZMod 3)⁻¹ * 2 = 1 ∧
+    (2 : ZMod 3)⁻¹ * 1 = 2 ∧ (2 : ZMod 3)⁻¹ * 1 ≠ 1 ∧
     (2 : ZMod 2) = 0 := by
   have hi : (2 : ZMod 3)⁻¹ = 2 := inv_eq_of_mul_eq_one_right (by decide)
   rw [hi]
   decide
+
+/-- README F.3: multiplication by ε in degree zero of the dual-number disk is a
+nonzero derived ghost with square zero. The bounded finite-projective model also detects
+its failure to be null homotopic. -/
+example (k : Type) [Field k] :
+    let B := TrivSqZeroExt k k
+    let ε : B := TrivSqZeroExt.inr 1
+    ∃ (C : CochainComplex (ModuleCat B) ℤ)
+      (e₀ : C.X 0 ≅ ModuleCat.of B B) (e₁ : C.X 1 ≅ ModuleCat.of B B),
+      (∀ i, Module.Projective B (C.X i) ∧ Module.Finite B (C.X i)) ∧
+      (∀ i : ℤ, i ≠ 0 → i ≠ 1 → IsZero (C.X i)) ∧
+      e₀.inv ≫ C.d 0 1 ≫ e₁.hom = ModuleCat.ofHom (LinearMap.mulLeft B ε) ∧
+      ∃ f : C ⟶ C,
+        e₀.inv ≫ f.f 0 ≫ e₀.hom = ModuleCat.ofHom (LinearMap.mulLeft B ε) ∧
+        f.f 1 = 0 ∧
+        (∀ i, (HomologicalComplex.homologyFunctor (ModuleCat B)
+          (ComplexShape.up ℤ) i).map f = 0) ∧
+        ¬ Nonempty (Homotopy f 0) ∧ f ≫ f = 0 := by
+  sorry
+
+/-- README 1.5: the two-point cover has diagonal pullback and sum trace;
+the finer level adds the class (1,0). -/
+example (R : Type) [CommRing R] [Nontrivial R] :
+    let pb : R →ₗ[R] (Fin 2 → R) := LinearMap.pi (fun _ => LinearMap.id)
+    let tr : (Fin 2 → R) →ₗ[R] R :=
+      (LinearMap.proj 0 : (Fin 2 → R) →ₗ[R] R) +
+        (LinearMap.proj 1 : (Fin 2 → R) →ₗ[R] R)
+    (∀ a, tr (pb a) = 2 * a) ∧ tr ![1, 0] = 1 ∧
+      ![1, 0] ∉ LinearMap.range pb := by
+  sorry
+
+/-- README 1.5: the fixed-exponent tame function colimit consists of locally constant
+functions on Z₂, with the actual finite-quotient evaluation maps. -/
+example (s : ℕ) (_hs : 1 ≤ s) :
+    let R := ZMod (3 ^ s)
+    let f := fun i j (h : i ≤ j) => LinearMap.funLeft R R
+      (ZMod.castHom (pow_dvd_pow 2 h) (ZMod (2 ^ i)) : ZMod (2 ^ j) → ZMod (2 ^ i))
+    ∃ e : Module.DirectLimit (fun n : ℕ => ZMod (2 ^ n) → R) f ≃ₗ[R]
+        LocallyConstant ℤ_[2] R,
+      ∀ n v x, e (Module.DirectLimit.of R ℕ
+        (fun n => ZMod (2 ^ n) → R) f n v) x = v (PadicInt.toZModPow n x) := by
+  sorry
+
+/-- README 1.5: a continuous Z₃-valued function is obtained from compatible locally
+constant reductions but lies outside the locally constant integral tame colimit. -/
+example :
+    ∃ f : C(ℤ_[2], ℤ_[3]),
+      (∀ x, f x = ∑' n : ℕ, if PadicInt.toZModPow (n + 1) x = 0
+        then (3 : ℤ_[3]) ^ (n + 1) else 0) ∧
+      (∀ s : ℕ, ∃ g : LocallyConstant ℤ_[2] (ZMod (3 ^ s)),
+        ∀ x, g x = PadicInt.toZModPow s (f x)) ∧
+      ¬ IsLocallyConstant f := by
+  sorry
+
+/-- README 1.5: on degree-one circle cohomology the degree-two cover has pullback
+two and trace one, including over the finite coefficient ring Z/3^s. -/
+example (s : ℕ) (_hs : 1 ≤ s) :
+    let R := ZMod (3 ^ s)
+    let pb : R →ₗ[R] R := LinearMap.mulLeft R 2
+    let tr : R →ₗ[R] R := LinearMap.id
+    (∀ x, pb x = 2 * x ∧ tr x = x ∧ tr (pb x) = 2 * x) ∧ tr 1 ≠ pb 1 := by
+  sorry
 
 /-! ## Layer 2: coefficient limits and complete torsion-free complexes -/
 
@@ -214,6 +277,17 @@ example :
 
 The arithmetic finite-cell milestones require carriers supplied by the README. Cochains with
 W₀ are the continuous dual of the chain model with W₀∨, with inverse-precomposition action. -/
+
+/-- README 4.3: scalar two acts by three on the first dual over F₅ and by two on
+the bidual under evaluation, the mod-five specialization of the Z₅ coefficient lattice. -/
+example :
+    let ρ := Representation.ofDistribMulAction (ZMod 5) (ZMod 5)ˣ (ZMod 5)
+    let g : (ZMod 5)ˣ := ⟨2, 3, by decide, by decide⟩
+    ρ.dual g (LinearMap.id : Module.Dual (ZMod 5) (ZMod 5)) =
+        3 • (LinearMap.id : Module.Dual (ZMod 5) (ZMod 5)) ∧
+      ρ.dual.dual g (Module.Dual.eval (ZMod 5) (ZMod 5) 1) =
+        Module.Dual.eval (ZMod 5) (ZMod 5) 2 := by
+  sorry
 
 /-- README 4.4 and 6.3: a coefficient twist starts with the scalar model. Twisting an already
 rank-two coefficient space again gives the wrong rank. -/
@@ -363,6 +437,24 @@ example (p : ℕ) [Fact p.Prime] :
       ∀ (x : completedHecke (coefficientRingDiagram p)) (n : ℕ),
         PadicInt.toZModPow (n + 1) (e x) =
           completedHecke_eval (coefficientRingDiagram p) (op n) x := by
+  sorry
+
+/-- README 8.10: at p = 0 the actual coefficient diagram has integer objects and
+identity transitions, and its limit is the integers with the same evaluations. -/
+example :
+    ∃ (e : ∀ j : ℕᵒᵖ, (coefficientRingDiagram 0).obj j ≃+* ℤ)
+      (E : completedHecke (coefficientRingDiagram 0) ≃+* ℤ),
+      (∀ (i j : ℕᵒᵖ) (g : i ⟶ j) (x : (coefficientRingDiagram 0).obj i),
+        e j (((coefficientRingDiagram 0).map g).hom x) = e i x) ∧
+      ∀ x j, e j (completedHecke_eval (coefficientRingDiagram 0) j x) = E x := by
+  sorry
+
+/-- README 8.10: at p = 1 the actual coefficient diagram and its limit have one element
+and the limit has no maximal ideals. -/
+example :
+    (∀ n : ℕ, Subsingleton ((coefficientRingDiagram 1).obj (op n))) ∧
+    Subsingleton (completedHecke (coefficientRingDiagram 1)) ∧
+    IsEmpty (MaximalSpectrum (completedHecke (coefficientRingDiagram 1))) := by
   sorry
 
 /-- The constant scalar diagram recovers its scalar ring, including its ring structure. -/
