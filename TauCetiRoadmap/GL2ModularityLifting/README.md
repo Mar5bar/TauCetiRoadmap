@@ -2896,7 +2896,7 @@ These corrections are used in the statements above; each is stated in our own wo
 - **Paškūnas, BM** — V. Paškūnas, [On the Breuil–Mézard conjecture](https://arxiv.org/pdf/1209.5205v3), Duke Math. J. 164 (2015), 297–359.
 - **Paškūnas, 2-adic** — V. Paškūnas, [On 2-dimensional 2-adic Galois representations of local and global fields](https://arxiv.org/pdf/1509.00332v2), Algebra Number Theory 10 (2016), 1301–1358.
 - **Hu–Tan** — Y. Hu and F. Tan, [The Breuil–Mézard conjecture for non-scalar split residual representations](https://arxiv.org/pdf/1309.1658v2), Ann. Sci. Éc. Norm. Supér. 48 (2015), 1383–1421.
-- **Tung, odd `p**` — S.-N. Tung, [On the automorphy of 2-dimensional potentially semi-stable deformation rings of G_{ℚ_p}](https://arxiv.org/pdf/1803.07451v4), Algebra Number Theory 15 (2021), 2173–2194.
+- **Tung, odd `p**` — S.-N. Tung, [On the automorphy of 2-dimensional potentially semi-stable deformation rings of `G_{ℚ_p}`](https://arxiv.org/pdf/1803.07451v4), Algebra Number Theory 15 (2021), 2173–2194.
 - **Tung, dyadic** — S.-N. Tung, [On the modularity of 2-adic potentially semi-stable deformation rings](https://arxiv.org/pdf/1908.06174v3), Math. Z. 298 (2021), 107–159.
 - **Pan** — L. Pan, [The Fontaine–Mazur conjecture in the residually reducible case](https://arxiv.org/pdf/1901.07166v2), J. Amer. Math. Soc. 35 (2022), 1031–1169.
 - **SW99** — C. M. Skinner and A. J. Wiles, [Residually reducible representations and modular forms](https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf), Publ. Math. IHÉS 89 (1999), 5–126.
