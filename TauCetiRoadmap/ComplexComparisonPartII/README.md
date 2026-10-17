@@ -132,6 +132,7 @@ The analytic ownership and stage order are:
 | Native holomorphic sheaf, convergent local algebra and primitive Oka relations | ComplexKahlerGeometry K2–K4 | C−1 adds analytic quotients, nilpotents and gluing; RealAnalyticGeometry R3.2 supplies native coherence; C0 descends it to analytic spaces |
 | Fixed-rank bundle–sheaf equivalence, holomorphic connections and absolute flat correspondence | ComplexKahlerGeometry K4 on native Mathlib bundles and `SheafOfModules` | C0.3 assembles clopen rank strata; C1.3 fixes Chern curvature conventions; C5.2's `holomorphicConnectionDictionary` identifies the analytic connection carriers and absolute unit, evaluation and monodromy maps, and adds all horizontal morphisms and holomorphic parameters |
 | Bundle test sections and distributions | ComplexKahlerGeometry K5a's `BundleTest` and `BundleDistribution` | C5.4 transports these through the complex orientation and exterior wedge pairing; its bidegrees, positive cones, mass and complex-current extension theory use that same substrate |
+| Local analytic-set mass and L¹ integration | ComplexKahlerGeometry K6.1's `analyticSetLocalFiniteMass` and K5a's L¹ integration comparison | The local estimate applies to pure-dimensional analytic subsets in arbitrary manifold charts, without compactness or a Kähler hypothesis; C5.4 glues the general cycle current and proves closedness. `AnalyticCycleIntegration.compactKaehler` identifies its compact specialization with K6.1's real de Rham functional, with the same orientation and multiplicities |
 | Real dimension-graded currents and complex degree-graded currents | GeometricCurrents G1's real carrier and boundary; C5.4's `realComplexCurrentComparison` | K5a owns the general LF bundle-test/distribution foundation. C5.4 identifies G1's tests with its real exterior-dual/density specialization without an ambient orientation, and supplies complex extension with the grading sign. GeometricCurrents retains rectifiability, integral subgroups and minimizing-current geometry; C5.4 retains complex type, positivity, analytic cycles and comparison applications |
 | Local bundle elliptic regularity, adjoints and symbols | ComplexKahlerGeometry K5a local estimates and K5b.0; K6.0 supplies local Kähler/Bochner identities | RealAnalyticGeometry R3.1 supplies their complete-metric weighted existence theorem, consumed in C1.4; the local inputs precede compact Hodge theory and use no C5.3 result |
 | Compact bundle Sobolev, harmonic and Green theory | ComplexKahlerGeometry K5a–K5b.1; K6.1 supplies compact Kähler decomposition | C5.3 identifies the supplied maps with coherent and de Rham–Betti comparisons |
@@ -232,7 +233,9 @@ roadmaps; they do not impose a strict merge order on whole roadmap specification
   `BundleDistribution`, their topologies, coefficient comparisons and operator action for
   C5.4's complementary-form specialization. K5a local estimates, K5b.0's adjoint/symbol layer and K6.0's local Kähler/Bochner
   identity feed RealAnalyticGeometry R3.1's weighted theorem, used in C1.4. K5's compact harmonic/Green theory and
-  K6.1's compact Kähler decomposition feed C5.3.
+  K6.1's compact Kähler decomposition feed C5.3. K6.1 supplies
+  `analyticSetLocalFiniteMass` in arbitrary manifold charts, and K5a supplies the L¹
+  integration comparison used by C5.4's cycle currents and their compact Kähler specialization.
 - *GeometricCurrents, G1.* The real dimension-graded continuous-dual current carrier,
   unsigned boundary, support and comass mass. C5.4's `realComplexCurrentComparison`
   identifies its LF test forms with K5a's real exterior-dual/density specialization
@@ -1920,7 +1923,7 @@ Here Universal functions is an arbitrary-base-change condition. Neither a sectio
 
 For the proof, fppf locally on `B` obtain sections by covering from `X` and use the rigidified Picard stack; then universal functions kills its rigidified automorphisms, so the stack is an algebraic space and agrees with the relative class sheaf by the prior splitting theorem; then descend algebraic-space representability and local finite presentation; use the diagonal description for quasi-separatedness.
 
-*Needs:* AlgebraicModuliForArithmeticGeometry §7.3 `relativePicardSheaf`, AlgebraicModuliForArithmeticGeometry §7.3 `relativePicardBaseChange`, AlgebraicModuliForArithmeticGeometry §7.3 `sectionPicardSplit`, §C3.2d.1 `picard_stack_algebraic`, AlgebraicModuliForArithmeticGeometry §7.3 `rigidification_gm_torsor`, SchemeAndStackFoundations Layer 1.
+*Needs:* AlgebraicModuliForArithmeticGeometry §7.6.1 `relativePicardSheaf`, AlgebraicModuliForArithmeticGeometry §7.6.1 `relativePicardBaseChange`, AlgebraicModuliForArithmeticGeometry §7.6.1a `sectionPicardSplit`, §C3.2d.1 `picard_stack_algebraic`, AlgebraicModuliForArithmeticGeometry §7.3 `rigidification_gm_torsor`, SchemeAndStackFoundations Layer 1.
 
 **Checks.**
 
@@ -1956,7 +1959,7 @@ Here `H²` denotes cohomological Brauer data, without asserting that every class
 
 For the proof, use universal functions to identify `f_*Gₘ` with `Gₘ`; then use Hilbert 90 and invertible-module descent to identify `R¹f_*Gₘ` with the relative Picard sheaf; then read the Leray five-term sequence; the section gives a retraction on cohomology and hence zero boundary.
 
-*Needs:* SchemeAndStackFoundations §2.2, SchemeAndStackFoundations §2.11, JacobianChallenge Layer D and SchemeAndStackFoundations §2.22, AlgebraicModuliForArithmeticGeometry §7.3 `relativePicardKernel`, AlgebraicModuliForArithmeticGeometry §7.3 `sectionPicardSplit`, §C3.2d.2 `relative_picard_algebraicSpace`.
+*Needs:* SchemeAndStackFoundations §2.2, SchemeAndStackFoundations §2.11, JacobianChallenge Layer D and SchemeAndStackFoundations §2.22, AlgebraicModuliForArithmeticGeometry §7.6.1 `relativePicardKernel`, AlgebraicModuliForArithmeticGeometry §7.6.1a `sectionPicardSplit`, §C3.2d.2 `relative_picard_algebraicSpace`.
 
 **Checks.**
 
@@ -3080,16 +3083,35 @@ Cauchy–Schwarz bound the error by the mass on shrinking neighbourhoods (Demail
 pp. 138–140). *Needs:* `CurrentCalculus`; `remmertSteinExtension` (local structure of analytic sets);
 TauCetiRoadmap.DifferentialGeometry (forms, Stokes); Mathlib convolution.
 
+Consume ComplexKahlerGeometry K6.1's local estimate as `analyticSetLocalFiniteMass`:
+for a pure `d`-dimensional analytic subset `Z` of an arbitrary finite-dimensional Hausdorff
+second-countable complex manifold `M`, the induced volume of `Z_reg` is finite on every
+compact subset of `M`, for any smooth Hermitian metric. In coordinate charts the estimate
+comes from finite-sheet projections; restriction, chart change and compact-local metric
+comparison give the gluing input. Neither `M` nor `Z` is required to be compact or Kähler.
+Use K5a's L¹ extension and its comparison with the native Riemannian-volume integral;
+compact ambient support need not pull back to compact support on `Z_reg`
+(Demailly, III.2.5–2.6, p. 140).
+
+**Checks.**
+
+- A coordinate line in `ℂ²` has finite mass on compact subsets and infinite total Euclidean mass.
+- Near the node `xy = 0` in `ℂ²`, the mass is the sum of the two branch areas, with no point mass at the node.
+- A compactly supported smooth ambient form nonzero at the node can restrict to a form whose support accumulates
+  at the missing node on `Z_reg`; the L¹ integral still exists.
+
 Define `AnalyticCycleIntegration` for a pure `d`-dimensional analytic subset `Z` of a complex manifold
 `M`: the current `[Z](η) = ∫_{Z_reg} η` on compactly supported smooth `2d`-forms, with the complex
 orientation of `Z_reg`. The integral converges near the singular locus and `[Z]` is a closed positive
 current of bidimension `(d,d)`; for a cycle `Σ mᵢZᵢ` take `Σ mᵢ[Zᵢ]`. Nilpotent structure enters only
-through the multiplicities of the cycle. Local mass is bounded by the sheet number of a finite
-projection; closedness follows from `closedCurrentExtension` applied across `Z_sing`. The API is
+through the multiplicities of the cycle. Use the supplied `analyticSetLocalFiniteMass` and
+K5a's L¹ integration comparison; closedness follows from `closedCurrentExtension` applied
+across `Z_sing`. The API is
 `AnalyticCycleIntegration.regular` (on a closed submanifold it is the manifold integral of
 DifferentialGeometry), `AnalyticCycleIntegration.add` (additivity in multiplicities) and
 `AnalyticCycleIntegration.closed` (`[Z](dη) = 0`) (Demailly, III.2.1–2.3, pp. 138–140, and
 III.2.5–2.7, p. 140). *Needs:* `analyticSetGeometry`; `CurrentCalculus`; `closedCurrentExtension`; `remmertSteinExtension`;
+ComplexKahlerGeometry K6.1 (`analyticSetLocalFiniteMass`) and K5a (L¹ integration comparison);
 TauCetiRoadmap.DifferentialGeometry (integration, Layer 5).
 
 **Checks.**
@@ -3100,6 +3122,25 @@ TauCetiRoadmap.DifferentialGeometry (integration, Layer 5).
   `[Z](η) > 0`: the complex orientation `dx ∧ dy = (i/2)dz ∧ dz̄` is used, not its negative.
 - `AnalyticCycleIntegration.doubleLine`: the cycle `2[L]` integrates to twice `[L]`; integrating over the
   reduced regular locus of the double line would lose the multiplicity.
+
+Prove `AnalyticCycleIntegration.compactKaehler`: for a compact Kähler manifold `M`,
+a pure `d`-dimensional analytic cycle `Z = Σ mᵢZᵢ` and a real smooth closed `2d`-form `α`,
+`[Z](α_ℂ) = ι(Σ mᵢ ∫_((Zᵢ)_reg) α)`, where `ι : ℝ → ℂ` is scalar inclusion and
+`α_ℂ` is the complexification of `α`. The right side is the complex image of K6.1's
+real analytic-set de Rham functional, extended with the same multiplicities. Use the
+complex orientation on each regular component and the shared L¹ integral, including
+when the restricted form lacks compact support on the regular locus. The equality
+descends to de Rham classes and is independent of the induced metric
+(Demailly, III.2.5–2.7, p. 140; ComplexKahlerGeometry K5a and K6.1).
+*Needs:* `AnalyticCycleIntegration`; ComplexKahlerGeometry K5a (real/complex L¹ comparison)
+and K6.1 (real analytic-set integral and de Rham functional).
+
+**Checks.**
+
+- For a smooth projective curve the equality is the real/complex manifold integral comparison.
+- For a nodal projective curve `C ⊂ P²`, evaluation on the Fubini–Study form equals
+  the complex image of the real L¹ integral over `C_reg`, including forms nonzero at the node.
+- For `2[C]` both sides are twice their values on `C`; the singular point contributes no atom.
 
 Prove `semipositiveWedge`: with the complex orientation, products of semipositive real `(1,1)`-forms
 are positive, and if `α`, `β` and `α − β` are semipositive `(1,1)`-forms on a neighbourhood of a pure
@@ -4138,6 +4179,37 @@ the stalk proof uses §§C6.3–C6.4 and proper/lower-shriek base change.
 - For a smooth proper family, the comparison commutes with the transport along each
   specified path, including a loop with nontrivial monodromy.
 
+**Smooth trace under Artin comparison — `artinSmoothTrace`.**
+For a separated smooth morphism `f : X → Y` of relative pure dimension `d` between
+finite-type complex schemes, `n > 0` and `Λ = ℤ/n`, prove that the lower-shriek exchange
+of `relativeArtinComparison` identifies EtaleCohomologyFoundations §0.11's
+`ClassicalAlgebraic.smoothTrace : Rf_!Λ_X(d)[2d] → Λ_Y` with the topological trace:
+`ε_Y^*(Tr_f) = Tr_(f^an) ∘ Ex_!` after the twist and shift identifications.
+Construct the topological trace by the relative complex orientation on smooth analytic
+charts and oriented fibre integration in sheaf cohomology, with descent over Hausdorff
+affine base opens as in the relative exchange. Use the Kummer coordinate
+`exp(2πi/n)` of C6.3 and degree `+1` point classes, so the positive orientation generator
+of `H²_c(ℂ,Λ(1))` has trace `1`. Prove compatibility with open restriction, base change,
+composition and coefficient reduction `ℤ/n → ℤ/m` for `m > 0` dividing `n`.
+The comparison follows from the Kummer/localization normalization on the affine line,
+products for affine space, finite étale trace as summation and smooth étale charts.
+
+*Source:* SGA 4 XVI §4 and XVIII §§2–3, especially 2.8–2.10 and Theorem 3.2.5
+(trace normalization, composition and smooth charts).
+*Needs:* §§C6.3–C6.5 (`relativeArtinComparison`, cups, Kummer and localization);
+EtaleCohomologyFoundations §0.11 (`ClassicalAlgebraic.smoothTrace`); §C6.1's
+sheaf–cochain comparison and the relative complex orientation.
+
+**Checks.**
+
+- The identity morphism in relative dimension zero has identity trace on both sides.
+- On `P¹ → Spec ℂ`, `c₁(O(1))` has trace `1`; open restriction gives the positive
+  compact-support generator on `A¹`, with the same sign.
+- On `A¹ ⊔ A¹ → Spec ℂ`, `H²_c(Λ(1)) = Λ²` and trace is addition, including when
+  `n = 2`; trace is not an isomorphism for disconnected fibres when `n > 1`.
+- For `A² → A¹ → Spec ℂ`, the composite trace equals the iterated trace and this
+  identity survives every coefficient reduction.
+
 ### C6.6 Integral and rational Artin comparison
 
 The topological adic realization and both integral and rational Artin equivalences are owned
@@ -4165,6 +4237,11 @@ comparisons and their coherent limits. Rationalization commutes with these cohom
 functors on this bounded constructible domain. Preserve cups, ordinary and compact
 Künneth on their proved domains, reduction at every level, twists, finite group actions
 and lattice comparison when two lattices define the same rational coefficient object.
+Carry `artinSmoothTrace` through the normalized systems: for separated smooth `f` of
+relative pure dimension `d`, the compatible traces at `ℤ/ℓⁿ` define the integral
+`Rf_!ℤ_ℓ(d)[2d] → ℤ_ℓ` comparison and, by rationalization, the `ℚ_ℓ` comparison.
+Use §F.4's adic lower-shriek realization and the topological realization constructed
+here; retain compatibility with every derived reduction, composition and base change.
 
 For the constant system deduce integral and rational singular-cohomology corollaries;
 the `Zℓ` and `Qℓ` coefficients on that side are the derived-limit and scalar-extension
@@ -4187,7 +4264,8 @@ EnhancedDerivedSheaves §0.3 / `ClassicalDerived.inverseLimits`,
 - Every reduction modulo `ℓⁿ` of integral comparison is the finite comparison, and the
   squares for adjacent derived reductions commute.
 - A torsion integral coefficient object becomes zero after rationalization on both sides.
-- On `P¹`, degree two has rank one and the same Tate/orientation coordinate after comparison.
+- On `P¹`, degree two has rank one and the same Tate/orientation coordinate after comparison;
+  its integral and rational traces send `c₁(O(1))` to `1`, reducing to `artinSmoothTrace` at every level.
 
 ### Dependencies
 
@@ -4246,7 +4324,7 @@ an instance of the named targets, not a separate theorem.
 
 | Consumer | Supplied targets and coefficient boundary |
 | --- | --- |
-| LefschetzPencilsAndVanishingCycles §0.8a | §§C6.0–C6.6 / `complexAlgebraicTopology`, `topologicalCoefficientComparison`, `riemannExistence`, `artinComparison`, `artinComparisonCompactSupport`, `relativeArtinComparison`, `adicArtinComparison` supply general comparisons; nearby-cycle/inertia compatibility is its application. |
+| LefschetzPencilsAndVanishingCycles §0.8a | §§C6.0–C6.6 / `complexAlgebraicTopology`, `topologicalCoefficientComparison`, `riemannExistence`, `artinComparison`, `artinComparisonCompactSupport`, `relativeArtinComparison`, `artinSmoothTrace`, `adicArtinComparison` supply general comparisons, including the finite/integral/rational smooth trace with the complex orientation; nearby-cycle/inertia compatibility is its application. |
 | InverseGaloisAndArithmeticFundamentalGroups §§IG.3.1, IG.5.5 and its Hurwitz topology | Uses C6's finite covers/local coefficients, ordinary comparison on finite-type complex schemes and compact/rational comparison on separated ones. Its puncture, ramification, opposite-group and chosen-path adapters retain their own conventions. |
 | SchemeAndStackFoundations' finite/adic comparison boundary | §§C6.3–C6.6 supply Artin comparison; its generic site and pro-étale topos foundations remain the inputs to the coefficient owners. |
 

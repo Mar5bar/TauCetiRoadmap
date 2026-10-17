@@ -725,7 +725,15 @@ the supporting presentation and curvature comparisons are also specified there.
   comparable on compacts and both equal volume on complex submanifolds;
   no integer-rectifiability hypothesis on general complex or positive currents),
   `closedCurrentExtension`,
-  `AnalyticCycleIntegration`, `semipositiveWedge` on analytic sets, `lelongPoincareSection`,
+  `AnalyticCycleIntegration` (arbitrary finite-dimensional Hausdorff second-countable complex
+  manifolds and pure-dimensional analytic subsets; uses ComplexKahlerGeometry K6.1's
+  `analyticSetLocalFiniteMass` on arbitrary charts and K5a's real/complex L¹ integration
+  comparison, without compactness or a Kähler hypothesis on the local mass input),
+  `AnalyticCycleIntegration.compactKaehler` (on compact Kähler manifolds, evaluation on
+  the complexification of a real closed form equals the complex image of K6.1's real
+  analytic-set de Rham functional, with the same complex orientation and cycle multiplicities;
+  the shared L¹ integral includes nodal projective curves and twice their cycles),
+  `semipositiveWedge` on analytic sets, `lelongPoincareSection`,
   `integralLineBundleChernClass` (holomorphic line bundles on arbitrary complex manifolds,
   forgetful adapter to SmoothBundlesConnections B2's smooth complex line carrier;
   integral equality with B6's inverse-character class of the dual-line unit-frame bundle
@@ -760,10 +768,18 @@ the supporting presentation and curvature comparisons are also specified there.
   exchanges on bounded constructible coefficients, including finite local systems and
   constant finite abelian groups without finite Tor dimension. Their ctf restrictions
   retain the same maps and the Tor hypotheses for tensor, Künneth and derived reduction;
-  `relativeArtinComparison` uses the ctf domain. These exchanges use
+  `relativeArtinComparison` uses the ctf domain. `artinSmoothTrace` identifies
+  EtaleCohomologyFoundations §0.11's `ClassicalAlgebraic.smoothTrace` with the oriented
+  topological trace under the lower-shriek exchange for separated smooth morphisms of
+  relative pure dimension d between finite-type complex schemes, with Λ = ℤ/n and n > 0.
+  The relative complex orientation and positive Kummer coordinate normalize degree-one
+  point classes; the comparison respects coefficient reduction, composition, open restriction
+  and base change, including gluing over Hausdorff affine base opens. These exchanges use
   EtaleCohomologyFoundations F.0–F.3 and EnhancedDerivedSheaves’ enhancement.
   `adicArtinComparison` uses F.4's normalized étale systems and builds their topological
-  derived-complete realization and rationalization. C6 owns these topological carriers and
+  derived-complete realization and rationalization, carrying the compatible finite-level
+  smooth traces to integral and rational traces with the same reductions, composition
+  and base change. C6 owns these topological carriers and
   comparison maps; LefschetzPencilsAndVanishingCycles §0.8a consumes them for nearby cycles and inertia. These analytic, triangulated and enhanced
   coefficient carriers are specified in the README; ordinary comparison admits nonseparated
   schemes, compact support requires separatedness, and the relative theorem glues over affine
