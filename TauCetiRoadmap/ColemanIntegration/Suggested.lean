@@ -13,8 +13,9 @@ their APIs and Checks. Definitions here have real bodies; theorem proofs are lef
 
 The formal primitive has zero constant coefficient. Whole-disc analyticity requires positive
 radius. Logarithm branches are specified by their principal-unit series and their value at `p`;
-existence is a theorem, with no chosen branch constructed here. Laurent series on an annulus are
-two-sided coefficient families `ℤ → K` with a decay predicate, not Mathlib's `LaurentSeries`,
+existence is a theorem, with no chosen branch constructed here. The Laurent coefficient predicates,
+convolution and Gauss norms below are adapters to PadicDifferentialEquationsAndRigidCohomology
+RD.0.1–RD.0.2, with derivation supplied by RD.0.36. Its annulus series are two-sided coefficient families `ℤ → K` with a decay predicate, not Mathlib's `LaurentSeries`,
 whose supports are bounded below. The complex polylogarithm uses its scalar series, with a
 principal logarithm at weight one. Cross-ratios use homogeneous determinants in the displayed
 order. The Amice operator is `(1 + T) d/dT`, and smoothing cancels poles before formal inversion.
@@ -66,6 +67,18 @@ example : PowerSeries.coeff 2 (rationalPolylogSeries 1) = 1 / 2 := by sorry
 example : rationalPolylogSeries (-1) =
     PowerSeries.X * (1 - (PowerSeries.X : PowerSeries ℚ))⁻¹ ^ 2 := by sorry
 
+example : PowerSeries.coeff 0 (rationalPolylogSeries 1) = 0 := by sorry
+
+example : PowerSeries.coeff 3 (rationalPolylogSeries 1) = 1 / 3 := by sorry
+
+example : PowerSeries.coeff 1 (rationalPolylogSeries (-2)) = 1 := by sorry
+
+example : algebraMap ℚ ℂ (PowerSeries.coeff 2 (rationalPolylogSeries 2)) = 1 / 4 := by sorry
+
+/-- At weight one the Euler derivative is the geometric series without its constant. -/
+example : PowerSeries.X * PowerSeries.derivative (rationalPolylogSeries 1) =
+    PowerSeries.X * (1 - (PowerSeries.X : PowerSeries ℚ))⁻¹ := by sorry
+
 /-! ### L0.2–L0.5: the normalised formal primitive -/
 
 namespace PowerSeries
@@ -88,6 +101,8 @@ theorem derivative_primitive (f : A⟦X⟧) : derivative (primitive f) = f := by
 theorem eq_C_add_primitive_iff (f g : A⟦X⟧) (c : A) :
     (derivative g = f ∧ constantCoeff g = c) ↔ g = C c + primitive f := by
   sorry
+
+example : primitive (0 : A⟦X⟧) = 0 := by sorry
 
 example : primitive (1 : A⟦X⟧) = X := by sorry
 
@@ -204,6 +219,17 @@ theorem logOneAdd_add_mul_of_ultrametric [CompleteSpace K] {u v : K} (hu : ‖u�
       NormedSpace.logOneAdd K K u + NormedSpace.logOneAdd K K v := by
   sorry
 
+/-- The series logarithm defines one analytic function on the whole unit disc. -/
+example [CompleteSpace K] :
+    (fun z : Metric.eball (0 : K) 1 => NormedSpace.logOneAdd K K z) ∈
+      discAnalytic (0 : K) 1 (by norm_num) := by sorry
+
+/-- Whole-disc convergence does not imply restricted coefficients at the boundary. -/
+example [CompleteSpace K] :
+    (fun z : Metric.eball (0 : K) 1 => (1 - (z : K))⁻¹) ∈
+        discAnalytic (0 : K) 1 (by norm_num) ∧
+      ¬ ((1 - (PowerSeries.X : PowerSeries K))⁻¹).IsRestricted 1 := by sorry
+
 end LogSeries
 
 /-! ### L0.A1–L0.A2: Laurent carriers of annuli -/
@@ -212,18 +238,19 @@ section LaurentCarrier
 
 variable {K : Type*} [NontriviallyNormedField K]
 
-/-- L0.A1: the coefficient families `a : ℤ → K` of Laurent series `∑ aₙ Tⁿ` converging on the
+/-- L0.A1: the coefficient adapter to the annulus carrier `A_K(I)` supplied by
+PadicDifferentialEquationsAndRigidCohomology RD.0.1–RD.0.2. These are the coefficient families `a : ℤ → K` of Laurent series `∑ aₙ Tⁿ` converging on the
 annulus `‖T‖ ∈ I`: `‖aₙ‖ ρⁿ → 0` as `|n| → ∞` for every radius `ρ ∈ I`. The open annulus
 `r < ‖z - e‖ < s` is `I = Set.Ioo r s` in the coordinate `T = z - e`, and the punctured unit
 disc is `Set.Ioo 0 1`. -/
 def IsLaurentOn (I : Set ℝ) (a : ℤ → K) : Prop :=
   ∀ ρ ∈ I, Tendsto (fun n : ℤ => ‖a n‖ * ρ ^ n) cofinite (𝓝 0)
 
-/-- The `ρ`-Gauss norm `sup_n ‖aₙ‖ ρⁿ` of a two-sided coefficient family. -/
+/-- The coefficient formula for the imported RD.0.1 `ρ`-Gauss norm `sup_n ‖aₙ‖ ρⁿ` of a two-sided coefficient family. -/
 def laurentGaussNorm (a : ℤ → K) (ρ : ℝ) : ℝ :=
   ⨆ n : ℤ, ‖a n‖ * ρ ^ n
 
-/-- The two-sided Cauchy product `cₙ = ∑ₘ aₘ b_{n - m}`. -/
+/-- The coefficient adapter to RD.0.1 multiplication: the two-sided Cauchy product `cₙ = ∑ₘ aₘ b_{n - m}`. -/
 def laurentMul (a b : ℤ → K) : ℤ → K :=
   fun n => ∑' m : ℤ, a m * b (n - m)
 
@@ -347,6 +374,13 @@ example :
 example (z : ℂ_[p]) : ‖z‖ ≠ (p : ℝ) ^ Real.sqrt 2 := by
   sorry
 
+/-- Finitely many unit roots do not imply that a Laurent polynomial is zero. -/
+example :
+    let a : ℤ → ℂ_[p] := Pi.single ((p - 1 : ℕ) : ℤ) 1 - Pi.single 0 1
+    a ≠ 0 ∧ (Polynomial.nthRootsFinset (p - 1) (1 : ℂ_[p])).card = p - 1 ∧
+      ∀ z ∈ Polynomial.nthRootsFinset (p - 1) (1 : ℂ_[p]),
+        ‖z‖ = 1 ∧ laurentSeriesEval a z = 0 := by sorry
+
 end LaurentExamples
 
 section LaurentPoints
@@ -450,6 +484,25 @@ example {L : ℂ_[3] → ℂ_[3]} (hL : IsLogBranch 3 0 L) : L 63 = L 7 := by
 example (a : ℂ_[p]) : ¬ IsLogBranch p a (fun _ => 0) := by
   sorry
 
+/-- The principal-unit logarithm at `4` has this residue modulo `3^12`. -/
+example {a : ℂ_[3]} {L : ℂ_[3] → ℂ_[3]} (hL : IsLogBranch 3 a L) :
+    ‖L 4 - 303798‖ ≤ (3 : ℝ) ^ (-12 : ℤ) := by sorry
+
+/-- A fourth root congruent to `2` modulo `5` has logarithm zero. -/
+example [Fact (Nat.Prime 5)] {a ζ : ℂ_[5]} {L : ℂ_[5] → ℂ_[5]} (hL : IsLogBranch 5 a L)
+    (hζ : ζ ^ 4 = 1) (hres : ‖ζ - 2‖ ≤ (5 : ℝ)⁻¹) : L ζ = 0 := by sorry
+
+example [Fact (Nat.Prime 5)] {a : ℂ_[5]} {L : ℂ_[5] → ℂ_[5]} (hL : IsLogBranch 5 a L) :
+    L (-2) = L 16 / 4 := by sorry
+
+/-- Every branch agrees with the principal-unit series throughout its disc. -/
+example {a : ℂ_[p]} {L : ℂ_[p] → ℂ_[p]} (hL : IsLogBranch p a L)
+    {u : ℂ_[p]} (hu : ‖u‖ < 1) : L (1 + u) = NormedSpace.logOneAdd ℂ_[p] ℂ_[p] u := by sorry
+
+/-- At `p` the terms of the series about `1` do not tend to zero. -/
+example : ¬ Summable (fun n : ℕ =>
+    (-1 : ℂ_[p]) ^ n * ((p : ℂ_[p]) - 1) ^ (n + 1) / (n + 1)) := by sorry
+
 end Branch
 
 /-! ### L0.20: logarithmic Laurent expansions at a puncture -/
@@ -470,6 +523,26 @@ def IsLogLaurentAtInfty (L f : ℂ_[p] → ℂ_[p]) : Prop :=
   ∃ (N : ℕ) (g : ℕ → ℤ → ℂ_[p]), (∀ k, IsLaurentOn (Set.Ioo 0 1) (g k)) ∧
     ∀ z : ℂ_[p], 1 < ‖z‖ →
       f z = ∑ k ∈ Finset.range (N + 1), laurentSeriesEval (g k) z⁻¹ * L z⁻¹ ^ k
+
+/-- Constants and poles belong to the punctured-disc logarithmic Laurent class. -/
+example (L : ℂ_[p] → ℂ_[p]) (c b : ℂ_[p]) :
+    IsLogLaurentNear p L (fun _ => b) c ∧
+      IsLogLaurentNear p L (fun z => (z - c)⁻¹) c ∧
+      IsLogLaurentNear p L (fun z => L (z - c)) c := by sorry
+
+/-- Both signs of Laurent degree occur at infinity in the parameter `1/z`. -/
+example (L : ℂ_[p] → ℂ_[p]) (b : ℂ_[p]) :
+    IsLogLaurentAtInfty p L (fun _ => b) ∧
+      IsLogLaurentAtInfty p L (fun z => z) ∧
+      IsLogLaurentAtInfty p L (fun z => z⁻¹) := by sorry
+
+example {a : ℂ_[p]} {L : ℂ_[p] → ℂ_[p]} (hL : IsLogBranch p a L) :
+    IsLogLaurentAtInfty p L (fun z => L z⁻¹) ∧ L (((p : ℂ_[p])⁻¹)⁻¹) = a := by sorry
+
+/-- Local analyticity alone does not give a logarithmic Laurent expansion at infinity. -/
+example {a : ℂ_[p]} {L : ℂ_[p] → ℂ_[p]} (hL : IsLogBranch p a L) :
+    ¬ IsLogLaurentAtInfty p L
+      (Set.indicator {z : ℂ_[p] | (p : ℝ) < ‖z‖} fun _ => 1) := by sorry
 
 /-- L2.63: a logarithmic Laurent expansion is determined by its values on an outer annulus
 `r < ‖z - c‖ < 1`. -/
@@ -612,6 +685,14 @@ example (k : ℕ) :
     ¬ Summable (fun n : ℕ => (1 + (p : ℂ_[p])) ^ (n + 1) / ((n + 1 : ℂ_[p]) ^ (k : ℤ))) := by
   sorry
 
+example : polylogSer p 0 (p : ℂ_[p]) = (p : ℂ_[p]) / (1 - p) := by sorry
+
+/-- For `p ≥ 5` the quadratic term uniquely dominates the tail at `z = p`. -/
+example (hp : 5 ≤ p) : ‖polylogSer p 2 (p : ℂ_[p]) - p‖ = (p : ℝ) ^ (-2 : ℤ) := by sorry
+
+example {z : ℂ_[p]} (hz : ‖z‖ < 1) :
+    polylogSer p 1 z = -NormedSpace.logOneAdd ℂ_[p] ℂ_[p] (-z) := by sorry
+
 end PolylogSeries
 
 /-! ### L2.Fa: complex polylogarithms on the closed unit disc -/
@@ -653,6 +734,12 @@ example : complexPolylog 2 (-1) = -(Real.pi : ℂ) ^ 2 / 12 := by sorry
 example : complexPolylog 1 (-1) = -Complex.log 2 := by sorry
 
 example (k : ℕ) : complexPolylog k 0 = 0 := by sorry
+
+/-- The complex weight-one inversion law has a nonzero Bernoulli term. -/
+example : complexPolylog 1 Complex.I - complexPolylog 1 (-Complex.I) =
+    (Real.pi : ℂ) * Complex.I / 2 := by sorry
+
+example : complexPolylog 2 1 = 2 * (complexPolylog 2 1 + complexPolylog 2 (-1)) := by sorry
 
 end ComplexPolylog
 
@@ -710,6 +797,49 @@ example : crossRatio ℚ (infinity ℚ) (finitePoint ℚ 0) (finitePoint ℚ 1) 
 example : detPair ℚ ![2, 4] ![3, 6] = 0 := by sorry
 
 example : detPair ℚ ![1, 0] ![0, 1] = 1 := by sorry
+
+example (x y : K) : finitePoint K x = finitePoint K y ↔ x = y := by sorry
+
+example : finitePoint ℚ 0 = Projectivization.mk ℚ ![0, 1] (by sorry) ∧
+    finitePoint ℚ 1 ≠ finitePoint ℚ 0 := by sorry
+
+example : infinity ℚ = Projectivization.mk ℚ ![7, 0] (by sorry) := by sorry
+
+example : detPair ℚ ![0, 1] ![1, 0] = -1 ∧ detPair ℚ ![2, 0] ![0, 3] = 6 := by sorry
+
+/-- Rescaling both vectors multiplies the determinant by both scalars. -/
+example (v w : Fin 2 → K) (a b : K) :
+    detPair K (a • v) (b • w) = a * b * detPair K v w := by sorry
+
+example : crossRatio ℚ (finitePoint ℚ 0) (finitePoint ℚ 1)
+    (finitePoint ℚ 2) (finitePoint ℚ 3) = -1 / 3 := by sorry
+
+example : crossRatio ℚ (finitePoint ℚ 0) (infinity ℚ)
+    (finitePoint ℚ 1) (finitePoint ℚ 3) = 2 / 3 := by sorry
+
+example : crossRatio ℚ (finitePoint ℚ 0) (finitePoint ℚ 1)
+    (infinity ℚ) (finitePoint ℚ 3) = 1 / 3 := by sorry
+
+example : crossRatio ℚ (finitePoint ℚ 0) (finitePoint ℚ 1)
+    (finitePoint ℚ 3) (infinity ℚ) = -1 / 2 := by sorry
+
+example : crossRatio ℚ (finitePoint ℚ 0) (finitePoint ℚ 1)
+    (finitePoint ℚ 2) (finitePoint ℚ 0) = 0 := by sorry
+
+/-- Four independently rescaled representatives give the same cross-ratio. -/
+example : crossRatio ℚ
+    (Projectivization.mk ℚ ![2, 0] (by sorry))
+    (Projectivization.mk ℚ ![0, 3] (by sorry))
+    (Projectivization.mk ℚ ![5, 5] (by sorry))
+    (Projectivization.mk ℚ ![21, 7] (by sorry)) = -2 := by sorry
+
+example : (fun i : Fin 5 => crossRatio ℚ
+    (normalizedFive ℚ 2 3 i) (normalizedFive ℚ 2 3 (i + 1))
+    (normalizedFive ℚ 2 3 (i + 2)) (normalizedFive ℚ 2 3 (i + 3))) =
+      ![-1, -1 / 3, -1, -1 / 2, -1 / 2] := by sorry
+
+example : Function.Injective (normalizedFive ℚ 2 3) ∧
+    ¬ Function.Injective (normalizedFive ℚ 2 2) := by sorry
 
 /-- A scalar five-term identity for a function with the two-term laws transfers to every
 injective five-tuple of points; no relation in the integral pre-Bloch group is asserted. -/
@@ -778,6 +908,18 @@ example : dop (1 : PowerSeries K) = 0 := by sorry
 example (k : ℤ) : unitsZPow (p := p) (K := K) k 0 = 0 ∧
     unitsZPow (p := p) (K := K) k 1 = 1 := by sorry
 
+example : dop ((PowerSeries.X : PowerSeries K) ^ 2) =
+    2 * PowerSeries.X + 2 * PowerSeries.X ^ 2 := by sorry
+
+example (c : K) : (dop (K := K))^[0] (PowerSeries.C c) = PowerSeries.C c := by sorry
+
+example (c : K) (n : ℕ) : (dop (K := K))^[n + 1] (PowerSeries.C c) = 0 := by sorry
+
+example (k : ℤ) : unitsZPow (p := p) (K := K) k (p : ℤ_[p]) = 0 := by sorry
+
+example : unitsZPow (p := p) (K := K) 1 (-1) = -1 ∧
+    unitsZPow (p := p) (K := K) 2 (-1) = 1 := by sorry
+
 /-- L3.6: if `∂^k F = A_μ` with `F ∈ R⁺`, then
 `∫_{ℤ_p^×} x^{-k} dμ = F(0) - p⁻¹ ∑_{ξ ∈ μ_p} F(ξ - 1)`. -/
 theorem negMoment_eq_of_primitive (μ : D(ℤ_[p], K)) (k : ℕ) (F : PowerSeries K)
@@ -807,6 +949,26 @@ example (w : K) : rotatedSmoothedTransform 1 w = 0 := by sorry
 
 /-- Smoothing at the formerly singular centre has a nonzero finite value. -/
 example : PowerSeries.constantCoeff (rotatedSmoothedTransform 2 (1 : K)) = 1 / 2 := by sorry
+
+example : PowerSeries.coeff 1 (rotatedSmoothedTransform 2 (1 : ℚ_[3])) = -1 / 4 := by sorry
+
+example : PowerSeries.constantCoeff (rotatedSmoothedTransform 3 (1 : ℚ_[2])) = 1 := by sorry
+
+example : PowerSeries.constantCoeff (rotatedSmoothedTransform 2 (4 : ℚ_[3])) = 1 / 5 := by sorry
+
+/-- Separate inverses at the centre vanish and do not give the regularized transform. -/
+example :
+    let W : PowerSeries ℚ_[3] := 1 + PowerSeries.X
+    (W - 1)⁻¹ - 2 * (W ^ 2 - 1)⁻¹ = 0 ∧
+      rotatedSmoothedTransform 2 (1 : ℚ_[3]) ≠ (W - 1)⁻¹ - 2 * (W ^ 2 - 1)⁻¹ := by sorry
+
+/-- A nonunit smoothing parameter gives a coefficient of norm greater than one. -/
+example : PowerSeries.coeff 1 (rotatedSmoothedTransform 3 (1 : ℚ_[3])) = -2 / 3 ∧
+    ‖PowerSeries.coeff 1 (rotatedSmoothedTransform 3 (1 : ℚ_[3]))‖ = 3 := by sorry
+
+example :
+    let W : PowerSeries ℚ_[3] := PowerSeries.C 4 * (1 + PowerSeries.X)
+    rotatedSmoothedTransform 2 (4 : ℚ_[3]) = (W - 1)⁻¹ - 2 * (W ^ 2 - 1)⁻¹ := by sorry
 
 /-! ### L3.13: the complex formula -/
 
