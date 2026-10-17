@@ -826,6 +826,54 @@ theorem FLModule.not_isTorsion_of_phi_eq_zero (M : FLModule p k) [Nontrivial M.M
 
 end FL
 
+/-! ### R07.3.19: tame connected–étale rank one
+
+`tameConnectedEtaleRankOne` supplies the following group interface. Let F₀/ℚ_p be finite
+unramified, L = F₀(μ_p), A = O_L, e = p−1, and O′ the integers of finite E/ℚ_p with
+uniformiser λ. For a p-divisible Γ/A with O′-action, M = T_pΓ free of O′-rank two,
+det M|I_L = χ_p and a nonzero G_L-fixed vector in M/λM, the canonical connected–étale
+sequence has O′-ranks (1,1) and inertia characters (χ_p,1), including p = 2.
+Source: Conrad–Diamond–Taylor, Lemma 2.1.2, author version pp. 8–9; the dyadic extension
+uses the all-prime order-p classification of §R07.1.34.
+
+`tameConnectedEtaleRankOne_rank` and `tameConnectedEtaleRankOne_inertia` give these
+ranks and characters. `tameConnectedEtaleRankOne_dual` uses the canonical ℤ_p-Tate dual
+and its trace identification with the O′-dual valued in the inverse different, tensored
+with ℤ_p(1). A generator of the inverse different gives an isomorphism to the O′(1)-dual;
+this is not an equality of lattices. The residual vector enters Γ[p] via
+M/λM ≅ (M/pM)[λ], x ↦ λ^(v_λ(p)−1)x.
+
+`tameConnectedEtaleRankOne_descent` applies to a G_F-stable O′-lattice T for unramified
+F/ℚ_p, finite unramified F₀/F, and rank-two V crystalline over L with weights {0,1}.
+Under the group theorem's determinant and residual fixed-vector hypotheses, the all-prime
+height-one realization of §R07.4.20 and Tate full faithfulness transport coefficients and
+generic descent to Γ. The canonical connected line and étale quotient descend as G_F
+representations. The latter character η is trivial on I_L, so its restriction to I_F has
+order dividing p−1. Its reduction must be the chosen residual unramified quotient to
+conclude η|I_F = 1 by `tameConnectedEtaleRankOne_residualQuotient` below. A nonsplit
+residual representation with unique quotient has this compatibility. The descent does
+not assert an integral Barsotti–Tate model over O_F. A finite determinant factor must be
+trivial on I_L. Liu, Theorems 1.0.1 and 2.2.1, pp. 662, 666, supplies the all-p integral
+realization. The group interface uses the Barsotti–Tate carrier specified in the README.
+
+Checks: the split ordinary product, ramified coefficients and the inverse different,
+p = 2, the connected supersingular group of y² = x³+1 at p = 5 without fixed residual
+vectors, and E(χ_p ω̃⁻¹) ⊕ E(ω̃) over ℚ_p. The last has a residual unramified quotient
+but a different reduced étale quotient; neither characteristic-zero summand is unramified.
+-/
+
+/-- A tame inertia character of order dividing `p−1` with trivial residual character is
+trivial: the residual-quotient step of §R07.3.19, valid also at `p = 2`. Applied to the
+descended étale quotient, it gives an unramified quotient when its reduction is the chosen
+residual unramified quotient. -/
+theorem tameConnectedEtaleRankOne_residualQuotient (p : ℕ) [Fact p.Prime]
+    (O' : Type u) [CommRing O'] [IsDomain O'] [IsDiscreteValuationRing O']
+    [CharP (IsLocalRing.ResidueField O') p]
+    (I : Type u) [Group I] (η : I →* O'ˣ)
+    (htame : ∀ g, η g ^ (p - 1) = 1)
+    (hresidual : ∀ g, IsLocalRing.residue O' (η g : O') = 1) :
+    ∀ g, η g = 1 := sorry
+
 end FontaineLaffaille
 
 /-! ## Layer R07.4: Breuil–Kisin modules -/

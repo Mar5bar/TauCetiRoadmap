@@ -444,6 +444,16 @@ laws) with `FormalGroup.IsComm`.
 | --- | --- | --- |
 | SchemeAndStackFoundations §0.29 / `absoluteFrobenius`, `schemeFrobeniusTwist`, `relativeFrobenius`, `iteratedSchemeFrobenius`, `qPowerFrobenius` | Scheme maps, naturality, products, arbitrary relative base change and iteration; §R07.1.1 upgrades the relative map to `frobeniusHom` | `F_X : X → X` is absolute; `F_{X/S} : X → X^{(p/S)}` is relative. The group `F_G` is relative. The existing group `frobeniusTwist` is the affine group base-change adapter to `schemeFrobeniusTwist`. The finite locally free group maps are supplied by AbelianSchemesAndArithmeticModuli §A4.5a; §R07.1.1 extends them by the symmetric-tensor construction for flat affine groups and proves agreement. |
 
+### Supplied downstream: tame connected–étale rank one
+
+Section R07.3.19 exports `tameConnectedEtaleRankOne` and its rank, inertia, duality,
+descent and residual-quotient API to the local weight-two applications of PadicHodgeTheory.
+The contract uses the actual stable lattice over `L = F₀(μ_p)`, cyclotomic determinant
+on `I_L` and a nonzero fixed residual vector. It supplies potential ordinarity; an
+unramified quotient over the original unramified field also requires that the descended
+étale quotient reduce to the specified residual unramified quotient. The integral
+height-one realization, including all groups at `p = 2`, is §R07.4.20.
+
 ## How to read the build
 
 Layer R07.1 is the structure theory of finite flat groups and `p`-divisible groups over general
@@ -4378,6 +4388,103 @@ equivalence between Honda systems and `MF_tor^{f,2}`, the anti-equivalence with 
   the covector evaluation and the Galois realization both give zero.
 
 
+### R07.3.19 Tame connected–étale rank one with coefficients
+
+**Tame connected–étale rank one.** Prove `tameConnectedEtaleRankOne`. Let `F₀/ℚ_p`
+be finite unramified, `L = F₀(μ_p)` and `A = O_L`, of absolute ramification
+`e = p − 1`. Let `O′` be the integers of a finite extension `E/ℚ_p`, with
+uniformiser `λ`, and let `Γ/A` be a `p`-divisible group with `O′`-action. Assume
+`M = T_pΓ` is free of rank two over `O′`, `det_{O′} M|I_L = χ_p`, and
+`M/λM` has a nonzero `G_L`-fixed vector. In the connected–étale sequence
+`0 → M⁰ → M → M^{et} → 0`, both outer terms are free of `O′`-rank one;
+`I_L` acts by `χ_p` on `M⁰` and trivially on `M^{et}`. This holds for every
+prime, including `p = 2`. (Conrad–Diamond–Taylor 1999, Lemma 2.1.2 and its
+proof, author version pp. 8–9: the group calculation; the dyadic argument uses
+§R07.1.34 rather than Fontaine–Laffaille's unipotent classification.)
+
+*Proof sketch.* Put `r = v_λ(p)`. Multiplication by `λ^{r−1}` identifies
+`M/λM` with `(M/pM)[λ]`, since `(p) = (λ^r)`. If `Γ` is connected, a
+nonzero fixed vector therefore gives a generic subgroup `μ_p ⊂ Γ[p]_L`.
+The order-`p` classification at `e = p − 1` identifies its connected closure
+with `μ_{p,A}` (§§R07.1.31, R07.1.34). Thus `Γᴰ[p]` has a nonzero étale
+quotient. Cartier duality identifies its Tate module canonically with
+`Hom_{ℤ_p}(M, ℤ_p(1))`; the trace pairing identifies this with
+`Hom_{O′}(M, 𝔇_{O′/ℤ_p}^{−1} ⊗_{ℤ_p} ℤ_p(1))`. Choosing a generator of the
+inverse different gives an `O′`-linear isomorphism with
+`Hom_{O′}(M, O′(1))`, preserving rank two and the inertia determinant `χ_p`.
+Its nonzero étale quotient cannot have rank two, because `χ_p|I_L ≠ 1`.
+Its connected part consequently has rank one and inertia character `χ_p`.
+Dualizing gives an unramified quotient of `M`. The étale realization of
+unramified lattices and Tate full faithfulness turn this into a nonzero
+map from `Γ` to an étale `p`-divisible group, contradicting connectedness. Hence `M^{et} ≠ 0`; the
+same determinant argument gives the claimed ranks and inertia characters.
+
+The API:
+
+- `tameConnectedEtaleRankOne_rank` and `tameConnectedEtaleRankOne_inertia`
+  record the two ranks and the two inertia actions on the canonical sequence.
+- `tameConnectedEtaleRankOne_dual` records the trace-dual identification,
+  its dependence on the inverse-different generator, and the interchange of
+  the connected and étale rank-one terms under Cartier duality.
+- `tameConnectedEtaleRankOne_descent`: for finite unramified `F/ℚ_p` and
+  `F₀/F`, a `G_F`-stable `O′`-lattice `T` in a rank-two representation `V`
+  of weights `{0,1}`, crystalline over `L`, is realized by `Γ` with
+  `T_pΓ ≅ T|G_L` by §R07.4.20. Assume the determinant and fixed-vector
+  hypotheses above. Full faithfulness transports the coefficient action
+  and generic Galois descent datum to `Γ`. Its canonical connected part
+  preserves this datum, yielding a `G_F`-stable weight-one line and a
+  rank-one quotient `η` with `η|I_L = 1`. Therefore `η|I_F` is tame of
+  order dividing `p − 1`. Descent here concerns the generic representation;
+  it does not assert a Barsotti–Tate model over `O_F`. A finite factor in
+  `det V` must be trivial on `I_L` before applying the group theorem.
+- `tameConnectedEtaleRankOne_residualQuotient`: if a character
+  `η : I → O′ˣ` satisfies `η(g)^{p−1} = 1` for every `g` and its reduction
+  modulo `λ` is trivial, then `η = 1`. Reduction is injective on roots of
+  unity of order prime to `p`. Apply this to the descended étale quotient
+  when `T^{et}/λT^{et}` is the specified residual unramified quotient of
+  `T/λT`; freeness makes reduction of the quotient sequence exact. A
+  nonsplit residual representation with unique rank-one quotient has this
+  compatibility. Existence of some residual unramified quotient alone
+  does not ensure compatibility for split residual data.
+
+The representation adapter is built after §R07.4.20; the group calculation
+uses only Layer R07.1. The integral realization applies at every prime
+(Liu 2013, Theorems 1.0.1 and 2.2.1, published pp. 662, 666).
+
+*Needs:* §§R07.1.2, R07.1.7–R07.1.9, R07.1.20, R07.1.22, R07.1.31,
+R07.1.34; §R07.4.20 for the representation adapter.
+
+**Checks.**
+
+- For `Γ = μ_{p^∞} × ℚ_p/ℤ_p` and `O′ = ℤ_p`, the ranks are `(1,1)`
+  and the inertia characters are `(χ_p,1)`; the constant residual factor
+  gives a fixed vector. After finite free coefficient extension the
+  ranks remain `O′`-ranks, while the underlying `ℤ_p`-heights scale by
+  `[E : ℚ_p]`.
+- For ramified `O′`, the fixed vector is transferred through
+  `x mod λ ↦ λ^{r−1}x mod p`. The trace-dual lattice involves the inverse
+  different; identifying it with `O′` requires a generator and is not an
+  equality of integral lattices.
+- At `p = 2`, `L = F₀`, `e = 1` and `μ₂` is rational. Its connected
+  closure is `μ₂,A` by the all-prime order-`p` classification, and the
+  height-one adapter realizes every stable lattice. The tame quotient
+  character has order dividing `p − 1 = 1`.
+- Without the fixed-vector hypothesis, take `p = 5`, `F₀ = ℚ₅`, `O′ = ℤ₅`
+  and `Γ = C[5^∞]` over `O_L` for `C : y² = x³ + 1`, with good
+  supersingular reduction. Its determinant is `χ₅`, but its ranks are
+  `(2,0)`. The niveau-two inertia characters on `C[5]` restrict to
+  nontrivial characters of order `6` on `I_L`, so there is no fixed
+  vector (Serre 1972, §1.11, Proposition 12, p. 275).
+- For odd `p`, over `F = ℚ_p` take
+  `V = E(χ_p ω̃⁻¹) ⊕ E(ω̃)`, with `ω̃` the Teichmüller lift of the
+  mod-`p` cyclotomic character. Over `L` it is realized by the split
+  ordinary group. Its reduction has an unramified quotient, but the
+  descended étale quotient reduces to `ω`, not to that quotient. Both
+  characteristic-zero summands are ramified, so `V` has no unramified
+  quotient over `F`. This distinguishes potential ordinarity from the
+  conclusion with residual quotient compatibility.
+
+
 ### Examples
 
 - For `0 ≤ j ≤ p − 1`, the unit object of weight `j` (`W(k)/p` with its jump in degree `j` and `φ^j = σ`) gives the
@@ -7282,6 +7389,10 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
 - **Caraiani–Scholze 2017.** Ana Caraiani, Peter Scholze, *On the generic part of the cohomology of
   compact unitary Shimura varieties*, Ann. of Math. 186 (2017), no. 3.
   <https://arxiv.org/abs/1511.02418>
+- **Conrad–Diamond–Taylor 1999.** Brian Conrad, Fred Diamond, Richard Taylor,
+  *Modularity of certain potentially Barsotti–Tate Galois representations*, J. Amer. Math.
+  Soc. 12, 521–567; locators use the author version.
+  <https://math.stanford.edu/~conrad/papers/cdtmaster.pdf>
 - **Colmez–Dospinescu–Nizioł 2023.** Pierre Colmez, Gabriel Dospinescu, Wiesława Nizioł,
   *Factorisation de la cohomologie étale p-adique de la tour de Drinfeld*, Forum Math. Pi (2023).
   <https://arxiv.org/abs/2204.11214v2>
@@ -7321,6 +7432,9 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
   <http://people.math.harvard.edu/~kisin/dvifiles/serre2.dvi>
 - **Lipnowski–Tsimerman 2018.** Michael Lipnowski, Jacob Tsimerman, *How large is A_g(F_q)?*, Duke
   Math. J. 167 (2018). <https://arxiv.org/abs/1511.02212v1>
+- **Liu 2013.** Tong Liu, *The correspondence between Barsotti–Tate groups and Kisin
+  modules when p = 2*, J. Théor. Nombres Bordeaux 25, 661–676.
+  <https://www.numdam.org/item/10.5802/jtnb.852.pdf>
 - **Newton–Thorne 2021.** James Newton, Jack A. Thorne, *Symmetric power functoriality for
   holomorphic modular forms, II*, Publ. Math. IHÉS 134 (2021).
   <https://pmihes.centre-mersenne.org/volume/PMIHES_2021__134_/>
