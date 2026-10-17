@@ -255,6 +255,38 @@ theorem successiveMin_def (L : Submodule ℤ E) (K : ConvexBody E) (i : Fin (fin
     successiveMin L K i = sInf {t : ℝ | 0 < t ∧ ∃ v : Fin (i.val + 1) → E,
       (∀ j, v j ∈ (t • (K : Set E)) ∩ (L : Set E)) ∧ LinearIndependent ℝ v} := rfl
 
+/-- The zero-based natural-index extension of the successive minima, with value zero at and
+beyond the ambient dimension (1.2.1a). -/
+def successiveMinNat (L : Submodule ℤ E) (K : ConvexBody E) (i : ℕ) : ℝ :=
+  if hi : i < finrank ℝ E then successiveMin L K ⟨i, hi⟩ else 0
+
+/-- Below the ambient dimension the natural-index extension agrees with the `Fin`-indexed
+minimum (1.2.1a). -/
+theorem successiveMinNat_of_lt (L : Submodule ℤ E) (K : ConvexBody E) (i : ℕ)
+    (hi : i < finrank ℝ E) :
+    successiveMinNat L K i = successiveMin L K ⟨i, hi⟩ := by
+  simp [successiveMinNat, hi]
+
+/-- At and beyond the ambient dimension the natural-index extension is zero (1.2.1a). -/
+theorem successiveMinNat_of_le (L : Submodule ℤ E) (K : ConvexBody E) (i : ℕ)
+    (hi : finrank ℝ E ≤ i) : successiveMinNat L K i = 0 := by
+  simp [successiveMinNat, Nat.not_lt.mpr hi]
+
+-- A dimension known by a theorem suffices to interpret a natural index.
+example (L : Submodule ℤ E) (K : ConvexBody E) (n i : ℕ)
+    (hdim : finrank ℝ E = n) (hi : i < n) :
+    successiveMinNat L K i = successiveMin L K ⟨i, by simpa [hdim] using hi⟩ := by
+  exact successiveMinNat_of_lt L K i _
+
+-- The first out-of-range index is already zero, including in dimension zero.
+example (L : Submodule ℤ E) (K : ConvexBody E) :
+    successiveMinNat L K (finrank ℝ E) = 0 :=
+  successiveMinNat_of_le L K _ le_rfl
+
+example (L : Submodule ℤ E) (K : ConvexBody E) (hdim : finrank ℝ E = 0) (i : ℕ) :
+    successiveMinNat L K i = 0 :=
+  successiveMinNat_of_le L K i (by omega)
+
 variable [FiniteDimensional ℝ E]
 variable (L : Submodule ℤ E) [hLdis : DiscreteTopology L] [hLfull : IsZLattice ℝ L]
   (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
@@ -327,26 +359,26 @@ theorem successiveMin_first_le_iff (hd : 0 < finrank ℝ E) (r : ℝ) (hr : 0 �
 end SuccessiveMinima
 
 section MinkowskiSecond
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
 
 /-- **Minkowski's second theorem, lower half** (1.3.4):
 `(2^d/d!) covol L ≤ (∏ λ_i) μ(K)` for any additive Haar measure and a symmetric convex body
-with `0` in its interior; canonical Euclidean volume is the default. -/
+with `0` in its interior in a finite-dimensional real normed space, including dimension zero. -/
 theorem minkowski_second_lower (L : Submodule ℤ E) [DiscreteTopology L]
     [IsZLattice ℝ L] (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
-    (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E := by volume_tac)
+    (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E)
     [Measure.IsAddHaarMeasure μ] :
     ((2 : ℝ) ^ (finrank ℝ E) / (Nat.factorial (finrank ℝ E) : ℝ)) * ZLattice.covolume L μ ≤
       (∏ i : Fin (finrank ℝ E), successiveMin L K i) * μ.real (K : Set E) := by sorry
 
 /-- **Minkowski's second theorem, upper half** (1.5.21, Henk's proof):
-`(∏ λ_i) μ(K) ≤ 2^d covol L` for any additive Haar measure; canonical Euclidean volume
-is the default. -/
+`(∏ λ_i) μ(K) ≤ 2^d covol L` for any additive Haar measure on a finite-dimensional real
+normed space and a symmetric convex body with `0` in its interior, including dimension zero. -/
 theorem minkowski_second_upper
     (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
     (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
-    (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E := by volume_tac)
+    (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E)
     [Measure.IsAddHaarMeasure μ] :
     (∏ i : Fin (finrank ℝ E), successiveMin L K i) * μ.real (K : Set E) ≤
       2 ^ finrank ℝ E * ZLattice.covolume L μ := by sorry
