@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.Algebra.AlgebraicGroup.Dynamic.Parabolic
+import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.Dynamic.GL2.Basic
 
 /-!
 # AutomorphicBundles: representative target signatures
@@ -88,15 +89,45 @@ example (μ : H →ₐc[R] LaurentPolynomial R) :
     TauCeti.Cocharacter.levi A μ ≤ hodgeTateParabolic A μ :=
   TauCeti.Cocharacter.levi_le_parabolic
 
--- Test `hodgeParabolic_test_gl2`: conjugating the lower shear by `diag(2, 1)` scales
--- its lower-left entry by `1/2`, fixing the direction of the dynamic convention.
-example : (!![(2 : ℚ), 0; 0, 1] * !![1, 0; 1, 1]) * !![(1 / 2 : ℚ), 0; 0, 1] =
-    !![1, 0; 1 / 2, 1] := by
-  norm_num [Matrix.mul_fin_two]
+-- Test `hodgeParabolic_test_gl2`: the two nonidentity root shears distinguish the
+-- Hodge parabolic P(μ⁻¹) from P(μ) for μ(t)=diag(t,1), on actual Hopf-coordinate points.
+example :
+    let μ := TauCeti.GeneralLinear.Dynamic.GL2.dynamicCocharacter (R := ℚ)
+    let upper := (TauCeti.GeneralLinear.pointsMulEquiv (R := ℚ) (A := ℚ) 2).symm
+      (TauCeti.transvectionUnit (by decide : (0 : Fin 2) ≠ 1) (1 : ℚ))
+    let lower := (TauCeti.GeneralLinear.pointsMulEquiv (R := ℚ) (A := ℚ) 2).symm
+      (TauCeti.transvectionUnit (by decide : (1 : Fin 2) ≠ 0) (1 : ℚ))
+    lower ∈ hodgeParabolic ℚ μ ∧ lower ∉ hodgeTateParabolic ℚ μ ∧
+      upper ∈ hodgeTateParabolic ℚ μ ∧ upper ∉ hodgeParabolic ℚ μ := by
+  sorry
 
 end Parabolic
 
 /-! ## Layer B4: classical forms and explicit weights -/
+
+section SectionMaps
+
+open CategoryTheory
+
+-- Test `classicalForms_test_map_id`: the identity coefficient map fixes every section.
+example {X : AlgebraicGeometry.Scheme} (V : X.Modules) (s : SheafOfModules.sections V) :
+    SheafOfModules.sectionsMap (𝟙 V : V ⟶ V) s = s := by
+  sorry
+
+-- Test `classicalForms_test_map_comp`: section maps compose in coefficient-map order.
+example {X : AlgebraicGeometry.Scheme} {V W U : X.Modules} (u : V ⟶ W) (v : W ⟶ U)
+    (s : SheafOfModules.sections V) :
+    SheafOfModules.sectionsMap (u ≫ v : V ⟶ U) s =
+      SheafOfModules.sectionsMap v (SheafOfModules.sectionsMap u s) := by
+  sorry
+
+-- Test `classicalForms_test_map_zero`: a section zero on every open maps to a zero section.
+example {X : AlgebraicGeometry.Scheme} {V W : X.Modules} (u : V ⟶ W)
+    (s : SheafOfModules.sections V) (hs : ∀ U, s.val U = 0) :
+    ∀ U, (SheafOfModules.sectionsMap u s).val U = 0 := by
+  sorry
+
+end SectionMaps
 
 section AutomorphyFactor
 
@@ -119,6 +150,20 @@ structure AutomorphyFactor (β G X R V : Type*) [Monoid G] [MulAction G X] [Semi
     coefficient k (g * h) x = (coefficient k h x).trans (coefficient k g (h • x))
 
 namespace AutomorphyFactor
+
+/-- The normalized factor with every coefficient equal to the identity. -/
+def trivial : AutomorphyFactor β G X R V where
+  coefficient _ _ _ := LinearEquiv.refl R V
+  normalized _ _ := rfl
+  cocycle _ _ _ _ := rfl
+
+-- Test `AutomorphyFactor_test_unit`: identity coefficients satisfy both factor laws.
+example (k : β) (g h : G) (x : X) :
+    (trivial : AutomorphyFactor β G X R V).coefficient k 1 x = LinearEquiv.refl R V ∧
+    (trivial : AutomorphyFactor β G X R V).coefficient k (g * h) x =
+      ((trivial : AutomorphyFactor β G X R V).coefficient k h x).trans
+        ((trivial : AutomorphyFactor β G X R V).coefficient k g (h • x)) := by
+  constructor <;> rfl
 
 /-- Change of frame by `u : X → GL(V)`: `J′(g, x) = u(gx) ∘ J(g, x) ∘ u(x)⁻¹`. -/
 def changeFrame (J : AutomorphyFactor β G X R V) (u : X → (V ≃ₗ[R] V)) :
@@ -144,6 +189,12 @@ theorem changeFrame_id (J : AutomorphyFactor β G X R V) :
 /-- Changing frame by `u` and then by `v` is changing frame by `x ↦ v(x) ∘ u(x)`. -/
 theorem changeFrame_comp (J : AutomorphyFactor β G X R V) (u v : X → (V ≃ₗ[R] V)) :
     (J.changeFrame u).changeFrame v = J.changeFrame (fun x ↦ (u x).trans (v x)) := by
+  sorry
+
+-- Test `AutomorphyFactor_test_frame`: a gauge of the identity has the shifted cocycle.
+example (u : X → (V ≃ₗ[R] V)) (k : β) (g h : G) (x : X) :
+    let J := (trivial : AutomorphyFactor β G X R V).changeFrame u
+    J.coefficient k (g * h) x = (J.coefficient k h x).trans (J.coefficient k g (h • x)) := by
   sorry
 
 end AutomorphyFactor
@@ -195,6 +246,71 @@ theorem slashActionOfAutomorphyFactor_congr (K : β → G → X → (V ≃ₗ[R]
 theorem slashActionOfAutomorphyFactor_map_of_trivial (hJ : ∀ k g x, J k g x = LinearEquiv.refl R V)
     (k : β) (g : G) (f : X → V) :
     (slashActionOfAutomorphyFactor J hone hmul).map k g f = fun x ↦ f (g • x) := by
+  sorry
+
+-- Test `slashActionOfAutomorphyFactor_test_trivial`: the identity factor gives precomposition.
+example (k : β) (g : G) (f : X → V) :
+    (slashActionOfAutomorphyFactor
+      (AutomorphyFactor.trivial : AutomorphyFactor β G X R V).coefficient
+      AutomorphyFactor.trivial.normalized AutomorphyFactor.trivial.cocycle).map k g f =
+        fun x ↦ f (g • x) := by
+  rfl
+
+-- Test `slashActionOfAutomorphyFactor_test_zero`: no nonvanishing hypothesis is needed.
+example (k : β) (g : G) :
+    (slashActionOfAutomorphyFactor J hone hmul).map k g (0 : X → V) = 0 := by
+  ext x
+  exact (J k g x).symm.map_zero
+
+-- Test `slashActionOfAutomorphyFactor_test_frame`: the inverse gauge has the stated order.
+example (u : X → (V ≃ₗ[R] V)) (k : β) (g : G) (f : X → V) (x : X) :
+    let K := (AutomorphyFactor.trivial : AutomorphyFactor β G X R V).changeFrame u
+    (slashActionOfAutomorphyFactor K.coefficient K.normalized K.cocycle).map k g f x =
+      u x ((u (g • x)).symm (f (g • x))) := by
+  sorry
+
+-- B4.5: evaluation allows arbitrary sections, identity elements, and prescribed scalar factors.
+example (k : β) (g : G) (f : X → V) (x : X) :
+    (slashActionOfAutomorphyFactor J hone hmul).map k g f x =
+      (J k g x).symm (f (g • x)) := rfl
+
+example (k : β) (f : X → V) (x : X) :
+    (slashActionOfAutomorphyFactor J hone hmul).map k 1 f x = f x := by
+  simp
+
+example {G X : Type*} [Monoid G] [MulAction G X]
+    (K : AutomorphyFactor Unit G X ℚ ℚ) (g : G) (x : X) (f : X → ℚ)
+    (hK : K.coefficient () g x = LinearEquiv.smulOfNeZero ℚ ℚ 2 (by norm_num)) :
+    (slashActionOfAutomorphyFactor K.coefficient K.normalized K.cocycle).map () g f x =
+      (1 / 2 : ℚ) * f (g • x) := by
+  sorry
+
+-- B4.6: the zero function satisfies both descriptions of invariance.
+example (k : β) :
+    (∀ g, (slashActionOfAutomorphyFactor J hone hmul).map k g (0 : X → V) = 0) ∧
+      (∀ g x, (0 : X → V) (g • x) = J k g x ((0 : X → V) x)) := by
+  sorry
+
+example (k : β) (f : X → V) (hX : ∀ (g : G) (x : X), g • x = x) :
+    let K := (AutomorphyFactor.trivial : AutomorphyFactor β G X R V)
+    (∀ g, (slashActionOfAutomorphyFactor K.coefficient K.normalized K.cocycle).map k g f = f) ∧
+      (∀ g x, f (g • x) = K.coefficient k g x (f x)) := by
+  sorry
+
+-- The nonidentity of C₂ acts by −1 on a rational fibre over a point.
+example :
+    let K : AutomorphyFactor Unit (Multiplicative (ZMod 2)) Unit ℚ ℚ :=
+      { coefficient := fun _ g _ ↦ LinearEquiv.smulOfNeZero ℚ ℚ
+          (if g = 1 then 1 else -1) (by split_ifs <;> norm_num)
+        normalized := by
+          intro k x
+          ext v
+          simp
+        cocycle := by sorry }
+    ∀ f : Unit → ℚ,
+      ((∀ g, (slashActionOfAutomorphyFactor K.coefficient K.normalized K.cocycle).map () g f = f)
+        ↔ f () = 0) ∧
+      ((∀ g x, f (g • x) = K.coefficient () g x (f x)) ↔ f () = 0) := by
   sorry
 
 end AutomorphyFactor
@@ -272,6 +388,49 @@ def shearY : (ℚ × ℚ) ≃ₗ[ℚ] (ℚ × ℚ) where
   map_add' p q := Prod.ext (by simp) (by simp; ring)
   map_smul' c p := Prod.ext (by simp) (by simp; ring)
 
+-- Test `AutomorphyFactor_test_shift`: the shifted and unshifted C₂ products differ.
+example :
+    let t : Multiplicative (ZMod 2) := Multiplicative.ofAdd 1
+    let u : Multiplicative (ZMod 2) → ((ℚ × ℚ) ≃ₗ[ℚ] (ℚ × ℚ)) :=
+      fun x ↦ if x = 1 then LinearEquiv.refl ℚ (ℚ × ℚ) else shearX
+    let J := (AutomorphyFactor.trivial : AutomorphyFactor Unit (Multiplicative (ZMod 2))
+      (Multiplicative (ZMod 2)) ℚ (ℚ × ℚ)).changeFrame u
+    J.coefficient () (t * t) 1 (0, 1) = (0, 1) ∧
+      ((J.coefficient () t 1).trans (J.coefficient () t 1)) (0, 1) = (2, 1) := by
+  sorry
+
+-- B4.7: noncommuting coefficients give the reversed inverse product.
+example :
+    let J : ((ℚ × ℚ) ≃ₗ[ℚ] (ℚ × ℚ)) → (ℚ × ℚ) → ((ℚ × ℚ) ≃ₗ[ℚ] (ℚ × ℚ)) :=
+      fun g _ ↦ g
+    J (shearX * shearY)⁻¹ (0, 0) = J shearY⁻¹ (shearX⁻¹ (0, 0)) * J shearX⁻¹ (0, 0) ∧
+      J (shearX * shearY)⁻¹ (0, 0) ≠ J shearX⁻¹ (0, 0) * J shearY⁻¹ (shearX⁻¹ (0, 0)) := by
+  sorry
+
+example {G K X : Type*} [Group G] [Group K] [MulAction G X]
+    (J : G → X → K) (hone : ∀ x, J 1 x = 1) (x : X) :
+    (1 : G)⁻¹ • x = x ∧ J (1 : G)⁻¹ x = 1 := by
+  simp [hone]
+
+-- The character id on ℚˣ has value 2 of infinite order, detecting an omitted inverse.
+example :
+    let χ : ℚˣ →* ℚˣ := MonoidHom.id ℚˣ
+    let g : ℚˣ := Units.mk0 2 (by norm_num)
+    χ g⁻¹ = (χ g)⁻¹ ∧ χ g⁻¹ ≠ χ g := by
+  sorry
+
+-- B4.8: at a nonzero constant section the trivial base action forces the unit factor.
+example {G : Type*} [Monoid G] (J : G → Unit → ℚ)
+    (hf : ∀ g x, (1 : ℚ) = J g x * 1) :
+    (∀ g x, J g x = 1) ∧ ∀ g h x, J (g * h) x = J g x * J h x := by
+  sorry
+
+-- On the free two-point orbit, every nowhere-zero function gives a shifted scalar cocycle.
+example (f : Multiplicative (ZMod 2) → ℚ) (hf : ∀ x, f x ≠ 0) :
+    let J := fun g x ↦ f (g * x) / f x
+    ∀ g h x, J (g * h) x = J g (h * x) * J h x := by
+  sorry
+
 /-- The constant factor `J(g, x) = g` of `GL(ℚ²)` acting on `ℚ²` by evaluation. -/
 def constantFactor : AutomorphyFactor Unit ((ℚ × ℚ) ≃ₗ[ℚ] (ℚ × ℚ)) (ℚ × ℚ) ℚ (ℚ × ℚ) where
   coefficient _ g _ := g
@@ -312,15 +471,19 @@ example :
 
 -- Test `slashActionOfAutomorphyFactor_test_zero_noncocycle`: a zero section transforms under the
 -- normalized nonzero factor `1 ↦ 1, t ↦ 2` of `C₂`, which is not a cocycle since `2² ≠ 1`.
-example : ¬ ∀ g h : Multiplicative (ZMod 2),
+example :
+    (∀ g : Multiplicative (ZMod 2), (0 : ℚ) = (if g = 1 then 1 else 2) * 0) ∧
+    ¬ ∀ g h : Multiplicative (ZMod 2),
     (if g * h = 1 then (1 : ℚ) else 2) = (if g = 1 then 1 else 2) * (if h = 1 then 1 else 2) := by
-  intro h
-  have := h (Multiplicative.ofAdd 1) (Multiplicative.ofAdd 1)
-  have hg : (Multiplicative.ofAdd 1 : Multiplicative (ZMod 2)) * Multiplicative.ofAdd 1 = 1 := by
-    decide
-  have hne : (Multiplicative.ofAdd 1 : Multiplicative (ZMod 2)) ≠ 1 := by decide
-  simp only [hg, hne, ite_true, ite_false] at this
-  norm_num at this
+  constructor
+  · intro g; simp
+  · intro h
+    have := h (Multiplicative.ofAdd 1) (Multiplicative.ofAdd 1)
+    have hg : (Multiplicative.ofAdd 1 : Multiplicative (ZMod 2)) * Multiplicative.ofAdd 1 = 1 := by
+      decide
+    have hne : (Multiplicative.ofAdd 1 : Multiplicative (ZMod 2)) ≠ 1 := by decide
+    simp only [hg, hne, ite_true, ite_false] at this
+    norm_num at this
 
 /-- An arithmetic Hilbert weight: integers `k_τ` indexed by the real embeddings and a central
 weight `w` with `k_τ ≡ w (mod 2)` ([Diamond21], §3.2, p.12; [Milne90], III §8). -/
@@ -391,6 +554,12 @@ def modularNormalization (ℓ : ℕ) (_hℓ : Nat.Prime ℓ) : ℚ := (ℓ : ℚ
 
 -- Test `ClassicalHecke.modularNormalization`: `T_ℓ(1) = (ℓ + 1)/ℓ`, not `ℓ + 1` and not `1`.
 example : modularNormalization 2 (by decide) = 3 / 2 := by
+  norm_num [modularNormalization]
+
+example : modularNormalization 3 (by decide) = 4 / 3 := by
+  norm_num [modularNormalization]
+
+example : modularNormalization 5 (by decide) = 6 / 5 := by
   norm_num [modularNormalization]
 
 end ClassicalHecke
@@ -472,10 +641,11 @@ B3: `boundaryCoefficientChart`, `canonicalExtension`, `canonicalExtensionGluing`
 `logarithmicConnectionExtension`, `minimalCoherentPushforward`, `canonicalRationalDescent`,
 `integralLeviCoefficient`.
 
-B3.general: `generalCanonicalExtension`, `generalLogarithmicComparison`,
+B3.general: `generalBoundaryCoefficientComparison`, `generalCanonicalExtension`, `generalLogarithmicComparison`,
 `generalBoundaryFunctoriality`.
 
-B3.Hilbert: `ramifiedHilbertBoundaryModel`, `ramifiedBoundaryCoefficientLines`,
+B3.Hilbert: `ramifiedHilbertOpenSplittingModel`, `ramifiedHilbertCuspData`,
+`ramifiedHilbertBoundaryModel`, `ramifiedBoundaryCoefficientLines`,
 `ramifiedHilbertFormalDescent`, `ramifiedHilbertCuspDetection`.
 
 B3.log: `horizontalLogSites`, `canonicalKummerCoefficient`, `unipotentLogPeriodComparison`,
@@ -493,7 +663,7 @@ B4: `gl2HodgeLineComparison`, `classicalForms`, `cuspForms`, `analyticClassicalC
 `integralForms`, `classicalVBTateNormalization`.
 
 B5: `ClassicalHecke.operator`, `SiegelHT.decomposition`, `SiegelHT.decomposition_compactSupport`,
-`finiteLocallyFreeTrace`, `integralForms_coefficient_leftExact`,
+`finiteLocallyFreeTrace`, `ScalarFourierJacobi.expansion`, `integralForms_coefficient_leftExact`,
 `FJCoefficient.invariantFamily_leftExact`, `FourierJacobi.injective_primeQuotient`,
 `FourierJacobi.injective_of_extension`, `FourierJacobi.injective_of_finite`,
 `FourierJacobi.expansionPrinciple`, `FourierJacobi.coefficientRecognition`,
@@ -503,11 +673,8 @@ B5: `ClassicalHecke.operator`, `SiegelHT.decomposition`, `SiegelHT.decomposition
 `HilbertQExpansion.expansionPrinciple`, `HilbertQExpansion.cusp_iff_constantTerms`,
 `ClassicalHecke.expansion_compat`, `SiegelHT.classicalVB_equivariance`.
 
-Additional analytic API and prose Checks specified only in the README:
-B4.3: `AutomorphyFactor_forget`, `AutomorphyFactor_test_unit`,
-`AutomorphyFactor_test_frame`, `AutomorphyFactor_test_shift`.
-B4.4: `slashActionOfAutomorphyFactor_test_trivial`,
-`slashActionOfAutomorphyFactor_test_zero`, `slashActionOfAutomorphyFactor_test_frame`.
+Additional analytic API specified only in the README:
+B4.3: `AutomorphyFactor_forget`.
 B5.10: `ClassicalHecke.operator_one`, `ClassicalHecke.coefficient_map`.
 
 -/
