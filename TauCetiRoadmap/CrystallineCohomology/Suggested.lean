@@ -54,7 +54,8 @@ open TensorProduct
 /-- A connection on a `B`-module `M` relative to `A`: an additive map `∇ : M → M ⊗_B Ω¹_{B/A}`
 with the Leibniz rule `∇(b m) = b ∇m + m ⊗ db`. Since `d` kills base scalars, it is automatically
 `A`-linear. This is CR.1.3's shared ordinary algebraic carrier, specialized and sheafified by
-ComplexComparisonPartII C5.2 and FormalConnectionsOpers F2. Tensor symmetry gives their
+ComplexComparisonPartII C5.2 and FormalConnectionsOpers F2 through imports and adapters to
+this carrier and its operations. Tensor symmetry gives their
 `Ω¹ ⊗ M` convention and transports the extension, curvature, tensor and Hom/dual operations. -/
 structure Connection (A B M : Type*) [CommRing A] [CommRing B] [Algebra A B] [AddCommGroup M]
     [Module B M] where
@@ -473,6 +474,13 @@ Crystalline.satDRW_degree0_F; Crystalline.satDRW_unit; Crystalline.satDRW_residu
 Crystalline.satDRW_red; Crystalline.satDRW_ofLift.
 
 CR.4.6 The classical and the relative de Rham–Witt complex:
+The carrier W_rX is SchemeAndStackFoundations §0.26's shared wittScheme r X,
+for r ≥ 1 and p locally nilpotent on X, with wittScheme_affine and wittScheme_one.
+Its perfect-scheme specialization is the same constructor. Witt nilpotence and Teichmüller
+localization belong to this foundational contract; CR.4.6 supplies the differential module
+sheaves and descent on that carrier. CR.3:duality uses the same W_nX. At X=Spec F_p,
+r=2 it is Spec Z/p²; at r=1 it is X; at X=Spec F_p[t] its principal open t≠0 has ring
+W_r(F_p[t])[[t]⁻¹]=W_r(F_p[t,t⁻¹]).
 Relative Frobenius–Verschiebung procomplexes for a specified A → R have W_r(A)-algebra maps
 λ_r : W_r(R) → P_r⁰: λ_r composed with W_r(A → R) equals the specified coefficient map.
 Restriction and F are over Witt restriction and Frobenius on A; V satisfies
@@ -522,6 +530,38 @@ In CR.DDR.5.21, test_acrys_structure_fp uses N^(≥i)ℤ_p = p^max(i,0)ℤ_p; at
 this is ℤ_p, strictly smaller than p⁻¹ℤ_p in ℚ_p.
 Crystalline.wittCohomology_bounded_torsion; Crystalline.wittCohomology_free_quotient;
 Crystalline.wittCohomology_V_complete.
+
+CR.6.4 Convergent embedding complexes and tube support:
+For k perfect of characteristic p, W=W(k), K₀=W[1/p], and a fine finite-type log scheme
+X/k^log, choose X^⋆ ↪ Z^⋆ over W[t]^log (chart 1 ↦ t). First form the log zero fibre
+Y^⋆ = Z^⋆ ×_(W[t]^log) W^log (chart 1 ↦ 0); then complete Y^⋆ and use
+T^⋆ = ]X^⋆[_(Y^⋆). With s:T^⋆ → X^⋆_ét and hypercover augmentation u,
+C_rel = Ω^•_(Y^⋆/W^log) ⊗ O_(T^⋆) and
+C_abs = Ω^•_(Z^⋆/W^triv) ⊗ O_(T^⋆) give Ru_*Rs_*C_rel and Ru_*Rs_*C_abs.
+LogCrystalline.convergentLogComplex.relative;
+LogCrystalline.convergentLogComplex.absolute;
+LogCrystalline.convergentLogComplex.refinement;
+LogCrystalline.convergentLogComplex.site_compare.
+The last target uses separated affine embedding charts and their refinements, whose tubes
+are Hausdorff strictly K₀-analytic. It identifies the Berkovich quasi-étale and adic étale
+ringed topoi, analytic functions, g*, g_*, their unit, and specialization s and Rs_* through
+the formal étale site. It transports support kernels on all module sheaves and bounded-below
+complexes, their inclusions, special-fibre maps and the signed triangle and connecting N,
+compatibly with common refinements and their cocycles. These local comparisons descend
+without requiring X globally separated.
+For U open in X, g:]X^⋆∖U^⋆[_(Y^⋆) ↪ T^⋆ gives f_!F=ker(F → g_*g*F),
+with g*, g_* and f_! exact (DL Remark B.2). The supported realizations are
+Ru_*Rs_*f_!C_rel and Ru_*Rs_*f_!C_abs on these same zero-fibre tubes.
+LogCrystalline.tubeProperSupport.kernel; LogCrystalline.tubeProperSupport.whole;
+LogCrystalline.tubeProperSupport.special_fibre_map.
+For the standard log point over F_p, T=Sp K₀, the relative complex is K₀, and the absolute
+complex adds K₀·dlog t in degree one, with zero differential. The tube formed in Z instead
+is the open disc |t|<1, whose functions include nonconstant t, also for p=2.
+For two points and U the first point, both sites give kernel K₀⊕0 of K₀² → K₀.
+For U=X the specialization map is the identity; for U empty its source and target vanish.
+The degree-q shifted injection is β ↦ (−1)^(q−1)β∧dlog t, identical under site transport.
+PadicDifferentialEquationsAndRigidCohomology RD.4.42/RD.4.45 uses transport adapters of
+this constant-coefficient core for TubeProperSupport and SupportedLogComplex.
 
 CR.6.4 Sato’s homological de Rham–Witt complex:
 Crystalline.SatoWitt.residue; Crystalline.SatoWitt.ordered_gr;

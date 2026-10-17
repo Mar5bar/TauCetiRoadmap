@@ -127,7 +127,8 @@ target says so, and are otherwise outside it. Comparisons with étale, prismatic
 - **Ordinary algebraic connections.** CR.1.3 owns `Crystalline.Connection` over arbitrary
   commutative base rings and its extension, curvature, horizontal maps, coefficient de Rham
   complexes, base change, tensor and Hom/dual operations. ComplexComparisonPartII C5.2 and
-  FormalConnectionsOpers F2 specialize and sheafify this carrier and its operations. Tensor
+  FormalConnectionsOpers F2 import, specialize and sheafify this carrier and its operations;
+  their ordinary connection interfaces are adapters to `Crystalline.Connection`. Tensor
   symmetry identifies `M ⊗ Ω¹` with `Ω¹ ⊗ M`; additivity and Leibniz imply linearity over the
   base field. FormalConnectionsOpers owns the continuous/formal extension, differential
   operators, jets/Atiyah sequences, Lie–Rinehart PBW and principal-group connections.
@@ -474,6 +475,19 @@ material, `LogCrystalline.*` the logarithmic material, and `PD.*` the divided po
   finite cover); §E2.2 (`IsReplete.derived_limits` and `IsReplete.milnor`, only on replete topoi,
   including the point topos for module towers); Layer E3
   (Beck–Chevalley comparisons).
+- **SchemeAndStackFoundations**: §0.26 supplies the shared `wittScheme n X`, for n≥1 and
+  schemes X on which p is locally nilpotent, extending its perfect F_p-scheme domain with
+  canonical agreement on that domain. Its carrier is (|X|,W_n(O_X)); `wittScheme_affine`
+  identifies it with Spec W_n(R) on affine opens, and `wittScheme_one` identifies length one
+  with X, naturally for morphisms and restrictions. The same foundational contract supplies
+  the elementary construction inputs: if p^N=0 in R then p^(Nn)=0 in W_n(R), the kernel of
+  W_n(R)→R is nilpotent, and W_n(R)[[f]⁻¹]≅W_n(R_f). These follow from the V-filtration,
+  V(x)V(y)=pV(xy), and induction on n for localization; hence the affine schemes glue with
+  exactly the stated carrier, without de Rham–Witt inputs (Langer–Zink §1.4, after (1.36),
+  printed pp.26–27). CR.4.6 supplies the differential module sheaves on this carrier;
+  CR.3:duality uses the same scheme. The specialization checks are X=Spec F_p, n=2 giving
+  Spec Z/p²; n=1 giving X for every locally p-nilpotent X; and X=Spec F_p[t], whose
+  principal open t≠0 has ring W_n(F_p[t])[[t]⁻¹]=W_n(F_p[t,t⁻¹]).
 - **SchemeAndStackFoundations**: §0.15 (Néron–Popescu desingularization);
   §§2.1–2.2 (`cech_to_cohomology` and `leray_spectral_sequence`
   for general sites); Layer 2 (coherent cohomology, Tor-independent base change,
@@ -5727,10 +5741,10 @@ W_r(A)[s̄⁻¹]→W_r(A[s⁻¹]) is an isomorphism of differential graded algeb
 R and s∈R, W_r(WsatΩ_R)[[s]⁻¹]≅W_r(WsatΩ_(R[1/s])), and WsatΩ_(R[1/s]) is the strict completion
 W(WsatΩ_R[[s]⁻¹]); the localisation WsatΩ_R[[s]⁻¹] itself is in general not strict. For an étale map
 R→S of F_p-algebras, W_r(WsatΩ_R)⊗_(W_r(R))W_r(S)≅W_r(WsatΩ_S) for every r. (4) Let X be a scheme
-over a Z_(p)-algebra A on which p is locally nilpotent. Then the ringed space W_rX=(|X|,W_r(O_X)) is
-a scheme, covered by the affine schemes Spec W_r(R) for the affine opens Spec R⊂X with p nilpotent
-in R, and U↦W_rΩ^q_(O(U)/A) on these affine opens is a quasi-coherent sheaf on W_rX and a sheaf for
-the étale topology. For an F_p-scheme X,
+over a Z_(p)-algebra A, with p locally nilpotent on X. Use W_rX=`wittScheme r X` from
+SchemeAndStackFoundations §0.26, with carrier (|X|,W_r(O_X)), its affine identifications
+`wittScheme_affine` and its length-one law `wittScheme_one`. On its affine opens Spec W_r(R),
+U↦W_rΩ^q_(O(U)/A) is a quasi-coherent sheaf on W_rX and a sheaf for the étale topology. For an F_p-scheme X,
 U↦W_r(WsatΩ^q_(O(U))) and U↦WsatΩ^q_(O(U)) are sheaves for the Zariski and the étale topology on
 affines, the former quasi-coherent over W_r(O_X), and the Zariski cohomology groups H^n(Spec
 R,WsatΩ^q) vanish for n>0.
@@ -5795,13 +5809,9 @@ W_n(S′) the two maps to W_(n−1)(C)⁰ agree modulo a nilpotent ideal, hence 
 the unique map of Dieudonné algebras B→C over A inducing g. For A=WsatΩ_R and an étale R-algebra S
 take S′=S⊗_R R′: then maps B→C correspond to ring maps S→C⁰/VC⁰, so B is WsatΩ_S, and
 W_n(WsatΩ_R)⊗_(W_n(R))W_n(S)≅W_n(A)⊗_(W_n(R′))W_n(S′)=B_n≅W_n(WsatΩ_S), the first isomorphism by the
-base-change statement of step 5. Witt scheme: if p^N=0 in R, then the graded pieces of the V-filtration
-of W_r(R) are copies of R on which p acts as multiplication by p, so p^(Nr)=0 in W_r(R); and
-V(x)V(y)=V(x·FV(y))=p·V(xy), so (Vx)^m=p^(m−1)V(x^m) and the kernel V W_(r−1)(R) of W_r(R)→R is a
-nil ideal, making the closed immersion Spec R→Spec W_r(R) a homeomorphism. For f∈R, W_r(R)[[f]⁻¹]→W_r(R_f) is an
-isomorphism, by induction on r along 0→V^(r−1)R→W_r(R)→W_(r−1)(R)→0, [f] acting on V^(r−1)R
-through f^(p^(r−1)). So the Spec W_r(R) glue to a scheme with underlying space |X| and structure
-sheaf W_r(O_X). Sheaf property: on affines the presheaves are S↦M⊗_(W_r(R))W_r(S)
+base-change statement of step 5. The carrier, Witt nilpotence and Teichmüller localization
+are supplied by SchemeAndStackFoundations §0.26, independently of the differential complexes.
+Sheaf property: on affines the presheaves are S↦M⊗_(W_r(R))W_r(S)
 for the W_r(R)-module M=W_rΩ^q; the Zariski sheaf property follows since the Teichmüller lifts [s_α]
 of elements generating the unit ideal of R generate the unit ideal of W_r(R); when p is nilpotent,
 S↦W_r(S) identifies the étale sites of R and W_r(R), which gives étale descent; cohomology vanishes
@@ -5827,7 +5837,9 @@ complex*](https://arxiv.org/abs/1805.05501v3), arXiv v3, §5.5 Proposition 5.5.1
 towers it uses: §2.6 Definition 2.6.1, Propositions 2.6.2, 2.6.5, pp.21–23, and §2.9 Proposition
 2.9.1, Corollary 2.9.3, pp.27–28.) *Needs:* *Initial relative de Rham–Witt complex*; *Universal
 saturated de Rham–Witt complex*; *Strict completion and its adjunction*; *Finite Frobenius lifting*;
-*Restriction kernel and p-torsion*; *Strict Dieudonné towers*; Mathlib `Algebra.Etale`.
+*Restriction kernel and p-torsion*; *Strict Dieudonné towers*; SchemeAndStackFoundations §0.26
+(`wittScheme`, `wittScheme_affine`, `wittScheme_one` and its nilpotence/localization inputs);
+Mathlib `Algebra.Etale`.
 
 **Checks.**
 
@@ -5835,7 +5847,9 @@ saturated de Rham–Witt complex*; *Strict completion and its adjunction*; *Fini
 - For an F_p-algebra R and s∈R: W_r(WsatΩ_(R[1/s]))=W_r(WsatΩ_R)[[s]⁻¹] for every r.
 - For an F_p-algebra R: H⁰(Spec R,WsatΩ^q)=WsatΩ^q_R and H^n(Spec R,WsatΩ^q)=0 for n>0 (BLM
   Proposition 5.2.4).
-- For X=Spec F_p, W_rX=Spec Z/p^r: one point with local ring W_r(F_p)=Z/p^r.
+- For X=Spec F_p, W_rX=`wittScheme r X`=Spec Z/p^r: one point with local ring
+  W_r(F_p)=Z/p^r; at r=2 this is the same Spec Z/p² as the perfect-scheme constructor of
+  SchemeAndStackFoundations §0.26. At r=1 its module sheaves are the ordinary relative forms.
 - For A=Q and X=Spec Q, where p is invertible, the ghost map gives W₂(Q)≅Q×Q: the ringed space
   (|X|,W₂(O_X)) has one point and ring Q×Q, which is not local, so it is not a scheme, while
   Spec W₂(Q) has two points. Item (4) does not apply to X.
@@ -6957,7 +6971,8 @@ Gysin maps and the diagonal class.
 ### CR.3:duality.1 The trace, duality and Gysin maps
 
 **Proper smooth crystalline trace.** Let k be a perfect field of characteristic p, W_n=W_n(k), X a
-proper smooth k-scheme of pure dimension d, W_nX the scheme (|X|,W_nO_X) and f_n:W_nX→Spec W_n its
+proper smooth k-scheme of pure dimension d, W_nX=`wittScheme n X` of
+SchemeAndStackFoundations §0.26 with carrier (|X|,W_nO_X), and f_n:W_nX→Spec W_n its
 structure map; f_n^! denotes the exceptional inverse image of coherent duality. Let n≥1 and
 σ be Witt Frobenius. For an integer r, `σ_*^r M` has the underlying additive group of M and
 scalar action `a·m=σ^r(a)m`; this exact restriction of scalars also acts on complexes.
@@ -10340,28 +10355,49 @@ Hyodo–Kato complexes*; Layer CR.3.
 ### CR.6.4 Convergent complexes on tubes and Witt models
 
 **Convergent logarithmic embedding complexes.** For a fine log scheme X of finite type over k^log,
-take the embedding system of Disegni–Liu Appendix B.1 into log smooth W[t]^log-schemes, completed
-along the special fibre. For each term, the tube ]X^⋆[ is the interior of the preimage of X^⋆ under
-specialisation in the generic fibre of the completed embedding (AdicSpacesPartIII Layer R2), with its
-étale site (AdicSpacesPartIV Layer R4) and specialisation morphism s. Define ω_X =
-`Ru_*Rs_*Ω^•_{lift/W^log}` on the tubes and its absolute variant ω̃_X using `Ω^•_{lift/W}`. These are
-rational convergent logarithmic complexes. They are not the classical log crystalline complex, and
-not an overconvergent j† complex.
+put W=W(k), K₀=W[1/p], with k perfect of characteristic p. Let W[t]^log have chart 1↦t,
+W^log its fibre at t=0 with chart 1↦0, and W^triv the trivial-log Witt base. Choose the
+embedding system X^⋆↪Z^⋆ of Disegni–Liu Appendix B.1 over W[t]^log and form
+`Y^⋆ = Z^⋆ ×_(W[t]^log) W^log` before completing. Complete Y^⋆ along its special fibre and
+put `T^⋆ = ]X^⋆[_(Y^⋆)`, the interior of the specialisation preimage in this generic fibre
+(AdicSpacesPartIII Layer R2). Write s:T^⋆→X^⋆_ét for specialisation and u:X^⋆→X for the
+hypercover augmentation. Define the tube form complexes
+`C_rel = Ω^•_(Y^⋆/W^log) ⊗_(O_(Y^⋆)) O_(T^⋆)` and
+`C_abs = Ω^•_(Z^⋆/W^triv) ⊗_(O_(Z^⋆)) O_(T^⋆)`.
+Then `ω_X = Ru_*Rs_* C_rel` and `ω̃_X = Ru_*Rs_* C_abs` are rational convergent
+logarithmic complexes on X_ét. Use separated affine embedding charts and their product
+refinements: their tubes are Hausdorff strictly K₀-analytic Berkovich spaces, with corresponding
+adic tubes. The analytic étale site here means the adic étale site of AdicSpacesPartIV Layer R4.
+The constructions descend from this embedding basis to every such X; no global separatedness
+hypothesis on X is imposed. These are convergent rather than overconvergent j† complexes.
 
 The API:
 
 - `LogCrystalline.convergentLogComplex.relative`: The relative complex uses the W^log differential
-  quotient.
+  quotient on Y^⋆ and its realization C_rel on T^⋆.
 - `LogCrystalline.convergentLogComplex.absolute`: The absolute variant uses the trivial-log Witt
-  base and retains dlog t.
+  base on Z^⋆, restricts to the same T^⋆, and retains dlog t.
+- `LogCrystalline.convergentLogComplex.site_compare`: On the separated embedding basis,
+  identify the Berkovich quasi-étale and adic étale ringed topoi, carrying analytic functions
+  and the tube form complexes to their counterparts. For the complementary tube inclusion g,
+  the comparison intertwines g*, g_* and their adjunction unit, and identifies specialization
+  s and Rs_* through the formal étale site. It therefore identifies the support kernels on
+  all module sheaves and bounded-below complexes, their inclusions and special-fibre maps,
+  and the signed monodromy triangle with its connecting map. These identifications commute
+  with embedding refinements and their cocycles.
 - `LogCrystalline.convergentLogComplex.refinement`: Common embedding refinements induce canonical
   quasi-isomorphisms.
 
-*Proof sketch.* Take tubes and specialisation from AdicSpacesPartIII Layer R2 and AdicSpacesPartIV Layer R4. Disegni–Liu
-work on the quasi-étale site; for the complexes of coherent sheaves used here its cohomology agrees
-with that of the étale site of the tube, and this comparison is part of this target. Apply the de
-Rham complex to the relative and absolute log forms of the fixed embedding system. Use common
-refinements to make the resulting specialised complexes independent of the embedding. ([Disegni–Liu,
+*Proof sketch.* Take tubes and specialisation from AdicSpacesPartIII Layer R2 and AdicSpacesPartIV
+Layer R4. On the separated embedding basis apply Berner Theorem 2.4 to the Hausdorff strictly
+analytic tubes. Identify the structure sheaves on affinoid charts. Verify the complement square
+on these charts, then identify inverse images and their right adjoints by the adjunctions;
+identify s by the common formal étale specialization. This proves the functor comparisons,
+rather than only coherent-cohomology agreement. Exact equivalences preserve kernels and the
+signed short exact form sequence, hence its derived connecting map. Descend these comparisons
+and the relative and absolute realizations along common separated refinements. ([Berner,
+*Etale homotopy theory of non-archimedean analytic spaces*](https://arxiv.org/abs/1708.03657),
+Theorem 2.4 and the following caution on direct images, pp.19–20; [Disegni–Liu,
 *A p-adic arithmetic inner product formula*](https://disegni-daniel.perso.math.cnrs.fr/AIPF.pdf),
 Appendix B.1–B.2; footnote 31, PDF pp.113–116.) *Needs:* *Logarithmic embedding-system descent*
 (Layer CR.5); *Log de Rham complexes* (Layer CR.5); AdicSpacesPartIII Layer R2 (*Generic fibres*;
@@ -10370,7 +10406,20 @@ carriers*).
 
 **Checks.**
 
-- `point`: For a point relative to its log base, ω has K₀ only in degree zero.
+- `point`: For k=F_p and X=k^log↪Z=Spec W[t] with chart 1↦t, the zero fibre
+  is Y=W^log and T=Sp K₀. Thus ω_X=K₀ in degree zero and ω̃_X has K₀ and
+  K₀·dlog t in degrees zero and one, with zero differential. Completing Z along (p),
+  or along (p,t), and taking the tube of X instead gives |t|<1. Relative forms over
+  W[t]^log would then give O(|t|<1) in degree zero, including the nonconstant t.
+  These distinctions hold also at p=2.
+- `site_complement`: For X=X₁⊔X₂ two log points and U=X₁, both sites identify restriction
+  with K₀²→K₀ onto the second factor and support with K₀⊕0; no coherence of a general
+  supported sheaf is required.
+- `site_specialization`: For U=X the transported special-fibre map is the identity on Rs_*;
+  for U empty both its source and target vanish.
+- `site_signed_boundary`: Put θ=dlog t and β=x dy on a smooth chart. The degree-two
+  shifted injection is −x dy∧θ, and its differential is −dx∧dy∧θ, the image of −dβ.
+  Both sites give this same chain map and hence the same connecting N.
 - `identity_refinement`: An identity embedding refinement induces the identity comparison.
 - `not_overconvergent_by_name`: The unit-disc series with coefficients `p^{⌊√n⌋}` is convergent and
   has no radius greater than one. Its existence distinguishes the convergent tube-function object
@@ -10379,9 +10428,11 @@ carriers*).
   comparison.
 
 **Proper support on open analytic tubes.** For an open U⊂X in the DL embedding setting, let
-g:]X∖U[→]X[ be the open analytic tube inclusion. On the étale site of the tube define
-f_!F=ker(F→g_*g*F), with the exactness properties in DL Definition B.1. Apply Ru_*Rs_* to the
-supported de Rham complex to define ω_(U,X) and ω̃_(U,X). This is analytic-tube support. There is a
+g:]X^⋆∖U^⋆[_(Y^⋆)→T^⋆ be the complementary open analytic tube inclusion termwise,
+using the same zero fibres Y^⋆ and tubes T^⋆ as above. On their adic étale sites define
+f_!F=ker(F→g_*g*F) on module sheaves. The functors g*, g_* and f_! are exact
+(DL Remark B.2), transported by `LogCrystalline.convergentLogComplex.site_compare`.
+Define ω_(U,X)=Ru_*Rs_*f_!C_rel and ω̃_(U,X)=Ru_*Rs_*f_!C_abs. This is analytic-tube support. There is a
 natural map from special-fiber F_!F*Rs_* to Rs_*f_!, which need not be a categorical factorization
 or an isomorphism in general.
 
@@ -10393,8 +10444,10 @@ The API:
 - `LogCrystalline.tubeProperSupport.special_fibre_map`: There is the source natural map
   F_!F*Rs_*→Rs_*f_!, without a general isomorphism claim.
 
-*Proof sketch.* Define the support kernel f_!F = ker(F → g_*g^*F) on the étale site of the tube
-(AdicSpacesPartIV Layer R4); its exactness properties are those of Disegni–Liu Definition B.1. Apply
+*Proof sketch.* Define the support kernel f_!F = ker(F → g_*g^*F) on the adic étale site of the tube
+(AdicSpacesPartIV Layer R4). The ringed-topos and functor comparison above transports DL
+Definition B.1's kernel, Remark B.2's exactness and Lemma B.3's natural transformation;
+it applies to all module sheaves, including noncoherent support kernels. Apply
 the support functor before the analytic specialisation pushforward and then the embedding-system
 pushforward. Construct the special-fibre comparison by the adjunction map and preserve its
 direction. ([Disegni–Liu, *A p-adic arithmetic inner product
@@ -10410,7 +10463,15 @@ complexes*; AdicSpacesPartIV Layer R4 (*The étale site on the analytic carriers
   and the constant coefficient K₀, restriction to the complementary tube is
   the projection K₀²→K₀ onto the second factor. Its kernel is K₀⊕0.
   The full complex K₀² and the zero complex both give the wrong support.
-- For U=X the support kernel is the identity.
+- The site comparison carries the short exact form sequence with shifted injection
+  β↦(−1)^(q−1)β∧dlog t to the same sequence; exact support preserves its triangle and N.
+
+CR.6.4 owns the convergent relative and absolute realizations, tube support kernel and signed
+monodromy triangle. The quasi-étale `TubeProperSupport` and `SupportedLogComplex` interfaces
+of PadicDifferentialEquationsAndRigidCohomology RD.4.42/RD.4.45 are transport adapters of
+these objects through `LogCrystalline.convergentLogComplex.site_compare`; their coefficient
+extensions use the same constant-coefficient specialization. This is a downstream use of
+CR.6.4, not an input to it.
 
 **Semistable logarithmic Witt models.** Let κ be a perfect field of characteristic p, W=W(κ),
 K₀=W[1/p]. Let W[t]° be Spec W[t] with the log structure associated with 1↦t, W° its fibre at t=0,
