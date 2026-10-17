@@ -124,6 +124,13 @@ target says so, and are otherwise outside it. Comparisons with étale, prismatic
   compatibility. CR.4.5–CR.4.6 use its public ring-level interface in namespace
   `DiamondsAndVStacks` for the saturated de Rham–Witt residue, degree-zero identification
   and cusp comparison; the generic ring theory is supplied there.
+- **Ordinary algebraic connections.** CR.1.3 owns `Crystalline.Connection` over arbitrary
+  commutative base rings and its extension, curvature, horizontal maps, coefficient de Rham
+  complexes, base change, tensor and Hom/dual operations. ComplexComparisonPartII C5.2 and
+  FormalConnectionsOpers F2 specialize and sheafify this carrier and its operations. Tensor
+  symmetry identifies `M ⊗ Ω¹` with `Ω¹ ⊗ M`; additivity and Leibniz imply linearity over the
+  base field. FormalConnectionsOpers owns the continuous/formal extension, differential
+  operators, jets/Atiyah sequences, Lie–Rinehart PBW and principal-group connections.
 - **EnhancedDerivedSheaves**
   (specification)
   owns the enhanced derived categories of sheaves, derived tensor products and internal Hom,
@@ -159,8 +166,10 @@ target says so, and are otherwise outside it. Comparisons with étale, prismatic
   of `Γ`, no crystalline site, no de Rham complex beyond `Ω¹`, no log structure. Tau Ceti has
   `TauCeti.teichmuller` for Henselian local rings with finite residue field, and completeness and
   Teichmüller–Frobenius lemmas for Witt vectors. The unit-logarithm target uses these existing
-  multiplicative representatives and adds the convergent logarithm; it does not construct
-  Teichmüller lifts.
+  multiplicative representatives and Tau Ceti's `NormedSpace.logOneAdd` series carrier.
+  **PadicFunctionalAnalysis** §4.5 on main supplies convergence and the logarithm laws on
+  principal units in a complete normed `ℚ_p`-algebra. CR.6.2 owns the Teichmüller-normalized
+  extension to `O_Kˣ` and its Hyodo–Kato change-of-uniformizer application.
 - **Not here.** Prisms, δ-rings and prismatic and q-crystalline cohomology; `A_inf`-cohomology and
   Breuil–Kisin–Fargues modules; the rational period rings `B_cris`, `B_st`, `B_dR` and Fontaine's
   period functors; the crystalline, semistable and de Rham comparison theorems with étale
@@ -1172,7 +1181,14 @@ sections over an affine open W⊂T mapping into an affine open V⊂S are Ω¹_PD
 `∇:F→F⊗_{O_crys}Ω_{X/S}` with ∇(fs)=f∇(s)+s⊗df; it is integrable if ∇∘∇=0, and then `F⊗Ω^•_{X/S}` is its
 de Rham complex on Cris(X/S) (Stacks §§60.14–60.15).
 
-`Suggested.lean` declares `Crystalline.Connection`.
+`Suggested.lean` declares `Crystalline.Connection` for the ordinary Kähler-differential case.
+This is the shared algebraic carrier over arbitrary commutative base rings; no characteristic,
+integrability or quasi-nilpotence restriction enters its definition. Additivity and the Leibniz
+rule give `∇(am)=a∇(m)` for a∈A, since d kills base scalars. In characteristic zero this is the
+base-field linearity of the sheafified carrier used by ComplexComparisonPartII C5.2 and
+FormalConnectionsOpers F2. Tensor symmetry transports the extension, curvature, tensor and
+Hom/dual operations to their `Ω¹⊗M` convention. Their scheme gluing and continuous/formal
+extensions use these operations.
 
 *Hypotheses.* A→B is a map of commutative rings, `π:Ω_{B/A}→Ω` a surjection of B-modules to which the
 exterior derivative descends, and M a B-module. For the sheaf version: p is a prime, (S,I,γ) a PD
@@ -6736,7 +6752,9 @@ Lean: `DerivedDeRham.acrysStructure`.
 
 **Checks.**
 
-- `test_acrys_structure_fp`: for `S = F_p`, `A_crys = ℤ_p`, `φ = id` and `N^(≥i) = p^i ℤ_p`.
+- `test_acrys_structure_fp`: for `S = F_p`, `A_crys = ℤ_p`, `φ = id` and
+  `N^(≥i) = p^max(i,0) ℤ_p` for every integer i. At i=−1 this is ℤ_p, whereas
+  p⁻¹ℤ_p strictly contains ℤ_p inside ℚ_p.
 - `test_acrys_structure_divided_frobenius`: on `N^(≥i+1)` one has `φ_i = p φ_(i+1)`, so `φ_i mod p`
   on `N^(≥i)` factors through `gr_N^i`. Its image, on the level `N^(≥i)` as on `gr_N^i`, is exactly
   `Fil_i^conj(A_crys/p)`; surjectivity holds onto this image only.
@@ -6940,15 +6958,22 @@ Gysin maps and the diagonal class.
 
 **Proper smooth crystalline trace.** Let k be a perfect field of characteristic p, W_n=W_n(k), X a
 proper smooth k-scheme of pure dimension d, W_nX the scheme (|X|,W_nO_X) and f_n:W_nX→Spec W_n its
-structure map; f_n^! denotes the exceptional inverse image of coherent duality. (1) The complex
+structure map; f_n^! denotes the exceptional inverse image of coherent duality. Let n≥1 and
+σ be Witt Frobenius. For an integer r, `σ_*^r M` has the underlying additive group of M and
+scalar action `a·m=σ^r(a)m`; this exact restriction of scalars also acts on complexes.
+(1) The complex
 f_n^!W_n is concentrated in degree −d, and there is a unique map of W_nO_X-modules
 Tr^Ek:W_nΩ^d_X→f_n^!W_n[−d] which, on every open U⊂X with a smooth lift U′ over W_n, is the
 composite of the isomorphism θ:W_nΩ^d_U≅σ^n_*H^d(Ω^•_(U′/W_n)) with the map induced by the coherent
 trace isomorphism Ω^d_(U′/W_n)≅f′^!W_n[−d] of f′:U′→Spec W_n. It is an isomorphism and is compatible
-with étale maps. (2) Through Ru_*O_crys≅W_nΩ^•_X (*Finite and infinite crystalline de Rham–Witt
-comparison* (Layer CR.4)), the isomorphism C^(−n):W_nΩ^d_X≅H^d(W_nΩ^•_X) and adjunction for the
-proper map f_n, it induces Tr^Ek_(X,n):RΓ_crys(X/W_n)→W_n[−2d], equivalently a W_n-linear map
-H^(2d)_crys(X/W_n)→W_n. These maps are compatible with reduction from W_n to W_(n−1), and
+with étale maps. (2) Put K_n=RΓ_crys(X/W_n). Through Ru_*O_crys≅W_nΩ^•_X
+(*Finite and infinite crystalline de Rham–Witt comparison* (Layer CR.4)), inverse Cartier is
+the coefficient-linear isomorphism `C^(−n):W_nΩ^d_X≅σ_*^n H^d(W_nΩ^•_X)`.
+Its inverse, Tr^Ek and adjunction for f_n give `t_tw,n:σ_*^n K_n→W_n[−2d]`.
+Apply σ_*^(−n) and compose with the canonical W_n-linear isomorphism
+`σ_*^(−n)W_n→W_n`, whose underlying map is σ^n. This defines
+`Tr^Ek_(X,n):K_n→W_n[−2d]`, equivalently a W_n-linear map
+H^(2d)_crys(X/W_n)→W_n. These untwisted maps are compatible with reduction from W_n to W_(n−1), and
 Tr^Ek_(X,1):H^(2d)_dR(X/k)=H^d(X,Ω^d_X)→k is the trace of coherent duality. (3) Normalisation. For
 X=P^d, Tr^Ek_(X,n) sends to 1 the class [ω] of the Čech d-cocycle ω=dlog[t₁]∧…∧dlog[t_d] of the
 standard covering, [t_i]∈W_nO the Teichmüller representative of the coordinate t_i; and h^d=ε_d·[ω]
@@ -6956,7 +6981,7 @@ in H^(2d)_crys(P^d/W_n), with `ε_d=(−1)^{d(d−1)/2}` for the Čech conventio
 Tr_(X,n):RΓ_crys(X/W)→W[−2d]; thus Tr_(P^d)(h^d)=1.
 
 *Hypotheses.* k is a perfect field of characteristic p; X is a proper smooth k-scheme of pure
-dimension d. (For (1), X smooth of pure dimension d suffices.). f_n^! is the functor of coherent
+dimension d; n≥1. (For (1), X smooth of pure dimension d suffices.). f_n^! is the functor of coherent
 duality (Hartshorne, Residues and Duality) for the finite-type morphism f_n:W_nX→Spec W_n(k).
 h=c₁(O(1))∈H²_crys(P^d/W_n) is the hyperplane class of *The crystalline first Chern class and the
 hyperplane class* (Layer CR.3) and h^d its d-th power for the cup product of *Crystalline cup
@@ -6977,7 +7002,9 @@ The API:
 - `Crystalline.crysTrace_iso`: Tr^Ek:W_nΩ^d_X→f_n^!W_n[−d] is an isomorphism of W_nO_X-modules, for
   X smooth of pure dimension d over k (Ekedahl I, Theorem 4.1).
 - `Crystalline.crysTrace_ekedahl`: Tr_(X,n)=ε_d·Tr^Ek_(X,n), where Tr^Ek is induced by Ekedahl's map
-  (2.11), Tr^Ek_(P^d,n)([ω])=1 for the Čech class [ω] of dlog[t₁]∧…∧dlog[t_d], and ε_d∈{1,−1} is
+  (2.11) by the stated σ_*^n restriction and σ_*^(−n) transport; on underlying top-degree
+  classes, `Tr^Ek_(X,n)(x)=σ^n(t_tw,n(x))`. This map is W_n-linear.
+  Tr^Ek_(P^d,n)([ω])=1 for the Čech class [ω] of dlog[t₁]∧…∧dlog[t_d], and ε_d∈{1,−1} is
   given by `ε_d=(−1)^{d(d−1)/2}`, so h^d=ε_d·[ω].
 - `Crystalline.crysTrace_frobenius`: Tr_X(F(x))=p^d·σ(Tr_X(x)) for x∈H^(2d)_crys(X/W), F the
   semilinear Frobenius of *Semilinear crystalline Frobenius and linearization* (Layer CR.3) and σ
@@ -7000,11 +7027,18 @@ maps glue to Tr^Ek. Tr^Ek is an isomorphism (Ekedahl I, Theorem 4.1): induction 
 0→j_*W_(n−1)Ω^d→W_nΩ^d→(jF^(n−1))_*Ω^d→0 and the dual sequence, using the compatibility of Tr^Ek
 with p (Lemma 3.3) and with F (Lemma 3.4) and the case n=1. Tr^Ek([ω])=1 on P^d (Ekedahl I, Lemma
 3.2): the composite H^d(P^d_(W_n),Ω^d)→H^d(P^d,W_nΩ^d)→W_n is the coherent trace, the cocycle
-dt′₁∧…∧dt′_d/(t′₁⋯t′_d) has trace 1 and maps to ω, because C^n fixes dlog[t]. Global trace and
-reduction (Ekedahl I.5):
-RΓ_crys(X/W_n)≅RΓ(X,W_nΩ^•)→RΓ(X,H^d(W_nΩ^•))[−d]≅RΓ(X,W_nΩ^d)[−d]→RΓ(X,f_n^!W_n)[−2d]→W_n[−2d], the
-last map by adjunction for the proper map f_n; compatibility with reduction and the identification
-of Tr^Ek_(X,1) with the de Rham trace follow from Lemma 3.4 and the proof of Theorem 4.1. Sign: h^d
+dt′₁∧…∧dt′_d/(t′₁⋯t′_d) has trace 1 and maps to ω, because C^n fixes dlog[t]. For the global
+construction of Ekedahl I.5, retain the coefficient restriction through the top-cohomology
+projection and Cartier:
+`σ_*^n K_n≅σ_*^n RΓ(X,W_nΩ^•)→RΓ(X,σ_*^n H^d(W_nΩ^•))[−d]≅RΓ(X,W_nΩ^d)[−d]→RΓ(X,f_n^!W_n)[−2d]→W_n[−2d]`.
+The last arrow is the coherent-duality counit; every arrow in this composite t_tw,n is
+W_n-linear. Since σ is an automorphism, applying σ_*^(−n) and then the linear map
+σ_*^(−n)W_n→W_n, a↦σ^n(a), gives the asserted linear trace. For n≥2, write ρ for Witt
+reduction and r_n for crystalline reduction on top cohomology. Lemma 3.4 and the proof of
+Theorem 4.1, with the Frobenius adjunction of I.(2.5.2) and II.Lemma 2.1, give on underlying
+classes `ρ(t_tw,n(x))=σ^(−1)(t_tw,n−1(r_n(x)))`. As ρ commutes with σ, the transported traces
+therefore commute with reduction. The same transport at n=1 identifies Tr^Ek_(X,1) with the
+de Rham trace of coherent duality. Sign: h^d
 and [ω] are both bases of H^(2d)_crys(P^d/W_n)≅W_n, and the Čech cocycle of the d-th power of the
 Hodge class of O(1) is `(−1)^{d(d−1)/2}dlog t₁∧…∧dlog t_d` on U₀∩…∩U_d: each multiplication of a form-degree-one, Čech-degree-one factor contributes the totalization sign. Hence h^d=ε_d·[ω] with the stated ε_d. Frobenius:
 under RΓ_crys(X/W_n)≅RΓ(X,W_nΩ^•_X) the crystalline Frobenius of *Semilinear crystalline Frobenius
@@ -7024,7 +7058,8 @@ The Hodge and de Rham cohomology of projective space used in the normalisation i
 proved in *Proper smooth tests and a crystalline torsion surface* (Layer CR.3). ([Ekedahl, *On the
 multiplicative properties of the de Rham–Witt complex I*, Ark. Mat. 22
 (1984)](https://archive.ymsc.tsinghua.edu.cn/pacm_download/116/7414-11512_2006_Article_BF02384380.pdf),
-Chapter I, pp. 192–198: I.2 with (2.7) and (2.11); Lemmas 3.2, 3.3, 3.4; Theorem 4.1; I.5.) *Needs:*
+Chapter I, pp. 192–198: I.2 with (2.5.2), (2.7) and (2.11); Lemmas 3.2, 3.3, 3.4;
+Theorem 4.1; I.5; II.Lemma 2.1, p.199.) *Needs:*
 *Finite and infinite crystalline de Rham–Witt comparison* (Layer CR.4); *Semilinear crystalline
 Frobenius and linearization* (Layer CR.3); *Graded and crystalline Frobenius conventions* (Layer
 CR.4); EnhancedDerivedSheaves Layer E1 (*The enhanced derived
@@ -7040,6 +7075,8 @@ CR.3).
 **Checks.**
 
 - `test_crysTrace_point`: For X=Spec k (d=0): Tr_X is the identity of W(k)=H⁰_crys(Spec k/W(k)).
+  At n=1 over k=F_(p²), C^(−1)(a)=σ(a)=a^p, so the underlying t_tw,1 sends a to σ^(−1)(a).
+  The final transport sends this to a, including for a∉F_p; omitting it gives a non-k-linear map.
 - `test_crysTrace_P1`: For P¹ over k: Tr(h)=1 for h=c₁(O(1))∈H²_crys(P¹/W(k)).
 - `test_crysTrace_P2_sign`: In Čech bidegree (1,1), the product sign is −1,
   so h²=−[dlog t₁∧dlog t₂]. Thus Tr^Ek(h²)=−1 and ε₂Tr^Ek(h²)=1;
@@ -10097,9 +10134,14 @@ comparison*; *Integral Hyodo–Kato complexes*; *Hyodo–Kato monodromy*;
 ### CR.6.2 The Hyodo–Kato comparison
 
 **Normalized logarithms of units.** Let O_K be a complete discrete valuation ring of mixed
-characteristic (0, p) with perfect residue field k. Using the multiplicative representatives
-from the supplier contract, write a unit as u = [ū](1 + a) with a ∈ m_K and define
-`log_K(u) = Σ_{n≥1} (−1)^{n+1}aⁿ/n`, the convergent p-adic series. It kills Teichmüller units and
+characteristic (0, p) with perfect residue field k and fraction field K. Normalize its norm by
+`|p|=p⁻¹`; K is then a complete normed ℚ_p-field, without any finiteness assumption on k.
+Using the supplied multiplicative representatives, write a unit as u = [ū](1 + a) with
+a ∈ m_K, and define `log_K(u) = NormedSpace.logOneAdd K K (u / [ū] - 1)`, with u and [ū]
+viewed in K. This is Tau Ceti's series carrier in
+`TauCeti.Analysis.Normed.Algebra.LogOneAdd.Basic`; its value is
+`Σ_{n≥1} (−1)^{n+1}aⁿ/n`. PadicFunctionalAnalysis §4.5 supplies convergence and the
+principal-unit logarithm laws, since |a|<1. The normalized extension kills Teichmüller units and
 torsion units and is additive under multiplication. Only units are needed for changes of
 uniformizer; no value log(π) is prescribed by this definition.
 
@@ -10110,12 +10152,18 @@ The API:
 - `LogCrystalline.unitLog.principal_series`: On 1+m_K the value is the displayed convergent series.
 
 *Proof sketch.* Divide the unit by its supplied multiplicative representative to obtain a
-principal unit. Use convergence
-of the p-adic logarithm series on 1 + m_K and its multiplicativity on principal units, including
-torsion; extend by zero on Teichmüller units. ([Hyodo–Kato, *Semi-stable reduction and crystalline
+principal unit. Apply PadicFunctionalAnalysis §4.5 to the native `NormedSpace.logOneAdd` series
+on the complete normed ℚ_p-algebra K; scalar restriction identifies its rational coefficients
+with those of `NormedSpace.logOneAdd K K`. Multiplicativity of the representatives and the
+principal-unit logarithm law give additivity on O_Kˣ. Its value on Teichmüller units is zero;
+if u^m=1 with m≥1, then m log_K(u)=0, so log_K(u)=0 in the characteristic-zero field K.
+([Hyodo–Kato, *Semi-stable reduction and crystalline
 cohomology with logarithmic poles*](https://www.numdam.org/item/AST_1994__223__221_0.pdf), Proof
 §5.5, pp.265–266, the unit logarithm.) *Needs:* Mathlib
-`Perfection.teichmuller₀`, `Perfection.mk_teichmuller₀` and `PerfectionMap.id`.
+`Perfection.teichmuller₀`, `Perfection.mk_teichmuller₀` and `PerfectionMap.id`;
+PadicFunctionalAnalysis §4.5 (*Exponential, logarithm and binomial evaluation*, on main);
+Tau Ceti `NormedSpace.logOneAdd` and `NormedSpace.logOneAdd_eq_tsum` in
+`TauCeti.Analysis.Normed.Algebra.LogOneAdd.Basic`.
 
 **Checks.**
 
@@ -11087,7 +11135,11 @@ coefficients*; *Filtered logarithmic PD de Rham complexes* (Layer CR.5); Derived
 
 **Checks.**
 
-- The suggested file directly instantiates DividedPowers and its δ₁ identity on an element of J.
+- For x∈J, `DividedPowers.dpow_one` applied to x∈J gives δ₁(x)=x on the supplied PD carrier.
+- On the PD polynomial algebra A⟨t⟩ with its augmentation PD ideal,
+  `dδ₂(t)=t dt`, including over ℤ₂; the relation uses no division by 2.
+- Under a compatible PD map f:A⟨t⟩→D′, the preceding relation becomes
+  `dδ′₂(f(t))=f(t) d(f(t))`; the base change of the trivial coefficient connection preserves it.
 
 ### Dependencies
 

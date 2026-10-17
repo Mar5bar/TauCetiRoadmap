@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Analysis.Normed.Algebra.LogOneAdd.Basic
 import TauCeti.RingTheory.DividedPowers.Associative
 import TauCeti.RingTheory.Henselian.Teichmuller
 import TauCeti.RingTheory.Nilpotent.Exp
@@ -41,6 +42,8 @@ universe u v
 #check TauCeti.nilpotentExpUnit
 #check WittVector.isAdicComplete_span_p_teichmuller
 #check WittVector.frobenius_teichmuller
+#check NormedSpace.logOneAdd
+#check NormedSpace.logOneAdd_eq_tsum
 
 /-! ## Layer CR.1: Crystalline sites, structure sheaves and crystals -/
 
@@ -49,8 +52,10 @@ namespace Crystalline
 open TensorProduct
 
 /-- A connection on a `B`-module `M` relative to `A`: an additive map `∇ : M → M ⊗_B Ω¹_{B/A}`
-with the Leibniz rule `∇(b m) = b ∇m + m ⊗ db`. Integrability and quasi-nilpotence are README
-targets (Layer CR.1). -/
+with the Leibniz rule `∇(b m) = b ∇m + m ⊗ db`. Since `d` kills base scalars, it is automatically
+`A`-linear. This is CR.1.3's shared ordinary algebraic carrier, specialized and sheafified by
+ComplexComparisonPartII C5.2 and FormalConnectionsOpers F2. Tensor symmetry gives their
+`Ω¹ ⊗ M` convention and transports the extension, curvature, tensor and Hom/dual operations. -/
 structure Connection (A B M : Type*) [CommRing A] [CommRing B] [Algebra A B] [AddCommGroup M]
     [Module B M] where
   /-- The map `∇`. -/
@@ -513,6 +518,8 @@ CR.4.7 Integral cohomological control:
 Nygaard indices are integers. For a perfect F_p-algebra k, N^(≥i)W(k) = p^i W(k) for i ≥ 0,
 and N^(≥i)W(k) = W(k) for i ≤ 0. The perfect-object Checks for derived Witt and quasiregular
 semiperfect Witt control use the same nonnegative range for the formula p^i W(k).
+In CR.DDR.5.21, test_acrys_structure_fp uses N^(≥i)ℤ_p = p^max(i,0)ℤ_p; at i = −1
+this is ℤ_p, strictly smaller than p⁻¹ℤ_p in ℚ_p.
 Crystalline.wittCohomology_bounded_torsion; Crystalline.wittCohomology_free_quotient;
 Crystalline.wittCohomology_V_complete.
 
@@ -524,6 +531,14 @@ Crystalline.smoothStratumRigid.frame_independence; Crystalline.smoothStratumRigi
 Crystalline.smoothStratumRigid.frobenius; Crystalline.smoothStratumRigid.proper_comparison.
 
 CR.3:duality.1 The trace, duality and Gysin maps:
+For n ≥ 1, write σ_*^r M for restriction of scalars with a • m = σ^r(a)m.
+Coefficient-linear inverse Cartier is W_nΩ^d ≃ σ_*^n H^d(W_nΩ^•).
+The top-cohomology projection, inverse Cartier, Ekedahl sheaf trace and coherent counit give
+t_tw,n : σ_*^n RΓ_crys(X/W_n) → W_n[−2d]. Applying σ_*^(−n), then the linear map
+σ_*^(−n)W_n → W_n with underlying map σ^n, gives the W_n-linear Tr^Ek_(X,n).
+On underlying top-degree classes, ρ(t_tw,n(x)) = σ^(−1)(t_tw,n−1(r_n(x))) for n ≥ 2,
+so the transported traces commute with Witt reduction. At n = 1 over F_(p²), the underlying
+t_tw,1(a) = σ^(−1)(a) is transported to a, giving the identity trace of the point.
 cechTraceSign_add; Crystalline.crysTrace_projective; Crystalline.crysTrace_reduction;
 Crystalline.crysTrace_etale_local; Crystalline.crysTrace_iso; Crystalline.crysTrace_ekedahl;
 Crystalline.crysTrace_frobenius; Crystalline.crysTrace_product;
@@ -610,6 +625,14 @@ including p = 2 and arbitrary perfect residue fields.
 CR.6.1 Logarithmic de Rham–Witt complexes and their crystalline model:
 LogCrystalline.logDeRhamWitt.restriction; LogCrystalline.logWittQuotient;
 LogCrystalline.logWittPDDifferentials.
+
+CR.6.2 Normalized logarithms of units:
+For a complete mixed-characteristic DVR with perfect residue field and fraction field K,
+the norm with |p| = p⁻¹ makes K a complete normed ℚ_p-field. The normalized unit logarithm is
+NormedSpace.logOneAdd K K (u / [ū] - 1), using the supplied multiplicative representatives.
+PadicFunctionalAnalysis §4.5 supplies the principal-unit convergence and logarithm laws;
+CR.6.2 supplies the Teichmüller normalization and Hyodo–Kato change-of-uniformizer application.
+The domain includes p = 2 and infinite perfect residue fields.
 
 -/
 
