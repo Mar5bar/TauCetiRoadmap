@@ -13,8 +13,9 @@ cohomology have no carriers at the pins; the targets about them are specified in
 
 The design choices made explicit here are:
 
-* **Parabolics.** The Hodge parabolic is the dynamic parabolic `P(μ⁻¹)` of the inverse of the
-  Hodge cocharacter, and the Hodge–Tate parabolic of Boxer–Calegari–Gee–Pilloni is `P(μ)`; both
+* **Parabolics.** ShimuraData §3.7 supplies the filtration parabolic `P(μ⁻¹)` and its Hodge sign.
+  Its pointwise adapter here uses the inverse of the Hodge cocharacter, and the Hodge–Tate
+  parabolic of Boxer–Calegari–Gee–Pilloni is `P(μ)`; both
   are Tau Ceti's `TauCeti.Cocharacter.parabolic`, whose points are those `g` with
   `lim_{t → 0} l(t) g l(t)⁻¹` existing. Their intersection is the common Levi subgroup (Layer B0).
 * **Automorphy factors.** A factor is a left cocycle `J(gh, x) = J(g, hx) ∘ J(h, x)` for a left
@@ -55,9 +56,9 @@ theorem inverseCocharacter_inverseCocharacter (l : H →ₐc[R] LaurentPolynomia
 
 variable (A : Type*) [CommRing A] [Algebra R A]
 
-/-- The Hodge parabolic `P_H = P(μ⁻¹)` of the Hodge cocharacter `μ`, on `A`-points. With `μ`
-acting on `H^{p,q}` by `z^{−p}` it is the stabilizer of the Hodge filtration
-`F^a = ⊕_{p ≥ a} H^{p,q}` ([CS], §2.3). -/
+/-- The `A`-point adapter `P(μ⁻¹)`. For a Hodge cocharacter acting on `H^{p,q}` by `z^{−p}`,
+ShimuraData §3.7 identifies this with its supplied `filtrationParabolic`, the stabilizer of
+`F^a = ⊕_{p ≥ a} H^{p,q}`. The definition also applies to arbitrary Hopf-algebra cocharacters. -/
 def hodgeParabolic (μ : H →ₐc[R] LaurentPolynomial R) : Subgroup (WithConv (H →ₐ[R] A)) :=
   TauCeti.Cocharacter.parabolic A (inverseCocharacter μ)
 
@@ -655,7 +656,8 @@ B1: `finiteTensorStabilizer`, `absoluteHodgePropagation`, `hodgeTensorRealizatio
 `embeddingIndependence`, `cmPrincipalNormalization`, `abelianCanonicalPrincipalBundle`,
 `principalHeckePullback`.
 
-B1.general: `connectedPrincipalConjugation`, `adjointJetRealization`, `generalConnectedReduction`,
+B1.general: `generalComplexStandardPrincipalBundle`, `connectedPrincipalConjugation`,
+`adjointJetRealization`, `generalConnectedReduction`,
 `generalPrincipalModel`, `generalCompactDualMap`, `generalConjugationCocycle`.
 
 B2: `automorphicVectorBundle`, `automorphicAnalyticComparison`, `leviHighestWeightConvention`,
@@ -684,6 +686,16 @@ B3.BGG: `siegelRelativeBGG`, `siegelDualBGGComplex`, `siegelBGGGradedComparison`
 B3.HT: `smallHasseCanonicalSubgroups`, `siegelAnticanonicalTower`, `siegelBoundaryHebbarkeit`,
 `siegelPerfectoidPeriodTower`, `siegelPerfectoidToroidalTower`,
 `hodgeTypePerfectoidToroidalTower`, `rationalHTLeviTorsor`, `algebraicVBZero`.
+
+`centralSplitQuotient` uses ShimuraData §4.9's quotient; its comparison with the rank-removal
+quotient assumes a CM-split connected centre. The abelian/general principal existence targets
+carry Milne II (2.1). `generalComplexStandardPrincipalBundle` supplies algebraic complex torsors,
+connections, Hecke maps and compact-dual maps before field-automorphism conjugation.
+`horizontalLogSites` uses PrismaticCohomologyPartIV §8.60's log structures and Kummer-étale site
+and constructs the additional pro-site and perfectoid basis. `ramifiedHilbertBoundaryModel`
+uses complete smooth projective admissible fans with polarization functions for projectivity.
+`siegelPerfectoidToroidalTower` and `hodgeTypePerfectoidToroidalTower` use the fans induced from
+an initial smooth projective fan or strictly compatible pair; their level transitions are finite flat.
 
 B4: `gl2HodgeLineComparison`, `classicalForms`, `cuspForms`, `analyticClassicalComparison`,
 `hilbertCoefficient`, `hilbertCentralDescent`, `unsplitHilbertDescent`, `ramifiedHilbertLine`,
