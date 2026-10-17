@@ -17,6 +17,12 @@ linear classes over the algebraic closure of the coefficient field. It specifies
 transport, both inverse identities, the elliptic sign, central characters and twists. Its inverse
 extends by zero on the other irreducible classes in the finite-length Grothendieck group.
 The degree-two specialization supplies GL2AutomorphicRepresentationsAndTransfer R17.1.1.
+README 2.27 defines cycle multiplicities using absolutely irreducible admissible generic
+representations over the algebraic closure, with prescribed WD inertia and monodromy. It provides
+existence and independence of compact restriction, finite support and descent of each finite
+collection to finite splitting coefficients. The type-detection identities in 2.26.1–2.26.2 use
+these generic representatives; the inverse-zero convention applies to those outside the
+essentially square-integrable subset.
 -/
 
 namespace TauCetiRoadmap.LocalGaloisDeformationRings
@@ -968,6 +974,10 @@ use the exact scheme and integral-Hodge contracts of the README.
 
 The connected dyadic category and selected weight endpoints require their integral-Hodge
 carriers. Their point criteria and ordinary ring isomorphisms are specified in the README.
+In 5.11, determinant equal to the cyclotomic character on the full Galois group means that
+there exists a Kisin basis in which the determinant unit specializes to one at u=0,
+equivalently a basis with determinant Frobenius p*E(u)/E(0). The displayed unit changes by
+φ(det B)/det B under a basis change B; normalization in an arbitrary fixed basis is not required.
 -/
 
 /-! ## Layer 6: Ordinary flags and component comparisons -/
@@ -1066,8 +1076,8 @@ section IdentityChart
 
 variable {A : Type*} [CommRing A]
 
-/-- The residual identity-shape power-series matrix for type `(η, τ)` of actual
-Hodge–Tate weights `{0,1,2}`, including its three unit diagonal coordinates. -/
+/-- The polynomial matrix underlying the residual identity shape of type `(η, τ)` and
+actual weights `{0,1,2}`. The starred parameters occupy the chart's unit-coordinate positions. -/
 noncomputable def identityFrobenius (a b c d e f g h i aStar eStar iStar : A) :
     Matrix (Fin 3) (Fin 3) (Polynomial A) :=
   !![Polynomial.C a + Polynomial.X * Polynomial.C aStar, Polynomial.C b, Polynomial.C c;
@@ -1113,6 +1123,10 @@ example : Matrix.det (identityFrobenius (0 : ℤ) 0 0 0 0 0 0 0 0 1 1 1) =
 end IdentityChart
 
 section MinimalTypeControl
+
+/- The following polynomial identities hold over the displayed coefficient rings. Their
+interpretation as weight-labelled minimal-type components uses README 6.21's 10-generic
+semisimple residual data and nonzero type quotient. -/
 
 /-- The matching formula for the minimal-type `γαγ` chart fixes the coefficient `-1-b+c`.
 At these constants the printed `1-b+c` instead gives a nonzero value. -/
@@ -1409,6 +1423,7 @@ FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.6.7.
 Layer 5: `kisinGroupoid`, `DyadicMinimal.lift`.
 Layer 6: the geometric APIs `Connects.sum_tensor_dual` and `Connects.trans_of_smooth`
 of §6.8, `OrdinaryFixedInertia`, `DiscreteSeriesType`, `IsDiscreteSeriesLift`,
+`discreteSeriesDeformation`,
 `gOrdinaryFlagScheme`, `gOrdinaryRing`, `OrdinaryWithEigenvalue`, `GL3KisinChart`,
 `partitionRing`, `IsTorsionCrystalline`, `IsCrystallineIntegral`, `GSp4.SiegelOrdinary`,
 `rhoNM0`, `GSp4.IsPDistinguishedOrdinary`, `GSp4.BorelOrdinary`,
@@ -1417,10 +1432,22 @@ of §6.8, `OrdinaryFixedInertia`, `DiscreteSeriesType`, `IsDiscreteSeriesLift`,
 `GL3.typeGeometry_of_weakMinimalPatching`, `GL3.auxiliaryLift`, `GL3.scopedGlobalization`,
 `GL3.definiteUnitaryPatching`, `GL3.weakMinimalPatching_exists`,
 `GL3.weakMinimalPatching_multiplicity`, `GL3.weakMinimalPatching_typeSupport`.
+`IsDiscreteSeriesLift` is a predicate on arbitrary coefficient representations;
+`discreteSeriesDeformation` requires a witness `IsDiscreteSeriesLift type ρbar` for the
+fixed residual representation. The liftability, tangent dimension and smooth framed ring of
+README 6.16 retain that witness. Incompatible residual data give an empty condition and a zero
+condition quotient, excluded from `DeformationProblem`.
 The GL₃ type `(η, τ)` has actual weights `{0,1,2}` and determinant weight `3`.
 Its Kisin Frobenius matrices lie over power series with a height condition;
 `GL3KisinChart.frobMatrix` becomes invertible over the completed étale coefficient ring,
 and `GL3KisinChart.shape` is defined on residual Laurent-series field fibres.
+README 6.21 separates abstract polynomial quotients from their arithmetic identification.
+The local length-at-least-two presentation assumes unramified K, semisimple residual data,
+5-generic τ, its lowest-alcove presentation and the inertia and admissible-shape hypotheses
+of LLHLM20 Lemma 3.5.4 at every embedding. Weight-labelled components and minimal-type matching
+assume 10-generic semisimple residual data and a nonzero type quotient, hence 7-generic τ.
+The local 5-generic branch of 6.30 is independent of the uniform weight assignment.
+The auxiliary length-four lift theorem retains its own 6-generic semisimple residual hypotheses.
 The conditional type theorem assumes the functor; its existence for `p > 3` uses
 the separate auxiliary-lift, scoped-globalization and finite-level unitary patching targets.
 Layer 7: `detOrdTilde`, `detOrd`.

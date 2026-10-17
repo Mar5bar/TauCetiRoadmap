@@ -1991,7 +1991,7 @@ For a central division algebra `D/K` of degree `d≥1`, use the smooth-represent
 
 For a `D×` class `π` and matching regular elliptic elements `g_D`,`g` with the same reduced characteristic polynomial, require `Θ_{JL(π)}(g) = (−1)^(d−1) Θ_π(g_D)`. This identity characterizes the equivalence uniquely. Prove independence of the chosen complex transport and compatibility with coefficient-field isomorphisms. Scalar extension preserves the correspondence for absolutely irreducible models over finite coefficient extensions; for each finite collection of types and representation classes used to evaluate the cycle formula in 2.27, enlarge `E` to define absolutely irreducible models of that collection. Central characters agree under the common centre `K×`, and for every smooth character `χ : K× → Ē×` require `JL(π ⊗ (χ ∘ Nrd)) ≅ JL(π) ⊗ (χ ∘ det)`. The inverse has the same twist compatibility, and the correspondence commutes with smooth contragredients. Extend the inverse additively from irreducible `GL_d` classes to the Grothendieck group of finite-length smooth representations, sending each class outside the essentially square-integrable subset to zero. This virtual extension is the inverse-zero convention in 2.27.
 
-Construct `DivisionAlgebraTypes`: the `GL_d(𝒪_K)` and `𝒪_D×` types for the inertial classes used by 2.27, including the Schneider–Zink partition refinements, and their detection multiplicities. Retain the full WD parameter's monodromy partition in detection. Use simple strata and compatible `β`-extensions to construct the types and compare their character formulas on matching elliptic elements; the simple-stratum, `β`-extension and partition-type constructions used here are included in this target; types restricted to distinguished cuspidals do not supply the noncuspidal discrete-series cases. The API includes conjugacy of types, unramified twisting and inertial-class transport.
+Construct `DivisionAlgebraTypes`: the `GL_d(𝒪_K)` and `𝒪_D×` types for the inertial classes used by 2.27, including the Schneider–Zink partition refinements, and their detection multiplicities. Evaluate the `GL_d` detection identities on absolutely irreducible admissible generic representations over `Ē`, with genericity meaning a nonzero Whittaker functional. Retain the full WD parameter's monodromy partition in detection; the compact-restriction independence in 2.27 makes these multiplicities independent of the generic representative. Use simple strata and compatible `β`-extensions to construct the types and compare their character formulas on matching elliptic elements; the simple-stratum, `β`-extension and partition-type constructions used here are included in this target; types restricted to distinguished cuspidals do not supply the noncuspidal discrete-series cases. The API includes conjugacy of types, unramified twisting and inertial-class transport.
 
 **Checks.**
 
@@ -2003,13 +2003,13 @@ Construct `DivisionAlgebraTypes`: the `GL_d(𝒪_K)` and `𝒪_D×` types for th
 
 *Needs:* `SmoothRepresentationsOfLocalGroups`, SR.0 and SR.5; `ReductiveGroupsPartII`, compact subgroups; [2.24](#t2-24).
 
-(Sources: [DOTTO25], introduction, published p. 213, notation, p. 218, §§3–4, Example 3.8, p. 230, and §5, p. 239, with the type-theoretic Jacquet–Langlands comparison used in Theorem 5.3.)
+(Sources: [DOTTO25], introduction, published pp. 213–215, notation, p. 218, §§3–4, Example 3.8, p. 230, and §5, p. 239, with the type-theoretic Jacquet–Langlands comparison used in Theorem 5.3; [Shotton], Theorem 3.7 and Example 3.8, arXiv v2 pp. 13–14.)
 
 <a id="t2-26-2"></a>
 
 ### 2.26.2 Integral and mod-`p` Jacquet–Langlands maps
 
-With the coefficients and types of 2.26.1, construct the additive Grothendieck-group transfers `DivisionAlgebraTypes.integralTransfer` `(JL_K)` and `DivisionAlgebraTypes.modpTransfer` `(JL_p)`, where `JL_p` is required for `p≠2`. Retain stable lattices and reduction maps, rather than asserting a functor between irreducible representations. Give the level-zero Deligne–Lusztig description and prove the reduction compatibility on the type classes: `JL_p(σ̄_D(τ,λ))=σ̄^+_{P_min}(τ,λ)`. For the away-from-`p` cycle application carry the residue-characteristic/coefficient-prime distinction of Dotto §6. The API provides additivity, independence of lattice in the Grothendieck class, partition signs consistent with 2.26.1 and the type detection identities needed to compose with the `GL_d` cycle map. Construct transfer on type generators and compare Brauer characters, using unramified base change and compatible simple-type character formulas. Construct the finite `GL` character induction and the level-zero virtual classes from the Deligne–Lusztig character formulas used in Dotto §§2–4, with their degree, sign and restriction identities; these finite-group calculations are part of this target.
+With the coefficients and types of 2.26.1, construct the additive Grothendieck-group transfers `DivisionAlgebraTypes.integralTransfer` `(JL_K)` and `DivisionAlgebraTypes.modpTransfer` `(JL_p)`, where `JL_p` is required for `p≠2`. Retain stable lattices and reduction maps, rather than asserting a functor between irreducible representations. Give the level-zero Deligne–Lusztig description and prove the reduction compatibility on the type classes: `JL_p(σ̄_D(τ,λ))=σ̄^+_{P_min}(τ,λ)`. For the away-from-`p` cycle application carry the residue-characteristic/coefficient-prime distinction of Dotto §6. The API provides additivity, independence of lattice in the Grothendieck class, partition signs consistent with 2.26.1 and the type detection identities needed to compose with the `GL_d` cycle map, evaluated on the generic representatives of 2.27 and their inverse-zero transfers. Construct transfer on type generators and compare Brauer characters, using unramified base change and compatible simple-type character formulas. Construct the finite `GL` character induction and the level-zero virtual classes from the Deligne–Lusztig character formulas used in Dotto §§2–4, with their degree, sign and restriction identities; these finite-group calculations are part of this target.
 
 **Checks.**
 
@@ -2025,11 +2025,20 @@ With the coefficients and types of 2.26.1, construct the additive Grothendieck-g
 
 ### 2.27 Breuil–Mézard cycles for central division algebras away from `p`
 
-Let `D/K` be central division of degree `d`, `ℓ≠p`, and choose `E` defining all types and making both fibre components geometrically irreducible. Define `cyc(σ)=Σ_{(τ,N)} dim Hom_{GL_d(𝒪_K)}(σ∨,π_{τ,N})[R□(τ,N)]`, in dimension `d²+1`; `cyc_D` uses `Hom_{𝒪_D×}(σ∨,JL⁻¹π_{τ,N})`, with `JL⁻¹` zero outside essentially square-integrable representations. Then `cyc_D=cyc∘JL_K`. For `p≠2` there is a unique special-cycle map in dimension `d²` satisfying `red∘cyc_D=cyc̄_D∘r_p`. Under `p≠2` and even `d`, inflate an order-`p` character of the quadratic residue extension through `N_{k_D/k′}`; its type ring and Steinberg have isomorphic reduced special-fibre subschemes. Equal cycles do not assert reducedness of either original fibre.
+Let `D/K` be central division of degree `d`, with residue characteristic `ℓ≠p`, and choose `E` defining the occurring types and making the irreducible components of both fibres geometrically irreducible. For each occurring pair `(τ,N)`, choose an absolutely irreducible admissible generic representation `π_{τ,N}` of `GL_d(K)` over `Ē` whose WD parameter has that inertia and monodromy. Prove existence by the segment classification and generic choices of unramified twists. Prove that any two such generic choices have isomorphic restrictions to `GL_d(𝒪_K)`, hence the same finite detection multiplicities. These existence and independence statements are targets here, using Shotton Lemma 4.1 and Definition 4.2; the characteristic-zero Jacquet–Langlands equivalence remains 2.26.1.
+
+Define `cyc(σ)=Σ_{(τ,N)} dim_{Ē} Hom_{GL_d(𝒪_K)}(σ∨⊗Ē,π_{τ,N})[R□(τ,N)]`, in dimension `d²+1`. Prove finite support for each finite-length compact representation `σ`. For each calculation descend its finite collection of types, generic representations and nonzero division-algebra transfers to absolutely irreducible models over a sufficiently large finite extension of `E`, with compatibility under further extension. Define `cyc_D` by the same sum using `Hom_{𝒪_D×}(σ∨⊗Ē,JL⁻¹π_{τ,N})`. Here the inverse-zero convention is applied to these generic representatives: an essentially square-integrable one has its inverse from 2.26.1, and every other one contributes zero. Prove independence of the generic choice also for these division-algebra multiplicities, using the type-detection identity of 2.26.2 and the compact-restriction independence above. Then `cyc_D=cyc∘JL_K`. For `p≠2` there is a unique special-cycle map in dimension `d²` satisfying `red∘cyc_D=cyc̄_D∘r_p`. Under `p≠2` and even `d`, inflate an order-`p` character of the quadratic residue extension through `N_{k_D/k′}`; its type ring and Steinberg have isomorphic reduced special-fibre subschemes. Equal cycles do not assert reducedness of either original fibre.
+
+**Checks.**
+
+- For `d=2`, trivial inertia and `N=0`, the inflated finite Steinberg type has multiplicity zero in the trivial `GL₂(K)` representation and one in the irreducible normalized principal series `Ind_B(1⊗1)`: its principal-congruence invariants are `1⊕St`. The trivial representation is nongeneric and cannot be used to define the coefficient.
+- With `K=ℚ₁₁`, `p=5` and `ρ̄=1⊕1`, both parameters in the preceding comparison have integral models reducing to `ρ̄` after adjoining `√11≡1 mod 5`. Thus nonvanishing of the type quotient does not remove the need for genericity.
+- An unramified twist of a generic representative has isomorphic compact restriction and the same multiplicities. A generic irreducible principal series has inverse-zero transfer, whereas `St_d` has the trivial division-algebra inverse.
+- Finite coefficient extension preserves the Hom dimensions of the split absolutely irreducible models and transports the cycles by scalar extension.
 
 *Needs:* [2.26.1](#t2-26-1); [2.26.2](#t2-26-2); [2.18](#t2-18); [2.24](#t2-24); [2.15](#t2-15).
 
-(Sources: [NT26], proof of Lemma 3.6, arXiv v2 pp. 18–19; [DOTTO25], §6, case `ℓ ≠ p` and Theorem 6.3, pp. 243–245 (journal pages); [Shotton], Theorem 4.6, arXiv v2 p. 17 (with the abstract).)
+(Sources: [NT26], proof of Lemma 3.6, arXiv v2 pp. 18–19; [DOTTO25], §6, case `ℓ ≠ p` and Theorem 6.3, pp. 243–245 (journal pages); [Shotton], §3.5, arXiv v2 pp. 14–15, Lemma 4.1 and Definitions 4.2, 4.4, pp. 16–17, and Theorem 4.6, p. 17.)
 
 <a id="t2-28"></a>
 
@@ -2741,7 +2750,13 @@ Over each complete local deformation family, the Kisin-to-étale forgetful map i
 
 ### 5.11 Rank-two Kisin modules of type `v` and their determinant
 
-The rank-two maximal-isotropic condition modulo `E(u)` forces determinant `pE(u)/E(0)` times a unit. Connected residual type-`v` modules have connected deformations without multiplicative part. Realization determinant is `χ` on inertia, and on all `G_K` iff the determinant unit has trivial reduction in `W(k)⊗A`, equivalently a basis gives `pE(u)/E(0)`.
+The rank-two maximal-isotropic condition modulo `E(u)` forces `det H=(pE(u)/E(0))w` with `w` a unit. Connected residual type-`v` modules have connected deformations without multiplicative part. Realization determinant is `χ` on inertia, and on all `G_K` iff there exists a Kisin basis in which `w` maps to 1 under `u↦0` in `W(k)⊗A`; equivalently, there exists a basis with determinant Frobenius `pE(u)/E(0)`. Under a basis change `B`, the unit is multiplied by `φ(det B)/det B`, so the condition quantifies the basis.
+
+**Checks.**
+
+- A basis with `det H=pE(u)/E(0)` has `w=1` and gives determinant `χ` on all `G_K`.
+- A unit with `w(0)=1` is a Frobenius coboundary, so changing the determinant basis removes it and gives the exact normalized determinant.
+- Over `(W(𝔽₄)/4)[[u]]`, choose Teichmüller `a` with `a²+a+1=0` and put `c=1+2a`. The strict change `B=diag(c,1)` has `φ(c)/c=3 mod 4`; it changes a displayed `w(0)=1` to 3 while preserving the object and the existence of a normalized basis.
 
 *Needs:* [5.1](#t5-1); [5.8](#t5-8); [4.9](#t4-9).
 
@@ -2841,14 +2856,14 @@ The construction provides the following API.
 
 ### 6.4 Discrete series deformations away from `l` (CHT §2.4.5)
 
-Let `d=mr` and fix a rank-`r` reference lift `r̃` with absolutely irreducible reduction, absolutely irreducible inertia constituents and `r̃⊗k≇(r̃⊗k)(i)` for `1≤i≤m`. The reference representation is induced from an unramified extension, and lifts with its inertia restriction are induced after a unique unramified twist; its inertia centralizer reduces surjectively. Define a discrete-series lift by a decreasing direct-summand filtration with `gr^i≅gr⁰(i)` and `gr⁰|_I≅r̃|_I`. Its filtration is unique and coefficient compatible, and the condition is a local deformation problem. For `r=1` it is the filtration version of Steinberg; its twist-separation hypothesis excludes `q≡±1 mod p` in rank two, unlike the Steinberg flat closure.
+Let `d=mr` and fix a rank-`r` reference lift `r̃` with absolutely irreducible reduction, absolutely irreducible inertia constituents and `r̃⊗k≇(r̃⊗k)(i)` for `1≤i≤m`. The reference representation is induced from an unramified extension, and lifts with its inertia restriction are induced after a unique unramified twist; its inertia centralizer reduces surjectively. Define the discrete-series predicate on arbitrary coefficient representations by a decreasing direct-summand filtration with `gr^i≅gr⁰(i)` and `gr⁰|_I≅r̃|_I`. Its filtration is unique and coefficient compatible. For a fixed residual `ρ̄`, require a witness `IsDiscreteSeriesLift type ρ̄` before constructing the local deformation problem of its lifts. If this witness does not exist, reduction makes the condition empty over every coefficient object; it may have a zero condition quotient, but is not a `DeformationProblem` of F.3.1. For `r=1` it is the filtration version of Steinberg; its twist-separation hypothesis excludes `q≡±1 mod p` in rank two, unlike the Steinberg flat closure.
 
 The construction provides the following API.
 
 - `DiscreteSeriesType`: `(m, d, r̃_v)` with conditions (1)–(3).
 - `IsDiscreteSeriesLift`: Definition 2.4.24: the filtration with `gr^i ≅ gr⁰(i)` and `gr⁰|_I ≅ r̃_v|_I ⊗ R`.
 - `IsDiscreteSeriesLift.filtration_unique`: Lemma 2.4.25.
-- `discreteSeriesDeformation`: Lemma 2.4.26: a local deformation problem.
+- `discreteSeriesDeformation`: Given `hρ̄ : IsDiscreteSeriesLift type ρ̄`, Lemma 2.4.26 constructs a local deformation problem of lifts of `ρ̄`.
 - `DiscreteSeriesType.induced`: Lemma 2.4.23: `r̃_v ≅ Ind s_v`.
 - `DiscreteSeriesType.filtration_baseChange`: Coefficient maps preserve the unique filtration, graded identifications and fixed prime-to-`p` inertia lift.
 
@@ -2858,10 +2873,11 @@ The construction provides the following API.
 - `m = 1`: lifts with `ρ|_I ≅ r̃_v|_I ⊗ R`, i.e. minimally ramified type `r̃_v`.
 - If `q ≡ 1 mod l` (`l` the coefficient characteristic) then `k(1) ≅ k` and condition (3) fails for `i = 1`.
 - `m=1`, `r=d=2` with `r̃_v` induced from the unramified quadratic extension (a supercuspidal type).
+- For `K=ℚ₃`, `p=5`, `k=𝔽₅`, `r̃=1` and `d=m=2`, the reference twists have Frobenius values 3 and 4, so twist separation holds. But `ρ̄=1⊕1` has only trivial subquotients and cannot have `gr¹≅gr⁰(1)`. Its condition is empty and has no `discreteSeriesDeformation`.
 
 *Needs:* [1.1](#t1-1); [2.5](#t2-5).
 
-(Sources: [CHT08], §2.4.5, the set-up, p. 47; [CHT08], §2.4.5, Definition 2.4.24, p. 49.)
+(Sources: [CHT08], §2.4.5, the set-up, p. 47, Definition 2.4.24 and Lemma 2.4.25, p. 49, Lemma 2.4.26, p. 50, and the standing residual hypothesis preceding Lemma 2.4.27, p. 51.)
 
 <a id="t6-5"></a>
 
@@ -3127,7 +3143,13 @@ In the third row `[c_η:d_η]` depends only on `η` and `c_η=0` exactly for peu
 
 ### 6.16 Discrete series deformations are formally smooth of relative dimension `n²` (CHT Lemmas 2.4.27–2.4.30)
 
-The discrete-series lifting problem is liftable and its framed ring is formally smooth of relative dimension `d²`. Its tangent dimension is `h⁰(ad ρ̄)`. For rank-one reference type and `p∤d`, identify the tangent as the unramified scalar `H¹` plus the kernel of `H¹(ad⁰)→H¹(ad/Fil¹ad)`. This direct-sum description uses the scalar/trace-zero splitting; when `p|d` the liftability and dimension assertions still apply, but the tangent is kept as a subspace of `H¹(ad)`. In the induction proof the rank of the last graded piece is `r`, and the dimension identity is `r(d−r)+(d−r)²+(r²−1)+r(d−r)+1=d²`.
+For the reference type of 6.4 and a witness `hρ̄ : IsDiscreteSeriesLift type ρ̄`, the resulting discrete-series lifting problem is liftable and its framed ring is formally smooth of relative dimension `d²`. Its tangent dimension is `h⁰(ad ρ̄)`. For rank-one reference type and `p∤d`, identify the tangent as the unramified scalar `H¹` plus the kernel of `H¹(ad⁰)→H¹(ad/Fil¹ad)`. This direct-sum description uses the scalar/trace-zero splitting; when `p|d` the liftability and dimension assertions still apply, but the tangent is kept as a subspace of `H¹(ad)`. In the induction proof the rank of the last graded piece is `r`, and the dimension identity is `r(d−r)+(d−r)²+(r²−1)+r(d−r)+1=d²`.
+
+**Checks.**
+
+- A compatible rank-two residual filtration with rank-one reference type gives framed relative dimension four.
+- For `K=ℚ₃`, `p=5`, `r̃=1` and `ρ̄=1⊕1`, the missing residual cyclotomic filtration makes the condition empty, so there is no smooth relative-dimension-four representing ring.
+- The induction with `m=1`, hence `r=d`, gives `(d²−1)+1=d²`; the residual witness still fixes the required inertia type.
 
 *Needs:* [6.4](#t6-4); [1.1](#t1-1); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
@@ -3204,9 +3226,11 @@ A semisimple Kisin module has the explicit shape normal form and a semisimple `G
 
 ### 6.21 Explicit `GL₃` rings for shapes of length two, three and four (LLHLM Tables 3–4)
 
-For the unique semisimple residual Kisin module of type `(η,τ)`, with actual weights `{0,1,2}`, use the length-two/three shape presentations and minimal-prime generators displayed below, up to the outer affine-Weyl automorphisms. Keep the Table `3/4` indexing: a type written `τ(s,μ)` has lowest-alcove parameter `μ−η`, and the row for `w_{f−1−i}` uses `s_i⁻¹μ_i`. Unit coordinates `c*` are expanded about their chosen residual values. The listed ideals are primes in the presented quotient, not primes in the ambient power-series ring. The length-three rows have two components and the length-two rows four; the minimal-type length-four rows are smooth, and the length-three minimal-type rows are two-factor hypersurfaces.
+The displayed matrices and equations define abstract completed polynomial quotients once the constants and residual unit coordinates are specified. Their local identification with length-at-least-two deformation charts assumes `p>3`, unramified `K/ℚ_p` of degree `f`, continuous semisimple `ρ̄`, and a 5-generic tame type `τ` with lowest-alcove presentation `(s,ν)`. Require the inertia identity `V(ρ̄|I_K)=R_{s w̃*}(ν+η)` of LLHLM20 Lemma 3.5.4, with admissible shape `w̃=(w̃_j)` and `ℓ(w̃_j)>1` at every embedding. Here `V` attaches to semisimple residual inertia its characteristic-zero representation of `GL₃(k_K)`, and `R_s` denotes the Deligne–Lusztig representation, as in LLHLM20 §2.2. The unique residual Kisin module of type `(η,τ)` is then semisimple; the actual weights are `{0,1,2}`. Identify the monodromy quotients with the deformation charts via the formally smooth gauge/framing comparisons, rather than identifying rings of different dimensions. This local theorem retains its 5-generic scope independently of patching, as in 6.30.
 
-The coordinate data below specify the matrices, relation ideals, weight labels and minimal-type matching elements. Each starred coordinate is a unit in its completed chart.
+For the weight labels, canonical minimal-prime assignment and minimal-type matching of Tables 3–4, assume in addition that `ρ̄` is 10-generic and `R^τ_{ρ̄}≠0`, the scope of LLHLM20 §3.6.1; thus `τ` is 7-generic. In this scope use the length-two/three shape presentations and minimal-prime generators below, up to the outer affine-Weyl automorphisms. Keep the Table `3/4` indexing: a type written `τ(s,μ)` has lowest-alcove parameter `μ−η`, and the row for `w_{f−1−i}` uses `s_i⁻¹μ_i`. Unit coordinates `c*` are expanded about their chosen residual values. The listed ideals are primes in the presented quotient. The length-three rows have two components and the length-two rows four; the minimal-type length-four rows are smooth, and the length-three minimal-type rows are two-factor hypersurfaces. The abstract equations alone carry no assertion of primeness or weight matching outside these hypotheses.
+
+The coordinate data below specify the matrices, relation ideals, weight labels and minimal-type matching elements. Each starred coordinate is a unit in its completed chart. The length-four auxiliary-lift theorem of 6.30 retains its own 6-generic semisimple residual hypotheses.
 
 - **`βαγ`**. `A = (v c11, v c*12, 0; v² c*21, v c22, 0; v(c31 + v d31), v c32, c*33)`; relations `c11 c22 = 0`, `(−1 − a + c) c*12 c31 − (−1 − b + c) c32 c11 = 0`; primes `(ε1+ε2, 0)`: `(c11)`, `z̃* = βγ⁺β`; `(ε2, 1)`: `(c22)`, `z̃* = α`.
 
@@ -3230,11 +3254,13 @@ The `αβ` relations use (3.14), rather than the conflicting sign in the compres
 - Setting `c′33=0` makes the `γαγ` relation zero, retaining its first component regardless of the second factor.
 - Over `𝔽_79[[T]]`, set `(a′,b′,c′)=(24,12,0)`, `c′12=c′21=T`, `c′*11=1`, `d′22=8T²` and `c′33=T`. The second factor is `−25T²+13·8T²=79T²=0`. The incorrect coefficient `1−b′+c′` gives `63T²` instead, hence a nonzero relation `63T³`.
 - For the same constants, set `c′12=c′21=d′22=T` and `c′33=0`. The second factor `−25T²+13T` is nonzero although the full relation vanishes. Replacing the product equation by only its second factor would remove the first component.
+- A 5-generic type with semisimple residual data, the stated inertia identity and all shape lengths at least two has the local presentation and component count `Π_j2^{4−ℓ(w̃_j)}`, without a 10-generic residual hypothesis. Uniqueness of a module for a merely 3-generic type does not supply this presentation theorem.
+- If an abstract `αβα` quotient is specialized to `a=b=c`, its displayed relation vanishes identically. Its two named factors therefore do not define the asserted pair of minimal primes; specifying a polynomial quotient alone cannot extend the generic component assertion to arbitrary constants.
 
 
 *Needs:* [6.9](#t6-9); [1.1](#t1-1).
 
-(Sources: [LLHLM20], Table 3, published p. 51 (arXiv v4 p. 53), and its second part, published p. 52 (arXiv v4 p. 54); [LLHLM20], §3.6.2, (3.14), arXiv v4 p. 43; [LLHLM20], Table 4, published p. 60 (arXiv v4 p. 55).)
+(Sources: [LLHLM18], §5.3, arXiv v3 pp. 55–56, and §6; [LLHLM20], Lemma 3.5.4, arXiv v4 pp. 29–30, and §3.6.1, pp. 36–39; [LLHLM20], Table 3, published p. 51 (arXiv v4 p. 53), and its second part, published p. 52 (arXiv v4 p. 54); [LLHLM20], §3.6.2, (3.14), arXiv v4 p. 43; [LLHLM20], Table 4, published p. 60 (arXiv v4 p. 55).)
 
 <a id="t6-22"></a>
 
@@ -3524,9 +3550,15 @@ The list supplies necessary conditions, without asserting a converse for every l
 
 For `p>2` and finite-flat `ρ̄⊗ε̄`, all ordinary pure crystalline weight-two lifts lie on one component of `R△`, each on a unique component of relative dimension sixteen. If a component `R△/Q` surjects onto weight space, some minimal prime of `R△/(p)` contains `Q` and no other generic minimal prime, and that component has relative dimension sixteen. Surjectivity to weight space is a hypothesis, not a conclusion for every component.
 
+**Checks.**
+
+- Two ordinary pure weight-two lifts with the stated finite-flat residual twist lie on the same unique component, of relative dimension sixteen.
+- For a component surjecting onto weight space, the special-fibre prime furnished by Lemma 6.2.6 contains exactly its generic minimal prime among those of `R△`.
+- The second assertion requires surjectivity for the selected component; existence of an ordinary point alone does not discharge that hypothesis.
+
 *Needs:* [6.31](#t6-31); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`; [6.32](#t6-32).
 
-(Sources: [BCGP25], Lemma 6.2.5, arXiv v1 p. 145.)
+(Sources: [BCGP25], Lemmas 6.2.5–6.2.6, arXiv v1 pp. 145–146.)
 
 ### Examples
 
