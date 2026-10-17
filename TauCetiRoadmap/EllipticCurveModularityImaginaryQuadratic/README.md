@@ -111,7 +111,7 @@ The named outputs below are consumed with their hypotheses. Roadmap interfaces a
 | `LefschetzPencilsAndVanishingCycles`, LPV.2 §2.8 and LPV.7a nodal-curve monodromy | Picard–Lefschetz and the local smoothing-order-one transvection. Layer 3 supplies this family's actual cycles, integral marking and common transport, rather than assuming its monodromy is that of a Lefschetz pencil. |
 | `SmallRamificationAndAbelianVarietyBaseCases` §5.0d | Shared `AutomorphicSystemData` for an arbitrary number field and rank, with coefficient field, good polynomials, finite realization fields and labelled Hodge data. Its operations are separate from compatibility predicates. Populate this carrier in §4.1; do not create a competing rank-two carrier. |
 | `PotentialModularityAndCompatibleSystems`, Layer 1 (§§1.1–1.4), together with `AutomorphicGaloisRepresentations` §7.1 | Compatibility predicates, coefficient extension, finite restriction, residual semisimplification and common-polynomial recognition, adapted to the single shared raw carrier above. Potential modularity Layer 5 is a transitive input to the residual-modularity supplier, not a hypothesis on E. |
-| `ArithmeticGaloisRepresentations`, Layers 1–2, §§4.2–4.7, Layers 5–6 | Full WD carrier and conventions; Serre large image over a fixed number field, commutators, Goursat, Chebotarev and Brauer–Nesbitt recognition; dual Tate modules and determinant. Layer 7 owns the simultaneous all-character specialization. |
+| `ArithmeticGaloisRepresentations`, Layers 1–2, §§4.2–4.7, Layers 5–6 | Full WD carrier and conventions; restriction and persistence of an assumed large image, commutators, Goursat, Chebotarev and Brauer–Nesbitt recognition; dual Tate modules and determinant. Section 5.1 owns Serre’s non-CM elliptic large-prime existence theorem; Layer 7 owns the simultaneous all-character specialization. |
 | `FaltingsFinitenessAndIsogenyTheorems`, R28.4 and §§R28.6.2–R28.6.3 | Semisimplicity of the rational Tate representation of an abelian variety, preserved on deck-character summands. |
 | `AutomorphicGaloisRepresentations` §3.13, `geometricCharacter_isHeckeAvatar`, and `AutomorphicGaloisRepresentationsPartII` AG2.0, `AlgHeckeChar.galoisChar` | A continuous rank-one character over a finite extension of Q_ℓ, finitely ramified and de Rham above ℓ, is an algebraic Hecke-character avatar; conversely such avatars have the prescribed labelled Hodge degrees and local class-field parameters. Together with CM endomorphism eigenspaces and common Frobenius polynomials, this supplies the CM comparison in §8.6. No higher-rank Fontaine–Mazur assertion is consumed. |
 | LocalGaloisDeformationRings Layers 1–6 and 8; GlobalGaloisDeformations R04.3–R04.6; DeformationAndDerivedPatchingAlgebra §§8.2–8.5 and 9.4–9.7 | Local crystalline/ordinary components, global deformation rings, finite-complex patching, paired residual data and spectral support transport. Layer 0 constructs the integral arithmetic complexes and maps; §5.2 proves the full CN Theorem 5.2 from them. |
@@ -180,7 +180,7 @@ scheme of a curve without a rational point used in §4.2.
 
 | Layer | Output used next |
 |---|---|
-| 0 | Independent integral CM patching and the AKT elliptic seed, with arbitrary-number-field paired twists. |
+| 0 | Independent integral CM patching, arbitrary-number-field paired twists, the AKT elliptic seed and its all-coefficient elliptic comparison. |
 | 1 | Normalized cyclic covers of the twist, with compatible quotient maps and reflection. |
 | 2 | Compact-type fiber E^m and the second nodal fiber with m smoothing-order-one nodes. |
 | 3 | Integral regular-module marking and two opposite monodromies in a common basis. |
@@ -210,8 +210,9 @@ residue field k. Derived Hecke algebras mean the commutative images of the state
 derived endomorphisms, with their coefficient and level maps.
 
 **`cm_torsion_local_deformation_hecke`** — Let n≥1, F be CM containing an
-imaginary quadratic subfield in which p splits, and T a conjugation-stable set
-of finite places containing Sp. For every v∉T of residue characteristic ℓ,
+imaginary quadratic subfield in which p splits, and T a finite
+conjugation-stable set of finite places containing Sp. For every v∉T of
+residue characteristic ℓ,
 require either that ℓ is unramified in F and no ℓ-adic place lies in T, or
 that ℓ splits in an imaginary quadratic subfield of F. Let K be a good GLn
 level, hyperspecial outside T, and λ a dominant weight. Choose distinct
@@ -223,8 +224,8 @@ the chosen parabolic at a are units at m. Construct a continuous
 `ρ_m:G_F,T→GLn(T_K/J)` with the unramified Hecke polynomials, where
 `T_K = T^{Q_a,{a-ord}}(RΓ(X_K,V_λ)_m)` and `J^δ=0` for a δ depending only
 on n and [F⁺:ℚ]. The same bound applies for every coefficient quotient O/ϖʳ,
-weight and allowed level; retain compatible coefficient reductions and the
-integral inverse-limit comparison.
+weight and allowed level for this fixed finite T; retain compatible coefficient
+reductions and the integral inverse-limit comparison.
 
 The induced local framed maps factor through the prescribed rings: for
 partition (n,1,…,1) of 2n, ordinary at the chosen place ã|a and crystalline
@@ -243,6 +244,8 @@ kernel from derived endomorphisms to cohomology actions.
 
 **Checks.**
 
+- Taking T to be all finite places is excluded: it would leave no away-T
+  Frobenius Hecke operators for the stated construction.
 - For n=2 and odd p, determinant εp⁻¹ has labeled weight 1, as required
   for the weight-zero fixed-determinant Barsotti–Tate application.
 - The mixed partition (2,1,1) gives an ordinary/crystalline pair; imposing
@@ -383,8 +386,9 @@ Taylor–Wiles augmentations. Construct the deformation-to-derived-Hecke
 surjections with one exponent δ(F) at every level and weight, with the
 fixed determinant and diamond actions, as in Propositions A.11 and A.13.
 Supply the paired datum of §8.2 over Λ for χ=1 and χ_v²≠1, including
-weight specialization and all residual action diagrams. (AKT, Lemmas
-A.8–A.12 and Proposition A.13, pp.89–92; paired patch, pp.92–93.)
+weight specialization and all residual action diagrams. (AKT, Lemmas A.8,
+A.10 and A.12 and Propositions A.9, A.11 and A.13, pp.89–92; paired patch,
+pp.92–93.)
 
 For the dyadic branch use AKT §6.1's prepared GL₂ data: an absolutely
 irreducible soluble ρ̄ over a finite characteristic-two k, decomposed generic,
@@ -511,6 +515,13 @@ isomorphism; ModularCurves §0E and ModularCurvesPartII §5.13.
 - A representation of GF need not descend to Gℚ; its twist is still defined
   over F, while the comparison with §5.14 requires that descent hypothesis.
 
+<a id="iq4"></a>
+
+#### IQ.4 — Fixed-pairing twist rationality
+
+This export is `fixed_pairing_twist_rational` for p=3,5, with the
+determinant-compatible SL₂ cocycle lift.
+
 **`fixed_pairing_twist_rational`** — Under the hypotheses of
 `fixed_pairing_twist`, Xρ̄ is F-isomorphic to ℙ¹ and Yρ̄ is its cusp
 complement. Prove that the projective twisting cocycle lifts to an SL₂-cocycle
@@ -595,8 +606,9 @@ Mathlib `groupCohomology.H1ofAutOnUnitsUnique`.
 
 In this layer “modular” for an elliptic curve over a CM field means either
 geometric CM or a cuspidal weight-zero automorphic realization of its H¹ at
-one prime. The non-CM seed outputs below use the second alternative. Section
-5.4 gives all-prime compatibility once that one realization is proved; §8.6
+one prime. The non-CM seed outputs below use the second alternative. The
+comparison `modular_elliptic_all_coefficients` in this section gives all-prime
+compatibility once that one realization is proved; §8.6
 constructs the actual isobaric realization for the CM branch.
 
 
@@ -635,6 +647,50 @@ No condition at places above 5 occurs; changing the 5-adic reduction does not af
 
 Every place over the prescribed prime is constrained, not just the chosen lift of a place. A point found by finite search is not a substitute for avoiding the thin set.
 
+#### What elliptic modularity supplies after it is known
+
+Retain the elliptic comparison **`modular_elliptic_all_coefficients`** as an
+application of the automorphic Galois, purity and transfer suppliers:
+for a non-CM elliptic D over a CM number field, if a weight-zero cuspidal π
+realizes H¹(D) at one prime, the same π has trivial central character,
+realizes H¹(D) at every prime and coefficient isomorphism, and satisfies
+full `WD^(F-ss)=rec^T(π_v)` for v∤ℓ, with N retained. At a potentially
+multiplicative v|ℓ it is ι-ordinary of weight zero. The API components retain the names `automorphic_unique` (uniqueness and
+trivial central character), `automorphic_all_primes` (the same π at all
+coefficients), `automorphic_wd` (full away-prime WD comparison) and
+`automorphic_potentially_multiplicative_ordinary` (the coefficient-prime
+ordinary conclusion). All carry precisely the non-CM, CM-base and initial
+realization hypotheses of this paragraph. Uniqueness is up to isomorphism
+by strong multiplicity one. (OpenAI Theorem 6.4, pp.15–16;
+CN Lemma 6.1.3(1)–(4), p.88.)
+
+Equality of good-place polynomials and semisimplicity identify the same
+π at all coefficient primes by Chebotarev–Brauer–Nesbitt; strong multiplicity
+one gives uniqueness, and the determinant gives trivial central character.
+For full away-prime WD comparison, use Varma’s Weil comparison and monodromy
+bound. If the elliptic N is zero, potential good reduction makes the two
+Weil roots have equal absolute value; a nonzero automorphic N would force
+a norm ratio. This excludes the only remaining strict monodromy inequality
+in rank two. At a potentially multiplicative place use a different coefficient prime:
+full WD comparison identifies the local factor as a quadratic Steinberg twist.
+The normalized U_v eigenline at a level trivializing that finite character
+has unit eigenvalue, giving ι-ordinarity also for ramified quadratic twists.
+These arguments use only the initial elliptic realization. (AKT, Lemma 9.1
+and Corollary 9.2, p.73; CN, Lemma 6.1.3, p.88.)
+
+*Needs:* AutomorphicGaloisRepresentationsPartII AG2.5–AG2.7;
+ArithmeticGaloisRepresentations §2.6 and Layers 5–6;
+NeronModelsAndSemistableAbelianVarieties §6.10;
+FaltingsFinitenessAndIsogenyTheorems R28.4;
+GL2AutomorphicRepresentationsAndTransfer R16.3–R16.6 and R17.4.
+
+**Checks.** The all-coefficient conclusion is for the same π, not a new
+choice at each prime. At a Tate place N has rank one, so Weil
+semisimplification alone would omit a necessary part of the conclusion.
+At v|ℓ the ordinary conclusion uses an auxiliary coefficient prime to
+recognize the local Steinberg twist; it does not apply away-prime comparison
+with the coefficient and residue primes equal.
+
 #### Prescribed-type outputs and their automorphic local types
 
 The retained Tate places give the auxiliary curve a non-CM witness independently of its prescribed ordinary/supersingular partition. Use ShimuraVarieties §5.6 after a finite extension defining all geometric CM endomorphisms to obtain potential good reduction everywhere; combine this with nonintegral j at a Tate place before choosing its cuspidal modular representation. The good-reduction comparison then gives an unramified local factor, while the multiplicative comparison gives ordinarity.
@@ -647,13 +703,21 @@ Taking S5ss to be all 5-adic places yields an auxiliary curve with good supersin
 
 **`switch_three`** — Let F be imaginary CM with ζ5∉F, ρ̄:GF→GL₂(𝔽3) continuous with det=ε̄3 and decomposed generic, and partition all places v|3 as S3st⊔S3ord⊔S3ss. For every finite Galois Favoid/F there exist a finite Galois solvable CM extension L/F and a non-CM modular elliptic curve A/L such that L∩Favoid=F, A/Lw has respectively split multiplicative, good ordinary or good supersingular reduction for every w|v in the corresponding part, r̄A,3≅ρ̄|GL, and ρ̄|GL remains decomposed generic. The construction also retains Tate reduction at every place above 5, independently of the prescribed 3-adic partition. These Tate places force A to be non-CM because a CM elliptic curve has potentially good reduction everywhere. (CN, Proposition 6.1.6, pp.89–90; AKT §9, Corollary 9.14 and Proposition 9.15, pp.80–81.)
 
-*Needs:* §0.3 `solvable_preparation`, §0.3 `hilbert_local_selection`, §0.3 `switch_five`, §0.3 `seed_modular`, ArithmeticGaloisRepresentations §§4.2–4.7, EllipticCurves Layer 1, EllipticCurves Layer 4, ShimuraVarieties §5.6 `TauCeti.Shimura.cm_potential_good_reduction`.
+*Needs:* §0.3 `solvable_preparation`, §0.3 `hilbert_local_selection`, §0.3 `switch_five`, §0.3 `seed_modular`, §0.3 `modular_elliptic_all_coefficients`, ArithmeticGaloisRepresentations §§4.2–4.7, EllipticCurves Layer 1, EllipticCurves Layer 4, ShimuraVarieties §5.6 `TauCeti.Shimura.cm_potential_good_reduction`.
 
 The ζ5 condition belongs here and is kept when invoking the ordinary mod-5 seed. Supersingular at 3 is allowed; ordinary modularity lifting is used at 5, not incorrectly at 3. The auxiliary curve is non-CM even when every prescribed 3-adic place is supersingular: retain its Tate places above 5.
 
 **`auxiliary_local_types`** — For A/L supplied by switch_five (p=5) or switch_three (p=3), A is non-CM by its retained Tate places; let π be its weight-zero cuspidal modular representation with rπ,ι≅H¹(A). For every w|p above v of F, π is ι-ordinary if v∈Spst; πw is unramified if v∈Spord∪Spss. In the latter case the associated p-adic representation is crystalline with N=0 and is potentially ordinary precisely in the ordinary case. Use p=5 for switch_five and p=3 for switch_three when applying CN Lemma 6.1.7. (CN, Lemma 6.1.7, p.90, and Theorem 6.1 proof.)
 
-*Needs:* §0.3 `switch_five`, §0.3 `switch_three`, §5.4 `modular_elliptic_all_coefficients` and §8.1 `character_automorphic_local_type`, EllipticCurves Layer 4, EllipticCurves Layer 1, ShimuraVarieties §5.6 `TauCeti.Shimura.cm_potential_good_reduction`.
+*Needs:* §0.3 `switch_five`, §0.3 `switch_three`, §0.3 `modular_elliptic_all_coefficients`, EllipticCurves Layers 1 and 4, ShimuraVarieties §5.6 `TauCeti.Shimura.cm_potential_good_reduction`.
+
+For a good ordinary or supersingular A/Lw, apply `automorphic_wd` at a
+coefficient prime different from the residue characteristic of w. Its
+unramified elliptic WD parameter with N=0 gives a spherical πw by local
+Langlands. At a Tate place use
+`automorphic_potentially_multiplicative_ordinary` from the same comparison.
+The p-adic crystallinity assertion uses A’s actual good reduction over Lw;
+no character-family specialization is needed.
 
 **Checks for the switching outputs and `auxiliary_local_types`.**
 
@@ -765,6 +829,18 @@ under field extension and the constant-family pullback of §1.1. This is
 principality of this divisor, not the assertion that all degree-zero divisors
 are principal.
 
+For n=3 on E: y²=x³−x+1, take R=(0,1). The group law gives
+2R=(1/4,−7/8) and S=3R=(56,419). The normalized function is
+
+```text
+f(x,y) = ((y+1−x/2)(y+1−15x/2)) / ((y−1+x/2)(y−1+15x/2)).
+```
+
+The tangent and secant slopes at R and through R,2R are −1/2 and −15/2.
+The ratio of the corresponding Miller functions at −R and R has the
+required divisor; their common vertical factors cancel and the value at O
+is 1. Thus this formula is the constant-family `coverFunction`.
+
 **Checks.**
 
 - On the test group Z, n=3,R=1,S=3 gives coefficients 1,−1,−3,3 at
@@ -774,8 +850,15 @@ are principal.
 - For n=1,S=R the formal divisor vanishes. The algebraic definition is
   meaningful there but gives no two-branch cover. Collision guards are
   attached to the geometric construction, not silently built into Finsupp.
+- In the displayed n=3 example, f(1,1)=−11/5. This distinguishes f
+  from its negative, which has the same divisor and inversion relation.
+- In the same example f(−1,1)=19/3; this is another nonsupport point
+  and also distinguishes the reciprocal function.
+- At the negative of (1,1), f(1,−1)=−5/11. Together these three rational
+  evaluations test both normalization and inversion; they also occur in Lean.
 - Multiplying f by a constant a with a²≠1 preserves its divisor but destroys
-  the normalized relation `f(−Z)=f(Z)⁻¹`. Value 1 at O fixes this ambiguity.
+  the relation `f(−Z)=f(Z)⁻¹`. Multiplication by −1 preserves that relation
+  but changes f(O) to −1; value 1 at O fixes this remaining ambiguity.
 
 ### 1.3 The covers and their dihedral symmetry
 
@@ -1262,8 +1345,35 @@ The unordered pair of eigenvalues is used, so this excludes both ratios.
 Distinct eigenvalues alone suffice only when q≡1 mod ℓ.
 (OpenAI Definition 6.1, pp.14–15.)
 
+Prove **`nonCM_elliptic_large_residual_primes`**: for a number field k
+and a geometrically non-CM elliptic E/k, all but finitely many rational
+primes p satisfy `im(E[p]|G_k)⊇SL₂(F_p)`. This target owns the proof of
+Serre’s elliptic open-image input; his stronger mod-p surjectivity theorem
+implies the stated inclusion. Apply it separately over any fixed finite
+extension, in particular the normal closure of k, where E remains
+geometrically non-CM. No bound independent of E and k is asserted.
+(Serre, *Propriétés galoisiennes*, §4.2, Théorème 2, p.294;
+Le Hung §4.4, p.8.)
+
+*Needs:* ArithmeticGaloisRepresentations Layers 1–2 and §6.2 for torsion
+representations; its §4.7 supplies restriction and persistence after this
+existence theorem, rather than its proof.
+
+**Checks.**
+
+- For y²=x³−x over Q(i), the CM action puts the image in a Cartan;
+  for split p>3 it cannot contain SL₂(F_p). Geometric non-CM is essential.
+- The non-CM curve y²=x³−x²−x over Q has rational two-torsion and
+  j=16384/5, so its mod-2 image fixes a nonzero vector and is not SL₂(F₂).
+  The finite exceptional set cannot be discarded.
+- After replacing k by its normal closure, geometric non-CM persists.
+  Apply the theorem over that field and discard its finite exceptional set
+  before imposing p>max{100,2[k:Q]+1}; an image assumption over k alone
+  does not justify the stronger choice over the normal closure.
+
 For a non-CM E over an imaginary quadratic K choose p>100 with
-`im(E[p]|G_K)⊇SL₂(F_p)`, possible by the large-image supplier. Put
+`im(E[p]|G_K)⊇SL₂(F_p)` using
+`nonCM_elliptic_large_residual_primes`. Put
 n=3p and F=K(μ_n). The target **`cyclotomic_switch_field`** proves F/K
 is abelian, F/Q is abelian and F is CM. It also proves ζ₅∉F: Q(μ₃p)
 is unramified at five, so the ramification index at five in its compositum
@@ -1344,35 +1454,6 @@ would not apply; non-CM is proved by two noncommuting odd-order unipotents.
 For a general CM base K, ζ₅∉K alone would not imply ζ₅∉K(μ₃p); the
 imaginary quadratic ramification proof is essential here.
 
-### 5.4 What elliptic modularity supplies after it is known
-
-Retain the elliptic comparison **`modular_elliptic_all_coefficients`** as an
-application of the automorphic Galois, purity and transfer suppliers:
-for a non-CM elliptic D over a CM number field, if a weight-zero cuspidal π
-realizes H¹(D) at one prime, the same π has trivial central character,
-realizes H¹(D) at every prime and coefficient isomorphism, and satisfies
-full `WD^(F-ss)=rec^T(π_v)` for v∤ℓ, with N retained. At a potentially
-multiplicative v|ℓ it is ι-ordinary of weight zero. The API components retain the names `automorphic_unique` (uniqueness and
-trivial central character), `automorphic_all_primes` (the same π at all
-coefficients), `automorphic_wd` (full away-prime WD comparison) and
-`automorphic_potentially_multiplicative_ordinary` (the coefficient-prime
-ordinary conclusion). All carry precisely the non-CM, CM-base and initial
-realization hypotheses of this paragraph. Uniqueness is up to isomorphism
-by strong multiplicity one. (OpenAI Theorem 6.4, pp.15–16;
-CN Lemma 6.1.3(1)–(4), p.88.)
-
-This target assembles existing comparisons for elliptic D. It is not used
-as a full local–global theorem for arbitrary intermediate character systems.
-Those systems use §8.1, where only good polynomials and Varma's underlying
-Weil comparison are initially imported.
-
-**Checks.** The all-coefficient conclusion is for the same π, not a new
-choice at each prime. At a Tate place N has rank one, so Weil
-semisimplification alone would omit a necessary part of the conclusion.
-At v|ℓ the ordinary conclusion uses an auxiliary coefficient prime to
-recognize the local Steinberg twist; it does not apply away-prime comparison
-with the coefficient and residue primes equal.
-
 ### Examples
 
 The chain needs lifting at ℓ=3, where residual adequacy is particularly
@@ -1382,8 +1463,9 @@ criterion supplies a cuspidal seed; its independent proof and the full lifting t
 
 ### Dependencies
 
-Layer 4 supplies the systems and congruences. Layer 0 supplies the integral CM patching and independent elliptic seed. The local–global, deformation and automorphic suppliers in the exact supplier table provide the underlying carriers and comparisons. Large image and the perfectness
-of SL₂(F_p) come from ArithmeticGaloisRepresentations §§4.2–4.7. No small
+Layer 4 supplies the systems and congruences. Layer 0 supplies the integral CM patching and independent elliptic seed. The local–global, deformation and automorphic suppliers in the exact supplier table provide the underlying carriers and comparisons. Section 5.1 owns large-prime existence;
+ArithmeticGaloisRepresentations §§4.2–4.7 supplies restriction and the
+perfectness of SL₂(F_p). No small
 modular-curve point computation is a prerequisite.
 
 ## Layer 6: Prescribing reduction in local parameter opens
@@ -1676,8 +1758,10 @@ this is exactly decomposed genericity, simultaneously for the conjugates.
 A quadratic twist only changes both eigenvalues by the same sign.
 
 The geometric specialization below can be stated for a general number
-field k of degree d. Choose p sufficiently large that E[p] over its fixed
-normal closure has SL₂(F_p) in its image, and p>max{100,2d+1}. Adjoining
+field k of degree d. Apply §5.1 `nonCM_elliptic_large_residual_primes`
+to E over the fixed normal closure of k, and choose p outside its finite
+exceptional set with p>max{100,2d+1}. Thus E[p] over that normal closure
+has SL₂(F_p) in its image. Adjoining
 the required cyclotomic constants is abelian over that normal closure,
 so perfectness preserves SL₂. Apply the same subdirect-product argument
 to the d conjugate curves; independence is still unnecessary. The fraction
@@ -1725,9 +1809,11 @@ applications of the imported Hilbert theorem, not new definitions in Lean.
 ### 7.4 Weil restriction and simultaneous specialization
 
 Return first to an arbitrary number field k, non-CM E/k and sufficiently
-large p as in §7.2. Let F=k(μ₃p), and let S contain all places above 3p.
-The target **`simultaneous_specialization`** produces one t∈U(k) in all
-the prescribed nonempty Ω_v₀, such that:
+large p as in §7.2. Let F=k(μ₃p), and let S be a finite set of finite
+places of k containing all places above 3p. For each v₀∈S prescribe a
+nonempty analytic open Ω_v₀⊂U(k_v₀). The target
+**`simultaneous_specialization`** produces one t∈U(k) in all the prescribed
+Ω_v₀, such that:
 
 1. For each of `(m,ℓ)=(3,p),(3,5),(p,3)` and **every** order-m
    character, its residual V_θ is absolutely irreducible on G_(F(ζ_ℓ))
@@ -1798,6 +1884,10 @@ could choose incompatible parameters.
   nontrivially to the CM index-two quotient; this is why oddness matters.
 - Local opens are imposed in W(Q_v), including every k-place over v;
   selecting independent t's at three and p would not produce this output.
+- Finiteness of S is necessary: for k=Q enumerate U(Q) as {t_j}, choose
+  distinct primes v_j away from 3p and a nonempty ball Ω_v_j excluding
+  t_j. Adding opens at 3 and p gives infinitely many nonempty conditions
+  with no rational parameter satisfying them all.
 
 ### Examples
 
@@ -1812,8 +1902,10 @@ small residual exceptions of E disappear from the endpoint's hypotheses.
 ### Dependencies
 
 Layers 3–4 supply integral monodromy and residual systems; Layer 6 supplies
-nonempty local opens. ArithmeticGaloisRepresentations §§4.2–4.7 supplies large
-image, subdirect-product reasoning and Chebotarev. IG.0 and IG.2 supply
+nonempty local opens. Section 5.1 `nonCM_elliptic_large_residual_primes`
+supplies large-prime existence over the normal closure.
+ArithmeticGaloisRepresentations §§4.2–4.7 supplies image persistence,
+subdirect-product reasoning and Chebotarev. IG.0 and IG.2 supply
 finite arithmetic fundamental-group quotients and Hilbert irreducibility
 with local conditions. The Weil restriction, the joint quotient and the
 all-character/all-conjugate deduction are the new application here.
@@ -1868,7 +1960,7 @@ elliptic starting criterion §5.3. This proves
 p.26, using Theorem 6.3.)
 
 The seed theorem supplies all-coefficient elliptic compatibility through
-§5.4. In particular it supplies the member at p needed for the first
+§0.3. In particular it supplies the member at p needed for the first
 congruence. This is the only invocation of a modularity criterion at
 five. Its local five-adic proof is §0.3 and §5.3; the new local
 opens here were imposed at three and p.
@@ -1882,29 +1974,42 @@ specialization and coefficient conventions are fixed throughout.
 
 | Lift | Residual isomorphism | Cyclotomic irreducibility and decomposed genericity | Local input at every place over the lifting prime |
 |---|---|---|---|
-| V_η → V_χ at p | §4.4, reduction of ψ to 1 | §7.4 for the order-three piece at p; the isomorphism gives the same residual for χ | §6.6 gives both local Galois types; §§5.4, 8.1 give the seed's N=0 or ordinary Steinberg type. |
+| V_η → V_χ at p | §4.4, reduction of ψ to 1 | §7.4 for the order-three piece at p; the isomorphism gives the same residual for χ | §6.6 gives both local Galois types; §§0.3, 8.1 give the seed's N=0 or ordinary Steinberg type. |
 | V_χ → V_ψ at 3 | §4.4, reduction of η to 1 | §7.4 for every order-p piece at three | Change π_χ to coefficient three by §8.1; both local Galois types come from §6.6, and the automorphic N/ordinary condition from §8.1. |
-| V_ψ → V₁ at p | §4.4, reduction of ψ to 1 | §7.2 for V₁,p, and the residual isomorphism for ψ | Change π_ψ to coefficient p by §8.1; §6.6 and the automorphic-local comparison give the same crystalline/noncrystalline alternative. |
+| V_ψ → V₁ at p | §4.4, reduction of ψ to 1 | §7.2 for V₁,p, and the residual isomorphism for ψ | Change π_ψ to coefficient p by §8.1; §6.6 and the automorphic-local comparison give the same alternative between potential crystallinity and its failure. |
 
 Every target member has determinant ε⁻¹, finite ramification, labelled
 weights {0,1} and potential semistability by §4.1. At a potentially good
-ordinary place the seed and target are both potentially ordinary and
-crystalline. At a potentially supersingular place both are crystalline
-nonordinary. At a potentially multiplicative place both are noncrystalline,
+ordinary place the seed and target are both potentially crystalline and
+potentially ordinary of weight zero. At a potentially supersingular place
+both are potentially crystalline and neither is potentially ordinary. These
+crystalline comparisons use the fixed semistabilizing extensions of §6.5.
+At a potentially multiplicative place neither is potentially crystalline,
 and the seed is automorphically ordinary. Thus the exact alternatives of
 §5.2 hold at **every** place above the relevant prime in each row. All
 residual comparisons are semisimplified and absolutely irreducible, so
 they give the residual isomorphism required by the lifting theorem.
 At no point is the original E[3] or E[5] required to be irreducible.
 
-**Checks.** The middle lift uses three, not the seed prime five; the last
-lift returns to p. A proof omitting the change of coefficient prime after
-the first row would have no residual matching at three. A local
-supersingular place is handled by the nonordinary crystalline alternative,
-so assuming ordinarity everywhere would weaken the endpoint. The large
-prime is p>100 and the remaining lifting prime is three; the exceptional
-five-adic projective-field clause of the full lifting theorem is never
-needed in these three rows.
+**Checks.**
+
+- The middle lift uses three, not the seed prime five; the last lift returns
+  to p. Omitting the change of coefficient prime after the first row would
+  leave no residual matching at three.
+- A local supersingular place uses the potentially crystalline alternative
+  without potential ordinarity; assuming ordinarity everywhere would weaken
+  the endpoint.
+- The large prime is p>100 and the other lifting prime is three. The
+  exceptional five-adic projective-field clause is absent in these three rows.
+- Take p=103, K=Q(i) and E: y²=x³+103x+103². Tate inertia at five
+  gives a residual transvection since v₅(Δ)=1. At eleven a₁₁=4 has
+  discriminant 75, nonsquare modulo 103; the Frobenius over K is its square
+  and still irreducible, with discriminant 67=4²·75 modulo 103. Thus the
+  image contains SL₂(F₁₀₃). At 103, v(Δ)=3 and v(c₄)=1 give type III.
+  In F=K(μ₃₀₉) the ramification index is 102 and the minimal discriminant
+  valuation is 6, with 102·3≡6 mod 12. Hence E remains bad but potentially
+  good over F_v. The local splitting B_t≅E in §6.5 makes V₁ potentially
+  crystalline but not crystalline over F_v.
 
 ### 8.4 Descent of the same representation, then removal of the twist
 
@@ -1947,7 +2052,7 @@ supplier's reciprocity convention.
 
 ### 8.5 All coefficient primes, finite places and the complex parameter
 
-Apply §5.4 to the now modular non-CM E/K to obtain one π_E with trivial
+Apply §0.3 to the now modular non-CM E/K to obtain one π_E with trivial
 central character realizing H¹(E) for every prime ℓ and every coefficient
 isomorphism. Prove **`elliptic_full_local_comparison`**:
 
@@ -2123,6 +2228,7 @@ not as a replacement proof of the imaginary quadratic endpoint.
 - **Le Hung.** Bao V. Le Hung, *A geometric prime switch for elliptic curves over totally real and CM fields*, discussion draft dated 7 October 2026, `hexagon:2610.00156v1`. Theorem 1.1 p.2; geometric inputs §2 pp.4–5; totally real reflection construction §3 pp.6–7; simultaneous conjugate genericity §4.4 p.8; CM seed-before-base-change argument §4.6 and Remark 4.2 p.9. Attribution follows the supplied discussion draft; no claim of a refereed publication is made.
 - **CN.** Ana Caraiani and James Newton, [On the modularity of elliptic curves over imaginary quadratic fields](https://arxiv.org/pdf/2301.10509v3), arXiv:2301.10509v3, 27 March 2025. Theorem 5.2 and Remarks 5.2.1–5.2.3 pp.73–74; Theorem 6.1 pp.87,90; Lemma 6.1.3 p.88; residual constructions Lemmas 6.1.4, 6.1.7 and Propositions 6.1.5–6.1.6 pp.88–90. The exceptional modular-curve analysis of §7 is outside the proof route here.
 - **AKT.** Patrick B. Allen, Chandrashekhar Khare and Jack A. Thorne, [Modularity of GL₂(F_p)-representations over CM fields](https://arxiv.org/pdf/1910.12986v2), arXiv:1910.12986v2, 2 September 2022. Theorems 7.1 and 8.1 pp.67,71–72; independent elliptic seed Proposition 9.12 p.79 and prescribed-type constructions in §9 pp.73–81. Their independent lifting and elliptic seed arguments are the targets of Layer 0.
+- **Serre.** Jean-Pierre Serre, [Propriétés galoisiennes des points d’ordre fini des courbes elliptiques](https://wstein.org/sage_summer/bsd_comp/Serre-properties_galoisiennes_des_points_dordre_fini_des_courbes_elliptiques.pdf), Inventiones mathematicae 15 (1972), 259–331; §4.2, Théorème 2, p.294. This is the non-CM elliptic large-prime input of §5.1.
 - **Varma.** Ila Varma, [Local-global compatibility for regular algebraic cuspidal automorphic representations when ℓ is different from p](https://arxiv.org/pdf/1411.2520v1), arXiv:1411.2520v1. Theorem (1ss), p.1, gives the underlying semisimplified Weil compatibility; Theorem (1), on the same page, bounds monodromy. Its application in OpenAI Lemma 9.2 is the local comparison used here, without an unproved general monodromy equality.
 - **ACC+.** P. B. Allen, F. Calegari, A. Caraiani, T. Gee, D. Helm, B. V. Le Hung, J. Newton, P. Scholze, R. Taylor and J. A. Thorne, [Potential automorphy over CM fields](https://arxiv.org/pdf/1812.09999v2), arXiv:1812.09999v2, 16 June 2022; published in Annals of Mathematics 197 (2023), 897–1113. The cited PDF's §7.1 pp.189–190 specifies compatible-system data and predicates. The shared carrier's single owner is SmallRamificationAndAbelianVarietyBaseCases §5.0d.
 - **Algebraic Hecke-character notes.** [Algebraic Hecke Characters](https://math.stanford.edu/~conrad/DarmonCM/2011Notes/algebraicHeckecharacters.pdf), seminar notes hosted by Brian Conrad; second Lemma 1 and proof, pp.9–10. Used through AutomorphicGaloisRepresentations §3.13, with its local algebraicity and coefficient-field hypotheses discharged there.

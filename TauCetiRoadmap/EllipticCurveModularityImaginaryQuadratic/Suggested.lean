@@ -66,6 +66,15 @@ example : coverDivisor 3 (1 : ℤ) 3 (3 : ℤ) = 1 ∧
 /-- Degree zero alone does not make the Abel sum zero. -/
 example : (coverDivisor 3 (1 : ℤ) 4).sum (fun P a => a * P) = 2 := by sorry
 
+/-- The normalized n=3 cover function on y²=x³−x+1 at three nonsupport
+points (README §1.2); these values distinguish its negative and reciprocal. -/
+example :
+    let f : ℚ → ℚ → ℚ := fun x y =>
+      ((y + 1 - x / 2) * (y + 1 - 15 * x / 2)) /
+        ((y - 1 + x / 2) * (y - 1 + 15 * x / 2))
+    f 1 1 = -11 / 5 ∧ f (-1) 1 = 19 / 3 ∧ f 1 (-1) = -5 / 11 := by
+  norm_num
+
 /-- The two quotient exponents in C_303 → C_3 and C_303 → C_101. -/
 example : 303 / 3 = (101 : ℕ) ∧ 303 / 101 = (3 : ℕ) := by sorry
 
@@ -124,6 +133,22 @@ example : RatFunc.eval (RingHom.id (ZMod 3)) 0 (exceptionalFunction (ZMod 3) 3) 
 
 /-! ## Layer 3: The integral monodromy operator -/
 
+/-- Scaling one vector of a symplectic basis gives determinant four
+for the intersection form (README §3.1). -/
+example : (!![0, 2; -2, 0] : Matrix (Fin 2) (Fin 2) ℤ).det = 4 := by
+  norm_num [Matrix.det_fin_two]
+
+/-- The three adjacent differences have their required relation (README §3.2). -/
+example : (![1, -1, 0] : Fin 3 → ℤ) + ![0, 1, -1] + ![-1, 0, 1] = 0 := by
+  decide
+
+/-- The first two adjacent differences are independent (README §3.2). -/
+example (a b : ℤ) (h : (![a, -a + b, -b] : Fin 3 → ℤ) = 0) :
+    a = 0 ∧ b = 0 := by
+  have ha : a = 0 := by simpa using congrFun h 0
+  have hb : -b = 0 := by simpa using congrFun h 2
+  exact ⟨ha, neg_eq_zero.mp hb⟩
+
 /-- The integral operator 2−u−u⁻¹, using Mathlib's circulant matrix
 (OpenAI Theorem 4.5, pp.10–11). -/
 def cyclicLaplacian (m : ℕ) : Matrix (ZMod m) (ZMod m) ℤ :=
@@ -155,6 +180,13 @@ example : cyclicLaplacian 3 0 0 = 2 ∧ cyclicLaplacian 3 0 1 = -1 ∧
 
 example : let x : ZMod 3 → ℤ := fun i => if i = 0 then 1 else 0
     ∑ i, x i * (cyclicLaplacian 3 *ᵥ x) i = 2 := by sorry
+
+/-- Constants are killed by the off-diagonal operator (README §3.3). -/
+example (a : ℤ) : cyclicLaplacian 3 *ᵥ (fun _ => a) = 0 := by
+  ext i
+  change (∑ j : ZMod 3, cyclicLaplacian 3 i j * a) = 0
+  rw [← Finset.sum_mul, cyclicLaplacian_row_sum]
+  simp
 
 /-! ## Layer 7: Residual monodromy and simultaneous genericity -/
 
@@ -252,6 +284,10 @@ theorem conjugate_trace_union_bound (d p : ℕ) (hd : 0 < d)
     (hp : 2 * d + 1 < p) :
     (2 * d * p : ℚ) / ((p : ℚ) ^ 2 - 1) < 1 := by
   sorry
+
+/-- The d=2 and d=1 bounds at p=101 (README §7.2). -/
+example : (404 : ℚ) / 10200 < 1 ∧ (202 : ℚ) / 10200 < 1 := by
+  norm_num
 
 /-! ## Layer 8: Cohomological and unitary normalization -/
 
