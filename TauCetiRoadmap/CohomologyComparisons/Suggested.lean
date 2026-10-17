@@ -11,9 +11,9 @@ the statements whose carriers exist at the pins, proved by `sorry` unless a shor
 
 The comparison theorems of the roadmap concern A_inf, crystalline, prismatic, infinitesimal,
 Hyodo–Kato and pro-étale cohomology of formal schemes and rigid spaces, none of which exists at the
-pins. They, and the heavy objects they need (the canonical `B_dR⁺` cohomology, the relative
-infinitesimal site, the graded Beilinson square, the logarithmic period sheaf on modular curves and
-the affinoid-perfectoid flag basis), are README targets with their intended signatures; the closing
+pins. AInfCohomology §AI.6.5 supplies canonical `B_dR⁺` cohomology and its envelope maps.
+The remaining heavy objects (the relative infinitesimal site, the graded Beilinson square, the
+logarithmic period sheaf on modular curves and the affinoid-perfectoid flag basis) are README targets with their intended signatures; the closing
 comment lists them.
 
 Design choices made explicit here:
@@ -28,8 +28,8 @@ Design choices made explicit here:
 - The specialization dictionary separates its data from its normalization equations
   (`SpecializationDictionary.IsNormalized`); `A_cris` enters as a parameter, being constructed in
   `PadicPeriodRings`, §3.
-- The presented infinitesimal envelope completes along the whole presentation kernel
-  (`AdicCompletion (RingHom.ker e) P`), not only along `ξ`.
+- The algebraic interface to AInfCohomology §AI.6.5’s presented envelope completes along the
+  whole presentation kernel (`AdicCompletion (RingHom.ker e) P`).
 - Monodromy transport under a change of uniformizer is `exp(-c N)` (`IsNilpotent.exp`), for the
   evaluation convention `T_{πu} = T_π + log_K u` and period monodromy `N = -d/dT`.
 - Truncated torsion length is the `ℕ∞`-valued `Module.length` of `M_tor / π^n M_tor`.
@@ -96,6 +96,40 @@ noncomputable def ainfToBdRPlus : Ainf O p →+* BDeRhamPlus O p :=
       (Localization.Away (p : Ainf O p)))).comp
     (algebraMap (Ainf O p) (Localization.Away (p : Ainf O p)))
 
+/-- Frobenius fixes the integer `p`. -/
+example : ainfFrobenius O p (p : Ainf O p) = p := by
+  exact map_natCast (ainfFrobenius O p) p
+
+/-- The zeroth Teichmüller coordinate retains the tilt element. -/
+example (x : PreTilt O p) : (teichmuller p x).coeff 0 = x := by
+  sorry
+
+/-- Teichmüller representatives preserve products. -/
+example (x y : PreTilt O p) :
+    teichmuller p (x * y) = teichmuller p x * teichmuller p y := by
+  exact map_mul (teichmuller p) x y
+
+/-- Witt Frobenius raises the Teichmüller coordinate to its `p`-th power. -/
+example (x : PreTilt O p) :
+    ainfFrobenius O p (teichmuller p x) = teichmuller p (x ^ p) := by
+  sorry
+
+/-- The inverse tilt Frobenius supplies a genuine `p`-th root. -/
+example (ε : PreTilt O p) : (epsRoot O p ε) ^ p = ε := by
+  sorry
+
+/-- The Witt ring keeps `p` nonzero although the tilt has characteristic `p`. -/
+example [Nontrivial (PreTilt O p)] : (p : Ainf O p) ≠ 0 := by
+  sorry
+
+/-- Localization at `p` makes its canonical image in the actual completion a unit. -/
+example : IsUnit (ainfToBdRPlus O p (p : Ainf O p)) := by
+  change IsUnit ((algebraMap (Localization.Away (p : Ainf O p))
+    (AdicCompletion (RingHom.ker (fontaineThetaInvertP O p))
+      (Localization.Away (p : Ainf O p))))
+    (algebraMap (Ainf O p) (Localization.Away (p : Ainf O p)) (p : Ainf O p)))
+  exact (IsLocalization.Away.algebraMap_isUnit (p : Ainf O p)).map _
+
 /-- The inverse Witt Frobenius uses the supplied Teichmüller theorem. -/
 example (ε : PreTilt O p) :
     (ainfFrobenius O p).symm (teichmuller p ε) = teichmuller p (epsRoot O p ε) := by
@@ -130,6 +164,30 @@ example : ¬ IsPrimitiveRootSystem O p 1 := by
 theorem fontaineTheta_xiOf [IsDomain O] {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε) :
     WittVector.fontaineTheta O p (xiOf O p ε) = 0 := by
   sorry
+
+/-- A delayed primitive root system fails the first-root test, while its inverse Frobenius
+is primitive. -/
+example (ε : PreTilt O p) (hfirst : PreTilt.untilt (epsRoot O p ε) = 1)
+    (hsecond : PreTilt.untilt (epsRoot O p (epsRoot O p ε)) ≠ 1) :
+    ¬ IsPrimitiveRootSystem O p ε ∧ IsPrimitiveRootSystem O p (epsRoot O p ε) := by
+  exact ⟨fun h => h.2 hfirst, hfirst, hsecond⟩
+
+/-- A primitive system gives a nontrivial first root and zero `θ`-image of `μ`. -/
+example {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε) :
+    PreTilt.untilt (epsRoot O p ε) ≠ 1 ∧
+      WittVector.fontaineTheta O p (muOf O p ε) = 0 := by
+  refine ⟨hε.2, ?_⟩
+  simp [muOf, WittVector.fontaineTheta_teichmuller, hε.1]
+
+/-- The twisted specialization kills the forward-Frobenius kernel element. -/
+example [IsDomain O] {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε) :
+    fontaineThetaTilde O p (xiTildeOf O p ε) = 0 := by
+  simpa [fontaineThetaTilde, xiTildeOf] using fontaineTheta_xiOf O p hε
+
+/-- Inverse transport of `ξ̃` recovers `ξ`. -/
+example (ε : PreTilt O p) :
+    (ainfFrobenius O p).symm (xiTildeOf O p ε) = xiOf O p ε := by
+  exact (ainfFrobenius O p).symm_apply_apply _
 
 section Residue
 
@@ -169,6 +227,28 @@ theorem wittReduction_comp_ainfFrobenius :
       WittVector.frobenius.comp (wittReduction O p) := by
   sorry
 
+/-- Tilt reduction is the residue of the untilt, so units with a nontrivial residue keep it. -/
+example (x : PreTilt O p) (hx : IsUnit (PreTilt.untilt x))
+    (hres : IsLocalRing.residue O (PreTilt.untilt x) ≠ 1) :
+    residueOfTilt O p x = IsLocalRing.residue O (PreTilt.untilt x) ∧
+      residueOfTilt O p x ≠ 0 ∧ residueOfTilt O p x ≠ 1 := by
+  sorry
+
+/-- At an odd prime the concrete tilt element `−1` retains its nontrivial residue. -/
+example (hp : p ≠ 2) :
+    residueOfTilt O p (-1) = -1 ∧ residueOfTilt O p (-1) ≠ 1 := by
+  sorry
+
+/-- Both a primitive system and its first root reduce to 1 in the residue field. -/
+example {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε) :
+    residueOfTilt O p ε = 1 ∧ residueOfTilt O p (epsRoot O p ε) = 1 := by
+  sorry
+
+/-- Witt reduction sends a Teichmüller representative to the representative of its residue. -/
+example (x : PreTilt O p) :
+    wittReduction O p (teichmuller p x) = teichmuller p (residueOfTilt O p x) := by
+  simp [wittReduction]
+
 end Residue
 
 section IntegersOfC
@@ -181,9 +261,16 @@ theorem ker_fontaineTheta {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε
     RingHom.ker (WittVector.fontaineTheta O p) = Ideal.span {xiOf O p ε} := by
   sorry
 
-/-- For `O = O_C`, `ker θ̃ = (ξ̃)` (BMS1, Example 3.16 with Lemma 3.12 at `r = 1`, p.25). -/
+/-- For `O = O_C`, `ker θ̃ = (ξ̃)` (BMS1, Example 3.16, p.25, and Lemma 3.12 at `r = 1`, p.23). -/
 theorem ker_fontaineThetaTilde {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε) :
     RingHom.ker (fontaineThetaTilde O p) = Ideal.span {xiTildeOf O p ε} := by
+  sorry
+
+/-- In the `O_C` range the canonical image of `ξ` is nonzero and irreducible, hence a
+uniformizer in the complete DVR supplied by PadicPeriodRings §4.1. -/
+example {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε) :
+    ainfToBdRPlus O p (xiOf O p ε) ≠ 0 ∧
+      Irreducible (ainfToBdRPlus O p (xiOf O p ε)) := by
   sorry
 
 end IntegersOfC
@@ -250,6 +337,14 @@ example (h : d.IsNormalized p) (hp : (p : W) ≠ 0) : d.witt d.xi ≠ 0 := by
 example (h : d.IsNormalized p) (a : A) : d.toBdRPlus a = d.acrysToBdRPlus (d.toAcrys a) :=
   h.period_eq ▸ rfl
 
+/-- A normalized dictionary kills `ξ̃` under `θ̃`. -/
+example (h : d.IsNormalized p) : d.thetaTilde d.xiTilde = 0 := by
+  rw [h.thetaTilde_eq]
+  simpa [xiTilde] using h.theta_xi_eq
+
+/-- Inverse Frobenius transports `ξ̃` to `ξ`. -/
+example : d.phi.symm d.xiTilde = d.xi := d.phi.symm_apply_apply _
+
 end SpecializationDictionary
 
 section Standard
@@ -304,11 +399,17 @@ example (Acris : Type u) [CommRing Acris] (toAcris : Ainf O p →+* Acris)
     (SpecializationDictionary.standard O p Acris toAcris acrisToBdRPlus 1).mu = 0 := by
   simp [SpecializationDictionary.standard, muOf]
 
+/-- The standard transported generator is the actual `xiTildeOf` element. -/
+example (Acris : Type u) [CommRing Acris] (toAcris : Ainf O p →+* Acris)
+    (acrisToBdRPlus : Acris →+* BDeRhamPlus O p) (ε : PreTilt O p) :
+    (SpecializationDictionary.standard O p Acris toAcris acrisToBdRPlus ε).xiTilde =
+      xiTildeOf O p ε := rfl
+
 end Standard
 
-/-! ## Layer 2: Canonical and relative infinitesimal B_dR⁺ cohomology -/
+/-! ## Layer 2: Supplied algebraic envelope interface -/
 
-/-- The presented infinitesimal envelope `D(e) = lim_m P/(ker e)^m` of a surjection `e : P → R`:
+/-- The algebraic interface to AInfCohomology §AI.6.5’s presented infinitesimal envelope `D(e) = lim_m P/(ker e)^m` of a surjection `e : P → R`:
 completion along the whole presentation kernel (BMS1, Construction 13.6, p.106). The analytic
 presentation `P_Σ = lim_n (B_dR⁺/ξ^n)⟨X_u^{±1}⟩` and its topology come from `AdicSpacesPartII`. -/
 abbrev InfinitesimalEnvelope {P R : Type*} [CommRing P] [CommRing R] (e : P →+* R) : Type _ :=
@@ -318,7 +419,7 @@ namespace InfinitesimalEnvelope
 
 variable {P R : Type*} [CommRing P] [CommRing R] (e : P →+* R)
 
-/-- Functoriality: a ring map `g : P → P'` over `R` induces `D(e) → D(e')` compatible with the
+/-- The supplied envelope’s functoriality: a ring map `g : P → P'` over `R` induces `D(e) → D(e')` compatible with the
 canonical maps and the projections (BMS1, Lemma 13.13, p.111, for the refinement maps). -/
 theorem exists_map {P' : Type*} [CommRing P'] (e' : P' →+* R) (g : P →+* P')
     (hg : e'.comp g = e) :
@@ -327,7 +428,7 @@ theorem exists_map {P' : Type*} [CommRing P'] (e' : P' →+* R) (g : P →+* P')
         (algebraMap P' (InfinitesimalEnvelope e')).comp g := by
   sorry
 
-/-- The universal property: for finitely generated `ker e`, a `P`-algebra `S` complete for an
+/-- The supplied envelope’s universal property: for finitely generated `ker e`, a `P`-algebra `S` complete for an
 ideal `J` containing the image of `ker e` receives a unique ring map from `D(e)` extending the
 structure map. -/
 theorem existsUnique_lift (hfg : (RingHom.ker e).FG) {S : Type*} [CommRing S] [Algebra P S]
@@ -438,6 +539,10 @@ example (p : ℕ) [Fact p.Prime] :
 
 /-! ## Layer 6: Relative, product and arithmetic comparisons -/
 
+/-- The scalar trace normalization distinguishes the period factor from its inverse. -/
+example : (2 : ℚ) * 1 = 2 ∧ (2 : ℚ)⁻¹ * 1 = 1 / 2 ∧ (2 : ℚ) ≠ 1 / 2 := by
+  norm_num
+
 /-- The quotient-line projective-bundle relation `∑_{i=0}^{n} (-1)^i c_i hⁿ⁻ⁱ` with `c₀ = 1`, as a
 polynomial in `h = c₁(O(1))`: the relation by which Grothendieck's formalism defines Chern
 classes, to which the proof of Betts–Stix, Proposition 3.20(8), p.28, reduces. -/
@@ -471,20 +576,21 @@ truncatedTorsionLength_zero are examples above.
 README targets not declared here, because their carriers do not exist at the pins or because they
 are constructions rather than light definitions: the formal, analytic and crystalline dictionaries
 and site compatibilities of Layer 0; the A_inf input package and its de Rham, Hodge–Tate, Witt,
-A_cris, étale and prismatic specializations of Layer 1; the constructions
-`InfinitesimalEnvelope.map` and `InfinitesimalEnvelope.lift` realizing
-`InfinitesimalEnvelope.exists_map` and `InfinitesimalEnvelope.existsUnique_lift`, with `map_of`,
-`map_id`, `map_comp`, `lift_of` and `lift_unique`; `CanonicalBdrCohomology`;
+A_cris, étale and prismatic specializations of Layer 1;
 `RelativeInfinitesimalSite` with `RelativeInfinitesimalSite.envelope`, `envelope_selfProduct`,
-`envelope_cech` and `envelope_framing`, and the comparisons of Layer 2; the rational crystalline
+`envelope_cech` and `envelope_framing`, and the relative comparisons of Layer 2 (the canonical
+deformation and envelope maps come from AInfCohomology §AI.6.5); the rational crystalline
 comparisons, `gradedBeilinsonSquare` with `gradedBeilinsonSquare_map`, `gradedBeilinsonSquare_zero`,
 `gradedBeilinsonSquare_cartesian`, `gradedBeilinsonSquare_integral` and
-`gradedBeilinsonSquare_local`, and the nearby-cycle square of Layer 3; the semistable, Beilinson and
-proper rigid comparisons of Layer 4; the torsion inequalities, lattice recovery and counterexamples
-of Layer 5; `panLogPeriod` with `panLogPeriod_restrict`, `panLogPeriod_theta`, `panLogPeriod_local`,
+`gradedBeilinsonSquare_local`, and the nearby-cycle square of Layer 3; the semistable and Beilinson
+comparisons, `RigidHyodoKatoCohomology` and proper rigid comparisons of Layer 4; the torsion
+inequalities, lattice recovery and counterexamples of Layer 5; `panModularTower` and
+`panAlmostIntegralComparison`; `panLogPeriod` with `panLogPeriod_restrict`, `panLogPeriod_theta`,
+`panLogPeriod_local`,
 `panLogPeriod_connection` and `panLogPeriod_faltings`; `panBasis` with `panBasis_isBasis`,
 `panBasis_perfectoid`, `panBasis_finiteLevel` and `panBasis_inter`; `relativeFilteredComparison`
 with its `_functorial` and `_canonical` forms; the trace period with `tracePeriod_spec`,
-`tracePeriod_unique` and `tracePeriod_pow_zero`; the cycle and Chern class comparisons; and the
+`tracePeriod_unique` and `tracePeriod_pow_zero`; `algebraicDeRhamTrace`, the de Rham Gysin and
+cycle maps and the higher crystalline/de Rham Chern class constructions and comparisons; and the
 truncated period comparisons of Layer 6.
 -/
