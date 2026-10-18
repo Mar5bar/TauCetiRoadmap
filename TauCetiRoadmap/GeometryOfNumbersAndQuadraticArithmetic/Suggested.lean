@@ -61,6 +61,15 @@ Design choices made explicit here:
   finite-group norm/Tate package. The README’s local names specialize these through
   EnhancedDerivedSheaves’ concrete-spectrum and coherent-tower comparisons. The mod-two
   characterization of `twoAdicEquivalence` is a consequence proved here from the supplied tower;
+* `ringKTheoryModels` specializes the native finite-projective category to right modules,
+  encoded over the opposite ring. AlgebraicKTheory supplies its matrix realization, stable
+  GL/elementary groups, matrix K₁, Steinberg K₂ and Milnor boundary before the higher comparisons.
+  This roadmap owns the common Q/S, Γ-space and Bass/Schlichting spectrum comparisons and
+  `plusConstructionComparison`, including degree zero, one and two, ring maps, stabilization,
+  Morita, opposite rings and boundary compatibility.
+* `DerivedCoefficientLine` retains arbitrary action-swapping involutions with square one;
+  signed integral and Dedekind-domain specializations choose the signs. Multiplication by
+  three on `ZMod 8` supplies a coefficient involution distinct from both signs.
 * the finite-field K branch consumes TopologicalKTheory's complex classifier and Bott theorem,
   with its CW/Milnor extension and BU-level Adams maps specified in the README;
 * exact categories are Tau Ceti's `ExactStructure`, and a strong duality bundles Tau Ceti's
@@ -3173,6 +3182,29 @@ example (x : ZMod 2) : c2Norm (AddMonoidHom.id (ZMod 2)) x = 0 ∧
     c2Difference (AddMonoidHom.id (ZMod 2)) x = 0 := by sorry
 
 end C2NormMaps
+
+section CoefficientInvolutionChecks
+
+-- The free coefficient line over `ZMod 8` admits an involution beyond the two signs.
+example : Function.Involutive (fun x : ZMod 8 => 3 * x) := by
+  intro x
+  have h : (3 : ZMod 8) * 3 = 1 := by decide
+  simp only [← mul_assoc, h, one_mul]
+
+example (a b x : ZMod 8) : 3 * ((a * b) * x) = (b * a) * (3 * x) := by
+  ring
+
+example : (fun x : ZMod 8 => 3 * x) ≠ (fun x => x) ∧
+    (fun x : ZMod 8 => 3 * x) ≠ (fun x => -x) := by
+  constructor
+  · intro h
+    have h1 : (3 : ZMod 8) = 1 := by simpa using congrFun h 1
+    exact (by decide : (3 : ZMod 8) ≠ 1) h1
+  · intro h
+    have h1 : (3 : ZMod 8) = -1 := by simpa using congrFun h 1
+    exact (by decide : (3 : ZMod 8) ≠ -1) h1
+
+end CoefficientInvolutionChecks
 
 section CategoryDuality
 open CategoryTheory Opposite
