@@ -46,19 +46,27 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   adjointable operators, interior tensor products, induction, Morita
   equivalence, and linking algebras.
 - [VonNeumannAlgebras V0–V4](../VonNeumannAlgebras/README.md) supplies states,
-  GNS, operator topologies and normal representations. V8 owns discrete von
-  Neumann crossed products; V10–V11 owns modular theory and normal locally
-  compact crossed products. D2 proves the comparison with their regular weak
-  closures. D4 uses V11's harmonic-analysis layer: dual Haar normalization,
-  Plancherel and Pontryagin biduality for locally compact abelian groups,
-  independently of the normal crossed-product theorem.
+  GNS, operator topologies and normal representations. D5 consumes
+  [V4.0.Fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4831498b0ca6b0d69210ef2294ce1c92f028fbde/TauCetiRoadmap/VonNeumannAlgebras/README.md#L316-L339) for independent measurable Hilbert/operator fields,
+  [SA-B85](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bf5d59ef8aa818b8f804da819857832c0fe9f73e/TauCetiRoadmap/OperatorTheory/SelfAdjointSpectralTheory/README.md#L644-L719) for the unit-space diagonal C₀ theorem, then
+  [V4's separable commuting-representation reduction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/290e14ed238433b886724aa3c4f6e329598c0120/TauCetiRoadmap/VonNeumannAlgebras/README.md#L420-L429)
+  (the V4.0.Decomposition contract) for reduction over that given diagonal.
+  V8 owns discrete von Neumann crossed products; V10–V11 owns modular theory
+  and normal locally compact crossed products. D2 proves the comparison
+  with their regular weak closures. D4 uses V11's harmonic-analysis layer:
+  dual Haar normalization, Plancherel and Pontryagin biduality for locally
+  compact abelian groups, independently of the normal crossed-product theorem.
 - [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
   and [OneParameterSemigroups](../OneParameterSemigroups/README.md) supply
   self-adjoint generators, their spectral calculus, Part B's PVM carrier,
   integration and representation-PVM API, and strongly continuous
   one-parameter groups. Use their `LinearPMap` domains and graph closures.
+  D5 consumes SA-B85's diagonal theorem for nondegenerate C₀(X)
+  representations on separable Hilbert spaces, X second-countable locally
+  compact Hausdorff. Its order is V4.0.Fields → SA-B85 →
+  V4.0.Decomposition → D5; D5 is not a prerequisite for those suppliers.
 - Use the topological groupoid vocabulary shared with
-  [LieGroupoidsPoisson G0](../LieGroupoidsPoisson/README.md):
+  [LieGroupoidsPoisson G0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/87bef440778a642d5c56abb30ffdbbce83db923f/TauCetiRoadmap/LieGroupoidsPoisson/README.md#L149-L163):
   `CategoryTheory.Groupoid`, topology on the total `Arrow`, and continuous
   composition on composable arrows. Write `gh` for first h, then g
   (`h ≫ g` in category notation). G0 owns the total-arrow and composable-arrow topologies and continuous
@@ -315,13 +323,42 @@ conull sets, the symmetric measure `ν₀=D^(-1/2)ν`, and change of density und
 equivalent base measures. Use Mathlib measures, measurable maps, integrals
 and almost-everywhere equality rather than an independent measure language.
 
-Consume [VonNeumannAlgebras V4](../VonNeumannAlgebras/README.md)'s
-measurable Hilbert fields, square-integrable sections, decomposable
-operators and diagonal C₀ spectral representation. Identify the unit-space
-measure/multiplicity obtained here with that shared direct-integral
-construction, and prove the almost-everywhere transport for equivalent
-base measures. The groupoid action and its disintegration below are
-targets here; continuous Hilbert fields in H5 alone do not supply them.
+For a nondegenerate representation L of C*(G) on separable H, put X=G⁰
+and let `ρ_L(h)=L̃(m(h))` for h∈C₀(G⁰), where m is the nondegenerate
+unit-space multiplier map constructed above and L̃ is L's multiplier extension.
+Prove ρ_L is nondegenerate: choose compactly supported unit-space cutoffs
+h_i with `0≤h_i≤1`, eventually equal to1 on each prescribed compact subset
+of X. For f∈C_c(G), the compact sets r(supp f) and s(supp f) give
+`m(h_i)f→f` and `f m(h_i)→f` in I-norm. The dense span L(C_c(G))H
+and `‖ρ_L(h_i)‖≤1` then give strong convergence `ρ_L(h_i)→I`.
+Consume [V4.0.Fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4831498b0ca6b0d69210ef2294ce1c92f028fbde/TauCetiRoadmap/VonNeumannAlgebras/README.md#L316-L339) for measurable Hilbert fields, square-integrable
+sections, rectangular decomposable maps and RN measure-change/zero-extension
+unitaries, and [SelfAdjointSpectralTheory SA-B85](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bf5d59ef8aa818b8f804da819857832c0fe9f73e/TauCetiRoadmap/OperatorTheory/SelfAdjointSpectralTheory/README.md#L644-L719)
+for the diagonal spectral representation of this nondegenerate C₀(G⁰)
+representation. The unit space G⁰ is second-countable locally compact Hausdorff.
+
+For two such representations L₁,L₂ and a bounded intertwiner T, prove
+that multiplier extension makes T intertwine their unit-space representations.
+Use SA-B79/B85 on the direct-sum representation and its off-diagonal corner
+to transport spectral projections and full diagonal L∞ actions; for controls
+μ₁,μ₂ use `λ=μ₁+μ₂` and Fields' onto RN transport to λ-fields with zero
+fibres off each density support. No equivalence of the two controls is
+assumed for a bounded intertwiner. On H₁⊕H₂ the off-diagonal block
+`S(ξ₁,ξ₂)=(0,Tξ₁)`, and S†, commute with the common diagonal. Form the
+separable unital C*-algebra generated by `diag(ρ₁(h),ρ₂(h))`, h∈C₀(G⁰),
+S,S† and I. Apply [V4.0.Decomposition's reduction of a separable C*-representation
+commuting with a given diagonal](https://github.com/TauCetiProject/TauCetiRoadmap/blob/290e14ed238433b886724aa3c4f6e329598c0120/TauCetiRoadmap/VonNeumannAlgebras/README.md#L420-L429) to this auxiliary algebra,
+and Fields' rectangular criterion to recover measurable fibre maps, with
+essential norm, adjoint, composition and fibrewise-unitarity comparisons.
+Here V4.0.Decomposition denotes reduction over the given diagonal supplied
+by SA-B85. The full groupoid representation L is not assumed to commute
+with C₀(G⁰). Identify its unit-space spectral measure class and multiplicity
+with the shared direct-integral construction, and prove almost-everywhere
+transport for equivalent base measures. Include H=0, zero controls/fields
+and the empty unit space, where nondegeneracy forces H=0; keep the onto
+zero-fibre transport in these cases. D5 proves quasi-invariance and constructs
+the inter-fibre unitaries U_γ, saturated conull reduction and disintegration
+below; continuous Hilbert fields in H5 alone do not supply these targets.
 
 A measurable unitary representation consists of such a field and measurable
 unitaries `U_γ:H_s(γ)→H_r(γ)` satisfying the groupoid laws on a saturated
@@ -748,8 +785,9 @@ the on-site model.
   general disintegration, equivalence and ideal hypotheses.
 - [Muhly–Williams, *Renault's Equivalence Theorem for Groupoid Crossed Products*](https://arxiv.org/abs/0707.3566):
   Theorem 5.5, Theorem 7.8 and Appendix B. Use the scalar Hausdorff
-  specialization and build the proof's measurable-field and disintegration
-  prerequisites in D5.
+  specialization. D5 builds the groupoid-specific measurable-representation
+  and disintegration prerequisites over V4.0.Fields, SA-B85 and
+  V4.0.Decomposition in the stated unit-space/auxiliary-algebra order.
 - [Sims–Williams, *Renault's Equivalence Theorem for Reduced Groupoid C*-algebras*](https://arxiv.org/abs/1002.3093):
   Definition 2, Lemmas 3–5 and Theorems 13 and 17 for linking groupoids,
   reduced corner norms and the quotient of the full equivalence module.
