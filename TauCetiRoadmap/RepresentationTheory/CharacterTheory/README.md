@@ -1,28 +1,19 @@
 # Roadmap: character theory of finite groups, and computing character tables
 
-Mathlib has the analytic heart of finite-group character theory but nothing that assembles it into a
-usable theory of the **character table**, and no way to **compute** one. It defines the character of a
-representation as a trace (`RepresentationTheory/Character.lean`: `Representation.character` and
-`FDRep.character`, with `char_one`, `char_conj`, `char_tensor`, `char_dual`, `char_linHom`), proves
-Maschke's theorem (`RepresentationTheory/Maschke.lean`: `IsSemisimpleRing k[G]`), has Schur's lemma
-and the general Artin-Wedderburn structure theorem (`RingTheory/SimpleModule/WedderburnArtin.lean`,
-`RingTheory/SimpleModule/IsAlgClosed.lean`), and proves the **first (row) orthogonality relation**
-`char_orthonormal`. It also has the arithmetic foundations the subject needs downstream: algebraic
-integers as a ring with `isIntegral_iff` (a rational algebraic integer is an integer), roots of unity
-are integral (`IsPrimitiveRoot.isIntegral`), and cyclotomic fields with their Galois group
-`≃ (ZMod n)ˣ` (`NumberTheory/Cyclotomic/*`).
-
-What Mathlib does **not** have is everything that turns those pieces into character theory proper: the
-space of **class functions** and its pairing; the **center of the group algebra**, its **class-sum
-basis** and the **structure constants**; the count **#irreducibles = #conjugacy classes**;
-**completeness** of the irreducible characters and the **second (column) orthogonality relation**; the
-arithmetic of character values (their lifts into **cyclotomic integers** in `ℤ[ζ_e]`, the **central
-characters** `ωᵪ`, the **primitive central idempotents**, that a degree **divides `|G|`**, the **Galois
-action** on the values); the **character table** as an object at all; and, above all, any means of
-**computing** a character table. Mathlib's eigenvalue and characteristic-polynomial machinery is
-`noncomputable`, its joint-diagonalization result is a classical existence statement over `ℝ`/`ℂ`, and
-there is no Dixon-Schneider algorithm, no class-multiplication matrix, and no `#eval` of a character
-anywhere.
+Consume Mathlib's trace characters, Maschke, Schur, Artin–Wedderburn, roots of unity,
+cyclotomic number fields and algebraic-integer APIs. Consume the pinned TauCeti
+`RepresentationTheory/CharacterTable` implementation: `ClassFunction` and its
+bundled bilinear `characterPairing`; class sums, their basis, integral structure
+constants and multiplication matrices; completeness, the table and column
+orthogonality; primitive central idempotents and central characters; degree
+divisibility, Galois character formulas and Burnside solvability; the actual
+`ClassData` and exact cyclotomic `Option` solver with its checker and soundness.
+The named targets below specify the full subject and its comparisons: use these
+existing objects and theorems directly, and construct only the missing adapters.
+In particular keep the cross-universe module/multiplicity comparisons, the new
+faithful tensor-generation theorem, and Layer6's exact-integral/bounded-completeness
+bridge explicit. Existing conditional solver soundness is not a proof of complete
+reconstruction at the old square-root coefficient threshold.
 
 This roadmap builds that theory and ends at an **executable, proven-correct** character-table
 algorithm: a Lean function that `#eval`s to the character table of a concrete finite group, together with
@@ -147,41 +138,42 @@ Suggested home: `TauCeti/RepresentationTheory/CharacterTable/` (deliverable C un
   (`isIntertwiningMap_of_mem_center`, `centralMul`, `equivAlgEnd`), the raw material for the central
   character.
 
-## What is missing (build here)
+## Native integration and comparison targets
 
-The **space of class functions** and its bilinear pairing; the **center of `k[G]`**, the **class-sum
-basis**, the computable **structure constants `aᵢⱼₖ`**, and the **integral class center** over `ℤ`; the
-composition of Maschke with Artin-Wedderburn into **`k[G] ≅ ⊕ Matₙᵢ(k)` with `∑ nᵢ² = |G|`**, the
-**irreducible-indexing infrastructure** and the center-splitting `Z(k[G]) ≃ (Irreps → k)`, and the count
-**#irreducibles = #conjugacy classes**; **completeness**, the **second (column) orthogonality relation**,
-the **primitive central idempotents**, the **virtual-character lattice**, and the **character table** as
-a matrix with its labeled uniqueness; the arithmetic - **cyclotomic-integer value lifts and `ℤ[ζ_e]` membership**, the
-**central characters** and their integrality via the integral class center, **`nᵢ ∣ |G|`**, the **Galois
-action**, and (application, off the critical path) **Brauer splitting** and **Burnside `pᵃqᵇ`**; the
-**Dixon-Schneider characterization** (the explicit class-algebra eigenvector identity, the ordinary/
-central conversion, the degree-positivity normalization) and the **uniqueness/checker**; and the
-**executable algorithm** - an **exact cyclotomic-integer type**, computable finite-field linear algebra
-(`kernelBasis`, `eigenvalueSearch`), certified **`DixonPrimeData`** and the good-prime structure theorem
-`Z(𝔽_p[G]) ≅ 𝔽_p^r`, the eigenvector search, the structured **cyclotomic lift**, and the assembled solver
-with its correctness proof. None of this is upstream.
+The native `TauCeti/RepresentationTheory/CharacterTable` modules are the foundational
+objects for Layers0–6, not an alternate implementation to copy. In particular use
+`ClassFunction.equivConjClasses`, `ClassFunction.characterPairing`, its
+nondegeneracy and pairing-to-Hom lemmas, `ClassFunction.le_span_irreducibleCharacters`,
+`Table.characterTable` (the declaration is `TauCeti.characterTable`),
+`Representation.centralCharacter`, `ClassSum/Eigenrow`, `Specification` and
+`Solvable`. Its table rows are `Fin (Nat.card (ConjClasses G))`; use the existing
+finite indexing maps. Native `Cyclotomic`, `DixonPrimeData`,
+`ClassData.centralCharacterSearch` and `ClassData.dixonCyclotomicCharacterTable?`
+supply the executable exact ring, modular search and all-embedding solver.
+Native `FrobeniusSchur`, `FrobeniusGroup`, `RepresentationRing` and `GL2` modules
+supply the corresponding existing application APIs. The milestone descriptions
+retain the complete mathematical programme; they are not assertions that these
+native results must be reimplemented.
 
-Deliverable D adds three classical applications, none of them upstream either: the **Frobenius-Schur
-trichotomy** and the real/quaternionic/complex classification of an irreducible `χ` over `ℂ` by
-`ν₂(χ) ∈ {+1, 0, -1}`, with the invariant **symmetric/alternating** bilinear forms, the involution count
-`#{g : g² = x} = ∑_χ ν₂(χ) χ(x)`, and the equality of the number of **real-valued** irreducibles and the
-number of **real conjugacy classes** (`g ∼ g⁻¹`); **Frobenius groups**, the **Frobenius kernel**, and
-**Frobenius's theorem** `G = N ⋊ H` (via **trivial-intersection sets** and the exceptional-character
-induction argument, the signature use of induced characters, with no known character-free proof); and the
-full **character table of `GL₂(𝔽_q)`** by parabolic induction of characters of the Borel (the principal
-series, dimension `q+1`), its one-dimensional and **Steinberg** boundary constituents (dimensions `1` and
-`q`), and the **cuspidal** representations from the non-split torus `𝔽_{q²}^×` (dimension `q-1`).
+The remaining comparison work includes arbitrary-universe finite-model regrouping,
+character recognition, specified application intertwiners and real forms, and the
+new complete central-coordinate reconstruction in Layer6. For GL₂, the native
+principal-series definition is universe-polymorphic but its Mackey-based
+irreducibility theorem specializes the field to `Type`; retain the finite-field
+small-model transport target at arbitrary universes and consume the existing
+small-model theorem. The quadratic-extension torus and cuspidal objects use the
+actual native `Algebra.IsQuadraticExtension` instance derived from `finrank=2`.
+No private class-function carrier, unbundled replacement pairing, extra
+irreducible quotient, assumed Gaussian elimination or postulated exact ring is
+used by the prototype.
 
-`Suggested.lean` pins the load-bearing objects (`ClassFunction`, `classSum`, `structureConstant`,
+`Suggested.lean` consumes native definitions for the load-bearing objects (`ClassFunction`, `classSum`, `structureConstant`,
 `integralClassCenter`, `centralCharacter`, `primitiveCentralIdempotent`, `centralCharacterTable`,
 `characterTable`, `IsCharacterTableSpec`, `Cyclotomic e`, `DixonPrimeData`, `characterTableDixon`) and
-the named milestones below as `sorry`-targets, so each is claimable and the summit statement
-`characterTable_eq` is machine-checked to be expressible against the pinned Mathlib. For Deliverable D it
-adds `IsInvariantForm`, `frobeniusSchurIndicatorRep` and its trichotomy, `IsRealForm` and the `ν₂ = +1`
+states new comparison milestones as honest theorem targets. The summit statement
+`characterTable_eq` is stated against the actual native solver and complex checker;
+new comparisons are separately named prototype targets. For Deliverable D it
+consumes native `IsInvariantForm`, `frobeniusSchurIndicatorRep` and its trichotomy, `IsRealForm` and the `ν₂ = +1`
 realizability target, the involution count `card_sq_eq_sum_frobeniusSchur`, `IsRealClass`,
 `IsFrobeniusComplement`, `IsTISet`, `frobeniusKernel` and the bundled `frobeniusKernelSubgroup` with its
 normality and `frobeniusKernel_isComplement'`, and `GL2Borel`, `GL2PrincipalSeries`, `GL2Steinberg`,
@@ -206,8 +198,11 @@ normality and `frobeniusKernel_isComplement'`, and `GL2Borel`, `GL2PrincipalSeri
 
 ### Layer 1: the group algebra, its center, and structure constants
 
-- **The class sum** `classSum k C : k[G]`, `∑_{g ∈ C} g` for `C : ConjClasses G`; a genuine `def` on
-  `[Fintype G] [DecidableEq G]` data, hence computable.
+- **The class sum** `classSum k C : k[G]`, `∑_{g ∈ C} g` for `C : ConjClasses G`; consume the native
+  mathematical class sum for proofs. Compute its coefficient function from the actual
+  numbered `ClassData` on `[Fintype G] [DecidableEq G]` data and prove agreement with
+  that mathematical class sum. The native group-algebra additive instance is
+  noncomputable; executable class constants and matrices use the numbered finite data.
 - **The class sums are a basis of the center.** `classSum k C ∈ Subalgebra.center k k[G]`, they are
   linearly independent, and they **span** the center: `Z(k[G])` is free with basis
   `{classSum k C}_{C}`, so `finrank k (Z(k[G])) = Nat.card (ConjClasses G)`, and the center is
@@ -581,55 +576,138 @@ packages the checker. It is stated over `ℂ`; deliverable C computes it.
 
 ## C. The executable certified algorithm with exact cyclotomic output
 
-### Layer 6: the executable Burnside-Dixon-Schneider algorithm (the summit)
+### Layer 6: the executable Burnside–Dixon–Schneider algorithm
 
-Everything here is a genuine `def` on `[DecidableEq G] [Fintype G]` data, `#eval`-able, proved against
-Layer 5. The layer is explicitly conditional on the exact-arithmetic and good-prime infrastructure it
-names as its first targets.
+Consume the existing `TauCeti.Cyclotomic`, `TauCeti.ClassData`,
+`TauCeti.DixonPrimeData` and
+`TauCeti.ClassData.dixonCyclotomicCharacterTable?` objects. The native solver
+returns an `Option` of exact central table `omega`, ordinary table `table`
+and positive natural degrees. Its existing exact checker and soundness theorem
+apply to every successful result. This layer supplies the remaining complete
+reconstruction theorem with an explicit sufficient prime threshold; it does
+not replace these objects or weaken a successful output's certificate.
 
-- **Exact cyclotomic arithmetic.** `Cyclotomic e`: the computable ring `ℤ[X]/Φ_e` as coefficient vectors
-  on the power basis, with `+`, `*`, `DecidableEq` as `def`s, a pinned embedding `Cyclotomic e ↪ ℂ`, and
-  the reduction `Cyclotomic e → ZMod p` at a prime dividing `p`. The output type is `ExactCharTable G`
-  (entries in `Cyclotomic e`), never `Matrix _ _ ℂ`; `ℂ` appears only under the embedding, in the
-  correctness statement.
-- **Executable class data.** `ClassData G` - `reps : List G`, the classes as `List (Finset G)`, with
-  completeness/disjointness/conjugacy proofs and an equivalence to `ConjClasses G`. Use `ClassData` for
-  deterministic indexing in computation and `ConjClasses G` for theorems. `structureConstant` becomes an
-  executable `ℕ`-valued function over `ClassData`. `#eval`-test on `DihedralGroup 4`.
-- **Computable finite-field linear algebra.** Two separate `def`s: `kernelBasis` over
-  `[Field F] [DecidableEq F]` (verified Gaussian elimination giving a kernel basis) and `eigenvalueSearch`
-  over `[Field F] [Fintype F] [DecidableEq F]` (the eigenvalues of a matrix, found by search over `F`).
-  Eigenspaces are `kernelBasis (Mᵢ - λ)`. This is the one linear-algebra gap on the critical path, and it
-  is a self-contained target.
-- **Certified Dixon prime data.** `DixonPrimeData G` - a prime `p`, a proof `p.Prime`, `e ∣ p - 1` (so
-  `ZMod p` splits `X^e - 1`), the size bound `2⌊√|G|⌋ < p` (making the lift unique), and a
-  **`IsGoodDixonPrime G p`** certificate: `p ∤ |G|`, `X^e - 1` splits, and the reduced central-character
-  tuples are injective (no bad-prime merging of distinct central characters). For the worked examples
-  these data are **certified explicitly**; that a good Dixon prime *exists* (from the primes dividing
-  `Φ_e`, avoiding the finitely many bad ones) is a **separate, later** theorem, not a step in any `#eval`.
-- **The good-prime structure theorem.** For `IsGoodDixonPrime G p`: `Z(𝔽_p[G]) ≃ₐ 𝔽_p^r`, the reduced
-  class-multiplication matrices are simultaneously diagonalizable with exactly `r` distinct algebra
-  homomorphisms `𝔽_p^r`. The eigenvector-search correctness theorem is conditional on this; it is what
-  guarantees the refinement terminates in one-dimensional common eigenspaces.
-- **The eigenvector search.** Over `ZMod p`, refine a partition of `Fin r` into common eigenspaces by
-  splitting each block along `eigenvalueSearch (Mᵢ)` (each eigenspace `kernelBasis (Mᵢ - λ)`) until every
-  block is one-dimensional; correct under the structure theorem. Output the reduced central-character
-  table `Ω mod p`.
-- **The structured cyclotomic lift.** Not a bare `ZMod p → ℤ[ζ_e]` (a residue underdetermines an algebraic
-  integer, and with `p ≡ 1 (mod e)` the Frobenius on `ζ_e` is *trivial* mod `p`, so the useful data is the
-  images at all embeddings, not a Frobenius orbit). Instead `liftCyclotomic`, taking a chosen primitive
-  `e`-th root `α ∈ ZMod p`, the residue tuple over `(ZMod e)ˣ`, and a bounded-coefficient certificate
-  (Dixon's bound), returning the unique element of `Cyclotomic e` with those data, with a uniqueness proof.
-  Stage it: a **rational-integer** lift first (rational tables), then a **quadratic/cubic cyclotomic** lift
-  (for `A₄`, `A₅`), before the general `ℤ[ζ_e]`.
-- **The assembled solver.** `characterTableDixon G : ExactCharTable G`, the composition of modular
-  reduction, the eigenvector search, the degree recovery, and the lift, returning `Ω` exactly and
-  converting to `X`. It returns its output **together with a certificate that it satisfies the checker**
-  (an `Option`/subtype whose success is `IsGoodDixonPrime`-certified; search the next prime on failure).
-  The **summit theorem** `characterTable_eq`: the embedding `Cyclotomic e ↪ ℂ` of `characterTableDixon G`
-  satisfies `IsCharacterTableSpec G`, hence (Layer 5 uniqueness) **is** the character table of `G` up to
-  row permutation. Acceptance: `#eval characterTableDixon (DihedralGroup 4)` returns the correct exact
-  table, likewise for the staged examples below.
+1. **Exact ring, fixed generator and coordinates.** Use native
+   `TauCeti.Cyclotomic e`, its computable ring operations, decidable equality,
+   `zeta e`, `coeff`, `ofCoeffList`, `equivAdjoinRoot` and `complexEmbedding`.
+   Its stored list is descending; `coeff x k` reads the ascending power
+   coordinate. For `e>0`, the distinguished complex image of `zeta e` is
+   `complexRoot e`, a primitive root, and the embedding is injective.
+   Keep the comparison with Mathlib `CyclotomicRing e ℤ ℚ` as an explicit
+   generator-compatible map, rather than a second unconstrained exact carrier.
+   Native `evalRingHom` evaluates at any actual root of the mapped cyclotomic
+   polynomial. Its specialization `reduceRingHom` at a primitive root supplies
+   the solver's reductions. No unital evaluation map at an arbitrary nonroot
+   is asserted. The primitive-root-to-polynomial-root and generator evaluation
+   lemmas are existing native consumers.
+
+2. **Executable input and the left-row convention.** Consume `ClassData G`'s
+   actual finite class enumeration, representatives, class sizes, structure
+   constants and `equivConjClasses`. Keep the conductor `e` as an explicit
+   natural with `he : e = Monoid.exponent G` on the executable path: the
+   abstract `Monoid.exponent` is not computed. Native `kernelBasis` returns
+   the right kernel. With Layer5's convention
+   `(M_i)_(j,k)=a_(i,k,j)`, a left eigenspace is the right kernel of
+   `M_iᵀ−λI`, never of `M_i−λI`. Use the existing
+   `ClassData.centralCharacterSearch`, which transposes the family before its
+   joint eigenvalue search, and its normalized-eigenrow/algebra-homomorphism
+   equivalence. Use the native finite-field and split-center results for
+   native good Dixon primes; do not assume no-merging as an extra oracle.
+
+3. **A computable canonical bound.** For each `e>0`, define
+   `A_e=max(1,max_(j<e,k<φ(e)) |coeff(zeta(e)^j,k)|)` using the native finite
+   coordinate computations. Define `B_G=|G| A_e`. Own finite-maximum and
+   coordinate-additivity adapters. For any finite-dimensional complex
+   representation and `g∈G`, exhibit the actual multiplicities `m_j≥0` of
+   the eigenvalues `complexRoot(e)^j`, with `Σm_j=d`, and define
+   `x_g=Σm_j zeta(e)^j` in the native ring. Prove its complex image is `χ(g)`
+   and `|coeff(x_g,k)|≤d A_e`. This includes `d=0` without introducing a
+   central character for the zero representation.
+
+4. **Construct exact central values before bounding them.** For a simple
+   representation, `d>0`. Consume native
+   `Representation.centralCharacter_classSumCenter_mul_character_one` and
+   `isIntegral_centralCharacter_classSumCenter`. Pin
+   `K=CyclotomicField e ℚ` and an embedding `ι:K→+*ℂ` carrying its chosen
+   primitive root to the same `complexRoot e`. Prove all complex e-th roots
+   lift through this `ι`, and hence `χ(g)` and `Ω_C=|C|χ(g)/d` lie in its
+   image. Transfer complex integrality of `Ω_C` back to K along the injective
+   embedding. Consume Mathlib
+   `IsCyclotomicExtension.Rat.isIntegralClosure_adjoin_singleton`,
+   `cyclotomicRing_isIntegralClosure` and
+   `IsPrimitiveRoot.adjoinEquivRingOfIntegers`/`integralPowerBasis`, with
+   `integralPowerBasis_gen` and `integralPowerBasis_dim`. Build the explicit
+   native quotient-to-adjoin-to-ring-of-integers comparison on the same
+   generator. Prove its ordered integral powers agree with the native
+   coordinates of length `φ(e)`, not an arbitrary integral basis. This
+   constructs an actual `w_C : TauCeti.Cyclotomic e` with image `Ω_C`.
+   These comparisons belong to the correctness proof, outside the executable
+   prime/row/lift computation.
+
+   Injectivity of the complex embedding now gives the division-free equality
+   `d*w_C=|C|*x_g` in the native exact ring. Apply the canonical coordinates,
+   using native `coeffs_intCast_mul`, to obtain `d*b_k=|C|*a_k` in ℤ.
+   Taking absolute values and cancelling the positive integer d proves
+   `|b_k|≤|C|A_e≤|G|A_e=B_G`. No claim `d∣|C|`, integral-ring division or
+   bound inferred just from complex absolute values is used.
+
+5. **Stronger primes, with the native predicate unchanged.** Retain native
+   `IsGoodDixonPrime` and `DixonPrimeData`, including its actual primitive
+   modular root. Their older inequality `2⌊√|G|⌋<p` does not bound every
+   canonical central coefficient. For complete reconstruction by this route
+   additionally require `p>2B_G`. The S₄ trivial row has a central value8 at
+   its size8 class and excludes the old p13 window; distinct modular rows
+   alone do not repair that problem. Own `exists_strongDixonPrime` using
+   native `Nat.exists_prime_gt_modEq_one` above
+   `max(|G|,2B_G)` and the nonzero finite-group exponent. This also gives
+   `p∤|G|`, splitting and the weaker native threshold. Native
+   `TauCeti.exists_isGoodDixonPrime` is the existing ordinary-prime existence
+   theorem; no new Dirichlet theory is needed. Use the native finite
+   candidate enumeration and primitive-root search to reach such a prime
+   with a finite budget. `e=1` gives `A_1=1`, `B_G=1` for the trivial group,
+   and `p>2` suffices. There is no e0 finite-group case.
+
+6. **Exact certificate, all conjugates and row alignment.** Construct the
+   exact ordinary and central tables from the actual irreducible rows and
+   the exact values above. Use native ClassData numbering, not a new
+   irreducible quotient. Injectivity of the embedding transfers central
+   normalization, multiplicativity, orthogonality, degree positivity and
+   divisibility, the sum of degree squares and `d_i omega_ij=|C_j| table_ij`
+   to `ClassData.IsCyclotomicCharacterTableSpec`. Its native conjugation
+   comparison must carry complex conjugation correctly. State the exact
+   coordinate bound for every central entry of this certificate.
+
+   The native solver enumerates permutations at every primitive conjugate
+   root, fixing its first numbering, and every positive degree vector
+   satisfying the degree constraints. Its existing certificate reduction
+   theorem proves injectivity of the reduced rows at every conjugate root;
+   its completeness theorem constructs the compatible permutations. Consume
+   `ClassData.isSome_dixonCyclotomicCharacterTable_of_spec`, including that
+   proof, rather than assuming either a Galois row alignment or no-merging.
+   The entire tuple is indexed by `Fin φ(e)` through native
+   `primitiveExponent`/`conjugateRoot` and `conjugateResidues`.
+   One reduction does not determine an entry; Frobenius is trivial when
+   `p≡1 mod e` and supplies no missing conjugates. The derived inequality
+   `2|coeff(w_C,k)|<p` supplies exactly the hypothesis of native
+   `Cyclotomic.lift_eq_of_conjugateResidues_eq`.
+
+7. **Totality, conversion and acceptance.** From the actual bounded exact
+   certificate prove the native solver is `isSome` at every strong prime.
+   Native exact division computes the ordinary table from `degree*omega`;
+   the division-free certificate proves every coordinate division exact.
+   Consume native `ClassData.complexTableOfCyclotomic`, its
+   `complexTableOfCyclotomic_apply_classOf` reindexing equation and
+   `IsCyclotomicCharacterTableSpec.isCharacterTableSpec`. Apply native
+   `characterTable_unique_rows` for equality to the actual ordinary table up
+   to rows only. Finally prove that some finite prime-search budget makes
+   native `ClassData.characterTableDixon?` succeed, using its candidate
+   membership/success lemmas and the stronger-prime existence above. This
+   is a complete termination target, not merely success-conditional
+   soundness or a bounded-coefficient assumption supplied by a caller.
+   Keep the staged rational, quadratic/cubic and general exact examples
+   below, including `#eval` acceptance for DihedralGroup4, C₃, A₄, S₄ and A₅.
+   All new theorem targets remain distinct from the already defined native
+   executable arithmetic, search, checker and conditional soundness.
 
 ## D. Structural theorems and worked families
 
@@ -647,12 +725,10 @@ Layer 4 pins the indicator `ν₂(χ) = |G|⁻¹ ∑_g χ(g²)` as a `def` and u
 This layer proves what it measures.
 
 - **The indicator on the module spine.** `frobeniusSchurIndicatorRep ρ = |G|⁻¹ ∑_g ρ.character (g²)` for
-  `ρ : Representation ℂ G V`, agreeing with the `FDRep`-level `frobeniusSchurIndicator` (also a build target here: Mathlib has no
-  Frobenius-Schur indicator) under
+  `ρ : Representation ℂ G V`, agreeing with the `FDRep`-level native `FDRep.frobeniusSchurIndicator` under
   `Rep.equivalenceModuleMonoidAlgebra`. This is the computation-friendly form; state both and their equality.
-- **The symmetric and exterior squares (a build target, not consumed).** Mathlib has no character-level
-  `Sym²`/`Λ²` of a representation, so this layer **builds** the symmetric- and exterior-square
-  representations and their character formulas `χ_{Sym²}(g) = ½(χ(g)² + χ(g²))` and
+- **The symmetric and exterior squares.** Consume the native symmetric/exterior-square
+  representation and Frobenius–Schur modules and their character formulas `χ_{Sym²}(g) = ½(χ(g)² + χ(g²))` and
   `χ_{Λ²}(g) = ½(χ(g)² - χ(g²))`. From them, the invariant forms follow.
 - **Invariant bilinear forms.** `IsInvariantForm ρ B` for `B : LinearMap.BilinForm ℂ V`:
   `B (ρ g x) (ρ g y) = B x y`. The invariant forms are the `G`-invariants of `V* ⊗ V*`
@@ -668,8 +744,8 @@ This layer proves what it measures.
 - **Realizability over `ℝ` (a separate, stronger target).** The symmetric invariant complex form of the
   `+1` case is *not itself* a real representation: realizing `ρ` over `ℝ` means constructing a
   `Representation ℝ G W` whose scalar extension to `ℂ` recovers `ρ` (typically via a compatible Hermitian
-  form / anti-linear equivariant involution). Mathlib has no complexification of representations, so pin the
-  predicate `IsRealForm` and the theorem `frobeniusSchurIndicatorRep_eq_one_realizable` as their own target,
+  form / anti-linear equivariant involution). Consume the native `Representation.IsRealForm` and pinned finite-carrier
+  `IsRealizableOverReal` predicates, and the theorem `frobeniusSchurIndicatorRep_eq_one_realizable` as their own target,
   not a corollary of the form equivalence.
 - **The involution-counting formula.** `#{g : g² = x} = ∑_χ ν₂(χ) χ(x)`, the **degree-weighted** signed sum
   over the irreducible characters (`card_sq_eq_sum_frobeniusSchur`); at `x = 1`,
@@ -710,6 +786,17 @@ exceptional characters.
   `Representation.ind` and the induced-character formula of the
   [induction-restriction roadmap](../InductionRestriction/README.md), **preserves the norm**, not the
   tautology "a function vanishing off `H` induces isometrically".
+- **Degree correction and the norm-two step.** A raw difference `χ_i−χ_j`
+  vanishes at the identity only if the two degrees agree. Apply the T.I.
+  supported-function isometry to such raw differences only under this actual
+  equality. For arbitrary degrees consume native `ClassFunction.indExtend H φ`,
+  defined by `Ind_H^G(φ−φ(1)1_H)+φ(1)1_G`, its restriction/degree identities and
+  `characterPairing_indExtend_indExtend`. The degree-corrected extension preserves
+  the pairing; it does not make an arbitrary virtual character have norm2.
+  Compute the norm2 of a difference of distinct irreducible characters separately
+  by row orthogonality, and only then transport it through that isometry. Keep
+  the coherent-sign/exceptional correspondence and subgroup support construction
+  below as separate milestones.
 - **The exceptional-character correspondence (its own milestones).** Assembling `N` is not immediate from
   norm-`2` inductions. Split it into: (i) the T.I. induction isometry above; (ii) the **exceptional-character
   bijection** matching a subset of `Irr H` with a subset of `Irr G`, with **coherent sign choices**;
@@ -729,8 +816,9 @@ alone; so state the family either over `F = GaloisField p n` with its canonical 
 [Algebra F E]`. This is the canonical worked family, and it consumes `Representation.ind` and the
 induced-character formula of the [induction-restriction roadmap](../InductionRestriction/README.md).
 
-- **The conjugacy classes (a build target).** Mathlib has `Matrix.charpoly` but not the rational-canonical-
-  form classification, centralizer sizes, or class counts for `GL₂`; build them. Four families, separated by
+- **The conjugacy classes.** Consume the native `GeneralLinearGroup/ConjugacyClasses`
+  classification and class counts, together with the native GL₂ character modules; retain
+  the representative, centralizer-size and indexing comparisons. Four families, separated by
   minimal/characteristic polynomial: the `q-1` **central** scalars `diag(a,a)`; the `½(q-1)(q-2)` **split
   semisimple** `diag(a,b)` with `a ≠ b`; the `q-1` **non-semisimple/unipotent** `[[a,1],[0,a]]`; and the
   `½q(q-1)` **elliptic/non-split** classes, whose eigenvalues are a conjugate pair `ξ, ξ^q` in
@@ -752,7 +840,7 @@ induced-character formula of the [induction-restriction roadmap](../InductionRes
   factoring through the norm) gives `GL2Cuspidal F E θ`, of dimension `q-1` (`character_one_GL2Cuspidal`),
   with `θ` and `θ^q` yielding the same one, for `½q(q-1)` irreducibles of dimension `q-1` (parametrized by
   the `θ ∼ θ^q` orbits). These are exactly the irreducibles absent from every principal series.
-- **Character-value formulas (build targets).** The table is not fixed by the dimension counts: pin the
+- **Character-value formulas and comparisons.** Consume the existing native GL₂ formulas; The table is not fixed by the dimension counts: pin the
   explicit character values of the linear, Steinberg, principal-series, and cuspidal rows on each of the four
   class families (central, split, unipotent, elliptic); this is the bulk of the layer.
 - **The count and the table (acceptance criterion).** The tally
@@ -821,9 +909,15 @@ than invoking the complex form of Schur’s lemma on an arbitrary real module.
 The force operators below are explicit linearizations. No assertion about
 nonlinear stability follows from their zero eigenvalues.
 
-For two particles at `(0,0),(1,0)`, use displacement order
-`(x₁,x₂,y₁,y₂)` and force matrix
+For two particles at `(0,0),(1,0)`, name their displacements
+`u₁=(x₁,y₁)` and `u₂=(x₂,y₂)`, use displacement order `(x₁,y₁,x₂,y₂)`
+and force matrix
 `H=[[-1,0,1,0],[0,0,0,0],[1,0,-1,0],[0,0,0,0]]`.
+The source names its particle vectors `x=(x₁,x₂)` and `y=(y₁,y₂)`.
+The scalar dictionary is source `x₁` ↦ target `x₁`, source `x₂` ↦ target `y₁`,
+source `y₁` ↦ target `x₂`, and source `y₂` ↦ target `y₂`. Thus the source
+stack `(x₁,x₂,y₁,y₂)` becomes the target stack `(x₁,y₁,x₂,y₂)` with exactly
+the displayed matrix and the same particle displacements.
 Construct the commuting involutions
 `r=diag(1,-1,1,-1)` and
 `s=[[0,0,-1,0],[0,0,0,1],[-1,0,0,0],[0,1,0,0]]`.
@@ -891,10 +985,20 @@ Also compute restriction to the vertex stabilizer `S₃` and the square
 subgroup `D₄=⟨(1234),(13)⟩` of `S₄`.
 The displacement invariant spaces have dimensions `3` and `2`, respectively.
 For `S₃`, construct a fixed vector on the breathing line and one in each
-standard copy, and prove that the orbit of a nonzero fixed vector in the
-vibrational standard module spans that module. For `D₄`, construct the
-fixed line in `E`, separate it from breathing by orthogonal projection,
-and prove its orbit spans `E`. Give the corresponding restriction
+standard copy. Prove that the full `S₄`-orbit of the chosen nonzero seed in the
+vibrational standard module consists of exactly four vectors, that their sum
+is zero, and that they span that three-dimensional module. A concrete choice
+is `u_j=A_i q_j`, with `A_i=q_i q_iᵀ−(1/4)I` for the vertex fixed by the
+subgroup; the four `A_i` are distinct, sum to zero and span the off-diagonal
+symmetric matrices. The translation seeds `u_j=q_i` give the same four-point
+standard comparison. Its `S₃`-orbit itself is a singleton.
+For `D₄`, construct the fixed line in `E`, separate it from breathing by
+orthogonal projection, and prove that the full `S₄`-orbit of a nonzero seed
+has exactly three vectors spanning `E`. With the specified vertices and
+`D₄=⟨(1234),(13)⟩`, take `A=diag(-1,2,-1)` in `u_j=Aq_j`; its orbit is the
+three diagonal matrices having one entry2 and the other entries−1. Their
+sum is zero and this is their sole linear relation, so they span the
+trace-zero diagonal plane. Its `D₄`-orbit itself is a singleton. Give the corresponding restriction
 characters and fixed-space projectors; these constructions supply the
 symmetric spanning sets without claiming a canonical basis in an irreducible.
 
@@ -912,10 +1016,13 @@ on Layer4 arithmetic, degree divisibility, a McKay graph or a finite-subgroup cl
 arithmetic) needs Layer 3's table and Layer 1's integral class center; Brauer and Burnside are its
 applications and may come last. Layer 5 (the specification) needs the coordinate identity, the primitive
 central idempotents and center-splitting (Layers 2-3), and Layer 4's central-character integrality and
-degree recovery. Layer 6 (the executable algorithm) needs Layer 5 as its specification and, as its own
-first targets, the exact-arithmetic type, the executable class data, and the finite-field linear algebra;
-then the certified Dixon-prime data and the good-prime structure theorem, then the eigenvector search,
-then the staged lift, then the assembled solver. Deliverables A, B, C are increasingly deep and C is
+degree recovery. Layer6 consumes the native exact ring, ClassData, transposed modular search, certified
+primes, all-conjugate lift, exact checker and assembled Option solver. Its new proof order
+is generator/field/integral-power-basis comparison, eigenvalue multiplicities and exact
+ordinary values, exact central preimages and the division-free identity, the derived B_G
+coordinate bound, exact table certificate and native row-alignment completeness, then
+strong-prime cofinality and finite-budget totality. No new coefficient oracle or search
+engine is a premise. Deliverables A, B, C are increasingly deep and C is
 conditional on its named infrastructure; a contributor can complete A and B, and the rational-table
 milestone of C, well before the general cyclotomic lift.
 
