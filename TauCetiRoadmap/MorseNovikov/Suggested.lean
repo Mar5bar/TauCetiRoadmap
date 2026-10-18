@@ -62,7 +62,8 @@ def ofGroupRing : AddMonoidAlgebra R H →+* NovikovSeries R H N := by sorry
 theorem ofGroupRing_coeff (a : AddMonoidAlgebra R H) (h : H) :
     (ofGroupRing (N := N) a).coeff h = a.coeff h := by sorry
 
-def monomial (h : H) : (NovikovSeries R H N)ˣ := by sorry
+def monomial : ∀ (h : H),
+    (NovikovSeries R H N)ˣ := by sorry
 
 theorem monomial_coeff (h k : H) :
     (monomial (R := R) (N := N) h : NovikovSeries R H N).coeff k = if k = h then 1 else 0 := by sorry
@@ -70,12 +71,14 @@ theorem monomial_coeff (h k : H) :
 theorem monomial_add (h k : H) :
     monomial (R := R) (N := N) (h + k) = monomial (R := R) (N := N) h * monomial (R := R) (N := N) k := by sorry
 
-def cutoff (C : ℝ) : AddSubgroup (NovikovSeries R H N) := by sorry
+def cutoff : ∀ (C : ℝ),
+    AddSubgroup (NovikovSeries R H N) := by sorry
 
 theorem mem_cutoff (a : NovikovSeries R H N) (C : ℝ) :
     a ∈ cutoff C ↔ ∀ h, N h < C → a.coeff h = 0 := by sorry
 
-def geometricInverse (h : H) (hh : 0 < N h) : NovikovSeries R H N := by sorry
+def geometricInverse : ∀ (h : H) (hh : 0 < N h),
+    NovikovSeries R H N := by sorry
 
 theorem one_sub_monomial_mul_geometricInverse (h : H) (hh : 0 < N h) :
     (1 - (monomial (R := R) (N := N) h : NovikovSeries R H N)) * geometricInverse h hh = 1 := by sorry
@@ -122,13 +125,14 @@ def basedDifferentialMatrix {F : Type*} [Field F] (C : BasedFiniteComplex F)
   fun r c ↦ (C.basis j).repr (C.complex.d i j (C.basis i c)) r
 
 /-- N4's based determinant-line/minor torsion, zero on nonacyclic complexes. -/
-def basedTorsion {F : Type*} [Field F] (C : BasedFiniteComplex F) : F := by sorry
+def basedTorsion {F : Type*} [Field F] : ∀ (C : BasedFiniteComplex F),
+    F := by sorry
 
 theorem basedTorsion_eq_zero_iff {F : Type*} [Field F] (C : BasedFiniteComplex F) :
     basedTorsion C = 0 ↔ ∃ i, ¬IsZero (C.complex.homology i) := by sorry
 
 /-- The native two-term chain complex; its basis and matrix are fixed below. -/
-def twoTermChainComplex {F : Type u} [Field F] (a : F) :
+def twoTermChainComplex {F : Type u} [Field F] : ∀ (a : F),
     ChainComplex (ModuleCat.{u} F) ℤ := by sorry
 
 def twoTermBasedComplex {F : Type*} [Field F] (a : F) : BasedFiniteComplex F where
@@ -183,8 +187,8 @@ theorem criticalSet_finite [CompactSpace M] (α : ClosedOneForm I (M := M))
     (hα : IsMorseForm I α) : (criticalSet I α).Finite := by sorry
 
 /-- Rank-one alternating forms compared with the actual continuous dual. -/
-def covector (α : ClosedOneForm I (M := M)) (x : M) : TangentSpace I x →L[ℝ] ℝ := by
-  sorry
+def covector : ∀ (α : ClosedOneForm I (M := M)) (x : M),
+    TangentSpace I x →L[ℝ] ℝ := by sorry
 
 theorem covector_apply (α : ClosedOneForm I (M := M)) (x : M) (v : TangentSpace I x) :
     covector I α x v = (α.1 : RoughForm I M ℝ 1) x ![v] := by sorry
@@ -238,7 +242,8 @@ def IsMorseSmale (α : ClosedOneForm I (M := M)) : Prop :=
 
 variable (H : Type*) [AddCommGroup H]
 
-def criticalIndex (α : ClosedOneForm I (M := M)) (x : M) : ℕ := by sorry
+def criticalIndex : ∀ (α : ClosedOneForm I (M := M)) (x : M),
+    ℕ := by sorry
 
 theorem criticalIndex_eq_local (α : ClosedOneForm I (M := M)) (x : M)
     (f : M → ℝ) (hf : ContMDiffAt I 𝓘(ℝ) 2 f x) (hpot : ∀ᶠ y in nhds x, ∀ v : TangentSpace I y,
@@ -325,9 +330,10 @@ def trajectoryOrbitFlipOrientation (α : ClosedOneForm I (M := M))
 
 /-- N2 constructs the determinant-line sign from L's descending orientations,
 with the negative-flow direction separated as prescribed in the README. -/
-def trajectorySign (α : ClosedOneForm I (M := M)) (hα : IsMorseSmale I α)
+def trajectorySign : ∀ (α : ClosedOneForm I (M := M)) (hα : IsMorseSmale I α)
     (C : PeriodCover I H N Xtilde α) (L : CriticalLiftData I H N Xtilde α C)
-    (p q : M) (h : H) (γ : TrajectoryOrbit I H N Xtilde α C L p q h) : ℤ := by sorry
+    (p q : M) (h : H) (γ : TrajectoryOrbit I H N Xtilde α C L p q h),
+    ℤ := by sorry
 
 theorem trajectorySign_unit (α : ClosedOneForm I (M := M)) (hα : IsMorseSmale I α)
     (C : PeriodCover I H N Xtilde α) (L : CriticalLiftData I H N Xtilde α C)
@@ -375,12 +381,12 @@ theorem signedCount_nonzero_trajectory (α : ClosedOneForm I (M := M))
     (hne : signedCount I H N Xtilde α hα C L i p q h ≠ 0) :
     Nonempty (LiftedTrajectory I H N Xtilde α C L p.1 q.1 h) := by sorry
 
-def novikovComplex (α : ClosedOneForm I (M := M)) (hα : IsMorseSmale I α)
-    (C : PeriodCover I H N Xtilde α) (L : CriticalLiftData I H N Xtilde α C) :
+def novikovComplex : ∀ (α : ClosedOneForm I (M := M)) (hα : IsMorseSmale I α)
+    (C : PeriodCover I H N Xtilde α) (L : CriticalLiftData I H N Xtilde α C),
     ChainComplex (ModuleCat (NovikovSeries ℤ H N)) ℤ := by sorry
 
-def novikovComplexBasis (α : ClosedOneForm I (M := M)) (hα : IsMorseSmale I α)
-    (C : PeriodCover I H N Xtilde α) (L : CriticalLiftData I H N Xtilde α C) (i : ℤ) :
+def novikovComplexBasis : ∀ (α : ClosedOneForm I (M := M)) (hα : IsMorseSmale I α)
+    (C : PeriodCover I H N Xtilde α) (L : CriticalLiftData I H N Xtilde α C) (i : ℤ),
     (novikovComplex I H N Xtilde α hα C L).X i ≅
       ModuleCat.of (NovikovSeries ℤ H N)
         (criticalGenerators I α i →₀ NovikovSeries ℤ H N) := by sorry
@@ -413,7 +419,7 @@ abbrev normalSpace (α : ClosedOneForm I (M := M)) (x : M) : Type _ :=
   TangentSpace I x ⧸ Submodule.span ℝ {dualField I α x}
 
 /-- The derivative of the flow descends to the normal-space quotient. -/
-def normalReturn (α : ClosedOneForm I (M := M)) (o : FlowPeriodicPoint I α) :
+def normalReturn : ∀ (α : ClosedOneForm I (M := M)) (o : FlowPeriodicPoint I α),
     normalSpace I α o.point →ₗ[ℝ] normalSpace I α o.point := by sorry
 
 theorem normalReturn_mk (α : ClosedOneForm I (M := M)) (o : FlowPeriodicPoint I α)
@@ -426,17 +432,17 @@ def AllPeriodicNondegenerate (α : ClosedOneForm I (M := M)) : Prop :=
   ∀ o : FlowPeriodicPoint I α, (LinearMap.id - normalReturn I α o).det ≠ 0
 
 /-- N5 integral zeta after proving the rational exp/product identity. -/
-def dynamicalZeta (α : ClosedOneForm I (M := M)) (hα : IsMorseSmale I α)
-    (ho : AllPeriodicNondegenerate I α) (C : PeriodCover I H N Xtilde α) :
+def dynamicalZeta : ∀ (α : ClosedOneForm I (M := M)) (hα : IsMorseSmale I α)
+    (ho : AllPeriodicNondegenerate I α) (C : PeriodCover I H N Xtilde α),
     NovikovSeries ℤ H N := by sorry
 
 /-- N4–N6: based torsion before quotienting by sign and coherent deck lifts. -/
-def novikovTorsion (α : ClosedOneForm I (M := M)) (hα : IsMorseSmale I α)
-    (C : PeriodCover I H N Xtilde α) (L : CriticalLiftData I H N Xtilde α C) :
+def novikovTorsion : ∀ (α : ClosedOneForm I (M := M)) (hα : IsMorseSmale I α)
+    (C : PeriodCover I H N Xtilde α) (L : CriticalLiftData I H N Xtilde α C),
     NovikovSeries.TotalQuotient (R := ℤ) (H := H) (N := N) := by sorry
 
-def completedCellularTorsion (α : ClosedOneForm I (M := M))
-    (C : PeriodCover I H N Xtilde α) :
+def completedCellularTorsion : ∀ (α : ClosedOneForm I (M := M))
+    (C : PeriodCover I H N Xtilde α),
     NovikovSeries.TorsionValue (R := ℤ) (H := H) (N := N) := by sorry
 
 /-- Alternating critical count; N3 identifies this with the topological Euler characteristic. -/
