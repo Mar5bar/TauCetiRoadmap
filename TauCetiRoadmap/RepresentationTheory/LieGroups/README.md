@@ -633,7 +633,8 @@ is independent of the universal-cover/asphericity and complexification construct
   the single generic algebraic Bruhat theorem used in Layer 8.
 
 - **Real forms and global descent.** A real form of a complex Lie group H consists of
-  a real Lie group R, a specified closed smooth embedding R→H, and the induced complex
+  a real Lie group R, a specified smooth group homomorphism R→H that is a closed
+  embedding, and the induced complex
   Lie-algebra isomorphism Lie(R)⊗ℝℂ≅Lie(H). Define the identity-component and full
   fixed-subgroup variants for an antiholomorphic group involution. Prove that its fixed
   identity component is an embedded real form, and compare the full fixed subgroup
@@ -701,6 +702,52 @@ is independent of the universal-cover/asphericity and complexification construct
   [LieHighestWeight](../LieHighestWeight/README.md), and with
   [CompactGroups](../CompactGroups/README.md)'s representations and characters. Generic
   Peter–Weyl remains CompactGroups' independent Haar/compact-operator construction.
+
+- **Compact-real-form pairs and algebraic morphisms.** Construct the category whose
+  objects are smooth connected affine reductive algebraic groups G over ℂ,
+  connected compact Lie groups K, and specified smooth group homomorphisms
+  ι:K→G(ℂ) that are closed embeddings and whose complexified differentials
+  are Lie-algebra isomorphisms.
+  A morphism consists of a regular algebraic group homomorphism F:G→G′ and
+  a continuous group homomorphism f:K→K′ with F(ℂ)∘ι=ι′∘f. Prove f unique
+  and identify these morphisms with the regular F carrying ι(K) into ι′(K′).
+  Construct identities and composition, and restriction to connected compact
+  Lie groups with continuous homomorphisms. The preceding compact-form/polar
+  theorem identifies the displayed G(ℂ) with K's universal complexification;
+  retain dim_ℝ Lie(K)=dim_ℂ Lie(G(ℂ)) and the actual embedding.
+
+  For every f:K→K′, construct its unique holomorphic extension by that universal
+  property, then prove this extension regular algebraic. Own the algebraicity
+  comparison here. In RG1's faithful algebraic models form the compact graph
+  Γ_f⊂K×K′ and its algebraic Zariski closure H⊂G×G′. Unitarize the restricted
+  faithful representation and apply the preceding compact algebraization,
+  polar and universal-property comparisons to Γ_f. Prove H(ℂ) is the actual
+  analytic graph of the extension and its first projection onto G(ℂ) is a
+  holomorphic group isomorphism; density or a Lie-algebra comparison alone
+  does not prove these global assertions. Prove the algebraic projection
+  H→G is an isomorphism: construct its scheme kernel and image using RG0–3,
+  use characteristic-zero smoothness and the point/tangent comparisons to
+  prove the kernel trivial, and prove surjectivity and faithful flatness.
+  Give the quotient/descent argument constructing its regular inverse.
+  This projection criterion is part of this comparison, not an assumption
+  that an arbitrary analytic inverse is algebraic. Compose that inverse
+  with H→G′ to obtain the required F, and prove uniqueness from the Zariski
+  density of ι(K) in G. Prove identity and composition compatibility.
+
+  Use compact algebraization to construct a quasi-inverse to restriction.
+  Construct its unit and counit from the actual compact embeddings and
+  unique regular extensions, prove their naturality and triangle equations,
+  and conclude the equivalence of these two specified categories. Prove
+  independence, through these unique isomorphisms, of faithful matrix models,
+  unitarizing metrics and chosen algebraizations. Include the point, compact
+  tori and finite central quotients with their full character and period
+  lattices. For G=SL₂(ℂ), K=SU₂, compute that conjugation by diag(2,1/2)
+  sends ((0,−1),(1,0)) to ((0,−4),(1/4,0)), which is not unitary: the compact
+  form condition on morphisms is substantive. Use the earlier FCO F2.4/F4.3
+  algebraic-point/tangent dictionary and LG7's compact polar/algebraization
+  theorems in this construction, before LG8; it requires no generic RG10
+  representation reconstruction or analytic GAGA theorem. The finite-dimensional
+  representation restriction equivalence above remains a separate comparison.
 
 ### Layer 8: Borel-Weil, flag manifolds, and Bruhat
 
