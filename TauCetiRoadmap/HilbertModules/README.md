@@ -78,6 +78,13 @@ interfaces. Their classification and product theorems are not prerequisites.
 [Suggested.lean](Suggested.lean) gives representative signatures against the
 existing Mathlib module classes; this README is the specification.
 
+The child [HeisenbergImprimitivity](HeisenbergImprimitivity/README.md) develops
+finite-type phase-space lattices, Schwartz–Bruhat and Poisson analysis, positive
+twisted pairings, explicit imprimitivity, smooth frames and trace normalization.
+It consumes H1–H3; these abstract foundations are independent of that example.
+NoncommutativeGeometry N7 retains its two-torus connections, curvature and index
+and supplies the child's terminal comparison.
+
 ## H1. Modules, completions, and fibers
 
 Develop the inherited algebraic laws of the right action, its compatibility
