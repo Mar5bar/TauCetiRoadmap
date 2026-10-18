@@ -13,12 +13,14 @@ those of `ArithmeticLocallySymmetricSpaces` ALS.F.6.
 
 Design choices.
 * Growth is measured against an arbitrary real-valued height with a real exponent; the
-  arithmetic specialization uses heights `≥ 1` with polynomial translation and inversion bounds.
+  arithmetic fixed-exponent spaces use the dual-augmented submultiplicative height `≥ 1`.
+  Polynomial height comparison preserves the unions, allowing changes of exponent.
 * Right translation is `R(y) f (g) = f (g * y)`, so `R(y * z) = R(y) ∘ R(z)`, and a right level
   `J` becomes `y J y⁻¹` after translation by `y`.
 * Rational invariance, level and central-character conditions are predicates on functions on an
   abstract group; the arithmetic specialization supplies `G(F) ⊆ G(𝔸)` and the central subgroup.
-* Compact-finiteness is finite dimensionality of the linear span of an orbit, with no topology.
+* `IsGFinite` is the shared algebraic finite-orbit-span predicate, with no topology.
+  `IsKFinite` abbreviates it on a complex representation restricted to the chosen subgroup.
 * Cuspidality is the kernel condition for a family of linear constant-term maps; the arithmetic
   specialization indexes it by all proper rational parabolics.
 * Infinitesimal characters of `GLₙ(ℝ)` are `n`-tuples of complex numbers: L-algebraic means
@@ -28,6 +30,8 @@ Design choices.
 * GSp₄ coherent weights use the four positive `C₂` coroot evaluations `(x - y, x, x + y, y)`.
   Their full parameters have infinitesimal central weight opposite to the coefficient.
 * Algebraic modular forms use Gross's rational covariance `F(γ g) = ρ(γ) F(g)`, `F(g u) = F(g)`.
+  The level and central-character models specialize QuaternionicModularForms' common carrier;
+  inversion identifies its opposite Hecke action with the right-coset convention.
 -/
 
 namespace TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
@@ -47,14 +51,14 @@ Arithmetic heights are at least one (README §0.4). -/
 def HasModerateGrowth (height : X → ℝ) (f : X → ℂ) : Prop :=
   ∃ C N : ℝ, 0 ≤ C ∧ 0 ≤ N ∧ ∀ x, ‖f x‖ ≤ C * height x ^ N
 
-/-- Polynomially comparable heights give the same growth space. -/
+/-- Polynomially comparable heights give the same union of growth spaces, allowing exponent changes. -/
 theorem moderateGrowth_iff_of_comparable (h h' : X → ℝ)
     (h1 : ∀ x, 1 ≤ h x) (h1' : ∀ x, 1 ≤ h' x)
     (hcomp : ∃ C M : ℝ, 0 < C ∧ 0 ≤ M ∧ ∀ x, h x ≤ C * h' x ^ M)
     (hcomp' : ∃ C M : ℝ, 0 < C ∧ 0 ≤ M ∧ ∀ x, h' x ≤ C * h x ^ M)
     (f : X → ℂ) : HasModerateGrowth h f ↔ HasModerateGrowth h' f := sorry
 
-/-- Right translation preserves moderate growth for a submultiplicative height. -/
+/-- Right translation preserves moderate growth for the selected submultiplicative height. -/
 theorem moderateGrowth_rightTranslate {G : Type*} [Group G]
     (height : G → ℝ) (h1 : ∀ x, 1 ≤ height x)
     (hmul : ∀ x y, height (x * y) ≤ height x * height y)
@@ -158,12 +162,49 @@ end Equivariance
 
 section CompactOrbits
 
+variable {𝕜 K V : Type*} [Field 𝕜] [Group K] [AddCommGroup V] [Module 𝕜 V]
+
+/-- A vector has finite orbit span over the scalar field, without topology or compactness. -/
+def IsGFinite (ρ : Representation 𝕜 K V) (v : V) : Prop :=
+  FiniteDimensional 𝕜 (Submodule.span 𝕜 (Set.range fun k : K => ρ k v))
+
+/-- A sum of two finite-orbit-span vectors has finite orbit span. -/
+theorem gFinite_add (ρ : Representation 𝕜 K V) {v w : V}
+    (hv : IsGFinite ρ v) (hw : IsGFinite ρ w) : IsGFinite ρ (v + w) := sorry
+
+/-- Scalar multiples preserve finite orbit span. -/
+theorem gFinite_smul (ρ : Representation 𝕜 K V) (a : 𝕜) {v : V}
+    (hv : IsGFinite ρ v) : IsGFinite ρ (a • v) := sorry
+
+/-- The common submodule of vectors with finite-dimensional orbit span. -/
+def gFiniteSubmodule (ρ : Representation 𝕜 K V) : Submodule 𝕜 V where
+  carrier := {v | IsGFinite ρ v}
+  zero_mem' := by sorry
+  add_mem' := gFinite_add ρ
+  smul_mem' := fun a _ hv => gFinite_smul ρ a hv
+
+/-- The finite-orbit-span submodule is invariant under the representation. -/
+theorem gFiniteSubmodule_invariant (ρ : Representation 𝕜 K V) (k : K) {v : V}
+    (hv : v ∈ gFiniteSubmodule ρ) : ρ k v ∈ gFiniteSubmodule ρ := sorry
+
+/-- Equivariant linear maps preserve finite orbit spans. -/
+theorem gFinite_map {W : Type*} [AddCommGroup W] [Module 𝕜 W]
+    (ρ : Representation 𝕜 K V) (τ : Representation 𝕜 K W)
+    (f : ρ.IntertwiningMap τ) {v : V} (hv : IsGFinite ρ v) :
+    IsGFinite τ (f v) := sorry
+
+end CompactOrbits
+
+section CompactRestriction
+
 variable {K V : Type*} [Group K] [AddCommGroup V] [Module ℂ V]
 
-/-- A vector is `K`-finite when the linear span of its orbit is finite-dimensional.
-Smoothness and differentiated covariance belong to the compatible-module contract. -/
-def IsKFinite (ρ : Representation ℂ K V) (v : V) : Prop :=
-  Module.Finite ℂ (Submodule.span ℂ {w : V | ∃ k : K, ρ k v = w})
+/-- Compact-finiteness specializes the shared finite-orbit-span predicate to the chosen
+subgroup representation. Smoothness and differentiated covariance are separate data. -/
+abbrev IsKFinite (ρ : Representation ℂ K V) (v : V) : Prop := IsGFinite ρ v
+
+/-- The compact-finite submodule is the shared finite-orbit-span submodule. -/
+abbrev kFiniteSubmodule (ρ : Representation ℂ K V) : Submodule ℂ V := gFiniteSubmodule ρ
 
 /-- Every vector of a finite-dimensional representation is `K`-finite. -/
 theorem kFinite_of_finiteDimensional [FiniteDimensional ℂ V]
@@ -182,7 +223,7 @@ example [Subsingleton K] (ρ : Representation ℂ K V) (v : V) : IsKFinite ρ v 
 example : ¬IsKFinite (Representation.leftRegular ℂ (Multiplicative ℤ))
     (MonoidAlgebra.single 1 1) := sorry
 
-end CompactOrbits
+end CompactRestriction
 
 /-! ## Layer 3: adelic modules and their local factors -/
 
@@ -488,13 +529,15 @@ section AlgebraicForms
 variable {A Γ G M : Type*} [CommRing A] [Group Γ] [Group G] [AddCommGroup M] [Module A M]
 
 /-- Gross's rational coefficient convention on supplied rational and finite point groups.
-The p-adic level-action convention is a separate README target. -/
+Its arithmetic transport identifies it with QuaternionicModularForms' common level carrier
+when the algebraic coefficient action extends to the selected finite points. -/
 def IsAlgebraicModularForm (ι : Γ →* G) (σ : Representation A Γ M)
     (J : Subgroup G) (f : G → M) : Prop :=
   (∀ γ g, f (ι γ * g) = σ γ (f g)) ∧ ∀ g, ∀ u ∈ J, f (g * u) = f g
 
-/-- Values at double-coset representatives determine an equivariant form.
-Finiteness of the class set comes from AdelicAlgebraicGroups. -/
+/-- Values at double-coset representatives determine a form in Gross's rational covariance model.
+The level-action model uses the common abstract evaluation via coefficient transport;
+arithmetic class-set finiteness is supplied by AdelicAlgebraicGroups. -/
 theorem algebraicModularForm_ext (ι : Γ →* G) (σ : Representation A Γ M)
     (J : Subgroup G) {I : Type*} (t : I → G)
     (hcover : ∀ g, ∃ (i : I) (γ : Γ) (u : J), g = ι γ * t i * u)
@@ -550,8 +593,10 @@ The adelic comparisons use the ALS.F.6 cusp carrier and preserve these normaliza
 `coherentCochains`, `coherentCohomology`,
 `CuspidalCoherentCohomology`, `DiscreteCoherentCohomology`, the GSp₄ character lattices
 and chambers, component induction and extensions, `coherentChambers` and scalar
-holomorphic series; `adelize`, `LevelAlgebraicModularForm` and
-`CentralCharacterAlgebraicModularForm`. Their constructions and comparisons, including
+holomorphic series; `adelize`, the common-carrier specialization `LevelAlgebraicModularForm`,
+its central submodule `CentralCharacterAlgebraicModularForm`, `inverseActionHeckeEquiv`,
+and `automorphicEquiv` with the coefficient-Hom multiplicities `occurrenceMultiplicity`.
+Their constructions and comparisons, including
 van Est, `recGL`, Flath factorization and the GL₂ dictionary, are specified in the README.
 -/
 end
