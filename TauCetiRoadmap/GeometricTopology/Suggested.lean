@@ -20,10 +20,11 @@ groups; locally flat embeddings; diffeomorphism-group topologies; knot theory; D
 surgery; knot concordance and 4D cobordism; Riemannian volume and hyperbolic structures;
 geometric decomposition; Heegaard genus; foliations; triangulations and collapse), each
 attached to the solved Kirby-list problems it would let us *state*. Knot theory and the
-concordance foundations (layers 4 and 6) are owned here; the homological concordance
-invariants (`τ`, `s`) are consumed from the
-[combinatorial Heegaard Floer roadmap](../CombinatorialHeegaardFloer/Suggested.lean), which
-in turn consumes the knot types defined here.
+concordance foundations (layers 4 and 6) are owned here. The
+[combinatorial Heegaard Floer roadmap](../CombinatorialHeegaardFloer/README.md) supplies
+the grid invariant `τ` and filtered interfaces, consuming the knot types defined here.
+Layer 6 additionally owns its `τ` connected-sum/descent adapter and the entire
+Khovanov–Lee/Rasmussen `s` supplier, as specified by the definitive README.
 
 The current Tau Ceti substrate includes smooth embeddings, quotient normal
 spaces and the topological Euclidean tubular neighbourhood. The normal-space
