@@ -32,6 +32,10 @@ Design choices made explicit here:
   the image, not the tensor product `R[I/a] ⊗ M`. Cohen–Macaulayness of the blowing-up is stated
   chartwise, at every prime of every chart (`IsCMBlowupChartwise`), which is equivalent because
   the charts of all `a ∈ I` cover the blow-up and the condition is local.
+* The generic `Proj.tildeModule` of K3.3 accepts ℤ-graded modules over an ℕ-graded ring;
+  the Rees module has zero negative pieces. Shifts use `N(q)_n = N_{n+q}`, so `S(-d)` has
+  its generator in degree `d`. The functor is exact and the inclusion of the submodule
+  of degrees at least any fixed integer induces a natural sheaf isomorphism.
 
 The sheaf construction of the module blowing-up, dualizing complexes and spectral sequences
 are README targets only; the closing comment identifies these and the remaining API targets.
@@ -1116,8 +1120,15 @@ catenarity from dualizing complexes; normalized
 local duality, including its completed Ext comparison and normalization/torsion-adjunction
 steps, in the form `H^j_𝔪(M) ≅ Hom(Ext^{-j}(M, ω), E)`, the
 duality annihilator identity, the annihilator description of the non-Cohen–Macaulay locus and the
-general defect set (Layer K0); the coefficient maps of Rees modules (Layer K3); `HomogeneousLocalizedModule`, `Proj.tildeModule`
-and `Proj.tildeModule.awayIso`; the module
+general defect set (Layer K0); the coefficient maps of Rees modules (Layer K3);
+`HomogeneousLocalizedModule` for ℤ-graded modules over ℕ-graded rings, `Proj.tildeModule`
+and `Proj.tildeModule.awayIso`; the induced degree-preserving maps `Proj.tildeModule.map`,
+`Proj.tildeModule.map_id`, `Proj.tildeModule.map_comp`, their natural chart comparisons,
+`Proj.tildeModule.exact` for degreewise short exact sequences and
+`Proj.tildeModule.truncateIso` for inclusion of degrees at least any integer cutoff,
+natural in graded maps and compatible with successive cutoffs. These supply the exactness
+and tail invariance used in K4 and the common sheafification functor for GroebnerGeometry G4,
+with shift convention `S(-d) ↦ O(-d)` in its polynomial specialization; the module
 blowing-up `Bl_I(M)` as a sheaf on the supplied scheme `Proj (reesAlgebra.grade I)`,
 with its chart isomorphisms, functoriality, zero and unit cases, the comparison with the strict
 transform, the product-of-ideals identities for schemes and modules, the support of `Bl_I(M)`,

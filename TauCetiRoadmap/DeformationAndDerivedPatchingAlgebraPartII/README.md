@@ -10,8 +10,8 @@ the product of successive prefix ideals
 I = ∏_{i=1}^{t} (r₁, …, rᵢ) = (r₁)·(r₁, r₂)·⋯·(r₁, …, rₜ)
 ```
 
-is a Cohen–Macaulay module on the blow-up scheme `Bl_I(Spec R)`. The theorem is the source of
-Cohen–Macaulayness in Česnavičius's Macaulayfication of Noetherian schemes, and its proof is a
+is a Cohen–Macaulay module on the blow-up scheme `Bl_I(Spec R)`. Kawasaki's theorem for module
+blowing-ups is an input to Česnavičius's Macaulayfication of Noetherian schemes, and its proof is a
 self-contained piece of commutative algebra: an annihilator calculus for local cohomology, Huneke's
 d-sequences, Kawasaki's three conditions on prefix-product ideals, the graded Rees module and its
 sheaf on the blow-up, and a depth induction through two-generator blow-up charts.
@@ -58,6 +58,9 @@ This roadmap owns:
   identities;
 - the prefix products `prefixProduct`, Kawasaki's conditions `KawasakiConditions`, Kawasaki's
   proposition that initial segments of CM-secant sequences satisfy them, and their robustness;
+- homogeneous module localization and the exact functor `Proj.tildeModule` from ℤ-graded modules
+  over an ℕ-graded ring to quasi-coherent sheaves on its `Proj`, with standard-chart comparisons,
+  graded maps and invariance under deleting degrees below any fixed bound (K3.3);
 - the graded Rees module `reesModule I M`, the chart modules of the blowing-up of a module, the strict
   transform of a quasi-coherent module along a blowing-up, the module blowing-up `Bl_I(M)` with its functoriality, its comparison with the strict
   transform, the product-of-ideals identity for scheme blowing-ups and its module form, the support
@@ -94,9 +97,15 @@ It leaves to other roadmaps, and imports:
 Not here: Macaulayfication itself (Česnavičius §§4–5); the CM-quasi-excellence conditions
 (SchemeAndStackFoundations §0.19); the general theory of blowing-ups and strict transforms of
 schemes; dualizing complexes on schemes; the foundations of local cohomology. The sheaf of a
-graded module on `Proj` is K3.3. K3.4's `blowupStrictTransform` extends
-SchemeAndStackFoundations §4.11's `strictTransformModule` to blow-ups without a dense witness and
-agrees with it on modifications; no other second carrier is introduced.
+graded module on `Proj` is owned by K3.3.
+[GroebnerGeometry, G4](../GroebnerGeometry/README.md#g4-rees-algebras-and-flat-initial-families)
+consumes this functor for standard polynomial rings, naturally in graded maps and with the same
+localizations on `D₊(Xᵢ)`. G4 owns its specialized twist and quotient comparisons, eventual-sections
+comparison, graded Hilbert syzygy and Hilbert/`K₀` comparisons, using `N(q)_n = N_{n+q}` and
+`S(-d) ↦ O(-d)`; SchemeAndStackFoundations §0.3 supplies the twists.
+K3.4's `blowupStrictTransform` extends SchemeAndStackFoundations §4.11's `strictTransformModule`
+to blow-ups without a dense witness and agrees with it on modifications; no other second carrier
+is introduced.
 
 ## Conventions
 
@@ -1453,16 +1462,42 @@ Mathlib `LocalizedModule`, `LocalizedModule.mkLinearMap`,
 
 ### K3.3 The module blowing-up
 
-**The sheaf of a graded module on `Proj`.** For an `ℕ`-graded commutative ring `S` and a graded
-`S`-module `N`, construct `HomogeneousLocalizedModule`, the degree-zero part of the localization
-at a homogeneous element `f` of positive degree, over `HomogeneousLocalization.Away S f`.
+**The sheaf of a graded module on `Proj`.** For an ℕ-graded commutative ring `S` and a ℤ-graded
+`S`-module `N = ⊕_{n∈ℤ} N_n`, with `S_i N_j ⊆ N_{(i:ℤ)+j}`, construct
+`HomogeneousLocalizedModule`, the degree-zero part of the localization at a homogeneous element
+`f` of positive degree `e`, over `HomogeneousLocalization.Away S f`. Its homogeneous fractions
+are `x/fᵏ` with `x ∈ N_{ke}`. Use Mathlib's `DirectSum.Decomposition` and `SetLike.GradedSMul`
+for the grading, with the action of ℕ on ℤ given by addition after casting. No boundedness,
+finiteness or Noetherian hypothesis is imposed. An ℕ-graded module, including the Rees module,
+is regarded as ℤ-graded by putting zero in negative degrees. For `q ∈ ℤ`, the shift convention is
+`N(q)_n = N_{n+q}`; thus the generator of `S(-d)` has degree `d`.
+
 Construct `Proj.tildeModule N : (Proj S).Modules` with sections `N_(f)` on `D₊(f)` and canonical
 restrictions; prove quasi-coherence and `Proj.tildeModule.awayIso`, identifying its pullback
-along `Proj.awayι` with `tilde N_(f)`. Include maps induced by graded linear maps, identity and
-composition, and compatibility on overlapping standard opens. Glue the module localizations
-on the standard-open basis using their principal-localization identifications; the module
-sheaf condition is the algebraic localization exactness supplied by AdicSpacesPartII.
-(Stacks, §27.8, tag 01M3, Lemmas 27.8.4 and 27.8.7.) *Needs:* Mathlib `Proj`, `Proj.awayι`,
+along `Proj.awayι` with `tilde N_(f)`. The API includes:
+
+- `Proj.tildeModule.map`, `Proj.tildeModule.map_id` and `Proj.tildeModule.map_comp`: a
+  degree-preserving `S`-linear map induces the sheaf map `x/fᵏ ↦ φ(x)/fᵏ` on each standard chart.
+  The chart isomorphisms are natural in these maps and compatible on overlaps.
+- `Proj.tildeModule.exact`: every degreewise short exact sequence of ℤ-graded `S`-modules
+  sheafifies to a short exact sequence. This follows by localization and taking degree zero;
+  it requires no finiteness hypothesis.
+- `Proj.tildeModule.truncateIso`: for every `c ∈ ℤ`, the inclusion of the graded submodule
+  `N≥c = ⊕_{n≥c} N_n` induces a canonical isomorphism
+  `Proj.tildeModule N≥c ≅ Proj.tildeModule N`. These isomorphisms are natural in graded maps,
+  compatible with successive cutoffs and with the standard-chart isomorphisms. In particular,
+  a graded map that is an isomorphism in all sufficiently large degrees induces a sheaf
+  isomorphism, by applying exactness to its kernel and cokernel.
+
+*Proof sketch.* Glue the module localizations on the standard-open basis using their
+principal-localization identifications; the sheaf condition is the algebraic localization
+exactness supplied by AdicSpacesPartII. Localization and degree-zero extraction are exact.
+For tail invariance, on `D₊(f)` rewrite `x/fᵏ` as `fˡx/f^{k+l}` with `(k+l)e ≥ c`.
+This gives surjectivity from the truncated module; injectivity follows from exactness of
+localization. The maps are induced by inclusions, giving naturality and compatibility.
+(Stacks, §10.56, tag 00JL, grading and shifts; Lemmas 27.8.4 and 27.8.7, tags 01M7 and 01MB;
+Česnavičius, proof of Claim 3.14.5, p. 16, for deletion of initial degrees.) *Needs:* Mathlib
+`DirectSum.Decomposition`, `SetLike.GradedSMul`, `Proj`, `Proj.awayι`,
 `HomogeneousLocalization`, `Scheme.Modules` and affine `tilde`; AdicSpacesPartII,
 localization-cech-complex-exact (unit-ideal exactness on each chart).
 
@@ -1473,6 +1508,19 @@ localization-cech-complex-exact (unit-ideal exactness on each chart).
   `Proj.tildeModule N` is `tilde M` on `Proj A[t] = Spec A`.
 - For `S = A[t]` and `N` concentrated in degree zero with `tN = 0`, the sheaf is zero
   even when `N ≠ 0`; for example take `A = N = ℚ`.
+- For `S = ℚ[X₀, X₁]` with both variables of degree one, the chart module of `S(-1)` on
+  `D₊(Xᵢ)` is free on `1/Xᵢ` in the shifted grading. On the overlap
+  `1/X₀ = (X₁/X₀)·(1/X₁)`, the transition for `O(-1)`. The same convention gives
+  `S(-d) ↦ O(-d)` for every `d ∈ ℤ` in G4's polynomial specialization.
+- For `S = ℚ[t]` with `t` of degree one, the inclusion `tS ↪ S` is not a graded-module
+  isomorphism but gives a sheaf isomorphism: the missing degree-zero quotient is `ℚ`, whose
+  sheaf is zero. Over any `A`, `tᶜM[t] ↪ M[t]` gives the identity on `tilde M` for every
+  `A`-module `M` and `c ≥ 0`.
+- For `S = ℚ[t]`, sheafifying `0 → S(-1) →(t) S → ℚ → 0` gives a short exact sequence
+  whose first map is an isomorphism and whose last term is zero. On the `t`-chart its
+  degree-zero generator `1/t` maps to `1`.
+- If `S = A[t]` with `t` of degree two, `S(1)` has zero degree-zero localization at `t`,
+  so its sheaf is zero. The generic construction does not assert invertibility of every shift.
 
 **Blowing up a module.** For an ideal `I` of a commutative ring `R` and an `R`-module `M`, the
 blowing-up `Bl_I(M)` is the quasi-coherent module on `Bl_I(Spec R) = Proj (reesAlgebra.grade I)`
@@ -1807,8 +1855,8 @@ and `rs` for `M/r'M`. Robustness (K2.4) with the one-element auxiliary list `[r'
 conditions of every initial segment. Condition (iii) for the full list, with auxiliary list `[r']`,
 gives regularity of `r'` on `M` and on `M/I_tⁿM`; the snake lemma for multiplication by `r'` on
 `0 → I_tⁿM → M → M/I_tⁿM → 0` identifies `I_tⁿM/r'I_tⁿM` with `I_tⁿ(M/r'M)`, including degree zero.
-Sheafify. Since `r' ∈ 𝔪` vanishes at every closed point of the blow-up, the depth at a closed point
-drops by exactly one. (Česnavičius, proof of Theorem 3.14, pp. 14–15.) *Needs:* K0.3, K2.2–K2.4, K3.1,
+Apply `Proj.tildeModule.exact`. Since `r' ∈ 𝔪` vanishes at every closed point of the blow-up, the depth
+at a closed point drops by exactly one. (Česnavičius, proof of Theorem 3.14, pp. 14–15.) *Needs:* K0.3, K2.2–K2.4, K3.1,
 K3.3; K0.5 (`isSMulRegular_of_isCohenMacaulay`); SchemeAndStackFoundations §0.17.
 
 **Checks.**
@@ -1886,17 +1934,19 @@ satisfying Kawasaki's conditions on `M`.
 **The annihilation claim.** Both `rᵢ` and `rₛ` kill `H^1_{(rᵢ, rₛ)}(M')` (over `R'`). The claim needs no
 depth hypothesis.
 
-*Proof sketch.* `Bl_{I_{s-1}}(M)` is the sheaf of `⊕_{n>0} I_{s-1}ⁿM` (dropping degree zero does not change
-the sheaf). Condition (i) makes `rₛ, …, r₁` a d-sequence for `M`, so `rₛ` is regular on `⊕_{n>0} I_{s-1}ⁿM`
-and on `M'`; by K0.1, `H^1_{(rᵢ, rₛ)}(M') ≅ H^0_{(rᵢ)}(H^1_{(rₛ)}(M')) ≅ colim_{m>0} H^0_{(rᵢ)}(M'/rₛᵐM')`, with
+*Proof sketch.* `Bl_{I_{s-1}}(M)` is the sheaf of `⊕_{n>0} I_{s-1}ⁿM` by
+`Proj.tildeModule.truncateIso` with cutoff one. Condition (i) makes `rₛ, …, r₁` a d-sequence for `M`,
+so `rₛ` is regular on `⊕_{n>0} I_{s-1}ⁿM` and on `M'`; by K0.1,
+`H^1_{(rᵢ, rₛ)}(M') ≅ H^0_{(rᵢ)}(H^1_{(rₛ)}(M')) ≅ colim_{m>0} H^0_{(rᵢ)}(M'/rₛᵐM')`, with
 transition maps multiplication by `rₛ`. The graded exact sequence
 
 ```text
 0 → ⊕_{n>0} (I_{s-1}ⁿM :_M rₛᵐ)/(I_{s-1}ⁿM + (0 :_M rₛᵐ))  →(rₛᵐ)  ⊕_{n>0} I_{s-1}ⁿM/rₛᵐI_{s-1}ⁿM  →  ⊕_{n>0} I_{s-1}ⁿ(M/rₛᵐM) → 0
 ```
 
-sheafifies at `x'` to a sequence whose right term is the stalk `M'_{(m)}` of `Bl_{I_{s-1}}(M/rₛᵐM)`, on which
-`rᵢ` is regular (K3.2). So the `rᵢ`-torsion of `M'/rₛᵐM'` is the stalk of the left term. Condition (ii)
+sheafifies exactly by `Proj.tildeModule.exact`; at `x'` its right term is the stalk `M'_{(m)}` of
+`Bl_{I_{s-1}}(M/rₛᵐM)`, on which `rᵢ` is regular (K3.2). So the `rᵢ`-torsion of `M'/rₛᵐM'` is the
+stalk of the left term. Condition (ii)
 (with the empty auxiliary list) says that every element of `(r₁, …, rₛ)` maps `I_{s-1}ⁿM :_M rₛᵐ` into
 `I_{s-1}ⁿM`, so `rᵢ` and `rₛ` kill the left term. Pass to the colimit. (Česnavičius, Claim 3.14.5 and its
 proof, (3.14.12)–(3.14.13), pp. 16–17.) *Needs:* K0.1, K1.1, K2.2–K2.3, K3.1–K3.3.
@@ -2156,6 +2206,7 @@ TauCetiRoadmap StableReduction (Layer 4); Tau Ceti (affine blow-up charts).
   0BJB (Lemma 47.9.2), 0ALZ (Lemma 47.9.3), 0BJC (Lemma 47.9.6), 0955 (Lemma 47.10.1), 0AVZ
   (Lemma 47.11.1), 08Z1 (Section 47.7), 0A7B (Definition 47.15.1), 0A7U (Lemma 47.16.5), 0A7Z
   (Lemma 47.17.3), 0A80 (Lemma 47.17.4), 0A84 (Theorem 47.18.3), 0AAK (Lemma 47.18.4), 015N
-  (Lemma 13.22.2), 02IJ (Lemma 10.113.1), 052P (Section 10.70, Lemma 10.70.6), 01M3 (Section 27.8,
+  (Lemma 13.22.2), 02IJ (Lemma 10.113.1), 052P (Section 10.70, Lemma 10.70.6), 00JL (Section 10.56,
+  grading and shifts), 01M7 and 01MB (Lemmas 27.8.4 and 27.8.7), 01M3 (Section 27.8,
   Lemmas 27.8.4 and 27.8.7), 0804 (Lemma 31.33.2), 080A (Lemma 31.33.12), 080D (Definition 31.34.1),
   080E (Lemma 31.34.2).
