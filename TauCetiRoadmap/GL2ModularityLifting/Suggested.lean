@@ -333,7 +333,9 @@ their intended signatures.
 * Layers 5–6: `StronglyResiduallyModular`, `bcdtHeckeModule`, `DyadicPatchingDatum`,
   `dyadicPatchedRing`, `dyadicPatchedModule`, `dyadicTorusAction`; the Khare–Wintenberger,
   Kisin, Fontaine–Laffaille, BCDT and crystalline lifting theorems, KW I Theorem 4.1 and
-  Hypothesis (H).
+  Hypothesis (H). Section 5.9 uses the restricted overlap of
+  OrdinaryAutomorphicFormsAndModularityLifting §5.6; any use of its full-scope §5.8
+  carries its `CMComponentSupport` hypothesis.
 * Layers 7–9: `OddPrimeLifting`, `DyadicLifting`, `ResiduallyReducibleLifting`,
   `OrdinaryThreeLifting`, the classification of geometric twists, `patchedWeightFiltration`,
   Kisin's multiplicity criterion and the de Rham lifting theorems at odd primes and at `2`.
