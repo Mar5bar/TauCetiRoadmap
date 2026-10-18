@@ -64,6 +64,26 @@ example (x : ℝ) : psiAP 1 0 x = Chebyshev.psi x := by
 example : primeCountAP 4 3 3 = 1 := by
   sorry
 
+/-- At cutoff one the progression ψ sum is empty. -/
+example : psiAP 1 0 1 = 0 := by
+  sorry
+
+/-- The nonunit class includes the powers two and four. -/
+example : psiAP 2 0 4 = 2 * Real.log 2 := by
+  sorry
+
+/-- The zero class modulo four includes four and eight at cutoff eight. -/
+example : psiAP 4 0 8 = 2 * Real.log 2 := by
+  sorry
+
+/-- No prime contributes at cutoff one. -/
+example : primeCountAP 1 0 1 = 0 := by
+  sorry
+
+/-- Only the prime two contributes in the zero class modulo two. -/
+example : primeCountAP 2 0 10 = 1 := by
+  sorry
+
 /-- `β` is a `c`-exceptional real zero of the primitive
 nonprincipal quadratic character `χ` of conductor `N > 1`. No zero is asserted to exist. -/
 def IsExceptionalRealZero (c : ℝ) {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) (β : ℝ) :
@@ -79,6 +99,11 @@ theorem IsExceptionalRealZero.mono {c c' : ℝ} {N : ℕ} [NeZero N] {χ : Diric
 /-- `β = 1` is never exceptional. -/
 example (c : ℝ) {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) :
     ¬ IsExceptionalRealZero c χ 1 := by
+  sorry
+
+/-- The strict lower endpoint is excluded from the exceptional-zero interval. -/
+example (c : ℝ) {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) :
+    ¬ IsExceptionalRealZero c χ (1 - c / Real.log N) := by
   sorry
 
 /-- Width zero does not designate an exceptional zero. -/
@@ -122,6 +147,16 @@ example (z : ℂ) :
     ((1 - z) * Complex.exp z) * ((1 + z) * Complex.exp (-z)) = 1 - z ^ 2 := by
   sorry
 
+/-- The finite-sum canonical factors at minus one distinguish genera zero, one and two. -/
+example :
+    (1 - (-1 : ℂ)) * Complex.exp
+      (∑ j ∈ Finset.Icc (1 : ℕ) 0, (-1 : ℂ) ^ j / (j : ℂ)) = 2 ∧
+    (1 - (-1 : ℂ)) * Complex.exp
+      (∑ j ∈ Finset.Icc (1 : ℕ) 1, (-1 : ℂ) ^ j / (j : ℂ)) = 2 * Complex.exp (-1) ∧
+    (1 - (-1 : ℂ)) * Complex.exp
+      (∑ j ∈ Finset.Icc (1 : ℕ) 2, (-1 : ℂ) ^ j / (j : ℂ)) = 2 * Complex.exp (-1 / 2) := by
+  sorry
+
 /-- First and second differentiated Stieltjes kernels at one. -/
 example :
     deriv (fun z : ℂ => (z + 1) ^ (-2 : ℤ)) 1 = -1 / 4 ∧
@@ -142,14 +177,37 @@ theorem siegel_walfisz (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
         |psiAP q a x - x / q.totient| ≤ C * x * Real.log x ^ (-A) := by
   sorry
 
-/-- Explicit two-sided bounds for `π(x)` when `x ≥ 59`. -/
-theorem rosser_schoenfeld_primeCounting {x : ℝ} (hx : 59 ≤ x) :
+/-- Finite-range theta inequalities below the analytic cutoff `exp 10000`. -/
+def SchoenfeldFiniteRangeInput : Prop :=
+  ∀ x : ℝ, 0 < x → x < Real.exp 10000 → Chebyshev.theta x < 1.000081 * x
+
+/-- Finite-range prime-count inequalities below the analytic cutoff `exp 10000`. -/
+def RosserSchoenfeldFiniteRangeInput : Prop :=
+  ∀ x : ℝ, 59 ≤ x → x < Real.exp 10000 →
+    x / Real.log x * (1 + 1 / (2 * Real.log x)) < Nat.primeCounting ⌊x⌋₊ ∧
+      (Nat.primeCounting ⌊x⌋₊ : ℝ) < x / Real.log x * (1 + 3 / (2 * Real.log x))
+
+/-- The analytic prime-count bounds above the fixed cutoff. -/
+theorem rosser_schoenfeld_primeCounting_tail {x : ℝ} (hx : Real.exp 10000 ≤ x) :
     x / Real.log x * (1 + 1 / (2 * Real.log x)) < Nat.primeCounting ⌊x⌋₊ ∧
       (Nat.primeCounting ⌊x⌋₊ : ℝ) < x / Real.log x * (1 + 3 / (2 * Real.log x)) := by
   sorry
 
-/-- The unconditional Schoenfeld upper bound holds for every positive real cutoff. -/
-theorem theta_lt {x : ℝ} (hx : 0 < x) : Chebyshev.theta x < 1.000081 * x := by
+/-- Explicit two-sided prime-count bounds from the finite-range input and the analytic tail. -/
+theorem rosser_schoenfeld_primeCounting (hfinite : RosserSchoenfeldFiniteRangeInput)
+    {x : ℝ} (hx : 59 ≤ x) :
+    x / Real.log x * (1 + 1 / (2 * Real.log x)) < Nat.primeCounting ⌊x⌋₊ ∧
+      (Nat.primeCounting ⌊x⌋₊ : ℝ) < x / Real.log x * (1 + 3 / (2 * Real.log x)) := by
+  sorry
+
+/-- The analytic theta upper bound above the fixed cutoff. -/
+theorem theta_lt_tail {x : ℝ} (hx : Real.exp 10000 ≤ x) :
+    Chebyshev.theta x < 1.000081 * x := by
+  sorry
+
+/-- The theta upper bound from the finite-range input and the analytic tail. -/
+theorem theta_lt (hfinite : SchoenfeldFiniteRangeInput) {x : ℝ} (hx : 0 < x) :
+    Chebyshev.theta x < 1.000081 * x := by
   sorry
 
 /-- Exact margin left after the prime-power error at the threshold in README §0.4. -/
@@ -208,6 +266,21 @@ theorem psiAP_isBigO_of_dirichletGRH (q : ℕ) [NeZero q]
     (fun x => psiAP q a x - x / q.totient) =O[atTop] fun x => x ^ (1 / 2 + ε) := by
   sorry
 
+/-- The negative-even trivial zero lies outside the GRH half-plane. -/
+example : DirichletCharacter.LFunction (1 : DirichletCharacter ℂ 1) (-2) = 0 ∧
+    ¬ (0 < (-2 : ℂ).re) := by
+  sorry
+
+/-- A principal deleted-factor zero lies on the excluded imaginary axis. -/
+example :
+    let s : ℂ := 2 * Real.pi * I / Real.log 2
+    DirichletCharacter.LFunction (1 : DirichletCharacter ℂ 2) s = 0 ∧ ¬ (0 < s.re) := by
+  sorry
+
+/-- The principal pole fails the GRH admissibility clause at one. -/
+example : ¬ ((1 : DirichletCharacter ℂ 1) ≠ 1 ∨ (1 : ℂ) ≠ 1) := by
+  simp
+
 /-- The Dirichlet-polynomial mean square has the Montgomery–Vaughan weighted error. -/
 theorem dirichlet_polynomial_mean_square :
     ∀ (N : ℕ) (a : ℕ → ℂ) (T : ℝ), 0 ≤ T →
@@ -242,14 +315,26 @@ open _root_.NumberField
 
 variable (K : Type*) [Field K] [NumberField K]
 
-/-- The partial zeta series of an ordinary ideal class, an `LSeries` over the
-norm-indexed count of nonzero integral ideals in the class. The narrow-class series of the README
-is the same construction over the narrow class group. -/
-def partialIdealZeta (A : ClassGroup (𝓞 K)) (s : ℂ) : ℂ :=
-  LSeries (fun n => (Nat.card {I : (Ideal (𝓞 K))⁰ //
-    Ideal.absNorm (I : Ideal (𝓞 K)) = n ∧ ClassGroup.mk0 I = A} : ℂ)) s
+/-- The norm-fibre count presenting LFunctions Layer 2's ordinary-class coefficients. -/
+def partialIdealZetaCoeff (A : ClassGroup (𝓞 K)) (n : ℕ) : ℂ :=
+  (Nat.card {I : (Ideal (𝓞 K))⁰ //
+    Ideal.absNorm (I : Ideal (𝓞 K)) = n ∧ ClassGroup.mk0 I = A} : ℂ)
 
-/-- The class sum is the Dedekind zeta series. -/
+/-- An `LSeries` presentation adapter for LFunctions Layer 2's partial zeta at trivial
+finite modulus and empty infinity part. All real places give the narrow-class presentation. -/
+def partialIdealZeta (A : ClassGroup (𝓞 K)) (s : ℂ) : ℂ :=
+  LSeries (partialIdealZetaCoeff K A) s
+
+/-- Nonzero integral ideals contribute no coefficient at norm zero. -/
+example (A : ClassGroup (𝓞 K)) : partialIdealZetaCoeff K A 0 = 0 := by
+  sorry
+
+/-- Only the unit ideal has norm one, and its class is principal. -/
+example : partialIdealZetaCoeff K 1 1 = 1 ∧
+    ∀ A : ClassGroup (𝓞 K), A ≠ 1 → partialIdealZetaCoeff K A 1 = 0 := by
+  sorry
+
+/-- The presentation adapter transports the supplier class sum to the Dedekind series. -/
 theorem sum_partialIdealZeta {s : ℂ} (hs : 1 < s.re) :
     ∑ A : ClassGroup (𝓞 K), partialIdealZeta K A s = dedekindZeta K s := by
   sorry
@@ -325,6 +410,10 @@ example (x : ℝ) :
 example : pretentiousDist 0 0 2 ^ 2 = (1 : ℝ) / 2 := by
   sorry
 
+/-- The prime-data distance vanishes at cutoff one for arbitrary functions. -/
+example (f g : ℕ → ℂ) : pretentiousDist f g 1 = 0 := by
+  sorry
+
 /-- The prime-data distance satisfies the multiplicative triangle inequality for disk-valued functions. -/
 theorem pretentiousDist_mul_le (f₁ f₂ g₁ g₂ : ℕ → ℂ) (x : ℝ)
     (hf₁ : ∀ p, p.Prime → ‖f₁ p‖ ≤ 1) (hf₂ : ∀ p, p.Prime → ‖f₂ p‖ ≤ 1)
@@ -375,6 +464,16 @@ theorem exists_beurlingPrimeSystem_nth_prime :
 example (P : BeurlingPrimeSystem) {x : ℝ} (hx : x ≤ 1) : P.primeCount x = 0 := by
   sorry
 
+/-- The ordinary prime sequence has four indexed primes at cutoff ten. -/
+example (P : BeurlingPrimeSystem) (hP : ∀ j, P.p j = Nat.nth Nat.Prime j) :
+    P.primeCount 10 = 4 := by
+  sorry
+
+/-- Repeated prime values contribute separate indices at their inclusive endpoint. -/
+example (P : BeurlingPrimeSystem) (h₀ : P.p 0 = 2) (h₁ : P.p 1 = 2)
+    (h₂ : 2 < P.p 2) : P.primeCount 2 = 2 := by
+  sorry
+
 /-- The smooth-count extension excludes zero even below the analytic cutoff range. -/
 example : smoothCount 0 2 = 0 := by
   sorry
@@ -405,6 +504,11 @@ example : divisorSummatory 1 = 1 ∧
 example : divisorSummatory 4 = 8 ∧
     divisorError 4 = 12 - 4 * Real.log 4 - 8 * Real.eulerMascheroniConstant ∧
     divisorErrorStar 4 = 41 / 4 - 4 * Real.log 4 - 8 * Real.eulerMascheroniConstant := by
+  sorry
+
+/-- A nonintegral cutoff has no divisor endpoint half-weight. -/
+example : divisorErrorStar (3 / 2) =
+    9 / 4 - (3 / 2) * Real.log (3 / 2) - 3 * Real.eulerMascheroniConstant := by
   sorry
 
 /-- Capped inverse distance with the correct value one at an exact endpoint saddle. -/
@@ -688,11 +792,17 @@ example : error (2 * Real.pi) =
     (2 * Real.eulerMascheroniConstant - 1) * (2 * Real.pi) := by
   sorry
 
-example {T : ℝ} (hT : 0 < T) :
-    error T =
-      (∫ t : ℝ in (0 : ℝ)..T, ‖riemannZeta (1 / 2 + (t : ℂ) * Complex.I)‖ ^ 2) -
-        (T * Real.log T + (2 * Real.eulerMascheroniConstant - 1 - Real.log (2 * Real.pi)) * T) := by
+/-- Moment-error increments retain the interval integral and both main-term endpoints. -/
+example {S T : ℝ} (hS : 0 < S) (hST : S ≤ T) :
+    error T - error S =
+      (∫ t : ℝ in S..T, ‖riemannZeta (1 / 2 + (t : ℂ) * Complex.I)‖ ^ 2) -
+        (T * Real.log (T / (2 * Real.pi)) - S * Real.log (S / (2 * Real.pi))) -
+        (2 * Real.eulerMascheroniConstant - 1) * (T - S) := by
   sorry
+
+/-- Adjacent error increments add, including degenerate intervals. -/
+example (S T U : ℝ) : (error T - error S) + (error U - error T) = error U - error S := by
+  ring
 
 /-- Explicit Atkinson remainder for proportional truncation; README §3.23g. -/
 theorem atkinson_remainder_budget {T : ℝ} (hT : (10 : ℝ) ^ 30 ≤ T) (N : ℕ)
