@@ -18,9 +18,9 @@ Qualitative prime counts use `TauCeti.primeIdealTheorem` and `TauCeti.primeCount
 
 ContourIntegration supplies residues and the argument principle with the exact path, singularity and null-homology hypotheses below. The local additions are rectangle adapters, branch/phase bounds, safe heights and infinite-height limits.
 
-DifferentialGeometry supplies oriented integration and Stokes/Green identities as specified below. Nielsen cores add orbifold descent, boundary multiplicities and cusp limits.
+DifferentialGeometry supplies oriented integration and Stokes/Green identities as specified below. The local `core_stokes` adapter applies these identities to the Nielsen surfaces and oriented boundary maps supplied by AutomorphicSpectralTheory §4.17a.
 
-Use the lattice, form-class and unit suppliers below; normalized quadratic period comparisons and real reduced-period/Nielsen geometry are local targets.
+Use the lattice, form-class, unit and real Nielsen-surface suppliers below; normalized quadratic period comparisons, general-eigenfunction Stokes and the imaginary-quadratic CM-point adapter are local targets.
 
 ## Conventions
 
@@ -123,15 +123,15 @@ For the CM finite-family bound, transport groups of order `m≤(2g)!` to `Fin m`
 
 Mathlib `Analysis/SpecialFunctions/Bessel.lean` supplies `Complex.besselJ`, `Complex.besselJ_neg_int`, `Complex.besselJ_zero`, `Complex.analyticOnNhd_besselJ` and `Complex.analyticOnNhd_besselJ_int`. [AutomorphicSpectralTheory §0.25][AS-Bessel] adds its reciprocal-Gamma series, positive-axis ODE, recurrences and half-order formula. The second-kind integral and remainders are local extensions.
 
-AutomorphicSpectralTheory AS.2 supplies normalized level-one Eisenstein half-sums, completion, Fourier expansion, meromorphic continuation and functional equation. The differentiated cusp estimates and critical-line boundary limit needed for DIT (7.10) are refinements here, with the oriented core/geodesic conventions.
+AutomorphicSpectralTheory AS.2 supplies normalized level-one Eisenstein half-sums, completion, Fourier expansion, meromorphic continuation and functional equation. Consume AutomorphicSpectralTheory §4.17a `quadratic_weyl_domains` for the real reduced cycles, genus-character dictionary, groups Γ_A, Nielsen surfaces, oriented multiplicity-preserving boundary maps, measures, area and length. Consume §4.18 `cusp_decay` and §4.20 `eisenstein_core_integrable` for the critical-line Eisenstein specialization. The local addition is the general-eigenfunction `core_stokes` comparison with DifferentialGeometry and the separate imaginary-quadratic CM-point adapter.
 
 ### From DifferentialGeometry
 
-[Layer 12][R32] supplies Riemannian volume, `laplaceBeltrami` and `integral_mul_laplaceBeltrami`, with sign div grad; the positive operator here is its negative. Layers 5.3–5.5 supply oriented top-form integration, `integralTopForm_mextDeriv` and corner Stokes; §§5.6.2–5.6.3 supply planar Green, integer-weighted arc cancellation and manifold-orientation comparison. Orbifold descent, cusp limits and Nielsen boundary multiplicities are local.
+[Layer 12][R32] supplies Riemannian volume, `laplaceBeltrami` and `integral_mul_laplaceBeltrami`, with sign div grad; the positive operator here is its negative. Layers 5.3–5.5 supply oriented top-form integration, `integralTopForm_mextDeriv` and corner Stokes; §§5.6.2–5.6.3 supply planar Green, integer-weighted arc cancellation and manifold-orientation comparison. The general-eigenfunction Stokes comparison on the supplied orbifold surfaces is local; real Nielsen geometry, boundary multiplicities and the Eisenstein cusp limits come from AutomorphicSpectralTheory §§4.17a,4.18,4.20.
 
 ### From GeometryOfNumbersAndQuadraticArithmetic and IntegralLattices
 
-GeometryOfNumbersAndQuadraticArithmetic §1.1 supplies lattice/Minkowski background. IntegralLattices Layer B, B2/B4/B5, supplies imaginary quadratic proper form/ideal classes and units. GlobalNumberFields Layer 11’s narrow/ordinary map is the one above. The real quadratic reduced-period, CM-point and full-norm-one-stabilizer comparisons are local quadratic-dictionary/Nielsen targets, with length `2logε_D`.
+GeometryOfNumbersAndQuadraticArithmetic §1.1 supplies lattice/Minkowski background. IntegralLattices Layer B, B2/B4/B5, supplies imaginary quadratic proper form/ideal classes and units. GlobalNumberFields Layer 11’s narrow/ordinary map is the one above. AutomorphicSpectralTheory §4.17a supplies the real reduced periods, genus characters and full-norm-one stabilizers, with length `2logε_D`. The imaginary-quadratic CM-point adapter is local in §2.1.
 
 ### From Tau Ceti, Multiquadratic and ContourIntegration
 
@@ -152,7 +152,7 @@ Targets retain their original layer and subsection numbers. Named prerequisite l
 Each abbreviation expands to the exact prerequisite list below; these are shared lists, not additional mathematical targets.
 
 - **B1:** [AdelicAlgebraicGroups AA.2.4](#from-adelicalgebraicgroups); [NumberFieldArithmetic 1][R25]; [NumberFieldArithmetic 2][R24]; [RepresentationTheory/InductionRestriction 3][R31]; [§2.18][R207]; [§2.5][R190]; [ArithmeticDirichletSeries 1][R4]; [ArithmeticDirichletSeries 3][R2]; [§2.3][R188]; [ClassFieldTheory 11][R27]; [ClassFieldTheory 7][R29]; [GlobalNumberFields 9][R19]; [§2.28][R208]; [AdelicAlgebraicGroups AA.2.4](#from-adelicalgebraicgroups); [AdelicAlgebraicGroups AA.2.4](#from-adelicalgebraicgroups); [§2.28a][R211]; [AdelicAlgebraicGroups AA.2.4](#from-adelicalgebraicgroups).
-- **B2:** IntegralLattices Layer B, B2/B4/B5 (imaginary quadratic form/ideal classes and units); [§2.1](#s2-1) (real quadratic reduced periods, CM points and full-norm-one stabilizers); AutomorphicSpectralTheory §§1.14–1.15 and 2.17–2.18 (normalized Eisenstein series, completion, Fourier expansion and continuation).
+- **B2:** IntegralLattices Layer B, B2/B4/B5 (imaginary quadratic form/ideal classes and units); [§2.1](#s2-1) (general-eigenfunction Stokes and imaginary-quadratic CM points); AutomorphicSpectralTheory §§1.14–1.15, 2.17–2.18 (normalized Eisenstein theory), §4.17a (real quadratic cycles, genus characters, Nielsen surfaces and oriented boundary maps), §§4.18,4.20 (critical-line cusp decay and integrability).
 - **B3:** [§2.5][R190]; [GlobalNumberFields 9][R19]; [ClassFieldTheory 11][R27].
 - **B4:** `B3`; [§2.7][R192]; AutomorphicLFunctionsAndLocalFactors AL.1; [§2.17a][R194].
 
@@ -265,9 +265,14 @@ See [47][R47], §12 opening, p. 386; Bombieri §5 p.39; Iwaniec–Kowalski Theor
 
 ### 0.7 Quadratic real-zero separation from one
 
-For `q≥3` and a quadratic Dirichlet character modulo `q`, a real zero `β>0` satisfies `β≤1-40/(√(q)*(log q)^2)`.
+Assume `BMORFiniteInput` and `BMORClassNumberInput`. For `q≥3` and a nonprincipal quadratic Dirichlet character modulo `q`, a real zero `β>0` satisfies `β≤1-40/(√(q)*(log q)^2)`.
 
-For primitive `q≥400000`, BMOR Lemmas 6.3–6.5 give `L(1,χ)≥12/√q` and `|L′(σ,χ)|<0.27356 log²q` on `1−1/(4√q)≤σ≤1`. The mean-value constant is `12/0.27356>40`; farther left use `log²q>160`. Partial summation, explicit Pólya–Vinogradov and cutoff `q^0.655` give the derivative estimate. For the literal constant 40 assume the finite class-number, regulator and `q<400000` zero bounds used in BMOR §6.1; the quadratic class-number formulas supply the remaining value estimate. Deleted factors have no positive real zeros, and `√q log²q` increases for `q≥3`, giving the imprimitive case.
+For primitive `q≥400000`, BMOR Lemmas 6.3–6.5 give `L(1,χ)≥12/√q` and `|L′(σ,χ)|<0.27356 log²q` on `1−1/(4√q)≤σ≤1`. The mean-value constant is `12/0.27356>40`; farther left use `log²q>160`. Partial summation, explicit Pólya–Vinogradov and cutoff `q^0.655` give the derivative estimate. The precise arithmetic inputs are:
+
+- `BMORFiniteInput`: for every primitive nonprincipal quadratic χ of conductor `3≤q≤400000`, `L(β,χ)≠0` for real `0<β<1`; and for every positive fundamental discriminant `400000≤d<26500000000`, `h⁺(ℚ(√d))logη_d>12`, where h⁺ is the narrow class number and η_d is the least totally positive unit greater than one. The latter is equivalently `√d L(1,χ_d)>12`. Above this finite range, `η_d≥(√(d+4)+√d)/2` gives the required value bound analytically.
+- `BMORClassNumberInput`: for every negative fundamental `d<−319867`, `h(ℚ(√d))≥46`. This is the global class-number classification used in BMOR Lemma6.3 (Watkins Table4), not an assertion confined to a bounded discriminant interval. The class-number formula gives `√|d| L(1,χ_d)≥46π>12`.
+
+Checks of the inputs: conductor3 lies in the zero-exclusion range, so no positive real zero is inferred there; conductor400000 belongs to the closed zero-exclusion range and the lower end of the regulator range if fundamental; `d=26500000000` belongs to the analytic unit bound rather than the finite regulator input. The global negative-discriminant input covers every `d≤−400000`, including arbitrarily large absolute discriminants. Every use of the literal separation constant40 carries both inputs. Deleted factors have no positive real zeros, and `√q log²q` increases for `q≥3`, giving the imprimitive case.
 
 See [48][R48], Proposition1.11, p.436; §6.1, Lemmas6.3–6.5 and proof of Proposition1.11, pp.491–494. Bennett–Siksek §12 p.387 uses this estimate.
 
@@ -418,9 +423,13 @@ See [54][R54], AppendixB.1, definition preceding(B.1), p.901.
 
 ### 0.16 Mod-eight prime mass
 
-With `ε=0.002811`, for `a=3` or 5 and `k≥2*10^10, θ(k;a,8)-θ(k/2;a,8)≥(1-3*ε)*k/8`.
+Assume `ModEightFiniteInput`. With `ε=0.002811`, for `a=3` or 5 and `k≥2*10^10, θ(k;a,8)-θ(k/2;a,8)≥(1-3*ε)*k/8`.
 
-Subtract the same published residue-class theta error bound at `k` and `k/2`, both within its range. Retain `a=3` or `5, q=8` and `k≥2·10^10`.
+Set `X=exp(10000)`. The contract `ModEightFiniteInput` is
+`∀ a∈{3,5}, ∀ x, 10^10≤x<X → |θ(x;a,8)−x/4|≤0.002811x/4`.
+Prove the same error inequality for `x≥X` from the explicit degree-one zero-free region and progression explicit formula at conductor8, separately from the finite input. Combine the two ranges, then subtract at `k` and `k/2`; the errors sum to `3εk/8`.
+
+Checks: at `k=2·10^10` the lower argument is exactly `10^10` and is included; if `k=2X`, both arguments belong to the analytic range; for `k=X`, the upper argument is analytic and the lower one uses the finite contract. The hypothesis concerns the two unit classes3 and5, and asserts no error bound for the nonunit class0.
 
 See [47][R47], §6, pp. 369,372, Ramaré–Rumely input.
 
@@ -549,9 +558,13 @@ See [47][R47], Proposition 7.1 and equation (25), pp. 373-374.
 
 ### 0.25 Explicit prime Euler-product bound
 
-For real `x≥10^8, ∏_{p prime,p≤x}(1+1/p)≤2*log x`.
+Assume `PrimeProductFiniteInput`. For real `x≥10^8, ∏_{p prime,p≤x}(1+1/p)≤2*log x`.
 
-Assume the finite-range reciprocal-prime inequalities used for the source’s literal threshold `10^8`; combine them with its analytic square-power tail estimates to obtain the constant 2.
+Set `X=exp(10000)`. Define `PrimeProductFiniteInput` by
+`∀ x, 10^8≤x<X → Σ_(p≤x)1/p≤log log x+0.27+5/log x`.
+The separate analytic tail proves this reciprocal-prime bound for `x≥X` using Rosser–Schoenfeld Theorem5, (3.18), p.70 and its zero-free-region estimates. In both ranges use `log(1+1/p)≤1/p` and `exp(0.27+5/log x)<2` for `x≥10^8`.
+
+Checks: `10^8` is included in the finite contract; `X` is included only in the analytic tail; at `x=10^8` the exponential coefficient is less than1.72, leaving a strict margin below2. An empty product at `x=1` would be1 while `2log1=0`, outside the stated range.
 
 See [47][R47], §5 proof of Lemma 5.1, p.365; alternate direct input from Rosser–Schoenfeld Theorem 8 (3.29), p.70.
 
@@ -986,20 +999,13 @@ Identify ideal Euler series with canonical Tate continuations before taking valu
 
 <a id="s2-1"></a>
 
-### 2.1 Nielsen cores and their oriented boundary maps
+### 2.1 Stokes on supplied Nielsen surfaces and the CM-point adapter
 
-For positive fundamental `D` and narrow class A, choose a reduced representative `wℤ+ℤ` with cyclic minus-continued-fraction period `(n₁,…,n_ℓ)`. Put `m=Σn_j`, `T(z)=z+1`, `S(z)=−1/z`; let `Γ_A` be generated by `T^m` and `T^(n₁+⋯+n_k)ST^(−n₁−⋯−n_k)`. Define `quadraticNielsenCore A` as the closed Nielsen region modulo `Γ_A`, with hyperbolic orbifold measure, cusp exhaustion and geodesic boundary. Subgroup inclusion gives its local isometry to `PSL₂(ℤ)∖ℍ`, retaining boundary orientation, parametrization and multiplicity even for overlapping/retraced projected arcs. Cyclic representative changes give conjugate groups and compatible isometric cores.
-
-Prove that the signature is (`0; 2,…,2; 1` cusp; 1 boundary), with `ℓ` order-two elliptic points, area `πℓ` and boundary length `2 log ε_D`. Here `ε_D>1` generates the full norm-one unit group. The boundary projects, with its oriented parametrization and multiplicity, onto `C_A`. For `a Γ_A`-invariant `C²` eigenfunction satisfying `ΔF=s(1−s)F`, integrable on the core and with the upper truncation boundary integral tending to zero, prove `core_stokes`: the integral of `i∂_z F dz` on the boundary is `s(1−s)/2` times the area integral. For the Eisenstein application verify integrability and the differentiated cusp bound at `Re s=1/2` before using this identity.
+Consume AutomorphicSpectralTheory §4.17a `quadratic_weyl_domains` with its real quadratic reduced periods, Γ_A, Nielsen surfaces, genus characters, oriented boundary projection with multiplicities, area `πℓ_A` and length `2logε_D`. For a Γ_A-invariant `C²` eigenfunction satisfying `ΔF=s(1−s)F`, integrable on the supplied core and with upper truncation boundary integral tending to zero, prove `core_stokes`: the integral of `i∂_z F dz` on the intrinsic oriented boundary is `s(1−s)/2` times the area integral. Descend DifferentialGeometry's Stokes formula through finite orbifold charts, cancel identified sides with their signed multiplicities and take the cusp-exhaustion limit under these hypotheses. For Eisenstein series on `Re s=1/2`, consume §4.18 `cusp_decay` and §4.20 `eisenstein_core_integrable` to discharge them.
 
 For negative fundamental `D`, construct the separate CM-point adapter from IntegralLattices B2/B4/B5: a primitive positive definite integral form `[a,b,c]` of discriminant `D` maps to `z_A=(−b+i√|D|)/(2a)` in the upper half-plane. Prove compatibility with the proper form/ideal-class dictionary, independence up to `PSL₂(ℤ)`, and stabilizer weight `1/ω_D`, with `ω_D=|O_Kˣ|/2`. This supplies the points used in §2.23; the form/ideal dictionary alone does not construct them. Source: [60][R60], §7 (7.1), p.970. Checks: `[1,0,1]` gives `i` and `ω₋₄=2`; `[1,1,1]` gives `(−1+i√3)/2` and `ω₋₃=3`; a proper change of form gives the same modular point and the same evaluation of an invariant function.
 
-API:
-
-- `quadraticNielsenCore.conjugacy_equiv`: cyclic change of reduced period induces a measure-preserving isometry compatible with the modular projection.
-- `quadraticNielsenCore.boundary_period`: integration on the boundary equals integration on the full oriented geodesic `C_A`, counting its arcs with their multiplicities.
-- `quadraticNielsenCore.area_length`: area is `πℓ` and boundary length is `2 log ε_D`.
-- `quadraticNielsenCore.stokes`: the eigenfunction identity holds under the integrability and vanishing-cusp conditions above.
+API: `core_stokes` supplies the eigenfunction identity under the integrability and vanishing-cusp hypotheses above, compatible with the supplied oriented boundary-period comparison.
 
 **Checks.**
 
@@ -1009,9 +1015,9 @@ API:
 - The projected modular fundamental domain has area `π/3`, so replacing either core by that domain or by its unweighted projected image gives the wrong area. Identified polygon sides do not contribute to the intrinsic boundary.
 - A nondecaying constant term proportional to `y^s` with `Re s>1` fails the cusp and area-integrability conditions. It cannot justify the initial Eisenstein area integral on that half-plane.
 
-See Duke–İmamoğlu–Tóth, [60][R60], §2 (2.1), (2.8)–(2.10), §3 (3.1)–(3.3) and Theorem 1, pp.951–958; §7 Lemma 2, (7.10)–(7.11), p.972. The polygon theorem and the finite-orbifold-chart and cusp-limit adapters to DifferentialGeometry Layer 5 are required proofs here. General manifold Stokes is consumed through its existing oriented integration interface.
+See Duke–İmamoğlu–Tóth, [60][R60], §2 (2.1), (2.8)–(2.10), §3 (3.1)–(3.3) and Theorem 1, pp.951–958; §7 Lemma 2, (7.10)–(7.11), p.972. The finite-orbifold-chart descent and general-eigenfunction cusp-limit adapter to DifferentialGeometry Layer 5 are required proofs here. General manifold Stokes is consumed through its existing oriented integration interface.
 
-*Needs:* GlobalNumberFields Layers 2 and 11; the real quadratic reduced-period dictionary constructed in this target; hyperbolic quotient geometry; DifferentialGeometry Layers 5 and 12; measure and differential-form integration; AutomorphicSpectralTheory AS.2’s level-one Eisenstein continuation and the differentiated cusp estimates constructed here for the Eisenstein specialization.
+*Needs:* IntegralLattices Layer B, B2/B4/B5; GlobalNumberFields Layers 2 and 11; DifferentialGeometry Layers 5 and 12; AutomorphicSpectralTheory §§4.17a,4.18,4.20 and AS.2; measure and differential-form integration.
 
 ### 2.2 Artin analytic conductor normalization
 
@@ -1132,7 +1138,7 @@ See [60][R60], §7, p970.
 
 ### 2.9 Lemma 4.4 (Zaman's effective lower bound for prime ideals)
 
-For each fixed degree `n` there is a positive effective `c_n` and an absolute effective `D₀` such that `π_k(Y)≥c_n D_k^(−19)Y/log Y` whenever `[k:Q]=n, D_k≥D₀` and `Y≥D_k^35`.
+Assume `ZamanDigammaInput` of §2.9a. For each fixed degree `n` there is a positive effective `c_n` and an absolute effective `D₀` such that `π_k(Y)≥c_n D_k^(−19)Y/log Y` whenever `[k:Q]=n, D_k≥D₀` and `Y≥D_k^35`.
 
 Assume Fix `n=[k:ℚ]≥1; D_k` is the absolute discriminant; one absolute effective threshold `D₀≥2` and an effective `c_n>0` precede all `k,Y; Y≥D_k^35`.; `π_k` counts nonzero prime ideals of `norm≤Y`. The `caseD_k=1` is outside the discriminant threshold, not a counterexample.
 
@@ -1144,7 +1150,7 @@ See [66][R66], Lemma 4.4, p.22, citing [Zam17], Forum Math. Pi 13 (2025), e19; [
 
 <a id="s2-9a"></a>
 
-**§2.9a The exact 35/19 prime-ideal adapter.** The primary source is [67][R67], Theorem1.3.1, pp.11–12, with proof §7.2, pp.159–169. Its Lemma7.2.3, pp.159–160, still prints 40 in both its premise and conclusion. The proof of that lemma uses no inequality specific to 40: it converts any verified range `B≥B₀` into `x≥D_L^(B₀)`. The following contract makes the substitution `B₀=35` explicit and also leaves room for the rounding of `ℓ` in the final case.
+**§2.9a The exact 35/19 prime-ideal adapter.** The primary source is [67][R67], Theorem1.3.1, pp.11–12, with proof §7.2, pp.159–169. Its Lemma7.2.3, pp.159–160, still prints 40 in both its premise and conclusion. The proof of that lemma uses no inequality specific to 40: it converts any verified range `B≥B₀` into `x≥D_L^(B₀)`. Under `ZamanDigammaInput` below, the following contract makes the substitution `B₀=35` explicit and also leaves room for the rounding of `ℓ` in the final case.
 
 Put `ℒ=log D_L` and `x=exp(Bℒ)`. For `ℓ≥2,A>0,B>2ℓA` let `f` be the translate of the convolution of `2ℓ` probability densities `A^(−1)1_[−A/2,A/2]`, supported on `[B−2ℓA,B]`, with `0≤f≤A^(−1)`. Its Laplace transform is
 `F(z)=exp(−(B−2ℓA)z)((1−exp(−Az))/(Az))^(2ℓ), F(0)=1.`
@@ -1159,9 +1165,34 @@ The local analytic contracts, taken in this order, are:
 - `dedekind_low_zero_weight`: Lemma7.2.6, pp.163–165, bounds `Σ′|((1−e^(−Az))/(Az))^(2ℓ)|, z=(1−ρ)ℒ`, by
 `((1−e^(−Aλ))/(Aλ))^(2ℓ−2) [φ(1−e^(−2Aλ))/(A²λ)+(2Aλ−1+e^(−2Aλ))/(2A²λ²)+η]`,
 where `φ=(1−1/√5)/2`, all zeros have `β<1−λ/ℒ` at `|γ|≤1`, and the restricted sum has `β≥1−R/ℒ`. The `λ=0` value is its limit `2φ/A+1+η`. Its proof uses the positive-real-part Laplace transform of `A^(−2)sinh((A−t)λ)1_[0,A]`. Piecewise smooth tests are obtained by smoothing and dominated limits. The original smooth explicit formula and its positivity hypotheses are [Kadiri–Ng][R68], Theorem3 and proof §4, pp.3,15–18; real-zero repulsion is Theorem4 and proof §5, pp.3–4,19–24. These pages supply the test conditions, rather than an appeal to an unspecified zero-density result.
-- `dedekind_repulsion_table` and `dedekind_real_zero_gap`: Zaman Theorems6.1.2–6.1.3 and Corollary6.1.4, pp.139–140, with proofs §§6.2–6.3, pp.141–152. The power-sum lemma finds `1≤k≤(12+ε)M` with `Re Σ z_j^k≥ε|z₁|^k/(48+5ε)`. Its proof uses the nonnegative Fejér weights and the split `|z_j/z₁|≥1/3`. The completed logarithmic derivative controls `M` by the explicit digamma quantities (6.7), (6.25); compare the zero-gap upper bound with this power-sum lower bound. For real secondary zeros the missing translated copy halves `M`, giving `24·0.6881<16.6` and `1−β₁≫D_L^(−16.6)`. For height `T`, use the `(T,α,C)` entries of p.151, not an optimized decimal with no witness. The signature includes an effective threshold and positive `c(T)`, with `β′≤1−log(c(T)/λ₁)/(C(T)ℒ)`.
+- `dedekind_repulsion_table` and `dedekind_real_zero_gap`: Zaman Theorems6.1.2–6.1.3 and Corollary6.1.4, pp.139–140, with proofs §§6.2–6.3, pp.141–152. The power-sum lemma finds `1≤k≤(12+ε)M` with `Re Σ z_j^k≥ε|z₁|^k/(48+5ε)`. Its proof uses the nonnegative Fejér weights and the split `|z_j/z₁|≥1/3`. The completed logarithmic derivative controls `M` by the explicit digamma quantities (6.7), (6.25); compare the zero-gap upper bound with this power-sum lower bound. For real secondary zeros the missing translated copy halves `M`, giving `24·0.6882<16.6` and `1−β₁≫D_L^(−16.6)`. For height `T`, use the `(T,α,C)` entries of p.151, not an optimized decimal with no witness. The signature includes an effective threshold and positive `c(T)`, with `β′≤1−log(c(T)/λ₁)/(C(T)ℒ)`.
 
-The discriminant input is unconditional: [Odlyzko][R69], Theorem 1(4), p.210 gives `log D≥r₁log60.1+2r₂log22.2−254`, since `f₁≥0`. Hence `r₁log60+2r₂log22≤log D` for sufficiently large `D`: absorb the fixed left side in bounded degree and 254 by the positive logarithmic gaps in growing degree. The harmonic maximum principle reduces pp.212–215’s estimate to positivity of its rational function on `x=1`; its positive-denominator polynomial inequality on `y²∈[0,1600]` and leading-term tail for `y≥40` are the analytic inputs. Assume the finite digamma-table inequalities on Zaman p.151 used in the ten bands below. No ERH hypothesis is introduced.
+The discriminant input is unconditional: [Odlyzko][R69], Theorem 1(4), p.210 gives `log D≥r₁log60.1+2r₂log22.2−254`, since `f₁≥0`. Hence `r₁log60+2r₂log22≤log D` for sufficiently large `D`: absorb the fixed left side in bounded degree and 254 by the positive logarithmic gaps in growing degree. The harmonic maximum principle reduces pp.212–215’s estimate to positivity of its rational function on `x=1`; its positive-denominator polynomial inequality on `y²∈[0,1600]` and leading-term tail for `y≥40` are the analytic inputs. The finite contract `ZamanDigammaInput` consists of the following explicit strict inequalities. Put `ψ(z)=Γ′(z)/Γ(z)`, `δ(x,t)=Re ψ((x+it)/2)`,
+`G₁(α,t)=(δ(α+1,0)+δ(α+1,t))/2−logπ`,
+`G₂(α,t)=(δ(α+1,0)+δ(α+2,0)+δ(α+1,t)+δ(α+2,t))/4−logπ`,
+`W₁(α)=Σ_(k≥0)(α+1+2k)^−2`, `W₂(α)=Σ_(k≥0)(α+1+k)^−2`, and
+`Q(α,t)=((α+1/2)²/α)[1/α+max(0,(G₁(α,t)+αW₁(α))/(αlog60),(G₂(α,t)+αW₂(α)/2)/(αlog22))]`.
+For each row below require `Q(α,T)<C/24`:
+
+| `T` | `α` | `C` |
+| --- | --- | --- |
+| 1 | 3.50 | 31.4 |
+| 3.5 | 3.77 | 32.7 |
+| 8.7 | 5.39 | 35 |
+| 22 | 7.30 | 38.4 |
+| 54 | 8.92 | 42 |
+| 134 | 10.17 | 45.9 |
+| 332 | 11.21 | 49.7 |
+| 825 | 12.26 | 53.6 |
+| 2048 | 13.22 | 57.4 |
+| 5089 | 14.17 | 61.2 |
+| 12646 | 15.23 | 65 |
+
+Also require, at `α=5.8`,
+`((α+1)²/(2α))[1/α+max(0,G₁(α,0)/(αlog60),G₂(α,0)/(αlog22))]<0.6882`.
+These are finitely many evaluations, not bounds over an unspecified field or height family (Zaman (6.7), (6.25), (6.29), pp.145,151–152). The positive slack in each strict inequality absorbs the additive terms in (6.25) and the power-sum ε after an effective discriminant threshold. Every numerical repulsion, real-zero-gap and 35/19 counting conclusion in §§2.9–2.9a carries `ZamanDigammaInput`.
+
+Checks of this contract: the first row uses `T=1`, not the first ten-band endpoint3.5; the last row includes height12646; the real-secondary-zero expression has the factor1/2 and omits both W terms. No ERH hypothesis is introduced.
 
 Here is the final range deduction, using those contracts. Let `ρ₁` have maximal real part among `|γ|≤1` and `λ₁=(1−Reρ₁)ℒ`. The one-zero region is [Kadiri][R70], Theorem1.1(1.8), p.3, proof §§2–3: `λ₁<0.0784` implies a simple real zero. For each `B≥35` choose parameters as follows.
 
@@ -1441,11 +1472,11 @@ See [60][R60], (7.2), p.970 (Hecke; a cited result, 'He showed').
 
 (p.971.) Let `D = d'd ≠ 1` be a fundamental discriminant, with `d`' and `d` fundamental discriminants (hence coprime), `K = Q(√D)`, and `χ` the associated genus character of `Cl^+(K)`. Either factor may be the trivial discriminant 1. For `D > 0, χ(J) = sign d = sign d`'. Kronecker's decomposition holds: `L(s,χ) = L(s,χ_{d'})L(s,χ_d)`. Equivalently `Λ_DIT(s,χ) = Λ_DIT(s,χ_{d'})Λ_DIT(s,χ_d)`, with the genus completion as in (7.4)–(7.5) and the Dirichlet completion fixed in the conventions by (5.13).
 
-Reuse the genus character on the narrow class group and its coprime-ideal evaluation. Compare Euler factors at split, inert and every ramified prime; continue only after the convergent identity.
+For `D>0`, consume AutomorphicSpectralTheory §4.17a’s real genus character, its value on J and its coprime-ideal evaluation; for `D<0`, use §2.10’s imaginary-quadratic dictionary. Compare Euler factors at split, inert and every ramified prime; continue only after the convergent identity.
 
 See [60][R60], §7, 'Genus characters', p.971, the unnumbered sentence between (7.7) and (7.8).
 
-*Needs:* [§2.10](#s2-10); [§2.12][R204]; `TauCeti.Multiquadratic.genusCharFunNarrowClassGroupHom`.
+*Needs:* [§2.10](#s2-10); [§2.12][R204]; AutomorphicSpectralTheory §4.17a; `TauCeti.Multiquadratic.genusCharFunNarrowClassGroupHom`.
 
 <a id="s2-26"></a>
 
@@ -1632,7 +1663,7 @@ See [64][R64], Cauchy-circle adapter for Tsimerman, Corollary 3.3, p.384; Thorne
 
 ### 2.35 Theorem3 negative factors
 
-For `s=1/2+it`, coprime negative fundamental `d,d′` and `D=d′d>0, Λ_DIT(s,χ_d)Λ_DIT(s,χ_{d′})=(s(1−s)/2)Σ_Aχ(A)∫_{F_A}E*(z,s)dμ`. First continue the compact boundary Hecke identity from `Re(s)>1` to the critical line, then apply Stokes there. The raw core integral diverges when `Re(s)>1` and is not its initial definition.
+For `s=1/2+it`, coprime negative fundamental `d,d′` and `D=d′d>0, Λ_DIT(s,χ_d)Λ_DIT(s,χ_{d′})=(s(1−s)/2)Σ_Aχ(A)∫_{F_A}E*(z,s)dμ`. Use AutomorphicSpectralTheory §4.17a’s real genus dictionary and oriented surfaces; continue the compact boundary Hecke identity from `Re(s)>1` to the critical line, then apply §2.1’s `core_stokes` with §§4.18,4.20’s supplied cusp hypotheses. The raw core integral diverges when `Re(s)>1` and is not its initial definition.
 
 Apply the odd compact-boundary Hecke identity and the genus Euler factorization. Continue this identity to the critical line before applying Stokes; never start from the divergent `Re s>1` core integral.
 
@@ -1646,7 +1677,7 @@ See [60][R60], §5 Theorem 3, first branch, p.964; §7 (7.8), Lemma 2 (7.10)–(
 
 Let `D > 1` be a fundamental discriminant and `D = d′d` a factorization into positive fundamental discriminants (equivalently, `d′, d > 0` coprime fundamental discriminants with `d′d > 1`; then `D` is fundamental). Let `χ` be the genus character. Then `Λ_DIT(s,χ_{d'})Λ_DIT(s,χ_d) = Σ_{A∈Cl^+(K)} χ(A)∫_{C_A} E*(z,s)y^{−1}|dz|`, as meromorphic functions of `s (7.8)`. On `Re(s) = 1/2` this is the second case of Theorem 3, where `∫_{∂F_A}` replaces `∫_{C_A}`.
 
-Sum the even compact-geodesic identity against `χ` and use genus factorization. Identify geodesic and boundary arcs on the critical line with the imported oriented geometric conventions.
+Sum the even compact-geodesic identity against `χ` and use genus factorization. Identify geodesic and boundary arcs on the critical line using AutomorphicSpectralTheory §4.17a’s oriented boundary-period map.
 
 See [60][R60], Theorem 3, second case, p.964; for all s by (7.8), p.972.
 
@@ -1658,7 +1689,7 @@ See [60][R60], Theorem 3, second case, p.964; for all s by (7.8), p.972.
 
 For coprime fundamental `d,d′` of opposite `sign, Λ_DIT(s,χ_d)Λ_DIT(s,χ_{d′})=(2√π/ω_D)Σ_Aχ(A)E*(z_A,s)`, as a meromorphic identity. Here `D=dd′<0`, the sum is over ordinary ideal classes of `ℚ(√D), χ` is the genus character, and `ω_D=|O_K^×|/2` as in the CM partial-zeta comparison; use the same `E*` normalization.
 
-Sum the CM point partial-zeta identity against the genus character. Match the two Dirichlet gamma factors and the unit factor `2√π/ω_D`.
+Use §2.1’s imaginary-quadratic CM-point adapter and sum the CM point partial-zeta identity against the genus character. Match the two Dirichlet gamma factors and the unit factor `2√π/ω_D`.
 
 See [60][R60], Theorem 3, third case, p.964 (`Re(s) = 1/2`); for all s by the display after 'By (7.6) we have when `D < 0`', p.971.
 
@@ -1720,7 +1751,7 @@ Let `D<0` be a fundamental discriminant, `K=Q(√D), u=#O_K^×/2` and A an ordin
 
 Substitute `E*=π^−sΓ(s)ζ(2s)E` and `ω_D=u` in `hecke_cm_partial_zeta_identity`. On `Re s>1` cancel nonzero `π^−sΓ(s)`, retaining `ζ(2s)`, the primitive half-sum and `u=#units/2`. Use the supplier's lattice/ordinary-class choice; inverse classes agree only through the conjugation/partial-zeta adapter. Nonfundamental order discriminants are excluded. This is a normalization comparison, not a second CM-period construction.
 
-For `D=−4, τ=i, u=2` and the single class, `ζ_Q(i)(s)=2^s ζ(2s)E(i,s)/(2·4^(s/2))=ζ(2s)E(i,s)`. For `D=−3` the unit factor is `u=3`, not1. A primitive form with nonfundamental discriminant `−16` represents a nonmaximal order in `Q(i)`; it cannot be substituted into this field-discriminant formula.
+For `D=−4, τ=i, u=2` and the single class, `ζ_Q(i)(s)=2^s ζ(2s)E(i,s)/(2·4^(s/2))=ζ(2s)E(i,s)/2`. For `D=−3` the unit factor is `u=3`, not1. A primitive form with nonfundamental discriminant `−16` represents a nonmaximal order in `Q(i)`; it cannot be substituted into this field-discriminant formula.
 
 See [71][R71], ChapterII§4, p.248, immediately after(4.1).
 
@@ -1845,7 +1876,7 @@ See [64][R64], Tsimerman §§2–3, pp.380–384, uses the Brauer–Siegel input
 
 There is an absolute `C > 0` such that, for every `ε > 0`, every fundamental `D = d'd ≠ 1` with genus character `χ`, and every `s` with `Re(s) = 1/2: Weyl(E(·,s),χ) ≪_ε |s|^C |L(s,χ_{d'})L(s,χ_d)| |D|^{1/4+ε}`. The paper prints the left side as '`Weyl(s,χ)`'.
 
-Assume `d,d′` are coprime fundamental discriminants with fundamental product `D≠1`, and `s=1/2+it` for `t∈ℝ`.; `Weyl` is the three-branch class sum of DIT (5.12): `(s(1−s)/2)Σ_Aχ(A)∫_{F_A}E(z,s)dμ` for negative factors, the boundary arc-length integral over `∂F_A` for positive factors (compared separately to `C_A`), and the CM point sum weighted by `1/ω_D` for mixed signs. All branches retain the genus character and multiplicities.; The implied constant depends only on `ε`; the height exponent `C` is absolute.
+Assume `d,d′` are coprime fundamental discriminants with fundamental product `D≠1`, and `s=1/2+it` for `t∈ℝ`.; `Weyl` is the three-branch class sum of DIT (5.12): `(s(1−s)/2)Σ_Aχ(A)∫_{F_A}E(z,s)dμ` for negative factors, the boundary arc-length integral over `∂F_A` for positive factors (compared separately to `C_A`), and the CM point sum weighted by `1/ω_D` for mixed signs. The real branches use AutomorphicSpectralTheory §4.17a’s genus dictionary and boundary multiplicities, with §§4.18,4.20 discharging the critical-line cusp hypotheses; the CM branch uses §2.1’s point adapter.; The implied constant depends only on `ε`; the height exponent `C` is absolute.
 
 Apply the appropriate one of the three genus-period identities. Use the precise gamma quotient and reciprocal-zeta bounds; polynomial height factors and `|D|^(1/4+ε)` remain visible.
 
@@ -1915,7 +1946,7 @@ See [64][R64], Derived quotient adapter for Tsimerman, Corollary 3.3, p.384; use
 
 - **Artin comparisons:** retain inertia conjugacy, finite-order spectrum, coefficient-convolution convergence and ramified Mackey/Frobenius cyclic blocks; [RepresentationTheory][R128] supplies integral induced-linear Brauer.
 - **Fixed degree:** [§2.31d][R186], [§2.31e][R164], [§2.31f][R221] give residues, Brauer–Siegel and CM value/reciprocal/derivative estimates. The lower endpoint uses `κ_N/κ_K`, not Cauchy. §3.3–3.4 supplies divisor domination. In a quadratic CM extension retain `D_F≤√D_E, Q=D_E/D_F`, odd parity, positivity, a full Cauchy circle and cancellation of trivial-factor orders.
-- **Quadratic periods:** complete the prime-discriminant/genus dictionary, half-unit CM weights, full norm-one geodesics and differentiated Eisenstein cusp estimates. Build the Nielsen core and multiplicity-preserving boundary map before the negative-factor period; its critical-line boundary integral differs from the divergent `Re s>1` area integral. Retain the Gross–Zagier normalization source boundary. For §2.13 first prove the regulator/norm-minus-one dichotomy before narrow/ordinary conversion.
+- **Quadratic periods:** consume AutomorphicSpectralTheory §4.17a’s real genus dictionary, Nielsen surfaces and multiplicity-preserving boundary maps, and §§4.18,4.20’s Eisenstein cusp estimates. Complete the imaginary prime-discriminant/genus dictionary, half-unit CM adapter and §2.1’s general-eigenfunction Stokes comparison before the negative-factor period; its critical-line boundary integral differs from the divergent `Re s>1` area integral. Retain the Gross–Zagier normalization source boundary. For §2.13 first prove the regulator/norm-minus-one dichotomy before narrow/ordinary conversion.
 - **Residues / primes:** [§2.15a](#s2-15a) includes Louboutin's imaginary-quadratic exception and `log`-convexity; convexity independently gives the weaker subpower upper bound in the lower-residue chain. [§2.9a](#s2-9a) retains all four Zaman cases, integer `ℓ` rounding and35/19 loss with the finite-table hypotheses. Family Hecke density and the multiplicity-sensitive local logarithmic derivative down to `Re s=−3/2` remain source boundaries. Smoothed Perron uses `Y^s/[s(s+1)]`, safe contours, all residues and low/high zeros; discard ramification/higher powers before split-prime counting.
 - **Genus / completion:** §2.10's generator, squarefree radicand, total complexity, subset/complement and prime-to-`D` Kronecker dictionaries precede genus products. §2.16 needs the odd character/conductor and Gamma duplication to force `root+1`; modulus 1 does not fix sign. Retain regulator/embedding/unit normalization before residues.
 - **Canonical characters:** identify ray/idele/Tate continuations, Artin/analytic conductors and CM real reciprocity before comparisons; fixed-field equations do not imply uniform convexity.
@@ -1929,7 +1960,7 @@ For `ℚ(i)`, the Dedekind residue is `π/4`, the quadratic character has conduc
 
 ### Dependencies
 
-AutomorphicLFunctionsAndLocalFactors Layers 0–1; GlobalNumberFields Layers 2, 9 and 10; ClassFieldTheory Layers 7, 11 and 13; NumberFieldArithmetic Layers 1, 2 and 7; InductionRestriction Layers 3 and 6; ArithmeticGaloisRepresentations Layer3 (finite conductors), using LocalFieldsRamification Layers3–4; DifferentialGeometry Layers 5 and 12; IntegralLattices Layer B, B2/B4/B5; AutomorphicSpectralTheory §§1.14–1.15 and 2.17–2.18. Analytic inputs are the Gamma and explicit-formula targets of Layer 1 and the zero-free estimates of Layer 0.
+AutomorphicLFunctionsAndLocalFactors Layers 0–1; GlobalNumberFields Layers 2, 9 and 10; ClassFieldTheory Layers 7, 11 and 13; NumberFieldArithmetic Layers 1, 2 and 7; InductionRestriction Layers 3 and 6; ArithmeticGaloisRepresentations Layer3 (finite conductors), using LocalFieldsRamification Layers3–4; DifferentialGeometry Layers 5 and 12; IntegralLattices Layer B, B2/B4/B5; AutomorphicSpectralTheory §§1.14–1.15, 2.17–2.18, 4.17a,4.18,4.20. Analytic inputs are the Gamma and explicit-formula targets of Layer 1 and the zero-free estimates of Layer 0.
 
 <a id="layer-3"></a>
 
@@ -1973,9 +2004,11 @@ Write `τ(n)=∏_(p|n)(a_p+1)` by `Nat.card_divisors` and `n=∏_(p|n)p^a_p` by 
 
 ### 3.2 Largest prime factor of a quadratic conductor
 
-Assume `SchoenfeldFiniteRangeInput`. If `N>1` is the conductor of a primitive quadratic character, then `P(N)>0.94*log(N)`.
+Assume `SchoenfeldFiniteRangeInput` and `QuadraticConductorFiniteInput`. If `N>1` is the conductor of a primitive quadratic character, then `P(N)>0.94*log(N)`.
 
-Use the primitive quadratic conductor’s prime-discriminant description, including its 2-adic possibilities. Assume the finite small-conductor inequalities in the source, including `N=24`; combine them with the analytic prime-product bounds.
+Define `QuadraticConductorFiniteInput` to mean `P(N)>0.94log N` for every primitive nonprincipal quadratic conductor `1<N<12000000000`, where `P(N)=max{p:p prime,p|N}`. The contract covers all small primitive quadratic conductors. For the separate tail `N≥12000000000`, the fundamental-discriminant description gives `log N≤θ(P(N))+2log2`; the theta bound reduces the claim to the direct comparison `(log N−2log2)/1.000081>0.94log N` at the threshold and thereafter. Thus the tail uses only `SchoenfeldFiniteRangeInput` and the prime-discriminant factorization.
+
+Checks: `N=24` requires `3>0.94log24`; `N=8` requires `2>0.94log8`, retaining the 2-primary conductor; `N=12000000000` is covered by the analytic comparison whenever it is an eligible conductor, whereas conductor1 is excluded before defining a largest prime factor.
 
 See [47][R47], Lemma 7.3, p. 375.
 
@@ -2403,14 +2436,14 @@ See [49][R49], Hyperbola discussion, pp.37–39, (3.4)–(3.5) and Theorem3.3 pr
 
 ### 3.23 Second moment of zeta
 
-As `T→∞, ∫_0^T|ζ(1/2+it)|²dt=T log(T/(2π))+(2γ−1)T+O(√T log T)`, with an absolute constant.
+As `T→∞, ∫_0^T|ζ(1/2+it)|²dt=T log(T/(2π))+(2γ−1)T+O(√T log T)`, with an absolute constant, assuming `BBRFiniteInput`.
 
-Define `zetaSecondMoment.error` by `E(T)=∫_0^T|ζ(1/2+it)|²dt−T log(T/(2π))−(2γ−1)T`, using the existing `riemannZeta` and Euler constant. The sufficient quantitative target is `zetaSecondMoment.atkinson_bound`: `|E(T)|≤110√T log T` for `T≥10^30`. The proof uses the endpoint divisor remainder, the Voronoi transform and the two saddle families below, followed by Atkinson's finite sums. It requires no smoothed second-moment theorem.
+Define `zetaSecondMoment.error` by `E(T)=∫_0^T|ζ(1/2+it)|²dt−T log(T/(2π))−(2γ−1)T`, using the existing `riemannZeta` and Euler constant. Under `BBRFiniteInput` of §3.23a, the sufficient quantitative target is `zetaSecondMoment.atkinson_bound`: `|E(T)|≤110√T log T` for `T≥10^30`. The proof uses the endpoint divisor remainder, the Voronoi transform and the two saddle families below, followed by Atkinson's finite sums. It requires no smoothed second-moment theorem.
 
 - `zetaSecondMoment.error_zero`: `E(0)=0` with the native interval-integral and real-`log` conventions.
 - `zetaSecondMoment.error_continuous`: `E` is continuous on `[0,∞)`; the factor `T log T` has its continuous value zero at0.
 - `zetaSecondMoment.error_increment`: for `0<S≤T, E(T)−E(S)=∫_S^T|ζ(1/2+it)|²dt−[T log(T/(2π))−S log(S/(2π))]−(2γ−1)(T−S)`.
-- `zetaSecondMoment.mean_square`: the displayed absolute-constant asymptotic follows from `atkinson_bound`, absorbing the compact initial interval.
+- `zetaSecondMoment.mean_square`: under the same `BBRFiniteInput`, the displayed absolute-constant asymptotic follows from `atkinson_bound`, absorbing the compact initial interval.
 
 **Checks.**
 
@@ -2442,7 +2475,21 @@ Call this function `divisorErrorStar`. The half-weight at an integer is part of 
 
   The series here is absolutely convergent. Split it at `Z/2, Z−√Z, Z+√Z,2Z`. Abel summation gives the two gap sums bounded respectively by `(1/2)log²Z−(log2−γ)log Z+2.365` and `(1/2)log²Z+γlog Z+3.721` for `Z>4`; the central band is bounded by `Z^(−1/4)(2^(7/4)log Z+12.21)`. The weighted-sum bounds handle the two tails ([87][R87], Lemma6 pp.29–30, (96)–(98) pp.30–31 and pp.33–34). The cap prevents any singularity when `Z` is an integer.
 
-The cubic bound requires [BBR], Lemma 5.1 p.1031’s triangular estimate, beyond `O(√x)`. For positive `D₀`, its coefficient is `Σ_(uv=n,gcd(u,v,D₀)=1)1`, whose error is `Σ_(δ|D₀)μ(δ)Δ(t/δ²)` by Möbius inversion. Abel summation (4.1), (4.6)–(4.7), pp.1029–1030 reduces its weighted sums to that error and integrals with weights `t^(−3/2),t^(−7/4)`. Use Mellin continuation of `ζ(s)²`, the hyperbola remainder and [BBR] §§8–10, pp.1037–1043’s integrated estimates, at `D₀=1` then `D₀=6` for (10.2). For the literal constants assume the finite-range inequalities there, including both one-sided endpoints and the smooth terms between successive integers. The targets are the resulting analytic remainder bounds.
+The cubic bound requires [BBR], Lemma 5.1 p.1031’s triangular estimate, beyond `O(√x)`. For positive `D₀`, its coefficient is `Σ_(uv=n,gcd(u,v,D₀)=1)1`, whose error is `Σ_(δ|D₀)μ(δ)Δ(t/δ²)` by Möbius inversion. Abel summation (4.1), (4.6)–(4.7), pp.1029–1030 reduces its weighted sums to that error and integrals with weights `t^(−3/2),t^(−7/4)`. Use Mellin continuation of `ζ(s)²`, the hyperbola remainder and [BBR] §§8–10, pp.1037–1043’s integrated estimates, at `D₀=1` then `D₀=6` for (10.2). The finite input is `BBRFiniteInput`, stated below; the analytic integral and triangular estimates outside those intervals remain proof targets.
+
+Use `divisorCoprimeError D t = Σ_(δ|D)μ(δ)Δ(t/δ²)` for `D>0`, and `divisorRemainderIntegral D T σ = ∫_1^T divisorCoprimeError D u·u^(−σ)du`; these are the BBR (4.5), (8.1) quantities. Write `I_D(T,σ)` for the latter, `κ₇=ζ(3/4)²/(3/4)+8γ−20`, and `κ₃=2ζ(1/2)²+4γ−6`, with the real continued zeta values. The contract `BBRFiniteInput` is precisely the conjunction:
+
+- For every real `1≤x≤10^10`, `|Δ(x)|≤0.961√x`; for `9995≤x≤10^10`, `|Δ(x)|≤0.764x^(1/3)log x`; for `3≤x≤10^6`, `|Δ(x)|≤1.146x^(1/3)log x`; for `4033≤x≤10^10`, `|Δ(x)|≤0.475√x`.
+- For `1≤x≤10^7`, `|divisorCoprimeError 2 x|≤0.883√x` and `|divisorCoprimeError 6 x|≤0.927√x`.
+- For `1≤T≤10^5`, `T^(1/4)|I_1(T,7/4)−κ₇|≤0.302`; for `1260≤T≤10^7`, the same expression is at most0.00979.
+- For `1≤T≤10^7`, `|I_1(T,7/4)|≤0.4077`, `|I_1(T,3/2)|≤κ₃`, `|I_2(T,7/4)|≤0.902`, `|I_6(T,7/4)|≤0.0945`, `|I_6(T,3/2)|≤0.131`.
+- `|I_6(10^7,3/2)+0.056667|≤10^−6`.
+
+The coefficient API is finite Möbius inversion, specialization at D=1 and evaluation of each finite divisor sum. Checks: `divisorCoprimeError 1 x=Δ(x)`; `divisorCoprimeError 2 x=Δ(x)−Δ(x/4)`; at `x=0` every summand is0. The integral API is its defining interval integral, reversal of endpoints, and additivity on positive compact intervals. Checks: `I_D(1,σ)=0`; `I_1(T,σ)=∫_1^T Δ(u)u^(−σ)du`; for positive `S,T`, `I_D(T,σ)−I_D(S,σ)=∫_S^T divisorCoprimeError D u·u^(−σ)du`, including `S=T` and reversed endpoints. Local integrability follows from finitely many divisor jumps on compact positive intervals.
+
+These aggregate finite bounds are supplied as hypotheses, not as floating-point certificates. Their source is [BBR], §§6–7 pp.1034–1037, Lemmas8.3,8.6,8.9 pp.1040–1041, Lemmas9.1,9.4 p.1042 and Lemmas10.1,10.3 pp.1042–1043. The real intervals include all integer right values and, by taking left limits, their left values; between integers the smooth main term is retained. Prove the analytic tails by BBR §§8–10, including (10.1)–(10.2), with the finite bounds substituted only at the indicated split points. In particular the global square-root and cubic bounds, all literal bounds in §§3.23a–g that use them, `zetaSecondMoment.atkinson_remainder_budget`, `zetaSecondMoment.atkinson_bound` and `zetaSecondMoment.mean_square` carry the same `BBRFiniteInput`. The qualitative divisor and moment-error identities require no such input.
+
+Checks of the input: `x=1` uses the inclusive `Δ(1)=2−2γ`; the cubic interval includes9995; `I_D(1,σ)=0` for every positive D, while `T=10^7` is included in each applicable integral bound. No assertion at0 is part of this contract.
 
 The cap API is `endpointCap.nonneg`, `endpointCap.le_one`, `endpointCap.even`, and `endpointCap.eq_inv_abs` for `|u|≥1`; it is continuous everywhere. Real reciprocal totalization must not replace its value at zero.
 
@@ -2705,7 +2752,7 @@ The light Lean names for `e,f,g,S₁,S₂` are respectively `atkinson.amplitude`
 
 `E(T)=S₁(T,N)+S₂(T,cutoff(T,N+1/2))+O_(A′,A″)(log²T).`
 
-For the explicit specialization `T≥10^30, (9/10)T≤N≤(11/10)T`, prove `atkinson.remainder_budget` with the actual remainder `ℛ=E−S₁−S₂`:
+Assume `BBRFiniteInput` for the explicit remainder and moment bounds in this target. For the explicit specialization `T≥10^30, (9/10)T≤N≤(11/10)T`, prove `atkinson.remainder_budget` with the actual remainder `ℛ=E−S₁−S₂`:
 
 `|ℛ|≤95log²T+275log T+7.3·10^18`.
 
@@ -3199,7 +3246,7 @@ Apply the source positive-integer Fourier argument using Davenport cancellation 
 
 See [58][R58], Corollary3.3 and proof reference, p.691.
 
-*Needs:* [§3.39](#s3-39); [§1.2](#s1-2); [§3.44a](#s3-44a).
+*Needs:* [§3.39](#s3-39); [§1.2](#s1-2).
 
 <a id="s3-44a"></a>
 
@@ -3208,6 +3255,8 @@ See [58][R58], Corollary3.3 and proof reference, p.691.
 Pair the positive and negative summands using evenness; apply the positive estimate to `α` and `−α`. Use Möbius cancellation and partial summation for the finite zero sum.
 
 See [58][R58], §3.1 definitions and Corollary3.3, p.691.
+
+*Needs:* [§3.44](#s3-44); [§1.2](#s1-2); evenness of `E_z`; Abel summation.
 
 <a id="s3-45"></a>
 

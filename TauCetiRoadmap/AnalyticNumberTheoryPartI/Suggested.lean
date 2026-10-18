@@ -210,6 +210,24 @@ theorem theta_lt (hfinite : SchoenfeldFiniteRangeInput) {x : ℝ} (hx : 0 < x) :
     Chebyshev.theta x < 1.000081 * x := by
   sorry
 
+/-- The first prime cutoff gives the stated theta value and strict upper bound. -/
+example : Chebyshev.theta 2 = Real.log 2 ∧
+    Chebyshev.theta 2 < 1.000081 * 2 := by
+  sorry
+
+/-- The inclusive prime count at fifty-nine satisfies both strict bounds. -/
+example : Nat.primeCounting 59 = 17 ∧
+    (59 : ℝ) / Real.log 59 * (1 + 1 / (2 * Real.log 59)) < Nat.primeCounting 59 ∧
+    (Nat.primeCounting 59 : ℝ) <
+      59 / Real.log 59 * (1 + 3 / (2 * Real.log 59)) := by
+  sorry
+
+/-- The proposed lower bound already fails at the preceding integer cutoff. -/
+example : Nat.primeCounting 58 = 16 ∧
+    ¬ ((58 : ℝ) / Real.log 58 * (1 + 1 / (2 * Real.log 58)) <
+      Nat.primeCounting 58) := by
+  sorry
+
 /-- Exact margin left after the prime-power error at the threshold in README §0.4. -/
 example :
     (1000081 : ℚ) / 1000000 * (1 / 140000 + 35 / 7290000) <
@@ -304,6 +322,15 @@ example :
     (1 : ℂ) * star I / (0 - 1) + I * star (1 : ℂ) / (1 - 0) = 2 * I := by
   simp
   ring
+
+/-- The Weyl area coefficient at the central point is one eighth. -/
+example : ((1 / 2 : ℂ) * (1 - 1 / 2) / 2) = 1 / 8 := by
+  norm_num
+
+/-- The same coefficient at height one is five eighths. -/
+example : ((1 / 2 + I : ℂ) * (1 - (1 / 2 + I)) / 2) = 5 / 8 := by
+  ring_nf
+  norm_num
 
 end AN3
 
@@ -421,6 +448,11 @@ theorem pretentiousDist_mul_le (f₁ f₂ g₁ g₂ : ℕ → ℂ) (x : ℝ)
     pretentiousDist (f₁ * f₂) (g₁ * g₂) x ≤ pretentiousDist f₁ g₁ x + pretentiousDist f₂ g₂ x := by
   sorry
 
+/-- At the splitting endpoint, both distinct prime divisors belong to the large part. -/
+example : (6 : ℕ).primeFactors.filter (fun p : ℕ => (p : ℝ) < 2) = ∅ ∧
+    (6 : ℕ).primeFactors.filter (fun p : ℕ => 2 ≤ (p : ℝ)) = {2, 3} := by
+  sorry
+
 /-- `Ψ(x, y)`, the number of `1 ≤ n ≤ x` with every prime factor `≤ y`. -/
 def smoothCount (x y : ℝ) : ℕ :=
   ((Finset.Icc 1 ⌊x⌋₊).filter fun n : ℕ => ∀ p ∈ n.primeFactors, (p : ℝ) ≤ y).card
@@ -485,6 +517,55 @@ def divisorSummatory (x : ℝ) : ℝ :=
 /-- The usual inclusive divisor remainder; the analytic statements assume `x ≥ 1`. -/
 def divisorError (x : ℝ) : ℝ :=
   divisorSummatory x - x * (Real.log x + 2 * Real.eulerMascheroniConstant - 1)
+
+/-- The coprime-divisor error obtained from the ordinary error by finite Möbius inversion. -/
+def divisorCoprimeError (D : ℕ) (x : ℝ) : ℝ :=
+  ∑ δ ∈ D.divisors, (ArithmeticFunction.moebius δ : ℝ) * divisorError (x / (δ : ℝ) ^ 2)
+
+/-- The integrated coprime-divisor error; its analytic domain has positive D and T. -/
+def divisorRemainderIntegral (D : ℕ) (T σ : ℝ) : ℝ :=
+  ∫ u : ℝ in (1 : ℝ)..T, divisorCoprimeError D u * u ^ (-σ)
+
+/-- Exact finite divisor and integral inequalities used in the BBR analytic estimates. -/
+def BBRFiniteInput : Prop :=
+  let κ₇ : ℝ := (riemannZeta (3 / 4)).re ^ 2 / (3 / 4) +
+    8 * Real.eulerMascheroniConstant - 20
+  let κ₃ : ℝ := 2 * (riemannZeta (1 / 2)).re ^ 2 +
+    4 * Real.eulerMascheroniConstant - 6
+  (∀ x : ℝ, 1 ≤ x → x ≤ (10 : ℝ) ^ 10 → |divisorError x| ≤ 0.961 * Real.sqrt x) ∧
+  (∀ x : ℝ, 9995 ≤ x → x ≤ (10 : ℝ) ^ 10 →
+    |divisorError x| ≤ 0.764 * x ^ (1 / 3 : ℝ) * Real.log x) ∧
+  (∀ x : ℝ, 3 ≤ x → x ≤ (10 : ℝ) ^ 6 →
+    |divisorError x| ≤ 1.146 * x ^ (1 / 3 : ℝ) * Real.log x) ∧
+  (∀ x : ℝ, 4033 ≤ x → x ≤ (10 : ℝ) ^ 10 →
+    |divisorError x| ≤ 0.475 * Real.sqrt x) ∧
+  (∀ x : ℝ, 1 ≤ x → x ≤ (10 : ℝ) ^ 7 →
+    |divisorCoprimeError 2 x| ≤ 0.883 * Real.sqrt x ∧
+    |divisorCoprimeError 6 x| ≤ 0.927 * Real.sqrt x) ∧
+  (∀ T : ℝ, 1 ≤ T → T ≤ (10 : ℝ) ^ 5 →
+    T ^ (1 / 4 : ℝ) * |divisorRemainderIntegral 1 T (7 / 4) - κ₇| ≤ 0.302) ∧
+  (∀ T : ℝ, 1260 ≤ T → T ≤ (10 : ℝ) ^ 7 →
+    T ^ (1 / 4 : ℝ) * |divisorRemainderIntegral 1 T (7 / 4) - κ₇| ≤ 0.00979) ∧
+  (∀ T : ℝ, 1 ≤ T → T ≤ (10 : ℝ) ^ 7 →
+    |divisorRemainderIntegral 1 T (7 / 4)| ≤ 0.4077 ∧
+    |divisorRemainderIntegral 1 T (3 / 2)| ≤ κ₃ ∧
+    |divisorRemainderIntegral 2 T (7 / 4)| ≤ 0.902 ∧
+    |divisorRemainderIntegral 6 T (7 / 4)| ≤ 0.0945 ∧
+    |divisorRemainderIntegral 6 T (3 / 2)| ≤ 0.131) ∧
+  |divisorRemainderIntegral 6 ((10 : ℝ) ^ 7) (3 / 2) + 0.056667| ≤ (10 : ℝ) ^ (-6 : ℤ)
+
+/-- Finite Möbius inversion at D equal to one recovers the ordinary divisor error. -/
+example (x : ℝ) : divisorCoprimeError 1 x = divisorError x := by
+  simp [divisorCoprimeError]
+
+/-- The lower integration endpoint gives zero independently of the finite inequalities. -/
+example (D : ℕ) (σ : ℝ) : divisorRemainderIntegral D 1 σ = 0 := by
+  simp [divisorRemainderIntegral]
+
+/-- The finite cubic input includes its lower endpoint. -/
+example (hBBR : BBRFiniteInput) :
+    |divisorError 9995| ≤ 0.764 * (9995 : ℝ) ^ (1 / 3 : ℝ) * Real.log 9995 := by
+  sorry
 
 /-- The Voronoi remainder has half weight at positive integral endpoints and subtracts `1/4`. -/
 def divisorErrorStar (x : ℝ) : ℝ :=
@@ -804,20 +885,20 @@ example {S T : ℝ} (hS : 0 < S) (hST : S ≤ T) :
 example (S T U : ℝ) : (error T - error S) + (error U - error T) = error U - error S := by
   ring
 
-/-- Explicit Atkinson remainder for proportional truncation; README §3.23g. -/
-theorem atkinson_remainder_budget {T : ℝ} (hT : (10 : ℝ) ^ 30 ≤ T) (N : ℕ)
+/-- Explicit Atkinson remainder from the BBR finite input for proportional truncation. -/
+theorem atkinson_remainder_budget (hBBR : BBRFiniteInput) {T : ℝ} (hT : (10 : ℝ) ^ 30 ≤ T) (N : ℕ)
     (hN : (9 / 10 : ℝ) * T ≤ N ∧ (N : ℝ) ≤ (11 / 10 : ℝ) * T) :
     |error T - atkinson.firstSum T N - atkinson.secondSum T (atkinson.cutoff T (N + 1 / 2))| ≤
       95 * Real.log T ^ 2 + 275 * Real.log T + 73 * (10 : ℝ) ^ 17 := by
   sorry
 
-/-- Sufficient explicit form of the classical second-moment bound, valid at the stated endpoint. -/
-theorem atkinson_bound {T : ℝ} (hT : (10 : ℝ) ^ 30 ≤ T) :
+/-- The BBR finite input supplies the explicit second-moment bound at the stated endpoint. -/
+theorem atkinson_bound (hBBR : BBRFiniteInput) {T : ℝ} (hT : (10 : ℝ) ^ 30 ≤ T) :
     |error T| ≤ 110 * Real.sqrt T * Real.log T := by
   sorry
 
-/-- The second-moment asymptotic has an absolute constant. -/
-theorem mean_square : error =O[atTop] (fun T : ℝ => Real.sqrt T * Real.log T) := by
+/-- The second-moment asymptotic from the BBR finite input has an absolute constant. -/
+theorem mean_square (hBBR : BBRFiniteInput) : error =O[atTop] (fun T : ℝ => Real.sqrt T * Real.log T) := by
   sorry
 
 end zetaSecondMoment
