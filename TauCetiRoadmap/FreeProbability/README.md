@@ -304,10 +304,14 @@ Give the full-versus-reduced example from two copies of C(𝕋) with Haar
 states: using `FreeGroup (Fin 2)`, their full and reduced products are
 respectively C*(F₂) and C*_r(F₂). Prove the quotient is not injective:
 on ℓ²(F₂) the adjacency sum of the four standard generators/inverses has
-norm 2sqrt3, while the full trivial character sends it to 4. Construct
-the 4-regular Cayley tree, the end-oriented shift for the upper norm
-bound, and finitely supported radial vectors for the matching lower
-bound. Thus the trivial character cannot factor through the reduced
+norm 2sqrt3, while the full trivial character sends it to 4. Consume
+OperatorKTheory K7.FreeGroups' early shared reduced-word/path/acyclicity
+interface on the native `SimpleGraph.mulCayley` carrier, identified at
+n=2 with this four-regular word model. Construct the end-oriented shift
+for the upper norm bound and finitely supported radial vectors for the
+matching lower bound. This use is before K7's Julg–Valette, free-group PV,
+and Toeplitz–Cuntz constructions; none of those analytic/K-theoretic results
+is a prerequisite for the tree interface. Thus the trivial character cannot factor through the reduced
 algebra, proving the full/reduced distinction directly.
 
 For von Neumann algebras with faithful normal states construct the weak
@@ -398,15 +402,31 @@ free product of B-bimodule unital completely positive maps that fix B and
 preserve the expectations exists, assuming both source and target
 expectations have faithful GNS representations. Give its word formula,
 complete positivity,
-composition and restriction properties. Construct conditional expectations
-onto factors/subproducts as cases of this construction. State and prove
+composition and restriction properties. Consume the unital specialization
+of [OperatorKTheory K4](../OperatorKTheory/README.md)'s Hilbert-module
+Kasparov–Stinespring dilation for these CP maps; the strictness condition
+is automatic for a unital domain. This early dilation layer precedes
+extension invertibility. F4 supplies the free-product assembly and its
+word identities. Construct conditional expectations onto factors/subproducts
+as cases of this construction. State and prove
 faithfulness of the product expectation when all E_i are faithful,
 separately from faithful GNS representations. Remove factors equal to B
 before the nontrivial-factor compression proof; the zero/one-factor cases
 have their direct identifications: the zero-factor product is B;
 the one-factor product is the image in the expectation-GNS representation,
 equal to the original algebra when that representation is faithful.
-The necessity follows by restriction.
+For arbitrary inputs put `Ā_i=λ_i(A_i)` and prove that E_i descends to
+a conditional expectation `Ē_i:Ā_i→B`, with `Ē_i(λ_i(a))=E_i(a)`.
+Identify its expectation-GNS module and represented free product with
+the ones already constructed. Prove that E is faithful iff every Ē_i
+is faithful: restriction gives necessity on these actual subalgebras,
+and the faithful-input theorem gives sufficiency. When each λ_i is
+injective, in particular under the stated GNS-faithfulness hypothesis,
+this is equivalent to faithfulness of every original E_i. Include the
+one-factor example `A=ℂ⊕ℂ`, `B=ℂ1`, `E_i(z,w)=z`: its represented
+product is ℂ with faithful identity expectation, although E_i is not
+faithful. This demonstrates why restriction to the original A_i
+requires injective factor maps.
 Do not give the reduced product the unrestricted categorical universal
 property of the full product.
 
@@ -699,9 +719,11 @@ families using adjoint colors. Specify bounded realizations only when
 the deterministic limiting distribution has them.
 
 Use the existing matrix unitary group and finite-dimensional topology.
-Prove its compactness as a closed bounded subset of the matrix space,
-construct normalized Haar probability, and develop invariance and matrix
-coefficient measurability. Construct the Haar-averaging orthogonal
+Consume `TauCeti.Matrix.isCompact_unitaryGroup` and its `CompactSpace`
+instance from `TauCeti.Topology.Algebra.UnitaryGroup`, comparing its
+entrywise topology with this matrix realization. Construct normalized
+Haar probability and develop invariance and matrix coefficient
+measurability. Construct the Haar-averaging orthogonal
 projection onto invariant tensors and the correspondence with tensor-power
 intertwiners. Consume SchurWeyl Layer8's permutation centralizer for GL_N
 and prove the unitary-group comparison by differentiating U(N)'s tensor
