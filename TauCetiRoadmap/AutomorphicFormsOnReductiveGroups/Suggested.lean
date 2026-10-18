@@ -28,6 +28,11 @@ Design choices.
   specialization indexes it by all proper rational parabolics.
 * Infinitesimal characters of `GLₙ(ℝ)` are `n`-tuples of complex numbers: L-algebraic means
   integral entries, C-algebraic means entries in `(n - 1)/2 + ℤ`.
+  Cohomological weight zero means the Weyl orbit of the trivial parameter `ρ`, rather than
+  the raw purity condition that the sums of Langlands exponents are zero.
+* `HasCohomologyWith` uses full `K`. The centrally balanced `HasConnectedCohomologyWith`
+  uses `(𝔤/𝔞,K°)` and retains the component action; full-`K` cohomology takes invariants.
+  The coefficient promise in `galoisConjugate_cuspidal` uses the connected predicate.
 * Local coefficient lattices use `Submodule.IsLattice`; characteristic-zero integral models
   are supplied by EtaleCohomologyFoundations F.4.0.
 * GSp₄ coherent weights use the four positive `C₂` coroot evaluations `(x - y, x, x + y, y)`.
@@ -321,6 +326,33 @@ def IsLAlgebraicGL {n : ℕ} (μ : Fin n → ℂ) : Prop := ∀ i, ∃ m : ℤ, 
 def IsCAlgebraicGL {n : ℕ} (μ : Fin n → ℂ) : Prop :=
   ∀ i, ∃ m : ℤ, μ i = m + ((n : ℂ) - 1) / 2
 
+/-- A real `GLₙ` infinitesimal parameter has cohomological weight zero when it is in the
+Weyl orbit of the trivial representation's parameter `ρ`. -/
+def IsCohomologicalWeightZeroGL {n : ℕ} (μ : Fin n → ℂ) : Prop :=
+  ∃ w : Equiv.Perm (Fin n), ∀ i,
+    μ i = ((n : ℂ) - 1) / 2 - ((w i).val : ℂ)
+
+/-- The trivial and sign characters of `GL₁(ℝ)` have cohomological weight zero. -/
+example : IsCohomologicalWeightZeroGL ![(0 : ℂ)] := by
+  refine ⟨Equiv.refl _, ?_⟩
+  intro i
+  fin_cases i
+  norm_num
+
+/-- The unitary discrete series `D₂(0)` has the trivial infinitesimal character. -/
+example : IsCohomologicalWeightZeroGL ![(1 : ℂ) / 2, -1 / 2] := by
+  refine ⟨Equiv.refl _, ?_⟩
+  intro i
+  fin_cases i <;> norm_num
+
+/-- The unitary discrete series `D₁₂(0)` has raw purity weight zero but a different
+infinitesimal character, with Casimir scalar `30`. -/
+example : ¬IsCohomologicalWeightZeroGL ![(11 : ℂ) / 2, -11 / 2] := by
+  rintro ⟨w, hw⟩
+  have h := hw 0
+  have hlt := (w 0).isLt
+  interval_cases hi : (w 0).val <;> norm_num [hi] at h
+
 /-- C-algebraicity is L-algebraicity after the norm twist `|det|^{(n-1)/2}`. -/
 theorem isCAlgebraicGL_iff_twist {n : ℕ} (μ : Fin n → ℂ) :
     IsCAlgebraicGL μ ↔ IsLAlgebraicGL (fun i => μ i + ((n : ℂ) - 1) / 2) := sorry
@@ -607,7 +639,9 @@ README definitions requiring additional carriers include `AdelicSmoothFunction`,
 `AdelicTestFunction`, `AdelicSchwartzFunction`, `T_sm` and `SmoothAutomorphicForm`;
 `relativeKoszulResolution`, `smoothGroupCochains` and `homogeneousPoincareResolution`;
 `IsAdmissible`, `IsHarishChandraModule`, `HasInfinitesimalCharacter`, generalized central
-characters, normalized induction, `IsTempered`, `IsSquareIntegrable`, their essential
+characters, normalized induction with its smooth Fréchet and compact-finite carriers,
+the SL₂ discrete/limit endpoint sequences and the inversion, circle and Casimir
+comparison used by NoncompactQuantumSymmetry M4; `IsTempered`, `IsSquareIntegrable`, their essential
 variants, `IrrAdmissible`, `WeilGroupComplex`, `WeilGroupReal`, `IsBoundedParameter`,
 `D_k`, `archimedeanUnitaryDual` (the common real/complex Speh and complementary-block
 classification, including unitarity, product irreducibility, exhaustion and uniqueness),
@@ -628,11 +662,16 @@ the shared §4.5 `MaassCuspForm` and its `NormalizedMaassEigenform` subtype, wit
 in the factor-two expansion, reflection sign `(-1)^δ` and either the real or the
 imaginary spectral-parameter branch; the L-function consumer takes its real branch.
 The adelic comparisons use the ALS.F.6 cusp carrier and preserve these normalizations;
-`IsCAlgebraic`, `IsLAlgebraic`, `IsAlgebraicCT`, `HasCohomologyWith`, the general
+`IsCAlgebraic`, `IsLAlgebraic`, `IsAlgebraicCT`, `HasCohomologyWith`,
+`HasConnectedCohomologyWith` for a tensor with trivial split-central Lie action, the general
 `ell0` and `q0`, `A_q`, `StableAdelicLattice`, `galoisTwist`, `rationalityField`,
 `IsFieldOfDefinition` and `galoisConjugate_cuspidal`. Section 5.7 owns these scalar-twist and
 rationality interfaces and Clozel finiteness for regular algebraic cuspidal GLₙ over any number
-field in cohomological normalization; `fieldOfRationality` in the CM/totally real consumer
+field in cohomological normalization. The conjugation theorem provides nonzero connected-pair
+cohomology with the conjugated algebraic coefficient and retains the component action;
+full-`K` nonvanishing requires nonzero component invariants. The tempered real GLₙ
+classification in §5.5 assumes `IsCohomologicalWeightZeroGL` of the infinitesimal parameter;
+its odd-rank alternatives are connected-pair cohomological. `fieldOfRationality` in the CM/totally real consumer
 abbreviates `rationalityField` on the same finite-part representation; `HermitianGroupDatum`,
 `coherentCochains`, `coherentCohomology`,
 `CuspidalCoherentCohomology`, `DiscreteCoherentCohomology`, the GSp₄ character lattices
