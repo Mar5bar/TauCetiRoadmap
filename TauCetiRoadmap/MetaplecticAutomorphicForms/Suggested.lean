@@ -329,6 +329,19 @@ open scoped TensorProduct
 
 variable {F V W : Type*} [Field F] [AddCommGroup V] [Module F V] [AddCommGroup W] [Module F W]
 
+/-- A scalar action different from one kills the native coinvariants (3.9). Applied to the
+tensor product of the oscillator with the smooth contragredient, this detects mismatched central characters. -/
+theorem thetaCoinvariants_scalarMismatch {G : Type*} [Group G]
+    (ρ : Representation F G V) (g : G) (c : F) (hc : c ≠ 1)
+    (hg : ∀ x : V, ρ g x = c • x) (x : V) : Representation.Coinvariants.mk ρ x = 0 := by
+  sorry
+
+/-- The sign mismatch in an even orthogonal tower kills every complex coinvariant. -/
+example {G E : Type*} [Group G] [AddCommGroup E] [Module ℂ E]
+    (ρ : Representation ℂ G E) (z : G) (hz : ∀ x : E, ρ z x = -x) (x : E) :
+    Representation.Coinvariants.mk ρ x = 0 := by
+  sorry
+
 /-- **The dual-pair form is symplectic** (3.1): a symmetric `b` and an alternating `ω` give an
 alternating `b ⊗ ω`, in every characteristic. -/
 theorem tensorSymplecticForm_isAlt (b : BilinForm F V) (ω : BilinForm F W) (hb : b.IsSymm)
