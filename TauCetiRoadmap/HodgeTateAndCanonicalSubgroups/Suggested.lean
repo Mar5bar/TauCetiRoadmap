@@ -314,6 +314,11 @@ Layer 0: `TauCeti.HodgeTate.conormal`, `TauCeti.HodgeTate.hodgeTateMap`,
 `TauCeti.HodgeTate.semiAbelianTorsion`, `TauCeti.HodgeTate.semiAbelianHasse`,
 `TauCeti.HodgeTate.harderNarasimhanFiltration`, `TauCeti.HodgeTate.torsionDegree`,
 `TauCeti.HodgeTate.coLieComplex`, `TauCeti.HodgeTate.abelianVerschiebung`.
+Here `TauCeti.HodgeTate.coLieComplex` aliases the co-Lie construction supplied, with
+its derived dual, by FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.11 and R07.6.6.
+README §0.26 supplies the additional finite-flat perfectness, determinants and
+abelian-isogeny Hodge triangle. README §0.28 supplies the general-base finite-subgroup
+extension of the complete-DVR quotient in that roadmap's R07.1.20a.
 Layer 2: `ShimuraTower.pLevel`, `ShimuraTower.translate`, `ShimuraTower.infiniteLevel`,
 `TauCeti.HodgeTate.hodgeTateFlagPoint`, `TauCeti.HodgeTate.hodgeTateParabolicReduction`,
 `TauCeti.HodgeTate.ExactTensorFiltration`, `TauCeti.HodgeTate.hodgeTateFlagDescent`,
