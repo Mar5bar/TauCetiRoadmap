@@ -3486,7 +3486,7 @@ See [114][R114], Corollary proof, p.3; Neshveyev 2009 §1, p.2.
 
 <a id="s6-43"></a>
 
-### 6.43 The Gibbs states φ_{β,u}
+### 6.43 The Gibbs states `φ_{β,u}`
 
 For real `β > 1` and u `∈ Aut(ℚ/ℤ)`, `φ_{β,u}(f) = ζ(β)⁻¹ Σ_{k≥1} k^{−β}⟨ε_k`, `π_u(f)ε_k⟩` is a state on `BCHecke ℂ`: linear, `φ_{β,u}(1) = 1` and `φ_{β,u}(f*f) ≥ 0`. On the basis, `φ_{β,u}(x_n e(γ) x′_m) = 0` unless `n = m`, and `φ_{β,u}(e(γ)) = ζ(β)⁻¹ Σ_k k^{−β} exp(2πi k u(γ)) = Li_β(exp(2πi u(γ)))/ζ(β)`, with `Li_β(z) = Σ_{k≥1} z^k/k^β`.
 
@@ -3754,15 +3754,15 @@ The ArithmeticStatistics parts consume Layer 5’s cubic parametrization, finite
 [R12]: https://github.com/roed-math/TauCetiRoadmap/blob/cce2e04188a559be9a16037d0d65e00a815fcecc/TauCetiRoadmap/ZerosOfLFunctions/README.md#layer-1-gamma-factor-asymptotics-and-the-continued-l-function
 [R20]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/GlobalNumberFields#layer-10-archimedean-characters-infinity-types-and-cyclotomic-arithmetic
 [R22]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/GlobalNumberFields#layer-4-finite-adeles
-[R33]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/063cf517a1dcc4d929e0602c6e6f585953aceab8/TauCetiRoadmap/PseudodifferentialOperators/README.md#p7-elliptic-powers-and-changes-of-order
-[R34]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/64380dd10f4e9f85e4b0253a6cf1aad53b336cf2/TauCetiRoadmap/AutomorphicSpectralTheory/README.md#15-finite-weyl-constant-term-formula
+[R33]: ../PseudodifferentialOperators/README.md#p7-elliptic-powers-and-changes-of-order
+[R34]: ../AutomorphicSpectralTheory/README.md#15-finite-weyl-constant-term-formula
 [R36]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/Completed/UniversalCovers#stage-0-port-the-foundations-into-tauceti
 [R37]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/Completed/UniversalCovers#stage-2-lifting-criterion-and-galois-correspondence
 [R38]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/OperatorAlgebraDynamics#d1-covariant-representations-and-full-crossed-products
 [R39]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/OperatorAlgebraDynamics#d2-regular-representations-reduced-products-and-amenability
 [R40]: https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/OperatorAlgebraDynamics#d7-analytic-dynamics-kms-states-and-modular-theory
-[R41]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/a4317b48d22a8317c89cf01e67b5c149055b08e1/TauCetiRoadmap/AmenableGroups/README.md#layer-5-følner-criteria-for-arbitrary-discrete-groups
-[R42]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/ae202ba66da9846bf5efd5a0a59c83bed7433032/TauCetiRoadmap/VonNeumannAlgebras/README.md
+[R41]: ../AmenableGroups/README.md#layer-5-følner-criteria-for-arbitrary-discrete-groups
+[R42]: ../VonNeumannAlgebras/README.md
 [R94]: https://link.springer.com/content/pdf/10.1186/s40687-015-0049-2.pdf
 [R95]: https://arxiv.org/pdf/1005.4967v2
 [R96]: https://dlmf.nist.gov/5.17
@@ -3789,12 +3789,12 @@ The ArithmeticStatistics parts consume Layer 5’s cubic parametrization, finite
 [R117]: https://arxiv.org/pdf/0907.1456v1
 [R118]: https://people.mpim-bonn.mpg.de/zagier/files/tex/NewPointsSelbergZeta/fulltext.pdf
 [R119]: https://perso.u-cergy.fr/~elemasson/qchyp.pdf
-[R120]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/063cf517a1dcc4d929e0602c6e6f585953aceab8/TauCetiRoadmap/PseudodifferentialOperators/README.md#p7a-finite-deck-scalar-laplacian-transplantation
+[R120]: ../PseudodifferentialOperators/README.md#p7a-finite-deck-scalar-laplacian-transplantation
 [R121]: https://people.maths.bris.ac.uk/~majm/bib/selberg.pdf
 [R122]: https://arxiv.org/pdf/math/9911135
 [R123]: https://arxiv.org/pdf/math/0002141
 [R124]: https://arxiv.org/pdf/0907.1456
-[R125]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/ae202ba66da9846bf5efd5a0a59c83bed7433032/TauCetiRoadmap/VonNeumannAlgebras/README.md#v11-weights-connes-invariants-and-continuous-cores
+[R125]: ../VonNeumannAlgebras/README.md#v11-weights-connes-invariants-and-continuous-cores
 [R130]: #s5-3a
 [R136]: ../AnalyticNumberTheoryPartI/README.md#prerequisites-and-boundaries
 [R190]: ../AnalyticNumberTheoryPartI/README.md#s2-5
