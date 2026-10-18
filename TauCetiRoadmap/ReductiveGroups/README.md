@@ -273,6 +273,136 @@ faithfully-flat descent.
   field of characteristic `p`, a **smooth connected affine** group is linearly reductive iff it is a torus.
   Provide both definitions and the char-0 equivalence so downstream work can pick either.
 
+#### Layer 6A: characteristic-zero Levi complements for general affine groups
+
+Let k be a field of characteristic zero and G a smooth connected affine k-group
+of finite type. Here G need not be reductive or be a parabolic in another
+reductive group. Consume Layer5's geometric unipotent radical U=R_u(G),
+its k-descent and smooth connectedness, and Layer3's represented quotient
+q:G→Q=G/U; prove Q reductive with this actual quotient map. A Levi complement
+is a closed k-subgroup L⊂G for which q|L:L→Q is a group-scheme isomorphism.
+Construct such L, prove it connected and reductive, and construct the actual
+semidirect-product group scheme U⋊L, with L acting on U by conjugation.
+On every commutative k-algebra A its multiplication is
+`(u,l)(u',l')=(u(lu'l⁻¹),ll')`; the isomorphism U⋊L→G sends `(u,l)` to ul.
+Its inverse sends g to `(g s(q(g))⁻¹,s(q(g)))`, where
+`s:Q→G` is the splitting with image L. Construct these as scheme morphisms
+and prove both inverse identities, not just a bijection on k-points.
+
+Build the following algebraic splitting machinery before proving this theorem.
+It uses Layers0–1's same affine/Hopf and native right-comodule carriers,
+Layer3's quotients and Layer5's unipotent structure, followed by Layer6's
+characteristic-zero equivalence between reductivity and linear reductivity.
+It uses neither the parabolic Levi theorem of Layer7 nor an integration of an
+arbitrary Lie subalgebra.
+
+1. **Equivariant vector layers and regular sections.** For a connected
+   unipotent k-group U normal in G, construct a finite descending filtration
+   `U=U₀⊃U₁⊃⋯⊃U_m=1` by smooth connected k-subgroups characteristic in U,
+   normal in G, with `[U,U_i]⊂U_(i+1)` and vector-group quotients
+   `V_i=U_i/U_(i+1)`. The strictly descending nontrivial layers can be obtained
+   from the lower central series. Prove in characteristic zero that each
+   commutative unipotent layer is canonically linearizable through its Lie
+   algebra, using polynomial unipotent exponential/logarithm on a faithful
+   matrix realization and proving subgroup preservation and independence of
+   the realization. Conjugation consequently gives an actual rational linear
+   Q-action on V_i. Retain Q's central torus in this action. These are
+   constructions of the filtration and linearization, not additional hypotheses
+   restricting G. From Layer0's faithfully-flat torsor/descent machinery prove
+   vector-group torsors over affine k-schemes trivial: construct the additive
+   descent cocycle and solve it by the exact affine module/Amitsur sequence.
+   Induct through split-unipotent layers to obtain regular sections for the
+   quotients used here. Prove in particular U(k)→(U/U₁)(k) surjective.
+   A regular section of varieties is not asserted a group homomorphism.
+2. **Rational algebraic cohomology and averaging.** For an affine k-group H
+   and rational H-module V use its native k[H]-comodule and construct
+   `Cⁿ_alg(H,V)=k[H]^(⊗n)⊗V`, with C⁰=V, tensor unit in degree0 and the
+   cofaces from the same Hopf/comodule maps. Here V^H is defined by
+   `coact(v)=v⊗1`, not only by invariance under H(k). For finite-dimensional V identify
+   these with regular maps Hⁿ→V; no complex of arbitrary functions on H(k)
+   is substituted. With the left point action and left-factor-first Hopf
+   convention, the inhomogeneous differential is
+   `dc(g₁,…,g_(n+1))=g₁·c(g₂,…,g_(n+1))`
+   `+Σ_(j=1)^n(−1)^j c(g₁,…,g_j g_(j+1),…,g_(n+1))`
+   `+(−1)^(n+1)c(g₁,…,g_n)`.
+   Prove d²=0, the normalized subcomplex comparison, H⁰=V^H,
+   coefficient functoriality, connecting sequences and extension-of-field
+   compatibility. Consume `TauCeti.ComoduleCat`'s native abelian instance for a flat
+   coalgebra, automatic over k, and `Comodule.cofree`,
+   `Comodule.Hom.cofreeUnit`, `Comodule.Hom.cofreeEquiv` and the bundled
+   `ComoduleCat.cofree` from `TauCeti.Algebra.Coalgebra.Comodule.Cofree`.
+   Construct their categorical adjunction/injectivity and cofree resolution
+   comparisons needed to identify this complex with the right-derived
+   invariant functor; complete the normalized-complex and derived-functor
+   interfaces. For reductive Q in characteristic zero, transport Layer6's
+   finite-dimensional complete reducibility to the native
+   `Coalgebra.IsLinearlyReductive` hypothesis and consume
+   `Comodule.Hom.exists_fixed_preimage_of_isLinearlyReductive`,
+   `fixedMap_surjective_of_isLinearlyReductive` and
+   `exact_fixedMap_of_isLinearlyReductive` from
+   `TauCeti.Algebra.Coalgebra.Comodule.LinearlyReductive.Fixed`.
+   These already lift invariant vectors in arbitrary rational modules by
+   Layer1's finite-subcomodule reduction and an equivariant splitting of its
+   finite-dimensional image; retain this comparison with the scheme-level
+   invariants. Construct the resulting Reynolds splittings/acyclicity
+   comparison, and prove `Hⁿ_alg(Q,V)=0` for n>0. This algebraic averaging
+   uses rational representations over k, not a Haar probability measure on Q(k).
+3. **Vector extensions and explicit sign conventions.** For a smooth affine
+   extension `1→V→E→H→1` by a vector group with the specified rational
+   H-action, construct a regular normalized section s using item1. Define
+   `s(g)s(h)=i(c(g,h))s(gh)`; associativity is exactly the algebraic
+   2-cocycle equation. Identify E, as a variety and as an extension, with
+   V×H having product
+   `(v,g)(w,h)=(v+g·w+c(g,h),gh)`.
+   If `s_b(g)=i(b(g))s(g)`, prove `c_b=c+db`, where
+   `db(g,h)=g·b(h)−b(gh)+b(g)`. Thus a solution c=da gives the
+   homomorphic section s_(−a). Prove independence of the cohomology class,
+   classification of these extensions with identified kernel/quotient/action
+   by H²_alg, and the split criterion. In the split extension, sections are
+   precisely regular 1-cocycles a:H→V. If `a(g)=g·v−v`, then
+   `s_a(g)=i(−v)s₀(g)i(v)`; prove this identity with the displayed product.
+   Vanishing H¹_alg gives conjugacy by V(k). Include V=0 and the trivial
+   action, and prove that the kernel coordinate action term cannot be omitted.
+4. **Induction and all complements.** Apply H² vanishing to
+   `G/U₁`, an extension of Q by V₀. Pull back its resulting complement to
+   G and induct on the remaining unipotent filtration. Prove that this
+   pullback is smooth connected affine of finite type, with unipotent radical
+   U₁ and reductive quotient Q, before
+   applying the induction. This constructs L and the scheme isomorphism
+   above without assuming a Levi complement in the induction inputs.
+   For two Levi complements first use H¹ vanishing in G/U₁, lift its
+   conjugating V₀(k)-point to U(k) by item1, and then induct in the
+   preimage of the common complement. Prove that U(k) acts transitively
+   on the set of k-Levi complements and that the stabilizer of L is
+   C_U(L)(k): an element of U normalizing L acts trivially on its quotient
+   Q and hence centralizes L. Construct the orbit bijection with
+   `U(k)/C_U(L)(k)` as a set of group cosets, and distinguish this from
+   any asserted representability of a complement-parameter functor.
+   Conjugators need not be unique.
+
+Export the quotient, chosen section/complement, multiplication isomorphism,
+its point-functor/Hopf comparisons and their identity/composition diagrams.
+Prove extension of scalars carries any chosen complement, its action and its
+scheme isomorphism to the corresponding data over every field extension;
+this does not assert that every complement after base change descends.
+Different choices are related by the conjugacy theorem, not a canonical
+functorial choice of L. Differentiate the actual scheme isomorphism to obtain
+`Lie(G)≃Lie(U)⋊Lie(L)` and compare with Layer2; a general Lie-algebra splitting
+is not used to assert an algebraic complement. Keep the full reductive
+central torus, arbitrary unipotent dimension, U=1 and Q=1 cases.
+
+Give explicit tests on a torus acting on a vector group, upper-triangular
+invertible matrices, a connected reductive group (U=1), a connected unipotent
+group (L=1), and L×G_a. In the last example all of U centralizes the same
+complement, disproving uniqueness of the conjugating element. Under k=ℂ
+compare this exact algebraic decomposition with the underlying holomorphic
+group and use LieGroups Layer7 only for the already reductive factor's
+compact real form. There is no asserted Levi splitting for all groups in
+positive characteristic; Layer7's separate all-field parabolic theorem
+retains its hypotheses and is not replaced by this characteristic-zero lane.
+The regular extension/cohomology route is discussed in
+[McNinch §§2.2–2.3,3.1,4.1,4.3–4.5,5.1–5.2](https://arxiv.org/html/1007.2777v1).
+
 #### Layer 6B: complex reductive coset affineness
 
 - **Complex reductive coset affineness.** For a smooth connected affine reductive
