@@ -589,6 +589,12 @@ Satake, local shtukas and geometric excursion action. IG.4.0a–d adds the valua
 two-tower descent, continuous cosupport and ordinary-support limit comparisons. IG.6.6a–b
 specifies the actual GL torsion import and the lower unitary residual application.
 
+The family quotient theorem in Exact supplier contracts is also stated only in the README:
+for a prime p over any scheme S, a homomorphism H → G of p-divisible groups that is a closed
+immersion on every torsion level has p-divisible fppf quotient G/H. The quotient is exact on
+torsion levels, commutes with arbitrary base change, is functorial, and satisfies
+ht G = ht H + ht (G/H).
+
 Their carriers are not available at the pins: the set `B(G)` of a general reductive group with its
 Newton and Kottwitz maps, J_b; the integral model `S_K`, abelian and p-divisible groups with
 G-structure, the Newton stratification, internal Hom p-divisible groups, complete slope
