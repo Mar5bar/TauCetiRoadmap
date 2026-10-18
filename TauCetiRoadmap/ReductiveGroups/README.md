@@ -114,8 +114,9 @@ and special isogenies.
 
 ## The build, in layers
 
-The layers are ordered by mathematical prerequisites. Their target signatures are collected
-in `Suggested.lean` with `sorry` where appropriate.
+The layers are ordered by mathematical prerequisites. Nonexhaustive target signatures are
+in `Suggested.lean` and `IntegralRationalTargets.lean`, using native carriers and honest
+`sorry` construction targets; the README remains definitive.
 
 **Cross-cutting prerequisite: sheaves and descent.** The functor-of-points comparison,
 quotients, torsors and representability use the fppf topology and faithfully-flat descent:
@@ -668,6 +669,79 @@ roadmap](../RepresentationTheory/RootSystems/README.md). Layer 7g supplies the S
 fixed-point and representation-theory interfaces; Layer 9 supplies the pinned group schemes
 and explicit carriers they consume.
 
+#### 9A. The full reductive integral enveloping form
+
+Fix a finite reduced root datum `(X, Φ, Y, Φ∨, ⟨−,−⟩)` with its perfect
+character/cocharacter pairing, positive roots and pinning. Use the actual free
+lattices X and Y. They need not be respectively the full abstract weight lattice
+and coroot lattice. In particular do not discard the central torus, assume that
+Y splits integrally into central and coroot summands, or replace a reductive Lie
+algebra by its Killing-semisimple part.
+
+1. Construct the rational pinned Lie algebra and its integral Chevalley lattice
+   `Y ⊕ ⨁_(α∈Φ) ℤ e_α`, with `H_y` additive in y,
+   `[H_y,e_α]=⟨α,y⟩e_α`, `[e_α,e_(−α)]=H_(α∨)` and the pinned signed
+   root-string constants. Prove Jacobi, lattice independence of choices with
+   specified transport, and the comparison with the Lie algebra of the group
+   constructed in 9B. The root-free datum gives the full toral Lie algebra.
+   These algebraic constructions precede that group comparison.
+2. In the native `UniversalEnvelopingAlgebra ℚ` of this rational Lie algebra,
+   use `TauCeti.UniversalEnvelopingAlgebra.kostantForm` with **all** root
+   vectors and `H_(y_j)` for a chosen ℤ-basis `(y_j)` of the full Y. Thus its
+   generators are `e_α^(m)/m!` and `Ring.choose H_(y_j) m`, including m=0.
+   Use the existing native divided-power, Cartan integer-translate, subring
+   functoriality, invariant-lattice and rational-base-change APIs. The native
+   `LieAlgebra.Basis.kostantForm` supplies its simple-generator special case;
+   compare it only after checking the actual toral lattice. Rational spanning
+   is not the integral PBW theorem.
+3. Fix orders on Φ⁻ and Φ⁺ and construct the actual ordered basis
+   `F^(a) · Π_j binom(H_(y_j),b_j) · E^(c)`, indexed by nonnegative root and
+   toral multi-indices. Prove integral spanning by a terminating straightening
+   procedure and independence by the rational PBW leading terms. Export finite
+   integral multiplication coefficients, the product values of basis vectors,
+   triangular factorization as ℤ-modules, and order filtrations. Include
+   `E_α^(a)E_α^(b)=binom(a+b,a)E_α^(a+b)`, the Cartan-binomial product law,
+   `binom(H_y,m)E_α^(r)=E_α^(r)binom(H_y+r⟨α,y⟩,m)`, and the opposite-root
+   rule
+   `E_α^(a)F_α^(b)=Σ_(r≤min(a,b)) F_α^(b−r)binom(H_(α∨)−a−b+2r,r)E_α^(a−r)`.
+   Supply every different-root Chevalley straightening coefficient, including
+   non-simply-laced constants without inverting bad primes. Construct the Hopf
+   restriction: root divided powers and toral binomials have the sum coproduct
+   over a+b=m, counit zero for m>0 and one for m=0; antipode sends a root
+   divided power to `(−1)^m` times itself and `binom(H_y,m)` to
+   `binom(−H_y,m)`. Use Layer0's left-factor-first Hopf coproduct convention throughout.
+4. Prove invariance under a change of ℤ-basis of Y by the integral binomial
+   identities for arbitrary integer linear combinations, and compare admissible
+   root orders/pinning changes by explicit integral maps. Central isogenies use
+   their actual maps on X,Y: a rational Lie isomorphism need not identify the
+   integral forms. Base change this free ℤ-module algebra and its basis to every
+   commutative ring A, retaining multiplication, triangularity, Hopf structure
+   and filtration. After specialization the divided/toral symbols mean these
+   base-changed elements, never factorial division or an assumed BinomialRing
+   structure on A. The associated graded order algebra is the divided-power
+   algebra on the integral Lie lattice; it becomes the usual symmetric/PBW
+   algebra after rational comparison, not an unqualified symmetric algebra over ℤ.
+
+5. Before9B's matrix construction, consume the characteristic-zero split Lie
+   highest-module and finite-dimensionality construction of
+   [LieHighestWeight Layers3–4](../RepresentationTheory/LieHighestWeight/README.md).
+   Supply its rational split-Chevalley descent and extend the derived action by
+   the prescribed central character in the actual X. For each dominant λ∈X
+   construct a full finite free admissible ℤ-lattice generated from the highest
+   line by the9A divided powers, prove its stability and weight decomposition,
+   and choose finitely many such modules whose combined weights generate X.
+   This supplies9B's faithful torus/finite matrix data and nilpotent root
+   exponentials. Prove the resulting group-scheme/root-datum comparison in9B;
+   do not assume the rational G-module classification of10B to construct G.
+   The10B integral Weyl modules are compared with these earlier lattices after
+   the group action and rational induction have been constructed.
+
+The integral straightening/basis construction in 9A is an input to the following
+explicit group construction. Its proof does not assume 9C's distribution
+comparison for a group that is still being constructed.
+
+#### 9B. Pinned groups and their explicit carriers
+
 - **Split reductive group schemes over a base**, at least over `ℤ`: the definition, with the
   split maximal torus as part of the data rather than an existence statement.
 - **Pinnings.** A pinning `(G, T, B, {X_α})` of a split reductive group scheme: the torus,
@@ -714,6 +788,234 @@ and explicit carriers they consume.
   with its numbered simple root subgroups, weight torus, pinning equations against
   `DynkinType.simplyConnectedRootDatum`, Frobenius, and the span statement that its weights
   generate the full character lattice.
+
+#### 9C. Algebraic distributions and Frobenius
+
+For a smooth affine group scheme G of finite type over ℤ constructed in 9B,
+write I for the identity augmentation ideal. Construct the finite order jets
+`O(G)/I^(n+1)`, their finite free ℤ-duals and the filtered union of those duals,
+with its convolution algebra, coalgebra and antipode from Layer0's Hopf maps.
+These are distributions supported at the identity, not analytic distributions.
+Prove finite freeness of the jets, the order inclusions and convolution estimates,
+and arbitrary-ring base change level by level. For a constructed split reductive
+G, use the big-cell open neighbourhood `U⁻×T×U⁺→G` to give the distribution
+triangular factorization, root-subgroup coefficient distributions and the full
+Y-toral binomial basis. Construct the rational comparison with U(Lie(G_ℚ)),
+pinning the root derivative and H_y, and identify the integral form of9A with
+`Dist_ℤ(G)`. Hence `A⊗_ℤ U_ℤ≃Dist_A(G_A)` for every commutative A, with actual
+basis and order equations. Dist(T) includes every central toral direction.
+For G=𝔾_m the root set is empty but the answer is the binomial algebra on its
+cocharacter generator, not ℤ alone. For adjoint A₁, retain α∨=2y in Y: the
+coroot-only form must not silently replace the full toral lattice. An isogeny
+induces the specified distribution map; assert an isomorphism only with a proved
+hypothesis such as invertibility of its finite kernel's order.
+
+In characteristic p>0 first use the **relative** Frobenius G→G^(p), with its
+actual scalar-twist comparison; the pinned ℤ/F_p form identifies the target when
+an endomorphism is desired. Construct the induced Hopf map on distributions.
+On every root divided-power basis it kills indices not divisible by p and
+sends index pm to m; on `binom(H_(y_j),n)` it has the same rule. Give iterated
+p^r formulas, the map on every ordered basis element and the toral formulas for
+all y∈Y. Prove surjectivity and identify its kernel both by these basis equations
+and as the ideal generated by the augmentation ideal of the Frobenius-kernel
+distributions. For the r-th Frobenius kernel prove its distribution algebra is the
+finite sub-Hopf algebra with all root and toral indices <p^r, of dimension
+`p^(r dim G)`. Compare the first kernel with the restricted enveloping algebra
+of the actual restricted Lie algebra. The full hyperalgebra is infinite and is
+not that finite restricted algebra; ordinary division by p! is never performed.
+
+Construct the positive and negative raising-index algebra maps on the unipotent
+parts by their **simple-root** divided-power values `E_i^(m)↦E_i^(pm)` and
+`F_i^(m)↦F_i^(pm)`, proving the divided-power relations and their Frobenius
+section equations. Their nonsimple-root values are determined by the actual
+relations, not an additional all-root index-multiplication assertion. They are
+not asserted to be Hopf maps or to combine unmodified with a toral map into a
+unital section on all Dist(G).
+
+For the full split reductive group over an algebraically closed field of
+characteristic p, construct the toral idempotent
+`μ₀=Π_j binom(H_(y_j)−1,p−1)`. It projects rational T-modules onto weights in
+pX. Construct the corner algebra `μ₀Dist(G)μ₀` with unit μ₀ and the unital
+map φ from Dist(G) to this corner, with `Dist(F)φ=id` after inclusion. Its
+simple-root and toral values are
+`φ(E_i^(m))=E_i^(pm)μ₀`, `φ(F_i^(m))=F_i^(pm)μ₀` and
+`φ(Π_j binom(H_(y_j),b_j))=(Π_j binom(H_(y_j),pb_j))μ₀`.
+Prove the integer-linear toral and mixed relations for the actual coroots in Y,
+basis/pinning transport and the corner unit law. Viewed in Dist(G) this map is
+multiplicative and linear with φ(1)=μ₀, generally not unital; it is not a second
+Hopf structure. This is the full reductive construction of
+[Gros–Kaneda](https://arxiv.org/html/1712.06835), including central torus and
+non-simply-connected derived groups. Construct its F_p-form by the displayed
+pinned-generator formulas and prove its base change to every characteristic-p
+field: multiplicativity and the section equations descend from a faithfully
+flat algebraic-closure extension. Retain the relative Frobenius scalar twist
+and the specified pinned split form in this comparison.
+
+On a rational G-module construct the contracted rational module on μ₀M, with
+weights pλ relabelled λ and action through φ. Prove integration using the
+actual `(Dist(G),T)` module interface of10A, functoriality and compatibility with
+Frobenius pullback, in particular `(F* N)^φ≃N` on rational modules on the
+identified Frobenius target. The functor is exact. It is not claimed monoidal:
+for T=𝔾_m, weights1 and p−1 can both contract to zero while their tensor
+contracts nontrivially. Retain the positive/negative maps separately. The geometric
+Frobenius splitting of flags, its trace normalization and Schubert compatibility
+are applications owned by SchubertGeometry; none is a proof premise of9A–9C.
+
+### Layer 10: rational representations, highest weights and regular functions
+
+#### 10A. The rational category and actual torus lattice
+
+Use Layer1's existing right O(G)-comodules and their actual coefficient maps,
+tensor/dual/Hom and finite-dimensional full subcategory. Construct the rational
+scheme-action comparison, subobjects, quotients, exact sequences, invariants,
+restriction, and scalar extension at their stated field hypotheses. An action
+on G(k) alone, especially over finite k, is not this rational representation.
+For a split torus T with character lattice X, identify O(T)=k[X] and construct
+the finite weight-support decomposition of every finite-dimensional rational
+module, with integral X labels, direct sums, tensor convolution and dual
+negation. The formal character lies in ℤ[X]. For split reductive G its Weyl
+normalizer action and root-distribution maps retain the actual X,Y pairing,
+central weights and all character-lattice restrictions. Lie toral eigenvalues
+mod p do not recover the weights.
+
+Differentiate a rational action through9C: `E_α^(n)` is the coefficient of t^n
+in the action of x_α(t), and `binom(H_y,n)` acts on weight λ by
+`binom(⟨λ,y⟩,n)`. Construct the integration comparison using a rational T-action
+with those toral equations, root weight shifts and local finiteness, verifying
+actual group/root relations. For finite modules the finite weight set supplies
+the root-action finiteness; for general modules require a directed union of
+finite-dimensional compatible submodules. Do not identify all abstract finite
+Dist(G)-modules with rational G-modules: already Dist(𝔾_m) permits p-adic
+binomial characters without an integer rational character. Full X-integrality
+and T-compatibility are part of the integration interface.
+
+#### 10B. Induction, Weyl modules and simple heads
+
+For a split connected reductive G over a field fix B⁺ and its opposite B⁻,
+with positive roots from B⁺. Construct rational induction as the right adjoint
+to restriction, using regular equivariant functions and exposing its actual
+coaction. Put `∇(λ)=Ind_(B⁻)^G k_λ`: its functions satisfy
+`f(gb)=λ(b)^(−1)f(g)` and G acts by `a·f(g)=f(a^(−1)g)`. For λ∈X⁺ prove
+finite dimensionality, highest weight λ and its one-dimensional B⁺-highest
+line, and simple socle L(λ). For λ∉X⁺ prove the corresponding induced module
+zero. Construct `Δ(λ)=∇(−w₀λ)*`, its distinguished generating highest line,
+unique simple head L(λ), and the normalized nonzero map Δ(λ)→∇(λ) with image
+L(λ). Prove the classification of finite-dimensional rational simples by X⁺,
+absolute simplicity and End_G(L(λ))=k for split G. Give arbitrary-field base
+change/descent proofs for these split objects; do not extend this last scalar
+endomorphism assertion to arbitrary nonsplit groups. State induced/Weyl base
+change and integral Weyl lattices with their actual freeness and action equations,
+not simplicity at every specialization. Their characters are the Weyl characters;
+characteristic-zero complete reducibility makes Δ=∇=L there. In characteristic p
+retain distinct heads, socles and extensions: characters do not identify modules.
+
+Construct the pinned integral group anti-involution τ fixing T and interchanging
+simple positive/negative root subgroups, with its distribution anti-involution.
+The contravariant dual `D_τ M=Hom_k(M,k)`, acted on by
+`(g·φ)(m)=φ(τ(g)m)`, is distinct from the ordinary dual. Construct
+`D_τΔ(λ)≃∇(λ)`, natural biduality and the perfect integral evaluation
+pairing with the dual. Construct the top-normalized integral contravariant
+form on Δ; after field specialization its radical is the maximal proper
+submodule and its quotient is L. This latter form need not remain nondegenerate
+in characteristic p. Put `σ(g)=τ(g)^(−1)`; the contravariant dual is the
+ordinary dual with action twisted by this automorphism. Export the exact
+highest/lowest line, torus-weight and extremal-vector equations under ordinary
+duality, τ and opposition. In particular the ordinary dual remains
+`Δ(λ)*≃∇(−w₀λ)`; a same-label identification requires the displayed twist,
+not an implicit self-duality assertion.
+
+Prove root-subgroup generation, highest-weight order and Weyl-orbit convex-hull
+bounds in `(X⊗ℝ)`, retaining central coordinates. A unique highest line does not
+by itself imply generation or simplicity. In a module generated by a
+one-dimensional highest line prove the unique maximal proper submodule/head
+by the top-weight argument; use generation, not bare cyclicity. Prove simple
+highest-weight uniqueness through the cyclic span of two chosen highest vectors
+in their direct sum and its two projections. Preserve disconnected/nonreduced
+rational categories from Layer1; this dominant-weight classification is for the
+stated split connected reductive hypothesis.
+
+For split simply connected semisimple G in characteristic p>0, let
+`ρ=½Σ_(α>0)α`, which is in this group's actual X. Construct the algebraic
+Steinberg theorem before any flag splitting/Schubert cohomology:
+`Δ((p−1)ρ)≃L((p−1)ρ)≃∇((p−1)ρ)`, of dimension `p^|Φ⁺|`.
+Give the truncated negative-root PBW model, root-distribution actions and the
+nonzero extremal-vector equation, together with a normalized nondegenerate
+contravariant pairing for the pinned Chevalley anti-involution. Prove its
+F_p-form/base-change and all-prime cases, including p=2. For a general reductive
+G use its derived simply connected cover when this module is needed; do not
+assume `(p−1)ρ∈X(G)` or that the same module descends. SchubertGeometry owns
+central-isogeny flag transport, anticanonical trace and the geometric splitting.
+The Steinberg proof uses9A/9C and10A/10B algebra, not that later splitting,
+vanishing or standard-monomial theorem.
+
+#### 10C. Binary forms and the source's characteristic-p exercises
+
+Use the actual rational SL₂ action on `R_n=k[x,y]_n`,
+`(g·f)(u,v)=f(du−bv,−cu+av)` for `g=[[a,b],[c,d]]`. For B⁺ upper triangular,
+the unique B⁺-stable line is k y^n of weight n, and `R_n≃∇(n)`;
+`R_n*≃Δ(n)` has the generating highest line k δ_(x^n).
+Prove indecomposability through simple socle/head, not a false semisimplicity
+argument. In characteristic zero R_n is simple. In characteristic p>0 write
+`n=Σ n_j p^j`, `0≤n_j<p`; prove via Lucas coefficients and the rank-one
+simple-module construction that
+`dim L(n)=Π_j(n_j+1)`, and that the rational submodule generated by y^n is its
+simple socle. Thus highest-line generation of R_n, simplicity of R_n and
+`n=(a+1)p^m−1` for some `0≤a<p,m≥0` are equivalent. Include n=0 explicitly.
+Generation here means the smallest rational subcomodule, not only a G(k)-orbit
+span over a finite field.
+
+Compute char3,n4: the socle spans x⁴,x³y,xy³,y⁴ and misses x²y². Compute
+char2,n2: y² generates only span(x²,y²), whereas xy generates all R₂ as a
+rational module. This separates bare cyclicity from generation by the highest
+line. On R_n* prove highest-line generation for every n; at n=p the additional
+B⁺-stable line k δ_(x^(p−1)y) shows uniqueness can fail. Retain the source's
+ambiguous divisibility phrase as a source discrepancy; never promote it to
+`p∤n` as a highest-line criterion. Give proper submodules for positive multiples
+of p and treat the zero-degree exception separately. Root and torus action
+formulas, dual-basis signs and all source exercises are applications of the same
+rational category.
+
+#### 10D. Algebraic Peter–Weyl and polynomial monoid actions
+
+For linearly reductive affine groups over a field construct the cosemisimple
+regular coefficient-coalgebra decomposition. Over an algebraically closed field,
+identify it with `⊕_[V simple] V*⊗V` by
+`φ⊗v ↦ (g↦φ(gv))`, with the action
+`(a,b)·f(g)=f(a^(−1)gb)`. Hence the first factor acts on V* and the second on V.
+For split connected reductive G in characteristic zero index these summands by
+λ∈X⁺ using10B. Keep regular O(G), not all set-valued, continuous or L² functions.
+Export the coefficient equations, Schur/Frobenius reciprocity multiplicities,
+unit/tensor-product multiplication, counit φ(v), antipode/dual and
+`Δc_(φ,v)=Σ_j c_(φ,e_j)⊗c_(e_j*,v)` with the left factor first. For a nonsplit
+field retain the actual simple coefficient coalgebras and End_G(V)-balanced
+bimodule/coequalizer comparison and descent; do not assume every irreducible has
+scalar commutant. No compact Haar/Peter–Weyl theorem substitutes for this algebraic
+construction. In positive characteristic no direct sum of simple coefficients
+is asserted to exhaust O(G).
+
+For GL(V), construct its polynomial representation comparison with actions of
+the algebraic endomorphism monoid End(V). A finite rational action extends
+uniquely exactly when its coefficient coaction factors through
+`k[End(V)]⊂k[GL(V)]=k[x_ij,det^(−1)]`; prove that the factorization preserves
+unit and multiplication, using the actual coordinate bialgebra maps. Treat
+zero dimensions and all determinant inverses correctly. Construct homogeneous
+polynomial coefficient coalgebras and their finite Schur-algebra duals, compare
+Schur/Cartan modules with the same rational category, and prove over every field that a finite rational GL_n-module is polynomial
+exactly when every actual T-weight is in ℕ^n. For n>0 identify homogeneous
+degree d by the scalar-torus character t^d and the coefficient coalgebra; treat
+the zero module and n=0 separately. For simples the
+polynomial condition is the actual nonnegative dominant GL-weight condition;
+prove it, rather than imposing semisimplicity on arbitrary characteristic-p
+polynomial modules. Mixed positive/negative determinant twists remain rational,
+and their regular coefficient localization uses all powers of det^(−1).
+
+The generic category, integral/toral and algebraic highest-module constructions
+here precede SchubertGeometry's geometric line-bundle/coordinate/section-ring
+comparisons. With its opposite-Borel convention the geometric
+`G×^(B⁻)k_λ` has H⁰=∇(λ); the positive-Borel bundle with associated character
+−λ instead has H⁰=∇(−w₀λ)=Δ(λ)*. Geometric very ampleness, Schubert bases,
+coherent vanishing and compatible Frobenius splitting are owned by that
+application, not used as unnamed assumptions to establish this generic algebra.
 
 ---
 

@@ -63,3 +63,5 @@ theorem finrank_indFromProjectedLevi (P : Subgroup G) [P.FiniteIndex]
   exact TauCeti.finrank_indFDRep (A := FDRep.of (M.ρ.comp π))
 
 end TauCetiRoadmap.ReductiveGroups.FiniteHC
+/- Further nonexhaustive integral PBW and rational-distribution target forms are in
+IntegralRationalTargets.lean, which imports this file and the native supplier modules. -/
