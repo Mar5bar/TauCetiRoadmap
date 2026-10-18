@@ -14,7 +14,8 @@ those targets are stated only in the README.
 Design choices.
 * `B(GL_n)` is recorded through Newton vectors (decreasing rational slopes, each slope `λ` with
   multiplicity `m` satisfying `m λ ∈ ℤ`), with the dominance order and `⟨2ρ, ν⟩`; the general
-  `B(G)` of a reductive group is a README target.
+  `B(G)` of a reductive group is the supplied PadicHodgeTheory §5.5 carrier, with the
+  tensor and Igusa interfaces of EndoscopicTransferAndUnitaryTraceComparison Layer 7.
 * The split skew-hermitian matrix and trace pairing specify the unitary datum. Its group
   scheme and its points, similitude character and kernel are README targets.
 * At a prime `q` split completely in `F`, the split local group has one `GL_m(ℚ_q)` factor
@@ -22,8 +23,9 @@ Design choices.
   Tau Ceti's convolution, with the Hecke-pair property as an explicit hypothesis.
   The operator subring is an existing subring satisfying the unit-similitude support condition;
   constructing it and proving the Hecke-pair property are targets of README IG.0.4.
-* Hecke eigenvalue conditions are predicates on tuples of eigenvalues in a field, with `q` the
-  residue cardinality; weak genericity allows repeated eigenvalues.
+* The local eigenvalue predicates belong to AutomorphicGaloisRepresentationsPartII AG2.7.
+  The unit-valued signatures here express their ordered-ratio formulas and dual-system
+  comparison; weak genericity allows repeated eigenvalues.
 -/
 
 namespace TauCetiRoadmap.IgusaVarietiesAndTorsionConcentration
@@ -400,53 +402,68 @@ variable {k : Type*} [Field k]
 instance fact_prime_five : Fact (Nat.Prime 5) := ⟨by norm_num⟩
 instance fact_prime_eleven : Fact (Nat.Prime 11) := ⟨by norm_num⟩
 
-/-- Weak genericity of Frobenius eigenvalues at a place of residue cardinality `q`:
-`α_i ≠ q α_j` for `i ≠ j`. Repeated eigenvalues are allowed (CSnc Corollary 5.1.3, p. 66). -/
-def WeaklyGeneric {m : ℕ} (q : k) (α : Fin m → k) : Prop :=
-  ∀ i j, i ≠ j → α i ≠ q * α j
-
-/-- Decomposed genericity in the sense of CS17: `α_i / α_j ∉ {1, q}` for `i ≠ j`. -/
-def DecomposedGeneric {m : ℕ} (q : k) (α : Fin m → k) : Prop :=
-  ∀ i j, i ≠ j → α i ≠ α j ∧ α i ≠ q * α j
-
-/-- The Frobenius eigenvalues `q^{m−1} α_i⁻¹` of the dual system
+/-- The unit-valued Frobenius eigenvalues `q^{m−1} α_i⁻¹` of the dual system
 `ρ^∨ ⊗ |Art_F⁻¹|^{1−m}` (IG.5.1). -/
-def dualEigenvalues {m : ℕ} (q : k) (α : Fin m → k) : Fin m → k :=
+def dualEigenvalues {m : ℕ} (q : kˣ) (α : Fin m → kˣ) : Fin m → kˣ :=
   fun i => q ^ (m - 1) * (α i)⁻¹
 
-/-- Weak genericity is preserved by passing to the dual system. -/
-theorem weaklyGeneric_dualEigenvalues {m : ℕ} {q : k} {α : Fin m → k} (hq : q ≠ 0)
-    (hα : ∀ i, α i ≠ 0) (h : WeaklyGeneric q α) : WeaklyGeneric q (dualEigenvalues q α) := sorry
+/-- The ordered-ratio formula of AG2.7's `IsGenericEigenvalues` is equivalent to its
+cross-multiplied form on unit-valued tuples. -/
+theorem genericEigenvalues_iff_crossMultiply {m : ℕ} (q : k) (α : Fin m → kˣ) :
+    (∀ i j, i ≠ j → (α i : k) / (α j : k) ≠ q) ↔
+      (∀ i j, i ≠ j → (α i : k) ≠ q * (α j : k)) := sorry
 
-/-- Repeated eigenvalues are weakly generic but not decomposed generic. -/
-example : WeaklyGeneric (2 : ZMod 5) ![1, 1] ∧ ¬ DecomposedGeneric (2 : ZMod 5) ![1, 1] := by
-  unfold WeaklyGeneric DecomposedGeneric
+/-- Dual-system eigenvalues preserve and reflect AG2.7's local genericity, by inversion
+and common unit scaling. The supplied predicate is expressed by its ordered-ratio formula. -/
+theorem dualEigenvalues_generic {m : ℕ} (q : kˣ) (α : Fin m → kˣ) :
+    (∀ i j, i ≠ j →
+      (dualEigenvalues q α i : k) / (dualEigenvalues q α j : k) ≠ (q : k)) ↔
+      (∀ i j, i ≠ j → (α i : k) / (α j : k) ≠ (q : k)) := sorry
+
+/-- Repeated unit eigenvalues satisfy the weak ratio condition but fail the distinctness
+clause of AG2.7's `IsStrongGenericEigenvalues`. -/
+example :
+    let α : Fin 2 → (ZMod 5)ˣ := ![1, 1]
+    (∀ i j, i ≠ j → (α i : ZMod 5) / (α j : ZMod 5) ≠ 2) ∧
+      ¬ Function.Injective α := by
+  dsimp only
+  rw [genericEigenvalues_iff_crossMultiply]
   decide
 
-/-- Negative control: the ratio `2 = q` is excluded. -/
-example : ¬ WeaklyGeneric (2 : ZMod 5) ![1, 2] := by
-  unfold WeaklyGeneric
+/-- The ratio `2 = q` is excluded even though both entries are units. -/
+example :
+    let α : Fin 2 → (ZMod 5)ˣ := ![1, Units.mk0 2 (by decide)]
+    ¬ (∀ i j, i ≠ j → (α i : ZMod 5) / (α j : ZMod 5) ≠ 2) := by
+  dsimp only
+  rw [genericEigenvalues_iff_crossMultiply]
   decide
 
-/-- The dual of the eigenvalues `{1, 2}` at `q = 7` over `𝔽_11` is `{7, 7/2} = {7, 9}`. -/
-example : dualEigenvalues (7 : ZMod 11) ![1, 2] 0 = 7 ∧ dualEigenvalues (7 : ZMod 11) ![1, 2] 1 = 9 := by
-  constructor
-  · show (7 : ZMod 11) ^ (2 - 1) * (1 : ZMod 11)⁻¹ = 7
-    rw [inv_one, mul_one]
-    decide
-  · show (7 : ZMod 11) ^ (2 - 1) * (2 : ZMod 11)⁻¹ = 9
-    rw [mul_inv_eq_iff_eq_mul₀ (by decide)]
-    decide
-
-/-- Empty and singleton tuples impose no pairwise genericity conditions, even at `q = 1`. -/
-example : WeaklyGeneric (1 : ZMod 5) (fun i : Fin 0 => i.elim0) ∧
-    DecomposedGeneric (1 : ZMod 5) ![1] := by
-  unfold WeaklyGeneric DecomposedGeneric
+/-- The dual of `{1, 2}` at `q = 7` over `𝔽_11` is `{7, 9}`. -/
+example :
+    let q : (ZMod 11)ˣ := Units.mk0 7 (by decide)
+    let α : Fin 2 → (ZMod 11)ˣ := ![1, Units.mk0 2 (by decide)]
+    (dualEigenvalues q α 0 : ZMod 11) = 7 ∧
+      (dualEigenvalues q α 1 : ZMod 11) = 9 := by
+  norm_num [dualEigenvalues, Units.val_inv_eq_inv_val]
+  rw [mul_inv_eq_iff_eq_mul₀ (by decide)]
   decide
 
-/-- At `q = 1`, repeated eigenvalues fail even weak genericity. -/
-example : ¬ WeaklyGeneric (1 : ZMod 5) ![1, 1] := by
-  unfold WeaklyGeneric
+/-- Empty and singleton unit tuples satisfy both the ratio and distinctness clauses. -/
+example :
+    (∀ i j : Fin 0, i ≠ j →
+      ((1 : (ZMod 5)ˣ) : ZMod 5) / (1 : ZMod 5) ≠ 1) ∧
+    Function.Injective (fun _ : Fin 0 => (1 : (ZMod 5)ˣ)) ∧
+    (∀ i j : Fin 1, i ≠ j →
+      ((1 : (ZMod 5)ˣ) : ZMod 5) / (1 : ZMod 5) ≠ 1) ∧
+    Function.Injective (fun _ : Fin 1 => (1 : (ZMod 5)ˣ)) := by
+  decide
+
+/-- At `q = 1`, repeated unit eigenvalues fail the weak ratio condition. -/
+example :
+    let α : Fin 2 → (ZMod 5)ˣ := ![1, 1]
+    ¬ (∀ i j, i ≠ j → (α i : ZMod 5) / (α j : ZMod 5) ≠ 1) := by
+  dsimp only
+  rw [genericEigenvalues_iff_crossMultiply]
   decide
 
 end Genericity
@@ -585,8 +602,13 @@ theorems above; ring structures take their conclusions as explicit hypotheses. I
 UnitarySimilitudeDatum.heckeRestrict_heckeOperator.
 
 Layer IG.F adds the relative curve, crystalline/PEL classification, Artin/solid coefficients,
-Satake, local shtukas and geometric excursion action. IG.4.0a–d adds the valuation-model,
-two-tower descent, continuous cosupport and ordinary-support limit comparisons. IG.6.6a–b
+Satake, local shtukas and geometric excursion action. integralGeometricSatakeEquiv has target
+finite-projective representations of the dual group on a geometric single-divisor fibre;
+relativeSatakeEquiv retains all legs and continuous Weil descent over the full divisor base.
+geometricHeckeFunctor takes a representation of the several-leg semidirect product with the
+finite quotient through which the pinned Weil action factors. IG.4.0a–d adds the valuation-model,
+two-tower descent, continuous cosupport and ordinary-support limit comparisons;
+IG.4.0d follows IG.4.7. IG.6.6a–b
 specifies the actual GL torsion import and the lower unitary residual application.
 
 The family quotient theorem in Exact supplier contracts is also stated only in the README:
@@ -595,7 +617,9 @@ immersion on every torsion level has p-divisible fppf quotient G/H. The quotient
 torsion levels, commutes with arbitrary base change, is functorial, and satisfies
 ht G = ht H + ht (G/H).
 
-Their carriers are not available at the pins: the set `B(G)` of a general reductive group with its
+The common carriers are supplied by PadicHodgeTheory §5.5 and
+EndoscopicTransferAndUnitaryTraceComparison §§7.2–7.10, with the extensions specified in the
+README. They are not available at the pins: the set `B(G)` of a general reductive group with its
 Newton and Kottwitz maps, J_b; the integral model `S_K`, abelian and p-divisible groups with
 G-structure, the Newton stratification, internal Hom p-divisible groups, complete slope
 divisibility, `Aut_G(X̃_b)`, central leaves, PEL Rapoport–Zink spaces, the quasi-isogeny torsor,
