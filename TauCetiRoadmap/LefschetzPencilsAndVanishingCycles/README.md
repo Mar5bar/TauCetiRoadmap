@@ -183,6 +183,18 @@ It leaves to other roadmaps:
   groups and Picard functors).
 - **TauCetiRoadmap ModularCurves** Layer 4D (strict henselization and completion of strict henselizations, regular
   schemes and completion of noetherian local rings).
+- **PurityOfBranchLocus** §§2.1–2.2 (Stacks 0BMB and its global corollary): pointwise
+  étaleness for a quasi-finite morphism between locally noetherian schemes with normal source
+  stalk, regular target stalk, equal positive local dimensions and unramifiedness at every
+  codimension-one generalization; globally, étaleness of a finite dominant morphism from a
+  normal integral locally noetherian scheme to a regular integral locally noetherian scheme
+  that is unramified in codimension one. These supply branch purity in 1.8.
+- **AbhyankarLemma** §§3.3–3.4 (Stacks 0EYG/0EYH): for a regular effective Cartier divisor
+  on a locally noetherian scheme and a finite étale cover of its complement tame in
+  codimension one, the étale-local description by prime-to-residue-characteristic roots of
+  a divisor equation, and the finite locally free normalization with regular reduced boundary.
+  These supply the regular-divisor inputs to 1.8 and 5.1–5.2; the normal-crossings extension,
+  compatible Kummer tower and tame fundamental group are constructed in 1.8.
 - **TauCetiRoadmap StableReduction** Layer 1 (nodes, local equations `uv = π^n`, normalization, oriented dual
   multigraphs) and Layer 4 (Rees-algebra blow-ups, the test case `xy = π^n`). The oriented dual graph is
   `TauCetiRoadmap.StableReduction.DualGraph`, an edge `e` having tail `endpoint e 0` and head `endpoint e 1`;
@@ -1215,7 +1227,8 @@ equivariant maps and their composition identities, as for `N` in 1.2. (SGA 7 II,
 
 ### 1.8 Tame restriction along a normal crossings divisor
 
-**Theorem (purity of branch locus).** Prove `VanishingCycles.purityOfBranchLocus`:
+**Theorem (purity of branch locus).** Deduce `VanishingCycles.purityOfBranchLocus`
+from PurityOfBranchLocus §2.1 (Stacks 0BMB):
 for `f:X→Y` between locally noetherian schemes, `x∈X`, `y=f(x)`, assume `O_{X,x}` normal,
 `O_{Y,y}` regular, `f` quasi-finite at `x`, equal local dimensions at least one, and
 unramifiedness at every codimension-one generalization of `x`. Then `f` is étale at `x`.
@@ -1225,8 +1238,11 @@ codimension-one boundary points, a prime-to-residue-characteristic Kummer cover 
 ramification and the normalized pullback is étale. Establish the compatible Kummer tower
 and its tame fundamental group; its maximal pro-ℓ quotient at a point with `r` branches is
 `ℤ_ℓ(1)^r`, for ℓ invertible there. (Stacks 0BMB; SGA 1 XIII Proposition 5.2 and Corollary 5.3.)
-*Needs:* SchemeAndStackFoundations §§0.8, 0.21 (regularity, normalization and quasi-finite maps);
-EtaleCohomologyFoundations §F.0 (Kummer theory). Prove branch purity and the crossing argument here.
+*Needs:* PurityOfBranchLocus §§2.1–2.2 (branch purity and its global corollary);
+AbhyankarLemma §§3.3–3.4 (regular-divisor local structure and normalization, Stacks 0EYG/0EYH);
+SchemeAndStackFoundations §§0.8, 0.21 (regularity, normalization and quasi-finite maps);
+EtaleCohomologyFoundations §F.0 (Kummer theory). Construct the normal-crossings extension,
+compatible Kummer tower and tame fundamental group here.
 
 **Checks.**
 
@@ -2667,8 +2683,9 @@ irreducibility theorem its restriction to a general line is irreducible, so `π_
 onto `H`. In the tame situation of a pencil, Abhyankar's lemma and the tame specialization theorem identify the
 local inertia along the smooth locus of `X̌` with the inertia at the points of `S`. (Weil I, §5, proof of (5.4),
 p. 291, and (5.8), p. 292; SGA 7 II, Exposé XVIII, 6.1, using SGA 1 XIII 2.8.) *Needs:* 3.2, 3.4; InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3
-(§IG.1.2 tame quotients, §IG.1.3 tame specialization); Stacks Project, Lemma 0EYG (Abhyankar's lemma for a
-regular divisor); AlgebraicModuliForArithmeticGeometry Layer 1, §1.3 (Grassmannian of lines).
+(§IG.1.2 tame quotients, §IG.1.3 tame specialization); AbhyankarLemma §§3.3–3.4
+(Abhyankar's lemma for a regular divisor and its normalization, Stacks 0EYG/0EYH);
+AlgebraicModuliForArithmeticGeometry Layer 1, §1.3 (Grassmannian of lines).
 
 **Checks.**
 
@@ -2694,7 +2711,8 @@ parameter. Regularity of the pencil total space makes that parameter a uniformiz
 the dual transversely there. Apply the transverse-line tame statement of SGA 7 XVIII 6.1
 (in 5.1), which holds for every such line, to transport conjugacy to `π_1(U, u)`; transporting the primitive vanishing
 generator along the conjugacies gives `±gδ`. An empty `S` is trivial. (Weil I, §5, Théorème (5.4) and its proof,
-pp. 290–291; (5.8), p. 292; SGA 7 XVIII, 6.1.1–6.1.2, pp. XVIII-58–59.) *Needs:* 3.2, 4.2, 5.1, 2.8; InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3; Stacks Project, Lemma 0EYG (Abhyankar's lemma).
+pp. 290–291; (5.8), p. 292; SGA 7 XVIII, 6.1.1–6.1.2, pp. XVIII-58–59.) *Needs:* 3.2, 4.2, 5.1, 2.8; InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3;
+AbhyankarLemma §§3.3–3.4 (Abhyankar's lemma for a regular divisor and its normalization, Stacks 0EYG/0EYH).
 
 **Checks.**
 
@@ -3091,7 +3109,8 @@ Layers LPV.2–LPV.4; EtaleCohomologyFoundations §F.3a (tame character); Invers
 ArithmeticGaloisRepresentations Layer 5, §5.13; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 (trace formula for all powers);
 TauCetiRoadmap AdelicAlgebraicGroups Layer 4; TauCetiRoadmap OrthogonalSpinGroups Layers 0 and 2; TauCetiRoadmap
 Chebotarev Layer 9; TauCetiRoadmap Completed IntegralLattices Layer 1; TauCetiRoadmap RepresentationTheory
-(CharacterTheory Layer 4, RootSystems Layer 5); SchemeAndStackFoundations Layer 0; Stacks Project 0EYG;
+(CharacterTheory Layer 4, RootSystems Layer 5); SchemeAndStackFoundations Layer 0;
+AbhyankarLemma §§3.3–3.4 (regular-divisor local structure and normalization, Stacks 0EYG/0EYH);
 Mathlib (`skewAdjointLieSubalgebra`, `LieModule.IsIrreducible`, `IsNilpotent.exp`).
 
 ## Layer LPV.6: Perverse nearby cycles
