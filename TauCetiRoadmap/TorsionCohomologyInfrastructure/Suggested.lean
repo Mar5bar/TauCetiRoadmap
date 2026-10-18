@@ -430,6 +430,17 @@ example :
 
 end LeviPolynomial
 
+/-- Multiplication by a unit-valued component function is undone by its inverse function. -/
+example {R ι : Type*} [CommRing R] (u : ι → Rˣ) (f : ι → R) :
+    (fun i => (↑((u i)⁻¹) : R) * ((↑(u i) : R) * f i)) = f := by
+  sorry
+
+/-- The constant character line on three cyclically permuted components has no equivariant
+retraction in characteristic three, the reduction of the level-seven rank-one example. -/
+example : ¬ ∃ r : (Fin 3 → ZMod 3) →ₗ[ZMod 3] ZMod 3,
+    (∀ f, r ![f 1, f 2, f 0] = r f) ∧ r (fun _ => 1) = 1 := by
+  sorry
+
 /-! ## Layer 4: assembly, compatibility and validation -/
 
 section Nonlifting
@@ -453,13 +464,17 @@ end Nonlifting
 ## Targets stated in the README only
 
 Layer 0 (integral section models, integral boundary ideals, the bounded lattice extension, the
-closed-quotient sequence, the almost support comparison, trace integrality, boundary traces),
-Layer 2a (the boundary-ideal colimit), Layer 1 (period lattices, the approximation atlas, sections
+closed-quotient sequence, the almost support comparison, trace integrality, reduced-boundary trace preservation, boundary traces),
+Layer 2a (the ordinary colimit of quotients of bounded ideal sections and their separate almost
+comparison with sections of the quotient sheaf), Layer 1 (period lattices, the approximation atlas, sections
 over non-vanishing loci, Serre vanishing over an arbitrary base, integral cuspidal lifting, classical
 section approximation), the constructible primitive comparison (`constructiblePrimitiveComparison`), amplitude, Iwasawa,
 continuity and descent targets of
 Layer 2 (including the classical cusp action over a finite extension), the homogeneous decomposition, weighted unit law and weighted determinant factors of
-Layer 3a, the cohomological trace input and unitary-similitude base change (`unitarySimilitudeBaseChange`), finite-coefficient descent for each character pair, and determinant targets of Layer 3b, and the compact-support product comparison (`compactSupportProductComparison`), boundary filtration, finite torsion,
+Layer 3a, the GU boundary and classical-action adapter (`unitarySimilitudeBoundaryAdapter`),
+the cohomological trace input and unitary-similitude base change (`unitarySimilitudeBaseChange`),
+the normalized prime-to-`p` level trace and inverse-character retraction of twisted pullback,
+finite-coefficient descent for each character pair, and determinant targets of Layer 3b, and the compact-support product comparison (`compactSupportProductComparison`), boundary filtration, finite torsion,
 integral, four-route, residual and normalisation targets of Layer 4.
 -/
 
