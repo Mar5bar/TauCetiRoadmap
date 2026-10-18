@@ -590,7 +590,7 @@ this distinction.
    composition charts. Construct the associator, unitors and their pentagon/triangle identities,
    functoriality on equivariant bibundle maps, opposite bibundles, and closure
    of principal/biprincipal bibundles under composition. This proves transitivity
-   in the locally-Hausdorff category. Prove orbit correspondence and induced
+   in the locally-Hausdorff category. For biprincipal bibundles, prove orbit correspondence and induced
    isotropy Lie-group isomorphisms; do not equate Morita equivalence with
    isomorphism of arrow manifolds. Separately prove the Hausdorff-subcategory
    result for right-principal bibundles `P` from `Γ` to `Λ` and `Q` from `Λ`
