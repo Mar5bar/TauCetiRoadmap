@@ -22,24 +22,28 @@ otherwise, transported charts and the identity diffeomorphism. Compare
 connections and scalar curvature through that identity. Metric families
 remain sections on the fixed underlying manifold.
 
-RiemannianGeometry R1 supplies metric scaling/products, conformal and
+[RiemannianGeometry R1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7d5cabbd745d7e1b7e51cc8540b0b6d2e4abef65/TauCetiRoadmap/RiemannianGeometry/README.md) supplies metric scaling/products, conformal and
 submersion formulas, R4.7 the normalized round models, R1's projective block
-the normalized projective metrics, and R5 Gauss/second fundamental forms.
-SmoothBundlesConnections B1/B5 supplies smooth principal bundles and connections;
+the normalized projective metrics, and R5a Gauss/second fundamental forms.
+[SmoothBundlesConnections B1/B5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1c45ab4061b483b832b5d54f597dc69afd3f97a5/TauCetiRoadmap/SmoothBundlesConnections/README.md) supplies smooth principal bundles and connections;
 P2 constructs their associated manifold-fibre bundles, including boundary collars.
-ComplexKahlerGeometry K5a supplies the Fréchet topology of smooth sections
+[ComplexKahlerGeometry K5a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/13b2335ea038b439655df55654e71b19603d8ee1/TauCetiRoadmap/ComplexKahlerGeometry/README.md) supplies the Fréchet topology of smooth sections
 of finite-rank real bundles; P1 constructs the symmetric-bilinear metric bundle
 and its C² section topology before applying that generic smooth-section theory.
-SpinGeometry G4–G6 supplies Spin bundles, Clifford-linear Dirac operators,
-Lichnerowicz and kernel vanishing. TangentialBordism B3.0 owns
+[SpinGeometry G4–G6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/312e1bbec838a044c0cd479374d1a62e7a2c1e2e/TauCetiRoadmap/SpinGeometry/README.md) supplies Spin bundles, Clifford-linear Dirac operators,
+Lichnerowicz and kernel vanishing. In particular G5.0 constructs
+`realCliffordSpinorBundle`, and G6.0 constructs
+`realSpinDiracClosedRealization` on the real H¹/L² carriers and
+`realSpinDiracIndexClass` in degree KO_n, with its Clifford-sign,
+bounded-transform and finite-kernel comparisons. [TangentialBordism B3.0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4a5e27d2dd1b94abcca3e9b2151e9adf460a8a2f/TauCetiRoadmap/TangentialBordism/README.md) owns
 `spinABSDiracIndexComparison` and `spinABSComplexificationGenus`, consuming
-the real Clifford-linear Spin operator and GeneralizedCohomology G5's
-graded Fredholm/ABS construction. TopologicalKTheory T7 owns the real KO
+the real Clifford-linear Spin operator and [GeneralizedCohomology G5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1565ccc1af9dce1ca554ea6bb133a07c461177ef/TauCetiRoadmap/GeneralizedCohomology/README.md)'s
+graded Fredholm/ABS construction. [TopologicalKTheory T7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f2c908debdefa440e7dfda339a54cb3b74cdc51c/TauCetiRoadmap/TopologicalKTheory/README.md) owns the real KO
 coefficient ring and Clifford-module quotient. Use this real index,
 including its mod-two branches; the complex index does not detect them.
 TangentialBordism B1–B3 supplies structured geometric bordisms and B6 supplies
 the integral point orientation-kernel transfer theorems, including
-PSp3-equivariant HP² bundles. GeometricTopology supplies tubular neighbourhoods,
+PSp3-equivariant HP² bundles. [GeometricTopology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/87f0ec5b86d9f2c8668d39f9dde23707c76ffac9/TauCetiRoadmap/GeometricTopology/README.md) supplies tubular neighbourhoods,
 framed surgery, high-dimensional Whitney cancellation and relative handles;
 this roadmap owns the curvature estimates and metric extension over surgery.
 
@@ -90,8 +94,7 @@ boundary; smooth tensors extend locally across boundary charts. Construct
 collars and metric restriction/gluing on these models.
 Define isotopies as continuous paths in R⁺(M) and concordances as PSC
 metrics on M×ℝ equal to g₀+dt² for t≤0 and g₁+dt² for t≥1.
-Prove equivalence with restriction to M×[0,1] carrying product collars. Prove
-reversal/concatenation and collar-smoothing laws, and that an isotopy
+Prove equivalence between concordances on M×ℝ with the specified product tails and PSC metrics on M×[0,1] with product collars. Restriction to [0,1] alone need not produce interior product collars. Given a concordance, first restrict it to [-1,2] and pull it back along a fixed smooth increasing diffeomorphism ψ:[0,1]→[-1,2] that equals t↦t−1 near 0 and t↦t+1 near 1. The pullback is exactly g₀+dt² and g₁+dt² near the endpoints, and remains PSC by diffeomorphism invariance. In the other direction, extend a product-collared metric by the exact product tails. Prove these conversions preserve the endpoint data and witness the same concordance relation. Prove reversal/concatenation and collar-smoothing laws, and that an isotopy
 produces a concordance: first smooth the compact parameter path by
 finite local combinations of metrics, relative to the endpoints and
 within its uniform C²-positive margin; then slow its smooth parameter
@@ -100,21 +103,25 @@ with quantitative curvature bounds. Carry the endpoint metric and collar data ex
 ## P2. Positive fibres and bundle metrics
 
 For compact F construct its full isometry group on the Riemannian-distance
-carrier, compare metric isometries with HopfRinow's smooth Riemannian-isometry
+carrier, compare metric isometries with [HopfRinow](https://github.com/TauCetiProject/TauCetiRoadmap/blob/350e970ce49f707a327909beac0b7b7c782cc7ee/TauCetiRoadmap/HopfRinow/README.md)'s smooth Riemannian-isometry
 carrier, and prove Myers–Steenrod: it is a compact finite-dimensional
 Lie group acting smoothly. Build the compact-open/frame-evaluation
 comparison and the Lie/action proof using Riemannian R2/R4 and
-LieGroups' closed-subgroup machinery. First prove metric isometries smooth
+[LieGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/85f49c01009d5df11d3a6e8935fe7b14ed21c1cd/TauCetiRoadmap/RepresentationTheory/LieGroups/README.md)' closed-subgroup machinery. First prove metric isometries smooth
 using SBC B6.0's convex normal balls and squared distances to finitely many
 nearby centers as smooth local
-coordinates. Prove frame evaluation determines each isometry and controls
-its derivatives through the exponential formula; use Arzelà–Ascoli for
-compactness. Prove the no-small-subgroups property: for a compact subgroup
+coordinates. First prove the connected-fibre lemma: evaluation at one
+orthonormal frame determines an isometry on a connected component and
+controls its derivatives through the exponential formula. A compact manifold
+has finitely many components. For possibly disconnected F, choose one frame
+in each component and retain both the induced finite permutation of components
+and the image frame for every chosen frame; prove this data determines each
+isometry and controls its derivatives. Use Arzelà–Ascoli for compactness. Prove the no-small-subgroups property: for a compact subgroup
 contained in a sufficiently small identity neighbourhood, average its small
 orbits to their unique centers in convex normal balls; the resulting
 fixed-point map is uniformly C¹-close to identity and a diffeomorphism,
 so the subgroup is trivial. Build all uniform Hessian/implicit-function
-bounds in that argument. Consume CompactGroups' Peter–Weyl separation to
+bounds in that argument. Consume [CompactGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/77f1b53db854fc799c21cd5f2480095f467e50bb/TauCetiRoadmap/RepresentationTheory/CompactGroups/README.md)' Peter–Weyl separation to
 find finitely many representations whose common kernel lies in that
 neighbourhood; no-small-subgroups makes their sum faithful. Its closed
 unitary-group image gives the native Lie structure by the supplied
@@ -161,7 +168,7 @@ actual total spaces, not replacement manifolds in the same rational class.
 In a framed tubular neighbourhood of S^k⊂M^n, set q=n−k≥3.
 Construct the Gromov–Lawson bending curve and torpedo metric, with
 smooth endpoints and all required derivative bounds. Use R1's normal
-metric estimates and R5's Gauss equation to prove scalar positivity
+metric estimates and R5a's Gauss equation to prove scalar positivity
 through the bending region. Own the uniform tubular estimates: among the
 principal curvatures of a small distance tube, q−1 have leading term
 −1/r and the remaining k stay bounded. Prove the rescaled C² comparison
@@ -272,7 +279,7 @@ by the following explicit chain.
 
 1. Consume PR284 Stage3C.3's unstable Toda brackets with their actual
    adjacent-nullhomotopy data, composition-subgroup indeterminacy,
-   suspension laws; consume BFG F4's stable
+   suspension laws; consume [BFG F4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/269912e4950a075eeb50885cdc68638b0d08dc2f/TauCetiRoadmap/BordismFormalGroups/README.md)'s stable
    comparison. Own the following coherent Moore-space construction.
    Write M_n=cofib(2ι_n:Sⁿ→Sⁿ), with bottom inclusion i_n:Sⁿ→M_n
    and collapse j_n:M_n→S^(n+1). Construct these on G2's mapping-cone
@@ -380,7 +387,7 @@ factor scalars and is positive when a≥2 or b≥1; mixed sectional planes
 have curvature zero. In particular P(1,2) has an oriented PSC metric
 but is not oriented-nullbordant: compute its mod-two cohomology,
 w₂=d, w₃=cd and ⟨w₂w₃,[P(1,2)]⟩=⟨cd²,[P(1,2)]⟩=1,
-using TB/CharacteristicClasses' Dold conventions. Keep Ω₅^SO≃ℤ/2
+using TB/[CharacteristicClasses](https://github.com/TauCetiProject/TauCetiRoadmap/blob/76a0952b2687a743d384a9ba88769e71d3c9f55e/TauCetiRoadmap/CharacteristicClasses/README.md)' Dold conventions. Keep Ω₅^SO≃ℤ/2
 distinct from Ω₅^Spin=0. Construct the reflection mapping-torus examples
 and the product-to-circle regular fibres used in the oriented torsion
 calculation as the actual isometric bundles, applying P2 over flat tori.
@@ -390,7 +397,7 @@ product quotient is not asserted to have positive sectional curvature.
 Compare Spin structures on circles/tori and their α values through G5's
 Bott/Clifford comparison and TopologicalKTheory T7's coefficient table,
 using SpinGeometry's explicit Fourier models. On T² with one
-antiperiodic Spin direction prove α=0, while IndexTheory I7.1's
+antiperiodic Spin direction prove α=0, while [IndexTheory I7.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/592b12da97670f7eaea4fbed01def6b55554af66/TauCetiRoadmap/IndexTheory/README.md)'s
 Gauss–Bonnet identity and χ(T²)=0 exclude PSC. This is an explicit
 index-zero counterexample outside P5's simply connected range.
 For a compact parameter space P and a continuous C∞ family of PSC
