@@ -25,6 +25,26 @@ def monicize {R : Type*} [CommRing R] (f : Fin 5 → R) : Fin 5 → R :=
 example : monicize (![2,3,5,7,11] : Fin 5 → ℤ) = ![1,3,10,28,88] := by sorry
 example : monicize (![0,3,5,7,11] : Fin 5 → ℤ) = ![1,3,0,0,0] := by sorry
 example (b c d e : ℤ) : monicize (![1,b,c,d,e] : Fin 5 → ℤ) = ![1,b,c,d,e] := by sorry
+
+/-- The supplier's sparse coefficient formulas exhibit the monicization weights. -/
+example :
+    let f : Fin 5 → ℤ := ![2,0,0,0,-2]
+    let m := monicize f
+    m = ![1,0,0,0,-16] ∧
+    12 * f 0 * f 4 = -48 ∧ 12 * m 0 * m 4 = -192 ∧
+    12 * m 0 * m 4 = (f 0)^2 * (12 * f 0 * f 4) ∧
+    256 * (f 0)^3 * (f 4)^3 = -16384 ∧
+    256 * (m 0)^3 * (m 4)^3 = -1048576 ∧
+    256 * (m 0)^3 * (m 4)^3 = (f 0)^6 * (256 * (f 0)^3 * (f 4)^3) := by sorry
+
+/-- Monicization can change real solubility, even for a nonsingular quartic. -/
+example :
+    let f : Fin 5 → ℝ := ![-1,0,0,0,-1]
+    let m := monicize f
+    m = ![1,0,0,0,1] ∧
+    (¬ ∃ x y z : ℝ, (x ≠ 0 ∨ y ≠ 0) ∧ z^2 = f 0 * x^4 + f 4 * y^4) ∧
+    (∃ x y z : ℝ, (x ≠ 0 ∨ y ≠ 0) ∧ z^2 = m 0 * x^4 + m 4 * y^4) := by sorry
+
 end BinaryQuartic
 
 namespace ArithmeticOrbitRefinement
@@ -44,6 +64,14 @@ example (M : Matrix (Fin 2) (Fin 6) ℤ) (i j : Fin 6) :
 
 example : quarticMinors (fun i j => if i = 0 then (if j = 0 then 1 else 0)
     else (if j = 1 then 1 else 0)) 0 1 = 1 := by sorry
+
+/-- Exchanging the two nonzero standard coefficient rows reverses orientation. -/
+example : quarticMinors (fun i j => if i = 0 then (if j = 1 then 1 else 0)
+    else (if j = 0 then 1 else 0)) 0 1 = -1 := by sorry
+
+/-- Nonzero proportional coefficient rows still have every minor zero. -/
+example : quarticMinors (fun i j => if i = 0 then (if j = 0 then 1 else 0)
+    else (if j = 0 then 2 else 0)) = 0 := by sorry
 
 section Pencil
 variable {R : Type*} [CommRing R]
@@ -105,10 +133,40 @@ end Isotropic
 end ArithmeticOrbitRefinement
 
 namespace Cubic
+/-- Integral symmetric-trilinear substitution, with row-vector changes of variables. -/
+def dividedSubst {R : Type*} [CommRing R]
+    (g : Matrix (Fin 2) (Fin 2) R) (v : Fin 4 → R) : Fin 4 → R :=
+  let r := g 0 0; let s := g 0 1; let t := g 1 0; let u := g 1 1
+  let a := v 0; let b := v 1; let c := v 2; let d := v 3
+  ![a*r^3 + 3*b*r^2*s + 3*c*r*s^2 + d*s^3,
+    a*r^2*t + b*(r^2*u + 2*r*t*s) + c*(2*r*s*u + t*s^2) + d*s^2*u,
+    a*r*t^2 + b*(2*r*t*u + t^2*s) + c*(r*u^2 + 2*t*s*u) + d*s*u^2,
+    a*t^3 + 3*b*t^2*u + 3*c*t*u^2 + d*u^3]
+
+/-- The identity matrix fixes every divided cubic vector. -/
+theorem dividedSubst_one {R : Type*} [CommRing R] (v : Fin 4 → R) :
+    dividedSubst 1 v = v := by sorry
+
+/-- Matrix multiplication gives left-action composition on divided coefficients. -/
+theorem dividedSubst_mul {R : Type*} [CommRing R]
+    (g h : Matrix (Fin 2) (Fin 2) R) (v : Fin 4 → R) :
+    dividedSubst (g * h) v = dividedSubst g (dividedSubst h v) := by sorry
+
+/-- Base change commutes with divided-coefficient substitution. -/
+theorem dividedSubst_map {R S : Type*} [CommRing R] [CommRing S] (f : R →+* S)
+    (g : Matrix (Fin 2) (Fin 2) R) (v : Fin 4 → R) :
+    (fun i => f (dividedSubst g v i)) =
+      dividedSubst (g.map f) (fun i => f (v i)) := by sorry
+
 /-- Divided coefficients represent ax³+3bx²y+3cxy²+dy³; ordinary Δ is −27 times this. -/
 def normalizedDisc {R : Type*} [CommRing R] (v : Fin 4 → R) : R :=
   v 0 ^ 2 * v 3 ^ 2 - 6 * v 0 * v 1 * v 2 * v 3 - 3 * v 1 ^ 2 * v 2 ^ 2 +
     4 * v 0 * v 2 ^ 3 + 4 * v 1 ^ 3 * v 3
+
+/-- Divided substitution has determinant-six discriminant covariance over every ring. -/
+theorem normalizedDisc_dividedSubst {R : Type*} [CommRing R]
+    (g : Matrix (Fin 2) (Fin 2) R) (v : Fin 4 → R) :
+    normalizedDisc (dividedSubst g v) = g.det^6 * normalizedDisc v := by sorry
 
 /-- Coefficient scaling has degree four, in every characteristic. -/
 theorem normalizedDisc_smul {R : Type*} [CommRing R] (u : R) (v : Fin 4 → R) :
@@ -118,6 +176,19 @@ theorem normalizedDisc_smul {R : Type*} [CommRing R] (u : R) (v : Fin 4 → R) :
 theorem ordinaryDisc_eq {K : Type*} [Field K] (v : Fin 4 → K) (ha : v 0 ≠ 0) :
     (C (v 0) * X ^ 3 + C (3 * v 1) * X ^ 2 + C (3 * v 2) * X + C (v 3)).discr =
       -27 * normalizedDisc v := by sorry
+
+/-- A determinant-one transvection preserves the divided discriminant. -/
+example :
+    dividedSubst (!![1,1;0,1] : Matrix (Fin 2) (Fin 2) ℤ) ![1,0,0,1] = ![2,1,1,1] ∧
+    normalizedDisc (![2,1,1,1] : Fin 4 → ℤ) = 1 ∧
+    normalizedDisc (![2,3,3,1] : Fin 4 → ℤ) = -23 := by sorry
+
+example : normalizedDisc (![2,0,0,2] : Fin 4 → ℤ) = 16 := by sorry
+
+/-- Ordinary coefficients forget nonzero divided data in characteristic three. -/
+example :
+    (![0,1,0,0] : Fin 4 → ZMod 3) ≠ 0 ∧
+    (![0,3 * 1,3 * 0,0] : Fin 4 → ZMod 3) = 0 := by sorry
 
 example (s : ℚ) : normalizedDisc ![0,1,0,s/4] = s := by sorry
 example : normalizedDisc (![1,0,0,1] : Fin 4 → ℤ) = 1 ∧
@@ -165,7 +236,7 @@ resolvents, quinticComplexRealization and quinticRationalRealization;
 monogenized cubic resolvents; binary-quartic orbit actions, solubility,
 covariants, the cubic invariant, point quartics and projected ternary cubics;
 ternary cubic invariants; Veronese orbit embedding; oriented ideal triples and
-norm pairs; the regular-pencil Fano and generalized Picard constructions;
+norm pairs; the regular-pencil Fano construction and supplied generalized Picard comparisons;
 weak-discriminant loci, Q and marked Q; genus-one degree-three, four and five
 covering dictionaries; three-isogeny mirror algebras and integral multiplicities.
 Their APIs, hypotheses and Checks remain in the README. The signed polynomial
