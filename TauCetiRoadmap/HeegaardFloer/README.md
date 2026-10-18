@@ -501,7 +501,18 @@ the codimension-two boundary of the unstable flowout.
 Consume GeometricCurrents G3's ungraded rank-one orientation-line current
 extension and F0.7's moving/genericity theorem. Its twisted boundary is the
 ordinary chain boundary with flat coefficient transport; apply the shift
-`(-1)^λ_C` once in the Bott complex. Here prove
+`(-1)^λ_C` once in the Bott complex.
+Before any Bott grading shift, check the rank-one integral local system on
+S¹ with generator monodromy −1. Use one vertex and one positively oriented
+edge, with chosen coefficient frames, and prove its cellular differential is
+`ρ(g)−id=−2`; reversing the edge changes the sign. Compare with the actual
+twisted singular complex through AlgebraicTopology's local-coefficient
+cellular comparison. Prove H₀=ℤ/2, H₁=0 and higher homology zero; for the
+dual cochain complex prove H⁰=0, H¹=ℤ/2 and higher cohomology zero.
+A twice-around traversal has coefficient `a+ρ(g)a=0`, so prove that it gives
+no nonzero twisted H₁ class. Use this test for the orientation-line transport
+in the reflection mapping-torus example, separately from its Bott degree shift.
+Here prove
 the dimension-drop identities, D²=0, and the continuation maps and
 natural homotopies from F0.7's endpoint-relative parameter spaces.
 Independently construct the cascade complex using auxiliary Morse–Smale
@@ -758,6 +769,36 @@ from Mathlib.
    Give finite-atlas norm equivalence, evaluation/composition regularity,
    localized perturbations and smooth density. C∞ is represented as the
    compatible smooth category, not called a Banach space.
+   For every compact Hausdorff second-countable finite-dimensional smooth
+   real manifold X without boundary and integer k≥2, prove that the C^k
+   functions with nondegenerate Hessian at every critical point form an
+   open dense, hence residual, subset of this C^k function space. State the
+   property using finite-order `ContMDiff` and native
+   `IsManifoldNondegenerateCriticalPoint`; native `IsMorse` includes C∞
+   smoothness and is equivalent to this property only after separately
+   assuming smoothness. Construct the universal cotangent-bundle section
+   `S(f,x)=df_x` over C^k(X,ℝ)×X. Prove it is C^(k−1), compute its
+   intrinsic zero linearization
+   `D S_(f,x)(h,v)=dh_x+Hess_x(f)(v,−)`, and prove split surjectivity by
+   compactly supported chart perturbations realizing arbitrary covectors.
+   The x-linearization has equal finite-dimensional source and target and
+   Fredholm index0. Construct the universal C^(k−1) zero manifold and its C^(k−1) parameter
+   projection, and prove the projection's kernel/cokernel/index comparisons with the
+   native `parameterProj` model. Prove separability and second countability
+   of the C^k function space and pullback-bundle total space, and construct
+   a countable atlas for the zero locus, from the finite-atlas jet norms
+   and separable C⁰ section spaces on the compact chart sets. Apply this
+   lane’s sharp generic-section/Sard–Smale
+   theorem at index0 with the actual regularity k−1≥1. Prove openness
+   separately by C² persistence near the finitely many critical points
+   and a uniform positive lower bound for |df| away from those neighborhoods.
+   Compare this argument with native C² linear-perturbation Sard and finite
+   chart patching. Build the function-space and generic-section floors
+   independently of this Morse application; no metric/trajectory genericity
+   theorem or Morse approximation is an input. On smooth functions compare
+   the resulting finite-C^k open dense sets with MorseTheory M3's smooth
+   approximation theorem, without inferring a residual theorem on a smooth
+   subspace merely by intersection. Include empty and zero-dimensional X.
 2. Construct `W¹,²` path charts about fixed asymptotic reference paths,
    tangent-section charts and the L² bundle. Use normal/exponential charts,
    metric comparisons, trace and exponential asymptotics with explicit
