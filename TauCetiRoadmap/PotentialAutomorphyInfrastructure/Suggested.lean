@@ -112,6 +112,15 @@ example : UnitaryLeviWeight ![(2 : ℤ), 1] ![(-3 : ℤ), -4] = ![(4 : ℤ), 3, 
 row `(-1, 1)` is not dominant. The Siegel coefficient splitting requires unitary dominance. -/
 example : UnitaryLeviWeight ![(1 : ℤ)] ![(1 : ℤ)] = ![(-1 : ℤ), 1] ∧
     ¬ Antitone (UnitaryLeviWeight ![(1 : ℤ)] ![(1 : ℤ)]) := by decide
+/-- The allowed rank-four unitary row at `p = 7` has shifted weights `(5, 2, 1, 0)`.
+They fit the Fontaine–Laffaille interval `[0, p - 2]` and exceed `[0, p - n - 1]`
+for Levi rank `n = 2` (ACC §4.1 and Proposition 4.4.6). -/
+theorem fontaine_laffaille_endpoint :
+    (UnitaryLeviWeight ![(0 : ℤ), 0] ![(0 : ℤ), -2] +
+      fun i : Fin 4 => (3 : ℤ) - (i.val : ℤ)) = ![(5 : ℤ), 2, 1, 0] ∧
+    (∀ i : Fin 4, 0 ≤ (![(5 : ℤ), 2, 1, 0]) i ∧
+      (![(5 : ℤ), 2, 1, 0]) i ≤ 5) ∧
+    ¬ (∀ i : Fin 4, (![(5 : ℤ), 2, 1, 0]) i ≤ 4) := by sorry
 end UnitaryLeviWeight
 
 /-! ## Layer 1: Fontaine–Laffaille compatibility -/
@@ -548,6 +557,11 @@ example : nu 2 + (fun _ : Fin 2 => (0 : ℤ)) = ![(0 : ℤ), 1] := by sorry
 /-- `WeightIndependentHidaTwist.rank_two_weight`: for `μ = (2, 0)`, `ν + w₀μ = (0, 3)`, which
 fixes both the reversal and the shift. -/
 example : nu 2 + (fun i : Fin 2 => (![(2 : ℤ), 0]) i.rev) = ![(0 : ℤ), 3] := by sorry
+/-- A nontrivial unit and its square are different. For `Λ₁ = O[C_p]` and a primitive
+`ζ_p`, this separates the scalar `ζ_p` of twist-before-component specialization from
+`ζ_p²` of component specialization followed by a diagonal twist (ACC §6.6.1). -/
+theorem torsion_component {R : Type*} [CommRing R] (ζ : Rˣ) (hζ : ζ ≠ 1) :
+    (ζ : R) ^ 2 ≠ (ζ : R) := by sorry
 end WeightIndependentHidaTwist
 
 /-! ## Layer 5: Arithmetic patching and automorphy lifting -/
@@ -642,7 +656,9 @@ nonabelian cocycle quotient (`NonabelianGaloisH1`), the irreducibility of pure u
 series, smooth modules over open monoids
 (`SmoothMonoidModules`), the residual Iwahori Hecke algebra at Taylor–Wiles places, the Kostant and
 Fontaine–Laffaille comparisons of Layer 1 (`unitary_generic_vanishing`,
-`fontaine_laffaille_local_global`), the soluble
+`fontaine_laffaille_local_global`, `fontaine_laffaille_normalization`,
+`degree_reflection_duality` with compact supports and its supported non-Eisenstein ordinary
+corollary), the soluble
 transport and rank-two compatible-system theorems of Layer 2
 (`auxiliary_cm_extension_prescriptions`, `soluble_base_change_and_descent`,
 `local_base_change_rec_compatibility`, `WeaklyAutomorphicPrimeTo`), the ordinary parts, completed
@@ -650,7 +666,8 @@ cohomology and determinant comparisons
 of Layer 3 (`LocalOrdinaryParts`, `ArithmeticOrdinarySummand`, `CompletedArithmeticCohomology`,
 `CompletedOrdinaryCohomology`, `UnitaryOrdinaryTower`, `UnitaryCompletedBoundary`,
 `BruhatCellInduction`, `BruhatUnipotentInvariants`, `DeterminantTorus`, `IotaOrdinary`,
-`OrdinarilyAutomorphic`, `ordinary_local_global`), the Hida complexes and deformation actions of
+`OrdinarilyAutomorphic`, `unitary_rational_ordinary_hecke_semisimple`,
+`unitary_ordinary_refinement`, `ordinary_local_global`), the Hida complexes and deformation actions of
 Layer 4 (`OrdinaryHidaComplex` and the derived twist `WeightIndependentHidaTwist`, whose integer
 row `WeightIndependentHidaTwist.nu` is stated above), and the Taylor–Wiles data,
 patching verifications and lifting theorems of Layer 5 (`TaylorWilesSelectedIdeals`,
@@ -658,7 +675,8 @@ patching verifications and lifting theorems of Layer 5 (`TaylorWilesSelectedIdea
 `ordinary_automorphy_lifting`).
 
 Further API statements and Checks specified in the README, without additional Lean declarations:
-CompletedArithmeticCohomology.level_colimit, UnitaryCompletedBoundary.level_colimit,
+CompletedArithmeticCohomology.level_colimit, CompletedArithmeticCohomology.residual_level_colimit,
+UnitaryCompletedBoundary.level_colimit,
 UnitaryCompletedBoundary.nonempty_rank_one,
 BruhatOrientationCharacter.uniformizer_part, BruhatOrientationCharacter.unit_part,
 CTGWeight.iff_witness, CTGWeight.no_cuspidal_levi_weight, CTGWeight.not_parallel,
@@ -667,7 +685,7 @@ LowestWeightCharacter.unit_eval, OrdinaryGaloisCharacters.change_uniformizer, Or
 OrdinaryGaloisCharacters.on_uniformizer, OrdinaryGaloisCharacters.on_units, OrdinaryGaloisCharacters.unique_from_units_and_uniformizer,
 PositiveTorusMonoid.mem_iff, PositiveTorusMonoid.unit_subgroup, RankTwoOdd.automorphic_weight_zero,
 RankTwoOdd.det_eq, RankTwoOdd.no_real_places, UnitaryLeviWeight.first_block, UnitaryLeviWeight.second_block,
-WeightIndependentHidaTwist.weight_compare.
+WeightIndependentHidaTwist.weight_compare, WeightIndependentHidaTwist.component_specialization.
 -/
 
 end TauCetiRoadmap.PotentialAutomorphyInfrastructure

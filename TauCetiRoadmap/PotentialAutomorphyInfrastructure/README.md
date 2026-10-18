@@ -10,9 +10,9 @@ The suggested file states the light definitions that the pinned libraries can al
 
 ## Scope and ownership
 
-The arithmetic locally symmetric spaces, their Borel–Serre compactification, groupoid and sheaf cohomology, derived Hecke actions, finite-level duality and the Matsushima comparison belong to **ArithmeticLocallySymmetricSpaces** (ALS.1–ALS.5b). Layer 0 constructs the unitary torsion tower geometry used by the torsion attachments and compactified-Igusa argument (§§0.7a, 0.13), including the required Siegel chart construction. Layer 3 constructs only the fixed-exponent smooth towers for these general linear and unitary groups and their derived-invariants comparisons (§§3.13, 3.21); coefficient completion and the general theory of arithmetic towers are outside these targets. Section 1.0 supplies the unitary generic-vanishing and middle-degree theorem used by the explicit Siegel coefficients and ordinary towers.
+The arithmetic locally symmetric spaces, their Borel–Serre compactification, groupoid and sheaf cohomology, derived Hecke actions, finite-level duality and the Matsushima comparison belong to **ArithmeticLocallySymmetricSpaces** (ALS.1–ALS.5b). Layer 0 owns the unitary torsion tower geometry for the specified quasi-split `U(a,a)` PEL data and chosen Siegel embeddings (§§0.7a, 0.13). This includes the canonical-subgroup and anticanonical estimates on those Siegel charts, their image compactification and the compactified-Igusa fibre comparison needed for the arithmetic application. These targets assert those specializations, not a general canonical-subgroup, Hodge–Tate or Shimura-tower theory. Layer 3 constructs only the fixed-exponent smooth towers for these general linear and unitary groups and their derived-invariants comparisons (§§3.13, 3.21); coefficient completion and the general theory of arithmetic towers are outside these targets. Section 1.0 supplies the unitary generic-vanishing and middle-degree theorem used by the explicit Siegel coefficients and ordinary towers.
 
-Integral Fontaine–Laffaille categories belong to **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.3, rational crystalline comparisons to **PadicHodgeTheory**, §§3.2–3.6 and 6.1, and the Galois representations attached to Hecke algebras and automorphic representations, with their local–global compatibility away from `p`, to **AutomorphicGaloisRepresentationsPartII** (AG2.0–AG2.7). Local and global deformation rings belong to **LocalGaloisDeformationRings** (§§1.12–1.13, 2.15, 3.7, 6.24 and 7.1–7.6) and **GlobalGaloisDeformations** (G7, G8). Perfect-complex reconstruction, ultrapatching and the abstract support theorem belong to **DeformationAndDerivedPatchingAlgebra** (Layers 7–9). Layers 4 and 5 verify the arithmetic inputs to those results.
+Scalar Fontaine–Laffaille theory belongs to **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.3. The common labelled coefficient category and covariant realization belong to **LocalGaloisDeformationRings**, §1.6; its automorphic interval-twist specialization belongs to **AutomorphicGaloisRepresentations**, §1.5a. Rational crystalline comparisons belong to **PadicHodgeTheory**, §§3.2–3.6 and 6.1, with the numerical Hodge-sign transport of AG2.0, and the Galois representations attached to Hecke algebras and automorphic representations, with their local–global compatibility away from `p`, to **AutomorphicGaloisRepresentationsPartII** (AG2.0–AG2.7). Local and global deformation rings belong to **LocalGaloisDeformationRings** (§§1.12–1.13, 2.15, 3.7, 6.24 and 7.1–7.6) and **GlobalGaloisDeformations** (G7, G8). Perfect-complex reconstruction, ultrapatching and the abstract support theorem belong to **DeformationAndDerivedPatchingAlgebra** (Layers 7–9). Layers 4 and 5 verify the arithmetic inputs to those results.
 
 Compatible-system carriers, operations and the de Rham rank-one classification belong to **PotentialModularityAndCompatibleSystems** (Layer 1 and §§2.12–2.16). Layer 2 supplies the applications of Henniart's rational abelian classification and Larsen's maximality theorem needed before all-member de Rhamness is known; these do not follow from that owner's stronger weak-system hypotheses. Finite-image enormousness and the scalar calculations belong to **ArithmeticGaloisRepresentations** (§§7.7 and 7.10–7.12). Cyclic automorphic base change and descent belong to **AutomorphicSpectralTheory**, §7.1, with the all-place comparison of **EndoscopicTransferAndUnitaryTraceComparison**, §§6.12 and 6.24, and local factors to **AutomorphicLFunctionsAndLocalFactors**, AL.3; Layer 2 owns their compatibility with the specified Galois representations and labelled weights. The Artinian ordinary projector of **PadicFamilies**, Layer `0a`, is imported.
 
@@ -130,6 +130,7 @@ The compact owner prefixes below expand the prerequisite identifiers used in the
 | `AS` | `AutomorphicSpectralTheory` |
 | `SR` | `SmoothRepresentationsOfLocalGroups` (Tau Ceti roadmap) |
 | `FF` | `FiniteFlatGroupsAndIntegralPadicHodgeTheory` |
+| `AC` | `AutomorphicGaloisRepresentations` |
 | `PH` | `PadicHodgeTheory` |
 | `AG` | `AutomorphicGaloisRepresentationsPartII` |
 | `IHG` | `IntegralHeckeAndGaloisDeterminants` (Tau Ceti roadmap) |
@@ -196,10 +197,10 @@ The targets import general theories from their owners. The rows below give, for 
 | `SmoothRepresentationsOfLocalGroups`, SR.1.4 and SR.1.5 | For an open compact subgroup with an Iwahori decomposition: the positive Hecke homomorphism `t`, the restriction–integration map `S = r_M∘r_P` with `t∘S` and `S∘t` multiplication by `∣δ_P(m)∣⁻¹` on basis elements, and localisation at a strongly positive central element over a ring in which `q` is a unit (ACC Lemmas 2.1.12–2.1.13, pp. 914–915, as stated in SR.1.4); the Bernstein presentation of the Iwahori–Hecke algebra over a ring containing `q^{1/2}` (SR.1.5). The monoid statements of ACC Lemmas 2.1.10, 2.1.11 and 2.1.14 are the Layer 0 target `positive_monoid_hecke_restriction`; the residual Iwahori Hecke algebra at `q_v ≡ 1 mod p` of KT §5 is the Layer 5 target `taylor_wiles_residual_iwahori_hecke`. |
 | `SmoothRepresentationsOfLocalGroups`, SR.2.1 and SR.2.2 | Smooth induction from a closed subgroup is right adjoint to restriction (`SmoothRep.frobeniusReciprocity`), so it preserves injectives; induction from a parabolic with compact quotient is exact. The Bruhat-cell functors `I_{≥i}, I_w` and `I_w°` on compact charts are the Layer 3 target `BruhatCellInduction`. |
 | `SmoothRepresentationsOfLocalGroups`, SR.3.4 | The Iwahori block of `GLₙ(F_v)` consists of the subquotients of unramified principal series. The irreducibility of a pure unramified principal series, used in BCGNT Lemma 6.1.4, p. 59, is the Layer 2 target `pure_unramified_principal_series_irreducible`; the normalisation of `rec^T` is fixed by AG2.0. |
-| `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.3` | ACC §4.1, pp. 965–969, with `K/Qₚ` unramified, `p>n`, interval `[aτ,aτ+p−n−1]`, contravariant normalized Gᵃ, crystalline/Teichmüller twists, residual FL multisets, tensor formula (4.1.1), and the lattice/essential-image and subquotient result of Theorem 3.2.5. |
-| `PadicHodgeTheory:§§3.2–3.6,6.1` | Rational crystalline and labelled Hodge–Tate comparisons with geometric Artin and `HT(ε)=−1`, including the character-twist calculation for ACC Theorem 4.5.1. |
+| `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.3`; `LocalGaloisDeformationRings:§1.6`; `AutomorphicGaloisRepresentations:§1.5a` | The scalar contravariant theory, common labelled coefficient category and covariant realization, and automorphic interval twists, respectively. For unramified `K/ℚₚ`, `p>2`, the jump interval is `[aτ,aτ+p−2]`, with `Fil^{aτ+p−1}=0`, independent of rank. The covariant realization uses the linear lattice dual and Pontryagin torsion dual of the scalar functor, with transported coefficient actions, labelled factors and Frobenius permutation. Exactness, reductions, lattice quotients, strict kernels and finite-torsion subquotients are retained; subquotients need not be projective over an additional coefficient algebra. Section 1.9a fixes the ACC normalization used in §§1.10–1.16. |
+| `PadicHodgeTheory:§§3.2–3.6,6.1`; `AutomorphicGaloisRepresentationsPartII:AG2.0` | Rational crystalline and labelled Hodge–Tate comparisons, then the adapter from the supplier’s positive numerical cyclotomic convention to `HT(ε)=−1`. Negate numerical Hodge labels while preserving the actual representation and its period comparison maps. Section 1.9a fixes the filtration labels and character twists used in ACC Theorem 4.5.1. |
 | `AutomorphicGaloisRepresentationsPartII:AG2.0` | Weight and reciprocity dictionaries; prescribed crystalline global character with an arbitrary integer exponent on units (including exponent 1 for the second alternative of ACC Theorem 4.5.1); algebraic Hecke-character realization and compatibility with `π⊗(ψ∘det)`. |
-| `AutomorphicGaloisRepresentationsPartII:AG2.2`, `AG2.3`, `AG2.6` | Degree-2n unitary Galois attachment with its split-place polynomials and algebraic twists; removal of the auxiliary geometric regularity restriction by the owner's interpolation/descent; crystallinity and precise labelled unitary weights at hyperspecial unramified `p` places for Proposition 4.4.6, pp. 979–981. Layer 1 deduces the nonselfdual rank-n comparison from these inputs. |
+| `AutomorphicGaloisRepresentationsPartII:AG2.2`, `AG2.3`, `AG2.6` | Degree-2n unitary Galois attachment with its split-place polynomials and algebraic twists; removal of the auxiliary geometric regularity restriction by the owner's interpolation/descent; crystallinity and precise labelled unitary weights at hyperspecial unramified `p` places for Proposition 4.4.6, pp. 979–981. Layer 1 deduces the nonselfdual rank-n comparison from these inputs. The independent characteristic-zero ordinary refinement at Iwahori levels and its Hecke-image assembly are `unitary_ordinary_refinement` (§3.41b), preceded by `unitary_rational_ordinary_hecke_semisimple` (§3.41a); Hodge/WD comparison alone supplies no ordered flag. |
 | `AutomorphicGaloisRepresentationsPartII:AG2.4/hltt-construction-of-nonselfdual-systems` | Continuous semisimple good-place attachment to every regular algebraic cuspidal `GLₘ` representation over the CM field `F`, for all `1≤m≤n`, without polarization. Together with AG2.0's geometric reciprocity and Hecke-polynomial dictionary this proves ALS.5b.7's `GaloisInput.GL(F,m)`; the `m=1` branch is class field theory. |
 | `AutomorphicGaloisRepresentationsPartII:AG2.5` | Inertial comparison at `R` and away from `p` (ACC Theorem 3.1.1), and rational local–global Weil–Deligne comparison for final unramified descent. The Varma semisimplification comparison used in BCGNT Lemma 6.1.4 is also required. |
 | `AutomorphicGaloisRepresentationsPartII:AG2.6` | ACC Lemmas 7.1.9–7.1.10, pp. 1091–1093: decomposed genericity yields very weak compatibility, and `GL₂` supplies irreducibility and genericity. The weight-zero automorphic `GL₂` system must be odd. |
@@ -392,7 +393,7 @@ First prove `unitary_torsion_tower_geometry` for the quasi-split `U(a,a)` PEL da
 
 ([Scholze](#source-scholze-torsion), Chapters III.2–III.3, Theorem III.3.18, Theorem IV.1.1 and proof of IV.3.1; [Caraiani–Scholze](#source-cs-noncompact), §2.6, Definition 2.6.1, Theorem 2.6.2 and Remark 2.6.3.) *Needs:* `ShimuraVarieties:§§6.1–6.2,8.5,8.19`; `ShimuraCompactifications:C3.general,C5.3,C5.16`; `PerfectoidSpaces:P7`; `PerfectoidTowers:P8.21,P9.4`; `DiamondsAndVStacks:D5–D6`.
 
-*Route.* The geometric construction is part of this target: prove the Siegel canonical-subgroup bounds, anticanonical transition estimates, boundary extension for bounded functions and perfectoid chart gluing of Scholze III.2–III.3 for the chosen symplectic embedding. Pull back the closed loci using P8.21, taking their perfectoid structure rather than restricting a structure sheaf. Extend the period map across the boundary using the bounded flag coordinates; the line comparison and finite-level approximations to its sections are the geometric part of IV.3.1's proof. Form the genuine minimal and toroidal limit diamonds from the supplied finite-level compactifications; transport their maps and period maps along the compatible finite-level morphisms. The general limit and descent theorems supply these operations, not the canonical-subgroup estimates or the period-map construction. The target concerns these unitary towers and their chosen Siegel embeddings.
+*Route.* The geometric construction is part of this target: prove the Siegel canonical-subgroup bounds, anticanonical transition estimates, boundary extension for bounded functions and perfectoid chart gluing of Scholze III.2–III.3 for the chosen symplectic embedding. Pull back the closed loci using P8.21, taking their perfectoid structure rather than restricting a structure sheaf. Extend the period map across the boundary using the bounded flag coordinates; the line comparison and finite-level approximations to its sections are the geometric part of IV.3.1's proof. Form the genuine minimal and toroidal limit diamonds from the supplied finite-level compactifications; transport their maps and period maps along the compatible finite-level morphisms. The general limit and descent theorems supply these operations, not the canonical-subgroup estimates or the period-map construction. The target concerns these unitary towers and their chosen Siegel embeddings. Its coefficient-lattice and group comparisons use restriction from the symplectic/similitude tower to the multiplier-one unitary group, retaining the multiplier equation and the central coefficient character. Closed image charts, genuine minimal limits and toroidal limits keep their separate integral-ring assertions.
 
 **Checks.**
 
@@ -681,13 +682,28 @@ Over `k`, Burnside's theorem and the non-isomorphism of `ρ̄` and `ρ̄′` mak
 
 - For `n = 1` and characters `χ, χ′` with distinct reductions, `B[G] → B × B` is surjective; for `χ = χ′` the image is the diagonal copy of `B`, so the non-isomorphism hypothesis is needed.
 
+### 1.9a Coefficient Fontaine–Laffaille normalization
+
+Prove `fontaine_laffaille_normalization`. For unramified `K/ℚₚ`, `p>2` and splitting coefficient field `E`, use LGD §1.6's common coefficient category and its covariant realization, with AC §1.5a's interval twists, to identify the functor `Gᵃ` of ACC §4.1 on `[aτ,aτ+p−2]`. Preserve coefficient-algebra actions, labelled filtrations, the Frobenius permutation, exact sequences, coefficient extension, reduction, lattice quotients and finite-torsion subquotients. Here a constant labelled jump `i` realizes `ε^{−i}` and has Hodge–Tate label `i`. Translate a supplier's numerical label `−i` to `i` by AG2.0's sign dictionary; the representation is unchanged. The passage from the scalar contravariant functor to the covariant coefficient functor uses the actual linear lattice dual or Pontryagin torsion dual and transports its actions; it is a separate operation from this numerical translation.
+
+For `a=(aτ)`, let `ψ_a∘Art_K(u)=∏τ τ(u)^{−aτ}` on units and `ψ_a∘Art_K(p)=1`. The shifted object has `Fil^j M(a)_τ=Fil^{j+aτ}M_τ` and the correspondingly shifted divided Frobenius, and `Gᵃ(M)=G⁰(M(a))⊗ψ_a`. Supply independence of the allowable interval, the tensor identity when the tensor object remains in the safe interval, and the lattice criterion: a lattice in a crystalline representation with all labelled weights in `[aτ,aτ+p−2]` lies in the essential image. The residual multiset `FLτ` records these filtration jumps with multiplicity. This is the normalization in every use of `Gᵃ`, `G` and `FLτ` below.
+
+([ACC](#source-acc), §4.1, pp. 965–966, including (4.1.1); AC §1.5a.) *Needs:* `LGD:§1.6`; `AC:§1.5a`; `AG:AG2.0`; `PH:§§3.2–3.6,6.1`.
+
+**Checks.**
+
+- A jump-one line realizes `ε⁻¹`, with our Hodge label `1`. Negating a supplier's numerical label leaves this character intact; taking its actual dual would give `ε`.
+- The linear dual into `ℤₚ` of a finite nonzero torsion realization is zero. Its Pontryagin dual is nonzero and commutes with lattice reduction, as required by the coefficient functor.
+- `UnitaryLeviWeight.fontaine_laffaille_endpoint`: for `n=2`, `p=7`, `λτ=(0,0)` and `λτc=(0,−2)`, the unitary row is `(2,0,0,0)` and its shifted multiset is `{5,2,1,0}`. Both §1.11 inequalities hold. This lies in `[0,5]` and fails `[0,4]`; the allowed interval has no rank correction.
+- A jump `aτ+p−1` fails `Fil^{aτ+p−1}=0`; endpoint inclusion stops at `aτ+p−2`.
+
 <a id="nilpotent-fontaine-laffaille-transfer"></a>
 
 ### 1.10 Nilpotent Fontaine–Laffaille transfer
 
 Prove `nilpotent_fontaine_laffaille_transfer`. Let Ã be a finite flat `O`-algebra, `D̃` a continuous 2n-dimensional determinant of `G_{F,S}` valued in Ã, and `M = Ã[G_{F,S}]/ker D̃`. Assume the finite `O`-module `M`, restricted to each `G_{F_v}` with `v | v̄`, lies in the essential image of the integral Fontaine–Laffaille functor `G^a` in the stated interval. Let Ã `→ B` be an `O`-algebra homomorphism, where `B` is a finite Artinian local `O`-algebra killed by `ϖ^m` for some `m ≥ 1`. Suppose `D̃_B = det(ρ ⊕ ρ′)` for continuous `ρ, ρ′: G_{F,S} → GL_n(B)`, whose residual representations over the residue field of `B` are absolutely irreducible and non-isomorphic. Then there is a surjection `B ⊗_Ã M ↠ B[G_{F,S}]/ker D̃_B`, and the latter algebra is isomorphic to `M_n(B) × M_n(B)`. Consequently `ρ|_{G_{F_v}}` belongs to the essential image of `G^a`. The coefficient map Ã `→ B` need not be surjective. Kernel inclusion under arbitrary scalar extension, rather than equality under flat scalar extension, gives the displayed surjection; the split matrix-algebra identification requires the residually multiplicity-free reconstruction and faithful determinant argument.
 
-([ACC](#source-acc), §4.4, proof of Proposition 4.4.6, pp. 980–981 (determinant-kernel transfer); [Chenevier](#source-chenevier), §1.17 and Lemma 1.18(iii), PDF p. 16; Theorem 2.22, PDF p. 34). *Needs:* `FF:R07.3`; `IHG:Layer 0`; `residually_distinct_split_image`.
+([ACC](#source-acc), §4.4, proof of Proposition 4.4.6, pp. 980–981 (determinant-kernel transfer); [Chenevier](#source-chenevier), §1.17 and Lemma 1.18(iii), PDF p. 16; Theorem 2.22, PDF p. 34). *Needs:* `LGD:§1.6`; `AC:§1.5a`; `fontaine_laffaille_normalization`; `IHG:Layer 0`; `residually_distinct_split_image`.
 
 *Route.* Use Chenevier Lemma 1.18(iii): the image of `ker D̃` lies in `ker D̃_B`. Therefore scalar extension of `M` surjects onto `B[G]/ker D̃_B`, without assuming that Ã `→ B` is surjective or flat. Residual absolute irreducibility and non-isomorphism give surjectivity of the joint representation onto `M_n(B) × M_n(B)` by Burnside and Nakayama. The kernel of the representation is contained in the determinant kernel; the descended product determinant is faithful, giving equality of these kernels. Import this precise split specialization from IHG.1, not the stronger assertion that every multiplicity-free generalized matrix algebra is a product. Since `B` is finite over Ã, `B ⊗_Ã M` is a quotient of a finite direct sum of copies of `M`. Fontaine–Laffaille stability under finite sums and subquotients applies. Projection onto the first matrix factor and then one column gives the rank-n representation `ρ` as a quotient.
 
@@ -697,7 +713,7 @@ Prove `nilpotent_fontaine_laffaille_transfer`. Let Ã be a finite flat `O`-algeb
 
 Prove `middle_range_fontaine_laffaille`. Let `λ, v̄ ≠ v̄', m ≥ 1` and a good `K̃` satisfy (1) `−λ_{τc,1} − λ_{τ,1} ≥ 0` and `−λ_{τc,n} − λ_{τ,n} ≤ p − 2n − 1` for every `τ` inducing `v̄`, and (2)–(6) of `fontaine_laffaille_degree_shifting`. Let `q ∈ [⌊d/2⌋, d−1]`, and for assertion `(c)` assume `A(K,λ,q,m) ≠ 0`. Then there exist `N ≥ 1`, depending only on [F:Q] and `n`, an ideal `J ⊂ A(K,λ,q,m)` with `J^N = 0` and a continuous `ρ_m: G_{F,S} → GL_n(A(K,λ,q,m)/J)` with (a) `char(ρ_m(Frob_v)) =` image of `P_v(X)` for `v ∉ S; (b)` for each `v | v̄, ρ_m|_{G_{F_v}}` is in the essential image of `G^a`, a `= (λ_{τ,n})_{τ ∈ Hom_{Q_p}(F_v,E)}; (c)` for each `v | v̄` there is `N̄ ∈ MF_k` with `ρ̄_m̃|_{G_{F_v}} ≅ G(N̄)` and `FL_τ(N̄) = {−λ_{τc,n}+2n−1, …, −λ_{τc,1}+n, λ_{τ,1}+n−1, …, λ_{τ,n}}` for every `τ ∈ Hom_{Q_p}(F_v,E)`, where `ρ̄_m̃ = ρ̄_m ⊕ ρ̄_m^{c,∨}ε^{1−2n}`.
 
-([ACC](#source-acc), §4.4, Proposition 4.4.6, pp. 979–981). *Needs:* `Layer 1`; `FF:R07.3`; `unitary_generic_vanishing` (§1.0); `PH:§§3.2–3.6,6.1`; `AG:AG2.0`; `AG:AG2.2`; `AG:AG2.3`; `AG:AG2.6`.
+([ACC](#source-acc), §4.4, Proposition 4.4.6, pp. 979–981). *Needs:* `Layer 1`; `LGD:§1.6`; `AC:§1.5a`; `fontaine_laffaille_normalization`; `unitary_generic_vanishing` (§1.0); `PH:§§3.2–3.6,6.1`; `AG:AG2.0`; `AG:AG2.2`; `AG:AG2.3`; `AG:AG2.6`.
 
 *Route.* Use the degree-shifting Hecke quotient and the unitary crystalline representation supplied by AG2. Apply the integral Fontaine–Laffaille interval bound at `v` and CTG at `v′`. Apply nilpotent-fontaine-laffaille-transfer to the finite Artinian quotient and the two absolutely irreducible non-isomorphic residual summands; obtain the rank-n Fontaine–Laffaille subquotient.
 
@@ -705,11 +721,32 @@ Prove `middle_range_fontaine_laffaille`. Let `λ, v̄ ≠ v̄', m ≥ 1` and a g
 
 ### 1.12 Degree reflection duality
 
-Prove `degree_reflection_duality`. Let `K` be good and equal to the principal congruence subgroup of level `ϖ^m` at the `p`-adic places other than `v̄`; let `λ` vanish at the `p`-adic places other than `v̄` and satisfy, at every embedding `τ` inducing `v̄, −λ_{τc,1} − λ_{τ,1} ≥ 0` and `−λ_{τc,n} − λ_{τ,n} ≤ p − 1 − 2n` (the weight bound of `all_degree_fontaine_laffaille`). Then `V_{λ^∨} ≅ Hom_O(V_λ, O)` by `dual_weyl_bottom_alcove_duality`. Put `n₀ = (2n+1−p)/2` and let `μ₀` be the parallel weight `(n₀, …, n₀)`. The weight `λ^∨ + μ₀` again satisfies the bound, the dual maximal ideal `𝔪^∨(ε^{−n₀})` lies in the support of `H*(X_K, V_{λ^∨+μ₀})`, and the map sending `[K^S g K^S]` to `ε(Art_F(det g))^{−n₀}[K^S g⁻¹ K^S]` induces an isomorphism `f` from the Hecke image on `H^{d−1−q′}(X_K, V_{λ^∨+μ₀}/ϖ^m)` localized at `𝔪^∨(ε^{−n₀})` onto `A(K,λ,q′,m)`. A representation `ρ′` with properties `(a)–(c)` of `middle_range_fontaine_laffaille` for the source therefore gives `ρ = (f∘ρ′)^∨ ⊗ ε^{1−2n+(p−1)/2}` with the same properties for `A(K,λ,q′,m)`.
+Prove `degree_reflection_duality`. For a good level `K`, `m≥1`, `R=O/ϖ^m`, a finite free algebraic coefficient lattice `V` and `0≤q′≤d−1`, the general finite-coefficient duality is
 
-([ACC](#source-acc), §4.4, proof of Corollary 4.4.8, pp. 983–984). *Needs:* `dual_weyl_bottom_alcove_duality`; `ALS:ALS.5a`; `ALS:ALS.4`; `ALS:ALS.3`.
+```text
+H_c^{d−1−q′}(X_K,V^∨⊗o_K⊗R) ≅ Hom_R(H^{q′}(X_K,V⊗R),R).
+```
 
-*Route.* Use the orientation and coefficient duality in ALS to identify complementary degrees `q` and `d−1−q`. Track the contragredient and `ε^{1−2n}` twist through the Hecke polynomial; translate the Fontaine–Laffaille weight interval. Finite-level duality relates `H^{d−1−q}` to compactly supported `H_c^q`; after localizing at the non-Eisenstein ideal `H_c ≅ H` by ALS.4/gln-boundary-eisenstein ([NT16, Th. 4.2], as ACC uses on p. 977), and the twisting isomorphism of ALS.3 (ACC Proposition 2.2.23) gives the cyclotomic-twisted Hecke identification.
+Here `o_K` is the orientation system and the pairing makes inverse double cosets adjoint. In particular the complementary compact-support and ordinary Hecke images identify under this involution, with the corresponding dual maximal ideals. The ring `R` is self-injective, so this finite-coefficient statement uses an exact dual; integral `O`-duality retains derived Hom and its Ext terms.
+
+For the ordinary-to-ordinary reflection impose the Layer 1 standing assumptions and all six field, level, weight, residue-characteristic and genericity hypotheses of `all_degree_fontaine_laffaille` (§1.15), and require `𝔪` non-Eisenstein and supported on `H^{q′}(X_K,V_λ/ϖ^m)`. At the refined level assume `K` is the principal congruence subgroup of level `ϖ_v^m` at the `p`-adic places away from `v̄`, and `λ` vanishes there. For using the upper-range theorem require `q′<⌊d/2⌋`, so `d−1−q′≥⌊d/2⌋`; the Hecke-image duality itself holds throughout `0≤q′≤d−1`. The weight inequalities give `V_{λ^∨}≅Hom_O(V_λ,O)` by `dual_weyl_bottom_alcove_duality`. Put `n₀=(2n+1−p)/2` and `μ₀,τ=(n₀,…,n₀)`. The weight `λ^∨+μ₀` satisfies the same local bound at `v̄`. Boundary vanishing at the supported non-Eisenstein ideals identifies compact and ordinary cohomology, and the coefficient-twist comparison identifies the dual system with this weight. Thus `𝔪^∨(ε^{−n₀})` is supported in complementary degree and the map
+
+```text
+[K^S g K^S] ↦ ε(Art_F(det g))^{−n₀}[K^S g⁻¹ K^S]
+```
+
+induces an isomorphism `f` from the Hecke image on `H^{d−1−q′}(X_K,V_{λ^∨+μ₀}/ϖ^m)_{𝔪^∨(ε^{−n₀})}` onto `A(K,λ,q′,m)`. If the source has a representation `ρ′` satisfying `(a)–(c)` of `middle_range_fontaine_laffaille`, then `ρ=(f∘ρ′)^∨⊗ε^{1−2n+(p−1)/2}` has those properties on the target. The upper-range application uses decomposed genericity of the unitary sum, obtained from `genericity_making_character_twist` when necessary.
+
+([ACC](#source-acc), Propositions 2.2.21 and 2.2.23 and proof of Corollary 4.4.8, pp. 983–984; [Newton–Thorne](#source-nt16), Theorem 4.2.) *Needs:* `dual_weyl_bottom_alcove_duality`; `ALS:ALS.5a`; `ALS:ALS.4`; `ALS:ALS.3`; `fontaine_laffaille_normalization`.
+
+*Route.* Use the finite-level orientation pairing and its adjoint Hecke action. Apply ALS.4's general linear boundary-Eisenstein theorem with the field/Hecke hypotheses in §1.15 before replacing compact supports by ordinary cohomology. Then apply the cyclotomic coefficient twist and transport the filtration labels with §1.9a. The hypotheses of §1.15 are an explicit package here, independent of that theorem's conclusion.
+
+**Checks.**
+
+- For `n=2`, `p=5`, `O=ℤ₅`, `m=1`, `F=ℚ(i,√6)` and `λ=0`, one has `d=8` and `n₀=0`. At an Eisenstein ideal occurring in constants, `H⁰` is nonzero while `H⁷=0` because every component is a noncompact orientable seven-manifold. The compact-support `H_c⁷` pairs with `H⁰`; ordinary reflection is unavailable.
+- A supported non-Eisenstein ideal has zero localized boundary cohomology under the stated admissibility hypotheses, so the support triangle identifies `H_c` with `H` in every degree. Merely being supported does not yield this identification.
+- If `q′<⌊d/2⌋`, then `d−1−q′≥⌊d/2⌋`. For `d=8`, degrees `0,1,2,3` reflect to `7,6,5,4`, respectively.
+- Over `O`, the dual of `O/ϖ` contributes `Ext¹_O(O/ϖ,O)`; ordinary Hom would lose it. Over `R=O/ϖ^m`, the exact `R`-dual in the displayed finite-coefficient formula preserves nonzero finite modules.
 
 **Crystalline twists and local–global compatibility**
 
@@ -741,7 +778,7 @@ Prove `shifted_partition_recovery`. Let `m ≥ 1` and let A, `B, C, D` be m-elem
 
 Prove `all_degree_fontaine_laffaille`. Let `v̄ ∈ S̄_p, K ⊂ GL_n(A_F^∞)` good, `λ ∈ (Z^n_+)^{Hom(F,E)}, m ⊂ T^S(K,λ)` non-Eisenstein. Assume: (1) `K_v = GL_n(O_{F_v})` for `v | v̄`; (2) there is `v̄' ∈ S̄_p, v̄' ≠ v̄`, with `Σ_{v̄'' ∈ S̄_p, v̄'' ≠ v̄, v̄'} [F^+_{v̄''}:Q_p] > ½[F^+:Q]`; (3) `−λ_{τc,1} − λ_{τ,1} ≥ 0` and `−λ_{τc,n} − λ_{τ,n} ≤ p − 1 − 2n` for every `τ` inducing `v̄`; (4) `p > n²`; (5) for every finite place `w ∉ S` of `F` with residue characteristic `l`, either `S` contains no `l`-adic place of `F` and `l` is unramified in `F`, or `l` splits in some imaginary quadratic field `F_0 ⊂ F`; (6) `ρ̄_m` is decomposed generic. Then for all integers `q ∈ [0, d−1]` and `m ≥ 1` there are `N ≥ 1` depending only on [F:Q] and `n, J ⊂ A(K,λ,q,m)` with `J^N = 0`, and a continuous `ρ_m: G_{F,S} → GL_n(A(K,λ,q,m)/J)` satisfying (a), `(b), (c)` of `middle_range_fontaine_laffaille`.
 
-([ACC](#source-acc), §4.4, Corollary 4.4.8, pp. 981–984). *Needs:* `Layer 1`; `FF:R07.3`.
+([ACC](#source-acc), §4.4, Corollary 4.4.8, pp. 981–984). *Needs:* `Layer 1`; `LGD:§1.6`; `AC:§1.5a`; `fontaine_laffaille_normalization`.
 
 *Route.* First prove the upper-degree range using `middle_range_fontaine_laffaille`. Reflect `q` to `d−1−q` using Poincaré duality and the cyclotomic twist. Choose a finite character so that the unitary residual direct sum is decomposed generic, and compare twisted coefficient systems.
 
@@ -751,7 +788,7 @@ Prove `all_degree_fontaine_laffaille`. Let `v̄ ∈ S̄_p, K ⊂ GL_n(A_F^∞)` 
 
 Prove `fontaine_laffaille_local_global`. Let `K ⊂ GL_n(A_F^∞)` be a good subgroup, `λ ∈ (Z^n_+)^{Hom(F,E)}, S` a finite set of finite places of `F` containing the `p`-adic places with `S = S^c`, and `m ⊂ T^S(K,λ)` a non-Eisenstein maximal ideal with `T^S(K,λ)/m = k` of characteristic `p`. Let `v̄` be a `p`-adic place of `F^+` and assume: (1) `F` is unramified at `p`, and some imaginary quadratic subfield `F_0⊂F` has `p` split; (2) for every finite place `w ∉ S` of `F` with residue characteristic `l`, either `S` contains no `l`-adic place of `F` and `l` is unramified in `F`, or `l` splits in some imaginary quadratic field `F_0 ⊂ F`; (3) `K_v = GL_n(O_{F_v})` for every `v | v̄`; (4) `λ_{τ,1} + λ_{τc,1} − λ_{τ,n} − λ_{τc,n} ≤ p − 2n − 1` for every `τ: F ↪ E` inducing `v̄`; (5) `p > n²`; (6) there is a `p`-adic place `v̄' ≠ v̄` of `F^+` with `Σ_{v̄'' ∈ S̄_p, v̄'' ≠ v̄, v̄'} [F^+_{v̄''}:Q_p] > ½[F^+:Q]`; (7) `ρ̄_m` is decomposed generic; (8) either (a) `H^*(X_K, V_λ)_m[1/p] ≠ 0`, or `(b)` for every `τ` inducing `v̄, −λ_{τc,n} − λ_{τ,n} ≤ p − 2n − 2` and `−λ_{τc,1} − λ_{τ,1} ≥ 0`. Then there exist an integer `N ≥ 1`, depending only on `[F^+:Q]` and `n`, an ideal `J ⊂ T^S(K,λ)_m` with `J^N = 0`, and a continuous `ρ_m: G_{F,S} → GL_n(T^S(K,λ)_m/J)` such that: (a) for each finite `v ∉ S`, the characteristic polynomial of `ρ_m(Frob_v)` is the image of `P_v(X); (b)` for each `v | v̄, ρ_m|_{G_{F_v}}` lies in the essential image of `G^a` with a `= (λ_{τ,n})_{τ ∈ Hom(F_v,E)}; (c)` for each `v | v̄` there is `M̄ ∈ MF_k` with `ρ̄_m|_{G_{F_v}} ≅ G(M̄)` and `FL_τ(M̄) = {λ_{τ,1}+n−1, λ_{τ,2}+n−2, …, λ_{τ,n}}` for every `τ: F_v ↪ E`.
 
-([ACC](#source-acc), §4.1, Theorem 4.5.1, p. 967 (restated §4.5, p. 985; proof pp. 985–988)). *Needs:* `Layer 1`; `FF:R07.3`; `PH:§§3.2–3.6,6.1`; `AG:AG2.0`; `CS:Layer 1`.
+([ACC](#source-acc), §4.1, Theorem 4.5.1, p. 967 (restated §4.5, p. 985; proof pp. 985–988)). *Needs:* `Layer 1`; `LGD:§1.6`; `AC:§1.5a`; `fontaine_laffaille_normalization`; `PH:§§3.2–3.6,6.1`; `AG:AG2.0`; `CS:Layer 1`.
 
 *Route.* Use Corollary 4.4.8 on the torsion cohomology images and the uniform nilpotence bound to pass to the complex Hecke algebra. In case `(8a)`, import the automorphic point and its pure central-character weight sum, and twist by a crystalline global character. In case `(8b)`, use two character twists differing by one and the shifted-partition recovery lemma to identify the bottom `n` weights. Remove the twists and read the rank-n residual Fontaine–Laffaille multiset with geometric Artin and `HT(ε)=−1` conventions.
 
@@ -761,7 +798,7 @@ At rank one the two shuffles have lengths 0 and 1; exchanging two blocks of size
 
 ### Dependencies
 
-Layer 0; §1.0, FF:R07.3, PH:§§3.2–3.6,6.1, AG2.0/AG2.2/AG2.3/AG2.6, IHG Layers 0–1, and the integral dual Weyl modules of Layer 0.
+Layer 0; §1.0; LGD §1.6 and AC §1.5a with `fontaine_laffaille_normalization` (§1.9a); PH §§3.2–3.6,6.1 with AG2.0’s numerical sign adapter; AG2.2/AG2.3/AG2.6; IHG Layers 0–1; and the integral dual Weyl modules of Layer 0.
 
 ## Layer 2: Soluble transport and rank-two compatible systems
 
@@ -849,21 +886,33 @@ Realize the cyclic extension by a finite-order idele-class character trivial at 
 
 ### 2.6 Fontaine–Laffaille base change fields
 
-Prove `fontaine_laffaille_base_change_fields`. Let `E_0/F` be a soluble CM extension such that: all places of `V_0 ∪ V_1 ∪ V_2` split and `p` is unramified in `E_0; π_{E_0,w}^{Iw_w} ≠ 0` for every finite `w`; at every finite prime-to-p `w`, either `π_{E_0,w}` and `ρ|_{G_{E_0,w}}` are both unramified, or `ρ|_{G_{E_0,w}}` is unipotently ramified, `q_w ≡ 1 mod p` and `ρ̄|_{G_{E_0,w}}` is trivial; every `w̄ | p` of `E_0⁺` splits in `E_0` and admits `w̄′ ≠ w̄, w̄′ | p`, with `Σ_{w̄″≠w̄,w̄′} [E⁺_{0,w̄″}:ℚ_p] > ½[E_0⁺:ℚ]`. Choose imaginary quadratic `E_a, E_b, E_c` with: every rational prime below `V_0 ∪ V_1 ∪ V_2` splits in `E_aE_bE_c` and `p` is unramified in `E_aE_bE_c; 2` and `p` split in `E_a`; every `l ∉ {2,p}` below a place of `E_0` where `π_{E_0}` or `ρ` ramifies, or ramified in `E_0E_aE_c`, splits in `E_b`; every `l ∉ {2,p}` ramified in `E_b` splits in `E_c` (e.g. `E_b = ℚ(√−p_b)` with `p_b ≡ 1 mod 4` and `p_b ≡ −1 mod` each such `l, E_c = ℚ(√−p_c)` with `p_c ≡ 1 mod 4p_b, p_c ≠ p` and `p_b ≠ p`; also impose `p_b ≡ p_c ≡ −1 mod` each rational prime below `V_0∪V_1∪V_2`; quadratic reciprocity shows `p_c` splits in `E_b`). Then `E = E_0E_aE_bE_c` is a soluble CM extension of `F`, split at `V_0 ∪ V_1 ∪ V_2`, with: `p` unramified in `E`; for `R =` {prime-to-p `w: π_{E,w}` or `ρ|_{G_{E_w}}` ramified}, `S_p` the `p`-adic places and `S′ = S_p ∪ R`, every prime below `S′` or ramified in `E` splits in an imaginary quadratic subfield of `E; ρ̄|_{G_{E_w}}` trivial and `q_w ≡ 1 mod p` for `w ∈ R; ρ̄|_{G_{E(ζ_p)}}` enormous, `ρ̄|_{G_E}` decomposed generic, some `σ ∈ G_E − G_{E(ζ_p)}` with `ρ̄(σ)` scalar; and the `E⁺-analogue` of the `p`-adic degree condition.
+Prove `fontaine_laffaille_base_change_fields`. Let `E_0/F` be a soluble CM extension such that: all places of `V_0 ∪ V_1 ∪ V_2` split and `p` is unramified in `E_0; π_{E_0,w}^{Iw_w} ≠ 0` for every finite `w`; at every finite prime-to-p `w`, either `π_{E_0,w}` and `ρ|_{G_{E_0,w}}` are both unramified, or `ρ|_{G_{E_0,w}}` is unipotently ramified, `q_w ≡ 1 mod p` and `ρ̄|_{G_{E_0,w}}` is trivial; every `w̄ | p` of `E_0⁺` splits in `E_0` and admits `w̄′ ≠ w̄, w̄′ | p`, with `Σ_{w̄″≠w̄,w̄′} [E⁺_{0,w̄″}:ℚ_p] > ½[E_0⁺:ℚ]`. Choose imaginary quadratic `E_a, E_b, E_c` with: every rational prime below `V_0 ∪ V_1 ∪ V_2` splits in `E_aE_bE_c` and `p` is unramified in `E_aE_bE_c; 2` and `p` split in `E_a`; every `l ∉ {2,p}` below a place of `E_0` where `π_{E_0}` or `ρ` ramifies, or ramified in `E_0E_aE_c`, splits in `E_b`; every `l ∉ {2,p}` ramified in `E_b` splits in `E_c` (write `B_old` for the rational primes `l∉{2,p}` below ramification of the original `π_{E₀}` or `ρ|G_{E₀}`, or ramified in `E₀E_a`; this set excludes the not-yet-chosen `E_c`. Choose `E_b=ℚ(√−p_b)` with `p_b≠p`, `p_b≡1 mod 4` and `p_b≡−1 mod l` only for `l∈B_old`, together with the separate congruences `p_b≡−1 mod l` at the rational split-test primes below `V_0∪V_1∪V_2`. Then choose `E_c=ℚ(√−p_c)`, with `p_c≠p`, `p_c≡1 mod 4p_b` and `p_c≡−1 mod l` at those split-test primes. Avoid the finite old and test sets when choosing the new primes. Quadratic reciprocity gives splitting of `p_b` in `E_c` and of the new prime `p_c` in `E_b`; it imposes no congruence `p_b≡−1 mod p_c`). Then `E = E_0E_aE_bE_c` is a soluble CM extension of `F`, split at `V_0 ∪ V_1 ∪ V_2`, with: `p` unramified in `E`; for `R =` {prime-to-p `w: π_{E,w}` or `ρ|_{G_{E_w}}` ramified}, `S_p` the `p`-adic places and `S′ = S_p ∪ R`, every prime below `S′` or ramified in `E` splits in an imaginary quadratic subfield of `E; ρ̄|_{G_{E_w}}` trivial and `q_w ≡ 1 mod p` for `w ∈ R; ρ̄|_{G_{E(ζ_p)}}` enormous, `ρ̄|_{G_E}` decomposed generic, some `σ ∈ G_E − G_{E(ζ_p)}` with `ρ̄(σ)` scalar; and the `E⁺-analogue` of the `p`-adic degree condition.
 
 ([ACC](#source-acc), §6.5.12, proof of Theorem 6.1.1, pp. 1072–1073). *Needs:* `Layer 2`; `auxiliary_cm_extension_prescriptions`.
 
 *Route.* First make the soluble CM extension `E₀` by `auxiliary_cm_extension_prescriptions` (BLGGT Lemma A.2.1 and Corollary A.2.3) with prescribed unramified p-completions and local semistable/Iwahori conditions. Adjoin `E_a` where `p` and 2 split, then choose `E_b` and `E_c` by quadratic congruences so each bad rational prime splits in an imaginary quadratic subfield. Keep `V₀∪V₁∪V₂` split at every step and verify the displayed field, residual-image and `p`-adic degree conditions. The remaining good-level auxiliary places are supplied separately by `neatness_auxiliary_places`; the weight, automorphic and local representation hypotheses of the full seventeen-clause profile remain those of the lifting application.
 
+**Checks.**
+
+- If one also imposed `p_b≡−1 mod p_c`, then `p_c` would divide `p_b+1`, whereas `p_c≡1 mod 4p_b` gives `p_c≥4p_b+1>p_b+1`. Thus the new prime cannot belong to `B_old`.
+- With no odd old or test primes, `p_b=5` and `p_c=41` satisfy the displayed congruences: `(−41/5)=1` and `(−5/41)=1`. Both new odd ramification primes split in the other quadratic field.
+- For an odd `l∈B_old`, `−p_b≡1 mod l`, so `l` splits in `E_b`. At `2` and `p`, the required splitting is supplied separately by `E_a`.
+
 <a id="ordinary-base-change-fields"></a>
 
 ### 2.7 Ordinary base change fields
 
-Prove `ordinary_base_change_fields`. Let `E_0/F` be a soluble CM extension such that: all places of `V_0 ∪ V_1 ∪ V_2` split in `E_0; π_{E_0,w}^{Iw_w} ≠ 0` for every finite `w`; at each finite prime-to-p `w`, either `π_{E_0,w}` and `ρ|_{G_{E_0,w}}` are unramified, or `ρ|_{G_{E_0,w}}` is unipotently ramified, `q_w ≡ 1 mod p` and `ρ̄|_{G_{E_0,w}}` trivial; for `w | p, ρ̄|_{G_{E_0,w}}` is trivial and `[E_{0,w}:ℚ_p] > n(n+1)/2 + 1`; for `v | p, w | v` and each `i, ψ_{v,i}` agrees with `σ ↦ ∏_{τ∈Hom(F_v,Q̄_p)} τ(Art_{F_v}^{-1}(σ))^{−(λ_{τ,n−i+1}+i−1)}` on all of `I_{E_0,w}`; and, with `μ` the weight of `π_{E_0}, ψ_{v,i}(Art_{E_0,w}(x)) · ∏_{τ∈Hom(E_{0,w},Q̄_p)} τ(x)^{μ_{ιτ,n−i+1}+i−1} = 1` for every `w | p` and every `p`-power root of unity `x ∈ E_{0,w}`. Choose imaginary quadratic `E_a, E_b, E_c` as in the FL case but without requiring `p` unramified (`p_c ≡ 1 mod 4p_b` and `p_b ≡ p_c ≡ −1 mod` every rational prime below `V_0∪V_1∪V_2`). Then `E = E_0E_aE_bE_c` is soluble CM, V-split, and: every prime below `S′ = S_p ∪ R` or ramified in `E` splits in an imaginary quadratic subfield of `E; ρ̄|_{G_{E_w}}` trivial and `q_w ≡ 1 mod p` for `w ∈ R; ρ̄|_{G_{E(ζ_p)}}` enormous, `ρ̄|_{G_E}` decomposed generic, some `σ ∈ G_E − G_{E(ζ_p)}` with `ρ̄(σ)` scalar; `ρ̄|_{G_{E_w}}` trivial and `[E_w:ℚ_p] > n(n+1)/2 + 1` for `w | p`. These are the field and residual/local arithmetic conditions. Construction of `π_E` uses Layer 2/soluble-base-change-and-descent; transport of its `ι-ordinarity` is the separate Layer 3/iota-ordinary-soluble-base-change obligation used by Layer 5/ordinary-lifting-descent.
+Prove `ordinary_base_change_fields`. Let `E_0/F` be a soluble CM extension such that: all places of `V_0 ∪ V_1 ∪ V_2` split in `E_0; π_{E_0,w}^{Iw_w} ≠ 0` for every finite `w`; at each finite prime-to-p `w`, either `π_{E_0,w}` and `ρ|_{G_{E_0,w}}` are unramified, or `ρ|_{G_{E_0,w}}` is unipotently ramified, `q_w ≡ 1 mod p` and `ρ̄|_{G_{E_0,w}}` trivial; for `w | p, ρ̄|_{G_{E_0,w}}` is trivial and `[E_{0,w}:ℚ_p] > n(n+1)/2 + 1`; for `v | p, w | v` and each `i, ψ_{v,i}` agrees with `σ ↦ ∏_{τ∈Hom(F_v,Q̄_p)} τ(Art_{F_v}^{-1}(σ))^{−(λ_{τ,n−i+1}+i−1)}` on all of `I_{E_0,w}`; and, with `μ` the weight of `π_{E_0}, ψ_{v,i}(Art_{E_0,w}(x)) · ∏_{τ∈Hom(E_{0,w},Q̄_p)} τ(x)^{μ_{ιτ,n−i+1}+i−1} = 1` for every `w | p` and every `p`-power root of unity `x ∈ E_{0,w}`. Choose imaginary quadratic `E_a, E_b, E_c` using §2.6’s ordered construction with `B_old` defined from `E₀E_a` and the original ramification, and with the separate split-test congruences, but without requiring `p` unramified (`p_c ≡ 1 mod 4p_b` and `p_b ≡ p_c ≡ −1 mod` every rational prime below `V_0∪V_1∪V_2`). Then `E = E_0E_aE_bE_c` is soluble CM, V-split, and: every prime below `S′ = S_p ∪ R` or ramified in `E` splits in an imaginary quadratic subfield of `E; ρ̄|_{G_{E_w}}` trivial and `q_w ≡ 1 mod p` for `w ∈ R; ρ̄|_{G_{E(ζ_p)}}` enormous, `ρ̄|_{G_E}` decomposed generic, some `σ ∈ G_E − G_{E(ζ_p)}` with `ρ̄(σ)` scalar; `ρ̄|_{G_{E_w}}` trivial and `[E_w:ℚ_p] > n(n+1)/2 + 1` for `w | p`. These are the field and residual/local arithmetic conditions. Construction of `π_E` uses Layer 2/soluble-base-change-and-descent; transport of its `ι-ordinarity` is the separate Layer 3/iota-ordinary-soluble-base-change obligation used by Layer 5/ordinary-lifting-descent.
 
 ([ACC](#source-acc), §6.6.10, proof of Theorem 6.1.2, pp. 1082–1084). *Needs:* `Layer 2`; `auxiliary_cm_extension_prescriptions`.
 
 *Route.* Make `E₀` by `auxiliary_cm_extension_prescriptions` (BLGGT Lemma A.2.1 and Corollary A.2.3): soluble CM, linearly disjoint from the kernel field, with prescribed completions giving trivial residual representations at `p`, degree `> n(n+1)/2+1`, whole-inertia algebraic characters and the `p`-power-root condition. Choose `E_a,E_b,E_c` with the ordinary congruence constraints, keeping `V` split. Verify the displayed field, residual-image and local-character clauses. The good-level auxiliary places are supplied separately by `neatness_auxiliary_places`. In the lifting application, `ordinary_lifting_descent` uses `soluble_base_change_and_descent` and `iota_ordinary_soluble_base_change` to supply `π_E` and its `ι-ordinarity`; neither assertion is a conclusion of this field construction.
+
+**Checks.**
+
+- The new `p_c` is handled by quadratic reciprocity, not by adding `p_c` to the congruences defining `p_b`; the incompatible pair of congruences in §2.6's first Check remains excluded.
+- The conditions `p_b≡p_c≡−1 mod l` at a split-test prime make that prime split in both quadratic fields, preserving the test places used to keep the residual images.
+- Ramified `p`-adic completions are permitted here. The auxiliary quadratic fields preserve the lower bound on their degrees and triviality of the residual restrictions; no unramified Fontaine–Laffaille conclusion is drawn.
 
 **Rank-two systems and their monodromy**
 
@@ -1398,6 +1447,12 @@ Define `CompletedArithmeticCohomology`. For `K ⊂ GL_n(A_F^∞)` good there are
 
 Construct the fixed-exponent comparison `CompletedArithmeticCohomology.level_colimit`. At `λ=0`, for the cofinal system of good `p`-levels `U`, identify `π(K^p,m)` with `colim_U C^•(X_{K^pU},O/ϖ^m)` in the smooth derived category, using the compatible cochain models of §0.1; the exponent `m` is fixed. Its cohomology is `colim_U H^i(X_{K^pU},O/ϖ^m)`. The full local group acts by translating levels; tame Hecke maps are induced by the finite-level correspondences. For algebraic coefficients prove the analogous comparison over `Δ_p`, with the normalized lattice action specified in §3.6. This target builds the fixed-exponent prefix for these groups; it introduces no coefficient inverse limit.
 
+Construct `CompletedArithmeticCohomology.residual_level_colimit`. Fix a maximal ideal `𝔪` of the abstract tame Hecke algebra with residual characteristic `p`. At each good finite `p`-level `U`, let `C_U` be the compatible perfect `O/ϖ^m` cochain complex of §0.1. Its derived Hecke image is a finite Artinian algebra. Let `C_{U,𝔪}` be the summand cut out by its `𝔪`-primary idempotent, and zero if `𝔪` is absent. Define `π(K^p,λ,m)_𝔪=colim_U C_{U,𝔪}` in the smooth derived category at this fixed exponent. The idempotent acts in the derived category; no termwise idempotent is assumed. The IHG derived splitting supplies its summand. Transition and translation maps intertwine the same abstract Hecke action and restrict to these summands, even when no homomorphism between the two raw image algebras has been specified.
+
+Prove that this construction is the `𝔪`-summand of the level colimit, that `RΓ(K_p,π(K^p,λ,m)_𝔪)≅C_{K_p,𝔪}`, and that these comparisons commute with restriction, trace, translations and coefficient reduction. For a parabolic with compact quotient, exact smooth induction commutes with this filtered colimit and carries each selected summand to the induced selected summand. If the unitary Hecke algebra acts through `𝒮`, its `𝔪̃=𝒮*(𝔪)` localization retains the induced `𝔪`-summand; this does not identify it with every other summand above `𝔪̃`. These are the localization conventions in §§3.21 and 3.34. The finite derived image, its residual summand and an inverse-limit completed Hecke algebra are separate objects.
+
+([ACC](#source-acc), §5.2.10 and proof of Theorem 5.4.1, pp. 998, 1011–1013.) *Needs:* `CompletedArithmeticCohomology.level_colimit`; `IHG:Layer 2`; `SR:SR.0d`; `SR:SR.2.1`.
+
 *Route.* Apply the ALS equivariant-sheaf and derived-invariants comparison to the arithmetic tower. Smooth sections are the union of compact-open fixed sections; use exactness of filtered colimits of modules to compare a compatible injective resolution with the level cochains. Common refinements identify the Hecke maps. Apply derived invariants, rather than degree-zero invariants, to recover a finite level; the equivariant-sheaf resolution supplies the descent comparison. For algebraic coefficients keep the positive-monoid lattice action in every map. This proves the equivalence between the displayed groupoid presentation and the actual level colimit.
 
 Its interface includes:
@@ -1407,6 +1462,7 @@ Its interface includes:
 - `CompletedArithmeticCohomology.coefficient_reduction`: Derived coefficient reduction `m′→m` commutes with completed cohomology on the imported finite-projective models.
 - `CompletedArithmeticCohomology.weight_zero`: At `λ=0` this is the weight-zero completed complex with the full local group action.
 - `CompletedArithmeticCohomology.level_colimit`: At fixed exponent, the derived-invariants presentation identifies Hecke-equivariantly with the level colimit, with the full local group at weight zero and the specified positive monoid for algebraic coefficients.
+- `CompletedArithmeticCohomology.residual_level_colimit`: The level colimit of the finite derived residual summands has the stated compact-open derived-invariants, transition and induction comparisons.
 
 **Checks.**
 
@@ -1414,6 +1470,9 @@ Its interface includes:
 - `CompletedArithmeticCohomology.finite_level_identity` (compatibility): Taking the specified `K_p` derived invariants recovers the ALS finite-level complex, rather than its degree-zero invariants only.
 - `CompletedArithmeticCohomology.higher_group_cohomology` (non-example): For the trivial `F_p`-module of a pro-p group `Z_p`, replacing derived invariants by fixed vectors loses the nonzero `H¹`.
 - For a regular point torsor over `K₀`, the fixed-exponent level colimit is the locally constant functions `K₀→O/ϖ^m`, with translation action; it is not the module of all set functions.
+- If the finite Hecke image is `R×R` and `𝔪` selects the first factor, the residual tower is the colimit of the first-factor complexes. If it selects neither factor the corresponding finite summand is zero.
+- For a transition between levels, an abstract Hecke element invertible on one primary factor acts invertibly on its transported factor; functorial residual projection therefore commutes with the transition without identifying the whole image algebras.
+- Compact-open recovery of the localized tower retains higher derived invariants, and parabolic induction retains the selected residual summand. Neither comparison replaces the raw Hecke image by a completed inverse limit.
 - A fixed algebraic lattice need not admit the full local-group action: multiplication by a local uniformizer on the standard rank-one lattice is not a lattice automorphism. The normalized positive-monoid action, rather than an unqualified group action, is retained.
 
 <a id="completed-ordinary-cohomology"></a>
@@ -1520,7 +1579,7 @@ Define `UnitaryCompletedBoundary`. Fix `m ≥ 1; K̃ ⊂ G̃(A^∞_{F^+})` good 
 
 ([ACC](#source-acc), §5.2.19, (5.2.20)–(5.2.27), p. 1002). *Needs:* `Layer 3`; `Layer 0`; `mathlib:DerivedCategory`.
 
-Construct `UnitaryCompletedBoundary.level_colimit` by the fixed-exponent comparison of §3.13 for the unitary group, with supports interior, compact and boundary. At weight zero, `π̃_∂(K̃^p,m) ≅ colim_U C^•(∂X̃_{K̃^pU},O/ϖ^m)` in the smooth local-group derived category; for algebraic coefficients use `Δ̃_p` and its normalized lattice action. Filtered colimits are exact and preserve the finite-level support triangle and tame Hecke maps. The equivariant-sheaf descent comparison identifies its Iwahori derived invariants with the finite-level boundary complex. This constructs the support and recovery comparison for these unitary towers at fixed `m`.
+Construct `UnitaryCompletedBoundary.level_colimit` by the fixed-exponent comparison of §3.13 for the unitary group, with supports interior, compact and boundary. At weight zero, `π̃_∂(K̃^p,m) ≅ colim_U C^•(∂X̃_{K̃^pU},O/ϖ^m)` in the smooth local-group derived category; for algebraic coefficients use `Δ̃_p` and its normalized lattice action. Filtered colimits are exact and preserve the finite-level support triangle and tame Hecke maps. The equivariant-sheaf descent comparison identifies its Iwahori derived invariants with the finite-level boundary complex. This constructs the support and recovery comparison for these unitary towers at fixed `m`. Apply `CompletedArithmeticCohomology.residual_level_colimit` separately to interior, compact-support and boundary finite complexes, selecting the same abstract residual ideal `𝔪̃`; localize the finite support triangle before the colimit. This defines every residual localization of these unitary smooth complexes and preserves the triangle and its finite-level recovery.
 
 Its interface includes:
 
@@ -1723,7 +1782,7 @@ Prove `completed_boundary_induction_retract`. Let `K̃ ⊂ G̃(A^∞_{F^+})` be 
 
 ([ACC](#source-acc), §5.4, Theorem 5.4.1, pp. 1011–1013). *Needs:* `Layer 3`; `Layer 0`; `residual_unitary_galois_inputs`; `finite_coefficient_gln_galois_inputs`; `SR:SR.2.1`.
 
-*Route.* Use the ALS non-Eisenstein boundary localization to isolate the Siegel stratum. Strong approximation makes the higher unipotent cohomology vanish in the level limit. Construct the actual inclusion and retraction of parabolic induction inside completed boundary cohomology.
+*Route.* Form the localized smooth towers by `CompletedArithmeticCohomology.residual_level_colimit` and its unitary support versions in §3.21. The levelwise residual projections commute with the boundary and Siegel maps; exact parabolic induction with compact quotient commutes with the colimit. Use the ALS non-Eisenstein boundary localization to isolate the Siegel stratum. Strong approximation makes the higher unipotent cohomology vanish in the level limit. Construct the actual inclusion and retraction of parabolic induction inside completed boundary cohomology.
 
 <a id="ordinary-boundary-degree-shifting"></a>
 
@@ -1810,15 +1869,62 @@ Prove `central_torus_cohomology_shifting`. Let `K = K(b, c) ⊂ GL_n(A_F^∞)` b
 
 *Route.* Use the component product to identify the determinant pushforward local system. Over the DVR split its bounded derived cohomology and use Künneth with the torus `A_K°` of dimension `[F⁺:Q]−1`. The Hecke action is trivial on the torus-cohomology factor; its image in all degrees equals the image in degrees `i[F⁺:Q]`. Retain the Iwahori-level condition needed to define ordinary cohomology.
 
+### 3.41a Rational unitary ordinary Hecke semisimplicity
+
+Prove `unitary_rational_ordinary_hecke_semisimple`. Under the hypotheses of `unitary_generic_vanishing`, take a CTG dominant unitary weight `λ̃`, a good level `K̃(b,c)` with `c≥b≥0`, `c≥1`, and the split `GL₂ₙ` factors at all places above `p` of the Layer 3 standing assumptions. Let
+
+```text
+H̃ = H^d(X̃_{K̃(b,c)},V_λ̃)^ord_{𝔪̃},
+Ã_ord = image(T̃^{S,ord} → End_O H̃).
+```
+
+Then `H̃` is finite free over `O`, `Ã_ord` is finite `O`-flat and `Ã_ord[1/p]` is a finite product of finite extensions of `E` (zero if `H̃=0`). Its factors are the simultaneous ordinary Hecke eigencharacters in the cuspidal unitary Matsushima decomposition, with the ordered normalized operators and diamonds retained. This assertion concerns the image on middle cohomology, rather than the possibly nonreduced image on a derived complex.
+
+([ACC](#source-acc), proof of Proposition 5.4.18, pp. 1023–1024, applying Geraghty 2019, Lemma 5.4; [Geraghty, 2010 manuscript](#source-geraghty), Lemma 5.1.1, p. 59.) *Needs:* `unitary_generic_vanishing`; `arithmetic_franke_inputs`; `ALS:ALS.5b`; `AG:AG2.2`; `SR:SR.1.4`.
+
+*Route.* Middle-degree torsion-freeness gives flatness of the integral image. CTG and the rational automorphic comparison isolate the cuspidal terms. Apply rational ordinary Hecke semisimplicity on each split local `GL₂ₙ` factor and the commuting tame Hecke action, then take the finite image algebra. This input uses neither §3.43 nor §3.48.
+
+**Checks.**
+
+- A nonzero eigenspace of multiplicity greater than one still gives a field factor in the image; multiplicity does not create a matrix factor in the commutative Hecke algebra.
+- The algebra `E[t]/(t²)` acting by a nonzero Jordan block is not semisimple. Mere commutativity of the operators does not establish this target.
+- A torsion middle group would not embed into its rationalization; §1.0 rules it out before the `O`-flat image is used.
+
+### 3.41b Unitary ordinary refinements and assembly
+
+Prove `unitary_ordinary_refinement`. For each cuspidal ordinary eigensystem in §3.41a, apply the characteristic-zero unitary attachment of AG2.2–AG2.3. After finite coefficient enlargement, the rank-`2n` representation has an ordered full flag at every `v|p`. For a chosen lift `v` above a place of `F⁺`, its graded characters `ψ_{v,j}`, `1≤j≤2n`, satisfy
+
+```text
+ψ_{v,j}(Art_{F_v}(u)) = ε^{1−j}(Art_{F_v}(u))
+  · ∏_{τ:F_v↪E} τ(u)^{−(w₀^{G̃}λ̃)_{τ|F⁺,j}} · ⟨diag(1,…,u,…,1)⟩,
+ψ_{v,j}(Art_{F_v}(ϖ_v)) = ε^{1−j}(Art_{F_v}(ϖ_v)) · Ũ_{v,j}/Ũ_{v,j−1},
+ψ_{vᶜ,j} = ψ_{v,2n+1−j}^{c,∨} ε^{1−2n},       Ũ_{v,0}=1.
+```
+
+In the diamond in row `j`, the unit `u` occupies position `j`; every eigenvalue is evaluated in the chosen factor of `Ã_ord[1/p]`. Units and the chosen uniformizer determine the character, and `ϖ_{vᶜ}=c(ϖ_v)` fixes the conjugate-place formula. These local characters and flags refine the actual AG2 attachment, independently of the rank-`n` ordinary theorem. The field-valued representations are ordinary and potentially semistable, with the labelled weights of `λ̃` under AG2.0's convention. Exact algebraic inertia gives semistability. Under the hyperspecial, unramified-`p` spherical hypotheses used in Layer 1, AG2.3 also gives crystallinity. At arbitrary Iwahori or deep level the conclusion retains potentially semistable ordinary flags and permits nonzero monodromy.
+
+Assemble these representations over the finite product `Ã_ord[1/p]`, after the same coefficient enlargement, to obtain `ρ̃_ord`. Its good-place polynomial is `P̃_v(X)`, its local flags have the displayed characters, and its determinant is valued in the integral image `Ã_ord`. The ordered `2n`-fold product vanishes for arbitrary independent local arguments. Retain the character formulas and determinant under the coefficient comparison back to the original Hecke image. This supplies the characteristic-zero representation and integral determinant used by §3.42.
+
+([ACC](#source-acc), Theorem 2.3.3 and proof of Proposition 5.4.18, pp. 1023–1025, especially (5.4.19), invoking Thorne 2015, Theorem 2.4.) *Needs:* `unitary_rational_ordinary_hecke_semisimple`; `AG:AG2.0`; `AG:AG2.2`; `AG:AG2.3`; `AG:AG2.6`; `LGD:§§1.7,0.3`; `IHG:Layer 0`.
+
+*Route.* Apply the polarized/unitary characteristic-zero ordinary comparison to each cuspidal eigencharacter, using its split-place ordinary refinement. Multiply the field-valued attachments across the semisimple image. The flag implies the ordered product identity; determinant integrality follows from the integral Hecke image and dense good Frobenius polynomials as in ACC's use of Chenevier Example 2.32. The local flag comparison is a target here in addition to the supplied Hodge and WD comparisons.
+
+**Checks.**
+
+- A Tate-curve/Steinberg ordinary factor has nonzero monodromy. Its ordinary flag and character formulas are permitted at Iwahori level, but it is not crystalline.
+- For `n=1` there are two characters; the uniformizer values are `Ũ_{v,1}` and `ε⁻¹(Art ϖ_v)Ũ_{v,2}/Ũ_{v,1}`. Their product is `ε⁻¹(Art ϖ_v)Ũ_{v,2}`.
+- The conjugate-place identity reverses the flag indices and applies duality and `ε^{1−2n}`; using the same index on both sides changes the unit characters.
+- With `2n` graded characters, the ordered product uses `2n` independent arguments. Knowledge of its characteristic polynomial at one argument does not imply that identity.
+
 <a id="all-degree-ordinary-characteristic-data"></a>
 
 ### 3.42 All degree ordinary characteristic data
 
 Prove `all_degree_ordinary_characteristic_data`. Suppose `[F^+:Q] > 1`. Let `K ⊂ GL_n(A_F^∞)` be good with `K_v = Iw_v` for `v ∈ S_p; c ≥ b ≥ 0` with `c ≥ 1; m ≥ 1; 𝔪 ⊂ T^S` non-Eisenstein, `𝔪̃ = S^*(𝔪)`. Suppose (1) `ρ̄_𝔪` is decomposed generic; (2) for every finite `v ∉ S` with residue characteristic `l`, either `S` contains no `l`-adic place of `F` and `l` is unramified in `F`, or `l` splits in some imaginary quadratic `F_0 ⊂ F`. Then there are `λ ∈ (Z^n_+)^{Hom(F,E)}` and `N ≥ 1` depending only on `[F^+:Q]` and `n` such that (1) `O(λ)/ϖ^m ≅ O/ϖ^m` as `O[T(F_p^+)]`-modules; (2) for each `i = 0,…,d−1` there are a nilpotent ideal `J_i ⊂ T^{S,ord}(H^i(X_{K(b,c)}, V_λ)^ord_𝔪)` with `J_i^N = 0` and a continuous `ρ_𝔪: G_{F,S} → GL_n(T^{S,ord}(H^i(X_{K(b,c)}, V_λ)^ord_𝔪)/J_i)` with (a) `det(X − ρ_𝔪(Frob_v)) =` image of `P_v(X)` for `v ∉ S; (b)` for `v | p` and `g ∈ G_{F_v}, det(X − ρ_𝔪(g)) = ∏_{j=1}^n (X − χ_{λ,v,j}(g)); (c)` for `v | p` and `g_1,…,g_n ∈ G_{F_v}, ρ_𝔪` maps `(g_1 − χ_{λ,v,1}(g_1))⋯(g_n − χ_{λ,v,n}(g_n))` to 0 in `M_n(…/J_i)`.
 
-([ACC](#source-acc), §5.4, Proposition 5.4.18 and (5.4.19)–(5.4.23), pp. 1022–1026). *Needs:* `Layer 3`; `mathlib:Matrix.charpoly`; `CS:Layer 1`.
+([ACC](#source-acc), §5.4, Proposition 5.4.18 and (5.4.19)–(5.4.23), pp. 1022–1026). *Needs:* `Layer 3`; `unitary_rational_ordinary_hecke_semisimple`; `unitary_ordinary_refinement`; `mathlib:Matrix.charpoly`; `CS:Layer 1`.
 
-*Route.* For `n=1` use the Hecke-character/class-field correspondence directly, as the CTG construction in Lemma 5.4.8 requires `n≥2`. The remaining steps apply only when `n≥2`. Shrink the level by Lemma 5.4.15 and apply central-torus shifting to reach arbitrary degree. For each relevant degree use the middle-degree quotient, the unitary crystalline representation, and its ordinary characters. Transfer the characteristic and ordered-product identities as polynomial-law identities through the Satake image inclusion and O-flat unitary coefficient algebra, then through the uniform nilpotent quotient. This transfer must use the inclusion of the Satake image; a quotient onto that image does not identify it with the entire `GL_n` ordinary Hecke algebra.
+*Route.* For `n=1` use the Hecke-character/class-field correspondence directly, as the CTG construction in Lemma 5.4.8 requires `n≥2`. The remaining steps apply only when `n≥2`. Shrink the level by Lemma 5.4.15 and apply central-torus shifting to reach arbitrary degree. For each relevant degree use the middle-degree quotient and `unitary_rational_ordinary_hecke_semisimple` followed by `unitary_ordinary_refinement`. Their assembled representation and integral determinant supply the ordinary characters and ordered flags at the actual Iwahori level. Hyperspecial crystallinity from Layer 1 is not used here. Transfer the characteristic and ordered-product identities as polynomial-law identities through the Satake image inclusion and O-flat unitary coefficient algebra, then through the uniform nilpotent quotient. This transfer must use the inclusion of the Satake image; a quotient onto that image does not identify it with the entire `GL_n` ordinary Hecke algebra.
 
 <a id="ordinary-local-global"></a>
 
@@ -1940,7 +2046,7 @@ The positive rank-two row (1,0) contracts upper unipotents; (0,1) fails. A degre
 
 ### Dependencies
 
-Layers 0–2; SR.0, SR.0d, SR.1.4, SR.2 and SR.3.4; IHG §2.3; RG2.3 and RG2.4; PF:Layer `0a`, ALS.4/ALS.5a/ALS.5b and AG2.0/AG2.2/AG2.3/AG2.5/AG2.6/AG2.7. The fixed-exponent smooth level-colimit and support comparisons are constructed in §§3.13 and 3.21 from ALS finite-level cohomology and SR.0d. Exact arithmetic comparisons and polynomial-law transfer have the supplier contracts above.
+Layers 0–2; SR.0, SR.0d, SR.1.4, SR.2 and SR.3.4; IHG §2.3; RG2.3 and RG2.4; PF:Layer `0a`, ALS.4/ALS.5a/ALS.5b and AG2.0/AG2.2/AG2.3/AG2.5/AG2.6/AG2.7. Sections 3.41a–3.41b supply rational unitary ordinary semisimplicity and the ordinary-refinement/assembly extension of the characteristic-zero attachment, using LGD §§0.3 and 1.7 for its period consequences. The fixed-exponent smooth level-colimit and support comparisons are constructed in §§3.13 and 3.21 from ALS finite-level cohomology and SR.0d. Exact arithmetic comparisons and polynomial-law transfer have the supplier contracts above.
 
 ## Layer 4: Arithmetic deformation and support inputs
 
@@ -2015,7 +2121,7 @@ Its interface includes:
 
 ### 4.4 Weight independent Hida twist
 
-Define `WeightIndependentHidaTwist`. `ν ∈ X^*((Res_{F/ℚ} T)_E) = (ℤ^n)^{Hom(F,E)}` is `ν_τ =` (0, `1, …, n−1`) for all `τ`. `B_1(μ,χ) = A_1(μ,χ) ⊗_𝒪 𝒪(ν + w_0^G μ)^{-1}`, where `𝒪(ν + w_0^G μ)^{-1}` is the `𝒪[T_n(F_p)]`-module of §5.2.1 (the action of `T_n(𝒪_{F,p})` extending uniquely to `𝒪⟦T_n(𝒪_{F,p})⟧`); it is a perfect complex in `D(Λ_1)` with `T^{S,ord}-action`. `B(μ,χ) = B_1(μ,χ) ⊗^L_{Λ_1} Λ`.
+Define `WeightIndependentHidaTwist`. `ν ∈ X^*((Res_{F/ℚ} T)_E) = (ℤ^n)^{Hom(F,E)}` is `ν_τ =` (0, `1, …, n−1`) for all `τ`. `B_1(μ,χ) = A_1(μ,χ) ⊗_𝒪 𝒪(ν + w_0^G μ)^{-1}`, where `𝒪(ν + w_0^G μ)^{-1}` is the `𝒪[T_n(F_p)]`-module of §5.2.1 (the action of `T_n(𝒪_{F,p})` extending uniquely to `𝒪⟦T_n(𝒪_{F,p})⟧`); it is a perfect complex in `D(Λ_1)` with `T^{S,ord}-action`. `B(μ,χ) = B_1(μ,χ) ⊗^L_{Λ_1} Λ`. Write `κ=(ν+w₀^Gμ)⁻¹` for the twisting character. The torus action on `B₁` is diagonal: for `t`, it is `κ(t)` times the action on `A₁`. Equivalently it is restriction of scalars through the continuous automorphism `τ_κ([t])=κ(t)[t]` of `Λ₁`. The component and weight maps of §4.0 are applied to this twisted action. In particular `B` uses twist followed by the natural quotient `Λ₁→Λ`; twisting `A=A₁⊗^L_{Λ₁}Λ` afterwards does not give this `Λ`-object unless the component ideal and scalar map are transported through `τ_κ`.
 
 ([ACC](#source-acc), §6.6.1, p. 1077). *Needs:* `Layer 4`; `Layer 3`.
 
@@ -2024,6 +2130,7 @@ Its interface includes:
 - `WeightIndependentHidaTwist.nu``: ν_{τ,i}=i−1` for one-based `i`.
 - `WeightIndependentHidaTwist.formula``: B₁=A₁⊗O(ν+w₀μ)^{-1}`, and `B=B₁⊗^L_{Λ₁}Λ`.
 - `WeightIndependentHidaTwist.hecke`: Transpose Hecke away from `S` is preserved under the tensor twist.
+- `WeightIndependentHidaTwist.component_specialization`: Form the diagonal twist over `Λ₁` before quotienting by the component ideal, retaining the quotient scalar action. Finite quotients used in a comparison are transported through `τ_κ`.
 - `WeightIndependentHidaTwist.weight_compare`: For all dominant `μ,μ′` the complexes `B₁(μ,χ),B₁(μ′,χ)` are equivariantly isomorphic by `hida_weight_independence`.
 
 **Checks.**
@@ -2031,6 +2138,8 @@ Its interface includes:
 - `WeightIndependentHidaTwist.rank_one_zero` (degenerate): For `n=1, μ=0, ν=0` so the twist is trivial.
 - `WeightIndependentHidaTwist.rank_two_zero` (computation): For `n=2, μ=0, ν=(0,1)` and the twist is `O(0,1)^{-1}`, not the trivial character.
 - `WeightIndependentHidaTwist.rank_two_weight` (computation): For `μ=(2,0), ν+w₀μ=(0,3)`, fixing both the reversal and `ν` shift.
+- `WeightIndependentHidaTwist.torsion_component`: take `Λ₁=O[C_p]`, generator `t`, a primitive `ζ_p∈O`, `κ(t)=ζ_p`, `Λ=Λ₁/(t−ζ_p)` and `A₁=Λ₁`. In `B=(A₁⊗O(κ))⊗^L_{Λ₁}Λ`, `t` acts by `ζ_p`. In `(A₁⊗^L_{Λ₁}Λ)⊗O(κ)` with diagonal action it acts by `ζ_p²≠ζ_p`, so that action does not factor through the same quotient. Power-series variables do not change the test.
+- For `κ=1` the automorphism is the identity, and the two orders of specialization coincide.
 
 <a id="hida-weight-independence"></a>
 
@@ -2060,11 +2169,17 @@ The ordinary auxiliary complex carries both its finite torus algebra and its dia
 
 ### 4.7 Ordinary deformation action
 
-Prove `ordinary_deformation_hecke_map`. Let `T^{S,Λ_1} = T^S ⊗_𝒪 Λ_1 ⊂ T^{S,ord}`. There are `δ ≥ 1` depending only on `n` and `[F:ℚ]`, an ideal `J ⊂ T^{S,Λ_1}(A(μ,χ)_𝔪 ⊗_𝒪 𝒪(ν + w_0^G μ)^{-1})` with `J^δ = 0`, and a continuous surjective `Λ`-algebra homomorphism `f_{𝒮_χ}: R_{𝒮_χ} → T^{S,Λ_1}(A(μ,χ)_𝔪 ⊗_𝒪 𝒪(ν + w_0^G μ)^{-1})/J` such that for every finite `v ∉ S` the characteristic polynomial of `f_{𝒮_χ} ∘ ρ_{𝒮_χ}(Frob_v)` is the image of `P_v(X)`.
+Prove `ordinary_deformation_hecke_map`. Let `T^{S,Λ_1} = T^S ⊗_𝒪 Λ_1 ⊂ T^{S,ord}`. There are `δ ≥ 1` depending only on `n` and `[F:ℚ]`, an ideal `J ⊂ T^{S,Λ_1}(B(μ,χ)_𝔪)` with `J^δ = 0`, and a continuous surjective `Λ`-algebra homomorphism `f_{𝒮_χ}: R_{𝒮_χ} → T^{S,Λ_1}(B(μ,χ)_𝔪)/J` such that for every finite `v ∉ S` the characteristic polynomial of `f_{𝒮_χ} ∘ ρ_{𝒮_χ}(Frob_v)` is the image of `P_v(X)`.
 
 ([ACC](#source-acc), §6.6.1, Proposition 6.6.7, p. 1078). *Needs:* `Layer 3`; `Layer 4`; `AG:AG2.5`; `LGD:§§7.1–7.6`; `GGD:G8`.
 
-At each finite level `c`, build `R_{𝒮_χ} → T^{S,ord}(RΓ(X_{K(c,c)}, V_μ(χ⁻¹))^{ord})_𝔪/J_c` as in `fontaine_laffaille_deformation_hecke_map`, using `ordinary_local_global` in place of the Fontaine–Laffaille compatibility and the determinant-ordinary description of LGD:§§7.1–7.6. Carayol's lemma (Clozel–Harris–Taylor, Lemma 2.1.10) puts the image in a nilpotent quotient of the smaller algebra `T^{S,Λ₁}`; the Hecke images agree by transpose and twist, and the maps are compatible in `c` with one exponent `δ`.
+At finite levels construct the ordinary Galois actions as in `fontaine_laffaille_deformation_hecke_map`, using `ordinary_local_global` and LGD §§7.1–7.6. Carayol’s lemma (Clozel–Harris–Taylor, Lemma 2.1.10) puts the image in a nilpotent quotient of the smaller algebra. Transpose on the reconstructed `A₁`, then take its diagonal `κ`-twist `B₁` over `Λ₁`, and only then specialize to `Λ`. The local unit characters agree with the universal determinant-ordinary characters for this action; all finite coefficient maps involved in the twist are transported through `τ_κ`. Reconstruction and quotient comparison give the action on `B`, with one exponent `δ`.
+
+**Checks.**
+
+- The `C_p` example of §4.4 makes the two orders of operations different; the target here uses `B` with its quotient action.
+- The weight specialization at `p_μ` factors through the selected component of the twisted complex, since its torsion character is `κ`.
+- For trivial `κ` the target image agrees with the untwisted component image, with the same tame Hecke operators.
 
 **Components and the derived support interface**
 
@@ -2288,7 +2403,7 @@ Prove `neatness_auxiliary_places`. Let `E` be an imaginary CM field, `n ≥ 2, p
 
 ### 5.14 Ordinary Taylor–Wiles levels
 
-Define `OrdinaryTaylorWilesLevels`. For a Taylor–Wiles datum `(Q, (α_{v,i}))` for `𝒮_1` whose places have residue characteristic split in an imaginary quadratic subfield of `F` (a TW datum for all `𝒮_χ; R_{𝒮_{χ,Q}}` an `𝒪[Δ_Q]-algebra, Δ_Q = ∏_{v∈Q} k(v)^×(p)^n`) and `c ≥ 1`: good subgroups `K(c,c)_1(Q) ⊂ K(c,c)_0(Q) ⊂ K(c,c)`, equal to `K(c,c)_v` away from `Q`, with `K(c,c)_0(Q)_v = Iw_v` and `K(c,c)_1(Q)_v` the largest pro-prime-to-p subgroup of `Iw_v` for `v ∈ Q`, so `K(c,c)_0(Q)/K(c,c)_1(Q) ≅ Δ_Q`. `A_1(μ,χ,Q,c) = RHom_{Λ_{1,c}[Δ_Q]}(RΓ_{K(c,c)_0(Q)/K(c,c)_1(Q)}(X_{K(c,c)_1(Q)}, 𝒱_μ(χ^{-1}))^{ord}, Λ_{1,c}[Δ_Q])[−d] ∈ D(Λ_{1,c}[Δ_Q])`, with transpose action of `T^{S∪Q,ord}_Q = T^{S∪Q,ord} ⊗_{T^{S∪Q}} T^{S∪Q}_Q`. Passing to the limit in `c` gives `A_1(μ,χ,Q) ∈ D(Λ_1[Δ_Q])` with `T^{S∪Q,ord}_Q-action` and equivariant isomorphisms `A_1(μ,χ,Q) ⊗^L_{Λ_1} Λ_{1,c} ≅ A_1(μ,χ,Q,c)` and `A_1(μ,χ,Q) ⊗^L_{Λ_1} Λ_1/ϖ ≅ A_1(μ,1,Q) ⊗^L_{Λ_1} Λ_1/ϖ`, compatible with the level-c data. `𝔪^Q =` the contraction of `𝔪` to `T^{S∪Q,ord}; 𝔫^Q =` the ideal of `T^{S∪Q,ord}_Q` generated by `𝔪^Q` and `U_{v,i} − α_{v,1}⋯α_{v,i} (v ∈ Q, 1 ≤ i ≤ n)`.
+Define `OrdinaryTaylorWilesLevels`. For a Taylor–Wiles datum `(Q, (α_{v,i}))` for `𝒮_1` whose places have residue characteristic split in an imaginary quadratic subfield of `F` (a TW datum for all `𝒮_χ; R_{𝒮_{χ,Q}}` an `𝒪[Δ_Q]-algebra, Δ_Q = ∏_{v∈Q} k(v)^×(p)^n`) and `c ≥ 1`: good subgroups `K(c,c)_1(Q) ⊂ K(c,c)_0(Q) ⊂ K(c,c)`, equal to `K(c,c)_v` away from `Q`, with `K(c,c)_0(Q)_v = Iw_v` and `K(c,c)_1(Q)_v` the largest pro-prime-to-p subgroup of `Iw_v` for `v ∈ Q`, so `K(c,c)_0(Q)/K(c,c)_1(Q) ≅ Δ_Q`. `A_1(μ,χ,Q,c) = RHom_{Λ_{1,c}[Δ_Q]}(RΓ_{K(c,c)_0(Q)/K(c,c)_1(Q)}(X_{K(c,c)_1(Q)}, 𝒱_μ(χ^{-1}))^{ord}, Λ_{1,c}[Δ_Q])[−d] ∈ D(Λ_{1,c}[Δ_Q])`, with transpose action of `T^{S∪Q,ord}_Q = T^{S∪Q,ord} ⊗_{T^{S∪Q}} T^{S∪Q}_Q`. Passing to the limit in `c` gives `A_1(μ,χ,Q) ∈ D(Λ_1[Δ_Q])` with `T^{S∪Q,ord}_Q-action` and equivariant isomorphisms `A_1(μ,χ,Q) ⊗^L_{Λ_1} Λ_{1,c} ≅ A_1(μ,χ,Q,c)` and `A_1(μ,χ,Q) ⊗^L_{Λ_1} Λ_1/ϖ ≅ A_1(μ,1,Q) ⊗^L_{Λ_1} Λ_1/ϖ`, compatible with the level-c data. Define `B₁(μ,χ,Q)=A₁(μ,χ,Q)⊗_O O(κ)` with the same diagonal torus action as §4.4 and unchanged commuting `Δ_Q` action, and `B(μ,χ,Q)=B₁(μ,χ,Q)⊗^L_{Λ₁}Λ`. `𝔪^Q =` the contraction of `𝔪` to `T^{S∪Q,ord}; 𝔫^Q =` the ideal of `T^{S∪Q,ord}_Q` generated by `𝔪^Q` and `U_{v,i} − α_{v,1}⋯α_{v,i} (v ∈ Q, 1 ≤ i ≤ n)`.
 
 ([ACC](#source-acc), §6.6.1, pp. 1078–1079). *Needs:* `Layer 5`; `Layer 4`; `PF:Layer 0a`; `GGD:G7`; `DP:Layer 8`; `DP:Layer 7`.
 
@@ -2309,7 +2424,7 @@ Its interface includes:
 
 ### 5.15 Ordinary diamond augmentation
 
-Prove `ordinary_diamond_augmentation`. `𝔫^Q` lies in the support of `H^*(A_1(μ,χ,Q))`, and there are `T^{S∪Q,ord}-equivariant` isomorphisms `A_1(μ,χ,Q)_{𝔫^Q} ⊗^L_{Λ_1[Δ_Q]} Λ_1 ≅ A_1(μ,χ)_{𝔪^Q} ≅ A_1(μ,χ)_𝔪`.
+Prove `ordinary_diamond_augmentation`. `𝔫^Q` lies in the support of `H^*(A_1(μ,χ,Q))`, and there are `T^{S∪Q,ord}-equivariant` isomorphisms `A_1(μ,χ,Q)_{𝔫^Q} ⊗^L_{Λ_1[Δ_Q]} Λ_1 ≅ A_1(μ,χ)_{𝔪^Q} ≅ A_1(μ,χ)_𝔪`. Twisting over `Λ₁` first and then selecting the component gives `B(μ,χ,Q)_{𝔫^Q}⊗^L_{Λ[Δ_Q]}Λ≅B(μ,χ)_𝔪`, with the diamond augmentation unchanged.
 
 ([ACC](#source-acc), §6.6.1, Lemma 6.6.8, p. 1079). *Needs:* `Layer 5`.
 
@@ -2319,21 +2434,27 @@ At each finite level `c` the argument of `diamond_derived_augmentation` applies,
 
 ### 5.16 Ordinary diamond linear Hecke map
 
-Prove `ordinary_diamond_linear_hecke_map`. Let `A(μ,χ,Q) = A_1(μ,χ,Q) ⊗^L_{Λ_1} Λ` and `_{Δ_Q}T^{S∪Q,Λ_1} = T^{S∪Q,Λ_1} ⊗_𝒪 𝒪[Δ_Q]`, acting on `A(μ,χ,Q)_{𝔫^Q}` via `K(c,c)_0(Q)/K(c,c)_1(Q) ≅ Δ_Q` and passage to the limit; `_{Δ_Q}T^{S∪Q,Λ_1}(A(μ,χ,Q)_{𝔫^Q})` is a local `Λ[Δ_Q]`-algebra. Then there are `δ ≥ 1` depending only on `n` and `[F:ℚ]`, an ideal `J ⊂ 𝕋 := _{Δ_Q}T^{S∪Q,Λ_1}(A(μ,χ,Q)_{𝔫^Q} ⊗_𝒪 𝒪(ν + w_0^G μ)^{-1})` with `J^δ = 0`, and a continuous surjective `Λ[Δ_Q]`-algebra homomorphism `f_{𝒮_{χ,Q}}: R_{𝒮_{χ,Q}} → 𝕋/J` such that for every finite `v ∉ S ∪ Q` the characteristic polynomial of `f_{𝒮_{χ,Q}} ∘ ρ_{𝒮_{χ,Q}}(Frob_v)` is the image of `P_v(X)`.
+Prove `ordinary_diamond_linear_hecke_map`. Use `B(μ,χ,Q)` of §5.14, and let `_{Δ_Q}T^{S∪Q,Λ_1}=T^{S∪Q,Λ_1}⊗_O O[Δ_Q]`. It acts on `B(μ,χ,Q)_{𝔫^Q}` by the twisted torus and tame Hecke actions and the commuting diamonds. Its image `𝕋=_{Δ_Q}T^{S∪Q,Λ_1}(B(μ,χ,Q)_{𝔫^Q})` is a local `Λ[Δ_Q]`-algebra. Then there are `δ≥1` depending only on `n` and `[F:ℚ]`, an ideal `J⊂𝕋` with `J^δ=0`, and a continuous surjective `Λ[Δ_Q]`-algebra homomorphism `f_{𝒮_{χ,Q}}:R_{𝒮_{χ,Q}}→𝕋/J` such that for every finite `v∉S∪Q` the characteristic polynomial of `f_{𝒮_{χ,Q}}∘ρ_{𝒮_{χ,Q}}(Frob_v)` is the image of `P_v(X)`.
 
 ([ACC](#source-acc), §6.6.1, Proposition 6.6.9 and the preceding paragraph, pp. 1079–1080). *Needs:* `Layer 4`; `Layer 5`; `AG:AG2.5`; `LGD:§§7.1–7.6`; `GGD:G8`.
 
-Construct the `Λ`-algebra map at the auxiliary levels as in `ordinary_deformation_hecke_map`, and obtain `Λ[Δ_Q]-linearity` as in `diamond_linear_deformation_hecke_map`, through the algebra generated by the `U_{v,i}` acting on `A(μ,χ,Q) ⊗ O(ν + w₀μ)⁻¹` localized at `𝔫^Q`.
+Construct the `Λ`-algebra map at the auxiliary levels as in `ordinary_deformation_hecke_map`, twisting over `Λ₁` before selecting the component. Obtain `Λ[Δ_Q]`-linearity as in `diamond_linear_deformation_hecke_map`, through the algebra generated by the `U_{v,i}` on `B(μ,χ,Q)_{𝔫^Q}`.
+
+**Checks.**
+
+- For `Q=∅` this is the map on `B(μ,χ)_𝔪` of §4.7.
+- The torus twist acts trivially on the `Δ_Q` factor, so diamond augmentation commutes with twisting before component specialization.
+- With a `C_p` torsion-unit factor, the quotient still acts by `ζ_p`, as in §4.4; adjoining Taylor–Wiles diamonds does not change it to `ζ_p²`.
 
 <a id="ordinary-patching-verification"></a>
 
 ### 5.17 Ordinary patching verification
 
-Prove `ordinary_patching_verification`. Fix one nonprincipal ultrafilter on the positive integers for the imported ultrapatching construction. Let `f: R_{𝒮_1} → 𝒪` classify `ρ`. Set `q = h¹(F_S/F, ad ρ̄_𝔪(1)), g = qn − n²[F⁺:ℚ], Δ_∞ = ℤ_p^{nq}, 𝒯 =` a power series ring over `Λ` (the weight algebra) in `n²|S| − 1` variables, `S_∞ = 𝒯⟦Δ_∞⟧`, augmented over `Λ` with ideal `𝔞_∞`. Choose `χ = ∏_{v∈R} χ_v: ∏_{v∈R} Iw_v → 𝒪^×` with `χ_{v,1},…,χ_{v,n}: k(v)^× → 𝒪^×` trivial `mod ϖ` and pairwise distinct. `R^loc = R^{S,loc}_{𝒮_1}, R′^loc = R^{S,loc}_{𝒮_χ}` (GGD:G8 (ACC §6.2.22)); `R_∞, R′_∞ =` power series rings in `g` variables over them. Applying DP:Layer 8 (ACC §6.4.2) to the complexes `A(μ,χ,Q_N)_{𝔫^{Q_N}} ⊗_𝒪 𝒪(ν + w_0^G μ)^{-1}` (and `χ = 1`), for Taylor–Wiles data from GGD:G7 (ACC Proposition 6.2.33), gives: bounded complexes `𝒞_∞, 𝒞′_∞` of free `S_∞-modules, T_∞, T′_∞` with nilpotent `I_∞, I′_∞ (I^δ = 0), S_∞`-algebra structures on `R_∞, R′_∞` and surjections `R_∞ → T_∞/I_∞, R′_∞ → T′_∞/I′_∞`; surjections of local `Λ-algebras R_∞/𝔞_∞ ↠ R_{𝒮_1}, R′_∞/𝔞_∞ ↠ R_{𝒮_χ}`; and isomorphisms `𝒞_∞ ⊗^L_{S_∞} S_∞/𝔞_∞ ≅ A(μ,1)_𝔪 ⊗_𝒪 𝒪(ν + w_0^G μ)^{-1} = B(μ,1)_𝔪` and `𝒞′_∞ ⊗^L S_∞/𝔞_∞ ≅ B(μ,χ)_𝔪` in `D(Λ)`.
+Prove `ordinary_patching_verification`. Fix one nonprincipal ultrafilter on the positive integers for the imported ultrapatching construction. Let `f: R_{𝒮_1} → 𝒪` classify `ρ`. Set `q = h¹(F_S/F, ad ρ̄_𝔪(1)), g = qn − n²[F⁺:ℚ], Δ_∞ = ℤ_p^{nq}, 𝒯 =` a power series ring over `Λ` (the weight algebra) in `n²|S| − 1` variables, `S_∞ = 𝒯⟦Δ_∞⟧`, augmented over `Λ` with ideal `𝔞_∞`. Choose `χ = ∏_{v∈R} χ_v: ∏_{v∈R} Iw_v → 𝒪^×` with `χ_{v,1},…,χ_{v,n}: k(v)^× → 𝒪^×` trivial `mod ϖ` and pairwise distinct. `R^loc = R^{S,loc}_{𝒮_1}, R′^loc = R^{S,loc}_{𝒮_χ}` (GGD:G8 (ACC §6.2.22)); `R_∞, R′_∞ =` power series rings in `g` variables over them. Applying DP:Layer 8 (ACC §6.4.2) to the complexes `B(μ,χ,Q_N)_{𝔫^{Q_N}}` (and `χ = 1`), for Taylor–Wiles data from GGD:G7 (ACC Proposition 6.2.33), gives: bounded complexes `𝒞_∞, 𝒞′_∞` of free `S_∞-modules, T_∞, T′_∞` with nilpotent `I_∞, I′_∞ (I^δ = 0), S_∞`-algebra structures on `R_∞, R′_∞` and surjections `R_∞ → T_∞/I_∞, R′_∞ → T′_∞/I′_∞`; surjections of local `Λ-algebras R_∞/𝔞_∞ ↠ R_{𝒮_1}, R′_∞/𝔞_∞ ↠ R_{𝒮_χ}`; and isomorphisms `𝒞_∞ ⊗^L_{S_∞} S_∞/𝔞_∞ ≅ B(μ,1)_𝔪` and `𝒞′_∞ ⊗^L S_∞/𝔞_∞ ≅ B(μ,χ)_𝔪` in `D(Λ)`.
 
 ([ACC](#source-acc), §6.6.1, proof of Theorem 6.6.2, pp. 1080–1081). *Needs:* `Layer 5`; `mathlib:DerivedCategory`; `DP:Layer 7`; `GGD:G7`; `ALS:ALS.1`; `DP:Layer 8`.
 
-*Route.* Use the ordinary finite-level dual complexes with the `ν+w₀μ` twist and the imported enormous Taylor–Wiles presentations. The finite cell models are `arithmetic_finite_cell_models` at neat base level; they prove perfectness at each auxiliary level. First localize at the selected ordered-root ideals, apply the ordinary projector and use `ordinary_diamond_augmentation`. Derived reduction modulo the maximal ideal of `Λ₁[Δ_Q]` identifies the resulting residual complex with the fixed base ordinary complex. By DP:Layer 7, minimal free representatives have ranks equal to its residual cohomology dimensions. These give uniform ranks and amplitude for duality, reconstruction and patching, after localization and projection. Verify compatible mod-varpi reductions, common Hecke images and the fixed-ultrafilter DP Layer 8 hypotheses. Identify the augmentation of `C∞` with `B(μ,1)_m` and of `C∞′` with `B(μ,χ)_m`.
+*Route.* Use the reconstructed auxiliary `Λ₁` dual complexes, their diagonal `κ`-twists, and then their derived component specializations `B(μ,χ,Q_N)`, with the imported enormous Taylor–Wiles presentations. The twisted diamond augmentation of §5.15 identifies their base complexes with `B(μ,χ)` over the same natural quotient `Λ₁→Λ`. The finite cell models are `arithmetic_finite_cell_models` at neat base level; they prove perfectness at each auxiliary level. First localize at the selected ordered-root ideals, apply the ordinary projector and use `ordinary_diamond_augmentation`. Derived reduction modulo the maximal ideal of `Λ₁[Δ_Q]` identifies the resulting residual complex with the fixed base ordinary complex. By DP:Layer 7, minimal free representatives have ranks equal to its residual cohomology dimensions. These give uniform ranks and amplitude for duality, reconstruction and patching, after localization and projection. Verify compatible mod-varpi reductions, common Hecke images and the fixed-ultrafilter DP Layer 8 hypotheses. Identify the augmentation of `C∞` with `B(μ,1)_m` and of `C∞′` with `B(μ,χ)_m`.
 
 **Checks.**
 
