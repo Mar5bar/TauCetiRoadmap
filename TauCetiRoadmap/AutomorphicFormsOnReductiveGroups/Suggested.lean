@@ -21,8 +21,9 @@ Design choices.
   abstract group; the arithmetic specialization supplies `G(F) ⊆ G(𝔸)` and the central subgroup.
 * `IsGFinite` and its elementary API form the independent algebraic prefix of README §2.1.
   Banach and Hilbert specializations forget continuity and restrict the underlying representation;
-  `IsKFinite` abbreviates that predicate. The Banach density theorem and the complete locally
-  convex extension follow this prefix.
+  `IsKFinite` abbreviates that predicate on `(π.restrict K.subtype).toRepresentation`.
+  The generic Banach theorem `gFiniteSubmodule_dense` follows this prefix, before the complete
+  locally convex extension and the additional Hilbert comparisons.
 * Cuspidality is the kernel condition for a family of linear constant-term maps; the arithmetic
   specialization indexes it by all proper rational parabolics.
 * Infinitesimal characters of `GLₙ(ℝ)` are `n`-tuples of complex numbers: L-algebraic means
@@ -227,7 +228,34 @@ example [Subsingleton K] (ρ : Representation ℂ K V) (v : V) : IsKFinite ρ v 
 example : ¬IsKFinite (Representation.leftRegular ℂ (Multiplicative ℤ))
     (MonoidAlgebra.single 1 1) := sorry
 
+/-- Restricting a native continuous representation gives exactly the subgroup orbit span. -/
+example {G E : Type*} [Group G] [NormedAddCommGroup E] [NormedSpace ℂ E]
+    (π : ContRepresentation ℂ G E) (K : Subgroup G) (v : E) :
+    IsKFinite (π.restrict K.subtype).toRepresentation v ↔
+      FiniteDimensional ℂ (Submodule.span ℂ (Set.range fun k : K => π (k : G) v)) :=
+  Iff.rfl
+
+/-- Addition in the continuous subgroup specialization uses the common algebraic theorem. -/
+example {G E : Type*} [Group G] [NormedAddCommGroup E] [NormedSpace ℂ E]
+    (π : ContRepresentation ℂ G E) (K : Subgroup G) {v w : E}
+    (hv : IsKFinite (π.restrict K.subtype).toRepresentation v)
+    (hw : IsKFinite (π.restrict K.subtype).toRepresentation w) :
+    IsKFinite (π.restrict K.subtype).toRepresentation (v + w) :=
+  gFinite_add _ hv hw
+
 end CompactRestriction
+
+section CompactBanach
+
+/-- Finite-orbit-span vectors are dense in a strongly continuous complex Banach representation
+of a compact Hausdorff group. Continuity in operator norm is not required. -/
+theorem gFiniteSubmodule_dense {K E : Type*} [Group K] [TopologicalSpace K]
+    [IsTopologicalGroup K] [CompactSpace K] [T2Space K]
+    [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
+    (π : ContRepresentation ℂ K E) (hπ : ∀ v : E, Continuous fun k : K => π k v) :
+    Dense (gFiniteSubmodule π.toRepresentation : Set E) := sorry
+
+end CompactBanach
 
 /-! ## Layer 3: adelic modules and their local factors -/
 
