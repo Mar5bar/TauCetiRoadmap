@@ -291,11 +291,28 @@ based structure, not an invariant of arbitrary unbased homotopy equivalence.
 
 ## N5. Periodic return orbits and the dynamical zeta function
 
+The following local return construction is stated for every finite-dimensional
+Hausdorff second-countable boundaryless smooth manifold Y, independently
+of the standing closed-manifold hypotheses for the Novikov application.
+Let V be a C^k vector field on Y, k≥1, nonzero along a compact periodic
+orbit. Choose transverse local sections D_p,D_q through orbit points p,q.
+Consume DG local flows and the transverse implicit function theorem to
+construct the C^k scalar hitting-time branch τ:D_p→ℝ near the fixed
+travel time from p to q. On sufficiently small open section neighborhoods,
+the induced transition h(z)=Φ_(τ(z))(z) is a C^k local diffeomorphism,
+with inverse from the reverse hitting branch. For the primitive return
+germs prove P_q=h∘P_p∘h⁻¹, and prove the corresponding identity for each
+positive iterate. Thus DP_q=Dh DP_p (Dh)⁻¹; equivalently these are the
+derivative-flow return maps on T_pY/ℝV(p) and T_qY/ℝV(q). Spectrum
+and the eigenvalue-1 test are independent of section and basepoint.
+Only local flows around this compact orbit are required. This early
+construction uses neither N2, HF genericity nor the later Novikov
+admissibility, support or zeta constructions. Sections are open germs;
+an invariant transverse disk is not assumed.
+
 Define a primitive periodic orbit of −α♯ up to rotation, with its least real return
 time, and define the k-fold iterate separately. The integer multiplicity p(γ) is
-its covering degree over the primitive orbit; it is not the return time. Build
-transverse local sections/Poincaré return diffeomorphisms and prove the induced
-normal-space linear maps at different sections/basepoints are conjugate. An
+its covering degree over the primitive orbit; it is not the return time. Apply this early generic local-return construction to −α♯ for its transverse return germs and the induced conjugacy of normal-space maps across sections and basepoints. An
 isolated return fixed point has local index defined by perturbing the return map
 on an isolating transverse chart neighbourhood to have nondegenerate fixed points
 and summing `sgn det(1−dg)` over them. Use a generic relative homotopy's
