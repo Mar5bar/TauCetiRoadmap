@@ -235,8 +235,16 @@ lemma: for holomorphic `u_j` on open U with `Σ_j sup_K |u_j|<∞` for every com
 `J_z={j : u_j(z)=−1}`. Compact summability forces `J_z` finite; require also each factor indexed
 by `J_z` to have finite germ order at z (so none vanishes identically near z). Then their orders
 sum to the product order, while the remaining tail is a holomorphic unit germ at z. In particular,
-if `J_z=∅`, the product is nonzero at z. Prove this by discarding finitely many terms so
-`|u_j|≤1/2`, summing the logarithmic series, and treating the finite factors separately.
+if `J_z=∅`, the product is nonzero at z. For the convergence conclusion consume
+`Summable.hasProdUniformlyOn_one_add` (or its natural-number variant) from
+`Mathlib/Analysis/Normed/Module/MultipliableUniformlyOn.lean` on each compact K, with the
+summable majorant `sup_K |u_j|` and continuity supplied by holomorphy. Use its actual
+cofinite eventual-majorant hypothesis; the majorant may depend on K. Assemble the compact
+conclusions into `HasProdLocallyUniformlyOn` and use native holomorphic-limit closure.
+The locally uniform theorem with one global majorant does not itself supply this
+compact-dependent adapter. For the additional germ-order and unit-tail conclusions,
+discard finitely many terms so `|u_j|≤1/2`, sum the logarithmic series, and treat the finite
+factors separately. The weaker uniform-absolute-tail criterion below remains a separate target.
 
 For any escaping sequence, the universal choice `p_n=n−1`, indexed by n≥1, is admissible:
 on each disk of radius R the tail has `R/|a_n|≤1/2`, hence its majorant is at most `2^(−n)`.
@@ -492,9 +500,13 @@ carrier when its hypotheses match; do not introduce a parallel closed-discrete p
 
 Extend to integer divisors `ν : E → ℤ`: produce a meromorphic function with order `ν z` at each
 z in E and order zero outside E, and require `meromorphicOrderAt f z ≠ ⊤` at every z∈Ω. This
-excludes identically-zero components and makes the divisor statement meaningful. Derive arbitrary meromorphic quotient `F = f/g` on Ω for
-holomorphic f,g, with denominator not identically zero on any component where F is defined.
-State componentwise behavior when Ω is disconnected. The quotient statement is a consequence of
+excludes identically-zero components and makes the divisor statement meaningful. For every native
+`MeromorphicOn F Ω`, construct holomorphic f,g with
+`∀ᶠ z in codiscreteWithin Ω, g z ≠ 0 ∧ F z = f z / g z`.
+This is equality off a relatively closed discrete exceptional set, equivalently equality of the
+meromorphic germs; arbitrary total-function values at exceptional points are not constrained.
+Require g not identically zero on each nonempty connected component of Ω, including components
+on which F has zero germ. State componentwise behavior when Ω is disconnected. The quotient statement is a consequence of
 positive and negative parts of the divisor and the two realization theorems; it is not the
 finite-support `extract_zeros_poles` result.
 
@@ -981,12 +993,20 @@ criterion and normalized compact-support operator. The proof route is a global o
 shell construction:
 
 1. Consume the GH0 compact-support Cauchy–Green formula and its uniform Riemann-sum estimate.
-   GH5 proves the shell partition, correction estimates, and convergence of the resulting solution;
-   it does not redefine the kernel or reprove the GH0 operator.
-2. Choose a compact Runge exhaustion from GH0 and a locally finite smooth partition of unity
-   `Σχ_j=1` subordinate to relatively compact exhaustion shells. Put `φ_j=χ_j f`, extend by zero,
-   and set `u_j=Tφ_j`. Then `∂̄u_j=φ_j`; terms from later shells are holomorphic near earlier
-   compacts.
+   GH5 supplies the exhaustion-shell cover and support/extension adapters, correction estimates,
+   and convergence of the resulting solution.
+2. Choose a compact Runge exhaustion from GH0 and construct a countable locally finite open
+   cover by relatively compact exhaustion shells. On the real smooth open subtype `M=Ω`, apply
+   native `SmoothPartitionOfUnity.exists_isSubordinate` from
+   `Mathlib/Geometry/Manifold/PartitionOfUnity.lean` to this cover and the closed set `s=univ`.
+   Check its finite-dimensional smooth-manifold, Hausdorff and σ-compact hypotheses for M.
+   It gives smooth nonnegative χ_j, locally finite supports, sum one, and
+   `tsupport χ_j ⊆ shell_j`. Relative compactness of each shell makes these topological supports
+   compact in M; prove that their images in ℂ are compact subsets of Ω. Use the open-subtype
+   smoothness and extension-by-zero adapters to make `φ_j=χ_j f` smooth and compactly supported
+   on ℂ. Set `u_j=Tφ_j`. Then `∂̄u_j=φ_j`; the chosen shell separation makes terms from later
+   shells holomorphic near earlier compacts. Generic smooth-partition existence is a native
+   input; the shell construction and these support/comparison properties are GH5 targets.
 3. Correct each `u_j` on preceding compacts by a GH0 finite-rank linear `H(Ω)` operator,
    choosing its error parameter against the sup norm of the current holomorphic tail on the
    collar L. Use a slightly larger Runge compact at each stage so Cauchy estimates on its interior
