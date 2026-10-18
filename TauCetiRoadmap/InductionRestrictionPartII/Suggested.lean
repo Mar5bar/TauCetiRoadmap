@@ -160,8 +160,9 @@ theorem torsionImageFiltration_mono (A : Type) [CommGroup A] {t u : ℕ} (htu : 
 
 /-- `torsionImageFiltration_exhaustive`: for finite `A`, `B_t = B` once `2^t` kills the
 `2`-primary part. -/
-theorem torsionImageFiltration_exhaustive (A : Type) [CommGroup A] [Finite A] :
-    ∃ e : ℕ, torsionImageFiltration A e = ⊤ := by
+theorem torsionImageFiltration_exhaustive (A : Type) [CommGroup A] [Finite A]
+    (e : ℕ) (hkill : ∀ a : A, (∃ k : ℕ, a ^ (2 ^ k) = 1) → a ^ (2 ^ e) = 1) :
+    torsionImageFiltration A e = ⊤ := by
   sorry
 
 /-- `torsionImageFiltration_test_2`: for `A = C₈` the filtration vanishes at `t = 2`; a
@@ -416,6 +417,408 @@ theorem abelian_multiplier_exteriorSquare (A : Type) [CommGroup A] [Finite A] :
 
 end RS6
 
+/-! ## Native-carrier Checks -/
+
+section NativeChecks
+
+open TauCeti
+
+local notation "C₃" => Multiplicative (ZMod 3)
+local notation "C₄" => Multiplicative (ZMod 4)
+local notation "C₈" => Multiplicative (ZMod 8)
+local notation "V₂" => Fin 2 → ZMod 2
+
+/-- The trivial group has zero integral multiplier. -/
+example : Subsingleton (Multiplier (PUnit : Type)) := by
+  sorry
+
+/-- The multiplier of the Klein four group is cyclic of order two. -/
+example : Nonempty (Multiplier (C₂ × C₂) ≃+ ZMod 2) := by
+  sorry
+
+/-- The split-central inclusion remains injective on abelianization, including infinite kernels. -/
+example (A G : Type) [CommGroup A] [Group G] :
+    Function.Injective (Abelianization.map (MonoidHom.inl A G)) ∧
+      Function.Surjective (Abelianization.map (MonoidHom.snd A G)) := by
+  sorry
+
+/-- The nonsplit cyclic extension has an injective abelianized kernel of order two. -/
+example : ∃ S : GroupExtension C₂ C₄ C₂,
+    S.inl (Multiplicative.ofAdd 1) = Multiplicative.ofAdd 2 ∧
+    S.rightHom (Multiplicative.ofAdd 1) = Multiplicative.ofAdd 1 ∧
+    Function.Injective (Abelianization.of.comp S.inl) ∧
+    Nat.card (Abelianization.map S.rightHom).ker = 2 ∧ IsEmpty S.Splitting := by
+  sorry
+
+/-- In the dihedral stem extension, the central kernel dies on abelianization. -/
+example : ∃ S : GroupExtension C₂ (DihedralGroup 4) (C₂ × C₂),
+    S.inl (Multiplicative.ofAdd 1) = DihedralGroup.r 2 ∧
+    S.inl.range ≤ Subgroup.center (DihedralGroup 4) ∧
+    S.inl.range ≤ commutator (DihedralGroup 4) ∧
+    (Abelianization.of.comp S.inl).range = ⊥ ∧
+    Function.Bijective (Abelianization.map S.rightHom) := by
+  sorry
+
+/-- Positive-degree integral homology of the trivial group vanishes. -/
+example (n : ℕ) : Subsingleton (groupHomology (Rep.trivial ℤ (PUnit : Type) ℤ) (n + 1)) := by
+  sorry
+
+/-- Odd positive degrees of cyclic order-two homology are cyclic of order two. -/
+example (k : ℕ) : Nonempty (groupHomology (Rep.trivial ℤ C₂ ℤ) (2 * k + 1) ≃+ ZMod 2) := by
+  sorry
+
+/-- Even positive degrees of cyclic order-two homology vanish. -/
+example (k : ℕ) : Subsingleton (groupHomology (Rep.trivial ℤ C₂ ℤ) (2 * k + 2)) := by
+  sorry
+
+/-- The order of the group does not annihilate the degree-zero class of one. -/
+example : 2 • groupHomology.H0π (Rep.trivial ℤ C₂ ℤ) (1 : ℤ) ≠ 0 := by
+  sorry
+
+/-- `multiplier_hallPart_test_1`: with trivial complement, the inclusion induces a bijection on multipliers. -/
+example (H : Type) [Group H] [Finite H] :
+    Function.Bijective (groupHomology.map (A := Rep.trivial ℤ H ℤ)
+      (B := Rep.trivial ℤ (H ⋊[(1 : (PUnit : Type) →* MulAut H)] (PUnit : Type)) ℤ)
+      (SemidirectProduct.inl (φ := (1 : (PUnit : Type) →* MulAut H)))
+      (Rep.ofHom ⟨LinearMap.id, by intro g; rfl⟩) 2) := by
+  sorry
+
+/-- `multiplier_hallPart_test_2`: inversion on the rank-two odd group preserves its nonzero multiplier. -/
+example : Nonempty (Multiplier (sumKernelModel (C₃ × C₃)) ≃+ ZMod 3) := by
+  sorry
+
+/-- `multiplier_hallPart_test_3`: without coprimality, vanishing factor multipliers do not give a vanishing product multiplier. -/
+example : Subsingleton (Multiplier C₂) ∧ Nonempty (Multiplier (C₂ × C₂) ≃+ ZMod 2) ∧
+    ¬ Function.Surjective (groupHomology.map (A := Rep.trivial ℤ C₂ ℤ)
+      (B := Rep.trivial ℤ (C₂ × C₂) ℤ) (MonoidHom.inl C₂ C₂)
+      (Rep.ofHom ⟨LinearMap.id, by intro g; rfl⟩) 2) := by
+  sorry
+
+/-- The zero-power boundary is the negative unit cycle. -/
+example {G : Type} [Group G] (y : G) :
+    groupHomology.d₃₂ (Rep.trivial ℤ G ℤ)
+      (-(Finsupp.single (1, 1, y) (1 : ℤ) - Finsupp.single (1, y, 1) 1 +
+        Finsupp.single (y, 1, 1) 1)) =
+      -(Finsupp.single (1, y) 1 - Finsupp.single (y, 1) 1) := by
+  sorry
+
+/-- The first-power boundary difference is zero. -/
+example {G : Type} [Group G] (x y : G) :
+    (1 : ℕ) • (Finsupp.single (x, y) (1 : ℤ) - Finsupp.single (y, x) 1) -
+      (Finsupp.single (x ^ 1, y) 1 - Finsupp.single (y, x ^ 1) 1) = 0 := by
+  sorry
+
+/-- A commuting involution gives a twice-cycle boundary without forcing its class to vanish. -/
+example {G : Type} [Group G] (x y : G) (h : Commute x y) (hx : x ^ 2 = 1) :
+    2 • (Finsupp.single (x, y) (1 : ℤ) - Finsupp.single (y, x) 1) ∈
+      groupHomology.boundaries₂ (Rep.trivial ℤ G ℤ) := by
+  sorry
+
+/-- Pair reversal negates the oriented cycle. -/
+example {G : Type} [Group G] (x y : G) :
+    Finsupp.single (y, x) (1 : ℤ) - Finsupp.single (x, y) 1 =
+      -(Finsupp.single (x, y) 1 - Finsupp.single (y, x) 1) := by
+  sorry
+
+/-- `boundedDegreeSlice_test_1`: the unique empty degree has total zero. -/
+example : boundedDegreeSlice (Fin 0) 0 1 = Set.univ := by
+  sorry
+
+/-- No empty degree has negative total. -/
+example : boundedDegreeSlice (Fin 0) (-1) 1 = ∅ := by
+  sorry
+
+/-- `powerFixedDegree_test_3`: swap-fixed degrees cannot have odd total; the unrestricted slice contains both basis vectors. -/
+example :
+    {m : Fin 2 →₀ ℤ | m ∈ powerFixedDegree (Equiv.swap 0 1) ∧
+      (fun i ↦ m i) ∈ boundedDegreeSlice (Fin 2) 1 0} = ∅ ∧
+    ![1, 0] ∈ boundedDegreeSlice (Fin 2) 1 0 ∧
+    ![0, 1] ∈ boundedDegreeSlice (Fin 2) 1 0 := by
+  sorry
+
+/-- Odd powers of a cyclic order-eight generator have the same nonzero square class. -/
+example :
+    elementaryTwoQuotientMk (Multiplicative.ofAdd (1 : ZMod 8)) =
+      elementaryTwoQuotientMk (Multiplicative.ofAdd (3 : ZMod 8)) ∧
+    elementaryTwoQuotientMk (Multiplicative.ofAdd (1 : ZMod 8)) ≠ 0 ∧
+    elementaryTwoQuotientMk (Multiplicative.ofAdd (2 : ZMod 8)) = 0 := by
+  sorry
+
+/-- The square-times-torsion equation fails at two and succeeds at eight for this generator. -/
+example : (¬ ∃ h : C₈, (Multiplicative.ofAdd 1 : C₈) ^ 2 = h ^ (2 * 2)) ∧
+    (∃ h : C₈, (Multiplicative.ofAdd 1 : C₈) ^ 8 = h ^ (2 * 8)) := by
+  sorry
+
+/-- `torsionImageFiltration_test_1`: an odd-order group has zero square quotient and zero torsion-image filtration. -/
+example (A : Type) [CommGroup A] [Finite A] (hodd : Odd (Nat.card A)) (t : ℕ) :
+    torsionImageFiltration A t = ⊥ ∧ torsionImageFiltration A t = ⊤ := by
+  sorry
+
+/-- The cyclic order-eight filtration reaches the full quotient exactly at stage three. -/
+example : torsionImageFiltration C₈ 0 = ⊥ ∧ torsionImageFiltration C₈ 1 = ⊥ ∧
+    torsionImageFiltration C₈ 3 = ⊤ := by
+  sorry
+
+/-- `torsionImageFiltration_test_3`: the order-two element of the cyclic order-eight group has zero square class. -/
+example : elementaryTwoQuotientMk (Multiplicative.ofAdd (4 : ZMod 8)) = 0 := by
+  sorry
+
+/-- `obstructionThreshold_test_1`: the identity has threshold zero in every finite abelian group. -/
+example (A : Type) [CommGroup A] [Finite A] : obstructionThreshold (1 : A) = 0 := by
+  sorry
+
+/-- `obstructionThreshold_test_2`: the two cyclic coordinates retain their different threshold exponents. -/
+example : obstructionThreshold ((Multiplicative.ofAdd 1 : C₄), (1 : C₈)) = 2 ∧
+    obstructionThreshold ((1 : C₄), (Multiplicative.ofAdd 1 : C₈)) = 3 := by
+  sorry
+
+/-- The generator survives at seventeen and fails at nine, whose valuation is too small. -/
+example : (∃ h : C₈, h ^ 16 = (Multiplicative.ofAdd 1 : C₈) ^ 8) ∧
+    (¬ ∃ h : C₈, h ^ 8 = (Multiplicative.ofAdd 1 : C₈) ^ 4) := by
+  sorry
+
+/-- `paritySquareMap_test_1`: independent prescribed columns retain both coordinates in their free linear extension. -/
+example :
+    Finsupp.linearCombination (ZMod 2) (fun i : Fin 2 ↦ Finsupp.single i (1 : ZMod 2))
+      (Finsupp.single 0 1 + Finsupp.single 1 1) =
+        Finsupp.single 0 1 + Finsupp.single 1 1 := by
+  sorry
+
+/-- Equal nonzero binary columns cancel on the sum of the two basis vectors. -/
+example : let s := Finsupp.linearCombination (ZMod 2) (fun _ : Fin 2 ↦ (1 : ZMod 2))
+    s (Finsupp.single 0 1) = 1 ∧ s (Finsupp.single 1 1) = 1 ∧
+      s (Finsupp.single 0 1 + Finsupp.single 1 1) = 0 := by
+  sorry
+
+/-- `jointParityMap_test_1`: the joint map retains the first coordinate and the second coordinate modulo zero. -/
+example :
+    letI : AddCommGroup (ZMod 2) := (ZMod.commRing 2).toAddCommGroup
+    let W : Submodule (ZMod 2) (ZMod 2) := ⊥
+    let L := @jointParityMap V₂ (ZMod 2) (ZMod 2)
+      inferInstance inferInstance inferInstance inferInstance inferInstance inferInstance
+      (LinearMap.proj (R := ZMod 2) (φ := fun _ : Fin 2 ↦ ZMod 2) 0)
+      (LinearMap.proj (R := ZMod 2) (φ := fun _ : Fin 2 ↦ ZMod 2) 1) W
+    L ![1, 0] = (1, W.mkQ 0) ∧ L ![0, 1] = (0, W.mkQ 1) := by
+  sorry
+
+/-- Quotienting by the whole obstruction space removes the second constraint. -/
+example :
+    letI : AddCommGroup (ZMod 2) := (ZMod.commRing 2).toAddCommGroup
+    LinearMap.ker (@jointParityMap (ZMod 2) (ZMod 2) (ZMod 2)
+      inferInstance inferInstance inferInstance inferInstance inferInstance inferInstance
+      (0 : ZMod 2 →ₗ[ZMod 2] ZMod 2) (LinearMap.id : ZMod 2 →ₗ[ZMod 2] ZMod 2) ⊤) = ⊤ := by
+  sorry
+
+/-- `jointParityMap_test_3`: the abelianization constraint remains when the square map is zero. -/
+example :
+    letI : AddCommGroup (ZMod 2) := (ZMod.commRing 2).toAddCommGroup
+    ∀ W : Submodule (ZMod 2) (ZMod 2),
+    LinearMap.ker (@jointParityMap (ZMod 2) (ZMod 2) (ZMod 2)
+      inferInstance inferInstance inferInstance inferInstance inferInstance inferInstance
+      (LinearMap.id : ZMod 2 →ₗ[ZMod 2] ZMod 2) 0 W) = ⊥ := by
+  sorry
+
+/-- The two one-dimensional surviving parity sets differ at the two filtration stages. -/
+example :
+    letI : AddCommGroup (ZMod 2) := (ZMod.commRing 2).toAddCommGroup
+    (LinearMap.ker (@jointParityMap (ZMod 2) (ZMod 2) (ZMod 2)
+      inferInstance inferInstance inferInstance inferInstance inferInstance inferInstance
+      (0 : ZMod 2 →ₗ[ZMod 2] ZMod 2) (LinearMap.id : ZMod 2 →ₗ[ZMod 2] ZMod 2) ⊥) :
+      Set (ZMod 2)) = {0} ∧
+    (LinearMap.ker (@jointParityMap (ZMod 2) (ZMod 2) (ZMod 2)
+      inferInstance inferInstance inferInstance inferInstance inferInstance inferInstance
+      (0 : ZMod 2 →ₗ[ZMod 2] ZMod 2) (LinearMap.id : ZMod 2 →ₗ[ZMod 2] ZMod 2) ⊤) :
+      Set (ZMod 2)) = Set.univ := by
+  sorry
+
+/-- Equal cardinalities of binary cosets do not determine their weight polynomials. -/
+example :
+    Nat.card ({![0, 0], ![1, 1]} : Set V₂) = 2 ∧
+    Nat.card ({![1, 0], ![0, 1]} : Set V₂) = 2 ∧
+    Set.weightPolynomial ({![0, 0], ![1, 1]} : Set V₂) = 1 + Polynomial.X ^ 2 ∧
+    Set.weightPolynomial ({![1, 0], ![0, 1]} : Set V₂) = 2 * Polynomial.X := by
+  sorry
+
+/-- The empty coordinate space with its singleton parity has series one. -/
+example : PowerSeries.mk (fun n : ℕ ↦ (Nat.card {m : Fin 0 → ℤ //
+      (∀ i, (0 : ℤ) ≤ m i) ∧ (fun i ↦ (m i : ZMod 2)) ∈ (Set.univ : Set (Fin 0 → ZMod 2)) ∧
+        ∑ i, m i = (n : ℤ)} : ℤ)) =
+    1 := by
+  sorry
+
+/-- The empty parity set has series zero. -/
+example : PowerSeries.mk (fun n : ℕ ↦ (Nat.card {m : Fin 0 → ℤ //
+      (∀ i, (0 : ℤ) ≤ m i) ∧ (fun i ↦ (m i : ZMod 2)) ∈ (∅ : Set (Fin 0 → ZMod 2)) ∧
+        ∑ i, m i = (n : ℤ)} : ℤ)) =
+    0 := by
+  sorry
+
+/-- Nonnegative even degrees form the even geometric series. -/
+example : PowerSeries.mk (fun n : ℕ ↦ (Nat.card {m : Fin 1 → ℤ //
+      (∀ i, (0 : ℤ) ≤ m i) ∧ (fun i ↦ (m i : ZMod 2)) ∈ ({0} : Set (Fin 1 → ZMod 2)) ∧
+        ∑ i, m i = (n : ℤ)} : ℤ)) =
+    (PowerSeries.invOfUnit (1 - PowerSeries.X ^ 2 : PowerSeries ℤ) 1) := by
+  sorry
+
+/-- Nonnegative odd degrees form the odd geometric series. -/
+example : PowerSeries.mk (fun n : ℕ ↦ (Nat.card {m : Fin 1 → ℤ //
+      (∀ i, (0 : ℤ) ≤ m i) ∧ (fun i ↦ (m i : ZMod 2)) ∈ ({1} : Set (Fin 1 → ZMod 2)) ∧
+        ∑ i, m i = (n : ℤ)} : ℤ)) =
+    (PowerSeries.X : PowerSeries ℤ) * (PowerSeries.invOfUnit (1 - PowerSeries.X ^ 2 : PowerSeries ℤ) 1) := by
+  sorry
+
+/-- With lower bound one, even degrees start at two. -/
+example : PowerSeries.mk (fun n : ℕ ↦ (Nat.card {m : Fin 1 → ℤ //
+      (∀ i, (1 : ℤ) ≤ m i) ∧ (fun i ↦ (m i : ZMod 2)) ∈ ({0} : Set (Fin 1 → ZMod 2)) ∧
+        ∑ i, m i = (n : ℤ)} : ℤ)) =
+    (PowerSeries.X : PowerSeries ℤ) ^ 2 * (PowerSeries.invOfUnit (1 - PowerSeries.X ^ 2 : PowerSeries ℤ) 1) := by
+  sorry
+
+/-- With lower bound one, odd degrees start at one. -/
+example : PowerSeries.mk (fun n : ℕ ↦ (Nat.card {m : Fin 1 → ℤ //
+      (∀ i, (1 : ℤ) ≤ m i) ∧ (fun i ↦ (m i : ZMod 2)) ∈ ({1} : Set (Fin 1 → ZMod 2)) ∧
+        ∑ i, m i = (n : ℤ)} : ℤ)) =
+    (PowerSeries.X : PowerSeries ℤ) * (PowerSeries.invOfUnit (1 - PowerSeries.X ^ 2 : PowerSeries ℤ) 1) := by
+  sorry
+
+/-- The two-variable shifted parity series retains both minimal degrees. -/
+example : PowerSeries.mk (fun n : ℕ ↦ (Nat.card {m : Fin 2 → ℤ //
+      (∀ i, (1 : ℤ) ≤ m i) ∧ (fun i ↦ (m i : ZMod 2)) ∈ ({![0, 0], ![1, 1]} : Set (Fin 2 → ZMod 2)) ∧
+        ∑ i, m i = (n : ℤ)} : ℤ)) =
+    ((PowerSeries.X : PowerSeries ℤ) ^ 2 + (PowerSeries.X : PowerSeries ℤ) ^ 4) * (PowerSeries.invOfUnit (1 - PowerSeries.X ^ 2 : PowerSeries ℤ) 1) ^ 2 := by
+  sorry
+
+/-- The coefficient at degree four counts exactly the three allowed degree vectors. -/
+example : {m : Fin 2 → ℤ | (∀ i, (1 : ℤ) ≤ m i) ∧
+      (fun i ↦ (m i : ZMod 2)) ∈ ({![0, 0], ![1, 1]} : Set V₂) ∧ ∑ i, m i = 4} =
+      {![1, 3], ![3, 1], ![2, 2]} ∧
+    PowerSeries.coeff 4 (((PowerSeries.X : PowerSeries ℤ) ^ 2 + PowerSeries.X ^ 4) *
+      (PowerSeries.invOfUnit (1 - PowerSeries.X ^ 2 : PowerSeries ℤ) 1) ^ 2) = 3 := by
+  sorry
+
+/-- The abelianized sum kernel on the alternating base has order forty-eight. -/
+example : Nat.card (abelianizedSum (alternatingGroup (Fin 4))).ker = 48 := by
+  sorry
+
+/-- A three-cycle and its inverse pass the sum condition; two equal three-cycles fail it. -/
+example : let a : alternatingGroup (Fin 4) :=
+      ⟨Equiv.swap 0 1 * Equiv.swap 1 2, by sorry⟩
+    (a, a⁻¹) ∈ (abelianizedSum (alternatingGroup (Fin 4))).ker ∧
+      (a, a) ∉ (abelianizedSum (alternatingGroup (Fin 4))).ker := by
+  sorry
+
+/-- The order-ninety-six model contains the pure swap as an outside involution. -/
+example : (⟨⟨(1, 1), Multiplicative.ofAdd 1⟩, by sorry⟩ :
+      sumKernelModel (alternatingGroup (Fin 4))) ∈ outsideInvolutions _ := by
+  sorry
+
+/-- The anti-diagonal membership condition accepts the nontrivial swap coordinate as well. -/
+example : (⟨(Multiplicative.ofAdd 1, Multiplicative.ofAdd 2), Multiplicative.ofAdd 1⟩ :
+      SwapWreath C₃) ∈ sumKernelModel C₃ := by
+  sorry
+
+/-- The anti-diagonal marking contains the pure swap. -/
+example : (⟨⟨(1, 1), Multiplicative.ofAdd 1⟩, by sorry⟩ :
+      sumKernelModel C₃) ∈ outsideInvolutions _ := by
+  sorry
+
+/-- The cyclic order-three anti-diagonal model is dihedral, with precisely three reflections. -/
+example : (∃ e : sumKernelModel C₃ ≃* DihedralGroup 3,
+      ∀ x, x ∈ outsideInvolutions (sumKernelModel C₃) ↔ ∃ i : ZMod 3, e x = DihedralGroup.sr i) ∧
+    Nat.card (outsideInvolutions (sumKernelModel C₃)) = 3 := by
+  sorry
+
+/-- The nonidentity cyclic order-two element squares to one and differs from one. -/
+example : (Multiplicative.ofAdd (1 : ZMod 2) : C₂) ^ 2 = 1 ∧
+    (Multiplicative.ofAdd (1 : ZMod 2) : C₂) ≠ 1 := by
+  sorry
+
+/-- Applying the nontrivial swap twice restores the unequal pair. -/
+example : swapAction C₃ (Multiplicative.ofAdd 1)
+      (swapAction C₃ (Multiplicative.ofAdd 1) (Multiplicative.ofAdd 1, Multiplicative.ofAdd 2)) =
+        (Multiplicative.ofAdd 1, Multiplicative.ofAdd 2) := by
+  sorry
+
+/-- The swap wreath product of the trivial group has two elements. -/
+example : Nat.card (SwapWreath (PUnit : Type)) = 2 := by
+  sorry
+
+/-- Conjugation by the pure swap exchanges the unequal base coordinates. -/
+example : let t : SwapWreath C₃ := ⟨(1, 1), Multiplicative.ofAdd 1⟩
+    let x : SwapWreath C₃ := ⟨(Multiplicative.ofAdd 1, 1), 1⟩
+    t * x * t⁻¹ = ⟨(1, Multiplicative.ofAdd 1), 1⟩ := by
+  sorry
+
+/-- Two cyclic generators have abelianized sum two. -/
+example : abelianizedSum C₃ (Multiplicative.ofAdd 1, Multiplicative.ofAdd 1) =
+      Abelianization.of (Multiplicative.ofAdd (2 : ZMod 3)) := by
+  sorry
+
+/-- Two transpositions have trivial total abelianization. -/
+example : abelianizedSum (Equiv.Perm (Fin 3)) (Equiv.swap 0 1, Equiv.swap 1 2) = 1 := by
+  sorry
+
+/-- An outside element with incorrect base coordinates is excluded by its nontrivial square. -/
+example : let x : SwapWreath C₃ := ⟨(Multiplicative.ofAdd 1, 1), Multiplicative.ofAdd 1⟩
+    x ^ 2 = ⟨(Multiplicative.ofAdd 1, Multiplicative.ofAdd 1), 1⟩ ∧ x ^ 2 ≠ 1 ∧
+      (⟨x, Subgroup.mem_top x⟩ : (⊤ : Subgroup (SwapWreath C₃))) ∉ outsideInvolutions ⊤ := by
+  sorry
+
+/-- Every finite odd cyclic anti-diagonal model has vanishing ordinary multiplier. -/
+example (n : ℕ) [NeZero n] (hodd : Odd n) :
+    Subsingleton (Multiplier (sumKernelModel (Multiplicative (ZMod n)))) := by
+  sorry
+
+/-- The ordinary multiplier retains the exterior-square value of this odd abelian base. -/
+example : Nonempty (Multiplier (sumKernelModel (C₃ × C₃)) ≃+ (ZMod 3)) := by
+  sorry
+
+/-- The ordinary multiplier retains the exterior-square value of this odd abelian base. -/
+example : Nonempty (Multiplier (sumKernelModel (Multiplicative (ZMod 5) × Multiplicative (ZMod 5))) ≃+ (ZMod 5)) := by
+  sorry
+
+/-- The ordinary multiplier retains the exterior-square value of this odd abelian base. -/
+example : Nonempty (Multiplier (sumKernelModel (Multiplicative (ZMod 9) × C₃)) ≃+ (ZMod 3)) := by
+  sorry
+
+/-- The ordinary multiplier retains the exterior-square value of this odd abelian base. -/
+example : Nonempty (Multiplier (sumKernelModel (C₃ × C₃ × C₃)) ≃+ (ZMod 3 × ZMod 3 × ZMod 3)) := by
+  sorry
+
+/-- The special-linear sum-kernel model has order three hundred eighty-four. -/
+example : Nat.card (sumKernelModel (Matrix.SpecialLinearGroup (Fin 2) (ZMod 3))) = 384 := by
+  sorry
+
+/-- The affine group generated by translation and multiplication by two gives the order-two-hundred-ninety-four model. -/
+example : let G := Subgroup.closure ({Equiv.addRight (1 : ZMod 7),
+      (⟨(2 * ·), (4 * ·), by decide, by decide⟩ : Equiv.Perm (ZMod 7))} : Set (Equiv.Perm (ZMod 7)))
+    Nat.card G = 21 ∧ Nat.card (sumKernelModel G) = 294 := by
+  sorry
+
+/-- `sumKernelModel_test_3`: the perfect alternating base gives the full wreath product of order 7200. -/
+example : sumKernelModel (alternatingGroup (Fin 5)) = ⊤ ∧
+    Nat.card (sumKernelModel (alternatingGroup (Fin 5))) = 7200 := by
+  sorry
+
+/-- Distinct involution classes in the symmetric group can have the same abelianized image. -/
+example : let x : Equiv.Perm (Fin 6) := Equiv.swap 0 1
+    let y : Equiv.Perm (Fin 6) := Equiv.swap 0 1 * Equiv.swap 2 3 * Equiv.swap 4 5
+    ¬ IsConj x y ∧ Abelianization.of x = Abelianization.of y := by
+  sorry
+
+/-- The obstructed cyclic order-four equation has no solutions despite its two-element torsion kernel. -/
+example : Nat.card {h : C₄ // h ^ 2 = 1} = 2 := by
+  sorry
+
+/-- Singleton one-variable parity sets have equal sizes and different weight polynomials. -/
+example : Nat.card ({0} : Set (Fin 1 → ZMod 2)) = 1 ∧
+    Nat.card ({1} : Set (Fin 1 → ZMod 2)) = 1 ∧
+    Set.weightPolynomial ({0} : Set (Fin 1 → ZMod 2)) = 1 ∧
+    Set.weightPolynomial ({1} : Set (Fin 1 → ZMod 2)) = Polynomial.X := by
+  sorry
+
+end NativeChecks
+
 /-!
 ## README targets requiring carriers absent at the pins
 
@@ -435,20 +838,16 @@ end RS6
   values are explicit input hypotheses of the conditional applications. The light `sumKernelModel` specializes to `order96Type`
   at `A₄` and to `antidiagonalModel` for abelian groups; `outsideInvolutions` retains their marking.
 
-The README also specifies the following API and Checks for the light definitions:
+The README also specifies the following API for the light definitions:
 * Degree slices: `boundedDegreeSlice_mem`, `boundedDegreeSlice_invariant`,
-  `boundedDegreeSlice_preimage`, `boundedDegreeSlice_test_1`.
+  `boundedDegreeSlice_preimage`.
 * Fixed degrees: `powerFixedDegree_fixed`, `powerFixedDegree_orbits`,
-  `powerFixedDegree_weighted_sum`, `powerFixedDegree_test_3`.
-* Hall comparison Checks: `multiplier_hallPart_test_1`, `multiplier_hallPart_test_2`,
-  `multiplier_hallPart_test_3`.
-* Torsion images: `torsionImageFiltration_zero`, `torsionImageFiltration_cyclic`,
-  `torsionImageFiltration_test_1`, `torsionImageFiltration_test_3`.
+  `powerFixedDegree_weighted_sum`.
+* Torsion images: `torsionImageFiltration_zero`, `torsionImageFiltration_cyclic`.
 * Thresholds: `obstructionThreshold_class`, `obstructionThreshold_bound`,
-  `obstructionThreshold_cyclic`, `obstructionThreshold_test_1`, `obstructionThreshold_test_2`.
-* Joint maps: `jointParityMap_apply`, `jointParityMap_mono_kernel`, `jointParityMap_last`,
-  `jointParityMap_test_1`, `jointParityMap_test_3`.
-* Sum kernels: `sumKernelModel_mem`, `sumKernelModel_outside`, `sumKernelModel_test_3`.
+  `obstructionThreshold_cyclic`.
+* Joint maps: `jointParityMap_apply`, `jointParityMap_mono_kernel`, `jointParityMap_last`.
+* Sum kernels: `sumKernelModel_mem`, `sumKernelModel_outside`.
 
 Every theorem and every API and Check for these targets is specified in the README. None of the
 supplied IG constructions is an additional target of this file.

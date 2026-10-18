@@ -180,7 +180,8 @@ The following objects and results are supplied elsewhere and enter only as prere
 ### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
 
 Use Layer IG.3.4, **Reduced Schur covers and the universal marked extension**, and Layer IG.3.5,
-**The action of units and the cyclotomic twist**. The contracts are stated in
+**The action of units and the cyclotomic twist**, and IG.5.6, **General rational-class
+fixed-fiber formula**. The cover and action contracts are stated in
 [InverseGaloisAndArithmeticFundamentalGroups, IG.3.4–IG.3.5](../InverseGaloisAndArithmeticFundamentalGroups/README.md#ig34-reduced-schur-covers-and-the-universal-marked-extension).
 
 - IG.3.4 **Commutators of lifts and the class map of a central extension** supplies
@@ -236,6 +237,12 @@ Use Layer IG.3.4, **Reduced Schur covers and the universal marked extension**, a
   point is a bijection; changing that point acts by the corresponding unit. A central character
   `χ:Γ→B` acts on the evaluated twist by `χ⁻¹`. In the finite-field application arithmetic
   Frobenius therefore acts by `q⁻¹`, geometric Frobenius by `q`; their fixed sets coincide.
+
+- [IG.5.6, **General rational-class fixed-fiber formula**](../InverseGaloisAndArithmeticFundamentalGroups/README.md#ig56-components-and-their-invariants)
+  supplies the identity-signature
+  power-image criterion and the count zero or `|A[q−1]|` for rational class unions. RS.4
+  expresses this obstruction through involution squares and extends the formula to signatures
+  in `c`.
 
 The finite-group universal-coefficient, cover and power interfaces above are used with their
 stated hypotheses. The original sources are Wood (2021), §2.1–Theorem 2.5, pp. 2–4, and §4,
@@ -836,7 +843,8 @@ its inverse have the same fixed set. For an arbitrary finite central marked mode
 finite-kernel hypothesis and count the fixed subset of the actual (g,m) fiber. Its cardinality is
 zero when degree compatibility or power-image membership fails.
 
-*Needs:* RS.4.3; `MonoidHom.fiberEquivKer` (Mathlib).
+*Needs:* RS.4.3; InverseGaloisAndArithmeticFundamentalGroups IG.5.6, **General rational-class
+fixed-fiber formula**; `MonoidHom.fiberEquivKer` (Mathlib).
 
 *Source.* Wood, *Nonabelian Cohen–Lenstra moments* (2019), §4.1, Proposition 4.1, equation (6),
 Remark 4.2, printed pp.400–401 (PDF pp.24–25).
@@ -888,7 +896,8 @@ Remark 4.2, printed pp.400–401 (PDF pp.24–25).
 
 **`torsionImageFiltration`.** For an abelian `A` let `B=TauCeti.ElementaryTwoQuotient A`. Define
 `B_t` to be the image in `B` of `A[2^t]=ker(powMonoidHom(2^t))`, regarded as a ZMod 2 subspace. `B_0=0`; the
-filtration is increasing. When `A` is finite, `B_e=B` if its 2-primary exponent is `2^e`.
+filtration is increasing. When `A` is finite, `B_e=B` whenever `2^e` annihilates its
+2-primary part: every `a` killed by some `2^k` is killed by `2^e`.
 
 *Construction.* Restrict the square-class map to the specified torsion subgroup; its additive image
 is a submodule. Finite abelian primary decomposition proves exhaustion.
@@ -897,7 +906,8 @@ The API:
 
 - `torsionImageFiltration_zero`: `B_0=0`, since `A[1]={1}`.
 - `torsionImageFiltration_mono`: `t≤u` implies `B_t≤B_u`.
-- `torsionImageFiltration_exhaustive`: `B_e=B` for 2-primary exponent `2^e`.
+- `torsionImageFiltration_exhaustive`: for a specified `e` annihilating the 2-primary part,
+  `B_e=B`.
 - `torsionImageFiltration_cyclic`: For `A=C_{2^e}, B_t=0` for `t<e` and `B_t=B` for `t≥e`.
 
 *Needs:* `powMonoidHom` (Mathlib); `TauCeti.ElementaryTwoQuotient` (Tau Ceti);
@@ -1033,7 +1043,8 @@ Remark 4.2, printed pp.400–401 (PDF pp.24–25).
 
 **Checks.**
 
-- `paritySquareMap_test_1` (degenerate): `a(0)=0` and `s(0)=0`.
+- `paritySquareMap_test_1` (basis columns): On `V=B=F₂²`, prescribe `s₁=e₁` and `s₂=e₂`.
+  The free linear extension satisfies `s(e₁+e₂)=e₁+e₂`.
 - `paritySquareMap_test_2` (computation): For `S₃` transpositions and its identity reduced cover,
   `V=F₂`, `Additive(Gᵃᵇ)≅F₂`, `a=id`, `B=0` and `s=0`.
 - `paritySquareMap_test_3` (non-example): For distinct classes with the same abelianized image,
@@ -1096,7 +1107,8 @@ developed here, rather than separately numbered results in that paper.
 
 **Checks.**
 
-- `jointParityMap_test_1` (degenerate): `L_t(0)=0`.
+- `jointParityMap_test_1` (coordinates): On `V=F₂²`, let `a` and `s` be the first and second
+  coordinate projections and `W=0`. Then `L(e₁)=(1,0)` and `L(e₂)=(0,1)` in `F₂ × (F₂/0)`.
 - `jointParityMap_test_2` (computation): For `a=0,s=id` on `F₂` and `B_t=0, kerL_t=0`; when `B_t=B`,
   `kerL_t=F₂`.
 - `jointParityMap_test_3` (non-example): For `a=id` and `s=0` on `F₂, kerL_t=0` for every `B_t`.
