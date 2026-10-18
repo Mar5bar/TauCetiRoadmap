@@ -504,8 +504,9 @@ duals and polar divisors. Layers 5–6 supply primitive finite-order Hecke and a
 Grössencharacter presentations on GlobalNumberFields' carriers, their conductors, gamma factors,
 root numbers, continuation and inverse-character functional equations. Section 2.7 compares
 adelic Tate integrals with these functions and obtains complex norm twists by translating their
-meromorphic germs. It identifies the supplied root number with the product of Tate's local
-epsilon factors in the specified conductor normalization.
+meromorphic germs. Its continuous-character Hecke completion extends the classical theta method
+to general unitary infinity parameters. It identifies the supplied root number with the product
+of Tate's local epsilon factors in the specified conductor normalization.
 
 AdelicAlgebraicGroups AA.2.4, *convergence-factors*, supplies finite-image complex Artin factors,
 their ramified induction identity, Artin–Hecke comparison and global meromorphic assembly.
@@ -1809,9 +1810,7 @@ GlobalNumberFields Layers 4–6's discrete diagonal and compact quotient. Thus `
 `F`-vector space, so it vanishes. These scalar foundations use local fields, traces, adeles
 and harmonic analysis, without automorphic hypotheses. AutomorphicFormsOnReductiveGroups §4.3
 consumes them for its compact-quotient character adapter and Fourier expansion.
-(Tate, *Fourier analysis in number fields and Hecke's zeta-functions*, §2.2, Theorem 2.2.1
-and Lemma 2.2.3, and §4.1, Lemma 4.1.5 and Theorem 4.1.4, thesis PDF pp. 10, 35, 39–40;
-Kudla, *Tate's Thesis*, §3, pp. 122–124, and §4, pp. 127–128, with positive archimedean sign.)
+(Kudla, *Tate's Thesis*, §3, pp. 122–124, and §4, pp. 127–128, with positive archimedean sign.)
 
 Construct the Schwartz–Bruhat space on the adeles, its restricted-product and tensor-product
 API, the self-dual Fourier transform and Poisson summation for a nontrivial additive character
@@ -1820,46 +1819,8 @@ self-dual additive measures are `dx` at real places, `2 dx dy` at complex places
 `vol(O_v) = q_v^(−ν_v/2)` at finite places, where `ν_v` is the different exponent.
 Fix Tate's multiplicative measures: `d^×x = (1−q_v⁻¹)⁻¹ dx_ψ/|x|_v` at finite places and
 `d^×x = dx_ψ/|x|_v` at infinity. Thus `vol^×(O_v^×) = q_v^(−ν_v/2)`.
-Disintegrate the idele-class measure along the norm using `dt/t`, and put
-`κ = vol(C_F¹)`, where `C_F¹ = ker(|·| : 𝔸_F^×/F^× → ℝ_{>0})`.
-Prove `κ = 2^r₁ (2π)^r₂ h_F R_F/(w_F √|d_F|)`, identifying it with Mathlib's
-`NumberField.dedekindZeta_residue F` (Tate §4.3, Lemma 4.3.1 and Theorem 4.3.2,
-thesis PDF pp. 45–48).
-
-<a id="tate-global-equation"></a>
-
-**Tate's global equation and continuation.** For every continuous idele-class quasi-character
-`χ` of a number field `F` and every `f ∈ S(𝔸_F)`, define
-`Z(f, χ, s) = ∫_{𝔸_F^×} f(x) χ(x) |x|_𝔸^s d^×x`.
-If `|χ(x)| = |x|_𝔸^r`, the integral converges absolutely for `Re(s)+r > 1`.
-It extends meromorphically to `ℂ` and satisfies
-`Z(f, χ, s) = Z(f̂, χ⁻¹, 1−s)` as meromorphic germs, with the self-dual transform for
-any nontrivial continuous additive character of `𝔸_F/F`.
-It is entire unless `χ = |·|_𝔸^t` for some `t ∈ ℂ`; in that case the only possible poles
-are simple at `−t` and `1−t`, with residues `−κ f(0)` and `κ f̂(0)`, respectively.
-A zero residue makes the corresponding singularity removable. This includes the quasi-characters
-supplied by Deligne's conductor lemma below.
-(Tate §4.4, Main Theorem 4.4.1 and its proof, thesis PDF pp. 50–52;
-Kudla, *Tate's Thesis*, §4, Theorem 4.3, p. 128.)
-*Needs:* the Schwartz–Bruhat, Fourier, Poisson and measure foundations above;
-GlobalNumberFields Layers 4–6 and 9–10; Mathlib Haar integration and Fourier transform.
-
-**Checks.**
-- Over `ℚ`, take `f = 1_Ẑ ⊗ exp(−πx∞²)` and `χ = 1`. Then `κ = f(0) = f̂(0) = 1`,
-  `Z(f,1,s) = Γ_ℝ(s) ζ(s)` and its residues at `0,1` are `−1,+1`.
-- For general `F`, take `1_{O_v}` at finite places, `exp(−πx²)` at real places and
-  `exp(−2πz z̄)` at complex places. Writing `D = |d_F|`, direct evaluation gives
-  `Z(f,1,s) = D^(−1/2) π^r₂ Γ_ℝ(s)^r₁ Γ_ℂ(s)^r₂ ζ_F(s)`.
-  Here `f(0) = 1` and `f̂(0) = D^(−1/2)`.
-  Thus the completed Dedekind function
-  `Λ_F(s) = D^((s+1)/2) π^(−r₂) Z(f,1,s)` continues meromorphically, satisfies
-  `Λ_F(s) = Λ_F(1−s)` and has simple poles at `0,1` with residues
-  `−D^(1/2) π^(−r₂) κ,+D^(1/2) π^(−r₂) κ`; the ordinary `ζ_F` has residue `κ` at `1`.
-  LFunctions Layer 3 owns these statements by Hecke's method, and the comparison below
-  identifies the two normalizations.
-- If `χ` is nontrivial on `C_F¹`, both zero-mode integrals vanish and `Z(f,χ,s)` is entire.
-- For `χ = |·|_𝔸^t`, the polar locations translate to `−t,1−t`; for `f = 0`, both
-  possible poles are removable.
+Use `dt/t` for the norm variable in the disintegration of the idele-class measure.
+For residue comparisons, write `κ := NumberField.dedekindZeta_residue F`.
 
 <a id="standard-test-function-evaluations"></a>
 
@@ -1922,33 +1883,109 @@ ClassFieldTheory layer 7; Mathlib Haar integration, Fourier transform and gamma 
 - At a complex place, `k = t = 0` and `s = 1` give `Γ_ℂ(1) = 1/π`.
   The unscaled Gaussian has integral `1`, so its factor is `π Γ_ℂ(s)`.
 
-Combining Tate's global equation with these evaluations on the factorizable standard function
-gives the completed Hecke equation with epsilon product `∏_v ε_v(s,χ_v)`; after conductor
-balancing its root number is `∏_v ε_v(1/2,χ_u,v)` for the unitary character `χ_u`, as used below.
+<a id="hecke-zeta-integral-comparison"></a>
 
-For `χ = χ₀ |·|_𝔸^t` with `χ₀` algebraic of type A₀ and `t ∈ ℂ`, use LFunctions Layers 0, 5–6's
-primitive presentation, conductor, Hecke function, completion and inverse-character equation.
-Compare the integral with that primitive Hecke function on a convergence half-plane and as
-meromorphic germs, including every ramified factor and the Euler correction for an imprimitive
-presentation.
+**Hecke zeta-integral comparison.** For a number field `F`, let `χ = χ₀ |·|_𝔸^t`, where
+`χ₀` is algebraic of type A₀ and `t ∈ ℂ`. Use LFunctions Layers 0, 5–6's primitive
+presentation of `χ₀`. At a prime idele write `χ₀(π_v) = χ₀,u(π_v) q_v^σ`, with `σ` the
+supplier's real ideal-side shift; its idelic norm exponent is `−σ`.
+Put `u = s+t−σ` and `A = |disc F| N(𝔣₀)`, with `𝔣₀` the primitive finite conductor.
+Let `f^std_χ` be the restricted tensor product of the prescribed local standard functions above.
+For `Re(u) > 1`, prove absolute convergence and the comparison
+`Z(f^std_χ,χ,s) := ∫_{𝔸_F^×} f^std_χ(x) χ(x) |x|_𝔸^s d^×x = A^(−u/2) Λ_unit(χ₀,u)`
+(`heckeZetaIntegral_eq_completedHecke`). Thus the conductor-normalised expression
+`A^(u/2) Z(f^std_χ,χ,s)` equals the supplied completion `Λ(χ,s) = Λ_unit(χ₀,s+t−σ)`.
+The standard integral itself is the primitive finite Hecke function times its gamma factors.
+Use real gamma shift the parity of `χ₀,u` and complex shift `|n_τ−n_τ̄|/2`, including the
+signs outside the real identity components. For an imprimitive presentation, its finite series
+is the primitive one times
+`∏_{v ∣ 𝔪₀, v ∤ 𝔣₀} (1−χ₀,u(π_v) q_v^(−u))`.
+Continuation, inverse-character reflection at `1−s` and the translated polar divisors of this
+standard integral follow from LFunctions' continuation and functional equation by multiplication
+by `A^(−u/2)` and precomposition by `s ↦ s+t−σ`.
+(Source: LFunctions Layers 0, 5–6; Neukirch, *Algebraic Number Theory*, VII (8.1), (8.3),
+(8.5)–(8.6), pp. 493–503; the local evaluations above.)
+*Needs:* [Standard-test-function evaluations](#standard-test-function-evaluations);
+GlobalNumberFields Layers 4–6 and 9–10; LFunctions Layers 0, 5–6; Mathlib Haar integration.
 
-For this comparison pin the normalization as follows. At a prime idele, write
-`χ₀(π_v) = χ₀,u(π_v) q_v^σ`, with `σ` the ideal-side shift in LFunctions Layer 6, so its
-idelic norm exponent is `−σ`. With `A = |disc F| N(𝔣₀)` for the primitive finite conductor,
-the supplied unitary completion gives
-`Λ(χ,s) = Λ_unit(χ₀,s+t−σ)`: its conductor power is `A^((s+t−σ)/2)`.
-Use the supplier's gamma factors at `s+t−σ`, with real shift the parity of `χ₀,u` and complex
-shift `|n_τ−n_τ̄|/2` for the idelic infinity exponents of `χ₀`; the real parity includes the signs
-outside the identity component. Compare the analytic equation at `s` with the inverse character
-`χ₀⁻¹ |·|_𝔸^(−t)` at `1−s`, and transport the arithmetic normalization by LFunctions Layer 0's
-weight translation. Identify the supplied root number with the product of local Tate epsilon
-factors, including the archimedean factors and the conductor power: for the global self-dual
-measure, that product for `χ |·|_𝔸^s` is `W(χ₀) A^(1/2−s−t+σ)`.
-The complex norm twist is precomposition of the supplied germs by `s ↦ s+t`. Transport their
-polar divisors: only pure norm characters have poles, with their reflected simple poles included
-in the equation; values are compared away from both polar divisors
-(Deligne 1973, 3.11–3.12 (A)–(C), pp. 532–533; Tate, *Fourier analysis in number fields and
-Hecke's zeta-functions*, §4.4, Main Theorem 4.4.1, in Cassels–Fröhlich, pp. 339–340).
+**Checks.**
+- Over `ℚ`, the trivial character gives `f^std = 1_Ẑ ⊗ exp(−πx∞²)` and
+  `Z = Γ_ℝ(s) ζ(s)`, with simple poles at `0,1` and residues `−1,+1`;
+  `Res_{s=1} ζ(s) = κ = 1`.
+- The odd character modulo `4` gives `Z = Γ_ℝ(s+1) L(s,χ₄) = 4^(−s/2) Λ_unit(χ₄,s)`.
+  Its real parity is one, its primitive conductor is four and its completion is entire.
+- Over `ℚ(i)`, for the unramified angular character
+  `χ_m((α)) = (α/ᾱ)^(2m)`, `m ∈ ℤ`, `m ≠ 0`, the idelic infinity frequency is `−4m`.
+  Here `A = 4`, `σ = 0` and `Z = Γ_ℂ(s+2|m|) L(s,χ_m) = 4^(−s/2) Λ_unit(χ_m,s)`;
+  the gamma shift is nonzero and the completion is entire.
+
+<a id="continuous-character-hecke-completion"></a>
+
+**Continuous-character Hecke completion.** For every unitary idele-class character `ω` of a
+number field `F`, define `Λ_H(ω,u) = A^(u/2) L_∞(ω,u) L_f(ω,u)` and its Hecke root number
+`W_H(ω)`, with `A = |disc F| N(𝔣(ω))` and the primitive ideal Euler product `L_f`.
+If `ω_v = sgn^a |·|^(i r_v)` at a real place or
+`ω_v = (z/|z|)^k |·|_ℂ^(i r_v)` at a complex place, with `r_v ∈ ℝ`, `a ∈ {0,1}`
+and `k ∈ ℤ`, its factor in `L_∞` is
+`Γ_ℝ(u+i r_v+a)` or `Γ_ℂ(u+i r_v+|k|/2)`, respectively.
+Extend the supplied classical Hecke theta/Mellin construction to these continuous infinity
+parameters: retain the imaginary powers in the integral over the archimedean unit quotient.
+Prove meromorphic continuation, `Λ_H(ω,u) = W_H(ω) Λ_H(ω⁻¹,1−u)` and `|W_H(ω)| = 1`,
+with `W_H` given by Hecke's finite Gauss sum and its archimedean normalisation.
+If `ω = |·|_𝔸^(i r)`, its poles are simple at `−i r,1−i r`; otherwise it is entire.
+For `χ = ω |·|_𝔸^t`, `t ∈ ℂ`, use `Λ_H(ω,s+t)` and translate the poles by `−t`.
+Identify the algebraic specialisations with LFunctions' unitary completions and root numbers.
+This is the continuous-character extension of those supplied functions
+(`continuousHeckeCompletion`); its equation is proved by the classical theta method.
+(Source: Neukirch VII (6.7), (6.13)–(6.14), (8.3)–(8.6), pp. 476–483, 499–503.)
+*Needs:* GlobalNumberFields Layers 9–10's unitary decomposition and `ContinuousInfinityType`;
+LFunctions Layers 0–1 and 5–6's classical theta/Mellin construction.
+
+**Checks.**
+- For `ω = 1`, recover the supplied Dedekind completion, root number one and simple poles
+  at `0,1`; its norm twist by `t` has poles at `−t,1−t`.
+- For `ω = |·|_𝔸^(i r)`, `r ∈ ℝ`, put `D = |disc F|`. Then
+  `Λ_H(ω,u) = D^(−i r/2) Λ_F(u+i r)` and `W_H(ω) = D^(−i r)`.
+  The prefactor records the conductor normalisation when an imaginary norm power is moved
+  between the unitary character and the variable shift.
+- Over `F = ℚ(√2)`, put `ε = 1+√2` and `r = π/log ε`. The unramified character whose
+  infinity component is `|x₁/x₂|^(i r)` is well-defined on units since `ε^(2i r) = 1`;
+  define its ideal value on `(α)` as `|α₁/α₂|^(−i r)`.
+  Its real gamma shifts are `i r,−i r`. It is neither a pure norm character nor an algebraic
+  character times a complex norm power, and its completion is entire.
+
+<a id="root-number-product-formula"></a>
+
+**Root-number product formula.** For every continuous idele-class quasi-character
+`χ = ω |·|_𝔸^t`, with `ω` unitary, `t ∈ ℂ` and `A = |disc F| N(𝔣(ω))`, prove
+`∏_v ε_v(s,χ_v,ψ_v) = W_H(ω) A^(1/2−s−t)`
+(`rootNumber_eq_prod_tateLocalConstant`). Use the standard trace character and self-dual
+measures above. At finite places `ε_v = tateLocalConstant(χ_v |·|_v^s, ψ_v, dx_ψ)`;
+at infinity the constants are `i^a` and `i^|k|`. All but finitely many factors are one.
+For `χ = χ₀ |·|_𝔸^t` with algebraic `χ₀` of ideal-side shift `σ`, this reads
+`∏_v ε_v(s,χ_v,ψ_v) = W(χ₀) A^(1/2−s−t+σ)` with LFunctions' root number.
+Factor Hecke's Gauss sum over conductor primes and match the factors with the local integrals
+`𝔤(ω_v,ψ_v)`. Include the different at every finite place, the uniformiser values, the
+archimedean phase and, for general infinity parameters, their imaginary-power normalisations.
+This comparison uses the explicit Gauss sums and Hecke's root number.
+Scaling the global trace character by `b ∈ F^×` leaves the product unchanged by the product
+formula and `χ(b) = 1`.
+(Source: Neukirch VII (7.4)–(7.6), (8.5)–(8.6), pp. 486–489, 502–503;
+Tate 1950 §2.5 for the local formulas; Deligne 1973 §§3–5, especially 3.11–3.12 and 5.5.)
+*Needs:* [Continuous-character Hecke completion](#continuous-character-hecke-completion);
+[Hecke zeta-integral comparison](#hecke-zeta-integral-comparison);
+[Standard-test-function evaluations](#standard-test-function-evaluations); Tate's local constant above.
+
+**Checks.**
+- For the trivial character, `W = 1` and
+  `∏_{v finite} q_v^(ν_v(1/2−s)) = |disc F|^(1/2−s)`; both archimedean constants are one.
+- For the odd quadratic character modulo `4` over `ℚ`, `χ₂(2) = 1` and
+  `ε₂(s) = −i · 4^(1/2−s)`, since its negative-sign Gauss sum is `−2i`.
+  The real constant is `i`, so `ε₂(s) ε_∞(s) = 4^(1/2−s)` and `W(χ₄) = 1`.
+- The primitive quadratic character of conductor `3` over `ℚ` has local component at `3`
+  with `ω(3) = 1` and nontrivial quadratic restriction to `ℤ₃^×`.
+  Its constant is `−i · 3^(1/2−s)` as in the local check, while the real constant is `i`;
+  their product is `3^(1/2−s)`, with root number one.
 
 Prove the following globalization statements. A finite Galois extension `K'/K` of
 `p`-adic fields embeds as a subextension of a completion of a finite Galois extension
@@ -1956,18 +1993,24 @@ Prove the following globalization statements. A finite Galois extension `K'/K` o
 (Deligne 1973, Lemma 4.13, pp. 544–545). For a number field `F`, a finite set `S` of finite places
 and integers `m_v ≥ 0`, construct a continuous idele-class quasi-character unramified at every
 finite place outside `S` and with conductor exponent at least `m_v` at `v ∈ S`
-(Lemma 4.14, p. 545). Its infinity type is unrestricted. Apply these contracts, the global
-functional equation, and the unramified and sufficiently ramified local calculations to prove
+(Lemma 4.14, p. 545). Its infinity type is unrestricted. Apply these contracts, the
+inverse-character Hecke equation (LFunctions on its algebraic domain and the continuous-character
+extension above) together with the root-number product formula, and the unramified and
+sufficiently ramified local calculations to prove
 Deligne's transfer of local-constant theories at a place that does not split
 (Lemma 4.12 and Lemmas 4.15–4.16, pp. 544–547).
 Consume AdelicAlgebraicGroups AA.2.4's finite-image Artin factors, ramified induction and
 meromorphic assembly. For our representation `V`, use its complex dual in that supplier:
 §2.5a identifies its arithmetic-Frobenius factor with our geometric-Frobenius factor. Use Brauer
-induction and Tate's equation for the induced one-dimensional twists to prove
+induction and the inverse-character Hecke equation for the induced one-dimensional twists
+(LFunctions on its algebraic domain and the continuous-character extension above) together with
+the root-number product formula to prove
 the completed functional equation for finite-image `V` twisted by a continuous idele-class
 quasi-character, with the product of the local epsilon factors. For the untwisted representation,
 identify it with AA.2.4's meromorphic assembly (Deligne 1973, 3.12 (B)–(C), p. 533). These inputs precede Deligne–Langlands existence.
-*Needs:* [Tate's global equation and continuation](#tate-global-equation);
+*Needs:* [Hecke zeta-integral comparison](#hecke-zeta-integral-comparison);
+[Continuous-character Hecke completion](#continuous-character-hecke-completion);
+[Root-number product formula](#root-number-product-formula);
 [Standard-test-function evaluations](#standard-test-function-evaluations);
 §2.5a; LFunctions Layers 0, 5–6; AdelicAlgebraicGroups AA.2.4, *convergence-factors*;
 GlobalNumberFields Layers 4–6 (adeles and ideles) and Layers 9–10 (Hecke characters);
