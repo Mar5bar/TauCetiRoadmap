@@ -714,6 +714,11 @@ B5: `ClassicalHecke.operator`, `SiegelHT.decomposition`, `SiegelHT.decomposition
 `HilbertQExpansion.expansionPrinciple`, `HilbertQExpansion.cusp_iff_constantTerms`,
 `ClassicalHecke.expansion_compat`, `SiegelHT.classicalVB_equivariance`.
 
+For schemes, `finiteLocallyFreeTrace` is a transparent alias of AdicSpacesPartIII R3.8's
+`AlgebraicGeometry.Scheme.Hom.finiteTrace`, with
+`finiteLocallyFreeTrace π = AlgebraicGeometry.Scheme.Hom.finiteTrace π` for finite locally free `π`.
+Its coefficient and stack-descent adapters are B5.1 targets.
+
 Additional analytic API specified only in the README:
 B4.3: `AutomorphyFactor_forget`.
 B5.10: `ClassicalHecke.operator_one`, `ClassicalHecke.coefficient_map`.

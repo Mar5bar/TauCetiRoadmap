@@ -4516,11 +4516,14 @@ setting, and states the classical Siegel Hodge–Tate decompositions.
 
 ### B5.1 The trace of a finite locally free morphism
 
-Construct `finiteLocallyFreeTrace`. For a finite locally free morphism `π : X → Y` of schemes,
-define the trace `Tr_π : π_*O_X → O_Y`, sending a local section `f` to the trace of multiplication
+For a finite locally free morphism `π : X → Y` of schemes, use AdicSpacesPartIII R3.8's
+`AlgebraicGeometry.Scheme.Hom.finiteTrace`, with `finiteLocallyFreeTrace` as a transparent alias:
+`finiteLocallyFreeTrace π = AlgebraicGeometry.Scheme.Hom.finiteTrace π`.
+The trace `Tr_π : π_*O_X → O_Y` sends a local section `f` to the trace of multiplication
 by `f` on the finite locally free `O_Y`-module `π_*O_X`. It is `O_Y`-linear and `Tr_π ∘ π^♯` is
-multiplication by the locally constant degree of `π`. For a finite locally free `O_Y`-module `𝓕`,
-the projection formula `π_*π^*𝓕 ≅ π_*O_X ⊗ 𝓕` gives `Tr_{π,𝓕} : π_*π^*𝓕 → 𝓕`. The trace is
+multiplication by the locally constant degree of `π`. Construct the coefficient adapter: for a finite
+locally free `O_Y`-module `𝓕`, the projection formula `π_*π^*𝓕 ≅ π_*O_X ⊗ 𝓕` gives
+`Tr_{π,𝓕} : π_*π^*𝓕 → 𝓕`. The trace is
 transitive along composites of finite locally free morphisms and commutes with base change along any
 `Y′ → Y`; on an affine open where `π_*O_X` is free with a basis it is the algebra trace computed in
 that basis. For finite locally free morphisms of algebraic stacks the trace is defined by descent
@@ -4532,7 +4535,7 @@ invertible.
 
 *Source:* [StacksTrace], 0BVH, Section 49.3.
 
-The API:
+The API, with the scheme-level scalar laws inherited from AdicSpacesPartIII R3.8:
 
 - `finiteLocallyFreeTrace_linear`: `Tr_π` is `O_Y`-linear.
 - `finiteLocallyFreeTrace_unit`: `Tr_π(π^♯ a) = deg(π)·a`.
@@ -4542,7 +4545,9 @@ The API:
 - `finiteLocallyFreeTrace_coefficient`: `Tr_{π,𝓕}` is natural in `𝓕` and equals `Tr_π ⊗ id_𝓕` under
   the projection formula.
 
-*Needs:* Mathlib `Algebra.trace_algebraMap_of_basis`, `Algebra.trace_trace`,
+*Needs:* AdicSpacesPartIII R3.8 (`AlgebraicGeometry.Scheme.Hom.finiteTrace`, its finite-projective
+scalar trace, unit, composition and arbitrary-base-change laws);
+Mathlib `Algebra.trace_algebraMap_of_basis`, `Algebra.trace_trace`,
 `LinearMap.trace_baseChange`; SchemeAndStackFoundations Layer 1 (§1.1,
 §1.22).
 *Lean:* none; specified in the README only.
