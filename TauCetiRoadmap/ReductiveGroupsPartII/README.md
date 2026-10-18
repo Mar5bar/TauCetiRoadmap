@@ -210,7 +210,7 @@ formed on the identical `Root S` and `weightSpace S χ`, with no independently c
 | Induced maps of quotient groups | `QuotientGroup.map` | `Mathlib/GroupTheory/QuotientGroup/Defs.lean` |
 | Lower closure and transport by an order isomorphism | `lowerClosure`, `lowerClosure_image` | `Mathlib/Order/UpperLower/Closure.lean` |
 | Modular character of a locally compact group | `MeasureTheory.Measure.modularCharacter` | `Mathlib/MeasureTheory/Group/ModularCharacter.lean` |
-| DVR lattice indices and linear Haar images | MassFormula, Layer 2 (open target-level supplier): the image-lattice index and regular-Haar scaling law | `MassFormula/README.md`, Layer 2; RG2.0 supplies denominator clearing, normalized-absolute-value comparison and the inverse-map pushforward adapter, followed by positive-characteristic nonlinear charts. |
+| DVR lattice indices and linear Haar images | MassFormula, Layer 2 (target-level supplier): the image-lattice index and regular-Haar scaling law | `MassFormula/README.md`, Layer 2; RG2.0 supplies denominator clearing, normalized-absolute-value comparison and the inverse-map pushforward adapter, followed by positive-characteristic nonlinear charts. |
 
 `NormTorus.norm` differs from the units norm by swapping `k' ⊗[k] R` to `R ⊗[k] k'`
 before taking the norm over `R`. The affine point topology here allows general topological
@@ -696,7 +696,7 @@ p. 11, for fields complete for a nontrivial absolute value; construct its analyt
 and tangent comparison here.
 
 Normalize regular additive Haar measure by `μ(O_E) = 1` and its product `μ_d` by
-`μ_d(O_E^d) = 1`. Consume the open target-level supplier MassFormula, Layer 2, for the
+`μ_d(O_E^d) = 1`. Consume the target-level supplier MassFormula, Layer 2, for the
 DVR lattice index and linear image law
 `μ_d(MB) = q^{-ω(det M)} μ_d(B)` for integral matrices `M` with nonzero determinant
 and Borel sets `B`. Here extend that law to `A ∈ GL_d(E)` by clearing uniformizer
@@ -712,7 +712,7 @@ theorem identifies their images with the corresponding linear images. The adapte
 and nonlinear Haar-Jacobian comparison belong here. They provide the positive-characteristic
 counterpart of RG2.0 *smooth-group-analytic-charts* for RG2.4.
 *Needs:* *affine-point-topology-embedding*; *points-topological-group*;
-*smooth-morphism-open-map*; MassFormula, Layer 2 (open target-level supplier: DVR lattice index
+*smooth-morphism-open-map*; MassFormula, Layer 2 (target-level supplier: DVR lattice index
 and regular-Haar image law);
 ReductiveGroups layer 2; Tau Ceti
 `Derivation.cotangentLinearEquiv`; Mathlib additive Haar measure and
