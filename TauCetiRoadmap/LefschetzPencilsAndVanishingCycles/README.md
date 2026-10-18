@@ -194,7 +194,8 @@ It leaves to other roadmaps:
   codimension one, the étale-local description by prime-to-residue-characteristic roots of
   a divisor equation, and the finite locally free normalization with regular reduced boundary.
   These supply the regular-divisor inputs to 1.8 and 5.1–5.2; the normal-crossings extension,
-  compatible Kummer tower and tame fundamental group are constructed in 1.8.
+  compatible Kummer tower and tame fundamental group used in 1.8 are supplied by
+  CrystallineCohomology §CR.5:log-algebra.4, *The classical Abhyankar lemma*.
 - **TauCetiRoadmap StableReduction** Layer 1 (nodes, local equations `uv = π^n`, normalization, oriented dual
   multigraphs) and Layer 4 (Rees-algebra blow-ups, the test case `xy = π^n`). The oriented dual graph is
   `TauCetiRoadmap.StableReduction.DualGraph`, an edge `e` having tail `endpoint e 0` and head `endpoint e 1`;
@@ -212,7 +213,10 @@ It leaves to other roadmaps:
 - **CrystallineCohomology** §§CR.5:log-algebra.1–CR.5:log-algebra.4: monoids,
   étale log structures and fs charts, log fibre products, strict/exact/integral/Kummer
   morphisms, log smooth/log étale predicates and Kato's chart criterion, divisorial log
-  structures and log regularity. From §CR.5.1 use only the logarithmic differential
+  structures and log regularity. Section CR.5:log-algebra.4, *The classical Abhyankar lemma*,
+  supplies the SNC Abhyankar theorem, the compatible Kummer tower with its transition maps,
+  the universal tame pro-cover and the full tame fundamental group used in 1.8.
+  From §CR.5.1 use only the logarithmic differential
   module and its universal property. These log-algebra sections and that differential
   construction are independent of crystalline cohomology, Cartier and Hyodo–Kato theory.
   Section 0.10 extends this shared carrier with log blow-ups, finite-group actions,
@@ -1232,17 +1236,21 @@ from PurityOfBranchLocus §2.1 (Stacks 0BMB):
 for `f:X→Y` between locally noetherian schemes, `x∈X`, `y=f(x)`, assume `O_{X,x}` normal,
 `O_{Y,y}` regular, `f` quasi-finite at `x`, equal local dimensions at least one, and
 unramifiedness at every codimension-one generalization of `x`. Then `f` is étale at `x`.
-Use this to prove the normal-crossings Abhyankar statement: on a regular strictly local
-scheme with strict normal crossings boundary and separable finite covers tame at its
-codimension-one boundary points, a prime-to-residue-characteristic Kummer cover kills the
-ramification and the normalized pullback is étale. Establish the compatible Kummer tower
-and its tame fundamental group; its maximal pro-ℓ quotient at a point with `r` branches is
-`ℤ_ℓ(1)^r`, for ℓ invertible there. (Stacks 0BMB; SGA 1 XIII Proposition 5.2 and Corollary 5.3.)
+For the normal-crossings application, use CrystallineCohomology §CR.5:log-algebra.4,
+*The classical Abhyankar lemma*: on a regular strictly local scheme of residue characteristic
+`p ≥ 0` with strict normal crossings boundary, a finite étale cover of the complement tame
+along the boundary becomes étale over a root chart after normalized pullback by a
+prime-to-`p` Kummer cover. Use its supplied compatible Kummer tower, with transition
+`T_a ↦ T_a^{n_a/m_a}` for `m_a ∣ n_a`, and universal tame pro-cover. With `r` boundary
+branches its full tame fundamental group is `∏_{ℓ≠p} ℤ_ℓ(1)^r`; in particular its maximal
+pro-ℓ quotient is `ℤ_ℓ(1)^r`, for ℓ invertible there. (Stacks 0BMB; SGA 1 XIII, Appendice I,
+Propositions 5.1–5.2 and Corollary 5.3, pp. 314–316.)
 *Needs:* PurityOfBranchLocus §§2.1–2.2 (branch purity and its global corollary);
 AbhyankarLemma §§3.3–3.4 (regular-divisor local structure and normalization, Stacks 0EYG/0EYH);
+CrystallineCohomology §CR.5:log-algebra.4, *The classical Abhyankar lemma* (SNC Abhyankar,
+compatible Kummer tower and universal tame pro-cover with its full tame fundamental group);
 SchemeAndStackFoundations §§0.8, 0.21 (regularity, normalization and quasi-finite maps);
-EtaleCohomologyFoundations §F.0 (Kummer theory). Construct the normal-crossings extension,
-compatible Kummer tower and tame fundamental group here.
+EtaleCohomologyFoundations §F.0 (Kummer theory).
 
 **Checks.**
 
@@ -1262,12 +1270,14 @@ cofinal system chosen; the intrinsic version replaces the local equations by the
 bundle. Relative monodromy filtrations along a stratum are unique when they exist (1.5); their
 existence under mixedness hypotheses is a statement about weights and is not part of this theorem.
 
-*Proof sketch.* Abhyankar's lemma and the Kummer tame covers along `D` give the compatible restriction
-system; the maximal pro-ℓ quotient of tame local inertia at a strict normal crossings
+*Proof sketch.* Apply the SNC Abhyankar theorem and compatible Kummer tower supplied by
+CrystallineCohomology §CR.5:log-algebra.4, *The classical Abhyankar lemma*, to construct the tame
+restriction system of `F`; the maximal pro-ℓ quotient of tame local inertia at a strict normal crossings
 point is `∏_a ℤ_ℓ(1)`, abelian, so the logarithms
 `N_a` of the unipotent factors commute; uniqueness of relative filtrations is 1.5. (Weil II, 1.7.8–1.7.10,
-pp. 172–174.) *Needs:* 1.2, 1.5; `VanishingCycles.purityOfBranchLocus` and the
-normal-crossings Abhyankar/Kummer construction above (SGA 1 XIII 5.3).
+pp. 172–174.) *Needs:* 1.2, 1.5; `VanishingCycles.purityOfBranchLocus`;
+CrystallineCohomology §CR.5:log-algebra.4, *The classical Abhyankar lemma* (SNC Abhyankar,
+compatible Kummer tower and tame fundamental group; SGA 1 XIII, Appendice I, Corollary 5.3).
 
 **Checks.**
 
