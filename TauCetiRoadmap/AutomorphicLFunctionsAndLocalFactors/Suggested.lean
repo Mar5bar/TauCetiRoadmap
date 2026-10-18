@@ -38,8 +38,14 @@ against the pinned Mathlib and Tau Ceti APIs; proving every declaration does not
 The formulas fix the positive Tate Fourier kernel, the unitary centre, canonical real and complex
 gamma factors, geometric-Frobenius determinant conventions and continuation before evaluation.
 The standard trace character, local additive self-duality, restricted-product adelic duality,
-diagonal self-annihilator, common adelic Schwartz/Fourier/Poisson space and scalar Tate
-continuation are consumed from ArithmeticGaloisRepresentations §2.7 Global inputs.
+diagonal self-annihilator and common adelic Schwartz/Fourier/Poisson space are consumed from
+ArithmeticGaloisRepresentations §2.7 Global inputs. Its `tate-global-equation` supplies the scalar
+Tate equation, continuation, poles, residues and κ. Its `standard-test-function-evaluations`
+supplies `finiteStandardEvaluation`, `archimedeanStandardEvaluation_real` and
+`archimedeanStandardEvaluation_complex`, including the Fourier values on those vectors.
+The local equation for arbitrary Schwartz functions, eigendistribution uniqueness and
+distribution-valued global refinements are targets here. The scalar theorem, standard-function
+evaluations and `tateLocalConstant` belong to that supplier.
 `LocalAdditiveSelfDuality` compares the supplied isomorphism with the bilinear annihilator;
 `SelfDualHaar` records the local measure adapter. The README specifies the additional
 local-factor, vector-space and distribution refinements, representation spaces, shtukas and
@@ -441,8 +447,9 @@ namespace TauCeti.TateZeta.SuggestedTest
 
 open Complex Real
 
-/-- `AL.1/unramified-local-theory`: the unramified factor. `z(s, ω; 1_O) = Σ_{n ≥ 0} (t q^{-s})^n`
-sums to `L(s, ω) = (1 - t q^{-s})⁻¹` when `‖t q^{-s}‖ < 1`. -/
+/-- The geometric series in ArithmeticGaloisRepresentations §2.7's `finiteStandardEvaluation`
+matches the unramified factor in `AL.1/unramified-local-theory` when `‖t q^{-s}‖ < 1`.
+Its finite vector is `q^(ν/2)1_O` in Tate's measure and `1_O` in Kudla's measure. -/
 example (ξ : ℂ) (h : ‖ξ‖ < 1) : ∑' n : ℕ, ξ ^ n = (1 - ξ)⁻¹ :=
   tsum_geometric_of_norm_lt_one h
 
@@ -453,8 +460,9 @@ example (a b : ℤ) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
 
-/-- `AL.1/archimedean-local-theory` (3.21): Kudla's complex factor `(2π)^{1-s}Γ(s)` is `π · Γ_ℂ(s)`
-for Deligne's `Γ_ℂ(s) = 2(2π)^{-s}Γ(s)`. -/
+/-- Kudla's complex factor in `AL.1/archimedean-local-theory` is π times the canonical factor
+in ArithmeticGaloisRepresentations §2.7's `archimedeanStandardEvaluation_complex`.
+The measures agree; the supplied test vector is π⁻¹ times Kudla's vector. -/
 example (s : ℂ) : (2 * π : ℂ) ^ (1 - s) * Gamma s = π * Gammaℂ s := by
   have h2 : (2 * π : ℂ) ≠ 0 := by
     have : (π : ℂ) ≠ 0 := ofReal_ne_zero.mpr Real.pi_ne_zero
@@ -475,7 +483,8 @@ example (a : ℝ) (ha : 0 < a) :
       1 / a ^ (1 / 2 : ℝ) * ∑' n : ℤ, Real.exp (-Real.pi / a * (n : ℝ) ^ 2) :=
   Real.tsum_exp_neg_mul_int_sq ha
 
-/-- The scalar Tate equation consumed from ArithmeticGaloisRepresentations §2.7,
+/-- The scalar Tate equation consumed from ArithmeticGaloisRepresentations §2.7's
+`tate-global-equation`,
 for `k = ℚ`, `κ = 1`, `f(0) = f̂(0) = 1`, provides the bracket
 `κ f̂(0)/(s - 1) - κ f(0)/s` and the functional equation `ζ(f, c) = ζ(f̂, ĉ)`. -/
 example (s : ℂ) :
@@ -483,8 +492,9 @@ example (s : ℂ) :
       completedRiemannZeta (1 - s) = completedRiemannZeta s :=
   ⟨completedRiemannZeta_eq s, completedRiemannZeta_one_sub s⟩
 
-/-- `AL.1/idele-class-volume` for `k = ℚ`: `r₁ = 1`, `r₂ = 0`, `h = R = 1`, `w = 2`, `|d| = 1`
-give `κ = 2^{r₁}(2π)^{r₂}hR/(w√|d|) = 1`. -/
+/-- The κ supplied by ArithmeticGaloisRepresentations §2.7 Global inputs and used in
+`tate-global-equation` specializes to 1 over ℚ in `AL.1/idele-class-volume`:
+`r₁ = 1`, `r₂ = 0`, `h = R = 1`, `w = 2`, `|d| = 1`. -/
 example : (2 : ℝ) ^ 1 * (2 * Real.pi) ^ 0 * 1 * 1 / (2 * Real.sqrt 1) = 1 := by
   norm_num
 
@@ -539,7 +549,8 @@ example : gammaFactor (fun _ => 2) (fun _ => 3) (fun _ => 5) 0 = 10/3 := by sorr
 /- `TateZeta.epsilonFactor_eq_tateLocalConstant` identifies the scalar in the
 normalized-distribution equation with tateLocalConstant(ω |·|^s, ψ, dx_ψ)
 for every finite completion, continuous quasi-character, nontrivial continuous
-additive character and s. It uses the positive Fourier kernel and retains ν and c.
+additive character and s. It uses that supplier's `finiteStandardEvaluation` on the
+nonzero normalized eigenline, with the positive Fourier kernel and both ν and c retained.
 The following scalar checks specialize its common formula to ν=1 and c=1. -/
 
 /-- Both conductor contributions give exponent 1-2s when ν=c=1. -/
@@ -580,8 +591,9 @@ example : localGaussSum Measure.count ({1} : Set (ZMod 2)) 2 0 1
     -(Real.sqrt 2 : ℂ) := by sorry
 
 /-- Product notation for the supplied unbalanced all-place factors on their convergence domain.
-ArithmeticGaloisRepresentations §2.7 supplies scalar continuation for general quasi-characters;
-the algebraic norm-twist normalization is compared with LFunctions layers 0, 5–6. -/
+ArithmeticGaloisRepresentations §2.7's `tate-global-equation` and
+`standard-test-function-evaluations` supply the continued scalar Hecke germ for general
+quasi-characters; the algebraic norm-twist normalization is compared with LFunctions layers 0, 5–6. -/
 def completedHeckeL {ι : Type*} (L : ι → ℂ → ℂ) (s : ℂ) : ℂ := ∏' v, L v s
 
 /-- The product after removing the specified places, on its convergence domain. -/
@@ -612,7 +624,9 @@ example (L : ℂ → ℂ) (s : ℂ) :
 example (A : ℝ) (L : ℂ → ℂ) (s t : ℂ) :
     balancedHeckeL A L (s + t) = (A : ℂ) ^ ((s+t)/2) * L (s+t) := by sorry
 
-/-- Epsilon of the real character sgn^a times a norm twist, for the positive Tate character. -/
+/-- The real scalar value supplied by ArithmeticGaloisRepresentations §2.7's
+`archimedeanStandardEvaluation_real`, compared with the distribution epsilon for
+sgn^a times a norm twist and the positive Tate character. -/
 def realStandardEpsilon (a : Fin 2) : ℂ := Complex.I^a.val
 
 example : realStandardEpsilon 0 = 1 ∧ realStandardEpsilon 1 = Complex.I := by sorry
@@ -620,10 +634,12 @@ example : realStandardEpsilon 0 = 1 ∧ realStandardEpsilon 1 = Complex.I := by 
 /-- The reducible real Weil constituent I₀ has the product epsilon of 1 and sgn. -/
 example : realStandardEpsilon 0 * realStandardEpsilon 1 = Complex.I := by sorry
 
-/-- Finite-product notation for the scalar epsilon factors supplied by
-ArithmeticGaloisRepresentations §2.7 for general quasi-characters, identified at each finite
-place with the distribution scalar by epsilonFactor_eq_tateLocalConstant. On algebraic norm twists
-the canonical rank-one comparison identifies the root number and primitive conductor power. -/
+/-- Finite-product notation for the scalar epsilon factors in ArithmeticGaloisRepresentations
+§2.7's `standard-test-function-evaluations` and its completed Hecke comparison with
+`tate-global-equation`. The finite factors agree with the distribution scalar by
+epsilonFactor_eq_tateLocalConstant; the archimedean factors use the supplied real and complex
+evaluations. On algebraic norm twists the rank-one comparison identifies the root number
+and primitive conductor power. -/
 def globalEpsilon {ι : Type*} (S : Finset ι) (ε : ι → ℂ → ℂ) (s : ℂ) : ℂ :=
   ∏ v ∈ S, ε v s
 
@@ -660,11 +676,16 @@ example {F : Type*} [Field F] [TopologicalSpace F]
     ¬ QuasiChar.IsUnramified ω U := by sorry
 
 -- TauCeti.TateZeta.zetaIntegral_gaussian_real
+/-- The shared-measure specialization of ArithmeticGaloisRepresentations §2.7's
+`archimedeanStandardEvaluation_real` in the local integral notation. -/
 example (s : ℂ) (hs : 0 < s.re) :
     zetaIntegral (volume.withDensity (fun x : ℝ => ENNReal.ofReal |x|⁻¹))
       abs (fun _ => 1) s (fun x => Complex.exp (-Real.pi*(x : ℂ)^2)) =
     Complex.Gammaℝ s := by sorry
 -- TauCeti.TateZeta.zetaIntegral_gaussian_complex
+/-- The unscaled complex Gaussian comparison with ArithmeticGaloisRepresentations §2.7's
+`archimedeanStandardEvaluation_complex`: in the same measure it gives π times the
+canonical factor, since the supplied vector includes π⁻¹. -/
 example (s : ℂ) (hs : 0 < s.re) :
     zetaIntegral ((2 : ℝ≥0∞) • volume.withDensity
       (fun z : ℂ => ENNReal.ofReal (‖z‖^2)⁻¹))
@@ -674,6 +695,8 @@ example (s : ℂ) (hs : 0 < s.re) :
 -- TauCeti.TateZeta.zetaIntegral_not_convergent
 example : ¬ Summable (fun _ : ℕ => (1 : ℂ)) := by sorry
 -- TauCeti.TateZeta.zetaIntegral_unramified_standard
+/-- The geometric-series value in the supplied `finiteStandardEvaluation`, expressed
+with Kudla's unit-volume multiplicative measure. -/
 example (t s : ℂ) (q : ℝ) (h : ‖t*(q : ℂ)^(-s)‖ < 1) :
     ∑' n : ℕ, (t*(q : ℂ)^(-s))^n = (1-t*(q : ℂ)^(-s))⁻¹ := by sorry
 
