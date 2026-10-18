@@ -4,7 +4,8 @@ Build the spectral, module and cohomological theory of complex Banach algebras.
 The depth milestones are holomorphic functional calculus, Cohen–Hewitt
 factorization, automatic continuity for semisimple algebras, the equivalent
 diagonal characterizations of amenability, and Johnson's theorem relating
-amenability of a locally compact group to amenability of its group algebra.
+amenability of a locally compact group to amenability of its group algebra. The finite-jet and compact-operator chapters
+connect spectral calculus with Lomonosov's invariant-subspace theorem.
 
 ## Scope, conventions and prerequisites
 
@@ -13,7 +14,9 @@ underlying normed space. A unit is assumed only where stated. Use Mathlib's
 `NonUnitalNormedRing`, scalar compatibility instances, `NormedRing`,
 `NormedAlgebra`, and `CompleteSpace`, rather than a separate Banach-algebra
 structure. Homomorphisms are complex linear and multiplicative; continuity and
-preservation of the unit are separate requirements. In automatic-continuity
+preservation of the unit are separate requirements. Algebra ideals are
+ℂ-linear as well as closed under the stated multiplication; in a nonunital
+algebra this scalar condition must be carried explicitly. In automatic-continuity
 statements the input homomorphism or derivation has no continuity assumption.
 Use `A →ₙₐ[ℂ] B` for nonunital algebra homomorphisms. Do not impose
 `NormOneClass` on general unital Banach algebras; retain factors of `‖1‖`
@@ -22,7 +25,7 @@ in norm estimates unless that additional hypothesis is stated.
 For a general nonunital algebra use `WithLp 1 (Unitization ℂ A)`, whose norm is
 `‖(λ,a)‖ = |λ| + ‖a‖`. Specify when a construction takes place in this unitization
 and when its output lies in `A`. Use `spectrum`, `quasispectrum` and
-`spectralRadius`, with explicit bridges to unitization. In particular the
+`spectralRadius`, with explicit comparisons to unitization. In particular the
 unitized spectrum of a nonunital element includes zero. A Banach bimodule has
 bounded bilinear left and right actions satisfying associativity and
 `(a·x)·b = a·(x·b)`; its actions need not be contractive or unital.
@@ -45,15 +48,25 @@ supplies scalar contour integration, winding numbers and homological Cauchy
 theory; A2 extends its homology Cauchy theorem to Banach-valued functions.
 Its cycle integral is already Banach-valued. Mathlib supplies Bochner integration,
 Haar measure, continuous linear maps, algebraic simple modules and Jacobson
-density. The [AmenableGroups roadmap, Layers 1 and 7](https://github.com/TauCetiProject/TauCetiRoadmap/pull/821)
+density. The [AmenableGroups roadmap, Layers 1 and 7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a4317b48d22a8317c89cf01e67b5c149055b08e1/TauCetiRoadmap/AmenableGroups/README.md)
 supplies invariant means and the Haar-measure convolution foundations used in A7.
+[AlgebraicTopology Stage 2, item 7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/50af6084a401dffe3db1e50dac46fe4bca36f4fd/TauCetiRoadmap/AlgebraicTopology/README.md#stage-2-relative-singular-chains-and-homology) supplies Brouwer on finite-dimensional
+convex spans for A8. Mathlib supplies the compact-operator Fredholm
+alternative; [VonNeumannAlgebras V11](https://github.com/TauCetiProject/TauCetiRoadmap/blob/160687f3131efb1b7b37fb6008a842b98815069c/TauCetiRoadmap/VonNeumannAlgebras/README.md#v11-weights-connes-invariants-and-continuous-cores) supplies the LCA dual conventions.
 These layers own the invariant-mean and scalar-convolution prerequisites;
 the complex group-algebra and cohomological constructions belong to A7.
+
+A1–A3 and A8 consume no B4 approximation/tensor targets;
+their compact, function and invariant-subspace layers are independent
+suppliers for B4. Other layers use the explicit Banach-space dependencies.
 
 This roadmap owns Banach-algebra holomorphic calculus, radicals, modules,
 bounded Hochschild cohomology and Johnson amenability. It does not own
 C*-representations, continuous functional calculus, C*-tensor norms, or
-nuclearity. Hilbert-space Borel spectral theory belongs to
+nuclearity. A2 owns its finite-spectrum calculi, including their continuous and star
+criteria, and the isometric-calculus normality converse stated there; it consumes
+the native normal-operator calculus for the comparison, rather than
+constructing general Hilbert-space continuous calculus. Hilbert-space Borel spectral theory belongs to
 [OperatorTheory](../OperatorTheory/README.md), and general semigroup generators
 belong to [OneParameterSemigroups](../OneParameterSemigroups/README.md).
 Set-theoretic constructions of discontinuous homomorphisms and classification
@@ -76,7 +89,13 @@ continuous homomorphisms. Reuse nonemptiness and compactness of the spectrum
 for a nonzero unital complex Banach algebra, the spectral-radius formula and
 Gelfand–Mazur. Reuse polynomial spectral mapping and the existing comparison between
 the spectrum in a subalgebra and the spectrum in the ambient algebra. A closed
-subalgebra need not be inverse closed.
+subalgebra need not be inverse closed. For nilpotent a in a nonzero
+unital complex Banach algebra, prove σ(a)={0} directly by the finite
+geometric-series inverse, before using the spectral-radius formula.
+In the zero algebra every element is invertible and its spectrum is empty.
+Prove B(X) is commutative exactly when dim X≤1, with rank-one
+counterexamples for dim X≥2. Identify the sup-norm completion of
+polynomials on [0,1] with C[0,1], and construct a nonpolynomial limit.
 
 For a unital algebra use `Ring.jacobson A`. For a nonunital algebra define
 `rad A={a : A | inr a ∈ Ring.jacobson (Unitization ℂ A)}` and prove
@@ -107,6 +126,38 @@ that separating ideals vanish.
 For C*-algebras, CStarAlgebras C2 owns the comparison between these primitive
 ideals and kernels of irreducible *-representations, and uses this topology.
 
+For a nonzero unital Banach algebra construct the equivalent norm
+`‖a‖_* = ‖leftMultiplication(a)‖`. Prove
+`‖a‖/‖1‖≤‖a‖_*≤‖a‖`, submultiplicativity, completeness and
+`‖1‖_*=1`, and the bounded algebra equivalence with the original norm.
+For a closed subalgebra B of a unital algebra A with 1_A∉B, prove the
+unitization map `(λ,b)↦λ1_A+b` identifies B′ with the closed algebra
+B+ℂ1_A, as a bounded algebra equivalence. The inherited norm need not
+be the ℓ¹ unitization norm: for c₀⊂ℓ∞, b=−e₁ and λ=1 the norms
+are respectively 1 and 2. Also use B={f∈C[0,1]:f(0)=0},
+b(t)=−t and λ=1: the inherited norm of 1−t is 1 while the
+ℓ¹ unitization norm is 2. Construct the M₂ left ideal of matrices whose
+first column is zero and show it is not a right ideal by matrix-unit
+multiplication. Prove the closure of c₀₀ in ℓ∞ is c₀.
+
+For nonzero unital B with ‖e‖=1, extend λe↦λ by Hahn–Banach,
+set P(a)=φ(a)e and V=ker φ, and prove B=ℂe⊕V with bounded
+projections P and I−P. Prove the sum norm |φ(a)|+‖a−φ(a)e‖
+is equivalent to the original norm, using ‖P‖+‖I−P‖ as an upper
+comparison constant. It need not be submultiplicative: on ℂ³ with its
+sup norm and φ the coordinate average, a=(1,−1,0) has sum norm 1
+while a²=(1,1,0) has sum norm4/3. This vector-space renorming is
+separate from the preceding left-multiplication algebra renorming.
+
+Construct the one-dimensional nonunital algebra ℂE₁₂⊂M₂(ℂ),
+with zero multiplication and norm ‖aE₁₂‖=|a|; prove it has no
+identity. With the ℓ¹ unitization norm |λ|+|a|, identify its
+unitization algebra with span{I,E₁₂}⊂M₂(ℂ) and
+ℂ[ε]/(ε²), sending ε to E₁₂. Prove the bounded algebra
+comparison with the matrix operator norm on `EuclideanSpace ℂ (Fin 2)`, including
+max(|λ|,|a|)≤‖λI+aE₁₂‖≤|λ|+|a|, and compute
+σ(E₁₂)={0}. It is an algebra example, not a star subalgebra.
+
 ## A2. Holomorphic functional calculus
 
 Reuse Tau Ceti's Banach-valued `Contour.Cycle.integral`, Mathlib's
@@ -116,6 +167,54 @@ with cycle norm bounds, compatibility with bounded linear maps and
 the corresponding differentiation formulas. Obtain the integral identities by
 scalarization and separation by the continuous dual. Build the compact-set
 neighborhood and finite-cycle constructions needed for disconnected spectra.
+Include finite integer combinations of C∞ closed cycles as the smooth
+case of the admissible piecewise C¹ cycles. Prove their winding-number
+and Banach-valued derivative-integral comparisons, with support inside
+the holomorphic domain; smooth approximation in that domain preserves
+the required winding numbers and the holomorphic calculus value.
+For every compact K in an open G⊆ℂ, construct the stronger smooth
+contour system: finitely many pairwise disjoint simple C∞ closed curves
+in G\K whose summed winding number is only0 or1, is1 on K and0 on
+ℂ\G. Own the grid construction: for nonempty K choose squares of
+side δ with √2δ<dist(K,ℂ\G), taking every closed square that meets K.
+Their finite union contains K in its interior and lies in G. Cancel shared
+edges in the sum of positively oriented square boundaries; compute its
+winding as the union's indicator away from the boundary by additivity,
+first off grid lines and then by local constancy. Resolve diagonal-touch
+vertices by a fixed turn rule in small discs disjoint from K and ℂ\G,
+producing pairwise disjoint simple closed polygons. Round all corners in
+disjoint such discs to regular simple C∞ curves. For diagonal-touch resolution, prove the old and new boundary chains
+differ by a cycle supported in the convex replacement disc. Its winding
+vanishes off that disc and its holomorphic integral vanishes by the disc
+Cauchy theorem. Corner rounding is a fixed-endpoint homotopy there;
+choose joining arcs whose endpoint jets agree to all orders with the
+adjoining straight segments and whose speed never vanishes, so the
+result is a regular C∞ immersion. Identify winding values as 0 or1
+in the modified union. Include the empty K and G=ℂ
+branches. This constructive polygon/rounding argument owns simplicity,
+disjointness and winding without an unprovided Jordan or 1-manifold theorem.
+
+Extend contour integration to rectifiable paths on `ContinuousMap (Icc a b) ℂ`, extended constantly outside [a,b],
+with `BoundedVariationOn γ (Icc a b)`. Construct the Banach-valued
+Riemann–Stieltjes integral as the limit of tagged sums
+`Σ F(γ(ξ_i))(γ(t_(i+1))−γ(t_i))` as the partition mesh tends to zero.
+Prove existence for continuous F, the variation norm estimate,
+additivity, reversal, concatenation and monotone reparameterization.
+Compare with the supplied derivative integral for piecewise C¹ paths.
+Prove polygonal approximation inside a specified open neighbourhood,
+uniform convergence with bounded variation, winding-number stability
+away from the image, and the corresponding Cauchy/cycle identities.
+Thus rectifiable cycles have the same germ calculus as the finite
+piecewise C¹ cycles used in its construction. The general Stieltjes
+construction is owned here on the native bounded-variation carrier.
+
+Prove weak holomorphy implies Banach-valued holomorphy: for open U and
+f:U→E into a complete complex normed space E, if ℓ∘f is holomorphic for every bounded complex-linear ℓ:E→ℂ,
+then f is holomorphic. Establish local norm boundedness by uniform
+boundedness. Apply scalar Cauchy estimates and Hahn–Banach separation
+to obtain local norm Lipschitz estimates, hence continuity, before
+forming the Banach-valued contour integral. Recover norm derivatives from the Banach-valued Cauchy
+formula; include the converse and naturality under bounded linear maps.
 
 For `a` in a nonzero unital algebra, construct the calculus of holomorphic germs
 near `σ(a)` by
@@ -157,6 +256,27 @@ For a finite partition of `σ(a)` into nonempty disjoint compact sets, construct
 the Riesz idempotents. Prove orthogonality, sum one, commutation with `a`,
 nonzeroness and the exact corner spectra. For a bounded operator on a Banach
 space obtain the corresponding closed invariant direct-sum decomposition.
+Prove that each nontrivial Riesz idempotent range is hyperinvariant
+under every bounded operator commuting with T. For disconnected spectrum,
+deduce a nonzero proper closed hyperinvariant subspace.
+For a bounded idempotent P≠0,I, prove PTP=TP makes range(P)
+invariant, while PTP=PT makes ker(P) invariant; both are nonzero proper
+closed subspaces. On ℂ² take P=diag(1,0) and T=[[0,0],[1,0]] to
+show PTP=PT does not require PT=TP.
+For finite nonzero pairwise annihilating bounded idempotents with sum I,
+prove the spectrum of T=Σ_i λ_iP_i is exactly the set of λ_i.
+Group repeated coefficients first: E_λ=Σ_(λ_i=λ)P_i. Recover E_λ
+from T by Lagrange interpolation on its distinct spectral values.
+For S=Σ_j μ_jQ_j prove TS=ST iff these grouped E_λ,F_μ commute;
+if both coefficient lists are pairwise distinct this is equivalent to
+all P_i,Q_j commuting. Without that hypothesis the original equivalence
+fails: T=I can have a decomposition by idempotents not commuting with S.
+When T,S commute, the nonzero E_λF_μ form a finite decomposition of I;
+prove simultaneous diagonalization and
+σ(T+S)={λ+μ:E_λF_μ≠0}. This is a supported subset of the pairwise
+sum set. For P=[[1,N],[0,0]] on Euclidean ℂ², N≠0, prove
+‖P‖=√(1+|N|²)>1 although σ(P)={0,1}; idempotents here need not
+be orthogonal projections.
 Prove continuity of the idempotent under perturbations that preserve a fixed
 resolvent contour and persistence of isolated spectral components. Reuse
 Mathlib's upper hemicontinuity of the full spectrum.
@@ -167,7 +287,133 @@ Prove lifting of finite orthogonal families of idempotents modulo the Jacobson
 radical. Include the distinction between an idempotent and a self-adjoint
 projection; this calculus has no involution hypothesis.
 
+For a compact set K containing σ(a), an algebra U of complex functions
+on K containing constants and the coordinate, define an algebraic U
+calculus to be a unital complex-algebra homomorphism U→A sending that
+coordinate to a. Carry continuity only when U has a specified topology.
+For finite-dimensional a let m_a be its minimal polynomial: prove the
+polynomial calculus factors through a restriction quotient exactly when
+the ideal of polynomials vanishing on K is contained in `(m_a)`.
+For larger U, characterize extensions whose image lies in the polynomial
+algebra ℂ[a]: they are precisely homomorphisms from U to
+ℂ[X]/(m_a) compatible with polynomial restrictions, followed by its
+isomorphism onto ℂ[a]. For general A-valued extensions, require a unital
+homomorphism U→A extending the polynomial calculus; its image need not
+lie in ℂ[a], so the polynomial-quotient condition is sufficient but not
+necessary. On K=[0,1], let U be the algebra generated by s(x)=√x,
+N=J₃(0) and a=N² in M₃(ℂ). Prove p(s)↦p(N) is such a calculus,
+while ℂ[a]≅ℂ[t]/(t²) has no square root of t and hence admits no
+compatible U calculus. Restriction of polynomial functions alone is
+not a construction of a continuous U calculus.
+
+For a bounded operator T on a complete complex Hilbert space, prove
+that a unital isometric complex algebra homomorphism C(σ(T))→B(H)
+sending the coordinate to T forces T to be normal. Images of unitary
+functions and their inverses are contractions, hence unitaries. Apply this
+to exp(it Re z) and exp(it Im z), differentiate at t=0 to prove the
+two images self-adjoint, and use commutativity and their sum T. Compare
+this converse with native normal-operator continuous functional calculus.
+
+### Finite spectra, jets and resolvent power bounds
+
+For a finite-dimensional complex normed space and T in its bounded endomorphism
+algebra, consume `Module.End.maxGenEigenspace`,
+`Module.End.iSup_maxGenEigenspace_eq_top`, the minimal-polynomial API and
+polynomial Chinese remainders. Follow the
+[PID-module route for Jordan normal form](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/jordan.20normal.20form/near/342968538):
+consume `Module.equiv_directSum_of_isTorsion` for the polynomial-module
+carrier `Module.AEval'` induced by T, with its finite-generation and torsion
+instances. Construct the direct sum of the generalized
+eigenspaces, its bounded coordinate projections P_λ, and the finite jet quotient
+`ℂ[X]/∏_λ(X−λ)^(r_λ)`, where r_λ is the nilpotence index on that component.
+Prove the Hermite-interpolation isomorphism with the product of truncated
+polynomial rings, agreement with the A2 Riesz projections, and
+`f(T)=∑_λ∑_{j<r_λ} f^(j)(λ)/j! · (T−λ)^j P_λ` for holomorphic f.
+Build nilpotent Jordan-chain bases and identify r_λ with the largest block size;
+this identification is an additional theorem, not an assumption that a matrix
+normal form already exists. Include the zero-dimensional space separately.
+
+For T the all-1/3 matrix in M₃(ℂ), prove the unital algebra it generates
+is span{I,T}, using T²=T. For T=diag(0,1,2), Lagrange interpolation
+identifies its generated algebra with the diagonal matrices. No single
+T generates all M₃, since every singly generated unital algebra is
+commutative. Prove exp(tA) solves y′=Ay with prescribed initial vector,
+its similarity naturality and the diagonal formula for normal matrices,
+using the native exponential and spectral comparison.
+
+For the alternating diagonal 0,1,0,1,… on ℓ², prove its spectrum
+is {0,1}. Its first-n-coordinate finite sections have spectrum {0}
+for n=1 and {0,1} for n≥2; n=0 is the zero-algebra branch.
+
+For real spectrum contained in a compact interval [a,b], a<b, construct
+the same formula for complex-valued C^r functions with real derivatives,
+`r=max_λ(r_λ−1)`, taking r=0 for the zero-dimensional case. Use tuples of continuous derivatives through order r, with
+successive derivatives on the interior and continuous endpoint extensions,
+and norm the tuple by `∑_{k=0}^r ‖f^(k)‖∞/k!`. Prove completeness,
+submultiplicativity and multiplication,
+Leibniz formulas, polynomial density in this norm by approximation of the top
+derivative and repeated integration, and uniqueness of this bounded unital
+calculus sending the coordinate to T. Prove the explicit estimate
+`‖f(T)‖≤∑_λ∑_{j<r_λ} ‖(T−λ)^j P_λ‖·‖f^(j)‖∞/j!`, and hence a
+bounded-calculus estimate in the weighted norm. Prove sharpness: a nonzero j-th jet,
+j>s, cannot extend continuously in the C^s norm, using shrinking smooth bumps
+at the corresponding eigenvalue, using one-sided bumps at endpoints. Thus continuous C^0 calculus on a real
+interval exists for this finite T exactly when it is diagonalizable. Under a
+fixed Hilbert inner product, a star-preserving such calculus exists exactly
+when T is self-adjoint; for general complex spectra the continuous star
+calculus criterion is normality. Prove that similarity transports the
+calculus with norm bound multiplied by `‖S‖‖S⁻¹‖`; an arbitrary similarity
+need not preserve operator norms.
+
+For smooth functions on a complex neighborhood and a nonnormal finite T,
+pin the choice of derivatives used in any extension of the holomorphic jet
+calculus. Build the family obtained at λ by
+`D_λ=∂z+c_λ∂barz`, using `∑_{j<r_λ} D_λ^j f(λ)(T−λ)^j P_λ/j!`.
+Here `∂z=(∂x−i∂y)/2` and `∂barz=(∂x+i∂y)/2`. Prove its continuity in the
+real C^r topology, multiplicativity and holomorphic restriction. Use functions
+`f:ℂ→ℂ` with `ContDiffOn ℝ r f U` for an open neighborhood U of the
+spectrum, identified when their restrictions to U agree, with the seminorms
+of real derivatives through order r on compact subsets of U. When r_λ≥2,
+distinct c_λ give distinct extensions while all send z to T. These are
+chosen jet calculi, not the canonical continuous star calculus. Compute
+`f(J₂(0))=[[f(0),f′(0)],[0,f(0)]]` and
+`f(J₂(1)⊕[2])=f(J₂(1))⊕[f(2)]` on the interval [1,2]. With the
+operator norm on `EuclideanSpace ℂ (Fin 3)`, prove
+`‖p(J₂(1)⊕[2])‖≤max(|p(1)|,|p(2)|)+|p′(1)|`. Prove there is no
+unital algebraic U calculus for J₂(0) whenever U contains a function s
+with s² equal to the coordinate. In particular √x on [0,1] gives this
+obstruction: its image would be a square root of J₂(0), which no 2×2
+complex matrix has by Cayley–Hamilton. No continuity assumption is needed.
+
+For a complex Banach algebra element a, assume `z·1−a` is invertible for every
+|z|>1 and `‖(z·1−a)⁻¹‖≤C/|z−1|`, with C>0. Prove the Tadmor–Ritt power bound
+`∀ n, ‖a^n‖≤3C²`. First derive, for R>1, the integration-by-parts identity
+`a^n=(2πi(n+1))⁻¹∮_{|z|=R} z^(n+1)(z·1−a)⁻² dz` from A2's calculus and
+resolvent derivative. Compute
+`∫₀^{2π}|R exp(iθ)−1|⁻² dθ=2π/(R²−1)` using the Poisson kernel or the
+absolutely convergent geometric Fourier series. This gives the bound
+`C² R^(n+2)/((n+1)(R²−1))`; choose R=1+1/(n+1).
+Verify the elementary inequality for that radius giving `3C²`, with
+the zero algebra treated separately and `C≥‖1‖≥1` derived in the
+nonzero case from the resolvent estimate at infinity. For a bounded invertible S, prove
+that `SaS⁻¹` has Ritt constant at most `C‖S‖‖S⁻¹‖` and power bound
+`3C²‖S‖‖S⁻¹‖`. For bounded operators and a closed invariant subspace,
+prove the restricted resolvent for |z|>1 is the restriction of the ambient
+resolvent: first use the power bound to sum its Neumann series. Deduce
+the same Ritt constant and power bound for the restriction. Distinguish the condition with denominator |z−1| from the
+Kreiss condition with denominator |z|−1; do not use the former conclusion
+under the latter hypothesis on an arbitrary Banach space.
+
 ## A3. Characters and examples
+
+For every nonempty compact K⊆ℂ choose a sequence dense in K and
+construct the bounded diagonal operator on ℓ² with those entries.
+Prove its spectrum is their closure: outside that closure the diagonal
+inverse is uniformly bounded, and points in the closure have unit
+approximate eigenvectors. Thus every such K is a Hilbert-operator
+spectrum. On an arbitrary infinite-dimensional Hilbert space choose a
+countable orthogonal summand and put one fixed K-value on its complement;
+prove the same spectrum using the finite direct-sum inverse theorem.
 
 Use `WeakDual.characterSpace ℂ A` for nonzero continuous multiplicative
 functionals. Reuse automatic continuity and norm bounds for unital scalar
@@ -175,7 +421,10 @@ characters, unital character-space compactness and `gelfandTransform`.
 Extend these constructions to nonunital algebras and identify character
 kernels with maximal modular ideals in a commutative Banach algebra.
 The Gelfand transform's kernel is the radical;
-its supremum norm is the spectral radius. The character space is locally
+its supremum norm is the spectral radius. On ℂ with the scaled algebra
+norm ‖z‖=2|z|, prove the unique character and Gelfand transform have
+operator norm 1/2 and ‖1‖=2; do not replace the character bound with
+norm-one equality when the identity norm is unnormalized. The character space is locally
 compact, becomes compact on adjoining the zero functional, and is compact
 without that extra point in the unital case. Nonemptiness in the unital case
 requires a nonzero **commutative** algebra. Prove the unitization/character-space
@@ -232,7 +481,7 @@ on the closed disk whose extensions are holomorphic on the open disk.
   associativity, point-mass unit and the point-mass multiplication law.
   For G=ℤ this is the Wiener algebra: identify its Gelfand transform
   with the absolutely convergent Fourier series on the circle. Prove Wiener's
-  inversion theorem, including the convolution and transform bridges.
+  inversion theorem, including the convolution and transform comparisons.
 * `C¹([0,1],ℂ)` with norm `‖f‖∞+‖f'‖∞`: evaluations and nonzero bounded point
   derivations `f ↦ f'(t)` into the scalar evaluation bimodule. Derivatives at
   endpoints are the continuous extensions of the interior derivative.
@@ -242,6 +491,180 @@ on the closed disk whose extensions are holomorphic on the open disk.
   has convolution powers of `L¹` norm `1/n!` for `n≥1` and is not nilpotent.
 * Finite matrix algebras and upper triangular matrix algebras: compute their
   radicals and give a nonzero nilpotent matrix in a semisimple algebra.
+
+For the Volterra operator V on native `MeasureTheory.Lp ℂ 2
+(volume.restrict (Set.Icc (0:ℝ) 1))`, construct
+`(Vf)(x)=∫₀ˣ f(t)dt` on almost-everywhere classes. Prove boundedness, the
+iterated-kernel formula, `‖V^n‖≤1/n!` and
+`‖V^n‖≥1/(n!√(2n+1))` by applying it to the constant function 1.
+Use native `Algebra.elemental ℂ V` for the operator-norm closed unital
+algebra generated by V, consuming its closedness, commutativity and
+completeness. Prove injectivity of `p↦p(V)` and `|p(0)|≤‖p(V)‖`, then
+extend polynomial constant terms to its unique bounded character. Prove
+its spectrum for V
+is {0} using the convergent inverse series at every nonzero scalar, and
+identify `rad A=closure(V·ℂ[V])`. Build the bounded truncated-convolution
+operator for every L¹ kernel, with Young's inequality and polynomial-kernel
+approximation, and prove these convolution operators lie in that closed ideal;
+the operator-norm closure is the definition of the whole ideal.
+For k(t)=|t−1/2|, its convolution operator lies in this ideal, but is not a
+power series in V with zero constant term whose sequential partial sums
+converge in operator norm: terms then tend to zero, and the lower bound
+on ‖V^n‖ implies that its action on 1 is analytic on (0,1), whereas
+`∫₀ˣ|t−1/2|dt` is not twice differentiable at 1/2.
+
+For c₀(S), prove coordinatewise square-root factorization `c₀(S)²=c₀(S)`.
+Every maximal proper ℂ-linear ideal is modular, closed and an evaluation
+kernel. Retain scalar closure in the nonunital ideal carrier; arbitrary
+ring ideals need not be ℂ-linear.
+For infinite S the dense proper ideal of finite-support functions lies in no
+maximal ideal. Prove these claims before using a maximal-ideal existence
+argument in a nonunital algebra.
+
+For S=ℕ, define the even-support ideal by requiring only finitely many
+even coordinates to be nonzero. Prove it is a ℂ-linear ideal strictly
+between c₀₀ and c₀. Construct the algebraic quotient c₀/c₀₀ with its
+quotient topology, prove that topology is indiscrete, and prove the
+quotient has no identity. For the last assertion, any proposed representative
+u tends to zero; choose an infinite-support x∈c₀ on coordinates where
+|u|<1/2, so ux−x is not finitely supported. The separated quotient is
+zero; do not identify it with the nonzero algebraic quotient.
+
+Construct H∞(Ω) for any nonempty open Ω⊆ℂ as the bounded holomorphic
+functions with supremum norm: use native bounded continuous functions,
+prove closedness under uniform limits, completeness and the unital
+Banach-algebra operations. For the disk algebra prove the coordinate
+has spectrum the entire closed unit disk.
+
+For K={0}∪{1/n:n≥1}, construct the native `ContinuousMap K ℂ`
+isometric algebra equivalence with
+`c={a : ℕ→ᵇℂ // ∃ L, Tendsto a atTop (𝓝 L)}`, with pointwise
+operations and inherited supremum norm,
+including the value at 0 as the sequence limit. The sequence a_n=1/(n+1), n∈ℕ,
+has spectrum K and its C(K) calculus is evaluation at these points.
+In ℓ∞ the bounded-function calculus f↦(f(1/n)) is noninjective because
+the value at 0 is discarded; alternating values on 1/n give a bounded
+function that cannot define a c-valued calculus. Compute row/column
+operator norms 6, eigenvalues 4,2,−4,2 and Hilbert operator norm 4 for
+`[[1,2,−1,2],[2,1,2,−1],[−1,2,1,2],[2,−1,2,1]]`, with explicit
+eigenvectors and the comparisons of its three induced norms.
+
+Identify A3's C¹ pair carrier with A2's r=1 derivative-tuple carrier
+by a bounded algebra equivalence preserving evaluations, derivative
+and the common norm. Use the general tuple API for its basic calculus.
+
+### Absolutely continuous functions and their operator calculus
+
+Construct AC[0,1] on the carrier `(c,g)∈ℂ×Lp(ℂ,1,μ)` with
+`μ=volume.restrict(Icc 0 1)` and associated continuous function
+`f(x)=c+∫₀ˣg(t)dt`. Prove representative independence, uniqueness of
+the a.e. derivative, the fundamental theorem in both directions, and
+bounded evaluation into C([0,1],ℂ). Compare this carrier with native
+`AbsolutelyContinuousOnInterval f 0 1`, using constant extension of f
+outside the interval, and prove the real/imaginary-part equivalence. Consume
+native `AbsolutelyContinuousOnInterval.integral_deriv_eq_sub`,
+`AbsolutelyContinuousOnInterval.intervalIntegrable_deriv` and `AbsolutelyContinuousOnInterval.integral_deriv_mul_eq_sub` and the real
+integration-by-parts identities, then combine their real/imaginary instances;
+only the complex/Lp/representative comparison is new here. Prove the exact
+ε–δ disjoint-interval criterion through native `absolutelyContinuousOnInterval_iff`.
+For a real continuous f on [0,1], prove that the swapped-tolerance
+condition `∀ ε>0, ∃ C≥0, ∀ finite disjoint intervals,
+Σ lengths<ε → Σ |f(v_i)−f(u_i)|≤C` is equivalent to
+`BoundedVariationOn f (Icc 0 1)`: split arbitrary partitions into
+finitely many short-length collections for the reverse implication.
+Contrast this finite variation bound with the native AC requirement
+that an arbitrarily prescribed image variation is controlled by a
+sufficiently small total domain length.
+Pin multiplication by
+`(c,g)(d,h)=(cd, f·h+k·g)`, where k is the function associated to
+(d,h). Prove the Leibniz formula, associativity and unit. Use
+`‖f‖AC,0=|f(0)|+‖f′‖₁`, the native sum norm transported from
+`WithLp 1 (ℂ×Lp ℂ 1 μ)`. Prove submultiplicativity using the two
+triangular Fubini integrals, and completeness. Compare the equivalent
+submultiplicative norm `‖f‖∞+‖f′‖₁`, with
+`‖f‖AC,0≤‖f‖∞+‖f′‖₁≤2‖f‖AC,0`. Construct polynomial
+approximation by approximating g in L¹ and integrating, and prove the
+character space is [0,1] by evaluating the coordinate and using density.
+For a nowhere-zero f prove inverse-closedness with derivative −f′/f²,
+using the positive lower bound of |f| on the compact interval and the
+native AC product/chain comparison. Prove the sup-norm bound for any nonzero
+complex-linear multiplicative character on an inverse-closed unital function
+subalgebra, then apply it here. Identify the AC Gelfand transform with its
+proper dense inclusion in C([0,1],ℂ). Construct the Cantor function as a
+bounded-variation, non-AC example with derivative zero a.e. but distinct
+endpoint values; a.e. differentiability alone does not replace the native
+AC condition.
+Also construct a continuous nowhere-differentiable real function on [0,1],
+using an explicit Takagi series of scaled distance-to-integer tent functions.
+Prove uniform convergence, continuity and failure of a finite derivative at
+every interior point from the dyadic difference quotients, with one-sided
+endpoint statements. Using native a.e. differentiability of bounded-variation
+functions, deduce this Takagi function is not BV, hence not AC. It supplies
+the distinct non-AC example;
+it is not identified with the Cantor function.
+For every real a<b construct AC[a,b] and transport its algebra,
+FTC, weak-derivative and completeness API from AC[0,1] by the positive
+affine coordinate map. For both |f(a)|+∫_a^b|f′| and the
+sup-plus-L¹-derivative norm prove this transport is isometric and
+carry the preceding norm comparison to [a,b].
+
+Prove AC[0,1] is not isomorphic to C([0,1],ℂ) as a Banach algebra:
+an isomorphism induces a character-space homeomorphism, hence would make
+every continuous function absolutely continuous after a homeomorphic
+change of variable. Exhibit a continuous function of infinite total
+variation and use invariance of that variation under interval
+homeomorphisms.
+
+On `Lp ℂ 1 μ` construct V by indefinite integration and M_x by
+coordinate multiplication, and put T=M_x+V. Define the bounded unital
+algebra calculus by
+`(Ψ(f)h)(x)=f(x)h(x)+f′(x)∫₀ˣh(t)dt` a.e.
+Prove representative independence and
+`‖Ψ(f)‖≤essSup_t(|f(t)|+∫_t^1|f′(x)|dx)≤‖f‖AC,0`.
+Use integration by parts to prove multiplicativity and agreement with
+polynomials, then polynomial density for uniqueness. In particular
+`T²h=x²h+2x∫₀ˣh`, fixing the order of the derivative and Volterra
+operator in the formula. Construct normalized approximate eigenvectors supported
+in shrinking intervals, with zero integral so V vanishes outside their
+support and `‖Vh‖₁≤|supp h|‖h‖₁→0`, to prove `spectrum ℂ T=[0,1]`, including both
+endpoints. Prove Ψ is injective and has spectral mapping
+`spectrum ℂ (Ψ(f))=f([0,1])`, by approximation for the lower inclusion
+and by Ψ(1/(f−λ)) for the upper inclusion. Show this calculus has no
+bounded unital extension from C([0,1],ℂ): for
+`f_n(x)=exp(2πinx)`, apply Ψ(f_n) to the constant function 1 and prove
+`‖Ψ(f_n)‖≥πn−1` while `‖f_n‖∞=1`.
+
+For bounded operators on a complex Banach space define point spectrum
+by nonzero eigenvectors and approximate-point spectrum by unit vectors
+whose residual norm tends to zero. Prove the latter is equivalent to
+failure of a positive lower bound for T−λI, contains point spectrum,
+is contained in spectrum, and contains the boundary of spectrum via
+the resolvent norm and normalized approximate eigenvectors. Include the
+zero-space case and distinguish surjectivity from being bounded below.
+For the forward shift S on native ℓ²(ℕ), prove σ(S)=σ(S†) is the
+closed unit disk: outside use the norm-Neumann inverse, inside use the
+backward-shift eigenvectors `(1,λ,λ²,…)` and adjoint spectral transport,
+and obtain the boundary by closedness. Prove the corresponding finite
+first n+1-coordinate compressions are nilpotent with spectrum {0}; identify
+the superdiagonal matrix `T_(i,j)=1` when j=i+1 and0 otherwise as S†. For a
+finite topological direct sum of Banach spaces prove the block-diagonal
+spectrum is the union of the component spectra by explicit inverse maps.
+Prove σ_p(S)=∅, σ_p(S†) is the open disk, and σ_ap(S) is the unit
+circle; define the approximate-point spectrum by unit approximate
+eigenvectors, prove σ_p⊆σ_ap⊆σ and compute σ_ap(S†) as the closed disk.
+Use matrix entries T_(i,j)=⟪e_i,T e_j⟫, matching Toeplitz's i−j convention
+with the inner product conjugate-linear in its first slot.
+ToeplitzOperators T3 instantiates this finite Banach direct-sum
+spectrum/inverse theorem on its Hilbert-product carrier.
+Strong convergence of finite sections does not imply spectral continuity;
+ToeplitzOperators T5 owns finite-section stability. It owns the Hardy/shift-algebra
+theorems, rather than this elementary Banach spectral comparison.
+On ℓ∞ consume BanachSpaceTheory B1's norm-one functional φ
+annihilating c₀ with φ(1)=1. The nonzero rank-one map x↦φ(x)e₀ has
+T e_j=0 for every standard unit vector, so its coordinate matrix is zero.
+Prove it cannot be represented by the corresponding coordinate-series
+matrix formula on all ℓ∞; finite basis-vector data do not determine an
+operator on this space.
 
 ## A4. Modules, factorization and bidual products
 
@@ -426,8 +849,7 @@ not amenable.
 Let `G` be locally compact Hausdorff and `μ` a nonzero regular left Haar measure.
 There is no standing second-countability or sigma-finiteness assumption. Use
 the AmenableGroups Layer 7 construction of scalar convolution, its
-sigma-compact-support and Baire-representative measurability bridges, and its
-approximate-identity kernels. Extend these to complex `L¹(G,μ)` and establish
+sigma-compact-support and Baire-representative measurability comparisons. Extend these to complex `L¹(G,μ)` and establish
 the Banach algebra and involution APIs. With
 `c(g)=(Measure.modularCharacter g : ℝ)`, so
 `∫ f(xg)dμ(x)=c(g)∫ f(x)dμ(x)`, fix
@@ -532,7 +954,7 @@ vanishing-at-infinity Gelfand transform to obtain Riemann–Lebesgue. This
 character correspondence and its topology proof do not use Fourier
 uniqueness, inversion or double-dual surjectivity.
 
-For uniqueness consume V11's inversion-free **closed topological
+For uniqueness consume [V11](https://github.com/TauCetiProject/TauCetiRoadmap/blob/160687f3131efb1b7b37fb6008a842b98815069c/TauCetiRoadmap/VonNeumannAlgebras/README.md#v11-weights-connes-invariants-and-continuous-cores)'s inversion-free **closed topological
 embedding** of G into its double dual, with its compact-open topology and
 positive-character Fourier convention. Extend Tau Ceti's native
 `MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`
@@ -562,8 +984,22 @@ Compare the source convention `h_γ(x)=γ(x⁻¹)` with the displayed convention
 by inverse/conjugate characters, including the corresponding transform
 identities.
 
+For normalized Haar measure on native `Circle`, identify the dual with
+discrete ℤ and the unitized character space with native `OnePoint ℤ`, transform values
+`fhat(n)+λ` and λ at infinity, and unitized spectrum
+`{0}∪{fhat(n):n∈ℤ}` for f∈L¹. Give an explicit bijection
+ℤ≃ℕ and use it to construct a homeomorphism
+`OnePoint ℤ≃{0}∪{1/(m+1):m∈ℕ}`, mapping infinity to 0;
+prove continuity in both directions from the cofinite neighbourhoods. Pin fhat(n)=∫f(z)z^n dμ to the above
+convention and compare the opposite-sign Fourier convention explicitly.
+Prove injectivity and failure of surjectivity L¹(circle)→c₀(ℤ): an inverse
+bound would bound the L¹ norms of the Dirichlet kernels, whereas those norms
+grow at least c log N for a fixed c>0. Build that elementary kernel estimate
+here, using sums of exponentials and the sine quotient. For the convolution
+unit, Dirac mass belongs to M(G), and belongs to L¹ only in the discrete case.
+
 Use the invariant mean of AmenableGroups Layer 1 as the definition of group
-amenability. Build the affine fixed-point bridge: a locally compact group is
+amenability. Build the affine fixed-point comparison: a locally compact group is
 amenable iff every jointly continuous affine action on a nonempty compact
 convex subset of a Hausdorff locally convex real space has a fixed point.
 State the fixed-point theorem universe-polymorphically in its ambient
@@ -602,6 +1038,94 @@ automorphisms. A nonzero invariant functional with value one on the constant
 one then yields the invariant mean `|m|/|m|(1)`. This supplies the step without
 using a C*-algebra representation theorem as an extra prerequisite.
 
+## A8. Compact operators, transitive algebras and invariant subspaces
+
+This layer uses A2’s contour calculus, native compact-operator APIs and
+AlgebraicTopology’s finite-span Brouwer theorem; it does not use
+BanachSpaceTheory B4’s approximation-property or tensor targets.
+Use `IsCompactOperator`, `Module.End.invtSubmodule` and closed `Submodule ℂ E`
+for bounded operators on a complex Banach space E. The initial compact
+kernel/range/eigenvalue-threshold and transitive compact-commutation
+sublanes are stated over RCLike fields,
+including ℝ; contour and complex hyperinvariance comparisons specialize to ℂ.
+Consume Mathlib's compact
+operator ideal API, Tau Ceti's finite-dimensional eigenspace/range/cokernel
+theorems in `Analysis/Normed/Operator/Compact`, and Mathlib's
+`IsCompactOperator.hasEigenvalue_or_mem_resolventSet` and
+`IsCompactOperator.hasEigenvalue_iff_mem_spectrum`. Construct the Riesz
+decomposition for each nonzero spectral λ: for sufficiently large k, the
+closed finite-dimensional kernel of `(T−λ)^k` and closed range of
+`(T−λ)^k` are complementary, with stable ascent/descent, bounded coordinate
+projections commuting with T, nilpotent restriction on the first summand
+and invertible `T−λ` on the second. Relate it to A2's contour projection.
+Build the eigenvalue-threshold theorem over every RCLike scalar field
+on a complete normed space, before the complex contour comparison: for each ε>0 there
+are finitely many eigenvalues with modulus≥ε, so the nonzero spectrum is
+countable with only possible accumulation point 0. For compact operators
+the native Fredholm alternative identifies these with the nonzero spectrum;
+in infinite dimension 0 is
+in the spectrum. Use native `Module.End.eigenvectors_linearIndependent`
+and `riesz_lemma` for the separated-sequence compactness argument. Keep generalized eigenspaces and closed range statements on
+the native carriers. OperatorTheory/SelfAdjointSpectralTheory SA-C86 owns the Hilbert
+compact-normal orthogonal decomposition, consuming these Banach results
+and the native compact self-adjoint spectral theorem.
+
+Build Schauder's compact-map fixed-point theorem on a nonempty closed bounded
+convex set C in a real Banach space: a continuous f:C→C with relatively compact
+range has a fixed point. Consume AlgebraicTopology Stage 2, item 7's
+`brouwerFixedPoint_compactConvex_finiteSpan`, restricting to each
+finite-dimensional vertex span. Construct continuous approximations with
+finite-dimensional range consisting of convex combinations
+on the compact closure of f(C) using finite covers and a partition of unity,
+apply Brouwer on each finite convex hull, and extract approximate fixed
+points using compactness of f(C). Prove the compact-convex specialization and
+transport under affine homeomorphisms. Do not assume a linear finite-rank
+approximation property for the Banach space; the approximations here are
+nonlinear convex combinations.
+
+Over each RCLike field 𝕜, a unital operator algebra A⊆B_𝕜(E) is transitive if closure(Ax)=E for every nonzero x;
+prove equivalence with absence of nonzero proper closed A-invariant subspaces.
+For any transitive unital 𝕜-subalgebra and nonzero compact K, prove
+Lomonosov's lemma: there exist a∈A and x≠0 with aKx=x. Build the finite-cover
+construction on a closed ball disjoint from 0, choosing algebra elements whose
+images of Kx enter that ball, and combine them with continuous partitions of
+unity. Apply the compact-map fixed-point theorem; the algebra element at a
+fixed point is the finite scalar combination of those chosen elements.
+Treat kernel points by first choosing a ball on which Kx stays away from 0.
+
+Deduce that a nonscalar T commuting with a nonzero compact K has a nonzero
+proper closed hyperinvariant subspace (invariant under every bounded operator
+commuting with T). If its commutant were transitive, the lemma gives an AK
+with eigenvalue 1; T preserves the finite-dimensional nonzero eigenspace,
+so has an eigenvalue λ there. Its full λ-eigenspace is closed, nonzero,
+proper by nonscalarity, and invariant under the commutant, a contradiction.
+Use native finite-dimensional complex eigenvalue existence. For a scalar T,
+give an invariant line when dim E≥2; do not claim a hyperinvariant subspace.
+Include compact and polynomially compact specializations, retaining the
+nonzero-polynomial and nonscalar hypotheses. If p(T)=0, obtain an
+eigenvalue of the algebraic operator and its proper closed eigenspace; if
+p(T)≠0, apply the compact-commutation theorem. In finite dimension at
+least 2, use native eigenvalue existence; dimension 0 or 1 has no
+nonzero proper subspace.
+
+Prove the real compact-commutation invariant-subspace theorem on an
+infinite-dimensional real Banach space: if T commutes with nonzero compact K,
+then T has a nonzero proper closed invariant subspace. If no such subspace
+existed, the unital real algebra generated by T would be transitive; the
+same real Schauder argument gives A with AKx=x. Its nonzero finite-dimensional
+1-eigenspace is T-invariant and proper, a contradiction. This supplies the
+real Aronszajn–Smith compact case and the real Argyros–Haydon consequence;
+the complex hyperinvariant conclusion remains in its complex scalar scope.
+
+State the complex Hilbert invariant-subspace question precisely: for every
+bounded T on native `lp (fun _ : ℕ=>ℂ) 2`, is there a nonzero proper
+closed T-invariant subspace? It is a question, with no unconditional theorem
+target. Prove reduction from arbitrary infinite-dimensional complex Hilbert
+spaces by taking a cyclic closed span: if that span is proper it is already
+invariant, otherwise it is separable and has an ℓ² isometric model.
+Distinguish this question from Banach-space counterexamples and from the
+compact-commutation theorem just proved.
+
 ## Sources and API alignment
 
 * Dales, *Banach Algebras and Automatic Continuity*: §§1.3–1.5 and 2.1–2.3
@@ -638,3 +1162,10 @@ and symmetric modules; general bimodule derivations must support distinct
 left and right actions, with comparison to `Derivation` in its existing scope.
 Implement missing required APIs in Tau Ceti in the established shape, and
 adopt Mathlib implementations when available.
+
+Supplementary spectral and invariant-subspace sources: Conway, *A Course in
+Functional Analysis*, second edition, VII (functional calculus and examples);
+[Schwenninger, *Functional calculus estimates for Tadmor–Ritt operators*](https://arxiv.org/abs/1507.00049), §1.1, for the resolvent distinction;
+[Lomonosov, *Invariant subspaces for the family of operators which commute with
+a completely continuous operator*](https://www.mathnet.ru/eng/faa2433),
+Functional Analysis and Its Applications 7 (1973), 213–214.
