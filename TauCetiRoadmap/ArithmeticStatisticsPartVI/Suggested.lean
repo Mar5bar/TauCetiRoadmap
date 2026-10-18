@@ -5,7 +5,7 @@ import Mathlib
 
 The accompanying README is the full specification, with source locators and exact
 supplier contracts. This file records light definitions and selected milestones that
-can be stated against the pinned Mathlib; it is not exhaustive. Counts keep the
+can be stated against the pinned Mathlib; it is not exhaustive. The plane-cubic transport carries its positive-rank count as a hypothesis. Counts keep the
 specified cutoffs and denominators; orbit weights, local masses, height averages,
 moduli, covering and arithmetic probability constructions remain README targets.
 
@@ -46,6 +46,11 @@ example : restrictedSelmerSet (Set.univ : Set (Fin 3))
   simp only [restrictedSelmerSet, Set.mem_univ, true_and, Bool.forall_bool, id]
   fin_cases s <;> simp
 
+/-- One place retains precisely its prescribed local image. -/
+example : restrictedSelmerSet (Set.univ : Set (Fin 3))
+    (fun _ : Unit => id) (fun _ => {0, 2}) = {0, 2} := by
+  ext s; simp [restrictedSelmerSet]
+
 /-- No places: the restriction is the original set. -/
 example (S : Set ℕ) : restrictedSelmerSet (Q := fun _ : Empty => ℕ) S
     (fun v : Empty => Empty.elim v) (fun v : Empty => Empty.elim v) = S := by
@@ -73,8 +78,15 @@ example (m : ℕ) : oddComponentBound m 0 = 0 := by
   simp [oddComponentBound]
 /-- Strictness below the saturation range: `S₅(3) = 15 < 16 = 2⁴`. -/
 example : oddComponentBound 5 3 < 2 ^ (5 - 1) := by decide
-/-- Saturation: for `k ≥ m` the bound is all of `2 ^ (m - 1)`. -/
+/-- Saturation for `m > 0`: if `k ≥ m`, then `S_m(k) = 2 ^ (m - 1)`. -/
 example : oddComponentBound 4 5 = 2 ^ (4 - 1) := by decide
+
+/-- At zero components the odd-subset count is zero; natural subtraction does not
+extend the positive-component saturation formula to this case. -/
+example : oddComponentBound 0 0 = 0 ∧ (2 : ℕ) ^ (0 - 1) = 1 := by decide
+
+/-- A single component permits one odd subset at every positive cutoff. -/
+example (k : ℕ) (hk : 0 < k) : oddComponentBound 1 k = 1 := by sorry
 
 /-- A ternary cubic in the ten ordinary monomial coefficients, ordered
 `x³, x²y, x²z, xy², xyz, xz², y³, y²z, yz², z³`. -/
@@ -95,54 +107,67 @@ example : ternaryCubicValue (![0,1,0,0,0,0,0,0,0,0] : Fin 10 → ℤ) ![2,3,4] =
 example (c : Fin 10 → ℤ) : ternaryCubicValue c 0 = 0 := by
   simp [ternaryCubicValue]
 
-/-- A positive proportion of ternary cubic coefficient vectors in the cube `|cᵢ| ≤ T` have
-a nonzero rational zero (Bhargava, arXiv:1402.1131, Theorem 2, p. 3, with the region
-`[-1, 1]¹⁰`). -/
-theorem positive_plane_cubic_solubility :
+/-- A positive lower count of minimal short pairs with infinitely many rational affine
+points gives a positive proportion of ternary cubics with a nonzero rational zero
+(README §4.24; Bhargava, arXiv:1402.1131, Theorem 2, p. 3). The input uses height `T⁶`
+and count scale `T⁵`; the conclusion uses the inclusive coefficient cube. -/
+theorem positive_plane_cubic_solubility
+    (hpositiveRank : 0 < liminf (fun T : ℕ =>
+      ({ab : ℤ × ℤ | -4 * ab.1 ^ 3 - 27 * ab.2 ^ 2 ≠ 0 ∧
+        (∀ p : ℕ, p.Prime → ¬ ((p : ℤ) ^ 4 ∣ ab.1 ∧ (p : ℤ) ^ 6 ∣ ab.2)) ∧
+        max (4 * |ab.1| ^ 3) (27 * ab.2 ^ 2) ≤ (T : ℤ) ^ 6 ∧
+        Set.Infinite {xy : ℚ × ℚ |
+          xy.2 ^ 2 = xy.1 ^ 3 + (ab.1 : ℚ) * xy.1 + (ab.2 : ℚ)}}.ncard : ℝ) /
+      (T : ℝ) ^ 5) atTop) :
     0 < liminf (fun T : ℕ =>
       ({c : Fin 10 → ℤ | (∀ i, |c i| ≤ (T : ℤ)) ∧
         ∃ x : Fin 3 → ℚ, x ≠ 0 ∧ ternaryCubicValue c x = 0}.ncard : ℝ) /
       (((2 * T + 1) ^ 10 : ℕ) : ℝ)) atTop := by sorry
 
 /-- The rank-one family of integral short pairs (README §4.22; Bhargava–Skinner,
-arXiv:1401.0233, §2, pp. 3–4): `v₂(A) = 3`, `v₂(B) = 4`, `-4A³ - 27B² = 256d` with `d`
+arXiv:1401.0233, §2, pp. 3–4): `v₂(A) = 4`, `B ≡ 16 (mod 64)`, `-4A³ - 27B² = 256d` with `d`
 positive, odd and squarefree, the discriminant prime to `195` and a square modulo `39`,
 `7 ∣ d`, nonsplit reduction at seven and good ordinary reduction at five. -/
 def RankOneFamily (A B : ℤ) : Prop :=
-  (8 : ℤ) ∣ A ∧ ¬ (16 : ℤ) ∣ A ∧ (16 : ℤ) ∣ B ∧ ¬ (32 : ℤ) ∣ B ∧
+  (16 : ℤ) ∣ A ∧ ¬ (32 : ℤ) ∣ A ∧ B % 64 = 16 ∧
   ∃ d : ℤ, -4 * A ^ 3 - 27 * B ^ 2 = 256 * d ∧ 0 < d ∧ Odd d ∧ Squarefree d ∧
     IsCoprime (-4 * A ^ 3 - 27 * B ^ 2) 195 ∧
     IsSquare ((-4 * A ^ 3 - 27 * B ^ 2 : ℤ) : ZMod 39) ∧ (7 : ℤ) ∣ d ∧
     ¬ IsSquare ((864 * B : ℤ) : ZMod 7) ∧ (1 + ((Finset.univ : Finset (ZMod 5 × ZMod 5)).filter
       (fun p => p.2 ^ 2 = p.1 ^ 3 + (A : ZMod 5) * p.1 + (B : ZMod 5))).card) % 5 ≠ 1
 
-/-- `(-136, 16)` lies in the family: `d = 39277 = 7·31·181` and `#E(𝔽₅) = 8`. -/
-example : RankOneFamily (-136) 16 := by
-  refine ⟨by norm_num, by norm_num, by norm_num, by norm_num, 39277, by norm_num, by norm_num,
-    ⟨19638, by norm_num⟩, ?_, ?_, by decide, by norm_num, by decide, by decide⟩
+/-- `(-208, 464)` lies in the family: `d = 117901 = 7·16843` and `#E(𝔽₅) = 7`.
+Its integral model is `y² + y = x³ - 13x + 7`, of odd discriminant `117901`. -/
+example : RankOneFamily (-208) 464 := by
+  refine ⟨by norm_num, by norm_num, by norm_num, 117901, by norm_num, by norm_num,
+    ⟨58950, by norm_num⟩, ?_, ?_, by decide, by norm_num, by decide, by decide⟩
   · rw [← Int.squarefree_natAbs, Nat.squarefree_iff_nodup_primeFactorsList (by norm_num)]
     simp [Nat.primeFactorsList_ofNat]
   · rw [Int.isCoprime_iff_gcd_eq_one]; norm_num
 
-/-- Changing the sign of `B` keeps `Δ₀` but makes `864B` a square modulo seven
-(split reduction at seven). -/
-example : ¬ RankOneFamily (-136) (-16) := by
-  rintro ⟨-, -, -, -, -, -, -, -, -, -, -, -, h, -⟩
+/-- `(-208, 656)` has split multiplicative reduction at seven. -/
+example : ¬ RankOneFamily (-208) 656 := by
+  rintro ⟨-, -, -, -, -, -, -, -, -, -, -, h, -⟩
   exact h (by decide)
 
-/-- `(136, 16)` has negative `Δ₀`. -/
-example : ¬ RankOneFamily 136 16 := by
-  rintro ⟨-, -, -, -, d, hd, hpos, -⟩
+/-- `(208, 464)` has negative `Δ₀`. -/
+example : ¬ RankOneFamily 208 464 := by
+  rintro ⟨-, -, -, d, hd, hpos, -⟩
   omega
 
-/-- `v₂(-16) = 4 ≠ 3`. -/
-example : ¬ RankOneFamily (-16) 16 := by
+/-- `v₂(-32) = 5` violates the required valuation four. -/
+example : ¬ RankOneFamily (-32) 464 := by
   rintro ⟨-, h, -⟩
   exact h (by norm_num)
 
-/-- `(-1000, 1136)` fails only the ordinary test at five: `#E(𝔽₅) = 6`. -/
-example : ¬ RankOneFamily (-1000) 1136 := by
-  rintro ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, h⟩
+/-- The pair `(-136, 16)` violates the valuation-four condition. -/
+example : ¬ RankOneFamily (-136) 16 := by
+  rintro ⟨h, -⟩
+  norm_num at h
+
+/-- `(-880, 464)` fails the ordinary test at five: `#E(𝔽₅) = 6`. -/
+example : ¬ RankOneFamily (-880) 464 := by
+  rintro ⟨-, -, -, -, -, -, -, -, -, -, -, -, h⟩
   exact h (by decide)
 
 end Selmer
