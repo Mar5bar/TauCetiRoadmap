@@ -774,6 +774,21 @@ native signed Radon–Nikodym theory and SA-B81–84/58, independently of the du
 identification. Prove surjectivity by the RMK parts construction, then transport
 completeness from the strong dual through this onto linear isometry. Export the
 resulting isometric dual equivalence and its weak-star evaluation laws.
+Extend this finite-regular-variation measure space to every locally compact
+Hausdorff Borel space X, using the same native scalar vector-measure carrier
+and norm, and prove completeness without assuming X compact or σ-compact.
+Let X⁺=OnePoint X. Extend measures by zero at infinity along the canonical
+open embedding X→X⁺ and prove this is a linear isometry from M(X) onto
+`{ν∈M(X⁺) : ν({∞})=0}`. Construct its inverse by restriction to X;
+prove both maps preserve regular total variation, the total-variation norm
+and the integration pairing for compactly supported continuous functions.
+Use compact approximation for the zero extension's regularity and the
+singleton variation identity for the restriction: ν({∞})=0 implies
+|ν|({∞})=0. The singleton evaluation ν↦ν({∞}) is bounded by ‖ν‖,
+so its kernel is closed in the already complete compact-space M(X⁺).
+Transport completeness through this isometry. Include empty and already
+compact X, and compare with the preceding M(K) construction when X=K.
+
 For nonempty `K`, prove that the extreme points of its dual unit ball are
 exactly `λδ_x`, `|λ|=1`, by splitting variation on measurable sets and
 using regularity; handle empty spaces separately.
