@@ -817,6 +817,114 @@ example : Nat.card ({0} : Set (Fin 1 → ZMod 2)) = 1 ∧
     Set.weightPolynomial ({1} : Set (Fin 1 → ZMod 2)) = Polynomial.X := by
   sorry
 
+/-- Lifts of one quotient element commute; lifts of two independent elements need not. -/
+example :
+    Commute (DihedralGroup.r (1 : ZMod 4)) (DihedralGroup.r 3) ∧
+      ¬ Commute (DihedralGroup.r (1 : ZMod 4)) (DihedralGroup.sr 0) := by
+  sorry
+
+/-- The dihedral Schur-cover projection has zero image in degree two. -/
+example : ∃ S : GroupExtension C₂ (DihedralGroup 4) (C₂ × C₂),
+    S.inl (Multiplicative.ofAdd 1) = DihedralGroup.r 2 ∧
+    S.rightHom (DihedralGroup.r 1) = (Multiplicative.ofAdd 1, 1) ∧
+    S.rightHom (DihedralGroup.sr 0) = (1, Multiplicative.ofAdd 1) ∧
+    S.inl.range ≤ Subgroup.center (DihedralGroup 4) ∧
+    groupHomology.map (A := Rep.trivial ℤ (DihedralGroup 4) ℤ)
+      (B := Rep.trivial ℤ (C₂ × C₂) ℤ) S.rightHom
+      (Rep.ofHom ⟨LinearMap.id, by intro g; rfl⟩) 2 = 0 := by
+  sorry
+
+/-- The identity reduced cover of the Klein four group has surjective degree-two map. -/
+example : Function.Surjective (groupHomology.map
+    (A := Rep.trivial ℤ (C₂ × C₂) ℤ) (B := Rep.trivial ℤ (C₂ × C₂) ℤ)
+    (MonoidHom.id (C₂ × C₂)) (Rep.ofHom ⟨LinearMap.id, by intro g; rfl⟩) 2) := by
+  sorry
+
+/-- Dihedral rotation lifts and reflection lifts have different squares. -/
+example :
+    (DihedralGroup.r (1 : ZMod 4)) ^ 2 = DihedralGroup.r 2 ∧
+      (DihedralGroup.r (2 : ZMod 4)) ≠ 1 ∧
+      (∀ i : ZMod 4, (DihedralGroup.sr i) ^ 2 = 1) := by
+  sorry
+
+/-- Two independent quaternion lifts square to the same nonidentity central element. -/
+example :
+    (QuaternionGroup.a (1 : ZMod 4) : QuaternionGroup 2) ^ 2 = QuaternionGroup.a 2 ∧
+      (QuaternionGroup.xa (0 : ZMod 4) : QuaternionGroup 2) ^ 2 = QuaternionGroup.a 2 ∧
+      (QuaternionGroup.a (2 : ZMod 4) : QuaternionGroup 2) ≠ 1 ∧
+      (QuaternionGroup.a (2 : ZMod 4) : QuaternionGroup 2) ∈
+        Subgroup.center (QuaternionGroup 2) := by
+  sorry
+
+/-- The actual marked cyclic coordinate action selects the inverse-sign solution. -/
+example :
+    let X : Multiplicative (ZMod 14) := Multiplicative.ofAdd 1
+    let a := X ^ 2
+    (X * a) ^ 3 * a ^ (-3 : ℤ) = X * a ∧
+      (X * a⁻¹) ^ 3 * a ^ (-3 : ℤ) ≠ X * a⁻¹ := by
+  sorry
+
+/-- The rotation centralizer map kills its own class and detects both reflection classes. -/
+example :
+    ⁅DihedralGroup.r (1 : ZMod 4), DihedralGroup.r (1 : ZMod 4)⁆ = 1 ∧
+      ⁅DihedralGroup.r (1 : ZMod 4), DihedralGroup.sr (0 : ZMod 4)⁆ = DihedralGroup.r 2 ∧
+      ⁅DihedralGroup.r (1 : ZMod 4), DihedralGroup.r (1 : ZMod 4) * DihedralGroup.sr 0⁆ =
+        DihedralGroup.r 2 := by
+  sorry
+
+/-- A centralizer generator absent from the ambient generating set supplies a nontrivial relation. -/
+example :
+    Commute (DihedralGroup.sr (0 : ZMod 4)) (DihedralGroup.r 2) ∧
+      ¬ Commute (DihedralGroup.sr (0 : ZMod 4)) (DihedralGroup.r 1) ∧
+      ⁅DihedralGroup.sr (0 : ZMod 8), DihedralGroup.r (2 : ZMod 8)⁆ = DihedralGroup.r 4 ∧
+      (DihedralGroup.r (4 : ZMod 8)) ≠ 1 ∧
+      ⁅DihedralGroup.sr (0 : ZMod 8), DihedralGroup.sr (0 : ZMod 8)⁆ = 1 := by
+  sorry
+
+/-- The transposition graph actions on the two alternating groups give the marked symmetric groups. -/
+example (n : ℕ) [NeZero n] (hn : n = 4 ∨ n = 5) :
+    let τ := Equiv.swap (0 : Fin n) 1
+    ∃ (φ : C₂ →* MulAut (alternatingGroup (Fin n)))
+      (e : (alternatingGroup (Fin n) ⋊[φ] C₂) ≃* Equiv.Perm (Fin n)),
+      (∀ a, (φ (Multiplicative.ofAdd 1) a : Equiv.Perm (Fin n)) =
+        τ * (a : Equiv.Perm (Fin n)) * τ⁻¹) ∧
+      (∀ x, e x = (x.left : Equiv.Perm (Fin n)) * τ ^ x.right.toAdd.val) ∧
+      (∀ x, (x.right ≠ 1 ∧ x ^ 2 = 1) ↔ (e x).IsSwap) := by
+  sorry
+
+/-- The determinant-minus-one involutions in the general linear group have the required count. -/
+example :
+    Nat.card (Matrix.GeneralLinearGroup (Fin 2) (ZMod 3)) = 48 ∧
+      Nat.card {x : Matrix.GeneralLinearGroup (Fin 2) (ZMod 3) //
+        (Matrix.GeneralLinearGroup.det x : ZMod 3) = -1 ∧ x ^ 2 = 1} = 12 := by
+  sorry
+
+/-- The diagonal conjugation graph identifies its outside marking with one general-linear conjugacy class. -/
+example : ∃ (d : Matrix.GeneralLinearGroup (Fin 2) (ZMod 3))
+    (φ : C₂ →* MulAut (Matrix.SpecialLinearGroup (Fin 2) (ZMod 3)))
+    (e : (Matrix.SpecialLinearGroup (Fin 2) (ZMod 3) ⋊[φ] C₂) ≃*
+      Matrix.GeneralLinearGroup (Fin 2) (ZMod 3)),
+    (d : Matrix (Fin 2) (Fin 2) (ZMod 3)) = !![-1, 0; 0, 1] ∧
+    (∀ a, Matrix.SpecialLinearGroup.toGL (φ (Multiplicative.ofAdd 1) a) =
+      d * Matrix.SpecialLinearGroup.toGL a * d⁻¹) ∧
+    (∀ x, e x = Matrix.SpecialLinearGroup.toGL x.left * d ^ x.right.toAdd.val) ∧
+    (∀ x, (x.right ≠ 1 ∧ x ^ 2 = 1) ↔ IsConj (e x) d) := by
+  sorry
+
+/-- The inverse-transpose graph has twice the order of the special linear group. -/
+example : Nat.card (Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) = 168 ∧
+    ∃ φ : C₂ →* MulAut (Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)),
+      (∀ g, φ (Multiplicative.ofAdd 1) g = Matrix.SpecialLinearGroup.transpose g⁻¹) ∧
+      Nat.card (Matrix.SpecialLinearGroup (Fin 3) (ZMod 2) ⋊[φ] C₂) = 336 := by
+  sorry
+
+/-- Two elementary special-linear matrices show that transpose fails multiplicativity. -/
+example :
+    let u : Matrix (Fin 3) (Fin 3) (ZMod 2) := !![1, 1, 0; 0, 1, 0; 0, 0, 1]
+    let v : Matrix (Fin 3) (Fin 3) (ZMod 2) := !![1, 0, 0; 0, 1, 1; 0, 0, 1]
+    u.det = 1 ∧ v.det = 1 ∧ (u * v).transpose ≠ u.transpose * v.transpose := by
+  sorry
+
 end NativeChecks
 
 /-!
@@ -833,7 +941,7 @@ end NativeChecks
   `paritySquareMap`, `affine_compatible_parities`, `surviving_parities`, `independent_classes`.
 
 * RS.6: `centralizer_generator_relations`, `centralizer_generator_quotient`,
-  `finite_parity_comparison`, the graph models, `antidiagonal_reduced_multiplier`,
+  `finite_parity_comparison`, `graphModel` with its embedding API, `antidiagonal_reduced_multiplier`,
   `order96_fixed_fibers` and `table_fixed_fiber_application`. The table's individual multiplier
   values are explicit input hypotheses of the conditional applications. The light `sumKernelModel` specializes to `order96Type`
   at `A₄` and to `antidiagonalModel` for abelian groups; `outsideInvolutions` retains their marking.
