@@ -13,6 +13,11 @@ import Mathlib.Analysis.Matrix.Spectrum
 import Mathlib.LinearAlgebra.Matrix.Hermitian
 import Mathlib.Topology.Instances.Int
 import Mathlib.Tactic
+import TauCeti.LinearAlgebra.RootSystem.KostantPartition.Basic
+import Mathlib.LinearAlgebra.Matrix.Determinant.TotallyUnimodular
+import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+import Mathlib.Algebra.MvPolynomial.Eval
+import Mathlib.Algebra.MvPolynomial.Degrees
 
 noncomputable section
 open scoped BigOperators
@@ -273,3 +278,221 @@ theorem puzzle_boundary_balance {n : ℕ} (p : Puzzle n) (s t : Fin 3) :
     (Finset.univ.filter fun i => puzzleBoundary p t i = true).card := by sorry
 
 end TensorProductCombinatorics
+
+/-! ## H1.5 / H2.6: pointed unimodular counting and the native type-A adapter
+
+These are prospective target signatures, not an exhaustive checklist or compiled proof.
+All data-valued admissions have whole-function types retaining the actual inputs.
+-/
+namespace TensorProductCombinatorics.ChamberCounting
+open scoped BigOperators
+
+variable {r : ℕ} {ι : Type*} [Fintype ι] [DecidableEq ι]
+
+/-- The actual nonnegative integer solutions, not a postulated finite set. -/
+abbrev Fibre (A : Matrix (Fin r) ι ℤ) (b : Fin r → ℤ) :=
+  {c : ι → ℕ // ∀ i, ∑ j, A i j * (c j : ℤ) = b i}
+
+def count (A : Matrix (Fin r) ι ℤ) (b : Fin r → ℤ) : ℕ :=
+  Nat.card (Fibre A b)
+
+def realFibre (A : Matrix (Fin r) ι ℤ) (b : Fin r → ℝ) : Set (ι → ℝ) :=
+  {x | (∀ j, 0 ≤ x j) ∧ ∀ i, ∑ j, (A i j : ℝ) * x j = b i}
+
+def supportCone (A : Matrix (Fin r) ι ℤ) : Set (Fin r → ℝ) :=
+  {b | ∃ x : ι → ℝ, x ∈ realFibre A b}
+
+theorem realFibre_polyhedron (A : Matrix (Fin r) ι ℤ) (b : Fin r → ℝ) :
+    TauCeti.IsConvexPolyhedron (realFibre A b) := by sorry
+
+theorem finite_fibre (A : Matrix (Fin r) ι ℤ) (h : Fin r → ℤ)
+    (hpos : ∀ j, 0 < ∑ i, h i * A i j) (b : Fin r → ℤ) :
+    Finite (Fibre A b) := by sorry
+
+theorem realFibre_compact (A : Matrix (Fin r) ι ℤ) (h : Fin r → ℤ)
+    (hpos : ∀ j, 0 < ∑ i, h i * A i j) (b : Fin r → ℝ) :
+    IsCompact (realFibre A b) := by sorry
+
+theorem exists_integer_height (A : Matrix (Fin r) ι ℤ)
+    (hpointed : ∀ x : ι → ℝ, (∀ j, 0 ≤ x j) →
+      (∀ i, ∑ j, (A i j : ℝ) * x j = 0) → x = 0) :
+    ∃ h : Fin r → ℤ, ∀ j, 0 < ∑ i, h i * A i j := by sorry
+
+/-- Every ordered independent column basis is retained as actual data. -/
+abbrev ColumnBasis (A : Matrix (Fin r) ι ℤ) :=
+  {e : Fin r → ι // Function.Injective e ∧ (A.submatrix id e).det ≠ 0}
+
+def basisCoordinates (A : Matrix (Fin r) ι ℤ) (B : ColumnBasis A)
+    (x : Fin r → ℝ) : Fin r → ℝ :=
+  Matrix.mulVec ((A.submatrix id B.1).map (Int.castRingHom ℝ))⁻¹ x
+
+abbrev WallIndex (A : Matrix (Fin r) ι ℤ) := ColumnBasis A × Fin r
+
+def chamberCell (A : Matrix (Fin r) ι ℤ) (s : WallIndex A → Bool) :
+    Set (Fin r → ℝ) :=
+  {x | x ∈ supportCone A ∧ ∀ B : ColumnBasis A, ∀ i,
+    if s (B, i) then 0 ≤ basisCoordinates A B x i
+    else basisCoordinates A B x i ≤ 0}
+
+/-- Full-dimensional closed cells INSIDE support; exterior zero is not a cell here. -/
+abbrev Chamber (A : Matrix (Fin r) ι ℤ) :=
+  {s : WallIndex A → Bool // (interior (chamberCell A s)).Nonempty}
+
+omit [DecidableEq ι] in
+theorem finite_chambers (A : Matrix (Fin r) ι ℤ) : Finite (Chamber A) := by
+  classical
+  infer_instance
+
+theorem chamber_polyhedron (A : Matrix (Fin r) ι ℤ) (D : Chamber A) :
+    TauCeti.IsConvexPolyhedron (chamberCell A D.1) := by sorry
+
+theorem support_covered (A : Matrix (Fin r) ι ℤ)
+    (hfull : Function.Surjective (fun x : ι → ℚ =>
+      fun i => ∑ j, (A i j : ℚ) * x j)) :
+    ∀ x ∈ supportCone A, ∃ D : Chamber A, x ∈ chamberCell A D.1 := by sorry
+
+omit [Fintype ι] [DecidableEq ι] in
+theorem unit_maximal_minors_of_totallyUnimodular
+    (A : Matrix (Fin r) ι ℤ) (hA : A.IsTotallyUnimodular)
+    (e : Fin r → ι) (he : Function.Injective e) :
+    (A.submatrix id e).det = 0 ∨ (A.submatrix id e).det = 1 ∨
+      (A.submatrix id e).det = -1 := by
+  rcases hA r id e Function.injective_id he with ⟨s, hs⟩
+  cases s <;> simp_all
+
+/-- The actual rational coefficient family. Height, matrix and chamber are retained. -/
+def chamberPolynomial : (A : Matrix (Fin r) ι ℤ) →
+    (h : Fin r → ℤ) → (∀ j, 0 < ∑ i, h i * A i j) →
+    Function.Surjective (fun x : ι → ℚ => fun i => ∑ j, (A i j : ℚ) * x j) →
+    (∀ e : Fin r → ι, Function.Injective e →
+      (A.submatrix id e).det = 0 ∨ (A.submatrix id e).det = 1 ∨
+        (A.submatrix id e).det = -1) →
+    Chamber A → MvPolynomial (Fin r) ℚ := by sorry
+
+theorem chamberPolynomial_eval (A : Matrix (Fin r) ι ℤ)
+    (h : Fin r → ℤ) (hpos : ∀ j, 0 < ∑ i, h i * A i j)
+    (hfull : Function.Surjective (fun x : ι → ℚ =>
+      fun i => ∑ j, (A i j : ℚ) * x j))
+    (hunit : ∀ e : Fin r → ι, Function.Injective e →
+      (A.submatrix id e).det = 0 ∨ (A.submatrix id e).det = 1 ∨
+        (A.submatrix id e).det = -1)
+    (D : Chamber A) (b : Fin r → ℤ)
+    (hb : (fun i => (b i : ℝ)) ∈ chamberCell A D.1) :
+    MvPolynomial.eval (fun i => (b i : ℚ))
+      (chamberPolynomial A h hpos hfull hunit D) = (count A b : ℚ) := by sorry
+
+theorem chamberPolynomial_degree (A : Matrix (Fin r) ι ℤ)
+    (h : Fin r → ℤ) (hpos : ∀ j, 0 < ∑ i, h i * A i j)
+    (hfull : Function.Surjective (fun x : ι → ℚ =>
+      fun i => ∑ j, (A i j : ℚ) * x j))
+    (hunit : ∀ e : Fin r → ι, Function.Injective e →
+      (A.submatrix id e).det = 0 ∨ (A.submatrix id e).det = 1 ∨
+        (A.submatrix id e).det = -1) (D : Chamber A) :
+    (chamberPolynomial A h hpos hfull hunit D).totalDegree ≤ Fintype.card ι - r := by sorry
+
+theorem chamberPolynomial_wall (A : Matrix (Fin r) ι ℤ)
+    (h : Fin r → ℤ) (hpos : ∀ j, 0 < ∑ i, h i * A i j)
+    (hfull : Function.Surjective (fun x : ι → ℚ =>
+      fun i => ∑ j, (A i j : ℚ) * x j))
+    (hunit : ∀ e : Fin r → ι, Function.Injective e →
+      (A.submatrix id e).det = 0 ∨ (A.submatrix id e).det = 1 ∨
+        (A.submatrix id e).det = -1)
+    (D E : Chamber A) (x : Fin r → ℝ)
+    (hD : x ∈ chamberCell A D.1) (hE : x ∈ chamberCell A E.1) :
+    MvPolynomial.eval₂ (algebraMap ℚ ℝ) x (chamberPolynomial A h hpos hfull hunit D) =
+      MvPolynomial.eval₂ (algebraMap ℚ ℝ) x
+        (chamberPolynomial A h hpos hfull hunit E) := by sorry
+
+theorem count_eq_zero_outside (A : Matrix (Fin r) ι ℤ) (b : Fin r → ℤ)
+    (hb : (fun i => (b i : ℝ)) ∉ supportCone A) : count A b = 0 := by sorry
+
+/-- Intervals index actual positive roots e_i-e_j, including the simple intervals. -/
+abbrev PositiveInterval (N : ℕ) := {p : Fin N × Fin N // p.1 < p.2}
+
+def intervalMatrix (N : ℕ) : Matrix (Fin (N-1)) (PositiveInterval N) ℤ :=
+  fun k p => if p.1.1.val ≤ k.val ∧ k.val < p.1.2.val then 1 else 0
+
+theorem intervalMatrix_totallyUnimodular (N : ℕ) :
+    (intervalMatrix N).IsTotallyUnimodular := by sorry
+
+theorem intervalMatrix_height (N : ℕ) (p : PositiveInterval N) :
+    0 < ∑ k, intervalMatrix N k p := by sorry
+
+theorem intervalMatrix_fullrank (N : ℕ) :
+    Function.Surjective (fun x : PositiveInterval N → ℚ =>
+      fun i => ∑ p, (intervalMatrix N i p : ℚ) * x p) := by sorry
+
+abbrev RootLattice (N : ℕ) := {z : Fin N → ℤ // ∑ i, z i = 0}
+
+def simpleCoordinates {N : ℕ} (z : RootLattice N) : Fin (N-1) → ℤ :=
+  fun k => ∑ i : Fin N, if i.val ≤ k.val then z.1 i else 0
+
+def rootVector (N : ℕ) (c : Fin (N-1) → ℤ) : RootLattice N :=
+  ⟨fun j => ∑ k, c k * ((if j.val = k.val then 1 else 0) -
+    (if j.val = k.val+1 then 1 else 0)), by sorry⟩
+
+def rootLatticeEquiv (N : ℕ) : RootLattice N ≃ (Fin (N-1) → ℤ) where
+  toFun := simpleCoordinates
+  invFun := rootVector N
+  left_inv := by sorry
+  right_inv := by sorry
+
+def typeACount (N : ℕ) (b : Fin (N-1) → ℤ) : ℕ := count (intervalMatrix N) b
+
+theorem typeA_support (N : ℕ) : supportCone (intervalMatrix N) =
+    {b | ∀ i, 0 ≤ b i} := by sorry
+
+theorem typeA_degree_arithmetic (N : ℕ) (hN : 2 ≤ N) :
+    Fintype.card (PositiveInterval N) - (N-1) = (N-1)*(N-2)/2 := by sorry
+
+theorem typeA_rank_one (a : ℤ) :
+    typeACount 2 ![a] = if 0 ≤ a then 1 else 0 := by sorry
+
+theorem typeA_A2 (a b : ℤ) :
+    typeACount 3 ![a,b] = if 0 ≤ a ∧ 0 ≤ b then (min a b + 1).toNat else 0 := by sorry
+
+/-- The specialization is defined by the generic family, not admitted again. -/
+def typeAPolynomial (N : ℕ) (D : Chamber (intervalMatrix N)) :
+    MvPolynomial (Fin (N-1)) ℚ :=
+  chamberPolynomial (intervalMatrix N) (fun _ => 1)
+    (fun p => by simpa using intervalMatrix_height N p)
+    (intervalMatrix_fullrank N)
+    (unit_maximal_minors_of_totallyUnimodular (intervalMatrix N)
+      (intervalMatrix_totallyUnimodular N)) D
+
+theorem typeAPolynomial_eval (N : ℕ) (D : Chamber (intervalMatrix N))
+    (b : Fin (N-1) → ℤ)
+    (hb : (fun i => (b i : ℝ)) ∈ chamberCell (intervalMatrix N) D.1) :
+    MvPolynomial.eval (fun i => (b i : ℚ)) (typeAPolynomial N D) =
+      (typeACount N b : ℚ) := by sorry
+
+theorem typeAPolynomial_degree (N : ℕ) (hN : 2 ≤ N)
+    (D : Chamber (intervalMatrix N)) :
+    (typeAPolynomial N D).totalDegree ≤ (N-1)*(N-2)/2 := by sorry
+
+theorem typeA_empty (N : ℕ) (hN : N ≤ 1) : typeACount N 0 = 1 := by sorry
+
+section NativeComparison
+variable {κ M M' : Type*} [Finite κ]
+  [AddCommGroup M] [Module ℚ M] [AddCommGroup M'] [Module ℚ M']
+
+/-- Constructed from the specified type-A realization; NOT an assumption about counts. -/
+structure RootCoordinates (N : ℕ) (P : RootPairing κ ℚ M M') (b : P.Base) where
+  embed : (Fin (N-1) → ℤ) →+ M
+  embed_injective : Function.Injective embed
+  positiveIndex : PositiveInterval N ≃ {i : κ // i ∈ TauCeti.posRoots P b}
+  column_eq : ∀ p, embed (fun k => intervalMatrix N k p) = P.root (positiveIndex p).1
+
+/-- The full fibre equivalence extends by zero on negative roots. All data remain inputs. -/
+def nativePartitionEquiv {N : ℕ} {P : RootPairing κ ℚ M M'} {b : P.Base} :
+    (D : RootCoordinates N P b) → (c : Fin (N-1) → ℤ) →
+    Fibre (intervalMatrix N) c ≃
+      {d : κ → ℕ // TauCeti.IsKostantPartition P b (D.embed c) d} := by sorry
+
+theorem typeACount_eq_native {N : ℕ} {P : RootPairing κ ℚ M M'} {b : P.Base}
+    (D : RootCoordinates N P b) (c : Fin (N-1) → ℤ) :
+    typeACount N c = TauCeti.kostantPartition P b (D.embed c) := by
+  exact Nat.card_congr (nativePartitionEquiv D c)
+
+end NativeComparison
+end TensorProductCombinatorics.ChamberCounting

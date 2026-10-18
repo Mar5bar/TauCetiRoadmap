@@ -153,6 +153,15 @@ and tableau objects, then S9.5's generic-to-concrete maps on those objects,
 then the tensor/hive and H9 comparisons. The independent
 H1–H7 constructions do not gain a Schubert splitting or SMT premise.
 
+H1.3's finite rational polyhedral/lattice adapters precede the independent
+H1.5 counting lane. H1.5 consumes only the early semigroup/lattice comparisons
+of [GroebnerGeometry G2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d21bc1c2f895047275495326f5f693e89f0e244c/TauCetiRoadmap/GroebnerGeometry/README.md#g2-semigroup-presentations-normalization-and-degree)
+and the stated native floors, not H2.3 or later hive
+representation comparisons. H2.6 then composes H1.5 with H2.3's already-defined
+native count/RootPairing and GT object maps. H2.3 itself does not require the
+chamber-polynomial theorem, and the HW3 specialization is a comparison rather
+than a proof premise for the generic matrix theorem.
+
 ## H1. Lattices, rhombi, boundaries and finite polytope operations
 
 1. Give finite lattice and unit-triangle/edge/rhombus index types, coordinate
@@ -195,6 +204,71 @@ H1–H7 constructions do not gain a Schubert splitting or SMT premise.
    linear selection alone does not prove saturation. Prove a generic objective
    exists in any nonempty open cone of admissible objectives by avoiding finitely
    many hyperplanes. Export rational perturbations and dense relative interiors.
+
+5. Build **pointed unimodular vector-partition counting** on the same finite
+   integer matrix/lattice carriers. Let A:ℤ^m→ℤ^r have full row rank, with
+   ker(A_ℝ)∩ℝ^m_≥0={0}, and require every nonzero r×r column minor to be ±1
+   in the specified target lattice ℤ^r. Construct an integer functional h with
+   h(A_j)>0 for every column, using the native strict alternative and rational
+   denominator clearing. For b∈ℤ^r define the actual fibre
+   F_A(b)={c∈ℕ^m:A c=b}, prove it finite before counting, and identify it with
+   the lattice points of P_A(b)={x∈ℝ^m:x≥0,A x=b}. Give explicit coordinate
+   bounds from h(b), a finite enumeration and decidable membership. P_A(b) is
+   a compact native `TauCeti.IsConvexPolyhedron`; its support is the rational
+   column cone C_A. Prove count0=1, count=0 off C_A, and positivity on
+   C_A∩ℤ^r using integral basic feasible solutions. The full-minor hypothesis
+   is relative to the chosen lattice, not merely real linear independence.
+   Consume Mathlib `Matrix.IsTotallyUnimodular` and its submatrix API for the
+   stronger all-minor condition, and prove it implies this hypothesis.
+   Reuse [GroebnerGeometry G2](../GroebnerGeometry/README.md#g2-semigroup-presentations-normalization-and-degree)'s exponent monoid, generated lattice
+   and cone/saturation/Gordan comparisons for the semigroup/lattice adapters.
+   Count PREIMAGES of the exponent map here, not distinct semigroup elements:
+   G2's graded semigroup Hilbert/Ehrhart count does not replace this fibre count.
+   Its normalization, Proj and leading-volume theory remain with that owner.
+
+   Construct all invertible column bases B and their cones cone(A_B). Use
+   H1.3 to build their common polyhedral refinement on C_A. An explicit finite
+   model is the arrangement of all coordinates of A_B⁻¹b: intersect C_A with
+   all closed sign halfspaces, retain the full-dimensional cells and their
+   faces, and prove this refines every basis cone and covers C_A. Empty cells
+   are discarded; duplicate presentations are compared extensionally. For
+   each closed full-dimensional chamber D construct an actual
+   p_D∈ℚ[b₁,…,b_r] of total degree at most m−r, and prove
+   |F_A(b)|=p_D(b) for EVERY b∈D∩ℤ^r, including support faces and internal
+   walls. Export coefficient/evaluation, change of row lattice basis and
+   column permutation APIs, uniqueness of the full-dimensional constituent,
+   and independence of the positive height witness or a refining chamber
+   presentation. On an intersection of two such chambers prove equality of
+   the restricted polynomials as real polynomial functions. Outside C_A the
+   count is separately zero; no gluing with that exterior value at a support
+   facet or the origin is asserted. Relative open face strata inherit the
+   common restriction; intersections and lower-dimensional parameter slices
+   retain their actual affine lattice rather than counting all ambient points.
+
+   Own the enumeration proof, not only an interpolation oracle: construct
+   multivariate lattice generating functions for pointed rational cones,
+   finite fundamental-parallelepiped enumeration and unimodular cone series;
+   prove the polytope tangent-cone valuation and its rational-function
+   specialization. For a generic chamber the vertices are the feasible basic
+   solutions, integral by A_B⁻¹, and their tangent lattices have the explicit
+   basis e_j−Σ_i(A_B⁻¹A_j)_i e_(B_i). Prove the resulting finite rational
+   expression counts the fibre. Choose an auxiliary covector nonzero on its
+   finitely many edge directions, substitute monomial exponentials and take
+   the constant Laurent coefficient; construct the truncated rational Todd
+   factors and prove pole cancellation and the degree bound m−r. Include the
+   non-simple/degenerate tangent-cone valuation and specialization to CLOSED
+   chamber walls, with no double counting of coincident vertices. Establish
+   the boundary specialization identities before using them to extend an
+   interior formula; evaluation at a perturbed right-hand side is not itself
+   a lattice-point bijection. These cone/valuation/specialization lemmas are
+   construction targets here, using H1.3's finite polyhedral and lattice API,
+   without a toric Riemann–Roch, Schubert or hive-saturation premise. Export
+   exact finite algorithms for chamber certificates and rational coefficients.
+   The empty r=m=0 system has one point and constant polynomial1. Positive
+   height excludes nonempty zero-column systems at r=0. Repeated nonzero
+   columns are allowed. Without unimodularity, [2] has the parity count on
+   the positive ray; do not replace the theorem by an unconditional ordinary
+   polynomial statement for every integer matrix.
 
 ## H2. Native GT and LR comparisons and the hive ring
 
@@ -286,6 +360,52 @@ H1–H7 constructions do not gain a Schubert splitting or SMT premise.
    of dominance within each central degree; generator-exponent lexicographic
    order does not supply that triangularity. Export coordinates, generator
    normal forms and finite multiplication algorithms.
+
+6. Apply H1.5 to the **actual type-A Kostant partition function**, through
+   H2.3's RootPairing/Base and GT comparisons. For N≥2 use rank r=N−1,
+   positive roots indexed by pairs0≤i<j<N and m=N(N−1)/2 columns. In simple
+   coordinates the (i,j) column is1 in positions i,…,j−1 and0 elsewhere.
+   Construct the integral equivalence between ℤ^(N−1) and
+   Q_N={z∈ℤ^N:Σz_i=0}: z↦(Σ_(i≤k)z_i)_k, inverse the successive
+   difference vector. Identify it with the specified type A_(N−1) root
+   model in the sum-zero hyperplane of ℚ^N, its positive-root indices and
+   base. Extension by zero on negative roots gives the actual equivalence
+   F_A(c)≃{d:ι→ℕ // TauCeti.IsKostantPartition P b (embed c) d}; prove both
+   inverses, support and sum identities, and hence equality with the SAME
+   native `TauCeti.kostantPartition P b`, not a second Lie-theoretic count.
+   Compare with HW3's Cartan specialization through H2.3's existing bridge.
+
+   Prove this consecutive-ones matrix totally unimodular using the native
+   predicate. For each square minor first order its selected rows: each
+   column still has a consecutive interval of1s. Apply the determinant-one
+   row-difference operator to THAT minor. Its columns have at most one+1
+   and one−1; expansion handles a column with at most one nonzero, while if
+   every column has both signs their row sum is zero and the determinant
+   vanishes. This proves every minor0,±1; it does not presume arbitrary
+   unimodular row operations preserve total unimodularity of a whole matrix.
+   The simple-root columns give full row rank and the full integer lattice.
+   The all-ones height is strictly positive on every column. Thus the support
+   in simple coordinates is exactly ℝ^(N−1)_≥0, and in Q_N it is the cone of
+   nonnegative partial sums, NOT the whole sum-zero space or a central GL
+   translate. Transport H1.5's closed chambers, actual rational polynomial
+   constituents, integer evaluations, internal-wall agreement and relative
+   face restrictions. Their total degree is at most
+   m−r=(N−1)(N−2)/2. Determinant shifts of λ and wt cancel in λ−wt; they do
+   not add a root-lattice or partition variable. No least/minimal chamber
+   decomposition is required by this API: compare refinements explicitly.
+
+   Give the A2 example in full: for c=(a,b), solutions are uniquely
+   (a−z,b−z,z),0≤z≤min(a,b), so the count is min(a,b)+1 if a,b≥0 and0
+   otherwise. The two closed support chambers a≤b and b≤a have polynomials
+   a+1 and b+1 and agree at a=b. At the origin the value is1 and the
+   exterior-zero value does not glue. For N=2 the single-root count is1 at
+   a≥0 and0 otherwise, of degree0. For N=1 and N=0 the root lattice is the
+   zero group, the empty partition is unique and there are no root operators;
+   these cases do not invoke a negative-rank type-A model. Preserve the
+   existing fixed-height GT threshold and its object equivalence: compose
+   it with this count and chamber evaluation on each specified parameter
+   region. No chamber-polynomiality for arbitrary root systems, arbitrary
+   GT/hive polytopes or every vector list follows from this specialization.
 
 ## H3. Octahedron recurrence and the excavation bijection
 
@@ -964,3 +1084,11 @@ Proof references, each with the constructions it supplies:
   §§1–7 for running-extremum root operators, a-chain encoding, gluing/linking
   and the dominant-path isomorphism; H8 constructs the type-A specialization
   and both coordinate-path and straight-path comparisons in full.
+
+For H1.5/H2.6 use [Billey–Guillemin–Rassart, §§1.3–1.4, Lemma1.6,
+§4 after Lemma4.3 and §7.1](https://arxiv.org/html/math/0307227v1) and
+[De Loera–Sturmfels, introduction/Theorem1.1](https://arxiv.org/html/math/0104286v1)
+for the pointed unimodular chamber theorem and type-A normalization. The
+closed-support/internal-wall comparison is distinct from the exterior-zero
+case; the construction targets and native lattice adapters above specify
+the required library interface.
