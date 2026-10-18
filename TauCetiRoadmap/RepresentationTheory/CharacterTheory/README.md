@@ -724,6 +724,103 @@ Staged from rational to genuinely cyclotomic, so early milestones do not wait on
   `q-1=2` from the cuspidal series), with the four families `1, q, q+1, q-1` and the `q²-1=8` classes
   verified.
 
+### Symmetry and normal modes of finite spring systems
+
+Construct the following finite-dimensional applications of Layers 0–3 over `ℝ`,
+and compare their complexifications with the complex character table. Use the
+standard inner product on the displacement coordinates. Consume Layer 3’s
+primitive central idempotents and finite representation decomposition,
+SemisimpleAlgebras Layer 1’s Schur and isotypic theory, and the native matrix
+action, trace and linear-map APIs. Build the character-idempotent action
+adapter and its orthogonal-projector formula for these unitary representations.
+For a chosen isotypic identification `V_i ⊗ Hom_G(V_i,W)`, prove that an
+equivariant operator acts as `id ⊗ H_i`; derive this from Schur’s lemma and
+Layer 3’s finite decomposition. Build the action, equivariance and
+specified eigenspaces; a character calculation alone does not discharge these
+examples. For these groups use the real-valued complex characters and show
+that their character-projector matrices have real entries; justify each
+real irreducibility statement by the irreducible complexification, rather
+than invoking the complex form of Schur’s lemma on an arbitrary real module.
+The force operators below are explicit linearizations. No assertion about
+nonlinear stability follows from their zero eigenvalues.
+
+For two particles at `(0,0),(1,0)`, use displacement order
+`(x₁,x₂,y₁,y₂)` and force matrix
+`H=[[-1,0,1,0],[0,0,0,0],[1,0,-1,0],[0,0,0,0]]`.
+Construct the commuting involutions
+`r=diag(1,-1,1,-1)` and
+`s=[[0,0,-1,0],[0,0,0,1],[-1,0,0,0],[0,1,0,0]]`.
+Identify this representation of `C₂×C₂` with its regular representation.
+The eigenvectors `(1,0,-1,0)`, `(0,1,0,1)`, `(1,0,1,0)` and
+`(0,1,0,-1)` have `(r,s)` signs `(+,+),(-,+),(+,-),(-,-)` and
+`H` eigenvalues `-2,0,0,0`, respectively. Construct their orthogonal
+character projectors. For an ordinary spring with stiffness `κ>0`, mass `m>0`
+and nonzero rest vector `v`, derive the linearization of the pair force from
+`F_i=κ (‖r‖-‖v‖)r/‖r‖`, where `r=v+u_j-u_i` and `F_j=-F_i`:
+the acceleration on particle `i` is `(κ/m) P_v(u_j-u_i)`, with
+`P_v(w)=⟪v,w⟫v/‖v‖²`. Pin the equal-mass and equal-stiffness convention.
+
+For three particles on a line, construct
+`H=[[-1,1,0],[1,-2,1],[0,1,-1]]` and
+`r(x₁,x₂,x₃)=(-x₃,-x₂,-x₁)`.
+Prove that the representation has one trivial and two sign constituents.
+Its vectors `(1,0,-1)`, `(1,1,1)` and `(1,-2,1)` have eigenvalues
+`-1,0,-3`, respectively. Identify the trivial line and the sign isotypic
+plane, and prove explicitly that `H` is not scalar on that plane. An
+equivariant operator preserves isotypic components and acts on their
+multiplicity spaces; it need not preserve arbitrary chosen irreducible copies.
+
+For the tetrahedron with vertices
+`p₁=(0,0,0), p₂=(1,1,0), p₃=(1,0,1), p₄=(0,1,1)`, put
+`c=(1/2,1/2,1/2)` and `q_i=p_i-c`.
+Construct the orthogonal ambient action `R_σ` determined by
+`R_σ q_i=q_{σ(i)}` for `σ∈S₄`, and the displacement representation
+`(σ·u)_i=R_σ u_{σ⁻¹(i)}` on `(ℝ³)^4`. Identify the ambient module with
+the sum-zero submodule of the four-point permutation representation, with
+its inner-product normalization. For every edge `i<j`, let `z_ij∈ℝ¹²`
+have block `p_i-p_j` at `i`, its negative at `j`, and zero elsewhere.
+Define `H=-Σ_(i<j) z_ij z_ijᵀ`. Prove that it is symmetric, negative
+semidefinite and `S₄`-equivariant. This normalization has the pair-spring
+matrix with entries `±1` on the `(1,2)` edge; since every edge has squared
+length `2`, physical unit-direction springs give acceleration operator
+`(κ/(2m))H`.
+
+In class order `(1⁴),(2,1²),(3,1),(4),(2,2)`, compute the displacement
+character `(12,2,0,0,0)` and its decomposition
+`1 ⊕ E ⊕ 2V ⊕ (sgn⊗V)`, where `V` is the standard three-dimensional
+module and `E` is the two-dimensional irreducible. Construct the following
+orthogonal decomposition and actual intertwiners:
+
+- translations `u_i=t` and infinitesimal rotations `u_i=Aq_i`, `Aᵀ=-A`,
+  give the kernel, of dimension `6`, with types `V` and `sgn⊗V`;
+- diagonal trace-zero symmetric `A` in `u_i=Aq_i` give the `E` eigenspace,
+  of dimension `2`, with eigenvalue `-2`;
+- symmetric matrices `A` with zero diagonal give the other `V` eigenspace,
+  of dimension `3`, with eigenvalue `-4`;
+- the breathing line `u_i=a q_i` has eigenvalue `-8`.
+
+Show that every displacement is uniquely a translation plus `u_i=Aq_i`.
+Identify rotations with `Λ²V` using the Euclidean metric and its equivariant
+skew-map construction. Thus the two copies of `V` are distinguished by
+translation and vibration, not by applying Schur's lemma to their sum.
+Prove the characteristic polynomial
+`X⁶ (X+2)² (X+4)³ (X+8)` and the stated kernel and eigenspace dimensions.
+For `m,κ>0`, the six positive vibrational frequencies are
+`√(κ/m)` twice, `√(2κ/m)` three times, and `2√(κ/m)` once.
+Construct the solutions of `u''=(κ/(2m))H u` on these modes and the affine
+solutions on the zero modes.
+
+Also compute restriction to the vertex stabilizer `S₃` and the square
+subgroup `D₄=⟨(1234),(13)⟩` of `S₄`.
+The displacement invariant spaces have dimensions `3` and `2`, respectively.
+For `S₃`, construct a fixed vector on the breathing line and one in each
+standard copy, and prove that the orbit of a nonzero fixed vector in the
+vibrational standard module spans that module. For `D₄`, construct the
+fixed line in `E`, separate it from breathing by orthogonal projection,
+and prove its orbit spans `E`. Give the corresponding restriction
+characters and fixed-space projectors; these constructions supply the
+symmetric spanning sets without claiming a canonical basis in an irreducible.
+
 ## Ordering
 
 Layer 0 (class functions) and Layer 1 (center, structure constants, integral class center) are

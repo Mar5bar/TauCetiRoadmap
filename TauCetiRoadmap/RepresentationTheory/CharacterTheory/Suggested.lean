@@ -642,3 +642,66 @@ theorem character_one_GL2Cuspidal (F : Type u) [Field F] [Fintype F] [DecidableE
     (GL2Cuspidal F E hE θ hθ).character 1 = (Fintype.card F : ℂ) - 1 := sorry
 
 end TauCetiRoadmap.RepresentationTheory.CharacterTheory
+
+
+/- Exact rational matrix witnesses for the spring-system application.
+   These finite identities do not construct the representation-theoretic or analytic adapters. -/
+namespace TauCetiRoadmap.RepresentationTheory.CharacterTheory.SpringSystems
+
+def force : Matrix (Fin 12) (Fin 12) ℚ :=
+  !![-2, -1, -1, 1, 1, 0, 1, 0, 1, 0, 0, 0;
+  -1, -2, -1, 1, 1, 0, 0, 0, 0, 0, 1, 1;
+  -1, -1, -2, 0, 0, 0, 1, 0, 1, 0, 1, 1;
+  1, 1, 0, -2, -1, 1, 0, 0, 0, 1, 0, -1;
+  1, 1, 0, -1, -2, 1, 0, 1, -1, 0, 0, 0;
+  0, 0, 0, 1, 1, -2, 0, -1, 1, -1, 0, 1;
+  1, 0, 1, 0, 0, 0, -2, 1, -1, 1, -1, 0;
+  0, 0, 0, 0, 1, -1, 1, -2, 1, -1, 1, 0;
+  1, 0, 1, 0, -1, 1, -1, 1, -2, 0, 0, 0;
+  0, 0, 0, 1, 0, -1, 1, -1, 0, -2, 1, 1;
+  0, 1, 1, 0, 0, 0, -1, 1, 0, 1, -2, -1;
+  0, 1, 1, -1, 0, 1, 0, 0, 0, 1, -1, -2]
+
+def modes : Matrix (Fin 12) (Fin 12) ℚ :=
+  !![1, 0, 0, -1, -1, 0, -1, 0, -1, -1, 0, -1;
+  0, 1, 0, 1, 0, -1, 1, -1, -1, 0, -1, -1;
+  0, 0, 1, 0, 1, 1, 0, 1, 0, -1, -1, -1;
+  1, 0, 0, 1, -1, 0, 1, 0, 1, -1, 0, 1;
+  0, 1, 0, -1, 0, -1, -1, 1, 1, 0, -1, 1;
+  0, 0, 1, 0, -1, -1, 0, 1, 0, 1, 1, -1;
+  1, 0, 0, -1, 1, 0, 1, 0, -1, 1, 0, 1;
+  0, 1, 0, -1, 0, 1, 1, -1, 1, 0, 1, -1;
+  0, 0, 1, 0, -1, 1, 0, -1, 0, 1, -1, 1;
+  1, 0, 0, 1, 1, 0, -1, 0, 1, 1, 0, -1;
+  0, 1, 0, 1, 0, 1, -1, 1, -1, 0, 1, 1;
+  0, 0, 1, 0, 1, -1, 0, -1, 0, -1, 1, 1]
+
+def inverseModes : Matrix (Fin 12) (Fin 12) ℚ :=
+  !![(1 / 4), 0, 0, (1 / 4), 0, 0, (1 / 4), 0, 0, (1 / 4), 0, 0;
+  0, (1 / 4), 0, 0, (1 / 4), 0, 0, (1 / 4), 0, 0, (1 / 4), 0;
+  0, 0, (1 / 4), 0, 0, (1 / 4), 0, 0, (1 / 4), 0, 0, (1 / 4);
+  (-1 / 8), (1 / 8), 0, (1 / 8), (-1 / 8), 0, (-1 / 8), (-1 / 8), 0, (1 / 8), (1 / 8), 0;
+  (-1 / 8), 0, (1 / 8), (-1 / 8), 0, (-1 / 8), (1 / 8), 0, (-1 / 8), (1 / 8), 0, (1 / 8);
+  0, (-1 / 8), (1 / 8), 0, (-1 / 8), (-1 / 8), 0, (1 / 8), (1 / 8), 0, (1 / 8), (-1 / 8);
+  (-1 / 6), (1 / 12), (1 / 12), (1 / 6), (-1 / 12), (1 / 12), (1 / 6), (1 / 12), (-1 / 12), (-1 / 6), (-1 / 12), (-1 / 12);
+  (-1 / 12), (-1 / 12), (1 / 6), (1 / 12), (1 / 12), (1 / 6), (1 / 12), (-1 / 12), (-1 / 6), (-1 / 12), (1 / 12), (-1 / 6);
+  (-1 / 8), (-1 / 8), 0, (1 / 8), (1 / 8), 0, (-1 / 8), (1 / 8), 0, (1 / 8), (-1 / 8), 0;
+  (-1 / 8), 0, (-1 / 8), (-1 / 8), 0, (1 / 8), (1 / 8), 0, (1 / 8), (1 / 8), 0, (-1 / 8);
+  0, (-1 / 8), (-1 / 8), 0, (-1 / 8), (1 / 8), 0, (1 / 8), (-1 / 8), 0, (1 / 8), (1 / 8);
+  (-1 / 12), (-1 / 12), (-1 / 12), (1 / 12), (1 / 12), (-1 / 12), (1 / 12), (-1 / 12), (1 / 12), (-1 / 12), (1 / 12), (1 / 12)]
+
+def eigenvalues : Fin 12 → ℚ := ![0, 0, 0, 0, 0, 0, -2, -2, -4, -4, -4, -8]
+
+set_option maxHeartbeats 6000000 in
+theorem force_modes : force * modes = modes * Matrix.diagonal eigenvalues := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    norm_num [force, modes, eigenvalues, Matrix.mul_apply, Fin.sum_univ_succ]
+
+set_option maxHeartbeats 6000000 in
+theorem inverse_modes : inverseModes * modes = 1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    norm_num [inverseModes, modes, Matrix.mul_apply, Fin.sum_univ_succ]
+
+end TauCetiRoadmap.RepresentationTheory.CharacterTheory.SpringSystems
