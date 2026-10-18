@@ -883,6 +883,28 @@ tests representative native interfaces; this README is definitive.
    hence0. Extend to complexified real operators. This conclusion does not
    cover arbitrary classical ψDO symbols: I5's circle operator has index−1.
 
+## I8. Holomorphic fixed-map Lefschetz traces
+
+1. For a compact boundaryless complex manifold M and a finite-rank holomorphic vector bundle E, construct the Dolbeault complex and its actual I7.3 Hodge comparison. For a holomorphic map f:M→M and holomorphic bundle map φ:f*E→E, construct the cochain map φ∘f* and the induced endomorphisms on H^q(M,E), with identity, composition, bundle-isomorphism and direct-sum laws. No global invertibility of f or L²-boundedness of its unsmoothed pullback is assumed.
+2. Construct the analytic fixed-map trace proof. From the existing elliptic calculus construct positive-time smoothing kernels for the Dolbeault Laplacians, their trace-class estimates and the cohomological alternating-trace identity for φ∘f* composed with the heat operator. Prove independence of time by the actual cochain/homotopy and trace-class commutator argument; the bundle map need not commute with a chosen adjoint or metric. For a nonisometric f, prove smoothing before pullback gives the required bounded trace-class composite. Construct the local graph/diagonal asymptotic and show the contribution away from their intersection tends to zero.
+3. Suppose every fixed point x is isolated and det_ℂ(1−df_x)≠0. Prove finiteness of the fixed set and
+   Σ_q (−1)^q tr(H^q(φ∘f*)) = Σ_(f(x)=x) tr(φ_x)/det_ℂ(1−df_x).
+   The fibre φ_x is an endomorphism only at a fixed point. Differential pullback on holomorphic covectors has the same eigenvalues as df_x (matrix transpose), not automatically the inverse eigenvalues of an independently defined group-action dual. Prove the coordinate/metric/trivialization independence and the rank-zero, point and no-fixed-point cases.
+4. For a holomorphic group action with the section convention (g·s)(x)=g_E s(g^−1x), specialize with f=g^−1 and the actual fibre map φ=g_E. Prove the eigenvalue/character dictionary before using this formula in homogeneous examples. This generic fixed-map construction consumes elliptic/Dolbeault analysis, not algebraic Schubert splitting, standard monomial theory, vanishing or a flag-character formula. The flag and word-space character specializations are SchubertGeometry applications.
+
+   As a convention check on the projective line, take f(z)=qz with q≠0,1
+   and the O(1) lift whose fixed-fibre values at0 and∞ are1 andq. The
+   multipliers of df are q and q⁻¹, so the local sum is
+   `1/(1−q)+q/(1−q⁻¹)=1+q`, matching pullback on the two linear sections.
+   The trivial line gives `1/(1−q)+1/(1−q⁻¹)=1`.
+   The representative `FixedPointTargets.lean` records these local matrix
+   and rank-one scalar interfaces; it does not replace the manifold,
+   bundle, heat-kernel or cohomology construction above.
+
+Reference: M. F. Atiyah and R. Bott, *A Lefschetz fixed point formula for
+elliptic complexes. II. Applications*, Annals of Mathematics88(1968),
+451–491, Theorem4.12, [DOI10.2307/1970721](https://doi.org/10.2307/1970721).
+
 ## Acceptance calculations and source exercises
 
 - I1 must verify the finite-dimensional index formula, finite-rank identity

@@ -110,3 +110,6 @@ theorem normPath_iff_index_eq (S T : FredholmLocus E F) :
   sorry
 
 end IndexTheorySuggested
+
+/- Nonexhaustive local holomorphic Lefschetz trace and denominator conventions
+are also prototyped in FixedPointTargets.lean; the README remains definitive. -/
