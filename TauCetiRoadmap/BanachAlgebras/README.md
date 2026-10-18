@@ -41,7 +41,7 @@ continuity. For A in universe u define amenability using test bimodules
 in universe u, then prove through the diagonal characterizations that
 the same property tests bimodules in every larger universe.
 
-[Banach space theory](../BanachSpaceTheory/README.md), B1–B2 and B4–B5, supplies
+[Banach space theory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/15588952fdc156cbddda2c00f896851c90d93670/TauCetiRoadmap/BanachSpaceTheory/README.md), B1–B2 and B4–B5, supplies
 dual quotients, weak compactness, completed projective tensors and scalar measure
 representation. The [completed contour integration roadmap](../../Completed/ContourIntegration/README.md)
 supplies scalar contour integration, winding numbers and homological Cauchy
@@ -659,7 +659,7 @@ spectrum/inverse theorem on its Hilbert-product carrier.
 Strong convergence of finite sections does not imply spectral continuity;
 ToeplitzOperators T5 owns finite-section stability. It owns the Hardy/shift-algebra
 theorems, rather than this elementary Banach spectral comparison.
-On ℓ∞ consume BanachSpaceTheory B1's norm-one functional φ
+On ℓ∞ consume [BanachSpaceTheory B1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/15588952fdc156cbddda2c00f896851c90d93670/TauCetiRoadmap/BanachSpaceTheory/README.md#b1-duality-and-weak-topologies)'s norm-one functional φ
 annihilating c₀ with φ(1)=1. The nonzero rank-one map x↦φ(x)e₀ has
 T e_j=0 for every standard unit vector, so its coordinate matrix is zero.
 Prove it cannot be represented by the corresponding coordinate-series
