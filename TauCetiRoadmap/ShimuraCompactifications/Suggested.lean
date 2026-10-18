@@ -23,7 +23,8 @@ Design choices made explicit here:
 * Coefficient multipliers of Fourier expansions are units of an arbitrary commutative ring; vanishing
   of a constant term needs an injective multiplier, not merely a multiplier different from `1` (C6.8).
 * Cyclotomic phases use integer exponents `n·Tr(ξx)` and only `ζ^n = 1`; they depend on `x` modulo the
-  trace dual of the larger module `B` (C6.15–C6.19).
+  trace dual of the larger module `B` (C6.15–C6.19). The full cusp-stabilizer pullback also retains
+  the translation class of its lift and the affine phase cocycle (C6.54).
 -/
 
 noncomputable section
@@ -467,6 +468,27 @@ theorem tracePhaseFun_add (A B : Submodule ℤ K) (n : ℕ) (hn : ∀ ξ : K, ξ
     tracePhaseFun n x ζ (ξ + η) = tracePhaseFun n x ζ ξ * tracePhaseFun n x ζ η := by
   sorry
 
+/-- The trace phases satisfy the affine composition identity (C6.54): translation by `x + a*y`
+has the phase of `x` times the phase of `y` at the scaled character. The trace-dual and lattice
+hypotheses make all three exponents integral. -/
+theorem tracePhaseFun_affine_cocycle (A B : Submodule ℤ K) (n : ℕ)
+    (hn : ∀ ξ : K, ξ ∈ B → n • ξ ∈ A)
+    (x y : K) (hx : x ∈ Submodule.traceDual ℤ ℚ A)
+    (hy : y ∈ Submodule.traceDual ℤ ℚ A) (a : K)
+    (ha : ∀ ξ : K, ξ ∈ B → a * ξ ∈ B) (ζ : Rˣ) (ξ : K) (hξ : ξ ∈ B) :
+    tracePhaseFun n (x + a * y) ζ ξ =
+      tracePhaseFun n x ζ ξ * tracePhaseFun n y ζ (a * ξ) := by
+  sorry
+
+-- At the irregular Γ₁(4) cusp, translation by 1 changes q^(1/2) by a sign (C6.54).
+example : tracePhaseFun (K := ℚ) 2 1 (-1 : ℂˣ) (1 / 2) = -1 := by
+  sorry
+
+-- The same sign occurs over nonreduced coefficients of odd characteristic (C6.54).
+example : tracePhaseFun (K := ℚ) 2 1 (-1 : (ZMod 9)ˣ) (1 / 2) = -1 ∧
+    (-1 : (ZMod 9)ˣ) ≠ 1 := by
+  sorry
+
 -- For `K = ℚ`, `n = 3`, `x = 1`, the phase at `1/3` is `ζ` (C6.19, `phase_third_denominator`).
 example (ζ : Rˣ) : tracePhaseFun (K := ℚ) 3 (1 : ℚ) ζ (1 / 3) = ζ := by
   sorry
@@ -567,8 +589,16 @@ Layer C0: additional API `faceProjection_eq_comapDomain` (C0.1); `TauCeti.TorusT
 `isProper_iff_support`, `ArithmeticFan` with `commonRefinement` and
 `exists_smoothProjective_refinement`, `TauCeti.Toric.finiteFanScheme`, `TauCeti.Toric.completedChart_coeff`,
 `TauCeti.Toric.changeLattice_finite`.
-Layer C1: `MixedBoundaryDatum`, `BoundaryMHS`, `BoundaryTorsor`, `CuspLabel`,
-`CuspLabel.arithmeticStabilizer`, `CuspLabel.finite_overlap`, `CuspLabel.boundary_incidence`.
+Layer C1: `MixedBoundaryDatum` retains the homogeneous cover, the equivariant finite-fibre map
+`h_1 : X_1 → Hom(S_ℂ,P_{1,ℂ})` and centrality of the projected weight in `G_1 = P_1/W_1`.
+`BoundaryMHS` requires rationality of the induced weight filtration for the chosen representation;
+`BoundaryMHS.rationalWeight_inheritance` supplies it for every boundary representation under the
+ambient SV4 predicate of ShimuraData §4.3. The adjoint, U₁ and V₁ assertions are unconditional.
+`BoundaryMHS.hodge_boundary_eq` compares a rational G-representation with its P₁-restriction;
+the complex Hodge filtrations agree, while weight filtrations can differ.
+`BoundaryTorsor`, `CuspLabel`, `CuspLabel.arithmeticStabilizer`, `CuspLabel.finite_overlap`,
+`CuspLabel.boundary_incidence`: cones and fans retain a chosen X⁰ and corresponding X₁⁰,
+transported together by rational conjugation.
 Layer C2: `PartialBoundaryChart`, `quotient_separation`, `ToroidalSpace` with `normal`,
 `interior_dense`, `compact_of_complete`, `smooth_normalCrossings`, `algebraization`, `toMinimal`;
 `ToroidalCanonicalModel`; `MixedShimura.canonicalModel_exists`. Layer C2.general:
@@ -594,8 +624,17 @@ and the standard principal polarization) with `etaleRelation`; `IntegralToroidal
 `nonneat_descent`, `logKodairaSpencer`,
 `hodgeLine_semiample`, `hodgeSectionAlgebra_fg`, `formallyCanonical`, `koecher`, `siegel_koecher`,
 `ordinary_koecher`, `cyclicLevel_extend`, `siegel_canonicalBundle`, `goodReduction_geometry`;
-`HodgeLineFJ`; `IntegralMinimalModel` with `hodgeLine_ample`, `moduli_quasiProjective`;
-`NormalizedToroidalModel` with `chart_compare`; `ProjectiveToroidalModel`; `PrimeQGeneratorCover`;
+`HodgeLineFJ`; `IntegralMinimalModel` with `hodgeLine_ample`, `moduli_quasiProjective`.
+The genericComparison APIs of IntegralToroidalModel and IntegralMinimalModel retain the
+ker¹(ℚ,G)-indexed pieces of PELModuli M3.6/M4.3 under connected-data, SV3 and type A/C hypotheses;
+the full moduli generic fibre is the neutral Shimura variety when ker¹(ℚ,G) = 1.
+`NormalizedToroidalModel` fixes the original singleton collection J₀ with self-duality at p; `chart_compare`
+identifies its finite normalization with C5.31 only for that same collection, the normalized minimal
+input, and compatible fans without further subdivision, by comparing saturated boundary ideals
+and normalized Rees algebras. `ProjectiveToroidalModel` retains J in its minimal input, interior,
+boundary ideals, charts and tautological families; its collectionComparison is projective and can
+be nonfinite even on the interior (Lan16 Remark 13.10 and Example 13.12; Lan17 Proposition 7.1).
+`PrimeQGeneratorCover`;
 `HilbertSiegel.minimalBoundary_codim`, `HilbertSiegel.formal_koecher`;
 `SemiAbelianScheme.hodgeLine_generated`, `SemiAbelianScheme.isotrivial_of_degree_le_zero`.
 Layer C6: `HilbertModular.meromorphic_support_bound`, `cusp_support_positive`, `koecher`,
@@ -614,7 +653,14 @@ Layer C6: `HilbertModular.meromorphic_support_bound`, `cusp_support_positive`, `
 `HilbertModular.idealLevelModel` (C6.12a). The iff of `minimal_weightExtends_iff` requires parallel
 weight and trivial cusp characters, with residual inertia trivial on coarse models.
 `cuspChart_family` is built from C4.4–C4.6 without the good-prime hypothesis (C4-b), on
-`Spec R̂_σ`, with abelian locus `Spec R̂_σ[1/t]` and formal family on `Spf R̂_σ`.
+`Spec R̂_σ`, with the o-action and polarization/level degeneration data on the whole chart.
+The actual c-polarization, closed-immersion ideal marking and classifying map to C6.12a are on
+its abelian locus `Spec R̂_σ[1/t]`; the formal family on `Spf R̂_σ` retains the degeneration data.
+`nearOrdinary_quotient` is globally a quotient-stack comparison with 2-Cartesian subgroup-level
+squares. The coarse Cartesian finite étale Δ(N)-torsor square is restricted over the supplier's
+free locus, including on invariant Hasse domains; ordinary interior points can have stabilizers.
+The `stabilizer_exact` action includes the translation class τ_g = u b_g modulo X*, its affine
+cocycle and full phase-weight coefficient covariance, including the irregular Γ₁(4) sign.
 `HilbertModular.artinianRaynaudUniformization` (C6.20a) retains polarization and ideal-level data
 on permitted Artinian thickenings and supplies the infinitesimal condition of `toroidal_exists`.
 C6.20–C6.27 give scheme-valued fine families at neat tame level. At general (C6-a) levels,
