@@ -206,9 +206,22 @@ degree one, and spectral separation followed by holomorphic functional
 calculus to obtain an idempotent loop. Prove uniqueness of the resulting
 stable idempotent class as well as existence. This makes the coefficient
 Bott theorem independent of KK-theory and of geometric index theory.
-The exponential boundary of `0→SA→CA→A→0` is b_A, using the
-selfadjoint lift `x(s)=s e`. For the other parity use θ_A as fixed
-above. Prove `θ_(Sℂ)(b_ℂ[1])=β` in the ordered (s,t) plane.
+The exponential boundary of `0→SA→CA→A→0` is b_A. For a
+unitization projection e with scalar projection p, use the self-adjoint
+lift `x(s)=p+s(e−p)` in the unitization of the cone, whose scalar part
+is the fixed p. Prove that its exponential loop is homotopic to
+`f_e f_p⁻¹` by the explicit homotopy
+
+```
+H(r,s) = exp(2πi[s e+(1−r)(1−s)p]) exp(2πi r(1−s)p),
+0≤r,s≤1.
+```
+
+Its r=0 end is `exp(2πi x(s))` and its r=1 end is `f_e(s)f_p(s)⁻¹`.
+For every r both s-endpoints and the scalar part are the identity.
+Prove these identities and norm continuity without assuming e commutes
+with p. For the other parity use θ_A as fixed above. Prove
+`θ_(Sℂ)(b_ℂ[1])=β` in the ordered (s,t) plane.
 For the index lift of `u(t)=exp(2πit)`, take
 `w=diag(u,1) R(s) diag(1,u⁻¹) R(s)⁻¹`, where R(s) is real rotation
 through `π(1−s)/2`: w(0,t)=1 and w(1,t)=diag(u,u⁻¹).
@@ -607,6 +620,186 @@ complex representation ring and prove degree one vanishes. For compact Lie G com
 case with TopologicalKTheory T6's equivariant bundles. Construct the
 comparison maps; do not identify an equivariant bundle group with a
 crossed-product K-group merely by matching their names.
+
+### K7.FreeGroups. Tree comparison, free-group PV and rank invariants
+
+For finite n≥1 put `F_n=FreeGroup (Fin n)` and label its distinguished
+generators by `g_(j+1)=FreeGroup.of j`, j∈Fin n. Use the full/reduced group algebras and regular
+quotient `q_n:C*(F_n)→Cr*(F_n)` constructed in Dynamics D1–D2. The group is
+discrete and countable, so the equivariant KK scope fixed above applies.
+Build the following tree and Toeplitz interfaces before using their
+K-theory consequences. These are separate constructions from the ℤ-action
+PV sequence below and from the Toeplitz–Cuntz algebras E_n.
+
+**Tree and full/reduced KK comparison.** Consume Mathlib's
+`SimpleGraph.mulCayley`, `SimpleGraph.IsTree` and `FreeGroup.toWord`. Prove
+that this native Cayley graph on the positive free generators is a tree,
+with edges `g→g g_i`; its geometric edges are indexed by `F_n×Fin n`.
+Identify n=2 with FreeProbability F3's four-regular reduced-word model
+and build the shared reduced-word/path/acyclicity interface once, uniformly
+in finite n. This combinatorial interface precedes both F3's adjacency-norm
+calculation and the following JV construction. F3 owns its end-oriented
+shift and radial-vector norm bounds; FactorRigidity R4 owns proper
+length/Haagerup kernels. Neither analytic development nor the later E_n
+Toeplitz–Cuntz construction is a prerequisite for this tree interface.
+Left translation preserves the positive-edge orientation. Root it at1. A vertex v≠1
+has a unique adjacent vertex v′ on its path to1. On the vertex and edge
+Hilbert spaces define `Fδ_1=0` and `Fδ_v=±δ_e`, where e is that last
+geometric edge and the sign compares `v→v′` with its fixed positive
+orientation. Prove that F is onto, `F*F=1−p_1`, `FF*=1`, and its
+defect `Fλ(g)−π_edges(g)F` vanishes on vertices outside the root-to-g⁻¹
+geodesic and has range in the edge span of the root-to-g geodesic, hence
+has finite rank. Here p_1 is the rank-one projection at the root. Under the
+chosen edge indexing, the vertex representation is λ and the edge
+representation is the n-fold regular representation. Form their actual
+even equivariant Kasparov cycle using the odd operator with off-diagonal
+blocks F,F*. Both graded representation summands factor through Cr*(F_n).
+
+Construct and verify the Julg–Valette homotopy showing this cycle represents
+`1∈KK_(F_n)(ℂ,ℂ)`. One explicit model uses the root-parent operator
+`Pδ_1=0`, `Pδ_v=δ_v′`, the projection p_1, and
+`T_t=1−tP+(sqrt(1−t²)−1)p_1` for `0≤t<1`. On finitely supported vectors
+use the finite-path inverse of `1−tP` to define `T_t⁻¹ λ(g) T_t`;
+prove that this composite extends to a unitary θ_t(g). Do not assume
+T_t has a bounded inverse on the whole Hilbert space. Prove finite-rank
+differences θ_t(g)−λ(g), their norm continuity as compact operators,
+strong continuity of θ_t(g), and the endpoint
+`θ_1(g)=F*π_edges(g)F+p_1`. With θ_0=λ this gives a genuine Kasparov
+homotopy from the zero difference cycle to `1−[λ,π_edges,F]`. Supply the
+C([0,1])-module adjointability and compact-defect estimates; strong
+operator convergence alone is not the homotopy condition. For this
+finite-valence tree the parent operator is bounded. Use Pierre Julg,
+[*A new look at the Julg–Valette homotopy for groups acting on trees*](https://arxiv.org/html/1310.6941),
+§§1–5, for this construction, checking the oriented-edge normalization
+against the displayed partial-isometry identities.
+
+Construct reduced descent alongside the full descent above, using D2's
+regular module norms, quotient module completion and descended compact
+operators. Prove identity, product, homotopy and full-to-reduced comparison
+laws. In particular prove the following factorization adapter for the
+finite-rank free-group cycle: after tensoring the cycle with a separable
+F_n-algebra A and applying full descent, its left action factors through
+`A⋊r F_n`, since its group representation is weakly contained in λ.
+Prove that factorization by the regular norm estimate/Fell absorption,
+not by simplicity or by an asserted universal normal quotient. It defines
+`x_A∈KK(A⋊r F_n,A⋊F_n)`. For the actual regular quotient q_A prove both
+
+```
+[q_A] ⊗_(A⋊r F_n) x_A = 1_(A⋊F_n),
+x_A ⊗_(A⋊F_n) [q_A] = 1_(A⋊r F_n).
+```
+
+The first identity is the full descent of the proved equivariant unit
+class; the second is its reduced descent, using the comparison law.
+For A=ℂ obtain the invertibility of `[q_n]` in KK and hence its actual
+isomorphisms on both K-groups, fixing `[1]` and every generator-unitary
+class. This supplies the content needed here from K-amenability; it does
+not assert ordinary amenability or injectivity of q_n. No free-group
+K-group calculation or PV sequence is used to prove this comparison.
+
+**Selected-generator Toeplitz extension and PV.** For a unital C*-algebra
+A with an action α of F_n, put `B_n=A⋊_(α,r)F_n`,
+`B_(n−1)=A⋊_(α|F_(n−1),r)F_(n−1)` and let i:A→B_(n−1) and
+k:B_(n−1)→B_n be the canonical inclusions. For n=1 set B_0=A.
+For A=0 all these algebras and maps are zero; make nonzero-representation
+arguments only in the nonzero case.
+Prove the reduced subgroup inclusion is faithful by regular coset
+representations. Define Γ_n to be the identity together with reduced
+words whose final syllable has positive exponent whenever its generator
+is g_n; a final syllable using another generator has either sign. Prove
+`g_i Γ_n=Γ_n` for i<n and `g_n Γ_n=Γ_n∖{1}`. In a faithful covariant
+representation `A⊆B(H_0)`, with implementing unitaries t_g, realize B_n
+by `ρ(a)=1⊗a` and `(u_g ξ)(h)=t_g ξ(g⁻¹h)`. Compress to
+`ℓ²(Γ_n,H_0)`: the restricted U_i, i<n, are unitaries and the restricted
+S_n is an isometry, with `P_1=1−S_n S_n*` the root-fibre projection.
+Prove representation independence of the resulting Toeplitz algebra
+`T_(n,α)=C*(ρ(A),U_1,…,U_(n−1),S_n)` and construct the exact sequence
+
+```
+0 → K(ℓ²(Γ_n))⊗A → T_(n,α) → B_n → 0,
+```
+
+whose symbol sends ρ(a),U_i,S_n to a,u_i,u_n. The compact ideal is the
+one generated by P_1. If ω(g) replaces the reduced-word generators by
+U_i,S_n,S_n*, pin its matrix-unit map, for g′,g∈Γ_n, to
+`e_(g′,g)⊗a ↦ ω(g′)P_1 ω(g⁻¹)ρ(α_g(a))`. Prove the multiplication,
+star, norm, density and kernel identities, and use the root corner for
+K2 stability. The matrix-unit indices are Γ_n, not the whole F_n.
+
+The inclusion `d:B_(n−1)→T_(n,α)` uses ρ and U_i, i<n.
+Prove d_* is an isomorphism on K₀ and K₁ by the two-representation
+Toeplitz quasihomomorphism and its rotation homotopy: construct the
+representations into the stabilized multiplier algebra agreeing modulo
+the compact ideal, identify their difference on d, and prove both inverse
+K-group compositions by that homotopy. Consume K1–K2 stability/homotopy
+and K6's quasihomomorphism comparison in the separable case. Extend to
+arbitrary unital A by directed limits of separable unital α-invariant
+subalgebras, proving compatible reduced norm and Toeplitz inclusions.
+This is a K₀/K₁-isomorphism target; it is not inferred from an unstated
+KK-equivalence of d. K3's six-term sequence then yields the cyclic exact
+sequence
+
+```
+K₀(A) --i_*∘(1−α_(g_n⁻¹)*)--> K₀(B_(n−1)) --k_*--> K₀(B_n)
+  ↑ δ₁                                                    ↓ δ₀
+K₁(B_n) <--k_*-- K₁(B_(n−1)) <--i_*∘(1−α_(g_n⁻¹)*)-- K₁(A).
+```
+
+Here δ₁:K₁(B_n)→K₀(A) and δ₀:K₀(B_n)→K₁(A) are the actual extension
+boundaries transported by the root corner. Prove the displayed ideal-map
+formula using `P_1=1−S_nS_n*` and the inverse automorphism in the covariance
+identity `S_n*ρ(a)S_n=ρ(α_(g_n⁻¹)(a))`. This fixes the direction of α
+and is not obtained by treating F_n as a single ℤ-action. Use
+Pimsner–Voiculescu, [*K-groups of reduced crossed products by free groups*](https://jot.theta.ro/jot/archive/1982-008-001/1982-008-001-006.html),
+J. Operator Theory8 (1982), Lemmas1.1–1.3, the §2 two-representation
+construction and Theorem3.1, with their unital coefficient hypotheses.
+
+**Canonical K-groups and rank distinction.** Apply the selected-generator
+sequence to A=ℂ with trivial action. Prove
+`δ₁[u_n]=−[1]` from the lift S_n and K3's index convention, and
+`δ₁[u_i]=0` for i<n from the unitary lifts U_i. Induct from n=0 and
+n=1 to construct the canonical isomorphisms
+
+```
+K₀(Cr*(F_n)) ≃ ℤ,               [1] ↦ 1,
+K₁(Cr*(F_n)) ≃ (Fin n → ℤ),     [λ(g_i)] ↦ e_i.
+```
+
+The positive new coordinate uses −δ₁; the raw Toeplitz boundary is not
+relabelled as +1. Prove that the canonical maps from ℤ and the free abelian
+group on the displayed unitary classes are isomorphisms. Transport through
+the actual q_n KK-equivalence to obtain the full-algebra groups with the
+same unit and distinguished generators, and prove q_n* is the identity in
+these coordinates. These assertions include Pimsner–Voiculescu
+Corollary3.2. Simplicity and unique trace belong to Dynamics D2.FreeGroups;
+they are not used to compute the K-groups. No membership in K8's nuclear
+bootstrap class, nuclearity, or UCT classification is inferred here.
+
+For an arbitrary basis type ι, build the full and reduced algebras of
+`FreeGroup ι` as the C*-inductive limits over its finite basis subsets.
+For full algebras prove faithfulness of the inclusion by its group
+retraction killing generators outside the subset and the full universal
+property. For reduced algebras consume Dynamics D2's regular right-coset subgroup
+embeddings, already constructed before the Powers and K-theory results.
+Prove norm compatibility, dense union and naturality of all finite-rank
+unit/generator identifications. K2 directed-limit continuity then gives, with no
+cardinality restriction on ι,
+
+```
+K₀(C*(FreeGroup ι)) ≃ ℤ ≃ K₀(Cr*(FreeGroup ι)),
+K₁(C*(FreeGroup ι)) ≃ (ι →₀ ℤ) ≃ K₁(Cr*(FreeGroup ι)).
+```
+
+The unit has coordinate1, each positive free generator has its corresponding
+Finsupp basis coordinate, and the canonical full-to-reduced map induces
+these identities. This limit argument asserts K-group isomorphisms,
+without extending the separable KK category or the finite-valence homotopy
+to uncountable groups. The empty basis gives ℂ and a singleton basis gives
+C(𝕋). Finally prove that distinct finite ranks m,n give nonisomorphic
+reduced group C*-algebras: a *-isomorphism would induce an additive-group
+isomorphism ℤ^m≃ℤ^n, whose rationalized dimensions force m=n. In particular
+`Cr*(F₂)≄Cr*(F₃)`. This says nothing about isomorphism of their von Neumann
+weak closures.
 
 For any C*-algebra A and automorphism α prove the Pimsner–Voiculescu
 six-term exact sequence with horizontal maps `1−α_*` and the canonical
