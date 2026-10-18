@@ -152,6 +152,222 @@ Identify C5's universal algebra on countably many unitaries with the
 full C*-algebra of the free group on ℕ, matching each generator and
 proving both universal properties induce inverse maps.
 
+### D1.CentralTwists. Continuous central multiplier cocycles
+
+For every D1 action α on a possibly nonunital complex C*-algebra A, use
+C1's multiplier algebra `M(A)=𝓜(ℂ,A)` and its unique unital extension
+`α̃_s`. Construct this extension as an action, with
+`α̃_s(m)α_s(a)=α_s(ma)` and `α_s(a)α̃_s(m)=α_s(am)`.
+Prove uniqueness, identity and composition, preservation of the center and
+unitaries, and joint strict continuity on bounded multiplier sets. The
+strict topology here is C1's topology, not the norm topology of
+`DoubleCentralizer`.
+
+A normalized continuous central α-cocycle is a map
+`ω:G×G→U(Z(M(A)))` satisfying
+
+```
+ω(e,s)=ω(s,e)=1,
+α̃_r(ω(s,t)) ω(r,st)=ω(r,s) ω(rs,t).
+```
+
+Continuity means that both `(s,t)↦ω(s,t)a` and
+`(s,t)↦aω(s,t)` are norm continuous for every a∈A. Construct the
+trivial cocycle, products, inverses, restriction along continuous group
+homomorphisms, and transport by conjugacy of coefficient systems. Prove
+the cocycle identity at inverses
+`ω(s,s⁻¹)=α̃_s(ω(s⁻¹,s))`, closure under these operations, and the
+joint continuity of products with varying A-valued coefficients. Treat A=0
+with the native zero-algebra unit convention. No unitality, separability or
+second-countability hypothesis is imposed on this continuous LCH theory.
+Centrality allows α to remain an honest action; a noncentral Busby–Smith
+pair, whose action law is instead `α_sα_t=Ad(ω(s,t))α_(st)`, is a
+different input and is not encoded as a central cocycle.
+
+Construct `C_c(G,A)` and `L¹(G,A,α,ω)` with
+
+```
+(f *_ω g)(s) = ∫ f(r) α_r(g(r⁻¹s)) ω(r,r⁻¹s) dμ(r),
+f^{*_ω}(s)   = c(s) ω(s,s⁻¹)* α_s(f(s⁻¹)*).
+```
+
+Multiplication by a multiplier is its actual left or right action on A;
+the displayed values lie in A. Prove continuity, support containment
+`supp(f*_ωg)⊆supp(f)supp(g)`, inverse support for star, associativity,
+conjugate linearity, involutivity, reversal of products and
+`‖f*_ωg‖₁≤‖f‖₁‖g‖₁`, `‖f^{*_ω}‖₁=‖f‖₁`.
+Use A7's localized Haar/Fubini and Bochner-measurability bridges before
+passing to almost-everywhere classes and the complete Banach *-algebra;
+prove representative independence and C_c density. Construct a contractive
+two-sided approximate identity from A7's shrinking-support kernels and
+C1's contractive approximate identity of A. Use a joint net directed also
+by finite coefficient sets and error tolerances, so strict continuity of ω
+is used on the coefficients being approximated, without a uniform strict
+bound over all of A's unit ball. Prove convergence first on C_c and then
+on L¹. These arguments include nonunital and zero coefficients.
+
+A twisted covariant pair consists of a nondegenerate representation π of
+A and a strongly continuous map `U:G→U(H)` with
+
+```
+U_e=1,
+U_s π(a) U_s*=π(α_s(a)),
+U_s U_t=π̃(ω(s,t)) U_(st).
+```
+
+Here π̃ is C1's multiplier extension; U is not a genuine representation
+unless the represented cocycle is trivial. Construct the integrated form
+by the vector integral `T_fξ=∫π(f(s))U_sξ dμ(s)` and prove
+`‖T_f‖≤‖f‖₁`, multiplicativity and star preservation with the displayed
+modular factor. Establish the compact-support proof and L¹ extension in
+D1's arbitrary-LCH scope; do not substitute an operator-norm Bochner
+integral. Give the intertwiner, unitary equivalence, direct sum,
+nondegeneracy and irreducibility comparisons and inverse recovery of the
+pair. Extend the correspondence to nondegenerate covariant maps into
+multiplier algebras and adjointable operators, with strict continuity on
+the unitary family.
+
+For a nondegenerate representation ρ, let ρ̃ denote its multiplier
+extension. On `L²(G,Hρ)` construct
+
+```
+Π_ρ(a)ξ(r) = ρ(α_(r⁻¹)(a))ξ(r),
+V_s^ω ξ(r) = ρ̃(α̃_(r⁻¹)(ω(s,s⁻¹r))) ξ(s⁻¹r).
+```
+
+Prove boundedness, unitarity, strong continuity, covariance,
+`V_s^ω V_t^ω=Π̃_ρ(ω(s,t))V_(st)^ω` and nondegeneracy. Establish the
+kernel/vector tests and the approximate-identity argument proving that a
+faithful nondegenerate ρ gives an injective integrated map on C_c and on
+L¹. Use these regular representations to prove definiteness of the full
+universal norm. Repeat D1's bounded-cardinality cyclic-representation
+construction, C*-identity, universality, independence and completion, now
+for these projective covariant pairs; denote the result `A⋊_(α,ω)G`.
+
+Construct the canonical nondegenerate map i_A into its multiplier algebra
+and the strictly continuous projective unitary map i_G, with the above
+relations and dense integrated span. On the dense C_c algebra their left
+and right multiplier actions are
+
+```
+(i_A(a)f)(s)=af(s),        (fi_A(a))(s)=f(s)α_s(a),
+(i_G(t)f)(s)=α_t(f(t⁻¹s))ω(t,t⁻¹s),
+(fi_G(t))(s)=c(t)f(st⁻¹)ω(st⁻¹,t).
+```
+
+Prove these are double centralizers, preserve star in the appropriate
+multiplier identities, and yield
+`i_G(t)*=ĩ_A(ω(t⁻¹,t)*)i_G(t⁻¹)`. Prove the full universal property
+and pair recovery using these actual maps and approximate units, including
+the zero algebra. For ω=1 give canonical isometric *-isomorphisms with all
+of D1's ordinary C_c, L¹, full completion, coefficient/group maps and
+representation correspondences, natural for every map specified below.
+
+For a normalized strictly continuous central unitary cochain b define
+
+```
+ω^b(s,t)=b(s) α̃_s(b(t)) ω(s,t) b(st)*,
+U_s^b=π̃(b(s))U_s,
+(T_b f)(s)=f(s)b(s).
+```
+
+Prove ω^b is a cocycle and that `T_b` is an isometric *-isomorphism
+**from the ω^b algebra to the ω algebra**, with inverse `f(s)↦f(s)b(s)*`.
+Extend it to the full completion with
+`i_G^(ω^b)(s)↦ĩ_A^ω(b(s))i_G^ω(s)` and i_A unchanged. Prove the
+identity/composition/inverse laws, compatibility with integration and
+intertwiners, and the commutation of cochain transport with conjugacy,
+restriction and compatible coefficient maps. Construct the abelian group of
+normalized continuous central cocycles, the coboundary homomorphism from
+normalized central unitary cochains, and its cohomology quotient; show that
+an explicit cochain witness induces the displayed isomorphism and that a
+class alone supplies existence rather than a preferred map. These are central cochains;
+no conclusion about arbitrary noncentral exterior equivalence is implicit.
+
+For an equivariant coefficient *-homomorphism φ:A→B, specify twist
+compatibility on actual coefficients:
+`φ(aω_A(s,t))=φ(a)ω_B(s,t)` and
+`φ(ω_A(s,t)a)=ω_B(s,t)φ(a)` for all a,s,t. Construct the pointwise
+C_c/L¹ and full crossed-product maps, identity, composition and
+surjectivity for quotient maps. This includes degenerate φ; for a
+nondegenerate φ prove equivalence to
+`φ̃(ω_A(s,t))=ω_B(s,t)`, and prove the multiplier-generator formulas.
+For every invariant closed ideal I restrict each multiplier to I, prove
+centrality/unitarity/strict continuity there, and pass it to A/I. Prove
+`0→I⋊_(α,ω)G→A⋊_(α,ω)G→(A/I)⋊_(α,ω)G→0`, with the first
+image generated by `C_c(G,I)`. Restrict the system to every closed
+subgroup H with H's own Haar measure and modular character, and construct
+the full map `A⋊_(α|H,ω|H)H→M(A⋊_(α,ω)G)` on generators. Restricting
+functions G→A to H is a compact-support operation, not an L¹ bounded
+crossed-product homomorphism in general. Include trivial and finite groups,
+scalar continuous cocycles, conjugate cocycles and coboundaries as tests.
+For discrete scalar ω identify the finite-support dense algebra with
+Tau Ceti's `twistedMonoidAlgebra ℂ G ω` after the circle-to-complex-unit
+transport. Reuse its basis multiplication and `equivOfCoboundary` direction,
+construct the compatible star, and prove agreement of the counting-Haar
+C*-completion. The existing algebraic carrier is not that completion.
+For every locally compact abelian M take G=M×M̂ and
+`ω((m,χ),(n,ψ))=ψ(m)`. Construct the strongly continuous Schrödinger
+family `(Π_(m,χ)ξ)(x)=χ(x)ξ(x+m)` on L²(M), with the additive Haar
+convention, and prove its projective relation and vector-integral
+comparison. In this bicharacter case prove
+`ω(−x,x)=ω(x,−x)=ω(x,x)⁻¹`, so the scalar star can also be written
+`f*(x)=overline(f(−x))ω(x,x)`; the adjoint of Π_x instead has the factor
+`overline(ω(x,−x))`. These identities fix the phase conventions consumed
+by Heisenberg-module constructions.
+
+### D1.TwistedBorel. Scalar Borel fibers of circle extensions
+
+For normalized scalar Borel ω on a second-countable locally compact
+Hausdorff G, consume only [NoncompactQuantumSymmetry
+M1.ProjectiveExtensions](../NoncompactQuantumSymmetry/README.md#m1projectiveextensions-borel-cocycles-and-circle-extensions):
+its normalized Borel cocycles, Borel sections, Mackey–Weil lcsc topology on
+`E_ω=𝕋×_ωG`, and strong-Borel projective regular family. This prefix
+uses QF5.P's Polish/Banach–Pettis interfaces and scalar Haar integration;
+it precedes M2's type-I and all-central-weight results. With
+`(z,s)(w,t)=(zwω(s,t),st)`, construct the twisted L¹ Banach *-algebra
+using the same displayed convolution and scalar involution
+`f^{*_ω}(s)=c(s)overline(ω(s,s⁻¹))overline(f(s⁻¹))`.
+Use jointly Borel representatives and the lcsc scalar Fubini theorem.
+Merely Borel ω gives no C_c multiplication and no strongly continuous
+coordinate lift on G. Its covariant objects on separable Hilbert spaces are strong-Borel unitary
+families with multiplier ω; prove their equivalence to strongly continuous
+representations of E_ω in which `(z,e)` acts by z. Use separable cyclic
+models and their orthogonal direct sums for arbitrary Hilbert spaces,
+and prove this supplies every nondegenerate representation of the completed
+algebra. For an arbitrary possibly degenerate *-representation, split its
+Hilbert space into the closed essential subspace and its orthogonal zero
+summand; recover the projective unitary family on the essential subspace.
+
+Normalize Haar on 𝕋 to mass one and choose Haar on E_ω by
+`∫_E F=∫_G∫_𝕋 F(z,s) dz dμ(s)` in these Borel coordinates; prove
+this formula and `c_E(z,s)=c_G(s)`. Construct the central projection
+`p_1=∫_𝕋 overline(z)i_E(z,e) dz` in M(C*(E_ω)) and prove that
+`F_f(z,s)=overline(z)f(s)` is an isometric L¹ *-isomorphism onto
+`p_1 L¹(E_ω)`, with inverse `f(s)=∫_𝕋 zF(z,s) dz` on that ideal.
+Prove `p_1*=p_1=p_1²` and the character-one universal property, giving
+`C*(G,ω)≃p_1 C*(E_ω)`. Construct its approximate identity by projecting
+an L¹ approximate identity of E_ω, and prove faithfulness of the twisted
+regular integrated L¹ representation. Prove the vector-integral and
+pair-recovery identities, the reduced comparison
+`C*_r(G,ω)≃p_1 C*_r(E_ω)` by the weight-one L² subspace, and compatibility
+with the full-to-reduced quotient. Construct the Borel cochain transport
+in the same direction `f↦fb` as above; compare the Borel extension
+isomorphism `(z,s)↦(zb(s),s)` with its topological realization. For
+continuous scalar ω identify this construction with D1.CentralTwists and
+D2.CentralTwists. For each integer k the same result for ω^k identifies
+`J_k(E_ω)≃C*(G,ω^k)` using `p_k=∫overline(z^k)i_E(z,e)dz`.
+The decomposition into all weights and its type-I consequences remain
+NQS M2's targets, with these fiber identifications as inputs.
+
+A pointwise choice of lifts of a ray action supplies neither Borel
+measurability nor continuity. Apply the Borel theorem after M1's Borel
+selection theorem, and the continuous theorem only when its strict
+continuity hypotheses have been established. These distinct regularity
+hypotheses are part of the input, including for central M(A)-valued
+cocycles: no claim here assigns a topological completion to an arbitrary
+unqualified set-theoretic central cocycle.
+
 ## D2. Regular representations, reduced products, and amenability
 
 Use D1's regular covariant representation. Build the regular Hilbert A-module by completing `C_c(G,A)` with
@@ -218,6 +434,68 @@ CStarClassification CL5's translation and lifting construction.
 For compact G
 also identify the regular decomposition through Peter–Weyl, reusing
 [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md).
+
+### D2.CentralTwists. Reduced central twisted products
+
+For each D1.CentralTwists system complete `C_c(G,A)` with the same right
+action and inner product as D2. Its identification with the standard
+`L²(G,A)` module is still `f(r)↦α_(r⁻¹)(f(r))`. Prove left twisted
+convolution is a bounded adjointable operator with adjoint the displayed
+twisted star. In standard-module coordinates its coefficient map is
+`aξ(r)=α_(r⁻¹)(a)ξ(r)` and its projective unitary is
+`V_sξ(r)=α̃_(r⁻¹)(ω(s,s⁻¹r))ξ(s⁻¹r)`; multiplication here is the
+multiplier action on A. Prove the formulas on compact-support sections,
+A-linearity, boundedness, adjoints and extension, and show interior
+tensoring with a nondegenerate ρ gives precisely D1.CentralTwists'
+Hilbert-space regular pair.
+
+Define the reduced norm by this module. Prove its agreement with every
+faithful nondegenerate ρ, definiteness on C_c/L¹, domination by the full
+norm and independence of ρ. Construct `A⋊_(α,ω),r G` as the completion
+and as the quotient by the regular kernel, with canonical quotient q,
+multiplier maps, generator relations and regular factorization. Extend
+the compatible coefficient maps, ideals, quotient maps, closed-subgroup
+multiplier maps and cochain transports of D1.CentralTwists to reduced
+products and prove q commutes with them. For cochain b give the regular
+intertwining unitary explicitly: in standard-module coordinates
+`(W_bξ)(r)=α̃_(r⁻¹)(b(r))ξ(r)` and
+`W_b V_s^(ω^b) W_b*=Π̃(b(s))V_s^ω`.
+Prove the corresponding equality for integrated forms, on the module
+and after tensoring with ρ.
+
+For discrete G retain all D2 coefficient-expectation conclusions with
+`u_su_t=ĩ_A(ω(s,t))u_(st)`,
+`u_s*=ĩ_A(ω(s⁻¹,s)*)u_(s⁻¹)`, and
+`E(Σ a_su_s)=a_e`. Prove coefficient recovery, uniqueness, positivity,
+faithfulness, naturality and full-expectation factorization through q.
+Use counting Haar measure for these formulas. For an invariant ideal
+prove injectivity of the reduced ideal map and surjectivity of the
+reduced quotient map. Middle exactness is proved when G is amenable;
+no claim of middle exactness for arbitrary G is made. Reuse D2's actual
+P₁/P₂ construction, proving the twisted absorption unitary and its
+integrated estimates before concluding q is an isomorphism for amenable
+G. Prove the nuclear-coefficient and exact-coefficient consequences under
+this amenability hypothesis, using C6/C7 and the reduced tensor comparison
+`(A⋊_(α,ω),r G)⊗min D≃(A⊗min D)⋊_(α⊗id,ω⊗1),r G`.
+Construct the induced multiplier cocycle ω⊗1 by the nondegenerate
+coefficient tensor map, including nonunital D; prove the tensor norm and
+generator formulas. Include the corresponding maximal/full comparison.
+For α trivial and ω scalar identify
+`A⋊_(id,ω)G≃A⊗max C*(G,ω)` and
+`A⋊_(id,ω),r G≃A⊗min C*_r(G,ω)` with their actual generators.
+For compact G compare the regular decomposition with the weight sector of
+the compact scalar extension when ω is scalar.
+
+At ω=1 prove that these identifications recover the entire ordinary
+D1–D2 construction and every map/expectation/norm/amenability/tensor result
+above. D2's existing untwisted V8.LCHRegularNormalBridge comparison and
+D2.FreeGroups are retained with their stated inputs and conclusions;
+a normal twisted crossed product is not a prerequisite for this C* theory.
+The dependency order is C1/A7/H1–H3 → D1.CentralTwists →
+D2.CentralTwists. The scalar Borel route is QF5.P/A7 →
+NQS M1.ProjectiveExtensions → D1.TwistedBorel → the NQS M2 weight/type-I
+applications. It has no edge from NQS M2 or V11 crossed-product duality
+back into D1.
 
 ### D2.FreeGroups. Powers averaging, simplicity and the canonical trace
 
@@ -919,6 +1197,14 @@ the on-site model.
   Definition 6.2.16 and Theorem 6.2.18 for spin dynamics and Gibbs/KMS;
   Theorems 6.2.40 and 6.2.42 for pressure and the variational principle;
   Proposition 6.2.45 for high-temperature uniqueness.
+
+For central multiplier cocycles use the equations and cochain direction in
+D1.CentralTwists and D2.CentralTwists. [Delfín–Farsi–Packer,
+*Twisted crossed products of Banach algebras*, §§2–4 and §6](https://arxiv.org/html/2509.24106v1)
+gives a continuous multiplier-action and universal-property reference;
+its later Lᵖ results have additional countability hypotheses. The
+C*-norm, star, regular module and arbitrary-LCH localized integration
+arguments are targets here with the scope fixed above.
 
 Use Mathlib's star-algebra equivalences, nonunital star homomorphisms,
 positive continuous linear functionals, `ContinuousMap`, compactly supported
