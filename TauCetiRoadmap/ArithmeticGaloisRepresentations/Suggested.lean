@@ -36,8 +36,9 @@ Design choices made explicit here.
   and its endomorphism maps; EtaleCohomologyFoundations §F.10.3 owns their scalar realization.
   Section 1.1 evaluates this scalar on representation operators, proves continuity and the
   representation-operation comparisons, and identifies the free-complement and split-retract
-  formulas with it. The statements below that need a determinant use free carriers, where
-  the supplied scalar is `LinearMap.det ∘ ρ`.
+  formulas with it. Its bundled `ContinuousRep.detLineRep` is specified in the README;
+  the exterior and rank-two adjoint isomorphisms retain this line's carrier. The scalar-action
+  statements below use free carriers, where the supplied scalar is `LinearMap.det ∘ ρ`.
 * Frobenius is arithmetic: Tau Ceti's `TauCeti.IsArithFrobeniusLift` locally, Mathlib's
   `AlgHom.IsArithFrobAt` on the integral closure of `𝓞 F` in `F̄` globally
   (`GaloisRep.IsArithFrobAtIntegralPrime`). The local inertia and wild inertia subgroups are Tau
@@ -1198,7 +1199,8 @@ variable (F K : Type*) [Field F] [Field K] [Algebra F K]
   [Algebra (AlgebraicClosure F) (AlgebraicClosure K)]
   [IsScalarTower F (AlgebraicClosure F) (AlgebraicClosure K)]
 
-/-- The local restriction `ρ_ι = ρ ∘ ι^*`. -/
+/-- The local restriction `ρ_ι = ρ ∘ ι^*`. For `ι' = ι ∘ σ`, the change-of-embedding
+isomorphism from `ρ_ι` to `ρ_ι'` is `ρ(σ⁻¹)` (§2.1). -/
 def localRestriction {A : Type*} [CommRing A] [TopologicalSpace A]
     {M : Type*} [AddCommGroup M] [Module A M] [Module.Finite A M] [Module.Projective A M]
     [TopologicalSpace M] [IsModuleTopology A M]
@@ -2673,8 +2675,8 @@ namespace Involution
 
 variable {A T : Type*} [CommRing A] [AddCommGroup T] [Module A T]
 
-/-- The sum of the plus and minus eigenmodules of an endomorphism `c`; a direct sum only when `2` is
-invertible (§6.2). -/
+/-- The sum of the plus and minus eigenmodules of an endomorphism `c`. For an involution,
+invertibility of `2` guarantees a direct-sum decomposition of the whole module (§6.2). -/
 def eigensum (c : Module.End A T) : Submodule A T :=
   LinearMap.ker (c - 1) ⊔ LinearMap.ker (c + 1)
 
@@ -2718,7 +2720,9 @@ def symPower (ρ : ContinuousRep Γ A M) (d : ℕ) [Module.Finite A (Sym[A]^d M)
     [IsModuleTopology A (Sym[A]^d M)] : ContinuousRep Γ A (Sym[A]^d M) :=
   ⟨ρ.toRepresentation.symmetricPower d, sorry⟩
 
-/-- `∧^d ρ` on `⋀[A]^d M`, through Tau Ceti's `Representation.exteriorPower`. -/
+/-- `∧^d ρ` on `⋀[A]^d M`, through Tau Ceti's `Representation.exteriorPower`.
+In constant rank `n`, the top power is the determinant-line representation `Dρ` of §1.1;
+identification with the scalar-character representation requires a trivialization of that line. -/
 def extPower (ρ : ContinuousRep Γ A M) (d : ℕ) [Module.Finite A (⋀[A]^d M)]
     [Module.Projective A (⋀[A]^d M)] [TopologicalSpace (⋀[A]^d M)]
     [IsModuleTopology A (⋀[A]^d M)] : ContinuousRep Γ A (⋀[A]^d M) :=
@@ -2736,7 +2740,8 @@ theorem powers_finite_projective (d : ℕ) :
   sorry
 
 /-- If `det(X − ρ(g)) = ∏ (X − αᵢ)` the roots of `Sym^d ρ(g)` and `∧^d ρ(g)` are the `d`-fold products
-with, resp. without, repetition; the top exterior power acts by `det ρ(g)`. -/
+with, resp. without, repetition. On a free carrier the action on the top exterior line is
+multiplication by `det ρ(g)`; a basis trivializes this line (§§1.1, 7.1). -/
 theorem charpoly_symPower_extPower [Module.Free A M] (ρ : ContinuousRep Γ A M) (g : Γ) {n : ℕ}
     (α : Fin n → A) (h : ρ.charpoly g = ∏ i, (X - C (α i))) (d : ℕ)
     [Module.Finite A (Sym[A]^d M)] [Module.Projective A (Sym[A]^d M)] [Module.Free A (Sym[A]^d M)]
@@ -2921,7 +2926,8 @@ def ad (ρ : ContinuousRep Γ A M) [Module.Finite A (Module.End A M)]
     [IsModuleTopology A (Module.End A M)] : ContinuousRep Γ A (Module.End A M) :=
   ⟨Representation.linHom ρ.toRepresentation ρ.toRepresentation, sorry⟩
 
-/-- `ad⁰ ρ = ker(endTrace)` with the conjugation action. -/
+/-- `ad⁰ ρ = ker(endTrace)` with the conjugation action. In constant rank two, §7.2 identifies
+it with `(Sym² ρ)^∨ ⊗ Dρ`, retaining the determinant-line carrier. -/
 def adZero (ρ : ContinuousRep Γ A M) [Module.Finite A (LinearMap.ker (endTrace A M))]
     [Module.Projective A (LinearMap.ker (endTrace A M))]
     [TopologicalSpace (LinearMap.ker (endTrace A M))]
@@ -2929,7 +2935,8 @@ def adZero (ρ : ContinuousRep Γ A M) [Module.Finite A (LinearMap.ker (endTrace
     ContinuousRep Γ A (LinearMap.ker (endTrace A M)) :=
   ⟨(Representation.linHom ρ.toRepresentation ρ.toRepresentation).subrepresentation _ sorry, sorry⟩
 
-/-- `ad ρ / A·1`, the quotient by the scalars. -/
+/-- `ad ρ / A·1`, the quotient by the scalars. In constant rank two, §7.2 identifies it with
+`Sym² ρ ⊗ Dρ^∨`, retaining the determinant-line carrier, including in characteristic two. -/
 def adQuot (ρ : ContinuousRep Γ A M)
     [Module.Finite A (Module.End A M ⧸ Submodule.span A {(1 : Module.End A M)})]
     [Module.Projective A (Module.End A M ⧸ Submodule.span A {(1 : Module.End A M)})]

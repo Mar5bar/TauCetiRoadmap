@@ -96,8 +96,9 @@ the henselian-trait/local-field tame-character comparison and its restriction an
 Layers 1 and 2 consume these shared interfaces. PadicMeasuresIwasawaAlgebras §5.1 owns the
 ring-level determinant line and its endomorphism maps for every finite projective module;
 EtaleCohomologyFoundations §F.10.3 owns their scalar realization through `End(det M) ≅ A`.
-Section 1.1 uses that scalar for determinant characters and proves the arithmetic continuity
-and representation-operation comparisons.
+Section 1.1 bundles the action on that line, uses its scalar for determinant characters and proves
+the arithmetic continuity and representation-operation comparisons. The line representation
+retains its projective carrier; identifying its action with a scalar does not trivialize the line.
 
 It leaves to named suppliers, and never rebuilds: the Krull topology, the separable closure and the
 Galois correspondence (Mathlib); finite-group representation theory, induction and restriction,
@@ -484,6 +485,11 @@ homothety, saturation, duality and commensurability. Sections 1.1–1.2 and 1.6 
 coefficient-field descent, integral descent, the building comparison and residual semisimplification
 are arithmetic targets here.
 
+SchemeAndStackFoundations §5.11 supplies the numerical Weil bound for smooth projective
+geometrically integral curves over finite fields, through surface intersections and Hodge index.
+Section 5.13 applies it over every finite extension and to the descended twists of finite covers;
+the curve/Jacobian cohomology comparison and Rosati root-modulus criterion are not inputs here.
+
 ### From `LFunctions`, `AdelicAlgebraicGroups` and `CFSGBasicProperties`
 
 The external roadmap dependencies are [LFunctions](https://github.com/TauCetiProject/TauCetiRoadmap/pull/248)
@@ -525,6 +531,7 @@ is computed directly. The automorphism-group input to the verification lemmas re
 | Frobenius-semisimplified Weil–Deligne parameter and functor | SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization` | Supplier target; §2.4 adapter and §2.5 agreement |
 | Linear Weil–Deligne substrate on parameter fields | SmoothRepresentationsOfLocalGroups SR.5.2, `wd-linear-substrate`, `nilpotent-exp-log`, `grothendieck-monodromy`, `wd-parameter-operations`, `full-wd-construction`, `wd-frobenius-semisimplification` | Supplier targets; §2.4 `ContinuousRep` specialization and adapter, §2.5 agreement and local factors |
 | Geometric abelian Tate module | `AbelianTate`, A4.1 | Supplier targets |
+| Numerical curve Weil bound | SchemeAndStackFoundations §5.11, *The Weil bound via surfaces* | Supplied surface-intersection theorem; §5.13 owns finite-cover counts, constant-field degree congruences, closed-point and profinite density, and recognition |
 | Logarithm, Lie and minuscule semisimplicity comparison | §7.6 below | Owned targets |
 
 ### Shared and owned interfaces
@@ -571,6 +578,12 @@ comparison → §2.7's completed Artin equation and epsilon comparison → Delig
 Section 7.12 consumes CFSGBasicProperties T2 after constructing the valid matrix comparison. Section 7.6's Tate
 vanishing uses ClassFieldTheory Layers 5, 10–12 and its own idelic torsion-character extension;
 ArithmeticGaloisDuality consumes that vanishing.
+For function fields, SchemeAndStackFoundations §5.11 → §5.13's finite-extension curve bound
+→ finite-cover counts → closed-point and profinite Frobenius density → recognition. The downstream
+DeligneWeightsAndPurity §3.7 uses these finite-cover counts for its degreewise and geometric-Frobenius
+adapters. Cohomological purity remains with that roadmap; curve/Jacobian and general
+endomorphism-trace comparisons remain with the downstream InverseGaloisAndArithmeticFundamentalGroups
+§IG.0.T1.
 `Suggested.lean` follows the same order, with one `/-! ## Layer k -/` section per layer; it records
 representative signatures and the discriminating checks as `example`s.
 
@@ -646,8 +659,14 @@ the supplied exterior-power comparison and the determinant suppliers above.
 **The determinant character.** Define `ContinuousRep.det ρ : Γ →* Aˣ` by evaluating
 EtaleCohomologyFoundations §F.10.3's scalar determinant on `ρ(g)` for every finite projective
 carrier `M`, including varying rank. The scalar is a unit because `ρ(g)` is invertible. Prove
-continuity and identify it with the action on PadicMeasuresIwasawaAlgebras §5.1's invertible
-`projectiveDeterminant A M`; at constant rank `r` this is the action on `⋀^r_A M`.
+continuity. Define `ContinuousRep.detLineRep ρ` on PadicMeasuresIwasawaAlgebras §5.1's invertible
+`projectiveDeterminant A M` with its module topology, by `projectiveDeterminantMap (ρ(g))`.
+Prove joint continuity, functoriality under representation isomorphisms, and compatibility with
+restriction, direct sums, duals and continuous coefficient extension. Its action is multiplication
+by `det ρ(g)` on this line. At constant rank `r`, write `Dρ = ContinuousRep.detLineRep ρ` and
+identify it with the representation on `⋀^r_A M`. A chosen trivialization
+`projectiveDeterminant A M ≃ₗ[A] A` induces `Dρ ≅ ofCharacter (det ρ)`; a basis of a free carrier
+supplies such a trivialization. No trivialization is required to define either `Dρ` or `det ρ`.
 For any `u : End_A(M)` and finite projective complement `N` with `M ⊕ N` finite free, prove
 that the supplied scalar of `u` is `LinearMap.det (u ⊕ id_N)`; hence the free-complement
 expression is independent of the complement and basis, and the scalar is a unit exactly when
@@ -661,7 +680,8 @@ change; the underlying scalar determinant commutes with arbitrary ring base chan
 (DDT, §2.1, p. 52; Stacks, §15.120, tag 0FJ9).
 *Needs:* PadicMeasuresIwasawaAlgebras §5.1; EtaleCohomologyFoundations §F.10.3;
 the exterior-power comparison above and §F.4.0's coefficient extension.
-On free carriers the statements of `Suggested.lean` use `LinearMap.det (ρ g)` directly.
+The bundled determinant-line construction is specified here; on free carriers the scalar-action
+statements of `Suggested.lean` use `LinearMap.det (ρ g)` directly.
 
 **Checks.**
 - For `A = ℚ × ℚ`, `M = (1,0)A` and `u` multiplication by `2` on `M`, the supplied scalar,
@@ -674,6 +694,10 @@ On free carriers the statements of `Suggested.lean` use `LinearMap.det (ρ g)` d
   cyclotomic character it is `χ_ℓ`, rather than `χ_ℓ⁻¹`.
 - After the nonflat coefficient change `ℤ → ℤ/2`, the determinant of the generator acting by
   `−1` on the sign representation becomes `1`, as does the scalar of its base-changed line.
+- For the trivial group over discrete `A = ℤ[√−5]`, the invertible ideal `I = (2, 1 + √−5)`
+  satisfies `I² = (2)` but is nonprincipal: a generator would have norm `a² + 5b² = 2`.
+  The trivial action on `I` has scalar determinant `1` and determinant-line carrier `I`,
+  which is not isomorphic to the carrier `A` of `ofCharacter 1`.
 
 ### 1.2 Frames, coefficient extension, operations, Tate twists
 
@@ -1230,9 +1254,10 @@ p. 533). *Needs:* the two targets above; `TauCetiRoadmap.LocalFieldsRamification
 **Local restriction.** Define `GaloisRep.localRestriction ρ := ρ.res (localEmbeddingMap F K)`, the
 restriction `ρ_ι` of a continuous representation of `G_F` to `G_{F_v}`. Prove that `ρ(σ)` is an
 isomorphism `ρ_{ι∘σ} ≅ ρ_ι` and `ρ_ι(τ₀)` an isomorphism `ρ_{τ₀∘ι} ≅ ρ_ι`, so the class of `ρ_ι` depends
-only on `v`, but the isomorphism `ρ_ι ≅ ρ_{ι'}` is `ρ(ι⁻¹ι')`, not the identity; that local
-restriction commutes with tensor products and restriction; that the restriction of an induced
-representation is the sum over the places `w | v` of the induced local representations (Mackey);
+only on `v`, with change-of-embedding isomorphism `ρ_ι ≅ ρ_{ι'}` given by
+`ρ((ι⁻¹ι')⁻¹)`; that local restriction commutes with tensor products and restriction; that the
+restriction of an induced representation is the sum over the places `w | v` of the induced local
+representations (Mackey);
 and that for `ρ` of finite image, `Gal(K_ρ,𝔭/F_v)` embeds in `Aut M` with inertia onto `ρ(I_Q)` and
 wild inertia onto `ρ(P_Q)` (Deligne 1973, 3.12, p. 533). At a real place the local group is
 `{1, c_ι}` (§4.1). *Needs:* Layer 1. *Lean:* `GaloisRep.localRestriction`.
@@ -1246,6 +1271,9 @@ wild inertia onto `ρ(P_Q)` (Deligne 1973, 3.12, p. 533). At a real place the lo
 - For `ρ = 1 ⊕ η` induced from `ℚ(i)`, `ρ(c)` swaps the two summands of `Ind` although `ρ_ι = ρ_{ι∘c}`,
   and for an `S₃`-extension at `p = 5` the restrictions `ρ_{ι∘σ}` and `ρ_ι` are different
   homomorphisms: the isomorphism between local restrictions is not canonical.
+- In the standard representation of `Gal(ℚ(∛2, ζ₃)/ℚ) ≅ S₃` at `5`, take
+  `A = [[0,1],[1,0]]`, `B = [[0,−1],[1,−1]]` and `ι' = ι ∘ σ` with `ρ(σ) = B`.
+  Then `A' = B⁻¹AB = [[−1,0],[−1,1]]`; `B⁻¹A = A'B⁻¹`, whereas `BA ≠ A'B`.
 
 ### 2.1a Arithmetic transport of the henselian-trait tame character
 
@@ -3055,21 +3083,16 @@ The counting targets below prove convergence of these sums and density one for `
 thus normalization by the all-point sum gives the same density.
 
 **Curve point-counting input.** For every smooth projective geometrically connected curve `D/𝔽_Q`
-of genus `g` and every integer `r ≥ 1`, prove
-`|#D(𝔽_{Q^r}) − (Q^r + 1)| ≤ 2g Q^{r/2}`. Fix an auxiliary prime `ℓ ≠ char 𝔽_Q` and
-write `H¹(D) = H¹_et(D_𝔽̄_Q, ℚ_ℓ)`. Let `F_D` and `F_J` be the `Q`-power scheme Frobenius
-endomorphisms of `D` and its Jacobian. Build the curve/Jacobian degree-one cohomology comparison
-and the trace identity `#D(𝔽_{Q^r}) = Q^r + 1 − Tr((F_D^*)^r | H¹(D))`; scheme pullback
-here is geometric Galois Frobenius. Use the Jacobian's polarization, `F_J† F_J = [Q]`, and Rosati
-positivity to prove that every complex conjugate of a Frobenius eigenvalue has absolute value
-`Q^{1/2}`. This includes descent of the Jacobian and its polarization from finite extensions
-admitting a point, without a chosen rational point on `D` over its base field. Removing finitely
-many geometric points changes the count by a bounded amount. These curve estimates are built
-here (Milne, *Abelian Varieties*, 2022, Theorem 19.1 and Lemmas 19.2–19.3, pp. 40–41;
-Serre, *Lectures on N_X(p)*, 2011 notes, §4.5, Theorem 4.6, p. 42).
-*Needs:* AlgebraicCurves Layers 5, 6 and 12; JacobianChallenge (the Picard variety);
-AbelianSchemesAndArithmeticModuli §§A6.11, A6.14 (Tate characteristic polynomials and Rosati positivity);
-EtaleCohomologyFoundations §§F.2.6, F.5–F.6, F.10.2b (Künneth, duality, cycle classes and Frobenius comparison).
+of genus `g` and every integer `r ≥ 1`, use SchemeAndStackFoundations §5.11's numerical theorem
+to obtain `|#D(𝔽_{Q^r}) − (Q^r + 1)| ≤ 2g Q^{r/2}`. Smooth geometric connectedness implies
+geometric integrality here; genus is preserved by finite-field extension. Apply the supplied
+surface-intersection bound to `D × 𝔽_{Q^r}`, without a rational base point, a Jacobian realization
+or an auxiliary coefficient prime. Removing a finite set `Z` of geometric points changes the
+count by at most `#Z`, uniformly in `r`. This is the numerical input for the finite-cover counts
+below (Milne, *Algebraic Geometry*, 2024, Chapter 11, Theorem 11.53, Corollary 11.54,
+Example 11.55 and the Frobenius application, pp. 37–38).
+*Needs:* SchemeAndStackFoundations §5.11, *The Weil bound via surfaces*; AlgebraicCurves Layer 12
+(geometric and function-field genus comparison).
 
 **Checks.**
 - `D = ℙ¹` has `g = 0` and exactly `Q^r + 1` points.
@@ -3273,9 +3296,11 @@ that the saturated rank-`g` eigenlattices `T_ℓA^±` span `T_ℓA` for `ℓ` od
 contains `2T_2A` and its quotient in `T_2A` is killed by `2`, without equalling `2T_2A` in general;
 and that elliptic curves over totally real fields are odd in the sense of §4.1 (Darmon–Diamond–Taylor
 2007, §2.2, Prop. 2.8(a), p. 56; Serre 1972, §5.2(iv), p. 304). The integral linear algebra is
-`TateModule.Involution.eigensum c = ker(c − 1) + ker(c + 1)` for an involution of a module over any
+`Involution.eigensum c = ker(c − 1) + ker(c + 1)` for an involution of a module over any
 commutative ring, which contains `2x` for every `x` (from `2x = (x + cx) + (x − cx)`) and is
-everything when `2` is a unit; no direct sum is asserted when `2` is not invertible. *Needs:* §4.1;
+everything when `2` is a unit. The intersection of the eigenmodules is killed by `2`, so absence
+of `2`-torsion suffices for directness; invertibility of `2` guarantees a direct-sum decomposition
+of the whole module. *Needs:* §4.1;
 Mathlib `Matrix.J`. *Lean:* `Involution.eigensum`, `Involution.two_smul_mem_eigensum`.
 
 **Checks.**
@@ -3443,8 +3468,9 @@ Qian 2023.
 is not assumed invertible), `⋀[A]^d M` and `⨂^d M`, through Tau Ceti's
 `Representation.symmetricPower`, `Representation.exteriorPower` and `Representation.tensorPower`,
 adding the module topology, joint continuity and finite projectivity of rank `binom(n + d − 1, d)`,
-`binom(n, d)`, `n^d` for `M` of rank `n` and `A ≠ 0`. Prove `∧^n ρ ≅ det ρ`, `∧^d ρ = 0` for `d > n`,
-`∧^d ρ ≅ (∧^{n−d} ρ)^∨ ⊗ det ρ` for `d ≤ n`, and `ρ ⊗ ρ ≅ Sym² ρ ⊕ ∧² ρ` when `2 ∈ A^×`. Its API is
+`binom(n, d)`, `n^d` for `M` of constant rank `n` and `A ≠ 0`. With `Dρ = ContinuousRep.detLineRep ρ`
+from §1.1, prove `∧^n ρ ≅ Dρ`, `∧^d ρ = 0` for `d > n`,
+`∧^d ρ ≅ (∧^{n−d} ρ)^∨ ⊗ Dρ` for `d ≤ n`, and `ρ ⊗ ρ ≅ Sym² ρ ⊕ ∧² ρ` when `2 ∈ A^×`. Its API is
 the ranks, functoriality, base change, the characteristic polynomial, the top exterior power as the
 determinant, the tensor-square decomposition, the exterior pairing and agreement of the underlying
 representations with Tau Ceti's (BCG, proof of Thm 2.1, p. 513; NT26, Lemma 2.2, p. 10). *Needs:* Tau
@@ -3453,7 +3479,10 @@ Ceti `Representation.symmetricPower`, `Representation.exteriorPower`, `Represent
 `ContinuousRep.powers_finite_projective`, `ContinuousRep.exists_tensorSquareEquiv`.
 
 **Checks.**
-- `Sym⁰ ρ` is trivial of rank one, and `∧^n ρ` of a free rank-`n` carrier is the determinant.
+- `Sym⁰ ρ` is trivial of rank one; a basis of a free rank-`n` carrier identifies `∧^n ρ`
+  with `ofCharacter (det ρ)`, including `n = 0`.
+- For the trivial action on `I = (2, 1 + √−5)` over `ℤ[√−5]`, `∧¹I = I = Dρ` and
+  `det ρ = 1`; the exterior duality at `d = 1` gives `A^∨ ⊗ I ≅ I`, not `I ≅ A`.
 - For `det(X − ρ(g)) = (X − α)(X − β)`, `Sym² ρ(g)` has roots `α², αβ, β²`. *Lean:* the `example` after
   `exists_tensorSquareEquiv`.
 - For `GL₂(F_3)` on `V = F_3²`, `Sym³V ≇ Γ³V = (Sym³V)^∨ ⊗ det³` (`V ⊂ Sym³V` and
@@ -3552,12 +3581,15 @@ AdicSpacesPartIII §R3.8 projective trace in the supplier contracts,
 `ContinuousRep.adQuot ρ = ad ρ / A·1`, both of rank `n² − 1` and kept distinct. Prove that the trace
 pairing is perfect and invariant and `ad⁰ ρ ≅ (ad ρ / A·1)^∨` over every `A`; that `ad⁰ → ad/A·1` has
 kernel `A[n]·1` and cokernel `A/nA`, so it is an isomorphism, with `ad = A·1 ⊕ ad⁰`, exactly when
-`n ∈ A^×`; and that for `n = 2` and any `A`, `ad/A·1 ≅ Sym² ρ ⊗ det⁻¹` and `ad⁰ ≅ (Sym² ρ)^∨ ⊗ det`.
+`n ∈ A^×`; and that for constant rank `n = 2` and any `A`,
+`ad/A·1 ≅ Sym² ρ ⊗ Dρ^∨` and `ad⁰ ≅ (Sym² ρ)^∨ ⊗ Dρ`, where
+`Dρ = ContinuousRep.detLineRep ρ` (§1.1). After choosing a trivialization of `Dρ` these become
+the scalar-character twists by `(det ρ)⁻¹` and `det ρ`, respectively.
 Its API is `ad ≅ M ⊗ M^∨`, perfectness, the splitting when `n` is invertible, `1 ∈ ad⁰` iff `n = 0` in
 `A`, kernel and cokernel, base change, the `n = 2` isomorphisms, and the Weil–Deligne adjoint
 `(ad r, [N, −])` on §2.4's canonical parameter fields (CHT, §2.1, p. 7; ACC+, after Def. 6.2.29, p. 1044).
 *Needs:* PivotalSpherical §Layer 2 and AdicSpacesPartIII §R3.8 as above; Mathlib
-`Representation.linHom`; Tau Ceti `ContRepresentation.linHom`; §2.4.
+`Representation.linHom`; Tau Ceti `ContRepresentation.linHom`; §§1.1, 2.4, 7.1.
 *Lean:* `ContinuousRep.endTrace`, `ContinuousRep.ad`, `ContinuousRep.adZero`, `ContinuousRep.adQuot`,
 `ContinuousRep.tracePairing_perfect`, `ContinuousRep.adZero_to_adQuot`.
 
@@ -3569,6 +3601,13 @@ Its API is `ad ≅ M ⊗ M^∨`, perfectness, the splitting when `n` is invertib
   degenerate. *Lean:* the second `example`.
 - Over `ℤ[√−5]` with `M = (2, 1 + √−5)`, Mathlib's `LinearMap.trace` of the identity is `0` while
   `endTrace` is `1`. *Lean:* the third `example`.
+- For the trivial action on `M = A ⊕ I`, `A = ℤ[√−5]`, `I = (2, 1 + √−5)`,
+  `Dρ` has carrier `I`. The carrier of `ad/A·1` is `A ⊕ I ⊕ I⁻¹`, with determinant line `A`,
+  whereas `Sym² M = A ⊕ I ⊕ I²` has determinant line `I³ ≅ I`. Tensoring by `Dρ^∨`
+  restores determinant line `A`; the trivial scalar character does not.
+- Over `F₂` in rank two the formulas with `Dρ` still hold: in the basis `e₁,e₂`,
+  `ad/A·1 → Sym² M ⊗ (∧² M)^∨` sends the class of `[[a,b],[c,d]]` to
+  `(b e₁² + (d − a)e₁e₂ − c e₂²) ⊗ (e₁ ∧ e₂)^∨`.
 
 **The trace pairing on matrices.** Prove that for every commutative `A`, `(X, Y) ↦ tr(XY)` on `M_n(A)`
 is a perfect pairing (`LinearMap.IsPerfPair`; stronger than nondegenerate, as `2xy` on `ℤ` shows),
@@ -3682,10 +3721,12 @@ CHT induction from `Γ' ⊄ Δ` of finite index is independent of `γ₀`; and t
 - `ν(j) = −1`.
 - `n = 1`, `γ₀² = 1`: `((a, μ₀) j)² = (μ₀, μ₀²) = 1` forces `μ₀ = 1`, so `ν(r(γ₀)) = −1` over every `R`.
 - For `Γ = ℤ/2` the triples are the `A` with `Aᵀ = −μA`; there are none for `ℤ/3` (no index-two
-  subgroup); over `F₂`, `−1ᵀ = 1` and `gl_n^{𝒢_n} ≠ 0`.
+  subgroup); over `F₂`, `−1ᵀ = 1` and `gl_n^{𝒢_n} ≠ 0` for `n ≥ 1`.
 - Inverting `2` is sufficient, not necessary: invariance under the elementary matrices of `GL_n(R)`
   forces a scalar `a · 1_n`, which `ad(j)` sends to `−a · 1_n`, so the invariants are the `a · 1_n`
-  with `2a = 0`. Over `ℤ`, where `2 ∉ ℤ^×`, this is `0`; over `ℤ/4` it is `{0, 2 · 1_n} ≠ 0`.
+  with `2a = 0`. Over `ℤ`, where `2 ∉ ℤ^×`, this is `0`; over `ℤ/4` it is `{0, 2 · 1_n} ≠ 0`
+  for `n ≥ 1`.
+- In rank zero, `gl_0 = 0` and `1_0 = 0`, so the invariant module is zero over both `F₂` and `ℤ/4`.
 
 **Signs and places.** Prove: (1) `⟨x, y⟩_{v'} = ⟨x, ρ(c_v c_{v'}) y⟩_v` polarises `(ρ, μ)` at another
 real place `v'` with `ε_{v'} = μ(c_v c_{v'}) ε_v` whenever `μ(c_v c_{v'}) ∈ {±1}`
