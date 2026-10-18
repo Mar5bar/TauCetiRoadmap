@@ -1758,9 +1758,36 @@ unramified, and `ε(ω ω_s, ψ, dx_ψ) = ω(ϖ^{ν+c}) q^{(1/2−s)(ν+c)} 𝔤
 `tateLocalConstant (ω : Kˣ →* ℂˣ) (ψ : AddChar K ℂ) (μ : Measure K) : ℂˣ`.
 
 **Global inputs.** For a number field `F` and a continuous complex idele-class quasi-character
-`χ`, construct the Schwartz–Bruhat space on the adeles, its
-restricted-product and tensor-product API, the self-dual Fourier transform and Poisson summation
-for a nontrivial additive character of `𝔸_F/F`. Prove Tate's global zeta-integral equation,
+`χ`, construct the scalar character foundations before the zeta-integral comparison.
+Define the standard trace character `ψ = ψ_ℚ ∘ Tr_{F/ℚ}` on `𝔸_F`, with real component
+`ψ_ℚ,∞(x) = exp(2πix)` and finite components `ψ_ℚ,p(x) = exp(−2πi{x}_p)`, where `{x}_p`
+is the `p`-adic fractional part. Prove continuity, nontriviality and triviality on diagonal `F`:
+for rational `x`, `x − Σ_p{x}_p ∈ ℤ`, and the adelic trace of a diagonal field element is its
+rational field trace. The local components are obtained by the corresponding local traces.
+For every place `v`, prove that `a ↦ (x ↦ ψ_v(ax))` identifies the additive group of `F_v`
+topologically with Mathlib's `PontryaginDual (Multiplicative F_v)`. At a finite place over `p`,
+the annihilator of `O_v` is the inverse different `𝔡_{F_v/ℚ_p}⁻¹`. Prove the restricted-product
+duality comparison: continuous adelic characters are products of local characters trivial on
+`O_v` at almost all finite places, and the local identifications give a topological
+identification of `𝔸_F` with `PontryaginDual (Multiplicative 𝔸_F)` through `ψ(ax)`.
+The inverse different equals `O_v` at almost all finite places, so these local identifications
+respect the restricted products.
+
+Prove the diagonal self-annihilator formula
+`F⊥ = {a ∈ 𝔸_F : ∀ ξ ∈ F, ψ(aξ) = 1} = F`. Diagonal triviality gives one inclusion.
+For the reverse, identify `F⊥` with the dual of the compact quotient `𝔸_F/F`, using
+GlobalNumberFields Layers 4–6's discrete diagonal and compact quotient. Thus `F⊥` is discrete;
+`F⊥/F` is closed and discrete in the compact quotient and hence finite. It is also an
+`F`-vector space, so it vanishes. These scalar foundations use local fields, traces, adeles
+and harmonic analysis, without automorphic hypotheses. AutomorphicFormsOnReductiveGroups §4.3
+consumes them for its compact-quotient character adapter and Fourier expansion.
+(Tate, *Fourier analysis in number fields and Hecke's zeta-functions*, §2.2, Theorem 2.2.1
+and Lemma 2.2.3, and §4.1, Lemma 4.1.5 and Theorem 4.1.4, thesis PDF pp. 10, 35, 39–40;
+Kudla, *Tate's Thesis*, §3, pp. 122–124, and §4, pp. 127–128, with positive archimedean sign.)
+
+Construct the Schwartz–Bruhat space on the adeles, its restricted-product and tensor-product
+API, the self-dual Fourier transform and Poisson summation for a nontrivial additive character
+of `𝔸_F/F`. Prove Tate's global zeta-integral equation,
 meromorphic continuation and product of local functional equations for `χ`, including its
 archimedean factors. These analytic constructions apply to general quasi-characters, including
 those furnished by Deligne's conductor lemma below.
@@ -1811,6 +1838,15 @@ Mathlib Haar integration and Fourier transform; ClassFieldTheory layers 7, 9 and
 RepresentationTheory/InductionRestriction Layer 6 (Brauer induction); Tate's local constant above.
 
 **Checks.**
+- At diagonal `1/3 ∈ ℚ`, the real and `3`-adic factors are `exp(2πi/3)` and
+  `exp(−2πi/3)`, so their product is one. A positive finite-place sign instead gives
+  `exp(4πi/3) ≠ 1` and fails diagonal triviality.
+- Over `ℚ`, the adele with real component `1/2` and all finite components zero pairs with
+  diagonal `1` to give `−1`, so it is outside `ℚ⊥`; every diagonal rational is inside.
+- Over `ℚ_p`, `ℤ_p⊥ = ℤ_p`; for a ramified completion, `O_v⊥ = 𝔡_{F_v/ℚ_p}⁻¹`
+  is strictly larger than `O_v`, retaining the different in the restricted-product comparison.
+- For `b ∈ 𝔸_F^×`, the pairing `ψ(bxy)` has diagonal annihilator `b⁻¹F`.
+  The equality with `F` uses the specified trace pairing.
 - For the trivial character of `ℚ`, the completion has simple poles at `0` and `1`; an entire
   continuation statement would fail.
 - For a nontrivial primitive Dirichlet character, the completed function is entire and the
