@@ -264,8 +264,10 @@ tests representative native interfaces; this README is definitive.
    orientation independence, direct sums, formal adjoint sign, invertible and
    finite-dimensional cases. For a finite common-order elliptic complex,
    identify the folded symbol/index with alternating cohomology dimensions
-   through PDO P7's Hodge decomposition. Differential maps in a de Rham
-   complex are not individually elliptic operators. Compare the existing
+   through PDO P7's Hodge decomposition. Ellipticity of the de Rham symbol complex means exactness
+   away from the zero section; it does not assert ellipticity of its individual
+   arrows. In dimension at least two the usual arrows have noninvertible symbols,
+   while in dimension one d:Ω⁰→Ω¹ is itself elliptic. Compare the existing
    de Rham/Dolbeault Laplace realizations by their proved uniqueness maps.
 5. Construct analytic-index excision: for an open U⊂M and compactly supported
    class a∈K_c(T*U), define its local index by extension to a closed ambient
