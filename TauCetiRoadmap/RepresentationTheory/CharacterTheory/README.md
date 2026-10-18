@@ -358,6 +358,80 @@ finite-dimensional representations, at arbitrary carrier universes.
   by `Representation.char_conj`. For Burnside's obstruction, specialize column orthogonality to the
   identity class and the class of `g`.
 
+#### Faithful tensor generation over ℂ
+
+For every finite group `G` and actual `U : FDRep ℂ G`, define the finite set
+`S_U = {χ_U(g) | g ∈ G}` and `r_U = |S_U|`. Give its membership and image API,
+its description as the image of the existing character on `ConjClasses G`,
+and prove `0 < r_U ≤ Nat.card (ConjClasses G)`. Prove invariance under
+representation isomorphism and group isomorphism with transport of the action;
+no choice of class representatives or irreducible enumeration changes this set.
+Use the existing native class-function carrier and class quotient map, rather
+than another quotient of representations or another character engine.
+
+Use Mathlib's `Lagrange.basis` to define the actual polynomial
+
+`P_U(T) = ∏_(z ∈ S_U, z ≠ χ_U(1)) (T-z)/(χ_U(1)-z)`.
+
+Prove its degree is `r_U-1`, that it takes value one at `χ_U(1)` and zero at
+all the other nodes, and the resulting pointwise identity
+`P_U(χ_U(g)) = if χ_U(g)=χ_U(1) then 1 else 0`. Distinct nodes make the
+denominators nonzero; a zero node causes no exception. Give the coefficient
+expansion with powers `0,…,r_U-1`, including the constant term. These are
+finite-polynomial statements, consumed from the native interpolation and
+Vandermonde APIs with the finite-set/reindexing adapters owned here.
+
+If the actual representation homomorphism `U.ρ` is injective, prove
+`χ_U(g) = (finrank ℂ U.V : ℂ) ↔ g=1`. Consume
+`TauCeti/RepresentationTheory/CharacterTable/Kernel.lean`:
+`Representation.char_eq_finrank_iff` already proves the finite-order trace
+criterion, and `FDRep.ker_eq_bot_iff` is its faithful-kernel form. A finite group
+supplies finite order for every element. The native proof diagonalizes the
+finite-order operator and uses its unit-modulus eigenvalues; do not replace
+it by the false assertion that arbitrary matrices of trace `dim U` are the
+identity. Thus `P_U ∘ χ_U` is the indicator of the identity element. For any
+actual simple `X : FDRep ℂ G`, bilinearity in Layer 0's convention gives
+
+`⟨P_U ∘ χ_U, χ_X⟩ = χ_X(1)/|G| = dim(X)/|G| ≠ 0`.
+
+Own the finite coefficient/pairing interchange and its conversion to
+`∑_(n<r_U) coeff(P_U,n) ⟨χ_U^n,χ_X⟩`. Consume native
+`Representation.tensorPower`, its zero-fold action and `char_tensorPower`,
+and the already implemented pairing-to-Hom identity, with orientation
+
+`⟨χ_(U^⊗n),χ_X⟩ = (finrank ℂ (X ⟶ U^⊗n) : ℂ)`.
+
+Over ℂ the order is nonzero and invertible, and a simple object has positive
+dimension. If all these natural Hom-dimensions vanished, the displayed
+nonzero pairing would vanish. Construct, consequently, an exponent
+`n < r_U` with `0 < finrank ℂ (X ⟶ U^⊗n)`, and its weaker bound
+`n < Nat.card (ConjClasses G)`. Here occurrence is in the actual tensor power,
+not merely in a virtual-character expression. Use Layer 3's simple-module
+lookup, Schur and regrouping API to identify this number with the actual
+multiplicity. Give the nonzero-intertwiner, injective-intertwiner and direct
+summand forms, and transport these results between native finite-dimensional
+representations at arbitrary carrier universes and `FDRep` using the existing
+finite-model/shrink and module equivalences. No irreducibility or self-duality
+of `U`, and no two-dimensional or unitary-embedding input, is required.
+
+Also give the equivalent grouped Vandermonde argument: enumerate the distinct
+nodes as `z_a`, set `b_a = ∑_(g:χ_U(g)=z_a) χ_X(g⁻¹)`, and use
+`∑_a b_a z_a^n=0` for `0≤n<r_U`. The native Vandermonde determinant or its
+transposed finite-moment injectivity lemma forces all `b_a=0`, contradicting
+the identity fibre `b_(χ_U(1))=dim X`. This is the same bilinear pairing
+convention; over ℂ `χ_X(g⁻¹)=conj(χ_X(g))`, with no conjugation of `z_a`.
+
+Keep the boundaries explicit. The zero-fold tensor power is the trivial
+one-dimensional module, including `0^0=1` in its character formula. For a
+trivial group `r_U=1` for every `U`, and exponent zero supplies its only simple
+class. A faithful zero-dimensional `U` forces `G` trivial, has `S_U={0}` and
+still satisfies the theorem at `n=0`; do not exclude it by assuming `dim U>0`.
+For a nonfaithful representation the same interpolation isolates the kernel,
+not the identity, and need not generate every simple: the trivial module of
+`C₂` never contains its sign module in any tensor power. This subsection is
+the general finite-complex supplier; McKay matrices, walks, affine root graphs
+and finite `SU(2)` geometry are consumers with their own additional data.
+
 ### Layer 4: the arithmetic of character values
 
 - **Diagonalizability, per arena.** *Over general `k`* (`char ∤ |G|`): `ρ g` annihilates the squarefree
@@ -830,7 +904,11 @@ Layer 0 (class functions) and Layer 1 (center, structure constants, integral cla
 independent and come first. Layer 2 (Wedderburn, indexing, center-splitting, the count) needs Layer 1's
 center dimension; its Layer 2.5 indexing infrastructure and the center-splitting `Z(k[G]) ≃ (Irreps → k)`
 are prerequisites for Layer 5, so they are built to that standard, not as boilerplate. Layer 3 (table,
-idempotents, completeness, second orthogonality, virtual characters) needs Layers 0-2. Layer 4 (the
+idempotents, completeness, second orthogonality, virtual characters) needs Layers 0-2. Its faithful
+tensor-generation subsection consumes the native finite-order trace/kernel criterion, tensor-power
+characters and pairing-to-Hom theorem, together with finite Lagrange/Vandermonde interpolation; it
+uses the existing Layer3 multiplicity/regrouping API for its direct-summand form. It does not depend
+on Layer4 arithmetic, degree divisibility, a McKay graph or a finite-subgroup classification. Layer 4 (the
 arithmetic) needs Layer 3's table and Layer 1's integral class center; Brauer and Burnside are its
 applications and may come last. Layer 5 (the specification) needs the coordinate identity, the primitive
 central idempotents and center-splitting (Layers 2-3), and Layer 4's central-character integrality and

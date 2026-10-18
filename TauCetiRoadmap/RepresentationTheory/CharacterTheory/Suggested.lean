@@ -1,5 +1,9 @@
 import Mathlib
 import TauCeti.RepresentationTheory.CharacterTable.Wedderburn
+import TauCeti.RepresentationTheory.FDRep
+import TauCeti.RepresentationTheory.CharacterTable.ClassFunction
+import TauCeti.RepresentationTheory.CharacterTable.Kernel
+import TauCeti.RepresentationTheory.Tensor.Power
 
 /-!
 # Character theory and computable character tables: target signatures
@@ -177,6 +181,179 @@ theorem char_column_orthogonality (G : Type v) [Group G] [Fintype G] [DecidableE
       = if C = C' then (Nat.card G : ℂ) / (Nat.card (ConjClasses.carrier C) : ℂ) else 0 := sorry
 
 -- **Labeled uniqueness** (`characterTable_unique_rows`) is stated in Layer 5, after `IsCharacterTableSpec`.
+
+/-! #### Faithful tensor generation over ℂ
+
+The finite node set and polynomial below are defined from the actual action. Hard new
+statements are theorem targets, never unconstrained `Prop` fields or admitted data maps.
+The native finite-order trace criterion and tensor/character/Hom adapters are consumed.
+-/
+
+namespace FaithfulTensor
+
+open CategoryTheory
+
+variable {G : Type v} [Group G] [Fintype G]
+
+/-- Actual distinct character values; no irreducibility or faithfulness is needed. -/
+noncomputable def characterValues (U : FDRep ℂ G) : Finset ℂ := by
+  classical
+  exact Finset.univ.image U.character
+
+/-- The sharp tensor-generation bound is this positive finite cardinal. -/
+noncomputable def characterValueCount (U : FDRep ℂ G) : ℕ := (characterValues U).card
+
+/-- The existing class-function quotient map, not a new class-function carrier. -/
+noncomputable def characterOnClasses (U : FDRep ℂ G) : ConjClasses G → ℂ :=
+  TauCeti.ClassFunction.toConjClasses (TauCeti.ClassFunction.ofFDRep U)
+
+/-- The Lagrange polynomial selecting the character value at the identity.
+Its empty product is one, including for a zero-dimensional representation. -/
+noncomputable def identityFibrePolynomial (U : FDRep ℂ G) : Polynomial ℂ := by
+  classical
+  exact Lagrange.basis (characterValues U) id (U.character 1)
+
+/-- The actual native diagonal tensor power, bundled in the existing finite category. -/
+noncomputable def tensorPowerFDRep (U : FDRep ℂ G) (n : ℕ) : FDRep ℂ G :=
+  FDRep.of (Representation.tensorPower U.ρ n)
+
+@[simp]
+theorem mem_characterValues (U : FDRep ℂ G) (z : ℂ) :
+    z ∈ characterValues U ↔ ∃ g : G, U.character g = z := by
+  classical
+  simp [characterValues]
+
+/-- Representatives disappear through the native class-function quotient map. -/
+theorem characterValues_eq_conjClasses_image (U : FDRep ℂ G) :
+    characterValues U = Finset.univ.image (characterOnClasses U) := by
+  sorry
+
+theorem characterValueCount_pos (U : FDRep ℂ G) : 0 < characterValueCount U := by
+  classical
+  exact Finset.card_pos.mpr ⟨U.character 1, Finset.mem_image.mpr ⟨1, Finset.mem_univ 1, rfl⟩⟩
+
+theorem characterValueCount_le_card_conjClasses (U : FDRep ℂ G) :
+    characterValueCount U ≤ Nat.card (ConjClasses G) := by
+  sorry
+
+theorem characterValues_iso {U V : FDRep ℂ G} (e : U ≅ V) :
+    characterValues U = characterValues V := by
+  classical
+  unfold characterValues
+  rw [FDRep.char_iso e]
+
+/-- Native finite-order trace criterion plus the actual injective representation. -/
+theorem character_eq_degree_iff (U : FDRep ℂ G) (hU : Function.Injective U.ρ) (g : G) :
+    U.character g = (Module.finrank ℂ U.V : ℂ) ↔ g = 1 := by
+  rw [← FDRep.character_ρ U g,
+    Representation.char_eq_finrank_iff U.ρ (isOfFinOrder_of_finite g)]
+  constructor
+  · intro h
+    apply hU
+    simpa only [map_one] using h
+  · rintro rfl
+    exact map_one U.ρ
+
+theorem identityFibrePolynomial_degree (U : FDRep ℂ G) :
+    (identityFibrePolynomial U).degree = ((characterValueCount U - 1 : ℕ) : WithBot ℕ) := by
+  sorry
+
+/-- First isolate the character fibre; without faithfulness it is the kernel fibre. -/
+theorem identityFibrePolynomial_eval (U : FDRep ℂ G) (g : G) :
+    (identityFibrePolynomial U).eval (U.character g) =
+      if U.character g = U.character 1 then 1 else 0 := by
+  sorry
+
+/-- Faithfulness reduces that actual fibre to the singleton identity. -/
+theorem identityFibrePolynomial_eval_faithful (U : FDRep ℂ G)
+    (hU : Function.Injective U.ρ) (g : G) :
+    (identityFibrePolynomial U).eval (U.character g) = if g = 1 then 1 else 0 := by
+  sorry
+
+omit [Fintype G] in
+/-- Consumes the native tensor-power character formula, including n=0. -/
+@[simp]
+theorem tensorPowerFDRep_character (U : FDRep ℂ G) (n : ℕ) (g : G) :
+    (tensorPowerFDRep U n).character g = U.character g ^ n := by
+  change (Representation.tensorPower U.ρ n).character g = U.character g ^ n
+  rw [Representation.char_tensorPower, FDRep.character_ρ]
+
+/-- Pairing orientation: first the target tensor power, then the source simple character.
+This is just the native categorical pairing-to-Hom identity. -/
+theorem tensorPower_pairing_eq_finrank [Invertible (Nat.card G : ℂ)]
+    (U X : FDRep ℂ G) (n : ℕ) :
+    characterPairing (fun g => U.character g ^ n) X.character =
+      (Module.finrank ℂ (X ⟶ tensorPowerFDRep U n) : ℂ) := by
+  simpa only [characterPairing, tensorPowerFDRep_character] using
+    (FDRep.scalar_product_char_eq_finrank_equivariant X (tensorPowerFDRep U n))
+
+/-- The finite coefficient/pairing interchange; its bound also covers the constant polynomial. -/
+theorem polynomial_pairing_eq_coeff_sum (U X : FDRep ℂ G) (p : Polynomial ℂ)
+    (hp : p.degree < (characterValueCount U : WithBot ℕ)) :
+    characterPairing (fun g => p.eval (U.character g)) X.character =
+      ∑ n : Fin (characterValueCount U), p.coeff n.val *
+        characterPairing (fun g => U.character g ^ n.val) X.character := by
+  sorry
+
+/-- Pairing the isolated identity with an actual representation gives its dimension/order. -/
+theorem identityFibrePolynomial_pairing (U : FDRep ℂ G)
+    (hU : Function.Injective U.ρ) (X : FDRep ℂ G) :
+    characterPairing (fun g => (identityFibrePolynomial U).eval (U.character g)) X.character =
+      (Module.finrank ℂ X.V : ℂ) / (Nat.card G : ℂ) := by
+  sorry
+
+/-- Each actual simple object occurs in one of the first r tensor powers of a faithful U.
+U is not required to be nonzero, irreducible, self-dual or two-dimensional. -/
+theorem exists_pos_finrank_hom_tensorPower (U : FDRep ℂ G)
+    (hU : Function.Injective U.ρ) (X : FDRep ℂ G) [CategoryTheory.Simple X] :
+    ∃ n : ℕ, n < characterValueCount U ∧
+      0 < Module.finrank ℂ (X ⟶ tensorPowerFDRep U n) := by
+  sorry
+
+/-- The weaker bound by the number of actual conjugacy classes. -/
+theorem exists_pos_finrank_hom_tensorPower_lt_card_conjClasses (U : FDRep ℂ G)
+    (hU : Function.Injective U.ρ) (X : FDRep ℂ G) [CategoryTheory.Simple X] :
+    ∃ n : ℕ, n < Nat.card (ConjClasses G) ∧
+      0 < Module.finrank ℂ (X ⟶ tensorPowerFDRep U n) := by
+  obtain ⟨n, hn, hpos⟩ := exists_pos_finrank_hom_tensorPower U hU X
+  exact ⟨n, lt_of_lt_of_le hn (characterValueCount_le_card_conjClasses U), hpos⟩
+
+/-- Nonzero maps from the actual simple representation are injective; this supplies occurrence
+on the module spine before the existing semisimple regrouping extracts a direct summand. -/
+theorem exists_injective_intertwiner_tensorPower (U : FDRep ℂ G)
+    (hU : Function.Injective U.ρ) (X : FDRep ℂ G) [CategoryTheory.Simple X] :
+    ∃ n : ℕ, n < characterValueCount U ∧
+      ∃ f : Representation.IntertwiningMap X.ρ (Representation.tensorPower U.ρ n), Function.Injective f := by
+  sorry
+
+/-- Arbitrary carrier universes use the existing shrink/finite-model adapter, not a new
+irreducible quotient. Its character-value bound is invariant under that equivalence. -/
+theorem exists_pos_finrank_intertwining_tensorPower
+    {V W : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+    [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (ρ : Representation ℂ G V) (hρ : Function.Injective ρ)
+    (σ : Representation ℂ G W) [σ.IsIrreducible] :
+    ∃ n : ℕ, n < characterValueCount (FDRep.ofShrink ρ) ∧
+      0 < Module.finrank ℂ (Representation.IntertwiningMap σ (ρ.tensorPower n)) := by
+  sorry
+
+/-- The zero-dimensional character still has one value. -/
+theorem characterValueCount_of_finrank_zero (U : FDRep ℂ G)
+    (hzero : Module.finrank ℂ U.V = 0) : characterValueCount U = 1 := by
+  sorry
+
+/-- A faithful action on the zero space forces the group to be trivial. -/
+theorem subsingleton_group_of_faithful_finrank_zero (U : FDRep ℂ G)
+    (hU : Function.Injective U.ρ) (hzero : Module.finrank ℂ U.V = 0) : Subsingleton G := by
+  sorry
+
+/-- A trivial group is covered at n=0, even when U is the zero representation. -/
+theorem pos_finrank_hom_tensorPower_zero [Subsingleton G] (U X : FDRep ℂ G)
+    [CategoryTheory.Simple X] :
+    0 < Module.finrank ℂ (X ⟶ tensorPowerFDRep U 0) := by
+  sorry
+
+end FaithfulTensor
 
 /-! ### Layer 4: the arithmetic of character values -/
 
