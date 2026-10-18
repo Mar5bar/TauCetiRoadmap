@@ -174,9 +174,28 @@ from the native complex-linear Clifford `star` and the conjugate-linear
    construct a positive Hermitian metric with ρ(a^{*Cl_base})=ρ(a)†, unique up to a
    **positive** scalar. Prove existence using the native Fock metric transported
    along the representation intertwiner, and uniqueness via Schur. For an
-   arbitrary finite-dimensional module E, construct
+   arbitrary unital algebraic complex module E, construct
    `S⊗Hom_Cl(S,E) → E`, s⊗T↦T(s), prove it an evaluation isomorphism and
-   give inverse/naturality/dimension API. Compatible metrics are positive
+   give its inverse and naturality. Choose a finite basis of the nonzero S
+   and transport Mathlib's `ModuleCat.matrixEquivalence` and
+   `moritaEquivalenceMatrix` from `RingTheory/Morita/Matrix` through
+   `LinearMap.toMatrixAlgEquiv` and the stated ℂ-algebra equivalence.
+   Require `IsScalarTower ℂ Cl E` and prove the scalar action induced
+   by the native inverse functor's matrix scalar homomorphism equals
+   E's given ℂ-action. Pin S's matrix action as scoped
+   `Matrix.Module.matrixModule`, compare it with the usual mulVec
+   action by `Matrix.Module.smul_apply`, and transport by explicit
+   equivalences rather than an instance-definitional equality.
+   For a chosen basis index j identify Hom_Cl(S,E) with E_jj E by
+   `T↦T(e_j)`. Under `S⊗X≃(ι→X)`, the native counit is
+   `(x_i)↦Σ_i E_ij x_i`; prove `E_ij T(e_j)=T(e_i)` and hence that
+   the counit is evaluation. Prove the resulting evaluation and naturality
+   independent of both the basis and j. Supply universe lifts of the
+   finite index and module-category comparisons when needed, so this
+   construction does not restrict E's universe.
+   This algebraic statement imposes no finite-dimension
+   or topological hypothesis on E. For finite-dimensional E give the
+   dimension formula and Hermitian comparison. Compatible metrics are positive
    Hermitian metrics on the multiplicity space, rather than unique up to scale
    for reducible E. On S* pin the dual Clifford action as
    `(a·φ)(s)=φ(ρ(reverse(a))s)`, with the transported positive dual metric;
