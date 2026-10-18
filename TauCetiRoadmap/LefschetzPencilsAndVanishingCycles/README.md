@@ -188,7 +188,8 @@ It leaves to other roadmaps:
   stalk, regular target stalk, equal positive local dimensions and unramifiedness at every
   codimension-one generalization; globally, étaleness of a finite dominant morphism from a
   normal integral locally noetherian scheme to a regular integral locally noetherian scheme
-  that is unramified in codimension one. These supply branch purity in 1.8.
+  that is generically étale and unramified in codimension one. Generic étaleness here is
+  separability of the finite function-field extension. These supply branch purity in 1.8.
 - **AbhyankarLemma** §§3.3–3.4 (Stacks 0EYG/0EYH): for a regular effective Cartier divisor
   on a locally noetherian scheme and a finite étale cover of its complement tame in
   codimension one, the étale-local description by prime-to-residue-characteristic roots of
@@ -268,7 +269,7 @@ It leaves to other roadmaps:
 | LPV.0 | Nearby and vanishing cycles over a henselian trait | `RΨ`, `RΦ`, variation, constructibility, absolute purity |
 | LPV.1 | Inertia and monodromy | local monodromy theorem, `N`, monodromy filtration, semisimple trace |
 | LPV.2 | Ordinary quadratic singularities | cohomology of quadrics, Picard–Lefschetz formula |
-| LPV.3 | Lefschetz pencils | existence after a Veronese embedding, descent to finite fields |
+| LPV.3 | Lefschetz pencils | existence after a Veronese embedding, arithmetic specialization of global monodromy |
 | LPV.4 | Global vanishing cycles | vanishing subspace, radical quotient and its pairing |
 | LPV.5 | Global monodromy | conjugacy, generation, irreducibility, middle-degree reduction, Kazhdan–Margulis |
 | LPV.6 | Perverse nearby cycles | Gabber's duality and perversity theorems |
@@ -278,7 +279,8 @@ It leaves to other roadmaps:
 EtaleCohomologyFoundations §§F.0–F.8 supplies the finite-coefficient and adic theory.
 Layer LPV.0 builds the functors; Layer LPV.1 extracts the linear algebra of inertia; Layer LPV.2 is the local theory at
 an ordinary quadratic point, and uses the semistable calculation of 1.9 for the odd-dimensional sign. Layers LPV.3–LPV.5
-are the global theory of a pencil: LPV.3 is geometry, LPV.4 linear algebra of the vanishing cycles on one fibre, LPV.5
+are the global theory of a pencil: LPV.3 supplies geometry and arithmetic specialization,
+LPV.4 linear algebra of the vanishing cycles on one fibre, LPV.5
 the monodromy theorems, which need the conjugacy and generation results before the middle-degree reduction can be
 stated. Layer LPV.6 depends only on LPV.0–LPV.2. Layer LPV.7a uses LPV.0–LPV.2 and LPV.6; Layer LPV.7b uses LPV.0,
 LPV.3, LPV.5 and LPV.7a. Each target names its sources by section, statement and page, and its inputs, in a final
@@ -757,13 +759,19 @@ as cited there.) *Needs:* SchemeAndStackFoundations §§0.21, 4.19–4.20; the l
 
 **Theorem (equivariant log resolution).** For a noetherian quasi-excellent separated
 log-regular fs scheme `X` with a tame generically free action of a finite group `H`, construct
-`VanishingCycles.equivariantLogResolution`: a projective birational `H`-equivariant log
-modification with log-regular source and very tame action (ILO VIII Theorem 1.1).
+`VanishingCycles.equivariantLogResolution`: an `H`-equivariant morphism of fs log schemes
+`h:X′→X` whose underlying scheme map is a projective modification, hence an isomorphism
+over a dense open. If `Z` is the boundary where the log structure of `X` is nontrivial
+and `T` is the nonfree locus of the action, the source has boundary `Z′=h⁻¹(Z∪T)`,
+is log regular and carries a very tame action. The morphism `h` need not be log smooth
+or log étale (ILO VIII Theorem 1.1 and Remark 1.2(a), pp. 103–104).
 For the relative version assume `X→B` is an equivariant log-smooth map of log-regular pairs
 between noetherian quasi-excellent separated log-regular fs schemes, `H` acts trivially on
-`B`, and tamely and generically freely on `X`. The modification is log smooth over `B`;
-when the action is admissible its quotient scheme exists and is log smooth over `B`
-(ILO X Theorem 1.1; VI §3). Admissibility means that every orbit lies in an affine open.
+`B`, and tamely and generically freely on `X`. With the same enlarged boundary,
+`(X′,Z′)` is log smooth over `B`; when the action on `X′` is admissible, its quotient
+pair `(X′/H,Z′/H)` exists and is log smooth over `B`
+(ILO X Theorem 1.1, p. 168; VI §3). Admissibility means that every orbit lies in an affine open.
+The regular log blow-up below is a separate log-étale morphism.
 *Needs:* log charts, quotients, tame and generically free actions above;
 SchemeAndStackFoundations §§0.21, 1.1; StableReduction Layer 4 (blow-ups).
 The relative construction uses these hypotheses on both `X` and `B`.
@@ -775,6 +783,10 @@ The relative construction uses these hypotheses on both `X` and `B`.
   acts trivially on its characteristic monoid and on the zero-dimensional closed stratum.
 - A free action has trivial point stabilizers, so is very tame; a stabilizer acting
   nontrivially on a positive-dimensional stratum fails very tameness.
+- For the scalar `{±1}` action on `𝔸²_k` with trivial log structure and `char k≠2`,
+  `Z=∅` and `T={0}`. Blowing up the origin and adding the exceptional divisor as `Z′`
+  gives a very tame action. The modification map is not log smooth: its exceptional
+  fibre has chart `ℕ→O_{ℙ¹}`, `1↦0`, over the trivially logged point.
 
 **Theorem (regular log blow-up resolution).** For a noetherian quasi-excellent log regular
 fs scheme, construct `VanishingCycles.regularLogResolution`: a projective birational log
@@ -1236,6 +1248,9 @@ from PurityOfBranchLocus §2.1 (Stacks 0BMB):
 for `f:X→Y` between locally noetherian schemes, `x∈X`, `y=f(x)`, assume `O_{X,x}` normal,
 `O_{Y,y}` regular, `f` quasi-finite at `x`, equal local dimensions at least one, and
 unramifiedness at every codimension-one generalization of `x`. Then `f` is étale at `x`.
+The global corollary applies to a finite dominant generically étale morphism from a
+normal integral locally noetherian scheme to a regular integral locally noetherian
+scheme, unramified at every codimension-one point of the source; it is étale everywhere.
 For the normal-crossings application, use CrystallineCohomology §CR.5:log-algebra.4,
 *The classical Abhyankar lemma*: on a regular strictly local scheme of residue characteristic
 `p ≥ 0` with strict normal crossings boundary, a finite étale cover of the complement tame
@@ -1260,6 +1275,9 @@ EtaleCohomologyFoundations §F.0 (Kummer theory).
 - `V(xy)⊂𝔸²` is not a regular divisor at the origin; the single-regular-divisor statement
   of Stacks 0EYG does not give this crossing case.
 - For `x=u^p` in characteristic `p`, ramification in codimension one violates the criterion.
+- For `k=𝔽_p(t)` and `L=k(u)` with `u^p=t`, `Spec L→Spec k` has no codimension-one
+  points but is not étale: `Ω_{L/k}=L·du`. It fails generic étaleness and the positive
+  local-dimension hypothesis of the pointwise theorem.
 
 **Theorem.** Let `X` be regular locally noetherian, `D = ∪_a D_a` a strict normal crossings divisor, and `F` a lisse
 `ℚ_ℓ`-sheaf on `X − D` whose local monodromy along each `D_a` is tame and unipotent after a specified
@@ -2250,8 +2268,8 @@ This layer defines Lefschetz pencils as actual schemes and morphisms and proves 
 Veronese re-embedding of degree at least two. It constructs the dual variety and the incidence family,
 identifies the total space of a pencil with the blow-up of the variety along the axis, proves openness
 of the good axes by jet calculations, treats the low-dimensional and characteristic-two cases, and
-descends pencils to a finite extension of a finite base field. Throughout, `k` is algebraically closed
-of characteristic `p` (except in 3.5), `P = P^N_k` with `N ≥ 1`, `P̌` its dual, `H_t` the hyperplane of
+descends pencils to finite fields with their selected global monodromy data. Throughout, `k` is algebraically closed
+of characteristic `p` (except in 3.5–3.6), `P = P^N_k` with `N ≥ 1`, `P̌` its dual, `H_t` the hyperplane of
 `t ∈ P̌`, and `X ⊂ P` a smooth connected projective variety of dimension `n + 1`. Projective spaces, their
 duals and Grassmannians are the projective bundles and Grassmannians of AlgebraicModuliForArithmeticGeometry
 Layer 1 (§1.1 and §1.3); the Veronese embeddings are built in 3.4 from its relative very ampleness (§1.4).
@@ -2427,6 +2445,67 @@ EtaleCohomologyFoundations §§F.1–F.2.
 - A Frobenius eigenvalue `α` becomes `α^r` after the extension; this is how statements about Frobenius eigenvalues are transported from `𝔽_{q^r}` back to `𝔽_q`.
 - For an axis already rational over `𝔽_q`, take the extension degree to be one and retain the same Frobenius.
 
+### 3.6 Arithmetic specialization of global monodromy
+
+**Theorem (full geometric monodromy under arithmetic specialization).** Prove
+`LefschetzPencil.arithmeticGlobalMonodromy`: let `A` be an integral scheme of finite
+type over `ℤ`, `C→A` a smooth relative curve with geometrically connected fibres,
+`u:A→C` a section, and `ℱ_i` a finite collection of lisse finite free `O_i`-adic systems
+on `C`, where `O_i` is the ring of integers of a finite extension of `ℚ_{ℓ_i}` and
+every `ℓ_i` is invertible on `A`. After shrinking `A`, the joint images of
+`π₁(C_a,u(a))` on the fibres of the `ℱ_i` modulo every power of their maximal ideals
+are fibres of compatible finite locally constant group sheaves on `A`. Their inverse
+limit identifies the full compact geometric images under transport, up to the
+conjugation determined by the chosen paths. Preserve specified morphisms of systems,
+tensor pairings and Tate twists in these identifications.
+
+If `C=C̄−D` for a smooth proper relative curve with finite étale boundary, preserve
+the boundary-inertia images as well, including their finite wild parts. For a
+Lefschetz pencil over an arbitrary algebraically closed field, descend the pencil,
+axis, base section, smooth locus, finite boundary, ordinary local equations, cup pairing and the
+local vanishing-cycle maps together with the selected finite collection of integral
+cohomology systems. After shrinking an arithmetic parameter base, transport their
+rational realizations and all transported vanishing cycles, up to sign, to a closed
+finite-field fibre. Thus the global image, its boundary reflections and the subspace generated by
+their vanishing cycles identify at each selected coefficient prime. For a pairing of
+coefficient primes, make this choice for that pair; no single open for all primes is
+asserted.
+
+*Proof sketch.* Descend the finite-presentation geometric data and use proper and
+smooth base change for their cohomology and cup maps. For the joint residual
+representation, take the component through the identity section of the finite étale
+isomorphism cover between the residual systems and their pullbacks from `u`.
+After shrinking, its fibrewise deck groups are locally constant. Normalize a proper
+compactification of this initial cover; after a finite radicial base change and
+shrinking it is a smooth proper relative curve with finite étale boundary. The
+remaining congruence tower has pro-`{ℓ_i}` group. Prime-to-residue-characteristic
+specialization applies to this tower on the initial cover, retaining the initial
+finite cover itself, even when its group has order divisible by the residue
+characteristic. Boundary stabilizers recover full inertia images; the compatible
+local vanishing-cycle maps transport their distinguished lines and reflections.
+(Weil II Proposition 1.11.1 and Remarks 1.11.2–1.11.3, pp. 184–185; Proposition
+4.4.5, p. 229.) *Needs:* 0.6–0.8, 2.7–2.8, 3.1–3.5;
+EtaleCohomologyFoundations §§F.0–F.4, F.6;
+SchemeAndStackFoundations §§0.9, 0.20–0.21, 0.23–0.23a (descent, finite
+normalization, universal homeomorphisms and étale invariance);
+InverseGaloisAndArithmeticFundamentalGroups §IG.1.3 (prime-to-residue-characteristic
+specialization of smooth proper curves with finite étale boundary);
+ArithmeticGaloisDuality R02.1 (integral continuous realizations).
+
+**Checks.**
+
+- A pencil over `ℂ`, or one with transcendental coefficients in characteristic `p`,
+  acquires a finite-field fibre with the same selected global image and transported
+  reflections; descent of its equations alone does not supply that identification.
+- In characteristic two the cover `y²−y=1/t` of `𝔾_m` has global image `ℤ/2` and
+  wild inertia at `t=0`. For odd coefficient primes its finite initial cover is
+  retained; replacing the original fundamental group by its prime-to-two quotient
+  would lose this image.
+- A constant integral system has identity geometric image at every finite level
+  and in the inverse limit; specialization preserves that zero-monodromy case.
+- For a selected prime and one auxiliary prime the joint residual cover and both
+  congruence towers use one common parameter open and one finite-field fibre.
+
 ### Examples
 
 - A line in `P²` with an axis point off it: `S = ∅`, `f : X̃ = X → D` is an isomorphism.
@@ -2443,7 +2522,9 @@ EtaleCohomologyFoundations §§F.1–F.2.
 Layer LPV.2; AlgebraicModuliForArithmeticGeometry Layer 1 (projective bundles, Grassmannians, relative very
 ampleness); TauCetiRoadmap StableReduction Layer 4 (blow-ups); SchemeAndStackFoundations Layer 0; Mathlib's Jacobian criterion and
 `AdicCompletion`;
-EtaleCohomologyFoundations §§F.1–F.2, EtaleCohomologyFoundations §F.7; EtaleCohomologyFoundations §§F.10.1–F.10.2b.
+EtaleCohomologyFoundations §§F.1–F.4, F.6–F.7, F.10.1–F.10.2b;
+InverseGaloisAndArithmeticFundamentalGroups §IG.1.3 (prime-to-residue-characteristic
+specialization after the finite initial cover); ArithmeticGaloisDuality R02.1.
 
 ## Layer LPV.4: Global vanishing cycles
 
@@ -2465,12 +2546,13 @@ EtaleCohomologyFoundations §F.0.
 
 **Theorem.** Assume `n` odd or `p≠2`. Then `R^n f_*ℚ_ℓ` is lisse on `U` and tamely ramified at every `s ∈ S`. Let `δ_s` be the vanishing cycle at
 `s` (2.8), transported to `X_u` along a path; whether `δ_s` is zero does not depend on the path.
+If `S=∅`, all direct images are constant and `E=0`. For `S≠∅` the two cases are:
 
 - (a) If `δ_s ≠ 0` for every `s ∈ S`: `R^i f_*ℚ_ℓ` is constant on `D` for `i ≠ n`, and `R^n f_*ℚ_ℓ = j_*j^*R^n f_*ℚ_ℓ`.
-- (b) If `δ_s = 0` for every `s ∈ S` (possible only for `n = 2m + 1` odd): `R^i f_*ℚ_ℓ` is constant for `i ≠ n + 1`,
+- (b) If `δ_s = 0` for every `s ∈ S`, then `n = 2m + 1` is odd: `R^i f_*ℚ_ℓ` is constant for `i ≠ n + 1`,
   there is an exact sequence `0 → ⊕_{s∈S} ℚ_ℓ(m − n)_s → R^{n+1} f_*ℚ_ℓ → ℱ → 0` with `ℱ` constant, and `E = 0`.
 
-Layer LPV.5 proves, from the conjugacy of the vanishing cycles, that one of (a) and (b) always holds.
+For `S≠∅`, Layer LPV.5 proves, from the conjugacy of the vanishing cycles, that one of (a) and (b) holds.
 *Proof sketch.* `f` is smooth and proper over `U`, so the
 `R^i f_*ℚ_ℓ` are lisse there (EtaleCohomologyFoundations §§F.2–F.3). At `s ∈ S` apply 2.8 to
 `X̃ ×_D D_(s)`: inertia acts through `t_ℓ` or the quadratic character, so the ramification is tame, and the
@@ -2484,7 +2566,9 @@ and (5.8) a) 1)–2), b), pp. 292–293; (5.13) D), p. 294.) *Needs:* 3.1, 2.8; 
 
 - The quadric-surface pencil (`n = 1`, `|S| = 2`) is in case (b): `R² f_*ℚ_ℓ` has an extra `ℚ_ℓ(−1)` at each
   singular fibre.
-- A pencil with `S = ∅` (a line in `P²`) has all direct images constant.
+- The line-in-plane pencil has `S=∅` and even fibre dimension `n=0`, with
+  `R⁰f_*ℚ_ℓ=ℚ_ℓ` and all higher direct images zero. Every `δ_s` is vacuously zero;
+  no oddness follows.
 
 - For the conic pencil, the degree-zero direct image has the order-two swap at each critical point and equals its `j_*` extension.
 
@@ -2995,11 +3079,27 @@ reflection orbit, rather than one vector per singular value. Then, after changin
 by `(−1)^{n/2}`, the vanishing cycles `δ` have
 `(δ, δ) = 2`, their pairings are integers, they span a lattice `L` on which the form is positive definite, and they
 form an irreducible root system all of whose roots have the same length, so of type A, D or E, with `M` its Weyl
-group. *Proof sketch.* For the finite quotient `M`, the trace formula for all powers of Frobenius
+group. *Proof sketch.* For the selected prime `ℓ` and each auxiliary `ℓ′` separately,
+apply 3.6 to descend and specialize the pencil and both integral cohomology systems
+to a common finite-field fibre, preserving their global images, pairings, boundary
+inertia and transported reflection data. At `ℓ` the assumed nondegeneracy gives
+`H^n=E⊕E^⊥`, with `E^⊥` fixed. At `ℓ′` put `R_{ℓ′}=E_{ℓ′}∩E_{ℓ′}^⊥` and
+`W_{ℓ′}=E_{ℓ′}/R_{ℓ′}`. The filtration
+`0⊂R_{ℓ′}⊂E_{ℓ′}⊂H^n` has fixed outer quotients `R_{ℓ′}` and `H^n/E_{ℓ′}`:
+normal generation and 4.3 fix `E_{ℓ′}^⊥`, and each boundary operator is the identity
+modulo `E_{ℓ′}`. All degrees other than `n` are fixed as well. The remaining
+constituent `W_{ℓ′}` is absolutely irreducible when nonzero, by 5.4 or 5.9, and is
+nontrivial since an even-dimensional vanishing cycle has square `±2` and its
+reflection acts by `−1`. Thus removing trivial constituents from the alternating
+cohomology recovers `E` at `ℓ` and `W_{ℓ′}` at `ℓ′`; no nondegeneracy of
+`E_{ℓ′}` is assumed. For the finite quotient `M`, the trace formula for all powers of Frobenius
 (InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3, trace formula for all powers) and Chebotarev density for the finite étale cover of `U`
-(ArithmeticGaloisRepresentations Layer 5, §5.13, Chebotarev for function fields) compare the characters of `M` on `E` at
-all `ℓ ≠ p` (Weil II, Lemmas 4.4.6 and 4.4.7); removing trivial constituents gives a character with rational
-integer values, independent of `ℓ`. For two vanishing cycles, with `s_δ(x) = x − (x, δ)δ` and `P_δ = (·, δ)δ`,
+(ArithmeticGaloisRepresentations Layer 5, §5.13, Chebotarev for function fields) compare these virtual characters
+(Weil II, Lemmas 4.4.6 and 4.4.7). They identify the faithful finite action of `M` on
+`E` with that on `W_{ℓ′}`, as quotients of the original geometric fundamental group,
+and give the same rational integer character at every auxiliary prime. The images
+of the transported cycles in `W_{ℓ′}` have the same self-pairing and define the
+corresponding reflections. For two vanishing cycles, with `s_δ(x) = x − (x, δ)δ` and `P_δ = (·, δ)δ`,
 `Tr(s_δ s_{δ'}) = dim E − Tr P_δ − Tr P_{δ'} + Tr(P_δ P_{δ'}) = dim E − 4 + (δ, δ')²`, so
 `a = Tr(s_δ s_{δ'}) − dim E + 4 = (δ, δ')²` is an integer with a square root in `ℚ_ℓ` for every `ℓ ≠ p` (Weil II prints the
 constant as `2` in place of `4` on p. 230; the argument is unchanged); abelian Chebotarev for `ℚ(√a)` (TauCetiRoadmap Chebotarev Layer 9)
@@ -3008,7 +3108,8 @@ IntegralLattices Layer 1); averaging a positive form over the finite group and a
 invariant form positive definite; the roots form one conjugacy class, so the root system is irreducible and
 simply laced, of type A, D or E (TauCetiRoadmap RepresentationTheory/RootSystems Layer 5), with `M` generated by the
 reflections of the full transported orbit, by 5.3 in every characteristic. (Weil II,
-4.4.5–4.4.9 including Lemmas 4.4.6–4.4.7, pp. 229–231.) *Needs:* 5.10;
+4.4.5–4.4.9 including Lemmas 4.4.6–4.4.7, pp. 229–231.) *Needs:* 3.6, 4.3–4.4,
+5.3–5.4 and 5.9 (fixed constituents and the irreducible quotient), 5.10;
 ArithmeticGaloisRepresentations Layer 5, §5.13; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 (trace formula for all powers);
 TauCetiRoadmap Chebotarev Layer 9; TauCetiRoadmap Completed IntegralLattices Layer 1; TauCetiRoadmap
 RepresentationTheory/CharacterTheory Layer 4 (rationality of character values); TauCetiRoadmap
@@ -3023,6 +3124,13 @@ RepresentationTheory/RootSystems Layer 5.
   in `E = span(δ, δ')`, `s_δ s_{δ'}` is a rotation of order three with trace `−1 = 2 − 4 + 1`. The constant `2` printed in
   Weil II would give `dim E + 2` and `1` in these two cases.
 - The lattice `L` is the integral span of the vanishing cycles after the rationality argument; an arbitrary `ℤ_ℓ`-lattice stable under `M` is not a substitute.
+- For a pencil over `ℂ` or with transcendental coefficients in characteristic `p`,
+  3.6 supplies the finite-field trace comparison while preserving `M`; proper and
+  smooth base change alone identify cohomology fibres, not this global image.
+- If an auxiliary vanishing space has a fixed radical of dimension `r`, removing
+  trivial constituents gives the character of `W_{ℓ′}`, of dimension
+  `dim E_{ℓ′}−r`, rather than that of `E_{ℓ′}`. Pairings of roots are unchanged
+  on passing to this quotient.
 
 ### 5.11 Frobenius polynomials of the fibres
 
@@ -3253,10 +3361,14 @@ that `Ri^!` commutes with every colimit); conclude by exactness of filtered coli
 - A system with bounds tending to `−∞` is not covered by the uniform-bound assertion.
 - On a fixed point, the constant diagram `Λ` in degree zero has degree-zero colimit and preserves both bounds.
 
-**Theorem (semiperversity of a tower of nearby cycles).** Let `(𝔛_a)_a` be a cofiltered tower of formal
-models over a complete DVR with finite-type reductions. Fix a common scheme or étale topos `Y`,
-a dimension function on `Y`, specified transport functors `T_a : D(𝔛_{a,s},Λ) → D(Y,Λ)`, and a
-homotopy-coherent filtered diagram with terms `K_a = T_a(Rλ_{a*}c_a^*Λ[d])` and maps `K_a → K_b`.
+**Theorem (semiperversity of a nearby-cycle diagram).** Fix a common scheme or étale topos `Y`
+with a dimension function and a homotopy-coherent filtered diagram `K_a ∈ D(Y,Λ)`.
+For scheme nearby cycles, such terms have the form `K_a=T_a(RΨ_{η,f_a}L_a)`, where
+`f_a:X_a→S_a` is of finite type over an excellent henselian trait with ℓ invertible,
+`L_a∈Dᵇ_c(X_{a,η},Λ)`, and
+`T_a:D(X_{a,s}←×_{S_a}η_a,Λ)→D(Y,Λ)` are specified transport functors from the
+generic nearby-cycle topoi of 0.2 and 0.5. Coefficients are finite, or integral/rational after 0.8's
+realization; the transition maps between the transported terms are part of the diagram.
 Assume the transported `K_a` are constructible and have one common lower perverse bound; also
 assume the costalk–colimit commutation hypotheses of the preceding criterion on `Y`. Then
 `colim_a K_a ∈ D(Y,Λ)` has that bound. In applications deriving the bound from affine
@@ -3269,7 +3381,7 @@ rational coefficients, a uniformly ℓ-power-torsion integral boundary system va
 rationalization. *Proof sketch.* Apply the preceding criterion to the specified coherent
 diagram on `Y`, using its assumed constructibility, uniform bound and costalk commutation. The boundary triangle may be discarded only after its
 colimit vanishes. (Caraiani–Scholze, §4.6, Theorem 4.6.1 and Lemma 4.6.2, pp. 60–63.) *Needs:*
-the filtered-colimit criterion; EtaleCohomologyFoundations §F.8, EtaleCohomologyFoundations §F.4 and 0.8a;
+the filtered-colimit criterion; 0.2, 0.5, 0.7–0.8, 6.2; EtaleCohomologyFoundations §F.8 and §F.4;
 EtaleCohomologyFoundations §F.1 (the common category and coherent diagram).
 
 **Checks.**
@@ -3794,16 +3906,13 @@ geometric fibres. Retain the finite wild inertia action; do not replace inertia 
 prime-to-residue-characteristic quotient.
 
 *Proof sketch.* Generic base change makes the special direct image and the specialization
-morphism locally constant. For each lisse generic cohomology sheaf, spread the finite étale
-cover trivializing its reduction modulo ℓ (modulo four when required), including its compactified
-boundary and stabilizers. Normalize the compactified initial cover and, after shrinking and
-a finite radicial base change when needed, make it a smooth proper relative curve with finite
-étale boundary; étale locally split that boundary into disjoint sections (Weil II 1.11.2). After that cover the remaining image is pro-ℓ; smooth-curve
-prime-to-residue-characteristic specialization applies to this tower after shrinking and
-inverting ℓ. The finite initial cover retains the finite wild action. Stabilizers of its lifted
-boundary sections identify the full inertia image, and equivariance identifies its invariants
+morphism locally constant. Étale locally on `A`, choose a base section off the marked
+section and apply 3.6 to the lisse cohomology systems on the punctured curve,
+retaining their finite initial covers and congruence towers. Its boundary-stabilizer
+comparison identifies the full inertia images, including finite wild inertia;
+equivariance identifies their invariants
 and the specialization image. (Weil II §§1.11.1–1.11.3, pp. 184–185; proofs of 3.6.1 and 6.2.9.)
-*Needs:* 0.6–0.8, 7b.1; EtaleCohomologyFoundations §§F.0–F.4; SchemeAndStackFoundations §§0.9, 0.21, 0.23 (descent, finite
+*Needs:* 0.6–0.8, 3.6, 7b.1; EtaleCohomologyFoundations §§F.0–F.4; SchemeAndStackFoundations §§0.8–0.9, 0.21, 0.23 (quasi-sections, descent, finite
 normalization and universal homeomorphisms); InverseGaloisAndArithmeticFundamentalGroups §IG.1.3 only for the pro-ℓ tower
 of compactified smooth curves with finite étale boundary; ArithmeticGaloisDuality R02.1.
 
@@ -4254,7 +4363,7 @@ Layer C5; Completed HodgeStructures (layer L2) and Tau Ceti `TauCeti.Hodge.Mixed
 ## Downstream consumers
 
 - **DeligneWeightsAndPurity** uses the pencil theory for Deligne's proofs: the vanishing subspace and its radical
-  quotient (4.2, 4.4) and their descent to finite fields (3.5) for the rational local factors of a pencil; the
+  quotient (4.2, 4.4) and their descent to finite fields (3.5–3.6) for the rational local factors of a pencil; the
   middle-degree reduction (5.5), the Kazhdan–Margulis theorem (5.8) and the blow-up formulas (4.5) for the dimension
   induction; the monodromy filtration and `N` (1.2–1.5) for weight–monodromy statements on curves; and the
   invariant-cycle theorems of Layer LPV.7b, whose hypotheses it discharges with the weight bounds of Weil II to obtain

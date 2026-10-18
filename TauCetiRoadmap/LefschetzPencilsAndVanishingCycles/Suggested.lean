@@ -734,16 +734,26 @@ operator `N`, the monodromy filtration in an abelian category and its primitive 
 relative filtration, `can` and `var`, the filtered derived category and the two-component
 semistable complex, and the semisimple trace (1.1–1.10); quadrics, their cohomology, ordinary
 quadratic points over a base, standard degenerations and the Picard–Lefschetz theory (2.1–2.8);
-Lefschetz pencils, Veronese embeddings, dual varieties and the existence of pencils (3.1–3.5); the
+Lefschetz pencils, Veronese embeddings, dual varieties, existence of pencils and arithmetic
+specialization of full global monodromy (3.1–3.6); the
 direct images of a pencil, the vanishing subspace and the blow-up formulas (4.1–4.5); Bertini,
 conjugacy, generation, irreducibility, the middle-degree reduction, compact `ℓ`-adic subgroups, the
 Kazhdan–Margulis theorem, the orthogonal and characteristic-two branches and the gcd lemma
-(5.1–5.11); Gabber's perversity theorems and the tower criterion (6.1–6.6); nodal curves, the
+(5.1–5.11); Gabber's perversity theorems and the coherent nearby-cycle diagram criterion (6.1–6.6); nodal curves, the
 Jacobian comparison and the weight spectral sequence (7a.1–7a.9); and the invariant-cycle theorems
 (7b.1–7b.11). The canonical graded action of 1.4 includes zero monodromy; its native
 `IsSl2Triple H X Y` corollary assumes nonzero monodromy, as illustrated by the two statements
 above. The Tate-line defects in the totally isotropic branch of 5.5 assume `E ≠ 0`;
 for `E = 0`, its quotient `F` and its defect vanish, while the degree-`n + 1` skyscrapers remain.
+The global branch-purity corollary in 1.8 requires generic étaleness; its pointwise
+form retains equal positive local dimensions. The equivariant morphism of log schemes
+in 0.10 has a projective modification as underlying map and boundary `h⁻¹(Z ∪ T)`;
+the source and its admissible quotient are log smooth over the relative base.
+The global specialization target in 3.6 preserves the finite initial cover and the
+congruence towers for a finite collection of integral systems. The finite ADE argument
+in 5.10 uses the radical quotient at auxiliary primes. In 4.1 oddness in the
+zero-vanishing-cycle case requires a nonempty singular set. The diagram criterion in
+6.5 takes its transported terms and coherent transition maps as data in one derived category.
 The supplied geometric trace interfaces in README F.10 are owned by
 InverseGaloisAndArithmeticFundamentalGroups: `VanishingCycles.curveEndomorphismTrace`
 (IG.0.T1), `VanishingCycles.etaleTraceFormulaFinite` (IG.0.T2),
@@ -788,7 +798,7 @@ The README names of the local targets' API and checks, by namespace:
   `lagrangianIdempotent_eq_iff`, `lagrangianIdempotent_sum`, `node_isOrdinary`,
   `not_smoothQuadric_cone`, `smoothQuadric_dim_two`, `smoothQuadric_dim_zero`,
   `smoothQuadric_real_conic`, `smooth_point_not_quadratic`.
-* `LefschetzPencil`: `boundaryInertia_imageGeneration`, `wild_twisted_cubic`, `cubic_surface`,
+* `LefschetzPencil`: `arithmeticGlobalMonodromy`, `boundaryInertia_imageGeneration`, `wild_twisted_cubic`, `cubic_surface`,
   `dualVariety_conic`, `dualVariety_conic_char_two`,
   `dualVariety_isIrreducible`, `dualVariety_linear`, `dualVariety_projectiveSpace`,
   `hermitian_curve_not_lefschetz`, `incidence_smooth_off_dual`, `line_in_plane`,
