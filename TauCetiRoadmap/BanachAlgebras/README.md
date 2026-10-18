@@ -877,6 +877,13 @@ the latter limit uses modular continuity and shrinking support, not exact
 inversion invariance for a general group. Use nets, not an assumed countable
 neighbourhood basis.
 
+Every nonzero algebraic complex-linear multiplicative functional on
+L¹(G) is automatically bounded and has operator norm one. Deduce
+boundedness from A3's scalar unitization bounds; for the norm equality,
+choose f with χ(f)≠0 and use χ(u_U*f)→χ(f), hence χ(u_U)→1,
+together with ‖u_U‖₁=1. This applies to the nonunital group algebra
+itself; it adds no augmentation character.
+
 **A7.IntegratedRepresentations.** Integrate uniformly bounded strongly
 continuous representations π of G on a Banach space to nondegenerate
 bounded representations `ρ(f)ξ=∫f(x)π(x)ξ dμ(x)` of L¹(G), and construct
@@ -983,6 +990,41 @@ surjectivity; only V11's earlier closed-embedding stage is consumed.
 Compare the source convention `h_γ(x)=γ(x⁻¹)` with the displayed convention
 by inverse/conjugate characters, including the corresponding transform
 identities.
+
+**A7.StandardDuals.** Construct the topological group isomorphism
+`Multiplicative ℝ ≃ₜ* PontryaginDual (Multiplicative ℝ)` sending y to
+`γ_y(x)=Circle.exp (x*y)`. For surjectivity, compose a circle-valued
+character with native `Circle.toUnits` and use Tau Ceti's
+`existsUnique_eq_expUnitHom_complex`; unit modulus forces the real part of
+the complex exponential parameter to vanish. Prove uniqueness and both
+topological directions, including recovery of y from compact-uniform
+convergence of characters. One inverse-continuity test uses
+`[-π/ε,π/ε]`: if `|y-y₀|≥ε>0`, evaluation at `π/(y-y₀)` separates
+these characters by complex distance 2. This calculation uses no
+Fourier inversion or double-dual surjectivity. With Lebesgue Haar measure,
+compare `∫f(x)exp(-i*x*y)dx` with A7's positive-character transform at
+`γ_(-y)`. Its kernel is Mathlib's `fourierChar (-x*y/(2π))`; the native
+Fourier integral already inserts the minus sign, so its frequency is
+`y/(2π)`.
+
+Reuse Tau Ceti's `circleEquivPontryaginDualInt` for the topological group
+isomorphism `Circle ≃ₜ* PontryaginDual (Multiplicative ℤ)`, whose
+character at a is `n↦a^n`. For counting Haar measure, identify the
+inverse-character transform with the absolutely convergent series
+`Σ' n:ℤ, f(n)*a^(-n)` and its positive-character counterpart at `a⁻¹`.
+For the circle's dual use Tau Ceti's `fourierPontryaginDualEquiv` on
+`AddCircle (2*π)`, transport along native `AddCircle.homeomorphCircle`,
+and prove the transported formula is `z↦z^n`. Transport native
+`AddCircle.haarAddCircle`, whose total mass is one, to normalized Haar
+measure on `Circle`. Use `fourierCoeff_eq_intervalIntegral` to prove
+the inverse-character coefficient is
+`(1/(2π))∫ θ in 0..2π, f(Circle.exp θ)*exp(-i*n*θ)dθ`.
+Upgrade the algebraic
+equivalence to a topological one using Mathlib's discrete-dual instance.
+Reuse Mathlib's compact-dual-of-discrete and discrete-dual-of-compact
+instances at arbitrary cardinality, with the same compact-open topology.
+These standard-dual calculations precede the following unitized-circle
+example and consume the earlier character correspondence, not uniqueness.
 
 For normalized Haar measure on native `Circle`, identify the dual with
 discrete ℤ and the unitized character space with native `OnePoint ℤ`, transform values
